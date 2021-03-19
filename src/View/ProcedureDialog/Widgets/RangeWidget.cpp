@@ -1,0 +1,92 @@
+﻿#include "RangeWidget.h"
+
+RangeWidget::RangeWidget(QWidget *parent)
+	: QWidget(parent),
+		validator(NULL)
+{
+	ui.setupUi(this);
+
+	ui.errorLabel->setStyleSheet("color:red");
+
+	QString toothIndexes[32]{ "18", "17", "16", "15", "14", "13", "12", "11",
+						  "21", "22", "23", "24", "25", "26", "27", "28",
+						  "38", "37", "36", "35", "34", "33", "32", "31",
+						  "41", "42", "43", "44", "45", "46", "47", "48" };
+
+	for (int i = 0; i < 32; i++)
+	{
+		ui.beginCombo->addItem(toothIndexes[i]);
+		ui.endCombo->addItem(toothIndexes[i]);
+	}
+
+	connect(ui.beginCombo, QOverload<int>::of(&QComboBox::currentIndexChanged),
+		[=](int index) { stateChangedByUser(); });
+	connect(ui.endCombo, QOverload<int>::of(&QComboBox::currentIndexChanged),
+		[=](int index) { stateChangedByUser(); });
+}
+
+RangeWidget::~RangeWidget()
+{
+
+
+}
+
+void RangeWidget::disable(bool disable)
+{
+	if (disable) hide();
+	else show();
+}
+
+void RangeWidget::setRange(int begin, int end)
+{
+	ui.beginCombo->blockSignals(true);
+	ui.endCombo->blockSignals(true);
+	ui.beginCombo->setCurrentIndex(begin);
+	ui.endCombo->setCurrentIndex(end);
+	ui.beginCombo->blockSignals(false);
+	ui.endCombo->blockSignals(false);
+
+	forceValidate();
+}
+
+std::tuple<int, int> RangeWidget::getRange()
+{
+	int begin = ui.beginCombo->currentIndex();
+	int end = ui.endCombo->currentIndex();
+
+		if (begin > end) {
+		std::swap(begin, end);
+	}
+
+	return std::tuple<int, int>(begin, end);
+}
+
+void RangeWidget::setAppearence(bool valid)
+{
+	if (valid) {
+
+		ui.errorLabel->setText("");
+	}
+	else
+	{
+		ui.errorLabel->setText("Невалидна дължина на конструкцията");
+	}
+}
+
+void RangeWidget::setFocusAndSelectAll()
+{
+	ui.endCombo->setFocus();
+	ui.endCombo->showPopup();
+}
+
+
+void RangeWidget::stateChangedByUser()
+{
+	forceValidate();
+
+	if (isValid())
+	{
+		auto range = getRange();
+		emit rangeChanged(std::get<0>(range), std::get<1>(range));
+	}
+}

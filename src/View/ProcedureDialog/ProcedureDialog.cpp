@@ -137,26 +137,30 @@ void ProcedureDialog::resetForm()
 
 }
 
-void ProcedureDialog::setView(FormView view)
+void ProcedureDialog::setView(ManipulationType t)
 {
 	resetForm();
 
 	ui.mainGroup->show();
 
-	switch (view)
+	switch (t)
 	{	
-	case FormView::surface:
+	case ManipulationType::obturation:
 		ui.materialEdit->show();
 		ui.materialLabel->show();
 		ui.surfaceSelector->show();
 		ui.surfaceSelector->setAppearence(true);
 		break;
-	case FormView::bridge:
+	case ManipulationType::bridge:
 		ui.materialEdit->show();
 		ui.materialLabel->show();
 		ui.rangeWidget->show();
 		break;
-	case FormView::material:
+	case ManipulationType::extraction:
+		break;
+	case ManipulationType::general:
+		break;
+	default:
 		ui.materialEdit->show();
 		ui.materialLabel->show();
 		break;

@@ -39,11 +39,12 @@ public:
 	virtual void close() = 0;
 	virtual void showErrorMessage(const std::string& error) = 0;
 	virtual void showErrorDialog(const std::string& error) = 0;
-	virtual void setView(FormView view) = 0;
+	virtual void setView(ManipulationType t) = 0;
 
 	virtual void setParameters(double price) = 0;
 	virtual void setParameters(const std::string& material) = 0;
 	virtual void setSelectionLabel(const std::vector<int>& selectedTeethNum) = 0;
 	virtual double getPrice() = 0;
 
+	
 };

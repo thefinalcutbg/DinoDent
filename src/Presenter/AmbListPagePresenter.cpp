@@ -19,6 +19,7 @@ void AmbListPagePresenter::newPressed()
 {
 	patientDialog->open(this);
 
+
 }
 
 void AmbListPagePresenter::setPatient(Patient patient)

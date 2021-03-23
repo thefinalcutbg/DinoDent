@@ -274,6 +274,7 @@
     <ClCompile Include="src\View\uiComponents\AbstractUIElement.cpp" />
     <ClCompile Include="src\View\uiComponents\TextEdit.cpp" />
     <ClCompile Include="src\View\ProcedureDialog\Widgets\SurfaceSelector.cpp" />
+    <ClCompile Include="src\Model\Tooth\ToothParserB.cpp" />
     <QtRcc Include="src\View\Torque.qrc" />
     <QtUic Include="src\View\ProcedureDialog\Widgets\RangeWidget.ui" />
     <QtUic Include="src\View\ProcedureDialog\ProcedureDialog.ui" />
@@ -337,6 +338,8 @@
     <QtMoc Include="src\View\AmbListPage\AmbListPage.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Model\Manipulation\ManipulationTemplate.h" />
+    <ClInclude Include="src\Model\Tooth\ToothParserB.h" />
     <QtMoc Include="src\View\ProcedureDialog\Widgets\SurfaceSelector.h" />
     <QtMoc Include="src\View\uiComponents\TextEdit.h" />
     <QtMoc Include="src\View\ProcedureDialog\Widgets\RangeWidget.h" />

@@ -240,6 +240,9 @@
     <ClCompile Include="src\Model\Manipulation\ManipulationGenerator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Model\Tooth\ToothParserB.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -561,6 +564,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\Manipulation\ManipulationGenerator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\Tooth\ToothParserB.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\Manipulation\ManipulationTemplate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

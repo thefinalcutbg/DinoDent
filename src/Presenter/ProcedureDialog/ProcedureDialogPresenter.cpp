@@ -93,7 +93,7 @@ void ProcedureDialogPresenter::changeValidatorsDynamically()
 
 	ui.manipulationField->set_Validator(&notEmpty_validator);
 	ui.diagnosisField->set_Validator(&notEmpty_validator);
-	ui.surfaceSelector->set_Validator(&notEmpty_validator);
+	ui.surfaceSelector->set_Validator(&surface_validator);
 	
 	if (selectedTeeth.size() < 2){
 
@@ -134,32 +134,33 @@ std::vector<Manipulation> ProcedureDialogPresenter::openDialog(const std::vector
 		date = ambListDate;
 	}
 	ui.dateField->setFieldText(Date::toString(date));
-	ui.dateField->setAppearence(true);
+	ui.dateField->forceValidate();
 
 	//setting rangeBox
 	auto range = autofill.getInitialBridgeRange(selectedTeeth);
-	bridgeDiagnosis = autofill.getBridgeDiag(std::get<0>(range), std::get<1>(range), teeth);
 	ui.rangeBox->setRange(std::get<0>(range), std::get<1>(range));
 
 	//autofilling diagnosis
 
 	if (selectedTeeth.size() == 1)
 	{
-		obturationDiagnosis = AutoComplete::getObturDiag(*selectedTeeth[0]);
-		endoDiagnosis = AutoComplete::getEndoDiag(*selectedTeeth[0]);
-		crownDiagnosis = AutoComplete::getCrownDiag(*selectedTeeth[0]);
-		extractionDiagnosis = AutoComplete::getExtrDiag(*selectedTeeth[0]);
-		ui.surfaceSelector->setSurfaces(autofill.getSurfaces(*selectedTeeth[0]));
+		diagnosisMap[ManipulationType::obturation] = AutoComplete::getObturDiag(*selectedTeeth[0]);
+		diagnosisMap[ManipulationType::endo] = AutoComplete::getEndoDiag(*selectedTeeth[0]);
+		diagnosisMap[ManipulationType::crown] = AutoComplete::getCrownDiag(*selectedTeeth[0]);
+		diagnosisMap[ManipulationType::extraction] = AutoComplete::getExtrDiag(*selectedTeeth[0]);
+		ui.surfaceSelector->setSurfaces(AutoComplete::getSurfaces(*selectedTeeth[0]));
 	}
 	else
 	{
-		obturationDiagnosis.clear();
-		endoDiagnosis.clear();
-		crownDiagnosis.clear();
-		extractionDiagnosis.clear();
+		for (auto& m : diagnosisMap)
+		{
+			m.second.clear();
+		}
 		ui.surfaceSelector->setSurfaces(std::array<bool, 6>{0, 0, 0, 0, 0, 0});
 	}
 	
+	diagnosisMap[ManipulationType::bridge] = autofill.getBridgeDiag(std::get<0>(range), std::get<1>(range), teeth);
+
 	//updating view for which teeth are selected
 	std::vector<int> selectedTeethNum;
 	selectedTeethNum.reserve(32);
@@ -183,8 +184,8 @@ std::vector<Manipulation> ProcedureDialogPresenter::openDialog(const std::vector
 
 void ProcedureDialogPresenter::rangeChanged(int begin, int end)
 {
-	bridgeDiagnosis = autofill.getBridgeDiag(begin, end, *teeth);
-	ui.diagnosisField->setFieldText(bridgeDiagnosis);
+	diagnosisMap[ManipulationType::bridge] = autofill.getBridgeDiag(begin, end, *teeth);
+	ui.diagnosisField->setFieldText(diagnosisMap[ManipulationType::bridge]);
 
 	auto& m = manipulationList[currentIndex];
 
@@ -200,75 +201,25 @@ void ProcedureDialogPresenter::indexChanged(int index)
 	if(errorState) return;
 
 	auto& m = manipulationList[currentIndex];
-
+	if (!m.diagnosis.empty())
+	{
+		diagnosisMap[m.type] = m.diagnosis;
+	}
 	ui.manipulationField->setFieldText(m.name);
 	ui.materialField->setFieldText(m.material);
+	ui.diagnosisField->setFieldText(diagnosisMap[m.type]);
 	view->setParameters(m.price);
 	
-		switch (m.type)
-		{
-			case ManipulationType::obturation:
-			{
-				view->setView(FormView::surface);
-				ui.diagnosisField->setFieldText(obturationDiagnosis);
-				break;
-			}
-			case ManipulationType::endo:
-			{
-				view->setView(FormView::material);
-				ui.diagnosisField->setFieldText(endoDiagnosis);
-				break;
-			}
-			case ManipulationType::crown:
-			{
-				view->setView(FormView::material);
-				ui.diagnosisField->setFieldText(crownDiagnosis);
-				break;
-			}
-			case ManipulationType::extraction:
-			{
-				view->setView(FormView::default);
-				ui.diagnosisField->setFieldText(extractionDiagnosis);
-				break;
-			}
-			case ManipulationType::bridge:
-			{
-				view->setView(FormView::bridge);
-				ui.diagnosisField->setFieldText(bridgeDiagnosis);
-				auto range = ui.rangeBox->getRange();
-				rangeChanged(std::get<0>(range), std::get<1>(range));
-				break;
-			}
-			default:
-				view->setView(FormView::default);	
-				ui.diagnosisField->setFieldText(m.diagnosis);
-		}
+	view->setView(m.type);
 
-		changeValidatorsDynamically();
+	changeValidatorsDynamically();
 }
 
 void ProcedureDialogPresenter::diagnosisChanged(std::string diagnosis)
 {
 	auto t = manipulationList[currentIndex].type;
 
-	switch (t)
-	{
-	case ManipulationType::bridge:
-		bridgeDiagnosis = diagnosis;
-		break;
-	case ManipulationType::obturation:
-		obturationDiagnosis = diagnosis;
-		break;
-	case ManipulationType::crown:
-		crownDiagnosis = diagnosis;
-		break;
-	case ManipulationType::extraction:
-		extractionDiagnosis = diagnosis;
-		break;
-	case ManipulationType::endo:
-		endoDiagnosis = diagnosis;
-		break;
-	}
+	diagnosisMap[t] = diagnosis;
 }
 
 

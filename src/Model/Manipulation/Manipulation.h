@@ -3,25 +3,7 @@
 #include <array>
 #include <variant>
 #include "Model/Date.h"
-
-enum class ManipulationType {general, obturation, extraction, endo,  crown, bridge, any};
-
-
-struct ManipulationTemplate
-{
-	ManipulationType type;
-	int code;
-	std::string name; 
-	double price;
-	int duration;
-
-	//optional
-	std::string diagnosis;
-	std::string material;
-
-};
-
-
+#include "ManipulationTemplate.h"
 
 struct BridgeParam {
 	int tooth_begin;
@@ -31,7 +13,6 @@ struct BridgeParam {
 struct ObtParam{
 	std::array<bool, 6>surfaces;
 };
-
 
 struct Manipulation
 {

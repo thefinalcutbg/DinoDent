@@ -49,6 +49,7 @@ ManipulationFactoryProducts ManipulationGenerator::getManipulations(DialogData d
 		}
 		case ManipulationType::obturation:
 			manipulation.material = data.mMaterial;
+			manipulation.additional = ObtParam{ data.surfaces };
 			return obturation_factory.getManipulations(data.selectedTeeth, manipulation);
 		case ManipulationType::extraction:
 			return extraction_factory.getManipulations(data.selectedTeeth, manipulation);

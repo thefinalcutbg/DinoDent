@@ -58,6 +58,8 @@ void DbPatient::update(const Patient& patient)
 
 Patient DbPatient::getPatient(std::string patientID)
 {
+
+
     std::string query = "SELECT * "
         "FROM patient WHERE id = '" + patientID + "'";
 

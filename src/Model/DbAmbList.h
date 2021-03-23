@@ -3,9 +3,8 @@
 #include "Model/Patient.h"
 #include "Model/AmbList.h"
 #include "Model/Date.h"
+#include "Tooth/ToothParser.h"
 #include "Database/database.h"
-
-//#include "ToothParser.h"
 
 #include <QDebug>
 
@@ -13,7 +12,6 @@
 #include <map>
 #include <iostream>
 
-#include "Tooth/ToothParser.h"
 
 class DbAmbList
 {

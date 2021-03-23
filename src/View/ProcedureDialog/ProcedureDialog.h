@@ -23,17 +23,17 @@ public:
 	ProcedureDialog(QWidget *parent = Q_NULLPTR);
 	~ProcedureDialog();
 
-	virtual void openProcedureDialog();
-	virtual void loadManipulationList(std::vector<ManipulationTemplate> manipulationList);
+	virtual void openProcedureDialog() override;
+	virtual void loadManipulationList(std::vector<ManipulationTemplate> manipulationList) override;
 	
-	virtual void showErrorMessage(const std::string& error);
-	virtual void showErrorDialog(const std::string& error);
-	virtual void setView(FormView view);
-	virtual void close();
-	virtual void setParameters(double price);
-	virtual void setParameters(const std::string& material);
-	virtual void setSelectionLabel(const std::vector<int>& selectedTeethNum);
-	virtual double getPrice();
+	virtual void showErrorMessage(const std::string& error) override;
+	virtual void showErrorDialog(const std::string& error) override;
+	virtual void setView(ManipulationType t) override;
+	virtual void close() override;
+	virtual void setParameters(double price) override;
+	virtual void setParameters(const std::string& material) override;
+	virtual void setSelectionLabel(const std::vector<int>& selectedTeethNum) override;
+	virtual double getPrice() override;
 	ProcedureDialogPresenter* getPresenter();
 
 private:

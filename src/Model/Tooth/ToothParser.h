@@ -14,7 +14,7 @@ class ToothParser
 	Json::Value writeDentistMade(int index, const DentistMade& procedure);
 
 public:
-	ToothParser();
+
 	std::string write(const std::array<Tooth, 32>& teeth);
     void parse(const std::string& jsonString, std::array<Tooth, 32>& teeth);
 };

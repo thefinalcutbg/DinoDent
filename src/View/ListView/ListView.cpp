@@ -15,13 +15,49 @@ ListView::ListView(Database* database, QWidget* parent)
 	ui.teethView->setDragMode(QGraphicsView::RubberBandDrag);
 	ui.teethView->setScene(teethViewScene);
 
-	presenter.setDialogPresnters(allergiesDialog.getPresenter(), procedureDialog.getPresenter());
+	presenter.setDialogPresnters(allergiesDialog.getPresenter());
+
+	ui.procedureTable->setModel(&model);
+	ui.procedureTable->setDimensions();
 
 	connect(teethViewScene, &QGraphicsScene::selectionChanged, [=]{updateSelectedTeeth(); });
 	connect(ui.statusEdit, &QLineEdit::textChanged, [=] {presenter.statusChanged(ui.statusEdit->text().toStdString());});
 	connect(ui.patientTile, &QAbstractButton::clicked, [=] { presenter.openPatientDialog(); });
 	connect(ui.allergiesTile, &QAbstractButton::clicked, [=] { presenter.openAllergiesDialog(); });
-	connect(ui.procedureButton, &QAbstractButton::clicked, [=] { presenter.openProcedureDialog(); });
+	connect(ui.procedureButton, &QAbstractButton::clicked, [=] { presenter.addProcedure(); });
+	connect(ui.procedureTable, &ProcedureTable::deletePressed, [=] { ui.deleteProcedure->click(); });
+
+	connect(ui.deleteProcedure, &QAbstractButton::clicked, 
+		[=] {
+			int currentIdx = ui.procedureTable->selectionModel()->currentIndex().row();
+			int lastIdx = ui.procedureTable->verticalHeader()->count()-1;
+
+			if (currentIdx == -1) return;
+
+			presenter.deleteProcedure(currentIdx);
+
+			if (currentIdx == lastIdx)
+			{
+				ui.procedureTable->selectRow(currentIdx - 1);
+			}
+			else ui.procedureTable->selectRow(currentIdx);
+		});
+
+	connect(ui.procedureTable->selectionModel(), &QItemSelectionModel::selectionChanged, this, 
+		[=] 
+		{
+			int row = ui.procedureTable->selectionModel()->currentIndex().row();
+
+			if (row == -1) {
+
+				presenter.manipulationSelected(row);
+				return;
+			}
+
+			int manipulationIdx = ui.procedureTable->model()->index(row, 0).data().toInt();
+			presenter.manipulationSelected(row);
+		}
+	);
 }
 
 void ListView::paintEvent(QPaintEvent* event)
@@ -49,6 +85,7 @@ void ListView::updateSelectedTeeth()
 	std::sort(selectedIndexes.begin(), selectedIndexes.end());
 
 	presenter.setSelectedTeeth(selectedIndexes);
+
 }
 
 ListPresenter* ListView::Presenter()
@@ -97,6 +134,35 @@ void ListView::updateControlPanel(const Tooth* tooth)
 {
 	ui.surfacePanel->getPresenter()->setTooth(tooth);
 }
+
+void ListView::setManipulations(const std::vector<RowData>& m)
+{
+	model.setManipulations(m);
+
+	int tableHeight = m.size() * 50 + 26;
+	//ne sym siguren izob6to, 4e taka iskam da izglejda:
+	auto size = ui.procedureTable->size();
+	size.setHeight(tableHeight);
+	ui.procedureTable->setFixedSize(size);
+	this->setFixedHeight(710 + tableHeight + 100);
+
+	if (!m.size())
+	{
+		ui.procedureTable->hide();
+
+	}
+	else
+	{
+		ui.procedureTable->show();
+	}
+}
+
+void ListView::openProcedureDialog(ProcedureDialogPresenter *p)
+{
+	ProcedureDialog dialog(p);
+	dialog.openProcedureDialog();
+}
+
 
 ListView::~ListView()
 {

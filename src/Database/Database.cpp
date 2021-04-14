@@ -31,8 +31,7 @@ Database::Database() : db(NULL), err(NULL), stmt(NULL)
         "num             INT             NOT NULL,"
         "patient_id      VARCHAR(10)     NOT NULL,"
         "lpk             VARCHAR(9)      NOT NULL,"
-        "test            VARCHAR,"
-        "status_json     BLOB," 
+        "status_json     VARCHAR," 
         "FOREIGN KEY    (patient_id) REFERENCES patient(id)"
         ");"
 

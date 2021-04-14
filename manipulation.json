@@ -2,10 +2,7 @@
 {
 "manipulation": 
 [
-	{"type": 0, "code": 101, "name": "Преглед НЗОК", "default_diag": "Преглед по НЗОК", "price": 1.80, "duration":15},
-	{"type": 1, "code": 301, "name": "Обтурация НЗОК", "material": "Химиополимер", "price": 4, "duration":26},
-	{"type": 2, "code": 509, "name": "Екстракция НЗОК",  "price": 4, "duration":22},
-	{"type": 3, "code": 333, "name": "Лечение на пулпит на постоянен зъб НЗОК", "price": 12.30, "duration":141},
+
 	{"type": 0, "code": 1,	"name": "Преглед", "default_diag": "Преглед", "price": 20},
 	{"type": 1, "code": 2,	"name": "Обтурация от ГЙЦ", "material": "Глас-йономерен цимент", "price": 50},
 	{"type": 1, "code": 3,	"name": "Обтурация от Фотополимер, 1 п-ст", "material": "Фотополимер", "price": 70},

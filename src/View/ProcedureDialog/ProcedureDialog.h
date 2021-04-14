@@ -13,15 +13,15 @@ class ProcedureDialog : public QDialog, public IProcedureDialog
 {
 	Q_OBJECT
 
-	ProcedureDialogPresenter presenter;
+	ProcedureDialogPresenter *presenter;
 
 	ProcedureModel model;
 	QSortFilterProxyModel* proxyModel;
 
 	void resetForm();
 public:
-	ProcedureDialog(QWidget *parent = Q_NULLPTR);
-	~ProcedureDialog();
+	ProcedureDialog(ProcedureDialogPresenter* presenter, QWidget* parent = Q_NULLPTR);
+	virtual ~ProcedureDialog();
 
 	virtual void openProcedureDialog() override;
 	virtual void loadManipulationList(std::vector<ManipulationTemplate> manipulationList) override;

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1030</width>
+    <width>1057</width>
     <height>1000</height>
    </rect>
   </property>
@@ -30,7 +30,7 @@
     <rect>
      <x>20</x>
      <y>220</y>
-     <width>701</width>
+     <width>721</width>
      <height>451</height>
     </rect>
    </property>
@@ -74,7 +74,7 @@
   <widget class="ControlPanel" name="controlPanel" native="true">
    <property name="geometry">
     <rect>
-     <x>720</x>
+     <x>750</x>
      <y>350</y>
      <width>300</width>
      <height>334</height>
@@ -84,34 +84,63 @@
   <widget class="SurfacePanel" name="surfacePanel" native="true">
    <property name="geometry">
     <rect>
-     <x>720</x>
+     <x>750</x>
      <y>220</y>
      <width>291</width>
-     <height>129</height>
+     <height>142</height>
     </rect>
    </property>
   </widget>
-  <widget class="QTableView" name="procedureTable">
+  <widget class="ProcedureTable" name="procedureTable">
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>710</y>
-     <width>701</width>
+     <y>730</y>
+     <width>721</width>
      <height>201</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
    </property>
   </widget>
   <widget class="QPushButton" name="procedureButton">
    <property name="geometry">
     <rect>
-     <x>740</x>
-     <y>710</y>
+     <x>20</x>
+     <y>680</y>
      <width>131</width>
      <height>31</height>
     </rect>
    </property>
    <property name="text">
     <string>Добави манипулация</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="deleteProcedure">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>680</y>
+     <width>131</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Изтрий манипулация</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="editProcedure">
+   <property name="geometry">
+    <rect>
+     <x>320</x>
+     <y>680</y>
+     <width>161</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Редактирай манипулация</string>
    </property>
   </widget>
  </widget>
@@ -138,6 +167,11 @@
    <extends>QWidget</extends>
    <header>SurfacePanel/surfacepanel.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ProcedureTable</class>
+   <extends>QTableView</extends>
+   <header>Procedures/proceduretable.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

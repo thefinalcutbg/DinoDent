@@ -7,16 +7,23 @@
 
 class ToothUtils
 {
+	static constexpr std::array<int, 32> numbers
+	{ 
+	  18, 17, 16, 15, 14, 13, 12, 11,
+	  21, 22, 23, 24, 25, 26, 27, 28,
+	  38, 37, 36, 35, 34, 33, 32, 31,
+	  41, 42, 43, 44, 45, 46, 47, 48 
+	};
+
 	std::unordered_map<int, ToothType> toothTypeMap;
-	std::unordered_map<int, int> permaMap;
-	std::unordered_map<int, int> tempMap;
 	std::unordered_map<int, Quadrant> quadrant;
-	std::array<std::string, 6> surfaceNames;
+
+	static std::array<std::string, 6> surfaceNames;
 
 public:
 	ToothUtils();
 	ToothType getToothType(int index);
-	int getToothNumber(const int& index, const bool& temporary);
+	static int getToothNumber(int index, bool temporary);
 	Quadrant getQuadrant(int index);
 	std::array<std::string, 6> getSurfaceNames(int index);
 };

@@ -23,6 +23,7 @@ class DbAmbList
     ToothParser parser;
 
     std::string getOlderStatus(std::string patientID);
+    void openConnection();
 
 public:
     DbAmbList(Database* database);

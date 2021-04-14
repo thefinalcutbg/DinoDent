@@ -13,6 +13,11 @@ void DateValidator::setAmbListDate(const Date& amb_date)
                       amb_date.year };
 }
 
+Date DateValidator::getMin()
+{
+    return min;
+}
+
 bool DateValidator::validate(const Date& date)
 {
 
@@ -30,6 +35,11 @@ bool DateValidator::validate(const std::string& text)
 
     return validate(date);
 
+}
+
+Date DateValidator::getMax()
+{
+    return max;
 }
 
 

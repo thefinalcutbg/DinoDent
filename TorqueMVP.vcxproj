@@ -192,6 +192,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Model\Manipulation\getManipulationTamplates.cpp" />
+    <ClCompile Include="src\View\ListView\Procedures\ProcedureTableModel.cpp" />
+    <ClCompile Include="src\View\ListView\Procedures\ProcedureTable.cpp" />
     <ClCompile Include="src\Model\Manipulation\ManipulationGenerator.cpp" />
     <ClCompile Include="src\Model\Manipulation\ManipulationFactory.cpp" />
     <ClCompile Include="src\View\ProcedureDialog\Widgets\RangeWidget.cpp" />
@@ -204,7 +207,6 @@
     </ClCompile>
     <ClCompile Include="src\Model\Manipulation\AutoComplete.cpp" />
     <ClCompile Include="src\View\ProcedureDialog\ProcedureModel.cpp" />
-    <ClCompile Include="src\Model\Manipulation\ManipulationTemplateParser.cpp" />
     <ClCompile Include="src\Presenter\ProcedureDialog\ProcedureDialogPresenter.cpp" />
     <ClCompile Include="src\View\ProcedureDialog\ProcedureDialog.cpp" />
     <ClCompile Include="src\Model\Tooth\Tooth.cpp" />
@@ -338,6 +340,9 @@
     <QtMoc Include="src\View\AmbListPage\AmbListPage.h" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="src\View\ListView\Procedures\ProcedureTable.h" />
+    <QtMoc Include="src\View\ListView\Procedures\ProcedureTableModel.h" />
+    <ClInclude Include="src\Model\Manipulation\getManipulationTamplates.h" />
     <ClInclude Include="src\Model\Manipulation\ManipulationTemplate.h" />
     <ClInclude Include="src\Model\Tooth\ToothParserB.h" />
     <QtMoc Include="src\View\ProcedureDialog\Widgets\SurfaceSelector.h" />
@@ -345,6 +350,7 @@
     <QtMoc Include="src\View\ProcedureDialog\Widgets\RangeWidget.h" />
     <ClInclude Include="src\Model\Manipulation\ManipulationGenerator.h" />
     <ClInclude Include="src\Model\Manipulation\ManipulationFactory.h" />
+    <ClInclude Include="src\View\ListView\Procedures\RowData.h" />
     <ClInclude Include="src\View\uiComponents\AbstractSurfaceSelector.h" />
     <ClInclude Include="src\View\uiComponents\AbstractRangeEdit.h" />
     <ClInclude Include="src\Model\Validator\ManipulationValidators.h" />
@@ -354,7 +360,6 @@
     <ClInclude Include="src\Model\Tooth\Status.h" />
     <ClInclude Include="src\View\uiComponents\AbstractUIElement.h" />
     <QtMoc Include="src\View\ProcedureDialog\ProcedureModel.h" />
-    <ClInclude Include="src\Model\Manipulation\ManipulationTemplateParser.h" />
     <ClInclude Include="src\Model\Manipulation\Manipulation.h" />
     <ClInclude Include="src\Presenter\ProcedureDialog\ProcedureDialogPresenter.h" />
     <ClInclude Include="src\View\ProcedureDialog\IProcedureDialog.h" />

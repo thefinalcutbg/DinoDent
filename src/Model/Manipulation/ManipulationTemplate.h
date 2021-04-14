@@ -6,14 +6,20 @@ enum class ManipulationType { general, obturation, extraction, endo, crown, brid
 
 struct ManipulationTemplate
 {
-	ManipulationType type;
-	int code;
-	std::string name;
-	double price;
-	int duration;
 
-	//optional
+	ManipulationType type {ManipulationType::any};
+	int code{ 0 };
+	std::string name;
+	double price { 0 };
+	
 	std::string diagnosis;
+
+	bool nzok{ false };
+	int duration{ 0 };
+	double nzok_price{ 0 };
+
+
+	//optional:
 	std::string material;
 
 };

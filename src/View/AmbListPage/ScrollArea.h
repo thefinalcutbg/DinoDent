@@ -28,6 +28,7 @@ public:
 	void addTab();
 	void removeTab(int vecPos);
 	void tabChanged(int vecPos);
-
+	void saveCurrentPosition();
+	void changePosition(int vecPos);
 	~ScrollArea();
 };

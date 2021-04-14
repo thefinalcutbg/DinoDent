@@ -11,6 +11,8 @@ class DateValidator : public Validator
 
 public:
 	DateValidator();
+	Date getMin();
+	Date getMax();
 	void setAmbListDate(const Date& amb_date);
 	bool validate(const std::string& text) override;
 	bool validate(const Date& date);

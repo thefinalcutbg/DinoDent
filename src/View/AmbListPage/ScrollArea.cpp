@@ -37,7 +37,6 @@ void ScrollArea::tabChanged(int vecPos)
 	{
 		tabsScrollPos[currentPos].x = horizontalScrollBar()->value();
 		tabsScrollPos[currentPos].y = verticalScrollBar()->value();
-
 		tabRemoved = false;
 	}
 
@@ -47,6 +46,23 @@ void ScrollArea::tabChanged(int vecPos)
 	verticalScrollBar()->setValue(tabsScrollPos[vecPos].y);
 	currentPos = vecPos;
 	
+}
+
+void ScrollArea::saveCurrentPosition()
+{
+	if (currentPos < tabsScrollPos.size() && !tabRemoved)
+	{
+		tabsScrollPos[currentPos].x = horizontalScrollBar()->value();
+		tabsScrollPos[currentPos].y = verticalScrollBar()->value();
+		tabRemoved = false;
+	}
+}
+
+void ScrollArea::changePosition(int vecPos)
+{
+	horizontalScrollBar()->setValue(tabsScrollPos[vecPos].x);
+	verticalScrollBar()->setValue(tabsScrollPos[vecPos].y);
+	currentPos = vecPos;
 }
 
 

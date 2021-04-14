@@ -27,6 +27,7 @@ class SurfacePanel : public QWidget, public PolygonObserver, public ISurfacePane
 	std::array<ControlPanelPolygon*, 5> polygon;
 
 	std::array<QString, 6> labels;
+	std::array<QString, 6> statuses;
 
 public:
 	SurfacePanel(QWidget *parent = Q_NULLPTR);
@@ -38,6 +39,7 @@ public:
 	void paintTooth(const Tooth* tooth);
 	void showPanel(bool show);
 	void setLabels(std::array<std::string, 6> SurfaceNames);
+	void setStatuses(std::array<std::string, 6> StatusNames);
 	void setSideButtonsClicked(bool obturation, bool caries);
 	// Inherited via PolygonObserver
 	virtual void buttonHovered(ButtonPos position, Hover hoverState);

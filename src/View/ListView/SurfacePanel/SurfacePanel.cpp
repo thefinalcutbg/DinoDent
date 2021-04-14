@@ -59,6 +59,13 @@ void SurfacePanel::setLabels(std::array<std::string, 6> surfaceNames)
 	ui.sideLabel->setText(labels[5] + ":");
 }
 
+void SurfacePanel::setStatuses(std::array<std::string, 6> StatusNames)
+{
+	for (int i = 0; i < 6; i++) {
+		statuses[i] = QString::fromStdString(StatusNames[i]);
+	}
+}
+
 void SurfacePanel::setSideButtonsClicked(bool obturation, bool caries)
 {
 	ui.sideObturation->setChecked(obturation);
@@ -67,8 +74,16 @@ void SurfacePanel::setSideButtonsClicked(bool obturation, bool caries)
 
 void SurfacePanel::buttonHovered(ButtonPos position, Hover hoverState)
 {
-	if (hoverState == Hover::out) ui.surfaceInfoLabel->setText("");
-	else ui.surfaceInfoLabel->setText(labels[static_cast<int>(position)]); 
+	if (hoverState == Hover::out)
+	{
+		ui.surfaceInfoLabel->setText("");
+		ui.statusInfoLabel->setText("");
+	}
+	else
+	{
+		ui.surfaceInfoLabel->setText(labels[static_cast<int>(position)]);
+		ui.statusInfoLabel->setText(statuses[static_cast<int>(position)]);
+	}
 
 }
 
@@ -80,4 +95,10 @@ void SurfacePanel::buttonClicked(ButtonPos position, MouseClick click)
 	}
 
 	presenter.buttonClicked(position, type);
+
+	if (position != ButtonPos::side)
+	{
+		ui.statusInfoLabel->setText(statuses[static_cast<int>(position)]);
+	}
+
 }

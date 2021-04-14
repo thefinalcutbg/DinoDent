@@ -177,9 +177,6 @@
     <ClCompile Include="src\Presenter\ProcedureDialog\ProcedureDialogPresenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Model\Manipulation\ManipulationTemplateParser.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\View\ProcedureDialog\ProcedureModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -241,6 +238,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Model\Tooth\ToothParserB.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\ListView\Procedures\ProcedureTable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\ListView\Procedures\ProcedureTableModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Model\Manipulation\getManipulationTamplates.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -312,6 +318,12 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\ProcedureDialog\Widgets\SurfaceSelector.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\ListView\Procedures\ProcedureTable.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\ListView\Procedures\ProcedureTableModel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -509,9 +521,6 @@
     <ClInclude Include="src\Model\Manipulation\Manipulation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model\Manipulation\ManipulationTemplateParser.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Model\Tooth\Tooth.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -570,6 +579,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\Manipulation\ManipulationTemplate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\View\ListView\Procedures\RowData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\Manipulation\getManipulationTamplates.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

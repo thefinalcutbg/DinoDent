@@ -1,7 +1,5 @@
 ﻿#include "ProcedureModel.h"
 
-
-
 ProcedureModel::ProcedureModel(QObject *parent)
 	: QAbstractTableModel(parent)
 {
@@ -16,13 +14,20 @@ void ProcedureModel::setManipulations(std::vector<ManipulationTemplate> manipula
 
     this->manipulations.reserve(manipulations.size());
 
-    for (int i = 0; i < manipulations.size(); i++) 
+    for (int i = 0; i < manipulations.size(); i++)
     {
         auto m = manipulations[i];
+
+        double intPart;
+        auto price = std::modf(m.price, &intPart) == 0.0 ? 
+            QString::number(m.price) + " лв." :
+            QString::number(m.price, 'f', 2) + " лв.";
+            
+
         this->manipulations.emplace_back
         (ManipulationRow(m.code,
             QString::fromStdString(m.name),
-            QString::number(m.price, 'g' , 3)+" лв."));
+            price));
     }
     endResetModel();
 
@@ -96,7 +101,7 @@ QVariant ProcedureModel::data(const QModelIndex& index, int role) const
         case price: return manipulations[row].price;
         }
     case Qt::TextAlignmentRole:
-        if (column != 1 && column != 3)
+        if (column == 1 ||column == 3)
             return int(Qt::AlignCenter);
     }
 

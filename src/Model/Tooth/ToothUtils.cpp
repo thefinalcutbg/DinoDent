@@ -1,8 +1,16 @@
 ﻿#include "ToothUtils.h"
 
-ToothUtils::ToothUtils() : 
-    surfaceNames{"Оклузално", "Медиално", "Дистално", "Букално", "Лингвално", "Цервикално"}
+
+
+std::array<std::string, 6> ToothUtils::surfaceNames
+{ "Оклузално", "Медиално", "Дистално", "Букално", "Лингвално", "Цервикално" };
+
+
+ToothUtils::ToothUtils()
 {
+
+  
+
     for (int i = 0; i < 32; i++) //mapping indexes to tooth types
     {
         if (i == 3 || i == 4 || i == 11 || i == 12)
@@ -23,18 +31,7 @@ ToothUtils::ToothUtils() :
         else quadrant[i] = Quadrant::Fourth;
     }
 
-    //mapping indexes to tooth nomenclature;
-    int permaNumbers[32]{ 18, 17, 16, 15, 14, 13, 12, 11,
-                    21, 22, 23, 24, 25, 26, 27, 28,
-                    38, 37, 36, 35, 34, 33, 32, 31,
-                    41, 42, 43, 44, 45, 46, 47, 48 };
-    int tempNumbers[32];
 
-    for (int i = 0; i < 32; i++) {
-        tempNumbers[i] = permaNumbers[i] + 40;
-        permaMap[i] = permaNumbers[i];
-        tempMap[i] = tempNumbers[i];
-    }
 }
 
 ToothType ToothUtils::getToothType(int index)
@@ -42,14 +39,14 @@ ToothType ToothUtils::getToothType(int index)
     return toothTypeMap[index];
 }
 
-int ToothUtils::getToothNumber(const int& index, const bool& temporary)
+int ToothUtils::getToothNumber(int index, bool temporary)
 {
-    if (index < 0 || index > 31) return 0;
+    if (index < 0 || index > 31) return -1;
 
     if (temporary) {
-        return tempMap[index];
+        return numbers[index]+40;
     }
-    return permaMap[index];
+    return numbers[index];
 }
 
 Quadrant ToothUtils::getQuadrant(int index)

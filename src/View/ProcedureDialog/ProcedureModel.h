@@ -1,5 +1,5 @@
 #pragma once
-#include "Model/Manipulation/Manipulation.h"
+#include "Model/Manipulation/ManipulationTemplate.h"
 #include <QAbstractTableModel>
 
 #include <vector>

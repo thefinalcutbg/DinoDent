@@ -1,9 +1,11 @@
 #pragma once
 #include <string>
 #include <array>
+#include <vector>
 #include "Patient.h"
 #include "Date.h"
 #include "Tooth/Tooth.h"
+#include "Manipulation/Manipulation.h"
 
 struct AmbList
 {
@@ -20,6 +22,7 @@ struct AmbList
 	std::string LPK;
 	std::string test;
 
+	std::vector<Manipulation> manipulations;
 	std::array <Tooth, 32> teeth;
 	~AmbList() {  }
 	bool isNew(){ return !number; }

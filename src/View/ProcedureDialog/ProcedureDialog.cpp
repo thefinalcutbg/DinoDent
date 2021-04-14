@@ -1,10 +1,10 @@
 ﻿#include "ProcedureDialog.h"
 
-ProcedureDialog::ProcedureDialog(QWidget *parent)
-	: QDialog(parent), presenter(this)
+ProcedureDialog::ProcedureDialog(ProcedureDialogPresenter* presenter, QWidget *parent)
+	: QDialog(parent), presenter(presenter)
 {
 	ui.setupUi(this);
-
+	
 	auto table = ui.tableView;
 
 	proxyModel = new QSortFilterProxyModel(this);
@@ -20,47 +20,49 @@ ProcedureDialog::ProcedureDialog(QWidget *parent)
 	table->setColumnWidth(2, 400);
 	table->setColumnWidth(3, 70);
 	table->setSelectionBehavior(QAbstractItemView::SelectRows);
-
-	QItemSelectionModel* sm = table->selectionModel();
-
-	{
-		ProcedureDialogElements p;
-		p.dateField = ui.dateEdit;
-		p.diagnosisField = ui.diagnosisEdit;
-		p.manipulationField = ui.manipulationEdit;
-		p.materialField = ui.materialEdit;
-		p.rangeBox = ui.rangeWidget;
-		p.surfaceSelector = ui.surfaceSelector;
-		presenter.setUIComponents(p);
-	}
+	table->setSelectionMode(QAbstractItemView::SingleSelection);
+	table->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+	table->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);
 
 
-
-
-	connect(sm, &QItemSelectionModel::currentRowChanged, this, [=] { 
-
+	connect(table->selectionModel(), &QItemSelectionModel::currentRowChanged, this, [=] {
+	
 		int row =  table->selectionModel()->currentIndex().row();
 
 		if (row == -1){
-			presenter.indexChanged(row);
+			
+			presenter->indexChanged(row);
 			return;
 		}
 
 		int manipulationIdx = proxyModel->index(row, 0).data().toInt();
-		presenter.indexChanged(manipulationIdx);
+		presenter->indexChanged(manipulationIdx);
 		});
 
-	connect(ui.diagnosisEdit, &QTextEdit::textChanged, [=] {presenter.diagnosisChanged(ui.diagnosisEdit->getText()); });
-	connect(ui.rangeWidget, &RangeWidget::rangeChanged, [=](int begin, int end) {presenter.rangeChanged(begin, end); });
+	connect(ui.diagnosisEdit, &QTextEdit::textChanged, [=] { presenter->diagnosisChanged(ui.diagnosisEdit->getText()); });
+	connect(ui.rangeWidget, &RangeWidget::rangeChanged, [=](int begin, int end) {presenter->rangeChanged(begin, end); });
 	connect(ui.cancelButton, &QPushButton::clicked, [=] { close(); });
-	connect(ui.okButton, &QPushButton::clicked, [=] { presenter.formAccepted(); });
+	connect(ui.okButton, &QPushButton::clicked, [=] { presenter->formAccepted(); });
 
 	connect(ui.searchEdit, &QLineEdit::textChanged, [=]
 		{
 			proxyModel->setFilterRegExp(QRegExp(ui.searchEdit->text(), Qt::CaseInsensitive, QRegExp::FixedString));
 			ui.tableView->selectRow(0);
-
 		});
+
+
+	connect(ui.tableView, &QTableView::doubleClicked, [=] { presenter->formAccepted(); });
+
+	ProcedureDialogElements p;
+	p.dateField = ui.dateEdit;
+	p.diagnosisField = ui.diagnosisEdit;
+	p.manipulationField = ui.manipulationEdit;
+	p.materialField = ui.materialEdit;
+	p.rangeBox = ui.rangeWidget;
+	p.surfaceSelector = ui.surfaceSelector;
+	presenter->setView(this, p);
+
+
 }
 
 ProcedureDialog::~ProcedureDialog()
@@ -120,6 +122,7 @@ double ProcedureDialog::getPrice()
 {
 	return ui.priceSpinBox->value();
 }
+
 
 
 void ProcedureDialog::resetForm()
@@ -190,5 +193,5 @@ void ProcedureDialog::showErrorDialog(const std::string& error)
 
 ProcedureDialogPresenter* ProcedureDialog::getPresenter()
 {
-	return &presenter;
+	return presenter;
 }

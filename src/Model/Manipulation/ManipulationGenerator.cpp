@@ -44,12 +44,12 @@ ManipulationFactoryProducts ManipulationGenerator::getManipulations(DialogData d
 		{
 			manipulation.material = data.mMaterial;
 			auto& range = data.range;
-			manipulation.additional = BridgeParam{ std::get<0>(range), std::get<1>(range) };
+			manipulation.result = BridgeParam{ std::get<0>(range), std::get<1>(range) };
 			return { std::vector<Manipulation>{manipulation}, std::vector<int>{} };
 		}
 		case ManipulationType::obturation:
 			manipulation.material = data.mMaterial;
-			manipulation.additional = ObtParam{ data.surfaces };
+			manipulation.result = ObtParam{ data.surfaces };
 			return obturation_factory.getManipulations(data.selectedTeeth, manipulation);
 		case ManipulationType::extraction:
 			return extraction_factory.getManipulations(data.selectedTeeth, manipulation);

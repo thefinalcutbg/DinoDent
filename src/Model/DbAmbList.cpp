@@ -12,7 +12,7 @@ DbAmbList::DbAmbList(Database* database) :
 std::string DbAmbList::getOlderStatus(std::string patientID)
 {
 
-    std::string query = "SELECT test FROM amblist WHERE "
+    std::string query = "SELECT status_json FROM amblist WHERE "
         "patient_id = '" + patientID + "'"
         " ORDER BY id DESC LIMIT 1";
 
@@ -28,10 +28,15 @@ std::string DbAmbList::getOlderStatus(std::string patientID)
     return std::string();
 }
 
+void DbAmbList::openConnection()
+{
+    sqlite3_open("DATATEST.db", &db);
+}
+
 
 void DbAmbList::insertAmbList(AmbList& ambList, std::string &patientID)
 {
-    std::string query = "INSERT INTO amblist (day, month, year, num, test, patient_id, lpk) VALUES ('"
+    std::string query = "INSERT INTO amblist (day, month, year, num, status_json, patient_id, lpk) VALUES ('"
         + std::to_string(ambList.date.day) + "','"
         + std::to_string(ambList.date.month) + "','"
         + std::to_string(ambList.date.year) + "','"
@@ -58,7 +63,7 @@ void DbAmbList::updateAmbList(AmbList& ambList)
         ", month = " + std::to_string(ambList.date.month) +
         ", year = " + std::to_string(ambList.date.year) +
         ", num = " + std::to_string(ambList.number) +
-        ", test = '" + parser.write(ambList.teeth) + "' "
+        ", status_json = '" + parser.write(ambList.teeth) + "' "
         "WHERE id = " + ambList.id;
 
     qDebug() << query.c_str();
@@ -69,7 +74,7 @@ void DbAmbList::updateAmbList(AmbList& ambList)
 
 AmbList* DbAmbList::getList(std::string patientID, int currentMonth, int currentYear)
 {
-    std::string query = "SELECT id, num, day, month, year, test FROM amblist WHERE "
+    std::string query = "SELECT id, num, day, month, year, status_json FROM amblist WHERE "
         "patient_id = '" + patientID + "' AND "
         "month = " + std::to_string(currentMonth) + " AND "
         "year = " + std::to_string(currentYear);

@@ -3,7 +3,7 @@
 #include <vector>
 
 #include "Model/ListInstance.h"
-
+#include "Model/Manipulation/getManipulationTamplates.h"
 #include "View/ListView/IListView.h"
 
 #include "Presenter/PatientDialog/PatientDialogPresenter.h"
@@ -30,7 +30,6 @@ class ListPresenter :
 	IListView* view;
 	PatientDialogPresenter *patientDialog;
 	AllergiesDialogPresenter* allergiesDialog;
-	ProcedureDialogPresenter* procedureDialog;
 
 	EditObserver* edit_observer;
 
@@ -41,18 +40,19 @@ class ListPresenter :
 
 	AmbList* ambList;
 	Patient* patient;
+	
 	std::vector<int>* selectedIndexes;
 	bool* edited;
 
 	void makeEdited();
 	void statusChanged();
+	void addToManipulationList(const std::vector<Manipulation> &m);
+	void refreshManipulationView(const std::vector<Manipulation>& m);
 
 public:
 	ListPresenter(IListView* view);
 
-	void setDialogPresnters(
-							AllergiesDialogPresenter* allergiesPresenter,
-							ProcedureDialogPresenter* procedurePresenter);
+	void setDialogPresnters(AllergiesDialogPresenter* allergiesPresenter);
 
 	void setPatientDialog(PatientDialogPresenter* presenter);
 
@@ -70,9 +70,10 @@ public:
 
 	void openPatientDialog();
 	void openAllergiesDialog();
-	void openProcedureDialog();
+	void addProcedure();
+	void deleteProcedure(int index);
 	void statusChanged(std::string status);
-
+	void manipulationSelected(int index);
 	// Inherited via PatientDialogRequestor
 	void setPatient(Patient patient) override;
 	void setAllergies(Allergies allergies) override;

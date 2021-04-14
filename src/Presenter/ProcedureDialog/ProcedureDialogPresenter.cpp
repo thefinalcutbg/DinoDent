@@ -3,11 +3,33 @@
 
 
 
-ProcedureDialogPresenter::ProcedureDialogPresenter(IProcedureDialog* view) :
-	manipulationList{ getManipulationTemplate() }, view(view), teeth(NULL), errorState(true)
+ProcedureDialogPresenter::ProcedureDialogPresenter
+	(
+		const std::vector<ManipulationTemplate>& mList,
+		const std::vector<Tooth*>& selectedTeeth, 
+		const std::array<Tooth, 32>& teeth, 
+		const Date& ambListDate
+	) 
+	:
+	manipulationList{ mList }, 
+	manipulations{},
+	view(NULL), 
+	teeth(&teeth), 
+	selectedTeeth(selectedTeeth),
+	errorState(true)
 {
-	selectedTeeth.reserve(32);
+	date_validator.setAmbListDate(ambListDate);
 
+	if (selectedTeeth.size() == 1)
+	{
+		diagnosisMap[ManipulationType::obturation] = AutoComplete::getObturDiag(*selectedTeeth[0]);
+		diagnosisMap[ManipulationType::endo] = AutoComplete::getEndoDiag(*selectedTeeth[0]);
+		diagnosisMap[ManipulationType::crown] = AutoComplete::getCrownDiag(*selectedTeeth[0]);
+		diagnosisMap[ManipulationType::extraction] = AutoComplete::getExtrDiag(*selectedTeeth[0]);
+	}
+
+	auto range = AutoComplete::getInitialBridgeRange(selectedTeeth);
+	diagnosisMap[ManipulationType::bridge] = autofill.getBridgeDiag(std::get<0>(range), std::get<1>(range), teeth);
 }
 
 void ProcedureDialogPresenter::indexErrorCheck()
@@ -32,6 +54,45 @@ void ProcedureDialogPresenter::indexErrorCheck()
 
 	errorState = false;
 }
+
+void ProcedureDialogPresenter::setView(IProcedureDialog* view, ProcedureDialogElements uiComp)
+{
+	this->view = view;
+
+	ui = uiComp;
+
+	ui.dateField->set_Validator(&date_validator);
+	ui.rangeBox->set_Validator(&range_validator);
+
+	view->loadManipulationList(manipulationList);
+
+	auto date = Date::getCurrentDate();
+
+	if (!date_validator.validate(date)) {
+		date = date_validator.getMin();
+	}
+	ui.dateField->setFieldText(Date::toString(date));
+
+	auto range = autofill.getInitialBridgeRange(selectedTeeth);
+	ui.rangeBox->setRange(std::get<0>(range), std::get<1>(range));
+
+	if (selectedTeeth.size() == 1)
+	{
+		ui.surfaceSelector->setSurfaces(AutoComplete::getSurfaces(*selectedTeeth[0]));
+	}
+
+	std::vector<int> selectedTeethNum;
+	selectedTeethNum.reserve(32);
+
+	for (const Tooth* t : selectedTeeth)
+	{
+		selectedTeethNum.emplace_back(utils.getToothNumber(t->index, t->temporary.exists()));
+	}
+
+	view->setSelectionLabel(selectedTeethNum);
+
+}
+
 
 std::vector<Manipulation> ProcedureDialogPresenter::generateManipulations()
 {
@@ -81,14 +142,8 @@ std::vector<Manipulation> ProcedureDialogPresenter::generateManipulations()
 
 }
 
-void ProcedureDialogPresenter::setUIComponents(ProcedureDialogElements uiComp)
-{
-	ui = uiComp;
-	ui.dateField->set_Validator(&date_validator);
-	ui.rangeBox->set_Validator(&range_validator);
-}
 
-void ProcedureDialogPresenter::changeValidatorsDynamically()
+void ProcedureDialogPresenter::setValidatorsDynamically()
 {
 
 	ui.manipulationField->set_Validator(&notEmpty_validator);
@@ -115,81 +170,14 @@ void ProcedureDialogPresenter::changeValidatorsDynamically()
 	
 }
 
-std::vector<Manipulation> ProcedureDialogPresenter::openDialog(const std::vector<Tooth*>& selectedTeeth, 
-												   			    const std::array<Tooth, 32>& teeth,
-																const Date& ambListDate)
-{
-	accepted = false;
-
-	this->selectedTeeth = selectedTeeth;
-	this->teeth = &teeth;
-
-	view->loadManipulationList(manipulationList);
-
-	//getting date
-	date_validator.setAmbListDate(ambListDate);
-	auto date = Date::getCurrentDate();
-
-	if (!date_validator.validate(date)) {
-		date = ambListDate;
-	}
-	ui.dateField->setFieldText(Date::toString(date));
-	ui.dateField->forceValidate();
-
-	//setting rangeBox
-	auto range = autofill.getInitialBridgeRange(selectedTeeth);
-	ui.rangeBox->setRange(std::get<0>(range), std::get<1>(range));
-
-	//autofilling diagnosis
-
-	if (selectedTeeth.size() == 1)
-	{
-		diagnosisMap[ManipulationType::obturation] = AutoComplete::getObturDiag(*selectedTeeth[0]);
-		diagnosisMap[ManipulationType::endo] = AutoComplete::getEndoDiag(*selectedTeeth[0]);
-		diagnosisMap[ManipulationType::crown] = AutoComplete::getCrownDiag(*selectedTeeth[0]);
-		diagnosisMap[ManipulationType::extraction] = AutoComplete::getExtrDiag(*selectedTeeth[0]);
-		ui.surfaceSelector->setSurfaces(AutoComplete::getSurfaces(*selectedTeeth[0]));
-	}
-	else
-	{
-		for (auto& m : diagnosisMap)
-		{
-			m.second.clear();
-		}
-		ui.surfaceSelector->setSurfaces(std::array<bool, 6>{0, 0, 0, 0, 0, 0});
-	}
-	
-	diagnosisMap[ManipulationType::bridge] = autofill.getBridgeDiag(std::get<0>(range), std::get<1>(range), teeth);
-
-	//updating view for which teeth are selected
-	std::vector<int> selectedTeethNum;
-	selectedTeethNum.reserve(32);
-
-	for (const Tooth* t : selectedTeeth)
-	{
-		selectedTeethNum.emplace_back(utils.getToothNumber(t->index, t->temporary.exists()));
-	}
-
-	view->setSelectionLabel(selectedTeethNum);
-
-	//starting the modal dialog while loop
-	view->openProcedureDialog();
-
-	if (accepted) {
-		return generateManipulations();
-	}
-
-	return std::vector<Manipulation>{};
-}
-
 void ProcedureDialogPresenter::rangeChanged(int begin, int end)
 {
 	diagnosisMap[ManipulationType::bridge] = autofill.getBridgeDiag(begin, end, *teeth);
 	ui.diagnosisField->setFieldText(diagnosisMap[ManipulationType::bridge]);
 
 	auto& m = manipulationList[currentIndex];
-
-	view->setParameters(m.price * (end - begin + 1));
+	int length = end - begin + 1;
+	view->setParameters(m.price*length);
 }
 
 void ProcedureDialogPresenter::indexChanged(int index)
@@ -208,12 +196,24 @@ void ProcedureDialogPresenter::indexChanged(int index)
 	ui.manipulationField->setFieldText(m.name);
 	ui.materialField->setFieldText(m.material);
 	ui.diagnosisField->setFieldText(diagnosisMap[m.type]);
-	view->setParameters(m.price);
+
+	if (m.type == ManipulationType::bridge)
+	{
+		auto range = ui.rangeBox->getRange();
+		int last = std::get<1>(range);
+		int first = std::get<0>(range);
+		view->setParameters(m.price * (last - first + 1));
+	}
+	else
+	{
+		view->setParameters(m.price);
+	}
 	
 	view->setView(m.type);
 
-	changeValidatorsDynamically();
+	setValidatorsDynamically();
 }
+
 
 void ProcedureDialogPresenter::diagnosisChanged(std::string diagnosis)
 {
@@ -265,7 +265,12 @@ void ProcedureDialogPresenter::formAccepted()
 		}
 	}
 
-	accepted = true;
+	manipulations = generateManipulations();
 
 	view->close();
+}
+
+std::vector<Manipulation> ProcedureDialogPresenter::getManipulations()
+{
+	return manipulations;
 }

@@ -8,6 +8,7 @@ int main(int argc, char *argv[])
 {
 
 
+
     QFont font("Segoe UI");
     font.setPointSize(8);
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);

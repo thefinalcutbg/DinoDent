@@ -6,6 +6,8 @@
 #include "ButtonSurfaceMatrix.h"
 #include "Model/Tooth/ToothUtils.h"
 
+#include <QDebug>
+
 class SurfacePanelPresenter
 {
 	ISurfacePanel* view;
@@ -16,7 +18,7 @@ class SurfacePanelPresenter
 	
 	ToothUtils utilities;
 
-	void setViewLabels();
+	void setViewLabels(const Tooth* tooth);
 public:
 		SurfacePanelPresenter(ISurfacePanel* view);
 		void getStatusControl(IStatusControl* listPresenter);

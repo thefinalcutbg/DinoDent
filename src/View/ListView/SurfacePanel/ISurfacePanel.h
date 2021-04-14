@@ -10,4 +10,5 @@ public:
 	virtual void showPanel(bool show) = 0;
 	virtual void setLabels(std::array<std::string, 6> SurfaceNames) = 0;
 	virtual void setSideButtonsClicked(bool obturation, bool caries) = 0;
+	virtual void setStatuses(std::array<std::string, 6> StatusNames) = 0;
 };

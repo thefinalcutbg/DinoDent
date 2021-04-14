@@ -16,33 +16,41 @@ struct ObtParam{
 
 struct Manipulation
 {
-	Manipulation(const ManipulationTemplate& t, Date date, std::string name, std::string diagnosis, double price) 
+	Manipulation(const ManipulationTemplate& t, Date date, std::string name, std::string diagnosis, double price)
 		:
-		type {t.type},
-		code {t.code},
-		duration {t.duration},
-		date {date},
-		name {name},
+		type{ t.type },
+		code{ t.code },
+		date{ date },
+		name{ name },
 		diagnosis{ diagnosis },
-		price {price},
-		tooth { -1 }
-
+		price{ price },
+		tooth{ -1 },
+		nzok{ t.nzok },
+		duration{ t.duration },
+		nzok_price{t.nzok_price}
 	{}
 
 
-	ManipulationType type;
+	
+	//common parameters:
 	Date date;
-	int code;
-	std::string name;
-	int tooth;
 	std::string diagnosis;
+	int tooth;
+	std::string name;
+	int code;
 	double price;
-	int duration;
+
 	std::string LPK;
+	
+	//status change parameters:
+	ManipulationType type;
+	std::string material; //<-should go in the respective parameters
+	std::variant<ObtParam, BridgeParam> result;
 
-	std::string material;
-
-	std::variant<ObtParam, BridgeParam> additional;
+	//NZOK specific:
+	bool nzok;
+	int duration;
+	double nzok_price;
 
 };
 

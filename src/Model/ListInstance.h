@@ -12,6 +12,7 @@ struct ListInstance
 
 	Patient patient;
 	AmbList amb_list;
+	
 
 	ListInstance(AmbList ambList, Patient patient);
 	bool isNew();

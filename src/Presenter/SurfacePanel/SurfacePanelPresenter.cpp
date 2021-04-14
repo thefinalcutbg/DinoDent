@@ -1,16 +1,41 @@
-#include "SurfacePanelPresenter.h"
+﻿#include "SurfacePanelPresenter.h"
 
-void SurfacePanelPresenter::setViewLabels()
+void SurfacePanelPresenter::setViewLabels(const Tooth* tooth)
 {
-	auto unorderedNames = utilities.getSurfaceNames(currentIndex);
+	std::array<std::string, 6> unorderedStatus;
 
-	std::array<std::string, 6> orderedNames;
+	for (int i = 0; i < 6; i++)
+	{
+		if (tooth->o_surf[i].exists() && tooth->c_surf[i].exists())
+		{
+			unorderedStatus[i] = " (вторичен кариес)";
+		}
+		else if (tooth->o_surf[i].exists())
+		{
+			unorderedStatus[i] = " (обтурация)";
+		}
+		else if (tooth->c_surf[i].exists())
+		{
+			unorderedStatus[i] = " (кариес)";
+		}
+	}
+
+	auto unordererSurfaces = utilities.getSurfaceNames(currentIndex);
+	
+
+
+	std::array<std::string, 6> orderedSurfaces;
+	std::array<std::string, 6> orderedStatus;
 
 	for (int i = 0; i < 6; i++) {
 		auto intPos = static_cast<int>(matrix.getSurface(currentIndex, static_cast<ButtonPos>(i)));
-		orderedNames[i] = unorderedNames[intPos];
+		orderedSurfaces[i] = unordererSurfaces[intPos];
+		orderedStatus[i] = unorderedStatus[intPos];
 	}
-	view->setLabels(orderedNames);
+
+	
+	view->setStatuses(orderedStatus);
+	view->setLabels(orderedSurfaces);
 	
 }
 
@@ -49,7 +74,8 @@ void SurfacePanelPresenter::setTooth(const Tooth* tooth)
 		tooth->c_surf[static_cast<int>(surface)].exists() && tooth->caries
 	);
 
-	setViewLabels();
+	setViewLabels(tooth);
+
 
 	view->showPanel(true);
 }

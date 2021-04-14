@@ -9,17 +9,16 @@ ListPresenter::ListPresenter(IListView* view) :
 	patientDialog(NULL),
 	edit_observer(NULL),
 	allergiesDialog(NULL),
-	edited(NULL),
-	procedureDialog(NULL)
+	edited(NULL)
 {
 	checkModelCreator.addReciever(&statusControl);
 	checkModelCreator.addReciever(view);
 }
 
-void ListPresenter::setDialogPresnters(AllergiesDialogPresenter* allergiesPresenter, ProcedureDialogPresenter* procedurePresenter)
+void ListPresenter::setDialogPresnters(AllergiesDialogPresenter* allergiesPresenter)
 {
 	allergiesDialog = allergiesPresenter;
-	procedureDialog = procedurePresenter;
+
 }
 
 void ListPresenter::attachEditObserver(EditObserver* observer)
@@ -41,12 +40,12 @@ void ListPresenter::setData(ListInstance* listInstance)
 	this->edited = &listInstance->edited;
 	this->selectedIndexes = &listInstance->selectedIndexes;
 
-	//bridgeController.setTeeth(&ambList->teeth);
 	selectionManager.setStatus(&ambList->teeth);
 
 	setSelectedTeeth(listInstance->selectedIndexes);
 
 	view->refresh(*this->ambList, *this->patient, *selectedIndexes);
+	refreshManipulationView(ambList->manipulations);
 	view->repaintBridges(StatusToUIBridge(ambList->teeth));
 }
 
@@ -96,6 +95,60 @@ void ListPresenter::statusChanged()
 	}
 }
 
+void ListPresenter::addToManipulationList(const std::vector<Manipulation>& new_mList)
+{
+	auto& mList = ambList->manipulations;
+	mList.reserve(mList.size() + new_mList.size());
+
+	for (int i = 0; i < mList.size(); i++)
+	{
+		if (new_mList[0].date < mList[i].date)
+		{
+			mList.insert(mList.begin() + i, new_mList.begin(), new_mList.end());
+			return;
+		}
+	}
+
+	//if list is empty, or date is max
+	for (Manipulation mInsert : new_mList)
+	{
+		mList.push_back(mInsert);
+	}
+		
+
+}
+
+void ListPresenter::refreshManipulationView(const std::vector<Manipulation>& mList)
+{
+	std::vector<RowData> rows;
+	rows.reserve(mList.size());
+
+	for (Manipulation m : mList)
+	{
+		int tooth = m.tooth;
+		if (tooth >= 0 && tooth < 32)
+		{
+		    tooth = ToothUtils::getToothNumber(tooth, ambList->teeth[tooth].temporary.exists());
+		}
+
+		rows.emplace_back
+		(
+			RowData
+			{
+				Date::toString(m.date),
+				m.diagnosis,
+				tooth,
+				m.name,
+				m.code,
+				m.price,
+				m.nzok
+			}
+		);
+	}
+
+	view->setManipulations(rows);
+}
+
 
 void ListPresenter::changeStatus(Surface surface, SurfaceType type)
 {
@@ -131,22 +184,37 @@ void ListPresenter::openAllergiesDialog()
 
 }
 
-void ListPresenter::openProcedureDialog()
+void ListPresenter::addProcedure()
 {
-	auto mList = procedureDialog->openDialog(selectionManager.getSelectedTeethPointers(*selectedIndexes), ambList->teeth, ambList->date);
 	
+	auto mNzokTemplate = getNZOK(Patient::getAge(patient->birth), 64, false);
+	auto mCustomTemplate = getCustomManipulations();
+	mNzokTemplate.insert(mNzokTemplate.end(), mCustomTemplate.begin(), mCustomTemplate.end());
 
-	
-	for (Manipulation m : mList)
+	ProcedureDialogPresenter p
+	{ 
+		mNzokTemplate,
+		selectionManager.getSelectedTeethPointers(*selectedIndexes), 
+		ambList->teeth,
+		ambList->date 
+	};
+
+	view->openProcedureDialog(&p);
+
+	auto newList = p.getManipulations();
+
+	if (!newList.empty())
 	{
-		qDebug()
-			<< static_cast<int>(m.type)
-			<< m.code
-			<< QString::fromStdString(m.name)
-			<< m.tooth
-			<< QString::fromStdString(m.diagnosis)
-			<< m.price << " .lv";
+		this->addToManipulationList(newList);
+		refreshManipulationView(ambList->manipulations);
 	}
+	
+}
+
+void ListPresenter::deleteProcedure(int index)
+{
+	ambList->manipulations.erase(ambList->manipulations.begin() + index);
+	refreshManipulationView(ambList->manipulations);
 }
 
 void ListPresenter::statusChanged(std::string status)
@@ -154,6 +222,10 @@ void ListPresenter::statusChanged(std::string status)
 	ambList->test = status;
 
 	makeEdited();
+}
+
+void ListPresenter::manipulationSelected(int index)
+{
 }
 
 void ListPresenter::setPatient(Patient patient)

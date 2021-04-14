@@ -1,7 +1,7 @@
 #pragma once
 #include <array>
 #include <string>
-#include <map>
+#include <unordered_map>
 #include "Model/Tooth/Tooth.h"
 #include "InputEnums.h"
 
@@ -16,7 +16,7 @@ class ButtonSurfaceMatrix
 	std::array<int, 6> lowRightFront{ 2,0,1,5,3,4 };
 	std::array<int, 6> lowRightPost{ 2,4,1,3,0,5 };
 
-	std::map<int, std::array<int, 6>> map;
+	std::unordered_map<int, std::array<int, 6>> map;
 
 public:
 	ButtonSurfaceMatrix();

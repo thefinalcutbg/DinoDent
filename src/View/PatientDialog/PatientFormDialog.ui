@@ -382,32 +382,32 @@
   <customwidget>
    <class>LineEdit</class>
    <extends>QLineEdit</extends>
-   <header>../uiComponents/lineedit.h</header>
+   <header>../uiComponents/qt_derived/lineedit.h</header>
   </customwidget>
   <customwidget>
    <class>CityLineEdit</class>
    <extends>QLineEdit</extends>
-   <header>../uiComponents/citylineedit.h</header>
+   <header>../uiComponents/qt_derived/citylineedit.h</header>
   </customwidget>
   <customwidget>
    <class>DateLineEdit</class>
    <extends>QDateEdit</extends>
-   <header>../uiComponents/datelineedit.h</header>
+   <header>../uiComponents/qt_derived/datelineedit.h</header>
   </customwidget>
   <customwidget>
    <class>IdLineEdit</class>
    <extends>QLineEdit</extends>
-   <header>../uiComponents/idlineedit.h</header>
+   <header>../uiComponents/qt_derived/idlineedit.h</header>
   </customwidget>
   <customwidget>
    <class>ComboBox</class>
    <extends>QComboBox</extends>
-   <header>../uiComponents/combobox.h</header>
+   <header>../uiComponents/qt_derived/combobox.h</header>
   </customwidget>
   <customwidget>
    <class>Label</class>
    <extends>QLabel</extends>
-   <header>../uiComponents/label.h</header>
+   <header>../uiComponents/qt_derived/label.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

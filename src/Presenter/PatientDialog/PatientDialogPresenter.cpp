@@ -1,9 +1,8 @@
 ﻿#include "PatientDialogPresenter.h"
 
 
-PatientDialogPresenter::PatientDialogPresenter(IPatientDialog* patientDialog, Database* database) :
+PatientDialogPresenter::PatientDialogPresenter(IPatientDialog* patientDialog) :
 	view(patientDialog),
-	database(database),
 	requestor(NULL),
 	patient_field {NULL},
 	new_patient(true),
@@ -28,7 +27,7 @@ void PatientDialogPresenter::open(PatientDialogRequestor* requestor, Patient pat
 	resetForm();
 	
 	setPatientToView(patient);
-
+	new_patient = false;
 	view->open(true);
 }
 

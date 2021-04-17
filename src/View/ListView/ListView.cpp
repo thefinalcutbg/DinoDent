@@ -1,7 +1,7 @@
 #include "ListView.h"
 
 ListView::ListView(Database* database, QWidget* parent)
-	: QWidget(parent), presenter(this), allergiesDialog(database, this)
+	: QWidget(parent), presenter(this), allergiesDialog(this)
 {
 	ui.setupUi(this);
 

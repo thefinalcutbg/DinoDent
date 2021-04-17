@@ -174,10 +174,14 @@ void ProcedureDialogPresenter::rangeChanged(int begin, int end)
 {
 	diagnosisMap[ManipulationType::bridge] = autofill.getBridgeDiag(begin, end, *teeth);
 	ui.diagnosisField->setFieldText(diagnosisMap[ManipulationType::bridge]);
-
-	auto& m = manipulationList[currentIndex];
+	
+	auto m = manipulationList[currentIndex];
 	int length = end - begin + 1;
-	view->setParameters(m.price*length);
+	m.price = m.price * length;
+	m.name = m.name + AutoComplete::bridgeRangeString(begin, end, *teeth);
+
+	ui.priceField->set_Value(m.price);
+	ui.manipulationField->setFieldText(m.name);
 }
 
 void ProcedureDialogPresenter::indexChanged(int index)
@@ -188,30 +192,36 @@ void ProcedureDialogPresenter::indexChanged(int index)
 
 	if(errorState) return;
 
-	auto& m = manipulationList[currentIndex];
+	auto m = manipulationList[currentIndex];
+
 	if (!m.diagnosis.empty())
 	{
 		diagnosisMap[m.type] = m.diagnosis;
 	}
-	ui.manipulationField->setFieldText(m.name);
-	ui.materialField->setFieldText(m.material);
-	ui.diagnosisField->setFieldText(diagnosisMap[m.type]);
+
 
 	if (m.type == ManipulationType::bridge)
 	{
 		auto range = ui.rangeBox->getRange();
 		int last = std::get<1>(range);
 		int first = std::get<0>(range);
-		view->setParameters(m.price * (last - first + 1));
+		int bridgeLength = std::get<1>(range) - std::get<0>(range) + 1;
+		m.name.append(AutoComplete::bridgeRangeString(first, last, *teeth));
+		m.price = m.price * bridgeLength;
 	}
-	else
-	{
-		view->setParameters(m.price);
-	}
+
+	ui.manipulationField->setFieldText(m.name);
+	ui.materialField->setFieldText(m.material);
+	ui.diagnosisField->setFieldText(diagnosisMap[m.type]);
+	ui.priceField->set_Value(m.price);
 	
 	view->setView(m.type);
 
 	setValidatorsDynamically();
+
+	ui.manipulationField->disable(m.nzok);
+	ui.priceField->disable(m.nzok);
+
 }
 
 

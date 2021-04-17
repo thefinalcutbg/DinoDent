@@ -4,12 +4,12 @@ QColor blue(0, 122, 204);
 
 Torque::Torque(QWidget* parent)
     : QMainWindow(parent),
-    ambListPage(&database, this)
+    ambListPage(this)
 {
 
     ui.setupUi(this);
     ui.stackedWidget->insertWidget(0, &ambListPage);
-
+    Database database; //checking if db file exist;
 
     showMaximized();
 }

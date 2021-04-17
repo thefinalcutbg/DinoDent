@@ -2,7 +2,7 @@
 
 PatientFormDialog::PatientFormDialog(Database *database, QWidget* parent)
 	: QDialog(parent), 
-	presenter(this, database)
+	presenter(this)
 {
 	ui.setupUi(this);
 	setModal(true);

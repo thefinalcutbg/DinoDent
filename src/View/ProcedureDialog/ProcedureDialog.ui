@@ -112,7 +112,7 @@
      <string>Цена:</string>
     </property>
    </widget>
-   <widget class="QDoubleSpinBox" name="priceSpinBox">
+   <widget class="SpinBox" name="priceSpinBox">
     <property name="geometry">
      <rect>
       <x>100</x>
@@ -320,12 +320,12 @@
   <customwidget>
    <class>LineEdit</class>
    <extends>QLineEdit</extends>
-   <header location="global">View/uiComponents/lineedit.h</header>
+   <header location="global">View/uiComponents/qt_derived/lineedit.h</header>
   </customwidget>
   <customwidget>
    <class>DateLineEdit</class>
    <extends>QDateEdit</extends>
-   <header>View/uiComponents/datelineedit.h</header>
+   <header>View/uiComponents/qt_derived/datelineedit.h</header>
   </customwidget>
   <customwidget>
    <class>RangeWidget</class>
@@ -336,13 +336,18 @@
   <customwidget>
    <class>TextEdit</class>
    <extends>QTextEdit</extends>
-   <header>View/uiComponents/textedit.h</header>
+   <header>View/uiComponents/qt_derived/textedit.h</header>
   </customwidget>
   <customwidget>
    <class>SurfaceSelector</class>
    <extends>QWidget</extends>
    <header>View/ProcedureDialog/Widgets/surfaceselector.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>SpinBox</class>
+   <extends>QDoubleSpinBox</extends>
+   <header location="global">View/uiComponents/qt_derived/spinbox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

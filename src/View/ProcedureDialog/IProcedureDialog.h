@@ -4,8 +4,9 @@
 #include "Model/Manipulation/Manipulation.h"
 #include "../uiComponents/AbstractLineEdit.h"
 #include "../uiComponents/AbstractRangeEdit.h"
-#include "../uiComponents/DateLineEdit.h"
+#include "../uiComponents/AbstractLineEdit.h"
 #include "../uiComponents/AbstractSurfaceSelector.h"
+#include "../uiComponents/AbstractSpinBox.h"
 
 
 enum class FormView { default, surface, bridge, material };
@@ -17,6 +18,7 @@ struct ProcedureDialogElements
 		manipulationField(NULL), 
 		diagnosisField(NULL), 
 		materialField(NULL),
+		priceField(NULL),
 		surfaceSelector(NULL),
 		rangeBox(NULL) {}
 
@@ -24,7 +26,7 @@ struct ProcedureDialogElements
 	AbstractLineEdit* manipulationField;
 	AbstractLineEdit* diagnosisField;
 	AbstractLineEdit* materialField;
-	//price
+	AbstractSpinBox* priceField;
 	AbstractSurfaceSelector* surfaceSelector;
 	AbstractRangeEdit* rangeBox;
 	

@@ -59,6 +59,7 @@ ProcedureDialog::ProcedureDialog(ProcedureDialogPresenter* presenter, QWidget *p
 	p.manipulationField = ui.manipulationEdit;
 	p.materialField = ui.materialEdit;
 	p.rangeBox = ui.rangeWidget;
+	p.priceField = ui.priceSpinBox;
 	p.surfaceSelector = ui.surfaceSelector;
 	presenter->setView(this, p);
 

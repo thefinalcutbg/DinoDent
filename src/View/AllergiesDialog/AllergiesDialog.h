@@ -20,7 +20,7 @@ class AllergiesDialog : public QDialog, IAllergiesDialog
 	void paintEvent(QPaintEvent* event);
 
 public:
-	AllergiesDialog(Database* database, QWidget* parent = Q_NULLPTR);
+	AllergiesDialog(QWidget* parent = Q_NULLPTR);
 	void open(std::string allergies, std::string current, std::string past);
 	void close();
 	AllergiesDialogPresenter* getPresenter();

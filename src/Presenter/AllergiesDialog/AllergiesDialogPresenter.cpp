@@ -1,6 +1,6 @@
 #include "AllergiesDialogPresenter.h"
 
-AllergiesDialogPresenter::AllergiesDialogPresenter(IAllergiesDialog* view, Database* database) :
+AllergiesDialogPresenter::AllergiesDialogPresenter(IAllergiesDialog* view) :
 	view(view), database(database), requestor(NULL)
 {
 }

@@ -31,7 +31,7 @@ class AmbListPage : public QWidget, public IAmbListPage
 	SaveAsDialog saveAs_dialog;
 
 public:
-	AmbListPage(Database* database, QWidget *parent = Q_NULLPTR);
+	AmbListPage(QWidget *parent = Q_NULLPTR);
 	~AmbListPage();
 
 	AmbListPagePresenter* Presenter();

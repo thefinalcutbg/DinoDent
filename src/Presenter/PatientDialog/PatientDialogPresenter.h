@@ -1,7 +1,8 @@
 #pragma once
 
+#include "Database/DbPatient.h"
+
 #include "Model/Patient.h"
-#include "Model/DbPatient.h"
 #include "Model/Date.h"
 
 #include "Database/Database.h"
@@ -54,7 +55,7 @@ class PatientDialogPresenter : public uiObserver
 
 
 public:
-	PatientDialogPresenter(IPatientDialog *IPatientForm, Database* database);
+	PatientDialogPresenter(IPatientDialog *IPatientForm);
 
 	void setPatientFields(std::array<AbstractLineEdit*, 9>, AbstractComboBox* patientType, AbstractComboBox* sexCombo, AbstractLabel* cityCodeLabel);
 

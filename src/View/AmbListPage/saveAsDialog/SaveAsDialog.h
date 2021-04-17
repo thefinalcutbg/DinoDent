@@ -4,7 +4,7 @@
 #include <QLabel>
 #include "Presenter/AmbListPagePresenter.h"
 #include <map>
-#include "SpinBox.h"
+#include "MnogoTypSpinBox.h"
 #include "ui_saveasdialog.h"
 
 

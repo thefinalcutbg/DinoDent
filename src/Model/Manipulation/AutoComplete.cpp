@@ -39,6 +39,17 @@ std::tuple<int, int> AutoComplete::getInitialBridgeRange(const std::vector<Tooth
 	return std::tuple<int, int>(begin, end);
 }
 
+std::string AutoComplete::bridgeRangeString(int begin, int end, const std::array<Tooth, 32>& teeth)
+{
+	return std::string
+	{	
+		" " +
+		std::to_string(utils.getToothNumber(begin, teeth[begin].temporary.exists())) +
+		" - " +
+		std::to_string(utils.getToothNumber(end, teeth[end].temporary.exists()))
+	};
+}
+
 std::array<bool, 6> AutoComplete::getSurfaces(const Tooth& tooth)
 {
 	std::array<bool, 6> surfaces{ 0,0,0,0,0,0 };

@@ -1,7 +1,7 @@
 ﻿#include "allergiesdialog.h"
 
-AllergiesDialog::AllergiesDialog(Database* database, QWidget* parent)
-	: QDialog(parent), presenter(this, database)
+AllergiesDialog::AllergiesDialog(QWidget* parent)
+	: QDialog(parent), presenter(this)
 {
 	ui.setupUi(this);
 	setModal(true);

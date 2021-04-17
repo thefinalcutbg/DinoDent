@@ -178,7 +178,7 @@
   <customwidget>
    <class>TextEdit</class>
    <extends>QTextEdit</extends>
-   <header>View/uiComponents/textedit.h</header>
+   <header>View/uiComponents/qt_derived/textedit.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

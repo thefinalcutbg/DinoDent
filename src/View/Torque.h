@@ -10,7 +10,7 @@
 class Torque : public QMainWindow
 {
     Q_OBJECT
-    Database database;
+    
     AmbListPage ambListPage;
 
     

@@ -1,6 +1,6 @@
 ﻿#include "AmbListPagePresenter.h"
 
-AmbListPagePresenter::AmbListPagePresenter(Database* database, 
+AmbListPagePresenter::AmbListPagePresenter( 
 											IAmbListPage* AmbListPage, 
 											PatientDialogPresenter* patientDialog, 
 											ListPresenter* listView) :
@@ -8,7 +8,6 @@ AmbListPagePresenter::AmbListPagePresenter(Database* database,
 	patientDialog(patientDialog),
 	currentListInstance(NULL),
 	listView(listView),
-	database(database),
 	currentVecPos(-1)
 {
 	//listView->attachEditObserver(this); //this is NOT working, I have to set it from the AmbListView

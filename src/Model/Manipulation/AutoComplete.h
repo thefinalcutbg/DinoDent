@@ -20,5 +20,6 @@ public:
 	static std::string getCrownDiag(const Tooth& tooth);
 	static std::array<bool, 6> getSurfaces(const Tooth& tooth);
 	static std::tuple<int, int> getInitialBridgeRange(const std::vector<Tooth*>& selectedTeeth);
+	static std::string bridgeRangeString(int begin, int end, const std::array<Tooth, 32>& teeth);
 };
 

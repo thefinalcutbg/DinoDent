@@ -32,6 +32,7 @@ public:
 
 	DentistMade endo;
 	DentistMade implant;
+	DentistMade post;
 	DentistMade extraction;
 	DentistMade crown;
 	Bridge bridge;

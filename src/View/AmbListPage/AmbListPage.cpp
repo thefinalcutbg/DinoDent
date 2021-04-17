@@ -2,13 +2,13 @@
 
 
 
-AmbListPage::AmbListPage(Database* database, QWidget* parent) :
+AmbListPage::AmbListPage(QWidget* parent) :
 	QWidget(parent),
 	saveAs_dialog(this),
 	patient_dialog(database, this),
 	list_view(database),
 	database(database),
-	presenter(database, this, patient_dialog.Presenter(), list_view.Presenter()),
+	presenter(this, patient_dialog.Presenter(), list_view.Presenter()),
 	previousTabData(0)
 {
 	ui.setupUi(this);

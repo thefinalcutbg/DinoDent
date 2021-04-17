@@ -1,6 +1,6 @@
 #pragma once
 #include "View/AllergiesDialog/IAllergiesDialog.h"
-#include "Model/DbPatient.h"
+#include "Database/DbPatient.h"
 
 struct Allergies
 {
@@ -24,7 +24,7 @@ class AllergiesDialogPresenter
 	std::string patient_id;
 	AllergiesDialogRequestor* requestor;
 public:
-	AllergiesDialogPresenter(IAllergiesDialog* view, Database* database);
+	AllergiesDialogPresenter(IAllergiesDialog* view);
 	void setAllergies(std::string allergies, std::string current, std::string past);
 	void openDialog(AllergiesDialogRequestor* requestor, Patient patient);
 };

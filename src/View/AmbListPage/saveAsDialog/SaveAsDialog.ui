@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>SaveAsDialog</string>
   </property>
-  <widget class="SpinBox" name="ambNumSpin">
+  <widget class="MnogoTypSpinBox" name="ambNumSpin">
    <property name="geometry">
     <rect>
      <x>300</x>
@@ -91,9 +91,9 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>SpinBox</class>
+   <class>MnogoTypSpinBox</class>
    <extends>QSpinBox</extends>
-   <header>spinbox.h</header>
+   <header>mnogotypspinbox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

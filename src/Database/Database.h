@@ -6,9 +6,6 @@
 #include <vector>
 #include <map>
 
-class DbPatient;
-class DbAmbList;
-
 class Database
 {
     char* err;
@@ -19,9 +16,6 @@ class Database
 public:
     Database();
     ~Database(){ sqlite3_close_v2(db); }
-
-    friend class DbPatient;
-    friend class DbAmbList;
 
 };
 

@@ -5,7 +5,7 @@
 #include "View/AmbListPage/IAmbListPage.h"
 #include "PatientDialog/PatientDialogPresenter.h"
 #include "Model/ListInstance.h"
-#include "Model/DbAmbList.h"
+#include "Database/DbAmbList.h"
 
 class AmbListPagePresenter : public PatientDialogRequestor, public EditObserver
 {
@@ -19,7 +19,7 @@ class AmbListPagePresenter : public PatientDialogRequestor, public EditObserver
 	ListInstance* currentListInstance;
 
 public:
-	AmbListPagePresenter(Database* database, 
+	AmbListPagePresenter( 
 						IAmbListPage* AmbListPage, 
 						PatientDialogPresenter* patientDialog,
 						ListPresenter* listView);

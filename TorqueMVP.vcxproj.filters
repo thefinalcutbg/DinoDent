@@ -45,7 +45,7 @@
     <ClCompile Include="src\Model\Date.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Model\DbPatient.cpp">
+    <ClCompile Include="src\Database\DbPatient.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\main.cpp">
@@ -81,13 +81,13 @@
     <ClCompile Include="src\View\AmbListPage\saveAsDialog\SaveAsDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Model\DbAmbList.cpp">
+    <ClCompile Include="src\Database\DbAmbList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\AmbListPage\saveDialog\SaveDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\AmbListPage\saveAsDialog\SpinBox.cpp">
+    <ClCompile Include="src\View\AmbListPage\saveAsDialog\MnogoTypSpinBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Model\CityCode.cpp">
@@ -195,22 +195,22 @@
     <ClCompile Include="src\View\uiComponents\AbstractLineEdit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\uiComponents\CityLineEdit.cpp">
+    <ClCompile Include="src\View\uiComponents\qt_derived\CityLineEdit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\uiComponents\ComboBox.cpp">
+    <ClCompile Include="src\View\uiComponents\qt_derived\ComboBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\uiComponents\DateLineEdit.cpp">
+    <ClCompile Include="src\View\uiComponents\qt_derived\DateLineEdit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\uiComponents\IdLineEdit.cpp">
+    <ClCompile Include="src\View\uiComponents\qt_derived\IdLineEdit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\uiComponents\Label.cpp">
+    <ClCompile Include="src\View\uiComponents\qt_derived\Label.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\uiComponents\LineEdit.cpp">
+    <ClCompile Include="src\View\uiComponents\qt_derived\LineEdit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Model\Validator\PatientValidators.cpp">
@@ -225,7 +225,7 @@
     <ClCompile Include="src\View\ProcedureDialog\Widgets\RangeWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\uiComponents\TextEdit.cpp">
+    <ClCompile Include="src\View\uiComponents\qt_derived\TextEdit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\ProcedureDialog\Widgets\SurfaceSelector.cpp">
@@ -247,6 +247,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Model\Manipulation\getManipulationTamplates.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\uiComponents\qt_derived\SpinBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -275,7 +278,7 @@
     <QtMoc Include="src\View\AmbListPage\saveDialog\SaveDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\AmbListPage\saveAsDialog\SpinBox.h">
+    <QtMoc Include="src\View\AmbListPage\saveAsDialog\MnogoTypSpinBox.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\ListView\ControlPanel\ControlPanel.h">
@@ -299,22 +302,22 @@
     <QtMoc Include="src\View\ProcedureDialog\ProcedureModel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\uiComponents\ComboBox.h">
+    <QtMoc Include="src\View\uiComponents\qt_derived\ComboBox.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\uiComponents\DateLineEdit.h">
+    <QtMoc Include="src\View\uiComponents\qt_derived\DateLineEdit.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\uiComponents\IdLineEdit.h">
+    <QtMoc Include="src\View\uiComponents\qt_derived\IdLineEdit.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\uiComponents\LineEdit.h">
+    <QtMoc Include="src\View\uiComponents\qt_derived\LineEdit.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\ProcedureDialog\Widgets\RangeWidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\uiComponents\TextEdit.h">
+    <QtMoc Include="src\View\uiComponents\qt_derived\TextEdit.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\ProcedureDialog\Widgets\SurfaceSelector.h">
@@ -324,6 +327,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\ListView\Procedures\ProcedureTableModel.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\uiComponents\qt_derived\SpinBox.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -392,7 +398,7 @@
     <ClInclude Include="src\Model\Date.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model\DbPatient.h">
+    <ClInclude Include="src\Database\DbPatient.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Presenter\PatientDialog\uiObserver.h">
@@ -422,7 +428,7 @@
     <ClInclude Include="src\Database\sqLite\sqlite3ext.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model\DbAmbList.h">
+    <ClInclude Include="src\Database\DbAmbList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\CityCode.h">
@@ -548,10 +554,10 @@
     <ClInclude Include="src\View\uiComponents\AbstractLineEdit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\View\uiComponents\CityLineEdit.h">
+    <ClInclude Include="src\View\uiComponents\qt_derived\CityLineEdit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\View\uiComponents\Label.h">
+    <ClInclude Include="src\View\uiComponents\qt_derived\Label.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\Validator\PatientValidators.h">
@@ -585,6 +591,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\Manipulation\getManipulationTamplates.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Database\AbstractORM.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\View\uiComponents\AbstractSpinBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

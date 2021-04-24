@@ -192,6 +192,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\View\ListView\TeethView\GraphicsView.cpp" />
     <ClCompile Include="src\View\uiComponents\qt_derived\SpinBox.cpp" />
     <ClCompile Include="src\Model\Manipulation\getManipulationTamplates.cpp" />
     <ClCompile Include="src\View\ListView\Procedures\ProcedureTableModel.cpp" />
@@ -341,6 +342,8 @@
     <QtMoc Include="src\View\AmbListPage\AmbListPage.h" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="src\View\ListView\TeethView\GraphicsView.h" />
+    <ClInclude Include="src\Model\Tooth\Surfaces.h" />
     <QtMoc Include="src\View\ListView\Procedures\ProcedureTable.h" />
     <QtMoc Include="src\View\ListView\Procedures\ProcedureTableModel.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\SpinBox.h" />

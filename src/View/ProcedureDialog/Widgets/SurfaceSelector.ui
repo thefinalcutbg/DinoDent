@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>250</width>
-    <height>150</height>
+    <width>283</width>
+    <height>181</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,8 +17,8 @@
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>0</y>
-     <width>251</width>
+     <y>40</y>
+     <width>281</width>
      <height>111</height>
     </rect>
    </property>
@@ -28,7 +28,7 @@
    <widget class="QCheckBox" name="l_check">
     <property name="geometry">
      <rect>
-      <x>160</x>
+      <x>180</x>
       <y>80</y>
       <width>81</width>
       <height>31</height>
@@ -67,7 +67,7 @@
    <widget class="QCheckBox" name="c_check">
     <property name="geometry">
      <rect>
-      <x>160</x>
+      <x>180</x>
       <y>20</y>
       <width>101</width>
       <height>31</height>
@@ -80,7 +80,7 @@
    <widget class="QCheckBox" name="b_check">
     <property name="geometry">
      <rect>
-      <x>160</x>
+      <x>180</x>
       <y>50</y>
       <width>81</width>
       <height>31</height>
@@ -108,7 +108,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>110</y>
+     <y>150</y>
      <width>231</width>
      <height>31</height>
     </rect>
@@ -121,6 +121,45 @@
    </property>
    <property name="wordWrap">
     <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="post_check">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>121</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Радикуларен щифт</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="combo_color">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>10</y>
+     <width>59</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="editable">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>10</y>
+     <width>47</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Цвят:</string>
    </property>
   </widget>
  </widget>

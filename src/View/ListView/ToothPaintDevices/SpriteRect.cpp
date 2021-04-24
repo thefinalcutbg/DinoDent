@@ -31,7 +31,7 @@ void SpritesheetCoords::molar()
 	surfCrop[3].setCoords(540, 250, 720, 430);     //buccal surface
 	surfCrop[4].setCoords(540, 430, 720, 500);      //lingual surface
 	surfCrop[5].setCoords(360, 210, 540, 250);       //cervical surface
-
+	postCrop.setCoords(720, 250, 900, 520);	
 	rootCrop.setCoords(540, 0, 720, 250);
 	perioCrop.setCoords(720, 0, 900, 240);
 	endoCrop.setCoords(180, 0, 360, 210);       
@@ -47,6 +47,7 @@ void SpritesheetCoords::molar()
 	surfPos[ling] = QPoint(0, 430);
 	surfPos[cerv] = QPoint(0, 210);
 
+	postPos = QPoint(0, 100);
 	crownPos = QPoint(0, 210);
 
 	CPcrop.setCoords(25, 360, 165, 500);
@@ -66,6 +67,7 @@ void SpritesheetCoords::premolar()
 	rootCrop.setCoords(360, 0, 480, 250);
 	perioCrop.setCoords(480, 0, 600, 240);
 	endoCrop.setCoords(120, 0, 240, 210);
+	postCrop.setCoords(480, 250, 600, 430);
 	lesionCrop.setCoords(240, 0, 360, 80);
 	crownCrop.setCoords(120, 210, 240, 360);
 
@@ -79,7 +81,7 @@ void SpritesheetCoords::premolar()
 	surfPos[cerv] = QPoint(0, 210);
 
 	crownPos = QPoint(0, 210);
-
+	postPos = QPoint(0, 100);
 	CPcrop.setCoords(12, 360, 106, 476);
 	
 }
@@ -98,6 +100,7 @@ void SpritesheetCoords::frontal()
 	rootCrop.setCoords(360, 0, 480, 250);
 	perioCrop.setCoords(480, 0, 600, 240);
 	endoCrop.setCoords(120, 0, 240, 210);
+	postCrop.setCoords(480, 250, 600, 430);
 	lesionCrop.setCoords(240, 0, 360, 80);
 	crownCrop.setCoords(600, 210, 720, 360);
 
@@ -111,7 +114,7 @@ void SpritesheetCoords::frontal()
 	surfPos[cerv] = QPoint(0, 210);
 
 	crownPos = QPoint(0, 210);
-
+	postPos = QPoint(0, 100);
 	CPcrop.setCoords(-10, 210, 120, 355);
 	
 }

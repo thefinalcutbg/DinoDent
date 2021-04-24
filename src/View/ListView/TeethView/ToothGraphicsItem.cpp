@@ -1,10 +1,10 @@
 #include "toothgraphicsitem.h"
 
 
-
-
 ToothGraphicsItem::ToothGraphicsItem(int index) : index(index), toothGraphic(NULL)
 {
+
+
 	bounds.setHeight(224);
 
 	if (index > 2 && index < 13 || index > 18 && index < 29)
@@ -17,6 +17,8 @@ ToothGraphicsItem::~ToothGraphicsItem()
 {
 }
 
+
+
 QRectF ToothGraphicsItem::boundingRect() const
 {
 	return bounds;
@@ -24,13 +26,15 @@ QRectF ToothGraphicsItem::boundingRect() const
 
 void ToothGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
+	//painter->fillRect(bounds.toRect(), Qt::white);
+
 	if (toothGraphic != NULL)
 	{
 		painter->drawPixmap(bounds.toRect(), *toothGraphic);
 	}
 
-	painter->setPen(Qt::black);
-	painter->drawRect(bounds.toRect());
+	//painter->setPen(Qt::black);
+	//painter->drawRect(bounds.toRect());
 		
 }
 

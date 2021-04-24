@@ -158,6 +158,11 @@ void ListPresenter::changeStatus(Surface surface, SurfaceType type)
 
 void ListPresenter::changeStatus(StatusAction status)
 {
+	if (status == StatusAction::addManipulation)
+	{
+		addProcedure(); return;
+	}
+
 	statusControl.changeStatus(status);
 
 	if (status == StatusAction::Bridge || status == StatusAction::Crown) {

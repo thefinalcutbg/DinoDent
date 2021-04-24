@@ -14,6 +14,7 @@ struct DialogData
 	const std::string& mMaterial; 
 	double price; 
 	const std::array<bool, 6>& surfaces; 
+	const bool post;
 	const std::tuple<int, int> range; 
 	const std::vector<Tooth*>& selectedTeeth;
 };

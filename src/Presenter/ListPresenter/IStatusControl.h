@@ -2,6 +2,8 @@
 #include "Model/CheckState.h"
 #include "Model/Tooth/Tooth.h"
 
+constexpr int ActionCount = 25;
+
 enum class StatusAction {
 	Temporary,
 	Obturation,
@@ -9,6 +11,7 @@ enum class StatusAction {
 	Pulpitis,
 	ApicalLesion,
 	EndoTreatment,
+	Post,
 	Root, Fracture,
 	Extraction,
 	Periodontitis,
@@ -24,7 +27,8 @@ enum class StatusAction {
 	MOD,
 	removeO,
 	removeC,
-	removeAll
+	removeAll,
+	addManipulation
 };
 
 enum class SurfaceType { obturation, caries };

@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include "Status.h"
+#include "Surfaces.h"
 #include <string>
 #include <array>
 
@@ -22,13 +22,17 @@ public:
 	bool obturation;
 	bool caries;
 
+	std::array <DentistMade, 6> o_surf;
+	std::array <Pathology, 6> c_surf;
+
+	SurfaceTemplate<DentistMade> obtur;
+	SurfaceTemplate<Pathology> car;
+
 	Status temporary;
 	Status hyperdontic;
 	Status periodontitis;
 	Mobility mobility;
-	
-	std::array <DentistMade, 6> o_surf;
-	std::array <Pathology, 6> c_surf;
+
 
 	DentistMade endo;
 	DentistMade implant;

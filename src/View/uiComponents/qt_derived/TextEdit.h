@@ -8,7 +8,8 @@ class TextEdit : public QTextEdit, public AbstractLineEdit
 {
 	Q_OBJECT
 
-	bool disabled;
+	bool disabled{ false };
+	void keyPressEvent(QKeyEvent* event) override;
 
 public:
 	TextEdit(QWidget *parent);
@@ -20,7 +21,7 @@ public:
 	virtual void setAppearence(bool valid) override;
 	virtual void setFieldText(const std::string& text) override;
 	virtual std::string getText() override;
-	void keyPressEvent(QKeyEvent* event) override;
+
 
 
 };

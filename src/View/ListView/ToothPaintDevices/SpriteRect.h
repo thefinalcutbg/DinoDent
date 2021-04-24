@@ -15,7 +15,8 @@ struct SpritesheetCoords
     QRect perioCrop;
     QRect lesionCrop;
     QRect crownCrop;
-    QRect rootCrop; 
+    QRect rootCrop;
+    QRect postCrop;
     QRect CPcrop;      //coordinates for the control panel
 
     QRect bridgeCrop;
@@ -25,6 +26,7 @@ struct SpritesheetCoords
     QRect implantPaint;
 
     QPoint crownPos;    //position of the crown painting
+    QPoint postPos;
     QPoint surfPos[6];  //positions for painting of the surfaces on the canavas
 
 private:

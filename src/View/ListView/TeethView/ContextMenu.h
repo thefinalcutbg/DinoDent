@@ -15,7 +15,8 @@ class ContextMenu : public QMenu
 
 	std::array<QAction*, 6>surfObt;
 	std::array<QAction*, 6> surfCar;
-	std::array<QAction*, 23> menuAction;
+	std::array<QAction*, ActionCount> menuAction;
+
 
 	template<int CheckStateSize, int QActionSize>
 	void setModel(const std::array <CheckState, CheckStateSize>& model, std::array<QAction*, QActionSize>& action);

@@ -12,7 +12,7 @@ struct CheckModel
 	{};
 
 	CheckModel(
-		std::array<CheckState, 17> generalStatus,
+		std::array<CheckState, 18> generalStatus,
 		std::array<CheckState, 6> obturationStatus,
 		std::array<CheckState, 6> cariesStatus
 	) :
@@ -21,7 +21,7 @@ struct CheckModel
 		cariesStatus(cariesStatus) 
 	{};
 
-	std::array<CheckState, 17> generalStatus;
+	std::array<CheckState, 18> generalStatus;
 	std::array<CheckState, 6> obturationStatus;
 	std::array<CheckState, 6> cariesStatus;
 };

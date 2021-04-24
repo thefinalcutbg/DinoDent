@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QWidget>
+#include "C:\Dev\Qt\5.15.1\msvc2019\include\QtWidgets\qopenglwidget.h"
 
 #include "ui_ListView.h"
 #include "IListView.h"

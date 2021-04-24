@@ -138,6 +138,17 @@ std::string ToothParser::write(const std::array<Tooth, 32>& teeth)
 					status["EndoTreatment"].append(writeDentistMade(i, tooth.endo));
 				}
 
+				if (tooth.post.exists())
+				{
+					if (!status.isMember("Post"))
+					{
+						status["Post"] = Json::Value(Json::arrayValue);
+					}
+
+					status["Post"].append(writeDentistMade(i, tooth.post));
+				}
+
+
 				if (tooth.extraction.exists()) 
 				{
 
@@ -298,7 +309,17 @@ void ToothParser::parse(const std::string& jsonString, std::array<Tooth, 32>& te
 		Tooth& tooth = teeth[endo[i]["idx"].asInt()];
 		tooth.endo.set(true);
 		tooth.endo.LPK = endo[i]["LPK"].asString();
-		tooth.endo.material = endo[i]["LPK"].asString();
+		tooth.endo.material = endo[i]["material"].asString();
+	}
+
+	const Json::Value& post = status["Post"];
+
+	for (int i = 0; i < post.size(); i++)
+	{
+		Tooth& tooth = teeth[post[i]["idx"].asInt()];
+		tooth.post.set(true);
+		tooth.post.LPK = post[i]["LPK"].asString();
+		tooth.post.material = endo[i]["material"].asString();
 	}
 
 	const Json::Value &extraction = status["Extraction"];

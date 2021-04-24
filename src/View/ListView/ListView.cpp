@@ -12,9 +12,8 @@ ListView::ListView(Database* database, QWidget* parent)
 	teethViewScene = new TeethViewScene(&presenter, ui.teethView);
 	teethViewScene->setContextMenu(contextMenu);
 
-	ui.teethView->setDragMode(QGraphicsView::RubberBandDrag);
 	ui.teethView->setScene(teethViewScene);
-
+	ui.teethView->setSceneRect(teethViewScene->sceneRect());
 	presenter.setDialogPresnters(allergiesDialog.getPresenter());
 
 	ui.procedureTable->setModel(&model);
@@ -166,8 +165,8 @@ void ListView::openProcedureDialog(ProcedureDialogPresenter *p)
 
 ListView::~ListView()
 {
-	ui.teethView->blockSignals(true); //have to fix setting selected teeth to non-existing entity! (vector throws exception)
-
+	ui.teethView->blockSignals(true); //have to fix setting selected teeth to non-existing entity! (ListInstance vector throws exception)
+	
 	delete teethViewScene;
 	delete contextMenu;
 }

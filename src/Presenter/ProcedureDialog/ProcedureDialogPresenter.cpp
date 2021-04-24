@@ -110,6 +110,7 @@ std::vector<Manipulation> ProcedureDialogPresenter::generateManipulations()
 					ui.materialField->getText(),
 					view->getPrice(),
 					ui.surfaceSelector->getSurfaces(),
+					ui.surfaceSelector->getPost(),
 					ui.rangeBox->getRange(),
 					selectedTeeth
 		}

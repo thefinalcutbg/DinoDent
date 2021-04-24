@@ -9,7 +9,7 @@ class CheckModelCreator
 {
 	std::vector <CheckModelReciever*> recievers;
 
-	static std::array<bool, 17> generalStatusBool(const Tooth& tooth);
+	static std::array<bool, 18> generalStatusBool(const Tooth& tooth);
 	static std::array<bool, 6> obturationStatusBool(const Tooth& tooth);
 	static std::array<bool, 6> cariesStatusBool(const Tooth& tooth);
 

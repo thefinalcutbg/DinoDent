@@ -6,9 +6,17 @@ SurfacePanel::SurfacePanel(QWidget* parent)
 {
 	ui.setupUi(this);
 
+	//QOpenGLWidget* gl = new QOpenGLWidget();
+//	QSurfaceFormat format;
+
+//	format.setSamples(16);
+//	gl->setFormat(format);
+//	ui.surfaceView->setViewport(gl);
+
 	scene = new QGraphicsScene;
 	ui.surfaceView->setScene(scene);
-	
+	scene->setBackgroundBrush(Qt::white);
+	ui.surfaceView->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
 	toothGraphic = new CPTooth;
 
 	scene->addItem(toothGraphic);

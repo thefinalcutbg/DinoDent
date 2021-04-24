@@ -3,6 +3,17 @@
 TeethViewScene::TeethViewScene(ListPresenter* presenter, QObject *parent)
 	: presenter(presenter), QGraphicsScene(parent), contextMenu(NULL)
 {
+    //background color:
+    {
+        QPixmap white(730, 456);
+        white.fill(Qt::white);
+        QGraphicsPixmapItem* background = new QGraphicsPixmapItem(white);
+        addItem(background);
+        background->setPos(-24, -3);
+    }
+
+
+
 	bool molar;
 	 
 	int posY = 0;
@@ -85,10 +96,13 @@ void TeethViewScene::mousePressEvent(QGraphicsSceneMouseEvent* event)
         event->accept();
         return;
     }
+  
+    QGraphicsItem* item = itemAt(event->scenePos(), QTransform());
 
-    if (event->modifiers() & Qt::SHIFT) return;
-
-    QGraphicsScene::mousePressEvent(event);
+    if (item != NULL && !item->isSelected())
+    {
+        item->setSelected(1);
+    }
 }
 
 void TeethViewScene::keyPressEvent(QKeyEvent* event)
@@ -168,6 +182,7 @@ void TeethViewScene::keyPressEvent(QKeyEvent* event)
       case Qt::Key_C :presenter->changeStatus(StatusAction::Caries); break;
       case Qt::Key_R :presenter->changeStatus(StatusAction::Root); break;
       case Qt::Key_E :presenter->changeStatus(StatusAction::Extraction); break;
+      case Qt::Key_S: presenter->changeStatus(StatusAction::Post); break;
       case Qt::Key_P :presenter->changeStatus(StatusAction::Pulpitis); break;
       case Qt::Key_D :presenter->changeStatus(StatusAction::EndoTreatment); break;
       case Qt::Key_I :presenter->changeStatus(StatusAction::Implant); break;

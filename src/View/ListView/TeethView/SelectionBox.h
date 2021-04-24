@@ -2,6 +2,7 @@
 
 #include <QGraphicsItem>
 #include <QPainter>
+#include <QGraphicsSceneMouseEvent>
 
 
 class SelectionBox : public QGraphicsItem
@@ -24,9 +25,8 @@ protected:
 
 	void hoverLeaveEvent(QGraphicsSceneHoverEvent* event) override;
 
+
 public:
-
 	int getIndex();
-
 
 };

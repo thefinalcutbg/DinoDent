@@ -16,5 +16,6 @@ public:
 	virtual void setAppearence(bool valid) = 0;
 	virtual std::array<bool, 6> getSurfaces() = 0;
 	virtual void setSurfaces(const std::array<bool, 6>& surfaces) = 0;
+	virtual bool getPost() = 0;
 };
 

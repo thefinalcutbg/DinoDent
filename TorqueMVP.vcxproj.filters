@@ -252,6 +252,9 @@
     <ClCompile Include="src\View\uiComponents\qt_derived\SpinBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\ListView\TeethView\GraphicsView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -330,6 +333,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\uiComponents\qt_derived\SpinBox.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\ListView\TeethView\GraphicsView.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -597,6 +603,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\uiComponents\AbstractSpinBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\Tooth\Surfaces.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

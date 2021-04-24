@@ -1,17 +1,15 @@
 #include <QtWidgets/QApplication>
 #include "View/Torque.h"
 #include "View/ListView/ToothPaintDevices/SpriteSheets.h"
-#include <QDebug>
 
 
 int main(int argc, char *argv[])
 {
 
-
-
     QFont font("Segoe UI");
     font.setPointSize(8);
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     QApplication::highDpiScaleFactorRoundingPolicy;
     QApplication::setFont(font);
 

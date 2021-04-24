@@ -25,7 +25,7 @@
   <property name="windowTitle">
    <string>ListView</string>
   </property>
-  <widget class="QGraphicsView" name="teethView">
+  <widget class="GraphicsView" name="teethView">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -33,6 +33,15 @@
      <width>721</width>
      <height>451</height>
     </rect>
+   </property>
+   <property name="autoFillBackground">
+    <bool>true</bool>
+   </property>
+   <property name="verticalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOff</enum>
+   </property>
+   <property name="horizontalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOff</enum>
    </property>
   </widget>
   <widget class="PatientTile" name="patientTile">
@@ -77,7 +86,7 @@
      <x>750</x>
      <y>350</y>
      <width>300</width>
-     <height>334</height>
+     <height>381</height>
     </rect>
    </property>
   </widget>
@@ -172,6 +181,11 @@
    <class>ProcedureTable</class>
    <extends>QTableView</extends>
    <header>Procedures/proceduretable.h</header>
+  </customwidget>
+  <customwidget>
+   <class>GraphicsView</class>
+   <extends>QGraphicsView</extends>
+   <header>TeethView/graphicsview.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

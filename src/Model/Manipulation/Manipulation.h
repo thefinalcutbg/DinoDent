@@ -12,6 +12,7 @@ struct BridgeParam {
 
 struct ObtParam{
 	std::array<bool, 6>surfaces;
+	bool post;
 };
 
 struct Manipulation

@@ -13,6 +13,7 @@ ControlPanel::ControlPanel(QWidget *parent)
 	statusButtons[static_cast<int>(StatusCode::EndoTreatment)] = ui.EndoTreatment;
 	statusButtons[static_cast<int>(StatusCode::Fracture)] = ui.Fracture;
 	statusButtons[static_cast<int>(StatusCode::Extraction)] = ui.Extraction;
+	statusButtons[static_cast<int>(StatusCode::Post)] = ui.post;
 	statusButtons[static_cast<int>(StatusCode::Root)] = ui.Root;
 	statusButtons[static_cast<int>(StatusCode::Implant)] = ui.Implant;
 	statusButtons[static_cast<int>(StatusCode::Periodontitis)] = ui.Periodontitis;
@@ -21,6 +22,8 @@ ControlPanel::ControlPanel(QWidget *parent)
 	statusButtons[static_cast<int>(StatusCode::Mobility3)] = ui.Mobility3;
 	statusButtons[static_cast<int>(StatusCode::Crown)] = ui.Crown;
 	statusButtons[static_cast<int>(StatusCode::Bridge)] = ui.Bridge;
+	statusButtons[static_cast<int>(StatusCode::Dsn)] = ui.Dsn;
+	
 
 	for (int i = 0; i<statusButtons.size(); i++)
 	{

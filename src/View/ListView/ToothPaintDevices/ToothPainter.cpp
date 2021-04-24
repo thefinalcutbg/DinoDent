@@ -48,17 +48,26 @@ QPixmap ToothPainter::paintToothStatus()
 
     painter.drawPixmap(0, 0, std::move(toothPixmap()));
 
+    painter.drawPixmap(0, 0, std::move(endoPixmap()));
+
+    //DRAWING THE POST
+    if (tooth->post.exists())
+    {
+        
+        painter.drawPixmap(coords->postPos, textureFormat(coords->postCrop));
+        painter.drawPixmap(coords->postPos, textureFormat(coords->postCrop, QColor{ Qt::blue }, 0.1));
+    }
+
     painter.setOpacity(0.35);
     painter.drawPixmap(0, 0, std::move(surfacePixmap()));
     painter.setOpacity(1);
-
-    painter.drawPixmap(0, 0, std::move(endoPixmap()));
-
 
     //DRAWING THE CROWN
     if (tooth->crown.exists()) {
         painter.drawPixmap(coords->crownPos, textureFormat(coords->crownCrop));
     }
+
+
 
 
     return toothPx;
@@ -239,6 +248,7 @@ QPixmap ToothPainter::endoPixmap()
 
     return rootCanal;
 }
+
 
 QPixmap ToothPainter::perioPixmap()
 {

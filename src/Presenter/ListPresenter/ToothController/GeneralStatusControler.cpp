@@ -24,6 +24,7 @@ void GeneralStatusController::addStatus(int statusIndex)
         tooth->temporary.set(true);
         tooth->extraction.set(false);
         tooth->implant.set(false);
+        tooth->post.set(false);
         break;
 
     case int(StatusCode::Obturation):  //obturation
@@ -82,6 +83,7 @@ void GeneralStatusController::addStatus(int statusIndex)
         tooth->extraction.set(false);
         tooth->implant.set(false);
         tooth->endo.set(false);
+        tooth->post.set(false);
 
         break;
 
@@ -92,6 +94,17 @@ void GeneralStatusController::addStatus(int statusIndex)
         tooth->implant.set(false);
         tooth->pulpitis.set(false);
         break;
+
+        case int(StatusCode::Post) : //radicular post
+        {
+            tooth->post.set(true);
+            tooth->endo.set(true);
+            tooth->temporary.set(false);
+            tooth->extraction.set(false);
+            tooth->implant.set(false);
+            tooth->pulpitis.set(false);
+            break;
+        }
 
     case int(StatusCode::Extraction): //extraction
 
@@ -116,6 +129,7 @@ void GeneralStatusController::addStatus(int statusIndex)
         tooth->lesion.set(false);
         tooth->periodontitis.set(false);
         tooth->crown.set(false);
+        tooth->post.set(false);
 
 
         break;
@@ -141,6 +155,7 @@ void GeneralStatusController::addStatus(int statusIndex)
         tooth->endo.set(false);
         tooth->fracture.set(false);
         tooth->root.set(false);
+        tooth->post.set(false);
 
         break;
 
@@ -221,6 +236,10 @@ void GeneralStatusController::removeStatus(int statusIndex)
         break;
     case int(StatusCode::EndoTreatment):
         tooth->endo.set(false);
+        tooth->post.set(false);
+        break;
+    case int(StatusCode::Post) :
+        tooth->post.set(false);
         break;
     case int(StatusCode::ApicalLesion):
         tooth->lesion.set(false);

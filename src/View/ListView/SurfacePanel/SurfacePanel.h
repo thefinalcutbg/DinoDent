@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QWidget>
+#include <QOpenGLWidget>
 #include "ui_SurfacePanel.h"
 
 

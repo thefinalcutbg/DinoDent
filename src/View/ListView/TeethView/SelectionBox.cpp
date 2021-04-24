@@ -63,6 +63,7 @@ void SelectionBox::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
     this->update();
 }
 
+
 int SelectionBox::getIndex()
 {
     return this->index;

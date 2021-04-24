@@ -232,6 +232,8 @@ std::vector<ManipulationTemplate> getNZOK(int age, int doctor_code, bool unfav)
 		finalProduct.push_back(allManipulations[m]);
 	}
 
+	finalProduct[1].material = "Химиополимер";
+
 	return finalProduct;
 
 }

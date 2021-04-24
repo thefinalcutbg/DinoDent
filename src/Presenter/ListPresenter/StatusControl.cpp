@@ -44,7 +44,7 @@ void StatusControl::changeStatus(StatusAction templ)
 {
 	if (templ == StatusAction::Bridge && selectedTeeth.size() < 2) return;
 
-	if (int(templ) < 17)
+	if (int(templ) < 18)
 	{
 		changeAnyStatus(int(templ), checkModel.generalStatus, general_controller);
 		return;

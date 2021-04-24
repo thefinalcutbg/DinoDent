@@ -1,6 +1,7 @@
 #pragma once
 #include <QGraphicsItem>
 #include <QPainter>
+#include <QGraphicsSceneMouseEvent>
 
 class ToothGraphicsItem : public QGraphicsItem
 {
@@ -13,6 +14,8 @@ public:
 
     ToothGraphicsItem(int index);
     ~ToothGraphicsItem();
+
+
 
     void setToothGraphic(QPixmap* toothGraphic);
     QRectF boundingRect() const override;

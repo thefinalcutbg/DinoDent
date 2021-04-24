@@ -1,14 +1,15 @@
 #include "CheckModelCreator.h"
 
-std::array<bool, 17> CheckModelCreator::generalStatusBool(const Tooth& tooth)
+std::array<bool, 18> CheckModelCreator::generalStatusBool(const Tooth& tooth)
 {
-	return std::array<bool, 17>{
+	return std::array<bool, 18>{
 			tooth.temporary.exists(),
 			tooth.obturation,
 			tooth.caries,
 			tooth.pulpitis.exists(),
 			tooth.lesion.exists(),
 			tooth.endo.exists(),
+			tooth.post.exists(),
 			tooth.root.exists(),
 			tooth.fracture.exists(),
 			tooth.extraction.exists(),

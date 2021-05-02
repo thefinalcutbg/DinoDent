@@ -37,13 +37,15 @@ AmbListPage::AmbListPage(QWidget* parent) :
 
 			int vecPos = ui.tabBar->tabData(index).toInt();
 
-			//ui.scrollArea->tabChanged(vecPos); < does not work, due to changes in list length
 
-			ui.scrollArea->saveCurrentPosition();
-
+			ui.scrollArea->saveCurrentPosition(); 
+			
+			//ui.scrollArea->changePosition(vecPos);//bug with scrollbar
+			
 			presenter.tabChanged(vecPos);
 
-			ui.scrollArea->changePosition(vecPos);
+			ui.scrollArea->changePosition(vecPos); //bug with gl view;
+			
 			
 		});
 

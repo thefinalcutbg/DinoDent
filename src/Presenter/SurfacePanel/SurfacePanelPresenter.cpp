@@ -6,15 +6,15 @@ void SurfacePanelPresenter::setViewLabels(const Tooth* tooth)
 
 	for (int i = 0; i < 6; i++)
 	{
-		if (tooth->o_surf[i].exists() && tooth->c_surf[i].exists())
+		if (tooth->obturation.exists(i) && tooth->caries.exists(i))
 		{
 			unorderedStatus[i] = " (вторичен кариес)";
 		}
-		else if (tooth->o_surf[i].exists())
+		else if (tooth->obturation.exists(i))
 		{
 			unorderedStatus[i] = " (обтурация)";
 		}
-		else if (tooth->c_surf[i].exists())
+		else if (tooth->caries.exists(i))
 		{
 			unorderedStatus[i] = " (кариес)";
 		}
@@ -70,12 +70,11 @@ void SurfacePanelPresenter::setTooth(const Tooth* tooth)
 	auto surface = matrix.getSurface(currentIndex, ButtonPos::side);
 
 	view->setSideButtonsClicked(
-		tooth->o_surf[static_cast<int>(surface)].exists() && tooth->obturation,
-		tooth->c_surf[static_cast<int>(surface)].exists() && tooth->caries
+		tooth->obturation.exists(static_cast<int>(surface)),
+		tooth->caries.exists(static_cast<int>(surface))
 	);
 
 	setViewLabels(tooth);
-
 
 	view->showPanel(true);
 }

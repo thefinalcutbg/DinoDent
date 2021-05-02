@@ -7,6 +7,7 @@ class GraphicsView : public QGraphicsView
 {
 	Q_OBJECT
 
+	
 
 	void mousePressEvent(QMouseEvent* event) override;
 	//void scrollContentsBy(int, int) override {  };
@@ -28,6 +29,6 @@ class GraphicsView : public QGraphicsView
 
 public:
 	GraphicsView(QWidget *parent);
-	
+	QOpenGLWidget* gl;
 	~GraphicsView();
 };

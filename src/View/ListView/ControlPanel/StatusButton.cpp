@@ -3,6 +3,7 @@
 StatusButton::StatusButton(QWidget* parent) : QPushButton(parent), checkState(CheckState::unchecked)
 {
 	setCheckable(true);
+	setFocusPolicy(Qt::NoFocus);
 }
 
 void StatusButton::setCheckState(const CheckState& checkState)

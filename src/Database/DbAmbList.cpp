@@ -51,6 +51,8 @@ void DbAmbList::insertAmbList(AmbList& ambList, std::string &patientID)
 
     closeConnection();
 
+    db_manipulation.saveManipulations(ambList.id, ambList.manipulations);
+
 }
 
 void DbAmbList::updateAmbList(AmbList& ambList)
@@ -71,6 +73,8 @@ void DbAmbList::updateAmbList(AmbList& ambList)
     if (rc != SQLITE_OK) qDebug() << "Update error:";// << &db;
 
     closeConnection();
+
+    db_manipulation.saveManipulations(ambList.id, ambList.manipulations);
 }
 
 
@@ -111,6 +115,8 @@ AmbList* DbAmbList::getList(std::string patientID, int currentMonth, int current
     sqlite3_finalize(stmt);
 
     closeConnection();
+
+    ambList->manipulations = db_manipulation.getManipulations(ambList->id);
 
     return ambList;
 

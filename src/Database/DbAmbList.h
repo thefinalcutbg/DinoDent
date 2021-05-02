@@ -3,6 +3,7 @@
 #include "Model/AmbList.h"
 #include "Model/Date.h"
 #include "Model/Tooth/ToothParser.h"
+#include "DbManipulation.h"
 #include "AbstractORM.h"
 #include <QDebug>
 
@@ -15,6 +16,8 @@ class DbAmbList : public AbstractORM
 {
 
     ToothParser parser;
+
+    DbManipulation db_manipulation;
 
     std::string getOlderStatus(std::string patientID);
 

@@ -29,23 +29,8 @@ void GeneralStatusController::addStatus(int statusIndex)
 
     case int(StatusCode::Obturation):  //obturation
     {
-        bool noSurfaces = true;
-
-        for (int i = 0; i < tooth->o_surf.size(); i++) {
-
-            if (tooth->o_surf[i].exists()) {
-                noSurfaces = false; break;
-            }
-        }
-
-        if (noSurfaces && tooth_type == ToothType::Frontal) {
-
-            tooth->o_surf[static_cast<int>(Surface::Buccal)].set(true);
-        }
-        else if (noSurfaces) tooth->o_surf[static_cast<int>(Surface::Occlusal)].set(true);
-
-        tooth->obturation = true;
-        tooth->root.set(false); //it can't be radix, implant or extracted;
+        tooth->obturation.set(true);
+        tooth->root.set(false);
         tooth->implant.set(false);
         tooth->extraction.set(false);
     }
@@ -53,24 +38,8 @@ void GeneralStatusController::addStatus(int statusIndex)
 
     case int(StatusCode::Caries): //caries
     {
-        bool noSurfaces = true;
 
-        for (int i = 0; i < tooth->c_surf.size(); i++) {
-            if (tooth->c_surf[i].exists()) {
-                noSurfaces = false; break;
-            }
-        }
-
-
-        if (noSurfaces && tooth_type == ToothType::Frontal) {
-            tooth->c_surf[static_cast<int>(Surface::Buccal)].set(true);
-        }
-
-        else if (noSurfaces) {
-            tooth->c_surf[static_cast<int>(Surface::Occlusal)].set(true);
-        }
-
-        tooth->caries = true;
+        tooth->caries.set(true);
         tooth->implant.set(false);
         tooth->extraction.set(false);
         tooth->root.set(false);
@@ -95,16 +64,16 @@ void GeneralStatusController::addStatus(int statusIndex)
         tooth->pulpitis.set(false);
         break;
 
-        case int(StatusCode::Post) : //radicular post
-        {
-            tooth->post.set(true);
-            tooth->endo.set(true);
-            tooth->temporary.set(false);
-            tooth->extraction.set(false);
-            tooth->implant.set(false);
-            tooth->pulpitis.set(false);
-            break;
-        }
+    case int(StatusCode::Post) : //radicular post
+
+        tooth->post.set(true);
+        tooth->endo.set(true);
+        tooth->temporary.set(false);
+        tooth->extraction.set(false);
+        tooth->implant.set(false);
+        tooth->pulpitis.set(false);
+        break;
+
 
     case int(StatusCode::Extraction): //extraction
 
@@ -119,8 +88,8 @@ void GeneralStatusController::addStatus(int statusIndex)
         }
 
         tooth->extraction.set(true);
-        tooth->obturation = false;
-        tooth->caries = false;
+        tooth->obturation.set(false);
+        tooth->caries.set(false);
         tooth->implant.set(false);
         tooth->pulpitis.set(false);
         tooth->endo.set(false);
@@ -130,15 +99,13 @@ void GeneralStatusController::addStatus(int statusIndex)
         tooth->periodontitis.set(false);
         tooth->crown.set(false);
         tooth->post.set(false);
-
-
         break;
 
     case int(StatusCode::Root): //root
 
         tooth->root.set(true);
-        tooth->caries = false;
-        tooth->obturation = false;
+        tooth->caries.set(false);
+        tooth->obturation.set(false);
         tooth->crown.set(false);
         tooth->extraction.set(false);
         tooth->implant.set(false);
@@ -148,8 +115,8 @@ void GeneralStatusController::addStatus(int statusIndex)
 
         tooth->implant.set(true);
         tooth->extraction.set(false);
-        tooth->obturation = false;
-        tooth->caries = false;
+        tooth->obturation.set(false);
+        tooth->caries.set(false);
         tooth->hyperdontic.set(false);
         tooth->pulpitis.set(false);
         tooth->endo.set(false);
@@ -226,10 +193,10 @@ void GeneralStatusController::removeStatus(int statusIndex)
         tooth->temporary.set(false);
         break;
     case int(StatusCode::Obturation):
-        tooth->obturation = false;
+        tooth->obturation.set(false);
         break;
     case int(StatusCode::Caries):
-        tooth->caries = false;
+        tooth->caries.set(false);
         break;
     case int(StatusCode::Pulpitis):
         tooth->pulpitis.set(false);

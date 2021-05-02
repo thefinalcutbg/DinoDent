@@ -192,6 +192,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Database\DbManipulation.cpp" />
+    <ClCompile Include="src\Model\Manipulation\ManipulationParser.cpp" />
     <ClCompile Include="src\View\ListView\TeethView\GraphicsView.cpp" />
     <ClCompile Include="src\View\uiComponents\qt_derived\SpinBox.cpp" />
     <ClCompile Include="src\Model\Manipulation\getManipulationTamplates.cpp" />
@@ -279,6 +281,7 @@
     <ClCompile Include="src\View\uiComponents\qt_derived\TextEdit.cpp" />
     <ClCompile Include="src\View\ProcedureDialog\Widgets\SurfaceSelector.cpp" />
     <ClCompile Include="src\Model\Tooth\ToothParserB.cpp" />
+    <ClCompile Include="src\View\ListView\ToothPaintDevices\ToothPaintConverter.cpp" />
     <QtRcc Include="src\View\Torque.qrc" />
     <QtUic Include="src\View\ProcedureDialog\Widgets\RangeWidget.ui" />
     <QtUic Include="src\View\ProcedureDialog\ProcedureDialog.ui" />
@@ -342,8 +345,11 @@
     <QtMoc Include="src\View\AmbListPage\AmbListPage.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\View\ListView\ToothPaintDevices\ToothPaintConverter.h" />
     <QtMoc Include="src\View\ListView\TeethView\GraphicsView.h" />
-    <ClInclude Include="src\Model\Tooth\Surfaces.h" />
+    <ClInclude Include="src\Database\DbManipulation.h" />
+    <ClInclude Include="src\Model\Manipulation\ManipulationParser.h" />
+    <ClInclude Include="src\Model\Tooth\SurfStatus.h" />
     <QtMoc Include="src\View\ListView\Procedures\ProcedureTable.h" />
     <QtMoc Include="src\View\ListView\Procedures\ProcedureTableModel.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\SpinBox.h" />
@@ -357,6 +363,7 @@
     <ClInclude Include="src\Model\Manipulation\ManipulationGenerator.h" />
     <ClInclude Include="src\Model\Manipulation\ManipulationFactory.h" />
     <ClInclude Include="src\View\ListView\Procedures\RowData.h" />
+    <ClInclude Include="src\View\ListView\ToothPaintDevices\ToothPaintHint.h" />
     <ClInclude Include="src\View\uiComponents\AbstractSpinBox.h" />
     <ClInclude Include="src\View\uiComponents\AbstractSurfaceSelector.h" />
     <ClInclude Include="src\View\uiComponents\AbstractRangeEdit.h" />

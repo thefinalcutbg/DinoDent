@@ -106,10 +106,12 @@ void ListView::refresh(AmbList& ambList, Patient& patient, std::vector<int>& sel
 	{
 		teethViewScene->display(ambList.teeth[i]);
 	}
-
+	
 	teethViewScene->blockSignals(1);
 	teethViewScene->setSelectedTeeth(selectedIndexes);
 	teethViewScene->blockSignals(0);
+	//ui.teethView->setFocus();
+	ui.teethView->update(); //the only way to update qgraphicsview without most of the bugs
 }
 
 void ListView::setCheckModel(const CheckModel& checkModel)

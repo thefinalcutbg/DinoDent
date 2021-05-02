@@ -73,7 +73,7 @@ std::string ToothParser::write(const std::array<Tooth, 32>& teeth)
 					status["Periodontitis"].append(parameters);
 				}
 
-				if (tooth.obturation)
+				if (tooth.obturation.exists())
 				{
 					if (!status.isMember("Obturation"))
 					{
@@ -81,9 +81,9 @@ std::string ToothParser::write(const std::array<Tooth, 32>& teeth)
 					}
 					for (int y = 0; y < 6; y++)
 					{
-						if (tooth.o_surf[y].exists()) {
+						if (tooth.obturation.exists(y)) {
 
-							auto parameters = writeDentistMade(i, tooth.o_surf[y]);
+							auto parameters = writeDentistMade(i, tooth.obturation[y]);
 							parameters["Surface"] = y;
 							status["Obturation"].append(parameters);
 						}
@@ -91,7 +91,7 @@ std::string ToothParser::write(const std::array<Tooth, 32>& teeth)
 				}
 
 
-				if (tooth.caries)
+				if (tooth.caries.exists())
 				{
 					if (!status.isMember("Caries"))
 					{
@@ -99,9 +99,9 @@ std::string ToothParser::write(const std::array<Tooth, 32>& teeth)
 					}
 					for (int y = 0; y < 6; y++)
 					{
-						if (tooth.c_surf[y].exists()) {
+						if (tooth.caries.exists(y)) {
 
-							auto parameters = writePathology(i, tooth.c_surf[y]);
+							auto parameters = writePathology(i, tooth.caries[y]);
 							parameters["Surface"] = y;
 							status["Caries"].append(parameters);
 						}
@@ -263,11 +263,10 @@ void ToothParser::parse(const std::string& jsonString, std::array<Tooth, 32>& te
 	for (int i = 0; i < obturation.size(); i++)
 	{
 		Tooth& tooth = teeth[obturation[i]["idx"].asInt()];
-		tooth.obturation = true;
-		DentistMade& obtur = tooth.o_surf[obturation[i]["Surface"].asInt()];
-		obtur.set(true);
-		obtur.LPK = obturation[i]["LPK"].asString();
-		obtur.material = obturation[i]["material"].asString();
+		int surface = obturation[i]["Surface"].asInt();
+		tooth.obturation.set(true, surface);
+		tooth.obturation[surface].LPK = obturation[i]["LPK"].asString();
+		tooth.obturation[surface].material = obturation[i]["material"].asString();
 	}
 
 	const Json::Value& car = status["Caries"];
@@ -275,11 +274,10 @@ void ToothParser::parse(const std::string& jsonString, std::array<Tooth, 32>& te
 	for (int i = 0; i < car.size(); i++)
 	{
 		Tooth& tooth = teeth[car[i]["idx"].asInt()];
-		tooth.caries = true;
-		Pathology& caries = tooth.c_surf[car[i]["Surface"].asInt()];
-		caries.set(true);
-		caries.diagnosis = car[i]["diagnosis"].asString();
-		caries.date_diagnosed = car[i]["date"].asString();
+		int surface = car[i]["Surface"].asInt();
+		tooth.caries.set(true, surface);
+		tooth.caries[surface].diagnosis = car[i]["diagnosis"].asString();
+		tooth.caries[surface].date_diagnosed = car[i]["date"].asString();
 	}
 
 	const Json::Value& pulpitis = status["Pulpitis"];

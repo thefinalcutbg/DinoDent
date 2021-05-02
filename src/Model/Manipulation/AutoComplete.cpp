@@ -54,17 +54,13 @@ std::array<bool, 6> AutoComplete::getSurfaces(const Tooth& tooth)
 {
 	std::array<bool, 6> surfaces{ 0,0,0,0,0,0 };
 
-	if (tooth.caries)
+
+	for (int i = 0; i < 6; i++)
 	{
-		for (int i = 0; i < 6; i++)
-		{
-			if (tooth.c_surf[i].exists())
-			{
-				surfaces[i] = true;
-			}
-		}
+		surfaces[i] = tooth.caries.exists(i);
 	}
-	else if (tooth.root.exists())
+
+	if (tooth.root.exists())
 	{
 		surfaces = { 1, 1, 1, 1, 1, 1 };
 	}
@@ -86,14 +82,11 @@ std::array<bool, 6> AutoComplete::getSurfaces(const Tooth& tooth)
 		}
 		else surfaces[static_cast<int>(Surface::Lingual)] = true;
 	}
-	else if (tooth.obturation)
+	else if (tooth.obturation.exists())
 	{
 		for (int i = 0; i < 6; i++)
 		{
-			if (tooth.o_surf[i].exists())
-			{
-				surfaces[i] = true;
-			}
+				surfaces[i] = tooth.obturation.exists(i);
 		}
 	}
 
@@ -142,37 +135,31 @@ std::string AutoComplete::getObturDiag(const Tooth& tooth)
 	bool secondaryCaries = 0;
 	std::string cariesDiagnosis;
 
-	if (tooth.caries)
+
+	for (int i = 0; i < 6; i++)		//checking if somewhere obturation is present also, returning secondary caries
 	{
-		for (int i = 0; i < 6; i++)		//checking if somewhere obturation is present also, returning secondary caries
+		if (tooth.caries.exists(i) && tooth.obturation.exists(i))
 		{
-			auto& c = tooth.c_surf[i];
-			auto& o = tooth.o_surf[i];
-			if (c.exists() && o.exists())
-			{
-				secondaryCaries = true;
-			}
-		}
-
-		for (int i = 0; i < 6; i++)		//getting the diagnosis of the first caries found
-		{
-			auto& c = tooth.c_surf[i];
-
-			if (c.exists()) {
-				cariesDiagnosis = c.getDiagnosis();
-			}
+			secondaryCaries = 0;
 		}
 	}
+
+	for (int i = 0; i < 6; i++)		//getting the diagnosis of the first caries found
+		{
+			if (tooth.caries.exists()) {
+				cariesDiagnosis = tooth.caries[i].getDiagnosis();
+			}
+		}
 
 	std::array<bool, 7> existing
 	{
 			secondaryCaries,
-			tooth.caries,
+			tooth.caries.exists(),
 			tooth.endo.exists(),
 			tooth.pulpitis.exists() && tooth.lesion.exists(),
 			tooth.fracture.exists(),
 			tooth.root.exists(),
-			tooth.obturation
+			tooth.obturation.exists()
 	};
 
 	std::array<std::string, 7> diagnosis
@@ -231,7 +218,7 @@ std::string AutoComplete::getCrownDiag(const Tooth& tooth)
 	{
 		tooth.endo.exists(),
 		tooth.fracture.exists(),
-		tooth.obturation,
+		tooth.obturation.exists(),
 		tooth.implant.exists()
 	};
 

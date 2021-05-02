@@ -1,8 +1,9 @@
 ﻿#pragma once
 
-#include "Surfaces.h"
+#include "SurfStatus.h"
 #include <string>
 #include <array>
+
 
 class Tooth
 {
@@ -19,20 +20,13 @@ public:
 
 	int index;
 
-	bool obturation;
-	bool caries;
-
-	std::array <DentistMade, 6> o_surf;
-	std::array <Pathology, 6> c_surf;
-
-	SurfaceTemplate<DentistMade> obtur;
-	SurfaceTemplate<Pathology> car;
+	SurfaceStatus<SurfaceChild<DentistMade> > obturation;
+	SurfaceStatus<SurfaceChild<Pathology> > caries;
 
 	Status temporary;
 	Status hyperdontic;
 	Status periodontitis;
 	Mobility mobility;
-
 
 	DentistMade endo;
 	DentistMade implant;

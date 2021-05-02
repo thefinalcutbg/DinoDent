@@ -279,15 +279,15 @@ QPixmap ToothPainter::surfacePixmap()
     QPainter surfPainter(&surface);
 
     for (int i = 0; i < 6; i++) //painting obturations
-        if (tooth->obturation && tooth->o_surf[i].exists())
+        if (tooth->obturation.exists(i))
             surfPainter.drawPixmap(coords->surfPos[i], textureFormat(coords->surfCrop[i], Qt::blue, 1));
 
     for (int i = 0; i < 6; i++) //painting caries
-        if (tooth->caries && tooth->c_surf[i].exists())
+        if (tooth->caries.exists(i))
             surfPainter.drawPixmap(coords->surfPos[i], textureFormat(coords->surfCrop[i], Qt::red, 1));
 
     for (int i = 0; i < 6; i++) //painting secondary caries
-        if (tooth->obturation && tooth->caries && tooth->o_surf[i].exists() && tooth->c_surf[i].exists())
+        if (tooth->obturation.exists(i) && tooth->caries.exists(i))
             surfPainter.drawPixmap(coords->surfPos[i], textureFormat(coords->surfCrop[i]));
 
     return surface;

@@ -2,10 +2,11 @@
 
 std::array<bool, 18> CheckModelCreator::generalStatusBool(const Tooth& tooth)
 {
+	
 	return std::array<bool, 18>{
 			tooth.temporary.exists(),
-			tooth.obturation,
-			tooth.caries,
+			tooth.obturation.exists(),
+			tooth.caries.exists(),
 			tooth.pulpitis.exists(),
 			tooth.lesion.exists(),
 			tooth.endo.exists(),
@@ -26,33 +27,26 @@ std::array<bool, 18> CheckModelCreator::generalStatusBool(const Tooth& tooth)
 
 std::array<bool, 6> CheckModelCreator::obturationStatusBool(const Tooth& tooth)
 {
-	if (!tooth.obturation) {
-		return std::array<bool, 6>{0,0,0,0,0,0};
-	}
 
 	return std::array<bool, 6> {
-			tooth.o_surf[0].exists(),
-			tooth.o_surf[1].exists(),
-			tooth.o_surf[2].exists(),
-			tooth.o_surf[3].exists(),
-			tooth.o_surf[4].exists(),
-			tooth.o_surf[5].exists()
+			tooth.obturation.exists(0),
+			tooth.obturation.exists(1),
+			tooth.obturation.exists(2),
+			tooth.obturation.exists(3),
+			tooth.obturation.exists(4),
+			tooth.obturation.exists(5)
 	};
 }
 
 std::array<bool, 6> CheckModelCreator::cariesStatusBool(const Tooth& tooth)
 {
-	if (!tooth.caries) {
-		return std::array<bool, 6>{0,0,0,0,0,0};
-	}
-
 	return std::array<bool, 6> {
-			tooth.c_surf[0].exists(),
-			tooth.c_surf[1].exists(),
-			tooth.c_surf[2].exists(),
-			tooth.c_surf[3].exists(),
-			tooth.c_surf[4].exists(),
-			tooth.c_surf[5].exists()
+			tooth.caries.exists(0),
+			tooth.caries.exists(1),
+			tooth.caries.exists(2),
+			tooth.caries.exists(3),
+			tooth.caries.exists(4),
+			tooth.caries.exists(5)
 	};
 }
 

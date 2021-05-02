@@ -8,10 +8,15 @@
 
 #include <QDebug>
 
+enum class SurfaceClick {add, remove};
+enum class SurfaceState {none, obturation, caries, secondary};
+
 class SurfacePanelPresenter
 {
 	ISurfacePanel* view;
 	IStatusControl* statusControl;
+
+	std::array <SurfaceState, 5> surfaceState;
 
 	int currentIndex;
 	ButtonSurfaceMatrix matrix;

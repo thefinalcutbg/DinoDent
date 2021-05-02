@@ -229,7 +229,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Местожителство:</string>
+    <string>Населено място:</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_8">

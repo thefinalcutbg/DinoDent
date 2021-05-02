@@ -6,11 +6,14 @@ GraphicsView::GraphicsView(QWidget *parent)
 {
 	setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
 
-	QOpenGLWidget* gl = new QOpenGLWidget();
+	gl = new QOpenGLWidget();
 	QSurfaceFormat format;
 
-	format.setSamples(16);
+	format.setSamples(4);
+
 	gl->setFormat(format);
+//	gl->setUpdateBehavior(QOpenGLWidget::NoPartialUpdate);
+	setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
 	setViewport(gl);
 
 	setDragMode(QGraphicsView::RubberBandDrag);
@@ -19,7 +22,9 @@ GraphicsView::GraphicsView(QWidget *parent)
 void GraphicsView::mousePressEvent(QMouseEvent* event)
 {
 	QGraphicsView::mousePressEvent(event);
-	QGraphicsView::mousePressEvent(event);
+
+	if(event->button() == Qt::LeftButton)
+		QGraphicsView::mousePressEvent(event);
 }
 
 GraphicsView::~GraphicsView()

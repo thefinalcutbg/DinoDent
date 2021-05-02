@@ -92,4 +92,3 @@ struct Mobility : public Status
 	Mobility() : degree(Degree::First) {}
 	Degree degree;
 };
-

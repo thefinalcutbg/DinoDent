@@ -255,6 +255,15 @@
     <ClCompile Include="src\View\ListView\TeethView\GraphicsView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Model\Manipulation\ManipulationParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Database\DbManipulation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\ListView\ToothPaintDevices\ToothPaintConverter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -605,7 +614,19 @@
     <ClInclude Include="src\View\uiComponents\AbstractSpinBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model\Tooth\Surfaces.h">
+    <ClInclude Include="src\Model\Tooth\SurfStatus.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\Manipulation\ManipulationParser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Database\DbManipulation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\View\ListView\ToothPaintDevices\ToothPaintHint.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\View\ListView\ToothPaintDevices\ToothPaintConverter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

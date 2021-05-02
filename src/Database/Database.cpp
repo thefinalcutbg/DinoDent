@@ -3,6 +3,8 @@
 
 Database::Database() : db(NULL), err(NULL), stmt(NULL)
 {
+
+
 	sqlite3_open("DATATEST.db", &db);
     rc = sqlite3_exec(
         db,
@@ -15,12 +17,12 @@ Database::Database() : db(NULL), err(NULL), stmt(NULL)
         "mname              VARCHAR(50),"
         "lname              VARCHAR(50)     NOT NULL,"
         "city               VARCHAR(100)    NOT NULL,"
-        "address            VARCHAR(100),"
+        "address            VARCHAR(100),"  //json?
         "hirbno             VARCHAR(8),"
         "phone              VARCHAR(20),"
-        "allergies          VARCHAR(400),"
-        "currentDiseases    VARCHAR(400),"
-        "pastDiseases       VARCHAR(400)"
+        "allergies          VARCHAR(400),"  //json
+        "currentDiseases    VARCHAR(400),"  //json
+        "pastDiseases       VARCHAR(400)"   //json
         ");"
 
         "CREATE TABLE IF NOT EXISTS amblist("
@@ -32,14 +34,41 @@ Database::Database() : db(NULL), err(NULL), stmt(NULL)
         "patient_id      VARCHAR(10)     NOT NULL,"
         "lpk             VARCHAR(9)      NOT NULL,"
         "status_json     VARCHAR," 
-        "FOREIGN KEY    (patient_id) REFERENCES patient(id)"
+        "FOREIGN KEY    (patient_id) REFERENCES patient(id) ON DELETE CASCADE ON UPDATE CASCADE"
+        ");"
+        , NULL, NULL, &err);
+
+    rc = sqlite3_exec(
+        db,
+        "CREATE TABLE IF NOT EXISTS manipulations("
+        "id              INTEGER         NOT NULL PRIMARY KEY,"
+        "seq             INT             NOT NULL,"  //the sequence of the manipulation(if dates are the same)   ?
+        "type            INT             NOT NULL," //required for json parser and statistics
+        "day             INT             NOT NULL,"
+        "tooth           INT             NOT NULL,"
+        "price           REAL            NOT NULL,"
+        "data            VARCHAR         NOT NULL," //json data depending on type
+        "amblist_id      INT             NOT NULL,"
+        "FOREIGN KEY    (amblist_id)     REFERENCES amblist(id) ON DELETE CASCADE ON UPDATE CASCADE"
         ");"
 
+        "CREATE TABLE IF NOT EXISTS nzok("
+        "id              INTEGER         NOT NULL    PRIMARY KEY,"
+        "seq             INT             NOT NULL,"
+        "day             INT             NOT NULL,"
+        "tooth           INT             NOT NULL,"
+        "code            INT             NOT NULL,"
+        //    "price           REAL            NOT NULL," //hardcoded? 
+      //      "nzok_price      REAL            NOT NULL," //hardcoded?
+        "data            VARCHAR         NOT NULL," //json data depending on type
+        "amblist_id      INT             NOT NULL,"
+        "FOREIGN KEY    (amblist_id)     REFERENCES amblist(id) ON DELETE CASCADE ON UPDATE CASCADE"
+        ");"
         , NULL, NULL, &err);
     
     if (rc != SQLITE_OK)
     {
-        std::cout << "Error opening DB:" << sqlite3_errmsg(db);
+        qDebug() << "Error opening DB:" << QString::fromStdString(sqlite3_errmsg(db));
         sqlite3_close(db);
     }
 

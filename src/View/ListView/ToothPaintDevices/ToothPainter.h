@@ -54,6 +54,5 @@ public:
 	
 	virtual QPixmap* getPixmap(const Tooth& tooth);
 	virtual  ~ToothPainter();
-	
 };
 

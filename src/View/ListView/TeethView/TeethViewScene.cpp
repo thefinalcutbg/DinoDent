@@ -3,6 +3,7 @@
 TeethViewScene::TeethViewScene(ListPresenter* presenter, QObject *parent)
 	: presenter(presenter), QGraphicsScene(parent), contextMenu(NULL)
 {
+
     //background color:
     {
         QPixmap white(730, 456);
@@ -11,7 +12,6 @@ TeethViewScene::TeethViewScene(ListPresenter* presenter, QObject *parent)
         addItem(background);
         background->setPos(-24, -3);
     }
-
 
 
 	bool molar;

@@ -37,7 +37,8 @@ SurfacePanel::~SurfacePanel()
 
 void SurfacePanel::paintTooth(const Tooth* tooth)
 {
-	toothGraphic->setPixmap(painter.getPixmap(*tooth));
+	
+	toothGraphic->setPixmap(painter.paintTooth(hint_creator.getToothHint(*tooth)));
 }
 
 

@@ -203,7 +203,14 @@ void TeethViewScene::keyPressEvent(QKeyEvent* event)
 
 void TeethViewScene::display(Tooth tooth)
 {
-	toothGraphic[tooth.index]->setToothGraphic(toothPainter.getPixmap(tooth));
+	//toothGraphic[tooth.index]->setToothGraphic(toothPainter.getPixmap(tooth));
+    toothGraphic[tooth.index]->setToothGraphic
+    (
+        toothPainter2.paintTooth
+        (
+            hint_creator.getToothHint(tooth)
+        )
+    );
 }
 
 void TeethViewScene::display(std::array<BridgeAppearance, 32> bridges)

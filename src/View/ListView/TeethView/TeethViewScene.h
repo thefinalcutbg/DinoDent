@@ -9,6 +9,9 @@
 #include "../ToothPaintDevices/BridgePainter.h"
 #include "Presenter/ListPresenter/ListPresenter.h"
 
+#include "../ToothPaintDevices/ToothPainter2.h"
+#include "Presenter/ListPresenter/ToothHintCreator.h"
+
 #include "ToothGraphicsItem.h"
 #include "SelectionBox.h"
 #include "BridgeItem.h"
@@ -26,6 +29,9 @@ class TeethViewScene : public QGraphicsScene
 
 	BridgePainter bridgePainter;
 	ToothPainter toothPainter;
+
+	ToothPainter2 toothPainter2;
+	ToothHintCreator hint_creator;
 
 	ListPresenter* presenter;
 

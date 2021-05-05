@@ -33,5 +33,6 @@ public:
 	QPixmap* getCommonTexture();
 	QPixmap* getUpperBridge();
 	QPixmap* getLowerBridge();
+	QPixmap getRawBridge(int tooth_idx);
 };
 

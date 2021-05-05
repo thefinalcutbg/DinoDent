@@ -281,7 +281,8 @@
     <ClCompile Include="src\View\uiComponents\qt_derived\TextEdit.cpp" />
     <ClCompile Include="src\View\ProcedureDialog\Widgets\SurfaceSelector.cpp" />
     <ClCompile Include="src\Model\Tooth\ToothParserB.cpp" />
-    <ClCompile Include="src\View\ListView\ToothPaintDevices\ToothPaintConverter.cpp" />
+    <ClCompile Include="src\View\ListView\ToothPaintDevices\ToothPainter2.cpp" />
+    <ClCompile Include="src\Presenter\ListPresenter\ToothHintCreator.cpp" />
     <QtRcc Include="src\View\Torque.qrc" />
     <QtUic Include="src\View\ProcedureDialog\Widgets\RangeWidget.ui" />
     <QtUic Include="src\View\ProcedureDialog\ProcedureDialog.ui" />
@@ -345,7 +346,8 @@
     <QtMoc Include="src\View\AmbListPage\AmbListPage.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\View\ListView\ToothPaintDevices\ToothPaintConverter.h" />
+    <ClInclude Include="src\View\ListView\ToothPaintDevices\ToothPainter2.h" />
+    <ClInclude Include="src\Presenter\ListPresenter\ToothHintCreator.h" />
     <QtMoc Include="src\View\ListView\TeethView\GraphicsView.h" />
     <ClInclude Include="src\Database\DbManipulation.h" />
     <ClInclude Include="src\Model\Manipulation\ManipulationParser.h" />
@@ -363,7 +365,7 @@
     <ClInclude Include="src\Model\Manipulation\ManipulationGenerator.h" />
     <ClInclude Include="src\Model\Manipulation\ManipulationFactory.h" />
     <ClInclude Include="src\View\ListView\Procedures\RowData.h" />
-    <ClInclude Include="src\View\ListView\ToothPaintDevices\ToothPaintHint.h" />
+    <ClInclude Include="src\View\ListView\ToothPaintDevices\PaintHint.h" />
     <ClInclude Include="src\View\uiComponents\AbstractSpinBox.h" />
     <ClInclude Include="src\View\uiComponents\AbstractSurfaceSelector.h" />
     <ClInclude Include="src\View\uiComponents\AbstractRangeEdit.h" />

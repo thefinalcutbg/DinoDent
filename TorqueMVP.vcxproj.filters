@@ -261,7 +261,10 @@
     <ClCompile Include="src\Database\DbManipulation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\ListView\ToothPaintDevices\ToothPaintConverter.cpp">
+    <ClCompile Include="src\View\ListView\ToothPaintDevices\ToothPainter2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Presenter\ListPresenter\ToothHintCreator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -623,10 +626,13 @@
     <ClInclude Include="src\Database\DbManipulation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\View\ListView\ToothPaintDevices\ToothPaintHint.h">
+    <ClInclude Include="src\View\ListView\ToothPaintDevices\PaintHint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\View\ListView\ToothPaintDevices\ToothPaintConverter.h">
+    <ClInclude Include="src\View\ListView\ToothPaintDevices\ToothPainter2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Presenter\ListPresenter\ToothHintCreator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

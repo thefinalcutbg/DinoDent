@@ -6,7 +6,7 @@
 #include "SpriteRect.h"
 #include "SpriteSheets.h"
 #include "Model/Tooth/ToothUtils.h"
-
+#include "PaintHint.h"
 
 
 class ToothPainter
@@ -51,7 +51,8 @@ protected:
 	
 public:
 	ToothPainter();
-	
+
+
 	virtual QPixmap* getPixmap(const Tooth& tooth);
 	virtual  ~ToothPainter();
 };

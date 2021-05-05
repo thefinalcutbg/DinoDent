@@ -83,7 +83,8 @@ void SpritesheetCoords::premolar()
 	crownPos = QPoint(0, 210);
 	postPos = QPoint(0, 100);
 	CPcrop.setCoords(12, 360, 106, 476);
-	
+
+
 }
 
 void SpritesheetCoords::frontal()
@@ -115,7 +116,8 @@ void SpritesheetCoords::frontal()
 
 	crownPos = QPoint(0, 210);
 	postPos = QPoint(0, 100);
+
 	CPcrop.setCoords(-10, 210, 120, 355);
-	
+
 }
 

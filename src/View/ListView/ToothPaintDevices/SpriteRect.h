@@ -29,6 +29,7 @@ struct SpritesheetCoords
     QPoint postPos;
     QPoint surfPos[6];  //positions for painting of the surfaces on the canavas
 
+
 private:
     void molar();
     void premolar();

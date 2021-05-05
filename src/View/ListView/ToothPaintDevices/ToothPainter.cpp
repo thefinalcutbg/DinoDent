@@ -30,6 +30,7 @@ ToothPainter::ToothPainter() :
 
 }
 
+
 QPixmap ToothPainter::paintToothStatus()
 {
     QPoint point(0, 0);
@@ -363,3 +364,13 @@ ToothPainter::~ToothPainter()
 
 
 }
+
+
+
+
+
+
+
+
+
+

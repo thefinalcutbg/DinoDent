@@ -104,3 +104,28 @@ QPixmap* SpriteSheets::getLowerBridge()
 {
     return bridgeL;
 }
+
+QPixmap SpriteSheets::getRawBridge(int tooth_idx)
+{
+    QPixmap* currentPixmap;
+
+    tooth_idx < 16 ? currentPixmap = bridgeU : currentPixmap = bridgeL;
+
+    if (tooth_idx >= 16) tooth_idx = tooth_idx % 16;
+
+    if (tooth_idx > 7) tooth_idx = 15 - tooth_idx;
+ 
+    int height = 300;
+    int width_begin = 0;
+
+    for (int i = 0; i < tooth_idx; i++)
+    {
+        i < 3 ? width_begin = width_begin + 180 : width_begin = width_begin + 120;
+    }
+
+    int width_end = tooth_idx < 3 ? width_begin + 180 : width_begin + 120;
+
+    return QPixmap(currentPixmap->copy(width_begin, 0, width_end, 300));
+
+
+}

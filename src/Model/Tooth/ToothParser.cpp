@@ -14,9 +14,17 @@ Json::Value ToothParser::writeDentistMade(int index, const DentistMade& procedur
 {
 	Json::Value parameters;
 	parameters["LPK"] = procedure.LPK;
-	parameters["material"] = procedure.material;
 	parameters["idx"] = index;
 	return parameters; 
+}
+
+Json::Value ToothParser::writeMaterial(int index, const Material& procedure)
+{
+	Json::Value parameters;
+	parameters["LPK"] = procedure.LPK;
+	parameters["material"] = procedure.material;
+	parameters["idx"] = index;
+	return parameters;
 }
 
 std::string ToothParser::write(const std::array<Tooth, 32>& teeth)

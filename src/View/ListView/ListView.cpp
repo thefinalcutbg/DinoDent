@@ -92,7 +92,7 @@ ListPresenter* ListView::Presenter()
 	return &this->presenter;
 }
 
-void ListView::refresh(AmbList& ambList, Patient& patient, std::vector<int>& selectedIndexes)
+void ListView::refresh(AmbList& ambList, Patient& patient,const std::array<PaintHint, 32>& teeth, std::vector<int>& selectedIndexes)
 {
 	//remember to block the signals!
 	ui.patientTile->setPatient(patient);
@@ -104,7 +104,7 @@ void ListView::refresh(AmbList& ambList, Patient& patient, std::vector<int>& sel
 
 	for (int i = 0; i < 32; i++)
 	{
-		teethViewScene->display(ambList.teeth[i]);
+		teethViewScene->display(teeth[i]);
 	}
 	
 	teethViewScene->blockSignals(1);
@@ -120,13 +120,13 @@ void ListView::setCheckModel(const CheckModel& checkModel)
 	contextMenu->setModel(checkModel);
 }
 
-void ListView::repaintTooth(const Tooth& tooth)
+void ListView::repaintTooth(const PaintHint& tooth)
 {
 	teethViewScene->display(tooth);
 	ui.teethView->setFocus();
 }
 
-void ListView::repaintBridges(const std::array<BridgeAppearance, 32> bridges)
+void ListView::repaintBridges(const std::array<BridgeAppearenceTuple, 32>& bridges)
 {
 	teethViewScene->display(bridges);
 }

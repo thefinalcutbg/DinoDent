@@ -4,15 +4,32 @@
 #include <variant>
 #include "Model/Date.h"
 #include "ManipulationTemplate.h"
+#include "Model/Tooth/Vita.h"
 
-struct BridgeParam {
+
+struct BridgeData {
+
 	int tooth_begin;
 	int tooth_end;
+
+	std::string material;
+
+	Vita color;
 };
 
-struct ObtParam{
+struct CrownData {
+
+	std::string material;
+	
+	Vita color;
+};
+
+struct ObtData{
+
 	std::array<bool, 6>surfaces;
 	bool post;
+	int color;
+	std::string material;
 };
 
 struct Manipulation
@@ -46,7 +63,7 @@ struct Manipulation
 	//status change parameters:
 	ManipulationType type;
 	std::string material; //<-should go in the respective parameters
-	std::variant<ObtParam, BridgeParam> result;
+	std::variant<ObtData, CrownData, BridgeData> result;
 
 	//NZOK specific:
 	bool nzok;

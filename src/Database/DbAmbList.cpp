@@ -45,7 +45,7 @@ void DbAmbList::insertAmbList(AmbList& ambList, std::string &patientID)
 
     rc = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
 
-    ambList.id = (int)sqlite3_last_insert_rowid(db);
+    ambList.id = std::to_string((int)sqlite3_last_insert_rowid(db));
 
     if (rc != SQLITE_OK) std::cout << "Insert error:" << &db;
 

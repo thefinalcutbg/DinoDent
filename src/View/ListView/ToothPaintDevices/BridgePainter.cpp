@@ -6,17 +6,25 @@ BridgePainter::BridgePainter()
 {
 }
 
-QPixmap* BridgePainter::paintHalf(std::array<BridgeAppearance, 16> bridgeHalf, bool lower)
+QPixmap BridgePainter::getOverlay(const QPixmap& source)
+{
+	auto overlay = source;
+	QPainter painter(&overlay);
+	painter.setOpacity(0.3);
+	painter.setCompositionMode(QPainter::CompositionMode_SourceIn);
+	painter.fillRect(source.rect(), Qt::green);
+	painter.end();
+	return overlay;
+}
+
+QPixmap* BridgePainter::paintHalf(std::array<BridgeAppearenceTuple, 16> bridgeHalf, bool lower)
 {
 	QPixmap* currentTexture;
 
-	if (lower) {
-
-		currentTexture = SpriteSheets::container().getLowerBridge();
-	}
-	else {
-		currentTexture = SpriteSheets::container().getUpperBridge();
-	}
+	lower ?
+	currentTexture = SpriteSheets::container().getLowerBridge()
+	:
+	currentTexture = SpriteSheets::container().getUpperBridge();
 
 	QPixmap bridge(2280, 140);
 	bridge.fill(Qt::transparent);
@@ -24,7 +32,7 @@ QPixmap* BridgePainter::paintHalf(std::array<BridgeAppearance, 16> bridgeHalf, b
 	painter.setOpacity(0.8);
 
 	int height = 140;
-	int width; //180 or 120
+	int width = 0; //180 or 120
 
 	int posY = 0;
 	int posX = 0; //increment, depending on position;
@@ -33,36 +41,51 @@ QPixmap* BridgePainter::paintHalf(std::array<BridgeAppearance, 16> bridgeHalf, b
 
 	for (int i = 0; i < bridgeHalf.size(); i++)
 	{
+		auto [bridgeApp, madeByMe] = bridgeHalf[i];
 
-		if (utilities.getToothType(i) == ToothType::Molar)
-		{
-			width = 180;
-		}
-		else { width = 120; }
+		(i < 3 || i > 12)
+			? width = 180 : width = 120;
 
-		if (bridgeHalf[i] == BridgeAppearance::Middle)
+		QPixmap texture;
+
+		if (bridgeApp == BridgeAppearance::Middle)
 		{
 			QRect crop(posX, posY, width, height);
-			painter.drawPixmap(posX, posY, currentTexture->copy(crop));
+			texture = currentTexture->copy(crop);
+			painter.drawPixmap(posX, posY, texture);
+
+			if (madeByMe)
+				painter.drawPixmap(posX, posY, getOverlay(texture));
+
 		}
-		else if (bridgeHalf[i] == BridgeAppearance::Terminal)
+		else if (bridgeApp == BridgeAppearance::Terminal)
 		{
 			QRect upRect;
 			QRect downRect;
 
-			if (!bridgeHasBegun)
-			{
-				upRect = QRect(posX, posY + 150, width / 2, height);
-				downRect = QRect(posX + (width / 2), posY, width / 2, height);
-			}
-			else
-			{
-				upRect = QRect(posX, posY, width / 2, height);
-				downRect = QRect(posX + (width / 2), posY + 150, width / 2, height);
-			}
+				if (!bridgeHasBegun)
+				{
+					upRect = QRect(posX, posY + 150, width / 2, height);
+					downRect = QRect(posX + (width / 2), posY, width / 2, height);
+				}
+				else
+				{
+					upRect = QRect(posX, posY, width / 2, height);
+					downRect = QRect(posX + (width / 2), posY + 150, width / 2, height);
+				}
 
-			painter.drawPixmap(posX, posY, currentTexture->copy(upRect));
-			painter.drawPixmap(posX + width / 2, posY, currentTexture->copy(downRect));
+			texture = currentTexture->copy(upRect);
+
+				painter.drawPixmap(posX, posY, texture);
+			if (madeByMe) 
+				painter.drawPixmap(posX, posY, getOverlay(texture));
+
+
+			texture = currentTexture->copy(downRect);
+
+				painter.drawPixmap(posX + width / 2, posY, texture);
+			if (madeByMe)
+				painter.drawPixmap(posX + width / 2, posY, getOverlay(texture));
 
 			bridgeHasBegun = !bridgeHasBegun;
 		}
@@ -74,14 +97,14 @@ QPixmap* BridgePainter::paintHalf(std::array<BridgeAppearance, 16> bridgeHalf, b
 }
 
 
-std::pair<QPixmap*, QPixmap*> BridgePainter::getBridgePair(std::array<BridgeAppearance, 32> bridgeArray)
+std::pair<QPixmap*, QPixmap*> BridgePainter::getBridgePair(const std::array<BridgeAppearenceTuple, 32>& bridges)
 {
-	std::array<BridgeAppearance, 16> upperArrayBridge;
-	std::array<BridgeAppearance, 16> lowerArrayBridge;
+	std::array<BridgeAppearenceTuple, 16> upperArrayBridge;
+	std::array<BridgeAppearenceTuple, 16> lowerArrayBridge;
 
 	for (int i = 0; i < 16; i++) {
-		upperArrayBridge[i] = bridgeArray[i];
-		lowerArrayBridge[i] = bridgeArray[i + 16];
+		upperArrayBridge[i] = bridges[i];
+		lowerArrayBridge[i] = bridges[i + 16];
 	}
 
 	return std::make_pair<QPixmap*, QPixmap*>(paintHalf(upperArrayBridge, 0), paintHalf(lowerArrayBridge, 1));

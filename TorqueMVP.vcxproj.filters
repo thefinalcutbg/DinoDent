@@ -267,6 +267,9 @@
     <ClCompile Include="src\Presenter\ListPresenter\ToothHintCreator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\ProcedureDialog\Widgets\VitaWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -350,6 +353,9 @@
     <QtMoc Include="src\View\ListView\TeethView\GraphicsView.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\View\ProcedureDialog\Widgets\VitaWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="src\View\Torque.qrc">
@@ -388,6 +394,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\ProcedureDialog\Widgets\SurfaceSelector.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\ProcedureDialog\Widgets\VitaWidget.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
@@ -533,9 +542,6 @@
     <ClInclude Include="src\bridgeTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Presenter\ListPresenter\StatusToUIBridge.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\View\ProcedureDialog\IProcedureDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -633,6 +639,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Presenter\ListPresenter\ToothHintCreator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\Tooth\Vita.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

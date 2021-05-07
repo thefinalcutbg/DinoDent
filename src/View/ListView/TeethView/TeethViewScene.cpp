@@ -201,24 +201,21 @@ void TeethViewScene::keyPressEvent(QKeyEvent* event)
 }
 
 
-void TeethViewScene::display(Tooth tooth)
+void TeethViewScene::display(PaintHint tooth)
 {
-	//toothGraphic[tooth.index]->setToothGraphic(toothPainter.getPixmap(tooth));
-    toothGraphic[tooth.index]->setToothGraphic
+
+    toothGraphic[tooth.idx]->setToothGraphic
     (
-        toothPainter2.paintTooth
-        (
-            hint_creator.getToothHint(tooth)
-        )
+        toothPainter2.paintTooth(tooth)
     );
 }
 
-void TeethViewScene::display(std::array<BridgeAppearance, 32> bridges)
+void TeethViewScene::display(const std::array<BridgeAppearenceTuple, 32>& bridges)
 {
-    auto pixmaps = bridgePainter.getBridgePair(bridges);
+    auto[bridgeU, bridgeL] = bridgePainter.getBridgePair(bridges);
 
-    upperBridge->setTexture(pixmaps.first);
-    lowerBridge->setTexture(pixmaps.second);
+    upperBridge->setTexture(bridgeU);
+    lowerBridge->setTexture(bridgeL);
 
 }
 

@@ -1,5 +1,4 @@
 #include "ListPresenter.h"
-#include "StatusToUIBridge.h"
 
 ListPresenter::ListPresenter(IListView* view) :
 	view(view),
@@ -43,10 +42,17 @@ void ListPresenter::setData(ListInstance* listInstance)
 	selectionManager.setStatus(&ambList->teeth);
 
 	setSelectedTeeth(listInstance->selectedIndexes);
+	
+	view->refresh
+	(
+		*this->ambList, 
+		*this->patient, 
+		paint_hint_generator.getTeethHint(ambList->teeth), 
+		*selectedIndexes
+	);
 
-	view->refresh(*this->ambList, *this->patient, *selectedIndexes);
 	refreshManipulationView(ambList->manipulations);
-	view->repaintBridges(StatusToUIBridge(ambList->teeth));
+	view->repaintBridges(paint_hint_generator.statusToUIBridge(ambList->teeth));
 }
 
 void ListPresenter::setSelectedTeeth(std::vector<int>& SelectedIndexes)
@@ -82,10 +88,11 @@ void ListPresenter::statusChanged()
 
 	for (int i : *selectedIndexes)
 	{
-		view->repaintTooth(ambList->teeth[i]);
+		
+		view->repaintTooth(paint_hint_generator.getToothHint(ambList->teeth[i]));
 	}
 
-	view->repaintBridges(StatusToUIBridge(ambList->teeth));
+	view->repaintBridges(paint_hint_generator.statusToUIBridge(ambList->teeth));
 
 	if (selectedIndexes->size() == 1) {
 		view->updateControlPanel(&ambList->teeth[selectedIndexes->at(0)]);
@@ -236,7 +243,13 @@ void ListPresenter::manipulationSelected(int index)
 void ListPresenter::setPatient(Patient patient)
 {
 	*this->patient = patient;
-	view->refresh(*this->ambList, *this->patient, *selectedIndexes);
+	view->refresh
+	(
+		*this->ambList,
+		*this->patient,
+		paint_hint_generator.getTeethHint(ambList->teeth),
+		*selectedIndexes
+	);
 }
 
 void ListPresenter::setAllergies(Allergies allergies)
@@ -244,5 +257,12 @@ void ListPresenter::setAllergies(Allergies allergies)
 	this->patient->allergies = allergies.allergies;
 	this->patient->currentDiseases = allergies.current;
 	this->patient->pastDiseases = allergies.past;
-	view->refresh(*ambList, *patient, *selectedIndexes);
+
+	view->refresh
+	(
+		*this->ambList,
+		*this->patient,
+		paint_hint_generator.getTeethHint(ambList->teeth),
+		*selectedIndexes
+	);
 }

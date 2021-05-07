@@ -42,7 +42,7 @@ Database::Database() : db(NULL), err(NULL), stmt(NULL)
         db,
         "CREATE TABLE IF NOT EXISTS manipulations("
         "id              INTEGER         NOT NULL PRIMARY KEY,"
-        "seq             INT             NOT NULL,"  //the sequence of the manipulation(if dates are the same)   ?
+        "seq             INT             NOT NULL,"  //the sequence of the manipulation(if dates are the same)
         "type            INT             NOT NULL," //required for json parser and statistics
         "day             INT             NOT NULL,"
         "tooth           INT             NOT NULL,"

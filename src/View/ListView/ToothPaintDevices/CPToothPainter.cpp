@@ -43,8 +43,18 @@ QPixmap CPToothPainter::returnPaintedTooth(const PaintHint& tooth)
     painter.drawPixmap(0, 0, surface);
  //   painter.setOpacity(1);
 
-    if (tooth.prostho != ProsthoHint::none) {
-        painter.drawPixmap(coords->crownPos, textureFormat(coords->crownCrop));
+    if (tooth.prostho != ProsthoHint::none)
+    {
+        if (tooth.prostho == ProsthoHint::crown || tooth.prostho == ProsthoHint::bridge)
+        {
+            painter.drawPixmap(coords->crownPos, textureFormat(coords->crownCrop));
+        }
+        else
+        {
+            painter.drawPixmap(coords->crownPos, textureFormat(coords->crownCrop));
+            painter.drawPixmap(coords->crownPos, textureFormat(coords->crownCrop, Qt::green, 0.3));
+        }
+            
     }
 
     return toothPx;

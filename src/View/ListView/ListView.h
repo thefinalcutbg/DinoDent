@@ -33,10 +33,10 @@ public:
 
 	ListPresenter* Presenter();
 
-	void refresh(AmbList& ambList, Patient& patient, std::vector<int>& selectedIndexes) override;
+	void refresh(AmbList& ambList, Patient& patient,const std::array<PaintHint, 32>& teeth, std::vector<int>& selectedIndexes) override;
 	void setCheckModel(const CheckModel& checkModel) override;
-	void repaintTooth(const Tooth& tooth) override;
-	void repaintBridges(const std::array<BridgeAppearance, 32> bridges) override;
+	void repaintTooth(const PaintHint& tooth) override;
+	void repaintBridges(const std::array<BridgeAppearenceTuple, 32>& bridges) override;
 	void updateControlPanel(const Tooth* tooth) override;
 	void setManipulations(const std::vector<RowData>& m) override;
 	void openProcedureDialog(ProcedureDialogPresenter *p) override;

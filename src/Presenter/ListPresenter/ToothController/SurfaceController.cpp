@@ -2,7 +2,6 @@
 
 void ObturationController::addStatus(int statusIndex)
 {
-    
     tooth->obturation.set(true, statusIndex);
     tooth->extraction.set(false);
     tooth->root.set(false);

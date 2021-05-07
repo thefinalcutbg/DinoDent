@@ -62,7 +62,7 @@
    <property name="geometry">
     <rect>
      <x>730</x>
-     <y>470</y>
+     <y>480</y>
      <width>75</width>
      <height>23</height>
     </rect>
@@ -75,7 +75,7 @@
    <property name="geometry">
     <rect>
      <x>640</x>
-     <y>470</y>
+     <y>480</y>
      <width>75</width>
      <height>23</height>
     </rect>
@@ -247,7 +247,7 @@
    <property name="geometry">
     <rect>
      <x>560</x>
-     <y>290</y>
+     <y>350</y>
      <width>250</width>
      <height>100</height>
     </rect>
@@ -302,6 +302,16 @@
     <bool>true</bool>
    </property>
   </widget>
+  <widget class="VitaWidget" name="vitaWidget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>560</x>
+     <y>300</y>
+     <width>295</width>
+     <height>55</height>
+    </rect>
+   </property>
+  </widget>
   <zorder>noTeethLabel</zorder>
   <zorder>tableView</zorder>
   <zorder>materialLabel</zorder>
@@ -309,11 +319,12 @@
   <zorder>okButton</zorder>
   <zorder>cancelButton</zorder>
   <zorder>mainGroup</zorder>
-  <zorder>rangeWidget</zorder>
   <zorder>surfaceSelector</zorder>
   <zorder>label</zorder>
   <zorder>searchEdit</zorder>
   <zorder>selectedTeethLabel</zorder>
+  <zorder>vitaWidget</zorder>
+  <zorder>rangeWidget</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
@@ -348,6 +359,12 @@
    <class>SpinBox</class>
    <extends>QDoubleSpinBox</extends>
    <header location="global">View/uiComponents/qt_derived/spinbox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>VitaWidget</class>
+   <extends>QWidget</extends>
+   <header>View/ProcedureDialog/Widgets/vitawidget.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

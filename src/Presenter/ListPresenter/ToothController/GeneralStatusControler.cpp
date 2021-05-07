@@ -163,18 +163,19 @@ void GeneralStatusController::addStatus(int statusIndex)
         tooth->mobility.degree = Degree::Third;
         break;
 
-    case int(StatusCode::Crown):
+    case int(StatusCode::Crown) :
         tooth->crown.set(true);
         tooth->bridge.set(false);
         tooth->extraction.set(false);
         tooth->root.set(false);
         break;
 
-    case int(StatusCode::Bridge):
+    case int(StatusCode::Bridge) :
         tooth->bridge.set(true);
         tooth->hyperdontic.set(false);
         tooth->crown.set(false);
         break;
+
     case int(StatusCode::Dsn):
         tooth->hyperdontic.set(true);
         tooth->extraction.set(false);

@@ -133,6 +133,7 @@ void ProcedureDialog::resetForm()
 	ui.materialEdit->hide();
 	ui.materialLabel->hide();
 	ui.surfaceSelector->hide();
+	ui.vitaWidget->hide();
 	ui.noTeethLabel->hide();
 
 	//ui.dateEdit->setAppearence(true);
@@ -154,11 +155,13 @@ void ProcedureDialog::setView(ManipulationType t)
 		ui.materialLabel->show();
 		ui.surfaceSelector->show();
 		ui.surfaceSelector->setAppearence(true);
+		ui.vitaWidget->hide();
 		break;
 	case ManipulationType::bridge:
 		ui.materialEdit->show();
 		ui.materialLabel->show();
 		ui.rangeWidget->show();
+		ui.vitaWidget->show();
 		break;
 	case ManipulationType::extraction:
 		break;

@@ -82,37 +82,27 @@ PaintHint ToothHintCreator::getToothHint(const Tooth& tooth)
 
     if (tooth.crown.exists())
     {
-        if (R_U_Mine(tooth.crown)) hint.prostho = ProsthoHint::crown_green;
-        else hint.prostho = ProsthoHint::crown;
+        R_U_Mine(tooth.crown) ? 
+            hint.prostho = ProsthoHint::crown_green
+            :
+            hint.prostho = ProsthoHint::crown;
     }
     else if (tooth.bridge.exists())
     {
-        if (R_U_Mine(tooth.bridge))
-        {
-            switch (tooth.bridge.position)
-            {
-                case BridgePos::Begin: hint.prostho = ProsthoHint::br_b_green; break;
-                case BridgePos::Middle: hint.prostho = ProsthoHint::br_m_green; break;
-                case BridgePos::End: hint.prostho = ProsthoHint::br_e_green; break;
-            }
-        }
-        else
-        {
-            switch (tooth.bridge.position)
-            {
-                case BridgePos::Begin: hint.prostho = ProsthoHint::br_b; break;
-                case BridgePos::Middle: hint.prostho = ProsthoHint::br_m; break;
-                case BridgePos::End: hint.prostho = ProsthoHint::br_e; break;
-            }
-        }
+        R_U_Mine(tooth.bridge) ?
+            hint.prostho = ProsthoHint::bridge_green
+            :
+            hint.prostho = ProsthoHint::bridge;
     }
     
     hint.post = PostHint::none;
 
     if (tooth.post.exists())
     {
-        if (R_U_Mine(tooth.post)) hint.post = PostHint::green;
-        else hint.post = PostHint::blue;
+        R_U_Mine(tooth.post) ?
+            hint.post = PostHint::green
+            :
+            hint.post = PostHint::blue;
     }
 
     hint.dns = tooth.hyperdontic.exists();
@@ -126,4 +116,45 @@ PaintHint ToothHintCreator::getToothHint(const Tooth& tooth)
         hint.mobility = static_cast<int>(tooth.mobility.degree) + 1;
 
     return hint;
+}
+
+std::array<PaintHint, 32> ToothHintCreator::getTeethHint(const std::array<Tooth, 32>& teeth)
+{
+    std::array<PaintHint, 32> paintHints;
+
+    for (int i = 0; i < 32; i++)
+    {
+        paintHints[i] = getToothHint(teeth[i]);
+    }
+
+    return paintHints;
+}
+
+
+
+std::array<BridgeAppearenceTuple, 32> ToothHintCreator::statusToUIBridge(std::array<Tooth, 32>& teeth)
+{
+
+    std::array<BridgeAppearenceTuple, 32> bridgeAppearance;
+
+    for (int i = 0; i < teeth.size(); i++) {
+
+        Tooth& tooth = teeth.at(i);
+        BridgeAppearance appearance;
+
+        if (!tooth.bridge.exists())
+        {
+            appearance = BridgeAppearance::None;
+        }
+        else if (tooth.bridge.position == BridgePos::Middle) {
+            appearance = BridgeAppearance::Middle;
+        }
+        else {
+            appearance = BridgeAppearance::Terminal;
+        }
+
+        bridgeAppearance[i] = std::make_tuple(appearance, R_U_Mine(tooth.bridge));
+    }
+
+    return bridgeAppearance;
 }

@@ -57,7 +57,7 @@ ManipulationFactoryProducts ManipulationFactory::getManipulations(const std::vec
 
 bool ObturationFactory::checkSurfaces(const Manipulation& m)
 {
-	auto& surfaces = std::get<ObtParam>(m.result).surfaces;
+	auto& surfaces = std::get<ObtData>(m.result).surfaces;
 
 	for (int i = 0; i < 6; i++)
 	{
@@ -80,7 +80,7 @@ bool ObturationFactory::checkManipulationValidity(const Manipulation& m)
 
 void ObturationFactory::virtualAutoComplete(Tooth* tooth, Manipulation &m)
 {
-	auto& surfaces = std::get<ObtParam>(m.result).surfaces;
+	auto& surfaces = std::get<ObtData>(m.result).surfaces;
 
 	if (!checkSurfaces(m))
 	{

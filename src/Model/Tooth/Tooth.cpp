@@ -24,5 +24,7 @@ Tooth::Tooth() :
 
 	crown.setDefaultAttribute(prosthoDefault);
 	bridge.setDefaultAttribute(prosthoDefault);
+	
+	
 
 }

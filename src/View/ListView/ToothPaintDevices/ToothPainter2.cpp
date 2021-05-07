@@ -207,7 +207,8 @@ QPixmap ToothPainter2::returnPaintedTooth(const PaintHint& tooth)
         painter.drawPixmap(coords->crownPos, textureFormat(coords->crownCrop));
         break;
     case ProsthoHint::crown_green:
-        painter.drawPixmap(coords->crownPos, textureFormat(coords->crownCrop, Qt::green, 0.5));
+        painter.drawPixmap(coords->crownPos, textureFormat(coords->crownCrop));
+        painter.drawPixmap(coords->crownPos, textureFormat(coords->crownCrop, Qt::green, 0.3));
         break;
     }
 

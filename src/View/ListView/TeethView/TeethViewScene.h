@@ -47,8 +47,8 @@ public:
 	TeethViewScene(ListPresenter* presenter, QObject *parent = 0);
 	void setContextMenu(ContextMenu* contextMenu);
 
-	void display(Tooth tooth);
-	void display(std::array<BridgeAppearance, 32> bridges);
+	void display(PaintHint tooth);
+	void display(const std::array<BridgeAppearenceTuple, 32>& bridges);
 	void setSelectedTeeth(std::vector<int> &selectedTeeth);
 
 	~TeethViewScene();

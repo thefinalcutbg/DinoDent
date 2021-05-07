@@ -2,7 +2,8 @@
 #include <string>
 #include <array>
 #include "Model/Date.h"
-#include "Model/Tooth/Enums.h"
+#include "Enums.h"
+#include "Vita.h"
 
 class Status
 {
@@ -25,14 +26,12 @@ public:
 };
 
 
-
 class Pathology : public Status
 {
 
 public:
 	std::string diagnosis;
 	std::string date_diagnosed;
-
 
 	virtual void set(bool exists)
 	{
@@ -59,11 +58,18 @@ public:
 };
 
 
+
+
+
 struct DentistMade : public Status
 {
-	std::string material;
 	std::string LPK;
-	
+};
+
+struct Material : public DentistMade
+{
+	std::string material;
+
 	std::string getMaterial()
 	{
 		if (!material.empty())
@@ -78,13 +84,25 @@ struct DentistMade : public Status
 
 		return material;
 	}
-
 };
 
 
-struct Bridge : public DentistMade
+
+struct Obturation : public Material
+{
+	int color{ 0 };
+};
+
+struct Crown : public Material
+{
+	Vita color;
+};
+
+
+struct Bridge : public Material
 {
 	BridgePos position;
+	Vita color;
 };
 
 struct Mobility : public Status

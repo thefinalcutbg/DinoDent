@@ -20,7 +20,7 @@ public:
 
 	int index;
 
-	SurfaceStatus<SurfaceChild<DentistMade> > obturation;
+	SurfaceStatus<SurfaceChild<Obturation> > obturation;
 	SurfaceStatus<SurfaceChild<Pathology> > caries;
 
 	Status temporary;
@@ -28,11 +28,13 @@ public:
 	Status periodontitis;
 	Mobility mobility;
 
-	DentistMade endo;
-	DentistMade implant;
-	DentistMade post;
+	Material endo;
+	Material implant;
+	Material post;
+
 	DentistMade extraction;
-	DentistMade crown;
+
+	Crown crown;
 	Bridge bridge;
 
 	Pathology pulpitis;

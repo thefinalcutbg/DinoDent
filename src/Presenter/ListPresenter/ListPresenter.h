@@ -10,6 +10,8 @@
 #include "Presenter/AllergiesDialog/AllergiesDialogPresenter.h"
 #include "Presenter/ProcedureDialog/ProcedureDialogPresenter.h"
 
+#include "ToothHintCreator.h"
+
 #include "BridgeController.h"
 #include "StatusControl.h"
 #include "CheckModelCreator.h"
@@ -40,6 +42,8 @@ class ListPresenter :
 
 	AmbList* ambList;
 	Patient* patient;
+
+	ToothHintCreator paint_hint_generator;
 	
 	std::vector<int>* selectedIndexes;
 	bool* edited;

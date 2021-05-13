@@ -23,6 +23,26 @@ RangeWidget::RangeWidget(QWidget *parent)
 		[=](int index) { stateChangedByUser(); });
 	connect(ui.endCombo, QOverload<int>::of(&QComboBox::currentIndexChanged),
 		[=](int index) { stateChangedByUser(); });
+
+	connect
+	(ui.checkBox, &QCheckBox::stateChanged, 
+		[=] { 
+				bool disable = !ui.checkBox->isChecked(); 
+
+				ui.label_3->setHidden(disable);
+				ui.label_4->setHidden(disable);
+				ui.endCombo->setHidden(disable);
+				ui.beginCombo->setHidden(disable);
+				ui.errorLabel->setHidden(disable);
+
+				emit widgetChecked(!disable);
+		}
+	);
+
+	ui.label_4->setHidden(true);
+	ui.label_3->setHidden(true);
+	ui.endCombo->setHidden(true);
+	ui.beginCombo->setHidden(true);
 }
 
 RangeWidget::~RangeWidget()
@@ -33,9 +53,9 @@ RangeWidget::~RangeWidget()
 
 void RangeWidget::disable(bool disable)
 {
-	if (disable) hide();
-	else show();
+	ui.checkBox->setChecked(!disable);
 }
+
 
 void RangeWidget::setRange(int begin, int end)
 {
@@ -86,7 +106,7 @@ void RangeWidget::stateChangedByUser()
 
 	if (isValid())
 	{
-		auto range = getRange();
-		emit rangeChanged(std::get<0>(range), std::get<1>(range));
+		auto [begin, end] = getRange();
+		emit rangeChanged(begin, end);
 	}
 }

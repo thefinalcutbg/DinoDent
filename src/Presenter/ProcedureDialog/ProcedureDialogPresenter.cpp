@@ -4,118 +4,82 @@
 
 
 ProcedureDialogPresenter::ProcedureDialogPresenter
-	(
-		const std::vector<ManipulationTemplate>& mList,
-		const std::vector<Tooth*>& selectedTeeth, 
-		const std::array<Tooth, 32>& teeth, 
-		const Date& ambListDate
-	) 
+(
+	const std::vector<ManipulationTemplate>& mList,
+	const std::vector<Tooth*>& selectedTeeth,
+	const std::array<Tooth, 32>& teeth,
+	const Date& ambListDate
+)
 	:
-	manipulationList{ mList }, 
+	manipulationList{ mList },
 	manipulations{},
-	view(NULL), 
-	teeth(&teeth), 
+
+	view(NULL),
+	common_fields(NULL),
+	current_m_presenter(NULL),
+	teeth(&teeth),
 	selectedTeeth(selectedTeeth),
-	errorState(true)
+
+	any_teeth_presenter(this->selectedTeeth),
+	obt_presenter(this->selectedTeeth),
+	extr_presenter(this->selectedTeeth),
+	endo_presenter(this->selectedTeeth),
+	crown_presenter(this->selectedTeeth, teeth),
+	impl_presenter(this->selectedTeeth),
+
+	presenters_ptr
+	{
+		&general_presenter,
+		&any_teeth_presenter,
+		&obt_presenter,
+		&extr_presenter,
+		&endo_presenter,
+		&crown_presenter,
+		&impl_presenter
+	}
 {
 	date_validator.setAmbListDate(ambListDate);
-
-	if (selectedTeeth.size() == 1)
-	{
-		diagnosisMap[ManipulationType::obturation] = AutoComplete::getObturDiag(*selectedTeeth[0]);
-		diagnosisMap[ManipulationType::endo] = AutoComplete::getEndoDiag(*selectedTeeth[0]);
-		diagnosisMap[ManipulationType::crown] = AutoComplete::getCrownDiag(*selectedTeeth[0]);
-		diagnosisMap[ManipulationType::extraction] = AutoComplete::getExtrDiag(*selectedTeeth[0]);
-	}
-
-	auto range = AutoComplete::getInitialBridgeRange(selectedTeeth);
-	diagnosisMap[ManipulationType::bridge] = autofill.getBridgeDiag(std::get<0>(range), std::get<1>(range), teeth);
+	
 }
 
-void ProcedureDialogPresenter::indexErrorCheck()
-{
-	if (currentIndex == -1)
-	{
-		view->showErrorMessage("Моля, изберете манипулация");
-		errorState = true;
-		return;
-	}
 
-	auto &m = manipulationList[currentIndex];
-
-	if (!selectedTeeth.size() && m.type != ManipulationType::bridge && m.type != ManipulationType::general)
-	{
-		errorState = true;
-
-		view->showErrorMessage("За да въведете тази манипулация, трябва да сте избрали поне един зъб");
-
-		return;
-	}
-
-	errorState = false;
-}
-
-void ProcedureDialogPresenter::setView(IProcedureDialog* view, ProcedureDialogElements uiComp)
+void ProcedureDialogPresenter::setView(IProcedureDialog* view)
 {
 	this->view = view;
+	view->setObturationPresenter(&obt_presenter);
+	view->setCrownPresenter(&crown_presenter);
 
-	ui = uiComp;
-
-	ui.dateField->set_Validator(&date_validator);
-	ui.rangeBox->set_Validator(&range_validator);
+	for (auto p : presenters_ptr)
+	{
+		p->setCommonFieldsView(view->commonFields());
+	}
 
 	view->loadManipulationList(manipulationList);
 
+	//default validator set:
 	auto date = Date::getCurrentDate();
 
 	if (!date_validator.validate(date)) {
 		date = date_validator.getMin();
 	}
-	ui.dateField->setFieldText(Date::toString(date));
 
-	auto range = autofill.getInitialBridgeRange(selectedTeeth);
-	ui.rangeBox->setRange(std::get<0>(range), std::get<1>(range));
+	view->commonFields()->dateEdit()->setFieldText(Date::toString(date));
+	view->commonFields()->dateEdit()->set_Validator(&date_validator);
 
-	if (selectedTeeth.size() == 1)
-	{
-		ui.surfaceSelector->setSurfaces(AutoComplete::getSurfaces(*selectedTeeth[0]));
-	}
-
+	//setting the label
 	std::vector<int> selectedTeethNum;
 	selectedTeethNum.reserve(32);
 
 	for (const Tooth* t : selectedTeeth)
-	{
-		selectedTeethNum.emplace_back(utils.getToothNumber(t->index, t->temporary.exists()));
-	}
+		selectedTeethNum.emplace_back(ToothUtils::getToothNumber(t->index, t->temporary.exists()));
 
 	view->setSelectionLabel(selectedTeethNum);
 
 }
 
-
+/*
 std::vector<Manipulation> ProcedureDialogPresenter::generateManipulations()
 {
-
-	auto& m_template = manipulationList[currentIndex];
-
-	auto product = std::move(manipulation_generator.getManipulations
-	(
-		DialogData
-		{
-					manipulationList[currentIndex],
-					Date(ui.dateField->getText()),
-					ui.manipulationField->getText(),
-					ui.diagnosisField->getText(),
-					ui.materialField->getText(),
-					view->getPrice(),
-					ui.surfaceSelector->getSurfaces(),
-					ui.surfaceSelector->getPost(),
-					ui.rangeBox->getRange(),
-					selectedTeeth
-		}
-
-	));
 
 	auto& failed = product.failedByToothNumber;
 
@@ -137,146 +101,39 @@ std::vector<Manipulation> ProcedureDialogPresenter::generateManipulations()
 		}
 
 		view->showErrorDialog(message);
-	}
 
-	return product.manipulations;
+}*/
 
-}
-
-
-void ProcedureDialogPresenter::setValidatorsDynamically()
-{
-
-	ui.manipulationField->set_Validator(&notEmpty_validator);
-	ui.diagnosisField->set_Validator(&notEmpty_validator);
-	ui.surfaceSelector->set_Validator(&surface_validator);
-	
-	if (selectedTeeth.size() < 2){
-
-		return;
-	}
-
-	auto& type = manipulationList[currentIndex].type;
-
-	switch (type)
-	{
-		case ManipulationType::general: return;
-		case ManipulationType::any: return;
-		case ManipulationType::bridge: return;
-	}
-
-	ui.manipulationField->set_Validator(NULL);
-	ui.diagnosisField->set_Validator(NULL);
-	ui.surfaceSelector->set_Validator(NULL);
-	
-}
-
-void ProcedureDialogPresenter::rangeChanged(int begin, int end)
-{
-	diagnosisMap[ManipulationType::bridge] = autofill.getBridgeDiag(begin, end, *teeth);
-	ui.diagnosisField->setFieldText(diagnosisMap[ManipulationType::bridge]);
-	
-	auto m = manipulationList[currentIndex];
-	int length = end - begin + 1;
-	m.price = m.price * length;
-	m.name = m.name + AutoComplete::bridgeRangeString(begin, end, *teeth);
-
-	ui.priceField->set_Value(m.price);
-	ui.manipulationField->setFieldText(m.name);
-}
 
 void ProcedureDialogPresenter::indexChanged(int index)
 {
 	currentIndex = index;
 	
-	indexErrorCheck();
-
-	if(errorState) return;
-
-	auto m = manipulationList[currentIndex];
-
-	if (!m.diagnosis.empty())
+	if (currentIndex == -1)
 	{
-		diagnosisMap[m.type] = m.diagnosis;
+		view->showErrorMessage("Изберете манипулация");
+		errorState = true;
+		return;
 	}
 
+	errorState = false;
 
-	if (m.type == ManipulationType::bridge)
-	{
-		auto range = ui.rangeBox->getRange();
-		int last = std::get<1>(range);
-		int first = std::get<0>(range);
-		int bridgeLength = std::get<1>(range) - std::get<0>(range) + 1;
-		m.name.append(AutoComplete::bridgeRangeString(first, last, *teeth));
-		m.price = m.price * bridgeLength;
-	}
+	auto& mt = manipulationList[currentIndex];
 
-	ui.manipulationField->setFieldText(m.name);
-	ui.materialField->setFieldText(m.material);
-	ui.diagnosisField->setFieldText(diagnosisMap[m.type]);
-	ui.priceField->set_Value(m.price);
-	
-	view->setView(m.type);
+	view->setView(mt.type);
 
-	setValidatorsDynamically();
+	current_m_presenter = presenters_ptr[static_cast<int>(mt.type)];
 
-	ui.manipulationField->disable(m.nzok);
-	ui.priceField->disable(m.nzok);
-
-}
-
-
-void ProcedureDialogPresenter::diagnosisChanged(std::string diagnosis)
-{
-	auto t = manipulationList[currentIndex].type;
-
-	diagnosisMap[t] = diagnosis;
+	current_m_presenter->setManipulationTemplate(mt);
 }
 
 
 void ProcedureDialogPresenter::formAccepted()
 {
-	if (errorState) return;
 
-	std::array<AbstractUIElement*, 4> elementCheck
-	{
-		ui.manipulationField,
-		ui.diagnosisField,
-		ui.dateField,
-		NULL
-	};
+	if (!current_m_presenter->isValid()) return;
 
-
-	int checkSize = 4;
-
-	switch (manipulationList[currentIndex].type)
-	{
-	case ManipulationType::bridge:
-		elementCheck[3] = ui.rangeBox;
-		break;
-	case ManipulationType::obturation:
-		elementCheck[3] = ui.surfaceSelector;
-		break;
-	default:
-		checkSize = 3; //not checking range or surface
-	}
-
-	for (int i = 0; i < checkSize; i++)
-	{
-		elementCheck[i]->forceValidate();
-
-		if (!elementCheck[i]->isValid())
-		{
-			elementCheck[i]->setFocusAndSelectAll();
-
-			if (i == 2) {
-				view->showErrorDialog("Датата на манипулацията не може да бъде по-малка от тази на амбулаторния лист, или от различен месец!");
-			}
-			return;
-		}
-	}
-
-	manipulations = generateManipulations();
+	manipulations = current_m_presenter->getManipulations();
 
 	view->close();
 }

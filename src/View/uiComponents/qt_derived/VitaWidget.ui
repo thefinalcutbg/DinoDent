@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>295</width>
+    <width>277</width>
     <height>55</height>
    </rect>
   </property>
@@ -16,7 +16,7 @@
   <widget class="QLabel" name="idx_label">
    <property name="geometry">
     <rect>
-     <x>10</x>
+     <x>0</x>
      <y>0</y>
      <width>51</width>
      <height>21</height>
@@ -29,7 +29,7 @@
   <widget class="QRadioButton" name="radioMaster">
    <property name="geometry">
     <rect>
-     <x>170</x>
+     <x>160</x>
      <y>30</y>
      <width>101</width>
      <height>21</height>
@@ -45,7 +45,7 @@
    </property>
    <property name="geometry">
     <rect>
-     <x>10</x>
+     <x>0</x>
      <y>30</y>
      <width>71</width>
      <height>21</height>
@@ -58,7 +58,7 @@
   <widget class="QComboBox" name="index">
    <property name="geometry">
     <rect>
-     <x>100</x>
+     <x>90</x>
      <y>0</y>
      <width>51</width>
      <height>22</height>
@@ -153,7 +153,7 @@
   <widget class="QRadioButton" name="radioClassic">
    <property name="geometry">
     <rect>
-     <x>170</x>
+     <x>160</x>
      <y>0</y>
      <width>83</width>
      <height>21</height>
@@ -169,7 +169,7 @@
    </property>
    <property name="geometry">
     <rect>
-     <x>100</x>
+     <x>90</x>
      <y>0</y>
      <width>51</width>
      <height>22</height>
@@ -217,7 +217,7 @@
    </property>
    <property name="geometry">
     <rect>
-     <x>100</x>
+     <x>90</x>
      <y>30</y>
      <width>51</width>
      <height>22</height>
@@ -230,7 +230,7 @@
    </property>
    <property name="geometry">
     <rect>
-     <x>10</x>
+     <x>0</x>
      <y>0</y>
      <width>51</width>
      <height>21</height>

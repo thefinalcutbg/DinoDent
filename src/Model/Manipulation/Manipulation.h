@@ -6,6 +6,7 @@
 #include "ManipulationTemplate.h"
 #include "Model/Tooth/Vita.h"
 
+struct NoData {};
 
 struct BridgeData {
 
@@ -13,14 +14,14 @@ struct BridgeData {
 	int tooth_end;
 
 	std::string material;
-
+	int prep_type;
 	Vita color;
 };
 
 struct CrownData {
 
 	std::string material;
-	
+	int prep_type;
 	Vita color;
 };
 
@@ -32,9 +33,17 @@ struct ObtData{
 	std::string material;
 };
 
+struct ImplData {
+
+};
+
+typedef std::variant<NoData, ObtData, CrownData, BridgeData, ImplData> Result;
+
 struct Manipulation
 {
-	Manipulation(const ManipulationTemplate& t, Date date, std::string name, std::string diagnosis, double price)
+
+
+	Manipulation(const ManipulationTemplate& t, Date date, std::string name, std::string diagnosis, double price, Result result)
 		:
 		type{ t.type },
 		code{ t.code },
@@ -45,10 +54,11 @@ struct Manipulation
 		tooth{ -1 },
 		nzok{ t.nzok },
 		duration{ t.duration },
-		nzok_price{t.nzok_price}
+		nzok_price{ t.nzok_price },
+		result{result}
 	{}
 
-
+	
 	
 	//common parameters:
 	Date date;
@@ -62,14 +72,13 @@ struct Manipulation
 	
 	//status change parameters:
 	ManipulationType type;
-	std::string material; //<-should go in the respective parameters
-	std::variant<ObtData, CrownData, BridgeData> result;
+
+	Result result;
 
 	//NZOK specific:
 	bool nzok;
 	int duration;
 	double nzok_price;
-
 };
 
 

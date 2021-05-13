@@ -203,10 +203,12 @@ void ListPresenter::addProcedure()
 	auto mCustomTemplate = getCustomManipulations();
 	mNzokTemplate.insert(mNzokTemplate.end(), mCustomTemplate.begin(), mCustomTemplate.end());
 
+	auto selectedTeethPtr = selectionManager.getSelectedTeethPointers(*selectedIndexes);
+
 	ProcedureDialogPresenter p
-	{ 
+	{
 		mNzokTemplate,
-		selectionManager.getSelectedTeethPointers(*selectedIndexes), 
+		selectedTeethPtr,
 		ambList->teeth,
 		ambList->date 
 	};

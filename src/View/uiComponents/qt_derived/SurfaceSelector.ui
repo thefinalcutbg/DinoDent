@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>283</width>
-    <height>181</height>
+    <width>301</width>
+    <height>143</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,9 +16,9 @@
   <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
     <rect>
-     <x>0</x>
-     <y>40</y>
-     <width>281</width>
+     <x>-10</x>
+     <y>0</y>
+     <width>311</width>
      <height>111</height>
     </rect>
    </property>
@@ -107,8 +107,8 @@
   <widget class="QLabel" name="error_label">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>150</y>
+     <x>20</x>
+     <y>110</y>
      <width>231</width>
      <height>31</height>
     </rect>
@@ -121,45 +121,6 @@
    </property>
    <property name="wordWrap">
     <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QCheckBox" name="post_check">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>121</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Радикуларен щифт</string>
-   </property>
-  </widget>
-  <widget class="QComboBox" name="combo_color">
-   <property name="geometry">
-    <rect>
-     <x>220</x>
-     <y>10</y>
-     <width>59</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <property name="editable">
-    <bool>false</bool>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>180</x>
-     <y>10</y>
-     <width>47</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Цвят:</string>
    </property>
   </widget>
  </widget>

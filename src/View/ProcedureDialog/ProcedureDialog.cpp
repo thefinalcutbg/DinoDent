@@ -11,7 +11,7 @@ ProcedureDialog::ProcedureDialog(ProcedureDialogPresenter* presenter, QWidget *p
 
 	proxyModel->setSourceModel(&model);
 	proxyModel->setFilterKeyColumn(2);
-	
+	presenter->setView(this);
 
 	table->setModel(proxyModel);
 	table->hideColumn(0);
@@ -39,8 +39,6 @@ ProcedureDialog::ProcedureDialog(ProcedureDialogPresenter* presenter, QWidget *p
 		presenter->indexChanged(manipulationIdx);
 		});
 
-	connect(ui.diagnosisEdit, &QTextEdit::textChanged, [=] { presenter->diagnosisChanged(ui.diagnosisEdit->getText()); });
-	connect(ui.rangeWidget, &RangeWidget::rangeChanged, [=](int begin, int end) {presenter->rangeChanged(begin, end); });
 	connect(ui.cancelButton, &QPushButton::clicked, [=] { close(); });
 	connect(ui.okButton, &QPushButton::clicked, [=] { presenter->formAccepted(); });
 
@@ -52,18 +50,6 @@ ProcedureDialog::ProcedureDialog(ProcedureDialogPresenter* presenter, QWidget *p
 
 
 	connect(ui.tableView, &QTableView::doubleClicked, [=] { presenter->formAccepted(); });
-
-	ProcedureDialogElements p;
-	p.dateField = ui.dateEdit;
-	p.diagnosisField = ui.diagnosisEdit;
-	p.manipulationField = ui.manipulationEdit;
-	p.materialField = ui.materialEdit;
-	p.rangeBox = ui.rangeWidget;
-	p.priceField = ui.priceSpinBox;
-	p.surfaceSelector = ui.surfaceSelector;
-	presenter->setView(this, p);
-
-
 }
 
 ProcedureDialog::~ProcedureDialog()
@@ -81,17 +67,8 @@ void ProcedureDialog::openProcedureDialog()
 
 void ProcedureDialog::loadManipulationList(std::vector<ManipulationTemplate> manipulationList)
 {
+	qDebug() << "Loading manipulations: " << manipulationList.size();
 	model.setManipulations(manipulationList);
-}
-
-void ProcedureDialog::setParameters(double price)
-{
-	ui.priceSpinBox->setValue(price);
-}
-
-void ProcedureDialog::setParameters(const std::string& material)
-{
-	ui.materialEdit->setText(QString::fromStdString(material));
 }
 
 void ProcedureDialog::setSelectionLabel(const std::vector<int>& selectedTeethNum)
@@ -119,26 +96,30 @@ void ProcedureDialog::setSelectionLabel(const std::vector<int>& selectedTeethNum
 	ui.selectedTeethLabel->setText(label);
 }
 
-double ProcedureDialog::getPrice()
+void ProcedureDialog::setObturationPresenter(ObturationPresenter* presenter)
 {
-	return ui.priceSpinBox->value();
+	presenter->setCommonFieldsView(ui.commonFields);
+	presenter->setView(ui.obturWidget);
+	ui.obturWidget->setPresenter(presenter);
 }
 
+void ProcedureDialog::setCrownPresenter(CrownPresenter* presenter)
+{
+	presenter->setCommonFieldsView(ui.commonFields);
+	presenter->setView(ui.crownWidget);
+	ui.crownWidget->setPresenter(presenter);
+}
 
+ICommonFields* ProcedureDialog::commonFields()
+{
+	return ui.commonFields;
+}
 
 void ProcedureDialog::resetForm()
 {
-	ui.mainGroup->hide();
-	ui.rangeWidget->hide();
-	ui.materialEdit->hide();
-	ui.materialLabel->hide();
-	ui.surfaceSelector->hide();
-	ui.vitaWidget->hide();
-	ui.noTeethLabel->hide();
-
-	//ui.dateEdit->setAppearence(true);
-	ui.manipulationEdit->setAppearence(true);
-	ui.diagnosisEdit->setAppearence(true);
+	ui.commonFields->hide();
+	ui.obturWidget->hide();
+	ui.crownWidget->hide();
 
 }
 
@@ -146,30 +127,17 @@ void ProcedureDialog::setView(ManipulationType t)
 {
 	resetForm();
 
-	ui.mainGroup->show();
+	ui.commonFields->show();
 
 	switch (t)
 	{	
 	case ManipulationType::obturation:
-		ui.materialEdit->show();
-		ui.materialLabel->show();
-		ui.surfaceSelector->show();
-		ui.surfaceSelector->setAppearence(true);
-		ui.vitaWidget->hide();
-		break;
-	case ManipulationType::bridge:
-		ui.materialEdit->show();
-		ui.materialLabel->show();
-		ui.rangeWidget->show();
-		ui.vitaWidget->show();
+		ui.obturWidget->show();
 		break;
 	case ManipulationType::extraction:
 		break;
-	case ManipulationType::general:
-		break;
-	default:
-		ui.materialEdit->show();
-		ui.materialLabel->show();
+	case ManipulationType::crown:
+		ui.crownWidget->show();
 		break;
 	}
 }
@@ -194,8 +162,3 @@ void ProcedureDialog::showErrorDialog(const std::string& error)
 	m.exec();
 }
 
-
-ProcedureDialogPresenter* ProcedureDialog::getPresenter()
-{
-	return presenter;
-}

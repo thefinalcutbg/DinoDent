@@ -1,49 +1,50 @@
 #pragma once
 #include "View/ProcedureDialog/IProcedureDialog.h"
-#include "Model/Manipulation/ManipulationGenerator.h"
+
 #include "Model/Tooth/ToothUtils.h"
-#include "Model/Manipulation/AutoComplete.h"
+
 #include "Model/Validator/ManipulationValidators.h"
 #include "View/uiComponents/AbstractLineEdit.h"
-#include "View/uiComponents/AbstractRangeEdit.h"
 
-#include <vector>
-#include <unordered_map>
+#include "SubPresenters/ObturationPresenter.h"
+#include "SubPresenters/CrownPresenter.h"
+#include "SubPresenters/ExtractionPresenter.h"
+#include "SubPresenters/EndoPresenter.h"
+#include "SubPresenters/ImplantPresenter.h"
+
+
 
 class ProcedureDialogPresenter
 {
-	IProcedureDialog* view;
-	ProcedureDialogElements ui;
-
-	ManipulationGenerator manipulation_generator;
-	std::vector<Manipulation> manipulations;
 	std::vector<Tooth*> selectedTeeth;
-	const std::array<Tooth, 32>* teeth;
-	std::vector<ManipulationTemplate> manipulationList;
 
-	ToothUtils utils;
-	AutoComplete autofill;
+	GeneralMPresenter general_presenter;
+	TeethMPresenter any_teeth_presenter;
+	ObturationPresenter obt_presenter;
+	CrownPresenter crown_presenter;
+	ExtractionPresenter extr_presenter;
+	EndoPresenter endo_presenter;
+	ImplantPresenter impl_presenter;
+
+	std::array<GeneralMPresenter*, 7> presenters_ptr;
+	GeneralMPresenter* current_m_presenter;
+
+	IProcedureDialog* view;
+	ICommonFields* common_fields;
+
+	std::vector<Manipulation> manipulations;
+
+	const std::vector<ManipulationTemplate> manipulationList;
+	const std::array<Tooth, 32>* teeth;
 
 	DateValidator date_validator;
-	BridgeRangeValidator range_validator;
-	SurfaceValidator surface_validator;
-	EmptyFieldValidator notEmpty_validator;
-
-	std::tuple<int, int> currentRange;
 
 	int currentIndex{-1};
 	bool errorState;
-	bool accepted{ false };
-
-	std::map<ManipulationType, std::string> diagnosisMap;
-
-	void indexErrorCheck();
-	std::vector<Manipulation> generateManipulations();
-	void setValidatorsDynamically();
 
 	public:
 		ProcedureDialogPresenter(const std::vector<ManipulationTemplate>& mList, const std::vector<Tooth*>& selectedTeeth, const std::array<Tooth, 32>& teeth, const Date& ambListDate);
-		void setView(IProcedureDialog* view, ProcedureDialogElements p);
+		void setView(IProcedureDialog* view);
 		
 		void indexChanged(int index);
 		void diagnosisChanged(std::string diagnosis);

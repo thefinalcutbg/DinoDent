@@ -18,6 +18,7 @@ class ProcedureDialog : public QDialog, public IProcedureDialog
 	ProcedureModel model;
 	QSortFilterProxyModel* proxyModel;
 
+
 	void resetForm();
 public:
 	ProcedureDialog(ProcedureDialogPresenter* presenter, QWidget* parent = Q_NULLPTR);
@@ -30,11 +31,11 @@ public:
 	virtual void showErrorDialog(const std::string& error) override;
 	virtual void setView(ManipulationType t) override;
 	virtual void close() override;
-	virtual void setParameters(double price) override;
-	virtual void setParameters(const std::string& material) override;
 	virtual void setSelectionLabel(const std::vector<int>& selectedTeethNum) override;
-	virtual double getPrice() override;
-	ProcedureDialogPresenter* getPresenter();
+	virtual void setObturationPresenter(ObturationPresenter* presenter) override;
+	virtual void setCrownPresenter(CrownPresenter* presenter) override;
+	virtual ICommonFields* commonFields() override;
+
 
 private:
 	Ui::ProcedureDialog ui;

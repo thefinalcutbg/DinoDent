@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>244</width>
-    <height>100</height>
+    <width>310</width>
+    <height>78</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,9 +19,9 @@
    </property>
    <property name="geometry">
     <rect>
-     <x>0</x>
-     <y>60</y>
-     <width>241</width>
+     <x>10</x>
+     <y>40</y>
+     <width>281</width>
      <height>31</height>
     </rect>
    </property>
@@ -38,8 +38,8 @@
   <widget class="QLabel" name="label_3">
    <property name="geometry">
     <rect>
-     <x>160</x>
-     <y>20</y>
+     <x>230</x>
+     <y>10</y>
      <width>21</width>
      <height>21</height>
     </rect>
@@ -51,8 +51,8 @@
   <widget class="QComboBox" name="beginCombo">
    <property name="geometry">
     <rect>
-     <x>100</x>
-     <y>20</y>
+     <x>170</x>
+     <y>10</y>
      <width>51</width>
      <height>22</height>
     </rect>
@@ -61,8 +61,8 @@
   <widget class="QComboBox" name="endCombo">
    <property name="geometry">
     <rect>
-     <x>180</x>
-     <y>20</y>
+     <x>250</x>
+     <y>10</y>
      <width>51</width>
      <height>22</height>
     </rect>
@@ -71,24 +71,24 @@
     <bool>false</bool>
    </property>
   </widget>
-  <widget class="QLabel" name="label_2">
+  <widget class="QCheckBox" name="checkBox">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>20</y>
-     <width>61</width>
+     <x>0</x>
+     <y>10</y>
+     <width>141</width>
      <height>21</height>
     </rect>
    </property>
    <property name="text">
-    <string>Дължина:</string>
+    <string>Мостова конструкция:</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_4">
    <property name="geometry">
     <rect>
-     <x>80</x>
-     <y>20</y>
+     <x>150</x>
+     <y>10</y>
      <width>21</width>
      <height>21</height>
     </rect>
@@ -97,6 +97,12 @@
     <string>от</string>
    </property>
   </widget>
+  <zorder>checkBox</zorder>
+  <zorder>errorLabel</zorder>
+  <zorder>label_3</zorder>
+  <zorder>beginCombo</zorder>
+  <zorder>endCombo</zorder>
+  <zorder>label_4</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>

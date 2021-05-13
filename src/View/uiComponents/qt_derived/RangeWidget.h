@@ -22,6 +22,7 @@ public:
 
 signals:
 	void rangeChanged(int begin, int end);
+	void widgetChecked(bool enabled);
 private:
 	Ui::RangeWidget ui;
 };

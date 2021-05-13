@@ -1,15 +1,5 @@
 ﻿#include "SurfaceSelector.h"
 
-static std::array<QString, 17> colorCodes
-{
-	"",
-	"A1", "A2", "A3", "A3,5", "A4",
-	"B1", "B2", "B3", "B4",
-	"C1", "C2", "C3", "C4",
-	"D2", "D3", "D4"
-};
-
-
 SurfaceSelector::SurfaceSelector(QWidget *parent)
 	: QWidget(parent)
 {
@@ -24,11 +14,6 @@ SurfaceSelector::SurfaceSelector(QWidget *parent)
 	connect(ui.l_check, &QCheckBox::stateChanged, [=] {stateChangedByUser(); });
 	connect(ui.c_check, &QCheckBox::stateChanged, [=] {stateChangedByUser(); });
 
-	for (QString code : colorCodes)
-	{
-		ui.combo_color->addItem(code);
-	}
-	
 }
 
 SurfaceSelector::~SurfaceSelector()
@@ -69,10 +54,6 @@ std::array<bool, 6> SurfaceSelector::getSurfaces()
 	};
 }
 
-bool SurfaceSelector::getPost()
-{
-	return ui.post_check->isChecked();
-}
 
 void SurfaceSelector::setSurfaces(const std::array<bool, 6>& surfaces)
 {

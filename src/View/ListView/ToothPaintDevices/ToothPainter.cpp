@@ -1,37 +1,62 @@
 ﻿#include "ToothPainter.h"
 
 
-
 ToothPainter::ToothPainter() :
-    currentTexture(NULL), 
-    currentIndex(0),
-    coords(NULL), 
-    tooth(NULL),
     molarCoordinates(SpriteRectType::molar),
     premolarCoordinates(SpriteRectType::premolar),
-    frontalCoordinates(SpriteRectType::frontal)
+    frontalCoordinates(SpriteRectType::frontal),
+    currentTexture(NULL),
+    coords(NULL)
 {
+
+    for (int i = 0; i < 32; i++) //mapping indexes to tooth types
+    {
+        if (i == 3 || i == 4 || i == 11 || i == 12)
+            tooth_type[i] = &premolarCoordinates;
+        else if (i == 19 || i == 20 || i == 27 || i == 28)
+            tooth_type[i] = &premolarCoordinates;
+        else if ((i > 2 && i < 13) || (i > 18 && i < 29))
+            tooth_type[i] = &frontalCoordinates;
+        else tooth_type[i] = &molarCoordinates;
+    }
     
-
-        for (int i = 0; i < 32; i++) //mapping indexes to tooth types
-        {
-            if (i == 3 || i == 4 || i == 11 || i == 12)
-                tooth_type[i] = &premolarCoordinates;
-            else if (i == 19 || i == 20 || i == 27 || i == 28)
-                tooth_type[i] = &premolarCoordinates;
-            else if ((i > 2 && i < 13) || (i > 18 && i < 29))
-                tooth_type[i] = &frontalCoordinates;
-            else tooth_type[i] = &molarCoordinates;
-        }
-
-
-
-        commonTexture = SpriteSheets::container().getCommonTexture();
-
+    commonTexture = SpriteSheets::container().getCommonTexture();
 }
 
+QPixmap* ToothPainter::paintTooth(const PaintHint& tooth)
+{
+    coords = tooth_type[tooth.idx];
 
-QPixmap ToothPainter::paintToothStatus()
+    QPixmap pixmap(coords->toothCrop.width(), 746);
+    pixmap.fill(Qt::transparent);
+    QPainter painter(&pixmap);
+    auto& container = SpriteSheets::container();
+    currentTexture = container.getTexture(tooth.idx, tooth.temp);
+
+    painter.drawPixmap(0, 123,
+        coords->toothCrop.width(),
+        coords->toothCrop.height(),
+        std::move(returnPaintedTooth(tooth)));
+
+    if (tooth.mobility)
+    {
+        int height = 60; // for upper teeth;
+        if (tooth.idx > 15) height = 746 - 110; //for lower teeth
+
+        
+
+        painter.drawPixmap(0, height, std::move(mobilityPaint(tooth)));
+    }
+
+    int height = 0;
+    if (tooth.idx > 15) height = 746 - 50;
+
+    painter.drawPixmap(0, height, std::move(toothNumber(tooth)));
+
+	return new QPixmap(pixmap);
+}
+
+QPixmap ToothPainter::returnPaintedTooth(const PaintHint& tooth)
 {
     QPoint point(0, 0);
 
@@ -39,102 +64,246 @@ QPixmap ToothPainter::paintToothStatus()
     toothPx.fill(Qt::transparent);
     QPainter painter(&toothPx);
 
-    rotateByQuadrant(painter, coords->toothCrop.width(), coords->toothCrop.height(), currentIndex);
+    rotateByQuadrant(painter, coords->toothCrop.width(), coords->toothCrop.height(), tooth.idx);
 
-    painter.drawPixmap(0, 0, std::move(hyperdontic()));
-
-    painter.drawPixmap(0, 0, std::move(lesionPixmap()));
-
-    painter.drawPixmap(0, 0, std::move(perioPixmap()));
-
-    painter.drawPixmap(0, 0, std::move(toothPixmap()));
-
-    painter.drawPixmap(0, 0, std::move(endoPixmap()));
-
-    //DRAWING THE POST
-    if (tooth->post.exists())
+    if (tooth.lesion)
     {
-        
-        painter.drawPixmap(coords->postPos, textureFormat(coords->postCrop));
-        painter.drawPixmap(coords->postPos, textureFormat(coords->postCrop, QColor{ Qt::blue }, 0.1));
+        if (tooth.tooth != ToothHint::impl && tooth.tooth != ToothHint::impl_m)
+        {
+            painter.drawPixmap(0, 0, currentTexture->copy(coords->lesionCrop));
+        }
+        else
+        {
+            QRect iLesionCrop(120, 0, 120, 250);
+            painter.drawPixmap(coords->implantPaint, *commonTexture, iLesionCrop);
+        }
     }
 
+    if (tooth.perio)
+    {
+        if (tooth.tooth != ToothHint::impl && tooth.tooth != ToothHint::impl_m)
+        {
+            painter.drawPixmap(0, 0, currentTexture->copy(coords->perioCrop));
+        }
+        else
+        {
+            QRect perioImplantcrop(240, 0, 120, 250);
+            painter.drawPixmap(coords->implantPaint, *commonTexture, perioImplantcrop);
+        }
+    }
+
+    auto& container = SpriteSheets::container();
+
+    switch (tooth.tooth)    //drawing the tooth;
+    {
+        case ToothHint::none:
+            break;
+        case ToothHint::root:
+            painter.drawPixmap(0, 0, currentTexture->copy(coords->rootCrop));
+            break;
+        case ToothHint::normal:
+            painter.drawPixmap(0, 0, currentTexture->copy(coords->toothCrop));
+            break;
+        case ToothHint::extr:
+            painter.setOpacity(0.2);
+            painter.drawPixmap(0, 0, currentTexture->copy(coords->toothCrop));
+            painter.setOpacity(1);
+            break;
+        case ToothHint::extr_m:
+            painter.setOpacity(0.2);
+            painter.drawPixmap(0, 0, currentTexture->copy(coords->toothCrop));
+            painter.drawPixmap(0, 0, textureFormat(coords->toothCrop, Qt::green, 0.5));
+            painter.setOpacity(1);
+            currentTexture = container.getTexture(tooth.idx, tooth.temp);
+            break;
+        case ToothHint::impl_m:
+            painter.drawPixmap(coords->implantPaint, *commonTexture, coords->implantCrop);
+            painter.setOpacity(0.2);
+            currentTexture = commonTexture; //fix texture format!!! (currently uses current texture!)
+            painter.drawPixmap(coords->implantPaint, textureFormat(coords->implantCrop, Qt::green, 1));
+            painter.setOpacity(1);
+            currentTexture = container.getTexture(tooth.idx, tooth.temp);
+            break;
+        case ToothHint::impl:
+            painter.drawPixmap(coords->implantPaint, *commonTexture, coords->implantCrop);
+            break;
+    }
+
+
+    switch (tooth.endo) //drawing the endo
+    {
+        case EndoHint::none:
+            break;
+        case EndoHint::red:
+            painter.drawPixmap(0, 0, textureFormat(coords->endoCrop, Qt::red, 0.5));
+            break;
+        case EndoHint::blue:
+            painter.drawPixmap(0, 0, textureFormat(coords->endoCrop, Qt::blue, 0.5));
+            break;
+        case EndoHint::green:
+            painter.drawPixmap(0, 0, textureFormat(coords->endoCrop, Qt::green, 0.5));
+            break;
+        case EndoHint::darkred:
+            painter.drawPixmap(0, 0, textureFormat(coords->endoCrop, Qt::darkRed, 0.6));
+            break;
+    }
+
+    switch (tooth.post) //drawing the post
+    {
+    case PostHint::none: 
+        break;
+    case PostHint::blue:
+            painter.drawPixmap(coords->postPos, textureFormat(coords->postCrop));
+            painter.drawPixmap(coords->postPos, textureFormat(coords->postCrop, QColor{ Qt::blue }, 0.3));
+        break;
+    case PostHint::green:
+            painter.drawPixmap(coords->postPos, textureFormat(coords->postCrop));
+            painter.drawPixmap(coords->postPos, textureFormat(coords->postCrop, QColor{ Qt::green }, 0.3));
+        break;
+
+
+    }
+
+    //surfaces:
     painter.setOpacity(0.35);
-    painter.drawPixmap(0, 0, std::move(surfacePixmap()));
+    painter.drawPixmap(0, 0, drawSurfaces(tooth));
     painter.setOpacity(1);
 
-    //DRAWING THE CROWN
-    if (tooth->crown.exists()) {
+    //the crown:
+
+    switch (tooth.prostho)
+    {
+    case ProsthoHint::none:
+        break;
+    case ProsthoHint::crown:
         painter.drawPixmap(coords->crownPos, textureFormat(coords->crownCrop));
+        break;
+    case ProsthoHint::crown_green:
+        painter.drawPixmap(coords->crownPos, textureFormat(coords->crownCrop));
+        painter.drawPixmap(coords->crownPos, textureFormat(coords->crownCrop, Qt::green, 0.3));
+        break;
     }
 
-
-
-
-    return toothPx;
+    return QPixmap(toothPx);
 }
 
-QPixmap* ToothPainter::getPixmap(const Tooth& tooth)
+QPixmap ToothPainter::drawSurfaces(const PaintHint& tooth)
 {
-    int index = tooth.index;
+    QPixmap surface(coords->toothCrop.width(), coords->toothCrop.height());
+    surface.fill(Qt::transparent);
+    QPainter surfPainter(&surface);
 
-    coords = tooth_type[index];
-    this->tooth = &tooth;
-    currentIndex = index;
+    QPixmap outlinedSurface(coords->toothCrop.width(), coords->toothCrop.height());
+    outlinedSurface.fill(Qt::transparent);
+    QPainter outlinePainter(&outlinedSurface);
 
-    QPixmap pixmap(coords->toothCrop.width(), 746);
-    pixmap.fill(Qt::transparent);
-    QPainter painter(&pixmap);
-    auto& container = SpriteSheets::container();
-    currentTexture = container.getTexture(index, tooth.temporary.exists());
-    
-    
-    painter.drawPixmap(0, 123, 
-                       coords->toothCrop.width(), 
-                       coords->toothCrop.height(),
-                       std::move(paintToothStatus()));
-
-    if (tooth.mobility.exists())
+    for (int i = 0; i < tooth.surfaces.size(); i++) //drawing the surfaces;
     {
-        int height = 60; // for upper teeth;
-        if (index > 15) height = 746-110; //for lower teeth
-
-        painter.drawPixmap(0, height, std::move(mobilityPaint()));
+        if (!tooth.surfaces[i].outline)
+        {
+            switch (tooth.surfaces[i].color)
+            {
+            case SurfaceColor::blue:
+                surfPainter.drawPixmap(coords->surfPos[i], textureFormat(coords->surfCrop[i], Qt::blue, 1));
+                break;
+            case SurfaceColor::red:
+                surfPainter.drawPixmap(coords->surfPos[i], textureFormat(coords->surfCrop[i], Qt::red, 1));
+                break;
+            case SurfaceColor::green:
+                surfPainter.drawPixmap(coords->surfPos[i], textureFormat(coords->surfCrop[i], Qt::green, 1));
+                break;
+            default:
+                break;
+            }
+        }
+        else
+        {
+            switch (tooth.surfaces[i].color)
+            {
+            case SurfaceColor::blue:
+                outlinePainter.drawPixmap(coords->surfPos[i], textureFormat(coords->surfCrop[i], Qt::blue, 1));
+                break;
+            case SurfaceColor::green:
+                outlinePainter.drawPixmap(coords->surfPos[i], textureFormat(coords->surfCrop[i], Qt::green, 1));
+                break;
+            default:
+                break;
+            }
+        }
     }
-    
-    int height = 0;
-    if (index > 15) height = 746 - 50;
 
-    painter.drawPixmap(0, height, std::move(toothNumber()));
+    QPixmap pixmap_of_united_surfaces(coords->toothCrop.width(), coords->toothCrop.height());
+    pixmap_of_united_surfaces.fill(Qt::transparent);
+    QPainter painter_of_united_surfaces(&pixmap_of_united_surfaces);
+    painter_of_united_surfaces.drawPixmap(0, 0, surface);
+    painter_of_united_surfaces.drawPixmap(0, 0, textureOutline(outlinedSurface, Qt::red));
 
-    return new QPixmap(pixmap);
-    
+    return pixmap_of_united_surfaces;
+
+}
+
+QPixmap ToothPainter::mobilityPaint(const PaintHint& tooth)
+{
+    QString mobilityLabel = "🠘" + QString::number(tooth.mobility) + "🠚";
+
+    QPixmap mobility(coords->toothCrop.width(), 50);
+    mobility.fill(Qt::transparent);
+    QPainter painter(&mobility);
+
+    QFont font{ "Arial", 28 };
+    font.setBold(1);
+
+    painter.setPen(QColor{ 255, 146, 148 });
+    painter.setFont(font);
+    painter.drawText(QRect{ 0,0,coords->toothCrop.width(), 50 }, Qt::AlignCenter, mobilityLabel);
+    return mobility;
+
+}
+
+QPixmap ToothPainter::toothNumber(const PaintHint& tooth)
+{
+
+    QPixmap numPixmap(coords->toothCrop.width(), 50);
+    numPixmap.fill(Qt::transparent);
+    QPainter painter(&numPixmap);
+
+    QFont font{ "Arial", 28 };
+    font.setBold(1);
+    painter.setPen(Qt::gray);
+    painter.setFont(font);
+
+    painter.drawText(QRect{ 0,0,coords->toothCrop.width(), 50 }, Qt::AlignCenter, QString::number(tooth.num));
+    return numPixmap;
+
 }
 
 void ToothPainter::rotateByQuadrant(QPainter& painter, int textureWidth, int textureHeight, int toothIndex)
 {
-    Quadrant q = utilities.getQuadrant(toothIndex);
 
-    switch (q) //transforms the textures according the quadrant
+    if (toothIndex < 8)
     {
-    case Quadrant::Second:
+        return;
+    }
+    else if (toothIndex < 16) //transforms the textures according the quadrant
+    {
         painter.setTransform(QTransform::fromScale(-1, 1));
         painter.translate(-textureWidth, 0);
-        break;
-
-    case Quadrant::Third:
+    }
+    else if (toothIndex < 24)
+    {
         painter.rotate(180);
         painter.translate(-textureWidth, -textureHeight);
-
-        break;;
-
-    case Quadrant::Fourth:
+    }
+    else
+    {
         painter.rotate(180);
         painter.setTransform(QTransform::fromScale(1, -1));
         painter.translate(0, -textureHeight);
-        break;
     }
+    
 }
+
+
 
 QPixmap ToothPainter::textureFormat(QRect crop, QColor color, double opacity)
 {
@@ -164,213 +333,21 @@ QPixmap ToothPainter::textureFormat(QRect crop)
     return pixmap;
 }
 
-QPixmap ToothPainter::toothPixmap()
+QPixmap ToothPainter::textureOutline(const QPixmap& src, QColor borderColor)
 {
+    QPixmap outline_px(src);
 
-    if (tooth->bridge.exists() && tooth->extraction.exists()) return QPixmap();
-
-    QPixmap toothPixmap(coords->toothCrop.width(), coords->toothCrop.height());
-    toothPixmap.fill(Qt::transparent);
-    QPainter painter(&toothPixmap);
-
-    if (tooth->extraction.exists() && !tooth->bridge.exists())            //drawing extracted tooth
-    {
-        painter.setOpacity(0.2);
-        painter.drawPixmap(0, 0, currentTexture->copy(coords->toothCrop));
-    }
-    else if (tooth->root.exists())     //drawing root
-    {
-        painter.drawPixmap(0, 0, currentTexture->copy(coords->rootCrop));
-    }
-    else if (tooth->implant.exists()) //drawing implant
-    {
-        painter.drawPixmap(coords->implantPaint, *commonTexture, coords->implantCrop);
-    }
-    else {
-        painter.drawPixmap(0, 0, currentTexture->copy(coords->toothCrop)); //drawing normal tooth
-    }
-
-    return toothPixmap;
-}
-
-QPixmap ToothPainter::lesionPixmap()
-{
-    QPixmap lesionPixmap(coords->lesionCrop.width(), coords->lesionCrop.height());
-    lesionPixmap.fill(Qt::transparent);
-    QPainter painter(&lesionPixmap);
-
-    painter.setOpacity(0.7);
-
-    if (tooth->lesion.exists())
-    {
-        if (!tooth->implant.exists()) {
-            painter.drawPixmap(0, 0, currentTexture->copy(coords->lesionCrop));
-        }
-        else {
-            QRect iLesionCrop(120, 0, 120, 250);
-            painter.drawPixmap(coords->implantPaint, *commonTexture, iLesionCrop);
-        }
-    }
-
-    return lesionPixmap;
-}
-
-QPixmap ToothPainter::endoPixmap()
-{
-    if (tooth->implant.exists()) return QPixmap(); //no need to paint anything if it is an implant
-
-    QPixmap rootCanal(currentTexture->copy(coords->endoCrop));
-
-    QPainter painter(&rootCanal);
+    QPainter painter(&outline_px);
+    painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setCompositionMode(QPainter::CompositionMode_SourceIn);
-    
-    QColor color;
 
-    if (tooth->pulpitis.exists())
-    {
-        painter.setOpacity(0.5);
-        color.setNamedColor("red");
-    }
-    else if (tooth->endo.exists())
-    {
-        painter.setOpacity(0.5);
-        color.setNamedColor("blue");
-    }
-    else if(tooth->lesion.exists())
-    {
-        painter.setOpacity(0.6);
-        color.setNamedColor("darkRed");
-    }
-    else
-    {
-        return QPixmap();
-    }
-    painter.fillRect(0, 0, coords->endoCrop.width(), coords->endoCrop.height(), color);
+    QGraphicsPixmapItem temp_pixmap_item(outline_px);
+    auto path = temp_pixmap_item.shape();
 
-    return rootCanal;
+    QPen pen(Qt::red, 20, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+   
+    painter.setPen(pen);
+    painter.drawPath(path);
+
+    return outline_px;
 }
-
-
-QPixmap ToothPainter::perioPixmap()
-{
-    if (!tooth->periodontitis.exists()) return QPixmap();
-
-    QPixmap periodontitis(coords->toothCrop.width(), coords->toothCrop.height());
-
-    periodontitis.fill(Qt::transparent);
-
-    if (!tooth->implant.exists()) {
-        periodontitis = currentTexture->copy(coords->perioCrop);
-        return periodontitis;
-    }
- 
-    QPainter painter(&periodontitis);
-
-    QRect perioImplantcrop(240, 0, 120, 250);
-    painter.drawPixmap(coords->implantPaint, *commonTexture, perioImplantcrop);
-
-    return periodontitis;
-}
-
-QPixmap ToothPainter::surfacePixmap()
-{
-
-    QPixmap surface(coords->toothCrop.width(), coords->toothCrop.height());
-    surface.fill(Qt::transparent);
-    QPainter surfPainter(&surface);
-
-    for (int i = 0; i < 6; i++) //painting obturations
-        if (tooth->obturation.exists(i))
-            surfPainter.drawPixmap(coords->surfPos[i], textureFormat(coords->surfCrop[i], Qt::blue, 1));
-
-    for (int i = 0; i < 6; i++) //painting caries
-        if (tooth->caries.exists(i))
-            surfPainter.drawPixmap(coords->surfPos[i], textureFormat(coords->surfCrop[i], Qt::red, 1));
-
-    for (int i = 0; i < 6; i++) //painting secondary caries
-        if (tooth->obturation.exists(i) && tooth->caries.exists(i))
-            surfPainter.drawPixmap(coords->surfPos[i], textureFormat(coords->surfCrop[i]));
-
-    return surface;
-}
-
-QPixmap ToothPainter::hyperdontic()
-{
-    if (!tooth->hyperdontic.exists()) return QPixmap();
-
-    QPixmap toothPixmap(coords->toothCrop.width(), coords->toothCrop.height());
-    toothPixmap.fill(Qt::transparent);
-    QPainter painter(&toothPixmap);
-
-    painter.drawPixmap(20, 0, currentTexture->copy(coords->toothCrop));
-
-    return toothPixmap;
-}
-
-QPixmap ToothPainter::mobilityPaint()
-{
-    if (!tooth->mobility.exists()) return QPixmap();
-
-    QString mobilityLabel;
-
-    switch(tooth->mobility.degree)
-    {
-    case Degree::First:
-        mobilityLabel = "🠘1🠚";
-        break;
-    case Degree::Second:
-        mobilityLabel = "🠘2🠚";
-        break;
-    case Degree::Third:
-        mobilityLabel = "🠘3🠚";
-        break;
-    }
-
-    QPixmap mobility(coords->toothCrop.width(), 50);
-    mobility.fill(Qt::transparent);
-    QPainter painter(&mobility);
-    
-    QFont font{ "Arial", 28 };
-    font.setBold(1);
-    
-    painter.setPen(QColor{ 255, 146, 148 });
-    painter.setFont(font);
-    painter.drawText(QRect{ 0,0,coords->toothCrop.width(), 50 }, Qt::AlignCenter, mobilityLabel);
-    return mobility;
-}
-
-QPixmap ToothPainter::toothNumber()
-{
-    QPixmap numPixmap(coords->toothCrop.width(), 50);
-    numPixmap.fill(Qt::transparent);
-    QPainter painter(&numPixmap);
-
-    QFont font{ "Arial", 28 };
-    font.setBold(1);
-    painter.setPen(Qt::gray);
-    painter.setFont(font);
-
-    int toothNumber = utilities.getToothNumber(currentIndex, tooth->temporary.exists());
-
-    painter.drawText(QRect{ 0,0,coords->toothCrop.width(), 50 }, Qt::AlignCenter, QString::number(toothNumber));
-    return numPixmap;
-}
-
-
-
-ToothPainter::~ToothPainter()
-{
-
-
-
-}
-
-
-
-
-
-
-
-
-
-

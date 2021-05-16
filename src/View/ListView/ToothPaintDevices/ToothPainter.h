@@ -1,59 +1,43 @@
 #pragma once
 #include <QPainter>
-#include <array>
-#include <map>
-#include "Model/Tooth/Tooth.h"
+#include <QGraphicsPixmapItem>
+
 #include "SpriteRect.h"
 #include "SpriteSheets.h"
-#include "Model/Tooth/ToothUtils.h"
 #include "PaintHint.h"
+
 
 
 class ToothPainter
 {
-protected:
 
+protected:
 	QPixmap* currentTexture;
 	QPixmap* commonTexture;
-    const SpritesheetCoords* coords;
+	const SpritesheetCoords* coords;
 
-	
-	ToothUtils utilities;
 	//SpriteSheets spriteContainer;
 	SpritesheetCoords molarCoordinates;
 	SpritesheetCoords premolarCoordinates;
 	SpritesheetCoords frontalCoordinates;
 
-	const Tooth* tooth;
-	
-	int currentIndex;
-
-	//do not copy this class, tooth_type is mapped to the allocated coordinates on initialization
 	std::map<int, SpritesheetCoords*> tooth_type;
-
-	
-	void rotateByQuadrant(QPainter& painter, int textureWidth, int textureHeight, int toothIndex);
 
 	QPixmap textureFormat(QRect crop, QColor color, double opacity); //paints the texture in specific colour and opacity
 	QPixmap textureFormat(QRect crop, double opacity); //paints a texture with some opacity
 	QPixmap textureFormat(QRect crop); //leaves the texture untouched
+	QPixmap textureOutline(const QPixmap& src, QColor borderColor);
 
-	QPixmap toothPixmap();
-	QPixmap lesionPixmap();
-	QPixmap endoPixmap();
-	QPixmap perioPixmap();
-	QPixmap surfacePixmap();
-	QPixmap hyperdontic();
-	QPixmap mobilityPaint();
-	QPixmap toothNumber();
-	
-	virtual QPixmap paintToothStatus();
-	
+	QPixmap drawSurfaces(const PaintHint& tooth);
+	QPixmap mobilityPaint(const PaintHint& tooth);
+	QPixmap toothNumber(const PaintHint& tooth);
+	void rotateByQuadrant(QPainter& painter, int textureWidth, int textureHeight, int toothIndex);
+
+	virtual QPixmap returnPaintedTooth(const PaintHint& tooth);
+
 public:
 	ToothPainter();
-
-
-	virtual QPixmap* getPixmap(const Tooth& tooth);
-	virtual  ~ToothPainter();
+	virtual QPixmap* paintTooth(const PaintHint& tooth);
+	
 };
 

@@ -1,7 +1,7 @@
 #pragma once
-#include "ToothPainter2.h"
+#include "ToothPainter.h"
 
-class CPToothPainter : public ToothPainter2
+class CPToothPainter : public ToothPainter
 {
 	virtual QPixmap returnPaintedTooth(const PaintHint& tooth) override;
 public:

@@ -13,34 +13,10 @@ QPixmap CPToothPainter::returnPaintedTooth(const PaintHint& tooth)
 
     painter.drawPixmap(0, 0, currentTexture->copy(coords->toothCrop));
 
-
-    QPixmap surface(coords->toothCrop.width(), coords->toothCrop.height());
-    surface.fill(Qt::transparent);
-    QPainter surfPainter(&surface);
-
-    for (int i = 0; i < tooth.surfaces.size(); i++) //drawing the surfaces;
-    {
-        switch (tooth.surfaces[i])
-        {
-        case SurfaceHint::normal:
-            surfPainter.drawPixmap(coords->surfPos[i], textureFormat(coords->surfCrop[i]));
-            break;
-        case SurfaceHint::blue:
-            surfPainter.drawPixmap(coords->surfPos[i], textureFormat(coords->surfCrop[i], Qt::blue, 1));
-            break;
-        case SurfaceHint::red:
-            surfPainter.drawPixmap(coords->surfPos[i], textureFormat(coords->surfCrop[i], Qt::red, 1));
-            break;
-        case SurfaceHint::green:
-            surfPainter.drawPixmap(coords->surfPos[i], textureFormat(coords->surfCrop[i], Qt::green, 1));
-            break;
-        default:
-            break;
-        }
-    }
-
     painter.setOpacity(0.35);
-    painter.drawPixmap(0, 0, surface);
+    painter.drawPixmap(0, 0, drawSurfaces(tooth));
+    painter.setOpacity(1);
+
  //   painter.setOpacity(1);
 
     if (tooth.prostho != ProsthoHint::none)

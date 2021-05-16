@@ -206,7 +206,7 @@ void TeethViewScene::display(PaintHint tooth)
 
     toothGraphic[tooth.idx]->setToothGraphic
     (
-        toothPainter2.paintTooth(tooth)
+        toothPainter.paintTooth(tooth)
     );
 }
 

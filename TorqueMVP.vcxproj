@@ -261,7 +261,6 @@
     </ClCompile>
     <ClCompile Include="src\View\AmbListPage\saveAsDialog\SaveAsDialog.cpp" />
     <ClCompile Include="src\View\ListView\ToothPaintDevices\SpriteRect.cpp" />
-    <ClCompile Include="src\View\ListView\ToothPaintDevices\ToothPainter.cpp" />
     <ClCompile Include="src\View\ListView\TeethView\SelectionBox.cpp" />
     <ClCompile Include="src\View\ListView\TeethView\TeethViewScene.cpp" />
     <ClCompile Include="src\View\ListView\TeethView\ToothGraphicsItem.cpp" />
@@ -288,7 +287,7 @@
     <ClCompile Include="src\View\uiComponents\qt_derived\TextEdit.cpp" />
     <ClCompile Include="src\View\uiComponents\qt_derived\SurfaceSelector.cpp" />
     <ClCompile Include="src\Model\Tooth\ToothParserB.cpp" />
-    <ClCompile Include="src\View\ListView\ToothPaintDevices\ToothPainter2.cpp" />
+    <ClCompile Include="src\View\ListView\ToothPaintDevices\ToothPainter.cpp" />
     <ClCompile Include="src\Presenter\ListPresenter\ToothHintCreator.cpp" />
     <ClCompile Include="src\View\uiComponents\qt_derived\VitaWidget.cpp" />
     <QtRcc Include="src\View\Torque.qrc" />
@@ -371,7 +370,7 @@
     <ClInclude Include="src\View\ProcedureDialog\Widgets\CrownView\ICrownView.h" />
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\GeneralMPresenter.h" />
     <ClInclude Include="src\Model\Tooth\Vita.h" />
-    <ClInclude Include="src\View\ListView\ToothPaintDevices\ToothPainter2.h" />
+    <ClInclude Include="src\View\ListView\ToothPaintDevices\ToothPainter.h" />
     <ClInclude Include="src\Presenter\ListPresenter\ToothHintCreator.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\VitaWidget.h" />
     <QtMoc Include="src\View\ListView\TeethView\GraphicsView.h" />
@@ -441,7 +440,6 @@
     <ClInclude Include="src\Database\DbAmbList.h" />
     <ClInclude Include="src\Model\CityCode.h" />
     <QtMoc Include="src\View\AmbListPage\saveAsDialog\SaveAsDialog.h" />
-    <ClInclude Include="src\View\ListView\ToothPaintDevices\ToothPainter.h" />
     <ClInclude Include="src\View\ListView\TeethView\SelectionBox.h" />
     <ClInclude Include="src\View\ListView\ToothPaintDevices\SpriteRect.h" />
     <QtMoc Include="src\View\ListView\TeethView\TeethViewScene.h" />

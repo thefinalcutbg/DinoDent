@@ -45,21 +45,22 @@ PaintHint ToothHintCreator::getToothHint(const Tooth& tooth)
 
     for (int i = 0; i < hint.surfaces.size(); i++)
     {
-        hint.surfaces[i] = SurfaceHint::none;
+        hint.surfaces[i] = SurfaceHint{ SurfaceColor::none, false };
 
         if (tooth.obturation.exists(i) && tooth.caries.exists(i))
         {
-            hint.surfaces[i] = SurfaceHint::normal;
+            hint.surfaces[i].outline = true;
         }
-        else if (tooth.obturation.exists(i))
+
+        if (tooth.obturation.exists(i))
         {
             if (R_U_Mine(tooth.obturation[i]))
-                hint.surfaces[i] = SurfaceHint::green;
+                hint.surfaces[i].color = SurfaceColor::green;
             else
-                hint.surfaces[i] = SurfaceHint::blue;
+                hint.surfaces[i].color = SurfaceColor::blue;
         }
         else if (tooth.caries.exists(i))
-            hint.surfaces[i] = SurfaceHint::red;
+            hint.surfaces[i].color = SurfaceColor::red;
     }
 
     //endo hint

@@ -111,9 +111,6 @@
     <ClCompile Include="src\View\ListView\ToothPaintDevices\SpriteSheets.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\ListView\ToothPaintDevices\ToothPainter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\View\ListView\TeethView\ContextMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -252,7 +249,7 @@
     <ClCompile Include="src\Database\DbManipulation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\ListView\ToothPaintDevices\ToothPainter2.cpp">
+    <ClCompile Include="src\View\ListView\ToothPaintDevices\ToothPainter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Presenter\ListPresenter\ToothHintCreator.cpp">
@@ -515,9 +512,6 @@
     <ClInclude Include="src\View\ListView\ToothPaintDevices\SpriteSheets.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\View\ListView\ToothPaintDevices\ToothPainter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\View\ListView\TeethView\SelectionBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -665,7 +659,7 @@
     <ClInclude Include="src\View\ListView\ToothPaintDevices\PaintHint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\View\ListView\ToothPaintDevices\ToothPainter2.h">
+    <ClInclude Include="src\View\ListView\ToothPaintDevices\ToothPainter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Presenter\ListPresenter\ToothHintCreator.h">

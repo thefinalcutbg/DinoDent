@@ -20,19 +20,20 @@ class SurfaceStatus : public Status
 
 	void setTrue(int surface)
 	{
-		if (!exists())
-			for (T t : surfaces)
+		
+		if (!m_exists)
+			for (T &t : surfaces)
 				t.set(false);
 
+		m_exists = true;
 		surfaces[surface].set(true);
-		set(true);
 	}
 
 	void setFalse(int surface)
 	{
 		surfaces[surface].set(false);
 
-		for (T t : surfaces)
+		for (T &t : surfaces)
 		{
 			if (t.exists()) return;
 		}
@@ -51,18 +52,19 @@ public:
 
 	bool exists(int surface) const
 	{
-		return exists() ? surfaces[surface].exists() : exists();	
+		
+		return m_exists ? surfaces[surface].exists() : false;	
 	}
 
 	bool exists() const override { return Status::exists(); } // why do I need this?
 
 	void set(bool exists)
 	{
-		Status::set(exists);
+		m_exists = exists;
 
-		if (Status::exists())
+		if (exists)
 		{
-			for (T t : surfaces)
+			for (T &t : surfaces)
 				if (t.exists())
 					return;
 
@@ -72,7 +74,7 @@ public:
 
 	void set(bool exists, int surface)
 	{
-		exists == true ? setTrue(surface) : setFalse(surface);
+		exists ? setTrue(surface) : setFalse(surface);
 	}
 
 	T& operator[](int surface) { return surfaces[surface]; }
@@ -80,7 +82,7 @@ public:
 
 	void reset()
 	{
-		for (T t : surfaces)
+		for (T &t : surfaces)
 			t.set(false);
 
 		set(false);

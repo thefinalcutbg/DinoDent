@@ -34,5 +34,7 @@ private:
     void molar();
     void premolar();
     void frontal();
+    void tempfrontal();
+    void tempmolar();
 };
 

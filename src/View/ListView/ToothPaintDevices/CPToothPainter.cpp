@@ -41,7 +41,10 @@ QPixmap* CPToothPainter::paintTooth(const PaintHint& tooth)
 {
     int index = tooth.idx;
 
-    coords = tooth_type[index];
+    tooth.temp ?
+        coords = temp_tooth_type[tooth.idx]
+        :
+        coords = tooth_type[tooth.idx];
 
     QPixmap pixmap(150, 150);
     pixmap.fill(Qt::transparent);

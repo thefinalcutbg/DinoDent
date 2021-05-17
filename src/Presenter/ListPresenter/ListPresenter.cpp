@@ -117,7 +117,7 @@ void ListPresenter::addToManipulationList(const std::vector<Manipulation>& new_m
 	}
 
 	//if list is empty, or date is max
-	for (Manipulation mInsert : new_mList)
+	for (auto &mInsert : new_mList)
 	{
 		mList.push_back(mInsert);
 	}
@@ -130,7 +130,7 @@ void ListPresenter::refreshManipulationView(const std::vector<Manipulation>& mLi
 	std::vector<RowData> rows;
 	rows.reserve(mList.size());
 
-	for (Manipulation m : mList)
+	for (auto& m : mList)
 	{
 		int tooth = m.tooth;
 		if (tooth >= 0 && tooth < 32)
@@ -221,12 +221,16 @@ void ListPresenter::addProcedure()
 	{
 		this->addToManipulationList(newList);
 		refreshManipulationView(ambList->manipulations);
+		makeEdited();
 	}
 	
 }
 
 void ListPresenter::deleteProcedure(int index)
 {
+	if (ambList->manipulations.size())
+		makeEdited();
+
 	ambList->manipulations.erase(ambList->manipulations.begin() + index);
 	refreshManipulationView(ambList->manipulations);
 }

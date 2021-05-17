@@ -7,15 +7,15 @@
 
 #include "../ToothPaintDevices/ToothPainter.h"
 #include "../ToothPaintDevices/BridgePainter.h"
-#include "Presenter/ListPresenter/ListPresenter.h"
-
-#include "../ToothPaintDevices/ToothPainter.h"
-#include "Presenter/ListPresenter/ToothHintCreator.h"
 
 #include "ToothGraphicsItem.h"
 #include "SelectionBox.h"
 #include "BridgeItem.h"
 #include "ContextMenu.h"
+
+#include "Presenter/ListPresenter/ListPresenter.h"
+
+
 
 class TeethViewScene : public QGraphicsScene
 {
@@ -28,9 +28,9 @@ class TeethViewScene : public QGraphicsScene
 	BridgeItem* lowerBridge;
 
 	BridgePainter bridgePainter;
-
 	ToothPainter toothPainter;
-	ToothHintCreator hint_creator;
+
+
 
 	ListPresenter* presenter;
 

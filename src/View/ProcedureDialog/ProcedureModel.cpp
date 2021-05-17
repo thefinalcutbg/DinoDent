@@ -7,17 +7,15 @@ ProcedureModel::ProcedureModel(QObject *parent)
 
 void ProcedureModel::setManipulations(std::vector<ManipulationTemplate> manipulations)
 {
-    beginResetModel();
+//    beginResetModel();
    
     
-    this->manipulations.clear();
+ //   this->manipulations.clear();
 
     this->manipulations.reserve(manipulations.size());
 
-    for (int i = 0; i < manipulations.size(); i++)
+    for (auto &m : manipulations)
     {
-        auto m = manipulations[i];
-
         double intPart;
         auto price = std::modf(m.price, &intPart) == 0.0 ? 
             QString::number(m.price) + " лв." :
@@ -29,7 +27,7 @@ void ProcedureModel::setManipulations(std::vector<ManipulationTemplate> manipula
             QString::fromStdString(m.name),
             price));
     }
-    endResetModel();
+  //  endResetModel();
 
 }
 

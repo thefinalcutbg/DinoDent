@@ -87,7 +87,6 @@ struct Material : public DentistMade
 };
 
 
-
 struct Obturation : public Material
 {
 	int color{ 0 };

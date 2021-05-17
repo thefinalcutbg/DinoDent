@@ -5,6 +5,8 @@ ToothPainter::ToothPainter() :
     molarCoordinates(SpriteRectType::molar),
     premolarCoordinates(SpriteRectType::premolar),
     frontalCoordinates(SpriteRectType::frontal),
+    temp_frontal(SpriteRectType::tempFrontal),
+    temp_molar(SpriteRectType::tempMolar),
     currentTexture(NULL),
     coords(NULL)
 {
@@ -12,11 +14,23 @@ ToothPainter::ToothPainter() :
     for (int i = 0; i < 32; i++) //mapping indexes to tooth types
     {
         if (i == 3 || i == 4 || i == 11 || i == 12)
+        {
             tooth_type[i] = &premolarCoordinates;
+            temp_tooth_type[i] = &temp_molar;
+
+        }
+
         else if (i == 19 || i == 20 || i == 27 || i == 28)
+        {
             tooth_type[i] = &premolarCoordinates;
+            temp_tooth_type[i] = &temp_molar;
+        }
         else if ((i > 2 && i < 13) || (i > 18 && i < 29))
+        {
             tooth_type[i] = &frontalCoordinates;
+            temp_tooth_type[i] = &temp_frontal;
+        }
+            
         else tooth_type[i] = &molarCoordinates;
     }
     
@@ -25,6 +39,9 @@ ToothPainter::ToothPainter() :
 
 QPixmap* ToothPainter::paintTooth(const PaintHint& tooth)
 {
+    tooth.temp ?
+    coords = temp_tooth_type[tooth.idx]
+    :
     coords = tooth_type[tooth.idx];
 
     QPixmap pixmap(coords->toothCrop.width(), 746);
@@ -197,6 +214,8 @@ QPixmap ToothPainter::drawSurfaces(const PaintHint& tooth)
     outlinedSurface.fill(Qt::transparent);
     QPainter outlinePainter(&outlinedSurface);
 
+
+
     for (int i = 0; i < tooth.surfaces.size(); i++) //drawing the surfaces;
     {
         if (!tooth.surfaces[i].outline)
@@ -221,6 +240,7 @@ QPixmap ToothPainter::drawSurfaces(const PaintHint& tooth)
             switch (tooth.surfaces[i].color)
             {
             case SurfaceColor::blue:
+
                 outlinePainter.drawPixmap(coords->surfPos[i], textureFormat(coords->surfCrop[i], Qt::blue, 1));
                 break;
             case SurfaceColor::green:
@@ -302,7 +322,6 @@ void ToothPainter::rotateByQuadrant(QPainter& painter, int textureWidth, int tex
     }
     
 }
-
 
 
 QPixmap ToothPainter::textureFormat(QRect crop, QColor color, double opacity)

@@ -20,8 +20,11 @@ protected:
 	SpritesheetCoords molarCoordinates;
 	SpritesheetCoords premolarCoordinates;
 	SpritesheetCoords frontalCoordinates;
+	SpritesheetCoords temp_frontal;
+	SpritesheetCoords temp_molar;
 
 	std::map<int, SpritesheetCoords*> tooth_type;
+	std::map<int, SpritesheetCoords*> temp_tooth_type;
 
 	QPixmap textureFormat(QRect crop, QColor color, double opacity); //paints the texture in specific colour and opacity
 	QPixmap textureFormat(QRect crop, double opacity); //paints a texture with some opacity

@@ -1,22 +1,22 @@
 ﻿#include "AmbListPagePresenter.h"
 
-AmbListPagePresenter::AmbListPagePresenter( 
-											IAmbListPage* AmbListPage, 
-											PatientDialogPresenter* patientDialog, 
-											ListPresenter* listView) :
-	view(AmbListPage),
-	patientDialog(patientDialog),
-	currentListInstance(NULL),
-	listView(listView),
-	currentVecPos(-1)
+AmbListPagePresenter::AmbListPagePresenter(
+                                            IAmbListPage* AmbListPage,
+                                            PatientDialogPresenter* patientDialog,
+                                            ListPresenter* listView) :
+    view(AmbListPage),
+    patientDialog(patientDialog),
+    listView(listView),
+    currentVecPos(-1),
+    currentListInstance(nullptr)
 {
-	//listView->attachEditObserver(this); //this is NOT working, I have to set it from the AmbListView
+    //listView->attachEditObserver(this); //this is NOT working, I have to set it from the AmbListView
 }
 
 
 void AmbListPagePresenter::newPressed()
 {
-	patientDialog->open(this);
+    patientDialog->open(this);
 
 
 }
@@ -24,129 +24,129 @@ void AmbListPagePresenter::newPressed()
 void AmbListPagePresenter::setPatient(Patient patient)
 {
 
-	AmbList* ambList = database.getList(patient.id, Date::currentMonth(), Date::currentYear());
-	
-	for (int i = 0; i < list_instance.size(); i++)
-	{
-		if (list_instance[i].amb_list.id == ambList->id && patient.id == list_instance[i].patient.id)
-		{
-			view->focusTab(i);
-			return;
-		}
-	}
+    AmbList* ambList = database.getList(patient.id, Date::currentMonth(), Date::currentYear());
 
-	list_instance.emplace_back(*ambList, patient);
+    for (int i = 0; i < list_instance.size(); i++)
+    {
+        if (list_instance[i].amb_list.id == ambList->id && patient.id == list_instance[i].patient.id)
+        {
+            view->focusTab(i);
+            return;
+        }
+    }
 
-	delete ambList;
+    list_instance.emplace_back(*ambList, patient);
 
-	view->newTab(list_instance.size() - 1, list_instance.back().getTabName());
+    delete ambList;
+
+    view->newTab(list_instance.size() - 1, list_instance.back().getTabName());
 }
 
 void AmbListPagePresenter::tabChanged(int vecPos)
 {
-	if (vecPos == -1)
-	{
-		currentListInstance = NULL;
-		currentVecPos = -1;
-		return;
-	}
-	currentListInstance = &list_instance[vecPos];
-	currentVecPos = vecPos;
+    if (vecPos == -1)
+    {
+        currentListInstance = NULL;
+        currentVecPos = -1;
+        return;
+    }
+    currentListInstance = &list_instance[vecPos];
+    currentVecPos = vecPos;
 
-	listView->setData(currentListInstance);
+    listView->setData(currentListInstance);
 }
 
 void AmbListPagePresenter::notify()
 {
-	view->changeTabName(currentListInstance->getTabName());
+    view->changeTabName(currentListInstance->getTabName());
 }
 
 bool AmbListPagePresenter::save()
 {
-	if (currentListInstance == NULL) return true;
+    if (currentListInstance == NULL) return true;
 
-	if (currentListInstance->isNew()) {
-		return saveAs();
-	}
-		
-	if (currentListInstance->edited) {
-		database.updateAmbList(currentListInstance->amb_list);
-	}
-		
-	currentListInstance->edited = false;
+    if (currentListInstance->isNew()) {
+        return saveAs();
+    }
 
-	view->changeTabName(currentListInstance->getTabName());
+    if (currentListInstance->edited) {
+        database.updateAmbList(currentListInstance->amb_list);
+    }
 
-	return true;
+    currentListInstance->edited = false;
+
+    view->changeTabName(currentListInstance->getTabName());
+
+    return true;
 }
 
 bool AmbListPagePresenter::saveAs()
 {
-	if (currentListInstance == NULL) return true;
-	
-	AmbList& list = currentListInstance->amb_list;
+    if (currentListInstance == NULL) return true;
 
-	int newNumber = 0;
+    AmbList& list = currentListInstance->amb_list;
 
-	//what happens if the list is from a previous year?
-	//Then current year will mess things up
+    int newNumber = 0;
 
-	auto map = database.getExistingNumbers(Date::currentYear());
+    //what happens if the list is from a previous year?
+    //Then current year will mess things up
 
-	if (!list.number) {
-		newNumber = database.getNewNumber(Date::currentYear());
-	}
-	else {
-		newNumber = list.number;
-		map[newNumber] = false;
-	}
+    auto map = database.getExistingNumbers(Date::currentYear());
 
-	newNumber = view->openSaveAsDialog(newNumber, map);
+    if (!list.number) {
+        newNumber = database.getNewNumber(Date::currentYear());
+    }
+    else {
+        newNumber = list.number;
+        map[newNumber] = false;
+    }
 
-	if (!newNumber) return false;
+    newNumber = view->openSaveAsDialog(newNumber, map);
 
-	list.number = newNumber;
+    if (!newNumber) return false;
 
-	if (currentListInstance->isNew()) {
-		database.insertAmbList(list, currentListInstance->patient.id);
-	}
-	else {
-		database.updateAmbList(list);
-	}
-	
-	currentListInstance->edited = false;
+    list.number = newNumber;
 
-	view->changeTabName(currentListInstance->getTabName());
+    if (currentListInstance->isNew()) {
+        database.insertAmbList(list, currentListInstance->patient.id);
+    }
+    else {
+        database.updateAmbList(list);
+    }
 
-	return true;
+    currentListInstance->edited = false;
+
+    view->changeTabName(currentListInstance->getTabName());
+
+    return true;
 }
 
 
 bool AmbListPagePresenter::closeTab()
 {
 
-	//no need to know which tab. Close button always focuses the tab first.
-	if (currentListInstance->amb_list.isNew() || currentListInstance->isEdited())
-	{
-		DialogAnswer answer = view->openSaveDialog(currentListInstance->getTabName());
+    //no need to know which tab. Close button always focuses the tab first.
+    if (currentListInstance->amb_list.isNew() || currentListInstance->isEdited())
+    {
+        DialogAnswer answer = view->openSaveDialog(currentListInstance->getTabName());
 
-		switch (answer)
-		{
-			case DialogAnswer::Yes:
-				if (save()) //if the save is not interrupted
-					break;
-				else 
-					return false;
+        switch (answer)
+        {
+            case DialogAnswer::Yes:
+                if (save()) //if the save is not interrupted
+                    break;
+                else
+                    return false;
 
-			case DialogAnswer::No: break;
+            case DialogAnswer::No: break;
 
-			case DialogAnswer::Cancel: return false;
-		}
-	}
+            case DialogAnswer::Cancel: return false;
+        }
+    }
 
-	list_instance.erase(list_instance.begin() + currentVecPos);
-	view->removeCurrentTab();
+    list_instance.erase(list_instance.begin() + currentVecPos);
+    view->removeCurrentTab();
 
-	return true;
+    return true;
 }
 

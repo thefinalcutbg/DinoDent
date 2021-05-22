@@ -1,6 +1,6 @@
 #include "BridgeItem.h"
 
-BridgeItem::BridgeItem() : bounds{ 0, 0, 684, 45 }, paintedBridge(NULL)
+BridgeItem::BridgeItem() : bounds{ 0, 0, 684, 45 }, paintedBridge(nullptr)
 {
 }
 

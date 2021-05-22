@@ -1,7 +1,7 @@
 #include "ControlPanel.h"
 
 ControlPanel::ControlPanel(QWidget *parent)
-	: QWidget(parent), statusControl(NULL)
+	: QWidget(parent), statusControl(nullptr)
 {
 	ui.setupUi(this);
 	

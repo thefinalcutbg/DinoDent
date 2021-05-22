@@ -2,8 +2,8 @@
 
 
 AbstractLineEdit::AbstractLineEdit() : 
-	reformator(NULL), 
-	observer(NULL) {};
+	reformator(nullptr), 
+	observer(nullptr) {};
 
 
 void AbstractLineEdit::reset()

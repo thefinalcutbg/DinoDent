@@ -165,19 +165,19 @@
   <customwidget>
    <class>CommonFields</class>
    <extends>QWidget</extends>
-   <header>View/ProcedureDialog/Widgets/CommonFields/commonfields.h</header>
+   <header>View/ProcedureDialog/Widgets/CommonFields/CommonFields.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>CrownView</class>
    <extends>QWidget</extends>
-   <header>View/ProcedureDialog/Widgets/CrownView/crownview.h</header>
+   <header>View/ProcedureDialog/Widgets/CrownView/CrownView.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>ObturationView</class>
    <extends>QWidget</extends>
-   <header>View/ProcedureDialog/Widgets/ObturationView/obturationview.h</header>
+   <header>View/ProcedureDialog/Widgets/ObturationView/ObturationView.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

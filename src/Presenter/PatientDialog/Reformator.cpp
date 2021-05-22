@@ -1,4 +1,4 @@
-﻿#include "reformator.h"
+﻿#include "Presenter/PatientDialog/Reformator.h"
 
 QString NameReformator::reformat(QString text)
 {

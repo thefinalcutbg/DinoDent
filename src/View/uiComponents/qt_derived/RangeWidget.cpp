@@ -2,7 +2,7 @@
 
 RangeWidget::RangeWidget(QWidget *parent)
 	: QWidget(parent),
-		validator(NULL)
+		validator(nullptr)
 {
 	ui.setupUi(this);
 

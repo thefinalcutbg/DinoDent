@@ -93,7 +93,7 @@
   <customwidget>
    <class>MnogoTypSpinBox</class>
    <extends>QSpinBox</extends>
-   <header>mnogotypspinbox.h</header>
+   <header>View/AmbListPage/saveAsDialog/MnogoTypSpinBox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

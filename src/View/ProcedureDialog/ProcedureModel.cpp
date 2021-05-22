@@ -1,15 +1,17 @@
 ﻿#include "ProcedureModel.h"
 
+#include <cmath>
+
 ProcedureModel::ProcedureModel(QObject *parent)
-	: QAbstractTableModel(parent)
+    : QAbstractTableModel(parent)
 {
 }
 
 void ProcedureModel::setManipulations(std::vector<ManipulationTemplate> manipulations)
 {
 //    beginResetModel();
-   
-    
+
+
  //   this->manipulations.clear();
 
     this->manipulations.reserve(manipulations.size());
@@ -17,10 +19,10 @@ void ProcedureModel::setManipulations(std::vector<ManipulationTemplate> manipula
     for (auto &m : manipulations)
     {
         double intPart;
-        auto price = std::modf(m.price, &intPart) == 0.0 ? 
+        auto price = std::modf(m.price, &intPart) == 0.0 ?
             QString::number(m.price) + " лв." :
             QString::number(m.price, 'f', 2) + " лв.";
-            
+
 
         this->manipulations.emplace_back
         (ManipulationRow(m.code,
@@ -46,7 +48,7 @@ bool ProcedureModel::removeRows(int row, int count, const QModelIndex& parent)
 {
     beginRemoveRows(parent, row, row+count);
     endRemoveRows();
-    
+
     return true;
 }
 
@@ -64,8 +66,8 @@ QVariant ProcedureModel::headerData(int section, Qt::Orientation orientation, in
             }
         }
     }
-    
-	return QVariant();
+
+    return QVariant();
 }
 
 int ProcedureModel::rowCount(const QModelIndex& parent) const

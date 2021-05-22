@@ -1,11 +1,11 @@
-#include "database.h"
+#include "Database.h"
 #include <qdebug.h>
 
-Database::Database() : db(NULL), err(NULL), stmt(NULL)
+Database::Database() : err(nullptr), db(nullptr), stmt(nullptr)
 {
 
 
-	sqlite3_open("DATATEST.db", &db);
+    sqlite3_open("DATATEST.db", &db);
     rc = sqlite3_exec(
         db,
         "CREATE TABLE IF NOT EXISTS patient("
@@ -33,7 +33,7 @@ Database::Database() : db(NULL), err(NULL), stmt(NULL)
         "num             INT             NOT NULL,"
         "patient_id      VARCHAR(10)     NOT NULL,"
         "lpk             VARCHAR(9)      NOT NULL,"
-        "status_json     VARCHAR," 
+        "status_json     VARCHAR,"
         "FOREIGN KEY    (patient_id) REFERENCES patient(id) ON DELETE CASCADE ON UPDATE CASCADE"
         ");"
         , NULL, NULL, &err);
@@ -59,14 +59,14 @@ Database::Database() : db(NULL), err(NULL), stmt(NULL)
         "day             INT             NOT NULL,"
         "tooth           INT             NOT NULL,"
         "code            VARCHAR(10)     NOT NULL,"
-        //    "price           REAL            NOT NULL," //hardcoded? 
+        //    "price           REAL            NOT NULL," //hardcoded?
       //      "nzok_price      REAL            NOT NULL," //hardcoded?
         "data            VARCHAR         NOT NULL," //json data
         "amblist_id      INT             NOT NULL,"
         "FOREIGN KEY    (amblist_id)     REFERENCES amblist(id) ON DELETE CASCADE ON UPDATE CASCADE"
         ");"
         , NULL, NULL, &err);
-    
+
     if (rc != SQLITE_OK)
     {
         qDebug() << "Error opening DB:" << QString::fromStdString(sqlite3_errmsg(db));

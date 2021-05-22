@@ -10,7 +10,7 @@ static std::array<QString, 17> colorCodes
 };
 
 ObturationView::ObturationView(QWidget* parent)
-	: QWidget(parent), m_presenter(NULL)
+	: QWidget(parent), m_presenter(nullptr)
 {
 	ui.setupUi(this);
 

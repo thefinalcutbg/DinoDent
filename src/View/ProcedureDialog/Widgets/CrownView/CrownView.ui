@@ -110,18 +110,18 @@
   <customwidget>
    <class>LineEdit</class>
    <extends>QLineEdit</extends>
-   <header location="global">View/uiComponents/qt_derived/lineedit.h</header>
+   <header location="global">View/uiComponents/qt_derived/LineEdit.h</header>
   </customwidget>
   <customwidget>
    <class>RangeWidget</class>
    <extends>QWidget</extends>
-   <header>View/uiComponents/qt_derived/rangewidget.h</header>
+   <header>View/uiComponents/qt_derived/RangeWidget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>VitaWidget</class>
    <extends>QWidget</extends>
-   <header>View/uiComponents/qt_derived/vitawidget.h</header>
+   <header>View/uiComponents/qt_derived/VitaWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

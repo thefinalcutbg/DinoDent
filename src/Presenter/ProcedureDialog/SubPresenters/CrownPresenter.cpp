@@ -7,7 +7,7 @@ CrownPresenter::CrownPresenter(
     :
 	TeethMPresenter(selectedTeeth),
     teeth(&teeth),
-	view(NULL),
+	view(nullptr),
 	bridge(false),
 	bridgePrice(0)
 {

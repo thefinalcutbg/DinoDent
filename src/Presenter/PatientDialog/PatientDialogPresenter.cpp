@@ -3,7 +3,7 @@
 
 PatientDialogPresenter::PatientDialogPresenter(IPatientDialog* patientDialog) :
 	view(patientDialog),
-	requestor(NULL),
+	requestor(nullptr),
 	patient_field {NULL},
 	new_patient(true),
 	egn_form(true),
@@ -36,7 +36,7 @@ void PatientDialogPresenter::EgnTypeDialog()
 	view->setLn4View(false);
 	egn_form = true;
 	patient_field[id]->set_Validator(&egn_validator);
-	patient_field[birthdate]->set_Validator(NULL);
+	patient_field[birthdate]->set_Validator(nullptr);
 	patient_field[mname]->set_Validator(&name_validator);
 
 	patient_field[id]->forceValidate();
@@ -53,7 +53,7 @@ void PatientDialogPresenter::Ln4TypeDialog()
 	egn_form = false;
 	patient_field[id]->set_Validator(&ln4_validator);
 	patient_field[birthdate]->set_Validator(&birth_validator);
-	patient_field[mname]->set_Validator(NULL);
+	patient_field[mname]->set_Validator(nullptr);
 	patient_field[id]->forceValidate();
 
 	for (int i = 0; i < patient_field.size(); i++)

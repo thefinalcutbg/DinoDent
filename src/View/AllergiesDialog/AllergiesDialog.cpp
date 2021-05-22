@@ -1,24 +1,24 @@
-﻿#include "allergiesdialog.h"
+﻿#include "AllergiesDialog.h"
 
 AllergiesDialog::AllergiesDialog(QWidget* parent)
-	: QDialog(parent), presenter(this)
+    : QDialog(parent), presenter(this)
 {
-	ui.setupUi(this);
-	setModal(true);
-	setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
-	setWindowTitle("Алергии, настоящи и минали заболявания");
+    ui.setupUi(this);
+    setModal(true);
+    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
+    setWindowTitle("Алергии, настоящи и минали заболявания");
 
-	connect(ui.okButton, &QPushButton::clicked, this, 
-		[=]
-		{
-			presenter.setAllergies(
-				ui.allergiesEdit->toPlainText().toStdString(),
-				ui.currentEdit->toPlainText().toStdString(),
-				ui.pastEdit->toPlainText().toStdString());
-			close();
-		});
+    connect(ui.okButton, &QPushButton::clicked, this,
+        [=]
+        {
+            presenter.setAllergies(
+                ui.allergiesEdit->toPlainText().toStdString(),
+                ui.currentEdit->toPlainText().toStdString(),
+                ui.pastEdit->toPlainText().toStdString());
+            close();
+        });
 
-	connect(ui.cancelButton, &QPushButton::clicked, this, [=] {close(); });
+    connect(ui.cancelButton, &QPushButton::clicked, this, [=] {close(); });
 
 }
 
@@ -26,33 +26,33 @@ AllergiesDialog::AllergiesDialog(QWidget* parent)
 
 void AllergiesDialog::open(std::string allergies, std::string current, std::string past)
 {
-	ui.allergiesEdit->setText(QString::fromStdString(allergies));
-	ui.currentEdit->setText(QString::fromStdString(current));
-	ui.pastEdit->setText(QString::fromStdString(past));
+    ui.allergiesEdit->setText(QString::fromStdString(allergies));
+    ui.currentEdit->setText(QString::fromStdString(current));
+    ui.pastEdit->setText(QString::fromStdString(past));
 
-	ui.okButton->setFocus();
-	exec();
+    ui.okButton->setFocus();
+    exec();
 }
 
 
 
 void AllergiesDialog::paintEvent(QPaintEvent* event)
 {
-	QPainter painter;
-	painter.begin(this);
-	painter.fillRect(0, 0, width(), height(), Qt::white);
-	painter.end();
+    QPainter painter;
+    painter.begin(this);
+    painter.fillRect(0, 0, width(), height(), Qt::white);
+    painter.end();
 }
 
 
 void AllergiesDialog::close()
 {
-	accept();
+    accept();
 }
 
 AllergiesDialogPresenter* AllergiesDialog::getPresenter()
 {
-	return &presenter;
+    return &presenter;
 }
 
 AllergiesDialog::~AllergiesDialog()

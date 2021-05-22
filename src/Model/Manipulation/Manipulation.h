@@ -10,27 +10,27 @@ struct NoData {};
 
 struct BridgeData {
 
-	int tooth_begin;
-	int tooth_end;
+    int tooth_begin;
+    int tooth_end;
 
-	std::string material;
-	int prep_type;
-	Vita color;
+    std::string material;
+    int prep_type;
+    Vita color;
 };
 
 struct CrownData {
 
-	std::string material;
-	int prep_type;
-	Vita color;
+    std::string material;
+    int prep_type;
+    Vita color;
 };
 
 struct ObtData{
 
-	std::array<bool, 6>surfaces{ 0,0,0,0,0,0 };
-	bool post;
-	int color;
-	std::string material;
+    std::array<bool, 6>surfaces{ 0,0,0,0,0,0 };
+    bool post;
+    int color;
+    std::string material;
 };
 
 struct ImplData {
@@ -43,38 +43,41 @@ struct Manipulation
 {
 
 
-	Manipulation(const ManipulationTemplate& t, Date date, std::string name, std::string diagnosis, double price, Result result)
-		:
-		type{ t.type },
-		code{ t.code },
-		date{ date },
-		name{ name },
-		diagnosis{ diagnosis },
-		price{ price },
-		tooth{ -1 },
-		nzok{ t.nzok },
-		result{result}
-	{}
+    Manipulation(const ManipulationTemplate& t, Date date, std::string name, std::string diagnosis, double price, Result result)
+        :
+        type{ t.type },
+        code{ t.code },
+        date{ date },
+        name{ name },
+        diagnosis{ diagnosis },
+        price{ price },
+        tooth{ -1 },
+        nzok{ t.nzok },
+        result{result}
+    {}
 
-	Manipulation() {}
-	
-	//common parameters:
-	Date date;
-	std::string diagnosis;
-	int tooth;
-	std::string name;
-	int code;
-	double price;
+    Manipulation() {}
 
-	std::string LPK;
-	
-	//status change parameters:
-	ManipulationType type;
+    //common parameters:
+    ManipulationType type;
+    int code;
+    Date date;
+    std::string name;
+    std::string diagnosis;
+    double price;
+    int tooth;
 
-	Result result;
 
-	//NZOK specific:
-	bool nzok;
+    std::string LPK;
+
+    //status change parameters:
+
+    //NZOK specific:
+    bool nzok;
+    Result result;
+
+
+
 
 };
 

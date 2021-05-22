@@ -7,25 +7,25 @@
 #include <QPushButton>
 
 
-#include "ui_allergiesdialog.h"
+#include "ui_AllergiesDialog.h"
 #include "IAllergiesDialog.h"
 #include "Presenter/AllergiesDialog/AllergiesDialogPresenter.h"
 
 class AllergiesDialog : public QDialog, IAllergiesDialog
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	AllergiesDialogPresenter presenter;
+    AllergiesDialogPresenter presenter;
 
-	void paintEvent(QPaintEvent* event);
+    void paintEvent(QPaintEvent* event);
 
 public:
-	AllergiesDialog(QWidget* parent = Q_NULLPTR);
-	void open(std::string allergies, std::string current, std::string past);
-	void close();
-	AllergiesDialogPresenter* getPresenter();
-	~AllergiesDialog();
+    AllergiesDialog(QWidget* parent = Q_NULLPTR);
+    void open(std::string allergies, std::string current, std::string past);
+    void close();
+    AllergiesDialogPresenter* getPresenter();
+    ~AllergiesDialog();
 
 private:
-	Ui::AllergiesDialog ui;
+    Ui::AllergiesDialog ui;
 };

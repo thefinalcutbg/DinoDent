@@ -1,7 +1,7 @@
 ﻿#include "MnogoTypSpinBox.h"
 
 
-MnogoTypSpinBox::MnogoTypSpinBox(QWidget* parent) : QSpinBox(parent), validNumber(NULL), msgLabel(NULL), validState(true)
+MnogoTypSpinBox::MnogoTypSpinBox(QWidget* parent) : QSpinBox(parent), validNumber(nullptr), msgLabel(nullptr), validState(true)
 {
 	connect(this, QOverload<int>::of(&QSpinBox::valueChanged), this, [=] {validate(); });
 }

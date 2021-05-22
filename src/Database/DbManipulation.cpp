@@ -10,13 +10,10 @@ std::vector<Manipulation> DbManipulation::getManipulations(const std::string& am
 	std::string query = "SELECT type, code, day, tooth, price, data FROM manipulations "
 						"WHERE amblist_id = " +amblist_id + " ORDER BY seq ASC";
 
-	qDebug() << QString::fromStdString(query);
-
 	sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
 
 	while (sqlite3_step(stmt) != SQLITE_DONE)
 	{
-		qDebug() << "getting manipulation";
 
 		Manipulation m;
 		m.date = amb_date;
@@ -30,6 +27,8 @@ std::vector<Manipulation> DbManipulation::getManipulations(const std::string& am
 		mList.push_back(m);
 	}
 
+	sqlite3_finalize(stmt);
+
 	closeConnection();
 
 	return mList;
@@ -41,7 +40,7 @@ void DbManipulation::saveManipulations(const std::string& amblist_id, const std:
 
 	openConnection();
 
-	std::string query = "DELETE FROM manipulations WHERE amblist_id = " + amblist_id; //+
+	std::string query = "DELETE FROM manipulations WHERE amblist_id = " + amblist_id;
 
 	rc = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
 		
@@ -67,7 +66,7 @@ void DbManipulation::saveManipulations(const std::string& amblist_id, const std:
 				;
 
 			rc = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
-
+			qDebug() << QString::fromStdString(query);
 			if (rc != SQLITE_OK)
 			{
 				qDebug() << "Error opening DB:" << QString::fromStdString(sqlite3_errmsg(db));
@@ -75,7 +74,6 @@ void DbManipulation::saveManipulations(const std::string& amblist_id, const std:
 		}
 	}
 	
-
 	closeConnection();
 
 			

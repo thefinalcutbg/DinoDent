@@ -12,7 +12,7 @@
 
 #include "ToothHintCreator.h"
 
-#include "BridgeController.h"
+#include "Model/Tooth/ToothController/BridgeController.h"
 #include "StatusControl.h"
 #include "CheckModelCreator.h"
 #include "SelectionManager.h"

@@ -99,6 +99,7 @@ void GeneralStatusController::addStatus(int statusIndex)
         tooth->periodontitis.set(false);
         tooth->crown.set(false);
         tooth->post.set(false);
+        tooth->mobility.set(false);
         break;
 
     case int(StatusCode::Root): //root
@@ -123,6 +124,7 @@ void GeneralStatusController::addStatus(int statusIndex)
         tooth->fracture.set(false);
         tooth->root.set(false);
         tooth->post.set(false);
+        tooth->mobility.set(false);
 
         break;
 

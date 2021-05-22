@@ -141,10 +141,10 @@
     <ClCompile Include="src\Presenter\SurfacePanel\ButtonSurfaceMatrix.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Presenter\ListPresenter\ToothController\GeneralStatusControler.cpp">
+    <ClCompile Include="src\Model\Tooth\ToothController\GeneralStatusControler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Presenter\ListPresenter\ToothController\SurfaceController.cpp">
+    <ClCompile Include="src\Model\Tooth\ToothController\SurfaceController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Presenter\ListPresenter\CheckModelCreator.cpp">
@@ -165,7 +165,7 @@
     <ClCompile Include="src\View\ListView\ToothPaintDevices\BridgePainter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Presenter\ListPresenter\BridgeController.cpp">
+    <ClCompile Include="src\Model\Tooth\ToothController\BridgeController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\ProcedureDialog\ProcedureDialog.cpp">
@@ -286,6 +286,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\ImplantPresenter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Model\Manipulation\ManipulationApplier.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -536,13 +539,13 @@
     <ClInclude Include="src\Presenter\SurfacePanel\ButtonSurfaceMatrix.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Presenter\ListPresenter\ToothController\GeneralStatusControler.h">
+    <ClInclude Include="src\Model\Tooth\ToothController\GeneralStatusControler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Presenter\ListPresenter\ToothController\SurfaceController.h">
+    <ClInclude Include="src\Model\Tooth\ToothController\SurfaceController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Presenter\ListPresenter\ToothController\ToothController.h">
+    <ClInclude Include="src\Model\Tooth\ToothController\ToothController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Presenter\ListPresenter\CheckModelCreator.h">
@@ -569,7 +572,7 @@
     <ClInclude Include="src\View\ListView\ToothPaintDevices\BridgePainter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Presenter\ListPresenter\BridgeController.h">
+    <ClInclude Include="src\Model\Tooth\ToothController\BridgeController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\bridgeTest.h">
@@ -696,6 +699,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\ImplantPresenter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\Manipulation\ManipulationApplier.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

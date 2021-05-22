@@ -94,12 +94,14 @@ struct Obturation : public Material
 
 struct Crown : public Material
 {
+	int prep_type{ 0 };
 	Vita color;
 };
 
 
 struct Bridge : public Material
 {
+	int prep_type{ 0 };
 	BridgePos position;
 	Vita color;
 };

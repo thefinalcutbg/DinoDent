@@ -193,6 +193,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Model\Manipulation\ManipulationApplier.cpp" />
     <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\ImplantPresenter.cpp" />
     <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\EndoPresenter.cpp" />
     <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\ExtractionPresenter.cpp" />
@@ -223,7 +224,7 @@
     <ClCompile Include="src\View\ProcedureDialog\ProcedureDialog.cpp" />
     <ClCompile Include="src\Model\Tooth\Tooth.cpp" />
     <ClCompile Include="src\Model\Tooth\ToothParser.cpp" />
-    <ClCompile Include="src\Presenter\ListPresenter\BridgeController.cpp" />
+    <ClCompile Include="src\Model\Tooth\ToothController\BridgeController.cpp" />
     <ClCompile Include="src\View\ListView\ToothPaintDevices\BridgePainter.cpp" />
     <ClCompile Include="src\View\ListView\TeethView\BridgeItem.cpp" />
     <ClCompile Include="src\Model\Tooth\ToothUtils.cpp" />
@@ -238,7 +239,7 @@
     <ClCompile Include="src\Presenter\ListPresenter\SelectionManager.cpp" />
     <ClCompile Include="src\Presenter\ListPresenter\CheckModelCreator.cpp" />
     <ClCompile Include="src\View\ListView\ControlPanel\ControlPanel.cpp" />
-    <ClCompile Include="src\Presenter\ListPresenter\ToothController\GeneralStatusControler.cpp" />
+    <ClCompile Include="src\Model\Tooth\ToothController\GeneralStatusControler.cpp" />
     <ClCompile Include="src\View\ListView\TeethView\ContextMenu.cpp">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">/utf-8 %(AdditionalOptions)</AdditionalOptions>
@@ -279,7 +280,7 @@
     <ClCompile Include="src\View\ListView\ListView.cpp" />
     <ClCompile Include="src\View\AmbListPage\TabBar.cpp" />
     <ClCompile Include="src\Presenter\ListPresenter\StatusControl.cpp" />
-    <ClCompile Include="src\Presenter\ListPresenter\ToothController\SurfaceController.cpp" />
+    <ClCompile Include="src\Model\Tooth\ToothController\SurfaceController.cpp" />
     <ClCompile Include="src\View\ListView\ControlPanel\StatusButton.cpp" />
     <ClCompile Include="src\View\ListView\SurfacePanel\SurfacePanel.cpp" />
     <ClCompile Include="src\Presenter\SurfacePanel\ButtonSurfaceMatrix.cpp" />
@@ -361,6 +362,7 @@
     <QtMoc Include="src\View\ProcedureDialog\Widgets\CommonFields\CommonFields.h" />
     <QtMoc Include="src\View\ProcedureDialog\Widgets\ObturationView\ObturationView.h" />
     <QtMoc Include="src\View\ProcedureDialog\Widgets\CrownView\CrownView.h" />
+    <ClInclude Include="src\Model\Manipulation\ManipulationApplier.h" />
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\ImplantPresenter.h" />
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\EndoPresenter.h" />
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\ExtractionPresenter.h" />
@@ -405,7 +407,7 @@
     <ClInclude Include="src\View\ProcedureDialog\IProcedureDialog.h" />
     <QtMoc Include="src\View\ProcedureDialog\ProcedureDialog.h" />
     <ClInclude Include="src\Model\Tooth\ToothParser.h" />
-    <ClInclude Include="src\Presenter\ListPresenter\BridgeController.h" />
+    <ClInclude Include="src\Model\Tooth\ToothController\BridgeController.h" />
     <ClInclude Include="src\bridgeTest.h" />
     <ClInclude Include="src\View\ListView\ToothPaintDevices\BridgePainter.h" />
     <ClInclude Include="src\View\ListView\TeethView\BridgeItem.h" />
@@ -424,14 +426,14 @@
     <ClInclude Include="src\Presenter\ListPresenter\SelectionManager.h" />
     <ClInclude Include="src\Presenter\ListPresenter\CheckModelCreator.h" />
     <ClInclude Include="src\Presenter\ListPresenter\ListPresenter.h" />
-    <ClInclude Include="src\Presenter\ListPresenter\ToothController\SurfaceController.h" />
+    <ClInclude Include="src\Model\Tooth\ToothController\SurfaceController.h" />
     <QtMoc Include="src\View\ListView\TeethView\ContextMenu.h" />
-    <ClInclude Include="src\Presenter\ListPresenter\ToothController\GeneralStatusControler.h" />
+    <ClInclude Include="src\Model\Tooth\ToothController\GeneralStatusControler.h" />
     <ClInclude Include="src\Model\CheckState.h" />
     <ClInclude Include="src\View\ListView\ToothPaintDevices\SpriteSheets.h" />
     <ClInclude Include="src\Model\Tooth\Tooth.h" />
     <ClInclude Include="src\Presenter\ListPresenter\StatusControl.h" />
-    <ClInclude Include="src\Presenter\ListPresenter\ToothController\ToothController.h" />
+    <ClInclude Include="src\Model\Tooth\ToothController\ToothController.h" />
     <QtMoc Include="src\View\AmbListPage\TabBar.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\DateLineEdit.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\ComboBox.h" />

@@ -3,8 +3,8 @@
 #include <vector>
 
 #include "Model/CheckState.h"
-#include "ToothController/GeneralStatusControler.h"
-#include "ToothController/SurfaceController.h"
+#include "Model/Tooth/ToothController/GeneralStatusControler.h"
+#include "Model/Tooth/ToothController/SurfaceController.h"
 #include "IStatusControl.h"
 
 

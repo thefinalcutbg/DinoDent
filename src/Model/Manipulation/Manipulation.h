@@ -27,7 +27,7 @@ struct CrownData {
 
 struct ObtData{
 
-	std::array<bool, 6>surfaces;
+	std::array<bool, 6>surfaces{ 0,0,0,0,0,0 };
 	bool post;
 	int color;
 	std::string material;
@@ -53,12 +53,10 @@ struct Manipulation
 		price{ price },
 		tooth{ -1 },
 		nzok{ t.nzok },
-		duration{ t.duration },
-		nzok_price{ t.nzok_price },
 		result{result}
 	{}
 
-	
+	Manipulation() {}
 	
 	//common parameters:
 	Date date;
@@ -77,8 +75,7 @@ struct Manipulation
 
 	//NZOK specific:
 	bool nzok;
-	int duration;
-	double nzok_price;
+
 };
 
 

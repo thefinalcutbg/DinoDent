@@ -101,22 +101,21 @@ AmbList* DbAmbList::getList(std::string patientID, int currentMonth, int current
         ambList->test = std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 5)));
     }
 
-
-    if (ambList->id.empty())
+    if (ambList->id.empty()) //if the amblist is new
     {
         ambList->date = Date::getCurrentDate();
         ambList->test = getOlderStatus(patientID);
     }
-
-    parser.parse(ambList->test, ambList->teeth);
-
-    ambList->LPK = "220008771";
-
+    else
+    {
+        parser.parse(ambList->test, ambList->teeth);
+        ambList->LPK = "220008771";
+        ambList->manipulations = db_manipulation.getManipulations(ambList->id, ambList->date);
+    }
+   
     sqlite3_finalize(stmt);
 
     closeConnection();
-
-    ambList->manipulations = db_manipulation.getManipulations(ambList->id);
 
     return ambList;
 

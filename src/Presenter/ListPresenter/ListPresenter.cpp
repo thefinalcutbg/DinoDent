@@ -105,6 +105,7 @@ void ListPresenter::statusChanged()
 void ListPresenter::addToManipulationList(const std::vector<Manipulation>& new_mList)
 {
 	auto& mList = ambList->manipulations;
+
 	mList.reserve(mList.size() + new_mList.size());
 
 	for (int i = 0; i < mList.size(); i++)

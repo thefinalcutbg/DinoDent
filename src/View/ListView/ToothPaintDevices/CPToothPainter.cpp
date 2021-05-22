@@ -15,9 +15,7 @@ QPixmap CPToothPainter::returnPaintedTooth(const PaintHint& tooth)
 
     painter.setOpacity(0.35);
     painter.drawPixmap(0, 0, drawSurfaces(tooth));
-    painter.setOpacity(1);
 
- //   painter.setOpacity(1);
 
     if (tooth.prostho != ProsthoHint::none)
     {

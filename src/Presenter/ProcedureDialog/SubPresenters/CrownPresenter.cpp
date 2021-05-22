@@ -44,10 +44,13 @@ void CrownPresenter::setManipulationTemplate(const ManipulationTemplate& m)
 
 std::vector<Manipulation> CrownPresenter::getManipulations()
 {
-	return bridge ?
-					GeneralMPresenter::getManipulations()
-					:
-					TeethMPresenter::getManipulations();	
+	if(!bridge) return TeethMPresenter::getManipulations();
+	
+	auto manipulation = GeneralMPresenter::getManipulations();
+	manipulation[0].type = ManipulationType::bridge;
+	return manipulation;
+	
+					
 }
 
 bool CrownPresenter::isValid()

@@ -2,6 +2,8 @@
 #include <QPixmap>
 #include <unordered_map>
 
+//nanovo trqq se napi6e, da se nacepqt teksturite predvaritelno
+
 class SpriteSheets
 {
 	static SpriteSheets instance;

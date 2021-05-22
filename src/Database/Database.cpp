@@ -42,6 +42,7 @@ Database::Database() : db(NULL), err(NULL), stmt(NULL)
         db,
         "CREATE TABLE IF NOT EXISTS manipulations("
         "id              INTEGER         NOT NULL PRIMARY KEY,"
+        "code            VARCHAR(10)     NOT NULL,"
         "seq             INT             NOT NULL,"  //the sequence of the manipulation(if dates are the same)
         "type            INT             NOT NULL," //required for json parser and statistics
         "day             INT             NOT NULL,"
@@ -57,10 +58,10 @@ Database::Database() : db(NULL), err(NULL), stmt(NULL)
         "seq             INT             NOT NULL,"
         "day             INT             NOT NULL,"
         "tooth           INT             NOT NULL,"
-        "code            INT             NOT NULL,"
+        "code            VARCHAR(10)     NOT NULL,"
         //    "price           REAL            NOT NULL," //hardcoded? 
       //      "nzok_price      REAL            NOT NULL," //hardcoded?
-        "data            VARCHAR         NOT NULL," //json data depending on type
+        "data            VARCHAR         NOT NULL," //json data
         "amblist_id      INT             NOT NULL,"
         "FOREIGN KEY    (amblist_id)     REFERENCES amblist(id) ON DELETE CASCADE ON UPDATE CASCADE"
         ");"

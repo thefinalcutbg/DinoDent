@@ -53,7 +53,7 @@ std::tuple<int, bool> VitaWidget::getIndex()
 {
     int index = 0;
     bool master{ false };
-    if (!ui.radioClassic->isChecked())
+    if (ui.radioClassic->isChecked())
     {
         index = ui.index->currentIndex();
 

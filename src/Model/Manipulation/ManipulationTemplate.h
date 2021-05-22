@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 
-enum class ManipulationType { general, any, obturation, extraction, endo, crown, implant};
+enum class ManipulationType { general, any, obturation, extraction, endo, crown, bridge, implant};
 
 
 struct ManipulationTemplate

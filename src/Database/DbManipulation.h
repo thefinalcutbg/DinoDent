@@ -8,9 +8,9 @@
 
 class DbManipulation : public AbstractORM
 {
-
+    ManipulationParser parser;
 public:
-    std::vector<Manipulation> getManipulations(const std::string& amblist_id);
+    std::vector<Manipulation> getManipulations(const std::string& amblist_id, const Date& amb_date);
     void saveManipulations(const std::string& amblist_id, const std::vector<Manipulation>& mList);
 
 };

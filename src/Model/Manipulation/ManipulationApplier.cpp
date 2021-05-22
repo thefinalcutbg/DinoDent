@@ -37,7 +37,9 @@ void ManipulationApplier::applyManipulations(const std::vector<Manipulation>& m,
 				auto& tooth = teeth.at(m.tooth);
 				status_ctrl.setTooth(&tooth);
 				status_ctrl.addStatus(StatusCode::Extraction);
-				tooth.extraction.LPK = LPK;
+
+				if(tooth.extraction.exists()) //if the tooth was temporary, the status won't be present
+					tooth.extraction.LPK = LPK;
 			}
 			break;
 
@@ -75,7 +77,7 @@ void ManipulationApplier::applyManipulations(const std::vector<Manipulation>& m,
 				
 				tooth.implant.LPK = LPK;
 
-				//result to status goes here
+				//result to implant status goes here
 			}
 			break;
 
@@ -86,16 +88,21 @@ void ManipulationApplier::applyManipulations(const std::vector<Manipulation>& m,
 				std::vector<int> indexes;
 				indexes.reserve(result.tooth_end - result.tooth_begin + 1);
 
-				for (int i = result.tooth_begin; i == result.tooth_end; i++)
-				{
+				for (int i = result.tooth_begin; i <= result.tooth_end; i++)
 					indexes.push_back(i);
 
+				for (int i : indexes)
+					bridge_ctrl.removeBridge(i, &teeth);
+
+				for (int i : indexes)
+				{
 					auto& tooth = teeth.at(i);
 					status_ctrl.setTooth(&tooth);
 					status_ctrl.addStatus(StatusCode::Bridge);
 					tooth.bridge.color = result.color;
 					tooth.bridge.material = result.material;
 					tooth.bridge.prep_type = result.prep_type;
+					tooth.bridge.LPK = LPK;
 				}
 
 				bridge_ctrl.formatBridges(indexes, &teeth);

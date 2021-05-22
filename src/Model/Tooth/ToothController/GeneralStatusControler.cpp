@@ -18,7 +18,7 @@ void GeneralStatusController::addStatus(int statusIndex)
     switch (statusIndex)
     {
 
-    case int(StatusCode::Temporary):  //temporary tooth;
+    case StatusCode::Temporary:  //temporary tooth;
         if (tooth_type == ToothType::Molar) return;
 
         tooth->temporary.set(true);
@@ -27,7 +27,7 @@ void GeneralStatusController::addStatus(int statusIndex)
         tooth->post.set(false);
         break;
 
-    case int(StatusCode::Obturation):  //obturation
+    case StatusCode::Obturation:  //obturation
     {
         tooth->obturation.set(true);
         tooth->root.set(false);
@@ -36,7 +36,7 @@ void GeneralStatusController::addStatus(int statusIndex)
     }
     break;
 
-    case int(StatusCode::Caries): //caries
+    case StatusCode::Caries: //caries
     {
 
         tooth->caries.set(true);
@@ -46,7 +46,7 @@ void GeneralStatusController::addStatus(int statusIndex)
     }
     break;
 
-    case int(StatusCode::Pulpitis):  //pulpitis
+    case StatusCode::Pulpitis:  //pulpitis
         tooth->pulpitis.set(true);
         tooth->lesion.set(false);
         tooth->extraction.set(false);
@@ -56,7 +56,7 @@ void GeneralStatusController::addStatus(int statusIndex)
 
         break;
 
-    case int(StatusCode::EndoTreatment): //endo treatment
+    case StatusCode::EndoTreatment: //endo treatment
 
         tooth->endo.set(true);
         tooth->extraction.set(false);
@@ -64,7 +64,7 @@ void GeneralStatusController::addStatus(int statusIndex)
         tooth->pulpitis.set(false);
         break;
 
-    case int(StatusCode::Post) : //radicular post
+    case StatusCode::Post: //radicular post
 
         tooth->post.set(true);
         tooth->endo.set(true);
@@ -75,7 +75,7 @@ void GeneralStatusController::addStatus(int statusIndex)
         break;
 
 
-    case int(StatusCode::Extraction): //extraction
+    case StatusCode::Extraction: //extraction
 
         if (tooth->hyperdontic.exists()) {
             tooth->hyperdontic.set(false);
@@ -102,7 +102,7 @@ void GeneralStatusController::addStatus(int statusIndex)
         tooth->mobility.set(false);
         break;
 
-    case int(StatusCode::Root): //root
+    case StatusCode::Root: //root
 
         tooth->root.set(true);
         tooth->caries.set(false);
@@ -112,7 +112,7 @@ void GeneralStatusController::addStatus(int statusIndex)
         tooth->implant.set(false);
         break;
 
-    case int(StatusCode::Implant): //implant
+    case StatusCode::Implant: //implant
 
         tooth->implant.set(true);
         tooth->extraction.set(false);
@@ -128,7 +128,7 @@ void GeneralStatusController::addStatus(int statusIndex)
 
         break;
 
-    case int(StatusCode::ApicalLesion): //apical lesion
+    case StatusCode::ApicalLesion: //apical lesion
 
         tooth->lesion.set(true);
         tooth->pulpitis.set(false);
@@ -136,49 +136,49 @@ void GeneralStatusController::addStatus(int statusIndex)
 
         break;
 
-    case int(StatusCode::Fracture):
+    case StatusCode::Fracture:
         tooth->fracture.set(true);
         tooth->extraction.set(false);
         tooth->implant.set(false);
         break;
 
-    case int(StatusCode::Periodontitis): //Periodontitis
+    case StatusCode::Periodontitis: //Periodontitis
         tooth->periodontitis.set(true);
         tooth->extraction.set(false);
 
         break;
-    case int(StatusCode::Mobility1):
+    case StatusCode::Mobility1:
         tooth->extraction.set(false);
         tooth->mobility.set(true);
         tooth->mobility.degree = Degree::First;
         break;
 
-    case int(StatusCode::Mobility2):
+    case StatusCode::Mobility2:
         tooth->extraction.set(false);
         tooth->mobility.set(true);
         tooth->mobility.degree = Degree::Second;
         break;
 
-    case int(StatusCode::Mobility3):
+    case StatusCode::Mobility3:
         tooth->extraction.set(false);
         tooth->mobility.set(true);
         tooth->mobility.degree = Degree::Third;
         break;
 
-    case int(StatusCode::Crown) :
+    case StatusCode::Crown:
         tooth->crown.set(true);
         tooth->bridge.set(false);
         tooth->extraction.set(false);
         tooth->root.set(false);
         break;
 
-    case int(StatusCode::Bridge) :
+    case StatusCode::Bridge:
         tooth->bridge.set(true);
         tooth->hyperdontic.set(false);
         tooth->crown.set(false);
         break;
 
-    case int(StatusCode::Dsn):
+    case StatusCode::Dsn:
         tooth->hyperdontic.set(true);
         tooth->extraction.set(false);
         tooth->implant.set(false);
@@ -192,55 +192,55 @@ void GeneralStatusController::removeStatus(int statusIndex)
 {
     switch (statusIndex)
     {
-    case int(StatusCode::Temporary):
+    case StatusCode::Temporary:
         tooth->temporary.set(false);
         break;
-    case int(StatusCode::Obturation):
+    case StatusCode::Obturation:
         tooth->obturation.set(false);
         break;
-    case int(StatusCode::Caries):
+    case StatusCode::Caries:
         tooth->caries.set(false);
         break;
-    case int(StatusCode::Pulpitis):
+    case StatusCode::Pulpitis:
         tooth->pulpitis.set(false);
         break;
-    case int(StatusCode::EndoTreatment):
+    case StatusCode::EndoTreatment:
         tooth->endo.set(false);
         tooth->post.set(false);
         break;
-    case int(StatusCode::Post) :
+    case StatusCode::Post:
         tooth->post.set(false);
         break;
-    case int(StatusCode::ApicalLesion):
+    case StatusCode::ApicalLesion:
         tooth->lesion.set(false);
         break;
-    case int(StatusCode::Extraction):
+    case StatusCode::Extraction:
         tooth->extraction.set(false);
         break;
-    case int(StatusCode::Root):
+    case StatusCode::Root:
         tooth->root.set(false);
         break;
-    case int(StatusCode::Mobility1):
-    case int(StatusCode::Mobility2):
-    case int(StatusCode::Mobility3):
+    case StatusCode::Mobility1:
+    case StatusCode::Mobility2:
+    case StatusCode::Mobility3:
         tooth->mobility.set(false);
         break;
-    case int(StatusCode::Implant):
+    case StatusCode::Implant:
         tooth->implant.set(false);
         break;
-    case int(StatusCode::Fracture):
+    case StatusCode::Fracture:
         tooth->fracture.set(false);
         break;
-    case int(StatusCode::Crown):
+    case StatusCode::Crown:
         tooth->crown.set(false);
         break;
-    case int(StatusCode::Bridge):
+    case StatusCode::Bridge:
         tooth->bridge.set(false);
         break;
-    case int(StatusCode::Periodontitis):
+    case StatusCode::Periodontitis:
         tooth->periodontitis.set(false);
         break;
-    case int(StatusCode::Dsn):
+    case StatusCode::Dsn:
         tooth->hyperdontic.set(false);
         break;
 

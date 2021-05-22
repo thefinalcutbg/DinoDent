@@ -39,6 +39,33 @@ void BridgeController::formatBridges(const std::vector<int>& indexes, std::array
 	}
 }
 
+void BridgeController::removeBridge(int tooth_idx, std::array<Tooth, 32>* teeth)
+{
+
+	if (!teeth->at(tooth_idx).bridge.exists()) return;
+
+	for (int i = tooth_idx; i < 32; i++)
+	{
+		auto& bridge = teeth->at(i).bridge;
+
+		bridge.set(false);
+
+		if (bridge.position == BridgePos::End) 
+			break;
+	}
+
+	for (int i = tooth_idx; i >= 0; --i)
+	{
+		auto& bridge = teeth->at(i).bridge;
+
+		bridge.set(false);
+
+		if (bridge.position == BridgePos::Begin)
+			break;
+	}
+
+}
+
 
 void BridgeController::formatSelection(const std::vector<int>& selection, std::array<Tooth, 32>*teeth)
 {

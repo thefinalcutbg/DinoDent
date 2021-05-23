@@ -91,12 +91,12 @@
   <customwidget>
    <class>LineEdit</class>
    <extends>QLineEdit</extends>
-   <header location="global">View/uiComponents/qt_derived/lineedit.h</header>
+   <header location="global">View/uiComponents/qt_derived/LineEdit.h</header>
   </customwidget>
   <customwidget>
    <class>SurfaceSelector</class>
    <extends>QWidget</extends>
-   <header>View/uiComponents/qt_derived/surfaceselector.h</header>
+   <header>View/uiComponents/qt_derived/SurfaceSelector.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

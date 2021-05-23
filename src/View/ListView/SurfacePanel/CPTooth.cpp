@@ -1,7 +1,7 @@
 #include "CPTooth.h"
 #include <QDebug>
 
-CPTooth::CPTooth() : texture(NULL)
+CPTooth::CPTooth() : texture(nullptr)
 {}
 
 CPTooth::~CPTooth()

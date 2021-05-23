@@ -364,7 +364,7 @@
   <customwidget>
    <class>StatusButton</class>
    <extends>QPushButton</extends>
-   <header>statusbutton.h</header>
+   <header>View/ListView/ControlPanel/StatusButton.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -156,17 +156,17 @@
   <customwidget>
    <class>DateLineEdit</class>
    <extends>QDateEdit</extends>
-   <header>View/uiComponents/qt_derived/datelineedit.h</header>
+   <header>View/uiComponents/qt_derived/DateLineEdit.h</header>
   </customwidget>
   <customwidget>
    <class>TextEdit</class>
    <extends>QTextEdit</extends>
-   <header>View/uiComponents/qt_derived/textedit.h</header>
+   <header>View/uiComponents/qt_derived/TextEdit.h</header>
   </customwidget>
   <customwidget>
    <class>SpinBox</class>
    <extends>QDoubleSpinBox</extends>
-   <header location="global">View/uiComponents/qt_derived/spinbox.h</header>
+   <header location="global">View/uiComponents/qt_derived/SpinBox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

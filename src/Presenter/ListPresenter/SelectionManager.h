@@ -12,7 +12,7 @@ class SelectionManager
 public:
 	SelectionManager();
 	void setStatus(std::array<Tooth, 32>* Teeth);
-	std::vector<Tooth*> getSelectedTeethPointers(std::vector<int>& selectedTeethIndexes);
+	std::vector<Tooth*> getSelectedTeethPointers(const std::vector<int> & selectedTeethIndexes);
 
 };
 

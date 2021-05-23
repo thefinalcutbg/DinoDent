@@ -158,34 +158,34 @@
   <customwidget>
    <class>PatientTile</class>
    <extends>QPushButton</extends>
-   <header>tilebutton.h</header>
+   <header>View/ListView/tilebutton.h</header>
   </customwidget>
   <customwidget>
    <class>AllergiesTile</class>
    <extends>QPushButton</extends>
-   <header>tilebutton.h</header>
+   <header>View/ListView/tilebutton.h</header>
   </customwidget>
   <customwidget>
    <class>ControlPanel</class>
    <extends>QWidget</extends>
-   <header>ControlPanel/controlpanel.h</header>
+   <header>View/ListView/ControlPanel/ControlPanel.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>SurfacePanel</class>
    <extends>QWidget</extends>
-   <header>SurfacePanel/surfacepanel.h</header>
+   <header>View/ListView/SurfacePanel/SurfacePanel.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>ProcedureTable</class>
    <extends>QTableView</extends>
-   <header>Procedures/proceduretable.h</header>
+   <header>View/ListView/Procedures/ProcedureTable.h</header>
   </customwidget>
   <customwidget>
    <class>GraphicsView</class>
    <extends>QGraphicsView</extends>
-   <header>TeethView/graphicsview.h</header>
+   <header>View/ListView/TeethView/GraphicsView.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -1,7 +1,7 @@
-#include "teethviewscene.h"
+#include "TeethViewScene.h"
 
 TeethViewScene::TeethViewScene(ListPresenter* presenter, QObject *parent)
-	: presenter(presenter), QGraphicsScene(parent), contextMenu(NULL)
+    : presenter(presenter), QGraphicsScene(parent), contextMenu(nullptr)
 {
 
     //background color:
@@ -14,36 +14,36 @@ TeethViewScene::TeethViewScene(ListPresenter* presenter, QObject *parent)
     }
 
 
-	bool molar;
-	 
-	int posY = 0;
-	int posX = 0;
+    bool molar;
 
-	for(int i = 0; i<32; i++)
-	{ 
-		if (i > 2 && i < 13 || i > 18 && i < 29) molar = false;
-		else molar = true;
+    int posY = 0;
+    int posX = 0;
 
-		if (i == 16) posY += 223;
+    for(int i = 0; i<32; i++)
+    {
+        if (i > 2 && i < 13 || i > 18 && i < 29) molar = false;
+        else molar = true;
 
-		toothGraphic[i] = new ToothGraphicsItem(i);
+        if (i == 16) posY += 223;
+
+        toothGraphic[i] = new ToothGraphicsItem(i);
         toothGraphic[i]->setZValue(0);
         toothGraphic[i]->setPos(posX, posY);
         addItem(toothGraphic[i]);
 
-		selectionBox[i] = new SelectionBox(i);
+        selectionBox[i] = new SelectionBox(i);
         selectionBox[i]->setZValue(2);
         selectionBox[i]->setPos(posX, posY + 37);
-		addItem(selectionBox[i]);
-		
-		if (i < 15)
-			posX += toothGraphic[i]->boundingRect().width();
-		else if(i > 15)
-			posX -= toothGraphic[i]->boundingRect().width();
+        addItem(selectionBox[i]);
 
-		if (i == 18) posX += 18;
-		else if (i == 28) posX -= 18;
-	}
+        if (i < 15)
+            posX += toothGraphic[i]->boundingRect().width();
+        else if(i > 15)
+            posX -= toothGraphic[i]->boundingRect().width();
+
+        if (i == 18) posX += 18;
+        else if (i == 28) posX -= 18;
+    }
 
     upperBridge = new BridgeItem();
     upperBridge->setZValue(1);
@@ -96,7 +96,7 @@ void TeethViewScene::mousePressEvent(QGraphicsSceneMouseEvent* event)
         event->accept();
         return;
     }
-  
+
     QGraphicsItem* item = itemAt(event->scenePos(), QTransform());
 
     if (item != NULL && !item->isSelected())
@@ -197,7 +197,7 @@ void TeethViewScene::keyPressEvent(QKeyEvent* event)
           if (event->modifiers() & Qt::ControlModifier)
               for (int i = 0; i < 32; i++) selectionBox[i]->setSelected(1);
           break;
-   }    
+   }
 }
 
 

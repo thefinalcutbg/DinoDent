@@ -245,13 +245,13 @@
   <customwidget>
    <class>TabBar</class>
    <extends>QWidget</extends>
-   <header>tabbar.h</header>
+   <header>View/AmbListPage/TabBar.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>ScrollArea</class>
    <extends>QScrollArea</extends>
-   <header>scrollarea.h</header>
+   <header>View/AmbListPage/ScrollArea.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

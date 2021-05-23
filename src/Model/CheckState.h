@@ -5,29 +5,29 @@ enum class CheckState { unchecked, checked, partially_checked };
 
 struct CheckModel
 {
-	CheckModel() : 
-		generalStatus { CheckState::unchecked },
-		obturationStatus{ CheckState::unchecked },
-		cariesStatus{ CheckState::unchecked } 
-	{};
+    CheckModel() :
+        generalStatus { CheckState::unchecked },
+        obturationStatus{ CheckState::unchecked },
+        cariesStatus{ CheckState::unchecked }
+    {}
 
-	CheckModel(
-		std::array<CheckState, 18> generalStatus,
-		std::array<CheckState, 6> obturationStatus,
-		std::array<CheckState, 6> cariesStatus
-	) :
-		generalStatus(generalStatus),
-		obturationStatus(obturationStatus),
-		cariesStatus(cariesStatus) 
-	{};
+    CheckModel(
+        std::array<CheckState, 18> generalStatus,
+        std::array<CheckState, 6> obturationStatus,
+        std::array<CheckState, 6> cariesStatus
+    ) :
+        generalStatus(generalStatus),
+        obturationStatus(obturationStatus),
+        cariesStatus(cariesStatus)
+    {}
 
-	std::array<CheckState, 18> generalStatus;
-	std::array<CheckState, 6> obturationStatus;
-	std::array<CheckState, 6> cariesStatus;
+    std::array<CheckState, 18> generalStatus;
+    std::array<CheckState, 6> obturationStatus;
+    std::array<CheckState, 6> cariesStatus;
 };
 
 class CheckModelReciever
 {
 public:
-	virtual void setCheckModel(const CheckModel& checkModel) = 0;
+    virtual void setCheckModel(const CheckModel& checkModel) = 0;
 };

@@ -5,15 +5,15 @@
 
 #include "Database/Database.h"
 #include "ui_Torque.h"
-#include "AmbListPage/amblistpage.h"
+#include "AmbListPage/AmbListPage.h"
 
 class Torque : public QMainWindow
 {
     Q_OBJECT
-    
+
     AmbListPage ambListPage;
 
-    
+
     void paintEvent(QPaintEvent* event);
     void closeEvent(QCloseEvent* event);
 

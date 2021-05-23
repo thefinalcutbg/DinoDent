@@ -14,9 +14,9 @@ ProcedureDialogPresenter::ProcedureDialogPresenter
 	manipulationList{ mList },
 	manipulations{},
 
-	view(NULL),
-	common_fields(NULL),
-	current_m_presenter(NULL),
+	view(nullptr),
+	common_fields(nullptr),
+	current_m_presenter(nullptr),
 	teeth(&teeth),
 	selectedTeeth(selectedTeeth),
 

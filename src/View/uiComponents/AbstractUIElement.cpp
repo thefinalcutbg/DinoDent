@@ -2,7 +2,7 @@
 
 AbstractUIElement::AbstractUIElement() :
 	valid_State(1),
-	validator(NULL)
+	validator(nullptr)
 {
 }
 

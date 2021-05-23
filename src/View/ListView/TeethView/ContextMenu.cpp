@@ -1,10 +1,10 @@
 ﻿#include "ContextMenu.h"
 
 ContextMenu::ContextMenu(IStatusControl* statusControl)
-	:  statusControl(statusControl)
+    :  statusControl(statusControl)
 {
 
-    QString actionNames[ActionCount] = 
+    QString actionNames[ActionCount] =
                         { "Временен зъб", "Обтурация", "Кариес",  "Пулпит", "Периодонтит",
                            "Ендодонтско лечение", "Радикуларен щифт", "Корен", "Фрактура", "Екстракция",
                             "Пародонтит", "Първа степен", "Втора степен", "Трета степен",
@@ -67,8 +67,8 @@ ContextMenu::ContextMenu(IStatusControl* statusControl)
     addAction(menuAction[static_cast<int>(StatusAction::Bridge)]);
     addSeparator();
 
-    
-    
+
+
 
     addSeparator();
 
@@ -83,30 +83,11 @@ ContextMenu::ContextMenu(IStatusControl* statusControl)
 
 void ContextMenu::setModel(const CheckModel& checkModel)
 {
-    setModel(checkModel.generalStatus, menuAction);
-    setModel(checkModel.obturationStatus, surfObt);
-    setModel(checkModel.cariesStatus, surfCar);
+    this->setModel(checkModel.generalStatus, menuAction);
+    this->setModel(checkModel.obturationStatus, surfObt);
+    this->setModel(checkModel.cariesStatus, surfCar);
 }
 
-template<int CheckStateSize, int QActionSize>
-void ContextMenu::setModel(const std::array<CheckState, CheckStateSize>& model, std::array<QAction*, QActionSize>& action)
-{
-
-    for (int i = 0; i < CheckStateSize; i++) {
-
-        switch (model[i])
-        {
-        case CheckState::checked:
-            action[i]->setIcon(QIcon(QPixmap("checked.png")));
-            break;
-        case CheckState::partially_checked:
-            action[i]->setIcon(QIcon(QPixmap("tristate.png")));
-            break;
-        default:
-            action[i]->setIcon(QIcon());
-        }
-    }
-}
 
 ContextMenu::~ContextMenu()
 {

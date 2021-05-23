@@ -7,8 +7,8 @@ ToothPainter::ToothPainter() :
     frontalCoordinates(SpriteRectType::frontal),
     temp_frontal(SpriteRectType::tempFrontal),
     temp_molar(SpriteRectType::tempMolar),
-    currentTexture(NULL),
-    coords(NULL)
+    currentTexture(nullptr),
+    coords(nullptr)
 {
 
     for (int i = 0; i < 32; i++) //mapping indexes to tooth types

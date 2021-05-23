@@ -13,7 +13,7 @@ protected:
 
 public:
 
-	ToothController() : tooth(NULL) {};
+	ToothController() : tooth(nullptr) {};
 
     virtual void addStatus(int statusIndex) = 0;
     virtual void removeStatus(int statusIndex) = 0;

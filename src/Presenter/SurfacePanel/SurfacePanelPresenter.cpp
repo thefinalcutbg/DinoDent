@@ -39,7 +39,7 @@ void SurfacePanelPresenter::setViewLabels(const Tooth* tooth)
 	
 }
 
-SurfacePanelPresenter::SurfacePanelPresenter(ISurfacePanel* view) : statusControl(NULL), currentIndex(-1)
+SurfacePanelPresenter::SurfacePanelPresenter(ISurfacePanel* view) : statusControl(nullptr), currentIndex(-1)
 {
 	this->view = view;
 }

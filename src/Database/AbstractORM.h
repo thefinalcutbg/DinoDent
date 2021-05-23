@@ -4,10 +4,10 @@
 class AbstractORM
 {
 public:
-    AbstractORM() : 
-        db(NULL),
-        err(NULL),
-        stmt(NULL),
+    AbstractORM() :
+        err(nullptr),
+        db(nullptr),
+        stmt(nullptr),
         rc(0)
     {}
 

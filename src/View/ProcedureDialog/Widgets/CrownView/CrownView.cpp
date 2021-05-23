@@ -2,7 +2,7 @@
 
 CrownView::CrownView(QWidget *parent)
 	: QWidget(parent),
-	m_presenter(NULL)
+	m_presenter(nullptr)
 {
 	ui.setupUi(this);
 

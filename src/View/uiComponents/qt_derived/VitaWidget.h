@@ -3,6 +3,7 @@
 #include <QWidget>
 #include "ui_VitaWidget.h"
 #include <array>
+#include <type_traits>
 
 class VitaWidget : public QWidget
 {
@@ -16,11 +17,12 @@ class VitaWidget : public QWidget
 
     void switchColor(int index);
 
-    template<int T>
-    void changeColorContents(std::array<QString, T> items)
+    // std::array<QString, T>
+    template<typename Items, int Size = std::tuple_size<Items>::value>
+    typename std::enable_if<(Size > 0) && std::is_same<typename Items::value_type, QString>::value>::type changeColorContents(const Items &items)
     {
         ui.chroma_hue->clear();
-        for (int i = 0; i < T; i++)
+        for (int i = 0; i < Size; i++)
         {
             ui.chroma_hue->addItem(items[i]);
         }

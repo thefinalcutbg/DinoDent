@@ -1,4 +1,5 @@
 ﻿#include "ProcedureTableModel.h"
+#include <cmath>
 
 ProcedureTableModel::ProcedureTableModel(QObject* parent) : QAbstractTableModel(parent)
 {
@@ -33,7 +34,7 @@ void ProcedureTableModel::setManipulations(const std::vector<RowData>& rows)
             }
         );
     }
-    
+
     endResetModel();
 }
 
@@ -118,15 +119,15 @@ QVariant ProcedureTableModel::data(const QModelIndex& index, int role) const
         case Qt::TextAlignmentRole:
             //if (column == 1 || column == 3 || column == 5 || column == 6)
                 return int(Qt::AlignCenter);
-        
 
-                            
+
+
         }
 
 
 
         return QVariant();
-    
+
 }
 
 ProcedureTableModel::~ProcedureTableModel()

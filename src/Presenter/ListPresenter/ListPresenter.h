@@ -5,7 +5,7 @@
 #include "Model/ListInstance.h"
 #include "Model/Manipulation/getManipulationTamplates.h"
 #include "View/ListView/IListView.h"
-
+#include "Model/Manipulation/MasterNZOK.h"
 #include "Presenter/PatientDialog/PatientDialogPresenter.h"
 #include "Presenter/AllergiesDialog/AllergiesDialogPresenter.h"
 #include "Presenter/ProcedureDialog/ProcedureDialogPresenter.h"
@@ -42,6 +42,8 @@ class ListPresenter :
 
     AmbList* ambList;
     Patient* patient;
+
+    MasterNZOK _nzok;
 
     ToothHintCreator paint_hint_generator;
 

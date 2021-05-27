@@ -291,6 +291,9 @@
     <ClCompile Include="src\Model\Manipulation\ManipulationApplier.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Model\Manipulation\MasterNZOK.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -702,6 +705,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\Manipulation\ManipulationApplier.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\Manipulation\MasterNZOK.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\Manipulation\NZOKmaps.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

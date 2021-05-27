@@ -194,6 +194,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Model\Manipulation\ManipulationApplier.cpp" />
+    <ClCompile Include="src\Model\Manipulation\MasterNZOK.cpp" />
     <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\ImplantPresenter.cpp" />
     <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\EndoPresenter.cpp" />
     <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\ExtractionPresenter.cpp" />
@@ -363,6 +364,8 @@
     <QtMoc Include="src\View\ProcedureDialog\Widgets\ObturationView\ObturationView.h" />
     <QtMoc Include="src\View\ProcedureDialog\Widgets\CrownView\CrownView.h" />
     <ClInclude Include="src\Model\Manipulation\ManipulationApplier.h" />
+    <ClInclude Include="src\Model\Manipulation\MasterNZOK.h" />
+    <ClInclude Include="src\Model\Manipulation\NZOKmaps.h" />
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\ImplantPresenter.h" />
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\EndoPresenter.h" />
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\ExtractionPresenter.h" />

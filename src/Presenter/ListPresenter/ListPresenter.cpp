@@ -200,7 +200,7 @@ void ListPresenter::openAllergiesDialog()
 void ListPresenter::addProcedure()
 {
 
-    auto mNzokTemplate = getNZOK(Patient::getAge(patient->birth), 64, false);
+    auto mNzokTemplate = _nzok.getM_Templates(ambList->date, 68, Patient::getAge(patient->birth)>=18, false);
     auto mCustomTemplate = getCustomManipulations();
     mNzokTemplate.insert(mNzokTemplate.end(), mCustomTemplate.begin(), mCustomTemplate.end());
 

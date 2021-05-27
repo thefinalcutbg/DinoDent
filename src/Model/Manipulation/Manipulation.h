@@ -66,19 +66,12 @@ struct Manipulation
     std::string diagnosis;
     double price;
     int tooth;
-
+    Result result;
 
     std::string LPK;
 
-    //status change parameters:
-
     //NZOK specific:
     bool nzok;
-    Result result;
-
-
-
-
 };
 
 

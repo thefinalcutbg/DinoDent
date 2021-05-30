@@ -7,8 +7,6 @@ std::string ManipulationParser::write(Manipulation m)
 	manipulation["diagnosis"] = m.diagnosis;
 	manipulation["name"] = m.name;
 
-	switch (m.result.index()); //!!!!!!!!!!!!!!!!!!!!
-
 	switch (m.type)
 	{
 	case ManipulationType::obturation:
@@ -60,8 +58,11 @@ std::string ManipulationParser::write(Manipulation m)
 	return writer.write(manipulation);
 }
 
+#include <QDebug>
+
 void ManipulationParser::parse(const std::string& jsonString, Manipulation& m)
 {
+	
 	Json::Value manipulation;
 	Json::Reader reader;
 	bool parsingSuccessful = reader.parse(jsonString, manipulation);
@@ -70,12 +71,14 @@ void ManipulationParser::parse(const std::string& jsonString, Manipulation& m)
 		return;
 	}
 
-	//const Json::Value& diagnosis = manipulation["diagnosis"];
-	//const Json::Value& name = manipulation["name"];
-
 	m.diagnosis = manipulation["diagnosis"].asString();
-	m.name = manipulation["name"].asString();
 
+	if (!manipulation["name"].isNull())
+	{
+		m.name = manipulation["name"].asString();
+	}
+	
+	
 	switch (m.type)
 	{
 		case ManipulationType::obturation:

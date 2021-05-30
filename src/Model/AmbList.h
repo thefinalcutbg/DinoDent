@@ -27,6 +27,8 @@ struct AmbList
 	std::string LPK;
 	std::string test;
 
+	bool unfavourable;
+
 	std::vector<Manipulation> manipulations;
 	std::array <Tooth, 32> teeth;
 	~AmbList() {  }

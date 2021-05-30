@@ -195,6 +195,7 @@
   <ItemGroup>
     <ClCompile Include="src\Model\Manipulation\ManipulationApplier.cpp" />
     <ClCompile Include="src\Model\Manipulation\MasterNZOK.cpp" />
+    <ClCompile Include="src\Model\Patient.cpp" />
     <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\ImplantPresenter.cpp" />
     <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\EndoPresenter.cpp" />
     <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\ExtractionPresenter.cpp" />
@@ -293,6 +294,7 @@
     <ClCompile Include="src\View\ListView\ToothPaintDevices\ToothPainter.cpp" />
     <ClCompile Include="src\Presenter\ListPresenter\ToothHintCreator.cpp" />
     <ClCompile Include="src\View\uiComponents\qt_derived\VitaWidget.cpp" />
+    <ClCompile Include="src\Model\User\User.cpp" />
     <QtRcc Include="src\View\Torque.qrc" />
     <QtUic Include="src\View\ProcedureDialog\Widgets\CrownView\CrownView.ui" />
     <QtUic Include="src\View\ProcedureDialog\Widgets\ObturationView\ObturationView.ui" />
@@ -360,6 +362,7 @@
     <QtMoc Include="src\View\AmbListPage\AmbListPage.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Model\User\User.h" />
     <QtMoc Include="src\View\ProcedureDialog\Widgets\CommonFields\CommonFields.h" />
     <QtMoc Include="src\View\ProcedureDialog\Widgets\ObturationView\ObturationView.h" />
     <QtMoc Include="src\View\ProcedureDialog\Widgets\CrownView\CrownView.h" />

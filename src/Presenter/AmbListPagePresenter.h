@@ -7,6 +7,7 @@
 #include "Model/ListInstance.h"
 #include "Database/DbAmbList.h"
 
+
 class AmbListPagePresenter : public PatientDialogRequestor, public EditObserver
 {
 	IAmbListPage* view;

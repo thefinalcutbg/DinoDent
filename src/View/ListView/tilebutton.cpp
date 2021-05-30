@@ -111,9 +111,9 @@ void PatientTile::refresh()
 		hirbNo = "Номер на ЗОК: Няма данни";
 	else hirbNo = "Номер на ЗОК: " + QString::fromStdString(patient->HIRBNo);
 
-	birthDate = "Рожденна дата: " + QString::fromStdString(patient->birth);
+	birthDate = "Рожденна дата: " + QString::fromStdString(Date::toString(patient->birth));
 
-	age = "Възраст: " + QString::number(Patient::getAge(patient->birth)) + " г.";
+	age = "Възраст: " + QString::number(patient->getAge()) + " г.";
 	
 	QString city = QString::fromStdString(patient->city);
 

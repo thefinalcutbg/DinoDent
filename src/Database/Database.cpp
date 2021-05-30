@@ -55,13 +55,11 @@ Database::Database() : err(nullptr), db(nullptr), stmt(nullptr)
 
         "CREATE TABLE IF NOT EXISTS nzok("
         "id              INTEGER         NOT NULL    PRIMARY KEY,"
+        "code            VARCHAR(10)     NOT NULL,"
         "seq             INT             NOT NULL,"
         "day             INT             NOT NULL,"
         "tooth           INT             NOT NULL,"
-        "code            VARCHAR(10)     NOT NULL,"
-        //    "price           REAL            NOT NULL," //hardcoded?
-      //      "nzok_price      REAL            NOT NULL," //hardcoded?
-        "data            VARCHAR         NOT NULL," //json data
+        "data            VARCHAR         NOT NULL," //json data, type depends on code
         "amblist_id      INT             NOT NULL,"
         "FOREIGN KEY    (amblist_id)     REFERENCES amblist(id) ON DELETE CASCADE ON UPDATE CASCADE"
         ");"

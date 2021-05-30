@@ -1,4 +1,6 @@
 #include "ListPresenter.h"
+#include "Model/Manipulation/MasterNZOK.h"
+
 
 ListPresenter::ListPresenter(IListView* view) :
     view(view),
@@ -200,7 +202,7 @@ void ListPresenter::openAllergiesDialog()
 void ListPresenter::addProcedure()
 {
 
-    auto mNzokTemplate = _nzok.getM_Templates(ambList->date, 68, Patient::getAge(patient->birth)>=18, false);
+    auto mNzokTemplate = MasterNZOK::instance().getM_Templates(ambList->date, 64, patient->isAdult(), false);
     auto mCustomTemplate = getCustomManipulations();
     mNzokTemplate.insert(mNzokTemplate.end(), mCustomTemplate.begin(), mCustomTemplate.end());
 

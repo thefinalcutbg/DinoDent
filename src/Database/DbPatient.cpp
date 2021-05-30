@@ -11,7 +11,7 @@ void DbPatient::insert(const Patient& patient)
     std::string query = "INSERT INTO patient VALUES ('"
         + std::to_string(patient.type) + "','"
         + patient.id + "','"
-        + patient.birth + "','"
+        + Date::toString(patient.birth) + "','"
         + std::to_string(patient.sex) + "','"
         + patient.FirstName + "','"
         + patient.MiddleName + "','"
@@ -37,7 +37,7 @@ void DbPatient::update(const Patient& patient)
 
     std::string query = "UPDATE patient SET "
         "type = " + std::to_string(patient.type) + ", "
-        "birth = '" + patient.birth + "', "
+        "birth = '" + Date::toString(patient.birth) + "', "
         "sex = " + std::to_string(patient.sex) + ", "
         "fname = '" + patient.FirstName + "', "
         "mname = '" + patient.MiddleName + "', "
@@ -75,7 +75,7 @@ Patient DbPatient::getPatient(std::string patientID)
         if (patient.id == "") break;
 
         patient.type = sqlite3_column_int(stmt, 0);
-        patient.birth = std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 2)));
+        patient.birth = Date(std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 2))));
         patient.sex = sqlite3_column_int(stmt, 3);
         patient.FirstName = std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 4)));
         patient.MiddleName = std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 5)));

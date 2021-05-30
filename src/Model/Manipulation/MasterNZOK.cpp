@@ -3,8 +3,13 @@
 #include <fstream>
 #include <tuple>
 
+MasterNZOK MasterNZOK::_instance;
 
 MasterNZOK::MasterNZOK()
+{
+}
+
+void MasterNZOK::loadData()
 {
 	std::ifstream ifs("nzok.json");
 	Json::Reader reader;
@@ -35,7 +40,7 @@ MasterNZOK::MasterNZOK()
 		code_durations[m.code] = (manipulation[i]["duration"].asInt());
 		_manipulations[m.code] = m;
 
-	
+
 	}
 
 	const Json::Value& updates = m["updates"];
@@ -44,12 +49,12 @@ MasterNZOK::MasterNZOK()
 	{
 		CurrentPrices c;							//the current update
 		c.date = Date{ u["date"].asString() };
-		
+
 		const Json::Value& pList = u["price_list"]; //current update price_list
-		
+
 		for (auto& priceMap : pList)
 		{
-			
+
 			const Json::Value& manipulations = priceMap["manipulations"];
 			const Json::Value& nzok_price = priceMap["nzok"];
 			const Json::Value& patient_price = priceMap["patient"];
@@ -73,7 +78,7 @@ MasterNZOK::MasterNZOK()
 
 			for (auto& spec : specialty)
 			{
-				
+
 				PriceKey key{ spec.asInt(), adult.asBool(), unfav.asBool() };
 				qDebug() << key.specialty << " " << key.adult << " " << key.unfav;
 				c.prices[key] = price_value;
@@ -84,7 +89,16 @@ MasterNZOK::MasterNZOK()
 		updatesVec.push_back(c);
 
 	}
-	
+}
+
+MasterNZOK& MasterNZOK::instance()
+{
+	return _instance;
+}
+
+void MasterNZOK::loadUpdates()
+{
+	_instance.loadData();
 }
 
 int MasterNZOK::getDuration(int nzokCode)
@@ -144,4 +158,9 @@ std::pair<patientPrice, nzokPrice> MasterNZOK::getPrices
 
 	return updatesVec[currentUpdateIdx].prices[PriceKey{ specialty, adult, unfav }].
 		priceMap[code];
+}
+
+ManipulationTemplate MasterNZOK::getTemplateByCode(int code)
+{
+	return _manipulations[code];
 }

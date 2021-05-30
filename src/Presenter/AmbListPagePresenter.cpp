@@ -1,4 +1,5 @@
 ﻿#include "AmbListPagePresenter.h"
+#include "Model/Manipulation/MasterNZOK.h"
 
 AmbListPagePresenter::AmbListPagePresenter(
                                             IAmbListPage* AmbListPage,
@@ -26,6 +27,7 @@ void AmbListPagePresenter::setPatient(Patient patient)
 
     AmbList* ambList = database.getList(patient.id, Date::currentMonth(), Date::currentYear());
 
+
     for (int i = 0; i < list_instance.size(); i++)
     {
         if (list_instance[i].amb_list.id == ambList->id && patient.id == list_instance[i].patient.id)
@@ -33,6 +35,16 @@ void AmbListPagePresenter::setPatient(Patient patient)
             view->focusTab(i);
             return;
         }
+    }
+    
+    for (auto& m : ambList->manipulations) //autofill NZOK procedures
+    {
+        if (m.nzok)
+        {
+            auto[patient_price, nzok_price] = MasterNZOK::instance().getPrices(m.code, ambList->date, 64, patient.isAdult(), ambList->unfavourable);
+            m.price = patient_price;
+        }
+
     }
 
     list_instance.emplace_back(*ambList, patient);

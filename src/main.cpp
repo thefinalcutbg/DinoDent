@@ -1,7 +1,7 @@
 #include <QtWidgets/QApplication>
 #include "View/Torque.h"
 #include "View/ListView/ToothPaintDevices/SpriteSheets.h"
-
+#include "Model/Manipulation/MasterNZOK.h"
 
 int main(int argc, char *argv[])
 {
@@ -15,7 +15,8 @@ int main(int argc, char *argv[])
 
     QApplication a(argc, argv);
 
-    SpriteSheets::container().LoadSpriteSheets(); //loading textures, otherwise program will crash;
+    SpriteSheets::container().loadSpriteSheets(); //loading textures, otherwise program will crash;
+    MasterNZOK::instance().loadUpdates();
 
     Torque w;
     w.show();

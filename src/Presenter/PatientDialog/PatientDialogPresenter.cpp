@@ -212,7 +212,7 @@ void PatientDialogPresenter::setPatientToView(const Patient& patient)
 	}
 
 	patient_field[id]->setFieldText(patient.id);
-	patient_field[birthdate]->setFieldText(patient.birth);
+	patient_field[birthdate]->setFieldText(Date::toString(patient.birth));
 	sexCombo->setIndex(patient.sex);
 	patient_field[fname]->setFieldText(patient.FirstName);
 	patient_field[mname]->setFieldText(patient.MiddleName);

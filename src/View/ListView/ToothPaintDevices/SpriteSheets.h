@@ -30,7 +30,7 @@ public:
 
 	~SpriteSheets();
 	static SpriteSheets& container();
-	static void LoadSpriteSheets();
+	static void loadSpriteSheets();
 	QPixmap* getTexture(int toothIndex, bool temporary);
 	QPixmap* getCommonTexture();
 	QPixmap* getUpperBridge();

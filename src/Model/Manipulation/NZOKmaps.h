@@ -34,8 +34,6 @@ struct std::hash<PriceKey>
 	}
 };
 
-
-
 struct PriceObj
 {
 	int bigCode;

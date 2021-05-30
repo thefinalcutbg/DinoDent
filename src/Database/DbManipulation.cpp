@@ -1,5 +1,6 @@
 #include "DbManipulation.h"
 #include <QDebug>
+#include "Model/Manipulation/MasterNZOK.h"
 
 std::vector<Manipulation> DbManipulation::getManipulations(const std::string& amblist_id, const Date& amb_date)
 {
@@ -7,24 +8,42 @@ std::vector<Manipulation> DbManipulation::getManipulations(const std::string& am
 
 	openConnection();
 
-	std::string query = "SELECT type, code, day, tooth, price, data FROM manipulations "
-						"WHERE amblist_id = " +amblist_id + " ORDER BY seq ASC";
+	std::string query = "SELECT nzok, type, code, tooth, day, price, data FROM "
+		"(SELECT 0 AS nzok, m.type, m.code, m.seq, m.day, m.tooth, m.price, m.data "
+		"FROM manipulations m WHERE m.amblist_id = " + amblist_id + " "
+		"UNION "
+		"SELECT 1 AS nzok, -1, n.code, n.seq, n.day, n.tooth, -1, n.data "
+		"FROM nzok n WHERE n.amblist_id = " + amblist_id + ") "
+		"ORDER BY seq";
 
 	sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
 
+	qDebug() << QString::fromStdString(query);
+
 	while (sqlite3_step(stmt) != SQLITE_DONE)
 	{
-
-		Manipulation m;
+		mList.emplace_back(Manipulation{});
+		Manipulation& m = mList.back();
+		
 		m.date = amb_date;
-		m.type = static_cast<ManipulationType>(sqlite3_column_int(stmt, 0));
-		m.code = std::stoi(std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1)))),
-		m.date.day = sqlite3_column_int(stmt, 2);
+		m.nzok = sqlite3_column_int(stmt, 0);
+		m.code = sqlite3_column_int(stmt, 2);
+
+		if(m.nzok)
+		{
+			m.type = MasterNZOK::instance().getTemplateByCode(m.code).type;
+			m.price = 0;
+		}
+		else
+		{
+			m.type = static_cast<ManipulationType>(sqlite3_column_int(stmt, 1));
+			m.price = sqlite3_column_double(stmt, 5);
+		}
+		
 		m.tooth = sqlite3_column_int(stmt, 3);
-		m.price = sqlite3_column_double(stmt, 4);
-		parser.parse(std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 5))), m);
-		m.nzok = false;
-		mList.push_back(m);
+		m.date.day = sqlite3_column_int(stmt, 4);
+
+		parser.parse(std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 6))), m);
 	}
 
 	sqlite3_finalize(stmt);
@@ -66,7 +85,25 @@ void DbManipulation::saveManipulations(const std::string& amblist_id, const std:
 				;
 
 			rc = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
-			qDebug() << QString::fromStdString(query);
+			
+			if (rc != SQLITE_OK)
+			{
+				qDebug() << "Error opening DB:" << QString::fromStdString(sqlite3_errmsg(db));
+			}
+		}
+		else
+		{
+			query = "INSERT INTO nzok (seq, code, day, tooth, data, amblist_id) VALUES ('"
+				+ std::to_string(i) + "','"
+				+ std::to_string(m.code) + "','"
+				+ std::to_string(m.date.day) + "','"
+				+ std::to_string(m.tooth) + "','"
+				+ parser.write(m) + "','"
+				+ amblist_id + "')"
+				;
+
+			rc = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
+			
 			if (rc != SQLITE_OK)
 			{
 				qDebug() << "Error opening DB:" << QString::fromStdString(sqlite3_errmsg(db));

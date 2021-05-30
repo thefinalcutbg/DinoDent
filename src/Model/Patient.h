@@ -9,8 +9,10 @@ struct Patient
 
 	int type;
 	std::string id;
-	std::string birth;
+	Date birth;
+
 	bool sex;
+
 	std::string FirstName;
 	std::string MiddleName;
 	std::string LastName;
@@ -22,40 +24,11 @@ struct Patient
 	std::string currentDiseases;
 	std::string pastDiseases;
 
-	static bool getSexFromEgn(const std::string& egn)
-	{
-		int sexDigit = stoi(egn.substr(8, 1));
-		if (sexDigit % 2 == 0) return false;
-		else return true;
-	}
+	static bool getSexFromEgn(const std::string& egn);
 
-	static int getAge(const std::string& birthDate)
-	{
-		Date birth(birthDate);
-		int &day = birth.day;
-		int &month = birth.month;
-		int& year = birth.year;
-		
-		int daynow = Date::currentDay();
-		int monthnow = Date::currentMonth();
-		int yearnow = Date::currentYear();
+	int getAge();
+	int getAge(Date currentDate);
 
-		int age = 0;
-
-		if (month == monthnow)
-		{
-			if (day >= daynow)
-				age = yearnow - year;
-			else if (day < daynow)
-				age = yearnow - year - 1;
-		}
-		else if (month > monthnow)
-			age = yearnow - year - 1;
-
-		else if (month < monthnow)
-			age = yearnow - year;
-
-		return age;
-	}
-
+	bool isAdult();
+	bool isAdult(Date currentDate);
 };

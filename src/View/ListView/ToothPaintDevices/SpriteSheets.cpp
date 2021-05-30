@@ -76,7 +76,7 @@ SpriteSheets& SpriteSheets::container()
     return instance;
 }
 
-void SpriteSheets::LoadSpriteSheets()
+void SpriteSheets::loadSpriteSheets()
 { 
     instance.loadTextures();
 }

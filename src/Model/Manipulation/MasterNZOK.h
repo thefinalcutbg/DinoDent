@@ -1,20 +1,27 @@
 #pragma once
-
 #include <vector>
-#include "Manipulation.h"
+#include "ManipulationTemplate.h"
 #include "NZOKmaps.h"
 
 class MasterNZOK
 {
+	static MasterNZOK _instance;
+
 	std::unordered_map<int, ManipulationTemplate> _manipulations;
 	std::unordered_map<int, int> code_durations;
 	std::vector<CurrentPrices> updatesVec;
 
-public:
 	MasterNZOK();
+	void loadData();
+
+public:
+	MasterNZOK(const MasterNZOK&) = delete;
+	static MasterNZOK& instance();
+	static void loadUpdates();
 
 	int getDuration(int nzokCode);
 	std::vector<ManipulationTemplate> getM_Templates(Date date, int specialty, bool adult, bool unfav);
 	std::pair<patientPrice, nzokPrice> getPrices(int code, Date date, int specialty, bool adult, bool unfav);
+	ManipulationTemplate getTemplateByCode(int code);
 };
 

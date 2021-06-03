@@ -1,5 +1,7 @@
 #include "ControlPanel.h"
 
+#include "Presenter/ListPresenter/StatusPresenter/IStatusControl.h"
+
 ControlPanel::ControlPanel(QWidget *parent)
 	: QWidget(parent), statusControl(nullptr)
 {

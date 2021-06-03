@@ -52,15 +52,10 @@ std::array<bool, 6> CheckModelCreator::cariesStatusBool(const Tooth& tooth)
 
 CheckModelCreator::CheckModelCreator()
 {
-    recievers.reserve(2);
 }
 
-void CheckModelCreator::addReciever(CheckModelReciever* reciever)
-{
-    recievers.emplace_back(reciever);
-}
 
-void CheckModelCreator::refreshModel(const std::vector<Tooth*>& selectedTeeth)
+CheckModel CheckModelCreator::refreshModel(const std::vector<Tooth*>& selectedTeeth)
 {
     //generating models:
      CheckModel model(
@@ -83,8 +78,5 @@ void CheckModelCreator::refreshModel(const std::vector<Tooth*>& selectedTeeth)
          bridge = CheckState::partially_checked;
      }
 
-     //updating models of the recievers:
-     for (CheckModelReciever* reciever : recievers) {
-         reciever->setCheckModel(model);
-     }
+     return model;
 }

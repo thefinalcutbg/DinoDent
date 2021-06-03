@@ -70,7 +70,11 @@ void AmbListPagePresenter::tabChanged(int vecPos)
 
 void AmbListPagePresenter::notify()
 {
+    if (currentListInstance->edited) return;
+
+    currentListInstance->edited = true;
     view->changeTabName(currentListInstance->getTabName());
+    
 }
 
 bool AmbListPagePresenter::save()

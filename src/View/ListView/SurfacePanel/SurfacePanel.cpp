@@ -1,5 +1,6 @@
 ﻿#include "SurfacePanel.h"
 
+
 SurfacePanel::SurfacePanel(QWidget* parent)
 	: QWidget(parent),
 	  presenter(this)
@@ -34,17 +35,16 @@ SurfacePanel::~SurfacePanel()
 {
 }
 
+SurfacePanelPresenter* SurfacePanel::getPresenter()
+{
+	return &presenter;
+}
+
 
 void SurfacePanel::paintTooth(const Tooth* tooth)
 {
 	
 	toothGraphic->setPixmap(painter.paintTooth(hint_creator.getToothHint(*tooth)));
-}
-
-
-SurfacePanelPresenter* SurfacePanel::getPresenter()
-{
-	return &presenter;
 }
 
 void SurfacePanel::showPanel(bool show)

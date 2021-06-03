@@ -1,5 +1,5 @@
 #include "DbAmbList.h"
-
+#include "Model/User/User.h"
 
 
 DbAmbList::DbAmbList()
@@ -66,11 +66,12 @@ void DbAmbList::insertAmbList(AmbList& ambList, std::string &patientID)
 {
     openConnection();
 
-    std::string query = "INSERT INTO amblist (day, month, year, num, status_json, patient_id, lpk) VALUES ('"
+    std::string query = "INSERT INTO amblist (day, month, year, num, unfavourable, status_json, patient_id, lpk) VALUES ('"
         + std::to_string(ambList.date.day) + "','"
         + std::to_string(ambList.date.month) + "','"
         + std::to_string(ambList.date.year) + "','"
         + std::to_string(ambList.number) + "','"
+        + std::to_string(ambList.unfavourable) + "','"
         + parser.write(ambList.teeth) + "','"
         + patientID + "','"
         + ambList.LPK
@@ -99,6 +100,7 @@ void DbAmbList::updateAmbList(AmbList& ambList)
         ", month = " + std::to_string(ambList.date.month) +
         ", year = " + std::to_string(ambList.date.year) +
         ", num = " + std::to_string(ambList.number) +
+        ", unfavourable = " + std::to_string(ambList.unfavourable) +
         ", status_json = '" + parser.write(ambList.teeth) + "' "
         "WHERE id = " + ambList.id;
 
@@ -116,7 +118,7 @@ AmbList* DbAmbList::getList(std::string patientID, int currentMonth, int current
 {
     openConnection();
 
-    std::string query = "SELECT id, num, day, month, year, status_json FROM amblist WHERE "
+    std::string query = "SELECT id, num, unfavourable, day, month, year, status_json FROM amblist WHERE "
         "patient_id = '" + patientID + "' AND "
         "month = " + std::to_string(currentMonth) + " AND "
         "year = " + std::to_string(currentYear);
@@ -125,14 +127,17 @@ AmbList* DbAmbList::getList(std::string patientID, int currentMonth, int current
 
     AmbList* ambList = new AmbList;
 
+    std::string status_json;
+
     while (sqlite3_step(stmt) != SQLITE_DONE)
     {
         ambList->id = std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0)));
         ambList->number = sqlite3_column_int(stmt, 1);
-        ambList->date.day = sqlite3_column_int(stmt, 2);
-        ambList->date.month = sqlite3_column_int(stmt, 3);
-        ambList->date.year = sqlite3_column_int(stmt, 4);
-        ambList->test = std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 5)));
+        ambList->unfavourable = sqlite3_column_int(stmt, 2);
+        ambList->date.day = sqlite3_column_int(stmt, 3);
+        ambList->date.month = sqlite3_column_int(stmt, 4);
+        ambList->date.year = sqlite3_column_int(stmt, 5);
+        status_json = std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 6)));
     }
 
     sqlite3_finalize(stmt);
@@ -140,17 +145,17 @@ AmbList* DbAmbList::getList(std::string patientID, int currentMonth, int current
     closeConnection();
 
     parser.parse(getOlderStatus(patientID), ambList->teeth);
-    ambList->test = getOlderStatus(patientID);
+    status_json = getOlderStatus(patientID);
 
     if (ambList->id.empty()) //if the amblist is new
     {
         ambList->date = Date::getCurrentDate();
-        m_applier.applyManipulations(getOlderManipulations(patientID), ambList->teeth, "220008771");
+        m_applier.applyManipulations(getOlderManipulations(patientID), ambList->teeth, CurrentUser::instance().LPK);
     }
     else
     {
-        parser.parse(ambList->test, ambList->teeth);
-        ambList->LPK = "220008771";
+        parser.parse(status_json, ambList->teeth);
+        ambList->LPK = CurrentUser::instance().LPK;
         ambList->manipulations = db_manipulation.getManipulations(ambList->id, ambList->date);
     }
    
@@ -210,7 +215,7 @@ std::map<int, bool> DbAmbList::getExistingNumbers(const int& currentYear)
 
     std::map<int, bool> numbersMap;
 
-    std::string query = "SELECT num FROM amblist WHERE lpk = '220008771' "
+    std::string query = "SELECT num FROM amblist WHERE lpk = '"+ CurrentUser::instance().LPK+"' "
         "AND year = " + std::to_string(currentYear);
 
     sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);

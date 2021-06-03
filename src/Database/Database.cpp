@@ -33,6 +33,7 @@ Database::Database() : err(nullptr), db(nullptr), stmt(nullptr)
         "num             INT             NOT NULL,"
         "patient_id      VARCHAR(10)     NOT NULL,"
         "lpk             VARCHAR(9)      NOT NULL,"
+        "unfavourable    INT             NOT NULL,"
         "status_json     VARCHAR,"
         "FOREIGN KEY    (patient_id) REFERENCES patient(id) ON DELETE CASCADE ON UPDATE CASCADE"
         ");"

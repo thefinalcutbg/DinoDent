@@ -9,7 +9,6 @@
 
 class CheckModelCreator
 {
-    std::vector <CheckModelReciever*> recievers;
 
     static std::array<bool, 18> generalStatusBool(const Tooth& tooth);
     static std::array<bool, 6> obturationStatusBool(const Tooth& tooth);
@@ -20,9 +19,8 @@ class CheckModelCreator
 
 public:
     CheckModelCreator();
-    void addReciever(CheckModelReciever* reciever);
 
-    void refreshModel(const std::vector<Tooth*>& selectedTeeth);
+    CheckModel refreshModel(const std::vector<Tooth*>& selectedTeeth);
 };
 
 template <typename Function, size_t Size>

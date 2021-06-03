@@ -3,9 +3,9 @@
 
 class CPToothPainter : public ToothPainter
 {
-	virtual QPixmap returnPaintedTooth(const PaintHint& tooth) override;
+	virtual QPixmap returnPaintedTooth(const ToothPaintHint& tooth) override;
 public:
 	
-	QPixmap* paintTooth(const PaintHint& tooth) override;
+	QPixmap* paintTooth(const ToothPaintHint& tooth) override;
 };
 

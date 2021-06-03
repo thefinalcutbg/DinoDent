@@ -1,7 +1,7 @@
 ﻿#include "ContextMenu.h"
 
-ContextMenu::ContextMenu(IStatusControl* statusControl)
-    :  statusControl(statusControl)
+
+ContextMenu::ContextMenu()
 {
 
     QString actionNames[ActionCount] =
@@ -10,12 +10,12 @@ ContextMenu::ContextMenu(IStatusControl* statusControl)
                             "Пародонтит", "Първа степен", "Втора степен", "Трета степен",
                            "Корона", "Мост/Блок корони",  "Имплант", "Свръхброен зъб",
                             "Обтурация МО", "Обтурация ДО", "Обтурация МОД",
-                            "Премахни"/*обтурация*/, "Премахни"/*кариес*/, "Премахни статус", "Добави манипулация"};
+                            "Премахни"/*обтурация*/, "Премахни"/*кариес*/, "Премахни статус", "Премахни мост"};
 
     for (int i = 0; i < ActionCount; i++) //too lazy to initialize all the actions;
     {
         menuAction[i] = new QAction(actionNames[i]);
-        connect(menuAction[i], &QAction::triggered, [this, i]() { this->statusControl->changeStatus(static_cast<StatusAction>(i)); });
+        connect(menuAction[i], &QAction::triggered, [this, i]() { this->presenter->changeStatus(static_cast<StatusAction>(i)); });
     }
     addAction(menuAction[static_cast<int>(StatusAction::Temporary)]);
 
@@ -29,10 +29,10 @@ ContextMenu::ContextMenu(IStatusControl* statusControl)
     for (int i = 0; i < 6; i++)
     {
         surfObt[i] = ObturMenu->addAction(surfName[i]);
-        connect(surfObt[i], &QAction::triggered, [this, i]() {this->statusControl->changeStatus(static_cast<Surface>(i), SurfaceType::obturation); });
+        connect(surfObt[i], &QAction::triggered, [this, i]() {this->presenter->changeStatus(static_cast<Surface>(i), SurfaceType::obturation); });
 
         surfCar[i] = CariesMenu->addAction(surfName[i]);
-        connect(surfCar[i], &QAction::triggered, [this, i]() {this->statusControl->changeStatus(static_cast<Surface>(i), SurfaceType::caries); });
+        connect(surfCar[i], &QAction::triggered, [this, i]() {this->presenter->changeStatus(static_cast<Surface>(i), SurfaceType::caries); });
     }
 
 
@@ -78,7 +78,7 @@ ContextMenu::ContextMenu(IStatusControl* statusControl)
 
     addSeparator();
 
-    addAction(menuAction[static_cast<int>(StatusAction::addManipulation)]);
+    addAction(menuAction[static_cast<int>(StatusAction::removeBridge)]);
 }
 
 void ContextMenu::setModel(const CheckModel& checkModel)
@@ -86,6 +86,11 @@ void ContextMenu::setModel(const CheckModel& checkModel)
     this->setModel(checkModel.generalStatus, menuAction);
     this->setModel(checkModel.obturationStatus, surfObt);
     this->setModel(checkModel.cariesStatus, surfCar);
+}
+
+void ContextMenu::setStatusControl(IStatusControl* presenter)
+{
+    this->presenter = presenter;
 }
 
 

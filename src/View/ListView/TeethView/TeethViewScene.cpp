@@ -1,7 +1,10 @@
 #include "TeethViewScene.h"
 
-TeethViewScene::TeethViewScene(ListPresenter* presenter, QObject *parent)
-    : presenter(presenter), QGraphicsScene(parent), contextMenu(nullptr)
+
+#include "Presenter/ListPresenter/ListPresenter.h"
+
+TeethViewScene::TeethViewScene(QObject *parent)
+    : QGraphicsScene(parent), contextMenu(nullptr)
 {
 
     //background color:
@@ -56,11 +59,35 @@ TeethViewScene::TeethViewScene(ListPresenter* presenter, QObject *parent)
     lowerBridge->setTransform(QTransform::fromScale(-1, 1));
     lowerBridge->setPos(684, 295);
 
+    connect(this, &QGraphicsScene::selectionChanged,
+        [=]
+        {
+            std::vector<int> selectedIndexes;
+            selectedIndexes.reserve(32);
+
+            SelectionBox* selection;
+
+            for (QGraphicsItem* item : selectedItems())
+            {
+                selection = static_cast<SelectionBox*>(item);
+                selectedIndexes.emplace_back(selection->getIndex());
+            }
+
+            std::sort(selectedIndexes.begin(), selectedIndexes.end());
+
+            presenter->setSelectedTeeth(selectedIndexes);
+        });
+
 }
 
 void TeethViewScene::setContextMenu(ContextMenu* contextMenu)
 {
     this->contextMenu = contextMenu;
+}
+
+void TeethViewScene::setPresenter(StatusPresenter* presenter)
+{
+    this->presenter = presenter;
 }
 
 
@@ -201,7 +228,7 @@ void TeethViewScene::keyPressEvent(QKeyEvent* event)
 }
 
 
-void TeethViewScene::display(PaintHint tooth)
+void TeethViewScene::display(ToothPaintHint tooth)
 {
 
     toothGraphic[tooth.idx]->setToothGraphic
@@ -210,7 +237,7 @@ void TeethViewScene::display(PaintHint tooth)
     );
 }
 
-void TeethViewScene::display(const std::array<BridgeAppearenceTuple, 32>& bridges)
+void TeethViewScene::display(const BridgesPaintHint& bridges)
 {
     auto[bridgeU, bridgeL] = bridgePainter.getBridgePair(bridges);
 

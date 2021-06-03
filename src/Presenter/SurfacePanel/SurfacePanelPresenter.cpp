@@ -44,8 +44,9 @@ SurfacePanelPresenter::SurfacePanelPresenter(ISurfacePanel* view) : statusContro
 	this->view = view;
 }
 
-void SurfacePanelPresenter::getStatusControl(IStatusControl* statusControl)
+void SurfacePanelPresenter::setStatusControl(IStatusControl* statusControl)
 {
+
 	this->statusControl = statusControl;
 }
 

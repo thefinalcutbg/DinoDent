@@ -2,7 +2,7 @@
 #include "../json/json.h"
 #include <fstream>
 #include <tuple>
-
+#include <QDebug>
 MasterNZOK MasterNZOK::_instance;
 
 MasterNZOK::MasterNZOK()
@@ -16,6 +16,7 @@ void MasterNZOK::loadData()
 	Json::Value m;
 
 	reader.parse(ifs, m);
+
 
 	const Json::Value& manipulation = m["manipulation"];
 
@@ -39,9 +40,15 @@ void MasterNZOK::loadData()
 
 		code_durations[m.code] = (manipulation[i]["duration"].asInt());
 		_manipulations[m.code] = m;
-
-
 	}
+
+	const Json::Value& constraints = m["constraints"];
+
+	for (auto& m_o : constraints["minor_only"]) minor_only.emplace(m_o.asInt());
+
+	for (auto& t_o : constraints["temp_only"]) temp_only.emplace(t_o.asInt());
+
+	for (auto& p_o : constraints["perma_only"]) perma_only.emplace(p_o.asInt());
 
 	const Json::Value& updates = m["updates"];
 
@@ -101,10 +108,7 @@ void MasterNZOK::loadUpdates()
 	_instance.loadData();
 }
 
-int MasterNZOK::getDuration(int nzokCode)
-{
-	return code_durations[nzokCode];
-}
+
 
 std::vector<ManipulationTemplate> MasterNZOK::getM_Templates(Date ambDate, int specialty, bool adult, bool unfav)
 {
@@ -163,4 +167,24 @@ std::pair<patientPrice, nzokPrice> MasterNZOK::getPrices
 ManipulationTemplate MasterNZOK::getTemplateByCode(int code)
 {
 	return _manipulations[code];
+}
+
+int MasterNZOK::getDuration(int nzokCode)
+{
+	return code_durations[nzokCode];
+}
+
+bool MasterNZOK::isTempOnly(int code)
+{
+	return temp_only.count(code);
+}
+
+bool MasterNZOK::isPermaOnly(int code)
+{
+	return perma_only.count(code);
+}
+
+bool MasterNZOK::isMinorOnly(int code)
+{
+	return minor_only.count(code);
 }

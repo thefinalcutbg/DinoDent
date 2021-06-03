@@ -31,16 +31,16 @@ protected:
 	QPixmap textureFormat(QRect crop); //leaves the texture untouched
 	QPixmap textureOutline(const QPixmap& src, QColor borderColor);
 
-	QPixmap drawSurfaces(const PaintHint& tooth);
-	QPixmap mobilityPaint(const PaintHint& tooth);
-	QPixmap toothNumber(const PaintHint& tooth);
+	QPixmap drawSurfaces(const ToothPaintHint& tooth);
+	QPixmap mobilityPaint(const ToothPaintHint& tooth);
+	QPixmap toothNumber(const ToothPaintHint& tooth);
 	void rotateByQuadrant(QPainter& painter, int textureWidth, int textureHeight, int toothIndex);
 
-	virtual QPixmap returnPaintedTooth(const PaintHint& tooth);
+	virtual QPixmap returnPaintedTooth(const ToothPaintHint& tooth);
 
 public:
 	ToothPainter();
-	virtual QPixmap* paintTooth(const PaintHint& tooth);
+	virtual QPixmap* paintTooth(const ToothPaintHint& tooth);
 	
 };
 

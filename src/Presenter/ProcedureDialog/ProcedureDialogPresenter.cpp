@@ -19,6 +19,7 @@ ProcedureDialogPresenter::ProcedureDialogPresenter
 	current_m_presenter(nullptr),
 	teeth(&teeth),
 	selectedTeeth(selectedTeeth),
+	errorState(true),
 
 	any_teeth_presenter(this->selectedTeeth),
 	obt_presenter(this->selectedTeeth),
@@ -130,6 +131,7 @@ void ProcedureDialogPresenter::indexChanged(int index)
 
 void ProcedureDialogPresenter::formAccepted()
 {
+	if (errorState) return;
 
 	if (!current_m_presenter->isValid()) return;
 

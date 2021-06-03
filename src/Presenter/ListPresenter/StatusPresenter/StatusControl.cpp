@@ -13,9 +13,6 @@ void StatusControl::setCheckModel(const CheckModel& checkModel)
     this->checkModel = checkModel;
 }
 
-
-
-
 void StatusControl::changeStatus(StatusAction templ)
 {
     if (templ == StatusAction::Bridge && selectedTeeth.size() < 2) return;

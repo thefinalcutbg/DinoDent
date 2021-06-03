@@ -13,7 +13,8 @@
 #include "View/ListView/SurfacePanel/ISurfacePanel.h"
 #include "Presenter/SurfacePanel/SurfacePanelPresenter.h"
 #include "Presenter/SurfacePanel/InputEnums.h"
-#include "Presenter/ListPresenter/ToothHintCreator.h"
+#include "Presenter/ListPresenter/StatusPresenter/ToothHintCreator.h"
+
 
 class SurfacePanel : public QWidget, public PolygonObserver, public ISurfacePanel
 {

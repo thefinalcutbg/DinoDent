@@ -3,7 +3,7 @@
 #include <QWidget>
 #include "ui_ControlPanel.h"
 
-#include "Presenter/ListPresenter/IStatusControl.h"
+class IStatusControl;
 
 class ControlPanel : public QWidget
 {

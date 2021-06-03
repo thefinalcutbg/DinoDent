@@ -9,7 +9,7 @@
 #include "IStatusControl.h"
 
 
-class StatusControl : public CheckModelReciever, public IStatusControl
+class StatusControl : public IStatusControl
 {
     std::vector<Tooth*> selectedTeeth;
 

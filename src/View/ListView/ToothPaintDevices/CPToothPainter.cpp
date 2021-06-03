@@ -1,9 +1,9 @@
 #include "CPToothPainter.h"
 
 
-QPixmap CPToothPainter::returnPaintedTooth(const PaintHint& tooth)
+QPixmap CPToothPainter::returnPaintedTooth(const ToothPaintHint& tooth)
 {
-    if (tooth.tooth != ToothHint::normal) return QPixmap();
+    if (tooth.tooth != ToothTextureHint::normal) return QPixmap();
     
     QPoint point(0, 0);
 
@@ -35,7 +35,7 @@ QPixmap CPToothPainter::returnPaintedTooth(const PaintHint& tooth)
 
 }
 
-QPixmap* CPToothPainter::paintTooth(const PaintHint& tooth)
+QPixmap* CPToothPainter::paintTooth(const ToothPaintHint& tooth)
 {
     int index = tooth.idx;
 

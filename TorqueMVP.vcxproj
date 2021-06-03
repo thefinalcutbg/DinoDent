@@ -193,6 +193,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Presenter\ListPresenter\Editor.cpp" />
     <ClCompile Include="src\Model\Manipulation\ManipulationApplier.cpp" />
     <ClCompile Include="src\Model\Manipulation\MasterNZOK.cpp" />
     <ClCompile Include="src\Model\Patient.cpp" />
@@ -238,8 +239,7 @@
     </ClCompile>
     <ClCompile Include="src\View\ListView\SurfacePanel\CPTooth.cpp" />
     <ClCompile Include="src\View\ListView\ToothPaintDevices\CPToothPainter.cpp" />
-    <ClCompile Include="src\Presenter\ListPresenter\SelectionManager.cpp" />
-    <ClCompile Include="src\Presenter\ListPresenter\CheckModelCreator.cpp" />
+    <ClCompile Include="src\Presenter\ListPresenter\StatusPresenter\CheckModelCreator.cpp" />
     <ClCompile Include="src\View\ListView\ControlPanel\ControlPanel.cpp" />
     <ClCompile Include="src\Model\Tooth\ToothController\GeneralStatusControler.cpp" />
     <ClCompile Include="src\View\ListView\TeethView\ContextMenu.cpp">
@@ -281,7 +281,7 @@
     <ClCompile Include="src\View\AllergiesDialog\AllergiesDialog.cpp" />
     <ClCompile Include="src\View\ListView\ListView.cpp" />
     <ClCompile Include="src\View\AmbListPage\TabBar.cpp" />
-    <ClCompile Include="src\Presenter\ListPresenter\StatusControl.cpp" />
+    <ClCompile Include="src\Presenter\ListPresenter\StatusPresenter\StatusControl.cpp" />
     <ClCompile Include="src\Model\Tooth\ToothController\SurfaceController.cpp" />
     <ClCompile Include="src\View\ListView\ControlPanel\StatusButton.cpp" />
     <ClCompile Include="src\View\ListView\SurfacePanel\SurfacePanel.cpp" />
@@ -290,11 +290,11 @@
     <ClCompile Include="src\View\uiComponents\AbstractUIElement.cpp" />
     <ClCompile Include="src\View\uiComponents\qt_derived\TextEdit.cpp" />
     <ClCompile Include="src\View\uiComponents\qt_derived\SurfaceSelector.cpp" />
-    <ClCompile Include="src\Model\Tooth\ToothParserB.cpp" />
     <ClCompile Include="src\View\ListView\ToothPaintDevices\ToothPainter.cpp" />
-    <ClCompile Include="src\Presenter\ListPresenter\ToothHintCreator.cpp" />
+    <ClCompile Include="src\Presenter\ListPresenter\StatusPresenter\ToothHintCreator.cpp" />
     <ClCompile Include="src\View\uiComponents\qt_derived\VitaWidget.cpp" />
     <ClCompile Include="src\Model\User\User.cpp" />
+    <ClCompile Include="src\Presenter\ListPresenter\StatusPresenter\StatusPresenter.cpp" />
     <QtRcc Include="src\View\Torque.qrc" />
     <QtUic Include="src\View\ProcedureDialog\Widgets\CrownView\CrownView.ui" />
     <QtUic Include="src\View\ProcedureDialog\Widgets\ObturationView\ObturationView.ui" />
@@ -362,7 +362,9 @@
     <QtMoc Include="src\View\AmbListPage\AmbListPage.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Presenter\ListPresenter\Editor.h" />
     <ClInclude Include="src\Model\User\User.h" />
+    <ClInclude Include="src\Presenter\ListPresenter\StatusPresenter\StatusPresenter.h" />
     <QtMoc Include="src\View\ProcedureDialog\Widgets\CommonFields\CommonFields.h" />
     <QtMoc Include="src\View\ProcedureDialog\Widgets\ObturationView\ObturationView.h" />
     <QtMoc Include="src\View\ProcedureDialog\Widgets\CrownView\CrownView.h" />
@@ -375,12 +377,13 @@
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\CrownPresenter.h" />
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\ObturationPresenter.h" />
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\TeethMPresenter.h" />
+    <ClInclude Include="src\View\ListView\IStatusView.h" />
     <ClInclude Include="src\View\ProcedureDialog\Widgets\ObturationView\IObturationView.h" />
     <ClInclude Include="src\View\ProcedureDialog\Widgets\CrownView\ICrownView.h" />
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\GeneralMPresenter.h" />
     <ClInclude Include="src\Model\Tooth\Vita.h" />
     <ClInclude Include="src\View\ListView\ToothPaintDevices\ToothPainter.h" />
-    <ClInclude Include="src\Presenter\ListPresenter\ToothHintCreator.h" />
+    <ClInclude Include="src\Presenter\ListPresenter\StatusPresenter\ToothHintCreator.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\VitaWidget.h" />
     <QtMoc Include="src\View\ListView\TeethView\GraphicsView.h" />
     <ClInclude Include="src\Database\DbManipulation.h" />
@@ -392,7 +395,6 @@
     <ClInclude Include="src\Database\AbstractORM.h" />
     <ClInclude Include="src\Model\Manipulation\getManipulationTamplates.h" />
     <ClInclude Include="src\Model\Manipulation\ManipulationTemplate.h" />
-    <ClInclude Include="src\Model\Tooth\ToothParserB.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\SurfaceSelector.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\TextEdit.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\RangeWidget.h" />
@@ -417,7 +419,7 @@
     <ClInclude Include="src\bridgeTest.h" />
     <ClInclude Include="src\View\ListView\ToothPaintDevices\BridgePainter.h" />
     <ClInclude Include="src\View\ListView\TeethView\BridgeItem.h" />
-    <ClInclude Include="src\Presenter\ListPresenter\IStatusControl.h" />
+    <ClInclude Include="src\Presenter\ListPresenter\StatusPresenter\IStatusControl.h" />
     <ClInclude Include="src\Model\Tooth\ToothUtils.h" />
     <ClInclude Include="src\Presenter\SurfacePanel\ButtonSurfaceMatrix.h" />
     <ClInclude Include="src\Presenter\SurfacePanel\SurfacePanelPresenter.h" />
@@ -429,8 +431,7 @@
     <ClInclude Include="src\Presenter\SurfacePanel\InputEnums.h" />
     <ClInclude Include="src\View\ListView\SurfacePanel\ISurfacePanel.h" />
     <ClInclude Include="src\View\ListView\ToothPaintDevices\CPToothPainter.h" />
-    <ClInclude Include="src\Presenter\ListPresenter\SelectionManager.h" />
-    <ClInclude Include="src\Presenter\ListPresenter\CheckModelCreator.h" />
+    <ClInclude Include="src\Presenter\ListPresenter\StatusPresenter\CheckModelCreator.h" />
     <ClInclude Include="src\Presenter\ListPresenter\ListPresenter.h" />
     <ClInclude Include="src\Model\Tooth\ToothController\SurfaceController.h" />
     <QtMoc Include="src\View\ListView\TeethView\ContextMenu.h" />
@@ -438,7 +439,7 @@
     <ClInclude Include="src\Model\CheckState.h" />
     <ClInclude Include="src\View\ListView\ToothPaintDevices\SpriteSheets.h" />
     <ClInclude Include="src\Model\Tooth\Tooth.h" />
-    <ClInclude Include="src\Presenter\ListPresenter\StatusControl.h" />
+    <ClInclude Include="src\Presenter\ListPresenter\StatusPresenter\StatusControl.h" />
     <ClInclude Include="src\Model\Tooth\ToothController\ToothController.h" />
     <QtMoc Include="src\View\AmbListPage\TabBar.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\DateLineEdit.h" />

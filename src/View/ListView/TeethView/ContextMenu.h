@@ -3,16 +3,18 @@
 #include <QIcon>
 
 #include <QMenu>
-#include "Presenter/ListPresenter/IStatusControl.h"
+
 #include "Model/CheckState.h"
 
 #include <type_traits>
+
+#include "Presenter/ListPresenter/StatusPresenter/IStatusControl.h"
 
 class ContextMenu : public QMenu
 {
     Q_OBJECT
 
-    IStatusControl* statusControl;
+    IStatusControl* presenter;
 
     std::array<QAction*, 6>surfObt;
     std::array<QAction*, 6> surfCar;
@@ -25,8 +27,9 @@ class ContextMenu : public QMenu
     void setModel(const ModelArray &, ActionArray &);
 
 public:
-    ContextMenu(IStatusControl* statusControl);
+    ContextMenu();
     void setModel(const CheckModel& checkModel);
+    void setStatusControl(IStatusControl* presenter);
     ~ContextMenu();
 };
 

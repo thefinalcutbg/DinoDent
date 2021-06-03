@@ -1,44 +1,44 @@
 #include "ToothHintCreator.h"
-
+#include "Model/User/User.h"
 
 bool R_U_Mine(const DentistMade& procedure)
 {
-   std::string usr_LPK = "220008771";
-   return procedure.LPK == usr_LPK;
+   
+    return procedure.LPK == CurrentUser::instance().LPK;
 }
 
-PaintHint ToothHintCreator::getToothHint(const Tooth& tooth)
+ToothPaintHint ToothHintCreator::getToothHint(const Tooth& tooth)
 {
-    PaintHint hint;
+    ToothPaintHint hint;
 
     hint.idx = tooth.index;
     hint.temp = tooth.temporary.exists();
     hint.num = ToothUtils::getToothNumber(tooth.index, hint.temp);
 
     //the tooth hint:
-    hint.tooth = ToothHint::normal;
+    hint.tooth = ToothTextureHint::normal;
 
     if (tooth.extraction.exists())
     {
         if (tooth.bridge.exists())
-            hint.tooth = ToothHint::none;
+            hint.tooth = ToothTextureHint::none;
 
         else if (R_U_Mine(tooth.extraction))
-            hint.tooth = ToothHint::extr_m;
+            hint.tooth = ToothTextureHint::extr_m;
 
         else
-            hint.tooth = ToothHint::extr;
+            hint.tooth = ToothTextureHint::extr;
     }
     else if (tooth.implant.exists())
     {
         if (R_U_Mine(tooth.implant))
-            hint.tooth = ToothHint::impl_m;
+            hint.tooth = ToothTextureHint::impl_m;
         else
-            hint.tooth = ToothHint::impl;
+            hint.tooth = ToothTextureHint::impl;
     }
     else if (tooth.root.exists())
     {
-        hint.tooth = ToothHint::root;
+        hint.tooth = ToothTextureHint::root;
     }
     
     //surface hint
@@ -119,9 +119,9 @@ PaintHint ToothHintCreator::getToothHint(const Tooth& tooth)
     return hint;
 }
 
-std::array<PaintHint, 32> ToothHintCreator::getTeethHint(const std::array<Tooth, 32>& teeth)
+std::array<ToothPaintHint, 32> ToothHintCreator::getTeethHint(const std::array<Tooth, 32>& teeth)
 {
-    std::array<PaintHint, 32> paintHints;
+    std::array<ToothPaintHint, 32> paintHints;
 
     for (int i = 0; i < 32; i++)
     {
@@ -133,10 +133,10 @@ std::array<PaintHint, 32> ToothHintCreator::getTeethHint(const std::array<Tooth,
 
 
 
-std::array<BridgeAppearenceTuple, 32> ToothHintCreator::statusToUIBridge(std::array<Tooth, 32>& teeth)
+BridgesPaintHint ToothHintCreator::statusToUIBridge(std::array<Tooth, 32>& teeth)
 {
 
-    std::array<BridgeAppearenceTuple, 32> bridgeAppearance;
+    BridgesPaintHint paintHint;
 
     for (int i = 0; i < teeth.size(); i++) {
 
@@ -154,8 +154,8 @@ std::array<BridgeAppearenceTuple, 32> ToothHintCreator::statusToUIBridge(std::ar
             appearance = BridgeAppearance::Terminal;
         }
 
-        bridgeAppearance[i] = std::make_tuple(appearance, R_U_Mine(tooth.bridge));
+        paintHint.paintHints[i] = std::make_tuple(appearance, R_U_Mine(tooth.bridge));
     }
 
-    return bridgeAppearance;
+    return paintHint;
 }

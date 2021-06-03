@@ -28,7 +28,7 @@ enum class StatusAction {
 	removeO,
 	removeC,
 	removeAll,
-	addManipulation
+	removeBridge
 };
 
 enum class SurfaceType { obturation, caries };

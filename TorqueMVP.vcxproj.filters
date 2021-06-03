@@ -147,13 +147,10 @@
     <ClCompile Include="src\Model\Tooth\ToothController\SurfaceController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Presenter\ListPresenter\CheckModelCreator.cpp">
+    <ClCompile Include="src\Presenter\ListPresenter\StatusPresenter\CheckModelCreator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Presenter\ListPresenter\SelectionManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Presenter\ListPresenter\StatusControl.cpp">
+    <ClCompile Include="src\Presenter\ListPresenter\StatusPresenter\StatusControl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Presenter\ListPresenter\ListPresenter.cpp">
@@ -225,9 +222,6 @@
     <ClCompile Include="src\View\uiComponents\qt_derived\SurfaceSelector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Model\Tooth\ToothParserB.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\View\ListView\Procedures\ProcedureTable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -252,7 +246,7 @@
     <ClCompile Include="src\View\ListView\ToothPaintDevices\ToothPainter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Presenter\ListPresenter\ToothHintCreator.cpp">
+    <ClCompile Include="src\Presenter\ListPresenter\StatusPresenter\ToothHintCreator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\uiComponents\qt_derived\VitaWidget.cpp">
@@ -298,6 +292,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Model\User\User.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Presenter\ListPresenter\StatusPresenter\StatusPresenter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Presenter\ListPresenter\Editor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -557,19 +557,16 @@
     <ClInclude Include="src\Model\Tooth\ToothController\ToothController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Presenter\ListPresenter\CheckModelCreator.h">
+    <ClInclude Include="src\Presenter\ListPresenter\StatusPresenter\CheckModelCreator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Presenter\ListPresenter\SelectionManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Presenter\ListPresenter\StatusControl.h">
+    <ClInclude Include="src\Presenter\ListPresenter\StatusPresenter\StatusControl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Presenter\ListPresenter\ListPresenter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Presenter\ListPresenter\IStatusControl.h">
+    <ClInclude Include="src\Presenter\ListPresenter\StatusPresenter\IStatusControl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Presenter\SurfacePanel\InputEnums.h">
@@ -641,9 +638,6 @@
     <ClInclude Include="src\View\uiComponents\AbstractSurfaceSelector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model\Tooth\ToothParserB.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Model\Manipulation\ManipulationTemplate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -674,7 +668,7 @@
     <ClInclude Include="src\View\ListView\ToothPaintDevices\ToothPainter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Presenter\ListPresenter\ToothHintCreator.h">
+    <ClInclude Include="src\Presenter\ListPresenter\StatusPresenter\ToothHintCreator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\Tooth\Vita.h">
@@ -720,6 +714,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\User\User.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Presenter\ListPresenter\StatusPresenter\StatusPresenter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\View\ListView\IStatusView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Presenter\ListPresenter\Editor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

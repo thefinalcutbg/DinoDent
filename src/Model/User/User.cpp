@@ -1,8 +1,8 @@
 #include "User.h"
 
-User User::_instance;
+CurrentUser CurrentUser::_instance;
 
-User& User::instance()
+CurrentUser& CurrentUser::instance()
 {
     return _instance;
 }

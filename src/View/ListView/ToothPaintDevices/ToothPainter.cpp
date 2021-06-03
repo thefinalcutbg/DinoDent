@@ -37,7 +37,7 @@ ToothPainter::ToothPainter() :
     commonTexture = SpriteSheets::container().getCommonTexture();
 }
 
-QPixmap* ToothPainter::paintTooth(const PaintHint& tooth)
+QPixmap* ToothPainter::paintTooth(const ToothPaintHint& tooth)
 {
     tooth.temp ?
     coords = temp_tooth_type[tooth.idx]
@@ -73,7 +73,7 @@ QPixmap* ToothPainter::paintTooth(const PaintHint& tooth)
 	return new QPixmap(pixmap);
 }
 
-QPixmap ToothPainter::returnPaintedTooth(const PaintHint& tooth)
+QPixmap ToothPainter::returnPaintedTooth(const ToothPaintHint& tooth)
 {
     QPoint point(0, 0);
 
@@ -85,7 +85,7 @@ QPixmap ToothPainter::returnPaintedTooth(const PaintHint& tooth)
 
     if (tooth.lesion)
     {
-        if (tooth.tooth != ToothHint::impl && tooth.tooth != ToothHint::impl_m)
+        if (tooth.tooth != ToothTextureHint::impl && tooth.tooth != ToothTextureHint::impl_m)
         {
             painter.drawPixmap(0, 0, currentTexture->copy(coords->lesionCrop));
         }
@@ -98,7 +98,7 @@ QPixmap ToothPainter::returnPaintedTooth(const PaintHint& tooth)
 
     if (tooth.perio)
     {
-        if (tooth.tooth != ToothHint::impl && tooth.tooth != ToothHint::impl_m)
+        if (tooth.tooth != ToothTextureHint::impl && tooth.tooth != ToothTextureHint::impl_m)
         {
             painter.drawPixmap(0, 0, currentTexture->copy(coords->perioCrop));
         }
@@ -113,27 +113,27 @@ QPixmap ToothPainter::returnPaintedTooth(const PaintHint& tooth)
 
     switch (tooth.tooth)    //drawing the tooth;
     {
-        case ToothHint::none:
+        case ToothTextureHint::none:
             break;
-        case ToothHint::root:
+        case ToothTextureHint::root:
             painter.drawPixmap(0, 0, currentTexture->copy(coords->rootCrop));
             break;
-        case ToothHint::normal:
+        case ToothTextureHint::normal:
             painter.drawPixmap(0, 0, currentTexture->copy(coords->toothCrop));
             break;
-        case ToothHint::extr:
+        case ToothTextureHint::extr:
             painter.setOpacity(0.2);
             painter.drawPixmap(0, 0, currentTexture->copy(coords->toothCrop));
             painter.setOpacity(1);
             break;
-        case ToothHint::extr_m:
+        case ToothTextureHint::extr_m:
             painter.setOpacity(0.2);
             painter.drawPixmap(0, 0, currentTexture->copy(coords->toothCrop));
             painter.drawPixmap(0, 0, textureFormat(coords->toothCrop, Qt::green, 0.5));
             painter.setOpacity(1);
             currentTexture = container.getTexture(tooth.idx, tooth.temp);
             break;
-        case ToothHint::impl_m:
+        case ToothTextureHint::impl_m:
             painter.drawPixmap(coords->implantPaint, *commonTexture, coords->implantCrop);
             painter.setOpacity(0.2);
             currentTexture = commonTexture; //fix texture format!!! (currently uses current texture!)
@@ -141,7 +141,7 @@ QPixmap ToothPainter::returnPaintedTooth(const PaintHint& tooth)
             painter.setOpacity(1);
             currentTexture = container.getTexture(tooth.idx, tooth.temp);
             break;
-        case ToothHint::impl:
+        case ToothTextureHint::impl:
             painter.drawPixmap(coords->implantPaint, *commonTexture, coords->implantCrop);
             break;
     }
@@ -204,7 +204,7 @@ QPixmap ToothPainter::returnPaintedTooth(const PaintHint& tooth)
     return QPixmap(toothPx);
 }
 
-QPixmap ToothPainter::drawSurfaces(const PaintHint& tooth)
+QPixmap ToothPainter::drawSurfaces(const ToothPaintHint& tooth)
 {
     QPixmap surface(coords->toothCrop.width(), coords->toothCrop.height());
     surface.fill(Qt::transparent);
@@ -262,7 +262,7 @@ QPixmap ToothPainter::drawSurfaces(const PaintHint& tooth)
 
 }
 
-QPixmap ToothPainter::mobilityPaint(const PaintHint& tooth)
+QPixmap ToothPainter::mobilityPaint(const ToothPaintHint& tooth)
 {
     QString mobilityLabel = "🠘" + QString::number(tooth.mobility) + "🠚";
 
@@ -280,7 +280,7 @@ QPixmap ToothPainter::mobilityPaint(const PaintHint& tooth)
 
 }
 
-QPixmap ToothPainter::toothNumber(const PaintHint& tooth)
+QPixmap ToothPainter::toothNumber(const ToothPaintHint& tooth)
 {
 
     QPixmap numPixmap(coords->toothCrop.width(), 50);

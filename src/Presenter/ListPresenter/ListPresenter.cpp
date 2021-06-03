@@ -1,19 +1,16 @@
 #include "ListPresenter.h"
 #include "Model/Manipulation/MasterNZOK.h"
+#include "Model/User/User.h"
 
-
-ListPresenter::ListPresenter(IListView* view) :
-    view(view),
+ListPresenter::ListPresenter() :
+    view(nullptr),
     ambList(nullptr),
     patient(nullptr),
-    selectedIndexes(nullptr),
     patientDialog(nullptr),
-    edit_observer(nullptr),
-    allergiesDialog(nullptr),
-    edited(nullptr)
+    allergiesDialog(nullptr)
 {
-    checkModelCreator.addReciever(&statusControl);
-    checkModelCreator.addReciever(view);
+
+
 }
 
 void ListPresenter::setDialogPresnters(AllergiesDialogPresenter* allergiesPresenter)
@@ -22,9 +19,34 @@ void ListPresenter::setDialogPresnters(AllergiesDialogPresenter* allergiesPresen
 
 }
 
-void ListPresenter::attachEditObserver(EditObserver* observer)
+
+
+void ListPresenter::setUnfavourable(bool unfav)
 {
-    edit_observer = observer;
+
+    ambList->unfavourable = unfav;
+
+    for (auto& m : ambList->manipulations)
+    {
+        if (m.nzok)
+        {
+            m.price = std::get<0>(
+                MasterNZOK::instance().getPrices
+                (
+                    m.code,
+                    ambList->date,
+                    CurrentUser::instance().specialty,
+                    this->patient->isAdult(m.date),
+                    unfav
+                )
+                );
+        }
+    }
+
+    makeEdited();
+
+    refreshManipulationView(ambList->manipulations);
+
 }
 
 
@@ -34,75 +56,33 @@ void ListPresenter::setPatientDialog(PatientDialogPresenter* patientDialogPresen
 }
 
 
-void ListPresenter::setData(ListInstance* listInstance)
+void ListPresenter::setData(ListInstance* inst)
 {
-    this->ambList = &listInstance->amb_list;
-    this->patient = &listInstance->patient;
-    this->edited = &listInstance->edited;
-    this->selectedIndexes = &listInstance->selectedIndexes;
 
-    selectionManager.setStatus(&ambList->teeth);
-
-    setSelectedTeeth(listInstance->selectedIndexes);
+    this->ambList = &inst->amb_list;
+    this->patient = &inst->patient;
+   
+    status_presenter.setData(inst->amb_list.teeth, inst->selectedIndexes);
 
     view->refresh
     (
         *this->ambList,
-        *this->patient,
-        paint_hint_generator.getTeethHint(ambList->teeth),
-        *selectedIndexes
+        *this->patient
     );
 
+    view->setUnfav(ambList->unfavourable);
+
     refreshManipulationView(ambList->manipulations);
-    view->repaintBridges(paint_hint_generator.statusToUIBridge(ambList->teeth));
+
 }
 
-void ListPresenter::setSelectedTeeth(const std::vector<int>& SelectedIndexes)
+void ListPresenter::setView(IListView* view)
 {
-    *this->selectedIndexes = SelectedIndexes;
-
-
-    auto selectedTeeth = selectionManager.getSelectedTeethPointers(SelectedIndexes);
-    statusControl.setSelectedTeeth(selectedTeeth);
-    checkModelCreator.refreshModel(selectedTeeth);
-
-    if (selectedIndexes->size() == 1) {
-        view->updateControlPanel(&ambList->teeth[selectedIndexes->at(0)]);
-    }
-    else {
-        view->updateControlPanel(nullptr);
-    }
+    this->view = view;
+    status_presenter.setView(view);
 }
 
-void ListPresenter::makeEdited()
-{
-    if (*edited) return;
-    *edited = true;
-    if (edit_observer != NULL)
-        edit_observer->notify();
-}
 
-void ListPresenter::statusChanged()
-{
-    makeEdited();
-
-    checkModelCreator.refreshModel(selectionManager.getSelectedTeethPointers(*selectedIndexes));
-
-    for (int i : *selectedIndexes)
-    {
-
-        view->repaintTooth(paint_hint_generator.getToothHint(ambList->teeth[i]));
-    }
-
-    view->repaintBridges(paint_hint_generator.statusToUIBridge(ambList->teeth));
-
-    if (selectedIndexes->size() == 1) {
-        view->updateControlPanel(&ambList->teeth[selectedIndexes->at(0)]);
-    }
-    else {
-        view->updateControlPanel(nullptr);
-    }
-}
 
 void ListPresenter::addToManipulationList(const std::vector<Manipulation>& new_mList)
 {
@@ -160,29 +140,11 @@ void ListPresenter::refreshManipulationView(const std::vector<Manipulation>& mLi
 }
 
 
-void ListPresenter::changeStatus(Surface surface, SurfaceType type)
+void ListPresenter::attachEditObserver(EditObserver* observer)
 {
-    statusControl.changeStatus(surface, type);
-    statusChanged();
+    Editor::attachEditObserver(observer);
+    status_presenter.attachEditObserver(observer);
 }
-
-void ListPresenter::changeStatus(StatusAction status)
-{
-    if (status == StatusAction::addManipulation)
-    {
-        addProcedure(); return;
-    }
-
-    statusControl.changeStatus(status);
-
-    if (status == StatusAction::Bridge || status == StatusAction::Crown) {
-        bridgeController.formatBridges(*selectedIndexes, &ambList->teeth);
-    }
-
-    statusChanged();
-}
-
-
 
 void ListPresenter::openPatientDialog()
 {
@@ -202,11 +164,11 @@ void ListPresenter::openAllergiesDialog()
 void ListPresenter::addProcedure()
 {
 
-    auto mNzokTemplate = MasterNZOK::instance().getM_Templates(ambList->date, 64, patient->isAdult(), false);
+    auto mNzokTemplate = MasterNZOK::instance().getM_Templates(ambList->date, CurrentUser::instance().specialty , patient->isAdult(), false);
     auto mCustomTemplate = getCustomManipulations();
     mNzokTemplate.insert(mNzokTemplate.end(), mCustomTemplate.begin(), mCustomTemplate.end());
 
-    auto selectedTeethPtr = selectionManager.getSelectedTeethPointers(*selectedIndexes);
+    auto selectedTeethPtr = status_presenter.getSelectedTeethPointers();
 
     ProcedureDialogPresenter p
     {
@@ -238,13 +200,6 @@ void ListPresenter::deleteProcedure(int index)
     refreshManipulationView(ambList->manipulations);
 }
 
-void ListPresenter::statusChanged(std::string status)
-{
-    ambList->test = status;
-
-    makeEdited();
-}
-
 void ListPresenter::manipulationSelected(int index)
 {
 }
@@ -255,9 +210,7 @@ void ListPresenter::setPatient(Patient patient)
     view->refresh
     (
         *this->ambList,
-        *this->patient,
-        paint_hint_generator.getTeethHint(ambList->teeth),
-        *selectedIndexes
+        *this->patient
     );
 }
 
@@ -270,8 +223,6 @@ void ListPresenter::setAllergies(Allergies allergies)
     view->refresh
     (
         *this->ambList,
-        *this->patient,
-        paint_hint_generator.getTeethHint(ambList->teeth),
-        *selectedIndexes
+        *this->patient
     );
 }

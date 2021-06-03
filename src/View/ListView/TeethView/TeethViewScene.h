@@ -13,9 +13,8 @@
 #include "BridgeItem.h"
 #include "ContextMenu.h"
 
-#include "Presenter/ListPresenter/ListPresenter.h"
 
-
+class StatusPresenter;
 
 class TeethViewScene : public QGraphicsScene
 {
@@ -30,9 +29,7 @@ class TeethViewScene : public QGraphicsScene
 	BridgePainter bridgePainter;
 	ToothPainter toothPainter;
 
-
-
-	ListPresenter* presenter;
+	StatusPresenter* presenter;
 
 	ContextMenu* contextMenu;
 
@@ -43,11 +40,13 @@ class TeethViewScene : public QGraphicsScene
 
 public:
 
-	TeethViewScene(ListPresenter* presenter, QObject *parent = 0);
+	TeethViewScene(QObject *parent = 0);
 	void setContextMenu(ContextMenu* contextMenu);
 
-	void display(PaintHint tooth);
-	void display(const std::array<BridgeAppearenceTuple, 32>& bridges);
+	void setPresenter(StatusPresenter* presenter);
+
+	void display(ToothPaintHint tooth);
+	void display(const BridgesPaintHint& bridges);
 	void setSelectedTeeth(std::vector<int> &selectedTeeth);
 
 	~TeethViewScene();

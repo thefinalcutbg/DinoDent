@@ -1,15 +1,14 @@
 #include "ListView.h"
+#include "Presenter/ListPresenter/StatusPresenter/StatusPresenter.h"
 
-ListView::ListView(Database* database, QWidget* parent)
-	: QWidget(parent), presenter(this), allergiesDialog(this)
+ListView::ListView(QWidget* parent)
+	: QWidget(parent), allergiesDialog(this)
 {
+
 	ui.setupUi(this);
 
-	contextMenu = new ContextMenu(&presenter);
-	ui.controlPanel->setStatusControl(&presenter);
-	ui.surfacePanel->getPresenter()->getStatusControl(&presenter);
-
-	teethViewScene = new TeethViewScene(&presenter, ui.teethView);
+	teethViewScene = new TeethViewScene(ui.teethView);
+	contextMenu = new ContextMenu();
 	teethViewScene->setContextMenu(contextMenu);
 
 	ui.teethView->setScene(teethViewScene);
@@ -19,12 +18,11 @@ ListView::ListView(Database* database, QWidget* parent)
 	ui.procedureTable->setModel(&model);
 	ui.procedureTable->setDimensions();
 
-	connect(teethViewScene, &QGraphicsScene::selectionChanged, [=]{updateSelectedTeeth(); });
-	connect(ui.statusEdit, &QLineEdit::textChanged, [=] {presenter.statusChanged(ui.statusEdit->text().toStdString());});
 	connect(ui.patientTile, &QAbstractButton::clicked, [=] { presenter.openPatientDialog(); });
 	connect(ui.allergiesTile, &QAbstractButton::clicked, [=] { presenter.openAllergiesDialog(); });
 	connect(ui.procedureButton, &QAbstractButton::clicked, [=] { presenter.addProcedure(); });
 	connect(ui.procedureTable, &ProcedureTable::deletePressed, [=] { ui.deleteProcedure->click(); });
+	connect(ui.unfav_check, &QCheckBox::stateChanged, [=] {presenter.setUnfavourable(ui.unfav_check->isChecked()); });
 
 	connect(ui.deleteProcedure, &QAbstractButton::clicked, 
 		[=] {
@@ -57,6 +55,9 @@ ListView::ListView(Database* database, QWidget* parent)
 			presenter.manipulationSelected(row);
 		}
 	);
+
+	presenter.setView(this);
+
 }
 
 void ListView::paintEvent(QPaintEvent* event)
@@ -68,50 +69,22 @@ void ListView::paintEvent(QPaintEvent* event)
 	painter.end();
 }
 
-void ListView::updateSelectedTeeth()
-{
-	std::vector<int> selectedIndexes;
-	selectedIndexes.reserve(32);
-
-	SelectionBox* selection;
-
-	for (QGraphicsItem* item : teethViewScene->selectedItems())
-	{
-		selection = static_cast<SelectionBox*>(item);
-		selectedIndexes.emplace_back(selection->getIndex());
-	}
-	
-	std::sort(selectedIndexes.begin(), selectedIndexes.end());
-
-	presenter.setSelectedTeeth(selectedIndexes);
-
-}
-
 ListPresenter* ListView::Presenter()
 {
 	return &this->presenter;
 }
 
-void ListView::refresh(AmbList& ambList, Patient& patient,const std::array<PaintHint, 32>& teeth, std::vector<int>& selectedIndexes)
+void ListView::setStatusControlPresenter(StatusPresenter* presenter)
 {
-	//remember to block the signals!
+	teethViewScene->setPresenter(presenter);
+	ui.controlPanel->setStatusControl(presenter);
+    ui.surfacePanel->getPresenter()->setStatusControl(presenter);
+}
+
+void ListView::refresh(AmbList& ambList, Patient& patient)
+{
 	ui.patientTile->setPatient(patient);
 	ui.allergiesTile->setPatient(patient);
-
-	ui.statusEdit->blockSignals(1);
-	ui.statusEdit->setText(QString::fromStdString(ambList.test));
-	ui.statusEdit->blockSignals(0);
-
-	for (int i = 0; i < 32; i++)
-	{
-		teethViewScene->display(teeth[i]);
-	}
-	
-	teethViewScene->blockSignals(1);
-	teethViewScene->setSelectedTeeth(selectedIndexes);
-	teethViewScene->blockSignals(0);
-	//ui.teethView->setFocus();
-	ui.teethView->update(); //the only way to update qgraphicsview without most of the bugs
 }
 
 void ListView::setCheckModel(const CheckModel& checkModel)
@@ -120,13 +93,13 @@ void ListView::setCheckModel(const CheckModel& checkModel)
 	contextMenu->setModel(checkModel);
 }
 
-void ListView::repaintTooth(const PaintHint& tooth)
+void ListView::repaintTooth(const ToothPaintHint& tooth)
 {
 	teethViewScene->display(tooth);
 	ui.teethView->setFocus();
 }
 
-void ListView::repaintBridges(const std::array<BridgeAppearenceTuple, 32>& bridges)
+void ListView::repaintBridges(const BridgesPaintHint& bridges)
 {
 	teethViewScene->display(bridges);
 }
@@ -134,6 +107,16 @@ void ListView::repaintBridges(const std::array<BridgeAppearenceTuple, 32>& bridg
 void ListView::updateControlPanel(const Tooth* tooth)
 {
 	ui.surfacePanel->getPresenter()->setTooth(tooth);
+}
+
+void ListView::setSelectedTeeth(std::vector<int> selectedIndexes)
+{
+	{
+		QSignalBlocker blocker(teethViewScene);
+		teethViewScene->setSelectedTeeth(selectedIndexes);
+	}
+	//ui.teethView->setFocus();
+	ui.teethView->update(); //the only way to update qgraphicsview without most of the bugs
 }
 
 void ListView::setManipulations(const std::vector<RowData>& m)
@@ -162,6 +145,13 @@ void ListView::openProcedureDialog(ProcedureDialogPresenter *p)
 {
 	ProcedureDialog dialog(p);
 	dialog.openProcedureDialog();
+}
+
+void ListView::setUnfav(bool unfav)
+{
+	QSignalBlocker blocker(ui.unfav_check);
+	ui.unfav_check->setChecked(unfav);
+	
 }
 
 

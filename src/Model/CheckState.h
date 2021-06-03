@@ -25,9 +25,3 @@ struct CheckModel
     std::array<CheckState, 6> obturationStatus;
     std::array<CheckState, 6> cariesStatus;
 };
-
-class CheckModelReciever
-{
-public:
-    virtual void setCheckModel(const CheckModel& checkModel) = 0;
-};

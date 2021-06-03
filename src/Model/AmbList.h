@@ -12,7 +12,7 @@ constexpr int defaultSurfaces[32] = { 0,0,0,0,0,3,3,3,3,3,3,0,0,0,0,0,0,0,0,0,0,
 
 struct AmbList
 {
-	AmbList() : date(1, 1, 1900), number(0) 
+	AmbList() : date(1, 1, 1900), number(0), unfavourable(false)
 	{
 		for (int i = 0; i < teeth.size(); i++) {
 			teeth[i].index = i;
@@ -25,8 +25,6 @@ struct AmbList
 	Date date;
 	int number;
 	std::string LPK;
-	std::string test;
-
 	bool unfavourable;
 
 	std::vector<Manipulation> manipulations;

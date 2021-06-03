@@ -16,8 +16,8 @@ class ListView : public QWidget, public IListView
 {
     Q_OBJECT
 
-
     ListPresenter presenter;
+
     TeethViewScene* teethViewScene;
     AllergiesDialog allergiesDialog;
     ContextMenu* contextMenu;
@@ -26,20 +26,21 @@ class ListView : public QWidget, public IListView
 
     void paintEvent(QPaintEvent* event);
 
-    void updateSelectedTeeth();
-
 public:
-    ListView(Database* database, QWidget* parent = Q_NULLPTR);
+    ListView(QWidget* parent = Q_NULLPTR);
 
     ListPresenter* Presenter();
 
-    void refresh(AmbList& ambList, Patient& patient,const std::array<PaintHint, 32>& teeth, std::vector<int>& selectedIndexes) override;
+    void setStatusControlPresenter(StatusPresenter* presenter) override;
+    void refresh(AmbList& ambList, Patient& patient) override;
     void setCheckModel(const CheckModel& checkModel) override;
-    void repaintTooth(const PaintHint& tooth) override;
-    void repaintBridges(const std::array<BridgeAppearenceTuple, 32>& bridges) override;
+    void repaintTooth(const ToothPaintHint& tooth) override;
+    void repaintBridges(const BridgesPaintHint& bridges) override;
     void updateControlPanel(const Tooth* tooth) override;
+    void setSelectedTeeth(std::vector<int> selectedTeeth) override;
     void setManipulations(const std::vector<RowData>& m) override;
     void openProcedureDialog(ProcedureDialogPresenter *p) override;
+    virtual void setUnfav(bool unfav) override;
     ~ListView();
 
 private:

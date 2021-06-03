@@ -17,7 +17,7 @@ QPixmap BridgePainter::getOverlay(const QPixmap& source)
 	return overlay;
 }
 
-QPixmap* BridgePainter::paintHalf(std::array<BridgeAppearenceTuple, 16> bridgeHalf, bool lower)
+QPixmap* BridgePainter::paintHalf(std::array<std::tuple<BridgeAppearance, bool>, 16> bridgeHalf, bool lower)
 {
 	QPixmap* currentTexture;
 
@@ -97,14 +97,14 @@ QPixmap* BridgePainter::paintHalf(std::array<BridgeAppearenceTuple, 16> bridgeHa
 }
 
 
-std::pair<QPixmap*, QPixmap*> BridgePainter::getBridgePair(const std::array<BridgeAppearenceTuple, 32>& bridges)
+std::pair<QPixmap*, QPixmap*> BridgePainter::getBridgePair(const BridgesPaintHint& bridges)
 {
-	std::array<BridgeAppearenceTuple, 16> upperArrayBridge;
-	std::array<BridgeAppearenceTuple, 16> lowerArrayBridge;
+	std::array<std::tuple<BridgeAppearance, bool>, 16> upperArrayBridge;
+	std::array<std::tuple<BridgeAppearance, bool>, 16> lowerArrayBridge;
 
 	for (int i = 0; i < 16; i++) {
-		upperArrayBridge[i] = bridges[i];
-		lowerArrayBridge[i] = bridges[i + 16];
+		upperArrayBridge[i] = bridges.paintHints[i];
+		lowerArrayBridge[i] = bridges.paintHints[i + 16];
 	}
 
 	return std::make_pair<QPixmap*, QPixmap*>(paintHalf(upperArrayBridge, 0), paintHalf(lowerArrayBridge, 1));

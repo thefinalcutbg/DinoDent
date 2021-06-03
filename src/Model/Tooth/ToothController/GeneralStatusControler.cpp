@@ -174,6 +174,7 @@ void GeneralStatusController::addStatus(int statusIndex)
 
     case StatusCode::Bridge:
         tooth->bridge.set(true);
+        tooth->bridge.LPK.clear();
         tooth->hyperdontic.set(false);
         tooth->crown.set(false);
         break;

@@ -1,10 +1,22 @@
-﻿#include "getManipulationTamplates.h"
+#include "CustomProcedures.h"
+
 #include <array>
 #include <fstream>
 
 #include "../json/json.h"
 
-std::vector<ManipulationTemplate> getCustomManipulations()
+CustomProcedures CustomProcedures::_instance;
+
+CustomProcedures::CustomProcedures()
+{
+}
+
+CustomProcedures& CustomProcedures::instance()
+{
+	return _instance;
+}
+
+void CustomProcedures::loadCustomProcedures()
 {
 	std::ifstream ifs("manipulation.json");
 	Json::Reader reader;
@@ -14,8 +26,8 @@ std::vector<ManipulationTemplate> getCustomManipulations()
 
 	const Json::Value& manipulation = m["manipulation"];
 
-	std::vector<ManipulationTemplate> manipulationList;
-	manipulationList.reserve(manipulation.size());
+	_customProcedures.clear();
+	_customProcedures.reserve(manipulation.size());
 
 	for (int i = 0; i < manipulation.size(); i++)
 	{
@@ -34,9 +46,12 @@ std::vector<ManipulationTemplate> getCustomManipulations()
 			m.material = manipulation[i]["material"].asString();
 		}
 
-		manipulationList.emplace_back(m);
+		_customProcedures.emplace_back(m);
 	}
 
-	return manipulationList;
+}
 
+const std::vector<ManipulationTemplate>& CustomProcedures::getCustomProcedures()
+{
+	return _customProcedures;
 }

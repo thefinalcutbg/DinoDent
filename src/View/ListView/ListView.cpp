@@ -1,5 +1,6 @@
 #include "ListView.h"
 #include "Presenter/ListPresenter/StatusPresenter/StatusPresenter.h"
+#include "Presenter/ListPresenter/ProcedurePresenter/ProcedurePresenter.h"
 
 ListView::ListView(QWidget* parent)
 	: QWidget(parent), allergiesDialog(this)
@@ -20,9 +21,9 @@ ListView::ListView(QWidget* parent)
 
 	connect(ui.patientTile, &QAbstractButton::clicked, [=] { presenter.openPatientDialog(); });
 	connect(ui.allergiesTile, &QAbstractButton::clicked, [=] { presenter.openAllergiesDialog(); });
-	connect(ui.procedureButton, &QAbstractButton::clicked, [=] { presenter.addProcedure(); });
+	connect(ui.procedureButton, &QAbstractButton::clicked, [=] { procedure_presenter->addProcedure(); });
 	connect(ui.procedureTable, &ProcedureTable::deletePressed, [=] { ui.deleteProcedure->click(); });
-	connect(ui.unfav_check, &QCheckBox::stateChanged, [=] {presenter.setUnfavourable(ui.unfav_check->isChecked()); });
+	connect(ui.unfav_check, &QCheckBox::stateChanged, [=] {procedure_presenter->setUnfavourable(ui.unfav_check->isChecked()); });
 
 	connect(ui.deleteProcedure, &QAbstractButton::clicked, 
 		[=] {
@@ -31,7 +32,7 @@ ListView::ListView(QWidget* parent)
 
 			if (currentIdx == -1) return;
 
-			presenter.deleteProcedure(currentIdx);
+			procedure_presenter->deleteProcedure(currentIdx);
 
 			if (currentIdx == lastIdx)
 			{
@@ -47,12 +48,12 @@ ListView::ListView(QWidget* parent)
 
 			if (row == -1) {
 
-				presenter.manipulationSelected(row);
+				procedure_presenter->setSelectedProcedure(row);
 				return;
 			}
 
 			int manipulationIdx = ui.procedureTable->model()->index(row, 0).data().toInt();
-			presenter.manipulationSelected(row);
+			procedure_presenter->setSelectedProcedure(row);
 		}
 	);
 
@@ -79,6 +80,12 @@ void ListView::setStatusControlPresenter(StatusPresenter* presenter)
 	teethViewScene->setPresenter(presenter);
 	ui.controlPanel->setStatusControl(presenter);
     ui.surfacePanel->getPresenter()->setStatusControl(presenter);
+	contextMenu->setStatusControl(presenter);
+}
+
+void ListView::setProcedurePresenter(ProcedurePresenter* presenter)
+{
+	procedure_presenter = presenter;
 }
 
 void ListView::refresh(AmbList& ambList, Patient& patient)
@@ -119,7 +126,7 @@ void ListView::setSelectedTeeth(std::vector<int> selectedIndexes)
 	ui.teethView->update(); //the only way to update qgraphicsview without most of the bugs
 }
 
-void ListView::setManipulations(const std::vector<RowData>& m)
+void ListView::setProcedures(const std::vector<RowData>& m)
 {
 	model.setManipulations(m);
 

@@ -72,8 +72,6 @@ void StatusPresenter::changeStatus(Surface surface, SurfaceType type)
 {
 	statusControl.changeStatus(surface, type);
     statusChanged();
-    
-
 }
 
 void StatusPresenter::changeStatus(StatusAction status)

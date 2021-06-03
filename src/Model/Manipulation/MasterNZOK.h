@@ -25,7 +25,8 @@ class MasterNZOK
 public:
 	MasterNZOK(const MasterNZOK&) = delete;
 	static MasterNZOK& instance();
-	static void loadUpdates();
+
+	void loadUpdates();
 
 	int getDuration(int nzokCode);
 	std::vector<ManipulationTemplate> getM_Templates(Date date, int specialty, bool adult, bool unfav);

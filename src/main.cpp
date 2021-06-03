@@ -2,6 +2,7 @@
 #include "View/Torque.h"
 #include "View/ListView/ToothPaintDevices/SpriteSheets.h"
 #include "Model/Manipulation/MasterNZOK.h"
+#include "Model/Manipulation/CustomProcedures.h"
 
 int main(int argc, char *argv[])
 {
@@ -17,6 +18,7 @@ int main(int argc, char *argv[])
 
     SpriteSheets::container().loadSpriteSheets(); //loading textures, otherwise program will crash;
     MasterNZOK::instance().loadUpdates();
+    CustomProcedures::instance().loadCustomProcedures();
 
     Torque w;
     w.show();

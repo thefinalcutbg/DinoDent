@@ -193,10 +193,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Model\Manipulation\CustomProcedures.cpp" />
     <ClCompile Include="src\Presenter\ListPresenter\Editor.cpp" />
     <ClCompile Include="src\Model\Manipulation\ManipulationApplier.cpp" />
     <ClCompile Include="src\Model\Manipulation\MasterNZOK.cpp" />
     <ClCompile Include="src\Model\Patient.cpp" />
+    <ClCompile Include="src\Presenter\ListPresenter\ProcedurePresenter\ProcedurePresenter.cpp" />
     <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\ImplantPresenter.cpp" />
     <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\EndoPresenter.cpp" />
     <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\ExtractionPresenter.cpp" />
@@ -211,7 +213,6 @@
     <ClCompile Include="src\Model\Manipulation\ManipulationParser.cpp" />
     <ClCompile Include="src\View\ListView\TeethView\GraphicsView.cpp" />
     <ClCompile Include="src\View\uiComponents\qt_derived\SpinBox.cpp" />
-    <ClCompile Include="src\Model\Manipulation\getManipulationTamplates.cpp" />
     <ClCompile Include="src\View\ListView\Procedures\ProcedureTableModel.cpp" />
     <ClCompile Include="src\View\ListView\Procedures\ProcedureTable.cpp" />
     <ClCompile Include="src\View\uiComponents\qt_derived\RangeWidget.cpp" />
@@ -362,8 +363,10 @@
     <QtMoc Include="src\View\AmbListPage\AmbListPage.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Model\Manipulation\CustomProcedures.h" />
     <ClInclude Include="src\Presenter\ListPresenter\Editor.h" />
     <ClInclude Include="src\Model\User\User.h" />
+    <ClInclude Include="src\Presenter\ListPresenter\ProcedurePresenter\ProcedurePresenter.h" />
     <ClInclude Include="src\Presenter\ListPresenter\StatusPresenter\StatusPresenter.h" />
     <QtMoc Include="src\View\ProcedureDialog\Widgets\CommonFields\CommonFields.h" />
     <QtMoc Include="src\View\ProcedureDialog\Widgets\ObturationView\ObturationView.h" />
@@ -393,7 +396,6 @@
     <QtMoc Include="src\View\ListView\Procedures\ProcedureTableModel.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\SpinBox.h" />
     <ClInclude Include="src\Database\AbstractORM.h" />
-    <ClInclude Include="src\Model\Manipulation\getManipulationTamplates.h" />
     <ClInclude Include="src\Model\Manipulation\ManipulationTemplate.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\SurfaceSelector.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\TextEdit.h" />

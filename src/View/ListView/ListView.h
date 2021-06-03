@@ -12,12 +12,13 @@
 
 #include "Procedures/ProcedureTableModel.h"
 
+
 class ListView : public QWidget, public IListView
 {
     Q_OBJECT
 
     ListPresenter presenter;
-
+    ProcedurePresenter* procedure_presenter;
     TeethViewScene* teethViewScene;
     AllergiesDialog allergiesDialog;
     ContextMenu* contextMenu;
@@ -32,13 +33,14 @@ public:
     ListPresenter* Presenter();
 
     void setStatusControlPresenter(StatusPresenter* presenter) override;
+    void setProcedurePresenter(ProcedurePresenter* presenter) override;
     void refresh(AmbList& ambList, Patient& patient) override;
     void setCheckModel(const CheckModel& checkModel) override;
     void repaintTooth(const ToothPaintHint& tooth) override;
     void repaintBridges(const BridgesPaintHint& bridges) override;
     void updateControlPanel(const Tooth* tooth) override;
     void setSelectedTeeth(std::vector<int> selectedTeeth) override;
-    void setManipulations(const std::vector<RowData>& m) override;
+    void setProcedures(const std::vector<RowData>& m) override;
     void openProcedureDialog(ProcedureDialogPresenter *p) override;
     virtual void setUnfav(bool unfav) override;
     ~ListView();

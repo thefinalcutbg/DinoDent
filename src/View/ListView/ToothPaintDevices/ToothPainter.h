@@ -33,6 +33,7 @@ protected:
 
 	QPixmap drawSurfaces(const ToothPaintHint& tooth);
 	QPixmap mobilityPaint(const ToothPaintHint& tooth);
+	QPixmap fracturePaint(const ToothPaintHint& tooth);
 	QPixmap toothNumber(const ToothPaintHint& tooth);
 	void rotateByQuadrant(QPainter& painter, int textureWidth, int textureHeight, int toothIndex);
 

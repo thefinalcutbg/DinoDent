@@ -9,8 +9,8 @@
 #include "ControlPanelPolygon.h"
 
 #include "View/ListView/SurfacePanel/ISurfacePanel.h"
+#include "Presenter/ListPresenter/StatusPresenter/InputEnums.h"
 
-#include "Presenter/ListPresenter/StatusPresenter/SurfacePanel/InputEnums.h"
 
 class SurfacePanelPresenter;
 

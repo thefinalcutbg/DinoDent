@@ -3,20 +3,20 @@
 #include <QWidget>
 #include "ui_ControlPanel.h"
 
-class IStatusControl;
+class StatusPresenter;
 
 class ControlPanel : public QWidget
 {
 	Q_OBJECT
 
 	std::array<StatusButton*, 18> statusButtons;
-	IStatusControl* statusControl;
+	StatusPresenter* presenter;
 
 public:
 	ControlPanel(QWidget *parent = Q_NULLPTR);
 	~ControlPanel();
 
-	void setStatusControl(IStatusControl* statusControl);
+	void setPresenter(StatusPresenter* presenter);
 	void hideCommonButtons(bool hidden);
 	void setModel(const CheckModel& checkModel);
 

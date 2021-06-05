@@ -6,7 +6,7 @@ ListInstance::ListInstance(AmbList ambList, Patient patient) :
 	patient(patient),
 	edited(0)
 {
-	selectedIndexes.reserve(32);
+	selectedTeeth.reserve(32);
 }
 
 bool ListInstance::isNew()

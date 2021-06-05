@@ -1,13 +1,17 @@
 #pragma once
 #include <QGraphicsItem>
-#include <QPainter>
-#include <QGraphicsSceneMouseEvent>
+
 
 class ToothGraphicsItem : public QGraphicsItem
 {
     QPixmap* toothGraphic;
     QRectF bounds;
     int index;
+
+    bool hasProcedure;
+
+    int procedureMarkerHeight;
+
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override;
 
 public:
@@ -16,7 +20,7 @@ public:
     ~ToothGraphicsItem();
 
 
-
+    void setProcedure(bool hasProcedure);
     void setToothGraphic(QPixmap* toothGraphic);
     QRectF boundingRect() const override;
 

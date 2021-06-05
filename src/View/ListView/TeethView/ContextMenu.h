@@ -1,35 +1,34 @@
 #pragma once
 
 #include <QIcon>
-
 #include <QMenu>
-
-#include "Model/CheckState.h"
 
 #include <type_traits>
 
-#include "Presenter/ListPresenter/StatusPresenter/IStatusControl.h"
+#include "Model/CheckState.h"
+
+
+
+class StatusPresenter;
 
 class ContextMenu : public QMenu
 {
     Q_OBJECT
 
-    IStatusControl* presenter;
+    StatusPresenter* presenter;
 
     std::array<QAction*, 6>surfObt;
     std::array<QAction*, 6> surfCar;
-    std::array<QAction*, ActionCount> menuAction;
+    std::array<QAction*, 25> menuAction;
 
 
-    // int CheckStateSize, int QActionSize
-    // const std::array <CheckState, CheckStateSize>& model, std::array<QAction*, QActionSize>& action
     template <typename ModelArray, typename ActionArray, int CheckStateSize = std::tuple_size<ModelArray>::value>
     void setModel(const ModelArray &, ActionArray &);
 
 public:
     ContextMenu();
     void setModel(const CheckModel& checkModel);
-    void setStatusControl(IStatusControl* presenter);
+    void setStatusControl(StatusPresenter* presenter);
     ~ContextMenu();
 };
 

@@ -1,9 +1,9 @@
 #include "ToothGraphicsItem.h"
+#include <QPainter>
+#include <QGraphicsSceneMouseEvent>
 
-
-ToothGraphicsItem::ToothGraphicsItem(int index) : index(index), toothGraphic(nullptr)
+ToothGraphicsItem::ToothGraphicsItem(int index) : index(index), hasProcedure(false), toothGraphic(nullptr)
 {
-
 
     bounds.setHeight(224);
 
@@ -11,6 +11,12 @@ ToothGraphicsItem::ToothGraphicsItem(int index) : index(index), toothGraphic(nul
         bounds.setWidth(36);
     else
         bounds.setWidth(54);
+
+    index < 16 ?
+        procedureMarkerHeight = 0
+        :
+        procedureMarkerHeight = 209;
+
 }
 
 ToothGraphicsItem::~ToothGraphicsItem()
@@ -26,16 +32,26 @@ QRectF ToothGraphicsItem::boundingRect() const
 
 void ToothGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
-    //painter->fillRect(bounds.toRect(), Qt::white);
+
+    if (hasProcedure)
+    {
+        painter->setOpacity(0.2);
+        painter->fillRect(0, procedureMarkerHeight, bounds.width(), 15, QBrush(Qt::green));
+        painter->setOpacity(1);
+    }
 
     if (toothGraphic != NULL)
     {
         painter->drawPixmap(bounds.toRect(), *toothGraphic);
     }
 
-    //painter->setPen(Qt::black);
-    //painter->drawRect(bounds.toRect());
 
+}
+
+void ToothGraphicsItem::setProcedure(bool hasProcedure)
+{
+    this->hasProcedure = hasProcedure;
+    update();
 }
 
 void ToothGraphicsItem::setToothGraphic(QPixmap* toothGraphic)

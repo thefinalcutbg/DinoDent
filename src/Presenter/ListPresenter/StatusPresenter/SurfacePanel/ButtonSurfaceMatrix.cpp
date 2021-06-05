@@ -38,8 +38,8 @@ ButtonSurfaceMatrix::ButtonSurfaceMatrix()
 
 Surface ButtonSurfaceMatrix::getSurface(int toothIndex, ButtonPos position)
 {
-	return static_cast<Surface>(
-									map[toothIndex]
-									   [static_cast<int>(position)]
+	return static_cast<Surface>
+	(
+		map[toothIndex][static_cast<int>(position)]
 	);
 }

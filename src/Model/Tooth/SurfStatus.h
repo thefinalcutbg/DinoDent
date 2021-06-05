@@ -56,6 +56,11 @@ public:
 		return m_exists ? surfaces[surface].exists() : false;	
 	}
 
+	bool exists(Surface surface) const
+	{
+		return exists(static_cast<int>(surface));
+	}
+
 	bool exists() const override { return Status::exists(); } // why do I need this?
 
 	void set(bool exists)

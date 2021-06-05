@@ -2,7 +2,7 @@
 #include <QGraphicsItem>
 #include <QPainter>
 #include <QGraphicsSceneMouseEvent>
-#include "Presenter/ListPresenter/StatusPresenter/SurfacePanel/InputEnums.h"
+#include "Presenter/ListPresenter/StatusPresenter/InputEnums.h"
 
 enum class MouseClick {leftClick, rightClick};
 enum class Hover{in, out};
@@ -23,8 +23,6 @@ class ControlPanelPolygon : public QGraphicsItem
     ButtonPos position;
     bool hovered;
     QPolygon poly;
-
-
 
 public:
     ControlPanelPolygon(ButtonPos direction, PolygonObserver *observer);

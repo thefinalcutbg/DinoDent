@@ -60,9 +60,14 @@ QPixmap* ToothPainter::paintTooth(const ToothPaintHint& tooth)
         int height = 60; // for upper teeth;
         if (tooth.idx > 15) height = 746 - 110; //for lower teeth
 
-        
-
         painter.drawPixmap(0, height, std::move(mobilityPaint(tooth)));
+    }
+
+    if (tooth.frac)
+    {
+        int height = 650;
+        if (tooth.idx > 15) height = 50;
+        painter.drawPixmap(0, height, std::move(fracturePaint(tooth)));
     }
 
     int height = 0;
@@ -214,8 +219,6 @@ QPixmap ToothPainter::drawSurfaces(const ToothPaintHint& tooth)
     outlinedSurface.fill(Qt::transparent);
     QPainter outlinePainter(&outlinedSurface);
 
-
-
     for (int i = 0; i < tooth.surfaces.size(); i++) //drawing the surfaces;
     {
         if (!tooth.surfaces[i].outline)
@@ -278,6 +281,28 @@ QPixmap ToothPainter::mobilityPaint(const ToothPaintHint& tooth)
     painter.drawText(QRect{ 0,0,coords->toothCrop.width(), 50 }, Qt::AlignCenter, mobilityLabel);
     return mobility;
 
+}
+
+QPixmap ToothPainter::fracturePaint(const ToothPaintHint& tooth)
+{
+    QPixmap fracture(coords->toothCrop.width(), 55);
+    QPainter painter(&fracture);
+    painter.setOpacity(0.5);
+    QRect rect(coords->toothCrop.width() / 2 - 25, 2, 50, 50);
+
+    QPen pen(Qt::red);
+    pen.setWidth(5);
+    painter.setPen(pen);
+
+    painter.setRenderHint(QPainter::Antialiasing);
+    painter.drawEllipse(rect);
+
+    QFont font{ "Arial", 28 };
+    font.setBold(1);
+    painter.setFont(font);
+    painter.drawText(rect, Qt::AlignCenter, "F");
+    return fracture;
+    
 }
 
 QPixmap ToothPainter::toothNumber(const ToothPaintHint& tooth)
@@ -363,7 +388,7 @@ QPixmap ToothPainter::textureOutline(const QPixmap& src, QColor borderColor)
     QGraphicsPixmapItem temp_pixmap_item(outline_px);
     auto path = temp_pixmap_item.shape();
 
-    QPen pen(Qt::red, 20, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+    QPen pen(Qt::red, 15, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
    
     painter.setPen(pen);
     painter.drawPath(path);

@@ -9,7 +9,6 @@
 #include "TeethView/TeethViewScene.h"
 #include "View/AllergiesDialog/AllergiesDialog.h"
 #include "View/ProcedureDialog/ProcedureDialog.h"
-
 #include "Procedures/ProcedureTableModel.h"
 
 

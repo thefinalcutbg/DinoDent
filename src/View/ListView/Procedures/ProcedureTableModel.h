@@ -30,7 +30,7 @@ class ProcedureTableModel : public QAbstractTableModel
 public:
 	ProcedureTableModel(QObject* parent = nullptr);
 
-	void setManipulations(const std::vector<RowData>& manipulations);
+	void setProcedure(const std::vector<RowData>& manipulations);
 	int rowCount(const QModelIndex& parent = QModelIndex()) const override;
 	int columnCount(const QModelIndex& parent = QModelIndex()) const override;
 	~ProcedureTableModel();

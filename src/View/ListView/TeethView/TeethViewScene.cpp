@@ -1,6 +1,11 @@
 #include "TeethViewScene.h"
-
-
+#include <QGraphicsSceneContextMenuEvent>
+#include <QGraphicsSceneMouseEvent>
+#include <QKeyEvent>
+#include "ContextMenu.h"
+#include "ToothGraphicsItem.h"
+#include "SelectionBox.h"
+#include "BridgeItem.h"
 #include "Presenter/ListPresenter/ListPresenter.h"
 
 TeethViewScene::TeethViewScene(QObject *parent)
@@ -212,6 +217,7 @@ void TeethViewScene::keyPressEvent(QKeyEvent* event)
       case Qt::Key_S: presenter->changeStatus(StatusAction::Post); break;
       case Qt::Key_P :presenter->changeStatus(StatusAction::Pulpitis); break;
       case Qt::Key_D :presenter->changeStatus(StatusAction::EndoTreatment); break;
+      case Qt::Key_F: presenter->changeStatus(StatusAction::Fracture); break;
       case Qt::Key_I :presenter->changeStatus(StatusAction::Implant); break;
       case Qt::Key_L :presenter->changeStatus(StatusAction::Periodontitis); break;
       case Qt::Key_1 :presenter->changeStatus(StatusAction::Mobility1); break;
@@ -252,6 +258,21 @@ void TeethViewScene::setSelectedTeeth(std::vector<int> &selectedTeeth)
 
     for (int i : selectedTeeth){
         selectionBox[i]->setSelected(1);
+    }
+}
+
+void TeethViewScene::setProcedures(std::vector<RowData> procedures)
+{
+    for (auto& t : toothGraphic)
+    {
+        t->setProcedure(false);
+    }
+
+    for (auto& p : procedures)
+    {
+        if (p.toothIdx != -1)
+            toothGraphic[p.toothIdx]->setProcedure(true);
+        
     }
 }
 

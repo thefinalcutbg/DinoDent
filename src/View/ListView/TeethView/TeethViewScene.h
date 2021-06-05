@@ -1,19 +1,15 @@
 #pragma once
 
 #include <QGraphicsScene>
-#include <QGraphicsSceneContextMenuEvent>
-#include <QGraphicsSceneMouseEvent>
-#include <QKeyEvent>
-
 #include "../ToothPaintDevices/ToothPainter.h"
 #include "../ToothPaintDevices/BridgePainter.h"
-
-#include "ToothGraphicsItem.h"
-#include "SelectionBox.h"
-#include "BridgeItem.h"
-#include "ContextMenu.h"
+#include "../Procedures/RowData.h"
 
 
+class ContextMenu;
+class SelectionBox;
+class BridgeItem;
+class ToothGraphicsItem;
 class StatusPresenter;
 
 class TeethViewScene : public QGraphicsScene
@@ -48,6 +44,7 @@ public:
 	void display(ToothPaintHint tooth);
 	void display(const BridgesPaintHint& bridges);
 	void setSelectedTeeth(std::vector<int> &selectedTeeth);
+	void setProcedures(std::vector<RowData> procedures);
 
 	~TeethViewScene();
 };

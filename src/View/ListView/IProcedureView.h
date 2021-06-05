@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-#include "Procedures/ProcedureTableModel.h"
+#include "Procedures/RowData.h"
 
 class ProcedureDialogPresenter;
 class ProcedurePresenter;
@@ -12,4 +12,5 @@ public:
 	virtual void openProcedureDialog(ProcedureDialogPresenter* p) = 0;
 	virtual void setUnfav(bool unfav) = 0;
 	virtual void setProcedurePresenter(ProcedurePresenter* presenter) = 0;
+
 };

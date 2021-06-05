@@ -5,7 +5,8 @@ struct RowData
 {
 	std::string date;
 	std::string diagnosis;
-	int tooth;
+	int toothNumber;
+	int toothIdx;
 	std::string manipulation;
 	int code;
 	double price;

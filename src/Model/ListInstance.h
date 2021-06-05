@@ -17,7 +17,8 @@ struct ListInstance
 	ListInstance(AmbList ambList, Patient patient);
 	bool isNew();
 	bool isEdited();
-	std::vector <int> selectedIndexes;
+//	std::vector <int> selectedIndexes;
+	std::vector <Tooth*> selectedTeeth;
 
 	std::string getTabName();
 

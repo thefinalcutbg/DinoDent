@@ -1,45 +1,45 @@
 #include "StatusPresenter.h"
 
-std::vector<Tooth*> StatusPresenter::getSelectedTeethPointers()
+std::vector<int> StatusPresenter::getSelectedIndexes()
 {
-	std::vector<Tooth*> selectedTeethPointers;
-	selectedTeethPointers.reserve(selectedIndexes->size());
-    
-	for (int index : *selectedIndexes)
-	{
-		selectedTeethPointers.emplace_back(&teeth->at(index));
-	}
+    std::vector<int> selectedIndexes;
+    selectedIndexes.reserve(selectedTeeth->size());
 
-	return selectedTeethPointers;
+    for (int i = 0; i < selectedTeeth->size(); i++)
+    {
+        selectedIndexes.push_back(selectedTeeth->at(i)->index);
+    }
+
+    return selectedIndexes;
 }
 
 void StatusPresenter::statusChanged()
 {
-        auto m = checkCreator.refreshModel(getSelectedTeethPointers());
+        auto m = checkCreator.refreshModel(*selectedTeeth);
         view->setCheckModel(m);
         statusControl.setCheckModel(m);
 
-        for (int i : *selectedIndexes)
+        for (auto& t : *selectedTeeth)
         {
             
-            view->repaintTooth(paint_hint_generator.getToothHint(teeth->at(i)));
+            view->repaintTooth(paint_hint_generator.getToothHint(*t));
         }
 
         view->repaintBridges(paint_hint_generator.statusToUIBridge(*teeth));
 
-        if (selectedIndexes->size() == 1)
-            surf_presenter.setTooth(&teeth->at(selectedIndexes->at(0)));
+        if (selectedTeeth->size() == 1)
+            surf_presenter.setTooth(selectedTeeth->at(0));
         
         makeEdited();
 }
 
 
-void StatusPresenter::setData(std::array<Tooth, 32>& teeth, std::vector<int>& selectedIndexes)
+void StatusPresenter::setData(std::array<Tooth, 32>& teeth, std::vector<Tooth*>& selectedTeeth)
 {
 	this->teeth = &teeth;
-    this->selectedIndexes = &selectedIndexes;
+    this->selectedTeeth = &selectedTeeth;
 
-    view->setSelectedTeeth(selectedIndexes);
+    view->setSelectedTeeth(getSelectedIndexes());
 
     for (auto& t : teeth)
     {
@@ -48,9 +48,9 @@ void StatusPresenter::setData(std::array<Tooth, 32>& teeth, std::vector<int>& se
 
     view->repaintBridges(paint_hint_generator.statusToUIBridge(teeth));
    
-    if (selectedIndexes.size() == 1) {
+    if (selectedTeeth.size() == 1) {
         view->hideSurfacePanel(false);
-        surf_presenter.setTooth(&teeth[selectedIndexes[0]]);
+        surf_presenter.setTooth(selectedTeeth.at(0));
     }
     else {
         view->hideSurfacePanel(true);
@@ -75,9 +75,9 @@ void StatusPresenter::changeStatus(StatusAction status)
 {
     if (status == StatusAction::removeBridge)
     {
-        for (int i : *selectedIndexes)
+        for (auto& t : *selectedTeeth)
         {
-            bridgeController.removeBridge(i, teeth);
+            bridgeController.removeBridge(t->index, teeth);
         }
         view->repaintBridges(paint_hint_generator.statusToUIBridge(*teeth));
         return;
@@ -86,27 +86,30 @@ void StatusPresenter::changeStatus(StatusAction status)
     statusControl.changeStatus(status);
 
     if (status == StatusAction::Bridge || status == StatusAction::Crown) {
-        bridgeController.formatBridges(*selectedIndexes, teeth);
+        bridgeController.formatBridges(getSelectedIndexes(), teeth);
     }
 
     statusChanged();
 }
 
-void StatusPresenter::setSelectedTeeth(const std::vector<int>& SelectedIndexes)
+void StatusPresenter::setSelectedTeeth(const std::vector<int>& selectedIndexes)
 {
 
-    *selectedIndexes = SelectedIndexes;
+    selectedTeeth->clear();
+    for (int i : selectedIndexes)
+    {
+        selectedTeeth->push_back(&teeth->at(i));
+    }
 
-    auto selectedTeeth = getSelectedTeethPointers();
-    statusControl.setSelectedTeeth(selectedTeeth);
+    statusControl.setSelectedTeeth(*selectedTeeth);
 
-    auto m = checkCreator.refreshModel(selectedTeeth);
+    auto m = checkCreator.refreshModel(*selectedTeeth);
 
     statusControl.setCheckModel(m);
     view->setCheckModel(m);
 
-    if (SelectedIndexes.size() == 1) {
-        surf_presenter.setTooth(&teeth->at(selectedIndexes->at(0)));
+    if (selectedIndexes.size() == 1) {
+        surf_presenter.setTooth(selectedTeeth->at(0));
         view->hideSurfacePanel(false);
     }
     else {

@@ -2,8 +2,8 @@
 #include <array>
 #include <string>
 #include <unordered_map>
-#include "Model/Tooth/Tooth.h"
-#include "InputEnums.h"
+
+#include "../InputEnums.h"
 
 class ButtonSurfaceMatrix
 {

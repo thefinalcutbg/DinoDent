@@ -5,7 +5,7 @@ ProcedureTableModel::ProcedureTableModel(QObject* parent) : QAbstractTableModel(
 {
 }
 
-void ProcedureTableModel::setManipulations(const std::vector<RowData>& rows)
+void ProcedureTableModel::setProcedure(const std::vector<RowData>& rows)
 {
     beginResetModel();
 
@@ -26,7 +26,7 @@ void ProcedureTableModel::setManipulations(const std::vector<RowData>& rows)
             {
                 QString::fromStdString(row.date),
                 QString::fromStdString(row.diagnosis),
-                row.tooth,
+                row.toothNumber,
                 QString::fromStdString(row.manipulation),
                 QString::number(row.code),
                 price,
@@ -101,6 +101,7 @@ QVariant ProcedureTableModel::data(const QModelIndex& index, int role) const
             case 5:
                 if (manipulations[row].nzok)
                     return QIcon(QPixmap("nzok.png"));
+                break;
             default:
                 return QVariant();
             }

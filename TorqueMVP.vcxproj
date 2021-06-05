@@ -296,6 +296,7 @@
     <ClCompile Include="src\View\uiComponents\qt_derived\VitaWidget.cpp" />
     <ClCompile Include="src\Model\User\User.cpp" />
     <ClCompile Include="src\Presenter\ListPresenter\StatusPresenter\StatusPresenter.cpp" />
+    <ClCompile Include="src\View\ListView\ToothPaintDevices\ToothSprite.cpp" />
     <QtRcc Include="src\View\Torque.qrc" />
     <QtUic Include="src\View\ProcedureDialog\Widgets\CrownView\CrownView.ui" />
     <QtUic Include="src\View\ProcedureDialog\Widgets\ObturationView\ObturationView.ui" />
@@ -368,6 +369,7 @@
     <ClInclude Include="src\Model\User\User.h" />
     <ClInclude Include="src\Presenter\ListPresenter\ProcedurePresenter\ProcedurePresenter.h" />
     <ClInclude Include="src\Presenter\ListPresenter\StatusPresenter\StatusPresenter.h" />
+    <ClInclude Include="src\View\ListView\ToothPaintDevices\ToothSprite.h" />
     <QtMoc Include="src\View\ProcedureDialog\Widgets\CommonFields\CommonFields.h" />
     <QtMoc Include="src\View\ProcedureDialog\Widgets\ObturationView\ObturationView.h" />
     <QtMoc Include="src\View\ProcedureDialog\Widgets\CrownView\CrownView.h" />
@@ -422,7 +424,7 @@
     <ClInclude Include="src\bridgeTest.h" />
     <ClInclude Include="src\View\ListView\ToothPaintDevices\BridgePainter.h" />
     <ClInclude Include="src\View\ListView\TeethView\BridgeItem.h" />
-    <ClInclude Include="src\Presenter\ListPresenter\StatusPresenter\IStatusControl.h" />
+    <ClInclude Include="src\Presenter\ListPresenter\StatusPresenter\InputEnums.h" />
     <ClInclude Include="src\Model\Tooth\ToothUtils.h" />
     <ClInclude Include="src\Presenter\ListPresenter\StatusPresenter\SurfacePanel\ButtonSurfaceMatrix.h" />
     <ClInclude Include="src\Presenter\ListPresenter\StatusPresenter\SurfacePanel\SurfacePanelPresenter.h" />
@@ -431,7 +433,6 @@
     <QtMoc Include="src\View\ListView\ControlPanel\ControlPanel.h" />
     <ClInclude Include="src\View\ListView\SurfacePanel\ControlPanelPolygon.h" />
     <ClInclude Include="src\View\ListView\SurfacePanel\CPTooth.h" />
-    <ClInclude Include="src\Presenter\ListPresenter\StatusPresenter\SurfacePanel\InputEnums.h" />
     <ClInclude Include="src\View\ListView\SurfacePanel\ISurfacePanel.h" />
     <ClInclude Include="src\View\ListView\ToothPaintDevices\CPToothPainter.h" />
     <ClInclude Include="src\Presenter\ListPresenter\StatusPresenter\CheckModelCreator.h" />

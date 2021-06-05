@@ -9,7 +9,7 @@
 #include <vector>
 
 
-class StatusPresenter : public IStatusControl, public Editor
+class StatusPresenter : public Editor
 {
 	CheckModelCreator checkCreator;
 	StatusControl statusControl;
@@ -19,20 +19,18 @@ class StatusPresenter : public IStatusControl, public Editor
 	IStatusView* view;
 
 	std::array<Tooth, 32>* teeth;
-	std::vector<int>* selectedIndexes;
+	std::vector<Tooth*>* selectedTeeth;
 
-	
+	std::vector<int> getSelectedIndexes();
 
 	void statusChanged();
 public:
 	
-	void setData(std::array<Tooth, 32>& teeth, std::vector<int>& selectedIndexes);
+	void setData(std::array<Tooth, 32>& teeth, std::vector<Tooth*>& selectedTeeth);
 	void setView(IStatusView* view);
 	void changeStatus(Surface surface, SurfaceType type);
 	void changeStatus(StatusAction status);
 	void setSelectedTeeth(const std::vector<int>& SelectedIndexes);
 
-
-	std::vector<Tooth*> getSelectedTeethPointers();
 };
 

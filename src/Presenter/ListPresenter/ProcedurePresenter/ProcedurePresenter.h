@@ -15,18 +15,17 @@ class ProcedurePresenter : public Editor
 {
 	AmbList* _ambList;
 	Patient* _patient;
-	std::vector<int>* _selectedIndexes;
+	std::vector<Tooth*>* _selectedTeeth;
 
 	IProcedureView* view;
 
 	void addToProcedureList(const std::vector<Manipulation>& new_mList);
 	void refreshProcedureView();
-	std::vector<Tooth*> getSelectedTeethPointers();
 
 public:
 	ProcedurePresenter();
 
-	void setData(AmbList &amb_list, Patient& patient, std::vector<int>& selectedIndexes);
+	void setData(AmbList &amb_list, Patient& patient, std::vector<Tooth*>& selectedTeeth);
 	void setView(IProcedureView* view);
 
 	void addProcedure();

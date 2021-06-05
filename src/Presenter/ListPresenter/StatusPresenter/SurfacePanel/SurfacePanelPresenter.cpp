@@ -1,66 +1,25 @@
 ﻿#include "SurfacePanelPresenter.h"
-#include "../StatusControl.h"
 
-
+#include "../StatusPresenter.h"
 
 SurfacePanelPresenter::SurfacePanelPresenter() : statusControl(nullptr), view(nullptr), currentIndex(-1)
-{}
+{
+}
 
 void SurfacePanelPresenter::setView(ISurfacePanel* view)
 {
 	this->view = view;
 }
 
-void SurfacePanelPresenter::setStatusControl(IStatusControl* s_ctrl)
+void SurfacePanelPresenter::setStatusControl(StatusPresenter* s_ctrl)
 {
 	this->statusControl = s_ctrl;
 }
 
 
-void SurfacePanelPresenter::setViewLabels(const Tooth* tooth)
-{
-	std::array<std::string, 6> unorderedStatus;
-
-	for (int i = 0; i < 6; i++)
-	{
-		if (tooth->obturation.exists(i) && tooth->caries.exists(i))
-		{
-			unorderedStatus[i] = " (вторичен кариес)";
-		}
-		else if (tooth->obturation.exists(i))
-		{
-			unorderedStatus[i] = " (обтурация)";
-		}
-		else if (tooth->caries.exists(i))
-		{
-			unorderedStatus[i] = " (кариес)";
-		}
-	}
-
-	auto unordererSurfaces = utilities.getSurfaceNames(currentIndex);
-	
-
-
-	std::array<std::string, 6> orderedSurfaces;
-	std::array<std::string, 6> orderedStatus;
-
-	for (int i = 0; i < 6; i++) {
-		auto intPos = static_cast<int>(matrix.getSurface(currentIndex, static_cast<ButtonPos>(i)));
-		orderedSurfaces[i] = unordererSurfaces[intPos];
-		orderedStatus[i] = unorderedStatus[intPos];
-	}
-
-	
-	view->setStatuses(orderedStatus);
-	view->setLabels(orderedSurfaces);
-	
-}
-
-
-
 void SurfacePanelPresenter::sideButtonClicked(SurfaceType surf_type)
 {
-	Surface surface = matrix.getSurface(currentIndex, ButtonPos::side);
+	auto surface = matrix.getSurface(currentIndex, ButtonPos::side);
 
 	statusControl->changeStatus(surface, surf_type);
 }
@@ -69,10 +28,10 @@ void SurfacePanelPresenter::sideButtonClicked(SurfaceType surf_type)
 
 void SurfacePanelPresenter::buttonClicked(ButtonPos position, SurfaceClick click)
 {
-	Surface surface = matrix.getSurface(currentIndex, position);
+	auto [surface, state] = surfaceState[static_cast<int>(position)];
 
 	if (click == SurfaceClick::leftClick)
-		switch (surfaceState[static_cast<int>(position)])
+		switch (state)
 		{
 		case SurfaceState::none:
 			statusControl->changeStatus(surface, SurfaceType::obturation);
@@ -89,7 +48,7 @@ void SurfacePanelPresenter::buttonClicked(ButtonPos position, SurfaceClick click
 			break;
 		}
 	else
-		switch (surfaceState[static_cast<int>(position)])
+		switch (state)
 		{ 
 		case::SurfaceState::obturation:
 			statusControl->changeStatus(surface, SurfaceType::obturation);
@@ -110,6 +69,7 @@ void SurfacePanelPresenter::buttonClicked(ButtonPos position, SurfaceClick click
 void SurfacePanelPresenter::setTooth(Tooth* tooth)
 {
 	currentIndex = tooth->index;
+
 	view->paintTooth(paint_hint_generator.getToothHint(*tooth));
 	auto surface = matrix.getSurface(currentIndex, ButtonPos::side);
 
@@ -118,25 +78,36 @@ void SurfacePanelPresenter::setTooth(Tooth* tooth)
 		tooth->caries.exists(static_cast<int>(surface))
 	);
 
-	for (int i = 0; i<5; i++)
+	std::array<std::string, 6> sateLabel;
+	std::array<std::string, 6> surfaceName;
+	auto unorderedSurfaces = utilities.getSurfaceNames(currentIndex);
+
+	for (int i = 0; i<6; i++)
 	{
-		auto surface = static_cast<int>(matrix.getSurface(currentIndex, static_cast<ButtonPos>(i)));
+		auto surface = matrix.getSurface(currentIndex, static_cast<ButtonPos>(i));
+		surfaceName[i] = unorderedSurfaces[static_cast<int>(surface)];
 
 		if (tooth->obturation.exists(surface) && tooth->caries.exists(surface))
-			surfaceState[i] = SurfaceState::secondary;
-
+		{
+			surfaceState[i] = std::make_tuple(surface, SurfaceState::secondary);
+			sateLabel[i] = "вторичен кариес";
+		}
 		else if (tooth->obturation.exists(surface))
-			surfaceState[i] = SurfaceState::obturation;
+		{
+			surfaceState[i] = std::make_tuple(surface, SurfaceState::obturation);
+			sateLabel[i] = "обтурация";
+		}
 
 		else if (tooth->caries.exists(surface))
-			surfaceState[i] = SurfaceState::caries;
-
+		{
+			surfaceState[i] = std::make_tuple(surface, SurfaceState::caries);
+			sateLabel[i] = "кариес";
+		}
 		else
-			surfaceState[i] = SurfaceState::none;
-
+			surfaceState[i] = std::make_tuple(surface, SurfaceState::none);
 	}
 
-	setViewLabels(tooth);
+	view->setStatuses(sateLabel);
+	view->setLabels(surfaceName);
 
 }
-

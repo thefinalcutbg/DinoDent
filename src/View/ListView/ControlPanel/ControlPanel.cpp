@@ -1,9 +1,9 @@
 #include "ControlPanel.h"
 
-#include "Presenter/ListPresenter/StatusPresenter/IStatusControl.h"
+#include "Presenter/ListPresenter/StatusPresenter/StatusPresenter.h"
 
 ControlPanel::ControlPanel(QWidget *parent)
-	: QWidget(parent), statusControl(nullptr)
+	: QWidget(parent), presenter(nullptr)
 {
 	ui.setupUi(this);
 	
@@ -31,8 +31,8 @@ ControlPanel::ControlPanel(QWidget *parent)
 	{
 		connect( statusButtons[i], &QPushButton::clicked, this, [=] {
 
-			if (statusControl == NULL) return;
-			statusControl->changeStatus(static_cast<StatusAction>(i)); 
+			if (presenter == NULL) return;
+			presenter->changeStatus(static_cast<StatusAction>(i)); 
 			
 			} );
 	}
@@ -43,9 +43,9 @@ ControlPanel::~ControlPanel()
 {
 }
 
-void ControlPanel::setStatusControl(IStatusControl* statusControl)
+void ControlPanel::setPresenter(StatusPresenter* presenter)
 {
-	this->statusControl = statusControl;
+	this->presenter = presenter;
 }
 
 void ControlPanel::hideCommonButtons(bool hidden)

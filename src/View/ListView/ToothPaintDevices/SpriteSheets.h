@@ -1,12 +1,19 @@
 #pragma once
 #include <QPixmap>
 #include <unordered_map>
-
+#include "ToothSprite.h"
+#include "SpriteRect.h"
 //nanovo trqq se napi6e, da se nacepqt teksturite predvaritelno
 
 class SpriteSheets
 {
 	static SpriteSheets instance;
+
+	SpritesheetCoords molarRect;
+	SpritesheetCoords premolarRect;
+	SpritesheetCoords frontalRect;
+	SpritesheetCoords tempFrontalRect;
+	SpritesheetCoords tempMolarsRect;
 
 	SpriteSheets();
 
@@ -17,6 +24,10 @@ class SpriteSheets
 	QPixmap* commonTexture;
 	QPixmap* permaTexture[32]; //textures of permanent teeth sorted by index;
 	QPixmap* deciTexture[20];
+
+	//std::array<ToothSprite, 16> permanentSprites;
+	//std::array<ToothSprite, 10> temporarySprites;
+
 	QPixmap* bridgeU;
 	QPixmap* bridgeL;
 

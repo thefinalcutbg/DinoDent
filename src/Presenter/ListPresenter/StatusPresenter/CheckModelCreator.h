@@ -49,7 +49,7 @@ inline std::array<CheckState, Size> CheckModelCreator::getModelArray(const std::
             if (checkArray[i] == CheckState::partially_checked) {
                 continue;
             }
-            else if (int(checkArray[i]) != boolArray[i]) {
+            else if (static_cast<bool>(checkArray[i]) != boolArray[i]) {
                 checkArray[i] = CheckState::partially_checked;
             }
 

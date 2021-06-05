@@ -1,10 +1,10 @@
 ﻿#include "ContextMenu.h"
-
+#include "Presenter/ListPresenter/StatusPresenter/StatusPresenter.h"
 
 ContextMenu::ContextMenu()
 {
 
-    QString actionNames[ActionCount] =
+    QString actionNames[25] =
                         { "Временен зъб", "Обтурация", "Кариес",  "Пулпит", "Периодонтит",
                            "Ендодонтско лечение", "Радикуларен щифт", "Корен", "Фрактура", "Екстракция",
                             "Пародонтит", "Първа степен", "Втора степен", "Трета степен",
@@ -88,7 +88,7 @@ void ContextMenu::setModel(const CheckModel& checkModel)
     this->setModel(checkModel.cariesStatus, surfCar);
 }
 
-void ContextMenu::setStatusControl(IStatusControl* presenter)
+void ContextMenu::setStatusControl(StatusPresenter* presenter)
 {
     this->presenter = presenter;
 }

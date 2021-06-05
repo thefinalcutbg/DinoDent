@@ -3,6 +3,12 @@
 SpriteSheets SpriteSheets::instance;
 
 SpriteSheets::SpriteSheets()
+    :
+    molarRect(SpriteRectType::molar),
+    premolarRect(SpriteRectType::premolar),
+    frontalRect(SpriteRectType::frontal),
+    tempFrontalRect(SpriteRectType::tempFrontal),
+    tempMolarsRect(SpriteRectType::tempMolar)
 {
 
     int deciNum = 0;
@@ -14,6 +20,7 @@ SpriteSheets::SpriteSheets()
         permaToTemp_map[i] = deciNum;
         deciNum++;
     }
+   
 
 }
 

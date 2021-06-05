@@ -6,10 +6,10 @@
 #include "Model/CheckState.h"
 #include "Model/Tooth/ToothController/GeneralStatusControler.h"
 #include "Model/Tooth/ToothController/SurfaceController.h"
-#include "IStatusControl.h"
+#include "InputEnums.h"
 
 
-class StatusControl : public IStatusControl
+class StatusControl
 {
     std::vector<Tooth*> selectedTeeth;
 
@@ -19,7 +19,6 @@ class StatusControl : public IStatusControl
     ObturationController obturation_controller;
     CariesController caries_controller;
 
-    // std::array<CheckState, size>
     template <typename Container>
     typename std::enable_if<(std::tuple_size<Container>::value > 0)>::type changeAnyStatus(int statusIndex, Container& arrayModel, ToothController& controller);
 

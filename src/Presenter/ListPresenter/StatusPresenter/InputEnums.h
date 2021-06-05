@@ -33,10 +33,5 @@ enum class StatusAction {
 
 enum class SurfaceType { obturation, caries };
 
-class IStatusControl
-{
-public:
-	virtual void changeStatus(StatusAction code) = 0;
-	virtual void changeStatus(Surface surface, SurfaceType type) = 0;
-};
+enum class ButtonPos { left, up, right, down, center, side };
 

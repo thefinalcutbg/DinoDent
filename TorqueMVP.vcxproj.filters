@@ -303,6 +303,9 @@
     <ClCompile Include="src\Presenter\ListPresenter\ProcedurePresenter\ProcedurePresenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\ListView\ToothPaintDevices\ToothSprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -569,10 +572,7 @@
     <ClInclude Include="src\Presenter\ListPresenter\ListPresenter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Presenter\ListPresenter\StatusPresenter\IStatusControl.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Presenter\ListPresenter\StatusPresenter\SurfacePanel\InputEnums.h">
+    <ClInclude Include="src\Presenter\ListPresenter\StatusPresenter\InputEnums.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\ListView\TeethView\BridgeItem.h">
@@ -732,6 +732,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\ListView\IProcedureView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\View\ListView\ToothPaintDevices\ToothSprite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

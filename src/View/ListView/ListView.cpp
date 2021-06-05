@@ -1,6 +1,7 @@
 #include "ListView.h"
 #include "Presenter/ListPresenter/StatusPresenter/StatusPresenter.h"
 #include "Presenter/ListPresenter/ProcedurePresenter/ProcedurePresenter.h"
+#include "TeethView/ContextMenu.h"
 
 ListView::ListView(QWidget* parent)
 	: QWidget(parent), allergiesDialog(this)
@@ -78,7 +79,7 @@ ListPresenter* ListView::Presenter()
 void ListView::setStatusControlPresenter(StatusPresenter* presenter)
 {
 	teethViewScene->setPresenter(presenter);
-	ui.controlPanel->setStatusControl(presenter);
+	ui.controlPanel->setPresenter(presenter);
 	contextMenu->setStatusControl(presenter);
 }
 
@@ -134,8 +135,10 @@ void ListView::setSelectedTeeth(std::vector<int> selectedIndexes)
 
 void ListView::setProcedures(const std::vector<RowData>& m)
 {
-	model.setManipulations(m);
+	model.setProcedure(m);
 
+	teethViewScene->setProcedures(m);
+	
 	int tableHeight = m.size() * 50 + 26;
 	//ne sym siguren izob6to, 4e taka iskam da izglejda:
 	auto size = ui.procedureTable->size();
@@ -152,6 +155,8 @@ void ListView::setProcedures(const std::vector<RowData>& m)
 	{
 		ui.procedureTable->show();
 	}
+
+	
 }
 
 void ListView::openProcedureDialog(ProcedureDialogPresenter *p)

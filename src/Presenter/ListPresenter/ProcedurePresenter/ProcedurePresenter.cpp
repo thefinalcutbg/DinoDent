@@ -20,7 +20,7 @@ ProcedurePresenter::ProcedurePresenter()
     view(nullptr),
     _ambList(nullptr),
     _patient(nullptr),
-    _selectedIndexes(nullptr)
+    _selectedTeeth(nullptr)
 {
 }
 
@@ -62,10 +62,11 @@ void ProcedurePresenter::refreshProcedureView()
 
     for (auto& m : mList)
     {
-        int tooth = m.tooth;
-        if (tooth >= 0 && tooth < 32)
+        int toothNumber{ m.tooth }, toothIndex{ m.tooth };
+        
+        if (toothNumber >= 0 && toothNumber < 32)
         {
-            tooth = ToothUtils::getToothNumber(tooth, _ambList->teeth[tooth].temporary.exists());
+            toothNumber = ToothUtils::getToothNumber(toothNumber, _ambList->teeth[toothIndex].temporary.exists());
         }
 
         rows.emplace_back
@@ -74,7 +75,8 @@ void ProcedurePresenter::refreshProcedureView()
             {
                 Date::toString(m.date),
                 m.diagnosis,
-                tooth,
+                toothNumber,
+                toothIndex,
                 m.name,
                 m.code,
                 m.price,
@@ -97,26 +99,11 @@ void ProcedurePresenter::refreshProcedureView()
    
 }
 
-std::vector<Tooth*> ProcedurePresenter::getSelectedTeethPointers()
-{
-    std::vector<Tooth*> selectedTeethPointers;
 
-    selectedTeethPointers.reserve(_selectedIndexes->size());
-
-    for (int index : *_selectedIndexes)
-    {
-        selectedTeethPointers.emplace_back(&_ambList->teeth.at(index));
-    }
-
-    return selectedTeethPointers;
-
-}
-
-
-void ProcedurePresenter::setData(AmbList& amb_list, Patient& patient, std::vector<int>& selectedTeeth)
+void ProcedurePresenter::setData(AmbList& amb_list, Patient& patient, std::vector<Tooth*>& selectedTeeth)
 {
 	_ambList = &amb_list;
-	_selectedIndexes = &selectedTeeth;
+	_selectedTeeth = &selectedTeeth;
     _patient = &patient;
     
     view->setUnfav(_ambList->unfavourable);
@@ -140,12 +127,10 @@ void ProcedurePresenter::addProcedure()
 
     mNzokTemplate.insert(mNzokTemplate.end(), mCustomTemplate.begin(), mCustomTemplate.end());
 
-    auto selectedTeethPtr = getSelectedTeethPointers();
-
     ProcedureDialogPresenter p
     {
         mNzokTemplate,
-        selectedTeethPtr,
+        *_selectedTeeth,
         _ambList->teeth,
         _ambList->date
     };

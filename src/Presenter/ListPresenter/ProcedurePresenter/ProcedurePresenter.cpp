@@ -17,7 +17,10 @@
 
 ProcedurePresenter::ProcedurePresenter()
     :
-    view(nullptr)
+    view(nullptr),
+    _ambList(nullptr),
+    _patient(nullptr),
+    _selectedIndexes(nullptr)
 {
 }
 
@@ -51,6 +54,9 @@ void ProcedurePresenter::refreshProcedureView()
 
     auto& mList = _ambList->manipulations;
 
+    double patientPrice(0);
+    double nzokPrice(0);
+
     std::vector<RowData> rows;
     rows.reserve(mList.size());
 
@@ -75,9 +81,20 @@ void ProcedurePresenter::refreshProcedureView()
                 m.nzok
             }
         );
+
+        patientPrice = patientPrice + m.price;
+
+        if (m.nzok)
+        {
+            auto[p, nzok] = MasterNZOK::instance().getPrices(m.code, _ambList->date, CurrentUser::instance().specialty, _patient->isAdult(m.date), _ambList->unfavourable);
+            nzokPrice =nzokPrice+nzok;
+        }
+            
     }
 
     view->setProcedures(rows);
+
+   
 }
 
 std::vector<Tooth*> ProcedurePresenter::getSelectedTeethPointers()
@@ -118,7 +135,7 @@ void ProcedurePresenter::addProcedure()
 {
     if (view == nullptr) return;
 
-    auto mNzokTemplate = MasterNZOK::instance().getM_Templates(_ambList->date, CurrentUser::instance().specialty, _patient->isAdult(), false);
+    auto mNzokTemplate = MasterNZOK::instance().getM_Templates(_ambList->date, CurrentUser::instance().specialty, _patient->isAdult(), _ambList->unfavourable);
     auto mCustomTemplate = CustomProcedures::instance().getCustomProcedures();
 
     mNzokTemplate.insert(mNzokTemplate.end(), mCustomTemplate.begin(), mCustomTemplate.end());
@@ -168,14 +185,15 @@ void ProcedurePresenter::setUnfavourable(bool unfav)
         if (m.nzok)
         {
             m.price = std::get<0>(
-                MasterNZOK::instance().getPrices
-                (
-                    m.code,
-                    _ambList->date,
-                    CurrentUser::instance().specialty,
-                    _patient->isAdult(m.date),
-                    unfav
-                )
+
+                    MasterNZOK::instance().getPrices
+                    (
+                        m.code,
+                        _ambList->date,
+                        CurrentUser::instance().specialty,
+                        _patient->isAdult(m.date),
+                        unfav
+                    )
                 );
         }
     }

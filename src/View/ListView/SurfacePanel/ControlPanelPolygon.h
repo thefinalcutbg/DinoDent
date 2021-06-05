@@ -2,7 +2,7 @@
 #include <QGraphicsItem>
 #include <QPainter>
 #include <QGraphicsSceneMouseEvent>
-#include "Presenter/SurfacePanel/InputEnums.h"
+#include "Presenter/ListPresenter/StatusPresenter/SurfacePanel/InputEnums.h"
 
 enum class MouseClick {leftClick, rightClick};
 enum class Hover{in, out};

@@ -1,9 +1,14 @@
 ﻿#include "SurfacePanel.h"
 
+#include <QOpenGLWidget>
+
+#include "Presenter/ListPresenter/StatusPresenter/ToothHintCreator.h"
+#include "Presenter/ListPresenter/StatusPresenter/SurfacePanel/SurfacePanelPresenter.h"
+
+
 
 SurfacePanel::SurfacePanel(QWidget* parent)
-	: QWidget(parent),
-	  presenter(this)
+	: QWidget(parent), presenter(NULL)
 {
 	ui.setupUi(this);
 
@@ -27,36 +32,29 @@ SurfacePanel::SurfacePanel(QWidget* parent)
 		scene->addItem(polygon[i]);
 	}
 
-	connect(ui.sideObturation, &QPushButton::clicked, [=] {buttonClicked(ButtonPos::side, MouseClick::leftClick); });
-	connect(ui.sideCaries, &QPushButton::clicked, [=] {buttonClicked(ButtonPos::side, MouseClick::rightClick); });
+	connect(ui.sideObturation, &QPushButton::clicked, [=] { presenter->sideButtonClicked(SurfaceType::obturation);  });
+	connect(ui.sideCaries, &QPushButton::clicked, [=] { presenter->sideButtonClicked(SurfaceType::caries); });
 }
 
 SurfacePanel::~SurfacePanel()
 {
 }
 
-SurfacePanelPresenter* SurfacePanel::getPresenter()
+void SurfacePanel::setPresenter(SurfacePanelPresenter* presenter)
 {
-	return &presenter;
+	this->presenter = presenter;
+	presenter->setView(this);
 }
 
-
-void SurfacePanel::paintTooth(const Tooth* tooth)
+void SurfacePanel::paintTooth(const ToothPaintHint& tooth)
 {
 	
-	toothGraphic->setPixmap(painter.paintTooth(hint_creator.getToothHint(*tooth)));
+	toothGraphic->setPixmap(painter.paintTooth(tooth));
 }
 
-void SurfacePanel::showPanel(bool show)
+void SurfacePanel::hidePanel(bool hidden)
 {
-	if (show && isHidden()) {
-		this->show();
-		return;
-	}
-	else if(!show){
-
-		hide();
-	}
+	setHidden(hidden);
 }
 
 void SurfacePanel::setLabels(std::array<std::string, 6> surfaceNames)
@@ -98,16 +96,10 @@ void SurfacePanel::buttonHovered(ButtonPos position, Hover hoverState)
 
 void SurfacePanel::buttonClicked(ButtonPos position, MouseClick click)
 {
-	SurfaceType type = SurfaceType::obturation;
-	if (click == MouseClick::rightClick) {
-		type = SurfaceType::caries;
-	}
+	if (click == MouseClick::rightClick)
+		presenter->buttonClicked(position, SurfaceClick::rightClick);
+	else if (click == MouseClick::leftClick)
+		presenter->buttonClicked(position, SurfaceClick::leftClick);
 
-	presenter.buttonClicked(position, type);
-
-	if (position != ButtonPos::side)
-	{
-		ui.statusInfoLabel->setText(statuses[static_cast<int>(position)]);
-	}
-
+	ui.statusInfoLabel->setText(statuses[static_cast<int>(position)]);
 }

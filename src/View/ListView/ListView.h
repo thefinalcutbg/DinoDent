@@ -36,9 +36,11 @@ public:
     void setProcedurePresenter(ProcedurePresenter* presenter) override;
     void refresh(AmbList& ambList, Patient& patient) override;
     void setCheckModel(const CheckModel& checkModel) override;
+    void hideSurfacePanel(bool hidden) override;
+    ISurfacePanel* surfacePanel() override;
     void repaintTooth(const ToothPaintHint& tooth) override;
     void repaintBridges(const BridgesPaintHint& bridges) override;
-    void updateControlPanel(const Tooth* tooth) override;
+
     void setSelectedTeeth(std::vector<int> selectedTeeth) override;
     void setProcedures(const std::vector<RowData>& m) override;
     void openProcedureDialog(ProcedureDialogPresenter *p) override;

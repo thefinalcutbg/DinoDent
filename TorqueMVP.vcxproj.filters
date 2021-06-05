@@ -135,10 +135,10 @@
     <ClCompile Include="src\View\ListView\SurfacePanel\ControlPanelPolygon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Presenter\SurfacePanel\SurfacePanelPresenter.cpp">
+    <ClCompile Include="src\Presenter\ListPresenter\StatusPresenter\SurfacePanel\SurfacePanelPresenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Presenter\SurfacePanel\ButtonSurfaceMatrix.cpp">
+    <ClCompile Include="src\Presenter\ListPresenter\StatusPresenter\SurfacePanel\ButtonSurfaceMatrix.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Model\Tooth\ToothController\GeneralStatusControler.cpp">
@@ -542,13 +542,13 @@
     <ClInclude Include="src\View\ListView\SurfacePanel\CPTooth.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Presenter\SurfacePanel\SurfacePanelPresenter.h">
+    <ClInclude Include="src\Presenter\ListPresenter\StatusPresenter\SurfacePanel\SurfacePanelPresenter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\ListView\SurfacePanel\ISurfacePanel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Presenter\SurfacePanel\ButtonSurfaceMatrix.h">
+    <ClInclude Include="src\Presenter\ListPresenter\StatusPresenter\SurfacePanel\ButtonSurfaceMatrix.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\Tooth\ToothController\GeneralStatusControler.h">
@@ -572,7 +572,7 @@
     <ClInclude Include="src\Presenter\ListPresenter\StatusPresenter\IStatusControl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Presenter\SurfacePanel\InputEnums.h">
+    <ClInclude Include="src\Presenter\ListPresenter\StatusPresenter\SurfacePanel\InputEnums.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\ListView\TeethView\BridgeItem.h">
@@ -729,6 +729,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Presenter\ListPresenter\ProcedurePresenter\ProcedurePresenter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\View\ListView\IProcedureView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

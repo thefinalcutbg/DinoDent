@@ -79,7 +79,6 @@ void ListView::setStatusControlPresenter(StatusPresenter* presenter)
 {
 	teethViewScene->setPresenter(presenter);
 	ui.controlPanel->setStatusControl(presenter);
-    ui.surfacePanel->getPresenter()->setStatusControl(presenter);
 	contextMenu->setStatusControl(presenter);
 }
 
@@ -100,6 +99,17 @@ void ListView::setCheckModel(const CheckModel& checkModel)
 	contextMenu->setModel(checkModel);
 }
 
+void ListView::hideSurfacePanel(bool hidden)
+{
+	ui.surfacePanel->hidePanel(hidden);
+	ui.controlPanel->hideCommonButtons(!hidden);
+}
+
+ISurfacePanel* ListView::surfacePanel()
+{
+	return ui.surfacePanel;
+}
+
 void ListView::repaintTooth(const ToothPaintHint& tooth)
 {
 	teethViewScene->display(tooth);
@@ -111,10 +121,6 @@ void ListView::repaintBridges(const BridgesPaintHint& bridges)
 	teethViewScene->display(bridges);
 }
 
-void ListView::updateControlPanel(const Tooth* tooth)
-{
-	ui.surfacePanel->getPresenter()->setTooth(tooth);
-}
 
 void ListView::setSelectedTeeth(std::vector<int> selectedIndexes)
 {

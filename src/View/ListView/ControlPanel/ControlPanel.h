@@ -17,7 +17,7 @@ public:
 	~ControlPanel();
 
 	void setStatusControl(IStatusControl* statusControl);
-
+	void hideCommonButtons(bool hidden);
 	void setModel(const CheckModel& checkModel);
 
 private:

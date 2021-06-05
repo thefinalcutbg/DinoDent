@@ -21,20 +21,16 @@ void StatusPresenter::statusChanged()
 
         for (int i : *selectedIndexes)
         {
-
+            
             view->repaintTooth(paint_hint_generator.getToothHint(teeth->at(i)));
         }
 
         view->repaintBridges(paint_hint_generator.statusToUIBridge(*teeth));
 
-        selectedIndexes->size() == 1 ?
-
-            view->updateControlPanel(&teeth->at(selectedIndexes->at(0)))
-            :
-            view->updateControlPanel(nullptr);
+        if (selectedIndexes->size() == 1)
+            surf_presenter.setTooth(&teeth->at(selectedIndexes->at(0)));
         
         makeEdited();
-
 }
 
 
@@ -53,19 +49,20 @@ void StatusPresenter::setData(std::array<Tooth, 32>& teeth, std::vector<int>& se
     view->repaintBridges(paint_hint_generator.statusToUIBridge(teeth));
    
     if (selectedIndexes.size() == 1) {
-
-        view->updateControlPanel(&teeth.at(selectedIndexes.at(0)));
+        view->hideSurfacePanel(false);
+        surf_presenter.setTooth(&teeth[selectedIndexes[0]]);
     }
     else {
-        view->updateControlPanel(nullptr);
+        view->hideSurfacePanel(true);
     }
-    
 }
 
 void StatusPresenter::setView(IStatusView* view)
 {
+    surf_presenter.setStatusControl(this);
     this->view = view;
     view->setStatusControlPresenter(this);
+    view->surfacePanel()->setPresenter(&surf_presenter);
 }
 
 void StatusPresenter::changeStatus(Surface surface, SurfaceType type)
@@ -97,7 +94,7 @@ void StatusPresenter::changeStatus(StatusAction status)
 
 void StatusPresenter::setSelectedTeeth(const std::vector<int>& SelectedIndexes)
 {
-  
+
     *selectedIndexes = SelectedIndexes;
 
     auto selectedTeeth = getSelectedTeethPointers();
@@ -108,12 +105,12 @@ void StatusPresenter::setSelectedTeeth(const std::vector<int>& SelectedIndexes)
     statusControl.setCheckModel(m);
     view->setCheckModel(m);
 
-    if (
-		SelectedIndexes.size() == 1) {
-        view->updateControlPanel(selectedTeeth.at(0));
+    if (SelectedIndexes.size() == 1) {
+        surf_presenter.setTooth(&teeth->at(selectedIndexes->at(0)));
+        view->hideSurfacePanel(false);
     }
     else {
-        view->updateControlPanel(nullptr);
+        view->hideSurfacePanel(true);
     }
 
 }

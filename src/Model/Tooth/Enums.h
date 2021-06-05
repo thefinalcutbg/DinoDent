@@ -1,6 +1,7 @@
 #pragma once
 
 enum class ToothType { Molar, Premolar, Frontal };
+
 enum class Surface { Occlusal, Medial, Distal, Buccal, Lingual, Cervical };
 enum class Quadrant { First, Second, Third, Fourth };
 enum class BridgePos { Begin, Middle, End };

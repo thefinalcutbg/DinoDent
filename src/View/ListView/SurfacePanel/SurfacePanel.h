@@ -1,9 +1,7 @@
 #pragma once
-
 #include <QWidget>
-#include <QOpenGLWidget>
-#include "ui_SurfacePanel.h"
 
+#include "ui_SurfacePanel.h"
 
 #include "../ToothPaintDevices/CPToothPainter.h"
 
@@ -11,10 +9,10 @@
 #include "ControlPanelPolygon.h"
 
 #include "View/ListView/SurfacePanel/ISurfacePanel.h"
-#include "Presenter/SurfacePanel/SurfacePanelPresenter.h"
-#include "Presenter/SurfacePanel/InputEnums.h"
-#include "Presenter/ListPresenter/StatusPresenter/ToothHintCreator.h"
 
+#include "Presenter/ListPresenter/StatusPresenter/SurfacePanel/InputEnums.h"
+
+class SurfacePanelPresenter;
 
 class SurfacePanel : public QWidget, public PolygonObserver, public ISurfacePanel
 {
@@ -22,9 +20,7 @@ class SurfacePanel : public QWidget, public PolygonObserver, public ISurfacePane
 
 	QGraphicsScene* scene;
 
-	SurfacePanelPresenter presenter;
-
-	ToothHintCreator hint_creator;
+	SurfacePanelPresenter* presenter;
 
 	CPToothPainter painter;
 
@@ -38,11 +34,11 @@ public:
 	SurfacePanel(QWidget *parent = Q_NULLPTR);
 	~SurfacePanel();
 
-	SurfacePanelPresenter* getPresenter();
 
 	// Inherited via ISurface Panel
-	void paintTooth(const Tooth* tooth);
-	void showPanel(bool show);
+	void setPresenter(SurfacePanelPresenter* presenter) override;
+	void paintTooth(const ToothPaintHint& tooth) override;
+	void hidePanel(bool hidden) override;
 	void setLabels(std::array<std::string, 6> SurfaceNames);
 	void setStatuses(std::array<std::string, 6> StatusNames);
 	void setSideButtonsClicked(bool obturation, bool caries);

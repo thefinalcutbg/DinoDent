@@ -4,6 +4,7 @@
 #include "View/ListView/IStatusView.h"
 #include "ToothHintCreator.h"
 #include "Model/Tooth/ToothController/BridgeController.h"
+#include "SurfacePanel/SurfacePanelPresenter.h"
 #include "../Editor.h"
 #include <vector>
 
@@ -14,7 +15,7 @@ class StatusPresenter : public IStatusControl, public Editor
 	StatusControl statusControl;
 	ToothHintCreator paint_hint_generator;
 	BridgeController bridgeController;
-
+	SurfacePanelPresenter surf_presenter;
 	IStatusView* view;
 
 	std::array<Tooth, 32>* teeth;

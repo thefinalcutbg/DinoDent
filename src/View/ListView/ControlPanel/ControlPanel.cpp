@@ -48,6 +48,12 @@ void ControlPanel::setStatusControl(IStatusControl* statusControl)
 	this->statusControl = statusControl;
 }
 
+void ControlPanel::hideCommonButtons(bool hidden)
+{
+	ui.Obturation->setHidden(hidden);
+	ui.Caries->setHidden(hidden);
+}
+
 void ControlPanel::setModel(const CheckModel& checkModel)
 {
 	for (int i = 0; i < statusButtons.size(); i++)

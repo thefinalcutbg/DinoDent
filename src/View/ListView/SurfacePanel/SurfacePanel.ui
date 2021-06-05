@@ -42,7 +42,7 @@
     </rect>
    </property>
    <property name="toolTip">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Ляв бутон: Обтурация&lt;/p&gt;&lt;p&gt;Десен бутон: Кариес&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Ляв бутон: добави статус&lt;br/&gt;Десен бутон: прехмахни статус&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
   <widget class="QLabel" name="surfaceInfoLabel">

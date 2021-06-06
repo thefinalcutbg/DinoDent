@@ -11,7 +11,7 @@ QPixmap CPToothPainter::returnPaintedTooth(const ToothPaintHint& tooth)
     toothPx.fill(Qt::transparent);
     QPainter painter(&toothPx);
 
-    painter.drawPixmap(0, 0, currentTexture->copy(coords->toothCrop));
+    painter.drawPixmap(0, 0, *currentTexture->tooth);
 
     painter.setOpacity(0.35);
     painter.drawPixmap(0, 0, drawSurfaces(tooth));
@@ -21,12 +21,12 @@ QPixmap CPToothPainter::returnPaintedTooth(const ToothPaintHint& tooth)
     {
         if (tooth.prostho == ProsthoHint::crown || tooth.prostho == ProsthoHint::bridge)
         {
-            painter.drawPixmap(coords->crownPos, textureFormat(coords->crownCrop));
+            painter.drawPixmap(coords->crownPos, *currentTexture->crown);
         }
         else
         {
-            painter.drawPixmap(coords->crownPos, textureFormat(coords->crownCrop));
-            painter.drawPixmap(coords->crownPos, textureFormat(coords->crownCrop, Qt::green, 0.3));
+            painter.drawPixmap(coords->crownPos, *currentTexture->crown);
+            painter.drawPixmap(coords->crownPos, textureFormat(*currentTexture->crown, Qt::green, 0.3));
         }
             
     }
@@ -48,7 +48,7 @@ QPixmap* CPToothPainter::paintTooth(const ToothPaintHint& tooth)
     pixmap.fill(Qt::transparent);
     QPainter painter(&pixmap);
     auto& container = SpriteSheets::container();
-    currentTexture = container.getTexture(index, tooth.temp);
+    currentTexture = &container.getTexture(index, tooth.temp);
 
     rotateByQuadrant(painter, 150, 150, index);
 

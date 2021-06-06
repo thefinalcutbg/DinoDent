@@ -12,7 +12,7 @@ class ToothPainter
 {
 
 protected:
-	QPixmap* currentTexture;
+	const ToothSprite* currentTexture;
 	QPixmap* commonTexture;
 	const SpritesheetCoords* coords;
 
@@ -26,9 +26,8 @@ protected:
 	std::map<int, SpritesheetCoords*> tooth_type;
 	std::map<int, SpritesheetCoords*> temp_tooth_type;
 
-	QPixmap textureFormat(QRect crop, QColor color, double opacity); //paints the texture in specific colour and opacity
-	QPixmap textureFormat(QRect crop, double opacity); //paints a texture with some opacity
-	QPixmap textureFormat(QRect crop); //leaves the texture untouched
+	QPixmap textureFormat(const QPixmap& px, QColor color, double opacity); //paints the texture in specific colour and opacity
+	QPixmap textureFormat(const QPixmap& px, double opacity); //paints a texture with some opacity
 	QPixmap textureOutline(const QPixmap& src, QColor borderColor);
 
 	QPixmap drawSurfaces(const ToothPaintHint& tooth);

@@ -17,23 +17,25 @@ class SpriteSheets
 
 	SpriteSheets();
 
-	QPixmap* maxTexture[8]; //the textures of the maxillary permanent teeth;
-	QPixmap* mandTexture[8]; //the textures of the mandibular permanent teeth;
-	QPixmap* maxDTexture[5]; //the textures of the maxillary deciduous teeth;
-	QPixmap* mandDTexture[5]; //the textures of the mandibular deciduous teeth;
-	QPixmap* commonTexture;
-	QPixmap* permaTexture[32]; //textures of permanent teeth sorted by index;
-	QPixmap* deciTexture[20];
 
-	//std::array<ToothSprite, 16> permanentSprites;
-	//std::array<ToothSprite, 10> temporarySprites;
+	QPixmap* commonTexture;
+	ToothSprite* permaTexture[32]; //textures of permanent teeth sorted by index;
+	ToothSprite* deciTexture[20];
+
+	std::array<ToothSprite, 8> maxPermanentSprites;
+	std::array<ToothSprite, 8> mandPermanentSprites;
+	std::array<ToothSprite, 5> maxTemporarySprites;
+	std::array<ToothSprite, 5> mandTemporarySprites;
 
 	QPixmap* bridgeU;
 	QPixmap* bridgeL;
 
 	std::unordered_map<int, int> permaToTemp_map;
 	
+	int count{ 0 };
+	
 	void loadTextures();
+	QPixmap* textureCut(const QPixmap& spriteSheet, QRect rect);
 
 public:
 
@@ -42,7 +44,7 @@ public:
 	~SpriteSheets();
 	static SpriteSheets& container();
 	static void loadSpriteSheets();
-	QPixmap* getTexture(int toothIndex, bool temporary);
+	const ToothSprite& getTexture(int toothIndex, bool temporary);
 	QPixmap* getCommonTexture();
 	QPixmap* getUpperBridge();
 	QPixmap* getLowerBridge();

@@ -34,7 +34,6 @@ ToothPainter::ToothPainter() :
         else tooth_type[i] = &molarCoordinates;
     }
     
-    commonTexture = SpriteSheets::container().getCommonTexture();
 }
 
 QPixmap* ToothPainter::paintTooth(const ToothPaintHint& tooth)
@@ -97,8 +96,7 @@ QPixmap ToothPainter::returnPaintedTooth(const ToothPaintHint& tooth)
         }
         else
         {
-            QRect iLesionCrop(120, 0, 120, 250);
-            painter.drawPixmap(coords->implantPaint, *commonTexture, iLesionCrop);
+            painter.drawPixmap(coords->implantPaint, *currentTexture->lesionImplant);
         }
     }
 
@@ -110,8 +108,8 @@ QPixmap ToothPainter::returnPaintedTooth(const ToothPaintHint& tooth)
         }
         else
         {
-            QRect perioImplantcrop(240, 0, 120, 250);
-            painter.drawPixmap(coords->implantPaint, *commonTexture, perioImplantcrop);
+           
+            painter.drawPixmap(coords->implantPaint, *currentTexture->perioImplant);
         }
     }
 
@@ -140,15 +138,14 @@ QPixmap ToothPainter::returnPaintedTooth(const ToothPaintHint& tooth)
             currentTexture = &container.getTexture(tooth.idx, tooth.temp);
             break;
         case ToothTextureHint::impl_m:
-            painter.drawPixmap(coords->implantPaint, *commonTexture, coords->implantCrop);
+            painter.drawPixmap(coords->implantPaint, *currentTexture->implant);
             painter.setOpacity(0.2);
-          //  currentTexture = commonTexture; //fix texture format!!! (currently uses current texture!)
-          //  painter.drawPixmap(coords->implantPaint, textureFormat(coords->implantCrop, Qt::green, 1));
+            painter.drawPixmap(coords->implantPaint, textureFormat(*currentTexture->implant, Qt::green, 1));
             painter.setOpacity(1);
             currentTexture = &container.getTexture(tooth.idx, tooth.temp);
             break;
         case ToothTextureHint::impl:
-            painter.drawPixmap(coords->implantPaint, *commonTexture, coords->implantCrop);
+            painter.drawPixmap(coords->implantPaint, *currentTexture->implant);
             break;
     }
 

@@ -4,6 +4,8 @@ SpritesheetCoords::SpritesheetCoords(SpriteRectType type)
 {
 
 	implantCrop.setCoords(0, 0, 120, 250);
+	implantLesionCrop.setCoords(120, 0, 240, 250);
+	implantPerioCrop.setCoords(240, 0, 360, 250);
 
 	switch (type)
 	{
@@ -140,7 +142,6 @@ void SpritesheetCoords::tempfrontal()
 	rootCrop.setCoords(480, 0, 600, 255);
 	perioCrop.setCoords(600, 0, 720, 255);
 	endoCrop.setCoords(120, 0, 240, 225);
-	//postCrop.setCoords(0, 0, 0, 0);
 	lesionCrop.setCoords(240, 0, 360, 160);
 	crownCrop.setCoords(600, 365, 720, 500);
 

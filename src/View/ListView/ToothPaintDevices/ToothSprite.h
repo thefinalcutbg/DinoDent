@@ -11,6 +11,9 @@ struct ToothSprite
 	QPixmap* crown;
 	QPixmap* lesion;
 	QPixmap* paro;
+	QPixmap* implant;
+	QPixmap* lesionImplant;
+	QPixmap* perioImplant;
 	std::array<QPixmap*, 6> surfaces;
 
 	~ToothSprite()

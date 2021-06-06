@@ -18,7 +18,10 @@ class SpriteSheets
 	SpriteSheets();
 
 
-	QPixmap* commonTexture;
+	QPixmap* implant;
+	QPixmap* lesionImplant;
+	QPixmap* perioImplant;
+
 	ToothSprite* permaTexture[32]; //textures of permanent teeth sorted by index;
 	ToothSprite* deciTexture[20];
 
@@ -34,7 +37,7 @@ class SpriteSheets
 	
 	int count{ 0 };
 	
-	void loadTextures();
+
 	QPixmap* textureCut(const QPixmap& spriteSheet, QRect rect);
 
 public:
@@ -43,9 +46,8 @@ public:
 
 	~SpriteSheets();
 	static SpriteSheets& container();
-	static void loadSpriteSheets();
+	void loadTextures();
 	const ToothSprite& getTexture(int toothIndex, bool temporary);
-	QPixmap* getCommonTexture();
 	QPixmap* getUpperBridge();
 	QPixmap* getLowerBridge();
 	QPixmap getRawBridge(int tooth_idx);

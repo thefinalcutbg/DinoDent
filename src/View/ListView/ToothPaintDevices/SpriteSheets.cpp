@@ -26,6 +26,12 @@ SpriteSheets::SpriteSheets()
 
 void SpriteSheets::loadTextures()
 {
+
+    QPixmap commonTexture("toothimage/common.png");
+    implant = textureCut(commonTexture, molarRect.implantCrop);
+    lesionImplant = textureCut(commonTexture, molarRect.implantLesionCrop);
+    perioImplant = textureCut(commonTexture, molarRect.implantPerioCrop);
+
     //loading the textures of the permanent teeth
     for (int i = 0, y = 8; i < 8; i++, y--)
     {
@@ -45,6 +51,9 @@ void SpriteSheets::loadTextures()
         maxPermanentSprites[i].lesion = textureCut(maxTx, coord->lesionCrop);
         maxPermanentSprites[i].post = textureCut(maxTx, coord->postCrop);
         maxPermanentSprites[i].paro = textureCut(maxTx, coord->perioCrop);
+        maxPermanentSprites[i].implant = implant;
+        maxPermanentSprites[i].lesionImplant = lesionImplant;
+        maxPermanentSprites[i].perioImplant = perioImplant;
         for (int j = 0; j < 6; j++)
             maxPermanentSprites[i].surfaces[j] = textureCut(maxTx, coord->surfCrop[j]);
         }
@@ -58,6 +67,9 @@ void SpriteSheets::loadTextures()
         mandPermanentSprites[i].lesion = textureCut(mandTx, coord->lesionCrop);
         mandPermanentSprites[i].post = textureCut(mandTx, coord->postCrop);
         mandPermanentSprites[i].paro = textureCut(mandTx, coord->perioCrop);
+        mandPermanentSprites[i].implant = implant;
+        mandPermanentSprites[i].lesionImplant = lesionImplant;
+        mandPermanentSprites[i].perioImplant = perioImplant;
         for (int j = 0; j < 6; j++)
             mandPermanentSprites[i].surfaces[j] = textureCut(mandTx, coord->surfCrop[j]);
 
@@ -114,7 +126,7 @@ void SpriteSheets::loadTextures()
         deciTexture[19 - i] = &mandTemporarySprites[i];    //4th quadrant
     }
 
-    commonTexture = new QPixmap("toothimage/common.png");
+    
 
     bridgeU = new QPixmap("toothimage/bridgeUP.png");
 
@@ -130,8 +142,9 @@ QPixmap* SpriteSheets::textureCut(const QPixmap& spriteSheet, QRect rect)
 
 SpriteSheets::~SpriteSheets()
 {
-
-    delete commonTexture;
+    delete implant;
+    delete lesionImplant;
+    delete perioImplant;
     delete bridgeL;
     delete bridgeU;
 }
@@ -139,11 +152,6 @@ SpriteSheets::~SpriteSheets()
 SpriteSheets& SpriteSheets::container()
 {
     return instance;
-}
-
-void SpriteSheets::loadSpriteSheets()
-{ 
-    instance.loadTextures();
 }
 
 const ToothSprite& SpriteSheets::getTexture(int toothIndex, bool temporary)
@@ -154,11 +162,6 @@ const ToothSprite& SpriteSheets::getTexture(int toothIndex, bool temporary)
         return *permaTexture[toothIndex];
 }
 
-
-QPixmap* SpriteSheets::getCommonTexture()
-{
-    return commonTexture;
-}
 
 QPixmap* SpriteSheets::getUpperBridge()
 {

@@ -13,7 +13,6 @@ class ToothPainter
 
 protected:
 	const ToothSprite* currentTexture;
-	QPixmap* commonTexture;
 	const SpritesheetCoords* coords;
 
 	//SpriteSheets spriteContainer;

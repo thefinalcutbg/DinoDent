@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
 
     QApplication a(argc, argv);
 
-    SpriteSheets::container().loadSpriteSheets(); //loading textures, otherwise program will crash;
+    SpriteSheets::container().loadTextures(); //loading textures, otherwise program will crash;
     MasterNZOK::instance().loadUpdates();
     CustomProcedures::instance().loadCustomProcedures();
 

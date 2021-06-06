@@ -175,7 +175,7 @@ void ListView::setUnfav(bool unfav)
 
 ListView::~ListView()
 {
-	ui.teethView->blockSignals(true); //have to fix setting selected teeth to non-existing entity! (ListInstance vector throws exception)
+	
 	
 	delete teethViewScene;
 	delete contextMenu;

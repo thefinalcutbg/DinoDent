@@ -278,5 +278,5 @@ void TeethViewScene::setProcedures(std::vector<RowData> procedures)
 
 TeethViewScene::~TeethViewScene()
 {
-
+    this->blockSignals(true); //have to fix setting selected teeth to non-existing entity! (ListInstance vector throws exception)
 }

@@ -1,10 +1,13 @@
 ﻿#include "ProcedureDialog.h"
+#include <QPainter>
 
 ProcedureDialog::ProcedureDialog(ProcedureDialogPresenter* presenter, QWidget *parent)
 	: QDialog(parent), presenter(presenter)
 {
 	ui.setupUi(this);
 	
+	setWindowTitle("Добавяне на манипулация");
+
 	auto table = ui.tableView;
 
 	proxyModel = new QSortFilterProxyModel(this);
@@ -113,6 +116,14 @@ void ProcedureDialog::setCrownPresenter(CrownPresenter* presenter)
 ICommonFields* ProcedureDialog::commonFields()
 {
 	return ui.commonFields;
+}
+
+void ProcedureDialog::paintEvent(QPaintEvent* event)
+{
+	QPainter painter;
+	painter.begin(this);
+	painter.fillRect(0, 0, width(), height(), Qt::white);
+	painter.end();
 }
 
 void ProcedureDialog::resetForm()

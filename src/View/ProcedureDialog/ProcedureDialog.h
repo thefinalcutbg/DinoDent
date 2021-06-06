@@ -18,7 +18,7 @@ class ProcedureDialog : public QDialog, public IProcedureDialog
 	ProcedureModel model;
 	QSortFilterProxyModel* proxyModel;
 
-
+	void paintEvent(QPaintEvent* event);
 	void resetForm();
 public:
 	ProcedureDialog(ProcedureDialogPresenter* presenter, QWidget* parent = Q_NULLPTR);

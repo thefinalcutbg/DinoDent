@@ -1,7 +1,7 @@
 ﻿#include "ListInstance.h"
 #include <QDebug>
 
-ListInstance::ListInstance(AmbList ambList, Patient patient) :
+ListInstance::ListInstance(AmbList ambList, std::shared_ptr<Patient> patient) :
 	amb_list(ambList), 
 	patient(patient),
 	edited(0)

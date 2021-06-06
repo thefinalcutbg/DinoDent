@@ -10,7 +10,7 @@
 #include "Presenter/ProcedureDialog/ProcedureDialogPresenter.h"
 #include "StatusPresenter/StatusPresenter.h"
 #include "ProcedurePresenter/ProcedurePresenter.h"
-
+#include <memory>
 #include "Editor.h"
 
 
@@ -29,7 +29,7 @@ class ListPresenter :
     AllergiesDialogPresenter* allergiesDialog;
 
     AmbList* ambList;
-    Patient* patient;
+    std::weak_ptr<Patient> patient;
 
 
 public:

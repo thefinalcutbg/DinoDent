@@ -5,7 +5,6 @@
 ListPresenter::ListPresenter() :
     view(nullptr),
     ambList(nullptr),
-    patient(nullptr),
     patientDialog(nullptr),
     allergiesDialog(nullptr)
 {
@@ -27,15 +26,15 @@ void ListPresenter::setData(ListInstance* inst)
 {
 
     this->ambList = &inst->amb_list;
-    this->patient = &inst->patient;
+    this->patient = inst->patient;
    
     status_presenter.setData(inst->amb_list.teeth, inst->selectedTeeth);
-    procedure_presenter.setData(inst->amb_list, inst->patient, inst->selectedTeeth);
+    procedure_presenter.setData(inst->amb_list, *patient.lock(), inst->selectedTeeth);
 
     view->refresh
     (
         *this->ambList,
-        *this->patient
+        *patient.lock()
     );
 
 
@@ -60,37 +59,37 @@ void ListPresenter::openPatientDialog()
 {
     if (patientDialog == NULL) return;
 
-    patientDialog->open(this, *patient);
+    patientDialog->open(this, *patient.lock());
 }
 
 void ListPresenter::openAllergiesDialog()
 {
     if (allergiesDialog == NULL) return;
 
-    allergiesDialog->openDialog(this, *patient);
-
+    allergiesDialog->openDialog(this, *patient.lock());
+   
 }
 
 
 void ListPresenter::setPatient(Patient patient)
 {
-    *this->patient = patient;
+    *this->patient.lock() = patient;
     view->refresh
     (
         *this->ambList,
-        *this->patient
+        *this->patient.lock()
     );
 }
 
 void ListPresenter::setAllergies(Allergies allergies)
 {
-    this->patient->allergies = allergies.allergies;
-    this->patient->currentDiseases = allergies.current;
-    this->patient->pastDiseases = allergies.past;
+    patient.lock()->allergies = allergies.allergies;
+    patient.lock()->currentDiseases = allergies.current;
+    patient.lock()->pastDiseases = allergies.past;
 
     view->refresh
     (
         *this->ambList,
-        *this->patient
+        *patient.lock()
     );
 }

@@ -30,10 +30,10 @@ void AmbListPagePresenter::setPatient(Patient patient)
 
     for (int i = 0; i < list_instance.size(); i++)
     {
-        if (list_instance[i].amb_list.id == ambList->id && patient.id == list_instance[i].patient.id)
+        if (list_instance[i].amb_list.id == ambList->id && patient.id == list_instance[i].patient->id)
         {
-            view->focusTab(i);
-            return;
+           view->focusTab(i);
+           return;
         }
     }
     
@@ -47,7 +47,23 @@ void AmbListPagePresenter::setPatient(Patient patient)
 
     }
 
-    list_instance.emplace_back(*ambList, patient);
+    bool patient_exists(false);
+
+    for (auto& instance : list_instance)
+    {
+        if (instance.patient->id == patient.id)
+        {
+            list_instance.emplace_back(*ambList, instance.patient);
+            patient_exists = true;
+            break;
+        }
+    }
+
+    if (!patient_exists)
+    {
+        list_instance.emplace_back(*ambList, std::make_shared<Patient>(patient));
+    }
+    
 
     delete ambList;
 
@@ -124,7 +140,7 @@ bool AmbListPagePresenter::saveAs()
     list.number = newNumber;
 
     if (currentListInstance->isNew()) {
-        database.insertAmbList(list, currentListInstance->patient.id);
+        database.insertAmbList(list, currentListInstance->patient->id);
     }
     else {
         database.updateAmbList(list);

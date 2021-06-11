@@ -38,7 +38,7 @@ std::vector<Manipulation> DbAmbList::getOlderManipulations(std::string patientID
     std::string query = "SELECT id, day, month, year FROM amblist WHERE "
         "patient_id = '" + patientID + "'"
         " ORDER BY id DESC LIMIT 1";
-
+    qDebug() << "getting older manipulations";
     sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
 
     std::string amb_id;
@@ -114,7 +114,7 @@ void DbAmbList::updateAmbList(AmbList& ambList)
 }
 
 
-AmbList* DbAmbList::getList(std::string patientID, int currentMonth, int currentYear)
+void DbAmbList::getListData(const std::string& patientID, int currentMonth, int currentYear, AmbList& ambList)
 {
     openConnection();
 
@@ -122,44 +122,40 @@ AmbList* DbAmbList::getList(std::string patientID, int currentMonth, int current
         "patient_id = '" + patientID + "' AND "
         "month = " + std::to_string(currentMonth) + " AND "
         "year = " + std::to_string(currentYear);
-
+    qDebug() << QString::fromStdString(query);
     sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
 
-    AmbList* ambList = new AmbList;
 
     std::string status_json;
 
     while (sqlite3_step(stmt) != SQLITE_DONE)
     {
-        ambList->id = std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0)));
-        ambList->number = sqlite3_column_int(stmt, 1);
-        ambList->unfavourable = sqlite3_column_int(stmt, 2);
-        ambList->date.day = sqlite3_column_int(stmt, 3);
-        ambList->date.month = sqlite3_column_int(stmt, 4);
-        ambList->date.year = sqlite3_column_int(stmt, 5);
+        ambList.id = std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0)));
+        ambList.number = sqlite3_column_int(stmt, 1);
+        ambList.unfavourable = sqlite3_column_int(stmt, 2);
+        ambList.date.day = sqlite3_column_int(stmt, 3);
+        ambList.date.month = sqlite3_column_int(stmt, 4);
+        ambList.date.year = sqlite3_column_int(stmt, 5);
         status_json = std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 6)));
     }
-
+    
     sqlite3_finalize(stmt);
 
     closeConnection();
 
-    parser.parse(getOlderStatus(patientID), ambList->teeth);
+    parser.parse(getOlderStatus(patientID), ambList.teeth);
     status_json = getOlderStatus(patientID);
 
-    if (ambList->id.empty()) //if the amblist is new
+    if (ambList.id.empty())
     {
-        ambList->date = Date::getCurrentDate();
-        m_applier.applyManipulations(getOlderManipulations(patientID), ambList->teeth, CurrentUser::instance().LPK);
+        m_applier.applyManipulations(getOlderManipulations(patientID), ambList.teeth, CurrentUser::instance().LPK);
     }
     else
     {
-        parser.parse(status_json, ambList->teeth);
-        ambList->LPK = CurrentUser::instance().LPK;
-        ambList->manipulations = db_manipulation.getManipulations(ambList->id, ambList->date);
+        parser.parse(status_json, ambList.teeth);
+        ambList.LPK = CurrentUser::instance().LPK;
+        ambList.manipulations = db_manipulation.getManipulations(ambList.id, ambList.date);
     }
-   
-    return ambList;
 
 }
 
@@ -185,7 +181,7 @@ int DbAmbList::getNewNumber(const int& currentYear)
 
 }
 
-bool DbAmbList::checkExistingAmbNum(const int& currentYear, const int& ambNum)
+bool DbAmbList::checkExistingAmbNum(int currentYear, int ambNum)
 {
     openConnection();
 
@@ -209,7 +205,7 @@ bool DbAmbList::checkExistingAmbNum(const int& currentYear, const int& ambNum)
  
 }
 
-std::map<int, bool> DbAmbList::getExistingNumbers(const int& currentYear)
+std::map<int, bool> DbAmbList::getExistingNumbers(int currentYear)
 {
     openConnection();
 

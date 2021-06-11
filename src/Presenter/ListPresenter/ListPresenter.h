@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "Model/ListInstance.h"
+
 #include "View/ListView/IListView.h"
 
 #include "Presenter/PatientDialog/PatientDialogPresenter.h"
@@ -13,6 +13,7 @@
 #include <memory>
 #include "Editor.h"
 
+class ListInstance;
 
 class ListPresenter :
     public PatientDialogRequestor,

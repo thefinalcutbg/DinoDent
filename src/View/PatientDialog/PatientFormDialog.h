@@ -29,7 +29,7 @@ public:
     PatientDialogPresenter presenter;
 public:
 
-    PatientFormDialog(Database *database, QWidget* parent = 0);
+    PatientFormDialog(QWidget* parent = 0);
     ~PatientFormDialog();
 
     void open(bool editMode);

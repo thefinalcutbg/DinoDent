@@ -27,12 +27,12 @@ public:
     DbAmbList();
 
     void insertAmbList(AmbList& ambList, std::string& patientID);
-    AmbList* getList(std::string patientID, int currentMonth, int currentYear);
+    void getListData(const std::string& patientID, int currentMonth, int currentYear, AmbList& ambList);
 
     int getNewNumber(const int& currentYear);
 
-    bool checkExistingAmbNum(const int& currentYear, const int& ambNum);
-    std::map<int, bool> getExistingNumbers(const int& currentYear);
+    bool checkExistingAmbNum(int currentYear, int ambNum);
+    std::map<int, bool> getExistingNumbers(int currentYear);
     void updateAmbList(AmbList& ambList);
 };
 

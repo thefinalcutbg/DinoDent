@@ -9,7 +9,7 @@ bool EgnValidator::dateCheck(int& d, int& m, int& y)
         return false;
     }
 
-    if (Date(d, m, y) > Date::getCurrentDate())
+    if (Date(d, m, y) > Date::CurrentDate())
     {
         return false;
     }
@@ -160,5 +160,5 @@ bool BirthValidator::validate(const std::string& text)
     Date date(text);
     if (date == defaultDate) return false;
 
-    return Date::getCurrentDate() > date;
+    return Date::CurrentDate() > date;
 }

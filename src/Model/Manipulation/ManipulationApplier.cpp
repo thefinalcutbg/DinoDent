@@ -1,7 +1,8 @@
 #include "ManipulationApplier.h"
-
+#include <QDebug>
 void ManipulationApplier::applyManipulations(const std::vector<Manipulation>& m, std::array<Tooth, 32>& teeth, const std::string& LPK)
 {
+
 	for (const Manipulation& m : m)
 	{
 		switch (m.type)
@@ -113,4 +114,5 @@ void ManipulationApplier::applyManipulations(const std::vector<Manipulation>& m,
 				break;
 		}
 	}
+
 }

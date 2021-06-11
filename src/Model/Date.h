@@ -18,7 +18,7 @@ public:
 
     static Date GetDateFromEgn(const std::string& egn);
     static std::string toString(const Date& date);
-    static Date getCurrentDate();
+    static Date CurrentDate();
     static int currentDay();
     static int currentMonth();
     static int currentYear();

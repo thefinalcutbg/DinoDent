@@ -135,9 +135,7 @@ void ProcedurePresenter::addProcedure()
         _ambList->date
     };
 
-    view->openProcedureDialog(&p);
-
-    auto newList = p.getManipulations();
+    auto newList = p.openDialog();
 
     if (newList.empty()) return;
 

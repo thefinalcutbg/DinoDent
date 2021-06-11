@@ -1,5 +1,12 @@
 #include "Patient.h"
 
+#include <QDebug>
+
+Patient::Patient() : type(1), sex(0)
+{
+	qDebug() << "Patient created";
+}
+
 bool Patient::getSexFromEgn(const std::string& egn)
 {
 	int sexDigit = stoi(egn.substr(8, 1));
@@ -11,11 +18,11 @@ bool Patient::getSexFromEgn(const std::string& egn)
 		true;
 }
 
-int Patient::getAge(Date currentDate)
+int Patient::getAge(Date currentDate) const
 {
-	int& day = birth.day;
-	int& month = birth.month;
-	int& year = birth.year;
+	const int& day = birth.day;
+	const int& month = birth.month;
+	const int& year = birth.year;
 
 	int& daynow = currentDate.day;
 	int& monthnow = currentDate.month;
@@ -39,18 +46,23 @@ int Patient::getAge(Date currentDate)
 	return age;
 }
 
-int Patient::getAge()
+int Patient::getAge() const
 {
-	return getAge(Date::getCurrentDate());
+	return getAge(Date::CurrentDate());
 }
 
 
-bool Patient::isAdult()
+bool Patient::isAdult() const
 {
 	return getAge() > 17;
 }
 
-bool Patient::isAdult(Date currentDate)
+bool Patient::isAdult(Date currentDate) const
 {
 	return getAge(currentDate) > 17;
+}
+
+Patient::~Patient()
+{
+	qDebug() << "Patient destroyed";
 }

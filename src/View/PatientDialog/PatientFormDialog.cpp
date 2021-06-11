@@ -1,6 +1,6 @@
 ﻿#include "PatientFormDialog.h"
 
-PatientFormDialog::PatientFormDialog(Database *database, QWidget* parent)
+PatientFormDialog::PatientFormDialog(QWidget* parent)
     : QDialog(parent),
     presenter(this)
 {

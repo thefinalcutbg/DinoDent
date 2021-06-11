@@ -2,8 +2,8 @@
 
 #include <vector>
 #include <memory>
-#include "Patient.h"
-#include "AmbList.h"
+#include "Model/Patient.h"
+#include "Model/AmbList.h"
 #include "string"
 
 struct ListInstance
@@ -13,11 +13,11 @@ struct ListInstance
 	std::shared_ptr<Patient> patient;
 	AmbList amb_list;
 	
-
+	ListInstance();
 	ListInstance(AmbList ambList, std::shared_ptr<Patient> patient);
 	bool isNew();
 	bool isEdited();
-//	std::vector <int> selectedIndexes;
+
 	std::vector <Tooth*> selectedTeeth;
 
 	std::string getTabName();

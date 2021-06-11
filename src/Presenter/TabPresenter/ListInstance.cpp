@@ -1,6 +1,12 @@
 ﻿#include "ListInstance.h"
 #include <QDebug>
 
+ListInstance::ListInstance()
+	: edited{ false }
+{
+	qDebug() << "constructing list instance";
+}
+
 ListInstance::ListInstance(AmbList ambList, std::shared_ptr<Patient> patient) :
 	amb_list(ambList), 
 	patient(patient),

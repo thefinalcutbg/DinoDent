@@ -50,6 +50,6 @@ class ProcedureDialogPresenter
 		void diagnosisChanged(std::string diagnosis);
 		void rangeChanged(int begin, int end);
 		void formAccepted();
-		std::vector<Manipulation> getManipulations();
+		std::vector<Manipulation> openDialog();
 };
 

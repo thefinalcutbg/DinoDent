@@ -4,98 +4,31 @@
 AmbListPagePresenter::AmbListPagePresenter(
                                             IAmbListPage* AmbListPage,
                                             PatientDialogPresenter* patientDialog,
-                                            ListPresenter* listView) :
+                                            ListPresenter* listPresenter) :
     view(AmbListPage),
     patientDialog(patientDialog),
-    listView(listView),
-    currentVecPos(-1),
-    currentListInstance(nullptr)
+    listPresenter(listPresenter),
+    currentVecPos(-1)
 {
-    //listView->attachEditObserver(this); //this is NOT working, I have to set it from the AmbListView
+    _tabPresenter.setView(AmbListPage);
+    _tabPresenter.setListPresenter(listPresenter);
 }
 
 
 void AmbListPagePresenter::newPressed()
 {
     patientDialog->open(this);
-
-
 }
 
 void AmbListPagePresenter::setPatient(Patient patient)
 {
-
-    AmbList* ambList = database.getList(patient.id, Date::currentMonth(), Date::currentYear());
-
-
-    for (int i = 0; i < list_instance.size(); i++)
-    {
-        if (list_instance[i].amb_list.id == ambList->id && patient.id == list_instance[i].patient->id)
-        {
-           view->focusTab(i);
-           return;
-        }
-    }
-    
-    for (auto& m : ambList->manipulations) //autofill NZOK procedures
-    {
-        if (m.nzok)
-        {
-            auto[patient_price, nzok_price] = MasterNZOK::instance().getPrices(m.code, ambList->date, 64, patient.isAdult(), ambList->unfavourable);
-            m.price = patient_price;
-        }
-
-    }
-
-    bool patient_exists(false);
-
-    for (auto& instance : list_instance)
-    {
-        if (instance.patient->id == patient.id)
-        {
-            list_instance.emplace_back(*ambList, instance.patient);
-            patient_exists = true;
-            break;
-        }
-    }
-
-    if (!patient_exists)
-    {
-        list_instance.emplace_back(*ambList, std::make_shared<Patient>(patient));
-    }
-    
-
-    delete ambList;
-
-    view->newTab(list_instance.size() - 1, list_instance.back().getTabName());
-}
-
-void AmbListPagePresenter::tabChanged(int vecPos)
-{
-    if (vecPos == -1)
-    {
-        currentListInstance = NULL;
-        currentVecPos = -1;
-        return;
-    }
-    currentListInstance = &list_instance[vecPos];
-    currentVecPos = vecPos;
-
-    listView->setData(currentListInstance);
-}
-
-void AmbListPagePresenter::notify()
-{
-    if (currentListInstance->edited) return;
-
-    currentListInstance->edited = true;
-    view->changeTabName(currentListInstance->getTabName());
-    
+    _tabPresenter.newList(patient);
 }
 
 bool AmbListPagePresenter::save()
 {
-    if (currentListInstance == NULL) return true;
+    auto currentListInstance = _tabPresenter.currentList();
+    if (currentListInstance == nullptr) return true;
 
     if (currentListInstance->isNew()) {
         return saveAs();
@@ -114,19 +47,17 @@ bool AmbListPagePresenter::save()
 
 bool AmbListPagePresenter::saveAs()
 {
-    if (currentListInstance == NULL) return true;
+    auto currentListInstance = _tabPresenter.currentList();
+    if (currentListInstance == nullptr) return true;
 
     AmbList& list = currentListInstance->amb_list;
 
     int newNumber = 0;
 
-    //what happens if the list is from a previous year?
-    //Then current year will mess things up
-
-    auto map = database.getExistingNumbers(Date::currentYear());
+    auto map = database.getExistingNumbers(list.date.year);
 
     if (!list.number) {
-        newNumber = database.getNewNumber(Date::currentYear());
+        newNumber = database.getNewNumber(list.date.year);
     }
     else {
         newNumber = list.number;
@@ -156,11 +87,12 @@ bool AmbListPagePresenter::saveAs()
 
 bool AmbListPagePresenter::closeTab()
 {
-
+    auto current = _tabPresenter.currentList();
     //no need to know which tab. Close button always focuses the tab first.
-    if (currentListInstance->amb_list.isNew() || currentListInstance->isEdited())
+
+    if (current->amb_list.isNew() || current->isEdited())
     {
-        DialogAnswer answer = view->openSaveDialog(currentListInstance->getTabName());
+        DialogAnswer answer = view->openSaveDialog(current->getTabName());
 
         switch (answer)
         {
@@ -176,8 +108,7 @@ bool AmbListPagePresenter::closeTab()
         }
     }
 
-    list_instance.erase(list_instance.begin() + currentVecPos);
-    view->removeCurrentTab();
+    _tabPresenter.closeList();
 
     return true;
 }

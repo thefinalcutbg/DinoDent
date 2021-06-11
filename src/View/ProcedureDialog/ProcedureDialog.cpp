@@ -120,10 +120,10 @@ ICommonFields* ProcedureDialog::commonFields()
 
 void ProcedureDialog::paintEvent(QPaintEvent* event)
 {
-	QPainter painter;
-	painter.begin(this);
-	painter.fillRect(0, 0, width(), height(), Qt::white);
-	painter.end();
+	//QPainter painter;
+//	painter.begin(this);
+//	painter.fillRect(0, 0, width(), height(), Qt::white);
+//	painter.end();
 }
 
 void ProcedureDialog::resetForm()

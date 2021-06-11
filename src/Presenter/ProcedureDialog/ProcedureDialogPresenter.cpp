@@ -1,7 +1,7 @@
 ﻿#include "ProcedureDialogPresenter.h"
 #include "Model/Date.h"
 
-
+#include "View/ModalDialogBuilder.h"
 
 ProcedureDialogPresenter::ProcedureDialogPresenter
 (
@@ -58,7 +58,7 @@ void ProcedureDialogPresenter::setView(IProcedureDialog* view)
 	view->loadManipulationList(manipulationList);
 
 	//default validator set:
-	auto date = Date::getCurrentDate();
+	auto date = Date::CurrentDate();
 
 	if (!date_validator.validate(date)) {
 		date = date_validator.getMin();
@@ -77,33 +77,6 @@ void ProcedureDialogPresenter::setView(IProcedureDialog* view)
 	view->setSelectionLabel(selectedTeethNum);
 
 }
-
-/*
-std::vector<Manipulation> ProcedureDialogPresenter::generateManipulations()
-{
-
-	auto& failed = product.failedByToothNumber;
-
-	if (failed.size())
-	{
-		std::string message;
-		message.reserve(72 + failed.size()*4);
-
-		message.append("Манипулацията не можа да бъде автоматично генерирана за следните зъби: ");
-
-		for (int i = 0; i < failed.size(); i++)
-		{
-			
-			int& idx = failed[i];
-			message.append(std::to_string(utils.getToothNumber(idx, teeth->at(idx).temporary.exists())));
-
-			if (i != failed.size() - 1) 
-				message.append(", ");
-		}
-
-		view->showErrorDialog(message);
-
-}*/
 
 
 void ProcedureDialogPresenter::indexChanged(int index)
@@ -140,7 +113,9 @@ void ProcedureDialogPresenter::formAccepted()
 	view->close();
 }
 
-std::vector<Manipulation> ProcedureDialogPresenter::getManipulations()
+std::vector<Manipulation> ProcedureDialogPresenter::openDialog()
 {
+	ModalDialogBuilder::instance().openDialog(this);
+	
 	return manipulations;
 }

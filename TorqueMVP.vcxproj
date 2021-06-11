@@ -193,6 +193,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\View\ModalDialogBuilder.cpp" />
     <ClCompile Include="src\Model\Manipulation\CustomProcedures.cpp" />
     <ClCompile Include="src\Presenter\ListPresenter\Editor.cpp" />
     <ClCompile Include="src\Model\Manipulation\ManipulationApplier.cpp" />
@@ -272,7 +273,7 @@
     <ClCompile Include="src\View\uiComponents\qt_derived\Label.cpp" />
     <ClCompile Include="src\Presenter\AllergiesDialog\AllergiesDialogPresenter.cpp" />
     <ClCompile Include="src\View\AmbListPage\ScrollArea.cpp" />
-    <ClCompile Include="src\Model\ListInstance.cpp">
+    <ClCompile Include="src\Presenter\TabPresenter\ListInstance.cpp">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">/utf-8 %(AdditionalOptions)</AdditionalOptions>
@@ -297,6 +298,7 @@
     <ClCompile Include="src\Model\User\User.cpp" />
     <ClCompile Include="src\Presenter\ListPresenter\StatusPresenter\StatusPresenter.cpp" />
     <ClCompile Include="src\View\ListView\ToothPaintDevices\ToothSprite.cpp" />
+    <ClCompile Include="src\Presenter\TabPresenter\TabPresenter.cpp" />
     <QtRcc Include="src\View\Torque.qrc" />
     <QtUic Include="src\View\ProcedureDialog\Widgets\CrownView\CrownView.ui" />
     <QtUic Include="src\View\ProcedureDialog\Widgets\ObturationView\ObturationView.ui" />
@@ -364,12 +366,15 @@
     <QtMoc Include="src\View\AmbListPage\AmbListPage.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\View\ModalDialogBuilder.h" />
     <ClInclude Include="src\Model\Manipulation\CustomProcedures.h" />
     <ClInclude Include="src\Presenter\ListPresenter\Editor.h" />
     <ClInclude Include="src\Model\User\User.h" />
     <ClInclude Include="src\Presenter\ListPresenter\ProcedurePresenter\ProcedurePresenter.h" />
     <ClInclude Include="src\Presenter\ListPresenter\StatusPresenter\StatusPresenter.h" />
+    <ClInclude Include="src\View\AmbListPage\ITabView.h" />
     <ClInclude Include="src\View\ListView\ToothPaintDevices\ToothSprite.h" />
+    <ClInclude Include="src\Presenter\TabPresenter\TabPresenter.h" />
     <QtMoc Include="src\View\ProcedureDialog\Widgets\CommonFields\CommonFields.h" />
     <QtMoc Include="src\View\ProcedureDialog\Widgets\ObturationView\ObturationView.h" />
     <QtMoc Include="src\View\ProcedureDialog\Widgets\CrownView\CrownView.h" />
@@ -462,7 +467,7 @@
     <ClInclude Include="src\View\uiComponents\qt_derived\Label.h" />
     <ClInclude Include="src\Presenter\AllergiesDialog\AllergiesDialogPresenter.h" />
     <ClInclude Include="src\View\AmbListPage\ScrollArea.h" />
-    <ClInclude Include="src\Model\ListInstance.h" />
+    <ClInclude Include="src\Presenter\TabPresenter\ListInstance.h" />
     <QtMoc Include="src\View\AllergiesDialog\AllergiesDialog.h" />
     <ClInclude Include="src\View\AllergiesDialog\IAllergiesDialog.h" />
     <ClInclude Include="src\View\ListView\IListView.h" />

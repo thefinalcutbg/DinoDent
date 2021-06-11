@@ -4,7 +4,7 @@
 
 struct Patient
 {
-	Patient() : type(1), sex(0){};
+	Patient();
 
 
 	int type;
@@ -26,9 +26,11 @@ struct Patient
 
 	static bool getSexFromEgn(const std::string& egn);
 
-	int getAge();
-	int getAge(Date currentDate);
+	int getAge() const;
+	int getAge(Date currentDate)  const;
 
-	bool isAdult();
-	bool isAdult(Date currentDate);
+	bool isAdult() const;
+	bool isAdult(Date currentDate)  const;
+
+	~Patient();
 };

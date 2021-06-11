@@ -4,20 +4,23 @@
 
 #include "View/AmbListPage/IAmbListPage.h"
 #include "PatientDialog/PatientDialogPresenter.h"
-#include "Model/ListInstance.h"
+#include "TabPresenter/ListInstance.h"
 #include "Database/DbAmbList.h"
+#include "TabPresenter/TabPresenter.h"
 
-
-class AmbListPagePresenter : public PatientDialogRequestor, public EditObserver
+class AmbListPagePresenter : public PatientDialogRequestor
 {
+	TabPresenter _tabPresenter;
+
 	IAmbListPage* view;
 	PatientDialogPresenter* patientDialog;
-	ListPresenter* listView;
+	ListPresenter* listPresenter;
 	std::vector<ListInstance> list_instance;
 	DbAmbList database;
 
+
 	int currentVecPos;
-	ListInstance* currentListInstance;
+
 
 public:
 	AmbListPagePresenter( 
@@ -27,9 +30,7 @@ public:
 
 
 	void newPressed();
-	void tabChanged(int vecPos);  
-	
-	void notify();
+
 
 
 	bool save();

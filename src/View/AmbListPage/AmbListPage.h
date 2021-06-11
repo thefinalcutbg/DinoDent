@@ -19,11 +19,11 @@ class AmbListPage : public QWidget, public IAmbListPage
 {
     Q_OBJECT
 
-    Database* database;
-
-    AmbListPagePresenter presenter;
-
     ListView list_view;
+    TabPresenter* tabPresenter;
+    AmbListPagePresenter presenter;
+    
+    
 
     int previousTabData;
 
@@ -35,13 +35,18 @@ public:
     ~AmbListPage();
 
     AmbListPagePresenter* Presenter();
-    void newTab(int vecPos, std::string tabName);
-    void focusTab(int vecPos);
-    void removeCurrentTab();
-    void changeTabName(std::string tabName);
+
+    void newTab(int vecPos, std::string tabName) override;
+    void focusTab(int vecPos) override;
+    void removeCurrentTab() override;
+    void changeTabName(std::string tabName) override;
+    void setTabPresenter(TabPresenter* presenter) override;
+
+    bool closeAllTabs();
+
     int openSaveAsDialog(int newNum, std::map<int, bool> existingNumbers);
     DialogAnswer openSaveDialog(std::string title);
-    bool closeAllTabs();
+    
 private:
     Ui::AmbListPage ui;
 };

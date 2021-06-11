@@ -8,5 +8,5 @@ void Editor::attachEditObserver(EditObserver* observer)
 void Editor::makeEdited()
 {
 	if (edit_observer != nullptr)
-		edit_observer->notify();
+		edit_observer->editNotify();
 }

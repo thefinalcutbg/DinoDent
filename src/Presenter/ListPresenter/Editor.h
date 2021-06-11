@@ -4,7 +4,7 @@
 class EditObserver
 {
 public:
-	virtual void notify() = 0;
+	virtual void editNotify() = 0;
 };
 
 class Editor

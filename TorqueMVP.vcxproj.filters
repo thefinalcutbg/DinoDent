@@ -60,7 +60,7 @@
     <ClCompile Include="src\View\ListView\tilebutton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Model\ListInstance.cpp">
+    <ClCompile Include="src\Presenter\TabPresenter\ListInstance.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\AmbListPage\ScrollArea.cpp">
@@ -306,6 +306,12 @@
     <ClCompile Include="src\View\ListView\ToothPaintDevices\ToothSprite.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Presenter\TabPresenter\TabPresenter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\ModalDialogBuilder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -491,7 +497,7 @@
     <ClInclude Include="src\View\ListView\tilebutton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model\ListInstance.h">
+    <ClInclude Include="src\Presenter\TabPresenter\ListInstance.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\AmbListPage\ScrollArea.h">
@@ -735,6 +741,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\ListView\ToothPaintDevices\ToothSprite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Presenter\TabPresenter\TabPresenter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\View\AmbListPage\ITabView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\View\ModalDialogBuilder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

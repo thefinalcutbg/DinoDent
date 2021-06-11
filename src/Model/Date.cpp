@@ -88,7 +88,7 @@ bool Date::Date::operator > (const Date& other) const
     return false;
 }
 
-Date Date::getCurrentDate()
+Date Date::CurrentDate()
 {
     return Date(currentDay(), currentMonth(), currentYear());
 }

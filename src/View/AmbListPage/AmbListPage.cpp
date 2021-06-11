@@ -4,17 +4,15 @@
 
 AmbListPage::AmbListPage(QWidget* parent) :
     QWidget(parent),
+    tabPresenter(nullptr),
     saveAs_dialog(this),
-    patient_dialog(database, this),
-    database(database),
+    patient_dialog(this),
     presenter(this, patient_dialog.Presenter(), list_view.Presenter()),
     previousTabData(0)
 {
     ui.setupUi(this);
 
     list_view.Presenter()->setPatientDialog(patient_dialog.Presenter());
-
-    list_view.Presenter()->attachEditObserver(&presenter);
 
     QLabel* dummy = new QLabel;
     dummy->setFixedSize(QSize(0, 0));
@@ -30,7 +28,7 @@ AmbListPage::AmbListPage(QWidget* parent) :
         {
             if (index == -1)
             {
-                presenter.tabChanged(index);
+                tabPresenter->setCurrentList(index);
                 return;
             }
 
@@ -41,7 +39,7 @@ AmbListPage::AmbListPage(QWidget* parent) :
 
             //ui.scrollArea->changePosition(vecPos);//bug with scrollbar
 
-            presenter.tabChanged(vecPos);
+            tabPresenter->setCurrentList(vecPos);
 
             ui.scrollArea->changePosition(vecPos); //bug with gl view;
 
@@ -135,9 +133,13 @@ bool AmbListPage::closeAllTabs()
 
 void AmbListPage::changeTabName(std::string tabName)
 {
-
     ui.tabBar->setTabText(ui.tabBar->currentIndex(), QString::fromStdString(tabName));
+}
 
+void AmbListPage::setTabPresenter(TabPresenter* presenter)
+{
+    qDebug() << "setting tab presenter" << &presenter;
+    this->tabPresenter = presenter;
 }
 
 

@@ -31,10 +31,10 @@ void LineEdit::setAppearence(bool valid)
 
 void LineEdit::setFieldText(const std::string& text)
 {
-	blockSignals(true);
+	QSignalBlocker b(this);
 	setText(QString::fromStdString(text));
 	dynamicWidthChange();
-	blockSignals(false);
+
 }
 
 std::string LineEdit::getText()

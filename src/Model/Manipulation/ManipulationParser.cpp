@@ -47,6 +47,16 @@ std::string ManipulationParser::write(Manipulation m)
 	{
 		auto& r = std::get<ImplantData>(m.result);
 		
+		manipulation["system"] = r.system;
+		manipulation["time"] = r.time;
+		manipulation["type"] = r.type;
+		manipulation["w"] = r.width;
+		manipulation["l"] = r.length;
+		manipulation["tissue"] = r.tissue_aug;
+		manipulation["bone"] = r.bone_aug;
+		manipulation["membrane"] = r.membrane;
+		manipulation["sinus"] = r.sinusLift;
+		
 		break;
 	}
 
@@ -132,7 +142,15 @@ void ManipulationParser::parse(const std::string& jsonString, Manipulation& m)
 		{
 			ImplantData r;
 
-			//some fancy parsing here
+			r.system = manipulation["system"].asString();
+			r.time = manipulation["time"].asInt();
+			r.type = manipulation["type"].asInt();
+			r.width = manipulation["w"].asDouble();
+			r.length = manipulation["l"].asDouble();
+			r.tissue_aug = manipulation["tissue"].asInt();
+			r.bone_aug = manipulation["bone"].asInt();
+			r.membrane = manipulation["membrane"].asBool();
+			r.sinusLift = manipulation["sinus"].asBool();
 
 			m.result = r;
 

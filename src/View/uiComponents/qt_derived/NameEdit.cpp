@@ -1,13 +1,12 @@
-﻿#include "Presenter/PatientDialog/Reformator.h"
+﻿#include "NameEdit.h"
 
-QString NameReformator::reformat(QString text)
+QString NameEdit::letters{ "абвгдежзийклмнопрстуфхцчшщъьюя-" };
+QString NameEdit::capletters{ "АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЬЮЯ " };
+
+QString NameEdit::reformat(const QString text)
 {
-    QString& name = text;
+    QString name = text;
     if (name.isEmpty()) return "";
-
-    QString letters = "абвгдежзийклмнопрстуфхцчшщъьюя-";
-    QString capletters = "АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЬЮЯ ";
-
 
     //Formats the name:
 //Removes spaces and dashes at the beginning and at the end of the name:
@@ -57,4 +56,31 @@ QString NameReformator::reformat(QString text)
     }
 
     return name;
+}
+
+void NameEdit::makeFirstLetterCapital()
+{
+    auto name = text();
+
+    if (name.length() != 1) return;
+
+    for (int i = 0; i < 30; i++)
+    {
+        if (name[0] == letters[i])
+        {
+            name[0] = capletters[i];
+            setText(name);
+        }
+    }
+  
+}
+
+void NameEdit::reformat()
+{
+    setText(reformat(text()));
+}
+
+NameEdit::NameEdit(QWidget* parent) : LineEdit(parent)
+{
+    connect(this, &QLineEdit::textEdited, [=] {makeFirstLetterCapital(); });
 }

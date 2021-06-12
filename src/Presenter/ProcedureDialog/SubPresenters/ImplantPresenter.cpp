@@ -41,9 +41,7 @@ std::string ImplantPresenter::autoDiagnosis(const Tooth& tooth)
 
 Result ImplantPresenter::getResult()
 {
-	return ImplantData{ 
-						view->systemEdit()->getText(), 
-						3, 4, 5, 6, 
-						true, true 
-					};
+	auto[system, time, type, width, length, tissue, bone, membr, sinus] = view->getData();
+
+	return ImplantData{ system, width, length, time, type, tissue, bone, membr, sinus};
 }

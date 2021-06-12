@@ -28,9 +28,9 @@ public:
 	Status periodontitis;
 	Mobility mobility;
 
-	Material endo;
-	Material implant;
-	Material post;
+	DentistMade endo;
+	Implant implant;
+	DentistMade post;
 
 	DentistMade extraction;
 

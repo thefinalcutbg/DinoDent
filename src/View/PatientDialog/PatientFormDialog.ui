@@ -206,7 +206,7 @@
     </property>
    </item>
   </widget>
-  <widget class="LineEdit" name="fNameEdit">
+  <widget class="NameEdit" name="fNameEdit">
    <property name="geometry">
     <rect>
      <x>130</x>
@@ -324,7 +324,7 @@
     <string>Презиме:</string>
    </property>
   </widget>
-  <widget class="LineEdit" name="lNameEdit">
+  <widget class="NameEdit" name="lNameEdit">
    <property name="geometry">
     <rect>
      <x>130</x>
@@ -350,7 +350,7 @@
     <string>№ на ЗОК:</string>
    </property>
   </widget>
-  <widget class="LineEdit" name="mNameEdit">
+  <widget class="NameEdit" name="mNameEdit">
    <property name="geometry">
     <rect>
      <x>130</x>
@@ -408,6 +408,11 @@
    <class>Label</class>
    <extends>QLabel</extends>
    <header>View/uiComponents/qt_derived/Label.h</header>
+  </customwidget>
+  <customwidget>
+   <class>NameEdit</class>
+   <extends>QLineEdit</extends>
+   <header>View/uiComponents/qt_derived/NameEdit.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

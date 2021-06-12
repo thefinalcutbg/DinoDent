@@ -93,6 +93,8 @@ std::string ToothParser::write(const std::array<Tooth, 32>& teeth)
 
 							auto parameters = writeDentistMade(i, tooth.obturation[y]);
 							parameters["Surface"] = y;
+							parameters["color"] = tooth.obturation[y].color;
+							parameters["material"] = tooth.obturation[y].material;
 							status["Obturation"].append(parameters);
 						}
 					}
@@ -194,7 +196,12 @@ std::string ToothParser::write(const std::array<Tooth, 32>& teeth)
 					{
 						status["Crown"] = Json::Value(Json::arrayValue);
 					}
-					status["Crown"].append(writeDentistMade(i, tooth.crown));
+					auto param = writeDentistMade(i, tooth.crown);
+					param["material"] = tooth.crown.material;
+					param["prep"] = tooth.crown.prep_type;
+					param["vita3d"] = tooth.crown.color.Vita3dMaster;
+					param["color"] = tooth.crown.color.index;
+					status["Crown"].append(param);
 				}
 
 				if (tooth.implant.exists())
@@ -203,7 +210,17 @@ std::string ToothParser::write(const std::array<Tooth, 32>& teeth)
 					{
 						status["Implant"] = Json::Value(Json::arrayValue);
 					}
-					status["Implant"].append(writeDentistMade(i, tooth.implant));
+					auto param = writeDentistMade(i, tooth.implant);
+					param["system"] = tooth.implant.system;
+					param["time"] = tooth.implant.time;
+					param["type"] = tooth.implant.type;
+					param["w"] = tooth.implant.width;
+					param["l"] = tooth.implant.length;
+					param["bone"] = tooth.implant.bone_aug;
+					param["tissue"] = tooth.implant.tissue_aug;
+					param["sinus"] = tooth.implant.sinusLift;
+					param["membrane"] = tooth.implant.membrane;
+					status["Implant"].append(param);
 				}
 
 				if (tooth.bridge.exists())
@@ -214,6 +231,10 @@ std::string ToothParser::write(const std::array<Tooth, 32>& teeth)
 					}
 					auto param = writeDentistMade(i, tooth.bridge);
 					param["pos"] = static_cast<int>(tooth.bridge.position);
+					param["material"] = tooth.bridge.material;
+					param["prep"] = tooth.bridge.prep_type;
+					param["vita3d"] = tooth.bridge.color.Vita3dMaster;
+					param["color"] = tooth.bridge.color.index;
 					status["Bridge"].append(param);
 				}
 
@@ -275,6 +296,7 @@ void ToothParser::parse(const std::string& jsonString, std::array<Tooth, 32>& te
 		tooth.obturation.set(true, surface);
 		tooth.obturation[surface].LPK = obturation[i]["LPK"].asString();
 		tooth.obturation[surface].material = obturation[i]["material"].asString();
+		tooth.obturation[surface].color = obturation[i]["color"].asInt();
 	}
 
 	const Json::Value& car = status["Caries"];
@@ -315,7 +337,6 @@ void ToothParser::parse(const std::string& jsonString, std::array<Tooth, 32>& te
 		Tooth& tooth = teeth[endo[i]["idx"].asInt()];
 		tooth.endo.set(true);
 		tooth.endo.LPK = endo[i]["LPK"].asString();
-		tooth.endo.material = endo[i]["material"].asString();
 	}
 
 	const Json::Value& post = status["Post"];
@@ -325,7 +346,6 @@ void ToothParser::parse(const std::string& jsonString, std::array<Tooth, 32>& te
 		Tooth& tooth = teeth[post[i]["idx"].asInt()];
 		tooth.post.set(true);
 		tooth.post.LPK = post[i]["LPK"].asString();
-		tooth.post.material = endo[i]["material"].asString();
 	}
 
 	const Json::Value &extraction = status["Extraction"];
@@ -355,7 +375,16 @@ void ToothParser::parse(const std::string& jsonString, std::array<Tooth, 32>& te
 		Tooth& tooth = teeth[implant[i]["idx"].asInt()];
 		tooth.implant.set(true);
 		tooth.implant.LPK = implant[i]["LPK"].asString();
-		tooth.implant.material = implant[i]["material"].asString();
+		tooth.implant.system = implant[i]["material"].asString();
+		tooth.implant.length = implant[i]["l"].asDouble();
+		tooth.implant.width = implant[i]["w"].asDouble();
+		tooth.implant.time = implant[i]["time"].asInt();
+		tooth.implant.type = implant[i]["type"].asInt();
+		tooth.implant.bone_aug = implant[i]["bone"].asInt();
+		tooth.implant.tissue_aug = implant[i]["tissuee"].asInt();
+		tooth.implant.sinusLift = implant[i]["sinus"].asBool();
+		tooth.implant.membrane = implant[i]["membrane"].asBool();
+
 	}
 
 	const Json::Value& crown = status["Crown"];

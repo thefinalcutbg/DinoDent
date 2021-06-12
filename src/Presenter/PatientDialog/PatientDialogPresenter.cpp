@@ -181,9 +181,6 @@ void PatientDialogPresenter::setPatientFields(std::array<AbstractLineEdit*, 9> p
 	patient_field[lname]->set_Validator(&name_validator);
 	patient_field[hirbno]->set_Validator(&hirb_validator);
 	patient_field[city]->set_Validator(&city_validator);
-	patient_field[fname]->setReformator(&name_reformator);
-	patient_field[mname]->setReformator(&name_reformator);
-	patient_field[lname]->setReformator(&name_reformator);
 
 	this->patientTypeCombo = patientType;
 
@@ -196,10 +193,15 @@ void PatientDialogPresenter::setPatientFields(std::array<AbstractLineEdit*, 9> p
 
 	sexCombo->setObserver(this);
 
-	_patient.has_value() ?
-		setPatientToView(_patient.value())
-		:
+	if (_patient.has_value())
+	{
+		setPatientToView(_patient.value());
+		view->setEditMode(true);
+	} 
+	else
+	{
 		view->setLn4View(false);
+	}
 }
 
 

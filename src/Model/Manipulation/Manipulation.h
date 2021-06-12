@@ -10,34 +10,33 @@ struct NoData {};
 
 struct BridgeData {
 
-    int tooth_begin;
-    int tooth_end;
+    int tooth_begin{ 0 };
+    int tooth_end{ 0 };
 
     std::string material;
-    int prep_type;
-    Vita color;
+    int prep_type{ 0 };
+    Vita color{ 0,0 };
 };
 
 struct CrownData {
 
     std::string material;
-    int prep_type;
-    Vita color;
+    int prep_type{ 0 };
+    Vita color{ 0,0 };
 };
 
 struct ObturationData{
 
     std::array<bool, 6>surfaces{ 0,0,0,0,0,0 };
-    bool post;
-    int color;
+    bool post{ false };
+    int color{ 0 };
     std::string material;
 };
 
 struct ImplantData {
+
     std::string system;
-
-    double width, height;
-
+    double width{ 0 }, length{ 0 };
     int time, type, tissue_aug, bone_aug;
     bool membrane, sinusLift;
 };

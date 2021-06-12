@@ -33,7 +33,7 @@ public:
     PatientFormDialog(PatientDialogPresenter* p, QWidget* parent = 0);
     ~PatientFormDialog();
 
-    void open(bool editMode);
+    void setEditMode(bool editMode);
     void close();
     void setLn4View(bool show);
     void accept() override;

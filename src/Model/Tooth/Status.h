@@ -99,11 +99,18 @@ struct Crown : public Material
 };
 
 
-struct Bridge : public Material
+struct Bridge : public Crown
 {
-    int prep_type{ 0 };
     BridgePos position;
-    Vita color;
+};
+
+struct Implant : public DentistMade
+{
+    std::string system;
+
+    double width{ 0 }, length{ 0 };
+    int time{ 0 }, type{ 0 }, tissue_aug{ 0 }, bone_aug{ 0 };
+    bool membrane{ false }, sinusLift{ false };
 };
 
 struct Mobility : public Status

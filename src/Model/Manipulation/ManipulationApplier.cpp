@@ -76,9 +76,18 @@ void ManipulationApplier::applyManipulations(const std::vector<Manipulation>& m,
 				status_ctrl.setTooth(&tooth);
 				status_ctrl.addStatus(StatusCode::Implant);
 				
-				tooth.implant.LPK = LPK;
 
-				//result to implant status goes here
+				auto& implant = tooth.implant;
+				implant.LPK = LPK;
+				implant.system = result.system;
+				implant.time = result.time;
+				implant.type = result.type;
+				implant.width = result.width;
+				implant.length = result.length;
+				implant.tissue_aug = result.tissue_aug;
+				implant.bone_aug = result.bone_aug;
+				implant.membrane = result.membrane;
+				implant.sinusLift = result.sinusLift;
 			}
 			break;
 

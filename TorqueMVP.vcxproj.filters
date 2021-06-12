@@ -96,9 +96,6 @@
     <ClCompile Include="src\Model\Validator\AbstractValidator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Presenter\PatientDialog\Reformator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\View\ListView\ControlPanel\ControlPanel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -315,6 +312,9 @@
     <ClCompile Include="src\View\ProcedureDialog\Widgets\ImplantView\ImplantView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\uiComponents\qt_derived\NameEdit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -411,6 +411,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\ProcedureDialog\Widgets\ImplantView\ImplantView.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\uiComponents\qt_derived\NameEdit.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -531,9 +534,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\Validator\AbstractValidator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Presenter\PatientDialog\Reformator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\CheckState.h">

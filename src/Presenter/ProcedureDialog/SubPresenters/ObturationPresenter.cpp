@@ -52,7 +52,7 @@ Result ObturationPresenter::getResult()
     {
         view->surfaceSelector()->getSurfaces(),
         view->hasPost(),
-        std::get<1>(view->getColor()),
+        std::get<0>(view->getColor()),
         view->material()->getText()
     };
 }

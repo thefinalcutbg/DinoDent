@@ -39,7 +39,6 @@ class PatientDialogPresenter : public uiObserver
 	NameValidator name_validator;
 	HIRBNoValidator hirb_validator;
 	CityValidator city_validator;
-	NameReformator name_reformator;
 
 	std::string allergies;
 	std::string pastDiseases;

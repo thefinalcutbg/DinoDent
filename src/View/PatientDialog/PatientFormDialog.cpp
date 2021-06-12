@@ -61,7 +61,7 @@ PatientFormDialog::~PatientFormDialog()
 
 }
 
-void PatientFormDialog::open(bool editMode)
+void PatientFormDialog::setEditMode(bool editMode)
 {
     if (editMode)
     {
@@ -75,7 +75,7 @@ void PatientFormDialog::open(bool editMode)
         ui.typeComboBox->disable(0);
         setWindowTitle("Нов амбулаторен лист");
     }
-    this->exec();
+
 }
 
 void PatientFormDialog::close()

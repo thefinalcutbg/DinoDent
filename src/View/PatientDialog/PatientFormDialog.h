@@ -23,21 +23,20 @@ class PatientFormDialog : public QDialog, public IPatientDialog
 
     void paintEvent(QPaintEvent* event);
 
+    PatientDialogPresenter* presenter;
 public:
     Q_OBJECT
 
-    PatientDialogPresenter presenter;
+
 public:
 
-    PatientFormDialog(QWidget* parent = 0);
+    PatientFormDialog(PatientDialogPresenter* p, QWidget* parent = 0);
     ~PatientFormDialog();
 
     void open(bool editMode);
     void close();
     void setLn4View(bool show);
     void accept() override;
-
-    PatientDialogPresenter* Presenter();
 
 
 };

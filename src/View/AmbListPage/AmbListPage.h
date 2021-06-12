@@ -27,7 +27,6 @@ class AmbListPage : public QWidget, public IAmbListPage
 
     int previousTabData;
 
-    PatientFormDialog patient_dialog;
     SaveAsDialog saveAs_dialog;
 
 public:

@@ -5,6 +5,8 @@
 #include "Presenter/ProcedureDialog/SubPresenters/ObturationPresenter.h"
 #include "Presenter/ProcedureDialog/SubPresenters/CrownPresenter.h"
 
+class ImplantPresenter;
+
 enum class FormView { DefaultView, surface, bridge, material };
 
 class IProcedureDialog
@@ -23,4 +25,5 @@ public:
     virtual ICommonFields* commonFields() = 0;
     virtual void setObturationPresenter(ObturationPresenter* presenter) = 0;
     virtual void setCrownPresenter(CrownPresenter* presenter) = 0;
+    virtual void setImplantPresenter(ImplantPresenter* presenter) = 0;
 };

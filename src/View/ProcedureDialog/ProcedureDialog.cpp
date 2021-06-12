@@ -99,6 +99,8 @@ void ProcedureDialog::setSelectionLabel(const std::vector<int>& selectedTeethNum
 	ui.selectedTeethLabel->setText(label);
 }
 
+
+
 void ProcedureDialog::setObturationPresenter(ObturationPresenter* presenter)
 {
 	presenter->setCommonFieldsView(ui.commonFields);
@@ -111,6 +113,13 @@ void ProcedureDialog::setCrownPresenter(CrownPresenter* presenter)
 	presenter->setCommonFieldsView(ui.commonFields);
 	presenter->setView(ui.crownWidget);
 	ui.crownWidget->setPresenter(presenter);
+}
+
+void ProcedureDialog::setImplantPresenter(ImplantPresenter* presenter)
+{
+	presenter->setCommonFieldsView(ui.commonFields);
+	presenter->setView(ui.implantWidget);
+	ui.implantWidget->setPresenter(presenter);
 }
 
 ICommonFields* ProcedureDialog::commonFields()
@@ -131,6 +140,7 @@ void ProcedureDialog::resetForm()
 	ui.commonFields->hide();
 	ui.obturWidget->hide();
 	ui.crownWidget->hide();
+	ui.implantWidget->hide();
 
 }
 

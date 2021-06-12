@@ -1,15 +1,5 @@
 #pragma once
 
-#include "Presenter/PatientDialog/PatientDialogPresenter.h"
-
-class PatientDialogRequestor
-{
-
-	
-public:
-	virtual void setPatient(Patient patient) = 0;
-};
-
 class IPatientDialog
 {
 

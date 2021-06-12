@@ -11,7 +11,7 @@ std::string ManipulationParser::write(Manipulation m)
 	{
 	case ManipulationType::obturation:
 	{
-		auto& r = std::get<ObtData>(m.result);
+		auto& r = std::get<ObturationData>(m.result);
 		manipulation["color"] = r.color;
 		manipulation["post"] = r.post;
 		manipulation["material"] = r.material;
@@ -45,7 +45,7 @@ std::string ManipulationParser::write(Manipulation m)
 
 	case ManipulationType::implant:
 	{
-		auto& r = std::get<ImplData>(m.result);
+		auto& r = std::get<ImplantData>(m.result);
 		
 		break;
 	}
@@ -83,7 +83,7 @@ void ManipulationParser::parse(const std::string& jsonString, Manipulation& m)
 	{
 		case ManipulationType::obturation:
 		{
-			ObtData r;
+			ObturationData r;
 			r.material = manipulation["material"].asString();
 			r.post = manipulation["post"].asBool();
 			r.color = manipulation["color"].asInt();
@@ -130,7 +130,7 @@ void ManipulationParser::parse(const std::string& jsonString, Manipulation& m)
 
 		case ManipulationType::implant:
 		{
-			ImplData r;
+			ImplantData r;
 
 			//some fancy parsing here
 

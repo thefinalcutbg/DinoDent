@@ -2,11 +2,10 @@
 #include "Model/Manipulation/MasterNZOK.h"
 #include "Model/User/User.h"
 #include "../TabPresenter/ListInstance.h"
-
+#include "Presenter/PatientDialog/PatientDialogPresenter.h"
 ListPresenter::ListPresenter() :
     view(nullptr),
     ambList(nullptr),
-    patientDialog(nullptr),
     allergiesDialog(nullptr)
 {
 }
@@ -15,11 +14,6 @@ void ListPresenter::setDialogPresnters(AllergiesDialogPresenter* allergiesPresen
 {
     allergiesDialog = allergiesPresenter;
 
-}
-
-void ListPresenter::setPatientDialog(PatientDialogPresenter* patientDialogPresenter)
-{
-    patientDialog = patientDialogPresenter;
 }
 
 
@@ -58,9 +52,18 @@ void ListPresenter::attachEditObserver(EditObserver* observer)
 
 void ListPresenter::openPatientDialog()
 {
-    if (patientDialog == NULL) return;
+    PatientDialogPresenter p{ *this->patient.lock() };
+    auto patient = p.open();
 
-    patientDialog->open(this, *patient.lock());
+    if (!patient.has_value()) return;
+
+    *this->patient.lock() = patient.value();
+    view->refresh
+    (
+        *this->ambList,
+        *this->patient.lock()
+    );
+
 }
 
 void ListPresenter::openAllergiesDialog()
@@ -69,17 +72,6 @@ void ListPresenter::openAllergiesDialog()
 
     allergiesDialog->openDialog(this, *patient.lock());
    
-}
-
-
-void ListPresenter::setPatient(Patient patient)
-{
-    *this->patient.lock() = patient;
-    view->refresh
-    (
-        *this->ambList,
-        *this->patient.lock()
-    );
 }
 
 void ListPresenter::setAllergies(Allergies allergies)

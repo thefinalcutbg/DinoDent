@@ -149,6 +149,16 @@
     </rect>
    </property>
   </widget>
+  <widget class="ImplantView" name="implantWidget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>560</x>
+     <y>239</y>
+     <width>291</width>
+     <height>211</height>
+    </rect>
+   </property>
+  </widget>
   <zorder>noTeethLabel</zorder>
   <zorder>tableView</zorder>
   <zorder>okButton</zorder>
@@ -159,6 +169,7 @@
   <zorder>selectedTeethLabel</zorder>
   <zorder>commonFields</zorder>
   <zorder>crownWidget</zorder>
+  <zorder>implantWidget</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
@@ -178,6 +189,12 @@
    <class>ObturationView</class>
    <extends>QWidget</extends>
    <header>View/ProcedureDialog/Widgets/ObturationView/ObturationView.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ImplantView</class>
+   <extends>QWidget</extends>
+   <header>View/ProcedureDialog/Widgets/ImplantView/ImplantView.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

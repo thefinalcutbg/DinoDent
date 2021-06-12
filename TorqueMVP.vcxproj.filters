@@ -312,6 +312,9 @@
     <ClCompile Include="src\View\ModalDialogBuilder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\ProcedureDialog\Widgets\ImplantView\ImplantView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -407,6 +410,9 @@
     <QtMoc Include="src\View\ProcedureDialog\Widgets\CrownView\CrownView.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\View\ProcedureDialog\Widgets\ImplantView\ImplantView.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="src\View\Torque.qrc">
@@ -457,6 +463,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\ProcedureDialog\Widgets\CrownView\CrownView.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\ProcedureDialog\Widgets\ImplantView\ImplantView.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
@@ -750,6 +759,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\ModalDialogBuilder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\View\ProcedureDialog\Widgets\ImplantView\IImplantView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

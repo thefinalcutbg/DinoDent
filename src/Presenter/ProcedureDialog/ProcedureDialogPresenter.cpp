@@ -49,6 +49,7 @@ void ProcedureDialogPresenter::setView(IProcedureDialog* view)
 	this->view = view;
 	view->setObturationPresenter(&obt_presenter);
 	view->setCrownPresenter(&crown_presenter);
+	view->setImplantPresenter(&impl_presenter);
 
 	for (auto p : presenters_ptr)
 	{
@@ -115,7 +116,6 @@ void ProcedureDialogPresenter::formAccepted()
 
 std::vector<Manipulation> ProcedureDialogPresenter::openDialog()
 {
-	ModalDialogBuilder::instance().openDialog(this);
-	
+	ModalDialogBuilder::openDialog(this);
 	return manipulations;
 }

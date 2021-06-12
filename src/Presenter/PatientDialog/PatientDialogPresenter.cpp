@@ -1,35 +1,32 @@
 ﻿#include "PatientDialogPresenter.h"
+#include "View/ModalDialogBuilder.h"
 
-
-PatientDialogPresenter::PatientDialogPresenter(IPatientDialog* patientDialog) :
-	view(patientDialog),
-	requestor(nullptr),
+PatientDialogPresenter::PatientDialogPresenter() :
+	view(nullptr),
 	patient_field {NULL},
 	new_patient(true),
 	egn_form(true),
 	edited(false)
-{}
-
-
-
-void PatientDialogPresenter::open(PatientDialogRequestor* requestor)
 {
-	this->requestor = requestor;
-
-	resetForm();
-
-	view->open(false);
 }
 
-void PatientDialogPresenter::open(PatientDialogRequestor* requestor, Patient patient)
+PatientDialogPresenter::PatientDialogPresenter(const Patient& patient) :
+	_patient(patient),
+	view(nullptr),
+	patient_field {NULL},
+	egn_form(!patient.type-1),
+	edited(false)
 {
-	this->requestor = requestor;
-	resetForm();
-	
-	setPatientToView(patient);
-	new_patient = false;
-	view->open(true);
 }
+
+
+
+std::optional<Patient> PatientDialogPresenter::open()
+{
+	ModalDialogBuilder::openDialog(this);
+	return _patient;
+}
+
 
 void PatientDialogPresenter::EgnTypeDialog()
 {
@@ -76,12 +73,10 @@ void PatientDialogPresenter::accept()
 		}
 	}
 
-	Patient patient = getPatientFromView();
+	_patient = getPatientFromView();
 
-	if(new_patient) database.insert(patient);
-	else if (edited) database.update(patient);
-
-	requestor->setPatient(patient);
+	if(new_patient) database.insert(_patient.value());
+	else if (edited) database.update(_patient.value());
 	
 	view->close();
 }
@@ -107,6 +102,11 @@ void PatientDialogPresenter::handleNotifications(Notification notification)
 
 	}
 	
+}
+
+void PatientDialogPresenter::setView(IPatientDialog* view)
+{
+	this->view = view;
 }
 
 
@@ -195,6 +195,11 @@ void PatientDialogPresenter::setPatientFields(std::array<AbstractLineEdit*, 9> p
 		patient_field[i]->setOberver(this);
 
 	sexCombo->setObserver(this);
+
+	_patient.has_value() ?
+		setPatientToView(_patient.value())
+		:
+		view->setLn4View(false);
 }
 
 

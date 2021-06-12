@@ -48,7 +48,7 @@ bool ObturationPresenter::isValid()
 
 Result ObturationPresenter::getResult()
 {
-    return ObtData
+    return ObturationData
     {
         view->surfaceSelector()->getSurfaces(),
         view->hasPost(),

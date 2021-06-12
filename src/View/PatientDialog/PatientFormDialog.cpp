@@ -1,8 +1,8 @@
 ﻿#include "PatientFormDialog.h"
 
-PatientFormDialog::PatientFormDialog(QWidget* parent)
+PatientFormDialog::PatientFormDialog(PatientDialogPresenter* p, QWidget* parent)
     : QDialog(parent),
-    presenter(this)
+    presenter(p)
 {
     ui.setupUi(this);
     setModal(true);
@@ -24,11 +24,11 @@ PatientFormDialog::PatientFormDialog(QWidget* parent)
     connect(ui.typeComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
         [=](int index)
         {
-            if (index)presenter.Ln4TypeDialog();
-            else presenter.EgnTypeDialog();
+            if (index)presenter->Ln4TypeDialog();
+            else presenter->EgnTypeDialog();
         });
 
-    connect(ui.okButton, &QPushButton::clicked, [=] { presenter.accept(); });
+    connect(ui.okButton, &QPushButton::clicked, [=] { presenter->accept(); });
 
     std::array<AbstractLineEdit*, 9> patientFields;
     patientFields[id] = ui.idLineEdit;
@@ -41,7 +41,10 @@ PatientFormDialog::PatientFormDialog(QWidget* parent)
     patientFields[hirbno] = ui.HIRBNoEdit;
     patientFields[phone] = ui.phoneEdit;
 
-    presenter.setPatientFields(patientFields, ui.typeComboBox, ui.sexCombo, ui.codeLabel);
+    presenter->setView(this);
+    presenter->setPatientFields(patientFields, ui.typeComboBox, ui.sexCombo, ui.codeLabel);
+
+
 
 }
 
@@ -100,11 +103,5 @@ void PatientFormDialog::setLn4View(bool show)
 
 void PatientFormDialog::accept()
 {
-    presenter.accept();
-}
-
-
-PatientDialogPresenter* PatientFormDialog::Presenter()
-{
-    return &this->presenter;
+    presenter->accept();
 }

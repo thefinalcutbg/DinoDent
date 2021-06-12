@@ -1,7 +1,6 @@
 #include "ModalDialogBuilder.h"
 #include "View/ProcedureDialog/ProcedureDialog.h"
-
-ModalDialogBuilder ModalDialogBuilder::_instance;
+#include "View/PatientDialog/PatientFormDialog.h"
 
 ModalDialogBuilder::ModalDialogBuilder()
 {
@@ -13,7 +12,8 @@ void ModalDialogBuilder::openDialog(ProcedureDialogPresenter* p)
 	d.exec();
 }
 
-ModalDialogBuilder& ModalDialogBuilder::instance()
+void ModalDialogBuilder::openDialog(PatientDialogPresenter* p)
 {
-	return _instance;
+	PatientFormDialog d(p);
+	d.exec();
 }

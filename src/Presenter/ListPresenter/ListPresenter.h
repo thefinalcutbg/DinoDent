@@ -5,7 +5,7 @@
 
 #include "View/ListView/IListView.h"
 
-#include "Presenter/PatientDialog/PatientDialogPresenter.h"
+
 #include "Presenter/AllergiesDialog/AllergiesDialogPresenter.h"
 #include "Presenter/ProcedureDialog/ProcedureDialogPresenter.h"
 #include "StatusPresenter/StatusPresenter.h"
@@ -16,7 +16,6 @@
 class ListInstance;
 
 class ListPresenter :
-    public PatientDialogRequestor,
     public AllergiesDialogRequestor,
     public Editor
 {
@@ -26,7 +25,6 @@ class ListPresenter :
 
     IListView* view;
 
-    PatientDialogPresenter *patientDialog;
     AllergiesDialogPresenter* allergiesDialog;
 
     AmbList* ambList;
@@ -37,9 +35,6 @@ public:
     ListPresenter();
 
     void setDialogPresnters(AllergiesDialogPresenter* allergiesPresenter);
-
-    void setPatientDialog(PatientDialogPresenter* presenter);
-
     void setData(ListInstance* listInstance);
     void setView(IListView* view);
     void attachEditObserver(EditObserver* observer) override;
@@ -48,7 +43,6 @@ public:
     void openAllergiesDialog();
 
     // Inherited via PatientDialogRequestor
-    void setPatient(Patient patient) override;
     void setAllergies(Allergies allergies) override;
 
 };

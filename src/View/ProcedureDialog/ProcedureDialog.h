@@ -34,6 +34,7 @@ public:
 	virtual void setSelectionLabel(const std::vector<int>& selectedTeethNum) override;
 	virtual void setObturationPresenter(ObturationPresenter* presenter) override;
 	virtual void setCrownPresenter(CrownPresenter* presenter) override;
+	virtual void setImplantPresenter(ImplantPresenter* presenter);
 	virtual ICommonFields* commonFields() override;
 
 

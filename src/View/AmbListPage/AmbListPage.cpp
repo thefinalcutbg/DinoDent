@@ -6,13 +6,12 @@ AmbListPage::AmbListPage(QWidget* parent) :
     QWidget(parent),
     tabPresenter(nullptr),
     saveAs_dialog(this),
-    patient_dialog(this),
-    presenter(this, patient_dialog.Presenter(), list_view.Presenter()),
+    presenter(this, list_view.Presenter()),
     previousTabData(0)
 {
     ui.setupUi(this);
 
-    list_view.Presenter()->setPatientDialog(patient_dialog.Presenter());
+
 
     QLabel* dummy = new QLabel;
     dummy->setFixedSize(QSize(0, 0));

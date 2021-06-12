@@ -47,8 +47,6 @@ class ProcedureDialogPresenter
 		void setView(IProcedureDialog* view);
 		
 		void indexChanged(int index);
-		void diagnosisChanged(std::string diagnosis);
-		void rangeChanged(int begin, int end);
 		void formAccepted();
 		std::vector<Manipulation> openDialog();
 };

@@ -1,12 +1,10 @@
 ﻿#include "AmbListPagePresenter.h"
 #include "Model/Manipulation/MasterNZOK.h"
-
+#include "Presenter/PatientDialog/PatientDialogPresenter.h"
 AmbListPagePresenter::AmbListPagePresenter(
                                             IAmbListPage* AmbListPage,
-                                            PatientDialogPresenter* patientDialog,
                                             ListPresenter* listPresenter) :
     view(AmbListPage),
-    patientDialog(patientDialog),
     listPresenter(listPresenter),
     currentVecPos(-1)
 {
@@ -17,12 +15,12 @@ AmbListPagePresenter::AmbListPagePresenter(
 
 void AmbListPagePresenter::newPressed()
 {
-    patientDialog->open(this);
-}
+    PatientDialogPresenter p{};
 
-void AmbListPagePresenter::setPatient(Patient patient)
-{
-    _tabPresenter.newList(patient);
+    auto patient = p.open();
+
+    if (patient.has_value())
+        _tabPresenter.newList(patient.value());
 }
 
 bool AmbListPagePresenter::save()

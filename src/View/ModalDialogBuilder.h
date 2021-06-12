@@ -1,17 +1,17 @@
 #pragma once
 
 class ProcedureDialogPresenter;
+class PatientDialogPresenter;
 
 class ModalDialogBuilder
 {
-	static ModalDialogBuilder _instance;
 
 	ModalDialogBuilder();
 
 public:
 	ModalDialogBuilder(const ModalDialogBuilder&) = delete;
 
-	void openDialog(ProcedureDialogPresenter* p);
-	static ModalDialogBuilder& instance();
+	static void openDialog(ProcedureDialogPresenter* p);
+	static void openDialog(PatientDialogPresenter* p);
 };
 

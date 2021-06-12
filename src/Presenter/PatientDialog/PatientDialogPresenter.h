@@ -1,5 +1,9 @@
 #pragma once
 
+
+#include <optional>
+#include <array>
+
 #include "Database/DbPatient.h"
 
 #include "Model/Patient.h"
@@ -13,7 +17,6 @@
 #include "View/uiComponents/AbstractLabel.h"
 #include "uiObserver.h"
 #include "Model/CityCode.h"
-#include <array>
 
 enum patientFields{id, birthdate, fname, mname, lname, city, address, hirbno, phone};
 
@@ -23,9 +26,10 @@ class PatientDialogPresenter : public uiObserver
 	bool egn_form;
 	bool edited;
 
+	std::optional<Patient> _patient;
+
 	IPatientDialog* view;
 	DbPatient database;
-	PatientDialogRequestor* requestor;
 
 	CityCode city_code;
 
@@ -53,20 +57,21 @@ class PatientDialogPresenter : public uiObserver
 	void setCityCodesLabel();
 	void resetForm();
 
-
 public:
-	PatientDialogPresenter(IPatientDialog *IPatientForm);
+	PatientDialogPresenter();
+	PatientDialogPresenter(const Patient& patient);
 
 	void setPatientFields(std::array<AbstractLineEdit*, 9>, AbstractComboBox* patientType, AbstractComboBox* sexCombo, AbstractLabel* cityCodeLabel);
 
-	void open(PatientDialogRequestor* requestor);
-	void open(PatientDialogRequestor* requestor, Patient patient);
+	std::optional<Patient> open();
 
 	void EgnTypeDialog();
 	void Ln4TypeDialog();
 
 	void accept();
 	void handleNotifications(Notification notification);
+
+	void setView(IPatientDialog* view);
 
 };
 

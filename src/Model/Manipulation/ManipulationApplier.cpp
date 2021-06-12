@@ -14,7 +14,7 @@ void ManipulationApplier::applyManipulations(const std::vector<Manipulation>& m,
 				status_ctrl.setTooth(&tooth);
 				caries_ctrl.setTooth(&tooth);
 			
-				auto& result = std::get<ObtData>(m.result);
+				auto& result = std::get<ObturationData>(m.result);
 
 				for (int i = 0; i < result.surfaces.size(); i++)
 				{
@@ -70,7 +70,7 @@ void ManipulationApplier::applyManipulations(const std::vector<Manipulation>& m,
 
 			case::ManipulationType::implant:
 			{
-				auto& result = std::get<ImplData>(m.result);
+				auto& result = std::get<ImplantData>(m.result);
 
 				auto& tooth = teeth.at(m.tooth);
 				status_ctrl.setTooth(&tooth);

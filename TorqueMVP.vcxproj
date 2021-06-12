@@ -193,6 +193,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\View\ProcedureDialog\Widgets\ImplantView\ImplantView.cpp" />
     <ClCompile Include="src\View\ModalDialogBuilder.cpp" />
     <ClCompile Include="src\Model\Manipulation\CustomProcedures.cpp" />
     <ClCompile Include="src\Presenter\ListPresenter\Editor.cpp" />
@@ -300,6 +301,7 @@
     <ClCompile Include="src\View\ListView\ToothPaintDevices\ToothSprite.cpp" />
     <ClCompile Include="src\Presenter\TabPresenter\TabPresenter.cpp" />
     <QtRcc Include="src\View\Torque.qrc" />
+    <QtUic Include="src\View\ProcedureDialog\Widgets\ImplantView\ImplantView.ui" />
     <QtUic Include="src\View\ProcedureDialog\Widgets\CrownView\CrownView.ui" />
     <QtUic Include="src\View\ProcedureDialog\Widgets\ObturationView\ObturationView.ui" />
     <QtUic Include="src\View\ProcedureDialog\Widgets\CommonFields\CommonFields.ui" />
@@ -366,6 +368,8 @@
     <QtMoc Include="src\View\AmbListPage\AmbListPage.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\View\ProcedureDialog\Widgets\ImplantView\IImplantView.h" />
+    <QtMoc Include="src\View\ProcedureDialog\Widgets\ImplantView\ImplantView.h" />
     <ClInclude Include="src\View\ModalDialogBuilder.h" />
     <ClInclude Include="src\Model\Manipulation\CustomProcedures.h" />
     <ClInclude Include="src\Presenter\ListPresenter\Editor.h" />

@@ -25,7 +25,7 @@ struct CrownData {
     Vita color;
 };
 
-struct ObtData{
+struct ObturationData{
 
     std::array<bool, 6>surfaces{ 0,0,0,0,0,0 };
     bool post;
@@ -33,11 +33,16 @@ struct ObtData{
     std::string material;
 };
 
-struct ImplData {
+struct ImplantData {
+    std::string system;
 
+    double width, height;
+
+    int time, type, tissue_aug, bone_aug;
+    bool membrane, sinusLift;
 };
 
-typedef std::variant<NoData, ObtData, CrownData, BridgeData, ImplData> Result;
+typedef std::variant<NoData, ObturationData, CrownData, BridgeData, ImplantData> Result;
 
 struct Manipulation
 {

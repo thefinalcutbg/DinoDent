@@ -17,6 +17,8 @@ class ProcedurePresenter : public Editor
 	Patient* _patient;
 	std::vector<Tooth*>* _selectedTeeth;
 
+	int _index;
+
 	IProcedureView* view;
 
 	void addToProcedureList(const std::vector<Manipulation>& new_mList);
@@ -29,6 +31,7 @@ public:
 	void setView(IProcedureView* view);
 
 	void addProcedure();
+	void editProcedure();
 	void deleteProcedure(int index);
 	void setSelectedProcedure(int index);
 	void setUnfavourable(bool unfav);

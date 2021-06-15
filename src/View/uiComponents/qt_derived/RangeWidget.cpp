@@ -99,6 +99,13 @@ void RangeWidget::setFocusAndSelectAll()
 	ui.endCombo->showPopup();
 }
 
+void RangeWidget::disbleBridgeSwitch(bool disable)
+{
+	ui.checkBox->setDisabled(disable);
+	ui.beginCombo->setDisabled(disable);
+	ui.endCombo->setDisabled(disable);
+}
+
 
 void RangeWidget::stateChangedByUser()
 {

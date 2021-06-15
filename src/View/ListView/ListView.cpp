@@ -25,7 +25,7 @@ ListView::ListView(QWidget* parent)
 	connect(ui.procedureButton, &QAbstractButton::clicked, [=] { procedure_presenter->addProcedure(); });
 	connect(ui.procedureTable, &ProcedureTable::deletePressed, [=] { ui.deleteProcedure->click(); });
 	connect(ui.unfav_check, &QCheckBox::stateChanged, [=] {procedure_presenter->setUnfavourable(ui.unfav_check->isChecked()); });
-
+	connect(ui.editProcedure, &QPushButton::clicked, [=] {procedure_presenter->editProcedure(); });
 	connect(ui.deleteProcedure, &QAbstractButton::clicked, 
 		[=] {
 			int currentIdx = ui.procedureTable->selectionModel()->currentIndex().row();
@@ -58,6 +58,8 @@ ListView::ListView(QWidget* parent)
 		}
 	);
 
+	connect(ui.procedureTable, &QTableView::doubleClicked, [=] { procedure_presenter->editProcedure();  });
+	connect(ui.teethView, &GraphicsView::focusLost, [=] { teethViewScene->setSelectedTeeth(std::vector<int>{}); });
 	presenter.setView(this);
 
 }

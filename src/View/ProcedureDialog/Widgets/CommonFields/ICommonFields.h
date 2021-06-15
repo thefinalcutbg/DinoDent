@@ -12,7 +12,7 @@ public:
 class ICommonFields
 {
 protected:
-	ICommonFieldsPresenter* presenter{NULL};
+	ICommonFieldsPresenter* presenter{nullptr};
 public:
 
 	virtual AbstractLineEdit* manipulationEdit() = 0;

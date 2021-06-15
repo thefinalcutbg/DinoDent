@@ -24,7 +24,7 @@ public:
 	virtual void set_hidden(bool hidden) override;
 	AbstractLineEdit* systemEdit() override;
 	std::tuple<std::string, int, int, double, double, int, int, bool, bool> getData() override;
-
+	void setData(ImplantData data) override;
 
 private:
 	Ui::ImplantView ui;

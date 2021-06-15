@@ -1,7 +1,7 @@
 #include "ProcedurePresenter.h"
 
 #include "Presenter/ProcedureDialog/ProcedureDialogPresenter.h"
-
+#include "Presenter/ProcedureDialog/ProcedureEditorPresenter.h"
 #include "Model/AmbList.h"
 #include "Model/Patient.h"
 #include "Model/Tooth/ToothUtils.h"
@@ -20,7 +20,8 @@ ProcedurePresenter::ProcedurePresenter()
     view(nullptr),
     _ambList(nullptr),
     _patient(nullptr),
-    _selectedTeeth(nullptr)
+    _selectedTeeth(nullptr),
+    _index(-1)
 {
 }
 
@@ -45,6 +46,8 @@ void ProcedurePresenter::addToProcedureList(const std::vector<Manipulation>& new
     {
         mList.push_back(mInsert);
     }
+
+
 
 }
 
@@ -140,8 +143,32 @@ void ProcedurePresenter::addProcedure()
     if (newList.empty()) return;
 
         this->addToProcedureList(newList);
+
         refreshProcedureView();
         makeEdited();
+
+}
+
+void ProcedurePresenter::editProcedure()
+{
+    if (_index == -1) return;
+
+    auto& m_for_edit = _ambList->manipulations.at(_index);
+
+    ProcedureEditorPresenter p(m_for_edit);
+    auto m = std::move(p.openDialog());
+    if (m.date == m_for_edit.date)
+    {
+        m_for_edit = m;
+    }
+    else
+    {
+        deleteProcedure(_index);
+        addToProcedureList(std::vector<Manipulation>{m});
+    }
+
+    refreshProcedureView();
+    makeEdited();
 
 }
 
@@ -157,6 +184,7 @@ void ProcedurePresenter::deleteProcedure(int index)
 
 void ProcedurePresenter::setSelectedProcedure(int index)
 {
+    _index = index;
 }
 
 void ProcedurePresenter::setUnfavourable(bool unfav)

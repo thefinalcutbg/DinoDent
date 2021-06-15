@@ -19,7 +19,7 @@ public:
 	std::tuple<int, int> getRange() override;
 	void setAppearence(bool valid) override;
 	void setFocusAndSelectAll() override;
-
+	void disbleBridgeSwitch(bool disable);
 signals:
 	void rangeChanged(int begin, int end);
 	void widgetChecked(bool enabled);

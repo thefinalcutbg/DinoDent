@@ -23,7 +23,7 @@ public:
 	virtual void setAppearence(bool valid) = 0;
 	void set_Validator(Validator* validator);
 
-	void forceValidate();
+	virtual void forceValidate();
 	bool isValid();
 public:
 };

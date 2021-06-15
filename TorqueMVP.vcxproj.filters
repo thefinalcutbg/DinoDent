@@ -315,6 +315,15 @@
     <ClCompile Include="src\View\uiComponents\qt_derived\NameEdit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\ProcedureEditDialog\ProcedureEditDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Presenter\ProcedureDialog\ProcedureEditorPresenter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\ProcedureDialog\Widgets\ObturationView\IObturationView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -416,6 +425,9 @@
     <QtMoc Include="src\View\uiComponents\qt_derived\NameEdit.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\View\ProcedureEditDialog\ProcedureEditDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="src\View\Torque.qrc">
@@ -469,6 +481,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\ProcedureDialog\Widgets\ImplantView\ImplantView.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\ProcedureEditDialog\ProcedureEditDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
@@ -762,6 +777,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\ProcedureDialog\Widgets\ImplantView\IImplantView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Presenter\ProcedureDialog\ProcedureEditorPresenter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\View\ProcedureEditDialog\IProcedureEditDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

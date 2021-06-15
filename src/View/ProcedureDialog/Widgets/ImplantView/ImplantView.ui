@@ -309,7 +309,7 @@
   <customwidget>
    <class>LineEdit</class>
    <extends>QLineEdit</extends>
-   <header>&quot;View/uiComponents/qt_derived/LineEdit.h&quot;</header>
+   <header>View/uiComponents/qt_derived/LineEdit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -1,10 +1,8 @@
 #include "Patient.h"
 
-#include <QDebug>
 
 Patient::Patient() : type(1), sex(0)
 {
-	qDebug() << "Patient created";
 }
 
 bool Patient::getSexFromEgn(const std::string& egn)
@@ -64,5 +62,5 @@ bool Patient::isAdult(Date currentDate) const
 
 Patient::~Patient()
 {
-	qDebug() << "Patient destroyed";
+
 }

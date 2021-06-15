@@ -193,6 +193,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Presenter\ProcedureDialog\ProcedureEditorPresenter.cpp" />
+    <ClCompile Include="src\View\ProcedureDialog\Widgets\ObturationView\IObturationView.cpp" />
+    <ClCompile Include="src\View\ProcedureEditDialog\ProcedureEditDialog.cpp" />
     <ClCompile Include="src\View\uiComponents\qt_derived\NameEdit.cpp" />
     <ClCompile Include="src\View\ProcedureDialog\Widgets\ImplantView\ImplantView.cpp" />
     <ClCompile Include="src\View\ModalDialogBuilder.cpp" />
@@ -302,6 +305,7 @@
     <ClCompile Include="src\View\ListView\ToothPaintDevices\ToothSprite.cpp" />
     <ClCompile Include="src\Presenter\TabPresenter\TabPresenter.cpp" />
     <QtRcc Include="src\View\Torque.qrc" />
+    <QtUic Include="src\View\ProcedureEditDialog\ProcedureEditDialog.ui" />
     <QtUic Include="src\View\ProcedureDialog\Widgets\ImplantView\ImplantView.ui" />
     <QtUic Include="src\View\ProcedureDialog\Widgets\CrownView\CrownView.ui" />
     <QtUic Include="src\View\ProcedureDialog\Widgets\ObturationView\ObturationView.ui" />
@@ -364,6 +368,8 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\uiComponents\qt_derived\NameEdit.h" />
+    <QtMoc Include="src\View\ProcedureEditDialog\ProcedureEditDialog.h" />
+    <ClInclude Include="src\Presenter\ProcedureDialog\ProcedureEditorPresenter.h" />
     <ClInclude Include="src\View\ProcedureDialog\Widgets\ImplantView\IImplantView.h" />
     <QtMoc Include="src\View\ProcedureDialog\Widgets\ImplantView\ImplantView.h" />
     <ClInclude Include="src\View\ModalDialogBuilder.h" />
@@ -411,6 +417,7 @@
     <ClInclude Include="src\View\ListView\Procedures\RowData.h" />
     <ClInclude Include="src\View\ListView\ToothPaintDevices\PaintHint.h" />
     <ClInclude Include="src\View\ProcedureDialog\Widgets\CommonFields\ICommonFields.h" />
+    <ClInclude Include="src\View\ProcedureEditDialog\IProcedureEditDialog.h" />
     <ClInclude Include="src\View\uiComponents\AbstractSpinBox.h" />
     <ClInclude Include="src\View\uiComponents\AbstractSurfaceSelector.h" />
     <ClInclude Include="src\View\uiComponents\AbstractRangeEdit.h" />

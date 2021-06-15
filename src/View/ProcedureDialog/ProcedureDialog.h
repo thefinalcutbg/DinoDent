@@ -7,7 +7,8 @@
 
 #include "IProcedureDialog.h"
 #include "ProcedureModel.h"
-#include "Presenter/ProcedureDialog/ProcedureDialogPresenter.h"
+
+class ProcedureDialogPresenter;
 
 class ProcedureDialog : public QDialog, public IProcedureDialog
 {

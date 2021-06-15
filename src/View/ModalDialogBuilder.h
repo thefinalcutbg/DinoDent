@@ -2,6 +2,7 @@
 
 class ProcedureDialogPresenter;
 class PatientDialogPresenter;
+class ProcedureEditorPresenter;
 
 class ModalDialogBuilder
 {
@@ -13,5 +14,6 @@ public:
 
 	static void openDialog(ProcedureDialogPresenter* p);
 	static void openDialog(PatientDialogPresenter* p);
+	static void openDialog(ProcedureEditorPresenter* p);
 };
 

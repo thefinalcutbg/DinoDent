@@ -2,6 +2,8 @@
 #include "View/uiComponents/AbstractLineEdit.h"
 #include "View/uiComponents/AbstractSurfaceSelector.h"
 
+class ObturData;
+
 class IObturationView
 {
 public:
@@ -10,5 +12,6 @@ public:
 	virtual std::tuple<int, bool> getColor() = 0;
 	virtual bool hasPost() = 0;
 	virtual void set_hidden(bool hidden) = 0;
+	virtual void setData(const ObturationData& data) = 0;
 };
 

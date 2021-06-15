@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ProcedureEditDialog</class>
+ <widget class="QDialog" name="ProcedureEditDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>606</width>
+    <height>310</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>ProcedureEditDialog</string>
+  </property>
+  <widget class="CommonFields" name="commonWidget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>291</width>
+     <height>215</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="okButton">
+   <property name="geometry">
+    <rect>
+     <x>510</x>
+     <y>270</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>OK</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="cancelButton">
+   <property name="geometry">
+    <rect>
+     <x>420</x>
+     <y>270</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Отказ</string>
+   </property>
+  </widget>
+  <widget class="QStackedWidget" name="stackedWidget">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>10</y>
+     <width>291</width>
+     <height>211</height>
+    </rect>
+   </property>
+   <property name="currentIndex">
+    <number>0</number>
+   </property>
+   <widget class="QWidget" name="empty"/>
+   <widget class="ObturationView" name="obturWidget"/>
+   <widget class="CrownView" name="crownWidget"/>
+   <widget class="ImplantView" name="implantWidget"/>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>CommonFields</class>
+   <extends>QWidget</extends>
+   <header>View/ProcedureDialog/Widgets/CommonFields/CommonFields.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>CrownView</class>
+   <extends>QWidget</extends>
+   <header>View/ProcedureDialog/Widgets/CrownView/CrownView.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ObturationView</class>
+   <extends>QWidget</extends>
+   <header>View/ProcedureDialog/Widgets/ObturationView/ObturationView.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ImplantView</class>
+   <extends>QWidget</extends>
+   <header>View/ProcedureDialog/Widgets/ImplantView/ImplantView.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

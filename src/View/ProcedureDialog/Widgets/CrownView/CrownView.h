@@ -18,11 +18,14 @@ public:
 	~CrownView();
 
 	// Inherited via ICrownView
-	virtual AbstractRangeEdit* rangeWidget() override;
-	virtual AbstractLineEdit* materialEdit() override;
-	virtual int getType() override;
-	virtual std::tuple<int, bool> getColor() override;
-	virtual void set_hidden(bool hidden) override;
+	AbstractRangeEdit* rangeWidget() override;
+	AbstractLineEdit* materialEdit() override;
+	int getType() override;
+	std::tuple<int, bool> getColor() override;
+	void set_hidden(bool hidden) override;
+
+	void setData(const BridgeData& data) override;;
+	void setData(const CrownData& data) override;;
 
 	void setPresenter(CrownPresenter* presenter);
 

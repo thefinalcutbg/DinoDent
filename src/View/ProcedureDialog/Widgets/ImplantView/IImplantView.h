@@ -2,6 +2,9 @@
 
 #include "View/uiComponents/AbstractLineEdit.h"
 #include <tuple>
+
+class ImplantData;
+
 class IImplantView
 {
 public:
@@ -9,4 +12,5 @@ public:
 	virtual void set_hidden(bool hidden) = 0;
 	virtual AbstractLineEdit* systemEdit() = 0;
 	virtual std::tuple<std::string, int, int, double, double, int, int, bool, bool> getData() = 0;
+	virtual void setData(ImplantData data) = 0;
 };

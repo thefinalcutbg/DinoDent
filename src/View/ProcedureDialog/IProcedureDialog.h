@@ -2,12 +2,11 @@
 #include <vector>
 #include <array>
 #include "Model/Manipulation/Manipulation.h"
-#include "Presenter/ProcedureDialog/SubPresenters/ObturationPresenter.h"
-#include "Presenter/ProcedureDialog/SubPresenters/CrownPresenter.h"
 
+
+class CrownPresenter;
 class ImplantPresenter;
-
-enum class FormView { DefaultView, surface, bridge, material };
+class ObturationPresenter;
 
 class IProcedureDialog
 {

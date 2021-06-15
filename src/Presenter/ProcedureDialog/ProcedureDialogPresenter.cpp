@@ -1,6 +1,6 @@
 ﻿#include "ProcedureDialogPresenter.h"
 #include "Model/Date.h"
-
+#include "View/ProcedureDialog/IProcedureDialog.h"
 #include "View/ModalDialogBuilder.h"
 
 ProcedureDialogPresenter::ProcedureDialogPresenter

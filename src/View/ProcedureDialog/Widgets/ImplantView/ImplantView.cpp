@@ -56,3 +56,16 @@ std::tuple<std::string, int, int, double, double, int, int, bool, bool> ImplantV
 				boneCombo != 0 && ui.sinusCheck->isChecked()
 			);
 }
+
+void ImplantView::setData(ImplantData data)
+{
+	ui.system_edit->setFieldText(data.system);
+	ui.timeCombo->setCurrentIndex(data.time);
+	ui.typeCombo->setCurrentIndex(data.type);
+	ui.length->setValue(data.length);
+	ui.width->setValue(data.width);
+	ui.tissueCombo->setCurrentIndex(data.tissue_aug);
+	ui.boneCombo->setCurrentIndex(data.bone_aug);
+	ui.membrCheck->setChecked(data.membrane);
+	ui.sinusCheck->setChecked(data.sinusLift);
+}

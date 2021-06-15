@@ -6,7 +6,10 @@ CommonFields::CommonFields(QWidget *parent)
 	ui.setupUi(this);
 
 	connect(ui.diagnosisEdit, &QTextEdit::textChanged,
-		[=] { presenter->diagnosisTextChanged(ui.diagnosisEdit->getText()); });
+		[=] { 
+				if(presenter!=nullptr) 
+					presenter->diagnosisTextChanged(ui.diagnosisEdit->getText()); 
+			});
 
 }
 

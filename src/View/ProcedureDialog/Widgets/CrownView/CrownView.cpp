@@ -7,10 +7,16 @@ CrownView::CrownView(QWidget *parent)
 	ui.setupUi(this);
 
 	connect(ui.rangeWidget, &RangeWidget::rangeChanged, [=](int begin, int end)
-		{ m_presenter->rangeChanged(begin, end);});
+		{ 
+			if(m_presenter == nullptr) return;  
+			m_presenter->rangeChanged(begin, end); 
+		});
 
 	connect(ui.rangeWidget, &RangeWidget::widgetChecked, [=](bool checked)
-		{ m_presenter->rangeWidgetChecked(checked); });
+		{
+			if (m_presenter == nullptr) return;
+			m_presenter->rangeWidgetChecked(checked); 
+		});
 	
 }
 
@@ -43,6 +49,24 @@ void CrownView::set_hidden(bool hidden)
 {
 	setHidden(hidden);
 }
+
+void CrownView::setData(const BridgeData& data)
+{
+	ui.rangeWidget->disable(false);
+	ui.rangeWidget->setRange(data.tooth_begin, data.tooth_end);
+	ui.comboBox->setCurrentIndex(data.prep_type);
+	ui.materialEdit->setFieldText(data.material);
+	ui.vitaWidget->setIndex(data.color.index, data.color.Vita3dMaster);
+}
+
+void CrownView::setData(const CrownData& data)
+{
+	ui.rangeWidget->disable(true);
+	ui.comboBox->setCurrentIndex(data.prep_type);
+	ui.materialEdit->setFieldText(data.material);
+	ui.vitaWidget->setIndex(data.color.index, data.color.Vita3dMaster);
+}
+
 
 void CrownView::setPresenter(CrownPresenter* presenter)
 {

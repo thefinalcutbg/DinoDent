@@ -1,5 +1,7 @@
 ﻿#include "ProcedureDialog.h"
-#include <QPainter>
+//#include <QPainter>
+
+#include "Presenter/ProcedureDialog/ProcedureDialogPresenter.h"
 
 ProcedureDialog::ProcedureDialog(ProcedureDialogPresenter* presenter, QWidget *parent)
 	: QDialog(parent), presenter(presenter)
@@ -138,9 +140,7 @@ void ProcedureDialog::paintEvent(QPaintEvent* event)
 void ProcedureDialog::resetForm()
 {
 	ui.commonFields->hide();
-	ui.obturWidget->hide();
-	ui.crownWidget->hide();
-	ui.implantWidget->hide();
+	ui.stackedWidget->setCurrentIndex(0);
 
 }
 
@@ -153,13 +153,18 @@ void ProcedureDialog::setView(ManipulationType t)
 	switch (t)
 	{	
 	case ManipulationType::obturation:
-		ui.obturWidget->show();
+		ui.stackedWidget->setCurrentIndex(1);
 		break;
 	case ManipulationType::extraction:
 		break;
 	case ManipulationType::crown:
-		ui.crownWidget->show();
+		ui.stackedWidget->setCurrentIndex(2);
 		break;
+	case ManipulationType::implant:
+		ui.stackedWidget->setCurrentIndex(3);
+		break;
+	default:
+		ui.stackedWidget->setCurrentIndex(0);
 	}
 }
 

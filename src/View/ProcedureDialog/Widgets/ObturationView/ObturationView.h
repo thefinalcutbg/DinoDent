@@ -18,12 +18,12 @@ public:
 	void setPresenter(ObturationPresenter* presenter);
 
 	// Inherited via IObturationView
-	virtual AbstractLineEdit* material() override;
-	virtual AbstractSurfaceSelector* surfaceSelector() override;
-	virtual std::tuple<int, bool> getColor() override;
-	virtual bool hasPost() override;
-	virtual void set_hidden(bool hidden) override;
-	
+    AbstractLineEdit* material() override;
+	AbstractSurfaceSelector* surfaceSelector() override;
+	std::tuple<int, bool> getColor() override;
+	bool hasPost() override;
+	void set_hidden(bool hidden) override;
+	void setData(const ObturationData& data) override;
 
 private:
 	Ui::ObturationView ui;

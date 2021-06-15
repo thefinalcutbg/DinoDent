@@ -1,5 +1,5 @@
 #pragma once
-#include "View/ProcedureDialog/IProcedureDialog.h"
+
 
 #include "Model/Tooth/ToothUtils.h"
 
@@ -11,7 +11,7 @@
 #include "SubPresenters/ExtractionPresenter.h"
 #include "SubPresenters/EndoPresenter.h"
 #include "SubPresenters/ImplantPresenter.h"
-
+#include "View/ProcedureDialog/IProcedureDialog.h"
 
 
 class ProcedureDialogPresenter

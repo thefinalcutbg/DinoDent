@@ -1,8 +1,8 @@
 #include "MasterNZOK.h"
-#include "../json/json.h"
+#include "C:/Dev/TorqueMVP/jsoncpp/jsoncpp-src-0.5.0/include/json/json.h"
 #include <fstream>
 #include <tuple>
-#include <QDebug>
+
 MasterNZOK MasterNZOK::_instance;
 
 MasterNZOK::MasterNZOK()
@@ -87,7 +87,6 @@ void MasterNZOK::loadData()
 			{
 
 				PriceKey key{ spec.asInt(), adult.asBool(), unfav.asBool() };
-				qDebug() << key.specialty << " " << key.adult << " " << key.unfav;
 				c.prices[key] = price_value;
 			}
 

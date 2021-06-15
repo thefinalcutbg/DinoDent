@@ -80,16 +80,6 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="ObturationView" name="obturWidget" native="true">
-   <property name="geometry">
-    <rect>
-     <x>560</x>
-     <y>240</y>
-     <width>291</width>
-     <height>215</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
@@ -139,37 +129,32 @@
     </rect>
    </property>
   </widget>
-  <widget class="CrownView" name="crownWidget" native="true">
+  <widget class="QStackedWidget" name="stackedWidget">
    <property name="geometry">
     <rect>
      <x>560</x>
-     <y>240</y>
+     <y>260</y>
      <width>291</width>
      <height>211</height>
     </rect>
    </property>
-  </widget>
-  <widget class="ImplantView" name="implantWidget" native="true">
-   <property name="geometry">
-    <rect>
-     <x>560</x>
-     <y>239</y>
-     <width>291</width>
-     <height>211</height>
-    </rect>
+   <property name="currentIndex">
+    <number>3</number>
    </property>
+   <widget class="QWidget" name="empty"/>
+   <widget class="ObturationView" name="obturWidget"/>
+   <widget class="CrownView" name="crownWidget"/>
+   <widget class="ImplantView" name="implantWidget"/>
   </widget>
   <zorder>noTeethLabel</zorder>
   <zorder>tableView</zorder>
   <zorder>okButton</zorder>
   <zorder>cancelButton</zorder>
-  <zorder>obturWidget</zorder>
   <zorder>label</zorder>
   <zorder>searchEdit</zorder>
   <zorder>selectedTeethLabel</zorder>
   <zorder>commonFields</zorder>
-  <zorder>crownWidget</zorder>
-  <zorder>implantWidget</zorder>
+  <zorder>stackedWidget</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>

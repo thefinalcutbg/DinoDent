@@ -3,22 +3,14 @@
 
 PatientDialogPresenter::PatientDialogPresenter() :
 	view(nullptr),
-	patient_field {NULL},
-	new_patient(true),
-	egn_form(true),
-	edited(false)
-{
-}
+	new_patient(true)
+{}
 
 PatientDialogPresenter::PatientDialogPresenter(const Patient& patient) :
 	_patient(patient),
 	view(nullptr),
-	patient_field {NULL},
-	egn_form(!patient.type-1),
-	edited(false)
-{
-}
-
+	new_patient(false)
+{}
 
 
 std::optional<Patient> PatientDialogPresenter::open()
@@ -27,48 +19,46 @@ std::optional<Patient> PatientDialogPresenter::open()
 	return _patient;
 }
 
-
-void PatientDialogPresenter::EgnTypeDialog()
+void PatientDialogPresenter::changePatientType(int index)
 {
-	view->setLn4View(false);
-	egn_form = true;
-	patient_field[id]->set_Validator(&egn_validator);
-	patient_field[birthdate]->set_Validator(nullptr);
-	patient_field[mname]->set_Validator(&name_validator);
+	switch (index)
+	{
+	case 1:
+		view->setLn4View(false);
 
-	patient_field[id]->forceValidate();
+		view->lineEdit(id)->set_Validator(&egn_validator);
+		view->lineEdit(birthdate)->set_Validator(nullptr);
+		view->lineEdit(mname)->set_Validator(&name_validator);
+		view->lineEdit(id)->forceValidate();
+		view->resetFields();
+		break;
+	case 2:
+		view->setLn4View(true);
 
-	for (int i = 0; i < patient_field.size(); i++)
-		patient_field[i]->reset();
-	sexCombo->setIndex(0);
+		view->lineEdit(id)->set_Validator(&ln4_validator);
+		view->lineEdit(birthdate)->set_Validator(&birth_validator);
+		view->lineEdit(mname)->set_Validator(nullptr);
+		view->lineEdit(id)->forceValidate();
+		view->resetFields();
+		break;
+	default:
+		break;
 
+	}
 }
 
-void PatientDialogPresenter::Ln4TypeDialog()
-{
-	view->setLn4View(true);
-	egn_form = false;
-	patient_field[id]->set_Validator(&ln4_validator);
-	patient_field[birthdate]->set_Validator(&birth_validator);
-	patient_field[mname]->set_Validator(nullptr);
-	patient_field[id]->forceValidate();
-
-	for (int i = 0; i < patient_field.size(); i++)
-		patient_field[i]->reset();
-	sexCombo->setIndex(0);
-	
-}
 
 
 void PatientDialogPresenter::accept()
 {
-	for(int i = 0; i < patient_field.size(); i++)
+	for(int i = 0; i < 9; i++)
 	{	
-		patient_field[i]->forceValidate();
-		if (!patient_field[i]->isValid())
-		{
-			patient_field[i]->setFocusAndSelectAll();
+		auto* field = view->lineEdit(static_cast<PatientField>(i));
 
+		field->forceValidate();
+		if (!field->isValid())
+		{
+			field->setFocusAndSelectAll();
 			return;
 		}
 	}
@@ -76,45 +66,34 @@ void PatientDialogPresenter::accept()
 	_patient = getPatientFromView();
 
 	if(new_patient) database.insert(_patient.value());
-	else if (edited) database.update(_patient.value());
+	else database.update(_patient.value());
 	
 	view->close();
-}
-
-void PatientDialogPresenter::handleNotifications(Notification notification)
-{
-	switch(notification)
-	{ 
-		case Notification::edited:
-
-			edited = true;
-			break;
-
-		case Notification::validID:
-
-			searchDbForPatient();
-			break;
-
-		case Notification::cityInfoChanged:
-
-			setCityCodesLabel();
-			break;
-
-	}
-	
 }
 
 void PatientDialogPresenter::setView(IPatientDialog* view)
 {
 	this->view = view;
-}
 
+	view->lineEdit(city)->set_Validator(&city_validator);
+	view->lineEdit(hirbno)->set_Validator(&hirb_validator);
+	view->lineEdit(fname)->set_Validator(&name_validator);
+	view->lineEdit(lname)->set_Validator(&name_validator);
+	changePatientType(1);
+
+	if (_patient.has_value())
+	{
+		setPatientToView(_patient.value());
+		view->setEditMode(true);
+	}
+
+}
 
 
 void PatientDialogPresenter::searchDbForPatient()
 {
 	
-	std::string lineEditID = patient_field[id]->getText();
+	std::string lineEditID = view->lineEdit(id)->getText();
 
 	Patient patient = database.getPatient(lineEditID);
 
@@ -127,13 +106,11 @@ void PatientDialogPresenter::searchDbForPatient()
 		new_patient = true;
 		patient.id = lineEditID;
 
-		if (egn_form)
+		if (patient.type == 1)
 		{
-			patient.type = 1;
-			patient.birth = Date::toString(Date::GetDateFromEgn(lineEditID));
+			patient.birth = Date::GetDateFromEgn(patient.id);
 			patient.sex = Patient::getSexFromEgn(lineEditID);
 		}
-		else patient.type = 2;
 	}
 	else
 		new_patient = false;
@@ -142,94 +119,27 @@ void PatientDialogPresenter::searchDbForPatient()
 	
 }
 
-void PatientDialogPresenter::setCityCodesLabel()
+void PatientDialogPresenter::cityChanged()
 {
-	if (cityCodeLabel == NULL) return;
+	view->lineEdit(city)->isValid() ?
 
-	cityCodeLabel->setLabelText(city_code.getLabel(patient_field[city]->getText()));
+		view->setCodeInfo(city_code.getLabel(view->lineEdit(city)->getText()))
+		:
+		view->setCodeInfo("");
 }
 
-void PatientDialogPresenter::resetForm()
-{
-	EgnTypeDialog();
-
-	for (int i = 0; i < patient_field.size(); i++)
-		patient_field[i]->reset();
-
-	sexCombo->setIndex(0);
-	patientTypeCombo->setIndex(0);
-	patientTypeCombo->disable(0);
-	patient_field[id]->disable(0);
-	patient_field[id]->setFocusAndSelectAll();
-	patient_field[id]->setAppearence(true);
-	cityCodeLabel->setLabelText("");
-	new_patient = true;
-	edited = false;
-}
-
-void PatientDialogPresenter::setPatientFields(std::array<AbstractLineEdit*, 9> patientFields, 
-												AbstractComboBox* patientType, 
-												AbstractComboBox* sexCombo,
-												AbstractLabel* cityCodeLabel)
-{
-	this->patient_field = patientFields;
-
-	patient_field[id]->set_Validator(&egn_validator);
-	patient_field[birthdate]->set_Validator(&birth_validator);
-	patient_field[fname]->set_Validator(&name_validator);
-	patient_field[mname]->set_Validator(&name_validator);
-	patient_field[lname]->set_Validator(&name_validator);
-	patient_field[hirbno]->set_Validator(&hirb_validator);
-	patient_field[city]->set_Validator(&city_validator);
-
-	this->patientTypeCombo = patientType;
-
-	this->sexCombo = sexCombo;
-
-	this->cityCodeLabel = cityCodeLabel;
-
-	for (int i = 0; i < patient_field.size(); i++)
-		patient_field[i]->setOberver(this);
-
-	sexCombo->setObserver(this);
-
-	if (_patient.has_value())
-	{
-		setPatientToView(_patient.value());
-		view->setEditMode(true);
-	} 
-	else
-	{
-		view->setLn4View(false);
-	}
-}
 
 
 void PatientDialogPresenter::setPatientToView(const Patient& patient)
 {
-	if (patient.type == 1)
-	{
-		patientTypeCombo->setIndex(0);
-		EgnTypeDialog();
-	}
-	else
-	{
-		patientTypeCombo->setIndex(1);
-		Ln4TypeDialog();
-	}
 
-	patient_field[id]->setFieldText(patient.id);
-	patient_field[birthdate]->setFieldText(Date::toString(patient.birth));
-	sexCombo->setIndex(patient.sex);
-	patient_field[fname]->setFieldText(patient.FirstName);
-	patient_field[mname]->setFieldText(patient.MiddleName);
-	patient_field[lname]->setFieldText(patient.LastName);
-	patient_field[city]->setFieldText(patient.city);
-	patient_field[address]->setFieldText(patient.address);
-	patient_field[hirbno]->setFieldText(patient.HIRBNo);
-	patient_field[phone]->setFieldText(patient.phone);
+	changePatientType(patient.type);
+
+	view->setPatient(patient);
 	
-	setCityCodesLabel();
+	view->lineEdit(id)->forceValidate();
+
+	cityChanged();
 
 	allergies = patient.allergies;
 	currentDiseases = patient.currentDiseases;
@@ -239,20 +149,8 @@ void PatientDialogPresenter::setPatientToView(const Patient& patient)
 
 Patient PatientDialogPresenter::getPatientFromView()
 {
-	Patient patient;
+	Patient patient = view->getPatient();;
 
-	if (!patientTypeCombo->getIndex()) patient.type = 1;
-	else patient.type = 2;
-	patient.id = patient_field[id]->getText();
-	patient.sex = sexCombo->getIndex();
-	patient.birth = patient_field[birthdate]->getText();
-	patient.FirstName = patient_field[fname]->getText();
-	patient.MiddleName = patient_field[mname]->getText();
-	patient.LastName = patient_field[lname]->getText();
-	patient.city = patient_field[city]->getText();
-	patient.address = patient_field[address]->getText();
-	patient.HIRBNo = patient_field[hirbno]->getText();
-	patient.phone = patient_field[phone]->getText();
 	patient.allergies = allergies;
 	patient.currentDiseases = currentDiseases;
 	patient.pastDiseases = pastDiseases;

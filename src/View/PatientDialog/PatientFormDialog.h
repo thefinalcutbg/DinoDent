@@ -9,7 +9,9 @@
 #include "Presenter/PatientDialog/PatientDialogPresenter.h"
 #include "ui_PatientFormDialog.h"
 #include "IPatientDialog.h"
-#include "Database/Database.h"
+
+
+#include "Model/Patient.h"
 
 class PatientFormDialog : public QDialog, public IPatientDialog
 {
@@ -24,6 +26,9 @@ class PatientFormDialog : public QDialog, public IPatientDialog
     void paintEvent(QPaintEvent* event);
 
     PatientDialogPresenter* presenter;
+
+    std::array<AbstractLineEdit*, 9> patientFields;
+
 public:
     Q_OBJECT
 
@@ -34,9 +39,14 @@ public:
     ~PatientFormDialog();
 
     void setEditMode(bool editMode);
-    void close();
+    void close() override;
     void setLn4View(bool show);
-    void accept() override;
+    void setCodeInfo(const std::string& codeInfo) override;
 
+    void resetFields() override;
 
+    void setPatient(const Patient& patient) override;
+    Patient getPatient() override;
+
+    AbstractLineEdit* lineEdit(PatientField field) override;
 };

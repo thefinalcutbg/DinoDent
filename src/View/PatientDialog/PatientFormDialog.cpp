@@ -22,15 +22,13 @@ PatientFormDialog::PatientFormDialog(PatientDialogPresenter* p, QWidget* parent)
     ui.phoneEdit->setValidator(phoneValidator);
 
     connect(ui.typeComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
-        [=](int index)
-        {
-            if (index)presenter->Ln4TypeDialog();
-            else presenter->EgnTypeDialog();
-        });
+        [=](int index) { presenter->changePatientType(index+1); });
 
     connect(ui.okButton, &QPushButton::clicked, [=] { presenter->accept(); });
+    connect(ui.idLineEdit, &IdLineEdit::validIdEntered, [=]{presenter->searchDbForPatient(); });
+    connect(ui.cityLineEdit, &QLineEdit::textChanged, [=] {presenter->cityChanged(); });
 
-    std::array<AbstractLineEdit*, 9> patientFields;
+
     patientFields[id] = ui.idLineEdit;
     patientFields[birthdate] = ui.birthEdit;
     patientFields[fname] = ui.fNameEdit;
@@ -42,9 +40,6 @@ PatientFormDialog::PatientFormDialog(PatientDialogPresenter* p, QWidget* parent)
     patientFields[phone] = ui.phoneEdit;
 
     presenter->setView(this);
-    presenter->setPatientFields(patientFields, ui.typeComboBox, ui.sexCombo, ui.codeLabel);
-
-
 
 }
 
@@ -85,6 +80,8 @@ void PatientFormDialog::close()
 
 void PatientFormDialog::setLn4View(bool show)
 {
+    ui.sexCombo->setCurrentIndex(0);
+
     if(show)
     {
         ui.birthEdit->show();
@@ -101,7 +98,74 @@ void PatientFormDialog::setLn4View(bool show)
     }
 }
 
-void PatientFormDialog::accept()
+void PatientFormDialog::setCodeInfo(const std::string& codeInfo)
 {
-    presenter->accept();
+    ui.codeLabel->setText(QString::fromStdString(codeInfo));
 }
+
+void PatientFormDialog::resetFields()
+{
+    ui.idLineEdit->reset();
+    ui.idLineEdit->setAppearence(true);
+    ui.birthEdit->reset();
+    ui.fNameEdit->reset();
+    ui.mNameEdit->reset();
+    ui.lNameEdit->reset();
+    ui.cityLineEdit->reset();
+    ui.HIRBNoEdit->reset();
+    ui.phoneEdit->reset();
+    ui.addressEdit->reset();
+
+    ui.codeLabel->setText("");
+    ui.sexCombo->setCurrentIndex(0);
+
+}
+
+void PatientFormDialog::setPatient(const Patient& patient)
+{
+    QSignalBlocker blocker(this);
+
+    ui.typeComboBox->setCurrentIndex(patient.type - 1);
+    ui.idLineEdit->setText(QString::fromStdString(patient.id));
+    ui.sexCombo->setCurrentIndex(patient.sex);
+
+    auto& date = patient.birth;
+    ui.birthEdit->setDate(QDate(date.year, date.month, date.day));
+
+    ui.fNameEdit->setText(QString::fromStdString(patient.FirstName));
+    ui.mNameEdit->setText(QString::fromStdString(patient.MiddleName));
+    ui.lNameEdit->setText(QString::fromStdString(patient.LastName));
+
+    ui.cityLineEdit->setText(QString::fromStdString(patient.city));
+    
+    ui.addressEdit->setText(QString::fromStdString(patient.address));
+    ui.HIRBNoEdit->setText(QString::fromStdString(patient.HIRBNo));
+    ui.phoneEdit->setText(QString::fromStdString(patient.phone));
+}
+
+Patient PatientFormDialog::getPatient()
+{
+    auto birthDate = ui.birthEdit->date();
+
+    return Patient
+    {
+        ui.typeComboBox->currentIndex() + 1,
+        ui.idLineEdit->text().toStdString(),
+        Date(birthDate.day(), birthDate.month(), birthDate.year()),
+        bool(ui.sexCombo->currentIndex()),
+        ui.fNameEdit->text().toStdString(),
+        ui.mNameEdit->text().toStdString(),
+        ui.lNameEdit->text().toStdString(),
+        ui.cityLineEdit->text().toStdString(),
+        ui.addressEdit->text().toStdString(),
+        ui.HIRBNoEdit->text().toStdString(),
+        ui.phoneEdit->text().toStdString(),
+    };
+}
+
+AbstractLineEdit* PatientFormDialog::lineEdit(PatientField field)
+{
+    return patientFields[field];
+}
+
+

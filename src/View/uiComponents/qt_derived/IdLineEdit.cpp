@@ -9,7 +9,6 @@ void IdLineEdit::stateChangedByUser()
 {
 	forceValidate();
 
-	if (isValid() && observer != NULL)
-		observer->notify(Notification::validID);
+	if (isValid()) emit validIdEntered();
 }
 

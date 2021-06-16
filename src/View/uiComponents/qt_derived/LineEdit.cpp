@@ -1,5 +1,4 @@
 #include "LineEdit.h"
-#include <qdebug.h>
 
 LineEdit::LineEdit(QWidget* parent)
 	: QLineEdit(parent),
@@ -7,8 +6,8 @@ LineEdit::LineEdit(QWidget* parent)
 	defaultWidthSet(0),
 	disabled(0)
 {
-	connect(this, &QLineEdit::textChanged, [=] { stateChangedByUser(); });
-
+	connect(this, &QLineEdit::textEdited, [=] { stateChangedByUser(); });
+	connect(this, &QLineEdit::textChanged, [=] { dynamicWidthChange(); });
 	connect(this, &QLineEdit::editingFinished, [=] { reformat(); });
 }
 
@@ -33,7 +32,7 @@ void LineEdit::setFieldText(const std::string& text)
 {
 	QSignalBlocker b(this);
 	setText(QString::fromStdString(text));
-	dynamicWidthChange();
+
 
 }
 
@@ -64,14 +63,7 @@ void LineEdit::keyPressEvent(QKeyEvent* event)
 
 void LineEdit::stateChangedByUser()
 {
-	dynamicWidthChange();
-
 	forceValidate();
-
-	if (observer != NULL) {
-		observer->notify(Notification::edited);
-	}
-
 }
 
 void LineEdit::dynamicWidthChange()

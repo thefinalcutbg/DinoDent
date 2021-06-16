@@ -515,9 +515,6 @@
     <ClInclude Include="src\Database\DbPatient.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Presenter\PatientDialog\uiObserver.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\View\ListView\IListView.h">
       <Filter>Header Files</Filter>
     </ClInclude>

@@ -1,8 +1,7 @@
 #include "AbstractLineEdit.h"
 
 
-AbstractLineEdit::AbstractLineEdit() : 
-	observer(nullptr) {};
+AbstractLineEdit::AbstractLineEdit() {};
 
 
 void AbstractLineEdit::reset()
@@ -17,8 +16,3 @@ bool AbstractLineEdit::validationOperation()
 	return validator->validate(getText());
 }
 
-
-void AbstractLineEdit::setOberver(uiObserver* observer)
-{
-	this->observer = observer;
-}

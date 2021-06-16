@@ -15,16 +15,14 @@
 #include "View/uiComponents/AbstractLineEdit.h"
 #include "View/uiComponents/AbstractComboBox.h"
 #include "View/uiComponents/AbstractLabel.h"
-#include "uiObserver.h"
+
 #include "Model/CityCode.h"
 
-enum patientFields{id, birthdate, fname, mname, lname, city, address, hirbno, phone};
 
-class PatientDialogPresenter : public uiObserver
+
+class PatientDialogPresenter
 {
 	bool new_patient;
-	bool egn_form;
-	bool edited;
 
 	std::optional<Patient> _patient;
 
@@ -44,31 +42,22 @@ class PatientDialogPresenter : public uiObserver
 	std::string pastDiseases;
 	std::string currentDiseases;
 
-	std::array<AbstractLineEdit*, 9> patient_field;
 
-	AbstractComboBox* patientTypeCombo;
-	AbstractComboBox* sexCombo;
-	AbstractLabel* cityCodeLabel;
 
 	Patient getPatientFromView();
 	void setPatientToView(const Patient& patient);
-	void searchDbForPatient();
-	void setCityCodesLabel();
-	void resetForm();
 
 public:
 	PatientDialogPresenter();
 	PatientDialogPresenter(const Patient& patient);
 
-	void setPatientFields(std::array<AbstractLineEdit*, 9>, AbstractComboBox* patientType, AbstractComboBox* sexCombo, AbstractLabel* cityCodeLabel);
-
+	void cityChanged();
 	std::optional<Patient> open();
 
-	void EgnTypeDialog();
-	void Ln4TypeDialog();
+	void changePatientType(int index);
 
+	void searchDbForPatient();
 	void accept();
-	void handleNotifications(Notification notification);
 
 	void setView(IPatientDialog* view);
 

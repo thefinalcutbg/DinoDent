@@ -7,7 +7,7 @@ class DateLineEdit : public QDateEdit, public AbstractLineEdit
 	Q_OBJECT
 
 protected:
-	void stateChangedByUser();
+
 public:
 	DateLineEdit(QWidget* parent);
 	void setFocusAndSelectAll() override;

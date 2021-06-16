@@ -6,6 +6,8 @@ CityLineEdit::CityLineEdit(QWidget* parent) : LineEdit(parent), maxCharLength(70
 {
 	cityLoader();
 	setCityCompleter();
+
+	connect(this, &QLineEdit::textChanged, [=] { forceValidate(); });
 }
 
 void CityLineEdit::cityLoader()
@@ -55,13 +57,3 @@ void CityLineEdit::reformat()
 		setFieldText((cityCompleter->currentCompletion()).toStdString());
 	forceValidate();
 }
-
-void CityLineEdit::forceValidate()
-{
-	LineEdit::forceValidate();
-
-	if (observer != NULL) 
-		observer->notify(Notification::cityInfoChanged);
-}
-
-

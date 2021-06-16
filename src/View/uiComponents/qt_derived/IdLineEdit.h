@@ -9,5 +9,8 @@ protected:
 	void stateChangedByUser() override;
 public:
 	IdLineEdit(QWidget* parent = 0);
+signals:
+	void validIdEntered();
+
 };
 

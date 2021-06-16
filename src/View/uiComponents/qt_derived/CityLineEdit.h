@@ -16,8 +16,7 @@ class CityLineEdit : public LineEdit
 
 	void cityLoader();
 	void setCityCompleter();
-	void reformat();
-	void forceValidate();
+	void reformat() override;
 
 public:
 

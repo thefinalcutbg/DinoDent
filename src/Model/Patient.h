@@ -4,14 +4,11 @@
 
 struct Patient
 {
-	Patient();
-
-
-	int type;
+	int type{ 1 };
 	std::string id;
 	Date birth;
 
-	bool sex;
+	bool sex{ 0 };
 
 	std::string FirstName;
 	std::string MiddleName;

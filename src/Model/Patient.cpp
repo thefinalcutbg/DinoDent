@@ -1,10 +1,6 @@
 #include "Patient.h"
 
 
-Patient::Patient() : type(1), sex(0)
-{
-}
-
 bool Patient::getSexFromEgn(const std::string& egn)
 {
 	int sexDigit = stoi(egn.substr(8, 1));

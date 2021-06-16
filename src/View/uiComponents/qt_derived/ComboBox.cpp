@@ -3,11 +3,6 @@
 ComboBox::ComboBox(QWidget *parent)
 	: QComboBox(parent)
 {
-	connect(this, QOverload<int>::of(&QComboBox::currentIndexChanged),
-		[=](int index)
-		{
-			if (observer != NULL) observer->notify(Notification::edited);
-		});
 }
 
 ComboBox::~ComboBox()

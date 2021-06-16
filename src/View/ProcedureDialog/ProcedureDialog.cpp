@@ -72,7 +72,6 @@ void ProcedureDialog::openProcedureDialog()
 
 void ProcedureDialog::loadManipulationList(std::vector<ManipulationTemplate> manipulationList)
 {
-	qDebug() << "Loading manipulations: " << manipulationList.size();
 	model.setManipulations(manipulationList);
 }
 

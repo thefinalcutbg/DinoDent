@@ -1,21 +1,26 @@
 #pragma once
 
-#include <sstream>
-#include <fstream>
 #include <unordered_map>
 #include <tuple>
-#include "Model/Validator/PatientValidators.h"
 
 class CityCode
 {
+	typedef std::string HealthRegion;
+	typedef std::string Region;
+	typedef std::string HRIFCode;
+	typedef std::string Muncipanity;
+	typedef std::string CityString;
 
-	std::unordered_map<std::string, std::string> munciMap;
-	std::unordered_map<std::string, std::string> regionMap;
-	CityValidator validator;
+	std::pair<Muncipanity, Region> parseCityString(std::string location);
+
+	inline static std::unordered_map <CityString, std::pair<HealthRegion, HRIFCode>> cityMap;
+	inline static bool _init{ false };
 
 public:
 	CityCode();
 	std::string getLabel(const std::string &cityString);
-	std::pair<std::string, std::string> getHealthRegionAndHRIFCode(const std::string &cityString);
+	std::pair<HRIFCode, HealthRegion> getCodes(const std::string &cityString);
+	bool validCityString(const std::string& cityString);
+	void initialize_map();
 };
 

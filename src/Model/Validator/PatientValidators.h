@@ -36,17 +36,15 @@ public:
 	bool validateInput(const std::string& text);
 };
 
-#include <unordered_set>
+#include "Model/CityCode.h"
 
 class CityValidator : public Validator
 {
 	static const std::string invalidCity;
 
-	inline static std::unordered_set<std::string> _citySet;
-
-	inline static bool _init{ false };
+	CityCode cityCode;
 public:
-	CityValidator();
+
 	bool validateInput(const std::string& text);
 };
 

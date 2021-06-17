@@ -9,8 +9,6 @@ EgnValidator::EgnValidator()
     _errorMsg = &invalid;
 }
 
-
-
 bool EgnValidator::validateInput(const std::string& text)
 {
     const std::string& egn = text;
@@ -114,7 +112,7 @@ bool HIRBNoValidator::validateInput(const std::string& text)
 {
     const std::string& hirbNo = text;
 
-    if (!digits_only.validateInput(text)) return false;
+    if (!digits_only.validateInput(hirbNo)) return false;
 
     if (hirbNo.length() == 0)
         return true;
@@ -126,32 +124,9 @@ bool HIRBNoValidator::validateInput(const std::string& text)
     return true;
 }
 
-#include <sstream>
-#include <fstream>
-
 const std::string CityValidator::invalidCity{ "Невалидно населено място" };
-
-CityValidator::CityValidator()
-{
-    if(!_init)
-    { 
-    std::ifstream infile("cities.txt");
-    std::string line;
-
-    int maxCharLength = 0;
-
-    while (std::getline(infile, line))
-        _citySet.insert(line);
-
-    infile.close();
-
-    _init = true;
-    }
-
-    _errorMsg = &invalidCity;
-}
 
 bool CityValidator::validateInput(const std::string& text)
 {
-    return _citySet.count(text);
+    return cityCode.validCityString(text);
 }

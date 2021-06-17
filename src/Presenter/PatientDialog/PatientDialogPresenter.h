@@ -7,6 +7,7 @@
 #include "Database/DbPatient.h"
 #include "Model/Validator/DateValidator.h"
 #include "Model/Validator/NameValidator.h"
+#include "Model/Validator/PatientValidators.h"
 #include "Model/Patient.h"
 #include "Model/Date.h"
 

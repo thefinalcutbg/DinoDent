@@ -2,8 +2,6 @@
 #include "AbstractValidator.h"
 #include "Model/Date.h"
 
-
-
 class DateValidator : public Validator
 {
 

@@ -2,8 +2,6 @@
 #include "LineEdit.h"
 #include <QCompleter>
 #include <QStringListModel>
-#include <QTextStream>
-#include <QFile>
 #include <QAbstractItemView>
 
 class CityLineEdit : public LineEdit

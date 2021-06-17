@@ -8,30 +8,25 @@ CityLineEdit::CityLineEdit(QWidget* parent) : LineEdit(parent), maxCharLength(70
 	connect(this, &QLineEdit::textChanged, [=] { AbstractUIElement::validateInput(); }); //because it's also changed programatically
 }
 
+#include "Model/CityCode.h"
+
 void CityLineEdit::cityLoader()
 {
-	QFile* file = new QFile("cities.txt");
-	if (!file->open(QFile::ReadOnly | QFile::Text)) {}
-	QTextStream in(file);
-	in.setCodec("UTF-8");
+	CityCode cityCode;
 
-	int maxCharLength = 0;
-
-	while (!in.atEnd())
+	for (auto& it : cityCode.getMap())
 	{
-		QString line = in.readLine();
-		citySuggestions.append(line);
+		QString cityString = QString::fromStdString(it.first);
+		citySuggestions.append(cityString);
 
-		if (line.length() > maxCharLength)
-			maxCharLength = line.length();
+		if (cityString.length() > maxCharLength)
+			maxCharLength = cityString.length();
 	}
 
 	setMaxLength(maxCharLength);
 
 	citySuggestions.sort();
 
-	file->close();
-	delete file;
 }
 
 void CityLineEdit::setCityCompleter()

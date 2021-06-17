@@ -21,6 +21,7 @@ public:
 	std::string getLabel(const std::string &cityString);
 	std::pair<HRIFCode, HealthRegion> getCodes(const std::string &cityString);
 	bool validCityString(const std::string& cityString);
+	const std::unordered_map <CityString, std::pair<HealthRegion, HRIFCode>>& getMap() const;
 	void initialize_map();
 };
 

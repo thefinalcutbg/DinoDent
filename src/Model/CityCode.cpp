@@ -110,3 +110,8 @@ bool CityCode::validCityString(const std::string& cityString)
 {
     return cityMap.count(cityString);
 }
+
+const std::unordered_map<CityString, std::pair<HealthRegion, HRIFCode>>& CityCode::getMap() const
+{
+    return cityMap;
+}

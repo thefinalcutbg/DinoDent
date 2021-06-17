@@ -26,7 +26,7 @@ CityCode::CityCode()
 
 std::string CityCode::getLabel(const std::string &cityString)
 {
-    if(!validator.validate(cityString))
+    if(!validator.validateInput(cityString))
     {
         return "";
     }

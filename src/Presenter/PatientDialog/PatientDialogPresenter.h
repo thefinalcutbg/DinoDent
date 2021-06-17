@@ -5,7 +5,8 @@
 #include <array>
 
 #include "Database/DbPatient.h"
-
+#include "Model/Validator/DateValidator.h"
+#include "Model/Validator/NameValidator.h"
 #include "Model/Patient.h"
 #include "Model/Date.h"
 
@@ -33,17 +34,18 @@ class PatientDialogPresenter
 
 	EgnValidator egn_validator;
 	Ln4Validator ln4_validator;
-	BirthValidator birth_validator;
+	DateValidator birth_validator;
 	NameValidator name_validator;
 	HIRBNoValidator hirb_validator;
 	CityValidator city_validator;
+	CyrillicValidator cyrillic_validator;
 
 	std::string allergies;
 	std::string pastDiseases;
 	std::string currentDiseases;
 
 
-
+	bool inputIsValid(AbstractUIElement* uiElement);
 	Patient getPatientFromView();
 	void setPatientToView(const Patient& patient);
 
@@ -56,7 +58,7 @@ public:
 
 	void changePatientType(int index);
 
-	void searchDbForPatient();
+	void searchDbForPatient(int type);
 	void accept();
 
 	void setView(IPatientDialog* view);

@@ -6,7 +6,7 @@
 
 class AbstractLineEdit : public AbstractUIElement
 {
-	
+
 protected:
 
 	virtual void reformat() {};
@@ -15,8 +15,9 @@ protected:
 public:
 	AbstractLineEdit();
 
-	virtual void setFieldText(const std::string& text) = 0;
+	virtual void set_Text(const std::string& text) = 0;
 	virtual std::string getText() = 0;
 
 	virtual void reset();
 };
+

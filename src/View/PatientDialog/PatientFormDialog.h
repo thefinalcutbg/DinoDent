@@ -27,7 +27,7 @@ class PatientFormDialog : public QDialog, public IPatientDialog
 
     PatientDialogPresenter* presenter;
 
-    std::array<AbstractLineEdit*, 9> patientFields;
+    std::array<LineEdit*, 8> patientFields;
 
 public:
     Q_OBJECT
@@ -49,4 +49,5 @@ public:
     Patient getPatient() override;
 
     AbstractLineEdit* lineEdit(PatientField field) override;
+    AbstractDateEdit* dateEdit() override;
 };

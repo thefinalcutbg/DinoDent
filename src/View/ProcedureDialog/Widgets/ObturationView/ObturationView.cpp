@@ -58,7 +58,7 @@ void ObturationView::set_hidden(bool hidden)
 
 void ObturationView::setData(const ObturationData& data)
 {
-	ui.materialEdit->setFieldText(data.material);
+	ui.materialEdit->set_Text(data.material);
 	ui.combo_color->setCurrentIndex(data.color);
 	ui.post_check->setChecked(data.post);
 	ui.surfaceSelector->setSurfaces(data.surfaces);

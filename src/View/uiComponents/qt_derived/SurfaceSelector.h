@@ -14,9 +14,9 @@ public:
 	~SurfaceSelector();
 
 	// Inherited via AbstractSurfaceSelector
-	virtual void setFocusAndSelectAll() override;
+	virtual void setFocus() override;
 	virtual void disable(bool disable) override;
-	virtual void setAppearence(bool valid) override;
+	virtual void setValidAppearence(bool valid) override;
 	virtual std::array<bool, 6> getSurfaces() override;
 	virtual void setSurfaces(const std::array<bool, 6>& surfaces);
 

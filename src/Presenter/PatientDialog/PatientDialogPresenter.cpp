@@ -19,66 +19,19 @@ std::optional<Patient> PatientDialogPresenter::open()
 	return _patient;
 }
 
-void PatientDialogPresenter::changePatientType(int index)
-{
-	switch (index)
-	{
-	case 1:
-		view->setLn4View(false);
-
-		view->lineEdit(id)->set_Validator(&egn_validator);
-		view->lineEdit(birthdate)->set_Validator(nullptr);
-		view->lineEdit(mname)->set_Validator(&name_validator);
-		view->lineEdit(id)->forceValidate();
-		view->resetFields();
-		break;
-	case 2:
-		view->setLn4View(true);
-
-		view->lineEdit(id)->set_Validator(&ln4_validator);
-		view->lineEdit(birthdate)->set_Validator(&birth_validator);
-		view->lineEdit(mname)->set_Validator(nullptr);
-		view->lineEdit(id)->forceValidate();
-		view->resetFields();
-		break;
-	default:
-		break;
-
-	}
-}
-
-
-
-void PatientDialogPresenter::accept()
-{
-	for(int i = 0; i < 9; i++)
-	{	
-		auto* field = view->lineEdit(static_cast<PatientField>(i));
-
-		field->forceValidate();
-		if (!field->isValid())
-		{
-			field->setFocusAndSelectAll();
-			return;
-		}
-	}
-
-	_patient = getPatientFromView();
-
-	if(new_patient) database.insert(_patient.value());
-	else database.update(_patient.value());
-	
-	view->close();
-}
-
 void PatientDialogPresenter::setView(IPatientDialog* view)
 {
 	this->view = view;
 
-	view->lineEdit(city)->set_Validator(&city_validator);
-	view->lineEdit(hirbno)->set_Validator(&hirb_validator);
-	view->lineEdit(fname)->set_Validator(&name_validator);
-	view->lineEdit(lname)->set_Validator(&name_validator);
+	birth_validator.setMaxDate(Date::CurrentDate());
+	birth_validator.setMaxErrorMsg("Невалидна рожденна дата");
+	birth_validator.setMinDate(Date(2, 1, 1900));
+	birth_validator.setMinErrorMsg("Невалидна рожденна дата");
+
+	view->lineEdit(city)->setInputValidator(&city_validator);
+	view->lineEdit(hirbno)->setInputValidator(&hirb_validator);
+	view->lineEdit(fname)->setInputValidator(&name_validator);
+	view->lineEdit(lname)->setInputValidator(&name_validator);
 	changePatientType(1);
 
 	if (_patient.has_value())
@@ -89,8 +42,54 @@ void PatientDialogPresenter::setView(IPatientDialog* view)
 
 }
 
+void PatientDialogPresenter::changePatientType(int index)
+{
+	switch (index)
+	{
+	case 1:
+		view->setLn4View(false);
 
-void PatientDialogPresenter::searchDbForPatient()
+		view->lineEdit(id)->setInputValidator(&egn_validator);
+		view->dateEdit()->setInputValidator(nullptr);
+		view->lineEdit(mname)->setInputValidator(&name_validator);
+		view->lineEdit(id)->validateInput();
+		view->resetFields();
+		break;
+	case 2:
+		view->setLn4View(true);
+
+		view->lineEdit(id)->setInputValidator(&ln4_validator);
+		view->dateEdit()->setInputValidator(&birth_validator);
+		view->lineEdit(mname)->setInputValidator(&cyrillic_validator);
+		view->lineEdit(id)->validateInput();;
+		view->resetFields();
+		break;
+	default:
+		break;
+
+	}
+}
+
+void PatientDialogPresenter::accept()
+{
+
+	for(int i = 0; i < 8; i++)
+	{	
+		if (!inputIsValid(view->lineEdit(static_cast<PatientField>(i)))) return;
+	}
+
+	if (!inputIsValid(view->dateEdit())) return;
+
+
+	_patient = getPatientFromView();
+
+	if(new_patient) database.insert(_patient.value());
+	else database.update(_patient.value());
+	
+	view->close();
+}
+
+void PatientDialogPresenter::searchDbForPatient(int type)
 {
 	
 	std::string lineEditID = view->lineEdit(id)->getText();
@@ -105,6 +104,7 @@ void PatientDialogPresenter::searchDbForPatient()
 	{
 		new_patient = true;
 		patient.id = lineEditID;
+		patient.type = type;
 
 		if (patient.type == 1)
 		{
@@ -128,16 +128,13 @@ void PatientDialogPresenter::cityChanged()
 		view->setCodeInfo("");
 }
 
-
-
 void PatientDialogPresenter::setPatientToView(const Patient& patient)
 {
-
 	changePatientType(patient.type);
 
 	view->setPatient(patient);
 	
-	view->lineEdit(id)->forceValidate();
+	view->lineEdit(id)->validateInput();
 
 	cityChanged();
 
@@ -146,6 +143,16 @@ void PatientDialogPresenter::setPatientToView(const Patient& patient)
 	pastDiseases = patient.pastDiseases;
 }
 
+bool PatientDialogPresenter::inputIsValid(AbstractUIElement* uiElement)
+{
+	uiElement->validateInput();
+	if (!uiElement->isValid())
+	{
+		uiElement->setFocus();
+		return false;
+	}
+	return true;
+}
 
 Patient PatientDialogPresenter::getPatientFromView()
 {

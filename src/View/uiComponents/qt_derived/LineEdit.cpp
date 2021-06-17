@@ -1,39 +1,50 @@
 #include "LineEdit.h"
-
+#include <QKeyEvent>
+#include <QLabel>
 LineEdit::LineEdit(QWidget* parent)
 	: QLineEdit(parent),
 	defaultWidth(width()),
 	defaultWidthSet(0),
-	disabled(0)
+	disabled(0),
+	errorLabel(nullptr)
 {
-	connect(this, &QLineEdit::textEdited, [=] { stateChangedByUser(); });
+	connect(this, &QLineEdit::textEdited, [=] { AbstractLineEdit::validateInput(); });
 	connect(this, &QLineEdit::textChanged, [=] { dynamicWidthChange(); });
 	connect(this, &QLineEdit::editingFinished, [=] { reformat(); });
 }
 
 LineEdit::~LineEdit(){}
 
-void LineEdit::setFocusAndSelectAll()
+void LineEdit::setErrorLabel(QLabel* errorLabel)
 {
-	setFocus();
+	this->errorLabel = errorLabel;
+}
+
+void LineEdit::setFocus()
+{
+	QLineEdit::setFocus();
 	selectAll();
 }
 
 
-void LineEdit::setAppearence(bool valid)
+void LineEdit::setValidAppearence(bool valid)
 {
-	if(valid)
-		setStyleSheet("");
-	else
+	if (valid)
+		setStyleSheet("");	else
 		setStyleSheet("border: 1px solid red;");
+
+	if (errorLabel == nullptr) return;
+
+	valid ?
+		errorLabel->setText("")
+		:
+		errorLabel->setText(QString::fromStdString(AbstractUIElement::validator->getErrorMessage()));
 }
 
-void LineEdit::setFieldText(const std::string& text)
+void LineEdit::set_Text(const std::string& text)
 {
 	QSignalBlocker b(this);
-	setText(QString::fromStdString(text));
-
-
+	QLineEdit::setText(QString::fromStdString(text));
 }
 
 std::string LineEdit::getText()
@@ -43,8 +54,17 @@ std::string LineEdit::getText()
 
 void LineEdit::disable(bool disable)
 {
-	if (disable) disabled = true;
-	else disabled = false;
+	if (disable)
+	{
+		disabled = true;
+		setContextMenuPolicy(Qt::NoContextMenu);
+	}
+	else
+	{
+		disabled = false;
+		setContextMenuPolicy(Qt::DefaultContextMenu);
+	};
+	
 }
 
 void LineEdit::keyPressEvent(QKeyEvent* event)
@@ -61,10 +81,6 @@ void LineEdit::keyPressEvent(QKeyEvent* event)
 	QLineEdit::keyPressEvent(event);
 }
 
-void LineEdit::stateChangedByUser()
-{
-	forceValidate();
-}
 
 void LineEdit::dynamicWidthChange()
 {

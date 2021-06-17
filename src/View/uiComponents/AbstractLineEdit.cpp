@@ -6,13 +6,13 @@ AbstractLineEdit::AbstractLineEdit() {};
 
 void AbstractLineEdit::reset()
 {
-	setFieldText("");
-	setAppearence(true);
+	set_Text("");
+	setValidAppearence(true);
 }
 
 
 bool AbstractLineEdit::validationOperation()
 {
-	return validator->validate(getText());
+	return validator->validateInput(getText());
 }
 

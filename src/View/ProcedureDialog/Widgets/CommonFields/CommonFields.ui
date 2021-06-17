@@ -39,7 +39,7 @@
     <string>Диагноза:</string>
    </property>
   </widget>
-  <widget class="DateLineEdit" name="dateEdit">
+  <widget class="DateEdit" name="dateEdit">
    <property name="geometry">
     <rect>
      <x>90</x>
@@ -154,9 +154,9 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>DateLineEdit</class>
+   <class>DateEdit</class>
    <extends>QDateEdit</extends>
-   <header>View/uiComponents/qt_derived/DateLineEdit.h</header>
+   <header>View/uiComponents/qt_derived/DateEdit.h</header>
   </customwidget>
   <customwidget>
    <class>TextEdit</class>
@@ -166,7 +166,7 @@
   <customwidget>
    <class>SpinBox</class>
    <extends>QDoubleSpinBox</extends>
-   <header location="global">View/uiComponents/qt_derived/SpinBox.h</header>
+   <header>View/uiComponents/qt_derived/SpinBox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

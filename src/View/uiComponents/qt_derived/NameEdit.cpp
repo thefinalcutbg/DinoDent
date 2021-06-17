@@ -3,6 +3,11 @@
 QString NameEdit::letters{ "абвгдежзийклмнопрстуфхцчшщъьюя-" };
 QString NameEdit::capletters{ "АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЬЮЯ " };
 
+NameEdit::NameEdit(QWidget* parent) : LineEdit(parent)
+{
+    connect(this, &QLineEdit::textEdited, [=] {makeFirstLetterCapital(); });
+}
+
 QString NameEdit::reformat(const QString text)
 {
     QString name = text;
@@ -69,7 +74,7 @@ void NameEdit::makeFirstLetterCapital()
         if (name[0] == letters[i])
         {
             name[0] = capletters[i];
-            setText(name);
+            QLineEdit::setText(name);
         }
     }
   
@@ -77,10 +82,7 @@ void NameEdit::makeFirstLetterCapital()
 
 void NameEdit::reformat()
 {
-    setText(reformat(text()));
+    QLineEdit::setText(reformat(QLineEdit::text()));
 }
 
-NameEdit::NameEdit(QWidget* parent) : LineEdit(parent)
-{
-    connect(this, &QLineEdit::textEdited, [=] {makeFirstLetterCapital(); });
-}
+

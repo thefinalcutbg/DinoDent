@@ -16,10 +16,10 @@ public:
 	~TextEdit();
 
 	// Inherited via AbstractLineEdit
-	virtual void setFocusAndSelectAll() override;
+	virtual void setFocus() override;
 	virtual void disable(bool disable) override;
-	virtual void setAppearence(bool valid) override;
-	virtual void setFieldText(const std::string& text) override;
+	virtual void setValidAppearence(bool valid) override;
+	virtual void set_Text(const std::string& text) override;
 	virtual std::string getText() override;
 
 

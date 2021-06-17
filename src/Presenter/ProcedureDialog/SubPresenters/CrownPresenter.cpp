@@ -28,13 +28,13 @@ void CrownPresenter::setManipulationTemplate(const ManipulationTemplate& m)
 
 	GeneralMPresenter::setManipulationTemplate(m);
 
-	view->materialEdit()->setFieldText(m.material);
+	view->materialEdit()->set_Text(m.material);
 	
 	auto [begin, end] = view->rangeWidget()->getRange();
 	int length = end - begin + 1;
 	bridgePrice = m_template.price * length;
 
-	if (!range_validator.validate(begin, end))
+	if (!range_validator.validateInput(begin, end))
 		bridgePrice = 0;
 
 	if (bridge)
@@ -61,10 +61,10 @@ bool CrownPresenter::isValid()
 	{
 		auto rW = view->rangeWidget();
 		
-		rW->forceValidate();
+		rW->validateInput();
 		if (!rW->isValid())
 		{
-			rW->setFocusAndSelectAll();
+			rW->setFocus();
 			return false;
 		}
 	}
@@ -83,7 +83,7 @@ void CrownPresenter::setView(ICrownView* view)
 	bridgeRangeName = getBridgeRangeName(begin, end, *teeth);
 
 
-	view->rangeWidget()->set_Validator(&range_validator);
+	view->rangeWidget()->setInputValidator(&range_validator);
 
 }
 
@@ -122,13 +122,10 @@ void CrownPresenter::rangeChanged(int begin, int end)
 	int length = end - begin + 1;
 	bridgePrice = m_template.price * length;
 
-	common_view->diagnosisEdit()->setFieldText(bridgeDiagnosis);
-	common_view->manipulationEdit()->setFieldText(m_template.name + bridgeRangeName);
+	common_view->diagnosisEdit()->set_Text(bridgeDiagnosis);
+	common_view->manipulationEdit()->set_Text(m_template.name + bridgeRangeName);
 	common_view->priceEdit()->set_Value(bridgePrice);
 }
-
-
-
 
 
 
@@ -139,16 +136,16 @@ void CrownPresenter::rangeWidgetChecked(bool checked)
 	if(checked)
 	{
 		bridge = true;
-		common_view->diagnosisEdit()->setFieldText(bridgeDiagnosis);
-		common_view->manipulationEdit()->setFieldText(m_template.name + bridgeRangeName);
+		common_view->diagnosisEdit()->set_Text(bridgeDiagnosis);
+		common_view->manipulationEdit()->set_Text(m_template.name + bridgeRangeName);
 		common_view->priceEdit()->set_Value(bridgePrice);
 
 		return;
 	}
 
 	bridge = false;
-	common_view->diagnosisEdit()->setFieldText(diagnosis);
-	common_view->manipulationEdit()->setFieldText(m_template.name);
+	common_view->diagnosisEdit()->set_Text(diagnosis);
+	common_view->manipulationEdit()->set_Text(m_template.name);
 	common_view->priceEdit()->set_Value(m_template.price);
 }
 

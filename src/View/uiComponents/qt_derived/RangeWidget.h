@@ -9,7 +9,7 @@ class RangeWidget : public QWidget, public AbstractRangeEdit
 	Q_OBJECT
 
 	Validator* validator;
-	void stateChangedByUser() override;
+
 public:
 	RangeWidget(QWidget *parent = Q_NULLPTR);
 	~RangeWidget();
@@ -17,8 +17,8 @@ public:
 	void disable(bool disable) override;
 	void setRange(int begin, int end) override;
 	std::tuple<int, int> getRange() override;
-	void setAppearence(bool valid) override;
-	void setFocusAndSelectAll() override;
+	void setValidAppearence(bool valid) override;
+	void setFocus() override;
 	void disbleBridgeSwitch(bool disable);
 signals:
 	void rangeChanged(int begin, int end);

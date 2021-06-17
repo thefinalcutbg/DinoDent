@@ -193,9 +193,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Model\Validator\CommonValidators.cpp" />
+    <ClCompile Include="src\Model\Validator\DateValidator.cpp" />
+    <ClCompile Include="src\Model\Validator\NameValidator.cpp" />
     <ClCompile Include="src\Presenter\ProcedureDialog\ProcedureEditorPresenter.cpp" />
     <ClCompile Include="src\View\ProcedureDialog\Widgets\ObturationView\IObturationView.cpp" />
     <ClCompile Include="src\View\ProcedureEditDialog\ProcedureEditDialog.cpp" />
+    <ClCompile Include="src\View\uiComponents\AbstractDateEdit.cpp" />
     <ClCompile Include="src\View\uiComponents\qt_derived\NameEdit.cpp" />
     <ClCompile Include="src\View\ProcedureDialog\Widgets\ImplantView\ImplantView.cpp" />
     <ClCompile Include="src\View\ModalDialogBuilder.cpp" />
@@ -275,7 +279,6 @@
     <ClCompile Include="src\View\ListView\TeethView\SelectionBox.cpp" />
     <ClCompile Include="src\View\ListView\TeethView\TeethViewScene.cpp" />
     <ClCompile Include="src\View\ListView\TeethView\ToothGraphicsItem.cpp" />
-    <ClCompile Include="src\View\uiComponents\qt_derived\Label.cpp" />
     <ClCompile Include="src\Presenter\AllergiesDialog\AllergiesDialogPresenter.cpp" />
     <ClCompile Include="src\View\AmbListPage\ScrollArea.cpp" />
     <ClCompile Include="src\Presenter\TabPresenter\ListInstance.cpp">
@@ -322,8 +325,7 @@
     <QtMoc Include="src\View\Torque.h" />
     <ClCompile Include="src\View\ListView\tilebutton.cpp" />
     <ClCompile Include="src\View\uiComponents\qt_derived\ComboBox.cpp" />
-    <ClCompile Include="src\View\uiComponents\qt_derived\IdLineEdit.cpp" />
-    <ClCompile Include="src\View\uiComponents\qt_derived\DateLineEdit.cpp" />
+    <ClCompile Include="src\View\uiComponents\qt_derived\DateEdit.cpp" />
     <ClCompile Include="src\View\uiComponents\qt_derived\CityLineEdit.cpp" />
     <ClCompile Include="src\Database\DbPatient.cpp" />
     <ClCompile Include="src\Model\Date.cpp" />
@@ -337,12 +339,6 @@
     </ClCompile>
     <ClCompile Include="src\Database\Database.cpp" />
     <ClCompile Include="src\Presenter\AmbListPagePresenter.cpp">
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/utf-8 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">/utf-8 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">/utf-8 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">/utf-8 %(AdditionalOptions)</AdditionalOptions>
-    </ClCompile>
-    <ClCompile Include="src\Model\Validator\AbstractValidator.cpp">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">/utf-8 %(AdditionalOptions)</AdditionalOptions>
@@ -369,6 +365,9 @@
   <ItemGroup>
     <QtMoc Include="src\View\uiComponents\qt_derived\NameEdit.h" />
     <QtMoc Include="src\View\ProcedureEditDialog\ProcedureEditDialog.h" />
+    <ClInclude Include="src\Model\Validator\CommonValidators.h" />
+    <ClInclude Include="src\Model\Validator\DateValidator.h" />
+    <ClInclude Include="src\Model\Validator\NameValidator.h" />
     <ClInclude Include="src\Presenter\ProcedureDialog\ProcedureEditorPresenter.h" />
     <ClInclude Include="src\View\ProcedureDialog\Widgets\ImplantView\IImplantView.h" />
     <QtMoc Include="src\View\ProcedureDialog\Widgets\ImplantView\ImplantView.h" />
@@ -418,6 +417,7 @@
     <ClInclude Include="src\View\ListView\ToothPaintDevices\PaintHint.h" />
     <ClInclude Include="src\View\ProcedureDialog\Widgets\CommonFields\ICommonFields.h" />
     <ClInclude Include="src\View\ProcedureEditDialog\IProcedureEditDialog.h" />
+    <ClInclude Include="src\View\uiComponents\AbstractDateEdit.h" />
     <ClInclude Include="src\View\uiComponents\AbstractSpinBox.h" />
     <ClInclude Include="src\View\uiComponents\AbstractSurfaceSelector.h" />
     <ClInclude Include="src\View\uiComponents\AbstractRangeEdit.h" />
@@ -458,7 +458,7 @@
     <ClInclude Include="src\Presenter\ListPresenter\StatusPresenter\StatusControl.h" />
     <ClInclude Include="src\Model\Tooth\ToothController\ToothController.h" />
     <QtMoc Include="src\View\AmbListPage\TabBar.h" />
-    <QtMoc Include="src\View\uiComponents\qt_derived\DateLineEdit.h" />
+    <QtMoc Include="src\View\uiComponents\qt_derived\DateEdit.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\ComboBox.h" />
     <QtMoc Include="src\View\ListView\ListView.h" />
     <QtMoc Include="src\View\AmbListPage\saveDialog\SaveDialog.h" />
@@ -471,7 +471,6 @@
     <QtMoc Include="src\View\ListView\TeethView\TeethViewScene.h" />
     <ClInclude Include="src\View\ListView\TeethView\ToothGraphicsItem.h" />
     <ClInclude Include="src\View\uiComponents\AbstractLabel.h" />
-    <ClInclude Include="src\View\uiComponents\qt_derived\Label.h" />
     <ClInclude Include="src\Presenter\AllergiesDialog\AllergiesDialogPresenter.h" />
     <ClInclude Include="src\View\AmbListPage\ScrollArea.h" />
     <ClInclude Include="src\Presenter\TabPresenter\ListInstance.h" />
@@ -480,7 +479,6 @@
     <ClInclude Include="src\View\ListView\IListView.h" />
     <ClInclude Include="src\View\ListView\tilebutton.h" />
     <ClInclude Include="src\View\uiComponents\AbstractComboBox.h" />
-    <QtMoc Include="src\View\uiComponents\qt_derived\IdLineEdit.h" />
     <ClInclude Include="src\View\uiComponents\qt_derived\CityLineEdit.h" />
     <ClInclude Include="src\Database\DbPatient.h" />
     <ClInclude Include="src\Model\Date.h" />

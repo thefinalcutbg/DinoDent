@@ -2,8 +2,8 @@
 
 void GeneralMPresenter::setValidators()
 {
-	common_view->diagnosisEdit()->set_Validator(&notEmpty_validator);
-	common_view->manipulationEdit()->set_Validator(&notEmpty_validator);
+	common_view->diagnosisEdit()->setInputValidator(&notEmpty_validator);
+	common_view->manipulationEdit()->setInputValidator(&notEmpty_validator);
 }
 
 void GeneralMPresenter::setManipulationTemplate(const ManipulationTemplate& m)
@@ -15,13 +15,13 @@ void GeneralMPresenter::setManipulationTemplate(const ManipulationTemplate& m)
 	common_view->priceEdit()->disable(m.nzok);
 	common_view->manipulationEdit()->disable(m.nzok);
 
-	common_view->manipulationEdit()->setFieldText(m.name);
+	common_view->manipulationEdit()->set_Text(m.name);
 	common_view->priceEdit()->set_Value(m.price);
 
 	!m.diagnosis.empty() ?
-		common_view->diagnosisEdit()->setFieldText(m.diagnosis)
+		common_view->diagnosisEdit()->set_Text(m.diagnosis)
 		:
-		common_view->diagnosisEdit()->setFieldText(diagnosis);
+		common_view->diagnosisEdit()->set_Text(diagnosis);
 
 	setValidators();
 }
@@ -37,10 +37,10 @@ bool GeneralMPresenter::isValid()
 
 	for (AbstractUIElement* e : validatable)
 	{
-		e->forceValidate();
+		e->validateInput();
 		if (!e->isValid())
 		{
-			e->setFocusAndSelectAll();
+			e->setFocus();
 			return false;
 		}
 	}
@@ -55,7 +55,7 @@ std::vector<Manipulation> GeneralMPresenter::getManipulations()
 	{
 		Manipulation
 		{ m_template,
-		  Date{common_view->dateEdit()->getText()},
+		  Date{common_view->dateEdit()->getDate()},
 		  common_view->manipulationEdit()->getText(),
 		  common_view->diagnosisEdit()->getText(),
 		  common_view->priceEdit()->get_Value(),

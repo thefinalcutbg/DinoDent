@@ -39,8 +39,17 @@ ProcedureDialogPresenter::ProcedureDialogPresenter
 		&impl_presenter
 	}
 {
-	date_validator.setAmbListDate(ambListDate);
+	date_validator.setMaxDate
+	(
+		{
+			Date::getMaxDayOfMonth(ambListDate.month, ambListDate.year),
+			ambListDate.month,
+			ambListDate.year
+		}
+	);
 	
+	date_validator.setMinDate(ambListDate);
+
 }
 
 
@@ -61,12 +70,12 @@ void ProcedureDialogPresenter::setView(IProcedureDialog* view)
 	//default validator set:
 	auto date = Date::CurrentDate();
 
-	if (!date_validator.validate(date)) {
+	if (!date_validator.validateInput(date)) {
 		date = date_validator.getMin();
 	}
 
-	view->commonFields()->dateEdit()->setFieldText(Date::toString(date));
-	view->commonFields()->dateEdit()->set_Validator(&date_validator);
+	view->commonFields()->dateEdit()->set_Date(date);
+	view->commonFields()->dateEdit()->setInputValidator(&date_validator);
 
 	//setting the label
 	std::vector<int> selectedTeethNum;

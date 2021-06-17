@@ -59,7 +59,7 @@ std::tuple<std::string, int, int, double, double, int, int, bool, bool> ImplantV
 
 void ImplantView::setData(ImplantData data)
 {
-	ui.system_edit->setFieldText(data.system);
+	ui.system_edit->set_Text(data.system);
 	ui.timeCombo->setCurrentIndex(data.time);
 	ui.typeCombo->setCurrentIndex(data.type);
 	ui.length->setValue(data.length);

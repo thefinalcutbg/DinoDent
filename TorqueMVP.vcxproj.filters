@@ -93,9 +93,6 @@
     <ClCompile Include="src\Model\CityCode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Model\Validator\AbstractValidator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\View\ListView\ControlPanel\ControlPanel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -189,13 +186,7 @@
     <ClCompile Include="src\View\uiComponents\qt_derived\ComboBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\uiComponents\qt_derived\DateLineEdit.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\View\uiComponents\qt_derived\IdLineEdit.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\View\uiComponents\qt_derived\Label.cpp">
+    <ClCompile Include="src\View\uiComponents\qt_derived\DateEdit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\uiComponents\qt_derived\LineEdit.cpp">
@@ -324,6 +315,18 @@
     <ClCompile Include="src\View\ProcedureDialog\Widgets\ObturationView\IObturationView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Model\Validator\DateValidator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\uiComponents\AbstractDateEdit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Model\Validator\CommonValidators.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Model\Validator\NameValidator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -377,10 +380,7 @@
     <QtMoc Include="src\View\uiComponents\qt_derived\ComboBox.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\uiComponents\qt_derived\DateLineEdit.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="src\View\uiComponents\qt_derived\IdLineEdit.h">
+    <QtMoc Include="src\View\uiComponents\qt_derived\DateEdit.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\uiComponents\qt_derived\LineEdit.h">
@@ -650,9 +650,6 @@
     <ClInclude Include="src\View\uiComponents\qt_derived\CityLineEdit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\View\uiComponents\qt_derived\Label.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Model\Validator\PatientValidators.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -780,6 +777,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\ProcedureEditDialog\IProcedureEditDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\Validator\DateValidator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\View\uiComponents\AbstractDateEdit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\Validator\CommonValidators.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\Validator\NameValidator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -5,7 +5,7 @@
 
 #include "Model/Validator/ManipulationValidators.h"
 #include "View/uiComponents/AbstractLineEdit.h"
-
+#include "Model/Validator/DateValidator.h"
 #include "SubPresenters/ObturationPresenter.h"
 #include "SubPresenters/CrownPresenter.h"
 #include "SubPresenters/ExtractionPresenter.h"

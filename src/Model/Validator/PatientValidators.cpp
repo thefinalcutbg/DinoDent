@@ -1,25 +1,29 @@
 ﻿#include "PatientValidators.h"
 
-bool EgnValidator::dateCheck(int& d, int& m, int& y)
+const std::string EgnValidator::invalid{ "Невалидно ЕГН" };
+
+EgnValidator::EgnValidator()
 {
-    if (m < 1 || m > 12) return 0;
-
-    if (d > Date::getMaxDayOfMonth(m, y) || d < 1)
-    {
-        return false;
-    }
-
-    if (Date(d, m, y) > Date::CurrentDate())
-    {
-        return false;
-    }
-
-    return true;
+    date_validator.setMaxDate(Date::CurrentDate());
+    date_validator.setMinDate(Date(2, 1, 1900));
+    _errorMsg = &invalid;
 }
 
-bool EgnValidator::validate(const std::string& text)
+
+
+bool EgnValidator::validateInput(const std::string& text)
 {
     const std::string& egn = text;
+
+    if (!not_empty.validateInput(text))
+    {
+        _errorMsg = &not_empty.getErrorMessage();
+        return false;
+    }
+
+    _errorMsg = &invalid;
+
+    if (!digits_only.validateInput(text)) return false;
 
     if (egn.size() < 10) return false;
 
@@ -33,7 +37,7 @@ bool EgnValidator::validate(const std::string& text)
    // if (m > 20 && m < 33) { y = y + 1800; m = m - 20; }
     if (m <= 12) { y = y + 1900; }
     else if (m >= 41) { y = y + 2000; m = m - 40; }
-    if (!dateCheck(d, m, y)) return false;
+    if (!date_validator.validateInput(Date(d, m, y))) return false;
 
     //last 4 digits check:
     int weigthctrl[9] = { 2, 4, 8, 5, 10, 9, 7, 3, 6 };
@@ -55,13 +59,29 @@ bool EgnValidator::validate(const std::string& text)
     return true;
 }
 
-bool Ln4Validator::validate(const std::string& text)
+const std::string Ln4Validator::invalid{ "Невалидно ЛНЧ" };
+
+Ln4Validator::Ln4Validator()
+{
+    _errorMsg = &invalid;
+}
+
+bool Ln4Validator::validateInput(const std::string& text)
 {
     const std::string& ln4 = text;
 
-    //length check:
-    if (ln4.length() != 10)
-        return 0;
+    if (!not_empty.validateInput(text))
+    {
+        _errorMsg = &not_empty.getErrorMessage();
+        return false;
+    }
+
+    _errorMsg = &invalid;
+
+    if (!digits_only.validateInput(text)) return false;
+
+    if (ln4.size() < 10) return false;
+
 
     //last 4 digits check:
     int weigthctrl[9] = { 21,19,17,13,11,9,7,3,1 };
@@ -83,9 +103,18 @@ bool Ln4Validator::validate(const std::string& text)
     return 1;
 }
 
-bool HIRBNoValidator::validate(const std::string& text)
+const std::string HIRBNoValidator::invalid{ "Невалиден номер на здравна книжка" };
+
+HIRBNoValidator::HIRBNoValidator()
+{
+    _errorMsg = &invalid;
+}
+
+bool HIRBNoValidator::validateInput(const std::string& text)
 {
     const std::string& hirbNo = text;
+
+    if (!digits_only.validateInput(text)) return false;
 
     if (hirbNo.length() == 0)
         return true;
@@ -97,68 +126,32 @@ bool HIRBNoValidator::validate(const std::string& text)
     return true;
 }
 
-NameValidator::NameValidator() : letters("абвгдежзийклмнопрстуфхцчшщъьюя-АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЬЮЯ ")
-{}
+#include <sstream>
+#include <fstream>
 
-bool NameValidator::validate(const std::string& text)
-{
-
-    if (text.empty() || text.length() == 1) return false;
-
-    QString name = text.c_str();
-
-    bool foundletter;
-
-    bool onlyspaces = true;
-    for (int i = 0; i < text.size(); i++)
-    {
-        if (text[i] != ' ' && text[i] != '-') { onlyspaces = false; break; }
-        onlyspaces = true;
-    }
-    if (onlyspaces) return false;
-
-    for (int i = 0; i < name.size(); i++)
-    {
-        foundletter = false;
-
-        for (int y = 0; y < 63; y++)
-            if (name[i] == letters[y]) { foundletter = true; break; }
-
-
-        if (foundletter == false) return false;
-    }
-
-    return true;
-}
+const std::string CityValidator::invalidCity{ "Невалидно населено място" };
 
 CityValidator::CityValidator()
 {
+    if(!_init)
+    { 
     std::ifstream infile("cities.txt");
     std::string line;
 
     int maxCharLength = 0;
 
     while (std::getline(infile, line))
-        cityCheckMap[line] = true;
+        _citySet.insert(line);
 
     infile.close();
+
+    _init = true;
+    }
+
+    _errorMsg = &invalidCity;
 }
 
-bool CityValidator::validate(const std::string& text)
+bool CityValidator::validateInput(const std::string& text)
 {
-    if (cityCheckMap[text])
-        return true;
-
-    return false;
-}
-
-BirthValidator::BirthValidator()
-{}
-
-bool BirthValidator::validate(const std::string& text)
-{
-    Date date(text);
-    if (date == defaultDate) return false;
-
-    return Date::CurrentDate() > date;
+    return _citySet.count(text);
 }

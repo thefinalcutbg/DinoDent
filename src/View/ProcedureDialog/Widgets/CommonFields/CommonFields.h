@@ -20,6 +20,6 @@ private:
 	virtual AbstractLineEdit* manipulationEdit() override;
 	virtual AbstractLineEdit* diagnosisEdit() override;
 	virtual AbstractSpinBox* priceEdit() override;
-	virtual AbstractLineEdit* dateEdit() override;
+	virtual AbstractDateEdit* dateEdit() override;
 	virtual void set_hidden(bool hidden) override;
 };

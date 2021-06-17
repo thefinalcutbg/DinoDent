@@ -38,7 +38,7 @@ std::vector<Manipulation> TeethMPresenter::getManipulations()
 			Manipulation
 			{
 				 m_template,
-				 Date{common_view->dateEdit()->getText()},
+				 Date{common_view->dateEdit()->getDate()},
 				 common_view->manipulationEdit()->getText(),
 				 common_view->diagnosisEdit()->getText(),
 				 common_view->priceEdit()->get_Value(),

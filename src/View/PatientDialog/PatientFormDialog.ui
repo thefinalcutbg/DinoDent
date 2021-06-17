@@ -167,7 +167,7 @@
     <number>8</number>
    </property>
   </widget>
-  <widget class="IdLineEdit" name="idLineEdit">
+  <widget class="LineEdit" name="idLineEdit">
    <property name="geometry">
     <rect>
      <x>130</x>
@@ -245,7 +245,7 @@
     <string> Пол:</string>
    </property>
   </widget>
-  <widget class="DateLineEdit" name="birthEdit">
+  <widget class="DateEdit" name="birthEdit">
    <property name="geometry">
     <rect>
      <x>320</x>
@@ -288,8 +288,8 @@
   <widget class="QPushButton" name="okButton">
    <property name="geometry">
     <rect>
-     <x>420</x>
-     <y>350</y>
+     <x>440</x>
+     <y>370</y>
      <width>71</width>
      <height>23</height>
     </rect>
@@ -363,7 +363,7 @@
     <number>50</number>
    </property>
   </widget>
-  <widget class="Label" name="codeLabel">
+  <widget class="QLabel" name="codeLabel">
    <property name="geometry">
     <rect>
      <x>130</x>
@@ -376,13 +376,29 @@
     <string/>
    </property>
   </widget>
+  <widget class="QLabel" name="errorLabel">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>370</y>
+     <width>311</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color : red;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
    <class>LineEdit</class>
    <extends>QLineEdit</extends>
-   <header location="global">View/uiComponents/qt_derived/LineEdit.h</header>
+   <header>View/uiComponents/qt_derived/LineEdit.h</header>
   </customwidget>
   <customwidget>
    <class>CityLineEdit</class>
@@ -390,24 +406,14 @@
    <header>View/uiComponents/qt_derived/CityLineEdit.h</header>
   </customwidget>
   <customwidget>
-   <class>DateLineEdit</class>
+   <class>DateEdit</class>
    <extends>QDateEdit</extends>
-   <header>View/uiComponents/qt_derived/DateLineEdit.h</header>
-  </customwidget>
-  <customwidget>
-   <class>IdLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>View/uiComponents/qt_derived/IdLineEdit.h</header>
+   <header>View/uiComponents/qt_derived/DateEdit.h</header>
   </customwidget>
   <customwidget>
    <class>ComboBox</class>
    <extends>QComboBox</extends>
    <header>View/uiComponents/qt_derived/ComboBox.h</header>
-  </customwidget>
-  <customwidget>
-   <class>Label</class>
-   <extends>QLabel</extends>
-   <header>View/uiComponents/qt_derived/Label.h</header>
   </customwidget>
   <customwidget>
    <class>NameEdit</class>

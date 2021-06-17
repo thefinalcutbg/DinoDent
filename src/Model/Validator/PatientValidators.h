@@ -1,56 +1,52 @@
-#pragma once
+﻿#pragma once
 #include "AbstractValidator.h"
-#include <QString>
-#include <QFile>
-#include "Model/Date.h"
-#include <sstream>
-#include <fstream>
-#include <unordered_map>
-
-
+#include "CommonValidators.h"
+#include "DateValidator.h"
 
 class EgnValidator : public Validator
 {
-	bool dateCheck(int& d, int& m, int& y);
+	static const std::string invalid;
+
+	DigitsOnlyValidator digits_only;
+	DateValidator date_validator;
+	NotEmptyValidator not_empty;
+	
 public:
-	bool validate(const std::string& text);
+	EgnValidator();
+	bool validateInput(const std::string& text);
 };
 
 
 class Ln4Validator : public Validator
 {
+	DigitsOnlyValidator digits_only;
+	NotEmptyValidator not_empty;
+	static const std::string invalid;
 public:
-	bool validate(const std::string& text);
+	Ln4Validator();
+	bool validateInput(const std::string& text);
 };
 
 class HIRBNoValidator : public Validator
 {
+	DigitsOnlyValidator digits_only;
 public:
-	bool validate(const std::string& text);
+	static const std::string invalid;
+	HIRBNoValidator();
+	bool validateInput(const std::string& text);
 };
 
-class NameValidator : public Validator
-{
-	QString letters;
-public:
-	NameValidator();
-	bool validate(const std::string& text);
-};
+#include <unordered_set>
 
 class CityValidator : public Validator
 {
-	std::unordered_map<std::string, bool> cityCheckMap;
+	static const std::string invalidCity;
+
+	inline static std::unordered_set<std::string> _citySet;
+
+	inline static bool _init{ false };
 public:
 	CityValidator();
-	bool validate(const std::string& text);
-};
-
-class BirthValidator : public Validator
-{
-	Date defaultDate;
-
-public:
-	BirthValidator();
-	bool validate(const std::string& text);
+	bool validateInput(const std::string& text);
 };
 

@@ -20,9 +20,9 @@ void ProcedureEditorPresenter::setView(IProcedureEditDialog* view)
 	this->view = view;
 
 	view->setMtype(m.type);
-	view->commonFields()->dateEdit()->setFieldText(Date::toString(m.date));
-	view->commonFields()->diagnosisEdit()->setFieldText(m.diagnosis);
-	view->commonFields()->manipulationEdit()->setFieldText(m.name);
+	view->commonFields()->dateEdit()->set_Date(m.date);
+	view->commonFields()->diagnosisEdit()->set_Text(m.diagnosis);
+	view->commonFields()->manipulationEdit()->set_Text(m.name);
 	view->commonFields()->priceEdit()->set_Value(m.price);
 	view->crownView()->rangeWidget()->disbleBridgeSwitch(true);
 
@@ -39,7 +39,7 @@ void ProcedureEditorPresenter::setView(IProcedureEditDialog* view)
 		break;
 	case ManipulationType::bridge:
 		view->crownView()->setData(std::get<BridgeData>(m.result));
-		view->crownView()->rangeWidget()->set_Validator(&bridgeValidator);
+		view->crownView()->rangeWidget()->setInputValidator(&bridgeValidator);
 		break;
 
 	}
@@ -50,7 +50,7 @@ void ProcedureEditorPresenter::okPressed()
 {
 	//if(!view->isValid()) return;
 
-	m.date = view->commonFields()->dateEdit()->getText();
+	m.date = view->commonFields()->dateEdit()->getDate();
 	m.diagnosis = view->commonFields()->diagnosisEdit()->getText();
 	m.name = view->commonFields()->manipulationEdit()->getText();
 	m.price = view->commonFields()->priceEdit()->get_Value();

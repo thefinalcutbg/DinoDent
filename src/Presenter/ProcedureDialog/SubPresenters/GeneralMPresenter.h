@@ -3,6 +3,7 @@
 #include "Model/Tooth/Tooth.h"
 #include "View/ProcedureDialog/Widgets/CommonFields/ICommonFields.h"
 #include "Model/Validator/ManipulationValidators.h"
+#include "Model/Validator/CommonValidators.h"
 
 #include <vector>
 
@@ -15,7 +16,7 @@ protected:
 	std::string diagnosis;
 	ManipulationTemplate m_template;
 
-	EmptyFieldValidator notEmpty_validator;
+	NotEmptyValidator notEmpty_validator;
 
 	virtual std::string autoDiagnosis(const Tooth& tooth) { return std::string(); } ;
 	virtual Result getResult() { return NoData(); }

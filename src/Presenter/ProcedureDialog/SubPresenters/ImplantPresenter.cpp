@@ -21,7 +21,7 @@ void ImplantPresenter::setManipulationTemplate(const ManipulationTemplate& m)
 
 	GeneralMPresenter::setManipulationTemplate(m);
 
-	view->systemEdit()->setFieldText(m.material);
+	view->systemEdit()->set_Text(m.material);
 }
 
 void ImplantPresenter::setView(IImplantView* view)

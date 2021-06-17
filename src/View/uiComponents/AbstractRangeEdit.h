@@ -10,7 +10,7 @@ protected:
 		
 		auto [begin, end] = getRange();
 	
-		return validator->validate(begin, end);
+		return validator->validateInput(begin, end);
 
 	};
 	

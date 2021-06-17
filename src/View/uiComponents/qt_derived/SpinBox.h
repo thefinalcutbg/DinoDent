@@ -15,9 +15,9 @@ public:
 	~SpinBox();
 
 	// Inherited via AbstractSpinBox
-	virtual void setFocusAndSelectAll() override;
+	virtual void setFocus() override;
 	virtual void disable(bool disable) override;
-	virtual void setAppearence(bool valid) override;
+	virtual void setValidAppearence(bool valid) override;
 	virtual void set_Value(double value) override;
 	virtual double get_Value() override;
 };

@@ -10,7 +10,7 @@ void ObturationPresenter::setView(IObturationView* view)
 {
     this->view = view;
 
-    view->surfaceSelector()->set_Validator(&surf_validator);
+    view->surfaceSelector()->setInputValidator(&surf_validator);
 
     if (selectedTeeth->size() == 1)
     {
@@ -28,18 +28,18 @@ void ObturationPresenter::setManipulationTemplate(const ManipulationTemplate& m)
     if (noTeethSelected) return;
 
     GeneralMPresenter::setManipulationTemplate(m);
-    view->material()->setFieldText(m.material);
+    view->material()->set_Text(m.material);
 }
 
 bool ObturationPresenter::isValid()
 {
     if (!TeethMPresenter::isValid()) return false;
 
-    view->surfaceSelector()->forceValidate();
+    view->surfaceSelector()->validateInput();
 
     if (!view->surfaceSelector()->isValid())
     {
-        view->surfaceSelector()->setFocusAndSelectAll();
+        view->surfaceSelector()->setFocus();
         return false;
     }
 

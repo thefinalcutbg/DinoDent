@@ -1,9 +1,8 @@
 #pragma once
 
 #include <QLineEdit>
-#include <QKeyEvent>
-
 #include "../AbstractLineEdit.h"
+class QLabel;
 
 class LineEdit : public QLineEdit, public AbstractLineEdit
 {
@@ -13,16 +12,18 @@ class LineEdit : public QLineEdit, public AbstractLineEdit
 	int defaultWidth;
 	void dynamicWidthChange();
 	bool disabled;
+	QLabel* errorLabel;
 protected:
 
-	virtual void stateChangedByUser() override;
 public:
 	LineEdit(QWidget *parent);
 	~LineEdit();
 
-	void setFocusAndSelectAll() override;
-	void setAppearence(bool valid) override;
-	void setFieldText(const std::string& text) override;
+	void setErrorLabel(QLabel* errorLabel);
+
+	void AbstractUIElement::setFocus() override;
+	void setValidAppearence(bool valid) override;
+	void set_Text(const std::string& text) override;
 	std::string getText() override;
 	void disable(bool disable) override;
 	void keyPressEvent(QKeyEvent* event) override;

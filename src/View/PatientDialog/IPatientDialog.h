@@ -3,10 +3,10 @@
 class Patient;
 class Validator;
 
-enum PatientField { id, birthdate, fname, mname, lname, city, address, hirbno, phone };
+enum PatientField { id, fname, mname, lname, city, address, hirbno, phone };
 
 #include "View/uiComponents/AbstractLineEdit.h"
-
+#include "View/uiComponents/AbstractDateEdit.h"
 class IPatientDialog
 {
 
@@ -21,5 +21,6 @@ public:
 	virtual Patient getPatient() = 0;
 
 	virtual AbstractLineEdit* lineEdit(PatientField field) = 0;
+	virtual AbstractDateEdit* dateEdit() = 0;
 };
 

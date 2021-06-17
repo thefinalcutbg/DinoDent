@@ -10,7 +10,7 @@ SpinBox::~SpinBox()
 {
 }
 
-void SpinBox::setFocusAndSelectAll()
+void SpinBox::setFocus()
 {
 	selectAll();
 }
@@ -21,7 +21,7 @@ void SpinBox::disable(bool disable)
 	this->setDisabled(disable);
 }
 
-void SpinBox::setAppearence(bool valid)
+void SpinBox::setValidAppearence(bool valid)
 {
 }
 

@@ -1,13 +1,11 @@
 #include "CityLineEdit.h"
 
-
-
 CityLineEdit::CityLineEdit(QWidget* parent) : LineEdit(parent), maxCharLength(70)
 {
 	cityLoader();
 	setCityCompleter();
 
-	connect(this, &QLineEdit::textChanged, [=] { forceValidate(); });
+	connect(this, &QLineEdit::textChanged, [=] { AbstractUIElement::validateInput(); }); //because it's also changed programatically
 }
 
 void CityLineEdit::cityLoader()
@@ -54,6 +52,6 @@ void CityLineEdit::setCityCompleter()
 void CityLineEdit::reformat()
 {
 	if (cityCompleter->popup()->isVisible())
-		setFieldText((cityCompleter->currentCompletion()).toStdString());
-	forceValidate();
+		QLineEdit::setText(cityCompleter->currentCompletion());
+	validateInput();
 }

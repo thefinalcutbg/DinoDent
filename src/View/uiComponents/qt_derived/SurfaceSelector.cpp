@@ -7,12 +7,12 @@ SurfaceSelector::SurfaceSelector(QWidget *parent)
 
 	ui.error_label->setStyleSheet("color:red");
 
-	connect(ui.o_check, &QCheckBox::stateChanged, [=] {stateChangedByUser(); });
-	connect(ui.m_check, &QCheckBox::stateChanged, [=] {stateChangedByUser(); });
-	connect(ui.d_check, &QCheckBox::stateChanged, [=] {stateChangedByUser(); });
-	connect(ui.b_check, &QCheckBox::stateChanged, [=] {stateChangedByUser(); });
-	connect(ui.l_check, &QCheckBox::stateChanged, [=] {stateChangedByUser(); });
-	connect(ui.c_check, &QCheckBox::stateChanged, [=] {stateChangedByUser(); });
+	connect(ui.o_check, &QCheckBox::stateChanged, [=] {validateInput(); });
+	connect(ui.m_check, &QCheckBox::stateChanged, [=] {validateInput(); });
+	connect(ui.d_check, &QCheckBox::stateChanged, [=] {validateInput(); });
+	connect(ui.b_check, &QCheckBox::stateChanged, [=] {validateInput(); });
+	connect(ui.l_check, &QCheckBox::stateChanged, [=] {validateInput(); });
+	connect(ui.c_check, &QCheckBox::stateChanged, [=] {validateInput(); });
 
 }
 
@@ -20,7 +20,7 @@ SurfaceSelector::~SurfaceSelector()
 {
 }
 
-void SurfaceSelector::setFocusAndSelectAll()
+void SurfaceSelector::setFocus()
 {
 	ui.o_check->setFocus();
 }
@@ -33,7 +33,7 @@ void SurfaceSelector::disable(bool disable)
 		this->show();
 }
 
-void SurfaceSelector::setAppearence(bool valid)
+void SurfaceSelector::setValidAppearence(bool valid)
 {
 	if (valid)
 		ui.error_label->setText("");

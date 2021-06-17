@@ -55,7 +55,7 @@ void CrownView::setData(const BridgeData& data)
 	ui.rangeWidget->disable(false);
 	ui.rangeWidget->setRange(data.tooth_begin, data.tooth_end);
 	ui.comboBox->setCurrentIndex(data.prep_type);
-	ui.materialEdit->setFieldText(data.material);
+	ui.materialEdit->set_Text(data.material);
 	ui.vitaWidget->setIndex(data.color.index, data.color.Vita3dMaster);
 }
 
@@ -63,7 +63,7 @@ void CrownView::setData(const CrownData& data)
 {
 	ui.rangeWidget->disable(true);
 	ui.comboBox->setCurrentIndex(data.prep_type);
-	ui.materialEdit->setFieldText(data.material);
+	ui.materialEdit->set_Text(data.material);
 	ui.vitaWidget->setIndex(data.color.index, data.color.Vita3dMaster);
 }
 

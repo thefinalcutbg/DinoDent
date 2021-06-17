@@ -3,25 +3,35 @@
 TextEdit::TextEdit(QWidget *parent)
 	: QTextEdit(parent)
 {
-	connect(this, &QTextEdit::textChanged, [=] { stateChangedByUser(); });
+	connect(this, &QTextEdit::textChanged, [=] { AbstractUIElement::validateInput(); });
 }
 
 TextEdit::~TextEdit()
 {
 }
 
-void TextEdit::setFocusAndSelectAll()
+void TextEdit::setFocus()
 {
-	setFocus();
+	QWidget::setFocus();
 	selectAll();
 }
 
 void TextEdit::disable(bool disable)
 {
-	disabled = disable;
+	if (disable)
+	{
+		disabled = true;
+		setContextMenuPolicy(Qt::NoContextMenu);
+	}
+	else
+	{
+		setContextMenuPolicy(Qt::DefaultContextMenu);
+		disabled = false;
+	}
+		
 }
 
-void TextEdit::setAppearence(bool valid)
+void TextEdit::setValidAppearence(bool valid)
 {
 
 	if (valid)
@@ -30,11 +40,11 @@ void TextEdit::setAppearence(bool valid)
 		setStyleSheet("border: 1px solid red;");
 }
 
-void TextEdit::setFieldText(const std::string& text)
+void TextEdit::set_Text(const std::string& text)
 {
-	blockSignals(true);
-	setText(QString::fromStdString(text));
-	blockSignals(false);
+	QSignalBlocker blocker(this);
+	QTextEdit::setText(QString::fromStdString(text));
+
 }
 
 std::string TextEdit::getText()

@@ -32,7 +32,7 @@ AbstractSpinBox* CommonFields::priceEdit()
 	return ui.priceSpinBox;
 }
 
-AbstractLineEdit* CommonFields::dateEdit()
+AbstractDateEdit* CommonFields::dateEdit()
 {
 	return ui.dateEdit;
 }

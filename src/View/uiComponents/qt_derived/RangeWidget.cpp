@@ -20,13 +20,32 @@ RangeWidget::RangeWidget(QWidget *parent)
 	}
 
 	connect(ui.beginCombo, QOverload<int>::of(&QComboBox::currentIndexChanged),
-		[=](int index) { stateChangedByUser(); });
-	connect(ui.endCombo, QOverload<int>::of(&QComboBox::currentIndexChanged),
-		[=](int index) { stateChangedByUser(); });
+		[=](int index)
+		{ 	
+			AbstractUIElement::validateInput();
 
-	connect
-	(ui.checkBox, &QCheckBox::stateChanged, 
-		[=] { 
+			if (isValid())
+			{
+				auto [begin, end] = getRange();
+				emit rangeChanged(begin, end);
+			} 
+		});
+
+	connect(ui.endCombo, QOverload<int>::of(&QComboBox::currentIndexChanged),
+		[=](int index)
+		{
+			AbstractUIElement::validateInput();
+
+			if (isValid())
+			{
+				auto [begin, end] = getRange();
+				emit rangeChanged(begin, end);
+			}
+		});
+
+	connect(ui.checkBox, &QCheckBox::stateChanged, 
+		[=] 
+		{ 
 				bool disable = !ui.checkBox->isChecked(); 
 
 				ui.label_3->setHidden(disable);
@@ -36,8 +55,7 @@ RangeWidget::RangeWidget(QWidget *parent)
 				ui.errorLabel->setHidden(disable);
 
 				emit widgetChecked(!disable);
-		}
-	);
+		});
 
 	ui.label_4->setHidden(true);
 	ui.label_3->setHidden(true);
@@ -66,7 +84,7 @@ void RangeWidget::setRange(int begin, int end)
 	ui.beginCombo->blockSignals(false);
 	ui.endCombo->blockSignals(false);
 
-	forceValidate();
+	AbstractUIElement::validateInput();
 }
 
 std::tuple<int, int> RangeWidget::getRange()
@@ -81,7 +99,7 @@ std::tuple<int, int> RangeWidget::getRange()
 	return std::tuple<int, int>(begin, end);
 }
 
-void RangeWidget::setAppearence(bool valid)
+void RangeWidget::setValidAppearence(bool valid)
 {
 	if (valid) {
 
@@ -93,7 +111,7 @@ void RangeWidget::setAppearence(bool valid)
 	}
 }
 
-void RangeWidget::setFocusAndSelectAll()
+void RangeWidget::setFocus()
 {
 	ui.endCombo->setFocus();
 	ui.endCombo->showPopup();
@@ -107,13 +125,3 @@ void RangeWidget::disbleBridgeSwitch(bool disable)
 }
 
 
-void RangeWidget::stateChangedByUser()
-{
-	forceValidate();
-
-	if (isValid())
-	{
-		auto [begin, end] = getRange();
-		emit rangeChanged(begin, end);
-	}
-}

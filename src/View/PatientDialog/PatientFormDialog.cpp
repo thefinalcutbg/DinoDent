@@ -10,27 +10,26 @@ PatientFormDialog::PatientFormDialog(PatientDialogPresenter* p, QWidget* parent)
     setWindowTitle("Нов амбулаторен лист");
 
     numValidator = new QRegExpValidator(QRegExp(("[0-9]+")), this);
-    ui.idLineEdit->setValidator(numValidator);
-    ui.HIRBNoEdit->setValidator(numValidator);
+    //ui.idLineEdit->QLineEdit::setValidator(numValidator);
+   // ui.HIRBNoEdit->QLineEdit::setValidator(numValidator);
 
     nameValidator = new QRegExpValidator(QRegExp(("[А-Я-а-я-a-z-A-Z- ]+")), this);
-    ui.fNameEdit->setValidator(nameValidator);
-    ui.mNameEdit->setValidator(nameValidator);
-    ui.lNameEdit->setValidator(nameValidator);
+    ui.fNameEdit->QLineEdit::setValidator(nameValidator);
+    ui.mNameEdit->QLineEdit::setValidator(nameValidator);
+    ui.lNameEdit->QLineEdit::setValidator(nameValidator);
 
     phoneValidator = new QRegExpValidator(QRegExp("[0-9-+ ]+"), this);
-    ui.phoneEdit->setValidator(phoneValidator);
+    ui.phoneEdit->QLineEdit::setValidator(phoneValidator);
 
     connect(ui.typeComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
         [=](int index) { presenter->changePatientType(index+1); });
 
     connect(ui.okButton, &QPushButton::clicked, [=] { presenter->accept(); });
-    connect(ui.idLineEdit, &IdLineEdit::validIdEntered, [=]{presenter->searchDbForPatient(); });
+    connect(ui.idLineEdit, &QLineEdit::textEdited, [=]{ if(ui.idLineEdit->isValid()) presenter->searchDbForPatient(ui.typeComboBox->currentIndex()+1); });
     connect(ui.cityLineEdit, &QLineEdit::textChanged, [=] {presenter->cityChanged(); });
 
 
     patientFields[id] = ui.idLineEdit;
-    patientFields[birthdate] = ui.birthEdit;
     patientFields[fname] = ui.fNameEdit;
     patientFields[mname] = ui.mNameEdit;
     patientFields[lname] = ui.lNameEdit;
@@ -38,6 +37,13 @@ PatientFormDialog::PatientFormDialog(PatientDialogPresenter* p, QWidget* parent)
     patientFields[address] = ui.addressEdit;
     patientFields[hirbno] = ui.HIRBNoEdit;
     patientFields[phone] = ui.phoneEdit;
+
+    for (auto& line : patientFields)
+    {
+        line->setErrorLabel(ui.errorLabel);
+    }
+
+    ui.birthEdit->setErrorLabel(ui.errorLabel);
 
     presenter->setView(this);
 
@@ -60,14 +66,16 @@ void PatientFormDialog::setEditMode(bool editMode)
 {
     if (editMode)
     {
-        ui.idLineEdit->disable(1);
-        ui.typeComboBox->disable(1);
+        ui.idLineEdit->disable(true);
+        ui.typeComboBox->disable(true);
         setWindowTitle("Редактиране на данните на пациента");
+        ui.idLineEdit->setFocus();
+        ui.idLineEdit->selectAll();
     }
     else
     {
-        ui.idLineEdit->disable(0);
-        ui.typeComboBox->disable(0);
+        ui.idLineEdit->disable(false);
+        ui.typeComboBox->disable(false);
         setWindowTitle("Нов амбулаторен лист");
     }
 
@@ -106,7 +114,7 @@ void PatientFormDialog::setCodeInfo(const std::string& codeInfo)
 void PatientFormDialog::resetFields()
 {
     ui.idLineEdit->reset();
-    ui.idLineEdit->setAppearence(true);
+    ui.idLineEdit->setValidAppearence(true);
     ui.birthEdit->reset();
     ui.fNameEdit->reset();
     ui.mNameEdit->reset();
@@ -126,21 +134,21 @@ void PatientFormDialog::setPatient(const Patient& patient)
     QSignalBlocker blocker(this);
 
     ui.typeComboBox->setCurrentIndex(patient.type - 1);
-    ui.idLineEdit->setText(QString::fromStdString(patient.id));
+    ui.idLineEdit->QLineEdit::setText(QString::fromStdString(patient.id));
     ui.sexCombo->setCurrentIndex(patient.sex);
 
     auto& date = patient.birth;
     ui.birthEdit->setDate(QDate(date.year, date.month, date.day));
 
-    ui.fNameEdit->setText(QString::fromStdString(patient.FirstName));
-    ui.mNameEdit->setText(QString::fromStdString(patient.MiddleName));
-    ui.lNameEdit->setText(QString::fromStdString(patient.LastName));
+    ui.fNameEdit->QLineEdit::setText(QString::fromStdString(patient.FirstName));
+    ui.mNameEdit->QLineEdit::setText(QString::fromStdString(patient.MiddleName));
+    ui.lNameEdit->QLineEdit::setText(QString::fromStdString(patient.LastName));
 
-    ui.cityLineEdit->setText(QString::fromStdString(patient.city));
+    ui.cityLineEdit->QLineEdit::setText(QString::fromStdString(patient.city));
     
-    ui.addressEdit->setText(QString::fromStdString(patient.address));
-    ui.HIRBNoEdit->setText(QString::fromStdString(patient.HIRBNo));
-    ui.phoneEdit->setText(QString::fromStdString(patient.phone));
+    ui.addressEdit->QLineEdit::setText(QString::fromStdString(patient.address));
+    ui.HIRBNoEdit->QLineEdit::setText(QString::fromStdString(patient.HIRBNo));
+    ui.phoneEdit->QLineEdit::setText(QString::fromStdString(patient.phone));
 }
 
 Patient PatientFormDialog::getPatient()
@@ -166,6 +174,11 @@ Patient PatientFormDialog::getPatient()
 AbstractLineEdit* PatientFormDialog::lineEdit(PatientField field)
 {
     return patientFields[field];
+}
+
+AbstractDateEdit* PatientFormDialog::dateEdit()
+{
+    return ui.birthEdit;
 }
 
 

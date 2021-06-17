@@ -1,49 +1,6 @@
 ﻿#include "ManipulationValidators.h"
-#include <qdebug.h>
 
-DateValidator::DateValidator() : min{1,1,1900}, max{1,1,3000}
-{
-}
-
-void DateValidator::setAmbListDate(const Date& amb_date)
-{
-    this->min = amb_date;
-    this->max = Date{ amb_date.getMaxDayOfMonth(amb_date.month, amb_date.year),
-                      amb_date.month,
-                      amb_date.year };
-}
-
-Date DateValidator::getMin()
-{
-    return min;
-}
-
-bool DateValidator::validate(const Date& date)
-{
-
-    if (date < min || date > max)
-    {
-        return false;
-    }
-
-    return true;
-}
-
-bool DateValidator::validate(const std::string& text)
-{
-    Date date(text);
-
-    return validate(date);
-
-}
-
-Date DateValidator::getMax()
-{
-    return max;
-}
-
-
-bool BridgeRangeValidator::validate(int begin, int end)
+bool BridgeRangeValidator::validateInput(int begin, int end)
 {
     if ((begin < 16) != (end < 16)){
         return false;
@@ -55,12 +12,7 @@ bool BridgeRangeValidator::validate(int begin, int end)
     return true;
 }
 
-bool EmptyFieldValidator::validate(const std::string& text)
-{
-    return !text.empty();
-}
-
-bool SurfaceValidator::validate(const std::array<bool, 6>& surfaces)
+bool SurfaceValidator::validateInput(const std::array<bool, 6>& surfaces)
 {
     for (bool s : surfaces)
     {
@@ -68,3 +20,5 @@ bool SurfaceValidator::validate(const std::array<bool, 6>& surfaces)
     }
     return false;
 }
+
+

@@ -72,15 +72,13 @@ bool TabPresenter::listsExist(const std::string& ambList_id)
     return false;
 }
 
-
-
 ListInstance* TabPresenter::currentList()
 {
     if (_index == -1 || _index >= _lists.size()) return nullptr;
 
     return &_lists[_index];
 }
-#include <QDebug>
+
 void TabPresenter::setCurrentList(int index)
 {
     if (index == -1)
@@ -99,7 +97,6 @@ void TabPresenter::setCurrentList(int index)
     _index = index;
     
     _listPresenter.setData(&_lists[index]);
-    qDebug() << "h/w set:" << currentList()->_scrollHeight << currentList()->_scrollWidth;
     view->setScrollPos(ScrollPos{ currentList()->_scrollHeight, currentList()->_scrollWidth });
 }
 void TabPresenter::newList(const Patient& patient)

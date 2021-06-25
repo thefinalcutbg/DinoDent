@@ -17,6 +17,6 @@ public:
     void insert(const Patient& patient);
     void update(const Patient& patient);
     Patient getPatient(std::string patientID);
-    void updateAllergies(std::string& patientID, std::string& allergies, std::string& current, std::string& past);
+    void updateAllergies(const std::string& patientID, const std::string& allergies, const std::string& current, const std::string& past);
 };
 

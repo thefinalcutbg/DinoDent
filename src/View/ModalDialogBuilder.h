@@ -3,17 +3,14 @@
 class ProcedureDialogPresenter;
 class PatientDialogPresenter;
 class ProcedureEditorPresenter;
+class AllergiesDialogPresenter;
 
-class ModalDialogBuilder
+namespace ModalDialogBuilder
 {
 
-	ModalDialogBuilder();
-
-public:
-	ModalDialogBuilder(const ModalDialogBuilder&) = delete;
-
-	static void openDialog(ProcedureDialogPresenter* p);
-	static void openDialog(PatientDialogPresenter* p);
-	static void openDialog(ProcedureEditorPresenter* p);
+	void openDialog(ProcedureDialogPresenter* p);
+	void openDialog(PatientDialogPresenter* p);
+	void openDialog(ProcedureEditorPresenter* p);
+	void openDialog(AllergiesDialogPresenter* p);
 };
 

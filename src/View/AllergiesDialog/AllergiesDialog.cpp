@@ -1,39 +1,42 @@
 ﻿#include "AllergiesDialog.h"
+#include "Presenter/AllergiesDialog/AllergiesDialogPresenter.h"
 
-AllergiesDialog::AllergiesDialog(QWidget* parent)
-    : QDialog(parent), presenter(this)
+AllergiesDialog::AllergiesDialog(AllergiesDialogPresenter* p)
+    : presenter(p)
 {
     ui.setupUi(this);
     setModal(true);
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     setWindowTitle("Алергии, настоящи и минали заболявания");
 
+    p->setView(this);
+
     connect(ui.okButton, &QPushButton::clicked, this,
         [=]
         {
-            presenter.setAllergies(
-                ui.allergiesEdit->toPlainText().toStdString(),
-                ui.currentEdit->toPlainText().toStdString(),
-                ui.pastEdit->toPlainText().toStdString());
-            close();
+            presenter->okClicked();
         });
 
     connect(ui.cancelButton, &QPushButton::clicked, this, [=] {close(); });
 
 }
 
-
-
-void AllergiesDialog::open(std::string allergies, std::string current, std::string past)
+void AllergiesDialog::setData(const Allergies& allergies)
 {
-    ui.allergiesEdit->setText(QString::fromStdString(allergies));
-    ui.currentEdit->setText(QString::fromStdString(current));
-    ui.pastEdit->setText(QString::fromStdString(past));
-
-    ui.okButton->setFocus();
-    exec();
+    ui.allergiesEdit->set_Text(allergies.allergies);
+    ui.pastEdit->set_Text(allergies.past);
+    ui.currentEdit->set_Text(allergies.current);
 }
 
+Allergies AllergiesDialog::getData()
+{
+    return Allergies
+    { 
+        ui.allergiesEdit->getText(), 
+        ui.currentEdit->getText(), 
+        ui.pastEdit->getText() 
+    };
+}
 
 
 void AllergiesDialog::paintEvent(QPaintEvent* event)
@@ -50,11 +53,8 @@ void AllergiesDialog::close()
     accept();
 }
 
-AllergiesDialogPresenter* AllergiesDialog::getPresenter()
-{
-    return &presenter;
-}
 
 AllergiesDialog::~AllergiesDialog()
 {
 }
+

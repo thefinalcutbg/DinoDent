@@ -2,20 +2,16 @@
 #include "Model/Manipulation/MasterNZOK.h"
 #include "Model/User/User.h"
 #include "../TabPresenter/ListInstance.h"
+
 #include "Presenter/PatientDialog/PatientDialogPresenter.h"
+#include "Presenter/AllergiesDialog/AllergiesDialogPresenter.h"
+#include "Presenter/ProcedureDialog/ProcedureDialogPresenter.h"
+
 ListPresenter::ListPresenter() :
     view(nullptr),
-    ambList(nullptr),
-    allergiesDialog(nullptr)
+    ambList(nullptr)
 {
 }
-
-void ListPresenter::setDialogPresnters(AllergiesDialogPresenter* allergiesPresenter)
-{
-    allergiesDialog = allergiesPresenter;
-
-}
-
 
 void ListPresenter::setData(ListInstance* inst)
 {
@@ -51,11 +47,9 @@ void ListPresenter::attachEditObserver(EditObserver* observer)
     procedure_presenter.attachEditObserver(observer);
 }
 
-#include <QDebug>
 
 void ListPresenter::openPatientDialog()
 {
-    qDebug() << "has pateient been expired: " << patient.expired();
 
     PatientDialogPresenter p{ *patient.lock() };
   
@@ -64,6 +58,8 @@ void ListPresenter::openPatientDialog()
     if (!patient.has_value()) return;
 
     *this->patient.lock() = patient.value();
+
+
     view->refresh
     (
         *this->ambList,
@@ -74,17 +70,17 @@ void ListPresenter::openPatientDialog()
 
 void ListPresenter::openAllergiesDialog()
 {
-    if (allergiesDialog == NULL) return;
+    AllergiesDialogPresenter p(*patient.lock());
 
-    allergiesDialog->openDialog(this, *patient.lock());
-   
-}
+    auto data = p.openDialog();
 
-void ListPresenter::setAllergies(Allergies allergies)
-{
-    patient.lock()->allergies = allergies.allergies;
-    patient.lock()->currentDiseases = allergies.current;
-    patient.lock()->pastDiseases = allergies.past;
+    if (!data.has_value()) return;
+
+    auto& d = data.value();
+
+    patient.lock()->allergies = d.allergies;
+    patient.lock()->currentDiseases = d.current;
+    patient.lock()->pastDiseases = d.past;
 
     view->refresh
     (

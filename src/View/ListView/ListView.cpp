@@ -4,7 +4,7 @@
 #include "TeethView/ContextMenu.h"
 
 ListView::ListView(QWidget* parent)
-	: QWidget(parent), allergiesDialog(this)
+	: QWidget(parent)
 {
 
 	ui.setupUi(this);
@@ -66,7 +66,6 @@ ListView::ListView(QWidget* parent)
 void ListView::setPresenter(ListPresenter* presenter)
 {
 	this->presenter = presenter;
-	presenter->setDialogPresnters(allergiesDialog.getPresenter());
 }
 
 void ListView::paintEvent(QPaintEvent* event)
@@ -162,11 +161,7 @@ void ListView::setProcedures(const std::vector<RowData>& m)
 	
 }
 
-void ListView::openProcedureDialog(ProcedureDialogPresenter *p)
-{
-	ProcedureDialog dialog(p);
-	dialog.openProcedureDialog();
-}
+
 
 void ListView::setUnfav(bool unfav)
 {

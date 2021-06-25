@@ -15,17 +15,22 @@ class AllergiesDialog : public QDialog, IAllergiesDialog
 {
     Q_OBJECT
 
-    AllergiesDialogPresenter presenter;
+    AllergiesDialogPresenter* presenter;
 
     void paintEvent(QPaintEvent* event);
 
 public:
-    AllergiesDialog(QWidget* parent = Q_NULLPTR);
-    void open(std::string allergies, std::string current, std::string past);
-    void close();
-    AllergiesDialogPresenter* getPresenter();
+    AllergiesDialog(AllergiesDialogPresenter* p);
+
+    void setData(const Allergies& allergies) override;
+    Allergies getData()override;
+    void close() override;
+
+
     ~AllergiesDialog();
 
 private:
     Ui::AllergiesDialog ui;
+
+
 };

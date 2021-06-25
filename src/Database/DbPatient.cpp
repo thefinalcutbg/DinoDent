@@ -96,7 +96,7 @@ Patient DbPatient::getPatient(std::string patientID)
     return patient;
 }
 
-void DbPatient::updateAllergies(std::string& patientID, std::string& allergies, std::string& current, std::string& past)
+void DbPatient::updateAllergies(const std::string& patientID, const std::string& allergies, const std::string& current, const std::string& past)
 {
     openConnection();
 

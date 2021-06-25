@@ -1,31 +1,29 @@
 #pragma once
 #include "View/AllergiesDialog/IAllergiesDialog.h"
 #include "Database/DbPatient.h"
+#include <optional>
 
 struct Allergies
 {
-	Allergies(std::string allergies, std::string current, std::string past) :
+	Allergies(const std::string &allergies, const std::string& current, const std::string& past) :
 		allergies(allergies), current(current), past(past) {};
 	std::string allergies;
 	std::string current;
 	std::string past;
 };
 
-class AllergiesDialogRequestor
-{
-public:
-	virtual void setAllergies(Allergies allergies) = 0;
-};
 
 class AllergiesDialogPresenter
 {
 	IAllergiesDialog* view;
 	DbPatient database;
-	std::string patient_id;
-	AllergiesDialogRequestor* requestor;
+	const Patient* patient;
+	std::optional<Allergies> allergies;
+
 public:
-	AllergiesDialogPresenter(IAllergiesDialog* view);
-	void setAllergies(std::string allergies, std::string current, std::string past);
-	void openDialog(AllergiesDialogRequestor* requestor, Patient patient);
+	AllergiesDialogPresenter(const Patient& patient);
+	void setView(IAllergiesDialog* view);
+	void okClicked();
+	std::optional<Allergies> openDialog();
 };
 

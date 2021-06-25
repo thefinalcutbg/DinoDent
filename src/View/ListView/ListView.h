@@ -7,8 +7,7 @@
 #include "IListView.h"
 #include "Presenter/ListPresenter/ListPresenter.h"
 #include "TeethView/TeethViewScene.h"
-#include "View/AllergiesDialog/AllergiesDialog.h"
-#include "View/ProcedureDialog/ProcedureDialog.h"
+
 #include "Procedures/ProcedureTableModel.h"
 
 
@@ -19,7 +18,7 @@ class ListView : public QWidget, public IListView
     ListPresenter* presenter;
     ProcedurePresenter* procedure_presenter;
     TeethViewScene* teethViewScene;
-    AllergiesDialog allergiesDialog;
+
     ContextMenu* contextMenu;
 
     ProcedureTableModel model;
@@ -33,6 +32,7 @@ public:
 
     void setStatusControlPresenter(StatusPresenter* presenter) override;
     void setProcedurePresenter(ProcedurePresenter* presenter) override;
+
     void refresh(AmbList& ambList, Patient& patient) override;
     void setCheckModel(const CheckModel& checkModel) override;
     void hideSurfacePanel(bool hidden) override;
@@ -42,7 +42,7 @@ public:
 
     void setSelectedTeeth(std::vector<int> selectedTeeth) override;
     void setProcedures(const std::vector<RowData>& m) override;
-    void openProcedureDialog(ProcedureDialogPresenter *p) override;
+
     virtual void setUnfav(bool unfav) override;
     ~ListView();
 

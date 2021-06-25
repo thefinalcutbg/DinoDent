@@ -1,24 +1,31 @@
 #include "AllergiesDialogPresenter.h"
+#include "View/ModalDialogBuilder.h"
 
-AllergiesDialogPresenter::AllergiesDialogPresenter(IAllergiesDialog* view) :
-    view(view), database(database), requestor(nullptr)
+
+AllergiesDialogPresenter::AllergiesDialogPresenter(const Patient& patient)
+    : patient(&patient), view(nullptr)
 {
-//    ../Torque/src/Presenter/AllergiesDialog/AllergiesDialogPresenter.cpp:3:1: warning: ‘AllergiesDialogPresenter::database’ is initialized with itself [-Winit-self]
-//        3 | AllergiesDialogPresenter::AllergiesDialogPresenter(IAllergiesDialog* view) :
-//          | ^~~~~~~~~~~~~~~~~~~~~~~~
+
 }
 
-void AllergiesDialogPresenter::setAllergies(std::string allergies, std::string current, std::string past)
+void AllergiesDialogPresenter::setView(IAllergiesDialog* view)
 {
-    database.updateAllergies(patient_id, allergies, current, past);
-
-    if(requestor != NULL)
-    requestor->setAllergies(Allergies(allergies, current, past));
+    this->view = view;
+    view->setData(Allergies{ patient->allergies, patient->currentDiseases, patient->pastDiseases });
 }
 
-void AllergiesDialogPresenter::openDialog(AllergiesDialogRequestor* requestor, Patient patient)
+void AllergiesDialogPresenter::okClicked()
 {
-    this->requestor = requestor;
-    patient_id = patient.id;
-    view->open(patient.allergies, patient.currentDiseases, patient.pastDiseases);
+    auto data = view->getData();
+    database.updateAllergies(patient->id, data.allergies, data.current, data.past);
+    allergies = data;
+    view->close();
+}
+
+std::optional<Allergies> AllergiesDialogPresenter::openDialog()
+{
+    if(patient)
+        ModalDialogBuilder::openDialog(this);
+
+    return allergies;
 }

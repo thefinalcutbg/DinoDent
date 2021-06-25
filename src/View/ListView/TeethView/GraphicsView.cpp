@@ -27,12 +27,6 @@ void GraphicsView::mousePressEvent(QMouseEvent* event)
 		QGraphicsView::mousePressEvent(event);
 }
 
-void GraphicsView::focusOutEvent(QFocusEvent* event)
-{
-	emit focusLost();
-	QWidget::focusOutEvent(event);
-}
-
 GraphicsView::~GraphicsView()
 {
 }

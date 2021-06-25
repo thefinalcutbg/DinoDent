@@ -10,7 +10,7 @@ class GraphicsView : public QGraphicsView
 	
 
 	void mousePressEvent(QMouseEvent* event) override;
-	void focusOutEvent(QFocusEvent* event) override;
+
 	//void scrollContentsBy(int, int) override {  };
 
 	void resizeEvent(QResizeEvent*) {

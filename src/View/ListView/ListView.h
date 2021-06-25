@@ -16,7 +16,7 @@ class ListView : public QWidget, public IListView
 {
     Q_OBJECT
 
-    ListPresenter presenter;
+    ListPresenter* presenter;
     ProcedurePresenter* procedure_presenter;
     TeethViewScene* teethViewScene;
     AllergiesDialog allergiesDialog;
@@ -29,7 +29,7 @@ class ListView : public QWidget, public IListView
 public:
     ListView(QWidget* parent = Q_NULLPTR);
 
-    ListPresenter* Presenter();
+    void setPresenter(ListPresenter* presenter) override;
 
     void setStatusControlPresenter(StatusPresenter* presenter) override;
     void setProcedurePresenter(ProcedurePresenter* presenter) override;

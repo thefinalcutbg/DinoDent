@@ -38,6 +38,7 @@ void ListPresenter::setData(ListInstance* inst)
 void ListPresenter::setView(IListView* view)
 {
     this->view = view;
+    view->setPresenter(this);
     status_presenter.setView(view);
     procedure_presenter.setView(view);
 }
@@ -50,9 +51,14 @@ void ListPresenter::attachEditObserver(EditObserver* observer)
     procedure_presenter.attachEditObserver(observer);
 }
 
+#include <QDebug>
+
 void ListPresenter::openPatientDialog()
 {
-    PatientDialogPresenter p{ *this->patient.lock() };
+    qDebug() << "has pateient been expired: " << patient.expired();
+
+    PatientDialogPresenter p{ *patient.lock() };
+  
     auto patient = p.open();
 
     if (!patient.has_value()) return;

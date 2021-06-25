@@ -1,21 +1,20 @@
 ﻿#include "AmbListPagePresenter.h"
 #include "Model/Manipulation/MasterNZOK.h"
 #include "Presenter/PatientDialog/PatientDialogPresenter.h"
-AmbListPagePresenter::AmbListPagePresenter(
-                                            IAmbListPage* AmbListPage,
-                                            ListPresenter* listPresenter) :
-    view(AmbListPage),
-    listPresenter(listPresenter),
-    currentVecPos(-1)
-{
-    _tabPresenter.setView(AmbListPage);
-    _tabPresenter.setListPresenter(listPresenter);
-}
+AmbListPagePresenter::AmbListPagePresenter() :
+    view(nullptr)
+{}
 
+void AmbListPagePresenter::setView(IAmbListPage* view)
+{
+    this->view = view;
+
+    _tabPresenter.setView(view->tabView());
+}
 
 void AmbListPagePresenter::newPressed()
 {
-    PatientDialogPresenter p{};
+    PatientDialogPresenter p;
 
     auto patient = p.open();
 
@@ -25,20 +24,21 @@ void AmbListPagePresenter::newPressed()
 
 bool AmbListPagePresenter::save()
 {
-    auto currentListInstance = _tabPresenter.currentList();
-    if (currentListInstance == nullptr) return true;
+    auto list = _tabPresenter.currentList();
 
-    if (currentListInstance->isNew()) {
+    if (list == nullptr) return true;
+
+    if (list->isNew()) {
         return saveAs();
     }
 
-    if (currentListInstance->edited) {
-        database.updateAmbList(currentListInstance->amb_list);
+    if (list->edited) {
+        database.updateAmbList(list->amb_list);
     }
 
-    currentListInstance->edited = false;
+    list->edited = false;
 
-    view->changeTabName(currentListInstance->getTabName());
+    view->tabView()->changeTabName(list->getTabName());
 
     return true;
 }
@@ -46,6 +46,7 @@ bool AmbListPagePresenter::save()
 bool AmbListPagePresenter::saveAs()
 {
     auto currentListInstance = _tabPresenter.currentList();
+
     if (currentListInstance == nullptr) return true;
 
     AmbList& list = currentListInstance->amb_list;
@@ -77,7 +78,7 @@ bool AmbListPagePresenter::saveAs()
 
     currentListInstance->edited = false;
 
-    view->changeTabName(currentListInstance->getTabName());
+    view->tabView()->changeTabName(currentListInstance->getTabName());
 
     return true;
 }
@@ -85,12 +86,12 @@ bool AmbListPagePresenter::saveAs()
 
 bool AmbListPagePresenter::closeTab()
 {
-    auto current = _tabPresenter.currentList();
+    auto list = _tabPresenter.currentList();
     //no need to know which tab. Close button always focuses the tab first.
 
-    if (current->amb_list.isNew() || current->isEdited())
+    if (list->amb_list.isNew() || list->isEdited())
     {
-        DialogAnswer answer = view->openSaveDialog(current->getTabName());
+        DialogAnswer answer = view->openSaveDialog(list->getTabName());
 
         switch (answer)
         {
@@ -106,8 +107,19 @@ bool AmbListPagePresenter::closeTab()
         }
     }
 
-    _tabPresenter.closeList();
+    _tabPresenter.removeCurrentList();
 
+    return true;
+}
+
+bool AmbListPagePresenter::closeAllTabs()
+{
+    while (_tabPresenter.currentList())
+    {
+       bool canceled = !closeTab();
+       if (canceled) return false;
+    }
+    
     return true;
 }
 

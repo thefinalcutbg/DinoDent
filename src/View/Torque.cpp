@@ -1,6 +1,6 @@
 #include "Torque.h"
 
-QColor blue(0, 122, 204);
+QColor blue(133, 207, 234);
 
 Torque::Torque(QWidget* parent)
     : QMainWindow(parent),

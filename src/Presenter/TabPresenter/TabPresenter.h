@@ -1,11 +1,11 @@
 #pragma once
 #include <vector>
 #include "ListInstance.h"
-#include "View/AmbListPage/ITabView.h"
+#include "View/AmbListPage/TabView/ITabView.h"
 #include "Database/DbAmbList.h"
-#include "../ListPresenter/Editor.h"
 
-class ListPresenter;
+#include "../ListPresenter/ListPresenter.h"
+
 class AmbList;
 class Patient;
 
@@ -18,7 +18,7 @@ class TabPresenter : public EditObserver
 	DbAmbList database;
 
 	ITabView* view;
-	ListPresenter* listPresenter;
+	ListPresenter _listPresenter;
 	bool listExists(const Patient& patient);
 	bool listsExist(const std::string& ambList_id);
 
@@ -29,14 +29,12 @@ public:
 	TabPresenter();
 
 	void editNotify() override;
-
 	void setView(ITabView* view);
-	void setListPresenter(ListPresenter* listPresenter);
 
 	ListInstance* currentList();
 	void setCurrentList(int index);
 	void newList(const Patient& patient);
-	void closeList();
+	void removeCurrentList();
 
 };
 

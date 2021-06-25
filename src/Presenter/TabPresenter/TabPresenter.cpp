@@ -4,10 +4,11 @@
 #include "ListInstance.h"
 #include "../ListPresenter/ListPresenter.h"
 
-TabPresenter::TabPresenter() : _index(-1), view(nullptr), listPresenter(nullptr)
+TabPresenter::TabPresenter() : _index(-1), view(nullptr)
 {
-
+    _listPresenter.attachEditObserver(this);
 }
+
 
 void TabPresenter::editNotify()
 {
@@ -41,12 +42,7 @@ void TabPresenter::setView(ITabView* view)
 {
     this->view = view;
     view->setTabPresenter(this);
-}
-
-void TabPresenter::setListPresenter(ListPresenter* listPresenter)
-{
-    this->listPresenter = listPresenter;
-    listPresenter->attachEditObserver(this);
+    _listPresenter.setView(view->listView());
 }
 
 
@@ -80,18 +76,31 @@ bool TabPresenter::listsExist(const std::string& ambList_id)
 
 ListInstance* TabPresenter::currentList()
 {
-    if (_index == -1) return nullptr;
+    if (_index == -1 || _index >= _lists.size()) return nullptr;
 
     return &_lists[_index];
 }
-
+#include <QDebug>
 void TabPresenter::setCurrentList(int index)
 {
+    if (index == -1)
+    {
+        //do something to the view??
+        return;
+    }
+
+    if (currentList())
+    {
+        auto scroll = view->getScrollPos();
+        currentList()->_scrollHeight = scroll.height;
+        currentList()->_scrollWidth = scroll.width;
+    }
+
     _index = index;
     
-    if (index == -1) return;
-
-    listPresenter->setData(&_lists[index]);
+    _listPresenter.setData(&_lists[index]);
+    qDebug() << "h/w set:" << currentList()->_scrollHeight << currentList()->_scrollWidth;
+    view->setScrollPos(ScrollPos{ currentList()->_scrollHeight, currentList()->_scrollWidth });
 }
 void TabPresenter::newList(const Patient& patient)
 {
@@ -120,8 +129,9 @@ void TabPresenter::newList(const Patient& patient)
 
 }
 
-void TabPresenter::closeList()
+void TabPresenter::removeCurrentList()
 {
+    if (_index == -1) return;
     _lists.erase(_lists.begin() + _index);
     view->removeCurrentTab();
 }

@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
     font.setPointSize(8);
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
-    QApplication::highDpiScaleFactorRoundingPolicy;
+    QApplication::highDpiScaleFactorRoundingPolicy();
     QApplication::setFont(font);
 
     QApplication a(argc, argv);

@@ -2,13 +2,9 @@
 #include <sstream>
 #include <fstream>
 
-typedef std::string HealthRegion;
-typedef std::string Region;
-typedef std::string HRIFCode;
-typedef std::string Muncipanity;
-typedef std::string CityString;
+typedef std::string HealthRegion, Region, HRIFCode, Muncipanity, CityString;
 
-std::pair<Muncipanity, Region> CityCode::parseCityString(std::string location)
+std::pair<Muncipanity, Region> CityCode::parseCityString(CityString cityString)
 {
     bool munciFound = false;
     int munciPos = 0;
@@ -17,9 +13,9 @@ std::pair<Muncipanity, Region> CityCode::parseCityString(std::string location)
     Muncipanity muncipanity;
     Region region;
 
-    for (int i = 0; i < location.size(); i++)
+    for (int i = 0; i < cityString.size(); i++)
     {
-        if (location[i] == ',')
+        if (cityString[i] == ',')
         {
             if (!munciFound)
             {
@@ -34,8 +30,8 @@ std::pair<Muncipanity, Region> CityCode::parseCityString(std::string location)
         }
     }
 
-    muncipanity = location.substr(munciPos + 10, regionPos - munciPos - 10);
-    region = location.substr(regionPos + 10, location.size() - regionPos + 10);
+    muncipanity = cityString.substr(munciPos + 10, regionPos - munciPos - 10);
+    region = cityString.substr(regionPos + 10, cityString.size() - regionPos + 10);
 
     return std::make_pair(muncipanity, region);
 }
@@ -89,7 +85,7 @@ CityCode::CityCode()
 
 }
 
-std::string CityCode::getLabel(const std::string &cityString)
+std::string CityCode::getLabel(const std::string &cityString) const
 {
     if (!cityMap.count(cityString)) return "";
    
@@ -98,7 +94,7 @@ std::string CityCode::getLabel(const std::string &cityString)
     return "РЗОК №" + hrif +"\tЗдравен район: " + health_region;
 }
 
-std::pair<HealthRegion, HRIFCode> CityCode::getCodes(const std::string &cityString)
+std::pair<HealthRegion, HRIFCode> CityCode::getCodes(const std::string &cityString) const
 {
     if (!cityMap.count(cityString)) 
         return std::make_pair(std::string{ "-1" }, std::string{ "-1" });
@@ -106,7 +102,7 @@ std::pair<HealthRegion, HRIFCode> CityCode::getCodes(const std::string &cityStri
     return cityMap[cityString];
 }
 
-bool CityCode::validCityString(const std::string& cityString)
+bool CityCode::validCityString(const std::string& cityString) const
 {
     return cityMap.count(cityString);
 }

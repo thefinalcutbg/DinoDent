@@ -280,7 +280,6 @@
     <ClCompile Include="src\View\ListView\TeethView\TeethViewScene.cpp" />
     <ClCompile Include="src\View\ListView\TeethView\ToothGraphicsItem.cpp" />
     <ClCompile Include="src\Presenter\AllergiesDialog\AllergiesDialogPresenter.cpp" />
-    <ClCompile Include="src\View\AmbListPage\ScrollArea.cpp" />
     <ClCompile Include="src\Presenter\TabPresenter\ListInstance.cpp">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">/utf-8 %(AdditionalOptions)</AdditionalOptions>
@@ -290,7 +289,7 @@
     <ClCompile Include="src\Presenter\ListPresenter\ListPresenter.cpp" />
     <ClCompile Include="src\View\AllergiesDialog\AllergiesDialog.cpp" />
     <ClCompile Include="src\View\ListView\ListView.cpp" />
-    <ClCompile Include="src\View\AmbListPage\TabBar.cpp" />
+    <ClCompile Include="src\View\AmbListPage\TabView\TabBar.cpp" />
     <ClCompile Include="src\Presenter\ListPresenter\StatusPresenter\StatusControl.cpp" />
     <ClCompile Include="src\Model\Tooth\ToothController\SurfaceController.cpp" />
     <ClCompile Include="src\View\ListView\ControlPanel\StatusButton.cpp" />
@@ -307,6 +306,7 @@
     <ClCompile Include="src\Presenter\ListPresenter\StatusPresenter\StatusPresenter.cpp" />
     <ClCompile Include="src\View\ListView\ToothPaintDevices\ToothSprite.cpp" />
     <ClCompile Include="src\Presenter\TabPresenter\TabPresenter.cpp" />
+    <ClCompile Include="src\View\AmbListPage\TabView\TabView.cpp" />
     <QtRcc Include="src\View\Torque.qrc" />
     <QtUic Include="src\View\ProcedureEditDialog\ProcedureEditDialog.ui" />
     <QtUic Include="src\View\ProcedureDialog\Widgets\ImplantView\ImplantView.ui" />
@@ -358,11 +358,13 @@
     <QtUic Include="src\View\ListView\SurfacePanel\SurfacePanel.ui" />
     <QtUic Include="src\View\uiComponents\qt_derived\SurfaceSelector.ui" />
     <QtUic Include="src\View\uiComponents\qt_derived\VitaWidget.ui" />
+    <QtUic Include="src\View\AmbListPage\TabView\TabView.ui" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\AmbListPage\AmbListPage.h" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="src\View\AmbListPage\TabView\TabView.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\NameEdit.h" />
     <QtMoc Include="src\View\ProcedureEditDialog\ProcedureEditDialog.h" />
     <ClInclude Include="src\Model\Validator\CommonValidators.h" />
@@ -377,7 +379,7 @@
     <ClInclude Include="src\Model\User\User.h" />
     <ClInclude Include="src\Presenter\ListPresenter\ProcedurePresenter\ProcedurePresenter.h" />
     <ClInclude Include="src\Presenter\ListPresenter\StatusPresenter\StatusPresenter.h" />
-    <ClInclude Include="src\View\AmbListPage\ITabView.h" />
+    <ClInclude Include="src\View\AmbListPage\TabView\ITabView.h" />
     <ClInclude Include="src\View\ListView\ToothPaintDevices\ToothSprite.h" />
     <ClInclude Include="src\Presenter\TabPresenter\TabPresenter.h" />
     <QtMoc Include="src\View\ProcedureDialog\Widgets\CommonFields\CommonFields.h" />
@@ -457,7 +459,7 @@
     <ClInclude Include="src\Model\Tooth\Tooth.h" />
     <ClInclude Include="src\Presenter\ListPresenter\StatusPresenter\StatusControl.h" />
     <ClInclude Include="src\Model\Tooth\ToothController\ToothController.h" />
-    <QtMoc Include="src\View\AmbListPage\TabBar.h" />
+    <QtMoc Include="src\View\AmbListPage\TabView\TabBar.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\DateEdit.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\ComboBox.h" />
     <QtMoc Include="src\View\ListView\ListView.h" />
@@ -472,7 +474,6 @@
     <ClInclude Include="src\View\ListView\TeethView\ToothGraphicsItem.h" />
     <ClInclude Include="src\View\uiComponents\AbstractLabel.h" />
     <ClInclude Include="src\Presenter\AllergiesDialog\AllergiesDialogPresenter.h" />
-    <ClInclude Include="src\View\AmbListPage\ScrollArea.h" />
     <ClInclude Include="src\Presenter\TabPresenter\ListInstance.h" />
     <QtMoc Include="src\View\AllergiesDialog\AllergiesDialog.h" />
     <ClInclude Include="src\View\AllergiesDialog\IAllergiesDialog.h" />

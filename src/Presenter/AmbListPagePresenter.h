@@ -13,27 +13,19 @@ class AmbListPagePresenter
 
 	IAmbListPage* view;
 
-	ListPresenter* listPresenter;
-	std::vector<ListInstance> list_instance;
 	DbAmbList database;
 
-
-	int currentVecPos;
-
-
 public:
-	AmbListPagePresenter( 
-						IAmbListPage* AmbListPage, 
-						
-						ListPresenter* listView);
+	AmbListPagePresenter();
 
-
+	void setView(IAmbListPage* view);
 	void newPressed();
-
-
-
 	bool save();
 	bool saveAs();
+
+	//returns false when user selects cancel, otherwise returns true
 	bool closeTab();
+	//returns false when user selects cancel, otherwise returns true
+	bool closeAllTabs();
 };
 

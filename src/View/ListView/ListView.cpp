@@ -15,13 +15,13 @@ ListView::ListView(QWidget* parent)
 
 	ui.teethView->setScene(teethViewScene);
 	ui.teethView->setSceneRect(teethViewScene->sceneRect());
-	presenter.setDialogPresnters(allergiesDialog.getPresenter());
+	
 
 	ui.procedureTable->setModel(&model);
 	ui.procedureTable->setDimensions();
 
-	connect(ui.patientTile, &QAbstractButton::clicked, [=] { presenter.openPatientDialog(); });
-	connect(ui.allergiesTile, &QAbstractButton::clicked, [=] { presenter.openAllergiesDialog(); });
+	connect(ui.patientTile, &QAbstractButton::clicked, [=] { presenter->openPatientDialog(); });
+	connect(ui.allergiesTile, &QAbstractButton::clicked, [=] { presenter->openAllergiesDialog(); });
 	connect(ui.procedureButton, &QAbstractButton::clicked, [=] { procedure_presenter->addProcedure(); });
 	connect(ui.procedureTable, &ProcedureTable::deletePressed, [=] { ui.deleteProcedure->click(); });
 	connect(ui.unfav_check, &QCheckBox::stateChanged, [=] {procedure_presenter->setUnfavourable(ui.unfav_check->isChecked()); });
@@ -58,10 +58,15 @@ ListView::ListView(QWidget* parent)
 		}
 	);
 
-	connect(ui.procedureTable, &QTableView::doubleClicked, [=] { procedure_presenter->editProcedure();  });
-	connect(ui.teethView, &GraphicsView::focusLost, [=] { teethViewScene->setSelectedTeeth(std::vector<int>{}); });
-	presenter.setView(this);
+	connect(ui.procedureTable, &QTableView::doubleClicked, [=] { procedure_presenter->editProcedure(); });
+	
 
+}
+
+void ListView::setPresenter(ListPresenter* presenter)
+{
+	this->presenter = presenter;
+	presenter->setDialogPresnters(allergiesDialog.getPresenter());
 }
 
 void ListView::paintEvent(QPaintEvent* event)
@@ -73,10 +78,6 @@ void ListView::paintEvent(QPaintEvent* event)
 	painter.end();
 }
 
-ListPresenter* ListView::Presenter()
-{
-	return &this->presenter;
-}
 
 void ListView::setStatusControlPresenter(StatusPresenter* presenter)
 {

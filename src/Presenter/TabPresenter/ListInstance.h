@@ -6,9 +6,12 @@
 #include "Model/AmbList.h"
 #include "string"
 
+
 struct ListInstance
 {
 	bool edited;
+	int _scrollWidth{ 0 };
+	int _scrollHeight{ 0 };
 
 	std::shared_ptr<Patient> patient;
 	AmbList amb_list;
@@ -21,6 +24,5 @@ struct ListInstance
 	std::vector <Tooth*> selectedTeeth;
 
 	std::string getTabName();
-
 	
 };

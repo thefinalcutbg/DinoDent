@@ -23,7 +23,7 @@ public:
 	// Inherited via IImplantView
 	virtual void set_hidden(bool hidden) override;
 	AbstractLineEdit* systemEdit() override;
-	std::tuple<std::string, int, int, double, double, int, int, bool, bool> getData() override;
+	ImplantData getData() override;
 	void setData(ImplantData data) override;
 
 private:

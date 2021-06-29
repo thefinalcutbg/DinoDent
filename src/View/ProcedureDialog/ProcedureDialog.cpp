@@ -7,7 +7,9 @@ ProcedureDialog::ProcedureDialog(ProcedureDialogPresenter* presenter, QWidget *p
 	: QDialog(parent), presenter(presenter)
 {
 	ui.setupUi(this);
-	
+
+	setModal(true);
+	setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 	setWindowTitle("Добавяне на манипулация");
 
 	auto table = ui.tableView;
@@ -61,14 +63,6 @@ ProcedureDialog::~ProcedureDialog()
 {
 }
 
-void ProcedureDialog::openProcedureDialog()
-{
-	ui.searchEdit->setText("");
-	ui.searchEdit->setFocus();
-	ui.tableView->selectRow(0);
-	exec();
-
-}
 
 void ProcedureDialog::loadManipulationList(std::vector<ManipulationTemplate> manipulationList)
 {
@@ -128,13 +122,6 @@ ICommonFields* ProcedureDialog::commonFields()
 	return ui.commonFields;
 }
 
-void ProcedureDialog::paintEvent(QPaintEvent* event)
-{
-	//QPainter painter;
-//	painter.begin(this);
-//	painter.fillRect(0, 0, width(), height(), Qt::white);
-//	painter.end();
-}
 
 void ProcedureDialog::resetForm()
 {
@@ -177,13 +164,5 @@ void ProcedureDialog::showErrorMessage(const std::string& error)
 	resetForm();
 	ui.noTeethLabel->show();
 	ui.noTeethLabel->setText(QString::fromStdString(error));
-}
-
-void ProcedureDialog::showErrorDialog(const std::string& error)
-{
-	QMessageBox m;
-	m.setText(QString::fromStdString(error));
-	m.setIcon(QMessageBox::Warning);
-	m.exec();
 }
 

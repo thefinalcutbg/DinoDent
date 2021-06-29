@@ -89,29 +89,16 @@ void CrownPresenter::setView(ICrownView* view)
 
 Result CrownPresenter::getResult()
 {
-	auto [index, Vita3DMaster] = view->getColor();
-	auto prep_type = view->getType();
-	auto material = view->materialEdit()->getText();
+
 
 	if (bridge)
 	{
 		auto [begin, end] = view->rangeWidget()->getRange();
-
-		return BridgeData
-		{
-			begin, end,
-			material,
-			prep_type,
-			Vita{index, Vita3DMaster}
-		};
+		auto crown = view->getData();
+		return BridgeData { crown, begin, end };
 	}
 
-	return CrownData
-	{
-		material,
-		prep_type,
-		Vita{index, Vita3DMaster}
-	};
+	return view->getData();
 }
 
 void CrownPresenter::rangeChanged(int begin, int end)

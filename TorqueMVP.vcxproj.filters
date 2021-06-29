@@ -309,9 +309,6 @@
     <ClCompile Include="src\Presenter\ProcedureDialog\ProcedureEditorPresenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\ProcedureDialog\Widgets\ObturationView\IObturationView.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Model\Validator\DateValidator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

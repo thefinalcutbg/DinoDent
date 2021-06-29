@@ -28,6 +28,6 @@ struct Patient
 
 	bool isAdult() const;
 	bool isAdult(Date currentDate)  const;
-
+	Date eighteenBirthday() const;
 	~Patient();
 };

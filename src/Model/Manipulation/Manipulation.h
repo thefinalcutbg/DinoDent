@@ -8,21 +8,21 @@
 
 struct NoData {};
 
-struct BridgeData {
 
-    int tooth_begin{ 0 };
-    int tooth_end{ 0 };
-
-    std::string material;
-    int prep_type{ 0 };
-    Vita color{ 0,0 };
-};
 
 struct CrownData {
 
     std::string material;
     int prep_type{ 0 };
     Vita color{ 0,0 };
+};
+
+struct BridgeData {
+
+    CrownData crown;
+
+    int tooth_begin{ 0 };
+    int tooth_end{ 0 };
 };
 
 struct ObturationData{

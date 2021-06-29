@@ -24,7 +24,7 @@ public:
 	bool hasPost() override;
 	void set_hidden(bool hidden) override;
 	void setData(const ObturationData& data) override;
-
+	ObturationData getData();
 private:
 	Ui::ObturationView ui;
 

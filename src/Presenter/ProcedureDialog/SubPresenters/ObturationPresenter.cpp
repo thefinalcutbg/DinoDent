@@ -48,13 +48,7 @@ bool ObturationPresenter::isValid()
 
 Result ObturationPresenter::getResult()
 {
-    return ObturationData
-    {
-        view->surfaceSelector()->getSurfaces(),
-        view->hasPost(),
-        std::get<0>(view->getColor()),
-        view->material()->getText()
-    };
+    return view->getData();
 }
 
 

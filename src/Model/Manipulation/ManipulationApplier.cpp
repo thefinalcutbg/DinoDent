@@ -109,9 +109,9 @@ void ManipulationApplier::applyManipulations(const std::vector<Manipulation>& m,
 					auto& tooth = teeth.at(i);
 					status_ctrl.setTooth(&tooth);
 					status_ctrl.addStatus(StatusCode::Bridge);
-					tooth.bridge.color = result.color;
-					tooth.bridge.material = result.material;
-					tooth.bridge.prep_type = result.prep_type;
+					tooth.bridge.color = result.crown.color;
+					tooth.bridge.material = result.crown.material;
+					tooth.bridge.prep_type = result.crown.prep_type;
 					tooth.bridge.LPK = LPK;
 				}
 

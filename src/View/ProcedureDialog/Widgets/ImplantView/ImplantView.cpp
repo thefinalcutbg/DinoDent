@@ -38,23 +38,23 @@ AbstractLineEdit* ImplantView::systemEdit()
 }
 
 
-std::tuple<std::string, int, int, double, double, int, int, bool, bool> ImplantView::getData()
+ImplantData ImplantView::getData()
 {
 	auto boneCombo = ui.boneCombo->currentIndex();
 
 	return 
-			std::make_tuple
-			(
+			ImplantData
+	{
 				ui.system_edit->text().toStdString(),
-				ui.timeCombo->currentIndex(),
-				ui.typeCombo->currentIndex(),
 				ui.width->value(),
 				ui.length->value(),
+				ui.timeCombo->currentIndex(),
+				ui.typeCombo->currentIndex(),
 				ui.tissueCombo->currentIndex(),
 				boneCombo,
 				boneCombo != 0 && ui.membrCheck->isChecked(),
 				boneCombo != 0 && ui.sinusCheck->isChecked()
-			);
+	};
 }
 
 void ImplantView::setData(ImplantData data)

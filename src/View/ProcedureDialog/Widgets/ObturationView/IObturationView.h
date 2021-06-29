@@ -13,5 +13,6 @@ public:
 	virtual bool hasPost() = 0;
 	virtual void set_hidden(bool hidden) = 0;
 	virtual void setData(const ObturationData& data) = 0;
+	virtual ObturationData getData() = 0;
 };
 

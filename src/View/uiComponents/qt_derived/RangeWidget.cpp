@@ -120,8 +120,8 @@ void RangeWidget::setFocus()
 void RangeWidget::disbleBridgeSwitch(bool disable)
 {
 	ui.checkBox->setDisabled(disable);
-	ui.beginCombo->setDisabled(disable);
-	ui.endCombo->setDisabled(disable);
+//	ui.beginCombo->setDisabled(disable);
+//	ui.endCombo->setDisabled(disable);
 }
 
 

@@ -26,7 +26,7 @@ public:
 
 	void setData(const BridgeData& data) override;;
 	void setData(const CrownData& data) override;;
-
+	virtual CrownData getData() override;
 	void setPresenter(CrownPresenter* presenter);
 
 private:

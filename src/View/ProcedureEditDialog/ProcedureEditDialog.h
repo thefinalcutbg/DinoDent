@@ -13,6 +13,8 @@ class ProcedureEditDialog : public QDialog, public IProcedureEditDialog
 private:
 	ProcedureEditorPresenter* presenter;
 
+	void paintEvent(QPaintEvent* event);
+
 public:
 
 	ProcedureEditDialog(ProcedureEditorPresenter* p, QWidget *parent = Q_NULLPTR);

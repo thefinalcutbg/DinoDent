@@ -2,16 +2,21 @@
 #include "Model/Date.h"
 #include "View/ProcedureDialog/IProcedureDialog.h"
 #include "View/ModalDialogBuilder.h"
+#include "Model/Manipulation/MasterNZOK.h"
+#include "Model/Manipulation/CustomProcedures.h"
+
+//this implementation is a total mess and needs refactoring
 
 ProcedureDialogPresenter::ProcedureDialogPresenter
 (
-	const std::vector<ManipulationTemplate>& mList,
 	const std::vector<Tooth*>& selectedTeeth,
 	const std::array<Tooth, 32>& teeth,
-	const Date& ambListDate
+	const Date& ambListDate,
+	const Date& patientBirth,
+	bool unfavourable,
+	int specialty
 )
 	:
-	manipulationList{ mList },
 	manipulations{},
 
 	view(nullptr),
@@ -19,6 +24,12 @@ ProcedureDialogPresenter::ProcedureDialogPresenter
 	current_m_presenter(nullptr),
 	teeth(&teeth),
 	selectedTeeth(selectedTeeth),
+
+	_ambDate(ambListDate),
+	_18Birthday(patientBirth),
+	unfavourable(unfavourable),
+	specialty(specialty),
+
 	errorState(true),
 
 	any_teeth_presenter(this->selectedTeeth),
@@ -39,6 +50,21 @@ ProcedureDialogPresenter::ProcedureDialogPresenter
 		&impl_presenter
 	}
 {
+
+	//getting NZOK procedures:
+	manipulationList = MasterNZOK::instance().getM_Templates 
+	(
+		_ambDate,
+		specialty,
+		!(_ambDate < _18Birthday),
+		unfavourable
+	);
+
+	//getting custom procedures:
+	auto customProcedures = CustomProcedures::instance().getCustomProcedures();
+
+	manipulationList.insert(manipulationList.end(), customProcedures.begin(), customProcedures.end());
+
 	date_validator.setMaxDate
 	(
 		{
@@ -109,6 +135,32 @@ void ProcedureDialogPresenter::indexChanged(int index)
 	current_m_presenter = presenters_ptr[static_cast<int>(mt.type)];
 
 	current_m_presenter->setManipulationTemplate(mt);
+
+	//resetting the validator:
+	date_validator.setMaxDate
+	(
+		{
+			Date::getMaxDayOfMonth(_ambDate.month, _ambDate.year),
+			_ambDate.month,
+			_ambDate.year
+		}
+	);
+
+	//for nzok manipulations:
+
+	if (
+			mt.nzok
+		&&
+			MasterNZOK::instance().isMinorOnly(mt.code)
+		&&
+			_18Birthday > date_validator.getMin()
+		&&
+			_18Birthday < date_validator.getMax()
+		)
+
+		date_validator.setMaxDate(_18Birthday);
+
+		view->commonFields()->dateEdit()->validateInput();
 }
 
 

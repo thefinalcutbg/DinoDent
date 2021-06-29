@@ -26,9 +26,9 @@ int Patient::getAge(Date currentDate) const
 
 	if (month == monthnow)
 	{
-		if (day >= daynow)
+		if (daynow >= day)
 			age = yearnow - year;
-		else if (day < daynow)
+		else
 			age = yearnow - year - 1;
 	}
 	else if (month > monthnow)
@@ -54,6 +54,11 @@ bool Patient::isAdult() const
 bool Patient::isAdult(Date currentDate) const
 {
 	return getAge(currentDate) > 17;
+}
+
+Date Patient::eighteenBirthday() const
+{
+	return Date{ birth.day, birth.month, birth.year + 18 };
 }
 
 Patient::~Patient()

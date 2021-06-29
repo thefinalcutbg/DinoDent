@@ -15,5 +15,6 @@ public:
 	virtual void set_hidden(bool hidden) = 0;
 	virtual void setData(const BridgeData& data) = 0;
 	virtual void setData(const CrownData& data) = 0;
+	virtual CrownData getData() = 0;
 
 };

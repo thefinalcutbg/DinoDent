@@ -125,17 +125,14 @@ void ProcedurePresenter::addProcedure()
 {
     if (view == nullptr) return;
 
-    auto mNzokTemplate = MasterNZOK::instance().getM_Templates(_ambList->date, CurrentUser::instance().specialty, _patient->isAdult(), _ambList->unfavourable);
-    auto mCustomTemplate = CustomProcedures::instance().getCustomProcedures();
-
-    mNzokTemplate.insert(mNzokTemplate.end(), mCustomTemplate.begin(), mCustomTemplate.end());
-
     ProcedureDialogPresenter p
     {
-        mNzokTemplate,
         *_selectedTeeth,
         _ambList->teeth,
-        _ambList->date
+        _ambList->date,
+        _patient->eighteenBirthday(),
+        _ambList->unfavourable,
+        CurrentUser::instance().specialty
     };
 
     auto newList = p.openDialog();

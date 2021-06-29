@@ -197,7 +197,6 @@
     <ClCompile Include="src\Model\Validator\DateValidator.cpp" />
     <ClCompile Include="src\Model\Validator\NameValidator.cpp" />
     <ClCompile Include="src\Presenter\ProcedureDialog\ProcedureEditorPresenter.cpp" />
-    <ClCompile Include="src\View\ProcedureDialog\Widgets\ObturationView\IObturationView.cpp" />
     <ClCompile Include="src\View\ProcedureEditDialog\ProcedureEditDialog.cpp" />
     <ClCompile Include="src\View\uiComponents\AbstractDateEdit.cpp" />
     <ClCompile Include="src\View\uiComponents\qt_derived\NameEdit.cpp" />

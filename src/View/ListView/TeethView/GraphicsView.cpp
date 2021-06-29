@@ -12,9 +12,11 @@ GraphicsView::GraphicsView(QWidget *parent)
 	format.setSamples(4);
 
 	gl->setFormat(format);
-//	gl->setUpdateBehavior(QOpenGLWidget::NoPartialUpdate);
+
 	setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
 	setViewport(gl);
+
+	
 
 	setDragMode(QGraphicsView::RubberBandDrag);
 }
@@ -26,6 +28,7 @@ void GraphicsView::mousePressEvent(QMouseEvent* event)
 	if(event->button() == Qt::LeftButton)
 		QGraphicsView::mousePressEvent(event);
 }
+
 
 GraphicsView::~GraphicsView()
 {

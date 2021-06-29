@@ -63,3 +63,14 @@ void ObturationView::setData(const ObturationData& data)
 	ui.post_check->setChecked(data.post);
 	ui.surfaceSelector->setSurfaces(data.surfaces);
 }
+
+ObturationData ObturationView::getData()
+{
+	return ObturationData
+	{
+		ui.surfaceSelector->getSurfaces(),
+		ui.post_check->isChecked(),
+		ui.combo_color->currentIndex(),
+		ui.materialEdit->getText()
+	};
+}

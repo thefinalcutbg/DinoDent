@@ -10,8 +10,6 @@ PatientFormDialog::PatientFormDialog(PatientDialogPresenter* p, QWidget* parent)
     setWindowTitle("Нов амбулаторен лист");
 
     numValidator = new QRegExpValidator(QRegExp(("[0-9]+")), this);
-    //ui.idLineEdit->QLineEdit::setValidator(numValidator);
-   // ui.HIRBNoEdit->QLineEdit::setValidator(numValidator);
 
     nameValidator = new QRegExpValidator(QRegExp(("[А-Я-а-я-a-z-A-Z- ]+")), this);
     ui.fNameEdit->QLineEdit::setValidator(nameValidator);
@@ -22,7 +20,7 @@ PatientFormDialog::PatientFormDialog(PatientDialogPresenter* p, QWidget* parent)
     ui.phoneEdit->QLineEdit::setValidator(phoneValidator);
 
     connect(ui.typeComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
-        [=](int index) { presenter->changePatientType(index+1); });
+        [=](int index) { presenter->changePatientType(index + 1); ui.idLineEdit->QLineEdit::setFocus(); });
 
     connect(ui.okButton, &QPushButton::clicked, [=] { presenter->accept(); });
     connect(ui.idLineEdit, &QLineEdit::textEdited, [=]{ if(ui.idLineEdit->isValid()) presenter->searchDbForPatient(ui.typeComboBox->currentIndex()+1); });

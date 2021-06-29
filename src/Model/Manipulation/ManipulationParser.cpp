@@ -34,10 +34,10 @@ std::string ManipulationParser::write(Manipulation m)
 	case ManipulationType::bridge:
 	{
 		auto& r = std::get<BridgeData>(m.result);
-		manipulation["color_idx"] = r.color.index;
-		manipulation["3dMaster"] = r.color.Vita3dMaster;
-		manipulation["material"] = r.material;
-		manipulation["prep"] = r.prep_type;
+		manipulation["color_idx"] = r.crown.color.index;
+		manipulation["3dMaster"] = r.crown.color.Vita3dMaster;
+		manipulation["material"] = r.crown.material;
+		manipulation["prep"] = r.crown.prep_type;
 		manipulation["begin"] = r.tooth_begin;
 		manipulation["end"] = r.tooth_end;
 		break;
@@ -128,10 +128,10 @@ void ManipulationParser::parse(const std::string& jsonString, Manipulation& m)
 			BridgeData r;
 			r.tooth_begin = manipulation["begin"].asInt();
 			r.tooth_end = manipulation["end"].asInt();
-			r.prep_type = manipulation["prep"].asInt();
-			r.material = manipulation["material"].asString();
-			r.color.index = manipulation["color_idx"].asInt();
-			r.color.Vita3dMaster = manipulation["3dMaster"].asBool();
+			r.crown.prep_type = manipulation["prep"].asInt();
+			r.crown.material = manipulation["material"].asString();
+			r.crown.color.index = manipulation["color_idx"].asInt();
+			r.crown.color.Vita3dMaster = manipulation["3dMaster"].asBool();
 
 			m.result = r;
 

@@ -12,7 +12,7 @@ TextEdit::~TextEdit()
 
 void TextEdit::setFocus()
 {
-	QWidget::setFocus();
+	QTextEdit::setFocus();
 	selectAll();
 }
 
@@ -54,6 +54,8 @@ std::string TextEdit::getText()
 
 void TextEdit::keyPressEvent(QKeyEvent* event)
 {
+	if (event->key() == Qt::Key_Return || event->key() == Qt::Key_Escape) event->ignore();
+
 	if (disabled) 
 	{
 		if (event->modifiers() & Qt::ControlModifier
@@ -71,5 +73,4 @@ void TextEdit::keyPressEvent(QKeyEvent* event)
 	{
 			QTextEdit::keyPressEvent(event);
 	}
-
 }

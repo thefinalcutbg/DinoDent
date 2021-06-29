@@ -7,11 +7,7 @@ class GraphicsView : public QGraphicsView
 {
 	Q_OBJECT
 
-	
-
 	void mousePressEvent(QMouseEvent* event) override;
-
-	//void scrollContentsBy(int, int) override {  };
 
 	void resizeEvent(QResizeEvent*) {
 		fitView();

@@ -13,6 +13,8 @@ class TabView : public QWidget, public ITabView
 
 	ListView _listView;
 
+	QLabel* noTabs;
+
 public:
 	TabView(QWidget *parent = Q_NULLPTR);
 	~TabView();

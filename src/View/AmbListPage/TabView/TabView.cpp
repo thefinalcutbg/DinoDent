@@ -1,10 +1,10 @@
-#include "TabView.h"
+﻿#include "TabView.h"
+#include <QABstractScrollArea>
 
 TabView::TabView(QWidget *parent)
 	: QWidget(parent), tabPresenter(nullptr)
 {
 	ui.setupUi(this);
-
 
     connect(ui.tabBar, &QTabBar::currentChanged,
         [=](int index)
@@ -27,6 +27,13 @@ TabView::TabView(QWidget *parent)
             emit closeRequested();
         });
 
+    noTabs = new QLabel(this);
+    noTabs->setPixmap(QPixmap("dino.png"));
+
+    noTabs->setAlignment(Qt::AlignCenter);
+    noTabs->setStyleSheet("background-color:white");
+    ui.scrollArea->setWidget(noTabs);
+    ui.scrollArea->setFrameStyle(QFrame::NoFrame);
 }
 
 TabView::~TabView()
@@ -36,7 +43,11 @@ TabView::~TabView()
 void TabView::newTab(int vecPos, std::string tabName)
 {
     if (!ui.tabBar->count())
+    {
+        ui.scrollArea->takeWidget();
         ui.scrollArea->setWidget(&_listView);
+    }
+
 
     ui.tabBar->addNewTab(QString::fromStdString(tabName), vecPos);
     ui.tabBar->setCurrentIndex(ui.tabBar->count() - 1);
@@ -59,7 +70,11 @@ void TabView::removeCurrentTab()
     ui.tabBar->closeTab(index);
 
     if (!ui.tabBar->count())
+    {
         ui.scrollArea->takeWidget();
+        ui.scrollArea->setWidget(noTabs);
+    }
+        
 }
 
 void TabView::changeTabName(std::string tabName)

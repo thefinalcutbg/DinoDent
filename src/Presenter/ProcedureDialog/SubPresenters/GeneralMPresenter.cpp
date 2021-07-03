@@ -6,7 +6,7 @@ void GeneralMPresenter::setValidators()
 	common_view->manipulationEdit()->setInputValidator(&notEmpty_validator);
 }
 
-void GeneralMPresenter::setManipulationTemplate(const ManipulationTemplate& m)
+void GeneralMPresenter::setManipulationTemplate(const ProcedureTemplate& m)
 {
 	common_view->setCurrentPresenter(this);
 
@@ -49,11 +49,11 @@ bool GeneralMPresenter::isValid()
 }
 
 
-std::vector<Manipulation> GeneralMPresenter::getManipulations()
+std::vector<Procedure> GeneralMPresenter::getManipulations()
 {
-	return std::vector<Manipulation>
+	return std::vector<Procedure>
 	{
-		Manipulation
+		Procedure
 		{ m_template,
 		  Date{common_view->dateEdit()->getDate()},
 		  common_view->manipulationEdit()->getText(),

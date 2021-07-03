@@ -37,7 +37,7 @@ public:
     {
         m_exists = exists;
         if (exists && date_diagnosed.empty()) {
-            date_diagnosed = Date::toString(Date::CurrentDate());
+            date_diagnosed = Date::toString(Date::currentDate());
         }
     }
 

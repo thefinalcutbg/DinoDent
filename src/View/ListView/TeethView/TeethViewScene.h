@@ -43,7 +43,7 @@ public:
 
 	void display(ToothPaintHint tooth);
 	void display(const BridgesPaintHint& bridges);
-	void setSelectedTeeth(std::vector<int> &selectedTeeth);
+	void setSelectedTeeth(const std::vector<int> &selectedTeeth);
 	void setProcedures(std::vector<RowData> procedures);
 
 	~TeethViewScene();

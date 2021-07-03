@@ -18,28 +18,28 @@ void MasterNZOK::loadData()
 	reader.parse(ifs, m);
 
 
-	const Json::Value& manipulation = m["manipulation"];
+	const Json::Value& procedure = m["manipulation"];
 
-	_manipulations.reserve(manipulation.size());
-	code_durations.reserve(manipulation.size());
+	_procedures.reserve(procedure.size());
+	code_durations.reserve(procedure.size());
 
-	for (int i = 0; i < manipulation.size(); i++)
+	for (int i = 0; i < procedure.size(); i++)
 	{
-		ManipulationTemplate m;
-		m.type = static_cast<ManipulationType>(manipulation[i]["type"].asInt());
-		m.code = manipulation[i]["code"].asInt();
-		m.name = manipulation[i]["name"].asString();
+		ProcedureTemplate m;
+		m.type = static_cast<ProcedureType>(procedure[i]["type"].asInt());
+		m.code = procedure[i]["code"].asInt();
+		m.name = procedure[i]["name"].asString();
 		m.price = -1;
 		m.nzok = true;
 
-		if (!manipulation[i]["default_diag"].isNull())
-			m.diagnosis = manipulation[i]["default_diag"].asString();
+		if (!procedure[i]["default_diag"].isNull())
+			m.diagnosis = procedure[i]["default_diag"].asString();
 
-		if (!manipulation[i]["material"].isNull())
-			m.material = manipulation[i]["material"].asString();
+		if (!procedure[i]["material"].isNull())
+			m.material = procedure[i]["material"].asString();
 
-		code_durations[m.code] = (manipulation[i]["duration"].asInt());
-		_manipulations[m.code] = m;
+		code_durations[m.code] = (procedure[i]["duration"].asInt());
+		_procedures[m.code] = m;
 	}
 
 	const Json::Value& constraints = m["constraints"];
@@ -109,7 +109,7 @@ void MasterNZOK::loadUpdates()
 
 
 
-std::vector<ManipulationTemplate> MasterNZOK::getM_Templates(Date ambDate, int specialty, bool adult, bool unfav)
+std::vector<ProcedureTemplate> MasterNZOK::getM_Templates(Date ambDate, int specialty, bool adult, bool unfav)
 {
 	int currentUpdateIdx = -1;
 
@@ -120,19 +120,19 @@ std::vector<ManipulationTemplate> MasterNZOK::getM_Templates(Date ambDate, int s
 		currentUpdateIdx = i; break;
 	}
 
-	if (currentUpdateIdx == -1) return std::vector<ManipulationTemplate>{};
+	if (currentUpdateIdx == -1) return std::vector<ProcedureTemplate>{};
 
 	auto& update = updatesVec[currentUpdateIdx];
 
 	auto& m_map = update.prices[PriceKey{ specialty, adult, unfav }].priceMap;
 
-	std::vector<ManipulationTemplate> product;
+	std::vector<ProcedureTemplate> product;
 
 	product.reserve(m_map.size());
 
 	for (auto& kv : m_map)
 	{
-		product.push_back(_manipulations[kv.first]);
+		product.push_back(_procedures[kv.first]);
 		product.back().price = std::get<0>(kv.second);
 	}
 
@@ -163,9 +163,19 @@ std::pair<patientPrice, nzokPrice> MasterNZOK::getPrices
 		priceMap[code];
 }
 
-ManipulationTemplate MasterNZOK::getTemplateByCode(int code)
+ProcedureTemplate MasterNZOK::getTemplateByCode(int code)
 {
-	return _manipulations[code];
+	return _procedures[code];
+}
+
+double MasterNZOK::getPatientPrice(int code, Date date, int specialty, bool adult, bool unfav)
+{
+	return std::get<0>(getPrices(code, date, specialty, adult, unfav));
+}
+
+double MasterNZOK::getNZOKPrice(int code, Date date, int specialty, bool adult, bool unfav)
+{
+	return std::get<1>(getPrices(code, date, specialty, adult, unfav));
 }
 
 int MasterNZOK::getDuration(int nzokCode)

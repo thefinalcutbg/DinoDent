@@ -19,7 +19,7 @@ CrownPresenter::CrownPresenter(
 	
 }
 
-void CrownPresenter::setManipulationTemplate(const ManipulationTemplate& m)
+void CrownPresenter::setManipulationTemplate(const ProcedureTemplate& m)
 {
 
 	common_view->set_hidden(noTeethSelected);
@@ -42,12 +42,12 @@ void CrownPresenter::setManipulationTemplate(const ManipulationTemplate& m)
 
 }
 
-std::vector<Manipulation> CrownPresenter::getManipulations()
+std::vector<Procedure> CrownPresenter::getManipulations()
 {
 	if(!bridge) return TeethMPresenter::getManipulations();
 	
 	auto manipulation = GeneralMPresenter::getManipulations();
-	manipulation[0].type = ManipulationType::bridge;
+	manipulation[0].type = ProcedureType::bridge;
 	return manipulation;
 	
 					

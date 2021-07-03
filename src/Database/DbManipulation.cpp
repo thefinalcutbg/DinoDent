@@ -1,10 +1,10 @@
 #include "DbManipulation.h"
 #include <QDebug>
-#include "Model/Manipulation/MasterNZOK.h"
+#include "Model/Procedure/MasterNZOK.h"
 
-std::vector<Manipulation> DbManipulation::getManipulations(const std::string& amblist_id, const Date& amb_date)
+std::vector<Procedure> DbManipulation::getManipulations(const std::string& amblist_id, const Date& amb_date)
 {
-	std::vector<Manipulation> mList;
+	std::vector<Procedure> mList;
 
 	openConnection();
 
@@ -22,8 +22,8 @@ std::vector<Manipulation> DbManipulation::getManipulations(const std::string& am
 
 	while (sqlite3_step(stmt) != SQLITE_DONE)
 	{
-		mList.emplace_back(Manipulation{});
-		Manipulation& m = mList.back();
+		mList.emplace_back(Procedure{});
+		Procedure& m = mList.back();
 		
 		m.date = amb_date;
 		m.nzok = sqlite3_column_int(stmt, 0);
@@ -36,7 +36,7 @@ std::vector<Manipulation> DbManipulation::getManipulations(const std::string& am
 		}
 		else
 		{
-			m.type = static_cast<ManipulationType>(sqlite3_column_int(stmt, 1));
+			m.type = static_cast<ProcedureType>(sqlite3_column_int(stmt, 1));
 			m.price = sqlite3_column_double(stmt, 5);
 		}
 		
@@ -54,7 +54,7 @@ std::vector<Manipulation> DbManipulation::getManipulations(const std::string& am
 
 }
 
-void DbManipulation::saveManipulations(const std::string& amblist_id, const std::vector<Manipulation>& mList)
+void DbManipulation::saveManipulations(const std::string& amblist_id, const std::vector<Procedure>& mList)
 {
 
 	openConnection();

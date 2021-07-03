@@ -7,7 +7,7 @@ ProcedureModel::ProcedureModel(QObject *parent)
 {
 }
 
-void ProcedureModel::setManipulations(std::vector<ManipulationTemplate> manipulations)
+void ProcedureModel::setManipulations(std::vector<ProcedureTemplate> manipulations)
 {
 //    beginResetModel();
 
@@ -25,9 +25,9 @@ void ProcedureModel::setManipulations(std::vector<ManipulationTemplate> manipula
 
 
         this->manipulations.emplace_back
-        (ManipulationRow(m.code,
+        (ManipulationRow{ m.code,
             QString::fromStdString(m.name),
-            price));
+            price, m.nzok });
     }
   //  endResetModel();
 
@@ -80,6 +80,8 @@ int ProcedureModel::columnCount(const QModelIndex& parent) const
     return 4;
 }
 
+#include <QIcon>
+
 QVariant ProcedureModel::data(const QModelIndex& index, int role) const
 {
     if (!index.isValid()) return QVariant();
@@ -92,6 +94,18 @@ QVariant ProcedureModel::data(const QModelIndex& index, int role) const
 
     switch (role)
     {
+
+    case Qt::DecorationRole:
+        switch (column)
+        {
+        case code:
+            if (manipulations[row].nzok)
+                return QIcon(QPixmap("nzok.png"));
+            break;
+        default:
+            return QVariant();
+        }
+
     case Qt::DisplayRole:
         switch (column)
         {
@@ -99,6 +113,7 @@ QVariant ProcedureModel::data(const QModelIndex& index, int role) const
         case code: return manipulations[row].code;
         case name: return manipulations[row].name;
         case price: return manipulations[row].price;
+        default: return QVariant();
         }
     case Qt::TextAlignmentRole:
         if (column == 1 ||column == 3)

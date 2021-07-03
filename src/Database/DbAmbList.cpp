@@ -31,7 +31,7 @@ std::string DbAmbList::getOlderStatus(std::string patientID)
     return jsonStatus;
 }
 
-std::vector<Manipulation> DbAmbList::getOlderManipulations(std::string patientID)
+std::vector<Procedure> DbAmbList::getOlderManipulations(std::string patientID)
 {
     openConnection();
 
@@ -56,7 +56,7 @@ std::vector<Manipulation> DbAmbList::getOlderManipulations(std::string patientID
 
     closeConnection();
 
-    if (amb_id.empty()) return std::vector<Manipulation>{};
+    if (amb_id.empty()) return std::vector<Procedure>{};
 
     return db_manipulation.getManipulations(amb_id, date);
 }
@@ -148,7 +148,7 @@ void DbAmbList::getListData(const std::string& patientID, int currentMonth, int 
 
     if (ambList.id.empty())
     {
-        m_applier.applyManipulations(getOlderManipulations(patientID), ambList.teeth, CurrentUser::instance().LPK);
+        m_applier.applyProcedures(getOlderManipulations(patientID), ambList.teeth, CurrentUser::instance().LPK);
     }
     else
     {

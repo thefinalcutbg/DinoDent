@@ -5,7 +5,7 @@
 
 #include "../Editor.h"
 #include "Model/Tooth/Tooth.h"
-#include "Model/Manipulation/Manipulation.h"
+#include "Model/Procedure/Procedure.h"
 
 class IProcedureView;
 class AmbList;
@@ -21,7 +21,7 @@ class ProcedurePresenter : public Editor
 
 	IProcedureView* view;
 
-	void addToProcedureList(const std::vector<Manipulation>& new_mList);
+	void addToProcedureList(const std::vector<Procedure>& new_mList);
 	void refreshProcedureView();
 
 public:

@@ -23,7 +23,7 @@ void PatientDialogPresenter::setView(IPatientDialog* view)
 {
 	this->view = view;
 
-	birth_validator.setMaxDate(Date::CurrentDate());
+	birth_validator.setMaxDate(Date::currentDate());
 	birth_validator.setMaxErrorMsg("Невалидна рожденна дата");
 	birth_validator.setMinDate(Date(2, 1, 1900));
 	birth_validator.setMinErrorMsg("Невалидна рожденна дата");
@@ -32,6 +32,7 @@ void PatientDialogPresenter::setView(IPatientDialog* view)
 	view->lineEdit(hirbno)->setInputValidator(&hirb_validator);
 	view->lineEdit(fname)->setInputValidator(&name_validator);
 	view->lineEdit(lname)->setInputValidator(&name_validator);
+	view->dateEdit()->setInputValidator(&birth_validator);
 	changePatientType(1);
 
 	if (_patient.has_value())
@@ -50,7 +51,6 @@ void PatientDialogPresenter::changePatientType(int index)
 		view->setLn4View(false);
 
 		view->lineEdit(id)->setInputValidator(&egn_validator);
-		view->dateEdit()->setInputValidator(nullptr);
 		view->lineEdit(mname)->setInputValidator(&name_validator);
 		view->lineEdit(id)->validateInput();
 		view->resetFields();
@@ -59,7 +59,6 @@ void PatientDialogPresenter::changePatientType(int index)
 		view->setLn4View(true);
 
 		view->lineEdit(id)->setInputValidator(&ln4_validator);
-		view->dateEdit()->setInputValidator(&birth_validator);
 		view->lineEdit(mname)->setInputValidator(&cyrillic_validator);
 		view->lineEdit(id)->validateInput();;
 		view->resetFields();

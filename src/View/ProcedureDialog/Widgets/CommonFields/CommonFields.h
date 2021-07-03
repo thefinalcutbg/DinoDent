@@ -13,13 +13,12 @@ public:
 	CommonFields(QWidget *parent = Q_NULLPTR);
 	~CommonFields();
 
-private:
-	Ui::CommonFields ui;
-
 	// Inherited via ICommonFields
 	virtual AbstractLineEdit* manipulationEdit() override;
 	virtual AbstractLineEdit* diagnosisEdit() override;
 	virtual AbstractSpinBox* priceEdit() override;
 	virtual AbstractDateEdit* dateEdit() override;
 	virtual void set_hidden(bool hidden) override;
+
+	Ui::CommonFields ui;
 };

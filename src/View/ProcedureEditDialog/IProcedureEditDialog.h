@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Model/Manipulation/Manipulation.h"
+#include "Model/Procedure/Procedure.h"
 
 #include "View/ProcedureDialog/Widgets/ObturationView/IObturationView.h"
 #include "View/ProcedureDialog/Widgets/ImplantView/IImplantView.h"
@@ -17,7 +17,7 @@ class IProcedureEditDialog
 
 public:
 
-	virtual void setMtype(ManipulationType m) = 0;
+	virtual void setMtype(ProcedureType m) = 0;
 	virtual ICommonFields* commonFields() = 0;
 	virtual ICrownView* crownView() = 0;
 	virtual IObturationView* obturationView() = 0;

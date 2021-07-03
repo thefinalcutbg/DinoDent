@@ -1,7 +1,7 @@
 #pragma once
 #include "TeethMPresenter.h"
 
-class ManipulationTemplate;
+class ProcedureTemplate;
 class IImplantView;
 
 class ImplantPresenter : public TeethMPresenter
@@ -12,7 +12,7 @@ class ImplantPresenter : public TeethMPresenter
 	virtual Result getResult() override;
 
 public:
-	void setManipulationTemplate(const ManipulationTemplate& m);
+	void setManipulationTemplate(const ProcedureTemplate& m);
 	ImplantPresenter(const std::vector<Tooth*>& selectedTeeth);
 	void setView(IImplantView* view);
 };

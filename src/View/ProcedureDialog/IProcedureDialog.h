@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include <array>
-#include "Model/Manipulation/Manipulation.h"
+#include "Model/Procedure/Procedure.h"
 
 
 class CrownPresenter;
@@ -13,12 +13,12 @@ class IProcedureDialog
 
 public:
 
-    virtual void loadManipulationList(std::vector<ManipulationTemplate> manipulationList) = 0;
+    virtual void loadManipulationList(std::vector<ProcedureTemplate> manipulationList) = 0;
 
     virtual void close() = 0;
     virtual void showErrorMessage(const std::string& error) = 0;
 
-    virtual void setView(ManipulationType t) = 0;
+    virtual void setView(ProcedureType t) = 0;
     virtual void setSelectionLabel(const std::vector<int>& selectedTeethNum) = 0;
 
     virtual ICommonFields* commonFields() = 0;

@@ -1,6 +1,6 @@
-#include "ManipulationParser.h"
+#include "ProcedureParser.h"
 
-std::string ManipulationParser::write(Manipulation m)
+std::string ProcedureParser::write(Procedure m)
 {
 	Json::Value manipulation;
 
@@ -9,7 +9,7 @@ std::string ManipulationParser::write(Manipulation m)
 
 	switch (m.type)
 	{
-	case ManipulationType::obturation:
+	case ProcedureType::obturation:
 	{
 		auto& r = std::get<ObturationData>(m.result);
 		manipulation["color"] = r.color;
@@ -22,7 +22,7 @@ std::string ManipulationParser::write(Manipulation m)
 
 		break;
 	}
-	case ManipulationType::crown:
+	case ProcedureType::crown:
 	{
 		auto& r = std::get<CrownData>(m.result);
 		manipulation["color_idx"] = r.color.index;
@@ -31,7 +31,7 @@ std::string ManipulationParser::write(Manipulation m)
 		manipulation["prep"] = r.prep_type;
 		break;
 	}
-	case ManipulationType::bridge:
+	case ProcedureType::bridge:
 	{
 		auto& r = std::get<BridgeData>(m.result);
 		manipulation["color_idx"] = r.crown.color.index;
@@ -43,7 +43,7 @@ std::string ManipulationParser::write(Manipulation m)
 		break;
 	}
 
-	case ManipulationType::implant:
+	case ProcedureType::implant:
 	{
 		auto& r = std::get<ImplantData>(m.result);
 		
@@ -70,7 +70,7 @@ std::string ManipulationParser::write(Manipulation m)
 
 #include <QDebug>
 
-void ManipulationParser::parse(const std::string& jsonString, Manipulation& m)
+void ProcedureParser::parse(const std::string& jsonString, Procedure& m)
 {
 	
 	Json::Value manipulation;
@@ -91,7 +91,7 @@ void ManipulationParser::parse(const std::string& jsonString, Manipulation& m)
 	
 	switch (m.type)
 	{
-		case ManipulationType::obturation:
+		case ProcedureType::obturation:
 		{
 			ObturationData r;
 			r.material = manipulation["material"].asString();
@@ -110,7 +110,7 @@ void ManipulationParser::parse(const std::string& jsonString, Manipulation& m)
 			break;
 		}
 
-		case ManipulationType::crown:
+		case ProcedureType::crown:
 		{
 			CrownData r;
 			r.material = manipulation["material"].asString();
@@ -123,7 +123,7 @@ void ManipulationParser::parse(const std::string& jsonString, Manipulation& m)
 			break;
 		}
 
-		case ManipulationType::bridge:
+		case ProcedureType::bridge:
 		{
 			BridgeData r;
 			r.tooth_begin = manipulation["begin"].asInt();
@@ -138,7 +138,7 @@ void ManipulationParser::parse(const std::string& jsonString, Manipulation& m)
 			break;
 		}
 
-		case ManipulationType::implant:
+		case ProcedureType::implant:
 		{
 			ImplantData r;
 

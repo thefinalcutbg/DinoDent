@@ -1,8 +1,8 @@
 #pragma once
-#include "Model/Manipulation/Manipulation.h"
+#include "Model/Procedure/Procedure.h"
 #include "Model/Tooth/Tooth.h"
 #include "View/ProcedureDialog/Widgets/CommonFields/ICommonFields.h"
-#include "Model/Validator/ManipulationValidators.h"
+#include "Model/Validator/ProcedureValidators.h"
 #include "Model/Validator/CommonValidators.h"
 
 #include <vector>
@@ -14,7 +14,7 @@ protected:
 	ICommonFields* common_view{ NULL };
 
 	std::string diagnosis;
-	ManipulationTemplate m_template;
+	ProcedureTemplate m_template;
 
 	NotEmptyValidator notEmpty_validator;
 
@@ -28,11 +28,11 @@ public:
 
 	void diagnosisTextChanged(std::string text) override { diagnosis = text; };
 
-	virtual void setManipulationTemplate(const ManipulationTemplate& m);
+	virtual void setManipulationTemplate(const ProcedureTemplate& m);
 
 	virtual bool isValid();
 
-	virtual std::vector<Manipulation> getManipulations();
+	virtual std::vector<Procedure> getManipulations();
 	
 };
 

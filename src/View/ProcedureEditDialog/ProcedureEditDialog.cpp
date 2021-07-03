@@ -18,24 +18,32 @@ ProcedureEditDialog::ProcedureEditDialog(ProcedureEditorPresenter* p, QWidget *p
 
 	connect(ui.okButton, &QPushButton::clicked, [=] {presenter->okPressed(); });
 	connect(ui.cancelButton, &QPushButton::clicked, [=] { close(); });
+
+	ui.errorLabel->setStyleSheet("color:red");
+	ui.crownWidget->ui.rangeWidget->setErrorLabel(ui.errorLabel);
+	ui.obturWidget->ui.surfaceSelector->setErrorLabel(ui.errorLabel);
+	ui.commonWidget->ui.dateEdit->setErrorLabel(ui.errorLabel);
+	ui.commonWidget->ui.diagnosisEdit->setErrorLabel(ui.errorLabel);
+	ui.commonWidget->ui.manipulationEdit->setErrorLabel(ui.errorLabel);
+
 }
 
 ProcedureEditDialog::~ProcedureEditDialog()
 {
 }
 
-void ProcedureEditDialog::setMtype(ManipulationType m)
+void ProcedureEditDialog::setMtype(ProcedureType m)
 {
 	switch (m)
 	{
-	case ManipulationType::obturation:
+	case ProcedureType::obturation:
 		ui.stackedWidget->setCurrentIndex(1);
 		break;
-	case ManipulationType::crown:
-	case ManipulationType::bridge:
+	case ProcedureType::crown:
+	case ProcedureType::bridge:
 		ui.stackedWidget->setCurrentIndex(2);
 		break;
-	case ManipulationType::implant:
+	case ProcedureType::implant:
 		ui.stackedWidget->setCurrentIndex(3);
 		break;
 	default:

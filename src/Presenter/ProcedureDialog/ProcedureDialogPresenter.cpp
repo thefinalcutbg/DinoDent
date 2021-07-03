@@ -2,9 +2,9 @@
 #include "Model/Date.h"
 #include "View/ProcedureDialog/IProcedureDialog.h"
 #include "View/ModalDialogBuilder.h"
-#include "Model/Manipulation/MasterNZOK.h"
-#include "Model/Manipulation/CustomProcedures.h"
-
+#include "Model/Procedure/MasterNZOK.h"
+#include "Model/Procedure/CustomProcedures.h"
+#include <QDebug>
 //this implementation is a total mess and needs refactoring
 
 ProcedureDialogPresenter::ProcedureDialogPresenter
@@ -12,7 +12,7 @@ ProcedureDialogPresenter::ProcedureDialogPresenter
 	const std::vector<Tooth*>& selectedTeeth,
 	const std::array<Tooth, 32>& teeth,
 	const Date& ambListDate,
-	const Date& patientBirth,
+	const Date& patientTurns18,
 	bool unfavourable,
 	int specialty
 )
@@ -25,10 +25,7 @@ ProcedureDialogPresenter::ProcedureDialogPresenter
 	teeth(&teeth),
 	selectedTeeth(selectedTeeth),
 
-	_ambDate(ambListDate),
-	_18Birthday(patientBirth),
-	unfavourable(unfavourable),
-	specialty(specialty),
+	date_validator(ambListDate, patientTurns18),
 
 	errorState(true),
 
@@ -51,12 +48,13 @@ ProcedureDialogPresenter::ProcedureDialogPresenter
 	}
 {
 
+
 	//getting NZOK procedures:
 	manipulationList = MasterNZOK::instance().getM_Templates 
 	(
-		_ambDate,
+		ambListDate,
 		specialty,
-		!(_ambDate < _18Birthday),
+		!(ambListDate < patientTurns18),
 		unfavourable
 	);
 
@@ -64,18 +62,6 @@ ProcedureDialogPresenter::ProcedureDialogPresenter
 	auto customProcedures = CustomProcedures::instance().getCustomProcedures();
 
 	manipulationList.insert(manipulationList.end(), customProcedures.begin(), customProcedures.end());
-
-	date_validator.setMaxDate
-	(
-		{
-			Date::getMaxDayOfMonth(ambListDate.month, ambListDate.year),
-			ambListDate.month,
-			ambListDate.year
-		}
-	);
-	
-	date_validator.setMinDate(ambListDate);
-
 }
 
 
@@ -93,14 +79,8 @@ void ProcedureDialogPresenter::setView(IProcedureDialog* view)
 
 	view->loadManipulationList(manipulationList);
 
-	//default validator set:
-	auto date = Date::CurrentDate();
 
-	if (!date_validator.validateInput(date)) {
-		date = date_validator.getMin();
-	}
-
-	view->commonFields()->dateEdit()->set_Date(date);
+	view->commonFields()->dateEdit()->set_Date(Date::currentDate());
 	view->commonFields()->dateEdit()->setInputValidator(&date_validator);
 
 	//setting the label
@@ -133,34 +113,10 @@ void ProcedureDialogPresenter::indexChanged(int index)
 	view->setView(mt.type);
 
 	current_m_presenter = presenters_ptr[static_cast<int>(mt.type)];
-
 	current_m_presenter->setManipulationTemplate(mt);
 
-	//resetting the validator:
-	date_validator.setMaxDate
-	(
-		{
-			Date::getMaxDayOfMonth(_ambDate.month, _ambDate.year),
-			_ambDate.month,
-			_ambDate.year
-		}
-	);
-
-	//for nzok manipulations:
-
-	if (
-			mt.nzok
-		&&
-			MasterNZOK::instance().isMinorOnly(mt.code)
-		&&
-			_18Birthday > date_validator.getMin()
-		&&
-			_18Birthday < date_validator.getMax()
-		)
-
-		date_validator.setMaxDate(_18Birthday);
-
-		view->commonFields()->dateEdit()->validateInput();
+	date_validator.setProcedure(manipulationList[index].code, manipulationList[index].nzok);
+	view->commonFields()->dateEdit()->validateInput();
 }
 
 
@@ -175,7 +131,7 @@ void ProcedureDialogPresenter::formAccepted()
 	view->close();
 }
 
-std::vector<Manipulation> ProcedureDialogPresenter::openDialog()
+std::vector<Procedure> ProcedureDialogPresenter::openDialog()
 {
 	ModalDialogBuilder::openDialog(this);
 	return manipulations;

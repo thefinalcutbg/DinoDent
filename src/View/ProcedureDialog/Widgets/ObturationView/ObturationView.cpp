@@ -54,7 +54,7 @@ void ObturationView::set_hidden(bool hidden)
 	setHidden(hidden);
 }
 
-#include "Model/Manipulation/Manipulation.h"
+#include "Model/Procedure/Procedure.h"
 
 void ObturationView::setData(const ObturationData& data)
 {

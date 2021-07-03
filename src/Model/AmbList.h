@@ -5,14 +5,14 @@
 #include "Patient.h"
 #include "Date.h"
 #include "Tooth/Tooth.h"
-#include "Manipulation/Manipulation.h"
+#include "Procedure/Procedure.h"
 
 
 constexpr int defaultSurfaces[32] = { 0,0,0,0,0,3,3,3,3,3,3,0,0,0,0,0,0,0,0,0,0,3,3,3,3,3,3,0,0,0,0,0 };
 
 struct AmbList
 {
-	AmbList() : date(Date::CurrentDate()), number(0), unfavourable(false)
+	AmbList() : date(Date::currentDate()), number(0), unfavourable(false)
 	{
 		for (int i = 0; i < teeth.size(); i++) {
 			teeth[i].index = i;
@@ -27,7 +27,7 @@ struct AmbList
 	std::string LPK;
 	bool unfavourable;
 
-	std::vector<Manipulation> manipulations;
+	std::vector<Procedure> manipulations;
 	std::array <Tooth, 32> teeth;
 	~AmbList() {  }
 	bool isNew(){ return !number; }

@@ -1,5 +1,5 @@
 #pragma once
-#include "Model/Manipulation/ManipulationTemplate.h"
+#include "Model/Procedure/ProcedureTemplate.h"
 #include <QAbstractTableModel>
 
 #include <vector>
@@ -8,15 +8,10 @@ enum procedureHeader { code = 1, name, price };
 
 struct ManipulationRow
 {
-	ManipulationRow(int code, QString name, QString price) 
-		: code{ code }, name{ name }, price{ price } 
-	{
-		
-	};
-
 	int code;
 	QString name;
 	QString price;
+	bool nzok;
 };
 
 class ProcedureModel : public QAbstractTableModel
@@ -36,7 +31,7 @@ class ProcedureModel : public QAbstractTableModel
 public:
 	ProcedureModel(QObject *parent = nullptr);
 
-	void setManipulations(std::vector<ManipulationTemplate> manipulations);
+	void setManipulations(std::vector<ProcedureTemplate> manipulations);
 
 	~ProcedureModel();
 

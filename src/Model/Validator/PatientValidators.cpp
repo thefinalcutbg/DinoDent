@@ -4,7 +4,7 @@ const std::string EgnValidator::invalid{ "Невалидно ЕГН" };
 
 EgnValidator::EgnValidator()
 {
-    date_validator.setMaxDate(Date::CurrentDate());
+    date_validator.setMaxDate(Date::currentDate());
     date_validator.setMinDate(Date(2, 1, 1900));
     _errorMsg = &invalid;
 }

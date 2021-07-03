@@ -3,12 +3,10 @@
 #include <array>
 #include <variant>
 #include "Model/Date.h"
-#include "ManipulationTemplate.h"
+#include "ProcedureTemplate.h"
 #include "Model/Tooth/Vita.h"
 
 struct NoData {};
-
-
 
 struct CrownData {
 
@@ -43,11 +41,11 @@ struct ImplantData {
 
 typedef std::variant<NoData, ObturationData, CrownData, BridgeData, ImplantData> Result;
 
-struct Manipulation
+struct Procedure
 {
 
 
-    Manipulation(const ManipulationTemplate& t, Date date, std::string name, std::string diagnosis, double price, Result result)
+    Procedure(const ProcedureTemplate& t, Date date, std::string name, std::string diagnosis, double price, Result result)
         :
         type{ t.type },
         code{ t.code },
@@ -60,10 +58,10 @@ struct Manipulation
         result{result}
     {}
 
-    Manipulation() {}
+    Procedure() : type(ProcedureType::general), code{ -1 }, price{ 0 }, tooth{ -1 }, nzok{ false } {}
 
     //common parameters:
-    ManipulationType type;
+    ProcedureType type;
     int code;
     Date date;
     std::string name;

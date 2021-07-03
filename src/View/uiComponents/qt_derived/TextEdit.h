@@ -1,13 +1,16 @@
 #pragma once
 
 #include <QTextEdit>
-#include <QKeyEvent>
+
 #include "../AbstractLineEdit.h"
+
+class QLabel;
 
 class TextEdit : public QTextEdit, public AbstractLineEdit
 {
 	Q_OBJECT
 
+	QLabel* errorLabel{ nullptr };
 	bool disabled{ false };
 	void keyPressEvent(QKeyEvent* event) override;
 
@@ -15,6 +18,7 @@ public:
 	TextEdit(QWidget *parent);
 	~TextEdit();
 
+	void setErrorLabel(QLabel* errorLabel);
 	// Inherited via AbstractLineEdit
 	virtual void setFocus() override;
 	virtual void disable(bool disable) override;

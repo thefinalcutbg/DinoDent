@@ -33,12 +33,15 @@ void LineEdit::setValidAppearence(bool valid)
 		setStyleSheet("");	else
 		setStyleSheet("border: 1px solid red;");
 
-	if (errorLabel == nullptr) return;
+	if (errorLabel == nullptr || AbstractUIElement::validator == nullptr) return;
 
-	valid ?
-		errorLabel->setText("")
-		:
-		errorLabel->setText(QString::fromStdString(AbstractUIElement::validator->getErrorMessage()));
+	if (valid)
+		errorLabel->setText("");
+	else
+	{
+		if (AbstractUIElement::validator)
+			errorLabel->setText(QString::fromStdString(AbstractUIElement::validator->getErrorMessage()));
+	}
 }
 
 void LineEdit::set_Text(const std::string& text)

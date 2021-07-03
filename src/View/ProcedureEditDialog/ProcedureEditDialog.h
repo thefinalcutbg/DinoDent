@@ -20,7 +20,7 @@ public:
 	ProcedureEditDialog(ProcedureEditorPresenter* p, QWidget *parent = Q_NULLPTR);
 	~ProcedureEditDialog();
 
-	void setMtype(ManipulationType m) override;
+	void setMtype(ProcedureType m) override;
 	ICommonFields* commonFields() override;
 
 	ICrownView* crownView() override;

@@ -1,14 +1,12 @@
 #pragma once
 #include <string>
 
+enum class ProcedureType { general, any, obturation, extraction, endo, crown, implant, bridge};
 
-enum class ManipulationType { general, any, obturation, extraction, endo, crown, implant, bridge};
-
-
-struct ManipulationTemplate
+struct ProcedureTemplate
 {
 
-	ManipulationType type {ManipulationType::any};
+	ProcedureType type {ProcedureType::any};
 	int code{ 0 };
 	std::string name;
 	double price { 0 };

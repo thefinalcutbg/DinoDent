@@ -1,5 +1,5 @@
 ﻿#include "AmbListPagePresenter.h"
-#include "Model/Manipulation/MasterNZOK.h"
+#include "Model/Procedure/MasterNZOK.h"
 #include "Presenter/PatientDialog/PatientDialogPresenter.h"
 AmbListPagePresenter::AmbListPagePresenter() :
     view(nullptr)

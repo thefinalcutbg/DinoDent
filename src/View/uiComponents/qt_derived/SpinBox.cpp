@@ -21,6 +21,11 @@ void SpinBox::disable(bool disable)
 	this->setDisabled(disable);
 }
 
+void SpinBox::hide(bool hidden)
+{
+	setHidden(hidden);
+}
+
 void SpinBox::setValidAppearence(bool valid)
 {
 }

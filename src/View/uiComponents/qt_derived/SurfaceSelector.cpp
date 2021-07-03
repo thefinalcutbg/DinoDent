@@ -1,11 +1,10 @@
 ﻿#include "SurfaceSelector.h"
+#include <QLabel>
 
 SurfaceSelector::SurfaceSelector(QWidget *parent)
-	: QWidget(parent)
+	: QWidget(parent), errorLabel(nullptr)
 {
 	ui.setupUi(this);
-
-	ui.error_label->setStyleSheet("color:red");
 
 	connect(ui.o_check, &QCheckBox::stateChanged, [=] {validateInput(); });
 	connect(ui.m_check, &QCheckBox::stateChanged, [=] {validateInput(); });
@@ -20,6 +19,11 @@ SurfaceSelector::~SurfaceSelector()
 {
 }
 
+void SurfaceSelector::setErrorLabel(QLabel* errorLabel)
+{
+	this->errorLabel = errorLabel;
+}
+
 void SurfaceSelector::setFocus()
 {
 	ui.o_check->setFocus();
@@ -27,18 +31,17 @@ void SurfaceSelector::setFocus()
 
 void SurfaceSelector::disable(bool disable)
 {
-	if (disable)
-		this->hide();
-	else
-		this->show();
+		this->setHidden(disable);
 }
 
 void SurfaceSelector::setValidAppearence(bool valid)
 {
-	if (valid)
-		ui.error_label->setText("");
-	else
-		ui.error_label->setText("Изберете поне една повърхност!");
+	if (!errorLabel) return;
+
+	valid ?
+		errorLabel->setText("")
+		:
+		errorLabel->setText("Изберете поне една повърхност!");
 }
 
 std::array<bool, 6> SurfaceSelector::getSurfaces()

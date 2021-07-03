@@ -4,14 +4,19 @@
 #include "ui_SurfaceSelector.h"
 #include "View/uiComponents/AbstractSurfaceSelector.h"
 
+class QLabel;
+
 class SurfaceSelector : public QWidget, public AbstractSurfaceSelector
 {
 	Q_OBJECT
 
+private:
+	QLabel* errorLabel;
 
 public:
 	SurfaceSelector(QWidget *parent = Q_NULLPTR);
 	~SurfaceSelector();
+	void setErrorLabel(QLabel* errorLabel);
 
 	// Inherited via AbstractSurfaceSelector
 	virtual void setFocus() override;

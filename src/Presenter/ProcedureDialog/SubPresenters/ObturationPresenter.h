@@ -1,7 +1,7 @@
 #pragma once
 #include "TeethMPresenter.h"
 #include "View/ProcedureDialog/Widgets/ObturationView/IObturationView.h"
-#include "Model/Validator/ManipulationValidators.h"
+#include "Model/Validator/ProcedureValidators.h"
 #include "Model/Tooth/ToothUtils.h"
 
 class ObturationPresenter : public TeethMPresenter
@@ -23,7 +23,7 @@ public:
 	void setView(IObturationView* view);
 
 	// Inherited via ManipulationPresenter
-	virtual void setManipulationTemplate(const ManipulationTemplate& m) override;
+	virtual void setManipulationTemplate(const ProcedureTemplate& m) override;
 	virtual bool isValid() override;
 	
 };

@@ -1,6 +1,6 @@
 #include "ImplantPresenter.h"
 #include "View/ProcedureDialog/Widgets/ImplantView/IImplantView.h"
-#include "Model/Manipulation/Manipulation.h"
+#include "Model/Procedure/Procedure.h"
 #include "Model/Tooth/ToothUtils.h"
 
 
@@ -13,7 +13,7 @@ ImplantPresenter::ImplantPresenter(const std::vector<Tooth*>& selectedTeeth)
 	};
 }
 
-void ImplantPresenter::setManipulationTemplate(const ManipulationTemplate& m)
+void ImplantPresenter::setManipulationTemplate(const ProcedureTemplate& m)
 {
 	common_view->set_hidden(noTeethSelected);
 	view->set_hidden(noTeethSelected);

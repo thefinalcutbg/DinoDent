@@ -1,5 +1,6 @@
 #include "TextEdit.h"
-
+#include <QKeyEvent>
+#include <QLabel>
 TextEdit::TextEdit(QWidget *parent)
 	: QTextEdit(parent)
 {
@@ -8,6 +9,11 @@ TextEdit::TextEdit(QWidget *parent)
 
 TextEdit::~TextEdit()
 {
+}
+
+void TextEdit::setErrorLabel(QLabel* errorLabel)
+{
+	this->errorLabel = errorLabel;
 }
 
 void TextEdit::setFocus()
@@ -33,11 +39,20 @@ void TextEdit::disable(bool disable)
 
 void TextEdit::setValidAppearence(bool valid)
 {
+	if (valid)
+		setStyleSheet("");	else
+		setStyleSheet("border: 1px solid red;");
+
+	if (errorLabel == nullptr || AbstractUIElement::validator == nullptr) return;
 
 	if (valid)
-		setStyleSheet("");
+		errorLabel->setText("");
 	else
-		setStyleSheet("border: 1px solid red;");
+	{
+		if (AbstractUIElement::validator)
+			errorLabel->setText(QString::fromStdString(AbstractUIElement::validator->getErrorMessage()));
+	}
+
 }
 
 void TextEdit::set_Text(const std::string& text)

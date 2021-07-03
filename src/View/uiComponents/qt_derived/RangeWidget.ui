@@ -7,34 +7,12 @@
     <x>0</x>
     <y>0</y>
     <width>310</width>
-    <height>78</height>
+    <height>37</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>RangeWidget</string>
   </property>
-  <widget class="QLabel" name="errorLabel">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>40</y>
-     <width>281</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-   <property name="wordWrap">
-    <bool>true</bool>
-   </property>
-  </widget>
   <widget class="QLabel" name="label_3">
    <property name="geometry">
     <rect>
@@ -98,7 +76,6 @@
    </property>
   </widget>
   <zorder>checkBox</zorder>
-  <zorder>errorLabel</zorder>
   <zorder>label_3</zorder>
   <zorder>beginCombo</zorder>
   <zorder>endCombo</zorder>

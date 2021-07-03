@@ -1,7 +1,7 @@
 #pragma once
 #include "TeethMPresenter.h"
 #include "View/ProcedureDialog/Widgets/CrownView/ICrownView.h"
-#include "Model/Validator/ManipulationValidators.h"
+#include "Model/Validator/ProcedureValidators.h"
 #include "Model/Tooth/ToothUtils.h"
 
 class CrownPresenter : public TeethMPresenter
@@ -33,8 +33,8 @@ public:
 	void rangeWidgetChecked(bool checked);
 
 	// Inherited via ManipulationPresenter
-	void setManipulationTemplate(const ManipulationTemplate& m) override;
+	void setManipulationTemplate(const ProcedureTemplate& m) override;
 	bool isValid() override;
-	std::vector<Manipulation> getManipulations() override;
+	std::vector<Procedure> getManipulations() override;
 };
 

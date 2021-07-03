@@ -1,10 +1,10 @@
 #pragma once
-#include "Manipulation.h"
+#include "Procedure.h"
 #include "../Tooth/ToothController/BridgeController.h"
 #include "../Tooth/ToothController/GeneralStatusControler.h"
 #include "../Tooth/ToothController/SurfaceController.h"
 
-class ManipulationApplier
+class ProcedureApplier
 {
 	ObturationController obtur_ctrl;
 	CariesController caries_ctrl;
@@ -12,6 +12,6 @@ class ManipulationApplier
 	BridgeController bridge_ctrl;
 
 public:
-	void applyManipulations(const std::vector<Manipulation>& m, std::array<Tooth, 32>& teeth, const std::string& LPK);
+	void applyProcedures(const std::vector<Procedure>& m, std::array<Tooth, 32>& teeth, const std::string& LPK);
 };
 

@@ -127,12 +127,12 @@ void ListView::repaintBridges(const BridgesPaintHint& bridges)
 
 void ListView::setSelectedTeeth(std::vector<int> selectedIndexes)
 {
-	{
-		QSignalBlocker blocker(teethViewScene);
-		teethViewScene->setSelectedTeeth(selectedIndexes);
-	}
+
+	teethViewScene->setSelectedTeeth(selectedIndexes);
+
 	//ui.teethView->setFocus();
 	ui.teethView->update(); //the only way to update qgraphicsview without most of the bugs
+	//ui.teethView->gl->update();
 }
 
 void ListView::setProcedures(const std::vector<RowData>& m)

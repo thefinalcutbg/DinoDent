@@ -1,16 +1,14 @@
 #pragma once
 
-
 #include "Model/Tooth/ToothUtils.h"
+#include "Model/Validator/ProcedureDateValidator.h"
 
-#include "Model/Validator/ManipulationValidators.h"
-#include "View/uiComponents/AbstractLineEdit.h"
-#include "Model/Validator/DateValidator.h"
 #include "SubPresenters/ObturationPresenter.h"
 #include "SubPresenters/CrownPresenter.h"
 #include "SubPresenters/ExtractionPresenter.h"
 #include "SubPresenters/EndoPresenter.h"
 #include "SubPresenters/ImplantPresenter.h"
+
 #include "View/ProcedureDialog/IProcedureDialog.h"
 
 
@@ -32,17 +30,12 @@ class ProcedureDialogPresenter
 	IProcedureDialog* view;
 	ICommonFields* common_fields;
 
-	std::vector<Manipulation> manipulations;
+	std::vector<Procedure> manipulations;
 
-	std::vector<ManipulationTemplate> manipulationList;
+	std::vector<ProcedureTemplate> manipulationList;
 	const std::array<Tooth, 32>* teeth;
 
-	DateValidator date_validator;
-
-	Date _ambDate;
-	Date _18Birthday; //bahti promenlivata
-	bool unfavourable;
-	int specialty;
+	ProcedureDateValidator date_validator;
 
 	int currentIndex{-1};
 	bool errorState;
@@ -63,6 +56,6 @@ class ProcedureDialogPresenter
 		
 		void indexChanged(int index);
 		void formAccepted();
-		std::vector<Manipulation> openDialog();
+		std::vector<Procedure> openDialog();
 };
 

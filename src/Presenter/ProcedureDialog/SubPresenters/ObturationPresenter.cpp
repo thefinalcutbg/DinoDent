@@ -20,7 +20,7 @@ void ObturationPresenter::setView(IObturationView* view)
     }
 }
 
-void ObturationPresenter::setManipulationTemplate(const ManipulationTemplate& m)
+void ObturationPresenter::setManipulationTemplate(const ProcedureTemplate& m)
 {
     common_view->set_hidden(noTeethSelected);
     view->set_hidden(noTeethSelected);

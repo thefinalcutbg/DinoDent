@@ -3,7 +3,7 @@
 #include "Model/AmbList.h"
 #include "Model/Date.h"
 #include "Model/Tooth/ToothParser.h"
-#include "Model/Manipulation/ManipulationApplier.h"
+#include "Model/Procedure/ProcedureApplier.h"
 #include "DbManipulation.h"
 #include "AbstractORM.h"
 #include <QDebug>
@@ -17,11 +17,11 @@ class DbAmbList : public AbstractORM
 {
 
     ToothParser parser;
-    ManipulationApplier m_applier;
+    ProcedureApplier m_applier;
     DbManipulation db_manipulation;
 
     std::string getOlderStatus(std::string patientID);
-    std::vector<Manipulation> getOlderManipulations(std::string patientID);
+    std::vector<Procedure> getOlderManipulations(std::string patientID);
 
 public:
     DbAmbList();

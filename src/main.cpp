@@ -1,8 +1,8 @@
 #include <QtWidgets/QApplication>
 #include "View/Torque.h"
 #include "View/ListView/ToothPaintDevices/SpriteSheets.h"
-#include "Model/Manipulation/MasterNZOK.h"
-#include "Model/Manipulation/CustomProcedures.h"
+#include "Model/Procedure/MasterNZOK.h"
+#include "Model/Procedure/CustomProcedures.h"
 
 int main(int argc, char *argv[])
 {

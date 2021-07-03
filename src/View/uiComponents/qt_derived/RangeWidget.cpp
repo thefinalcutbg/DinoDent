@@ -2,11 +2,10 @@
 
 RangeWidget::RangeWidget(QWidget *parent)
 	: QWidget(parent),
-		validator(nullptr)
+		validator(nullptr),
+		errorLabel(nullptr)
 {
 	ui.setupUi(this);
-
-	ui.errorLabel->setStyleSheet("color:red");
 
 	QString toothIndexes[32]{ "18", "17", "16", "15", "14", "13", "12", "11",
 						  "21", "22", "23", "24", "25", "26", "27", "28",
@@ -52,7 +51,7 @@ RangeWidget::RangeWidget(QWidget *parent)
 				ui.label_4->setHidden(disable);
 				ui.endCombo->setHidden(disable);
 				ui.beginCombo->setHidden(disable);
-				ui.errorLabel->setHidden(disable);
+
 
 				emit widgetChecked(!disable);
 		});
@@ -101,13 +100,15 @@ std::tuple<int, int> RangeWidget::getRange()
 
 void RangeWidget::setValidAppearence(bool valid)
 {
+	if (errorLabel == nullptr) return;
+
 	if (valid) {
 
-		ui.errorLabel->setText("");
+		errorLabel->setText("");
 	}
 	else
 	{
-		ui.errorLabel->setText("Невалидна дължина на конструкцията");
+		errorLabel->setText("Невалидна дължина на конструкцията");
 	}
 }
 
@@ -122,6 +123,11 @@ void RangeWidget::disbleBridgeSwitch(bool disable)
 	ui.checkBox->setDisabled(disable);
 //	ui.beginCombo->setDisabled(disable);
 //	ui.endCombo->setDisabled(disable);
+}
+
+void RangeWidget::setErrorLabel(QLabel* errorLabel)
+{
+	this->errorLabel = errorLabel;
 }
 
 

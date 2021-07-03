@@ -88,20 +88,6 @@ void PatientFormDialog::setLn4View(bool show)
 {
     ui.sexCombo->setCurrentIndex(0);
 
-    if(show)
-    {
-        ui.birthEdit->show();
-        ui.sexCombo->show();
-        ui.label_7->show();
-        ui.label_8->show();
-    }
-    else
-    {
-        ui.birthEdit->hide();
-        ui.sexCombo->hide();
-        ui.label_7->hide();
-        ui.label_8->hide();
-    }
 }
 
 void PatientFormDialog::setCodeInfo(const std::string& codeInfo)

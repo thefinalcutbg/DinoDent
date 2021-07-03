@@ -23,8 +23,8 @@ ProcedureDialog::ProcedureDialog(ProcedureDialogPresenter* presenter, QWidget *p
 	table->setModel(proxyModel);
 	table->hideColumn(0);
 	table->setColumnWidth(0, 20);
-	table->setColumnWidth(1, 20);
-	table->setColumnWidth(2, 400);
+	table->setColumnWidth(1, 70);
+	table->setColumnWidth(2, 370);
 	table->setColumnWidth(3, 70);
 	table->setSelectionBehavior(QAbstractItemView::SelectRows);
 	table->setSelectionMode(QAbstractItemView::SingleSelection);
@@ -57,6 +57,13 @@ ProcedureDialog::ProcedureDialog(ProcedureDialogPresenter* presenter, QWidget *p
 
 
 	connect(ui.tableView, &QTableView::doubleClicked, [=] { presenter->formAccepted(); });
+
+	ui.errorLabel->setStyleSheet("color:red");
+	ui.crownWidget->ui.rangeWidget->setErrorLabel(ui.errorLabel);
+	ui.obturWidget->ui.surfaceSelector->setErrorLabel(ui.errorLabel);
+	ui.commonFields->ui.dateEdit->setErrorLabel(ui.errorLabel);
+	ui.commonFields->ui.diagnosisEdit->setErrorLabel(ui.errorLabel);
+	ui.commonFields->ui.manipulationEdit->setErrorLabel(ui.errorLabel);
 }
 
 ProcedureDialog::~ProcedureDialog()
@@ -64,7 +71,7 @@ ProcedureDialog::~ProcedureDialog()
 }
 
 
-void ProcedureDialog::loadManipulationList(std::vector<ManipulationTemplate> manipulationList)
+void ProcedureDialog::loadManipulationList(std::vector<ProcedureTemplate> manipulationList)
 {
 	model.setManipulations(manipulationList);
 }
@@ -130,7 +137,7 @@ void ProcedureDialog::resetForm()
 
 }
 
-void ProcedureDialog::setView(ManipulationType t)
+void ProcedureDialog::setView(ProcedureType t)
 {
 	resetForm();
 
@@ -138,15 +145,15 @@ void ProcedureDialog::setView(ManipulationType t)
 
 	switch (t)
 	{	
-	case ManipulationType::obturation:
+	case ProcedureType::obturation:
 		ui.stackedWidget->setCurrentIndex(1);
 		break;
-	case ManipulationType::extraction:
+	case ProcedureType::extraction:
 		break;
-	case ManipulationType::crown:
+	case ProcedureType::crown:
 		ui.stackedWidget->setCurrentIndex(2);
 		break;
-	case ManipulationType::implant:
+	case ProcedureType::implant:
 		ui.stackedWidget->setCurrentIndex(3);
 		break;
 	default:

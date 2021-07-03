@@ -21,6 +21,17 @@ Date::Date(const std::string& dd_dot_MM_dot_yyyy):
     year(stoi(dd_dot_MM_dot_yyyy.substr(6, 4)))
 {}
 
+Date Date::yesterday()
+{
+    if (day != 1)
+        return Date{ day - 1, month, year };
+
+    if (month != 1)
+        return Date{getMaxDayOfMonth(), month-1, year};
+
+    return Date{ 31, 12, year - 1 };
+}
+
 Date Date::GetDateFromEgn(const std::string& egn)
 {
 
@@ -88,7 +99,7 @@ bool Date::Date::operator > (const Date& other) const
     return false;
 }
 
-Date Date::CurrentDate()
+Date Date::currentDate()
 {
     return Date(currentDay(), currentMonth(), currentYear());
 }
@@ -122,7 +133,7 @@ bool Date::isLeapYear(int year)
     else return false;
 }
 
-int Date::getMaxDayOfMonth(int month, int year)
+int Date::getMaxDayOfMonth()
 {
     if (month < 1 || month > 12) throw "invalid month!";
 

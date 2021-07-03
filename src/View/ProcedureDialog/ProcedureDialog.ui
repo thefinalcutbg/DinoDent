@@ -135,7 +135,7 @@
      <x>560</x>
      <y>260</y>
      <width>291</width>
-     <height>211</height>
+     <height>181</height>
     </rect>
    </property>
    <property name="currentIndex">
@@ -146,6 +146,22 @@
    <widget class="CrownView" name="crownWidget"/>
    <widget class="ImplantView" name="implantWidget"/>
   </widget>
+  <widget class="QLabel" name="errorLabel">
+   <property name="geometry">
+    <rect>
+     <x>560</x>
+     <y>440</y>
+     <width>301</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="wordWrap">
+    <bool>true</bool>
+   </property>
+  </widget>
   <zorder>noTeethLabel</zorder>
   <zorder>tableView</zorder>
   <zorder>okButton</zorder>
@@ -155,6 +171,7 @@
   <zorder>selectedTeethLabel</zorder>
   <zorder>commonFields</zorder>
   <zorder>stackedWidget</zorder>
+  <zorder>errorLabel</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>

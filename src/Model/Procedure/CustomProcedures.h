@@ -1,11 +1,11 @@
 #pragma once
 #include <vector>
-#include "ManipulationTemplate.h"
+#include "ProcedureTemplate.h"
 
 class CustomProcedures
 {
 	static CustomProcedures _instance;
-	std::vector<ManipulationTemplate> _customProcedures;
+	std::vector<ProcedureTemplate> _customProcedures;
 
 	CustomProcedures();
 
@@ -14,6 +14,6 @@ public:
 	static CustomProcedures& instance();
 
 	void loadCustomProcedures();
-	const std::vector<ManipulationTemplate>& getCustomProcedures();
+	const std::vector<ProcedureTemplate>& getCustomProcedures();
 };
 

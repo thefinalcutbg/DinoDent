@@ -6,11 +6,11 @@
 #include "Model/Patient.h"
 #include "Model/Tooth/ToothUtils.h"
 
-#include "Model/Manipulation/MasterNZOK.h"
-#include "Model/Manipulation/CustomProcedures.h"
+#include "Model/Procedure/MasterNZOK.h"
+#include "Model/Procedure/CustomProcedures.h"
 #include "Model/User/User.h"
 
-#include "Model/Manipulation/Manipulation.h"
+#include "Model/Procedure/Procedure.h"
 
 #include "View/ListView/IProcedureView.h"
 
@@ -25,7 +25,7 @@ ProcedurePresenter::ProcedurePresenter()
 {
 }
 
-void ProcedurePresenter::addToProcedureList(const std::vector<Manipulation>& new_mList)
+void ProcedurePresenter::addToProcedureList(const std::vector<Procedure>& new_mList)
 {
 
     auto& mList = _ambList->manipulations;
@@ -130,7 +130,7 @@ void ProcedurePresenter::addProcedure()
         *_selectedTeeth,
         _ambList->teeth,
         _ambList->date,
-        _patient->eighteenBirthday(),
+        _patient->turns18At(),
         _ambList->unfavourable,
         CurrentUser::instance().specialty
     };
@@ -138,6 +138,20 @@ void ProcedurePresenter::addProcedure()
     auto newList = p.openDialog();
 
     if (newList.empty()) return;
+
+    if (newList[0].nzok) //re-getting the prices because of edge-case (18th birthday in current month)
+    {
+        for (auto& m : newList)
+             m.price = MasterNZOK::instance().
+                getPatientPrice
+                (
+                    m.code, _ambList->date, 
+                    CurrentUser::instance().specialty, 
+                    _patient->isAdult(m.date), 
+                    _ambList->unfavourable
+                );
+    }
+
 
         this->addToProcedureList(newList);
 
@@ -152,8 +166,24 @@ void ProcedurePresenter::editProcedure()
 
     auto& m_for_edit = _ambList->manipulations.at(_index);
 
-    ProcedureEditorPresenter p(m_for_edit);
+    ProcedureEditorPresenter p(m_for_edit, _ambList->date, _patient->turns18At());
+
     auto m = std::move(p.openDialog());
+
+    if (m.nzok)
+    {
+        m.price = MasterNZOK::instance().
+            getPatientPrice
+            (
+                m.code,
+                _ambList->date,
+                CurrentUser::instance().specialty,
+                _patient->isAdult(m.date),
+                _ambList->unfavourable
+            );
+
+    }
+
     if (m.date == m_for_edit.date)
     {
         m_for_edit = m;
@@ -161,8 +191,11 @@ void ProcedurePresenter::editProcedure()
     else
     {
         deleteProcedure(_index);
-        addToProcedureList(std::vector<Manipulation>{m});
+        addToProcedureList(std::vector<Procedure>{m});
     }
+
+
+
 
     refreshProcedureView();
     makeEdited();
@@ -192,17 +225,16 @@ void ProcedurePresenter::setUnfavourable(bool unfav)
     {
         if (m.nzok)
         {
-            m.price = std::get<0>(
-
-                    MasterNZOK::instance().getPrices
-                    (
-                        m.code,
-                        _ambList->date,
-                        CurrentUser::instance().specialty,
-                        _patient->isAdult(m.date),
-                        unfav
-                    )
+            m.price = MasterNZOK::instance().
+                getPatientPrice
+                (
+                    m.code,
+                    _ambList->date,
+                    CurrentUser::instance().specialty,
+                    _patient->isAdult(m.date),
+                    unfav
                 );
+                
         }
     }
 

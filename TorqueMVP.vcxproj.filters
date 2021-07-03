@@ -192,7 +192,7 @@
     <ClCompile Include="src\Model\Validator\PatientValidators.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Model\Validator\ManipulationValidators.cpp">
+    <ClCompile Include="src\Model\Validator\ProcedureValidators.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\uiComponents\AbstractUIElement.cpp">
@@ -219,7 +219,7 @@
     <ClCompile Include="src\View\ListView\TeethView\GraphicsView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Model\Manipulation\ManipulationParser.cpp">
+    <ClCompile Include="src\Model\Procedure\ProcedureParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Database\DbManipulation.cpp">
@@ -264,10 +264,10 @@
     <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\ImplantPresenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Model\Manipulation\ManipulationApplier.cpp">
+    <ClCompile Include="src\Model\Procedure\ProcedureApplier.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Model\Manipulation\MasterNZOK.cpp">
+    <ClCompile Include="src\Model\Procedure\MasterNZOK.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Model\Patient.cpp">
@@ -282,7 +282,7 @@
     <ClCompile Include="src\Presenter\ListPresenter\Editor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Model\Manipulation\CustomProcedures.cpp">
+    <ClCompile Include="src\Model\Procedure\CustomProcedures.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Presenter\ListPresenter\ProcedurePresenter\ProcedurePresenter.cpp">
@@ -322,6 +322,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\AmbListPage\TabView\TabView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Model\Validator\ProcedureDateValidator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -620,7 +623,7 @@
     <ClInclude Include="src\Presenter\ProcedureDialog\ProcedureDialogPresenter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model\Manipulation\Manipulation.h">
+    <ClInclude Include="src\Model\Procedure\Procedure.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\Tooth\Tooth.h">
@@ -653,7 +656,7 @@
     <ClInclude Include="src\Model\Validator\PatientValidators.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model\Validator\ManipulationValidators.h">
+    <ClInclude Include="src\Model\Validator\ProcedureValidators.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\uiComponents\AbstractUIElement.h">
@@ -665,7 +668,7 @@
     <ClInclude Include="src\View\uiComponents\AbstractSurfaceSelector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model\Manipulation\ManipulationTemplate.h">
+    <ClInclude Include="src\Model\Procedure\ProcedureTemplate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\ListView\Procedures\RowData.h">
@@ -680,7 +683,7 @@
     <ClInclude Include="src\Model\Tooth\SurfStatus.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model\Manipulation\ManipulationParser.h">
+    <ClInclude Include="src\Model\Procedure\ProcedureParser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Database\DbManipulation.h">
@@ -728,13 +731,13 @@
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\ImplantPresenter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model\Manipulation\ManipulationApplier.h">
+    <ClInclude Include="src\Model\Procedure\ProcedureApplier.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model\Manipulation\MasterNZOK.h">
+    <ClInclude Include="src\Model\Procedure\MasterNZOK.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model\Manipulation\NZOKmaps.h">
+    <ClInclude Include="src\Model\Procedure\NZOKmaps.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\User\User.h">
@@ -749,7 +752,7 @@
     <ClInclude Include="src\Presenter\ListPresenter\Editor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model\Manipulation\CustomProcedures.h">
+    <ClInclude Include="src\Model\Procedure\CustomProcedures.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Presenter\ListPresenter\ProcedurePresenter\ProcedurePresenter.h">
@@ -789,6 +792,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\Validator\DateValidator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\Validator\ProcedureDateValidator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

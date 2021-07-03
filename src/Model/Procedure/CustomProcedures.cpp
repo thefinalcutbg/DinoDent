@@ -31,8 +31,8 @@ void CustomProcedures::loadCustomProcedures()
 
 	for (int i = 0; i < manipulation.size(); i++)
 	{
-		ManipulationTemplate m;
-		m.type = static_cast<ManipulationType>(manipulation[i]["type"].asInt());
+		ProcedureTemplate m;
+		m.type = static_cast<ProcedureType>(manipulation[i]["type"].asInt());
 		m.code = manipulation[i]["code"].asInt();
 		m.name = manipulation[i]["name"].asString();
 		m.price = manipulation[i]["price"].asDouble();
@@ -51,7 +51,7 @@ void CustomProcedures::loadCustomProcedures()
 
 }
 
-const std::vector<ManipulationTemplate>& CustomProcedures::getCustomProcedures()
+const std::vector<ProcedureTemplate>& CustomProcedures::getCustomProcedures()
 {
 	return _customProcedures;
 }

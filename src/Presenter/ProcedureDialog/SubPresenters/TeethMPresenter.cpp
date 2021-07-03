@@ -9,7 +9,7 @@ TeethMPresenter::TeethMPresenter
 
 }
 
-void TeethMPresenter::setManipulationTemplate(const ManipulationTemplate& m)
+void TeethMPresenter::setManipulationTemplate(const ProcedureTemplate& m)
 {
 	common_view->set_hidden(noTeethSelected);
 	if(noTeethSelected) return;
@@ -26,16 +26,16 @@ bool TeethMPresenter::isValid()
 	return true;
 }
 
-std::vector<Manipulation> TeethMPresenter::getManipulations()
+std::vector<Procedure> TeethMPresenter::getManipulations()
 {
-	std::vector<Manipulation> m;
+	std::vector<Procedure> m;
 	m.reserve(selectedTeeth->size());
 
 	for (int i = 0; i < selectedTeeth->size(); i++)
 	{
 		m.emplace_back
 		(
-			Manipulation
+			Procedure
 			{
 				 m_template,
 				 Date{common_view->dateEdit()->getDate()},

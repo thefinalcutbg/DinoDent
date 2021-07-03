@@ -25,10 +25,10 @@ public:
 	virtual ~ProcedureDialog();
 
 
-	virtual void loadManipulationList(std::vector<ManipulationTemplate> manipulationList) override;
+	virtual void loadManipulationList(std::vector<ProcedureTemplate> manipulationList) override;
 	
 	virtual void showErrorMessage(const std::string& error) override;
-	virtual void setView(ManipulationType t) override;
+	virtual void setView(ProcedureType t) override;
 	virtual void close() override;
 	virtual void setSelectionLabel(const std::vector<int>& selectedTeethNum) override;
 	virtual void setObturationPresenter(ObturationPresenter* presenter) override;

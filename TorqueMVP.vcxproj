@@ -193,6 +193,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Model\Validator\ProcedureDateValidator.cpp" />
     <ClCompile Include="src\Model\Validator\CommonValidators.cpp" />
     <ClCompile Include="src\Model\Validator\DateValidator.cpp" />
     <ClCompile Include="src\Model\Validator\NameValidator.cpp" />
@@ -202,10 +203,10 @@
     <ClCompile Include="src\View\uiComponents\qt_derived\NameEdit.cpp" />
     <ClCompile Include="src\View\ProcedureDialog\Widgets\ImplantView\ImplantView.cpp" />
     <ClCompile Include="src\View\ModalDialogBuilder.cpp" />
-    <ClCompile Include="src\Model\Manipulation\CustomProcedures.cpp" />
+    <ClCompile Include="src\Model\Procedure\CustomProcedures.cpp" />
     <ClCompile Include="src\Presenter\ListPresenter\Editor.cpp" />
-    <ClCompile Include="src\Model\Manipulation\ManipulationApplier.cpp" />
-    <ClCompile Include="src\Model\Manipulation\MasterNZOK.cpp" />
+    <ClCompile Include="src\Model\Procedure\ProcedureApplier.cpp" />
+    <ClCompile Include="src\Model\Procedure\MasterNZOK.cpp" />
     <ClCompile Include="src\Model\Patient.cpp" />
     <ClCompile Include="src\Presenter\ListPresenter\ProcedurePresenter\ProcedurePresenter.cpp" />
     <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\ImplantPresenter.cpp" />
@@ -219,13 +220,13 @@
     <ClCompile Include="src\View\ProcedureDialog\Widgets\ObturationView\ObturationView.cpp" />
     <ClCompile Include="src\View\ProcedureDialog\Widgets\CommonFields\CommonFields.cpp" />
     <ClCompile Include="src\Database\DbManipulation.cpp" />
-    <ClCompile Include="src\Model\Manipulation\ManipulationParser.cpp" />
+    <ClCompile Include="src\Model\Procedure\ProcedureParser.cpp" />
     <ClCompile Include="src\View\ListView\TeethView\GraphicsView.cpp" />
     <ClCompile Include="src\View\uiComponents\qt_derived\SpinBox.cpp" />
     <ClCompile Include="src\View\ListView\Procedures\ProcedureTableModel.cpp" />
     <ClCompile Include="src\View\ListView\Procedures\ProcedureTable.cpp" />
     <ClCompile Include="src\View\uiComponents\qt_derived\RangeWidget.cpp" />
-    <ClCompile Include="src\Model\Validator\ManipulationValidators.cpp" />
+    <ClCompile Include="src\Model\Validator\ProcedureValidators.cpp" />
     <ClCompile Include="src\Model\Validator\PatientValidators.cpp">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">/utf-8 %(AdditionalOptions)</AdditionalOptions>
@@ -366,6 +367,7 @@
     <QtMoc Include="src\View\AmbListPage\TabView\TabView.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\NameEdit.h" />
     <QtMoc Include="src\View\ProcedureEditDialog\ProcedureEditDialog.h" />
+    <ClInclude Include="src\Model\Validator\ProcedureDateValidator.h" />
     <ClInclude Include="src\Model\Validator\CommonValidators.h" />
     <ClInclude Include="src\Model\Validator\DateValidator.h" />
     <ClInclude Include="src\Model\Validator\NameValidator.h" />
@@ -373,7 +375,7 @@
     <ClInclude Include="src\View\ProcedureDialog\Widgets\ImplantView\IImplantView.h" />
     <QtMoc Include="src\View\ProcedureDialog\Widgets\ImplantView\ImplantView.h" />
     <ClInclude Include="src\View\ModalDialogBuilder.h" />
-    <ClInclude Include="src\Model\Manipulation\CustomProcedures.h" />
+    <ClInclude Include="src\Model\Procedure\CustomProcedures.h" />
     <ClInclude Include="src\Presenter\ListPresenter\Editor.h" />
     <ClInclude Include="src\Model\User\User.h" />
     <ClInclude Include="src\Presenter\ListPresenter\ProcedurePresenter\ProcedurePresenter.h" />
@@ -384,9 +386,9 @@
     <QtMoc Include="src\View\ProcedureDialog\Widgets\CommonFields\CommonFields.h" />
     <QtMoc Include="src\View\ProcedureDialog\Widgets\ObturationView\ObturationView.h" />
     <QtMoc Include="src\View\ProcedureDialog\Widgets\CrownView\CrownView.h" />
-    <ClInclude Include="src\Model\Manipulation\ManipulationApplier.h" />
-    <ClInclude Include="src\Model\Manipulation\MasterNZOK.h" />
-    <ClInclude Include="src\Model\Manipulation\NZOKmaps.h" />
+    <ClInclude Include="src\Model\Procedure\ProcedureApplier.h" />
+    <ClInclude Include="src\Model\Procedure\MasterNZOK.h" />
+    <ClInclude Include="src\Model\Procedure\NZOKmaps.h" />
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\ImplantPresenter.h" />
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\EndoPresenter.h" />
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\ExtractionPresenter.h" />
@@ -404,13 +406,13 @@
     <QtMoc Include="src\View\uiComponents\qt_derived\VitaWidget.h" />
     <QtMoc Include="src\View\ListView\TeethView\GraphicsView.h" />
     <ClInclude Include="src\Database\DbManipulation.h" />
-    <ClInclude Include="src\Model\Manipulation\ManipulationParser.h" />
+    <ClInclude Include="src\Model\Procedure\ProcedureParser.h" />
     <ClInclude Include="src\Model\Tooth\SurfStatus.h" />
     <QtMoc Include="src\View\ListView\Procedures\ProcedureTable.h" />
     <QtMoc Include="src\View\ListView\Procedures\ProcedureTableModel.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\SpinBox.h" />
     <ClInclude Include="src\Database\AbstractORM.h" />
-    <ClInclude Include="src\Model\Manipulation\ManipulationTemplate.h" />
+    <ClInclude Include="src\Model\Procedure\ProcedureTemplate.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\SurfaceSelector.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\TextEdit.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\RangeWidget.h" />
@@ -422,13 +424,13 @@
     <ClInclude Include="src\View\uiComponents\AbstractSpinBox.h" />
     <ClInclude Include="src\View\uiComponents\AbstractSurfaceSelector.h" />
     <ClInclude Include="src\View\uiComponents\AbstractRangeEdit.h" />
-    <ClInclude Include="src\Model\Validator\ManipulationValidators.h" />
+    <ClInclude Include="src\Model\Validator\ProcedureValidators.h" />
     <ClInclude Include="src\Model\Validator\PatientValidators.h" />
     <ClInclude Include="src\Model\Tooth\Enums.h" />
     <ClInclude Include="src\Model\Tooth\Status.h" />
     <ClInclude Include="src\View\uiComponents\AbstractUIElement.h" />
     <QtMoc Include="src\View\ProcedureDialog\ProcedureModel.h" />
-    <ClInclude Include="src\Model\Manipulation\Manipulation.h" />
+    <ClInclude Include="src\Model\Procedure\Procedure.h" />
     <ClInclude Include="src\Presenter\ProcedureDialog\ProcedureDialogPresenter.h" />
     <ClInclude Include="src\View\ProcedureDialog\IProcedureDialog.h" />
     <QtMoc Include="src\View\ProcedureDialog\ProcedureDialog.h" />

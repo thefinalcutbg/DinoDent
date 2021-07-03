@@ -29,7 +29,7 @@ public:
 	virtual CrownData getData() override;
 	void setPresenter(CrownPresenter* presenter);
 
-private:
+
 	Ui::CrownView ui;
 
 

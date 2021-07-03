@@ -1,13 +1,13 @@
-#include "ManipulationApplier.h"
+#include "ProcedureApplier.h"
 #include <QDebug>
-void ManipulationApplier::applyManipulations(const std::vector<Manipulation>& m, std::array<Tooth, 32>& teeth, const std::string& LPK)
+void ProcedureApplier::applyProcedures(const std::vector<Procedure>& m, std::array<Tooth, 32>& teeth, const std::string& LPK)
 {
 
-	for (const Manipulation& m : m)
+	for (const Procedure& m : m)
 	{
 		switch (m.type)
 		{
-			case::ManipulationType::obturation:
+			case::ProcedureType::obturation:
 			{
 				auto& tooth = teeth.at(m.tooth);
 				obtur_ctrl.setTooth(&tooth);
@@ -33,7 +33,7 @@ void ManipulationApplier::applyManipulations(const std::vector<Manipulation>& m,
 			}
 			break;
 
-			case::ManipulationType::extraction:
+			case::ProcedureType::extraction:
 			{
 				auto& tooth = teeth.at(m.tooth);
 				status_ctrl.setTooth(&tooth);
@@ -44,7 +44,7 @@ void ManipulationApplier::applyManipulations(const std::vector<Manipulation>& m,
 			}
 			break;
 
-			case::ManipulationType::endo:
+			case::ProcedureType::endo:
 			{
 				auto& tooth = teeth.at(m.tooth);
 				status_ctrl.setTooth(&tooth);
@@ -53,7 +53,7 @@ void ManipulationApplier::applyManipulations(const std::vector<Manipulation>& m,
 			}
 			break;
 
-			case::ManipulationType::crown:
+			case::ProcedureType::crown:
 			{
 				auto& result = std::get<CrownData>(m.result);
 
@@ -68,7 +68,7 @@ void ManipulationApplier::applyManipulations(const std::vector<Manipulation>& m,
 			}
 			break;
 
-			case::ManipulationType::implant:
+			case::ProcedureType::implant:
 			{
 				auto& result = std::get<ImplantData>(m.result);
 
@@ -91,7 +91,7 @@ void ManipulationApplier::applyManipulations(const std::vector<Manipulation>& m,
 			}
 			break;
 
-			case::ManipulationType::bridge:
+			case::ProcedureType::bridge:
 			{
 				auto& result = std::get<BridgeData>(m.result);
 				

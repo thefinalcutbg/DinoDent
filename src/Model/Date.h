@@ -16,14 +16,19 @@ public:
     Date(int day, int month, int year);
     Date(const std::string& dd_dot_MM_dot_yyyy);
 
+    //all my troubles seem so far away
+    Date yesterday();
+
     static Date GetDateFromEgn(const std::string& egn);
     static std::string toString(const Date& date);
-    static Date CurrentDate();
+    static Date currentDate();
+
     static int currentDay();
     static int currentMonth();
     static int currentYear();
+
     static bool isLeapYear(int year);
-    static int getMaxDayOfMonth(int month, int year);
+    int getMaxDayOfMonth();
 
 
     bool operator < (const Date& other) const;

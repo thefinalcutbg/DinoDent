@@ -42,7 +42,7 @@ int Patient::getAge(Date currentDate) const
 
 int Patient::getAge() const
 {
-	return getAge(Date::CurrentDate());
+	return getAge(Date::currentDate());
 }
 
 
@@ -56,7 +56,7 @@ bool Patient::isAdult(Date currentDate) const
 	return getAge(currentDate) > 17;
 }
 
-Date Patient::eighteenBirthday() const
+Date Patient::turns18At() const
 {
 	return Date{ birth.day, birth.month, birth.year + 18 };
 }

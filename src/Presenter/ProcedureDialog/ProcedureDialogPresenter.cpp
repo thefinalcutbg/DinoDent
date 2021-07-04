@@ -4,7 +4,7 @@
 #include "View/ModalDialogBuilder.h"
 #include "Model/Procedure/MasterNZOK.h"
 #include "Model/Procedure/CustomProcedures.h"
-#include <QDebug>
+
 //this implementation is a total mess and needs refactoring
 
 ProcedureDialogPresenter::ProcedureDialogPresenter
@@ -54,7 +54,7 @@ ProcedureDialogPresenter::ProcedureDialogPresenter
 	(
 		ambListDate,
 		specialty,
-		!(ambListDate < patientTurns18),
+		ambListDate >= patientTurns18,
 		unfavourable
 	);
 
@@ -122,9 +122,7 @@ void ProcedureDialogPresenter::indexChanged(int index)
 
 void ProcedureDialogPresenter::formAccepted()
 {
-	if (errorState) return;
-
-	if (!current_m_presenter->isValid()) return;
+	if (errorState || !current_m_presenter->isValid()) return;
 
 	manipulations = current_m_presenter->getManipulations();
 

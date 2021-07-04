@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1057</width>
-    <height>1000</height>
+    <height>1007</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -29,7 +29,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>180</y>
+     <y>210</y>
      <width>721</width>
      <height>451</height>
     </rect>
@@ -74,7 +74,7 @@
    <property name="geometry">
     <rect>
      <x>750</x>
-     <y>270</y>
+     <y>300</y>
      <width>300</width>
      <height>361</height>
     </rect>
@@ -84,7 +84,7 @@
    <property name="geometry">
     <rect>
      <x>750</x>
-     <y>180</y>
+     <y>210</y>
      <width>291</width>
      <height>142</height>
     </rect>
@@ -94,7 +94,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>690</y>
+     <y>730</y>
      <width>721</width>
      <height>201</height>
     </rect>
@@ -107,52 +107,145 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>640</y>
-     <width>131</width>
+     <y>690</y>
+     <width>81</width>
      <height>31</height>
     </rect>
    </property>
    <property name="text">
-    <string>Добави манипулация</string>
+    <string>Добави</string>
    </property>
   </widget>
   <widget class="QPushButton" name="deleteProcedure">
    <property name="geometry">
     <rect>
-     <x>170</x>
-     <y>640</y>
-     <width>131</width>
+     <x>120</x>
+     <y>690</y>
+     <width>81</width>
      <height>31</height>
     </rect>
    </property>
    <property name="text">
-    <string>Изтрий манипулация</string>
+    <string>Изтрий</string>
    </property>
   </widget>
   <widget class="QPushButton" name="editProcedure">
    <property name="geometry">
     <rect>
-     <x>320</x>
-     <y>640</y>
-     <width>161</width>
+     <x>220</x>
+     <y>690</y>
+     <width>81</width>
      <height>31</height>
     </rect>
    </property>
    <property name="text">
-    <string>Редактирай манипулация</string>
+    <string>Редактирай</string>
    </property>
   </widget>
   <widget class="QCheckBox" name="unfav_check">
    <property name="geometry">
     <rect>
-     <x>590</x>
-     <y>640</y>
-     <width>151</width>
+     <x>500</x>
+     <y>170</y>
+     <width>181</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>ДП изцяло заплащана от НЗОК</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="priceLabel">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>690</y>
+     <width>401</width>
      <height>31</height>
     </rect>
    </property>
    <property name="text">
-    <string>Неблагоприятни условия</string>
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>663</y>
+     <width>81</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Манипулации:</string>
+   </property>
+  </widget>
+  <widget class="ComboBox" name="taxCombo">
+   <property name="geometry">
+    <rect>
+     <x>400</x>
+     <y>170</y>
+     <width>81</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>2,90 лв.</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>1,00 лв.</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Освободен</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>170</y>
+     <width>131</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Потребителска такса:</string>
+   </property>
+  </widget>
+  <widget class="QDateEdit" name="dateEdit">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>170</y>
+     <width>71</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="buttonSymbols">
+    <enum>QAbstractSpinBox::NoButtons</enum>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>170</y>
+     <width>161</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Дата на амбулаторния лист:</string>
    </property>
   </widget>
  </widget>
@@ -189,6 +282,11 @@
    <class>GraphicsView</class>
    <extends>QGraphicsView</extends>
    <header>View/ListView/TeethView/GraphicsView.h</header>
+  </customwidget>
+  <customwidget>
+   <class>ComboBox</class>
+   <extends>QComboBox</extends>
+   <header>View/uiComponents/qt_derived/ComboBox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -23,7 +23,7 @@ void ComboBox::setIndex(int index)
 
 void ComboBox::disable(bool disable)
 {
-	if (disable) setDisabled(1);
-	else setDisabled(0);
+	setDisabled(disable);
+	
 }
 

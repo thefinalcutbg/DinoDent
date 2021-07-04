@@ -5,6 +5,7 @@
 #include "Model/Procedure/Procedure.h"
 
 #include "Model/Validator/ProcedureDateValidator.h"
+#include "Model/Validator/ProcedureValidators.h"
 
 #include "View/ModalDialogBuilder.h"
 #include "Presenter/ProcedureDialog/SubPresenters/ImplantPresenter.h"
@@ -19,6 +20,7 @@ class ProcedureEditorPresenter
 	IProcedureEditDialog* view;
 	Procedure m;
 
+	SurfaceValidator _surfValidator;
 	BridgeRangeValidator _bridgeValidator;
 	NotEmptyValidator _emptyValidator;
 	ProcedureDateValidator _dateValidator;

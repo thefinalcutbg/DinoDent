@@ -33,7 +33,8 @@ public:
     void setData(ListInstance* listInstance);
     void setView(IListView* view);
     void attachEditObserver(EditObserver* observer) override;
-  
+    void chargeChanged(int index);
+
     void openPatientDialog();
     void openAllergiesDialog();
 

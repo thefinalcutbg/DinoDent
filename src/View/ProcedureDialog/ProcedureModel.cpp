@@ -1,11 +1,13 @@
 ﻿#include "ProcedureModel.h"
 
-#include <cmath>
+
 
 ProcedureModel::ProcedureModel(QObject *parent)
     : QAbstractTableModel(parent)
 {
 }
+
+#include "View/GlobalFunctions.h"
 
 void ProcedureModel::setManipulations(std::vector<ProcedureTemplate> manipulations)
 {
@@ -18,16 +20,10 @@ void ProcedureModel::setManipulations(std::vector<ProcedureTemplate> manipulatio
 
     for (auto &m : manipulations)
     {
-        double intPart;
-        auto price = std::modf(m.price, &intPart) == 0.0 ?
-            QString::number(m.price) + " лв." :
-            QString::number(m.price, 'f', 2) + " лв.";
-
-
         this->manipulations.emplace_back
         (ManipulationRow{ m.code,
             QString::fromStdString(m.name),
-            price, m.nzok });
+            priceToString(m.price), m.nzok });
     }
   //  endResetModel();
 

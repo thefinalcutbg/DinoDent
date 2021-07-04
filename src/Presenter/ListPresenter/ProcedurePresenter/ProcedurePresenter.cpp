@@ -2,18 +2,17 @@
 
 #include "Presenter/ProcedureDialog/ProcedureDialogPresenter.h"
 #include "Presenter/ProcedureDialog/ProcedureEditorPresenter.h"
+
 #include "Model/AmbList.h"
 #include "Model/Patient.h"
 #include "Model/Tooth/ToothUtils.h"
-
 #include "Model/Procedure/MasterNZOK.h"
 #include "Model/Procedure/CustomProcedures.h"
 #include "Model/User/User.h"
-
 #include "Model/Procedure/Procedure.h"
 
 #include "View/ListView/IProcedureView.h"
-
+#include "View/uiComponents/AbstractComboBox.h"
 
 ProcedurePresenter::ProcedurePresenter()
     :
@@ -29,7 +28,7 @@ void ProcedurePresenter::addToProcedureList(const std::vector<Procedure>& new_mL
 {
 
     auto& mList = _ambList->manipulations;
-
+   
     mList.reserve(mList.size() + new_mList.size());
 
     for (int i = 0; i < mList.size(); i++)
@@ -91,17 +90,16 @@ void ProcedurePresenter::refreshProcedureView()
 
         if (m.nzok)
         {
-            auto[p, nzok] = MasterNZOK::instance().getPrices(m.code, _ambList->date, CurrentUser::instance().specialty, _patient->isAdult(m.date), _ambList->unfavourable);
+            auto[p, nzok] = MasterNZOK::instance().getPrices(m.code, _ambList->date, CurrentUser::instance().specialty, _patient->isAdult(m.date), _ambList->full_coverage);
             nzokPrice =nzokPrice+nzok;
         }
             
     }
 
-    view->setProcedures(rows);
+    view->setProcedures(rows, patientPrice, nzokPrice);
 
    
 }
-
 
 void ProcedurePresenter::setData(AmbList& amb_list, Patient& patient, std::vector<Tooth*>& selectedTeeth)
 {
@@ -109,7 +107,8 @@ void ProcedurePresenter::setData(AmbList& amb_list, Patient& patient, std::vecto
 	_selectedTeeth = &selectedTeeth;
     _patient = &patient;
     
-    view->setUnfav(_ambList->unfavourable);
+    view->setUnfav(_ambList->full_coverage);
+
 
     refreshProcedureView();
 
@@ -131,7 +130,7 @@ void ProcedurePresenter::addProcedure()
         _ambList->teeth,
         _ambList->date,
         _patient->turns18At(),
-        _ambList->unfavourable,
+        _ambList->full_coverage,
         CurrentUser::instance().specialty
     };
 
@@ -148,7 +147,7 @@ void ProcedurePresenter::addProcedure()
                     m.code, _ambList->date, 
                     CurrentUser::instance().specialty, 
                     _patient->isAdult(m.date), 
-                    _ambList->unfavourable
+                    _ambList->full_coverage
                 );
     }
 
@@ -179,7 +178,7 @@ void ProcedurePresenter::editProcedure()
                 _ambList->date,
                 CurrentUser::instance().specialty,
                 _patient->isAdult(m.date),
-                _ambList->unfavourable
+                _ambList->full_coverage
             );
 
     }
@@ -219,7 +218,7 @@ void ProcedurePresenter::setSelectedProcedure(int index)
 
 void ProcedurePresenter::setUnfavourable(bool unfav)
 {
-    _ambList->unfavourable = unfav;
+    _ambList->full_coverage = unfav;
 
     for (auto& m : _ambList->manipulations)
     {
@@ -238,6 +237,14 @@ void ProcedurePresenter::setUnfavourable(bool unfav)
         }
     }
 
+    if (unfav)
+    {
+        view->taxCombo()->setIndex(2);
+        _ambList->charge = Charge::freed;
+    }
+
+
+    
     makeEdited();
 
     refreshProcedureView();

@@ -34,16 +34,19 @@ public:
     void setProcedurePresenter(ProcedurePresenter* presenter) override;
 
     void refresh(AmbList& ambList, Patient& patient) override;
+    //IStatusView
     void setCheckModel(const CheckModel& checkModel) override;
+
     void hideSurfacePanel(bool hidden) override;
     ISurfacePanel* surfacePanel() override;
     void repaintTooth(const ToothPaintHint& tooth) override;
     void repaintBridges(const BridgesPaintHint& bridges) override;
 
+    //IProcedureView
     void setSelectedTeeth(std::vector<int> selectedTeeth) override;
-    void setProcedures(const std::vector<RowData>& m) override;
-
-    virtual void setUnfav(bool unfav) override;
+    void setProcedures(const std::vector<RowData>& m, double patientPrice, double nzokPrice) override;
+    AbstractComboBox* taxCombo() override;
+    void setUnfav(bool unfav) override;
     ~ListView();
 
 private:

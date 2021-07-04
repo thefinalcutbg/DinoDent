@@ -47,6 +47,12 @@ void ListPresenter::attachEditObserver(EditObserver* observer)
     procedure_presenter.attachEditObserver(observer);
 }
 
+void ListPresenter::chargeChanged(int index)
+{
+    ambList->charge = static_cast<Charge>(index);
+    makeEdited();
+}
+
 
 void ListPresenter::openPatientDialog()
 {

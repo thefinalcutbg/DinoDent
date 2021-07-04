@@ -66,12 +66,13 @@ void DbAmbList::insertAmbList(AmbList& ambList, std::string &patientID)
 {
     openConnection();
 
-    std::string query = "INSERT INTO amblist (day, month, year, num, unfavourable, status_json, patient_id, lpk) VALUES ('"
+    std::string query = "INSERT INTO amblist (day, month, year, num, unfavourable, charge, status_json, patient_id, lpk) VALUES ('"
         + std::to_string(ambList.date.day) + "','"
         + std::to_string(ambList.date.month) + "','"
         + std::to_string(ambList.date.year) + "','"
         + std::to_string(ambList.number) + "','"
-        + std::to_string(ambList.unfavourable) + "','"
+        + std::to_string(ambList.full_coverage) + "','"
+        + std::to_string(static_cast<int>(ambList.charge)) + "','"
         + parser.write(ambList.teeth) + "','"
         + patientID + "','"
         + ambList.LPK
@@ -100,7 +101,8 @@ void DbAmbList::updateAmbList(AmbList& ambList)
         ", month = " + std::to_string(ambList.date.month) +
         ", year = " + std::to_string(ambList.date.year) +
         ", num = " + std::to_string(ambList.number) +
-        ", unfavourable = " + std::to_string(ambList.unfavourable) +
+        ", unfavourable = " + std::to_string(ambList.full_coverage) +
+        ", charge = " + std::to_string(static_cast<int>(ambList.charge)) +
         ", status_json = '" + parser.write(ambList.teeth) + "' "
         "WHERE id = " + ambList.id;
 
@@ -118,7 +120,7 @@ void DbAmbList::getListData(const std::string& patientID, int currentMonth, int 
 {
     openConnection();
 
-    std::string query = "SELECT id, num, unfavourable, day, month, year, status_json FROM amblist WHERE "
+    std::string query = "SELECT id, num, unfavourable, day, month, year, status_json, charge FROM amblist WHERE "
         "patient_id = '" + patientID + "' AND "
         "month = " + std::to_string(currentMonth) + " AND "
         "year = " + std::to_string(currentYear);
@@ -132,11 +134,12 @@ void DbAmbList::getListData(const std::string& patientID, int currentMonth, int 
     {
         ambList.id = std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0)));
         ambList.number = sqlite3_column_int(stmt, 1);
-        ambList.unfavourable = sqlite3_column_int(stmt, 2);
+        ambList.full_coverage = sqlite3_column_int(stmt, 2);
         ambList.date.day = sqlite3_column_int(stmt, 3);
         ambList.date.month = sqlite3_column_int(stmt, 4);
         ambList.date.year = sqlite3_column_int(stmt, 5);
         status_json = std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 6)));
+        ambList.charge = static_cast<Charge>(sqlite3_column_int(stmt, 7));
     }
     
     sqlite3_finalize(stmt);

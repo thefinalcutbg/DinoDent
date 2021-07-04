@@ -8,6 +8,7 @@ class RangeWidget : public QWidget, public AbstractRangeEdit
 {
 	Q_OBJECT
 
+private:
 	Validator* validator;
 	QLabel* errorLabel;
 

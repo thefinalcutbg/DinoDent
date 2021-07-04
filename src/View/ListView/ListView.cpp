@@ -1,10 +1,10 @@
-#include "ListView.h"
+﻿#include "ListView.h"
 #include "Presenter/ListPresenter/StatusPresenter/StatusPresenter.h"
 #include "Presenter/ListPresenter/ProcedurePresenter/ProcedurePresenter.h"
 #include "TeethView/ContextMenu.h"
 
 ListView::ListView(QWidget* parent)
-	: QWidget(parent)
+	: QWidget(parent), presenter(nullptr), procedure_presenter(nullptr)
 {
 
 	ui.setupUi(this);
@@ -59,7 +59,8 @@ ListView::ListView(QWidget* parent)
 	);
 
 	connect(ui.procedureTable, &QTableView::doubleClicked, [=] { procedure_presenter->editProcedure(); });
-	
+	connect(ui.taxCombo, QOverload<int>::of(&QComboBox::currentIndexChanged),
+			[=](int index) {presenter->chargeChanged(index); });
 
 }
 
@@ -94,6 +95,10 @@ void ListView::refresh(AmbList& ambList, Patient& patient)
 {
 	ui.patientTile->setPatient(patient);
 	ui.allergiesTile->setPatient(patient);
+	auto& d = ambList.date;
+	ui.dateEdit->setDate({ d.year, d.month, d.day });
+	ui.taxCombo->setIndex(static_cast<int>(ambList.charge));
+	
 }
 
 void ListView::setCheckModel(const CheckModel& checkModel)
@@ -130,12 +135,27 @@ void ListView::setSelectedTeeth(std::vector<int> selectedIndexes)
 
 	teethViewScene->setSelectedTeeth(selectedIndexes);
 
-	//ui.teethView->setFocus();
 	ui.teethView->update(); //the only way to update qgraphicsview without most of the bugs
-	//ui.teethView->gl->update();
+
 }
 
-void ListView::setProcedures(const std::vector<RowData>& m)
+#include "View/GlobalFunctions.h"
+
+QString getPricesText(double patientPrice, double NZOKprice)
+{
+	QString result;
+
+	if (!patientPrice && !NZOKprice) return result;
+
+	if (NZOKprice)
+		result.append("Сума по НЗОК: " + priceToString(NZOKprice) + "       ");
+
+	result.append("Сума за плащане: " + priceToString(patientPrice));
+
+	return result;
+}
+
+void ListView::setProcedures(const std::vector<RowData>& m, double patientPrice, double nzokPrice)
 {
 	model.setProcedure(m);
 
@@ -148,33 +168,26 @@ void ListView::setProcedures(const std::vector<RowData>& m)
 	ui.procedureTable->setFixedSize(size);
 	this->setFixedHeight(710 + tableHeight + 100);
 
-	if (!m.size())
-	{
-		ui.procedureTable->hide();
+	ui.priceLabel->setText(getPricesText(patientPrice, nzokPrice));
 
-	}
-	else
-	{
-		ui.procedureTable->show();
-	}
-
+	ui.procedureTable->setHidden(!m.size());
 	
 }
 
-
+AbstractComboBox* ListView::taxCombo()
+{
+	return ui.taxCombo;
+}
 
 void ListView::setUnfav(bool unfav)
 {
 	QSignalBlocker blocker(ui.unfav_check);
 	ui.unfav_check->setChecked(unfav);
-	
 }
 
 
 ListView::~ListView()
 {
-	
-	
 	delete teethViewScene;
 	delete contextMenu;
 }

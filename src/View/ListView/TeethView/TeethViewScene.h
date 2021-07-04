@@ -16,6 +16,7 @@ class TeethViewScene : public QGraphicsScene
 {
 	Q_OBJECT
 
+
 	ToothGraphicsItem* toothGraphic[32];
 	SelectionBox* selectionBox[32];
 

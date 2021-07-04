@@ -21,6 +21,38 @@ Date::Date(const std::string& dd_dot_MM_dot_yyyy):
     year(stoi(dd_dot_MM_dot_yyyy.substr(6, 4)))
 {}
 
+
+bool Date::isLeapYear(int year)
+{
+    if (year % 4 == 0)
+    {
+        if (year % 100 == 0)
+        {
+            if (year % 400 == 0) { return true; }
+            else { return false; }
+        }
+        else { return true; }
+    }
+    else return false;
+}
+
+int Date::getMaxDayOfMonth()
+{
+    if (month < 1 || month > 12) throw "invalid month!";
+
+    if (month != 2)
+    {
+        return monthDays[month - 1];
+    }
+
+    if (isLeapYear(year)) {
+        return monthDays[1] + 1;
+    }
+
+    return monthDays[1];
+
+}
+
 Date Date::yesterday()
 {
     if (day != 1)
@@ -29,7 +61,7 @@ Date Date::yesterday()
     if (month != 1)
         return Date{getMaxDayOfMonth(), month-1, year};
 
-    return Date{ 31, 12, year - 1 };
+    return Date{31, 12, year - 1};
 }
 
 Date Date::GetDateFromEgn(const std::string& egn)
@@ -99,53 +131,11 @@ bool Date::Date::operator > (const Date& other) const
     return false;
 }
 
-Date Date::currentDate()
-{
-    return Date(currentDay(), currentMonth(), currentYear());
-}
+bool Date::Date::operator >= (const Date& other) const { return *this == other || *this > other; }
+bool Date::Date::operator <= (const Date& other) const { return *this == other || *this < other; }
 
-int Date::currentDay()
-{
-    return QDate::currentDate().day();
-}
+Date Date::currentDate() { return Date(currentDay(), currentMonth(), currentYear()); }
 
-int Date::currentMonth()
-{
-    return QDate::currentDate().month();
-}
-
-int Date::currentYear()
-{
-    return QDate::currentDate().year();
-}
-
-bool Date::isLeapYear(int year)
-{
-    if (year % 4 == 0)
-    {
-        if (year % 100 == 0)
-        {
-            if (year % 400 == 0) { return true; }
-            else { return false; }
-        }
-        else { return true; }
-    }
-    else return false;
-}
-
-int Date::getMaxDayOfMonth()
-{
-    if (month < 1 || month > 12) throw "invalid month!";
-
-    if (month != 2)
-    {
-        return monthDays[month-1];
-    }
-
-    if (isLeapYear(year)) {
-        return monthDays[1] + 1;
-    }
-
-    return monthDays[1];
-
-}
+int Date::currentDay() { return QDate::currentDate().day(); }
+int Date::currentMonth() { return QDate::currentDate().month(); }
+int Date::currentYear() { return QDate::currentDate().year(); }

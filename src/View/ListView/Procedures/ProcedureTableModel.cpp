@@ -1,9 +1,10 @@
 ﻿#include "ProcedureTableModel.h"
-#include <cmath>
 
 ProcedureTableModel::ProcedureTableModel(QObject* parent) : QAbstractTableModel(parent)
 {
 }
+
+#include "View/GlobalFunctions.h"
 
 void ProcedureTableModel::setProcedure(const std::vector<RowData>& rows)
 {
@@ -14,14 +15,8 @@ void ProcedureTableModel::setProcedure(const std::vector<RowData>& rows)
 
     for (RowData row : rows)
     {
-        double dummy; //passing 0 as second variable not always works, hense the dummy
-        auto price = std::modf(row.price, &dummy) == 0.0 ?
-            QString::number(row.price) + " лв." :
-            QString::number(row.price, 'f', 2) + " лв.";
 
         this->manipulations.emplace_back(
-
-
             QRow
             {
                 QString::fromStdString(row.date),
@@ -29,7 +24,7 @@ void ProcedureTableModel::setProcedure(const std::vector<RowData>& rows)
                 row.toothNumber,
                 QString::fromStdString(row.manipulation),
                 QString::number(row.code),
-                price,
+                priceToString(row.price),
                 row.nzok
             }
         );
@@ -101,7 +96,6 @@ QVariant ProcedureTableModel::data(const QModelIndex& index, int role) const
             case 5:
                 if (manipulations[row].nzok)
                     return QIcon(QPixmap("nzok.png"));
-                break;
             default:
                 return QVariant();
             }

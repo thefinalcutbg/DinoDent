@@ -327,6 +327,12 @@
     <ClCompile Include="src\Model\Validator\ProcedureDateValidator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\GlobalFunctions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\AmbListSelector\AmbListSelector.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -431,6 +437,9 @@
     <QtMoc Include="src\View\AmbListPage\TabView\TabView.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\View\AmbListSelector\AmbListSelector.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="src\View\Torque.qrc">
@@ -490,6 +499,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\AmbListPage\TabView\TabView.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\AmbListSelector\AmbListSelector.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
@@ -795,6 +807,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\Validator\ProcedureDateValidator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\View\GlobalFunctions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

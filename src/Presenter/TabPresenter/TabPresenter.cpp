@@ -112,14 +112,14 @@ void TabPresenter::newList(const Patient& patient)
 
     _lists.back().patient = getPatient_ptr(patient);
     
+    if (ambList.isNew() && !patient.isAdult(ambList.date))
+        ambList.charge = Charge::freed;
+    else if (ambList.isNew() && patient.getAge(ambList.date) > 70)
+        ambList.charge = Charge::retired;
+
     for (auto& m : ambList.manipulations) //autofill NZOK procedures
-    {
         if (m.nzok)
-        {
-            auto [patient_price, nzok_price] = MasterNZOK::instance().getPrices(m.code, ambList.date, 64, patient.isAdult(), ambList.unfavourable);
-            m.price = patient_price;
-        }
-    }
+            m.price = MasterNZOK::instance().getPatientPrice(m.code, ambList.date, 64, patient.isAdult(), ambList.full_coverage);
 
     view->newTab(_lists.size() - 1, _lists.back().getTabName());
 

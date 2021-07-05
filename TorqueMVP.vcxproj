@@ -193,6 +193,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\View\AmbListSelector\ListsTableModel.cpp" />
+    <ClCompile Include="src\Presenter\ListSelector\ListSelectorPresenter.cpp" />
     <ClCompile Include="src\View\AmbListSelector\AmbListSelector.cpp" />
     <ClCompile Include="src\View\GlobalFunctions.cpp" />
     <ClCompile Include="src\Model\Validator\ProcedureDateValidator.cpp" />
@@ -371,11 +373,15 @@
     <QtMoc Include="src\View\uiComponents\qt_derived\NameEdit.h" />
     <QtMoc Include="src\View\ProcedureEditDialog\ProcedureEditDialog.h" />
     <QtMoc Include="src\View\AmbListSelector\AmbListSelector.h" />
+    <QtMoc Include="src\View\AmbListSelector\ListsTableModel.h" />
+    <ClInclude Include="src\Model\AmbListRow.h" />
+    <ClInclude Include="src\Presenter\ListSelector\ListSelectorPresenter.h" />
     <ClInclude Include="src\Model\Validator\ProcedureDateValidator.h" />
     <ClInclude Include="src\Model\Validator\CommonValidators.h" />
     <ClInclude Include="src\Model\Validator\DateValidator.h" />
     <ClInclude Include="src\Model\Validator\NameValidator.h" />
     <ClInclude Include="src\Presenter\ProcedureDialog\ProcedureEditorPresenter.h" />
+    <ClInclude Include="src\View\AmbListSelector\IListSelectorView.h" />
     <ClInclude Include="src\View\GlobalFunctions.h" />
     <ClInclude Include="src\View\ProcedureDialog\Widgets\ImplantView\IImplantView.h" />
     <QtMoc Include="src\View\ProcedureDialog\Widgets\ImplantView\ImplantView.h" />

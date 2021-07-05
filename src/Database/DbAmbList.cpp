@@ -1,6 +1,8 @@
 #include "DbAmbList.h"
 #include "Model/User/User.h"
-
+#include "Model/Patient.h"
+#include "Model/AmbList.h"
+#include "Model/Date.h"
 
 DbAmbList::DbAmbList()
 {}
@@ -87,7 +89,7 @@ void DbAmbList::insertAmbList(AmbList& ambList, std::string &patientID)
 
     closeConnection();
 
-    db_manipulation.saveManipulations(ambList.id, ambList.manipulations);
+    db_manipulation.saveManipulations(ambList.id, ambList.procedures);
 
 }
 
@@ -103,6 +105,7 @@ void DbAmbList::updateAmbList(AmbList& ambList)
         ", num = " + std::to_string(ambList.number) +
         ", unfavourable = " + std::to_string(ambList.full_coverage) +
         ", charge = " + std::to_string(static_cast<int>(ambList.charge)) +
+        ", lpk = '" + CurrentUser::instance().LPK + "' " +
         ", status_json = '" + parser.write(ambList.teeth) + "' "
         "WHERE id = " + ambList.id;
 
@@ -112,7 +115,67 @@ void DbAmbList::updateAmbList(AmbList& ambList)
 
     closeConnection();
 
-    db_manipulation.saveManipulations(ambList.id, ambList.manipulations);
+    db_manipulation.saveManipulations(ambList.id, ambList.procedures);
+}
+
+std::vector<AmbListRow> DbAmbList::getAmbListRows(int month, int year)
+{
+    openConnection();
+
+    std::vector<AmbListRow> rows;
+    rows.reserve(50);
+
+    std::string query =
+        "SELECT amblist.id, amblist.num, amblist.day, patient.fname, patient.mname, patient.lname, patient.id "
+        "FROM amblist INNER JOIN patient ON amblist.patient_id = patient.id "
+        "WHERE amblist.year = " + std::to_string(year) +
+        " AND amblist.month = " + std::to_string(month) +
+        " AND amblist.lpk = '" + CurrentUser::instance().LPK + "'" +
+        " ORDER BY num ASC";
+
+    sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
+
+    while (sqlite3_step(stmt) != SQLITE_DONE)
+    {
+        rows.emplace_back();
+        auto& row = rows.back();
+
+        //amb list data:
+        row.id = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0));
+        row.ambNumber = sqlite3_column_int(stmt, 1);
+        row.date = Date{ sqlite3_column_int(stmt, 2), month, year };
+
+        //patient data:
+        row.patientName = std::string{ reinterpret_cast<const char*>(sqlite3_column_text(stmt, 3))} + " ";
+        std::string mname = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 4));
+        if (!mname.empty()) //some foreigners dont have middle names
+            row.patientName.append(mname + " ");
+        row.patientName.append(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 5)));
+
+        row.patientId = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 6));
+    }
+
+    closeConnection();
+
+    return rows;
+}
+
+std::vector<int> DbAmbList::getValidYears()
+{
+    std::vector<int> years;
+
+    openConnection();
+
+    sqlite3_prepare_v2(db, "SELECT DISTINCT year FROM amblist", -1, &stmt, NULL);
+
+    while (sqlite3_step(stmt) != SQLITE_DONE)
+    {
+        years.emplace_back(sqlite3_column_int(stmt, 0));
+    }
+
+    closeConnection();
+
+    return years;
 }
 
 
@@ -140,6 +203,7 @@ void DbAmbList::getListData(const std::string& patientID, int currentMonth, int 
         ambList.date.year = sqlite3_column_int(stmt, 5);
         status_json = std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 6)));
         ambList.charge = static_cast<Charge>(sqlite3_column_int(stmt, 7));
+        ambList.LPK = CurrentUser::instance().LPK;
     }
     
     sqlite3_finalize(stmt);
@@ -156,10 +220,20 @@ void DbAmbList::getListData(const std::string& patientID, int currentMonth, int 
     else
     {
         parser.parse(status_json, ambList.teeth);
-        ambList.LPK = CurrentUser::instance().LPK;
-        ambList.manipulations = db_manipulation.getManipulations(ambList.id, ambList.date);
+        ambList.procedures = db_manipulation.getManipulations(ambList.id, ambList.date);
     }
 
+}
+
+void DbAmbList::deleteAmbList(const std::string& ambID)
+{
+    openConnection();
+
+    std::string query = "DELETE FROM amblist WHERE id = " + ambID;
+
+    rc = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
+
+    closeConnection();
 }
 
 

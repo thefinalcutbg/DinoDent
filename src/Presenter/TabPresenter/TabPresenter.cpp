@@ -117,7 +117,7 @@ void TabPresenter::newList(const Patient& patient)
     else if (ambList.isNew() && patient.getAge(ambList.date) > 70)
         ambList.charge = Charge::retired;
 
-    for (auto& m : ambList.manipulations) //autofill NZOK procedures
+    for (auto& m : ambList.procedures) //autofill NZOK procedures
         if (m.nzok)
             m.price = MasterNZOK::instance().getPatientPrice(m.code, ambList.date, 64, patient.isAdult(), ambList.full_coverage);
 

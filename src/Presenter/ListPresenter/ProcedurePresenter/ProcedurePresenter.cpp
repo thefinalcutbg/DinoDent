@@ -27,7 +27,7 @@ ProcedurePresenter::ProcedurePresenter()
 void ProcedurePresenter::addToProcedureList(const std::vector<Procedure>& new_mList)
 {
 
-    auto& mList = _ambList->manipulations;
+    auto& mList = _ambList->procedures;
    
     mList.reserve(mList.size() + new_mList.size());
 
@@ -54,7 +54,7 @@ void ProcedurePresenter::refreshProcedureView()
 {
     if (view == nullptr) return;
 
-    auto& mList = _ambList->manipulations;
+    auto& mList = _ambList->procedures;
 
     double patientPrice(0);
     double nzokPrice(0);
@@ -163,7 +163,7 @@ void ProcedurePresenter::editProcedure()
 {
     if (_index == -1) return;
 
-    auto& m_for_edit = _ambList->manipulations.at(_index);
+    auto& m_for_edit = _ambList->procedures.at(_index);
 
     ProcedureEditorPresenter p(m_for_edit, _ambList->date, _patient->turns18At());
 
@@ -203,9 +203,9 @@ void ProcedurePresenter::editProcedure()
 
 void ProcedurePresenter::deleteProcedure(int index)
 {
-    if (!_ambList->manipulations.size()) return;
+    if (!_ambList->procedures.size()) return;
         
-    _ambList->manipulations.erase(_ambList->manipulations.begin() + index);
+    _ambList->procedures.erase(_ambList->procedures.begin() + index);
 
     refreshProcedureView();
     makeEdited();
@@ -220,7 +220,7 @@ void ProcedurePresenter::setUnfavourable(bool unfav)
 {
     _ambList->full_coverage = unfav;
 
-    for (auto& m : _ambList->manipulations)
+    for (auto& m : _ambList->procedures)
     {
         if (m.nzok)
         {

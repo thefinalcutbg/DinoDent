@@ -9,19 +9,19 @@ ProcedureModel::ProcedureModel(QObject *parent)
 
 #include "View/GlobalFunctions.h"
 
-void ProcedureModel::setManipulations(std::vector<ProcedureTemplate> manipulations)
+void ProcedureModel::setProcedures(std::vector<ProcedureTemplate> procedures)
 {
 //    beginResetModel();
 
 
- //   this->manipulations.clear();
+ //   this->procedures.clear();
 
-    this->manipulations.reserve(manipulations.size());
+    this->procedures.reserve(procedures.size());
 
-    for (auto &m : manipulations)
+    for (auto &m : procedures)
     {
-        this->manipulations.emplace_back
-        (ManipulationRow{ m.code,
+        this->procedures.emplace_back
+        (ProcedureRow{ m.code,
             QString::fromStdString(m.name),
             priceToString(m.price), m.nzok });
     }
@@ -68,7 +68,7 @@ QVariant ProcedureModel::headerData(int section, Qt::Orientation orientation, in
 
 int ProcedureModel::rowCount(const QModelIndex& parent) const
 {
-    return manipulations.size();
+    return procedures.size();
 }
 
 int ProcedureModel::columnCount(const QModelIndex& parent) const
@@ -85,8 +85,8 @@ QVariant ProcedureModel::data(const QModelIndex& index, int role) const
     int row = index.row();
     int column = index.column();
 
-    if (row == manipulations.size()) return 0;
-    if (manipulations.size() == 0) return 0;
+    if (row == procedures.size()) return 0;
+    if (procedures.size() == 0) return 0;
 
     switch (role)
     {
@@ -95,7 +95,7 @@ QVariant ProcedureModel::data(const QModelIndex& index, int role) const
         switch (column)
         {
         case code:
-            if (manipulations[row].nzok)
+            if (procedures[row].nzok)
                 return QIcon(QPixmap("nzok.png"));
             break;
         default:
@@ -106,9 +106,9 @@ QVariant ProcedureModel::data(const QModelIndex& index, int role) const
         switch (column)
         {
         case 0: return index.row();
-        case code: return manipulations[row].code;
-        case name: return manipulations[row].name;
-        case price: return manipulations[row].price;
+        case code: return procedures[row].code;
+        case name: return procedures[row].name;
+        case price: return procedures[row].price;
         default: return QVariant();
         }
     case Qt::TextAlignmentRole:

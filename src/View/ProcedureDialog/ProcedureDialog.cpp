@@ -71,9 +71,9 @@ ProcedureDialog::~ProcedureDialog()
 }
 
 
-void ProcedureDialog::loadManipulationList(std::vector<ProcedureTemplate> manipulationList)
+void ProcedureDialog::loadManipulationList(std::vector<ProcedureTemplate> procedureList)
 {
-	model.setManipulations(manipulationList);
+	model.setProcedures(procedureList);
 }
 
 void ProcedureDialog::setSelectionLabel(const std::vector<int>& selectedTeethNum)

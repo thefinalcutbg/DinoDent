@@ -30,7 +30,7 @@ struct AmbList
 	bool full_coverage;
 	Charge charge;
 
-	std::vector<Procedure> manipulations;
+	std::vector<Procedure> procedures;
 	std::array <Tooth, 32> teeth;
 	~AmbList() {  }
 	bool isNew(){ return !number; }

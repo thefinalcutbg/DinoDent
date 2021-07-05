@@ -22,6 +22,11 @@ void AmbListPagePresenter::newPressed()
         _tabPresenter.newList(patient.value());
 }
 
+void AmbListPagePresenter::showListSelector()
+{
+    _listSelector.openDialog();
+}
+
 bool AmbListPagePresenter::save()
 {
     auto list = _tabPresenter.currentList();
@@ -34,11 +39,14 @@ bool AmbListPagePresenter::save()
 
     if (list->edited) {
         database.updateAmbList(list->amb_list);
+        _listSelector.refreshModel();
     }
 
     list->edited = false;
 
     view->tabView()->changeTabName(list->getTabName());
+
+
 
     return true;
 }
@@ -75,6 +83,8 @@ bool AmbListPagePresenter::saveAs()
     else {
         database.updateAmbList(list);
     }
+
+    _listSelector.refreshModel();
 
     currentListInstance->edited = false;
 

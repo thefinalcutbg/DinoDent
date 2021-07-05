@@ -1,24 +1,30 @@
 #pragma once
-#include "Model/Procedure/ProcedureTemplate.h"
-#include <QAbstractTableModel>
 
 #include <vector>
+#include <QAbstractTableModel>
 
-enum procedureHeader { code = 1, name, price };
+#include "Model/AmbListRow.h"
 
-struct ProcedureRow
+struct QAmbListRow
 {
-	int code;
-	QString name;
-	QString price;
-	bool nzok;
+	int ambNumber;
+	QString date;
+	QString patientName;
+	QString patientID;
+
+	QAmbListRow(AmbListRow r)
+		:
+		ambNumber(r.ambNumber),
+		date(QString::fromStdString(Date::toString(r.date))),
+		patientName(QString::fromStdString(r.patientName)),
+		patientID(QString::fromStdString(r.patientId)) {};
 };
 
-class ProcedureModel : public QAbstractTableModel
+class ListsTableModel : public QAbstractTableModel
 {
 	Q_OBJECT
 
-	std::vector<ProcedureRow> procedures;
+	std::vector<QAmbListRow> rows;
 
 	bool insertRows(int position, int rows, const QModelIndex& index = QModelIndex());
 	bool removeRows(int row, int count, const QModelIndex& parent = QModelIndex());
@@ -27,14 +33,14 @@ class ProcedureModel : public QAbstractTableModel
 	int columnCount(const QModelIndex& parent = QModelIndex()) const override;
 	QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
 
-
 public:
-	ProcedureModel(QObject *parent = nullptr);
+	ListsTableModel(QObject* parent = nullptr);
 
-	void setProcedures(std::vector<ProcedureTemplate> procedures);
+	void setRows(std::vector<AmbListRow> rows);
 
-	~ProcedureModel();
+	~ListsTableModel();
 
 
-	//void removeSelectedRow();
+
 };
+

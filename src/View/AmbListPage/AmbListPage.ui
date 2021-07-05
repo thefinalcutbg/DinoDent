@@ -30,7 +30,7 @@
     <number>0</number>
    </property>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0,0,0,0,0">
+    <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0,0,0,0,0,0">
      <property name="sizeConstraint">
       <enum>QLayout::SetFixedSize</enum>
      </property>
@@ -60,7 +60,7 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>50</width>
+         <width>75</width>
          <height>50</height>
         </size>
        </property>
@@ -71,7 +71,7 @@
         </size>
        </property>
        <property name="text">
-        <string>New</string>
+        <string>Нов лист</string>
        </property>
       </widget>
      </item>
@@ -85,7 +85,7 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>50</width>
+         <width>75</width>
          <height>50</height>
         </size>
        </property>
@@ -96,7 +96,7 @@
         </size>
        </property>
        <property name="text">
-        <string>Save</string>
+        <string>Запази</string>
        </property>
       </widget>
      </item>
@@ -110,7 +110,7 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>50</width>
+         <width>75</width>
          <height>50</height>
         </size>
        </property>
@@ -121,7 +121,10 @@
         </size>
        </property>
        <property name="text">
-        <string>Save As</string>
+        <string>Запази като</string>
+       </property>
+       <property name="flat">
+        <bool>false</bool>
        </property>
       </widget>
      </item>
@@ -135,7 +138,7 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>50</width>
+         <width>75</width>
          <height>50</height>
         </size>
        </property>
@@ -146,7 +149,26 @@
         </size>
        </property>
        <property name="text">
-        <string>Print</string>
+        <string>Принтирай</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="listSelectButton">
+       <property name="minimumSize">
+        <size>
+         <width>120</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>50</width>
+         <height>50</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Амбулаторни листи</string>
        </property>
       </widget>
      </item>

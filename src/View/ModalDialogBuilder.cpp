@@ -31,3 +31,11 @@ void ModalDialogBuilder::openDialog(AllergiesDialogPresenter* p)
 	AllergiesDialog d(p);
 	d.exec();
 }
+
+#include "View/AmbListSelector/AmbListSelector.h"
+
+void ModalDialogBuilder::openDialog(ListSelectorPresenter* p)
+{
+	AmbListSelector* d = new AmbListSelector(p);
+	d->show();
+}

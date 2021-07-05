@@ -1,17 +1,17 @@
 #pragma once
-#include "Model/Patient.h"
-#include "Model/AmbList.h"
-#include "Model/Date.h"
+
+#include "DbManipulation.h"
 #include "Model/Tooth/ToothParser.h"
 #include "Model/Procedure/ProcedureApplier.h"
-#include "DbManipulation.h"
+#include "Model/AmbListRow.h"
 #include "AbstractORM.h"
-#include <QDebug>
 
 #include <vector>
 #include <map>
 #include <iostream>
 
+class Procedure;
+class AmbList;
 
 class DbAmbList : public AbstractORM 
 {
@@ -27,12 +27,16 @@ public:
     DbAmbList();
 
     void insertAmbList(AmbList& ambList, std::string& patientID);
+    void deleteAmbList(const std::string& ambID);
+    void updateAmbList(AmbList& ambList);
+
     void getListData(const std::string& patientID, int currentMonth, int currentYear, AmbList& ambList);
 
     int getNewNumber(const int& currentYear);
-
     bool checkExistingAmbNum(int currentYear, int ambNum);
     std::map<int, bool> getExistingNumbers(int currentYear);
-    void updateAmbList(AmbList& ambList);
+    std::vector<AmbListRow> getAmbListRows(int month, int year);
+    std::vector<int> getValidYears();
+
 };
 

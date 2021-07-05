@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>AmbListSelector</string>
   </property>
-  <widget class="QComboBox" name="comboBox">
+  <widget class="QComboBox" name="monthCombo">
    <property name="geometry">
     <rect>
      <x>70</x>
@@ -22,8 +22,68 @@
      <height>22</height>
     </rect>
    </property>
+   <item>
+    <property name="text">
+     <string>Януари</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Февруари</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Март</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Април</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Май</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Юни</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Юли</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Август</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Септември</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Октомври</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Ноември</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Декември</string>
+    </property>
+   </item>
   </widget>
-  <widget class="QComboBox" name="comboBox_2">
+  <widget class="QComboBox" name="yearCombo">
    <property name="geometry">
     <rect>
      <x>250</x>

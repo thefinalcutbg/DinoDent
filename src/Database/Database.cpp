@@ -70,9 +70,9 @@ Database::Database() : err(nullptr), db(nullptr), stmt(nullptr)
     if (rc != SQLITE_OK)
     {
         qDebug() << "Error opening DB:" << QString::fromStdString(sqlite3_errmsg(db));
-        sqlite3_close(db);
     }
 
+    sqlite3_close(db);
 }
 
 

@@ -11,6 +11,7 @@ AmbListPage::AmbListPage(QWidget* parent) :
     connect(ui.saveAsButton, &QPushButton::clicked, [=] { presenter.saveAs(); });
     connect(ui.saveButton, &QPushButton::clicked, [=] { presenter.save(); });
     connect(ui.tabView, &TabView::closeRequested, [=] {presenter.closeTab(); });
+    connect(ui.listSelectButton, &QPushButton::clicked, [=] {presenter.showListSelector(); });
 
     presenter.setView(this);
 }

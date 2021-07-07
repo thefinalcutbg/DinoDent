@@ -6,6 +6,8 @@ TabBar::TabBar(QWidget *parent)
 	setExpanding(false);
 	setMovable(true);
 	setTabsClosable(true);
+	setElideMode(Qt::TextElideMode::ElideRight);
+
 
 }
 

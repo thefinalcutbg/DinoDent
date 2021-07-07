@@ -77,6 +77,24 @@ void TabView::removeCurrentTab()
         
 }
 
+void TabView::removeTab(int vecPos)
+{
+    for (int i = 0; i < ui.tabBar->count(); i++)
+    {
+        if (ui.tabBar->tabData(i) == vecPos)
+        {
+            ui.tabBar->removeTab(i);
+
+            if (!ui.tabBar->count())
+            {
+                ui.scrollArea->takeWidget();
+                ui.scrollArea->setWidget(noTabs);
+            }
+        }
+
+    }
+}
+
 void TabView::changeTabName(std::string tabName)
 {
     ui.tabBar->setTabText(ui.tabBar->currentIndex(), QString::fromStdString(tabName));
@@ -86,6 +104,10 @@ void TabView::setTabPresenter(TabPresenter* presenter)
 {
     this->tabPresenter = presenter;
 }
+
+
+
+#include <QScrollBar>
 
 ScrollPos TabView::getScrollPos()
 {

@@ -20,7 +20,7 @@ ProcedurePresenter::ProcedurePresenter()
     _ambList(nullptr),
     _patient(nullptr),
     _selectedTeeth(nullptr),
-    _index(-1)
+    index_(-1)
 {
 }
 
@@ -134,13 +134,13 @@ void ProcedurePresenter::addProcedure()
         CurrentUser::instance().specialty
     };
 
-    auto newList = p.openDialog();
+    auto openList = p.openDialog();
 
-    if (newList.empty()) return;
+    if (openList.empty()) return;
 
-    if (newList[0].nzok) //re-getting the prices because of edge-case (18th birthday in current month)
+    if (openList[0].nzok) //re-getting the prices because of edge-case (18th birthday in current month)
     {
-        for (auto& m : newList)
+        for (auto& m : openList)
              m.price = MasterNZOK::instance().
                 getPatientPrice
                 (
@@ -152,7 +152,7 @@ void ProcedurePresenter::addProcedure()
     }
 
 
-        this->addToProcedureList(newList);
+        this->addToProcedureList(openList);
 
         refreshProcedureView();
         makeEdited();
@@ -161,9 +161,9 @@ void ProcedurePresenter::addProcedure()
 
 void ProcedurePresenter::editProcedure()
 {
-    if (_index == -1) return;
+    if (index_ == -1) return;
 
-    auto& m_for_edit = _ambList->procedures.at(_index);
+    auto& m_for_edit = _ambList->procedures.at(index_);
 
     ProcedureEditorPresenter p(m_for_edit, _ambList->date, _patient->turns18At());
 
@@ -189,7 +189,7 @@ void ProcedurePresenter::editProcedure()
     }
     else
     {
-        deleteProcedure(_index);
+        deleteProcedure(index_);
         addToProcedureList(std::vector<Procedure>{m});
     }
 
@@ -213,7 +213,7 @@ void ProcedurePresenter::deleteProcedure(int index)
 
 void ProcedurePresenter::setSelectedProcedure(int index)
 {
-    _index = index;
+    index_ = index;
 }
 
 void ProcedurePresenter::setUnfavourable(bool unfav)

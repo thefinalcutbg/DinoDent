@@ -3,22 +3,25 @@
 #include "ListInstance.h"
 #include "View/AmbListPage/TabView/ITabView.h"
 #include "Database/DbAmbList.h"
+#include "Database/DbPatient.h"
 
 #include "../ListPresenter/ListPresenter.h"
 
 class AmbList;
 class Patient;
+class AmbListRow;
 
 class TabPresenter : public EditObserver
 {
-	std::vector<ListInstance> _lists;
+	std::vector<ListInstance> lists_;
 
-	int _index;
+	int index_;
 
-	DbAmbList database;
+	DbAmbList amb_db;
+	DbPatient patient_db;
 
 	ITabView* view;
-	ListPresenter _listPresenter;
+	ListPresenter listPresenter_;
 	bool listExists(const Patient& patient);
 	bool listsExist(const std::string& ambList_id);
 
@@ -33,7 +36,9 @@ public:
 
 	ListInstance* currentList();
 	void setCurrentList(int index);
-	void newList(const Patient& patient);
+	void openList(const Patient& patient);
+	void openList(const AmbListRow& ambList);
+	void removeList(const std::string& ambID);
 	void removeCurrentList();
 
 };

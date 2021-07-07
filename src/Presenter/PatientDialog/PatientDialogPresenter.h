@@ -29,7 +29,7 @@ class PatientDialogPresenter
 	std::optional<Patient> _patient;
 
 	IPatientDialog* view;
-	DbPatient database;
+	DbPatient amb_db;
 
 	CityCode city_code;
 

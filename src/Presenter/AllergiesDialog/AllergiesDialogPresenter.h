@@ -16,7 +16,7 @@ struct Allergies
 class AllergiesDialogPresenter
 {
 	IAllergiesDialog* view;
-	DbPatient database;
+	DbPatient amb_db;
 	const Patient* patient;
 	std::optional<Allergies> allergies;
 

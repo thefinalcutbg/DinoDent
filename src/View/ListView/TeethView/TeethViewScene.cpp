@@ -255,8 +255,8 @@ void TeethViewScene::display(const BridgesPaintHint& bridges)
 void TeethViewScene::setSelectedTeeth(const std::vector<int> &selectedTeeth)
 {
     clearSelection();
-    //read access violation
-    for (int i : selectedTeeth){
+    
+    for (const int& i : selectedTeeth){ //read access violation ???
         selectionBox[i]->setSelected(1);
     }
 }

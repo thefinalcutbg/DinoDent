@@ -4,7 +4,7 @@
 #include "Presenter/ProcedureDialog/ProcedureDialogPresenter.h"
 
 ProcedureDialog::ProcedureDialog(ProcedureDialogPresenter* presenter, QWidget *parent)
-	: QDialog(parent), presenter(presenter)
+	: QDialog(parent), presenter(presenter), proxyModel(this)
 {
 	ui.setupUi(this);
 
@@ -14,13 +14,13 @@ ProcedureDialog::ProcedureDialog(ProcedureDialogPresenter* presenter, QWidget *p
 
 	auto table = ui.tableView;
 
-	proxyModel = new QSortFilterProxyModel(this);
+	//proxyModel = new QSortFilterProxyModel(this);
 
-	proxyModel->setSourceModel(&model);
-	proxyModel->setFilterKeyColumn(2);
+	proxyModel.setSourceModel(&model);
+	proxyModel.setFilterKeyColumn(2);
 	presenter->setView(this);
 
-	table->setModel(proxyModel);
+	table->setModel(&proxyModel);
 	table->hideColumn(0);
 	table->setColumnWidth(0, 20);
 	table->setColumnWidth(1, 70);
@@ -42,7 +42,7 @@ ProcedureDialog::ProcedureDialog(ProcedureDialogPresenter* presenter, QWidget *p
 			return;
 		}
 
-		int manipulationIdx = proxyModel->index(row, 0).data().toInt();
+		int manipulationIdx = proxyModel.index(row, 0).data().toInt();
 		presenter->indexChanged(manipulationIdx);
 		});
 
@@ -51,7 +51,7 @@ ProcedureDialog::ProcedureDialog(ProcedureDialogPresenter* presenter, QWidget *p
 
 	connect(ui.searchEdit, &QLineEdit::textChanged, [=]
 		{
-			proxyModel->setFilterRegExp(QRegExp(ui.searchEdit->text(), Qt::CaseInsensitive, QRegExp::FixedString));
+			proxyModel.setFilterRegExp(QRegExp(ui.searchEdit->text(), Qt::CaseInsensitive, QRegExp::FixedString));
 			ui.tableView->selectRow(0);
 		});
 

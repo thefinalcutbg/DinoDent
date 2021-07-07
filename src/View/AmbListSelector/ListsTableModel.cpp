@@ -42,19 +42,21 @@ bool ListsTableModel::removeRows(int row, int count, const QModelIndex& parent)
 
 QVariant ListsTableModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
-    if (role == Qt::DisplayRole)
-    {
-        if (orientation == Qt::Horizontal) {
+    if (role == Qt::DisplayRole && orientation == Qt::Horizontal)
             switch (section)
             {
-            case 0: return "ID";
-            case 1: return "Номер";
-            case 2: return "Дата";
-            case 3: return "ЕГН/ЛНЧ";
-            case 4: return "Име на пациента";
+                case 0: return "ID";
+                case 1: return "Амб.№";
+                case 2: return "Дата";
+                case 3: return "ЕГН/ЛНЧ";
+                case 4: return "Име на пациента";
             }
-        }
+    if (role == Qt::TextAlignmentRole && orientation == Qt::Horizontal && section == 4)
+    {
+        return int(Qt::AlignLeft);
     }
+
+
 
     return QVariant();
 }
@@ -90,12 +92,12 @@ QVariant ListsTableModel::data(const QModelIndex& index, int role) const
         case 0: return index.row();
         case 1: return rows[row].ambNumber;
         case 2: return rows[row].date;
-        case 3: return rows[row].patientName;
-        case 4: return rows[row].patientID;
+        case 3: return rows[row].patientID;
+        case 4: return rows[row].patientName;
         default: return QVariant();
         }
     case Qt::TextAlignmentRole:
-        if (column == 1 || column == 3)
+        if (column != 4)
             return int(Qt::AlignCenter);
     }
 

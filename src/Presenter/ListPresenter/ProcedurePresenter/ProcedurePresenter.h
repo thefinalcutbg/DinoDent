@@ -17,7 +17,7 @@ class ProcedurePresenter : public Editor
 	Patient* _patient;
 	std::vector<Tooth*>* _selectedTeeth;
 
-	int _index;
+	int index_;
 
 	IProcedureView* view;
 

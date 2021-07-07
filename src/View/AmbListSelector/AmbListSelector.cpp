@@ -1,20 +1,59 @@
-#include "AmbListSelector.h"
+﻿#include "AmbListSelector.h"
 #include "Presenter/ListSelector/ListSelectorPresenter.h"
-
-AmbListSelector::AmbListSelector(ListSelectorPresenter* p) :
-	p(p)
+#include <QMessageBox>
+AmbListSelector::AmbListSelector(ListSelectorPresenter* presenter) :
+	p(presenter)
 {
 	ui.setupUi(this);
 	QWidget::setAttribute(Qt::WA_DeleteOnClose);
+	setWindowFlags(Qt::Window);
+	//setWindowFlags(Qt::WindowStaysOnTopHint);
 
-	connect(ui.monthCombo, QOverload<int>::of(&QComboBox::currentIndexChanged),
-		[=](int index) {p->setDate(index + 1, ui.yearCombo->currentText().toInt()); });
-	connect(ui.yearCombo, QOverload<int>::of(&QComboBox::currentIndexChanged),
-		[=](int index) {p->setDate(ui.monthCombo->currentIndex() + 1, ui.yearCombo->currentText().toInt()); });
+	proxyModel.setSourceModel(&model);
+	proxyModel.setFilterKeyColumn(3);
 
 	ui.tableView->setModel(&model);
 
-	p->setView(this);
+	ui.tableView->setDimensions();
+
+	connect(ui.monthCombo, QOverload<int>::of(&QComboBox::currentIndexChanged),
+		[=](int index) {presenter->setDate(index + 1, ui.yearCombo->currentText().toInt()); });
+	connect(ui.yearCombo, QOverload<int>::of(&QComboBox::currentIndexChanged),
+		[=](int index) {presenter->setDate(ui.monthCombo->currentIndex() + 1, ui.yearCombo->currentText().toInt()); });
+	connect(ui.tableView, &QTableView::doubleClicked, this, [=] { presenter->openAmbList(); });
+	connect(ui.openButton, &QPushButton::clicked, [=] {presenter->openAmbList(); });
+
+	connect(ui.tableView->selectionModel(), &QItemSelectionModel::selectionChanged, this, [=] {
+
+		auto idxList = ui.tableView->selectionModel()->selectedIndexes();
+		
+		std::vector<int>selectedIndexes;
+
+		for (auto& i : idxList)
+			selectedIndexes.push_back(i.row());
+
+		presenter->selectionChanged(selectedIndexes);
+
+		});
+
+	connect(ui.deleteButton, &QPushButton::clicked, 
+		[=] 
+		{
+			QMessageBox msgBox;
+			msgBox.setIcon(QMessageBox::Warning);
+			msgBox.setText("Сигурни ли сте, че искате да изтриете амбулаторния лист?");
+			msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+			msgBox.setButtonText(QMessageBox::Yes, "Да");
+			msgBox.setButtonText(QMessageBox::No, "Не");
+			msgBox.setDefaultButton(QMessageBox::No);
+			int answer = msgBox.exec();
+
+			if(answer == QMessageBox::Yes)
+				presenter->deleteAmbList();
+
+		});
+
+	presenter->setView(this);
 }
 
 AmbListSelector::~AmbListSelector()
@@ -22,6 +61,7 @@ AmbListSelector::~AmbListSelector()
 	ui.monthCombo->blockSignals(true);
 	ui.yearCombo->blockSignals(true);
 	p->setView(nullptr);
+
 }
 
 void AmbListSelector::addYearToCombo(int year)
@@ -51,3 +91,9 @@ void AmbListSelector::setRows(const std::vector<AmbListRow>& rows)
 {
 	model.setRows(rows);
 }
+
+void AmbListSelector::focus()
+{
+	activateWindow();
+}
+

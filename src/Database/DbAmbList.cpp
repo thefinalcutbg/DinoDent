@@ -7,7 +7,7 @@
 DbAmbList::DbAmbList()
 {}
 
-std::string DbAmbList::getOlderStatus(std::string patientID)
+std::string DbAmbList::getLastStatus(std::string patientID)
 {
     openConnection();
 
@@ -75,7 +75,7 @@ void DbAmbList::insertAmbList(AmbList& ambList, std::string &patientID)
         + std::to_string(ambList.number) + "','"
         + std::to_string(ambList.full_coverage) + "','"
         + std::to_string(static_cast<int>(ambList.charge)) + "','"
-        + parser.write(ambList.teeth) + "','"
+        + toothParser_.write(ambList.teeth) + "','"
         + patientID + "','"
         + ambList.LPK
         + "')";
@@ -106,7 +106,7 @@ void DbAmbList::updateAmbList(AmbList& ambList)
         ", unfavourable = " + std::to_string(ambList.full_coverage) +
         ", charge = " + std::to_string(static_cast<int>(ambList.charge)) +
         ", lpk = '" + CurrentUser::instance().LPK + "' " +
-        ", status_json = '" + parser.write(ambList.teeth) + "' "
+        ", status_json = '" + toothParser_.write(ambList.teeth) + "' "
         "WHERE id = " + ambList.id;
 
     qDebug() << query.c_str();
@@ -179,14 +179,14 @@ std::vector<int> DbAmbList::getValidYears()
 }
 
 
-void DbAmbList::getListData(const std::string& patientID, int currentMonth, int currentYear, AmbList& ambList)
+void DbAmbList::getListData(const std::string& patientID, int month, int year, AmbList& ambList)
 {
     openConnection();
 
     std::string query = "SELECT id, num, unfavourable, day, month, year, status_json, charge FROM amblist WHERE "
         "patient_id = '" + patientID + "' AND "
-        "month = " + std::to_string(currentMonth) + " AND "
-        "year = " + std::to_string(currentYear);
+        "month = " + std::to_string(month) + " AND "
+        "year = " + std::to_string(year);
     qDebug() << QString::fromStdString(query);
     sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
 
@@ -210,18 +210,51 @@ void DbAmbList::getListData(const std::string& patientID, int currentMonth, int 
 
     closeConnection();
 
-    parser.parse(getOlderStatus(patientID), ambList.teeth);
-    status_json = getOlderStatus(patientID);
-
     if (ambList.id.empty())
     {
         m_applier.applyProcedures(getOlderManipulations(patientID), ambList.teeth, CurrentUser::instance().LPK);
+        ambList.LPK = CurrentUser::instance().LPK;
+        toothParser_.parse(getLastStatus(patientID), ambList.teeth);
     }
     else
     {
-        parser.parse(status_json, ambList.teeth);
+        toothParser_.parse(status_json, ambList.teeth);
         ambList.procedures = db_manipulation.getManipulations(ambList.id, ambList.date);
     }
+
+}
+
+void DbAmbList::getListData(const std::string& ambID, AmbList& ambList)
+{
+    openConnection();
+
+    std::string query = "SELECT id, num, unfavourable, day, month, year, status_json, charge FROM amblist WHERE "
+        "id = '" + ambID + "'";
+
+    sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
+
+
+    std::string status_json;
+
+    while (sqlite3_step(stmt) != SQLITE_DONE)
+    {
+        ambList.id = std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0)));
+        ambList.number = sqlite3_column_int(stmt, 1);
+        ambList.full_coverage = sqlite3_column_int(stmt, 2);
+        ambList.date.day = sqlite3_column_int(stmt, 3);
+        ambList.date.month = sqlite3_column_int(stmt, 4);
+        ambList.date.year = sqlite3_column_int(stmt, 5);
+        status_json = std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 6)));
+        ambList.charge = static_cast<Charge>(sqlite3_column_int(stmt, 7));
+        ambList.LPK = CurrentUser::instance().LPK;
+    }
+
+    sqlite3_finalize(stmt);
+
+    closeConnection();
+
+    toothParser_.parse(status_json, ambList.teeth);
+    ambList.procedures = db_manipulation.getManipulations(ambList.id, ambList.date);
 
 }
 

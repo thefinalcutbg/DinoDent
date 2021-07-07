@@ -14,7 +14,7 @@ class AmbListPagePresenter
 	ListSelectorPresenter _listSelector;
 	IAmbListPage* view;
 
-	DbAmbList database;
+	DbAmbList amb_db;
 
 public:
 	AmbListPagePresenter();

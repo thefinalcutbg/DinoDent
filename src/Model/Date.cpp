@@ -1,5 +1,5 @@
 #include "Date.h"
-#include <QDate>
+
 
 int Date::monthDays[12]{ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
@@ -123,6 +123,8 @@ bool Date::Date::operator < (const Date& other) const
     return false;
 }
 
+bool Date::isTheSameMonthAs(const Date& date) {return this->year == date.year && this->month == date.month;}
+
 bool Date::Date::operator > (const Date& other) const
 {
     if (year > other.year) return true;
@@ -136,6 +138,7 @@ bool Date::Date::operator <= (const Date& other) const { return *this == other |
 
 Date Date::currentDate() { return Date(currentDay(), currentMonth(), currentYear()); }
 
+#include <QDate>
 int Date::currentDay() { return QDate::currentDate().day(); }
 int Date::currentMonth() { return QDate::currentDate().month(); }
 int Date::currentYear() { return QDate::currentDate().year(); }

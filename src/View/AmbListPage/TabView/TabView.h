@@ -20,11 +20,12 @@ public:
 	~TabView();
 
 	// Inherited via ITabView
-	virtual void newTab(int vecPos, std::string tabName) override;
-	virtual void focusTab(int vecPos) override;
-	virtual void removeCurrentTab() override;
-	virtual void changeTabName(std::string tabName) override;
-	virtual void setTabPresenter(TabPresenter* presenter) override;
+	void newTab(int vecPos, std::string tabName) override;
+	void focusTab(int vecPos) override;
+	void removeCurrentTab() override;
+	void changeTabName(std::string tabName) override;
+	void setTabPresenter(TabPresenter* presenter) override;
+	void removeTab(int vecPos) override;
 
 	ScrollPos getScrollPos();
 	void setScrollPos(ScrollPos scrollPos);

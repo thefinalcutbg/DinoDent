@@ -5,6 +5,8 @@
 #include "IListSelectorView.h"
 #include "ListsTableModel.h"
 
+#include <QSortFilterProxyModel>
+
 class ListSelectorPresenter;
 
 class AmbListSelector : public QDialog, public IListSelectorView
@@ -13,7 +15,7 @@ class AmbListSelector : public QDialog, public IListSelectorView
 private:
 
 	ListSelectorPresenter* p;
-
+	QSortFilterProxyModel proxyModel;
 	ListsTableModel model;
 
 public:
@@ -27,4 +29,6 @@ private:
 	virtual void addYearToCombo(int year) override;
 	virtual void setUI(int month, int year) override;
 	virtual void setRows(const std::vector<AmbListRow>& rows) override;
+	void focus() override;
+
 };

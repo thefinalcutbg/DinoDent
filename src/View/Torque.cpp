@@ -9,7 +9,7 @@ Torque::Torque(QWidget* parent)
 
     ui.setupUi(this);
     ui.stackedWidget->insertWidget(0, &ambListPage);
-    Database database; //checking if db file exist;
+    Database amb_db; //checking if db file exist;
 
     showMaximized();
 }
@@ -27,4 +27,10 @@ void Torque::closeEvent(QCloseEvent* event)
 {
     if (!ambListPage.closeAllTabs())
         event->ignore();
+
+    foreach(QWidget * widget, QApplication::topLevelWidgets()) 
+    {
+        if (widget == this) continue;
+        widget->close();
+    }
 }

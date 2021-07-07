@@ -4,9 +4,9 @@
 #include "ListInstance.h"
 #include "../ListPresenter/ListPresenter.h"
 
-TabPresenter::TabPresenter() : _index(-1), view(nullptr)
+TabPresenter::TabPresenter() : index_(-1), view(nullptr)
 {
-    _listPresenter.attachEditObserver(this);
+    listPresenter_.attachEditObserver(this);
 }
 
 
@@ -20,11 +20,11 @@ void TabPresenter::editNotify()
 
 bool TabPresenter::listExists(const Patient& patient)
 {
-    for (int i = 0; i < _lists.size(); i++)
+    for (int i = 0; i < lists_.size(); i++)
     {
-        if (_lists[i].patient->id == patient.id &&
-            _lists[i].amb_list.date.month == Date::currentMonth() &&
-            _lists[i].amb_list.date.year == Date::currentYear()
+        if (lists_[i].patient->id == patient.id &&
+            lists_[i].amb_list.date.month == Date::currentMonth() &&
+            lists_[i].amb_list.date.year == Date::currentYear()
             )
         {
            
@@ -42,16 +42,16 @@ void TabPresenter::setView(ITabView* view)
 {
     this->view = view;
     view->setTabPresenter(this);
-    _listPresenter.setView(view->listView());
+    listPresenter_.setView(view->listView());
 }
 
 
 std::shared_ptr<Patient> TabPresenter::getPatient_ptr(const Patient& patient)
 {
-    for (int i = 0; i < _lists.size()-1; i ++)
+    for (int i = 0; i < lists_.size()-1; i ++)
     {
-        if (_lists[i].patient->id == patient.id)
-            return _lists[i].patient;
+        if (lists_[i].patient->id == patient.id)
+            return lists_[i].patient;
     }
 
     return std::make_shared<Patient>(patient);
@@ -59,9 +59,9 @@ std::shared_ptr<Patient> TabPresenter::getPatient_ptr(const Patient& patient)
 
 bool TabPresenter::listsExist(const std::string& ambList_id)
 {
-    for (int i = 0; i < _lists.size(); i++)
+    for (int i = 0; i < lists_.size(); i++)
     {
-        if (_lists[i].amb_list.id == ambList_id)
+        if (lists_[i].amb_list.id == ambList_id)
         {
 
             view->focusTab(i);
@@ -74,9 +74,9 @@ bool TabPresenter::listsExist(const std::string& ambList_id)
 
 ListInstance* TabPresenter::currentList()
 {
-    if (_index == -1 || _index >= _lists.size()) return nullptr;
+    if (index_ == -1 || index_ >= lists_.size()) return nullptr;
 
-    return &_lists[_index];
+    return &lists_[index_];
 }
 
 void TabPresenter::setCurrentList(int index)
@@ -94,23 +94,23 @@ void TabPresenter::setCurrentList(int index)
         currentList()->_scrollWidth = scroll.width;
     }
 
-    _index = index;
+    index_ = index;
     
-    _listPresenter.setData(&_lists[index]);
+    listPresenter_.setData(&lists_[index]);
     view->setScrollPos(ScrollPos{ currentList()->_scrollHeight, currentList()->_scrollWidth });
 }
-void TabPresenter::newList(const Patient& patient)
+void TabPresenter::openList(const Patient& patient)
 {
 
     if (listExists(patient)) return;
 
-    _lists.emplace_back(); //creates the instance;
+    lists_.emplace_back(); //creates the instance;
 
-    auto& ambList = _lists.back().amb_list;
+    auto& ambList = lists_.back().amb_list;
 
-    database.getListData(patient.id, Date::currentMonth(), Date::currentYear(), ambList),
+    amb_db.getListData(patient.id, Date::currentMonth(), Date::currentYear(), ambList),
 
-    _lists.back().patient = getPatient_ptr(patient);
+    lists_.back().patient = getPatient_ptr(patient);
     
     if (ambList.isNew() && !patient.isAdult(ambList.date))
         ambList.charge = Charge::freed;
@@ -121,14 +121,58 @@ void TabPresenter::newList(const Patient& patient)
         if (m.nzok)
             m.price = MasterNZOK::instance().getPatientPrice(m.code, ambList.date, 64, patient.isAdult(), ambList.full_coverage);
 
-    view->newTab(_lists.size() - 1, _lists.back().getTabName());
+    view->newTab(lists_.size() - 1, lists_.back().getTabName());
 
 
 }
 
+#include "Model/AmbListRow.h"
+
+void TabPresenter::openList(const AmbListRow& ambRow)
+{
+    for (int i = 0; i < lists_.size(); i++)
+    {
+        auto& openedList = lists_[i];
+
+        if (openedList.amb_list.id == ambRow.id)
+        {
+            view->focusTab(i); return;
+        }
+    }
+
+    lists_.emplace_back(); //creates the instance;
+
+    auto& ambList = lists_.back().amb_list;
+
+    amb_db.getListData(ambRow.id, ambList);
+
+    Patient patient = patient_db.getPatient(ambRow.patientId);
+
+    lists_.back().patient = getPatient_ptr(patient);
+
+
+    for (auto& m : ambList.procedures) //autofill NZOK procedures
+        if (m.nzok)
+            m.price = MasterNZOK::instance().getPatientPrice(m.code, ambList.date, 64, patient.isAdult(), ambList.full_coverage);
+    
+    view->newTab(lists_.size() - 1, lists_.back().getTabName());
+}
+
+void TabPresenter::removeList(const std::string& ambID)
+{
+    for (int i = 0; i< lists_.size(); i++)
+    {
+        if (lists_[i].amb_list.id == ambID)
+        {
+            view->removeTab(i);
+            lists_.erase(lists_.begin() + i);
+        }
+    }
+}
+
 void TabPresenter::removeCurrentList()
 {
-    if (_index == -1) return;
-    _lists.erase(_lists.begin() + _index);
+    if (index_ == -1) return;
+    lists_.erase(lists_.begin() + index_);
     view->removeCurrentTab();
 }

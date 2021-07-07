@@ -339,6 +339,9 @@
     <ClCompile Include="src\View\AmbListSelector\ListsTableModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\AmbListSelector\ListTable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -447,6 +450,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\AmbListSelector\ListsTableModel.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\AmbListSelector\ListTable.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

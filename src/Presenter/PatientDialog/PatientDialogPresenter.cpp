@@ -82,8 +82,8 @@ void PatientDialogPresenter::accept()
 
 	_patient = getPatientFromView();
 
-	if(new_patient) database.insert(_patient.value());
-	else database.update(_patient.value());
+	if(new_patient) amb_db.insert(_patient.value());
+	else amb_db.update(_patient.value());
 	
 	view->close();
 }
@@ -93,7 +93,7 @@ void PatientDialogPresenter::searchDbForPatient(int type)
 	
 	std::string lineEditID = view->lineEdit(id)->getText();
 
-	Patient patient = database.getPatient(lineEditID);
+	Patient patient = amb_db.getPatient(lineEditID);
 
 	allergies = patient.allergies;
 	pastDiseases = patient.pastDiseases;

@@ -193,6 +193,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\View\AmbListSelector\ListTable.cpp" />
     <ClCompile Include="src\View\AmbListSelector\ListsTableModel.cpp" />
     <ClCompile Include="src\Presenter\ListSelector\ListSelectorPresenter.cpp" />
     <ClCompile Include="src\View\AmbListSelector\AmbListSelector.cpp" />
@@ -374,6 +375,7 @@
     <QtMoc Include="src\View\ProcedureEditDialog\ProcedureEditDialog.h" />
     <QtMoc Include="src\View\AmbListSelector\AmbListSelector.h" />
     <QtMoc Include="src\View\AmbListSelector\ListsTableModel.h" />
+    <QtMoc Include="src\View\AmbListSelector\ListTable.h" />
     <ClInclude Include="src\Model\AmbListRow.h" />
     <ClInclude Include="src\Presenter\ListSelector\ListSelectorPresenter.h" />
     <ClInclude Include="src\Model\Validator\ProcedureDateValidator.h" />

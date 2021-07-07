@@ -3,25 +3,30 @@
 #include "Model/AmbListRow.h"
 #include "Database/DbAmbList.h"
 
+class TabPresenter;
 class IListSelectorView;
 
 class ListSelectorPresenter
 {
+	TabPresenter* tab_presenter{ nullptr };
 	IListSelectorView* view{ nullptr };
-	DbAmbList _db;
+	DbAmbList amb_db;
+
+	std::vector<int>selectedIndexes{};
 
 	int
-	_index{ -1 },
 	_month{ Date::currentMonth() },
 	_year{ Date::currentYear() };
 	
-	std::vector<AmbListRow> _rows{ _db.getAmbListRows(_month, _year) };
+	std::vector<AmbListRow> rows_{ amb_db.getAmbListRows(_month, _year) };
 
 
 
 public:
 	ListSelectorPresenter();
 	
+	void setTabPresenter(TabPresenter* tabPresenter);
+
 	void openDialog();
 
 	void setView(IListSelectorView* view);
@@ -29,6 +34,13 @@ public:
 	void setDate(int month, int year);
 
 	void refreshModel();
+
+	void selectionChanged(std::vector<int> selectedIndexes);
+
+	void openAmbList();
+	void deleteAmbList();
+
+	~ListSelectorPresenter();
 
 };
 

@@ -10,6 +10,7 @@ void AmbListPagePresenter::setView(IAmbListPage* view)
     this->view = view;
 
     _tabPresenter.setView(view->tabView());
+    _listSelector.setTabPresenter(&_tabPresenter);
 }
 
 void AmbListPagePresenter::newPressed()
@@ -19,7 +20,7 @@ void AmbListPagePresenter::newPressed()
     auto patient = p.open();
 
     if (patient.has_value())
-        _tabPresenter.newList(patient.value());
+        _tabPresenter.openList(patient.value());
 }
 
 void AmbListPagePresenter::showListSelector()
@@ -38,7 +39,7 @@ bool AmbListPagePresenter::save()
     }
 
     if (list->edited) {
-        database.updateAmbList(list->amb_list);
+        amb_db.updateAmbList(list->amb_list);
         _listSelector.refreshModel();
     }
 
@@ -61,10 +62,10 @@ bool AmbListPagePresenter::saveAs()
 
     int newNumber = 0;
 
-    auto map = database.getExistingNumbers(list.date.year);
+    auto map = amb_db.getExistingNumbers(list.date.year);
 
     if (!list.number) {
-        newNumber = database.getNewNumber(list.date.year);
+        newNumber = amb_db.getNewNumber(list.date.year);
     }
     else {
         newNumber = list.number;
@@ -78,10 +79,10 @@ bool AmbListPagePresenter::saveAs()
     list.number = newNumber;
 
     if (currentListInstance->isNew()) {
-        database.insertAmbList(list, currentListInstance->patient->id);
+        amb_db.insertAmbList(list, currentListInstance->patient->id);
     }
     else {
-        database.updateAmbList(list);
+        amb_db.updateAmbList(list);
     }
 
     _listSelector.refreshModel();

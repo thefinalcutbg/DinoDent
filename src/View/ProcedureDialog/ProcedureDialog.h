@@ -17,7 +17,7 @@ class ProcedureDialog : public QDialog, public IProcedureDialog
 	ProcedureDialogPresenter *presenter;
 
 	ProcedureModel model;
-	QSortFilterProxyModel* proxyModel;
+	QSortFilterProxyModel proxyModel;
 
 	void resetForm();
 public:

@@ -26,17 +26,21 @@ bool ListInstance::isEdited()
 std::string ListInstance::getTabName()
 {
 	std::string tabName;
-
-	if (isNew()) {
-		tabName = "Нов амбулаторен лист";
-	}
-	else {
-		tabName = "Амбулаторен лист №" + std::to_string(amb_list.number);
-	}
+	tabName.reserve(30);
 
 	if (isEdited()) {
 		tabName.append("*");
 	}
+
+	if (isNew()) {
+		tabName.append("Нов амб.лист");
+	}
+	else {
+		tabName.append("Амб.лист №" + std::to_string(amb_list.number));
+	}
+
+	tabName.append(" (" + patient->FirstName + " " + patient->LastName + ")");
+
 	return tabName;
 }
 

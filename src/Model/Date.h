@@ -29,7 +29,7 @@ public:
 
     static bool isLeapYear(int year);
     int getMaxDayOfMonth();
-
+    bool isTheSameMonthAs(const Date& date);
 
     bool operator < (const Date& other) const;
     bool operator > (const Date& other) const;

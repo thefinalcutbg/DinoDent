@@ -16,11 +16,11 @@ class AmbList;
 class DbAmbList : public AbstractORM 
 {
 
-    ToothParser parser;
+    ToothParser toothParser_;
     ProcedureApplier m_applier;
     DbManipulation db_manipulation;
 
-    std::string getOlderStatus(std::string patientID);
+    std::string getLastStatus(std::string patientID);
     std::vector<Procedure> getOlderManipulations(std::string patientID);
 
 public:
@@ -31,7 +31,7 @@ public:
     void updateAmbList(AmbList& ambList);
 
     void getListData(const std::string& patientID, int currentMonth, int currentYear, AmbList& ambList);
-
+    void getListData(const std::string& ambID, AmbList& ambList);
     int getNewNumber(const int& currentYear);
     bool checkExistingAmbNum(int currentYear, int ambNum);
     std::map<int, bool> getExistingNumbers(int currentYear);

@@ -9,9 +9,12 @@ ListSelectorPresenter::ListSelectorPresenter()
 
 }
 
+
+
 void ListSelectorPresenter::openDialog()
 {
-	ModalDialogBuilder::openDialog(this);
+	if (!view) ModalDialogBuilder::openDialog(this);
+	else view->focus();
 }
 
 void ListSelectorPresenter::setView(IListSelectorView* view)
@@ -20,14 +23,14 @@ void ListSelectorPresenter::setView(IListSelectorView* view)
 
 	if (!view) return;
 
-	auto years = _db.getValidYears();
+	auto years = amb_db.getValidYears();
 
 	for (int& year : years)
 		view->addYearToCombo(year);
 
 	view->setUI(_month, _year);
 
-	view->setRows(_rows);
+	view->setRows(rows_);
 	
 }
 
@@ -37,15 +40,49 @@ void ListSelectorPresenter::setDate(int month, int year)
 	_month = month; 
 	_year = year;
 
-	_rows = _db.getAmbListRows(_month, _year);
+	rows_ = amb_db.getAmbListRows(_month, _year);
 
-	view->setRows(_rows);
+	view->setRows(rows_);
 }
 
 void ListSelectorPresenter::refreshModel()
 {
-	_rows = _db.getAmbListRows(_month, _year);
+	rows_ = amb_db.getAmbListRows(_month, _year);
 
 	if(view != nullptr)
-		view->setRows(_rows);
+		view->setRows(rows_);
 }
+
+void ListSelectorPresenter::selectionChanged
+(std::vector<int> selectedIndexes) { this->selectedIndexes = std::move(selectedIndexes); }
+
+
+#include "../TabPresenter/TabPresenter.h"
+
+void ListSelectorPresenter::setTabPresenter(TabPresenter* tabPresenter)
+{
+	this->tab_presenter = tabPresenter;
+}
+void ListSelectorPresenter::openAmbList()
+{
+	for(auto idx : selectedIndexes)
+	tab_presenter->openList(rows_[idx]);
+}
+
+void ListSelectorPresenter::deleteAmbList()
+{
+	for (auto idx : selectedIndexes)
+	{
+		amb_db.deleteAmbList(rows_[idx].id);
+		tab_presenter->removeList(rows_[idx].id);
+	}
+
+	if(selectedIndexes.size())	
+		refreshModel();
+	
+}
+
+ListSelectorPresenter::~ListSelectorPresenter()
+{
+}
+

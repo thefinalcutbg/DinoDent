@@ -1,14 +1,16 @@
-﻿#include "ProcedureTable.h"
+#include "ListTable.h"
 
 #include <QHeaderView>
 #include <QScrollBar>
 #include <QKeyEvent>
 
-ProcedureTable::ProcedureTable(QWidget* parent)
+
+
+ListTable::ListTable(QWidget* parent)
     : QTableView(parent)
 {
 
-    setSelectionMode(QAbstractItemView::SingleSelection);
+    setSelectionMode(QAbstractItemView::ExtendedSelection);
     setSelectionBehavior(QAbstractItemView::SelectRows);
 
     horizontalHeader()->setHighlightSections(false);
@@ -16,31 +18,39 @@ ProcedureTable::ProcedureTable(QWidget* parent)
     verticalHeader()->setVisible(false);
 
     setEditTriggers(QAbstractItemView::NoEditTriggers);
-    horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);
     viewport()->setFocusPolicy(Qt::StrongFocus);
+
     setShowGrid(true);
 
     verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
-    verticalHeader()->setDefaultSectionSize(50);
+    verticalHeader()->setDefaultSectionSize(20);
     //setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
-    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     setWordWrap(true);
 }
 
-void ProcedureTable::setDimensions()
+void ListTable::setDimensions()
 {
     hideColumn(0);
-    setColumnWidth(1, 69);
-    setColumnWidth(2, 200);
-    setColumnWidth(3, 25);
-    setColumnWidth(4, 300);
-    setColumnWidth(5, 49);
-    setColumnWidth(6, 69);
+    setColumnWidth(1, 50);
+    setColumnWidth(2, 80);
+    setColumnWidth(3, 80);
+    setColumnWidth(4, 250);
+
 }
 
-void ProcedureTable::keyPressEvent(QKeyEvent* event)
+void ListTable::resizeEvent(QResizeEvent* ev)
+{
+    setColumnWidth(4, width() - 50 - 80 - 80 - 2);
+
+    QTableView::resizeEvent(ev);
+}
+
+
+
+void ListTable::keyPressEvent(QKeyEvent* event)
 {
 
     switch (event->key())
@@ -53,6 +63,6 @@ void ProcedureTable::keyPressEvent(QKeyEvent* event)
     }
 }
 
-ProcedureTable::~ProcedureTable()
+ListTable::~ListTable()
 {
 }

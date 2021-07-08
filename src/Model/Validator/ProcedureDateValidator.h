@@ -13,5 +13,6 @@ public:
 	ProcedureDateValidator(Date ambDate, Date patientBirth);
 	void setProcedure(int code, bool nzok);
 	bool validateInput(const Date& date) override;
+	Date getValidDate();
 };
 

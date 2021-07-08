@@ -10,8 +10,8 @@
 
 class AmbListPagePresenter
 {
-	TabPresenter _tabPresenter;
-	ListSelectorPresenter _listSelector;
+	TabPresenter tabPresenter_;
+	ListSelectorPresenter listSelector_;
 	IAmbListPage* view;
 
 	DbAmbList amb_db;

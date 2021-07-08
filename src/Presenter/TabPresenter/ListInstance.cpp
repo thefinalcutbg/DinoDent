@@ -39,7 +39,7 @@ std::string ListInstance::getTabName()
 		tabName.append("Амб.лист №" + std::to_string(amb_list.number));
 	}
 
-	tabName.append(" (" + patient->FirstName + " " + patient->LastName + ")");
+	tabName.append(" -" + patient->FirstName + " " + patient->LastName);
 
 	return tabName;
 }

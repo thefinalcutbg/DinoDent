@@ -9,8 +9,8 @@ void AmbListPagePresenter::setView(IAmbListPage* view)
 {
     this->view = view;
 
-    _tabPresenter.setView(view->tabView());
-    _listSelector.setTabPresenter(&_tabPresenter);
+    tabPresenter_.setView(view->tabView());
+    listSelector_.setTabPresenter(&tabPresenter_);
 }
 
 void AmbListPagePresenter::newPressed()
@@ -20,17 +20,17 @@ void AmbListPagePresenter::newPressed()
     auto patient = p.open();
 
     if (patient.has_value())
-        _tabPresenter.openList(patient.value());
+        tabPresenter_.openList(patient.value());
 }
 
 void AmbListPagePresenter::showListSelector()
 {
-    _listSelector.openDialog();
+    listSelector_.openDialog();
 }
 
 bool AmbListPagePresenter::save()
 {
-    auto list = _tabPresenter.currentList();
+    auto list = tabPresenter_.currentList();
 
     if (list == nullptr) return true;
 
@@ -40,11 +40,11 @@ bool AmbListPagePresenter::save()
 
     if (list->edited) {
         amb_db.updateAmbList(list->amb_list);
-        _listSelector.refreshModel();
+        listSelector_.refreshModel();
     }
 
     list->edited = false;
-
+    listSelector_.refreshModel();
     view->tabView()->changeTabName(list->getTabName());
 
 
@@ -54,7 +54,7 @@ bool AmbListPagePresenter::save()
 
 bool AmbListPagePresenter::saveAs()
 {
-    auto currentListInstance = _tabPresenter.currentList();
+    auto currentListInstance = tabPresenter_.currentList();
 
     if (currentListInstance == nullptr) return true;
 
@@ -85,7 +85,7 @@ bool AmbListPagePresenter::saveAs()
         amb_db.updateAmbList(list);
     }
 
-    _listSelector.refreshModel();
+    listSelector_.refreshModel();
 
     currentListInstance->edited = false;
 
@@ -97,7 +97,7 @@ bool AmbListPagePresenter::saveAs()
 
 bool AmbListPagePresenter::closeTab()
 {
-    auto list = _tabPresenter.currentList();
+    auto list = tabPresenter_.currentList();
     //no need to know which tab. Close button always focuses the tab first.
 
     if (list->amb_list.isNew() || list->isEdited())
@@ -118,14 +118,14 @@ bool AmbListPagePresenter::closeTab()
         }
     }
 
-    _tabPresenter.removeCurrentList();
+    tabPresenter_.removeCurrentList();
 
     return true;
 }
 
 bool AmbListPagePresenter::closeAllTabs()
 {
-    while (_tabPresenter.currentList())
+    while (tabPresenter_.currentList())
     {
        bool canceled = !closeTab();
        if (canceled) return false;

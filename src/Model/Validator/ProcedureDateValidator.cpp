@@ -17,6 +17,11 @@ bool ProcedureDateValidator::validateInput(const Date& date)
 	return valid;
 }
 
+Date ProcedureDateValidator::getValidDate()
+{
+	return _validator.getMin();
+}
+
 #include "Model/Procedure/MasterNZOK.h"
 
 void ProcedureDateValidator::setProcedure(int code, bool nzok)

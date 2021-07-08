@@ -25,6 +25,7 @@ protected:
     void closeConnection()
     {
         sqlite3_close_v2(db);
+        db = nullptr;
     }
 };
 

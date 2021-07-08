@@ -133,7 +133,7 @@ QPixmap ToothPainter::returnPaintedTooth(const ToothPaintHint& tooth)
         case ToothTextureHint::extr_m:
             painter.setOpacity(0.2);
             painter.drawPixmap(0, 0, *currentTexture->tooth);
-            painter.drawPixmap(0, 0, textureFormat(*currentTexture->tooth, Qt::green, 0.5));
+            painter.drawPixmap(0, 0, textureFormat(*currentTexture->tooth, Qt::green, 0.3));
             painter.setOpacity(1);
             currentTexture = &container.getTexture(tooth.idx, tooth.temp);
             break;

@@ -79,9 +79,14 @@ void ProcedureDialogPresenter::setView(IProcedureDialog* view)
 
 	view->loadManipulationList(manipulationList);
 
-
-	view->commonFields()->dateEdit()->set_Date(Date::currentDate());
 	view->commonFields()->dateEdit()->setInputValidator(&date_validator);
+
+	date_validator.validateInput(Date::currentDate()) ?
+		view->commonFields()->dateEdit()->set_Date(Date::currentDate())
+		:
+		view->commonFields()->dateEdit()->set_Date(date_validator.getValidDate());
+
+	
 
 	//setting the label
 	std::vector<int> selectedTeethNum;

@@ -23,10 +23,8 @@ void ListSelectorPresenter::setView(IListSelectorView* view)
 
 	if (!view) return;
 
-	auto years = amb_db.getValidYears();
 
-	for (int& year : years)
-		view->addYearToCombo(year);
+	view->addYearsToCombo(amb_db.getValidYears());
 
 	view->setUI(_month, _year);
 
@@ -48,9 +46,14 @@ void ListSelectorPresenter::setDate(int month, int year)
 void ListSelectorPresenter::refreshModel()
 {
 	rows_ = amb_db.getAmbListRows(_month, _year);
-
-	if(view != nullptr)
+	
+	if (view != nullptr)
+	{
 		view->setRows(rows_);
+		view->addYearsToCombo(amb_db.getValidYears());
+		view->setUI(_month, _year);
+	}
+		
 }
 
 void ListSelectorPresenter::selectionChanged

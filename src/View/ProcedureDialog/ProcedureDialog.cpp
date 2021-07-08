@@ -14,11 +14,12 @@ ProcedureDialog::ProcedureDialog(ProcedureDialogPresenter* presenter, QWidget *p
 
 	auto table = ui.tableView;
 
+	presenter->setView(this);
 	//proxyModel = new QSortFilterProxyModel(this);
 
 	proxyModel.setSourceModel(&model);
 	proxyModel.setFilterKeyColumn(2);
-	presenter->setView(this);
+	
 
 	table->setModel(&proxyModel);
 	table->hideColumn(0);
@@ -64,6 +65,7 @@ ProcedureDialog::ProcedureDialog(ProcedureDialogPresenter* presenter, QWidget *p
 	ui.commonFields->ui.dateEdit->setErrorLabel(ui.errorLabel);
 	ui.commonFields->ui.diagnosisEdit->setErrorLabel(ui.errorLabel);
 	ui.commonFields->ui.manipulationEdit->setErrorLabel(ui.errorLabel);
+
 }
 
 ProcedureDialog::~ProcedureDialog()

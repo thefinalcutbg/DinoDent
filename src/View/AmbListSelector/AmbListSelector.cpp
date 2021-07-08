@@ -21,6 +21,7 @@ AmbListSelector::AmbListSelector(ListSelectorPresenter* presenter) :
 	connect(ui.yearCombo, QOverload<int>::of(&QComboBox::currentIndexChanged),
 		[=](int index) {presenter->setDate(ui.monthCombo->currentIndex() + 1, ui.yearCombo->currentText().toInt()); });
 	connect(ui.tableView, &QTableView::doubleClicked, this, [=] { presenter->openAmbList(); });
+	connect(ui.tableView, &ListTable::deletePressed, this, [=] { ui.deleteButton->click(); });
 	connect(ui.openButton, &QPushButton::clicked, [=] {presenter->openAmbList(); });
 
 	connect(ui.tableView->selectionModel(), &QItemSelectionModel::selectionChanged, this, [=] {
@@ -64,10 +65,18 @@ AmbListSelector::~AmbListSelector()
 
 }
 
-void AmbListSelector::addYearToCombo(int year)
+void AmbListSelector::addYearsToCombo(const std::vector<int>& years)
 {
 	QSignalBlocker b(ui.yearCombo);
-	ui.yearCombo->addItem(QString::number(year));
+
+	ui.yearCombo->clear();
+
+	for (auto& y: years)
+	{
+		ui.yearCombo->addItem(QString::number(y));
+	}
+	
+	
 }
 
 void AmbListSelector::setUI(int month, int year)

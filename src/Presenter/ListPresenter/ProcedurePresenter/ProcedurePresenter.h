@@ -33,6 +33,7 @@ public:
 	void addProcedure();
 	void editProcedure();
 	void deleteProcedure(int index);
+	void ambDateChanged(Date date);
 	void setSelectedProcedure(int index);
 	void setUnfavourable(bool unfav);
 };

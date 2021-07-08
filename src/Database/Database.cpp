@@ -4,8 +4,8 @@
 Database::Database() : err(nullptr), db(nullptr), stmt(nullptr)
 {
 
-
     sqlite3_open("DATATEST.db", &db);
+
     rc = sqlite3_exec(
         db,
         "CREATE TABLE IF NOT EXISTS patient("
@@ -23,8 +23,9 @@ Database::Database() : err(nullptr), db(nullptr), stmt(nullptr)
         "allergies          VARCHAR(400),"  //json
         "currentDiseases    VARCHAR(400),"  //json
         "pastDiseases       VARCHAR(400)"   //json
-        ");"
+        ")", NULL, NULL, &err);
 
+    rc = sqlite3_exec(db,
         "CREATE TABLE IF NOT EXISTS amblist("
         "id              INTEGER         NOT NULL   PRIMARY KEY,"
         "day             INT             NOT NULL,"
@@ -37,7 +38,7 @@ Database::Database() : err(nullptr), db(nullptr), stmt(nullptr)
         "charge          INT             NOT NULL,"
         "status_json     VARCHAR,"
         "FOREIGN KEY    (patient_id) REFERENCES patient(id) ON DELETE CASCADE ON UPDATE CASCADE"
-        ");"
+        ")"
         , NULL, NULL, &err);
 
     rc = sqlite3_exec(
@@ -53,8 +54,11 @@ Database::Database() : err(nullptr), db(nullptr), stmt(nullptr)
         "data            VARCHAR         NOT NULL," //json data depending on type
         "amblist_id      INT             NOT NULL,"
         "FOREIGN KEY    (amblist_id)     REFERENCES amblist(id) ON DELETE CASCADE ON UPDATE CASCADE"
-        ");"
+        ")"
+        , NULL, NULL, &err);
 
+    rc = sqlite3_exec(
+        db,
         "CREATE TABLE IF NOT EXISTS nzok("
         "id              INTEGER         NOT NULL    PRIMARY KEY,"
         "code            VARCHAR(10)     NOT NULL,"
@@ -64,7 +68,7 @@ Database::Database() : err(nullptr), db(nullptr), stmt(nullptr)
         "data            VARCHAR         NOT NULL," //json data, type depends on code
         "amblist_id      INT             NOT NULL,"
         "FOREIGN KEY    (amblist_id)     REFERENCES amblist(id) ON DELETE CASCADE ON UPDATE CASCADE"
-        ");"
+        ")"
         , NULL, NULL, &err);
 
     if (rc != SQLITE_OK)

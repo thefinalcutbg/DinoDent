@@ -26,6 +26,7 @@ ListView::ListView(QWidget* parent)
 	connect(ui.procedureTable, &ProcedureTable::deletePressed, [=] { ui.deleteProcedure->click(); });
 	connect(ui.unfav_check, &QCheckBox::stateChanged, [=] {procedure_presenter->setUnfavourable(ui.unfav_check->isChecked()); });
 	connect(ui.editProcedure, &QPushButton::clicked, [=] {procedure_presenter->editProcedure(); });
+
 	connect(ui.deleteProcedure, &QAbstractButton::clicked, 
 		[=] {
 			int currentIdx = ui.procedureTable->selectionModel()->currentIndex().row();
@@ -62,6 +63,13 @@ ListView::ListView(QWidget* parent)
 	connect(ui.taxCombo, QOverload<int>::of(&QComboBox::currentIndexChanged),
 			[=](int index) {presenter->chargeChanged(index); });
 
+	connect(ui.dateEdit, &QDateEdit::dateChanged,
+		[=]
+		{
+			auto date = ui.dateEdit->date();
+			procedure_presenter->ambDateChanged({ date.day(), date.month(), date.year() });
+		});
+
 }
 
 void ListView::setPresenter(ListPresenter* presenter)
@@ -96,6 +104,7 @@ void ListView::refresh(AmbList& ambList, Patient& patient)
 	ui.patientTile->setPatient(patient);
 	ui.allergiesTile->setPatient(patient);
 	auto& d = ambList.date;
+	QSignalBlocker blocker(ui.dateEdit);
 	ui.dateEdit->setDate({ d.year, d.month, d.day });
 	ui.taxCombo->setIndex(static_cast<int>(ambList.charge));
 	

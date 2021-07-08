@@ -211,6 +211,12 @@ void ProcedurePresenter::deleteProcedure(int index)
     makeEdited();
 }
 
+void ProcedurePresenter::ambDateChanged(Date date)
+{
+    _ambList->date = date;
+    makeEdited();
+}
+
 void ProcedurePresenter::setSelectedProcedure(int index)
 {
     index_ = index;

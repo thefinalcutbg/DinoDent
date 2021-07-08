@@ -166,7 +166,7 @@ std::vector<int> DbAmbList::getValidYears()
 
     openConnection();
 
-    sqlite3_prepare_v2(db, "SELECT DISTINCT year FROM amblist", -1, &stmt, NULL);
+    sqlite3_prepare_v2(db, "SELECT DISTINCT year FROM amblist ORDER BY year DESC", -1, &stmt, NULL);
 
     while (sqlite3_step(stmt) != SQLITE_DONE)
     {
@@ -212,9 +212,9 @@ void DbAmbList::getListData(const std::string& patientID, int month, int year, A
 
     if (ambList.id.empty())
     {
+        toothParser_.parse(getLastStatus(patientID), ambList.teeth);
         m_applier.applyProcedures(getOlderManipulations(patientID), ambList.teeth, CurrentUser::instance().LPK);
         ambList.LPK = CurrentUser::instance().LPK;
-        toothParser_.parse(getLastStatus(patientID), ambList.teeth);
     }
     else
     {

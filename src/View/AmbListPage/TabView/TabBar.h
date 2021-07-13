@@ -8,6 +8,9 @@ class TabBar : public QTabBar
 {
 	Q_OBJECT
 
+
+	void mouseReleaseEvent(QMouseEvent* event) override;
+
 public:
 	TabBar(QWidget *parent);
 

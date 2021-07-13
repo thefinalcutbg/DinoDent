@@ -1,4 +1,18 @@
 #include "TabBar.h"
+#include <QMouseEvent>
+
+void TabBar::mouseReleaseEvent(QMouseEvent* event)
+{
+	if (event->button() == Qt::MiddleButton)
+	{
+		int tab = tabAt(event->pos());
+
+		if(tab != -1)
+			tabCloseRequested(tab);
+	}
+
+	QTabBar::mouseReleaseEvent(event);
+}
 
 TabBar::TabBar(QWidget *parent)
 	: QTabBar(parent)

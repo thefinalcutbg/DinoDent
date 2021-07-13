@@ -27,7 +27,7 @@ ProcedureDialogPresenter::ProcedureDialogPresenter
 
 	date_validator(ambListDate, patientTurns18),
 
-	errorState(true),
+	_errorState(true),
 
 	any_teeth_presenter(this->selectedTeeth),
 	obt_presenter(this->selectedTeeth),
@@ -104,16 +104,23 @@ void ProcedureDialogPresenter::indexChanged(int index)
 {
 	currentIndex = index;
 	
+	_errorState = true;
+
 	if (currentIndex == -1)
 	{
 		view->showErrorMessage("Изберете манипулация");
-		errorState = true;
 		return;
 	}
 
-	errorState = false;
-
 	auto& mt = manipulationList[currentIndex];
+
+	if (mt.type != ProcedureType::general && !selectedTeeth.size())
+	{
+		view->showErrorMessage("Изберете поне един зъб!");
+		return;
+	}
+
+	_errorState = false;
 
 	view->setView(mt.type);
 
@@ -127,7 +134,7 @@ void ProcedureDialogPresenter::indexChanged(int index)
 
 void ProcedureDialogPresenter::formAccepted()
 {
-	if (errorState || !current_m_presenter->isValid()) return;
+	if (_errorState || !current_m_presenter->isValid()) return;
 
 	manipulations = current_m_presenter->getManipulations();
 

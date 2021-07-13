@@ -423,8 +423,6 @@
  </customwidgets>
  <tabstops>
   <tabstop>idLineEdit</tabstop>
-  <tabstop>birthEdit</tabstop>
-  <tabstop>sexCombo</tabstop>
   <tabstop>fNameEdit</tabstop>
   <tabstop>mNameEdit</tabstop>
   <tabstop>lNameEdit</tabstop>
@@ -432,6 +430,8 @@
   <tabstop>HIRBNoEdit</tabstop>
   <tabstop>addressEdit</tabstop>
   <tabstop>phoneEdit</tabstop>
+  <tabstop>birthEdit</tabstop>
+  <tabstop>sexCombo</tabstop>
   <tabstop>okButton</tabstop>
   <tabstop>typeComboBox</tabstop>
  </tabstops>

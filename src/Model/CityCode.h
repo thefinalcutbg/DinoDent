@@ -7,7 +7,7 @@ class CityCode
 {
 	typedef std::string HealthRegion, Region, HRIFCode, Muncipanity, CityString;
 
-	std::pair<Muncipanity, Region> parseCityString(CityString location);
+	std::pair<Muncipanity, Region> parseCityString(const CityString& location);
 
 	inline static std::unordered_map <CityString, std::pair<HealthRegion, HRIFCode>> cityMap;
 	inline static bool _init{ false };

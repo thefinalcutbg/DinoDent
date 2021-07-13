@@ -14,6 +14,8 @@
 
 class ProcedureDialogPresenter
 {
+	int currentIndex{ -1 };
+
 	std::vector<Tooth*> selectedTeeth;
 
 	GeneralMPresenter general_presenter;
@@ -37,8 +39,8 @@ class ProcedureDialogPresenter
 
 	ProcedureDateValidator date_validator;
 
-	int currentIndex{-1};
-	bool errorState;
+
+	bool _errorState;
 
 	public:
 

@@ -8,7 +8,7 @@ ListView::ListView(QWidget* parent)
 {
 
 	ui.setupUi(this);
-
+	
 	teethViewScene = new TeethViewScene(ui.teethView);
 	contextMenu = new ContextMenu();
 	teethViewScene->setContextMenu(contextMenu);

@@ -14,27 +14,28 @@ class ProcedureDialog : public QDialog, public IProcedureDialog
 {
 	Q_OBJECT
 
+	inline static int s_idx{ -1 };
+	inline static QString s_search{""};
+
 	ProcedureDialogPresenter *presenter;
 
 	ProcedureModel model;
 	QSortFilterProxyModel proxyModel;
 
-	void resetForm();
 public:
 	ProcedureDialog(ProcedureDialogPresenter* presenter, QWidget* parent = Q_NULLPTR);
-	virtual ~ProcedureDialog();
+	 ~ProcedureDialog();
 
 
-	virtual void loadManipulationList(std::vector<ProcedureTemplate> manipulationList) override;
-	
-	virtual void showErrorMessage(const std::string& error) override;
-	virtual void setView(ProcedureType t) override;
-	virtual void close() override;
-	virtual void setSelectionLabel(const std::vector<int>& selectedTeethNum) override;
-	virtual void setObturationPresenter(ObturationPresenter* presenter) override;
-	virtual void setCrownPresenter(CrownPresenter* presenter) override;
-	virtual void setImplantPresenter(ImplantPresenter* presenter);
-	virtual ICommonFields* commonFields() override;
+	void loadManipulationList(std::vector<ProcedureTemplate> manipulationList) override;
+	void showErrorMessage(const std::string& error) override;
+	void setView(ProcedureType t) override;
+    void close() override;
+	void setSelectionLabel(const std::vector<int>& selectedTeethNum) override;
+	void setObturationPresenter(ObturationPresenter* presenter) override;
+	void setCrownPresenter(CrownPresenter* presenter) override;
+	void setImplantPresenter(ImplantPresenter* presenter);
+	ICommonFields* commonFields() override;
 
 
 private:

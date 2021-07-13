@@ -75,7 +75,7 @@ void DbAmbList::insertAmbList(AmbList& ambList, std::string &patientID)
         + std::to_string(ambList.number) + "','"
         + std::to_string(ambList.full_coverage) + "','"
         + std::to_string(static_cast<int>(ambList.charge)) + "','"
-        + toothParser_.write(ambList.teeth) + "','"
+        + procedureParser.write(ambList.teeth) + "','"
         + patientID + "','"
         + ambList.LPK
         + "')";
@@ -106,7 +106,7 @@ void DbAmbList::updateAmbList(AmbList& ambList)
         ", unfavourable = " + std::to_string(ambList.full_coverage) +
         ", charge = " + std::to_string(static_cast<int>(ambList.charge)) +
         ", lpk = '" + CurrentUser::instance().LPK + "' " +
-        ", status_json = '" + toothParser_.write(ambList.teeth) + "' "
+        ", status_json = '" + procedureParser.write(ambList.teeth) + "' "
         "WHERE id = " + ambList.id;
 
     qDebug() << query.c_str();
@@ -212,13 +212,13 @@ void DbAmbList::getListData(const std::string& patientID, int month, int year, A
 
     if (ambList.id.empty())
     {
-        toothParser_.parse(getLastStatus(patientID), ambList.teeth);
+        procedureParser.parse(getLastStatus(patientID), ambList.teeth);
         m_applier.applyProcedures(getOlderManipulations(patientID), ambList.teeth, CurrentUser::instance().LPK);
         ambList.LPK = CurrentUser::instance().LPK;
     }
     else
     {
-        toothParser_.parse(status_json, ambList.teeth);
+        procedureParser.parse(status_json, ambList.teeth);
         ambList.procedures = db_manipulation.getManipulations(ambList.id, ambList.date);
     }
 
@@ -253,7 +253,7 @@ void DbAmbList::getListData(const std::string& ambID, AmbList& ambList)
 
     closeConnection();
 
-    toothParser_.parse(status_json, ambList.teeth);
+    procedureParser.parse(status_json, ambList.teeth);
     ambList.procedures = db_manipulation.getManipulations(ambList.id, ambList.date);
 
 }

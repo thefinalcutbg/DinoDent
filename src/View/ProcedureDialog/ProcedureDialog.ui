@@ -74,7 +74,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>За добавяне на тази манипулация е необходимо да изберете поне един зъб!</string>
+    <string>Изберете манипулация!</string>
    </property>
    <property name="wordWrap">
     <bool>true</bool>

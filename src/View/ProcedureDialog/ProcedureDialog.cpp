@@ -12,6 +12,9 @@ ProcedureDialog::ProcedureDialog(ProcedureDialogPresenter* presenter, QWidget *p
 	setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 	setWindowTitle("Добавяне на манипулация");
 
+	ui.stackedWidget->setCurrentIndex(0);
+	ui.commonFields->hide();
+
 	auto table = ui.tableView;
 
 	presenter->setView(this);
@@ -35,16 +38,16 @@ ProcedureDialog::ProcedureDialog(ProcedureDialogPresenter* presenter, QWidget *p
 
 	connect(table->selectionModel(), &QItemSelectionModel::currentRowChanged, this, [=] {
 	
-		int row =  table->selectionModel()->currentIndex().row();
+		s_idx = table->selectionModel()->currentIndex().row();
 
-		if (row == -1){
+		if (s_idx == -1){
 			
-			presenter->indexChanged(row);
+			presenter->indexChanged(s_idx);
 			return;
 		}
 
-		int manipulationIdx = proxyModel.index(row, 0).data().toInt();
-		presenter->indexChanged(manipulationIdx);
+		int procedure = proxyModel.index(s_idx, 0).data().toInt();
+		presenter->indexChanged(procedure);
 		});
 
 	connect(ui.cancelButton, &QPushButton::clicked, [=] { close(); });
@@ -52,8 +55,9 @@ ProcedureDialog::ProcedureDialog(ProcedureDialogPresenter* presenter, QWidget *p
 
 	connect(ui.searchEdit, &QLineEdit::textChanged, [=]
 		{
-			proxyModel.setFilterRegExp(QRegExp(ui.searchEdit->text(), Qt::CaseInsensitive, QRegExp::FixedString));
-			ui.tableView->selectRow(0);
+			s_search = ui.searchEdit->text();
+			proxyModel.setFilterRegExp(QRegExp(s_search, Qt::CaseInsensitive, QRegExp::FixedString));
+			ui.tableView->selectRow(s_idx);
 		});
 
 
@@ -65,6 +69,10 @@ ProcedureDialog::ProcedureDialog(ProcedureDialogPresenter* presenter, QWidget *p
 	ui.commonFields->ui.dateEdit->setErrorLabel(ui.errorLabel);
 	ui.commonFields->ui.diagnosisEdit->setErrorLabel(ui.errorLabel);
 	ui.commonFields->ui.manipulationEdit->setErrorLabel(ui.errorLabel);
+
+
+	ui.searchEdit->setText(s_search);
+	ui.tableView->selectRow(s_idx);
 
 }
 
@@ -132,16 +140,9 @@ ICommonFields* ProcedureDialog::commonFields()
 }
 
 
-void ProcedureDialog::resetForm()
-{
-	ui.commonFields->hide();
-	ui.stackedWidget->setCurrentIndex(0);
-
-}
 
 void ProcedureDialog::setView(ProcedureType t)
 {
-	resetForm();
 
 	ui.commonFields->show();
 
@@ -163,14 +164,13 @@ void ProcedureDialog::setView(ProcedureType t)
 	}
 }
 
-void ProcedureDialog::close()
-{
-	this->hide();
-}
+void ProcedureDialog::close() { QDialog::accept(); }
 
 void ProcedureDialog::showErrorMessage(const std::string& error)
 {
-	resetForm();
+	ui.commonFields->hide();
+	ui.stackedWidget->setCurrentIndex(0);
+
 	ui.noTeethLabel->show();
 	ui.noTeethLabel->setText(QString::fromStdString(error));
 }

@@ -1,45 +1,45 @@
 #include "ProcedureParser.h"
 
-std::string ProcedureParser::write(Procedure m)
+std::string ProcedureParser::write(const Procedure& m)
 {
-	Json::Value manipulation;
+	Json::Value procedure;
 
-	manipulation["diagnosis"] = m.diagnosis;
-	manipulation["name"] = m.name;
+	procedure["diagnosis"] = m.diagnosis;
+	procedure["name"] = m.name;
 
 	switch (m.type)
 	{
 	case ProcedureType::obturation:
 	{
 		auto& r = std::get<ObturationData>(m.result);
-		manipulation["color"] = r.color;
-		manipulation["post"] = r.post;
-		manipulation["material"] = r.material;
-		manipulation["surfaces"] = Json::Value(Json::arrayValue);
+		procedure["color"] = r.color;
+		procedure["post"] = r.post;
+		procedure["material"] = r.material;
+		procedure["surfaces"] = Json::Value(Json::arrayValue);
 
 		for (int i = 0; i < r.surfaces.size(); i++)
-			if (r.surfaces[i]) manipulation["surfaces"].append(i);
+			if (r.surfaces[i]) procedure["surfaces"].append(i);
 
 		break;
 	}
 	case ProcedureType::crown:
 	{
 		auto& r = std::get<CrownData>(m.result);
-		manipulation["color_idx"] = r.color.index;
-		manipulation["3dMaster"] = r.color.Vita3dMaster;
-		manipulation["material"] = r.material;
-		manipulation["prep"] = r.prep_type;
+		procedure["color_idx"] = r.color.index;
+		procedure["3dMaster"] = r.color.Vita3dMaster;
+		procedure["material"] = r.material;
+		procedure["prep"] = r.prep_type;
 		break;
 	}
 	case ProcedureType::bridge:
 	{
 		auto& r = std::get<BridgeData>(m.result);
-		manipulation["color_idx"] = r.crown.color.index;
-		manipulation["3dMaster"] = r.crown.color.Vita3dMaster;
-		manipulation["material"] = r.crown.material;
-		manipulation["prep"] = r.crown.prep_type;
-		manipulation["begin"] = r.tooth_begin;
-		manipulation["end"] = r.tooth_end;
+		procedure["color_idx"] = r.crown.color.index;
+		procedure["3dMaster"] = r.crown.color.Vita3dMaster;
+		procedure["material"] = r.crown.material;
+		procedure["prep"] = r.crown.prep_type;
+		procedure["begin"] = r.tooth_begin;
+		procedure["end"] = r.tooth_end;
 		break;
 	}
 
@@ -47,15 +47,15 @@ std::string ProcedureParser::write(Procedure m)
 	{
 		auto& r = std::get<ImplantData>(m.result);
 		
-		manipulation["system"] = r.system;
-		manipulation["time"] = r.time;
-		manipulation["type"] = r.type;
-		manipulation["w"] = r.width;
-		manipulation["l"] = r.length;
-		manipulation["tissue"] = r.tissue_aug;
-		manipulation["bone"] = r.bone_aug;
-		manipulation["membrane"] = r.membrane;
-		manipulation["sinus"] = r.sinusLift;
+		procedure["system"] = r.system;
+		procedure["time"] = r.time;
+		procedure["type"] = r.type;
+		procedure["w"] = r.width;
+		procedure["l"] = r.length;
+		procedure["tissue"] = r.tissue_aug;
+		procedure["bone"] = r.bone_aug;
+		procedure["membrane"] = r.membrane;
+		procedure["sinus"] = r.sinusLift;
 		
 		break;
 	}
@@ -65,27 +65,25 @@ std::string ProcedureParser::write(Procedure m)
 	}
 
 
-	return writer.write(manipulation);
+	return writer.write(procedure);
 }
-
-#include <QDebug>
 
 void ProcedureParser::parse(const std::string& jsonString, Procedure& m)
 {
 	
-	Json::Value manipulation;
+	Json::Value procedure;
 	Json::Reader reader;
-	bool parsingSuccessful = reader.parse(jsonString, manipulation);
+	bool parsingSuccessful = reader.parse(jsonString, procedure);
 
 	if (!parsingSuccessful) {
 		return;
 	}
 
-	m.diagnosis = manipulation["diagnosis"].asString();
+	m.diagnosis = procedure["diagnosis"].asString();
 
-	if (!manipulation["name"].isNull())
+	if (!procedure["name"].isNull())
 	{
-		m.name = manipulation["name"].asString();
+		m.name = procedure["name"].asString();
 	}
 	
 	
@@ -94,11 +92,11 @@ void ProcedureParser::parse(const std::string& jsonString, Procedure& m)
 		case ProcedureType::obturation:
 		{
 			ObturationData r;
-			r.material = manipulation["material"].asString();
-			r.post = manipulation["post"].asBool();
-			r.color = manipulation["color"].asInt();
+			r.material = procedure["material"].asString();
+			r.post = procedure["post"].asBool();
+			r.color = procedure["color"].asInt();
 		
-			const Json::Value& surfaces = manipulation["surfaces"];
+			const Json::Value& surfaces = procedure["surfaces"];
 
 			for (int i = 0; i < surfaces.size(); i++)
 			{
@@ -113,10 +111,10 @@ void ProcedureParser::parse(const std::string& jsonString, Procedure& m)
 		case ProcedureType::crown:
 		{
 			CrownData r;
-			r.material = manipulation["material"].asString();
-			r.prep_type = manipulation["prep"].asInt();
-			r.color.index = manipulation["color_idx"].asInt();
-			r.color.Vita3dMaster = manipulation["3dMaster"].asBool();
+			r.material = procedure["material"].asString();
+			r.prep_type = procedure["prep"].asInt();
+			r.color.index = procedure["color_idx"].asInt();
+			r.color.Vita3dMaster = procedure["3dMaster"].asBool();
 
 			m.result = r;
 
@@ -126,12 +124,12 @@ void ProcedureParser::parse(const std::string& jsonString, Procedure& m)
 		case ProcedureType::bridge:
 		{
 			BridgeData r;
-			r.tooth_begin = manipulation["begin"].asInt();
-			r.tooth_end = manipulation["end"].asInt();
-			r.crown.prep_type = manipulation["prep"].asInt();
-			r.crown.material = manipulation["material"].asString();
-			r.crown.color.index = manipulation["color_idx"].asInt();
-			r.crown.color.Vita3dMaster = manipulation["3dMaster"].asBool();
+			r.tooth_begin = procedure["begin"].asInt();
+			r.tooth_end = procedure["end"].asInt();
+			r.crown.prep_type = procedure["prep"].asInt();
+			r.crown.material = procedure["material"].asString();
+			r.crown.color.index = procedure["color_idx"].asInt();
+			r.crown.color.Vita3dMaster = procedure["3dMaster"].asBool();
 
 			m.result = r;
 
@@ -142,15 +140,15 @@ void ProcedureParser::parse(const std::string& jsonString, Procedure& m)
 		{
 			ImplantData r;
 
-			r.system = manipulation["system"].asString();
-			r.time = manipulation["time"].asInt();
-			r.type = manipulation["type"].asInt();
-			r.width = manipulation["w"].asDouble();
-			r.length = manipulation["l"].asDouble();
-			r.tissue_aug = manipulation["tissue"].asInt();
-			r.bone_aug = manipulation["bone"].asInt();
-			r.membrane = manipulation["membrane"].asBool();
-			r.sinusLift = manipulation["sinus"].asBool();
+			r.system = procedure["system"].asString();
+			r.time = procedure["time"].asInt();
+			r.type = procedure["type"].asInt();
+			r.width = procedure["w"].asDouble();
+			r.length = procedure["l"].asDouble();
+			r.tissue_aug = procedure["tissue"].asInt();
+			r.bone_aug = procedure["bone"].asInt();
+			r.membrane = procedure["membrane"].asBool();
+			r.sinusLift = procedure["sinus"].asBool();
 
 			m.result = r;
 

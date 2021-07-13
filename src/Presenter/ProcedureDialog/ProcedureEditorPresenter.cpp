@@ -69,6 +69,8 @@ void ProcedureEditorPresenter::setView(IProcedureEditDialog* view)
 			_validatableElements[3] = view->crownView()->rangeWidget();
 			break;
 	}
+
+	view->commonFields()->dateEdit()->validateInput();
 }
 
 void ProcedureEditorPresenter::okPressed()

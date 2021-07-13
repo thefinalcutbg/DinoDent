@@ -2,7 +2,6 @@
 #include "View/AmbListSelector/IListSelectorView.h"
 #include "View/ModalDialogBuilder.h"
 
-#include <QDebug>
 
 ListSelectorPresenter::ListSelectorPresenter()
 {
@@ -66,10 +65,12 @@ void ListSelectorPresenter::setTabPresenter(TabPresenter* tabPresenter)
 {
 	this->tab_presenter = tabPresenter;
 }
+
 void ListSelectorPresenter::openAmbList()
 {
 	for(auto idx : selectedIndexes)
 	tab_presenter->openList(rows_[idx]);
+	if (view) view->close();
 }
 
 void ListSelectorPresenter::deleteAmbList()

@@ -43,7 +43,7 @@ std::vector<Procedure> DbManipulation::getManipulations(const std::string& ambli
 		m.tooth = sqlite3_column_int(stmt, 3);
 		m.date.day = sqlite3_column_int(stmt, 4);
 
-		toothParser_.parse(std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 6))), m);
+		procedureParser.parse(std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 6))), m);
 	}
 
 	sqlite3_finalize(stmt);
@@ -80,7 +80,7 @@ void DbManipulation::saveManipulations(const std::string& amblist_id, const std:
 				+ std::to_string(m.date.day) + "','"
 				+ std::to_string(m.tooth) + "','"
 				+ std::to_string(m.price) + "','"
-				+ toothParser_.write(m) + "','"
+				+ procedureParser.write(m) + "','"
 				+ amblist_id + "')"
 				;
 
@@ -98,7 +98,7 @@ void DbManipulation::saveManipulations(const std::string& amblist_id, const std:
 				+ std::to_string(m.code) + "','"
 				+ std::to_string(m.date.day) + "','"
 				+ std::to_string(m.tooth) + "','"
-				+ toothParser_.write(m) + "','"
+				+ procedureParser.write(m) + "','"
 				+ amblist_id + "')"
 				;
 

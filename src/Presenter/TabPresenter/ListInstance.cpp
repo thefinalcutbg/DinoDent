@@ -5,8 +5,24 @@ ListInstance::ListInstance()
 	: edited{ false }
 {}
 
+ListInstance::ListInstance(const ListInstance& old_obj) :
+	edited{old_obj.edited},
+	patient{old_obj.patient},
+	amb_list{old_obj.amb_list},
+	_scrollHeight{old_obj._scrollHeight},
+	_scrollWidth{old_obj._scrollWidth}
+{
+
+	selectedTeeth.reserve(old_obj.selectedTeeth.size());
+
+	for (const auto &tooth : old_obj.selectedTeeth)
+	{
+		selectedTeeth.push_back(&this->amb_list.teeth[tooth->index]);
+	}
+}
+
 ListInstance::ListInstance(AmbList ambList, std::shared_ptr<Patient> patient) :
-	amb_list(ambList), 
+	amb_list(ambList),
 	patient(patient),
 	edited(0)
 {

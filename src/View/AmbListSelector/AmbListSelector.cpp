@@ -106,3 +106,8 @@ void AmbListSelector::focus()
 	activateWindow();
 }
 
+void AmbListSelector::close()
+{
+	QDialog::accept();
+}
+

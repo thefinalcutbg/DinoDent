@@ -6,6 +6,7 @@ TabView::TabView(QWidget *parent)
 {
 	ui.setupUi(this);
 
+
     connect(ui.tabBar, &QTabBar::currentChanged,
         [=](int index)
         {
@@ -27,13 +28,20 @@ TabView::TabView(QWidget *parent)
             emit closeRequested();
         });
 
+    ui.scrollArea->setAlignment(Qt::AlignHCenter);
     noTabs = new QLabel(this);
     noTabs->setPixmap(QPixmap("dino.png"));
-
+    
     noTabs->setAlignment(Qt::AlignCenter);
     noTabs->setStyleSheet("background-color:white");
+
+    ui.scrollArea->setObjectName("ScrollArea");
+    setStyleSheet("#ScrollArea{background-color : white;}");
     ui.scrollArea->setWidget(noTabs);
     ui.scrollArea->setFrameStyle(QFrame::NoFrame);
+
+    
+    
 }
 
 TabView::~TabView()

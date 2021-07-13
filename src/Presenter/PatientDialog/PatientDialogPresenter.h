@@ -24,6 +24,7 @@
 
 class PatientDialogPresenter
 {
+
 	bool new_patient;
 
 	std::optional<Patient> _patient;

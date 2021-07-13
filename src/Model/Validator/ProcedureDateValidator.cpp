@@ -7,6 +7,7 @@ ProcedureDateValidator::ProcedureDateValidator (Date ambDate, Date patientTurns1
 {
 	_validator.setMinDate(_ambDate);
 	_validator.setMinErrorMsg("Датата на манипулацията не може да е по-малка от тази на амбулаторният лист");
+	setProcedure(0, 0);
 }
 
 

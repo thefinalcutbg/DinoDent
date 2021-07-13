@@ -30,5 +30,6 @@ private:
 	virtual void setUI(int month, int year) override;
 	virtual void setRows(const std::vector<AmbListRow>& rows) override;
 	void focus() override;
+	void close() override;
 
 };

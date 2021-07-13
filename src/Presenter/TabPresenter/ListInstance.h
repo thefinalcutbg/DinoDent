@@ -14,9 +14,10 @@ struct ListInstance
 	int _scrollHeight{ 0 };
 
 	std::shared_ptr<Patient> patient;
-	AmbList amb_list;
+	AmbList amb_list{};
 	
 	ListInstance();
+	ListInstance(const ListInstance& old_obj);
 	ListInstance(AmbList ambList, std::shared_ptr<Patient> patient);
 	bool isNew();
 	bool isEdited();

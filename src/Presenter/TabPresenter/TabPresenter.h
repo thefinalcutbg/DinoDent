@@ -13,7 +13,7 @@ class AmbListRow;
 
 class TabPresenter : public EditObserver
 {
-	std::vector<ListInstance> lists_;
+	std::vector<ListInstance> _lists;
 
 	int index_;
 

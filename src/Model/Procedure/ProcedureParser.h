@@ -7,7 +7,7 @@ class ProcedureParser
 	Json::FastWriter writer;
 
 public:
-	std::string write(Procedure m);
+	std::string write(const Procedure& m);
 	void parse(const std::string& jsonString, Procedure& m);
 };
 

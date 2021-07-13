@@ -15,7 +15,6 @@ ListPresenter::ListPresenter() :
 
 void ListPresenter::setData(ListInstance* inst)
 {
-
     this->ambList = &inst->amb_list;
     this->patient = inst->patient;
    

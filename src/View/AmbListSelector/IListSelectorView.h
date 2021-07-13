@@ -11,4 +11,5 @@ public:
 	virtual void setUI(int month, int year) = 0;
 	virtual void setRows(const std::vector<AmbListRow>& rows) = 0;
 	virtual void focus() = 0;
+	virtual void close() = 0;
 };

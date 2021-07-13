@@ -9,7 +9,7 @@
 #include "Presenter/ListPresenter/ListPresenter.h"
 
 TeethViewScene::TeethViewScene(QObject *parent)
-    : QGraphicsScene(parent), contextMenu(nullptr)
+    : QGraphicsScene(parent), contextMenu(nullptr), presenter(nullptr)
 {
 
     //background color:
@@ -251,12 +251,13 @@ void TeethViewScene::display(const BridgesPaintHint& bridges)
     lowerBridge->setTexture(bridgeL);
 
 }
-
+#include <QDebug>
 void TeethViewScene::setSelectedTeeth(const std::vector<int> &selectedTeeth)
 {
     clearSelection();
-    
-    for (const int& i : selectedTeeth){ //read access violation ???
+
+    for (int i : selectedTeeth){ //read access violation ???
+        qDebug() << "setting selected tooth " << i;
         selectionBox[i]->setSelected(1);
     }
 }

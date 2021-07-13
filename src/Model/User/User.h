@@ -20,7 +20,7 @@ public:
 	std::string LPK{"220008771"};
 	int specialty{ 64 };
 
-	std::string practice_address{ "София, общ.Столична, обл.София - град" };
+	std::string practice_address{ "София, общ. Столична, обл. София-град" };
 
 	static CurrentUser& instance();
 

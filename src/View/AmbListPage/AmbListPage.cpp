@@ -7,6 +7,7 @@ AmbListPage::AmbListPage(QWidget* parent) :
 {
     ui.setupUi(this);
 
+
     connect(ui.newButton, &QPushButton::clicked, [=] { presenter.newPressed(); });
     connect(ui.saveAsButton, &QPushButton::clicked, [=] { presenter.saveAs(); });
     connect(ui.saveButton, &QPushButton::clicked, [=] { presenter.save(); });

@@ -4,8 +4,9 @@
 
 typedef std::string HealthRegion, Region, HRIFCode, Muncipanity, CityString;
 
-std::pair<Muncipanity, Region> CityCode::parseCityString(CityString cityString)
+std::pair<Muncipanity, Region> CityCode::parseCityString(const CityString& cityString)
 {
+    constexpr int offset = 10;
     bool munciFound = false;
     int munciPos = 0;
     int regionPos = 0;
@@ -30,8 +31,8 @@ std::pair<Muncipanity, Region> CityCode::parseCityString(CityString cityString)
         }
     }
 
-    muncipanity = cityString.substr(munciPos + 10, regionPos - munciPos - 10);
-    region = cityString.substr(regionPos + 10, cityString.size() - regionPos + 10);
+    muncipanity = cityString.substr(munciPos + offset, regionPos - munciPos - offset);
+    region = cityString.substr(regionPos + offset, cityString.size() - regionPos + offset);
 
     return std::make_pair(muncipanity, region);
 }

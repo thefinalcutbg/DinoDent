@@ -11,11 +11,12 @@
 constexpr int defaultSurfaces[32] = { 0,0,0,0,0,3,3,3,3,3,3,0,0,0,0,0,0,0,0,0,0,3,3,3,3,3,3,0,0,0,0,0 };
 
 enum class Charge {default, retired, freed};
-
+#include <QDebug>
 struct AmbList
 {
 	AmbList() : date(Date::currentDate()), number(0), full_coverage(false), charge{Charge::default}
 	{
+		qDebug() << "amb list defualt constructor";
 		for (int i = 0; i < teeth.size(); i++) {
 			teeth[i].index = i;
 			teeth[i].caries.setDefaultSurface(defaultSurfaces[i]);

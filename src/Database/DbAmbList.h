@@ -16,7 +16,7 @@ class AmbList;
 class DbAmbList : public AbstractORM 
 {
 
-    ToothParser toothParser_;
+    ToothParser procedureParser;
     ProcedureApplier m_applier;
     DbManipulation db_manipulation;
 

@@ -10,7 +10,7 @@
 class DbManipulation : public AbstractORM
 {
   
-    ProcedureParser toothParser_;
+    ProcedureParser procedureParser;
 public:
     std::vector<Procedure> getManipulations(const std::string& amblist_id, const Date& amb_date);
     void saveManipulations(const std::string& amblist_id, const std::vector<Procedure>& mList);

@@ -1,5 +1,5 @@
 #include "StatusPresenter.h"
-
+#include <QDebug>
 std::vector<int> StatusPresenter::getSelectedIndexes()
 {
     std::vector<int> selectedIndexes;
@@ -7,7 +7,9 @@ std::vector<int> StatusPresenter::getSelectedIndexes()
 
     for (int i = 0; i < selectedTeeth->size(); i++)
     {
+        
         selectedIndexes.push_back(selectedTeeth->at(i)->index);
+        qDebug() << selectedIndexes.back();
     }
 
     return selectedIndexes;
@@ -38,6 +40,8 @@ void StatusPresenter::setData(std::array<Tooth, 32>& teeth, std::vector<Tooth*>&
 {
 	this->teeth = &teeth;
     this->selectedTeeth = &selectedTeeth;
+
+     
 
     view->setSelectedTeeth(getSelectedIndexes());
 
@@ -94,12 +98,16 @@ void StatusPresenter::changeStatus(StatusAction status)
 
 void StatusPresenter::setSelectedTeeth(const std::vector<int>& selectedIndexes)
 {
-
+    qDebug() << "setting selected teeth into the instance";
     selectedTeeth->clear();
     for (int i : selectedIndexes)
     {
+        qDebug() << "int i is " << i;
         selectedTeeth->push_back(&teeth->at(i));
+        qDebug() << "pushing back tooth with index " << teeth->at(i).index;
     }
+
+    qDebug() << selectedTeeth->size() << " teeth are selected";
 
     statusControl.setSelectedTeeth(*selectedTeeth);
 

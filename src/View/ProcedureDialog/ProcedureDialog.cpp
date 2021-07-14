@@ -1,5 +1,4 @@
 ﻿#include "ProcedureDialog.h"
-//#include <QPainter>
 
 #include "Presenter/ProcedureDialog/ProcedureDialogPresenter.h"
 
@@ -18,13 +17,12 @@ ProcedureDialog::ProcedureDialog(ProcedureDialogPresenter* presenter, QWidget *p
 	auto table = ui.tableView;
 
 	presenter->setView(this);
-	//proxyModel = new QSortFilterProxyModel(this);
+
 
 	proxyModel.setSourceModel(&model);
 	proxyModel.setFilterKeyColumn(2);
-	
-
 	table->setModel(&proxyModel);
+
 	table->hideColumn(0);
 	table->setColumnWidth(0, 20);
 	table->setColumnWidth(1, 70);

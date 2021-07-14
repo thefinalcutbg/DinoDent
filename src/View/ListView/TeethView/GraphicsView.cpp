@@ -1,10 +1,15 @@
 #include "GraphicsView.h"
+#include <QApplication>
+#include <QDesktopWidget>
 
+#include <QDebug>
 
 GraphicsView::GraphicsView(QWidget *parent)
-	: QGraphicsView(parent)
+	: QGraphicsView(parent), gl{nullptr}
 {
 	setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
+
+	setDragMode(QGraphicsView::RubberBandDrag);
 
 	gl = new QOpenGLWidget();
 	QSurfaceFormat format;
@@ -15,10 +20,6 @@ GraphicsView::GraphicsView(QWidget *parent)
 
 	setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
 	setViewport(gl);
-
-	
-
-	setDragMode(QGraphicsView::RubberBandDrag);
 }
 
 void GraphicsView::mousePressEvent(QMouseEvent* event)

@@ -7,6 +7,8 @@ class GraphicsView : public QGraphicsView
 {
 	Q_OBJECT
 
+	QOpenGLWidget* gl;
+
 	void mousePressEvent(QMouseEvent* event) override;
 
 	void resizeEvent(QResizeEvent*) {
@@ -26,7 +28,7 @@ class GraphicsView : public QGraphicsView
 
 public:
 	GraphicsView(QWidget *parent);
-	QOpenGLWidget* gl;
+
 	~GraphicsView();
 
 signals:

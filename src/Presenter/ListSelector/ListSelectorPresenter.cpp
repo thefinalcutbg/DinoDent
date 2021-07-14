@@ -68,8 +68,11 @@ void ListSelectorPresenter::setTabPresenter(TabPresenter* tabPresenter)
 
 void ListSelectorPresenter::openAmbList()
 {
+	if (!selectedIndexes.size()) return;
+
 	for(auto idx : selectedIndexes)
 	tab_presenter->openList(rows_[idx]);
+
 	if (view) view->close();
 }
 

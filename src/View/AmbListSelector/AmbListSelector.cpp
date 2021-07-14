@@ -1,6 +1,7 @@
 ﻿#include "AmbListSelector.h"
 #include "Presenter/ListSelector/ListSelectorPresenter.h"
 #include <QMessageBox>
+#include <QDebug>
 AmbListSelector::AmbListSelector(ListSelectorPresenter* presenter) :
 	p(presenter)
 {
@@ -9,10 +10,12 @@ AmbListSelector::AmbListSelector(ListSelectorPresenter* presenter) :
 	setWindowFlags(Qt::Window);
 	//setWindowFlags(Qt::WindowStaysOnTopHint);
 
-	proxyModel.setSourceModel(&model);
-	proxyModel.setFilterKeyColumn(3);
+	idFilter.setSourceModel(&model);
+	idFilter.setFilterKeyColumn(3);
+	nameFilter.setSourceModel(&idFilter);
+	nameFilter.setFilterKeyColumn(4);
 
-	ui.tableView->setModel(&model);
+	ui.tableView->setModel(&nameFilter);
 
 	ui.tableView->setDimensions();
 
@@ -24,14 +27,29 @@ AmbListSelector::AmbListSelector(ListSelectorPresenter* presenter) :
 	connect(ui.tableView, &ListTable::deletePressed, this, [=] { ui.deleteButton->click(); });
 	connect(ui.openButton, &QPushButton::clicked, [=] {presenter->openAmbList(); });
 
+	connect(ui.idSearchEdit, &QLineEdit::textChanged, [=]
+		{
+			QString text = ui.idSearchEdit->text();
+			idFilter.setFilterRegExp(QRegExp(text, Qt::CaseInsensitive, QRegExp::FixedString));
+		});
+
+	connect(ui.nameSearchEdit, &QLineEdit::textChanged, [=]
+		{
+			QString text = ui.nameSearchEdit->text();
+			nameFilter.setFilterRegExp(QRegExp(text, Qt::CaseInsensitive, QRegExp::FixedString));
+		});
+
 	connect(ui.tableView->selectionModel(), &QItemSelectionModel::selectionChanged, this, [=] {
 
 		auto idxList = ui.tableView->selectionModel()->selectedIndexes();
-		
+	
 		std::vector<int>selectedIndexes;
 
-		for (auto& i : idxList)
-			selectedIndexes.push_back(i.row());
+		for (auto &idx : idxList)
+		{
+			selectedIndexes.push_back(nameFilter.index(idx.row(), 0).data().toInt());
+		}
+			
 
 		presenter->selectionChanged(selectedIndexes);
 
@@ -51,7 +69,6 @@ AmbListSelector::AmbListSelector(ListSelectorPresenter* presenter) :
 
 			if(answer == QMessageBox::Yes)
 				presenter->deleteAmbList();
-
 		});
 
 	presenter->setView(this);

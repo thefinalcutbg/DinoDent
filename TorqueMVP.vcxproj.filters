@@ -222,7 +222,7 @@
     <ClCompile Include="src\Model\Procedure\ProcedureParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Database\DbManipulation.cpp">
+    <ClCompile Include="src\Database\DbProcedure.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\ListView\ToothPaintDevices\ToothPainter.cpp">
@@ -340,6 +340,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\AmbListSelector\ListTable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Model\AmbListValidator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\ErrorMessage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -713,7 +719,7 @@
     <ClInclude Include="src\Model\Procedure\ProcedureParser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Database\DbManipulation.h">
+    <ClInclude Include="src\Database\DbProcedure.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\ListView\ToothPaintDevices\PaintHint.h">
@@ -834,6 +840,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\AmbListRow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\AmbListValidator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\View\ErrorMessage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "DbManipulation.h"
+#include "DbProcedure.h"
 #include "Model/Tooth/ToothParser.h"
 #include "Model/Procedure/ProcedureApplier.h"
 #include "Model/AmbListRow.h"
@@ -18,7 +18,7 @@ class DbAmbList : public AbstractORM
 
     ToothParser procedureParser;
     ProcedureApplier m_applier;
-    DbManipulation db_manipulation;
+    DbProcedure db_manipulation;
 
     std::string getLastStatus(std::string patientID);
     std::vector<Procedure> getOlderManipulations(std::string patientID);

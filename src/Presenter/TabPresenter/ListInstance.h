@@ -5,10 +5,11 @@
 #include "Model/Patient.h"
 #include "Model/AmbList.h"
 #include "string"
-
+#include "Model/AmbListValidator.h"
 
 struct ListInstance
 {
+
 	bool edited;
 	int _scrollWidth{ 0 };
 	int _scrollHeight{ 0 };
@@ -21,6 +22,7 @@ struct ListInstance
 	ListInstance(AmbList ambList, std::shared_ptr<Patient> patient);
 	bool isNew();
 	bool isEdited();
+
 
 	std::vector <Tooth*> selectedTeeth;
 

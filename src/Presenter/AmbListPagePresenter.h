@@ -8,13 +8,16 @@
 #include "TabPresenter/TabPresenter.h"
 #include "ListSelector/ListSelectorPresenter.h"
 
+
 class AmbListPagePresenter
 {
-	TabPresenter tabPresenter_;
+	TabPresenter _tabPresenter;
 	ListSelectorPresenter listSelector_;
 	IAmbListPage* view;
 
 	DbAmbList amb_db;
+
+	bool listIsValid();
 
 public:
 	AmbListPagePresenter();

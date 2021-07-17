@@ -62,20 +62,16 @@ PatientFormDialog::~PatientFormDialog()
 
 void PatientFormDialog::setEditMode(bool editMode)
 {
-    if (editMode)
-    {
-        ui.idLineEdit->disable(true);
-        ui.typeComboBox->disable(true);
-        setWindowTitle("Редактиране на данните на пациента");
-        ui.idLineEdit->setFocus();
-        ui.idLineEdit->selectAll();
-    }
-    else
-    {
-        ui.idLineEdit->disable(false);
-        ui.typeComboBox->disable(false);
+    ui.idLineEdit->setReadOnly(editMode);
+    ui.typeComboBox->disable(editMode);
+    ui.idLineEdit->setFocus();
+    ui.idLineEdit->selectAll();
+
+    editMode ?
+        setWindowTitle("Редактиране на данните на пациента")
+        :
         setWindowTitle("Нов амбулаторен лист");
-    }
+
 
 }
 

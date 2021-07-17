@@ -1,5 +1,6 @@
 #include "StatusPresenter.h"
-#include <QDebug>
+#include "../ProcedurePresenter/ProcedurePresenter.h"
+
 std::vector<int> StatusPresenter::getSelectedIndexes()
 {
     std::vector<int> selectedIndexes;
@@ -9,10 +10,15 @@ std::vector<int> StatusPresenter::getSelectedIndexes()
     {
         
         selectedIndexes.push_back(selectedTeeth->at(i)->index);
-        qDebug() << selectedIndexes.back();
+ 
     }
 
     return selectedIndexes;
+}
+
+void StatusPresenter::setProcedurePresenter(ProcedurePresenter* p)
+{
+    procedure_presenter = p;
 }
 
 void StatusPresenter::statusChanged()
@@ -23,7 +29,6 @@ void StatusPresenter::statusChanged()
 
         for (auto& t : *selectedTeeth)
         {
-            
             view->repaintTooth(paint_hint_generator.getToothHint(*t));
         }
 
@@ -92,22 +97,25 @@ void StatusPresenter::changeStatus(StatusAction status)
     if (status == StatusAction::Bridge || status == StatusAction::Crown) {
         bridgeController.formatBridges(getSelectedIndexes(), teeth);
     }
+    else if (status == StatusAction::Temporary)
+    {
+        if(procedure_presenter)
+        procedure_presenter->refreshProcedureView(); //updates the teeth num
+    }
 
     statusChanged();
 }
 
 void StatusPresenter::setSelectedTeeth(const std::vector<int>& selectedIndexes)
 {
-    qDebug() << "setting selected teeth into the instance";
+
     selectedTeeth->clear();
     for (int i : selectedIndexes)
     {
-        qDebug() << "int i is " << i;
         selectedTeeth->push_back(&teeth->at(i));
-        qDebug() << "pushing back tooth with index " << teeth->at(i).index;
+   
     }
 
-    qDebug() << selectedTeeth->size() << " teeth are selected";
 
     statusControl.setSelectedTeeth(*selectedTeeth);
 

@@ -11,6 +11,7 @@ ListPresenter::ListPresenter() :
     view(nullptr),
     ambList(nullptr)
 {
+    status_presenter.setProcedurePresenter(&procedure_presenter);
 }
 
 void ListPresenter::setData(ListInstance* inst)

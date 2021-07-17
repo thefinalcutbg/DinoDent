@@ -196,10 +196,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Model\AmbListValidator.cpp" />
     <ClCompile Include="src\View\AmbListSelector\ListTable.cpp" />
     <ClCompile Include="src\View\AmbListSelector\ListsTableModel.cpp" />
     <ClCompile Include="src\Presenter\ListSelector\ListSelectorPresenter.cpp" />
     <ClCompile Include="src\View\AmbListSelector\AmbListSelector.cpp" />
+    <ClCompile Include="src\View\ErrorMessage.cpp" />
     <ClCompile Include="src\View\GlobalFunctions.cpp" />
     <ClCompile Include="src\Model\Validator\ProcedureDateValidator.cpp" />
     <ClCompile Include="src\Model\Validator\CommonValidators.cpp" />
@@ -227,7 +229,7 @@
     <ClCompile Include="src\View\ProcedureDialog\Widgets\CrownView\CrownView.cpp" />
     <ClCompile Include="src\View\ProcedureDialog\Widgets\ObturationView\ObturationView.cpp" />
     <ClCompile Include="src\View\ProcedureDialog\Widgets\CommonFields\CommonFields.cpp" />
-    <ClCompile Include="src\Database\DbManipulation.cpp" />
+    <ClCompile Include="src\Database\DbProcedure.cpp" />
     <ClCompile Include="src\Model\Procedure\ProcedureParser.cpp" />
     <ClCompile Include="src\View\ListView\TeethView\GraphicsView.cpp" />
     <ClCompile Include="src\View\uiComponents\qt_derived\SpinBox.cpp" />
@@ -379,6 +381,7 @@
     <QtMoc Include="src\View\AmbListSelector\AmbListSelector.h" />
     <QtMoc Include="src\View\AmbListSelector\ListsTableModel.h" />
     <QtMoc Include="src\View\AmbListSelector\ListTable.h" />
+    <ClInclude Include="src\Model\AmbListValidator.h" />
     <ClInclude Include="src\Model\AmbListRow.h" />
     <ClInclude Include="src\Presenter\ListSelector\ListSelectorPresenter.h" />
     <ClInclude Include="src\Model\Validator\ProcedureDateValidator.h" />
@@ -387,6 +390,7 @@
     <ClInclude Include="src\Model\Validator\NameValidator.h" />
     <ClInclude Include="src\Presenter\ProcedureDialog\ProcedureEditorPresenter.h" />
     <ClInclude Include="src\View\AmbListSelector\IListSelectorView.h" />
+    <ClInclude Include="src\View\ErrorMessage.h" />
     <ClInclude Include="src\View\GlobalFunctions.h" />
     <ClInclude Include="src\View\ProcedureDialog\Widgets\ImplantView\IImplantView.h" />
     <QtMoc Include="src\View\ProcedureDialog\Widgets\ImplantView\ImplantView.h" />
@@ -421,7 +425,7 @@
     <ClInclude Include="src\Presenter\ListPresenter\StatusPresenter\ToothHintCreator.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\VitaWidget.h" />
     <QtMoc Include="src\View\ListView\TeethView\GraphicsView.h" />
-    <ClInclude Include="src\Database\DbManipulation.h" />
+    <ClInclude Include="src\Database\DbProcedure.h" />
     <ClInclude Include="src\Model\Procedure\ProcedureParser.h" />
     <ClInclude Include="src\Model\Tooth\SurfStatus.h" />
     <QtMoc Include="src\View\ListView\Procedures\ProcedureTable.h" />

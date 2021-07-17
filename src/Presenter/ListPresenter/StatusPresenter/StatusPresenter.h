@@ -8,6 +8,7 @@
 #include "../Editor.h"
 #include <vector>
 
+class ProcedurePresenter;
 
 class StatusPresenter : public Editor
 {
@@ -17,6 +18,7 @@ class StatusPresenter : public Editor
 	BridgeController bridgeController;
 	SurfacePanelPresenter surf_presenter;
 	IStatusView* view;
+	ProcedurePresenter* procedure_presenter;
 
 	std::array<Tooth, 32>* teeth;
 	std::vector<Tooth*>* selectedTeeth;
@@ -28,6 +30,8 @@ public:
 	
 	void setData(std::array<Tooth, 32>& teeth, std::vector<Tooth*>& selectedTeeth);
 	void setView(IStatusView* view);
+	void setProcedurePresenter(ProcedurePresenter* p);
+
 	void changeStatus(Surface surface, SurfaceType type);
 	void changeStatus(StatusAction status);
 	void setSelectedTeeth(const std::vector<int>& SelectedIndexes);

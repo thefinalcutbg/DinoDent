@@ -1,8 +1,8 @@
-#include "DbManipulation.h"
+#include "DbProcedure.h"
 #include <QDebug>
 #include "Model/Procedure/MasterNZOK.h"
 
-std::vector<Procedure> DbManipulation::getManipulations(const std::string& amblist_id, const Date& amb_date)
+std::vector<Procedure> DbProcedure::getManipulations(const std::string& amblist_id, const Date& amb_date)
 {
 	std::vector<Procedure> mList;
 
@@ -54,7 +54,7 @@ std::vector<Procedure> DbManipulation::getManipulations(const std::string& ambli
 
 }
 
-void DbManipulation::saveManipulations(const std::string& amblist_id, const std::vector<Procedure>& mList)
+void DbProcedure::saveManipulations(const std::string& amblist_id, const std::vector<Procedure>& mList)
 {
 
 	openConnection();
@@ -115,4 +115,31 @@ void DbManipulation::saveManipulations(const std::string& amblist_id, const std:
 
 			
 
+}
+
+std::unordered_map<int, int> DbProcedure::totalNZOKProcedures(const std::string& patientID, const std::string& excludeAmbId, int ambList_year)
+{
+
+	std::unordered_map<int, int> procedure_count;
+
+	openConnection();
+
+	std::string query =
+		"SELECT nzok.code, COUNT(*) "
+		"FROM nzok INNER JOIN amblist ON nzok.amblist_id = amblist.id "
+		"WHERE amblist.patient_id = '" + patientID + "' " +
+		"AND amblist.year = " + std::to_string(ambList_year) + " "
+		"AND amblist.id != '" + excludeAmbId + "' "
+		"GROUP BY nzok.code";
+
+	sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
+
+	while (sqlite3_step(stmt) != SQLITE_DONE)
+	{
+		procedure_count[sqlite3_column_int(stmt, 0)] = sqlite3_column_int(stmt, 1);
+	}
+
+	closeConnection();
+
+	return procedure_count;
 }

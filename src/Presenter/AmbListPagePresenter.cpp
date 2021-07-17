@@ -1,6 +1,24 @@
 ﻿#include "AmbListPagePresenter.h"
 #include "Model/Procedure/MasterNZOK.h"
 #include "Presenter/PatientDialog/PatientDialogPresenter.h"
+#include "View/ErrorMessage.h"
+
+bool AmbListPagePresenter::listIsValid()
+{
+    ListInstance* list = _tabPresenter.currentList();
+
+    if (list == nullptr) return false;
+
+    AmbListValidator checker;
+
+    if (checker.ambListIsValid(*list))
+        return true;
+
+    showError(checker.getErrorMsg());
+
+    return false;
+}
+
 AmbListPagePresenter::AmbListPagePresenter() :
     view(nullptr)
 {}
@@ -9,8 +27,8 @@ void AmbListPagePresenter::setView(IAmbListPage* view)
 {
     this->view = view;
 
-    tabPresenter_.setView(view->tabView());
-    listSelector_.setTabPresenter(&tabPresenter_);
+    _tabPresenter.setView(view->tabView());
+    listSelector_.setTabPresenter(&_tabPresenter);
 }
 
 void AmbListPagePresenter::newPressed()
@@ -20,7 +38,7 @@ void AmbListPagePresenter::newPressed()
     auto patient = p.open();
 
     if (patient.has_value())
-        tabPresenter_.openList(patient.value());
+        _tabPresenter.openList(patient.value());
 }
 
 void AmbListPagePresenter::showListSelector()
@@ -30,7 +48,7 @@ void AmbListPagePresenter::showListSelector()
 
 bool AmbListPagePresenter::save()
 {
-    auto list = tabPresenter_.currentList();
+    auto list = _tabPresenter.currentList();
 
     if (list == nullptr) return true;
 
@@ -39,6 +57,7 @@ bool AmbListPagePresenter::save()
     }
 
     if (list->edited) {
+        if (!listIsValid()) return false;
         amb_db.updateAmbList(list->amb_list);
         listSelector_.refreshModel();
     }
@@ -54,9 +73,11 @@ bool AmbListPagePresenter::save()
 
 bool AmbListPagePresenter::saveAs()
 {
-    auto currentListInstance = tabPresenter_.currentList();
+    auto currentListInstance = _tabPresenter.currentList();
 
     if (currentListInstance == nullptr) return true;
+
+    if (!listIsValid()) return false;
 
     AmbList& list = currentListInstance->amb_list;
 
@@ -97,7 +118,7 @@ bool AmbListPagePresenter::saveAs()
 
 bool AmbListPagePresenter::closeTab()
 {
-    auto list = tabPresenter_.currentList();
+    auto list = _tabPresenter.currentList();
     //no need to know which tab. Close button always focuses the tab first.
 
     if (list->amb_list.isNew() || list->isEdited())
@@ -118,14 +139,14 @@ bool AmbListPagePresenter::closeTab()
         }
     }
 
-    tabPresenter_.removeCurrentList();
+    _tabPresenter.removeCurrentList();
 
     return true;
 }
 
 bool AmbListPagePresenter::closeAllTabs()
 {
-    while (tabPresenter_.currentList())
+    while (_tabPresenter.currentList())
     {
        bool canceled = !closeTab();
        if (canceled) return false;

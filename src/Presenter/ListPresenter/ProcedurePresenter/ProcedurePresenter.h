@@ -22,13 +22,15 @@ class ProcedurePresenter : public Editor
 	IProcedureView* view;
 
 	void addToProcedureList(const std::vector<Procedure>& new_mList);
-	void refreshProcedureView();
+
 
 public:
 	ProcedurePresenter();
 
 	void setData(AmbList &amb_list, Patient& patient, std::vector<Tooth*>& selectedTeeth);
 	void setView(IProcedureView* view);
+
+	void refreshProcedureView();
 
 	void addProcedure();
 	void editProcedure();

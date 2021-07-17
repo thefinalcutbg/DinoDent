@@ -4,7 +4,6 @@
 
 #include "Model/Date.h"
 
-
 class Validator
 {
 protected:

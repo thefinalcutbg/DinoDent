@@ -39,6 +39,7 @@ bool ListInstance::isEdited()
 	return edited;
 }
 
+
 std::string ListInstance::getTabName()
 {
 	std::string tabName;

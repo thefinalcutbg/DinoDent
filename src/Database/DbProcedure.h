@@ -7,13 +7,15 @@
 
 #include <QDebug>
 
-class DbManipulation : public AbstractORM
+class DbProcedure : public AbstractORM
 {
   
     ProcedureParser procedureParser;
 public:
     std::vector<Procedure> getManipulations(const std::string& amblist_id, const Date& amb_date);
     void saveManipulations(const std::string& amblist_id, const std::vector<Procedure>& mList);
+
+    std::unordered_map<int, int> totalNZOKProcedures(const std::string& patientID, const std::string& excludeAmbId, int ambList_year);
 
 };
 

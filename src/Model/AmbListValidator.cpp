@@ -1,7 +1,10 @@
-﻿#include "AmbListValidator.h"
+﻿#include <unordered_set>
+
+#include "AmbListValidator.h"
 #include "../Presenter/TabPresenter/ListInstance.h"
 #include "Procedure/MasterNZOK.h"
 #include "Tooth/ToothUtils.h"
+
 
 
 AmbListValidator::AmbListValidator(const ListInstance& list)
@@ -36,6 +39,8 @@ bool AmbListValidator::ambListIsValid()
             return false;
         }
 
+        if (!noDuplicates()) return false;
+
         totalProcedures[p.code]++;
 
         if (p.tooth != -1) //out of range guard
@@ -46,15 +51,16 @@ bool AmbListValidator::ambListIsValid()
             //checking if the tooth has appliable status
             if (!validateTypeToStatus(teeth[p.tooth], p)) return false;
 
-            //checking if the manipulation is made in the last year
-            if (!madeAtLeastYearAgo(p.tooth, p)) return false;
-
             //checking if the tooth has extraction recorded
             if (isExtracted(teeth[p.tooth]))
             {
                 _error = "За зъб " + ToothUtils::getNomenclature(teeth[p.tooth]) + " съществуват предишни данни за екстракция";
                 return false;
             }
+
+            //checking if the manipulation is made in the last year
+            if (!madeAtLeastYearAgo(p.tooth, p)) return false;
+
         }
     }
 
@@ -73,6 +79,44 @@ bool AmbListValidator::ambListIsValid()
     }
 
     _error = "";
+    return true;
+}
+
+
+struct pair_hash
+{
+    template <class T1, class T2>
+    std::size_t operator() (const std::pair<T1, T2>& pair) const {
+        return std::hash<T1>()(pair.first) ^ std::hash<T2>()(pair.second);
+    }
+};
+
+bool AmbListValidator::noDuplicates()
+{
+    typedef int Tooth, Code;
+
+    std::unordered_set<std::pair<Tooth, Code>, pair_hash> tooth_set;
+
+    for (auto& p : ambList.procedures)
+    {
+        if (!p.nzok) continue;
+
+        auto pair = std::make_pair(p.tooth, p.code);
+
+        if (tooth_set.count(pair))
+        {
+            p.tooth != -1 ?
+            _error = "За зъб " + ToothUtils::getNomenclature(ambList.teeth[p.tooth]) +
+                " манипулация с код " + std::to_string(p.code) + " е добавена повече от веднъж"
+            :
+            _error = "Направили сте 2 еднакви манипулации с код " + std::to_string(p.code);
+
+            return false;
+        }
+
+        tooth_set.insert(pair);
+    }
+
     return true;
 }
 

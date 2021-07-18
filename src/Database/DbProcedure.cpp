@@ -117,7 +117,8 @@ void DbProcedure::saveManipulations(const std::string& amblist_id, const std::ve
 
 }
 
-bool DbProcedure::procedureExists(int tooth, int procedure, const std::string& patient_id, const Date& date, int year_range, const std::string& excludeAmb_id)
+bool DbProcedure::procedureExists(int tooth, int procedure, const std::string& patient_id, 
+									const Date& date, int year_range, const std::string& excludeAmb_id)
 {
 	openConnection();
 

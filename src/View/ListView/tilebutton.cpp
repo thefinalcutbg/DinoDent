@@ -11,7 +11,7 @@ TileButton::TileButton(QWidget* parent) : QAbstractButton(parent), hover(0), cli
 
 }
 
-void TileButton::setPatient(Patient &patient)
+void TileButton::setPatient(const Patient &patient)
 {
 	this->patient = &patient;
 	refresh();

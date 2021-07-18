@@ -23,7 +23,7 @@ class TileButton : public QAbstractButton
     
 
 protected:
-    Patient* patient;
+    const Patient* patient;
     QFont header;
     QFont info;
 
@@ -32,7 +32,7 @@ protected:
 
 public:
     TileButton(QWidget* parent = 0);
-    void setPatient(Patient &patient);
+    void setPatient(const Patient &patient);
     virtual void refresh() = 0;
 };
 

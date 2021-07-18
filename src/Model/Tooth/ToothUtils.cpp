@@ -1,6 +1,6 @@
 ﻿#include "ToothUtils.h"
-
-
+#include <string>
+#include "Tooth.h"
 
 std::array<std::string, 6> ToothUtils::surfaceNames
 { "Оклузално", "Медиално", "Дистално", "Букално", "Лингвално", "Цервикално" };
@@ -49,10 +49,10 @@ int ToothUtils::getToothNumber(int index, bool temporary)
     return numbers[index];
 }
 
-Quadrant ToothUtils::getQuadrant(int index)
-{
-    return quadrant[index];
-}
+std::string ToothUtils::getNomenclature(int tooth_idx, bool temporary) { return std::to_string(getToothNumber(tooth_idx, temporary));}
+std::string ToothUtils::getNomenclature(const Tooth& t) { return getNomenclature(t.index, t.temporary.exists());}
+
+Quadrant ToothUtils::getQuadrant(int index) { return quadrant[index]; }
 
 std::array<std::string, 6> ToothUtils::getSurfaceNames(int index)
 {

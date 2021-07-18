@@ -210,7 +210,7 @@ void DbAmbList::getListData(const std::string& patientID, int month, int year, A
 
     closeConnection();
 
-    if (ambList.id.empty())
+    if (ambList.isNew())
     {
         procedureParser.parse(getLastStatus(patientID), ambList.teeth);
         m_applier.applyProcedures(getOlderManipulations(patientID), ambList.teeth, CurrentUser::instance().LPK);

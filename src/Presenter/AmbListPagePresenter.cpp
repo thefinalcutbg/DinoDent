@@ -9,9 +9,9 @@ bool AmbListPagePresenter::listIsValid()
 
     if (list == nullptr) return false;
 
-    AmbListValidator checker;
+    AmbListValidator checker(*list);
 
-    if (checker.ambListIsValid(*list))
+    if (checker.ambListIsValid())
         return true;
 
     showError(checker.getErrorMsg());

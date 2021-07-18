@@ -1,5 +1,6 @@
 #include "ToothHintCreator.h"
 #include "Model/User/User.h"
+#include "Model/Tooth/Tooth.h"
 
 bool R_U_Mine(const DentistMade& procedure)
 {

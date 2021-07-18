@@ -36,7 +36,7 @@ bool Date::isLeapYear(int year)
     else return false;
 }
 
-int Date::getMaxDayOfMonth()
+int Date::getMaxDayOfMonth() const
 {
     if (month < 1 || month > 12) throw "invalid month!";
 
@@ -53,13 +53,11 @@ int Date::getMaxDayOfMonth()
 
 }
 
-Date Date::yesterday()
+Date Date::yesterday() const
 {
-    if (day != 1)
-        return Date{ day - 1, month, year };
+    if (day != 1) return Date{ day - 1, month, year };
 
-    if (month != 1)
-        return Date{getMaxDayOfMonth(), month-1, year};
+    if (month != 1) return Date{getMaxDayOfMonth(), month-1, year};
 
     return Date{31, 12, year - 1};
 }
@@ -114,6 +112,9 @@ bool Date::Date::operator == (const Date& other) const
     return false;
 }
 
+Date Date::getMaxDateOfMonth() const { return Date{ getMaxDayOfMonth(), month, year }; }
+bool Date::isTheSameMonthAs(const Date& date) const { return this->year == date.year && this->month == date.month; }
+
 bool Date::Date::operator < (const Date& other) const
 {
     if (year < other.year) return true;
@@ -123,7 +124,6 @@ bool Date::Date::operator < (const Date& other) const
     return false;
 }
 
-bool Date::isTheSameMonthAs(const Date& date) {return this->year == date.year && this->month == date.month;}
 
 bool Date::Date::operator > (const Date& other) const
 {

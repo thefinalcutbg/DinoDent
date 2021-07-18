@@ -3,14 +3,77 @@
 #include "Procedure/MasterNZOK.h"
 #include "Tooth/ToothUtils.h"
 
-AmbListValidator::AmbListValidator()
+
+AmbListValidator::AmbListValidator(const ListInstance& list)
+    :
+    ambList(list.amb_list), patient(*list.patient.get())
 {
     _error.reserve(100);
 }
 
-bool AmbListValidator::counter(const Procedure& p, const std::string& patientID)
+
+bool AmbListValidator::ambListIsValid()
 {
-    return false;
+    auto& teeth = ambList.teeth;
+    auto& procedures = ambList.procedures;
+
+    auto totalProcedures = _db.totalNZOKProcedures(patient.id, ambList.id, ambList.date.year);
+
+    for (auto& p : procedures)
+    {
+        if (p.date < ambList.date || p.date > ambList.date.getMaxDateOfMonth())
+        {
+            _error = "Датата на манипулация " + std::to_string(p.code) + " е невалидна по отношение на датата на амбулаторния лист";
+            return false;
+        }
+
+        if (!p.nzok) continue;
+
+        //checking if the procedure is allowed depending on patient age
+        if (MasterNZOK::instance().isMinorOnly(p.code) && patient.isAdult(p.date))
+        {
+            _error = "Манипулация " + std::to_string(p.code) + " е позволена само при лица под 18 годишна възраст!";
+            return false;
+        }
+
+        totalProcedures[p.code]++;
+
+        if (p.tooth != -1) //out of range guard
+        {
+            //checking temporary/permanent tooth requirement of the procedure
+            if (!validatePermaTemp(teeth[p.tooth], p)) return false;
+
+            //checking if the tooth has appliable status
+            if (!validateTypeToStatus(teeth[p.tooth], p)) return false;
+
+            //checking if the manipulation is made in the last year
+            if (!madeAtLeastYearAgo(p.tooth, p)) return false;
+
+            //checking if the tooth has extraction recorded
+            if (isExtracted(teeth[p.tooth]))
+            {
+                _error = "За зъб " + ToothUtils::getNomenclature(teeth[p.tooth]) + " съществуват предишни данни за екстракция";
+                return false;
+            }
+        }
+    }
+
+    //refactor l8r
+
+    if (totalProcedures[101] > 1)
+    {
+        _error = "Позволен е максимум един преглед в годината! В момента са открити: " + std::to_string(totalProcedures[101]);
+        return false;
+    }
+
+    if (totalProcedures[301] + totalProcedures[509] > 3)
+    {
+        _error = "Надвишен лимит на манипулации по НЗОК!";
+        return false;
+    }
+
+    _error = "";
+    return true;
 }
 
 bool AmbListValidator::validateTypeToStatus(const Tooth& t, const Procedure& p)
@@ -18,7 +81,7 @@ bool AmbListValidator::validateTypeToStatus(const Tooth& t, const Procedure& p)
     bool extracted = t.extraction.exists();
     bool implant = t.implant.exists();
 
-    std::string toothNum = std::to_string(ToothUtils::getToothNumber(t.index, t.temporary.exists()));
+    std::string toothNum = ToothUtils::getNomenclature(t);
     std::string code = std::to_string(p.code);
 
     switch (p.type)
@@ -42,7 +105,7 @@ bool AmbListValidator::validateTypeToStatus(const Tooth& t, const Procedure& p)
 
             if (statusMissing)
             {
-                _error = "За манипулация " + code + " на зъб " + toothNum + " не е въведен валиден статус. " +
+                _error = "За манипулация " + code + " на зъб " + toothNum + " не е въведен валиден статус. "
                     "Валидните статуси включват кариес, обтурация, пулпит, периодонтит, корен или фрактура.";
                 return false;
             }
@@ -97,7 +160,7 @@ bool AmbListValidator::validateTypeToStatus(const Tooth& t, const Procedure& p)
 
         if (statusMissing)
         {
-            _error = "За манипулация " + code + " на зъб " + toothNum + " не е въведен валиден статус. " +
+            _error = "За манипулация " + code + " на зъб " + toothNum + " не е въведен валиден статус. "
                 "Валидните статуси включват периодонтит, корен, фрактура, пулпит, пародонтит, подвижност, имплант, свръхброен или временен зъб.";
             return false;
         }
@@ -115,73 +178,46 @@ bool AmbListValidator::validatePermaTemp(const Tooth& tooth, const Procedure& p)
 {
     bool temp = tooth.temporary.exists();
 
-    std::string toothNum = std::to_string(ToothUtils::getToothNumber(p.tooth, temp));
-
     if (MasterNZOK::instance().isTempOnly(p.code) && !temp)
     {
-        _error = "Манипулация "+ std::to_string(p.code) + " на зъб " + toothNum + " е позволена само при временни зъби";
+        _error = "Манипулация "+ std::to_string(p.code) + " на зъб " + ToothUtils::getNomenclature(p.tooth, temp) + " е позволена само при временни зъби";
         return false;
     }
     
     if (MasterNZOK::instance().isPermaOnly(p.code) && temp)
     {
-        _error = "Манипулация " + std::to_string(p.code) + " на зъб " + toothNum + " е позволена само при постоянни зъби";
+        _error = "Манипулация " + std::to_string(p.code) + " на зъб " + ToothUtils::getNomenclature(p.tooth, temp) + " е позволена само при постоянни зъби";
         return false;
     }
 
     return true;
 }
 
-
-bool AmbListValidator::ambListIsValid(const ListInstance& list)
+bool AmbListValidator::madeAtLeastYearAgo(int tooth, const Procedure& p)
 {
-    auto& teeth = list.amb_list.teeth;
-    auto& procedures = list.amb_list.procedures;
-
-
-    auto totalProcedures = _db.totalNZOKProcedures(list.patient->id, list.amb_list.id, list.amb_list.date.year);
-
-    for (auto& p : procedures)
+    bool invalid = _db.procedureExists(p.tooth, p.code, patient.id, p.date, 1, ambList.id);
+    
+    if(invalid)
     {
-        if (!p.nzok) continue;
-
-        //checking if the procedure is allowed depending on patient age
-        if (MasterNZOK::instance().isMinorOnly(p.code) && list.patient->isAdult(p.date))
-        {
-            _error = "Манипулация " + std::to_string(p.code) + " е позволена само при лица под 18 годишна възраст!";
-            return false;
-        }
-
-        totalProcedures[p.code]++;
-
-        if (p.tooth != -1) //out of range guard
-        {
-            //checking temporary/permanent tooth requirement of the procedure
-            if (!validatePermaTemp(teeth[p.tooth], p)) return false;
-
-            //checking if the tooth has appliable status
-            if (!validateTypeToStatus(teeth[p.tooth], p)) return false;
-        }
-    }
-
-    //refactor l8r
-
-    if (totalProcedures[101] > 1)
-    {
-        _error = "Позволен е максимум един преглед в годината! "
-                 "В момента са открити: " + std::to_string(totalProcedures[101]);
+        _error = "Манипулацията " + std::to_string(p.code) +
+            " на зъб " + ToothUtils::getNomenclature(ambList.teeth[p.tooth]) +
+            " е вече направена в последната година";
         return false;
-    }
+    };
 
-    if (totalProcedures[301] + totalProcedures[509] > 3)
-    {
-        _error = "Надвишен лимит на манипулации по НЗОК!";
-        return false;
-    }
-
-    _error = "";
     return true;
 }
+
+bool AmbListValidator::isExtracted(const Tooth& tooth)
+{
+    return  tooth.temporary.exists() ?
+
+        _db.procedureExists(tooth.index, 508, patient.id, ambList.id)
+        :
+        _db.procedureExists(tooth.index, 509, patient.id, ambList.id);
+
+}
+
 
 const std::string& AmbListValidator::getErrorMsg()
 {

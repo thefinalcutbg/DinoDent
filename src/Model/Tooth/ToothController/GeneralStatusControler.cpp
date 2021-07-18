@@ -83,6 +83,7 @@ void GeneralStatusController::addStatus(int statusIndex)
         }
 
         if (tooth->temporary.exists()) {
+            removeStatus();
             tooth->temporary.set(false);
             break;
         }

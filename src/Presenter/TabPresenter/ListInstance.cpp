@@ -31,7 +31,7 @@ ListInstance::ListInstance(AmbList ambList, std::shared_ptr<Patient> patient) :
 
 bool ListInstance::isNew()
 {
-	return amb_list.id.empty();
+	return amb_list.isNew();
 }
 
 bool ListInstance::isEdited()

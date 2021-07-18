@@ -11,12 +11,11 @@
 constexpr int defaultSurfaces[32] = { 0,0,0,0,0,3,3,3,3,3,3,0,0,0,0,0,0,0,0,0,0,3,3,3,3,3,3,0,0,0,0,0 };
 
 enum class Charge {default, retired, freed};
-#include <QDebug>
+
 struct AmbList
 {
-	AmbList() : date(Date::currentDate()), number(0), full_coverage(false), charge{Charge::default}
+	AmbList()
 	{
-		qDebug() << "amb list defualt constructor";
 		for (int i = 0; i < teeth.size(); i++) {
 			teeth[i].index = i;
 			teeth[i].caries.setDefaultSurface(defaultSurfaces[i]);
@@ -24,15 +23,15 @@ struct AmbList
 		}
 	}
 
-	std::string id;
-	Date date;
-	int number;
+	std::string id{"0"};
+	Date date{ Date::currentDate() };
+	int number{ 0 };
 	std::string LPK;
-	bool full_coverage;
-	Charge charge;
+	bool full_coverage{ false };
+	Charge charge{ Charge::default };
 
 	std::vector<Procedure> procedures;
 	std::array <Tooth, 32> teeth;
 	~AmbList() {  }
-	bool isNew(){ return !number; }
+	bool isNew(){ return id == "0"; }
 };

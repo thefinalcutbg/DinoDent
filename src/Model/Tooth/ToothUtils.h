@@ -1,9 +1,11 @@
 #pragma once
 
-#include "Tooth.h"
 #include "Enums.h"
 #include <unordered_map>
+#include <array>
+#include <string>
 
+class Tooth;
 
 class ToothUtils
 {
@@ -24,6 +26,8 @@ public:
 	ToothUtils();
 	ToothType getToothType(int index);
 	static int getToothNumber(int index, bool temporary);
+	static std::string getNomenclature(int index, bool temporary);
+	static std::string getNomenclature(const Tooth& t);
 	Quadrant getQuadrant(int index);
 	std::array<std::string, 6> getSurfaceNames(int index);
 };

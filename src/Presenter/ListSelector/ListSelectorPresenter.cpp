@@ -8,8 +8,6 @@ ListSelectorPresenter::ListSelectorPresenter()
 
 }
 
-
-
 void ListSelectorPresenter::openDialog()
 {
 	if (!view) ModalDialogBuilder::openDialog(this);
@@ -23,34 +21,28 @@ void ListSelectorPresenter::setView(IListSelectorView* view)
 	if (!view) return;
 
 
-	view->addYearsToCombo(amb_db.getValidYears());
-
-	view->setUI(_month, _year);
-
+	view->setDates(_from, _to);
 	view->setRows(rows_);
 	
 }
 
-void ListSelectorPresenter::setDate(int month, int year)
+void ListSelectorPresenter::setDates(const Date& from, const Date& to)
 {
-
-	_month = month; 
-	_year = year;
-
-	rows_ = amb_db.getAmbListRows(_month, _year);
-
-	view->setRows(rows_);
+	_from = from;
+	_to = to;
+	refreshModel();
 }
+
+
 
 void ListSelectorPresenter::refreshModel()
 {
-	rows_ = amb_db.getAmbListRows(_month, _year);
+	rows_ = amb_db.getAmbListRows(_from, _to);
 	
 	if (view != nullptr)
 	{
 		view->setRows(rows_);
-		view->addYearsToCombo(amb_db.getValidYears());
-		view->setUI(_month, _year);
+		view->setDates(_from, _to);
 	}
 		
 }

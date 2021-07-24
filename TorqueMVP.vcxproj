@@ -196,6 +196,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Model\Procedure\PackageCounter.cpp" />
     <ClCompile Include="src\Model\AmbListValidator.cpp" />
     <ClCompile Include="src\View\AmbListSelector\ListTable.cpp" />
     <ClCompile Include="src\View\AmbListSelector\ListsTableModel.cpp" />
@@ -381,6 +382,7 @@
     <QtMoc Include="src\View\AmbListSelector\AmbListSelector.h" />
     <QtMoc Include="src\View\AmbListSelector\ListsTableModel.h" />
     <QtMoc Include="src\View\AmbListSelector\ListTable.h" />
+    <ClInclude Include="src\Model\Procedure\PackageCounter.h" />
     <ClInclude Include="src\Model\AmbListValidator.h" />
     <ClInclude Include="src\Model\AmbListRow.h" />
     <ClInclude Include="src\Presenter\ListSelector\ListSelectorPresenter.h" />

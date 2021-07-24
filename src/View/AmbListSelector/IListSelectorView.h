@@ -7,8 +7,7 @@
 class IListSelectorView
 {
 public:
-	virtual void addYearsToCombo(const std::vector<int>& years) = 0;
-	virtual void setUI(int month, int year) = 0;
+	virtual void setDates(const Date& from, const Date& to) = 0;
 	virtual void setRows(const std::vector<AmbListRow>& rows) = 0;
 	virtual void focus() = 0;
 	virtual void close() = 0;

@@ -40,8 +40,26 @@ struct PriceObj
 	std::unordered_map<int, std::pair<patientPrice, nzokPrice> > priceMap;
 };
 
-struct CurrentPrices
+#include <unordered_set>
+
+struct ProcedurePackage
+{
+	int timeframe;
+	std::unordered_set<int> codes;
+	int limit_adult{ -1 };
+	int limit_minor{ -1 };
+	int limit_pregnant{ -1 };
+};
+
+
+struct NZOKUpdates
 {
 	Date date;
 	std::unordered_map<PriceKey, PriceObj> prices;
+	std::vector<ProcedurePackage> packages;
 };
+
+
+
+
+

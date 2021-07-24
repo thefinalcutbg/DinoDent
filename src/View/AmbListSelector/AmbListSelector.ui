@@ -19,89 +19,54 @@
      <item>
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>Месец:</string>
+        <string>От</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QComboBox" name="monthCombo">
+      <widget class="DateEdit" name="fromDateEdit">
        <property name="minimumSize">
         <size>
-         <width>80</width>
+         <width>90</width>
          <height>0</height>
         </size>
        </property>
-       <item>
-        <property name="text">
-         <string>Януари</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Февруари</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Март</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Април</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Май</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Юни</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Юли</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Август</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Септември</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Октомври</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Ноември</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Декември</string>
-        </property>
-       </item>
+       <property name="focusPolicy">
+        <enum>Qt::TabFocus</enum>
+       </property>
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+       <property name="calendarPopup">
+        <bool>true</bool>
+       </property>
       </widget>
      </item>
      <item>
       <widget class="QLabel" name="label_2">
        <property name="text">
-        <string>Година:</string>
+        <string>до</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QComboBox" name="yearCombo"/>
+      <widget class="DateEdit" name="toDateEdit">
+       <property name="minimumSize">
+        <size>
+         <width>90</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::TabFocus</enum>
+       </property>
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+       <property name="calendarPopup">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
      <item>
       <spacer name="horizontalSpacer">
@@ -183,6 +148,11 @@
    <class>ListTable</class>
    <extends>QTableView</extends>
    <header>listtable.h</header>
+  </customwidget>
+  <customwidget>
+   <class>DateEdit</class>
+   <extends>QDateEdit</extends>
+   <header>View/uiComponents/qt_derived/DateEdit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

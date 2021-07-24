@@ -28,8 +28,7 @@ private:
 	Ui::AmbListSelector ui;
 
 	// Inherited via IListSelectorView
-	virtual void addYearsToCombo(const std::vector<int>& years) override;
-	virtual void setUI(int month, int year) override;
+	virtual void setDates(const Date& from, const Date& to) override;
 	virtual void setRows(const std::vector<AmbListRow>& rows) override;
 	void focus() override;
 	void close() override;

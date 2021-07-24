@@ -154,9 +154,9 @@ QString getPricesText(double patientPrice, double NZOKprice)
 {
 	QString result;
 
-	if (!patientPrice && !NZOKprice) return result;
+	//if (!patientPrice && !NZOKprice) return result;
 
-	if (NZOKprice)
+	//if (NZOKprice)
 		result.append("Сума по НЗОК: " + priceToString(NZOKprice) + "       ");
 
 	result.append("Сума за плащане: " + priceToString(patientPrice));

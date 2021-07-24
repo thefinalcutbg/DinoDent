@@ -118,7 +118,7 @@ void DbAmbList::updateAmbList(AmbList& ambList)
     db_manipulation.saveManipulations(ambList.id, ambList.procedures);
 }
 
-std::vector<AmbListRow> DbAmbList::getAmbListRows(int month, int year)
+std::vector<AmbListRow> DbAmbList::getAmbListRows(const Date& from, const Date& to)
 {
     openConnection();
 
@@ -126,12 +126,13 @@ std::vector<AmbListRow> DbAmbList::getAmbListRows(int month, int year)
     rows.reserve(50);
 
     std::string query =
-        "SELECT amblist.id, amblist.num, amblist.day, patient.fname, patient.mname, patient.lname, patient.id "
+        "SELECT amblist.id, amblist.num, amblist.day, amblist.month, amblist.year, patient.fname, patient.mname, patient.lname, patient.id "
         "FROM amblist INNER JOIN patient ON amblist.patient_id = patient.id "
-        "WHERE amblist.year = " + std::to_string(year) +
-        " AND amblist.month = " + std::to_string(month) +
-        " AND amblist.lpk = '" + CurrentUser::instance().LPK + "'" +
-        " ORDER BY num ASC";
+        "WHERE (amblist.year, amblist.month, amblist.day) "
+        "BETWEEN (" + std::to_string(from.year) + ", " + std::to_string(from.month) + ", " + std::to_string(from.day) + ") "
+        "AND (" + std::to_string(to.year) + ", " + std::to_string(to.month) + ", " + std::to_string(to.day) + ") "
+        "AND amblist.lpk = '" + CurrentUser::instance().LPK + "' "
+        "ORDER BY num ASC";
 
     sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
 
@@ -143,16 +144,16 @@ std::vector<AmbListRow> DbAmbList::getAmbListRows(int month, int year)
         //amb list data:
         row.id = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0));
         row.ambNumber = sqlite3_column_int(stmt, 1);
-        row.date = Date{ sqlite3_column_int(stmt, 2), month, year };
+        row.date = Date{ sqlite3_column_int(stmt, 2), sqlite3_column_int(stmt, 3), sqlite3_column_int(stmt, 4) };
 
         //patient data:
-        row.patientName = std::string{ reinterpret_cast<const char*>(sqlite3_column_text(stmt, 3))} + " ";
-        std::string mname = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 4));
+        row.patientName = std::string{ reinterpret_cast<const char*>(sqlite3_column_text(stmt, 5))} + " ";
+        std::string mname = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 6));
         if (!mname.empty()) //some foreigners dont have middle names
             row.patientName.append(mname + " ");
-        row.patientName.append(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 5)));
+        row.patientName.append(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 7)));
 
-        row.patientId = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 6));
+        row.patientId = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 8));
     }
 
     closeConnection();

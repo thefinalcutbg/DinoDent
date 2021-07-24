@@ -19,10 +19,10 @@ AmbListSelector::AmbListSelector(ListSelectorPresenter* presenter) :
 
 	ui.tableView->setDimensions();
 
-	connect(ui.monthCombo, QOverload<int>::of(&QComboBox::currentIndexChanged),
-		[=](int index) {presenter->setDate(index + 1, ui.yearCombo->currentText().toInt()); });
-	connect(ui.yearCombo, QOverload<int>::of(&QComboBox::currentIndexChanged),
-		[=](int index) {presenter->setDate(ui.monthCombo->currentIndex() + 1, ui.yearCombo->currentText().toInt()); });
+	connect(ui.fromDateEdit, &QDateEdit::dateChanged,
+		[=]() {presenter->setDates(ui.fromDateEdit->getDate(), ui.toDateEdit->getDate()); });
+	connect(ui.toDateEdit, &QDateEdit::dateChanged,
+		[=]() {presenter->setDates(ui.fromDateEdit->getDate(), ui.toDateEdit->getDate()); });
 	connect(ui.tableView, &QTableView::doubleClicked, this, [=] { presenter->openAmbList(); });
 	connect(ui.tableView, &ListTable::deletePressed, this, [=] { ui.deleteButton->click(); });
 	connect(ui.openButton, &QPushButton::clicked, [=] {presenter->openAmbList(); });
@@ -76,41 +76,19 @@ AmbListSelector::AmbListSelector(ListSelectorPresenter* presenter) :
 
 AmbListSelector::~AmbListSelector()
 {
-	ui.monthCombo->blockSignals(true);
-	ui.yearCombo->blockSignals(true);
+	ui.fromDateEdit->blockSignals(true);
+	ui.toDateEdit->blockSignals(true);
 	p->setView(nullptr);
 
 }
 
-void AmbListSelector::addYearsToCombo(const std::vector<int>& years)
+
+void AmbListSelector::setDates(const Date& from, const Date& to)
 {
-	QSignalBlocker b(ui.yearCombo);
-
-	ui.yearCombo->clear();
-
-	for (auto& y: years)
-	{
-		ui.yearCombo->addItem(QString::number(y));
-	}
-	
-	
-}
-
-void AmbListSelector::setUI(int month, int year)
-{
-	QString selected_year = QString::number(year);
-	QSignalBlocker b(ui.monthCombo);
-	ui.monthCombo->setCurrentIndex(month - 1);
-
-	for (int i = 0; i < ui.yearCombo->count()-1; i++)
-	{
-		if (ui.yearCombo->itemText(i) == selected_year)
-		{
-			QSignalBlocker blocker(ui.yearCombo);
-			ui.yearCombo->setCurrentIndex(i);
-			return;
-		}
-	}
+	QSignalBlocker f(ui.fromDateEdit);
+	QSignalBlocker t(ui.toDateEdit);
+	ui.fromDateEdit->setDate(QDate(from.year, from.month, from.day));
+	ui.toDateEdit->setDate(QDate(to.year, to.month, to.day));
 }
 
 void AmbListSelector::setRows(const std::vector<AmbListRow>& rows)

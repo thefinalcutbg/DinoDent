@@ -35,7 +35,7 @@ public:
     int getNewNumber(const int& currentYear);
     bool checkExistingAmbNum(int currentYear, int ambNum);
     std::map<int, bool> getExistingNumbers(int currentYear);
-    std::vector<AmbListRow> getAmbListRows(int month, int year);
+    std::vector<AmbListRow> getAmbListRows(const Date& from , const Date& to);
     std::vector<int> getValidYears();
 
 };

@@ -14,11 +14,10 @@ class ListSelectorPresenter
 
 	std::vector<int>selectedIndexes{};
 
-	int
-	_month{ Date::currentMonth() },
-	_year{ Date::currentYear() };
+	Date _from{ 1, Date::currentMonth(), Date::currentYear() };
+	Date _to{ Date::currentDate().getMaxDateOfMonth() };
 	
-	std::vector<AmbListRow> rows_{ amb_db.getAmbListRows(_month, _year) };
+	std::vector<AmbListRow> rows_{ amb_db.getAmbListRows(_from, _to) };
 
 
 
@@ -31,7 +30,7 @@ public:
 
 	void setView(IListSelectorView* view);
 
-	void setDate(int month, int year);
+	void setDates(const Date& from, const Date& to);
 
 	void refreshModel();
 

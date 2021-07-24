@@ -126,8 +126,17 @@
 "updates":
 [
 	{
-		"date": "01.01.2000",
+		"date": "01.01.2020",
 
+		"packages":
+		[
+			{"codes":[101, 102], "adult":1, "minor":1, "pregnant":2},
+			{"codes":[301, 508, 509, 332, 333, 502, 510, 544], "adult":3, "minor":4},
+			{"codes":[332, 333], "minor":2, "adult":2},
+			{"codes":[832], "adult":1, "minor":1},
+			{"codes":[833], "adult":1, "minor":1}
+		],
+		
 		"price_list":
 		[
 			{
@@ -170,9 +179,9 @@
 				"unfav": true,
 				
 				"bigCode": 121,
-				"manipulations":[101,  301,   508,   509,   332,   333,   832, 833],
-				"patient":		[0, 	0,     0,  	 0,   	0,     0,     0,	0],
-				"nzok": 		[12, 51.39, 15.74, 39.18, 36.6, 91.21, 200, 200]
+				"manipulations":[101,  301,  509,  832, 833],
+				"patient":		[0, 	0,    0,    0,	0],
+				"nzok": 		[12, 51.39, 39.18,  200, 200]
 			},
 			
 			{
@@ -239,7 +248,7 @@
 				"manipulations":[102, 	520, 	510,	544, 	832,	 833],
 				"patient":		[0, 	0,      0,  	0,   	0, 	     0],
 				"nzok":			[12.86,	19.4,	46.46,  4.6,    200,     200] 
-			},
+			}
 
 			
 		],
@@ -249,6 +258,142 @@
 				"bigCode": 212,
 				"manipulations":[101, 	301, 	508, 	509, 	332, 	333, 	502,	510, 	544,	832,	833,	901,	902, 	903],
 				"nzok": 		[19.3, 	51.41, 	24.15, 	51.41,	42.6, 	139.7, 	30.6, 	67.68,	8.05,	200,	200,	41.25, 	41.25,	25.3] 
+			}
+		
+	}, 
+	{
+		"date": "01.01.2019",
+		
+		"packages":
+		[
+			{"codes":[101, 102], "adult":1, "minor":1, "pregnant":2},
+			{"codes":[301, 508, 509, 332, 333, 502, 510, 544], "adult":3, "minor":4},
+			{"codes":[332, 333], "minor":2, "adult":0},
+			{"codes":[832], "adult":1, "minor":0},
+			{"codes":[833], "adult":1, "minor":0}
+		],
+
+		"price_list":
+		[
+			{
+				"specialty": [60, 64],
+				"adult": false,
+				"unfav": false,
+				
+				"bigCode": 11,
+				"manipulations":[101,  301,   508,   509,   332,   333],
+				"patient":		[1.8,  0,     0,     0,     4.7,   12.3],
+				"nzok":			[8.2, 36.25, 14.56, 36.25, 21.92, 68.93] 
+			},
+			
+			
+			{
+				"specialty": [60, 64],
+				"adult": true,
+				"unfav": false,
+
+				"bigCode": 12,
+				"manipulations":[101,  301,   509,   832, 833],
+				"patient":		[1.8,  4,     4,  	 0,   0],
+				"nzok":			[8.2, 32.25, 32.25, 200, 200] 			
+			},
+			
+			{
+				"specialty": [60, 64],
+				"adult": false,
+				"unfav": true,
+				
+				"bigCode": 111,
+				"manipulations":[101,  301,   508,   509,   332,   333],
+				"patient":		[0, 	0,     0,  	 0,   	0,     0],
+				"nzok": 		[10,   47.54, 14.56, 36.25, 36.6,  91.21]
+			},
+			
+			{
+				"specialty": [60, 64],
+				"adult": true,
+				"unfav": true,
+				
+				"bigCode": 121,
+				"manipulations":[101,  301,   509,   832, 833],
+				"patient":		[0, 	0,     0,  	 0,   	0],
+				"nzok": 		[10, 47.54, 36.25,  200, 200]
+			},
+			
+			{
+				"specialty": [61],
+				"adult": false,
+				"unfav": false,
+				
+				"bigCode": 21,
+				"manipulations":[101,  301,   508,   509,   332,   333],
+				"patient":		[1.8,  0,     0,     0,     4.7,   12.3],
+				"nzok":			[9.6, 38.19, 16.24, 38.19, 24.58, 77.05] 
+			},
+			
+			{
+				"specialty": [61],
+				"adult": false,
+				"unfav": true,
+				
+				"bigCode": 211,
+				"manipulations":[101,  	301,   508,   509,   332,   333],
+				"patient":		[0, 	0,     0,  	  0,     0,     0],
+				"nzok":			[10.86,	51.00, 17,36, 38.19, 39.26, 99.33] 
+			},
+
+			{
+				"specialty":[62, 68],
+				"adult":false,
+				"unfav":false,
+				
+				"bigCode": 214,
+				"manipulations":[102, 	520, 	510,	544],
+				"patient":		[1.8,	3,		5, 	    0.8],
+				"nzok":			[9.06,	16.4,	37.98,   3.8] 
+			},
+			
+			{
+				"specialty":[62, 68],
+				"adult": true,
+				"unfav": false,
+				
+				"bigCode": 224,
+				"manipulations":[102, 	520, 	510,	544, 	832,	 833],
+				"patient":		[1.8,	7.5,	13.5, 	0.8,    0,       0],
+				"nzok":			[9.06,	11.9,	29.48,  3.8,    200,     200] 
+			},
+			
+			{
+				"specialty":[62, 68],
+				"adult": false,
+				"unfav": true,
+				
+				"bigCode": 2114,
+				"manipulations":[102, 	520, 	510,	544],
+				"patient":		[0, 	0,      0,  	0],
+				"nzok":			[10.86,	19.4,	42.98,  4.6] 
+			},
+			
+			{
+				"specialty":[62, 68],
+				"adult": true,
+				"unfav": true,
+				
+				"bigCode": 2214,
+				"manipulations":[102, 	520, 	510,	544, 	832,	 833],
+				"patient":		[0, 	0,      0,  	0,   	0, 	     0],
+				"nzok":			[10.86,	19.4,	42.98,  4.6,    200,     200] 
+			}
+
+			
+		],
+		
+		"anestesia_override":{
+				
+				"bigCode": 212,
+				"manipulations":[101, 	301, 	508, 	509, 	332, 	333, 	502,	510, 	544,	901,	902, 	903],
+				"nzok": 		[17.3, 	47.56, 	22.34, 	47.56,	42.6, 	139.7, 	30.6, 	62.61,	8.05,	41.25, 	41.25,	25.3] 
 			}
 		
 	}

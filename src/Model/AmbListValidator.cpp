@@ -4,7 +4,7 @@
 #include "../Presenter/TabPresenter/ListInstance.h"
 #include "Procedure/MasterNZOK.h"
 #include "Tooth/ToothUtils.h"
-
+#include "Model/Procedure/PackageCounter.h"
 
 
 AmbListValidator::AmbListValidator(const ListInstance& list)
@@ -21,6 +21,13 @@ bool AmbListValidator::ambListIsValid()
     auto& procedures = ambList.procedures;
 
     auto totalProcedures = _db.totalNZOKProcedures(patient.id, ambList.id, ambList.date.year);
+
+    PackageCounter packageCounter(MasterNZOK::instance().getPackages(ambList.date));
+
+    for (auto& t : totalProcedures)
+    {
+        for (int i = 0; i < t.second; i++) packageCounter.insertCode(t.first);
+    }
 
     for (auto& p : procedures)
     {
@@ -41,7 +48,16 @@ bool AmbListValidator::ambListIsValid()
 
         if (!noDuplicates()) return false;
 
-        totalProcedures[p.code]++;
+        totalProcedures[p.code]++; 
+
+        packageCounter.insertCode(p.code);
+
+        if (!packageCounter.validate(patient.isAdult(p.date), 0))
+        {
+            _error = "Надвишен лимит по НЗОК за код " + std::to_string(p.code) + "!";
+            return false;
+        };
+
 
         if (p.tooth != -1) //out of range guard
         {
@@ -62,21 +78,11 @@ bool AmbListValidator::ambListIsValid()
             if (!madeAtLeastYearAgo(p.tooth, p)) return false;
 
         }
+
+
+
     }
 
-    //refactor l8r
-
-    if (totalProcedures[101] > 1)
-    {
-        _error = "Позволен е максимум един преглед в годината! В момента са открити: " + std::to_string(totalProcedures[101]);
-        return false;
-    }
-
-    if (totalProcedures[301] + totalProcedures[509] > 3)
-    {
-        _error = "Надвишен лимит на манипулации по НЗОК!";
-        return false;
-    }
 
     _error = "";
     return true;
@@ -258,7 +264,7 @@ bool AmbListValidator::isExtracted(const Tooth& tooth)
 
         _db.procedureExists(tooth.index, 508, patient.id, ambList.id)
         :
-        _db.procedureExists(tooth.index, 509, patient.id, ambList.id);
+        _db.procedureExists(tooth.index, 509, patient.id, ambList.id); //what about 510 ?
 
 }
 

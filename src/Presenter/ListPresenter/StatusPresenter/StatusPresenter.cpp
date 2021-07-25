@@ -8,9 +8,7 @@ std::vector<int> StatusPresenter::getSelectedIndexes()
 
     for (int i = 0; i < selectedTeeth->size(); i++)
     {
-        
         selectedIndexes.push_back(selectedTeeth->at(i)->index);
- 
     }
 
     return selectedIndexes;
@@ -46,8 +44,6 @@ void StatusPresenter::setData(std::array<Tooth, 32>& teeth, std::vector<Tooth*>&
 	this->teeth = &teeth;
     this->selectedTeeth = &selectedTeeth;
 
-     
-
     view->setSelectedTeeth(getSelectedIndexes());
 
     for (auto& t : teeth)
@@ -57,13 +53,12 @@ void StatusPresenter::setData(std::array<Tooth, 32>& teeth, std::vector<Tooth*>&
 
     view->repaintBridges(paint_hint_generator.statusToUIBridge(teeth));
    
-    if (selectedTeeth.size() == 1) {
-        view->hideSurfacePanel(false);
-        surf_presenter.setTooth(selectedTeeth.at(0));
-    }
-    else {
-        view->hideSurfacePanel(true);
-    }
+    const int s_teeth = selectedTeeth.size();
+
+    if (s_teeth == 1) surf_presenter.setTooth(selectedTeeth.at(0));
+    
+    view->hideControlPanel(s_teeth == 0);
+    view->hideSurfacePanel(s_teeth != 1);
 }
 
 void StatusPresenter::setView(IStatusView* view)
@@ -119,26 +114,35 @@ void StatusPresenter::setSelectedTeeth(const std::vector<int>& selectedIndexes)
 
     statusControl.setSelectedTeeth(*selectedTeeth);
 
-    auto m = checkCreator.refreshModel(*selectedTeeth);
+    const auto m = checkCreator.refreshModel(*selectedTeeth);
 
     statusControl.setCheckModel(m);
     view->setCheckModel(m);
 
-    if (selectedIndexes.size() == 1) {
+    const int s_teeth = selectedIndexes.size();
+
+    if (s_teeth == 1) {
         surf_presenter.setTooth(selectedTeeth->at(0));
-        view->hideSurfacePanel(false);
     }
-    else {
-        view->hideSurfacePanel(true);
-    }
+
+    view->hideControlPanel(s_teeth == 0);
+    view->hideSurfacePanel(s_teeth != 1);
 
 }
 
+#include "Presenter/DetailsPresenter/DetailsPresenter.h"
 #include <QDebug>
-
-void StatusPresenter::openDetails(int tooth)
+void StatusPresenter::openDetails(int toothIndex)
 {
-    qDebug() << "OPENING DETAILS FOR TOOTH" << tooth;
+    DetailsPresenter d;
+
+    auto tooth = d.open(teeth->at(toothIndex));
+
+    if (tooth.has_value())
+    {
+        teeth->at(toothIndex) = tooth.value();
+    }
+
 }
 
 void StatusPresenter::openDetails()

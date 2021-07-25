@@ -39,6 +39,7 @@ public:
     void setCheckModel(const CheckModel& checkModel) override;
 
     void hideSurfacePanel(bool hidden) override;
+    void hideControlPanel(bool hidden) override;
     ISurfacePanel* surfacePanel() override;
     void repaintTooth(const ToothPaintHint& tooth) override;
     void repaintBridges(const BridgesPaintHint& bridges) override;

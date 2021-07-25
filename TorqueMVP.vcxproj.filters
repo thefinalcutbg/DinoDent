@@ -351,6 +351,12 @@
     <ClCompile Include="src\Model\Procedure\PackageCounter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Presenter\DetailsPresenter\DetailsPresenter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\DetailsView\DetailsView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -464,6 +470,9 @@
     <QtMoc Include="src\View\AmbListSelector\ListTable.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\View\DetailsView\DetailsView.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="src\View\Torque.qrc">
@@ -526,6 +535,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\AmbListSelector\AmbListSelector.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\DetailsView\DetailsView.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
@@ -852,6 +864,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\Procedure\PackageCounter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Presenter\DetailsPresenter\DetailsPresenter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\View\DetailsView\IDetailsView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

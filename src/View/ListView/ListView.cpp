@@ -123,6 +123,11 @@ void ListView::hideSurfacePanel(bool hidden)
 	ui.controlPanel->hideCommonButtons(!hidden);
 }
 
+void ListView::hideControlPanel(bool hidden)
+{
+	ui.controlPanel->setHidden(hidden);
+}
+
 ISurfacePanel* ListView::surfacePanel()
 {
 	return ui.surfacePanel;

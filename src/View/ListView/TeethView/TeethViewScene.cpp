@@ -82,6 +82,7 @@ TeethViewScene::TeethViewScene(QObject *parent)
 
             presenter->setSelectedTeeth(selectedIndexes);
             contextMenu->setSelection(selectedIndexes.size() == 1);
+            
         });
 
 }

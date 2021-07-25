@@ -19,6 +19,7 @@ public:
 	virtual void setSelectedTeeth(std::vector<int> selectedTeeth) = 0;
 
 	virtual void hideSurfacePanel(bool hidden) = 0;
+	virtual void hideControlPanel(bool hidden) = 0;
 	virtual ISurfacePanel* surfacePanel() = 0;
 
 	virtual void repaintTooth(const ToothPaintHint& tooth) = 0;

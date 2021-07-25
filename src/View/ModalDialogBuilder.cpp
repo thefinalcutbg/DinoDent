@@ -37,5 +37,15 @@ void ModalDialogBuilder::openDialog(AllergiesDialogPresenter* p)
 void ModalDialogBuilder::openDialog(ListSelectorPresenter* p)
 {
 	AmbListSelector* d = new AmbListSelector(p);
+	d->setAttribute(Qt::WA_DeleteOnClose);
 	d->show();
+}
+
+#include "View/DetailsView/DetailsView.h"
+
+void ModalDialogBuilder::openDialog(DetailsPresenter* p)
+{
+	DetailsView d(p);
+	d.exec();
+
 }

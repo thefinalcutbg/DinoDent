@@ -6,7 +6,7 @@ AmbListSelector::AmbListSelector(ListSelectorPresenter* presenter) :
 	p(presenter)
 {
 	ui.setupUi(this);
-	QWidget::setAttribute(Qt::WA_DeleteOnClose);
+
 	setWindowFlags(Qt::Window);
 	//setWindowFlags(Qt::WindowStaysOnTopHint);
 

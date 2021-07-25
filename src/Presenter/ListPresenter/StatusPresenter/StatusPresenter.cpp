@@ -133,3 +133,15 @@ void StatusPresenter::setSelectedTeeth(const std::vector<int>& selectedIndexes)
     }
 
 }
+
+#include <QDebug>
+
+void StatusPresenter::openDetails(int tooth)
+{
+    qDebug() << "OPENING DETAILS FOR TOOTH" << tooth;
+}
+
+void StatusPresenter::openDetails()
+{
+    if (selectedTeeth->size() == 1) openDetails(selectedTeeth->at(0)->index);
+}

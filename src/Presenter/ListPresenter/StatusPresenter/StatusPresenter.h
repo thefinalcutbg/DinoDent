@@ -36,5 +36,9 @@ public:
 	void changeStatus(StatusAction status);
 	void setSelectedTeeth(const std::vector<int>& SelectedIndexes);
 
+	void openDetails(int tooth);
+	void openDetails();
+
+
 };
 

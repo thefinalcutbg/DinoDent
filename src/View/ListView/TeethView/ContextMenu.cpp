@@ -1,8 +1,18 @@
 ﻿#include "ContextMenu.h"
 #include "Presenter/ListPresenter/StatusPresenter/StatusPresenter.h"
-
+#include "Presenter/ListPresenter/ProcedurePresenter/ProcedurePresenter.h"
 ContextMenu::ContextMenu()
 {
+
+    addProcedure = new QAction("Добави манипулация");
+    addAction(addProcedure);
+    connect(addProcedure, &QAction::triggered, [&] {if(procedure_presenter)procedure_presenter->addProcedure(); });
+
+    details = new QAction("Детайли");
+    addAction(details);
+    connect(details, &QAction::triggered, [&] {if (status_presenter) status_presenter->openDetails(); });
+    
+    addSeparator();
 
     QString actionNames[25] =
                         { "Временен зъб", "Обтурация", "Кариес",  "Пулпит", "Периодонтит",
@@ -15,7 +25,7 @@ ContextMenu::ContextMenu()
     for (int i = 0; i < ActionCount; i++) //too lazy to initialize all the actions;
     {
         menuAction[i] = new QAction(actionNames[i]);
-        connect(menuAction[i], &QAction::triggered, [this, i]() { this->presenter->changeStatus(static_cast<StatusAction>(i)); });
+        connect(menuAction[i], &QAction::triggered, [this, i]() { this->status_presenter->changeStatus(static_cast<StatusAction>(i)); });
     }
     addAction(menuAction[static_cast<int>(StatusAction::Temporary)]);
 
@@ -29,10 +39,10 @@ ContextMenu::ContextMenu()
     for (int i = 0; i < 6; i++)
     {
         surfObt[i] = ObturMenu->addAction(surfName[i]);
-        connect(surfObt[i], &QAction::triggered, [this, i]() {this->presenter->changeStatus(static_cast<Surface>(i), SurfaceType::obturation); });
+        connect(surfObt[i], &QAction::triggered, [this, i]() {this->status_presenter->changeStatus(static_cast<Surface>(i), SurfaceType::obturation); });
 
         surfCar[i] = CariesMenu->addAction(surfName[i]);
-        connect(surfCar[i], &QAction::triggered, [this, i]() {this->presenter->changeStatus(static_cast<Surface>(i), SurfaceType::caries); });
+        connect(surfCar[i], &QAction::triggered, [this, i]() {this->status_presenter->changeStatus(static_cast<Surface>(i), SurfaceType::caries); });
     }
 
 
@@ -67,10 +77,7 @@ ContextMenu::ContextMenu()
     addAction(menuAction[static_cast<int>(StatusAction::Bridge)]);
     addSeparator();
 
-
-
-
-    addSeparator();
+;
 
 //    QAction* bridgeRemove = addAction("&Премахни мост");
 //    connect(bridgeRemove, &QAction::triggered, [this]() {  });
@@ -81,6 +88,8 @@ ContextMenu::ContextMenu()
     addAction(menuAction[static_cast<int>(StatusAction::removeBridge)]);
 }
 
+void ContextMenu::setSelection(bool single) { details->setEnabled(single); }
+
 void ContextMenu::setModel(const CheckModel& checkModel)
 {
     this->setModel(checkModel.generalStatus, menuAction);
@@ -88,12 +97,8 @@ void ContextMenu::setModel(const CheckModel& checkModel)
     this->setModel(checkModel.cariesStatus, surfCar);
 }
 
-void ContextMenu::setStatusControl(StatusPresenter* presenter)
-{
-    this->presenter = presenter;
-}
+void ContextMenu::setStatusPresenter(StatusPresenter* presenter) { status_presenter = presenter; }
 
+void ContextMenu::setProcedurePresenter(ProcedurePresenter* presenter) { procedure_presenter = presenter; }
 
-ContextMenu::~ContextMenu()
-{
-}
+ContextMenu::~ContextMenu() {}

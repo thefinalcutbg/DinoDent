@@ -5,7 +5,6 @@
 #include "../ToothPaintDevices/BridgePainter.h"
 #include "../Procedures/RowData.h"
 
-
 class ContextMenu;
 class SelectionBox;
 class BridgeItem;
@@ -34,6 +33,7 @@ class TeethViewScene : public QGraphicsScene
 	void keyPressEvent(QKeyEvent* event);
 	void contextMenuEvent(QGraphicsSceneContextMenuEvent* event) override;
 	void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
+	void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* Event) override;
 
 public:
 

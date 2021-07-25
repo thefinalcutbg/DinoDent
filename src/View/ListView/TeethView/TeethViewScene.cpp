@@ -81,6 +81,7 @@ TeethViewScene::TeethViewScene(QObject *parent)
             std::sort(selectedIndexes.begin(), selectedIndexes.end());
 
             presenter->setSelectedTeeth(selectedIndexes);
+            contextMenu->setSelection(selectedIndexes.size() == 1);
         });
 
 }
@@ -134,6 +135,19 @@ void TeethViewScene::mousePressEvent(QGraphicsSceneMouseEvent* event)
     if (item != NULL && !item->isSelected())
     {
         item->setSelected(1);
+    }
+}
+
+
+
+void TeethViewScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* Event)
+{
+    QGraphicsItem* item = itemAt(Event->scenePos(), QTransform());
+
+    if (item != NULL)
+    {
+        auto* t = static_cast<SelectionBox*>(item);
+        presenter->openDetails(t->getIndex());
     }
 }
 

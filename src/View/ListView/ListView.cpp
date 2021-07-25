@@ -91,12 +91,13 @@ void ListView::setStatusControlPresenter(StatusPresenter* presenter)
 {
 	teethViewScene->setPresenter(presenter);
 	ui.controlPanel->setPresenter(presenter);
-	contextMenu->setStatusControl(presenter);
+	contextMenu->setStatusPresenter(presenter);
 }
 
 void ListView::setProcedurePresenter(ProcedurePresenter* presenter)
 {
 	procedure_presenter = presenter;
+	contextMenu->setProcedurePresenter(presenter);
 }
 
 void ListView::refresh(AmbList& ambList, Patient& patient)

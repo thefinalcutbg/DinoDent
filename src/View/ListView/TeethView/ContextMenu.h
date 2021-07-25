@@ -8,15 +8,18 @@
 #include "Model/CheckState.h"
 
 
-
+class ProcedurePresenter;
 class StatusPresenter;
 
 class ContextMenu : public QMenu
 {
     Q_OBJECT
 
-    StatusPresenter* presenter;
+    StatusPresenter* status_presenter{ nullptr };
+    ProcedurePresenter* procedure_presenter{ nullptr };
 
+    QAction* addProcedure;
+    QAction* details;
     std::array<QAction*, 6>surfObt;
     std::array<QAction*, 6> surfCar;
     std::array<QAction*, 25> menuAction;
@@ -27,8 +30,10 @@ class ContextMenu : public QMenu
 
 public:
     ContextMenu();
+    void setSelection(bool single);
     void setModel(const CheckModel& checkModel);
-    void setStatusControl(StatusPresenter* presenter);
+    void setStatusPresenter(StatusPresenter* presenter);
+    void setProcedurePresenter(ProcedurePresenter* presenter);
     ~ContextMenu();
 };
 

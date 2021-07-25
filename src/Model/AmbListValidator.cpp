@@ -6,8 +6,6 @@
 #include "Tooth/ToothUtils.h"
 #include "Model/Procedure/PackageCounter.h"
 
-
-
 struct pair_hash
 {
     template <class T1, class T2>
@@ -97,14 +95,14 @@ bool AmbListValidator::isValidAccordingToDb()
         {
             if (p.code != procedure.code || p.tooth != procedure.tooth) continue;
 
-            auto date = p.date;
             auto yearLimit = MasterNZOK::instance().getYearLimit(procedure.code);
-            p.date.year += yearLimit;
 
+            Date date = { p.date.day, p.date.month, p.date.year + yearLimit };
+         
             if (procedure.date < date)
             {
-                _error = "Манипулация с код " + std::to_string(p.code) +
-                    " е позволена само веднъж на " + std::to_string(yearLimit) + " г.";
+                _error = "В базата данни съществува вече манипулация с код " + std::to_string(p.code) +
+                    " от преди по-малко от " + std::to_string(yearLimit) + " г.";
                 return false;
             }
         }
@@ -130,7 +128,6 @@ bool AmbListValidator::dateIsValid(const Procedure& p)
         _error = "Датата на манипулация " + std::to_string(p.code) + " е невалидна по спрямо на датата на амбулаторния лист";
         return false;
     }
-
 
     if (p.nzok && MasterNZOK::instance().isMinorOnly(p.code) && patient.isAdult(p.date))
     {
@@ -173,8 +170,6 @@ bool AmbListValidator::noDuplicates()
 
 bool AmbListValidator::validateTypeToStatus(const Tooth& t, const Procedure& p)
 {
-    bool extracted = t.extraction.exists();
-    bool implant = t.implant.exists();
 
     std::string toothNum = ToothUtils::getNomenclature(t);
     std::string code = std::to_string(p.code);
@@ -183,19 +178,17 @@ bool AmbListValidator::validateTypeToStatus(const Tooth& t, const Procedure& p)
     {
         case ProcedureType::obturation:
         {
-            if (extracted || implant)
-            {
-                _error = "Зъб " + toothNum + " е вече екстрахиран и манипулация " + code + " не може да бъде извършена!";
-                return false;
-            }
-
             bool statusMissing
             {
+                t.extraction.exists() ||
+                t.implant.exists() ||
+                (
                 !t.caries.exists() &&
                 !t.pulpitis.exists() &&
                 !t.lesion.exists() &&
                 !t.root.exists() &&
                 !t.fracture.exists()
+                )
             };
 
             if (statusMissing)
@@ -209,17 +202,16 @@ bool AmbListValidator::validateTypeToStatus(const Tooth& t, const Procedure& p)
 
         case ProcedureType::endo:
         {
-            if (extracted || implant)
-            {
-                _error = "Зъб " + toothNum + " е вече екстрахиран и манипулация " + code + " не може да бъде извършена!";
-                return false;
-            }
 
             bool statusMissing
             {
+                t.extraction.exists() ||
+                t.implant.exists() ||
+                (
                 !t.pulpitis.exists() &&
                 !t.lesion.exists() &&
                 !t.fracture.exists()
+                )
             };
 
 
@@ -234,14 +226,11 @@ bool AmbListValidator::validateTypeToStatus(const Tooth& t, const Procedure& p)
 
          case ProcedureType::extraction:
          {
-            if (extracted)
-            {
-                _error = "Зъб " + toothNum + " е вече екстрахиран и манипулация " + code + " не може да бъде извършена!";
-                return false;
-            }
 
         bool statusMissing 
         {
+            t.extraction.exists() ||
+            (
             !t.pulpitis.exists() &&
             !t.periodontitis.exists() &&
             !t.fracture.exists() &&
@@ -251,6 +240,7 @@ bool AmbListValidator::validateTypeToStatus(const Tooth& t, const Procedure& p)
             !t.lesion.exists() &&
             !t.root.exists() &&
             !t.mobility.exists() 
+             )
         };
 
         if (statusMissing)

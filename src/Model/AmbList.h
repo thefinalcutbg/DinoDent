@@ -28,6 +28,7 @@ struct AmbList
 	int number{ 0 };
 	std::string LPK;
 	bool full_coverage{ false };
+	bool pregnancy{ false };
 	Charge charge{ Charge::default };
 
 	std::vector<Procedure> procedures;

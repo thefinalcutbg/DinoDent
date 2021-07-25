@@ -7,6 +7,16 @@
 #include "Model/Procedure/PackageCounter.h"
 
 
+
+struct pair_hash
+{
+    template <class T1, class T2>
+    std::size_t operator() (const std::pair<T1, T2>& pair) const {
+        return std::hash<T1>()(pair.first) ^ std::hash<T2>()(pair.second);
+    }
+};
+
+
 AmbListValidator::AmbListValidator(const ListInstance& list)
     :
     ambList(list.amb_list), patient(*list.patient.get())
@@ -20,44 +30,12 @@ bool AmbListValidator::ambListIsValid()
     auto& teeth = ambList.teeth;
     auto& procedures = ambList.procedures;
 
-    auto totalProcedures = _db.totalNZOKProcedures(patient.id, ambList.id, ambList.date.year);
-
-    PackageCounter packageCounter(MasterNZOK::instance().getPackages(ambList.date));
-
-    for (auto& t : totalProcedures)
-    {
-        for (int i = 0; i < t.second; i++) packageCounter.insertCode(t.first);
-    }
+    if (!noDuplicates()) return false;
 
     for (auto& p : procedures)
     {
-        if (p.date < ambList.date || p.date > ambList.date.getMaxDateOfMonth())
-        {
-            _error = "Датата на манипулация " + std::to_string(p.code) + " е невалидна по отношение на датата на амбулаторния лист";
-            return false;
-        }
 
-        if (!p.nzok) continue;
-
-        //checking if the procedure is allowed depending on patient age
-        if (MasterNZOK::instance().isMinorOnly(p.code) && patient.isAdult(p.date))
-        {
-            _error = "Манипулация " + std::to_string(p.code) + " е позволена само при лица под 18 годишна възраст!";
-            return false;
-        }
-
-        if (!noDuplicates()) return false;
-
-        totalProcedures[p.code]++; 
-
-        packageCounter.insertCode(p.code);
-
-        if (!packageCounter.validate(patient.isAdult(p.date), 0))
-        {
-            _error = "Надвишен лимит по НЗОК за код " + std::to_string(p.code) + "!";
-            return false;
-        };
-
+        if (!dateIsValid(p)) return false;
 
         if (p.tooth != -1) //out of range guard
         {
@@ -66,36 +44,103 @@ bool AmbListValidator::ambListIsValid()
 
             //checking if the tooth has appliable status
             if (!validateTypeToStatus(teeth[p.tooth], p)) return false;
-
-            //checking if the tooth has extraction recorded
-            if (isExtracted(teeth[p.tooth]))
-            {
-                _error = "За зъб " + ToothUtils::getNomenclature(teeth[p.tooth]) + " съществуват предишни данни за екстракция";
-                return false;
-            }
-
-            //checking if the manipulation is made in the last year
-            if (!madeAtLeastYearAgo(p.tooth, p)) return false;
-
         }
-
-
-
     }
 
+    if (!isValidAccordingToDb()) return false;
 
     _error = "";
     return true;
 }
 
-
-struct pair_hash
+bool AmbListValidator::isValidAccordingToDb()
 {
-    template <class T1, class T2>
-    std::size_t operator() (const std::pair<T1, T2>& pair) const {
-        return std::hash<T1>()(pair.first) ^ std::hash<T2>()(pair.second);
+    auto summary = _db.getSummary(patient.id, ambList.id); //getting all procedures;
+
+    typedef int Code, Count, Tooth;
+    typedef bool Temporary;
+    std::unordered_map<Code, Count> currentYear;
+    std::unordered_set<std::pair<Tooth, Temporary>, pair_hash> extractedTeeth;
+
+    for (auto& p : summary) //getting procedures of the current year;
+    {
+        if (p.date.year == ambList.date.year)
+            currentYear[p.code] ++;
+
+        //getting the already extracted teeth
+        if (p.code == 508) extractedTeeth.insert(std::make_pair(p.tooth, true));
+        else if (p.code == 509 || p.code == 510) extractedTeeth.insert(std::make_pair(p.tooth, false));
     }
-};
+
+    PackageCounter packageCounter(MasterNZOK::instance().getPackages(ambList.date)); //creating a package counter
+
+    for (auto& t : currentYear) //loading the procedures from the current year
+        for (int i = 0; i < t.second; i++) packageCounter.insertCode(t.first);
+
+    for (int i = 0; i < ambList.procedures.size(); i++) //iterrating over the ambList procedures
+    {
+        auto& procedure = ambList.procedures[i];
+
+        if (!procedure.nzok) continue;
+        
+        packageCounter.insertCode(procedure.code);
+
+        if (!packageCounter.validate(patient.isAdult(procedure.date), ambList.pregnancy)) //validating max allowed per year
+        {
+            _error = "Надвишен лимит по НЗОК за код " + std::to_string(procedure.code) + "!";
+            return false;
+        };
+
+        MasterNZOK::instance().getYearLimit(procedure.code);
+
+        for (auto& p : summary) //validating max allowed per time period and per tooth
+        {
+            if (p.code != procedure.code || p.tooth != procedure.tooth) continue;
+
+            auto date = p.date;
+            auto yearLimit = MasterNZOK::instance().getYearLimit(procedure.code);
+            p.date.year += yearLimit;
+
+            if (procedure.date < date)
+            {
+                _error = "Манипулация с код " + std::to_string(p.code) +
+                    " е позволена само веднъж на " + std::to_string(yearLimit) + " г.";
+                return false;
+            }
+        }
+
+        if (procedure.tooth != -1 && //extraction check
+            extractedTeeth.count
+            (std::make_pair(procedure.tooth, ambList.teeth[procedure.tooth].temporary.exists())))
+        {
+            _error = "За зъб " + ToothUtils::getNomenclature(ambList.teeth[procedure.tooth])
+                + " вече съществуват данни за екстракция!";
+            return false;
+        }
+
+    }
+
+    return true;
+}
+
+bool AmbListValidator::dateIsValid(const Procedure& p)
+{
+    if (p.date < ambList.date || p.date > ambList.date.getMaxDateOfMonth())
+    {
+        _error = "Датата на манипулация " + std::to_string(p.code) + " е невалидна по спрямо на датата на амбулаторния лист";
+        return false;
+    }
+
+
+    if (p.nzok && MasterNZOK::instance().isMinorOnly(p.code) && patient.isAdult(p.date))
+    {
+        _error = "Манипулация " + std::to_string(p.code) + " е позволена само при лица под 18 годишна възраст!";
+        return false;
+    }
+
+    return true;
+}
+
 
 bool AmbListValidator::noDuplicates()
 {
@@ -226,6 +271,7 @@ bool AmbListValidator::validateTypeToStatus(const Tooth& t, const Procedure& p)
 
 bool AmbListValidator::validatePermaTemp(const Tooth& tooth, const Procedure& p)
 {
+
     bool temp = tooth.temporary.exists();
 
     if (MasterNZOK::instance().isTempOnly(p.code) && !temp)
@@ -243,30 +289,6 @@ bool AmbListValidator::validatePermaTemp(const Tooth& tooth, const Procedure& p)
     return true;
 }
 
-bool AmbListValidator::madeAtLeastYearAgo(int tooth, const Procedure& p)
-{
-    bool invalid = _db.procedureExists(p.tooth, p.code, patient.id, p.date, 1, ambList.id);
-    
-    if(invalid)
-    {
-        _error = "Манипулацията " + std::to_string(p.code) +
-            " на зъб " + ToothUtils::getNomenclature(ambList.teeth[p.tooth]) +
-            " е вече направена в последната година";
-        return false;
-    };
-
-    return true;
-}
-
-bool AmbListValidator::isExtracted(const Tooth& tooth)
-{
-    return  tooth.temporary.exists() ?
-
-        _db.procedureExists(tooth.index, 508, patient.id, ambList.id)
-        :
-        _db.procedureExists(tooth.index, 509, patient.id, ambList.id); //what about 510 ?
-
-}
 
 
 const std::string& AmbListValidator::getErrorMsg()

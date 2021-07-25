@@ -147,7 +147,7 @@
     <rect>
      <x>500</x>
      <y>170</y>
-     <width>181</width>
+     <width>211</width>
      <height>21</height>
     </rect>
    </property>
@@ -230,6 +230,9 @@
      <width>71</width>
      <height>22</height>
     </rect>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::ClickFocus</enum>
    </property>
    <property name="buttonSymbols">
     <enum>QAbstractSpinBox::NoButtons</enum>

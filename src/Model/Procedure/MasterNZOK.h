@@ -11,6 +11,7 @@ class MasterNZOK
 
 	std::unordered_map<int, ProcedureTemplate> _procedures;
 	std::unordered_map<int, int> code_durations;
+	std::unordered_map<int, int> _timeframes;
 	std::vector<NZOKUpdates> _updates;
 
 	std::unordered_set<int> minor_only;
@@ -28,11 +29,12 @@ public:
 	void loadUpdates();
 
 	int getDuration(int nzokCode);
+	int getYearLimit(int nzokCode);
 	std::vector<ProcedureTemplate> getM_Templates(Date date, int specialty, bool adult, bool unfav);
 	std::pair<patientPrice, nzokPrice> getPrices(int code, Date date, int specialty, bool adult, bool unfav);
 	double getPatientPrice(int code, Date date, int specialty, bool adult, bool unfav);
 	double getNZOKPrice(int code, Date date, int specialty, bool adult, bool unfav);
-
+	
 	std::vector<ProcedurePackage> getPackages(Date ambDate);
 
 	ProcedureTemplate getTemplateByCode(int code);

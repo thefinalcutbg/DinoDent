@@ -10,6 +10,7 @@ class TabBar : public QTabBar
 
 
 	void mouseReleaseEvent(QMouseEvent* event) override;
+	using QTabBar::removeTab;
 
 public:
 	TabBar(QWidget *parent);

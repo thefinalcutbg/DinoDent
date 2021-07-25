@@ -21,8 +21,8 @@ class AmbListValidator
 	bool noDuplicates();
 	bool validateTypeToStatus(const Tooth& tooth, const Procedure& p);
 	bool validatePermaTemp(const Tooth& tooth, const Procedure& p);
-	bool madeAtLeastYearAgo(int tooth, const Procedure& p);
-	bool isExtracted(const Tooth& tooth);
+	bool isValidAccordingToDb();
+	bool dateIsValid(const Procedure& p);
 
 public:
 	AmbListValidator(const ListInstance& list);

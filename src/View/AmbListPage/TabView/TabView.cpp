@@ -91,7 +91,7 @@ void TabView::removeTab(int vecPos)
     {
         if (ui.tabBar->tabData(i) == vecPos)
         {
-            ui.tabBar->removeTab(i);
+            ui.tabBar->closeTab(i);
 
             if (!ui.tabBar->count())
             {

@@ -113,98 +113,39 @@ void DbProcedure::saveManipulations(const std::string& amblist_id, const std::ve
 	
 	closeConnection();
 
-			
-
 }
 
-bool DbProcedure::procedureExists(int tooth, int procedure, const std::string& patient_id, 
-									const Date& date, int year_range, const std::string& excludeAmb_id)
+std::vector<ProcedureSummary> DbProcedure::getSummary(const std::string& patientID, const std::string& excludeAmbID)
 {
-	openConnection();
-
-	std::string query = "SELECT COUNT(*) FROM "
-		"nzok INNER JOIN amblist ON nzok.amblist_id = amblist.id "
-		"WHERE nzok.tooth = " + std::to_string(tooth) + " "
-		"AND amblist.patient_id = '" + patient_id + "' "
-		"AND amblist.id != '" + excludeAmb_id + "' "
-		"AND(amblist.year, amblist.month, nzok.day) "
-		"BETWEEN ("
-			+ std::to_string(date.year - year_range) + ", "
-			+ std::to_string(date.month) + ", "
-			+ std::to_string(date.day) + ") "
-		"AND ("
-		+ std::to_string(date.year + year_range) + ", "
-		+ std::to_string(date.month) + ", "
-		+ std::to_string(date.day) + ")";
-
-	bool exists = false;
-
-	sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
-
-	while (sqlite3_step(stmt) != SQLITE_DONE)
-	{
-		exists = sqlite3_column_int(stmt, 0);
-	}
-
-	closeConnection();
-
-	return exists;
-
-}
-
-std::unordered_map<int, int> DbProcedure::totalNZOKProcedures(const std::string& patientID, const std::string& excludeAmbId, int ambList_year)
-{
-
-	std::unordered_map<int, int> procedure_count;
-
-	openConnection();
-
-	std::string query =
-		"SELECT nzok.code, COUNT(*) "
-		"FROM nzok INNER JOIN amblist ON nzok.amblist_id = amblist.id "
-		"WHERE amblist.patient_id = '" + patientID + "' " +
-		"AND amblist.year = " + std::to_string(ambList_year) + " "
-		"AND amblist.id != '" + excludeAmbId + "' "
-		"GROUP BY nzok.code";
-
-	sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
-
-	while (sqlite3_step(stmt) != SQLITE_DONE)
-	{
-		procedure_count[sqlite3_column_int(stmt, 0)] = sqlite3_column_int(stmt, 1);
-	}
-
-	closeConnection();
-
-	return procedure_count;
-}
-
-bool DbProcedure::procedureExists(int tooth, int procedure_code, const std::string& patient_id, const std::string& excludeAmbId)
-{
-	bool exists = false;
-
 	openConnection();
 
 	std::string query
 	{
-		"SELECT count(*) FROM nzok INNER JOIN amblist "
-		"ON nzok.amblist_id = amblist.id "
-		"WHERE amblist.patient_id = '" + patient_id + "' "
-		"AND amblist.id != " + excludeAmbId + " "
-		"AND nzok.code = '" + std::to_string(procedure_code) + "' "
-		"AND nzok.tooth = " + std::to_string(tooth)
+		"SELECT nzok.day, amblist.month, amblist.year,  nzok.code, nzok.tooth "
+		"FROM nzok INNER JOIN amblist ON nzok.amblist_id = amblist.id "
+		"WHERE amblist.patient_id = '" + patientID + "' "
+		"AND amblist.id != " + excludeAmbID
 	};
-
-	qDebug() << QString::fromStdString(query);
 
 	sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
 
-	while (sqlite3_step(stmt) != SQLITE_DONE)
-		exists = sqlite3_column_int(stmt, 0);
+	 std::vector<ProcedureSummary> summary;
 
+	 while (sqlite3_step(stmt) != SQLITE_DONE)
+	 {
+		 summary.push_back(
+			 {
+				Date
+				{
+					 sqlite3_column_int(stmt, 0),
+					 sqlite3_column_int(stmt, 1),
+					 sqlite3_column_int(stmt, 2)
+				},
+				 sqlite3_column_int(stmt, 3),
+				 sqlite3_column_int(stmt, 4)
+			 });
+	 }
 
-	closeConnection();
-
-	return exists;
+	 return summary;
 
 }

@@ -7,7 +7,6 @@
 TabPresenter::TabPresenter() : index_(-1), view(nullptr)
 {
     listPresenter_.attachEditObserver(this);
-    //_lists.reserve(100);
 }
 
 
@@ -142,11 +141,6 @@ void TabPresenter::openList(const AmbListRow& ambRow)
     }
 
     _lists.emplace_back(); //creates the instance;
-    qDebug() << "selected teeth at tab 0 are: ";
-    for (int i = 0; i < _lists[0].selectedTeeth.size(); i++)
-    {
-        qDebug() << _lists[0].selectedTeeth[i]->index;
-    }
 
     auto& ambList = _lists.back().amb_list;
 
@@ -160,7 +154,7 @@ void TabPresenter::openList(const AmbListRow& ambRow)
     for (auto& m : ambList.procedures) //autofill NZOK procedures
         if (m.nzok)
             m.price = MasterNZOK::instance().getPatientPrice(m.code, ambList.date, 64, patient.isAdult(), ambList.full_coverage);
-    qDebug() << "the pointer of the selected teeth is " << &_lists.back().selectedTeeth;
+
     view->newTab(_lists.size() - 1, _lists.back().getTabName());
 }
 
@@ -170,8 +164,8 @@ void TabPresenter::removeList(const std::string& ambID)
     {
         if (_lists[i].amb_list.id == ambID)
         {
+            _lists.erase(_lists.begin() + i); //first we erase, then we remove from view
             view->removeTab(i);
-            _lists.erase(_lists.begin() + i);
         }
     }
 }

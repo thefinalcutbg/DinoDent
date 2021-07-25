@@ -53,6 +53,11 @@ void MasterNZOK::loadData()
 
 	for (auto& p_o : constraints["perma_only"]) perma_only.emplace(p_o.asInt());
 
+	for (auto& timeframe : constraints["timeframe"])
+	{
+		for (auto& codes : timeframe["codes"])
+			_timeframes[codes.asInt()] = timeframe["limit"].asInt();
+	}
 
 	//3.Getting the actual updates
 
@@ -213,6 +218,8 @@ double MasterNZOK::getNZOKPrice(int code, Date date, int specialty, bool adult, 
 { return std::get<1>(getPrices(code, date, specialty, adult, unfav)); }
 
 int MasterNZOK::getDuration(int nzokCode) { return code_durations[nzokCode]; }
+
+int MasterNZOK::getYearLimit(int nzokCode) { return _timeframes.count(nzokCode) ? _timeframes[nzokCode] : 0; }
 
 bool MasterNZOK::isTempOnly(int code) { return temp_only.count(code); }
 

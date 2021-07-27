@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../jsoncpp/jsoncpp-src-0.5.0/include/json/json.h"
+#include "JsonCpp/json.h"
 #include <array>
 #include "Tooth.h"
 

@@ -1,5 +1,5 @@
 #include "ProcedureApplier.h"
-#include <QDebug>
+
 void ProcedureApplier::applyProcedures(const std::vector<Procedure>& m, std::array<Tooth, 32>& teeth, const std::string& LPK)
 {
 

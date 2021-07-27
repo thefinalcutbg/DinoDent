@@ -196,6 +196,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\JsonCpp\jsoncpp.cpp" />
     <ClCompile Include="src\View\DetailsView\DetailsView.cpp" />
     <ClCompile Include="src\Presenter\DetailsPresenter\DetailsPresenter.cpp" />
     <ClCompile Include="src\Model\Procedure\PackageCounter.cpp" />
@@ -386,6 +387,8 @@
     <QtMoc Include="src\View\AmbListSelector\ListsTableModel.h" />
     <QtMoc Include="src\View\AmbListSelector\ListTable.h" />
     <QtMoc Include="src\View\DetailsView\DetailsView.h" />
+    <ClInclude Include="src\JsonCpp\json-forwards.h" />
+    <ClInclude Include="src\JsonCpp\json.h" />
     <ClInclude Include="src\Presenter\DetailsPresenter\DetailsPresenter.h" />
     <ClInclude Include="src\Model\Procedure\PackageCounter.h" />
     <ClInclude Include="src\Model\AmbListValidator.h" />
@@ -525,11 +528,6 @@
     <ClInclude Include="src\Database\sqLite\sqlite3ext.h" />
     <ClInclude Include="src\View\AmbListPage\IAmbListPage.h" />
     <QtMoc Include="src\View\PatientDialog\PatientFormDialog.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="jsoncpp\jsoncpp-src-0.5.0\makefiles\vs71\lib_json.vcxproj">
-      <Project>{b84f7231-16ce-41d8-8c08-7b523ff4225b}</Project>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

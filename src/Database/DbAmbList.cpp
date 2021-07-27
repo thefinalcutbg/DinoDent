@@ -141,7 +141,7 @@ std::vector<AmbListRow> DbAmbList::getAmbListRows(const Date& from, const Date& 
         rows.emplace_back();
         auto& row = rows.back();
 
-        //amb list data:
+       //amb list data:
         row.id = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0));
         row.ambNumber = sqlite3_column_int(stmt, 1);
         row.date = Date{ sqlite3_column_int(stmt, 2), sqlite3_column_int(stmt, 3), sqlite3_column_int(stmt, 4) };

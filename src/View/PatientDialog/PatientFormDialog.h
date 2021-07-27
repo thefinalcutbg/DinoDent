@@ -23,7 +23,7 @@ class PatientFormDialog : public QDialog, public IPatientDialog
 
     Ui::PatientFormDialog ui;
 
-    void paintEvent(QPaintEvent* event);
+    void paintEvent(QPaintEvent* event) override;
 
     PatientDialogPresenter* presenter;
 
@@ -38,9 +38,9 @@ public:
     PatientFormDialog(PatientDialogPresenter* p, QWidget* parent = 0);
     ~PatientFormDialog();
 
-    void setEditMode(bool editMode);
+    void setEditMode(bool editMode) override;
     void close() override;
-    void setLn4View(bool show);
+    void setLn4View(bool show) override;
     void setCodeInfo(const std::string& codeInfo) override;
 
     void resetFields() override;

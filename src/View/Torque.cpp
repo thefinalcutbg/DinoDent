@@ -9,7 +9,7 @@ Torque::Torque(QWidget* parent)
 
     ui.setupUi(this);
     ui.stackedWidget->insertWidget(0, &ambListPage);
-    Database amb_db; //checking if db file exist;
+
     //ui.ambPageButton->hide();
     ui.pushButton_2->hide();
     showMaximized();

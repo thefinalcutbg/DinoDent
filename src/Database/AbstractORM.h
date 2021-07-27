@@ -1,5 +1,5 @@
 #pragma once
-#include "Database/sqLite/sqlite3.h"
+#include "sqLite/sqlite3.h"
 
 class AbstractORM
 {

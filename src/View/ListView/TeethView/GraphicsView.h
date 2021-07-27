@@ -11,11 +11,11 @@ class GraphicsView : public QGraphicsView
 
 	void mousePressEvent(QMouseEvent* event) override;
 
-	void resizeEvent(QResizeEvent*) {
+    void resizeEvent(QResizeEvent*) override {
 		fitView();
 	}
 
-	void showEvent(QShowEvent*) {
+    void showEvent(QShowEvent*) override {
 		fitView();
 	}
 

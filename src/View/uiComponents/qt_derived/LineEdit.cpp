@@ -47,7 +47,7 @@ void LineEdit::setValidAppearence(bool valid)
 void LineEdit::set_Text(const std::string& text)
 {
 	QSignalBlocker b(this);
-	QLineEdit::setText(QString::fromStdString(text));
+    QLineEdit::setText(QString::fromStdString(text));
 }
 
 std::string LineEdit::getText()

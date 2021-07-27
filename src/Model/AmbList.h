@@ -10,7 +10,7 @@
 
 constexpr int defaultSurfaces[32] = { 0,0,0,0,0,3,3,3,3,3,3,0,0,0,0,0,0,0,0,0,0,3,3,3,3,3,3,0,0,0,0,0 };
 
-enum class Charge {default, retired, freed};
+enum class Charge {standard, retired, freed};
 
 struct AmbList
 {
@@ -29,7 +29,7 @@ struct AmbList
 	std::string LPK;
 	bool full_coverage{ false };
 	bool pregnancy{ false };
-	Charge charge{ Charge::default };
+	Charge charge{ Charge::standard };
 
 	std::vector<Procedure> procedures;
 	std::array <Tooth, 32> teeth;

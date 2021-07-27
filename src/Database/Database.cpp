@@ -1,5 +1,4 @@
 #include "Database.h"
-#include <qdebug.h>
 
 Database::Database() : err(nullptr), db(nullptr), stmt(nullptr)
 {
@@ -73,7 +72,7 @@ Database::Database() : err(nullptr), db(nullptr), stmt(nullptr)
 
     if (rc != SQLITE_OK)
     {
-        qDebug() << "Error opening DB:" << QString::fromStdString(sqlite3_errmsg(db));
+        //qDebug() << "Error opening DB:" << QString::fromStdString(sqlite3_errmsg(db));
     }
 
     sqlite3_close(db);

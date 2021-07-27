@@ -16,7 +16,7 @@ class TileButton : public QAbstractButton
     bool clicked;
 
     void paintEvent(QPaintEvent* e) override;
-    void enterEvent(QEvent* event) override;
+    void enterEvent(QEvent* event);
     void leaveEvent(QEvent* event) override;
     void mousePressEvent(QMouseEvent* e) override;
     void mouseReleaseEvent(QMouseEvent* e) override;

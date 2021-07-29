@@ -19,7 +19,7 @@ public:
     //all my troubles seem so far away
     Date yesterday() const;
 
-    static Date GetDateFromEgn(const std::string& egn);
+    static Date getBirthdateFromEgn(const std::string& egn);
     static std::string toString(const Date& date);
     static Date currentDate();
 

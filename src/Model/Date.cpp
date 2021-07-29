@@ -62,7 +62,7 @@ Date Date::yesterday() const
     return Date{31, 12, year - 1};
 }
 
-Date Date::GetDateFromEgn(const std::string& egn)
+Date Date::getBirthdateFromEgn(const std::string& egn)
 {
 
     int year = stoi(egn.substr(0, 2));

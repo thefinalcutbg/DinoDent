@@ -22,12 +22,8 @@ struct Patient
 	std::string pastDiseases;
 
 	static bool getSexFromEgn(const std::string& egn);
-
-	int getAge() const;
-	int getAge(Date currentDate)  const;
-
-	bool isAdult() const;
-	bool isAdult(Date currentDate)  const;
+	int getAge(const Date& currentDate = Date::currentDate())  const;
+	bool isAdult(const Date& currentDate = Date::currentDate())  const;
 	Date turns18At() const;
 	~Patient();
 };

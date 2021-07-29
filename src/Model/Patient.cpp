@@ -12,46 +12,19 @@ bool Patient::getSexFromEgn(const std::string& egn)
 		true;
 }
 
-int Patient::getAge(Date currentDate) const
+int Patient::getAge(const Date& currentDate) const
 {
-	const int& day = birth.day;
-	const int& month = birth.month;
-	const int& year = birth.year;
+	int age = currentDate.year - birth.year;
 
-	int& daynow = currentDate.day;
-	int& monthnow = currentDate.month;
-	int& yearnow = currentDate.year;
+	if ((currentDate.month == birth.month && currentDate.day < birth.day)  || 
+		birth.month > currentDate.month) 
+		age--;
 
-	int age = 0;
-
-	if (month == monthnow)
-	{
-		if (daynow >= day)
-			age = yearnow - year;
-		else
-			age = yearnow - year - 1;
-	}
-	else if (month > monthnow)
-		age = yearnow - year - 1;
-
-	else if (month < monthnow)
-		age = yearnow - year;
-
-	return age;
-}
-
-int Patient::getAge() const
-{
-	return getAge(Date::currentDate());
+	return std::max(-1, age);
 }
 
 
-bool Patient::isAdult() const
-{
-	return getAge() > 17;
-}
-
-bool Patient::isAdult(Date currentDate) const
+bool Patient::isAdult(const Date& currentDate) const
 {
 	return getAge(currentDate) > 17;
 }

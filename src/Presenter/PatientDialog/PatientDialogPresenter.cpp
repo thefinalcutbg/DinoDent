@@ -100,7 +100,7 @@ void PatientDialogPresenter::searchDbForPatient(int type)
 	pastDiseases = patient.pastDiseases;
 	currentDiseases = patient.currentDiseases;
 
-	if (patient.id == "")
+	if (patient.id.empty())
 	{
 		new_patient = true;
 		patient.id = lineEditID;
@@ -109,7 +109,7 @@ void PatientDialogPresenter::searchDbForPatient(int type)
 
 		if (patient.type == 1)
 		{
-			patient.birth = Date::GetDateFromEgn(patient.id);
+			patient.birth = Date::getBirthdateFromEgn(patient.id);
 			patient.sex = Patient::getSexFromEgn(lineEditID);
 		}
 	}

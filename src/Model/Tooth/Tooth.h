@@ -41,4 +41,9 @@ public:
 	Pathology lesion;
 	Pathology fracture;
 	Pathology root;
+
+	std::array<bool, statusCount> getBoolArray() const;
+
+	std::string getSimpleStatus() const;
+
 };

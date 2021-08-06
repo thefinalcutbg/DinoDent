@@ -15,6 +15,7 @@ class AmbListValidator
 	
 	const AmbList& ambList;
 	const Patient& patient;
+	std::vector<Procedure> m_procedures; //only NZOK procedures
 
 	DbProcedure _db;
 	

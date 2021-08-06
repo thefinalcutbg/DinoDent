@@ -1,6 +1,6 @@
 ﻿#include "PatientDialogPresenter.h"
 #include "View/ModalDialogBuilder.h"
-#include "Model/User/User.h"
+#include "Model/User/CurrentUser.h"
 
 PatientDialogPresenter::PatientDialogPresenter() :
 	view(nullptr),
@@ -25,9 +25,9 @@ void PatientDialogPresenter::setView(IPatientDialog* view)
 	this->view = view;
 
 	birth_validator.setMaxDate(Date::currentDate());
-	birth_validator.setMaxErrorMsg("Невалидна рожденна дата");
+	birth_validator.setMaxErrorMsg(u8"Невалидна рожденна дата");
 	birth_validator.setMinDate(Date(2, 1, 1900));
-	birth_validator.setMinErrorMsg("Невалидна рожденна дата");
+	birth_validator.setMinErrorMsg(u8"Невалидна рожденна дата");
 
 	view->lineEdit(city)->setInputValidator(&city_validator);
 	view->lineEdit(hirbno)->setInputValidator(&hirb_validator);

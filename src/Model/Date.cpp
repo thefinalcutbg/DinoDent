@@ -61,7 +61,7 @@ Date Date::yesterday() const
 
     return Date{31, 12, year - 1};
 }
-
+#include <qDebug>
 Date Date::getBirthdateFromEgn(const std::string& egn)
 {
 
@@ -73,6 +73,8 @@ Date Date::getBirthdateFromEgn(const std::string& egn)
     if (month > 20 && month < 33) { year = year + 1800; month = month - 20; }
     else if (month <= 12) { year = year + 1900; }
     else if (month >= 41) { year = year + 2000; month = month - 40; }
+
+    qDebug() << day << "." << month << "." << year;
 
     return Date(day, month, year);
 }

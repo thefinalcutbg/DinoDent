@@ -2,6 +2,7 @@
 #include "Model/Procedure/MasterNZOK.h"
 #include "Presenter/PatientDialog/PatientDialogPresenter.h"
 #include "View/ErrorMessage.h"
+#include "View/Printer/Printer.h"
 
 bool AmbListPagePresenter::listIsValid()
 {
@@ -29,6 +30,19 @@ void AmbListPagePresenter::setView(IAmbListPage* view)
 
     _tabPresenter.setView(view->tabView());
     listSelector_.setTabPresenter(&_tabPresenter);
+}
+
+void AmbListPagePresenter::printPressed()
+{
+    auto list = _tabPresenter.currentList();
+
+    if (!list) 
+    {
+        Print::ambList();
+        return;
+    }
+
+   Print::ambList(list->amb_list, *list->patient.get());
 }
 
 void AmbListPagePresenter::newPressed()

@@ -19,12 +19,15 @@ int main(int argc, char *argv[])
 
     QApplication a(argc, argv);
     
+    //Intializing singletons
     SpriteSheets::container().loadTextures(); //loading textures, otherwise program will crash;
-    MasterNZOK::instance().loadUpdates();
-    CustomProcedures::instance().loadCustomProcedures();
+    MasterNZOK::instance().loadUpdates(); //parsing json of nzok data
+    CustomProcedures::instance().loadCustomProcedures(); //parsing json of custom procedures
+
 
     Torque w;
     w.show();
+
     return a.exec();
 }
 

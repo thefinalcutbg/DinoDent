@@ -1,6 +1,6 @@
 ﻿#include "PatientValidators.h"
 
-const std::string EgnValidator::invalid{ "Невалидно ЕГН" };
+const std::string EgnValidator::invalid{ u8"Невалидно ЕГН" };
 
 EgnValidator::EgnValidator()
 {
@@ -32,7 +32,6 @@ bool EgnValidator::validateInput(const std::string& text)
     //check if month is correct:
     if (m < 1 || (m > 12 && m < 41) || m > 52) return false;
     //converting year and month to full numbers:
-   // if (m > 20 && m < 33) { y = y + 1800; m = m - 20; }
     if (m <= 12) { y = y + 1900; }
     else if (m >= 41) { y = y + 2000; m = m - 40; }
     if (!date_validator.validateInput(Date(d, m, y))) return false;
@@ -57,7 +56,7 @@ bool EgnValidator::validateInput(const std::string& text)
     return true;
 }
 
-const std::string Ln4Validator::invalid{ "Невалидно ЛНЧ" };
+const std::string Ln4Validator::invalid{ u8"Невалидно ЛНЧ" };
 
 Ln4Validator::Ln4Validator()
 {
@@ -101,7 +100,7 @@ bool Ln4Validator::validateInput(const std::string& text)
     return 1;
 }
 
-const std::string HIRBNoValidator::invalid{ "Невалиден номер на здравна книжка" };
+const std::string HIRBNoValidator::invalid{ u8"Невалиден номер на здравна книжка" };
 
 HIRBNoValidator::HIRBNoValidator()
 {
@@ -124,7 +123,7 @@ bool HIRBNoValidator::validateInput(const std::string& text)
     return true;
 }
 
-const std::string CityValidator::invalidCity{ "Невалидно населено място" };
+const std::string CityValidator::invalidCity{ "vНевалидно населено място" };
 
 bool CityValidator::validateInput(const std::string& text)
 {

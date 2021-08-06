@@ -20,13 +20,18 @@ AmbListValidator::AmbListValidator(const ListInstance& list)
     ambList(list.amb_list), patient(*list.patient.get())
 {
     _error.reserve(100);
+    for (auto &p : list.amb_list.procedures)
+    {
+        if (p.nzok)
+            m_procedures.push_back(p);
+    }
 }
 
 
 bool AmbListValidator::ambListIsValid()
 {
     auto& teeth = ambList.teeth;
-    auto& procedures = ambList.procedures;
+    auto& procedures = m_procedures;
 
     if (!noDuplicates()) return false;
 
@@ -75,11 +80,9 @@ bool AmbListValidator::isValidAccordingToDb()
     for (auto& t : currentYear) //loading the procedures from the current year
         for (int i = 0; i < t.second; i++) packageCounter.insertCode(t.first);
 
-    for (int i = 0; i < ambList.procedures.size(); i++) //iterrating over the ambList procedures
+    for (int i = 0; i < m_procedures.size(); i++) //iterrating over the ambList procedures
     {
-        auto& procedure = ambList.procedures[i];
-
-        if (!procedure.nzok) continue;
+        auto& procedure = m_procedures[i];
         
         packageCounter.insertCode(procedure.code);
 
@@ -145,10 +148,8 @@ bool AmbListValidator::noDuplicates()
 
     std::unordered_set<std::pair<Tooth, Code>, pair_hash> tooth_set;
 
-    for (auto& p : ambList.procedures)
+    for (auto& p : m_procedures)
     {
-        if (!p.nzok) continue;
-
         auto pair = std::make_pair(p.tooth, p.code);
 
         if (tooth_set.count(pair))

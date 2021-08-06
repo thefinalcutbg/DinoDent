@@ -1,28 +1,19 @@
 ﻿#pragma once
 #include <string>
 
-class CurrentUser
+struct User
 {
-
-	static CurrentUser _instance;
-
-	CurrentUser() {};
-
-public:
-	CurrentUser(const CurrentUser&) = delete;
-
 	//std::string username;
-	//std::string password;
+//std::string password;
 
-	std::string fName{ "Христо" };
-	std::string lName{ "Константинов" };
+	std::string fName{ u8"Христо" };
+	std::string lName{ u8"Константинов" };
 
-	std::string LPK{"220008771"};
+	std::string LPK{ "220008771" };
 	int specialty{ 64 };
 
-	std::string practice_address{ "София, общ. Столична, обл. София-град" };
+	std::string practice_address{ u8"София, общ. Столична, обл. София-град" };
 
-	static CurrentUser& instance();
-
+	std::string getName() const;
 };
 

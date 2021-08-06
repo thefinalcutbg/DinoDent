@@ -34,6 +34,23 @@ Date Patient::turns18At() const
 	return Date{ birth.day, birth.month, birth.year + 18 };
 }
 
+std::string Patient::fullName() const
+{
+	std::string fullName;
+	fullName.reserve(FirstName.length() + MiddleName.length() + LastName.length() + 2);
+
+	fullName += FirstName;
+	fullName += " ";
+	if (MiddleName.length())
+	{
+		fullName += MiddleName;
+		fullName += " ";
+	}
+	fullName += LastName;
+
+	return fullName;
+}
+
 Patient::~Patient()
 {
 

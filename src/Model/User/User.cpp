@@ -1,8 +1,10 @@
-#include "User.h"
+﻿#include "User.h"
 
-CurrentUser CurrentUser::_instance;
-
-CurrentUser& CurrentUser::instance()
+std::string User::getName() const
 {
-    return _instance;
+    std::string name{ u8"д-р " };
+    name += fName;
+    name += " ";
+    name += lName;
+    return name;
 }

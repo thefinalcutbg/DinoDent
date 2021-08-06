@@ -1,5 +1,5 @@
 #include "DbAmbList.h"
-#include "Model/User/User.h"
+#include "Model/User/CurrentUser.h"
 #include "Model/Patient.h"
 #include "Model/AmbList.h"
 #include "Model/Date.h"

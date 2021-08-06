@@ -8,7 +8,7 @@
 #include "Model/Tooth/ToothUtils.h"
 #include "Model/Procedure/MasterNZOK.h"
 #include "Model/Procedure/CustomProcedures.h"
-#include "Model/User/User.h"
+#include "Model/User/CurrentUser.h"
 #include "Model/Procedure/Procedure.h"
 
 #include "View/ListView/IProcedureView.h"

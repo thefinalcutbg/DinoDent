@@ -49,7 +49,14 @@ int ToothUtils::getToothNumber(int index, bool temporary)
     return numbers[index];
 }
 
-std::string ToothUtils::getNomenclature(int tooth_idx, bool temporary) { return std::to_string(getToothNumber(tooth_idx, temporary));}
+std::string ToothUtils::getNomenclature(int tooth_idx, bool temporary) 
+{ 
+    auto num = getToothNumber(tooth_idx, temporary);
+    if (num == -1)
+        return std::string();
+
+    return std::to_string(num);
+}
 std::string ToothUtils::getNomenclature(const Tooth& t) { return getNomenclature(t.index, t.temporary.exists());}
 
 Quadrant ToothUtils::getQuadrant(int index) { return quadrant[index]; }

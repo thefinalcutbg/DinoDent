@@ -23,10 +23,12 @@ public:
 	AmbListPagePresenter();
 
 	void setView(IAmbListPage* view);
+	void printPressed();
 	void newPressed();
 	void showListSelector();
 	bool save();
 	bool saveAs();
+	
 
 	//returns false when user selects cancel, otherwise returns true
 	bool closeTab();

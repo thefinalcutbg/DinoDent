@@ -7,11 +7,11 @@ PatientFormDialog::PatientFormDialog(PatientDialogPresenter* p, QWidget* parent)
     ui.setupUi(this);
     setModal(true);
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
-    setWindowTitle("Нов амбулаторен лист");
+    setWindowTitle(u8"Нов амбулаторен лист");
 
     numValidator = new QRegExpValidator(QRegExp(("[0-9]+")), this);
 
-    nameValidator = new QRegExpValidator(QRegExp(("[А-Я-а-я-a-z-A-Z- ]+")), this);
+    nameValidator = new QRegExpValidator(QRegExp((u8"[А-Я-а-я-a-z-A-Z- ]+")), this);
     ui.fNameEdit->QLineEdit::setValidator(nameValidator);
     ui.mNameEdit->QLineEdit::setValidator(nameValidator);
     ui.lNameEdit->QLineEdit::setValidator(nameValidator);
@@ -68,9 +68,9 @@ void PatientFormDialog::setEditMode(bool editMode)
     ui.idLineEdit->selectAll();
 
     editMode ?
-        setWindowTitle("Редактиране на данните на пациента")
+        setWindowTitle(u8"Редактиране на данните на пациента")
         :
-        setWindowTitle("Нов амбулаторен лист");
+        setWindowTitle(u8"Нов амбулаторен лист");
 
 
 }

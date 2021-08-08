@@ -366,6 +366,9 @@
     <ClCompile Include="src\View\Printer\ProcedurePrintModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Model\Tooth\ToothContainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -894,6 +897,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\Printer\ProcedurePrintModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\Tooth\ToothContainer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

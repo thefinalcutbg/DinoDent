@@ -5,7 +5,6 @@
 #include "Model/Date.h"
 #include "ProcedureTemplate.h"
 #include "Model/Tooth/Vita.h"
-
 struct NoData {};
 
 struct CrownData {
@@ -39,7 +38,11 @@ struct ImplantData {
     bool membrane, sinusLift;
 };
 
-typedef std::variant<NoData, ObturationData, CrownData, BridgeData, ImplantData> Result;
+struct Anesthesia {
+    int minutes{ 0 };
+};
+
+typedef std::variant<NoData, ObturationData, CrownData, BridgeData, ImplantData, Anesthesia> Result;
 
 struct Procedure
 {
@@ -59,6 +62,8 @@ struct Procedure
     {}
 
     Procedure() : type(ProcedureType::general), code{ -1 }, price{ 0 }, tooth{ -1 }, nzok{ false } {}
+
+
 
     //common parameters:
     ProcedureType type;

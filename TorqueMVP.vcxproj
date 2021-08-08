@@ -329,6 +329,7 @@
     <ClCompile Include="src\View\ListView\ToothPaintDevices\ToothSprite.cpp" />
     <ClCompile Include="src\Presenter\TabPresenter\TabPresenter.cpp" />
     <ClCompile Include="src\View\AmbListPage\TabView\TabView.cpp" />
+    <ClCompile Include="src\Model\Tooth\ToothContainer.cpp" />
     <QtRcc Include="src\View\Torque.qrc" />
     <QtUic Include="src\View\DetailsView\DetailsView.ui" />
     <QtUic Include="src\View\AmbListSelector\AmbListSelector.ui" />
@@ -388,6 +389,7 @@
     <QtMoc Include="src\View\AmbListPage\AmbListPage.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Model\Tooth\ToothContainer.h" />
     <QtMoc Include="src\View\AmbListPage\TabView\TabView.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\NameEdit.h" />
     <QtMoc Include="src\View\ProcedureEditDialog\ProcedureEditDialog.h" />

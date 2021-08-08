@@ -87,3 +87,4 @@ std::string Tooth::getSimpleStatus() const
 	return simpleStatus;
 
 }
+

@@ -7,8 +7,6 @@
 
 class BridgeController
 {
-	std::vector<std::vector<int>> selectionCutter(const std::vector<int>& indexes);
-	void formatSelection(const std::vector<int>& indexes, std::array<Tooth, 32>* teeth);
 
 public:
 	BridgeController();

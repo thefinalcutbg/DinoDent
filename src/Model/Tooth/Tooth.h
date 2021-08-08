@@ -4,6 +4,7 @@
 #include <string>
 #include <array>
 
+enum class StatusType{general, obturation, caries};
 
 class Tooth
 {
@@ -17,8 +18,11 @@ class Tooth
 
 public:
 	Tooth();
-
+	
+	void setIndex(int index);
 	int index;
+
+	ToothType type;
 
 	SurfaceStatus<SurfaceChild<Obturation> > obturation;
 	SurfaceStatus<SurfaceChild<Pathology> > caries;
@@ -42,8 +46,20 @@ public:
 	Pathology fracture;
 	Pathology root;
 
+
+private:
+
+	void addStatus(int statusCode);
+	void removeStatus(int statusCode);
+	void removeStatus();
+
+public:
+
 	std::array<bool, statusCount> getBoolArray() const;
+	void setStatus(StatusType type, int code, bool state);
+	void removeStatus(StatusType type);
 
 	std::string getSimpleStatus() const;
+
 
 };

@@ -17,14 +17,19 @@ class ToothUtils
 	  41, 42, 43, 44, 45, 46, 47, 48 
 	};
 
-	std::unordered_map<int, ToothType> toothTypeMap;
+	static constexpr std::array<int, 32> types
+	{
+		0,0,0,1,1,2,2,2,2,2,2,1,1,0,0,0,
+		0,0,0,1,1,2,2,2,2,2,2,1,1,0,0,0
+	};
+
 	std::unordered_map<int, Quadrant> quadrant;
 
 	static std::array<std::string, 6> surfaceNames;
 
 public:
 	ToothUtils();
-	ToothType getToothType(int index);
+	static ToothType getToothType(int index);
 	static int getToothNumber(int index, bool temporary);
 	static std::string getNomenclature(int index, bool temporary);
 	static std::string getNomenclature(const Tooth& t);

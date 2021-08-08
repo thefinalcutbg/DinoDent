@@ -9,19 +9,6 @@ std::array<std::string, 6> ToothUtils::surfaceNames
 ToothUtils::ToothUtils()
 {
 
-  
-
-    for (int i = 0; i < 32; i++) //mapping indexes to tooth types
-    {
-        if (i == 3 || i == 4 || i == 11 || i == 12)
-            toothTypeMap[i] = ToothType::Premolar;
-        else if (i == 19 || i == 20 || i == 27 || i == 28)
-            toothTypeMap[i] = ToothType::Premolar;
-        else if ((i > 2 && i < 13) || (i > 18 && i < 29))
-            toothTypeMap[i] = ToothType::Frontal;
-        else toothTypeMap[i] = ToothType::Molar;
-    }
-
 
     for (int i = 0; i < 32; i++) //mapping indexes to quadrants
     {
@@ -36,7 +23,7 @@ ToothUtils::ToothUtils()
 
 ToothType ToothUtils::getToothType(int index)
 {
-    return toothTypeMap[index];
+    return static_cast<ToothType>(types[index]);
 }
 
 int ToothUtils::getToothNumber(int index, bool temporary)
@@ -76,7 +63,7 @@ std::array<std::string, 6> ToothUtils::getSurfaceNames(int index)
         };
     }
 
-    if (toothTypeMap[index] == ToothType::Frontal) //frontal teeth
+    if (getToothType(index) == ToothType::Frontal) //frontal teeth
     {
         return std::array<std::string, 6>{
                                             "Инцизално",

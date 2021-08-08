@@ -1,11 +1,7 @@
 #include "BridgeController.h"
 
-BridgeController::BridgeController()
-{
 
-}
-
-std::vector<std::vector<int>> BridgeController::selectionCutter(const std::vector<int>& indexes)
+std::vector<std::vector<int>> selectionCutter(const std::vector<int>& indexes)
 {
 	std::vector<std::vector<int>> selections;
 
@@ -22,6 +18,56 @@ std::vector<std::vector<int>> BridgeController::selectionCutter(const std::vecto
 	}
 
 	return selections;
+}
+
+
+void formatSelection(const std::vector<int>& selection, std::array<Tooth, 32>* teeth)
+{
+	for (int i = 0; i < selection.size(); i++)
+	{
+		if (i == 0) {
+
+			teeth->at(selection[i]).bridge.position = BridgePos::Begin;
+		}
+		else if (i == selection.size() - 1) {
+			teeth->at(selection[i]).bridge.position = BridgePos::End;
+		}
+		else {
+			teeth->at(selection[i]).bridge.position = BridgePos::Middle;
+		}
+	}
+
+	if (selection[0] != 0 && selection[0] != 16)
+	{
+		Tooth& prev_tooth = teeth->at(selection[0] - 1);
+
+		if (prev_tooth.bridge.position == BridgePos::Begin) {
+			prev_tooth.bridge.set(false);
+		}
+		else if (prev_tooth.bridge.position == BridgePos::Middle) {
+			prev_tooth.bridge.position = BridgePos::End;
+		}
+	}
+
+	if (selection.back() != 15 && selection.back() != 31)
+	{
+		Tooth& next_tooth = teeth->at(selection.back() + 1);
+
+		if (next_tooth.bridge.position == BridgePos::End) {
+			next_tooth.bridge.set(false);
+		}
+		else if (next_tooth.bridge.position == BridgePos::Middle) {
+			next_tooth.bridge.position = BridgePos::Begin;
+		}
+
+	}
+
+}
+
+
+BridgeController::BridgeController()
+{
+
 }
 
 void BridgeController::formatBridges(const std::vector<int>& indexes, std::array<Tooth, 32>* teeth)
@@ -67,45 +113,3 @@ void BridgeController::removeBridge(int tooth_idx, std::array<Tooth, 32>* teeth)
 }
 
 
-void BridgeController::formatSelection(const std::vector<int>& selection, std::array<Tooth, 32>*teeth)
-{
-	for (int i = 0; i < selection.size(); i++)
-	{
-		if (i == 0){
-
-			teeth->at(selection[i]).bridge.position = BridgePos::Begin;
-		}
-		else if (i == selection.size() - 1) {
-			teeth->at(selection[i]).bridge.position = BridgePos::End;
-		}
-		else {
-			teeth->at(selection[i]).bridge.position = BridgePos::Middle;
-		}
-	}
-	
-	if (selection[0] != 0 && selection[0] != 16)
-	{
-		Tooth& prev_tooth = teeth->at(selection[0] - 1);
-
-		if (prev_tooth.bridge.position == BridgePos::Begin){
-			prev_tooth.bridge.set(false);
-		}
-		else if (prev_tooth.bridge.position == BridgePos::Middle) {
-			prev_tooth.bridge.position = BridgePos::End;
-		}
-	}
-
-	if (selection.back() != 15 && selection.back() != 31)
-	{
-		Tooth& next_tooth = teeth->at(selection.back() + 1);
-
-		if (next_tooth.bridge.position == BridgePos::End) {
-			next_tooth.bridge.set(false);
-		}
-		else if (next_tooth.bridge.position == BridgePos::Middle) {
-			next_tooth.bridge.position = BridgePos::Begin;
-		}
-
-	}
-
-}

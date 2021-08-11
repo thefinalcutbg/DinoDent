@@ -4,7 +4,7 @@
 #include <array>
 #include "Tooth.h"
 
-#include <QDebug>
+class ToothContainer;
 
 class ToothParser
 {
@@ -16,6 +16,6 @@ class ToothParser
 
 public:
 
-	std::string write(const std::array<Tooth, 32>& teeth);
-    void parse(const std::string& jsonString, std::array<Tooth, 32>& teeth);
+	std::string write(const ToothContainer& teeth);
+    void parse(const std::string& jsonString, ToothContainer& teeth);
 };

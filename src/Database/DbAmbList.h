@@ -1,14 +1,13 @@
 #pragma once
 
 #include "DbProcedure.h"
+#include <map>
 #include "Model/Tooth/ToothParser.h"
-#include "Model/Procedure/ProcedureApplier.h"
 #include "Model/AmbListRow.h"
 #include "AbstractORM.h"
 
 #include <vector>
-#include <map>
-#include <iostream>
+
 
 class Procedure;
 class AmbList;
@@ -17,11 +16,10 @@ class DbAmbList : public AbstractORM
 {
 
     ToothParser procedureParser;
-    ProcedureApplier m_applier;
-    DbProcedure db_manipulation;
+    DbProcedure db_procedures;
 
     std::string getLastStatus(std::string patientID);
-    std::vector<Procedure> getOlderManipulations(std::string patientID);
+    std::vector<Procedure> previousProcedures(std::string patientID);
 
 public:
     DbAmbList();

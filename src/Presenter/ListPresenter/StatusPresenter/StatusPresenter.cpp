@@ -1,5 +1,7 @@
 #include "StatusPresenter.h"
 #include "../ProcedurePresenter/ProcedurePresenter.h"
+#include "ToothHintCreator.h"
+#include "Model/Tooth/ToothContainer.h"
 
 std::vector<int> StatusPresenter::getSelectedIndexes()
 {
@@ -22,15 +24,18 @@ void StatusPresenter::setProcedurePresenter(ProcedurePresenter* p)
 void StatusPresenter::statusChanged()
 {
         auto m = checkCreator.refreshModel(*selectedTeeth);
+      
         view->setCheckModel(m);
         statusControl.setCheckModel(m);
 
+
+
         for (auto& t : *selectedTeeth)
         {
-            view->repaintTooth(paint_hint_generator.getToothHint(*t));
+            view->repaintTooth(ToothHintCreator::getToothHint(*t));
         }
 
-        view->repaintBridges(paint_hint_generator.statusToUIBridge(*teeth));
+        view->repaintBridges(ToothHintCreator::statusToUIBridge(*teeth));
 
         if (selectedTeeth->size() == 1)
             surf_presenter.setTooth(selectedTeeth->at(0));
@@ -39,19 +44,19 @@ void StatusPresenter::statusChanged()
 }
 
 
-void StatusPresenter::setData(std::array<Tooth, 32>& teeth, std::vector<Tooth*>& selectedTeeth)
+void StatusPresenter::setData(ToothContainer& teeth, std::vector<Tooth*>& selectedTeeth)
 {
 	this->teeth = &teeth;
     this->selectedTeeth = &selectedTeeth;
 
     view->setSelectedTeeth(getSelectedIndexes());
 
-    for (auto& t : teeth)
+    for (int i = 0; i < teeth.size(); i++)
     {
-        view->repaintTooth(paint_hint_generator.getToothHint(t));
+        view->repaintTooth(ToothHintCreator::getToothHint(teeth[i]));
     }
 
-    view->repaintBridges(paint_hint_generator.statusToUIBridge(teeth));
+    view->repaintBridges(ToothHintCreator::statusToUIBridge(teeth));
    
     const int s_teeth = selectedTeeth.size();
 
@@ -81,16 +86,16 @@ void StatusPresenter::changeStatus(StatusAction status)
     {
         for (auto& t : *selectedTeeth)
         {
-            bridgeController.removeBridge(t->index, teeth);
+            teeth->removeBridge(t->index);
         }
-        view->repaintBridges(paint_hint_generator.statusToUIBridge(*teeth));
+        view->repaintBridges(ToothHintCreator::statusToUIBridge(*teeth));
         return;
     }
 
     statusControl.changeStatus(status);
 
     if (status == StatusAction::Bridge || status == StatusAction::Crown) {
-        bridgeController.formatBridges(getSelectedIndexes(), teeth);
+        teeth->formatBridges(getSelectedIndexes());
     }
     else if (status == StatusAction::Temporary)
     {
@@ -108,16 +113,15 @@ void StatusPresenter::setSelectedTeeth(const std::vector<int>& selectedIndexes)
     for (int i : selectedIndexes)
     {
         selectedTeeth->push_back(&teeth->at(i));
-   
     }
 
 
     statusControl.setSelectedTeeth(*selectedTeeth);
 
-    const auto m = checkCreator.refreshModel(*selectedTeeth);
+    CheckModel model{ *teeth, selectedIndexes };
 
-    statusControl.setCheckModel(m);
-    view->setCheckModel(m);
+    statusControl.setCheckModel(model);
+    view->setCheckModel(model);
 
     const int s_teeth = selectedIndexes.size();
 

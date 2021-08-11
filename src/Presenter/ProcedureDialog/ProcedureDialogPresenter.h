@@ -11,6 +11,7 @@
 
 #include "View/ProcedureDialog/IProcedureDialog.h"
 
+class ToothContainer;
 
 class ProcedureDialogPresenter
 {
@@ -35,7 +36,7 @@ class ProcedureDialogPresenter
 	std::vector<Procedure> manipulations;
 
 	std::vector<ProcedureTemplate> manipulationList;
-	const std::array<Tooth, 32>* teeth;
+	const ToothContainer* teeth;
 
 	ProcedureDateValidator date_validator;
 
@@ -47,7 +48,7 @@ class ProcedureDialogPresenter
 		ProcedureDialogPresenter
 		(
 			const std::vector<Tooth*>& selectedTeeth,
-			const std::array<Tooth, 32>& teeth,
+			const ToothContainer& teeth,
 			const Date& ambListDate,
 			const Date& patientBirth,
 			bool unfavourable,

@@ -1,8 +1,10 @@
 ﻿#include "CrownPresenter.h"
-#include <QDebug>
+
+#include "Model/Tooth/ToothContainer.h"
+
 CrownPresenter::CrownPresenter(
     const std::vector<Tooth*>& selectedTeeth, 
-    const std::array<Tooth, 32>& teeth
+    const ToothContainer& teeth
 ) 
     :
 	TeethMPresenter(selectedTeeth),
@@ -201,7 +203,7 @@ std::tuple<int, int> CrownPresenter::getInitialBridgeRange(const std::vector<Too
 	return std::tuple<int, int>(begin, end);
 }
 
-std::string CrownPresenter::getBridgeDiagnosis(int begin, int end, const std::array<Tooth, 32>& teeth)
+std::string CrownPresenter::getBridgeDiagnosis(int begin, int end, const ToothContainer& teeth)
 {
 	std::vector<const Tooth*> teethRange;
 
@@ -249,7 +251,7 @@ std::string CrownPresenter::getBridgeDiagnosis(int begin, int end, const std::ar
 	return bridgeDiagnosis;
 }
 
-std::string CrownPresenter::getBridgeRangeName(int begin, int end, const std::array<Tooth, 32>& teeth)
+std::string CrownPresenter::getBridgeRangeName(int begin, int end, const ToothContainer& teeth)
 {
 	return std::string
 	{

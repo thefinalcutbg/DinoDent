@@ -1,7 +1,7 @@
 #include "BridgeController.h"
 
 
-std::vector<std::vector<int>> selectionCutter(const std::vector<int>& indexes)
+std::vector<std::vector<int>> selectionsCutter(const std::vector<int>& indexes)
 {
 	std::vector<std::vector<int>> selections;
 
@@ -72,7 +72,7 @@ BridgeController::BridgeController()
 
 void BridgeController::formatBridges(const std::vector<int>& indexes, std::array<Tooth, 32>* teeth)
 {
-	auto selections = std::move(selectionCutter(indexes));
+	auto selections = std::move(selectionsCutter(indexes));
 
 	for (auto selection : selections)
 	{

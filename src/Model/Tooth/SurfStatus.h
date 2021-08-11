@@ -20,9 +20,9 @@ class SurfaceStatus : public Status
 
 	void setTrue(int surface)
 	{
-		
+
 		if (!m_exists)
-			for (T &t : surfaces)
+			for (T& t : surfaces)
 				t.set(false);
 
 		m_exists = true;
@@ -33,7 +33,7 @@ class SurfaceStatus : public Status
 	{
 		surfaces[surface].set(false);
 
-		for (T &t : surfaces)
+		for (T& t : surfaces)
 		{
 			if (t.exists()) return;
 		}
@@ -52,8 +52,8 @@ public:
 
 	bool exists(int surface) const
 	{
-		
-		return m_exists ? surfaces[surface].exists() : false;	
+
+		return m_exists ? surfaces[surface].exists() : false;
 	}
 
 	bool exists(Surface surface) const
@@ -69,7 +69,7 @@ public:
 
 		if (exists)
 		{
-			for (T &t : surfaces)
+			for (T& t : surfaces)
 				if (t.exists())
 					return;
 
@@ -84,6 +84,17 @@ public:
 
 	T& operator[](int surface) { return surfaces[surface]; }
 	const T& operator[](int surface) const { return surfaces[surface]; }
+
+	std::array<bool, 6> getBoolStatus() const{ 
+
+		std::array<bool, 6> boolStatus; 
+
+		for (int i = 0; i < 6; i++)
+			boolStatus[i] = exists(i);
+
+		return boolStatus;
+
+	}
 
 	void reset()
 	{

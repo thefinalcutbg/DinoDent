@@ -70,7 +70,7 @@ void SurfacePanelPresenter::setTooth(Tooth* tooth)
 {
 	currentIndex = tooth->index;
 
-	view->paintTooth(paint_hint_generator.getToothHint(*tooth));
+	view->paintTooth(ToothHintCreator::getToothHint(*tooth));
 	auto surface = matrix.getSurface(currentIndex, ButtonPos::side);
 
 	view->setSideButtonsClicked(

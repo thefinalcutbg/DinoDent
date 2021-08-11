@@ -37,7 +37,7 @@ void Tooth::setIndex(int index)
 
 
 
-std::array<bool, statusCount> Tooth::getBoolArray() const
+std::array<bool, statusCount> Tooth::getBoolStatus() const
 {
 	return std::array<bool, statusCount>
 	{
@@ -64,7 +64,7 @@ std::array<bool, statusCount> Tooth::getBoolArray() const
 
 std::string Tooth::getSimpleStatus() const
 {
-	auto boolStatus = getBoolArray();
+	auto boolStatus = getBoolStatus();
 
 	std::array<std::string, statusCount> statusLegend
 	{
@@ -113,6 +113,7 @@ template<typename T> void removeAllSurfaces(SurfaceStatus<T>& status) {
 
 void Tooth::addStatus(int statusCode)
 {
+
 	switch (statusCode)
 	{
 		case StatusCode::Temporary: 
@@ -184,6 +185,10 @@ void Tooth::setStatus(StatusType type, int code, bool state)
 		case StatusType::obturation: state ? addSurface(obturation, code, *this) : removeSurface(obturation, code); break;
 		case StatusType::caries: state ? addSurface(caries, code, *this) : removeSurface(caries, code); break;
 	}
+}
+
+void Tooth::setStatus(int code, bool state){
+	setStatus(StatusType::general, code, state);
 }
 
 void Tooth::removeStatus(StatusType type)

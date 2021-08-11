@@ -16,8 +16,6 @@ class SurfacePanelPresenter
 {
 	ISurfacePanel* view;
 	StatusPresenter* statusControl;
-
-	ToothHintCreator paint_hint_generator;
 	std::array <std::tuple<Surface, SurfaceState>, 6> surfaceState;
 
 	int currentIndex;

@@ -4,11 +4,13 @@
 #include "Model/Validator/ProcedureValidators.h"
 #include "Model/Tooth/ToothUtils.h"
 
+class ToothContainer;
+
 class CrownPresenter : public TeethMPresenter
 {
 	ICrownView* view;
 
-	const std::array<Tooth, 32>* teeth;
+	const ToothContainer* teeth;
 
 	BridgeRangeValidator range_validator;
 
@@ -17,8 +19,8 @@ class CrownPresenter : public TeethMPresenter
 	std::string bridgeRangeName;
 	double bridgePrice;
 
-	std::string getBridgeDiagnosis(int begin, int end, const std::array<Tooth, 32>& teeth);
-	std::string getBridgeRangeName(int begin, int end, const std::array<Tooth, 32>& teeth);
+	std::string getBridgeDiagnosis(int begin, int end, const ToothContainer& teeth);
+	std::string getBridgeRangeName(int begin, int end, const ToothContainer& teeth);
 	std::tuple<int, int> getInitialBridgeRange(const std::vector<Tooth*>& selectedTeeth);
 
 
@@ -26,7 +28,7 @@ class CrownPresenter : public TeethMPresenter
 	Result getResult() override;
 
 public:
-	CrownPresenter(const std::vector<Tooth*>& selectedTeeth, const std::array<Tooth, 32>& teeth);
+	CrownPresenter(const std::vector<Tooth*>& selectedTeeth, const ToothContainer& teeth);
 	
 	void setView(ICrownView* view);
 	void rangeChanged(int begin, int end);

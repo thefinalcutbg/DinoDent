@@ -1,6 +1,6 @@
 #include "ToothHintCreator.h"
 #include "Model/User/CurrentUser.h"
-#include "Model/Tooth/Tooth.h"
+#include "Model/Tooth/ToothContainer.h"
 
 bool R_U_Mine(const DentistMade& procedure)
 {
@@ -120,7 +120,7 @@ ToothPaintHint ToothHintCreator::getToothHint(const Tooth& tooth)
     return hint;
 }
 
-std::array<ToothPaintHint, 32> ToothHintCreator::getTeethHint(const std::array<Tooth, 32>& teeth)
+std::array<ToothPaintHint, 32> ToothHintCreator::getTeethHint(const ToothContainer& teeth)
 {
     std::array<ToothPaintHint, 32> paintHints;
 
@@ -134,14 +134,14 @@ std::array<ToothPaintHint, 32> ToothHintCreator::getTeethHint(const std::array<T
 
 
 
-BridgesPaintHint ToothHintCreator::statusToUIBridge(std::array<Tooth, 32>& teeth)
+BridgesPaintHint ToothHintCreator::statusToUIBridge(const ToothContainer& teeth)
 {
 
     BridgesPaintHint paintHint;
 
     for (int i = 0; i < teeth.size(); i++) {
 
-        Tooth& tooth = teeth.at(i);
+        const Tooth& tooth = teeth[i];
         BridgeAppearance appearance;
 
         if (!tooth.bridge.exists())

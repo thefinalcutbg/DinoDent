@@ -132,12 +132,6 @@
     <ClCompile Include="src\Presenter\ListPresenter\StatusPresenter\SurfacePanel\ButtonSurfaceMatrix.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Model\Tooth\ToothController\GeneralStatusControler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Model\Tooth\ToothController\SurfaceController.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Presenter\ListPresenter\StatusPresenter\CheckModelCreator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -151,9 +145,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\ListView\ToothPaintDevices\BridgePainter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Model\Tooth\ToothController\BridgeController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\ProcedureDialog\ProcedureDialog.cpp">
@@ -264,9 +255,6 @@
     <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\ImplantPresenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Model\Procedure\ProcedureApplier.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Model\Procedure\MasterNZOK.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -367,6 +355,21 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Model\Tooth\ToothContainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Model\CheckState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Model\Procedure\Procedure.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Model\Tooth\ToothController\BridgeController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Model\Tooth\ToothController\GeneralStatusControler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Model\Tooth\ToothController\SurfaceController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -644,15 +647,6 @@
     <ClInclude Include="src\Presenter\ListPresenter\StatusPresenter\SurfacePanel\ButtonSurfaceMatrix.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model\Tooth\ToothController\GeneralStatusControler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Model\Tooth\ToothController\SurfaceController.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Model\Tooth\ToothController\ToothController.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Presenter\ListPresenter\StatusPresenter\CheckModelCreator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -669,9 +663,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\ListView\ToothPaintDevices\BridgePainter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Model\Tooth\ToothController\BridgeController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\bridgeTest.h">
@@ -791,9 +782,6 @@
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\ImplantPresenter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model\Procedure\ProcedureApplier.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Model\Procedure\MasterNZOK.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -900,6 +888,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\Tooth\ToothContainer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\Tooth\ToothController\BridgeController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\Tooth\ToothController\GeneralStatusControler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\Tooth\ToothController\SurfaceController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\Tooth\ToothController\ToothController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

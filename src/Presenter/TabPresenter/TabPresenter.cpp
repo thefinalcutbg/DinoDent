@@ -99,17 +99,20 @@ void TabPresenter::setCurrentList(int index)
     listPresenter_.setData(currentList());
     view->setScrollPos(ScrollPos{ currentList()->_scrollHeight, currentList()->_scrollWidth });
 }
+
+#include <QDebug>
+
 void TabPresenter::openList(const Patient& patient)
 {
 
     if (listExists(patient)) return;
-
+    qDebug() << "predi emplace-a";
     _lists.emplace_back(); //creates the instance;
-
+    qDebug() << "sled emplace-a";
     auto& ambList = _lists.back().amb_list;
 
     amb_db.getListData(patient.id, Date::currentMonth(), Date::currentYear(), ambList),
-
+        qDebug() << "vzehme data - ta";
     _lists.back().patient = getPatient_ptr(patient);
     
     if (ambList.isNew() && !patient.isAdult(ambList.date))

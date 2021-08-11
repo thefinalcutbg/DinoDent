@@ -1,9 +1,16 @@
 #include "ToothContainer.h"
 #include <stdexcept>
 
+constexpr int defaultSurfaces[32] = { 0,0,0,0,0,3,3,3,3,3,3,0,0,0,0,0,0,0,0,0,0,3,3,3,3,3,3,0,0,0,0,0 };
+
 ToothContainer::ToothContainer(){
     teeth = new std::array<Tooth, teethNum>{};
-    for (int i = 0; i < teethNum; i++) teeth->at(i).setIndex(i);
+	for (int i = 0; i < teethNum; i++)
+	{
+		teeth->at(i).setIndex(i);
+		teeth->at(i).caries.setDefaultSurface(defaultSurfaces[i]);
+		teeth->at(i).obturation.setDefaultSurface(defaultSurfaces[i]);
+	}
 }
 
 ToothContainer::ToothContainer(const ToothContainer& other){
@@ -17,19 +24,41 @@ ToothContainer::ToothContainer(ToothContainer&& other) noexcept{
 
 Tooth& ToothContainer::operator[](int index)
 {
+
     if (teeth == nullptr) throw std::invalid_argument("container has been moved");
 
-    if (index < teethNum || index < 0) throw std::invalid_argument("index out of range");
+    if (index >= teethNum || index < 0) throw std::invalid_argument("index out of range");
 
     return teeth->at(index);
 }
+
+const Tooth& ToothContainer::operator[](int index) const
+{
+	if (teeth == nullptr) throw std::invalid_argument("container has been moved");
+
+	if (index >= teethNum || index < 0) throw std::invalid_argument("index out of range");
+
+	return teeth->at(index);
+}
+
+ToothContainer& ToothContainer::operator=(const ToothContainer& other)
+{
+	if (this == &other) return *this;
+
+	delete teeth;
+	teeth = new std::array<Tooth, teethNum>;
+	for (int i = 0; i < teethNum; i++) teeth->at(i) = other.teeth->at(i);
+	return *this;
+}
+
+
 
 
 ToothContainer::~ToothContainer(){
     if (teeth) delete teeth;
 }
 
-std::vector<std::vector<int>> selectionCutter(const std::vector<int>& indexes)
+std::vector<std::vector<int> > selectionCutter(const std::vector<int>& indexes)
 {
 	std::vector<std::vector<int>> selections;
 
@@ -54,7 +83,6 @@ void ToothContainer::formatSelection(const std::vector<int>& selection)
 	for (int i = 0; i < selection.size(); i++)
 	{
 		if (i == 0) {
-
 			teeth->at(selection[i]).bridge.position = BridgePos::Begin;
 		}
 		else if (i == selection.size() - 1) {
@@ -92,19 +120,17 @@ void ToothContainer::formatSelection(const std::vector<int>& selection)
 
 }
 
-
 void ToothContainer::formatBridges(const std::vector<int>& indexes)
 {
     auto selections = std::move(selectionCutter(indexes));
 
     for (auto selection : selections)
-    {
-        if (selection.size() == 1) //case in which only one tooth is selected
-        {
+	{
+        if (selection.size() == 1){ //case in which only one tooth is selected
             teeth->at(selection[0]).bridge.set(false);
         }
 
-        formatSelection(selection, teeth);
+        formatSelection(selection);
     }
 }
 

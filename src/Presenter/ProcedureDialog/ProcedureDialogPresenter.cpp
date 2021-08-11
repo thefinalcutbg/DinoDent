@@ -10,7 +10,7 @@
 ProcedureDialogPresenter::ProcedureDialogPresenter
 (
 	const std::vector<Tooth*>& selectedTeeth,
-	const std::array<Tooth, 32>& teeth,
+	const ToothContainer& teeth,
 	const Date& ambListDate,
 	const Date& patientTurns18,
 	bool unfavourable,

@@ -1,5 +1,5 @@
 #include "ToothParser.h"
-
+#include "ToothContainer.h"
 
 Json::Value ToothParser::writePathology(int index, const Pathology& pathology)
 {
@@ -27,13 +27,13 @@ Json::Value ToothParser::writeMaterial(int index, const Material& procedure)
 	return parameters;
 }
 
-std::string ToothParser::write(const std::array<Tooth, 32>& teeth)
+std::string ToothParser::write(const ToothContainer& teeth)
 {
 	Json::Value status;
 
-	for (int i = 0; i < teeth.size(); i++)
+	for (int i = 0; i < 32; i++)
 	{
-		const Tooth& tooth = teeth.at(i);
+		const Tooth& tooth = teeth[i];
 
 				
 				if (tooth.temporary.exists())
@@ -243,7 +243,7 @@ std::string ToothParser::write(const std::array<Tooth, 32>& teeth)
 	return writer.write(status);
 }
 
-void ToothParser::parse(const std::string& jsonString, std::array<Tooth, 32>& teeth)
+void ToothParser::parse(const std::string& jsonString, ToothContainer& teeth)
 {
 	Json::Value status;
 	Json::Reader reader;

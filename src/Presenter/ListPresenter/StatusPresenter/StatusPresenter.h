@@ -2,7 +2,7 @@
 #include "CheckModelCreator.h"
 #include "StatusControl.h"
 #include "View/ListView/IStatusView.h"
-#include "ToothHintCreator.h"
+
 #include "Model/Tooth/ToothController/BridgeController.h"
 #include "SurfacePanel/SurfacePanelPresenter.h"
 #include "../Editor.h"
@@ -14,13 +14,12 @@ class StatusPresenter : public Editor
 {
 	CheckModelCreator checkCreator;
 	StatusControl statusControl;
-	ToothHintCreator paint_hint_generator;
 	BridgeController bridgeController;
 	SurfacePanelPresenter surf_presenter;
 	IStatusView* view;
 	ProcedurePresenter* procedure_presenter;
 
-	std::array<Tooth, 32>* teeth;
+	ToothContainer* teeth;
 	std::vector<Tooth*>* selectedTeeth;
 
 	std::vector<int> getSelectedIndexes();
@@ -28,7 +27,7 @@ class StatusPresenter : public Editor
 	void statusChanged();
 public:
 	
-	void setData(std::array<Tooth, 32>& teeth, std::vector<Tooth*>& selectedTeeth);
+	void setData(ToothContainer& teeth, std::vector<Tooth*>& selectedTeeth);
 	void setView(IStatusView* view);
 	void setProcedurePresenter(ProcedurePresenter* p);
 

@@ -35,3 +35,46 @@ enum class SurfaceType { obturation, caries };
 
 enum class ButtonPos { left, up, right, down, center, side };
 
+namespace Actions
+{ 
+enum GeneralActions
+{
+	Temporary,
+	Obturation,
+	Caries,
+	Pulpitis,
+	ApicalLesion,
+	EndoTreatment,
+	Post,
+	Root, Fracture,
+	Extraction,
+	Periodontitis,
+	Mobility1,
+	Mobility2,
+	Mobility3,
+	Crown,
+	Bridge,
+	Implant,
+	Dsn,
+	ObturationOcclusal,
+	ObturationMedial,
+	ObturationDistal,
+	ObturationBuccal,
+	ObturationLingual,
+	ObturationCervical,
+	CariesOcclusal,
+	CariesMedial,
+	CariesDistal,
+	CariesBuccal,
+	CariesLingual,
+	CariesCervical,
+	MO,
+	DO,
+	MOD,
+	removeO,
+	removeC,
+	removeAll,
+	removeBridge
+};
+
+}

@@ -33,7 +33,7 @@ std::string DbAmbList::getLastStatus(std::string patientID)
     return jsonStatus;
 }
 
-std::vector<Procedure> DbAmbList::getOlderManipulations(std::string patientID)
+std::vector<Procedure> DbAmbList::previousProcedures(std::string patientID)
 {
     openConnection();
 
@@ -60,7 +60,7 @@ std::vector<Procedure> DbAmbList::getOlderManipulations(std::string patientID)
 
     if (amb_id.empty()) return std::vector<Procedure>{};
 
-    return db_manipulation.getManipulations(amb_id, date);
+    return db_procedures.getManipulations(amb_id, date);
 }
 
 
@@ -89,7 +89,7 @@ void DbAmbList::insertAmbList(AmbList& ambList, std::string &patientID)
 
     closeConnection();
 
-    db_manipulation.saveManipulations(ambList.id, ambList.procedures);
+    db_procedures.saveManipulations(ambList.id, ambList.procedures);
 
 }
 
@@ -115,7 +115,7 @@ void DbAmbList::updateAmbList(AmbList& ambList)
 
     closeConnection();
 
-    db_manipulation.saveManipulations(ambList.id, ambList.procedures);
+    db_procedures.saveManipulations(ambList.id, ambList.procedures);
 }
 
 std::vector<AmbListRow> DbAmbList::getAmbListRows(const Date& from, const Date& to)
@@ -214,13 +214,18 @@ void DbAmbList::getListData(const std::string& patientID, int month, int year, A
     if (ambList.isNew())
     {
         procedureParser.parse(getLastStatus(patientID), ambList.teeth);
-        m_applier.applyProcedures(getOlderManipulations(patientID), ambList.teeth, CurrentUser::instance().LPK);
+        auto procedures = previousProcedures(patientID);
+        for (auto& p : procedures)
+        {
+            p.applyProcedure(ambList.teeth);
+        }
+
         ambList.LPK = CurrentUser::instance().LPK;
     }
     else
     {
         procedureParser.parse(status_json, ambList.teeth);
-        ambList.procedures = db_manipulation.getManipulations(ambList.id, ambList.date);
+        ambList.procedures = db_procedures.getManipulations(ambList.id, ambList.date);
     }
 
 }
@@ -255,7 +260,7 @@ void DbAmbList::getListData(const std::string& ambID, AmbList& ambList)
     closeConnection();
 
     procedureParser.parse(status_json, ambList.teeth);
-    ambList.procedures = db_manipulation.getManipulations(ambList.id, ambList.date);
+    ambList.procedures = db_procedures.getManipulations(ambList.id, ambList.date);
 
 }
 

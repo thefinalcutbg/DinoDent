@@ -4,24 +4,15 @@
 #include <vector>
 #include "Patient.h"
 #include "Date.h"
-#include "Tooth/Tooth.h"
+#include "Tooth/ToothContainer.h"
 #include "Procedure/Procedure.h"
 
-
-constexpr int defaultSurfaces[32] = { 0,0,0,0,0,3,3,3,3,3,3,0,0,0,0,0,0,0,0,0,0,3,3,3,3,3,3,0,0,0,0,0 };
 
 enum class Charge {standard, retired, freed};
 
 struct AmbList
 {
-	AmbList()
-	{
-		for (int i = 0; i < teeth.size(); i++) {
-			teeth[i].index = i;
-			teeth[i].caries.setDefaultSurface(defaultSurfaces[i]);
-			teeth[i].obturation.setDefaultSurface(defaultSurfaces[i]);
-		}
-	}
+	AmbList() {}
 
 	std::string id{"0"};
 	Date date{ Date::currentDate() };
@@ -31,8 +22,10 @@ struct AmbList
 	bool pregnancy{ false };
 	Charge charge{ Charge::standard };
 
+	ToothContainer teeth;
+
 	std::vector<Procedure> procedures;
-	std::array <Tooth, 32> teeth;
+	//std::array <Tooth, 32> teeth;
 	~AmbList() {  }
 	bool isNew(){ return id == "0"; }
 };

@@ -2,13 +2,14 @@
 #include "Model/Tooth/ToothUtils.h"
 #include "View/ListView/ToothPaintDevices/PaintHint.h"
 
+class ToothContainer;
 
-class ToothHintCreator
+namespace ToothHintCreator
 {
-public:
-	BridgesPaintHint statusToUIBridge(std::array<Tooth, 32>& teeth);
+
+	BridgesPaintHint statusToUIBridge(const ToothContainer& teeth);
 	ToothPaintHint getToothHint(const Tooth& tooth);
-	std::array<ToothPaintHint, 32> getTeethHint(const std::array<Tooth, 32>& teeth);
+	std::array<ToothPaintHint, 32> getTeethHint(const ToothContainer& teeth);
 
 };
 

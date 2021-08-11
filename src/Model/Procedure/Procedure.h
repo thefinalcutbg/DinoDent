@@ -5,6 +5,9 @@
 #include "Model/Date.h"
 #include "ProcedureTemplate.h"
 #include "Model/Tooth/Vita.h"
+
+class ToothContainer;
+
 struct NoData {};
 
 struct CrownData {
@@ -76,6 +79,8 @@ struct Procedure
     Result result;
 
     std::string LPK;
+
+    void applyProcedure(ToothContainer& teeth);
 
     //NZOK specific:
     bool nzok;

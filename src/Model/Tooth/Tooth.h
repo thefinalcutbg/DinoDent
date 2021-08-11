@@ -31,7 +31,7 @@ public:
 	Status hyperdontic;
 	Status periodontitis;
 	Mobility mobility;
-
+	
 	DentistMade endo;
 	Implant implant;
 	DentistMade post;
@@ -55,8 +55,9 @@ private:
 
 public:
 
-	std::array<bool, statusCount> getBoolArray() const;
-	void setStatus(StatusType type, int code, bool state);
+	std::array<bool, statusCount> getBoolStatus() const;
+	void setStatus(StatusType type, int code, bool state = true);
+	void setStatus(int code, bool state = true);
 	void removeStatus(StatusType type);
 
 	std::string getSimpleStatus() const;

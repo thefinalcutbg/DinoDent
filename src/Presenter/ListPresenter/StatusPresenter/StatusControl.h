@@ -7,7 +7,20 @@
 #include "Model/Tooth/ToothController/GeneralStatusControler.h"
 #include "Model/Tooth/ToothController/SurfaceController.h"
 #include "InputEnums.h"
+#include "Model/Tooth/ToothContainer.h"
+void changeStatus(std::vector<int>selectedIndexes, ToothContainer& teeth, StatusAction action)
+{
+    CheckModel m(teeth, selectedIndexes);
 
+    if (m.generalStatus[static_cast<int>(action)] == CheckState::checked)
+    {
+        for (int index : selectedIndexes)
+            teeth[index].setStatus(static_cast<int>(action), false);
+
+        return;
+    }
+
+}
 
 class StatusControl
 {

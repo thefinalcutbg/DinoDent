@@ -36,10 +36,6 @@ ButtonSurfaceMatrix::ButtonSurfaceMatrix()
 	map[31] = lowRightPost;
 }
 
-Surface ButtonSurfaceMatrix::getSurface(int toothIndex, ButtonPos position)
-{
-	return static_cast<Surface>
-	(
-		map[toothIndex][static_cast<int>(position)]
-	);
+int ButtonSurfaceMatrix::getSurface(int toothIndex, ButtonPos position){ 
+	return map[toothIndex][static_cast<int>(position)];
 }

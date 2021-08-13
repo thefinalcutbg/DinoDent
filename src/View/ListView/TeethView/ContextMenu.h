@@ -5,8 +5,10 @@
 
 #include <type_traits>
 
-#include "Model/CheckState.h"
-
+class CheckModel;
+#include "Presenter/ListPresenter/StatusPresenter/InputEnums.h"
+#include "Model/Tooth/Enums.h"
+#include "Presenter/ListPresenter/StatusPresenter/CheckState.h"
 
 class ProcedurePresenter;
 class StatusPresenter;
@@ -20,9 +22,10 @@ class ContextMenu : public QMenu
 
     QAction* addProcedure;
     QAction* details;
-    std::array<QAction*, 6>surfObt;
-    std::array<QAction*, 6> surfCar;
-    std::array<QAction*, 25> menuAction;
+    std::array<QAction*, surfaceCount>surfObt;
+    std::array<QAction*, surfaceCount> surfCar;
+    std::array<QAction*, statusCount> menuAction;
+    std::array<QAction*, otherInputsCount> otherActions;
 
 
     template <typename ModelArray, typename ActionArray, int CheckStateSize = std::tuple_size<ModelArray>::value>

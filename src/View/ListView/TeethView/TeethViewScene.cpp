@@ -219,28 +219,28 @@ void TeethViewScene::keyPressEvent(QKeyEvent* event)
         break;
     }
 
-    case Qt::Key_Delete: presenter->changeStatus(StatusAction::removeAll);; break;
+    case Qt::Key_Delete: presenter->setOther(OtherInputs::removeAll);; break;
     }
 
       switch (event->nativeVirtualKey()) //shortcut keys for input diagnosis
    {
-      case Qt::Key_T :presenter->changeStatus(StatusAction::Temporary); break;
-      case Qt::Key_O :presenter->changeStatus(StatusAction::Obturation); break;
-      case Qt::Key_C :presenter->changeStatus(StatusAction::Caries); break;
-      case Qt::Key_R :presenter->changeStatus(StatusAction::Root); break;
-      case Qt::Key_E :presenter->changeStatus(StatusAction::Extraction); break;
-      case Qt::Key_S: presenter->changeStatus(StatusAction::Post); break;
-      case Qt::Key_P :presenter->changeStatus(StatusAction::Pulpitis); break;
-      case Qt::Key_D :presenter->changeStatus(StatusAction::EndoTreatment); break;
-      case Qt::Key_F: presenter->changeStatus(StatusAction::Fracture); break;
-      case Qt::Key_I :presenter->changeStatus(StatusAction::Implant); break;
-      case Qt::Key_L :presenter->changeStatus(StatusAction::Periodontitis); break;
-      case Qt::Key_1 :presenter->changeStatus(StatusAction::Mobility1); break;
-      case Qt::Key_2 :presenter->changeStatus(StatusAction::Mobility2); break;
-      case Qt::Key_3 :presenter->changeStatus(StatusAction::Mobility3); break;
-      case Qt::Key_K :presenter->changeStatus(StatusAction::Crown); break;
-      case Qt::Key_G :presenter->changeStatus(StatusAction::ApicalLesion); break;
-      case Qt::Key_B :presenter->changeStatus(StatusAction::Bridge); break;
+      case Qt::Key_T :presenter->setMainStatus(StatusCode::Temporary); break;
+      case Qt::Key_O :presenter->setMainStatus(StatusCode::Obturation); break;
+      case Qt::Key_C :presenter->setMainStatus(StatusCode::Caries); break;
+      case Qt::Key_R :presenter->setMainStatus(StatusCode::Root); break;
+      case Qt::Key_E :presenter->setMainStatus(StatusCode::Extraction); break;
+      case Qt::Key_S: presenter->setMainStatus(StatusCode::Post); break;
+      case Qt::Key_P :presenter->setMainStatus(StatusCode::Pulpitis); break;
+      case Qt::Key_D :presenter->setMainStatus(StatusCode::EndoTreatment); break;
+      case Qt::Key_F: presenter->setMainStatus(StatusCode::Fracture); break;
+      case Qt::Key_I :presenter->setMainStatus(StatusCode::Implant); break;
+      case Qt::Key_L :presenter->setMainStatus(StatusCode::Periodontitis); break;
+      case Qt::Key_1 :presenter->setMainStatus(StatusCode::Mobility1); break;
+      case Qt::Key_2 :presenter->setMainStatus(StatusCode::Mobility2); break;
+      case Qt::Key_3 :presenter->setMainStatus(StatusCode::Mobility3); break;
+      case Qt::Key_K :presenter->setMainStatus(StatusCode::Crown); break;
+      case Qt::Key_G :presenter->setMainStatus(StatusCode::ApicalLesion); break;
+      case Qt::Key_B :presenter->setMainStatus(StatusCode::Bridge); break;
       case Qt::Key_A:
           if (event->modifiers() & Qt::ControlModifier)
               for (int i = 0; i < 32; i++) selectionBox[i]->setSelected(1);

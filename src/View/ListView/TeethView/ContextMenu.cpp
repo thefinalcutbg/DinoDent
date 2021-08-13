@@ -14,78 +14,87 @@ ContextMenu::ContextMenu()
     
     addSeparator();
 
-    QString actionNames[25] =
-                        { "Временен зъб", "Обтурация", "Кариес",  "Пулпит", "Периодонтит",
-                           "Ендодонтско лечение", "Радикуларен щифт", "Корен", "Фрактура", "Екстракция",
-                            "Пародонтит", "Първа степен", "Втора степен", "Трета степен",
-                           "Корона", "Мост/Блок корони",  "Имплант", "Свръхброен зъб",
-                            "Обтурация МО", "Обтурация ДО", "Обтурация МОД",
-                            "Премахни"/*обтурация*/, "Премахни"/*кариес*/, "Премахни статус", "Премахни мост"};
+    QString actionNames[statusCount] =
+    { "Временен зъб", "Обтурация", "Кариес",  "Пулпит", "Периодонтит",
+      "Ендодонтско лечение", "Радикуларен щифт", "Корен", "Фрактура", "Екстракция",
+      "Пародонтит", "Първа степен", "Втора степен", "Трета степен",
+      "Корона", "Мост/Блок корони",  "Имплант", "Свръхброен зъб" };
+                            
 
-    for (int i = 0; i < ActionCount; i++) //too lazy to initialize all the actions;
+    QString otherActionNames[otherInputsCount]
+    {
+        "Обтурация МО", "Обтурация ДО", "Обтурация МОД",
+        "Премахни"/*обтурация*/, "Премахни"/*кариес*/, "Премахни статус", "Премахни мост"
+    };
+
+
+    for (int i = 0; i < statusCount; i++) //too lazy to initialize all the actions;
     {
         menuAction[i] = new QAction(actionNames[i]);
-        connect(menuAction[i], &QAction::triggered, [this, i]() { this->status_presenter->changeStatus(static_cast<StatusAction>(i)); });
+        connect(menuAction[i], &QAction::triggered, [this, i]() { this->status_presenter->setMainStatus(i); });
     }
-    addAction(menuAction[static_cast<int>(StatusAction::Temporary)]);
+
+    for (int i = 0; i < otherInputsCount; i++) //too lazy to initialize all the actions;
+    {
+        otherActions[i] = new QAction(otherActionNames[i]);
+        connect(otherActions[i], &QAction::triggered, [this, i]() { this->status_presenter->setOther(i); });
+    }
+
+    addAction(menuAction[StatusCode::Temporary]);
 
     QMenu* ObturMenu = addMenu("&Обтурация");
     QMenu* CariesMenu = addMenu("&Кариес");
     QMenu* EndoMenu = addMenu("&Ендодонтия");
     QMenu* SurgeryMenu = addMenu("&Хирургия");
 
-    QString surfName[6] = { "&Оклузално", "&Медиално", "&Дистално", "&Букално", "&Лингвално", "&Цервикално" };
+    QString surfName[surfaceCount] = { "&Оклузално", "&Медиално", "&Дистално", "&Букално", "&Лингвално", "&Цервикално" };
 
-    for (int i = 0; i < 6; i++)
+    for (int i = 0; i < surfaceCount; i++)
     {
         surfObt[i] = ObturMenu->addAction(surfName[i]);
-        connect(surfObt[i], &QAction::triggered, [this, i]() {this->status_presenter->changeStatus(static_cast<Surface>(i), SurfaceType::obturation); });
+        connect(surfObt[i], &QAction::triggered, [this, i]() {this->status_presenter->setObturation(i); });
 
         surfCar[i] = CariesMenu->addAction(surfName[i]);
-        connect(surfCar[i], &QAction::triggered, [this, i]() {this->status_presenter->changeStatus(static_cast<Surface>(i), SurfaceType::caries); });
+        connect(surfCar[i], &QAction::triggered, [this, i]() {this->status_presenter->setCaries(i); });
     }
 
 
     ObturMenu->addSeparator();
-    ObturMenu->addAction(menuAction[static_cast<int>(StatusAction::MO)]);
-    ObturMenu->addAction(menuAction[static_cast<int>(StatusAction::DO)]);
-    ObturMenu->addAction(menuAction[static_cast<int>(StatusAction::MOD)]);
+    ObturMenu->addAction(otherActions[OtherInputs::MO]);
+    ObturMenu->addAction(otherActions[OtherInputs::DO]);
+    ObturMenu->addAction(otherActions[OtherInputs::MOD]);
     ObturMenu->addSeparator();
-    ObturMenu->addAction(menuAction[static_cast<int>(StatusAction::removeO)]);
+    ObturMenu->addAction(otherActions[OtherInputs::removeO]);
 
     CariesMenu->addSeparator();
-    CariesMenu->addAction(menuAction[static_cast<int>(StatusAction::removeC)]);
+    CariesMenu->addAction(otherActions[OtherInputs::removeC]);
 
-    EndoMenu->addAction(menuAction[static_cast<int>(StatusAction::Pulpitis)]);
-    EndoMenu->addAction(menuAction[static_cast<int>(StatusAction::ApicalLesion)]);
-    EndoMenu->addAction(menuAction[static_cast<int>(StatusAction::EndoTreatment)]);
-    EndoMenu->addAction(menuAction[static_cast<int>(StatusAction::Post)]);
+    EndoMenu->addAction(menuAction[StatusCode::Pulpitis]);
+    EndoMenu->addAction(menuAction[StatusCode::ApicalLesion]);
+    EndoMenu->addAction(menuAction[StatusCode::EndoTreatment]);
+    EndoMenu->addAction(menuAction[StatusCode::Post]);
 
-    SurgeryMenu->addAction(menuAction[static_cast<int>(StatusAction::Extraction)]);
-    SurgeryMenu->addAction(menuAction[static_cast<int>(StatusAction::Root)]);
-    SurgeryMenu->addAction(menuAction[static_cast<int>(StatusAction::Implant)]);
-    SurgeryMenu->addAction(menuAction[static_cast<int>(StatusAction::Fracture)]);
-    SurgeryMenu->addAction(menuAction[static_cast<int>(StatusAction::Dsn)]);
+    SurgeryMenu->addAction(menuAction[StatusCode::Extraction]);
+    SurgeryMenu->addAction(menuAction[StatusCode::Root]);
+    SurgeryMenu->addAction(menuAction[StatusCode::Implant]);
+    SurgeryMenu->addAction(menuAction[StatusCode::Fracture]);
+    SurgeryMenu->addAction(menuAction[StatusCode::Dsn]);
 
-    addAction(menuAction[static_cast<int>(StatusAction::Periodontitis)]);
+    addAction(menuAction[StatusCode::Periodontitis]);
     QMenu* MobiMenu = addMenu("Подвижност");
-    MobiMenu->addAction(menuAction[static_cast<int>(StatusAction::Mobility1)]);
-    MobiMenu->addAction(menuAction[static_cast<int>(StatusAction::Mobility2)]);
-    MobiMenu->addAction(menuAction[static_cast<int>(StatusAction::Mobility3)]);
+    MobiMenu->addAction(menuAction[StatusCode::Mobility1]);
+    MobiMenu->addAction(menuAction[StatusCode::Mobility2]);
+    MobiMenu->addAction(menuAction[StatusCode::Mobility3]);
     addSeparator();
-    addAction(menuAction[static_cast<int>(StatusAction::Crown)]);
-    addAction(menuAction[static_cast<int>(StatusAction::Bridge)]);
+    addAction(menuAction[StatusCode::Crown]);
+    addAction(menuAction[StatusCode::Bridge]);
     addSeparator();
 
-;
-
-//    QAction* bridgeRemove = addAction("&Премахни мост");
-//    connect(bridgeRemove, &QAction::triggered, [this]() {  });
-    addAction(menuAction[static_cast<int>(StatusAction::removeAll)]);
+    addAction(otherActions[OtherInputs::removeAll]);
 
     addSeparator();
 
-    addAction(menuAction[static_cast<int>(StatusAction::removeBridge)]);
+    addAction(otherActions[OtherInputs::removeBridge]);
 }
 
 void ContextMenu::setSelection(bool single) { details->setEnabled(single); }

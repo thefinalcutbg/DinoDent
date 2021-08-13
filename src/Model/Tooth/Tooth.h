@@ -49,13 +49,14 @@ public:
 
 private:
 
-	void addStatus(int statusCode);
-	void removeStatus(int statusCode);
-	void removeStatus();
+
 
 public:
 
 	std::array<bool, statusCount> getBoolStatus() const;
+	void addStatus(int statusCode);
+	void removeStatus(int statusCode);
+	void removeStatus();
 	void setStatus(StatusType type, int code, bool state = true);
 	void setStatus(int code, bool state = true);
 	void removeStatus(StatusType type);

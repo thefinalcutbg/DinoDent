@@ -132,12 +132,6 @@
     <ClCompile Include="src\Presenter\ListPresenter\StatusPresenter\SurfacePanel\ButtonSurfaceMatrix.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Presenter\ListPresenter\StatusPresenter\CheckModelCreator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Presenter\ListPresenter\StatusPresenter\StatusControl.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Presenter\ListPresenter\ListPresenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -357,19 +351,10 @@
     <ClCompile Include="src\Model\Tooth\ToothContainer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Model\CheckState.cpp">
+    <ClCompile Include="src\Presenter\ListPresenter\StatusPresenter\CheckState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Model\Procedure\Procedure.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Model\Tooth\ToothController\BridgeController.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Model\Tooth\ToothController\GeneralStatusControler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Model\Tooth\ToothController\SurfaceController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -614,7 +599,7 @@
     <ClInclude Include="src\Model\Validator\AbstractValidator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model\CheckState.h">
+    <ClInclude Include="src\Presenter\ListPresenter\StatusPresenter\CheckState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\ListView\ToothPaintDevices\SpriteRect.h">
@@ -645,12 +630,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Presenter\ListPresenter\StatusPresenter\SurfacePanel\ButtonSurfaceMatrix.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Presenter\ListPresenter\StatusPresenter\CheckModelCreator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Presenter\ListPresenter\StatusPresenter\StatusControl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Presenter\ListPresenter\ListPresenter.h">
@@ -888,18 +867,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\Tooth\ToothContainer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Model\Tooth\ToothController\BridgeController.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Model\Tooth\ToothController\GeneralStatusControler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Model\Tooth\ToothController\SurfaceController.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Model\Tooth\ToothController\ToothController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

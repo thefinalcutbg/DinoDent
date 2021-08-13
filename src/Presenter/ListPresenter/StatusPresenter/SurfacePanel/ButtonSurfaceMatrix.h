@@ -21,6 +21,6 @@ class ButtonSurfaceMatrix
 public:
 	ButtonSurfaceMatrix();
 
-	Surface getSurface(int toothIndex, ButtonPos position);
+	int getSurface(int toothIndex, ButtonPos position);
 };
 

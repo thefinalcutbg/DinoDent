@@ -1,13 +1,17 @@
 #pragma once
 #include <array>
 #include <vector>
+#include "Model/Tooth/Tooth.h"
+
 enum class CheckState { unchecked, checked, partially_checked };
 
 class ToothContainer;
 
 struct CheckModel
 {
-    CheckModel(const ToothContainer& teeth, const std::vector<int>& selectedTeeth);
+
+
+    CheckModel(const std::vector<Tooth*>& selectedTeeth);
 
     CheckModel() :
         generalStatus { CheckState::unchecked },

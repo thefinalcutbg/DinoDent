@@ -26,6 +26,7 @@ public:
 
 	constexpr int size() const { return teethNum; }
 
+	std::vector<Tooth*> getSelectedTeethPtr(std::vector<int> selectedIndexes);
 
 	Tooth& at(int index) { return (*this)[index]; }
 	const Tooth& at(int index) const { return(*this)[index]; }

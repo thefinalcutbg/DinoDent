@@ -41,6 +41,16 @@ const Tooth& ToothContainer::operator[](int index) const
 	return teeth->at(index);
 }
 
+
+std::vector<Tooth*> ToothContainer::getSelectedTeethPtr(std::vector<int> selectedIndexes)
+{
+	std::vector<Tooth*> selectedPtr;
+	selectedPtr.reserve(selectedIndexes.size());
+	for (auto i : selectedIndexes)
+		selectedPtr.push_back(&teeth->at(i));
+	return selectedPtr;
+}
+
 ToothContainer& ToothContainer::operator=(const ToothContainer& other)
 {
 	if (this == &other) return *this;

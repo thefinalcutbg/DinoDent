@@ -17,15 +17,6 @@ void SurfacePanelPresenter::setStatusControl(StatusPresenter* s_ctrl)
 }
 
 
-void SurfacePanelPresenter::sideButtonClicked(SurfaceType surf_type)
-{
-	auto surface = matrix.getSurface(currentIndex, ButtonPos::side);
-
-	statusControl->changeStatus(surface, surf_type);
-}
-
-
-
 void SurfacePanelPresenter::buttonClicked(ButtonPos position, SurfaceClick click)
 {
 	auto [surface, state] = surfaceState[static_cast<int>(position)];
@@ -34,36 +25,44 @@ void SurfacePanelPresenter::buttonClicked(ButtonPos position, SurfaceClick click
 		switch (state)
 		{
 		case SurfaceState::none:
-			statusControl->changeStatus(surface, SurfaceType::obturation);
+			statusControl->setObturation(surface);
 			break;
 		case SurfaceState::obturation:
-			statusControl->changeStatus(surface, SurfaceType::caries);
-			statusControl->changeStatus(surface, SurfaceType::obturation);
+			statusControl->setCaries(surface);
+			statusControl->setObturation(surface);
 			break;
 		case SurfaceState::caries:
-			statusControl->changeStatus(surface, SurfaceType::obturation);
+			statusControl->setObturation(surface);
 			break;
 		case SurfaceState::secondary:
-			statusControl->changeStatus(surface, SurfaceType::caries);
+			statusControl->setCaries(surface);
 			break;
 		}
 	else
 		switch (state)
 		{ 
 		case::SurfaceState::obturation:
-			statusControl->changeStatus(surface, SurfaceType::obturation);
+			statusControl->setObturation(surface);
 			break;
 		case::SurfaceState::caries:
-			statusControl->changeStatus(surface, SurfaceType::caries);
+			statusControl->setCaries(surface);
 			break;
 		case::SurfaceState::secondary:
-			statusControl->changeStatus(surface, SurfaceType::obturation);
-			statusControl->changeStatus(surface, SurfaceType::caries);
+			statusControl->setObturation(surface);
+			statusControl->setCaries(surface);
 			break;
 		case SurfaceState::none:
 			break;
 		};
 
+}
+
+void SurfacePanelPresenter::sideCariesClicked() {	
+statusControl->setCaries(matrix.getSurface(currentIndex, ButtonPos::side));
+}
+
+void SurfacePanelPresenter::sideObturationClicked(){
+statusControl->setObturation(matrix.getSurface(currentIndex, ButtonPos::side));
 }
 
 void SurfacePanelPresenter::setTooth(Tooth* tooth)

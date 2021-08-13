@@ -16,7 +16,7 @@ class SurfacePanelPresenter
 {
 	ISurfacePanel* view;
 	StatusPresenter* statusControl;
-	std::array <std::tuple<Surface, SurfaceState>, 6> surfaceState;
+	std::array <std::tuple<int, SurfaceState>, 6> surfaceState;
 
 	int currentIndex;
 	ButtonSurfaceMatrix matrix;
@@ -29,7 +29,8 @@ public:
 		void setStatusControl(StatusPresenter* status_presenter);
 		void setTooth(Tooth* tooth);
 		void buttonClicked(ButtonPos position, SurfaceClick click);
-		void sideButtonClicked(SurfaceType surf_type);
+		void sideCariesClicked();
+		void sideObturationClicked();
 
 };
 

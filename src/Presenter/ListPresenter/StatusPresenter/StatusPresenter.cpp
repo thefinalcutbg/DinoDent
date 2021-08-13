@@ -3,6 +3,8 @@
 #include "ToothHintCreator.h"
 #include "Model/Tooth/ToothContainer.h"
 
+#include <QDebug>
+
 std::vector<int> StatusPresenter::getSelectedIndexes()
 {
     std::vector<int> selectedIndexes;
@@ -23,12 +25,11 @@ void StatusPresenter::setProcedurePresenter(ProcedurePresenter* p)
 
 void StatusPresenter::statusChanged()
 {
-        auto m = checkCreator.refreshModel(*selectedTeeth);
+    qDebug() << "refreshing status";
+
+        m_checkModel = CheckModel(*selectedTeeth);
       
-        view->setCheckModel(m);
-        statusControl.setCheckModel(m);
-
-
+        view->setCheckModel(m_checkModel);;
 
         for (auto& t : *selectedTeeth)
         {
@@ -74,54 +75,98 @@ void StatusPresenter::setView(IStatusView* view)
     view->surfacePanel()->setPresenter(&surf_presenter);
 }
 
-void StatusPresenter::changeStatus(Surface surface, SurfaceType type)
+void StatusPresenter::setObturation(int surface)
 {
-	statusControl.changeStatus(surface, type);
+    bool state = m_checkModel.obturationStatus[surface] != CheckState::checked;
+
+    for (auto& t : *selectedTeeth) t->setStatus(StatusType::obturation, surface, state);
+
     statusChanged();
 }
 
-void StatusPresenter::changeStatus(StatusAction status)
+void StatusPresenter::setCaries(int surface)
 {
-    if (status == StatusAction::removeBridge)
+    bool state = m_checkModel.cariesStatus[surface] != CheckState::checked;
+
+    for (auto& t : *selectedTeeth) t->setStatus(StatusType::caries, surface, state);
+
+    statusChanged();
+}
+
+void StatusPresenter::setMainStatus(int code)
+{
+    qDebug() << "changing main status";
+
+    bool state = m_checkModel.generalStatus[code] != CheckState::checked;
+
+    for (auto& t : *selectedTeeth)
     {
-        for (auto& t : *selectedTeeth)
-        {
-            teeth->removeBridge(t->index);
-        }
-        view->repaintBridges(ToothHintCreator::statusToUIBridge(*teeth));
-        return;
+        t->setStatus(StatusType::general, code, state);
     }
 
-    statusControl.changeStatus(status);
-
-    if (status == StatusAction::Bridge || status == StatusAction::Crown) {
+    if (code == StatusCode::Bridge || code == StatusCode::Crown) {
         teeth->formatBridges(getSelectedIndexes());
     }
-    else if (status == StatusAction::Temporary)
+    else if (code == StatusCode::Temporary)
     {
-        if(procedure_presenter)
-        procedure_presenter->refreshProcedureView(); //updates the teeth num
+        if (procedure_presenter)
+            procedure_presenter->refreshProcedureView(); //updates the teeth num
     }
 
     statusChanged();
 }
+
+void StatusPresenter::setOther(int code)
+{
+
+    auto DO = [](Tooth* t)
+    {
+        t->removeStatus(StatusCode::Obturation);
+        t->setStatus(StatusType::obturation, Surface::Distal);
+        t->setStatus(StatusType::obturation, Surface::Occlusal);
+    };
+
+    auto MO = [](Tooth* t)
+    {
+        t->removeStatus(StatusCode::Obturation);
+        t->setStatus(StatusType::obturation, Surface::Medial);
+        t->setStatus(StatusType::obturation, Surface::Occlusal);
+    };
+
+    auto MOD = [](Tooth* t)
+    {
+        t->removeStatus(StatusCode::Obturation);
+        t->setStatus(StatusType::obturation, Surface::Medial);
+        t->setStatus(StatusType::obturation, Surface::Distal);
+        t->setStatus(StatusType::obturation, Surface::Occlusal);
+    };
+
+
+    switch (code)
+    {
+    case OtherInputs::DO: for (auto& t : *selectedTeeth)DO(t); break;
+    case OtherInputs::MO: for (auto& t : *selectedTeeth)MO(t); break;
+    case OtherInputs::MOD: for (auto& t : *selectedTeeth)MOD(t); break;
+    case OtherInputs::removeAll: for (auto& t : *selectedTeeth) t->removeStatus(); break;
+    case OtherInputs::removeC: for (auto& t : *selectedTeeth) t->removeStatus(StatusType::caries); break;
+    case OtherInputs::removeO: for (auto& t : *selectedTeeth) t->removeStatus(StatusType::obturation); break;
+    case OtherInputs::removeBridge: for (auto& t : *selectedTeeth) teeth->removeBridge(t->index); break;
+    }
+
+    statusChanged();
+}
+
+
 
 void StatusPresenter::setSelectedTeeth(const std::vector<int>& selectedIndexes)
 {
+    qDebug() << "setting selected teeth";
 
-    selectedTeeth->clear();
-    for (int i : selectedIndexes)
-    {
-        selectedTeeth->push_back(&teeth->at(i));
-    }
+    *selectedTeeth = teeth->getSelectedTeethPtr(selectedIndexes);
 
+    m_checkModel = CheckModel{*selectedTeeth};
 
-    statusControl.setSelectedTeeth(*selectedTeeth);
-
-    CheckModel model{ *teeth, selectedIndexes };
-
-    statusControl.setCheckModel(model);
-    view->setCheckModel(model);
+    view->setCheckModel(m_checkModel);
 
     const int s_teeth = selectedIndexes.size();
 
@@ -135,7 +180,7 @@ void StatusPresenter::setSelectedTeeth(const std::vector<int>& selectedIndexes)
 }
 
 #include "Presenter/DetailsPresenter/DetailsPresenter.h"
-#include <QDebug>
+
 void StatusPresenter::openDetails(int toothIndex)
 {
     DetailsPresenter d;

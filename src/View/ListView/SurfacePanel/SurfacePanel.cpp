@@ -32,8 +32,8 @@ SurfacePanel::SurfacePanel(QWidget* parent)
 		scene->addItem(polygon[i]);
 	}
 
-	connect(ui.sideObturation, &QPushButton::clicked, [=] { presenter->sideButtonClicked(SurfaceType::obturation);  });
-	connect(ui.sideCaries, &QPushButton::clicked, [=] { presenter->sideButtonClicked(SurfaceType::caries); });
+	connect(ui.sideObturation, &QPushButton::clicked, [=] { presenter->sideObturationClicked();  });
+	connect(ui.sideCaries, &QPushButton::clicked, [=] { presenter->sideCariesClicked(); });
 }
 
 SurfacePanel::~SurfacePanel()

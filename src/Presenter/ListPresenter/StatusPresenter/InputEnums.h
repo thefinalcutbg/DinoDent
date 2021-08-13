@@ -1,73 +1,13 @@
 #pragma once
-#include "Model/CheckState.h"
-#include "Model/Tooth/Tooth.h"
-
-constexpr int ActionCount = 25;
-
-enum class StatusAction {
-	Temporary,
-	Obturation,
-	Caries,
-	Pulpitis,
-	ApicalLesion,
-	EndoTreatment,
-	Post,
-	Root, Fracture,
-	Extraction,
-	Periodontitis,
-	Mobility1,
-	Mobility2,
-	Mobility3,
-	Crown,
-	Bridge,
-	Implant,
-	Dsn,
-	MO,
-	DO,
-	MOD,
-	removeO,
-	removeC,
-	removeAll,
-	removeBridge
-};
-
-enum class SurfaceType { obturation, caries };
 
 enum class ButtonPos { left, up, right, down, center, side };
 
-namespace Actions
+constexpr int otherInputsCount = 7;
+
+namespace OtherInputs
 { 
-enum GeneralActions
+enum OtherInputs
 {
-	Temporary,
-	Obturation,
-	Caries,
-	Pulpitis,
-	ApicalLesion,
-	EndoTreatment,
-	Post,
-	Root, Fracture,
-	Extraction,
-	Periodontitis,
-	Mobility1,
-	Mobility2,
-	Mobility3,
-	Crown,
-	Bridge,
-	Implant,
-	Dsn,
-	ObturationOcclusal,
-	ObturationMedial,
-	ObturationDistal,
-	ObturationBuccal,
-	ObturationLingual,
-	ObturationCervical,
-	CariesOcclusal,
-	CariesMedial,
-	CariesDistal,
-	CariesBuccal,
-	CariesLingual,
-	CariesCervical,
 	MO,
 	DO,
 	MOD,

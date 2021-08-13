@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 
 class ToothPaintHint;
 class BridgesPaintHint;

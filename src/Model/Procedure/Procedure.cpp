@@ -30,7 +30,7 @@ void Procedure::applyProcedure(ToothContainer& teeth)
 
 			case::ProcedureType::extraction:
 			{
-				tooth.setStatus(StatusCode::Extraction);
+				tooth.setStatus(StatusType::general, StatusCode::Extraction);
 
 				if (tooth.extraction.exists()) //if the tooth was temporary or hyperdontic, the status won't be present
 						tooth.extraction.LPK = LPK;
@@ -39,7 +39,7 @@ void Procedure::applyProcedure(ToothContainer& teeth)
 
 			case::ProcedureType::endo:
 			{
-				tooth.setStatus(StatusCode::EndoTreatment);
+				tooth.setStatus(StatusType::general, StatusCode::EndoTreatment);
 				tooth.endo.LPK = LPK;
 			}
 			break;
@@ -48,7 +48,7 @@ void Procedure::applyProcedure(ToothContainer& teeth)
 		{
 			auto& result = std::get<CrownData>(this->result);
 
-			tooth.setStatus(StatusCode::Crown);
+			tooth.setStatus(StatusType::general, StatusCode::Crown);
 
 			tooth.crown.material = result.material;
 			tooth.crown.prep_type = result.prep_type;
@@ -61,7 +61,7 @@ void Procedure::applyProcedure(ToothContainer& teeth)
 		{
 			auto& result = std::get<ImplantData>(this->result);
 
-			tooth.setStatus(StatusCode::Implant);
+			tooth.setStatus(StatusType::general, StatusCode::Implant);
 
 			auto& implant = tooth.implant;
 			implant.LPK = LPK;
@@ -94,7 +94,7 @@ void Procedure::applyProcedure(ToothContainer& teeth)
 			{
 				auto& tooth = teeth[i];
 
-				tooth.setStatus(StatusCode::Bridge);
+				tooth.setStatus(StatusType::general, StatusCode::Bridge);
 				tooth.bridge.color = result.crown.color;
 				tooth.bridge.material = result.crown.material;
 				tooth.bridge.prep_type = result.crown.prep_type;

@@ -20,8 +20,7 @@ bool SurfaceValidator::validateInput(const std::array<bool, 6>& surfaces)
         if (s) return true;
     }
 
-    return questionDialog("Резултатът от манипулацията няма да бъде приложен към статуса, "
-        "тъй като не сте избрали повърхност. Желаете ли да продължите въпреки това?");
+    return false;
 }
 
 

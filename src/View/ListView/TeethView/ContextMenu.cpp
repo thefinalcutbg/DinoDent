@@ -14,11 +14,11 @@ ContextMenu::ContextMenu()
     
     addSeparator();
 
-    QString actionNames[statusCount] =
-    { "Временен зъб", "Обтурация", "Кариес",  "Пулпит", "Периодонтит",
-      "Ендодонтско лечение", "Радикуларен щифт", "Корен", "Фрактура", "Екстракция",
-      "Пародонтит", "Първа степен", "Втора степен", "Трета степен",
-      "Корона", "Мост/Блок корони",  "Имплант", "Свръхброен зъб" };
+    QString statusNames[statusCount] =
+    { u8"Временен зъб", u8"Обтурация", u8"Кариес",  u8"Пулпит", u8"Периодонтит",
+      u8"Ендодонтско лечение", u8"Радикуларен щифт", u8"Корен",u8"Фрактура", u8"Екстракция",
+      u8"Пародонтит", u8"Първа степен", u8"Втора степен", u8"Трета степен",
+      u8"Корона", u8"Мост/Блок корони",  u8"Имплант", u8"Свръхброен зъб" };
                             
 
     QString otherActionNames[otherInputsCount]
@@ -30,7 +30,7 @@ ContextMenu::ContextMenu()
 
     for (int i = 0; i < statusCount; i++) //too lazy to initialize all the actions;
     {
-        menuAction[i] = new QAction(actionNames[i]);
+        menuAction[i] = new QAction(statusNames[i]);
         connect(menuAction[i], &QAction::triggered, [this, i]() { this->status_presenter->setMainStatus(i); });
     }
 
@@ -42,12 +42,12 @@ ContextMenu::ContextMenu()
 
     addAction(menuAction[StatusCode::Temporary]);
 
-    QMenu* ObturMenu = addMenu("&Обтурация");
-    QMenu* CariesMenu = addMenu("&Кариес");
-    QMenu* EndoMenu = addMenu("&Ендодонтия");
-    QMenu* SurgeryMenu = addMenu("&Хирургия");
+    QMenu* ObturMenu = addMenu(u8"&Обтурация");
+    QMenu* CariesMenu = addMenu(u8"&Кариес");
+    QMenu* EndoMenu = addMenu("u8&Ендодонтия");
+    QMenu* SurgeryMenu = addMenu(u8"&Хирургия");
 
-    QString surfName[surfaceCount] = { "&Оклузално", "&Медиално", "&Дистално", "&Букално", "&Лингвално", "&Цервикално" };
+    QString surfName[surfaceCount] = { u8"Оклузално", u8"Медиално", u8"Дистално", u8"Букално", u8"Лингвално", u8"Цервикално" };
 
     for (int i = 0; i < surfaceCount; i++)
     {

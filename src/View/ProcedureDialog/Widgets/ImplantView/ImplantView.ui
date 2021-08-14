@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>291</width>
-    <height>211</height>
+    <height>218</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -80,7 +80,7 @@
     <rect>
      <x>60</x>
      <y>100</y>
-     <width>61</width>
+     <width>71</width>
      <height>22</height>
     </rect>
    </property>
@@ -110,9 +110,9 @@
   <widget class="QDoubleSpinBox" name="width">
    <property name="geometry">
     <rect>
-     <x>210</x>
+     <x>200</x>
      <y>100</y>
-     <width>71</width>
+     <width>81</width>
      <height>22</height>
     </rect>
    </property>

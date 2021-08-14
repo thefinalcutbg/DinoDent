@@ -357,6 +357,15 @@
     <ClCompile Include="src\Model\Procedure\Procedure.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\DetailsView\SubWidgets\ToothHistory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\DetailsView\SubWidgets\DetailedStatus.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Presenter\DetailsPresenter\SubPresenters\DetailedStatusPresenter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -473,6 +482,12 @@
     <QtMoc Include="src\View\DetailsView\DetailsView.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\View\DetailsView\SubWidgets\ToothHistory.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\DetailsView\SubWidgets\DetailedStatus.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="src\View\Torque.qrc">
@@ -538,6 +553,12 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\DetailsView\DetailsView.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\DetailsView\SubWidgets\ToothHistory.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\DetailsView\SubWidgets\DetailedStatus.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
@@ -867,6 +888,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\Tooth\ToothContainer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TestToothDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Presenter\DetailsPresenter\SubPresenters\DetailedStatusPresenter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

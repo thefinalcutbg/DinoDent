@@ -183,9 +183,9 @@ void StatusPresenter::setSelectedTeeth(const std::vector<int>& selectedIndexes)
 
 void StatusPresenter::openDetails(int toothIndex)
 {
-    DetailsPresenter d;
+    DetailsPresenter d(teeth->at(toothIndex));
 
-    auto tooth = d.open(teeth->at(toothIndex));
+    auto tooth = d.open();
 
     if (tooth.has_value())
     {

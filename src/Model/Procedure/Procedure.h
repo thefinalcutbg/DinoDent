@@ -51,7 +51,7 @@ struct Procedure
 {
 
 
-    Procedure(const ProcedureTemplate& t, Date date, std::string name, std::string diagnosis, double price, Result result)
+    Procedure(const ProcedureTemplate& t, Date date, std::string name, std::string diagnosis, double price, Result result, int tooth = -1)
         :
         type{ t.type },
         code{ t.code },
@@ -59,7 +59,7 @@ struct Procedure
         name{ name },
         diagnosis{ diagnosis },
         price{ price },
-        tooth{ -1 },
+        tooth{ tooth },
         nzok{ t.nzok },
         result{result}
     {}

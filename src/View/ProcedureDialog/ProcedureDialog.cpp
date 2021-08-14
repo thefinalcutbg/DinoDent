@@ -150,6 +150,7 @@ void ProcedureDialog::setView(ProcedureType t)
 		ui.stackedWidget->setCurrentIndex(1);
 		break;
 	case ProcedureType::extraction:
+		ui.stackedWidget->setCurrentIndex(0);
 		break;
 	case ProcedureType::crown:
 		ui.stackedWidget->setCurrentIndex(2);

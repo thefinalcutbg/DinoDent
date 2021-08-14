@@ -14,6 +14,9 @@ class DetailsView : public QDialog, public IDetailsView
 
 public:
 	DetailsView(DetailsPresenter* p);
+
+	virtual void setCheckModel(const CheckModel& model) override;
+
 	~DetailsView();
 
 private:

@@ -42,11 +42,10 @@ std::vector<Procedure> TeethMPresenter::getManipulations()
 				 common_view->manipulationEdit()->getText(),
 				 common_view->diagnosisEdit()->getText(),
 				 common_view->priceEdit()->get_Value(),
-				 getResult()
+				 getResult(),
+				 selectedTeeth->at(i)->index
 			}
 		);
-
-		m[i].tooth = selectedTeeth->at(i)->index;
 	}
 
 	return m;

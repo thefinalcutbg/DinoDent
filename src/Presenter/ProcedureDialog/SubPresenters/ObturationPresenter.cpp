@@ -39,7 +39,8 @@ bool ObturationPresenter::isValid()
 
     if (!view->surfaceSelector()->isValid())
     {
-        return false;
+        return questionDialog("Резултатът от манипулацията няма да бъде приложен към статуса, "
+            "тъй като не сте избрали повърхност. Желаете ли да продължите въпреки това?");
     }
 
     return true;

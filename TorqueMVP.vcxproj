@@ -85,7 +85,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);src/;Dependencies/LimeReport/include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);src/;Dependencies/LimeReport/include;.\</AdditionalIncludeDirectories>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
@@ -96,7 +96,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);src/;Dependencies/LimeReport/include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);src/;Dependencies/LimeReport/include;.\</AdditionalIncludeDirectories>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
@@ -107,7 +107,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);src/;Dependencies/LimeReport/include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);src/;Dependencies/LimeReport/include;.\</AdditionalIncludeDirectories>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
@@ -117,7 +117,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);src/;Dependencies/LimeReport/include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);src/;Dependencies/LimeReport/include;.\</AdditionalIncludeDirectories>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
@@ -202,6 +202,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\View\DetailsView\SubWidgets\DetailedStatus.cpp" />
     <ClCompile Include="src\Presenter\ListPresenter\StatusPresenter\CheckState.cpp" />
     <ClCompile Include="src\Model\Procedure\Procedure.cpp" />
     <ClCompile Include="src\View\Printer\Printer.cpp" />
@@ -326,7 +327,9 @@
     <ClCompile Include="src\Presenter\TabPresenter\TabPresenter.cpp" />
     <ClCompile Include="src\View\AmbListPage\TabView\TabView.cpp" />
     <ClCompile Include="src\Model\Tooth\ToothContainer.cpp" />
+    <ClCompile Include="src\View\DetailsView\SubWidgets\ToothHistory.cpp" />
     <QtRcc Include="src\View\Torque.qrc" />
+    <QtUic Include="src\View\DetailsView\SubWidgets\DetailedStatus.ui" />
     <QtUic Include="src\View\DetailsView\DetailsView.ui" />
     <QtUic Include="src\View\AmbListSelector\AmbListSelector.ui" />
     <QtUic Include="src\View\ProcedureEditDialog\ProcedureEditDialog.ui" />
@@ -380,12 +383,15 @@
     <QtUic Include="src\View\uiComponents\qt_derived\SurfaceSelector.ui" />
     <QtUic Include="src\View\uiComponents\qt_derived\VitaWidget.ui" />
     <QtUic Include="src\View\AmbListPage\TabView\TabView.ui" />
+    <QtUic Include="src\View\DetailsView\SubWidgets\ToothHistory.ui" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\AmbListPage\AmbListPage.h" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="src\View\DetailsView\SubWidgets\DetailedStatus.h" />
     <ClInclude Include="src\Model\Tooth\ToothContainer.h" />
+    <QtMoc Include="src\View\DetailsView\SubWidgets\ToothHistory.h" />
     <QtMoc Include="src\View\AmbListPage\TabView\TabView.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\NameEdit.h" />
     <QtMoc Include="src\View\ProcedureEditDialog\ProcedureEditDialog.h" />
@@ -394,6 +400,7 @@
     <QtMoc Include="src\View\AmbListSelector\ListTable.h" />
     <QtMoc Include="src\View\DetailsView\DetailsView.h" />
     <ClInclude Include="src\Model\User\CurrentUser.h" />
+    <ClInclude Include="src\TestToothDialog.h" />
     <ClInclude Include="src\View\Printer\Printer.h" />
     <ClInclude Include="src\JsonCpp\json-forwards.h" />
     <ClInclude Include="src\JsonCpp\json.h" />

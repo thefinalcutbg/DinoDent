@@ -121,8 +121,6 @@ void RangeWidget::setFocus()
 void RangeWidget::disbleBridgeSwitch(bool disable)
 {
 	ui.checkBox->setDisabled(disable);
-//	ui.beginCombo->setDisabled(disable);
-//	ui.endCombo->setDisabled(disable);
 }
 
 void RangeWidget::setErrorLabel(QLabel* errorLabel)

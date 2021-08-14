@@ -10,7 +10,6 @@ class ToothContainer;
 struct CheckModel
 {
 
-
     CheckModel(const std::vector<Tooth*>& selectedTeeth);
 
     CheckModel() :
@@ -28,8 +27,6 @@ struct CheckModel
         obturationStatus(obturationStatus),
         cariesStatus(cariesStatus)
     {}
-
-
 
     std::array<CheckState, 18> generalStatus;
     std::array<CheckState, 6> obturationStatus;

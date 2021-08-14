@@ -1,5 +1,5 @@
 ﻿#include "ObturationPresenter.h"
-
+#include "View/ErrorMessage.h"
 
 ObturationPresenter::ObturationPresenter(const std::vector<Tooth*>& selectedTeeth) :
     TeethMPresenter(selectedTeeth),
@@ -39,7 +39,6 @@ bool ObturationPresenter::isValid()
 
     if (!view->surfaceSelector()->isValid())
     {
-        view->surfaceSelector()->setFocus();
         return false;
     }
 
@@ -54,7 +53,7 @@ Result ObturationPresenter::getResult()
 
 std::string ObturationPresenter::autoDiagnosis(const Tooth& tooth)
 {
-    bool secondaryCaries = 0;
+    bool secondaryCaries = false ;
     std::string cariesDiagnosis;
 
 
@@ -62,7 +61,7 @@ std::string ObturationPresenter::autoDiagnosis(const Tooth& tooth)
     {
         if (tooth.caries.exists(i) && tooth.obturation.exists(i))
         {
-            secondaryCaries = 0;
+            secondaryCaries = true;
         }
     }
 
@@ -123,24 +122,25 @@ std::array<bool, 6> ObturationPresenter::autoSurfaces(const Tooth& tooth)
     {
         if (utils.getToothType(tooth.index) == ToothType::Frontal)
         {
-            surfaces[static_cast<int>(Surface::Lingual)] = true;
+            surfaces[Surface::Lingual] = true;
         }
-        else surfaces[static_cast<int>(Surface::Occlusal)] = true;
+        else surfaces[Surface::Occlusal] = true;
     }
 
     if (tooth.fracture.exists())
     {
         if (utils.getToothType(tooth.index) == ToothType::Frontal)
         {
-            surfaces[static_cast<int>(Surface::Occlusal)] = true;
+            surfaces[Surface::Occlusal] = true;
         }
-        else surfaces[static_cast<int>(Surface::Lingual)] = true;
+        else surfaces[Surface::Lingual] = true;
     }
-    else if (tooth.obturation.exists())
+    else if (tooth.obturation.exists() && !tooth.caries.exists())
     {
         for (int i = 0; i < 6; i++)
         {
-            surfaces[i] = tooth.obturation.exists(i);
+            if(tooth.obturation.exists(i))
+                surfaces[i] = true;
         }
     }
 

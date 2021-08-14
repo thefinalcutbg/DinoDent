@@ -35,13 +35,14 @@ void SurfaceSelector::disable(bool disable)
 }
 
 void SurfaceSelector::setValidAppearence(bool valid)
-{
+{/*
 	if (!errorLabel) return;
 
 	valid ?
 		errorLabel->setText("")
 		:
 		errorLabel->setText("Изберете поне една повърхност!");
+		*/
 }
 
 std::array<bool, 6> SurfaceSelector::getSurfaces()

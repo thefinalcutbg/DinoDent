@@ -5,13 +5,13 @@
 
 #include <type_traits>
 
-class CheckModel;
 #include "Presenter/ListPresenter/StatusPresenter/InputEnums.h"
 #include "Model/Tooth/Enums.h"
 #include "Presenter/ListPresenter/StatusPresenter/CheckState.h"
 
 class ProcedurePresenter;
 class StatusPresenter;
+class CheckModel;
 
 class ContextMenu : public QMenu
 {

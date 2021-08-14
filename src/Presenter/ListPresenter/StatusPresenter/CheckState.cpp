@@ -1,5 +1,5 @@
 #include "CheckState.h"
-#include "Tooth/ToothContainer.h"
+#include "Model/Tooth/ToothContainer.h"
 
 template <size_t Size>
 inline void firstIteration(std::array<CheckState, Size>& checkArray, 

@@ -1,4 +1,5 @@
 ﻿#include "ProcedureValidators.h"
+#include "View/ErrorMessage.h"
 
 bool BridgeRangeValidator::validateInput(int begin, int end)
 {
@@ -18,7 +19,9 @@ bool SurfaceValidator::validateInput(const std::array<bool, 6>& surfaces)
     {
         if (s) return true;
     }
-    return false;
+
+    return questionDialog("Резултатът от манипулацията няма да бъде приложен към статуса, "
+        "тъй като не сте избрали повърхност. Желаете ли да продължите въпреки това?");
 }
 
 

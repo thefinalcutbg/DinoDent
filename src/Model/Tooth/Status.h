@@ -3,7 +3,6 @@
 #include <array>
 #include "Model/Date.h"
 #include "Enums.h"
-#include "Vita.h"
 
 class Status
 {
@@ -95,7 +94,7 @@ struct Obturation : public Material
 struct Crown : public Material
 {
     int prep_type{ 0 };
-    Vita color;
+    int color;
 };
 
 

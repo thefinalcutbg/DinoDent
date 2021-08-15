@@ -21,7 +21,7 @@ public:
 	AbstractRangeEdit* rangeWidget() override;
 	AbstractLineEdit* materialEdit() override;
 	int getType() override;
-	std::tuple<int, bool> getColor() override;
+	int getColor() override;
 	void set_hidden(bool hidden) override;
 
 	void setData(const BridgeData& data) override;;

@@ -16,62 +16,6 @@ VitaWidget::VitaWidget(QWidget* parent)
 
 }
 
-void VitaWidget::setIndex(int index, bool vita3DMaster)
-{
-    if (!indexIsValid(index, vita3DMaster)) //checking for valid index
-    {
-        setIndex(0, vita3DMaster);
-        return;
-    }
-
-
-    ui.radioMaster->setChecked(vita3DMaster); //changing appearence
-    //ui.radioClassic->setChecked(!vita3DMaster);
-
-    if (!vita3DMaster) //Vita classic
-    {
-        ui.index->setCurrentIndex(index);
-        getIndex();
-        return;
-    }
-
-    for (int i = 0; i < jaggedLength.size(); i++) //Vita 3D Master
-    {
-        if (index < jaggedLength[i + 1])
-        {
-            ui.lightness->setCurrentIndex(i);
-            ui.chroma_hue->setCurrentIndex(index - jaggedLength[i]);
-            getIndex();
-            return;
-        }
-    }
-
-
-}
-
-std::tuple<int, bool> VitaWidget::getIndex()
-{
-    int index = 0;
-    bool master{ false };
-    if (ui.radioClassic->isChecked())
-    {
-        index = ui.index->currentIndex();
-
-    }
-    else
-    {
-        index = jaggedLength[ui.lightness->currentIndex()];
-
-        if (index)
-            index = index + ui.chroma_hue->currentIndex();
-
-        master = true;
-    }
-
-    return std::make_tuple(index, master);
-}
-
-
 void VitaWidget::set3DMaster(bool vita_3d)
 {
     ui.c_label->setVisible(vita_3d);
@@ -81,15 +25,6 @@ void VitaWidget::set3DMaster(bool vita_3d)
 
     ui.index->setVisible(!vita_3d);
     ui.idx_label->setVisible(!vita_3d);
-}
-
-bool VitaWidget::indexIsValid(int index, bool vita3dMaster)
-{
-    return (vita3dMaster) ?
-
-        (index > -1 && index < 30)
-        :
-        (index > -1 && index < 17);
 }
 
 void VitaWidget::switchColor(int index)
@@ -115,3 +50,43 @@ void VitaWidget::switchColor(int index)
 }
 
 
+void VitaWidget::setIndex(int index)
+{
+    if (index < -1 || index > 45)//checking for valid index
+    {
+        setIndex(0);
+        return;
+    }
+
+    if (index < 17) //Vita classic
+    {
+        ui.index->setCurrentIndex(index);
+        ui.radioClassic->setChecked(true);
+        return;
+    }
+
+    //Vita 3D Master
+
+    ui.radioMaster->setChecked(true);
+
+    for (int i = 0; i < lightnessCount; i++) //Vita 3D Master
+    {
+        if (index <= lightnessMax[i])
+        {
+            ui.lightness->setCurrentIndex(i + 1); //index 0 is invalid;
+            ui.chroma_hue->setCurrentIndex(index - lightnessMin[i]);
+
+            return;
+        }
+    }
+}
+
+int VitaWidget::getIndex()
+{
+
+    if (ui.radioClassic->isChecked()) return ui.index->currentIndex(); //vita classic
+
+    if (ui.lightness->currentIndex() == 0) return 0; //3d master non-set
+
+    return lightnessMin[ui.lightness->currentIndex()-1] + ui.chroma_hue->currentIndex(); 
+}

@@ -11,7 +11,7 @@ std::string ProcedureParser::write(const Procedure& m)
 	{
 	case ProcedureType::obturation:
 	{
-		auto& r = std::get<ObturationData>(m.result);
+		auto& r = std::get<PObturationData>(m.result);
 		procedure["color"] = r.color;
 		procedure["post"] = r.post;
 		procedure["material"] = r.material;
@@ -25,8 +25,7 @@ std::string ProcedureParser::write(const Procedure& m)
 	case ProcedureType::crown:
 	{
 		auto& r = std::get<CrownData>(m.result);
-		procedure["color_idx"] = r.color.index;
-		procedure["3dMaster"] = r.color.Vita3dMaster;
+		procedure["color_idx"] = r.color;
 		procedure["material"] = r.material;
 		procedure["prep"] = r.prep_type;
 		break;
@@ -34,8 +33,7 @@ std::string ProcedureParser::write(const Procedure& m)
 	case ProcedureType::bridge:
 	{
 		auto& r = std::get<BridgeData>(m.result);
-		procedure["color_idx"] = r.crown.color.index;
-		procedure["3dMaster"] = r.crown.color.Vita3dMaster;
+		procedure["color_idx"] = r.crown.color;
 		procedure["material"] = r.crown.material;
 		procedure["prep"] = r.crown.prep_type;
 		procedure["begin"] = r.tooth_begin;
@@ -91,7 +89,7 @@ void ProcedureParser::parse(const std::string& jsonString, Procedure& m)
 	{
 		case ProcedureType::obturation:
 		{
-			ObturationData r;
+			PObturationData r;
 			r.material = procedure["material"].asString();
 			r.post = procedure["post"].asBool();
 			r.color = procedure["color"].asInt();
@@ -113,8 +111,7 @@ void ProcedureParser::parse(const std::string& jsonString, Procedure& m)
 			CrownData r;
 			r.material = procedure["material"].asString();
 			r.prep_type = procedure["prep"].asInt();
-			r.color.index = procedure["color_idx"].asInt();
-			r.color.Vita3dMaster = procedure["3dMaster"].asBool();
+			r.color = procedure["color_idx"].asInt();
 
 			m.result = r;
 
@@ -128,8 +125,7 @@ void ProcedureParser::parse(const std::string& jsonString, Procedure& m)
 			r.tooth_end = procedure["end"].asInt();
 			r.crown.prep_type = procedure["prep"].asInt();
 			r.crown.material = procedure["material"].asString();
-			r.crown.color.index = procedure["color_idx"].asInt();
-			r.crown.color.Vita3dMaster = procedure["3dMaster"].asBool();
+			r.crown.color = procedure["color_idx"].asInt();
 
 			m.result = r;
 

@@ -9,7 +9,7 @@ void Procedure::applyProcedure(ToothContainer& teeth)
 		{
 			case::ProcedureType::obturation:
 			{
-				auto& result = std::get<ObturationData>(this->result);
+				auto& result = std::get<PObturationData>(this->result);
 
 				for (int i = 0; i < result.surfaces.size(); i++)
 				{

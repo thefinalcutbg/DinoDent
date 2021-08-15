@@ -6,7 +6,7 @@ class DateValidator : public Validator
 {
 
 	Date min;
-	Date max;
+	Date lightnessMax;
 
 	std::string _minErrorMsg;
 	std::string _maxErrorMsg;

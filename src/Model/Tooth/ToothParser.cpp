@@ -199,8 +199,7 @@ std::string ToothParser::write(const ToothContainer& teeth)
 					auto param = writeDentistMade(i, tooth.crown);
 					param["material"] = tooth.crown.material;
 					param["prep"] = tooth.crown.prep_type;
-					param["vita3d"] = tooth.crown.color.Vita3dMaster;
-					param["color"] = tooth.crown.color.index;
+					param["color"] = tooth.crown.color;
 					status["Crown"].append(param);
 				}
 
@@ -233,8 +232,7 @@ std::string ToothParser::write(const ToothContainer& teeth)
 					param["pos"] = static_cast<int>(tooth.bridge.position);
 					param["material"] = tooth.bridge.material;
 					param["prep"] = tooth.bridge.prep_type;
-					param["vita3d"] = tooth.bridge.color.Vita3dMaster;
-					param["color"] = tooth.bridge.color.index;
+					param["color"] = tooth.bridge.color;
 					status["Bridge"].append(param);
 				}
 

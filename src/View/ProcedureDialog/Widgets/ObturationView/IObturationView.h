@@ -12,7 +12,7 @@ public:
 	virtual std::tuple<int, bool> getColor() = 0;
 	virtual bool hasPost() = 0;
 	virtual void set_hidden(bool hidden) = 0;
-	virtual void setData(const ObturationData& data) = 0;
-	virtual ObturationData getData() = 0;
+	virtual void setData(const PObturationData& data) = 0;
+	virtual PObturationData getData() = 0;
 };
 

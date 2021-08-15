@@ -791,9 +791,6 @@
     <ClInclude Include="src\Presenter\ListPresenter\StatusPresenter\ToothHintCreator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model\Tooth\Vita.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\View\ProcedureDialog\Widgets\CommonFields\ICommonFields.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -939,6 +936,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\DetailsView\SubWidgets\DetailsWidgets.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\StatusData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

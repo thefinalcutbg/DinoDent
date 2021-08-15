@@ -405,6 +405,7 @@
     <QtMoc Include="src\View\DetailsView\SubWidgets\Details\ObturationWidget.h" />
     <QtMoc Include="src\View\DetailsView\SubWidgets\Details\DentistMadeWidget.h" />
     <QtMoc Include="src\View\DetailsView\SubWidgets\Details\ImplantWidget.h" />
+    <ClInclude Include="src\Model\StatusData.h" />
     <ClInclude Include="src\Model\Tooth\ToothContainer.h" />
     <QtMoc Include="src\View\DetailsView\SubWidgets\ToothHistory.h" />
     <QtMoc Include="src\View\AmbListPage\TabView\TabView.h" />
@@ -463,7 +464,6 @@
     <ClInclude Include="src\View\ProcedureDialog\Widgets\ObturationView\IObturationView.h" />
     <ClInclude Include="src\View\ProcedureDialog\Widgets\CrownView\ICrownView.h" />
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\GeneralMPresenter.h" />
-    <ClInclude Include="src\Model\Tooth\Vita.h" />
     <ClInclude Include="src\View\ListView\ToothPaintDevices\ToothPainter.h" />
     <ClInclude Include="src\Presenter\ListPresenter\StatusPresenter\ToothHintCreator.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\VitaWidget.h" />

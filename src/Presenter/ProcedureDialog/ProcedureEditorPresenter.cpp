@@ -52,7 +52,7 @@ void ProcedureEditorPresenter::setView(IProcedureEditDialog* view)
 	switch (m.type)
 	{
 		case ProcedureType::obturation:
-			view->obturationView()->setData(std::get<ObturationData>(m.result));
+			view->obturationView()->setData(std::get<PObturationData>(m.result));
 			//view->obturationView()->surfaceSelector()->setInputValidator(&_surfValidator);
 			_validatableElements[3] = view->obturationView()->surfaceSelector();
 			break;

@@ -9,11 +9,14 @@ class VitaWidget : public QWidget
 {
     Q_OBJECT
 
+    static constexpr int lightnessCount{ 6 };
+
     std::array<QString, 3> idx0_5{ "M1", "M2", "M3" };
     std::array<QString, 2> idx1{ "M2", "M3" };
     std::array<QString, 7> idx2_3_4{ "L1,5", "L2,5", "M1", "M2", "M3", "R1,5", "R2,5" };
 
-    std::array<int, 8> jaggedLength{ 0, 1, 4, 6, 13, 20, 27, 30 };
+    std::array<int, lightnessCount> lightnessMin{ 17, 20, 22, 29, 36,43 };
+    std::array<int, lightnessCount> lightnessMax{ 19, 21, 28, 35, 52, 54 };
 
     void switchColor(int index);
 
@@ -30,12 +33,10 @@ class VitaWidget : public QWidget
 
     void set3DMaster(bool vita_3d);
 
-    bool indexIsValid(int index, bool vita3dMaster);
-
 public:
     VitaWidget(QWidget* parent = Q_NULLPTR);
-    void setIndex(int index, bool vita3DMaster);
-    std::tuple<int, bool> getIndex();
+    void setIndex(int index);
+    int getIndex();
 private:
     Ui::VitaWidget ui;
 };

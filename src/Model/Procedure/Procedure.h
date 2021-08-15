@@ -4,18 +4,10 @@
 #include <variant>
 #include "Model/Date.h"
 #include "ProcedureTemplate.h"
-#include "Model/Tooth/Vita.h"
-
+#include "../StatusData.h"
 class ToothContainer;
 
 struct NoData {};
-
-struct CrownData {
-
-    std::string material;
-    int prep_type{ 0 };
-    Vita color{ 0,0 };
-};
 
 struct BridgeData {
 
@@ -25,27 +17,17 @@ struct BridgeData {
     int tooth_end{ 0 };
 };
 
-struct ObturationData{
-
+struct PObturationData : ObturationData
+{
     std::array<bool, 6>surfaces{ 0,0,0,0,0,0 };
     bool post{ false };
-    int color{ 0 };
-    std::string material;
-};
-
-struct ImplantData {
-
-    std::string system;
-    double width{ 0 }, length{ 0 };
-    int time, type, tissue_aug, bone_aug;
-    bool membrane, sinusLift;
 };
 
 struct Anesthesia {
     int minutes{ 0 };
 };
 
-typedef std::variant<NoData, ObturationData, CrownData, BridgeData, ImplantData, Anesthesia> Result;
+typedef std::variant<NoData, PObturationData, CrownData, BridgeData, ImplantData, Anesthesia> Result;
 
 struct Procedure
 {

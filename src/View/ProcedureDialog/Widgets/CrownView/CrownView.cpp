@@ -40,7 +40,7 @@ int CrownView::getType()
 	return ui.comboBox->currentIndex();
 }
 
-std::tuple<int, bool> CrownView::getColor()
+int CrownView::getColor()
 {
 	return ui.vitaWidget->getIndex();
 }
@@ -56,7 +56,7 @@ void CrownView::setData(const BridgeData& data)
 	ui.rangeWidget->setRange(data.tooth_begin, data.tooth_end);
 	ui.comboBox->setCurrentIndex(data.crown.prep_type);
 	ui.materialEdit->set_Text(data.crown.material);
-	ui.vitaWidget->setIndex(data.crown.color.index, data.crown.color.Vita3dMaster);
+	ui.vitaWidget->setIndex(data.crown.color);
 }
 
 void CrownView::setData(const CrownData& data)
@@ -64,20 +64,17 @@ void CrownView::setData(const CrownData& data)
 	ui.rangeWidget->disable(true);
 	ui.comboBox->setCurrentIndex(data.prep_type);
 	ui.materialEdit->set_Text(data.material);
-	ui.vitaWidget->setIndex(data.color.index, data.color.Vita3dMaster);
+	ui.vitaWidget->setIndex(data.color);
 }
 
 CrownData CrownView::getData()
 {
 
-	auto[index, vita3d] = ui.vitaWidget->getIndex();
-
 	return CrownData
 	{
 		ui.materialEdit->getText(),
 		ui.comboBox->currentIndex(),
-		index,
-		vita3d
+		ui.vitaWidget->getIndex()
 	};
 }
 

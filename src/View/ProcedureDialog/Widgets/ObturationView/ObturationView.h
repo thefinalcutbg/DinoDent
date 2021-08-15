@@ -23,8 +23,8 @@ public:
 	std::tuple<int, bool> getColor() override;
 	bool hasPost() override;
 	void set_hidden(bool hidden) override;
-	void setData(const ObturationData& data) override;
-	ObturationData getData();
+	void setData(const PObturationData& data) override;
+	PObturationData getData();
 
 	Ui::ObturationView ui;
 

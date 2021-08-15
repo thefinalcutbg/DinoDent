@@ -56,7 +56,7 @@ void ObturationView::set_hidden(bool hidden)
 
 #include "Model/Procedure/Procedure.h"
 
-void ObturationView::setData(const ObturationData& data)
+void ObturationView::setData(const PObturationData& data)
 {
 	ui.materialEdit->set_Text(data.material);
 	ui.combo_color->setCurrentIndex(data.color);
@@ -64,13 +64,16 @@ void ObturationView::setData(const ObturationData& data)
 	ui.surfaceSelector->setSurfaces(data.surfaces);
 }
 
-ObturationData ObturationView::getData()
+PObturationData ObturationView::getData()
 {
-	return ObturationData
+
+	return PObturationData
 	{
-		ui.surfaceSelector->getSurfaces(),
-		ui.post_check->isChecked(),
 		ui.combo_color->currentIndex(),
-		ui.materialEdit->getText()
+		ui.materialEdit->getText(),
+		ui.surfaceSelector->getSurfaces(),
+		ui.post_check->isChecked()
 	};
+
+
 }

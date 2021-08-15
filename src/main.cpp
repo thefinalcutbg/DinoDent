@@ -20,21 +20,21 @@ int main(int argc, char *argv[])
 
     QApplication a(argc, argv);
     
-    TestToothDialog(); /*
-    
-
  
     //Intializing singletons
     SpriteSheets::container().loadTextures(); //loading textures, otherwise program will crash;
+
+
+   // TestToothDialog(); /*
+    
+    
     MasterNZOK::instance().loadUpdates(); //parsing json of nzok data
     CustomProcedures::instance().loadCustomProcedures(); //parsing json of custom procedures
-
-
 
     Torque w;
     w.show();
     
     return a.exec();
-    */
+   //*/
 }
 

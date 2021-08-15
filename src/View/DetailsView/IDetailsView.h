@@ -1,9 +1,9 @@
 #pragma once
-
+#include "SubWidgets/IDetailedStatusView.h"
 class CheckModel;
 
 class IDetailsView
 {
 public:
-	virtual void setCheckModel(const CheckModel& model) = 0;
+	virtual IDetailedStatusView* detailedStatus() = 0;
 };

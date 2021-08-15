@@ -202,6 +202,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\View\DetailsView\SubWidgets\Details\ImplantWidget.cpp" />
+    <ClCompile Include="src\View\DetailsView\SubWidgets\Details\DentistMadeWidget.cpp" />
+    <ClCompile Include="src\View\DetailsView\SubWidgets\Details\ObturationWidget.cpp" />
+    <ClCompile Include="src\View\DetailsView\SubWidgets\Details\CrownWidget.cpp" />
+    <ClCompile Include="src\View\DetailsView\SubWidgets\Details\PathologyWidget.cpp" />
     <ClCompile Include="src\View\DetailsView\SubWidgets\DetailedStatus.cpp" />
     <ClCompile Include="src\Presenter\ListPresenter\StatusPresenter\CheckState.cpp" />
     <ClCompile Include="src\Model\Procedure\Procedure.cpp" />
@@ -329,6 +334,11 @@
     <ClCompile Include="src\Model\Tooth\ToothContainer.cpp" />
     <ClCompile Include="src\View\DetailsView\SubWidgets\ToothHistory.cpp" />
     <QtRcc Include="src\View\Torque.qrc" />
+    <QtUic Include="src\View\DetailsView\SubWidgets\Details\ImplantWidget.ui" />
+    <QtUic Include="src\View\DetailsView\SubWidgets\Details\DentistMadeWidget.ui" />
+    <QtUic Include="src\View\DetailsView\SubWidgets\Details\ObturationWidget.ui" />
+    <QtUic Include="src\View\DetailsView\SubWidgets\Details\CrownWidget.ui" />
+    <QtUic Include="src\View\DetailsView\SubWidgets\Details\PathologyWidget.ui" />
     <QtUic Include="src\View\DetailsView\SubWidgets\DetailedStatus.ui" />
     <QtUic Include="src\View\DetailsView\DetailsView.ui" />
     <QtUic Include="src\View\AmbListSelector\AmbListSelector.ui" />
@@ -390,6 +400,11 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\DetailsView\SubWidgets\DetailedStatus.h" />
+    <QtMoc Include="src\View\DetailsView\SubWidgets\Details\PathologyWidget.h" />
+    <QtMoc Include="src\View\DetailsView\SubWidgets\Details\CrownWidget.h" />
+    <QtMoc Include="src\View\DetailsView\SubWidgets\Details\ObturationWidget.h" />
+    <QtMoc Include="src\View\DetailsView\SubWidgets\Details\DentistMadeWidget.h" />
+    <QtMoc Include="src\View\DetailsView\SubWidgets\Details\ImplantWidget.h" />
     <ClInclude Include="src\Model\Tooth\ToothContainer.h" />
     <QtMoc Include="src\View\DetailsView\SubWidgets\ToothHistory.h" />
     <QtMoc Include="src\View\AmbListPage\TabView\TabView.h" />
@@ -401,6 +416,8 @@
     <QtMoc Include="src\View\DetailsView\DetailsView.h" />
     <ClInclude Include="src\Model\User\CurrentUser.h" />
     <ClInclude Include="src\TestToothDialog.h" />
+    <ClInclude Include="src\View\DetailsView\SubWidgets\DetailsWidgets.h" />
+    <ClInclude Include="src\View\DetailsView\SubWidgets\IDetailedStatusView.h" />
     <ClInclude Include="src\View\Printer\Printer.h" />
     <ClInclude Include="src\JsonCpp\json-forwards.h" />
     <ClInclude Include="src\JsonCpp\json.h" />

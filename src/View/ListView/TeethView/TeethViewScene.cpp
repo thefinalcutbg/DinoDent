@@ -145,7 +145,7 @@ void TeethViewScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* Event)
 {
     QGraphicsItem* item = itemAt(Event->scenePos(), QTransform());
 
-    if (item != NULL)
+    if (item != NULL && item->flags().testFlag(QGraphicsItem::ItemIsSelectable))
     {
         auto* t = static_cast<SelectionBox*>(item);
         presenter->openDetails(t->getIndex());
@@ -251,11 +251,7 @@ void TeethViewScene::keyPressEvent(QKeyEvent* event)
 
 void TeethViewScene::display(ToothPaintHint tooth)
 {
-
-    toothGraphic[tooth.idx]->setToothGraphic
-    (
-        toothPainter.paintTooth(tooth)
-    );
+    toothGraphic[tooth.idx]->setToothGraphic(toothPainter.paintTooth(tooth));
 }
 
 void TeethViewScene::display(const BridgesPaintHint& bridges)

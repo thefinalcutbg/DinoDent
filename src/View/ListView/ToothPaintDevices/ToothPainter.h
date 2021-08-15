@@ -40,6 +40,6 @@ protected:
 public:
 	ToothPainter();
 	virtual QPixmap* paintTooth(const ToothPaintHint& tooth);
-	
+	QPixmap getPixmap(const ToothPaintHint& tooth);
 };
 

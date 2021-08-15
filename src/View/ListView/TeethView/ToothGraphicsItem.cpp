@@ -60,3 +60,9 @@ void ToothGraphicsItem::setToothGraphic(QPixmap* toothGraphic)
     this->toothGraphic = toothGraphic;
     update();
 }
+
+void ToothGraphicsItem::setToothPixmap(const QPixmap& px)
+{
+    m_tooth = px;
+    update();
+}

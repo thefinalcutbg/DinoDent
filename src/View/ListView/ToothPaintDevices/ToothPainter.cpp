@@ -77,6 +77,47 @@ QPixmap* ToothPainter::paintTooth(const ToothPaintHint& tooth)
 	return new QPixmap(pixmap);
 }
 
+QPixmap ToothPainter::getPixmap(const ToothPaintHint& tooth)
+{
+    tooth.temp ?
+        coords = temp_tooth_type[tooth.idx]
+        :
+        coords = tooth_type[tooth.idx];
+
+    QPixmap pixmap(coords->toothCrop.width(), 746);
+    pixmap.fill(Qt::transparent);
+    QPainter painter(&pixmap);
+    auto& container = SpriteSheets::container();
+    currentTexture = &container.getTexture(tooth.idx, tooth.temp);
+
+    painter.drawPixmap(0, 123,
+        coords->toothCrop.width(),
+        coords->toothCrop.height(),
+        std::move(returnPaintedTooth(tooth)));
+
+    if (tooth.mobility)
+    {
+        int height = 60; // for upper teeth;
+        if (tooth.idx > 15) height = 746 - 110; //for lower teeth
+
+        painter.drawPixmap(0, height, std::move(mobilityPaint(tooth)));
+    }
+
+    if (tooth.frac)
+    {
+        int height = 650;
+        if (tooth.idx > 15) height = 50;
+        painter.drawPixmap(0, height, std::move(fracturePaint(tooth)));
+    }
+
+    int height = 0;
+    if (tooth.idx > 15) height = 746 - 50;
+
+    painter.drawPixmap(0, height, std::move(toothNumber(tooth)));
+
+    return pixmap;
+}
+
 QPixmap ToothPainter::returnPaintedTooth(const ToothPaintHint& tooth)
 {
     QPoint point(0, 0);

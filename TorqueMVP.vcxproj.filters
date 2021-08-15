@@ -363,7 +363,19 @@
     <ClCompile Include="src\View\DetailsView\SubWidgets\DetailedStatus.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Presenter\DetailsPresenter\SubPresenters\DetailedStatusPresenter.cpp">
+    <ClCompile Include="src\View\DetailsView\SubWidgets\Details\PathologyWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\DetailsView\SubWidgets\Details\CrownWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\DetailsView\SubWidgets\Details\ObturationWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\DetailsView\SubWidgets\Details\DentistMadeWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\DetailsView\SubWidgets\Details\ImplantWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -488,6 +500,21 @@
     <QtMoc Include="src\View\DetailsView\SubWidgets\DetailedStatus.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\View\DetailsView\SubWidgets\Details\PathologyWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\DetailsView\SubWidgets\Details\CrownWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\DetailsView\SubWidgets\Details\ObturationWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\DetailsView\SubWidgets\Details\DentistMadeWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\DetailsView\SubWidgets\Details\ImplantWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="src\View\Torque.qrc">
@@ -559,6 +586,21 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\DetailsView\SubWidgets\DetailedStatus.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\DetailsView\SubWidgets\Details\PathologyWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\DetailsView\SubWidgets\Details\CrownWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\DetailsView\SubWidgets\Details\ObturationWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\DetailsView\SubWidgets\Details\DentistMadeWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\DetailsView\SubWidgets\Details\ImplantWidget.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
@@ -893,7 +935,10 @@
     <ClInclude Include="src\TestToothDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Presenter\DetailsPresenter\SubPresenters\DetailedStatusPresenter.h">
+    <ClInclude Include="src\View\DetailsView\SubWidgets\IDetailedStatusView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\View\DetailsView\SubWidgets\DetailsWidgets.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

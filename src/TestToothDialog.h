@@ -7,7 +7,10 @@
 void TestToothDialog()
 {
 	Tooth tooth;
-
+	tooth.setIndex(4);
+	tooth.obturation.setDefaultSurface(0);
+	tooth.caries.setDefaultSurface(0);
+	
 	DetailsPresenter p(tooth);
 	p.open();
 

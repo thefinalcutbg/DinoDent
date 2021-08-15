@@ -187,10 +187,14 @@ void StatusPresenter::openDetails(int toothIndex)
 
     auto tooth = d.open();
 
-    if (tooth.has_value())
-    {
-        teeth->at(toothIndex) = tooth.value();
-    }
+    if (!tooth.has_value()) return;
+
+    teeth->at(toothIndex) = tooth.value();
+
+    teeth->formatBridges(std::vector<int>{toothIndex});
+
+    statusChanged();
+
 
 }
 

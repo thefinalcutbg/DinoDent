@@ -1,22 +1,34 @@
 ﻿#include "DetailedStatus.h"
 #include "Model/Tooth/Enums.h"
-
+#include <QDebug>
 #include "Presenter/ListPresenter/StatusPresenter/CheckState.h"
-
+#include "View/ListView/ToothPaintDevices/ToothPainter.h"
+#include "DetailsWidgets.h"
 DetailedStatus::DetailedStatus(QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
 
-	QString statusNames[statusCount] =
-	{ u8"Временен зъб", u8"Обтурация", u8"Кариес",  u8"Пулпит", u8"Периодонтит",
-	  u8"Ендодонтско лечение", u8"Радикуларен щифт", u8"Корен",u8"Фрактура", u8"Екстракция",
-	  u8"Пародонтит", u8"Подвижност I", u8"Подвижност II", u8"Подвижност III",
-	  u8"Корона", u8"Мост/Блок корони",  u8"Имплант", u8"Свръхброен зъб" };
+	ui.imageLabel->setStyleSheet("border: 1px solid lightgray");
+	
+	PathologyWidget* p = new PathologyWidget();
+	ui.stackedWidget->addWidget(p);
+	
+	ImplantWidget* i = new ImplantWidget();
+	ui.stackedWidget->addWidget(i);
 
-	QString surfName[surfaceCount] = 
-	{ u8"Оклузално", u8"Медиално", u8"Дистално", 
-		u8"Букално", u8"Лингвално", u8"Цервикално" };
+	ObturationWidget* o = new ObturationWidget();
+	ui.stackedWidget->addWidget(o);
+
+	DentistMadeWidget* d = new DentistMadeWidget();
+	ui.stackedWidget->addWidget(d);
+
+	CrownWidget* c = new CrownWidget();
+	ui.stackedWidget->addWidget(c);
+
+	ui.stackedWidget->setCurrentWidget(i);
+
+
 
 	for (auto& name : statusNames)
 	{
@@ -41,30 +53,45 @@ DetailedStatus::DetailedStatus(QWidget *parent)
 	
 	connect(ui.treeWidget, &QTreeWidget::itemChanged, [&](QTreeWidgetItem* item, int column) 
 		{ 
-			auto previouslySelected = ui.treeWidget->selectedItems().at(0);
+			auto list = ui.treeWidget->selectedItems();
 
-			if ( previouslySelected != item) //selecting the item, which checkbox is checked;
+			if (list.isEmpty())
+			{
+				ui.treeWidget->setCurrentItem(item);
+			}
+			else if (list[0] != item) //selecting the item, which checkbox is checked;
 			{
 				ui.treeWidget->blockSignals(true);
-				previouslySelected->setSelected(false);
+				list[0]->setSelected(false);
 				ui.treeWidget->blockSignals(false);
 
 				ui.treeWidget->setCurrentItem(item);
 			}
 
-			emit itemChecked();
+			bool checked = ui.treeWidget->currentItem()->checkState(0) == Qt::Checked ? true : false;
+
+			emit itemChecked(checked);
 			
 		});
 		
 	connect(ui.treeWidget, &QTreeWidget::currentItemChanged, [&]() {
-		emit selectionChanged(ui.treeWidget->selectionModel()->currentIndex().parent().row(),
-			ui.treeWidget->selectionModel()->currentIndex().row()); });
+
+		int parent = ui.treeWidget->selectionModel()->currentIndex().parent().row();
+		int code = ui.treeWidget->selectionModel()->currentIndex().row();
+
+		if (parent == -1) ui.statusTitle->setText(statusNames[code]);
+		else ui.statusTitle->setText(statusNames[parent] + " (" + surfName[code] + ")");
+
+		emit selectionChanged(parent,code); 
+		});
 
 }
 
 
 void DetailedStatus::setCheckModel(const CheckModel& checkModel)
 {
+	QSignalBlocker blocker(ui.treeWidget);
+
 	for (int i = 0; i < checkModel.generalStatus.size(); i++)
 	{
 		checkModel.generalStatus[i] == CheckState::checked ?
@@ -75,7 +102,7 @@ void DetailedStatus::setCheckModel(const CheckModel& checkModel)
 
 	for (int i = 0; i < checkModel.obturationStatus.size(); i++)
 	{
-		checkModel.generalStatus[i] == CheckState::checked ?
+		checkModel.obturationStatus[i] == CheckState::checked ?
 			ui.treeWidget->topLevelItem(1)->child(i)->setCheckState(0, Qt::CheckState::Checked)
 			:
 			ui.treeWidget->topLevelItem(1)->child(i)->setCheckState(0, Qt::CheckState::Unchecked);
@@ -83,11 +110,30 @@ void DetailedStatus::setCheckModel(const CheckModel& checkModel)
 
 	for (int i = 0; i < checkModel.cariesStatus.size(); i++)
 	{
-		checkModel.generalStatus[i] == CheckState::checked ?
+		checkModel.cariesStatus[i] == CheckState::checked ?
 			ui.treeWidget->topLevelItem(2)->child(i)->setCheckState(0, Qt::CheckState::Checked)
 			:
 			ui.treeWidget->topLevelItem(2)->child(i)->setCheckState(0, Qt::CheckState::Unchecked);
 	}
+}
+
+void DetailedStatus::disableItem(int index, bool disabled)
+{
+	QSignalBlocker b(ui.treeWidget);
+
+	auto item = ui.treeWidget->topLevelItem(index);
+
+	if (disabled)
+		item->setFlags(Qt::NoItemFlags);
+	else
+		item->setFlags(Qt::ItemIsEnabled | Qt::ItemIsUserCheckable);
+	
+}
+
+void DetailedStatus::paintTooth(const ToothPaintHint& hint)
+{
+	auto original = painter.getPixmap(hint);
+	ui.imageLabel->setPixmap(original.scaled(ui.imageLabel->width(), ui.imageLabel->height(), Qt::KeepAspectRatio, Qt::TransformationMode::SmoothTransformation));
 }
 
 

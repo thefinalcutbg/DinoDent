@@ -53,3 +53,10 @@ CheckModel::CheckModel(const std::vector<Tooth*>& selectedTeeth)
 		bridge = CheckState::partially_checked;
 
 }
+
+CheckModel::CheckModel(const Tooth& tooth)
+{
+	firstIteration(generalStatus, tooth.getBoolStatus());
+	firstIteration(cariesStatus, tooth.caries.getBoolStatus());
+	firstIteration(obturationStatus, tooth.obturation.getBoolStatus());
+}

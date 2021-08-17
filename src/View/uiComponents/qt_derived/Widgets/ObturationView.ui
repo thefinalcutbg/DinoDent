@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ObturationView</class>
+ <widget class="QWidget" name="ObturationView">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>301</width>
+    <height>215</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>ObturationView</string>
+  </property>
+  <widget class="QCheckBox" name="post_check">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>30</y>
+     <width>121</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Радикуларен щифт</string>
+   </property>
+  </widget>
+  <widget class="SurfaceSelector" name="surfaceSelector" native="true">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>70</y>
+     <width>301</width>
+     <height>143</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="ObturationWidget" name="obturationWidget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>301</width>
+     <height>80</height>
+    </rect>
+   </property>
+  </widget>
+  <zorder>obturationWidget</zorder>
+  <zorder>post_check</zorder>
+  <zorder>surfaceSelector</zorder>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>SurfaceSelector</class>
+   <extends>QWidget</extends>
+   <header>SurfaceSelector.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ObturationWidget</class>
+   <extends>QWidget</extends>
+   <header>ObturationWidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

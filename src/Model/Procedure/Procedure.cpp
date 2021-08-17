@@ -9,7 +9,7 @@ void Procedure::applyProcedure(ToothContainer& teeth)
 		{
 			case::ProcedureType::obturation:
 			{
-				auto& result = std::get<PObturationData>(this->result);
+				auto& result = std::get<ProcedureObtData>(this->result);
 
 				for (int i = 0; i < result.surfaces.size(); i++)
 				{
@@ -18,8 +18,8 @@ void Procedure::applyProcedure(ToothContainer& teeth)
 					tooth.setStatus(StatusType::obturation, i, true);
 					tooth.setStatus(StatusType::caries, i, false);
 
-					tooth.obturation[i].color = result.color;
-					tooth.obturation[i].material = result.material;
+					tooth.obturation[i].color = result.data.color;
+					tooth.obturation[i].material = result.data.material;
 					tooth.obturation[i].LPK = LPK;
 				}
 
@@ -79,7 +79,7 @@ void Procedure::applyProcedure(ToothContainer& teeth)
 
 		case::ProcedureType::bridge:
 		{
-			auto& result = std::get<BridgeData>(this->result);
+			auto& result = std::get<ProcedureBridgeData>(this->result);
 
 			std::vector<int> indexes;
 			indexes.reserve(result.tooth_end - result.tooth_begin + 1);

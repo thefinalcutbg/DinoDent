@@ -28,7 +28,7 @@
    <widget class="QCheckBox" name="l_check">
     <property name="geometry">
      <rect>
-      <x>180</x>
+      <x>170</x>
       <y>80</y>
       <width>81</width>
       <height>31</height>
@@ -67,7 +67,7 @@
    <widget class="QCheckBox" name="c_check">
     <property name="geometry">
      <rect>
-      <x>180</x>
+      <x>170</x>
       <y>20</y>
       <width>101</width>
       <height>31</height>
@@ -80,7 +80,7 @@
    <widget class="QCheckBox" name="b_check">
     <property name="geometry">
      <rect>
-      <x>180</x>
+      <x>170</x>
       <y>50</y>
       <width>81</width>
       <height>31</height>

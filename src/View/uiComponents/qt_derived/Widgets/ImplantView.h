@@ -22,9 +22,9 @@ public:
 
 	// Inherited via IImplantView
 	virtual void set_hidden(bool hidden) override;
-	AbstractLineEdit* systemEdit() override;
+
 	ImplantData getData() override;
-	void setData(ImplantData data) override;
+	void setData(const ImplantData& data) override;
 
 private:
 	Ui::ImplantView ui;

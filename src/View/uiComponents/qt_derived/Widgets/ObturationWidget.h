@@ -2,6 +2,7 @@
 
 #include <QWidget>
 #include "ui_ObturationWidget.h"
+#include "Model/StatusData.h"
 
 class ObturationWidget : public QWidget
 {
@@ -10,6 +11,9 @@ class ObturationWidget : public QWidget
 public:
 	ObturationWidget(QWidget *parent = Q_NULLPTR);
 	~ObturationWidget();
+
+	ObturationData getData();
+	void setData(const ObturationData& data);
 
 private:
 	Ui::ObturationWidget ui;

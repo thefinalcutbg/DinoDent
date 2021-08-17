@@ -2,7 +2,7 @@
 
 #include <QWidget>
 #include "ui_RangeWidget.h"
-#include "View/uiComponents/AbstractRangeEdit.h"
+#include "View/uiComponents/qt_derived/Widgets/AbstractRangeEdit.h"
 
 class RangeWidget : public QWidget, public AbstractRangeEdit
 {

@@ -42,7 +42,7 @@
   <widget class="DateEdit" name="dateEdit">
    <property name="geometry">
     <rect>
-     <x>90</x>
+     <x>80</x>
      <y>150</y>
      <width>71</width>
      <height>21</height>
@@ -64,7 +64,7 @@
   <widget class="SpinBox" name="priceSpinBox">
    <property name="geometry">
     <rect>
-     <x>90</x>
+     <x>80</x>
      <y>180</y>
      <width>62</width>
      <height>21</height>

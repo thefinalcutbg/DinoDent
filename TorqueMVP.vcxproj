@@ -202,10 +202,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\View\DetailsView\SubWidgets\Details\ImplantWidget.cpp" />
     <ClCompile Include="src\View\DetailsView\SubWidgets\Details\DentistMadeWidget.cpp" />
-    <ClCompile Include="src\View\DetailsView\SubWidgets\Details\ObturationWidget.cpp" />
-    <ClCompile Include="src\View\DetailsView\SubWidgets\Details\CrownWidget.cpp" />
+    <ClCompile Include="src\View\uiComponents\qt_derived\Widgets\ObturationWidget.cpp" />
+    <ClCompile Include="src\View\uiComponents\qt_derived\Widgets\CrownWidget.cpp" />
     <ClCompile Include="src\View\DetailsView\SubWidgets\Details\PathologyWidget.cpp" />
     <ClCompile Include="src\View\DetailsView\SubWidgets\DetailedStatus.cpp" />
     <ClCompile Include="src\Presenter\ListPresenter\StatusPresenter\CheckState.cpp" />
@@ -231,7 +230,7 @@
     <ClCompile Include="src\View\ProcedureEditDialog\ProcedureEditDialog.cpp" />
     <ClCompile Include="src\View\uiComponents\AbstractDateEdit.cpp" />
     <ClCompile Include="src\View\uiComponents\qt_derived\NameEdit.cpp" />
-    <ClCompile Include="src\View\ProcedureDialog\Widgets\ImplantView\ImplantView.cpp" />
+    <ClCompile Include="src\View\uiComponents\qt_derived\Widgets\ImplantView.cpp" />
     <ClCompile Include="src\View\ModalDialogBuilder.cpp" />
     <ClCompile Include="src\Model\Procedure\CustomProcedures.cpp" />
     <ClCompile Include="src\Presenter\ListPresenter\Editor.cpp" />
@@ -245,16 +244,16 @@
     <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\GeneralMPresenter.cpp" />
     <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\ObturationPresenter.cpp" />
     <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\TeethMPresenter.cpp" />
-    <ClCompile Include="src\View\ProcedureDialog\Widgets\CrownView\CrownView.cpp" />
-    <ClCompile Include="src\View\ProcedureDialog\Widgets\ObturationView\ObturationView.cpp" />
-    <ClCompile Include="src\View\ProcedureDialog\Widgets\CommonFields\CommonFields.cpp" />
+    <ClCompile Include="src\View\uiComponents\qt_derived\Widgets\CrownView.cpp" />
+    <ClCompile Include="src\View\uiComponents\qt_derived\Widgets\ObturationView.cpp" />
+    <ClCompile Include="src\View\ProcedureDialog\CommonFields\CommonFields.cpp" />
     <ClCompile Include="src\Database\DbProcedure.cpp" />
     <ClCompile Include="src\Model\Procedure\ProcedureParser.cpp" />
     <ClCompile Include="src\View\ListView\TeethView\GraphicsView.cpp" />
     <ClCompile Include="src\View\uiComponents\qt_derived\SpinBox.cpp" />
     <ClCompile Include="src\View\ListView\Procedures\ProcedureTableModel.cpp" />
     <ClCompile Include="src\View\ListView\Procedures\ProcedureTable.cpp" />
-    <ClCompile Include="src\View\uiComponents\qt_derived\RangeWidget.cpp" />
+    <ClCompile Include="src\View\uiComponents\qt_derived\Widgets\RangeWidget.cpp" />
     <ClCompile Include="src\Model\Validator\ProcedureValidators.cpp" />
     <ClCompile Include="src\Model\Validator\PatientValidators.cpp">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/utf-8 %(AdditionalOptions)</AdditionalOptions>
@@ -322,10 +321,10 @@
     <ClCompile Include="src\Presenter\ListPresenter\StatusPresenter\SurfacePanel\SurfacePanelPresenter.cpp" />
     <ClCompile Include="src\View\uiComponents\AbstractUIElement.cpp" />
     <ClCompile Include="src\View\uiComponents\qt_derived\TextEdit.cpp" />
-    <ClCompile Include="src\View\uiComponents\qt_derived\SurfaceSelector.cpp" />
+    <ClCompile Include="src\View\uiComponents\qt_derived\Widgets\SurfaceSelector.cpp" />
     <ClCompile Include="src\View\ListView\ToothPaintDevices\ToothPainter.cpp" />
     <ClCompile Include="src\Presenter\ListPresenter\StatusPresenter\ToothHintCreator.cpp" />
-    <ClCompile Include="src\View\uiComponents\qt_derived\VitaWidget.cpp" />
+    <ClCompile Include="src\View\uiComponents\qt_derived\Widgets\VitaWidget.cpp" />
     <ClCompile Include="src\Model\User\User.cpp" />
     <ClCompile Include="src\Presenter\ListPresenter\StatusPresenter\StatusPresenter.cpp" />
     <ClCompile Include="src\View\ListView\ToothPaintDevices\ToothSprite.cpp" />
@@ -334,20 +333,19 @@
     <ClCompile Include="src\Model\Tooth\ToothContainer.cpp" />
     <ClCompile Include="src\View\DetailsView\SubWidgets\ToothHistory.cpp" />
     <QtRcc Include="src\View\Torque.qrc" />
-    <QtUic Include="src\View\DetailsView\SubWidgets\Details\ImplantWidget.ui" />
     <QtUic Include="src\View\DetailsView\SubWidgets\Details\DentistMadeWidget.ui" />
-    <QtUic Include="src\View\DetailsView\SubWidgets\Details\ObturationWidget.ui" />
-    <QtUic Include="src\View\DetailsView\SubWidgets\Details\CrownWidget.ui" />
+    <QtUic Include="src\View\uiComponents\qt_derived\Widgets\ObturationWidget.ui" />
+    <QtUic Include="src\View\uiComponents\qt_derived\Widgets\CrownWidget.ui" />
     <QtUic Include="src\View\DetailsView\SubWidgets\Details\PathologyWidget.ui" />
     <QtUic Include="src\View\DetailsView\SubWidgets\DetailedStatus.ui" />
     <QtUic Include="src\View\DetailsView\DetailsView.ui" />
     <QtUic Include="src\View\AmbListSelector\AmbListSelector.ui" />
     <QtUic Include="src\View\ProcedureEditDialog\ProcedureEditDialog.ui" />
-    <QtUic Include="src\View\ProcedureDialog\Widgets\ImplantView\ImplantView.ui" />
-    <QtUic Include="src\View\ProcedureDialog\Widgets\CrownView\CrownView.ui" />
-    <QtUic Include="src\View\ProcedureDialog\Widgets\ObturationView\ObturationView.ui" />
-    <QtUic Include="src\View\ProcedureDialog\Widgets\CommonFields\CommonFields.ui" />
-    <QtUic Include="src\View\uiComponents\qt_derived\RangeWidget.ui" />
+    <QtUic Include="src\View\uiComponents\qt_derived\Widgets\ImplantView.ui" />
+    <QtUic Include="src\View\uiComponents\qt_derived\Widgets\CrownView.ui" />
+    <QtUic Include="src\View\uiComponents\qt_derived\Widgets\ObturationView.ui" />
+    <QtUic Include="src\View\ProcedureDialog\CommonFields\CommonFields.ui" />
+    <QtUic Include="src\View\uiComponents\qt_derived\Widgets\RangeWidget.ui" />
     <QtUic Include="src\View\ProcedureDialog\ProcedureDialog.ui" />
     <QtUic Include="src\View\ListView\ControlPanel\ControlPanel.ui" />
     <QtUic Include="src\View\AllergiesDialog\AllergiesDialog.ui" />
@@ -390,8 +388,8 @@
     <ClCompile Include="src\View\Torque.cpp" />
     <ClCompile Include="src\main.cpp" />
     <QtUic Include="src\View\ListView\SurfacePanel\SurfacePanel.ui" />
-    <QtUic Include="src\View\uiComponents\qt_derived\SurfaceSelector.ui" />
-    <QtUic Include="src\View\uiComponents\qt_derived\VitaWidget.ui" />
+    <QtUic Include="src\View\uiComponents\qt_derived\Widgets\SurfaceSelector.ui" />
+    <QtUic Include="src\View\uiComponents\qt_derived\Widgets\VitaWidget.ui" />
     <QtUic Include="src\View\AmbListPage\TabView\TabView.ui" />
     <QtUic Include="src\View\DetailsView\SubWidgets\ToothHistory.ui" />
   </ItemGroup>
@@ -401,10 +399,9 @@
   <ItemGroup>
     <QtMoc Include="src\View\DetailsView\SubWidgets\DetailedStatus.h" />
     <QtMoc Include="src\View\DetailsView\SubWidgets\Details\PathologyWidget.h" />
-    <QtMoc Include="src\View\DetailsView\SubWidgets\Details\CrownWidget.h" />
-    <QtMoc Include="src\View\DetailsView\SubWidgets\Details\ObturationWidget.h" />
+    <QtMoc Include="src\View\uiComponents\qt_derived\Widgets\CrownWidget.h" />
+    <QtMoc Include="src\View\uiComponents\qt_derived\Widgets\ObturationWidget.h" />
     <QtMoc Include="src\View\DetailsView\SubWidgets\Details\DentistMadeWidget.h" />
-    <QtMoc Include="src\View\DetailsView\SubWidgets\Details\ImplantWidget.h" />
     <ClInclude Include="src\Model\StatusData.h" />
     <ClInclude Include="src\Model\Tooth\ToothContainer.h" />
     <QtMoc Include="src\View\DetailsView\SubWidgets\ToothHistory.h" />
@@ -437,8 +434,8 @@
     <ClInclude Include="src\View\ErrorMessage.h" />
     <ClInclude Include="src\View\GlobalFunctions.h" />
     <ClInclude Include="src\View\Printer\ProcedurePrintModel.h" />
-    <ClInclude Include="src\View\ProcedureDialog\Widgets\ImplantView\IImplantView.h" />
-    <QtMoc Include="src\View\ProcedureDialog\Widgets\ImplantView\ImplantView.h" />
+    <ClInclude Include="src\View\uiComponents\qt_derived\Widgets\IImplantView.h" />
+    <QtMoc Include="src\View\uiComponents\qt_derived\Widgets\ImplantView.h" />
     <ClInclude Include="src\View\ModalDialogBuilder.h" />
     <ClInclude Include="src\Model\Procedure\CustomProcedures.h" />
     <ClInclude Include="src\Presenter\ListPresenter\Editor.h" />
@@ -448,9 +445,9 @@
     <ClInclude Include="src\View\AmbListPage\TabView\ITabView.h" />
     <ClInclude Include="src\View\ListView\ToothPaintDevices\ToothSprite.h" />
     <ClInclude Include="src\Presenter\TabPresenter\TabPresenter.h" />
-    <QtMoc Include="src\View\ProcedureDialog\Widgets\CommonFields\CommonFields.h" />
-    <QtMoc Include="src\View\ProcedureDialog\Widgets\ObturationView\ObturationView.h" />
-    <QtMoc Include="src\View\ProcedureDialog\Widgets\CrownView\CrownView.h" />
+    <QtMoc Include="src\View\ProcedureDialog\CommonFields\CommonFields.h" />
+    <QtMoc Include="src\View\uiComponents\qt_derived\Widgets\ObturationView.h" />
+    <QtMoc Include="src\View\uiComponents\qt_derived\Widgets\CrownView.h" />
     <ClInclude Include="src\Model\Procedure\MasterNZOK.h" />
     <ClInclude Include="src\Model\Procedure\NZOKmaps.h" />
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\ImplantPresenter.h" />
@@ -461,12 +458,12 @@
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\TeethMPresenter.h" />
     <ClInclude Include="src\View\ListView\IProcedureView.h" />
     <ClInclude Include="src\View\ListView\IStatusView.h" />
-    <ClInclude Include="src\View\ProcedureDialog\Widgets\ObturationView\IObturationView.h" />
-    <ClInclude Include="src\View\ProcedureDialog\Widgets\CrownView\ICrownView.h" />
+    <ClInclude Include="src\View\uiComponents\qt_derived\Widgets\IObturationView.h" />
+    <ClInclude Include="src\View\uiComponents\qt_derived\Widgets\ICrownView.h" />
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\GeneralMPresenter.h" />
     <ClInclude Include="src\View\ListView\ToothPaintDevices\ToothPainter.h" />
     <ClInclude Include="src\Presenter\ListPresenter\StatusPresenter\ToothHintCreator.h" />
-    <QtMoc Include="src\View\uiComponents\qt_derived\VitaWidget.h" />
+    <QtMoc Include="src\View\uiComponents\qt_derived\Widgets\VitaWidget.h" />
     <QtMoc Include="src\View\ListView\TeethView\GraphicsView.h" />
     <ClInclude Include="src\Database\DbProcedure.h" />
     <ClInclude Include="src\Model\Procedure\ProcedureParser.h" />
@@ -476,17 +473,17 @@
     <QtMoc Include="src\View\uiComponents\qt_derived\SpinBox.h" />
     <ClInclude Include="src\Database\AbstractORM.h" />
     <ClInclude Include="src\Model\Procedure\ProcedureTemplate.h" />
-    <QtMoc Include="src\View\uiComponents\qt_derived\SurfaceSelector.h" />
+    <QtMoc Include="src\View\uiComponents\qt_derived\Widgets\SurfaceSelector.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\TextEdit.h" />
-    <QtMoc Include="src\View\uiComponents\qt_derived\RangeWidget.h" />
+    <QtMoc Include="src\View\uiComponents\qt_derived\Widgets\RangeWidget.h" />
     <ClInclude Include="src\View\ListView\Procedures\RowData.h" />
     <ClInclude Include="src\View\ListView\ToothPaintDevices\PaintHint.h" />
-    <ClInclude Include="src\View\ProcedureDialog\Widgets\CommonFields\ICommonFields.h" />
+    <ClInclude Include="src\View\ProcedureDialog\CommonFields\ICommonFields.h" />
     <ClInclude Include="src\View\ProcedureEditDialog\IProcedureEditDialog.h" />
     <ClInclude Include="src\View\uiComponents\AbstractDateEdit.h" />
     <ClInclude Include="src\View\uiComponents\AbstractSpinBox.h" />
     <ClInclude Include="src\View\uiComponents\AbstractSurfaceSelector.h" />
-    <ClInclude Include="src\View\uiComponents\AbstractRangeEdit.h" />
+    <ClInclude Include="src\View\uiComponents\qt_derived\Widgets\AbstractRangeEdit.h" />
     <ClInclude Include="src\Model\Validator\ProcedureValidators.h" />
     <ClInclude Include="src\Model\Validator\PatientValidators.h" />
     <ClInclude Include="src\Model\Tooth\Enums.h" />

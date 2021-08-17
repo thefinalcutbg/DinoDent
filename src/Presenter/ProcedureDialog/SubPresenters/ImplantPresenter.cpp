@@ -1,5 +1,5 @@
 #include "ImplantPresenter.h"
-#include "View/ProcedureDialog/Widgets/ImplantView/IImplantView.h"
+#include "View/uiComponents/qt_derived/Widgets/IImplantView.h"
 #include "Model/Procedure/Procedure.h"
 #include "Model/Tooth/ToothUtils.h"
 
@@ -21,7 +21,10 @@ void ImplantPresenter::setManipulationTemplate(const ProcedureTemplate& m)
 
 	GeneralMPresenter::setManipulationTemplate(m);
 
-	view->systemEdit()->set_Text(m.material);
+	auto data = view->getData();
+	data.system = m.material;
+
+	view->setData(data);
 }
 
 void ImplantPresenter::setView(IImplantView* view)

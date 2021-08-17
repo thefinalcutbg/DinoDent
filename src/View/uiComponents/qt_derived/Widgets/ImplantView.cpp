@@ -32,12 +32,6 @@ void ImplantView::set_hidden(bool hidden)
 	setHidden(hidden);
 }
 
-AbstractLineEdit* ImplantView::systemEdit()
-{
-	return ui.system_edit;
-}
-
-
 ImplantData ImplantView::getData()
 {
 	auto boneCombo = ui.boneCombo->currentIndex();
@@ -57,9 +51,9 @@ ImplantData ImplantView::getData()
 	};
 }
 
-void ImplantView::setData(ImplantData data)
+void ImplantView::setData(const ImplantData& data)
 {
-	ui.system_edit->set_Text(data.system);
+	ui.system_edit->setText(QString::fromStdString(data.system));
 	ui.timeCombo->setCurrentIndex(data.time);
 	ui.typeCombo->setCurrentIndex(data.type);
 	ui.length->setValue(data.length);

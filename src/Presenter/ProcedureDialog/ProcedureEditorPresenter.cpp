@@ -1,5 +1,5 @@
 #include "ProcedureEditorPresenter.h"
-#include "View/ProcedureDialog/Widgets/CommonFields/ICommonFields.h"
+#include "View/ProcedureDialog/CommonFields/ICommonFields.h"
 
 ProcedureEditorPresenter::ProcedureEditorPresenter(const Procedure& m, const Date& ambDate, const Date& patientTurns18)
 	: 
@@ -14,11 +14,11 @@ ProcedureEditorPresenter::ProcedureEditorPresenter(const Procedure& m, const Dat
 		e = nullptr;
 }
 
-Procedure ProcedureEditorPresenter::openDialog()
+std::optional<Procedure> ProcedureEditorPresenter::openDialog()
 {
 	ModalDialogBuilder::openDialog(this);
 
-	return m;
+	return result;
 }
 
 void ProcedureEditorPresenter::setView(IProcedureEditDialog* view)
@@ -52,7 +52,7 @@ void ProcedureEditorPresenter::setView(IProcedureEditDialog* view)
 	switch (m.type)
 	{
 		case ProcedureType::obturation:
-			view->obturationView()->setData(std::get<PObturationData>(m.result));
+			view->obturationView()->setData(std::get<ProcedureObtData>(m.result));
 			//view->obturationView()->surfaceSelector()->setInputValidator(&_surfValidator);
 			_validatableElements[3] = view->obturationView()->surfaceSelector();
 			break;
@@ -64,7 +64,7 @@ void ProcedureEditorPresenter::setView(IProcedureEditDialog* view)
 			view->crownView()->rangeWidget()->disable(true);
 			break;
 		case ProcedureType::bridge:
-			view->crownView()->setData(std::get<BridgeData>(m.result));
+			view->crownView()->setData(std::get<ProcedureBridgeData>(m.result));
 			view->crownView()->rangeWidget()->setInputValidator(&_bridgeValidator);
 			_validatableElements[3] = view->crownView()->rangeWidget();
 			break;
@@ -110,9 +110,11 @@ void ProcedureEditorPresenter::okPressed()
 			break;
 		case ProcedureType::bridge:
 			auto [begin, end] = view->crownView()->rangeWidget()->getRange();
-			m.result = BridgeData{ view->crownView()->getData(), begin, end };
+			m.result = ProcedureBridgeData{ begin, end, view->crownView()->getData()};
 			break;
 	}
+
+	result = m;
 
 	view->closeDialog();
 }

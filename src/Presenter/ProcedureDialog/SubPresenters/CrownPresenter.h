@@ -1,6 +1,6 @@
 #pragma once
 #include "TeethMPresenter.h"
-#include "View/ProcedureDialog/Widgets/CrownView/ICrownView.h"
+#include "View/uiComponents/qt_derived/Widgets/ICrownView.h"
 #include "Model/Validator/ProcedureValidators.h"
 #include "Model/Tooth/ToothUtils.h"
 

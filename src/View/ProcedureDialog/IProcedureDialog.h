@@ -7,6 +7,7 @@
 class CrownPresenter;
 class ImplantPresenter;
 class ObturationPresenter;
+class ICommonFields;
 
 class IProcedureDialog
 {

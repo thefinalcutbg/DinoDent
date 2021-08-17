@@ -19,12 +19,10 @@ public:
 
 	// Inherited via ICrownView
 	AbstractRangeEdit* rangeWidget() override;
-	AbstractLineEdit* materialEdit() override;
-	int getType() override;
-	int getColor() override;
+
 	void set_hidden(bool hidden) override;
 
-	void setData(const BridgeData& data) override;;
+	void setData(const ProcedureBridgeData& data) override;;
 	void setData(const CrownData& data) override;;
 	virtual CrownData getData() override;
 	void setPresenter(CrownPresenter* presenter);

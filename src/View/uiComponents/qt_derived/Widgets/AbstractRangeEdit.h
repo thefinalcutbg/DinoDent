@@ -1,5 +1,5 @@
 #pragma once
-#include "AbstractUIElement.h"
+#include "../../AbstractUIElement.h"
 #include <tuple>
 
 class AbstractRangeEdit : public AbstractUIElement

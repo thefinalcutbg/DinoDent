@@ -1,16 +1,10 @@
 #pragma once
+#include "Model/Procedure/ProcedureTemplate.h"
 
-#include "Model/Procedure/Procedure.h"
-
-#include "View/ProcedureDialog/Widgets/ObturationView/IObturationView.h"
-#include "View/ProcedureDialog/Widgets/ImplantView/IImplantView.h"
-#include "View/ProcedureDialog/Widgets/CrownView/ICrownView.h"
-
-class ProcedureEditorPresenter;
-class ICommonFields;
-class CrownPresenter;
-class ImplantPresenter;
-class ObturationPresenter;
+#include "View/uiComponents/qt_derived/Widgets/IImplantView.h"
+#include "View/uiComponents/qt_derived/Widgets/IObturationView.h"
+#include "View/uiComponents/qt_derived/Widgets/ICrownView.h"
+#include "View/ProcedureDialog/CommonFields/ICommonFields.h"
 
 class IProcedureEditDialog
 {

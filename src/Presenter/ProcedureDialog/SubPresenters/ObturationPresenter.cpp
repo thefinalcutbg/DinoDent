@@ -28,7 +28,11 @@ void ObturationPresenter::setManipulationTemplate(const ProcedureTemplate& m)
     if (noTeethSelected) return;
 
     GeneralMPresenter::setManipulationTemplate(m);
-    view->material()->set_Text(m.material);
+
+    //no interface for setting material only :(
+    auto data = view->getData();
+    data.data.material = m.material;
+    view->setData(data);
 }
 
 bool ObturationPresenter::isValid()

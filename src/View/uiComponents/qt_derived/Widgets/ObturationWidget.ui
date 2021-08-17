@@ -6,86 +6,90 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>232</width>
+    <height>62</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>ObturationWidget</string>
   </property>
+  <widget class="LineEdit" name="materialEdit">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>0</y>
+     <width>131</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>0</height>
+    </size>
+   </property>
+  </widget>
   <widget class="QComboBox" name="combo_color">
    <property name="geometry">
     <rect>
-     <x>100</x>
-     <y>40</y>
-     <width>59</width>
-     <height>22</height>
+     <x>80</x>
+     <y>30</y>
+     <width>61</width>
+     <height>21</height>
     </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>50</width>
+     <height>0</height>
+    </size>
    </property>
    <property name="editable">
     <bool>false</bool>
    </property>
   </widget>
-  <widget class="LineEdit" name="materialEdit">
-   <property name="geometry">
-    <rect>
-     <x>100</x>
-     <y>10</y>
-     <width>151</width>
-     <height>21</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>40</y>
-     <width>47</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Цвят:</string>
-   </property>
-  </widget>
   <widget class="QLabel" name="materialLabel">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>61</width>
+     <x>0</x>
+     <y>0</y>
+     <width>80</width>
      <height>21</height>
     </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>80</width>
+     <height>0</height>
+    </size>
    </property>
    <property name="text">
     <string>Материал:</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="uinEdit">
+  <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>100</x>
-     <y>80</y>
-     <width>161</width>
+     <x>0</x>
+     <y>30</y>
+     <width>80</width>
      <height>20</height>
     </rect>
    </property>
-   <property name="maxLength">
-    <number>9</number>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_2">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>80</y>
-     <width>91</width>
-     <height>20</height>
-    </rect>
+   <property name="minimumSize">
+    <size>
+     <width>80</width>
+     <height>0</height>
+    </size>
    </property>
    <property name="text">
-    <string>Изработена от: </string>
+    <string>Цвят:</string>
    </property>
   </widget>
  </widget>

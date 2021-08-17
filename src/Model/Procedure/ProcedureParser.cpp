@@ -11,10 +11,10 @@ std::string ProcedureParser::write(const Procedure& m)
 	{
 	case ProcedureType::obturation:
 	{
-		auto& r = std::get<PObturationData>(m.result);
-		procedure["color"] = r.color;
+		auto& r = std::get<ProcedureObtData>(m.result);
+		procedure["color"] = r.data.color;
 		procedure["post"] = r.post;
-		procedure["material"] = r.material;
+		procedure["material"] = r.data.material;
 		procedure["surfaces"] = Json::Value(Json::arrayValue);
 
 		for (int i = 0; i < r.surfaces.size(); i++)
@@ -32,7 +32,7 @@ std::string ProcedureParser::write(const Procedure& m)
 	}
 	case ProcedureType::bridge:
 	{
-		auto& r = std::get<BridgeData>(m.result);
+		auto& r = std::get<ProcedureBridgeData>(m.result);
 		procedure["color_idx"] = r.crown.color;
 		procedure["material"] = r.crown.material;
 		procedure["prep"] = r.crown.prep_type;
@@ -89,69 +89,75 @@ void ProcedureParser::parse(const std::string& jsonString, Procedure& m)
 	{
 		case ProcedureType::obturation:
 		{
-			PObturationData r;
-			r.material = procedure["material"].asString();
-			r.post = procedure["post"].asBool();
-			r.color = procedure["color"].asInt();
-		
-			const Json::Value& surfaces = procedure["surfaces"];
-
-			for (int i = 0; i < surfaces.size(); i++)
+			m.result = ProcedureObtData
 			{
-				r.surfaces[surfaces[i].asInt()] = true;
-			}
+				std::array<bool, 6>{false},
+				procedure["post"].asBool(),
+				ObturationData
+				{
+					procedure["color"].asInt(),
+					procedure["material"].asString()
 
-			m.result = r;
+				}
+			};
+
+			const Json::Value& surfaces = procedure["surfaces"];
+			
+			for (int i = 0; i < surfaces.size(); i++)
+				std::get<ProcedureObtData>(m.result).surfaces[surfaces[i].asInt()] = true;
+
 
 			break;
 		}
 
 		case ProcedureType::crown:
 		{
-			CrownData r;
-			r.material = procedure["material"].asString();
-			r.prep_type = procedure["prep"].asInt();
-			r.color = procedure["color_idx"].asInt();
-
-			m.result = r;
+			m.result = CrownData
+			{
+				procedure["material"].asString(),
+				procedure["prep"].asInt(),
+				procedure["color_idx"].asInt()
+			};
 
 			break;
 		}
 
 		case ProcedureType::bridge:
 		{
-			BridgeData r;
-			r.tooth_begin = procedure["begin"].asInt();
-			r.tooth_end = procedure["end"].asInt();
-			r.crown.prep_type = procedure["prep"].asInt();
-			r.crown.material = procedure["material"].asString();
-			r.crown.color = procedure["color_idx"].asInt();
+			m.result = ProcedureBridgeData
+			{
+				procedure["begin"].asInt(),
+				procedure["end"].asInt(),
+				CrownData
+				{
+					procedure["material"].asString(),
+					procedure["prep"].asInt(),
+					procedure["color_idx"].asInt()
+				}
 
-			m.result = r;
+			};
 
 			break;
 		}
 
 		case ProcedureType::implant:
 		{
-			ImplantData r;
-
-			r.system = procedure["system"].asString();
-			r.time = procedure["time"].asInt();
-			r.type = procedure["type"].asInt();
-			r.width = procedure["w"].asDouble();
-			r.length = procedure["l"].asDouble();
-			r.tissue_aug = procedure["tissue"].asInt();
-			r.bone_aug = procedure["bone"].asInt();
-			r.membrane = procedure["membrane"].asBool();
-			r.sinusLift = procedure["sinus"].asBool();
-
-			m.result = r;
+			m.result = ImplantData
+			{
+				procedure["system"].asString(),
+				procedure["w"].asDouble(),
+				procedure["l"].asDouble(),
+				procedure["time"].asInt(),
+				procedure["type"].asInt(),
+				procedure["tissue"].asInt(),
+				procedure["bone"].asInt(),
+				procedure["membrane"].asBool(),
+				procedure["sinus"].asBool()
+			};
 
 			break;
 		}
 		default:
-			NoData r;
-			m.result = r;
+			m.result = NoData{};
 	}
 }

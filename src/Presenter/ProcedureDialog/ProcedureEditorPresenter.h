@@ -1,6 +1,6 @@
 #pragma once
 #include <array>
-
+#include <optional>
 #include "View/ProcedureEditDialog/IProcedureEditDialog.h"
 #include "Model/Procedure/Procedure.h"
 
@@ -19,6 +19,7 @@ class ProcedureEditorPresenter
 
 	IProcedureEditDialog* view;
 	Procedure m;
+	std::optional<Procedure> result;
 
 	SurfaceValidator _surfValidator;
 	BridgeRangeValidator _bridgeValidator;
@@ -27,7 +28,7 @@ class ProcedureEditorPresenter
 
 public:
 	ProcedureEditorPresenter(const Procedure& m, const Date& ambDate, const Date& patientBirth);
-	Procedure openDialog();
+	std::optional<Procedure> openDialog();
 	void setView(IProcedureEditDialog* view);
 	void okPressed();
 };

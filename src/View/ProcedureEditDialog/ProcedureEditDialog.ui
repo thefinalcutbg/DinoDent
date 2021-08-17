@@ -106,25 +106,25 @@
   <customwidget>
    <class>CommonFields</class>
    <extends>QWidget</extends>
-   <header>View/ProcedureDialog/Widgets/CommonFields/CommonFields.h</header>
+   <header>View/ProcedureDialog/CommonFields/CommonFields.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>CrownView</class>
    <extends>QWidget</extends>
-   <header>View/ProcedureDialog/Widgets/CrownView/CrownView.h</header>
+   <header>View/uiComponents/qt_derived/Widgets/CrownView.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>ObturationView</class>
    <extends>QWidget</extends>
-   <header>View/ProcedureDialog/Widgets/ObturationView/ObturationView.h</header>
+   <header>View/uiComponents/qt_derived/Widgets/ObturationView.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>ImplantView</class>
    <extends>QWidget</extends>
-   <header>View/ProcedureDialog/Widgets/ImplantView/ImplantView.h</header>
+   <header>View/uiComponents/qt_derived/Widgets/ImplantView.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

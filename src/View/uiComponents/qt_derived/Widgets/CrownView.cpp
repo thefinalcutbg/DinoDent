@@ -17,7 +17,6 @@ CrownView::CrownView(QWidget *parent)
 			if (m_presenter == nullptr) return;
 			m_presenter->rangeWidgetChecked(checked); 
 		});
-	
 }
 
 CrownView::~CrownView()
@@ -30,52 +29,27 @@ AbstractRangeEdit* CrownView::rangeWidget()
 	return ui.rangeWidget;
 }
 
-AbstractLineEdit* CrownView::materialEdit()
-{
-	return ui.materialEdit;
-}
-
-int CrownView::getType()
-{
-	return ui.comboBox->currentIndex();
-}
-
-int CrownView::getColor()
-{
-	return ui.vitaWidget->getIndex();
-}
-
 void CrownView::set_hidden(bool hidden)
 {
 	setHidden(hidden);
 }
 
-void CrownView::setData(const BridgeData& data)
+void CrownView::setData(const ProcedureBridgeData& data)
 {
 	ui.rangeWidget->disable(false);
 	ui.rangeWidget->setRange(data.tooth_begin, data.tooth_end);
-	ui.comboBox->setCurrentIndex(data.crown.prep_type);
-	ui.materialEdit->set_Text(data.crown.material);
-	ui.vitaWidget->setIndex(data.crown.color);
+	ui.crownWidget->setData(data.crown);
 }
 
 void CrownView::setData(const CrownData& data)
 {
 	ui.rangeWidget->disable(true);
-	ui.comboBox->setCurrentIndex(data.prep_type);
-	ui.materialEdit->set_Text(data.material);
-	ui.vitaWidget->setIndex(data.color);
+	ui.crownWidget->setData(data);
 }
 
 CrownData CrownView::getData()
 {
-
-	return CrownData
-	{
-		ui.materialEdit->getText(),
-		ui.comboBox->currentIndex(),
-		ui.vitaWidget->getIndex()
-	};
+	return ui.crownWidget->getData();
 }
 
 

@@ -1,7 +1,7 @@
 #pragma once
 #include "Model/Procedure/Procedure.h"
 #include "Model/Tooth/Tooth.h"
-#include "View/ProcedureDialog/Widgets/CommonFields/ICommonFields.h"
+#include "View/ProcedureDialog/CommonFields/ICommonFields.h"
 #include "Model/Validator/ProcedureValidators.h"
 #include "Model/Validator/CommonValidators.h"
 

@@ -9,25 +9,26 @@ class ToothContainer;
 
 struct NoData {};
 
-struct BridgeData {
-
-    CrownData crown;
+struct ProcedureBridgeData {
 
     int tooth_begin{ 0 };
     int tooth_end{ 0 };
+
+    CrownData crown;
 };
 
-struct PObturationData : ObturationData
+struct ProcedureObtData
 {
     std::array<bool, 6>surfaces{ 0,0,0,0,0,0 };
     bool post{ false };
+    ObturationData data;
 };
 
 struct Anesthesia {
     int minutes{ 0 };
 };
 
-typedef std::variant<NoData, PObturationData, CrownData, BridgeData, ImplantData, Anesthesia> Result;
+typedef std::variant<NoData, ProcedureObtData, CrownData, ProcedureBridgeData, ImplantData, Anesthesia> Result;
 
 struct Procedure
 {

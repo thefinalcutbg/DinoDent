@@ -167,7 +167,11 @@ void ProcedurePresenter::editProcedure()
 
     ProcedureEditorPresenter p(m_for_edit, _ambList->date, _patient->turns18At());
 
-    auto m = std::move(p.openDialog());
+    auto result = p.openDialog();
+
+    if (!result.has_value()) return;
+
+    auto& m = result.value();
 
     if (m.nzok)
     {

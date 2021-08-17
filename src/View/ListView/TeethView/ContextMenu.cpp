@@ -44,7 +44,7 @@ ContextMenu::ContextMenu()
 
     QMenu* ObturMenu = addMenu(u8"&Обтурация");
     QMenu* CariesMenu = addMenu(u8"&Кариес");
-    QMenu* EndoMenu = addMenu("u8&Ендодонтия");
+    QMenu* EndoMenu = addMenu(u8"&Ендодонтия");
     QMenu* SurgeryMenu = addMenu(u8"&Хирургия");
 
     QString surfName[surfaceCount] = { u8"Оклузално", u8"Медиално", u8"Дистално", u8"Букално", u8"Лингвално", u8"Цервикално" };

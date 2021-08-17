@@ -30,7 +30,9 @@ void CrownPresenter::setManipulationTemplate(const ProcedureTemplate& m)
 
 	GeneralMPresenter::setManipulationTemplate(m);
 
-	view->materialEdit()->set_Text(m.material);
+	auto data = view->getData();
+	data.material = m.material;
+	view->setData(data);
 	
 	auto [begin, end] = view->rangeWidget()->getRange();
 	int length = end - begin + 1;
@@ -97,7 +99,7 @@ Result CrownPresenter::getResult()
 	{
 		auto [begin, end] = view->rangeWidget()->getRange();
 		auto crown = view->getData();
-		return BridgeData { crown, begin, end };
+		return ProcedureBridgeData { begin, end, crown };
 	}
 
 	return view->getData();

@@ -10,25 +10,6 @@ DetailedStatus::DetailedStatus(QWidget *parent)
 	ui.setupUi(this);
 
 	ui.imageLabel->setStyleSheet("border: 1px solid lightgray");
-	
-	PathologyWidget* p = new PathologyWidget();
-	ui.stackedWidget->addWidget(p);
-	
-	ImplantWidget* i = new ImplantWidget();
-	ui.stackedWidget->addWidget(i);
-
-	ObturationWidget* o = new ObturationWidget();
-	ui.stackedWidget->addWidget(o);
-
-	DentistMadeWidget* d = new DentistMadeWidget();
-	ui.stackedWidget->addWidget(d);
-
-	CrownWidget* c = new CrownWidget();
-	ui.stackedWidget->addWidget(c);
-
-	ui.stackedWidget->setCurrentWidget(i);
-
-
 
 	for (auto& name : statusNames)
 	{

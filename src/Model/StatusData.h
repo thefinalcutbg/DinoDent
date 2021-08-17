@@ -21,12 +21,14 @@ struct CrownData {
 };
 
 
-struct ObturationData {
+struct ObturationData
+{
     int color{ 0 };
     std::string material;
 };
 
-struct ImplantData {
+struct ImplantData 
+{
     std::string system;
     double width{ 0 }, length{ 0 };
     int time, type, tissue_aug, bone_aug;

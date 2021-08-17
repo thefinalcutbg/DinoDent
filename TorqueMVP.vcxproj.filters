@@ -183,13 +183,13 @@
     <ClCompile Include="src\View\uiComponents\AbstractUIElement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\uiComponents\qt_derived\RangeWidget.cpp">
+    <ClCompile Include="src\View\uiComponents\qt_derived\Widgets\RangeWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\uiComponents\qt_derived\TextEdit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\uiComponents\qt_derived\SurfaceSelector.cpp">
+    <ClCompile Include="src\View\uiComponents\qt_derived\Widgets\SurfaceSelector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\ListView\Procedures\ProcedureTable.cpp">
@@ -216,16 +216,16 @@
     <ClCompile Include="src\Presenter\ListPresenter\StatusPresenter\ToothHintCreator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\uiComponents\qt_derived\VitaWidget.cpp">
+    <ClCompile Include="src\View\uiComponents\qt_derived\Widgets\VitaWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\ProcedureDialog\Widgets\CommonFields\CommonFields.cpp">
+    <ClCompile Include="src\View\ProcedureDialog\CommonFields\CommonFields.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\ProcedureDialog\Widgets\ObturationView\ObturationView.cpp">
+    <ClCompile Include="src\View\uiComponents\qt_derived\Widgets\ObturationView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\ProcedureDialog\Widgets\CrownView\CrownView.cpp">
+    <ClCompile Include="src\View\uiComponents\qt_derived\Widgets\CrownView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\ObturationPresenter.cpp">
@@ -279,7 +279,7 @@
     <ClCompile Include="src\View\ModalDialogBuilder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\ProcedureDialog\Widgets\ImplantView\ImplantView.cpp">
+    <ClCompile Include="src\View\uiComponents\qt_derived\Widgets\ImplantView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\uiComponents\qt_derived\NameEdit.cpp">
@@ -366,16 +366,13 @@
     <ClCompile Include="src\View\DetailsView\SubWidgets\Details\PathologyWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\DetailsView\SubWidgets\Details\CrownWidget.cpp">
+    <ClCompile Include="src\View\uiComponents\qt_derived\Widgets\CrownWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\DetailsView\SubWidgets\Details\ObturationWidget.cpp">
+    <ClCompile Include="src\View\uiComponents\qt_derived\Widgets\ObturationWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\DetailsView\SubWidgets\Details\DentistMadeWidget.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\View\DetailsView\SubWidgets\Details\ImplantWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -437,13 +434,13 @@
     <QtMoc Include="src\View\uiComponents\qt_derived\LineEdit.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\uiComponents\qt_derived\RangeWidget.h">
+    <QtMoc Include="src\View\uiComponents\qt_derived\Widgets\RangeWidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\uiComponents\qt_derived\TextEdit.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\uiComponents\qt_derived\SurfaceSelector.h">
+    <QtMoc Include="src\View\uiComponents\qt_derived\Widgets\SurfaceSelector.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\ListView\Procedures\ProcedureTable.h">
@@ -458,19 +455,19 @@
     <QtMoc Include="src\View\ListView\TeethView\GraphicsView.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\uiComponents\qt_derived\VitaWidget.h">
+    <QtMoc Include="src\View\uiComponents\qt_derived\Widgets\VitaWidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\ProcedureDialog\Widgets\CommonFields\CommonFields.h">
+    <QtMoc Include="src\View\ProcedureDialog\CommonFields\CommonFields.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\ProcedureDialog\Widgets\ObturationView\ObturationView.h">
+    <QtMoc Include="src\View\uiComponents\qt_derived\Widgets\ObturationView.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\ProcedureDialog\Widgets\CrownView\CrownView.h">
+    <QtMoc Include="src\View\uiComponents\qt_derived\Widgets\CrownView.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\ProcedureDialog\Widgets\ImplantView\ImplantView.h">
+    <QtMoc Include="src\View\uiComponents\qt_derived\Widgets\ImplantView.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\uiComponents\qt_derived\NameEdit.h">
@@ -503,16 +500,13 @@
     <QtMoc Include="src\View\DetailsView\SubWidgets\Details\PathologyWidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\DetailsView\SubWidgets\Details\CrownWidget.h">
+    <QtMoc Include="src\View\uiComponents\qt_derived\Widgets\CrownWidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\DetailsView\SubWidgets\Details\ObturationWidget.h">
+    <QtMoc Include="src\View\uiComponents\qt_derived\Widgets\ObturationWidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\DetailsView\SubWidgets\Details\DentistMadeWidget.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="src\View\DetailsView\SubWidgets\Details\ImplantWidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -549,25 +543,25 @@
     <QtUic Include="src\View\ProcedureDialog\ProcedureDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="src\View\uiComponents\qt_derived\RangeWidget.ui">
+    <QtUic Include="src\View\uiComponents\qt_derived\Widgets\RangeWidget.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="src\View\uiComponents\qt_derived\SurfaceSelector.ui">
+    <QtUic Include="src\View\uiComponents\qt_derived\Widgets\SurfaceSelector.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="src\View\uiComponents\qt_derived\VitaWidget.ui">
+    <QtUic Include="src\View\uiComponents\qt_derived\Widgets\VitaWidget.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="src\View\ProcedureDialog\Widgets\CommonFields\CommonFields.ui">
+    <QtUic Include="src\View\ProcedureDialog\CommonFields\CommonFields.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="src\View\ProcedureDialog\Widgets\ObturationView\ObturationView.ui">
+    <QtUic Include="src\View\uiComponents\qt_derived\Widgets\ObturationView.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="src\View\ProcedureDialog\Widgets\CrownView\CrownView.ui">
+    <QtUic Include="src\View\uiComponents\qt_derived\Widgets\CrownView.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="src\View\ProcedureDialog\Widgets\ImplantView\ImplantView.ui">
+    <QtUic Include="src\View\uiComponents\qt_derived\Widgets\ImplantView.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\ProcedureEditDialog\ProcedureEditDialog.ui">
@@ -591,16 +585,13 @@
     <QtUic Include="src\View\DetailsView\SubWidgets\Details\PathologyWidget.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="src\View\DetailsView\SubWidgets\Details\CrownWidget.ui">
+    <QtUic Include="src\View\uiComponents\qt_derived\Widgets\CrownWidget.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="src\View\DetailsView\SubWidgets\Details\ObturationWidget.ui">
+    <QtUic Include="src\View\uiComponents\qt_derived\Widgets\ObturationWidget.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\DetailsView\SubWidgets\Details\DentistMadeWidget.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="src\View\DetailsView\SubWidgets\Details\ImplantWidget.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
@@ -755,7 +746,7 @@
     <ClInclude Include="src\View\uiComponents\AbstractUIElement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\View\uiComponents\AbstractRangeEdit.h">
+    <ClInclude Include="src\View\uiComponents\qt_derived\Widgets\AbstractRangeEdit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\uiComponents\AbstractSurfaceSelector.h">
@@ -791,16 +782,16 @@
     <ClInclude Include="src\Presenter\ListPresenter\StatusPresenter\ToothHintCreator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\View\ProcedureDialog\Widgets\CommonFields\ICommonFields.h">
+    <ClInclude Include="src\View\ProcedureDialog\CommonFields\ICommonFields.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\GeneralMPresenter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\View\ProcedureDialog\Widgets\CrownView\ICrownView.h">
+    <ClInclude Include="src\View\uiComponents\qt_derived\Widgets\ICrownView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\View\ProcedureDialog\Widgets\ObturationView\IObturationView.h">
+    <ClInclude Include="src\View\uiComponents\qt_derived\Widgets\IObturationView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\ObturationPresenter.h">
@@ -860,7 +851,7 @@
     <ClInclude Include="src\View\ModalDialogBuilder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\View\ProcedureDialog\Widgets\ImplantView\IImplantView.h">
+    <ClInclude Include="src\View\uiComponents\qt_derived\Widgets\IImplantView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Presenter\ProcedureDialog\ProcedureEditorPresenter.h">

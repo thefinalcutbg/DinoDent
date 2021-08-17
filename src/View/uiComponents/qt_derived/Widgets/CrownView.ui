@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>CrownView</class>
+ <widget class="QWidget" name="CrownView">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>335</width>
+    <height>172</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>CrownView</string>
+  </property>
+  <widget class="CrownWidget" name="crownWidget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>317</width>
+     <height>121</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="RangeWidget" name="rangeWidget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>120</y>
+     <width>331</width>
+     <height>51</height>
+    </rect>
+   </property>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>RangeWidget</class>
+   <extends>QWidget</extends>
+   <header>RangeWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>CrownWidget</class>
+   <extends>QWidget</extends>
+   <header>CrownWidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

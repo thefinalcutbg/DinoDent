@@ -2,6 +2,7 @@
 
 #include <QWidget>
 #include "ui_CrownWidget.h"
+#include "Model/StatusData.h"
 
 class CrownWidget : public QWidget
 {
@@ -10,6 +11,9 @@ class CrownWidget : public QWidget
 public:
 	CrownWidget(QWidget *parent = Q_NULLPTR);
 	~CrownWidget();
+
+	void setData(const CrownData& data);
+	CrownData getData();
 
 private:
 	Ui::CrownWidget ui;

@@ -84,7 +84,7 @@ bool AmbListPagePresenter::save()
 
     return true;
 }
-
+#include <QDebug>
 bool AmbListPagePresenter::saveAs()
 {
     auto currentListInstance = _tabPresenter.currentList();
@@ -106,7 +106,6 @@ bool AmbListPagePresenter::saveAs()
         newNumber = list.number;
         map[newNumber] = false;
     }
-
     newNumber = view->openSaveAsDialog(newNumber, map);
 
     if (!newNumber) return false;

@@ -75,10 +75,11 @@ void DbAmbList::insertAmbList(AmbList& ambList, std::string &patientID)
         + std::to_string(ambList.number) + "','"
         + std::to_string(ambList.full_coverage) + "','"
         + std::to_string(static_cast<int>(ambList.charge)) + "','"
-        + procedureParser.write(ambList.teeth) + "','"
+        + tooth_pareser.write(ambList.teeth) + "','"
         + patientID + "','"
         + ambList.LPK
         + "')";
+    
     qDebug() << query.c_str();
 
     rc = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
@@ -106,7 +107,7 @@ void DbAmbList::updateAmbList(AmbList& ambList)
         ", unfavourable = " + std::to_string(ambList.full_coverage) +
         ", charge = " + std::to_string(static_cast<int>(ambList.charge)) +
         ", lpk = '" + CurrentUser::instance().LPK + "' " +
-        ", status_json = '" + procedureParser.write(ambList.teeth) + "' "
+        ", status_json = '" + tooth_pareser.write(ambList.teeth) + "' "
         "WHERE id = " + ambList.id;
 
     qDebug() << query.c_str();
@@ -156,6 +157,8 @@ std::vector<AmbListRow> DbAmbList::getAmbListRows(const Date& from, const Date& 
         row.patientId = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 8));
     }
 
+    sqlite3_finalize(stmt);
+
     closeConnection();
 
     return rows;
@@ -174,6 +177,8 @@ std::vector<int> DbAmbList::getValidYears()
         years.emplace_back(sqlite3_column_int(stmt, 0));
     }
 
+    sqlite3_finalize(stmt);
+
     closeConnection();
 
     return years;
@@ -188,7 +193,7 @@ void DbAmbList::getListData(const std::string& patientID, int month, int year, A
         "patient_id = '" + patientID + "' AND "
         "month = " + std::to_string(month) + " AND "
         "year = " + std::to_string(year);
-    qDebug() << QString::fromStdString(query);
+
     sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
 
 
@@ -213,7 +218,8 @@ void DbAmbList::getListData(const std::string& patientID, int month, int year, A
 
     if (ambList.isNew())
     {
-        procedureParser.parse(getLastStatus(patientID), ambList.teeth);
+        
+        tooth_pareser.parse(getLastStatus(patientID), ambList.teeth);
         auto procedures = previousProcedures(patientID);
         for (auto& p : procedures)
         {
@@ -224,7 +230,7 @@ void DbAmbList::getListData(const std::string& patientID, int month, int year, A
     }
     else
     {
-        procedureParser.parse(status_json, ambList.teeth);
+        tooth_pareser.parse(status_json, ambList.teeth);
         ambList.procedures = db_procedures.getManipulations(ambList.id, ambList.date);
     }
 
@@ -259,7 +265,7 @@ void DbAmbList::getListData(const std::string& ambID, AmbList& ambList)
 
     closeConnection();
 
-    procedureParser.parse(status_json, ambList.teeth);
+    tooth_pareser.parse(status_json, ambList.teeth);
     ambList.procedures = db_procedures.getManipulations(ambList.id, ambList.date);
 
 }
@@ -275,27 +281,8 @@ void DbAmbList::deleteAmbList(const std::string& ambID)
     closeConnection();
 }
 
+#include <QDebug>
 
-int DbAmbList::getNewNumber(const int& currentYear)
-{
-    openConnection();
-
-    std::string query = "SELECT MAX(num) FROM amblist WHERE year = " + std::to_string(currentYear);
-
-    sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
-
-    int number = 0;
-
-    while (sqlite3_step(stmt) != SQLITE_DONE)
-        number = sqlite3_column_int(stmt, 0);
-
-    sqlite3_finalize(stmt);
-
-    closeConnection();
-
-    return number + 1;
-
-}
 
 bool DbAmbList::checkExistingAmbNum(int currentYear, int ambNum)
 {
@@ -317,8 +304,6 @@ bool DbAmbList::checkExistingAmbNum(int currentYear, int ambNum)
     closeConnection();
 
     return exists;
-
- 
 }
 
 std::map<int, bool> DbAmbList::getExistingNumbers(int currentYear)
@@ -327,7 +312,7 @@ std::map<int, bool> DbAmbList::getExistingNumbers(int currentYear)
 
     std::map<int, bool> numbersMap;
 
-    std::string query = "SELECT num FROM amblist WHERE lpk = '"+ CurrentUser::instance().LPK+"' "
+    std::string query = "SELECT num FROM amblist WHERE lpk = '" + CurrentUser::instance().LPK + "' "
         "AND year = " + std::to_string(currentYear);
 
     sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
@@ -341,10 +326,36 @@ std::map<int, bool> DbAmbList::getExistingNumbers(int currentYear)
     numbersMap[0] = true;
 
     sqlite3_finalize(stmt);
-
+   
     closeConnection();
 
     return numbersMap;
 }
+
+
+int DbAmbList::getNewNumber(int currentYear)
+{
+    openConnection();
+
+    std::string query = "SELECT MAX(num) FROM amblist WHERE year = " + std::to_string(currentYear);
+
+    qDebug() << "praparing" << sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
+
+    int number = 0;
+
+    while (sqlite3_step(stmt) != SQLITE_DONE)
+    {
+        number = sqlite3_column_int(stmt, 0); 
+    }
+
+
+    sqlite3_finalize(stmt);
+
+    closeConnection();
+
+    return number + 1;
+
+}
+
 
 

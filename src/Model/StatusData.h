@@ -31,6 +31,6 @@ struct ImplantData
 {
     std::string system;
     double width{ 0 }, length{ 0 };
-    int time, type, tissue_aug, bone_aug;
-    bool membrane, sinusLift;
+    int time{ 0 }, type{ 0 }, tissue_aug{ 0 }, bone_aug{ 0 };
+    bool membrane{ false }, sinusLift{ false };
 };

@@ -43,7 +43,7 @@ std::vector<Procedure> DbProcedure::getManipulations(const std::string& amblist_
 		m.tooth = sqlite3_column_int(stmt, 3);
 		m.date.day = sqlite3_column_int(stmt, 4);
 
-		procedureParser.parse(std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 6))), m);
+		tooth_pareser.parse(std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 6))), m);
 	}
 
 	sqlite3_finalize(stmt);
@@ -80,7 +80,7 @@ void DbProcedure::saveManipulations(const std::string& amblist_id, const std::ve
 				+ std::to_string(m.date.day) + "','"
 				+ std::to_string(m.tooth) + "','"
 				+ std::to_string(m.price) + "','"
-				+ procedureParser.write(m) + "','"
+				+ tooth_pareser.write(m) + "','"
 				+ amblist_id + "')"
 				;
 
@@ -98,7 +98,7 @@ void DbProcedure::saveManipulations(const std::string& amblist_id, const std::ve
 				+ std::to_string(m.code) + "','"
 				+ std::to_string(m.date.day) + "','"
 				+ std::to_string(m.tooth) + "','"
-				+ procedureParser.write(m) + "','"
+				+ tooth_pareser.write(m) + "','"
 				+ amblist_id + "')"
 				;
 
@@ -145,6 +145,10 @@ std::vector<ProcedureSummary> DbProcedure::getSummary(const std::string& patient
 				 sqlite3_column_int(stmt, 4)
 			 });
 	 }
+
+	 sqlite3_finalize(stmt);
+
+	 closeConnection();
 
 	 return summary;
 

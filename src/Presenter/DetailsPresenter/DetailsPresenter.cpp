@@ -5,23 +5,13 @@
 #include "Presenter/ListPresenter/StatusPresenter/ToothHintCreator.h"
 
 #include <QDebug>
+
 DetailsPresenter::DetailsPresenter(const Tooth& tooth) :
 	tooth(tooth), m_checkModel(tooth)
 {
 	
 }
 
-void DetailsPresenter::statusSelected(int category, int code)
-{
-	switch (category)
-	{
-		case -1: m_category = StatusType::general; break;
-		case 1: m_category = StatusType::obturation; break;
-		case 2: m_category = StatusType::caries; break;
-	}
-
-	m_code = code;
-}
 
 void DetailsPresenter::checkStateChanged(bool checked)
 {
@@ -63,3 +53,51 @@ std::optional<Tooth> DetailsPresenter::open()
 	return _result;
 }
 
+void DetailsPresenter::statusSelected(int category, int code)
+{
+	switch (category)
+	{
+	case -1: m_category = StatusType::general; break;
+	case 1: m_category = StatusType::obturation; break;
+	case 2: m_category = StatusType::caries; break;
+	}
+
+	m_code = code;
+
+
+	setDynamicStatus();
+}
+
+void DetailsPresenter::setDynamicStatus()
+{
+	view->detailedStatus()->clearData();
+
+	switch (m_category)
+	{
+	case StatusType::general:
+	{
+		switch (m_code)
+		{
+		case StatusCode::Pulpitis: view->detailedStatus()->setData(PathologyData{}); break;
+		case StatusCode::Periodontitis: view->detailedStatus()->setData(PathologyData{}); break;
+		case StatusCode::Crown: view->detailedStatus()->setData(tooth.crown.data, DentistData{});
+			view->detailedStatus()->setData(DentistData{}); break;
+		case StatusCode::Bridge: view->detailedStatus()->setData(tooth.bridge.data, DentistData{});
+			view->detailedStatus()->setData(DentistData{}); break;
+		case StatusCode::Implant: view->detailedStatus()->setData(tooth.implant.data);
+			view->detailedStatus()->setData(DentistData{}); break;
+		}
+		break;
+	}
+	case StatusType::obturation:
+	{
+		view->detailedStatus()->setData(tooth.obturation[m_code].data);
+		view->detailedStatus()->setData(DentistData{}); break;
+	}
+	case StatusType::caries:
+		view->detailedStatus()->setData(PathologyData{}); return;
+	
+	}
+
+
+}

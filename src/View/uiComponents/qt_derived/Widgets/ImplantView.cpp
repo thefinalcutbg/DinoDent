@@ -1,21 +1,21 @@
 #include "ImplantView.h"
 #include "Presenter/ProcedureDialog/ProcedureDialogPresenter.h"
-
+#include <QDebug>
 ImplantView::ImplantView(QWidget *parent)
 	: QWidget(parent),
 	presenter(nullptr)
 {
 	ui.setupUi(this);
 
+	ui.membrCheck->setDisabled(true);
+	ui.sinusCheck->setDisabled(true);
+
 	connect(ui.boneCombo, QOverload<int>::of(&QComboBox::currentIndexChanged),
 		[=](int index)
 		{
-			ui.membrCheck->setHidden(!index);
-			ui.sinusCheck->setHidden(!index);
+			ui.membrCheck->setDisabled(!index);
+			ui.sinusCheck->setDisabled(!index);
 		});
-
-	ui.membrCheck->setHidden(true);
-	ui.sinusCheck->setHidden(true);
 }
 
 ImplantView::~ImplantView()
@@ -60,6 +60,7 @@ void ImplantView::setData(const ImplantData& data)
 	ui.width->setValue(data.width);
 	ui.tissueCombo->setCurrentIndex(data.tissue_aug);
 	ui.boneCombo->setCurrentIndex(data.bone_aug);
-	ui.membrCheck->setChecked(data.membrane);
-	ui.sinusCheck->setChecked(data.sinusLift);
+	ui.membrCheck->setChecked(data.membrane && data.bone_aug);
+	ui.sinusCheck->setChecked(data.sinusLift && data.bone_aug);
+
 }

@@ -2,6 +2,7 @@
 #include <string>
 #include <array>
 #include "Model/Date.h"
+#include "Model/StatusData.h"
 #include "Enums.h"
 
 class Status
@@ -88,13 +89,12 @@ struct Material : public DentistMade
 
 struct Obturation : public Material
 {
-    int color{ 0 };
+    ObturationData data;
 };
 
 struct Crown : public Material
 {
-    int prep_type{ 0 };
-    int color;
+    CrownData data;
 };
 
 
@@ -105,11 +105,7 @@ struct Bridge : public Crown
 
 struct Implant : public DentistMade
 {
-    std::string system;
-
-    double width{ 0 }, length{ 0 };
-    int time{ 0 }, type{ 0 }, tissue_aug{ 0 }, bone_aug{ 0 };
-    bool membrane{ false }, sinusLift{ false };
+    ImplantData data;
 };
 
 struct Mobility : public Status

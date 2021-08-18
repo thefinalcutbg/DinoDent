@@ -93,8 +93,8 @@ std::string ToothParser::write(const ToothContainer& teeth)
 
 							auto parameters = writeDentistMade(i, tooth.obturation[y]);
 							parameters["Surface"] = y;
-							parameters["color"] = tooth.obturation[y].color;
-							parameters["material"] = tooth.obturation[y].material;
+							parameters["color"] = tooth.obturation[y].data.color;
+							parameters["material"] = tooth.obturation[y].data.material;
 							status["Obturation"].append(parameters);
 						}
 					}
@@ -198,8 +198,8 @@ std::string ToothParser::write(const ToothContainer& teeth)
 					}
 					auto param = writeDentistMade(i, tooth.crown);
 					param["material"] = tooth.crown.material;
-					param["prep"] = tooth.crown.prep_type;
-					param["color"] = tooth.crown.color;
+					param["prep"] = tooth.crown.data.prep_type;
+					param["color"] = tooth.crown.data.color;
 					status["Crown"].append(param);
 				}
 
@@ -210,15 +210,15 @@ std::string ToothParser::write(const ToothContainer& teeth)
 						status["Implant"] = Json::Value(Json::arrayValue);
 					}
 					auto param = writeDentistMade(i, tooth.implant);
-					param["system"] = tooth.implant.system;
-					param["time"] = tooth.implant.time;
-					param["type"] = tooth.implant.type;
-					param["w"] = tooth.implant.width;
-					param["l"] = tooth.implant.length;
-					param["bone"] = tooth.implant.bone_aug;
-					param["tissue"] = tooth.implant.tissue_aug;
-					param["sinus"] = tooth.implant.sinusLift;
-					param["membrane"] = tooth.implant.membrane;
+					param["system"] = tooth.implant.data.system;
+					param["time"] = tooth.implant.data.time;
+					param["type"] = tooth.implant.data.type;
+					param["w"] = tooth.implant.data.width;
+					param["l"] = tooth.implant.data.length;
+					param["bone"] = tooth.implant.data.bone_aug;
+					param["tissue"] = tooth.implant.data.tissue_aug;
+					param["sinus"] = tooth.implant.data.sinusLift;
+					param["membrane"] = tooth.implant.data.membrane;
 					status["Implant"].append(param);
 				}
 
@@ -230,9 +230,9 @@ std::string ToothParser::write(const ToothContainer& teeth)
 					}
 					auto param = writeDentistMade(i, tooth.bridge);
 					param["pos"] = static_cast<int>(tooth.bridge.position);
-					param["material"] = tooth.bridge.material;
-					param["prep"] = tooth.bridge.prep_type;
-					param["color"] = tooth.bridge.color;
+					param["material"] = tooth.bridge.data.material;
+					param["prep"] = tooth.bridge.data.prep_type;
+					param["color"] = tooth.bridge.data.color;
 					status["Bridge"].append(param);
 				}
 
@@ -293,8 +293,8 @@ void ToothParser::parse(const std::string& jsonString, ToothContainer& teeth)
 		int surface = obturation[i]["Surface"].asInt();
 		tooth.obturation.set(true, surface);
 		tooth.obturation[surface].LPK = obturation[i]["LPK"].asString();
-		tooth.obturation[surface].material = obturation[i]["material"].asString();
-		tooth.obturation[surface].color = obturation[i]["color"].asInt();
+		tooth.obturation[surface].data.material = obturation[i]["material"].asString();
+		tooth.obturation[surface].data.color = obturation[i]["color"].asInt();
 	}
 
 	const Json::Value& car = status["Caries"];
@@ -373,15 +373,15 @@ void ToothParser::parse(const std::string& jsonString, ToothContainer& teeth)
 		Tooth& tooth = teeth[implant[i]["idx"].asInt()];
 		tooth.implant.set(true);
 		tooth.implant.LPK = implant[i]["LPK"].asString();
-		tooth.implant.system = implant[i]["material"].asString();
-		tooth.implant.length = implant[i]["l"].asDouble();
-		tooth.implant.width = implant[i]["w"].asDouble();
-		tooth.implant.time = implant[i]["time"].asInt();
-		tooth.implant.type = implant[i]["type"].asInt();
-		tooth.implant.bone_aug = implant[i]["bone"].asInt();
-		tooth.implant.tissue_aug = implant[i]["tissuee"].asInt();
-		tooth.implant.sinusLift = implant[i]["sinus"].asBool();
-		tooth.implant.membrane = implant[i]["membrane"].asBool();
+		tooth.implant.data.system = implant[i]["material"].asString();
+		tooth.implant.data.length = implant[i]["l"].asDouble();
+		tooth.implant.data.width = implant[i]["w"].asDouble();
+		tooth.implant.data.time = implant[i]["time"].asInt();
+		tooth.implant.data.type = implant[i]["type"].asInt();
+		tooth.implant.data.bone_aug = implant[i]["bone"].asInt();
+		tooth.implant.data.tissue_aug = implant[i]["tissuee"].asInt();
+		tooth.implant.data.sinusLift = implant[i]["sinus"].asBool();
+		tooth.implant.data.membrane = implant[i]["membrane"].asBool();
 
 	}
 

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>318</width>
-    <height>201</height>
+    <width>309</width>
+    <height>180</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -25,6 +25,9 @@
    </property>
    <property name="topMargin">
     <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>9</number>
    </property>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
@@ -313,8 +316,8 @@
      </property>
      <property name="sizeHint" stdset="0">
       <size>
-       <width>20</width>
-       <height>9</height>
+       <width>0</width>
+       <height>0</height>
       </size>
      </property>
     </spacer>

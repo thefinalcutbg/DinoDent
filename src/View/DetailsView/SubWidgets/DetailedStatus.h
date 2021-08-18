@@ -1,12 +1,18 @@
 ﻿#pragma once
 
 #include <QWidget>
+#include  <QVBoxLayout>
 #include "IDetailedStatusView.h"
 #include "ui_DetailedStatus.h"
 #include "View/ListView/ToothPaintDevices/ToothPainter.h"
 #include "Model/Tooth/Enums.h"
+#include "View/uiComponents/qt_derived/Widgets/ImplantView.h"
+#include "View/uiComponents/qt_derived/Widgets/ObturationWidget.h"
+#include "View/uiComponents/qt_derived/Widgets/CrownWidget.h"
+#include "Details/DentistMadeWidget.h"
+#include "Details/PathologyWidget.h"
 
-class DetailedStatus : public QWidget, public IDetailedStatusView
+class DetailedStatus final: public QWidget, public IDetailedStatusView
 {
 	Q_OBJECT
 
@@ -22,12 +28,35 @@ class DetailedStatus : public QWidget, public IDetailedStatusView
 	{ u8"Оклузално", u8"Медиално", u8"Дистално",
 		u8"Букално", u8"Лингвално", u8"Цервикално" };
 
+	QVBoxLayout* layout;
+
+	ObturationWidget* obtWidget;
+	CrownWidget* crownWidget;
+	ImplantView* implantWidget;
+	DentistMadeWidget* dentistWidget;
+	PathologyWidget* pathologyWidget;
+
 public:
 	DetailedStatus(QWidget *parent = Q_NULLPTR);
 
 	void setCheckModel(const CheckModel& checkModel) override;
 	void disableItem(int index, bool disabled) override;
 	void paintTooth(const ToothPaintHint& hint) override;
+
+
+	void clearData() override;
+	 
+	void setData(const ImplantData& data) override;
+	void setData(const DentistData& data) override;
+	void setData(const CrownData& data, const DentistData& dentist) override;
+	void setData(const ObturationData& data) override;
+	void setData(const PathologyData& data) override;
+
+	virtual ObturationData getObturationData() override;
+	virtual ImplantData getImplantData() override;
+	virtual DentistData getDentistData() override;
+	virtual CrownData getCrownData() override;
+	virtual PathologyData getPathologyData() override;
 
 	~DetailedStatus();
 

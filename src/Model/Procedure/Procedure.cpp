@@ -18,8 +18,8 @@ void Procedure::applyProcedure(ToothContainer& teeth)
 					tooth.setStatus(StatusType::obturation, i, true);
 					tooth.setStatus(StatusType::caries, i, false);
 
-					tooth.obturation[i].color = result.data.color;
-					tooth.obturation[i].material = result.data.material;
+					tooth.obturation[i].data.color = result.data.color;
+					tooth.obturation[i].data.material = result.data.material;
 					tooth.obturation[i].LPK = LPK;
 				}
 
@@ -50,9 +50,9 @@ void Procedure::applyProcedure(ToothContainer& teeth)
 
 			tooth.setStatus(StatusType::general, StatusCode::Crown);
 
-			tooth.crown.material = result.material;
-			tooth.crown.prep_type = result.prep_type;
-			tooth.crown.color = result.color;
+			tooth.crown.data.material = result.material;
+			tooth.crown.data.prep_type = result.prep_type;
+			tooth.crown.data.color = result.color;
 			tooth.crown.LPK = LPK;
 		}
 		break;
@@ -65,15 +65,15 @@ void Procedure::applyProcedure(ToothContainer& teeth)
 
 			auto& implant = tooth.implant;
 			implant.LPK = LPK;
-			implant.system = result.system;
-			implant.time = result.time;
-			implant.type = result.type;
-			implant.width = result.width;
-			implant.length = result.length;
-			implant.tissue_aug = result.tissue_aug;
-			implant.bone_aug = result.bone_aug;
-			implant.membrane = result.membrane;
-			implant.sinusLift = result.sinusLift;
+			implant.data.system = result.system;
+			implant.data.time = result.time;
+			implant.data.type = result.type;
+			implant.data.width = result.width;
+			implant.data.length = result.length;
+			implant.data.tissue_aug = result.tissue_aug;
+			implant.data.bone_aug = result.bone_aug;
+			implant.data.membrane = result.membrane;
+			implant.data.sinusLift = result.sinusLift;
 		}
 		break;
 
@@ -95,9 +95,9 @@ void Procedure::applyProcedure(ToothContainer& teeth)
 				auto& tooth = teeth[i];
 
 				tooth.setStatus(StatusType::general, StatusCode::Bridge);
-				tooth.bridge.color = result.crown.color;
-				tooth.bridge.material = result.crown.material;
-				tooth.bridge.prep_type = result.crown.prep_type;
+				tooth.bridge.data.color = result.crown.color;
+				tooth.bridge.data.material = result.crown.material;
+				tooth.bridge.data.prep_type = result.crown.prep_type;
 				tooth.bridge.LPK = LPK;
 			}
 

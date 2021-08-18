@@ -18,7 +18,7 @@ struct ProcedureSummary
 class DbProcedure : public AbstractORM
 {
   
-    ProcedureParser procedureParser;
+    ProcedureParser tooth_pareser;
 public:
     std::vector<Procedure> getManipulations(const std::string& amblist_id, const Date& amb_date);
     void saveManipulations(const std::string& amblist_id, const std::vector<Procedure>& mList);

@@ -20,12 +20,12 @@ int main(int argc, char *argv[])
 
     QApplication a(argc, argv);
     
- 
+
     //Intializing singletons
     SpriteSheets::container().loadTextures(); //loading textures, otherwise program will crash;
 
 
-   // TestToothDialog(); /*
+    //TestToothDialog(); /*
     
     
     MasterNZOK::instance().loadUpdates(); //parsing json of nzok data
@@ -35,6 +35,6 @@ int main(int argc, char *argv[])
     w.show();
     
     return a.exec();
-   //*/
+  // */
 }
 

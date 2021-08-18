@@ -202,6 +202,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Database\sqLite\shell.c" />
+    <ClCompile Include="src\Database\sqLite\sqlite3.c" />
     <ClCompile Include="src\View\DetailsView\SubWidgets\Details\DentistMadeWidget.cpp" />
     <ClCompile Include="src\View\uiComponents\qt_derived\Widgets\ObturationWidget.cpp" />
     <ClCompile Include="src\View\uiComponents\qt_derived\Widgets\CrownWidget.cpp" />
@@ -376,8 +378,6 @@
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
-    <ClCompile Include="src\Database\sqLite\shell.c" />
-    <ClCompile Include="src\Database\sqLite\sqlite3.c" />
     <ClCompile Include="src\View\AmbListPage\AmbListPage.cpp" />
     <ClCompile Include="src\View\PatientDialog\PatientFormDialog.cpp">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/utf-8 %(AdditionalOptions)</AdditionalOptions>
@@ -402,6 +402,8 @@
     <QtMoc Include="src\View\uiComponents\qt_derived\Widgets\CrownWidget.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\Widgets\ObturationWidget.h" />
     <QtMoc Include="src\View\DetailsView\SubWidgets\Details\DentistMadeWidget.h" />
+    <ClInclude Include="src\Database\sqLite\sqlite3.h" />
+    <ClInclude Include="src\Database\sqLite\sqlite3ext.h" />
     <ClInclude Include="src\Model\StatusData.h" />
     <ClInclude Include="src\Model\Tooth\ToothContainer.h" />
     <QtMoc Include="src\View\DetailsView\SubWidgets\ToothHistory.h" />
@@ -547,8 +549,6 @@
     <ClInclude Include="src\Model\AmbList.h" />
     <ClInclude Include="src\Model\Patient.h" />
     <ClInclude Include="src\Presenter\AmbListPagePresenter.h" />
-    <ClInclude Include="src\Database\sqLite\sqlite3.h" />
-    <ClInclude Include="src\Database\sqLite\sqlite3ext.h" />
     <ClInclude Include="src\View\AmbListPage\IAmbListPage.h" />
     <QtMoc Include="src\View\PatientDialog\PatientFormDialog.h" />
   </ItemGroup>

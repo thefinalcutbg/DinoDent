@@ -16,8 +16,11 @@ class DetailsPresenter
 	IDetailsView* view{ nullptr };
 	std::optional<Tooth> _result {};
 
+	void setDynamicStatus();
+
 public:
 	DetailsPresenter(const Tooth& tooth);
+
 
 	void statusSelected(int category, int code);
 	void checkStateChanged(bool checked);

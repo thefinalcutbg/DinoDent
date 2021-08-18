@@ -69,12 +69,6 @@
     <ClCompile Include="src\View\AllergiesDialog\AllergiesDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Database\sqLite\shell.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Database\sqLite\sqlite3.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\View\AmbListPage\saveAsDialog\SaveAsDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -375,6 +369,12 @@
     <ClCompile Include="src\View\DetailsView\SubWidgets\Details\DentistMadeWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Database\sqLite\shell.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Database\sqLite\sqlite3.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -636,12 +636,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\AllergiesDialog\IAllergiesDialog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Database\sqLite\sqlite3.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Database\sqLite\sqlite3ext.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Database\DbAmbList.h">
@@ -930,6 +924,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\StatusData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Database\sqLite\sqlite3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Database\sqLite\sqlite3ext.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

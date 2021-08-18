@@ -4,10 +4,19 @@
 #include "Presenter/ListPresenter/StatusPresenter/CheckState.h"
 #include "View/ListView/ToothPaintDevices/ToothPainter.h"
 #include "DetailsWidgets.h"
+
 DetailedStatus::DetailedStatus(QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
+
+	layout = new QVBoxLayout(ui.container);
+
+	obtWidget = new ObturationWidget();
+	crownWidget = new CrownWidget();
+	implantWidget = new ImplantView();
+	dentistWidget = new DentistMadeWidget();
+	pathologyWidget = new PathologyWidget();
 
 	ui.imageLabel->setStyleSheet("border: 1px solid lightgray");
 
@@ -115,6 +124,64 @@ void DetailedStatus::paintTooth(const ToothPaintHint& hint)
 {
 	auto original = painter.getPixmap(hint);
 	ui.imageLabel->setPixmap(original.scaled(ui.imageLabel->width(), ui.imageLabel->height(), Qt::KeepAspectRatio, Qt::TransformationMode::SmoothTransformation));
+}
+
+void DetailedStatus::clearData()
+{
+	obtWidget->setParent(nullptr);
+	crownWidget->setParent(nullptr);
+	implantWidget->setParent(nullptr);
+	dentistWidget->setParent(nullptr);
+	pathologyWidget->setParent(nullptr);
+}
+
+template<typename L, typename W, typename D>
+inline void setAndShow(L& layout, W& widget, const D& data) {
+	widget->setData(data); 
+	layout->addWidget(widget);
+}
+
+void DetailedStatus::setData(const ImplantData& data){
+	setAndShow(layout, implantWidget, data);
+}
+
+void DetailedStatus::setData(const DentistData& data){
+	layout->addWidget(dentistWidget);
+}
+
+void DetailedStatus::setData(const CrownData& data, const DentistData& dentist){
+	setAndShow(layout, crownWidget, data);
+	layout->addWidget(dentistWidget);
+
+}
+
+void DetailedStatus::setData(const ObturationData& data){
+	setAndShow(layout, obtWidget, data); 
+}
+
+void DetailedStatus::setData(const PathologyData& data){
+	layout->addWidget(pathologyWidget);
+}
+
+ObturationData DetailedStatus::getObturationData(){ 
+	return obtWidget->getData();
+}
+
+ImplantData DetailedStatus::getImplantData(){
+	return implantWidget->getData();
+}
+
+DentistData DetailedStatus::getDentistData(){
+	return DentistData();
+}
+
+CrownData DetailedStatus::getCrownData(){
+	return crownWidget->getData();
+}
+
+PathologyData DetailedStatus::getPathologyData()
+{
+	return PathologyData();
 }
 
 

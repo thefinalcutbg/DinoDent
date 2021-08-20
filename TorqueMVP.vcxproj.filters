@@ -378,6 +378,9 @@
     <ClCompile Include="src\Model\Tooth\DiagnosisContainer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Presenter\DetailsPresenter\StatusController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -936,6 +939,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\Tooth\DiagnosisContainer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Presenter\DetailsPresenter\StatusController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

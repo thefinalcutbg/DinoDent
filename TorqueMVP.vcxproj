@@ -335,6 +335,7 @@
     <ClCompile Include="src\View\AmbListPage\TabView\TabView.cpp" />
     <ClCompile Include="src\Model\Tooth\ToothContainer.cpp" />
     <ClCompile Include="src\View\DetailsView\SubWidgets\ToothHistory.cpp" />
+    <ClCompile Include="src\Presenter\DetailsPresenter\StatusController.cpp" />
     <QtRcc Include="src\View\Torque.qrc" />
     <QtUic Include="src\View\uiComponents\qt_derived\Widgets\DentistMadeWidget.ui" />
     <QtUic Include="src\View\uiComponents\qt_derived\Widgets\ObturationWidget.ui" />
@@ -398,6 +399,7 @@
     <QtMoc Include="src\View\AmbListPage\AmbListPage.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Presenter\DetailsPresenter\StatusController.h" />
     <QtMoc Include="src\View\DetailsView\SubWidgets\DetailedStatus.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\Widgets\PathologyWidget.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\Widgets\CrownWidget.h" />

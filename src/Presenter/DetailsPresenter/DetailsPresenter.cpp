@@ -3,7 +3,7 @@
 #include "View/DetailsView/IDetailsView.h"
 #include "Presenter/ListPresenter/StatusPresenter/CheckState.h"
 #include "Presenter/ListPresenter/StatusPresenter/ToothHintCreator.h"
-
+#include "StatusController.h"
 #include <QDebug>
 
 DetailsPresenter::DetailsPresenter(const Tooth& tooth) :
@@ -51,8 +51,16 @@ std::optional<Tooth> DetailsPresenter::open()
 	return _result;
 }
 
+void DetailsPresenter::stateChanged()
+{
+	if (controller == nullptr) return;
+	controller->commitChange();
+}
+
 void DetailsPresenter::statusSelected(int category, int code)
 {
+	controller->commitChange();
+
 	switch (category)
 	{
 	case -1: m_category = StatusType::general; break;
@@ -70,51 +78,132 @@ void DetailsPresenter::statusSelected(int category, int code)
 void DetailsPresenter::setDynamicStatus()
 {
 	view->detailedStatus()->clearData();
+	
+	if (controller != nullptr)
+	{
+		delete controller;
+		controller = nullptr;
+	}
 
 	switch (m_category)
 	{
-	case StatusType::general:
-	{
-		switch (m_code)
+		case StatusType::general:
 		{
-		case StatusCode::Pulpitis: 
-			view->detailedStatus()->setData(tooth.pulpitis.data); break;
-		case StatusCode::ApicalLesion:
-			view->detailedStatus()->setData(tooth.lesion.data); break;
-		case StatusCode::Fracture: 
-			view->detailedStatus()->setData(tooth.fracture.data); break;
-		case StatusCode::Crown: 
-			view->detailedStatus()->setData(tooth.crown.data);
-			view->detailedStatus()->setData(tooth.crown.getDentistData()); break;
-		case StatusCode::Root: 
-			view->detailedStatus()->setData(tooth.root.data); break;
-		case StatusCode::EndoTreatment: 
-			view->detailedStatus()->setData(tooth.endo.getDentistData()); break;
-		case StatusCode::Extraction: 
-			view->detailedStatus()->setData(tooth.extraction.getDentistData()); break;
-		case StatusCode::Post: 
-			view->detailedStatus()->setData(tooth.post.getDentistData()); break;
-		case StatusCode::Bridge: 
-			view->detailedStatus()->setData(tooth.bridge.data);
-			view->detailedStatus()->setData(tooth.bridge.getDentistData()); break;
-		case StatusCode::Implant: 
-			view->detailedStatus()->setData(tooth.implant.data);
-			view->detailedStatus()->setData(tooth.implant.getDentistData()); break;
+			switch (m_code)
+			{
+			case StatusCode::Pulpitis:
+			{
+				PathologyControl* c = new PathologyControl();
+				c->setStatus(&tooth.pulpitis);
+				c->setView(view->detailedStatus());
+				controller = c;
+			}
+			break;
+
+			case StatusCode::ApicalLesion:
+			{
+				PathologyControl* c = new PathologyControl();
+				c->setStatus(&tooth.lesion);
+				c->setView(view->detailedStatus());
+				controller = c;
+			}
+			break;
+
+			case StatusCode::Fracture:
+			{
+				PathologyControl* c = new PathologyControl();
+				c->setStatus(&tooth.fracture);
+				c->setView(view->detailedStatus());
+				controller = c;
+			}
+			break;
+
+			case StatusCode::Crown:
+			{
+				CrownControl* c = new CrownControl();
+				c->setStatus(&tooth.crown);
+				c->setView(view->detailedStatus());
+				controller = c;
+			}
+			break;
+
+			case StatusCode::Root:
+			{
+				PathologyControl* c = new PathologyControl();
+				c->setStatus(&tooth.root);
+				c->setView(view->detailedStatus());
+				controller = c;
+			}
+			break;
+
+			case StatusCode::EndoTreatment:
+			{
+				DentistMadeControl* c = new DentistMadeControl();
+				c->setStatus(&tooth.endo);
+				c->setView(view->detailedStatus());
+				controller = c;
+			}
+			break;
+
+			case StatusCode::Extraction:
+			{
+				DentistMadeControl* c = new DentistMadeControl();
+				c->setStatus(&tooth.extraction);
+				c->setView(view->detailedStatus());
+				controller = c;
+			}
+			break;
+
+			case StatusCode::Post:
+			{
+				DentistMadeControl* c = new DentistMadeControl();
+				c->setStatus(&tooth.post);
+				c->setView(view->detailedStatus());
+				controller = c;
+			}
+			break;
+
+			case StatusCode::Bridge:
+			{
+				CrownControl* c = new CrownControl();
+				c->setStatus(&tooth.bridge);
+				c->setView(view->detailedStatus());
+				controller = c;
+			}
+			break;
+
+			case StatusCode::Implant:
+			{
+				ImplantControl* c = new ImplantControl();
+				c->setStatus(&tooth.implant);
+				c->setView(view->detailedStatus());
+				controller = c;
+			}
+			break;
+
+			default: break;
+			}
+		case StatusType::obturation:
+		{
+			ObturationControl* c = new ObturationControl();
+			c->setStatus(&tooth.obturation[m_code]);
+			c->setView(view->detailedStatus());
+			controller = c;
+
 		}
 		break;
-	}
-	case StatusType::obturation:
-	{
-		view->detailedStatus()->setData(tooth.obturation[m_code].data);
-		view->detailedStatus()->setData(tooth.obturation[m_code].getDentistData()); 
-		break;
-	}
-	case StatusType::caries:
-		view->detailedStatus()->setData(tooth.caries[m_code].data); return;
-	}
+		case StatusType::caries:
+		{
+			PathologyControl* c = new PathologyControl();
+			c->setStatus(&tooth.caries[m_code]);
+			c->setView(view->detailedStatus());
+			controller = c;
+		} break;
 
-
+		}
+	}
 }
+	
 
 void DetailsPresenter::setDynamicDisable()
 {

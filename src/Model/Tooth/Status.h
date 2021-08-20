@@ -51,7 +51,7 @@ struct DentistMade : public Status
 struct Pathology : public Status {PathologyData data; };
 struct Obturation : public DentistMade { ObturationData data; };
 struct Crown : public DentistMade { CrownData data; };
-struct Bridge : DentistMade { CrownData data; BridgePos position{ BridgePos::Middle }; };
+struct Bridge : Crown {BridgePos position{ BridgePos::Middle }; };
 struct Implant : public DentistMade { ImplantData data; };
 struct Mobility : public Status { Degree degree{ Degree::First };};
 

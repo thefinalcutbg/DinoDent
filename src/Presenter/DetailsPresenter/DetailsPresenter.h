@@ -1,15 +1,19 @@
 #pragma once
 #include "Presenter/ListPresenter/StatusPresenter/CheckState.h"
+
 #include "Model/Tooth/Tooth.h"
 #include <optional>
 
 class IDetailsView;
+class StatusController;
 
 class DetailsPresenter
 {
 	StatusType m_category{ StatusType::general };
 	int m_code{ -1 };
 	CheckModel m_checkModel;
+
+	StatusController* controller{ nullptr };
 
 	Tooth tooth;
 
@@ -22,7 +26,7 @@ class DetailsPresenter
 public:
 	DetailsPresenter(const Tooth& tooth);
 
-
+	void stateChanged();
 	void statusSelected(int category, int code);
 	void checkStateChanged(bool checked);
 	void okPressed();

@@ -8,7 +8,7 @@ class IDetailsView;
 class DetailsPresenter
 {
 	StatusType m_category{ StatusType::general };
-	int m_code{ 0 };
+	int m_code{ -1 };
 	CheckModel m_checkModel;
 
 	Tooth tooth;
@@ -17,6 +17,7 @@ class DetailsPresenter
 	std::optional<Tooth> _result {};
 
 	void setDynamicStatus();
+	void setDynamicDisable();
 
 public:
 	DetailsPresenter(const Tooth& tooth);

@@ -9,8 +9,8 @@
 #include "View/uiComponents/qt_derived/Widgets/ImplantView.h"
 #include "View/uiComponents/qt_derived/Widgets/ObturationWidget.h"
 #include "View/uiComponents/qt_derived/Widgets/CrownWidget.h"
-#include "Details/DentistMadeWidget.h"
-#include "Details/PathologyWidget.h"
+#include "View/uiComponents/qt_derived/Widgets/PathologyWidget.h"
+#include "View/uiComponents/qt_derived/Widgets/DentistMadeWidget.h"
 
 class DetailedStatus final: public QWidget, public IDetailedStatusView
 {
@@ -45,18 +45,21 @@ public:
 
 
 	void clearData() override;
+	void disableDetails(bool disabled) override;
 	 
 	void setData(const ImplantData& data) override;
 	void setData(const DentistData& data) override;
-	void setData(const CrownData& data, const DentistData& dentist) override;
+	void setData(const CrownData& data) override;
 	void setData(const ObturationData& data) override;
 	void setData(const PathologyData& data) override;
 
-	virtual ObturationData getObturationData() override;
-	virtual ImplantData getImplantData() override;
-	virtual DentistData getDentistData() override;
-	virtual CrownData getCrownData() override;
-	virtual PathologyData getPathologyData() override;
+	ObturationData getObturationData() override;
+	ImplantData getImplantData() override;
+	bool getDentistData() override;
+	CrownData getCrownData() override;
+	int getPathologyData() override;
+
+	
 
 	~DetailedStatus();
 

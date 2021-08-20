@@ -4,8 +4,8 @@
 Json::Value ToothParser::writePathology(int index, const Pathology& pathology)
 {
 	Json::Value parameters;
-	parameters["diagnosis"] = pathology.diagnosis;
-	parameters["date"] = pathology.date_diagnosed;
+	parameters["diag_idx"] = pathology.data.diagnosis_index;
+	parameters["date"] = Date::toString(pathology.data.date_diagnosed);
 	parameters["idx"] = index;
 	return parameters;
 }
@@ -16,15 +16,6 @@ Json::Value ToothParser::writeDentistMade(int index, const DentistMade& procedur
 	parameters["LPK"] = procedure.LPK;
 	parameters["idx"] = index;
 	return parameters; 
-}
-
-Json::Value ToothParser::writeMaterial(int index, const Material& procedure)
-{
-	Json::Value parameters;
-	parameters["LPK"] = procedure.LPK;
-	parameters["material"] = procedure.material;
-	parameters["idx"] = index;
-	return parameters;
 }
 
 std::string ToothParser::write(const ToothContainer& teeth)
@@ -197,7 +188,7 @@ std::string ToothParser::write(const ToothContainer& teeth)
 						status["Crown"] = Json::Value(Json::arrayValue);
 					}
 					auto param = writeDentistMade(i, tooth.crown);
-					param["material"] = tooth.crown.material;
+					param["material"] = tooth.crown.data.material;
 					param["prep"] = tooth.crown.data.prep_type;
 					param["color"] = tooth.crown.data.color;
 					status["Crown"].append(param);
@@ -304,8 +295,8 @@ void ToothParser::parse(const std::string& jsonString, ToothContainer& teeth)
 		Tooth& tooth = teeth[car[i]["idx"].asInt()];
 		int surface = car[i]["Surface"].asInt();
 		tooth.caries.set(true, surface);
-		tooth.caries[surface].diagnosis = car[i]["diagnosis"].asString();
-		tooth.caries[surface].date_diagnosed = car[i]["date"].asString();
+		tooth.caries[surface].data.diagnosis_index = car[i]["diag_idx"].asInt();
+		tooth.caries[surface].data.date_diagnosed = car[i]["date"].asString();
 	}
 
 	const Json::Value& pulpitis = status["Pulpitis"];
@@ -314,8 +305,9 @@ void ToothParser::parse(const std::string& jsonString, ToothContainer& teeth)
 	{
 		Tooth& tooth = teeth[pulpitis[i]["idx"].asInt()];
 		tooth.pulpitis.set(true);
-		tooth.pulpitis.diagnosis = pulpitis[i]["diagnosis"].asString();
-		tooth.pulpitis.date_diagnosed = pulpitis[i]["date"].asString();
+
+		tooth.pulpitis.data.diagnosis_index = pulpitis[i]["diag_idx"].asInt();
+		tooth.pulpitis.data.date_diagnosed = pulpitis[i]["date"].asString();
 	}
 
 	const Json::Value& lesion = status["Lesion"];
@@ -324,8 +316,8 @@ void ToothParser::parse(const std::string& jsonString, ToothContainer& teeth)
 	{
 		Tooth& tooth = teeth[lesion[i]["idx"].asInt()];
 		tooth.lesion.set(true);
-		tooth.lesion.diagnosis = lesion[i]["diagnosis"].asString();
-		tooth.lesion.date_diagnosed = lesion[i]["date"].asString();
+		tooth.lesion.data.diagnosis_index = lesion[i]["diag_idx"].asInt();
+		tooth.lesion.data.date_diagnosed = lesion[i]["date"].asString();
 	}
 
 	const Json::Value& endo = status["EndoTreatment"];
@@ -361,8 +353,8 @@ void ToothParser::parse(const std::string& jsonString, ToothContainer& teeth)
 	{
 
 		Tooth& tooth = teeth[root[i]["idx"].asInt()];
-		tooth.root.date_diagnosed = root[i]["date"].asString();
-		tooth.root.diagnosis = root[i]["diagnosis"].asString();
+		tooth.root.data.date_diagnosed = Date{root[i]["date"].asString()};
+		tooth.root.data.diagnosis_index = root[i]["diag_idx"].asInt();
 		tooth.root.set(true);
 	}
 
@@ -392,7 +384,7 @@ void ToothParser::parse(const std::string& jsonString, ToothContainer& teeth)
 		Tooth& tooth = teeth[crown[i]["idx"].asInt()];
 		tooth.crown.set(true);
 		tooth.crown.LPK = crown[i]["LPK"].asString();
-		tooth.crown.material = crown[i]["material"].asString();
+		tooth.crown.data.material = crown[i]["material"].asString();
 	}
 
 	const Json::Value& bridge = status["Bridge"];
@@ -402,7 +394,7 @@ void ToothParser::parse(const std::string& jsonString, ToothContainer& teeth)
 		Tooth& tooth = teeth[bridge[i]["idx"].asInt()];
 		tooth.bridge.set(true);
 		tooth.bridge.LPK = bridge[i]["LPK"].asString();
-		tooth.bridge.material = bridge[i]["material"].asString();
+		tooth.bridge.data.material = bridge[i]["material"].asString();
 		tooth.bridge.position = static_cast<BridgePos>(bridge[i]["pos"].asInt());
 	}
 }

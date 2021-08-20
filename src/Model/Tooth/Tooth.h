@@ -3,18 +3,13 @@
 #include "SurfStatus.h"
 #include <string>
 #include <array>
+#include "DiagnosisContainer.h"
 
 enum class StatusType{general, obturation, caries};
 
+
 class Tooth
 {
-	static std::string cariesDefault;
-	static std::string pulpitisDefault;
-	static std::string lesionDefault;
-	static std::string fractureDefault;
-	static std::string rootDefault;
-	static std::string obturationDefault;
-	static std::string prosthoDefault;
 
 public:
 	Tooth();
@@ -30,14 +25,13 @@ public:
 	Status temporary;
 	Status hyperdontic;
 	Status periodontitis;
-	Mobility mobility;
+
 	
 	DentistMade endo;
-	Implant implant;
 	DentistMade post;
-
 	DentistMade extraction;
-
+	
+	Implant implant;
 	Crown crown;
 	Bridge bridge;
 
@@ -45,6 +39,8 @@ public:
 	Pathology lesion;
 	Pathology fracture;
 	Pathology root;
+
+	Mobility mobility;
 
 
 private:

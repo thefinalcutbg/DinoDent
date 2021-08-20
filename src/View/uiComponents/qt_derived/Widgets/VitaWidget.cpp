@@ -80,7 +80,7 @@ void VitaWidget::setIndex(int index)
 
     for (int i = 0; i < lightnessCount; i++) //Vita 3D Master
     {
-        if (index <= lightnessMax[i])
+        if (index <= dateMax[i])
         {
             ui.index->setCurrentIndex(i + 1); //index 0 is invalid;
             ui.chroma_hue->setCurrentIndex(index - lightnessMin[i]);

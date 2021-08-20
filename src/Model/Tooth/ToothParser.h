@@ -8,6 +8,8 @@ class ToothContainer;
 
 class ToothParser
 {
+	struct Material { std::string LPK; std::string material; int index{ -1 }; };
+
 	Json::FastWriter writer;
 
 	Json::Value writePathology(int index, const Pathology &pathology);

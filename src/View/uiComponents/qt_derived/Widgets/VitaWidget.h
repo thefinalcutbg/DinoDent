@@ -12,7 +12,7 @@ private:
     static constexpr int lightnessCount{ 6 };
 
     static inline std::array<int, lightnessCount> lightnessMin{ 17, 20, 22, 29, 36,43 };
-    static inline std::array<int, lightnessCount> lightnessMax{ 19, 21, 28, 35, 52, 54 };
+    static inline std::array<int, lightnessCount> dateMax{ 19, 21, 28, 35, 52, 54 };
     static inline std::array<QString, 3> idx0_5{ "M1", "M2", "M3" }; //lightness 0 and 5;
     static inline std::array<QString, 2> idx1{ "M2", "M3" };         //lightness 1
     static inline std::array<QString, 7> idx2_3_4{ "L1,5", "L2,5", "M1", "M2", "M3", "R1,5", "R2,5" }; //ligthness 2, 3, 4

@@ -2,7 +2,7 @@
 
 #include <QWidget>
 #include "ui_CrownWidget.h"
-#include "Model/StatusData.h"
+#include "Model/Tooth/StatusData.h"
 
 class CrownWidget : public QWidget
 {

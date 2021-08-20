@@ -153,7 +153,7 @@ std::string CrownPresenter::autoDiagnosis(const Tooth& tooth)
 	std::array<std::string, 4> diagnosis
 	{
 		"Status post devitalisationem",
-		tooth.fracture.getDiagnosis(),
+		tooth.fracture.data.getDiagnosisName(),
 		"Екстензивна ресторация",
 		"Протезиране върху имплант"
 	};

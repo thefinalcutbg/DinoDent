@@ -2,29 +2,20 @@
 #include <vector>
 #include "ToothUtils.h"
 
-std::string Tooth::cariesDefault{"Caries media"};
-std::string Tooth::pulpitisDefault{ "Pulpitis chronica ulcerosa" };
-std::string Tooth::lesionDefault{"Periodontitis chronica granulomatosa"};
-std::string Tooth::fractureDefault{ "Fractura coronae dentis" };
-std::string Tooth::rootDefault{ "Radix dentis" };
-std::string Tooth::obturationDefault{ u8"Фотополимер" };
-std::string Tooth::prosthoDefault{ u8"Металокерамика" };
+
 
 Tooth::Tooth() : 
 	index{ -1 }
 {
-	for (int i = 0; i < 6; i++) {
-		caries[i].setDefaultAttribute(cariesDefault);
-		obturation[i].setDefaultAttribute(obturationDefault);
+	for (int i = 0; i < surfaceCount; i++)
+	{
+		caries[i].data.setDiagnosisList(DiagnosisContainer::caries());
 	}
-	root.setDefaultAttribute(rootDefault);
-	pulpitis.setDefaultAttribute(pulpitisDefault);
-	fracture.setDefaultAttribute(fractureDefault);
-	lesion.setDefaultAttribute(lesionDefault);
 
-	crown.setDefaultAttribute(prosthoDefault);
-	bridge.setDefaultAttribute(prosthoDefault);
-	
+	pulpitis.data.setDiagnosisList(DiagnosisContainer::pulpitis());
+	lesion.data.setDiagnosisList(DiagnosisContainer::lesion());
+	fracture.data.setDiagnosisList(DiagnosisContainer::fracture());
+	root.data.setDiagnosisList(DiagnosisContainer::root());
 	
 
 }

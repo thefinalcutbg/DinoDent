@@ -29,12 +29,12 @@ std::string ExtractionPresenter::autoDiagnosis(const Tooth& tooth)
 	{
 		"Свръхброен зъб",
 		"Периимплантит",
-		tooth.lesion.getDiagnosis(),
+		tooth.lesion.data.getDiagnosisName(),
 		"Разклатен млечен зъб",
-		tooth.root.getDiagnosis(),
+		tooth.root.data.getDiagnosisName(),
 		"Пародонтозен зъб",
 		"Подвижен зъб",
-		tooth.fracture.getDiagnosis()
+		tooth.fracture.data.getDiagnosisName()
 	};
 
 	for (int i = 0; i < 8; i++)

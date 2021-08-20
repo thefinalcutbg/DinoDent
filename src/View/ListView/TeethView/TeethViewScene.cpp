@@ -268,7 +268,6 @@ void TeethViewScene::setSelectedTeeth(const std::vector<int> &selectedTeeth)
     clearSelection();
 
     for (int i : selectedTeeth){ //read access violation ???
-        qDebug() << "setting selected tooth " << i;
         selectionBox[i]->setSelected(1);
     }
 }

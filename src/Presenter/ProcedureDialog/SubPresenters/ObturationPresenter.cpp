@@ -73,7 +73,7 @@ std::string ObturationPresenter::autoDiagnosis(const Tooth& tooth)
     for (int i = 0; i < 6; i++)		//getting the diagnosis of the first caries found
     {
         if (tooth.caries.exists()) {
-            cariesDiagnosis = tooth.caries[i].getDiagnosis();
+            cariesDiagnosis = tooth.caries[i].data.getDiagnosisName();
         }
     }
 
@@ -94,8 +94,8 @@ std::string ObturationPresenter::autoDiagnosis(const Tooth& tooth)
         cariesDiagnosis,
         "Status post devital.",
         "Преендодонтско изграждане",
-        tooth.fracture.getDiagnosis(),
-        tooth.root.getDiagnosis(),
+        tooth.fracture.data.getDiagnosisName(),
+        tooth.root.data.getDiagnosisName(),
         "Дефектна обтурация"
     };
 

@@ -1,0 +1,60 @@
+{
+	"caries": [
+		"Caries media",
+		"Caries secunda",
+		"Caries superficialis",
+		"Caries profunda",
+		"Caries profundissima",
+		"Caries cervicalis",
+		"Caries recidiva",
+		"Macula cariosa alba",
+		"Macula cariosa fusca"
+	],
+
+	"pulpitis": [
+		"Pulpitis chronica ulcerosa",
+		"Necrosis pulpae",
+		"Pulpitis acuta serosa partialis",
+		"Pulpitis acuta serosa totalis",
+		"Pulpitis acuta purulenta partialis",
+		"Pulpitis acuta purulenta totalis",
+		"Pulpitis acuta gangraenosa",
+		"Pulpitis chronica granulomatosa",
+		"Pulpitis chronica exacerbata",
+		"Pulpoperiodontitis",
+		"Pulpitis traumatica",
+		"Colisio pulpae",
+		"Haemorrhagia pulpae",
+		"Hyperaemia pulpae",
+		"Atrophia pulpae",
+		"Gangraena simplex",
+		"Gangraena complicata",
+		"Gangraena aperta ",
+		"Gangraena clausa"
+	],
+
+	"periodontitis": [
+		"Periodontitis chronica granulomatosa localisata",
+		"Periodontitis chronica granulomatosa difusa",
+		"Periodontitis chronica exacerbata",
+		"Periodontitis chronica fibrosa",
+		"Periodontitis periapicalis acuta serosa",
+		"Periodontitis periapicalis acuta  purulenta",
+		"Periodontitis marginalis acuta serosa ",
+		"Periodontitis marginalis acuta purulenta",
+		"Periodontitis totalis acuta"
+	],
+
+	"fracture": [
+		"Fractura coronae dentis",
+		"Fractura coronae dentis cum collisione pulpae",
+		"Fractura radicis dentis",
+		"Fractura radicis dentis verticalis",
+		"Cracked tooth syndrome"
+	],
+
+	"radix": [
+		"Radix dentis"
+	]
+
+}

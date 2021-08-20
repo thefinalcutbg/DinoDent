@@ -5,8 +5,8 @@
 class DateValidator : public Validator
 {
 
-	Date min;
-	Date lightnessMax;
+	Date dateMin;
+	Date dateMax;
 
 	std::string _minErrorMsg;
 	std::string _maxErrorMsg;

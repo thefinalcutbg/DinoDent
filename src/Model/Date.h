@@ -16,6 +16,7 @@ public:
     Date(int day, int month, int year);
     Date(const std::string& dd_dot_MM_dot_yyyy);
 
+    bool isInitialized() const;
     //all my troubles seem so far away
     Date yesterday() const;
 
@@ -38,4 +39,7 @@ public:
     bool operator == (const Date& other) const;
     bool operator >= (const Date& other) const;
     bool operator <= (const Date& other) const;
+
+
 };
+

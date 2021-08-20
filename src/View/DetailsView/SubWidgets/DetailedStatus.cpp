@@ -3,7 +3,7 @@
 #include <QDebug>
 #include "Presenter/ListPresenter/StatusPresenter/CheckState.h"
 #include "View/ListView/ToothPaintDevices/ToothPainter.h"
-#include "DetailsWidgets.h"
+
 
 DetailedStatus::DetailedStatus(QWidget *parent)
 	: QWidget(parent)
@@ -135,54 +135,32 @@ void DetailedStatus::clearData()
 	pathologyWidget->setParent(nullptr);
 }
 
+void DetailedStatus::disableDetails(bool disabled)
+{
+	ui.container->setDisabled(disabled);
+
+	ui.statusTitle->setStyleSheet(disabled ? "color: lightgray" : "color : black");
+
+}
+
 template<typename L, typename W, typename D>
 inline void setAndShow(L& layout, W& widget, const D& data) {
 	widget->setData(data); 
 	layout->addWidget(widget);
 }
 
-void DetailedStatus::setData(const ImplantData& data){
-	setAndShow(layout, implantWidget, data);
-}
+void DetailedStatus::setData(const ImplantData& data){setAndShow(layout, implantWidget, data);}
+void DetailedStatus::setData(const DentistData& data){setAndShow(layout, dentistWidget, data);}
+void DetailedStatus::setData(const CrownData& data){setAndShow(layout, crownWidget, data);}
+void DetailedStatus::setData(const ObturationData& data){setAndShow(layout, obtWidget, data);}
+void DetailedStatus::setData(const PathologyData& data){setAndShow(layout, pathologyWidget, data);}
 
-void DetailedStatus::setData(const DentistData& data){
-	layout->addWidget(dentistWidget);
-}
+bool DetailedStatus::getDentistData() { return dentistWidget->userChecked(); }
+int DetailedStatus::getPathologyData() { return pathologyWidget->getData(); }
+ObturationData DetailedStatus::getObturationData(){  return obtWidget->getData();}
+ImplantData DetailedStatus::getImplantData(){ return implantWidget->getData();}
+CrownData DetailedStatus::getCrownData(){return crownWidget->getData();}
 
-void DetailedStatus::setData(const CrownData& data, const DentistData& dentist){
-	setAndShow(layout, crownWidget, data);
-	layout->addWidget(dentistWidget);
-
-}
-
-void DetailedStatus::setData(const ObturationData& data){
-	setAndShow(layout, obtWidget, data); 
-}
-
-void DetailedStatus::setData(const PathologyData& data){
-	layout->addWidget(pathologyWidget);
-}
-
-ObturationData DetailedStatus::getObturationData(){ 
-	return obtWidget->getData();
-}
-
-ImplantData DetailedStatus::getImplantData(){
-	return implantWidget->getData();
-}
-
-DentistData DetailedStatus::getDentistData(){
-	return DentistData();
-}
-
-CrownData DetailedStatus::getCrownData(){
-	return crownWidget->getData();
-}
-
-PathologyData DetailedStatus::getPathologyData()
-{
-	return PathologyData();
-}
 
 
 DetailedStatus::~DetailedStatus()

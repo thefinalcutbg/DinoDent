@@ -202,12 +202,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Model\Tooth\DiagnosisContainer.cpp" />
     <ClCompile Include="src\Database\sqLite\shell.c" />
     <ClCompile Include="src\Database\sqLite\sqlite3.c" />
-    <ClCompile Include="src\View\DetailsView\SubWidgets\Details\DentistMadeWidget.cpp" />
+    <ClCompile Include="src\View\uiComponents\qt_derived\Widgets\DentistMadeWidget.cpp" />
     <ClCompile Include="src\View\uiComponents\qt_derived\Widgets\ObturationWidget.cpp" />
     <ClCompile Include="src\View\uiComponents\qt_derived\Widgets\CrownWidget.cpp" />
-    <ClCompile Include="src\View\DetailsView\SubWidgets\Details\PathologyWidget.cpp" />
+    <ClCompile Include="src\View\uiComponents\qt_derived\Widgets\PathologyWidget.cpp" />
     <ClCompile Include="src\View\DetailsView\SubWidgets\DetailedStatus.cpp" />
     <ClCompile Include="src\Presenter\ListPresenter\StatusPresenter\CheckState.cpp" />
     <ClCompile Include="src\Model\Procedure\Procedure.cpp" />
@@ -335,10 +336,10 @@
     <ClCompile Include="src\Model\Tooth\ToothContainer.cpp" />
     <ClCompile Include="src\View\DetailsView\SubWidgets\ToothHistory.cpp" />
     <QtRcc Include="src\View\Torque.qrc" />
-    <QtUic Include="src\View\DetailsView\SubWidgets\Details\DentistMadeWidget.ui" />
+    <QtUic Include="src\View\uiComponents\qt_derived\Widgets\DentistMadeWidget.ui" />
     <QtUic Include="src\View\uiComponents\qt_derived\Widgets\ObturationWidget.ui" />
     <QtUic Include="src\View\uiComponents\qt_derived\Widgets\CrownWidget.ui" />
-    <QtUic Include="src\View\DetailsView\SubWidgets\Details\PathologyWidget.ui" />
+    <QtUic Include="src\View\uiComponents\qt_derived\Widgets\PathologyWidget.ui" />
     <QtUic Include="src\View\DetailsView\SubWidgets\DetailedStatus.ui" />
     <QtUic Include="src\View\DetailsView\DetailsView.ui" />
     <QtUic Include="src\View\AmbListSelector\AmbListSelector.ui" />
@@ -398,13 +399,14 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\DetailsView\SubWidgets\DetailedStatus.h" />
-    <QtMoc Include="src\View\DetailsView\SubWidgets\Details\PathologyWidget.h" />
+    <QtMoc Include="src\View\uiComponents\qt_derived\Widgets\PathologyWidget.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\Widgets\CrownWidget.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\Widgets\ObturationWidget.h" />
-    <QtMoc Include="src\View\DetailsView\SubWidgets\Details\DentistMadeWidget.h" />
+    <QtMoc Include="src\View\uiComponents\qt_derived\Widgets\DentistMadeWidget.h" />
+    <ClInclude Include="src\Model\Tooth\DiagnosisContainer.h" />
     <ClInclude Include="src\Database\sqLite\sqlite3.h" />
     <ClInclude Include="src\Database\sqLite\sqlite3ext.h" />
-    <ClInclude Include="src\Model\StatusData.h" />
+    <ClInclude Include="src\Model\Tooth\StatusData.h" />
     <ClInclude Include="src\Model\Tooth\ToothContainer.h" />
     <QtMoc Include="src\View\DetailsView\SubWidgets\ToothHistory.h" />
     <QtMoc Include="src\View\AmbListPage\TabView\TabView.h" />

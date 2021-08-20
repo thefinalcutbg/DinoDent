@@ -1,23 +1,23 @@
 #include "DateValidator.h"
 
-DateValidator::DateValidator() : min{ 1,1,1900 }, lightnessMax{ 1,1,3000 }
+DateValidator::DateValidator() : dateMin{ 1,1,1900 }, dateMax{ 1,1,3000 }
 {
 }
 
 Date DateValidator::getMin()
 {
-    return min;
+    return dateMin;
 }
 
 bool DateValidator::validateInput(const Date& date)
 {
     
-    if (date < min)
+    if (date < dateMin)
     {
         _errorMsg = &_minErrorMsg;
         return false;
     }
-    else if (date > lightnessMax)
+    else if (date > dateMax)
     {
         _errorMsg = &_maxErrorMsg;
         return false;
@@ -39,15 +39,15 @@ void DateValidator::setMinErrorMsg(const std::string& errorMsg)
 
 Date DateValidator::getMax()
 {
-    return lightnessMax;
+    return dateMax;
 }
 
 void DateValidator::setMaxDate(const Date& maxDate)
 {
-    lightnessMax = maxDate;
+    dateMax = maxDate;
 }
 
 void DateValidator::setMinDate(const Date& minDate)
 {
-    min = minDate;
+    dateMin = minDate;
 }

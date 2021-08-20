@@ -2,7 +2,7 @@
 
 #include <QWidget>
 #include "ui_ObturationWidget.h"
-#include "Model/StatusData.h"
+#include "Model/Tooth/StatusData.h"
 
 class ObturationWidget : public QWidget
 {

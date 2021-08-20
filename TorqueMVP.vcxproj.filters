@@ -357,7 +357,7 @@
     <ClCompile Include="src\View\DetailsView\SubWidgets\DetailedStatus.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\DetailsView\SubWidgets\Details\PathologyWidget.cpp">
+    <ClCompile Include="src\View\uiComponents\qt_derived\Widgets\PathologyWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\uiComponents\qt_derived\Widgets\CrownWidget.cpp">
@@ -366,13 +366,16 @@
     <ClCompile Include="src\View\uiComponents\qt_derived\Widgets\ObturationWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\DetailsView\SubWidgets\Details\DentistMadeWidget.cpp">
+    <ClCompile Include="src\View\uiComponents\qt_derived\Widgets\DentistMadeWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Database\sqLite\shell.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Database\sqLite\sqlite3.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Model\Tooth\DiagnosisContainer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -497,7 +500,7 @@
     <QtMoc Include="src\View\DetailsView\SubWidgets\DetailedStatus.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\DetailsView\SubWidgets\Details\PathologyWidget.h">
+    <QtMoc Include="src\View\uiComponents\qt_derived\Widgets\PathologyWidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\uiComponents\qt_derived\Widgets\CrownWidget.h">
@@ -506,7 +509,7 @@
     <QtMoc Include="src\View\uiComponents\qt_derived\Widgets\ObturationWidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\DetailsView\SubWidgets\Details\DentistMadeWidget.h">
+    <QtMoc Include="src\View\uiComponents\qt_derived\Widgets\DentistMadeWidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -582,7 +585,7 @@
     <QtUic Include="src\View\DetailsView\SubWidgets\DetailedStatus.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="src\View\DetailsView\SubWidgets\Details\PathologyWidget.ui">
+    <QtUic Include="src\View\uiComponents\qt_derived\Widgets\PathologyWidget.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\uiComponents\qt_derived\Widgets\CrownWidget.ui">
@@ -591,7 +594,7 @@
     <QtUic Include="src\View\uiComponents\qt_derived\Widgets\ObturationWidget.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="src\View\DetailsView\SubWidgets\Details\DentistMadeWidget.ui">
+    <QtUic Include="src\View\uiComponents\qt_derived\Widgets\DentistMadeWidget.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
@@ -923,13 +926,16 @@
     <ClInclude Include="src\View\DetailsView\SubWidgets\DetailsWidgets.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model\StatusData.h">
+    <ClInclude Include="src\Model\Tooth\StatusData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Database\sqLite\sqlite3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Database\sqLite\sqlite3ext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\Tooth\DiagnosisContainer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

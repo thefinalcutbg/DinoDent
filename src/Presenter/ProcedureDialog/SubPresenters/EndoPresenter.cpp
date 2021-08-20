@@ -23,10 +23,10 @@ std::string EndoPresenter::autoDiagnosis(const Tooth& tooth)
 
 	std::array<std::string, 4> diagnosis
 	{
-		tooth.pulpitis.getDiagnosis(),
-		tooth.lesion.getDiagnosis(),
+		tooth.pulpitis.data.getDiagnosisName(),
+		tooth.lesion.data.getDiagnosisName(),
 		"Инфектиран коренов пълнеж",
-		tooth.fracture.getDiagnosis()
+		tooth.fracture.data.getDiagnosisName()
 	};
 
 	for (int i = 0; i < 4; i++)

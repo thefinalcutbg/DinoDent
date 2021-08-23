@@ -11,18 +11,6 @@ DetailsView::DetailsView(DetailsPresenter* p)
 	setWindowFlags(Qt::Window);
 	setWindowTitle("Tooth Details");
 
-
-
-	connect(ui.status, &DetailedStatus::selectionChanged, [this](int category, int code)
-	{
-			presenter->statusSelected(category, code);
-	});
-
-	connect(ui.status, &DetailedStatus::itemChecked, [this] (bool checked)
-	{
-			presenter->checkStateChanged(checked);
-	});
-
 	connect(ui.okButton, &QPushButton::clicked, [&] {presenter->okPressed(); close(); });
 	connect(ui.cancelButton, &QPushButton::clicked, [&] { close(); });
 
@@ -32,6 +20,11 @@ DetailsView::DetailsView(DetailsPresenter* p)
 IDetailedStatusView* DetailsView::detailedStatus()
 {
 	return ui.status;
+}
+
+void DetailsView::setHistoryData(const std::vector<DetailsSummary>& history)
+{
+	ui.history->setModel(history);
 }
 
 DetailsView::~DetailsView()

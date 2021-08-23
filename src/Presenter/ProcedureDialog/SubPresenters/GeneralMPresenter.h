@@ -32,7 +32,7 @@ public:
 
 	virtual bool isValid();
 
-	virtual std::vector<Procedure> getManipulations();
+	virtual std::vector<Procedure> getProcedures();
 	
 };
 

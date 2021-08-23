@@ -272,7 +272,7 @@ void TeethViewScene::setSelectedTeeth(const std::vector<int> &selectedTeeth)
     }
 }
 
-void TeethViewScene::setProcedures(std::vector<RowData> procedures)
+void TeethViewScene::setProcedures(std::vector<ProcedureRowData> procedures)
 {
     for (auto& t : toothGraphic)
     {

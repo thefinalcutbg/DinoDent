@@ -3,7 +3,7 @@
 #include <QGraphicsScene>
 #include "../ToothPaintDevices/ToothPainter.h"
 #include "../ToothPaintDevices/BridgePainter.h"
-#include "../Procedures/RowData.h"
+#include "Model/Procedure/TableStructs.h"
 
 class ContextMenu;
 class SelectionBox;
@@ -45,7 +45,7 @@ public:
 	void display(ToothPaintHint tooth);
 	void display(const BridgesPaintHint& bridges);
 	void setSelectedTeeth(const std::vector<int> &selectedTeeth);
-	void setProcedures(std::vector<RowData> procedures);
+	void setProcedures(std::vector<ProcedureRowData> procedures);
 
 	~TeethViewScene();
 };

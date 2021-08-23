@@ -2,7 +2,7 @@
 
 #include <QAbstractTableModel>
 #include <QIcon>
-#include "RowData.h"
+#include "Model/Procedure/TableStructs.h"
 
 struct QRow
 {
@@ -30,7 +30,7 @@ class ProcedureTableModel : public QAbstractTableModel
 public:
 	ProcedureTableModel(QObject* parent = nullptr);
 
-	void setProcedure(const std::vector<RowData>& manipulations);
+	void setProcedure(const std::vector<ProcedureRowData>& manipulations);
 	int rowCount(const QModelIndex& parent = QModelIndex()) const override;
 	int columnCount(const QModelIndex& parent = QModelIndex()) const override;
 	~ProcedureTableModel();

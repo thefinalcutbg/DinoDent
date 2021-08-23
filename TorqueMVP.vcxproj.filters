@@ -381,6 +381,15 @@
     <ClCompile Include="src\Presenter\DetailsPresenter\StatusController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Presenter\DetailsPresenter\SubPresenters\DetailedStatusPresenter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Database\DbTooth.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\DetailsView\SubWidgets\ToothHistoryModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -513,6 +522,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\uiComponents\qt_derived\Widgets\DentistMadeWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\DetailsView\SubWidgets\ToothHistoryModel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -926,9 +938,6 @@
     <ClInclude Include="src\View\DetailsView\SubWidgets\IDetailedStatusView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\View\DetailsView\SubWidgets\DetailsWidgets.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Model\Tooth\StatusData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -942,6 +951,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Presenter\DetailsPresenter\StatusController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Presenter\DetailsPresenter\SubPresenters\DetailedStatusPresenter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Database\DbTooth.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\Procedure\TableStructs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

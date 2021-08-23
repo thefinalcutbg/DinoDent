@@ -170,7 +170,7 @@ QString getPricesText(double patientPrice, double NZOKprice)
 	return result;
 }
 
-void ListView::setProcedures(const std::vector<RowData>& m, double patientPrice, double nzokPrice)
+void ListView::setProcedures(const std::vector<ProcedureRowData>& m, double patientPrice, double nzokPrice)
 {
 	model.setProcedure(m);
 

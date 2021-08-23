@@ -3,6 +3,7 @@
 #include <QDebug>
 #include "Presenter/ListPresenter/StatusPresenter/CheckState.h"
 #include "View/ListView/ToothPaintDevices/ToothPainter.h"
+#include "Presenter/DetailsPresenter/SubPresenters/DetailedStatusPresenter.h"
 
 
 DetailedStatus::DetailedStatus(QWidget *parent)
@@ -60,7 +61,7 @@ DetailedStatus::DetailedStatus(QWidget *parent)
 
 			bool checked = ui.treeWidget->currentItem()->checkState(0) == Qt::Checked ? true : false;
 
-			emit itemChecked(checked);
+			presenter->checkStateChanged(checked);
 			
 		});
 		
@@ -72,8 +73,10 @@ DetailedStatus::DetailedStatus(QWidget *parent)
 		if (parent == -1) ui.statusTitle->setText(statusNames[code]);
 		else ui.statusTitle->setText(statusNames[parent] + " (" + surfName[code] + ")");
 
-		emit selectionChanged(parent,code); 
+		presenter->statusSelected(parent,code); 
 		});
+
+	connect(dentistWidget, &DentistMadeWidget::checked, [&] { presenter->stateChanged(); });
 
 }
 
@@ -165,5 +168,16 @@ CrownData DetailedStatus::getCrownData(){return crownWidget->getData();}
 
 DetailedStatus::~DetailedStatus()
 {
+	obtWidget->setParent(nullptr);
+	crownWidget->setParent(nullptr);
+	implantWidget->setParent(nullptr);
+	dentistWidget->setParent(nullptr);
+	pathologyWidget->setParent(nullptr);
+
+	delete obtWidget;
+	delete crownWidget;
+	delete implantWidget;;
+	delete dentistWidget;
+	delete pathologyWidget;
 }
 

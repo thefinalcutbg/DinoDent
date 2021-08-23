@@ -13,16 +13,11 @@
   <property name="windowTitle">
    <string>ToothHistory</string>
   </property>
-  <widget class="QTableView" name="procedureTable">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>30</y>
-     <width>471</width>
-     <height>301</height>
-    </rect>
-   </property>
-  </widget>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QTableView" name="procedureTable"/>
+   </item>
+  </layout>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>

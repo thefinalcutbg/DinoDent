@@ -15,6 +15,7 @@ class StatusPresenter : public Editor
 	SurfacePanelPresenter surf_presenter;
 	ProcedurePresenter* procedure_presenter;
 
+	std::string const* patientID;
 	ToothContainer* teeth;
 	std::vector<Tooth*>* selectedTeeth;
 
@@ -25,7 +26,7 @@ class StatusPresenter : public Editor
 	void statusChanged();
 public:
 	
-	void setData(ToothContainer& teeth, std::vector<Tooth*>& selectedTeeth);
+	void setData(ToothContainer& teeth, std::vector<Tooth*>& selectedTeeth, const std::string& patientID);
 	void setView(IStatusView* view);
 	void setProcedurePresenter(ProcedurePresenter* p);
 

@@ -37,6 +37,6 @@ public:
 	// Inherited via ManipulationPresenter
 	void setManipulationTemplate(const ProcedureTemplate& m) override;
 	bool isValid() override;
-	std::vector<Procedure> getManipulations() override;
+	std::vector<Procedure> getProcedures() override;
 };
 

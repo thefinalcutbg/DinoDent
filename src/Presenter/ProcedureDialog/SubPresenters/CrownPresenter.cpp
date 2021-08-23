@@ -46,11 +46,11 @@ void CrownPresenter::setManipulationTemplate(const ProcedureTemplate& m)
 
 }
 
-std::vector<Procedure> CrownPresenter::getManipulations()
+std::vector<Procedure> CrownPresenter::getProcedures()
 {
-	if(!bridge) return TeethMPresenter::getManipulations();
+	if(!bridge) return TeethMPresenter::getProcedures();
 	
-	auto manipulation = GeneralMPresenter::getManipulations();
+	auto manipulation = GeneralMPresenter::getProcedures();
 	manipulation[0].type = ProcedureType::bridge;
 	return manipulation;
 	

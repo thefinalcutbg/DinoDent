@@ -6,14 +6,14 @@ ProcedureTableModel::ProcedureTableModel(QObject* parent) : QAbstractTableModel(
 
 #include "View/GlobalFunctions.h"
 
-void ProcedureTableModel::setProcedure(const std::vector<RowData>& rows)
+void ProcedureTableModel::setProcedure(const std::vector<ProcedureRowData>& rows)
 {
     beginResetModel();
 
     this->manipulations.clear();
     this->manipulations.reserve(rows.size());
 
-    for (RowData row : rows)
+    for (ProcedureRowData row : rows)
     {
 
         this->manipulations.emplace_back(

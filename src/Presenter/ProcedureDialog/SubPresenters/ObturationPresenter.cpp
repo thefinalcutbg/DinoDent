@@ -72,7 +72,7 @@ std::string ObturationPresenter::autoDiagnosis(const Tooth& tooth)
 
     for (int i = 0; i < 6; i++)		//getting the diagnosis of the first caries found
     {
-        if (tooth.caries.exists()) {
+        if (tooth.caries.exists(i)) {
             cariesDiagnosis = tooth.caries[i].data.getDiagnosisName();
         }
     }

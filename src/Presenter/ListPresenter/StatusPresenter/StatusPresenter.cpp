@@ -45,9 +45,10 @@ void StatusPresenter::statusChanged()
 }
 
 
-void StatusPresenter::setData(ToothContainer& teeth, std::vector<Tooth*>& selectedTeeth)
+void StatusPresenter::setData(ToothContainer& teeth, std::vector<Tooth*>& selectedTeeth, const std::string& patientID)
 {
 	this->teeth = &teeth;
+    this->patientID = &patientID;
     this->selectedTeeth = &selectedTeeth;
 
     view->setSelectedTeeth(getSelectedIndexes());
@@ -183,7 +184,7 @@ void StatusPresenter::setSelectedTeeth(const std::vector<int>& selectedIndexes)
 
 void StatusPresenter::openDetails(int toothIndex)
 {
-    DetailsPresenter d(teeth->at(toothIndex));
+    DetailsPresenter d(teeth->at(toothIndex), *patientID);
 
     auto tooth = d.open();
 

@@ -60,7 +60,7 @@ std::vector<Procedure> DbAmbList::previousProcedures(std::string patientID)
 
     if (amb_id.empty()) return std::vector<Procedure>{};
 
-    return db_procedures.getManipulations(amb_id, date);
+    return db_procedures.getProcedures(amb_id, date);
 }
 
 
@@ -90,7 +90,7 @@ void DbAmbList::insertAmbList(AmbList& ambList, std::string &patientID)
 
     closeConnection();
 
-    db_procedures.saveManipulations(ambList.id, ambList.procedures);
+    db_procedures.saveProcedures(ambList.id, ambList.procedures);
 
 }
 
@@ -116,7 +116,7 @@ void DbAmbList::updateAmbList(AmbList& ambList)
 
     closeConnection();
 
-    db_procedures.saveManipulations(ambList.id, ambList.procedures);
+    db_procedures.saveProcedures(ambList.id, ambList.procedures);
 }
 
 std::vector<AmbListRow> DbAmbList::getAmbListRows(const Date& from, const Date& to)
@@ -231,7 +231,7 @@ void DbAmbList::getListData(const std::string& patientID, int month, int year, A
     else
     {
         tooth_pareser.parse(status_json, ambList.teeth);
-        ambList.procedures = db_procedures.getManipulations(ambList.id, ambList.date);
+        ambList.procedures = db_procedures.getProcedures(ambList.id, ambList.date);
     }
 
 }
@@ -266,7 +266,7 @@ void DbAmbList::getListData(const std::string& ambID, AmbList& ambList)
     closeConnection();
 
     tooth_pareser.parse(status_json, ambList.teeth);
-    ambList.procedures = db_procedures.getManipulations(ambList.id, ambList.date);
+    ambList.procedures = db_procedures.getProcedures(ambList.id, ambList.date);
 
 }
 

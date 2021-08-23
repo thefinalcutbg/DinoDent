@@ -15,6 +15,6 @@ public:
 
 	bool isValid() override;
 
-	std::vector<Procedure> getManipulations() override;
+	std::vector<Procedure> getProcedures() override;
 	
 };

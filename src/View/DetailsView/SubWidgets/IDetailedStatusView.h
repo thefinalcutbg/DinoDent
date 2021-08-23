@@ -8,10 +8,16 @@ class DentistData;
 class CrownData;
 class PathologyData;
 class ObturationData;
+class DetailedStatusPresenter;
 
 class IDetailedStatusView
 {
+protected:
+	DetailedStatusPresenter* presenter{ nullptr };
 public:
+
+	void setPresenter(DetailedStatusPresenter* presenter) { this->presenter = presenter; }
+	
 	virtual void setCheckModel(const CheckModel& model) = 0;
 	virtual void disableItem(int index, bool disabled) = 0;
 	virtual void paintTooth(const ToothPaintHint& hint) = 0;

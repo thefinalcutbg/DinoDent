@@ -46,7 +46,7 @@ public:
 
     //IProcedureView
     void setSelectedTeeth(std::vector<int> selectedTeeth) override;
-    void setProcedures(const std::vector<RowData>& m, double patientPrice, double nzokPrice) override;
+    void setProcedures(const std::vector<ProcedureRowData>& m, double patientPrice, double nzokPrice) override;
     AbstractComboBox* taxCombo() override;
     void setUnfav(bool unfav) override;
     ~ListView();

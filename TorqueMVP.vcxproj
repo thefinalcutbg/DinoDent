@@ -202,6 +202,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Database\DbTooth.cpp" />
+    <ClCompile Include="src\Presenter\DetailsPresenter\SubPresenters\DetailedStatusPresenter.cpp" />
     <ClCompile Include="src\Model\Tooth\DiagnosisContainer.cpp" />
     <ClCompile Include="src\Database\sqLite\shell.c" />
     <ClCompile Include="src\Database\sqLite\sqlite3.c" />
@@ -336,6 +338,7 @@
     <ClCompile Include="src\Model\Tooth\ToothContainer.cpp" />
     <ClCompile Include="src\View\DetailsView\SubWidgets\ToothHistory.cpp" />
     <ClCompile Include="src\Presenter\DetailsPresenter\StatusController.cpp" />
+    <ClCompile Include="src\View\DetailsView\SubWidgets\ToothHistoryModel.cpp" />
     <QtRcc Include="src\View\Torque.qrc" />
     <QtUic Include="src\View\uiComponents\qt_derived\Widgets\DentistMadeWidget.ui" />
     <QtUic Include="src\View\uiComponents\qt_derived\Widgets\ObturationWidget.ui" />
@@ -399,7 +402,11 @@
     <QtMoc Include="src\View\AmbListPage\AmbListPage.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Database\DbTooth.h" />
+    <ClInclude Include="src\Model\Procedure\TableStructs.h" />
+    <ClInclude Include="src\Presenter\DetailsPresenter\SubPresenters\DetailedStatusPresenter.h" />
     <ClInclude Include="src\Presenter\DetailsPresenter\StatusController.h" />
+    <QtMoc Include="src\View\DetailsView\SubWidgets\ToothHistoryModel.h" />
     <QtMoc Include="src\View\DetailsView\SubWidgets\DetailedStatus.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\Widgets\PathologyWidget.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\Widgets\CrownWidget.h" />
@@ -420,7 +427,6 @@
     <QtMoc Include="src\View\DetailsView\DetailsView.h" />
     <ClInclude Include="src\Model\User\CurrentUser.h" />
     <ClInclude Include="src\TestToothDialog.h" />
-    <ClInclude Include="src\View\DetailsView\SubWidgets\DetailsWidgets.h" />
     <ClInclude Include="src\View\DetailsView\SubWidgets\IDetailedStatusView.h" />
     <ClInclude Include="src\View\Printer\Printer.h" />
     <ClInclude Include="src\JsonCpp\json-forwards.h" />

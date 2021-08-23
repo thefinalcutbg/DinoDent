@@ -1,11 +1,13 @@
 #pragma once
-#include "Presenter/ListPresenter/StatusPresenter/CheckState.h"
 
+#include "SubPresenters/DetailedStatusPresenter.h"
 #include "Model/Tooth/Tooth.h"
 #include <optional>
+#include <memory>
 
 class IDetailsView;
-class StatusController;
+class DetailedStatusController;
+
 
 class DetailsPresenter
 {
@@ -13,26 +15,28 @@ class DetailsPresenter
 	int m_code{ -1 };
 	CheckModel m_checkModel;
 
-	StatusController* controller{ nullptr };
+	std::unique_ptr<DetailedStatusController> controller;
+
+	const std::string& patientID;
 
 	Tooth tooth;
 
 	IDetailsView* view{ nullptr };
 	std::optional<Tooth> _result {};
 
-	void setDynamicStatus();
-	void setDynamicDisable();
+	//SubPresenters:
+	DetailedStatusPresenter m_detailedStatus;
+
 
 public:
-	DetailsPresenter(const Tooth& tooth);
+	DetailsPresenter(const Tooth& tooth, const std::string& patientID);
 
-	void stateChanged();
-	void statusSelected(int category, int code);
-	void checkStateChanged(bool checked);
 	void okPressed();
 	void setView(IDetailsView* view);
 
 	std::optional<Tooth> open();
+
+	~DetailsPresenter();
 
 };
 

@@ -20,13 +20,13 @@ int main(int argc, char *argv[])
     QApplication::setFont(font);
 
     QApplication a(argc, argv);
-    
+     
 
     //Intializing singletons
     SpriteSheets::container().loadTextures(); //loading textures, otherwise program will crash;
     DiagnosisContainer::initialize();
 
-  //  TestToothDialog(); /*
+   //TestToothDialog(); /*
     
     MasterNZOK::instance().loadUpdates(); //parsing json of nzok data
     CustomProcedures::instance().loadCustomProcedures(); //parsing json of custom procedures

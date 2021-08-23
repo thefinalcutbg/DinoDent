@@ -59,7 +59,7 @@ void ProcedurePresenter::refreshProcedureView()
     double patientPrice(0);
     double nzokPrice(0);
 
-    std::vector<RowData> rows;
+    std::vector<ProcedureRowData> rows;
     rows.reserve(mList.size());
 
     for (auto& m : mList)
@@ -73,7 +73,7 @@ void ProcedurePresenter::refreshProcedureView()
 
         rows.emplace_back
         (
-            RowData
+            ProcedureRowData
             {
                 Date::toString(m.date),
                 m.diagnosis,

@@ -26,7 +26,7 @@ bool TeethMPresenter::isValid()
 	return true;
 }
 
-std::vector<Procedure> TeethMPresenter::getManipulations()
+std::vector<Procedure> TeethMPresenter::getProcedures()
 {
 	std::vector<Procedure> m;
 	m.reserve(selectedTeeth->size());

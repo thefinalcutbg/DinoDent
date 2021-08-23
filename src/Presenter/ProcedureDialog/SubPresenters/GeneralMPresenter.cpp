@@ -49,7 +49,7 @@ bool GeneralMPresenter::isValid()
 }
 
 
-std::vector<Procedure> GeneralMPresenter::getManipulations()
+std::vector<Procedure> GeneralMPresenter::getProcedures()
 {
 	return std::vector<Procedure>
 	{

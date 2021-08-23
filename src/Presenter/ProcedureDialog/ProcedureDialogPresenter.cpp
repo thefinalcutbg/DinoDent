@@ -136,7 +136,7 @@ void ProcedureDialogPresenter::formAccepted()
 {
 	if (_errorState || !current_m_presenter->isValid()) return;
 
-	manipulations = current_m_presenter->getManipulations();
+	manipulations = current_m_presenter->getProcedures();
 
 	view->close();
 }

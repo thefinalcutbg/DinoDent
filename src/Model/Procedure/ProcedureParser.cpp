@@ -161,3 +161,25 @@ void ProcedureParser::parse(const std::string& jsonString, Procedure& m)
 			m.result = NoData{};
 	}
 }
+
+#include "Database/DbProcedure.h"
+
+void ProcedureParser::parse(const std::string& jsonString, DetailsSummary& s)
+{
+	Json::Value procedure;
+	Json::Reader reader;
+
+	bool parsingSuccessful = reader.parse(jsonString, procedure);
+
+	if (!parsingSuccessful) {
+		return;
+	}
+
+	s.procedureDiagnosis = procedure["diagnosis"].asString();
+
+	if (!procedure["name"].isNull())
+	{
+		s.procedureName = procedure["name"].asString();
+	}
+
+}

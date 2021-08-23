@@ -14,6 +14,9 @@ public:
 	bool userChecked();
 	~DentistMadeWidget();
 
+signals:
+	void checked();
+
 private:
 	Ui::DentistMadeWidget ui;
 };

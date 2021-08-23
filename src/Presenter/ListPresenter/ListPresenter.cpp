@@ -19,7 +19,7 @@ void ListPresenter::setData(ListInstance* inst)
     this->ambList = &inst->amb_list;
     this->patient = inst->patient;
    
-    status_presenter.setData(inst->amb_list.teeth, inst->selectedTeeth);
+    status_presenter.setData(inst->amb_list.teeth, inst->selectedTeeth, patient.lock()->id);
     procedure_presenter.setData(inst->amb_list, *patient.lock(), inst->selectedTeeth);
 
     view->refresh

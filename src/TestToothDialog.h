@@ -11,7 +11,7 @@ void TestToothDialog()
 	tooth.obturation.setDefaultSurface(0);
 	tooth.caries.setDefaultSurface(0);
 	
-	DetailsPresenter p(tooth);
+	DetailsPresenter p(tooth, "8903261129");
 	p.open();
 
 }

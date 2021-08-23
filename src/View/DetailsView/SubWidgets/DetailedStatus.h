@@ -59,14 +59,7 @@ public:
 	CrownData getCrownData() override;
 	int getPathologyData() override;
 
-	
-
 	~DetailedStatus();
-
-signals:
-	void selectionChanged(int category, int code);
-	void itemChecked(bool checked);
-
 
 private:
 	Ui::DetailedStatus ui;

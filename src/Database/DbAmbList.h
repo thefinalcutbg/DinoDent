@@ -15,8 +15,7 @@ class AmbList;
 class DbAmbList : public AbstractORM 
 {
 
-    ToothParser tooth_pareser;
-    NotesParser notes_parser;
+    ToothParser m_toothParser;
     DbProcedure db_procedures;
 
     std::string getLastStatus(std::string patientID);

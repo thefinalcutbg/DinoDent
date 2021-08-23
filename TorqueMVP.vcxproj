@@ -202,6 +202,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Database\DbNotes.cpp" />
     <ClCompile Include="src\View\ProcedureDisplayModel\QProcedure.cpp" />
     <ClCompile Include="src\Database\DbTooth.cpp" />
     <ClCompile Include="src\Presenter\DetailsPresenter\DetailedStatusPresenter.cpp" />
@@ -398,6 +399,7 @@
     <QtMoc Include="src\View\AmbListPage\AmbListPage.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Database\DbNotes.h" />
     <ClInclude Include="src\View\ProcedureDisplayModel\QProcedure.h" />
     <ClInclude Include="src\Database\DbTooth.h" />
     <ClInclude Include="src\Model\Procedure\TableStructs.h" />

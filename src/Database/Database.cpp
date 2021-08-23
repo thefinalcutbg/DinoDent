@@ -16,13 +16,12 @@ Database::Database() : err(nullptr), db(nullptr), stmt(nullptr)
         "mname              VARCHAR(50),"
         "lname              VARCHAR(50)     NOT NULL,"
         "city               VARCHAR(100)    NOT NULL,"
-        "address            VARCHAR(100),"  //json?
+        "address            VARCHAR(100),"
         "hirbno             VARCHAR(8),"
         "phone              VARCHAR(20),"
-        "allergies          VARCHAR(400),"  //json
-        "currentDiseases    VARCHAR(400),"  //json
-        "pastDiseases       VARCHAR(400),"   //json
-        "notes         VARCHAR "    
+        "allergies          VARCHAR(400)," 
+        "currentDiseases    VARCHAR(400)," 
+        "pastDiseases       VARCHAR(400) "  
         ")", NULL, NULL, &err);
 
     rc = sqlite3_exec(db,
@@ -56,6 +55,17 @@ Database::Database() : err(nullptr), db(nullptr), stmt(nullptr)
         "data            VARCHAR         NOT NULL," //json data depending on type
         "amblist_id      INT             NOT NULL,"
         "FOREIGN KEY    (amblist_id)     REFERENCES amblist(id) ON DELETE CASCADE ON UPDATE CASCADE"
+        ")"
+        , NULL, NULL, &err);
+
+    rc = sqlite3_exec(
+        db,
+        "CREATE TABLE IF NOT EXISTS note("
+        "patient_id      VARCHAR(10)     NOT NULL,"
+        "tooth           INT             NOT NULL,"
+        "text            VARCHAR         NOT NULL,"
+        "PRIMARY KEY    (patient_id, tooth), "
+        "FOREIGN KEY    (patient_id)     REFERENCES patient(id) ON DELETE CASCADE ON UPDATE CASCADE"
         ")"
         , NULL, NULL, &err);
 

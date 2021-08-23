@@ -21,11 +21,3 @@ public:
 	std::string write(const ToothContainer& teeth);
     void parse(const std::string& jsonString, ToothContainer& teeth);
 };
-
-class NotesParser
-{
-	Json::FastWriter writer;
-public:
-	std::string write(const ToothContainer& teeth);
-	void parse(const std::string& jsonString, ToothContainer& teeth);
-};

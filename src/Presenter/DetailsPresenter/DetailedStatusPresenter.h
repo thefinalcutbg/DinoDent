@@ -5,12 +5,12 @@
 #include <optional>
 #include <memory>
 #include "StatusController.h"
-
+#include "Database/DbNotes.h"
 
 
 class DetailedStatusPresenter
 {
-
+	DbNotes db_notes;
 
 	StatusType m_category{ StatusType::general };
 	int m_code{ -1 };
@@ -23,7 +23,8 @@ class DetailedStatusPresenter
 
 	const std::string& patientID;
 
-	Tooth tooth;
+	Tooth m_tooth;
+	std::string m_notes;
 
 	std::optional<Tooth> _result{};
 

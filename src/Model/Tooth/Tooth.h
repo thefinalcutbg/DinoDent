@@ -42,8 +42,6 @@ public:
 
 	Mobility mobility;
 
-	std::string notes;
-
 
 private:
 

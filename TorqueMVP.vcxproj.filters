@@ -384,6 +384,9 @@
     <ClCompile Include="src\View\uiComponents\qt_derived\PixmapLabel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Database\DbNotes.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -936,6 +939,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\ProcedureDisplayModel\QProcedure.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Database\DbNotes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

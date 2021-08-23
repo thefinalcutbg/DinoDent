@@ -106,15 +106,14 @@ void TabPresenter::openList(const Patient& patient)
 {
 
     if (listExists(patient)) return;
-    qDebug() << "predi emplace-a";
-    _lists.emplace_back(); //creates the instance;
-    qDebug() << "sled emplace-a";
-    auto& ambList = _lists.back().amb_list;
 
-    amb_db.getListData(patient.id, Date::currentMonth(), Date::currentYear(), ambList),
-        qDebug() << "vzehme data - ta";
-    _lists.back().patient = getPatient_ptr(patient);
+    _lists.emplace_back(); //creates the instance; How to construct it in situ???
+
+    auto& ambList = _lists.back().amb_list;
+    ambList = amb_db.getListData(patient.id, Date::currentMonth(), Date::currentYear());
     
+    _lists.back().patient = getPatient_ptr(patient);
+
     if (ambList.isNew() && !patient.isAdult(ambList.date))
         ambList.charge = Charge::freed;
     else if (ambList.isNew() && patient.getAge(ambList.date) > 70)
@@ -143,20 +142,17 @@ void TabPresenter::openList(const AmbListRow& ambRow)
         }
     }
 
-    _lists.emplace_back(); //creates the instance;
 
+
+    _lists.emplace_back(ListInstance{}); //creates the instance;
+    _lists.back().patient = getPatient_ptr(patient_db.getPatient(ambRow.patientId));
     auto& ambList = _lists.back().amb_list;
-
-    amb_db.getListData(ambRow.id, ambList);
-
-    Patient patient = patient_db.getPatient(ambRow.patientId);
-
-    _lists.back().patient = getPatient_ptr(patient);
+    ambList = amb_db.getListData(ambRow.id);
 
 
     for (auto& m : ambList.procedures) //autofill NZOK procedures
         if (m.nzok)
-            m.price = MasterNZOK::instance().getPatientPrice(m.code, ambList.date, 64, patient.isAdult(), ambList.full_coverage);
+            m.price = MasterNZOK::instance().getPatientPrice(m.code, ambList.date, 64, _lists.back().patient.get()->isAdult(), ambList.full_coverage);
 
     view->newTab(_lists.size() - 1, _lists.back().getTabName());
 }

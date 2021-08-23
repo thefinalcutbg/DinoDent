@@ -1,25 +1,15 @@
 #pragma once
 
 #include <QAbstractTableModel>
-#include <QIcon>
-#include "Model/Procedure/TableStructs.h"
 
-struct QRow
-{
-	QString date;
-	QString diagnosis;
-	int tooth;
-	QString manipulation;
-	QString code;
-	QString price;
-	bool nzok;
-};
+#include "QProcedure.h"
+
 
 class ProcedureTableModel : public QAbstractTableModel
 {
 	Q_OBJECT
 
-	std::vector<QRow> manipulations;
+	std::vector<QProcedure> procedures;
 
 	bool insertRows(int position, int rows, const QModelIndex& index = QModelIndex());
 	bool removeRows(int row, int count, const QModelIndex& parent = QModelIndex());
@@ -30,7 +20,7 @@ class ProcedureTableModel : public QAbstractTableModel
 public:
 	ProcedureTableModel(QObject* parent = nullptr);
 
-	void setProcedure(const std::vector<ProcedureRowData>& manipulations);
+	void setProcedures(const std::vector<Procedure>& p);
 	int rowCount(const QModelIndex& parent = QModelIndex()) const override;
 	int columnCount(const QModelIndex& parent = QModelIndex()) const override;
 	~ProcedureTableModel();

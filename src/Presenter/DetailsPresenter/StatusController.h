@@ -1,5 +1,5 @@
 #pragma once
-#include "View/DetailsView/SubWidgets/IDetailedStatusView.h"
+#include "View/DetailsView/IDetailedStatusView.h"
 #include "Model/Tooth/Status.h"
 #include <QDebug>
 

@@ -1,6 +1,10 @@
 #pragma once
 #include <string>
 #include "Date.h"
+#include <memory>
+#include <array>
+
+typedef std::array<std::string, 32>TeethNotes;
 
 struct Patient
 {
@@ -20,6 +24,8 @@ struct Patient
 	std::string allergies;
 	std::string currentDiseases;
 	std::string pastDiseases;
+
+	//std::shared_ptr<TeethNotes> teeth_notes{ new TeethNotes{} };
 
 	static bool getSexFromEgn(const std::string& egn);
 	int getAge(const Date& currentDate = Date::currentDate())  const;

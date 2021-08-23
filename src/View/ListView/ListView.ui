@@ -279,7 +279,7 @@
   <customwidget>
    <class>ProcedureTable</class>
    <extends>QTableView</extends>
-   <header>View/ListView/Procedures/ProcedureTable.h</header>
+   <header>View/ProcedureDisplayModel/ProcedureTable.h</header>
   </customwidget>
   <customwidget>
    <class>GraphicsView</class>

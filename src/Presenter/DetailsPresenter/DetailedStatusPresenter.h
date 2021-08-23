@@ -1,14 +1,16 @@
 #pragma once
-#include "View/DetailsView/SubWidgets/IDetailedStatusView.h"
+#include "View/DetailsView/IDetailedStatusView.h"
 #include "Presenter/ListPresenter/StatusPresenter/CheckState.h"
 #include "Model/Tooth/Tooth.h"
-#include "../StatusController.h"
 #include <optional>
 #include <memory>
+#include "StatusController.h"
+
+
 
 class DetailedStatusPresenter
 {
-	Tooth& tooth;
+
 
 	StatusType m_category{ StatusType::general };
 	int m_code{ -1 };
@@ -19,13 +21,23 @@ class DetailedStatusPresenter
 	
 	IDetailedStatusView* view{nullptr};
 
-public:
+	const std::string& patientID;
 
-	DetailedStatusPresenter(Tooth& tooth);
+	Tooth tooth;
+
+	std::optional<Tooth> _result{};
+
+public:
+	DetailedStatusPresenter(const Tooth& tooth, const std::string& patientID);
+
 	void setView(IDetailedStatusView* view);
 	void checkStateChanged(bool checked);
 	void stateChanged();
 	void statusSelected(int category, int code);
+
+	void okPressed();
+
+	std::optional<Tooth> open();
 
 	void setDynamicDisable();
 

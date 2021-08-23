@@ -96,7 +96,6 @@ void StatusPresenter::setCaries(int surface)
 
 void StatusPresenter::setMainStatus(int code)
 {
-    qDebug() << "changing main status";
 
     bool state = m_checkModel.generalStatus[code] != CheckState::checked;
 
@@ -180,11 +179,11 @@ void StatusPresenter::setSelectedTeeth(const std::vector<int>& selectedIndexes)
 
 }
 
-#include "Presenter/DetailsPresenter/DetailsPresenter.h"
+#include "Presenter/DetailsPresenter/DetailedStatusPresenter.h"
 
 void StatusPresenter::openDetails(int toothIndex)
 {
-    DetailsPresenter d(teeth->at(toothIndex), *patientID);
+    DetailedStatusPresenter d(teeth->at(toothIndex), *patientID);
 
     auto tooth = d.open();
 

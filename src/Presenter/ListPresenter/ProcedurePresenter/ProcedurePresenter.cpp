@@ -59,32 +59,14 @@ void ProcedurePresenter::refreshProcedureView()
     double patientPrice(0);
     double nzokPrice(0);
 
-    std::vector<ProcedureRowData> rows;
-    rows.reserve(mList.size());
-
     for (auto& m : mList)
     {
-        int toothNumber{ m.tooth }, toothIndex{ m.tooth };
+        int toothIndex(m.tooth);
         
-        if (toothNumber >= 0 && toothNumber < 32)
+        if (toothIndex >= 0 && toothIndex < 32)
         {
-            toothNumber = ToothUtils::getToothNumber(toothNumber, _ambList->teeth[toothIndex].temporary.exists());
+            m.temp = _ambList->teeth[toothIndex].temporary.exists();
         }
-
-        rows.emplace_back
-        (
-            ProcedureRowData
-            {
-                Date::toString(m.date),
-                m.diagnosis,
-                toothNumber,
-                toothIndex,
-                m.name,
-                m.code,
-                m.price,
-                m.nzok
-            }
-        );
 
         patientPrice = patientPrice + m.price;
 
@@ -96,7 +78,7 @@ void ProcedurePresenter::refreshProcedureView()
             
     }
 
-    view->setProcedures(rows, patientPrice, nzokPrice);
+    view->setProcedures(mList, patientPrice, nzokPrice);
 
    
 }

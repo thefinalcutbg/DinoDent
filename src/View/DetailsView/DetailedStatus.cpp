@@ -3,13 +3,23 @@
 #include <QDebug>
 #include "Presenter/ListPresenter/StatusPresenter/CheckState.h"
 #include "View/ListView/ToothPaintDevices/ToothPainter.h"
-#include "Presenter/DetailsPresenter/SubPresenters/DetailedStatusPresenter.h"
+#include "Presenter/DetailsPresenter/DetailedStatusPresenter.h"
 
 
-DetailedStatus::DetailedStatus(QWidget *parent)
-	: QWidget(parent)
+void DetailedStatus::paintEvent(QPaintEvent* event)
+{
+	QPainter painter;
+	painter.begin(this);
+	painter.fillRect(QRect(0, 0, width(), height()), Qt::white);
+	painter.end();
+}
+
+DetailedStatus::DetailedStatus(DetailedStatusPresenter* presenter) : presenter(presenter)
 {
 	ui.setupUi(this);
+	setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
+	setWindowFlags(Qt::Window);
+	setWindowTitle("Tooth Details");
 
 	layout = new QVBoxLayout(ui.container);
 
@@ -78,6 +88,14 @@ DetailedStatus::DetailedStatus(QWidget *parent)
 
 	connect(dentistWidget, &DentistMadeWidget::checked, [&] { presenter->stateChanged(); });
 
+
+
+	connect(ui.okButton, &QPushButton::clicked, [&] {presenter->okPressed(); close(); });
+	connect(ui.cancelButton, &QPushButton::clicked, [&] { close(); });
+
+
+	presenter->setView(this);
+
 }
 
 
@@ -125,8 +143,7 @@ void DetailedStatus::disableItem(int index, bool disabled)
 
 void DetailedStatus::paintTooth(const ToothPaintHint& hint)
 {
-	auto original = painter.getPixmap(hint);
-	ui.imageLabel->setPixmap(original.scaled(ui.imageLabel->width(), ui.imageLabel->height(), Qt::KeepAspectRatio, Qt::TransformationMode::SmoothTransformation));
+	ui.imageLabel->setPixmap(painter.getPixmap(hint));
 }
 
 void DetailedStatus::clearData()
@@ -164,7 +181,12 @@ ObturationData DetailedStatus::getObturationData(){  return obtWidget->getData()
 ImplantData DetailedStatus::getImplantData(){ return implantWidget->getData();}
 CrownData DetailedStatus::getCrownData(){return crownWidget->getData();}
 
-
+void DetailedStatus::setHistoryData(const std::vector<Procedure>& history)
+{
+	m_historyModel.setProcedures(history);
+	ui.tableView->setModel(&m_historyModel);
+	ui.tableView->setProcedureHistoryLayout();
+}
 
 DetailedStatus::~DetailedStatus()
 {

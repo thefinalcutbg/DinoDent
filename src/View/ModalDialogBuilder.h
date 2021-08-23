@@ -5,7 +5,7 @@ class PatientDialogPresenter;
 class ProcedureEditorPresenter;
 class AllergiesDialogPresenter;
 class ListSelectorPresenter;
-class DetailsPresenter;
+class DetailedStatusPresenter;
 
 namespace ModalDialogBuilder
 {
@@ -14,6 +14,6 @@ namespace ModalDialogBuilder
 	void openDialog(ProcedureEditorPresenter* p);
 	void openDialog(AllergiesDialogPresenter* p);
 	void openDialog(ListSelectorPresenter* p);
-	void openDialog(DetailsPresenter* p);
+	void openDialog(DetailedStatusPresenter* p);
 };
 

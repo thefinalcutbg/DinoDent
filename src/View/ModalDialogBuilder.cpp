@@ -41,11 +41,11 @@ void ModalDialogBuilder::openDialog(ListSelectorPresenter* p)
 	d->show();
 }
 
-#include "View/DetailsView/DetailsView.h"
+#include "View/DetailsView/DetailedStatus.h"
 
-void ModalDialogBuilder::openDialog(DetailsPresenter* p)
+void ModalDialogBuilder::openDialog(DetailedStatusPresenter* p)
 {
-	DetailsView d(p);
+	DetailedStatus d(p);
 	d.exec();
 
 }

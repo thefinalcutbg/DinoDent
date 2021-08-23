@@ -2,10 +2,11 @@
 #include "Model/Procedure/ProcedureParser.h"
 #include "AbstractORM.h"
 #include "sqLite/sqlite3.h"
-#include <vector>
+
 #include "Model/Procedure/MasterNZOK.h"
 #include "Model/Procedure/TableStructs.h"
 
+#include <vector>
 
 class DbProcedure : public AbstractORM
 {
@@ -16,6 +17,6 @@ public:
     void saveProcedures(const std::string& amblist_id, const std::vector<Procedure>& mList);
 
     std::vector<ProcedureSummary> getSummary(const std::string& patientID, const std::string& excludeAmbIde);
-    std::vector<DetailsSummary> getToothProcedures(const std::string& patientID, int tooth);
+    std::vector<Procedure> getToothProcedures(const std::string& patientID, int tooth);
 };
 

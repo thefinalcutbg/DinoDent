@@ -25,11 +25,11 @@ ProcedureTable::ProcedureTable(QWidget* parent)
     //setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-
+    
     setWordWrap(true);
 }
 
-void ProcedureTable::setDimensions()
+void ProcedureTable::setAmbListLayout()
 {
     hideColumn(0);
     setColumnWidth(1, 69);
@@ -38,6 +38,24 @@ void ProcedureTable::setDimensions()
     setColumnWidth(4, 300);
     setColumnWidth(5, 49);
     setColumnWidth(6, 69);
+    setColumnWidth(7, 0);
+}
+
+void ProcedureTable::setProcedureHistoryLayout()
+{
+    hideColumn(0);
+    setColumnWidth(1, 69);
+    setColumnWidth(2, 200);
+    setColumnWidth(3, 25);
+    setColumnWidth(4, 300);
+    setColumnWidth(5, 49);
+    setColumnWidth(6, 69);
+    setColumnWidth(7, 140);
+    setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
+    horizontalHeader()->setSectionResizeMode(4, QHeaderView::Stretch);
+    horizontalHeader()->setSectionResizeMode(7, QHeaderView::Stretch);
 }
 
 void ProcedureTable::keyPressEvent(QKeyEvent* event)

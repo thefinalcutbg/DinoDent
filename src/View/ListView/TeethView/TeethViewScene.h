@@ -45,7 +45,7 @@ public:
 	void display(ToothPaintHint tooth);
 	void display(const BridgesPaintHint& bridges);
 	void setSelectedTeeth(const std::vector<int> &selectedTeeth);
-	void setProcedures(std::vector<ProcedureRowData> procedures);
+	void setProcedures(std::vector<int> teeth_procedures);
 
 	~TeethViewScene();
 };

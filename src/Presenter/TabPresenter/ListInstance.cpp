@@ -21,7 +21,7 @@ ListInstance::ListInstance(const ListInstance& old_obj) :
 	}
 }
 
-ListInstance::ListInstance(AmbList ambList, std::shared_ptr<Patient> patient) :
+ListInstance::ListInstance(const AmbList& ambList, std::shared_ptr<Patient> patient) :
 	amb_list(ambList),
 	patient(patient),
 	edited(0)

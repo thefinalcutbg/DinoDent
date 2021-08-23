@@ -18,7 +18,7 @@ ListView::ListView(QWidget* parent)
 	
 
 	ui.procedureTable->setModel(&model);
-	ui.procedureTable->setDimensions();
+	ui.procedureTable->setAmbListLayout();
 
 	connect(ui.patientTile, &QAbstractButton::clicked, [=] { presenter->openPatientDialog(); });
 	connect(ui.allergiesTile, &QAbstractButton::clicked, [=] { presenter->openAllergiesDialog(); });
@@ -170,11 +170,16 @@ QString getPricesText(double patientPrice, double NZOKprice)
 	return result;
 }
 
-void ListView::setProcedures(const std::vector<ProcedureRowData>& m, double patientPrice, double nzokPrice)
+void ListView::setProcedures(const std::vector<Procedure>& m, double patientPrice, double nzokPrice)
 {
-	model.setProcedure(m);
+	model.setProcedures(m);
 
-	teethViewScene->setProcedures(m);
+	std::vector<int> proc_teeth;
+	proc_teeth.reserve(m.size());
+
+	for (auto t : m) proc_teeth.push_back(t.tooth);
+
+	teethViewScene->setProcedures(proc_teeth);
 	
 	int tableHeight = m.size() * 50 + 26;
 	//ne sym siguren izob6to, 4e taka iskam da izglejda:

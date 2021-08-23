@@ -1,34 +1,21 @@
 ﻿#include "ProcedureTableModel.h"
 
+#include <QIcon>
+
 ProcedureTableModel::ProcedureTableModel(QObject* parent) : QAbstractTableModel(parent)
 {
 }
 
-#include "View/GlobalFunctions.h"
 
-void ProcedureTableModel::setProcedure(const std::vector<ProcedureRowData>& rows)
+void ProcedureTableModel::setProcedures(const std::vector<Procedure>& rows)
 {
     beginResetModel();
 
-    this->manipulations.clear();
-    this->manipulations.reserve(rows.size());
+    this->procedures.clear();
+    this->procedures.reserve(rows.size());
 
-    for (ProcedureRowData row : rows)
-    {
-
-        this->manipulations.emplace_back(
-            QRow
-            {
-                QString::fromStdString(row.date),
-                QString::fromStdString(row.diagnosis),
-                row.toothNumber,
-                QString::fromStdString(row.manipulation),
-                QString::number(row.code),
-                priceToString(row.price),
-                row.nzok
-            }
-        );
-    }
+    for (auto& p : rows)
+        this->procedures.emplace_back(QProcedure{p});
 
     endResetModel();
 }
@@ -58,7 +45,7 @@ QVariant ProcedureTableModel::headerData(int section, Qt::Orientation orientatio
             case 4: return "Манипулация";
             case 5: return "Код";
             case 6: return "Цена";
-            case 7: return "";
+            case 7: return "Извършил";
             }
         }
     }
@@ -68,23 +55,26 @@ QVariant ProcedureTableModel::headerData(int section, Qt::Orientation orientatio
 
 int ProcedureTableModel::rowCount(const QModelIndex& parent) const
 {
-    return manipulations.size();
+    return procedures.size();
 }
 
 int ProcedureTableModel::columnCount(const QModelIndex& parent) const
 {
-    return 7;
+    return 8;
 }
 
 QVariant ProcedureTableModel::data(const QModelIndex& index, int role) const
 {
+
+        static auto nzok_icon{ QIcon(QPixmap("nzok.png")) };
+        
         if (!index.isValid()) return QVariant();
 
         int row = index.row();
         int column = index.column();
 
-        if (row == manipulations.size()) return 0;
-        if (manipulations.size() == 0) return 0;
+        if (row == procedures.size()) return 0; //why???
+        if (procedures.size() == 0) return 0;
 
 
         switch (role)
@@ -94,8 +84,8 @@ QVariant ProcedureTableModel::data(const QModelIndex& index, int role) const
             switch (column)
             {
             case 5:
-                if (manipulations[row].nzok)
-                    return QIcon(QPixmap("nzok.png"));
+                if (procedures[row].nzok)
+                    return nzok_icon;
             default:
                 return QVariant();
             }
@@ -104,22 +94,18 @@ QVariant ProcedureTableModel::data(const QModelIndex& index, int role) const
             switch (column)
             {
                case 0: return index.row();
-               case 1: return manipulations[row].date;
-               case 2: return manipulations[row].diagnosis;
-               case 3: return (manipulations[row].tooth != -1) ? manipulations[row].tooth : QVariant();
-               case 4: return manipulations[row].manipulation;
-               case 5: return manipulations[row].code;
-               case 6: return manipulations[row].price;
+               case 1: return procedures[row].date;
+               case 2: return procedures[row].diagnosis;
+               case 3: return procedures[row].tooth != -1 ? procedures[row].tooth : QVariant();
+               case 4: return procedures[row].procedureName;
+               case 5: return procedures[row].code;
+               case 6: return procedures[row].price;
+               case 7: return procedures[row].doctor;
             }
         case Qt::TextAlignmentRole:
-            //if (column == 1 || column == 3 || column == 5 || column == 6)
+             if (column == 1 || column == 3 || column == 5 || column == 6)
                 return int(Qt::AlignCenter);
-
-
-
         }
-
-
 
         return QVariant();
 

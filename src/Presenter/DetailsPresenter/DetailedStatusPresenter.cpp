@@ -1,17 +1,22 @@
 #include "DetailedStatusPresenter.h"
 #include "Presenter/ListPresenter/StatusPresenter/CheckState.h"
 #include "Presenter/ListPresenter/StatusPresenter/ToothHintCreator.h"
-#include "../StatusController.h"
+#include "View/ModalDialogBuilder.h"
+#include "StatusController.h"
+#include "Database/DbProcedure.h"
 
-DetailedStatusPresenter::DetailedStatusPresenter(Tooth& tooth) :
-	tooth(tooth), m_checkModel(tooth)
+DetailedStatusPresenter::DetailedStatusPresenter(const Tooth& tooth, const std::string& patientID)
+	: tooth(tooth), m_checkModel(tooth), patientID(patientID)
 {
 }
 
 void DetailedStatusPresenter::setView(IDetailedStatusView* view)
 {
 	this->view = view; 
-	view->setPresenter(this);
+
+	DbProcedure db;
+
+	view->setHistoryData(db.getToothProcedures(patientID, tooth.index));
 
 	if (!tooth.bridge.exists())
 		view->disableItem(StatusCode::Bridge, true);
@@ -90,6 +95,19 @@ void DetailedStatusPresenter::statusSelected(int category, int code)
 
 	setDynamicDisable();
 
+}
+
+void DetailedStatusPresenter::okPressed()
+{
+	stateChanged();
+	_result = tooth;
+}
+
+std::optional<Tooth> DetailedStatusPresenter::open()
+{
+	ModalDialogBuilder::openDialog(this);
+
+	return _result;
 }
 
 void DetailedStatusPresenter::setDynamicDisable()

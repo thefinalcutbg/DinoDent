@@ -3,7 +3,7 @@
 #include "Model/Patient.h"
 #include "Model/AmbList.h"
 #include "Model/Date.h"
-
+#include <QDebug>
 DbAmbList::DbAmbList()
 {}
 
@@ -185,7 +185,7 @@ std::vector<int> DbAmbList::getValidYears()
 }
 
 
-void DbAmbList::getListData(const std::string& patientID, int month, int year, AmbList& ambList)
+AmbList DbAmbList::getListData(const std::string& patientID, int month, int year)
 {
     openConnection();
 
@@ -196,7 +196,7 @@ void DbAmbList::getListData(const std::string& patientID, int month, int year, A
 
     sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
 
-
+    AmbList ambList;
     std::string status_json;
 
     while (sqlite3_step(stmt) != SQLITE_DONE)
@@ -234,9 +234,10 @@ void DbAmbList::getListData(const std::string& patientID, int month, int year, A
         ambList.procedures = db_procedures.getProcedures(ambList.id, ambList.date);
     }
 
+    return ambList;
 }
 
-void DbAmbList::getListData(const std::string& ambID, AmbList& ambList)
+AmbList DbAmbList::getListData(const std::string& ambID)
 {
     openConnection();
 
@@ -247,6 +248,7 @@ void DbAmbList::getListData(const std::string& ambID, AmbList& ambList)
 
 
     std::string status_json;
+    AmbList ambList;
 
     while (sqlite3_step(stmt) != SQLITE_DONE)
     {
@@ -268,7 +270,9 @@ void DbAmbList::getListData(const std::string& ambID, AmbList& ambList)
     tooth_pareser.parse(status_json, ambList.teeth);
     ambList.procedures = db_procedures.getProcedures(ambList.id, ambList.date);
 
+    return ambList;
 }
+
 
 void DbAmbList::deleteAmbList(const std::string& ambID)
 {
@@ -279,6 +283,7 @@ void DbAmbList::deleteAmbList(const std::string& ambID)
     rc = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
 
     closeConnection();
+
 }
 
 #include <QDebug>

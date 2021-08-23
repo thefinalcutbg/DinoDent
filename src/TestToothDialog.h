@@ -2,7 +2,7 @@
 
 #include "Model/Tooth/Tooth.h"
 #include "View/ModalDialogBuilder.h"
-#include "Presenter/DetailsPresenter/DetailsPresenter.h"
+#include "Presenter/DetailsPresenter/DetailedStatusPresenter.h"
 
 void TestToothDialog()
 {
@@ -11,7 +11,7 @@ void TestToothDialog()
 	tooth.obturation.setDefaultSurface(0);
 	tooth.caries.setDefaultSurface(0);
 	
-	DetailsPresenter p(tooth, "8903261129");
+	DetailedStatusPresenter p(tooth, "8903261129");
 	p.open();
 
 }

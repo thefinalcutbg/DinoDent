@@ -21,7 +21,8 @@ Database::Database() : err(nullptr), db(nullptr), stmt(nullptr)
         "phone              VARCHAR(20),"
         "allergies          VARCHAR(400),"  //json
         "currentDiseases    VARCHAR(400),"  //json
-        "pastDiseases       VARCHAR(400)"   //json
+        "pastDiseases       VARCHAR(400),"   //json
+        "notes         VARCHAR "    
         ")", NULL, NULL, &err);
 
     rc = sqlite3_exec(db,
@@ -39,37 +40,7 @@ Database::Database() : err(nullptr), db(nullptr), stmt(nullptr)
         "FOREIGN KEY    (patient_id) REFERENCES patient(id) ON DELETE CASCADE ON UPDATE CASCADE"
         ")"
         , NULL, NULL, &err);
-    /*
-    rc = sqlite3_exec(
-        db,
-        "CREATE TABLE IF NOT EXISTS manipulations("
-        "id              INTEGER         NOT NULL PRIMARY KEY,"
-        "code            VARCHAR(10)     NOT NULL,"
-        "seq             INT             NOT NULL,"  //the sequence of the manipulation(if dates are the same)
-        "type            INT             NOT NULL," //required for json parser and statistics
-        "day             INT             NOT NULL,"
-        "tooth           INT             NOT NULL,"
-        "price           REAL            NOT NULL,"
-        "data            VARCHAR         NOT NULL," //json data depending on type
-        "amblist_id      INT             NOT NULL,"
-        "FOREIGN KEY    (amblist_id)     REFERENCES amblist(id) ON DELETE CASCADE ON UPDATE CASCADE"
-        ")"
-        , NULL, NULL, &err);
-
-    rc = sqlite3_exec(
-        db,
-        "CREATE TABLE IF NOT EXISTS nzok("
-        "id              INTEGER         NOT NULL    PRIMARY KEY,"
-        "code            VARCHAR(10)     NOT NULL,"
-        "seq             INT             NOT NULL,"
-        "day             INT             NOT NULL,"
-        "tooth           INT             NOT NULL,"
-        "data            VARCHAR         NOT NULL," //json data, type depends on code
-        "amblist_id      INT             NOT NULL,"
-        "FOREIGN KEY    (amblist_id)     REFERENCES amblist(id) ON DELETE CASCADE ON UPDATE CASCADE"
-        ")"
-        , NULL, NULL, &err);
-        */
+ 
     rc = sqlite3_exec(
         db,
         "CREATE TABLE IF NOT EXISTS procedure("
@@ -80,6 +51,7 @@ Database::Database() : err(nullptr), db(nullptr), stmt(nullptr)
         "type            INT             NOT NULL," //required for json parser and statistics
         "day             INT             NOT NULL,"
         "tooth           INT             NOT NULL,"
+        "temp            INT             NOT NULL,"
         "price           REAL            NOT NULL,"
         "data            VARCHAR         NOT NULL," //json data depending on type
         "amblist_id      INT             NOT NULL,"

@@ -34,7 +34,7 @@ struct Procedure
 {
 
 
-    Procedure(const ProcedureTemplate& t, Date date, std::string name, std::string diagnosis, double price, Result result, int tooth = -1)
+    Procedure(const ProcedureTemplate& t, Date date, std::string name, std::string diagnosis, double price, Result result, int tooth = -1, bool temp = false)
         :
         type{ t.type },
         code{ t.code },
@@ -43,30 +43,30 @@ struct Procedure
         diagnosis{ diagnosis },
         price{ price },
         tooth{ tooth },
+        temp{ temp },
         nzok{ t.nzok },
-        result{result}
+        result{ result }
     {}
 
-    Procedure() : type(ProcedureType::general), code{ -1 }, price{ 0 }, tooth{ -1 }, nzok{ false } {}
-
-
+    Procedure() {};
 
     //common parameters:
-    ProcedureType type;
-    int code;
+    ProcedureType type{ ProcedureType::general };
+    int code{ -1 };
     Date date;
     std::string name;
     std::string diagnosis;
-    double price;
-    int tooth;
-    Result result;
-
+    double price{ -1 };
+    int tooth{ -1 };
+    bool temp{ false };
+    Result result{ NoData{} };
+    bool nzok{ false };
     std::string LPK;
 
     void applyProcedure(ToothContainer& teeth);
 
     //NZOK specific:
-    bool nzok;
+
 };
 
 

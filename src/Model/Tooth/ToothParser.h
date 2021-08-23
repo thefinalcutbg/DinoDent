@@ -14,10 +14,18 @@ class ToothParser
 
 	Json::Value writePathology(int index, const Pathology &pathology);
 	Json::Value writeDentistMade(int index, const DentistMade& procedure);
-	Json::Value writeMaterial(int index, const Material& procedure);
+
 
 public:
 
 	std::string write(const ToothContainer& teeth);
     void parse(const std::string& jsonString, ToothContainer& teeth);
+};
+
+class NotesParser
+{
+	Json::FastWriter writer;
+public:
+	std::string write(const ToothContainer& teeth);
+	void parse(const std::string& jsonString, ToothContainer& teeth);
 };

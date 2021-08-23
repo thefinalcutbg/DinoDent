@@ -186,10 +186,10 @@
     <ClCompile Include="src\View\uiComponents\qt_derived\Widgets\SurfaceSelector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\ListView\Procedures\ProcedureTable.cpp">
+    <ClCompile Include="src\View\ProcedureDisplayModel\ProcedureTable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\ListView\Procedures\ProcedureTableModel.cpp">
+    <ClCompile Include="src\View\ProcedureDisplayModel\ProcedureTableModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\uiComponents\qt_derived\SpinBox.cpp">
@@ -327,12 +327,6 @@
     <ClCompile Include="src\Model\Procedure\PackageCounter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Presenter\DetailsPresenter\DetailsPresenter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\View\DetailsView\DetailsView.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\JsonCpp\jsoncpp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -351,10 +345,7 @@
     <ClCompile Include="src\Model\Procedure\Procedure.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\DetailsView\SubWidgets\ToothHistory.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\View\DetailsView\SubWidgets\DetailedStatus.cpp">
+    <ClCompile Include="src\View\DetailsView\DetailedStatus.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\uiComponents\qt_derived\Widgets\PathologyWidget.cpp">
@@ -381,13 +372,16 @@
     <ClCompile Include="src\Presenter\DetailsPresenter\StatusController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Presenter\DetailsPresenter\SubPresenters\DetailedStatusPresenter.cpp">
+    <ClCompile Include="src\Presenter\DetailsPresenter\DetailedStatusPresenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Database\DbTooth.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\DetailsView\SubWidgets\ToothHistoryModel.cpp">
+    <ClCompile Include="src\View\ProcedureDisplayModel\QProcedure.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\uiComponents\qt_derived\PixmapLabel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -458,10 +452,10 @@
     <QtMoc Include="src\View\uiComponents\qt_derived\Widgets\SurfaceSelector.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\ListView\Procedures\ProcedureTable.h">
+    <QtMoc Include="src\View\ProcedureDisplayModel\ProcedureTable.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\ListView\Procedures\ProcedureTableModel.h">
+    <QtMoc Include="src\View\ProcedureDisplayModel\ProcedureTableModel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\uiComponents\qt_derived\SpinBox.h">
@@ -503,13 +497,7 @@
     <QtMoc Include="src\View\AmbListSelector\ListTable.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\DetailsView\DetailsView.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="src\View\DetailsView\SubWidgets\ToothHistory.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="src\View\DetailsView\SubWidgets\DetailedStatus.h">
+    <QtMoc Include="src\View\DetailsView\DetailedStatus.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\uiComponents\qt_derived\Widgets\PathologyWidget.h">
@@ -524,7 +512,7 @@
     <QtMoc Include="src\View\uiComponents\qt_derived\Widgets\DentistMadeWidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\DetailsView\SubWidgets\ToothHistoryModel.h">
+    <QtMoc Include="src\View\uiComponents\qt_derived\PixmapLabel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -591,13 +579,7 @@
     <QtUic Include="src\View\AmbListSelector\AmbListSelector.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="src\View\DetailsView\DetailsView.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="src\View\DetailsView\SubWidgets\ToothHistory.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="src\View\DetailsView\SubWidgets\DetailedStatus.ui">
+    <QtUic Include="src\View\DetailsView\DetailedStatus.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\uiComponents\qt_derived\Widgets\PathologyWidget.ui">
@@ -767,9 +749,6 @@
     <ClInclude Include="src\Model\Procedure\ProcedureTemplate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\View\ListView\Procedures\RowData.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Database\AbstractORM.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -908,12 +887,6 @@
     <ClInclude Include="src\Model\Procedure\PackageCounter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Presenter\DetailsPresenter\DetailsPresenter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\View\DetailsView\IDetailsView.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\JsonCpp\json.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -935,7 +908,7 @@
     <ClInclude Include="src\TestToothDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\View\DetailsView\SubWidgets\IDetailedStatusView.h">
+    <ClInclude Include="src\View\DetailsView\IDetailedStatusView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\Tooth\StatusData.h">
@@ -953,13 +926,16 @@
     <ClInclude Include="src\Presenter\DetailsPresenter\StatusController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Presenter\DetailsPresenter\SubPresenters\DetailedStatusPresenter.h">
+    <ClInclude Include="src\Presenter\DetailsPresenter\DetailedStatusPresenter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Database\DbTooth.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\Procedure\TableStructs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\View\ProcedureDisplayModel\QProcedure.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

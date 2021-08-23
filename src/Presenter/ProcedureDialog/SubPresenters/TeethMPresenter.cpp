@@ -43,7 +43,8 @@ std::vector<Procedure> TeethMPresenter::getProcedures()
 				 common_view->diagnosisEdit()->getText(),
 				 common_view->priceEdit()->get_Value(),
 				 getResult(),
-				 selectedTeeth->at(i)->index
+				 selectedTeeth->at(i)->index,
+				 selectedTeeth->at(i)->temporary.exists()
 			}
 		);
 	}

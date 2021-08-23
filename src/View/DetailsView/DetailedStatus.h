@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include <QWidget>
+#include <QDialog>
 #include  <QVBoxLayout>
 #include "IDetailedStatusView.h"
 #include "ui_DetailedStatus.h"
@@ -11,10 +11,15 @@
 #include "View/uiComponents/qt_derived/Widgets/CrownWidget.h"
 #include "View/uiComponents/qt_derived/Widgets/PathologyWidget.h"
 #include "View/uiComponents/qt_derived/Widgets/DentistMadeWidget.h"
+#include "View/ProcedureDisplayModel/ProcedureTableModel.h"
 
-class DetailedStatus final: public QWidget, public IDetailedStatusView
+class DetailedStatusPresenter;
+
+class DetailedStatus final: public QDialog, public IDetailedStatusView
 {
 	Q_OBJECT
+
+	DetailedStatusPresenter* presenter;
 
 	ToothPainter painter;
 
@@ -36,8 +41,12 @@ class DetailedStatus final: public QWidget, public IDetailedStatusView
 	DentistMadeWidget* dentistWidget;
 	PathologyWidget* pathologyWidget;
 
+	ProcedureTableModel m_historyModel;
+
+	void paintEvent(QPaintEvent* event) override;
+
 public:
-	DetailedStatus(QWidget *parent = Q_NULLPTR);
+	DetailedStatus(DetailedStatusPresenter* presenter);
 
 	void setCheckModel(const CheckModel& checkModel) override;
 	void disableItem(int index, bool disabled) override;
@@ -58,6 +67,8 @@ public:
 	bool getDentistData() override;
 	CrownData getCrownData() override;
 	int getPathologyData() override;
+
+	void setHistoryData(const std::vector<Procedure>& history) override;
 
 	~DetailedStatus();
 

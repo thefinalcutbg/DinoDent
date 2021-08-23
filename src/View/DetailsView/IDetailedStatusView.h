@@ -10,14 +10,15 @@ class PathologyData;
 class ObturationData;
 class DetailedStatusPresenter;
 
+#include "Model/Procedure/Procedure.h"
+#include <vector>
+
 class IDetailedStatusView
 {
-protected:
-	DetailedStatusPresenter* presenter{ nullptr };
+
 public:
 
-	void setPresenter(DetailedStatusPresenter* presenter) { this->presenter = presenter; }
-	
+	virtual void setHistoryData(const std::vector<Procedure>& history) = 0;
 	virtual void setCheckModel(const CheckModel& model) = 0;
 	virtual void disableItem(int index, bool disabled) = 0;
 	virtual void paintTooth(const ToothPaintHint& hint) = 0;

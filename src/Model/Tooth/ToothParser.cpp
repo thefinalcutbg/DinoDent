@@ -226,7 +226,6 @@ std::string ToothParser::write(const ToothContainer& teeth)
 					param["color"] = tooth.bridge.data.color;
 					status["Bridge"].append(param);
 				}
-
 	}
 
 	return writer.write(status);
@@ -397,4 +396,51 @@ void ToothParser::parse(const std::string& jsonString, ToothContainer& teeth)
 		tooth.bridge.data.material = bridge[i]["material"].asString();
 		tooth.bridge.position = static_cast<BridgePos>(bridge[i]["pos"].asInt());
 	}
+
+}
+
+std::string NotesParser::write(const ToothContainer& teeth)
+{
+	std::string notesString;
+
+	Json::Value notes;
+
+	for (int i = 0; i < 32; i++)
+	{
+		const Tooth& tooth = teeth[i];
+
+		if (!tooth.notes.empty())
+		{
+			if (!notes.isMember("Notes"))
+				notes["Notes"] = Json::Value(Json::arrayValue);
+
+			Json::Value parameters;
+			parameters["idx"] = i;
+			parameters["text"] = tooth.notes;
+			notes["Notes"].append(parameters);
+		}
+
+	}
+	
+	return notesString;
+}
+
+void NotesParser::parse(const std::string& jsonString, ToothContainer& teeth)
+{
+	Json::Value notes;
+	Json::Reader reader;
+	bool parsingSuccessful = reader.parse(jsonString, notes);
+
+	if (!parsingSuccessful) {
+		return;
+	}
+
+	const Json::Value& notes = notes["Notes"];
+
+	for (int i = 0; i < notes.size(); i++)
+	{
+		Tooth& tooth = teeth[notes[i]["idx"].asInt()];
+		tooth.notes = notes[i]["text"].asString();
+	}
+
 }

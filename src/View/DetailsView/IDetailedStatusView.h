@@ -30,6 +30,7 @@ public:
 	virtual void setData(const DentistData& data) = 0;
 	virtual void setData(const CrownData& data) = 0;
 	virtual void setData(const PathologyData& data) = 0;
+	virtual void setData(const std::string& notesData) = 0;
 
 	virtual void disableDetails(bool disabled) = 0;
 	virtual ObturationData getObturationData() = 0;
@@ -37,4 +38,6 @@ public:
 	virtual bool getDentistData() = 0;
 	virtual CrownData getCrownData() = 0;
 	virtual int getPathologyData() = 0;
+	virtual std::string getNotes() = 0;
+
 };

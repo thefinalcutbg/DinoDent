@@ -139,6 +139,13 @@
     </layout>
    </item>
    <item>
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>История на манипулациите:</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="ProcedureTable" name="tableView">
      <property name="minimumSize">
       <size>

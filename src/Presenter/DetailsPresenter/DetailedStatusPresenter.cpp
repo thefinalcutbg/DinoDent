@@ -81,6 +81,8 @@ void DetailedStatusPresenter::statusSelected(int category, int code)
 				controller = std::make_unique<CrownControl>(*view, m_tooth.bridge); break;
 			case StatusCode::Implant:
 				controller = std::make_unique<ImplantControl>(*view, m_tooth.implant); break;
+			case statusCount :
+				controller = std::make_unique<NotesControl>(*view, m_notes); break;
 			default: break;
 		}
 
@@ -119,6 +121,11 @@ void DetailedStatusPresenter::setDynamicDisable()
 	switch (m_category)
 	{
 	case StatusType::general:
+
+		if (m_code == statusCount) { //notes
+			view->disableDetails(false); break;
+		}
+
 		view->disableDetails(m_checkModel.generalStatus[m_code] == CheckState::unchecked);
 		break;
 	case StatusType::obturation:

@@ -112,3 +112,19 @@ public:
 	}
 
 };
+
+class NotesControl : public DetailedStatusController
+{
+	std::string& notes;
+
+public: 
+	NotesControl(IDetailedStatusView& view, std::string& notes) :
+		DetailedStatusController(view),
+		notes(notes)
+{
+	view.setData(notes);
+}
+	void applyChange() override {
+		notes = view.getNotes();
+	}
+};

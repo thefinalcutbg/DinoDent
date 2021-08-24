@@ -28,17 +28,23 @@ DetailedStatus::DetailedStatus(DetailedStatusPresenter* presenter) : presenter(p
 	implantWidget = new ImplantView();
 	dentistWidget = new DentistMadeWidget();
 	pathologyWidget = new PathologyWidget();
+	notesWidget = new QTextEdit();
 
 	ui.imageLabel->setStyleSheet("border: 1px solid lightgray");
 
 	for (auto& name : statusNames)
 	{
+		if(name == u8"Бележки") break; //laaaame
 		QTreeWidgetItem* item = new QTreeWidgetItem();
 		item->setText(0, name);
 		item->setCheckState(0, Qt::Unchecked);
 		ui.treeWidget->addTopLevelItem(item);
 		
 	}
+
+	QTreeWidgetItem* item = new QTreeWidgetItem();
+	item->setText(0, u8"Бележки");
+	ui.treeWidget->addTopLevelItem(item);
 
 	for(auto& name : surfName)
 	{
@@ -132,6 +138,8 @@ void DetailedStatus::disableItem(int index, bool disabled)
 {
 	QSignalBlocker b(ui.treeWidget);
 
+	if (index == statusCount) return;//notes case
+
 	auto item = ui.treeWidget->topLevelItem(index);
 
 	if (disabled)
@@ -153,6 +161,7 @@ void DetailedStatus::clearData()
 	implantWidget->setParent(nullptr);
 	dentistWidget->setParent(nullptr);
 	pathologyWidget->setParent(nullptr);
+	notesWidget->setParent(nullptr);
 }
 
 void DetailedStatus::disableDetails(bool disabled)
@@ -175,11 +184,22 @@ void DetailedStatus::setData(const CrownData& data){setAndShow(layout, crownWidg
 void DetailedStatus::setData(const ObturationData& data){setAndShow(layout, obtWidget, data);}
 void DetailedStatus::setData(const PathologyData& data){setAndShow(layout, pathologyWidget, data);}
 
+void DetailedStatus::setData(const std::string& notesData)
+{
+	notesWidget->setText(QString::fromStdString(notesData));
+	layout->addWidget(notesWidget);
+
+}
+
 bool DetailedStatus::getDentistData() { return dentistWidget->userChecked(); }
 int DetailedStatus::getPathologyData() { return pathologyWidget->getData(); }
 ObturationData DetailedStatus::getObturationData(){  return obtWidget->getData();}
 ImplantData DetailedStatus::getImplantData(){ return implantWidget->getData();}
 CrownData DetailedStatus::getCrownData(){return crownWidget->getData();}
+std::string DetailedStatus::getNotes()
+{
+	return notesWidget->toPlainText().toStdString();
+}
 
 void DetailedStatus::setHistoryData(const std::vector<Procedure>& history)
 {
@@ -190,16 +210,13 @@ void DetailedStatus::setHistoryData(const std::vector<Procedure>& history)
 
 DetailedStatus::~DetailedStatus()
 {
-	obtWidget->setParent(nullptr);
-	crownWidget->setParent(nullptr);
-	implantWidget->setParent(nullptr);
-	dentistWidget->setParent(nullptr);
-	pathologyWidget->setParent(nullptr);
+	clearData();
 
 	delete obtWidget;
 	delete crownWidget;
 	delete implantWidget;;
 	delete dentistWidget;
 	delete pathologyWidget;
+	delete notesWidget;
 }
 

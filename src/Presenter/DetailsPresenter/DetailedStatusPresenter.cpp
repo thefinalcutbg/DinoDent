@@ -28,6 +28,13 @@ void DetailedStatusPresenter::setView(IDetailedStatusView* view)
 	view->paintTooth(ToothHintCreator::getToothHint(m_tooth));
 }
 
+
+void DetailedStatusPresenter::stateChanged()
+{
+	if (controller) controller->applyChange();
+	view->paintTooth(ToothHintCreator::getToothHint(m_tooth));
+}
+
 void DetailedStatusPresenter::checkStateChanged(bool checked)
 {
 	m_tooth.setStatus(m_category, m_code, checked);
@@ -39,11 +46,6 @@ void DetailedStatusPresenter::checkStateChanged(bool checked)
 	setDynamicDisable();
 }
 
-void DetailedStatusPresenter::stateChanged()
-{
-	if (controller) controller->applyChange();
-	view->paintTooth(ToothHintCreator::getToothHint(m_tooth));
-}
 
 void DetailedStatusPresenter::statusSelected(int category, int code)
 {
@@ -55,7 +57,7 @@ void DetailedStatusPresenter::statusSelected(int category, int code)
 
 	switch (category)
 	{
-	case -1:
+	case 0:
 	{
 		m_category = StatusType::general;
 
@@ -81,8 +83,6 @@ void DetailedStatusPresenter::statusSelected(int category, int code)
 				controller = std::make_unique<CrownControl>(*view, m_tooth.bridge); break;
 			case StatusCode::Implant:
 				controller = std::make_unique<ImplantControl>(*view, m_tooth.implant); break;
-			case statusCount :
-				controller = std::make_unique<NotesControl>(*view, m_notes); break;
 			default: break;
 		}
 
@@ -94,9 +94,29 @@ void DetailedStatusPresenter::statusSelected(int category, int code)
 	case 2:
 		m_category = StatusType::caries;
 		controller = std::make_unique <PathologyControl>(*view, m_tooth.caries[m_code]); break;
+	case 3:
+		controller = std::make_unique<NotesControl>(*view, m_notes);
+		view->disableDetails(false); return; //avoiding dynamicDisable
 	}
 
 	setDynamicDisable();
+
+}
+
+void DetailedStatusPresenter::setDynamicDisable()
+{
+	switch (m_category)
+	{
+	case StatusType::general:
+		view->disableDetails(m_checkModel.generalStatus[m_code] == CheckState::unchecked);
+		break;
+	case StatusType::obturation:
+		view->disableDetails(m_checkModel.obturationStatus[m_code] == CheckState::unchecked);
+		break;
+	case StatusType::caries:
+		view->disableDetails(m_checkModel.cariesStatus[m_code] == CheckState::unchecked);
+		break;
+	}
 
 }
 
@@ -116,24 +136,4 @@ std::optional<Tooth> DetailedStatusPresenter::open()
 	return _result;
 }
 
-void DetailedStatusPresenter::setDynamicDisable()
-{
-	switch (m_category)
-	{
-	case StatusType::general:
 
-		if (m_code == statusCount) { //notes
-			view->disableDetails(false); break;
-		}
-
-		view->disableDetails(m_checkModel.generalStatus[m_code] == CheckState::unchecked);
-		break;
-	case StatusType::obturation:
-		view->disableDetails(m_checkModel.obturationStatus[m_code] == CheckState::unchecked);
-		break;
-	case StatusType::caries:
-		view->disableDetails(m_checkModel.cariesStatus[m_code] == CheckState::unchecked);
-		break;
-	}
-	
-}

@@ -24,11 +24,11 @@ class DetailedStatus final: public QDialog, public IDetailedStatusView
 
 	ToothPainter painter;
 
-	inline static QString statusNames[statusCount+1]
+	inline static QString statusNames[statusCount]
 	{ u8"Временен зъб", u8"Обтурация", u8"Кариес",  u8"Пулпит", u8"Периодонтит",
 	  u8"Ендодонтско лечение", u8"Радикуларен щифт", u8"Корен",u8"Фрактура", u8"Екстракция",
 	  u8"Пародонтит", u8"Подвижност I", u8"Подвижност II", u8"Подвижност III",
-	  u8"Корона", u8"Мост/Блок корони",  u8"Имплант", u8"Свръхброен зъб", u8"Бележки" };
+	  u8"Корона", u8"Мост/Блок корони",  u8"Имплант", u8"Свръхброен зъб"};
 
 	inline static QString surfName[surfaceCount]
 	{ u8"Оклузално", u8"Медиално", u8"Дистално",

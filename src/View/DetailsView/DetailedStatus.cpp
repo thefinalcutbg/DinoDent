@@ -4,7 +4,7 @@
 #include "Presenter/ListPresenter/StatusPresenter/CheckState.h"
 #include "View/ListView/ToothPaintDevices/ToothPainter.h"
 #include "Presenter/DetailsPresenter/DetailedStatusPresenter.h"
-
+#include <QIcon>
 
 void DetailedStatus::paintEvent(QPaintEvent* event)
 {
@@ -16,12 +16,17 @@ void DetailedStatus::paintEvent(QPaintEvent* event)
 
 DetailedStatus::DetailedStatus(DetailedStatusPresenter* presenter) : presenter(presenter)
 {
+	static QIcon notesIcon(QPixmap("notes.png"));
+
+	enum TreeWidgetEnumType{ general, obturation, caries, notes };
+
 	ui.setupUi(this);
 	setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 	setWindowFlags(Qt::Window);
 	setWindowTitle("Tooth Details");
 
 	layout = new QVBoxLayout(ui.container);
+	layout->setContentsMargins(9, 9, 9, 0);
 
 	obtWidget = new ObturationWidget();
 	crownWidget = new CrownWidget();
@@ -32,30 +37,38 @@ DetailedStatus::DetailedStatus(DetailedStatusPresenter* presenter) : presenter(p
 
 	ui.imageLabel->setStyleSheet("border: 1px solid lightgray");
 
+	QTreeWidgetItem* notesItem = new QTreeWidgetItem();
+	notesItem->setText(0, u8"Бележки");
+	notesItem->setData(0, Qt::UserRole, notes);
+	notesItem->setIcon(0, notesIcon);
+	ui.treeWidget->addTopLevelItem(notesItem);
+
+
 	for (auto& name : statusNames)
 	{
-		if(name == u8"Бележки") break; //laaaame
 		QTreeWidgetItem* item = new QTreeWidgetItem();
+		item->setData(0, Qt::UserRole, general);
 		item->setText(0, name);
 		item->setCheckState(0, Qt::Unchecked);
 		ui.treeWidget->addTopLevelItem(item);
 		
 	}
 
-	QTreeWidgetItem* item = new QTreeWidgetItem();
-	item->setText(0, u8"Бележки");
-	ui.treeWidget->addTopLevelItem(item);
+
 
 	for(auto& name : surfName)
 	{
 		QTreeWidgetItem* obtSurf{ new QTreeWidgetItem() }, * carSurf{ new QTreeWidgetItem() };
-		obtSurf->setText(0, name);
 
+		obtSurf->setText(0, name);
 		carSurf->setText(0, name);
+		carSurf->setData(0, Qt::UserRole, caries);
+		obtSurf->setData(0, Qt::UserRole, obturation);
 		obtSurf->setCheckState(0, Qt::Unchecked);
 		carSurf->setCheckState(0, Qt::Unchecked);
-		ui.treeWidget->topLevelItem(StatusCode::Obturation)->addChild(obtSurf);
-		ui.treeWidget->topLevelItem(StatusCode::Caries)->addChild(carSurf);
+
+		ui.treeWidget->topLevelItem(StatusCode::Obturation+1)->addChild(obtSurf);
+		ui.treeWidget->topLevelItem(StatusCode::Caries+1)->addChild(carSurf);
 	}
 	
 	connect(ui.treeWidget, &QTreeWidget::itemChanged, [&](QTreeWidgetItem* item, int column) 
@@ -81,15 +94,23 @@ DetailedStatus::DetailedStatus(DetailedStatusPresenter* presenter) : presenter(p
 			
 		});
 		
-	connect(ui.treeWidget, &QTreeWidget::currentItemChanged, [&]() {
-
+	connect(ui.treeWidget, &QTreeWidget::currentItemChanged, [&](QTreeWidgetItem* item) {
+		
 		int parent = ui.treeWidget->selectionModel()->currentIndex().parent().row();
 		int code = ui.treeWidget->selectionModel()->currentIndex().row();
+		
+		switch (item->data(0, Qt::UserRole).toInt())
+		{
+			case general: presenter->statusSelected(0, code - 1); break;
+			case obturation: presenter->statusSelected(1, code); break;
+			case caries: presenter->statusSelected(2, code); break;
+			case notes: presenter->statusSelected(3, code); break;
+		}
+		qDebug() << "item changed" << item->text(0) << parent << code;
+		if (parent == -1) ui.statusTitle->setText(item->text(0));
+		else ui.statusTitle->setText(item->parent()->text(0) + " (" + item->text(0) + ")");
 
-		if (parent == -1) ui.statusTitle->setText(statusNames[code]);
-		else ui.statusTitle->setText(statusNames[parent] + " (" + surfName[code] + ")");
-
-		presenter->statusSelected(parent,code); 
+		
 		});
 
 	connect(dentistWidget, &DentistMadeWidget::checked, [&] { presenter->stateChanged(); });
@@ -99,8 +120,9 @@ DetailedStatus::DetailedStatus(DetailedStatusPresenter* presenter) : presenter(p
 	connect(ui.okButton, &QPushButton::clicked, [&] {presenter->okPressed(); close(); });
 	connect(ui.cancelButton, &QPushButton::clicked, [&] { close(); });
 
-
 	presenter->setView(this);
+
+	//notesItem->setSelected(true);
 
 }
 
@@ -112,25 +134,25 @@ void DetailedStatus::setCheckModel(const CheckModel& checkModel)
 	for (int i = 0; i < checkModel.generalStatus.size(); i++)
 	{
 		checkModel.generalStatus[i] == CheckState::checked ?
-			ui.treeWidget->topLevelItem(i)->setCheckState(0, Qt::CheckState::Checked)
+			ui.treeWidget->topLevelItem(i+1)->setCheckState(0, Qt::CheckState::Checked)
 			:
-			ui.treeWidget->topLevelItem(i)->setCheckState(0, Qt::CheckState::Unchecked);
+			ui.treeWidget->topLevelItem(i+1)->setCheckState(0, Qt::CheckState::Unchecked);
 	}
 
 	for (int i = 0; i < checkModel.obturationStatus.size(); i++)
 	{
 		checkModel.obturationStatus[i] == CheckState::checked ?
-			ui.treeWidget->topLevelItem(1)->child(i)->setCheckState(0, Qt::CheckState::Checked)
+			ui.treeWidget->topLevelItem(2)->child(i)->setCheckState(0, Qt::CheckState::Checked)
 			:
-			ui.treeWidget->topLevelItem(1)->child(i)->setCheckState(0, Qt::CheckState::Unchecked);
+			ui.treeWidget->topLevelItem(2)->child(i)->setCheckState(0, Qt::CheckState::Unchecked);
 	}
 
 	for (int i = 0; i < checkModel.cariesStatus.size(); i++)
 	{
 		checkModel.cariesStatus[i] == CheckState::checked ?
-			ui.treeWidget->topLevelItem(2)->child(i)->setCheckState(0, Qt::CheckState::Checked)
+			ui.treeWidget->topLevelItem(3)->child(i)->setCheckState(0, Qt::CheckState::Checked)
 			:
-			ui.treeWidget->topLevelItem(2)->child(i)->setCheckState(0, Qt::CheckState::Unchecked);
+			ui.treeWidget->topLevelItem(3)->child(i)->setCheckState(0, Qt::CheckState::Unchecked);
 	}
 }
 
@@ -138,9 +160,7 @@ void DetailedStatus::disableItem(int index, bool disabled)
 {
 	QSignalBlocker b(ui.treeWidget);
 
-	if (index == statusCount) return;//notes case
-
-	auto item = ui.treeWidget->topLevelItem(index);
+	auto item = ui.treeWidget->topLevelItem(index+1);
 
 	if (disabled)
 		item->setFlags(Qt::NoItemFlags);
@@ -156,6 +176,7 @@ void DetailedStatus::paintTooth(const ToothPaintHint& hint)
 
 void DetailedStatus::clearData()
 {
+	ui.statusTitle->setText("");
 	obtWidget->setParent(nullptr);
 	crownWidget->setParent(nullptr);
 	implantWidget->setParent(nullptr);

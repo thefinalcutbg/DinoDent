@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
     SpriteSheets::container().loadTextures(); //loading textures, otherwise program will crash;
     DiagnosisContainer::initialize();
 
-   //TestToothDialog(); /*
+  // TestToothDialog(); /*
     
     MasterNZOK::instance().loadUpdates(); //parsing json of nzok data
     CustomProcedures::instance().loadCustomProcedures(); //parsing json of custom procedures
@@ -35,6 +35,6 @@ int main(int argc, char *argv[])
     w.show();
     
     return a.exec();
-  // */
+ //  */
 }
 

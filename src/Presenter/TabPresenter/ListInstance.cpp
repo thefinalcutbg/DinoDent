@@ -43,20 +43,18 @@ bool ListInstance::isEdited()
 std::string ListInstance::getTabName()
 {
 	std::string tabName;
-	tabName.reserve(30);
+	tabName.reserve(60);
 
-	if (isEdited()) {
-		tabName.append("*");
-	}
+	if (isEdited()) tabName+="*";
 
-	if (isNew()) {
-		tabName.append("Нов амб.лист");
-	}
-	else {
-		tabName.append("Амб.лист №" + std::to_string(amb_list.number));
-	}
+	tabName += isNew() ? u8"Нов амб.лист" :
+	u8"Амб.лист №" + std::to_string(amb_list.number);
 
-	tabName.append(" -" + patient->FirstName + " " + patient->LastName);
+	tabName += " ";
+	tabName += patient->FirstName;
+	tabName += " ";
+
+	tabName += patient->LastName;
 
 	return tabName;
 }

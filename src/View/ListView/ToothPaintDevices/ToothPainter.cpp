@@ -325,9 +325,13 @@ QPixmap ToothPainter::mobilityPaint(const ToothPaintHint& tooth)
 QPixmap ToothPainter::fracturePaint(const ToothPaintHint& tooth)
 {
     QPixmap fracture(coords->toothCrop.width(), 55);
+    fracture.fill(Qt::transparent);
+
     QPainter painter(&fracture);
     painter.setOpacity(0.5);
     QRect rect(coords->toothCrop.width() / 2 - 25, 2, 50, 50);
+
+    //painter.fillRect(rect, Qt::GlobalColor::white);
 
     QPen pen(Qt::red);
     pen.setWidth(5);
@@ -346,7 +350,7 @@ QPixmap ToothPainter::fracturePaint(const ToothPaintHint& tooth)
 
 QPixmap ToothPainter::toothNumber(const ToothPaintHint& tooth)
 {
-
+    
     QPixmap numPixmap(coords->toothCrop.width(), 50);
     numPixmap.fill(Qt::transparent);
     QPainter painter(&numPixmap);

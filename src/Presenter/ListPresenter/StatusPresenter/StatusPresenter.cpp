@@ -147,10 +147,10 @@ void StatusPresenter::setOther(int code)
     case OtherInputs::DO: for (auto& t : *selectedTeeth)DO(t); break;
     case OtherInputs::MO: for (auto& t : *selectedTeeth)MO(t); break;
     case OtherInputs::MOD: for (auto& t : *selectedTeeth)MOD(t); break;
-    case OtherInputs::removeAll: for (auto& t : *selectedTeeth) t->removeStatus(); break;
     case OtherInputs::removeC: for (auto& t : *selectedTeeth) t->removeStatus(StatusType::caries); break;
     case OtherInputs::removeO: for (auto& t : *selectedTeeth) t->removeStatus(StatusType::obturation); break;
-    case OtherInputs::removeBridge: for (auto& t : *selectedTeeth) teeth->removeBridge(t->index); break;
+    case OtherInputs::removeBridge: for (auto& t : *selectedTeeth) teeth->removeBridge(t->index);  teeth->formatBridges(getSelectedIndexes()); break;
+    case OtherInputs::removeAll: for (auto& t : *selectedTeeth) t->removeStatus();  teeth->formatBridges(getSelectedIndexes()); break;
     }
 
     statusChanged();

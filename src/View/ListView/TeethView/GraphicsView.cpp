@@ -8,9 +8,10 @@ GraphicsView::GraphicsView(QWidget *parent)
 	: QGraphicsView(parent), gl{nullptr}
 {
 	setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
-
+	setCacheMode(QGraphicsView::CacheBackground);
 	setDragMode(QGraphicsView::RubberBandDrag);
-
+	setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
+	/*
 	gl = new QOpenGLWidget();
 	QSurfaceFormat format;
 
@@ -18,8 +19,10 @@ GraphicsView::GraphicsView(QWidget *parent)
 
 	gl->setFormat(format);
 
-	setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
+	
 	setViewport(gl);
+	
+	*/
 }
 
 void GraphicsView::mousePressEvent(QMouseEvent* event)

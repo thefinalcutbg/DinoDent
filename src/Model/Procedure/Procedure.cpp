@@ -3,12 +3,13 @@
 
 void Procedure::applyProcedure(ToothContainer& teeth)
 {
-		auto& tooth = teeth[this->tooth];
+
 
 		switch (type)
 		{
 			case::ProcedureType::obturation:
 			{
+				auto& tooth = teeth[this->tooth];
 				auto& result = std::get<ProcedureObtData>(this->result);
 
 				for (int i = 0; i < result.surfaces.size(); i++)
@@ -30,6 +31,7 @@ void Procedure::applyProcedure(ToothContainer& teeth)
 
 			case::ProcedureType::extraction:
 			{
+				auto& tooth = teeth[this->tooth];
 				tooth.setStatus(StatusType::general, StatusCode::Extraction);
 
 				if (tooth.extraction.exists()) //if the tooth was temporary or hyperdontic, the status won't be present
@@ -39,6 +41,7 @@ void Procedure::applyProcedure(ToothContainer& teeth)
 
 			case::ProcedureType::endo:
 			{
+				auto& tooth = teeth[this->tooth];
 				tooth.setStatus(StatusType::general, StatusCode::EndoTreatment);
 				tooth.endo.LPK = LPK;
 			}
@@ -46,6 +49,7 @@ void Procedure::applyProcedure(ToothContainer& teeth)
 
 		case::ProcedureType::crown:
 		{
+			auto& tooth = teeth[this->tooth];
 			auto& result = std::get<CrownData>(this->result);
 
 			tooth.setStatus(StatusType::general, StatusCode::Crown);
@@ -59,6 +63,7 @@ void Procedure::applyProcedure(ToothContainer& teeth)
 
 		case::ProcedureType::implant:
 		{
+			auto& tooth = teeth[this->tooth];
 			auto& result = std::get<ImplantData>(this->result);
 
 			tooth.setStatus(StatusType::general, StatusCode::Implant);

@@ -178,6 +178,7 @@ std::string ToothParser::write(const ToothContainer& teeth)
 					{
 						status["Fracture"] = Json::Value(Json::arrayValue);
 					}
+
 					status["Fracture"].append(writePathology(i, tooth.fracture));
 				}
 
@@ -317,6 +318,16 @@ void ToothParser::parse(const std::string& jsonString, ToothContainer& teeth)
 		tooth.lesion.set(true);
 		tooth.lesion.data.diagnosis_index = lesion[i]["diag_idx"].asInt();
 		tooth.lesion.data.date_diagnosed = lesion[i]["date"].asString();
+	}
+
+	const Json::Value& fracture = status["Fracture"];
+
+	for (int i = 0; i < fracture.size(); i++)
+	{
+		Tooth& tooth = teeth[fracture[i]["idx"].asInt()];
+		tooth.fracture.set(true);
+		tooth.fracture.data.diagnosis_index = fracture[i]["diag_idx"].asInt();
+		tooth.fracture.data.date_diagnosed = fracture[i]["date"].asString();
 	}
 
 	const Json::Value& endo = status["EndoTreatment"];

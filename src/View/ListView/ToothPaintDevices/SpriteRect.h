@@ -17,7 +17,9 @@ struct SpritesheetCoords
     QRect crownCrop;
     QRect rootCrop;
     QRect postCrop;
+    QRect occlusalErase;
     QRect CPcrop;      //coordinates for the control panel
+
 
     QRect implantLesionCrop;
     QRect implantPerioCrop;

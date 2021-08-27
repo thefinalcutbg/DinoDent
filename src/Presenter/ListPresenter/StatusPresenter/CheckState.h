@@ -19,7 +19,7 @@ struct CheckModel
         cariesStatus{ CheckState::unchecked }
     {}
 
-    std::array<CheckState, 18> generalStatus;
-    std::array<CheckState, 6> obturationStatus;
-    std::array<CheckState, 6> cariesStatus;
+    std::array<CheckState, statusCount> generalStatus;
+    std::array<CheckState, surfaceCount> obturationStatus;
+    std::array<CheckState, surfaceCount> cariesStatus;
 };

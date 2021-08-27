@@ -25,6 +25,7 @@ ControlPanel::ControlPanel(QWidget *parent)
 	statusButtons[StatusCode::Crown] = ui.Crown;
 	statusButtons[StatusCode::Bridge] = ui.Bridge;
 	statusButtons[StatusCode::Dsn] = ui.Dsn;
+	statusButtons[StatusCode::Impacted] = ui.Impacted;
 	
 
 	for (int i = 0; i<statusButtons.size(); i++)

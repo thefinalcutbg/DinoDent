@@ -25,7 +25,7 @@ public:
 	Status temporary;
 	Status hyperdontic;
 	Status periodontitis;
-
+	Status impacted;
 	
 	DentistMade endo;
 	DentistMade post;
@@ -41,10 +41,6 @@ public:
 	Pathology root;
 
 	Mobility mobility;
-
-
-private:
-
 
 
 public:

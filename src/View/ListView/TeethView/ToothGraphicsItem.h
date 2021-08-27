@@ -23,8 +23,10 @@ public:
 
     void setProcedure(bool hasProcedure);
     void setToothGraphic(QPixmap* toothGraphic);
-    //not working?
-    void setToothPixmap(const QPixmap& px);
     QRectF boundingRect() const override;
+
+    //not working:
+    void setToothPixmap(const QPixmap& px);
+   
 
 };

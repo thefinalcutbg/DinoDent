@@ -25,7 +25,6 @@ void StatusPresenter::setProcedurePresenter(ProcedurePresenter* p)
 
 void StatusPresenter::statusChanged()
 {
-    qDebug() << "refreshing status";
 
         m_checkModel = CheckModel(*selectedTeeth);
       
@@ -160,7 +159,6 @@ void StatusPresenter::setOther(int code)
 
 void StatusPresenter::setSelectedTeeth(const std::vector<int>& selectedIndexes)
 {
-    qDebug() << "setting selected teeth";
 
     *selectedTeeth = teeth->getSelectedTeethPtr(selectedIndexes);
 

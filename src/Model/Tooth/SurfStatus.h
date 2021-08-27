@@ -5,6 +5,7 @@ template <typename T> class SurfaceStatus;
 
 template<typename T> class SurfaceChild : public T
 {
+	static_assert(std::is_base_of<Status, T>::value, "Template argument must be derived of Status");
 	//enforcing that these two Status functions can be accessed only by the SurfaceStatus:
 	using T::exists; 
 	using T::set;

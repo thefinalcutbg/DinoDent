@@ -38,41 +38,46 @@ ToothPainter::ToothPainter() :
 
 QPixmap* ToothPainter::paintTooth(const ToothPaintHint& tooth)
 {
+    constexpr int pxHeight = 746;
+
     tooth.temp ?
     coords = temp_tooth_type[tooth.idx]
     :
     coords = tooth_type[tooth.idx];
 
-    QPixmap pixmap(coords->toothCrop.width(), 746);
+    QPixmap pixmap(coords->toothCrop.width(), pxHeight);
     pixmap.fill(Qt::transparent);
     QPainter painter(&pixmap);
     auto& container = SpriteSheets::container();
     currentTexture = &container.getTexture(tooth.idx, tooth.temp);
 
-    painter.drawPixmap(0, 123,
+    int yPos = 123;
+
+
+
+    if (tooth.impacted && !tooth.dns) //hyperdontic edge case should be considered!
+        yPos = tooth.idx > 15 ? 200 : 40;
+
+
+    painter.drawPixmap(0, yPos,
         coords->toothCrop.width(),
         coords->toothCrop.height(),
-        std::move(returnPaintedTooth(tooth)));
+        returnPaintedTooth(tooth));
 
-    if (tooth.mobility)
-    {
-        int height = 60; // for upper teeth;
-        if (tooth.idx > 15) height = 746 - 110; //for lower teeth
 
-        painter.drawPixmap(0, height, std::move(mobilityPaint(tooth)));
+    if (tooth.mobility){
+        int height = tooth.idx > 15 ? pxHeight - 110 : 60;
+        painter.drawPixmap(0, height, mobilityPaint(tooth));
     }
 
-    if (tooth.frac)
-    {
-        int height = 650;
-        if (tooth.idx > 15) height = 50;
-        painter.drawPixmap(0, height, std::move(fracturePaint(tooth)));
+    if (tooth.frac){
+        int height = tooth.idx > 15 ? 50 : 650;
+        painter.drawPixmap(0, height, fracturePaint(tooth));
     }
 
-    int height = 0;
-    if (tooth.idx > 15) height = 746 - 50;
+    int height = tooth.idx > 15 ? pxHeight - 50 : 0;
 
-    painter.drawPixmap(0, height, std::move(toothNumber(tooth)));
+    painter.drawPixmap(0, height, toothNumber(tooth));
 
 	return new QPixmap(pixmap);
 }
@@ -90,30 +95,38 @@ QPixmap ToothPainter::getPixmap(const ToothPaintHint& tooth)
     auto& container = SpriteSheets::container();
     currentTexture = &container.getTexture(tooth.idx, tooth.temp);
 
-    painter.drawPixmap(0, 123,
+    int yPos = 123;
+
+    if (tooth.impacted) //hyperdontic edge case should be considered!
+    {
+        if (tooth.idx < 16) yPos = 23;
+        else yPos = 223;
+    }
+
+    painter.drawPixmap(0, yPos,
         coords->toothCrop.width(),
         coords->toothCrop.height(),
-        std::move(returnPaintedTooth(tooth)));
+        returnPaintedTooth(tooth));
 
     if (tooth.mobility)
     {
-        int height = 60; // for upper teeth;
-        if (tooth.idx > 15) height = 746 - 110; //for lower teeth
+        yPos = 60; // for upper teeth;
+        if (tooth.idx > 15) yPos = 746 - 110; //for lower teeth
 
-        painter.drawPixmap(0, height, std::move(mobilityPaint(tooth)));
+        painter.drawPixmap(0, yPos, mobilityPaint(tooth));
     }
 
     if (tooth.frac)
     {
-        int height = 650;
-        if (tooth.idx > 15) height = 50;
-        painter.drawPixmap(0, height, std::move(fracturePaint(tooth)));
+        yPos = 650;
+        if (tooth.idx > 15) yPos = 50;
+        painter.drawPixmap(0, yPos, fracturePaint(tooth));
     }
 
-    int height = 0;
-    if (tooth.idx > 15) height = 746 - 50;
+    yPos = 0;
+    if (tooth.idx > 15) yPos = 746 - 50;
 
-    painter.drawPixmap(0, height, std::move(toothNumber(tooth)));
+    painter.drawPixmap(0, yPos, toothNumber(tooth));
 
     return pixmap;
 }
@@ -178,6 +191,7 @@ QPixmap ToothPainter::returnPaintedTooth(const ToothPaintHint& tooth)
             painter.setOpacity(1);
             currentTexture = &container.getTexture(tooth.idx, tooth.temp);
             break;
+
         case ToothTextureHint::impl_m:
             painter.drawPixmap(coords->implantPaint, *currentTexture->implant);
             painter.setOpacity(0.2);
@@ -245,7 +259,9 @@ QPixmap ToothPainter::returnPaintedTooth(const ToothPaintHint& tooth)
         break;
     }
 
-    return QPixmap(toothPx);
+    if (tooth.impacted) painter.eraseRect(0, 360, toothPx.width(), 140);
+
+    return toothPx;
 }
 
 QPixmap ToothPainter::drawSurfaces(const ToothPaintHint& tooth)

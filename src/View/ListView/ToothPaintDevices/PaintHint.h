@@ -1,7 +1,7 @@
 #pragma once
 #include <array>
 
-enum class ToothTextureHint {none, normal, root, extr, extr_m, impl, impl_m,};
+enum class ToothTextureHint {none, normal, root, extr, extr_m, impl, impl_m};
 enum class SurfaceColor {none, red, blue, green};
 enum class EndoHint {none, red, darkred, blue, green};
 enum class PostHint {none, blue, green};
@@ -36,6 +36,9 @@ struct ToothPaintHint
 	bool dns;
 	bool perio;
 	bool frac;
+	bool impacted;
 	int mobility;
+
+	bool isUpper() { return idx < 16; };
 	 
 };

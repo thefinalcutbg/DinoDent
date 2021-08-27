@@ -44,7 +44,7 @@ void SpritesheetCoords::molar()
 	endoCrop.setCoords(180, 0, 360, 210);       
 	lesionCrop.setCoords(360, 0, 540, 80);
 	crownCrop.setCoords(180, 210, 360, 360);
-
+	occlusalErase.setCoords(0, 360, 180, 140);
 	implantPaint.setCoords(30, 0, 150, 240);
 
 	surfPos[occ] = QPoint(0, 360);
@@ -77,7 +77,7 @@ void SpritesheetCoords::premolar()
 	postCrop.setCoords(480, 250, 600, 430);
 	lesionCrop.setCoords(240, 0, 360, 80);
 	crownCrop.setCoords(120, 210, 240, 360);
-
+	occlusalErase.setCoords(0, 360, 120, 140);
 	implantPaint = implantCrop;
 
 	surfPos[occ] = QPoint(0, 360);
@@ -111,6 +111,7 @@ void SpritesheetCoords::frontal()
 	postCrop.setCoords(480, 250, 600, 430);
 	lesionCrop.setCoords(240, 0, 360, 80);
 	crownCrop.setCoords(600, 210, 720, 360);
+	occlusalErase.setCoords(0, 360, 120, 140);
 
 	implantPaint = implantCrop;
 
@@ -144,6 +145,7 @@ void SpritesheetCoords::tempfrontal()
 	endoCrop.setCoords(120, 0, 240, 225);
 	lesionCrop.setCoords(240, 0, 360, 160);
 	crownCrop.setCoords(600, 365, 720, 500);
+	occlusalErase.setCoords(0, 360, 120, 140);
 
 	implantPaint = implantCrop;
 
@@ -179,6 +181,7 @@ void SpritesheetCoords::tempmolar()
 	postCrop.setCoords(0,0,0, 0);
 	lesionCrop.setCoords(240, 0, 360, 140);
 	crownCrop.setCoords(480, 365, 600, 500);
+	occlusalErase.setCoords(0, 360, 120, 140);
 
 	implantPaint = implantCrop;
 

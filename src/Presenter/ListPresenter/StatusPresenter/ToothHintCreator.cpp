@@ -41,6 +41,7 @@ ToothPaintHint ToothHintCreator::getToothHint(const Tooth& tooth)
     {
         hint.tooth = ToothTextureHint::root;
     }
+
     
     //surface hint
 
@@ -111,11 +112,14 @@ ToothPaintHint ToothHintCreator::getToothHint(const Tooth& tooth)
     hint.frac = tooth.fracture.exists();
     hint.perio = tooth.periodontitis.exists();
     hint.lesion = tooth.lesion.exists();
+    hint.impacted = tooth.impacted.exists();
 
     hint.mobility = 0;
 
     if (tooth.mobility.exists())
         hint.mobility = static_cast<int>(tooth.mobility.degree) + 1;
+
+
 
     return hint;
 }

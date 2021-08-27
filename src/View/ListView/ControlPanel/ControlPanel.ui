@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>291</width>
-    <height>358</height>
+    <height>404</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -356,6 +356,25 @@
    </property>
    <property name="text">
     <string>Свръхброен</string>
+   </property>
+  </widget>
+  <widget class="StatusButton" name="Impacted">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>370</y>
+     <width>101</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Бърз клавиш: M&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string/>
+   </property>
+   <property name="text">
+    <string>Ретениран</string>
    </property>
   </widget>
  </widget>

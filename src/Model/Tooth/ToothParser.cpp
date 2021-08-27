@@ -49,6 +49,18 @@ std::string ToothParser::write(const ToothContainer& teeth)
 					status["Hyperdontic"].append(parameters);
 				}
 
+
+				if (tooth.impacted.exists())
+				{
+					if (!status.isMember("Impacted"))
+					{
+						status["Impacted"] = Json::Value(Json::arrayValue);
+					}
+					Json::Value parameters;
+					parameters["idx"] = i;
+					status["Impacted"].append(parameters);
+				}
+
 				if (tooth.mobility.exists())
 				{
 					if (!status.isMember("Mobility"))
@@ -256,6 +268,14 @@ void ToothParser::parse(const std::string& jsonString, ToothContainer& teeth)
 	{
 		Tooth& tooth = teeth[hyperdontic[i]["idx"].asInt()];
 		tooth.hyperdontic.set(true);
+	}
+
+	const Json::Value& impacted = status["Impacted"];
+
+	for (int i = 0; i < impacted.size(); i++)
+	{
+		Tooth& tooth = teeth[impacted[i]["idx"].asInt()];
+		tooth.impacted.set(true);
 	}
 
 	const Json::Value& mobility = status["Mobility"];

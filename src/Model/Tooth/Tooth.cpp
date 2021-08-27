@@ -49,7 +49,8 @@ std::array<bool, statusCount> Tooth::getBoolStatus() const
 		crown.exists(),
 		bridge.exists(),
 		implant.exists(),
-		hyperdontic.exists()
+		hyperdontic.exists(),
+		impacted.exists()
 	};
 }
 
@@ -112,26 +113,28 @@ void Tooth::addStatus(int statusCode)
 			set(true, temporary);  set(false, extraction, implant, post);  break;
 
 		case StatusCode::Extraction:
-			if (hyperdontic.exists()) { hyperdontic.set(false);  break; }
+			if (hyperdontic.exists() || impacted.exists()) { set(false, hyperdontic, impacted);  break; }
 			if (temporary.exists()) { removeStatus(); temporary.set(false); break; }
 			set(true, extraction); set(false, obturation, caries, implant, pulpitis, endo, fracture, root, lesion, periodontitis, crown, post, mobility); break;
    
 		case StatusCode::Obturation: set(true, obturation); set(false, root, implant, extraction); break;
 		case StatusCode::Caries: set(true, caries); set(false, root, implant, extraction); break;
 		case StatusCode::Pulpitis: set(true, pulpitis); set(false, lesion, extraction, implant, endo, post); break;
-		case StatusCode::EndoTreatment: set(true, endo); set(false, extraction, implant, pulpitis); break;
+		case StatusCode::EndoTreatment: set(true, endo); set(false, extraction, implant, pulpitis, impacted); break;
 		case StatusCode::Post: set(true, post, endo); set(false, temporary, extraction, implant, pulpitis); break;
 		case StatusCode::Root: set(true, root); set(false, caries, obturation, crown, extraction, implant); break;
-		case StatusCode::Implant: set(true, implant); set(false, extraction, obturation, caries, hyperdontic, pulpitis, endo, fracture, root, post, mobility); break;
+		case StatusCode::Implant: set(true, implant); set(false, extraction, obturation, caries, hyperdontic, pulpitis, endo, fracture, root, post, mobility, impacted); break;
 		case StatusCode::ApicalLesion: set(true, lesion); set(false, pulpitis, extraction); break;
 		case StatusCode::Fracture: set(true, fracture); set(false, extraction, implant); break;
 		case StatusCode::Periodontitis: set(true, periodontitis); set(false, extraction); break;
-		case StatusCode::Mobility1: set(true, mobility); set(false, extraction); mobility.degree = Degree::First; break;
-		case StatusCode::Mobility2: set(true, mobility); set(false, extraction); mobility.degree = Degree::Second; break;
-		case StatusCode::Mobility3: set(true, mobility); set(false, extraction); mobility.degree = Degree::Third; break;
-		case StatusCode::Crown: set(true, crown); set(false, bridge, extraction, root); break;
+		case StatusCode::Mobility1: set(true, mobility); set(false, extraction, impacted); mobility.degree = Degree::First; break;
+		case StatusCode::Mobility2: set(true, mobility); set(false, extraction, impacted); mobility.degree = Degree::Second; break;
+		case StatusCode::Mobility3: set(true, mobility); set(false, extraction, impacted); mobility.degree = Degree::Third; break;
+		case StatusCode::Crown: set(true, crown); set(false, bridge, extraction, root, impacted); break;
 		case StatusCode::Bridge: set(true, bridge); set(false, hyperdontic, crown); bridge.LPK.clear(); break;
-		case StatusCode::Dsn: set(true, hyperdontic); break;
+		case StatusCode::Dsn: set(true, hyperdontic); set(false, extraction); break;
+		case StatusCode::Impacted: if (!hyperdontic.exists()) set(false, extraction, implant, crown, post, endo, mobility);
+						 impacted.set(true); break;
 
 		default: break;
 	};
@@ -159,6 +162,7 @@ void Tooth::removeStatus(int statusCode)
 		case StatusCode::Bridge: bridge.set(false); break;
 		case StatusCode::Periodontitis: periodontitis.set(false); break;
 		case StatusCode::Dsn: hyperdontic.set(false); break;
+		case StatusCode::Impacted: impacted.set(false); break;
 		default: break;
 	}
 }

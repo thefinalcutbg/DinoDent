@@ -241,6 +241,7 @@ void TeethViewScene::keyPressEvent(QKeyEvent* event)
       case Qt::Key_K :presenter->setMainStatus(StatusCode::Crown); break;
       case Qt::Key_G :presenter->setMainStatus(StatusCode::ApicalLesion); break;
       case Qt::Key_B :presenter->setMainStatus(StatusCode::Bridge); break;
+      case Qt::Key_M: presenter->setMainStatus(StatusCode::Impacted); break;
       case Qt::Key_A:
           if (event->modifiers() & Qt::ControlModifier)
               for (int i = 0; i < 32; i++) selectionBox[i]->setSelected(1);
@@ -262,7 +263,7 @@ void TeethViewScene::display(const BridgesPaintHint& bridges)
     lowerBridge->setTexture(bridgeL);
 
 }
-#include <QDebug>
+
 void TeethViewScene::setSelectedTeeth(const std::vector<int> &selectedTeeth)
 {
     clearSelection();

@@ -1,7 +1,5 @@
 #include "GraphicsView.h"
 #include <QApplication>
-#include <QDesktopWidget>
-
 #include <QDebug>
 
 GraphicsView::GraphicsView(QWidget *parent)
@@ -11,18 +9,17 @@ GraphicsView::GraphicsView(QWidget *parent)
 	setCacheMode(QGraphicsView::CacheBackground);
 	setDragMode(QGraphicsView::RubberBandDrag);
 	setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
-	/*
+	
 	gl = new QOpenGLWidget();
+	
 	QSurfaceFormat format;
 
 	format.setSamples(4);
 
 	gl->setFormat(format);
-
-	
 	setViewport(gl);
+	gl->setUpdateBehavior(QOpenGLWidget::UpdateBehavior::NoPartialUpdate);
 	
-	*/
 }
 
 void GraphicsView::mousePressEvent(QMouseEvent* event)

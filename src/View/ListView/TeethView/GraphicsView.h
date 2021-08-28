@@ -3,6 +3,7 @@
 #include <QGraphicsView>
 #include <QMouseEvent>
 #include <QOpenGLWidget>
+#
 class GraphicsView : public QGraphicsView
 {
 	Q_OBJECT

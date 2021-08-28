@@ -7,6 +7,7 @@
 #include "SelectionBox.h"
 #include "BridgeItem.h"
 #include "Presenter/ListPresenter/ListPresenter.h"
+#include <QGuiApplication>
 
 TeethViewScene::TeethViewScene(QObject *parent)
     : QGraphicsScene(parent), contextMenu(nullptr), presenter(nullptr)
@@ -126,8 +127,9 @@ void TeethViewScene::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
 
 void TeethViewScene::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
-    if (event->button() != Qt::LeftButton) {
-        event->accept();
+    if (event->button() != Qt::LeftButton || 
+        QGuiApplication::keyboardModifiers().testFlag(Qt::ControlModifier)) {
+        QGraphicsScene::mousePressEvent(event);
         return;
     }
 

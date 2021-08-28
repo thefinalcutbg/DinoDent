@@ -16,7 +16,7 @@ ListView::ListView(QWidget* parent)
 	ui.teethView->setScene(teethViewScene);
 	ui.teethView->setSceneRect(teethViewScene->sceneRect());
 	
-
+	ui.dateEdit->installEventFilter(this);
 	ui.procedureTable->setModel(&model);
 	ui.procedureTable->setAmbListLayout();
 
@@ -84,6 +84,17 @@ void ListView::paintEvent(QPaintEvent* event)
 	painter.fillRect(0, 0, width(), height(), Qt::white);
 
 	painter.end();
+}
+
+bool ListView::eventFilter(QObject* obj, QEvent* event)
+{
+	if (event->type() == QEvent::Wheel && obj == ui.dateEdit)
+	{
+		event->ignore();
+		return true;
+	}
+
+	return false;
 }
 
 

@@ -11,20 +11,10 @@ class GraphicsView : public QGraphicsView
 
 	void mousePressEvent(QMouseEvent* event) override;
 
-    void resizeEvent(QResizeEvent*) override {
-		fitView();
-	}
 
-    void showEvent(QShowEvent*) override {
-		fitView();
-	}
+	void focusInEvent(QFocusEvent* event) override { setStyleSheet("border: 1px solid lightblue"); }
 
-	void fitView() {
-		const QRectF rect = QRectF(-20, -2, 721, 451);
-		fitInView(rect,
-			Qt::KeepAspectRatio);
-		setSceneRect(rect);
-	}
+	void focusOutEvent(QFocusEvent* event) override { setStyleSheet("");}
 
 public:
 	GraphicsView(QWidget *parent);

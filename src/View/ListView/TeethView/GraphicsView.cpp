@@ -29,7 +29,8 @@ void GraphicsView::mousePressEvent(QMouseEvent* event)
 {
 	QGraphicsView::mousePressEvent(event);
 
-	if(event->button() == Qt::LeftButton)
+	if(event->button() == Qt::LeftButton && 
+		!QGuiApplication::keyboardModifiers().testFlag(Qt::ControlModifier))
 		QGraphicsView::mousePressEvent(event);
 }
 

@@ -5,10 +5,11 @@
 GraphicsView::GraphicsView(QWidget *parent)
 	: QGraphicsView(parent), gl{nullptr}
 {
+
 	setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
 	setCacheMode(QGraphicsView::CacheBackground);
 	setDragMode(QGraphicsView::RubberBandDrag);
-	setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
+
 	
 	gl = new QOpenGLWidget();
 	
@@ -19,6 +20,8 @@ GraphicsView::GraphicsView(QWidget *parent)
 	gl->setFormat(format);
 	setViewport(gl);
 	gl->setUpdateBehavior(QOpenGLWidget::UpdateBehavior::NoPartialUpdate);
+
+	setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
 	
 }
 
@@ -33,5 +36,9 @@ void GraphicsView::mousePressEvent(QMouseEvent* event)
 
 
 GraphicsView::~GraphicsView()
+{
+}
+
+void GraphicsView::wheelEvent(QWheelEvent* event)
 {
 }

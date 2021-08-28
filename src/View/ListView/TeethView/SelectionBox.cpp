@@ -5,7 +5,7 @@ SelectionBox::SelectionBox(int index) : hovered(false), index(index)
 	setFlag(QGraphicsItem::ItemIsSelectable);
 	setAcceptHoverEvents(true);
 
-	bounds.setHeight(150);
+	bounds.setHeight(200);
     if (index > 2 && index < 13 || index > 18 && index < 29) {
         bounds.setWidth(36);
     }

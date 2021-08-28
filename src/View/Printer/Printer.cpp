@@ -7,7 +7,7 @@
 
 //used as coordinates for the x-es in the checkboxes
 struct coords { int x; int y; };
-constexpr coords typeCoords[5]{ {0, 0}, { 128, 240 }, { 298, 240 }, {128, 283}, {298, 283} };
+constexpr coords typeCoords[5]{ {0, 0}, { 50, 213 }, { 225, 213 }, {50, 255}, {225, 255} };
 constexpr QChar tempSymbol{ 0x25EF };
 
 //placing lead zeroes according to total lenght
@@ -84,7 +84,12 @@ void Print::ambList(const AmbList& amb, const Patient& patient, const User& user
 
     QApplication::restoreOverrideCursor();
 
-    report.previewReport();
+    //report.designReport();
+   // 
+    report.setPreviewScaleType(LimeReport::ScaleType::FitWidth);
+    report.setPreviewPageBackgroundColor(QColor(Qt::white));
+    report.previewReport(LimeReport::PreviewHint::HidePreviewStatusBar);
+    //report.printReport();
    
 }
 
@@ -103,9 +108,11 @@ void Print::ambList(const User& user)
     ProcedurePrintModel model;
 
     report.dataManager()->addModel("procedures", &model, false);
-
+    report.setShowProgressDialog(true);
     QApplication::restoreOverrideCursor();
 
-    report.previewReport();
+    report.setPreviewScaleType(LimeReport::ScaleType::FitWidth);
+    report.setPreviewPageBackgroundColor(QColor(Qt::white));
+    report.printReport();
 
 }

@@ -19,7 +19,7 @@ TeethViewScene::TeethViewScene(QObject *parent)
         white.fill(Qt::white);
         QGraphicsPixmapItem* background = new QGraphicsPixmapItem(white);
         addItem(background);
-        background->setPos(-24, -3);
+        background->setPos(-24, -4);
     }
 
 
@@ -28,12 +28,18 @@ TeethViewScene::TeethViewScene(QObject *parent)
     int posY = 0;
     int posX = 0;
 
+    int selectionBox_posY = posY;
+
     for(int i = 0; i<32; i++)
     {
         if (i > 2 && i < 13 || i > 18 && i < 29) molar = false;
         else molar = true;
 
-        if (i == 16) posY += 223;
+        if (i == 16)
+        {
+            posY += 225;
+            selectionBox_posY += 249;
+        }
 
         toothGraphic[i] = new ToothGraphicsItem(i);
         toothGraphic[i]->setZValue(0);
@@ -42,7 +48,7 @@ TeethViewScene::TeethViewScene(QObject *parent)
 
         selectionBox[i] = new SelectionBox(i);
         selectionBox[i]->setZValue(2);
-        selectionBox[i]->setPos(posX, posY + 37);
+        selectionBox[i]->setPos(posX, selectionBox_posY);
         addItem(selectionBox[i]);
 
         if (i < 15)

@@ -17,6 +17,8 @@ class GraphicsView : public QGraphicsView
 
 	void focusOutEvent(QFocusEvent* event) override { setStyleSheet("");}
 
+	void wheelEvent(QWheelEvent* event) override;
+
 public:
 	GraphicsView(QWidget *parent);
 

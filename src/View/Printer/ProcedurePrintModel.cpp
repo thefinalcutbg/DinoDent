@@ -11,11 +11,16 @@ ProcedurePrintModel::ProcedurePrintModel(const std::vector<Procedure>& procedure
     {
         auto& p = procedures[i];
 
+        std::string toothNumber;
+
+        if (p.tooth != -1)
+            toothNumber = ToothUtils::getNomenclature(p.tooth, tempTeeth[p.tooth]);
+
         m_procedures.emplace_back(PrintProcedure
         {
             QString::fromStdString(Date::toString(p.date)),
             QString::fromStdString(p.diagnosis),
-            QString::fromStdString(ToothUtils::getNomenclature(p.tooth, tempTeeth[p.tooth])),
+            QString::fromStdString(toothNumber),
             QString::fromStdString(p.name),
             QString::number(p.code)
         });

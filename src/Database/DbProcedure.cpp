@@ -3,14 +3,25 @@
 #include "Model/Procedure/MasterNZOK.h"
 #include <QDebug>
 
-std::vector<Procedure> DbProcedure::getProcedures(const std::string& amblist_id, const Date& amb_date)
+std::vector<Procedure> DbProcedure::getProcedures(const std::string& amblist_id)
 {
 	std::vector<Procedure> mList;
 
 	openConnection();
 
-	std::string query = "SELECT nzok, type, code, tooth, day, price, data, temp FROM "
-		"procedure WHERE amblist_id = " + amblist_id + " ORDER BY seq";
+	std::string query = "SELECT	procedure.nzok, "	//0
+							    "procedure.type, "	//1
+								"procedure.code, "	//2
+								"procedure.tooth, "	//3
+								"procedure.day, "	//4
+								"amblist.month, "	//5
+								"amblist.year,	"	//6
+								"procedure.price, "	//7
+								"procedure.data, "	//8
+								"procedure.temp, "	//9
+								"amblist.LPK "		//10
+						"FROM procedure LEFT JOIN amblist ON procedure.amblist_id = amblist.id "
+						"WHERE amblist.id = " + amblist_id + " ORDER BY seq";
 
 	sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
 
@@ -19,16 +30,17 @@ std::vector<Procedure> DbProcedure::getProcedures(const std::string& amblist_id,
 		mList.emplace_back();
 		Procedure& p = mList.back();
 		
-		p.date = amb_date;
 		p.nzok = sqlite3_column_int(stmt, 0);
-		p.code = sqlite3_column_int(stmt, 2);
 		p.type = static_cast<ProcedureType>(sqlite3_column_int(stmt, 1));
-		p.price = sqlite3_column_double(stmt, 5);
+		p.code = sqlite3_column_int(stmt, 2);
 		p.tooth = sqlite3_column_int(stmt, 3);
 		p.date.day = sqlite3_column_int(stmt, 4);
-
-		procedure_parser.parse(std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 6))), p);
-		p.temp = sqlite3_column_int(stmt, 7);
+		p.date.month = sqlite3_column_int(stmt, 5);
+		p.date.year = sqlite3_column_int(stmt, 6);
+		p.price = sqlite3_column_double(stmt, 7);
+		procedure_parser.parse(std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 8))), p);
+		p.temp = sqlite3_column_int(stmt, 9);
+		p.LPK = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 10));
 	}
 
 	sqlite3_finalize(stmt);

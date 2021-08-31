@@ -13,7 +13,7 @@ class DbProcedure : public AbstractORM
   
     ProcedureParser procedure_parser;
 public:
-    std::vector<Procedure> getProcedures(const std::string& amblist_id, const Date& amb_date);
+    std::vector<Procedure> getProcedures(const std::string& amblist_id);
     void saveProcedures(const std::string& amblist_id, const std::vector<Procedure>& mList);
 
     std::vector<ProcedureSummary> getSummary(const std::string& patientID, const std::string& excludeAmbIde);

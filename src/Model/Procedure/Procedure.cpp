@@ -1,6 +1,6 @@
 #include "Procedure.h"
 #include "Model/Tooth/ToothContainer.h"
-
+#include <QDebug>
 void Procedure::applyProcedure(ToothContainer& teeth)
 {
 
@@ -104,6 +104,7 @@ void Procedure::applyProcedure(ToothContainer& teeth)
 				tooth.bridge.data.material = result.crown.material;
 				tooth.bridge.data.prep_type = result.crown.prep_type;
 				tooth.bridge.LPK = LPK;
+	
 			}
 
 			teeth.formatBridges(indexes);

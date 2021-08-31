@@ -60,7 +60,7 @@ std::vector<Procedure> DbAmbList::previousProcedures(std::string patientID)
 
     if (amb_id.empty()) return std::vector<Procedure>{};
 
-    return db_procedures.getProcedures(amb_id, date);
+    return db_procedures.getProcedures(amb_id);
 }
 
 
@@ -231,7 +231,7 @@ AmbList DbAmbList::getListData(const std::string& patientID, int month, int year
     else
     {
         m_toothParser.parse(status_json, ambList.teeth);
-        ambList.procedures = db_procedures.getProcedures(ambList.id, ambList.date);
+        ambList.procedures = db_procedures.getProcedures(ambList.id);
     }
 
     return ambList;
@@ -268,7 +268,7 @@ AmbList DbAmbList::getListData(const std::string& ambID)
     closeConnection();
 
     m_toothParser.parse(status_json, ambList.teeth);
-    ambList.procedures = db_procedures.getProcedures(ambList.id, ambList.date);
+    ambList.procedures = db_procedures.getProcedures(ambList.id);
 
     return ambList;
 }

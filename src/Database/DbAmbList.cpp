@@ -1,5 +1,5 @@
 #include "DbAmbList.h"
-#include "Model/User/CurrentUser.h"
+#include "Model/User/UserManager.h"
 #include "Model/Patient.h"
 #include "Model/AmbList.h"
 #include "Model/Date.h"
@@ -106,7 +106,7 @@ void DbAmbList::updateAmbList(AmbList& ambList)
         ", num = " + std::to_string(ambList.number) +
         ", unfavourable = " + std::to_string(ambList.full_coverage) +
         ", charge = " + std::to_string(static_cast<int>(ambList.charge)) +
-        ", lpk = '" + CurrentUser::instance().LPK + "' " +
+        ", lpk = '" + UserManager::currentUser().LPK + "' " +
         ", status_json = '" + m_toothParser.write(ambList.teeth) + "' "
         "WHERE id = " + ambList.id;
 
@@ -132,9 +132,9 @@ std::vector<AmbListRow> DbAmbList::getAmbListRows(const Date& from, const Date& 
         "WHERE (amblist.year, amblist.month, amblist.day) "
         "BETWEEN (" + std::to_string(from.year) + ", " + std::to_string(from.month) + ", " + std::to_string(from.day) + ") "
         "AND (" + std::to_string(to.year) + ", " + std::to_string(to.month) + ", " + std::to_string(to.day) + ") "
-        "AND amblist.lpk = '" + CurrentUser::instance().LPK + "' "
+        "AND amblist.lpk = '" + UserManager::currentUser().LPK + "' "
         "ORDER BY amblist.year ASC, amblist.month ASC, amblist.day ASC ";
-
+    qDebug() << QString::fromStdString(query);
     sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
 
     while (sqlite3_step(stmt) != SQLITE_DONE)
@@ -209,7 +209,7 @@ AmbList DbAmbList::getListData(const std::string& patientID, int month, int year
         ambList.date.year = sqlite3_column_int(stmt, 5);
         status_json = std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 6)));
         ambList.charge = static_cast<Charge>(sqlite3_column_int(stmt, 7));
-        ambList.LPK = CurrentUser::instance().LPK;
+        ambList.LPK = UserManager::currentUser().LPK;
     }
     
     sqlite3_finalize(stmt);
@@ -226,7 +226,7 @@ AmbList DbAmbList::getListData(const std::string& patientID, int month, int year
             p.applyProcedure(ambList.teeth);
         }
 
-        ambList.LPK = CurrentUser::instance().LPK;
+        ambList.LPK = UserManager::currentUser().LPK;
     }
     else
     {
@@ -260,7 +260,7 @@ AmbList DbAmbList::getListData(const std::string& ambID)
         ambList.date.year = sqlite3_column_int(stmt, 5);
         status_json = std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 6)));
         ambList.charge = static_cast<Charge>(sqlite3_column_int(stmt, 7));
-        ambList.LPK = CurrentUser::instance().LPK;
+        ambList.LPK = UserManager::currentUser().LPK;
     }
 
     sqlite3_finalize(stmt);
@@ -317,7 +317,7 @@ std::map<int, bool> DbAmbList::getExistingNumbers(int currentYear)
 
     std::map<int, bool> numbersMap;
 
-    std::string query = "SELECT num FROM amblist WHERE lpk = '" + CurrentUser::instance().LPK + "' "
+    std::string query = "SELECT num FROM amblist WHERE lpk = '" + UserManager::currentUser().LPK + "' "
         "AND year = " + std::to_string(currentYear);
 
     sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);

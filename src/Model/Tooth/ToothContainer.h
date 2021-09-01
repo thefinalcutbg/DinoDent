@@ -18,6 +18,7 @@ public:
 
 	void formatBridges(const std::vector<int>& selectedIndexes);
 	void removeBridge(int tooth_idx);
+	void setBridgeProperties(const Bridge& property, int tooth_idx);
 
 	auto begin() { return teeth->begin(); }
 	auto end() { return teeth->end(); }

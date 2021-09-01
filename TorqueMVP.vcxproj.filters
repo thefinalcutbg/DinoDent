@@ -249,9 +249,6 @@
     <ClCompile Include="src\Model\Patient.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Model\User\User.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Presenter\ListPresenter\StatusPresenter\StatusPresenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -385,6 +382,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Database\DbNotes.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Model\User\UserManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -899,9 +899,6 @@
     <ClInclude Include="src\View\Printer\Printer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model\User\CurrentUser.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\View\Printer\ProcedurePrintModel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -942,6 +939,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Database\DbNotes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\User\UserManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -8,7 +8,7 @@
 #include "Model/Tooth/ToothUtils.h"
 #include "Model/Procedure/MasterNZOK.h"
 #include "Model/Procedure/CustomProcedures.h"
-#include "Model/User/CurrentUser.h"
+#include "Model/User/UserManager.h"
 #include "Model/Procedure/Procedure.h"
 
 #include "View/ListView/IProcedureView.h"
@@ -72,7 +72,7 @@ void ProcedurePresenter::refreshProcedureView()
 
         if (m.nzok)
         {
-            auto[p, nzok] = MasterNZOK::instance().getPrices(m.code, _ambList->date, CurrentUser::instance().specialty, _patient->isAdult(m.date), _ambList->full_coverage);
+            auto[p, nzok] = MasterNZOK::instance().getPrices(m.code, _ambList->date, UserManager::currentUser().specialty, _patient->isAdult(m.date), _ambList->full_coverage);
             nzokPrice =nzokPrice+nzok;
         }
             
@@ -113,7 +113,7 @@ void ProcedurePresenter::addProcedure()
         _ambList->date,
         _patient->turns18At(),
         _ambList->full_coverage,
-        CurrentUser::instance().specialty
+        UserManager::currentUser().specialty
     };
 
     auto openList = p.openDialog();
@@ -127,7 +127,7 @@ void ProcedurePresenter::addProcedure()
                 getPatientPrice
                 (
                     m.code, _ambList->date, 
-                    CurrentUser::instance().specialty, 
+                    UserManager::currentUser().specialty,
                     _patient->isAdult(m.date), 
                     _ambList->full_coverage
                 );
@@ -162,7 +162,7 @@ void ProcedurePresenter::editProcedure()
             (
                 m.code,
                 _ambList->date,
-                CurrentUser::instance().specialty,
+                UserManager::currentUser().specialty,
                 _patient->isAdult(m.date),
                 _ambList->full_coverage
             );
@@ -221,7 +221,7 @@ void ProcedurePresenter::setUnfavourable(bool unfav)
                 (
                     m.code,
                     _ambList->date,
-                    CurrentUser::instance().specialty,
+                    UserManager::currentUser().specialty,
                     _patient->isAdult(m.date),
                     unfav
                 );

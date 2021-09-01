@@ -1,4 +1,5 @@
 #pragma once
+#include "Model/User/UserManager.h"
 #include "View/DetailsView/IDetailedStatusView.h"
 #include "Model/Tooth/Status.h"
 #include <QDebug>
@@ -38,17 +39,37 @@ public:
 
 class DentistMadeControl : public DetailedStatusController
 {
-	DentistMade& status;
+	std::string& LPK;
+	UserManager& m_manager;
+	bool permissionToWrite{ false };
+
 public:
 	DentistMadeControl(IDetailedStatusView& view, DentistMade& status) :
 	DetailedStatusController(view),
-	status(status)
+	LPK(status.LPK),
+	m_manager(UserManager::instance())
 	{
-		view.setData(status.getDentistData());
+		auto user = m_manager.getUser(LPK);
+
+		DentistData data;
+		data.dentistName = LPK.empty() ? m_manager.currentUser().getName() : m_manager.getUserTitle(LPK);
+		data.isChecked = (!LPK.empty());
+		data.isEnabled = (LPK.empty() || m_manager.isCurrentUser(LPK));
+
+		permissionToWrite = data.isEnabled;
+
+		view.setData(data);
 	}
 
 	void applyChange() override {
-		status.setUser(view.getDentistData());
+
+		if (!permissionToWrite) return; 
+
+		auto isChecked = view.getDentistData();
+
+		if (isChecked)
+			LPK = m_manager.currentUser().LPK;
+		else LPK.clear();
 	}
 
 };
@@ -57,19 +78,21 @@ class ObturationControl : public DetailedStatusController
 {
 	Obturation& status;
 
+	DentistMadeControl m_dentistCtrl;
+
 public:
 	ObturationControl(IDetailedStatusView& view, Obturation& status) :
 		DetailedStatusController(view),
-		status(status)
+		status(status),
+		m_dentistCtrl(view, status)
 
 	{
 		view.setData(status.data);
-		view.setData(status.getDentistData());
 	}
 
 	void applyChange() override { 
 	status.data = view.getObturationData();
-	status.setUser(view.getDentistData());
+	m_dentistCtrl.applyChange();
 	}
 };
 
@@ -77,38 +100,41 @@ public:
 class CrownControl : public DetailedStatusController
 {
 	Crown& status;
+
+	DentistMadeControl m_dentistCtrl;
 public:
 	CrownControl(IDetailedStatusView& view, Crown& status) :
 		DetailedStatusController(view),
-		status(status)
+		status(status),
+		m_dentistCtrl(view, status)
 
 	{
 		view.setData(status.data);
-		view.setData(status.getDentistData());
 	}
 
 	void applyChange() override { 
 	status.data = view.getCrownData();
-	status.setUser(view.getDentistData());
+	m_dentistCtrl.applyChange();
 	}
 };
 
 class ImplantControl : public DetailedStatusController
 {
 	Implant& status;
+	DentistMadeControl m_dentistCtrl;
 
 public:
 	ImplantControl(IDetailedStatusView& view, Implant& status) :
 		DetailedStatusController(view),
-		status(status)
+		status(status),
+		m_dentistCtrl(view, status)
 	{
 		view.setData(status.data);
-		view.setData(status.getDentistData());
 	}
 
 	void applyChange() override {
 		status.data = view.getImplantData();
-		status.setUser(view.getDentistData());
+		m_dentistCtrl.applyChange();
 	}
 
 };

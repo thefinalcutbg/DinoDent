@@ -331,13 +331,13 @@
     <ClCompile Include="src\View\ListView\ToothPaintDevices\ToothPainter.cpp" />
     <ClCompile Include="src\Presenter\ListPresenter\StatusPresenter\ToothHintCreator.cpp" />
     <ClCompile Include="src\View\uiComponents\qt_derived\Widgets\VitaWidget.cpp" />
-    <ClCompile Include="src\Model\User\User.cpp" />
     <ClCompile Include="src\Presenter\ListPresenter\StatusPresenter\StatusPresenter.cpp" />
     <ClCompile Include="src\View\ListView\ToothPaintDevices\ToothSprite.cpp" />
     <ClCompile Include="src\Presenter\TabPresenter\TabPresenter.cpp" />
     <ClCompile Include="src\View\AmbListPage\TabView\TabView.cpp" />
     <ClCompile Include="src\Model\Tooth\ToothContainer.cpp" />
     <ClCompile Include="src\Presenter\DetailsPresenter\StatusController.cpp" />
+    <ClCompile Include="src\Model\User\UserManager.cpp" />
     <QtRcc Include="src\View\Torque.qrc" />
     <QtUic Include="src\View\uiComponents\qt_derived\Widgets\DentistMadeWidget.ui" />
     <QtUic Include="src\View\uiComponents\qt_derived\Widgets\ObturationWidget.ui" />
@@ -405,6 +405,7 @@
     <ClInclude Include="src\Model\Procedure\TableStructs.h" />
     <ClInclude Include="src\Presenter\DetailsPresenter\DetailedStatusPresenter.h" />
     <ClInclude Include="src\Presenter\DetailsPresenter\StatusController.h" />
+    <ClInclude Include="src\Model\User\UserManager.h" />
     <QtMoc Include="src\View\DetailsView\DetailedStatus.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\Widgets\PathologyWidget.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\Widgets\CrownWidget.h" />
@@ -421,7 +422,6 @@
     <QtMoc Include="src\View\AmbListSelector\AmbListSelector.h" />
     <QtMoc Include="src\View\AmbListSelector\ListsTableModel.h" />
     <QtMoc Include="src\View\AmbListSelector\ListTable.h" />
-    <ClInclude Include="src\Model\User\CurrentUser.h" />
     <ClInclude Include="src\TestToothDialog.h" />
     <ClInclude Include="src\View\DetailsView\IDetailedStatusView.h" />
     <ClInclude Include="src\View\Printer\Printer.h" />

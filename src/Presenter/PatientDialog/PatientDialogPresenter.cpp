@@ -1,6 +1,6 @@
 ﻿#include "PatientDialogPresenter.h"
 #include "View/ModalDialogBuilder.h"
-#include "Model/User/CurrentUser.h"
+#include "Model/User/UserManager.h"
 
 PatientDialogPresenter::PatientDialogPresenter() :
 	view(nullptr),
@@ -105,7 +105,7 @@ void PatientDialogPresenter::searchDbForPatient(int type)
 		new_patient = true;
 		patient.id = lineEditID;
 		patient.type = type;
-		patient.city = CurrentUser::instance().practice_address;
+		patient.city = UserManager::currentUser().practice_address;
 
 		if (patient.type == 1)
 		{

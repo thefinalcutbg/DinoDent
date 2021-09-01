@@ -183,13 +183,12 @@ void StatusPresenter::openDetails(int toothIndex)
 {
     DetailedStatusPresenter d(teeth->at(toothIndex), *patientID);
 
-    auto tooth = d.open();
+    auto result = d.open();
 
-    if (!tooth.has_value()) return;
+    if (!result.has_value()) return;
 
-    teeth->at(toothIndex) = tooth.value();
-
-    teeth->formatBridges(std::vector<int>{toothIndex});
+    teeth->at(toothIndex) = result.value();
+    teeth->setBridgeProperties(result.value().bridge, toothIndex);
 
     statusChanged();
 

@@ -168,3 +168,35 @@ void ToothContainer::removeBridge(int tooth_idx)
 			break;
 	}
 }
+
+void ToothContainer::setBridgeProperties(const Bridge& bridgeStat, int tooth_idx)
+{
+	if (!teeth->at(tooth_idx).bridge.exists())
+	{
+		removeBridge(tooth_idx);
+		formatBridges(std::vector<int>{tooth_idx});
+	}
+
+	for (int i = tooth_idx; i < 32; i++)
+	{
+		auto& bridge = teeth->at(i).bridge;
+
+		bridge.data = bridgeStat.data;
+		bridge.LPK = bridgeStat.LPK;
+
+		if (bridge.position == BridgePos::End)
+			break;
+	}
+
+	for (int i = tooth_idx; i >= 0; --i)
+	{
+		auto& bridge = teeth->at(i).bridge;
+
+		bridge.data = bridgeStat.data;
+		bridge.LPK = bridgeStat.LPK;
+
+		if (bridge.position == BridgePos::Begin)
+			break;
+	}
+}
+

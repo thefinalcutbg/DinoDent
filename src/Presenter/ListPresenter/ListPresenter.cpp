@@ -1,6 +1,6 @@
 #include "ListPresenter.h"
 #include "Model/Procedure/MasterNZOK.h"
-#include "Model/User/CurrentUser.h"
+#include "Model/User/UserManager.h"
 #include "../TabPresenter/ListInstance.h"
 
 #include "Presenter/PatientDialog/PatientDialogPresenter.h"

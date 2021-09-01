@@ -27,7 +27,7 @@ DetailedStatus::DetailedStatus(DetailedStatusPresenter* presenter) : presenter(p
 
 	layout = new QVBoxLayout(ui.container);
 	layout->setContentsMargins(9, 9, 9, 0);
-
+	layout->addSpacerItem(new QSpacerItem(0, 0, QSizePolicy::Fixed, QSizePolicy::Expanding));
 	obtWidget = new ObturationWidget();
 	crownWidget = new CrownWidget();
 	implantWidget = new ImplantView();
@@ -196,7 +196,7 @@ void DetailedStatus::disableDetails(bool disabled)
 template<typename L, typename W, typename D>
 inline void setAndShow(L& layout, W& widget, const D& data) {
 	widget->setData(data); 
-	layout->addWidget(widget);
+	layout->insertWidget(0, widget);
 }
 
 void DetailedStatus::setData(const ImplantData& data){setAndShow(layout, implantWidget, data);}

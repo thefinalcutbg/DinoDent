@@ -5,8 +5,8 @@
 struct DentistData
 {
     std::string dentistName;
-    bool isCurrentUser;
-    bool checked;
+    bool isEnabled;
+    bool isChecked;
 };
 
 class PathologyData

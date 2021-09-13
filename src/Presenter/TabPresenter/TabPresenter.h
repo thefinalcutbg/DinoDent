@@ -1,6 +1,6 @@
 #pragma once
-#include <vector>
-#include "ListInstance.h"
+
+#include <unordered_map>
 #include "View/AmbListPage/TabView/ITabView.h"
 #include "Database/DbAmbList.h"
 #include "Database/DbPatient.h"
@@ -11,19 +11,21 @@ class AmbList;
 class Patient;
 class AmbListRow;
 
-class TabPresenter : public EditObserver
+class TabPresenter
 {
-	std::vector<ListInstance> _lists;
 
-	int index_;
+	std::unordered_map<int, TabInstance*> m_tabs;
+
+	int _indexCounter;
+	int m_currentIndex;
 
 	DbAmbList amb_db;
 	DbPatient patient_db;
 
 	ITabView* view;
-	ListPresenter listPresenter_;
-	bool listExists(const Patient& patient);
-	bool listsExist(const std::string& ambList_id);
+
+	bool newListExists(const Patient& patient);
+	bool listsExists(const std::string& ambList_id);
 
 	std::shared_ptr<Patient> getPatient_ptr(const Patient& patient);
 
@@ -31,11 +33,10 @@ public:
 	
 	TabPresenter();
 
-	void editNotify() override;
 	void setView(ITabView* view);
 
-	ListInstance* currentList();
-	void setCurrentList(int index);
+	TabInstance* currentTab();
+	void setCurrentTab(int index);
 	void openList(const Patient& patient);
 	void openList(const AmbListRow& ambList);
 	void removeList(const std::string& ambID);

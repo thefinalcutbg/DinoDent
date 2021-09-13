@@ -1,6 +1,6 @@
 #pragma once
 #include <QPushButton>
-#include "Presenter/ListPresenter/StatusPresenter/CheckState.h"
+#include "Presenter/ListPresenter/CheckState.h"
 
 class StatusButton : public QPushButton
 {

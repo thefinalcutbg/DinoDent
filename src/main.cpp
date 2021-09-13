@@ -4,9 +4,10 @@
 #include "Model/Procedure/MasterNZOK.h"
 #include "Model/Procedure/CustomProcedures.h"
 #include "Model/Tooth/DiagnosisContainer.h"
+#include "Model/User/UserManager.h"
 #include "Database/Database.h"
 #include <QTextCodec>
-#include "TestToothDialog.h"
+
 
 int main(int argc, char *argv[])
 {
@@ -25,7 +26,7 @@ int main(int argc, char *argv[])
     //Intializing singletons
     SpriteSheets::container().loadTextures(); //loading textures, otherwise program will crash;
     DiagnosisContainer::initialize();
-
+    UserManager::initialize();
   // TestToothDialog(); /*
     
     MasterNZOK::instance().loadUpdates(); //parsing json of nzok data

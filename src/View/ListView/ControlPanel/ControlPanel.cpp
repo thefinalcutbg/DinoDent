@@ -1,6 +1,6 @@
 #include "ControlPanel.h"
 
-#include "Presenter/ListPresenter/StatusPresenter/StatusPresenter.h"
+#include "Presenter/ListPresenter/ListPresenter.h"
 
 ControlPanel::ControlPanel(QWidget *parent)
 	: QWidget(parent), presenter(nullptr)
@@ -44,7 +44,7 @@ ControlPanel::~ControlPanel()
 {
 }
 
-void ControlPanel::setPresenter(StatusPresenter* presenter)
+void ControlPanel::setPresenter(ListPresenter* presenter)
 {
 	this->presenter = presenter;
 }

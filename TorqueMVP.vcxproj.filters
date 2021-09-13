@@ -60,25 +60,22 @@
     <ClCompile Include="src\View\ListView\tilebutton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Presenter\TabPresenter\ListInstance.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Presenter\AllergiesDialog\AllergiesDialogPresenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\AllergiesDialog\AllergiesDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\AmbListPage\saveAsDialog\SaveAsDialog.cpp">
+    <ClCompile Include="src\View\saveAsDialog\SaveAsDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Database\DbAmbList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\AmbListPage\saveDialog\SaveDialog.cpp">
+    <ClCompile Include="src\View\saveDialog\SaveDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\AmbListPage\saveAsDialog\MnogoTypSpinBox.cpp">
+    <ClCompile Include="src\View\saveAsDialog\MnogoTypSpinBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Model\CityCode.cpp">
@@ -120,10 +117,10 @@
     <ClCompile Include="src\View\ListView\SurfacePanel\ControlPanelPolygon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Presenter\ListPresenter\StatusPresenter\SurfacePanel\SurfacePanelPresenter.cpp">
+    <ClCompile Include="src\Presenter\ListPresenter\SurfacePanel\SurfacePanelPresenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Presenter\ListPresenter\StatusPresenter\SurfacePanel\ButtonSurfaceMatrix.cpp">
+    <ClCompile Include="src\Presenter\ListPresenter\SurfacePanel\ButtonSurfaceMatrix.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Presenter\ListPresenter\ListPresenter.cpp">
@@ -207,7 +204,7 @@
     <ClCompile Include="src\View\ListView\ToothPaintDevices\ToothPainter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Presenter\ListPresenter\StatusPresenter\ToothHintCreator.cpp">
+    <ClCompile Include="src\Presenter\ListPresenter\ToothHintCreator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\uiComponents\qt_derived\Widgets\VitaWidget.cpp">
@@ -249,16 +246,7 @@
     <ClCompile Include="src\Model\Patient.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Presenter\ListPresenter\StatusPresenter\StatusPresenter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Presenter\ListPresenter\Editor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Model\Procedure\CustomProcedures.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Presenter\ListPresenter\ProcedurePresenter\ProcedurePresenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\ListView\ToothPaintDevices\ToothSprite.cpp">
@@ -336,7 +324,7 @@
     <ClCompile Include="src\Model\Tooth\ToothContainer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Presenter\ListPresenter\StatusPresenter\CheckState.cpp">
+    <ClCompile Include="src\Presenter\ListPresenter\CheckState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Model\Procedure\Procedure.cpp">
@@ -407,13 +395,13 @@
     <QtMoc Include="src\View\AllergiesDialog\AllergiesDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\AmbListPage\saveAsDialog\SaveAsDialog.h">
+    <QtMoc Include="src\View\saveAsDialog\SaveAsDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\AmbListPage\saveDialog\SaveDialog.h">
+    <QtMoc Include="src\View\saveDialog\SaveDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\AmbListPage\saveAsDialog\MnogoTypSpinBox.h">
+    <QtMoc Include="src\View\saveAsDialog\MnogoTypSpinBox.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\ListView\ControlPanel\ControlPanel.h">
@@ -540,7 +528,7 @@
     <QtUic Include="src\View\AllergiesDialog\AllergiesDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="src\View\AmbListPage\saveAsDialog\SaveAsDialog.ui">
+    <QtUic Include="src\View\saveAsDialog\SaveAsDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\ListView\ControlPanel\ControlPanel.ui">
@@ -632,9 +620,6 @@
     <ClInclude Include="src\View\ListView\tilebutton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Presenter\TabPresenter\ListInstance.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Presenter\AllergiesDialog\AllergiesDialogPresenter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -650,7 +635,7 @@
     <ClInclude Include="src\Model\Validator\AbstractValidator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Presenter\ListPresenter\StatusPresenter\CheckState.h">
+    <ClInclude Include="src\Presenter\ListPresenter\CheckState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\ListView\ToothPaintDevices\SpriteRect.h">
@@ -674,19 +659,19 @@
     <ClInclude Include="src\View\ListView\SurfacePanel\CPTooth.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Presenter\ListPresenter\StatusPresenter\SurfacePanel\SurfacePanelPresenter.h">
+    <ClInclude Include="src\Presenter\ListPresenter\SurfacePanel\SurfacePanelPresenter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\ListView\SurfacePanel\ISurfacePanel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Presenter\ListPresenter\StatusPresenter\SurfacePanel\ButtonSurfaceMatrix.h">
+    <ClInclude Include="src\Presenter\ListPresenter\SurfacePanel\ButtonSurfaceMatrix.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Presenter\ListPresenter\ListPresenter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Presenter\ListPresenter\StatusPresenter\InputEnums.h">
+    <ClInclude Include="src\Presenter\ListPresenter\InputEnums.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\ListView\TeethView\BridgeItem.h">
@@ -773,7 +758,7 @@
     <ClInclude Include="src\View\ListView\ToothPaintDevices\ToothPainter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Presenter\ListPresenter\StatusPresenter\ToothHintCreator.h">
+    <ClInclude Include="src\Presenter\ListPresenter\ToothHintCreator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\ProcedureDialog\CommonFields\ICommonFields.h">
@@ -815,19 +800,10 @@
     <ClInclude Include="src\Model\User\User.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Presenter\ListPresenter\StatusPresenter\StatusPresenter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\View\ListView\IStatusView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Presenter\ListPresenter\Editor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Model\Procedure\CustomProcedures.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Presenter\ListPresenter\ProcedurePresenter\ProcedurePresenter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\ListView\IProcedureView.h">
@@ -905,9 +881,6 @@
     <ClInclude Include="src\Model\Tooth\ToothContainer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\TestToothDialog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\View\DetailsView\IDetailedStatusView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -942,6 +915,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\User\UserManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Presenter\TabPresenter\TabInstance.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

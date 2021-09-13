@@ -1,16 +1,34 @@
 #pragma once
 
-#include "Model/AmbList.h"
-#include "Model/Patient.h"
+#include <vector>
+#include "Model/Procedure/Procedure.h"
 
-#include "IProcedureView.h"
-#include "IStatusView.h"
-
+class CheckModel;
+class AmbList;
+class Patient;
+class ToothPaintHint;
+class BridgesPaintHint;
+class ISurfacePanel;
 class ListPresenter;
+class AbstractComboBox;
 
-class IListView : public IStatusView, public IProcedureView
+class IListView
 {
 public:
 	virtual void refresh(AmbList& ambList, Patient &patient) = 0;
 	virtual void setPresenter(ListPresenter* presenter) = 0;
+
+	virtual void setCheckModel(const CheckModel& checkModel) = 0;
+	virtual void setSelectedTeeth(std::vector<int> selectedTeeth) = 0;
+
+	virtual void hideSurfacePanel(bool hidden) = 0;
+	virtual void hideControlPanel(bool hidden) = 0;
+	virtual ISurfacePanel* surfacePanel() = 0;
+
+	virtual void repaintTooth(const ToothPaintHint& tooth) = 0;
+	virtual void repaintBridges(const BridgesPaintHint& bridges) = 0;
+
+	virtual void setProcedures(const std::vector<Procedure>& m, double patientPrice, double nzokPrice) = 0;
+	virtual void setUnfav(bool unfav) = 0;
+	virtual AbstractComboBox* taxCombo() = 0;
 };

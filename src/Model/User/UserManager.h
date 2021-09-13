@@ -14,6 +14,7 @@ class UserManager
 	UserManager();
 
 public:
+	static void initialize();
 	static inline UserManager& instance() { return m_instance; }
 	static inline const User& currentUser() { return m_currentUser; }
 	const std::optional<User> getUser(const std::string& LPK) const;

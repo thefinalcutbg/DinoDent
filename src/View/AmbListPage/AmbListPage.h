@@ -12,8 +12,7 @@
 #include "View/PatientDialog/PatientFormDialog.h"
 #include "IAmbListPage.h"
 #include "View/ListView/ListView.h"
-#include "View/AmbListPage/saveAsDialog/SaveAsDialog.h"
-#include "saveDialog/SaveDialog.h"
+
 
 class AmbListPage : public QWidget, public IAmbListPage
 {
@@ -24,7 +23,6 @@ class AmbListPage : public QWidget, public IAmbListPage
     AmbListPagePresenter presenter;
     
 
-    SaveAsDialog saveAs_dialog;
 
 public:
     AmbListPage(QWidget *parent = Q_NULLPTR);
@@ -33,8 +31,6 @@ public:
     ITabView* tabView() override;
 
     bool closeAllTabs();
-    int openSaveAsDialog(int newNum, std::map<int, bool> existingNumbers);
-    DialogAnswer openSaveDialog(std::string title);
     
 private:
     Ui::AmbListPage ui;

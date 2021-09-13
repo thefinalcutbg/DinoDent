@@ -49,3 +49,29 @@ void ModalDialogBuilder::openDialog(DetailedStatusPresenter* p)
 	d.exec();
 
 }
+
+#include "View/saveAsDialog/SaveAsDialog.h"
+
+int ModalDialogBuilder::openSaveAsDialog(int newNum, std::map<int, bool> existingNumbers)
+{
+	SaveAsDialog d;
+	return d.exec(existingNumbers, newNum);
+}
+
+#include "View/saveDialog/SaveDialog.h"
+
+DialogAnswer ModalDialogBuilder::openSaveDialog(const std::string& title)
+{
+	SaveDialog s(QString::fromStdString(title));
+	int answer = s.exec();
+
+	switch (answer)
+	{
+	case QMessageBox::Yes:
+		return DialogAnswer::Yes;
+	case QMessageBox::No:
+		return DialogAnswer::No;
+	default:
+		return DialogAnswer::Cancel;
+	}
+}

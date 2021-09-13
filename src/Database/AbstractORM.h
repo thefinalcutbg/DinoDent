@@ -1,6 +1,7 @@
 #pragma once
 #include "sqLite/sqlite3.h"
-#include <QDebug>
+#include <string>
+
 class AbstractORM
 {
 public:
@@ -20,7 +21,6 @@ protected:
     inline void openConnection()
     {
         int i =  sqlite3_open("DATATEST.db", &db); 
-        qDebug() << "Opening db";
         if (db == nullptr) throw("db open error");
 
     };

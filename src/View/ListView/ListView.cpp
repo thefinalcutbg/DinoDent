@@ -1,10 +1,9 @@
 ﻿#include "ListView.h"
-#include "Presenter/ListPresenter/StatusPresenter/StatusPresenter.h"
-#include "Presenter/ListPresenter/ProcedurePresenter/ProcedurePresenter.h"
+
 #include "TeethView/ContextMenu.h"
 
 ListView::ListView(QWidget* parent)
-	: QWidget(parent), presenter(nullptr), procedure_presenter(nullptr)
+	: QWidget(parent), presenter(nullptr)
 {
 
 	ui.setupUi(this);
@@ -20,21 +19,24 @@ ListView::ListView(QWidget* parent)
 	ui.procedureTable->setModel(&model);
 	ui.procedureTable->setAmbListLayout();
 
-	connect(ui.patientTile, &QAbstractButton::clicked, [=] { presenter->openPatientDialog(); });
-	connect(ui.allergiesTile, &QAbstractButton::clicked, [=] { presenter->openAllergiesDialog(); });
-	connect(ui.procedureButton, &QAbstractButton::clicked, [=] { procedure_presenter->addProcedure(); });
-	connect(ui.procedureTable, &ProcedureTable::deletePressed, [=] { ui.deleteProcedure->click(); });
-	connect(ui.unfav_check, &QCheckBox::stateChanged, [=] {procedure_presenter->setUnfavourable(ui.unfav_check->isChecked()); });
-	connect(ui.editProcedure, &QPushButton::clicked, [=] {procedure_presenter->editProcedure(); });
+	connect(ui.patientTile, &QAbstractButton::clicked, [=] { if(presenter) presenter->openPatientDialog(); });
+	connect(ui.allergiesTile, &QAbstractButton::clicked, [=] { if (presenter) presenter->openAllergiesDialog(); });
+	connect(ui.procedureButton, &QAbstractButton::clicked, [=] { if (presenter) presenter->addProcedure(); });
+	connect(ui.procedureTable, &ProcedureTable::deletePressed, [=] { if (presenter) ui.deleteProcedure->click(); });
+	connect(ui.unfav_check, &QCheckBox::stateChanged, [=] { if (presenter) presenter->setUnfavourable(ui.unfav_check->isChecked()); });
+	connect(ui.editProcedure, &QPushButton::clicked, [=] { if (presenter) presenter->editProcedure(); });
 
 	connect(ui.deleteProcedure, &QAbstractButton::clicked, 
 		[=] {
+
+			if (!presenter) return;
+
 			int currentIdx = ui.procedureTable->selectionModel()->currentIndex().row();
 			int lastIdx = ui.procedureTable->verticalHeader()->count()-1;
 
 			if (currentIdx == -1) return;
 
-			procedure_presenter->deleteProcedure(currentIdx);
+			presenter->deleteProcedure(currentIdx);
 
 			if (currentIdx == lastIdx)
 			{
@@ -46,28 +48,31 @@ ListView::ListView(QWidget* parent)
 	connect(ui.procedureTable->selectionModel(), &QItemSelectionModel::selectionChanged, this, 
 		[=] 
 		{
+			if (!presenter) return;
+
 			int row = ui.procedureTable->selectionModel()->currentIndex().row();
 
 			if (row == -1) {
 
-				procedure_presenter->setSelectedProcedure(row);
+				presenter->setSelectedProcedure(row);
 				return;
 			}
 
 			int manipulationIdx = ui.procedureTable->model()->index(row, 0).data().toInt();
-			procedure_presenter->setSelectedProcedure(row);
+			presenter->setSelectedProcedure(row);
 		}
 	);
 
-	connect(ui.procedureTable, &QTableView::doubleClicked, [=] { procedure_presenter->editProcedure(); });
+	connect(ui.procedureTable, &QTableView::doubleClicked, [=] { if(presenter) presenter->editProcedure(); });
 	connect(ui.taxCombo, QOverload<int>::of(&QComboBox::currentIndexChanged),
 			[=](int index) {presenter->chargeChanged(index); });
 
 	connect(ui.dateEdit, &QDateEdit::dateChanged,
 		[=]
 		{
+			if (!presenter) return;
 			auto date = ui.dateEdit->date();
-			procedure_presenter->ambDateChanged({ date.day(), date.month(), date.year() });
+			presenter->ambDateChanged({ date.day(), date.month(), date.year() });
 		});
 
 }
@@ -75,6 +80,9 @@ ListView::ListView(QWidget* parent)
 void ListView::setPresenter(ListPresenter* presenter)
 {
 	this->presenter = presenter;
+	teethViewScene->setPresenter(presenter);
+	ui.controlPanel->setPresenter(presenter);
+	contextMenu->setPresenter(presenter);
 }
 
 void ListView::paintEvent(QPaintEvent* event)
@@ -95,20 +103,6 @@ bool ListView::eventFilter(QObject* obj, QEvent* event)
 	}
 
 	return false;
-}
-
-
-void ListView::setStatusControlPresenter(StatusPresenter* presenter)
-{
-	teethViewScene->setPresenter(presenter);
-	ui.controlPanel->setPresenter(presenter);
-	contextMenu->setStatusPresenter(presenter);
-}
-
-void ListView::setProcedurePresenter(ProcedurePresenter* presenter)
-{
-	procedure_presenter = presenter;
-	contextMenu->setProcedurePresenter(presenter);
 }
 
 void ListView::refresh(AmbList& ambList, Patient& patient)

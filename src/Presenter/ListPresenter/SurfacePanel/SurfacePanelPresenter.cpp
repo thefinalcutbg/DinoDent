@@ -1,6 +1,6 @@
 ﻿#include "SurfacePanelPresenter.h"
 
-#include "../StatusPresenter.h"
+#include "Presenter/ListPresenter/ListPresenter.h"
 
 SurfacePanelPresenter::SurfacePanelPresenter() : statusControl(nullptr), view(nullptr), currentIndex(-1)
 {
@@ -11,7 +11,7 @@ void SurfacePanelPresenter::setView(ISurfacePanel* view)
 	this->view = view;
 }
 
-void SurfacePanelPresenter::setStatusControl(StatusPresenter* s_ctrl)
+void SurfacePanelPresenter::setStatusControl(ListPresenter* s_ctrl)
 {
 	this->statusControl = s_ctrl;
 }

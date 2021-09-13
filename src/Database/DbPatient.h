@@ -5,7 +5,6 @@
 #include "Model/Patient.h"
 #include <vector>
 #include <map>
-#include <QDebug>
 
 class DbPatient : public AbstractORM
 {

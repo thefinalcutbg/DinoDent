@@ -9,7 +9,7 @@ class ContextMenu;
 class SelectionBox;
 class BridgeItem;
 class ToothGraphicsItem;
-class StatusPresenter;
+class ListPresenter;
 
 class TeethViewScene : public QGraphicsScene
 {
@@ -25,7 +25,7 @@ class TeethViewScene : public QGraphicsScene
 	BridgePainter bridgePainter;
 	ToothPainter toothPainter;
 
-	StatusPresenter* presenter;
+	ListPresenter* presenter;
 
 	ContextMenu* contextMenu;
 
@@ -40,7 +40,7 @@ public:
 	TeethViewScene(QObject *parent = 0);
 	void setContextMenu(ContextMenu* contextMenu);
 
-	void setPresenter(StatusPresenter* presenter);
+	void setPresenter(ListPresenter* presenter);
 
 	void display(ToothPaintHint tooth);
 	void display(const BridgesPaintHint& bridges);

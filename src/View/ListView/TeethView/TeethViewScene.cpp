@@ -99,7 +99,7 @@ void TeethViewScene::setContextMenu(ContextMenu* contextMenu)
     this->contextMenu = contextMenu;
 }
 
-void TeethViewScene::setPresenter(StatusPresenter* presenter)
+void TeethViewScene::setPresenter(ListPresenter* presenter)
 {
     this->presenter = presenter;
 }

@@ -41,7 +41,7 @@ void DbNotes::saveNote(const std::string& note, const std::string& patientID, in
     }
 
     rc = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
-    if (rc != SQLITE_OK) qDebug() << "Insert error:";// << &db;
+    if (rc != SQLITE_OK) {}// << &db;
 
     closeConnection();
 }

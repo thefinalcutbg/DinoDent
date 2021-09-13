@@ -1,9 +1,7 @@
 #pragma once
 
 #include <vector>
-
 #include "View/AmbListPage/IAmbListPage.h"
-#include "TabPresenter/ListInstance.h"
 #include "Database/DbAmbList.h"
 #include "TabPresenter/TabPresenter.h"
 #include "ListSelector/ListSelectorPresenter.h"
@@ -16,8 +14,6 @@ class AmbListPagePresenter
 	IAmbListPage* view;
 
 	DbAmbList amb_db;
-
-	bool listIsValid();
 
 public:
 	AmbListPagePresenter();

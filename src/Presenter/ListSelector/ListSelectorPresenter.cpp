@@ -23,6 +23,8 @@ void ListSelectorPresenter::setView(IListSelectorView* view)
 
 	view->setDates(_from, _to);
 	view->setRows(rows_);
+
+	refreshModel();
 	
 }
 

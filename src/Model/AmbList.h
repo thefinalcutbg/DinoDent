@@ -25,7 +25,6 @@ struct AmbList
 	ToothContainer teeth;
 
 	std::vector<Procedure> procedures;
-	//std::array <Tooth, 32> teeth;
 	~AmbList() {  }
 	bool isNew(){ return id == "0"; }
 };

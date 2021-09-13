@@ -16,7 +16,7 @@ class ListView : public QWidget, public IListView
     Q_OBJECT
 
     ListPresenter* presenter;
-    ProcedurePresenter* procedure_presenter;
+
     TeethViewScene* teethViewScene;
 
     ContextMenu* contextMenu;
@@ -31,9 +31,6 @@ public:
     ListView(QWidget* parent = Q_NULLPTR);
 
     void setPresenter(ListPresenter* presenter) override;
-
-    void setStatusControlPresenter(StatusPresenter* presenter) override;
-    void setProcedurePresenter(ProcedurePresenter* presenter) override;
 
     void refresh(AmbList& ambList, Patient& patient) override;
 

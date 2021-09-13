@@ -5,20 +5,18 @@
 
 #include <type_traits>
 
-#include "Presenter/ListPresenter/StatusPresenter/InputEnums.h"
+#include "Presenter/ListPresenter/InputEnums.h"
 #include "Model/Tooth/Enums.h"
-#include "Presenter/ListPresenter/StatusPresenter/CheckState.h"
+#include "Presenter/ListPresenter/CheckState.h"
 
-class ProcedurePresenter;
-class StatusPresenter;
+class ListPresenter;
 class CheckModel;
 
 class ContextMenu : public QMenu
 {
     Q_OBJECT
 
-    StatusPresenter* status_presenter{ nullptr };
-    ProcedurePresenter* procedure_presenter{ nullptr };
+    ListPresenter* presenter{ nullptr };
 
     QAction* addProcedure;
     QAction* details;
@@ -35,8 +33,8 @@ public:
     ContextMenu();
     void setSelection(bool single);
     void setModel(const CheckModel& checkModel);
-    void setStatusPresenter(StatusPresenter* presenter);
-    void setProcedurePresenter(ProcedurePresenter* presenter);
+    void setPresenter(ListPresenter* presenter);
+
     ~ContextMenu();
 };
 

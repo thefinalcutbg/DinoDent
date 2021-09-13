@@ -1,6 +1,7 @@
 ﻿#include "TabView.h"
 #include <QABstractScrollArea>
 
+
 TabView::TabView(QWidget *parent)
 	: QWidget(parent), tabPresenter(nullptr)
 {
@@ -12,13 +13,13 @@ TabView::TabView(QWidget *parent)
         {
             if (index == -1)
             {
-                tabPresenter->setCurrentList(index);
+                tabPresenter->setCurrentTab(index);
                 return;
             }
 
-            int vecPos = ui.tabBar->tabData(index).toInt();
+            int tabIndex = ui.tabBar->tabData(index).toInt();
 
-            tabPresenter->setCurrentList(vecPos);
+            tabPresenter->setCurrentTab(tabIndex);
         });
 
     connect(ui.tabBar, &QTabBar::tabCloseRequested,
@@ -48,17 +49,17 @@ TabView::~TabView()
 {
 }
 
-void TabView::newTab(int vecPos, std::string tabName)
+void TabView::newTab(int tabIndex, std::string tabName)
 {
     if (!ui.tabBar->count())
     {
         ui.scrollArea->takeWidget();
-        ui.scrollArea->setWidget(&_listView);
+        ui.scrollArea->setWidget(&m_listView);
     }
 
+    ui.tabBar->addNewTab(QString::fromStdString(tabName), tabIndex);
 
-    ui.tabBar->addNewTab(QString::fromStdString(tabName), vecPos);
-    ui.tabBar->setCurrentIndex(ui.tabBar->count() - 1);
+   // ui.tabBar->setCurrentIndex(ui.tabBar->count() - 1);
 
 }
 
@@ -76,31 +77,14 @@ void TabView::removeCurrentTab()
     int index = ui.tabBar->currentIndex();
 
     ui.tabBar->closeTab(index);
-
-    if (!ui.tabBar->count())
-    {
-        ui.scrollArea->takeWidget();
-        ui.scrollArea->setWidget(noTabs);
-    }
         
 }
 
 void TabView::removeTab(int vecPos)
 {
     for (int i = 0; i < ui.tabBar->count(); i++)
-    {
         if (ui.tabBar->tabData(i) == vecPos)
-        {
             ui.tabBar->closeTab(i);
-
-            if (!ui.tabBar->count())
-            {
-                ui.scrollArea->takeWidget();
-                ui.scrollArea->setWidget(noTabs);
-            }
-        }
-
-    }
 }
 
 void TabView::changeTabName(std::string tabName)
@@ -132,9 +116,27 @@ void TabView::setScrollPos(ScrollPos scrollPos)
     ui.scrollArea->horizontalScrollBar()->setValue(scrollPos.width);
 }
 
+void TabView::showListView()
+{
+    if (ui.scrollArea->widget() == static_cast<QWidget*>(&m_listView)) return;
+
+    ui.scrollArea->takeWidget();
+    ui.scrollArea->setWidget(&m_listView);
+}
+
+void TabView::showPerioView()
+{
+}
+
+void TabView::showDinosaur()
+{
+    ui.scrollArea->takeWidget();
+    ui.scrollArea->setWidget(noTabs);
+}
+
 IListView* TabView::listView()
 {
-    return &_listView;
+    return &m_listView;
 }
 
 

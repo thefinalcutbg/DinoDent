@@ -1,6 +1,6 @@
 #include "DetailedStatusPresenter.h"
-#include "Presenter/ListPresenter/StatusPresenter/CheckState.h"
-#include "Presenter/ListPresenter/StatusPresenter/ToothHintCreator.h"
+#include "Presenter/ListPresenter/CheckState.h"
+#include "Presenter/ListPresenter/ToothHintCreator.h"
 #include "View/ModalDialogBuilder.h"
 #include "StatusController.h"
 #include "Database/DbProcedure.h"

@@ -1,7 +1,7 @@
 ﻿#include <unordered_set>
 
 #include "AmbListValidator.h"
-#include "../Presenter/TabPresenter/ListInstance.h"
+
 #include "Procedure/MasterNZOK.h"
 #include "Tooth/ToothUtils.h"
 #include "Model/Procedure/PackageCounter.h"
@@ -15,12 +15,12 @@ struct pair_hash
 };
 
 
-AmbListValidator::AmbListValidator(const ListInstance& list)
+AmbListValidator::AmbListValidator(const AmbList& list, const Patient& patient)
     :
-    ambList(list.amb_list), patient(*list.patient.get())
+    ambList(list), patient(patient)
 {
     _error.reserve(100);
-    for (auto &p : list.amb_list.procedures)
+    for (auto &p : list.procedures)
     {
         if (p.nzok)
             m_procedures.push_back(p);

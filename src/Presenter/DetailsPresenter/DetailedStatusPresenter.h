@@ -1,6 +1,6 @@
 #pragma once
 #include "View/DetailsView/IDetailedStatusView.h"
-#include "Presenter/ListPresenter/StatusPresenter/CheckState.h"
+#include "Presenter/ListPresenter/CheckState.h"
 #include "Model/Tooth/Tooth.h"
 #include <optional>
 #include <memory>

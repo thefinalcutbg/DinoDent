@@ -2,8 +2,8 @@
 
 #include <QOpenGLWidget>
 
-#include "Presenter/ListPresenter/StatusPresenter/ToothHintCreator.h"
-#include "Presenter/ListPresenter/StatusPresenter/SurfacePanel/SurfacePanelPresenter.h"
+#include "Presenter/ListPresenter/ToothHintCreator.h"
+#include "Presenter/ListPresenter/SurfacePanel/SurfacePanelPresenter.h"
 
 
 

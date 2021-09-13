@@ -2,8 +2,7 @@
 
 
 AmbListPage::AmbListPage(QWidget* parent) :
-    QWidget(parent),
-    saveAs_dialog(this)
+    QWidget(parent)
 {
     ui.setupUi(this);
 
@@ -24,27 +23,6 @@ AmbListPage::~AmbListPage()
 ITabView* AmbListPage::tabView()
 {
     return ui.tabView;
-}
-
-int AmbListPage::openSaveAsDialog(int newNum, std::map<int, bool> existingNumbers)
-{
-    return saveAs_dialog.exec(existingNumbers, newNum);
-}
-
-DialogAnswer AmbListPage::openSaveDialog(std::string title)
-{
-    SaveDialog saveDialog(QString::fromStdString(title));
-    int answer = saveDialog.exec();
-
-    switch (answer)
-    {
-        case QMessageBox::Yes:
-            return DialogAnswer::Yes;
-        case QMessageBox::No:
-            return DialogAnswer::No;
-        default:
-            return DialogAnswer::Cancel;
-    }
 }
 
 bool AmbListPage::closeAllTabs()

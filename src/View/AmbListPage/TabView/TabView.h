@@ -11,7 +11,7 @@ class TabView : public QWidget, public ITabView
 
 	TabPresenter* tabPresenter;
 
-	ListView _listView;
+	ListView m_listView;
 
 	QLabel* noTabs;
 
@@ -31,6 +31,10 @@ public:
 
 	ScrollPos getScrollPos();
 	void setScrollPos(ScrollPos scrollPos);
+
+	void showListView();
+    void showPerioView();
+	void showDinosaur();
 
 	virtual IListView* listView() override;
 

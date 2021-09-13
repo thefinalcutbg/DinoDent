@@ -1,11 +1,11 @@
 #include "ToothHintCreator.h"
-#include "Model/User/CurrentUser.h"
+#include "Model/User/UserManager.h"
 #include "Model/Tooth/ToothContainer.h"
 
 bool R_U_Mine(const DentistMade& procedure)
 {
    
-    return procedure.LPK == CurrentUser::instance().LPK;
+    return UserManager::instance().isCurrentUser(procedure.LPK);
 }
 
 ToothPaintHint ToothHintCreator::getToothHint(const Tooth& tooth)

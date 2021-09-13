@@ -1,7 +1,7 @@
 ﻿#include "DetailedStatus.h"
 #include "Model/Tooth/Enums.h"
 #include <QDebug>
-#include "Presenter/ListPresenter/StatusPresenter/CheckState.h"
+#include "Presenter/ListPresenter/CheckState.h"
 #include "View/ListView/ToothPaintDevices/ToothPainter.h"
 #include "Presenter/DetailsPresenter/DetailedStatusPresenter.h"
 #include <QIcon>

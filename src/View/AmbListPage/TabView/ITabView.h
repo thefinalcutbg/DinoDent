@@ -19,5 +19,10 @@ public:
 	virtual ScrollPos getScrollPos() = 0;
 	virtual void setScrollPos(ScrollPos scrollPos) = 0;
 
+	virtual void showListView() = 0;
+	virtual void showPerioView() = 0;
+	virtual void showDinosaur() = 0;
+
 	virtual IListView* listView() = 0;
+	
 };

@@ -21,30 +21,17 @@ TabBar::TabBar(QWidget *parent)
 	setMovable(true);
 	setTabsClosable(true);
 	setElideMode(Qt::TextElideMode::ElideRight);
-
-
 }
 
-void TabBar::addNewTab(QString tabName, QVariant vecPos)
+void TabBar::addNewTab(QString tabName, QVariant mapIndex)
 {
+	QSignalBlocker blocker(this);
 	addTab(tabName);
-	setTabData(count()-1, vecPos);
+	setTabData(count()-1, mapIndex);
 }
 
 void TabBar::closeTab(int index)
 {
-	int vecPos = tabData(index).toInt();
-
-	for (int i = 0; i < count(); i++)
-	{
-		int currentVecPos = tabData(i).toInt();
-
-		if (currentVecPos > vecPos)
-		{
-			setTabData(i, currentVecPos - 1);
-		}
-	}
-
 	removeTab(index);
 }
 

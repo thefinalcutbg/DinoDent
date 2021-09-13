@@ -3,10 +3,15 @@
 UserManager UserManager::m_instance;
 User UserManager::m_currentUser;
 
-UserManager::UserManager()
+void UserManager::initialize()
 {
     m_currentUser = User{ u8"Христо", u8"Константинов", "220008771", 64, u8"София, общ. Столична, обл. София-град" };
-    m_users.push_back(m_currentUser);
+    m_instance.m_users.push_back(m_currentUser);
+}
+
+UserManager::UserManager()
+{
+
 }
 
 const std::optional<User> UserManager::getUser(const std::string& LPK) const

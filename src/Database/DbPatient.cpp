@@ -24,9 +24,9 @@ void DbPatient::insert(const Patient& patient)
         + patient.currentDiseases + "','"
         + patient.pastDiseases +
         +"')";
-    qDebug() << QString::fromStdString(query);
+
     rc = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
-    if (rc != SQLITE_OK) qDebug() << "Insert error:";// << &db;
+    if (rc != SQLITE_OK) {}// << &db;
 
     closeConnection();
 }
@@ -51,9 +51,8 @@ void DbPatient::update(const Patient& patient)
         "pastDiseases = '" + patient.pastDiseases + "' "
         "WHERE id = '" + patient.id + "'";
 
-    qDebug() << QString::fromStdString(query);
     rc = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
-    if (rc != SQLITE_OK) qDebug() << "Update error:";// << &db;
+    if (rc != SQLITE_OK) {}// << &db;
 
     closeConnection();
 }
@@ -88,7 +87,7 @@ Patient DbPatient::getPatient(std::string patientID)
         patient.currentDiseases = (reinterpret_cast<const char*>(sqlite3_column_text(stmt, 12)));
         patient.pastDiseases = (reinterpret_cast<const char*>(sqlite3_column_text(stmt, 13)));
     }
-    qDebug() << "getting patient";
+
     sqlite3_finalize(stmt);
 
     closeConnection();
@@ -105,9 +104,9 @@ void DbPatient::updateAllergies(const std::string& patientID, const std::string&
         "currentDiseases = '" + current + "', "
         "pastDiseases = '" + past + "' "
         "WHERE id = '" + patientID + "'";
-    qDebug() << query.c_str();
+
     rc = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
-    if (rc != SQLITE_OK) qDebug() << "Update error:";// << &db;
+    if (rc != SQLITE_OK) {}// << &db;
 
     closeConnection();
 }

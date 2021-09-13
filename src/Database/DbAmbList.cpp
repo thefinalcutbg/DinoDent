@@ -3,7 +3,7 @@
 #include "Model/Patient.h"
 #include "Model/AmbList.h"
 #include "Model/Date.h"
-#include <QDebug>
+
 DbAmbList::DbAmbList()
 {}
 
@@ -24,7 +24,6 @@ std::string DbAmbList::getLastStatus(std::string patientID)
         jsonStatus = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0));
     }
 
-    qDebug() << "no such status found";
 
     sqlite3_finalize(stmt);
 
@@ -40,7 +39,7 @@ std::vector<Procedure> DbAmbList::previousProcedures(std::string patientID)
     std::string query = "SELECT id, day, month, year FROM amblist WHERE "
         "patient_id = '" + patientID + "'"
         " ORDER BY id DESC LIMIT 1";
-    qDebug() << "getting older manipulations";
+
     sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
 
     std::string amb_id;
@@ -79,8 +78,6 @@ void DbAmbList::insertAmbList(AmbList& ambList, std::string &patientID)
         + patientID + "','"
         + ambList.LPK
         + "')";
-    
-    qDebug() << query.c_str();
 
     rc = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
 
@@ -110,7 +107,6 @@ void DbAmbList::updateAmbList(AmbList& ambList)
         ", status_json = '" + m_toothParser.write(ambList.teeth) + "' "
         "WHERE id = " + ambList.id;
 
-    qDebug() << query.c_str();
     rc = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
     if (rc != SQLITE_OK) qDebug() << "Update error:";// << &db;
 
@@ -134,7 +130,7 @@ std::vector<AmbListRow> DbAmbList::getAmbListRows(const Date& from, const Date& 
         "AND (" + std::to_string(to.year) + ", " + std::to_string(to.month) + ", " + std::to_string(to.day) + ") "
         "AND amblist.lpk = '" + UserManager::currentUser().LPK + "' "
         "ORDER BY amblist.year ASC, amblist.month ASC, amblist.day ASC ";
-    qDebug() << QString::fromStdString(query);
+
     sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
 
     while (sqlite3_step(stmt) != SQLITE_DONE)
@@ -343,8 +339,6 @@ int DbAmbList::getNewNumber(int currentYear)
     openConnection();
 
     std::string query = "SELECT MAX(num) FROM amblist WHERE year = " + std::to_string(currentYear);
-
-    qDebug() << "praparing" << sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
 
     int number = 0;
 

@@ -2,12 +2,12 @@
 
 #include <string>
 #include "Database/DbProcedure.h"
-
-class ListInstance;
-class AmbList;
-class Patient;
-class Tooth;
-class Procedure;
+#include "Model/AmbList.h"
+#include "Model/Patient.h"
+//class AmbList;
+//class Patient;
+//class Tooth;
+//class Procedure;
 
 class AmbListValidator
 {
@@ -26,7 +26,7 @@ class AmbListValidator
 	bool dateIsValid(const Procedure& p);
 
 public:
-	AmbListValidator(const ListInstance& list);
+	AmbListValidator(const AmbList& list, const Patient& patient);
 	bool ambListIsValid();
 	const std::string& getErrorMsg();
 

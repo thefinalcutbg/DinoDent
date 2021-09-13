@@ -1,16 +1,16 @@
 ﻿#include "ContextMenu.h"
-#include "Presenter/ListPresenter/StatusPresenter/StatusPresenter.h"
-#include "Presenter/ListPresenter/ProcedurePresenter/ProcedurePresenter.h"
+#include "Presenter/ListPresenter/ListPresenter.h"
+#include <QDebug>
 ContextMenu::ContextMenu()
 {
 
     addProcedure = new QAction("Добави манипулация");
     addAction(addProcedure);
-    connect(addProcedure, &QAction::triggered, [&] {if(procedure_presenter)procedure_presenter->addProcedure(); });
+    connect(addProcedure, &QAction::triggered, [&] {if(presenter)presenter->addProcedure(); });
 
     details = new QAction("Детайли");
     addAction(details);
-    connect(details, &QAction::triggered, [&] {if (status_presenter) status_presenter->openDetails(); });
+    connect(details, &QAction::triggered, [&] {if (presenter) presenter->openDetails(); });
     
     addSeparator();
 
@@ -31,13 +31,13 @@ ContextMenu::ContextMenu()
     for (int i = 0; i < statusCount; i++) //too lazy to initialize all the actions;
     {
         menuAction[i] = new QAction(statusNames[i]);
-        connect(menuAction[i], &QAction::triggered, [this, i]() { this->status_presenter->setMainStatus(i); });
+        connect(menuAction[i], &QAction::triggered, [this, i]() { this->presenter->setMainStatus(i); });
     }
 
     for (int i = 0; i < otherInputsCount; i++) //too lazy to initialize all the actions;
     {
         otherActions[i] = new QAction(otherActionNames[i]);
-        connect(otherActions[i], &QAction::triggered, [this, i]() { this->status_presenter->setOther(i); });
+        connect(otherActions[i], &QAction::triggered, [this, i]() { this->presenter->setOther(i); });
     }
 
     addAction(menuAction[StatusCode::Temporary]);
@@ -52,10 +52,10 @@ ContextMenu::ContextMenu()
     for (int i = 0; i < surfaceCount; i++)
     {
         surfObt[i] = ObturMenu->addAction(surfName[i]);
-        connect(surfObt[i], &QAction::triggered, [this, i]() {this->status_presenter->setObturation(i); });
+        connect(surfObt[i], &QAction::triggered, [this, i]() {this->presenter->setObturation(i);  qDebug() << "presenter ptr:" << presenter; });
 
         surfCar[i] = CariesMenu->addAction(surfName[i]);
-        connect(surfCar[i], &QAction::triggered, [this, i]() {this->status_presenter->setCaries(i); });
+        connect(surfCar[i], &QAction::triggered, [this, i]() {this->presenter->setCaries(i); });
     }
 
 
@@ -107,8 +107,8 @@ void ContextMenu::setModel(const CheckModel& checkModel)
     this->setModel(checkModel.cariesStatus, surfCar);
 }
 
-void ContextMenu::setStatusPresenter(StatusPresenter* presenter) { status_presenter = presenter; }
 
-void ContextMenu::setProcedurePresenter(ProcedurePresenter* presenter) { procedure_presenter = presenter; }
+
+void ContextMenu::setPresenter(ListPresenter* presenter) { this->presenter = presenter; }
 
 ContextMenu::~ContextMenu() {}

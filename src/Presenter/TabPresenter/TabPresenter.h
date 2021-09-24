@@ -27,6 +27,8 @@ class TabPresenter
 	bool newListExists(const Patient& patient);
 	bool listsExists(const std::string& ambList_id);
 
+	void openTab(TabInstance* tabInstance);
+
 	std::shared_ptr<Patient> getPatient_ptr(const Patient& patient);
 
 public:
@@ -38,9 +40,10 @@ public:
 	TabInstance* currentTab();
 	void setCurrentTab(int index);
 	void openList(const Patient& patient);
+	void openPerio(const Patient& patient);
 	void openList(const AmbListRow& ambList);
 	void removeList(const std::string& ambID);
-	void removeCurrentList();
+	void removeCurrentTab();
 
 };
 

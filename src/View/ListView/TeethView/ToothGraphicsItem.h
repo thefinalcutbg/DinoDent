@@ -20,7 +20,7 @@ public:
     ToothGraphicsItem(int index);
     ~ToothGraphicsItem();
     
-
+    void showLingual(bool show);
     void setProcedure(bool hasProcedure);
     void setToothGraphic(QPixmap* toothGraphic);
     QRectF boundingRect() const override;

@@ -28,6 +28,7 @@ ListPresenter::ListPresenter(ITabView* tabView, std::shared_ptr<Patient> patient
     TabInstance(tabView, TabType::AmbList),
     view(tabView->listView()),
     patient(patient),
+    m_selectedProcedure(-1),
     m_ambList(db.getListData(patient->id, Date::currentMonth(), Date::currentYear()))
 {
     surf_presenter.setStatusControl(this);
@@ -47,7 +48,8 @@ ListPresenter::ListPresenter(ITabView* tabView, std::shared_ptr<Patient> patient
     TabInstance(tabView, TabType::AmbList),
     view(tabView->listView()),
     patient(patient),
-    m_ambList(db.getListData(ambListId))
+    m_ambList(db.getListData(ambListId)),
+    m_selectedProcedure(-1)
 {
     surf_presenter.setStatusControl(this);
 
@@ -77,20 +79,16 @@ void ListPresenter::statusChanged()
     if (m_selectedIndexes.size() == 1)
         surf_presenter.setTooth(&m_ambList.teeth[m_selectedIndexes[0]]);
 
-    hasBeenEdited();
+    makeEdited();
 }
 
-void ListPresenter::hasBeenEdited()
-{
-    edited = true;
-    _tabView->changeTabName(getTabName());
-}
+
 
 
 void ListPresenter::chargeChanged(int index)
 {
     m_ambList.charge = static_cast<Charge>(index);
-    hasBeenEdited();
+    makeEdited();
 }
 
 std::string ListPresenter::getTabName()
@@ -162,27 +160,9 @@ bool ListPresenter::saveAs()
     return true;
 }
 
-bool ListPresenter::close()
+bool ListPresenter::isNew()
 {
-    if (m_ambList.isNew() || edited)
-    {
-        DialogAnswer answer = ModalDialogBuilder::openSaveDialog(getTabName());
-
-        switch (answer)
-        {
-        case DialogAnswer::Yes:
-            if (save()) //if the save is not interrupted
-                break;
-            else
-                return false;
-
-        case DialogAnswer::No: break;
-
-        case DialogAnswer::Cancel: return false;
-        }
-    }
-
-    return true;
+    return m_ambList.isNew();
 }
 
 void ListPresenter::print()
@@ -192,7 +172,9 @@ void ListPresenter::print()
 
 void ListPresenter::setCurrent()
 {
+    
     view->setPresenter(this);
+    
 
     view->refresh
     (
@@ -215,7 +197,8 @@ void ListPresenter::setCurrent()
     view->setSelectedTeeth(m_selectedIndexes);
 
     refreshProcedureView();
-    
+
+    _tabView->showListView();
     setScrollPosition();
     
 }
@@ -467,7 +450,7 @@ void ListPresenter::addProcedure()
     this->addToProcedureList(openList);
 
     refreshProcedureView();
-    hasBeenEdited();
+    makeEdited();
 
 }
 
@@ -512,7 +495,7 @@ void ListPresenter::editProcedure()
     }
 
     refreshProcedureView();
-    hasBeenEdited();
+    makeEdited();
 
 }
 
@@ -523,13 +506,13 @@ void ListPresenter::deleteProcedure(int index)
     m_ambList.procedures.erase(m_ambList.procedures.begin() + index);
 
     refreshProcedureView();
-    hasBeenEdited();
+    makeEdited();
 }
 
 void ListPresenter::ambDateChanged(Date date)
 {
     m_ambList.date = date;
-    hasBeenEdited();
+    makeEdited();
 }
 
 void ListPresenter::setSelectedProcedure(int index)
@@ -564,7 +547,7 @@ void ListPresenter::setUnfavourable(bool unfav)
         m_ambList.charge = Charge::freed;
     }
 
-    hasBeenEdited();
+    makeEdited();
 
     refreshProcedureView();
 }

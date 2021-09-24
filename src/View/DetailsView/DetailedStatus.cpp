@@ -2,7 +2,7 @@
 #include "Model/Tooth/Enums.h"
 #include <QDebug>
 #include "Presenter/ListPresenter/CheckState.h"
-#include "View/ListView/ToothPaintDevices/ToothPainter.h"
+#include "View/ToothPaintDevices/ToothPainter.h"
 #include "Presenter/DetailsPresenter/DetailedStatusPresenter.h"
 #include <QIcon>
 

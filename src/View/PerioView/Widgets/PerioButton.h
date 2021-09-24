@@ -9,8 +9,6 @@ class PerioButton : public QAbstractButton
 
 protected:
 
-	QString m_text; //custom text, which does not change the button width in layout
-
 	void paintEvent(QPaintEvent* event) override;
 
 public:

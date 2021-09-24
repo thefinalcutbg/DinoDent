@@ -1,7 +1,6 @@
 ﻿#include "TabView.h"
 #include <QABstractScrollArea>
 
-
 TabView::TabView(QWidget *parent)
 	: QWidget(parent), tabPresenter(nullptr)
 {
@@ -30,18 +29,21 @@ TabView::TabView(QWidget *parent)
         });
 
     ui.scrollArea->setAlignment(Qt::AlignHCenter);
+
     noTabs = new QLabel(this);
     noTabs->setPixmap(QPixmap("dino.png"));
-    
     noTabs->setAlignment(Qt::AlignCenter);
     noTabs->setStyleSheet("background-color:white");
 
     ui.scrollArea->setObjectName("ScrollArea");
     setStyleSheet("#ScrollArea{background-color : white;}");
-    ui.scrollArea->setWidget(noTabs);
-    ui.scrollArea->setFrameStyle(QFrame::NoFrame);
 
-    
+
+  //  ui.stackedWidget->addWidget(noTabs);
+   // ui.stackedWidget->addWidget(&m_listView);
+   // ui.stackedWidget->addWidget(&m_perioView);
+
+    showDinosaur();
     
 }
 
@@ -49,17 +51,25 @@ TabView::~TabView()
 {
 }
 
+
+void TabView::showTabWidget(QWidget* w)
+{
+    /*
+    ui.stackedWidget->setCurrentWidget(w);
+    w->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    w->adjustSize();
+    ui.stackedWidget->adjustSize();
+    */
+    if (w == ui.scrollArea->widget()) return;
+    ui.scrollArea->takeWidget();
+    ui.scrollArea->setWidget(w);
+}
+
 void TabView::newTab(int tabIndex, std::string tabName)
 {
-    if (!ui.tabBar->count())
-    {
-        ui.scrollArea->takeWidget();
-        ui.scrollArea->setWidget(&m_listView);
-    }
-
     ui.tabBar->addNewTab(QString::fromStdString(tabName), tabIndex);
 
-   // ui.tabBar->setCurrentIndex(ui.tabBar->count() - 1);
+  // ui.tabBar->setCurrentIndex(ui.tabBar->count() - 1);
 
 }
 
@@ -118,25 +128,27 @@ void TabView::setScrollPos(ScrollPos scrollPos)
 
 void TabView::showListView()
 {
-    if (ui.scrollArea->widget() == static_cast<QWidget*>(&m_listView)) return;
-
-    ui.scrollArea->takeWidget();
-    ui.scrollArea->setWidget(&m_listView);
+    showTabWidget(&m_listView);
 }
 
 void TabView::showPerioView()
 {
+    showTabWidget(&m_perioView);
 }
 
 void TabView::showDinosaur()
 {
-    ui.scrollArea->takeWidget();
-    ui.scrollArea->setWidget(noTabs);
+    showTabWidget(noTabs);
 }
 
 IListView* TabView::listView()
 {
     return &m_listView;
+}
+
+IPerioView* TabView::perioView()
+{
+    return &m_perioView;
 }
 
 

@@ -3,6 +3,7 @@
 
 class TabPresenter;
 class IListView;
+class IPerioView;
 
 struct ScrollPos { int height{ 0 }, width{ 0 }; };
 
@@ -24,5 +25,6 @@ public:
 	virtual void showDinosaur() = 0;
 
 	virtual IListView* listView() = 0;
+	virtual IPerioView* perioView() = 0;
 	
 };

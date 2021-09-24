@@ -1,16 +1,19 @@
 #pragma once
 
 #include <QGraphicsScene>
+#include "View/ToothPaintDevices/ToothPainter.h"
 
 class ToothGraphicsItem;
 class ToothPaintHint;
 
 class PerioScene : public QGraphicsScene
 {
-	ToothGraphicsItem* toothGraphic[32];
+	ToothPainter toothPainter;
+	ToothGraphicsItem* toothGraphic[16];
 
 public:
 	PerioScene();
 	void display(const ToothPaintHint& tooth);
+
 	~PerioScene();
 };

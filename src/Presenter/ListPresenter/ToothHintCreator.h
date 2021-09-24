@@ -1,6 +1,6 @@
 #pragma once
 #include "Model/Tooth/ToothUtils.h"
-#include "View/ListView/ToothPaintDevices/PaintHint.h"
+#include "View/ToothPaintDevices/PaintHint.h"
 
 class ToothContainer;
 

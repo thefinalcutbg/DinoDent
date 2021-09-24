@@ -3,6 +3,9 @@
 #include "Model/AmbList.h"
 #include "Model/AmbListRow.h"
 #include "../ListPresenter/ListPresenter.h"
+#include "../PerioPresenter/PerioPresenter.h"
+
+#include <QDebug>
 
 TabPresenter::TabPresenter() : _indexCounter(-1), m_currentIndex(-1), view(nullptr)
 {
@@ -25,11 +28,28 @@ TabInstance* TabPresenter::currentTab()
     return m_tabs[m_currentIndex];
 }
 
+
+void TabPresenter::openTab(TabInstance* tabInstance)
+{
+    _indexCounter++;
+
+    m_tabs[_indexCounter] = tabInstance;
+
+    qDebug() << "opening tab with index " << _indexCounter;
+
+    view->newTab(_indexCounter, m_tabs[_indexCounter]->getTabName());
+
+    view->focusTab(_indexCounter);
+    setCurrentTab(_indexCounter);
+}
+
 void TabPresenter::setCurrentTab(int index)
 {
     if (currentTab()) currentTab()->prepareSwitch();
 
     m_currentIndex = index;
+
+    qDebug() << "setting current tab to " << m_currentIndex;
 
     if (index == -1)
     {
@@ -40,40 +60,17 @@ void TabPresenter::setCurrentTab(int index)
     m_tabs[index]->setCurrent();
 }
 
-void TabPresenter::openList(const Patient& patient)
+
+void TabPresenter::removeCurrentTab()
 {
-    if (newListExists(patient)) return;
+    qDebug() << "removing tab with index " << m_currentIndex;
 
-    TabInstance* newTab = new ListPresenter(view, getPatient_ptr(patient));
-
-    _indexCounter++;
-
-    m_tabs[_indexCounter] = newTab;
-
-    view->newTab(_indexCounter, m_tabs[_indexCounter]->getTabName());
-
-    setCurrentTab(_indexCounter);
+    delete m_tabs[m_currentIndex];
+    m_tabs.erase(m_currentIndex);
+    view->removeCurrentTab();
 
 }
 
-void TabPresenter::openList(const AmbListRow& ambRow)
-{
-
-    if (listsExists(ambRow.id)) return;
-
-    _indexCounter++;
-
-    TabInstance* newTab = new ListPresenter(
-        view, 
-        getPatient_ptr(patient_db.getPatient(ambRow.patientId)), 
-            ambRow.id);
-
-    m_tabs[_indexCounter] = newTab;
-
-    view->newTab(_indexCounter, newTab->getTabName());
-
-    setCurrentTab(_indexCounter);
-}
 
 std::shared_ptr<Patient> TabPresenter::getPatient_ptr(const Patient& patient)
 {
@@ -90,6 +87,40 @@ std::shared_ptr<Patient> TabPresenter::getPatient_ptr(const Patient& patient)
 
     return std::make_shared<Patient>(patient);
 }
+
+
+void TabPresenter::openList(const Patient& patient)
+{
+    if (newListExists(patient)) return;
+
+    TabInstance* newTab = new ListPresenter(view, getPatient_ptr(patient));
+
+    openTab(newTab);
+
+}
+
+void TabPresenter::openList(const AmbListRow& ambRow)
+{
+
+    if (listsExists(ambRow.id)) return;
+
+    TabInstance* newTab = new ListPresenter(
+        view, 
+        getPatient_ptr(patient_db.getPatient(ambRow.patientId)), 
+            ambRow.id);
+
+    openTab(newTab);
+
+}
+
+void TabPresenter::openPerio(const Patient& patient)
+{
+    TabInstance* newTab = new PerioPresenter(view, getPatient_ptr(patient));
+
+    openTab(newTab);
+}
+
+
 
 bool TabPresenter::listsExists(const std::string& ambList_id)
 {
@@ -150,12 +181,4 @@ void TabPresenter::removeList(const std::string& ambID)
             
     }
 
-}
-
-void TabPresenter::removeCurrentList()
-{
-    delete m_tabs[m_currentIndex];
-    m_tabs.erase(m_currentIndex);
-    view->removeCurrentTab();
- 
 }

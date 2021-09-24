@@ -8,17 +8,6 @@ std::array<std::string, 6> ToothUtils::surfaceNames
 
 ToothUtils::ToothUtils()
 {
-
-
-    for (int i = 0; i < 32; i++) //mapping indexes to quadrants
-    {
-        if (i < 8) quadrant[i] = Quadrant::First;
-        else if (i < 16) quadrant[i] = Quadrant::Second;
-        else if (i < 24) quadrant[i] = Quadrant::Third;
-        else quadrant[i] = Quadrant::Fourth;
-    }
-
-
 }
 
 ToothType ToothUtils::getToothType(int index)
@@ -46,7 +35,15 @@ std::string ToothUtils::getNomenclature(int tooth_idx, bool temporary)
 }
 std::string ToothUtils::getNomenclature(const Tooth& t) { return getNomenclature(t.index, t.temporary.exists());}
 
-Quadrant ToothUtils::getQuadrant(int index) { return quadrant[index]; }
+Quadrant ToothUtils::getQuadrant(int index)
+{ 
+    if (index < 8) return Quadrant::First;
+    if (index < 16) return Quadrant::Second;
+    if (index < 24) return Quadrant::Third;
+
+    return Quadrant::Fourth;
+
+}
 
 std::array<std::string, 6> ToothUtils::getSurfaceNames(int index)
 {

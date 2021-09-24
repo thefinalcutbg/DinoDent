@@ -11,8 +11,9 @@ class Torque : public QMainWindow
 {
     Q_OBJECT
 
-    AmbListPage ambListPage;
+     ListView list_view;
 
+     AmbListPage view;
 
     void paintEvent(QPaintEvent* event);
     void closeEvent(QCloseEvent* event);

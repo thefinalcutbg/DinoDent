@@ -44,8 +44,18 @@ void ToothGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem*
     {
         painter->drawPixmap(bounds.toRect(), *toothGraphic);
     }
+    /*
+    QColor color(Qt::GlobalColor::black);
+    painter->setPen(color);
+    painter->drawRect(bounds);
+    */
+}
 
+void ToothGraphicsItem::showLingual(bool show)
+{
+    bounds.setHeight(show ? 360 : 224);
 
+    update();
 }
 
 void ToothGraphicsItem::setProcedure(bool hasProcedure)

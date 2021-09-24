@@ -21,6 +21,7 @@ class ToothUtils
 		0,0,0,1,1,2,2,2,    2,2,2,1,1,0,0,0
 	};
 
+
 	std::unordered_map<int, Quadrant> quadrant;
 
 	static std::array<std::string, 6> surfaceNames;
@@ -31,6 +32,6 @@ public:
 	static int getToothNumber(int index, bool temporary);
 	static std::string getNomenclature(int index, bool temporary);
 	static std::string getNomenclature(const Tooth& t);
-	Quadrant getQuadrant(int index);
+	static Quadrant getQuadrant(int index);
 	std::array<std::string, 6> getSurfaceNames(int index);
 };

@@ -33,7 +33,7 @@ class ListPresenter : public TabInstance
     bool isValid();
     void refreshProcedureView();
     void statusChanged();
-    void hasBeenEdited();
+
 public:
 
     AmbList m_ambList;
@@ -47,7 +47,7 @@ public:
 
     virtual bool save() override;
     virtual bool saveAs() override;
-    virtual bool close() override;
+    virtual bool isNew() override;
     virtual void print() override;
     virtual std::string getTabName() override;
     void setCurrent() override;

@@ -4,7 +4,7 @@
 #include  <QVBoxLayout>
 #include "IDetailedStatusView.h"
 #include "ui_DetailedStatus.h"
-#include "View/ListView/ToothPaintDevices/ToothPainter.h"
+#include "View/ToothPaintDevices/ToothPainter.h"
 #include "Model/Tooth/Enums.h"
 #include "View/uiComponents/qt_derived/Widgets/ImplantView.h"
 #include "View/uiComponents/qt_derived/Widgets/ObturationWidget.h"

@@ -17,7 +17,7 @@ public:
 	~RangeWidget();
 
 	void disable(bool disable) override;
-	void setRange(int begin, int end) override;
+	void setBridgeRange(int begin, int end) override;
 	std::tuple<int, int> getRange() override;
 	void setValidAppearence(bool valid) override;
 	void setFocus() override;

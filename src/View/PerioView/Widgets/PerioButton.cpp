@@ -5,17 +5,17 @@ PerioButton::PerioButton(QWidget *parent)
 	: QAbstractButton(parent)
 {
 	
-	setMinimumSize(1, 1);
-	setMaximumSize(200, 200);
+	//setMinimumSize(1, 1);
+	//setMaximumSize(200, 200);
 	
-	setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+	setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 }
 
 
 PerioButton::~PerioButton()
 {
 }
-
+#include <QDebug>
 
 void PerioButton::paintEvent(QPaintEvent* event)
 {
@@ -38,14 +38,16 @@ void PerioButton::paintEvent(QPaintEvent* event)
 	{
 		if(!icon().isNull())
 			icon().paint(&painter, rect.toRect());
-
+		
 		int font_px_height = fontMetrics().height();
-		int font_px_width = fontMetrics().width(m_text);
+		int font_px_width = fontMetrics().width(text());
 
 		int x = (width() - font_px_width) / 2;
-		int y = font_px_height;
+		int y = (height() + font_px_height) / 2;
+
 		painter.setPen(palette().color(QPalette::ColorRole::Text));
-		painter.drawText(x, y, m_text);
+		painter.drawText(x, y, text());
+		
 	}
 	
 

@@ -11,15 +11,13 @@
 #include "Presenter/AmbListPagePresenter.h"
 #include "View/PatientDialog/PatientFormDialog.h"
 #include "IAmbListPage.h"
-#include "View/ListView/ListView.h"
+
 
 
 class AmbListPage : public QWidget, public IAmbListPage
 {
     Q_OBJECT
 
-    ListView list_view;
-   
     AmbListPagePresenter presenter;
     
 

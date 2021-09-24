@@ -75,6 +75,9 @@ ListView::ListView(QWidget* parent)
 			presenter->ambDateChanged({ date.day(), date.month(), date.year() });
 		});
 
+	ui.controlPanel->hide();
+	ui.surfacePanel->hide();
+
 }
 
 void ListView::setPresenter(ListPresenter* presenter)

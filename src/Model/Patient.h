@@ -32,5 +32,6 @@ struct Patient
 	bool isAdult(const Date& currentDate = Date::currentDate())  const;
 	Date turns18At() const;
 	std::string fullName() const;
+	std::string firstLastName() const;
 	~Patient();
 };

@@ -3,19 +3,21 @@
 #include <QWidget>
 #include "ui_TabView.h"
 #include "Presenter/TabPresenter/TabPresenter.h"
-#include "../../ListView/ListView.h"
+#include "View/ListView/ListView.h"
+#include "View/PerioView/PerioView.h"
 
 class TabView : public QWidget, public ITabView
 {
 	Q_OBJECT
 
 	TabPresenter* tabPresenter;
-
+	
+	PerioView m_perioView;
 	ListView m_listView;
 
 	QLabel* noTabs;
 
-	
+	void showTabWidget(QWidget* w);
 
 public:
 	TabView(QWidget *parent = Q_NULLPTR);
@@ -36,7 +38,8 @@ public:
     void showPerioView();
 	void showDinosaur();
 
-	virtual IListView* listView() override;
+	IListView* listView() override;
+	IPerioView* perioView() override;
 
 signals:
 	void closeRequested();

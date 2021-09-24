@@ -1,9 +1,6 @@
 #pragma once
 
-#include "TabView/ITabView.h"
-#include <string>
-#include <map>
-
+class ITabView;
 
 class IAmbListPage
 {

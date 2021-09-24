@@ -1,7 +1,7 @@
 #pragma once
 
 #include "View/AmbListPage/TabView/ITabView.h"
-
+#include "View/ModalDialogBuilder.h"
 
 enum class TabType {AmbList, PerioList, PatientSummary};
 
@@ -13,6 +13,12 @@ class TabInstance
 protected:
 	ITabView* _tabView;
 
+	void makeEdited()
+	{
+		edited = true;
+		_tabView->changeTabName(getTabName());
+	}
+
 public:
 	const TabType type;
 
@@ -23,9 +29,33 @@ public:
 
 	virtual bool save() = 0;
 	virtual bool saveAs() = 0;
-	virtual bool close() = 0;
+
+	bool close()
+	{
+		if (isNew() || edited)
+		{
+			DialogAnswer answer = ModalDialogBuilder::openSaveDialog(getTabName());
+
+			switch (answer)
+			{
+			case DialogAnswer::Yes:
+				if (save()) //if the save is not interrupted
+					break;
+				else
+					return false;
+
+			case DialogAnswer::No: break;
+
+			case DialogAnswer::Cancel: return false;
+			}
+		}
+
+		return true;
+	}
+
 	virtual void print() = 0;
 	virtual void setCurrent() = 0;
+	virtual bool isNew() = 0;
 	virtual std::string getTabName() = 0;
 
 protected:

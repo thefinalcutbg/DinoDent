@@ -15,7 +15,7 @@ protected:
 	};
 	
 public:
-	virtual void setRange(int begin, int end) = 0;
+	virtual void setBridgeRange(int begin, int end) = 0;
 	virtual std::tuple<int, int> getRange() = 0;
 	virtual void disbleBridgeSwitch(bool disable) = 0;
 };

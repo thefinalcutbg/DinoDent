@@ -3,14 +3,10 @@
 
 bool Patient::getSexFromEgn(const std::string& egn)
 {
-	int sexDigit = stoi(egn.substr(8, 1));
-
-	return 
-		(sexDigit % 2 == 0) ?
-		false
-		:
-		true;
+	return stoi(egn.substr(8, 1)) % 2 != 0;
 }
+
+
 
 int Patient::getAge(const Date& currentDate) const
 {
@@ -49,6 +45,11 @@ std::string Patient::fullName() const
 	fullName += LastName;
 
 	return fullName;
+}
+
+std::string Patient::firstLastName() const
+{
+	return FirstName + " " + LastName;
 }
 
 Patient::~Patient()

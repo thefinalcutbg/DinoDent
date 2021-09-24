@@ -87,10 +87,10 @@
     <ClCompile Include="src\View\ListView\ControlPanel\StatusButton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\ListView\ToothPaintDevices\SpriteRect.cpp">
+    <ClCompile Include="src\View\ToothPaintDevices\SpriteRect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\ListView\ToothPaintDevices\SpriteSheets.cpp">
+    <ClCompile Include="src\View\ToothPaintDevices\SpriteSheets.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\ListView\TeethView\ContextMenu.cpp">
@@ -105,7 +105,7 @@
     <ClCompile Include="src\View\ListView\TeethView\ToothGraphicsItem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\ListView\ToothPaintDevices\CPToothPainter.cpp">
+    <ClCompile Include="src\View\ToothPaintDevices\CPToothPainter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\ListView\SurfacePanel\SurfacePanel.cpp">
@@ -129,7 +129,7 @@
     <ClCompile Include="src\View\ListView\TeethView\BridgeItem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\ListView\ToothPaintDevices\BridgePainter.cpp">
+    <ClCompile Include="src\View\ToothPaintDevices\BridgePainter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\ProcedureDialog\ProcedureDialog.cpp">
@@ -201,7 +201,7 @@
     <ClCompile Include="src\Database\DbProcedure.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\ListView\ToothPaintDevices\ToothPainter.cpp">
+    <ClCompile Include="src\View\ToothPaintDevices\ToothPainter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Presenter\ListPresenter\ToothHintCreator.cpp">
@@ -249,7 +249,7 @@
     <ClCompile Include="src\Model\Procedure\CustomProcedures.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\ListView\ToothPaintDevices\ToothSprite.cpp">
+    <ClCompile Include="src\View\ToothPaintDevices\ToothSprite.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Presenter\TabPresenter\TabPresenter.cpp">
@@ -373,6 +373,36 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Model\User\UserManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\PerioView\PerioView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\PerioView\Widgets\PerioStateButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\PerioView\Widgets\PerioButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\PerioView\Widgets\PerioSpinBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\PerioView\PerioView\PerioChartItem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\PerioView\PerioView\PerioScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Presenter\PerioPresenter\PerioPresenter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Database\DbPerio.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\PerioView\Widgets\FurcationWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\PerioView\Widgets\PerioStatusView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -506,6 +536,24 @@
     <QtMoc Include="src\View\uiComponents\qt_derived\PixmapLabel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\View\PerioView\PerioView.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\PerioView\Widgets\PerioStateButton.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\PerioView\Widgets\PerioButton.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\PerioView\Widgets\PerioSpinBox.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\PerioView\Widgets\FurcationWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\PerioView\Widgets\PerioStatusView.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="src\View\Torque.qrc">
@@ -585,6 +633,12 @@
     <QtUic Include="src\View\uiComponents\qt_derived\Widgets\DentistMadeWidget.ui">
       <Filter>Form Files</Filter>
     </QtUic>
+    <QtUic Include="src\View\PerioView\PerioView.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\PerioView\Widgets\PerioStatusView.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Presenter\AmbListPagePresenter.h">
@@ -638,10 +692,10 @@
     <ClInclude Include="src\Presenter\ListPresenter\CheckState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\View\ListView\ToothPaintDevices\SpriteRect.h">
+    <ClInclude Include="src\View\ToothPaintDevices\SpriteRect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\View\ListView\ToothPaintDevices\SpriteSheets.h">
+    <ClInclude Include="src\View\ToothPaintDevices\SpriteSheets.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\ListView\TeethView\SelectionBox.h">
@@ -650,7 +704,7 @@
     <ClInclude Include="src\View\ListView\TeethView\ToothGraphicsItem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\View\ListView\ToothPaintDevices\CPToothPainter.h">
+    <ClInclude Include="src\View\ToothPaintDevices\CPToothPainter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\ListView\SurfacePanel\ControlPanelPolygon.h">
@@ -677,7 +731,7 @@
     <ClInclude Include="src\View\ListView\TeethView\BridgeItem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\View\ListView\ToothPaintDevices\BridgePainter.h">
+    <ClInclude Include="src\View\ToothPaintDevices\BridgePainter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\bridgeTest.h">
@@ -752,10 +806,10 @@
     <ClInclude Include="src\Database\DbProcedure.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\View\ListView\ToothPaintDevices\PaintHint.h">
+    <ClInclude Include="src\View\ToothPaintDevices\PaintHint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\View\ListView\ToothPaintDevices\ToothPainter.h">
+    <ClInclude Include="src\View\ToothPaintDevices\ToothPainter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Presenter\ListPresenter\ToothHintCreator.h">
@@ -809,7 +863,7 @@
     <ClInclude Include="src\View\ListView\IProcedureView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\View\ListView\ToothPaintDevices\ToothSprite.h">
+    <ClInclude Include="src\View\ToothPaintDevices\ToothSprite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Presenter\TabPresenter\TabPresenter.h">
@@ -918,6 +972,27 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Presenter\TabPresenter\TabInstance.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\View\PerioView\Widgets\Measurment.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\View\PerioView\PerioView\PerioChartItem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\View\PerioView\PerioView\PerioScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Presenter\PerioPresenter\PerioPresenter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\View\PerioView\IPerioView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Database\DbPerio.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\PerioStatus.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

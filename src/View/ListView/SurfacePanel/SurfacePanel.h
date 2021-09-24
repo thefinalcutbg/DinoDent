@@ -3,7 +3,7 @@
 
 #include "ui_SurfacePanel.h"
 
-#include "../ToothPaintDevices/CPToothPainter.h"
+#include "View/ToothPaintDevices/CPToothPainter.h"
 
 #include "CPTooth.h"
 #include "ControlPanelPolygon.h"

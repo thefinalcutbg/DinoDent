@@ -37,7 +37,7 @@ void CrownView::set_hidden(bool hidden)
 void CrownView::setData(const ProcedureBridgeData& data)
 {
 	ui.rangeWidget->disable(false);
-	ui.rangeWidget->setRange(data.tooth_begin, data.tooth_end);
+	ui.rangeWidget->setBridgeRange(data.tooth_begin, data.tooth_end);
 	ui.crownWidget->setData(data.crown);
 }
 

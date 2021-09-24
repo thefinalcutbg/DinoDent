@@ -82,7 +82,7 @@ void CrownPresenter::setView(ICrownView* view)
 	this->view = view;
 	auto [begin, end] = getInitialBridgeRange(*selectedTeeth);
 
-	view->rangeWidget()->setRange(begin, end);
+	view->rangeWidget()->setBridgeRange(begin, end);
 	bridgeDiagnosis = getBridgeDiagnosis(begin, end, *teeth);
 	bridgeRangeName = getBridgeRangeName(begin, end, *teeth);
 

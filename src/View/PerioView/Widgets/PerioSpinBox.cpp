@@ -1,18 +1,19 @@
 #include "PerioSpinBox.h"
 #include <QPainter>
-
-
+#include "Model/Tooth/ToothUtils.h"
 
 PerioSpinBox::PerioSpinBox(QWidget*parent)
 	: QSpinBox(parent)
 {
 	setMinimum(0);
 	setButtonSymbols(QAbstractSpinBox::ButtonSymbols::NoButtons);
-
+	setValue(0);
 	setAlignment(Qt::AlignCenter);
-	setSizePolicy(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Expanding);
+	setSizePolicy(QSizePolicy::Policy::MinimumExpanding, QSizePolicy::Policy::MinimumExpanding);
 	setFrame(true);
-	
+
+	//setMinimumSize(QSize(15, 15));
+
 	QPalette palet = palette();
 	palet.setBrush(QPalette::Highlight, QBrush(Qt::white));
 	palet.setBrush(QPalette::HighlightedText, QBrush(Qt::black));
@@ -30,7 +31,7 @@ PerioSpinBox::PerioSpinBox(QWidget*parent)
 				palet.setBrush(QPalette::Text, QBrush(red));
 				setPalette(palet);
 
-				auto f = font();
+				auto f = this->font();
 				f.setBold(true);
 				setFont(f);
 
@@ -43,7 +44,7 @@ PerioSpinBox::PerioSpinBox(QWidget*parent)
 				palet.setBrush(QPalette::Text, QBrush(Qt::black));
 				setPalette(palet);
 
-				auto f = font();
+				auto f = this->font();
 				f.setBold(false);
 				setFont(f);
 			}

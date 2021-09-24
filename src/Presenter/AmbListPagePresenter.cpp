@@ -30,7 +30,7 @@ void AmbListPagePresenter::printPressed()
     }
 }
 
-void AmbListPagePresenter::newPressed()
+void AmbListPagePresenter::newAmbPressed()
 {
     PatientDialogPresenter p;
 
@@ -38,6 +38,16 @@ void AmbListPagePresenter::newPressed()
 
     if (patient.has_value())
         _tabPresenter.openList(patient.value());
+}
+
+void AmbListPagePresenter::newPerioPressed()
+{
+    PatientDialogPresenter p;
+
+    auto patient = p.open();
+
+    if (patient.has_value())
+        _tabPresenter.openPerio(patient.value());
 }
 
 void AmbListPagePresenter::showListSelector()
@@ -66,7 +76,7 @@ bool AmbListPagePresenter::closeTab()
 {
     if (!_tabPresenter.currentTab()->close()) return false;
 
-    _tabPresenter.removeCurrentList();
+    _tabPresenter.removeCurrentTab();
 
     return true;
 }

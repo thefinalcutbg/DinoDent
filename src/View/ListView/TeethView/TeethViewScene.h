@@ -1,8 +1,8 @@
 #pragma once
 
 #include <QGraphicsScene>
-#include "../ToothPaintDevices/ToothPainter.h"
-#include "../ToothPaintDevices/BridgePainter.h"
+#include "View/ToothPaintDevices/ToothPainter.h"
+#include "View/ToothPaintDevices/BridgePainter.h"
 #include "Model/Procedure/TableStructs.h"
 
 class ContextMenu;

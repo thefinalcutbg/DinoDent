@@ -74,7 +74,7 @@ void RangeWidget::disable(bool disable)
 }
 
 
-void RangeWidget::setRange(int begin, int end)
+void RangeWidget::setBridgeRange(int begin, int end)
 {
 	ui.beginCombo->blockSignals(true);
 	ui.endCombo->blockSignals(true);

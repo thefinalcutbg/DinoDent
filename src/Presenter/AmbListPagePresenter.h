@@ -6,7 +6,6 @@
 #include "TabPresenter/TabPresenter.h"
 #include "ListSelector/ListSelectorPresenter.h"
 
-
 class AmbListPagePresenter
 {
 	TabPresenter _tabPresenter;
@@ -20,7 +19,8 @@ public:
 
 	void setView(IAmbListPage* view);
 	void printPressed();
-	void newPressed();
+	void newAmbPressed();
+	void newPerioPressed();
 	void showListSelector();
 	bool save();
 	bool saveAs();

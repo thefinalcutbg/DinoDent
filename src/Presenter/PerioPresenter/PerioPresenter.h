@@ -14,8 +14,8 @@ class PerioPresenter : public TabInstance
 	std::shared_ptr<Patient> patient;
 	IPerioView* view;
 	ToothContainer m_toothStatus;
-	PerioStatus m_perioUpper;
-	PerioStatus m_perioLower;
+	PerioStatus m_perioStatus;
+
 public:
 
 	PerioPresenter(ITabView* view, std::shared_ptr<Patient> patient);

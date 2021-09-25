@@ -67,7 +67,7 @@ void PerioSpinBox::disable(bool disabled)
 		setRange(0, 0); //not adjusting the range produces a bug
 
 		setSpecialValueText(".");
-		emit valueChanged(0);
+		//emit valueChanged(0);
 	}
 	else
 	{
@@ -75,7 +75,7 @@ void PerioSpinBox::disable(bool disabled)
 		setSpecialValueText("");
 		setRange(m_min, m_max);
 		setValue(m_value);
-		emit valueChanged(m_value);
+		//emit valueChanged(m_value);
 	}
 }
 

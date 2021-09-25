@@ -11,15 +11,11 @@ PerioPresenter::PerioPresenter(ITabView* view, std::shared_ptr<Patient> patient)
     for (auto& tooth : m_toothStatus)
     {
 
-        auto& perioStatus = tooth.index < 16 ? m_perioUpper : m_perioLower;
-        int idx = tooth.index < 16 ? tooth.index : 31 - tooth.index;
-
         if (tooth.extraction.exists())
-            perioStatus.disabled[idx] = true;
+            m_perioStatus.disabled[tooth.index] = true;
 
         if (tooth.mobility.exists())
-            perioStatus.mobility[idx] = static_cast<int>(tooth.mobility.degree) + 1;
-
+            m_perioStatus.mobility[tooth.index] = static_cast<int>(tooth.mobility.degree) + 1;
     }
 
 
@@ -53,7 +49,7 @@ void PerioPresenter::setCurrent()
         view->setToothHint(ToothHintCreator::getToothHint(m_toothStatus[i]));
     }
        
-    view->setPerioStatus(m_perioUpper, m_perioLower);
+    view->setPerioStatus(m_perioStatus);
 
     setScrollPosition();
 
@@ -61,15 +57,12 @@ void PerioPresenter::setCurrent()
 
 void PerioPresenter::prepareSwitch()
 {
-    auto& [up, low] = view->getPerioStatus();
-
-    m_perioUpper = up;
-    m_perioLower = low;
+    m_perioStatus = view->getPerioStatus();
 
     TabInstance::prepareSwitch();
 }
 
 std::string PerioPresenter::getTabName()
 {
-    return u8"Пародонтално измерване " + patient->firstLastName() + " " + Date::toString(perioDate);
+    return u8"Пародонтален статус " + patient->firstLastName() + " " + Date::toString(perioDate);
 }

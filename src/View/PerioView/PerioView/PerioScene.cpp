@@ -3,7 +3,7 @@
 #include "View/PerioView/Widgets/Measurment.h"
 #include "View/ListView/TeethView/ToothGraphicsItem.h"
 #include "Model/Tooth/ToothContainer.h"
-
+#include <QDebug>
 PerioScene::PerioScene()
 {
 

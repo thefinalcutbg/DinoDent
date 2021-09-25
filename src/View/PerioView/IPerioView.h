@@ -2,9 +2,7 @@
 
 class PerioPresenter;
 class ToothPaintHint;
-
-#include "Model/PerioStatus.h"
-#include <tuple>
+class PerioStatus;
 
 class IPerioView
 {
@@ -12,7 +10,7 @@ class IPerioView
 public:
 	virtual void setPresenter(PerioPresenter* presenter) = 0;
 	virtual void setToothHint(const ToothPaintHint& hint) = 0;
-	virtual void setPerioStatus(const PerioStatus& upper, const PerioStatus& lower) = 0;
-	virtual std::tuple<PerioStatus, PerioStatus> getPerioStatus() = 0;
+	virtual void setPerioStatus(const PerioStatus& statu) = 0;
+	virtual PerioStatus getPerioStatus() = 0;
 
 };

@@ -133,6 +133,14 @@ void TeethViewScene::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
 
 void TeethViewScene::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
+
+    //ctr bug:
+    if (event->button() != Qt::LeftButton) {
+        event->accept();
+        return;
+    }
+
+    //menu bug:
     if (event->button() != Qt::LeftButton || 
         QGuiApplication::keyboardModifiers().testFlag(Qt::ControlModifier)) {
         QGraphicsScene::mousePressEvent(event);

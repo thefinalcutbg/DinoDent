@@ -20,6 +20,7 @@ public:
 
 	PerioPresenter(ITabView* view, std::shared_ptr<Patient> patient);
 
+
 	// Inherited via TabInstance
 	virtual bool save() override;
 	virtual bool saveAs() override;

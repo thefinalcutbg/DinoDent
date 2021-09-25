@@ -10,7 +10,10 @@ class PerioSpinBox : public QSpinBox
 	int m_max{ 0 };
 	int m_value{ 0 };
 
+	bool m_hover{ false };
+
 	void paintEvent(QPaintEvent* event) override;
+	bool eventFilter(QObject* obj, QEvent* e) override;
 
 	bool isRed{ false };
 

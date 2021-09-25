@@ -13,9 +13,9 @@ class GraphicsView : public QGraphicsView
 	void mousePressEvent(QMouseEvent* event) override;
 
 
-	void focusInEvent(QFocusEvent* event) override { setStyleSheet("border: 1px solid lightblue"); }
+	void focusInEvent(QFocusEvent* event) override { setStyleSheet("border: 2px solid lightblue"); }
 
-	void focusOutEvent(QFocusEvent* event) override { setStyleSheet("");}
+	void focusOutEvent(QFocusEvent* event) override { setStyleSheet("border: 2px solid lightgray");}
 
 	void wheelEvent(QWheelEvent* event) override;
 

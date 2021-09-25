@@ -34,8 +34,8 @@
      <height>721</height>
     </rect>
    </property>
-   <widget class="PerioStatusView" name="perioUpper"/>
-   <widget class="PerioStatusView" name="perioLower"/>
+   <widget class="PerioStatusView" name="maxilla"/>
+   <widget class="PerioStatusView" name="mandibula"/>
   </widget>
   <widget class="QPushButton" name="upperButton">
    <property name="geometry">
@@ -67,6 +67,19 @@
    </property>
    <property name="checkable">
     <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="calAvg">
+   <property name="geometry">
+    <rect>
+     <x>1040</x>
+     <y>60</y>
+     <width>181</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
    </property>
   </widget>
  </widget>

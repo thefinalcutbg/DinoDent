@@ -10,6 +10,7 @@ GraphicsView::GraphicsView(QWidget *parent)
 	setCacheMode(QGraphicsView::CacheBackground);
 	setDragMode(QGraphicsView::RubberBandDrag);
 
+	setStyleSheet("border: 2px solid lightgray");
 	
 	gl = new QOpenGLWidget();
 	

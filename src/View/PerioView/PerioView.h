@@ -25,10 +25,7 @@ class PerioView : public QWidget, public IPerioView
     Q_OBJECT
 
     PerioPresenter* presenter{ nullptr };
-    /*
-    PerioChartItem* upperChart;
-    PerioChartItem* lowerChart;
-        */
+
     PerioScene* perioScene[2];
 
     PerioChartItem* upperChart[2];
@@ -44,25 +41,12 @@ class PerioView : public QWidget, public IPerioView
     PerioSpinBox* m_GM[192];
     PerioButton* m_BOP[192];
 
-    void addToLayout(
-        PerioStatusView* view,
-        PerioScene* &perioScene,
-        PerioChartItem* &upperChart,
-        PerioChartItem* &lowerChart,
-        QPushButton* m_tooth[16],
-        PerioStateButton* m_mobi[16],
-        FurcationWidget* m_furcation[16],
-        PerioSpinBox* m_Rec[32],
-        PerioSpinBox* m_Attach[32],
-        PerioSpinBox* m_PD[96],
-        PerioSpinBox* m_CAL[96],
-        PerioSpinBox* m_GM[96],
-        PerioButton* m_BOP[96]
-    );
 
     void paintEvent(QPaintEvent* event) override;
     void calcRecession(int GM_idx);
     void disableColumn(int toothIdx, bool disabled);
+    double calculateCalAvg();
+    void refreshChartMeasurment(int idx);
 
 public:
     PerioView(QWidget *parent = Q_NULLPTR);

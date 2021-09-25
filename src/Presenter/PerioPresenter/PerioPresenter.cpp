@@ -11,7 +11,7 @@ PerioPresenter::PerioPresenter(ITabView* view, std::shared_ptr<Patient> patient)
     for (auto& tooth : m_toothStatus)
     {
 
-        if (tooth.extraction.exists())
+        if (tooth.extraction.exists() || tooth.impacted.exists())
             m_perioStatus.disabled[tooth.index] = true;
 
         if (tooth.mobility.exists())

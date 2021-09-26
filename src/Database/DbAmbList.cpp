@@ -336,9 +336,12 @@ std::map<int, bool> DbAmbList::getExistingNumbers(int currentYear)
 
 int DbAmbList::getNewNumber(int currentYear)
 {
+
     openConnection();
 
     std::string query = "SELECT MAX(num) FROM amblist WHERE year = " + std::to_string(currentYear);
+
+    sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
 
     int number = 0;
 

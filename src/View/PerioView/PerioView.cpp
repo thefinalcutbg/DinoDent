@@ -228,7 +228,7 @@ PerioView::PerioView(QWidget* parent)
 		ui.mandibula->ui.recDownLayout->addWidget(m_Rec[i+32]);
 	}
 
-	//initializing scenes:
+	//initializing tooth scenes:
 	//scene maxilaris:
 	perioScene[0] = new PerioScene();
 
@@ -261,6 +261,67 @@ PerioView::PerioView(QWidget* parent)
 	lowerChart[1]->setPos(lowerChart[1]->boundingRect().width(), 360);
 
 	ui.mandibula->ui.graphicsView->setScene(perioScene[1]);
+
+	//initializing FMBS/FMPS:
+	QGraphicsScene* maxillaryScene = new QGraphicsScene;
+	ui.maxilla->ui.graphicsSurfaceView->setScene(maxillaryScene);
+
+	ui.maxilla->ui.graphicsSurfaceView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+	ui.maxilla->ui.graphicsSurfaceView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+	int xPos = 0;
+
+	for (int i = 0; i < 16; i++)
+	{
+		
+		for (int y = 0; y < 4; y++)
+		{
+			int index = i*4 + y;
+
+			m_FMPS[index] = new PerioGraphicsButton(static_cast<ButtonPos>(y), this);
+			maxillaryScene->addItem(m_FMPS[index]);
+			m_FMPS[index]->setPos(xPos, 0);
+			
+
+			m_FMBS[index] = new PerioGraphicsButton(static_cast<ButtonPos>(y), this);
+			maxillaryScene->addItem(m_FMBS[index]);
+			m_FMBS[index]->setPos(xPos, m_FMBS[index]->boundingRect().height());
+			m_FMBS[index]->setColor(QColor{ 255,146,148 });
+		}
+
+		xPos = xPos + surfButtonWidth;
+
+	}
+
+	QGraphicsScene* mandibularScene = new QGraphicsScene;
+	ui.mandibula->ui.graphicsSurfaceView->setScene(mandibularScene);
+
+	ui.mandibula->ui.graphicsSurfaceView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+	ui.mandibula->ui.graphicsSurfaceView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+	for (int i = 31; i >= 16; i--)
+	{
+
+		for (int y = 0; y < 4; y++)
+		{
+			int index = i * 4 + y;
+
+			m_FMPS[index] = new PerioGraphicsButton(static_cast<ButtonPos>(y), this);
+			mandibularScene->addItem(m_FMPS[index]);
+			m_FMPS[index]->setPos(xPos, 0);
+
+
+			m_FMBS[index] = new PerioGraphicsButton(static_cast<ButtonPos>(y), this);
+			mandibularScene->addItem(m_FMBS[index]);
+			m_FMBS[index]->setPos(xPos, m_FMBS[index]->boundingRect().height());
+			m_FMBS[index]->setColor(QColor{ 255,146,148 });
+		}
+
+		xPos = xPos + surfButtonWidth;
+
+	}
+
+
 
 
 	//palatal surfaces have no attached gingiva!
@@ -298,7 +359,6 @@ PerioView::PerioView(QWidget* parent)
 
 			});
 	}
-
 }
 
 void PerioView::setPresenter(PerioPresenter* presenter)
@@ -395,6 +455,13 @@ void PerioView::disableColumn(int toothIdx, bool disabled)
 	m_mobi[toothIdx]->setDisabled(disabled);
 	m_furcation[toothIdx]->setDisabled(disabled);
 
+	for (int i = toothIdx*4; i < (toothIdx*4)+4; i++)
+	{
+		m_FMBS[i]->setDisabled(disabled);
+		m_FMPS[i]->setDisabled(disabled);
+	}
+
+	
 	m_Attach[toothIdx]->disable(disabled);
 	if (!(toothIdx + 32 < 46))
 	m_Attach[toothIdx +32]->disable(disabled);

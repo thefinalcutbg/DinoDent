@@ -6,7 +6,7 @@
 #include <QDebug>
 PerioScene::PerioScene()
 {
-
+    
     toothPainter.showLingual = true;
 
     double posY = 0;

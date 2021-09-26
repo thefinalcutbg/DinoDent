@@ -1,4 +1,6 @@
 ﻿#include "ControlPanelPolygon.h"
+#include <QPainter>
+#include <QGraphicsSceneMouseEvent>
 
 ControlPanelPolygon::ControlPanelPolygon(ButtonPos position, PolygonObserver* observer) 
     : hovered(false), position(position), observer(observer)

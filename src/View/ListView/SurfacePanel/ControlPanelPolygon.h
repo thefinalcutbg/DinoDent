@@ -1,7 +1,6 @@
 #pragma once
 #include <QGraphicsItem>
-#include <QPainter>
-#include <QGraphicsSceneMouseEvent>
+
 #include  "Presenter/ListPresenter/InputEnums.h"
 
 enum class MouseClick {leftClick, rightClick};

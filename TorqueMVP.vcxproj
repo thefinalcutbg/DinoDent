@@ -202,6 +202,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\View\PerioView\PerioView\PerioGraphicsButton.cpp" />
     <ClCompile Include="src\View\PerioView\Widgets\PerioStatusView.cpp" />
     <ClCompile Include="src\View\PerioView\Widgets\FurcationWidget.cpp" />
     <ClCompile Include="src\Database\DbPerio.cpp" />
@@ -404,6 +405,7 @@
   <ItemGroup>
     <QtMoc Include="src\View\PerioView\Widgets\FurcationWidget.h" />
     <QtMoc Include="src\View\PerioView\Widgets\PerioStatusView.h" />
+    <ClInclude Include="src\View\PerioView\PerioView\PerioGraphicsButton.h" />
     <ClInclude Include="src\Database\DbPerio.h" />
     <ClInclude Include="src\Model\PerioStatus.h" />
     <ClInclude Include="src\Presenter\PerioPresenter\PerioPresenter.h" />

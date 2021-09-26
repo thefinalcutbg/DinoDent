@@ -39,7 +39,7 @@ void PerioButton::paintEvent(QPaintEvent* event)
 
 	QColor color(Qt::GlobalColor::white);
 	if (!isEnabled()) color = QColor(Qt::GlobalColor::lightGray);
-	else if (m_hover) color = QColor(204, 228, 247);
+	else if (m_hover) color = QColor{ 236, 236, 236 };
 
 	
 	QRectF rect(0, 0, width(), height());

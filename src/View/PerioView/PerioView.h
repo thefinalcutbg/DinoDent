@@ -3,22 +3,10 @@
 #include <QWidget>
 #include "ui_PerioView.h"
 #include "PerioView/PerioChartItem.h"
+#include "PerioView/PerioGraphicsButton.h"
 #include "PerioView/PerioScene.h"
 #include "IPerioView.h"
 
-struct PerioDataUi
-{
-    QPushButton* tooth;
-    PerioStateButton* mobi;
-    FurcationWidget* furc;
-    PerioSpinBox* rec[2];
-    PerioSpinBox* attach[2];
-    PerioSpinBox* PD[6];
-    PerioSpinBox* CAL[6];
-    PerioSpinBox* GM[6];
-    PerioButton* BOP[6];
-
-};
 
 class PerioView : public QWidget, public IPerioView
 {
@@ -40,6 +28,8 @@ class PerioView : public QWidget, public IPerioView
     PerioSpinBox* m_CAL[192];
     PerioSpinBox* m_GM[192];
     PerioButton* m_BOP[192];
+    PerioGraphicsButton* m_FMBS[128];
+    PerioGraphicsButton* m_FMPS[128];
 
 
     void paintEvent(QPaintEvent* event) override;

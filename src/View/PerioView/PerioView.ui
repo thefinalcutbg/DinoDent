@@ -30,8 +30,8 @@
     <rect>
      <x>10</x>
      <y>120</y>
-     <width>1201</width>
-     <height>721</height>
+     <width>1196</width>
+     <height>801</height>
     </rect>
    </property>
    <widget class="PerioStatusView" name="maxilla"/>

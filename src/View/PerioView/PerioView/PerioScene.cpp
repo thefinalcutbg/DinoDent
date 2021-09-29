@@ -42,6 +42,12 @@ void PerioScene::display(const ToothPaintHint& tooth)
     toothGraphic[31-tooth.idx]->setToothGraphic(ToothPainter::getBuccalLingual(tooth));
 }
 
+void PerioScene::deletePixmaps()
+{
+    for (auto &t : toothGraphic)
+        t->setToothGraphic(nullptr);
+}
+
 PerioScene::~PerioScene()
 {
 }

@@ -103,6 +103,11 @@ void TeethViewScene::setContextMenu(ContextMenu* contextMenu)
 void TeethViewScene::setPresenter(ListPresenter* presenter)
 {
     this->presenter = presenter;
+    if(!presenter)
+        for (auto tooth : toothGraphic)
+        {
+            tooth->setToothGraphic(nullptr);
+        }
 }
 
 

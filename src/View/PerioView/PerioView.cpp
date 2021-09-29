@@ -364,6 +364,13 @@ PerioView::PerioView(QWidget* parent)
 void PerioView::setPresenter(PerioPresenter* presenter)
 {
     this->presenter = presenter;
+
+	if (!presenter)
+	{
+		perioScene[0]->deletePixmaps();
+		perioScene[1]->deletePixmaps();
+	}
+
 }
 
 void PerioView::setToothHint(const ToothPaintHint& hint)

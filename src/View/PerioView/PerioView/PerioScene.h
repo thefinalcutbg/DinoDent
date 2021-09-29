@@ -13,6 +13,7 @@ class PerioScene : public QGraphicsScene
 public:
 	PerioScene();
 	void display(const ToothPaintHint& tooth);
+	void deletePixmaps();
 
 	~PerioScene();
 };

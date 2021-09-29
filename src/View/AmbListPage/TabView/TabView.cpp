@@ -128,17 +128,22 @@ void TabView::setScrollPos(ScrollPos scrollPos)
 
 void TabView::showListView()
 {
+
     showTabWidget(&m_listView);
+    m_perioView.setPresenter(nullptr);
 }
 
 void TabView::showPerioView()
 {
     showTabWidget(&m_perioView);
+    m_listView.setPresenter(nullptr);
 }
 
 void TabView::showDinosaur()
 {
     showTabWidget(noTabs);
+    m_listView.setPresenter(nullptr);
+    m_perioView.setPresenter(nullptr);
 }
 
 IListView* TabView::listView()

@@ -174,7 +174,9 @@ void DetailedStatus::disableItem(int index, bool disabled)
 
 void DetailedStatus::paintTooth(const ToothPaintHint& hint)
 {
-	ui.imageLabel->setPixmap(*ToothPainter::getBuccalOcclusal(hint));
+	auto tooth = ToothPainter::getBuccalOcclusal(hint);
+	ui.imageLabel->setPixmap(*tooth);
+	delete tooth;
 }
 
 void DetailedStatus::clearData()

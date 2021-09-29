@@ -8,6 +8,7 @@
 #include "BridgeItem.h"
 #include "Presenter/ListPresenter/ListPresenter.h"
 #include <QGuiApplication>
+#include "View/ToothPaintDevices/ToothPainter.h"
 
 TeethViewScene::TeethViewScene(QObject *parent)
     : QGraphicsScene(parent), contextMenu(nullptr), presenter(nullptr)
@@ -268,7 +269,7 @@ void TeethViewScene::keyPressEvent(QKeyEvent* event)
 
 void TeethViewScene::display(ToothPaintHint tooth)
 {
-    toothGraphic[tooth.idx]->setToothGraphic(toothPainter.paintTooth(tooth));
+    toothGraphic[tooth.idx]->setToothGraphic(ToothPainter::getBuccalOcclusal(tooth));
 }
 
 void TeethViewScene::display(const BridgesPaintHint& bridges)

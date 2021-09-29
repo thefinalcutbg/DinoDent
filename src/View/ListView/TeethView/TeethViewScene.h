@@ -1,7 +1,6 @@
 #pragma once
 
 #include <QGraphicsScene>
-#include "View/ToothPaintDevices/ToothPainter.h"
 #include "View/ToothPaintDevices/BridgePainter.h"
 #include "Model/Procedure/TableStructs.h"
 
@@ -23,7 +22,7 @@ class TeethViewScene : public QGraphicsScene
 	BridgeItem* lowerBridge;
 
 	BridgePainter bridgePainter;
-	ToothPainter toothPainter;
+
 
 	ListPresenter* presenter;
 

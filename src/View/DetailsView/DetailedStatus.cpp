@@ -1,10 +1,13 @@
 ﻿#include "DetailedStatus.h"
-#include "Model/Tooth/Enums.h"
+
 #include <QDebug>
+#include <QIcon>
+#include <QPainter>
+
 #include "Presenter/ListPresenter/CheckState.h"
 #include "View/ToothPaintDevices/ToothPainter.h"
 #include "Presenter/DetailsPresenter/DetailedStatusPresenter.h"
-#include <QIcon>
+#include "Model/Tooth/Enums.h"
 
 void DetailedStatus::paintEvent(QPaintEvent* event)
 {
@@ -171,7 +174,7 @@ void DetailedStatus::disableItem(int index, bool disabled)
 
 void DetailedStatus::paintTooth(const ToothPaintHint& hint)
 {
-	ui.imageLabel->setPixmap(painter.getPixmap(hint));
+	ui.imageLabel->setPixmap(*ToothPainter::getBuccalOcclusal(hint));
 }
 
 void DetailedStatus::clearData()

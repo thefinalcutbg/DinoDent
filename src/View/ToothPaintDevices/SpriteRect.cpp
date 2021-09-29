@@ -3,9 +3,9 @@
 SpritesheetCoords::SpritesheetCoords(SpriteRectType type)
 {
 
-	implantCrop.setCoords(0, 0, 120, 250);
-	implantLesionCrop.setCoords(120, 0, 240, 250);
-	implantPerioCrop.setCoords(240, 0, 360, 250);
+	implantCrop.setCoords(0, 0, 120, 860);
+	implantLesionCrop.setCoords(120, 0, 240, 860);
+	implantPerioCrop.setCoords(240, 0, 360, 860);
 
 	switch (type)
 	{
@@ -56,7 +56,7 @@ void SpritesheetCoords::molar()
 	buccalImpactCrop.setCoords(0, 0, 180, 360);
 	lingualImpactCrop.setCoords(0, 500, 180, 860);
 	
-	implantPaint.setCoords(30, 0, 150, 240);
+	implantPaint.setCoords(30, 0, 150, 860);
 
 	surfPos[occ] = QPoint(0, 360);
 	surfPos[med] = QPoint(90, 250);

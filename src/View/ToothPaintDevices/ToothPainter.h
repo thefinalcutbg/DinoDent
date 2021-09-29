@@ -1,37 +1,11 @@
 #pragma once
-#include <QPainter>
-#include <QGraphicsPixmapItem>
 
-#include "SpriteRect.h"
-#include "SpriteSheets.h"
+#include <QPixmap>
 #include "PaintHint.h"
 
-
-
-class ToothPainter
+namespace ToothPainter
 {
-
-protected:
-	const TexturePack* currentTexture;
-	const SpritesheetCoords* coords;
-
-
-	QPixmap textureFormat(const QPixmap& px, QColor color, double opacity); //paints the texture in specific colour and opacity
-	QPixmap textureFormat(const QPixmap& px, double opacity); //paints a texture with some opacity
-	QPixmap textureOutline(const QPixmap& src, QColor borderColor);
-
-	QPixmap drawSurfaces(const ToothPaintHint& tooth);
-	QPixmap mobilityPaint(const ToothPaintHint& tooth);
-	QPixmap fracturePaint(const ToothPaintHint& tooth);
-	QPixmap toothNumber(const ToothPaintHint& tooth);
-	void rotateByQuadrant(QPainter& painter, int textureWidth, int textureHeight, int toothIndex);
-
-	virtual QPixmap returnPaintedTooth(const ToothPaintHint& tooth);
-
-public:
-	ToothPainter();
-	bool showLingual;
-	virtual QPixmap* paintTooth(const ToothPaintHint& tooth);
-	QPixmap getPixmap(const ToothPaintHint& tooth);
-};
-
+	QPixmap* getBuccalOcclusal(const ToothPaintHint& toothHint);
+	QPixmap* getBuccalLingual(const ToothPaintHint& toothHint);
+	QPixmap* getOcclusal(const ToothPaintHint& toothHint);
+}

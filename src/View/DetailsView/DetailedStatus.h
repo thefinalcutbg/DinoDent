@@ -22,8 +22,6 @@ class DetailedStatus final: public QDialog, public IDetailedStatusView
 
 	DetailedStatusPresenter* presenter;
 
-	ToothPainter painter;
-
 	inline static QString statusNames[statusCount]
 	{ u8"Временен зъб", u8"Обтурация", u8"Кариес",  u8"Пулпит", u8"Периодонтит",
 	  u8"Ендодонтско лечение", u8"Радикуларен щифт", u8"Корен",u8"Фрактура", u8"Екстракция",

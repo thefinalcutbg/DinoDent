@@ -3,11 +3,12 @@
 #include "View/PerioView/Widgets/Measurment.h"
 #include "View/ListView/TeethView/ToothGraphicsItem.h"
 #include "Model/Tooth/ToothContainer.h"
+#include "View/ToothPaintDevices/ToothPainter.h"
+#include "View/ToothPaintDevices/PaintHint.h"
 #include <QDebug>
 PerioScene::PerioScene()
 {
-    
-    toothPainter.showLingual = true;
+   
 
     double posY = 0;
     double posX = 0;
@@ -36,9 +37,9 @@ PerioScene::PerioScene()
 void PerioScene::display(const ToothPaintHint& tooth)
 {
     if(tooth.idx < 16)
-    toothGraphic[tooth.idx]->setToothGraphic(toothPainter.paintTooth(tooth));
+    toothGraphic[tooth.idx]->setToothGraphic(ToothPainter::getBuccalLingual(tooth));
     else
-    toothGraphic[31-tooth.idx]->setToothGraphic(toothPainter.paintTooth(tooth));
+    toothGraphic[31-tooth.idx]->setToothGraphic(ToothPainter::getBuccalLingual(tooth));
 }
 
 PerioScene::~PerioScene()

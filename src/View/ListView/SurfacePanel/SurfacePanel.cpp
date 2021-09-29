@@ -4,7 +4,7 @@
 
 #include "Presenter/ListPresenter/ToothHintCreator.h"
 #include "Presenter/ListPresenter/SurfacePanel/SurfacePanelPresenter.h"
-
+#include "../../ToothPaintDevices/ToothPainter.h"
 
 
 SurfacePanel::SurfacePanel(QWidget* parent)
@@ -49,7 +49,7 @@ void SurfacePanel::setPresenter(SurfacePanelPresenter* presenter)
 void SurfacePanel::paintTooth(const ToothPaintHint& tooth)
 {
 	
-	toothGraphic->setPixmap(painter.paintTooth(tooth));
+	toothGraphic->setPixmap(ToothPainter::getOcclusal(tooth));
 }
 
 void SurfacePanel::hidePanel(bool hidden)

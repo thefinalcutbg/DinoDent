@@ -105,9 +105,6 @@
     <ClCompile Include="src\View\ListView\TeethView\ToothGraphicsItem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\ToothPaintDevices\CPToothPainter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\View\ListView\SurfacePanel\SurfacePanel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -199,9 +196,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Database\DbProcedure.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\View\ToothPaintDevices\ToothPainter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Presenter\ListPresenter\ToothHintCreator.cpp">
@@ -408,7 +402,7 @@
     <ClCompile Include="src\View\PerioView\PerioView\PerioGraphicsButton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\ToothPaintDevices\Painter.cpp">
+    <ClCompile Include="src\View\ToothPaintDevices\ToothPainter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -710,9 +704,6 @@
     <ClInclude Include="src\View\ListView\TeethView\ToothGraphicsItem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\View\ToothPaintDevices\CPToothPainter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\View\ListView\SurfacePanel\ControlPanelPolygon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -813,9 +804,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\ToothPaintDevices\PaintHint.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\View\ToothPaintDevices\ToothPainter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Presenter\ListPresenter\ToothHintCreator.h">
@@ -1004,7 +992,7 @@
     <ClInclude Include="src\View\PerioView\PerioView\PerioGraphicsButton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\View\ToothPaintDevices\Painter.h">
+    <ClInclude Include="src\View\ToothPaintDevices\ToothPainter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

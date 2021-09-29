@@ -3,7 +3,6 @@
 
 #include "ui_SurfacePanel.h"
 
-#include "View/ToothPaintDevices/CPToothPainter.h"
 
 #include "CPTooth.h"
 #include "ControlPanelPolygon.h"
@@ -21,8 +20,6 @@ class SurfacePanel : public QWidget, public PolygonObserver, public ISurfacePane
 	QGraphicsScene* scene;
 
 	SurfacePanelPresenter* presenter;
-
-	CPToothPainter painter;
 
 	CPTooth* toothGraphic;
 	std::array<ControlPanelPolygon*, 5> polygon;

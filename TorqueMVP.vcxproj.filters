@@ -408,6 +408,9 @@
     <ClCompile Include="src\View\PerioView\PerioView\PerioGraphicsButton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\ToothPaintDevices\Painter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -999,6 +1002,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\PerioView\PerioView\PerioGraphicsButton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\View\ToothPaintDevices\Painter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

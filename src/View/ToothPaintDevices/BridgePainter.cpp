@@ -1,6 +1,6 @@
 #include "BridgePainter.h"
+#include "Model/Tooth/ToothUtils.h"
 
-#include <QDebug>
 
 BridgePainter::BridgePainter()
 {

@@ -2,7 +2,7 @@
 #include <QPixmap>
 #include <array>
 
-struct ToothSprite
+struct TexturePack
 {
 	QPixmap* tooth;
 	QPixmap* root;
@@ -16,8 +16,9 @@ struct ToothSprite
 	QPixmap* perioImplant;
 	std::array<QPixmap*, 6> surfaces;
 
-	~ToothSprite()
+	~TexturePack()
 	{
+		//don't delete implant textures, they are common!
 		delete tooth;
 		delete root;
 		delete post;

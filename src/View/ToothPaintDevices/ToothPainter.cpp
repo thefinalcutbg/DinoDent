@@ -2,38 +2,11 @@
 
 
 ToothPainter::ToothPainter() :
-    molarCoordinates(SpriteRectType::molar),
-    premolarCoordinates(SpriteRectType::premolar),
-    frontalCoordinates(SpriteRectType::frontal),
-    temp_frontal(SpriteRectType::tempFrontal),
-    temp_molar(SpriteRectType::tempMolar),
     currentTexture(nullptr),
     coords(nullptr),
     showLingual(false)
 {
 
-    for (int i = 0; i < 32; i++) //mapping indexes to tooth types
-    {
-        if (i == 3 || i == 4 || i == 11 || i == 12)
-        {
-            tooth_type[i] = &premolarCoordinates;
-            temp_tooth_type[i] = &temp_molar;
-
-        }
-
-        else if (i == 19 || i == 20 || i == 27 || i == 28)
-        {
-            tooth_type[i] = &premolarCoordinates;
-            temp_tooth_type[i] = &temp_molar;
-        }
-        else if ((i > 2 && i < 13) || (i > 18 && i < 29))
-        {
-            tooth_type[i] = &frontalCoordinates;
-            temp_tooth_type[i] = &temp_frontal;
-        }
-            
-        else tooth_type[i] = &molarCoordinates;
-    }
     
 }
 
@@ -41,16 +14,14 @@ QPixmap* ToothPainter::paintTooth(const ToothPaintHint& tooth)
 {
     int pxHeight = showLingual ? 1106 : 746;
 
-    tooth.temp ?
-    coords = temp_tooth_type[tooth.idx]
-    :
-    coords = tooth_type[tooth.idx];
+
+    coords = &SpriteSheets::container().getCoordinates(tooth.idx, tooth.temp);
 
     QPixmap pixmap(coords->toothCrop.width(), pxHeight);
     pixmap.fill(Qt::transparent);
     QPainter painter(&pixmap);
     auto& container = SpriteSheets::container();
-    currentTexture = &container.getTexture(tooth.idx, tooth.temp);
+    currentTexture = &container.getTexturePack(tooth.idx, tooth.temp);
 
     int yPos = 123;
 
@@ -59,10 +30,10 @@ QPixmap* ToothPainter::paintTooth(const ToothPaintHint& tooth)
     if (tooth.impacted && !tooth.dns) //hyperdontic edge case should be considered!
         yPos = tooth.idx > 15 ? 200 : 40;
 
-    if (tooth.mobility) {
-        int height = tooth.idx > 15 ? pxHeight - 110 : 60;
-        painter.drawPixmap(0, height, mobilityPaint(tooth));
-    }
+        if (tooth.mobility) {
+            int height = tooth.idx > 15 ? pxHeight - 110 : 60;
+            painter.drawPixmap(0, height, mobilityPaint(tooth));
+        }
 
     if (tooth.frac) {
         int height = tooth.idx > 15 ? 50 : 650;
@@ -95,16 +66,13 @@ QPixmap* ToothPainter::paintTooth(const ToothPaintHint& tooth)
 
 QPixmap ToothPainter::getPixmap(const ToothPaintHint& tooth)
 {
-    tooth.temp ?
-        coords = temp_tooth_type[tooth.idx]
-        :
-        coords = tooth_type[tooth.idx];
+    coords = &SpriteSheets::container().getCoordinates(tooth.idx, tooth.temp);
 
     QPixmap pixmap(coords->toothCrop.width(), 746);
     pixmap.fill(Qt::transparent);
     QPainter painter(&pixmap);
     auto& container = SpriteSheets::container();
-    currentTexture = &container.getTexture(tooth.idx, tooth.temp);
+    currentTexture = &container.getTexturePack(tooth.idx, tooth.temp);
 
     int yPos = 123;
 
@@ -200,7 +168,7 @@ QPixmap ToothPainter::returnPaintedTooth(const ToothPaintHint& tooth)
             painter.drawPixmap(0, 0, *currentTexture->tooth);
             painter.drawPixmap(0, 0, textureFormat(*currentTexture->tooth, Qt::green, 0.3));
             painter.setOpacity(1);
-            currentTexture = &container.getTexture(tooth.idx, tooth.temp);
+            currentTexture = &container.getTexturePack(tooth.idx, tooth.temp);
             break;
 
         case ToothTextureHint::impl_m:
@@ -208,7 +176,7 @@ QPixmap ToothPainter::returnPaintedTooth(const ToothPaintHint& tooth)
             painter.setOpacity(0.2);
             painter.drawPixmap(coords->implantPaint, textureFormat(*currentTexture->implant, Qt::green, 1));
             painter.setOpacity(1);
-            currentTexture = &container.getTexture(tooth.idx, tooth.temp);
+            currentTexture = &container.getTexturePack(tooth.idx, tooth.temp);
             break;
         case ToothTextureHint::impl:
             painter.drawPixmap(coords->implantPaint, *currentTexture->implant);

@@ -220,6 +220,7 @@
     <ClCompile Include="src\Model\Tooth\DiagnosisContainer.cpp" />
     <ClCompile Include="src\Database\sqLite\shell.c" />
     <ClCompile Include="src\Database\sqLite\sqlite3.c" />
+    <ClCompile Include="src\View\ToothPaintDevices\Painter.cpp" />
     <ClCompile Include="src\View\uiComponents\qt_derived\PixmapLabel.cpp" />
     <ClCompile Include="src\View\uiComponents\qt_derived\Widgets\DentistMadeWidget.cpp" />
     <ClCompile Include="src\View\uiComponents\qt_derived\Widgets\ObturationWidget.cpp" />
@@ -459,6 +460,7 @@
     <ClInclude Include="src\View\GlobalFunctions.h" />
     <ClInclude Include="src\View\Printer\ProcedurePrintModel.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\PixmapLabel.h" />
+    <ClInclude Include="src\View\ToothPaintDevices\Painter.h" />
     <ClInclude Include="src\View\uiComponents\qt_derived\Widgets\IImplantView.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\Widgets\ImplantView.h" />
     <ClInclude Include="src\View\ModalDialogBuilder.h" />

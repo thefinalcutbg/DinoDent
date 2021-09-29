@@ -1,5 +1,6 @@
 ﻿#include "ObturationPresenter.h"
 #include "View/ErrorMessage.h"
+#include "Model/Tooth/ToothUtils.h"
 
 ObturationPresenter::ObturationPresenter(const std::vector<Tooth*>& selectedTeeth) :
     TeethMPresenter(selectedTeeth),
@@ -125,7 +126,7 @@ std::array<bool, 6> ObturationPresenter::autoSurfaces(const Tooth& tooth)
 
     if (tooth.endo.exists())
     {
-        if (utils.getToothType(tooth.index) == ToothType::Frontal)
+        if (ToothUtils::getToothType(tooth.index) == ToothType::Frontal)
         {
             surfaces[Surface::Lingual] = true;
         }
@@ -134,7 +135,7 @@ std::array<bool, 6> ObturationPresenter::autoSurfaces(const Tooth& tooth)
 
     if (tooth.fracture.exists())
     {
-        if (utils.getToothType(tooth.index) == ToothType::Frontal)
+        if (ToothUtils::getToothType(tooth.index) == ToothType::Frontal)
         {
             surfaces[Surface::Occlusal] = true;
         }

@@ -1,5 +1,5 @@
 ﻿#include "SurfacePanelPresenter.h"
-
+#include "Model/Tooth/ToothUtils.h"
 #include "Presenter/ListPresenter/ListPresenter.h"
 
 SurfacePanelPresenter::SurfacePanelPresenter() : statusControl(nullptr), view(nullptr), currentIndex(-1)
@@ -79,7 +79,7 @@ void SurfacePanelPresenter::setTooth(Tooth* tooth)
 
 	std::array<std::string, 6> sateLabel;
 	std::array<std::string, 6> surfaceName;
-	auto unorderedSurfaces = utilities.getSurfaceNames(currentIndex);
+	auto unorderedSurfaces = ToothUtils::getSurfaceNames(currentIndex);
 
 	for (int i = 0; i<6; i++)
 	{

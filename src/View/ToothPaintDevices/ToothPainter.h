@@ -12,18 +12,9 @@ class ToothPainter
 {
 
 protected:
-	const ToothSprite* currentTexture;
+	const TexturePack* currentTexture;
 	const SpritesheetCoords* coords;
 
-	//SpriteSheets spriteContainer;
-	SpritesheetCoords molarCoordinates;
-	SpritesheetCoords premolarCoordinates;
-	SpritesheetCoords frontalCoordinates;
-	SpritesheetCoords temp_frontal;
-	SpritesheetCoords temp_molar;
-
-	std::map<int, SpritesheetCoords*> tooth_type;
-	std::map<int, SpritesheetCoords*> temp_tooth_type;
 
 	QPixmap textureFormat(const QPixmap& px, QColor color, double opacity); //paints the texture in specific colour and opacity
 	QPixmap textureFormat(const QPixmap& px, double opacity); //paints a texture with some opacity

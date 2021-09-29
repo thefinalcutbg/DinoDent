@@ -19,7 +19,10 @@ struct SpritesheetCoords
     QRect postCrop;
     QRect occlusalErase;
 
-    QRect OcclusalCrop;      //coordinates for the control panel
+    QRect buccalImpactCrop;
+    QRect lingualImpactCrop;
+
+    QRect SurfacePanelCrop;      //coordinates for the control panel
     QRect BuccalOcclusalCrop; 
 
 

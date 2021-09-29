@@ -1,5 +1,25 @@
 #include "SpriteSheets.h"
 #include <QPainter>
+#include <Model/Tooth/ToothUtils.h>
+
+
+QPixmap* textureCut(const QPixmap& spriteSheet, QRect rect)
+{
+    QPixmap* px = new QPixmap(spriteSheet.copy(rect));
+    return px;
+}
+
+QPixmap* textureCut(const QPixmap& spriteSheet, QRect rect, QRect erase)
+{
+    QPixmap* px = new QPixmap(spriteSheet.copy(rect));
+    QPainter painter(px);
+    painter.setCompositionMode(QPainter::CompositionMode::CompositionMode_Clear);
+    painter.fillRect(erase, Qt::transparent);
+    return px;
+}
+
+
+
 SpriteSheets SpriteSheets::instance;
 
 SpriteSheets::SpriteSheets()
@@ -20,6 +40,26 @@ SpriteSheets::SpriteSheets()
         permaToTemp_map[i] = deciNum;
         deciNum++;
     }
+
+
+    for (int i = 0; i < 32; i++)
+    {
+        switch(ToothUtils::getToothType(i))
+        {
+        case ToothType::Molar:
+            permanentCoords[i] = &molarRect;
+            tempoCoords[i] = nullptr;
+            break;
+        case ToothType::Premolar:
+            permanentCoords[i] = &premolarRect;
+            tempoCoords[i] = &tempMolarsRect;
+            break;
+        case ToothType::Frontal:
+            permanentCoords[i] = &frontalRect;
+            tempoCoords[i] = &tempFrontalRect;
+            break;
+        }
+    }
    
 
 }
@@ -35,43 +75,40 @@ void SpriteSheets::loadTextures()
     //loading the textures of the permanent teeth
     for (int i = 0, y = 8; i < 8; i++, y--)
     {
-        SpritesheetCoords* coord(nullptr);
-        if (i < 3) coord = &molarRect;
-        else if (i < 5) coord = &premolarRect;
-        else coord = &frontalRect;
+        auto& coord = getCoordinates(i, false);
 
         QString indx = QString::number(y);
         {
         QPixmap maxTx("toothimage/1" + indx + ".png");/*qApp->applicationDirPath()+*/
 
-        maxPermanentSprites[i].tooth = textureCut(maxTx, coord->toothCrop);
-        maxPermanentSprites[i].root = textureCut(maxTx, coord->rootCrop, coord->rootAndPerioErase);
-        maxPermanentSprites[i].endo = textureCut(maxTx, coord->endoCrop, coord->endoErase);
-        maxPermanentSprites[i].crown = textureCut(maxTx, coord->crownCrop, coord->crownErase);
-        maxPermanentSprites[i].lesion = textureCut(maxTx, coord->lesionCrop, coord->lesionErase);
-        maxPermanentSprites[i].post = textureCut(maxTx, coord->postCrop);
-        maxPermanentSprites[i].perio = textureCut(maxTx, coord->perioCrop, coord->rootAndPerioErase);
+        maxPermanentSprites[i].tooth = textureCut(maxTx, coord.toothCrop);
+        maxPermanentSprites[i].root = textureCut(maxTx, coord.rootCrop, coord.rootAndPerioErase);
+        maxPermanentSprites[i].endo = textureCut(maxTx, coord.endoCrop, coord.endoErase);
+        maxPermanentSprites[i].crown = textureCut(maxTx, coord.crownCrop, coord.crownErase);
+        maxPermanentSprites[i].lesion = textureCut(maxTx, coord.lesionCrop, coord.lesionErase);
+        maxPermanentSprites[i].post = textureCut(maxTx, coord.postCrop);
+        maxPermanentSprites[i].perio = textureCut(maxTx, coord.perioCrop, coord.rootAndPerioErase);
         maxPermanentSprites[i].implant = implant;
         maxPermanentSprites[i].lesionImplant = lesionImplant;
         maxPermanentSprites[i].perioImplant = perioImplant;
         for (int j = 0; j < 6; j++)
-            maxPermanentSprites[i].surfaces[j] = textureCut(maxTx, coord->surfCrop[j]);
+            maxPermanentSprites[i].surfaces[j] = textureCut(maxTx, coord.surfCrop[j]);
         }
 
         QPixmap mandTx("toothimage/3" + indx + ".png");
 
-        mandPermanentSprites[i].tooth = textureCut(mandTx, coord->toothCrop);
-        mandPermanentSprites[i].root = textureCut(mandTx, coord->rootCrop, coord->rootAndPerioErase);
-        mandPermanentSprites[i].endo = textureCut(mandTx, coord->endoCrop, coord->endoErase);
-        mandPermanentSprites[i].crown = textureCut(mandTx, coord->crownCrop, coord->crownErase);
-        mandPermanentSprites[i].lesion = textureCut(mandTx, coord->lesionCrop, coord->lesionErase);
-        mandPermanentSprites[i].post = textureCut(mandTx, coord->postCrop);
-        mandPermanentSprites[i].perio = textureCut(mandTx, coord->perioCrop, coord->rootAndPerioErase);
+        mandPermanentSprites[i].tooth = textureCut(mandTx, coord.toothCrop);
+        mandPermanentSprites[i].root = textureCut(mandTx, coord.rootCrop, coord.rootAndPerioErase);
+        mandPermanentSprites[i].endo = textureCut(mandTx, coord.endoCrop, coord.endoErase);
+        mandPermanentSprites[i].crown = textureCut(mandTx, coord.crownCrop, coord.crownErase);
+        mandPermanentSprites[i].lesion = textureCut(mandTx, coord.lesionCrop, coord.lesionErase);
+        mandPermanentSprites[i].post = textureCut(mandTx, coord.postCrop);
+        mandPermanentSprites[i].perio = textureCut(mandTx, coord.perioCrop, coord.rootAndPerioErase);
         mandPermanentSprites[i].implant = implant;
         mandPermanentSprites[i].lesionImplant = lesionImplant;
         mandPermanentSprites[i].perioImplant = perioImplant;
         for (int j = 0; j < 6; j++)
-            mandPermanentSprites[i].surfaces[j] = textureCut(mandTx, coord->surfCrop[j]);
+            mandPermanentSprites[i].surfaces[j] = textureCut(mandTx, coord.surfCrop[j]);
 
    
 
@@ -84,40 +121,35 @@ void SpriteSheets::loadTextures()
     //loading deciduous teeth:
     for (int i = 0, y = 5; i < 5; i++, y--)
     {
-        SpritesheetCoords* coord(nullptr);
-        if (i < 2) coord = &tempMolarsRect;
-        else coord = &tempFrontalRect;
-
+        auto& coord = getCoordinates(i + 3, true);
 
         QString indx = QString::number(y);
 
         QPixmap maxTx("toothimage/5" + indx + ".png");
 
-        maxTemporarySprites[i].tooth = textureCut(maxTx, coord->toothCrop);
-        maxTemporarySprites[i].root = textureCut(maxTx, coord->rootCrop);
-        maxTemporarySprites[i].endo = textureCut(maxTx, coord->endoCrop);
-        maxTemporarySprites[i].crown = textureCut(maxTx, coord->crownCrop);
-        maxTemporarySprites[i].lesion = textureCut(maxTx, coord->lesionCrop);
-        maxTemporarySprites[i].post = textureCut(maxTx, coord->postCrop);
-        maxTemporarySprites[i].perio = textureCut(maxTx, coord->perioCrop);
+        maxTemporarySprites[i].tooth = textureCut(maxTx, coord.toothCrop);
+        maxTemporarySprites[i].root = textureCut(maxTx, coord.rootCrop);
+        maxTemporarySprites[i].endo = textureCut(maxTx, coord.endoCrop);
+        maxTemporarySprites[i].crown = textureCut(maxTx, coord.crownCrop);
+        maxTemporarySprites[i].lesion = textureCut(maxTx, coord.lesionCrop);
+        maxTemporarySprites[i].post = textureCut(maxTx, coord.postCrop);
+        maxTemporarySprites[i].perio = textureCut(maxTx, coord.perioCrop);
         for (int j = 0; j < 6; j++)
-            maxTemporarySprites[i].surfaces[j] = textureCut(maxTx, coord->surfCrop[j]);
+            maxTemporarySprites[i].surfaces[j] = textureCut(maxTx, coord.surfCrop[j]);
 
 
 
         QPixmap mandTx("toothimage/7" + indx + ".png");
 
-        mandTemporarySprites[i].tooth = textureCut(mandTx, coord->toothCrop);
-        mandTemporarySprites[i].root = textureCut(mandTx, coord->rootCrop);
-        mandTemporarySprites[i].endo = textureCut(mandTx, coord->endoCrop);
-        mandTemporarySprites[i].crown = textureCut(mandTx, coord->crownCrop);
-        mandTemporarySprites[i].lesion = textureCut(mandTx, coord->lesionCrop);
-        mandTemporarySprites[i].post = textureCut(mandTx, coord->postCrop);
-        mandTemporarySprites[i].perio = textureCut(mandTx, coord->perioCrop);
+        mandTemporarySprites[i].tooth = textureCut(mandTx, coord.toothCrop);
+        mandTemporarySprites[i].root = textureCut(mandTx, coord.rootCrop);
+        mandTemporarySprites[i].endo = textureCut(mandTx, coord.endoCrop);
+        mandTemporarySprites[i].crown = textureCut(mandTx, coord.crownCrop);
+        mandTemporarySprites[i].lesion = textureCut(mandTx, coord.lesionCrop);
+        mandTemporarySprites[i].post = textureCut(mandTx, coord.postCrop);
+        mandTemporarySprites[i].perio = textureCut(mandTx, coord.perioCrop);
         for (int j = 0; j < 6; j++)
-            mandTemporarySprites[i].surfaces[j] = textureCut(mandTx, coord->surfCrop[j]);
-
-
+            mandTemporarySprites[i].surfaces[j] = textureCut(mandTx, coord.surfCrop[j]);
 
 
         deciTexture[i] = &maxTemporarySprites[i];          //1st quadrant
@@ -132,21 +164,8 @@ void SpriteSheets::loadTextures()
 
     bridgeL = new QPixmap("toothimage/bridgeLOW.png");
 
-}
+ 
 
-QPixmap* SpriteSheets::textureCut(const QPixmap& spriteSheet, QRect rect)
-{
-    QPixmap* px = new QPixmap(spriteSheet.copy(rect));
-    return px;
-}
-
-QPixmap* SpriteSheets::textureCut(const QPixmap& spriteSheet, QRect rect, QRect erase)
-{
-    QPixmap* px = new QPixmap(spriteSheet.copy(rect));
-    QPainter painter(px);
-    painter.setCompositionMode(QPainter::CompositionMode::CompositionMode_Clear);
-    painter.fillRect(erase, Qt::transparent);
-    return px;
 }
 
 
@@ -165,12 +184,17 @@ SpriteSheets& SpriteSheets::container()
     return instance;
 }
 
-const ToothSprite& SpriteSheets::getTexture(int toothIndex, bool temporary)
+const TexturePack& SpriteSheets::getTexturePack(int toothIndex, bool temporary)
 {
     if (temporary)
         return *deciTexture[permaToTemp_map[toothIndex]];
     else
         return *permaTexture[toothIndex];
+}
+
+const SpritesheetCoords& SpriteSheets::getCoordinates(int toothIndex, bool temporary)
+{
+    return temporary ? *tempoCoords[toothIndex] : *permanentCoords[toothIndex];
 }
 
 

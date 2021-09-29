@@ -2,13 +2,23 @@
 #include <string>
 #include "Tooth.h"
 
-std::array<std::string, 6> ToothUtils::surfaceNames
+constexpr std::array<int, 32> numbers
+{
+  18, 17, 16, 15, 14, 13, 12, 11,     21, 22, 23, 24, 25, 26, 27, 28,
+  38, 37, 36, 35, 34, 33, 32, 31,     41, 42, 43, 44, 45, 46, 47, 48
+};
+
+constexpr std::array<int, 32> types
+{
+    0,0,0,1,1,2,2,2,    2,2,2,1,1,0,0,0,
+    0,0,0,1,1,2,2,2,    2,2,2,1,1,0,0,0
+};
+
+
+std::array<std::string, 6> surfaceNames
 { "Оклузално", "Медиално", "Дистално", "Букално", "Лингвално", "Цервикално" };
 
 
-ToothUtils::ToothUtils()
-{
-}
 
 ToothType ToothUtils::getToothType(int index)
 {
@@ -51,7 +61,7 @@ std::array<std::string, 6> ToothUtils::getSurfaceNames(int index)
     if (index == 5 || index == 10 || index == 21 || index == 26) //canine teeth
     {
         return std::array<std::string, 6>{
-            "Куспидално",
+                 "Куспидално",
                 surfaceNames[1],
                 surfaceNames[2],
                 surfaceNames[3],

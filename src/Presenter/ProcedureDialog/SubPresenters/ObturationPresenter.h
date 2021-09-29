@@ -2,14 +2,14 @@
 #include "TeethMPresenter.h"
 #include "View/uiComponents/qt_derived/Widgets/IObturationView.h"
 #include "Model/Validator/ProcedureValidators.h"
-#include "Model/Tooth/ToothUtils.h"
+
 
 class ObturationPresenter : public TeethMPresenter
 {
 	IObturationView* view;
 	SurfaceValidator surf_validator;
 
-	ToothUtils utils;
+
 
 	virtual std::string autoDiagnosis(const Tooth& tooth) override;
 	virtual Result getResult() override;

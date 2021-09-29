@@ -4,7 +4,6 @@
 
 #include "../InputEnums.h"
 #include "ButtonSurfaceMatrix.h"
-#include "Model/Tooth/ToothUtils.h"
 #include "Presenter/ListPresenter/ToothHintCreator.h"
 
 enum class SurfaceClick {rightClick, leftClick};
@@ -20,7 +19,6 @@ class SurfacePanelPresenter
 
 	int currentIndex;
 	ButtonSurfaceMatrix matrix;
-	ToothUtils utilities;
 
 public:
 		SurfacePanelPresenter();

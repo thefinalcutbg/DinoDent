@@ -39,20 +39,17 @@ QPixmap* CPToothPainter::paintTooth(const ToothPaintHint& tooth)
 {
     int index = tooth.idx;
 
-    tooth.temp ?
-        coords = temp_tooth_type[tooth.idx]
-        :
-        coords = tooth_type[tooth.idx];
-
+    coords = &SpriteSheets::container().getCoordinates(tooth.idx, tooth.temp);
+    
     QPixmap pixmap(150, 150);
     pixmap.fill(Qt::transparent);
     QPainter painter(&pixmap);
     auto& container = SpriteSheets::container();
-    currentTexture = &container.getTexture(index, tooth.temp);
+    currentTexture = &container.getTexturePack(index, tooth.temp);
 
     rotateByQuadrant(painter, 150, 150, index);
 
-    painter.drawPixmap(QRect(0,0,150,150), returnPaintedTooth(tooth), coords->OcclusalCrop);
+    painter.drawPixmap(QRect(0,0,150,150), returnPaintedTooth(tooth), coords->SurfacePanelCrop);
 
     return new QPixmap(pixmap);
 }

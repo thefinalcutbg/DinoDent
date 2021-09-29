@@ -42,7 +42,7 @@ void SpritesheetCoords::molar()
 
 	topErase.setCoords(0, 360, 180, 500);
 	crownErase.setCoords(0, 150, 180, 290);
-	rootAndPerioErase.setCoords(0, 250, 180, 610); //also for perio;
+	rootAndPerioErase.setCoords(0, 250, 180, 610);
 	endoErase.setCoords(0, 210, 180, 650);
 	lesionErase.setCoords(0, 100, 180, 750);
 
@@ -52,6 +52,9 @@ void SpritesheetCoords::molar()
 	endoCrop.setCoords(180, 0, 360, 860);       
 	lesionCrop.setCoords(360, 0, 540, 860);
 	crownCrop.setCoords(180, 210, 360, 650);
+
+	buccalImpactCrop.setCoords(0, 0, 180, 360);
+	lingualImpactCrop.setCoords(0, 500, 180, 860);
 	
 	implantPaint.setCoords(30, 0, 150, 240);
 
@@ -65,7 +68,7 @@ void SpritesheetCoords::molar()
 	postPos = QPoint(0, 100);
 	crownPos = QPoint(0, 210);
 
-	OcclusalCrop.setCoords(25, 360, 165, 500);
+	SurfacePanelCrop.setCoords(25, 360, 165, 500);
 	BuccalOcclusalCrop.setCoords(0, 0, 180, 500);
 
 }
@@ -81,11 +84,11 @@ void SpritesheetCoords::premolar()
 	surfCrop[ling].setCoords(360, 430, 480, 610);
 	surfCrop[cerv].setCoords(240, 210, 360, 250);
 
-	topErase.setCoords(0, 360, 120, 500); //also for crown;
+	topErase.setCoords(0, 360, 120, 500);
+	crownErase.setCoords(0, 150, 120, 390);
 	rootAndPerioErase.setCoords(0, 250, 120, 610); //also for perio;
 	endoErase.setCoords(0, 210, 120, 650);
 	lesionErase.setCoords(0, 100, 120, 750);
-	
 
 	rootCrop.setCoords(360, 0, 480, 860);
 	perioCrop.setCoords(480, 0, 600, 860);
@@ -95,6 +98,9 @@ void SpritesheetCoords::premolar()
 	crownCrop.setCoords(120, 210, 240, 650);
 	occlusalErase.setCoords(0, 360, 180, 140);
 	implantPaint = implantCrop;
+
+	buccalImpactCrop.setCoords(0, 0, 120, 360);
+	lingualImpactCrop.setCoords(0, 500, 120, 860);
 
 	surfPos[occ] = QPoint(0, 360);
 	surfPos[med] = QPoint(60, 250);
@@ -106,7 +112,7 @@ void SpritesheetCoords::premolar()
 	crownPos = QPoint(0, 210);
 	postPos = QPoint(0, 100);
 
-	OcclusalCrop.setCoords(12, 360, 106, 476);
+	SurfacePanelCrop.setCoords(12, 360, 106, 476);
 	BuccalOcclusalCrop.setCoords(0, 0, 120, 500);
 
 
@@ -137,6 +143,9 @@ void SpritesheetCoords::frontal()
 	occlusalErase.setCoords(0, 360, 120, 140);
 	implantPaint = implantCrop;
 
+	buccalImpactCrop.setCoords(0, 0, 120, 360);
+	lingualImpactCrop.setCoords(0, 500, 120, 860);
+
 	surfPos[occ] = QPoint(0, 250);
 	surfPos[med] = QPoint(60, 250);
 	surfPos[dist] = QPoint(0, 250);
@@ -147,7 +156,7 @@ void SpritesheetCoords::frontal()
 	crownPos = QPoint(0, 210);
 	postPos = QPoint(0, 100);
 
-	OcclusalCrop.setCoords(-10, 210, 120, 355);
+	SurfacePanelCrop.setCoords(-10, 210, 120, 355);
 	BuccalOcclusalCrop.setCoords(0, 0, 120, 500);
 }
 
@@ -181,7 +190,7 @@ void SpritesheetCoords::tempfrontal()
 	crownPos = QPoint(0, 225);
 	//postPos = QPoint(0, 0);
 
-	OcclusalCrop.setCoords(20, 225, 100, 310);
+	SurfacePanelCrop.setCoords(20, 225, 100, 310);
 	BuccalOcclusalCrop.setCoords(0, 0, 120, 500);
 
 
@@ -218,7 +227,7 @@ void SpritesheetCoords::tempmolar()
 	crownPos = QPoint(0, 225);
 	postPos = QPoint(0, 100);
 
-	OcclusalCrop.setCoords(5, 370, 120, 470);
+	SurfacePanelCrop.setCoords(5, 370, 120, 470);
 	BuccalOcclusalCrop.setCoords(0, 0, 120, 500);
 
 }

@@ -106,7 +106,7 @@ void TeethViewScene::setPresenter(ListPresenter* presenter)
     if(!presenter)
         for (auto tooth : toothGraphic)
         {
-            tooth->setToothGraphic(nullptr);
+            tooth->setToothPixmap(QPixmap());
         }
 }
 
@@ -274,7 +274,7 @@ void TeethViewScene::keyPressEvent(QKeyEvent* event)
 
 void TeethViewScene::display(ToothPaintHint tooth)
 {
-    toothGraphic[tooth.idx]->setToothGraphic(ToothPainter::getBuccalOcclusal(tooth));
+    toothGraphic[tooth.idx]->setToothPixmap(ToothPainter::getBuccalOcclusal(tooth));
 }
 
 void TeethViewScene::display(const BridgesPaintHint& bridges)

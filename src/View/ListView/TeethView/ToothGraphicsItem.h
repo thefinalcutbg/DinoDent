@@ -4,12 +4,10 @@
 
 class ToothGraphicsItem : public QGraphicsItem
 {
-    QPixmap* toothGraphic;
+
     QPixmap m_tooth;
     QRectF bounds;
     int index;
-
-    QPixmap m_pixmap;
 
     bool hasProcedure;
 
@@ -24,7 +22,7 @@ public:
     
     void showLingual(bool show);
     void setProcedure(bool hasProcedure);
-    void setToothGraphic(QPixmap* toothGraphic);
+    
     QRectF boundingRect() const override;
 
     //not working:

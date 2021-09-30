@@ -37,15 +37,15 @@ PerioScene::PerioScene()
 void PerioScene::display(const ToothPaintHint& tooth)
 {
     if(tooth.idx < 16)
-    toothGraphic[tooth.idx]->setToothGraphic(ToothPainter::getBuccalLingual(tooth));
+    toothGraphic[tooth.idx]->setToothPixmap(ToothPainter::getBuccalLingual(tooth));
     else
-    toothGraphic[31-tooth.idx]->setToothGraphic(ToothPainter::getBuccalLingual(tooth));
+    toothGraphic[31-tooth.idx]->setToothPixmap(ToothPainter::getBuccalLingual(tooth));
 }
 
 void PerioScene::deletePixmaps()
 {
     for (auto &t : toothGraphic)
-        t->setToothGraphic(nullptr);
+        t->setToothPixmap(QPixmap());
 }
 
 PerioScene::~PerioScene()

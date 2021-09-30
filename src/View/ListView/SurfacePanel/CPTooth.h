@@ -4,7 +4,7 @@
 
 class CPTooth : public QGraphicsItem
 {
-    QPixmap* texture;
+    QPixmap texture;
 
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override;
 
@@ -14,5 +14,5 @@ public:
 
     QRectF boundingRect() const override;
 
-    void setPixmap(QPixmap* texture);
+    void setPixmap(const QPixmap& texture);
 };

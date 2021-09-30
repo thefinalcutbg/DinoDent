@@ -2,7 +2,7 @@
 #include <QPainter>
 #include <QGraphicsSceneMouseEvent>
 
-ToothGraphicsItem::ToothGraphicsItem(int index) : index(index), hasProcedure(false), toothGraphic(nullptr)
+ToothGraphicsItem::ToothGraphicsItem(int index) : index(index), hasProcedure(false)
 {
 
     bounds.setHeight(224);
@@ -40,10 +40,7 @@ void ToothGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem*
         painter->setOpacity(1);
     }
 
-    if (toothGraphic != NULL)
-    {
-        painter->drawPixmap(bounds.toRect(), *toothGraphic);
-    }
+    painter->drawPixmap(bounds.toRect(), m_tooth);
     /*
     QColor color(Qt::GlobalColor::black);
     painter->setPen(color);
@@ -64,12 +61,6 @@ void ToothGraphicsItem::setProcedure(bool hasProcedure)
     update();
 }
 
-void ToothGraphicsItem::setToothGraphic(QPixmap* toothGraphic)
-{
-    if (this->toothGraphic != NULL) delete this->toothGraphic;
-    this->toothGraphic = toothGraphic;
-    update();
-}
 
 void ToothGraphicsItem::setToothPixmap(const QPixmap& px)
 {

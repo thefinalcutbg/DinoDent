@@ -325,7 +325,7 @@ void rotateByQuadrant(QPainter& painter, int textureWidth, int textureHeight, Qu
 
 }
 
-QPixmap* ToothPainter::getBuccalOcclusal(const ToothPaintHint& tooth)
+QPixmap ToothPainter::getBuccalOcclusal(const ToothPaintHint& tooth)
 {
 	constexpr int pixmapHeight = 746;
 
@@ -358,10 +358,10 @@ QPixmap* ToothPainter::getBuccalOcclusal(const ToothPaintHint& tooth)
             getToothPixmap(tooth), coords.BuccalOcclusalCrop);
     }
 
-    return new QPixmap(pixmap);
+    return pixmap;
 }
 
-QPixmap* ToothPainter::getBuccalLingual(const ToothPaintHint& tooth)
+QPixmap ToothPainter::getBuccalLingual(const ToothPaintHint& tooth)
 {
     constexpr int pixmapHeight = 1106;
 
@@ -395,16 +395,16 @@ QPixmap* ToothPainter::getBuccalLingual(const ToothPaintHint& tooth)
         painter.eraseRect(0, 123 + 360, coords.toothCrop.width(), 140);
     }
 
-    return new QPixmap(pixmap);
+    return pixmap;
 }
 
 
-QPixmap* ToothPainter::getOcclusal(const ToothPaintHint& tooth)
+QPixmap ToothPainter::getOcclusal(const ToothPaintHint& tooth)
 {
     auto& coords = SpriteSheets::container().getCoordinates(tooth.idx, tooth.temp);
     auto& currentTexture = SpriteSheets::container().getTexturePack(tooth.idx, tooth.temp);
 
-    if (tooth.tooth != ToothTextureHint::normal) return new QPixmap();
+    if (tooth.tooth != ToothTextureHint::normal) return QPixmap();
 
     QPoint point(0, 0);
 
@@ -443,5 +443,5 @@ QPixmap* ToothPainter::getOcclusal(const ToothPaintHint& tooth)
 
     painter.drawPixmap(QRect(0, 0, 150, 150), toothPx, coords.SurfacePanelCrop);
 
-    return new QPixmap(pixmap);
+    return pixmap;
 }

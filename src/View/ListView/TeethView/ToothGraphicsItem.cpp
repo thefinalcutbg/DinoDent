@@ -53,7 +53,7 @@ void ToothGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem*
 
 void ToothGraphicsItem::showLingual(bool show)
 {
-    bounds.setHeight(show ? 360 : 224);
+    bounds.setHeight(show ? 332 : 224);
 
     update();
 }

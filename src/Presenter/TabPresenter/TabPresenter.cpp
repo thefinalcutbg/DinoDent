@@ -5,7 +5,6 @@
 #include "../ListPresenter/ListPresenter.h"
 #include "../PerioPresenter/PerioPresenter.h"
 
-#include <QDebug>
 
 TabPresenter::TabPresenter() : _indexCounter(-1), m_currentIndex(-1), view(nullptr)
 {
@@ -35,8 +34,6 @@ void TabPresenter::openTab(TabInstance* tabInstance)
 
     m_tabs[_indexCounter] = tabInstance;
 
-    qDebug() << "opening tab with index " << _indexCounter;
-
     view->newTab(_indexCounter, m_tabs[_indexCounter]->getTabName());
 
     view->focusTab(_indexCounter);
@@ -45,11 +42,9 @@ void TabPresenter::openTab(TabInstance* tabInstance)
 
 void TabPresenter::setCurrentTab(int index)
 {
-    if (currentTab()) currentTab()->prepareSwitch();
+    if (currentTab() != nullptr) currentTab()->prepareSwitch();
 
     m_currentIndex = index;
-
-    qDebug() << "setting current tab to " << m_currentIndex;
 
     if (index == -1)
     {
@@ -63,7 +58,6 @@ void TabPresenter::setCurrentTab(int index)
 
 void TabPresenter::removeCurrentTab()
 {
-    qDebug() << "removing tab with index " << m_currentIndex;
 
     delete m_tabs[m_currentIndex];
     m_tabs.erase(m_currentIndex);
@@ -170,13 +164,12 @@ void TabPresenter::removeList(const std::string& ambID)
 
     for (const auto& [index, tab] : m_tabs)
     {
-        if (tab->type != TabType::AmbList) return;
+        if (tab->type != TabType::AmbList) continue;
 
         if (static_cast<ListPresenter*>(tab)->m_ambList.id == ambID)
         {
-                delete m_tabs[index];
-                m_tabs.erase(index);
-                view->removeTab(index);
+            setCurrentTab(index);
+            removeCurrentTab();
         }
             
     }

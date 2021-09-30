@@ -9,6 +9,8 @@ class ToothGraphicsItem : public QGraphicsItem
     QRectF bounds;
     int index;
 
+    QPixmap m_pixmap;
+
     bool hasProcedure;
 
     int procedureMarkerHeight;

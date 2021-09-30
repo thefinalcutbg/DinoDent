@@ -3,9 +3,9 @@
 #include "../widgets/Measurment.h"
 #include "Model/Tooth/ToothUtils.h"
 
-constexpr int height = 180;
+constexpr int height = 166;
 
-constexpr int y_pos = 115;
+constexpr int y_pos = 105;
 constexpr int y_coef = 3;
 
 
@@ -79,6 +79,7 @@ void PerioChartItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* op
 {
 
 	//painter->fillRect(bounds, Qt::GlobalColor::lightGray);
+
 
 	QPen pen; pen.setColor(QColor(Qt::GlobalColor::red)); pen.setWidth(3);
 	pen.setJoinStyle(Qt::PenJoinStyle::RoundJoin);

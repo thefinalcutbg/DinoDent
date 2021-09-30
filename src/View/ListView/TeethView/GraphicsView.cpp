@@ -6,7 +6,7 @@ GraphicsView::GraphicsView(QWidget *parent)
 	: QGraphicsView(parent), gl{nullptr}
 {
 
-	setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
+	setRenderHints(QPainter::HighQualityAntialiasing | QPainter::SmoothPixmapTransform);
 	setCacheMode(QGraphicsView::CacheBackground);
 	setDragMode(QGraphicsView::RubberBandDrag);
 

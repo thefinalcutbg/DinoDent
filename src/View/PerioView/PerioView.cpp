@@ -241,7 +241,7 @@ PerioView::PerioView(QWidget* parent)
 
 	lowerChart[0]->setTransform(QTransform::fromScale(-1, 1));
 	lowerChart[0]->setRotation(180);
-	lowerChart[0]->setPos(0, 360);
+	lowerChart[0]->setPos(0, 332);
 
 	ui.maxilla->ui.graphicsView->setScene(perioScene[0]);
 
@@ -258,7 +258,7 @@ PerioView::PerioView(QWidget* parent)
 	perioScene[1]->addItem(lowerChart[1]);
 
 	lowerChart[1]->setTransform(QTransform::fromScale(-1, -1));
-	lowerChart[1]->setPos(lowerChart[1]->boundingRect().width(), 360);
+	lowerChart[1]->setPos(lowerChart[1]->boundingRect().width(), 332);
 
 	ui.mandibula->ui.graphicsView->setScene(perioScene[1]);
 

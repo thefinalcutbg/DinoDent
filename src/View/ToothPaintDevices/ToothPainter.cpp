@@ -186,16 +186,16 @@ inline QPixmap getToothPixmap(const ToothPaintHint& tooth)
     case EndoHint::none:
         break;
     case EndoHint::red:
-        painter.drawPixmap(0, 0, textureFormat(*texturePack.endo, Qt::red, 0.5));
+        painter.drawPixmap(0, 0, textureFormat(*texturePack.endo, Qt::red, 0.3));
         break;
     case EndoHint::blue:
-        painter.drawPixmap(0, 0, textureFormat(*texturePack.endo, Qt::blue, 0.5));
+        painter.drawPixmap(0, 0, textureFormat(*texturePack.endo, Qt::blue, 0.3));
         break;
     case EndoHint::green:
-        painter.drawPixmap(0, 0, textureFormat(*texturePack.endo, Qt::green, 0.5));
+        painter.drawPixmap(0, 0, textureFormat(*texturePack.endo, Qt::green, 0.3));
         break;
     case EndoHint::darkred:
-        painter.drawPixmap(0, 0, textureFormat(*texturePack.endo, Qt::darkRed, 0.6));
+        painter.drawPixmap(0, 0, textureFormat(*texturePack.endo, Qt::darkRed, 0.3));
         break;
     }
 

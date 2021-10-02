@@ -5,7 +5,6 @@
 #include "ContextMenu.h"
 #include "ToothGraphicsItem.h"
 #include "SelectionBox.h"
-#include "BridgeItem.h"
 #include "Presenter/ListPresenter/ListPresenter.h"
 #include <QGuiApplication>
 #include "View/ToothPaintDevices/ToothPainter.h"
@@ -60,17 +59,6 @@ TeethViewScene::TeethViewScene(QObject *parent)
         if (i == 18) posX += 18;
         else if (i == 28) posX -= 18;
     }
-
-    upperBridge = new BridgeItem();
-    upperBridge->setZValue(1);
-    addItem(upperBridge);
-    upperBridge->setPos(0, 100);
-
-    lowerBridge = new BridgeItem();
-    lowerBridge->setZValue(1);
-    addItem(lowerBridge);
-    lowerBridge->setTransform(QTransform::fromScale(-1, 1));
-    lowerBridge->setPos(684, 295);
 
     connect(this, &QGraphicsScene::selectionChanged,
         [=]
@@ -272,19 +260,11 @@ void TeethViewScene::keyPressEvent(QKeyEvent* event)
 }
 
 
-void TeethViewScene::display(ToothPaintHint tooth)
+void TeethViewScene::display(const ToothPaintHint& tooth)
 {
     toothGraphic[tooth.idx]->setToothPixmap(ToothPainter::getBuccalOcclusal(tooth));
 }
 
-void TeethViewScene::display(const BridgesPaintHint& bridges)
-{
-    auto[bridgeU, bridgeL] = bridgePainter.getBridgePair(bridges);
-
-    upperBridge->setTexture(bridgeU);
-    lowerBridge->setTexture(bridgeL);
-
-}
 
 void TeethViewScene::setSelectedTeeth(const std::vector<int> &selectedTeeth)
 {

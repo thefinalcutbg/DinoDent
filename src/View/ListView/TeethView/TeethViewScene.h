@@ -1,14 +1,16 @@
 #pragma once
 
 #include <QGraphicsScene>
-#include "View/ToothPaintDevices/BridgePainter.h"
+
 #include "Model/Procedure/TableStructs.h"
+#include "View/ToothPaintDevices/PaintHint.h"
 
 class ContextMenu;
 class SelectionBox;
 class BridgeItem;
 class ToothGraphicsItem;
 class ListPresenter;
+
 
 class TeethViewScene : public QGraphicsScene
 {
@@ -17,12 +19,6 @@ class TeethViewScene : public QGraphicsScene
 
 	ToothGraphicsItem* toothGraphic[32];
 	SelectionBox* selectionBox[32];
-
-	BridgeItem* upperBridge;
-	BridgeItem* lowerBridge;
-
-	BridgePainter bridgePainter;
-
 
 	ListPresenter* presenter;
 
@@ -41,8 +37,7 @@ public:
 
 	void setPresenter(ListPresenter* presenter);
 
-	void display(ToothPaintHint tooth);
-	void display(const BridgesPaintHint& bridges);
+	void display(const ToothPaintHint& tooth);
 	void setSelectedTeeth(const std::vector<int> &selectedTeeth);
 	void setProcedures(std::vector<int> teeth_procedures);
 

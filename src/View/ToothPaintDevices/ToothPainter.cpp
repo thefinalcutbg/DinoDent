@@ -4,7 +4,6 @@
 #include <QGraphicsPixmapItem>
 #include <QPainter>
 
-
 inline QPixmap textureFormat(const QPixmap& px, QColor color, double opacity)
 {
     QPixmap pixmap = px;
@@ -45,6 +44,43 @@ inline QPixmap textureOutline(const QPixmap& src, QColor borderColor)
     painter.drawPath(path);
 
     return outline_px;
+}
+
+QPixmap getBridgeTexture(const ToothPaintHint& tooth)
+{
+    auto& coords = SpriteSheets::container().getCoordinates(tooth.idx, tooth.temp);
+    auto& texturePack = SpriteSheets::container().getTexturePack(tooth.idx, tooth.temp);
+
+    auto& raw = texturePack.rawBridge;
+
+    constexpr int height = 140;
+    int width = raw->width();
+
+    QPixmap result(width, height);
+    result.fill(Qt::transparent);
+    QPainter painter(&result);
+
+    switch (tooth.bridgePos)
+    {
+    case BridgeTerminal::Center:
+        painter.drawPixmap(QRect(0, 0, width, height), *raw, QRect(0, 0, width, height));
+        break;
+    case BridgeTerminal::Distal:
+    {
+        painter.drawPixmap(QRect(0, 0, width / 2, height), *raw, QRect(0, 150, width / 2, height));
+        painter.drawPixmap(QRect(width / 2, 0, width / 2, height), *raw, QRect(width / 2, 0, width / 2, height));
+        break;
+    }
+    case BridgeTerminal::Medial:
+    {
+        painter.drawPixmap(QRect(0, 0, width / 2, height), *raw, QRect(0, 0, width / 2, height));
+        painter.drawPixmap(QRect(width / 2, 0, width / 2, height), *raw, QRect(width/2, 150, width / 2, height));
+        break;
+    }
+    }
+
+    return result;
+
 }
 
 inline QPixmap getSurfaceTexture(const ToothPaintHint& tooth)
@@ -96,13 +132,13 @@ inline QPixmap getSurfaceTexture(const ToothPaintHint& tooth)
         }
     }
 
-    QPixmap pixmap_of_united_surfaces(coords.toothCrop.width(), coords.toothCrop.height());
-    pixmap_of_united_surfaces.fill(Qt::transparent);
-    QPainter painter_of_united_surfaces(&pixmap_of_united_surfaces);
-    painter_of_united_surfaces.drawPixmap(0, 0, surface);
-    painter_of_united_surfaces.drawPixmap(0, 0, textureOutline(outlinedSurface, Qt::red));
+    QPixmap endResult(coords.toothCrop.width(), coords.toothCrop.height());
+    endResult.fill(Qt::transparent);
+    QPainter endResultPainter(&endResult);
+    endResultPainter.drawPixmap(0, 0, surface);
+    endResultPainter.drawPixmap(0, 0, textureOutline(outlinedSurface, Qt::red));
 
-    return pixmap_of_united_surfaces;
+    return endResult;
 
 }
 
@@ -223,6 +259,8 @@ inline QPixmap getToothPixmap(const ToothPaintHint& tooth)
 
     //the crown:
 
+    painter.setOpacity(0.8);
+
     switch (tooth.prostho)
     {
     case ProsthoHint::none:
@@ -234,7 +272,18 @@ inline QPixmap getToothPixmap(const ToothPaintHint& tooth)
         painter.drawPixmap(coords.crownPos, *texturePack.crown);
         painter.drawPixmap(coords.crownPos, textureFormat(*texturePack.crown, Qt::green, 0.3));
         break;
+    case ProsthoHint::bridge:
+        painter.drawPixmap(coords.crownPos, getBridgeTexture(tooth));
+        break;
+    case ProsthoHint::bridge_green:
+        QPixmap bridge = getBridgeTexture(tooth);
+        painter.drawPixmap(coords.crownPos, bridge);
+        painter.drawPixmap(coords.crownPos, textureFormat(bridge, Qt::green, 0.3));
+        break;
+
     }
+
+    painter.setOpacity(1);
 
     if (tooth.impacted) painter.eraseRect(0, 360, toothPx.width(), 140);
 

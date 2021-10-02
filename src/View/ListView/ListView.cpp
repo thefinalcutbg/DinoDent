@@ -147,11 +147,6 @@ void ListView::repaintTooth(const ToothPaintHint& tooth)
 	ui.teethView->setFocus();
 }
 
-void ListView::repaintBridges(const BridgesPaintHint& bridges)
-{
-	teethViewScene->display(bridges);
-}
-
 
 void ListView::setSelectedTeeth(std::vector<int> selectedIndexes)
 {

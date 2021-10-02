@@ -8,6 +8,20 @@ bool R_U_Mine(const DentistMade& procedure)
     return UserManager::instance().isCurrentUser(procedure.LPK);
 }
 
+BridgeTerminal getPosition(int toothIdx, BridgePos position)
+{
+    if (position == BridgePos::Middle) 
+        return BridgeTerminal::Center;
+
+    Quadrant q = ToothUtils::getQuadrant(toothIdx);
+
+    if (q == Quadrant::First || q == Quadrant::Third)
+        return position == BridgePos::Begin ? BridgeTerminal::Distal : BridgeTerminal::Medial;
+    else
+        return position == BridgePos::Begin ? BridgeTerminal::Medial : BridgeTerminal::Distal;
+
+}
+
 ToothPaintHint ToothHintCreator::getToothHint(const Tooth& tooth)
 {
     ToothPaintHint hint;
@@ -96,6 +110,8 @@ ToothPaintHint ToothHintCreator::getToothHint(const Tooth& tooth)
             hint.prostho = ProsthoHint::bridge_green
             :
             hint.prostho = ProsthoHint::bridge;
+
+        hint.bridgePos = getPosition(tooth.index, tooth.bridge.position);
     }
     
     hint.post = PostHint::none;

@@ -1,7 +1,7 @@
 #include "SpriteSheets.h"
 #include <QPainter>
 #include <Model/Tooth/ToothUtils.h>
-
+#include <QFile>
 
 QPixmap* textureCut(const QPixmap& spriteSheet, QRect rect)
 {
@@ -72,6 +72,32 @@ void SpriteSheets::loadTextures()
     lesionImplant = textureCut(commonTexture, molarRect.implantLesionCrop);
     perioImplant = textureCut(commonTexture, molarRect.implantPerioCrop);
 
+
+
+    //loading bridges;
+
+    QPixmap bridgeU("toothimage/bridgeUP.png");
+
+    QPixmap bridgeLowTest("toothimage/bridgeLOW2.png");
+
+    int xPos = 0;
+    int width = 180;
+
+    for (int i = 0; i < 8; i++)
+    {
+        if (ToothUtils::getToothType(i) != ToothType::Molar) //a.k.a. i > 2 :D
+            width = 120;
+
+        rawBridgesU[i] = new QPixmap(bridgeU.copy(xPos, 0, width, 300));
+        rawBridgesL[i] = new QPixmap(bridgeLowTest.copy(xPos, 0, width, 300));
+
+        xPos = xPos + width;
+
+    }
+
+
+
+
     //loading the textures of the permanent teeth
     for (int i = 0, y = 8; i < 8; i++, y--)
     {
@@ -94,6 +120,7 @@ void SpriteSheets::loadTextures()
         for (int j = 0; j < 6; j++)
             maxPermanentSprites[i].surfaces[j] = textureCut(maxTx, coord.surfCrop[j]);
         }
+        maxPermanentSprites[i].rawBridge = rawBridgesU[i];
 
         QPixmap mandTx("toothimage/3" + indx + ".png");
 
@@ -109,7 +136,7 @@ void SpriteSheets::loadTextures()
         mandPermanentSprites[i].perioImplant = perioImplant;
         for (int j = 0; j < 6; j++)
             mandPermanentSprites[i].surfaces[j] = textureCut(mandTx, coord.surfCrop[j]);
-
+        mandPermanentSprites[i].rawBridge = rawBridgesL[i];
    
 
         permaTexture[i] = &maxPermanentSprites[i];        //arranging the textures in array of pointers;
@@ -137,6 +164,7 @@ void SpriteSheets::loadTextures()
         for (int j = 0; j < 6; j++)
             maxTemporarySprites[i].surfaces[j] = textureCut(maxTx, coord.surfCrop[j]);
 
+        maxTemporarySprites[i].rawBridge = rawBridgesU[i + 3];
 
 
         QPixmap mandTx("toothimage/7" + indx + ".png");
@@ -151,6 +179,7 @@ void SpriteSheets::loadTextures()
         for (int j = 0; j < 6; j++)
             mandTemporarySprites[i].surfaces[j] = textureCut(mandTx, coord.surfCrop[j]);
 
+        mandTemporarySprites[i].rawBridge = rawBridgesL[i + 3];
 
         deciTexture[i] = &maxTemporarySprites[i];          //1st quadrant
         deciTexture[9 - i] = &maxTemporarySprites[i];      //2nd quadrant
@@ -158,11 +187,6 @@ void SpriteSheets::loadTextures()
         deciTexture[19 - i] = &mandTemporarySprites[i];    //4th quadrant
     }
 
-    
-
-    bridgeU = new QPixmap("toothimage/bridgeUP.png");
-
-    bridgeL = new QPixmap("toothimage/bridgeLOW.png");
 
  
 
@@ -175,8 +199,12 @@ SpriteSheets::~SpriteSheets()
     delete implant;
     delete lesionImplant;
     delete perioImplant;
-    delete bridgeL;
-    delete bridgeU;
+
+    for (int i = 0; i < 8; i++)
+    {
+        delete rawBridgesU[i];
+        delete rawBridgesL[i];
+    }
 }
 
 SpriteSheets& SpriteSheets::container()
@@ -195,40 +223,4 @@ const TexturePack& SpriteSheets::getTexturePack(int toothIndex, bool temporary)
 const SpritesheetCoords& SpriteSheets::getCoordinates(int toothIndex, bool temporary)
 {
     return temporary ? *tempoCoords[toothIndex] : *permanentCoords[toothIndex];
-}
-
-
-QPixmap* SpriteSheets::getUpperBridge()
-{
-    return bridgeU;
-}
-
-QPixmap* SpriteSheets::getLowerBridge()
-{
-    return bridgeL;
-}
-
-QPixmap SpriteSheets::getRawBridge(int tooth_idx)
-{
-    QPixmap* currentPixmap;
-
-    tooth_idx < 16 ? currentPixmap = bridgeU : currentPixmap = bridgeL;
-
-    if (tooth_idx >= 16) tooth_idx = tooth_idx % 16;
-
-    if (tooth_idx > 7) tooth_idx = 15 - tooth_idx;
- 
-    int height = 300;
-    int width_begin = 0;
-
-    for (int i = 0; i < tooth_idx; i++)
-    {
-        i < 3 ? width_begin = width_begin + 180 : width_begin = width_begin + 120;
-    }
-
-    int width_end = tooth_idx < 3 ? width_begin + 180 : width_begin + 120;
-
-    return QPixmap(currentPixmap->copy(width_begin, 0, width_end, 300));
-
-
 }

@@ -74,8 +74,6 @@ void ListPresenter::statusChanged()
         view->repaintTooth(ToothHintCreator::getToothHint(*t));
     }
 
-    view->repaintBridges(ToothHintCreator::statusToUIBridge(m_ambList.teeth));
-
     if (m_selectedIndexes.size() == 1)
         surf_presenter.setTooth(&m_ambList.teeth[m_selectedIndexes[0]]);
 
@@ -191,8 +189,6 @@ void ListPresenter::setCurrent()
     {
         view->repaintTooth(hint);
     }
-
-    view->repaintBridges(ToothHintCreator::statusToUIBridge(m_ambList.teeth));
     
     view->setSelectedTeeth(m_selectedIndexes);
 
@@ -274,6 +270,10 @@ void ListPresenter::setMainStatus(int code)
 
     if (code == StatusCode::Bridge || code == StatusCode::Crown) {
         m_ambList.teeth.formatBridges(m_selectedIndexes);
+        for (int i = 0; i < 32; i++)
+        {
+            view->repaintTooth(ToothHintCreator::getToothHint(m_ambList.teeth[i]));
+        }
     }
     else if (code == StatusCode::Temporary){ 
         refreshProcedureView(); //updates the teeth num

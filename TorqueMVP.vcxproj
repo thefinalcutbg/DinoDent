@@ -282,8 +282,6 @@
     <ClCompile Include="src\View\ProcedureDialog\ProcedureDialog.cpp" />
     <ClCompile Include="src\Model\Tooth\Tooth.cpp" />
     <ClCompile Include="src\Model\Tooth\ToothParser.cpp" />
-    <ClCompile Include="src\View\ToothPaintDevices\BridgePainter.cpp" />
-    <ClCompile Include="src\View\ListView\TeethView\BridgeItem.cpp" />
     <ClCompile Include="src\Model\Tooth\ToothUtils.cpp" />
     <ClCompile Include="src\View\ListView\SurfacePanel\ControlPanelPolygon.cpp">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/utf-8 %(AdditionalOptions)</AdditionalOptions>
@@ -333,7 +331,6 @@
     <ClCompile Include="src\View\uiComponents\qt_derived\Widgets\SurfaceSelector.cpp" />
     <ClCompile Include="src\Presenter\ListPresenter\ToothHintCreator.cpp" />
     <ClCompile Include="src\View\uiComponents\qt_derived\Widgets\VitaWidget.cpp" />
-    <ClCompile Include="src\View\ToothPaintDevices\ToothSprite.cpp" />
     <ClCompile Include="src\Presenter\TabPresenter\TabPresenter.cpp" />
     <ClCompile Include="src\View\AmbListPage\TabView\TabView.cpp" />
     <ClCompile Include="src\Model\Tooth\ToothContainer.cpp" />
@@ -516,8 +513,6 @@
     <QtMoc Include="src\View\ProcedureDialog\ProcedureDialog.h" />
     <ClInclude Include="src\Model\Tooth\ToothParser.h" />
     <ClInclude Include="src\bridgeTest.h" />
-    <ClInclude Include="src\View\ToothPaintDevices\BridgePainter.h" />
-    <ClInclude Include="src\View\ListView\TeethView\BridgeItem.h" />
     <ClInclude Include="src\Presenter\ListPresenter\InputEnums.h" />
     <ClInclude Include="src\Model\Tooth\ToothUtils.h" />
     <ClInclude Include="src\Presenter\ListPresenter\SurfacePanel\ButtonSurfaceMatrix.h" />

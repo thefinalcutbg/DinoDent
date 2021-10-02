@@ -20,6 +20,7 @@ class SpriteSheets
 	std::array<const SpritesheetCoords*, 32> permanentCoords;
 	std::array<const SpritesheetCoords*, 32> tempoCoords;
 
+
 	QPixmap* implant{ nullptr };
 	QPixmap* lesionImplant{ nullptr };
 	QPixmap* perioImplant{ nullptr };
@@ -31,9 +32,8 @@ class SpriteSheets
 	std::array<TexturePack, 8> mandPermanentSprites{ nullptr };
 	std::array<TexturePack, 5> maxTemporarySprites{ nullptr };
 	std::array<TexturePack, 5> mandTemporarySprites{ nullptr };
-
-	QPixmap* bridgeU{ nullptr };
-	QPixmap* bridgeL{ nullptr };
+	std::array<QPixmap*, 8> rawBridgesU;
+	std::array<QPixmap*, 8> rawBridgesL;
 
 	std::unordered_map<int, int> permaToTemp_map;
 
@@ -46,8 +46,8 @@ public:
 	void loadTextures();
 	const TexturePack& getTexturePack(int toothIndex, bool temporary);
 	const SpritesheetCoords& getCoordinates(int toothIndex, bool temporary);
-	QPixmap* getUpperBridge();
-	QPixmap* getLowerBridge();
-	QPixmap getRawBridge(int tooth_idx);
+
+	//const QPixmap& getRawBrigeTexture(int tooth_idx);
+	
 };
 

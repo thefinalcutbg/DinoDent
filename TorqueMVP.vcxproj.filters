@@ -123,12 +123,6 @@
     <ClCompile Include="src\Presenter\ListPresenter\ListPresenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\ListView\TeethView\BridgeItem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\View\ToothPaintDevices\BridgePainter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\View\ProcedureDialog\ProcedureDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -241,9 +235,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Model\Procedure\CustomProcedures.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\View\ToothPaintDevices\ToothSprite.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Presenter\TabPresenter\TabPresenter.cpp">
@@ -723,12 +714,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Presenter\ListPresenter\InputEnums.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\View\ListView\TeethView\BridgeItem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\View\ToothPaintDevices\BridgePainter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\bridgeTest.h">

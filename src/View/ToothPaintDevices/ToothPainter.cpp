@@ -51,10 +51,10 @@ QPixmap getBridgeTexture(const ToothPaintHint& tooth)
     auto& coords = SpriteSheets::container().getCoordinates(tooth.idx, tooth.temp);
     auto& texturePack = SpriteSheets::container().getTexturePack(tooth.idx, tooth.temp);
 
-    auto& raw = texturePack.rawBridge;
+   // auto& raw = texturePack.rawBridge;
 
-    constexpr int height = 140;
-    int width = raw->width();
+    int height = texturePack.bridgeConnected->height();
+    int width = texturePack.bridgeConnected->width();
 
     QPixmap result(width, height);
     result.fill(Qt::transparent);
@@ -63,18 +63,18 @@ QPixmap getBridgeTexture(const ToothPaintHint& tooth)
     switch (tooth.bridgePos)
     {
     case BridgeTerminal::Center:
-        painter.drawPixmap(QRect(0, 0, width, height), *raw, QRect(0, 0, width, height));
+        painter.drawPixmap(QRect(0, 0, width, height), *texturePack.bridgeConnected, QRect(0, 0, width, height));
         break;
     case BridgeTerminal::Distal:
     {
-        painter.drawPixmap(QRect(0, 0, width / 2, height), *raw, QRect(0, 150, width / 2, height));
-        painter.drawPixmap(QRect(width / 2, 0, width / 2, height), *raw, QRect(width / 2, 0, width / 2, height));
+        painter.drawPixmap(QRect(0, 0, width / 2, height), *texturePack.bridgeSeparated, QRect(0, 0, width / 2, height));
+        painter.drawPixmap(QRect(width / 2, 0, width / 2, height), *texturePack.bridgeConnected, QRect(width / 2, 0, width / 2, height));
         break;
     }
     case BridgeTerminal::Medial:
     {
-        painter.drawPixmap(QRect(0, 0, width / 2, height), *raw, QRect(0, 0, width / 2, height));
-        painter.drawPixmap(QRect(width / 2, 0, width / 2, height), *raw, QRect(width/2, 150, width / 2, height));
+        painter.drawPixmap(QRect(0, 0, width / 2, height), *texturePack.bridgeConnected, QRect(0, 0, width / 2, height));
+        painter.drawPixmap(QRect(width / 2, 0, width / 2, height), *texturePack.bridgeSeparated, QRect(width/2, 0, width / 2, height));
         break;
     }
     }
@@ -240,12 +240,12 @@ inline QPixmap getToothPixmap(const ToothPaintHint& tooth)
     case PostHint::none:
         break;
     case PostHint::blue:
-        painter.drawPixmap(coords.postPos, *texturePack.post);
-        painter.drawPixmap(coords.postPos, textureFormat(*texturePack.post, QColor{ Qt::blue }, 0.3));
+        painter.drawPixmap(0, 0, *texturePack.post);
+        painter.drawPixmap(0, 0, textureFormat(*texturePack.post, QColor{ Qt::blue }, 0.3));
         break;
     case PostHint::green:
-        painter.drawPixmap(coords.postPos, *texturePack.post);
-        painter.drawPixmap(coords.postPos, textureFormat(*texturePack.post, QColor{ Qt::green }, 0.3));
+        painter.drawPixmap(0, 0, *texturePack.post);
+        painter.drawPixmap(0, 0, textureFormat(*texturePack.post, QColor{ Qt::green }, 0.3));
         break;
 
 

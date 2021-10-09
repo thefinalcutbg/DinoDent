@@ -40,7 +40,7 @@ void ToothGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem*
         painter->setOpacity(1);
     }
 
-    painter->drawPixmap(bounds.toRect(), m_tooth);
+    painter->drawPixmap(bounds, m_tooth);
     /*
     QColor color(Qt::GlobalColor::black);
     painter->setPen(color);

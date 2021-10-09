@@ -315,7 +315,14 @@ void ListPresenter::setOther(int code)
     case OtherInputs::MOD: for (auto& t : m_selectedTeeth)MOD(t); break;
     case OtherInputs::removeC: for (auto& t : m_selectedTeeth) t->removeStatus(StatusType::caries); break;
     case OtherInputs::removeO: for (auto& t : m_selectedTeeth) t->removeStatus(StatusType::obturation); break;
-    case OtherInputs::removeBridge: for (auto& t : m_selectedTeeth) teeth.removeBridge(t->index);  teeth.formatBridges(m_selectedIndexes); break;
+    case OtherInputs::removeBridge: 
+        for (auto& t : m_selectedTeeth) teeth.removeBridge(t->index);  
+        teeth.formatBridges(m_selectedIndexes);         
+        for (int i = 0; i < 32; i++)
+        {
+            view->repaintTooth(ToothHintCreator::getToothHint(m_ambList.teeth[i]));
+        } 
+        break;
     case OtherInputs::removeAll: for (auto& t : m_selectedTeeth) t->removeStatus();  teeth.formatBridges(m_selectedIndexes); break;
     }
 
@@ -352,6 +359,11 @@ void ListPresenter::openDetails(int toothIdx)
 
     m_ambList.teeth.at(toothIdx) = result.value();
     m_ambList.teeth.setBridgeProperties(result.value().bridge, toothIdx);
+   
+    for (int i = 0; i < 32; i++)
+    {
+        view->repaintTooth(ToothHintCreator::getToothHint(m_ambList.teeth[i]));
+    }
 
     statusChanged();
 }

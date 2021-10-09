@@ -16,7 +16,7 @@ PatientFormDialog::PatientFormDialog(PatientDialogPresenter* p, QWidget* parent)
     ui.mNameEdit->QLineEdit::setValidator(nameValidator);
     ui.lNameEdit->QLineEdit::setValidator(nameValidator);
 
-    phoneValidator = new QRegExpValidator(QRegExp("[0-9-+ ]+"), this);
+    phoneValidator = new QRegExpValidator(QRegExp("[0-9-+ a-z A-Z ]+"), this);
     ui.phoneEdit->QLineEdit::setValidator(phoneValidator);
 
     connect(ui.typeComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),

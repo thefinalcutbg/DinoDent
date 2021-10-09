@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
      
 
     //Intializing singletons
-    SpriteSheets::container().loadTextures(); //loading textures, otherwise program will crash;
+    SpriteSheets::container().initialize(); //loading textures, otherwise program will crash;
     DiagnosisContainer::initialize();
     UserManager::initialize();
   // TestToothDialog(); /*

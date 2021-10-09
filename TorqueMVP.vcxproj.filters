@@ -90,9 +90,6 @@
     <ClCompile Include="src\View\ToothPaintDevices\SpriteRect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\ToothPaintDevices\SpriteSheets.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\View\ListView\TeethView\ContextMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -396,6 +393,9 @@
     <ClCompile Include="src\View\ToothPaintDevices\ToothPainter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\ToothPaintDevices\SpriteSheets.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -684,9 +684,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\ToothPaintDevices\SpriteRect.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\View\ToothPaintDevices\SpriteSheets.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\ListView\TeethView\SelectionBox.h">
@@ -978,6 +975,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\ToothPaintDevices\ToothPainter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\View\ToothPaintDevices\SpriteSheets.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

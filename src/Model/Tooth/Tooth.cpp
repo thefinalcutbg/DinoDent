@@ -123,7 +123,7 @@ void Tooth::addStatus(int statusCode)
 		case StatusCode::EndoTreatment: set(true, endo); set(false, extraction, implant, pulpitis, impacted); break;
 		case StatusCode::Post: set(true, post, endo); set(false, temporary, extraction, implant, pulpitis); break;
 		case StatusCode::Root: set(true, root); set(false, caries, obturation, crown, extraction, implant); break;
-		case StatusCode::Implant: set(true, implant); set(false, extraction, obturation, caries, hyperdontic, pulpitis, endo, fracture, root, post, mobility, impacted); break;
+		case StatusCode::Implant: set(true, implant); set(false, temporary, extraction, obturation, caries, hyperdontic, pulpitis, endo, fracture, root, post, mobility, impacted); break;
 		case StatusCode::ApicalLesion: set(true, lesion); set(false, pulpitis, extraction); break;
 		case StatusCode::Fracture: set(true, fracture); set(false, extraction, implant, impacted); break;
 		case StatusCode::Periodontitis: set(true, periodontitis); set(false, extraction); break;

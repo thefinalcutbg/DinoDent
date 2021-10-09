@@ -14,13 +14,15 @@ struct TexturePack
 	QPixmap* implant;
 	QPixmap* lesionImplant;
 	QPixmap* perioImplant;
-	QPixmap* rawBridge;
+	QPixmap* bridgeConnected;
+	QPixmap* bridgeSeparated;
 	std::array<QPixmap*, 6> surfaces;
+
+	inline static QPoint crownPaint{ 0, 210 };
 
 	~TexturePack()
 	{
 		//don't delete implant textures, they are common!
-		//don't delete rawBridge, it is shared among permanent and temporary sprites
 		delete tooth;
 		delete root;
 		delete post;
@@ -28,6 +30,8 @@ struct TexturePack
 		delete crown;
 		delete lesion;
 		delete perio;
+		delete bridgeConnected;
+		delete bridgeSeparated;
 		
 		for (int i = 0; i < 6; i++)
 		{

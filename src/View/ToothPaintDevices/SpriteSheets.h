@@ -1,4 +1,5 @@
 #pragma once
+
 #include <QPixmap>
 #include <unordered_map>
 #include "ToothSprite.h"
@@ -7,47 +8,45 @@
 
 class SpriteSheets
 {
-	static SpriteSheets instance;
 
 	SpriteSheets();
+
 
 	SpritesheetCoords molarRect;
 	SpritesheetCoords premolarRect;
 	SpritesheetCoords frontalRect;
 	SpritesheetCoords tempFrontalRect;
 	SpritesheetCoords tempMolarsRect;
-	
+
 	std::array<const SpritesheetCoords*, 32> permanentCoords;
 	std::array<const SpritesheetCoords*, 32> tempoCoords;
 
 
-	QPixmap* implant{ nullptr };
-	QPixmap* lesionImplant{ nullptr };
-	QPixmap* perioImplant{ nullptr };
+	QPixmap* implant;
+	QPixmap* lesionImplant;
+	QPixmap* perioImplant;
 
-	TexturePack* permaTexture[32]{ nullptr }; //textures of permanent teeth sorted by index;
-	TexturePack* deciTexture[20]{ nullptr };
-
-	std::array<TexturePack, 8> maxPermanentSprites{ nullptr };
-	std::array<TexturePack, 8> mandPermanentSprites{ nullptr };
-	std::array<TexturePack, 5> maxTemporarySprites{ nullptr };
-	std::array<TexturePack, 5> mandTemporarySprites{ nullptr };
-	std::array<QPixmap*, 8> rawBridgesU;
-	std::array<QPixmap*, 8> rawBridgesL;
-
-	std::unordered_map<int, int> permaToTemp_map;
+	TexturePack permaTexture[16];
+	TexturePack deciTexture[10];
 
 public:
-
 	SpriteSheets(const SpriteSheets&) = delete;
+	SpriteSheets(SpriteSheets&&) = delete;
+	SpriteSheets& operator=(SpriteSheets&&) = delete;
+	SpriteSheets& operator=(const SpriteSheets&) = delete;
 
-	~SpriteSheets();
-	static SpriteSheets& container();
-	void loadTextures();
-	const TexturePack& getTexturePack(int toothIndex, bool temporary);
+	static SpriteSheets& container() { static SpriteSheets instance; return instance; }
 	const SpritesheetCoords& getCoordinates(int toothIndex, bool temporary);
 
-	//const QPixmap& getRawBrigeTexture(int tooth_idx);
-	
+	void initialize();
+
+	const TexturePack& getTexturePack(int toothIdx, bool temp = false);
+
+
+
+
+	~SpriteSheets();
+
+
 };
 

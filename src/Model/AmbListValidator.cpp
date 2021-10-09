@@ -184,6 +184,7 @@ bool AmbListValidator::validateTypeToStatus(const Tooth& t, const Procedure& p)
                 t.extraction.exists() ||
                 t.implant.exists() ||
                 (
+                !t.obturation.exists() &&
                 !t.caries.exists() &&
                 !t.pulpitis.exists() &&
                 !t.lesion.exists() &&

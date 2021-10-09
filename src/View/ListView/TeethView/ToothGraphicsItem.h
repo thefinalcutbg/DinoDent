@@ -6,7 +6,7 @@ class ToothGraphicsItem : public QGraphicsItem
 {
 
     QPixmap m_tooth;
-    QRectF bounds;
+    QRect bounds;
     int index;
 
     bool hasProcedure;

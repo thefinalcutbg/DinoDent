@@ -9,6 +9,10 @@ class ToothGraphicsItem : public QGraphicsItem
     QRect bounds;
     int index;
 
+
+    int pxWidth;
+    int pxHeight;
+
     bool hasProcedure;
 
     int procedureMarkerHeight;
@@ -22,7 +26,7 @@ public:
     
     void showLingual(bool show);
     void setProcedure(bool hasProcedure);
-    
+    void setWidth(int width);
     QRectF boundingRect() const override;
 
     //not working:

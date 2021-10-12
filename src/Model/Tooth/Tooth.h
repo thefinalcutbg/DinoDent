@@ -34,6 +34,7 @@ public:
 	Implant implant;
 	Crown crown;
 	Bridge bridge;
+	Construction splint;
 
 	Pathology pulpitis;
 	Pathology lesion;

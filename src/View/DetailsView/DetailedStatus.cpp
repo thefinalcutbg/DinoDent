@@ -47,11 +47,11 @@ DetailedStatus::DetailedStatus(DetailedStatusPresenter* presenter) : presenter(p
 	ui.treeWidget->addTopLevelItem(notesItem);
 
 
-	for (auto& name : statusNames)
+	for (int i = 0; i < statusCount; i++)
 	{
 		QTreeWidgetItem* item = new QTreeWidgetItem();
 		item->setData(0, Qt::UserRole, general);
-		item->setText(0, name);
+		item->setText(0, statusNames[i].data());
 		item->setCheckState(0, Qt::Unchecked);
 		ui.treeWidget->addTopLevelItem(item);
 		

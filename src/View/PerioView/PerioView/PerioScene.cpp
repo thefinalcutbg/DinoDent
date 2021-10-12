@@ -19,17 +19,17 @@ PerioScene::PerioScene()
     {
         
         toothGraphic[i] = new ToothGraphicsItem(i);
-        posX = centerX - (toothGraphic[i]->boundingRect().width() / 2);
+        toothGraphic[i]->setWidth(70);
+        //posX = centerX - (toothGraphic[i]->boundingRect().width() / 2);
         toothGraphic[i]->showLingual(true);
         toothGraphic[i]->setZValue(0);
         toothGraphic[i]->setPos(posX, posY);
         addItem(toothGraphic[i]);
 
-        centerX = centerX + 70;
 
+        //centerX = centerX + 70;
 
-
-        //posX += toothGraphic[i]->boundingRect().width();
+        posX += toothGraphic[i]->boundingRect().width();
     }
 
 }

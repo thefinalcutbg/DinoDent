@@ -24,6 +24,7 @@ ControlPanel::ControlPanel(QWidget *parent)
 	statusButtons[StatusCode::Mobility3] = ui.Mobility3;
 	statusButtons[StatusCode::Crown] = ui.Crown;
 	statusButtons[StatusCode::Bridge] = ui.Bridge;
+	statusButtons[StatusCode::FiberSplint] = ui.Fiber;
 	statusButtons[StatusCode::Dsn] = ui.Dsn;
 	statusButtons[StatusCode::Impacted] = ui.Impacted;
 	

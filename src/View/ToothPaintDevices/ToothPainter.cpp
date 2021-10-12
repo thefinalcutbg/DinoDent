@@ -83,6 +83,40 @@ QPixmap getBridgeTexture(const ToothPaintHint& tooth)
 
 }
 
+QPixmap getSplintRect(const ToothPaintHint& tooth)
+{
+    if (tooth.prostho != ProsthoHint::splint &&
+        tooth.prostho != ProsthoHint::splint_green) return QPixmap();
+
+    auto& coords = SpriteSheets::container().getCoordinates(tooth.idx, tooth.temp);
+    auto& texturePack = SpriteSheets::container().getTexturePack(tooth.idx, tooth.temp);
+
+    int height = 140;
+    int width = texturePack.bridgeSeparated->width();
+
+    QPixmap result(width, height);
+    result.fill(Qt::transparent);
+    QPainter painter(&result);
+    painter.setOpacity(0.3);
+    QColor color(tooth.prostho == ProsthoHint::splint_green ? Qt::GlobalColor::green : Qt::blue);
+
+    switch (tooth.bridgePos)
+    {
+    case BridgeTerminal::Center:
+        painter.fillRect(QRect(0, 60, width, 20), color);
+        break;
+    case BridgeTerminal::Distal:
+        painter.fillRect(QRect(width/2, 60, width / 2, 20), color);
+        break;
+    case BridgeTerminal::Medial:
+        painter.fillRect(QRect(0, 60, width / 2, 20), color);
+        break;
+
+    }
+
+    return result;
+}
+
 inline QPixmap getSurfaceTexture(const ToothPaintHint& tooth)
 {
     auto& coords = SpriteSheets::container().getCoordinates(tooth.idx, tooth.temp);
@@ -153,7 +187,7 @@ inline QPixmap getToothPixmap(const ToothPaintHint& tooth)
     toothPx.fill(Qt::transparent);
     QPainter painter(&toothPx);
 
-
+    painter.drawPixmap(coords.crownPos, getSplintRect(tooth));
 
     if (tooth.lesion)
     {
@@ -276,11 +310,30 @@ inline QPixmap getToothPixmap(const ToothPaintHint& tooth)
         painter.drawPixmap(coords.crownPos, getBridgeTexture(tooth));
         break;
     case ProsthoHint::bridge_green:
+    {
         QPixmap bridge = getBridgeTexture(tooth);
         painter.drawPixmap(coords.crownPos, bridge);
         painter.drawPixmap(coords.crownPos, textureFormat(bridge, Qt::green, 0.3));
         break;
-
+    }
+    case ProsthoHint::splint:
+        if (tooth.tooth != ToothTextureHint::normal)
+        {
+            painter.setOpacity(1);
+            painter.drawPixmap(coords.crownPos, *texturePack.fiberOptic);
+            painter.drawPixmap(coords.crownPos, (textureFormat(*texturePack.fiberOptic, QColor{ Qt::blue }, 0.3)));
+        }
+        painter.drawPixmap(0, 500, getSplintRect(tooth));
+        break;
+    case ProsthoHint::splint_green:
+        if (tooth.tooth != ToothTextureHint::normal)
+        {
+            painter.setOpacity(1);
+            painter.drawPixmap(coords.crownPos, *texturePack.fiberOptic);
+            painter.drawPixmap(coords.crownPos, (textureFormat(*texturePack.fiberOptic, QColor{ Qt::blue }, 0.3)));
+        }
+        painter.drawPixmap(0, 500, getSplintRect(tooth));
+        break;
     }
 
     painter.setOpacity(1);

@@ -9,8 +9,6 @@ class ToothContainer
 
 	std::array<Tooth, teethNum>* teeth;
 
-	void formatSelection(const std::vector<int>& selection);
-
 public:
 	ToothContainer();
 	ToothContainer(const ToothContainer& other);

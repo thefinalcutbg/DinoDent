@@ -23,8 +23,6 @@ TeethViewScene::TeethViewScene(QObject *parent)
     }
 
 
-    bool molar;
-
     int posY = 0;
     int posX = 0;
 
@@ -32,9 +30,6 @@ TeethViewScene::TeethViewScene(QObject *parent)
 
     for(int i = 0; i<32; i++)
     {
-        if (i > 2 && i < 13 || i > 18 && i < 29) molar = false;
-        else molar = true;
-
         if (i == 16)
         {
             posY += 225;
@@ -252,6 +247,7 @@ void TeethViewScene::keyPressEvent(QKeyEvent* event)
       case Qt::Key_G :presenter->setMainStatus(StatusCode::ApicalLesion); break;
       case Qt::Key_B :presenter->setMainStatus(StatusCode::Bridge); break;
       case Qt::Key_M: presenter->setMainStatus(StatusCode::Impacted); break;
+      case Qt::Key_N: presenter->setMainStatus(StatusCode::FiberSplint); break;
       case Qt::Key_A:
           if (event->modifiers() & Qt::ControlModifier)
               for (int i = 0; i < 32; i++) selectionBox[i]->setSelected(1);

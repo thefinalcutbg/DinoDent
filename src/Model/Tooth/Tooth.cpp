@@ -48,6 +48,7 @@ std::array<bool, statusCount> Tooth::getBoolStatus() const
 		mobility.exists() && mobility.degree == Degree::Third,
 		crown.exists(),
 		bridge.exists(),
+		splint.exists(),
 		implant.exists(),
 		hyperdontic.exists(),
 		impacted.exists()
@@ -61,10 +62,10 @@ std::string Tooth::getSimpleStatus() const
 	std::array<std::string, statusCount> statusLegend
 	{
 		"", "O ", "C ", "P ", "G ", "", "", "R ", "F ", "E ",
-		"Pa ", "I ", "II ", "III ", "K ", "X ", "I ", "Dsn "
+		"Pa ", "I ", "II ", "III ", "K ", "X ", "X", "I ", "Dsn "
 	};
 
-	if (boolStatus[StatusCode::Bridge]) //NZOK doesn't see a difference between a pontic and a retainer
+	if (boolStatus[StatusCode::Bridge] || boolStatus[StatusCode::FiberSplint]) //NZOK doesn't make a difference between a pontic and a retainer
 		boolStatus[StatusCode::Extraction] ?
 			statusLegend[StatusCode::Extraction] = ""
 			:
@@ -123,15 +124,16 @@ void Tooth::addStatus(int statusCode)
 		case StatusCode::EndoTreatment: set(true, endo); set(false, extraction, implant, pulpitis, impacted); break;
 		case StatusCode::Post: set(true, post, endo); set(false, temporary, extraction, implant, pulpitis); break;
 		case StatusCode::Root: set(true, root); set(false, caries, obturation, crown, extraction, implant); break;
-		case StatusCode::Implant: set(true, implant); set(false, temporary, extraction, obturation, caries, hyperdontic, pulpitis, endo, fracture, root, post, mobility, impacted); break;
+		case StatusCode::Implant: set(true, implant); set(false, temporary, extraction, obturation, caries, hyperdontic, pulpitis, endo, fracture, root, post, mobility, splint, impacted); break;
 		case StatusCode::ApicalLesion: set(true, lesion); set(false, pulpitis, extraction); break;
 		case StatusCode::Fracture: set(true, fracture); set(false, extraction, implant, impacted); break;
 		case StatusCode::Periodontitis: set(true, periodontitis); set(false, extraction); break;
 		case StatusCode::Mobility1: set(true, mobility); set(false, extraction, impacted); mobility.degree = Degree::First; break;
 		case StatusCode::Mobility2: set(true, mobility); set(false, extraction, impacted); mobility.degree = Degree::Second; break;
 		case StatusCode::Mobility3: set(true, mobility); set(false, extraction, impacted); mobility.degree = Degree::Third; break;
-		case StatusCode::Crown: set(true, crown); set(false, bridge, extraction, root, impacted); break;
-		case StatusCode::Bridge: set(true, bridge); set(false, hyperdontic, crown); bridge.LPK.clear(); break;
+		case StatusCode::Crown: set(true, crown); set(false, bridge, extraction, root, impacted, splint); break;
+		case StatusCode::Bridge: set(true, bridge); set(false, hyperdontic, crown, splint); bridge.LPK.clear(); break;
+		case StatusCode::FiberSplint: set(true, splint); set(false, crown, bridge, implant); break;
 		case StatusCode::Dsn: set(true, hyperdontic); set(false, extraction); break;
 		case StatusCode::Impacted: if (!hyperdontic.exists()) set(false, extraction, implant, crown, post, endo, mobility, fracture);
 						 impacted.set(true); break;
@@ -160,6 +162,7 @@ void Tooth::removeStatus(int statusCode)
 		case StatusCode::Fracture: fracture.set(false); break;
 		case StatusCode::Crown: crown.set(false); break;
 		case StatusCode::Bridge: bridge.set(false); break;
+		case StatusCode::FiberSplint: splint.set(false); break;
 		case StatusCode::Periodontitis: periodontitis.set(false); break;
 		case StatusCode::Dsn: hyperdontic.set(false); break;
 		case StatusCode::Impacted: impacted.set(false); break;

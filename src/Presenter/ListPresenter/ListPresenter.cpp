@@ -209,7 +209,7 @@ void ListPresenter::openPatientDialog()
 
     if (!patient.has_value()) return;
 
-    *patient = patient.value();
+    *this->patient = patient.value();
 
 
     view->refresh
@@ -268,7 +268,7 @@ void ListPresenter::setMainStatus(int code)
         t->setStatus(StatusType::general, code, state);
     }
 
-    if (code == StatusCode::Bridge || code == StatusCode::Crown) {
+    if (code == StatusCode::Bridge || code == StatusCode::Crown || code == StatusCode::FiberSplint) {
         m_ambList.teeth.formatBridges(m_selectedIndexes);
         for (int i = 0; i < 32; i++)
         {

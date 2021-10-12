@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>160</x>
-     <y>290</y>
+     <y>330</y>
      <width>101</width>
      <height>31</height>
     </rect>
@@ -343,7 +343,7 @@
    <property name="geometry">
     <rect>
      <x>160</x>
-     <y>330</y>
+     <y>370</y>
      <width>101</width>
      <height>31</height>
     </rect>
@@ -375,6 +375,28 @@
    </property>
    <property name="text">
     <string>Ретениран</string>
+   </property>
+  </widget>
+  <widget class="StatusButton" name="Fiber">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>290</y>
+     <width>101</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Бърз клавиш: N&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string>Фибровлакно</string>
    </property>
   </widget>
  </widget>

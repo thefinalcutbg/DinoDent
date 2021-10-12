@@ -4,33 +4,26 @@
 ContextMenu::ContextMenu()
 {
 
-    addProcedure = new QAction("Добави манипулация");
+    addProcedure = new QAction(u8"Добави манипулация");
     addAction(addProcedure);
     connect(addProcedure, &QAction::triggered, [&] {if(presenter)presenter->addProcedure(); });
 
-    details = new QAction("Детайли");
+    details = new QAction(u8"Детайли");
     addAction(details);
     connect(details, &QAction::triggered, [&] {if (presenter) presenter->openDetails(); });
     
     addSeparator();
 
-    QString statusNames[statusCount] =
-    { u8"Временен зъб", u8"Обтурация", u8"Кариес",  u8"Пулпит", u8"Периодонтит",
-      u8"Ендодонтско лечение", u8"Радикуларен щифт", u8"Корен",u8"Фрактура", u8"Екстракция",
-      u8"Пародонтит", u8"Първа степен", u8"Втора степен", u8"Трета степен",
-      u8"Корона", u8"Мост/Блок корони",  u8"Имплант", u8"Свръхброен зъб", u8"Ретениран зъб" };
-                            
-
     QString otherActionNames[otherInputsCount]
     {
-        "Обтурация МО", "Обтурация ДО", "Обтурация МОД",
-        "Премахни"/*обтурация*/, "Премахни"/*кариес*/, "Премахни статус", "Премахни мост"
+        u8"Обтурация МО", u8"Обтурация ДО", u8"Обтурация МОД",
+        u8"Премахни"/*обтурация*/, u8"Премахни"/*кариес*/, u8"Премахни статус", u8"Премахни мост"
     };
 
 
     for (int i = 0; i < statusCount; i++) //too lazy to initialize all the actions;
     {
-        menuAction[i] = new QAction(statusNames[i]);
+        menuAction[i] = new QAction(statusNames[i].data());
         connect(menuAction[i], &QAction::triggered, [this, i]() { this->presenter->setMainStatus(i); });
     }
 
@@ -89,6 +82,7 @@ ContextMenu::ContextMenu()
     addSeparator();
     addAction(menuAction[StatusCode::Crown]);
     addAction(menuAction[StatusCode::Bridge]);
+    addAction(menuAction[StatusCode::FiberSplint]);
     addSeparator();
 
     addAction(otherActions[OtherInputs::removeAll]);

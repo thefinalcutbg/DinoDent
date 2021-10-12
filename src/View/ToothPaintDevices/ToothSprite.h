@@ -9,6 +9,7 @@ struct TexturePack
 	QPixmap* post;
 	QPixmap* endo;
 	QPixmap* crown;
+	QPixmap* fiberOptic;
 	QPixmap* lesion;
 	QPixmap* perio;
 	QPixmap* implant;
@@ -27,6 +28,7 @@ struct TexturePack
 		delete root;
 		delete post;
 		delete endo;
+		delete fiberOptic;
 		delete crown;
 		delete lesion;
 		delete perio;

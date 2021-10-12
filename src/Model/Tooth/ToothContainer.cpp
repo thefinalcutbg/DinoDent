@@ -88,42 +88,42 @@ std::vector<std::vector<int> > selectionCutter(const std::vector<int>& indexes)
 }
 
 
-void ToothContainer::formatSelection(const std::vector<int>& selection)
+void formatSelection(const std::vector<int>& selection, std::array<Construction*, 32>& construction)
 {
 	for (int i = 0; i < selection.size(); i++)
 	{
 		if (i == 0) {
-			teeth->at(selection[i]).bridge.position = BridgePos::Begin;
+			construction[selection[i]]->position = BridgePos::Begin;
 		}
 		else if (i == selection.size() - 1) {
-			teeth->at(selection[i]).bridge.position = BridgePos::End;
+			construction[selection[i]]->position = BridgePos::End;
 		}
 		else {
-			teeth->at(selection[i]).bridge.position = BridgePos::Middle;
+			construction[selection[i]]->position = BridgePos::Middle;
 		}
 	}
 
 	if (selection[0] != 0 && selection[0] != 16)
 	{
-		Tooth& prev_tooth = teeth->at(selection[0] - 1);
+		Construction& prev_tooth = *construction[selection[0] - 1];
 
-		if (prev_tooth.bridge.position == BridgePos::Begin) {
-			prev_tooth.bridge.set(false);
+		if (prev_tooth.position == BridgePos::Begin) {
+			prev_tooth.set(false);
 		}
-		else if (prev_tooth.bridge.position == BridgePos::Middle) {
-			prev_tooth.bridge.position = BridgePos::End;
+		else if (prev_tooth.position == BridgePos::Middle) {
+			prev_tooth.position = BridgePos::End;
 		}
 	}
 
 	if (selection.back() != 15 && selection.back() != 31)
 	{
-		Tooth& next_tooth = teeth->at(selection.back() + 1);
+		Construction& next_tooth = *construction[selection.back() + 1];
 
-		if (next_tooth.bridge.position == BridgePos::End) {
-			next_tooth.bridge.set(false);
+		if (next_tooth.position == BridgePos::End) {
+			next_tooth.set(false);
 		}
-		else if (next_tooth.bridge.position == BridgePos::Middle) {
-			next_tooth.bridge.position = BridgePos::Begin;
+		else if (next_tooth.position == BridgePos::Middle) {
+			next_tooth.position = BridgePos::Begin;
 		}
 
 	}
@@ -134,13 +134,21 @@ void ToothContainer::formatBridges(const std::vector<int>& indexes)
 {
     auto selections = std::move(selectionCutter(indexes));
 
+	std::array<Construction*, 32> bridges;
+	std::array<Construction*, 32> fiberSplints;
+
+	for (int i = 0; i < 32; i++) bridges[i] = &teeth->at(i).bridge;
+	for (int i = 0; i < 32; i++) fiberSplints[i] = &teeth->at(i).splint;
+
     for (auto selection : selections)
 	{
         if (selection.size() == 1){ //case in which only one tooth is selected
             teeth->at(selection[0]).bridge.set(false);
+			teeth->at(selection[0]).splint.set(false);
         }
 
-        formatSelection(selection);
+        formatSelection(selection, bridges);
+		formatSelection(selection, fiberSplints);
     }
 }
 

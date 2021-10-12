@@ -26,8 +26,7 @@ class SpriteSheets
 	QPixmap* lesionImplant;
 	QPixmap* perioImplant;
 
-	TexturePack permaTexture[16];
-	TexturePack deciTexture[10];
+	TexturePack textures[26];
 
 public:
 	SpriteSheets(const SpriteSheets&) = delete;

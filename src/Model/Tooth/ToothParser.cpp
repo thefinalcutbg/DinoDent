@@ -239,6 +239,18 @@ std::string ToothParser::write(const ToothContainer& teeth)
 					param["color"] = tooth.bridge.data.color;
 					status["Bridge"].append(param);
 				}
+
+				if (tooth.splint.exists())
+				{
+					if (!status.isMember("Splint"))
+					{
+						status["Splint"] = Json::Value(Json::arrayValue);
+					}
+
+					auto param = writeDentistMade(i, tooth.splint);
+					param["pos"] = static_cast<int>(tooth.splint.position);
+					status["Splint"].append(param);
+				}
 	}
 
 	return writer.write(status);
@@ -426,6 +438,15 @@ void ToothParser::parse(const std::string& jsonString, ToothContainer& teeth)
 		tooth.bridge.LPK = bridge[i]["LPK"].asString();
 		tooth.bridge.data.material = bridge[i]["material"].asString();
 		tooth.bridge.position = static_cast<BridgePos>(bridge[i]["pos"].asInt());
+	}
+
+	const Json::Value& splint = status["Splint"];
+
+	for (int i = 0; i < splint.size(); i++)
+	{
+		Tooth& tooth = teeth[splint[i]["idx"].asInt()];
+		tooth.splint.position = static_cast<BridgePos>(splint[i]["pos"].asInt());
+		tooth.splint.set(true);
 	}
 
 }

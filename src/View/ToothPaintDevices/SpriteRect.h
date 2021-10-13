@@ -8,9 +8,11 @@ enum surf {occ, med, dist, buc, ling, cerv};
 struct SpritesheetCoords
 {
     SpritesheetCoords(SpriteRectType type);
-    QRect toothCrop; //the Rect of the tooth texture;
+    QRect toothRect; //the rect of the whole tooth texture;
+    QRect crownRect; //the rect which contains the crown parts of the tooth
 
-    QRect occlusalErase;
+    QRect frontSplintPaint;
+    QRect lingualSplintPaint;
 
     QRect buccalImpactCrop;
     QRect lingualImpactCrop;
@@ -26,7 +28,6 @@ struct SpritesheetCoords
     QRect implantCrop;
     QRect implantPaint;
 
-    QPoint crownPos;    //position of the crown painting
     QPoint surfPos[6];  //positions for painting of the surfaces on the canavas
 
 

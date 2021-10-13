@@ -356,9 +356,8 @@ void ListPresenter::openDetails(int toothIdx)
     auto result = d.open();
 
     if (!result.has_value()) return;
-
-    m_ambList.teeth.at(toothIdx) = result.value();
-    m_ambList.teeth.setBridgeProperties(result.value().bridge, toothIdx);
+    
+    m_ambList.teeth.setToothDetails(result.value());
    
     for (int i = 0; i < 32; i++)
     {
@@ -372,6 +371,7 @@ void ListPresenter::openDetails()
 {
     if (m_selectedTeeth.size() == 1) openDetails(m_selectedTeeth[0]->index);
 }
+
 
 void ListPresenter::addToProcedureList(const std::vector<Procedure>& new_mList)
 {

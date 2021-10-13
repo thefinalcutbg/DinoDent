@@ -47,9 +47,9 @@ TeethViewScene::TeethViewScene(QObject *parent)
         addItem(selectionBox[i]);
 
         if (i < 15)
-            posX += toothGraphic[i]->boundingRect().width()-1;
+            posX += toothGraphic[i]->boundingRect().width();
         else if(i > 15)
-            posX -= toothGraphic[i]->boundingRect().width()-1;
+            posX -= toothGraphic[i]->boundingRect().width();
 
         if (i == 18) posX += 18;
         else if (i == 28) posX -= 18;

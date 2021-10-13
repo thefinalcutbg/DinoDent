@@ -401,6 +401,7 @@
   <ItemGroup>
     <QtMoc Include="src\View\PerioView\Widgets\FurcationWidget.h" />
     <QtMoc Include="src\View\PerioView\Widgets\PerioStatusView.h" />
+    <ClInclude Include="src\Model\Tooth\BridgeAlgorithms.h" />
     <ClInclude Include="src\View\ToothPaintDevices\SpriteSheets.h" />
     <ClInclude Include="src\View\PerioView\PerioView\PerioGraphicsButton.h" />
     <ClInclude Include="src\Database\DbPerio.h" />

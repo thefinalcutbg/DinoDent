@@ -91,25 +91,31 @@ QPixmap getSplintRect(const ToothPaintHint& tooth)
     auto& coords = SpriteSheets::container().getCoordinates(tooth.idx, tooth.temp);
     auto& texturePack = SpriteSheets::container().getTexturePack(tooth.idx, tooth.temp);
 
-    int height = 140;
+    constexpr int height = 150;
+    constexpr int splintHeight = 30;
     int width = texturePack.bridgeSeparated->width();
 
     QPixmap result(width, height);
     result.fill(Qt::transparent);
     QPainter painter(&result);
-    painter.setOpacity(0.3);
+
     QColor color(tooth.prostho == ProsthoHint::splint_green ? Qt::GlobalColor::green : Qt::blue);
+
+    QBrush brush(color);
+    painter.setBrush(brush);
 
     switch (tooth.bridgePos)
     {
     case BridgeTerminal::Center:
-        painter.fillRect(QRect(0, 60, width, 20), color);
+        painter.fillRect(QRect(0, 60, width, splintHeight), color);
         break;
     case BridgeTerminal::Distal:
-        painter.fillRect(QRect(width/2, 60, width / 2, 20), color);
+        painter.fillRect(QRect(width/2, 60, (width / 2), splintHeight), color);
+        painter.drawEllipse(QPoint(width / 2, 75), splintHeight / 2, splintHeight / 2);
         break;
     case BridgeTerminal::Medial:
-        painter.fillRect(QRect(0, 60, width / 2, 20), color);
+        painter.fillRect(QRect(0, 60, width / 2, splintHeight), color);
+        painter.drawEllipse(QPoint(width / 2, 75), splintHeight / 2, splintHeight / 2);
         break;
 
     }
@@ -122,11 +128,11 @@ inline QPixmap getSurfaceTexture(const ToothPaintHint& tooth)
     auto& coords = SpriteSheets::container().getCoordinates(tooth.idx, tooth.temp);
     auto& texturePack = SpriteSheets::container().getTexturePack(tooth.idx, tooth.temp);
 
-    QPixmap surface(coords.toothCrop.width(), coords.toothCrop.height());
+    QPixmap surface(coords.toothRect.width(), coords.toothRect.height());
     surface.fill(Qt::transparent);
     QPainter surfPainter(&surface);
 
-    QPixmap outlinedSurface(coords.toothCrop.width(), coords.toothCrop.height());
+    QPixmap outlinedSurface(coords.toothRect.width(), coords.toothRect.height());
     outlinedSurface.fill(Qt::transparent);
     QPainter outlinePainter(&outlinedSurface);
 
@@ -166,7 +172,7 @@ inline QPixmap getSurfaceTexture(const ToothPaintHint& tooth)
         }
     }
 
-    QPixmap endResult(coords.toothCrop.width(), coords.toothCrop.height());
+    QPixmap endResult(coords.toothRect.width(), coords.toothRect.height());
     endResult.fill(Qt::transparent);
     QPainter endResultPainter(&endResult);
     endResultPainter.drawPixmap(0, 0, surface);
@@ -183,11 +189,17 @@ inline QPixmap getToothPixmap(const ToothPaintHint& tooth)
     auto& coords = SpriteSheets::container().getCoordinates(tooth.idx, tooth.temp);
     auto& texturePack = SpriteSheets::container().getTexturePack(tooth.idx, tooth.temp);
 
-    QPixmap toothPx(coords.toothCrop.width(), coords.toothCrop.height());
+    QPixmap toothPx(coords.toothRect.width(), coords.toothRect.height());
     toothPx.fill(Qt::transparent);
     QPainter painter(&toothPx);
 
-    painter.drawPixmap(coords.crownPos, getSplintRect(tooth));
+
+    //drawing the splint from behind:
+    painter.setOpacity(0.3);
+    painter.drawPixmap(coords.frontSplintPaint, getSplintRect(tooth));
+    painter.setOpacity(1);
+
+    //drawing the lesion:
 
     if (tooth.lesion)
     {
@@ -201,6 +213,8 @@ inline QPixmap getToothPixmap(const ToothPaintHint& tooth)
             painter.drawPixmap(coords.implantPaint, *texturePack.lesionImplant);
         }
     }
+
+    //drawing the perio:
 
     if (tooth.perio)
     {
@@ -217,7 +231,9 @@ inline QPixmap getToothPixmap(const ToothPaintHint& tooth)
 
     auto& container = SpriteSheets::container();
 
-    switch (tooth.tooth)    //drawing the tooth;
+    //drawing the tooth:
+
+    switch (tooth.tooth)    
     {
     case ToothTextureHint::none:
         break;
@@ -300,39 +316,41 @@ inline QPixmap getToothPixmap(const ToothPaintHint& tooth)
     case ProsthoHint::none:
         break;
     case ProsthoHint::crown:
-        painter.drawPixmap(coords.crownPos, *texturePack.crown);
+        painter.drawPixmap(coords.crownRect, *texturePack.crown);
         break;
     case ProsthoHint::crown_green:
-        painter.drawPixmap(coords.crownPos, *texturePack.crown);
-        painter.drawPixmap(coords.crownPos, textureFormat(*texturePack.crown, Qt::green, 0.3));
+        painter.drawPixmap(coords.crownRect, *texturePack.crown);
+        painter.drawPixmap(coords.crownRect, textureFormat(*texturePack.crown, Qt::green, 0.3));
         break;
     case ProsthoHint::bridge:
-        painter.drawPixmap(coords.crownPos, getBridgeTexture(tooth));
+        painter.drawPixmap(coords.crownRect, getBridgeTexture(tooth));
         break;
     case ProsthoHint::bridge_green:
     {
         QPixmap bridge = getBridgeTexture(tooth);
-        painter.drawPixmap(coords.crownPos, bridge);
-        painter.drawPixmap(coords.crownPos, textureFormat(bridge, Qt::green, 0.3));
+        painter.drawPixmap(coords.crownRect, bridge);
+        painter.drawPixmap(coords.crownRect, textureFormat(bridge, Qt::green, 0.3));
         break;
     }
     case ProsthoHint::splint:
         if (tooth.tooth != ToothTextureHint::normal)
         {
             painter.setOpacity(1);
-            painter.drawPixmap(coords.crownPos, *texturePack.fiberOptic);
-            painter.drawPixmap(coords.crownPos, (textureFormat(*texturePack.fiberOptic, QColor{ Qt::blue }, 0.3)));
+            painter.drawPixmap(coords.crownRect, *texturePack.fiberOptic);
+            painter.drawPixmap(coords.crownRect, (textureFormat(*texturePack.fiberOptic, QColor{ Qt::blue }, 0.3)));
         }
-        painter.drawPixmap(0, 500, getSplintRect(tooth));
+        painter.setOpacity(0.3);
+        painter.drawPixmap(coords.lingualSplintPaint, getSplintRect(tooth));
         break;
     case ProsthoHint::splint_green:
         if (tooth.tooth != ToothTextureHint::normal)
         {
             painter.setOpacity(1);
-            painter.drawPixmap(coords.crownPos, *texturePack.fiberOptic);
-            painter.drawPixmap(coords.crownPos, (textureFormat(*texturePack.fiberOptic, QColor{ Qt::blue }, 0.3)));
+            painter.drawPixmap(coords.crownRect, *texturePack.fiberOptic);
+            painter.drawPixmap(coords.crownRect, (textureFormat(*texturePack.fiberOptic, QColor{ Qt::green }, 0.3)));
         }
-        painter.drawPixmap(0, 500, getSplintRect(tooth));
+        painter.setOpacity(0.3);
+        painter.drawPixmap(coords.lingualSplintPaint, getSplintRect(tooth));
         break;
     }
 
@@ -434,7 +452,7 @@ QPixmap ToothPainter::getBuccalOcclusal(const ToothPaintHint& tooth)
 	auto& coords = SpriteSheets::container().getCoordinates(tooth.idx, tooth.temp);
 	auto& currentTexture = SpriteSheets::container().getTexturePack(tooth.idx, tooth.temp);
 
-	QPixmap pixmap(coords.toothCrop.width(), pixmapHeight);
+	QPixmap pixmap(coords.toothRect.width(), pixmapHeight);
 	pixmap.fill(Qt::transparent);
 
 
@@ -446,17 +464,17 @@ QPixmap ToothPainter::getBuccalOcclusal(const ToothPaintHint& tooth)
 
     constexpr int toothYPosition = 123;
 
-    rotateByQuadrant(painter, coords.toothCrop.width(), pixmapHeight, ToothUtils::getQuadrant(tooth.idx));
+    rotateByQuadrant(painter, coords.toothRect.width(), pixmapHeight, ToothUtils::getQuadrant(tooth.idx));
 
     if (tooth.impacted)
     {
         int yPos = tooth.idx > 15 ? 200 : 40;
-        painter.drawPixmap(QRect(0, 40, coords.toothCrop.width(), 360), getToothPixmap(tooth), coords.buccalImpactCrop);
+        painter.drawPixmap(QRect(0, 40, coords.toothRect.width(), 360), getToothPixmap(tooth), coords.buccalImpactCrop);
     }
     else
     {
         painter.drawPixmap(QRect(0, toothYPosition,
-            coords.toothCrop.width(), 500),
+            coords.toothRect.width(), 500),
             getToothPixmap(tooth), coords.BuccalOcclusalCrop);
     }
 
@@ -470,7 +488,7 @@ QPixmap ToothPainter::getBuccalLingual(const ToothPaintHint& tooth)
     auto& coords = SpriteSheets::container().getCoordinates(tooth.idx, tooth.temp);
     auto& currentTexture = SpriteSheets::container().getTexturePack(tooth.idx, tooth.temp);
 
-    QPixmap pixmap(coords.toothCrop.width(), pixmapHeight);
+    QPixmap pixmap(coords.toothRect.width(), pixmapHeight);
     pixmap.fill(Qt::transparent);
 
 
@@ -482,19 +500,19 @@ QPixmap ToothPainter::getBuccalLingual(const ToothPaintHint& tooth)
 
     constexpr int toothYPosition = 123;
 
-    rotateByQuadrant(painter, coords.toothCrop.width(), pixmapHeight, ToothUtils::getQuadrant(tooth.idx));
+    rotateByQuadrant(painter, coords.toothRect.width(), pixmapHeight, ToothUtils::getQuadrant(tooth.idx));
 
     if (tooth.impacted)
     {
         QPixmap normalTooth = getToothPixmap(tooth);
-        painter.drawPixmap(QRect(0, 40, coords.toothCrop.width(), 320), normalTooth, coords.buccalImpactCrop);
-        painter.drawPixmap(QRect(0, 750, coords.toothCrop.width(), 320), normalTooth, coords.lingualImpactCrop);
+        painter.drawPixmap(QRect(0, 40, coords.toothRect.width(), 320), normalTooth, coords.buccalImpactCrop);
+        painter.drawPixmap(QRect(0, 750, coords.toothRect.width(), 320), normalTooth, coords.lingualImpactCrop);
     }
     else
     {
         painter.drawPixmap(0, 123,
             getToothPixmap(tooth));
-        painter.eraseRect(0, 123 + 360, coords.toothCrop.width(), 140);
+        painter.eraseRect(0, 123 + 360, coords.toothRect.width(), 140);
     }
 
     return pixmap;
@@ -510,7 +528,7 @@ QPixmap ToothPainter::getOcclusal(const ToothPaintHint& tooth)
 
     QPoint point(0, 0);
 
-    QPixmap toothPx(coords.toothCrop.width(), coords.toothCrop.height());
+    QPixmap toothPx(coords.toothRect.width(), coords.toothRect.height());
     toothPx.fill(Qt::transparent);
 
     QPainter toothPainter(&toothPx);
@@ -521,16 +539,16 @@ QPixmap ToothPainter::getOcclusal(const ToothPaintHint& tooth)
     toothPainter.drawPixmap(0, 0, getSurfaceTexture(tooth));
 
     toothPainter.setOpacity(0.35);
-    if (tooth.prostho != ProsthoHint::none)
+    if (tooth.prostho != ProsthoHint::none && tooth.prostho != ProsthoHint::splint && tooth.prostho != ProsthoHint::splint_green)
     {
         if (tooth.prostho == ProsthoHint::crown || tooth.prostho == ProsthoHint::bridge)
         {
-            toothPainter.drawPixmap(coords.crownPos, *currentTexture.crown);
+            toothPainter.drawPixmap(coords.crownRect, *currentTexture.crown);
         }
         else
         {
-            toothPainter.drawPixmap(coords.crownPos, *currentTexture.crown);
-            toothPainter.drawPixmap(coords.crownPos, textureFormat(*currentTexture.crown, Qt::green, 0.3));
+            toothPainter.drawPixmap(coords.crownRect, *currentTexture.crown);
+            toothPainter.drawPixmap(coords.crownRect, textureFormat(*currentTexture.crown, Qt::green, 0.3));
         }
 
     }

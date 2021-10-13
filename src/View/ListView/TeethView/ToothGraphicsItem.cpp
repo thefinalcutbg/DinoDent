@@ -41,6 +41,7 @@ QRectF ToothGraphicsItem::boundingRect() const
 
 void ToothGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
+    painter->setRenderHint(QPainter::SmoothPixmapTransform);
 
     if (hasProcedure)
     {
@@ -52,20 +53,21 @@ void ToothGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem*
     int xPos = (bounds.width() / 2) - (pxWidth / 2);
 
     painter->drawPixmap(xPos, 0, pxWidth, pxHeight, m_tooth);
-
+    
     if (bounds.width() > pxWidth)
     {
-        painter->drawPixmap(QRect(0, 0, xPos+1, pxHeight), m_tooth, QRect(1, 0, 1, m_tooth.height()));
+        painter->drawPixmap(QRect(0, 0, xPos, pxHeight), m_tooth, QRect(0, 0, 1, m_tooth.height()));
         
-        painter->drawPixmap(QRect(xPos+pxWidth-1, 0, xPos+1, pxHeight), m_tooth, QRect(m_tooth.width() - 2, 0, 1, m_tooth.height()));
-
+        painter->drawPixmap(QRect(xPos+pxWidth, 0, xPos, pxHeight), m_tooth, QRect(m_tooth.width() - 1, 0, 1, m_tooth.height()));
     }
 
-   /*
-    QColor color(Qt::GlobalColor::black);
-    painter->setPen(color);
-    painter->drawRect(bounds);
-    */
+   // QColor color(Qt::GlobalColor::black);
+   // painter->setPen(color);
+   // painter->drawRect(bounds);
+
+    //painter->setOpacity(0.3);
+    //painter->fillRect(bounds, QBrush(Qt::green));
+    
 }
 
 void ToothGraphicsItem::showLingual(bool show)

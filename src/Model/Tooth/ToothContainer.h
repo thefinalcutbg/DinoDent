@@ -1,13 +1,15 @@
 #pragma once
 #include <array>
 #include <vector>
+
 #include "Model/Tooth/Tooth.h"
+
+static constexpr int teethCount = 32;
 
 class ToothContainer
 {
-	static constexpr int teethNum = 32;
 
-	std::array<Tooth, teethNum>* teeth;
+	std::array<Tooth, teethCount>* teeth;
 
 public:
 	ToothContainer();
@@ -16,14 +18,15 @@ public:
 
 	void formatBridges(const std::vector<int>& selectedIndexes);
 	void removeBridge(int tooth_idx);
-	void setBridgeProperties(const Bridge& property, int tooth_idx);
+
+	void setToothDetails(const Tooth& tooth);
 
 	auto begin() { return teeth->begin(); }
 	auto end() { return teeth->end(); }
 	auto begin() const { return teeth->begin(); }
 	auto end() const { return teeth->end(); };
 
-	constexpr int size() const { return teethNum; }
+	constexpr int size() const { return teethCount; }
 
 	std::vector<Tooth*> getSelectedTeethPtr(std::vector<int> selectedIndexes);
 

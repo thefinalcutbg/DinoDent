@@ -19,10 +19,9 @@ void DetailedStatusPresenter::setView(IDetailedStatusView* view)
 
 	view->setHistoryData(db.getToothProcedures(patientID, m_tooth.index));
 
-	if (!m_tooth.bridge.exists())
-		view->disableItem(StatusCode::Bridge, true);
-	if (m_tooth.type == ToothType::Molar)
-		view->disableItem(StatusCode::Temporary, true);
+	view->disableItem(StatusCode::Bridge, !m_tooth.bridge.exists());
+	view->disableItem(StatusCode::FiberSplint, !m_tooth.splint.exists());
+	view->disableItem(StatusCode::Temporary, m_tooth.type == ToothType::Molar);
 
 	view->setCheckModel(m_checkModel);
 	view->paintTooth(ToothHintCreator::getToothHint(m_tooth));
@@ -81,6 +80,8 @@ void DetailedStatusPresenter::statusSelected(int category, int code)
 				controller = std::make_unique<DentistMadeControl>(*view, m_tooth.post); break;
 			case StatusCode::Bridge:
 				controller = std::make_unique<CrownControl>(*view, m_tooth.bridge); break;
+			case StatusCode::FiberSplint:
+				controller = std::make_unique<DentistMadeControl>(*view, m_tooth.splint); break;
 			case StatusCode::Implant:
 				controller = std::make_unique<ImplantControl>(*view, m_tooth.implant); break;
 			default: break;

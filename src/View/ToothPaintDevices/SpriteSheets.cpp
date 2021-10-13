@@ -54,21 +54,9 @@ struct SpriteMaster
 
 };
 
-constexpr int permaIdx[32]{
-	0,	1,	2,	3,	4,	5,	6,	7,		7,	6,	5,	4,	3,	2,	1,	0,
-	8,	9,	10,	11,	12,	13,	14,	15,		15,	14,	13,	12,	11,	10,	9,	8
-};
 
-constexpr int tempIdx[32]
-{
-	-1,	-1,	-1,	16,	17,	18,	19,	20,		20,	19,	18,	17,	16,	-1,	-1,	-1,	
-	-1,	-1,	-1,	21,	22,	23,	25,	25,		25,	24,	23,	22,	21,	-1,	-1,	-1
-};
 
-constexpr int molarWidth = 180;
-constexpr int commonWidth = 120;
 constexpr int commonHeight = 860;
-constexpr int xPosLowerBegin = 1140;
 
 void initializePack(TexturePack& tx, const SpriteMaster master, int xPos, int width)
 {
@@ -95,13 +83,14 @@ void initializePack(TexturePack& tx, const SpriteMaster master, int xPos, int wi
 	tx.surfaces[Surface::Cervical] = new QPixmap(master.cervical.copy(xPos, 0, width, 50));
 }
 
-
-
-std::unordered_set<int> molarTextureSet{ 0,1,2,8,9,10 };
+const std::unordered_set<int> molarTextureSet{ 0,1,2,8,9,10 };
 
 void SpriteSheets::initialize()
 {
 	SpriteMaster masterSprites;
+
+	constexpr int molarWidth = 180;
+	constexpr int commonWidth = 120;
 
 	QPixmap commonTexture("toothimage/common.png");
 	implant = new QPixmap(commonTexture.copy(QRect(0, 0, 120, 860)));
@@ -122,10 +111,18 @@ void SpriteSheets::initialize()
 		xPos += width;
 	}
 
-	xPos = 2280;
-
-
 }
+
+constexpr int permaIdx[32]{
+0,	1,	2,	3,	4,	5,	6,	7,		7,	6,	5,	4,	3,	2,	1,	0,
+8,	9,	10,	11,	12,	13,	14,	15,		15,	14,	13,	12,	11,	10,	9,	8
+};
+
+constexpr int tempIdx[32]
+{
+	-1,	-1,	-1,	16,	17,	18,	19,	20,		20,	19,	18,	17,	16,	-1,	-1,	-1,
+	-1,	-1,	-1,	21,	22,	23,	25,	25,		25,	24,	23,	22,	21,	-1,	-1,	-1
+};
 
 const TexturePack& SpriteSheets::getTexturePack(int toothIdx, bool temp)
 {

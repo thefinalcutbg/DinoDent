@@ -446,6 +446,7 @@ void ToothParser::parse(const std::string& jsonString, ToothContainer& teeth)
 	{
 		Tooth& tooth = teeth[splint[i]["idx"].asInt()];
 		tooth.splint.position = static_cast<BridgePos>(splint[i]["pos"].asInt());
+		tooth.splint.LPK = splint[i]["LPK"].asString();
 		tooth.splint.set(true);
 	}
 

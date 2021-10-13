@@ -980,5 +980,8 @@
     <ClInclude Include="src\View\ToothPaintDevices\SpriteSheets.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Model\Tooth\BridgeAlgorithms.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

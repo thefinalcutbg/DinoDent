@@ -6,7 +6,7 @@
 #include "PerioView/PerioGraphicsButton.h"
 #include "PerioView/PerioScene.h"
 #include "IPerioView.h"
-
+#include "ToothUi.h"
 
 class PerioView : public QWidget, public IPerioView
 {
@@ -31,20 +31,30 @@ class PerioView : public QWidget, public IPerioView
     PerioGraphicsButton* m_FMBS[128];
     PerioGraphicsButton* m_FMPS[128];
 
+    void initializeCommon();
+    void initializeSurfaces();
+    void initializeFullMouth();
+    void initializeRecAndAtt();
+    void initializeTeethScenes();
 
     void paintEvent(QPaintEvent* event) override;
-    void calcRecession(int GM_idx);
-    void disableColumn(int toothIdx, bool disabled);
-    double calculateCalAvg();
+
     void refreshChartMeasurment(int idx);
+
+    ToothUi getUIbyTooth(int idx);
 
 public:
     PerioView(QWidget *parent = Q_NULLPTR);
 
+    void PerioGraphicClicked(int index, PerioGraphicsType type);
+
+    void disableTooth(int index) override;
+    void setToothData(const PerioToothData& data) override;
+
     void setPresenter(PerioPresenter* presenter) override;
     void setToothHint(const ToothPaintHint& hint) override;
-    void setPerioStatus(const PerioStatus& perioStatus) override;
-    PerioStatus getPerioStatus() override;
+
+    void setMeasurment(int index, int pd, int cal, int gm, int recession) override;
     
 
 private:

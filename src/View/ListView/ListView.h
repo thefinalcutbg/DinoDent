@@ -32,7 +32,7 @@ public:
 
     void setPresenter(ListPresenter* presenter) override;
 
-    void refresh(AmbList& ambList, Patient& patient) override;
+    void refreshMeasurment(AmbList& ambList, Patient& patient) override;
 
     //IStatusView
     void setCheckModel(const CheckModel& checkModel) override;

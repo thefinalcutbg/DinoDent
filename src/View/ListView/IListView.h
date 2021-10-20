@@ -15,7 +15,7 @@ class AbstractComboBox;
 class IListView
 {
 public:
-	virtual void refresh(AmbList& ambList, Patient &patient) = 0;
+	virtual void refreshMeasurment(AmbList& ambList, Patient &patient) = 0;
 	virtual void setPresenter(ListPresenter* presenter) = 0;
 
 	virtual void setCheckModel(const CheckModel& checkModel) = 0;

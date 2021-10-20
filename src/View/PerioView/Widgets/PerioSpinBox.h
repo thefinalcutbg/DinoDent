@@ -8,7 +8,6 @@ class PerioSpinBox : public QSpinBox
 
 	int m_min{ 0 };
 	int m_max{ 0 };
-	int m_value{ 0 };
 
 	bool m_hover{ false };
 

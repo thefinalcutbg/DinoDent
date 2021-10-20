@@ -60,24 +60,25 @@ PerioSpinBox::PerioSpinBox(QWidget*parent)
 
 void PerioSpinBox::disable(bool disabled)
 {
-	QSignalBlocker b(this);
+	if(!disabled == isEnabled()) return;
 
 	setDisabled(disabled);
+
+	//not adjusting the range produces a bug when range is negative
+
 	if (disabled)
 	{
+		QSignalBlocker b(this);
 		m_min = minimum();
 		m_max = maximum();
-		m_value = value();
-		setRange(0, 0); //not adjusting the range produces a bug
+		setRange(0, 0); 
 		setSpecialValueText(".");
 
 	}
 	else
 	{
-
-		setSpecialValueText("");
 		setRange(m_min, m_max);
-		setValue(m_value);
+		setSpecialValueText("");
 	}
 }
 

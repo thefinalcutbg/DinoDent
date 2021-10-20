@@ -19,7 +19,7 @@ SpritesheetCoords::SpritesheetCoords(SpriteRectType type)
 	surfPos[med] = QPoint(60, 210);
 	surfPos[dist] = QPoint(0, 210);
 	surfPos[buc] = QPoint(0, 210);
-	surfPos[ling] = QPoint(0, 210);
+	surfPos[ling] = QPoint(0, 350);
 	surfPos[cerv] = QPoint(0, 210);
 
 	switch (type)

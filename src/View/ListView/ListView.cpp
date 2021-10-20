@@ -108,7 +108,7 @@ bool ListView::eventFilter(QObject* obj, QEvent* event)
 	return false;
 }
 
-void ListView::refresh(AmbList& ambList, Patient& patient)
+void ListView::refreshMeasurment(AmbList& ambList, Patient& patient)
 {
 	ui.patientTile->setPatient(patient);
 	ui.allergiesTile->setPatient(patient);

@@ -14,7 +14,7 @@ TileButton::TileButton(QWidget* parent) : QAbstractButton(parent), hover(0), cli
 void TileButton::setPatient(const Patient &patient)
 {
 	this->patient = &patient;
-	refresh();
+	refreshMeasurment();
 	update();
 }
 
@@ -96,7 +96,7 @@ PatientTile::PatientTile(QWidget* parent) : TileButton(parent)
 
 }
 
-void PatientTile::refresh()
+void PatientTile::refreshMeasurment()
 {
 	if (patient == NULL) return;
 
@@ -155,7 +155,7 @@ AllergiesTile::AllergiesTile(QWidget* parent) :
 	setFixedSize(351, 121);
 }
 
-void AllergiesTile::refresh()
+void AllergiesTile::refreshMeasurment()
 {
 	if (!patient->allergies.size())
 		allergies = noInfo;

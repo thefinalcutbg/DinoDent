@@ -33,7 +33,7 @@ protected:
 public:
     TileButton(QWidget* parent = 0);
     void setPatient(const Patient &patient);
-    virtual void refresh() = 0;
+    virtual void refreshMeasurment() = 0;
 };
 
 class PatientTile : public TileButton
@@ -51,7 +51,7 @@ class PatientTile : public TileButton
 
 public:
     PatientTile(QWidget* parent = 0);
-    void refresh();
+    void refreshMeasurment();
 
 };
 
@@ -72,6 +72,6 @@ class AllergiesTile : public TileButton
 
 public:
     AllergiesTile(QWidget* parent = 0);
-    void refresh();
+    void refreshMeasurment();
 
 };

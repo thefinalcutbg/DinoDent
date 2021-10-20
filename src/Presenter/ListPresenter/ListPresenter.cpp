@@ -174,7 +174,7 @@ void ListPresenter::setCurrent()
     view->setPresenter(this);
     
 
-    view->refresh
+    view->refreshMeasurment
     (
         m_ambList,
         *patient.get()
@@ -212,7 +212,7 @@ void ListPresenter::openPatientDialog()
     *this->patient = patient.value();
 
 
-    view->refresh
+    view->refreshMeasurment
     (
         m_ambList,
         *this->patient.get()
@@ -234,7 +234,7 @@ void ListPresenter::openAllergiesDialog()
     patient->currentDiseases = d.current;
     patient->pastDiseases = d.past;
 
-    view->refresh
+    view->refreshMeasurment
     (
         m_ambList,
         *patient.get()

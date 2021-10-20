@@ -25,7 +25,7 @@ std::vector<std::vector<int> > selectionCutter(const std::vector<int>& indexes)
 
 
 template <auto ptr>
-void formatSelection(const std::vector<int>& selection, std::array<Tooth, teethCount>& teeth)
+void formatSelection(const std::vector<int>& selection, std::array<Tooth, 32>& teeth)
 {
 
 	if (selection.size() == 1) //case in which only one tooth is selected
@@ -77,29 +77,29 @@ void formatSelection(const std::vector<int>& selection, std::array<Tooth, teethC
 
 
 template<auto ptr>
-std::pair<int, int> getConstructionRange(const std::array<Tooth, 32>& teeth, int tooth_idx)
+std::pair<int, int> getConstructionRange(const std::array<Tooth, teethCount>& teeth, int tooth_idx)
 {
-	int bridgeBegin{ tooth_idx }, bridgeEnd{ tooth_idx };
+	int begin{ tooth_idx }, end{ tooth_idx };
 
 	auto& current = teeth[tooth_idx].*ptr;
 
 	if (!current.exists())
-		return std::make_pair(bridgeBegin, bridgeEnd);
+		return std::make_pair(begin, end);
 
 	for (int i = tooth_idx; i < teethCount; i++) {
 		if ((teeth[i].*ptr).position == BridgePos::End) {
-			bridgeEnd = i;
+			end = i;
 			break;
 		}
 	}
 
 	for (int i = tooth_idx; i >= 0; --i) {
 		if ((teeth[i].*ptr).position == BridgePos::Begin) {
-			bridgeBegin = i;
+			begin = i;
 			break;
 		}
 	}
 
-	return std::make_pair(bridgeBegin, bridgeEnd);
+	return std::make_pair(begin, end);
 
 }

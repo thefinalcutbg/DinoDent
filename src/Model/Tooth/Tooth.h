@@ -7,7 +7,6 @@
 
 enum class StatusType{general, obturation, caries};
 
-
 class Tooth
 {
 

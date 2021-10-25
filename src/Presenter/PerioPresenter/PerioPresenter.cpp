@@ -107,6 +107,8 @@ void PerioPresenter::gmChanged(int index, int value)
 void PerioPresenter::bopChanged(int index, bool checked)
 {
     m_perioStatus.bop[index] = checked;
+
+    view->setPerioStatistic(PerioStatistic(m_perioStatus));
 }
 
 void PerioPresenter::attachChanged(int index, int value)
@@ -118,8 +120,7 @@ void PerioPresenter::FMBSChanged(int index, bool value)
 {
     m_perioStatus.FMBS[index] = value;
 
-    PerioStatistic stat(m_perioStatus);
-    view->setPerioStatistic(stat);
+    view->setPerioStatistic(PerioStatistic(m_perioStatus));
 
 }
 
@@ -127,8 +128,7 @@ void PerioPresenter::FMPSChanged(int index, bool value)
 {
     m_perioStatus.FMPS[index] = value;
 
-    PerioStatistic stat(m_perioStatus);
-    view->setPerioStatistic(stat);
+    view->setPerioStatistic(PerioStatistic(m_perioStatus));
 
 }
 

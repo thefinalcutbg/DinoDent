@@ -95,12 +95,16 @@ void PerioView::setToothData(const PerioToothData& data)
 
 void PerioView::setPerioStatistic(const PerioStatistic& stat)
 {
-	qDebug() << "HI: " << QString::number(stat.HI, 'g', 2) << "%";
-	qDebug() << "BI: " << QString::number(stat.BI, 'g', 2) << "%";
-	qDebug() << "BOP: " << QString::number(stat.BOP, 'g', 2) << "%";
+	
+	qDebug() << "HI: " << QString::number(stat.HI, 'f', 2) << "%";
+	qDebug() << "BI: " << QString::number(stat.BI, 'f', 2) << "%";
+	qDebug() << "BOP: " << QString::number(stat.BOP, 'f', 2) << "%";
 
-	qDebug() << "PD avg: " << QString::number(stat.pdAverage, 'g', 0) << " mm";
-	qDebug() << "CAL avg: " << QString::number(stat.calAverage, 'g', 0) << " mm";
+	qDebug() << "PD avg: " << QString::number(stat.pdAverage, 'f', 2) << " mm";
+	qDebug() << "CAL avg: " << QString::number(stat.calAverage, 'f', 2) << " mm";
+	qDebug() << "CAL max:" << stat.calMax;
+	qDebug() << "CAL distro: " << QString::number(stat.calDistribution, 'f', 2) << "%";
+	
 }
 
 void PerioView::setPresenter(PerioPresenter* presenter)

@@ -6,24 +6,12 @@ class PerioStatistic
 
 public:
 
-	double HI;
-	double BI;
-	double BOP;
+	double HI, BI, BOP, pdAverage, calAverage, calDistribution;
 
-	double pdAverage;
+	int calMax{ 0 };
 
-	int pd3;
-	int pd5;
-	int pd7;
-	int pdMore;
-
-	int calAverage;
-	double calSeverity;
-	double calDistribution;
-
-	int cal1to2;
-	int cal3to4;
-	int cal5andMore;
+	int pd3{ 0 }, pd5{ 0 }, pd7{ 0 }, pdMore{ 0 };
+	int cal1to2{ 0 }, cal3to4{ 0 }, cal5andMore{ 0 };
 
 	PerioStatistic(const PerioStatus& status);
 

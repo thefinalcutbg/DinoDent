@@ -2,6 +2,7 @@
 #include "Presenter/ListPresenter/ToothHintCreator.h"
 #include <algorithm>
 #include "Model/PerioToothData.h"
+#include "Model/PerioStatistic.h"
 
 PerioPresenter::PerioPresenter(ITabView* view, std::shared_ptr<Patient> patient) :
     TabInstance(view, TabType::PerioList), 
@@ -33,6 +34,9 @@ void PerioPresenter::toothButtonClicked(int tooth)
         :
         view->setToothData(PerioToothData(m_perioStatus, tooth));
 
+    PerioStatistic stat(m_perioStatus);
+    view->setPerioStatistic(stat);
+
 }
 
 
@@ -45,6 +49,9 @@ void PerioPresenter::refreshMeasurment(int index)
         m_perioStatus.gm[index],
         getRecession(index)
     );
+
+    PerioStatistic stat(m_perioStatus);
+    view->setPerioStatistic(stat);
 }
 
 int PerioPresenter::getRecession(int surfaceIndex)
@@ -111,27 +118,17 @@ void PerioPresenter::FMBSChanged(int index, bool value)
 {
     m_perioStatus.FMBS[index] = value;
 
+    PerioStatistic stat(m_perioStatus);
+    view->setPerioStatistic(stat);
+
 }
 
 void PerioPresenter::FMPSChanged(int index, bool value)
 {
     m_perioStatus.FMPS[index] = value;
 
-/*
-    double total = 0;
-    double plaqueFree = 0 ;
-
-    for (int i = 0; i < 128; i++)
-    {
-        if (m_perioStatus.disabled[i / 4]) continue;
-
-        if (!m_perioStatus.FMPS[i]) plaqueFree+=1;
-
-        total+=1;
-    }
-
-    double FMPS = (plaqueFree/total) * 100;
-*/
+    PerioStatistic stat(m_perioStatus);
+    view->setPerioStatistic(stat);
 
 }
 
@@ -174,6 +171,9 @@ void PerioPresenter::setCurrent()
             view->setToothData(PerioToothData(m_perioStatus, i));
         
     }
+
+    PerioStatistic stat(m_perioStatus);
+    view->setPerioStatistic(stat);
 
     setScrollPosition();
 

@@ -15,21 +15,16 @@ PerioToothData::PerioToothData(const PerioStatus& status, int idx)
     attachment[0] = status.ag[idx];
     attachment[1] = status.ag[idx + 32];
 
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i < 6; i++)
     {
-        pd[i] = status.pd[idx*3 + i];
-        pd[i + 3] = status.pd[idx*3 + i + lingualOffset];
+        const int perioIdx = idx * 6 + i;
+        pd[i] = status.pd[perioIdx];
+        cal[i] = status.cal[perioIdx];
+        bop[i] = status.bop[perioIdx];
 
-        cal[i] = status.cal[idx * 3 + i];
-        cal[i + 3] = status.cal[idx * 3 + i + lingualOffset];
-
-        bop[i] = status.bop[idx * 3 + i];
-        bop[i + 3] = status.bop[idx * 3 + i + 3];
-    }
-
-    for (int i = 0; i < 6; i++) {
         gm[i] = pd[i] - cal[i];
     }
+
 
     for (int i = 0; i < 4; i++)
     {

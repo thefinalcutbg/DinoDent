@@ -4,6 +4,7 @@
 #include "Presenter/TabPresenter/TabInstance.h"
 #include "Model/Patient.h"
 #include "View/PerioView/IPerioView.h"
+#include "Model/PerioStatistic.h"
 #include "Model/PerioStatus.h"
 #include "Database/DbPerio.h"
 

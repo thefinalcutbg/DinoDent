@@ -2,7 +2,6 @@
 
 #include <QGraphicsItem>
 
-struct Measurment;
 
 class PerioChartItem : public QGraphicsItem
 {
@@ -18,7 +17,7 @@ public:
 	PerioChartItem(bool even = true);
 
 	QRectF boundingRect() const override;
-	void setMeasurment(const Measurment& m);
+	void setMeasurment(int idx, int gm, int cal);
 	void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override;
 	~PerioChartItem();
 };

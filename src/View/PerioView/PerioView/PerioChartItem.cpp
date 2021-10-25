@@ -1,6 +1,5 @@
 #include "PerioChartItem.h"
 #include <QPainter>
-#include "../widgets/Measurment.h"
 #include "Model/Tooth/ToothUtils.h"
 
 constexpr int height = 166;
@@ -65,11 +64,12 @@ QRectF PerioChartItem::boundingRect() const
 	return bounds;
 }
 
-void PerioChartItem::setMeasurment(const Measurment& m)
+
+void PerioChartItem::setMeasurment(int idx, int gm, int cal)
 {
 
-	gm_polygon[m.position+1].setY((m.GM* y_coef + y_pos));
-	cal_polygon[m.position+1].setY(m.CAL*(-y_coef) + y_pos);
+	gm_polygon[idx +1].setY((gm* y_coef + y_pos));
+	cal_polygon[idx +1].setY(cal*(-y_coef) + y_pos);
 	update();
 }
 

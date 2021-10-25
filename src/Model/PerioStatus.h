@@ -1,8 +1,8 @@
 #pragma once
 
 constexpr int upperCount = 0;
-constexpr int lingualOffset = 96;
 constexpr int perioSurfCount = 192;
+constexpr int scoreSurfCount = 128;
 
 struct PerioStatus
 {
@@ -10,8 +10,8 @@ struct PerioStatus
     int cal[perioSurfCount] { 0 };
 	int pd[perioSurfCount] { 0 };
 	int gm[perioSurfCount]{ 0 }; //don't forget to intialize!
-	bool FMBS[128]{ false };
-	bool FMPS[128]{ false };
+	bool FMBS[scoreSurfCount]{ false };
+	bool FMPS[scoreSurfCount]{ false };
 	bool bop[perioSurfCount] { false };
 	int ag[64] { 0 };
 	int mobility[32] { 0 };

@@ -399,6 +399,9 @@
     <ClCompile Include="src\Model\PerioToothData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Model\PerioStatistic.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -953,9 +956,6 @@
     <ClInclude Include="src\Presenter\TabPresenter\TabInstance.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\View\PerioView\Widgets\Measurment.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\View\PerioView\PerioView\PerioChartItem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -990,6 +990,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\PerioToothData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\PerioStatistic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

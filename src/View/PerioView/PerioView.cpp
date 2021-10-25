@@ -4,9 +4,9 @@
 #include <QButtonGroup>
 #include <QPainter>
 #include "View/ToothPaintDevices/PaintHint.h"
-#include "Widgets/Measurment.h"
 #include "Presenter/PerioPresenter/PerioPresenter.h"
 #include "Model/PerioToothData.h"
+#include "Model/PerioStatistic.h"
 
 #include <QDebug>
 
@@ -34,6 +34,11 @@ PerioView::PerioView(QWidget* parent)
 	{
 		connect(m_tooth[i], &QPushButton::clicked, 
 			[=] { presenter->toothButtonClicked(i); });
+	}
+
+	for (int i = 0; i < 64; i++){
+		connect(m_Attach[i], QOverload<int>::of(&QSpinBox::valueChanged),
+			[=](int value) {presenter->attachChanged(i, value); });
 	}
 
 	for (int i = 0; i < 192; i++)
@@ -67,10 +72,9 @@ void PerioView::disableTooth(int index)
 	auto uiTooth = getUIbyTooth(index);
 	uiTooth.disable(true);
 
-	for (int i = index * 3; i < index * 3 + 3; i++)
+	for (int i = index * 6; i < index * 6 + 6; i++)
 	{
 		refreshChartMeasurment(i);
-		refreshChartMeasurment(i + 96);
 	}
 }
 
@@ -82,15 +86,22 @@ void PerioView::setToothData(const PerioToothData& data)
 
 	uiTooth.setData(data);
 
-	for (int i = idx * 3; i < idx * 3 + 3; i++)
+	for (int i = idx * 6; i < idx * 6 + 6; i++)
 	{
 		refreshChartMeasurment(i);
-		refreshChartMeasurment(i + 96);
+	
 	}
-
-
 }
 
+void PerioView::setPerioStatistic(const PerioStatistic& stat)
+{
+	qDebug() << "HI: " << QString::number(stat.HI, 'g', 2) << "%";
+	qDebug() << "BI: " << QString::number(stat.BI, 'g', 2) << "%";
+	qDebug() << "BOP: " << QString::number(stat.BOP, 'g', 2) << "%";
+
+	qDebug() << "PD avg: " << QString::number(stat.pdAverage, 'g', 0) << " mm";
+	qDebug() << "CAL avg: " << QString::number(stat.calAverage, 'g', 0) << " mm";
+}
 
 void PerioView::setPresenter(PerioPresenter* presenter)
 {
@@ -150,22 +161,20 @@ ToothUi PerioView::getUIbyTooth(int idx)
 	toothUi.recession[0] = m_Rec[idx];
 	toothUi.recession[1] = m_Rec[idx + 32];
 
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 6; i++)
 	{
-		toothUi.pd[i] = m_PD[idx * 3 + i];
-		toothUi.pd[i + 3] = m_PD[idx * 3 + i + lingualOffset];
-		toothUi.cal[i] = m_CAL[idx * 3 + i];
-		toothUi.cal[i + 3] = m_CAL[idx * 3 + i + lingualOffset];
-		toothUi.gm[i] = m_GM[idx * 3 + i];
-		toothUi.gm[i + 3] = m_GM[idx * 3 + i + lingualOffset];
-		toothUi.bop[i] = m_BOP[idx * 3 + i];
-		toothUi.bop[i + 3] = m_BOP[idx * 3 + i + lingualOffset];
+		const auto uiIdx = idx * 6 + i;
+		toothUi.pd[i] = m_PD[uiIdx];
+		toothUi.cal[i] = m_CAL[uiIdx];
+		toothUi.gm[i] = m_GM[uiIdx];
+		toothUi.bop[i] = m_BOP[uiIdx];
 	}
 
 	for (int i = 0; i < 4; i++)
 	{
-		toothUi.FMBS[i] = m_FMBS[idx * 4 + i];
-		toothUi.FMPS[i] = m_FMPS[idx * 4 + i];
+		const auto uiIdx = idx * 4 + i;
+		toothUi.FMBS[i] = m_FMBS[uiIdx];
+		toothUi.FMPS[i] = m_FMPS[uiIdx];
 	}
 
 	return toothUi;
@@ -176,27 +185,19 @@ void PerioView::refreshChartMeasurment(int idx)
 {
 	int GM = m_GM[idx]->value();
 	int CAL = m_CAL[idx]->value();
-	int position = 0;
 
-	if (idx < 48)
+	auto& chartIdx = chartIndex[idx];
+
+	switch (chartIdx.position)//it would be wayyy easier to have chart[4] and cast the position
 	{
-		int position = idx;
-		upperChart[0]->setMeasurment(Measurment{ position, GM, CAL });
-	}
-	else if (idx < 96)
-	{
-		int position = idx - 48;
-		upperChart[1]->setMeasurment(Measurment{ position, GM, CAL });
-	}
-	else if (idx < 144)
-	{
-		int position = idx - 96;
-		lowerChart[0]->setMeasurment(Measurment{ position, GM, CAL });
-	}
-	else
-	{
-		int position = idx - 144;
-		lowerChart[1]->setMeasurment(Measurment{ position, GM, CAL });
+	case ChartPosition::maxBuccal:
+		upperChart[0]->setMeasurment(chartIdx.index, GM, CAL); break;
+	case ChartPosition::maxPalatal:
+		lowerChart[0]->setMeasurment(chartIdx.index, GM, CAL); break;
+	case ChartPosition::mandLing:
+		upperChart[1]->setMeasurment(chartIdx.index, GM, CAL); break;
+	case ChartPosition::mandBuccal:
+		lowerChart[1]->setMeasurment(chartIdx.index, GM, CAL); break;
 	}
 }
 
@@ -275,9 +276,13 @@ void PerioView::initializeSurfaces()
 
 	//initializing PD, CAL, GM for maxillary view:
 
-	for (int i = 0; i < 48; i++)
+	int chartArrayIdx = 0;
+
+	//buccal:
+	for (int i = 0; i < 93; i++)
 	{
-		//the buccal row:
+		if (!(i % 3) && i) i += 3;
+		
 		m_PD[i] = new PerioSpinBox(ui.maxilla);
 		m_PD[i]->setMaximum(19);
 		ui.maxilla->ui.pdUpLayout->addWidget(m_PD[i]);
@@ -293,28 +298,53 @@ void PerioView::initializeSurfaces()
 		m_BOP[i]->setIcon(icon);
 		ui.maxilla->ui.bopUpLayout->addWidget(m_BOP[i]);
 
-		//the lingual row:
+		m_GM[i] = new PerioSpinBox(ui.maxilla);
+		m_GM[i]->setRange(-19, 19);
+		ui.maxilla->ui.gmUpLayout->addWidget(m_GM[i]);
 
-		m_PD[i + 96] = new PerioSpinBox(ui.maxilla);
-		m_PD[i + 96]->setMaximum(19);
-		ui.maxilla->ui.pdDownLayout->addWidget(m_PD[i + 96]);
+		this->chartIndex[i].position = ChartPosition::maxBuccal;
+		this->chartIndex[i].index = chartArrayIdx;
+		chartArrayIdx++;
+	}
 
-		m_CAL[i + 96] = new PerioSpinBox(ui.maxilla);
-		m_CAL[i + 96]->setMaximum(19);
-		m_CAL[i + 96]->redValue = 4;
-		ui.maxilla->ui.calDownLayout->addWidget(m_CAL[i + 96]);
+	chartArrayIdx = 0;
 
-		m_BOP[i + 96] = new PerioButton(ui.maxilla);
-		m_BOP[i + 96]->setMinimumWidth(1);
-		m_BOP[i + 96]->setCheckable(true);
-		m_BOP[i + 96]->setIcon(icon);
-		ui.maxilla->ui.bopDownLayout->addWidget(m_BOP[i + 96]);
+	//palatal:
+	for (int i = 3; i < 96; i++)
+	{
+		if (!(i % 3) && i != 3) i+=3;
 
+		m_PD[i] = new PerioSpinBox(ui.maxilla);
+		m_PD[i]->setMaximum(19);
+		ui.maxilla->ui.pdDownLayout->addWidget(m_PD[i]);
+
+		m_CAL[i] = new PerioSpinBox(ui.maxilla);
+		m_CAL[i]->setMaximum(19);
+		m_CAL[i]->redValue = 4;
+		ui.maxilla->ui.calDownLayout->addWidget(m_CAL[i]);
+
+		m_BOP[i] = new PerioButton(ui.maxilla);
+		m_BOP[i]->setMinimumWidth(1);
+		m_BOP[i]->setCheckable(true);
+		m_BOP[i]->setIcon(icon);
+		ui.maxilla->ui.bopDownLayout->addWidget(m_BOP[i]);
+
+		m_GM[i] = new PerioSpinBox(ui.maxilla);
+		m_GM[i]->setRange(-19, 19);
+		ui.maxilla->ui.gmDownLayout->addWidget(m_GM[i]);
+
+		this->chartIndex[i].position = ChartPosition::maxPalatal;
+		this->chartIndex[i].index = chartArrayIdx;
+		chartArrayIdx++;
 	}
 
 	//now the mandibular view :@ :@ :@ :@
 
-	for (int i = 95; i >= 48; i--)
+	chartArrayIdx = 48;
+
+	//buccal:
+
+	for (int i = 188; i >= 96; i--)
 	{
 		//the buccal row:
 		m_PD[i] = new PerioSpinBox(ui.mandibula);
@@ -332,49 +362,50 @@ void PerioView::initializeSurfaces()
 		m_BOP[i]->setIcon(icon);
 		ui.mandibula->ui.bopUpLayout->addWidget(m_BOP[i]);
 
-		//the lingual row:
-
-		m_PD[i + 96] = new PerioSpinBox(ui.mandibula);
-		m_PD[i + 96]->setMaximum(19);
-		ui.mandibula->ui.pdDownLayout->addWidget(m_PD[i + 96]);
-
-		m_CAL[i + 96] = new PerioSpinBox(ui.mandibula);
-		m_CAL[i + 96]->setMaximum(19);
-		m_CAL[i + 96]->redValue = 4;
-		ui.mandibula->ui.calDownLayout->addWidget(m_CAL[i + 96]);
-
-		m_BOP[i + 96] = new PerioButton(ui.mandibula);
-		m_BOP[i + 96]->setMinimumWidth(1);
-		m_BOP[i + 96]->setCheckable(true);
-		m_BOP[i + 96]->setIcon(icon);
-		ui.mandibula->ui.bopDownLayout->addWidget(m_BOP[i + 96]);
-
-	}
-
-	for (int i = 0; i < 48; i++)
-	{
-		m_GM[i] = new PerioSpinBox(ui.maxilla);
-		m_GM[i]->setRange(-19, 19);
-		ui.maxilla->ui.gmUpLayout->addWidget(m_GM[i]);
-
-		m_GM[i + 96] = new PerioSpinBox(ui.maxilla);
-		m_GM[i + 96]->setRange(-19, 19);
-		ui.maxilla->ui.gmDownLayout->addWidget(m_GM[i + 96]);
-
-	}
-
-	//the mandibular view:
-	for (int i = 95; i >= 48; i--)
-	{
-		//buccal:
 		m_GM[i] = new PerioSpinBox(ui.mandibula);
 		m_GM[i]->setRange(-19, 19);
 		ui.mandibula->ui.gmUpLayout->addWidget(m_GM[i]);
 
-		//lingual:
-		m_GM[i + 96] = new PerioSpinBox(ui.mandibula);
-		m_GM[i + 96]->setRange(-19, 19);
-		ui.mandibula->ui.gmDownLayout->addWidget(m_GM[i + 96]);
+		this->chartIndex[i].position = ChartPosition::mandLing;
+		this->chartIndex[i].index = chartArrayIdx;
+		chartArrayIdx--;
+
+		if (!(i % 3) && i != 188) i -= 3;
+	}
+
+	//lingual:
+
+	chartArrayIdx = 48;
+
+	for (int i = 191; i >= 99; i-- )
+	{
+		//the lingual row:
+
+		m_PD[i] = new PerioSpinBox(ui.mandibula);
+		m_PD[i]->setMaximum(19);
+		ui.mandibula->ui.pdDownLayout->addWidget(m_PD[i]);
+
+		m_CAL[i] = new PerioSpinBox(ui.mandibula);
+		m_CAL[i]->setMaximum(19);
+		m_CAL[i]->redValue = 4;
+		ui.mandibula->ui.calDownLayout->addWidget(m_CAL[i]);
+
+		m_BOP[i] = new PerioButton(ui.mandibula);
+		m_BOP[i]->setMinimumWidth(1);
+		m_BOP[i]->setCheckable(true);
+		m_BOP[i]->setIcon(icon);
+		ui.mandibula->ui.bopDownLayout->addWidget(m_BOP[i]);
+
+		m_GM[i] = new PerioSpinBox(ui.mandibula);
+		m_GM[i]->setRange(-19, 19);
+		ui.mandibula->ui.gmDownLayout->addWidget(m_GM[i]);
+
+		this->chartIndex[i].position = ChartPosition::mandBuccal;
+		this->chartIndex[i].index = chartArrayIdx;
+		chartArrayIdx--;
+
+		if (!(i % 3) && i != 192) i -= 3;
+
 	}
 }
 

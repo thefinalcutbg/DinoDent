@@ -9,7 +9,8 @@ PerioToothData::PerioToothData(const PerioStatus& status, int idx)
 
     for (int i = 0; i < 3; i++)
     {
-        furc[i] = 0; // for now!
+        const int furcIdx = idx * 3 + i;
+        furc[i] = status.furcation[furcIdx];
     }
 
     attachment[0] = status.ag[idx];
@@ -21,7 +22,6 @@ PerioToothData::PerioToothData(const PerioStatus& status, int idx)
         pd[i] = status.pd[perioIdx];
         cal[i] = status.cal[perioIdx];
         bop[i] = status.bop[perioIdx];
-
         gm[i] = pd[i] - cal[i];
     }
 

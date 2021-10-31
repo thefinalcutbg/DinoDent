@@ -4,6 +4,7 @@
 #include "Model/PerioToothData.h"
 #include "Model/PerioStatistic.h"
 
+
 PerioPresenter::PerioPresenter(ITabView* view, std::shared_ptr<Patient> patient) :
     TabInstance(view, TabType::PerioList), 
     patient(patient), 
@@ -46,7 +47,7 @@ void PerioPresenter::refreshMeasurment(int index)
         index,
         m_perioStatus.pd[index],
         m_perioStatus.cal[index],
-        m_perioStatus.gm[index],
+        m_perioStatus.pd[index] - m_perioStatus.cal[index],
         getRecession(index)
     );
 
@@ -60,7 +61,7 @@ int PerioPresenter::getRecession(int surfaceIndex)
 
     for (int i = recIdx * 3; i < recIdx * 3 + 3; i++)
     {
-        int recTemp = m_perioStatus.gm[i] * (-1);
+        int recTemp = (m_perioStatus.pd[i] - m_perioStatus.cal[i]) * (-1);
         recession = std::max(recession, recTemp);
     }
 
@@ -71,7 +72,6 @@ int PerioPresenter::getRecession(int surfaceIndex)
 void PerioPresenter::pdChanged(int index, int value)
 {
     m_perioStatus.pd[index] = value;
-    m_perioStatus.gm[index] = value - m_perioStatus.cal[index];
 
     refreshMeasurment(index);
 }
@@ -79,18 +79,17 @@ void PerioPresenter::pdChanged(int index, int value)
 void PerioPresenter::calChanged(int index, int value)
 {
     m_perioStatus.cal[index] = value;
-    m_perioStatus.gm[index] = m_perioStatus.pd[index] - value;
+
 
     refreshMeasurment(index);
 }
 
 void PerioPresenter::gmChanged(int index, int value)
 {
-    auto& gingivalMargin = m_perioStatus.gm[index];
     auto& CAL = m_perioStatus.cal[index];
     auto& pocketDepth = m_perioStatus.pd[index];
 
-    gingivalMargin = value;
+    int gingivalMargin = value;
 
     if (gingivalMargin > pocketDepth) pocketDepth = value;
     
@@ -130,6 +129,14 @@ void PerioPresenter::FMPSChanged(int index, bool value)
 
     view->setPerioStatistic(PerioStatistic(m_perioStatus));
 
+}
+
+void PerioPresenter::furcationChanged(int index, int a, int b, int c)
+{
+    int idx = index * 3;
+    m_perioStatus.furcation[idx] = a;
+    m_perioStatus.furcation[idx + 1] = b;
+    m_perioStatus.furcation[idx + 2] = c;
 }
 
 

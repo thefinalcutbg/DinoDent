@@ -24,7 +24,7 @@ public:
 	void setAvailableStates(SharedStates states) { this->states = states; }
 
 	void setState(int state);
-	short int getState() {	return m_state; }
+	int getState() {	return m_state; }
 
 	~PerioStateButton();
 };

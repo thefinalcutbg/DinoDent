@@ -1,89 +1,161 @@
 #include "PerioStatistic.h"
 #include "PerioStatus.h"
 #include <utility>
-#include <QDebug>
+#include <functional>
+
+inline double getPercent(int sum, int total) { return total ? (static_cast<double>(sum) / total) * 100 : 0; }
+
+constexpr int teethCount = 32;
+
 template<typename T>
-double calculatePercent(const bool disabled[32], const T status[], const int statusSize, bool countExisting = true)
+class PerioIterator
+{
+	const T* m_array;
+	int size;
+	int step;
+	const bool* disabled;
+	int index;
+public:
+
+	PerioIterator(const T* array, int size, const bool* disabled)
+		:
+		m_array(array), size(size), disabled(disabled), step(size / 32), index{ 0 }
+	{
+		for (int i = 0; i < teethCount; i++)
+		{
+			if (!disabled[i]) break;
+
+			index += step;
+		}
+	}
+
+	void increment()
+	{
+		index++;
+
+		for (int i = index / step; i < teethCount; i++)
+		{
+			if (!disabled[i]) break;
+
+			index += step;
+		}
+	}
+
+	bool valid() { return index < size; }
+
+	const T& value() { return m_array[index]; }
+
+};
+
+template<typename T>
+double calculatePercent(PerioIterator<T>& data, bool countExisting = true)
 {
 	int total = 0;
-	double measure = 0;
-	int step = statusSize / 32;
+	int sum = 0;
 
-	for (int i = 0; i < statusSize; i++)
+	for (; data.valid(); data.increment())
 	{
-		
-		if (disabled[i/step]) {
-			i += step;
-			i--;       // because the loop will add one anyway
-			continue;
-		}
+		if (static_cast<bool>(data.value()) == countExisting)
+				sum++;
 
-		if (static_cast<bool>(status[i]) == countExisting) measure += 1;
-
-		total += 1;
+			total++;
 	}
 	
-	return (measure / total) * 100;
+	return getPercent(sum, total);
 }
 
-double calculateAvg(const bool disabled[32], const int status[192])
+double calculateAvg(PerioIterator<int>& data)
 {
 	double sum = 0;
 	int total = 0;
 
-	for (int i = 0; i < 192; i++)
+	for (;data.valid(); data.increment())
 	{
-		if (disabled[i / 6]) {
-			i += 5; // loop ads one more position
-			
-			continue;
-		}
-		
-		sum += status[i];
+		sum += data.value();
 		total += 1;
 	}
 
-	return sum / total;
+	return sum ? sum / total : 0;
+}
+
+
+typedef std::function<bool(int)> ConditionLambda;
+
+template <size_t histoCount>
+std::array<int, histoCount> getHistogram(
+	PerioIterator<int>& data,
+	std::array<ConditionLambda, histoCount>& lambdas
+	)
+{
+	std::array<int, histoCount> result{ 0 };
+
+	for (; data.valid(); data.increment())
+	{
+		for (int y = 0; y < lambdas.size(); y++)
+		{
+			if (lambdas[y](data.value())) {
+				result[y]++;
+				break;
+			}
+		}
+
+	}
+
+	return result;
+
+}
+
+template<size_t size>
+std::array<double, size> histogramToPercentage(const std::array<int, size>& histogram)
+{
+	int total{ 0 };
+
+	for (const auto& value : histogram)
+		total += value;
+
+	std::array<double, size> result{ 0 };
+
+	for (int i = 0; i < size; i++)
+		result[i] = getPercent(histogram[i], total);
+
+	return result;
+
 }
 
 PerioStatistic::PerioStatistic(const PerioStatus& status) :
-	HI{ calculatePercent(status.disabled, status.FMPS, 128, false) },
-	BI{ calculatePercent(status.disabled, status.FMBS, 128) },
-	BOP{ calculatePercent(status.disabled, status.bop, 192) },
-	pdAverage{ calculateAvg(status.disabled, status.pd) },
-	calAverage(calculateAvg(status.disabled, status.cal)),
-	calDistribution{ calculatePercent(status.disabled, status.cal, 192) } 
-{
 
-	int calCount = 0;
+	HI{ calculatePercent(PerioIterator{status.FMPS, 128 ,status.disabled}, false) },
+	BI{ calculatePercent(PerioIterator{status.FMBS, 128, status.disabled}) },
+	BOP{ calculatePercent(PerioIterator{status.bop, 192, status.disabled}) },
+	calAverage(calculateAvg(PerioIterator{ status.cal, 192,status.disabled })),
+	calDistribution{ calculatePercent(PerioIterator{status.cal, 192, status.disabled}) },
+	pdAverage{ calculateAvg(PerioIterator{ status.pd, 192, status.disabled }) },
 
-	for (int i = 0; i < 192; i++)
-	{
-		auto& cal = status.cal[i];
+	pdHistogramCount{ 
+		getHistogram(
+			PerioIterator{status.pd, 192, status.disabled},
+		
+			std::array<ConditionLambda, 4> {
+				[](int value) { return value <= 3; },
+				[](int value) { return value <= 5; },
+				[](int value) { return value <= 7; },
+				[](int value) { return value > 7; }
+			}
+		) 
+	},
 
-		calMax = std::max(calMax, cal);
+	calHistogramCount{ 
+		getHistogram(
+			PerioIterator{status.cal, 192, status.disabled},
 
-		if (!cal) continue;
+			std::array<ConditionLambda, 3> {
+				[](int value) { return value > 0 && value <= 2; },
+				[](int value) { return value > 2 && value <= 4; },
+				[](int value) { return value > 4; }
+			}
+		) 
+	},
+	pdHistogramPercentage{ histogramToPercentage(pdHistogramCount) },
+	calHistogramPercentage{histogramToPercentage(calHistogramCount)}
 
-		if (cal < 3)
-			cal1to2++;
-		else if (cal < 5)
-			cal3to4++;
-		else
-			cal5andMore++;
-	}
-
-	for (int i = 0; i < 192; i++)
-	{
-		auto& pd = status.pd[i];
-		if (pd <= 3)
-			pd3++;
-		else if (pd <= 5)
-			pd5++;
-		else if (pd <= 7)
-			pd7++;
-		else
-			pdMore++;
-	}
-
-}
+{}

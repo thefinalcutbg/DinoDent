@@ -6,10 +6,11 @@ constexpr int scoreSurfCount = 128;
 
 struct PerioStatus
 {
+	int furcation[96]{ 0 };
 	bool disabled[32] { false };
     int cal[perioSurfCount] { 0 };
 	int pd[perioSurfCount] { 0 };
-	int gm[perioSurfCount]{ 0 }; //don't forget to intialize!
+	//int gm[perioSurfCount]{ 0 }; //don't forget to intialize!
 	bool FMBS[scoreSurfCount]{ false };
 	bool FMPS[scoreSurfCount]{ false };
 	bool bop[perioSurfCount] { false };
@@ -17,3 +18,4 @@ struct PerioStatus
 	int mobility[32] { 0 };
 
 };
+

@@ -2,6 +2,7 @@
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QVBoxLayout>
+#include "Model/Tooth/ToothUtils.h"
 #include <QLabel>
 #include <QPainter>
 
@@ -70,11 +71,12 @@ FurcationWidget::FurcationWidget(QWidget *parent)
     rightButton->setAvailableStates(furcationStates);
     downButton->setAvailableStates(furcationStates);
 
-
-
+    connect(leftButton, &QAbstractButton::clicked, [=] { emit valueChanged(getMeasurment());});
+    connect(rightButton, &QAbstractButton::clicked, [=] { emit valueChanged(getMeasurment());});
+    connect(downButton, &QAbstractButton::clicked, [=] { emit valueChanged(getMeasurment());});
 }
 
-#include "Model/Tooth/ToothUtils.h"
+
 
 void FurcationWidget::setIndex(int toothIndex)
 {
@@ -106,6 +108,22 @@ void FurcationWidget::setIndex(int toothIndex)
 
     dummy->show();
     
+}
+
+
+FurcationMeasurment FurcationWidget::getMeasurment()
+{
+    return FurcationMeasurment{
+        leftButton->getState(),
+        rightButton->getState(),
+        downButton->getState() };
+}
+
+void FurcationWidget::setMeasurment(int a, int b, int c)
+{
+    leftButton->setState(a);
+    rightButton->setState(b);
+    downButton->setState(c);
 }
 
 void FurcationWidget::paintEvent(QPaintEvent* event)

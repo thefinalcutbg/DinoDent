@@ -52,7 +52,7 @@ struct ToothUi
 	{
 		disable(false);
 		mobi->setState(data.mobility);
-		//furcation->setStatusTip(data.furc);
+		furcation->setMeasurment(data.furc[0], data.furc[1], data.furc[2]);
 
 		attachment[0]->setValue(data.attachment[0]);
 

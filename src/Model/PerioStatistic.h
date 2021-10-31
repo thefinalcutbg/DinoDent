@@ -1,17 +1,21 @@
 #pragma once
 class PerioStatus;
+#include <array>
 
 class PerioStatistic
 {
 
 public:
 
-	double HI, BI, BOP, pdAverage, calAverage, calDistribution;
+	double HI{ 0 }, BI{ 0 }, BOP{ 0 }, pdAverage{ 0 }, calAverage{ 0 }, calDistribution{ 0 };
 
 	int calMax{ 0 };
 
-	int pd3{ 0 }, pd5{ 0 }, pd7{ 0 }, pdMore{ 0 };
-	int cal1to2{ 0 }, cal3to4{ 0 }, cal5andMore{ 0 };
+	std::array<int, 4> pdHistogramCount;
+	std::array<int, 3> calHistogramCount;
+
+	std::array<double, 4> pdHistogramPercentage;
+	std::array<double, 3> calHistogramPercentage;
 
 	PerioStatistic(const PerioStatus& status);
 

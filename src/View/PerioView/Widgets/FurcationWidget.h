@@ -4,7 +4,8 @@
 #include <QPushButton>
 #include <QLabel>
 #include "PerioStateButton.h"
-//#include "ui_FurcationWidget.h"
+
+struct FurcationMeasurment { int a{ 0 }, b{ 0 }, c{ 0 }; };
 
 class FurcationWidget : public QWidget
 {
@@ -16,11 +17,18 @@ class FurcationWidget : public QWidget
 	QLabel* dummy;
 
 	void paintEvent(QPaintEvent* event) override;
+	FurcationMeasurment getMeasurment();
 
 public:
 	FurcationWidget(QWidget *parent = Q_NULLPTR);
+	
+	void setMeasurment(int a, int b, int c);
 	void setIndex(int toothIndex);
 	~FurcationWidget();
+
+signals:
+	void valueChanged(FurcationMeasurment value);
+
 
 private:
 	//Ui::FurcationWidget ui;

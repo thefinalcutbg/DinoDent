@@ -29,11 +29,20 @@ PerioView::PerioView(QWidget* parent)
 	initializeRecAndAtt();
 	initializeTeethScenes();
 	initializeFullMouth();
+
+	ui.tableView->setModel(&stat_model);
+	ui.tableView->initializeSize();
 	
 	for (int i = 0; i < 32; i++)
 	{
 		connect(m_tooth[i], &QPushButton::clicked, 
 			[=] { presenter->toothButtonClicked(i); });
+
+		connect(m_furcation[i], &FurcationWidget::valueChanged,
+			[=](FurcationMeasurment m)
+			{
+				presenter->furcationChanged(i, m.a, m.b, m.c);
+			});
 	}
 
 	for (int i = 0; i < 64; i++){
@@ -95,16 +104,7 @@ void PerioView::setToothData(const PerioToothData& data)
 
 void PerioView::setPerioStatistic(const PerioStatistic& stat)
 {
-	
-	qDebug() << "HI: " << QString::number(stat.HI, 'f', 2) << "%";
-	qDebug() << "BI: " << QString::number(stat.BI, 'f', 2) << "%";
-	qDebug() << "BOP: " << QString::number(stat.BOP, 'f', 2) << "%";
-
-	qDebug() << "PD avg: " << QString::number(stat.pdAverage, 'f', 2) << " mm";
-	qDebug() << "CAL avg: " << QString::number(stat.calAverage, 'f', 2) << " mm";
-	qDebug() << "CAL max:" << stat.calMax;
-	qDebug() << "CAL distro: " << QString::number(stat.calDistribution, 'f', 2) << "%";
-	
+	stat_model.setStatistics(stat);
 }
 
 void PerioView::setPresenter(PerioPresenter* presenter)
@@ -125,7 +125,7 @@ void PerioView::setToothHint(const ToothPaintHint& hint)
 	if (hint.idx < 16) perioScene[0]->display(hint);
 	else perioScene[1]->display(hint);
 
-	m_furcation[hint.idx]->setIndex(hint.idx);
+	//m_furcation[hint.idx]->setIndex(hint.idx);
 	m_tooth[hint.idx]->setText(QString::number(hint.num));
 }
 
@@ -160,10 +160,11 @@ ToothUi PerioView::getUIbyTooth(int idx)
 	toothUi.tooth = m_tooth[idx];
 	toothUi.mobi = m_mobi[idx];
 	toothUi.furcation = m_furcation[idx];
-	toothUi.attachment[0] = m_Attach[idx];
-	toothUi.attachment[1] = m_Attach[idx + 32];
-	toothUi.recession[0] = m_Rec[idx];
-	toothUi.recession[1] = m_Rec[idx + 32];
+
+	toothUi.attachment[0] = m_Attach[idx*2];
+	toothUi.attachment[1] = m_Attach[idx*2 + 1];
+	toothUi.recession[0] = m_Rec[idx*2];
+	toothUi.recession[1] = m_Rec[idx*2 + 1];
 
 	for (int i = 0; i < 6; i++)
 	{
@@ -192,17 +193,7 @@ void PerioView::refreshChartMeasurment(int idx)
 
 	auto& chartIdx = chartIndex[idx];
 
-	switch (chartIdx.position)//it would be wayyy easier to have chart[4] and cast the position
-	{
-	case ChartPosition::maxBuccal:
-		upperChart[0]->setMeasurment(chartIdx.index, GM, CAL); break;
-	case ChartPosition::maxPalatal:
-		lowerChart[0]->setMeasurment(chartIdx.index, GM, CAL); break;
-	case ChartPosition::mandLing:
-		upperChart[1]->setMeasurment(chartIdx.index, GM, CAL); break;
-	case ChartPosition::mandBuccal:
-		lowerChart[1]->setMeasurment(chartIdx.index, GM, CAL); break;
-	}
+	perioChart[static_cast<int>(chartIdx.position)]->setMeasurment(chartIdx.index, GM, CAL);
 }
 
 
@@ -249,6 +240,7 @@ void PerioView::initializeCommon()
 
 
 		m_furcation[i] = new FurcationWidget(ui.maxilla);
+		m_furcation[i]->setIndex(i);
 		ui.maxilla->ui.furcationLayout->addWidget(m_furcation[i]);
 	}
 
@@ -270,6 +262,7 @@ void PerioView::initializeCommon()
 
 
 		m_furcation[i] = new FurcationWidget(ui.mandibula);
+		m_furcation[i]->setIndex(i);
 		ui.mandibula->ui.furcationLayout->addWidget(m_furcation[i]);
 	}
 }
@@ -461,7 +454,7 @@ void PerioView::initializeFullMouth()
 void PerioView::initializeRecAndAtt()
 {
 
-	for (int i = 0; i < 16; i++)
+	for (int i = 0; i < 32; i += 2)
 	{
 		//buccal:
 		m_Attach[i] = new PerioSpinBox(ui.maxilla);
@@ -475,46 +468,46 @@ void PerioView::initializeRecAndAtt()
 		ui.maxilla->ui.recUpLayout->addWidget(m_Rec[i]);
 
 		//lingual:
-		m_Attach[i + 32] = new PerioSpinBox(ui.maxilla);
-		m_Attach[i + 32]->setMaximum(9);
-		ui.maxilla->ui.agDownLayout->addWidget(m_Attach[i + 32]);
+		m_Attach[i + 1] = new PerioSpinBox(ui.maxilla);
+		m_Attach[i + 1]->setMaximum(9);
+		ui.maxilla->ui.agDownLayout->addWidget(m_Attach[i + 1]);
 
-		m_Rec[i + 32] = new PerioSpinBox(ui.maxilla);
-		m_Rec[i + 32]->setMaximum(19);
-		m_Rec[i + 32]->setReadOnly(true);
-		m_Rec[i + 32]->redValue = 1;
-		ui.maxilla->ui.recDownLayout->addWidget(m_Rec[i + 32]);
+		m_Rec[i + 1] = new PerioSpinBox(ui.maxilla);
+		m_Rec[i + 1]->setMaximum(19);
+		m_Rec[i + 1]->setReadOnly(true);
+		m_Rec[i + 1]->redValue = 1;
+		ui.maxilla->ui.recDownLayout->addWidget(m_Rec[i + 1]);
 	}
 
 	//recession and attachment sponboxes for mandibula:
 
-	for (int i = 31; i >= 16; i--)
+	for (int i = 63; i >= 32; i -= 2)
 	{
+		//lingual:
+		m_Attach[i-1] = new PerioSpinBox(ui.mandibula);
+		m_Attach[i-1]->setMaximum(9);
+		ui.mandibula->ui.agUpLayout->addWidget(m_Attach[i-1]);
+
+		m_Rec[i-1] = new PerioSpinBox(ui.mandibula);
+		m_Rec[i-1]->setMaximum(19);
+		m_Rec[i-1]->setReadOnly(true);
+		m_Rec[i-1]->redValue = 1;
+		ui.mandibula->ui.recUpLayout->addWidget(m_Rec[i-1]);
+
 		//buccal:
 		m_Attach[i] = new PerioSpinBox(ui.mandibula);
 		m_Attach[i]->setMaximum(9);
-		ui.mandibula->ui.agUpLayout->addWidget(m_Attach[i]);
+		ui.mandibula->ui.agDownLayout->addWidget(m_Attach[i]);
 
 		m_Rec[i] = new PerioSpinBox(ui.mandibula);
 		m_Rec[i]->setMaximum(19);
 		m_Rec[i]->setReadOnly(true);
 		m_Rec[i]->redValue = 1;
-		ui.mandibula->ui.recUpLayout->addWidget(m_Rec[i]);
-
-		//lingual:
-		m_Attach[i + 32] = new PerioSpinBox(ui.mandibula);
-		m_Attach[i + 32]->setMaximum(9);
-		ui.mandibula->ui.agDownLayout->addWidget(m_Attach[i + 32]);
-
-		m_Rec[i + 32] = new PerioSpinBox(ui.mandibula);
-		m_Rec[i + 32]->setMaximum(19);
-		m_Rec[i + 32]->setReadOnly(true);
-		m_Rec[i + 32]->redValue = 1;
-		ui.mandibula->ui.recDownLayout->addWidget(m_Rec[i + 32]);
+		ui.mandibula->ui.recDownLayout->addWidget(m_Rec[i]);
 	}
 
 	//palatal surfaces have no attached gingiva!
-	for (int i = 32; i < 48; i++)
+	for (int i = 1; i < 32; i += 2)
 		m_Attach[i]->disable(true);
 }
 
@@ -523,33 +516,34 @@ void PerioView::initializeTeethScenes()
 	//scene maxilaris:
 	perioScene[0] = new PerioScene();
 
-	upperChart[0] = new PerioChartItem();
-	perioScene[0]->addItem(upperChart[0]);
-	upperChart[0]->setPos(0, 0);
+	perioChart[maxBuccal] = new PerioChartItem();
+	perioScene[0]->addItem(perioChart[maxBuccal]);
+	perioChart[maxBuccal]->setPos(0, 0);
 
-	lowerChart[0] = new PerioChartItem();
-	perioScene[0]->addItem(lowerChart[0]);
+	perioChart[maxPalatal] = new PerioChartItem();
+	perioScene[0]->addItem(perioChart[maxPalatal]);
 
-	lowerChart[0]->setTransform(QTransform::fromScale(-1, 1));
-	lowerChart[0]->setRotation(180);
-	lowerChart[0]->setPos(0, 332);
+	perioChart[maxPalatal]->setTransform(QTransform::fromScale(-1, 1));
+	perioChart[maxPalatal]->setRotation(180);
+	perioChart[maxPalatal]->setPos(0, 332);
 
 	ui.maxilla->ui.graphicsView->setScene(perioScene[0]);
 
 	//scene mandibularis:
 	perioScene[1] = new PerioScene();
 
-	upperChart[1] = new PerioChartItem();
-	perioScene[1]->addItem(upperChart[1]);
-	upperChart[1]->setRotation(180);
-	upperChart[1]->setTransform(QTransform::fromScale(1, -1));
-	upperChart[1]->setPos(upperChart[1]->boundingRect().width(), 0);
+	perioChart[mandBuccal] = new PerioChartItem();
+	perioScene[1]->addItem(perioChart[mandBuccal]);
 
-	lowerChart[1] = new PerioChartItem();
-	perioScene[1]->addItem(lowerChart[1]);
+	perioChart[mandBuccal]->setTransform(QTransform::fromScale(-1, -1));
+	perioChart[mandBuccal]->setPos(perioChart[mandBuccal]->boundingRect().width(), 332);
 
-	lowerChart[1]->setTransform(QTransform::fromScale(-1, -1));
-	lowerChart[1]->setPos(lowerChart[1]->boundingRect().width(), 332);
+	perioChart[mandLing] = new PerioChartItem();
+	perioScene[1]->addItem(perioChart[mandLing]);
+
+	perioChart[mandLing]->setRotation(180);
+	perioChart[mandLing]->setTransform(QTransform::fromScale(1, -1));
+	perioChart[mandLing]->setPos(perioChart[mandLing]->boundingRect().width(), 0);
 
 	ui.mandibula->ui.graphicsView->setScene(perioScene[1]);
 

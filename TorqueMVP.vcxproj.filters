@@ -402,6 +402,12 @@
     <ClCompile Include="src\Model\PerioStatistic.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\PerioView\Widgets\PerioTable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\PerioView\StatisticTableModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -549,6 +555,12 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\PerioView\Widgets\PerioStatusView.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\PerioView\Widgets\PerioTable.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\PerioView\StatisticTableModel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

@@ -29,7 +29,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>120</y>
+     <y>300</y>
      <width>1196</width>
      <height>801</height>
     </rect>
@@ -41,7 +41,7 @@
    <property name="geometry">
     <rect>
      <x>450</x>
-     <y>70</y>
+     <y>260</y>
      <width>131</width>
      <height>23</height>
     </rect>
@@ -57,7 +57,7 @@
    <property name="geometry">
     <rect>
      <x>600</x>
-     <y>70</y>
+     <y>260</y>
      <width>131</width>
      <height>23</height>
     </rect>
@@ -82,6 +82,16 @@
     <string/>
    </property>
   </widget>
+  <widget class="PerioTable" name="tableView">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>30</y>
+     <width>1081</width>
+     <height>211</height>
+    </rect>
+   </property>
+  </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
@@ -90,6 +100,11 @@
    <extends>QWidget</extends>
    <header>Widgets/periostatusview.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>PerioTable</class>
+   <extends>QTableView</extends>
+   <header>Widgets/PerioTable.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

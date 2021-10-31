@@ -33,6 +33,7 @@ public:
 	void attachChanged(int index, int value);
 	void FMBSChanged(int index, bool value);
 	void FMPSChanged(int index, bool value);
+	void furcationChanged(int index, int a, int b, int c);
 
 	// Inherited via TabInstance
 	virtual bool save() override;

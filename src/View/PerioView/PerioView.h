@@ -6,10 +6,11 @@
 #include "PerioView/PerioGraphicsButton.h"
 #include "PerioView/PerioScene.h"
 #include "Model/PerioStatistic.h"
+#include "StatisticTableModel.h"
 #include "IPerioView.h"
 #include "ToothUi.h"
 
-enum class ChartPosition { maxBuccal, maxPalatal, mandLing, mandBuccal };
+enum ChartPosition { maxBuccal, maxPalatal, mandBuccal, mandLing };
 struct ChartIndex
 {
     ChartPosition position;
@@ -24,8 +25,8 @@ class PerioView : public QWidget, public IPerioView
 
     PerioScene* perioScene[2];
 
-    PerioChartItem* upperChart[2];
-    PerioChartItem* lowerChart[2];
+    PerioChartItem* perioChart[4];
+
     ChartIndex chartIndex[192];
 
     QPushButton* m_tooth[32];
@@ -39,6 +40,8 @@ class PerioView : public QWidget, public IPerioView
     PerioButton* m_BOP[192];
     PerioGraphicsButton* m_FMBS[128];
     PerioGraphicsButton* m_FMPS[128];
+
+    StatisticTableModel stat_model;
 
     void initializeCommon();
     void initializeSurfaces();

@@ -10,7 +10,7 @@ struct PerioStatus
 	bool disabled[32] { false };
     int cal[perioSurfCount] { 0 };
 	int pd[perioSurfCount] { 0 };
-	//int gm[perioSurfCount]{ 0 }; //don't forget to intialize!
+	int gm[perioSurfCount]{ 0 }; //don't forget to intialize!
 	bool FMBS[scoreSurfCount]{ false };
 	bool FMPS[scoreSurfCount]{ false };
 	bool bop[perioSurfCount] { false };

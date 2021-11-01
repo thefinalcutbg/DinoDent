@@ -85,11 +85,17 @@
   <widget class="PerioTable" name="tableView">
    <property name="geometry">
     <rect>
-     <x>130</x>
+     <x>190</x>
      <y>30</y>
-     <width>1081</width>
-     <height>211</height>
+     <width>802</width>
+     <height>203</height>
     </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
    </property>
   </widget>
  </widget>

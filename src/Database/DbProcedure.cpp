@@ -1,7 +1,7 @@
 #include "DbProcedure.h"
 #include <QDebug>
 #include "Model/Procedure/MasterNZOK.h"
-#include <QDebug>
+
 
 std::vector<Procedure> DbProcedure::getProcedures(const std::string& amblist_id)
 {

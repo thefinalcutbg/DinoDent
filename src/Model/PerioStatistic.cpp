@@ -19,7 +19,7 @@ public:
 
 	PerioIterator(const T* array, int size, const bool* disabled)
 		:
-		m_array(array), size(size), disabled(disabled), step(size / 32), index{ 0 }
+		m_array(array), size(size), disabled(disabled), step(size / teethCount), index{ 0 }
 	{
 		for (int i = 0; i < teethCount; i++)
 		{

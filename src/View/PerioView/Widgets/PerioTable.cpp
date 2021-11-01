@@ -22,9 +22,3 @@ void PerioTable::initializeSize()
 PerioTable::~PerioTable()
 {
 }
-
-/*
-namespace IDX { enum row { FMPS, FMBS, BOP }; }
-namespace PD { enum row { avg, three, five, seven, above }; }
-namespace CAL { enum row { distr, avg, two, four, five }; }
-*/

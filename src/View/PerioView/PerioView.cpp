@@ -1,13 +1,13 @@
 #include "PerioView.h"
 #include "Model/PerioStatus.h"
-#include "PerioView/PerioScene.h"
+#include "PerioGraphics/PerioScene.h"
 #include <QButtonGroup>
 #include <QPainter>
 #include "View/ToothPaintDevices/PaintHint.h"
 #include "Presenter/PerioPresenter/PerioPresenter.h"
 #include "Model/PerioToothData.h"
 #include "Model/PerioStatistic.h"
-
+#include <string_view>
 #include <QDebug>
 
 PerioView::PerioView(QWidget* parent)
@@ -19,6 +19,11 @@ PerioView::PerioView(QWidget* parent)
 	group->addButton(ui.upperButton);
 	group->addButton(ui.lowerButton);
 	group->setExclusive(true);
+
+	ui.hexGraphicsView->setScene(new QGraphicsScene());
+	ui.hexGraphicsView->scene()->addItem(&hexagonGraphic);
+
+	setFixedHeight(1470);
 
 	ui.upperButton->setChecked(true);
 	connect(ui.upperButton, &QPushButton::clicked, [&] { ui.stackedWidget->setCurrentWidget(ui.maxilla); });
@@ -63,6 +68,21 @@ PerioView::PerioView(QWidget* parent)
 
 		connect(m_BOP[i], &QAbstractButton::clicked, [=] {presenter->bopChanged(i, m_BOP[i]->isChecked()); });
 	}
+
+
+	for(int i = 0; i < 5; i++)
+		connect(m_smoke[i], &QRadioButton::clicked, [=]{if(presenter)presenter->smokeClicked(i); });
+
+	connect(ui.boneSpin, QOverload<int>::of(&QSpinBox::valueChanged),
+		[=](int value) { presenter->boneLossChanged(value); } );
+
+
+	connect(ui.systemicCheck, &QCheckBox::clicked, 
+		[=] {presenter->systemicChanged(ui.systemicCheck->isChecked()); });
+
+	connect(ui.restoreCheck, &QCheckBox::clicked,
+		[=] {presenter->restorationChanged(ui.restoreCheck->isChecked()); });
+
 }
 
 void PerioView::PerioGraphicClicked(int index, PerioGraphicsType type)
@@ -98,13 +118,34 @@ void PerioView::setToothData(const PerioToothData& data)
 	for (int i = idx * 6; i < idx * 6 + 6; i++)
 	{
 		refreshChartMeasurment(i);
-	
 	}
 }
+
+constexpr std::string_view perioStage[5]{ "Здрав пародонт", "Начален" , "Умерен", "Тежък", "Напреднал" };
+constexpr std::string_view perioRisk[3]{ "Нисък", "Среден", "Висок" };
 
 void PerioView::setPerioStatistic(const PerioStatistic& stat)
 {
 	stat_model.setStatistics(stat);
+	hexagonGraphic.setRiskValue(stat.riskHexagon, static_cast<int>(stat.risk));
+	
+	
+
+	QString diagnosis = perioStage[static_cast<int>(stat.stage)].data();
+
+	if (stat.stage != Stage::Healthy)
+	{
+		diagnosis+=stat.localized ? u8" локализиран" : u8" генерализиран";
+		diagnosis+=u8" периодонтит";
+	}
+
+	ui.diagnosisLabel->setText(diagnosis);
+	
+	QString risk = u8"Оценка на риска: ";
+	risk+=perioRisk[static_cast<int>(stat.risk)].data();
+	risk += u8" риск";
+
+	ui.riskLabel->setText(risk);
 }
 
 void PerioView::setPresenter(PerioPresenter* presenter)
@@ -127,6 +168,17 @@ void PerioView::setToothHint(const ToothPaintHint& hint)
 
 	//m_furcation[hint.idx]->setIndex(hint.idx);
 	m_tooth[hint.idx]->setText(QString::number(hint.num));
+}
+
+void PerioView::setAdditional(int smoker, int boneLoss, bool systemic, bool restore)
+{
+	m_smoke[smoker]->animateClick(0);
+	m_smoke[smoker]->setChecked(true);
+	QSignalBlocker b(ui.boneSpin);
+	ui.boneSpin->setValue(boneLoss);
+
+	ui.systemicCheck->setChecked(systemic);
+	ui.restoreCheck->setChecked(restore);
 }
 
 
@@ -265,6 +317,14 @@ void PerioView::initializeCommon()
 		m_furcation[i]->setIndex(i);
 		ui.mandibula->ui.furcationLayout->addWidget(m_furcation[i]);
 	}
+
+
+	m_smoke[0] = ui.radioSmoke_1;
+	m_smoke[1] = ui.radioSmoke_2;
+	m_smoke[2] = ui.radioSmoke_3;
+	m_smoke[3] = ui.radioSmoke_4;
+	m_smoke[4] = ui.radioSmoke_5;
+
 }
 
 void PerioView::initializeSurfaces()
@@ -295,10 +355,6 @@ void PerioView::initializeSurfaces()
 		m_BOP[i]->setIcon(icon);
 		ui.maxilla->ui.bopUpLayout->addWidget(m_BOP[i]);
 
-		m_GM[i] = new PerioSpinBox(ui.maxilla);
-		m_GM[i]->setRange(-19, 19);
-		ui.maxilla->ui.gmUpLayout->addWidget(m_GM[i]);
-
 		this->chartIndex[i].position = ChartPosition::maxBuccal;
 		this->chartIndex[i].index = chartArrayIdx;
 		chartArrayIdx++;
@@ -326,13 +382,27 @@ void PerioView::initializeSurfaces()
 		m_BOP[i]->setIcon(icon);
 		ui.maxilla->ui.bopDownLayout->addWidget(m_BOP[i]);
 
-		m_GM[i] = new PerioSpinBox(ui.maxilla);
-		m_GM[i]->setRange(-19, 19);
-		ui.maxilla->ui.gmDownLayout->addWidget(m_GM[i]);
-
 		this->chartIndex[i].position = ChartPosition::maxPalatal;
 		this->chartIndex[i].index = chartArrayIdx;
 		chartArrayIdx++;
+	}
+
+	for (int i = 0; i < 93; i++)
+	{
+		if (!(i % 3) && i) i += 3;
+
+		m_GM[i] = new PerioSpinBox(ui.maxilla);
+		m_GM[i]->setRange(-19, 19);
+		ui.maxilla->ui.gmUpLayout->addWidget(m_GM[i]);
+	}
+
+	for (int i = 3; i < 96; i++)
+	{
+		if (!(i % 3) && i != 3) i += 3;
+
+		m_GM[i] = new PerioSpinBox(ui.maxilla);
+		m_GM[i]->setRange(-19, 19);
+		ui.maxilla->ui.gmDownLayout->addWidget(m_GM[i]);
 	}
 
 	//now the mandibular view :@ :@ :@ :@
@@ -358,10 +428,6 @@ void PerioView::initializeSurfaces()
 		m_BOP[i]->setCheckable(true);
 		m_BOP[i]->setIcon(icon);
 		ui.mandibula->ui.bopUpLayout->addWidget(m_BOP[i]);
-
-		m_GM[i] = new PerioSpinBox(ui.mandibula);
-		m_GM[i]->setRange(-19, 19);
-		ui.mandibula->ui.gmUpLayout->addWidget(m_GM[i]);
 
 		this->chartIndex[i].position = ChartPosition::mandLing;
 		this->chartIndex[i].index = chartArrayIdx;
@@ -393,13 +459,32 @@ void PerioView::initializeSurfaces()
 		m_BOP[i]->setIcon(icon);
 		ui.mandibula->ui.bopDownLayout->addWidget(m_BOP[i]);
 
-		m_GM[i] = new PerioSpinBox(ui.mandibula);
-		m_GM[i]->setRange(-19, 19);
-		ui.mandibula->ui.gmDownLayout->addWidget(m_GM[i]);
-
 		this->chartIndex[i].position = ChartPosition::mandBuccal;
 		this->chartIndex[i].index = chartArrayIdx;
 		chartArrayIdx--;
+
+		if (!(i % 3) && i != 192) i -= 3;
+
+	}
+
+	for (int i = 188; i >= 96; i--)
+	{
+
+		m_GM[i] = new PerioSpinBox(ui.mandibula);
+		m_GM[i]->setRange(-19, 19);
+		ui.mandibula->ui.gmUpLayout->addWidget(m_GM[i]);
+
+		if (!(i % 3) && i != 188) i -= 3;
+	}
+
+
+	for (int i = 191; i >= 99; i--)
+	{
+		//the lingual row:
+
+		m_GM[i] = new PerioSpinBox(ui.mandibula);
+		m_GM[i]->setRange(-19, 19);
+		ui.mandibula->ui.gmDownLayout->addWidget(m_GM[i]);
 
 		if (!(i % 3) && i != 192) i -= 3;
 

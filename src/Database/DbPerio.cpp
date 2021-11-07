@@ -1,12 +1,10 @@
 #include "DbPerio.h"
 #include "Model/Tooth/ToothParser.h"
 #include "Model/Procedure/ProcedureParser.h"
-#include <QDebug>
+
 ToothContainer DbPerio::getStatus(const std::string& patientID, const Date& perioDate)
 {
 	openConnection();
-
-
 
     std::string jsonStatus;
     std::string amblistId;

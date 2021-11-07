@@ -1,6 +1,5 @@
 #include "PerioScene.h"
 
-#include "View/PerioView/Widgets/Measurment.h"
 #include "View/ListView/TeethView/ToothGraphicsItem.h"
 #include "Model/Tooth/ToothContainer.h"
 #include "View/ToothPaintDevices/ToothPainter.h"

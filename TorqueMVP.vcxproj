@@ -202,20 +202,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\View\PerioView\PerioGraphics\HexagonGraphicsItem.cpp" />
     <ClCompile Include="src\View\PerioView\Widgets\PerioTable.cpp" />
     <ClCompile Include="src\Model\PerioStatistic.cpp" />
     <ClCompile Include="src\Model\PerioToothData.cpp" />
     <ClCompile Include="src\View\PerioView\StatisticTableModel.cpp" />
     <ClCompile Include="src\View\ToothPaintDevices\SpriteSheets.cpp" />
-    <ClCompile Include="src\View\PerioView\PerioView\PerioGraphicsButton.cpp" />
+    <ClCompile Include="src\View\PerioView\PerioGraphics\PerioGraphicsButton.cpp" />
     <ClCompile Include="src\View\PerioView\Widgets\PerioStatusView.cpp" />
     <ClCompile Include="src\View\PerioView\Widgets\FurcationWidget.cpp" />
     <ClCompile Include="src\Database\DbPerio.cpp" />
     <ClCompile Include="src\Presenter\PerioPresenter\PerioPresenter.cpp" />
     <ClCompile Include="src\Database\DbNotes.cpp" />
     <ClCompile Include="src\View\PerioView\PerioView.cpp" />
-    <ClCompile Include="src\View\PerioView\PerioView\PerioChartItem.cpp" />
-    <ClCompile Include="src\View\PerioView\PerioView\PerioScene.cpp" />
+    <ClCompile Include="src\View\PerioView\PerioGraphics\PerioChartItem.cpp" />
+    <ClCompile Include="src\View\PerioView\PerioGraphics\PerioScene.cpp" />
     <ClCompile Include="src\View\PerioView\Widgets\PerioStateButton.cpp" />
     <ClCompile Include="src\View\PerioView\Widgets\PerioButton.cpp" />
     <ClCompile Include="src\View\PerioView\Widgets\PerioSpinBox.cpp" />
@@ -406,13 +407,14 @@
     <QtMoc Include="src\View\PerioView\Widgets\FurcationWidget.h" />
     <QtMoc Include="src\View\PerioView\Widgets\PerioStatusView.h" />
     <QtMoc Include="src\View\PerioView\Widgets\PerioTable.h" />
+    <ClInclude Include="src\View\PerioView\PerioGraphics\HexagonGraphicsItem.h" />
     <ClInclude Include="src\Model\PerioStatistic.h" />
     <ClInclude Include="src\Model\PerioToothData.h" />
     <ClInclude Include="src\Model\Tooth\BridgeAlgorithms.h" />
     <ClInclude Include="src\View\PerioView\ToothUi.h" />
     <QtMoc Include="src\View\PerioView\StatisticTableModel.h" />
     <ClInclude Include="src\View\ToothPaintDevices\SpriteSheets.h" />
-    <ClInclude Include="src\View\PerioView\PerioView\PerioGraphicsButton.h" />
+    <ClInclude Include="src\View\PerioView\PerioGraphics\PerioGraphicsButton.h" />
     <ClInclude Include="src\Database\DbPerio.h" />
     <ClInclude Include="src\Model\PerioStatus.h" />
     <ClInclude Include="src\Presenter\PerioPresenter\PerioPresenter.h" />
@@ -420,8 +422,8 @@
     <ClInclude Include="src\Presenter\TabPresenter\TabInstance.h" />
     <QtMoc Include="src\View\PerioView\PerioView.h" />
     <ClInclude Include="src\View\PerioView\IPerioView.h" />
-    <ClInclude Include="src\View\PerioView\PerioView\PerioChartItem.h" />
-    <ClInclude Include="src\View\PerioView\PerioView\PerioScene.h" />
+    <ClInclude Include="src\View\PerioView\PerioGraphics\PerioChartItem.h" />
+    <ClInclude Include="src\View\PerioView\PerioGraphics\PerioScene.h" />
     <QtMoc Include="src\View\PerioView\Widgets\PerioStateButton.h" />
     <QtMoc Include="src\View\PerioView\Widgets\PerioButton.h" />
     <QtMoc Include="src\View\PerioView\Widgets\PerioSpinBox.h" />

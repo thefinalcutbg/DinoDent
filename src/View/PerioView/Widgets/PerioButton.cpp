@@ -67,6 +67,16 @@ void PerioButton::paintEvent(QPaintEvent* event)
 		painter.drawText(x, y, text());
 		
 	}
+
+	if (hasFocus())
+	{
+		QRectF rect(0, 0, width(), height());
+
+		QPen pen; pen.setColor(QColor(0, 122, 204));
+		pen.setWidth(2);
+		painter.setPen(pen);
+		painter.drawRect(rect);
+	}
 	
 
 }

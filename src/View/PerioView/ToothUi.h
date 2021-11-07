@@ -4,7 +4,7 @@
 #include "Widgets/FurcationWidget.h"
 #include "Widgets/PerioButton.h"
 #include "Widgets/PerioSpinBox.h"
-#include "PerioView/PerioGraphicsButton.h"
+#include "PerioGraphics/PerioGraphicsButton.h"
 #include "Model/PerioToothData.h"
 
 struct ToothUi

@@ -34,6 +34,25 @@ Tooth& ToothContainer::operator[](int index)
     return teeth->at(index);
 }
 
+int ToothContainer::getMissingTeethCount(bool countWisdom) const
+{
+	int missingTeeth{ 0 };
+
+	constexpr int wisdomTeethIdx[4]{ 0, 15, 16, 31 };
+
+	for (const auto& t : *teeth)
+	{
+		for (auto& i : wisdomTeethIdx)
+			if (!countWisdom && t.index == i)
+				continue;
+
+		if (t.extraction.exists() || t.implant.exists())
+			missingTeeth++;
+	}
+
+	return missingTeeth;
+}
+
 const Tooth& ToothContainer::operator[](int index) const
 {
 	if (teeth == nullptr) throw std::invalid_argument("container has been moved");

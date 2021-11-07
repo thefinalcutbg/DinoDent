@@ -2,13 +2,15 @@
 
 #include <QWidget>
 #include "ui_PerioView.h"
-#include "PerioView/PerioChartItem.h"
-#include "PerioView/PerioGraphicsButton.h"
-#include "PerioView/PerioScene.h"
+#include "PerioGraphics/PerioChartItem.h"
+#include "PerioGraphics/PerioGraphicsButton.h"
+#include "PerioGraphics/PerioScene.h"
 #include "Model/PerioStatistic.h"
 #include "StatisticTableModel.h"
+
 #include "IPerioView.h"
 #include "ToothUi.h"
+#include "PerioGraphics/HexagonGraphicsItem.h"
 
 enum ChartPosition { maxBuccal, maxPalatal, mandBuccal, mandLing };
 struct ChartIndex
@@ -43,6 +45,10 @@ class PerioView : public QWidget, public IPerioView
 
     StatisticTableModel stat_model;
 
+    HexagonGraphicsItem hexagonGraphic;
+
+    QRadioButton* m_smoke[5];
+
     void initializeCommon();
     void initializeSurfaces();
     void initializeFullMouth();
@@ -65,6 +71,7 @@ public:
     void setPerioStatistic(const PerioStatistic& stat) override;
     void setPresenter(PerioPresenter* presenter) override;
     void setToothHint(const ToothPaintHint& hint) override;
+    void setAdditional(int smoker, int boneLoss, bool systemic, bool restore) override;
 
     void setMeasurment(int index, int pd, int cal, int gm, int recession) override;
     

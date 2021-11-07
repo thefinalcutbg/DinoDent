@@ -35,8 +35,7 @@ void PerioPresenter::toothButtonClicked(int tooth)
         :
         view->setToothData(PerioToothData(m_perioStatus, tooth));
 
-    PerioStatistic stat(m_perioStatus);
-    view->setPerioStatistic(stat);
+    view->setPerioStatistic(PerioStatistic(m_perioStatus, patient->getAge(perioDate)));
 
 }
 
@@ -51,8 +50,8 @@ void PerioPresenter::refreshMeasurment(int index)
         getRecession(index)
     );
 
-    PerioStatistic stat(m_perioStatus);
-    view->setPerioStatistic(stat);
+    view->setPerioStatistic(PerioStatistic(m_perioStatus, patient->getAge(perioDate)));
+
 }
 
 int PerioPresenter::getRecession(int surfaceIndex)
@@ -107,7 +106,7 @@ void PerioPresenter::bopChanged(int index, bool checked)
 {
     m_perioStatus.bop[index] = checked;
 
-    view->setPerioStatistic(PerioStatistic(m_perioStatus));
+    view->setPerioStatistic(PerioStatistic(m_perioStatus, patient->getAge(perioDate)));
 }
 
 void PerioPresenter::attachChanged(int index, int value)
@@ -119,7 +118,7 @@ void PerioPresenter::FMBSChanged(int index, bool value)
 {
     m_perioStatus.FMBS[index] = value;
 
-    view->setPerioStatistic(PerioStatistic(m_perioStatus));
+    view->setPerioStatistic(PerioStatistic(m_perioStatus, patient->getAge(perioDate)));
 
 }
 
@@ -127,7 +126,7 @@ void PerioPresenter::FMPSChanged(int index, bool value)
 {
     m_perioStatus.FMPS[index] = value;
 
-    view->setPerioStatistic(PerioStatistic(m_perioStatus));
+    view->setPerioStatistic(PerioStatistic(m_perioStatus, patient->getAge(perioDate)));
 
 }
 
@@ -137,6 +136,32 @@ void PerioPresenter::furcationChanged(int index, int a, int b, int c)
     m_perioStatus.furcation[idx] = a;
     m_perioStatus.furcation[idx + 1] = b;
     m_perioStatus.furcation[idx + 2] = c;
+
+    view->setPerioStatistic(PerioStatistic(m_perioStatus, patient->getAge(perioDate)));
+}
+
+void PerioPresenter::smokeClicked(int value)
+{
+    m_perioStatus.smoker = value;
+    view->setPerioStatistic(PerioStatistic(m_perioStatus, patient->getAge(perioDate)));
+}
+
+void PerioPresenter::boneLossChanged(int value)
+{
+    m_perioStatus.boneLoss = value;
+    view->setPerioStatistic(PerioStatistic(m_perioStatus, patient->getAge(perioDate)));
+}
+
+void PerioPresenter::systemicChanged(bool enabled)
+{
+    m_perioStatus.systemic = enabled;
+    view->setPerioStatistic(PerioStatistic(m_perioStatus, patient->getAge(perioDate)));
+}
+
+void PerioPresenter::restorationChanged(bool enabled)
+{
+    m_perioStatus.completeRestorationNeeded = enabled;
+    view->setPerioStatistic(PerioStatistic(m_perioStatus, patient->getAge(perioDate)));
 }
 
 
@@ -179,8 +204,14 @@ void PerioPresenter::setCurrent()
         
     }
 
-    PerioStatistic stat(m_perioStatus);
-    view->setPerioStatistic(stat);
+    view->setPerioStatistic(PerioStatistic(m_perioStatus, patient->getAge(perioDate)));
+
+    view->setAdditional(
+            m_perioStatus.smoker, 
+            m_perioStatus.boneLoss, 
+            m_perioStatus.systemic, 
+            m_perioStatus.completeRestorationNeeded
+    );
 
     setScrollPosition();
 

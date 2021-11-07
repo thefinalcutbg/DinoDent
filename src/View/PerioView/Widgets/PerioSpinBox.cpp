@@ -84,13 +84,11 @@ void PerioSpinBox::disable(bool disabled)
 
 void PerioSpinBox::paintEvent(QPaintEvent* event)
 {
-
 	QSpinBox::paintEvent(event);
 
-	if (!m_hover || !isEnabled() || isReadOnly()) return;
+	if (!m_hover || !hasFocus() || !isEnabled() || isReadOnly()) return;
 
 	QPainter painter(this);
-
 
 	QRectF rect(0, 0, width(), height());
 

@@ -11,12 +11,13 @@ PerioTable::PerioTable(QWidget *parent)
 void PerioTable::initializeSize()
 {
 	verticalHeader()->hide();
-	horizontalHeader()->setFixedHeight(50);
+	horizontalHeader()->setFixedHeight(48);
 
-	constexpr int columnsWidth[6]{100, 100, 200, 100, 200,100};
+	constexpr int columnsWidth[6]{150, 125, 150, 125, 150, 100};
 
 	for (int i = 0; i < 6; i++) setColumnWidth(i, columnsWidth[i]);
 
+	for (int i = 0; i < 5; i++) setRowHeight(i, 34);
 }
 
 PerioTable::~PerioTable()

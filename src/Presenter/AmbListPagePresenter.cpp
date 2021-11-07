@@ -20,14 +20,10 @@ void AmbListPagePresenter::setView(IAmbListPage* view)
 #
 void AmbListPagePresenter::printPressed()
 {
-
     auto tab = _tabPresenter.currentTab();
 
     if (tab != nullptr)
-    {   
-        qDebug() << "printing?";
         tab->print();
-    }
 }
 
 void AmbListPagePresenter::newAmbPressed()

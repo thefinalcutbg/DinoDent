@@ -1,11 +1,10 @@
 #include "PerioStatistic.h"
 #include "PerioStatus.h"
+#include "Model/Tooth/ToothContainer.h"
 #include <utility>
 #include <functional>
 
 inline double getPercent(int sum, int total) { return total ? (static_cast<double>(sum) / total) * 100 : 0; }
-
-constexpr int teethCount = 32;
 
 template<typename T>
 class PerioIterator
@@ -41,9 +40,11 @@ public:
 		}
 	}
 
-	bool valid() { return index < size; }
+	bool valueIsInterdental() { return index % 6 != 1 && index % 6 != 4; }
 
-	const T& value() { return m_array[index]; }
+	bool valid() const { return index < size; }
+
+	const T& value() const { return m_array[index]; }
 
 };
 
@@ -76,6 +77,16 @@ double calculateAvg(PerioIterator<int>& data)
 	}
 
 	return sum ? sum / total : 0;
+}
+
+int calculateMax(PerioIterator<int>& data)
+{
+	int max{ 0 };
+
+	for (; data.valid(); data.increment())
+		max = std::max(max, data.value());
+
+	return max;
 }
 
 
@@ -122,7 +133,92 @@ std::array<double, size> histogramToPercentage(const std::array<int, size>& hist
 
 }
 
-PerioStatistic::PerioStatistic(const PerioStatus& status) :
+int getMissingTeethCount(const bool* disabled)
+{
+	int missingTeeth{ 0 };
+
+	for (int i = 0; i < 32; i++)
+	{
+		if (i == 0 || i == 15 || i == 16 || i == 31) continue; //skipping the wisdom teeth
+
+		if(disabled[i])
+			missingTeeth++;
+	}
+
+	return missingTeeth;
+}
+
+//stage calculator
+Stage getStage(const PerioStatistic& stat, bool restorationNeeded)
+{
+	auto& calMax = stat.calMax;
+	auto& pdMax = stat.pdMax;
+	auto& furcMax = stat.furcMax;
+
+	auto severity(Stage::Healthy);
+
+	if (!calMax) return severity;
+	else if (calMax < 3)
+		severity = Stage::First;
+	else if (calMax < 5)
+		severity = Stage::Second;
+	else
+		severity = Stage::Third;
+
+	auto complexity(Stage::First);
+
+	if (restorationNeeded) 
+		complexity = Stage::Fourth;
+	else if (pdMax > 5 || furcMax > 1)
+		complexity = Stage::Third;
+	else if (pdMax == 5)
+		complexity = Stage::Second;
+
+	
+	return std::max(severity, complexity);
+
+}
+
+
+//risk hexagon value calculator
+template<typename T, size_t size>
+int getValue(const std::array<T, size>& groupings, T parameter)
+{
+	for (int i = 0; i < size; i++)
+		if (parameter <= groupings[i])
+			return i;
+
+	return size-1;
+}
+
+//risk hexagon calculator
+RiskGrade getRisk(const std::array<int, 6>& riskHexagon)
+{
+	RiskGrade risk(RiskGrade::High);
+
+	int lowCount{ 0 }, moderateCount{ 0 }, highCount{ 0 };
+
+	for (int i = 0; i < 6; i++)
+	{
+		if (riskHexagon[i] < 2)
+			lowCount++;
+		else if (riskHexagon[i] < 4)
+			moderateCount++;
+		else
+			highCount++;
+	}
+
+	if (lowCount >= 5 && moderateCount <= 1 && highCount == 0)
+		risk = RiskGrade::Low;
+	else if (highCount < 2)
+		risk = RiskGrade::Moderate;
+	else if(highCount >= 2)
+		risk = RiskGrade::High;
+
+	return risk;
+}
+
+PerioStatistic::PerioStatistic(const PerioStatus& status, int age) :
 
 	HI{ calculatePercent(PerioIterator{status.FMPS, 128 ,status.disabled}, false) },
 	BI{ calculatePercent(PerioIterator{status.FMBS, 128, status.disabled}) },
@@ -155,7 +251,50 @@ PerioStatistic::PerioStatistic(const PerioStatus& status) :
 			}
 		) 
 	},
-	pdHistogramPercentage{ histogramToPercentage(pdHistogramCount) },
-	calHistogramPercentage{histogramToPercentage(calHistogramCount)}
 
-{}
+	pdHistogramPercentage{ histogramToPercentage(pdHistogramCount) },
+	calHistogramPercentage{histogramToPercentage(calHistogramCount)},
+
+	calMax{calculateMax(PerioIterator{ status.cal, 192,status.disabled})},
+	pdMax{calculateMax(PerioIterator{ status.pd, 192,status.disabled}) },
+	furcMax{calculateMax(PerioIterator{status.furcation, 96, status.disabled})},
+
+	missingTeeth(getMissingTeethCount(status.disabled)),
+
+	localized{calDistribution < 30},
+	stage{ getStage(*this, status.completeRestorationNeeded)},
+
+	boneIdx{static_cast<double>(status.boneLoss)/age},
+
+	riskHexagon{
+		
+		getValue(
+		std::array<double, 6>{4, 9, 16, 25, 36, 50},
+		BOP
+		),
+
+		getValue(
+			std::array<int, 6>{ 2, 4, 6, 8, 10, 12},
+		    pdHistogramCount[2] + pdHistogramCount[3]
+		),
+
+		getValue(
+			std::array<int, 6>{ 2, 4, 6, 8, 10, 12},
+			missingTeeth
+		),
+
+		getValue(
+			std::array<double, 6>{ 0.25, 0.5, 0.75, 1, 1.25, 1.5 },
+			boneIdx
+		),
+
+		status.systemic ? 5 : 0,
+
+		status.smoker
+	},
+
+	risk{getRisk(riskHexagon)}
+{
+		
+
+}

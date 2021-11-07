@@ -69,6 +69,29 @@ Database::Database() : err(nullptr), db(nullptr), stmt(nullptr)
         ")"
         , NULL, NULL, &err);
 
+    rc = sqlite3_exec(
+        db,
+        "CREATE TABLE IF NOT EXISTS user("
+        "lpk            INT             NOT NULL,"
+        "user           VARCHAR         NOT NULL,"
+        "pass           VARCHAR         NOT NULL,"
+        "fname          VARCHAR         NOT NULL,"
+        "lname          VARCHAR         NOT NULL,"
+        "spec           INT             NOT NULL"
+        ")"
+        , NULL, NULL, &err);
+
+    rc = sqlite3_exec(
+        db,
+        "CREATE TABLE IF NOT EXISTS practice("
+        "bulstat        INT             NOT NULL,"
+        "name           VARCHAR         NOT NULL,"
+        "rczCode        VARCHAR         NOT NULL,"
+        "contract       VARCHAR         NOT NULL"  
+        ")"
+        , NULL, NULL, &err);
+
+
     if (rc != SQLITE_OK)
     {
         //qDebug() << "Error opening DB:" << QString::fromStdString(sqlite3_errmsg(db));

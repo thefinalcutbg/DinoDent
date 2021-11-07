@@ -37,6 +37,8 @@ public:
 	const Tooth& operator [](int tooth) const;
 	Tooth& operator [](int index);
 
+	int getMissingTeethCount(bool countWisdom = false) const;
+
 	~ToothContainer();
 
 

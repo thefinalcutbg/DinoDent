@@ -369,10 +369,10 @@
     <ClCompile Include="src\View\PerioView\Widgets\PerioSpinBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\PerioView\PerioView\PerioChartItem.cpp">
+    <ClCompile Include="src\View\PerioView\PerioGraphics\PerioChartItem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\PerioView\PerioView\PerioScene.cpp">
+    <ClCompile Include="src\View\PerioView\PerioGraphics\PerioScene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Presenter\PerioPresenter\PerioPresenter.cpp">
@@ -387,7 +387,7 @@
     <ClCompile Include="src\View\PerioView\Widgets\PerioStatusView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\PerioView\PerioView\PerioGraphicsButton.cpp">
+    <ClCompile Include="src\View\PerioView\PerioGraphics\PerioGraphicsButton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\ToothPaintDevices\ToothPainter.cpp">
@@ -406,6 +406,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\PerioView\StatisticTableModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\PerioView\PerioGraphics\HexagonGraphicsItem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -968,10 +971,10 @@
     <ClInclude Include="src\Presenter\TabPresenter\TabInstance.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\View\PerioView\PerioView\PerioChartItem.h">
+    <ClInclude Include="src\View\PerioView\PerioGraphics\PerioChartItem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\View\PerioView\PerioView\PerioScene.h">
+    <ClInclude Include="src\View\PerioView\PerioGraphics\PerioScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Presenter\PerioPresenter\PerioPresenter.h">
@@ -986,7 +989,7 @@
     <ClInclude Include="src\Model\PerioStatus.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\View\PerioView\PerioView\PerioGraphicsButton.h">
+    <ClInclude Include="src\View\PerioView\PerioGraphics\PerioGraphicsButton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\ToothPaintDevices\ToothPainter.h">
@@ -1005,6 +1008,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\PerioStatistic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\View\PerioView\PerioGraphics\HexagonGraphicsItem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

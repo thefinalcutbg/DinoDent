@@ -8,14 +8,14 @@ static constexpr std::string_view IDX[numberOfRows]
 {
 	"FMPS",
 	"FMBS", 
-	"BI", 
-	"", 
-	""
+	"BOP", 
+	"Костна загуба", 
+	"Липсващи зъби(без мъдреци)"
 };
 
 static constexpr std::string_view PD[numberOfRows]
 {
-	u8"Средна дълбочина на джоба", 
+	u8"Средна дълбочина", 
 	u8"до 3мм вкл.", 
 	u8"4 и 5 мм.",
 	u8"6 и 7 мм.", 
@@ -24,8 +24,8 @@ static constexpr std::string_view PD[numberOfRows]
 
 static constexpr std::string_view CAL[numberOfRows]
 {
+	u8"Средна загуба",
 	u8"Разпространение", 
-	u8"Средно", 
 	u8"1 и 2 мм.",
 	u8"3 и 4 мм.", 
 	u8"5 мм. и повече"
@@ -87,13 +87,13 @@ QVariant StatisticTableModel::data(const QModelIndex& index, int role) const
 
 			}
 		}
-		case Qt::TextAlignmentRole: return int(Qt::AlignLeft);
+		case Qt::TextAlignmentRole: return int(Qt::AlignLeft | Qt::AlignVCenter);
 
 	}
 	return QVariant();
 }
 
-StatisticTableModel::StatisticTableModel(QObject* parent)
+StatisticTableModel::StatisticTableModel(QObject* parent) : QAbstractTableModel(parent)
 {
 }
 
@@ -104,6 +104,8 @@ void StatisticTableModel::setStatistics(const PerioStatistic& stat)
 	m_IDX[0] = roundDouble(stat.HI) + " %";
 	m_IDX[1] = roundDouble(stat.BI) + " %";
 	m_IDX[2] = roundDouble(stat.BOP) + " %";
+	m_IDX[3] = roundDouble(stat.boneIdx);
+	m_IDX[4] = QString::number(stat.missingTeeth);
 
 
 	m_PDData[0] = roundDouble(stat.pdAverage) + " mm";
@@ -114,8 +116,9 @@ void StatisticTableModel::setStatistics(const PerioStatistic& stat)
 					roundDouble(stat.pdHistogramPercentage[i]) + "%)";
 	}
 
-	m_CALData[0] = roundDouble(stat.calDistribution) + " %";
-	m_CALData[1] = roundDouble(stat.calAverage) + " mm";
+	m_CALData[0] = roundDouble(stat.calAverage) + " mm";
+	m_CALData[1] = roundDouble(stat.calDistribution) + " %";
+	
 
 	for (int i = 0, j = 2; i < stat.calHistogramCount.size(); i++, j++){
 		m_CALData[j] = 

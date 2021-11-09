@@ -1,7 +1,7 @@
 #include "DbProcedure.h"
 #include <QDebug>
 #include "Model/Procedure/MasterNZOK.h"
-
+#include "Model/Parser/Parser.h"
 
 std::vector<Procedure> DbProcedure::getProcedures(const std::string& amblist_id)
 {
@@ -38,7 +38,7 @@ std::vector<Procedure> DbProcedure::getProcedures(const std::string& amblist_id)
 		p.date.month = sqlite3_column_int(stmt, 5);
 		p.date.year = sqlite3_column_int(stmt, 6);
 		p.price = sqlite3_column_double(stmt, 7);
-		procedure_parser.parse(std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 8))), p);
+		Parser::parse(std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 8))), p);
 		p.temp = sqlite3_column_int(stmt, 9);
 		p.LPK = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 10));
 	}
@@ -74,7 +74,7 @@ void DbProcedure::saveProcedures(const std::string& amblist_id, const std::vecto
 			+ std::to_string(m.tooth) + "','"
 			+ std::to_string(m.temp) + "','"
 			+ std::to_string(m.price) + "','"
-			+ procedure_parser.write(m) + "','"
+			+ Parser::write(m) + "','"
 			+ amblist_id + "')"
 			;
 
@@ -163,7 +163,7 @@ std::vector<Procedure> DbProcedure::getToothProcedures(const std::string& patien
 		p.code = sqlite3_column_int(stmt, 3);
 		p.nzok = sqlite3_column_int(stmt, 4);
 
-		procedure_parser.parse(
+		Parser::parse(
 			std::string{ reinterpret_cast<const char*>(sqlite3_column_text(stmt, 5)) }, p
 		);
 		p.price = sqlite3_column_double(stmt, 6);

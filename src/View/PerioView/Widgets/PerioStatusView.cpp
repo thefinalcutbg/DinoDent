@@ -1,6 +1,6 @@
 #include "PerioStatusView.h"
-#include "../PerioView/PerioChartItem.h"
-#include "../PerioView/PerioScene.h"
+#include "../PerioGraphics/PerioChartItem.h"
+#include "../PerioGraphics/PerioScene.h"
 #include "Model/PerioStatus.h"
 
 PerioStatusView::PerioStatusView(QWidget *parent)

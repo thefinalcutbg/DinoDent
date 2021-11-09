@@ -7,10 +7,8 @@ class HexagonGraphicsItem : public QGraphicsItem
 
 	QRectF bounds{ 0,0,300,300 };
 
-	QPoint points[36];
-
-	QPolygon riskPoly;
-	QPolygon polygon[6];
+	QPolygonF riskPoly;
+	QPolygonF polygon[6];
 
 	QColor riskColor;
 

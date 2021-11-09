@@ -3,6 +3,7 @@
 #include "Model/Patient.h"
 #include "Model/AmbList.h"
 #include "Model/Date.h"
+#include "Model/Parser/Parser.h"
 
 DbAmbList::DbAmbList()
 {}
@@ -74,7 +75,7 @@ void DbAmbList::insertAmbList(AmbList& ambList, std::string &patientID)
         + std::to_string(ambList.number) + "','"
         + std::to_string(ambList.full_coverage) + "','"
         + std::to_string(static_cast<int>(ambList.charge)) + "','"
-        + m_toothParser.write(ambList.teeth) + "','"
+        + Parser::write(ambList.teeth) + "','"
         + patientID + "','"
         + ambList.LPK
         + "')";
@@ -83,7 +84,7 @@ void DbAmbList::insertAmbList(AmbList& ambList, std::string &patientID)
 
     ambList.id = std::to_string((int)sqlite3_last_insert_rowid(db));
 
-    if (rc != SQLITE_OK) std::cout << "Insert error:" << &db;
+    if (rc != SQLITE_OK) qDebug() << "Insert error:" << &db;
 
     closeConnection();
 
@@ -104,7 +105,7 @@ void DbAmbList::updateAmbList(AmbList& ambList)
         ", unfavourable = " + std::to_string(ambList.full_coverage) +
         ", charge = " + std::to_string(static_cast<int>(ambList.charge)) +
         ", lpk = '" + UserManager::currentUser().LPK + "' " +
-        ", status_json = '" + m_toothParser.write(ambList.teeth) + "' "
+        ", status_json = '" + Parser::write(ambList.teeth) + "' "
         "WHERE id = " + ambList.id;
 
     rc = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
@@ -215,7 +216,7 @@ AmbList DbAmbList::getListData(const std::string& patientID, int month, int year
     if (ambList.isNew())
     {
         
-        m_toothParser.parse(getLastStatus(patientID), ambList.teeth);
+        Parser::parse(getLastStatus(patientID), ambList.teeth);
         auto procedures = previousProcedures(patientID);
         for (auto& p : procedures)
         {
@@ -226,7 +227,7 @@ AmbList DbAmbList::getListData(const std::string& patientID, int month, int year
     }
     else
     {
-        m_toothParser.parse(status_json, ambList.teeth);
+        Parser::parse(status_json, ambList.teeth);
         ambList.procedures = db_procedures.getProcedures(ambList.id);
     }
 
@@ -263,7 +264,7 @@ AmbList DbAmbList::getListData(const std::string& ambID)
 
     closeConnection();
 
-    m_toothParser.parse(status_json, ambList.teeth);
+    Parser::parse(status_json, ambList.teeth);
     ambList.procedures = db_procedures.getProcedures(ambList.id);
 
     return ambList;

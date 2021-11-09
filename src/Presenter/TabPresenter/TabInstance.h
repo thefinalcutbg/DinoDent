@@ -15,8 +15,10 @@ protected:
 
 	void makeEdited()
 	{
+		if (edited) return;
+
 		edited = true;
-		_tabView->changeTabName(getTabName());
+		_tabView->changeTabName("*" + getTabName());
 	}
 
 public:

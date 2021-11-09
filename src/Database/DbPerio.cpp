@@ -1,6 +1,6 @@
 #include "DbPerio.h"
-#include "Model/Tooth/ToothParser.h"
-#include "Model/Procedure/ProcedureParser.h"
+#include "Model/Parser/Parser.h"
+
 
 ToothContainer DbPerio::getStatus(const std::string& patientID, const Date& perioDate)
 {
@@ -34,15 +34,15 @@ ToothContainer DbPerio::getStatus(const std::string& patientID, const Date& peri
     }
     
     ToothContainer toothStatus;
-    ToothParser parser;
-    parser.parse(jsonStatus, toothStatus);
+
+    Parser::parse(jsonStatus, toothStatus);
 
     query = "SELECT type, tooth, temp, data FROM procedure WHERE "
             "amblist_id = '" + amblistId + "' "
             "AND day <= " + std::to_string(perioDate.day) + " "
             "ORDER BY seq";
 
-    ProcedureParser procedureParser;
+
 
     sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
 
@@ -54,7 +54,7 @@ ToothContainer DbPerio::getStatus(const std::string& patientID, const Date& peri
         p.type = static_cast<ProcedureType>(sqlite3_column_int(stmt, 0));
         p.tooth = sqlite3_column_int(stmt, 1);
         p.temp = sqlite3_column_int(stmt, 2);
-        procedureParser.parse(std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 3))), p);
+        Parser::parse(std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 3))), p);
         p.applyProcedure(toothStatus);
     }
 

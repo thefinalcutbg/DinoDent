@@ -202,6 +202,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Model\Parser\Parser.cpp" />
     <ClCompile Include="src\View\PerioView\PerioGraphics\HexagonGraphicsItem.cpp" />
     <ClCompile Include="src\View\PerioView\Widgets\PerioTable.cpp" />
     <ClCompile Include="src\Model\PerioStatistic.cpp" />
@@ -221,7 +222,6 @@
     <ClCompile Include="src\View\PerioView\Widgets\PerioButton.cpp" />
     <ClCompile Include="src\View\PerioView\Widgets\PerioSpinBox.cpp" />
     <ClCompile Include="src\View\ProcedureDisplayModel\QProcedure.cpp" />
-    <ClCompile Include="src\Database\DbTooth.cpp" />
     <ClCompile Include="src\Presenter\DetailsPresenter\DetailedStatusPresenter.cpp" />
     <ClCompile Include="src\Model\Tooth\DiagnosisContainer.cpp" />
     <ClCompile Include="src\Database\sqLite\shell.c" />
@@ -270,7 +270,6 @@
     <ClCompile Include="src\View\uiComponents\qt_derived\Widgets\ObturationView.cpp" />
     <ClCompile Include="src\View\ProcedureDialog\CommonFields\CommonFields.cpp" />
     <ClCompile Include="src\Database\DbProcedure.cpp" />
-    <ClCompile Include="src\Model\Procedure\ProcedureParser.cpp" />
     <ClCompile Include="src\View\ListView\TeethView\GraphicsView.cpp" />
     <ClCompile Include="src\View\uiComponents\qt_derived\SpinBox.cpp" />
     <ClCompile Include="src\View\ProcedureDisplayModel\ProcedureTableModel.cpp" />
@@ -287,7 +286,6 @@
     <ClCompile Include="src\Presenter\ProcedureDialog\ProcedureDialogPresenter.cpp" />
     <ClCompile Include="src\View\ProcedureDialog\ProcedureDialog.cpp" />
     <ClCompile Include="src\Model\Tooth\Tooth.cpp" />
-    <ClCompile Include="src\Model\Tooth\ToothParser.cpp" />
     <ClCompile Include="src\Model\Tooth\ToothUtils.cpp" />
     <ClCompile Include="src\View\ListView\SurfacePanel\ControlPanelPolygon.cpp">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/utf-8 %(AdditionalOptions)</AdditionalOptions>
@@ -407,6 +405,7 @@
     <QtMoc Include="src\View\PerioView\Widgets\FurcationWidget.h" />
     <QtMoc Include="src\View\PerioView\Widgets\PerioStatusView.h" />
     <QtMoc Include="src\View\PerioView\Widgets\PerioTable.h" />
+    <ClInclude Include="src\Model\Parser\Parser.h" />
     <ClInclude Include="src\View\PerioView\PerioGraphics\HexagonGraphicsItem.h" />
     <ClInclude Include="src\Model\PerioStatistic.h" />
     <ClInclude Include="src\Model\PerioToothData.h" />
@@ -428,7 +427,6 @@
     <QtMoc Include="src\View\PerioView\Widgets\PerioButton.h" />
     <QtMoc Include="src\View\PerioView\Widgets\PerioSpinBox.h" />
     <ClInclude Include="src\View\ProcedureDisplayModel\QProcedure.h" />
-    <ClInclude Include="src\Database\DbTooth.h" />
     <ClInclude Include="src\Model\Procedure\TableStructs.h" />
     <ClInclude Include="src\Presenter\DetailsPresenter\DetailedStatusPresenter.h" />
     <ClInclude Include="src\Presenter\DetailsPresenter\StatusController.h" />
@@ -496,7 +494,6 @@
     <QtMoc Include="src\View\uiComponents\qt_derived\Widgets\VitaWidget.h" />
     <QtMoc Include="src\View\ListView\TeethView\GraphicsView.h" />
     <ClInclude Include="src\Database\DbProcedure.h" />
-    <ClInclude Include="src\Model\Procedure\ProcedureParser.h" />
     <ClInclude Include="src\Model\Tooth\SurfStatus.h" />
     <QtMoc Include="src\View\ProcedureDisplayModel\ProcedureTable.h" />
     <QtMoc Include="src\View\ProcedureDisplayModel\ProcedureTableModel.h" />
@@ -523,7 +520,6 @@
     <ClInclude Include="src\Presenter\ProcedureDialog\ProcedureDialogPresenter.h" />
     <ClInclude Include="src\View\ProcedureDialog\IProcedureDialog.h" />
     <QtMoc Include="src\View\ProcedureDialog\ProcedureDialog.h" />
-    <ClInclude Include="src\Model\Tooth\ToothParser.h" />
     <ClInclude Include="src\bridgeTest.h" />
     <ClInclude Include="src\Presenter\ListPresenter\InputEnums.h" />
     <ClInclude Include="src\Model\Tooth\ToothUtils.h" />

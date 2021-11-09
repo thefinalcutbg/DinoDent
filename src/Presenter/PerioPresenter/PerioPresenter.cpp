@@ -3,7 +3,7 @@
 #include <algorithm>
 #include "Model/PerioToothData.h"
 #include "Model/PerioStatistic.h"
-
+#include "Model/Parser/Parser.h"
 
 PerioPresenter::PerioPresenter(ITabView* view, std::shared_ptr<Patient> patient) :
     TabInstance(view, TabType::PerioList), 
@@ -36,6 +36,8 @@ void PerioPresenter::toothButtonClicked(int tooth)
         view->setToothData(PerioToothData(m_perioStatus, tooth));
 
     view->setPerioStatistic(PerioStatistic(m_perioStatus, patient->getAge(perioDate)));
+
+    makeEdited();
 
 }
 
@@ -73,6 +75,8 @@ void PerioPresenter::pdChanged(int index, int value)
     m_perioStatus.pd[index] = value;
 
     refreshMeasurment(index);
+
+    makeEdited();
 }
 
 void PerioPresenter::calChanged(int index, int value)
@@ -81,6 +85,8 @@ void PerioPresenter::calChanged(int index, int value)
 
 
     refreshMeasurment(index);
+
+    makeEdited();
 }
 
 void PerioPresenter::gmChanged(int index, int value)
@@ -100,6 +106,8 @@ void PerioPresenter::gmChanged(int index, int value)
     else pocketDepth = CAL + gingivalMargin;
 
     refreshMeasurment(index);
+
+    makeEdited();
 }
 
 void PerioPresenter::bopChanged(int index, bool checked)
@@ -107,11 +115,15 @@ void PerioPresenter::bopChanged(int index, bool checked)
     m_perioStatus.bop[index] = checked;
 
     view->setPerioStatistic(PerioStatistic(m_perioStatus, patient->getAge(perioDate)));
+
+    makeEdited();
 }
 
 void PerioPresenter::attachChanged(int index, int value)
 {
     m_perioStatus.ag[index] = value;
+
+    makeEdited();
 }
 
 void PerioPresenter::FMBSChanged(int index, bool value)
@@ -120,6 +132,8 @@ void PerioPresenter::FMBSChanged(int index, bool value)
 
     view->setPerioStatistic(PerioStatistic(m_perioStatus, patient->getAge(perioDate)));
 
+    makeEdited();
+
 }
 
 void PerioPresenter::FMPSChanged(int index, bool value)
@@ -127,6 +141,8 @@ void PerioPresenter::FMPSChanged(int index, bool value)
     m_perioStatus.FMPS[index] = value;
 
     view->setPerioStatistic(PerioStatistic(m_perioStatus, patient->getAge(perioDate)));
+
+    makeEdited();
 
 }
 
@@ -138,35 +154,49 @@ void PerioPresenter::furcationChanged(int index, int a, int b, int c)
     m_perioStatus.furcation[idx + 2] = c;
 
     view->setPerioStatistic(PerioStatistic(m_perioStatus, patient->getAge(perioDate)));
+
+    makeEdited();
 }
 
 void PerioPresenter::smokeClicked(int value)
 {
     m_perioStatus.smoker = value;
     view->setPerioStatistic(PerioStatistic(m_perioStatus, patient->getAge(perioDate)));
+
+    makeEdited();
 }
 
 void PerioPresenter::boneLossChanged(int value)
 {
     m_perioStatus.boneLoss = value;
     view->setPerioStatistic(PerioStatistic(m_perioStatus, patient->getAge(perioDate)));
+
+    makeEdited();
 }
 
 void PerioPresenter::systemicChanged(bool enabled)
 {
     m_perioStatus.systemic = enabled;
     view->setPerioStatistic(PerioStatistic(m_perioStatus, patient->getAge(perioDate)));
+
+    makeEdited();
 }
 
 void PerioPresenter::restorationChanged(bool enabled)
 {
     m_perioStatus.completeRestorationNeeded = enabled;
     view->setPerioStatistic(PerioStatistic(m_perioStatus, patient->getAge(perioDate)));
+ 
+    makeEdited();
 }
 
+#include <QDebug>
 
 bool PerioPresenter::save()
 {
+    
+    qDebug() << QString::fromStdString(Parser::write(m_perioStatus));
+
     return true;
 }
 

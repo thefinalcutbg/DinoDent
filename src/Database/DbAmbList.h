@@ -2,7 +2,7 @@
 
 #include "DbProcedure.h"
 #include <map>
-#include "Model/Tooth/ToothParser.h"
+
 #include "Model/AmbListRow.h"
 #include "AbstractORM.h"
 
@@ -15,7 +15,7 @@ class AmbList;
 class DbAmbList : public AbstractORM 
 {
 
-    ToothParser m_toothParser;
+
     DbProcedure db_procedures;
 
     std::string getLastStatus(std::string patientID);

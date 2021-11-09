@@ -1,17 +1,23 @@
 #include "HexagonGraphicsItem.h"
 #include <QPainter>
+#include <cmath>
 
-QPolygon getHexaPolygon(int radius)
+QPolygonF getHexaPolygon(int radius)
 {
-	QPolygon poly;
+	QPolygonF poly;
+
+	//x*x + y*y = radius*radius
+
+	const double sin30 = std::sqrt(3) / 2;
+	constexpr double cos30 = 0.5;
 
 	poly
-		<< QPoint(0, radius * (-1))
-		<< QPoint(radius, (radius / 2) * (-1))
-		<< QPoint(radius, radius / 2)
-		<< QPoint(0, radius)
-		<< QPoint(radius * (-1), radius / 2)
-		<< QPoint(radius * (-1), (radius / 2) * (-1));
+		<< QPointF(0, radius * (-1))
+		<< QPointF(radius * sin30, radius*cos30 * (-1))
+		<< QPointF(radius * sin30, radius*cos30)
+		<< QPointF(0, radius)
+		<< QPointF(radius * sin30 * (-1), radius*cos30)
+		<< QPointF(radius * sin30 * (-1), radius*cos30 * (-1));
 
 	return poly;
 }
@@ -24,13 +30,11 @@ HexagonGraphicsItem::HexagonGraphicsItem()
 	for (int i = 0; i < 6; i++)
 	{
 		polygon[i] = getHexaPolygon(radius);
-		polygon[i].translate(bounds.center().toPoint());
+		polygon[i].translate(bounds.center());
 		radius += 20;
 	}
 
 	riskPoly = polygon[0];
-
-
 }
 
 

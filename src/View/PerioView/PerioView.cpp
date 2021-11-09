@@ -172,8 +172,14 @@ void PerioView::setToothHint(const ToothPaintHint& hint)
 
 void PerioView::setAdditional(int smoker, int boneLoss, bool systemic, bool restore)
 {
-	m_smoke[smoker]->animateClick(0);
-	m_smoke[smoker]->setChecked(true);
+	constexpr int smokeSize = 5;
+
+	for (int i = 0; i < smokeSize; i++)
+	{
+		QSignalBlocker b(m_smoke[i]);
+		m_smoke[i]->setChecked(i == smoker);
+	}
+	
 	QSignalBlocker b(ui.boneSpin);
 	ui.boneSpin->setValue(boneLoss);
 

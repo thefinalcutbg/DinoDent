@@ -94,8 +94,6 @@ std::string ListPresenter::getTabName()
     std::string tabName;
     tabName.reserve(60);
 
-    if (edited) tabName += "*";
-
     tabName += m_ambList.isNew() ? u8"Нов амб.лист" :
         u8"Амб.лист №" + std::to_string(m_ambList.number);
 

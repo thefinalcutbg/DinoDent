@@ -1,17 +1,16 @@
 #pragma once
-#include "Model/Procedure/ProcedureParser.h"
+
 #include "AbstractORM.h"
 #include "sqLite/sqlite3.h"
 
 #include "Model/Procedure/MasterNZOK.h"
 #include "Model/Procedure/TableStructs.h"
-
+#include "Model/Procedure/Procedure.h"
 #include <vector>
 
 class DbProcedure : public AbstractORM
 {
-  
-    ProcedureParser procedure_parser;
+
 public:
     std::vector<Procedure> getProcedures(const std::string& amblist_id);
     void saveProcedures(const std::string& amblist_id, const std::vector<Procedure>& mList);

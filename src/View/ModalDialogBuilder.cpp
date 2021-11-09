@@ -75,3 +75,19 @@ DialogAnswer ModalDialogBuilder::openSaveDialog(const std::string& title)
 		return DialogAnswer::Cancel;
 	}
 }
+
+bool ModalDialogBuilder::askDialog(const std::string& questionText)
+{
+
+	QMessageBox msg;
+
+	msg.setWindowTitle("Torque");
+
+	msg.setText(QString::fromStdString(questionText));
+	msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No );
+	msg.setButtonText(QMessageBox::Yes, "Да");
+	msg.setButtonText(QMessageBox::No, "Не");
+	msg.setIcon(QMessageBox::Question);
+
+	return msg.exec() == QMessageBox::Yes;
+}

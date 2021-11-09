@@ -2,6 +2,7 @@
 #include "JsonCpp/json.h"
 
 
+
 Json::Value writePathology(int index, const Pathology& pathology)
 {
 	Json::Value parameters;

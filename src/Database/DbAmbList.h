@@ -28,7 +28,7 @@ public:
 
     void insertAmbList(AmbList& ambList, std::string& patientID);
     void deleteAmbList(const std::string& ambID);
-    void updateAmbList(AmbList& ambList);
+    void updateAmbList(const AmbList& ambList);
 
     AmbList getListData(const std::string& patientID, int currentMonth, int currentYear);
     AmbList getListData(const std::string& ambID);

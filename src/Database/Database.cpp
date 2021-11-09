@@ -71,6 +71,20 @@ Database::Database() : err(nullptr), db(nullptr), stmt(nullptr)
 
     rc = sqlite3_exec(
         db,
+        "CREATE TABLE IF NOT EXISTS periostatus("
+        "id              INTEGER         NOT NULL PRIMARY KEY,"
+        "patient_id      VARCHAR(10)     NOT NULL,"
+        "year            INT             NOT NULL,"
+        "month           INT             NOT NULL,"
+        "day             INT             NOT NULL,"
+        "data            VARCHAR         NOT NULL," //json
+       // "PRIMARY KEY    (day, month, year, patient_id), " - nope
+        "FOREIGN KEY    (patient_id)     REFERENCES patient(id) ON DELETE CASCADE ON UPDATE CASCADE"
+        ")"
+        , NULL, NULL, &err);
+
+    rc = sqlite3_exec(
+        db,
         "CREATE TABLE IF NOT EXISTS user("
         "lpk            INT             NOT NULL,"
         "user           VARCHAR         NOT NULL,"

@@ -1,12 +1,14 @@
 #pragma once
-
+#include "Date.h"
 constexpr int upperCount = 0;
 constexpr int perioSurfCount = 192;
 constexpr int scoreSurfCount = 128;
 
 struct PerioStatus
 {
-	
+	std::string id;
+	Date date{ Date::currentDate() };
+
 	int smoker{ 0 };	//пушач, непушач, по колко цигари на ден и т.н.
 	int boneLoss{ 0 };	//загуба на кост в %
 

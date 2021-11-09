@@ -11,7 +11,7 @@
 class PerioPresenter : public TabInstance
 {
 	DbPerio m_db;
-	Date perioDate;
+
 	std::shared_ptr<Patient> patient;
 	IPerioView* view;
 	ToothContainer m_toothStatus;

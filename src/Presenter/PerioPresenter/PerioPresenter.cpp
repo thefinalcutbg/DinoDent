@@ -4,22 +4,49 @@
 #include "Model/PerioToothData.h"
 #include "Model/PerioStatistic.h"
 #include "Model/Parser/Parser.h"
+#include "View/ModalDialogBuilder.h"
+
+
+#include <QDebug>
 
 PerioPresenter::PerioPresenter(ITabView* view, std::shared_ptr<Patient> patient) :
     TabInstance(view, TabType::PerioList), 
     patient(patient), 
     view(view->perioView()),
-    perioDate(Date::currentDate()),
-    m_toothStatus(m_db.getStatus(patient->id, perioDate))
+    m_toothStatus(m_db.getStatus(patient->id, Date::currentDate())),
+    m_perioStatus(m_db.getPerioStatus(patient->id, Date::currentDate()))
 {
+
+    qDebug() << "periostatus id: " << QString::fromStdString(m_perioStatus.id);
+
+    if (m_perioStatus.date != Date::currentDate()) //if its not todays measurment
+    {
+
+        m_perioStatus.id.clear(); //clearing the id, because it's new measurment
+
+        auto getPrevious = ModalDialogBuilder::askDialog
+        (u8"Открито е предишно пародонтално измерване. "
+            u8"Желаете ли да заредите старите резултати?");
+
+        if(!getPrevious)
+            m_perioStatus = PerioStatus();
+
+        
+    }
+
+
     for (auto& tooth : m_toothStatus)
     {
 
-        if (tooth.extraction.exists() || tooth.impacted.exists())
-            m_perioStatus.disabled[tooth.index] = true;
+        m_perioStatus.disabled[tooth.index] = (
+                                                tooth.extraction.exists() ||
+                                                tooth.impacted.exists() ||
+                                                tooth.implant.exists()
+                                              );
 
         if (tooth.mobility.exists())
-            m_perioStatus.mobility[tooth.index] = static_cast<int>(tooth.mobility.degree) + 1;
+            m_perioStatus.mobility[tooth.index] = 
+                                        static_cast<int>(tooth.mobility.degree) + 1;
     }
 
 
@@ -35,7 +62,7 @@ void PerioPresenter::toothButtonClicked(int tooth)
         :
         view->setToothData(PerioToothData(m_perioStatus, tooth));
 
-    view->setPerioStatistic(PerioStatistic(m_perioStatus, patient->getAge(perioDate)));
+    view->setPerioStatistic(PerioStatistic(m_perioStatus, patient->getAge(m_perioStatus.date)));
 
     makeEdited();
 
@@ -52,7 +79,7 @@ void PerioPresenter::refreshMeasurment(int index)
         getRecession(index)
     );
 
-    view->setPerioStatistic(PerioStatistic(m_perioStatus, patient->getAge(perioDate)));
+    view->setPerioStatistic(PerioStatistic(m_perioStatus, patient->getAge(m_perioStatus.date)));
 
 }
 
@@ -114,7 +141,7 @@ void PerioPresenter::bopChanged(int index, bool checked)
 {
     m_perioStatus.bop[index] = checked;
 
-    view->setPerioStatistic(PerioStatistic(m_perioStatus, patient->getAge(perioDate)));
+    view->setPerioStatistic(PerioStatistic(m_perioStatus, patient->getAge(m_perioStatus.date)));
 
     makeEdited();
 }
@@ -130,7 +157,7 @@ void PerioPresenter::FMBSChanged(int index, bool value)
 {
     m_perioStatus.FMBS[index] = value;
 
-    view->setPerioStatistic(PerioStatistic(m_perioStatus, patient->getAge(perioDate)));
+    view->setPerioStatistic(PerioStatistic(m_perioStatus, patient->getAge(m_perioStatus.date)));
 
     makeEdited();
 
@@ -140,7 +167,7 @@ void PerioPresenter::FMPSChanged(int index, bool value)
 {
     m_perioStatus.FMPS[index] = value;
 
-    view->setPerioStatistic(PerioStatistic(m_perioStatus, patient->getAge(perioDate)));
+    view->setPerioStatistic(PerioStatistic(m_perioStatus, patient->getAge(m_perioStatus.date)));
 
     makeEdited();
 
@@ -153,7 +180,7 @@ void PerioPresenter::furcationChanged(int index, int a, int b, int c)
     m_perioStatus.furcation[idx + 1] = b;
     m_perioStatus.furcation[idx + 2] = c;
 
-    view->setPerioStatistic(PerioStatistic(m_perioStatus, patient->getAge(perioDate)));
+    view->setPerioStatistic(PerioStatistic(m_perioStatus, patient->getAge(m_perioStatus.date)));
 
     makeEdited();
 }
@@ -161,7 +188,7 @@ void PerioPresenter::furcationChanged(int index, int a, int b, int c)
 void PerioPresenter::smokeClicked(int value)
 {
     m_perioStatus.smoker = value;
-    view->setPerioStatistic(PerioStatistic(m_perioStatus, patient->getAge(perioDate)));
+    view->setPerioStatistic(PerioStatistic(m_perioStatus, patient->getAge(m_perioStatus.date)));
 
     makeEdited();
 }
@@ -169,7 +196,7 @@ void PerioPresenter::smokeClicked(int value)
 void PerioPresenter::boneLossChanged(int value)
 {
     m_perioStatus.boneLoss = value;
-    view->setPerioStatistic(PerioStatistic(m_perioStatus, patient->getAge(perioDate)));
+    view->setPerioStatistic(PerioStatistic(m_perioStatus, patient->getAge(m_perioStatus.date)));
 
     makeEdited();
 }
@@ -177,7 +204,7 @@ void PerioPresenter::boneLossChanged(int value)
 void PerioPresenter::systemicChanged(bool enabled)
 {
     m_perioStatus.systemic = enabled;
-    view->setPerioStatistic(PerioStatistic(m_perioStatus, patient->getAge(perioDate)));
+    view->setPerioStatistic(PerioStatistic(m_perioStatus, patient->getAge(m_perioStatus.date)));
 
     makeEdited();
 }
@@ -185,29 +212,38 @@ void PerioPresenter::systemicChanged(bool enabled)
 void PerioPresenter::restorationChanged(bool enabled)
 {
     m_perioStatus.completeRestorationNeeded = enabled;
-    view->setPerioStatistic(PerioStatistic(m_perioStatus, patient->getAge(perioDate)));
+    view->setPerioStatistic(PerioStatistic(m_perioStatus, patient->getAge(m_perioStatus.date)));
  
     makeEdited();
 }
 
-#include <QDebug>
 
 bool PerioPresenter::save()
 {
     
-    qDebug() << QString::fromStdString(Parser::write(m_perioStatus));
+    if(isNew())
+        return saveAs();
+
+    m_db.updatePerioStatus(m_perioStatus);
+    _tabView->changeTabName(getTabName());
+    edited = false;
 
     return true;
 }
 
 bool PerioPresenter::saveAs()
 {
+
+    m_db.insertPerioStatus(m_perioStatus, patient->id);
+    _tabView->changeTabName(getTabName());
+    edited = false;
+
     return true;
 }
 
 bool PerioPresenter::isNew()
 {
-    return false;
+    return m_perioStatus.id.empty();
 }
 
 void PerioPresenter::print()
@@ -234,7 +270,7 @@ void PerioPresenter::setCurrent()
         
     }
 
-    view->setPerioStatistic(PerioStatistic(m_perioStatus, patient->getAge(perioDate)));
+    view->setPerioStatistic(PerioStatistic(m_perioStatus, patient->getAge(m_perioStatus.date)));
 
     view->setAdditional(
             m_perioStatus.smoker, 
@@ -254,5 +290,5 @@ void PerioPresenter::prepareSwitch()
 
 std::string PerioPresenter::getTabName()
 {
-    return u8"Пародонтален статус " + patient->firstLastName() + " " + Date::toString(perioDate);
+    return u8"Пародонтален статус " + patient->firstLastName() + " " + Date::toString(m_perioStatus.date);
 }

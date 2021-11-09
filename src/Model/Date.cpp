@@ -114,6 +114,11 @@ bool Date::Date::operator == (const Date& other) const
     return false;
 }
 
+bool Date::operator!=(const Date& other) const
+{
+    return !(*this == other);
+}
+
 Date Date::getMaxDateOfMonth() const { return Date{ getMaxDayOfMonth(), month, year }; }
 bool Date::isTheSameMonthAs(const Date& date) const { return this->year == date.year && this->month == date.month; }
 

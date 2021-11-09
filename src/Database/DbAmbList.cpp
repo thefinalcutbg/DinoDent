@@ -92,7 +92,7 @@ void DbAmbList::insertAmbList(AmbList& ambList, std::string &patientID)
 
 }
 
-void DbAmbList::updateAmbList(AmbList& ambList)
+void DbAmbList::updateAmbList(const AmbList& ambList)
 {
     openConnection();
 
@@ -101,7 +101,6 @@ void DbAmbList::updateAmbList(AmbList& ambList)
         ", day = " + std::to_string(ambList.date.day) +
         ", month = " + std::to_string(ambList.date.month) +
         ", year = " + std::to_string(ambList.date.year) +
-        ", num = " + std::to_string(ambList.number) +
         ", unfavourable = " + std::to_string(ambList.full_coverage) +
         ", charge = " + std::to_string(static_cast<int>(ambList.charge)) +
         ", lpk = '" + UserManager::currentUser().LPK + "' " +

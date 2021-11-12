@@ -278,7 +278,7 @@ void PerioView::refreshChartMeasurment(int idx)
 
 void PerioView::initializeCommon()
 {
-	SharedStates mobilityState(new std::vector<QString>{ "I", "II", "III" });
+	
 
 	//initializing common stuff for maxillary view
 
@@ -292,7 +292,7 @@ void PerioView::initializeCommon()
 		ui.maxilla->ui.toothHeaderLayout->addWidget(m_tooth[i]);
 
 		m_mobi[i] = new PerioStateButton(ui.maxilla);
-		m_mobi[i]->setAvailableStates(mobilityState);
+		m_mobi[i]->setAvailableStates(&m_mobiStates);
 		m_mobi[i]->setMaximumHeight(20);
 		ui.maxilla->ui.mobiLayout->addWidget(m_mobi[i]);
 
@@ -314,7 +314,7 @@ void PerioView::initializeCommon()
 
 
 		m_mobi[i] = new PerioStateButton(ui.mandibula);
-		m_mobi[i]->setAvailableStates(mobilityState);
+		m_mobi[i]->setAvailableStates(&m_mobiStates);
 		m_mobi[i]->setMaximumHeight(20);
 		ui.mandibula->ui.mobiLayout->addWidget(m_mobi[i]);
 
@@ -348,6 +348,7 @@ void PerioView::initializeSurfaces()
 		
 		m_PD[i] = new PerioSpinBox(ui.maxilla);
 		m_PD[i]->setMaximum(19);
+		m_PD[i]->redValue = 5;
 		ui.maxilla->ui.pdUpLayout->addWidget(m_PD[i]);
 
 		m_CAL[i] = new PerioSpinBox(ui.maxilla);
@@ -375,6 +376,7 @@ void PerioView::initializeSurfaces()
 
 		m_PD[i] = new PerioSpinBox(ui.maxilla);
 		m_PD[i]->setMaximum(19);
+		m_PD[i]->redValue = 5;
 		ui.maxilla->ui.pdDownLayout->addWidget(m_PD[i]);
 
 		m_CAL[i] = new PerioSpinBox(ui.maxilla);
@@ -422,6 +424,7 @@ void PerioView::initializeSurfaces()
 		//the buccal row:
 		m_PD[i] = new PerioSpinBox(ui.mandibula);
 		m_PD[i]->setMaximum(19);
+		m_PD[i]->redValue = 5;
 		ui.mandibula->ui.pdUpLayout->addWidget(m_PD[i]);
 
 		m_CAL[i] = new PerioSpinBox(ui.maxilla);
@@ -452,6 +455,7 @@ void PerioView::initializeSurfaces()
 
 		m_PD[i] = new PerioSpinBox(ui.mandibula);
 		m_PD[i]->setMaximum(19);
+		m_PD[i]->redValue = 5;
 		ui.mandibula->ui.pdDownLayout->addWidget(m_PD[i]);
 
 		m_CAL[i] = new PerioSpinBox(ui.mandibula);

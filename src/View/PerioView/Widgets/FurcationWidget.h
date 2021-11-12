@@ -4,6 +4,7 @@
 #include <QPushButton>
 #include <QLabel>
 #include "PerioStateButton.h"
+#include <string_view>
 
 struct FurcationMeasurment { int a{ 0 }, b{ 0 }, c{ 0 }; };
 
@@ -15,6 +16,8 @@ class FurcationWidget : public QWidget
 	PerioStateButton* rightButton;
 	PerioStateButton* downButton;
 	QLabel* dummy;
+
+	const inline static PerioButtonStates states{"F1", "F2", "F3"};
 
 	void paintEvent(QPaintEvent* event) override;
 	FurcationMeasurment getMeasurment();

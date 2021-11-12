@@ -66,10 +66,10 @@ FurcationWidget::FurcationWidget(QWidget *parent)
 
     setSizePolicy(sizePolicy);
 
-    SharedStates furcationStates(new std::vector<QString>{ "F1", "F2", "F3" });
-    leftButton->setAvailableStates(furcationStates);
-    rightButton->setAvailableStates(furcationStates);
-    downButton->setAvailableStates(furcationStates);
+    
+    leftButton->setAvailableStates(&states);
+    rightButton->setAvailableStates(&states);
+    downButton->setAvailableStates(&states);
 
     connect(leftButton, &QAbstractButton::clicked, [=] { emit valueChanged(getMeasurment());});
     connect(rightButton, &QAbstractButton::clicked, [=] { emit valueChanged(getMeasurment());});

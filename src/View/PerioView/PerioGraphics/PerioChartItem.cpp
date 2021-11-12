@@ -78,8 +78,7 @@ void PerioChartItem::setMeasurment(int idx, int gm, int cal)
 void PerioChartItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
 
-	//painter->fillRect(bounds, Qt::GlobalColor::lightGray);
-
+	painter->setRenderHint(QPainter::Antialiasing);
 
 	QPen pen; pen.setColor(QColor(Qt::GlobalColor::red)); pen.setWidth(3);
 	pen.setJoinStyle(Qt::PenJoinStyle::RoundJoin);

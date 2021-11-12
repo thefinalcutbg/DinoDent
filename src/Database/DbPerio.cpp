@@ -79,10 +79,9 @@ PerioStatus DbPerio::getPerioStatus(const std::string& patientID, Date date)
         " ORDER BY id DESC LIMIT 1";
 
     sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
-    qDebug() << QString::fromStdString(query);
+
     while (sqlite3_step(stmt) != SQLITE_DONE)
     {
-        qDebug() << "Preivious found!!!";
 
         perioStatus.id = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0));
         perioStatus.date = Date(

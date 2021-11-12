@@ -14,45 +14,15 @@ PerioSpinBox::PerioSpinBox(QWidget*parent)
 	setSizePolicy(QSizePolicy::Policy::MinimumExpanding, QSizePolicy::Policy::MinimumExpanding);
 	setFrame(true);
 
-	setMinimumSize(QSize(1, 1));
-
-	QPalette palet = palette();
-	palet.setBrush(QPalette::Highlight, QBrush(Qt::white));
-	palet.setBrush(QPalette::HighlightedText, QBrush(Qt::black));
-	setPalette(palet);
+	setStyleSheet(
+		"font-weight: normal; "
+		"color: black;"
+		"selection-color: black;"
+		"selection-background-color: white;"
+	);
 
 	connect(this, QOverload<int>::of(&QSpinBox::valueChanged),
-		[=](int value)
-		{
-		
-			if (value >= redValue && !isRed)
-			{
-				isRed = true;
-				QColor red; red.setRgb(218, 69, 63);
-				QPalette palet = palette();
-				palet.setBrush(QPalette::HighlightedText, QBrush(QColor(Qt::red)));
-				palet.setBrush(QPalette::Text, QBrush(QColor(Qt::red)));
-				setPalette(palet);
-
-				auto f = this->font();
-				f.setBold(true);
-				setFont(f);
-
-			}
-			else if (value < redValue && isRed)
-			{
-				isRed = false;
-				QPalette palet = palette();
-				palet.setBrush(QPalette::HighlightedText, QBrush(QColor(Qt::black)));
-				palet.setBrush(QPalette::Text, QBrush(QColor(Qt::black)));
-				setPalette(palet);
-
-				auto f = this->font();
-				f.setBold(false);
-				setFont(f);
-			}
-
-		});
+		[=](int value){ colorCodeChange(); });
 
 	this->installEventFilter(this);
 	
@@ -82,8 +52,17 @@ void PerioSpinBox::disable(bool disabled)
 	}
 }
 
+void PerioSpinBox::setValueCustom(int value)
+{
+	QSignalBlocker b(this);
+	setValue(value);
+	colorCodeChange();
+
+}
+
 void PerioSpinBox::paintEvent(QPaintEvent* event)
 {
+
 	QSpinBox::paintEvent(event);
 
 	if (!m_hover || !hasFocus() || !isEnabled() || isReadOnly()) return;
@@ -112,6 +91,34 @@ bool PerioSpinBox::eventFilter(QObject* obj, QEvent* e)
 	}
 
 	return false;
+}
+
+void PerioSpinBox::colorCodeChange()
+{
+	auto value = this->value();
+
+	if (value >= redValue && !isRed)
+	{
+		setStyleSheet(
+			"font-weight: bold; "
+			"color: darkred;"
+			"selection-color: darkred;"
+			"selection-background-color: white;"
+		);
+
+		isRed = true;
+	}
+	else if (value < redValue && isRed)
+	{
+		isRed = false;
+
+		setStyleSheet(
+			"font-weight: normal; "
+			"color: black;"
+			"selection-color: black;"
+			"selection-background-color: white;"
+		);
+	}
 }
 
 

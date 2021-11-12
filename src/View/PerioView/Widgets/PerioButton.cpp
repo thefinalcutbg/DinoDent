@@ -25,6 +25,7 @@ PerioButton::PerioButton(QWidget *parent)
 	//setMaximumSize(200, 200);
 	this->installEventFilter(this);
 	setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+	
 }
 
 

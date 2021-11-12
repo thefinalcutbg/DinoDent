@@ -527,6 +527,10 @@ void Parser::parse(const std::string& jsonString, PerioStatus& status)
 	for (int i = 0; i < fmbs.size(); i++)
 		status.FMBS[i] = fmbs[i].asBool();
 
+	const Json::Value& disabled = json["Disabled"];
+	for (int i = 0; i < disabled.size(); i++)
+		status.disabled[i] = disabled[i].asBool();
+
 	status.smoker = json["Smoker"].asInt();
 	status.boneLoss = json["BoneLoss"].asInt();
 	status.completeRestorationNeeded = json["Restore"].asBool();

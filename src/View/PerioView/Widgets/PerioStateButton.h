@@ -1,10 +1,9 @@
 #pragma once
 #include <vector>
-#include <memory>
-
+#include <string_view>
 #include "PerioButton.h"
 
-typedef std::shared_ptr<std::vector<QString>> SharedStates;
+typedef std::vector<std::string_view> PerioButtonStates;
 
 class PerioStateButton : public PerioButton
 {
@@ -12,7 +11,7 @@ class PerioStateButton : public PerioButton
 
 	short int m_state{ 0 };
 
-	SharedStates states;
+	const PerioButtonStates* states;
 
 	void mousePressEvent(QMouseEvent* e);
 
@@ -21,7 +20,7 @@ public:
 	PerioStateButton(QWidget *parent);
 	
 
-	void setAvailableStates(SharedStates states) { this->states = states; }
+	void setAvailableStates(const PerioButtonStates* states) { this->states = states; }
 
 	void setState(int state);
 	int getState() {	return m_state; }

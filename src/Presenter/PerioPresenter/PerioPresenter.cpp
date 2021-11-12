@@ -7,8 +7,6 @@
 #include "View/ModalDialogBuilder.h"
 
 
-#include <QDebug>
-
 PerioPresenter::PerioPresenter(ITabView* view, std::shared_ptr<Patient> patient) :
     TabInstance(view, TabType::PerioList), 
     patient(patient), 
@@ -17,20 +15,19 @@ PerioPresenter::PerioPresenter(ITabView* view, std::shared_ptr<Patient> patient)
     m_perioStatus(m_db.getPerioStatus(patient->id, Date::currentDate()))
 {
 
-    qDebug() << "periostatus id: " << QString::fromStdString(m_perioStatus.id);
+
 
     if (m_perioStatus.date != Date::currentDate()) //if its not todays measurment
     {
 
-        m_perioStatus.id.clear(); //clearing the id, because it's new measurment
+                            m_perioStatus.id.clear(); //clearing the id, because it's new measurment
 
-        auto getPrevious = ModalDialogBuilder::askDialog
-        (u8"Открито е предишно пародонтално измерване. "
-            u8"Желаете ли да заредите старите резултати?");
+                            auto getPrevious = ModalDialogBuilder::askDialog
+                            (u8"Открито е предишно пародонтално измерване. "
+                                u8"Желаете ли да заредите старите резултати?");
 
-        if(!getPrevious)
-            m_perioStatus = PerioStatus();
-
+                            if(!getPrevious)
+                                m_perioStatus = PerioStatus();
         
     }
 
@@ -38,15 +35,17 @@ PerioPresenter::PerioPresenter(ITabView* view, std::shared_ptr<Patient> patient)
     for (auto& tooth : m_toothStatus)
     {
 
-        m_perioStatus.disabled[tooth.index] = (
-                                                tooth.extraction.exists() ||
-                                                tooth.impacted.exists() ||
-                                                tooth.implant.exists()
-                                              );
+        if (
+            tooth.extraction.exists() ||
+            tooth.impacted.exists() ||
+            tooth.implant.exists()
+        )
+            m_perioStatus.disabled[tooth.index] = true;
+
 
         if (tooth.mobility.exists())
             m_perioStatus.mobility[tooth.index] = 
-                                        static_cast<int>(tooth.mobility.degree) + 1;
+                                 static_cast<int>(tooth.mobility.degree) + 1;
     }
 
 

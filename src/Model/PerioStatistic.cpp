@@ -4,6 +4,8 @@
 #include <utility>
 #include <functional>
 
+#include <QDebug>
+
 inline double getPercent(int sum, int total) { return total ? (static_cast<double>(sum) / total) * 100 : 0; }
 
 template<typename T>
@@ -173,6 +175,7 @@ Stage getStage(const PerioStatistic& stat, bool restorationNeeded)
 		complexity = Stage::Third;
 	else if (pdMax == 5)
 		complexity = Stage::Second;
+
 
 	
 	return std::max(severity, complexity);

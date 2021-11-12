@@ -22,6 +22,7 @@ PerioStateButton::PerioStateButton(QWidget *parent)
 
 void PerioStateButton::setState(int state)
 {
+	if (states == nullptr) return;
 
 	if (state < 1 || state > states->size())
 	{
@@ -34,7 +35,7 @@ void PerioStateButton::setState(int state)
 
 	setChecked(true);
 	m_state = state;
-	setText(states->at(state - 1));
+	setText(states->at(state - 1).data());
 	
 	update();
 }

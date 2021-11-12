@@ -23,6 +23,7 @@ class PerioView : public QWidget, public IPerioView
 {
     Q_OBJECT
 
+
     PerioPresenter* presenter{ nullptr };
 
     PerioScene* perioScene[2];
@@ -30,6 +31,8 @@ class PerioView : public QWidget, public IPerioView
     PerioChartItem* perioChart[4];
 
     ChartIndex chartIndex[192];
+
+    const inline static PerioButtonStates m_mobiStates{"I", "II", "III"};
 
     QPushButton* m_tooth[32];
     PerioStateButton* m_mobi[32];

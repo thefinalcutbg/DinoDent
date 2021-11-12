@@ -40,6 +40,7 @@ HexagonGraphicsItem::HexagonGraphicsItem()
 
 void HexagonGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
+	painter->setRenderHint(QPainter::Antialiasing);
 
 	QPainterPath riskPath;
 	riskPath.addPolygon(riskPoly);

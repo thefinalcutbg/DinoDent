@@ -8,9 +8,10 @@ NameEdit::NameEdit(QWidget* parent) : LineEdit(parent)
     connect(this, &QLineEdit::textEdited, [=] {makeFirstLetterCapital(); });
 }
 
-QString NameEdit::reformat(const QString text)
+QString NameEdit::reformat(QString text)
 {
-    QString name = text;
+    QString& name = text;
+
     if (name.isEmpty()) return "";
 
     //Formats the name:

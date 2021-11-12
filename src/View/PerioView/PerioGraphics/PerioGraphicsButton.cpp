@@ -42,6 +42,9 @@ PerioGraphicsButton::PerioGraphicsButton(int index, PerioGraphicsType type, Peri
 
 void PerioGraphicsButton::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
+
+    painter->setRenderHint(QPainter::Antialiasing);
+
     if (m_disabled)
     {
         painter->fillPath(path, QBrush{ QColor{236, 236, 236} });

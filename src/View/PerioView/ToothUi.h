@@ -54,27 +54,24 @@ struct ToothUi
 		mobi->setState(data.mobility);
 		furcation->setMeasurment(data.furc[0], data.furc[1], data.furc[2]);
 
-		attachment[0]->setValue(data.attachment[0]);
+		attachment[0]->setValueCustom(data.attachment[0]);
 
 		data.toothIndex < 16 ?			//upper teeth have no attached palatal gingiva
 		attachment[1]->disable(true)
 		:
-		attachment[1]->setValue(data.attachment[1]);
+		attachment[1]->setValueCustom(data.attachment[1]);
 
-		recession[0]->setValue(data.recession[0]);
-		recession[1]->setValue(data.recession[1]);
+		recession[0]->setValueCustom(data.recession[0]);
+		recession[1]->setValueCustom(data.recession[1]);
 
 		for (int i = 0; i < 6; i++)
 		{
 			QSignalBlocker bopBlocker(bop[i]);
-			QSignalBlocker calBlocker(cal[i]);
-			QSignalBlocker pdBlocker(pd[i]);
-			QSignalBlocker gmBlocker(gm[i]);
 
 			bop[i]->setChecked(data.bop[i]);
-			cal[i]->setValue(data.cal[i]);
-			pd[i]->setValue(data.pd[i]);
-			gm[i]->setValue(data.gm[i]);
+			cal[i]->setValueCustom(data.cal[i]);
+			pd[i]->setValueCustom(data.pd[i]);
+			gm[i]->setValueCustom(data.gm[i]);
 		}
 
 		for (int i = 0; i < 4; i++)

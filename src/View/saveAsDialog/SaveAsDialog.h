@@ -1,8 +1,6 @@
 #pragma once
 
-#include <QDialog>
 #include <QLabel>
-#include "Presenter/AmbListPagePresenter.h"
 #include <map>
 #include "MnogoTypSpinBox.h"
 #include "ui_SaveAsDialog.h"
@@ -15,7 +13,7 @@ class SaveAsDialog : private QDialog
     void okButtonPressed();
     std::map <int, bool> validNumber;
     void reject() override;
-    AmbListPagePresenter* presenter;
+
 
 public:
     Q_OBJECT

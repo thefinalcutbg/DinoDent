@@ -1,23 +1,23 @@
 #pragma once
 
 #include <vector>
-#include "View/AmbListPage/IAmbListPage.h"
+#include "View/IMainView.h"
 #include "Database/DbAmbList.h"
 #include "TabPresenter/TabPresenter.h"
 #include "ListSelector/ListSelectorPresenter.h"
 
-class AmbListPagePresenter
+class MainPresenter
 {
 	TabPresenter _tabPresenter;
 	ListSelectorPresenter listSelector_;
-	IAmbListPage* view;
+	IMainView* view;
 
 	DbAmbList amb_db;
 
 public:
-	AmbListPagePresenter();
+	MainPresenter();
 
-	void setView(IAmbListPage* view);
+	void setView(IMainView* view);
 	void printPressed();
 	void newAmbPressed();
 	void newPerioPressed();

@@ -27,10 +27,7 @@
     <ClCompile Include="src\View\Torque.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\AmbListPage\AmbListPage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Presenter\AmbListPagePresenter.cpp">
+    <ClCompile Include="src\Presenter\MainPresenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Database\Database.cpp">
@@ -51,7 +48,7 @@
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\AmbListPage\TabView\TabBar.cpp">
+    <ClCompile Include="src\View\TabView\TabBar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\ListView\ListView.cpp">
@@ -258,7 +255,7 @@
     <ClCompile Include="src\Model\Validator\NameValidator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\AmbListPage\TabView\TabView.cpp">
+    <ClCompile Include="src\View\TabView\TabView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Model\Validator\ProcedureDateValidator.cpp">
@@ -410,13 +407,10 @@
     <QtMoc Include="src\View\Torque.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\AmbListPage\AmbListPage.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="src\View\PatientDialog\PatientFormDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\AmbListPage\TabView\TabBar.h">
+    <QtMoc Include="src\View\TabView\TabBar.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\ListView\ListView.h">
@@ -506,7 +500,7 @@
     <QtMoc Include="src\View\ProcedureEditDialog\ProcedureEditDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\AmbListPage\TabView\TabView.h">
+    <QtMoc Include="src\View\TabView\TabView.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\AmbListSelector\AmbListSelector.h">
@@ -570,9 +564,6 @@
     <QtUic Include="src\View\Torque.ui">
       <Filter>Resource Files</Filter>
     </QtUic>
-    <QtUic Include="src\View\AmbListPage\AmbListPage.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
     <QtUic Include="src\View\PatientDialog\PatientFormDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
@@ -618,7 +609,7 @@
     <QtUic Include="src\View\ProcedureEditDialog\ProcedureEditDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="src\View\AmbListPage\TabView\TabView.ui">
+    <QtUic Include="src\View\TabView\TabView.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\AmbListSelector\AmbListSelector.ui">
@@ -647,7 +638,7 @@
     </QtUic>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Presenter\AmbListPagePresenter.h">
+    <ClInclude Include="src\Presenter\MainPresenter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Database\Database.h">
@@ -659,7 +650,7 @@
     <ClInclude Include="src\Model\AmbList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\View\AmbListPage\IAmbListPage.h">
+    <ClInclude Include="src\View\IMainView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Presenter\PatientDialog\PatientDialogPresenter.h">
@@ -854,7 +845,7 @@
     <ClInclude Include="src\Presenter\TabPresenter\TabPresenter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\View\AmbListPage\TabView\ITabView.h">
+    <ClInclude Include="src\View\TabView\ITabView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\ModalDialogBuilder.h">

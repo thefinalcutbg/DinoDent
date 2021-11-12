@@ -2,7 +2,7 @@
 
 class ITabView;
 
-class IAmbListPage
+class IMainView
 {
 	
 public:

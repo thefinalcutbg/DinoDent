@@ -1,7 +1,7 @@
 #pragma once
 
 #include <unordered_map>
-#include "View/AmbListPage/TabView/ITabView.h"
+#include "View/TabView/ITabView.h"
 #include "Database/DbAmbList.h"
 #include "Database/DbPatient.h"
 

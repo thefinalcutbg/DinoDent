@@ -4,22 +4,23 @@
 #include <QPainter>
 
 #include "Database/Database.h"
+#include "Presenter/MainPresenter.h"
 #include "ui_Torque.h"
-#include "AmbListPage/AmbListPage.h"
 
-class Torque : public QMainWindow
+#include "IMainView.h"
+
+class Torque : public QMainWindow, public IMainView
 {
     Q_OBJECT
 
-     ListView list_view;
-
-     AmbListPage view;
+    MainPresenter presenter;
 
     void paintEvent(QPaintEvent* event);
     void closeEvent(QCloseEvent* event);
 
 public:
     Torque(QWidget *parent = Q_NULLPTR);
+    ITabView* tabView() override;
 
 private:
     Ui::TorqueClass ui;

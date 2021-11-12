@@ -3,13 +3,25 @@
 QColor blue(133, 207, 234);
 
 Torque::Torque(QWidget* parent)
-    : QMainWindow(parent),
-    view(this)
+    : QMainWindow(parent)
 {
 
     ui.setupUi(this);
-    ui.stackedWidget->insertWidget(0, &view);
     showMaximized();
+
+    connect(ui.newButton, &QPushButton::clicked, [&] { presenter.newAmbPressed(); });
+    connect(ui.saveAsButton, &QPushButton::clicked, [&] { presenter.saveAs(); });
+    connect(ui.saveButton, &QPushButton::clicked, [&] { presenter.save(); });
+    connect(ui.tabView, &TabView::closeRequested, [&] {presenter.closeTab(); });
+    connect(ui.listSelectButton, &QPushButton::clicked, [&] {presenter.showListSelector(); });
+    connect(ui.printButton, &QPushButton::pressed, [&] {presenter.printPressed(); });
+    connect(ui.perioButton, &QPushButton::pressed, [&] {presenter.newPerioPressed(); });
+    presenter.setView(this);
+}
+
+ITabView* Torque::tabView()
+{
+    return ui.tabView;
 }
 
 void Torque::paintEvent(QPaintEvent* event)
@@ -22,7 +34,7 @@ void Torque::paintEvent(QPaintEvent* event)
 
 void Torque::closeEvent(QCloseEvent* event)
 {
-    if (!view.closeAllTabs())
+    if (!presenter.closeAllTabs())
         event->ignore();
 
     foreach(QWidget * widget, QApplication::topLevelWidgets()) 

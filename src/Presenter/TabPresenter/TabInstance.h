@@ -1,6 +1,6 @@
 #pragma once
 
-#include "View/AmbListPage/TabView/ITabView.h"
+#include "View/TabView/ITabView.h"
 #include "View/ModalDialogBuilder.h"
 
 enum class TabType {AmbList, PerioList, PatientSummary};

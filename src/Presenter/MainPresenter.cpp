@@ -1,15 +1,15 @@
-﻿#include "AmbListPagePresenter.h"
+﻿#include "MainPresenter.h"
 #include "Model/Procedure/MasterNZOK.h"
 #include "Presenter/PatientDialog/PatientDialogPresenter.h"
 #include "View/ErrorMessage.h"
 #include "View/Printer/Printer.h"
 
 
-AmbListPagePresenter::AmbListPagePresenter() :
+MainPresenter::MainPresenter() :
     view(nullptr)
 {}
 
-void AmbListPagePresenter::setView(IAmbListPage* view)
+void MainPresenter::setView(IMainView* view)
 {
     this->view = view;
 
@@ -18,7 +18,7 @@ void AmbListPagePresenter::setView(IAmbListPage* view)
     
 }
 #
-void AmbListPagePresenter::printPressed()
+void MainPresenter::printPressed()
 {
     auto tab = _tabPresenter.currentTab();
 
@@ -26,7 +26,7 @@ void AmbListPagePresenter::printPressed()
         tab->print();
 }
 
-void AmbListPagePresenter::newAmbPressed()
+void MainPresenter::newAmbPressed()
 {
     PatientDialogPresenter p;
 
@@ -36,7 +36,7 @@ void AmbListPagePresenter::newAmbPressed()
         _tabPresenter.openList(patient.value());
 }
 
-void AmbListPagePresenter::newPerioPressed()
+void MainPresenter::newPerioPressed()
 {
     PatientDialogPresenter p;
 
@@ -46,12 +46,12 @@ void AmbListPagePresenter::newPerioPressed()
         _tabPresenter.openPerio(patient.value());
 }
 
-void AmbListPagePresenter::showListSelector()
+void MainPresenter::showListSelector()
 {
     listSelector_.openDialog();
 }
 
-bool AmbListPagePresenter::save() 
+bool MainPresenter::save() 
 {
     if(_tabPresenter.currentTab())
         return _tabPresenter.currentTab()->save();
@@ -59,7 +59,7 @@ bool AmbListPagePresenter::save()
     return true;
 }
 
-bool AmbListPagePresenter::saveAs()
+bool MainPresenter::saveAs()
 {
     if (_tabPresenter.currentTab())
         return _tabPresenter.currentTab()->saveAs();
@@ -68,7 +68,7 @@ bool AmbListPagePresenter::saveAs()
 }
 
 
-bool AmbListPagePresenter::closeTab()
+bool MainPresenter::closeTab()
 {
     if (!_tabPresenter.currentTab()->close()) return false;
 
@@ -77,7 +77,7 @@ bool AmbListPagePresenter::closeTab()
     return true;
 }
 
-bool AmbListPagePresenter::closeAllTabs()
+bool MainPresenter::closeAllTabs()
 {
     while (_tabPresenter.currentTab())
     {

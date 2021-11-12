@@ -1,7 +1,7 @@
 ﻿#include "SaveAsDialog.h"
 
 SaveAsDialog::SaveAsDialog(QWidget* parent)
-    : QDialog(parent), currentNumber(0), presenter(nullptr)
+    : QDialog(parent), currentNumber(0)
 {
     ui.setupUi(this);
     connect(ui.okButton, &QPushButton::clicked, this,

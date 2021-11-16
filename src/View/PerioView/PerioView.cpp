@@ -187,6 +187,12 @@ void PerioView::setAdditional(int smoker, int boneLoss, bool systemic, bool rest
 	ui.restoreCheck->setChecked(restore);
 }
 
+void PerioView::setPatient(const Patient& patient, Date date)
+{
+	ui.patientTile->setData(patient, date);
+	ui.allergiesTile->setData(patient);
+}
+
 
 void PerioView::setMeasurment(int index, int pd, int cal, int gm, int recession)
 {
@@ -509,7 +515,7 @@ void PerioView::initializeFullMouth()
 	ui.maxilla->ui.graphicsSurfaceView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	ui.maxilla->ui.graphicsSurfaceView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-	int xPos = 0;
+	double xPos = 0;
 
 	for (int i = 0; i < 64; i++)
 	{

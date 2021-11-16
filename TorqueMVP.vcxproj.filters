@@ -279,9 +279,6 @@
     <ClCompile Include="src\Model\AmbListValidator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\ErrorMessage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Model\Procedure\PackageCounter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -888,9 +885,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\AmbListValidator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\View\ErrorMessage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\Procedure\PackageCounter.h">

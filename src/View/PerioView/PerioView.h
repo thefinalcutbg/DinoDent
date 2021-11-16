@@ -75,7 +75,7 @@ public:
     void setPresenter(PerioPresenter* presenter) override;
     void setToothHint(const ToothPaintHint& hint) override;
     void setAdditional(int smoker, int boneLoss, bool systemic, bool restore) override;
-
+    void setPatient(const Patient& patient, Date date) override;
     void setMeasurment(int index, int pd, int cal, int gm, int recession) override;
     
 

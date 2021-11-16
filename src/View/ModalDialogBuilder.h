@@ -22,5 +22,6 @@ namespace ModalDialogBuilder
 	int openSaveAsDialog(int newNum, std::map<int, bool> existingNumbers);
 	DialogAnswer openSaveDialog(const std::string& text);
 	bool askDialog(const std::string& questionText);
+	void showError(const std::string& error);
 };
 

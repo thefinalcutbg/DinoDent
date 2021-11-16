@@ -6,7 +6,8 @@ class PerioView;
 
 enum class PerioGraphicsType{Plaque, Bleeding};
 
-constexpr int surfButtonWidth = 70;
+constexpr double surfButtonWidth = 70.25;
+constexpr double surfButtonHeight = 30;
 
 class PerioGraphicsButton : public QGraphicsItem
 {
@@ -15,7 +16,7 @@ class PerioGraphicsButton : public QGraphicsItem
 
 	PerioGraphicsType m_type;
 
-	QRectF bounds{ 0,0, 70, 30 };
+	inline static constexpr QRectF bounds{ 0,0, surfButtonWidth, surfButtonHeight };
 	
 	int m_index;
 

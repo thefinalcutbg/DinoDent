@@ -16,7 +16,7 @@ static constexpr std::string_view IDX[numberOfRows]
 static constexpr std::string_view PD[numberOfRows]
 {
 	u8"Средна дълбочина", 
-	u8"до 3мм вкл.", 
+	u8"до 3 мм. вкл.", 
 	u8"4 и 5 мм.",
 	u8"6 и 7 мм.", 
 	u8"над 7 мм."

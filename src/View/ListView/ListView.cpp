@@ -108,10 +108,10 @@ bool ListView::eventFilter(QObject* obj, QEvent* event)
 	return false;
 }
 
-void ListView::refreshMeasurment(AmbList& ambList, Patient& patient)
+void ListView::refresh(const AmbList& ambList, const Patient& patient)
 {
-	ui.patientTile->setPatient(patient);
-	ui.allergiesTile->setPatient(patient);
+	ui.patientTile->setData(patient, ambList.date);
+	ui.allergiesTile->setData(patient);
 	auto& d = ambList.date;
 	QSignalBlocker blocker(ui.dateEdit);
 	ui.dateEdit->setDate({ d.year, d.month, d.day });

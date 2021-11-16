@@ -278,6 +278,8 @@ void PerioPresenter::setCurrent()
             m_perioStatus.completeRestorationNeeded
     );
 
+    view->setPatient(*patient.get(), m_perioStatus.date);
+
     setScrollPosition();
 
 }

@@ -243,7 +243,6 @@
     <ClCompile Include="src\View\AmbListSelector\ListsTableModel.cpp" />
     <ClCompile Include="src\Presenter\ListSelector\ListSelectorPresenter.cpp" />
     <ClCompile Include="src\View\AmbListSelector\AmbListSelector.cpp" />
-    <ClCompile Include="src\View\ErrorMessage.cpp" />
     <ClCompile Include="src\View\GlobalFunctions.cpp" />
     <ClCompile Include="src\Model\Validator\ProcedureDateValidator.cpp" />
     <ClCompile Include="src\Model\Validator\CommonValidators.cpp" />
@@ -456,7 +455,6 @@
     <ClInclude Include="src\Model\Validator\NameValidator.h" />
     <ClInclude Include="src\Presenter\ProcedureDialog\ProcedureEditorPresenter.h" />
     <ClInclude Include="src\View\AmbListSelector\IListSelectorView.h" />
-    <ClInclude Include="src\View\ErrorMessage.h" />
     <ClInclude Include="src\View\GlobalFunctions.h" />
     <ClInclude Include="src\View\Printer\ProcedurePrintModel.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\PixmapLabel.h" />

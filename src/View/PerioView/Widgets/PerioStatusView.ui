@@ -44,13 +44,13 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>75</width>
+         <width>71</width>
          <height>0</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>75</width>
+         <width>71</width>
          <height>16777215</height>
         </size>
        </property>
@@ -95,18 +95,18 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>75</width>
+         <width>71</width>
          <height>0</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>75</width>
+         <width>71</width>
          <height>16777215</height>
         </size>
        </property>
        <property name="text">
-        <string>Подвижност:   </string>
+        <string>Подв.:   </string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -146,13 +146,13 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>75</width>
+         <width>71</width>
          <height>0</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>75</width>
+         <width>71</width>
          <height>16777215</height>
         </size>
        </property>
@@ -202,8 +202,14 @@
          </property>
          <property name="minimumSize">
           <size>
-           <width>75</width>
+           <width>71</width>
            <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>71</width>
+           <height>16777215</height>
           </size>
          </property>
          <property name="text">
@@ -224,8 +230,14 @@
          </property>
          <property name="minimumSize">
           <size>
-           <width>75</width>
+           <width>71</width>
            <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>71</width>
+           <height>16777215</height>
           </size>
          </property>
          <property name="text">
@@ -248,13 +260,13 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>1120</width>
+         <width>1124</width>
          <height>60</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>1120</width>
+         <width>1124</width>
          <height>60</height>
         </size>
        </property>
@@ -283,18 +295,18 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>75</width>
+         <width>71</width>
          <height>0</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>75</width>
+         <width>71</width>
          <height>16777215</height>
         </size>
        </property>
        <property name="text">
-        <string>Аташ. гинг.:   </string>
+        <string>Ат. гинг.:   </string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -337,13 +349,13 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>75</width>
+         <width>71</width>
          <height>0</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>75</width>
+         <width>71</width>
          <height>16777215</height>
         </size>
        </property>
@@ -391,13 +403,13 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>75</width>
+         <width>71</width>
          <height>0</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>75</width>
+         <width>71</width>
          <height>16777215</height>
         </size>
        </property>
@@ -442,13 +454,13 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>75</width>
+         <width>71</width>
          <height>0</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>75</width>
+         <width>71</width>
          <height>16777215</height>
         </size>
        </property>
@@ -493,13 +505,13 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>75</width>
+         <width>71</width>
          <height>0</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>75</width>
+         <width>71</width>
          <height>16777215</height>
         </size>
        </property>
@@ -544,13 +556,13 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>75</width>
+         <width>71</width>
          <height>0</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>75</width>
+         <width>71</width>
          <height>16777215</height>
         </size>
        </property>
@@ -595,7 +607,7 @@
        </property>
        <property name="sizeHint" stdset="0">
         <size>
-         <width>75</width>
+         <width>71</width>
          <height>20</height>
         </size>
        </property>
@@ -646,13 +658,13 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>75</width>
+         <width>71</width>
          <height>0</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>75</width>
+         <width>71</width>
          <height>16777215</height>
         </size>
        </property>
@@ -697,13 +709,13 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>75</width>
+         <width>71</width>
          <height>0</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>75</width>
+         <width>71</width>
          <height>16777215</height>
         </size>
        </property>
@@ -748,13 +760,13 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>75</width>
+         <width>71</width>
          <height>0</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>75</width>
+         <width>71</width>
          <height>16777215</height>
         </size>
        </property>
@@ -799,13 +811,13 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>75</width>
+         <width>71</width>
          <height>0</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>75</width>
+         <width>71</width>
          <height>16777215</height>
         </size>
        </property>
@@ -850,13 +862,13 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>75</width>
+         <width>71</width>
          <height>0</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>75</width>
+         <width>71</width>
          <height>16777215</height>
         </size>
        </property>
@@ -904,18 +916,18 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>75</width>
+         <width>71</width>
          <height>0</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>75</width>
+         <width>71</width>
          <height>16777215</height>
         </size>
        </property>
        <property name="text">
-        <string>Аташ. гинг.:   </string>
+        <string>Ат. гинг.:   </string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>

@@ -3,7 +3,7 @@
 #include "Model/User/UserManager.h"
 #include "Database/DbAmbList.h"
 #include "Model/AmbListValidator.h"
-#include "View/ErrorMessage.h"
+#include "View/ModalDialogBuilder.h"
 #include "View/Printer/Printer.h"
 #include "Presenter/PatientDialog/PatientDialogPresenter.h"
 #include "Presenter/AllergiesDialog/AllergiesDialogPresenter.h"
@@ -18,7 +18,7 @@ bool ListPresenter::isValid()
     if(checker.ambListIsValid())
         return true;
 
-    showError(checker.getErrorMsg());
+    ModalDialogBuilder::showError(checker.getErrorMsg());
 
     return false;
 }
@@ -172,7 +172,7 @@ void ListPresenter::setCurrent()
     view->setPresenter(this);
     
 
-    view->refreshMeasurment
+    view->refresh
     (
         m_ambList,
         *patient.get()
@@ -210,7 +210,7 @@ void ListPresenter::openPatientDialog()
     *this->patient = patient.value();
 
 
-    view->refreshMeasurment
+    view->refresh
     (
         m_ambList,
         *this->patient.get()
@@ -232,7 +232,7 @@ void ListPresenter::openAllergiesDialog()
     patient->currentDiseases = d.current;
     patient->pastDiseases = d.past;
 
-    view->refreshMeasurment
+    view->refresh
     (
         m_ambList,
         *patient.get()
@@ -522,6 +522,7 @@ void ListPresenter::deleteProcedure(int index)
 void ListPresenter::ambDateChanged(Date date)
 {
     m_ambList.date = date;
+    view->refresh(m_ambList, *patient.get());
     makeEdited();
 }
 

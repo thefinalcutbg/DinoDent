@@ -1,7 +1,6 @@
 ﻿#include "MainPresenter.h"
 #include "Model/Procedure/MasterNZOK.h"
 #include "Presenter/PatientDialog/PatientDialogPresenter.h"
-#include "View/ErrorMessage.h"
 #include "View/Printer/Printer.h"
 
 

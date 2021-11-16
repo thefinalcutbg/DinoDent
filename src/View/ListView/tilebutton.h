@@ -23,7 +23,7 @@ class TileButton : public QAbstractButton
     
 
 protected:
-    const Patient* patient;
+
     QFont header;
     QFont info;
 
@@ -32,8 +32,6 @@ protected:
 
 public:
     TileButton(QWidget* parent = 0);
-    void setPatient(const Patient &patient);
-    virtual void refreshMeasurment() = 0;
 };
 
 class PatientTile : public TileButton
@@ -51,7 +49,7 @@ class PatientTile : public TileButton
 
 public:
     PatientTile(QWidget* parent = 0);
-    void refreshMeasurment();
+    void setData(const Patient& patient, Date currentDate);
 
 };
 
@@ -72,6 +70,6 @@ class AllergiesTile : public TileButton
 
 public:
     AllergiesTile(QWidget* parent = 0);
-    void refreshMeasurment();
+    void setData(const Patient& patient);
 
 };

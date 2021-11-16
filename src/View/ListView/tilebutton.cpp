@@ -1,6 +1,6 @@
 ﻿#include "tilebutton.h"
 
-TileButton::TileButton(QWidget* parent) : QAbstractButton(parent), hover(0), clicked(0), patient(nullptr)
+TileButton::TileButton(QWidget* parent) : QAbstractButton(parent), hover(0), clicked(0)
 {
 	header.setFamily("Segoe UI semibold");
 	header.setPointSizeF(14);
@@ -9,13 +9,6 @@ TileButton::TileButton(QWidget* parent) : QAbstractButton(parent), hover(0), cli
 	info.setPointSizeF(8);
 	info.setFamily("Segoe UI");
 
-}
-
-void TileButton::setPatient(const Patient &patient)
-{
-	this->patient = &patient;
-	refreshMeasurment();
-	update();
 }
 
 void TileButton::paintEvent(QPaintEvent* e)
@@ -31,7 +24,7 @@ void TileButton::paintEvent(QPaintEvent* e)
 
 	painter.fillRect(0,0, this->width(), this->height(), color);
 
-	if (patient != NULL) paintInfo(&painter);
+	paintInfo(&painter);
 
 	painter.end();
 }
@@ -96,26 +89,24 @@ PatientTile::PatientTile(QWidget* parent) : TileButton(parent)
 
 }
 
-void PatientTile::refreshMeasurment()
+void PatientTile::setData(const Patient& patient, Date currentDate)
 {
-	if (patient == NULL) return;
+	name = elide(QString::fromStdString(patient.FirstName + " " + patient.MiddleName + " " + patient.LastName), 40);
 
-	name = elide(QString::fromStdString(patient->FirstName + " " + patient->MiddleName + " " + patient->LastName), 40);
-	
-	if (patient->type == 1) type = "ЕГН: ";
+	if (patient.type == 1) type = "ЕГН: ";
 	else type = "ЛНЧ: ";
-	
-	id = type + QString::fromStdString(patient->id);
 
-	if (patient->HIRBNo == "")
+	id = type + QString::fromStdString(patient.id);
+
+	if (patient.HIRBNo == "")
 		hirbNo = "Номер на ЗОК: Няма данни";
-	else hirbNo = "Номер на ЗОК: " + QString::fromStdString(patient->HIRBNo);
+	else hirbNo = "Номер на ЗОК: " + QString::fromStdString(patient.HIRBNo);
 
-	birthDate = "Рождена дата: " + QString::fromStdString(Date::toString(patient->birth));
+	birthDate = "Рождена дата: " + QString::fromStdString(Date::toString(patient.birth));
 
-	age = "Възраст: " + QString::number(patient->getAge()) + " г.";
-	
-	QString city = QString::fromStdString(patient->city);
+	age = "Възраст: " + QString::number(patient.getAge(currentDate)) + " г.";
+
+	QString city = QString::fromStdString(patient.city);
 
 	for (int i = 0; i < city.size(); i++)
 	{
@@ -131,17 +122,17 @@ void PatientTile::refreshMeasurment()
 		}
 	}
 
-	if(patient->address != "")
-		address.append(", " + QString::fromStdString(patient->address));
+	if (patient.address != "")
+		address.append(", " + QString::fromStdString(patient.address));
 
 	address = elide(address, 50);
 
-	if (patient->phone != "")
-		phone = "Телефон: " + QString::fromStdString(patient->phone);
+	if (patient.phone != "")
+		phone = "Телефон: " + QString::fromStdString(patient.phone);
 	else phone = "";
 
+	update();
 }
-
 
 
 AllergiesTile::AllergiesTile(QWidget* parent) :
@@ -155,21 +146,22 @@ AllergiesTile::AllergiesTile(QWidget* parent) :
 	setFixedSize(351, 121);
 }
 
-void AllergiesTile::refreshMeasurment()
+
+void AllergiesTile::setData(const Patient& patient)
 {
-	if (!patient->allergies.size())
+	if (!patient.allergies.size())
 		allergies = noInfo;
 	else
-		allergies = elide(QString::fromStdString(patient->allergies), 50);
+		allergies = elide(QString::fromStdString(patient.allergies), 50);
 
-	if (!patient->currentDiseases.size())
+	if (!patient.currentDiseases.size())
 		currentDiseases = noInfo;
-	else currentDiseases = elide(QString::fromStdString(patient->currentDiseases), 50);
+	else currentDiseases = elide(QString::fromStdString(patient.currentDiseases), 50);
 
-	if (!patient->pastDiseases.size())
+	if (!patient.pastDiseases.size())
 		pastDiseases = noInfo;
 	else
-	pastDiseases = elide(QString::fromStdString(patient->pastDiseases), 50);
+		pastDiseases = elide(QString::fromStdString(patient.pastDiseases), 50);
 }
 
 void AllergiesTile::paintInfo(QPainter* painter)

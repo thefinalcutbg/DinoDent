@@ -1,5 +1,5 @@
 ﻿#include "ObturationPresenter.h"
-#include "View/ErrorMessage.h"
+#include "View/ModalDialogBuilder.h"
 #include "Model/Tooth/ToothUtils.h"
 
 ObturationPresenter::ObturationPresenter(const std::vector<Tooth*>& selectedTeeth) :
@@ -44,7 +44,7 @@ bool ObturationPresenter::isValid()
 
     if (!view->surfaceSelector()->isValid())
     {
-        return questionDialog("Резултатът от манипулацията няма да бъде приложен към статуса, "
+        return ModalDialogBuilder::askDialog(u8"Резултатът от манипулацията няма да бъде приложен към статуса, "
             "тъй като не сте избрали повърхност. Желаете ли да продължите въпреки това?");
     }
 

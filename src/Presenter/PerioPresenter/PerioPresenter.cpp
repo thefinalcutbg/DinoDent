@@ -172,6 +172,11 @@ void PerioPresenter::FMPSChanged(int index, bool value)
 
 }
 
+void PerioPresenter::teethViewChanged(ShowTeeth t)
+{
+    m_teethShow = t;
+}
+
 void PerioPresenter::furcationChanged(int index, int a, int b, int c)
 {
     int idx = index * 3;
@@ -279,6 +284,8 @@ void PerioPresenter::setCurrent()
     );
 
     view->setPatient(*patient.get(), m_perioStatus.date);
+
+    view->setTeethView(m_teethShow);
 
     setScrollPosition();
 

@@ -17,6 +17,8 @@ class PerioPresenter : public TabInstance
 	ToothContainer m_toothStatus;
 	PerioStatus m_perioStatus;
 
+	ShowTeeth m_teethShow{ false };
+
 	void refreshMeasurment(int index);
 
 	int getRecession(int surfaceIndex);
@@ -33,7 +35,7 @@ public:
 	void attachChanged(int index, int value);
 	void FMBSChanged(int index, bool value);
 	void FMPSChanged(int index, bool value);
-
+	void teethViewChanged(ShowTeeth t);
 	void furcationChanged(int index, int a, int b, int c);
 
 	void smokeClicked(int value);

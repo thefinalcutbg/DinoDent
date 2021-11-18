@@ -63,7 +63,7 @@ void SurfacePanel::setLabels(std::array<std::string, 6> surfaceNames)
 		labels[i] = QString::fromStdString(surfaceNames[i]);
 	}
 
-	ui.sideLabel->setText(labels[5] + ":");
+	ui.sideBox->setTitle(labels[5]);
 }
 
 void SurfacePanel::setStatuses(std::array<std::string, 6> StatusNames)

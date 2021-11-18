@@ -7,6 +7,7 @@ class PerioToothData;
 class PerioStatistic;
 class Patient;
 
+enum class ShowTeeth {ShowUpperTeeth, ShowLowerTeeth};
 
 class IPerioView
 {
@@ -18,7 +19,7 @@ public:
 	virtual void setPerioStatistic(const PerioStatistic& stat) = 0;
 	virtual void setMeasurment(int index, int pd, int cal, int gm, int recession) = 0;
 	virtual void setAdditional(int smoker, int boneLoss, bool systemic, bool restore) = 0;
-
+	virtual void setTeethView(ShowTeeth t) = 0;
 	virtual void disableTooth(int index) = 0;
     virtual void setToothData(const PerioToothData& data) = 0;
 };

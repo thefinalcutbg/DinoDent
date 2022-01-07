@@ -4,7 +4,7 @@
 #include <utility>
 #include <functional>
 
-#include <QDebug>
+
 
 inline double getPercent(int sum, int total) { return total ? (static_cast<double>(sum) / total) * 100 : 0; }
 
@@ -51,7 +51,7 @@ public:
 };
 
 template<typename T>
-double calculatePercent(PerioIterator<T>& data, bool countExisting = true)
+double calculatePercent(PerioIterator<T> data, bool countExisting = true)
 {
 	int total = 0;
 	int sum = 0;
@@ -67,7 +67,7 @@ double calculatePercent(PerioIterator<T>& data, bool countExisting = true)
 	return getPercent(sum, total);
 }
 
-double calculateAvg(PerioIterator<int>& data)
+double calculateAvg(PerioIterator<int> data)
 {
 	double sum = 0;
 	int total = 0;
@@ -81,7 +81,7 @@ double calculateAvg(PerioIterator<int>& data)
 	return sum ? sum / total : 0;
 }
 
-int calculateMax(PerioIterator<int>& data)
+int calculateMax(PerioIterator<int> data)
 {
 	int max{ 0 };
 
@@ -96,8 +96,8 @@ typedef std::function<bool(int)> ConditionLambda;
 
 template <size_t histoCount>
 std::array<int, histoCount> getHistogram(
-	PerioIterator<int>& data,
-	std::array<ConditionLambda, histoCount>& lambdas
+	PerioIterator<int> data,
+	const std::array<ConditionLambda, histoCount>& lambdas
 	)
 {
 	std::array<int, histoCount> result{ 0 };
@@ -223,11 +223,11 @@ RiskGrade getRisk(const std::array<int, 6>& riskHexagon)
 
 PerioStatistic::PerioStatistic(const PerioStatus& status, int age) :
 
-	HI{ calculatePercent(PerioIterator{status.FMPS, 128 ,status.disabled}, false) },
+	HI{ calculatePercent(PerioIterator{status.FMPS, 128, status.disabled}, false) },
 	BI{ calculatePercent(PerioIterator{status.FMBS, 128, status.disabled}) },
 	BOP{ calculatePercent(PerioIterator{status.bop, 192, status.disabled}) },
-	calAverage(calculateAvg(PerioIterator{ status.cal, 192,status.disabled })),
-	calDistribution{ calculatePercent(PerioIterator{status.cal, 192, status.disabled}) },
+	calAverage(calculateAvg(PerioIterator{status.cal, 192,status.disabled })),
+	calDistribution{ calculatePercent(PerioIterator{&status.cal, 192, status.disabled}) },
 	pdAverage{ calculateAvg(PerioIterator{ status.pd, 192, status.disabled }) },
 
 	pdHistogramCount{ 

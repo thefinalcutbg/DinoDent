@@ -5,7 +5,7 @@ User UserManager::m_currentUser;
 
 void UserManager::initialize()
 {
-    m_currentUser = User{ u8"Христо", u8"Константинов", "220008771", 64, u8"София, общ. Столична, обл. София-град" };
+    m_currentUser = User{ u8"д-р Христо Константинов", "220008771", "МДЦ-МЕДИВА", "2219133001", 64, u8"София, общ. Столична, обл. София-град" };
     m_instance.m_users.push_back(m_currentUser);
 }
 
@@ -39,11 +39,7 @@ std::string UserManager::getUserTitle(const std::string& LPK) const
     {
         if (u.LPK != LPK) continue;
 
-        std::string name = u8"д-р ";
-        name += u.fName;
-        name += " ";
-        name += u.lName;
-        return name;
+        return m_currentUser.name;
     }
 
     return LPK;

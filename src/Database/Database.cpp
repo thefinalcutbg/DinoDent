@@ -78,19 +78,17 @@ Database::Database() : err(nullptr), db(nullptr), stmt(nullptr)
         "month           INT             NOT NULL,"
         "day             INT             NOT NULL,"
         "data            VARCHAR         NOT NULL," //json
-       // "PRIMARY KEY    (day, month, year, patient_id), " - nope
+     // "PRIMARY KEY    (day, month, year, patient_id), " - nope
         "FOREIGN KEY    (patient_id)     REFERENCES patient(id) ON DELETE CASCADE ON UPDATE CASCADE"
         ")"
         , NULL, NULL, &err);
 
     rc = sqlite3_exec(
         db,
-        "CREATE TABLE IF NOT EXISTS user("
-        "lpk            INT             NOT NULL,"
-        "user           VARCHAR         NOT NULL,"
+        "CREATE TABLE IF NOT EXISTS doctor("
+        "lpk            VARCHAR         NOT NULL PRIMARY KEY,"
         "pass           VARCHAR         NOT NULL,"
-        "fname          VARCHAR         NOT NULL,"
-        "lname          VARCHAR         NOT NULL,"
+        "name           VARCHAR         NOT NULL,"
         "spec           INT             NOT NULL"
         ")"
         , NULL, NULL, &err);
@@ -98,10 +96,23 @@ Database::Database() : err(nullptr), db(nullptr), stmt(nullptr)
     rc = sqlite3_exec(
         db,
         "CREATE TABLE IF NOT EXISTS practice("
-        "bulstat        INT             NOT NULL,"
+        "rziCode        VARCHAR         NOT NULL PRIMARY KEY,"
+        "bulstat        VARCHAR         NOT NULL,"
         "name           VARCHAR         NOT NULL,"
-        "rczCode        VARCHAR         NOT NULL,"
-        "contract       VARCHAR         NOT NULL"  
+        "pass           VARCHAR         NOT NULL,"
+        "contract       VARCHAR,         "
+        "contractDate   VARCHAR          "
+        ")"
+        , NULL, NULL, &err);
+
+    rc = sqlite3_exec(
+        db,
+        "CREATE TABLE IF NOT EXISTS practicedoctor("
+        "id             INTEGER         NOT NULL PRIMARY KEY, "
+        "rziCode        VARCHAR         NOT NULL, "
+        "lpk            VARCHAR         NOT NULL, "
+        "FOREIGN KEY(rziCode) REFERENCES practice(rziCode) ON DELETE CASCADE ON UPDATE CASCADE, "
+        "FOREIGN KEY(lpk) REFERENCES doctor(lpk) ON DELETE CASCADE ON UPDATE CASCADE "
         ")"
         , NULL, NULL, &err);
 

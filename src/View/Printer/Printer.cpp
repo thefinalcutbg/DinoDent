@@ -56,9 +56,11 @@ void Print::ambList(const AmbList& amb, const Patient& patient, const User& user
     report.dataManager()->setReportVariable("healthRegion", QString::fromStdString(health));
     report.dataManager()->setReportVariable("birth", QString::fromStdString(Date::toString(patient.birth)));
 
+    report.dataManager()->setReportVariable("RZICode", QString::fromStdString(user.RZI));
+    qDebug() << QString::fromStdString(user.RZI);
     report.dataManager()->setReportVariable("specialty", user.specialty);
     report.dataManager()->setReportVariable("LPK", QString::fromStdString(user.LPK));
-    report.dataManager()->setReportVariable("doctorName", QString::fromStdString(user.getName()));
+    report.dataManager()->setReportVariable("doctorName", QString::fromStdString(user.name));
 
     std::array<bool, 32> temp;
 
@@ -84,12 +86,10 @@ void Print::ambList(const AmbList& amb, const Patient& patient, const User& user
 
     QApplication::restoreOverrideCursor();
 
-    //report.designReport();
-   // 
     report.setPreviewScaleType(LimeReport::ScaleType::FitWidth);
     report.setPreviewPageBackgroundColor(QColor(Qt::white));
-    report.previewReport(LimeReport::PreviewHint::HidePreviewStatusBar);
-    //report.printReport();
+
+    report.previewReport();
    
 }
 
@@ -103,7 +103,7 @@ void Print::ambList(const User& user)
 
     report.dataManager()->setReportVariable("specialty", user.specialty);
     report.dataManager()->setReportVariable("LPK", QString::fromStdString(user.LPK));
-    report.dataManager()->setReportVariable("doctorName", QString::fromStdString(user.getName()));
+    report.dataManager()->setReportVariable("doctorName", QString::fromStdString(user.name));
 
     ProcedurePrintModel model;
 
@@ -113,6 +113,6 @@ void Print::ambList(const User& user)
 
     report.setPreviewScaleType(LimeReport::ScaleType::FitWidth);
     report.setPreviewPageBackgroundColor(QColor(Qt::white));
-    report.printReport();
+    report.designReport();
 
 }

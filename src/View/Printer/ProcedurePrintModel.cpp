@@ -3,7 +3,7 @@
 
 ProcedurePrintModel::ProcedurePrintModel(const std::vector<Procedure>& procedures, const std::array<bool, 32>& tempTeeth)
 {
-    constexpr int maxProcedures = 8;
+    constexpr int maxProcedures = 7;
 
     m_procedures.reserve(maxProcedures);
 

@@ -15,12 +15,16 @@ class Torque : public QMainWindow, public IMainView
 
     MainPresenter presenter;
 
+
+
     void paintEvent(QPaintEvent* event);
     void closeEvent(QCloseEvent* event);
 
 public:
     Torque(QWidget *parent = Q_NULLPTR);
     ITabView* tabView() override;
+
+    bool initialized();
 
 private:
     Ui::TorqueClass ui;

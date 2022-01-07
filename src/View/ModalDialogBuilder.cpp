@@ -50,6 +50,14 @@ void ModalDialogBuilder::openDialog(DetailedStatusPresenter* p)
 
 }
 
+#include "View/LoginView/LoginView.h"
+
+void ModalDialogBuilder::openDialog(LoginPresenter* p)
+{
+	LoginView d(p);
+	d.exec();
+}
+
 #include "View/saveAsDialog/SaveAsDialog.h"
 
 int ModalDialogBuilder::openSaveAsDialog(int newNum, std::map<int, bool> existingNumbers)

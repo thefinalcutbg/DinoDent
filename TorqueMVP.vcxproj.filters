@@ -399,6 +399,15 @@
     <ClCompile Include="src\Model\Parser\Parser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\LoginView\LoginView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Presenter\LoginPresenter\LoginPresenter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Database\DbLogin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -551,6 +560,9 @@
     <QtMoc Include="src\View\PerioView\StatisticTableModel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\View\LoginView\LoginView.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="src\View\Torque.qrc">
@@ -631,6 +643,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\PerioView\Widgets\PerioStatusView.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\LoginView\LoginView.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
@@ -984,6 +999,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\Parser\Parser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\View\LoginView\ILoginView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Presenter\LoginPresenter\LoginPresenter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Database\DbLogin.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -52,7 +52,7 @@ public:
 		auto user = m_manager.getUser(LPK);
 
 		DentistData data;
-		data.dentistName = LPK.empty() ? m_manager.currentUser().getName() : m_manager.getUserTitle(LPK);
+		data.dentistName = LPK.empty() ? m_manager.currentUser().name : m_manager.getUserTitle(LPK);
 		data.isChecked = (!LPK.empty());
 		data.isEnabled = (LPK.empty() || m_manager.isCurrentUser(LPK));
 

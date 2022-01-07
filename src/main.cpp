@@ -33,6 +33,10 @@ int main(int argc, char *argv[])
     CustomProcedures::instance().loadCustomProcedures(); //parsing json of custom procedures
 
     Torque w;
+
+    if (w.m_initialized == false)
+        return 0;
+
     w.show();
     
     return a.exec();

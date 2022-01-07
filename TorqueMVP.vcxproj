@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{34A42083-A189-45CF-9CF0-DBDD3134788E}</ProjectGuid>
     <Keyword>QtVS_v303</Keyword>
-    <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">10.0.18362.0</WindowsTargetPlatformVersion>
-    <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">10.0.18362.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">10.0.19041.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">10.0.19041.0</WindowsTargetPlatformVersion>
     <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Debug|Win32'">10.0.18362.0</WindowsTargetPlatformVersion>
     <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Release|Win32'">10.0.18362.0</WindowsTargetPlatformVersion>
     <QtMsBuild Condition="'$(QtMsBuild)'=='' OR !Exists('$(QtMsBuild)\qt.targets')">$(MSBuildProjectDirectory)\QtMsBuild</QtMsBuild>
@@ -35,7 +35,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -117,7 +117,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);src/;Dependencies/LimeReport/include;.\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);src/;Dependencies/LimeReport/include;.\;c:\Dev\Qt\5.15.1\msvc2019_64\include</AdditionalIncludeDirectories>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
@@ -202,6 +202,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Database\DbLogin.cpp" />
+    <ClCompile Include="src\Presenter\LoginPresenter\LoginPresenter.cpp" />
+    <ClCompile Include="src\View\LoginView\LoginView.cpp" />
     <ClCompile Include="src\Model\Parser\Parser.cpp" />
     <ClCompile Include="src\View\PerioView\PerioGraphics\HexagonGraphicsItem.cpp" />
     <ClCompile Include="src\View\PerioView\Widgets\PerioTable.cpp" />
@@ -339,6 +342,7 @@
     <ClCompile Include="src\Presenter\DetailsPresenter\StatusController.cpp" />
     <ClCompile Include="src\Model\User\UserManager.cpp" />
     <QtRcc Include="src\View\Torque.qrc" />
+    <QtUic Include="src\View\LoginView\LoginView.ui" />
     <QtUic Include="src\View\PerioView\Widgets\PerioStatusView.ui" />
     <QtUic Include="src\View\PerioView\PerioView.ui" />
     <QtUic Include="src\View\uiComponents\qt_derived\Widgets\DentistMadeWidget.ui" />
@@ -399,7 +403,11 @@
     <QtMoc Include="src\View\PerioView\Widgets\FurcationWidget.h" />
     <QtMoc Include="src\View\PerioView\Widgets\PerioStatusView.h" />
     <QtMoc Include="src\View\PerioView\Widgets\PerioTable.h" />
+    <QtMoc Include="src\View\LoginView\LoginView.h" />
+    <ClInclude Include="src\Database\DbLogin.h" />
+    <ClInclude Include="src\Presenter\LoginPresenter\LoginPresenter.h" />
     <ClInclude Include="src\Model\Parser\Parser.h" />
+    <ClInclude Include="src\View\LoginView\ILoginView.h" />
     <ClInclude Include="src\View\PerioView\PerioGraphics\HexagonGraphicsItem.h" />
     <ClInclude Include="src\Model\PerioStatistic.h" />
     <ClInclude Include="src\Model\PerioToothData.h" />

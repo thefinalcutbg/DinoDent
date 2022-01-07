@@ -1,5 +1,6 @@
 #include "Torque.h"
 
+
 QColor blue(133, 207, 234);
 
 Torque::Torque(QWidget* parent)
@@ -22,6 +23,11 @@ Torque::Torque(QWidget* parent)
 ITabView* Torque::tabView()
 {
     return ui.tabView;
+}
+
+bool Torque::initialized()
+{
+    return m_initialized;
 }
 
 void Torque::paintEvent(QPaintEvent* event)

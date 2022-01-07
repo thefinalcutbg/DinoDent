@@ -17,6 +17,7 @@ public:
 	static void initialize();
 	static inline UserManager& instance() { return m_instance; }
 	static inline const User& currentUser() { return m_currentUser; }
+	static inline void setCurrentUser(const User& user) { m_currentUser = user; }
 	const std::optional<User> getUser(const std::string& LPK) const;
 	const bool isCurrentUser(const std::string& LPK);
 	std::string getUserTitle(const std::string& LPK) const;

@@ -2,7 +2,7 @@
 #include "Model/Procedure/MasterNZOK.h"
 #include "Presenter/PatientDialog/PatientDialogPresenter.h"
 #include "View/Printer/Printer.h"
-
+#include "Presenter/LoginPresenter/LoginPresenter.h"
 
 MainPresenter::MainPresenter() :
     view(nullptr)
@@ -14,9 +14,13 @@ void MainPresenter::setView(IMainView* view)
 
     _tabPresenter.setView(view->tabView());
     listSelector_.setTabPresenter(&_tabPresenter);
+
+    LoginPresenter login;
+
+    view->m_initialized = login.tryLogin();
     
 }
-#
+
 void MainPresenter::printPressed()
 {
     auto tab = _tabPresenter.currentTab();

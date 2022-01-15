@@ -47,6 +47,8 @@ void LoginView::setPracticeNames(const std::vector<std::string>& practiceList)
 
 	for (auto& entity : practiceList)
 		ui.practiceCombo->addItem(QString::fromStdString(entity));
+		
+
 }
 
 void LoginView::closeLogin()

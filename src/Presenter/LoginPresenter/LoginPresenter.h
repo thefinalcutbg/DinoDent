@@ -15,7 +15,7 @@ class LoginPresenter
 	bool loginSuccessful{ false };
 public:
 
-	bool tryLogin();
+	bool successful();
 	void setView(ILoginView* view);
 	void okPressed(const std::string& lpk, const  std::string& pass, int practiceIdx);
 	

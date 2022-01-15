@@ -210,7 +210,7 @@ inline QPixmap getToothPixmap(const ToothPaintHint& tooth)
         }
         else
         {
-            painter.drawPixmap(coords.implantPaint, *texturePack.lesionImplant);
+            painter.drawPixmap(coords.implantPos, *texturePack.lesionImplant);
         }
     }
 
@@ -225,7 +225,7 @@ inline QPixmap getToothPixmap(const ToothPaintHint& tooth)
         else
         {
 
-            painter.drawPixmap(coords.implantPaint, *texturePack.perioImplant);
+            painter.drawPixmap(coords.implantPos, *texturePack.perioImplant);
         }
     }
 
@@ -256,13 +256,13 @@ inline QPixmap getToothPixmap(const ToothPaintHint& tooth)
         break;
 
     case ToothTextureHint::impl_m:
-        painter.drawPixmap(coords.implantPaint, *texturePack.implant);
+        painter.drawPixmap(coords.implantPos, *texturePack.implant);
         painter.setOpacity(0.2);
-        painter.drawPixmap(coords.implantPaint, textureFormat(*texturePack.implant, Qt::green, 1));
+        painter.drawPixmap(coords.implantPos, textureFormat(*texturePack.implant, Qt::green, 1));
         painter.setOpacity(1);
         break;
     case ToothTextureHint::impl:
-        painter.drawPixmap(coords.implantPaint, *texturePack.implant);
+        painter.drawPixmap(coords.implantPos, *texturePack.implant);
         break;
     }
 

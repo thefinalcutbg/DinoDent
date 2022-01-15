@@ -19,6 +19,8 @@ AllergiesDialog::AllergiesDialog(AllergiesDialogPresenter* p)
 
     connect(ui.cancelButton, &QPushButton::clicked, this, [=] {close(); });
 
+    ui.okButton->setDefault(true);
+
 }
 
 void AllergiesDialog::setData(const Allergies& allergies)

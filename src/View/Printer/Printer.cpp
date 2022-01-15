@@ -48,6 +48,8 @@ void Print::ambList(const AmbList& amb, const Patient& patient, const User& user
     report.dataManager()->setReportVariable("patientName", QString::fromStdString(patient.fullName()));
     report.dataManager()->setReportVariable("hirbNo", QString::fromStdString(patient.HIRBNo));
     report.dataManager()->setReportVariable("ambNum", leadZeroes(amb.number, 6));
+    
+    
 
     CityCode code;
     auto[RHIF, health] = code.getCodes(patient.city);
@@ -56,11 +58,34 @@ void Print::ambList(const AmbList& amb, const Patient& patient, const User& user
     report.dataManager()->setReportVariable("healthRegion", QString::fromStdString(health));
     report.dataManager()->setReportVariable("birth", QString::fromStdString(Date::toString(patient.birth)));
 
-    report.dataManager()->setReportVariable("RZICode", QString::fromStdString(user.RZI));
-    qDebug() << QString::fromStdString(user.RZI);
+    report.dataManager()->setReportVariable("RZICode", QString::fromStdString(user.rziCode));
     report.dataManager()->setReportVariable("specialty", user.specialty);
     report.dataManager()->setReportVariable("LPK", QString::fromStdString(user.LPK));
-    report.dataManager()->setReportVariable("doctorName", QString::fromStdString(user.name));
+    report.dataManager()->setReportVariable("doctorName", QString::fromStdString(user.doctor_name));
+
+    const char* defaultStatus{ u8"Не съобщатва" };
+
+    report.dataManager()->setReportVariable("allergies",
+        patient.allergies.empty() ?
+        defaultStatus
+        :
+        QString::fromStdString(patient.allergies)
+    );
+
+    report.dataManager()->setReportVariable("currentDiseases",
+                                            patient.currentDiseases.empty() ?
+                                            defaultStatus
+                                            :
+                                            QString::fromStdString(patient.currentDiseases)
+    );
+
+    report.dataManager()->setReportVariable("pastDiseases",
+        patient.pastDiseases.empty() ?
+        defaultStatus
+        :
+        QString::fromStdString(patient.pastDiseases)
+    );
+
 
     std::array<bool, 32> temp;
 
@@ -90,7 +115,6 @@ void Print::ambList(const AmbList& amb, const Patient& patient, const User& user
     report.setPreviewPageBackgroundColor(QColor(Qt::white));
 
     report.previewReport();
-   
 }
 
 void Print::ambList(const User& user)
@@ -103,7 +127,7 @@ void Print::ambList(const User& user)
 
     report.dataManager()->setReportVariable("specialty", user.specialty);
     report.dataManager()->setReportVariable("LPK", QString::fromStdString(user.LPK));
-    report.dataManager()->setReportVariable("doctorName", QString::fromStdString(user.name));
+    report.dataManager()->setReportVariable("doctorName", QString::fromStdString(user.doctor_name));
 
     ProcedurePrintModel model;
 

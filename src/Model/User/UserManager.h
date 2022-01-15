@@ -1,12 +1,14 @@
 #pragma once
 
 #include <vector>
-#include <optional>
+#include <string>
+#include <unordered_map>
 #include "User.h"
+
 
 class UserManager
 {
-	std::vector<User> m_users;
+	static inline std::unordered_map<std::string, std::string> m_names;
 
 	static UserManager m_instance;
 	static User m_currentUser;
@@ -18,9 +20,9 @@ public:
 	static inline UserManager& instance() { return m_instance; }
 	static inline const User& currentUser() { return m_currentUser; }
 	static inline void setCurrentUser(const User& user) { m_currentUser = user; }
-	const std::optional<User> getUser(const std::string& LPK) const;
+	static inline void resetUser() { m_currentUser = User{}; }
 	const bool isCurrentUser(const std::string& LPK);
-	std::string getUserTitle(const std::string& LPK) const;
+	std::string getDoctorName(const std::string& LPK) const;
 	
 };
 

@@ -49,10 +49,9 @@ public:
 	LPK(status.LPK),
 	m_manager(UserManager::instance())
 	{
-		auto user = m_manager.getUser(LPK);
 
 		DentistData data;
-		data.dentistName = LPK.empty() ? m_manager.currentUser().name : m_manager.getUserTitle(LPK);
+		data.dentistName = m_manager.getDoctorName(LPK);
 		data.isChecked = (!LPK.empty());
 		data.isEnabled = (LPK.empty() || m_manager.isCurrentUser(LPK));
 

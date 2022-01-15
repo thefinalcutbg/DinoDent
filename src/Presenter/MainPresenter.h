@@ -24,6 +24,7 @@ public:
 	void showListSelector();
 	bool save();
 	bool saveAs();
+	void logOut();
 	
 
 	//returns false when user selects cancel, otherwise returns true

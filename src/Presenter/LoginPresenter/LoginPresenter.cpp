@@ -2,10 +2,16 @@
 #include "View/ModalDialogBuilder.h"
 #include "Database/DbLogin.h"
 
+#include "Model/User/UserManager.h"
 
-bool LoginPresenter::tryLogin()
+bool LoginPresenter::successful()
 {
+    UserManager::resetUser();
+    practiceList = db.practiceList();
+
     ModalDialogBuilder::openDialog(this);
+    
+    //okPressed("220008771", "198312", 0); //fast login
 
     return loginSuccessful;
 }
@@ -14,33 +20,39 @@ void LoginPresenter::setView(ILoginView* view)
 {
     this->view = view;
 
-    practiceList = db.practiceList();
-
     std::vector<std::string> practiceNames;
 
     for (auto& p : practiceList)
-        practiceNames.push_back(p.name);
+        practiceNames.push_back(p.practice_name);
 
     view->setPracticeNames(practiceNames);
-    
+       
 }
 
-#include "Model/User/UserManager.h"
 
 void LoginPresenter::okPressed(const std::string& lpk, const std::string& pass, int practiceIdx)
 {
-    auto user = db.getUser(lpk, pass, practiceList[practiceIdx].rziCode);
+    auto result = db.getDoctor(lpk, pass, practiceList[practiceIdx].rziCode);
     
-    if (!user.has_value())
+    if (!result.has_value())
     {
         ModalDialogBuilder::showError("Грешно потребителско име или парола");
         return;
     }
 
-    UserManager::setCurrentUser(user.value());
+    User user;
+
+    Doctor& doctor = user;
+    Practice& practice = user;
+    
+    practice = practiceList[practiceIdx];
+    doctor = result.value();
+
+    UserManager::setCurrentUser(user);
 
     loginSuccessful = true;
 
-    view->closeLogin();
+    if(view)
+        view->closeLogin();
 
 }

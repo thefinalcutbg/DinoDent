@@ -3,6 +3,7 @@
 #include "Presenter/PatientDialog/PatientDialogPresenter.h"
 #include "View/Printer/Printer.h"
 #include "Presenter/LoginPresenter/LoginPresenter.h"
+#include "Model/User/UserManager.h"
 
 MainPresenter::MainPresenter() :
     view(nullptr)
@@ -17,7 +18,9 @@ void MainPresenter::setView(IMainView* view)
 
     LoginPresenter login;
 
-    view->m_initialized = login.tryLogin();
+    view->m_initialized = login.successful();
+    view->setDoctor(UserManager::currentUser().doctor_name);
+    
     
 }
 
@@ -68,6 +71,18 @@ bool MainPresenter::saveAs()
         return _tabPresenter.currentTab()->saveAs();
 
     return true;
+}
+
+void MainPresenter::logOut()
+{
+    if (!closeAllTabs()) return;
+
+    view->setDoctor("");
+
+    LoginPresenter login;
+
+    if(!login.successful());
+    view->exitProgram();
 }
 
 

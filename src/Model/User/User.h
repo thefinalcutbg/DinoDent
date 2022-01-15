@@ -2,30 +2,24 @@
 #include <string>
 #include "Model/Date.h"
 
+struct Doctor
+{
+	std::string LPK;
+	std::string pass;
+	std::string doctor_name;
+	int specialty{ -1 };
+};
+
+
 struct Practice
 {
 	std::string rziCode;
-	std::string name;
+	std::string practice_name;
 	std::string bulstat;
 	std::string contract;
 	Date contractDate;
-};
-
-struct User
-{
-//	std::string username;
-//std::string password;
-
-	std::string name;
-
-	std::string LPK;
-	std::string practiceName;
-	std::string RZI;
-
-	int specialty{ -1 };
-
 	std::string practice_address;
-
-
 };
+
+struct User : public Doctor, public Practice {};
 

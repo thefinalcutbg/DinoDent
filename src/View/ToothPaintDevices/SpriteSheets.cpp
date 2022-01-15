@@ -94,8 +94,8 @@ void SpriteSheets::initialize()
 
 	QPixmap commonTexture("toothimage/common.png");
 	implant = new QPixmap(commonTexture.copy(QRect(0, 0, 120, 860)));
-	lesionImplant = new QPixmap(commonTexture.copy(QRect(120, 0, 240, 860)));
-	perioImplant = new QPixmap(commonTexture.copy(QRect(240, 0, 360, 860)));
+	lesionImplant = new QPixmap(commonTexture.copy(QRect(120, 0, 120, 860)));
+	perioImplant = new QPixmap(commonTexture.copy(QRect(240, 0, 120, 860)));
 
 	int xPos = 0;
 

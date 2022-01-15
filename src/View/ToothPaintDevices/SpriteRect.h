@@ -26,7 +26,8 @@ struct SpritesheetCoords
     QRect implantPerioCrop;
 
     QRect implantCrop;
-    QRect implantPaint;
+
+    QPoint implantPos;
 
     QPoint surfPos[6];  //positions for painting of the surfaces on the canavas
 

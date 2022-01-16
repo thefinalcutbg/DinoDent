@@ -28,7 +28,7 @@ void MainPresenter::printPressed()
 {
     auto tab = _tabPresenter.currentTab();
 
-    if (tab != nullptr)
+     if (tab != nullptr)
         tab->print();
 }
 

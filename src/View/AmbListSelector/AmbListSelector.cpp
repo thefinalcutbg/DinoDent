@@ -2,6 +2,8 @@
 #include "Presenter/ListSelector/ListSelectorPresenter.h"
 #include <QMessageBox>
 #include <QDebug>
+#include  <QRegularExpression>
+
 AmbListSelector::AmbListSelector(ListSelectorPresenter* presenter) :
 	p(presenter)
 {
@@ -30,13 +32,13 @@ AmbListSelector::AmbListSelector(ListSelectorPresenter* presenter) :
 	connect(ui.idSearchEdit, &QLineEdit::textChanged, [=]
 		{
 			QString text = ui.idSearchEdit->text();
-			idFilter.setFilterRegExp(QRegExp(text, Qt::CaseInsensitive, QRegExp::FixedString));
+			idFilter.setFilterRegularExpression(QRegularExpression(text, QRegularExpression::PatternOption::CaseInsensitiveOption));
 		});
 
 	connect(ui.nameSearchEdit, &QLineEdit::textChanged, [=]
 		{
 			QString text = ui.nameSearchEdit->text();
-			nameFilter.setFilterRegExp(QRegExp(text, Qt::CaseInsensitive, QRegExp::FixedString));
+			nameFilter.setFilterRegularExpression(QRegularExpression(text, QRegularExpression::PatternOption::CaseInsensitiveOption));
 		});
 
 	connect(ui.tableView->selectionModel(), &QItemSelectionModel::selectionChanged, this, [=] {

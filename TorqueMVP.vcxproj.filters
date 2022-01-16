@@ -285,12 +285,6 @@
     <ClCompile Include="src\JsonCpp\jsoncpp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\Printer\Printer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\View\Printer\ProcedurePrintModel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Model\Tooth\ToothContainer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -406,6 +400,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Database\DbLogin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\Printer\Printer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\Printer\ProcedurePrintModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -911,12 +911,6 @@
     <ClInclude Include="src\JsonCpp\json-forwards.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\View\Printer\Printer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\View\Printer\ProcedurePrintModel.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Model\Tooth\ToothContainer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1008,6 +1002,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Database\DbLogin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\View\Printer\Printer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\View\Printer\ProcedurePrintModel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

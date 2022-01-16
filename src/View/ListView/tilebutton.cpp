@@ -57,9 +57,8 @@ QString TileButton::elide(const QString& text, int length)
 	if (text.length() < length) 
 		return text;
 	
-	QStringRef elided(&text, 0, length);
 
-	return elided + "...";
+	return text.chopped(text.length() - length) + "...";
 }
 
 
@@ -110,12 +109,12 @@ void PatientTile::setData(const Patient& patient, Date currentDate)
 
 	for (int i = 0; i < city.size(); i++)
 	{
-		if (city[i] == "(")
+		if (city[i] == '(')
 		{
 			address = "с. " + city.mid(0, i);
 			break;
 		}
-		else if (city[i] == ",")
+		else if (city[i] == ',' )
 		{
 			address = "гр. " + city.mid(0, i);
 			break;

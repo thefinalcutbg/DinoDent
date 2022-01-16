@@ -58,11 +58,10 @@ void PerioButton::paintEvent(QPaintEvent* event)
 		if(!icon().isNull())
 			icon().paint(&painter, rect.toRect());
 		
-		int font_px_height = fontMetrics().height();
-		int font_px_width = fontMetrics().width(text());
+		auto fontRect = fontMetrics().boundingRect(text());
 
-		int x = (width() - font_px_width) / 2;
-		int y = (height() + font_px_height) / 2;
+		int x = (width() - fontRect.width()) / 2;
+		int y = (height() + fontRect.height()) / 2;
 
 		painter.setPen(palette().color(QPalette::ColorRole::Text));
 		painter.drawText(x, y, text());

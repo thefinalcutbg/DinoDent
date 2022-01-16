@@ -104,7 +104,7 @@ namespace Const{
     QString extractClassName(QString className);
     QString escapeSimbols(const QString& value);
     QString replaceHTMLSymbols(const QString &value);
-    QVector<QString> normalizeCaptures(const QRegExp &reg);
+    QVector<QString> normalizeCaptures(const QRegularExpression &reg);
     bool isColorDark(QColor color);
 
     enum ExpandType {EscapeSymbols, NoEscapeSymbols, ReplaceHTMLSymbols};

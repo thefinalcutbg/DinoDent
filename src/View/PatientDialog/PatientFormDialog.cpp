@@ -9,14 +9,14 @@ PatientFormDialog::PatientFormDialog(PatientDialogPresenter* p, QWidget* parent)
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     setWindowTitle(u8"Нов амбулаторен лист");
 
-    numValidator = new QRegExpValidator(QRegExp(("[0-9]+")), this);
+    numValidator = new QRegularExpressionValidator(QRegularExpression("[0-9]+"), this);
 
-    nameValidator = new QRegExpValidator(QRegExp((u8"[А-Я-а-я-a-z-A-Z- ]+")), this);
+    nameValidator = new QRegularExpressionValidator(QRegularExpression(u8"[А-Я-а-я-a-z-A-Z- ]+"), this);
     ui.fNameEdit->QLineEdit::setValidator(nameValidator);
     ui.mNameEdit->QLineEdit::setValidator(nameValidator);
     ui.lNameEdit->QLineEdit::setValidator(nameValidator);
 
-    phoneValidator = new QRegExpValidator(QRegExp("[0-9-+ a-z A-Z ]+"), this);
+    phoneValidator = new QRegularExpressionValidator(QRegularExpression("[0-9-+ a-z A-Z ]+"), this);
     ui.phoneEdit->QLineEdit::setValidator(phoneValidator);
 
     connect(ui.typeComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),

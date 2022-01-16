@@ -93,7 +93,7 @@ void LineEdit::dynamicWidthChange()
 	};
 
 	QFontMetrics fm(font());
-	int pixelsWide = fm.width(text());
+	int pixelsWide = fm.boundingRect(text()).width();
 	if (pixelsWide > defaultWidth - 6)
 		setFixedWidth(pixelsWide + 9);
 	else setFixedWidth(defaultWidth);

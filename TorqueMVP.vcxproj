@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{34A42083-A189-45CF-9CF0-DBDD3134788E}</ProjectGuid>
-    <Keyword>QtVS_v303</Keyword>
+    <Keyword>QtVS_v304</Keyword>
     <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">10.0.19041.0</WindowsTargetPlatformVersion>
     <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">10.0.19041.0</WindowsTargetPlatformVersion>
     <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Debug|Win32'">10.0.18362.0</WindowsTargetPlatformVersion>
@@ -31,7 +31,7 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -85,9 +85,10 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);src/;Dependencies/LimeReport/include;.\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>GeneratedFiles\$(ConfigurationName);GeneratedFiles;$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);src/;Dependencies/LimeReport/include;.\</AdditionalIncludeDirectories>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)jsoncpp\jsoncpp-src-0.5.0\build\vs71\debug\lib_json;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -96,9 +97,10 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);src/;Dependencies/LimeReport/include;.\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>GeneratedFiles\$(ConfigurationName);GeneratedFiles;$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);src/;Dependencies/LimeReport/include;.\</AdditionalIncludeDirectories>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(Qt_LIBPATH_);%(AdditionalLibraryDirectories);$(SolutionDir)jsoncpp\jsoncpp-src-0.5.0\build\vs71\release\lib_json;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -107,42 +109,45 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);src/;Dependencies/LimeReport/include;.\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>GeneratedFiles\$(ConfigurationName);GeneratedFiles;c:\Dev\Qt\6.2.2\msvc2019_64\include\;$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);src/;Dependencies/LimeReport/include</AdditionalIncludeDirectories>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <AdditionalDependencies>$(Qt_LIBS_);%(AdditionalDependencies);$(ProjectDir)dependencies/LimeReport/$(Platform)/$(Configuration)/lib/limereportd.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>c:/Dev/Torque/dependencies/LimeReport/x64/Debug/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);src/;Dependencies/LimeReport/include;.\;c:\Dev\Qt\5.15.1\msvc2019_64\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>GeneratedFiles\$(ConfigurationName);GeneratedFiles;$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);src/;Dependencies/LimeReport/include;c:/Dev/Qt/6.2.2/msvc2019_64/include</AdditionalIncludeDirectories>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>$(Qt_LIBPATH_);%(AdditionalLibraryDirectories);$(SolutionDir)jsoncpp\jsoncpp-src-0.5.0\build\vs71\release\lib_json;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>c:/Dev/Torque/dependencies/LimeReport/x64/Release;$(Qt_LIBPATH_);%(AdditionalLibraryDirectories);$(SolutionDir)jsoncpp\jsoncpp-src-0.5.0\build\vs71\release\lib_json</AdditionalLibraryDirectories>
       <AdditionalDependencies>$(Qt_LIBS_);%(AdditionalDependencies);$(ProjectDir)dependencies/LimeReport/$(Platform)/$(Configuration)/lib/limereport.lib;</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
-    <QtInstall>msvc2019_64bit</QtInstall>
-    <QtModules>core;gui;widgets;printsupport;qml</QtModules>
+    <QtInstall>6.2.2_msvc2019_64</QtInstall>
+    <QtModules>core;gui;widgets;qml;printsupport;core5compat;openglwidgets;</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
-    <QtInstall>msvc2019_64bit</QtInstall>
-    <QtModules>core;gui;widgets;printsupport;qml</QtModules>
+    <QtInstall>6.2.2_msvc2019_64</QtInstall>
+    <QtModules>core;xml;gui;svg;uitools;widgets;qml;printsupport;core5compat;svg</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|Win32'" Label="QtSettings">
-    <QtInstall>msvc2019_32bit</QtInstall>
+    <QtInstall>6.2.2_msvc2019_64</QtInstall>
     <QtModules>core;gui;widgets;printsupport;qml</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|Win32'" Label="QtSettings">
-    <QtInstall>msvc2019_32bit</QtInstall>
+    <QtInstall>6.2.2_msvc2019_64</QtInstall>
     <QtModules>core;gui;widgets;printsupport;qml</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
   </PropertyGroup>
@@ -156,6 +161,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -169,6 +175,7 @@
       <DebugInformationFormat>None</DebugInformationFormat>
       <Optimization>MaxSpeed</Optimization>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -182,6 +189,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -195,6 +203,7 @@
       <DebugInformationFormat>None</DebugInformationFormat>
       <Optimization>MaxSpeed</Optimization>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -211,6 +220,8 @@
     <ClCompile Include="src\Model\PerioStatistic.cpp" />
     <ClCompile Include="src\Model\PerioToothData.cpp" />
     <ClCompile Include="src\View\PerioView\StatisticTableModel.cpp" />
+    <ClCompile Include="src\View\Printer\Printer.cpp" />
+    <ClCompile Include="src\View\Printer\ProcedurePrintModel.cpp" />
     <ClCompile Include="src\View\ToothPaintDevices\SpriteSheets.cpp" />
     <ClCompile Include="src\View\PerioView\PerioGraphics\PerioGraphicsButton.cpp" />
     <ClCompile Include="src\View\PerioView\Widgets\PerioStatusView.cpp" />
@@ -238,7 +249,6 @@
     <ClCompile Include="src\View\DetailsView\DetailedStatus.cpp" />
     <ClCompile Include="src\Presenter\ListPresenter\CheckState.cpp" />
     <ClCompile Include="src\Model\Procedure\Procedure.cpp" />
-    <ClCompile Include="src\View\Printer\Printer.cpp" />
     <ClCompile Include="src\JsonCpp\jsoncpp.cpp" />
     <ClCompile Include="src\Model\Procedure\PackageCounter.cpp" />
     <ClCompile Include="src\Model\AmbListValidator.cpp" />
@@ -252,7 +262,6 @@
     <ClCompile Include="src\Model\Validator\DateValidator.cpp" />
     <ClCompile Include="src\Model\Validator\NameValidator.cpp" />
     <ClCompile Include="src\Presenter\ProcedureDialog\ProcedureEditorPresenter.cpp" />
-    <ClCompile Include="src\View\Printer\ProcedurePrintModel.cpp" />
     <ClCompile Include="src\View\ProcedureEditDialog\ProcedureEditDialog.cpp" />
     <ClCompile Include="src\View\uiComponents\AbstractDateEdit.cpp" />
     <ClCompile Include="src\View\uiComponents\qt_derived\NameEdit.cpp" />
@@ -414,6 +423,8 @@
     <ClInclude Include="src\Model\Tooth\BridgeAlgorithms.h" />
     <ClInclude Include="src\View\PerioView\ToothUi.h" />
     <QtMoc Include="src\View\PerioView\StatisticTableModel.h" />
+    <ClInclude Include="src\View\Printer\Printer.h" />
+    <ClInclude Include="src\View\Printer\ProcedurePrintModel.h" />
     <ClInclude Include="src\View\ToothPaintDevices\SpriteSheets.h" />
     <ClInclude Include="src\View\PerioView\PerioGraphics\PerioGraphicsButton.h" />
     <ClInclude Include="src\Database\DbPerio.h" />
@@ -450,7 +461,6 @@
     <QtMoc Include="src\View\AmbListSelector\ListsTableModel.h" />
     <QtMoc Include="src\View\AmbListSelector\ListTable.h" />
     <ClInclude Include="src\View\DetailsView\IDetailedStatusView.h" />
-    <ClInclude Include="src\View\Printer\Printer.h" />
     <ClInclude Include="src\JsonCpp\json-forwards.h" />
     <ClInclude Include="src\JsonCpp\json.h" />
     <ClInclude Include="src\Model\Procedure\PackageCounter.h" />
@@ -464,7 +474,6 @@
     <ClInclude Include="src\Presenter\ProcedureDialog\ProcedureEditorPresenter.h" />
     <ClInclude Include="src\View\AmbListSelector\IListSelectorView.h" />
     <ClInclude Include="src\View\GlobalFunctions.h" />
-    <ClInclude Include="src\View\Printer\ProcedurePrintModel.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\PixmapLabel.h" />
     <ClInclude Include="src\View\ToothPaintDevices\ToothPainter.h" />
     <ClInclude Include="src\View\uiComponents\qt_derived\Widgets\IImplantView.h" />

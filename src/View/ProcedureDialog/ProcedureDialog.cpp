@@ -54,7 +54,7 @@ ProcedureDialog::ProcedureDialog(ProcedureDialogPresenter* presenter, QWidget *p
 	connect(ui.searchEdit, &QLineEdit::textChanged, [=]
 		{
 			s_search = ui.searchEdit->text();
-			proxyModel.setFilterRegExp(QRegExp(s_search, Qt::CaseInsensitive, QRegExp::FixedString));
+			proxyModel.setFilterRegularExpression(QRegularExpression(s_search, QRegularExpression::CaseInsensitiveOption));
 			ui.tableView->selectRow(s_idx);
 		});
 

@@ -16,9 +16,9 @@
 class PatientFormDialog : public QDialog, public IPatientDialog
 {
 
-    QRegExpValidator* phoneValidator;
-    QRegExpValidator* numValidator;
-    QRegExpValidator* nameValidator;
+    QRegularExpressionValidator* phoneValidator;
+    QRegularExpressionValidator* numValidator;
+    QRegularExpressionValidator* nameValidator;
 
 
     Ui::PatientFormDialog ui;

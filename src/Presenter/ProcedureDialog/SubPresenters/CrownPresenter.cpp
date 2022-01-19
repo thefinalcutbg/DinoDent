@@ -7,61 +7,79 @@ CrownPresenter::CrownPresenter(
     const ToothContainer& teeth
 ) 
     :
-	TeethMPresenter(selectedTeeth),
-    teeth(&teeth),
+    teeth(teeth),
+	selectedTeeth(selectedTeeth),
 	view(nullptr),
-	bridge(false),
-	bridgePrice(0)
+	m_bridgeSelected(false),
+	m_bridgePrice(0)
 {
 
 	if (selectedTeeth.size() == 1)
 	{
-		diagnosis = autoDiagnosis(*this->selectedTeeth->at(0));
+		m_diagnosis = getDiagnosis(*selectedTeeth.front());
 	}
-	
 }
 
-void CrownPresenter::setManipulationTemplate(const ProcedureTemplate& m)
+void CrownPresenter::setProcedureTemplate(const ProcedureTemplate& m)
 {
 
-	common_view->set_hidden(noTeethSelected);
-	view->set_hidden(noTeethSelected);
-	if (noTeethSelected) return;
-
-	GeneralMPresenter::setManipulationTemplate(m);
+	AbstractSubPresenter::setProcedureTemplate(m);
 
 	auto data = view->getData();
 	data.material = m.material;
 	view->setData(data);
 	
+	
+	if (!m_bridgeSelected) return;
+
 	auto [begin, end] = view->rangeWidget()->getRange();
 	int length = end - begin + 1;
-	bridgePrice = m_template.price * length;
+	m_bridgePrice = m_template.price * length;
 
 	if (!range_validator.validateInput(begin, end))
-		bridgePrice = 0;
+		m_bridgePrice = 0;
 
-	if (bridge)
-		rangeWidgetChecked(true); //magic!
+	selectAsBridge(true);
 
 }
 
 std::vector<Procedure> CrownPresenter::getProcedures()
 {
-	if(!bridge) return TeethMPresenter::getProcedures();
+	std::vector<Procedure> procedures;
+
+	if (!m_bridgeSelected)
+	{
+		procedures.reserve(selectedTeeth.size());
+
+		for (auto& tooth : selectedTeeth) {
+			procedures.push_back(AbstractSubPresenter::getProcedureCommonFields());
+			procedures.back().result = view->getData();
+			procedures.back().tooth = tooth->index;
+			procedures.back().temp = tooth->temporary.exists();
+		}
+
+		return procedures;
+	}
+
 	
-	auto manipulation = GeneralMPresenter::getProcedures();
-	manipulation[0].type = ProcedureType::bridge;
-	return manipulation;
-	
-					
+	auto procedure = AbstractSubPresenter::getProcedureCommonFields();
+	procedure.type = ProcedureType::bridge;
+
+	auto [begin, end] = view->rangeWidget()->getRange();
+	auto data = view->getData();
+
+	procedure.result = ProcedureBridgeData{
+		begin, end, data
+	};
+
+	return {procedure};
 }
 
 bool CrownPresenter::isValid()
 {
-	if (!TeethMPresenter::isValid()) return false;
+	if (!selectedTeeth.size()) return false;
 
-	if (bridge)
+	if (m_bridgeSelected)
 	{
 		auto rW = view->rangeWidget();
 		
@@ -80,67 +98,62 @@ bool CrownPresenter::isValid()
 void CrownPresenter::setView(ICrownView* view)
 {
 	this->view = view;
-	auto [begin, end] = getInitialBridgeRange(*selectedTeeth);
+	auto [begin, end] = getInitialBridgeRange(selectedTeeth);
 
 	view->rangeWidget()->setBridgeRange(begin, end);
-	bridgeDiagnosis = getBridgeDiagnosis(begin, end, *teeth);
-	bridgeRangeName = getBridgeRangeName(begin, end, *teeth);
+	m_bridgeDiagnosis = getBridgeDiagnosis(begin, end, teeth);
+	m_bridgeRangeString = getBridgeRangeName(begin, end, teeth);
 
 
 	view->rangeWidget()->setInputValidator(&range_validator);
 
-}
-
-Result CrownPresenter::getResult()
-{
-
-
-	if (bridge)
-	{
-		auto [begin, end] = view->rangeWidget()->getRange();
-		auto crown = view->getData();
-		return ProcedureBridgeData { begin, end, crown };
+	if (selectedTeeth.empty()) //only bridge can be generated
+	{	
+		view->lockBridgeCheckbox();
+		m_bridgeSelected = true;
 	}
+		
 
-	return view->getData();
 }
+
 
 void CrownPresenter::rangeChanged(int begin, int end)
 {
-	bridgeDiagnosis = getBridgeDiagnosis(begin, end, *teeth);
-	bridgeRangeName = getBridgeRangeName(begin, end, *teeth);
+	m_bridgeDiagnosis = getBridgeDiagnosis(begin, end, teeth);
+	m_bridgeRangeString = getBridgeRangeName(begin, end, teeth);
 
 	int length = end - begin + 1;
-	bridgePrice = m_template.price * length;
+	m_bridgePrice = m_template.price * length;
 
-	common_view->diagnosisEdit()->set_Text(bridgeDiagnosis);
-	common_view->manipulationEdit()->set_Text(m_template.name + bridgeRangeName);
-	common_view->priceEdit()->set_Value(bridgePrice);
+	common_view->diagnosisEdit()->set_Text(m_bridgeDiagnosis);
+	common_view->manipulationEdit()->set_Text(m_template.name + m_bridgeRangeString);
+	common_view->priceEdit()->set_Value(m_bridgePrice);
 }
 
 
 
 
 
-void CrownPresenter::rangeWidgetChecked(bool checked)
+void CrownPresenter::selectAsBridge(bool checked)
 {
 	if(checked)
 	{
-		bridge = true;
-		common_view->diagnosisEdit()->set_Text(bridgeDiagnosis);
-		common_view->manipulationEdit()->set_Text(m_template.name + bridgeRangeName);
-		common_view->priceEdit()->set_Value(bridgePrice);
+		m_bridgeSelected = true;
+		common_view->diagnosisEdit()->set_Text(m_bridgeDiagnosis);
+		common_view->manipulationEdit()->set_Text(m_template.name + m_bridgeRangeString);
+		common_view->priceEdit()->set_Value(m_bridgePrice);
 
 		return;
 	}
 
-	bridge = false;
-	common_view->diagnosisEdit()->set_Text(diagnosis);
+	m_bridgeSelected = false;
+	common_view->diagnosisEdit()->set_Text(m_diagnosis);
 	common_view->manipulationEdit()->set_Text(m_template.name);
 	common_view->priceEdit()->set_Value(m_template.price);
+
 }
 
-std::string CrownPresenter::autoDiagnosis(const Tooth& tooth)
+std::string CrownPresenter::getDiagnosis(const Tooth& tooth)
 {
 	std::array<bool, 4> existing
 	{

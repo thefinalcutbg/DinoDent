@@ -17,7 +17,7 @@ ProcedureDialogPresenter::ProcedureDialogPresenter
 	int specialty
 )
 	:
-	manipulations{},
+	procedures{},
 
 	view(nullptr),
 	common_fields(nullptr),
@@ -29,28 +29,32 @@ ProcedureDialogPresenter::ProcedureDialogPresenter
 
 	_errorState(true),
 
-	any_teeth_presenter(this->selectedTeeth),
+	toothNonSpecific_presenter(this->selectedTeeth),
 	obt_presenter(this->selectedTeeth),
 	extr_presenter(this->selectedTeeth),
 	endo_presenter(this->selectedTeeth),
 	crown_presenter(this->selectedTeeth, teeth),
 	impl_presenter(this->selectedTeeth),
+	fiber_presenter(this->selectedTeeth, teeth),
+	crownRemove_presenter(this->selectedTeeth),
 
 	presenters_ptr
 	{
 		&general_presenter,
-		&any_teeth_presenter,
+		&toothNonSpecific_presenter,
 		&obt_presenter,
 		&extr_presenter,
 		&endo_presenter,
 		&crown_presenter,
-		&impl_presenter
+		&impl_presenter,
+		&fiber_presenter,
+		&crownRemove_presenter
 	}
 {
 
 
 	//getting NZOK procedures:
-	manipulationList = MasterNZOK::instance().getM_Templates 
+	procedureList = MasterNZOK::instance().getM_Templates
 	(
 		ambListDate,
 		specialty,
@@ -61,7 +65,7 @@ ProcedureDialogPresenter::ProcedureDialogPresenter
 	//getting custom procedures:
 	auto customProcedures = CustomProcedures::instance().getCustomProcedures();
 
-	manipulationList.insert(manipulationList.end(), customProcedures.begin(), customProcedures.end());
+	procedureList.insert(procedureList.end(), customProcedures.begin(), customProcedures.end());
 }
 
 
@@ -71,13 +75,14 @@ void ProcedureDialogPresenter::setView(IProcedureDialog* view)
 	view->setObturationPresenter(&obt_presenter);
 	view->setCrownPresenter(&crown_presenter);
 	view->setImplantPresenter(&impl_presenter);
+	view->setFiberSplintPresenter(&fiber_presenter);
 
 	for (auto p : presenters_ptr)
 	{
 		p->setCommonFieldsView(view->commonFields());
 	}
 
-	view->loadManipulationList(manipulationList);
+	view->loadManipulationList(procedureList);
 
 	view->commonFields()->dateEdit()->setInputValidator(&date_validator);
 
@@ -112,22 +117,22 @@ void ProcedureDialogPresenter::indexChanged(int index)
 		return;
 	}
 
-	auto& mt = manipulationList[currentIndex];
+	auto& procedureTemplate = procedureList[currentIndex];
 
-	if (mt.type != ProcedureType::general && !selectedTeeth.size())
+	if (procedureTemplate.type != ProcedureType::general && !selectedTeeth.size())
 	{
-		view->showErrorMessage("Изберете поне един зъб!");
+		view->showErrorMessage(u8"Изберете поне един зъб!");
 		return;
 	}
 
 	_errorState = false;
 
-	view->setView(mt.type);
+	view->setView(procedureTemplate.type);
 
-	current_m_presenter = presenters_ptr[static_cast<int>(mt.type)];
-	current_m_presenter->setManipulationTemplate(mt);
+	current_m_presenter = presenters_ptr[static_cast<int>(procedureTemplate.type)];
+	current_m_presenter->setProcedureTemplate(procedureTemplate);
 
-	date_validator.setProcedure(manipulationList[index].code, manipulationList[index].nzok);
+	date_validator.setProcedure(procedureList[index].code, procedureList[index].nzok);
 	view->commonFields()->dateEdit()->validateInput();
 }
 
@@ -136,7 +141,7 @@ void ProcedureDialogPresenter::formAccepted()
 {
 	if (_errorState || !current_m_presenter->isValid()) return;
 
-	manipulations = current_m_presenter->getProcedures();
+	procedures = current_m_presenter->getProcedures();
 
 	view->close();
 }
@@ -144,5 +149,5 @@ void ProcedureDialogPresenter::formAccepted()
 std::vector<Procedure> ProcedureDialogPresenter::openDialog()
 {
 	ModalDialogBuilder::openDialog(this);
-	return manipulations;
+	return procedures;
 }

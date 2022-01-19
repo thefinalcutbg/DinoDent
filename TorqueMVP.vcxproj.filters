@@ -189,10 +189,10 @@
     <ClCompile Include="src\View\ProcedureDialog\CommonFields\CommonFields.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\uiComponents\qt_derived\Widgets\ObturationView.cpp">
+    <ClCompile Include="src\View\ProcedureDialog\ProcedureFields\ObturationView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\uiComponents\qt_derived\Widgets\CrownView.cpp">
+    <ClCompile Include="src\View\ProcedureDialog\ProcedureFields\CrownView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\ObturationPresenter.cpp">
@@ -201,10 +201,7 @@
     <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\CrownPresenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\TeethMPresenter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\GeneralMPresenter.cpp">
+    <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\AbstractSubPresenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\ExtractionPresenter.cpp">
@@ -408,6 +405,15 @@
     <ClCompile Include="src\View\Printer\ProcedurePrintModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\ProcedureDialog\ProcedureFields\FiberSplintView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\FiberSplintPresenter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\ToothProcedurePresenter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -491,10 +497,10 @@
     <QtMoc Include="src\View\ProcedureDialog\CommonFields\CommonFields.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\uiComponents\qt_derived\Widgets\ObturationView.h">
+    <QtMoc Include="src\View\ProcedureDialog\ProcedureFields\ObturationView.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\uiComponents\qt_derived\Widgets\CrownView.h">
+    <QtMoc Include="src\View\ProcedureDialog\ProcedureFields\CrownView.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\uiComponents\qt_derived\Widgets\ImplantView.h">
@@ -563,6 +569,9 @@
     <QtMoc Include="src\View\LoginView\LoginView.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\View\ProcedureDialog\ProcedureFields\FiberSplintView.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="src\View\Torque.qrc">
@@ -606,10 +615,10 @@
     <QtUic Include="src\View\ProcedureDialog\CommonFields\CommonFields.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="src\View\uiComponents\qt_derived\Widgets\ObturationView.ui">
+    <QtUic Include="src\View\ProcedureDialog\ProcedureFields\ObturationView.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="src\View\uiComponents\qt_derived\Widgets\CrownView.ui">
+    <QtUic Include="src\View\ProcedureDialog\ProcedureFields\CrownView.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\uiComponents\qt_derived\Widgets\ImplantView.ui">
@@ -646,6 +655,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\LoginView\LoginView.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\ProcedureDialog\ProcedureFields\FiberSplintView.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
@@ -806,22 +818,19 @@
     <ClInclude Include="src\View\ProcedureDialog\CommonFields\ICommonFields.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\GeneralMPresenter.h">
+    <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\AbstractSubPresenter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\View\uiComponents\qt_derived\Widgets\ICrownView.h">
+    <ClInclude Include="src\View\ProcedureDialog\ProcedureFields\ICrownView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\View\uiComponents\qt_derived\Widgets\IObturationView.h">
+    <ClInclude Include="src\View\ProcedureDialog\ProcedureFields\IObturationView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\ObturationPresenter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\CrownPresenter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\TeethMPresenter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\ExtractionPresenter.h">
@@ -1008,6 +1017,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\Printer\ProcedurePrintModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\View\ProcedureDialog\ProcedureFields\IFiberSplintView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\FiberSplintPresenter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\GeneralProcedurePresenter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\ToothProcedurePresenter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -77,12 +77,13 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>4</number>
    </property>
    <widget class="QWidget" name="empty"/>
    <widget class="ObturationView" name="obturWidget"/>
    <widget class="CrownView" name="crownWidget"/>
    <widget class="ImplantView" name="implantWidget"/>
+   <widget class="FiberSplintView" name="fiberWidget"/>
   </widget>
   <widget class="QLabel" name="errorLabel">
    <property name="geometry">
@@ -112,19 +113,25 @@
   <customwidget>
    <class>CrownView</class>
    <extends>QWidget</extends>
-   <header>View/uiComponents/qt_derived/Widgets/CrownView.h</header>
+   <header>View/ProcedureDialog/ProcedureFields/CrownView.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>ObturationView</class>
    <extends>QWidget</extends>
-   <header>View/uiComponents/qt_derived/Widgets/ObturationView.h</header>
+   <header>View/ProcedureDialog/ProcedureFields/ObturationView.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>ImplantView</class>
    <extends>QWidget</extends>
    <header>View/uiComponents/qt_derived/Widgets/ImplantView.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>FiberSplintView</class>
+   <extends>QWidget</extends>
+   <header>View/ProcedureDialog/ProcedureFields/FiberSplintView.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

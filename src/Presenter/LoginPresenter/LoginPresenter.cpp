@@ -9,9 +9,9 @@ bool LoginPresenter::successful()
     UserManager::resetUser();
     practiceList = db.practiceList();
 
-    ModalDialogBuilder::openDialog(this);
+    //ModalDialogBuilder::openDialog(this);
     
-    //okPressed("220008771", "198312", 0); //fast login
+    okPressed("220008771", "198312", 0); //fast login
 
     return loginSuccessful;
 }

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>335</width>
-    <height>172</height>
+    <height>206</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -27,10 +27,29 @@
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>120</y>
+     <y>150</y>
      <width>331</width>
      <height>51</height>
     </rect>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="bridgeCheckBox">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>120</y>
+     <width>150</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>150</width>
+     <height>0</height>
+    </size>
+   </property>
+   <property name="text">
+    <string>Мостова конструкция:</string>
    </property>
   </widget>
  </widget>
@@ -39,13 +58,13 @@
   <customwidget>
    <class>RangeWidget</class>
    <extends>QWidget</extends>
-   <header>RangeWidget.h</header>
+   <header>View/uiComponents/qt_derived/widgets/RangeWidget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>CrownWidget</class>
    <extends>QWidget</extends>
-   <header>CrownWidget.h</header>
+   <header>View/uiComponents/qt_derived/widgets/CrownWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

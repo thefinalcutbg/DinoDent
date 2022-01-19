@@ -363,7 +363,16 @@ std::string Parser::write(const Procedure& procedure)
 
 		break;
 	}
+	case ProcedureType::fibersplint:
+	{
+		auto& r = std::get<ProcedureFiberData>(procedure.result);
+		json["color"] = r.obtur.color;
+		json["material"] = r.obtur.material;
+		json["begin"] = r.tooth_begin;
+		json["end"] = r.tooth_end;
 
+		break;
+	}
 	default:
 		break;
 	}
@@ -391,7 +400,7 @@ void Parser::parse(const std::string& jsonString, Procedure& procedure)
 		procedure.name = json["name"].asString();
 	}
 
-
+	//parsing additional data, where present:
 	switch (procedure.type)
 	{
 	case ProcedureType::obturation:
@@ -464,6 +473,19 @@ void Parser::parse(const std::string& jsonString, Procedure& procedure)
 
 		break;
 	}
+	case ProcedureType::fibersplint:
+		procedure.result = ProcedureFiberData{
+
+		json["begin"].asInt(),
+		json["end"].asInt(),
+
+		ObturationData{
+				json["color"].asInt(),
+				json["material"].asString()
+				}
+		};
+
+		break;
 	default:
 		procedure.result = NoData{};
 	}

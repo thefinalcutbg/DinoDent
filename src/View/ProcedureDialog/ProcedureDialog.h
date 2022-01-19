@@ -35,6 +35,7 @@ public:
 	void setObturationPresenter(ObturationPresenter* presenter) override;
 	void setCrownPresenter(CrownPresenter* presenter) override;
 	void setImplantPresenter(ImplantPresenter* presenter);
+	void setFiberSplintPresenter(FiberSplintPresenter* presenter) override;
 	ICommonFields* commonFields() override;
 
 

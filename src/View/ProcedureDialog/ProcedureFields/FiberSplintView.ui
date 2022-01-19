@@ -1,38 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ObturationView</class>
- <widget class="QWidget" name="ObturationView">
+ <class>FiberSplintView</class>
+ <widget class="QWidget" name="FiberSplintView">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>301</width>
-    <height>215</height>
+    <width>331</width>
+    <height>112</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>ObturationView</string>
+   <string>FiberSplintView</string>
   </property>
-  <widget class="QCheckBox" name="post_check">
-   <property name="geometry">
-    <rect>
-     <x>160</x>
-     <y>30</y>
-     <width>121</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Радикуларен щифт</string>
-   </property>
-  </widget>
-  <widget class="SurfaceSelector" name="surfaceSelector" native="true">
+  <widget class="RangeWidget" name="rangeWidget" native="true">
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>70</y>
-     <width>301</width>
-     <height>143</height>
+     <y>60</y>
+     <width>331</width>
+     <height>51</height>
     </rect>
    </property>
   </widget>
@@ -42,26 +29,23 @@
      <x>0</x>
      <y>0</y>
      <width>301</width>
-     <height>80</height>
+     <height>51</height>
     </rect>
    </property>
   </widget>
-  <zorder>obturationWidget</zorder>
-  <zorder>post_check</zorder>
-  <zorder>surfaceSelector</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>SurfaceSelector</class>
+   <class>RangeWidget</class>
    <extends>QWidget</extends>
-   <header>SurfaceSelector.h</header>
+   <header>View/uiComponents/qt_derived/widgets/RangeWidget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>ObturationWidget</class>
    <extends>QWidget</extends>
-   <header>ObturationWidget.h</header>
+   <header>View/uiComponents/qt_derived/widgets/ObturationWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

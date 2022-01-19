@@ -3,9 +3,11 @@
 #include "Model/Tooth/ToothUtils.h"
 
 ObturationPresenter::ObturationPresenter(const std::vector<Tooth*>& selectedTeeth) :
-    TeethMPresenter(selectedTeeth),
+    selectedTeeth(selectedTeeth),
     view(nullptr)
-{}
+{
+    
+}
 
 void ObturationPresenter::setView(IObturationView* view)
 {
@@ -13,24 +15,24 @@ void ObturationPresenter::setView(IObturationView* view)
 
     view->surfaceSelector()->setInputValidator(&surf_validator);
 
-    if (selectedTeeth->size() == 1)
+    if (selectedTeeth.size() == 1)
     {
-        diagnosis = autoDiagnosis(*selectedTeeth->at(0));
-        view->surfaceSelector()->setSurfaces(autoSurfaces(*selectedTeeth->at(0)));
+        m_diagnosis = getDiagnosis(*selectedTeeth.front());
+        view->surfaceSelector()->setSurfaces(autoSurfaces(*selectedTeeth.front()));
 
     }
 }
 
-void ObturationPresenter::setManipulationTemplate(const ProcedureTemplate& m)
+void ObturationPresenter::setProcedureTemplate(const ProcedureTemplate& m)
 {
+    bool noTeethSelected = !selectedTeeth.size();
     common_view->set_hidden(noTeethSelected);
     view->set_hidden(noTeethSelected);
+    if(noTeethSelected) return;
 
-    if (noTeethSelected) return;
 
-    GeneralMPresenter::setManipulationTemplate(m);
+    AbstractSubPresenter::setProcedureTemplate(m);
 
-    //no interface for setting material only :(
     auto data = view->getData();
     data.data.material = m.material;
     view->setData(data);
@@ -38,7 +40,7 @@ void ObturationPresenter::setManipulationTemplate(const ProcedureTemplate& m)
 
 bool ObturationPresenter::isValid()
 {
-    if (!TeethMPresenter::isValid()) return false;
+    if (!AbstractSubPresenter::isValid()) return false;
 
     view->surfaceSelector()->validateInput();
 
@@ -51,13 +53,23 @@ bool ObturationPresenter::isValid()
     return true;
 }
 
-Result ObturationPresenter::getResult()
+std::vector<Procedure> ObturationPresenter::getProcedures()
 {
-    return view->getData();
+    std::vector<Procedure> procedures;
+    procedures.reserve(selectedTeeth.size());
+
+    for (auto& tooth : selectedTeeth) {
+        procedures.push_back(AbstractSubPresenter::getProcedureCommonFields());
+        procedures.back().result = view->getData();
+        procedures.back().tooth = tooth->index;
+        procedures.back().temp = tooth->temporary.exists();
+    }
+
+    return procedures;
 }
 
 
-std::string ObturationPresenter::autoDiagnosis(const Tooth& tooth)
+std::string ObturationPresenter::getDiagnosis(const Tooth& tooth)
 {
     bool secondaryCaries = false ;
     std::string cariesDiagnosis;

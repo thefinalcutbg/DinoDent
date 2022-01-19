@@ -16,14 +16,14 @@ Tooth::Tooth() :
 	lesion.data.setDiagnosisList(DiagnosisContainer::lesion());
 	fracture.data.setDiagnosisList(DiagnosisContainer::fracture());
 	root.data.setDiagnosisList(DiagnosisContainer::root());
-	
 
 }
 
 void Tooth::setIndex(int index)
 {
-	this->index = index;
 	this->type = ToothUtils::getToothType(index);
+	this->index = index;
+
 }
 
 

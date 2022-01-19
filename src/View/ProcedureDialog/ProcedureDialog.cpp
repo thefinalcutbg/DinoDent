@@ -64,6 +64,7 @@ ProcedureDialog::ProcedureDialog(ProcedureDialogPresenter* presenter, QWidget *p
 	ui.errorLabel->setStyleSheet("color:red");
 	ui.crownWidget->ui.rangeWidget->setErrorLabel(ui.errorLabel);
 	ui.obturWidget->ui.surfaceSelector->setErrorLabel(ui.errorLabel);
+	ui.fiberWidget->ui.rangeWidget->setErrorLabel(ui.errorLabel);
 	ui.commonFields->ui.dateEdit->setErrorLabel(ui.errorLabel);
 	ui.commonFields->ui.diagnosisEdit->setErrorLabel(ui.errorLabel);
 	ui.commonFields->ui.manipulationEdit->setErrorLabel(ui.errorLabel);
@@ -132,6 +133,13 @@ void ProcedureDialog::setImplantPresenter(ImplantPresenter* presenter)
 	ui.implantWidget->setPresenter(presenter);
 }
 
+void ProcedureDialog::setFiberSplintPresenter(FiberSplintPresenter* presenter)
+{
+	presenter->setCommonFieldsView(ui.commonFields);
+	presenter->setView(ui.fiberWidget);
+	ui.fiberWidget->setPresenter(presenter);
+}
+
 ICommonFields* ProcedureDialog::commonFields()
 {
 	return ui.commonFields;
@@ -147,16 +155,19 @@ void ProcedureDialog::setView(ProcedureType t)
 	switch (t)
 	{	
 	case ProcedureType::obturation:
-		ui.stackedWidget->setCurrentIndex(1);
+		ui.stackedWidget->setCurrentWidget(ui.obturWidget);
 		break;
 	case ProcedureType::extraction:
 		ui.stackedWidget->setCurrentIndex(0);
 		break;
 	case ProcedureType::crown:
-		ui.stackedWidget->setCurrentIndex(2);
+		ui.stackedWidget->setCurrentWidget(ui.crownWidget);
 		break;
 	case ProcedureType::implant:
-		ui.stackedWidget->setCurrentIndex(3);
+		ui.stackedWidget->setCurrentWidget(ui.implantWidget);
+		break;
+	case ProcedureType::fibersplint:
+		ui.stackedWidget->setCurrentWidget(ui.fiberWidget);
 		break;
 	default:
 		ui.stackedWidget->setCurrentIndex(0);

@@ -42,4 +42,5 @@ GraphicsView::~GraphicsView()
 
 void GraphicsView::wheelEvent(QWheelEvent* event)
 {
+	event->ignore();
 }

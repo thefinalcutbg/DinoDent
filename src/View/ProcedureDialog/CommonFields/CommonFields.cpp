@@ -1,4 +1,5 @@
 #include "CommonFields.h"
+#include "Presenter/ProcedureDialog/SubPresenters/AbstractSubPresenter.h"
 
 CommonFields::CommonFields(QWidget *parent)
 	: QWidget(parent)

@@ -115,7 +115,7 @@ bool ListPresenter::save()
     if (edited) {  db.updateAmbList(m_ambList);}
 
     edited = false;
-   //listSelector_.refreshModel();
+
     _tabView->changeTabName(getTabName());
 
     return true;

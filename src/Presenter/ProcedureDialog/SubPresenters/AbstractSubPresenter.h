@@ -7,32 +7,29 @@
 
 #include <vector>
 
-class GeneralMPresenter : public ICommonFieldsPresenter
+class AbstractSubPresenter
 {
 
 protected:
 	ICommonFields* common_view{ NULL };
 
-	std::string diagnosis;
+	std::string m_diagnosis;
 	ProcedureTemplate m_template;
-
 	NotEmptyValidator notEmpty_validator;
 
-	virtual std::string autoDiagnosis(const Tooth& tooth) { return std::string(); } ;
-	virtual Result getResult() { return NoData(); }
-	virtual void setValidators();
+	Procedure getProcedureCommonFields();
 
 public:
 	
 	void setCommonFieldsView(ICommonFields* view) { common_view = view;};
 
-	void diagnosisTextChanged(std::string text) override { diagnosis = text; };
+	void diagnosisTextChanged(std::string text) { m_diagnosis = text; };
 
-	virtual void setManipulationTemplate(const ProcedureTemplate& m);
+	virtual void setProcedureTemplate(const ProcedureTemplate& m);
 
 	virtual bool isValid();
 
-	virtual std::vector<Procedure> getProcedures();
+	virtual std::vector<Procedure> getProcedures() = 0;
 	
 };
 

@@ -3,11 +3,16 @@
 #include "Model/Tooth/ToothUtils.h"
 #include "Model/Validator/ProcedureDateValidator.h"
 
+#include "SubPresenters/GeneralProcedurePresenter.h"
+#include "SubPresenters/ToothProcedurePresenter.h"
 #include "SubPresenters/ObturationPresenter.h"
 #include "SubPresenters/CrownPresenter.h"
 #include "SubPresenters/ExtractionPresenter.h"
 #include "SubPresenters/EndoPresenter.h"
 #include "SubPresenters/ImplantPresenter.h"
+#include "SubPresenters/FiberSplintPresenter.h"
+
+
 
 #include "View/ProcedureDialog/IProcedureDialog.h"
 
@@ -19,23 +24,25 @@ class ProcedureDialogPresenter
 
 	std::vector<Tooth*> selectedTeeth;
 
-	GeneralMPresenter general_presenter;
-	TeethMPresenter any_teeth_presenter;
+	GeneralProcedurePresenter general_presenter;
+	ToothProcedurePresenter toothNonSpecific_presenter;
 	ObturationPresenter obt_presenter;
 	CrownPresenter crown_presenter;
 	ExtractionPresenter extr_presenter;
 	EndoPresenter endo_presenter;
 	ImplantPresenter impl_presenter;
+	FiberSplintPresenter fiber_presenter;
+	ToothProcedurePresenter crownRemove_presenter;
 
-	std::array<GeneralMPresenter*, 7> presenters_ptr;
-	GeneralMPresenter* current_m_presenter;
+	std::array<AbstractSubPresenter*, 9> presenters_ptr;
+	AbstractSubPresenter* current_m_presenter;
 
 	IProcedureDialog* view;
 	ICommonFields* common_fields;
 
-	std::vector<Procedure> manipulations;
+	std::vector<Procedure> procedures;
 
-	std::vector<ProcedureTemplate> manipulationList;
+	std::vector<ProcedureTemplate> procedureList;
 	const ToothContainer* teeth;
 
 	ProcedureDateValidator date_validator;

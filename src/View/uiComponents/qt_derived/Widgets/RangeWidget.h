@@ -21,11 +21,12 @@ public:
 	std::tuple<int, int> getRange() override;
 	void setValidAppearence(bool valid) override;
 	void setFocus() override;
-	void disbleBridgeSwitch(bool disable);
+
 	void setErrorLabel(QLabel* errorLabel);
+
 signals:
 	void rangeChanged(int begin, int end);
-	void widgetChecked(bool enabled);
+
 private:
 	Ui::RangeWidget ui;
 };

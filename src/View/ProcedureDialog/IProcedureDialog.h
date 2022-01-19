@@ -7,6 +7,7 @@
 class CrownPresenter;
 class ImplantPresenter;
 class ObturationPresenter;
+class FiberSplintPresenter;
 class ICommonFields;
 
 class IProcedureDialog
@@ -26,4 +27,5 @@ public:
     virtual void setObturationPresenter(ObturationPresenter* presenter) = 0;
     virtual void setCrownPresenter(CrownPresenter* presenter) = 0;
     virtual void setImplantPresenter(ImplantPresenter* presenter) = 0;
+    virtual void setFiberSplintPresenter(FiberSplintPresenter* presenter) = 0;
 };

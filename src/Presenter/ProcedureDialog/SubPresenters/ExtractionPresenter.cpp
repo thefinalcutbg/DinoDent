@@ -2,16 +2,37 @@
 
 
 ExtractionPresenter::ExtractionPresenter(const std::vector<Tooth*>& selectedTeeth)	:
-	TeethMPresenter(selectedTeeth)
+	selectedTeeth(selectedTeeth)
 {
 	if (selectedTeeth.size() == 1)
-	{
-		diagnosis = autoDiagnosis(*selectedTeeth.at(0));
-	}
-
+		m_diagnosis = getDiagnosis(*selectedTeeth.at(0));
 }
 
-std::string ExtractionPresenter::autoDiagnosis(const Tooth& tooth)
+void ExtractionPresenter::setProcedureTemplate(const ProcedureTemplate& m)
+{
+	bool noTeethSelected = !selectedTeeth.size();
+
+	common_view->set_hidden(noTeethSelected);
+	if (noTeethSelected)return;
+
+	AbstractSubPresenter::setProcedureTemplate(m);
+}
+
+std::vector<Procedure> ExtractionPresenter::getProcedures()
+{
+	std::vector<Procedure> procedures;
+	procedures.reserve(selectedTeeth.size());
+
+	for (auto& tooth : selectedTeeth) {
+		procedures.push_back(AbstractSubPresenter::getProcedureCommonFields());
+		procedures.back().tooth = tooth->index;
+		procedures.back().temp = tooth->temporary.exists();
+	}
+
+	return procedures;
+}
+
+std::string ExtractionPresenter::getDiagnosis(const Tooth& tooth)
 {
 	std::array<bool, 8> existing
 	{

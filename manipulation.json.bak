@@ -28,8 +28,7 @@
 	{"type": 6, "code": 80, "name": "Имплант", "price": 800},
 	{"type": 1, "code": 81, "name": "Хемисекция", "price": 50},
 	{"type": 7, "code": 82, "name": "Фибромост", "material": "EverStick", "price": 30},
-	{"type": 1, "code": 83,	"name": "Рентгенова снимка", "default_diag": "Диагностика", "price": 10},
-	{"type": 8, "code": 84,	"name": "Сваляне на корона", "price": 10}
+	{"type": 1, "code": 83,	"name": "Рентгенова снимка", "default_diag": "Диагностика", "price": 10}
 ]
 
 }

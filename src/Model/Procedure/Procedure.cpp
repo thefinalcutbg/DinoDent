@@ -111,6 +111,41 @@ void Procedure::applyProcedure(ToothContainer& teeth)
 		}
 		break;
 
+		case ProcedureType::fibersplint:
+		{
+			auto& result = std::get<ProcedureFiberData>(this->result);
+
+			std::vector<int> indexes;
+			indexes.reserve(result.tooth_end - result.tooth_begin + 1);
+
+			for (int i = result.tooth_begin; i <= result.tooth_end; i++)
+				indexes.push_back(i);
+
+			for (int i : indexes)
+				teeth.removeBridge(i);
+
+			for (int i : indexes)
+			{
+				auto& tooth = teeth[i];
+
+				tooth.setStatus(StatusType::general, StatusCode::FiberSplint);
+				tooth.splint.color = result.obtur.color;
+				tooth.splint.material = result.obtur.material;
+				tooth.splint.LPK = LPK;
+
+			}
+
+			teeth.formatBridges(indexes);
+		}
+		break;
+
+		case ProcedureType::removecrown:
+		{
+			auto& tooth = teeth[this->tooth];
+			tooth.removeStatus(StatusCode::Crown);
+		}
+		break;
+
 		default:
 			break;
 		}

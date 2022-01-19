@@ -29,6 +29,7 @@ struct Obturation : public DentistMade { ObturationData data; };
 struct Construction : virtual public DentistMade { BridgePos position{ BridgePos::Middle }; };
 struct Crown : virtual public DentistMade { CrownData data; };
 struct Bridge : public Crown, public Construction {};
+struct FiberSplint : public ObturationData, public Construction {};
 
 struct Implant : public DentistMade { ImplantData data; };
 struct Mobility : public Status { Degree degree{ Degree::First };};

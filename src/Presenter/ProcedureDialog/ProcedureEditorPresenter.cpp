@@ -47,7 +47,7 @@ void ProcedureEditorPresenter::setView(IProcedureEditDialog* view)
 		view->commonFields()->manipulationEdit()->disable(true);
 	}
 
-	view->crownView()->rangeWidget()->disbleBridgeSwitch(true);
+	//view->crownView()->rangeWidget()->disbleBridgeSwitch(true);
 
 	switch (m.type)
 	{
@@ -67,6 +67,11 @@ void ProcedureEditorPresenter::setView(IProcedureEditDialog* view)
 			view->crownView()->setData(std::get<ProcedureBridgeData>(m.result));
 			view->crownView()->rangeWidget()->setInputValidator(&_bridgeValidator);
 			_validatableElements[3] = view->crownView()->rangeWidget();
+			break;
+		case ProcedureType::fibersplint:
+			view->fiberView()->setData(std::get<ProcedureFiberData>(m.result));
+			view->fiberView()->rangeWidget()->setInputValidator(&_bridgeValidator);
+			_validatableElements[3] = view->fiberView()->rangeWidget();
 			break;
 	}
 
@@ -109,8 +114,14 @@ void ProcedureEditorPresenter::okPressed()
 			m.result = view->crownView()->getData();
 			break;
 		case ProcedureType::bridge:
+		{
 			auto [begin, end] = view->crownView()->rangeWidget()->getRange();
 			m.result = ProcedureBridgeData{ begin, end, view->crownView()->getData()};
+			break;
+		}
+		case ProcedureType::fibersplint:
+			auto [begin, end] = view->fiberView()->rangeWidget()->getRange();
+			m.result = ProcedureFiberData{ begin, end, view->fiberView()->getData() };
 			break;
 	}
 

@@ -135,31 +135,29 @@
      <x>560</x>
      <y>260</y>
      <width>291</width>
-     <height>211</height>
+     <height>191</height>
     </rect>
    </property>
    <property name="currentIndex">
-    <number>3</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="empty"/>
    <widget class="ObturationView" name="obturWidget"/>
    <widget class="CrownView" name="crownWidget"/>
    <widget class="ImplantView" name="implantWidget"/>
+   <widget class="FiberSplintView" name="fiberWidget"/>
   </widget>
   <widget class="QLabel" name="errorLabel">
    <property name="geometry">
     <rect>
-     <x>560</x>
-     <y>470</y>
-     <width>301</width>
-     <height>31</height>
+     <x>570</x>
+     <y>460</y>
+     <width>281</width>
+     <height>16</height>
     </rect>
    </property>
    <property name="text">
     <string/>
-   </property>
-   <property name="wordWrap">
-    <bool>true</bool>
    </property>
   </widget>
   <zorder>noTeethLabel</zorder>
@@ -184,19 +182,25 @@
   <customwidget>
    <class>CrownView</class>
    <extends>QWidget</extends>
-   <header>View/uiComponents/qt_derived/Widgets/CrownView.h</header>
+   <header>ProcedureFields/CrownView.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>ObturationView</class>
    <extends>QWidget</extends>
-   <header>View/uiComponents/qt_derived/Widgets/ObturationView.h</header>
+   <header>ProcedureFields/ObturationView.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>ImplantView</class>
    <extends>QWidget</extends>
    <header>View/uiComponents/qt_derived/Widgets/ImplantView.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>FiberSplintView</class>
+   <extends>QWidget</extends>
+   <header>ProcedureFields/FiberSplintView.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

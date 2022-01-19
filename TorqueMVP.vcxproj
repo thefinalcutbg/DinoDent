@@ -109,7 +109,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>GeneratedFiles\$(ConfigurationName);GeneratedFiles;c:\Dev\Qt\6.2.2\msvc2019_64\include\;$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);src/;Dependencies/LimeReport/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>GeneratedFiles\$(ConfigurationName);GeneratedFiles;c:\Dev\Qt\6.2.2\msvc2019_64\include\;$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);src/;Dependencies/LimeReport/include;.\</AdditionalIncludeDirectories>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -121,7 +121,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>GeneratedFiles\$(ConfigurationName);GeneratedFiles;$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);src/;Dependencies/LimeReport/include;c:/Dev/Qt/6.2.2/msvc2019_64/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>GeneratedFiles\$(ConfigurationName);GeneratedFiles;$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);src/;Dependencies/LimeReport/include;c:/Dev/Qt/6.2.2/msvc2019_64/include;.\</AdditionalIncludeDirectories>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -211,6 +211,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\FiberSplintPresenter.cpp" />
+    <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\ToothProcedurePresenter.cpp" />
+    <ClCompile Include="src\View\ProcedureDialog\ProcedureFields\FiberSplintView.cpp" />
     <ClCompile Include="src\Database\DbLogin.cpp" />
     <ClCompile Include="src\Presenter\LoginPresenter\LoginPresenter.cpp" />
     <ClCompile Include="src\View\LoginView\LoginView.cpp" />
@@ -274,11 +277,10 @@
     <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\EndoPresenter.cpp" />
     <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\ExtractionPresenter.cpp" />
     <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\CrownPresenter.cpp" />
-    <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\GeneralMPresenter.cpp" />
+    <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\AbstractSubPresenter.cpp" />
     <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\ObturationPresenter.cpp" />
-    <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\TeethMPresenter.cpp" />
-    <ClCompile Include="src\View\uiComponents\qt_derived\Widgets\CrownView.cpp" />
-    <ClCompile Include="src\View\uiComponents\qt_derived\Widgets\ObturationView.cpp" />
+    <ClCompile Include="src\View\ProcedureDialog\ProcedureFields\CrownView.cpp" />
+    <ClCompile Include="src\View\ProcedureDialog\ProcedureFields\ObturationView.cpp" />
     <ClCompile Include="src\View\ProcedureDialog\CommonFields\CommonFields.cpp" />
     <ClCompile Include="src\Database\DbProcedure.cpp" />
     <ClCompile Include="src\View\ListView\TeethView\GraphicsView.cpp" />
@@ -351,6 +353,7 @@
     <ClCompile Include="src\Presenter\DetailsPresenter\StatusController.cpp" />
     <ClCompile Include="src\Model\User\UserManager.cpp" />
     <QtRcc Include="src\View\Torque.qrc" />
+    <QtUic Include="src\View\ProcedureDialog\ProcedureFields\FiberSplintView.ui" />
     <QtUic Include="src\View\LoginView\LoginView.ui" />
     <QtUic Include="src\View\PerioView\Widgets\PerioStatusView.ui" />
     <QtUic Include="src\View\PerioView\PerioView.ui" />
@@ -362,8 +365,8 @@
     <QtUic Include="src\View\AmbListSelector\AmbListSelector.ui" />
     <QtUic Include="src\View\ProcedureEditDialog\ProcedureEditDialog.ui" />
     <QtUic Include="src\View\uiComponents\qt_derived\Widgets\ImplantView.ui" />
-    <QtUic Include="src\View\uiComponents\qt_derived\Widgets\CrownView.ui" />
-    <QtUic Include="src\View\uiComponents\qt_derived\Widgets\ObturationView.ui" />
+    <QtUic Include="src\View\ProcedureDialog\ProcedureFields\CrownView.ui" />
+    <QtUic Include="src\View\ProcedureDialog\ProcedureFields\ObturationView.ui" />
     <QtUic Include="src\View\ProcedureDialog\CommonFields\CommonFields.ui" />
     <QtUic Include="src\View\uiComponents\qt_derived\Widgets\RangeWidget.ui" />
     <QtUic Include="src\View\ProcedureDialog\ProcedureDialog.ui" />
@@ -413,9 +416,13 @@
     <QtMoc Include="src\View\PerioView\Widgets\PerioStatusView.h" />
     <QtMoc Include="src\View\PerioView\Widgets\PerioTable.h" />
     <QtMoc Include="src\View\LoginView\LoginView.h" />
+    <QtMoc Include="src\View\ProcedureDialog\ProcedureFields\FiberSplintView.h" />
+    <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\GeneralProcedurePresenter.h" />
+    <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\FiberSplintPresenter.h" />
     <ClInclude Include="src\Database\DbLogin.h" />
     <ClInclude Include="src\Presenter\LoginPresenter\LoginPresenter.h" />
     <ClInclude Include="src\Model\Parser\Parser.h" />
+    <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\ToothProcedurePresenter.h" />
     <ClInclude Include="src\View\LoginView\ILoginView.h" />
     <ClInclude Include="src\View\PerioView\PerioGraphics\HexagonGraphicsItem.h" />
     <ClInclude Include="src\Model\PerioStatistic.h" />
@@ -476,6 +483,7 @@
     <ClInclude Include="src\View\GlobalFunctions.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\PixmapLabel.h" />
     <ClInclude Include="src\View\ToothPaintDevices\ToothPainter.h" />
+    <ClInclude Include="src\View\ProcedureDialog\ProcedureFields\IFiberSplintView.h" />
     <ClInclude Include="src\View\uiComponents\qt_derived\Widgets\IImplantView.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\Widgets\ImplantView.h" />
     <ClInclude Include="src\View\ModalDialogBuilder.h" />
@@ -485,8 +493,8 @@
     <ClInclude Include="src\View\ToothPaintDevices\ToothSprite.h" />
     <ClInclude Include="src\Presenter\TabPresenter\TabPresenter.h" />
     <QtMoc Include="src\View\ProcedureDialog\CommonFields\CommonFields.h" />
-    <QtMoc Include="src\View\uiComponents\qt_derived\Widgets\ObturationView.h" />
-    <QtMoc Include="src\View\uiComponents\qt_derived\Widgets\CrownView.h" />
+    <QtMoc Include="src\View\ProcedureDialog\ProcedureFields\ObturationView.h" />
+    <QtMoc Include="src\View\ProcedureDialog\ProcedureFields\CrownView.h" />
     <ClInclude Include="src\Model\Procedure\MasterNZOK.h" />
     <ClInclude Include="src\Model\Procedure\NZOKmaps.h" />
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\ImplantPresenter.h" />
@@ -494,12 +502,11 @@
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\ExtractionPresenter.h" />
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\CrownPresenter.h" />
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\ObturationPresenter.h" />
-    <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\TeethMPresenter.h" />
     <ClInclude Include="src\View\ListView\IProcedureView.h" />
     <ClInclude Include="src\View\ListView\IStatusView.h" />
-    <ClInclude Include="src\View\uiComponents\qt_derived\Widgets\IObturationView.h" />
-    <ClInclude Include="src\View\uiComponents\qt_derived\Widgets\ICrownView.h" />
-    <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\GeneralMPresenter.h" />
+    <ClInclude Include="src\View\ProcedureDialog\ProcedureFields\IObturationView.h" />
+    <ClInclude Include="src\View\ProcedureDialog\ProcedureFields\ICrownView.h" />
+    <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\AbstractSubPresenter.h" />
     <ClInclude Include="src\Presenter\ListPresenter\ToothHintCreator.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\Widgets\VitaWidget.h" />
     <QtMoc Include="src\View\ListView\TeethView\GraphicsView.h" />

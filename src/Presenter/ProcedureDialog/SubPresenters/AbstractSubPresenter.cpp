@@ -1,12 +1,7 @@
-#include "GeneralMPresenter.h"
+#include "AbstractSubPresenter.h"
 
-void GeneralMPresenter::setValidators()
-{
-	common_view->diagnosisEdit()->setInputValidator(&notEmpty_validator);
-	common_view->manipulationEdit()->setInputValidator(&notEmpty_validator);
-}
 
-void GeneralMPresenter::setManipulationTemplate(const ProcedureTemplate& m)
+void AbstractSubPresenter::setProcedureTemplate(const ProcedureTemplate& m)
 {
 	common_view->setCurrentPresenter(this);
 
@@ -18,15 +13,22 @@ void GeneralMPresenter::setManipulationTemplate(const ProcedureTemplate& m)
 	common_view->manipulationEdit()->set_Text(m.name);
 	common_view->priceEdit()->set_Value(m.price);
 
-	!m.diagnosis.empty() ?
+	//If the template doesn't have default diagnosis, 
+	//each presenter class auto-generates one if possible.
+	//The implementation-defined diagnosis can be generated either
+	//in the constructor of the subclass, or in the overriden getProcedure func:
+
+	!m.diagnosis.empty() ? 
 		common_view->diagnosisEdit()->set_Text(m.diagnosis)
 		:
-		common_view->diagnosisEdit()->set_Text(diagnosis);
+		common_view->diagnosisEdit()->set_Text(m_diagnosis);
 
-	setValidators();
+	common_view->diagnosisEdit()->setInputValidator(&notEmpty_validator);
+	common_view->manipulationEdit()->setInputValidator(&notEmpty_validator);
+
 }
 
-bool GeneralMPresenter::isValid()
+bool AbstractSubPresenter::isValid()
 {
 	std::array<AbstractUIElement*, 3>validatable
 	{
@@ -49,17 +51,14 @@ bool GeneralMPresenter::isValid()
 }
 
 
-std::vector<Procedure> GeneralMPresenter::getProcedures()
+
+Procedure AbstractSubPresenter::getProcedureCommonFields()
 {
-	return std::vector<Procedure>
-	{
-		Procedure
-		{ m_template,
+	return Procedure{
+		  m_template,
 		  Date{common_view->dateEdit()->getDate()},
 		  common_view->manipulationEdit()->getText(),
 		  common_view->diagnosisEdit()->getText(),
 		  common_view->priceEdit()->get_Value(),
-		  getResult()
-		}
 	};
 }

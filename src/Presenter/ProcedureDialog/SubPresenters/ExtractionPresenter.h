@@ -1,11 +1,14 @@
 #pragma once
-#include "TeethMPresenter.h"
+#include "AbstractSubPresenter.h"
 
-class ExtractionPresenter : public TeethMPresenter
+class ExtractionPresenter : public AbstractSubPresenter
 {
-	virtual std::string autoDiagnosis(const Tooth& tooth) override;
+	const std::vector<Tooth*>& selectedTeeth;
+	std::string getDiagnosis(const Tooth& tooth);
 
 public:
 	ExtractionPresenter(const std::vector<Tooth*>& selectedTeeth);
+	void setProcedureTemplate(const ProcedureTemplate& m) override;
+	std::vector<Procedure> getProcedures() override;
 };
 

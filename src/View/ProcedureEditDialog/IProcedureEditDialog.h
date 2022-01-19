@@ -2,8 +2,9 @@
 #include "Model/Procedure/ProcedureTemplate.h"
 
 #include "View/uiComponents/qt_derived/Widgets/IImplantView.h"
-#include "View/uiComponents/qt_derived/Widgets/IObturationView.h"
-#include "View/uiComponents/qt_derived/Widgets/ICrownView.h"
+#include "View/ProcedureDialog/ProcedureFields/IObturationView.h"
+#include "View/ProcedureDialog/ProcedureFields/ICrownView.h"
+#include "View/ProcedureDialog/ProcedureFields/IFiberSplintView.h"
 #include "View/ProcedureDialog/CommonFields/ICommonFields.h"
 
 class IProcedureEditDialog
@@ -16,5 +17,6 @@ public:
 	virtual ICrownView* crownView() = 0;
 	virtual IObturationView* obturationView() = 0;
 	virtual IImplantView* implantView() = 0;
+	virtual IFiberSplintView* fiberView() = 0;
 	virtual void closeDialog() = 0;
 };

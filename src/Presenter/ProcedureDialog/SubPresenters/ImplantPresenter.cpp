@@ -5,25 +5,25 @@
 
 
 ImplantPresenter::ImplantPresenter(const std::vector<Tooth*>& selectedTeeth)
-: TeethMPresenter(selectedTeeth), view(nullptr)
+: selectedTeeth(selectedTeeth), view(nullptr)
 {
 	if (selectedTeeth.size() == 1)
-	{
-		diagnosis = autoDiagnosis(*selectedTeeth.at(0));
-	};
+		m_diagnosis = getDiagnosis(*selectedTeeth.at(0));
+
 }
 
-void ImplantPresenter::setManipulationTemplate(const ProcedureTemplate& m)
+
+void ImplantPresenter::setProcedureTemplate(const ProcedureTemplate& m)
 {
+	bool noTeethSelected = !selectedTeeth.size();
 	common_view->set_hidden(noTeethSelected);
 	view->set_hidden(noTeethSelected);
 	if (noTeethSelected) return;
 
-	GeneralMPresenter::setManipulationTemplate(m);
-
+	AbstractSubPresenter::setProcedureTemplate(m);
+	
 	auto data = view->getData();
 	data.system = m.material;
-
 	view->setData(data);
 }
 
@@ -32,7 +32,8 @@ void ImplantPresenter::setView(IImplantView* view)
 	this->view = view;
 }
 
-std::string ImplantPresenter::autoDiagnosis(const Tooth& tooth)
+
+std::string ImplantPresenter::getDiagnosis(const Tooth& tooth)
 {
 	if (tooth.extraction.exists() && !tooth.temporary.exists())
 	{
@@ -42,7 +43,16 @@ std::string ImplantPresenter::autoDiagnosis(const Tooth& tooth)
 	return std::string();
 }
 
-Result ImplantPresenter::getResult()
+std::vector<Procedure> ImplantPresenter::getProcedures()
 {
-	return view->getData();
+	std::vector<Procedure> procedures;
+	procedures.reserve(selectedTeeth.size());
+
+	for (auto& tooth : selectedTeeth) {
+		procedures.push_back(AbstractSubPresenter::getProcedureCommonFields());
+		procedures.back().result = view->getData();
+		procedures.back().tooth = tooth->index;
+	}
+
+	return procedures;
 }

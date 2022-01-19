@@ -1,19 +1,17 @@
 #pragma once
-#include "TeethMPresenter.h"
-#include "View/uiComponents/qt_derived/Widgets/IObturationView.h"
+#include "AbstractSubPresenter.h"
+#include "View/ProcedureDialog/ProcedureFields/IObturationView.h"
 #include "Model/Validator/ProcedureValidators.h"
 
 
-class ObturationPresenter : public TeethMPresenter
+class ObturationPresenter : public AbstractSubPresenter
 {
 	IObturationView* view;
 	SurfaceValidator surf_validator;
 
+	const std::vector<Tooth*>& selectedTeeth;
 
-
-	virtual std::string autoDiagnosis(const Tooth& tooth) override;
-	virtual Result getResult() override;
-
+	std::string getDiagnosis(const Tooth& tooth);
 
 	std::array<bool, 6> autoSurfaces(const Tooth& tooth);
 
@@ -22,9 +20,9 @@ public:
 
 	void setView(IObturationView* view);
 
-	// Inherited via ManipulationPresenter
-	virtual void setManipulationTemplate(const ProcedureTemplate& m) override;
-	virtual bool isValid() override;
-	
+	void setProcedureTemplate(const ProcedureTemplate& m) override;
+	bool isValid() override;
+	virtual std::vector<Procedure> getProcedures() override;
+
 };
 

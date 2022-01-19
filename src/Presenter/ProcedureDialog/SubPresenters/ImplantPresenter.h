@@ -1,19 +1,24 @@
 #pragma once
-#include "TeethMPresenter.h"
+#include "AbstractSubPresenter.h"
 
 class ProcedureTemplate;
 class IImplantView;
 
-class ImplantPresenter : public TeethMPresenter
+class ImplantPresenter : public AbstractSubPresenter
 {
 	IImplantView* view;
 
-	virtual std::string autoDiagnosis(const Tooth& tooth) override;
-	virtual Result getResult() override;
+	const std::vector<Tooth*>& selectedTeeth;
+
+	std::string getDiagnosis(const Tooth& tooth);
 
 public:
-	void setManipulationTemplate(const ProcedureTemplate& m);
 	ImplantPresenter(const std::vector<Tooth*>& selectedTeeth);
+
+	void setProcedureTemplate(const ProcedureTemplate& m);
+	
 	void setView(IImplantView* view);
+
+	std::vector<Procedure> getProcedures() override;
 };
 

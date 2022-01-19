@@ -25,7 +25,8 @@ public:
 
 	ICrownView* crownView() override;
 	IObturationView* obturationView() override;
-	IImplantView* implantView()override;
+	IImplantView* implantView() override;
+	IFiberSplintView* fiberView() override;
 	void closeDialog() override;
 
 private:

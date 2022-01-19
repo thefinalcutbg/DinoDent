@@ -14,7 +14,7 @@ ProcedureEditDialog::ProcedureEditDialog(ProcedureEditorPresenter* p, QWidget *p
 
 	setModal(true);
 	setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
-	setWindowTitle("Редактиране на манипулация");
+	setWindowTitle(u8"Редактиране на манипулация");
 
 	connect(ui.okButton, &QPushButton::clicked, [=] {presenter->okPressed(); });
 	connect(ui.cancelButton, &QPushButton::clicked, [=] { close(); });
@@ -22,6 +22,7 @@ ProcedureEditDialog::ProcedureEditDialog(ProcedureEditorPresenter* p, QWidget *p
 	ui.errorLabel->setStyleSheet("color:red");
 	ui.crownWidget->ui.rangeWidget->setErrorLabel(ui.errorLabel);
 	ui.obturWidget->ui.surfaceSelector->setErrorLabel(ui.errorLabel);
+	ui.fiberWidget->ui.rangeWidget->setErrorLabel(ui.errorLabel);
 	ui.commonWidget->ui.dateEdit->setErrorLabel(ui.errorLabel);
 	ui.commonWidget->ui.diagnosisEdit->setErrorLabel(ui.errorLabel);
 	ui.commonWidget->ui.manipulationEdit->setErrorLabel(ui.errorLabel);
@@ -46,7 +47,11 @@ void ProcedureEditDialog::setMtype(ProcedureType m)
 	case ProcedureType::implant:
 		ui.stackedWidget->setCurrentIndex(3);
 		break;
+	case ProcedureType::fibersplint:
+		ui.stackedWidget->setCurrentIndex(4);
+		break;
 	default:
+		ui.stackedWidget->setCurrentIndex(0);
 		setMaximumSize(QSize(311, 310));
 		setMinimumSize(QSize(311, 310));
 		ui.okButton->move(QPoint(220, 270));
@@ -73,6 +78,11 @@ IObturationView* ProcedureEditDialog::obturationView()
 IImplantView* ProcedureEditDialog::implantView()
 {
 	return ui.implantWidget;
+}
+
+IFiberSplintView* ProcedureEditDialog::fiberView()
+{
+	return ui.fiberWidget;
 }
 
 void ProcedureEditDialog::closeDialog()

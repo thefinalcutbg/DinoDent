@@ -33,7 +33,7 @@ public:
 	Implant implant;
 	Crown crown;
 	Bridge bridge;
-	Construction splint;
+	FiberSplint splint;
 
 	Pathology pulpitis;
 	Pathology lesion;

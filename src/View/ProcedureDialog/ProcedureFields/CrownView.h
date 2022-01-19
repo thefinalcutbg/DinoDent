@@ -25,6 +25,7 @@ public:
 	void setData(const ProcedureBridgeData& data) override;;
 	void setData(const CrownData& data) override;;
 	virtual CrownData getData() override;
+	void lockBridgeCheckbox() override;
 	void setPresenter(CrownPresenter* presenter);
 
 

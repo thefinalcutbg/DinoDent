@@ -42,24 +42,7 @@ RangeWidget::RangeWidget(QWidget *parent)
 			}
 		});
 
-	connect(ui.checkBox, &QCheckBox::stateChanged, 
-		[=] 
-		{ 
-				bool disable = !ui.checkBox->isChecked(); 
-
-				ui.label_3->setHidden(disable);
-				ui.label_4->setHidden(disable);
-				ui.endCombo->setHidden(disable);
-				ui.beginCombo->setHidden(disable);
-
-
-				emit widgetChecked(!disable);
-		});
-
-	ui.label_4->setHidden(true);
-	ui.label_3->setHidden(true);
-	ui.endCombo->setHidden(true);
-	ui.beginCombo->setHidden(true);
+	
 }
 
 RangeWidget::~RangeWidget()
@@ -68,11 +51,11 @@ RangeWidget::~RangeWidget()
 
 }
 
+
 void RangeWidget::disable(bool disable)
 {
-	ui.checkBox->setChecked(!disable);
+	setDisabled(disable);
 }
-
 
 void RangeWidget::setBridgeRange(int begin, int end)
 {
@@ -108,7 +91,7 @@ void RangeWidget::setValidAppearence(bool valid)
 	}
 	else
 	{
-		errorLabel->setText("Невалидна дължина на конструкцията");
+		errorLabel->setText(u8"Невалидна дължина на конструкцията");
 	}
 }
 
@@ -116,11 +99,6 @@ void RangeWidget::setFocus()
 {
 	ui.endCombo->setFocus();
 	ui.endCombo->showPopup();
-}
-
-void RangeWidget::disbleBridgeSwitch(bool disable)
-{
-	ui.checkBox->setDisabled(disable);
 }
 
 void RangeWidget::setErrorLabel(QLabel* errorLabel)

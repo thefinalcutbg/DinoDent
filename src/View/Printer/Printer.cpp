@@ -113,7 +113,7 @@ void Print::ambList(const AmbList& amb, const Patient& patient, const User& user
 
     report.setPreviewScaleType(LimeReport::ScaleType::FitWidth);
     report.setPreviewPageBackgroundColor(QColor(Qt::white));
-
+    
     report.previewReport();
 }
 

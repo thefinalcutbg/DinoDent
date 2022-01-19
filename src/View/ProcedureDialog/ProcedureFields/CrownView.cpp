@@ -20,6 +20,8 @@ CrownView::CrownView(QWidget *parent)
 			if (m_presenter == nullptr) return;
 			m_presenter->selectAsBridge(checked);
 		});
+
+	ui.rangeWidget->disable(true);
 }
 
 CrownView::~CrownView()

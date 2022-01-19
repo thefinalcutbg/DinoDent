@@ -30,11 +30,13 @@ void CrownPresenter::setProcedureTemplate(const ProcedureTemplate& m)
 	view->setData(data);
 	
 	
-	if (!m_bridgeSelected) return;
+
 
 	auto [begin, end] = view->rangeWidget()->getRange();
 	int length = end - begin + 1;
 	m_bridgePrice = m_template.price * length;
+
+	if (!m_bridgeSelected) return;
 
 	if (!range_validator.validateInput(begin, end))
 		m_bridgePrice = 0;
@@ -103,7 +105,7 @@ void CrownPresenter::setView(ICrownView* view)
 	view->rangeWidget()->setBridgeRange(begin, end);
 	m_bridgeDiagnosis = getBridgeDiagnosis(begin, end, teeth);
 	m_bridgeRangeString = getBridgeRangeName(begin, end, teeth);
-
+	
 
 	view->rangeWidget()->setInputValidator(&range_validator);
 

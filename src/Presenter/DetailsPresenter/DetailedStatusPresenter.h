@@ -10,6 +10,9 @@
 
 class DetailedStatusPresenter
 {
+
+	IDetailedStatusView* view{ nullptr };
+
 	DbNotes db_notes;
 
 	StatusType m_category{ StatusType::general };
@@ -19,7 +22,6 @@ class DetailedStatusPresenter
 
 	std::unique_ptr<DetailedStatusController> controller;
 	
-	IDetailedStatusView* view{nullptr};
 
 	const std::string& patientID;
 

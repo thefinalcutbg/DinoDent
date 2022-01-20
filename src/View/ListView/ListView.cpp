@@ -75,6 +75,10 @@ ListView::ListView(QWidget* parent)
 			presenter->ambDateChanged({ date.day(), date.month(), date.year() });
 		});
 
+	connect(ui.showCurrentStatusBox, &QPushButton::clicked, [=] { 
+			if (presenter) presenter->showCurrentStatus(ui.showCurrentStatusBox->isChecked()); 
+		});
+
 	ui.controlPanel->hide();
 	ui.surfacePanel->hide();
 
@@ -145,6 +149,15 @@ void ListView::repaintTooth(const ToothPaintHint& tooth)
 {
 	teethViewScene->display(tooth);
 	ui.teethView->setFocus();
+}
+
+void ListView::disableGraphicsView(bool disabled)
+{
+	teethViewScene->setSelectedTeeth({});
+	ui.teethView->setDisabled(disabled);
+
+	QSignalBlocker b(ui.showCurrentStatusBox);
+	ui.showCurrentStatusBox->setChecked(disabled);
 }
 
 

@@ -54,11 +54,15 @@ bool AbstractSubPresenter::isValid()
 
 Procedure AbstractSubPresenter::getProcedureCommonFields()
 {
-	return Procedure{
+	Procedure result{
 		  m_template,
 		  Date{common_view->dateEdit()->getDate()},
 		  common_view->manipulationEdit()->getText(),
 		  common_view->diagnosisEdit()->getText(),
 		  common_view->priceEdit()->get_Value(),
 	};
+
+	result.LPK = UserManager::currentUser().LPK;
+
+	return result;
 }

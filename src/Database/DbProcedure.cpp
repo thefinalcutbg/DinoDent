@@ -1,7 +1,8 @@
 #include "DbProcedure.h"
-#include <QDebug>
+
 #include "Model/Procedure/MasterNZOK.h"
 #include "Model/Parser/Parser.h"
+#include <QDebug>
 
 std::vector<Procedure> DbProcedure::getProcedures(const std::string& amblist_id)
 {
@@ -142,7 +143,7 @@ std::vector<Procedure> DbProcedure::getToothProcedures(const std::string& patien
 		"AND patient_id = '" + patientID + "' "
 		"ORDER BY amblist.year ASC, amblist.month ASC, procedure.code ASC, procedure.seq ASC";
 		
-	qDebug() << QString::fromStdString(query);
+//	qDebug() << QString::fromStdString(query);
 
 	sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
 
@@ -174,9 +175,9 @@ std::vector<Procedure> DbProcedure::getToothProcedures(const std::string& patien
 	}
 	
 	sqlite3_finalize(stmt);
-
+	
 	closeConnection();
-
+	
 	return procedures;
 
 }

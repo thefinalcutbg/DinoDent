@@ -26,6 +26,8 @@ class ListPresenter : public TabInstance
     SelectedTeeth m_selectedTeeth;
     int m_selectedProcedure;
 
+    bool m_showCurrentStatus{ false };
+
     CheckModel m_checkModel;
 
     IListView* view;
@@ -62,6 +64,8 @@ public:
 
     void setSelectedTeeth(const std::vector<int>& SelectedIndexes);
 
+
+
     void openDetails(int toothIdx);
     void openDetails();
 
@@ -74,6 +78,8 @@ public:
     void ambDateChanged(Date date);
     void setSelectedProcedure(int index);
     void setUnfavourable(bool unfav);
+
+    void showCurrentStatus(bool show);
 
     ~ListPresenter();
 };

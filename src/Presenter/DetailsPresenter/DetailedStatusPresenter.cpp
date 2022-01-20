@@ -6,19 +6,20 @@
 #include "Database/DbProcedure.h"
 
 DetailedStatusPresenter::DetailedStatusPresenter(const Tooth& tooth, const std::string& patientID)
-	: m_tooth(tooth), m_checkModel(tooth), patientID(patientID)
+	: m_tooth(tooth), m_checkModel(tooth), patientID(patientID), controller{nullptr}, view(nullptr)
 {
 	m_notes = db_notes.getNote(patientID, tooth.index);
 }
 
 void DetailedStatusPresenter::setView(IDetailedStatusView* view)
 {
+	qDebug() << "setting view " << view;
 	this->view = view; 
-
+	
 	DbProcedure db;
 
 	view->setHistoryData(db.getToothProcedures(patientID, m_tooth.index));
-
+	
 	view->disableItem(StatusCode::Bridge, !m_tooth.bridge.exists());
 	view->disableItem(StatusCode::FiberSplint, !m_tooth.splint.exists());
 	view->disableItem(StatusCode::Temporary, m_tooth.type == ToothType::Molar);
@@ -48,11 +49,17 @@ void DetailedStatusPresenter::checkStateChanged(bool checked)
 
 void DetailedStatusPresenter::statusSelected(int category, int code)
 {
+
+
 	if (controller) controller->applyChange();
 
 	m_code = code;
+	
+	
 
 	view->clearData();
+
+	qDebug() << "data cleared";
 
 	switch (category)
 	{

@@ -1,6 +1,6 @@
 ﻿#include "DetailedStatus.h"
 
-#include <QDebug>
+//#include <QDebug>
 #include <QIcon>
 #include <QPainter>
 
@@ -58,7 +58,6 @@ DetailedStatus::DetailedStatus(DetailedStatusPresenter* presenter) : presenter(p
 	}
 
 
-
 	for(auto& name : surfName)
 	{
 		QTreeWidgetItem* obtSurf{ new QTreeWidgetItem() }, * carSurf{ new QTreeWidgetItem() };
@@ -74,7 +73,7 @@ DetailedStatus::DetailedStatus(DetailedStatusPresenter* presenter) : presenter(p
 		ui.treeWidget->topLevelItem(StatusCode::Caries+1)->addChild(carSurf);
 	}
 	
-	connect(ui.treeWidget, &QTreeWidget::itemChanged, [&](QTreeWidgetItem* item, int column) 
+	connect(ui.treeWidget, &QTreeWidget::itemChanged, this, [=](QTreeWidgetItem* item, int column) 
 		{ 
 			auto list = ui.treeWidget->selectedItems();
 
@@ -96,33 +95,37 @@ DetailedStatus::DetailedStatus(DetailedStatusPresenter* presenter) : presenter(p
 			presenter->checkStateChanged(checked);
 			
 		});
-		
-	connect(ui.treeWidget, &QTreeWidget::currentItemChanged, [&](QTreeWidgetItem* item) {
+		//we have a crash here:
+		connect(ui.treeWidget, &QTreeWidget::currentItemChanged, this, [=](QTreeWidgetItem* item) {
 		
 		int parent = ui.treeWidget->selectionModel()->currentIndex().parent().row();
 		int code = ui.treeWidget->selectionModel()->currentIndex().row();
 		
-		switch (item->data(0, Qt::UserRole).toInt())
+		if (presenter)
 		{
+			
+			switch (item->data(0, Qt::UserRole).toInt())
+			{
 			case general: presenter->statusSelected(0, code - 1); break;
 			case obturation: presenter->statusSelected(1, code); break;
 			case caries: presenter->statusSelected(2, code); break;
 			case notes: presenter->statusSelected(3, code); break;
+			}
 		}
-		qDebug() << "item changed" << item->text(0) << parent << code;
+
 		if (parent == -1) ui.statusTitle->setText(item->text(0));
 		else ui.statusTitle->setText(item->parent()->text(0) + " (" + item->text(0) + ")");
 
 		
 		});
+		
+	connect(dentistWidget, &DentistMadeWidget::checked, this, [=] { presenter->stateChanged(); });
 
-	connect(dentistWidget, &DentistMadeWidget::checked, [&] { presenter->stateChanged(); });
 
 
-
-	connect(ui.okButton, &QPushButton::clicked, [&] {presenter->okPressed(); close(); });
-	connect(ui.cancelButton, &QPushButton::clicked, [&] { close(); });
-
+	connect(ui.okButton, &QPushButton::clicked, this, [=] {presenter->okPressed(); close(); });
+	connect(ui.cancelButton, &QPushButton::clicked, this, [=] { close(); });
+	
 	presenter->setView(this);
 
 	//notesItem->setSelected(true);
@@ -180,6 +183,7 @@ void DetailedStatus::paintTooth(const ToothPaintHint& hint)
 
 void DetailedStatus::clearData()
 {
+	qDebug() << "clearing data";
 	ui.statusTitle->setText("");
 	obtWidget->setParent(nullptr);
 	crownWidget->setParent(nullptr);

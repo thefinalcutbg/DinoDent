@@ -195,6 +195,8 @@ void ListPresenter::setCurrent()
 
     _tabView->showListView();
     setScrollPosition();
+
+    showCurrentStatus(m_showCurrentStatus);
     
 }
 
@@ -562,6 +564,38 @@ void ListPresenter::setUnfavourable(bool unfav)
     makeEdited();
 
     refreshProcedureView();
+}
+
+void ListPresenter::showCurrentStatus(bool show)
+{
+    view->disableGraphicsView(show);
+
+    m_showCurrentStatus = show;
+
+    auto currentStatus = m_ambList.teeth;
+
+    for (auto& p : m_ambList.procedures)
+    {
+        p.applyProcedure(currentStatus);
+    }
+
+    if (show)
+    {
+        for (auto& t : currentStatus)
+        {
+            view->repaintTooth(ToothHintCreator::getToothHint(t));
+        }
+    }
+    else
+    {
+        for (auto& t : m_ambList.teeth)
+        {
+            view->repaintTooth(ToothHintCreator::getToothHint(t));
+        }
+    }
+
+
+   
 }
 
 ListPresenter::~ListPresenter()

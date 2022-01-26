@@ -22,32 +22,32 @@ ListTable::ListTable(QWidget* parent)
 
     setShowGrid(true);
 
-    verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+
     verticalHeader()->setDefaultSectionSize(20);
-    //setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+    setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-    setWordWrap(true);
-}
-
-void ListTable::setDimensions()
-{
-    hideColumn(0);
-    setColumnWidth(1, 50);
-    setColumnWidth(2, 80);
-    setColumnWidth(3, 80);
-    setColumnWidth(4, 250);
+    horizontalHeader()->setStretchLastSection(true);
+    horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeMode::Fixed);
 
 }
 
+/*
 void ListTable::resizeEvent(QResizeEvent* ev)
 {
-    setColumnWidth(4, width() - 50 - 80 - 80 - 2);
+    int lastColumnIdx = model()->columnCount() - 1;
+    int columnWidth{ 0 };
+
+    for (int i = 0; i < model()->columnCount()-1; i++)
+    {
+        columnWidth += this->columnWidth(i);
+    }
+    setColumnWidth(lastColumnIdx, width() - columnWidth - 2);
 
     QTableView::resizeEvent(ev);
 }
-
+*/
 
 
 void ListTable::keyPressEvent(QKeyEvent* event)

@@ -3,7 +3,9 @@
 #include <QDialog>
 #include "ui_AmbListSelector.h"
 #include "IListSelectorView.h"
-#include "ListsTableModel.h"
+#include "Models/AmbListTableModel.h"
+#include "Models/PatientTableModel.h"
+#include "Models/PerioTableModel.h"
 
 #include <QSortFilterProxyModel>
 
@@ -18,7 +20,11 @@ private:
 
 	QSortFilterProxyModel idFilter;
 	QSortFilterProxyModel nameFilter;
-	ListsTableModel model;
+	QSortFilterProxyModel phoneFilter;
+
+	AmbListTableModel amb_model;
+	PatientTableModel patient_model;
+	PerioTableModel perio_model;
 
 public:
 	AmbListSelector(ListSelectorPresenter *p);
@@ -27,9 +33,12 @@ public:
 private:
 	Ui::AmbListSelector ui;
 
-	// Inherited via IListSelectorView
-	virtual void setDates(const Date& from, const Date& to) override;
-	virtual void setRows(const std::vector<AmbListRow>& rows) override;
+	void setDates(const Date& from, const Date& to) override;
+
+	void setRows(const std::vector<AmbRow>& rows) override;
+	void setRows(const std::vector<PatientRow>& rows) override;
+    void setRows(const std::vector<PerioRow>& rows) override;
+
 	void focus() override;
 	void close() override;
 

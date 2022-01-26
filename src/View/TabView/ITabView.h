@@ -4,6 +4,7 @@
 class TabPresenter;
 class IListView;
 class IPerioView;
+class IPatientSummaryView;
 
 struct ScrollPos { int height{ 0 }, width{ 0 }; };
 
@@ -22,9 +23,11 @@ public:
 
 	virtual void showListView() = 0;
 	virtual void showPerioView() = 0;
+	virtual void showSummaryView() = 0;
 	virtual void showDinosaur() = 0;
 
 	virtual IListView* listView() = 0;
 	virtual IPerioView* perioView() = 0;
+	virtual IPatientSummaryView* summaryView() = 0;
 	
 };

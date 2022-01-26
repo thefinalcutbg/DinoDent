@@ -1,7 +1,7 @@
 #include "TabPresenter.h"
 #include "Model/Patient.h"
 #include "Model/AmbList.h"
-#include "Model/AmbListRow.h"
+#include "Model/TableRows.h"
 #include "../ListPresenter/ListPresenter.h"
 #include "../PerioPresenter/PerioPresenter.h"
 
@@ -93,10 +93,10 @@ void TabPresenter::openList(const Patient& patient)
 
 }
 
-void TabPresenter::openList(const AmbListRow& ambRow)
+void TabPresenter::openList(const AmbRow& ambRow)
 {
 
-    if (listsExists(ambRow.id)) return;
+    if (ambTabAlreadyOpened(ambRow.id)) return;
 
     TabInstance* newTab = new ListPresenter(
         view, 
@@ -114,9 +114,18 @@ void TabPresenter::openPerio(const Patient& patient)
     openTab(newTab);
 }
 
+void TabPresenter::open(const PerioRow& perio)
+{
+    if (perioTabAlreadyOpened(perio.id)) return;
+
+    TabInstance* newTab = new PerioPresenter(view, getPatient_ptr(patient_db.getPatient(perio.patientId)), perio.id);
+
+    openTab(newTab);
+}
 
 
-bool TabPresenter::listsExists(const std::string& ambList_id)
+
+bool TabPresenter::ambTabAlreadyOpened(const std::string& ambList_id)
 {
     for (auto& [index, tabInstance] : m_tabs)
     {
@@ -129,6 +138,24 @@ bool TabPresenter::listsExists(const std::string& ambList_id)
             view->focusTab(index);
             return true;
         }
+    }
+
+    return false;
+}
+
+bool TabPresenter::perioTabAlreadyOpened(const std::string& perio_id)
+{
+    for (auto& [index, tabInstance] : m_tabs)
+    {
+        if (tabInstance->type != TabType::PerioList) continue;
+
+        auto perioPresenter = static_cast<PerioPresenter*>(tabInstance);
+        if (perioPresenter->m_perioStatus.id == perio_id)
+        {
+            view->focusTab(index);
+            return true;
+        }
+
     }
 
     return false;

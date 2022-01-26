@@ -21,8 +21,8 @@ void ListSelectorPresenter::setView(IListSelectorView* view)
 	if (!view) return;
 
 
-	view->setDates(_from, _to);
-	view->setRows(rows_);
+	view->setDates(m_from, m_to);
+	view->setRows(m_ambRows);
 
 	refreshModel();
 	
@@ -30,8 +30,8 @@ void ListSelectorPresenter::setView(IListSelectorView* view)
 
 void ListSelectorPresenter::setDates(const Date& from, const Date& to)
 {
-	_from = from;
-	_to = to;
+	m_from = from;
+	m_to = to;
 	refreshModel();
 }
 
@@ -39,18 +39,32 @@ void ListSelectorPresenter::setDates(const Date& from, const Date& to)
 
 void ListSelectorPresenter::refreshModel()
 {
-	rows_ = amb_db.getAmbListRows(_from, _to);
+	
+	m_ambRows = m_db.getAmbRows(m_from, m_to);
+	m_perioRows = m_db.getPerioRows(m_from, m_to);
+	m_patientRows = m_db.getPatientRows();
 	
 	if (view != nullptr)
 	{
-		view->setRows(rows_);
-		view->setDates(_from, _to);
+		setListType(m_currentModelType);
+		view->setDates(m_from, m_to);
 	}
 		
 }
 
-void ListSelectorPresenter::selectionChanged
-(std::vector<int> selectedIndexes) { this->selectedIndexes = std::move(selectedIndexes); }
+void ListSelectorPresenter::setListType(RowModelType type)
+{
+	m_currentModelType = type;
+
+	switch (type)
+	{
+		case::RowModelType::AmbListRow: view->setRows(m_ambRows); break;
+		case::RowModelType::PerioRow: view->setRows(m_perioRows); break;
+		case::RowModelType::PatientRow: view->setRows(m_patientRows); break;
+	}
+}
+
+void ListSelectorPresenter::selectionChanged(std::vector<int> selectedIndexes) { this->selectedIndexes = selectedIndexes; }
 
 
 #include "../TabPresenter/TabPresenter.h"
@@ -60,22 +74,33 @@ void ListSelectorPresenter::setTabPresenter(TabPresenter* tabPresenter)
 	this->tab_presenter = tabPresenter;
 }
 
-void ListSelectorPresenter::openAmbList()
+void ListSelectorPresenter::openCurrentSelection()
 {
 	if (!selectedIndexes.size()) return;
 
-	for(auto idx : selectedIndexes)
-	tab_presenter->openList(rows_[idx]);
+	switch (m_currentModelType)
+	{
+	case RowModelType::AmbListRow:
+		for (auto idx : selectedIndexes)
+			tab_presenter->openList(m_ambRows[idx]);
+		break;
+	case RowModelType::PerioRow:
+		for (auto idx : selectedIndexes)
+			tab_presenter->open(m_perioRows[idx]);
+		break;
+
+	}
+
 
 	if (view) view->close();
 }
 
-void ListSelectorPresenter::deleteAmbList()
+void ListSelectorPresenter::deleteCurrentSelection()
 {
 	for (auto idx : selectedIndexes)
 	{
-		amb_db.deleteAmbList(rows_[idx].id);
-		tab_presenter->removeList(rows_[idx].id);
+	//	amb_db.deleteAmbList(rows_[idx].id);
+	//	tab_presenter->removeList(rows_[idx].id);
 	}
 
 	if(selectedIndexes.size())	

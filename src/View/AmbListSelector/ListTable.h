@@ -13,10 +13,8 @@ class ListTable : public QTableView
 public:
 	ListTable(QWidget* parent);
 
-	void resizeEvent(QResizeEvent* ev) override;
-
 	~ListTable();
-	void setDimensions();
+
 signals:
 	void deletePressed();
 };

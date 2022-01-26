@@ -51,6 +51,32 @@ PerioPresenter::PerioPresenter(ITabView* view, std::shared_ptr<Patient> patient)
 
 }
 
+
+PerioPresenter::PerioPresenter(ITabView* view, std::shared_ptr<Patient> patient, const std::string& perioId) :
+    TabInstance(view, TabType::PerioList),
+    patient(patient),
+    view(view->perioView()),
+    m_toothStatus(m_db.getStatus(patient->id, Date::currentDate())),
+    m_perioStatus(m_db.getPerioStatus(perioId))
+{
+    for (auto& tooth : m_toothStatus)
+    {
+
+        if (
+            tooth.extraction.exists() ||
+            tooth.impacted.exists() ||
+            tooth.implant.exists()
+            )
+            m_perioStatus.disabled[tooth.index] = true;
+
+
+        if (tooth.mobility.exists())
+            m_perioStatus.mobility[tooth.index] =
+            static_cast<int>(tooth.mobility.degree) + 1;
+    }
+}
+
+
 void PerioPresenter::toothButtonClicked(int tooth)
 {
     auto& disabled = m_perioStatus.disabled[tooth];

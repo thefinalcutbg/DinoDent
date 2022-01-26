@@ -3,7 +3,6 @@
 #include "DbProcedure.h"
 #include <map>
 
-#include "Model/AmbListRow.h"
 #include "AbstractORM.h"
 
 #include <vector>
@@ -27,7 +26,7 @@ public:
     //amblist gets updated id after insertion
 
     void insertAmbList(AmbList& ambList, std::string& patientID);
-    void deleteAmbList(const std::string& ambID);
+    void deleteCurrentSelection(const std::string& ambID);
     void updateAmbList(const AmbList& ambList);
 
     AmbList getListData(const std::string& patientID, int currentMonth, int currentYear);
@@ -35,7 +34,6 @@ public:
     int getNewNumber(int currentYear);
     bool checkExistingAmbNum(int currentYear, int ambNum);
     std::map<int, bool> getExistingNumbers(int currentYear);
-    std::vector<AmbListRow> getAmbListRows(const Date& from , const Date& to);
     std::vector<int> getValidYears();
 };
 

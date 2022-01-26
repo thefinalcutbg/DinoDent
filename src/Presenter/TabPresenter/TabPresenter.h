@@ -9,7 +9,8 @@
 
 class AmbList;
 class Patient;
-class AmbListRow;
+struct AmbRow;
+struct PerioRow;
 
 class TabPresenter
 {
@@ -25,7 +26,8 @@ class TabPresenter
 	ITabView* view;
 
 	bool newListExists(const Patient& patient);
-	bool listsExists(const std::string& ambList_id);
+	bool ambTabAlreadyOpened(const std::string& ambList_id);
+	bool perioTabAlreadyOpened(const std::string& perio_id);
 
 	void openTab(TabInstance* tabInstance);
 
@@ -41,7 +43,8 @@ public:
 	void setCurrentTab(int index);
 	void openList(const Patient& patient);
 	void openPerio(const Patient& patient);
-	void openList(const AmbListRow& ambList);
+	void open(const PerioRow& perio);
+	void openList(const AmbRow& ambList);
 	void removeList(const std::string& ambID);
 	void removeCurrentTab();
 

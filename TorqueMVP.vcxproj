@@ -211,6 +211,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Database\DbListOpener.cpp" />
+    <ClCompile Include="src\View\AmbListSelector\Models\PatientTableModel.cpp" />
+    <ClCompile Include="src\View\AmbListSelector\Models\PerioTableModel.cpp" />
+    <ClCompile Include="src\View\PatientSummaryView\PatientSummary.cpp" />
+    <ClCompile Include="src\Presenter\PatientSummaryPresenter\PatientSummaryPresenter.cpp" />
     <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\FiberSplintPresenter.cpp" />
     <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\ToothProcedurePresenter.cpp" />
     <ClCompile Include="src\View\ProcedureDialog\ProcedureFields\FiberSplintView.cpp" />
@@ -256,7 +261,7 @@
     <ClCompile Include="src\Model\Procedure\PackageCounter.cpp" />
     <ClCompile Include="src\Model\AmbListValidator.cpp" />
     <ClCompile Include="src\View\AmbListSelector\ListTable.cpp" />
-    <ClCompile Include="src\View\AmbListSelector\ListsTableModel.cpp" />
+    <ClCompile Include="src\View\AmbListSelector\Models\AmbListTableModel.cpp" />
     <ClCompile Include="src\Presenter\ListSelector\ListSelectorPresenter.cpp" />
     <ClCompile Include="src\View\AmbListSelector\AmbListSelector.cpp" />
     <ClCompile Include="src\View\GlobalFunctions.cpp" />
@@ -353,6 +358,7 @@
     <ClCompile Include="src\Presenter\DetailsPresenter\StatusController.cpp" />
     <ClCompile Include="src\Model\User\UserManager.cpp" />
     <QtRcc Include="src\View\Torque.qrc" />
+    <QtUic Include="src\View\PatientSummaryView\PatientSummary.ui" />
     <QtUic Include="src\View\ProcedureDialog\ProcedureFields\FiberSplintView.ui" />
     <QtUic Include="src\View\LoginView\LoginView.ui" />
     <QtUic Include="src\View\PerioView\Widgets\PerioStatusView.ui" />
@@ -417,13 +423,19 @@
     <QtMoc Include="src\View\PerioView\Widgets\PerioTable.h" />
     <QtMoc Include="src\View\LoginView\LoginView.h" />
     <QtMoc Include="src\View\ProcedureDialog\ProcedureFields\FiberSplintView.h" />
+    <QtMoc Include="src\View\PatientSummaryView\PatientSummary.h" />
+    <ClInclude Include="src\Database\DbListOpener.h" />
+    <ClInclude Include="src\Presenter\PatientSummaryPresenter\PatientSummaryPresenter.h" />
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\GeneralProcedurePresenter.h" />
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\FiberSplintPresenter.h" />
     <ClInclude Include="src\Database\DbLogin.h" />
     <ClInclude Include="src\Presenter\LoginPresenter\LoginPresenter.h" />
     <ClInclude Include="src\Model\Parser\Parser.h" />
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\ToothProcedurePresenter.h" />
+    <QtMoc Include="src\View\AmbListSelector\Models\PatientTableModel.h" />
+    <QtMoc Include="src\View\AmbListSelector\Models\PerioTableModel.h" />
     <ClInclude Include="src\View\LoginView\ILoginView.h" />
+    <ClInclude Include="src\View\PatientSummaryView\IPatientSummaryView.h" />
     <ClInclude Include="src\View\PerioView\PerioGraphics\HexagonGraphicsItem.h" />
     <ClInclude Include="src\Model\PerioStatistic.h" />
     <ClInclude Include="src\Model\PerioToothData.h" />
@@ -465,14 +477,14 @@
     <QtMoc Include="src\View\uiComponents\qt_derived\NameEdit.h" />
     <QtMoc Include="src\View\ProcedureEditDialog\ProcedureEditDialog.h" />
     <QtMoc Include="src\View\AmbListSelector\AmbListSelector.h" />
-    <QtMoc Include="src\View\AmbListSelector\ListsTableModel.h" />
+    <QtMoc Include="src\View\AmbListSelector\Models\AmbListTableModel.h" />
     <QtMoc Include="src\View\AmbListSelector\ListTable.h" />
     <ClInclude Include="src\View\DetailsView\IDetailedStatusView.h" />
     <ClInclude Include="src\JsonCpp\json-forwards.h" />
     <ClInclude Include="src\JsonCpp\json.h" />
     <ClInclude Include="src\Model\Procedure\PackageCounter.h" />
     <ClInclude Include="src\Model\AmbListValidator.h" />
-    <ClInclude Include="src\Model\AmbListRow.h" />
+    <ClInclude Include="src\Model\TableRows.h" />
     <ClInclude Include="src\Presenter\ListSelector\ListSelectorPresenter.h" />
     <ClInclude Include="src\Model\Validator\ProcedureDateValidator.h" />
     <ClInclude Include="src\Model\Validator\CommonValidators.h" />

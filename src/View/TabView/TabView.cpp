@@ -131,12 +131,21 @@ void TabView::showListView()
 
     showTabWidget(&m_listView);
     m_perioView.setPresenter(nullptr);
+    m_summaryView.setPresenter(nullptr);
 }
 
 void TabView::showPerioView()
 {
     showTabWidget(&m_perioView);
     m_listView.setPresenter(nullptr);
+    m_summaryView.setPresenter(nullptr);
+}
+
+void TabView::showSummaryView()
+{
+    showTabWidget(&m_summaryView);
+    m_listView.setPresenter(nullptr);
+    m_perioView.setPresenter(nullptr);
 }
 
 void TabView::showDinosaur()
@@ -154,6 +163,11 @@ IListView* TabView::listView()
 IPerioView* TabView::perioView()
 {
     return &m_perioView;
+}
+
+IPatientSummaryView* TabView::summaryView()
+{
+    return &m_summaryView;
 }
 
 

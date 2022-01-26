@@ -7,7 +7,6 @@ class CheckModel;
 class AmbList;
 class Patient;
 class ToothPaintHint;
-class BridgesPaintHint;
 class ISurfacePanel;
 class ListPresenter;
 class AbstractComboBox;

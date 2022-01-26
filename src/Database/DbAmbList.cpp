@@ -115,51 +115,6 @@ void DbAmbList::updateAmbList(const AmbList& ambList)
     db_procedures.saveProcedures(ambList.id, ambList.procedures);
 }
 
-std::vector<AmbListRow> DbAmbList::getAmbListRows(const Date& from, const Date& to)
-{
-    openConnection();
-
-    std::vector<AmbListRow> rows;
-    rows.reserve(50);
-
-    std::string query =
-        "SELECT amblist.id, amblist.num, amblist.day, amblist.month, amblist.year, patient.fname, patient.mname, patient.lname, patient.id "
-        "FROM amblist INNER JOIN patient ON amblist.patient_id = patient.id "
-        "WHERE (amblist.year, amblist.month, amblist.day) "
-        "BETWEEN (" + std::to_string(from.year) + ", " + std::to_string(from.month) + ", " + std::to_string(from.day) + ") "
-        "AND (" + std::to_string(to.year) + ", " + std::to_string(to.month) + ", " + std::to_string(to.day) + ") "
-        "AND amblist.lpk = '" + UserManager::currentUser().LPK + "' "
-        "ORDER BY amblist.year ASC, amblist.month ASC, amblist.day ASC ";
-
-    sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
-
-    while (sqlite3_step(stmt) != SQLITE_DONE)
-    {
-        rows.emplace_back();
-        auto& row = rows.back();
-
-       //amb list data:
-        row.id = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0));
-        row.ambNumber = sqlite3_column_int(stmt, 1);
-        row.date = Date{ sqlite3_column_int(stmt, 2), sqlite3_column_int(stmt, 3), sqlite3_column_int(stmt, 4) };
-
-        //patient data:
-        row.patientName = std::string{ reinterpret_cast<const char*>(sqlite3_column_text(stmt, 5))} + " ";
-        std::string mname = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 6));
-        if (!mname.empty()) //some foreigners dont have middle names
-            row.patientName.append(mname + " ");
-        row.patientName.append(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 7)));
-
-        row.patientId = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 8));
-    }
-
-    sqlite3_finalize(stmt);
-
-    closeConnection();
-
-    return rows;
-}
-
 std::vector<int> DbAmbList::getValidYears()
 {
     std::vector<int> years;
@@ -270,7 +225,7 @@ AmbList DbAmbList::getListData(const std::string& ambID)
 }
 
 
-void DbAmbList::deleteAmbList(const std::string& ambID)
+void DbAmbList::deleteCurrentSelection(const std::string& ambID)
 {
     openConnection();
 

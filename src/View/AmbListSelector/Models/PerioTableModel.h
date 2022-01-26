@@ -3,28 +3,21 @@
 #include <vector>
 #include <QAbstractTableModel>
 
-#include "Model/AmbListRow.h"
+#include "Model/TableRows.h"
 
-struct QAmbListRow
+struct QPerioListRow
 {
-	int ambNumber;
 	QString date;
-	QString patientName;
 	QString patientID;
-
-	QAmbListRow(AmbListRow r)
-		:
-		ambNumber(r.ambNumber),
-		date(QString::fromStdString(Date::toString(r.date))),
-		patientName(QString::fromStdString(r.patientName)),
-		patientID(QString::fromStdString(r.patientId)) {};
+	QString patientName;
+	QString patientPhone;
 };
 
-class ListsTableModel : public QAbstractTableModel
+class PerioTableModel : public QAbstractTableModel
 {
 	Q_OBJECT
 
-	std::vector<QAmbListRow> rows;
+	std::vector<QPerioListRow> rows;
 
 	bool insertRows(int position, int rows, const QModelIndex& index = QModelIndex());
 	bool removeRows(int row, int count, const QModelIndex& parent = QModelIndex());
@@ -34,11 +27,11 @@ class ListsTableModel : public QAbstractTableModel
 	QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
 
 public:
-	ListsTableModel(QObject* parent = nullptr);
+	PerioTableModel(QObject* parent = nullptr);
 
-	void setRows(std::vector<AmbListRow> rows);
+	void setRows(std::vector<PerioRow> rows);
 
-	~ListsTableModel();
+	~PerioTableModel();
 
 
 

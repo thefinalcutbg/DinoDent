@@ -1,23 +1,29 @@
 #pragma once
 
-#include "Model/AmbListRow.h"
-#include "Database/DbAmbList.h"
+#include "Model/TableRows.h"
+#include "Database/DbListOpener.h"
 
 class TabPresenter;
 class IListSelectorView;
+
+enum class RowModelType{ AmbListRow, PerioRow, PatientRow};
 
 class ListSelectorPresenter
 {
 	TabPresenter* tab_presenter{ nullptr };
 	IListSelectorView* view{ nullptr };
-	DbAmbList amb_db;
+	DbListOpener m_db;
+
+	RowModelType m_currentModelType {RowModelType::AmbListRow};
 
 	std::vector<int>selectedIndexes{};
 
-	Date _from{ 1, Date::currentMonth(), Date::currentYear() };
-	Date _to{ Date::currentDate().getMaxDateOfMonth() };
+	Date m_from{ 1, Date::currentMonth(), Date::currentYear() };
+	Date m_to{ Date::currentDate().getMaxDateOfMonth() };
 	
-	std::vector<AmbListRow> rows_{ amb_db.getAmbListRows(_from, _to) };
+	std::vector<AmbRow> m_ambRows{ m_db.getAmbRows(m_from, m_to) };
+	std::vector<PatientRow> m_patientRows{ m_db.getPatientRows() };
+	std::vector<PerioRow> m_perioRows{ m_db.getPerioRows(m_from, m_to) };
 
 
 
@@ -34,10 +40,12 @@ public:
 
 	void refreshModel();
 
+	void setListType(RowModelType type);
+
 	void selectionChanged(std::vector<int> selectedIndexes);
 
-	void openAmbList();
-	void deleteAmbList();
+	void openCurrentSelection();
+	void deleteCurrentSelection();
 
 	~ListSelectorPresenter();
 

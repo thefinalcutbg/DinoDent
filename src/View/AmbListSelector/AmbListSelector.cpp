@@ -46,7 +46,7 @@ AmbListSelector::AmbListSelector(ListSelectorPresenter* presenter) :
 
 	connect(ui.tableView, &QTableView::clicked, this, [=] {
 
-			auto idxList = ui.tableView->selectionModel()->selectedIndexes();
+		auto idxList = ui.tableView->selectionModel()->selectedRows();
 
 			std::vector<int>selectedIndexes;
 
@@ -68,16 +68,6 @@ AmbListSelector::AmbListSelector(ListSelectorPresenter* presenter) :
 	connect(ui.deleteButton, &QPushButton::clicked, 
 		[=] 
 		{
-			QMessageBox msgBox;
-			msgBox.setIcon(QMessageBox::Warning);
-			msgBox.setText("Сигурни ли сте, че искате да изтриете амбулаторния лист?");
-			msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-			msgBox.setButtonText(QMessageBox::Yes, "Да");
-			msgBox.setButtonText(QMessageBox::No, "Не");
-			msgBox.setDefaultButton(QMessageBox::No);
-			int answer = msgBox.exec();
-
-			if(answer == QMessageBox::Yes)
 				presenter->deleteCurrentSelection();
 		});
 

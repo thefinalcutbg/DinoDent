@@ -12,7 +12,7 @@ void PathologyWidget::setData(const PathologyData& data)
 	
 	auto& date = data.date_diagnosed;
 
-	ui.dateLabel->setText(QString::fromStdString(Date::toString(data.date_diagnosed)));
+	ui.dateLabel->setText(QString::fromStdString(data.date_diagnosed.toString()));
 
 	auto list = data.diagnosisList();
 

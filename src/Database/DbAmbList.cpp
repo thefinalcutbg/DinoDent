@@ -142,6 +142,7 @@ AmbList DbAmbList::getListData(const std::string& patientID, int month, int year
 
     std::string query = "SELECT id, num, unfavourable, day, month, year, status_json, charge FROM amblist WHERE "
         "patient_id = '" + patientID + "' AND "
+        "lpk = " + UserManager::currentUser().LPK + " AND "
         "month = " + std::to_string(month) + " AND "
         "year = " + std::to_string(year);
 

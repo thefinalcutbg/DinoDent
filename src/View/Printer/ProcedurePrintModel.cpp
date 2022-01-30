@@ -18,7 +18,7 @@ ProcedurePrintModel::ProcedurePrintModel(const std::vector<Procedure>& procedure
 
         m_procedures.emplace_back(PrintProcedure
         {
-            QString::fromStdString(Date::toString(p.date)),
+            QString::fromStdString(p.date.toString()),
             QString::fromStdString(p.diagnosis),
             QString::fromStdString(toothNumber),
             QString::fromStdString(p.name),

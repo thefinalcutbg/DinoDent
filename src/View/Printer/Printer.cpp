@@ -56,7 +56,7 @@ void Print::ambList(const AmbList& amb, const Patient& patient, const User& user
 
     report.dataManager()->setReportVariable("RHIFCode", QString::fromStdString(RHIF));
     report.dataManager()->setReportVariable("healthRegion", QString::fromStdString(health));
-    report.dataManager()->setReportVariable("birth", QString::fromStdString(Date::toString(patient.birth)));
+    report.dataManager()->setReportVariable("birth", QString::fromStdString(patient.birth.toString()));
 
     report.dataManager()->setReportVariable("RZICode", QString::fromStdString(user.rziCode));
     report.dataManager()->setReportVariable("specialty", user.specialty);

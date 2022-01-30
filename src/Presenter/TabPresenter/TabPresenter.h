@@ -20,7 +20,6 @@ class TabPresenter
 	int _indexCounter;
 	int m_currentIndex;
 
-	DbAmbList amb_db;
 	DbPatient patient_db;
 
 	ITabView* view;
@@ -28,6 +27,7 @@ class TabPresenter
 	bool newListExists(const Patient& patient);
 	bool ambTabAlreadyOpened(const std::string& ambList_id);
 	bool perioTabAlreadyOpened(const std::string& perio_id);
+	bool patientTabAlreadyOpened(const std::string& patient_id);
 
 	void openTab(TabInstance* tabInstance);
 
@@ -41,11 +41,14 @@ public:
 
 	TabInstance* currentTab();
 	void setCurrentTab(int index);
+	void openPatient(const std::string& patientID);
 	void openList(const Patient& patient);
 	void openPerio(const Patient& patient);
 	void open(const PerioRow& perio);
 	void openList(const AmbRow& ambList);
 	void removeList(const std::string& ambID);
+	void removePerio(const std::string& perioID);
+	void removePatient(const std::string& patientID);
 	void removeCurrentTab();
 
 };

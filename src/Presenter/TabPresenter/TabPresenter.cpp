@@ -4,6 +4,7 @@
 #include "Model/TableRows.h"
 #include "../ListPresenter/ListPresenter.h"
 #include "../PerioPresenter/PerioPresenter.h"
+#include "../PatientSummaryPresenter/PatientSummaryPresenter.h"
 
 
 TabPresenter::TabPresenter() : _indexCounter(-1), m_currentIndex(-1), view(nullptr)
@@ -42,6 +43,7 @@ void TabPresenter::openTab(TabInstance* tabInstance)
 
 void TabPresenter::setCurrentTab(int index)
 {
+
     if (currentTab() != nullptr) currentTab()->prepareSwitch();
 
     m_currentIndex = index;
@@ -55,14 +57,11 @@ void TabPresenter::setCurrentTab(int index)
     m_tabs[index]->setCurrent();
 }
 
-
 void TabPresenter::removeCurrentTab()
 {
-
     delete m_tabs[m_currentIndex];
     m_tabs.erase(m_currentIndex);
     view->removeCurrentTab();
-
 }
 
 
@@ -91,6 +90,18 @@ void TabPresenter::openList(const Patient& patient)
 
     openTab(newTab);
 
+}
+
+void TabPresenter::openPatient(const std::string& patientID)
+{
+    if (patientTabAlreadyOpened(patientID)) return;
+
+    TabInstance* newTab = new PatientSummaryPresenter(
+        view,
+        getPatient_ptr(patient_db.getPatient(patientID))
+    );
+
+    openTab(newTab);
 }
 
 void TabPresenter::openList(const AmbRow& ambRow)
@@ -161,6 +172,24 @@ bool TabPresenter::perioTabAlreadyOpened(const std::string& perio_id)
     return false;
 }
 
+bool TabPresenter::patientTabAlreadyOpened(const std::string& patient_id)
+{
+    for (auto& [index, tabInstance] : m_tabs)
+    {
+        if (tabInstance->type != TabType::PatientSummary) continue;
+
+        auto patientPresenter = static_cast<PatientSummaryPresenter*>(tabInstance);
+        if (patientPresenter->patient->id == patient_id)
+        {
+            view->focusTab(index);
+            return true;
+        }
+
+    }
+
+    return false;
+}
+
 bool TabPresenter::newListExists(const Patient& patient)
 {
 
@@ -195,10 +224,42 @@ void TabPresenter::removeList(const std::string& ambID)
 
         if (static_cast<ListPresenter*>(tab)->m_ambList.id == ambID)
         {
-            setCurrentTab(index);
-            removeCurrentTab();
+            view->focusTab(index);
+            view->removeCurrentTab();
+            return;
         }
-            
     }
 
+}
+
+void TabPresenter::removePerio(const std::string& perioID)
+{
+    for (const auto& [index, tab] : m_tabs)
+    {
+        if (tab->type != TabType::PerioList) continue;
+
+        if (static_cast<PerioPresenter*>(tab)->m_perioStatus.id == perioID)
+        {
+            view->focusTab(index);
+            removeCurrentTab();
+            return;
+        }
+
+    }
+}
+
+void TabPresenter::removePatient(const std::string& patientID)
+{
+    for (const auto& [index, tab] : m_tabs)
+    {
+        if (tab->type != TabType::PatientSummary) continue;
+
+        if (static_cast<PatientSummaryPresenter*>(tab)->patient->id == patientID)
+        {
+            view->focusTab(index);
+            view->removeCurrentTab();
+            return;
+        }
+
+    }
 }

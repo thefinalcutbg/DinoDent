@@ -1,18 +1,30 @@
 #pragma once
 #include "Presenter/TabPresenter/TabInstance.h"
+#include "Model/TimeFrame.h"
+#include "Database/DbPatientSummary.h"
 #include <memory>
 
 class PatientSummaryView;
-class Patient;
+struct Patient;
+
 
 class PatientSummaryPresenter final : public TabInstance
 {
+	DbPatientSummary m_db;
+
 	IPatientSummaryView* view;
 
-	std::shared_ptr<Patient> patient;
+	int m_currentFrameIdx;
 
 public:
+
+	std::shared_ptr<Patient> patient;
+	std::vector<TimeFrame> statusTimeFrame;
+	
+
 	PatientSummaryPresenter(ITabView* view, std::shared_ptr<Patient> patient);
+
+	void setCurrentFrame(int index);
 
 	bool save() override { return true; };
 	bool saveAs() override { return true; };
@@ -23,5 +35,7 @@ public:
 	void setCurrent() override;
 
 	virtual std::string getTabName() override;
+
+	~PatientSummaryPresenter();
 };
 

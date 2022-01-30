@@ -28,7 +28,8 @@ PerioPresenter::PerioPresenter(ITabView* view, std::shared_ptr<Patient> patient)
 
                             if(!getPrevious)
                                 m_perioStatus = PerioStatus();
-        
+
+                            m_perioStatus.date = Date::currentDate();
     }
 
 
@@ -324,5 +325,11 @@ void PerioPresenter::prepareSwitch()
 
 std::string PerioPresenter::getTabName()
 {
-    return u8"Пародонтален статус " + patient->firstLastName() + " " + Date::toString(m_perioStatus.date);
+    return u8"Пародонтален статус " + patient->firstLastName() + " " + m_perioStatus.date.toString();
+}
+
+PerioPresenter::~PerioPresenter()
+{
+    if(view != nullptr)
+    view->setPresenter(nullptr);
 }

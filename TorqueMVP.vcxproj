@@ -113,6 +113,7 @@
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard_C>Default</LanguageStandard_C>
     </ClCompile>
     <Link>
       <AdditionalDependencies>$(Qt_LIBS_);%(AdditionalDependencies);$(ProjectDir)dependencies/LimeReport/$(Platform)/$(Configuration)/lib/limereportd.lib;</AdditionalDependencies>
@@ -125,6 +126,7 @@
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard_C>Default</LanguageStandard_C>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>c:/Dev/Torque/dependencies/LimeReport/x64/Release;$(Qt_LIBPATH_);%(AdditionalLibraryDirectories);$(SolutionDir)jsoncpp\jsoncpp-src-0.5.0\build\vs71\release\lib_json</AdditionalLibraryDirectories>
@@ -211,6 +213,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Database\DbPatientSummary.cpp" />
     <ClCompile Include="src\Database\DbListOpener.cpp" />
     <ClCompile Include="src\View\AmbListSelector\Models\PatientTableModel.cpp" />
     <ClCompile Include="src\View\AmbListSelector\Models\PerioTableModel.cpp" />
@@ -424,7 +427,9 @@
     <QtMoc Include="src\View\LoginView\LoginView.h" />
     <QtMoc Include="src\View\ProcedureDialog\ProcedureFields\FiberSplintView.h" />
     <QtMoc Include="src\View\PatientSummaryView\PatientSummary.h" />
+    <ClInclude Include="src\Database\DbPatientSummary.h" />
     <ClInclude Include="src\Database\DbListOpener.h" />
+    <ClInclude Include="src\Model\TimeFrame.h" />
     <ClInclude Include="src\Presenter\PatientSummaryPresenter\PatientSummaryPresenter.h" />
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\GeneralProcedurePresenter.h" />
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\FiberSplintPresenter.h" />
@@ -514,8 +519,6 @@
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\ExtractionPresenter.h" />
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\CrownPresenter.h" />
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\ObturationPresenter.h" />
-    <ClInclude Include="src\View\ListView\IProcedureView.h" />
-    <ClInclude Include="src\View\ListView\IStatusView.h" />
     <ClInclude Include="src\View\ProcedureDialog\ProcedureFields\IObturationView.h" />
     <ClInclude Include="src\View\ProcedureDialog\ProcedureFields\ICrownView.h" />
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\AbstractSubPresenter.h" />

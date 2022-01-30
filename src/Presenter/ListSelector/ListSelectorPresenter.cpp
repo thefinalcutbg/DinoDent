@@ -1,7 +1,7 @@
-#include "ListSelectorPresenter.h"
+﻿#include "ListSelectorPresenter.h"
 #include "View/AmbListSelector/IListSelectorView.h"
 #include "View/ModalDialogBuilder.h"
-
+#include <QDebug>
 
 ListSelectorPresenter::ListSelectorPresenter()
 {
@@ -64,7 +64,14 @@ void ListSelectorPresenter::setListType(RowModelType type)
 	}
 }
 
-void ListSelectorPresenter::selectionChanged(std::vector<int> selectedIndexes) { this->selectedIndexes = selectedIndexes; }
+void ListSelectorPresenter::selectionChanged(std::vector<int> selectedIndexes)
+{ 
+	this->selectedIndexes = selectedIndexes;
+	for (auto i : this->selectedIndexes)
+	{
+		qDebug() << i;
+	}
+}
 
 
 #include "../TabPresenter/TabPresenter.h"
@@ -88,7 +95,10 @@ void ListSelectorPresenter::openCurrentSelection()
 		for (auto idx : selectedIndexes)
 			tab_presenter->open(m_perioRows[idx]);
 		break;
-
+	case RowModelType::PatientRow:
+		for (auto idx : selectedIndexes)
+			tab_presenter->openPatient(m_patientRows[idx].patientId);
+		break;
 	}
 
 
@@ -97,13 +107,42 @@ void ListSelectorPresenter::openCurrentSelection()
 
 void ListSelectorPresenter::deleteCurrentSelection()
 {
-	for (auto idx : selectedIndexes)
+
+	
+
+	switch (m_currentModelType)
 	{
-	//	amb_db.deleteAmbList(rows_[idx].id);
-	//	tab_presenter->removeList(rows_[idx].id);
+	case RowModelType::AmbListRow:
+
+		if (!ModalDialogBuilder::askDialog(
+			u8"Сигурни ли сте, че искате да изтриете амбулаторния лист?"
+		)) 
+			return;
+
+		for (auto idx : selectedIndexes)
+		{
+			tab_presenter->removeList(m_ambRows[idx].id);
+			m_db.deleteRecord("amblist", m_ambRows[idx].id);
+		}
+		break;
+	case RowModelType::PerioRow:
+
+		if (!ModalDialogBuilder::askDialog(
+			u8"Сигурни ли сте, че искате да изтриете пародонталното измерване?"
+		)) 
+			return;
+
+		for (auto idx : selectedIndexes)
+		{
+			m_db.deleteRecord("periostatus", m_perioRows[idx].id);
+			tab_presenter->removePerio(m_perioRows[idx].id);
+		}
+		break;
+
+
 	}
 
-	if(selectedIndexes.size())	
+	//if(selectedIndexes.size())	
 		refreshModel();
 	
 }

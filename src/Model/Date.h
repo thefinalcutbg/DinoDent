@@ -21,7 +21,7 @@ public:
     Date yesterday() const;
 
     static Date getBirthdateFromEgn(const std::string& egn);
-    static std::string toString(const Date& date);
+    std::string toString() const;
     static Date currentDate();
 
     static int currentDay();

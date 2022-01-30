@@ -4,7 +4,7 @@
 #include "Model/Tooth/ToothUtils.h"
 
 QProcedure::QProcedure(const Procedure& p) :
-	date(QString::fromStdString(Date::toString(p.date))),
+	date(QString::fromStdString(p.date.toString())),
 	diagnosis(QString::fromStdString(p.diagnosis)),
 	tooth(ToothUtils::getToothNumber(p.tooth, p.temp)),
 	procedureName(QString::fromStdString(p.name)),

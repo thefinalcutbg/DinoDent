@@ -11,7 +11,7 @@ void DbPatient::insert(const Patient& patient)
     std::string query = "INSERT INTO patient VALUES ('"
         + std::to_string(patient.type) + "','"
         + patient.id + "','"
-        + Date::toString(patient.birth) + "','"
+        + patient.birth.toString() + "','"
         + std::to_string(patient.sex) + "','"
         + patient.FirstName + "','"
         + patient.MiddleName + "','"
@@ -37,7 +37,7 @@ void DbPatient::update(const Patient& patient)
 
     std::string query = "UPDATE patient SET "
         "type = " + std::to_string(patient.type) + ", "
-        "birth = '" + Date::toString(patient.birth) + "', "
+        "birth = '" + patient.birth.toString() + "', "
         "sex = " + std::to_string(patient.sex) + ", "
         "fname = '" + patient.FirstName + "', "
         "mname = '" + patient.MiddleName + "', "

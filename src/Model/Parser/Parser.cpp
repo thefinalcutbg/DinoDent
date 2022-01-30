@@ -1,13 +1,16 @@
 #include "Parser.h"
 #include "JsonCpp/json.h"
 
-
+#include "Model/Tooth/ToothContainer.h"
+#include "Model/PerioStatus.h"
+#include "Model/Procedure/Procedure.h"
+#include "Model/Procedure/TableStructs.h"
 
 Json::Value writePathology(int index, const Pathology& pathology)
 {
 	Json::Value parameters;
 	parameters["diag_idx"] = pathology.data.diagnosis_index;
-	parameters["date"] = Date::toString(pathology.data.date_diagnosed);
+	parameters["date"] = pathology.data.date_diagnosed.toString();
 	parameters["idx"] = index;
 	return parameters;
 }

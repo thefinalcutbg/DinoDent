@@ -17,7 +17,7 @@ void PerioTableModel::setRows(std::vector<PerioRow> rows)
         this->rows.emplace_back(
             
             QPerioListRow{
-                QString::fromStdString(Date::toString(r.date)), 
+                QString::fromStdString(r.date.toString()), 
                 QString::fromStdString(r.patientId),
                 QString::fromStdString(r.patientName),
                 QString::fromStdString(r.patientPhone),

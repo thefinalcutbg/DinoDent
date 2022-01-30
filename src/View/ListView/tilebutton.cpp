@@ -101,7 +101,7 @@ void PatientTile::setData(const Patient& patient, Date currentDate)
 		hirbNo = "Номер на ЗОК: Няма данни";
 	else hirbNo = "Номер на ЗОК: " + QString::fromStdString(patient.HIRBNo);
 
-	birthDate = "Рождена дата: " + QString::fromStdString(Date::toString(patient.birth));
+	birthDate = "Рождена дата: " + QString::fromStdString((patient.birth.toString()));
 
 	age = "Възраст: " + QString::number(patient.getAge(currentDate)) + " г.";
 

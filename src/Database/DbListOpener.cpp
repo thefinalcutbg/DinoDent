@@ -53,7 +53,7 @@ std::vector<AmbRow> DbListOpener::getAmbRows(const Date& from, const Date& to)
         "patient.id, patient.fname, patient.mname, patient.lname, patient.phone "
 
         "FROM amblist JOIN patient ON amblist.patient_id = patient.id "
-        "JOIN procedure on amblist.id = procedure.amblist_id "
+        "LEFT JOIN procedure on amblist.id = procedure.amblist_id "
         "GROUP BY amblist.id "
 
         "HAVING (amblist.year, amblist.month, amblist.day) "
@@ -141,4 +141,19 @@ std::vector<PerioRow> DbListOpener::getPerioRows(const Date& from, const Date& t
     closeConnection();
 
     return rows;
+}
+
+#include <qdebug.h>
+
+void DbListOpener::deleteRecord(const std::string& tableName, const std::string& id)
+{
+    openConnection();
+
+    std::string query = "DELETE FROM " + tableName + " WHERE id = " + id;
+
+    rc = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
+
+    qDebug() << QString::fromStdString(query);
+
+    closeConnection();
 }

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>347</width>
-    <height>166</height>
+    <width>278</width>
+    <height>130</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -19,34 +19,11 @@
   <property name="windowTitle">
    <string>LoginView</string>
   </property>
-  <widget class="QComboBox" name="practiceCombo">
-   <property name="geometry">
-    <rect>
-     <x>90</x>
-     <y>20</y>
-     <width>241</width>
-     <height>22</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>20</y>
-     <width>71</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Практика:</string>
-   </property>
-  </widget>
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>60</y>
+     <y>20</y>
      <width>81</width>
      <height>21</height>
     </rect>
@@ -59,7 +36,7 @@
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>90</y>
+     <y>50</y>
      <width>51</width>
      <height>21</height>
     </rect>
@@ -72,7 +49,7 @@
    <property name="geometry">
     <rect>
      <x>90</x>
-     <y>60</y>
+     <y>20</y>
      <width>131</width>
      <height>21</height>
     </rect>
@@ -88,7 +65,7 @@
    <property name="geometry">
     <rect>
      <x>90</x>
-     <y>90</y>
+     <y>50</y>
      <width>131</width>
      <height>21</height>
     </rect>
@@ -100,8 +77,8 @@
   <widget class="QPushButton" name="okButton">
    <property name="geometry">
     <rect>
-     <x>200</x>
-     <y>130</y>
+     <x>100</x>
+     <y>90</y>
      <width>75</width>
      <height>23</height>
     </rect>
@@ -110,27 +87,12 @@
     <string>Вход</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="cancelButton">
-   <property name="geometry">
-    <rect>
-     <x>100</x>
-     <y>130</y>
-     <width>75</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Отказ</string>
-   </property>
-  </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <tabstops>
   <tabstop>userEdit</tabstop>
   <tabstop>passEdit</tabstop>
   <tabstop>okButton</tabstop>
-  <tabstop>cancelButton</tabstop>
-  <tabstop>practiceCombo</tabstop>
  </tabstops>
  <resources/>
  <connections/>

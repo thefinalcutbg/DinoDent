@@ -25,8 +25,6 @@ struct Patient
 	std::string currentDiseases;
 	std::string pastDiseases;
 
-	//std::shared_ptr<TeethNotes> teeth_notes{ new TeethNotes{} };
-
 	static bool getSexFromEgn(const std::string& egn);
 	int getAge(const Date& currentDate = Date::currentDate())  const;
 	bool isAdult(const Date& currentDate = Date::currentDate())  const;
@@ -35,3 +33,13 @@ struct Patient
 	std::string firstLastName() const;
 	~Patient();
 };
+
+struct PatientMetaData
+{
+	TeethNotes notes;
+	std::string allergies;
+	std::string currentDiseases;
+	std::string pastDiseases;
+};
+
+struct PatientAggregate : public Patient, public PatientMetaData {};

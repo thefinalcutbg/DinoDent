@@ -219,9 +219,6 @@
     <ClCompile Include="src\Model\Patient.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Model\Procedure\CustomProcedures.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Presenter\TabPresenter\TabPresenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -879,9 +876,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\User\User.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Model\Procedure\CustomProcedures.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\ToothPaintDevices\ToothSprite.h">

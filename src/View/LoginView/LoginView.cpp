@@ -20,14 +20,11 @@ LoginView::LoginView(LoginPresenter* p, QWidget *parent)
 				presenter->okPressed(
 
 						ui.userEdit->text().toStdString(),
-						ui.passEdit->text().toStdString(),
-						ui.practiceCombo->currentIndex()
+						ui.passEdit->text().toStdString()
 				);
 
 		}
 	);
-
-	connect(ui.cancelButton, &QPushButton::clicked, [=] { close(); });
 
 	ui.userEdit->setFocus();
 	
@@ -43,11 +40,12 @@ void LoginView::paintEvent(QPaintEvent* event)
 
 void LoginView::setPracticeNames(const std::vector<std::string>& practiceList)
 {
+	/*
 	ui.practiceCombo->clear();
 
 	for (auto& entity : practiceList)
 		ui.practiceCombo->addItem(QString::fromStdString(entity));
-		
+	*/
 
 }
 

@@ -68,7 +68,7 @@ std::string DbAmbList::insertAmbList(const AmbList& ambList, const std::string &
 {
     openConnection();
 
-    std::string query = "INSERT INTO amblist (day, month, year, num, unfavourable, charge, status_json, patient_id, lpk) VALUES ('"
+    std::string query = "INSERT INTO amblist (day, month, year, num, unfavourable, charge, status_json, patient_id, lpk, rzi) VALUES ('"
         + std::to_string(ambList.date.day) + "','"
         + std::to_string(ambList.date.month) + "','"
         + std::to_string(ambList.date.year) + "','"
@@ -77,7 +77,8 @@ std::string DbAmbList::insertAmbList(const AmbList& ambList, const std::string &
         + std::to_string(static_cast<int>(ambList.charge)) + "','"
         + Parser::write(ambList.teeth) + "','"
         + patientID + "','"
-        + ambList.LPK
+        + ambList.LPK + "','"
+        + UserManager::currentUser().rziCode
         + "')";
 
     rc = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
@@ -105,7 +106,6 @@ void DbAmbList::updateAmbList(const AmbList& ambList)
         ", year = " + std::to_string(ambList.date.year) +
         ", unfavourable = " + std::to_string(ambList.full_coverage) +
         ", charge = " + std::to_string(static_cast<int>(ambList.charge)) +
-        ", lpk = '" + UserManager::currentUser().LPK + "' " +
         ", status_json = '" + Parser::write(ambList.teeth) + "' "
         "WHERE id = " + ambList.id;
 
@@ -145,6 +145,7 @@ AmbList DbAmbList::getListData(const std::string& patientID, int month, int year
     std::string query = "SELECT id, num, unfavourable, day, month, year, status_json, charge FROM amblist WHERE "
         "patient_id = '" + patientID + "' AND "
         "lpk = " + UserManager::currentUser().LPK + " AND "
+        "rzi = " + UserManager::currentUser().rziCode + " AND "
         "month = " + std::to_string(month) + " AND "
         "year = " + std::to_string(year);
 
@@ -249,7 +250,9 @@ bool DbAmbList::checkExistingAmbNum(int currentYear, int ambNum)
 
     std::string query = "SELECT EXISTS(SELECT 1 FROM amblist WHERE "
         "year = " + std::to_string(currentYear) +
-        " AND num = " + std::to_string(ambNum) + ")";
+        " AND num = " + std::to_string(ambNum) + ")"
+        " AND lpk = '" + UserManager::currentUser().LPK + "' "
+        " AND rzi = '" + UserManager::currentUser().rziCode + "' ";
 
     sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
 
@@ -271,16 +274,17 @@ std::map<int, bool> DbAmbList::getExistingNumbers(int currentYear)
 
     std::map<int, bool> numbersMap;
 
-    std::string query = "SELECT num FROM amblist WHERE lpk = '" + UserManager::currentUser().LPK + "' "
+    std::string query = "SELECT num FROM amblist WHERE " 
+        "lpk = '" + UserManager::currentUser().LPK + "' "
+        "AND rzi = '" + UserManager::currentUser().rziCode + "' "
         "AND year = " + std::to_string(currentYear);
 
     sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
 
     while (sqlite3_step(stmt) != SQLITE_DONE) {
-
+        
         numbersMap[sqlite3_column_int(stmt, 0)] = true;
     }
-
 
     numbersMap[0] = true;
 
@@ -297,7 +301,10 @@ int DbAmbList::getNewNumber(int currentYear)
 
     openConnection();
 
-    std::string query = "SELECT MAX(num) FROM amblist WHERE year = " + std::to_string(currentYear);
+    std::string query = "SELECT MAX(num) FROM amblist WHERE "
+        "year = " + std::to_string(currentYear) + " "
+        "AND lpk = '" + UserManager::currentUser().LPK + "' "
+        "AND rzi = '" + UserManager::currentUser().rziCode + "'";
 
     sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
 
@@ -305,6 +312,7 @@ int DbAmbList::getNewNumber(int currentYear)
 
     while (sqlite3_step(stmt) != SQLITE_DONE)
     {
+
         number = sqlite3_column_int(stmt, 0); 
     }
 

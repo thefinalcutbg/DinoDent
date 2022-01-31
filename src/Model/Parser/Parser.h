@@ -1,6 +1,8 @@
 #pragma once
 
 #include <string>
+#include <vector>
+#include <Model/Procedure/ProcedureTemplate.h>
 
 struct PerioStatus;
 class ToothContainer;
@@ -17,4 +19,5 @@ namespace Parser
 	void parse(const std::string& jsonString, DetailsSummary& summary);
 	void parse(const std::string& jsonString, PerioStatus& status);
 	void parse(const std::string& jsonString, ToothContainer& status);
+	std::vector<ProcedureTemplate> getPriceList(const std::string& priceList);
 };

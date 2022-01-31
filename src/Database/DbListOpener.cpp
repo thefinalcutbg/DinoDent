@@ -54,6 +54,7 @@ std::vector<AmbRow> DbListOpener::getAmbRows(const Date& from, const Date& to)
         "BETWEEN (" + std::to_string(from.year) + ", " + std::to_string(from.month) + ", " + std::to_string(from.day) + ") "
         "AND (" + std::to_string(to.year) + ", " + std::to_string(to.month) + ", " + std::to_string(to.day) + ") "
         "AND amblist.lpk = '" + UserManager::currentUser().LPK + "' "
+        "AND amblist.rzi = '" + UserManager::currentUser().rziCode + "' "
         "ORDER BY amblist.year ASC, amblist.month ASC, amblist.day ASC ";
 
     sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);

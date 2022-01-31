@@ -2,7 +2,6 @@
 #include "View/Torque.h"
 #include "View/ToothPaintDevices/SpriteSheets.h"
 #include "Model/Procedure/MasterNZOK.h"
-#include "Model/Procedure/CustomProcedures.h"
 #include "Model/Tooth/DiagnosisContainer.h"
 #include "Model/User/UserManager.h"
 #include "Database/Database.h"
@@ -30,7 +29,6 @@ int main(int argc, char *argv[])
   // TestToothDialog(); /*
     
     MasterNZOK::instance().loadUpdates(); //parsing json of nzok data
-    CustomProcedures::instance().loadCustomProcedures(); //parsing json of custom procedures
 
     Torque w;
 

@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include <string>
+#include <vector>
 #include "Model/Date.h"
+#include "Model/Procedure/ProcedureTemplate.h"
 
 struct Doctor
 {
@@ -19,6 +21,7 @@ struct Practice
 	std::string contract;
 	Date contractDate;
 	std::string practice_address;
+	std::vector<ProcedureTemplate> priceList;
 };
 
 struct User : public Doctor, public Practice {};

@@ -757,3 +757,39 @@ void Parser::parse(const std::string& jsonString, ToothContainer& status)
 	}
 
 }
+
+std::vector<ProcedureTemplate> Parser::getPriceList(const std::string& priceList)
+{
+	
+	Json::Reader reader;
+	Json::Value m;
+
+	reader.parse(priceList, m);
+
+	const Json::Value& procedureTemplate = m["manipulation"];
+
+	std::vector<ProcedureTemplate> procedureTemplateList;
+	procedureTemplateList.reserve(procedureTemplate.size());
+
+	for (int i = 0; i < procedureTemplate.size(); i++)
+	{
+		ProcedureTemplate m;
+		m.type = static_cast<ProcedureType>(procedureTemplate[i]["type"].asInt());
+		m.code = procedureTemplate[i]["code"].asInt();
+		m.name = procedureTemplate[i]["name"].asString();
+		m.price = procedureTemplate[i]["price"].asDouble();
+
+		if (!procedureTemplate[i]["default_diag"].isNull())
+		{
+			m.diagnosis = procedureTemplate[i]["default_diag"].asString();
+		}
+		if (!procedureTemplate[i]["material"].isNull())
+		{
+			m.material = procedureTemplate[i]["material"].asString();
+		}
+
+		procedureTemplateList.emplace_back(m);
+	}
+
+	return procedureTemplateList;
+}

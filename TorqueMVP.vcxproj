@@ -278,7 +278,6 @@
     <ClCompile Include="src\View\uiComponents\qt_derived\NameEdit.cpp" />
     <ClCompile Include="src\View\uiComponents\qt_derived\Widgets\ImplantView.cpp" />
     <ClCompile Include="src\View\ModalDialogBuilder.cpp" />
-    <ClCompile Include="src\Model\Procedure\CustomProcedures.cpp" />
     <ClCompile Include="src\Model\Procedure\MasterNZOK.cpp" />
     <ClCompile Include="src\Model\Patient.cpp" />
     <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\ImplantPresenter.cpp" />
@@ -504,7 +503,6 @@
     <ClInclude Include="src\View\uiComponents\qt_derived\Widgets\IImplantView.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\Widgets\ImplantView.h" />
     <ClInclude Include="src\View\ModalDialogBuilder.h" />
-    <ClInclude Include="src\Model\Procedure\CustomProcedures.h" />
     <ClInclude Include="src\Model\User\User.h" />
     <ClInclude Include="src\View\TabView\ITabView.h" />
     <ClInclude Include="src\View\ToothPaintDevices\ToothSprite.h" />

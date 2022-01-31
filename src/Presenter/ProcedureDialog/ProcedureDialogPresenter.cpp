@@ -3,7 +3,7 @@
 #include "View/ProcedureDialog/IProcedureDialog.h"
 #include "View/ModalDialogBuilder.h"
 #include "Model/Procedure/MasterNZOK.h"
-#include "Model/Procedure/CustomProcedures.h"
+
 
 //this implementation is a total mess and needs refactoring
 
@@ -63,7 +63,7 @@ ProcedureDialogPresenter::ProcedureDialogPresenter
 	);
 
 	//getting custom procedures:
-	auto customProcedures = CustomProcedures::instance().getCustomProcedures();
+	auto customProcedures = UserManager::currentUser().priceList;
 
 	procedureList.insert(procedureList.end(), customProcedures.begin(), customProcedures.end());
 }

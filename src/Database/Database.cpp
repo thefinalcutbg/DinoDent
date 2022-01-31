@@ -33,10 +33,13 @@ Database::Database() : err(nullptr), db(nullptr), stmt(nullptr)
         "num             INT             NOT NULL,"
         "patient_id      VARCHAR(10)     NOT NULL,"
         "lpk             VARCHAR(9)      NOT NULL,"
+        "rzi             VARCHAR(10)     NOT NULL,"
         "unfavourable    INT             NOT NULL,"
         "charge          INT             NOT NULL,"
         "status_json     VARCHAR,"
-        "FOREIGN KEY    (patient_id) REFERENCES patient(id) ON DELETE CASCADE ON UPDATE CASCADE"
+        "FOREIGN KEY    (rzi) REFERENCES practice(rzi) ON UPDATE CASCADE, "
+        "FOREIGN KEY    (patient_id) REFERENCES patient(id) ON DELETE CASCADE ON UPDATE CASCADE, "
+        "FOREIGN KEY    (lpk) REFERENCES doctor(lpk) ON DELETE CASCADE ON UPDATE CASCADE"   
         ")"
         , NULL, NULL, &err);
  
@@ -78,7 +81,6 @@ Database::Database() : err(nullptr), db(nullptr), stmt(nullptr)
         "month           INT             NOT NULL,"
         "day             INT             NOT NULL,"
         "data            VARCHAR         NOT NULL," //json
-     // "PRIMARY KEY    (day, month, year, patient_id), " - nope
         "FOREIGN KEY    (patient_id)     REFERENCES patient(id) ON DELETE CASCADE ON UPDATE CASCADE"
         ")"
         , NULL, NULL, &err);
@@ -96,12 +98,14 @@ Database::Database() : err(nullptr), db(nullptr), stmt(nullptr)
     rc = sqlite3_exec(
         db,
         "CREATE TABLE IF NOT EXISTS practice("
-        "rziCode        VARCHAR         NOT NULL PRIMARY KEY,"
+        "rzi            VARCHAR(10)     NOT NULL PRIMARY KEY,"
         "bulstat        VARCHAR         NOT NULL,"
         "name           VARCHAR         NOT NULL,"
         "pass           VARCHAR         NOT NULL,"
         "contract       VARCHAR,         "
-        "contractDate   VARCHAR          "
+        "contractDate   VARCHAR,         "
+        "address        VARCHAR,         "
+        "priceList      VARCHAR          "
         ")"
         , NULL, NULL, &err);
 
@@ -109,9 +113,9 @@ Database::Database() : err(nullptr), db(nullptr), stmt(nullptr)
         db,
         "CREATE TABLE IF NOT EXISTS practicedoctor("
         "id             INTEGER         NOT NULL PRIMARY KEY, "
-        "rziCode        VARCHAR         NOT NULL, "
+        "rzi            VARCHAR(10)     NOT NULL, "
         "lpk            VARCHAR         NOT NULL, "
-        "FOREIGN KEY(rziCode) REFERENCES practice(rziCode) ON DELETE CASCADE ON UPDATE CASCADE, "
+        "FOREIGN KEY(rzi) REFERENCES practice(rzi) ON DELETE CASCADE ON UPDATE CASCADE, "
         "FOREIGN KEY(lpk) REFERENCES doctor(lpk) ON DELETE CASCADE ON UPDATE CASCADE "
         ")"
         , NULL, NULL, &err);

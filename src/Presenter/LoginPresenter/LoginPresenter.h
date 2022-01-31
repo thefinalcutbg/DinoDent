@@ -11,13 +11,12 @@ class LoginPresenter
 {
 	DbLogin db;
 	ILoginView* view{ nullptr };
-	std::vector<Practice> practiceList;
 	bool loginSuccessful{ false };
 public:
 
 	bool successful();
 	void setView(ILoginView* view);
-	void okPressed(const std::string& lpk, const  std::string& pass, int practiceIdx);
+	void okPressed(const std::string& lpk, const  std::string& pass);
 	
 };
 

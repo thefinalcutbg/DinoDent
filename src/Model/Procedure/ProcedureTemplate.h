@@ -1,7 +1,20 @@
 #pragma once
 #include <string>
 
-enum class ProcedureType { general, any, obturation, extraction, endo, crown, implant, fibersplint, removecrown, removebridge, bridge, };
+enum class ProcedureType 
+{ 
+	general = 0, 
+	any = 1, 
+	obturation = 2, 
+	extraction = 3, 
+	endo = 4, 
+	crown = 5, 
+	implant = 6, 
+	bridge = 7, 
+	fibersplint = 8, 
+	removecrown = 9, 
+	removebridge = 10,  
+};
 
 struct ProcedureTemplate
 {

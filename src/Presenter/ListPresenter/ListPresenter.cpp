@@ -25,12 +25,12 @@ bool ListPresenter::isValid()
 
 
 ListPresenter::ListPresenter(ITabView* tabView, std::shared_ptr<Patient> patient) :
-    TabInstance(tabView, TabType::AmbList),
+    TabInstance(tabView, TabType::AmbList, patient),
     view(tabView->listView()),
-    patient(patient),
     m_selectedProcedure(-1),
     m_ambList(db.getListData(patient->id, Date::currentMonth(), Date::currentYear()))
 {
+
     surf_presenter.setStatusControl(this);
 
     if (m_ambList.isNew() && !patient->isAdult(m_ambList.date))
@@ -40,17 +40,23 @@ ListPresenter::ListPresenter(ITabView* tabView, std::shared_ptr<Patient> patient
 
     for (auto& m : m_ambList.procedures) //autofill NZOK procedures
         if (m.nzok)
-            m.price = MasterNZOK::instance().getPatientPrice(m.code, m_ambList.date, UserManager::currentUser().specialty, patient->isAdult(), m_ambList.full_coverage);
+            m.price = MasterNZOK::instance()
+            .getPatientPrice(
+                m.code, m_ambList.date,
+                UserManager::currentUser().specialty, 
+                patient->isAdult(), 
+                m_ambList.full_coverage
+            );
 }
 
 ListPresenter::ListPresenter(ITabView* tabView, std::shared_ptr<Patient> patient, const std::string& ambListId)
     :
-    TabInstance(tabView, TabType::AmbList),
+    TabInstance(tabView, TabType::AmbList, patient),
     view(tabView->listView()),
-    patient(patient),
     m_ambList(db.getListData(ambListId)),
     m_selectedProcedure(-1)
 {
+
     surf_presenter.setStatusControl(this);
 
     if (m_ambList.isNew() && !patient->isAdult(m_ambList.date))
@@ -60,7 +66,14 @@ ListPresenter::ListPresenter(ITabView* tabView, std::shared_ptr<Patient> patient
 
     for (auto& m : m_ambList.procedures) //autofill NZOK procedures
         if (m.nzok)
-            m.price = MasterNZOK::instance().getPatientPrice(m.code, m_ambList.date, UserManager::currentUser().specialty, patient->isAdult(), m_ambList.full_coverage);
+            m.price = MasterNZOK::instance()
+               .getPatientPrice(
+                   m.code, 
+                   m_ambList.date, 
+                   UserManager::currentUser().specialty, 
+                   patient->isAdult(), 
+                   m_ambList.full_coverage
+               );
 }
 
 void ListPresenter::statusChanged()
@@ -106,6 +119,11 @@ std::string ListPresenter::getTabName()
     return tabName;
 }
 
+const std::string& ListPresenter::rowID() const
+{
+    return m_ambList.id;
+}
+
 bool ListPresenter::save()
 {
     if (m_ambList.isNew()) return saveAs();
@@ -142,7 +160,8 @@ bool ListPresenter::saveAs()
     m_ambList.number = newNumber;
 
     if (m_ambList.isNew()) {
-        db.insertAmbList(m_ambList, patient->id);
+        m_ambList.id = db.insertAmbList(m_ambList, patient->id);
+        
     }
     else {
         db.updateAmbList(m_ambList);

@@ -64,7 +64,7 @@ std::vector<Procedure> DbAmbList::previousProcedures(std::string patientID)
 }
 
 
-void DbAmbList::insertAmbList(AmbList& ambList, std::string &patientID)
+std::string DbAmbList::insertAmbList(const AmbList& ambList, const std::string &patientID)
 {
     openConnection();
 
@@ -82,13 +82,15 @@ void DbAmbList::insertAmbList(AmbList& ambList, std::string &patientID)
 
     rc = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
 
-    ambList.id = std::to_string((int)sqlite3_last_insert_rowid(db));
+    auto rowID = std::to_string((int)sqlite3_last_insert_rowid(db));
 
     if (rc != SQLITE_OK) qDebug() << "Insert error:" << &db;
 
     closeConnection();
 
     db_procedures.saveProcedures(ambList.id, ambList.procedures);
+
+    return rowID;
 
 }
 

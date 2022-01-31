@@ -2,30 +2,42 @@
 #include <string>
 #include <variant>
 #include <Model/Date.h>
+#include "Presenter/TabPresenter/TabInstance.h"
 
-struct AmbRow
+struct RowInstance
 {
-	const std::string id;
-	const int ambNumber;
-	bool nzok;
-	const Date date;
-	const std::string patientId;
-	const std::string patientName;
-	const std::string patientPhone;
+	const TabType type;
+	std::string rowID;
+	std::string patientId;
+
+	RowInstance(TabType t) : type(t) {}
 };
 
-struct PatientRow
+struct AmbRow : public RowInstance
 {
-	const std::string patientId;
-	const std::string patientName;
-	const std::string patientPhone;
+	AmbRow() : RowInstance{ TabType::AmbList } {};
+
+	int ambNumber{-1};
+	bool nzok{0};
+	Date date;
+
+	std::string patientName;
+	std::string patientPhone;
 };
 
-struct PerioRow
+struct PatientRow : public RowInstance
 {
-	const std::string id;
-	const Date date;
-	const std::string patientId;
-	const std::string patientName;
-	const std::string patientPhone;
+	PatientRow() : RowInstance{ TabType::PatientSummary } {};
+
+	std::string name;
+	std::string phone;
+};
+
+struct PerioRow : public RowInstance
+{
+	PerioRow() : RowInstance{ TabType::PerioList } {};
+
+	Date date;
+	std::string patientName;
+	std::string patientPhone;
 };

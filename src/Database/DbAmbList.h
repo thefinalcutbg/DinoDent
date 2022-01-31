@@ -25,7 +25,7 @@ public:
 
     //amblist gets updated id after insertion
 
-    void insertAmbList(AmbList& ambList, std::string& patientID);
+    std::string insertAmbList(const AmbList& ambList, const std::string& patientID); //returns the rowId of the new instered row
     void deleteCurrentSelection(const std::string& ambID);
     void updateAmbList(const AmbList& ambList);
 

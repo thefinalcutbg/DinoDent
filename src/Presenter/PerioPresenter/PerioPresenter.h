@@ -12,7 +12,6 @@ class PerioPresenter : public TabInstance
 {
 	DbPerio m_db;
 
-	std::shared_ptr<Patient> patient;
 	IPerioView* view;
 	ToothContainer m_toothStatus;
 	
@@ -48,6 +47,7 @@ public:
 
 
 	// Inherited via TabInstance
+	const std::string& rowID() const override;
 	virtual bool save() override;
 	virtual bool saveAs() override;
 	virtual bool isNew() override;

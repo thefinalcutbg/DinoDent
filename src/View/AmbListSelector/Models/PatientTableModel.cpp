@@ -18,8 +18,8 @@ void PatientTableModel::setRows(const std::vector<PatientRow>& rows)
 
             QPatientRow{
                 QString::fromStdString(r.patientId),
-                QString::fromStdString(r.patientName),
-                QString::fromStdString(r.patientPhone)
+                QString::fromStdString(r.name),
+                QString::fromStdString(r.phone)
             }
         );
     }

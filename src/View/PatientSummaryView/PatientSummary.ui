@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>973</width>
-    <height>899</height>
+    <width>799</width>
+    <height>799</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -19,7 +19,7 @@
   <property name="minimumSize">
    <size>
     <width>799</width>
-    <height>899</height>
+    <height>799</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -28,11 +28,23 @@
   <widget class="GraphicsView" name="teethView">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>160</y>
+     <x>9</x>
+     <y>138</y>
      <width>721</width>
      <height>451</height>
     </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>721</width>
+     <height>451</height>
+    </size>
    </property>
    <property name="autoFillBackground">
     <bool>true</bool>
@@ -44,27 +56,20 @@
     <enum>Qt::ScrollBarAlwaysOff</enum>
    </property>
   </widget>
-  <widget class="QSlider" name="dateSlider">
-   <property name="geometry">
-    <rect>
-     <x>150</x>
-     <y>630</y>
-     <width>581</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Horizontal</enum>
-   </property>
-  </widget>
   <widget class="ProcedureTable" name="procedureTable">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>670</y>
+     <x>9</x>
+     <y>623</y>
      <width>721</width>
-     <height>201</height>
+     <height>141</height>
     </rect>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>721</width>
+     <height>16777215</height>
+    </size>
    </property>
    <property name="styleSheet">
     <string notr="true"/>
@@ -74,10 +79,47 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>20</y>
+     <y>10</y>
      <width>461</width>
      <height>121</height>
     </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>461</width>
+     <height>121</height>
+    </size>
+   </property>
+   <property name="text">
+    <string>PushButton</string>
+   </property>
+  </widget>
+  <widget class="AllergiesTile" name="allergiesTile">
+   <property name="geometry">
+    <rect>
+     <x>480</x>
+     <y>10</y>
+     <width>351</width>
+     <height>121</height>
+    </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>351</width>
+     <height>121</height>
+    </size>
    </property>
    <property name="text">
     <string>PushButton</string>
@@ -86,14 +128,51 @@
   <widget class="QLabel" name="dateLabel">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>630</y>
+     <x>10</x>
+     <y>598</y>
      <width>121</width>
-     <height>21</height>
+     <height>16</height>
     </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>121</width>
+     <height>0</height>
+    </size>
    </property>
    <property name="text">
     <string/>
+   </property>
+  </widget>
+  <widget class="QSlider" name="dateSlider">
+   <property name="geometry">
+    <rect>
+     <x>137</x>
+     <y>596</y>
+     <width>591</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>591</width>
+     <height>20</height>
+    </size>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
    </property>
   </widget>
  </widget>
@@ -111,6 +190,11 @@
   </customwidget>
   <customwidget>
    <class>PatientTile</class>
+   <extends>QPushButton</extends>
+   <header>View/ListView/tilebutton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>AllergiesTile</class>
    <extends>QPushButton</extends>
    <header>View/ListView/tilebutton.h</header>
   </customwidget>

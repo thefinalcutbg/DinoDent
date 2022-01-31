@@ -39,14 +39,14 @@ class ListPresenter : public TabInstance
 public:
 
     AmbList m_ambList;
-    std::shared_ptr<Patient> patient;
+
 
     ListPresenter(ITabView* tabView, std::shared_ptr<Patient> patient);
     ListPresenter(ITabView* tabView, std::shared_ptr<Patient> patient, const std::string& ambListId);
 
     void chargeChanged(int index);
 
-
+    virtual const std::string& rowID() const override;
     virtual bool save() override;
     virtual bool saveAs() override;
     virtual bool isNew() override;

@@ -89,7 +89,7 @@ void ListSelectorPresenter::openCurrentSelection()
 	{
 	case RowModelType::AmbListRow:
 		for (auto idx : selectedIndexes)
-			tab_presenter->openList(m_ambRows[idx]);
+			tab_presenter->open(m_ambRows[idx]);
 		break;
 	case RowModelType::PerioRow:
 		for (auto idx : selectedIndexes)
@@ -97,7 +97,7 @@ void ListSelectorPresenter::openCurrentSelection()
 		break;
 	case RowModelType::PatientRow:
 		for (auto idx : selectedIndexes)
-			tab_presenter->openPatient(m_patientRows[idx].patientId);
+			tab_presenter->open(m_patientRows[idx]);
 		break;
 	}
 
@@ -121,8 +121,8 @@ void ListSelectorPresenter::deleteCurrentSelection()
 
 		for (auto idx : selectedIndexes)
 		{
-			tab_presenter->removeList(m_ambRows[idx].id);
-			m_db.deleteRecord("amblist", m_ambRows[idx].id);
+			tab_presenter->removeTab(m_ambRows[idx].type, m_ambRows[idx].rowID);
+			m_db.deleteRecord("amblist", m_ambRows[idx].rowID);
 		}
 		break;
 	case RowModelType::PerioRow:
@@ -134,8 +134,8 @@ void ListSelectorPresenter::deleteCurrentSelection()
 
 		for (auto idx : selectedIndexes)
 		{
-			m_db.deleteRecord("periostatus", m_perioRows[idx].id);
-			tab_presenter->removePerio(m_perioRows[idx].id);
+			m_db.deleteRecord("periostatus", m_perioRows[idx].rowID);
+			tab_presenter->removeTab(m_perioRows[idx].type, m_perioRows[idx].rowID);
 		}
 		break;
 

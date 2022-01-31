@@ -2,6 +2,8 @@
 
 #include "View/TabView/ITabView.h"
 #include "View/ModalDialogBuilder.h"
+#include "Model/Patient.h"
+#include <memory>
 
 enum class TabType {AmbList, PerioList, PatientSummary};
 
@@ -24,11 +26,13 @@ protected:
 public:
 	const TabType type;
 
-	TabInstance(ITabView* tabView, TabType type) : _tabView(tabView), type(type) {  };
+	std::shared_ptr<Patient> patient;
+
+	TabInstance(ITabView* tabView, TabType type, std::shared_ptr<Patient> patient) : _tabView(tabView), type(type), patient(patient) {  };
 
 	bool edited{ false };
 
-
+	virtual const std::string& rowID() const = 0;
 	virtual bool save() = 0;
 	virtual bool saveAs() = 0;
 

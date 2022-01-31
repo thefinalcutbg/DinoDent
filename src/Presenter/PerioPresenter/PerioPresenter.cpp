@@ -8,14 +8,11 @@
 
 
 PerioPresenter::PerioPresenter(ITabView* view, std::shared_ptr<Patient> patient) :
-    TabInstance(view, TabType::PerioList), 
-    patient(patient), 
+    TabInstance(view, TabType::PerioList, patient), 
     view(view->perioView()),
     m_toothStatus(m_db.getStatus(patient->id, Date::currentDate())),
     m_perioStatus(m_db.getPerioStatus(patient->id, Date::currentDate()))
 {
-
-
 
     if (m_perioStatus.date != Date::currentDate()) //if its not todays measurment
     {
@@ -54,12 +51,12 @@ PerioPresenter::PerioPresenter(ITabView* view, std::shared_ptr<Patient> patient)
 
 
 PerioPresenter::PerioPresenter(ITabView* view, std::shared_ptr<Patient> patient, const std::string& perioId) :
-    TabInstance(view, TabType::PerioList),
-    patient(patient),
+    TabInstance(view, TabType::PerioList, patient),
     view(view->perioView()),
     m_toothStatus(m_db.getStatus(patient->id, Date::currentDate())),
     m_perioStatus(m_db.getPerioStatus(perioId))
 {
+
     for (auto& tooth : m_toothStatus)
     {
 
@@ -248,6 +245,11 @@ void PerioPresenter::restorationChanged(bool enabled)
     makeEdited();
 }
 
+
+const std::string& PerioPresenter::rowID() const
+{
+    return m_perioStatus.id;
+}
 
 bool PerioPresenter::save()
 {

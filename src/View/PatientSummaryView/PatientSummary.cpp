@@ -53,6 +53,7 @@ void PatientSummary::setTimeFrameCount(int count)
 void PatientSummary::setPatient(const Patient& patient)
 {
 	ui.patientTile->setData(patient, Date::currentDate());
+	ui.allergiesTile->setData(patient);
 }
 
 
@@ -73,4 +74,13 @@ void PatientSummary::setProcedures(const std::vector<Procedure>& p)
 		treatedTeeth.push_back(procedure.tooth);
 
 	m_teethScene.setProcedures(treatedTeeth);
+
+	//tova e copy-paste ot listView-to :
+	ui.procedureTable->setHidden(!p.size());
+	int tableHeight = p.size() * 50 + 26;
+	//ne sym siguren izob6to, 4e taka iskam da izglejda:
+	auto size = ui.procedureTable->size();
+	size.setHeight(tableHeight);
+	ui.procedureTable->setFixedSize(size);
+	this->setFixedHeight(710 + tableHeight + 100);
 }

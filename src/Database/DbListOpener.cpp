@@ -15,22 +15,16 @@ std::vector<PatientRow> DbListOpener::getPatientRows()
 
     while (sqlite3_step(stmt) != SQLITE_DONE)
     {
+       rows.emplace_back(PatientRow{});
+       
+       rows.back().rowID = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0));
+       rows.back().patientId = rows.back().rowID;
 
-        rows.emplace_back(
+       rows.back().name = std::string{ reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1)) } + " " +
+                          std::string{ reinterpret_cast<const char*>(sqlite3_column_text(stmt, 2)) } + " " +
+                          std::string{ reinterpret_cast<const char*>(sqlite3_column_text(stmt, 3)) };
 
-            PatientRow{
-                //id:
-                reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0)), //id
-                //name:
-                std::string{ reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1)) } + " " +
-                std::string{reinterpret_cast<const char*>(sqlite3_column_text(stmt, 2))} + " " +
-                std::string{reinterpret_cast<const char*>(sqlite3_column_text(stmt, 3))},
-                //phone:
-                reinterpret_cast<const char*>(sqlite3_column_text(stmt, 4))
-            }
-
-
-        );
+       rows.back().phone = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 4));
     }
 
     sqlite3_finalize(stmt);
@@ -66,27 +60,26 @@ std::vector<AmbRow> DbListOpener::getAmbRows(const Date& from, const Date& to)
 
     while (sqlite3_step(stmt) != SQLITE_DONE)
     {
+        rows.emplace_back(AmbRow{});
 
-        rows.emplace_back(
+        auto& row = rows.back();
 
-            AmbRow{
-                reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0)), //id
-                sqlite3_column_int(stmt, 1),                                 //amb number
-                bool(sqlite3_column_int(stmt, 2)),                                 //bool NZOK
-                Date{ sqlite3_column_int(stmt, 3), sqlite3_column_int(stmt, 4), sqlite3_column_int(stmt, 5) },
-                //id:
-                reinterpret_cast<const char*>(sqlite3_column_text(stmt, 6)),
-                //name:
-                std::string{reinterpret_cast<const char*>(sqlite3_column_text(stmt, 7)) } + " " +
-                std::string{reinterpret_cast<const char*>(sqlite3_column_text(stmt, 8))} + " " +
-                std::string{reinterpret_cast<const char*>(sqlite3_column_text(stmt, 9))},
-                //phone:
-                reinterpret_cast<const char*>(sqlite3_column_text(stmt, 10))
-            }
-        
-        
-        );
+        row.rowID = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0));
+        row.ambNumber = sqlite3_column_int(stmt, 1);
+        row.nzok = bool(sqlite3_column_int(stmt, 2));
+        row.date = Date{ 
+            sqlite3_column_int(stmt, 3),
+            sqlite3_column_int(stmt, 4), 
+            sqlite3_column_int(stmt, 5) 
+        };
+        row.patientId = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 6));
+        row.patientName = std::string{ reinterpret_cast<const char*>(sqlite3_column_text(stmt, 7)) } + " " +
+                          std::string{ reinterpret_cast<const char*>(sqlite3_column_text(stmt, 8)) } + " " +
+                          std::string{ reinterpret_cast<const char*>(sqlite3_column_text(stmt, 9)) };
+
+        row.patientPhone = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 10));
     }
+        
 
     sqlite3_finalize(stmt);
 
@@ -116,24 +109,22 @@ std::vector<PerioRow> DbListOpener::getPerioRows(const Date& from, const Date& t
     while (sqlite3_step(stmt) != SQLITE_DONE)
     {
 
-        rows.emplace_back(
+        rows.emplace_back(PerioRow{});
 
-            PerioRow{
-                //id:
-                reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0)),
-                //date:
-                Date{ sqlite3_column_int(stmt, 1), sqlite3_column_int(stmt, 2), sqlite3_column_int(stmt, 3) },
-                std::string{ reinterpret_cast<const char*>(sqlite3_column_text(stmt, 4)) },
-                //name:
-                std::string{ reinterpret_cast<const char*>(sqlite3_column_text(stmt, 5)) } + " " +
-                std::string{reinterpret_cast<const char*>(sqlite3_column_text(stmt, 6))} + " " +
-                std::string{reinterpret_cast<const char*>(sqlite3_column_text(stmt, 7))},
-                //phone:
-                reinterpret_cast<const char*>(sqlite3_column_text(stmt, 8))
-            }
+        auto& row = rows.back();
 
+        row.rowID = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0));
+        row.date = Date{
+            sqlite3_column_int(stmt, 1),
+            sqlite3_column_int(stmt, 2),
+            sqlite3_column_int(stmt, 3)
+        };
+        row.patientId = std::string{ reinterpret_cast<const char*>(sqlite3_column_text(stmt, 4)) };
+        row.patientName = std::string{ reinterpret_cast<const char*>(sqlite3_column_text(stmt, 5)) } + " " +
+                          std::string{ reinterpret_cast<const char*>(sqlite3_column_text(stmt, 6)) } + " " +
+                          std::string{ reinterpret_cast<const char*>(sqlite3_column_text(stmt, 7)) };
+        row.patientPhone = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 8));
 
-        );
     }
 
     sqlite3_finalize(stmt);

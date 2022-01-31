@@ -17,8 +17,6 @@ class PatientSummaryPresenter final : public TabInstance
 	int m_currentFrameIdx;
 
 public:
-
-	std::shared_ptr<Patient> patient;
 	std::vector<TimeFrame> statusTimeFrame;
 	
 
@@ -26,6 +24,7 @@ public:
 
 	void setCurrentFrame(int index);
 
+	const std::string& rowID() const override;
 	bool save() override { return true; };
 	bool saveAs() override { return true; };
 	bool isNew() override { return false; };

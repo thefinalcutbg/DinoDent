@@ -37,6 +37,7 @@ public:
 	void checkStateChanged(bool checked);
 	void stateChanged();
 	void statusSelected(int category, int code);
+	const std::string& getNote() const { return m_notes; }
 
 	void okPressed();
 

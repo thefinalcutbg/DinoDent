@@ -14,6 +14,7 @@ class ToothGraphicsItem : public QGraphicsItem
     int pxHeight;
 
     bool hasProcedure;
+    bool hasNote;
 
     int procedureMarkerHeight;
 
@@ -26,6 +27,7 @@ public:
     
     void showLingual(bool show);
     void setProcedure(bool hasProcedure);
+    void setNote(bool hasNote);
     void setWidth(int width);
     QRectF boundingRect() const override;
 

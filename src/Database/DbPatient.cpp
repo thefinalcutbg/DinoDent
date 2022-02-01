@@ -1,8 +1,5 @@
 #include "DbPatient.h"
 
-DbPatient::DbPatient()
-{}
-
 
 void DbPatient::insert(const Patient& patient)
 {
@@ -92,6 +89,8 @@ Patient DbPatient::getPatient(std::string patientID)
 
     closeConnection();
 
+    patient.teethNotes = this->getPresentNotes(patient.id);
+
     return patient;
 }
 
@@ -109,4 +108,28 @@ void DbPatient::updateAllergies(const std::string& patientID, const std::string&
     if (rc != SQLITE_OK) {}// << &db;
 
     closeConnection();
+}
+
+TeethNotes DbPatient::getPresentNotes(const std::string& patientID)
+{
+    openConnection();
+
+    std::string query = "SELECT tooth, text "
+        "FROM note WHERE patient_id = '" + patientID + "'";
+
+    sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
+
+    TeethNotes notes{};
+
+    while (sqlite3_step(stmt) != SQLITE_DONE)
+    {
+        notes[sqlite3_column_int(stmt, 0)] =
+                 reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
+    }
+
+    sqlite3_finalize(stmt);
+
+    closeConnection();
+
+    return notes;
 }

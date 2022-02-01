@@ -25,6 +25,7 @@ public:
 	virtual ISurfacePanel* surfacePanel() = 0;
 
 	virtual void repaintTooth(const ToothPaintHint& tooth) = 0;
+	virtual void setNotes(const std::array<std::string, 32>& notes) = 0;
 
 	virtual void setProcedures(const std::vector<Procedure>& m, double patientPrice, double nzokPrice) = 0;
 	virtual void setUnfav(bool unfav) = 0;

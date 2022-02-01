@@ -1,8 +1,9 @@
 #include "ToothGraphicsItem.h"
 #include <QPainter>
+#include <QIcon>
 #include <QGraphicsSceneMouseEvent>
 
-ToothGraphicsItem::ToothGraphicsItem(int index) : index(index), hasProcedure(false)
+ToothGraphicsItem::ToothGraphicsItem(int index) : index(index), hasProcedure(false), hasNote(false)
 {
 
     bounds.setHeight(224);
@@ -41,6 +42,8 @@ QRectF ToothGraphicsItem::boundingRect() const
 
 void ToothGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
+    static QPixmap note("note.png");
+
     painter->setRenderHint(QPainter::SmoothPixmapTransform);
 
     if (hasProcedure)
@@ -48,6 +51,12 @@ void ToothGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem*
         painter->setOpacity(0.2);
         painter->fillRect(0, procedureMarkerHeight, bounds.width(), 15, QBrush(Qt::green));
         painter->setOpacity(1);
+    }
+
+    if (hasNote)
+    { 
+        QRect noteRect(2, procedureMarkerHeight, 15, 15);
+        painter->drawPixmap(noteRect, note);
     }
 
     int xPos = (bounds.width() / 2) - (pxWidth / 2);
@@ -80,6 +89,12 @@ void ToothGraphicsItem::showLingual(bool show)
 void ToothGraphicsItem::setProcedure(bool hasProcedure)
 {
     this->hasProcedure = hasProcedure;
+    update();
+}
+
+void ToothGraphicsItem::setNote(bool hasNote)
+{
+    this->hasNote = hasNote;
     update();
 }
 

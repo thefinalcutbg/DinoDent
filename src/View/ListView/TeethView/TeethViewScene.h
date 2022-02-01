@@ -40,6 +40,7 @@ public:
 	void display(const ToothPaintHint& tooth);
 	void setSelectedTeeth(const std::vector<int> &selectedTeeth);
 	void setProcedures(std::vector<int> teeth_procedures);
+	void setNotes(const std::array<std::string, 32>& notes);
 
 	~TeethViewScene();
 };

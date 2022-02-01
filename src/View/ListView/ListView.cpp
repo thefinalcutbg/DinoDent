@@ -151,6 +151,11 @@ void ListView::repaintTooth(const ToothPaintHint& tooth)
 	ui.teethView->setFocus();
 }
 
+void ListView::setNotes(const std::array<std::string, 32>& notes)
+{
+	teethViewScene->setNotes(notes);
+}
+
 void ListView::disableGraphicsView(bool disabled)
 {
 	teethViewScene->setSelectedTeeth({});

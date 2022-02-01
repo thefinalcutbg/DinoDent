@@ -52,6 +52,7 @@ std::string Patient::firstLastName() const
 	return FirstName + " " + LastName;
 }
 
+
 Patient::~Patient()
 {
 

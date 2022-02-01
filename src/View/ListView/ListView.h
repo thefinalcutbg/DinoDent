@@ -41,6 +41,7 @@ public:
     void hideControlPanel(bool hidden) override;
     ISurfacePanel* surfacePanel() override;
     void repaintTooth(const ToothPaintHint& tooth) override;
+    void setNotes(const std::array<std::string, 32>& notes) override;
     void disableGraphicsView(bool disabled) override;
 
     //IProcedureView

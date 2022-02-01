@@ -281,6 +281,14 @@ void TeethViewScene::setProcedures(std::vector<int> teeth_procedures)
        
 }
 
+void TeethViewScene::setNotes(const std::array<std::string, 32>& notes)
+{
+    for (int i = 0; i < notes.size(); i++)
+    {
+        toothGraphic[i]->setNote(!notes[i].empty());
+    }
+}
+
 TeethViewScene::~TeethViewScene()
 {
     this->blockSignals(true); //have to fix setting selected teeth to non-existing entity! (ListInstance vector throws exception)

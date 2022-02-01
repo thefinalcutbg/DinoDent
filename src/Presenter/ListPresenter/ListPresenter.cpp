@@ -207,6 +207,8 @@ void ListPresenter::setCurrent()
     {
         view->repaintTooth(hint);
     }
+
+    view->setNotes(patient->teethNotes);
     
     view->setSelectedTeeth(m_selectedIndexes);
 
@@ -378,11 +380,17 @@ void ListPresenter::openDetails(int toothIdx)
     if (!result.has_value()) return;
     
     m_ambList.teeth.setToothDetails(result.value());
+
+    patient->teethNotes[toothIdx] = d.getNote();
+
+    view->setNotes(patient->teethNotes);
    
     for (int i = 0; i < 32; i++)
     {
         view->repaintTooth(ToothHintCreator::getToothHint(m_ambList.teeth[i]));
     }
+
+    
 
     statusChanged();
 }

@@ -43,23 +43,39 @@ void LoginPresenter::okPressed(const std::string& lpk, const std::string& pass)
 
     auto practiceList = db.getPracticeList(lpk);
     
-    if (practiceList.empty())
+    int practiceIdx;
+
+    switch (practiceList.size())
     {
+    case 0:
         ModalDialogBuilder::showError(u8"Докторът не принадлежи към нито една практика");
         return;
+
+    case 1:
+        practiceIdx = 0; 
+        break;
+
+    default:
+        std::vector<std::string> practiceNames;
+
+        for (auto& p : practiceList){
+            practiceNames.push_back(p.name);
+        }
+
+        practiceIdx = view->practiceUserChoice(practiceNames);
+
+        if (practiceIdx == -1) return; //-1 means user has canceled the dialog
+
+        break;
     }
-
-
 
     User user;
     
     Doctor& doctorUser = user;
     Practice& practiceUser = user;
 
-    practiceUser = db.getPractice(practiceList[0].rzi);
+    practiceUser = db.getPractice(practiceList[practiceIdx].rzi);
     doctorUser = doctor.value();
-
-    qDebug() << "рзи на практиката:" << QString{practiceUser.rziCode.c_str()};
 
     UserManager::setCurrentUser(user);
 

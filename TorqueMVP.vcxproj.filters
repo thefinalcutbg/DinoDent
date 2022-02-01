@@ -429,6 +429,9 @@
     <ClCompile Include="src\Database\DbPatientSummary.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\LoginView\PracticeListDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -596,6 +599,9 @@
     <QtMoc Include="src\View\AmbListSelector\Models\PerioTableModel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\View\LoginView\PracticeListDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="src\View\Torque.qrc">
@@ -685,6 +691,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\PatientSummaryView\PatientSummary.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\LoginView\PracticeListDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

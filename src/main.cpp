@@ -21,13 +21,10 @@ int main(int argc, char *argv[])
 
     QApplication a(argc, argv);
      
-
     //Intializing singletons
     SpriteSheets::container().initialize(); //loading textures, otherwise program will crash;
     DiagnosisContainer::initialize();
     UserManager::initialize();
-  // TestToothDialog(); /*
-    
     MasterNZOK::instance().loadUpdates(); //parsing json of nzok data
 
     Torque w;

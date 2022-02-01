@@ -16,7 +16,7 @@ class LoginView : public QDialog, public ILoginView
 	
 public:
 	LoginView(LoginPresenter* p, QWidget *parent = Q_NULLPTR);
-	void setPracticeNames(const std::vector<std::string>& practiceList) override;
+	int practiceUserChoice(const std::vector<std::string>& practiceList) override; //-1 indicates user has closed the dialog
 	void closeLogin() override;
 	~LoginView();
 

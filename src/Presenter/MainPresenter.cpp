@@ -81,8 +81,13 @@ void MainPresenter::logOut()
 
     LoginPresenter login;
 
-    if(!login.successful());
-    view->exitProgram();
+    if (login.successful() == false)
+    {
+        view->exitProgram();
+    }
+
+    view->setDoctor(UserManager::currentUser().doctor_name);
+    
 }
 
 

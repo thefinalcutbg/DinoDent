@@ -6,6 +6,6 @@
 class ILoginView
 {
 public:
-	virtual void setPracticeNames(const std::vector<std::string>& practiceList) = 0;
+	virtual int practiceUserChoice(const std::vector<std::string>& practiceList) = 0;
 	virtual void closeLogin() = 0;
 };

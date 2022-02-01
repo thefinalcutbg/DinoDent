@@ -1,6 +1,7 @@
 #include "LoginView.h"
 #include <QPainter>
 #include "Presenter/LoginPresenter/LoginPresenter.h"
+#include "PracticeListDialog.h"
 
 LoginView::LoginView(LoginPresenter* p, QWidget *parent)
 	: presenter(p), QDialog(parent)
@@ -38,15 +39,10 @@ void LoginView::paintEvent(QPaintEvent* event)
 	painter.end();
 }
 
-void LoginView::setPracticeNames(const std::vector<std::string>& practiceList)
+int LoginView::practiceUserChoice(const std::vector<std::string>& practiceList)
 {
-	/*
-	ui.practiceCombo->clear();
-
-	for (auto& entity : practiceList)
-		ui.practiceCombo->addItem(QString::fromStdString(entity));
-	*/
-
+	PracticeListDialog p;
+	return p.exec(practiceList);
 }
 
 void LoginView::closeLogin()

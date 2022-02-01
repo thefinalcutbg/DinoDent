@@ -213,6 +213,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\View\LoginView\PracticeListDialog.cpp" />
     <ClCompile Include="src\Database\DbPatientSummary.cpp" />
     <ClCompile Include="src\Database\DbListOpener.cpp" />
     <ClCompile Include="src\View\AmbListSelector\Models\PatientTableModel.cpp" />
@@ -360,6 +361,7 @@
     <ClCompile Include="src\Presenter\DetailsPresenter\StatusController.cpp" />
     <ClCompile Include="src\Model\User\UserManager.cpp" />
     <QtRcc Include="src\View\Torque.qrc" />
+    <QtUic Include="src\View\LoginView\PracticeListDialog.ui" />
     <QtUic Include="src\View\PatientSummaryView\PatientSummary.ui" />
     <QtUic Include="src\View\ProcedureDialog\ProcedureFields\FiberSplintView.ui" />
     <QtUic Include="src\View\LoginView\LoginView.ui" />
@@ -426,6 +428,7 @@
     <QtMoc Include="src\View\LoginView\LoginView.h" />
     <QtMoc Include="src\View\ProcedureDialog\ProcedureFields\FiberSplintView.h" />
     <QtMoc Include="src\View\PatientSummaryView\PatientSummary.h" />
+    <QtMoc Include="src\View\LoginView\PracticeListDialog.h" />
     <ClInclude Include="src\Database\DbPatientSummary.h" />
     <ClInclude Include="src\Database\DbListOpener.h" />
     <ClInclude Include="src\Model\TimeFrame.h" />

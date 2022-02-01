@@ -360,6 +360,7 @@
     <ClCompile Include="src\Model\Tooth\ToothContainer.cpp" />
     <ClCompile Include="src\Presenter\DetailsPresenter\StatusController.cpp" />
     <ClCompile Include="src\Model\User\UserManager.cpp" />
+    <QtRcc Include="resources\Resource.qrc" />
     <QtRcc Include="src\View\Torque.qrc" />
     <QtUic Include="src\View\LoginView\PracticeListDialog.ui" />
     <QtUic Include="src\View\PatientSummaryView\PatientSummary.ui" />

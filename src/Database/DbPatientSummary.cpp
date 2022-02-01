@@ -96,7 +96,7 @@ std::vector<TimeFrame> DbPatientSummary::getFrames(const std::string& patientID)
         p.price = sqlite3_column_double(stmt, 7);
         Parser::parse(std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 8))), p);
         p.temp = sqlite3_column_int(stmt, 9);
-        p.LPK = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 10));
+        p.LPK = UserManager::getDoctorName(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 10)));
         
         while (p.date != timeFrames[tfIdx].date)
            tfIdx++;

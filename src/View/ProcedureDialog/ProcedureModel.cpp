@@ -96,7 +96,7 @@ QVariant ProcedureModel::data(const QModelIndex& index, int role) const
         {
         case code:
             if (procedures[row].nzok)
-                return QIcon(QPixmap("nzok.png"));
+                return QIcon(":/icons/icon_nzok.png");
             break;
         default:
             return QVariant();

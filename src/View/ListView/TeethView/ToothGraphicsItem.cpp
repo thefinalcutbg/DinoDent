@@ -42,7 +42,6 @@ QRectF ToothGraphicsItem::boundingRect() const
 
 void ToothGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
-    static QPixmap note("note.png");
 
     painter->setRenderHint(QPainter::SmoothPixmapTransform);
 
@@ -56,7 +55,7 @@ void ToothGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem*
     if (hasNote)
     { 
         QRect noteRect(2, procedureMarkerHeight, 15, 15);
-        painter->drawPixmap(noteRect, note);
+        painter->drawPixmap(noteRect, {":/icons/icon_note.png" });
     }
 
     int xPos = (bounds.width() / 2) - (pxWidth / 2);

@@ -22,7 +22,7 @@ public:
 	static inline void setCurrentUser(const User& user) { m_currentUser = user; }
 	static inline void resetUser() { m_currentUser = User{}; }
 	const bool isCurrentUser(const std::string& LPK);
-	std::string getDoctorName(const std::string& LPK) const;
+	static std::string getDoctorName(const std::string& LPK);
 	
 };
 

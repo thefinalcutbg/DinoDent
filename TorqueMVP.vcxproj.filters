@@ -607,6 +607,7 @@
     <QtRcc Include="src\View\Torque.qrc">
       <Filter>Resource Files</Filter>
     </QtRcc>
+    <QtRcc Include="resources\Resource.qrc" />
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\View\Torque.ui">

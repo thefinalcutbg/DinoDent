@@ -362,7 +362,6 @@ void PerioView::initializeCommon()
 
 void PerioView::initializeSurfaces()
 {
-	static auto icon(QIcon(QPixmap("BOP.png")));
 
 	//initializing PD, CAL, GM for maxillary view:
 
@@ -386,7 +385,7 @@ void PerioView::initializeSurfaces()
 		m_BOP[i] = new PerioButton(ui.maxilla);
 		m_BOP[i]->setMinimumWidth(1);
 		m_BOP[i]->setCheckable(true);
-		m_BOP[i]->setIcon(icon);
+		m_BOP[i]->setIcon(QIcon{":/icons/icon_BOP.png"});
 		ui.maxilla->ui.bopUpLayout->addWidget(m_BOP[i]);
 
 		this->chartIndex[i].position = ChartPosition::maxBuccal;
@@ -414,7 +413,7 @@ void PerioView::initializeSurfaces()
 		m_BOP[i] = new PerioButton(ui.maxilla);
 		m_BOP[i]->setMinimumWidth(1);
 		m_BOP[i]->setCheckable(true);
-		m_BOP[i]->setIcon(icon);
+		m_BOP[i]->setIcon(QIcon{ ":/icons/icon_BOP.png" });
 		ui.maxilla->ui.bopDownLayout->addWidget(m_BOP[i]);
 
 		this->chartIndex[i].position = ChartPosition::maxPalatal;
@@ -462,7 +461,7 @@ void PerioView::initializeSurfaces()
 		m_BOP[i] = new PerioButton(ui.mandibula);
 		m_BOP[i]->setMinimumWidth(1);
 		m_BOP[i]->setCheckable(true);
-		m_BOP[i]->setIcon(icon);
+		m_BOP[i]->setIcon(QIcon{ ":/icons/icon_BOP.png" });
 		ui.mandibula->ui.bopUpLayout->addWidget(m_BOP[i]);
 
 		this->chartIndex[i].position = ChartPosition::mandLing;
@@ -493,7 +492,7 @@ void PerioView::initializeSurfaces()
 		m_BOP[i] = new PerioButton(ui.mandibula);
 		m_BOP[i]->setMinimumWidth(1);
 		m_BOP[i]->setCheckable(true);
-		m_BOP[i]->setIcon(icon);
+		m_BOP[i]->setIcon(QIcon{ ":/icons/icon_BOP.png" });
 		ui.mandibula->ui.bopDownLayout->addWidget(m_BOP[i]);
 
 		this->chartIndex[i].position = ChartPosition::mandBuccal;

@@ -66,7 +66,6 @@ int ProcedureTableModel::columnCount(const QModelIndex& parent) const
 QVariant ProcedureTableModel::data(const QModelIndex& index, int role) const
 {
 
-        static auto nzok_icon{ QIcon(QPixmap("nzok.png")) };
         
         if (!index.isValid()) return QVariant();
 
@@ -85,7 +84,7 @@ QVariant ProcedureTableModel::data(const QModelIndex& index, int role) const
             {
             case 5:
                 if (procedures[row].nzok)
-                    return nzok_icon;
+                    return QIcon(":/icons/icon_nzok.png");
             default:
                 return QVariant();
             }

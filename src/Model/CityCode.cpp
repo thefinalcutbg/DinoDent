@@ -44,7 +44,7 @@ void CityCode::initialize_map()
     std::unordered_map<Muncipanity, HealthRegion> munciMap;
     std::unordered_map<Region, HRIFCode> regionMap;
 
-    std::ifstream infile("munciMap.txt");
+    std::ifstream infile("data/munciMap.txt");
     std::string line;
 
     while (std::getline(infile, line))
@@ -55,7 +55,7 @@ void CityCode::initialize_map()
     }
     infile.close();
 
-    infile.open("regionMap.txt");
+    infile.open("data/regionMap.txt");
 
     while (std::getline(infile, line))
     {
@@ -65,7 +65,7 @@ void CityCode::initialize_map()
     }
     infile.close();
 
-    infile.open("cities.txt");
+    infile.open("data/cities.txt");
 
     while (std::getline(infile, line))
     {

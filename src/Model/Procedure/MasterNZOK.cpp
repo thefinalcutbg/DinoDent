@@ -11,7 +11,7 @@ MasterNZOK::MasterNZOK()
 
 void MasterNZOK::loadData()
 {
-	std::ifstream ifs("nzok.json");
+	std::ifstream ifs("data/nzok.json");
 	Json::Reader reader;
 	Json::Value m;
 

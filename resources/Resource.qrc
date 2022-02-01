@@ -1,0 +1,32 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>dino.png</file>
+        <file>icon_BOP.png</file>
+        <file>icon_checked.png</file>
+        <file>icon_note.png</file>
+        <file>icon_nzok.png</file>
+        <file>icon_tristate.png</file>
+        <file>icon_user.png</file>
+    </qresource>
+    <qresource prefix="/tooth">
+        <file>tooth_approximal.png</file>
+        <file>tooth_bridgeCon.png</file>
+        <file>tooth_bridgeSep.png</file>
+        <file>tooth_buccal.png</file>
+        <file>tooth_cervical.png</file>
+        <file>tooth_common.png</file>
+        <file>tooth_crown.png</file>
+        <file>tooth_endo.png</file>
+        <file>tooth_fiberBridge.png</file>
+        <file>tooth_lesion.png</file>
+        <file>tooth_lingual.png</file>
+        <file>tooth_occlusal.png</file>
+        <file>tooth_perio.png</file>
+        <file>tooth_post.png</file>
+        <file>tooth_roots.png</file>
+        <file>tooth_teeth.png</file>
+    </qresource>
+    <qresource prefix="/reports">
+        <file>report_amb.lrxml</file>
+    </qresource>
+</RCC>

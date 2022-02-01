@@ -10,6 +10,7 @@ class PracticeListDialog : public QDialog
 	Q_OBJECT
 
 	void reject() override { done(-1); }
+	void paintEvent(QPaintEvent* event) override;
 
 public:
 	PracticeListDialog(QDialog *parent = Q_NULLPTR);

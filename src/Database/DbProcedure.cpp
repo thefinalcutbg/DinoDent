@@ -2,6 +2,7 @@
 
 #include "Model/Procedure/MasterNZOK.h"
 #include "Model/Parser/Parser.h"
+#include "Model/User/UserManager.h"
 #include <QDebug>
 
 std::vector<Procedure> DbProcedure::getProcedures(const std::string& amblist_id)
@@ -168,7 +169,7 @@ std::vector<Procedure> DbProcedure::getToothProcedures(const std::string& patien
 			std::string{ reinterpret_cast<const char*>(sqlite3_column_text(stmt, 5)) }, p
 		);
 		p.price = sqlite3_column_double(stmt, 6);
-		p.LPK = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 7));
+		p.LPK = UserManager::getDoctorName(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 7)));
 		p.temp = sqlite3_column_int(stmt, 8);
 		p.result = NoData{};
 		p.tooth = tooth;

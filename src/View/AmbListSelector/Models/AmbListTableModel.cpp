@@ -91,7 +91,6 @@ int AmbListTableModel::columnCount(const QModelIndex& parent) const
 
 QVariant AmbListTableModel::data(const QModelIndex& index, int role) const
 {
-    static QIcon nzokIcon(QPixmap("nzok.png"));
 
     if (!index.isValid()) return QVariant();
 
@@ -108,7 +107,7 @@ QVariant AmbListTableModel::data(const QModelIndex& index, int role) const
         {
         case 1:
             if (rows[row].nzok)
-                return nzokIcon;
+                return QIcon(":/icons/icon_nzok.png");
             break;
         default:
             return QVariant();

@@ -34,23 +34,23 @@ SpriteSheets::SpriteSheets()
 
 struct SpriteMaster
 {
-	QPixmap teeth{ "toothimage/teeth.png" };
-	QPixmap roots{ "toothimage/roots.png" };
-	QPixmap lesion{ "toothimage/lesion.png" };
-	QPixmap endo{ "toothimage/endo.png" };
-	QPixmap crown{ "toothimage/crown.png" };
-	QPixmap fiberBridge{ "toothimage/fiberBridge.png" };
-	QPixmap perio{ "toothimage/perio.png" };
-	QPixmap post{ "toothimage/post.png" };
+	QPixmap teeth{ ":/tooth/tooth_teeth.png" };
+	QPixmap roots{ ":/tooth/tooth_roots.png" };
+	QPixmap lesion{ ":/tooth/tooth_lesion.png" };
+	QPixmap endo{ ":/tooth/tooth_endo.png" };
+	QPixmap crown{ ":/tooth/tooth_crown.png" };
+	QPixmap fiberBridge{ ":/tooth/tooth_fiberBridge.png" };
+	QPixmap perio{ ":/tooth/tooth_perio.png" };
+	QPixmap post{ ":/tooth/tooth_post.png" };
 
-	QPixmap occlusal{ "toothimage/occlusal.png" };
-	QPixmap approximal{ "toothimage/approximal.png" };
-	QPixmap buccal{ "toothimage/buccal.png" };
-	QPixmap lingual{ "toothimage/lingual.png" };
-	QPixmap cervical{ "toothimage/cervical.png" };
+	QPixmap occlusal{ ":/tooth/tooth_occlusal.png" };
+	QPixmap approximal{ ":/tooth/tooth_approximal.png" };
+	QPixmap buccal{ ":/tooth/tooth_buccal.png" };
+	QPixmap lingual{ ":/tooth/tooth_lingual.png" };
+	QPixmap cervical{ ":/tooth/tooth_cervical.png" };
 
-	QPixmap bridgeCon{ "toothimage/bridgeCon.png" };
-	QPixmap bridgeSep{ "toothimage/bridgeSep.png" };
+	QPixmap bridgeCon{ ":/tooth/tooth_bridgeCon.png" };
+	QPixmap bridgeSep{ ":/tooth/tooth_bridgeSep.png" };
 
 };
 
@@ -92,7 +92,7 @@ void SpriteSheets::initialize()
 	constexpr int molarWidth = 180;
 	constexpr int commonWidth = 120;
 
-	QPixmap commonTexture("toothimage/common.png");
+	QPixmap commonTexture(":/tooth/tooth_common.png");
 	implant = new QPixmap(commonTexture.copy(QRect(0, 0, 120, 860)));
 	lesionImplant = new QPixmap(commonTexture.copy(QRect(120, 0, 120, 860)));
 	perioImplant = new QPixmap(commonTexture.copy(QRect(240, 0, 120, 860)));

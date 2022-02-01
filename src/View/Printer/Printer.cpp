@@ -31,7 +31,7 @@ void Print::ambList(const AmbList& amb, const Patient& patient, const User& user
     QApplication::setOverrideCursor(Qt::BusyCursor);
 
     auto report = LimeReport::ReportEngine();
-    report.loadFromFile("reports/amb.lrxml");
+    report.loadFromFile(":/reports/report_amb.lrxml");
     
 	
 	report.dataManager()->setReportVariable("id", QString::fromStdString(patient.id));
@@ -61,7 +61,7 @@ void Print::ambList(const AmbList& amb, const Patient& patient, const User& user
     report.dataManager()->setReportVariable("RZICode", QString::fromStdString(user.rziCode));
     report.dataManager()->setReportVariable("specialty", user.specialty);
     report.dataManager()->setReportVariable("LPK", QString::fromStdString(user.LPK));
-    report.dataManager()->setReportVariable("doctorName", QString::fromStdString(user.doctor_name));
+    report.dataManager()->setReportVariable("doctorName", "д-р " + QString::fromStdString(user.doctor_name));
 
     const char* defaultStatus{ u8"Не съобщатва" };
 
@@ -114,7 +114,7 @@ void Print::ambList(const AmbList& amb, const Patient& patient, const User& user
     report.setPreviewScaleType(LimeReport::ScaleType::FitWidth);
     report.setPreviewPageBackgroundColor(QColor(Qt::white));
     
-    report.previewReport();
+    report.previewReport(LimeReport::PreviewHint::HidePreviewStatusBar);
 }
 
 void Print::ambList(const User& user)
@@ -123,11 +123,11 @@ void Print::ambList(const User& user)
 
     auto report = LimeReport::ReportEngine();
     
-    report.loadFromFile("reports/amb.lrxml");
+    report.loadFromFile(":/reports/report_amb.lrxml");
 
     report.dataManager()->setReportVariable("specialty", user.specialty);
     report.dataManager()->setReportVariable("LPK", QString::fromStdString(user.LPK));
-    report.dataManager()->setReportVariable("doctorName", QString::fromStdString(user.doctor_name));
+    report.dataManager()->setReportVariable("doctorName", "д-р " + QString::fromStdString(user.doctor_name));
 
     ProcedurePrintModel model;
 

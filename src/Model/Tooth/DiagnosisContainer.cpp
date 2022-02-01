@@ -14,7 +14,7 @@ void DiagnosisContainer::initialize()
 {
 	if (s_init) return;
 
-	std::ifstream ifs("diagnosis.json");
+	std::ifstream ifs("data/diagnosis.json");
 	Json::Reader reader;
 	Json::Value jDiagList;
 

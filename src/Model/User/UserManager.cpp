@@ -1,4 +1,4 @@
-#include "UserManager.h"
+﻿#include "UserManager.h"
 
 UserManager UserManager::m_instance;
 User UserManager::m_currentUser;
@@ -21,7 +21,7 @@ const bool UserManager::isCurrentUser(const std::string& LPK)
     return LPK == m_currentUser.LPK;
 }
 
-std::string UserManager::getDoctorName(const std::string& LPK) const
+std::string UserManager::getDoctorName(const std::string& LPK)
 {
     if(m_names.count(LPK))
     return m_names[LPK];

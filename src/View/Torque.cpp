@@ -37,7 +37,7 @@ Torque::Torque(QWidget* parent)
     ui.userButton->setIconSize(QSize(25, 25));
     ui.userButton->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 
-    ui.userButton->setIcon(QIcon("user.png"));
+    ui.userButton->setIcon(QIcon{":/icons/icon_user.png"});
 
     presenter.setView(this);
 }

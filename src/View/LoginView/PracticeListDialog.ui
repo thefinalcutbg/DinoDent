@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>76</height>
+    <height>43</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,30 +17,17 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>40</y>
+     <y>10</y>
      <width>271</width>
      <height>21</height>
     </rect>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>10</y>
-     <width>131</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Изберете практика:</string>
    </property>
   </widget>
   <widget class="QPushButton" name="okButton">
    <property name="geometry">
     <rect>
      <x>310</x>
-     <y>40</y>
+     <y>10</y>
      <width>75</width>
      <height>24</height>
     </rect>

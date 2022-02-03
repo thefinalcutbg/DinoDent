@@ -1,5 +1,5 @@
 #pragma once
-#include "sqLite/sqlite3.h"
+#include "Libraries/sqLite/sqlite3.h"
 #include <iostream>
 #include "Model/Patient.h"
 #include "Model/AmbList.h"

@@ -36,13 +36,12 @@ public:
 	bool validateInput(const std::string& text);
 };
 
-#include "Model/CityCode.h"
+
 
 class CityValidator : public Validator
 {
 	static const std::string invalidCity;
 
-	CityCode cityCode;
 public:
 
 	bool validateInput(const std::string& text);

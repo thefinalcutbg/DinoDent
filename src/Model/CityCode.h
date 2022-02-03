@@ -3,21 +3,17 @@
 #include <unordered_map>
 #include <tuple>
 
-class CityCode
+typedef std::string RHIF, HealthRegion, CityString;
+
+namespace CityCode
 {
-	typedef std::string HealthRegion, Region, HRIFCode, Muncipanity, CityString;
+	void initialize();
+	const std::string getLabel(const std::string& cityString);
+	const std::string& getCityString(const RHIF& hrif, const HealthRegion& healthRegion);
+	std::pair<HealthRegion, RHIF> getCodes(const std::string& cityString);
+	bool validCityString(const std::string& cityString);
 
-	std::pair<Muncipanity, Region> parseCityString(const CityString& location);
-
-	inline static std::unordered_map <CityString, std::pair<HealthRegion, HRIFCode>> cityMap;
-	inline static bool _init{ false };
-
-public:
-	CityCode();
-	std::string getLabel(const std::string &cityString) const;
-	std::pair<HRIFCode, HealthRegion> getCodes(const std::string &cityString) const;
-	bool validCityString(const std::string& cityString) const;
-	const std::unordered_map <CityString, std::pair<HealthRegion, HRIFCode>>& getMap() const;
-	void initialize_map();
+	const std::unordered_map <CityString, std::pair<RHIF, HealthRegion>>& getMap();
+	
 };
 

@@ -1,5 +1,5 @@
 #include "Patient.h"
-
+#include "CityCode.h"
 
 bool Patient::getSexFromEgn(const std::string& egn)
 {

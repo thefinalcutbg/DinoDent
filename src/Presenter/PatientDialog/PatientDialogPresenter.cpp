@@ -124,7 +124,7 @@ void PatientDialogPresenter::cityChanged()
 {
 	view->lineEdit(city)->isValid() ?
 
-		view->setCodeInfo(city_code.getLabel(view->lineEdit(city)->getText()))
+		view->setCodeInfo(CityCode::getLabel(view->lineEdit(city)->getText()))
 		:
 		view->setCodeInfo("");
 }

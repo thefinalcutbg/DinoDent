@@ -32,8 +32,6 @@ class PatientDialogPresenter
 	IPatientDialog* view;
 	DbPatient amb_db;
 
-	CityCode city_code;
-
 	EgnValidator egn_validator;
 	Ln4Validator ln4_validator;
 	DateValidator birth_validator;

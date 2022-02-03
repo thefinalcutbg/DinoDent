@@ -6,10 +6,15 @@
 #include "Model/User/UserManager.h"
 #include "Database/Database.h"
 #include <QTextCodec>
+#include "Model/XML/xml.h";
+#include "Model/CityCode.h"
 
 
 int main(int argc, char *argv[])
 {
+   // XML::saveXMLfile(Date{ "01.12.2021" }, Date{ "31.12.2021" }, "C:/Dev");
+   // return 0;
+
     {Database d;} //checks the database
 
     QFont font("Segoe UI");
@@ -26,6 +31,7 @@ int main(int argc, char *argv[])
     DiagnosisContainer::initialize();
     UserManager::initialize();
     MasterNZOK::instance().loadUpdates(); //parsing json of nzok data
+    CityCode::initialize();
 
     Torque w;
 
@@ -35,6 +41,6 @@ int main(int argc, char *argv[])
     w.show();
     
     return a.exec();
- //  */
+
 }
 

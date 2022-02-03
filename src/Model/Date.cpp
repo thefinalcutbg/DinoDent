@@ -98,6 +98,25 @@ std::string Date::toString() const
     return dayStr + "." + monthStr + "." + std::to_string(year);
 }
 
+std::string Date::toStringXML() const
+{
+    std::string dayStr;
+
+    if (day < 10)
+        dayStr = "0" + std::to_string(day);
+    else
+        dayStr = std::to_string(day);
+
+    std::string monthStr;
+
+    if (month < 10)
+        monthStr = "0" + std::to_string(month);
+    else
+        monthStr = std::to_string(month);
+
+    return  std::to_string(year) + "-" + monthStr + "-" + dayStr;
+}
+
 bool Date::Date::operator == (const Date& other) const
 {
     if (year == other.year)

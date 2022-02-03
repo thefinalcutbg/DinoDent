@@ -76,11 +76,12 @@ void PatientSummary::setProcedures(const std::vector<Procedure>& p)
 	m_teethScene.setProcedures(treatedTeeth);
 
 	//tova e copy-paste ot listView-to :
-	ui.procedureTable->setHidden(!p.size());
+	
 	int tableHeight = p.size() * 50 + 26;
 	//ne sym siguren izob6to, 4e taka iskam da izglejda:
 	auto size = ui.procedureTable->size();
 	size.setHeight(tableHeight);
 	ui.procedureTable->setFixedSize(size);
 	this->setFixedHeight(710 + tableHeight + 100);
+	ui.procedureTable->setHidden(!p.size());
 }

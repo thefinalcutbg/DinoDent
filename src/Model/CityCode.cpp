@@ -1,114 +1,78 @@
 ﻿#include "CityCode.h"
-#include <sstream>
+
 #include <fstream>
+#include <utility>
+#include "Libraries/JsonCpp/json.h"
 
-typedef std::string HealthRegion, Region, HRIFCode, Muncipanity, CityString;
+typedef std::string RHIF, HealthRegion , CityString;
 
-std::pair<Muncipanity, Region> CityCode::parseCityString(const CityString& cityString)
+struct pair_hash
 {
-    constexpr int offset = 10;
-    bool munciFound = false;
-    int munciPos = 0;
-    int regionPos = 0;
+    template <class T1, class T2>
+    std::size_t operator() (const std::pair<T1, T2>& pair) const {
+        return std::hash<T1>()(pair.first) ^ std::hash<T2>()(pair.second);
+    }
+};
 
-    Muncipanity muncipanity;
-    Region region;
+std::unordered_map <CityString, std::pair<RHIF, HealthRegion>> cityStringToCodes;
+std::unordered_map<std::pair<RHIF, HealthRegion>, const CityString*, pair_hash> codesToCityString;
 
-    for (int i = 0; i < cityString.size(); i++)
+void CityCode::initialize()
+{
+    cityStringToCodes.clear();
+    codesToCityString.clear();
+
+    std::ifstream ifs("data/cities.json");
+    Json::Value cities = Json::arrayValue;
+
+    Json::Reader reader;
+    reader.parse(ifs, cities);
+
+    cityStringToCodes.reserve(cities.size());
+    codesToCityString.reserve(cities.size());
+
+    for (auto& value : cities)
     {
-        if (cityString[i] == ',')
-        {
-            if (!munciFound)
-            {
-                munciPos = i;
-                munciFound = true;
-            }
-            else
-            {
-                regionPos = i;
-                break;
-            }
-        }
+        cityStringToCodes[value["city"].asString()] =
+            std::make_pair(value["RHIF"].asString(), value["healthRegion"].asString());
     }
 
-    muncipanity = cityString.substr(munciPos + offset, regionPos - munciPos - offset);
-    region = cityString.substr(regionPos + offset, cityString.size() - regionPos + offset);
-
-    return std::make_pair(muncipanity, region);
+    for (auto& [key, value] : cityStringToCodes)
+    {
+        codesToCityString[value] = &key;
+    }
 }
 
-void CityCode::initialize_map()
+
+const std::string CityCode::getLabel(const std::string &cityString)
 {
-    cityMap.clear();
-
-    std::unordered_map<Muncipanity, HealthRegion> munciMap;
-    std::unordered_map<Region, HRIFCode> regionMap;
-
-    std::ifstream infile("data/munciMap.txt");
-    std::string line;
-
-    while (std::getline(infile, line))
-    {
-        HealthRegion code = line.substr(0, 2);
-        std::string muncipanity = line.substr(2, line.size() - 2);
-        munciMap[muncipanity] = code;
-    }
-    infile.close();
-
-    infile.open("data/regionMap.txt");
-
-    while (std::getline(infile, line))
-    {
-        HRIFCode code = line.substr(0, 2);
-        std::string region = line.substr(2, line.size() - 2);
-        regionMap[region] = code;
-    }
-    infile.close();
-
-    infile.open("data/cities.txt");
-
-    while (std::getline(infile, line))
-    {
-        auto [muncipanity, region] = parseCityString(line);
-        cityMap[line] = std::make_pair(regionMap[region], munciMap[muncipanity]);
-    }
-
-    infile.close();
-}
-
-CityCode::CityCode()
-{
-    if (!_init)
-    {
-        initialize_map();
-        _init = true;
-    }
-
-}
-
-std::string CityCode::getLabel(const std::string &cityString) const
-{
-    if (!cityMap.count(cityString)) return "";
+    if (!cityStringToCodes.count(cityString)) return "";
    
-    auto [hrif, health_region] = getCodes(cityString);
+    auto [rhif, health_region] = getCodes(cityString);
 
-    return "РЗОК №" + hrif +"\tЗдравен район: " + health_region;
+    return "РЗОК №" + rhif +"\tЗдравен район: " + health_region;
 }
 
-std::pair<HealthRegion, HRIFCode> CityCode::getCodes(const std::string &cityString) const
+const std::string& CityCode::getCityString(const RHIF& hrif, const HealthRegion& healthRegion)
 {
-    if (!cityMap.count(cityString)) 
+    return *codesToCityString[std::make_pair(hrif, healthRegion)];
+}
+
+std::pair<RHIF, HealthRegion> CityCode::getCodes(const std::string &cityString)
+{
+    if (!cityStringToCodes.count(cityString)) 
         return std::make_pair(std::string{ "-1" }, std::string{ "-1" });
 
-    return cityMap[cityString];
+    return cityStringToCodes[cityString];
 }
 
-bool CityCode::validCityString(const std::string& cityString) const
+bool CityCode::validCityString(const std::string& cityString)
 {
-    return cityMap.count(cityString);
+    return cityStringToCodes.count(cityString);
 }
 
-const std::unordered_map<CityString, std::pair<HealthRegion, HRIFCode>>& CityCode::getMap() const
+const std::unordered_map<CityString, std::pair<RHIF, HealthRegion>>& CityCode::getMap()
 {
-    return cityMap;
+    return cityStringToCodes;
 }
+

@@ -1,5 +1,4 @@
 ﻿#include "ProcedureTableModel.h"
-
 #include <QIcon>
 
 ProcedureTableModel::ProcedureTableModel(QObject* parent) : QAbstractTableModel(parent)

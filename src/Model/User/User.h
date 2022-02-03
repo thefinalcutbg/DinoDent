@@ -10,6 +10,13 @@ struct Doctor
 	std::string pass;
 	std::string doctor_name;
 	int specialty{ -1 };
+	int dentalServiceType() const
+	{
+		if (specialty == 60 || specialty == 64) return 0;
+		if (specialty == 61 || specialty == 62 || specialty == 68) return 1;
+		return -1;
+	}
+
 };
 
 

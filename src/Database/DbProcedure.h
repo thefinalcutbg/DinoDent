@@ -1,7 +1,6 @@
 #pragma once
 
 #include "AbstractORM.h"
-#include "sqLite/sqlite3.h"
 
 #include "Model/Procedure/MasterNZOK.h"
 #include "Model/Procedure/TableStructs.h"

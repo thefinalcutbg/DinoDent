@@ -23,8 +23,8 @@ const bool UserManager::isCurrentUser(const std::string& LPK)
 
 std::string UserManager::getDoctorName(const std::string& LPK)
 {
-    if(m_names.count(LPK))
-    return m_names[LPK];
+    if (m_names.count(LPK))
+        return m_names[LPK];
 
     return LPK;
 

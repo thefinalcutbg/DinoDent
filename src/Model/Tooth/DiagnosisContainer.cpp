@@ -2,7 +2,7 @@
 #include "Libraries/JsonCpp/json.h"
 #include <fstream>
 
-inline void diagListParse(DiagnosisList& list, const Json::Value& jsonValue)
+inline void diagListParse(std::vector<std::string>& list, const Json::Value& jsonValue)
 {
 	list.reserve(jsonValue.size());
 

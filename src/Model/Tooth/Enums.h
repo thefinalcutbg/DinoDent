@@ -21,6 +21,7 @@ namespace Surface
 constexpr int statusCount = 20;
 constexpr int surfaceCount = 6;
 
+
 constexpr std::string_view statusNames[statusCount]
 {
 	u8"Временен зъб", u8"Обтурация", u8"Кариес",  u8"Пулпит", u8"Периодонтит",

@@ -12,8 +12,6 @@
 
 int main(int argc, char *argv[])
 {
-   // XML::saveXMLfile(Date{ "01.12.2021" }, Date{ "31.12.2021" }, "C:/Dev");
-   // return 0;
 
     {Database d;} //checks the database
 

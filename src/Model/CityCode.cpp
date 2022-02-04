@@ -58,11 +58,12 @@ const std::string& CityCode::getCityString(const RHIF& hrif, const HealthRegion&
     return *codesToCityString[std::make_pair(hrif, healthRegion)];
 }
 
-std::pair<RHIF, HealthRegion> CityCode::getCodes(const std::string &cityString)
-{
-    if (!cityStringToCodes.count(cityString)) 
-        return std::make_pair(std::string{ "-1" }, std::string{ "-1" });
+std::pair<RHIF, HealthRegion> error{ "-1", "-1" };
 
+const std::pair<RHIF, HealthRegion>& CityCode::getCodes(const std::string &cityString)
+{
+    if (!cityStringToCodes.count(cityString))
+        throw std::invalid_argument("no codes match the city string argument");
     return cityStringToCodes[cityString];
 }
 

@@ -1,6 +1,6 @@
 #include "Parser.h"
 #include "Libraries/JsonCpp/json.h"
-
+#include "Model/Tooth/ToothUtils.h"
 #include "Model/Tooth/ToothContainer.h"
 #include "Model/PerioStatus.h"
 #include "Model/Procedure/Procedure.h"
@@ -756,6 +756,119 @@ void Parser::parse(const std::string& jsonString, ToothContainer& status)
 		tooth.splint.set(true);
 	}
 
+}
+
+#include <algorithm> //needed for removing duplicate carieses and obturations with std::unique
+
+std::vector<ToothXML> Parser::getTeethXML(const std::string& jsonString)
+{
+	std::array<std::vector<std::string>, teethCount> tempStatus;
+
+	Json::Value json;
+	Json::Reader reader;
+	bool parsingSuccessful = reader.parse(jsonString, json);
+
+	if (!parsingSuccessful) {
+		throw std::invalid_argument("could not parse teeth status");
+	}
+
+	constexpr int nzokStatusCount = 14;
+
+	constexpr std::array<std::pair<std::string_view, std::string_view>, nzokStatusCount> statusLegend
+	{{
+		{"Temporary",		"T"		}, 
+		{"Obturation",		"O"		},
+		{"Caries",			"C"		},
+		{"Pulpitis",		"P"		},
+		{"Lesion",			"G"		},
+		{"Root",			"R"		},
+		{"Fracture",		"F"		},
+		{"Ectraction",		"E"		},
+		{"Periodontitis",	"Pa"	},
+		{"Crown",			"K"		},
+		{"Bridge",			"X"		},
+		{"Splint",			"X"		},
+		{"Implant",			"Impl."	},
+		{"Hyperdontic",		"Dsn"	}
+	}};
+
+	for (auto& pair : statusLegend)
+	{
+		for (auto& value : json[pair.first.data()])
+			tempStatus[value["idx"].asInt()].push_back(pair.second.data());
+	}
+
+	constexpr std::array<std::string_view, 3> mobilityLegend{ { {"I"}, {"II"}, {"III"} } };
+
+	//Parsing mobility is done separately, because the degree is a variable, not 3 separate statuses
+
+	for (auto& mobility : json["Mobility"])
+	{
+		tempStatus[mobility["idx"].asInt()].push_back(mobilityLegend[mobility["degree"].asInt()].data());
+	}
+
+	/*
+	Unfortunately NZOK doesn't differentiate between a single crown and a bridge retainer.
+	Bridge and fibersplint statuses are both marked as "X" by default (artificial tooth).
+	We iterate to see if the tooth is extracted and if "X" is present we remove the "E" status.
+	Else - we replace "X" with "K". Or simply put - pontic = "X", retainer = "K"
+	*/
+
+	for (auto& tooth : tempStatus){
+
+		bool extracted{ false };
+		int extractedPos{-1};
+
+		for (int i = 0; i < tooth.size(); i++){
+
+			if(tooth[i] == "E"){
+				extracted = true;
+				extractedPos = i;
+			}
+
+			//No need to iterate all over.
+			//statusLegend guarantees that the parsing of the extraction will always come first
+
+			if (tooth[i] == "X") {	
+
+				if (extracted)
+					tooth.erase(tooth.begin() + extractedPos);
+				else
+					tooth[i] = "K";
+			}
+
+			//removing duplicates of O and C (since they are written by surfaces, not by teeth)
+			tooth.erase(std::unique(tooth.begin(), tooth.end()), tooth.end());
+		}
+	}
+
+	//And now for the final result:
+
+	std::vector<ToothXML> result;
+	result.reserve(16);
+
+	for (int toothIdx = 0; toothIdx < teethCount; toothIdx++)
+	{
+		if (!tempStatus[toothIdx].empty()){
+
+			result.emplace_back(
+				
+				ToothXML{
+
+					ToothUtils::getNomenclature
+					(toothIdx, tempStatus[toothIdx].front() == "T"), 
+										//temp status will always be always first, if present!
+
+					tempStatus[toothIdx]
+				}
+
+			);
+		}
+
+		
+	}
+	
+	return result;
 }
 
 std::vector<ProcedureTemplate> Parser::getPriceList(const std::string& priceList)

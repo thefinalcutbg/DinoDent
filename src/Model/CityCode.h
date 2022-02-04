@@ -10,7 +10,7 @@ namespace CityCode
 	void initialize();
 	const std::string getLabel(const std::string& cityString);
 	const std::string& getCityString(const RHIF& hrif, const HealthRegion& healthRegion);
-	std::pair<HealthRegion, RHIF> getCodes(const std::string& cityString);
+	const std::pair<HealthRegion, RHIF> &getCodes(const std::string& cityString);
 	bool validCityString(const std::string& cityString);
 
 	const std::unordered_map <CityString, std::pair<RHIF, HealthRegion>>& getMap();

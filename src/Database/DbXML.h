@@ -5,6 +5,7 @@
 
 class DbXML : public AbstractORM
 {
+public:
 	std::vector<AmbListXML> getAmbListXML(Date from, Date to, std::string RZICode, std::string LPK);
 };
 

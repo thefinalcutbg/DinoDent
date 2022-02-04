@@ -105,7 +105,7 @@ void PatientDialogPresenter::searchDbForPatient(int type)
 		new_patient = true;
 		patient.id = lineEditID;
 		patient.type = type;
-		patient.city = UserManager::currentUser().practice_address;
+		//patient.city = UserManager::currentUser().practice_address; no!
 
 		if (patient.type == 1)
 		{

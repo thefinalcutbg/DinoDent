@@ -62,7 +62,7 @@ std::string Tooth::getSimpleStatus() const
 	std::array<std::string, statusCount> statusLegend
 	{
 		"", "O ", "C ", "P ", "G ", "", "", "R ", "F ", "E ",
-		"Pa ", "I ", "II ", "III ", "K ", "X ", "X", "I ", "Dsn "
+		"Pa ", "I ", "II ", "III ", "K ", "X ", "X", "Impl. ", "Dsn ", ""
 	};
 
 	if (boolStatus[StatusCode::Bridge] || boolStatus[StatusCode::FiberSplint]) //NZOK doesn't make a difference between a pontic and a retainer

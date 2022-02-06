@@ -6,6 +6,7 @@
 #include "Model/User/UserManager.h"
 #include "Model/XML/xml.h"
 
+
 MainPresenter::MainPresenter() :
     view(nullptr)
 {}
@@ -21,8 +22,6 @@ void MainPresenter::setView(IMainView* view)
 
     view->m_initialized = login.successful();
     view->setDoctor(UserManager::currentUser().doctor_name);
-
-    XML::saveXMLfile(Date{1,11,2021}, Date{31,11,2021}, "C:/Dev");
 
 }
 
@@ -57,6 +56,17 @@ void MainPresenter::newPerioPressed()
 void MainPresenter::showListSelector()
 {
     listSelector_.openDialog();
+}
+
+void MainPresenter::generateReport()
+{
+    std::optional<ReportDialogResult> result;
+
+    ModalDialogBuilder::openDialog(result);
+
+    if(result.has_value())
+        XML::saveXMLfile(result.value().month, result.value().year, result.value().path);
+
 }
 
 bool MainPresenter::save() 

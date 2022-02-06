@@ -113,7 +113,7 @@
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <LanguageStandard_C>Default</LanguageStandard_C>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <AdditionalDependencies>$(Qt_LIBS_);%(AdditionalDependencies);$(ProjectDir)dependencies/LimeReport/$(Platform)/$(Configuration)/lib/limereportd.lib;</AdditionalDependencies>
@@ -126,7 +126,7 @@
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <LanguageStandard_C>Default</LanguageStandard_C>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>c:/Dev/Torque/dependencies/LimeReport/x64/Release;$(Qt_LIBPATH_);%(AdditionalLibraryDirectories);</AdditionalLibraryDirectories>
@@ -213,6 +213,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\View\ReportDialog\ReportDialog.cpp" />
     <ClCompile Include="src\Database\DbXML.cpp" />
     <ClCompile Include="src\Libraries\JsonCpp\jsoncpp.cpp" />
     <ClCompile Include="src\Libraries\sqLite\shell.c" />
@@ -368,6 +369,7 @@
     <ClCompile Include="src\Model\User\UserManager.cpp" />
     <QtRcc Include="resources\Resource.qrc" />
     <QtRcc Include="src\View\Torque.qrc" />
+    <QtUic Include="src\View\ReportDialog\ReportDialog.ui" />
     <QtUic Include="src\View\LoginView\PracticeListDialog.ui" />
     <QtUic Include="src\View\PatientSummaryView\PatientSummary.ui" />
     <QtUic Include="src\View\ProcedureDialog\ProcedureFields\FiberSplintView.ui" />
@@ -436,6 +438,7 @@
     <QtMoc Include="src\View\ProcedureDialog\ProcedureFields\FiberSplintView.h" />
     <QtMoc Include="src\View\PatientSummaryView\PatientSummary.h" />
     <QtMoc Include="src\View\LoginView\PracticeListDialog.h" />
+    <QtMoc Include="src\View\ReportDialog\ReportDialog.h" />
     <ClInclude Include="src\Database\DbXML.h" />
     <ClInclude Include="src\Database\DbPatientSummary.h" />
     <ClInclude Include="src\Database\DbListOpener.h" />
@@ -467,6 +470,7 @@
     <QtMoc Include="src\View\PerioView\StatisticTableModel.h" />
     <ClInclude Include="src\View\Printer\Printer.h" />
     <ClInclude Include="src\View\Printer\ProcedurePrintModel.h" />
+    <ClInclude Include="src\View\ReportDialog\ReportDialogResult.h" />
     <ClInclude Include="src\View\ToothPaintDevices\SpriteSheets.h" />
     <ClInclude Include="src\View\PerioView\PerioGraphics\PerioGraphicsButton.h" />
     <ClInclude Include="src\Database\DbPerio.h" />

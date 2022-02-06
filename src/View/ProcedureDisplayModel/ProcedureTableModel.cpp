@@ -94,7 +94,7 @@ QVariant ProcedureTableModel::data(const QModelIndex& index, int role) const
                case 0: return index.row();
                case 1: return procedures[row].date;
                case 2: return procedures[row].diagnosis;
-               case 3: return procedures[row].tooth != -1 ? procedures[row].tooth : QVariant();
+               case 3: return procedures[row].tooth != 99 ? procedures[row].tooth : QVariant();
                case 4: return procedures[row].procedureName;
                case 5: return procedures[row].code;
                case 6: return procedures[row].price;

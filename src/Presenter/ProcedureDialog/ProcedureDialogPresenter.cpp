@@ -13,7 +13,7 @@ ProcedureDialogPresenter::ProcedureDialogPresenter
 	const ToothContainer& teeth,
 	const Date& ambListDate,
 	const Date& patientTurns18,
-	bool unfavourable,
+	bool fullCoverage,
 	int specialty
 )
 	:
@@ -59,7 +59,7 @@ ProcedureDialogPresenter::ProcedureDialogPresenter
 		ambListDate,
 		specialty,
 		ambListDate >= patientTurns18,
-		unfavourable
+		fullCoverage
 	);
 
 	//getting custom procedures:

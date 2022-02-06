@@ -77,7 +77,7 @@ public:
     void deleteProcedure(int index);
     void ambDateChanged(Date date);
     void setSelectedProcedure(int index);
-    void setUnfavourable(bool unfav);
+    void setfullCoverage(bool unfav);
 
     void showCurrentStatus(bool show);
 

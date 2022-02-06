@@ -1,6 +1,7 @@
 #pragma once
 #include <map>
 #include <string>
+#include "View/ReportDialog/ReportDialogResult.h"
 
 class ProcedureDialogPresenter;
 class PatientDialogPresenter;
@@ -21,6 +22,7 @@ namespace ModalDialogBuilder
 	void openDialog(ListSelectorPresenter* p);
 	void openDialog(DetailedStatusPresenter* p);
 	void openDialog(LoginPresenter* p);
+	void openDialog(std::optional<ReportDialogResult>& result);
 	int openSaveAsDialog(int newNum, std::map<int, bool> existingNumbers);
 	DialogAnswer openSaveDialog(const std::string& text);
 	bool askDialog(const std::string& questionText);

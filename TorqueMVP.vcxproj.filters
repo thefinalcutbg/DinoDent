@@ -450,6 +450,9 @@
     <ClCompile Include="src\Database\DbXML.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\ReportDialog\ReportDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -620,6 +623,9 @@
     <QtMoc Include="src\View\LoginView\PracticeListDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\View\ReportDialog\ReportDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="src\View\Torque.qrc">
@@ -713,6 +719,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\LoginView\PracticeListDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\ReportDialog\ReportDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
@@ -1105,6 +1114,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\AmbListXML.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\View\ReportDialog\ReportDialogResult.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

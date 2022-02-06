@@ -68,7 +68,7 @@ std::string DbAmbList::insertAmbList(const AmbList& ambList, const std::string &
 {
     openConnection();
 
-    std::string query = "INSERT INTO amblist (day, month, year, num, unfavourable, charge, status_json, patient_id, lpk, rzi) VALUES ('"
+    std::string query = "INSERT INTO amblist (day, month, year, num, fullCoverage, charge, status_json, patient_id, lpk, rzi) VALUES ('"
         + std::to_string(ambList.date.day) + "','"
         + std::to_string(ambList.date.month) + "','"
         + std::to_string(ambList.date.year) + "','"
@@ -104,7 +104,7 @@ void DbAmbList::updateAmbList(const AmbList& ambList)
         ", day = " + std::to_string(ambList.date.day) +
         ", month = " + std::to_string(ambList.date.month) +
         ", year = " + std::to_string(ambList.date.year) +
-        ", unfavourable = " + std::to_string(ambList.full_coverage) +
+        ", fullCoverage = " + std::to_string(ambList.full_coverage) +
         ", charge = " + std::to_string(static_cast<int>(ambList.charge)) +
         ", status_json = '" + Parser::write(ambList.teeth) + "' "
         "WHERE id = " + ambList.id;
@@ -142,7 +142,7 @@ AmbList DbAmbList::getListData(const std::string& patientID, int month, int year
 {
     openConnection();
 
-    std::string query = "SELECT id, num, unfavourable, day, month, year, status_json, charge FROM amblist WHERE "
+    std::string query = "SELECT id, num, fullCoverage, day, month, year, status_json, charge FROM amblist WHERE "
         "patient_id = '" + patientID + "' AND "
         "lpk = " + UserManager::currentUser().LPK + " AND "
         "rzi = " + UserManager::currentUser().rziCode + " AND "
@@ -196,7 +196,7 @@ AmbList DbAmbList::getListData(const std::string& ambID)
 {
     openConnection();
 
-    std::string query = "SELECT id, num, unfavourable, day, month, year, status_json, charge FROM amblist WHERE "
+    std::string query = "SELECT id, num, fullCoverage, day, month, year, status_json, charge FROM amblist WHERE "
         "id = '" + ambID + "'";
 
     sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);

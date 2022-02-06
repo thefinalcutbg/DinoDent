@@ -25,9 +25,11 @@ ToothType ToothUtils::getToothType(int index)
     return static_cast<ToothType>(types[index]);
 }
 
+constexpr  int invalidToothIdx = 99;
+
 int ToothUtils::getToothNumber(int index, bool temporary)
 {
-    if (index < 0 || index > 31) return -1;
+    if (index < 0 || index > 31) return invalidToothIdx;
 
     if (temporary) {
         return numbers[index]+40;
@@ -38,7 +40,7 @@ int ToothUtils::getToothNumber(int index, bool temporary)
 std::string ToothUtils::getNomenclature(int tooth_idx, bool temporary) 
 { 
     auto num = getToothNumber(tooth_idx, temporary);
-    if (num == -1)
+    if (num == invalidToothIdx)
         return std::string();
 
     return std::to_string(num);

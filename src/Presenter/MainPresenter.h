@@ -22,6 +22,7 @@ public:
 	void newAmbPressed();
 	void newPerioPressed();
 	void showListSelector();
+	void generateReport();
 	bool save();
 	bool saveAs();
 	void logOut();

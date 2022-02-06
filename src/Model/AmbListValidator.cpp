@@ -37,8 +37,13 @@ bool AmbListValidator::ambListIsValid()
 
     for (auto& p : procedures)
     {
-
         if (!dateIsValid(p)) return false;
+
+        if (p.nzok && patient.HIRBNo.empty())
+        {
+            _error = "Не е въведен номер на здравната книжка на пациента";
+                return false;
+        }
 
         if (p.tooth != -1) //out of range guard
         {

@@ -58,6 +58,14 @@ void ModalDialogBuilder::openDialog(LoginPresenter* p)
 	d.exec();
 }
 
+#include <View/ReportDialog/ReportDialog.h>
+
+void ModalDialogBuilder::openDialog(std::optional<ReportDialogResult>& result)
+{
+	ReportDialog d(result);
+	d.exec();
+}
+
 #include "View/saveAsDialog/SaveAsDialog.h"
 
 int ModalDialogBuilder::openSaveAsDialog(int newNum, std::map<int, bool> existingNumbers)

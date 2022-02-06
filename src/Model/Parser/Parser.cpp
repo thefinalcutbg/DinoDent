@@ -906,3 +906,17 @@ std::vector<ProcedureTemplate> Parser::getPriceList(const std::string& priceList
 
 	return procedureTemplateList;
 }
+
+std::string Parser::parseDiagnosis(const std::string& jsonProcedureString)
+{
+	Json::Value json;
+	Json::Reader reader;
+
+	bool parsingSuccessful = reader.parse(jsonProcedureString, json);
+
+	if (!parsingSuccessful) {
+		throw std::invalid_argument("could not parse procedure diagnosis");
+	}
+
+	return json["diagnosis"].asString();
+}

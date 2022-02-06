@@ -1,0 +1,62 @@
+﻿#include "ReportDialog.h"
+#include <QFileDialog>
+
+ReportDialog::ReportDialog(std::optional<ReportDialogResult>& result, QWidget *parent)
+	: ref_result(result), QDialog(parent)
+{
+	ui.setupUi(this);
+
+	setModal(true);
+
+	constexpr const char* monthNames[12]
+	{
+		u8"Януари",
+		u8"Февруари",
+		u8"Март",
+		u8"Април",
+		u8"Май",
+		u8"Юни",
+		u8"Юли",
+		u8"Август",
+		u8"Септември",
+		u8"Октомври",
+		u8"Ноември",
+		u8"Декември"
+	};
+
+	for (int i = 0; i < 12; i++)
+		ui.comboBox->addItem(monthNames[i]);
+
+	int currentMonth = Date::currentMonth();
+	int previousMonth = currentMonth == 1 ? 12 : currentMonth - 1;
+
+	int year = currentMonth == 1 ? Date::currentYear()-1 : Date::currentYear();
+
+	ui.comboBox->setCurrentIndex(previousMonth - 1); // index 0 == january;
+	ui.spinBox->setValue(year);
+
+	connect(ui.pushButton, &QPushButton::clicked, [&] {
+
+		QFileDialog fileDialog;
+		fileDialog.setFileMode(QFileDialog::FileMode::Directory);
+		fileDialog.setOption(QFileDialog::Option::ShowDirsOnly);
+		
+		if (!fileDialog.exec()) return;
+			
+		ref_result.emplace(ReportDialogResult
+			{
+			ui.comboBox->currentIndex() + 1,
+			ui.spinBox->value(),
+			fileDialog.directory().absolutePath().toStdString()
+		});
+
+		this->accept();
+		
+		
+		});
+	
+}
+
+ReportDialog::~ReportDialog()
+{
+}

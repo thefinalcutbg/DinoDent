@@ -23,7 +23,7 @@ ListView::ListView(QWidget* parent)
 	connect(ui.allergiesTile, &QAbstractButton::clicked, [=] { if (presenter) presenter->openAllergiesDialog(); });
 	connect(ui.procedureButton, &QAbstractButton::clicked, [=] { if (presenter) presenter->addProcedure(); });
 	connect(ui.procedureTable, &ProcedureTable::deletePressed, [=] { if (presenter) ui.deleteProcedure->click(); });
-	connect(ui.unfav_check, &QCheckBox::stateChanged, [=] { if (presenter) presenter->setUnfavourable(ui.unfav_check->isChecked()); });
+	connect(ui.unfav_check, &QCheckBox::stateChanged, [=] { if (presenter) presenter->setfullCoverage(ui.unfav_check->isChecked()); });
 	connect(ui.editProcedure, &QPushButton::clicked, [=] { if (presenter) presenter->editProcedure(); });
 
 	connect(ui.deleteProcedure, &QAbstractButton::clicked, 

@@ -23,4 +23,5 @@ namespace Parser
 	void parse(const std::string& jsonString, ToothContainer& status);
 	std::vector<ToothXML> getTeethXML(const std::string& jsonString);
 	std::vector<ProcedureTemplate> getPriceList(const std::string& priceList);
+	std::string parseDiagnosis(const std::string& jsonProcedureString);
 };

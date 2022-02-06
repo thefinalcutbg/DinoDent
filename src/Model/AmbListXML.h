@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Patient.h"
 #include <vector>
 
@@ -16,8 +16,10 @@ struct ServiceXML //a.k.a. procedure
 	int activityCode;
 };
 
+
 struct AmbListXML
 {
+	std::string id; //needed for mapping services
 	int personType;
 	std::string personIdentifier;
 	std::string RHIF;
@@ -25,15 +27,17 @@ struct AmbListXML
 	std::string personFirstName;
 	std::string personMiddleName;
 	std::string personLastName;
-	std::string specificationType{ "PRIMARY NORM" };
+	std::string specificationType;
 	std::string ambulatorySheetNo; //six digit number with leading zeroes
 	std::string HIRBNo;
 	std::string allergies;
 	std::string pastDiseases;
 	std::string currentDiseases;
-	bool unfavourable_condition;
 	int substitute{ 0 };
 	int sign{ 1 };
+
+
+
 	std::vector<ToothXML> teeth;
 	std::vector <ServiceXML> services;
 };

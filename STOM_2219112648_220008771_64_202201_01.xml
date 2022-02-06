@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<report xmlns="http://localhost" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://localhost ImportStomatologyReport.xsd" practiceName="АИППИПДМ-САЛВЕОДЕНТ" bulstat="831707490" RCZCode="2219112648" contractNo="" dentistName="Христо Константинов" dentistSpec="64" dentistPersonalCode="220008771" RHIF="22" startFrom="2022-01-01" endTo="2022-01-31" dentalServiceType="0">
+    <dentalCareServices>
+        <dentalCareService personType="1" personIdentifier="8902231027" RHIFCode="22" healthRegionCode="01" personFirstName="Мартин" personMiddleName="Диянов" personLastName="Христов" specificationType="PRIMARY NORM" ambulatorySheetNo="000025" HIRBNo="" unfavorableCondition="0" substitute="0" Sign="1">
+            <allergies>
+                <allergy allergyName="Не съобщава" />
+            </allergies>
+            <pastDiseases>
+                <pastDisease name="Не съобщава" />
+            </pastDiseases>
+            <currentDiseases>
+                <currentDisease name="Не съобщава" />
+            </currentDiseases>
+            <teeth>
+                <tooth toothCode="17">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="16">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="15">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="14">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="12">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="22">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="25">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                        <toothStatus toothStatusCode="K" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="26">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="27">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="28">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="38">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="45">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="46">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="47">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                        <toothStatus toothStatusCode="K" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="48">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+            </teeth>
+            <services>
+                <service date="2022-01-26" diagnosis="Преглед" toothCode="99" activityCode="101" />
+                <service date="2022-01-26" diagnosis="Caries media" toothCode="14" activityCode="301" />
+                <service date="2022-01-26" diagnosis="Caries superficialis" toothCode="15" activityCode="301" />
+            </services>
+            <medicalReferrals />
+            <MDAReferrals />
+            <prescSpecialists />
+        </dentalCareService>
+    </dentalCareServices>
+</report>

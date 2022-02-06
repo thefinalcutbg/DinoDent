@@ -25,6 +25,7 @@ Torque::Torque(QWidget* parent)
     connect(ui.listSelectButton, &QPushButton::clicked, [&] {presenter.showListSelector(); });
     connect(ui.printButton, &QPushButton::pressed, [&] {presenter.printPressed(); });
     connect(ui.perioButton, &QPushButton::pressed, [&] {presenter.newPerioPressed(); });
+    connect(ui.reportButton, &QPushButton::pressed, [&] {presenter.generateReport(); });
 
 
 

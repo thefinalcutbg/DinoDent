@@ -4,5 +4,5 @@
 
 namespace XML
 {
-	void saveXMLfile(const Date& from, const Date& to, std::string path);
+	void saveXMLfile(int month, int year, std::string path);
 };

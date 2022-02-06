@@ -1,6 +1,5 @@
 #include "Date.h"
 
-
 int Date::monthDays[12]{ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
 Date::Date() :
@@ -115,6 +114,18 @@ std::string Date::toStringXML() const
         monthStr = std::to_string(month);
 
     return  std::to_string(year) + "-" + monthStr + "-" + dayStr;
+}
+
+std::string Date::toStringXMLName() const
+{
+    std::string monthStr;
+
+    if (month < 10)
+        monthStr = "0" + std::to_string(month);
+    else
+        monthStr = std::to_string(month);
+
+    return  std::to_string(year) + monthStr;
 }
 
 bool Date::Date::operator == (const Date& other) const

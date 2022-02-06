@@ -1,0 +1,1319 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<report xmlns="http://localhost" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://localhost ImportStomatologyReport.xsd" practiceName="АИППИПДМ-САЛВЕОДЕНТ" bulstat="831707490" RCZCode="2219112648" contractNo="" dentistName="Христо Константинов" dentistSpec="64" dentistPersonalCode="220008771" RHIF="22" startFrom="2021-10-01" endTo="2021-10-31" dentalServiceType="0">
+    <dentalCareServices>
+        <dentalCareService personType="1" personIdentifier="5010076527" RHIFCode="22" healthRegionCode="01" personFirstName="Костадин" personMiddleName="Величков" personLastName="Кукушев" specificationType="PRIMARY NORM" ambulatorySheetNo="000306" HIRBNo="01953593" unfavorableCondition="0" substitute="0" Sign="1">
+            <allergies>
+                <allergy allergyName="Не съобщава" />
+            </allergies>
+            <pastDiseases>
+                <pastDisease name="Не съобщава" />
+            </pastDiseases>
+            <currentDiseases>
+                <currentDisease name="Не съобщава" />
+            </currentDiseases>
+            <teeth>
+                <tooth toothCode="13">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="K" />
+                        <toothStatus toothStatusCode="I" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="12">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="K" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="11">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="K" />
+                        <toothStatus toothStatusCode="I" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="21">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="K" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="22">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="K" />
+                        <toothStatus toothStatusCode="I" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="23">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="K" />
+                        <toothStatus toothStatusCode="I" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="45">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="46">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="G" />
+                        <toothStatus toothStatusCode="Pa" />
+                        <toothStatus toothStatusCode="K" />
+                        <toothStatus toothStatusCode="II" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="47">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="G" />
+                        <toothStatus toothStatusCode="Pa" />
+                        <toothStatus toothStatusCode="K" />
+                        <toothStatus toothStatusCode="II" />
+                    </toothStatuses>
+                </tooth>
+            </teeth>
+            <services>
+                <service date="2021-10-01" diagnosis="Per. chr. gr. loc." toothCode="46" activityCode="509" />
+                <service date="2021-10-01" diagnosis="Per. chr. gr. loc." toothCode="47" activityCode="509" />
+            </services>
+            <medicalReferrals />
+            <MDAReferrals />
+            <prescSpecialists />
+        </dentalCareService>
+        <dentalCareService personType="1" personIdentifier="8807101716" RHIFCode="22" healthRegionCode="01" personFirstName="Десислава" personMiddleName="Емилова" personLastName="Лозанова" specificationType="PRIMARY NORM" ambulatorySheetNo="000307" HIRBNo="01070686" unfavorableCondition="0" substitute="0" Sign="1">
+            <allergies>
+                <allergy allergyName="Не съобщава" />
+            </allergies>
+            <pastDiseases>
+                <pastDisease name="Не съобщава" />
+            </pastDiseases>
+            <currentDiseases>
+                <currentDisease name="Не съобщава" />
+            </currentDiseases>
+            <teeth>
+                <tooth toothCode="16">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="15">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="14">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="25">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="26">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="36">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="35">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="34">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="46">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+            </teeth>
+            <services>
+                <service date="2021-10-01" diagnosis="Caries media" toothCode="34" activityCode="301" />
+            </services>
+            <medicalReferrals />
+            <MDAReferrals />
+            <prescSpecialists />
+        </dentalCareService>
+        <dentalCareService personType="1" personIdentifier="7902065583" RHIFCode="22" healthRegionCode="01" personFirstName="Ивелин" personMiddleName="Тодоров" personLastName="Енчев" specificationType="PRIMARY NORM" ambulatorySheetNo="000310" HIRBNo="" unfavorableCondition="0" substitute="0" Sign="1">
+            <allergies>
+                <allergy allergyName="Не съобщава" />
+            </allergies>
+            <pastDiseases>
+                <pastDisease name="Не съобщава" />
+            </pastDiseases>
+            <currentDiseases>
+                <currentDisease name="Не съобщава" />
+            </currentDiseases>
+            <teeth>
+                <tooth toothCode="17">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="16">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="15">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="14">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="13">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="12">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                        <toothStatus toothStatusCode="K" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="22">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="C" />
+                        <toothStatus toothStatusCode="P" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="23">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="25">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="26">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="27">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="37">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="36">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="35">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="46">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="47">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+            </teeth>
+            <services>
+                <service date="2021-10-04" diagnosis="Преглед" toothCode="99" activityCode="101" />
+                <service date="2021-10-04" diagnosis="Caries media" toothCode="13" activityCode="301" />
+                <service date="2021-10-04" diagnosis="Caries media" toothCode="22" activityCode="301" />
+            </services>
+            <medicalReferrals />
+            <MDAReferrals />
+            <prescSpecialists />
+        </dentalCareService>
+        <dentalCareService personType="1" personIdentifier="8708151575" RHIFCode="22" healthRegionCode="01" personFirstName="Кристина" personMiddleName="Петрова" personLastName="Цанкова" specificationType="PRIMARY NORM" ambulatorySheetNo="000311" HIRBNo="00763773" unfavorableCondition="0" substitute="0" Sign="1">
+            <allergies>
+                <allergy allergyName="Не съобщава" />
+            </allergies>
+            <pastDiseases>
+                <pastDisease name="Не съобщава" />
+            </pastDiseases>
+            <currentDiseases>
+                <currentDisease name="Не съобщава" />
+            </currentDiseases>
+            <teeth>
+                <tooth toothCode="17">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="16">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="26">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                        <toothStatus toothStatusCode="C" />
+                        <toothStatus toothStatusCode="G" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="37">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="36">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="35">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="45">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="46">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+            </teeth>
+            <services>
+                <service date="2021-10-04" diagnosis="Преглед" toothCode="99" activityCode="101" />
+                <service date="2021-10-04" diagnosis="Преендодонтско изграждане" toothCode="26" activityCode="301" />
+            </services>
+            <medicalReferrals />
+            <MDAReferrals />
+            <prescSpecialists />
+        </dentalCareService>
+        <dentalCareService personType="1" personIdentifier="9101247124" RHIFCode="22" healthRegionCode="01" personFirstName="Марио" personMiddleName="Сашев" personLastName="Славчев" specificationType="PRIMARY NORM" ambulatorySheetNo="000313" HIRBNo="07502528" unfavorableCondition="0" substitute="0" Sign="1">
+            <allergies>
+                <allergy allergyName="Не съобщава" />
+            </allergies>
+            <pastDiseases>
+                <pastDisease name="Не съобщава" />
+            </pastDiseases>
+            <currentDiseases>
+                <currentDisease name="Не съобщава" />
+            </currentDiseases>
+            <teeth>
+                <tooth toothCode="15">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="14">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="13">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="11">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="21">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="24">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="25">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="26">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="38">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="36">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="35">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="C" />
+                        <toothStatus toothStatusCode="G" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="34">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="45">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="46">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="47">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="48">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+            </teeth>
+            <services>
+                <service date="2021-10-05" diagnosis="Преглед" toothCode="99" activityCode="101" />
+                <service date="2021-10-05" diagnosis="Caries media" toothCode="45" activityCode="301" />
+                <service date="2021-10-05" diagnosis="Periodontitis chronica granulomatosa localisata" toothCode="35" activityCode="509" />
+            </services>
+            <medicalReferrals />
+            <MDAReferrals />
+            <prescSpecialists />
+        </dentalCareService>
+        <dentalCareService personType="1" personIdentifier="9403043516" RHIFCode="22" healthRegionCode="01" personFirstName="Радослава" personMiddleName="Ангелова" personLastName="Андонова" specificationType="PRIMARY NORM" ambulatorySheetNo="000315" HIRBNo="01988062" unfavorableCondition="0" substitute="0" Sign="1">
+            <allergies>
+                <allergy allergyName="Не съобщава" />
+            </allergies>
+            <pastDiseases>
+                <pastDisease name="Не съобщава" />
+            </pastDiseases>
+            <currentDiseases>
+                <currentDisease name="Не съобщава" />
+            </currentDiseases>
+            <teeth>
+                <tooth toothCode="16">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="15">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="25">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="37">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="36">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                        <toothStatus toothStatusCode="F" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="35">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="34">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="45">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="46">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="47">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="48">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+            </teeth>
+            <services>
+                <service date="2021-10-20" diagnosis="Caries media" toothCode="48" activityCode="301" />
+            </services>
+            <medicalReferrals />
+            <MDAReferrals />
+            <prescSpecialists />
+        </dentalCareService>
+        <dentalCareService personType="1" personIdentifier="0541036617" RHIFCode="22" healthRegionCode="01" personFirstName="Ася" personMiddleName="Славчева" personLastName="Бубарска" specificationType="PRIMARY NORM" ambulatorySheetNo="000319" HIRBNo="08862614" unfavorableCondition="0" substitute="0" Sign="1">
+            <allergies>
+                <allergy allergyName="Не съобщава" />
+            </allergies>
+            <pastDiseases>
+                <pastDisease name="Не съобщава" />
+            </pastDiseases>
+            <currentDiseases>
+                <currentDisease name="Не съобщава" />
+            </currentDiseases>
+            <teeth>
+                <tooth toothCode="17">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="16">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="26">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="27">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="37">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="36">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="45">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="46">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="47">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+            </teeth>
+            <services>
+                <service date="2021-10-08" diagnosis="Caries media" toothCode="47" activityCode="301" />
+            </services>
+            <medicalReferrals />
+            <MDAReferrals />
+            <prescSpecialists />
+        </dentalCareService>
+        <dentalCareService personType="1" personIdentifier="8208314083" RHIFCode="22" healthRegionCode="01" personFirstName="Маргарит" personMiddleName="Георгиев" personLastName="Георгиев" specificationType="PRIMARY NORM" ambulatorySheetNo="000320" HIRBNo="" unfavorableCondition="0" substitute="0" Sign="1">
+            <allergies>
+                <allergy allergyName="Не съобщава" />
+            </allergies>
+            <pastDiseases>
+                <pastDisease name="Не съобщава" />
+            </pastDiseases>
+            <currentDiseases>
+                <currentDisease name="Не съобщава" />
+            </currentDiseases>
+            <teeth>
+                <tooth toothCode="17">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="14">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="12">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                        <toothStatus toothStatusCode="K" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="21">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="22">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                        <toothStatus toothStatusCode="K" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="23">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="24">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="G" />
+                        <toothStatus toothStatusCode="R" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="25">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="G" />
+                        <toothStatus toothStatusCode="R" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="26">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="G" />
+                        <toothStatus toothStatusCode="R" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="27">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="37">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="46">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="47">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+            </teeth>
+            <services>
+                <service date="2021-10-08" diagnosis="Преглед" toothCode="99" activityCode="101" />
+                <service date="2021-10-08" diagnosis="Periodontitis chronica granulomatosa localisata" toothCode="25" activityCode="509" />
+                <service date="2021-10-28" diagnosis="Caries media" toothCode="14" activityCode="301" />
+            </services>
+            <medicalReferrals />
+            <MDAReferrals />
+            <prescSpecialists />
+        </dentalCareService>
+        <dentalCareService personType="1" personIdentifier="7807086883" RHIFCode="22" healthRegionCode="01" personFirstName="Васил" personMiddleName="Борисов" personLastName="Иванов" specificationType="PRIMARY NORM" ambulatorySheetNo="000321" HIRBNo="" unfavorableCondition="0" substitute="0" Sign="1">
+            <allergies>
+                <allergy allergyName="Не съобщава" />
+            </allergies>
+            <pastDiseases>
+                <pastDisease name="Не съобщава" />
+            </pastDiseases>
+            <currentDiseases>
+                <currentDisease name="Не съобщава" />
+            </currentDiseases>
+            <teeth>
+                <tooth toothCode="17">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="16">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="15">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="14">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="22">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="24">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="25">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="26">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="27">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="38">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="37">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="36">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="35">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="45">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="46">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="47">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="48">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+            </teeth>
+            <services>
+                <service date="2021-10-13" diagnosis="Преглед" toothCode="99" activityCode="101" />
+                <service date="2021-10-13" diagnosis="Caries media" toothCode="22" activityCode="301" />
+            </services>
+            <medicalReferrals />
+            <MDAReferrals />
+            <prescSpecialists />
+        </dentalCareService>
+        <dentalCareService personType="1" personIdentifier="7612176304" RHIFCode="22" healthRegionCode="01" personFirstName="Мирослав" personMiddleName="Стоянов" personLastName="Василев" specificationType="PRIMARY NORM" ambulatorySheetNo="000322" HIRBNo="08763866" unfavorableCondition="0" substitute="0" Sign="1">
+            <allergies>
+                <allergy allergyName="Не съобщава" />
+            </allergies>
+            <pastDiseases>
+                <pastDisease name="Не съобщава" />
+            </pastDiseases>
+            <currentDiseases>
+                <currentDisease name="Не съобщава" />
+            </currentDiseases>
+            <teeth>
+                <tooth toothCode="14">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="G" />
+                        <toothStatus toothStatusCode="R" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="35">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="G" />
+                        <toothStatus toothStatusCode="R" />
+                    </toothStatuses>
+                </tooth>
+            </teeth>
+            <services>
+                <service date="2021-10-12" diagnosis="Radix dentis" toothCode="35" activityCode="301" />
+                <service date="2021-10-12" diagnosis="Преглед" toothCode="99" activityCode="101" />
+            </services>
+            <medicalReferrals />
+            <MDAReferrals />
+            <prescSpecialists />
+        </dentalCareService>
+        <dentalCareService personType="1" personIdentifier="4912056768" RHIFCode="22" healthRegionCode="01" personFirstName="Иван" personMiddleName="Димитров" personLastName="Трендафилов" specificationType="PRIMARY NORM" ambulatorySheetNo="000324" HIRBNo="07875429" unfavorableCondition="0" substitute="0" Sign="1">
+            <allergies>
+                <allergy allergyName="Не съобщава" />
+            </allergies>
+            <pastDiseases>
+                <pastDisease name="Не съобщава" />
+            </pastDiseases>
+            <currentDiseases>
+                <currentDisease name="Не съобщава" />
+            </currentDiseases>
+            <teeth>
+                <tooth toothCode="14">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="13">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="R" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="12">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="11">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="21">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="22">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="23">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="38">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="R" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="37">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="R" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="35">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="34">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="R" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="33">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+            </teeth>
+            <services>
+                <service date="2021-10-15" diagnosis="Преглед" toothCode="99" activityCode="101" />
+                <service date="2021-10-15" diagnosis="Radix dentis" toothCode="37" activityCode="509" />
+                <service date="2021-10-15" diagnosis="Radix dentis" toothCode="34" activityCode="509" />
+            </services>
+            <medicalReferrals />
+            <MDAReferrals />
+            <prescSpecialists />
+        </dentalCareService>
+        <dentalCareService personType="1" personIdentifier="9204267133" RHIFCode="22" healthRegionCode="01" personFirstName="Вероника" personMiddleName="Бориславова" personLastName="Боновска" specificationType="PRIMARY NORM" ambulatorySheetNo="000329" HIRBNo="00037503" unfavorableCondition="0" substitute="0" Sign="1">
+            <allergies>
+                <allergy allergyName="Не съобщава" />
+            </allergies>
+            <pastDiseases>
+                <pastDisease name="Не съобщава" />
+            </pastDiseases>
+            <currentDiseases>
+                <currentDisease name="Не съобщава" />
+            </currentDiseases>
+            <teeth>
+                <tooth toothCode="16">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="47">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+            </teeth>
+            <services>
+                <service date="2021-10-20" diagnosis="Преглед" toothCode="99" activityCode="101" />
+                <service date="2021-10-20" diagnosis="Вторичен кариес" toothCode="47" activityCode="301" />
+                <service date="2021-10-20" diagnosis="Вторичен кариес" toothCode="16" activityCode="301" />
+            </services>
+            <medicalReferrals />
+            <MDAReferrals />
+            <prescSpecialists />
+        </dentalCareService>
+        <dentalCareService personType="1" personIdentifier="5701026935" RHIFCode="22" healthRegionCode="01" personFirstName="Мая" personMiddleName="Виткова" personLastName="Бонева" specificationType="PRIMARY NORM" ambulatorySheetNo="000330" HIRBNo="04513047" unfavorableCondition="0" substitute="0" Sign="1">
+            <allergies>
+                <allergy allergyName="Не съобщава" />
+            </allergies>
+            <pastDiseases>
+                <pastDisease name="Не съобщава" />
+            </pastDiseases>
+            <currentDiseases>
+                <currentDisease name="Не съобщава" />
+            </currentDiseases>
+            <teeth>
+                <tooth toothCode="17">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="16">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="K" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="15">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="14">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="13">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="12">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="11">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="22">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="24">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="K" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="25">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="K" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="26">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="K" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="27">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="K" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="37">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                        <toothStatus toothStatusCode="G" />
+                        <toothStatus toothStatusCode="K" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="36">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="K" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="35">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="K" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="34">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="44">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="45">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                        <toothStatus toothStatusCode="K" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="46">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="47">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+            </teeth>
+            <services>
+                <service date="2021-10-21" diagnosis="Преглед" toothCode="99" activityCode="101" />
+                <service date="2021-10-21" diagnosis="Вторичен кариес" toothCode="46" activityCode="301" />
+                <service date="2021-10-28" diagnosis="Erosio cervicalis" toothCode="13" activityCode="301" />
+                <service date="2021-10-28" diagnosis="Erosio cervicalis" toothCode="34" activityCode="301" />
+            </services>
+            <medicalReferrals />
+            <MDAReferrals />
+            <prescSpecialists />
+        </dentalCareService>
+        <dentalCareService personType="1" personIdentifier="7502076602" RHIFCode="22" healthRegionCode="01" personFirstName="Боян" personMiddleName="Веселинов" personLastName="Ветов" specificationType="PRIMARY NORM" ambulatorySheetNo="000331" HIRBNo="07300292" unfavorableCondition="0" substitute="0" Sign="1">
+            <allergies>
+                <allergy allergyName="Не съобщава" />
+            </allergies>
+            <pastDiseases>
+                <pastDisease name="Не съобщава" />
+            </pastDiseases>
+            <currentDiseases>
+                <currentDisease name="Не съобщава" />
+            </currentDiseases>
+            <teeth>
+                <tooth toothCode="18">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="16">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="14">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="13">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="21">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="24">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="26">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="28">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="37">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="35">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="R" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="34">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="45">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="47">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+            </teeth>
+            <services>
+                <service date="2021-10-22" diagnosis="Caries media" toothCode="14" activityCode="301" />
+            </services>
+            <medicalReferrals />
+            <MDAReferrals />
+            <prescSpecialists />
+        </dentalCareService>
+        <dentalCareService personType="1" personIdentifier="9104297155" RHIFCode="22" healthRegionCode="01" personFirstName="Ирена" personMiddleName="Пламенова" personLastName="Атанасова" specificationType="PRIMARY NORM" ambulatorySheetNo="000332" HIRBNo="06175470" unfavorableCondition="0" substitute="0" Sign="1">
+            <allergies>
+                <allergy allergyName="Не съобщава" />
+            </allergies>
+            <pastDiseases>
+                <pastDisease name="Не съобщава" />
+            </pastDiseases>
+            <currentDiseases>
+                <currentDisease name="Не съобщава" />
+            </currentDiseases>
+            <teeth>
+                <tooth toothCode="18">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="17">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="16">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="15">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="14">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="11">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="24">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="25">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="26">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="K" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="27">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="37">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="36">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                        <toothStatus toothStatusCode="K" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="35">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="45">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="48">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+            </teeth>
+            <services>
+                <service date="2021-10-26" diagnosis="Преглед" toothCode="99" activityCode="101" />
+                <service date="2021-10-26" diagnosis="Caries media" toothCode="15" activityCode="301" />
+            </services>
+            <medicalReferrals />
+            <MDAReferrals />
+            <prescSpecialists />
+        </dentalCareService>
+        <dentalCareService personType="1" personIdentifier="7811011884" RHIFCode="22" healthRegionCode="01" personFirstName="Христо" personMiddleName="Николов" personLastName="Христов" specificationType="PRIMARY NORM" ambulatorySheetNo="000334" HIRBNo="08435226" unfavorableCondition="0" substitute="0" Sign="1">
+            <allergies>
+                <allergy allergyName="Не съобщава" />
+            </allergies>
+            <pastDiseases>
+                <pastDisease name="Не съобщава" />
+            </pastDiseases>
+            <currentDiseases>
+                <currentDisease name="Не съобщава" />
+            </currentDiseases>
+            <teeth>
+                <tooth toothCode="17">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                        <toothStatus toothStatusCode="Pa" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="16">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                        <toothStatus toothStatusCode="Pa" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="14">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="13">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="11">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="21">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="22">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="23">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="25">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="26">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="K" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="27">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="37">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="36">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="46">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="O" />
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+                <tooth toothCode="47">
+                    <toothStatuses>
+                        <toothStatus toothStatusCode="C" />
+                    </toothStatuses>
+                </tooth>
+            </teeth>
+            <services>
+                <service date="2021-10-28" diagnosis="Преглед" toothCode="99" activityCode="101" />
+                <service date="2021-10-28" diagnosis="Доплащане почистване на зъбен камък" toothCode="47" activityCode="301" />
+                <service date="2021-10-28" diagnosis="Доплащане" toothCode="13" activityCode="301" />
+                <service date="2021-10-28" diagnosis="Доплащане" toothCode="36" activityCode="301" />
+            </services>
+            <medicalReferrals />
+            <MDAReferrals />
+            <prescSpecialists />
+        </dentalCareService>
+    </dentalCareServices>
+</report>

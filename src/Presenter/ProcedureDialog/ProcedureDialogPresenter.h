@@ -58,7 +58,7 @@ class ProcedureDialogPresenter
 			const ToothContainer& teeth,
 			const Date& ambListDate,
 			const Date& patientBirth,
-			bool unfavourable,
+			bool fullCoverage,
 			int specialty
 		);
 

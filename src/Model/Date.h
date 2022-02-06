@@ -23,6 +23,7 @@ public:
     static Date getBirthdateFromEgn(const std::string& egn);
     std::string toString() const;
     std::string toStringXML() const;
+    std::string toStringXMLName() const;
     static Date currentDate();
 
     static int currentDay();

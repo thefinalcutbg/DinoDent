@@ -142,6 +142,8 @@ bool ListPresenter::save()
 
 bool ListPresenter::saveAs()
 {
+    if (!isValid()) return false;
+
     int newNumber = 0;
 
     auto map = db.getExistingNumbers(m_ambList.date.year);
@@ -561,7 +563,7 @@ void ListPresenter::setSelectedProcedure(int index)
     m_selectedProcedure = index;
 }
 
-void ListPresenter::setUnfavourable(bool unfav)
+void ListPresenter::setfullCoverage(bool unfav)
 {
     m_ambList.full_coverage = unfav;
 

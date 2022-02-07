@@ -1,4 +1,5 @@
 ﻿#include "tilebutton.h"
+#include <QPainterPath>
 
 TileButton::TileButton(QWidget* parent) : QAbstractButton(parent), hover(0), clicked(0)
 {
@@ -9,47 +10,66 @@ TileButton::TileButton(QWidget* parent) : QAbstractButton(parent), hover(0), cli
 	info.setPointSizeF(8);
 	info.setFamily("Segoe UI");
 
+	this->installEventFilter(this);
+
 }
 
 void TileButton::paintEvent(QPaintEvent* e)
 {
 
-	QColor color;
-	if (clicked) color.setRgb(217, 224, 248);
-	else if (hover) color.setRgb(201, 222, 245);
-	else color.setRgb(238, 235, 235);
+	QColor color(251, 251, 251);
 
-	QPainter painter;
-	painter.begin(this);
+	if(hover) color.setRgb(242, 242, 242);
 
-	painter.fillRect(0,0, this->width(), this->height(), color);
+	QPainter painter(this);
+
+	constexpr int radius = 8;
+
+	QPainterPath path;
+	path.addRoundedRect(rect(), radius, radius);
+
+	painter.fillPath(path, color);
+		
+
+	painter.setPen(QPen(QColor(200, 200, 200)));
+
+	painter.drawPath(path);
+
+	QColor textColor = clicked ?
+		QColor(92, 93, 95)
+		:
+		QColor(26, 26, 26);
+
+	painter.setPen(QPen(textColor));
 
 	paintInfo(&painter);
 
 	painter.end();
 }
 
-void TileButton::enterEvent(QEvent* event)
+bool TileButton::eventFilter(QObject* obj, QEvent* e)
 {
-	hover = true;
-}
+	if (e->type() == QEvent::HoverEnter) {
+		hover = true;
+		update();
+	}
 
-void TileButton::leaveEvent(QEvent* event)
-{
-	hover = false;
-}
+	if (e->type() == QEvent::HoverLeave) {
+		hover = false;
+		update();
+	}
 
-void TileButton::mousePressEvent(QMouseEvent* e)
-{
-	clicked = true;
-	QAbstractButton::mousePressEvent(e);
-	
-}
+	if (e->type() == QEvent::MouseButtonPress)
+	{
+		clicked = true;
+	}
 
-void TileButton::mouseReleaseEvent(QMouseEvent* e)
-{
-	clicked = false;
-	QAbstractButton::mouseReleaseEvent(e);
+	if (e->type() == QEvent::MouseButtonRelease)
+	{
+		clicked = false;
+	}
+
+	return false;
 }
 
 QString TileButton::elide(const QString& text, int length)

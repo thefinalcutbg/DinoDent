@@ -21,9 +21,11 @@ int main(int argc, char *argv[])
     QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     QApplication::highDpiScaleFactorRoundingPolicy();
     QApplication::setFont(font);
+    
 
     QApplication a(argc, argv);
-     
+    a.setWindowIcon(QIcon(":/icons/icon_torque.png"));
+
     //Intializing singletons
     SpriteSheets::container().initialize(); //loading textures, otherwise program will crash;
     DiagnosisContainer::initialize();

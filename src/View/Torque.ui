@@ -31,7 +31,7 @@
      <number>0</number>
     </property>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0,0,0,0,0,0,0,0,0,0">
+     <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0,0,0,0,0,0,0,0,0,0,0">
       <property name="sizeConstraint">
        <enum>QLayout::SetFixedSize</enum>
       </property>
@@ -58,7 +58,7 @@
        </spacer>
       </item>
       <item>
-       <widget class="QPushButton" name="newButton">
+       <widget class="IconButton" name="newButton">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -73,9 +73,12 @@
         </property>
         <property name="maximumSize">
          <size>
-          <width>200</width>
+          <width>50</width>
           <height>50</height>
          </size>
+        </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Нов амбулаторен лист&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="text">
          <string>Нов лист</string>
@@ -89,7 +92,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="perioButton">
+       <widget class="IconButton" name="perioButton">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -104,9 +107,12 @@
         </property>
         <property name="maximumSize">
          <size>
-          <width>200</width>
+          <width>50</width>
           <height>50</height>
          </size>
+        </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Ново пародонтално измерване&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="text">
          <string>Ново пар. изм.</string>
@@ -114,7 +120,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="listSelectButton">
+       <widget class="IconButton" name="listSelectButton">
         <property name="minimumSize">
          <size>
           <width>50</width>
@@ -127,13 +133,16 @@
           <height>50</height>
          </size>
         </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Отвори&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
         <property name="text">
          <string>Open</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="saveButton">
+       <widget class="IconButton" name="saveButton">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -151,6 +160,9 @@
           <width>50</width>
           <height>50</height>
          </size>
+        </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Запази&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="text">
          <string>Save</string>
@@ -158,7 +170,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="saveAsButton">
+       <widget class="IconButton" name="saveAsButton">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -176,6 +188,9 @@
           <width>50</width>
           <height>50</height>
          </size>
+        </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Запази като&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="text">
          <string>Save as</string>
@@ -186,7 +201,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="printButton">
+       <widget class="IconButton" name="printButton">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -204,6 +219,9 @@
           <width>50</width>
           <height>50</height>
          </size>
+        </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Принтирай&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="text">
          <string>Print</string>
@@ -211,7 +229,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="reportButton">
+       <widget class="IconButton" name="reportButton">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -230,8 +248,27 @@
           <height>50</height>
          </size>
         </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Генерирай отчет&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
         <property name="text">
          <string>Отчет</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="IconButton" name="settingsButton">
+        <property name="maximumSize">
+         <size>
+          <width>50</width>
+          <height>50</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Настройки&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="text">
+         <string>Настройки</string>
         </property>
        </widget>
       </item>
@@ -317,9 +354,14 @@
    <header>View/TabView/TabView.h</header>
    <container>1</container>
   </customwidget>
+  <customwidget>
+   <class>IconButton</class>
+   <extends>QPushButton</extends>
+   <header>View/uiComponents/qt_derived/iconbutton.h</header>
+  </customwidget>
  </customwidgets>
  <resources>
-  <include location="torque.qrc"/>
+  <include location="../../resources/Resource.qrc"/>
  </resources>
  <connections/>
 </ui>

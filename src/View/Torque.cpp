@@ -12,8 +12,17 @@ Torque::Torque(QWidget* parent)
     ui.setupUi(this);
     showMaximized();
 
-    QAction* settingsAction = new QAction("Настройки");
-    QAction* exitAction = new QAction("Изход");
+    ui.newButton->setIcon(QIcon(":/icons/icon_sheet.png"));
+    ui.perioButton->setIcon(QIcon(":/icons/icon_periosheet.png"));
+    ui.saveButton->setIcon(QIcon(":/icons/icon_save.png"));
+    ui.saveAsButton->setIcon(QIcon(":/icons/icon_saveAs.png"));
+    ui.listSelectButton->setIcon(QIcon(":/icons/icon_open.png"));
+    ui.printButton->setIcon(QIcon(":/icons/icon_print.png"));
+    ui.reportButton->setIcon(QIcon(":/icons/icon_reports.png"));
+    ui.settingsButton->setIcon(QIcon(":/icons/icon_settings.png"));
+
+    QAction* settingsAction = new QAction(u8"Настройки");
+    QAction* exitAction = new QAction(u8"Изход");
     QMenu* userMenu = new QMenu();
     userMenu->addAction(settingsAction);
     userMenu->addAction(exitAction);

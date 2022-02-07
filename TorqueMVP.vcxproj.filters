@@ -453,6 +453,9 @@
     <ClCompile Include="src\View\ReportDialog\ReportDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\uiComponents\qt_derived\IconButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -626,11 +629,11 @@
     <QtMoc Include="src\View\ReportDialog\ReportDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\View\uiComponents\qt_derived\IconButton.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
-    <QtRcc Include="src\View\Torque.qrc">
-      <Filter>Resource Files</Filter>
-    </QtRcc>
     <QtRcc Include="resources\Resource.qrc" />
   </ItemGroup>
   <ItemGroup>

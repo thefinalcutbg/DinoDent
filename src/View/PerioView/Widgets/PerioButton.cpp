@@ -32,7 +32,7 @@ PerioButton::PerioButton(QWidget *parent)
 PerioButton::~PerioButton()
 {
 }
-#include <QDebug>
+
 
 void PerioButton::paintEvent(QPaintEvent* event)
 {

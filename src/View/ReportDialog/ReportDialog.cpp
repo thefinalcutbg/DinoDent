@@ -25,34 +25,34 @@ ReportDialog::ReportDialog(std::optional<ReportDialogResult>& result, QWidget *p
 	};
 
 	for (int i = 0; i < 12; i++)
-		ui.comboBox->addItem(monthNames[i]);
+		ui.monthCombo->addItem(monthNames[i]);
 
 	int currentMonth = Date::currentMonth();
 	int previousMonth = currentMonth == 1 ? 12 : currentMonth - 1;
 
 	int year = currentMonth == 1 ? Date::currentYear()-1 : Date::currentYear();
 
-	ui.comboBox->setCurrentIndex(previousMonth - 1); // index 0 == january;
-	ui.spinBox->setValue(year);
+	ui.monthCombo->setCurrentIndex(previousMonth - 1); // index 0 == january;
+	ui.yearSpin->setValue(year);
+	ui.pathLineEdit->setText(QCoreApplication::applicationDirPath());
 
-	connect(ui.pushButton, &QPushButton::clicked, [&] {
-
-		QFileDialog fileDialog;
-		fileDialog.setFileMode(QFileDialog::FileMode::Directory);
-		fileDialog.setOption(QFileDialog::Option::ShowDirsOnly);
-		
-		if (!fileDialog.exec()) return;
+	connect(ui.okButton, &QPushButton::clicked, [&] {
 			
 		ref_result.emplace(ReportDialogResult
 			{
-			ui.comboBox->currentIndex() + 1,
-			ui.spinBox->value(),
-			fileDialog.directory().absolutePath().toStdString()
+			ui.monthCombo->currentIndex() + 1,
+			ui.yearSpin->value(),
+			ui.pathLineEdit->text().toStdString()
 		});
 
 		this->accept();
 		
-		
+		});
+
+	connect(ui.browseButton, &QPushButton::clicked, [&] {
+			ui.pathLineEdit->setText(QFileDialog::getExistingDirectory(this,
+			tr("Find Files"), QDir::currentPath()));
+
 		});
 	
 }

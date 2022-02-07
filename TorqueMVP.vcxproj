@@ -213,6 +213,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\View\uiComponents\qt_derived\IconButton.cpp" />
     <ClCompile Include="src\View\ReportDialog\ReportDialog.cpp" />
     <ClCompile Include="src\Database\DbXML.cpp" />
     <ClCompile Include="src\Libraries\JsonCpp\jsoncpp.cpp" />
@@ -368,7 +369,6 @@
     <ClCompile Include="src\Presenter\DetailsPresenter\StatusController.cpp" />
     <ClCompile Include="src\Model\User\UserManager.cpp" />
     <QtRcc Include="resources\Resource.qrc" />
-    <QtRcc Include="src\View\Torque.qrc" />
     <QtUic Include="src\View\ReportDialog\ReportDialog.ui" />
     <QtUic Include="src\View\LoginView\PracticeListDialog.ui" />
     <QtUic Include="src\View\PatientSummaryView\PatientSummary.ui" />
@@ -439,6 +439,7 @@
     <QtMoc Include="src\View\PatientSummaryView\PatientSummary.h" />
     <QtMoc Include="src\View\LoginView\PracticeListDialog.h" />
     <QtMoc Include="src\View\ReportDialog\ReportDialog.h" />
+    <QtMoc Include="src\View\uiComponents\qt_derived\IconButton.h" />
     <ClInclude Include="src\Database\DbXML.h" />
     <ClInclude Include="src\Database\DbPatientSummary.h" />
     <ClInclude Include="src\Database\DbListOpener.h" />

@@ -96,7 +96,7 @@ void ListView::paintEvent(QPaintEvent* event)
 {
 	QPainter painter;
 	painter.begin(this);
-	painter.fillRect(0, 0, width(), height(), Qt::white);
+	painter.fillRect(rect(), QColor(255,255,255));
 
 	painter.end();
 }

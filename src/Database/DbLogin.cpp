@@ -39,7 +39,7 @@ Practice DbLogin::getPractice(const std::string rziCode)
 {
     openConnection();
 
-    std::string query = "SELECT rzi, name, bulstat, contract, contractDate, address, priceList " 
+    std::string query = "SELECT rzi, name, bulstat, firm_address, practice_address, legal_entity, vat, priceList " 
                         "FROM practice WHERE rzi = '" + rziCode + "'";
 
     sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
@@ -51,20 +51,37 @@ Practice DbLogin::getPractice(const std::string rziCode)
         practice.rziCode = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0));
         practice.practice_name = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
         practice.bulstat = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 2));
-
-
-        if (sqlite3_column_type(stmt, 3) != SQLITE_NULL)
-        {
-            practice.contract = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 3));
-            practice.contractDate = Date{ reinterpret_cast<const char*>(sqlite3_column_text(stmt, 4)) };
-        }
-
-        practice.practice_address = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 5));
-        practice.priceList = Parser::getPriceList(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 6)));
+        practice.firm_address = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 3));
+        practice.practice_address = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 4));
+        practice.legal_entity = sqlite3_column_int(stmt, 5);
+        practice.vat = static_cast<bool>(sqlite3_column_int(stmt, 6));
+        practice.priceList = Parser::getPriceList(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 7)));
 
     }
 
     sqlite3_finalize(stmt);
+
+    query = "SELECT contract, date, bank, bic, iban "
+            "FROM nzok_contract WHERE rzi = '" + rziCode + "'";
+
+
+    sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
+
+    while (sqlite3_step(stmt) != SQLITE_DONE)
+    {
+        practice.nzok_contract.emplace(
+
+            NzokContract{
+                reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0)),
+                Date{reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1))},
+                reinterpret_cast<const char*>(sqlite3_column_text(stmt, 2)),
+                reinterpret_cast<const char*>(sqlite3_column_text(stmt, 3)),
+                reinterpret_cast<const char*>(sqlite3_column_text(stmt, 4))
+            }
+
+        );
+    }
+
 
     closeConnection();
 

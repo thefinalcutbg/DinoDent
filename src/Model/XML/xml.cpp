@@ -37,7 +37,7 @@ void XML::saveXMLfile(int month, int year, std::string path)
     report->SetAttribute("practiceName", user.practice_name);
     report->SetAttribute("bulstat", user.bulstat);
     report->SetAttribute("RCZCode", user.rziCode);
-    report->SetAttribute("contractNo", user.contract);
+    report->SetAttribute("contractNo", user.nzok_contract.value().contract_no);
     report->SetAttribute("dentistName", user.doctor_name);
     report->SetAttribute("dentistSpec", user.specialty);
     report->SetAttribute("dentistPersonalCode", user.LPK);

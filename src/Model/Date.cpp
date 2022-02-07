@@ -16,7 +16,7 @@ Date::Date(int day, int month, int year) :
 
 Date::Date(const std::string& dd_dot_MM_dot_yyyy):
     day(stoi(dd_dot_MM_dot_yyyy.substr(0, 2))),
-    month(stoi(dd_dot_MM_dot_yyyy.substr(3, 4))),
+    month(stoi(dd_dot_MM_dot_yyyy.substr(3, 2))),
     year(stoi(dd_dot_MM_dot_yyyy.substr(6, 4)))
 {}
 

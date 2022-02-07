@@ -91,23 +91,39 @@ Database::Database() : err(nullptr), db(nullptr), stmt(nullptr)
         "lpk            VARCHAR         NOT NULL PRIMARY KEY,"
         "pass           VARCHAR         NOT NULL,"
         "name           VARCHAR         NOT NULL,"
-        "spec           INT             NOT NULL"
+        "spec           INT             NOT NULL,"
+        "egn            VARCHAR         NOT NULL"
         ")"
         , NULL, NULL, &err);
 
     rc = sqlite3_exec(
         db,
         "CREATE TABLE IF NOT EXISTS practice("
-        "rzi            VARCHAR(10)     NOT NULL PRIMARY KEY,"
-        "bulstat        VARCHAR         NOT NULL,"
-        "name           VARCHAR         NOT NULL,"
-        "pass           VARCHAR         NOT NULL,"
-        "contract       VARCHAR,         "
-        "contractDate   VARCHAR,         "
-        "address        VARCHAR,         "
-        "priceList      VARCHAR          "
+        "rzi                VARCHAR(10)     NOT NULL PRIMARY KEY,"
+        "name               VARCHAR         NOT NULL,"
+        "bulstat            VARCHAR         NOT NULL,"
+        "firm_address       VARCHAR,        NOT NULL,"
+        "practice_address   VARCHAR,        NOT NULL,"
+        "pass               VARCHAR         NOT NULL,"
+        "legal_entity       INT             NOT NULL,"
+        "vat                INT             NOT NULL,"
+        "priceList          VARCHAR                  "
         ")"
         , NULL, NULL, &err);
+
+    rc = sqlite3_exec(
+        db,
+        "CREATE TABLE IF NOT EXISTS nzok_contract("
+        "contract           VARCHAR         NOT NULL PRIMARY KEY,"
+        "rzi                VARCHAR         NOT NULL,"
+        "date               VARCHAR(10)     NOT NULL,"
+        "bank               VARCHAR         NOT NULL,"
+        "bic                VARCHAR         NOT NULL,"
+        "iban               VARCHAR         NOT NULL,"
+        "FOREIGN KEY(rzi) REFERENCES practice(rzi) ON DELETE CASCADE ON UPDATE CASCADE"
+        ")"
+        , NULL, NULL, &err);
+
 
     rc = sqlite3_exec(
         db,

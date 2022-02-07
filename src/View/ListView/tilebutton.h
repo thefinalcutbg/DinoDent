@@ -12,17 +12,16 @@
 
 class TileButton : public QAbstractButton
 {
-    bool hover;
-    bool clicked;
+
 
     void paintEvent(QPaintEvent* e) override;
-    void enterEvent(QEvent* event);
-    void leaveEvent(QEvent* event) override;
-    void mousePressEvent(QMouseEvent* e) override;
-    void mouseReleaseEvent(QMouseEvent* e) override;
+    bool eventFilter(QObject* obj, QEvent* e) override;
     
 
 protected:
+
+    bool hover;
+    bool clicked;
 
     QFont header;
     QFont info;

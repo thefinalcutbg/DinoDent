@@ -1,16 +1,16 @@
 #include "DbLogin.h"
 #include <QDebug>
 #include "Model/Parser/Parser.h"
-
+#include "View/ModalDialogBuilder.h"
 std::vector<PracticePair> DbLogin::getPracticeList(const std::string& doctorLPK)
 {
     openConnection();
 
     std::string query = 
         "SELECT practice.rzi, practice.name "
-        "FROM practice LEFT JOIN practicedoctor ON "
-        "practice.rzi = practicedoctor.rzi "
-        "WHERE practicedoctor.lpk = '" + doctorLPK + "' "
+        "FROM practice LEFT JOIN practice_doctor ON "
+        "practice.rzi = practice_doctor.practice_rzi "
+        "WHERE practice_doctor.doctor_lpk = '" + doctorLPK + "' "
         "ORDER BY name ASC";
 
     sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
@@ -49,7 +49,7 @@ Practice DbLogin::getPractice(const std::string rziCode)
     while (sqlite3_step(stmt) != SQLITE_DONE)
     {
         practice.rziCode = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0));
-        practice.practice_name = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
+        practice.name = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
         practice.bulstat = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 2));
         practice.firm_address = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 3));
         practice.practice_address = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 4));
@@ -62,7 +62,7 @@ Practice DbLogin::getPractice(const std::string rziCode)
     sqlite3_finalize(stmt);
 
     query = "SELECT contract, date, bank, bic, iban "
-            "FROM nzok_contract WHERE rzi = '" + rziCode + "'";
+            "FROM nzok_contract WHERE practice_rzi = '" + rziCode + "'";
 
 
     sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
@@ -95,7 +95,7 @@ std::optional<Doctor> DbLogin::getDoctor(const std::string& lpk, const std::stri
     openConnection();
 
     std::string query =
-        "SELECT lpk, name, spec FROM doctor "
+        "SELECT fname, lname, egn, spec FROM doctor "
         "WHERE lpk = '" + lpk + "' "
         "AND pass = '" + pass + "' ";
 
@@ -105,9 +105,11 @@ std::optional<Doctor> DbLogin::getDoctor(const std::string& lpk, const std::stri
     {
         Doctor doctor;
 
-        doctor.LPK = std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0)));
-        doctor.doctor_name = std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1)));
-        doctor.specialty = sqlite3_column_int(stmt, 2);
+        doctor.LPK = lpk;
+        doctor.fname = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0));
+        doctor.lname = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
+        doctor.egn = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 2));
+        doctor.specialty = sqlite3_column_int(stmt, 3);
         doctor.pass = pass;
 
         result = doctor;
@@ -126,13 +128,14 @@ std::unordered_map<std::string, std::string> DbLogin::getDoctorNames()
 
     openConnection();
 
-    std::string query = "SELECT lpk, name FROM doctor";
+    std::string query = "SELECT lpk, fname, lname FROM doctor";
 
     sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
 
     while (sqlite3_step(stmt) != SQLITE_DONE)
         doctorNames[std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0)))]
-                  = u8"д-р " + std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1)));
+                = doctorPrefix + std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1)))
+                     + " " + std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 2)));
 
     sqlite3_finalize(stmt);
 
@@ -140,4 +143,29 @@ std::unordered_map<std::string, std::string> DbLogin::getDoctorNames()
 
     return doctorNames;
 
+}
+
+void DbLogin::updateDoctor(const Doctor& doctor, std::string& currentLPK)
+{
+
+    openConnection();
+
+    std::string query = "UPDATE doctor SET "
+        "lpk = '" + doctor.LPK + "', "
+        "spec = " + std::to_string(doctor.specialty) + ", "
+        "fname = '" + doctor.fname + "', "
+        "lname = '" + doctor.lname + "', "
+        "pass = '" + doctor.pass + "', "
+        "egn = '" + doctor.egn + "' "
+        "WHERE lpk = '" + currentLPK + "' ";
+
+
+   
+
+    rc = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
+    if (rc != SQLITE_OK) {
+
+    }
+
+    closeConnection();
 }

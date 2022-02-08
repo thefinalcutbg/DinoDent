@@ -22,6 +22,10 @@ void showFileInFolder(const QString& path) {
 
 void XML::saveXMLfile(int month, int year, std::string path)
 {
+
+    auto& doctor = UserManager::currentUser().doctor;
+    auto& practice = UserManager::currentUser().practice;
+
     TiXmlDocument doc("StomReport");
     
     TiXmlDeclaration* decl = new TiXmlDeclaration{ "1.0", "UTF-8" ,"" };
@@ -32,25 +36,25 @@ void XML::saveXMLfile(int month, int year, std::string path)
     report->SetAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
     report->SetAttribute("xsi:schemaLocation", "http://localhost ImportStomatologyReport.xsd");
 
-    auto& user = UserManager::currentUser();
 
-    report->SetAttribute("practiceName", user.practice_name);
-    report->SetAttribute("bulstat", user.bulstat);
-    report->SetAttribute("RCZCode", user.rziCode);
-    report->SetAttribute("contractNo", user.nzok_contract.value().contract_no);
-    report->SetAttribute("dentistName", user.doctor_name);
-    report->SetAttribute("dentistSpec", user.specialty);
-    report->SetAttribute("dentistPersonalCode", user.LPK);
+
+    report->SetAttribute("practiceName", practice.name);
+    report->SetAttribute("bulstat", practice.bulstat);
+    report->SetAttribute("RCZCode", practice.rziCode);
+    report->SetAttribute("contractNo", practice.nzok_contract.value().contract_no);
+    report->SetAttribute("dentistName", doctor.getFullName());
+    report->SetAttribute("dentistSpec", doctor.specialty);
+    report->SetAttribute("dentistPersonalCode", doctor.LPK);
 
     //getting the first two characters of user.rziCode:
-    report->SetAttribute("RHIF", user.rziCode.substr(0, 2));
+    report->SetAttribute("RHIF", practice.rziCode.substr(0, 2));
 
     Date from{ 1, month, year };
     Date to = from.getMaxDateOfMonth();
 
     report->SetAttribute("startFrom", from.toStringXML());
     report->SetAttribute("endTo", to.toStringXML());
-    report->SetAttribute("dentalServiceType", user.dentalServiceType());
+    report->SetAttribute("dentalServiceType", doctor.dentalServiceType());
     
 
     TiXmlElement* dentalCareServices = new TiXmlElement("dentalCareServices");
@@ -59,7 +63,7 @@ void XML::saveXMLfile(int month, int year, std::string path)
     //this is where we serialize the ambLists:
 
     DbXML db;
-    auto ambSheets = db.getAmbListXML(month, year, UserManager::currentUser().rziCode, UserManager::currentUser().LPK);
+    auto ambSheets = db.getAmbListXML(month, year, practice.rziCode, doctor.LPK);
 
     for (auto& sheet : ambSheets)
     {
@@ -166,9 +170,9 @@ void XML::saveXMLfile(int month, int year, std::string path)
 
 
     doc.SaveFile(path + "/STOM_" 
-                + UserManager::currentUser().rziCode + "_"
-                + UserManager::currentUser().LPK + "_"
-                + std::to_string(UserManager::currentUser().specialty) + "_"
+                + practice.rziCode + "_"
+                + doctor.LPK + "_"
+                + std::to_string(doctor.specialty) + "_"
                 + from.toStringXMLName()
                 +"_01.xml");
 }

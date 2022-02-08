@@ -5,6 +5,8 @@ Database::Database() : err(nullptr), db(nullptr), stmt(nullptr)
 
     sqlite3_open("DATATEST.db", &db);
 
+    rc = sqlite3_exec(db, "PRAGMA foreign_keys = ON", NULL, NULL, &err);
+
     rc = sqlite3_exec(
         db,
         "CREATE TABLE IF NOT EXISTS patient("
@@ -88,9 +90,10 @@ Database::Database() : err(nullptr), db(nullptr), stmt(nullptr)
     rc = sqlite3_exec(
         db,
         "CREATE TABLE IF NOT EXISTS doctor("
-        "lpk            VARCHAR         NOT NULL PRIMARY KEY,"
+        "lpk            VARCHAR(9)      NOT NULL  PRIMARY KEY, "
         "pass           VARCHAR         NOT NULL,"
-        "name           VARCHAR         NOT NULL,"
+        "fname          VARCHAR(50)     NOT NULL,"
+        "lname          VARCHAR(50)     NOT NULL,"
         "spec           INT             NOT NULL,"
         "egn            VARCHAR         NOT NULL"
         ")"
@@ -115,24 +118,23 @@ Database::Database() : err(nullptr), db(nullptr), stmt(nullptr)
         db,
         "CREATE TABLE IF NOT EXISTS nzok_contract("
         "contract           VARCHAR         NOT NULL PRIMARY KEY,"
-        "rzi                VARCHAR         NOT NULL,"
+        "practice_rzi       VARCHAR(10)     NOT NULL,"
         "date               VARCHAR(10)     NOT NULL,"
         "bank               VARCHAR         NOT NULL,"
         "bic                VARCHAR         NOT NULL,"
         "iban               VARCHAR         NOT NULL,"
-        "FOREIGN KEY(rzi) REFERENCES practice(rzi) ON DELETE CASCADE ON UPDATE CASCADE"
+        "FOREIGN KEY(practice_rzi) REFERENCES practice(rzi) ON DELETE CASCADE ON UPDATE CASCADE"
         ")"
         , NULL, NULL, &err);
 
 
     rc = sqlite3_exec(
         db,
-        "CREATE TABLE IF NOT EXISTS practicedoctor("
-        "id             INTEGER         NOT NULL PRIMARY KEY, "
-        "rzi            VARCHAR(10)     NOT NULL, "
-        "lpk            VARCHAR         NOT NULL, "
-        "FOREIGN KEY(rzi) REFERENCES practice(rzi) ON DELETE CASCADE ON UPDATE CASCADE, "
-        "FOREIGN KEY(lpk) REFERENCES doctor(lpk) ON DELETE CASCADE ON UPDATE CASCADE "
+        "CREATE TABLE IF NOT EXISTS practice_doctor("
+        "practice_rzi            VARCHAR(10)         NOT NULL, "
+        "doctor_lpk              VARCHAR(9)          NOT NULL, "
+        "FOREIGN KEY(practice_rzi) REFERENCES practice(rzi) ON DELETE CASCADE ON UPDATE CASCADE, "
+        "FOREIGN KEY(doctor_lpk) REFERENCES doctor(lpk) ON DELETE CASCADE ON UPDATE CASCADE "
         ")"
         , NULL, NULL, &err);
 

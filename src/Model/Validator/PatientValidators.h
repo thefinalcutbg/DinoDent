@@ -10,6 +10,7 @@ class EgnValidator : public Validator
 	DigitsOnlyValidator digits_only;
 	DateValidator date_validator;
 	NotEmptyValidator not_empty;
+
 	
 public:
 	EgnValidator();

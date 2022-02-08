@@ -456,6 +456,18 @@
     <ClCompile Include="src\View\uiComponents\qt_derived\IconButton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\DoctorSettingsDialog\DoctorSettingsDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Presenter\DoctorDialogPresenter\DoctorDialogPresenter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Model\Validator\LpkValidator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Model\XML\InvoiceXML.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -632,6 +644,9 @@
     <QtMoc Include="src\View\uiComponents\qt_derived\IconButton.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\View\DoctorSettingsDialog\DoctorSettingsDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="resources\Resource.qrc" />
@@ -725,6 +740,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\ReportDialog\ReportDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\DoctorSettingsDialog\DoctorSettingsDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
@@ -1116,10 +1134,22 @@
     <ClInclude Include="src\Database\DbXML.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model\AmbListXML.h">
+    <ClInclude Include="src\Model\XML\AmbListXML.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\ReportDialog\ReportDialogResult.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Presenter\DoctorDialogPresenter\DoctorDialogPresenter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\View\DoctorSettingsDialog\IDoctorSettingsDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\Validator\LpkValidator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\XML\InvoiceXML.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

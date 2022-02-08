@@ -15,6 +15,7 @@ public:
     Date();
     Date(int day, int month, int year);
     Date(const std::string& dd_dot_MM_dot_yyyy);
+    
 
     bool isInitialized() const;
     //all my troubles seem so far away
@@ -29,6 +30,7 @@ public:
     static int currentDay();
     static int currentMonth();
     static int currentYear();
+    static Date getDateFromXmlFormat(const std::string& yyyy_dash_MM_dash_dd);
 
     static bool isLeapYear(int year);
     int getMaxDayOfMonth() const;

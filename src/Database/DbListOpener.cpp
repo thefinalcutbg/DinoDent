@@ -53,8 +53,8 @@ std::vector<AmbRow> DbListOpener::getAmbRows(const Date& from, const Date& to)
         "HAVING (amblist.year, amblist.month, amblist.day) "
         "BETWEEN (" + std::to_string(from.year) + ", " + std::to_string(from.month) + ", " + std::to_string(from.day) + ") "
         "AND (" + std::to_string(to.year) + ", " + std::to_string(to.month) + ", " + std::to_string(to.day) + ") "
-        "AND amblist.lpk = '" + UserManager::currentUser().LPK + "' "
-        "AND amblist.rzi = '" + UserManager::currentUser().rziCode + "' "
+        "AND amblist.lpk = '" + UserManager::currentUser().doctor.LPK + "' "
+        "AND amblist.rzi = '" + UserManager::currentUser().practice.rziCode + "' "
         "ORDER BY amblist.year ASC, amblist.month ASC, amblist.day ASC ";
 
     sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
@@ -141,7 +141,7 @@ void DbListOpener::deleteRecord(const std::string& tableName, const std::string&
 {
     openConnection();
 
-    std::string query = "DELETE FROM " + tableName + " WHERE id = " + id;
+    std::string query = "DELETE FROM " + tableName + " WHERE id = '" + id + "' ";
 
     rc = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
 

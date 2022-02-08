@@ -63,7 +63,7 @@ ProcedureDialogPresenter::ProcedureDialogPresenter
 	);
 
 	//getting custom procedures:
-	auto customProcedures = UserManager::currentUser().priceList;
+	auto customProcedures = UserManager::currentUser().practice.priceList;
 
 	procedureList.insert(procedureList.end(), customProcedures.begin(), customProcedures.end());
 }

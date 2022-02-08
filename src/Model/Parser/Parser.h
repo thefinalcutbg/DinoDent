@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 #include "Model/Procedure/ProcedureTemplate.h"
-#include "Model/AmbListXML.h"
+#include "Model/XML/AmbListXML.h"
 
 struct PerioStatus;
 class ToothContainer;

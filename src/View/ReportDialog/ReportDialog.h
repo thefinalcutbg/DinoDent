@@ -9,6 +9,7 @@ class ReportDialog : public QDialog
 	Q_OBJECT
 
 	std::optional<ReportDialogResult>& ref_result;
+	void paintEvent(QPaintEvent* event) override;
 
 public:
 	ReportDialog(std::optional<ReportDialogResult>& result, QWidget *parent = Q_NULLPTR);

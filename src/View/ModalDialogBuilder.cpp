@@ -65,6 +65,13 @@ void ModalDialogBuilder::openDialog(std::optional<ReportDialogResult>& result)
 	ReportDialog d(result);
 	d.exec();
 }
+#include "View/DoctorSettingsDialog/DoctorSettingsDialog.h"
+
+void ModalDialogBuilder::openDialog(DoctorDialogPresenter* p)
+{
+	DoctorSettingsDialog d(p);
+	d.exec();
+}
 
 #include "View/saveAsDialog/SaveAsDialog.h"
 

@@ -47,6 +47,7 @@ public:
 	void open(const RowInstance& row);
 
 	void removeTab(TabType type, const std::string& rowID);
+	void removePatientTabs(const std::string& patientID);
 	void removeCurrentTab();
 
 };

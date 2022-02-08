@@ -1,12 +1,15 @@
 ﻿#include "ReportDialog.h"
 #include <QFileDialog>
-
+#include <QPainter>
 ReportDialog::ReportDialog(std::optional<ReportDialogResult>& result, QWidget *parent)
 	: ref_result(result), QDialog(parent)
 {
 	ui.setupUi(this);
 
 	setModal(true);
+
+	setWindowTitle("Генериране на отчет");
+	setWindowIcon(QIcon(":/icons/icon_reports.png"));
 
 	constexpr const char* monthNames[12]
 	{
@@ -56,6 +59,14 @@ ReportDialog::ReportDialog(std::optional<ReportDialogResult>& result, QWidget *p
 		});
 	
 }
+
+
+void ReportDialog::paintEvent(QPaintEvent* event)
+{
+	QPainter painter(this);
+	painter.fillRect(rect(), QColor(Qt::white));
+}
+
 
 ReportDialog::~ReportDialog()
 {

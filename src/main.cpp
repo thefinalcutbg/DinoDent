@@ -6,13 +6,11 @@
 #include "Model/User/UserManager.h"
 #include "Database/Database.h"
 #include <QTextCodec>
-#include "Model/XML/xml.h";
 #include "Model/CityCode.h"
 
 
 int main(int argc, char *argv[])
 {
-
     {Database d;} //checks the database
 
     QFont font("Segoe UI");
@@ -27,15 +25,15 @@ int main(int argc, char *argv[])
     a.setWindowIcon(QIcon(":/icons/icon_torque.png"));
 
     //Intializing singletons
+    CityCode::initialize();
     SpriteSheets::container().initialize(); //loading textures, otherwise program will crash;
     DiagnosisContainer::initialize();
     UserManager::initialize();
     MasterNZOK::instance().loadUpdates(); //parsing json of nzok data
-    CityCode::initialize();
 
     Torque w;
 
-    if (w.m_initialized == false)
+    if (!w.m_initialized)
         return 0;
 
     w.show();

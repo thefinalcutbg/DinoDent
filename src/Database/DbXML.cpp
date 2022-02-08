@@ -40,7 +40,7 @@ std::string getSpecType(bool fullCoverage)
         //"SPEC_PS      //за обща анестезия (такъв няма feature все още)
     };
 
-    auto& specialty = UserManager::currentUser().specialty;
+    auto& specialty = UserManager::currentUser().doctor.specialty;
 
     bool primaryDentalAid = specialty == 60 || specialty == 64;
 

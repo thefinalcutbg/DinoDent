@@ -18,7 +18,7 @@ UserManager::UserManager()
 
 const bool UserManager::isCurrentUser(const std::string& LPK)
 {
-    return LPK == m_currentUser.LPK;
+    return LPK == m_currentUser.doctor.LPK;
 }
 
 std::string UserManager::getDoctorName(const std::string& LPK)

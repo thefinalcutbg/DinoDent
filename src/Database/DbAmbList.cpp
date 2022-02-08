@@ -78,7 +78,7 @@ std::string DbAmbList::insertAmbList(const AmbList& ambList, const std::string &
         + Parser::write(ambList.teeth) + "','"
         + patientID + "','"
         + ambList.LPK + "','"
-        + UserManager::currentUser().rziCode
+        + UserManager::currentUser().practice.rziCode
         + "')";
 
     rc = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
@@ -89,7 +89,7 @@ std::string DbAmbList::insertAmbList(const AmbList& ambList, const std::string &
 
     closeConnection();
 
-    db_procedures.saveProcedures(ambList.id, ambList.procedures);
+    db_procedures.saveProcedures(rowID, ambList.procedures);
 
     return rowID;
 
@@ -144,8 +144,8 @@ AmbList DbAmbList::getListData(const std::string& patientID, int month, int year
 
     std::string query = "SELECT id, num, fullCoverage, day, month, year, status_json, charge FROM amblist WHERE "
         "patient_id = '" + patientID + "' AND "
-        "lpk = " + UserManager::currentUser().LPK + " AND "
-        "rzi = " + UserManager::currentUser().rziCode + " AND "
+        "lpk = " + UserManager::currentUser().doctor.LPK + " AND "
+        "rzi = " + UserManager::currentUser().practice.rziCode + " AND "
         "month = " + std::to_string(month) + " AND "
         "year = " + std::to_string(year);
 
@@ -164,7 +164,7 @@ AmbList DbAmbList::getListData(const std::string& patientID, int month, int year
         ambList.date.year = sqlite3_column_int(stmt, 5);
         status_json = std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 6)));
         ambList.charge = static_cast<Charge>(sqlite3_column_int(stmt, 7));
-        ambList.LPK = UserManager::currentUser().LPK;
+        ambList.LPK = UserManager::currentUser().doctor.LPK;
     }
     
     sqlite3_finalize(stmt);
@@ -181,7 +181,7 @@ AmbList DbAmbList::getListData(const std::string& patientID, int month, int year
             p.applyProcedure(ambList.teeth);
         }
 
-        ambList.LPK = UserManager::currentUser().LPK;
+        ambList.LPK = UserManager::currentUser().doctor.LPK;
     }
     else
     {
@@ -215,7 +215,7 @@ AmbList DbAmbList::getListData(const std::string& ambID)
         ambList.date.year = sqlite3_column_int(stmt, 5);
         status_json = std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 6)));
         ambList.charge = static_cast<Charge>(sqlite3_column_int(stmt, 7));
-        ambList.LPK = UserManager::currentUser().LPK;
+        ambList.LPK = UserManager::currentUser().doctor.LPK;
     }
 
     sqlite3_finalize(stmt);
@@ -251,8 +251,8 @@ bool DbAmbList::checkExistingAmbNum(int currentYear, int ambNum)
     std::string query = "SELECT EXISTS(SELECT 1 FROM amblist WHERE "
         "year = " + std::to_string(currentYear) +
         " AND num = " + std::to_string(ambNum) + ")"
-        " AND lpk = '" + UserManager::currentUser().LPK + "' "
-        " AND rzi = '" + UserManager::currentUser().rziCode + "' ";
+        " AND lpk = '" + UserManager::currentUser().doctor.LPK + "' "
+        " AND rzi = '" + UserManager::currentUser().practice.rziCode + "' ";
 
     sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
 
@@ -275,8 +275,8 @@ std::map<int, bool> DbAmbList::getExistingNumbers(int currentYear)
     std::map<int, bool> numbersMap;
 
     std::string query = "SELECT num FROM amblist WHERE " 
-        "lpk = '" + UserManager::currentUser().LPK + "' "
-        "AND rzi = '" + UserManager::currentUser().rziCode + "' "
+        "lpk = '" + UserManager::currentUser().doctor.LPK + "' "
+        "AND rzi = '" + UserManager::currentUser().practice.rziCode + "' "
         "AND year = " + std::to_string(currentYear);
 
     sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
@@ -303,8 +303,8 @@ int DbAmbList::getNewNumber(int currentYear)
 
     std::string query = "SELECT MAX(num) FROM amblist WHERE "
         "year = " + std::to_string(currentYear) + " "
-        "AND lpk = '" + UserManager::currentUser().LPK + "' "
-        "AND rzi = '" + UserManager::currentUser().rziCode + "'";
+        "AND lpk = '" + UserManager::currentUser().doctor.LPK + "' "
+        "AND rzi = '" + UserManager::currentUser().practice.rziCode + "'";
 
     sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
 

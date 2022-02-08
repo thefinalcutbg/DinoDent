@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{34A42083-A189-45CF-9CF0-DBDD3134788E}</ProjectGuid>
     <Keyword>QtVS_v304</Keyword>
-    <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">10.0.19041.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">10.0</WindowsTargetPlatformVersion>
     <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">10.0</WindowsTargetPlatformVersion>
     <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Debug|Win32'">10.0.18362.0</WindowsTargetPlatformVersion>
     <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Release|Win32'">10.0.18362.0</WindowsTargetPlatformVersion>
@@ -213,6 +213,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Model\Validator\LpkValidator.cpp" />
+    <ClCompile Include="src\Model\XML\InvoiceXML.cpp">
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">/utf-8 %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <ClCompile Include="src\Presenter\DoctorDialogPresenter\DoctorDialogPresenter.cpp" />
+    <ClCompile Include="src\View\DoctorSettingsDialog\DoctorSettingsDialog.cpp" />
     <ClCompile Include="src\View\uiComponents\qt_derived\IconButton.cpp" />
     <ClCompile Include="src\View\ReportDialog\ReportDialog.cpp" />
     <ClCompile Include="src\Database\DbXML.cpp" />
@@ -369,6 +375,7 @@
     <ClCompile Include="src\Presenter\DetailsPresenter\StatusController.cpp" />
     <ClCompile Include="src\Model\User\UserManager.cpp" />
     <QtRcc Include="resources\Resource.qrc" />
+    <QtUic Include="src\View\DoctorSettingsDialog\DoctorSettingsDialog.ui" />
     <QtUic Include="src\View\ReportDialog\ReportDialog.ui" />
     <QtUic Include="src\View\LoginView\PracticeListDialog.ui" />
     <QtUic Include="src\View\PatientSummaryView\PatientSummary.ui" />
@@ -440,6 +447,10 @@
     <QtMoc Include="src\View\LoginView\PracticeListDialog.h" />
     <QtMoc Include="src\View\ReportDialog\ReportDialog.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\IconButton.h" />
+    <QtMoc Include="src\View\DoctorSettingsDialog\DoctorSettingsDialog.h" />
+    <ClInclude Include="src\Model\XML\InvoiceXML.h" />
+    <ClInclude Include="src\Model\Validator\LpkValidator.h" />
+    <ClInclude Include="src\Presenter\DoctorDialogPresenter\DoctorDialogPresenter.h" />
     <ClInclude Include="src\Database\DbXML.h" />
     <ClInclude Include="src\Database\DbPatientSummary.h" />
     <ClInclude Include="src\Database\DbListOpener.h" />
@@ -449,7 +460,7 @@
     <ClInclude Include="src\Libraries\sqLite\sqlite3ext.h" />
     <ClInclude Include="src\Libraries\TinyXML\tinystr.h" />
     <ClInclude Include="src\Libraries\TinyXML\tinyxml.h" />
-    <ClInclude Include="src\Model\AmbListXML.h" />
+    <ClInclude Include="src\Model\XML\AmbListXML.h" />
     <ClInclude Include="src\Model\TimeFrame.h" />
     <ClInclude Include="src\Model\XML\xml.h" />
     <ClInclude Include="src\Presenter\PatientSummaryPresenter\PatientSummaryPresenter.h" />
@@ -461,6 +472,7 @@
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\ToothProcedurePresenter.h" />
     <QtMoc Include="src\View\AmbListSelector\Models\PatientTableModel.h" />
     <QtMoc Include="src\View\AmbListSelector\Models\PerioTableModel.h" />
+    <ClInclude Include="src\View\DoctorSettingsDialog\IDoctorSettingsDialog.h" />
     <ClInclude Include="src\View\LoginView\ILoginView.h" />
     <ClInclude Include="src\View\PatientSummaryView\IPatientSummaryView.h" />
     <ClInclude Include="src\View\PerioView\PerioGraphics\HexagonGraphicsItem.h" />

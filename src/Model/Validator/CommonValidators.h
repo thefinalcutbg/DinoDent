@@ -26,3 +26,18 @@ class DigitsOnlyValidator : public Validator
 public:
 	bool validateInput(const std::string& text) override;
 };
+
+template<int minimum>
+class MinimumLengthValidator : public Validator
+{
+
+	inline static const std::string mustBeAtLeast = 
+		"Това полезадължително трябва да има поне " + std::to_string(minimum) + " символа";
+public:
+	bool validateInput(const std::string& text) override
+	{
+		_errorMsg = &mustBeAtLeast;
+
+		return (text.length() >= minimum);
+	};
+};

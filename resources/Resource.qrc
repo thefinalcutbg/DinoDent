@@ -16,6 +16,7 @@
         <file>icon_user.png</file>
         <file>icon_open.png</file>
         <file>icon_torque.png</file>
+        <file>icon_invoice.png</file>
     </qresource>
     <qresource prefix="/tooth">
         <file>tooth_approximal.png</file>

@@ -6,17 +6,30 @@
 #include "Model/Date.h"
 #include "Model/Procedure/ProcedureTemplate.h"
 
+constexpr const char* doctorPrefix = u8"д-р ";
+
 struct Doctor
 {
+	int rowID;
 	std::string LPK;
-	std::string pass;
-	std::string doctor_name;
+	std::string fname;
+	std::string lname;
+	std::string egn;
 	int specialty{ -1 };
+	std::string pass;
 	int dentalServiceType() const
 	{
 		if (specialty == 60 || specialty == 64) return 0;
 		if (specialty == 61 || specialty == 62 || specialty == 68) return 1;
 		return -1;
+	}
+
+	std::string getFullName(bool prefix = false) const
+	{
+		return prefix ?
+			doctorPrefix + fname + " " + lname
+			:
+			fname + " " + lname;
 	}
 
 };
@@ -42,8 +55,9 @@ constexpr const char* legalEntities[6]
 
 struct Practice
 {
+	int rowID;
 	std::string rziCode;
-	std::string practice_name;
+	std::string name;
 	std::string bulstat;
 	std::string firm_address;
 	std::string practice_address;
@@ -55,5 +69,9 @@ struct Practice
 	std::vector<ProcedureTemplate> priceList;
 };
 
-struct User : public Doctor, public Practice {};
+struct User
+{
+	Doctor doctor;
+	Practice practice;
+};
 

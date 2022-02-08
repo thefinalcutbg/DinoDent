@@ -33,6 +33,8 @@ void Print::ambList(const AmbList& amb, const Patient& patient, const User& user
     auto report = LimeReport::ReportEngine();
     report.loadFromFile(":/reports/report_amb.lrxml");
     
+    auto& practice = user.practice;
+    auto& doctor = user.doctor;
 	
 	report.dataManager()->setReportVariable("id", QString::fromStdString(patient.id));
 
@@ -56,10 +58,10 @@ void Print::ambList(const AmbList& amb, const Patient& patient, const User& user
     report.dataManager()->setReportVariable("healthRegion", QString::fromStdString(health));
     report.dataManager()->setReportVariable("birth", QString::fromStdString(patient.birth.toString()));
 
-    report.dataManager()->setReportVariable("RZICode", QString::fromStdString(user.rziCode));
-    report.dataManager()->setReportVariable("specialty", user.specialty);
-    report.dataManager()->setReportVariable("LPK", QString::fromStdString(user.LPK));
-    report.dataManager()->setReportVariable("doctorName", "д-р " + QString::fromStdString(user.doctor_name));
+    report.dataManager()->setReportVariable("RZICode", QString::fromStdString(practice.rziCode));
+    report.dataManager()->setReportVariable("specialty", doctor.specialty);
+    report.dataManager()->setReportVariable("LPK", QString::fromStdString(doctor.LPK));
+    report.dataManager()->setReportVariable("doctorName", QString::fromStdString(doctor.getFullName(true)));
 
     const char* defaultStatus{ u8"Не съобщатва" };
 
@@ -120,12 +122,14 @@ void Print::ambList(const User& user)
     QApplication::setOverrideCursor(Qt::BusyCursor);
 
     auto report = LimeReport::ReportEngine();
+
+    auto& doctor = user.doctor;
     
     report.loadFromFile(":/reports/report_amb.lrxml");
 
-    report.dataManager()->setReportVariable("specialty", user.specialty);
-    report.dataManager()->setReportVariable("LPK", QString::fromStdString(user.LPK));
-    report.dataManager()->setReportVariable("doctorName", "д-р " + QString::fromStdString(user.doctor_name));
+    report.dataManager()->setReportVariable("specialty", doctor.specialty);
+    report.dataManager()->setReportVariable("LPK", QString::fromStdString(doctor.LPK));
+    report.dataManager()->setReportVariable("doctorName", QString::fromStdString(doctor.getFullName(true)));
 
     ProcedurePrintModel model;
 

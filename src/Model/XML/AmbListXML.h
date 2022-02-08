@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "Patient.h"
+#include "Model/Patient.h"
 #include <vector>
 
 struct ToothXML

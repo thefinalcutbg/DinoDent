@@ -62,7 +62,7 @@ Procedure AbstractSubPresenter::getProcedureCommonFields()
 		  common_view->priceEdit()->get_Value(),
 	};
 
-	result.LPK = UserManager::currentUser().LPK;
+	result.LPK = UserManager::currentUser().doctor.LPK;
 
 	return result;
 }

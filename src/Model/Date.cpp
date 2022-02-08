@@ -184,3 +184,12 @@ Date Date::currentDate() { return Date(currentDay(), currentMonth(), currentYear
 int Date::currentDay() { return QDate::currentDate().day(); }
 int Date::currentMonth() { return QDate::currentDate().month(); }
 int Date::currentYear() { return QDate::currentDate().year(); }
+
+Date Date::getDateFromXmlFormat(const std::string& yyyy_dash_MM_dash_dd)
+{
+    return Date{
+           std::stoi(yyyy_dash_MM_dash_dd.substr(6, 2)),
+           std::stoi(yyyy_dash_MM_dash_dd.substr(3, 2)),
+           std::stoi(yyyy_dash_MM_dash_dd.substr(0, 4))
+    };
+}

@@ -61,7 +61,7 @@ void DbProcedure::saveProcedures(const std::string& amblist_id, const std::vecto
 	std::string query = "DELETE FROM procedure WHERE amblist_id = " + amblist_id;
 
 	rc = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
-		
+	qDebug() << QString::fromStdString(query);
 
 	for (int i = 0; i < mList.size(); i++)
 	{
@@ -82,6 +82,8 @@ void DbProcedure::saveProcedures(const std::string& amblist_id, const std::vecto
 
 			rc = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
 			
+			qDebug() << QString::fromStdString(query);
+
 			if (rc != SQLITE_OK)
 			{
 				qDebug() << "Error opening DB:" << QString::fromStdString(sqlite3_errmsg(db));

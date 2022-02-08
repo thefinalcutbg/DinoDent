@@ -107,9 +107,6 @@ void ListSelectorPresenter::openCurrentSelection()
 
 void ListSelectorPresenter::deleteCurrentSelection()
 {
-
-	
-
 	switch (m_currentModelType)
 	{
 	case RowModelType::AmbListRow:
@@ -138,11 +135,20 @@ void ListSelectorPresenter::deleteCurrentSelection()
 			tab_presenter->removeTab(m_perioRows[idx].type, m_perioRows[idx].rowID);
 		}
 		break;
+	case RowModelType::PatientRow:
+		if (!ModalDialogBuilder::askDialog(
+			u8"Сигурни ли сте, че искате да изтриете този пациент? "
+			"Всички негови амбулаторни листи и пародонтални измервания ще бъдат премахнати!"
+		))
+			return;
 
-
+			for (auto idx : selectedIndexes)
+			{
+				m_db.deleteRecord("patient", m_patientRows[idx].rowID);
+				tab_presenter->removePatientTabs(m_patientRows[idx].rowID);
+			}
 	}
 
-	//if(selectedIndexes.size())	
 		refreshModel();
 	
 }

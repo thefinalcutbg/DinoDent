@@ -67,7 +67,7 @@ public:
 		auto isChecked = view.getDentistData();
 
 		if (isChecked)
-			LPK = m_manager.currentUser().LPK;
+			LPK = m_manager.currentUser().doctor.LPK;
 		else LPK.clear();
 	}
 

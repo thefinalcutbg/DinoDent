@@ -43,7 +43,7 @@ ListPresenter::ListPresenter(ITabView* tabView, std::shared_ptr<Patient> patient
             m.price = MasterNZOK::instance()
             .getPatientPrice(
                 m.code, m_ambList.date,
-                UserManager::currentUser().specialty, 
+                UserManager::currentUser().doctor.specialty, 
                 patient->isAdult(), 
                 m_ambList.full_coverage
             );
@@ -70,7 +70,7 @@ ListPresenter::ListPresenter(ITabView* tabView, std::shared_ptr<Patient> patient
                .getPatientPrice(
                    m.code, 
                    m_ambList.date, 
-                   UserManager::currentUser().specialty, 
+                   UserManager::currentUser().doctor.specialty, 
                    patient->isAdult(), 
                    m_ambList.full_coverage
                );
@@ -448,7 +448,7 @@ void ListPresenter::refreshProcedureView()
 
         if (m.nzok)
         {
-            auto [p, nzok] = MasterNZOK::instance().getPrices(m.code, m_ambList.date, UserManager::currentUser().specialty, patient->isAdult(m.date), m_ambList.full_coverage);
+            auto [p, nzok] = MasterNZOK::instance().getPrices(m.code, m_ambList.date, UserManager::currentUser().doctor.specialty, patient->isAdult(m.date), m_ambList.full_coverage);
             nzokPrice = nzokPrice + nzok;
         }
 
@@ -468,7 +468,7 @@ void ListPresenter::addProcedure()
         m_ambList.date,
         patient->turns18At(),
         m_ambList.full_coverage,
-        UserManager::currentUser().specialty
+        UserManager::currentUser().doctor.specialty
     };
 
     auto openList = p.openDialog();
@@ -482,7 +482,7 @@ void ListPresenter::addProcedure()
             getPatientPrice
             (
                 m.code, m_ambList.date,
-                UserManager::currentUser().specialty,
+                UserManager::currentUser().doctor.specialty,
                 patient->isAdult(m.date),
                 m_ambList.full_coverage
             );
@@ -519,7 +519,7 @@ void ListPresenter::editProcedure()
             (
                 m.code,
                 m_ambList.date,
-                UserManager::currentUser().specialty,
+                UserManager::currentUser().doctor.specialty,
                 patient->isAdult(m.date),
                 m_ambList.full_coverage
             );
@@ -576,7 +576,7 @@ void ListPresenter::setfullCoverage(bool unfav)
                 (
                     m.code,
                     m_ambList.date,
-                    UserManager::currentUser().specialty,
+                    UserManager::currentUser().doctor.specialty,
                     patient->isAdult(m.date),
                     unfav
                 );

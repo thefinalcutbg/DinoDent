@@ -164,3 +164,15 @@ void TabPresenter::removeTab(TabType type, const std::string& rowID)
         }
     }
 }
+
+void TabPresenter::removePatientTabs(const std::string& patientID)
+{
+    for (const auto& [index, tab] : m_tabs)
+    {
+        if (tab->patient.get()->id == patientID)
+        {
+            view->focusTab(index);
+            view->removeCurrentTab();
+        }
+    }
+}

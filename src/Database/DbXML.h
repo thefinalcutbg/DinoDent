@@ -1,7 +1,7 @@
 #pragma once
 #include "AbstractORM.h"
 #include <vector>
-#include "Model/AmbListXML.h"
+#include "Model/XML/AmbListXML.h"
 
 class DbXML : public AbstractORM
 {

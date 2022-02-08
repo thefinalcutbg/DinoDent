@@ -10,6 +10,7 @@ class AllergiesDialogPresenter;
 class ListSelectorPresenter;
 class DetailedStatusPresenter;
 class LoginPresenter;
+class DoctorDialogPresenter;
 
 enum class DialogAnswer { Yes, No, Cancel };
 
@@ -23,6 +24,7 @@ namespace ModalDialogBuilder
 	void openDialog(DetailedStatusPresenter* p);
 	void openDialog(LoginPresenter* p);
 	void openDialog(std::optional<ReportDialogResult>& result);
+	void openDialog(DoctorDialogPresenter* p);
 	int openSaveAsDialog(int newNum, std::map<int, bool> existingNumbers);
 	DialogAnswer openSaveDialog(const std::string& text);
 	bool askDialog(const std::string& questionText);

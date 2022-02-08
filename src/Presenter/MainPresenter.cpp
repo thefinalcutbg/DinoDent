@@ -3,6 +3,7 @@
 #include "Presenter/PatientDialog/PatientDialogPresenter.h"
 #include "View/Printer/Printer.h"
 #include "Presenter/LoginPresenter/LoginPresenter.h"
+#include "Presenter/DoctorDialogPresenter/DoctorDialogPresenter.h"
 #include "Model/User/UserManager.h"
 #include "Model/XML/xml.h"
 
@@ -21,7 +22,7 @@ void MainPresenter::setView(IMainView* view)
     LoginPresenter login;
 
     view->m_initialized = login.successful();
-    view->setDoctor(UserManager::currentUser().doctor_name);
+    view->setDoctor(UserManager::currentUser().doctor.getFullName());
 
 }
 
@@ -60,6 +61,13 @@ void MainPresenter::showListSelector()
 
 void MainPresenter::generateReport()
 {
+    if (!UserManager::currentUser().practice.nzok_contract.has_value())
+    {
+        ModalDialogBuilder::showError
+        (u8"За да генерирате отчет, моля попълнете данните на договора с НЗОК от настройки");
+        return;
+    }
+
     std::optional<ReportDialogResult> result;
 
     ModalDialogBuilder::openDialog(result);
@@ -98,8 +106,17 @@ void MainPresenter::logOut()
         view->exitProgram();
     }
 
-    view->setDoctor(UserManager::currentUser().doctor_name);
+    view->setDoctor("");
     
+}
+
+void MainPresenter::userSettingsPressed()
+{
+    DoctorDialogPresenter p(UserManager::currentUser().doctor);
+    auto doctor = p.open();
+
+    if (doctor.has_value())
+        UserManager::setCurrentDoctor(doctor.value());
 }
 
 

@@ -70,12 +70,9 @@ void LoginPresenter::okPressed(const std::string& lpk, const std::string& pass)
     }
 
     User user;
-    
-    Doctor& doctorUser = user;
-    Practice& practiceUser = user;
 
-    practiceUser = db.getPractice(practiceList[practiceIdx].rzi);
-    doctorUser = doctor.value();
+    user.practice = db.getPractice(practiceList[practiceIdx].rzi);
+    user.doctor = doctor.value();
 
     UserManager::setCurrentUser(user);
 

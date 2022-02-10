@@ -3,15 +3,17 @@
 #include <string_view>
 #include "Model/Date.h"
 
-struct InvoiceRecipient
+struct Recipient
 {
-	std::string recipient_code;
-	std::string recipient_name;
-	std::string recipient_address;
-	std::string recipient_bulstat;
+	std::string code;
+	std::string name;
+	std::string address;
+	std::string bulstat;
 };
 
-const InvoiceRecipient& getRecipient(const std::string& RHIF);
+
+
+const Recipient& getRecipient(const std::string& RHIF);
 std::string getInsuranceFund(int activityTypeCode);
 
 struct InvoiceDocumentXML

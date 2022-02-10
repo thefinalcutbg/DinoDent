@@ -93,6 +93,7 @@ Database::Database() : err(nullptr), db(nullptr), stmt(nullptr)
         "lpk            VARCHAR(9)      NOT NULL  PRIMARY KEY, "
         "pass           VARCHAR         NOT NULL,"
         "fname          VARCHAR(50)     NOT NULL,"
+        "mname          VARCHAR(50)     NOT NULL,"
         "lname          VARCHAR(50)     NOT NULL,"
         "spec           INT             NOT NULL,"
         "egn            VARCHAR         NOT NULL"

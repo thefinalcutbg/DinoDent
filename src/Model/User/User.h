@@ -13,6 +13,7 @@ struct Doctor
 	int rowID;
 	std::string LPK;
 	std::string fname;
+	std::string mname;
 	std::string lname;
 	std::string egn;
 	int specialty{ -1 };

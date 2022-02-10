@@ -760,6 +760,7 @@ void Parser::parse(const std::string& jsonString, ToothContainer& status)
 
 #include <algorithm> //needed for removing duplicate carieses and obturations with std::unique
 
+
 std::vector<ToothXML> Parser::getTeethXML(const std::string& jsonString)
 {
 	std::array<std::vector<std::string>, teethCount> tempStatus;

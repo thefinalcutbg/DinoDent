@@ -25,6 +25,7 @@ DoctorSettingsDialog::DoctorSettingsDialog(DoctorDialogPresenter* presenter, QWi
 
 	lineEdits[DoctorFields::EGN] = ui.egnLineEdit;
 	lineEdits[DoctorFields::FirstName] = ui.fNameEdit;
+	lineEdits[DoctorFields::MiddleName] = ui.mNameEdit;
 	lineEdits[DoctorFields::LastName] = ui.lNameEdit;
 	lineEdits[DoctorFields::LPK] = ui.lpkEdit;
 	lineEdits[DoctorFields::Password] = ui.passEdit;
@@ -55,6 +56,7 @@ void DoctorSettingsDialog::setDoctor(const Doctor& doctor)
 	ui.egnLineEdit->set_Text(doctor.egn);
 	ui.lpkEdit->set_Text(doctor.LPK);
 	ui.fNameEdit->set_Text(doctor.fname);
+	ui.mNameEdit->set_Text(doctor.mname);
 	ui.lNameEdit->set_Text(doctor.lname);
 	ui.passEdit->set_Text(doctor.pass);
 }
@@ -66,6 +68,7 @@ Doctor DoctorSettingsDialog::getDoctor()
 	doctor.LPK = ui.lpkEdit->getText();
 	doctor.specialty = specArray[ui.specialty->currentIndex()];
 	doctor.fname = ui.fNameEdit->getText();
+	doctor.mname = ui.fNameEdit->getText();
 	doctor.lname = ui.lNameEdit->getText();
 	doctor.pass = ui.passEdit->getText();
 

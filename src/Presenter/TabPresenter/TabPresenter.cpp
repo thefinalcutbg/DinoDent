@@ -159,7 +159,7 @@ void TabPresenter::removeTab(TabType type, const std::string& rowID)
         if (tab->type == type && tab->rowID() == rowID)
         {
             view->focusTab(index);
-            view->removeCurrentTab();
+            removeCurrentTab();
             return;
         }
     }
@@ -172,7 +172,7 @@ void TabPresenter::removePatientTabs(const std::string& patientID)
         if (tab->patient.get()->id == patientID)
         {
             view->focusTab(index);
-            view->removeCurrentTab();
+            removeCurrentTab();
         }
     }
 }

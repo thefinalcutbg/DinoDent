@@ -4,6 +4,7 @@
 #include <vector>
 #include "Model/Procedure/ProcedureTemplate.h"
 #include "Model/XML/AmbListXML.h"
+#include "Model/XML/InvoiceXML.h"
 
 struct PerioStatus;
 class ToothContainer;
@@ -21,6 +22,7 @@ namespace Parser
 	void parse(const std::string& jsonString, DetailsSummary& summary);
 	void parse(const std::string& jsonString, PerioStatus& status);
 	void parse(const std::string& jsonString, ToothContainer& status);
+
 	std::vector<ToothXML> getTeethXML(const std::string& jsonString);
 	std::vector<ProcedureTemplate> getPriceList(const std::string& priceList);
 	std::string parseDiagnosis(const std::string& jsonProcedureString);

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>292</height>
+    <height>336</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -23,7 +23,7 @@
    <property name="geometry">
     <rect>
      <x>110</x>
-     <y>180</y>
+     <y>220</y>
      <width>111</width>
      <height>21</height>
     </rect>
@@ -46,7 +46,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>180</y>
+     <y>220</y>
      <width>49</width>
      <height>21</height>
     </rect>
@@ -72,7 +72,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>140</y>
+     <y>180</y>
      <width>71</width>
      <height>21</height>
     </rect>
@@ -111,7 +111,7 @@
    <property name="geometry">
     <rect>
      <x>310</x>
-     <y>260</y>
+     <y>300</y>
      <width>75</width>
      <height>24</height>
     </rect>
@@ -140,7 +140,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>220</y>
+     <y>260</y>
      <width>51</width>
      <height>21</height>
     </rect>
@@ -153,7 +153,7 @@
    <property name="geometry">
     <rect>
      <x>110</x>
-     <y>220</y>
+     <y>260</y>
      <width>111</width>
      <height>21</height>
     </rect>
@@ -182,7 +182,7 @@
    <property name="geometry">
     <rect>
      <x>110</x>
-     <y>140</y>
+     <y>180</y>
      <width>113</width>
      <height>20</height>
     </rect>
@@ -208,7 +208,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>260</y>
+     <y>300</y>
      <width>261</width>
      <height>21</height>
     </rect>
@@ -218,6 +218,32 @@
    </property>
    <property name="text">
     <string/>
+   </property>
+  </widget>
+  <widget class="NameEdit" name="mNameEdit">
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>140</y>
+     <width>113</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="maxLength">
+    <number>50</number>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_6">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>140</y>
+     <width>71</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Презиме:</string>
    </property>
   </widget>
  </widget>

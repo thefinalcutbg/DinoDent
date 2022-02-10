@@ -95,7 +95,7 @@ std::optional<Doctor> DbLogin::getDoctor(const std::string& lpk, const std::stri
     openConnection();
 
     std::string query =
-        "SELECT fname, lname, egn, spec FROM doctor "
+        "SELECT fname, mname, lname, egn, spec FROM doctor "
         "WHERE lpk = '" + lpk + "' "
         "AND pass = '" + pass + "' ";
 
@@ -107,9 +107,10 @@ std::optional<Doctor> DbLogin::getDoctor(const std::string& lpk, const std::stri
 
         doctor.LPK = lpk;
         doctor.fname = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0));
-        doctor.lname = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
-        doctor.egn = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 2));
-        doctor.specialty = sqlite3_column_int(stmt, 3);
+        doctor.mname = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
+        doctor.lname = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 2));
+        doctor.egn = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 3));
+        doctor.specialty = sqlite3_column_int(stmt, 4);
         doctor.pass = pass;
 
         result = doctor;
@@ -154,6 +155,7 @@ void DbLogin::updateDoctor(const Doctor& doctor, std::string& currentLPK)
         "lpk = '" + doctor.LPK + "', "
         "spec = " + std::to_string(doctor.specialty) + ", "
         "fname = '" + doctor.fname + "', "
+        "mname = '" + doctor.mname + "', "
         "lname = '" + doctor.lname + "', "
         "pass = '" + doctor.pass + "', "
         "egn = '" + doctor.egn + "' "

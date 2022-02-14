@@ -3,6 +3,8 @@
 #include <QMenu>
 #include <QDebug>
 #include <QPixmap>
+#include <QFileDialog>
+
 QColor blue(133, 207, 234);
 
 Torque::Torque(QWidget* parent)
@@ -33,11 +35,17 @@ Torque::Torque(QWidget* parent)
     connect(ui.saveButton, &QPushButton::clicked, [&] { presenter.save(); });
     connect(ui.tabView, &TabView::closeRequested, [&] {presenter.closeTab(); });
     connect(ui.listSelectButton, &QPushButton::clicked, [&] {presenter.showListSelector(); });
-    connect(ui.printButton, &QPushButton::pressed, [&] {presenter.printPressed(); });
-    connect(ui.perioButton, &QPushButton::pressed, [&] {presenter.newPerioPressed(); });
-    connect(ui.reportButton, &QPushButton::pressed, [&] {presenter.generateReport(); });
+    connect(ui.printButton, &QPushButton::clicked, [&] {presenter.printPressed(); });
+    connect(ui.perioButton, &QPushButton::clicked, [&] {presenter.newPerioPressed(); });
+    connect(ui.reportButton, &QPushButton::clicked, [&] {presenter.generateReport(); });
     connect(settingsAction, &QAction::triggered, [&] {presenter.userSettingsPressed();});
-
+    connect(ui.invoiceButton, &QPushButton::clicked, [&]
+        {
+            presenter.generateInvoice(
+                QString{ QFileDialog::getOpenFileName
+                (this, tr(u8"Изберете месечно известие"), "", tr("XML files (*.xml)")) }.toStdString()
+            );
+        });
 
 
     connect(exitAction, &QAction::triggered, [&] { presenter.logOut(); });

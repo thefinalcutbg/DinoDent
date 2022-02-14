@@ -468,6 +468,12 @@
     <ClCompile Include="src\Model\XML\InvoiceXML.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\InvoiceDialog\InvoiceDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Presenter\InvoicePresenter\InvoicePresenter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -647,6 +653,9 @@
     <QtMoc Include="src\View\DoctorSettingsDialog\DoctorSettingsDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\View\InvoiceDialog\InvoiceDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="resources\Resource.qrc" />
@@ -743,6 +752,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\DoctorSettingsDialog\DoctorSettingsDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\InvoiceDialog\InvoiceDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
@@ -1150,6 +1162,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\XML\InvoiceXML.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Presenter\InvoicePresenter\InvoicePresenter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -2,7 +2,8 @@
 #include "Libraries/TinyXML/tinyxml.h"
 #include "Model/User/UserManager.h"
 #include "Database/DbXML.h"
-
+#include <QDebug>
+#include "Model/XML/InvoiceXML.h"
 
 /*
 
@@ -175,4 +176,14 @@ void XML::saveXMLfile(int month, int year, std::string path)
                 + std::to_string(doctor.specialty) + "_"
                 + from.toStringXMLName()
                 +"_01.xml");
+}
+
+
+void XML::makeInvoice(std::string month_notif_path)
+{
+    TiXmlDocument doc;
+    doc.LoadFile(month_notif_path);
+
+    Invoice invoice(doc, UserManager::currentUser());
+
 }

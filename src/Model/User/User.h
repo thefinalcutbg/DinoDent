@@ -25,7 +25,7 @@ struct Doctor
 		return -1;
 	}
 
-	std::string getFullName(bool prefix = false) const
+	std::string getFullName(bool prefix = true) const
 	{
 		return prefix ?
 			doctorPrefix + fname + " " + lname
@@ -67,8 +67,7 @@ struct Practice
 
 	std::optional<NzokContract> nzok_contract;
 
-	std::vector<ProcedureTemplate> priceList;
-};
+	std::vector<ProcedureTemplate> priceList;};
 
 struct User
 {

@@ -77,6 +77,11 @@ void MainPresenter::generateReport()
 
 }
 
+void MainPresenter::generateInvoice(const std::string& notif_path)
+{
+    XML::makeInvoice(notif_path);
+}
+
 bool MainPresenter::save() 
 {
     if(_tabPresenter.currentTab())
@@ -106,7 +111,7 @@ void MainPresenter::logOut()
         view->exitProgram();
     }
 
-    view->setDoctor("");
+    view->setDoctor(UserManager::currentUser().doctor.getFullName());
     
 }
 

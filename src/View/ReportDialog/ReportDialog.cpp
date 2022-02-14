@@ -53,8 +53,9 @@ ReportDialog::ReportDialog(std::optional<ReportDialogResult>& result, QWidget *p
 		});
 
 	connect(ui.browseButton, &QPushButton::clicked, [&] {
-			ui.pathLineEdit->setText(QFileDialog::getExistingDirectory(this,
-			tr("Find Files"), QDir::currentPath()));
+
+			QString fileName = QFileDialog::getOpenFileName
+			(this, tr(u8"Изберете месечно известие"), "", tr("XML files (*.xml)"));
 
 		});
 	

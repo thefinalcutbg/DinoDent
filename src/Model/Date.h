@@ -23,8 +23,8 @@ public:
 
     static Date getBirthdateFromEgn(const std::string& egn);
     std::string toString() const;
-    std::string toStringXML() const;
-    std::string toStringXMLName() const;
+    std::string toXMLString() const;
+    std::string toXMLReportFileName() const; //required when saving the xml report file
     static Date currentDate();
 
     static int currentDay();

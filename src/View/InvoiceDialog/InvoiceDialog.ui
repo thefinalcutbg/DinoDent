@@ -17,7 +17,7 @@
    <item>
     <layout class="QVBoxLayout" name="verticalLayout_3">
      <item>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="loadButton">
        <property name="text">
         <string>Зареди месечно известие</string>
        </property>
@@ -59,31 +59,31 @@
        <item>
         <layout class="QVBoxLayout" name="verticalLayout_2">
          <item>
-          <widget class="QSpinBox" name="spinBox"/>
+          <widget class="QSpinBox" name="invoiceNumber"/>
          </item>
          <item>
-          <widget class="QDateEdit" name="dateEdit"/>
+          <widget class="QDateEdit" name="invoiceDate"/>
          </item>
         </layout>
        </item>
       </layout>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_2">
+      <widget class="QPushButton" name="saveXMLButton">
        <property name="text">
         <string>Запази като XML</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_3">
+      <widget class="QPushButton" name="savePDFButton">
        <property name="text">
         <string>Запази като PDF</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_4">
+      <widget class="QPushButton" name="printButton">
        <property name="text">
         <string>Принтирай</string>
        </property>

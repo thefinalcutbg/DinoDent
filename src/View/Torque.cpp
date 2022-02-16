@@ -39,13 +39,7 @@ Torque::Torque(QWidget* parent)
     connect(ui.perioButton, &QPushButton::clicked, [&] {presenter.newPerioPressed(); });
     connect(ui.reportButton, &QPushButton::clicked, [&] {presenter.generateReport(); });
     connect(settingsAction, &QAction::triggered, [&] {presenter.userSettingsPressed();});
-    connect(ui.invoiceButton, &QPushButton::clicked, [&]
-        {
-            presenter.generateInvoice(
-                QString{ QFileDialog::getOpenFileName
-                (this, tr(u8"Изберете месечно известие"), "", tr("XML files (*.xml)")) }.toStdString()
-            );
-        });
+    connect(ui.invoiceButton, &QPushButton::clicked, [&] { presenter.generateInvoice();});
 
 
     connect(exitAction, &QAction::triggered, [&] { presenter.logOut(); });

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <string>
 #include <string_view>
 #include <variant>
@@ -25,30 +25,44 @@ struct MainDocument //only in case of debit or credit note
 };
 
 
+struct PersonInfo
+{
+	const std::string identifier;
+	const std::string first_name;
+	const std::string second_name;
+	const std::string last_name;
+
+};
+
 struct SelfInsured
 {
-	//trqbwa i dannite za liceto!
-	const char self_insured;
-	const std::string_view self_insured_declaration;
+	const std::string self_insured_declaration;
+	const PersonInfo person_info;
 };
 
 struct Company
 {
-	const std::string_view legal_form;
+	const std::string legal_form;
 };
 
-typedef std::variant<SelfInsured, Company> IssuerType;
+typedef std::variant<Company, SelfInsured> IssuerType;
 
 struct Issuer
 {
-	Issuer(const Practice& practice);
+	Issuer(const User& user);
 
-	const IssuerType issuer_type;
+	const IssuerType type;
 	const std::string company_name;
 	const std::string address_by_contract;
+	const std::string address_by_activity;
 	const bool registration_by_VAT;
 	const std::string grounds_for_not_charging_VAT;
-	const std::string issuer_bulstat;
+
+	/*
+	const std::string issuer_bulstat_no_vat //ИН по ДДС(BGЕИК - юридическо лице; BGЕГН - физическо лице).Задължителен за регистрирани по ДДС
+	*/
+
+	const std::string bulstat;
 	const std::string contract_no;
 	const Date contract_date;
 	const std::string rhi_nhif_no;
@@ -65,9 +79,14 @@ struct BusinessOperation
 	const double value_price;
 };
 
-struct AggregatedAmount
+struct AggregatedAmounts
 {
-
+	const char* payment_type{ "B" };
+	double total_amount {0};
+	double payment_amount {0};
+	//const std::string vat_rate;
+	const char* original {"Y"};
+	Date taxEventDate;
 };
 
 struct Invoice
@@ -80,26 +99,23 @@ struct Invoice
 
 	const std::string fin_document_month_no; //monthly_notification_num
 
-	std::string fin_document_date; //input by user !!!!!!!!!!!!!!!
+	Date fin_document_date; //input by user !!!!!!!!!!!!!!!
 
 	std::optional<MainDocument> mainDocument; //for credit and debit note
 
 	const Recipient& recipient;
 	const Issuer issuer;
 
-	std::string health_insurance_fund_type_code;
 	const int activityTypeCode;
+	std::string health_insurance_fund_type_code;
+	
 	
 	const Date date_from;
 	const Date date_to;
-	/*
-	const std::string payment_type;
-	const std::string total_amount;
-	const std::string vat_rate;
-	const char original;
-	const std::string taxEventDate;
-	*/
+
 	std::vector<BusinessOperation> businessOperations;
+
+	AggregatedAmounts aggragated_amounts;
 
 
 

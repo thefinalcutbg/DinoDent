@@ -73,6 +73,14 @@ void ModalDialogBuilder::openDialog(DoctorDialogPresenter* p)
 	d.exec();
 }
 
+#include "View/InvoiceDialog/InvoiceDialog.h"
+
+void ModalDialogBuilder::openDialog(InvoicePresenter* p)
+{
+	InvoiceDialog d(p);
+	d.exec();
+}
+
 #include "View/saveAsDialog/SaveAsDialog.h"
 
 int ModalDialogBuilder::openSaveAsDialog(int newNum, std::map<int, bool> existingNumbers)

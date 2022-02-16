@@ -54,9 +54,11 @@ ReportDialog::ReportDialog(std::optional<ReportDialogResult>& result, QWidget *p
 
 	connect(ui.browseButton, &QPushButton::clicked, [&] {
 
-			QString fileName = QFileDialog::getOpenFileName
-			(this, tr(u8"Изберете месечно известие"), "", tr("XML files (*.xml)"));
-
+			ui.pathLineEdit->setText(
+				QFileDialog::getExistingDirectory(this, tr("Open Directory"),
+				"/home",
+				QFileDialog::ShowDirsOnly
+				| QFileDialog::DontResolveSymlinks));
 		});
 	
 }

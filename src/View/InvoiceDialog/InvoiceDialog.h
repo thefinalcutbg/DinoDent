@@ -3,12 +3,19 @@
 #include <QDialog>
 #include "ui_InvoiceDialog.h"
 
-class InvoiceDialog : public QDialog
+#include "IInvoiceDialog.h"
+
+class InvoicePresenter;
+
+class InvoiceDialog : public QDialog, public IInvoiceDialog
 {
 	Q_OBJECT
 
+	InvoicePresenter* presenter;
+
 public:
-	InvoiceDialog(QWidget *parent = Q_NULLPTR);
+	InvoiceDialog(InvoicePresenter* presenter, QWidget *parent = Q_NULLPTR);
+	void enableUserFields() final;
 	~InvoiceDialog();
 
 private:

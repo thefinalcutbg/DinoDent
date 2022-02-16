@@ -241,8 +241,11 @@ const Recipient& getRecipient(const std::string& practiceRZI)
 	return recipients[idx-1];
 }
 
+
+
 std::string getInsuranceFund(int activityTypeCode)
 {
+
 	if(activityTypeCode < 1 || activityTypeCode > 45)
 		throw std::invalid_argument("Invalid activityCode");
 
@@ -251,7 +254,7 @@ std::string getInsuranceFund(int activityTypeCode)
 
 #include "Libraries/TinyXML/tinyxml.h"
 
-IssuerType getIssuerType(int legalEntity)
+IssuerType getIssuerType(int legalEntity, const Doctor& doctor)
 {
 
 	const char* legalForms[5]{
@@ -261,22 +264,31 @@ IssuerType getIssuerType(int legalEntity)
 	switch (legalEntity)
 	{
 	case 0:
-		return SelfInsured{'Y', u8"Декларация по чл.43,ал.5 от ЗДДФЛ, че съм самоосигуряващо се лице по смисъла на КСО" };
+		return SelfInsured{
+            u8"Декларация по чл.43,ал.5 от ЗДДФЛ, че съм самоосигуряващо се лице по смисъла на КСО",
+            PersonInfo{
+                doctor.egn,
+                doctor.fname,
+                doctor.mname,
+                doctor.lname
+            }
+        };
 	default:
 		return Company {legalForms[legalEntity - 1]} ;
 	}
 }
 
-Issuer::Issuer(const Practice& practice) :
-	issuer_type							{ getIssuerType(practice.legal_entity) },
-	company_name						{ practice.name },
-	address_by_contract					{ practice.firm_address },
-	registration_by_VAT					{ practice.vat },
+Issuer::Issuer(const User& user) :
+	type							    { getIssuerType(user.practice.legal_entity, user.doctor) },
+	company_name						{ user.practice.name },
+	address_by_contract					{ user.practice.firm_address },
+    address_by_activity                 { user.practice.practice_address },
+	registration_by_VAT					{ user.practice.vat },
 	grounds_for_not_charging_VAT		{ registration_by_VAT ? u8"Чл. 39 от ЗДДС" : u8"Чл.113,ал.9 от ЗДДС"},
-	issuer_bulstat						{ practice.bulstat },
-	contract_no							{ practice.nzok_contract.value().contract_no },
-	contract_date						{ practice.nzok_contract.value().date },
-	rhi_nhif_no							{ practice.rziCode.substr(0, 2) }
+	bulstat						        { user.practice.bulstat },
+	contract_no							{ user.practice.nzok_contract.value().contract_no },
+	contract_date						{ user.practice.nzok_contract.value().date },
+	rhi_nhif_no							{ user.practice.rziCode.substr(0, 2) }
 {
 }
 
@@ -302,7 +314,7 @@ Invoice::Invoice(const TiXmlDocument& monthNotif, const User& user)
 	date_from						{Date::getDateFromXmlFormat(monthNotif.RootElement()->FirstChildElement("date_from")->GetText())},
 	date_to							{Date::getDateFromXmlFormat(monthNotif.RootElement()->FirstChildElement("date_to")->GetText())},
 	recipient						{getRecipient(user.practice.rziCode)},
-	issuer							{user.practice}
+	issuer							{user}
 {
 
 	for (
@@ -322,6 +334,15 @@ Invoice::Invoice(const TiXmlDocument& monthNotif, const User& user)
 			}
 		);
 	}
+
+    for (auto& operation : businessOperations)
+    {
+        aggragated_amounts.payment_amount += operation.value_price;
+    }
+
+    aggragated_amounts.total_amount = aggragated_amounts.payment_amount;
+    aggragated_amounts.taxEventDate = date_from; //not sure about this!
+
 }
 
 

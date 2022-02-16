@@ -11,6 +11,7 @@ class ListSelectorPresenter;
 class DetailedStatusPresenter;
 class LoginPresenter;
 class DoctorDialogPresenter;
+class InvoicePresenter;
 
 enum class DialogAnswer { Yes, No, Cancel };
 
@@ -25,6 +26,7 @@ namespace ModalDialogBuilder
 	void openDialog(LoginPresenter* p);
 	void openDialog(std::optional<ReportDialogResult>& result);
 	void openDialog(DoctorDialogPresenter* p);
+	void openDialog(InvoicePresenter* p);
 	int openSaveAsDialog(int newNum, std::map<int, bool> existingNumbers);
 	DialogAnswer openSaveDialog(const std::string& text);
 	bool askDialog(const std::string& questionText);

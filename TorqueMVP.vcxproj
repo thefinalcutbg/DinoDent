@@ -476,6 +476,7 @@
     <QtMoc Include="src\View\AmbListSelector\Models\PatientTableModel.h" />
     <QtMoc Include="src\View\AmbListSelector\Models\PerioTableModel.h" />
     <ClInclude Include="src\View\DoctorSettingsDialog\IDoctorSettingsDialog.h" />
+    <ClInclude Include="src\View\InvoiceDialog\IInvoiceDialog.h" />
     <ClInclude Include="src\View\LoginView\ILoginView.h" />
     <ClInclude Include="src\View\PatientSummaryView\IPatientSummaryView.h" />
     <ClInclude Include="src\View\PerioView\PerioGraphics\HexagonGraphicsItem.h" />

@@ -1167,5 +1167,8 @@
     <ClInclude Include="src\Presenter\InvoicePresenter\InvoicePresenter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\View\InvoiceDialog\IInvoiceDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

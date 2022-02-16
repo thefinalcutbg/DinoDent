@@ -97,7 +97,7 @@ std::string Date::toString() const
     return dayStr + "." + monthStr + "." + std::to_string(year);
 }
 
-std::string Date::toStringXML() const
+std::string Date::toXMLString() const
 {
     std::string dayStr;
 
@@ -116,7 +116,7 @@ std::string Date::toStringXML() const
     return  std::to_string(year) + "-" + monthStr + "-" + dayStr;
 }
 
-std::string Date::toStringXMLName() const
+std::string Date::toXMLReportFileName() const
 {
     std::string monthStr;
 

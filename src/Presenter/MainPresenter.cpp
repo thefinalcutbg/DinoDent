@@ -4,6 +4,7 @@
 #include "View/Printer/Printer.h"
 #include "Presenter/LoginPresenter/LoginPresenter.h"
 #include "Presenter/DoctorDialogPresenter/DoctorDialogPresenter.h"
+#include "Presenter/InvoicePresenter/InvoicePresenter.h"
 #include "Model/User/UserManager.h"
 #include "Model/XML/xml.h"
 
@@ -73,13 +74,14 @@ void MainPresenter::generateReport()
     ModalDialogBuilder::openDialog(result);
 
     if(result.has_value())
-        XML::saveXMLfile(result.value().month, result.value().year, result.value().path);
+        XML::saveXMLreport(result.value().month, result.value().year, result.value().path);
 
 }
 
-void MainPresenter::generateInvoice(const std::string& notif_path)
+void MainPresenter::generateInvoice()
 {
-    XML::makeInvoice(notif_path);
+    InvoicePresenter p;
+    p.open();
 }
 
 bool MainPresenter::save() 

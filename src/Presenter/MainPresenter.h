@@ -23,7 +23,7 @@ public:
 	void newPerioPressed();
 	void showListSelector();
 	void generateReport();
-	void generateInvoice(const std::string& notif_path);
+	void generateInvoice();
 	bool save();
 	bool saveAs();
 	void logOut();

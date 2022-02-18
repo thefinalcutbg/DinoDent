@@ -288,15 +288,37 @@ Issuer::Issuer(const User& user) :
 	bulstat						        { user.practice.bulstat },
 	contract_no							{ user.practice.nzok_contract.value().contract_no },
 	contract_date						{ user.practice.nzok_contract.value().date },
-	rhi_nhif_no							{ user.practice.rziCode.substr(0, 2) }
+	rhi_nhif_no							{ user.practice.rziCode}
 {
 }
 
 
+const char* getText(const TiXmlElement* element)
+{
+        if (element == nullptr){
+            throw std::exception("wrong xml format");
+    }
+
+    return element->GetText();
+}
+
+
+std::string getDocumentName(const TiXmlElement* element)
+{
+   std::string s = getText(element->FirstChildElement("inv_type"));
+
+   s.erase(0, 40);
+   s += u8" за ";
+   s += getText(element->FirstChildElement("nhif_type"));
+
+   return s;
+}
+
 Invoice::Invoice(const TiXmlDocument& monthNotif, const User& user)
-	:
-	fin_document_type_code			{monthNotif.RootElement()->FirstChildElement("inv_type_code")->GetText() },
-	fin_document_month_no			{monthNotif.RootElement()->FirstChildElement("monthly_notification_num")->GetText() },
+    :
+    documentName                        {getDocumentName(monthNotif.RootElement())},
+	fin_document_type_code			    {getText(monthNotif.RootElement()->FirstChildElement("inv_type_code")) },
+	fin_document_month_no			    {getText(monthNotif.RootElement()->FirstChildElement("monthly_notification_num")) },
 	
     mainDocument{           
         fin_document_type_code == "INVOICE"
@@ -304,15 +326,15 @@ Invoice::Invoice(const TiXmlDocument& monthNotif, const User& user)
         std::optional<MainDocument>{} 
         :
         MainDocument{
-        monthNotif.RootElement()->FirstChildElement("from_inv_num")->GetText(),
-        Date::getDateFromXmlFormat(monthNotif.RootElement()->FirstChildElement("from_inv_date")->GetText())
+        getText(monthNotif.RootElement()->FirstChildElement("from_inv_num")),
+        Date::getDateFromXmlFormat(getText(monthNotif.RootElement()->FirstChildElement("from_inv_date")))
         }
     },
 
-	activityTypeCode				{std::stoi(monthNotif.RootElement()->FirstChildElement("nhif_type_code")->GetText())},
+	activityTypeCode				{std::stoi(getText(monthNotif.RootElement()->FirstChildElement("nhif_type_code")))},
 	health_insurance_fund_type_code	{getInsuranceFund(activityTypeCode) },
-	date_from						{Date::getDateFromXmlFormat(monthNotif.RootElement()->FirstChildElement("date_from")->GetText())},
-	date_to							{Date::getDateFromXmlFormat(monthNotif.RootElement()->FirstChildElement("date_to")->GetText())},
+	date_from						{Date::getDateFromXmlFormat(getText(monthNotif.RootElement()->FirstChildElement("date_from")))},
+	date_to							{Date::getDateFromXmlFormat(getText(monthNotif.RootElement()->FirstChildElement("date_to")))},
 	recipient						{getRecipient(user.practice.rziCode)},
 	issuer							{user}
 {
@@ -328,9 +350,9 @@ Invoice::Invoice(const TiXmlDocument& monthNotif, const User& user)
 			BusinessOperation{
 				business_operation->FirstChildElement("activity_code")->GetText(),
 				business_operation->FirstChildElement("activity_name")->GetText(),
-				std::stof(business_operation->FirstChildElement("quantity")->GetText()),
-				std::stoi(business_operation->FirstChildElement("unit_price")->GetText()),
-				std::stof(business_operation->FirstChildElement("value_price")->GetText()),
+				std::stof(business_operation->FirstChildElement("unit_price")->GetText()),
+                std::stoi(business_operation->FirstChildElement("quantity")->GetText()),
+				std::stof(business_operation->FirstChildElement("value_price")->GetText())
 			}
 		);
 	}
@@ -341,7 +363,8 @@ Invoice::Invoice(const TiXmlDocument& monthNotif, const User& user)
     }
 
     aggragated_amounts.total_amount = aggragated_amounts.payment_amount;
-    aggragated_amounts.taxEventDate = date_from; //not sure about this!
+    aggragated_amounts.taxEventDate = date_to;
+
 
 }
 

@@ -4,6 +4,7 @@
 #include "Database/DbXML.h"
 #include "Model/XML/InvoiceXML.h"
 #include <cmath>
+#include <iomanip>
 #include <QDebug>
 /*
 
@@ -284,14 +285,20 @@ void XML::saveXMLinvoice(const Invoice& invoice, const std::string& path)
 
     auto formatDouble = [](const double& price) //adding the dot in case of integer
     {
-        std::string formatted = std::to_string(price);
+        bool isDecimal{ true };
 
         double intpart;
 
         if (std::modf(price, &intpart) == 0.0)
-            formatted += ".";
+            isDecimal = false;
 
-        return formatted;
+        std::stringstream stream;
+        stream << std::fixed << std::setprecision(2) << price;
+       
+
+        return stream.str();
+
+        return isDecimal ? stream.str() : stream.str() +  ".";
     };
 
 
@@ -321,7 +328,7 @@ void XML::saveXMLinvoice(const Invoice& invoice, const std::string& path)
 
     doc.LinkEndChild(el_invoice);
 
-    doc.SaveFile(path + "/fakturataaaa.xml");
+    doc.SaveFile(path);
 
 
 

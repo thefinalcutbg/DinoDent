@@ -219,6 +219,7 @@
     <ClCompile Include="src\Model\XML\InvoiceXML.cpp" />
     <ClCompile Include="src\Presenter\DoctorDialogPresenter\DoctorDialogPresenter.cpp" />
     <ClCompile Include="src\View\DoctorSettingsDialog\DoctorSettingsDialog.cpp" />
+    <ClCompile Include="src\View\InvoiceDialog\BusinessOperationModel.cpp" />
     <ClCompile Include="src\View\uiComponents\qt_derived\IconButton.cpp" />
     <ClCompile Include="src\View\ReportDialog\ReportDialog.cpp" />
     <ClCompile Include="src\Database\DbXML.cpp" />
@@ -477,6 +478,7 @@
     <QtMoc Include="src\View\AmbListSelector\Models\PerioTableModel.h" />
     <ClInclude Include="src\View\DoctorSettingsDialog\IDoctorSettingsDialog.h" />
     <ClInclude Include="src\View\InvoiceDialog\IInvoiceDialog.h" />
+    <ClInclude Include="src\View\InvoiceDialog\BusinessOperationModel.h" />
     <ClInclude Include="src\View\LoginView\ILoginView.h" />
     <ClInclude Include="src\View\PatientSummaryView\IPatientSummaryView.h" />
     <ClInclude Include="src\View\PerioView\PerioGraphics\HexagonGraphicsItem.h" />

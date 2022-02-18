@@ -38,5 +38,6 @@
     </qresource>
     <qresource prefix="/reports">
         <file>report_amb.lrxml</file>
+        <file>report_invoice.lrxml</file>
     </qresource>
 </RCC>

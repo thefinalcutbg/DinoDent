@@ -93,6 +93,8 @@ struct Invoice
 {
 	Invoice(const TiXmlDocument& monthNotifRoot, const User& user);
 
+	const std::string documentName; //the title of the pdf invoice
+
 	const std::string fin_document_type_code; //INVOICE, DT_NOTIF, CT_NOTIF
 
 	std::string fin_document_no; //leading zeroes! input by user !!!!!!!!!!!

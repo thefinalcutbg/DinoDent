@@ -474,6 +474,9 @@
     <ClCompile Include="src\Presenter\InvoicePresenter\InvoicePresenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\InvoiceDialog\BusinessOperationModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -1168,6 +1171,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\InvoiceDialog\IInvoiceDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\View\InvoiceDialog\BusinessOperationModel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

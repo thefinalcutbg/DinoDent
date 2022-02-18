@@ -11,13 +11,18 @@ class InvoicePresenter
 
 	std::optional<Invoice> m_invoice;
 
-	bool invoiceIsValid();
+	std::string outputFileName;
+
+	
 
 public:
 	void loadFile(const std::string& filePath);
 	void saveAsXML(const std::string& filePath);
 	void setView(IInvoiceDialog* view) { this->view = view; };
+	void docNumberChanged(int number);
+	void docDateChanged(Date date);
 	void open();
+	bool invoiceIsValid();
 
 };
 

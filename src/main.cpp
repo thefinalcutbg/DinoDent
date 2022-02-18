@@ -7,11 +7,14 @@
 #include "Database/Database.h"
 #include <QTextCodec>
 #include "Model/CityCode.h"
-
+#include <lrreportengine.h>
 
 int main(int argc, char *argv[])
 {
+
     {Database d;} //checks the database
+
+
 
     QFont font("Segoe UI");
     font.setPointSize(8);
@@ -23,6 +26,7 @@ int main(int argc, char *argv[])
 
     QApplication a(argc, argv);
     a.setWindowIcon(QIcon(":/icons/icon_torque.png"));
+
 
     //Intializing singletons
     CityCode::initialize();

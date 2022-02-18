@@ -103,7 +103,6 @@ void Print::ambList(const AmbList& amb, const Patient& patient, const User& user
 
     }
 
-    
 
     ProcedurePrintModel model(amb.procedures, temp);
 

@@ -10,7 +10,7 @@ class IMainView
 public:
 	bool m_initialized{ false };
 	virtual ITabView* tabView() = 0;
-	virtual void setDoctor(const std::string& name) = 0;
+	virtual void setUserLabel(const std::string& doctorName, const std::string& practiceName) = 0;
 	virtual void exitProgram() = 0;
 
 };

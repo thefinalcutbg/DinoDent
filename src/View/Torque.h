@@ -23,7 +23,7 @@ class Torque : public QMainWindow, public IMainView
 public:
     Torque(QWidget *parent = Q_NULLPTR);
     ITabView* tabView() override;
-    void setDoctor(const std::string& name) override;
+    void setUserLabel(const std::string& doctorName, const std::string& practiceName) override;
     void exitProgram() override;
     bool initialized();
 

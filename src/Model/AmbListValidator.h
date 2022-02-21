@@ -24,6 +24,7 @@ class AmbListValidator
 	bool validatePermaTemp(const Tooth& tooth, const Procedure& p);
 	bool isValidAccordingToDb();
 	bool dateIsValid(const Procedure& p);
+	bool examIsFirst();
 
 public:
 	AmbListValidator(const AmbList& list, const Patient& patient);

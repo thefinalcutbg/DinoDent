@@ -6,6 +6,7 @@ SaveAsDialog::SaveAsDialog(std::unordered_set<int>& existingNumbers, int current
 {
     ui.setupUi(this);
 
+    setWindowTitle(u8"Запази като");
 
     ui.ambNumSpin->setValue(currentNumber);
 

@@ -23,7 +23,11 @@ void MainPresenter::setView(IMainView* view)
     LoginPresenter login;
 
     view->m_initialized = login.successful();
-    view->setDoctor(UserManager::currentUser().doctor.getFullName());
+
+    view->setUserLabel(
+        UserManager::currentUser().doctor.getFullName(),
+        UserManager::currentUser().practice.name
+    );
 
 }
 
@@ -104,7 +108,7 @@ void MainPresenter::logOut()
 {
     if (!closeAllTabs()) return;
 
-    view->setDoctor("");
+    view->setUserLabel("", "");
 
     LoginPresenter login;
 
@@ -113,7 +117,10 @@ void MainPresenter::logOut()
         view->exitProgram();
     }
 
-    view->setDoctor(UserManager::currentUser().doctor.getFullName());
+    view->setUserLabel(
+        UserManager::currentUser().doctor.getFullName(),
+        UserManager::currentUser().practice.name
+        );
     
 }
 

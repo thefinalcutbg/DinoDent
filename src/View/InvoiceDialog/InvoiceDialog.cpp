@@ -109,6 +109,9 @@ void InvoiceDialog::enableUserFields()
 	ui.savePDFButton->setDisabled(false);
 	ui.saveXMLButton->setDisabled(false);
 
+	ui.invoiceDate->setDate(QDate::currentDate());
+	ui.invoiceNumber->setValue(0);
+
 }
 
 void InvoiceDialog::setInvoice(const Invoice& inv)

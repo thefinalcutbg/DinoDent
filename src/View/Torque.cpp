@@ -60,9 +60,10 @@ ITabView* Torque::tabView()
     return ui.tabView;
 }
 
-void Torque::setDoctor(const std::string& name)
+void Torque::setUserLabel(const std::string& doctorName, const std::string& practiceName)
 {
-    ui.userButton->setText(QString::fromStdString(name));
+    ui.userButton->setText(QString::fromStdString(doctorName));
+    ui.practiceLabel->setText(QString::fromStdString(practiceName));
 }
 
 void Torque::exitProgram()

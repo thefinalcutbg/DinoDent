@@ -186,6 +186,7 @@ bool ListPresenter::isNew()
 
 void ListPresenter::print()
 {
+    if(!isNew() || save())
     Print::ambList(m_ambList, *patient);
 }
 

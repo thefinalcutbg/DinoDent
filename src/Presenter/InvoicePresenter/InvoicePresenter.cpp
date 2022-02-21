@@ -107,7 +107,7 @@ bool InvoicePresenter::invoiceIsValid()
 
     if (m_invoice.value().fin_document_no == "0000000000")
     {
-        ModalDialogBuilder::showError(u8"Въведете номер на фактурата!");
+        ModalDialogBuilder::showError(u8"Въведете номер на финансовият документ!");
         return false;
     }
 

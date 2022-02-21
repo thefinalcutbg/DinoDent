@@ -4,7 +4,9 @@
 #include <QApplication>
 #include "Model/CityCode.h"
 #include "ProcedurePrintModel.h"
-
+#include "ProcedurePrintSelectDialog.h"
+#include "View/ProcedureDisplayModel/ProcedureTableModel.h"
+#include "qitemselectionmodel.h"
 //used as coordinates for the x-es in the checkboxes
 struct coords { int x; int y; };
 constexpr coords typeCoords[5]{ {0, 0}, { 50, 213 }, { 225, 213 }, {50, 255}, {225, 255} };
@@ -28,6 +30,15 @@ QString leadZeroes(int num, int totalLength)
 
 void Print::ambList(const AmbList& amb, const Patient& patient, const User& user)
 {
+
+    ProcedurePrintSelectDialog dialog(amb.procedures);
+
+    if (dialog.exec() == QDialog::Rejected) {
+        return;
+    }
+    
+    ProcedurePrintModel model(amb.procedures, dialog.selectedProcedures());
+
     QApplication::setOverrideCursor(Qt::BusyCursor);
 
     auto report = LimeReport::ReportEngine();
@@ -104,9 +115,8 @@ void Print::ambList(const AmbList& amb, const Patient& patient, const User& user
     }
 
 
-    ProcedurePrintModel model(amb.procedures, temp);
-
     report.dataManager()->addModel("procedures", &model, false);
+
 
     QApplication::restoreOverrideCursor();
 

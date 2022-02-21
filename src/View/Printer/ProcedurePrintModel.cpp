@@ -1,31 +1,30 @@
 ﻿#include "ProcedurePrintModel.h"
 #include "Model/Tooth/ToothUtils.h"
 
-ProcedurePrintModel::ProcedurePrintModel(const std::vector<Procedure>& procedures, const std::array<bool, 32>& tempTeeth)
+
+PrintProcedure::PrintProcedure(const Procedure& procedure)
+    :
+    date{ QString::fromStdString(procedure.date.toString()) },
+    diagnosis{ QString::fromStdString(procedure.diagnosis) },
+    tooth{ QString::fromStdString(ToothUtils::getNomenclature(procedure.tooth, procedure.temp)) },
+    proc{ QString::fromStdString(procedure.name) },
+    code{ QString::number(procedure.code) }
+{}
+
+
+ProcedurePrintModel::ProcedurePrintModel(const std::vector<Procedure>& procedures, const std::vector<int>& selectedProcedures)
 {
     constexpr int maxProcedures = 6;
 
     m_procedures.reserve(maxProcedures);
 
-    for (int i = 0; i < std::min(maxProcedures, static_cast<int>(procedures.size())); i++)
+    for (auto row : selectedProcedures)
     {
-        auto& p = procedures[i];
-
-        std::string toothNumber;
-
-        if (p.tooth != -1)
-            toothNumber = ToothUtils::getNomenclature(p.tooth, tempTeeth[p.tooth]);
-
-        m_procedures.emplace_back(PrintProcedure
-        {
-            QString::fromStdString(p.date.toString()),
-            QString::fromStdString(p.diagnosis),
-            QString::fromStdString(toothNumber),
-            QString::fromStdString(p.name),
-            QString::number(p.code)
-        });
+        m_procedures.emplace_back(procedures[row]);
     }
 }
+
+
 
 QVariant ProcedurePrintModel::data(const QModelIndex& index, int role) const
 {
@@ -46,4 +45,3 @@ QVariant ProcedurePrintModel::data(const QModelIndex& index, int role) const
 
     return QVariant();
 }
-

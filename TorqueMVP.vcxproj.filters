@@ -72,9 +72,6 @@
     <ClCompile Include="src\View\saveDialog\SaveDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\saveAsDialog\MnogoTypSpinBox.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Model\CityCode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -477,6 +474,9 @@
     <ClCompile Include="src\View\InvoiceDialog\BusinessOperationModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\Printer\ProcedurePrintSelectDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -498,9 +498,6 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\saveDialog\SaveDialog.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="src\View\saveAsDialog\MnogoTypSpinBox.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\ListView\ControlPanel\ControlPanel.h">
@@ -659,6 +656,9 @@
     <QtMoc Include="src\View\InvoiceDialog\InvoiceDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\View\Printer\ProcedurePrintSelectDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="resources\Resource.qrc" />
@@ -758,6 +758,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\InvoiceDialog\InvoiceDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\Printer\ProcedurePrintSelectDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

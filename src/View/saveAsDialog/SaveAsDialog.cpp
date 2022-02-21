@@ -1,51 +1,38 @@
 ﻿#include "SaveAsDialog.h"
+#include "View/ModalDialogBuilder.h"
 
-SaveAsDialog::SaveAsDialog(QWidget* parent)
-    : QDialog(parent), currentNumber(0)
+SaveAsDialog::SaveAsDialog(std::unordered_set<int>& existingNumbers, int currentNumber, QWidget* parent)
+    : QDialog(parent), existingNumbers(existingNumbers), currentNumber(currentNumber)
 {
     ui.setupUi(this);
-    connect(ui.okButton, &QPushButton::clicked, this,
-        [=] { okButtonPressed();});
-    connect(ui.cancelButton, &QPushButton::clicked, this, [=] { reject(); });
 
-    ui.ambNumSpin->setLabelMsg(ui.existLabel);
-    ui.existLabel->setStyleSheet("color: red");
+
+    ui.ambNumSpin->setValue(currentNumber);
+
+    connect(ui.okButton, &QPushButton::clicked, this,
+        [=] { 
+
+            auto value = ui.ambNumSpin->value();
+            if (existingNumbers.count(value))
+            {
+                bool answer = ModalDialogBuilder::askDialog
+                (u8"Амбулаторен лист с такъв номер вече съществува."
+                    u8"Сигурни ли сте, че искате да дублирате номерацията?");
+
+                if (!answer) return;
+            }
+
+                done(ui.ambNumSpin->value()); close();
+        
+        
+        });
+    connect(ui.cancelButton, &QPushButton::clicked, this, [=] { done(0); close(); });
 }
 
 
 SaveAsDialog::~SaveAsDialog()
 {
 
-}
-
-int SaveAsDialog::exec(std::map <int, bool>validNumber, int currentNumber)
-{
-    ui.ambNumSpin->setMap(&validNumber);
-    ui.ambNumSpin->setValue(currentNumber);
-    ui.ambNumSpin->setFocus();
-
-    return QDialog::exec();
-}
-
-
-void SaveAsDialog::okButtonPressed()
-{
-    if (ui.ambNumSpin->isValid())
-    {
-        done(ui.ambNumSpin->value());
-        close();
-    }
-    else
-    {
-        ui.ambNumSpin->setFocus();
-        ui.ambNumSpin->selectAll();
-    }
-
-}
-
-void SaveAsDialog::reject()
-{
-    done(0);
 }
 
 

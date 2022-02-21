@@ -213,6 +213,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\View\Printer\ProcedurePrintSelectDialog.cpp" />
     <ClCompile Include="src\Presenter\InvoicePresenter\InvoicePresenter.cpp" />
     <ClCompile Include="src\View\InvoiceDialog\InvoiceDialog.cpp" />
     <ClCompile Include="src\Model\Validator\LpkValidator.cpp" />
@@ -337,7 +338,6 @@
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
-    <ClCompile Include="src\View\saveAsDialog\MnogoTypSpinBox.cpp" />
     <ClCompile Include="src\View\saveDialog\SaveDialog.cpp">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">/utf-8 %(AdditionalOptions)</AdditionalOptions>
@@ -376,6 +376,7 @@
     <ClCompile Include="src\Presenter\DetailsPresenter\StatusController.cpp" />
     <ClCompile Include="src\Model\User\UserManager.cpp" />
     <QtRcc Include="resources\Resource.qrc" />
+    <QtUic Include="src\View\Printer\ProcedurePrintSelectDialog.ui" />
     <QtUic Include="src\View\InvoiceDialog\InvoiceDialog.ui" />
     <QtUic Include="src\View\DoctorSettingsDialog\DoctorSettingsDialog.ui" />
     <QtUic Include="src\View\ReportDialog\ReportDialog.ui" />
@@ -451,6 +452,7 @@
     <QtMoc Include="src\View\uiComponents\qt_derived\IconButton.h" />
     <QtMoc Include="src\View\DoctorSettingsDialog\DoctorSettingsDialog.h" />
     <QtMoc Include="src\View\InvoiceDialog\InvoiceDialog.h" />
+    <QtMoc Include="src\View\Printer\ProcedurePrintSelectDialog.h" />
     <ClInclude Include="src\Presenter\InvoicePresenter\InvoicePresenter.h" />
     <ClInclude Include="src\Model\XML\InvoiceXML.h" />
     <ClInclude Include="src\Model\Validator\LpkValidator.h" />
@@ -608,7 +610,6 @@
     <QtMoc Include="src\View\uiComponents\qt_derived\ComboBox.h" />
     <QtMoc Include="src\View\ListView\ListView.h" />
     <QtMoc Include="src\View\saveDialog\SaveDialog.h" />
-    <QtMoc Include="src\View\saveAsDialog\MnogoTypSpinBox.h" />
     <ClInclude Include="src\Database\DbAmbList.h" />
     <ClInclude Include="src\Model\CityCode.h" />
     <QtMoc Include="src\View\saveAsDialog\SaveAsDialog.h" />

@@ -83,10 +83,10 @@ void ModalDialogBuilder::openDialog(InvoicePresenter* p)
 
 #include "View/saveAsDialog/SaveAsDialog.h"
 
-int ModalDialogBuilder::openSaveAsDialog(int newNum, std::map<int, bool> existingNumbers)
+int ModalDialogBuilder::saveAsAmbSheetNumber(int newNum, std::unordered_set<int> existingNumbers)
 {
-	SaveAsDialog d;
-	return d.exec(existingNumbers, newNum);
+	SaveAsDialog d(existingNumbers, newNum);
+	return d.exec();
 }
 
 #include "View/saveDialog/SaveDialog.h"

@@ -146,18 +146,16 @@ bool ListPresenter::saveAs()
 
     int newNumber = 0;
 
-    auto map = db.getExistingNumbers(m_ambList.date.year);
+    auto existingNumbers = db.getExistingNumbers(m_ambList.date.year);
 
-    if (!m_ambList.number) {
-        newNumber = db.getNewNumber(m_ambList.date.year);
-    }
-    else {
-        newNumber = m_ambList.number;
-        map[newNumber] = false;
-    }
-    newNumber = ModalDialogBuilder::openSaveAsDialog(newNumber, map);
+    m_ambList.isNew() ?  
+        newNumber = db.getNewNumber(m_ambList.date.year)
+        :
+        existingNumbers.erase(m_ambList.number);
 
-    if (!newNumber) return false;
+    newNumber = ModalDialogBuilder::saveAsAmbSheetNumber(newNumber, existingNumbers);
+
+    if (!newNumber) return false; //a.k.a. dialog is canceled
 
     m_ambList.number = newNumber;
 

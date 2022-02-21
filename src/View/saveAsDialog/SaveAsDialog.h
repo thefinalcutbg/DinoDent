@@ -2,26 +2,21 @@
 
 #include <QLabel>
 #include <map>
-#include "MnogoTypSpinBox.h"
 #include "ui_SaveAsDialog.h"
+#include <unordered_set>
 
 
-class SaveAsDialog : private QDialog
+class SaveAsDialog : public QDialog
 {
 
+    std::unordered_set <int>& existingNumbers;
     int currentNumber;
-    void okButtonPressed();
-    std::map <int, bool> validNumber;
-    void reject() override;
-
 
 public:
     Q_OBJECT
 public:
-    SaveAsDialog(QWidget *parent = Q_NULLPTR);
+    SaveAsDialog(std::unordered_set<int>& existingNumbers, int currentNumber, QWidget *parent = Q_NULLPTR);
     ~SaveAsDialog();
-
-    int exec(std::map <int, bool>validNumber, int currentNumber);
 
 private:
     Ui::SaveAsDialog ui;

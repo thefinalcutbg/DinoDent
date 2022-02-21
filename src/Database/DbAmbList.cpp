@@ -268,11 +268,11 @@ bool DbAmbList::checkExistingAmbNum(int currentYear, int ambNum)
     return exists;
 }
 
-std::map<int, bool> DbAmbList::getExistingNumbers(int currentYear)
+std::unordered_set<int> DbAmbList::getExistingNumbers(int currentYear)
 {
     openConnection();
 
-    std::map<int, bool> numbersMap;
+    std::unordered_set<int> existingNumbers;
 
     std::string query = "SELECT num FROM amblist WHERE " 
         "lpk = '" + UserManager::currentUser().doctor.LPK + "' "
@@ -283,16 +283,14 @@ std::map<int, bool> DbAmbList::getExistingNumbers(int currentYear)
 
     while (sqlite3_step(stmt) != SQLITE_DONE) {
         
-        numbersMap[sqlite3_column_int(stmt, 0)] = true;
+        existingNumbers.insert(sqlite3_column_int(stmt, 0));
     }
-
-    numbersMap[0] = true;
 
     sqlite3_finalize(stmt);
    
     closeConnection();
 
-    return numbersMap;
+    return existingNumbers;
 }
 
 

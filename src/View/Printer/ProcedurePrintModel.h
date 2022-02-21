@@ -5,6 +5,8 @@
 
 struct PrintProcedure
 {
+    PrintProcedure(const Procedure& procedure);
+
     QString date, diagnosis, tooth, proc, code, dur;
 };
 
@@ -14,9 +16,11 @@ class ProcedurePrintModel : public QAbstractTableModel
 
 public:
     
-    ProcedurePrintModel(const std::vector<Procedure>& procedures = std::vector<Procedure>{},
-        const std::array<bool, 32>& tempTeeth = std::array<bool, 32>{false}
+    ProcedurePrintModel(
+        const std::vector<Procedure>& procedures = std::vector<Procedure>{}, 
+        const std::vector<int>& selectedProcedures = std::vector<int>{}
     );
+
 
     int rowCount(const QModelIndex& parent) const  override { return m_procedures.size(); }
     int columnCount(const QModelIndex& parent) const  override { return 6; }

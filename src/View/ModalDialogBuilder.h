@@ -1,5 +1,5 @@
 #pragma once
-#include <map>
+#include <unordered_set>
 #include <string>
 #include "View/ReportDialog/ReportDialogResult.h"
 
@@ -27,7 +27,7 @@ namespace ModalDialogBuilder
 	void openDialog(std::optional<ReportDialogResult>& result);
 	void openDialog(DoctorDialogPresenter* p);
 	void openDialog(InvoicePresenter* p);
-	int openSaveAsDialog(int newNum, std::map<int, bool> existingNumbers);
+	int saveAsAmbSheetNumber(int newNum, std::unordered_set<int> existingNumbers);
 	DialogAnswer openSaveDialog(const std::string& text);
 	bool askDialog(const std::string& questionText);
 	void showError(const std::string& error);

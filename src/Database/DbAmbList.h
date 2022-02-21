@@ -1,7 +1,7 @@
 #pragma once
 
 #include "DbProcedure.h"
-#include <map>
+#include <unordered_set>
 
 #include "AbstractORM.h"
 
@@ -33,7 +33,7 @@ public:
     AmbList getListData(const std::string& ambID);
     int getNewNumber(int currentYear);
     bool checkExistingAmbNum(int currentYear, int ambNum);
-    std::map<int, bool> getExistingNumbers(int currentYear);
+    std::unordered_set<int> getExistingNumbers(int currentYear);
     std::vector<int> getValidYears();
 };
 

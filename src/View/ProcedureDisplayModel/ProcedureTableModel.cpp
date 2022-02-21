@@ -2,19 +2,19 @@
 #include <QIcon>
 
 ProcedureTableModel::ProcedureTableModel(QObject* parent) : QAbstractTableModel(parent)
-{
-}
+{}
+
 
 
 void ProcedureTableModel::setProcedures(const std::vector<Procedure>& rows)
 {
     beginResetModel();
 
-    this->procedures.clear();
-    this->procedures.reserve(rows.size());
+    this->m_procedures.clear();
+    this->m_procedures.reserve(rows.size());
 
     for (auto& p : rows)
-        this->procedures.emplace_back(QProcedure{p});
+        this->m_procedures.emplace_back(QProcedure{p});
 
     endResetModel();
 }
@@ -54,7 +54,7 @@ QVariant ProcedureTableModel::headerData(int section, Qt::Orientation orientatio
 
 int ProcedureTableModel::rowCount(const QModelIndex& parent) const
 {
-    return procedures.size();
+    return m_procedures.size();
 }
 
 int ProcedureTableModel::columnCount(const QModelIndex& parent) const
@@ -62,17 +62,35 @@ int ProcedureTableModel::columnCount(const QModelIndex& parent) const
     return 8;
 }
 
+void ProcedureTableModel::filterProcedures(const std::vector<int>& selected)
+{
+    std::vector<QProcedure> filtered;
+
+    filtered.reserve(m_procedures.size());
+
+    for (int row : selected){
+        filtered.push_back(m_procedures[row]);
+    }
+
+    m_procedures = filtered;
+
+    QModelIndex topLeft = createIndex(0, 0);
+    QModelIndex bottomRight = createIndex(m_procedures.size(), 7);
+    emit dataChanged(topLeft, bottomRight);
+}
+
+
+
 QVariant ProcedureTableModel::data(const QModelIndex& index, int role) const
 {
 
-        
         if (!index.isValid()) return QVariant();
 
         int row = index.row();
         int column = index.column();
 
-        if (row == procedures.size()) return 0; //why???
-        if (procedures.size() == 0) return 0;
+        //if (row == m_procedures.size()) return 0; //why???
+        //if (m_procedures.size() == 0) return 0;
 
 
         switch (role)
@@ -82,7 +100,7 @@ QVariant ProcedureTableModel::data(const QModelIndex& index, int role) const
             switch (column)
             {
             case 5:
-                if (procedures[row].nzok)
+                if (m_procedures[row].nzok)
                     return QIcon(":/icons/icon_nzok.png");
             default:
                 return QVariant();
@@ -92,13 +110,13 @@ QVariant ProcedureTableModel::data(const QModelIndex& index, int role) const
             switch (column)
             {
                case 0: return index.row();
-               case 1: return procedures[row].date;
-               case 2: return procedures[row].diagnosis;
-               case 3: return procedures[row].tooth != 99 ? procedures[row].tooth : QVariant();
-               case 4: return procedures[row].procedureName;
-               case 5: return procedures[row].code;
-               case 6: return procedures[row].price;
-               case 7: return procedures[row].doctor;
+               case 1: return m_procedures[row].date;
+               case 2: return m_procedures[row].diagnosis;
+               case 3: return m_procedures[row].tooth != 99 ? m_procedures[row].tooth : QVariant();
+               case 4: return m_procedures[row].procedureName;
+               case 5: return m_procedures[row].code;
+               case 6: return m_procedures[row].price;
+               case 7: return m_procedures[row].doctor;
             }
         case Qt::TextAlignmentRole:
              if (column == 1 || column == 3 || column == 5 || column == 6)

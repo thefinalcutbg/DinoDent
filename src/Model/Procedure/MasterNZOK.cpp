@@ -13,13 +13,13 @@ void MasterNZOK::loadData()
 {
 	std::ifstream ifs("data/nzok.json");
 	Json::Reader reader;
-	Json::Value m;
+	Json::Value p;
 
-	reader.parse(ifs, m);
+	reader.parse(ifs, p);
 
 	//1.Getting all NZOK procedures
 
-	const Json::Value& procedure = m["manipulation"];
+	const Json::Value& procedure = p["procedure"];
 
 	_procedures.reserve(procedure.size());
 	code_durations.reserve(procedure.size());
@@ -45,7 +45,7 @@ void MasterNZOK::loadData()
 
 	//2.Getting some constraints on those procedures
 
-	const Json::Value& constraints = m["constraints"];
+	const Json::Value& constraints = p["constraints"];
 
 	for (auto& m_o : constraints["minor_only"]) minor_only.emplace(m_o.asInt());
 
@@ -61,7 +61,7 @@ void MasterNZOK::loadData()
 
 	//3.Getting the actual updates
 
-	const Json::Value& updates = m["updates"];
+	const Json::Value& updates = p["updates"];
 
 	for (auto& u : updates)
 	{
@@ -102,7 +102,7 @@ void MasterNZOK::loadData()
 		for (auto& priceMap : pList)
 		{
 
-					const Json::Value& procedures = priceMap["manipulations"];
+					const Json::Value& procedures = priceMap["procedures"];
 					const Json::Value& nzok_price = priceMap["nzok"];
 					const Json::Value& patient_price = priceMap["patient"];
 

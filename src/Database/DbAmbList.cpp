@@ -294,15 +294,25 @@ std::unordered_set<int> DbAmbList::getExistingNumbers(int currentYear)
 }
 
 
-int DbAmbList::getNewNumber(int currentYear)
+int DbAmbList::getNewNumber(int currentYear, bool nzok)
 {
 
     openConnection();
 
-    std::string query = "SELECT MAX(num) FROM amblist WHERE "
-        "year = " + std::to_string(currentYear) + " "
+    std::string query;
+
+    std::string condition = nzok ? "sum(procedure.nzok) > 0 " : "sum(procedure.nzok) = 0 ";
+
+    query = 
+        "SELECT amblist.num FROM amblist "
+        "LEFT JOIN procedure ON amblist.id = procedure.amblist_id "
+        "GROUP BY amblist.id "
+        "HAVING "
+        + condition +
+        "AND year = " + std::to_string(currentYear) + " "
         "AND lpk = '" + UserManager::currentUser().doctor.LPK + "' "
-        "AND rzi = '" + UserManager::currentUser().practice.rziCode + "'";
+        "AND rzi = '" + UserManager::currentUser().practice.rziCode + "' "
+        "ORDER BY amblist.num DESC LIMIT 1";
 
     sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
 
@@ -310,7 +320,6 @@ int DbAmbList::getNewNumber(int currentYear)
 
     while (sqlite3_step(stmt) != SQLITE_DONE)
     {
-
         number = sqlite3_column_int(stmt, 0); 
     }
 

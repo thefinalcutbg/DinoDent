@@ -213,6 +213,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Model\AmbList.cpp" />
     <ClCompile Include="src\View\Printer\ProcedurePrintSelectDialog.cpp" />
     <ClCompile Include="src\Presenter\InvoicePresenter\InvoicePresenter.cpp" />
     <ClCompile Include="src\View\InvoiceDialog\InvoiceDialog.cpp" />

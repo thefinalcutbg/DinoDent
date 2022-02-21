@@ -126,7 +126,7 @@ const std::string& ListPresenter::rowID() const
 
 bool ListPresenter::save()
 {
-    if (m_ambList.isNew()) return saveAs();
+    if (m_ambList.isNew() || m_ambList.hasNumberInconsistency()) return saveAs();
 
     if (!isValid()) return false;
 
@@ -148,11 +148,14 @@ bool ListPresenter::saveAs()
 
     auto existingNumbers = db.getExistingNumbers(m_ambList.date.year);
 
-    m_ambList.isNew() ?  
-        newNumber = db.getNewNumber(m_ambList.date.year)
-        :
+    if (m_ambList.isNew() || m_ambList.hasNumberInconsistency()) {
+        newNumber = db.getNewNumber(m_ambList.date.year, m_ambList.hasNZOKProcedure());
+    }
+    else {
         existingNumbers.erase(m_ambList.number);
-
+        newNumber = m_ambList.number;
+    }
+  
     newNumber = ModalDialogBuilder::saveAsAmbSheetNumber(newNumber, existingNumbers);
 
     if (!newNumber) return false; //a.k.a. dialog is canceled

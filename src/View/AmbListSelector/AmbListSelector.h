@@ -16,7 +16,7 @@ class AmbListSelector : public QDialog, public IListSelectorView
 	Q_OBJECT
 private:
 
-	ListSelectorPresenter* p;
+	ListSelectorPresenter* presenter;
 
 	QSortFilterProxyModel idFilter;
 	QSortFilterProxyModel nameFilter;

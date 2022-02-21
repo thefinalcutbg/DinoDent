@@ -5,14 +5,14 @@
 #include  <QRegularExpression>
 
 AmbListSelector::AmbListSelector(ListSelectorPresenter* presenter) :
-	p(presenter)
+	presenter(presenter)
 {
 	ui.setupUi(this);
 
 	setWindowFlags(Qt::Window);
-	//setWindowFlags(Qt::WindowStaysOnTopHint);
+	setWindowTitle(u8"Документи");
+	setWindowIcon(QIcon(":/icons/icon_open.png"));
 
-	ui.tableView->hideColumn(0);
 
 	connect(ui.fromDateEdit, &QDateEdit::dateChanged,
 		[=]() {presenter->setDates(ui.fromDateEdit->getDate(), ui.toDateEdit->getDate()); });
@@ -44,22 +44,6 @@ AmbListSelector::AmbListSelector(ListSelectorPresenter* presenter) :
 		});
 
 
-	connect(ui.tableView, &QTableView::clicked, this, [=] {
-
-		auto idxList = ui.tableView->selectionModel()->selectedRows();
-
-			std::vector<int>selectedIndexes;
-
-			for (auto& idx : idxList)
-			{
-				selectedIndexes.push_back(phoneFilter.index(idx.row(), 0).data().toInt());
-			}
-
-			presenter->selectionChanged(selectedIndexes);
-
-		}
-
-	);
 
 	connect(ui.tableView, &QTableView::doubleClicked, this, [=] { presenter->openCurrentSelection(); });
 
@@ -79,7 +63,7 @@ AmbListSelector::~AmbListSelector()
 {
 	ui.fromDateEdit->blockSignals(true);
 	ui.toDateEdit->blockSignals(true);
-	p->setView(nullptr);
+	presenter->setView(nullptr);
 
 }
 
@@ -94,6 +78,7 @@ void AmbListSelector::setDates(const Date& from, const Date& to)
 
 void AmbListSelector::setRows(const std::vector<AmbRow>& rows)
 {
+
 	amb_model.setRows(rows);
 
 	QSignalBlocker block(ui.ambRadio);
@@ -109,7 +94,7 @@ void AmbListSelector::setRows(const std::vector<AmbRow>& rows)
 	ui.tableView->setModel(&phoneFilter);
 
 	ui.tableView->hideColumn(0);
-	ui.tableView->setColumnWidth(1, 50);
+	ui.tableView->setColumnWidth(1, 100);
 	ui.tableView->setColumnWidth(2, 80);
 	ui.tableView->setColumnWidth(3, 80);
 	ui.tableView->setColumnWidth(4, 250);
@@ -117,8 +102,24 @@ void AmbListSelector::setRows(const std::vector<AmbRow>& rows)
 	
 	ui.fromDateEdit->setDisabled(false);
 	ui.toDateEdit->setDisabled(false);
-}
 
+	connect(ui.tableView->selectionModel(), &QItemSelectionModel::selectionChanged, this, [=] {
+
+		auto idxList = ui.tableView->selectionModel()->selectedRows();
+
+		std::vector<int>selectedIndexes;
+
+		for (auto& idx : idxList)
+		{
+			selectedIndexes.push_back(phoneFilter.index(idx.row(), 0).data().toInt());
+		}
+
+		this->presenter->selectionChanged(selectedIndexes);
+
+		}
+
+	);
+}
 
 
 void AmbListSelector::setRows(const std::vector<PerioRow>& rows)
@@ -147,6 +148,24 @@ void AmbListSelector::setRows(const std::vector<PerioRow>& rows)
 	
 	ui.fromDateEdit->setDisabled(false);
 	ui.toDateEdit->setDisabled(false);
+
+
+	connect(ui.tableView->selectionModel(), &QItemSelectionModel::selectionChanged, this, [=] {
+
+		auto idxList = ui.tableView->selectionModel()->selectedRows();
+
+		std::vector<int>selectedIndexes;
+
+		for (auto& idx : idxList)
+		{
+			selectedIndexes.push_back(phoneFilter.index(idx.row(), 0).data().toInt());
+		}
+
+		this->presenter->selectionChanged(selectedIndexes);
+
+		}
+
+	);
 }
 
 
@@ -175,6 +194,24 @@ void AmbListSelector::setRows(const std::vector<PatientRow>& rows)
 
 	ui.fromDateEdit->setDisabled(true);
 	ui.toDateEdit->setDisabled(true);
+
+
+	connect(ui.tableView->selectionModel(), &QItemSelectionModel::selectionChanged, this, [=] {
+
+		auto idxList = ui.tableView->selectionModel()->selectedRows();
+
+		std::vector<int>selectedIndexes;
+
+		for (auto& idx : idxList)
+		{
+			selectedIndexes.push_back(phoneFilter.index(idx.row(), 0).data().toInt());
+		}
+
+		this->presenter->selectionChanged(selectedIndexes);
+
+		}
+
+	);
 }
 
 

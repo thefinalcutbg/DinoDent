@@ -55,7 +55,7 @@ std::vector<AmbRow> DbListOpener::getAmbRows(const Date& from, const Date& to)
         "AND (" + std::to_string(to.year) + ", " + std::to_string(to.month) + ", " + std::to_string(to.day) + ") "
         "AND amblist.lpk = '" + UserManager::currentUser().doctor.LPK + "' "
         "AND amblist.rzi = '" + UserManager::currentUser().practice.rziCode + "' "
-        "ORDER BY amblist.year ASC, amblist.month ASC, amblist.day ASC ";
+        "ORDER BY amblist.year ASC, amblist.month ASC, amblist.day ASC, amblist.num ASC ";
 
     sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
 

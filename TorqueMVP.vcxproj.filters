@@ -480,6 +480,9 @@
     <ClCompile Include="src\View\ProcedureDisplayModel\ProcedureSelectModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Model\AmbList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">

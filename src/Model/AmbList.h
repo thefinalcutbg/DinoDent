@@ -24,6 +24,20 @@ struct AmbList
 
 	ToothContainer teeth;
 
+	bool hasNZOKProcedure() const
+	{
+		for (auto p : procedures)
+			if (p.nzok)
+				return true;
+
+		return false;
+	}
+
+	bool hasNumberInconsistency() const
+	{
+		return hasNZOKProcedure() != number < 100000;
+	}
+
 	std::vector<Procedure> procedures;
 	~AmbList() {  }
 	bool isNew(){ return id == "0"; }

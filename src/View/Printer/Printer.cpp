@@ -30,14 +30,20 @@ QString leadZeroes(int num, int totalLength)
 
 void Print::ambList(const AmbList& amb, const Patient& patient, const User& user)
 {
+    std::vector<int> selectedProcedures;
 
-    ProcedurePrintSelectDialog dialog(amb.procedures);
+    {
+        ProcedurePrintSelectDialog dialog(amb.procedures);
 
-    if (dialog.exec() == QDialog::Rejected) {
-        return;
+        if (dialog.exec() == QDialog::Rejected) {
+            return;
+        }
+
+        selectedProcedures = dialog.selectedProcedures();
+
     }
     
-    ProcedurePrintModel model(amb.procedures, dialog.selectedProcedures());
+    ProcedurePrintModel model(amb.procedures, selectedProcedures);
 
     QApplication::setOverrideCursor(Qt::BusyCursor);
 

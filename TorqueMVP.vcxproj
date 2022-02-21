@@ -221,6 +221,7 @@
     <ClCompile Include="src\Presenter\DoctorDialogPresenter\DoctorDialogPresenter.cpp" />
     <ClCompile Include="src\View\DoctorSettingsDialog\DoctorSettingsDialog.cpp" />
     <ClCompile Include="src\View\InvoiceDialog\BusinessOperationModel.cpp" />
+    <ClCompile Include="src\View\ProcedureDisplayModel\ProcedureSelectModel.cpp" />
     <ClCompile Include="src\View\uiComponents\qt_derived\IconButton.cpp" />
     <ClCompile Include="src\View\ReportDialog\ReportDialog.cpp" />
     <ClCompile Include="src\Database\DbXML.cpp" />
@@ -491,6 +492,7 @@
     <QtMoc Include="src\View\PerioView\StatisticTableModel.h" />
     <ClInclude Include="src\View\Printer\Printer.h" />
     <ClInclude Include="src\View\Printer\ProcedurePrintModel.h" />
+    <QtMoc Include="src\View\ProcedureDisplayModel\ProcedureSelectModel.h" />
     <ClInclude Include="src\View\ReportDialog\ReportDialogResult.h" />
     <ClInclude Include="src\View\ToothPaintDevices\SpriteSheets.h" />
     <ClInclude Include="src\View\PerioView\PerioGraphics\PerioGraphicsButton.h" />

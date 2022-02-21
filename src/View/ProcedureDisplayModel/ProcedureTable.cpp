@@ -58,6 +58,23 @@ void ProcedureTable::setProcedureHistoryLayout()
     horizontalHeader()->setSectionResizeMode(7, QHeaderView::Stretch);
 }
 
+void ProcedureTable::setProcedureSelectLayout()
+{
+    setFocusPolicy(Qt::NoFocus);
+    setColumnWidth(0, 110);
+    setColumnWidth(1, 200);
+    setColumnWidth(2, 25);
+    setColumnWidth(3, 300);
+    setColumnWidth(4, 49);
+    setColumnWidth(5, 80);
+    verticalHeader()->setDefaultSectionSize(20);
+    setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
+    horizontalHeader()->setSectionResizeMode(4, QHeaderView::Stretch);
+    horizontalHeader()->setSectionResizeMode(7, QHeaderView::Stretch);
+}
+
 void ProcedureTable::keyPressEvent(QKeyEvent* event)
 {
 

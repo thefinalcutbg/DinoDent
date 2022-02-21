@@ -1,37 +1,23 @@
 ﻿#include "ProcedurePrintSelectDialog.h"
 #include <set>
 
-ProcedurePrintSelectDialog::ProcedurePrintSelectDialog(const std::vector<Procedure>& procedures, QWidget *parent)
-	: QDialog(parent)
+ProcedurePrintSelectDialog::ProcedurePrintSelectDialog(const std::vector<Procedure>& procedures, QWidget* parent)
+	: QDialog(parent), model(procedures)
 {
 	ui.setupUi(this);
 	setModal(true);
 	setWindowTitle(u8"Манипулации за принтиране");
 
-	model.setProcedures(procedures);
-
 	ui.tableView->setSelectionBehavior(QAbstractItemView::SelectionBehavior::SelectRows);
-	ui.tableView->setSelectionMode(QAbstractItemView::SelectionMode::MultiSelection);
+	ui.tableView->setSelectionMode(QAbstractItemView::SelectionMode::NoSelection);
 	ui.tableView->setModel(&this->model);
-	ui.tableView->setProcedureHistoryLayout();
+	ui.tableView->setProcedureSelectLayout();
 
 	connect(ui.okButton, &QPushButton::pressed, [=]
 		{
 			auto select = ui.tableView->selectionModel()->selectedIndexes();
 
-			//OPTIMIZE!!!
-
-			std::set<int> selectedRowsSet;
-
-			for (auto& s : select)
-			{
-				selectedRowsSet.insert(s.row());
-			}
-
-			for (auto row : selectedRowsSet)
-			{
-				m_selectedRows.push_back(row);
-			}
+			m_selectedRows = model.selectedRows();
 
 			accept();
 

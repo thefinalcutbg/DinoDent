@@ -477,6 +477,9 @@
     <ClCompile Include="src\View\Printer\ProcedurePrintSelectDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\ProcedureDisplayModel\ProcedureSelectModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -657,6 +660,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\Printer\ProcedurePrintSelectDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\ProcedureDisplayModel\ProcedureSelectModel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

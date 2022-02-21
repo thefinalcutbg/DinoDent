@@ -12,9 +12,11 @@ public:
 	ProcedureTable(QWidget* parent);
 	
 	~ProcedureTable();
+
 	void setAmbListLayout();
-	
 	void setProcedureHistoryLayout();
+	void setProcedureSelectLayout();
+
 signals:
 	void deletePressed();
 

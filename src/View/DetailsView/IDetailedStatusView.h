@@ -37,7 +37,7 @@ public:
 	virtual ImplantData getImplantData() = 0;
 	virtual bool getDentistData() = 0;
 	virtual CrownData getCrownData() = 0;
-	virtual int getPathologyData() = 0;
+	virtual int getDiagnosisIndex() = 0;
 	virtual std::string getNotes() = 0;
 
 };

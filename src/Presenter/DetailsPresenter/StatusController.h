@@ -2,7 +2,7 @@
 #include "Model/User/UserManager.h"
 #include "View/DetailsView/IDetailedStatusView.h"
 #include "Model/Tooth/Status.h"
-#include <QDebug>
+#include "Model/Tooth/SurfStatus.h"
 
 class DetailedStatusController
 {
@@ -31,13 +31,11 @@ public:
 	}
 
 	void applyChange() override {
-		status.data.diagnosis_index = view.getPathologyData();
+		status.data.diagnosis_index = view.getDiagnosisIndex();
 	}
 
 
 };
-
-
 
 class DentistMadeControl : public DetailedStatusController
 {
@@ -106,6 +104,125 @@ public:
 	}
 };
 
+class ObturationBulk : public DetailedStatusController
+{
+	SurfaceStatus<SurfaceChild<Obturation>>& status;
+
+public:
+	ObturationBulk(IDetailedStatusView& view, SurfaceStatus<SurfaceChild<Obturation>>& status) :
+		DetailedStatusController(view),
+		status(status)
+	{
+		std::string LPK;
+		bool madeByCurrentUser{ false };
+
+		std::vector<int> existingSurfaces;
+
+		for (int i = 0; i < surfaceCount; i++)
+		{
+			if (!status.exists(i))
+				continue;
+
+			existingSurfaces.push_back(i);
+		}
+
+		if (existingSurfaces.size())
+		{
+			LPK = status[existingSurfaces[0]].LPK;
+
+
+			for (auto i : existingSurfaces)
+			{
+				if (LPK != status[i].LPK) {
+					LPK = "";
+					break;
+				}
+			}
+
+		}
+
+		DentistData dentistData;
+
+		dentistData.dentistName = LPK.empty() ?
+			UserManager::currentUser().doctor.getFullName()
+			:
+			UserManager::getDoctorName(LPK);
+
+		dentistData.isChecked = (!LPK.empty());
+		dentistData.isEnabled = (LPK.empty() || UserManager::instance().isCurrentUser(LPK));
+
+		view.setData(dentistData);
+		view.setData(ObturationData{});
+
+	}
+
+	void applyChange() override
+	{
+		auto statusResult = view.getObturationData();
+		auto doctorResult = view.getDentistData();
+
+		for (int i = 0; i < surfaceCount; i++)
+		{
+
+			if (!status.exists(i)) continue;
+
+			if (statusResult.color) status[i].data.color = statusResult.color;
+
+			if (statusResult.material.size()) status[i].data.material = statusResult.material;
+
+			if (status[i].LPK == UserManager::currentUser().doctor.LPK || status[i].LPK.empty())
+				status[i].LPK = doctorResult ? UserManager::currentUser().doctor.LPK : "";
+
+		}
+	};
+
+};
+
+
+class CariesBulk : public DetailedStatusController
+{
+	SurfaceStatus<SurfaceChild<Pathology>>& status;
+	
+	PathologyData output_data; //output_data is needed for evaluation whether user has changed the index
+
+public:
+	CariesBulk(IDetailedStatusView& view, SurfaceStatus<SurfaceChild<Pathology>>& status) :
+		DetailedStatusController(view),
+		status(status)
+	{
+		Date uninitializedDate(1,1,1);
+
+		output_data.date_diagnosed = uninitializedDate;
+		output_data.setDiagnosisList(*status[0].data.diagnosisList());
+
+		for (int i = 0; i < surfaceCount; i++)
+		{
+			if(!status.exists(i))
+				continue;
+
+			output_data.diagnosis_index = std::max(status[i].data.diagnosis_index, output_data.diagnosis_index);
+			output_data.date_diagnosed = std::max(status[i].data.date_diagnosed, output_data.date_diagnosed);
+		}
+
+		if (output_data.date_diagnosed == uninitializedDate)
+			output_data.date_diagnosed = Date::currentDate();
+
+		view.setData(output_data);
+
+	}
+
+	void applyChange() override
+	{
+		auto statusResult = view.getDiagnosisIndex();
+
+		for (int i = 0; i < surfaceCount; i++)
+		{
+			if (statusResult != output_data.diagnosis_index) //checking if the index has been changed at all
+				status[i].data.diagnosis_index = statusResult;
+		}
+	};
+
+};
 
 class CrownControl : public DetailedStatusController
 {

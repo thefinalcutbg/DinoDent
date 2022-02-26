@@ -95,7 +95,7 @@ DetailedStatus::DetailedStatus(DetailedStatusPresenter* presenter) : presenter(p
 			presenter->checkStateChanged(checked);
 			
 		});
-		//we have a crash here:
+
 		connect(ui.treeWidget, &QTreeWidget::currentItemChanged, this, [=](QTreeWidgetItem* item) {
 		
 		int parent = ui.treeWidget->selectionModel()->currentIndex().parent().row();
@@ -183,7 +183,6 @@ void DetailedStatus::paintTooth(const ToothPaintHint& hint)
 
 void DetailedStatus::clearData()
 {
-	qDebug() << "clearing data";
 	ui.statusTitle->setText("");
 	obtWidget->setParent(nullptr);
 	crownWidget->setParent(nullptr);
@@ -221,7 +220,7 @@ void DetailedStatus::setData(const std::string& notesData)
 }
 
 bool DetailedStatus::getDentistData() { return dentistWidget->userChecked(); }
-int DetailedStatus::getPathologyData() { return pathologyWidget->getData(); }
+int DetailedStatus::getDiagnosisIndex() { return pathologyWidget->getData(); }
 ObturationData DetailedStatus::getObturationData(){  return obtWidget->getData();}
 ImplantData DetailedStatus::getImplantData(){ return implantWidget->getData();}
 CrownData DetailedStatus::getCrownData(){return crownWidget->getData();}

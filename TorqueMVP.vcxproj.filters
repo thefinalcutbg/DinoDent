@@ -300,9 +300,6 @@
     <ClCompile Include="src\Model\Tooth\DiagnosisContainer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Presenter\DetailsPresenter\StatusController.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Presenter\DetailsPresenter\DetailedStatusPresenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

@@ -118,7 +118,7 @@ Errors XML::saveXMLreport(int month, int year, const std::string& path)
     report->SetAttribute("bulstat", practice.bulstat);
     report->SetAttribute("RCZCode", practice.rziCode);
     report->SetAttribute("contractNo", practice.nzok_contract.value().contract_no);
-    report->SetAttribute("dentistName", doctor.getFullName());
+    report->SetAttribute("dentistName", doctor.getFullName(false));
     report->SetAttribute("dentistSpec", doctor.specialty);
     report->SetAttribute("dentistPersonalCode", doctor.LPK);
 

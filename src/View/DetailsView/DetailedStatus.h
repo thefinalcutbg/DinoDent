@@ -61,7 +61,7 @@ public:
 	ImplantData getImplantData() override;
 	bool getDentistData() override;
 	CrownData getCrownData() override;
-	int getPathologyData() override;
+	int getDiagnosisIndex() override;
 	std::string getNotes() override;
 
 	void setHistoryData(const std::vector<Procedure>& history) override;

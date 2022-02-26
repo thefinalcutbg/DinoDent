@@ -49,17 +49,12 @@ void DetailedStatusPresenter::checkStateChanged(bool checked)
 
 void DetailedStatusPresenter::statusSelected(int category, int code)
 {
-
-
 	if (controller) controller->applyChange();
 
 	m_code = code;
-	
-	
 
 	view->clearData();
 
-	qDebug() << "data cleared";
 
 	switch (category)
 	{
@@ -69,6 +64,10 @@ void DetailedStatusPresenter::statusSelected(int category, int code)
 
 		switch (m_code)
 		{
+			case StatusCode::Obturation:
+				controller = std::make_unique<ObturationBulk>(*view, m_tooth.obturation); break;
+			case StatusCode::Caries:
+				controller = std::make_unique<CariesBulk>(*view, m_tooth.caries); break;
 			case StatusCode::Pulpitis:
 				controller = std::make_unique<PathologyControl>(*view, m_tooth.pulpitis); break;
 			case StatusCode::ApicalLesion:
@@ -78,7 +77,7 @@ void DetailedStatusPresenter::statusSelected(int category, int code)
 			case StatusCode::Crown:
 				controller = std::make_unique<CrownControl>(*view, m_tooth.crown); break;
 			case StatusCode::Root:
-				controller = std::make_unique <PathologyControl>(*view, m_tooth.root); break;
+				controller = std::make_unique<PathologyControl>(*view, m_tooth.root); break;
 			case StatusCode::EndoTreatment:
 				controller = std::make_unique<DentistMadeControl>(*view, m_tooth.endo); break;
 			case StatusCode::Extraction:

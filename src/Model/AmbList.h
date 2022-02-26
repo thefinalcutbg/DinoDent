@@ -6,7 +6,7 @@
 #include "Date.h"
 #include "Tooth/ToothContainer.h"
 #include "Procedure/Procedure.h"
-
+#include <algorithm>
 
 enum class Charge {standard, retired, freed};
 
@@ -15,7 +15,7 @@ struct AmbList
 	AmbList() {}
 
 	std::string id{"0"};
-	Date date{ Date::currentDate() };
+	//Date date{ Date::currentDate() };
 	int number{ 0 };
 	std::string LPK;
 	bool full_coverage{ false };
@@ -36,6 +36,42 @@ struct AmbList
 	bool hasNumberInconsistency() const
 	{
 		return hasNZOKProcedure() != number < 100000;
+	}
+
+	Date getAmbListDate() const //works only if procedures are sorted by date!
+	{
+		if (procedures.empty())
+			return Date{ 1, Date::currentMonth(), Date::currentYear() };
+
+		Date result = procedures[0].date;
+
+		for (auto& p : procedures)
+			if (p.nzok)
+				return p.date;
+		
+		return result;
+	}
+
+	Date getAmbSheetDateMin() const //returns the first day of the ambSheet month
+	{
+		auto date = getAmbListDate();
+
+		return Date(1, date.month, date.year);
+
+	}
+
+	Date newProcedureDate() const
+	{
+		auto sheetDate = getAmbListDate();
+
+		if (sheetDate.month == Date::currentMonth()
+			&& sheetDate.year == Date::currentYear()) {
+
+			return Date::currentDate();
+		}
+
+		return sheetDate;
+			
 	}
 
 	std::vector<Procedure> procedures;

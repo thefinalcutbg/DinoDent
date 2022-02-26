@@ -77,8 +77,16 @@ void MainPresenter::generateReport()
 
     ModalDialogBuilder::openDialog(result);
 
-    if(result.has_value())
-        XML::saveXMLreport(result.value().month, result.value().year, result.value().path);
+    if (result.has_value()) {
+
+        auto err = XML::saveXMLreport(result.value().month, result.value().year, result.value().path);
+
+        if (err.has_value())
+            ModalDialogBuilder::showErrorList(err.value());
+    }
+        
+
+   
 
 }
 

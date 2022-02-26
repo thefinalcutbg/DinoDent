@@ -28,7 +28,7 @@ struct AmbListXML
 	std::string personMiddleName;
 	std::string personLastName;
 	std::string specificationType;
-	std::string ambulatorySheetNo; //six digit number with leading zeroes
+	int ambulatorySheetNo; //six digit number with leading zeroes
 	std::string HIRBNo;
 	std::string allergies;
 	std::string pastDiseases;

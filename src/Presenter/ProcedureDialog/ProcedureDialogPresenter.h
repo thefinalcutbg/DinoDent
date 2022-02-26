@@ -16,13 +16,17 @@
 
 #include "View/ProcedureDialog/IProcedureDialog.h"
 
-class ToothContainer;
+struct AmbList;
 
 class ProcedureDialogPresenter
 {
 	int currentIndex{ -1 };
 
 	std::vector<Tooth*> selectedTeeth;
+
+	const AmbList& ambList;
+
+	Date patientTurns18;
 
 	GeneralProcedurePresenter general_presenter;
 	ToothProcedurePresenter toothNonSpecific_presenter;
@@ -43,7 +47,6 @@ class ProcedureDialogPresenter
 	std::vector<Procedure> procedures;
 
 	std::vector<ProcedureTemplate> procedureList;
-	const ToothContainer* teeth;
 
 	ProcedureDateValidator date_validator;
 
@@ -54,16 +57,13 @@ class ProcedureDialogPresenter
 
 		ProcedureDialogPresenter
 		(
+			const AmbList& ambSheet,
 			const std::vector<Tooth*>& selectedTeeth,
-			const ToothContainer& teeth,
-			const Date& ambListDate,
-			const Date& patientBirth,
-			bool fullCoverage,
-			int specialty
+			const Date& patientTurns18
 		);
 
 		void setView(IProcedureDialog* view);
-		
+		void procedureDateChanged(const Date& date);
 		void indexChanged(int index);
 		void formAccepted();
 		std::vector<Procedure> openDialog();

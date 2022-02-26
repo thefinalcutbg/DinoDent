@@ -11,9 +11,9 @@ BusinessOperationModel::BusinessOperationModel(const std::vector<BusinessOperati
         {
             QString::fromStdString(o.activity_code),
             QString::fromStdString(o.activity_name),
-            priceToString(o.unit_price),
+            formatDoubleWithDecimal(o.unit_price),
             QString::number(o.quantity),
-            priceToString(o.value_price)
+            formatDoubleWithDecimal(o.value_price)
         });
     }
 

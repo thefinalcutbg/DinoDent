@@ -16,8 +16,8 @@ ProcedureDialog::ProcedureDialog(ProcedureDialogPresenter* presenter, QWidget *p
 
 	auto table = ui.tableView;
 
-	presenter->setView(this);
-
+	ui.commonFields->setExternalDateEdit(ui.dateEdit);
+	ui.dateEdit->setErrorLabel(ui.errorLabel);
 
 	proxyModel.setSourceModel(&model);
 	proxyModel.setFilterKeyColumn(2);
@@ -32,7 +32,6 @@ ProcedureDialog::ProcedureDialog(ProcedureDialogPresenter* presenter, QWidget *p
 	table->setSelectionMode(QAbstractItemView::SingleSelection);
 	table->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
 	table->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);
-
 
 	connect(table->selectionModel(), &QItemSelectionModel::currentRowChanged, this, [=] {
 	
@@ -61,6 +60,13 @@ ProcedureDialog::ProcedureDialog(ProcedureDialogPresenter* presenter, QWidget *p
 
 	connect(ui.tableView, &QTableView::doubleClicked, [=] { presenter->formAccepted(); });
 
+	connect(ui.dateEdit, &QDateEdit::dateChanged, [=] {
+
+		auto date = ui.dateEdit->date();
+		presenter->procedureDateChanged(Date{ date.day(), date.month(), date.year() });
+		presenter->indexChanged(-1);
+		});
+
 	ui.errorLabel->setStyleSheet("color:red");
 	ui.crownWidget->ui.rangeWidget->setErrorLabel(ui.errorLabel);
 	ui.obturWidget->ui.surfaceSelector->setErrorLabel(ui.errorLabel);
@@ -73,6 +79,10 @@ ProcedureDialog::ProcedureDialog(ProcedureDialogPresenter* presenter, QWidget *p
 	ui.searchEdit->setText(s_search);
 	ui.tableView->selectRow(s_idx);
 
+
+	presenter->setView(this);
+
+
 }
 
 ProcedureDialog::~ProcedureDialog()
@@ -80,7 +90,7 @@ ProcedureDialog::~ProcedureDialog()
 }
 
 
-void ProcedureDialog::loadManipulationList(std::vector<ProcedureTemplate> procedureList)
+void ProcedureDialog::setProcedureTemplates(std::vector<ProcedureTemplate> procedureList)
 {
 	model.setProcedures(procedureList);
 }
@@ -144,8 +154,6 @@ ICommonFields* ProcedureDialog::commonFields()
 {
 	return ui.commonFields;
 }
-
-
 
 void ProcedureDialog::setView(ProcedureType t)
 {

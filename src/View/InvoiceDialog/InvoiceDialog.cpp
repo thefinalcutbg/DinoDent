@@ -138,7 +138,7 @@ void InvoiceDialog::setInvoice(const Invoice& inv)
 	m_report.dataManager()->setReportVariable("issuer_address", QString::fromStdString(inv.issuer.address_by_contract));
 	m_report.dataManager()->setReportVariable("issuer_bulstat", QString::fromStdString(inv.issuer.bulstat));
 	m_report.dataManager()->setReportVariable("period", QString::fromStdString(u8"от " + inv.date_from.toString() + u8" до " + inv.date_to.toString()));
-	m_report.dataManager()->setReportVariable("total", priceToString(inv.aggragated_amounts.total_amount));
+	m_report.dataManager()->setReportVariable("total", formatDoubleWithDecimal(inv.aggragated_amounts.total_amount));
 	m_report.dataManager()->setReportVariable("mon_notif_number", QString::fromStdString(u8"Информация от месечно известие № " + inv.fin_document_month_no));
 
 	BusinessOperationModel* model = new BusinessOperationModel{ inv.businessOperations };

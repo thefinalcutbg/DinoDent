@@ -14,6 +14,13 @@ CommonFields::CommonFields(QWidget *parent)
 
 }
 
+void CommonFields::setExternalDateEdit(DateEdit* externalDateEdit)
+{
+	this->externalDateEdit = externalDateEdit;
+	ui.dateEdit->setHidden(true);
+	ui.dateLabel->setHidden(true);
+}
+
 CommonFields::~CommonFields()
 {
 }
@@ -35,7 +42,11 @@ AbstractSpinBox* CommonFields::priceEdit()
 
 AbstractDateEdit* CommonFields::dateEdit()
 {
-	return ui.dateEdit;
+	if (externalDateEdit == nullptr){
+		return ui.dateEdit;
+	}
+	
+	return externalDateEdit;
 }
 
 void CommonFields::set_hidden(bool hidden)

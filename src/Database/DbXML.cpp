@@ -4,20 +4,7 @@
 #include "Model/Tooth/ToothUtils.h"
 #include "Model/User/UserManager.h"
 
-std::string leadZeroes(int num, int totalLength)
-{
-    std::string formated;
-    formated.reserve(totalLength);
 
-    std::string number(std::to_string(num));
-
-    for (int i = 0; i < totalLength - number.length(); i++)
-        formated += "0";
-
-    formated += number;
-
-    return formated;
-}
 
 int getSheetIdx(const std::vector<AmbListXML>& sheets, const std::string& amblist_id)
 {
@@ -120,7 +107,7 @@ std::vector<AmbListXML> DbXML::getAmbListXML(int month, int year, std::string RZ
             a.personLastName = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 6));
 
             a.specificationType = getSpecType(static_cast<bool>(sqlite3_column_int(stmt, 7)));
-            a.ambulatorySheetNo = leadZeroes(sqlite3_column_int(stmt, 8), 6);
+            a.ambulatorySheetNo = sqlite3_column_int(stmt, 8);
             a.HIRBNo = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 9));
 
             a.allergies = getAllergiesAndStuff(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 10)));

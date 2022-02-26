@@ -15,7 +15,7 @@ ListView::ListView(QWidget* parent)
 	ui.teethView->setScene(teethViewScene);
 	ui.teethView->setSceneRect(teethViewScene->sceneRect());
 	
-	ui.dateEdit->installEventFilter(this);
+	//ui.dateEdit->installEventFilter(this);
 	ui.procedureTable->setModel(&model);
 	ui.procedureTable->setAmbListLayout();
 
@@ -67,6 +67,7 @@ ListView::ListView(QWidget* parent)
 	connect(ui.taxCombo, QOverload<int>::of(&QComboBox::currentIndexChanged),
 			[=](int index) {presenter->chargeChanged(index); });
 
+/*
 	connect(ui.dateEdit, &QDateEdit::dateChanged,
 		[=]
 		{
@@ -74,7 +75,7 @@ ListView::ListView(QWidget* parent)
 			auto date = ui.dateEdit->date();
 			presenter->ambDateChanged({ date.day(), date.month(), date.year() });
 		});
-
+		*/
 	connect(ui.showCurrentStatusBox, &QPushButton::clicked, [=] { 
 			if (presenter) presenter->showCurrentStatus(ui.showCurrentStatusBox->isChecked()); 
 		});
@@ -101,6 +102,7 @@ void ListView::paintEvent(QPaintEvent* event)
 	painter.end();
 }
 
+/*
 bool ListView::eventFilter(QObject* obj, QEvent* event)
 {
 	if (event->type() == QEvent::Wheel && obj == ui.dateEdit)
@@ -111,14 +113,13 @@ bool ListView::eventFilter(QObject* obj, QEvent* event)
 
 	return false;
 }
+*/
 
 void ListView::refresh(const AmbList& ambList, const Patient& patient)
 {
-	ui.patientTile->setData(patient, ambList.date);
+	ui.patientTile->setData(patient, ambList.getAmbListDate());
 	ui.allergiesTile->setData(patient);
-	auto& d = ambList.date;
-	QSignalBlocker blocker(ui.dateEdit);
-	ui.dateEdit->setDate({ d.year, d.month, d.day });
+	//QSignalBlocker blocker(ui.dateEdit);
 	ui.taxCombo->setIndex(static_cast<int>(ambList.charge));
 	
 }

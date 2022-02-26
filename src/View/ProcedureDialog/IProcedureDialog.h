@@ -15,7 +15,7 @@ class IProcedureDialog
 
 public:
 
-    virtual void loadManipulationList(std::vector<ProcedureTemplate> manipulationList) = 0;
+    virtual void setProcedureTemplates(std::vector<ProcedureTemplate> manipulationList) = 0;
 
     virtual void close() = 0;
     virtual void showErrorMessage(const std::string& error) = 0;

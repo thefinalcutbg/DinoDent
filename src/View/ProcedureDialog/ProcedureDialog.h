@@ -27,7 +27,7 @@ public:
 	 ~ProcedureDialog();
 
 
-	void loadManipulationList(std::vector<ProcedureTemplate> manipulationList) override;
+	void setProcedureTemplates(std::vector<ProcedureTemplate> manipulationList) override;
 	void showErrorMessage(const std::string& error) override;
 	void setView(ProcedureType t) override;
     void close() override;

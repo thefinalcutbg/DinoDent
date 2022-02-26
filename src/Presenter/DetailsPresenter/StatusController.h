@@ -37,11 +37,22 @@ public:
 
 };
 
+
+
 class DentistMadeControl : public DetailedStatusController
 {
 	std::string& LPK;
 	UserManager& m_manager;
 	bool permissionToWrite{ false };
+
+	std::string getMadeByLabel(const std::string& statusLPK) const
+	{
+		if (statusLPK.empty()) {
+			return UserManager::currentUser().doctor.getFullName();
+		}
+
+		return UserManager::getDoctorName(statusLPK);
+	}
 
 public:
 	DentistMadeControl(IDetailedStatusView& view, DentistMade& status) :
@@ -51,7 +62,7 @@ public:
 	{
 
 		DentistData data;
-		data.dentistName = m_manager.getDoctorName(LPK);
+		data.dentistName = getMadeByLabel(LPK);
 		data.isChecked = (!LPK.empty());
 		data.isEnabled = (LPK.empty() || m_manager.isCurrentUser(LPK));
 

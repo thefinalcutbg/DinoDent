@@ -17,7 +17,7 @@ struct pair_hash
 
 AmbListValidator::AmbListValidator(const AmbList& list, const Patient& patient)
     :
-    ambList(list), patient(patient)
+    ambList(list), patient(patient), ambListDate(ambList.getAmbListDate())
 {
     _error.reserve(100);
     for (auto &p : list.procedures)
@@ -35,12 +35,12 @@ bool AmbListValidator::ambListIsValid()
 
     if (!noDuplicates()) return false;
 
+    if (!dateIsValid()) return false;
+
     if (!examIsFirst()) return false;
 
     for (auto& p : procedures)
     {
-        if (!dateIsValid(p)) return false;
-
         if (p.nzok && patient.HIRBNo.empty())
         {
             _error = u8"Не е въведен номер на здравната книжка на пациента";
@@ -69,6 +69,8 @@ bool AmbListValidator::isValidAccordingToDb()
 {
     auto summary = _db.getSummary(patient.id, ambList.id); //getting all procedures;
 
+   
+
     typedef int Code, Count, Tooth;
     typedef bool Temporary;
     std::unordered_map<Code, Count> currentYear;
@@ -76,7 +78,7 @@ bool AmbListValidator::isValidAccordingToDb()
 
     for (auto& p : summary) //getting procedures of the current year;
     {
-        if (p.date.year == ambList.date.year)
+        if (p.date.year == ambListDate.year)
             currentYear[p.code] ++;
 
         //getting the already extracted teeth
@@ -84,7 +86,7 @@ bool AmbListValidator::isValidAccordingToDb()
         else if (p.code == 509 || p.code == 510) extractedTeeth.insert(std::make_pair(p.tooth, false));
     }
 
-    PackageCounter packageCounter(MasterNZOK::instance().getPackages(ambList.date)); //creating a package counter
+    PackageCounter packageCounter(MasterNZOK::instance().getPackages(ambListDate)); //creating a package counter
 
     for (auto& t : currentYear) //loading the procedures from the current year
         for (int i = 0; i < t.second; i++) packageCounter.insertCode(t.first);
@@ -133,30 +135,34 @@ bool AmbListValidator::isValidAccordingToDb()
     return true;
 }
 
-bool AmbListValidator::dateIsValid(const Procedure& p)
+#include <QDebug>
+
+bool AmbListValidator::dateIsValid()
 {
-    if (p.date < ambList.date || p.date > ambList.date.getMaxDateOfMonth())
-    {
-        _error = u8"Датата на манипулация " + std::to_string(p.code) + u8" е невалидна по спрямо на датата на амбулаторния лист";
-        return false;
-    }
 
-    if (p.nzok && MasterNZOK::instance().isMinorOnly(p.code) && patient.isAdult(p.date))
-    {
-        _error = u8"Манипулация " + std::to_string(p.code) + u8" е позволена само при лица под 18 годишна възраст!";
-        return false;
-    }
+   for(auto& p : ambList.procedures)
+   {
+        if (p.date.month != ambListDate.month || p.date.year != ambListDate.year)
+        {
+            _error = u8"Манипулациите трябва да са от един и същи месец!";
+            return false;
+        }
 
+        if (p.nzok && MasterNZOK::instance().isMinorOnly(p.code) && patient.isAdult(p.date))
+        {
+            _error = u8"Манипулация " + std::to_string(p.code) + u8" е позволена само при лица под 18 годишна възраст!";
+            return false;
+        }
+   }
     return true;
 }
 
 bool AmbListValidator::examIsFirst()
 {
-    Date minimumDate = ambList.date;
 
     auto& procedures = ambList.procedures;
 
-    int examCode = 101;
+    constexpr int examCode = 101;
 
     auto it = std::find_if(procedures.begin(), procedures.end(),
         [&examCode](const Procedure& p){
@@ -164,12 +170,12 @@ bool AmbListValidator::examIsFirst()
         });
 
     if (it != procedures.end()){
-        minimumDate = it->date;
+        ambListDate = it->date;
     }
 
     for (auto& p : procedures)
     {
-        if (p.nzok && p.code != examCode && p.date < minimumDate)
+        if (p.nzok && p.code != examCode && p.date < ambListDate)
         {
             _error = u8"Датата на манипулация " + std::to_string(p.code) + u8" е по-малка от датата на прегледа!";
             return false;

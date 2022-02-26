@@ -138,9 +138,11 @@ bool TabPresenter::newListExists(const Patient& patient)
 
         auto listPresenter = static_cast<ListPresenter*>(tabInstance);
 
+        auto ambSheetDate = listPresenter->m_ambList.getAmbListDate();
+
         if (listPresenter->patient->id == patient.id &&
-            listPresenter->m_ambList.date.month == Date::currentMonth() &&
-            listPresenter->m_ambList.date.year == Date::currentYear()
+            ambSheetDate.month == Date::currentMonth() &&
+            ambSheetDate.year == Date::currentYear()
             )
         {
 

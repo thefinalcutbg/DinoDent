@@ -3,6 +3,7 @@
 #include "Model/User/UserManager.h"
 #include "Database/DbXML.h"
 #include "Model/XML/InvoiceXML.h"
+#include <unordered_set>
 #include <cmath>
 #include <iomanip>
 #include <QDebug>
@@ -22,8 +23,81 @@ void showFileInFolder(const QString& path) {
 
 */
 
-void XML::saveXMLreport(int month, int year, const std::string& path)
+std::string leadZeroes(int num, int totalLength)
 {
+    std::string formated;
+    formated.reserve(totalLength);
+
+    std::string number(std::to_string(num));
+
+    for (int i = 0; i < totalLength - number.length(); i++)
+        formated += "0";
+
+    formated += number;
+
+    return formated;
+}
+
+std::string getErrors(const std::vector<AmbListXML> report)
+{
+    std::string errors;
+
+    std::unordered_set<int> uniqueSheetNumbers;
+
+    for (int i = 0; i < report.size(); i++)
+    {
+        if (report[i].HIRBNo.empty())
+        {
+            errors +=
+                u8"Амбулаторен лист "
+                + std::to_string(report[i].ambulatorySheetNo) +
+                u8" няма данни за номер на здравноосигурителна книжка" + "\n";
+        }
+
+        if (uniqueSheetNumbers.count(report[i].ambulatorySheetNo))
+        {
+            errors +=
+                u8"Дублирана номерация на амбулаторен лист "
+                + std::to_string(report[i].ambulatorySheetNo) + "\n";
+
+            uniqueSheetNumbers.insert(report[i].ambulatorySheetNo);
+
+            continue;
+        }
+
+        uniqueSheetNumbers.insert(report[i].ambulatorySheetNo);
+
+        if (i && report[i].services[0].date < report[i - 1].services[0].date) {
+
+            errors +=
+                u8"Несъответствие на датата на първите манипулации и поредните номера между амбулаторни листи "
+                + std::to_string(report[i - 1].ambulatorySheetNo) +
+                u8" и " + std::to_string(report[i].ambulatorySheetNo) + "\n";
+        }
+
+        if (i && report[i].ambulatorySheetNo != report[i - 1].ambulatorySheetNo + 1) {
+
+            errors += u8"Нарушена поредност на номерата. Липсваща номерация между амбулаторни листи "
+                    + std::to_string(report[i - 1].ambulatorySheetNo) +
+                    u8" и " + std::to_string(report[i].ambulatorySheetNo) + "\n";
+        }
+
+
+
+
+
+    
+
+
+    }
+
+    return errors;
+}
+
+
+Errors XML::saveXMLreport(int month, int year, const std::string& path)
+{
+    
 
     auto& doctor = UserManager::currentUser().doctor;
     auto& practice = UserManager::currentUser().practice;
@@ -67,6 +141,13 @@ void XML::saveXMLreport(int month, int year, const std::string& path)
     DbXML db;
     auto ambSheets = db.getAmbListXML(month, year, practice.rziCode, doctor.LPK);
 
+    auto errors = getErrors(ambSheets);
+
+    if (!errors.empty())
+    {
+        return Errors{ errors };
+    }
+
     for (auto& sheet : ambSheets)
     {
         TiXmlElement* dentalCareService = new TiXmlElement("dentalCareService");
@@ -82,7 +163,7 @@ void XML::saveXMLreport(int month, int year, const std::string& path)
 
             dentalCareService->SetAttribute("personLastName", sheet.personLastName);
             dentalCareService->SetAttribute("specificationType", sheet.specificationType);
-            dentalCareService->SetAttribute("ambulatorySheetNo", sheet.ambulatorySheetNo);
+            dentalCareService->SetAttribute("ambulatorySheetNo", leadZeroes(sheet.ambulatorySheetNo, 6));
             dentalCareService->SetAttribute("HIRBNo", sheet.HIRBNo); //throw if HIRBNo empty?
             dentalCareService->SetAttribute("unfavorableCondition", 0);
             dentalCareService->SetAttribute("substitute", sheet.substitute);
@@ -177,6 +258,8 @@ void XML::saveXMLreport(int month, int year, const std::string& path)
                 + std::to_string(doctor.specialty) + "_"
                 + from.toXMLReportFileName()
                 +"_01.xml");
+
+    return Errors{};
 }
 
 /*

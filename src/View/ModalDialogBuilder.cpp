@@ -134,3 +134,11 @@ void ModalDialogBuilder::showError(const std::string& error)
 	msgBox.exec();
 
 }
+
+#include "View/ReportDialog/ReportErrorDialog/ReportErrorDialog.h"
+
+void ModalDialogBuilder::showErrorList(const std::string& errors)
+{
+	ReportErrorDialog d(errors);
+	d.exec();
+}

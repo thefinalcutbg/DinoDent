@@ -5,12 +5,19 @@
 
 #include "ICommonFields.h"
 
+class DateEdit;
+
 class CommonFields : public QWidget, public ICommonFields
 {
 	Q_OBJECT
 
+private:
+
+	DateEdit* externalDateEdit{nullptr};
+
 public:
 	CommonFields(QWidget *parent = Q_NULLPTR);
+	void setExternalDateEdit(DateEdit* externalDateEdit); //does not take ownership over the DateEdit!
 	~CommonFields();
 
 	// Inherited via ICommonFields

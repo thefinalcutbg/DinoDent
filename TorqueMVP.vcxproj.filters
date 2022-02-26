@@ -483,6 +483,9 @@
     <ClCompile Include="src\Model\AmbList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\ReportDialog\ReportErrorDialog\ReportErrorDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -668,6 +671,9 @@
     <QtMoc Include="src\View\ProcedureDisplayModel\ProcedureSelectModel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\View\ReportDialog\ReportErrorDialog\ReportErrorDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="resources\Resource.qrc" />
@@ -770,6 +776,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\Printer\ProcedurePrintSelectDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\ReportDialog\ReportErrorDialog\ReportErrorDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

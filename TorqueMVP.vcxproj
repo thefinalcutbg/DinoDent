@@ -213,6 +213,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\View\ReportDialog\ReportErrorDialog\ReportErrorDialog.cpp" />
     <ClCompile Include="src\Model\AmbList.cpp" />
     <ClCompile Include="src\View\Printer\ProcedurePrintSelectDialog.cpp" />
     <ClCompile Include="src\Presenter\InvoicePresenter\InvoicePresenter.cpp" />
@@ -378,6 +379,7 @@
     <ClCompile Include="src\Presenter\DetailsPresenter\StatusController.cpp" />
     <ClCompile Include="src\Model\User\UserManager.cpp" />
     <QtRcc Include="resources\Resource.qrc" />
+    <QtUic Include="src\View\ReportDialog\ReportErrorDialog\ReportErrorDialog.ui" />
     <QtUic Include="src\View\Printer\ProcedurePrintSelectDialog.ui" />
     <QtUic Include="src\View\InvoiceDialog\InvoiceDialog.ui" />
     <QtUic Include="src\View\DoctorSettingsDialog\DoctorSettingsDialog.ui" />
@@ -455,6 +457,7 @@
     <QtMoc Include="src\View\DoctorSettingsDialog\DoctorSettingsDialog.h" />
     <QtMoc Include="src\View\InvoiceDialog\InvoiceDialog.h" />
     <QtMoc Include="src\View\Printer\ProcedurePrintSelectDialog.h" />
+    <QtMoc Include="src\View\ReportDialog\ReportErrorDialog\ReportErrorDialog.h" />
     <ClInclude Include="src\Presenter\InvoicePresenter\InvoicePresenter.h" />
     <ClInclude Include="src\Model\XML\InvoiceXML.h" />
     <ClInclude Include="src\Model\Validator\LpkValidator.h" />

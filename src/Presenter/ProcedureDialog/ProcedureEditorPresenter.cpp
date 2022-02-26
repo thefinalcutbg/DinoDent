@@ -1,11 +1,11 @@
 #include "ProcedureEditorPresenter.h"
 #include "View/ProcedureDialog/CommonFields/ICommonFields.h"
 
-ProcedureEditorPresenter::ProcedureEditorPresenter(const Procedure& m, const Date& ambDate, const Date& patientTurns18)
+ProcedureEditorPresenter::ProcedureEditorPresenter(const Procedure& m, const Date& patientTurns18)
 	: 
 	m(m), 
 	view(nullptr),
-	_dateValidator(ambDate, patientTurns18),
+	_dateValidator(patientTurns18),
 	_validatableElements{nullptr}
 {
 	_dateValidator.setProcedure(m.code, m.nzok);

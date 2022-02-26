@@ -3,39 +3,34 @@
 #include "View/ProcedureDialog/IProcedureDialog.h"
 #include "View/ModalDialogBuilder.h"
 #include "Model/Procedure/MasterNZOK.h"
-
+#include "Model/AmbList.h"
 
 //this implementation is a total mess and needs refactoring
 
 ProcedureDialogPresenter::ProcedureDialogPresenter
 (
+	const AmbList& ambSheet,
 	const std::vector<Tooth*>& selectedTeeth,
-	const ToothContainer& teeth,
-	const Date& ambListDate,
-	const Date& patientTurns18,
-	bool fullCoverage,
-	int specialty
+	const Date& patientTurns18
 )
 	:
-	procedures{},
 
 	view(nullptr),
 	common_fields(nullptr),
 	current_m_presenter(nullptr),
-	teeth(&teeth),
+	ambList(ambSheet),
 	selectedTeeth(selectedTeeth),
-
-	date_validator(ambListDate, patientTurns18),
-
+	patientTurns18(patientTurns18),
+	date_validator(patientTurns18),
 	_errorState(true),
 
 	toothNonSpecific_presenter(this->selectedTeeth),
 	obt_presenter(this->selectedTeeth),
 	extr_presenter(this->selectedTeeth),
 	endo_presenter(this->selectedTeeth),
-	crown_presenter(this->selectedTeeth, teeth),
+	crown_presenter(this->selectedTeeth, ambList.teeth),
 	impl_presenter(this->selectedTeeth),
-	fiber_presenter(this->selectedTeeth, teeth),
+	fiber_presenter(this->selectedTeeth, ambList.teeth),
 	crownRemove_presenter(this->selectedTeeth),
 
 	presenters_ptr
@@ -53,19 +48,6 @@ ProcedureDialogPresenter::ProcedureDialogPresenter
 {
 
 
-	//getting NZOK procedures:
-	procedureList = MasterNZOK::instance().getM_Templates
-	(
-		ambListDate,
-		specialty,
-		ambListDate >= patientTurns18,
-		fullCoverage
-	);
-
-	//getting custom procedures:
-	auto customProcedures = UserManager::currentUser().practice.priceList;
-
-	procedureList.insert(procedureList.end(), customProcedures.begin(), customProcedures.end());
 }
 
 
@@ -82,15 +64,14 @@ void ProcedureDialogPresenter::setView(IProcedureDialog* view)
 		p->setCommonFieldsView(view->commonFields());
 	}
 
-	view->loadManipulationList(procedureList);
+	view->setProcedureTemplates(procedureList);
 
 	view->commonFields()->dateEdit()->setInputValidator(&date_validator);
 
-	date_validator.validateInput(Date::currentDate()) ?
-		view->commonFields()->dateEdit()->set_Date(Date::currentDate())
-		:
-		view->commonFields()->dateEdit()->set_Date(date_validator.getValidDate());
 
+	view->commonFields()->dateEdit()->set_Date(ambList.newProcedureDate());
+
+	this->procedureDateChanged(ambList.newProcedureDate());
 	
 
 	//setting the label
@@ -102,6 +83,28 @@ void ProcedureDialogPresenter::setView(IProcedureDialog* view)
 
 	view->setSelectionLabel(selectedTeethNum);
 
+}
+
+void ProcedureDialogPresenter::procedureDateChanged(const Date& date)
+{
+	procedureList.clear();
+
+	//getting NZOK procedures:
+	procedureList = MasterNZOK::instance().getM_Templates
+	(
+		date,
+		UserManager::currentUser().doctor.specialty,
+		date >= patientTurns18,
+		ambList.full_coverage
+	);
+
+	//getting custom procedures:
+	auto customProcedures = UserManager::currentUser().practice.priceList;
+
+	procedureList.insert(procedureList.end(), customProcedures.begin(), customProcedures.end());
+
+	view->setProcedureTemplates(procedureList);
+	
 }
 
 

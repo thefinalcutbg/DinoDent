@@ -1,12 +1,11 @@
 ﻿#include "ProcedureDateValidator.h"
 
-ProcedureDateValidator::ProcedureDateValidator (Date ambDate, Date patientTurns18) :
+ProcedureDateValidator::ProcedureDateValidator (Date patientTurns18) :
 
-	_ambDate{ ambDate },
 	_dayBefore18 {patientTurns18.yesterday()}
 {
-	_validator.setMinDate(_ambDate);
-    _validator.setMinErrorMsg(u8"Датата на манипулацията не може да е по-малка от тази на амбулаторният лист");
+	_validator.setMinDate(Date(patientTurns18.day, patientTurns18.month, patientTurns18.year-18));
+    _validator.setMinErrorMsg(u8"Дата на манипулацията не може да е преди раждането на пациента!");
 	setProcedure(0, 0);
 }
 
@@ -18,26 +17,24 @@ bool ProcedureDateValidator::validateInput(const Date& date)
 	return valid;
 }
 
-Date ProcedureDateValidator::getValidDate()
-{
-	return _validator.getMin();
-}
 
 #include "Model/Procedure/MasterNZOK.h"
 
 void ProcedureDateValidator::setProcedure(int code, bool nzok)
 {
-	if (!nzok || !MasterNZOK::instance().isMinorOnly(code))
-	{
-		_validator.setMaxDate(Date{_ambDate.getMaxDayOfMonth(), _ambDate.month, _ambDate.year});
-        _validator.setMaxErrorMsg(u8"Датата на манипулацията не съвпада с месеца на амбулаторният лист");
 
-		return;
-	}
-	
-	if (_dayBefore18 < _validator.getMax() && _dayBefore18 > _validator.getMin())
+	if (
+		_dayBefore18 < _validator.getMax() &&
+		_dayBefore18 > _validator.getMin() &&
+		nzok &&
+		MasterNZOK::instance().isMinorOnly(code))
 	{
 		_validator.setMaxDate(_dayBefore18);
-        _validator.setMaxErrorMsg(u8"Тази манипулация е възможна само за лица под 18 годишна възраст");
+		_validator.setMaxErrorMsg(u8"Тази манипулация е възможна само за лица под 18 годишна възраст");
+	}
+	else
+	{
+		_validator.setMinErrorMsg(u8"Дата на манипулацията не може да е преди раждането на пациента!");
+		_validator.setMaxDate(Date{ 1,1,3000 });
 	}
 }

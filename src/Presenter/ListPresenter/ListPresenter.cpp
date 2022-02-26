@@ -30,19 +30,20 @@ ListPresenter::ListPresenter(ITabView* tabView, std::shared_ptr<Patient> patient
     m_selectedProcedure(-1),
     m_ambList(db.getListData(patient->id, Date::currentMonth(), Date::currentYear()))
 {
+    auto ambSheetDate = m_ambList.getAmbListDate();
 
     surf_presenter.setStatusControl(this);
 
-    if (m_ambList.isNew() && !patient->isAdult(m_ambList.date))
+    if (m_ambList.isNew() && !patient->isAdult(ambSheetDate))
         m_ambList.charge = Charge::freed;
-    else if (m_ambList.isNew() && patient->getAge(m_ambList.date) > 70)
+    else if (m_ambList.isNew() && patient->getAge(ambSheetDate) > 70)
        m_ambList.charge = Charge::retired;
 
     for (auto& m : m_ambList.procedures) //autofill NZOK procedures
         if (m.nzok)
             m.price = MasterNZOK::instance()
             .getPatientPrice(
-                m.code, m_ambList.date,
+                m.code, m_ambList.getAmbListDate(),
                 UserManager::currentUser().doctor.specialty, 
                 patient->isAdult(), 
                 m_ambList.full_coverage
@@ -59,9 +60,11 @@ ListPresenter::ListPresenter(ITabView* tabView, std::shared_ptr<Patient> patient
 
     surf_presenter.setStatusControl(this);
 
-    if (m_ambList.isNew() && !patient->isAdult(m_ambList.date))
+    auto ambSheetDate = m_ambList.getAmbListDate();
+
+    if (m_ambList.isNew() && !patient->isAdult(ambSheetDate))
         m_ambList.charge = Charge::freed;
-    else if (m_ambList.isNew() && patient->getAge(m_ambList.date) > 70)
+    else if (m_ambList.isNew() && patient->getAge(ambSheetDate) > 70)
         m_ambList.charge = Charge::retired;
 
     for (auto& m : m_ambList.procedures) //autofill NZOK procedures
@@ -69,7 +72,7 @@ ListPresenter::ListPresenter(ITabView* tabView, std::shared_ptr<Patient> patient
             m.price = MasterNZOK::instance()
                .getPatientPrice(
                    m.code, 
-                   m_ambList.date, 
+                   ambSheetDate,
                    UserManager::currentUser().doctor.specialty, 
                    patient->isAdult(), 
                    m_ambList.full_coverage
@@ -146,10 +149,12 @@ bool ListPresenter::saveAs()
 
     int newNumber = 0;
 
-    auto existingNumbers = db.getExistingNumbers(m_ambList.date.year);
+    auto ambSheetDate = m_ambList.getAmbListDate();
+
+    auto existingNumbers = db.getExistingNumbers(ambSheetDate.year);
 
     if (m_ambList.isNew() || m_ambList.hasNumberInconsistency()) {
-        newNumber = db.getNewNumber(m_ambList.date.year, m_ambList.hasNZOKProcedure());
+        newNumber = db.getNewNumber(ambSheetDate.year, m_ambList.hasNZOKProcedure());
     }
     else {
         existingNumbers.erase(m_ambList.number);
@@ -450,7 +455,7 @@ void ListPresenter::refreshProcedureView()
 
         if (m.nzok)
         {
-            auto [p, nzok] = MasterNZOK::instance().getPrices(m.code, m_ambList.date, UserManager::currentUser().doctor.specialty, patient->isAdult(m.date), m_ambList.full_coverage);
+            auto [p, nzok] = MasterNZOK::instance().getPrices(m.code, m_ambList.getAmbListDate(), UserManager::currentUser().doctor.specialty, patient->isAdult(m.date), m_ambList.full_coverage);
             nzokPrice = nzokPrice + nzok;
         }
 
@@ -465,12 +470,9 @@ void ListPresenter::addProcedure()
 
     ProcedureDialogPresenter p
     {
+        m_ambList,
         m_selectedTeeth,
-        m_ambList.teeth,
-        m_ambList.date,
-        patient->turns18At(),
-        m_ambList.full_coverage,
-        UserManager::currentUser().doctor.specialty
+        patient->turns18At()
     };
 
     auto openList = p.openDialog();
@@ -483,7 +485,7 @@ void ListPresenter::addProcedure()
             m.price = MasterNZOK::instance().
             getPatientPrice
             (
-                m.code, m_ambList.date,
+                m.code, m_ambList.getAmbListDate(),
                 UserManager::currentUser().doctor.specialty,
                 patient->isAdult(m.date),
                 m_ambList.full_coverage
@@ -506,7 +508,7 @@ void ListPresenter::editProcedure()
 
     auto& m_for_edit = m_ambList.procedures.at(m_selectedProcedure);
 
-    ProcedureEditorPresenter p(m_for_edit, m_ambList.date, patient->turns18At());
+    ProcedureEditorPresenter p(m_for_edit, patient->turns18At());
 
     auto result = p.openDialog();
 
@@ -520,7 +522,7 @@ void ListPresenter::editProcedure()
             getPatientPrice
             (
                 m.code,
-                m_ambList.date,
+                m_ambList.getAmbSheetDateMin(),
                 UserManager::currentUser().doctor.specialty,
                 patient->isAdult(m.date),
                 m_ambList.full_coverage
@@ -553,13 +555,6 @@ void ListPresenter::deleteProcedure(int index)
     makeEdited();
 }
 
-void ListPresenter::ambDateChanged(Date date)
-{
-    m_ambList.date = date;
-    view->refresh(m_ambList, *patient.get());
-    makeEdited();
-}
-
 void ListPresenter::setSelectedProcedure(int index)
 {
     m_selectedProcedure = index;
@@ -577,7 +572,7 @@ void ListPresenter::setfullCoverage(bool unfav)
                 getPatientPrice
                 (
                     m.code,
-                    m_ambList.date,
+                    m_ambList.getAmbSheetDateMin(),
                     UserManager::currentUser().doctor.specialty,
                     patient->isAdult(m.date),
                     unfav

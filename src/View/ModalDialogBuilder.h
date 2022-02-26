@@ -31,5 +31,6 @@ namespace ModalDialogBuilder
 	DialogAnswer openSaveDialog(const std::string& text);
 	bool askDialog(const std::string& questionText);
 	void showError(const std::string& error);
+	void showErrorList(const std::string& errors);
 };
 

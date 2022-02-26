@@ -27,7 +27,7 @@ class ProcedureEditorPresenter
 	ProcedureDateValidator _dateValidator;
 
 public:
-	ProcedureEditorPresenter(const Procedure& m, const Date& ambDate, const Date& patientBirth);
+	ProcedureEditorPresenter(const Procedure& m, const Date& patientBirth);
 	std::optional<Procedure> openDialog();
 	void setView(IProcedureEditDialog* view);
 	void okPressed();

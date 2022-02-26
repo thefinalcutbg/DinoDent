@@ -15,6 +15,7 @@ class AmbListValidator
 	
 	const AmbList& ambList;
 	const Patient& patient;
+	Date ambListDate;
 	std::vector<Procedure> m_procedures; //only NZOK procedures
 
 	DbProcedure _db;
@@ -23,7 +24,7 @@ class AmbListValidator
 	bool validateTypeToStatus(const Tooth& tooth, const Procedure& p);
 	bool validatePermaTemp(const Tooth& tooth, const Procedure& p);
 	bool isValidAccordingToDb();
-	bool dateIsValid(const Procedure& p);
+	bool dateIsValid();
 	bool examIsFirst();
 
 public:

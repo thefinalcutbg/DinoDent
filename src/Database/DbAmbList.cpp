@@ -68,10 +68,12 @@ std::string DbAmbList::insertAmbList(const AmbList& ambList, const std::string &
 {
     openConnection();
 
+    auto ambSheetDate = ambList.getAmbListDate();
+
     std::string query = "INSERT INTO amblist (day, month, year, num, fullCoverage, charge, status_json, patient_id, lpk, rzi) VALUES ('"
-        + std::to_string(ambList.date.day) + "','"
-        + std::to_string(ambList.date.month) + "','"
-        + std::to_string(ambList.date.year) + "','"
+        + std::to_string(ambSheetDate.day) + "','"
+        + std::to_string(ambSheetDate.month) + "','"
+        + std::to_string(ambSheetDate.year) + "','"
         + std::to_string(ambList.number) + "','"
         + std::to_string(ambList.full_coverage) + "','"
         + std::to_string(static_cast<int>(ambList.charge)) + "','"
@@ -99,11 +101,13 @@ void DbAmbList::updateAmbList(const AmbList& ambList)
 {
     openConnection();
 
+    auto ambSheetDate = ambList.getAmbListDate();
+
     std::string query = "UPDATE amblist SET"
         " num = " + std::to_string(ambList.number) +
-        ", day = " + std::to_string(ambList.date.day) +
-        ", month = " + std::to_string(ambList.date.month) +
-        ", year = " + std::to_string(ambList.date.year) +
+        ", day = " + std::to_string(ambSheetDate.day) +
+        ", month = " + std::to_string(ambSheetDate.month) +
+        ", year = " + std::to_string(ambSheetDate.year) +
         ", fullCoverage = " + std::to_string(ambList.full_coverage) +
         ", charge = " + std::to_string(static_cast<int>(ambList.charge)) +
         ", status_json = '" + Parser::write(ambList.teeth) + "' "
@@ -142,7 +146,7 @@ AmbList DbAmbList::getListData(const std::string& patientID, int month, int year
 {
     openConnection();
 
-    std::string query = "SELECT id, num, fullCoverage, day, month, year, status_json, charge FROM amblist WHERE "
+    std::string query = "SELECT id, num, fullCoverage, status_json, charge FROM amblist WHERE "
         "patient_id = '" + patientID + "' AND "
         "lpk = " + UserManager::currentUser().doctor.LPK + " AND "
         "rzi = " + UserManager::currentUser().practice.rziCode + " AND "
@@ -159,11 +163,8 @@ AmbList DbAmbList::getListData(const std::string& patientID, int month, int year
         ambList.id = std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0)));
         ambList.number = sqlite3_column_int(stmt, 1);
         ambList.full_coverage = sqlite3_column_int(stmt, 2);
-        ambList.date.day = sqlite3_column_int(stmt, 3);
-        ambList.date.month = sqlite3_column_int(stmt, 4);
-        ambList.date.year = sqlite3_column_int(stmt, 5);
-        status_json = std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 6)));
-        ambList.charge = static_cast<Charge>(sqlite3_column_int(stmt, 7));
+        status_json = std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 3)));
+        ambList.charge = static_cast<Charge>(sqlite3_column_int(stmt, 4));
         ambList.LPK = UserManager::currentUser().doctor.LPK;
     }
     
@@ -196,7 +197,7 @@ AmbList DbAmbList::getListData(const std::string& ambID)
 {
     openConnection();
 
-    std::string query = "SELECT id, num, fullCoverage, day, month, year, status_json, charge FROM amblist WHERE "
+    std::string query = "SELECT id, num, fullCoverage, status_json, charge FROM amblist WHERE "
         "id = '" + ambID + "'";
 
     sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
@@ -210,11 +211,8 @@ AmbList DbAmbList::getListData(const std::string& ambID)
         ambList.id = std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0)));
         ambList.number = sqlite3_column_int(stmt, 1);
         ambList.full_coverage = sqlite3_column_int(stmt, 2);
-        ambList.date.day = sqlite3_column_int(stmt, 3);
-        ambList.date.month = sqlite3_column_int(stmt, 4);
-        ambList.date.year = sqlite3_column_int(stmt, 5);
-        status_json = std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 6)));
-        ambList.charge = static_cast<Charge>(sqlite3_column_int(stmt, 7));
+        status_json = std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 3)));
+        ambList.charge = static_cast<Charge>(sqlite3_column_int(stmt, 4));
         ambList.LPK = UserManager::currentUser().doctor.LPK;
     }
 

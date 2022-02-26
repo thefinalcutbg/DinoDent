@@ -11,10 +11,10 @@ ProcedureModel::ProcedureModel(QObject *parent)
 
 void ProcedureModel::setProcedures(std::vector<ProcedureTemplate> procedures)
 {
-//    beginResetModel();
+    beginResetModel();
 
 
- //   this->procedures.clear();
+    this->procedures.clear();
 
     this->procedures.reserve(procedures.size());
 
@@ -25,7 +25,7 @@ void ProcedureModel::setProcedures(std::vector<ProcedureTemplate> procedures)
             QString::fromStdString(m.name),
             priceToString(m.price), m.nzok });
     }
-  //  endResetModel();
+    endResetModel();
 
 }
 

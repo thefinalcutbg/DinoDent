@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SettingsDialog</class>
+ <widget class="QDialog" name="SettingsDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>701</width>
+    <height>536</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>SettingsDialog</string>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout">
+   <item>
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="PracticeSettings" name="practiceSettings">
+      <attribute name="title">
+       <string>Практика</string>
+      </attribute>
+     </widget>
+     <widget class="QWidget" name="doctorSettings">
+      <attribute name="title">
+       <string>Доктори</string>
+      </attribute>
+     </widget>
+     <widget class="QWidget" name="priceSettings">
+      <attribute name="title">
+       <string>Ценоразпис</string>
+      </attribute>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>PracticeSettings</class>
+   <extends>QWidget</extends>
+   <header>View/SettingsDialog/PracticeSettings/PracticeSettings.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

@@ -5,6 +5,8 @@
 #include <QPixmap>
 #include <QFileDialog>
 
+#include "View/SettingsDialog/SettingsDialog.h"
+
 QColor blue(133, 207, 234);
 
 Torque::Torque(QWidget* parent)
@@ -40,6 +42,7 @@ Torque::Torque(QWidget* parent)
     connect(ui.reportButton, &QPushButton::clicked, [&] {presenter.generateReport(); });
     connect(settingsAction, &QAction::triggered, [&] {presenter.userSettingsPressed();});
     connect(ui.invoiceButton, &QPushButton::clicked, [&] { presenter.generateInvoice();});
+    connect(ui.settingsButton, &QPushButton::clicked, [&] { presenter.settingsPressed();});
 
 
     connect(exitAction, &QAction::triggered, [&] { presenter.logOut(); });

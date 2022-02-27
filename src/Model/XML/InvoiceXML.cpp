@@ -280,11 +280,21 @@ IssuerType getIssuerType(int legalEntity, const Doctor& doctor)
 
 Issuer::Issuer(const User& user) :
 	type							    { getIssuerType(user.practice.legal_entity, user.doctor) },
-	company_name						{ user.practice.name },
+	company_name						{ user.practice.nzok_contract.value().name_short},
 	address_by_contract					{ user.practice.firm_address },
     address_by_activity                 { user.practice.practice_address },
-	registration_by_VAT					{ user.practice.vat },
-	grounds_for_not_charging_VAT		{ registration_by_VAT ? u8"Чл. 39 от ЗДДС" : u8"Чл.113,ал.9 от ЗДДС"},
+    registration_by_VAT                 { 
+                                                user.practice.vat.empty() ? 
+                                                std::optional<std::string>{} 
+                                                : 
+                                                user.practice.vat 
+                                        },
+	grounds_for_not_charging_VAT		{ 
+                                                    registration_by_VAT ?
+                                                    u8"Чл. 39 от ЗДДС"
+                                                    : 
+                                                    u8"Чл.113,ал.9 от ЗДДС"
+                                        },
 	bulstat						        { user.practice.bulstat },
 	contract_no							{ user.practice.nzok_contract.value().contract_no },
 	contract_date						{ user.practice.nzok_contract.value().date },

@@ -114,7 +114,7 @@ Errors XML::saveXMLreport(int month, int year, const std::string& path)
 
 
 
-    report->SetAttribute("practiceName", practice.name);
+    report->SetAttribute("practiceName", practice.nzok_contract.value().name_short);
     report->SetAttribute("bulstat", practice.bulstat);
     report->SetAttribute("RCZCode", practice.rziCode);
     report->SetAttribute("contractNo", practice.nzok_contract.value().contract_no);
@@ -350,9 +350,12 @@ void XML::saveXMLinvoice(const Invoice& invoice, const std::string& path)
                 addElementWithText(issuer, "company_name", invoice.issuer.company_name);
                 addElementWithText(issuer, "address_by_contract", invoice.issuer.address_by_contract);
                 addElementWithText(issuer, "address_by_activity", invoice.issuer.address_by_activity);
-                addElementWithText(issuer, "registration_by_VAT", invoice.issuer.registration_by_VAT ? "1" : "0");
+                addElementWithText(issuer, "registration_by_VAT", std::to_string(invoice.issuer.registration_by_VAT.has_value()));
                 addElementWithText(issuer, "grounds_for_not_charging_VAT", invoice.issuer.grounds_for_not_charging_VAT);
                 addElementWithText(issuer, "issuer_bulstat", invoice.issuer.bulstat);
+                if (invoice.issuer.registration_by_VAT.has_value()){
+                    addElementWithText(issuer, "issuer_bulstat_no_vat", invoice.issuer.registration_by_VAT.value());
+                }
                 addElementWithText(issuer, "contract_no", invoice.issuer.contract_no);
                 addElementWithText(issuer, "contract_date", invoice.issuer.contract_date.toXMLString());
                 addElementWithText(issuer, "rhi_nhif_no", invoice.issuer.rhi_nhif_no);

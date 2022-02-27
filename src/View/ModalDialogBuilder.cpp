@@ -142,3 +142,11 @@ void ModalDialogBuilder::showErrorList(const std::string& errors)
 	ReportErrorDialog d(errors);
 	d.exec();
 }
+
+#include "View/SettingsDialog/SettingsDialog.h"
+
+void ModalDialogBuilder::openSettingsDialog()
+{
+	SettingsDialog d;
+	d.exec();
+}

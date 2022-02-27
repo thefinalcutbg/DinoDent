@@ -385,6 +385,27 @@ std::string Parser::write(const Procedure& procedure)
 	return writer.write(json);
 }
 
+std::string Parser::write(const std::optional<NzokContract>& contract)
+{
+	if (!contract.has_value())
+		return std::string{};
+
+	auto& c = contract.value();
+
+	Json::Value json;
+
+	json["name_short"] = c.name_short;
+	json["contract_no"] = c.contract_no;
+	json["date"] = c.date.toString();
+	json["bank"] = c.bank;
+	json["iban"] = c.iban;
+	json["bic"] = c.bic;
+
+	Json::FastWriter writer;
+
+	return writer.write(json);
+}
+
 void Parser::parse(const std::string& jsonString, Procedure& procedure)
 {
 	Json::Value json;
@@ -758,6 +779,7 @@ void Parser::parse(const std::string& jsonString, ToothContainer& status)
 
 }
 
+
 #include <algorithm> //needed for removing duplicate carieses and obturations with std::unique
 
 
@@ -920,4 +942,28 @@ std::string Parser::parseDiagnosis(const std::string& jsonProcedureString)
 	}
 
 	return json["diagnosis"].asString();
+}
+
+std::optional<NzokContract> Parser::parseContract(const std::string& jsonString)
+{
+	if (jsonString.empty())
+		return std::optional<NzokContract>{};
+
+	Json::Value json;
+	Json::Reader reader;
+
+	bool parsingSuccessful = reader.parse(jsonString, json);
+
+	NzokContract contract;
+	contract.name_short = json["name_short"].asString();
+	contract.date = Date{ json["date"].asString() };
+	contract.contract_no = json["contract_no"].asString();
+	contract.bank = json["bank"].asString();
+	contract.iban = json["iban"].asString();
+	contract.bic = json["bic"].asString();
+
+	return contract;
+
+
+
 }

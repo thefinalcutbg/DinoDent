@@ -18,6 +18,7 @@ struct Doctor
 	std::string egn;
 	int specialty{ -1 };
 	std::string pass;
+	bool admin{ true };
 	int dentalServiceType() const
 	{
 		if (specialty == 60 || specialty == 64) return 0;
@@ -39,6 +40,7 @@ struct NzokContract
 {
 	std::string contract_no;
 	Date date;
+	std::string name_short;
 	std::string bank;
 	std::string bic;
 	std::string iban;
@@ -62,7 +64,7 @@ struct Practice
 	std::string bulstat;
 	std::string firm_address;
 	std::string practice_address;
-	bool vat;
+	std::string vat;
 	int legal_entity;
 
 	std::optional<NzokContract> nzok_contract;

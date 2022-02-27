@@ -213,6 +213,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\View\SettingsDialog\ProcedureTemplateDialog\ProcedureTemplateDialog.cpp" />
+    <ClCompile Include="src\View\SettingsDialog\PriceListSettings\PriceListSettings.cpp" />
+    <ClCompile Include="src\Presenter\SettingsPresenter\PracticeSettingsPresenter.cpp" />
+    <ClCompile Include="src\View\SettingsDialog\PracticeSettings\PracticeSettings.cpp" />
+    <ClCompile Include="src\View\SettingsDialog\SettingsDialog.cpp" />
     <ClCompile Include="src\View\ReportDialog\ReportErrorDialog\ReportErrorDialog.cpp" />
     <ClCompile Include="src\Model\AmbList.cpp" />
     <ClCompile Include="src\View\Printer\ProcedurePrintSelectDialog.cpp" />
@@ -378,6 +383,10 @@
     <ClCompile Include="src\Model\Tooth\ToothContainer.cpp" />
     <ClCompile Include="src\Model\User\UserManager.cpp" />
     <QtRcc Include="resources\Resource.qrc" />
+    <QtUic Include="src\View\SettingsDialog\ProcedureTemplateDialog\ProcedureTemplateDialog.ui" />
+    <QtUic Include="src\View\SettingsDialog\PriceListSettings\PriceListSettings.ui" />
+    <QtUic Include="src\View\SettingsDialog\PracticeSettings\PracticeSettings.ui" />
+    <QtUic Include="src\View\SettingsDialog\SettingsDialog.ui" />
     <QtUic Include="src\View\ReportDialog\ReportErrorDialog\ReportErrorDialog.ui" />
     <QtUic Include="src\View\Printer\ProcedurePrintSelectDialog.ui" />
     <QtUic Include="src\View\InvoiceDialog\InvoiceDialog.ui" />
@@ -457,6 +466,10 @@
     <QtMoc Include="src\View\InvoiceDialog\InvoiceDialog.h" />
     <QtMoc Include="src\View\Printer\ProcedurePrintSelectDialog.h" />
     <QtMoc Include="src\View\ReportDialog\ReportErrorDialog\ReportErrorDialog.h" />
+    <QtMoc Include="src\View\SettingsDialog\SettingsDialog.h" />
+    <QtMoc Include="src\View\SettingsDialog\PracticeSettings\PracticeSettings.h" />
+    <QtMoc Include="src\View\SettingsDialog\PriceListSettings\PriceListSettings.h" />
+    <QtMoc Include="src\View\SettingsDialog\ProcedureTemplateDialog\ProcedureTemplateDialog.h" />
     <ClInclude Include="src\Presenter\InvoicePresenter\InvoicePresenter.h" />
     <ClInclude Include="src\Model\XML\InvoiceXML.h" />
     <ClInclude Include="src\Model\Validator\LpkValidator.h" />
@@ -482,6 +495,7 @@
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\ToothProcedurePresenter.h" />
     <QtMoc Include="src\View\AmbListSelector\Models\PatientTableModel.h" />
     <QtMoc Include="src\View\AmbListSelector\Models\PerioTableModel.h" />
+    <ClInclude Include="src\Presenter\SettingsPresenter\PracticeSettingsPresenter.h" />
     <ClInclude Include="src\View\DoctorSettingsDialog\IDoctorSettingsDialog.h" />
     <ClInclude Include="src\View\InvoiceDialog\IInvoiceDialog.h" />
     <ClInclude Include="src\View\InvoiceDialog\BusinessOperationModel.h" />
@@ -497,6 +511,7 @@
     <ClInclude Include="src\View\Printer\ProcedurePrintModel.h" />
     <QtMoc Include="src\View\ProcedureDisplayModel\ProcedureSelectModel.h" />
     <ClInclude Include="src\View\ReportDialog\ReportDialogResult.h" />
+    <ClInclude Include="src\View\SettingsDialog\PracticeSettings\IPacticeSettings.h" />
     <ClInclude Include="src\View\ToothPaintDevices\SpriteSheets.h" />
     <ClInclude Include="src\View\PerioView\PerioGraphics\PerioGraphicsButton.h" />
     <ClInclude Include="src\Database\DbPerio.h" />

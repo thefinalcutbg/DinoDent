@@ -55,13 +55,9 @@ struct Issuer
 	const std::string company_name;
 	const std::string address_by_contract;
 	const std::string address_by_activity;
-	const bool registration_by_VAT;
+	const std::optional<std::string> registration_by_VAT;
 	const std::string grounds_for_not_charging_VAT;
-
-	/*
-	const std::string issuer_bulstat_no_vat //ИН по ДДС(BGЕИК - юридическо лице; BGЕГН - физическо лице).Задължителен за регистрирани по ДДС
-	*/
-
+	const std::string issuer_bulstat_no_vat;
 	const std::string bulstat;
 	const std::string contract_no;
 	const Date contract_date;

@@ -21,6 +21,7 @@ public:
 	static inline const User& currentUser() { return m_currentUser; }
 	static inline void setCurrentUser(const User& user) { m_currentUser = user; }
 	static inline void setCurrentDoctor(const Doctor& doctor) { m_currentUser.doctor = doctor; }
+	static inline void setCurrentPractice(const Practice& practice) { m_currentUser.practice = practice; };
 	static inline void resetUser() { m_currentUser = User{}; }
 	const bool isCurrentUser(const std::string& LPK);
 	static std::string getDoctorName(const std::string& LPK);

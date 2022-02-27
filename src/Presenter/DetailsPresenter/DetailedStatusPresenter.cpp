@@ -13,7 +13,6 @@ DetailedStatusPresenter::DetailedStatusPresenter(const Tooth& tooth, const std::
 
 void DetailedStatusPresenter::setView(IDetailedStatusView* view)
 {
-	qDebug() << "setting view " << view;
 	this->view = view; 
 	
 	DbProcedure db;

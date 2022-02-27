@@ -24,6 +24,7 @@ public:
 	void showListSelector();
 	void generateReport();
 	void generateInvoice();
+	void settingsPressed();
 	bool save();
 	bool saveAs();
 	void logOut();

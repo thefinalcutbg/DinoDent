@@ -483,6 +483,21 @@
     <ClCompile Include="src\View\ReportDialog\ReportErrorDialog\ReportErrorDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\SettingsDialog\SettingsDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\SettingsDialog\PracticeSettings\PracticeSettings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Presenter\SettingsPresenter\PracticeSettingsPresenter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\SettingsDialog\PriceListSettings\PriceListSettings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\SettingsDialog\ProcedureTemplateDialog\ProcedureTemplateDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -671,6 +686,18 @@
     <QtMoc Include="src\View\ReportDialog\ReportErrorDialog\ReportErrorDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\View\SettingsDialog\SettingsDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\SettingsDialog\PracticeSettings\PracticeSettings.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\SettingsDialog\PriceListSettings\PriceListSettings.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\SettingsDialog\ProcedureTemplateDialog\ProcedureTemplateDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="resources\Resource.qrc" />
@@ -776,6 +803,18 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\ReportDialog\ReportErrorDialog\ReportErrorDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\SettingsDialog\SettingsDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\SettingsDialog\PracticeSettings\PracticeSettings.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\SettingsDialog\PriceListSettings\PriceListSettings.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\SettingsDialog\ProcedureTemplateDialog\ProcedureTemplateDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
@@ -1192,6 +1231,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\InvoiceDialog\BusinessOperationModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Presenter\SettingsPresenter\PracticeSettingsPresenter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\View\SettingsDialog\PracticeSettings\IPacticeSettings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

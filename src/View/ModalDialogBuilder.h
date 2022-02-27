@@ -32,5 +32,6 @@ namespace ModalDialogBuilder
 	bool askDialog(const std::string& questionText);
 	void showError(const std::string& error);
 	void showErrorList(const std::string& errors);
+	void openSettingsDialog();
 };
 

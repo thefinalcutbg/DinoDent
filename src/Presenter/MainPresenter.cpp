@@ -96,6 +96,21 @@ void MainPresenter::generateInvoice()
     p.open();
 }
 
+void MainPresenter::settingsPressed()
+{
+    if (!UserManager::currentUser().doctor.admin)
+    {
+        ModalDialogBuilder::showError(u8"Нямате администраторски права");
+    }
+
+    ModalDialogBuilder::openSettingsDialog();
+
+    view->setUserLabel(
+        UserManager::currentUser().doctor.getFullName(),
+        UserManager::currentUser().practice.name
+    );
+}
+
 bool MainPresenter::save() 
 {
     if(_tabPresenter.currentTab())

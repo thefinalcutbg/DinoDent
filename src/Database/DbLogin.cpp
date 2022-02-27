@@ -39,7 +39,7 @@ Practice DbLogin::getPractice(const std::string rziCode)
 {
     openConnection();
 
-    std::string query = "SELECT rzi, name, bulstat, firm_address, practice_address, legal_entity, vat, priceList " 
+    std::string query = "SELECT rzi, name, bulstat, firm_address, practice_address, legal_entity, vat, nzok_contract, priceList " 
                         "FROM practice WHERE rzi = '" + rziCode + "'";
 
     sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
@@ -54,38 +54,45 @@ Practice DbLogin::getPractice(const std::string rziCode)
         practice.firm_address = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 3));
         practice.practice_address = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 4));
         practice.legal_entity = sqlite3_column_int(stmt, 5);
-        practice.vat = static_cast<bool>(sqlite3_column_int(stmt, 6));
-        practice.priceList = Parser::getPriceList(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 7)));
+        practice.vat = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 6));
+        practice.nzok_contract = Parser::parseContract(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 7)));
+        practice.priceList = Parser::getPriceList(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 8)));
 
     }
 
     sqlite3_finalize(stmt);
 
-    query = "SELECT contract, date, bank, bic, iban "
-            "FROM nzok_contract WHERE practice_rzi = '" + rziCode + "'";
-
-
-    sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
-
-    while (sqlite3_step(stmt) != SQLITE_DONE)
-    {
-        practice.nzok_contract.emplace(
-
-            NzokContract{
-                reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0)),
-                Date{reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1))},
-                reinterpret_cast<const char*>(sqlite3_column_text(stmt, 2)),
-                reinterpret_cast<const char*>(sqlite3_column_text(stmt, 3)),
-                reinterpret_cast<const char*>(sqlite3_column_text(stmt, 4))
-            }
-
-        );
-    }
-
 
     closeConnection();
 
     return practice;
+}
+
+
+
+void DbLogin::updatePractice(const Practice& practice, const std::string& currentRZI)
+{
+    openConnection();
+
+    std::string query = "UPDATE practice SET "
+        "rzi = '" + practice.rziCode + "', "
+        "name = '" + practice.name + "', "
+        "bulstat = '" + practice.bulstat + "', "
+        "firm_address = '" + practice.firm_address + "', "
+        "practice_address = '" + practice.practice_address + "', "
+        "legal_entity = '" + std::to_string(practice.legal_entity) + "', "
+        "vat = '" + practice.vat + "', "
+        "nzok_contract = '" + Parser::write(practice.nzok_contract) + "' "
+        "WHERE rzi = '" + currentRZI + "' ";
+
+    qDebug() << QString::fromStdString(query);
+
+    rc = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
+    if (rc != SQLITE_OK) {
+
+    }
+
+    closeConnection();
 }
 
 std::optional<Doctor> DbLogin::getDoctor(const std::string& lpk, const std::string& pass)

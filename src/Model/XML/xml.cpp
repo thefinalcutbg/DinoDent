@@ -5,8 +5,8 @@
 #include "Model/XML/InvoiceXML.h"
 #include <unordered_set>
 #include <cmath>
-#include <iomanip>
-#include <QDebug>
+#include "Model/Procedure/MasterNZOK.h"
+#include "Model/FreeFunctions.h"
 /*
 
 #include <QProcess>
@@ -82,20 +82,13 @@ std::string getErrors(const std::vector<AmbListXML> report)
                     u8" и " + std::to_string(report[i].ambulatorySheetNo) + "\n";
         }
 
-
-
-
-
-    
-
-
     }
 
     return errors;
 }
 
 
-Errors XML::saveXMLreport(int month, int year, const std::string& path)
+ReportResult XML::saveXMLreport(int month, int year, const std::string& path)
 {
     
 
@@ -145,7 +138,7 @@ Errors XML::saveXMLreport(int month, int year, const std::string& path)
 
     if (!errors.empty())
     {
-        return Errors{ errors };
+        ReportResult{false, errors};
     }
 
     for (auto& sheet : ambSheets)
@@ -156,6 +149,11 @@ Errors XML::saveXMLreport(int month, int year, const std::string& path)
             dentalCareService->SetAttribute("personIdentifier", sheet.personIdentifier);
             dentalCareService->SetAttribute("RHIFCode", sheet.RHIF);
             dentalCareService->SetAttribute("healthRegionCode", sheet.HealthRegion);
+
+            if (sheet.personType != 1){
+                dentalCareService->SetAttribute("birthDate", sheet.birthDate.toXMLString());
+            }
+            
             dentalCareService->SetAttribute("personFirstName", sheet.personFirstName);
 
             if(!sheet.personMiddleName.empty())
@@ -259,20 +257,34 @@ Errors XML::saveXMLreport(int month, int year, const std::string& path)
                 + from.toXMLReportFileName()
                 +"_01.xml");
 
-    return Errors{};
+
+    double expectedPrice{0}; //calculating the expected price
+
+    int pregled {0};
+    int golqm {0};
+    int malak {0};
+
+    for(auto& list : ambSheets){
+        for (auto& service : list.services) {
+
+            expectedPrice += MasterNZOK::instance().getNZOKPrice
+            (
+                service.activityCode,
+                service.date,
+                UserManager::currentUser().doctor.specialty,
+                list.birthDate.getAge(service.date) > 17,
+                false
+            );
+
+
+        }
+    }
+
+    return ReportResult{true,  
+                        u8"Отчетът е генериран успешно! Очаквана сума: " + 
+                        formatDouble(expectedPrice) +
+                        u8" лв."};
 }
-
-/*
-void addElementWithText(TiXmlElement* parent, const char* name, const std::string& value)
-{
-    TiXmlElement* element = new TiXmlElement(name);
-    TiXmlText* text = new TiXmlText(value);
-
-    element->LinkEndChild(text);
-
-    parent->LinkEndChild(element);
-}
-*/
 
 
 void XML::saveXMLinvoice(const Invoice& invoice, const std::string& path)
@@ -367,26 +379,6 @@ void XML::saveXMLinvoice(const Invoice& invoice, const std::string& path)
     addElementWithText(el_invoice, "activity_type_code", std::to_string(invoice.activityTypeCode));
     addElementWithText(el_invoice, "date_from", invoice.date_from.toXMLString());
     addElementWithText(el_invoice, "date_to", invoice.date_to.toXMLString());
-
-
-    auto formatDouble = [](const double& price) //adding the dot in case of integer
-    {
-        bool isDecimal{ true };
-
-        double intpart;
-
-        if (std::modf(price, &intpart) == 0.0)
-            isDecimal = false;
-
-        std::stringstream stream;
-        stream << std::fixed << std::setprecision(2) << price;
-       
-
-        return stream.str();
-
-        return isDecimal ? stream.str() : stream.str() +  ".";
-    };
-
 
     for (auto& operation : invoice.businessOperations)
     {

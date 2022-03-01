@@ -470,6 +470,7 @@
     <QtMoc Include="src\View\SettingsDialog\PracticeSettings\PracticeSettings.h" />
     <QtMoc Include="src\View\SettingsDialog\PriceListSettings\PriceListSettings.h" />
     <QtMoc Include="src\View\SettingsDialog\ProcedureTemplateDialog\ProcedureTemplateDialog.h" />
+    <ClInclude Include="src\Model\FreeFunctions.h" />
     <ClInclude Include="src\Presenter\InvoicePresenter\InvoicePresenter.h" />
     <ClInclude Include="src\Model\XML\InvoiceXML.h" />
     <ClInclude Include="src\Model\Validator\LpkValidator.h" />

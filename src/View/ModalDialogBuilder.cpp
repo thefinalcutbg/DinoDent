@@ -89,6 +89,16 @@ int ModalDialogBuilder::saveAsAmbSheetNumber(int newNum, std::unordered_set<int>
 	return d.exec();
 }
 
+#include "View/SettingsDialog/ProcedureTemplateDialog/ProcedureTemplateDialog.h"
+
+std::optional<ProcedureTemplate> ModalDialogBuilder::openProcedureTemplateDialog(const ProcedureTemplate* pTemp)
+{
+	ProcedureTemplateDialog d(pTemp);
+	d.exec();
+	return d.getProcedureTemplate();
+}
+
+
 #include "View/saveDialog/SaveDialog.h"
 
 DialogAnswer ModalDialogBuilder::openSaveDialog(const std::string& title)
@@ -141,6 +151,13 @@ void ModalDialogBuilder::showErrorList(const std::string& errors)
 {
 	ReportErrorDialog d(errors);
 	d.exec();
+}
+
+void ModalDialogBuilder::showMessage(const std::string& message)
+{
+	QMessageBox msgBox;
+	msgBox.setText(QString::fromStdString(message));
+	msgBox.exec();
 }
 
 #include "View/SettingsDialog/SettingsDialog.h"

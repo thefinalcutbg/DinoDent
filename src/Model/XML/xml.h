@@ -1,14 +1,19 @@
 #pragma once
 #include <string>
-#include <optional>
+#include <variant>
 #include "Model/Date.h"
 struct Invoice;
 
-typedef std::optional<std::string> Errors;
+
+struct ReportResult
+{
+	bool success{ false };
+	std::string message;
+};
 
 namespace XML
 {
-	Errors saveXMLreport(int month, int year, const std::string& path);
+	ReportResult saveXMLreport(int month, int year, const std::string& path);
 	void saveXMLinvoice(const Invoice& invioice, const std::string& path);
 	
 };

@@ -1239,5 +1239,8 @@
     <ClInclude Include="src\View\SettingsDialog\PracticeSettings\IPacticeSettings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Model\FreeFunctions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

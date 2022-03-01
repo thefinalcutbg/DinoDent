@@ -13,17 +13,7 @@
   <property name="windowTitle">
    <string>ProcedureTemplateDialog</string>
   </property>
-  <widget class="QTextEdit" name="textEdit">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>30</y>
-     <width>221</width>
-     <height>41</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QComboBox" name="comboBox">
+  <widget class="QComboBox" name="typeEdit">
    <property name="geometry">
     <rect>
      <x>320</x>
@@ -117,7 +107,7 @@
     <string>Диагноза по подразбиране:</string>
    </property>
   </widget>
-  <widget class="QSpinBox" name="spinBox">
+  <widget class="QSpinBox" name="codeEdit">
    <property name="geometry">
     <rect>
      <x>320</x>
@@ -143,7 +133,7 @@
     <string>Наименование:</string>
    </property>
   </widget>
-  <widget class="QDoubleSpinBox" name="doubleSpinBox">
+  <widget class="QDoubleSpinBox" name="priceEdit">
    <property name="geometry">
     <rect>
      <x>320</x>
@@ -169,16 +159,6 @@
     <string>Цена:</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit">
-   <property name="geometry">
-    <rect>
-     <x>320</x>
-     <y>130</y>
-     <width>161</width>
-     <height>21</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QLabel" name="label_6">
    <property name="geometry">
     <rect>
@@ -192,17 +172,7 @@
     <string>Материал:</string>
    </property>
   </widget>
-  <widget class="QTextEdit" name="textEdit_2">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>110</y>
-     <width>221</width>
-     <height>41</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="okButton">
    <property name="geometry">
     <rect>
      <x>410</x>
@@ -215,7 +185,7 @@
     <string>OK</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_2">
+  <widget class="QPushButton" name="cancelButton">
    <property name="geometry">
     <rect>
      <x>320</x>
@@ -228,8 +198,74 @@
     <string>Отказ</string>
    </property>
   </widget>
+  <widget class="TextEdit" name="nameEdit">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>30</y>
+     <width>221</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="acceptDrops">
+    <bool>false</bool>
+   </property>
+   <property name="verticalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOff</enum>
+   </property>
+   <property name="horizontalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOff</enum>
+   </property>
+   <property name="acceptRichText">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="TextEdit" name="diagnosisEdit">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>110</y>
+     <width>221</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="acceptDrops">
+    <bool>false</bool>
+   </property>
+   <property name="verticalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOff</enum>
+   </property>
+   <property name="horizontalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOff</enum>
+   </property>
+   <property name="acceptRichText">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="LineEdit" name="materialEdit">
+   <property name="geometry">
+    <rect>
+     <x>320</x>
+     <y>130</y>
+     <width>151</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>TextEdit</class>
+   <extends>QTextEdit</extends>
+   <header>View/uiComponents/qt_derived/TextEdit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>LineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>View/uiComponents/qt_derived/LineEdit.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

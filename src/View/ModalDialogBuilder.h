@@ -2,6 +2,7 @@
 #include <unordered_set>
 #include <string>
 #include "View/ReportDialog/ReportDialogResult.h"
+#include "Model/Procedure/ProcedureTemplate.h"
 
 class ProcedureDialogPresenter;
 class PatientDialogPresenter;
@@ -28,10 +29,12 @@ namespace ModalDialogBuilder
 	void openDialog(DoctorDialogPresenter* p);
 	void openDialog(InvoicePresenter* p);
 	int saveAsAmbSheetNumber(int newNum, std::unordered_set<int> existingNumbers);
+	std::optional<ProcedureTemplate> openProcedureTemplateDialog(const ProcedureTemplate* pTemp = nullptr);
 	DialogAnswer openSaveDialog(const std::string& text);
 	bool askDialog(const std::string& questionText);
 	void showError(const std::string& error);
 	void showErrorList(const std::string& errors);
+	void showMessage(const std::string& message);
 	void openSettingsDialog();
 };
 

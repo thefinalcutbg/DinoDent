@@ -33,6 +33,7 @@ struct AmbListXML
 	std::string allergies;
 	std::string pastDiseases;
 	std::string currentDiseases;
+	Date birthDate;
 	int substitute{ 0 };
 	int sign{ 1 };
 

@@ -70,7 +70,8 @@ std::vector<AmbListXML> DbXML::getAmbListXML(int month, int year, std::string RZ
         "patient.allergies,"            //10
         "patient.pastDiseases,"         //11
         "patient.currentDiseases,"      //12
-        "amblist.status_json "          //13
+        "amblist.status_json, "         //13
+        "patient.birth "                //14
         "FROM amblist "
         "LEFT JOIN patient ON amblist.patient_id = patient.id "
         "LEFT JOIN procedure ON amblist.id = procedure.amblist_id "
@@ -117,6 +118,7 @@ std::vector<AmbListXML> DbXML::getAmbListXML(int month, int year, std::string RZ
             a.sign = 1,
 
             a.teeth = Parser::getTeethXML(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 13)));
+            a.birthDate = Date(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 14)));
 
         
     }

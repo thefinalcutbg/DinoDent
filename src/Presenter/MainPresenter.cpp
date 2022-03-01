@@ -73,16 +73,19 @@ void MainPresenter::generateReport()
         return;
     }
 
-    std::optional<ReportDialogResult> result;
+    std::optional<ReportDialogResult> dialogResult;
 
-    ModalDialogBuilder::openDialog(result);
+    ModalDialogBuilder::openDialog(dialogResult);
 
-    if (result.has_value()) {
+    if (dialogResult.has_value()) {
 
-        auto err = XML::saveXMLreport(result.value().month, result.value().year, result.value().path);
+        auto reportResult = XML::saveXMLreport(dialogResult.value().month, dialogResult.value().year, dialogResult.value().path);
 
-        if (err.has_value())
-            ModalDialogBuilder::showErrorList(err.value());
+        reportResult.success ?
+            ModalDialogBuilder::showMessage(
+                reportResult.message)
+            :
+            ModalDialogBuilder::showErrorList(reportResult.message);
     }
         
 

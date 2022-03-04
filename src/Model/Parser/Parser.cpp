@@ -406,6 +406,35 @@ std::string Parser::write(const std::optional<NzokContract>& contract)
 	return writer.write(json);
 }
 
+std::string Parser::write(const std::vector<ProcedureTemplate>& priceList)
+{
+	Json::Value priceJson = Json::Value(Json::arrayValue);
+
+	for (auto& p : priceList)
+	{
+		Json::Value pTemplate;
+
+		pTemplate["type"] = static_cast<int>(p.type);
+		pTemplate["code"] = p.code;
+		pTemplate["name"] = p.name;
+		pTemplate["price"] = p.price;
+
+		if (!p.diagnosis.empty()) {
+			pTemplate["default_diag"] = p.diagnosis;
+		}
+		
+		if (!p.material.empty())
+		{
+			pTemplate["material"] = p.material;
+		}
+		
+		priceJson.append(pTemplate);
+	}
+
+	Json::FastWriter writer;
+	return writer.write(priceJson);
+}
+
 void Parser::parse(const std::string& jsonString, Procedure& procedure)
 {
 	Json::Value json;
@@ -898,11 +927,9 @@ std::vector<ProcedureTemplate> Parser::getPriceList(const std::string& priceList
 {
 	
 	Json::Reader reader;
-	Json::Value m;
+	Json::Value procedureTemplate = Json::arrayValue;
 
-	reader.parse(priceList, m);
-
-	const Json::Value& procedureTemplate = m["manipulation"];
+	reader.parse(priceList, procedureTemplate);
 
 	std::vector<ProcedureTemplate> procedureTemplateList;
 	procedureTemplateList.reserve(procedureTemplate.size());
@@ -910,7 +937,7 @@ std::vector<ProcedureTemplate> Parser::getPriceList(const std::string& priceList
 	for (int i = 0; i < procedureTemplate.size(); i++)
 	{
 		ProcedureTemplate m;
-		m.type = static_cast<ProcedureType>(procedureTemplate[i]["type"].asInt());
+		m.type = static_cast<ProcedureTemplateType>(procedureTemplate[i]["type"].asInt());
 		m.code = procedureTemplate[i]["code"].asInt();
 		m.name = procedureTemplate[i]["name"].asString();
 		m.price = procedureTemplate[i]["price"].asDouble();

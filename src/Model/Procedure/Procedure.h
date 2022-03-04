@@ -41,13 +41,29 @@ struct Anesthesia {
 
 typedef std::variant<NoData, ProcedureObtData, CrownData, ProcedureBridgeData, ImplantData, ProcedureFiberData, Anesthesia> Result;
 
+enum class ProcedureType 
+{ 
+	general = 0, 
+	any = 1, 
+	obturation = 2, 
+	extraction = 3, 
+	endo = 4, 
+	crown = 5, 
+	implant = 6, 
+	bridge = 7, 
+	fibersplint = 8, 
+	removecrown = 9, 
+	removebridge = 10,  
+};
+
+
 struct Procedure
 {
 
 
     Procedure(const ProcedureTemplate& t, Date date, std::string name, std::string diagnosis, double price, Result result = NoData{}, int tooth = -1, bool temp = false)
         :
-        type{ t.type },
+        
         code{ t.code },
         date{ date },
         name{ name },
@@ -57,7 +73,15 @@ struct Procedure
         temp{ temp },
         nzok{ t.nzok },
         result{ result }
-    {}
+    {
+        int templateType = static_cast<int>(t.type);
+
+        //ProcedureTemplateType doesn't have bridge diagnosis on its own
+        if (templateType < 7)
+            type = static_cast<ProcedureType>(t.type);
+        else
+            type = static_cast<ProcedureType>(templateType + 1);
+    }
 
     Procedure() {};
 

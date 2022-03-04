@@ -1,24 +1,12 @@
 #include "ProcedureTemplateDialog.h"
 
-constexpr int typeComboIndexCount = 9;
-
-constexpr ProcedureType comboBoxToType[typeComboIndexCount]
-{
-	ProcedureType::general,
-	ProcedureType::any,
-	ProcedureType::obturation,
-	ProcedureType::extraction,
-	ProcedureType::endo,
-	ProcedureType::crown,
-	ProcedureType::implant,
-	ProcedureType::fibersplint,
-	ProcedureType::removecrown
-};
 
 ProcedureTemplateDialog::ProcedureTemplateDialog(const ProcedureTemplate* pTemp, QWidget* parent)
 	: QDialog(parent)
 {
 	ui.setupUi(this);
+
+
 
 	connect(ui.okButton, &QPushButton::clicked,
 		[=] {
@@ -27,7 +15,7 @@ ProcedureTemplateDialog::ProcedureTemplateDialog(const ProcedureTemplate* pTemp,
 
 			result.code = ui.codeEdit->value();
 			result.name = ui.nameEdit->getText();
-			result.type = comboBoxToType[ui.typeEdit->currentIndex()];
+			result.type = static_cast<ProcedureTemplateType>(ui.typeEdit->currentIndex());
 			result.material = ui.materialEdit->getText();
 			result.price = ui.priceEdit->value();
 			result.diagnosis = ui.materialEdit->getText();
@@ -53,15 +41,7 @@ ProcedureTemplateDialog::ProcedureTemplateDialog(const ProcedureTemplate* pTemp,
 	ui.codeEdit->setValue(pTemp->code);
 	ui.diagnosisEdit->set_Text(pTemp->diagnosis);
 	ui.materialEdit->set_Text(pTemp->material);
-	
-	for (int i = 0; i < typeComboIndexCount; i++)
-	{
-		if (pTemp->type == comboBoxToType[i]){
-			ui.typeEdit->setCurrentIndex(i);
-			break;
-		}
-	}
-
+	ui.typeEdit->setCurrentIndex(static_cast<int>(pTemp->type));
 
 }
 

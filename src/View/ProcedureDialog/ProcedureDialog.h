@@ -6,7 +6,7 @@
 #include "ui_ProcedureDialog.h"
 
 #include "IProcedureDialog.h"
-#include "ProcedureModel.h"
+#include "View/ProcedureDisplayModel/ProcedureTemplateModel.h"
 
 class ProcedureDialogPresenter;
 
@@ -19,7 +19,7 @@ class ProcedureDialog : public QDialog, public IProcedureDialog
 
 	ProcedureDialogPresenter *presenter;
 
-	ProcedureModel model;
+	ProcedureTemplateModel model;
 	QSortFilterProxyModel proxyModel;
 
 public:
@@ -29,7 +29,7 @@ public:
 
 	void setProcedureTemplates(std::vector<ProcedureTemplate> manipulationList) override;
 	void showErrorMessage(const std::string& error) override;
-	void setView(ProcedureType t) override;
+	void setView(ProcedureTemplateType t) override;
     void close() override;
 	void setSelectionLabel(const std::vector<int>& selectedTeethNum) override;
 	void setObturationPresenter(ObturationPresenter* presenter) override;

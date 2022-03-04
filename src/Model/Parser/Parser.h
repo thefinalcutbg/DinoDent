@@ -20,6 +20,7 @@ namespace Parser
 	std::string write(const ToothContainer& status);
 	std::string write(const Procedure& procedure);
 	std::string write(const std::optional<NzokContract>& contract);
+	std::string write(const std::vector<ProcedureTemplate>& priceList);
 
 	void parse(const std::string& jsonString, Procedure& procedure);
 	void parse(const std::string& jsonString, DetailsSummary& summary);

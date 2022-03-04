@@ -39,10 +39,12 @@ bool CyrillicValidator::validateInput(const std::string& text)
     return true;
 }
 
-const std::string DigitsOnlyValidator::mustBeNumber{ u8"Това поле може да съдържа само цифри" };
+const std::string mustBeNumber{ u8"Това поле може да съдържа само цифри" };
 
 bool DigitsOnlyValidator::validateInput(const std::string& text)
 {
+    _errorMsg = &mustBeNumber;
+
     for (char c : text)
     {
         if (!std::isdigit(static_cast<unsigned char>(c)))

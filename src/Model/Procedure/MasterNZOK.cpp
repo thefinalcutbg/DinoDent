@@ -27,7 +27,7 @@ void MasterNZOK::loadData()
 	for (int i = 0; i < procedure.size(); i++) 
 	{
 		ProcedureTemplate m;
-		m.type = static_cast<ProcedureType>(procedure[i]["type"].asInt());
+		m.type = static_cast<ProcedureTemplateType>(procedure[i]["type"].asInt());
 		m.code = procedure[i]["code"].asInt();
 		m.name = procedure[i]["name"].asString();
 		m.price = -1;

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>628</width>
-    <height>482</height>
+    <width>640</width>
+    <height>515</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -101,6 +101,9 @@
      <height>21</height>
     </rect>
    </property>
+   <property name="maxLength">
+    <number>600</number>
+   </property>
   </widget>
   <widget class="LineEdit" name="rziEdit">
    <property name="geometry">
@@ -111,6 +114,9 @@
      <height>21</height>
     </rect>
    </property>
+   <property name="maxLength">
+    <number>10</number>
+   </property>
   </widget>
   <widget class="LineEdit" name="bulstatEdit">
    <property name="geometry">
@@ -120,6 +126,9 @@
      <width>151</width>
      <height>21</height>
     </rect>
+   </property>
+   <property name="maxLength">
+    <number>13</number>
    </property>
   </widget>
   <widget class="QLabel" name="label_4">
@@ -173,7 +182,7 @@
     <rect>
      <x>10</x>
      <y>330</y>
-     <width>301</width>
+     <width>291</width>
      <height>141</height>
     </rect>
    </property>
@@ -194,6 +203,9 @@
       <width>81</width>
       <height>21</height>
      </rect>
+    </property>
+    <property name="maxLength">
+     <number>6</number>
     </property>
    </widget>
    <widget class="QLabel" name="label_9">
@@ -341,17 +353,20 @@
     <string>Форма:</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="applyButton">
+  <widget class="QLabel" name="errorLabel">
    <property name="geometry">
     <rect>
-     <x>530</x>
-     <y>440</y>
-     <width>75</width>
-     <height>24</height>
+     <x>10</x>
+     <y>480</y>
+     <width>391</width>
+     <height>21</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">color : red;</string>
+   </property>
    <property name="text">
-    <string>Запиши</string>
+    <string/>
    </property>
   </widget>
  </widget>

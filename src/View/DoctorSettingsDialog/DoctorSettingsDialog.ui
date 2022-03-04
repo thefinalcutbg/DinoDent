@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>336</height>
+    <height>333</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -244,6 +244,19 @@
    </property>
    <property name="text">
     <string>Презиме:</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="severalRHIFcheck">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>20</y>
+     <width>191</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Отчитане към няколко РЗОК</string>
    </property>
   </widget>
  </widget>

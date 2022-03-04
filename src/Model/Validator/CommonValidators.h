@@ -21,7 +21,6 @@ public:
 
 class DigitsOnlyValidator : public Validator
 {
-	static const std::string mustBeNumber;
 
 public:
 	bool validateInput(const std::string& text) override;
@@ -32,12 +31,27 @@ class MinimumLengthValidator : public Validator
 {
 
 	inline static const std::string mustBeAtLeast = 
-		"Това полезадължително трябва да има поне " + std::to_string(minimum) + " символа";
+		u8"Това поле задължително трябва да има поне " + std::to_string(minimum) + u8" символа";
 public:
 	bool validateInput(const std::string& text) override
 	{
 		_errorMsg = &mustBeAtLeast;
 
 		return (text.length() >= minimum);
+	};
+};
+
+template<int exact>
+class ExactLengthValidator : public Validator
+{
+	inline static const std::string mustBeExactly =
+		u8"Това поле трябва да съдържа точно " + std::to_string(exact) + u8" символа";
+
+public:
+	bool validateInput(const std::string& text) override
+	{
+		_errorMsg = &mustBeExactly;
+
+		return (text.length() == exact);
 	};
 };

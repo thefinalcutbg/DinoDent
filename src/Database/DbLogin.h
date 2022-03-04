@@ -5,7 +5,7 @@
 #include "Model/User/User.h"
 #include <optional>
 #include <unordered_map>
-
+#include "Model/Procedure/ProcedureTemplate.h"
 struct PracticePair
 {
 	std::string rzi;
@@ -21,5 +21,6 @@ public:
 	std::optional<Doctor>getDoctor(const std::string& lpk, const std::string& pass);
 	std::unordered_map<std::string, std::string> getDoctorNames(); //returns LPK - name as key-value
 	void updateDoctor(const Doctor& doctor, std::string& currentLPK);
+	void updatePriceList(const std::vector<ProcedureTemplate>& priceList, const std::string& rziCode);
 };
 

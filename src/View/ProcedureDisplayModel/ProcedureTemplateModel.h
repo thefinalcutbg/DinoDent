@@ -14,7 +14,7 @@ struct ProcedureRow
 	bool nzok;
 };
 
-class ProcedureModel : public QAbstractTableModel
+class ProcedureTemplateModel : public QAbstractTableModel
 {
 	Q_OBJECT
 
@@ -29,11 +29,11 @@ class ProcedureModel : public QAbstractTableModel
 
 
 public:
-	ProcedureModel(QObject *parent = nullptr);
+	ProcedureTemplateModel(QObject *parent = nullptr);
 
 	void setProcedures(std::vector<ProcedureTemplate> procedures);
 
-	~ProcedureModel();
+	~ProcedureTemplateModel();
 
 
 	//void removeSelectedRow();

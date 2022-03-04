@@ -102,7 +102,7 @@ std::optional<Doctor> DbLogin::getDoctor(const std::string& lpk, const std::stri
     openConnection();
 
     std::string query =
-        "SELECT fname, mname, lname, egn, spec FROM doctor "
+        "SELECT fname, mname, lname, egn, spec, several_rhif FROM doctor "
         "WHERE lpk = '" + lpk + "' "
         "AND pass = '" + pass + "' ";
 
@@ -118,6 +118,8 @@ std::optional<Doctor> DbLogin::getDoctor(const std::string& lpk, const std::stri
         doctor.lname = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 2));
         doctor.egn = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 3));
         doctor.specialty = sqlite3_column_int(stmt, 4);
+        doctor.severalRHIF = sqlite3_column_int(stmt, 5);
+   
         doctor.pass = pass;
 
         result = doctor;
@@ -165,7 +167,8 @@ void DbLogin::updateDoctor(const Doctor& doctor, std::string& currentLPK)
         "mname = '" + doctor.mname + "', "
         "lname = '" + doctor.lname + "', "
         "pass = '" + doctor.pass + "', "
-        "egn = '" + doctor.egn + "' "
+        "egn = '" + doctor.egn + "', "
+        "several_rhif = " + std::to_string(doctor.severalRHIF) + " "
         "WHERE lpk = '" + currentLPK + "' ";
 
 
@@ -177,4 +180,23 @@ void DbLogin::updateDoctor(const Doctor& doctor, std::string& currentLPK)
     }
 
     closeConnection();
+}
+
+void DbLogin::updatePriceList(const std::vector<ProcedureTemplate>& priceList, const std::string& rziCode)
+{
+    openConnection();
+
+    std::string query = "UPDATE practice SET "
+        "priceList = '" + Parser::write(priceList) + "' "
+        "WHERE rzi = '" + rziCode + "'";
+
+    rc = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
+
+    if (rc != SQLITE_OK) {
+
+    }
+
+    closeConnection();
+
+
 }

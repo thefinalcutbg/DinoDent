@@ -120,7 +120,7 @@
     <ClCompile Include="src\Presenter\ProcedureDialog\ProcedureDialogPresenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\ProcedureDialog\ProcedureModel.cpp">
+    <ClCompile Include="src\View\ProcedureDisplayModel\ProcedureTemplateModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Model\Tooth\ToothUtils.cpp">
@@ -489,13 +489,28 @@
     <ClCompile Include="src\View\SettingsDialog\PracticeSettings\PracticeSettings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Presenter\SettingsPresenter\PracticeSettingsPresenter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\View\SettingsDialog\PriceListSettings\PriceListSettings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\SettingsDialog\ProcedureTemplateDialog\ProcedureTemplateDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Presenter\SettingsPresenter\PriceListSettingsPresenter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Presenter\SettingsPresenter\PracticeSettingsPresenter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Model\Validator\RziValidator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Model\Validator\RziValidaor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Model\Validator\NzokContractValidator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Presenter\SettingsPresenter\SettingsMainPresenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -539,7 +554,7 @@
     <QtMoc Include="src\View\ProcedureDialog\ProcedureDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\ProcedureDialog\ProcedureModel.h">
+    <QtMoc Include="src\View\ProcedureDisplayModel\ProcedureTemplateModel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\uiComponents\qt_derived\ComboBox.h">
@@ -1240,6 +1255,24 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\FreeFunctions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Presenter\SettingsPresenter\PriceListSettingsPresenter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\View\SettingsDialog\PriceListSettings\IPriceListSettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\Validator\RziValidaor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\Validator\NzokContractValidator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Presenter\SettingsPresenter\SettingsMainPresenter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\View\SettingsDialog\ISettingsDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -59,6 +59,7 @@ void DoctorSettingsDialog::setDoctor(const Doctor& doctor)
 	ui.mNameEdit->set_Text(doctor.mname);
 	ui.lNameEdit->set_Text(doctor.lname);
 	ui.passEdit->set_Text(doctor.pass);
+	ui.severalRHIFcheck->setChecked(doctor.severalRHIF);
 }
 
 Doctor DoctorSettingsDialog::getDoctor()
@@ -71,6 +72,7 @@ Doctor DoctorSettingsDialog::getDoctor()
 	doctor.mname = ui.fNameEdit->getText();
 	doctor.lname = ui.lNameEdit->getText();
 	doctor.pass = ui.passEdit->getText();
+	doctor.severalRHIF = ui.severalRHIFcheck->isChecked();
 
 	return doctor;
 }

@@ -155,26 +155,26 @@ ICommonFields* ProcedureDialog::commonFields()
 	return ui.commonFields;
 }
 
-void ProcedureDialog::setView(ProcedureType t)
+void ProcedureDialog::setView(ProcedureTemplateType t)
 {
 
 	ui.commonFields->show();
 
 	switch (t)
 	{	
-	case ProcedureType::obturation:
+	case ProcedureTemplateType::obturation:
 		ui.stackedWidget->setCurrentWidget(ui.obturWidget);
 		break;
-	case ProcedureType::extraction:
+	case ProcedureTemplateType::extraction:
 		ui.stackedWidget->setCurrentIndex(0);
 		break;
-	case ProcedureType::crown:
+	case ProcedureTemplateType::prosthodontic:
 		ui.stackedWidget->setCurrentWidget(ui.crownWidget);
 		break;
-	case ProcedureType::implant:
+	case ProcedureTemplateType::implant:
 		ui.stackedWidget->setCurrentWidget(ui.implantWidget);
 		break;
-	case ProcedureType::fibersplint:
+	case ProcedureTemplateType::fibersplint:
 		ui.stackedWidget->setCurrentWidget(ui.fiberWidget);
 		break;
 	default:

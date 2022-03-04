@@ -1,15 +1,17 @@
 #pragma once
 
 #include <QDialog>
+#include <optional>
+
 #include "ui_ProcedureTemplateDialog.h"
 #include "Model/Procedure/ProcedureTemplate.h"
-#include <optional>
 
 class ProcedureTemplateDialog : public QDialog
 {
 	Q_OBJECT
 
 	std::optional<ProcedureTemplate> m_procedureTemplate;
+
 
 public:
 

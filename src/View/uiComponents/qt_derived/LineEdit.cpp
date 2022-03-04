@@ -30,18 +30,22 @@ void LineEdit::setFocus()
 void LineEdit::setValidAppearence(bool valid)
 {
 	if (valid)
-		setStyleSheet("");	else
-		setStyleSheet("border: 1px solid red;");
-
-	if (errorLabel == nullptr || AbstractUIElement::validator == nullptr) return;
-
-	if (valid)
-		errorLabel->setText("");
-	else
 	{
-		if (AbstractUIElement::validator)
-			errorLabel->setText(QString::fromStdString(AbstractUIElement::validator->getErrorMessage()));
+		setStyleSheet("");
+
+		if (errorLabel) {
+
+			errorLabel->setText("");
+		}
+
+		return;
 	}
+
+	setStyleSheet("border: 1px solid red;");
+
+	if (AbstractUIElement::validator != nullptr && errorLabel != nullptr)
+			errorLabel->setText(QString::fromStdString(AbstractUIElement::validator->getErrorMessage()));
+
 }
 
 void LineEdit::set_Text(const std::string& text)

@@ -1,15 +1,15 @@
-﻿#include "ProcedureModel.h"
+﻿#include "ProcedureTemplateModel.h"
 
 
 
-ProcedureModel::ProcedureModel(QObject *parent)
+ProcedureTemplateModel::ProcedureTemplateModel(QObject *parent)
     : QAbstractTableModel(parent)
 {
 }
 
 #include "View/GlobalFunctions.h"
 
-void ProcedureModel::setProcedures(std::vector<ProcedureTemplate> procedures)
+void ProcedureTemplateModel::setProcedures(std::vector<ProcedureTemplate> procedures)
 {
     beginResetModel();
 
@@ -29,18 +29,18 @@ void ProcedureModel::setProcedures(std::vector<ProcedureTemplate> procedures)
 
 }
 
-ProcedureModel::~ProcedureModel()
+ProcedureTemplateModel::~ProcedureTemplateModel()
 {
 }
 
-bool ProcedureModel::insertRows(int position, int rows, const QModelIndex& index)
+bool ProcedureTemplateModel::insertRows(int position, int rows, const QModelIndex& index)
 {
     beginInsertRows(QModelIndex(), position, position);
     endInsertRows();
     return true;
 }
 
-bool ProcedureModel::removeRows(int row, int count, const QModelIndex& parent)
+bool ProcedureTemplateModel::removeRows(int row, int count, const QModelIndex& parent)
 {
     beginRemoveRows(parent, row, row+count);
     endRemoveRows();
@@ -48,7 +48,7 @@ bool ProcedureModel::removeRows(int row, int count, const QModelIndex& parent)
     return true;
 }
 
-QVariant ProcedureModel::headerData(int section, Qt::Orientation orientation, int role) const
+QVariant ProcedureTemplateModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (role == Qt::DisplayRole)
     {
@@ -66,19 +66,19 @@ QVariant ProcedureModel::headerData(int section, Qt::Orientation orientation, in
     return QVariant();
 }
 
-int ProcedureModel::rowCount(const QModelIndex& parent) const
+int ProcedureTemplateModel::rowCount(const QModelIndex& parent) const
 {
     return procedures.size();
 }
 
-int ProcedureModel::columnCount(const QModelIndex& parent) const
+int ProcedureTemplateModel::columnCount(const QModelIndex& parent) const
 {
     return 4;
 }
 
 #include <QIcon>
 
-QVariant ProcedureModel::data(const QModelIndex& index, int role) const
+QVariant ProcedureTemplateModel::data(const QModelIndex& index, int role) const
 {
     if (!index.isValid()) return QVariant();
 

@@ -15,9 +15,15 @@ PracticeSettings::PracticeSettings(QWidget *parent)
 	lineEdits[PracticeTextFields::NZOKContract] = ui.contractEdit;
 	lineEdits[PracticeTextFields::NZOKShortName] = ui.practiceNameNZOK;
 
-	connect(ui.applyButton, &QPushButton::clicked, this, [&] {presenter.applyChanges();});
+	for (auto lineEdit : lineEdits)
+	{
+		static_cast<LineEdit*>(lineEdit)->setErrorLabel(ui.errorLabel);
+	}
 
-	presenter.setView(this);
+	ui.contractDateEdit->setErrorLabel(ui.errorLabel);
+
+	connect(ui.nzokGroup, &QGroupBox::clicked, [=]{presenter->nzokContractEnabled(ui.nzokGroup->isChecked());});
+	connect(ui.vatGroup, &QGroupBox::clicked, [=]{presenter->vatEnabled(ui.vatGroup->isChecked());});
 }
 
 PracticeSettings::~PracticeSettings()
@@ -85,3 +91,9 @@ int PracticeSettings::legalForm()
 {
 	return ui.comboBox->currentIndex();
 }
+
+void PracticeSettings::setPresenter(PracticeSettingsPresenter* presenter)
+{
+	this->presenter = presenter;
+}
+

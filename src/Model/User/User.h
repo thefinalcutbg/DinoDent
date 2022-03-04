@@ -19,6 +19,7 @@ struct Doctor
 	int specialty{ -1 };
 	std::string pass;
 	bool admin{ true };
+	bool severalRHIF{ false };
 	int dentalServiceType() const
 	{
 		if (specialty == 60 || specialty == 64) return 0;

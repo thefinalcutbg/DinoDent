@@ -5,6 +5,7 @@
 #include "Model/XML/InvoiceXML.h"
 #include <unordered_set>
 #include <cmath>
+#include "Model/User/UserManager.h"
 #include "Model/Procedure/MasterNZOK.h"
 #include "Model/FreeFunctions.h"
 /*
@@ -361,7 +362,11 @@ void XML::saveXMLinvoice(const Invoice& invoice, const std::string& path)
 
                 addElementWithText(issuer, "company_name", invoice.issuer.company_name);
                 addElementWithText(issuer, "address_by_contract", invoice.issuer.address_by_contract);
-                addElementWithText(issuer, "address_by_activity", invoice.issuer.address_by_activity);
+
+                if(UserManager::currentUser().doctor.severalRHIF){
+                    addElementWithText(issuer, "address_by_activity", invoice.issuer.address_by_activity);
+                }
+
                 addElementWithText(issuer, "registration_by_VAT", std::to_string(invoice.issuer.registration_by_VAT.has_value()));
                 addElementWithText(issuer, "grounds_for_not_charging_VAT", invoice.issuer.grounds_for_not_charging_VAT);
                 addElementWithText(issuer, "issuer_bulstat", invoice.issuer.bulstat);

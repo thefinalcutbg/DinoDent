@@ -20,7 +20,7 @@ public:
     virtual void close() = 0;
     virtual void showErrorMessage(const std::string& error) = 0;
 
-    virtual void setView(ProcedureType t) = 0;
+    virtual void setView(ProcedureTemplateType t) = 0;
     virtual void setSelectionLabel(const std::vector<int>& selectedTeethNum) = 0;
 
     virtual ICommonFields* commonFields() = 0;

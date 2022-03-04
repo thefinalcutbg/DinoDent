@@ -1,5 +1,5 @@
 #pragma once
-#include "Model/Procedure/ProcedureTemplate.h"
+#include "Model/Procedure/Procedure.h"
 
 #include "View/uiComponents/qt_derived/Widgets/IImplantView.h"
 #include "View/ProcedureDialog/ProcedureFields/IObturationView.h"

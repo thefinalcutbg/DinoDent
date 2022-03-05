@@ -91,9 +91,9 @@ int ModalDialogBuilder::saveAsAmbSheetNumber(int newNum, std::unordered_set<int>
 
 #include "View/SettingsDialog/ProcedureTemplateDialog/ProcedureTemplateDialog.h"
 
-std::optional<ProcedureTemplate> ModalDialogBuilder::openProcedureTemplateDialog(const ProcedureTemplate* pTemp)
+std::optional<ProcedureTemplate> ModalDialogBuilder::openProcedureTemplateDialog(const ProcedureTemplate* pTemp, int code)
 {
-	ProcedureTemplateDialog d(pTemp);
+	ProcedureTemplateDialog d(pTemp, code);
 	d.exec();
 	return d.getProcedureTemplate();
 }

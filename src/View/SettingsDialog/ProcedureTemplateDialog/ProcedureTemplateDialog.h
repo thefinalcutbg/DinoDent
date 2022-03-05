@@ -2,7 +2,7 @@
 
 #include <QDialog>
 #include <optional>
-
+#include "Model/Validator/CommonValidators.h"
 #include "ui_ProcedureTemplateDialog.h"
 #include "Model/Procedure/ProcedureTemplate.h"
 
@@ -12,10 +12,12 @@ class ProcedureTemplateDialog : public QDialog
 
 	std::optional<ProcedureTemplate> m_procedureTemplate;
 
+	NotEmptyValidator m_validator;
+
 
 public:
 
-	ProcedureTemplateDialog(const ProcedureTemplate* pTemp = nullptr, QWidget* parent = Q_NULLPTR);
+	ProcedureTemplateDialog(const ProcedureTemplate* pTemp, int code = 0, QWidget* parent = Q_NULLPTR);
 	std::optional<ProcedureTemplate> getProcedureTemplate();
 	~ProcedureTemplateDialog();
 

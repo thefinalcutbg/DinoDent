@@ -22,7 +22,7 @@ void showFileInFolder(const QString& path) {
 #endif
 }
 
-*/
+*/ 
 
 std::string leadZeroes(int num, int totalLength)
 {
@@ -260,10 +260,6 @@ ReportResult XML::saveXMLreport(int month, int year, const std::string& path)
 
 
     double expectedPrice{0}; //calculating the expected price
-
-    int pregled {0};
-    int golqm {0};
-    int malak {0};
 
     for(auto& list : ambSheets){
         for (auto& service : list.services) {

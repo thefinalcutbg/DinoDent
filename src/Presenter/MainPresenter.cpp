@@ -101,9 +101,10 @@ void MainPresenter::generateInvoice()
 
 void MainPresenter::settingsPressed()
 {
-    if (!UserManager::currentUser().doctor.admin)
+    if (!UserManager::currentUser().isAdmin())
     {
-        ModalDialogBuilder::showError(u8"Нямате администраторски права");
+        ModalDialogBuilder::showError(u8"Нямате администраторски права, за да влезете в настройки");
+        return;
     }
 
     ModalDialogBuilder::openSettingsDialog();

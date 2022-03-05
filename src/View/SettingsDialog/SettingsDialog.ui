@@ -29,7 +29,7 @@
        <string>Ценоразпис</string>
       </attribute>
      </widget>
-     <widget class="QWidget" name="doctorSettings">
+     <widget class="PracticeDoctorSettings" name="practiceDoctorSettings">
       <attribute name="title">
        <string>Доктори</string>
       </attribute>
@@ -87,7 +87,13 @@
   <customwidget>
    <class>PriceListSettings</class>
    <extends>QWidget</extends>
-   <header location="global">View/SettingsDialog/PriceListSettings/pricelistsettings.h</header>
+   <header>View/SettingsDialog/PriceListSettings/pricelistsettings.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>PracticeDoctorSettings</class>
+   <extends>QWidget</extends>
+   <header>View/SettingsDialog/PracticeDoctorSettings/practicedoctorsettings.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

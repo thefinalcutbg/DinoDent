@@ -23,6 +23,8 @@ DoctorSettingsDialog::DoctorSettingsDialog(DoctorDialogPresenter* presenter, QWi
 		ui.specialty->addItem(QString::number(specialty));
 	}
 
+	ui.specialty->setCurrentIndex(3);
+
 	lineEdits[DoctorFields::EGN] = ui.egnLineEdit;
 	lineEdits[DoctorFields::FirstName] = ui.fNameEdit;
 	lineEdits[DoctorFields::MiddleName] = ui.mNameEdit;
@@ -36,6 +38,12 @@ DoctorSettingsDialog::DoctorSettingsDialog(DoctorDialogPresenter* presenter, QWi
 	}
 
 	connect(ui.okButton, &QPushButton::clicked, [=] {presenter->okPressed();});
+
+	connect(ui.lpkEdit, &QLineEdit::textEdited,
+		[=] {
+			if (ui.lpkEdit->isValid())
+				presenter->validLPK(ui.lpkEdit->getText());
+		});
 
 	presenter->setView(this);
 }
@@ -75,6 +83,17 @@ Doctor DoctorSettingsDialog::getDoctor()
 	doctor.severalRHIF = ui.severalRHIFcheck->isChecked();
 
 	return doctor;
+}
+
+void DoctorSettingsDialog::setToReadOnly()
+{
+	for (auto field : lineEdits)
+	{
+		field->setReadOnly(true);
+	}
+
+	ui.severalRHIFcheck->setDisabled(true);
+	ui.specialty->setDisabled(true);
 }
 
 

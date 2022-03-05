@@ -213,6 +213,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Model\User\User.cpp" />
+    <ClCompile Include="src\Presenter\SettingsPresenter\PracticeDoctorSettingsPresenter.cpp" />
+    <ClCompile Include="src\View\SettingsDialog\PracticeDoctorSettings\IPracticeDoctorSettings.cpp" />
+    <ClCompile Include="src\View\SettingsDialog\PracticeDoctorSettings\PracticeDoctorSettings.cpp" />
+    <ClCompile Include="src\Model\Validator\BulstatValidator.cpp" />
     <ClCompile Include="src\Model\Validator\NzokContractValidator.cpp" />
     <ClCompile Include="src\Model\Validator\RziValidaor.cpp" />
     <ClCompile Include="src\Model\Validator\RziValidator.cpp" />
@@ -388,6 +393,7 @@
     <ClCompile Include="src\Model\Tooth\ToothContainer.cpp" />
     <ClCompile Include="src\Model\User\UserManager.cpp" />
     <QtRcc Include="resources\Resource.qrc" />
+    <QtUic Include="src\View\SettingsDialog\PracticeDoctorSettings\PracticeDoctorSettings.ui" />
     <QtUic Include="src\View\SettingsDialog\ProcedureTemplateDialog\ProcedureTemplateDialog.ui" />
     <QtUic Include="src\View\SettingsDialog\PriceListSettings\PriceListSettings.ui" />
     <QtUic Include="src\View\SettingsDialog\PracticeSettings\PracticeSettings.ui" />
@@ -475,6 +481,9 @@
     <QtMoc Include="src\View\SettingsDialog\PracticeSettings\PracticeSettings.h" />
     <QtMoc Include="src\View\SettingsDialog\PriceListSettings\PriceListSettings.h" />
     <QtMoc Include="src\View\SettingsDialog\ProcedureTemplateDialog\ProcedureTemplateDialog.h" />
+    <QtMoc Include="src\View\SettingsDialog\PracticeDoctorSettings\PracticeDoctorSettings.h" />
+    <ClInclude Include="src\Presenter\SettingsPresenter\PracticeDoctorSettingsPresenter.h" />
+    <ClInclude Include="src\Model\Validator\BulstatValidator.h" />
     <ClInclude Include="src\Model\Validator\NzokContractValidator.h" />
     <ClInclude Include="src\Model\FreeFunctions.h" />
     <ClInclude Include="src\Model\Validator\RziValidaor.h" />
@@ -522,6 +531,7 @@
     <QtMoc Include="src\View\ProcedureDisplayModel\ProcedureSelectModel.h" />
     <ClInclude Include="src\View\ReportDialog\ReportDialogResult.h" />
     <ClInclude Include="src\View\SettingsDialog\ISettingsDialog.h" />
+    <ClInclude Include="src\View\SettingsDialog\PracticeDoctorSettings\IPracticeDoctorSettings.h" />
     <ClInclude Include="src\View\SettingsDialog\PracticeSettings\IPacticeSettings.h" />
     <ClInclude Include="src\View\SettingsDialog\PriceListSettings\IPriceListSettings.h" />
     <ClInclude Include="src\View\ToothPaintDevices\SpriteSheets.h" />

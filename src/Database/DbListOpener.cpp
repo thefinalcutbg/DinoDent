@@ -135,7 +135,6 @@ std::vector<PerioRow> DbListOpener::getPerioRows(const Date& from, const Date& t
     return rows;
 }
 
-#include <qdebug.h>
 
 void DbListOpener::deleteRecord(const std::string& tableName, const std::string& id)
 {
@@ -144,8 +143,6 @@ void DbListOpener::deleteRecord(const std::string& tableName, const std::string&
     std::string query = "DELETE FROM " + tableName + " WHERE id = '" + id + "' ";
 
     rc = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
-
-    qDebug() << QString::fromStdString(query);
 
     closeConnection();
 }

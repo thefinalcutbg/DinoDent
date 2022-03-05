@@ -222,6 +222,9 @@
        <property name="text">
         <string>Изтрий</string>
        </property>
+       <property name="autoDefault">
+        <bool>false</bool>
+       </property>
       </widget>
      </item>
      <item>
@@ -244,6 +247,9 @@
       <widget class="QPushButton" name="openButton">
        <property name="text">
         <string>Отвори</string>
+       </property>
+       <property name="default">
+        <bool>true</bool>
        </property>
       </widget>
      </item>

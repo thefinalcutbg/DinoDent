@@ -17,7 +17,8 @@ public:
 	void focusTab(SettingsTab tab) { ui.tabWidget->setCurrentIndex(static_cast<int>(tab)); };
 	void closeDialog() override { this->close(); };
 	IPracticeSettings* practiceView() override { return ui.practiceSettings; };
-	virtual IPriceListSettings* priceListView() override { return ui.priceSettings; };
+	IPriceListSettings* priceListView() override { return ui.priceSettings; };
+	IPracticeDoctorSettings* practiceDoctorView() override { return ui.practiceDoctorSettings; };
 
 	~SettingsDialog();
 

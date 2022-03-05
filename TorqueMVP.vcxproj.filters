@@ -513,6 +513,21 @@
     <ClCompile Include="src\Presenter\SettingsPresenter\SettingsMainPresenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Model\Validator\BulstatValidator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\SettingsDialog\PracticeDoctorSettings\PracticeDoctorSettings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Presenter\SettingsPresenter\PracticeDoctorSettingsPresenter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Model\User\User.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\SettingsDialog\PracticeDoctorSettings\IPracticeDoctorSettings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -713,6 +728,9 @@
     <QtMoc Include="src\View\SettingsDialog\ProcedureTemplateDialog\ProcedureTemplateDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\View\SettingsDialog\PracticeDoctorSettings\PracticeDoctorSettings.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="resources\Resource.qrc" />
@@ -830,6 +848,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\SettingsDialog\ProcedureTemplateDialog\ProcedureTemplateDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\SettingsDialog\PracticeDoctorSettings\PracticeDoctorSettings.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
@@ -1273,6 +1294,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\SettingsDialog\ISettingsDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\Validator\BulstatValidator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Presenter\SettingsPresenter\PracticeDoctorSettingsPresenter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\View\SettingsDialog\PracticeDoctorSettings\IPracticeDoctorSettings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

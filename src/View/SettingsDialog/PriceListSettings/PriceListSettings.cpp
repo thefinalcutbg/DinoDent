@@ -17,7 +17,7 @@ PriceListSettings::PriceListSettings(QWidget *parent)
 	table->setSelectionBehavior(QAbstractItemView::SelectRows);
 	table->setSelectionMode(QAbstractItemView::SingleSelection);
 	table->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
-	table->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+	table->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
 
 	connect(table->selectionModel(), &QItemSelectionModel::currentRowChanged, this, [=] {
 

@@ -1,15 +1,21 @@
 #include "ProcedureTemplateDialog.h"
 
 
-ProcedureTemplateDialog::ProcedureTemplateDialog(const ProcedureTemplate* pTemp, QWidget* parent)
+ProcedureTemplateDialog::ProcedureTemplateDialog(const ProcedureTemplate* pTemp, int code, QWidget* parent)
 	: QDialog(parent)
 {
 	ui.setupUi(this);
 
-
+	ui.nameEdit->setInputValidator(&m_validator);
 
 	connect(ui.okButton, &QPushButton::clicked,
 		[=] {
+
+			ui.nameEdit->validateInput();
+			if (!ui.nameEdit->isValid()) {
+				ui.nameEdit->QTextEdit::setFocus();
+				return;
+			}
 
 			ProcedureTemplate result;
 
@@ -31,7 +37,12 @@ ProcedureTemplateDialog::ProcedureTemplateDialog(const ProcedureTemplate* pTemp,
 			this->close();
 		});
 
+	ui.nameEdit->setFocus();
+
 	if (pTemp == nullptr) {
+
+		ui.codeEdit->setValue(code);
+
 		return;
 	}
 

@@ -8,7 +8,10 @@
 
 class DoctorDialogPresenter
 {
-	IDoctorSettingsDialog* view;
+	bool m_editMode;
+	bool m_newDoctor;
+
+	IDoctorSettingsDialog* view{nullptr};
 
 	std::string current_LPK;
 
@@ -20,9 +23,12 @@ class DoctorDialogPresenter
 
 public:
 	//DoctorDialogPresenter();
+	DoctorDialogPresenter();
 	DoctorDialogPresenter(const Doctor& doctor);
 
 	void okPressed();
+
+	void validLPK(const std::string& validLPK);
 
 	void setView(IDoctorSettingsDialog* view);
 

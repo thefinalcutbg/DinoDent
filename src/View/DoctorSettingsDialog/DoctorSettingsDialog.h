@@ -20,7 +20,8 @@ public:
 
 	void setDoctor(const Doctor& doctor) override;
 	Doctor getDoctor() override;
-	AbstractLineEdit* lineEdit(DoctorFields::Field field) override { return lineEdits[field]; };
+	AbstractLineEdit* lineEdit(DoctorFields::Field field) override { return lineEdits[field]; }
+	void setToReadOnly();
 	void close() override { QWidget::close(); }
 
 	~DoctorSettingsDialog();

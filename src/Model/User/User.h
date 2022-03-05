@@ -8,6 +8,22 @@
 
 constexpr const char* doctorPrefix = u8"д-р ";
 
+
+struct PracticePair
+{
+	std::string rzi;
+	std::string name;
+};
+
+struct PracticeDoctor
+{
+	std::string lpk;
+	std::string name;
+	bool admin;
+};
+
+
+
 struct Doctor
 {
 	int rowID;
@@ -18,7 +34,6 @@ struct Doctor
 	std::string egn;
 	int specialty{ -1 };
 	std::string pass;
-	bool admin{ true };
 	bool severalRHIF{ false };
 	int dentalServiceType() const
 	{
@@ -76,5 +91,6 @@ struct User
 {
 	Doctor doctor;
 	Practice practice;
+	bool isAdmin() const;
 };
 

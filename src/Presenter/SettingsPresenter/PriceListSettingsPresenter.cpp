@@ -3,6 +3,8 @@
 #include "View/SettingsDialog/PriceListSettings/IPriceListSettings.h"
 #include "View/ModalDialogBuilder.h"
 #include "Database/DbLogin.h"
+#include <algorithm>
+
 PriceListSettingsPresenter::PriceListSettingsPresenter() :
 	m_priceList{UserManager::currentUser().practice.priceList}
 {
@@ -25,6 +27,13 @@ void PriceListSettingsPresenter::editTemplate()
 	if (result.has_value())
 	{
 		m_priceList[m_currentIndex] = result.value();
+
+		std::sort(m_priceList.begin(), m_priceList.end(),
+			[](const ProcedureTemplate& i, const ProcedureTemplate& j)
+			{
+				return i.code < j.code;
+			});
+
 		view->setTemplates(m_priceList);
 	}
 
@@ -46,11 +55,18 @@ void PriceListSettingsPresenter::deleteTemplate()
 
 void PriceListSettingsPresenter::addTemplate()
 {
-	auto result = ModalDialogBuilder::openProcedureTemplateDialog();
+	auto result = ModalDialogBuilder::openProcedureTemplateDialog(nullptr, m_priceList.back().code + 1);
 
 	if (result.has_value())
 	{
 		m_priceList.push_back(result.value());
+
+		std::sort(m_priceList.begin(), m_priceList.end(),
+			[](const ProcedureTemplate& i, const ProcedureTemplate& j)
+			{
+				return i.code < j.code;
+			});
+
 		view->setTemplates(m_priceList);
 	}
 }

@@ -9,7 +9,7 @@
 class PriceListSettings : public QWidget, public IPriceListSettings
 {
 
-	PriceListSettingsPresenter* presenter;
+	PriceListSettingsPresenter* presenter{nullptr};
 
 	ProcedureTemplateModel m_model;
 

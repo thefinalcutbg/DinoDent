@@ -132,6 +132,41 @@ std::optional<Doctor> DbLogin::getDoctor(const std::string& lpk, const std::stri
     return result;
 }
 
+std::optional<Doctor> DbLogin::getDoctor(const std::string& lpk)
+{
+    auto result{ std::optional<Doctor>{} };
+
+    openConnection();
+
+    std::string query =
+        "SELECT fname, mname, lname, egn, spec, several_rhif, pass FROM doctor "
+        "WHERE lpk = '" + lpk + "'";
+
+    sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
+
+    while (sqlite3_step(stmt) != SQLITE_DONE)
+    {
+        Doctor doctor;
+
+        doctor.LPK = lpk;
+        doctor.fname = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0));
+        doctor.mname = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
+        doctor.lname = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 2));
+        doctor.egn = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 3));
+        doctor.specialty = sqlite3_column_int(stmt, 4);
+        doctor.severalRHIF = sqlite3_column_int(stmt, 5);
+        doctor.pass = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 6));
+
+        result = doctor;
+    }
+
+    sqlite3_finalize(stmt);
+
+    closeConnection();
+
+    return result;
+}
+
 std::unordered_map<std::string, std::string> DbLogin::getDoctorNames()
 {
     std::unordered_map <std::string, std::string> doctorNames;
@@ -153,6 +188,61 @@ std::unordered_map<std::string, std::string> DbLogin::getDoctorNames()
 
     return doctorNames;
 
+}
+
+std::vector<PracticeDoctor> DbLogin::getDoctors(const std::string& practiceRZI)
+{
+    std::vector<PracticeDoctor> result;
+
+    openConnection();
+
+    std::string query = "SELECT practice_doctor.doctor_lpk, doctor.fname, doctor.lname, practice_doctor.admin "
+        "FROM practice_doctor LEFT JOIN doctor ON practice_doctor.doctor_lpk = doctor.lpk "
+        "WHERE practice_doctor.practice_rzi = '" + practiceRZI + "'";
+
+    sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
+
+    while (sqlite3_step(stmt) != SQLITE_DONE)
+    {
+        result.emplace_back(
+            PracticeDoctor{
+                std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0))),
+                doctorPrefix + std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1)))
+                     + " " + std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 2))),
+                static_cast<bool>(sqlite3_column_int(stmt, 3))
+            }
+        );
+    }
+
+    sqlite3_finalize(stmt);
+
+    closeConnection();
+
+    return result;
+}
+
+void DbLogin::setDoctorsPracticeList(std::vector<PracticeDoctor> doctors, const std::string& practiceRZI)
+{
+    openConnection();
+
+    std::string query = "DELETE FROM practice_doctor "
+        "WHERE practice_rzi = '" + practiceRZI + "'";
+
+    rc = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
+
+
+    for (auto& doc : doctors)
+    {
+        query = "INSERT INTO practice_doctor "
+            "VALUES ('" 
+            + practiceRZI + "', '" 
+            + doc.lpk + "', " 
+            + std::to_string(doc.admin) + ")";
+
+        rc = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
+    }
+
+    closeConnection();
 }
 
 void DbLogin::updateDoctor(const Doctor& doctor, std::string& currentLPK)
@@ -199,4 +289,54 @@ void DbLogin::updatePriceList(const std::vector<ProcedureTemplate>& priceList, c
     closeConnection();
 
 
+}
+
+void DbLogin::insertDoctor(const Doctor& doctor)
+{
+    openConnection();
+
+    std::string query = "INSERT INTO doctor (lpk, spec, fname, mname, lname, pass, egn, several_rhif) "
+        "VALUES('"
+        + doctor.LPK + "', "
+        + std::to_string(doctor.specialty) + ", "
+        "'" + doctor.fname + "', "
+        "'" + doctor.mname + "', "
+        "'" + doctor.lname + "', "
+        "'" + doctor.pass + "', "
+        "'" + doctor.egn + "', "
+        + std::to_string(doctor.severalRHIF) + ")";
+
+
+
+    rc = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
+    if (rc != SQLITE_OK) {
+
+    }
+
+    closeConnection();
+}
+
+bool DbLogin::getAdminPremission(const std::string& lpk, const std::string& rzi)
+{
+    openConnection();
+
+    bool admin{ false };
+
+    std::string query = "SELECT admin "
+        "FROM practice_doctor " 
+        "WHERE doctor_lpk ='" + lpk + "' "
+        "AND practice_rzi = '" + rzi + "'";
+
+    sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
+
+    while (sqlite3_step(stmt) != SQLITE_DONE)
+    {
+        admin = sqlite3_column_int(stmt, 0);
+    }
+
+    sqlite3_finalize(stmt);
+
+    closeConnection();
+
+    return admin;
 }

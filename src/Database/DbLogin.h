@@ -6,11 +6,6 @@
 #include <optional>
 #include <unordered_map>
 #include "Model/Procedure/ProcedureTemplate.h"
-struct PracticePair
-{
-	std::string rzi;
-	std::string name;
-};
 
 class DbLogin : public AbstractORM
 {
@@ -19,8 +14,13 @@ public:
 	Practice getPractice(const std::string rziCode);
 	void updatePractice(const Practice& practice, const std::string& currentRZI);
 	std::optional<Doctor>getDoctor(const std::string& lpk, const std::string& pass);
-	std::unordered_map<std::string, std::string> getDoctorNames(); //returns LPK - name as key-value
+	std::optional<Doctor>getDoctor(const std::string& lpk);
+	std::unordered_map<std::string, std::string> getDoctorNames(); //returns LPK - name as key-value for all doctors in the db
+	std::vector<PracticeDoctor> getDoctors(const std::string& practiceRZI);
+	void setDoctorsPracticeList(std::vector<PracticeDoctor> doctors, const std::string& practiceRZI);
 	void updateDoctor(const Doctor& doctor, std::string& currentLPK);
 	void updatePriceList(const std::vector<ProcedureTemplate>& priceList, const std::string& rziCode);
+	void insertDoctor(const Doctor& doctor);
+	bool getAdminPremission(const std::string& lpk, const std::string& rzi);
 };
 

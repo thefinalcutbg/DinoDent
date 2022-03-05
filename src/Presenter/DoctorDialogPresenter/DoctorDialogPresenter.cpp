@@ -3,8 +3,12 @@
 #include "Database/DbLogin.h"
 #include "View/ModalDialogBuilder.h"
 
+DoctorDialogPresenter::DoctorDialogPresenter() : m_editMode(false), m_newDoctor(true)
+{
+}
+
 DoctorDialogPresenter::DoctorDialogPresenter(const Doctor& doctor) :
-    result(doctor), current_LPK(doctor.LPK), view(nullptr)
+    result(doctor), current_LPK(doctor.LPK), view(nullptr), m_editMode(true), m_newDoctor(false)
 {}
 
 void DoctorDialogPresenter::okPressed()
@@ -32,11 +36,36 @@ void DoctorDialogPresenter::okPressed()
     auto doctor = view->getDoctor();
 
     DbLogin db;
-    db.updateDoctor(doctor, current_LPK);
+
+    if (m_editMode){
+        db.updateDoctor(doctor, current_LPK);
+    }
+    else if (m_newDoctor){
+        db.insertDoctor(doctor);
+        
+    }
+
 
     result.emplace(doctor);
 
     view->close();
+}
+
+void DoctorDialogPresenter::validLPK(const std::string& validLPK)
+{
+    if (m_editMode) {
+        return;
+    }
+
+    DbLogin db;
+    auto doc = db.getDoctor(validLPK);
+
+    if (doc.has_value())
+    {
+        m_newDoctor = false;
+        view->setDoctor(doc.value());
+        view->setToReadOnly();
+    }
 }
 
 void DoctorDialogPresenter::setView(IDoctorSettingsDialog* view)

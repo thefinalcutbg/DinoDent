@@ -1,4 +1,4 @@
-#include "DoctorSettingsDialog.h"
+﻿#include "DoctorSettingsDialog.h"
 #include "Presenter/DoctorDialogPresenter/DoctorDialogPresenter.h"
 #include <unordered_map>
 #include <QPainter>
@@ -17,6 +17,9 @@ DoctorSettingsDialog::DoctorSettingsDialog(DoctorDialogPresenter* presenter, QWi
 	: QDialog(parent), presenter(presenter)
 {
 	ui.setupUi(this);
+
+	setWindowTitle(u8"Доктор");
+	setWindowIcon(QIcon{ ":/icons/icon_user.png" });
 
 	for (auto& specialty : specArray)
 	{
@@ -77,7 +80,7 @@ Doctor DoctorSettingsDialog::getDoctor()
 	doctor.LPK = ui.lpkEdit->getText();
 	doctor.specialty = specArray[ui.specialty->currentIndex()];
 	doctor.fname = ui.fNameEdit->getText();
-	doctor.mname = ui.fNameEdit->getText();
+	doctor.mname = ui.mNameEdit->getText();
 	doctor.lname = ui.lNameEdit->getText();
 	doctor.pass = ui.passEdit->getText();
 	doctor.severalRHIF = ui.severalRHIFcheck->isChecked();

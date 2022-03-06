@@ -11,7 +11,7 @@ class PracticeSettingsPresenter;
 
 namespace PracticeTextFields
 {
-	enum Field{Name, RZI, Bulstat, Address, ActivityAddress, VAT, NZOKContract, NZOKShortName  };
+	enum Field{Name, RZI, Bulstat, Address, ActivityAddress, Password, VAT, NZOKContract, NZOKShortName  };
 };
 
 class IPracticeSettings

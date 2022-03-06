@@ -7,7 +7,7 @@
 #include "Presenter/InvoicePresenter/InvoicePresenter.h"
 #include "Model/User/UserManager.h"
 #include "Model/XML/xml.h"
-
+#include "Presenter/AddPracticePresenter/AddPracticePresenter.h"
 
 MainPresenter::MainPresenter() :
     view(nullptr)
@@ -19,6 +19,27 @@ void MainPresenter::setView(IMainView* view)
 
     _tabPresenter.setView(view->tabView());
     listSelector_.setTabPresenter(&_tabPresenter);
+
+    DbLogin db;
+
+    if (db.noPractices())
+    {
+        ModalDialogBuilder::showMessage("Стартирате програмата за първи път. Моля добавете практика.");
+
+        AddPracticePresenter p;
+        auto result = p.open();
+
+        if (result.has_value())
+        {
+            db.insertPractice(result.value().practice);
+            db.setDoctorsPracticeList(result.value().doctorsList, result.value().practice.rziCode);
+        }
+        else
+        {
+            view->m_initialized = false;
+            return;
+        }
+    }
 
     LoginPresenter login;
 

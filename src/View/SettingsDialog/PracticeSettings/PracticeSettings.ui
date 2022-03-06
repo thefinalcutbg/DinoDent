@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>640</width>
-    <height>515</height>
+    <width>432</width>
+    <height>487</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -30,7 +30,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>100</y>
+     <y>80</y>
      <width>49</width>
      <height>21</height>
     </rect>
@@ -43,7 +43,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>140</y>
+     <y>110</y>
      <width>49</width>
      <height>21</height>
     </rect>
@@ -56,7 +56,7 @@
    <property name="geometry">
     <rect>
      <x>150</x>
-     <y>60</y>
+     <y>50</y>
      <width>151</width>
      <height>21</height>
     </rect>
@@ -102,15 +102,15 @@
     </rect>
    </property>
    <property name="maxLength">
-    <number>600</number>
+    <number>100</number>
    </property>
   </widget>
   <widget class="LineEdit" name="rziEdit">
    <property name="geometry">
     <rect>
      <x>150</x>
-     <y>100</y>
-     <width>151</width>
+     <y>80</y>
+     <width>101</width>
      <height>21</height>
     </rect>
    </property>
@@ -122,8 +122,8 @@
    <property name="geometry">
     <rect>
      <x>150</x>
-     <y>140</y>
-     <width>151</width>
+     <y>110</y>
+     <width>101</width>
      <height>21</height>
     </rect>
    </property>
@@ -135,7 +135,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>180</y>
+     <y>140</y>
      <width>81</width>
      <height>21</height>
     </rect>
@@ -148,17 +148,20 @@
    <property name="geometry">
     <rect>
      <x>150</x>
-     <y>180</y>
+     <y>140</y>
      <width>151</width>
      <height>21</height>
     </rect>
+   </property>
+   <property name="maxLength">
+    <number>100</number>
    </property>
   </widget>
   <widget class="QLabel" name="label_8">
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>220</y>
+     <y>170</y>
      <width>111</width>
      <height>21</height>
     </rect>
@@ -171,17 +174,20 @@
    <property name="geometry">
     <rect>
      <x>150</x>
-     <y>220</y>
+     <y>170</y>
      <width>151</width>
      <height>21</height>
     </rect>
+   </property>
+   <property name="maxLength">
+    <number>100</number>
    </property>
   </widget>
   <widget class="QGroupBox" name="nzokGroup">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>330</y>
+     <y>300</y>
      <width>291</width>
      <height>141</height>
     </rect>
@@ -296,13 +302,16 @@
       <height>21</height>
      </rect>
     </property>
+    <property name="maxLength">
+     <number>100</number>
+    </property>
    </widget>
   </widget>
   <widget class="QGroupBox" name="vatGroup">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>260</y>
+     <y>230</y>
      <width>291</width>
      <height>61</height>
     </rect>
@@ -344,7 +353,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>60</y>
+     <y>50</y>
      <width>91</width>
      <height>21</height>
     </rect>
@@ -357,16 +366,57 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>480</y>
+     <y>450</y>
      <width>391</width>
      <height>21</height>
     </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>391</width>
+     <height>21</height>
+    </size>
    </property>
    <property name="styleSheet">
     <string notr="true">color : red;</string>
    </property>
    <property name="text">
     <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_12">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>200</y>
+     <width>111</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Парола:</string>
+   </property>
+  </widget>
+  <widget class="LineEdit" name="passEdit">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>200</y>
+     <width>151</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="maxLength">
+    <number>20</number>
+   </property>
+   <property name="echoMode">
+    <enum>QLineEdit::Password</enum>
    </property>
   </widget>
  </widget>
@@ -383,6 +433,21 @@
    <header>View/uiComponents/qt_derived/DateEdit.h</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>practiceNameEdit</tabstop>
+  <tabstop>comboBox</tabstop>
+  <tabstop>rziEdit</tabstop>
+  <tabstop>bulstatEdit</tabstop>
+  <tabstop>addressEdit</tabstop>
+  <tabstop>activityAddressEdit</tabstop>
+  <tabstop>passEdit</tabstop>
+  <tabstop>vatGroup</tabstop>
+  <tabstop>vatEdit</tabstop>
+  <tabstop>nzokGroup</tabstop>
+  <tabstop>contractEdit</tabstop>
+  <tabstop>contractDateEdit</tabstop>
+  <tabstop>practiceNameNZOK</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

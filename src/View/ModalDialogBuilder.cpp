@@ -65,6 +65,14 @@ void ModalDialogBuilder::openDialog(std::optional<ReportDialogResult>& result)
 	ReportDialog d(result);
 	d.exec();
 }
+
+#include "View/AddPracticeDialog/AddPracticeDialog.h"
+
+void ModalDialogBuilder::openDialog(AddPracticePresenter* p)
+{
+	AddPracticeDialog d(p);
+	d.exec();
+}
 #include "View/DoctorSettingsDialog/DoctorSettingsDialog.h"
 
 void ModalDialogBuilder::openDialog(DoctorDialogPresenter* p)

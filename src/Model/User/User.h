@@ -81,6 +81,7 @@ struct Practice
 	std::string firm_address;
 	std::string practice_address;
 	std::string vat;
+	std::string pass;
 	int legal_entity;
 
 	std::optional<NzokContract> nzok_contract;

@@ -1,5 +1,12 @@
 #include "PracticeSettings.h"
 #include "Model/User/User.h"
+#include <QPainter>
+
+void PracticeSettings::paintEvent(QPaintEvent* event)
+{
+	QPainter painter(this);
+	painter.fillRect(rect(), QColor(Qt::white));
+}
 
 PracticeSettings::PracticeSettings(QWidget *parent)
 	: QWidget(parent)
@@ -11,6 +18,7 @@ PracticeSettings::PracticeSettings(QWidget *parent)
 	lineEdits[PracticeTextFields::Address] = ui.activityAddressEdit;
 	lineEdits[PracticeTextFields::ActivityAddress] = ui.activityAddressEdit;
 	lineEdits[PracticeTextFields::Bulstat] = ui.bulstatEdit;
+	lineEdits[PracticeTextFields::Password] = ui.passEdit;
 	lineEdits[PracticeTextFields::VAT] = ui.vatEdit;
 	lineEdits[PracticeTextFields::NZOKContract] = ui.contractEdit;
 	lineEdits[PracticeTextFields::NZOKShortName] = ui.practiceNameNZOK;
@@ -40,7 +48,8 @@ void PracticeSettings::setPractice(const Practice& practice)
 	ui.activityAddressEdit->setText(QString::fromStdString(practice.practice_address));
 	ui.vatGroup->setChecked(!practice.vat.empty());
 	ui.vatEdit->setText(QString::fromStdString(practice.vat));
-	
+	ui.passEdit->setText(QString::fromStdString(practice.pass));
+
 	ui.nzokGroup->setChecked(practice.nzok_contract.has_value());
 	if (ui.nzokGroup->isChecked()) {
 		ui.contractEdit->setText(QString::fromStdString(practice.nzok_contract.value().contract_no));
@@ -59,6 +68,7 @@ Practice PracticeSettings::getPractice()
 	p.practice_address = ui.activityAddressEdit->getText();
 	p.legal_entity = ui.comboBox->currentIndex();
 	p.name = ui.practiceNameEdit->getText();
+	p.pass = ui.passEdit->getText();
 
 	if (ui.nzokGroup->isChecked())
 	{

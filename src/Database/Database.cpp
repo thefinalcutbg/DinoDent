@@ -1,5 +1,5 @@
 #include "Database.h"
-
+#include "QDebug"
 Database::Database() : err(nullptr), db(nullptr), stmt(nullptr)
 {
 
@@ -9,134 +9,41 @@ Database::Database() : err(nullptr), db(nullptr), stmt(nullptr)
 
     rc = sqlite3_exec(
         db,
-        "CREATE TABLE IF NOT EXISTS patient("
-        "type               INT             NOT NULL,"
-        "id                 VARCHAR(10)     NOT NULL    PRIMARY KEY, "
-        "birth              VARCHAR(10)     NOT NULL,"
-        "sex                BOOLEAN         NOT NULL,"
-        "fname              VARCHAR(50)     NOT NULL,"
-        "mname              VARCHAR(50),"
-        "lname              VARCHAR(50)     NOT NULL,"
-        "city               VARCHAR         NOT NULL,"
-        "address            VARCHAR(100),"
-        "hirbno             VARCHAR(8),"
-        "phone              VARCHAR(20),"
-        "allergies          VARCHAR(400)," 
-        "currentDiseases    VARCHAR(400)," 
-        "pastDiseases       VARCHAR(400) "  
-        ")", NULL, NULL, &err);
+        "CREATE TABLE note(patient_id VARCHAR(10) NOT NULL, tooth INT NOT NULL,text VARCHAR NOT NULL,PRIMARY KEY (patient_id, tooth), FOREIGN KEY (patient_id) REFERENCES patient(id) ON DELETE CASCADE ON UPDATE CASCADE)"  
+        , NULL, NULL, &err);
 
     rc = sqlite3_exec(db,
-        "CREATE TABLE IF NOT EXISTS amblist("
-        "id              INTEGER         NOT NULL   PRIMARY KEY,"
-        "day             INT             NOT NULL,"
-        "month           INT             NOT NULL,"
-        "year            INT             NOT NULL,"
-        "num             INT             NOT NULL,"
-        "patient_id      VARCHAR(10)     NOT NULL,"
-        "lpk             VARCHAR(9)      NOT NULL,"
-        "rzi             VARCHAR(10)     NOT NULL,"
-        "fullCoverage    INT             NOT NULL,"
-        "charge          INT             NOT NULL,"
-        "status_json     VARCHAR,"
-        "FOREIGN KEY    (rzi) REFERENCES practice(rzi) ON UPDATE CASCADE, "
-        "FOREIGN KEY    (patient_id) REFERENCES patient(id) ON DELETE CASCADE ON UPDATE CASCADE, "
-        "FOREIGN KEY    (lpk) REFERENCES doctor(lpk) ON DELETE CASCADE ON UPDATE CASCADE"   
-        ")"
+        "CREATE TABLE procedure (id INTEGER NOT NULL PRIMARY KEY, nzok INT NOT NULL, code VARCHAR (10) NOT NULL, seq INT NOT NULL, type INT NOT NULL, day INT NOT NULL, tooth INT NOT NULL, \"temp\" INT, price REAL NOT NULL, data VARCHAR NOT NULL, amblist_id INT NOT NULL, FOREIGN KEY (amblist_id) REFERENCES amblist ON DELETE CASCADE ON UPDATE CASCADE)"
         , NULL, NULL, &err);
  
     rc = sqlite3_exec(
         db,
-        "CREATE TABLE IF NOT EXISTS procedure("
-        "id              INTEGER         NOT NULL PRIMARY KEY,"
-        "nzok            INT             NOT NULL,"   
-        "code            VARCHAR(10)     NOT NULL,"
-        "seq             INT             NOT NULL,"  //the sequence of the manipulation(if dates are the same)
-        "type            INT             NOT NULL," //required for json parser and statistics
-        "day             INT             NOT NULL,"
-        "tooth           INT             NOT NULL,"
-        "temp            INT             NOT NULL,"
-        "price           REAL            NOT NULL,"
-        "data            VARCHAR         NOT NULL," //json data depending on type
-        "amblist_id      INT             NOT NULL,"
-        "FOREIGN KEY    (amblist_id)     REFERENCES amblist(id) ON DELETE CASCADE ON UPDATE CASCADE"
-        ")"
+        "CREATE TABLE patient (type INT NOT NULL, id VARCHAR (10) NOT NULL PRIMARY KEY, birth VARCHAR (10) NOT NULL, sex BOOLEAN NOT NULL, fname VARCHAR (50) NOT NULL, mname VARCHAR (50), lname VARCHAR (50) NOT NULL, city VARCHAR (100) NOT NULL, address VARCHAR (100), hirbno VARCHAR (8), phone VARCHAR (20), allergies VARCHAR (400), currentDiseases VARCHAR (400), pastDiseases VARCHAR (400))"
         , NULL, NULL, &err);
 
     rc = sqlite3_exec(
         db,
-        "CREATE TABLE IF NOT EXISTS note("
-        "patient_id      VARCHAR(10)     NOT NULL,"
-        "tooth           INT             NOT NULL,"
-        "text            VARCHAR         NOT NULL,"
-        "PRIMARY KEY    (patient_id, tooth), "
-        "FOREIGN KEY    (patient_id)     REFERENCES patient(id) ON DELETE CASCADE ON UPDATE CASCADE"
-        ")"
+        "CREATE TABLE periostatus (id INTEGER NOT NULL PRIMARY KEY, patient_id VARCHAR (10) NOT NULL, year INT NOT NULL, month INT NOT NULL, day INT NOT NULL, data VARCHAR NOT NULL, FOREIGN KEY (patient_id) REFERENCES patient (id) ON DELETE CASCADE ON UPDATE CASCADE)"
         , NULL, NULL, &err);
 
     rc = sqlite3_exec(
         db,
-        "CREATE TABLE IF NOT EXISTS periostatus("
-        "id              INTEGER         NOT NULL PRIMARY KEY,"
-        "patient_id      VARCHAR(10)     NOT NULL,"
-        "year            INT             NOT NULL,"
-        "month           INT             NOT NULL,"
-        "day             INT             NOT NULL,"
-        "data            VARCHAR         NOT NULL," //json
-        "FOREIGN KEY    (patient_id)     REFERENCES patient(id) ON DELETE CASCADE ON UPDATE CASCADE"
-        ")"
+        "CREATE TABLE amblist (id INTEGER NOT NULL PRIMARY KEY, day INT NOT NULL, month INT NOT NULL, year INT NOT NULL, num INT NOT NULL, patient_id VARCHAR (10) NOT NULL, lpk VARCHAR (9) NOT NULL REFERENCES doctor (lpk) ON DELETE CASCADE ON UPDATE CASCADE, rzi VARCHAR (10) REFERENCES practice (rzi) ON DELETE CASCADE ON UPDATE CASCADE NOT NULL, fullCoverage INT NOT NULL, charge INT NOT NULL, status_json VARCHAR)"
         , NULL, NULL, &err);
 
     rc = sqlite3_exec(
         db,
-        "CREATE TABLE IF NOT EXISTS doctor("
-        "lpk            VARCHAR(9)      NOT NULL  PRIMARY KEY, "
-        "pass           VARCHAR         NOT NULL,"
-        "fname          VARCHAR(50)     NOT NULL,"
-        "mname          VARCHAR(50)     NOT NULL,"
-        "lname          VARCHAR(50)     NOT NULL,"
-        "spec           INT             NOT NULL,"
-        "egn            VARCHAR         NOT NULL"
-        ")"
+        "CREATE TABLE practice (rzi VARCHAR NOT NULL PRIMARY KEY, name VARCHAR NOT NULL, bulstat VARCHAR NOT NULL, firm_address VARCHAR, practice_address VARCHAR, pass VARCHAR NOT NULL, legal_entity INT, vat VARCHAR, nzok_contract VARCHAR, priceList VARCHAR)"
         , NULL, NULL, &err);
 
     rc = sqlite3_exec(
         db,
-        "CREATE TABLE IF NOT EXISTS practice("
-        "rzi                VARCHAR(10)     NOT NULL PRIMARY KEY,"
-        "name               VARCHAR         NOT NULL,"
-        "bulstat            VARCHAR         NOT NULL,"
-        "firm_address       VARCHAR,        NOT NULL,"
-        "practice_address   VARCHAR,        NOT NULL,"
-        "pass               VARCHAR         NOT NULL,"
-        "legal_entity       INT             NOT NULL,"
-        "vat                INT             NOT NULL,"
-        "priceList          VARCHAR                  "
-        ")"
+        "CREATE TABLE doctor (lpk VARCHAR (9) NOT NULL PRIMARY KEY, pass VARCHAR NOT NULL, fname VARCHAR (50) NOT NULL, mname VARCHAR NOT NULL, lname VARCHAR (50) NOT NULL, spec INT NOT NULL, egn VARCHAR (10) NOT NULL, several_rhif INTEGER)"
         , NULL, NULL, &err);
 
     rc = sqlite3_exec(
         db,
-        "CREATE TABLE IF NOT EXISTS nzok_contract("
-        "contract           VARCHAR         NOT NULL PRIMARY KEY,"
-        "practice_rzi       VARCHAR(10)     NOT NULL,"
-        "date               VARCHAR(10)     NOT NULL,"
-        "bank               VARCHAR         NOT NULL,"
-        "bic                VARCHAR         NOT NULL,"
-        "iban               VARCHAR         NOT NULL,"
-        "FOREIGN KEY(practice_rzi) REFERENCES practice(rzi) ON DELETE CASCADE ON UPDATE CASCADE"
-        ")"
-        , NULL, NULL, &err);
-
-
-    rc = sqlite3_exec(
-        db,
-        "CREATE TABLE IF NOT EXISTS practice_doctor("
-        "practice_rzi            VARCHAR(10)         NOT NULL, "
-        "doctor_lpk              VARCHAR(9)          NOT NULL, "
-        "FOREIGN KEY(practice_rzi) REFERENCES practice(rzi) ON DELETE CASCADE ON UPDATE CASCADE, "
-        "FOREIGN KEY(doctor_lpk) REFERENCES doctor(lpk) ON DELETE CASCADE ON UPDATE CASCADE "
-        ")"
+        "CREATE TABLE practice_doctor (practice_rzi VARCHAR (10) NOT NULL REFERENCES practice ON DELETE CASCADE ON UPDATE CASCADE, doctor_lpk VARCHAR (9) NOT NULL, admin INT NOT NULL, FOREIGN KEY (doctor_lpk) REFERENCES doctor (lpk) ON DELETE CASCADE ON UPDATE CASCADE)"
         , NULL, NULL, &err);
 
 
@@ -147,6 +54,3 @@ Database::Database() : err(nullptr), db(nullptr), stmt(nullptr)
 
     sqlite3_close(db);
 }
-
-
-

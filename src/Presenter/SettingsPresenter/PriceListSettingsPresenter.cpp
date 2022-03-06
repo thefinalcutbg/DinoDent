@@ -19,7 +19,7 @@ void PriceListSettingsPresenter::setView(IPriceListSettings* view)
 
 void PriceListSettingsPresenter::editTemplate()
 {
-	if (m_currentIndex == 1)
+	if (m_currentIndex == -1)
 		return;
 	
 	auto result = ModalDialogBuilder::openProcedureTemplateDialog(&m_priceList[m_currentIndex]);

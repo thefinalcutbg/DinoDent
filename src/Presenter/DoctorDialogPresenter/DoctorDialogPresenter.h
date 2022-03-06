@@ -20,6 +20,7 @@ class DoctorDialogPresenter
 	EgnValidator egn_validator;
 	NameValidator name_validator;
 	LpkValidator lpk_validator;
+	NotEmptyValidator not_emptyValidator;
 
 public:
 	//DoctorDialogPresenter();

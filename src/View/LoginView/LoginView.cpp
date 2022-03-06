@@ -16,9 +16,6 @@ LoginView::LoginView(LoginPresenter* p, QWidget *parent)
 
 	presenter->setView(this);
 
-	ui.userEdit->setText("220008771");
-	ui.passEdit->setText("198312");
-
 	connect(ui.okButton, &QPushButton::clicked, [=]{
 
 				presenter->okPressed(

@@ -17,7 +17,6 @@ public:
 	void setView(IPracticeDoctorSettings* view);
 	void addDoctor();
 	void deleteDoctor();
-	void applyChanges();
 	void indexChanged(int index);
 	void setAdminPrivilege(bool admin);
 	bool isValid();

@@ -3,7 +3,7 @@
 PracticeSettingsPresenter::PracticeSettingsPresenter()
 {
 	m_dateValidator.setMaxDate(Date::currentDate());
-	m_dateValidator.setMinDate(Date{ 1,1,1900 });
+	m_dateValidator.setMinDate(Date{ 2,1,1900 });
 }
 
 void PracticeSettingsPresenter::setView(IPracticeSettings* view)
@@ -15,6 +15,7 @@ void PracticeSettingsPresenter::setView(IPracticeSettings* view)
 	view->lineEdit(PracticeTextFields::Name)->setInputValidator(&m_notEmptyValidator);
 	view->lineEdit(PracticeTextFields::Bulstat)->setInputValidator(&m_notEmptyValidator);
 	view->lineEdit(PracticeTextFields::RZI)->setInputValidator(&m_rziValidator);
+	view->lineEdit(PracticeTextFields::Password)->setInputValidator(&m_notEmptyValidator);
 }
 
 void PracticeSettingsPresenter::setPractice(const Practice& practice)
@@ -32,13 +33,14 @@ Practice PracticeSettingsPresenter::getPractice()
 
 bool PracticeSettingsPresenter::isValid()
 {
-	AbstractUIElement* uiFields[9]
+	AbstractUIElement* uiFields[10]
 	{
 		view->lineEdit(PracticeTextFields::Name),
 		view->lineEdit(PracticeTextFields::RZI),
 		view->lineEdit(PracticeTextFields::Bulstat),
 		view->lineEdit(PracticeTextFields::Address),
 		view->lineEdit(PracticeTextFields::ActivityAddress),
+		view->lineEdit(PracticeTextFields::Password),
 		view->lineEdit(PracticeTextFields::VAT),
 		view->lineEdit(PracticeTextFields::NZOKContract),
 		view->lineEdit(PracticeTextFields::NZOKShortName),

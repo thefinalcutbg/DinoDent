@@ -10,6 +10,8 @@ class PracticeDoctorSettings : public QWidget, public IPracticeDoctorSettings
 
 	PracticeDoctorSettingsPresenter* presenter{nullptr};
 
+	void paintEvent(QPaintEvent* event) override;
+
 public:
 	PracticeDoctorSettings(QWidget *parent = Q_NULLPTR);
 	void setDoctorList(const std::vector<PracticeDoctor>& doctors) override;

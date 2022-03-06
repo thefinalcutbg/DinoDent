@@ -1,7 +1,9 @@
-#include "DbLogin.h"
+﻿#include "DbLogin.h"
 #include <QDebug>
 #include "Model/Parser/Parser.h"
 #include "View/ModalDialogBuilder.h"
+#include <fstream>
+
 std::vector<PracticePair> DbLogin::getPracticeList(const std::string& doctorLPK)
 {
     openConnection();
@@ -39,7 +41,7 @@ Practice DbLogin::getPractice(const std::string rziCode)
 {
     openConnection();
 
-    std::string query = "SELECT rzi, name, bulstat, firm_address, practice_address, legal_entity, vat, nzok_contract, priceList " 
+    std::string query = "SELECT rzi, name, bulstat, firm_address, practice_address, legal_entity, pass, vat, nzok_contract, priceList " 
                         "FROM practice WHERE rzi = '" + rziCode + "'";
 
     sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
@@ -54,9 +56,10 @@ Practice DbLogin::getPractice(const std::string rziCode)
         practice.firm_address = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 3));
         practice.practice_address = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 4));
         practice.legal_entity = sqlite3_column_int(stmt, 5);
-        practice.vat = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 6));
-        practice.nzok_contract = Parser::parseContract(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 7)));
-        practice.priceList = Parser::getPriceList(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 8)));
+        practice.pass = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 6));
+        practice.vat = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 7));
+        practice.nzok_contract = Parser::parseContract(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 8)));
+        practice.priceList = Parser::getPriceList(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 9)));
 
     }
 
@@ -82,10 +85,44 @@ void DbLogin::updatePractice(const Practice& practice, const std::string& curren
         "practice_address = '" + practice.practice_address + "', "
         "legal_entity = '" + std::to_string(practice.legal_entity) + "', "
         "vat = '" + practice.vat + "', "
+        "pass = '" + practice.pass + "', "
         "nzok_contract = '" + Parser::write(practice.nzok_contract) + "' "
         "WHERE rzi = '" + currentRZI + "' ";
 
     qDebug() << QString::fromStdString(query);
+
+    rc = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
+    if (rc != SQLITE_OK) {
+
+    }
+
+    closeConnection();
+}
+
+void DbLogin::insertPractice(const Practice& practice)
+{
+    openConnection();
+
+    std::string line, text;
+    std::ifstream in("data/defaultPriceList.json");
+    while (std::getline(in, line))
+    {
+        text += line;
+    }
+
+    std::string query = "INSERT INTO practice "
+        "(rzi, name, bulstat, firm_address, practice_address, pass, legal_entity, vat, nzok_contract, priceList) "
+        "VALUES("
+        "'" + practice.rziCode + "', "
+        "'" + practice.name + "', "
+        "'" + practice.bulstat + "', "
+        "'" + practice.firm_address + "', "
+        "'" + practice.practice_address + "', "
+        "'" + practice.pass + "', "
+        "'" + std::to_string(practice.legal_entity) + "', "
+        "'" + practice.vat + "', "
+        "'" + Parser::write(practice.nzok_contract) + "', "
+        "'" + text +"')";
 
     rc = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
     if (rc != SQLITE_OK) {
@@ -339,4 +376,50 @@ bool DbLogin::getAdminPremission(const std::string& lpk, const std::string& rzi)
     closeConnection();
 
     return admin;
+}
+
+bool DbLogin::practiceExists(const std::string& rzi)
+{
+    openConnection();
+
+    bool exists{ false };
+
+    std::string query = "SELECT COUNT(*) "
+        "FROM practice "
+        "WHERE rzi ='" + rzi + "' ";
+
+    sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
+
+    while (sqlite3_step(stmt) != SQLITE_DONE)
+    {
+        exists = sqlite3_column_int(stmt, 0);
+    }
+
+    sqlite3_finalize(stmt);
+
+    closeConnection();
+
+    return exists;
+}
+
+bool DbLogin::noPractices()
+{
+    openConnection();
+
+    std::string query = "SELECT COUNT(*) FROM practice";
+
+    bool practiceFound{ false };
+
+    sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
+
+    while (sqlite3_step(stmt) != SQLITE_DONE)
+    {
+        practiceFound = sqlite3_column_int(stmt, 0);
+    }
+
+    sqlite3_finalize(stmt);
+
+    closeConnection();
+
+    return !practiceFound;
 }

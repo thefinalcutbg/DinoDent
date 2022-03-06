@@ -7,9 +7,6 @@
 
 PracticeDoctorSettingsPresenter::PracticeDoctorSettingsPresenter()
 {
-	DbLogin db;
-
-	m_doctorsList = db.getDoctors(UserManager::currentUser().practice.rziCode);;
 
 }
 
@@ -43,6 +40,10 @@ void PracticeDoctorSettingsPresenter::addDoctor()
 	}
 
 	m_doctorsList.emplace_back(PracticeDoctor{ doctor.value().LPK, doctor.value().getFullName(), false });
+	
+	if (m_doctorsList.size() == 1) {
+		m_doctorsList[0].admin = true;
+	}
 
 	view->setDoctorList(m_doctorsList);
 
@@ -55,19 +56,13 @@ void PracticeDoctorSettingsPresenter::deleteDoctor()
 
 	if (UserManager::instance().isCurrentUser(m_doctorsList[m_currentIndex].lpk))
 	{
-		ModalDialogBuilder::showError(u8"Не можете да изтриете профилът от който сте влезли в момента");
+		ModalDialogBuilder::showError(u8"Не можете да изтриете профила от който сте влезли в момента");
 		return;
 	}
 
 	m_doctorsList.erase(m_doctorsList.begin() + m_currentIndex);
 	view->setDoctorList(m_doctorsList);
 
-}
-
-void PracticeDoctorSettingsPresenter::applyChanges()
-{
-	DbLogin db;
-	db.setDoctorsPracticeList(m_doctorsList, UserManager::currentUser().practice.rziCode);
 }
 
 void PracticeDoctorSettingsPresenter::indexChanged(int index)

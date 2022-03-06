@@ -1,5 +1,12 @@
 ﻿#include "PracticeDoctorSettings.h"
 #include "Presenter/SettingsPresenter/PracticeDoctorSettingsPresenter.h"
+#include <QPainter>
+
+void PracticeDoctorSettings::paintEvent(QPaintEvent* event)
+{
+	QPainter painter(this);
+	painter.fillRect(rect(), QColor(Qt::white));
+}
 
 PracticeDoctorSettings::PracticeDoctorSettings(QWidget *parent)
 	: QWidget(parent)

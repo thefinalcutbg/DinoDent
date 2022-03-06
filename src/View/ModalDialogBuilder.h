@@ -13,7 +13,7 @@ class DetailedStatusPresenter;
 class LoginPresenter;
 class DoctorDialogPresenter;
 class InvoicePresenter;
-
+class AddPracticePresenter;
 enum class DialogAnswer { Yes, No, Cancel };
 
 namespace ModalDialogBuilder
@@ -26,6 +26,7 @@ namespace ModalDialogBuilder
 	void openDialog(DetailedStatusPresenter* p);
 	void openDialog(LoginPresenter* p);
 	void openDialog(std::optional<ReportDialogResult>& result);
+	void openDialog(AddPracticePresenter* p);
 	void openDialog(DoctorDialogPresenter* p);
 	void openDialog(InvoicePresenter* p);
 	int saveAsAmbSheetNumber(int newNum, std::unordered_set<int> existingNumbers);

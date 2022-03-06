@@ -139,8 +139,9 @@ ReportResult XML::saveXMLreport(int month, int year, const std::string& path)
 
     if (!errors.empty())
     {
-        ReportResult{false, errors};
+        return ReportResult{ false, errors };
     }
+
 
     for (auto& sheet : ambSheets)
     {

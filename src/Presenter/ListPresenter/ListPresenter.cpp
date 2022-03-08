@@ -570,6 +570,7 @@ void ListPresenter::setfullCoverage(bool unfav)
 {
     m_ambList.full_coverage = unfav;
 
+    /*
     for (auto& m : m_ambList.procedures)
     {
         if (m.nzok)
@@ -586,7 +587,7 @@ void ListPresenter::setfullCoverage(bool unfav)
 
         }
     }
-
+    */
     if (unfav)
     {
         view->taxCombo()->setIndex(2);

@@ -39,6 +39,7 @@ ListPresenter::ListPresenter(ITabView* tabView, std::shared_ptr<Patient> patient
     else if (m_ambList.isNew() && patient->getAge(ambSheetDate) > 70)
        m_ambList.charge = Charge::retired;
 
+    /*
     for (auto& m : m_ambList.procedures) //autofill NZOK procedures
         if (m.nzok)
             m.price = MasterNZOK::instance()
@@ -48,6 +49,7 @@ ListPresenter::ListPresenter(ITabView* tabView, std::shared_ptr<Patient> patient
                 patient->isAdult(), 
                 m_ambList.full_coverage
             );
+     */
 }
 
 ListPresenter::ListPresenter(ITabView* tabView, std::shared_ptr<Patient> patient, const std::string& ambListId)
@@ -67,6 +69,7 @@ ListPresenter::ListPresenter(ITabView* tabView, std::shared_ptr<Patient> patient
     else if (m_ambList.isNew() && patient->getAge(ambSheetDate) > 70)
         m_ambList.charge = Charge::retired;
 
+    /*
     for (auto& m : m_ambList.procedures) //autofill NZOK procedures
         if (m.nzok)
             m.price = MasterNZOK::instance()
@@ -77,6 +80,7 @@ ListPresenter::ListPresenter(ITabView* tabView, std::shared_ptr<Patient> patient
                    patient->isAdult(), 
                    m_ambList.full_coverage
                );
+    */
 }
 
 void ListPresenter::statusChanged()
@@ -479,6 +483,7 @@ void ListPresenter::addProcedure()
 
     if (openList.empty()) return;
 
+    /*
     if (openList[0].nzok) //re-getting the prices because of edge-case (18th birthday in current month)
     {
         for (auto& m : openList)
@@ -491,7 +496,7 @@ void ListPresenter::addProcedure()
                 m_ambList.full_coverage
             );
     }
-
+    */
 
     this->addToProcedureList(openList);
 
@@ -516,6 +521,7 @@ void ListPresenter::editProcedure()
 
     auto& m = result.value();
 
+    /*
     if (m.nzok)
     {
         m.price = MasterNZOK::instance().
@@ -529,7 +535,7 @@ void ListPresenter::editProcedure()
             );
 
     }
-
+    */
     if (m.date == m_for_edit.date)
     {
         m_for_edit = m;

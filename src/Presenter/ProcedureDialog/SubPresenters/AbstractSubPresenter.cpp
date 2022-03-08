@@ -7,7 +7,7 @@ void AbstractSubPresenter::setProcedureTemplate(const ProcedureTemplate& m)
 
 	m_template = m;
 
-	common_view->priceEdit()->disable(m.nzok);
+	//common_view->priceEdit()->disable(m.nzok);
 	common_view->manipulationEdit()->disable(m.nzok);
 
 	common_view->manipulationEdit()->set_Text(m.name);

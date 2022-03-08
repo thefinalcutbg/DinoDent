@@ -1,4 +1,4 @@
-#include "LpkValidator.h"
+Ôªø#include "LpkValidator.h"
 #include <unordered_set>
 #include <string_view>
 
@@ -9,7 +9,7 @@ const std::unordered_set<std::string_view> firstTwoSymbols
     "23","24","25","26","27","28"
 };
 
-const std::string notMatchingFirstTwoSymbols{ u8"ÕÂ‚‡ÎË‰ÂÌ ”»Õ" };
+const std::string notMatchingFirstTwoSymbols{ u8"–ù–µ–≤–∞–ª–∏–¥–µ–Ω –£–ò–ù" };
 
 bool LpkValidator::validateInput(const std::string& text)
 {

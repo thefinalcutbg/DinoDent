@@ -97,6 +97,7 @@ void DoctorSettingsDialog::setToReadOnly()
 
 	ui.severalRHIFcheck->setDisabled(true);
 	ui.specialty->setDisabled(true);
+	ui.passEdit->setEchoMode(QLineEdit::EchoMode::Password);
 }
 
 

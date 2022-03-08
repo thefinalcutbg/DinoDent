@@ -43,7 +43,7 @@ void ProcedureEditorPresenter::setView(IProcedureEditDialog* view)
 
 	if (m.nzok)
 	{
-		view->commonFields()->priceEdit()->disable(true);
+		//view->commonFields()->priceEdit()->disable(true);
 		view->commonFields()->manipulationEdit()->disable(true);
 	}
 

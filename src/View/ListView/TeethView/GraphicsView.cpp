@@ -12,17 +12,7 @@ GraphicsView::GraphicsView(QWidget *parent)
 
 	setStyleSheet("border: 2px solid lightgray");
 	
-	gl = new QOpenGLWidget();
-	
-	QSurfaceFormat format;
-
-	format.setSamples(4);
-
-	gl->setFormat(format);
-	setViewport(gl);
-	gl->setUpdateBehavior(QOpenGLWidget::UpdateBehavior::NoPartialUpdate);
-
-	setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
+	setViewportUpdateMode(QGraphicsView::ViewportUpdateMode::FullViewportUpdate);
 	
 }
 

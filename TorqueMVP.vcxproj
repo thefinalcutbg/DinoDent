@@ -217,6 +217,10 @@
     <ClCompile Include="src\View\AddPracticeDialog\AddPracticeDialog.cpp" />
     <ClCompile Include="src\Model\User\User.cpp" />
     <ClCompile Include="src\Presenter\SettingsPresenter\PracticeDoctorSettingsPresenter.cpp" />
+    <ClCompile Include="src\View\ListView\SurfacePanel\ControlPanelPolygon.cpp" />
+    <ClCompile Include="src\View\ListView\SurfacePanel\CPTooth.cpp" />
+    <ClCompile Include="src\View\ListView\SurfacePanel\SurfacePanel.cpp" />
+    <ClCompile Include="src\View\Theme.cpp" />
     <ClCompile Include="src\View\SettingsDialog\PracticeDoctorSettings\IPracticeDoctorSettings.cpp" />
     <ClCompile Include="src\View\SettingsDialog\PracticeDoctorSettings\PracticeDoctorSettings.cpp" />
     <ClCompile Include="src\Model\Validator\BulstatValidator.cpp" />
@@ -344,13 +348,6 @@
     <ClCompile Include="src\View\ProcedureDialog\ProcedureDialog.cpp" />
     <ClCompile Include="src\Model\Tooth\Tooth.cpp" />
     <ClCompile Include="src\Model\Tooth\ToothUtils.cpp" />
-    <ClCompile Include="src\View\ListView\SurfacePanel\ControlPanelPolygon.cpp">
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/utf-8 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">/utf-8 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">/utf-8 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">/utf-8 %(AdditionalOptions)</AdditionalOptions>
-    </ClCompile>
-    <ClCompile Include="src\View\ListView\SurfacePanel\CPTooth.cpp" />
     <ClCompile Include="src\View\ListView\ControlPanel\ControlPanel.cpp" />
     <ClCompile Include="src\View\ListView\TeethView\ContextMenu.cpp">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/utf-8 %(AdditionalOptions)</AdditionalOptions>
@@ -382,7 +379,6 @@
     <ClCompile Include="src\View\ListView\ListView.cpp" />
     <ClCompile Include="src\View\TabView\TabBar.cpp" />
     <ClCompile Include="src\View\ListView\ControlPanel\StatusButton.cpp" />
-    <ClCompile Include="src\View\ListView\SurfacePanel\SurfacePanel.cpp" />
     <ClCompile Include="src\Presenter\ListPresenter\SurfacePanel\ButtonSurfaceMatrix.cpp" />
     <ClCompile Include="src\Presenter\ListPresenter\SurfacePanel\SurfacePanelPresenter.cpp" />
     <ClCompile Include="src\View\uiComponents\AbstractUIElement.cpp" />
@@ -396,6 +392,7 @@
     <ClCompile Include="src\Model\User\UserManager.cpp" />
     <QtRcc Include="resources\Resource.qrc" />
     <QtUic Include="src\View\AddPracticeDialog\AddPracticeDialog.ui" />
+    <QtUic Include="src\View\ListView\SurfacePanel\SurfacePanel.ui" />
     <QtUic Include="src\View\SettingsDialog\PracticeDoctorSettings\PracticeDoctorSettings.ui" />
     <QtUic Include="src\View\SettingsDialog\ProcedureTemplateDialog\ProcedureTemplateDialog.ui" />
     <QtUic Include="src\View\SettingsDialog\PriceListSettings\PriceListSettings.ui" />
@@ -461,7 +458,6 @@
     </ClCompile>
     <ClCompile Include="src\View\Torque.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <QtUic Include="src\View\ListView\SurfacePanel\SurfacePanel.ui" />
     <QtUic Include="src\View\uiComponents\qt_derived\Widgets\SurfaceSelector.ui" />
     <QtUic Include="src\View\uiComponents\qt_derived\Widgets\VitaWidget.ui" />
     <QtUic Include="src\View\TabView\TabView.ui" />
@@ -520,6 +516,11 @@
     <ClInclude Include="src\Presenter\SettingsPresenter\PracticeSettingsPresenter.h" />
     <ClInclude Include="src\Presenter\SettingsPresenter\PriceListSettingsPresenter.h" />
     <ClInclude Include="src\Presenter\SettingsPresenter\SettingsMainPresenter.h" />
+    <ClInclude Include="src\View\ListView\SurfacePanel\ControlPanelPolygon.h" />
+    <ClInclude Include="src\View\ListView\SurfacePanel\CPTooth.h" />
+    <ClInclude Include="src\View\ListView\SurfacePanel\ISurfacePanel.h" />
+    <QtMoc Include="src\View\ListView\SurfacePanel\SurfacePanel.h" />
+    <ClInclude Include="src\View\Theme.h" />
     <ClInclude Include="src\View\DoctorSettingsDialog\IDoctorSettingsDialog.h" />
     <ClInclude Include="src\View\AddPracticeDialog\IAddPracticeDialog.h" />
     <ClInclude Include="src\View\InvoiceDialog\IInvoiceDialog.h" />
@@ -643,12 +644,8 @@
     <ClInclude Include="src\Model\Tooth\ToothUtils.h" />
     <ClInclude Include="src\Presenter\ListPresenter\SurfacePanel\ButtonSurfaceMatrix.h" />
     <ClInclude Include="src\Presenter\ListPresenter\SurfacePanel\SurfacePanelPresenter.h" />
-    <QtMoc Include="src\View\ListView\SurfacePanel\SurfacePanel.h" />
     <QtMoc Include="src\View\ListView\ControlPanel\StatusButton.h" />
     <QtMoc Include="src\View\ListView\ControlPanel\ControlPanel.h" />
-    <ClInclude Include="src\View\ListView\SurfacePanel\ControlPanelPolygon.h" />
-    <ClInclude Include="src\View\ListView\SurfacePanel\CPTooth.h" />
-    <ClInclude Include="src\View\ListView\SurfacePanel\ISurfacePanel.h" />
     <ClInclude Include="src\Presenter\ListPresenter\ListPresenter.h" />
     <QtMoc Include="src\View\ListView\TeethView\ContextMenu.h" />
     <ClInclude Include="src\Presenter\ListPresenter\CheckState.h" />

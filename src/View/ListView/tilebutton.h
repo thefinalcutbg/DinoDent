@@ -22,19 +22,22 @@ protected:
 
     bool hover;
     bool clicked;
-
+    bool m_reveresed{ false };
     QFont header;
     QFont info;
+    QFont infoLabel;
 
     QString elide(const QString& text, int length);
     virtual void paintInfo(QPainter* painter) = 0;
 
 public:
     TileButton(QWidget* parent = 0);
+    void reverse() { m_reveresed = !m_reveresed; };
 };
 
 class PatientTile : public TileButton
 {
+    QString idLabel;
     QString name;
     QString type;
     QString id;

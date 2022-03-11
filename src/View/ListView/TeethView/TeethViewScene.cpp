@@ -8,23 +8,39 @@
 #include "Presenter/ListPresenter/ListPresenter.h"
 #include <QGuiApplication>
 #include "View/ToothPaintDevices/ToothPainter.h"
-
+#include <View/Theme.h>
+#include <qapplication.h>
 TeethViewScene::TeethViewScene(QObject *parent)
     : QGraphicsScene(parent), contextMenu(nullptr), presenter(nullptr)
 {
-
+  /*
     //background color:
     {
-        QPixmap white(730, 456);
-        white.fill(Qt::white);
-        QGraphicsPixmapItem* background = new QGraphicsPixmapItem(white);
+       
+        QPixmap px(721, 501);
+        QPainter painter(&px);
+        painter.setRenderHint(QPainter::Antialiasing);
+        painter.fillRect(px.rect(), Theme::background);
+
+        auto path = Theme::getHalfCurvedPath(721, 501);
+
+        painter.fillPath(path, Theme::sectionBackground);
+
+        painter.setPen(QPen(Theme::border));
+
+        painter.drawPath(path);
+
+        painter.end();
+
+        QGraphicsPixmapItem* background = new QGraphicsPixmapItem(px);
         addItem(background);
-        background->setPos(-24, -4);
+      
+
     }
-
-
-    int posY = 0;
-    int posX = 0;
+    
+    */
+    int posY = 15;
+    int posX = 15;
 
     int selectionBox_posY = posY;
 

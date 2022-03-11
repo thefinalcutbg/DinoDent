@@ -11,8 +11,8 @@ class GraphicsView : public QGraphicsView
 	QOpenGLWidget* gl;
 
 	void mousePressEvent(QMouseEvent* event) override;
-
-
+	void paintEvent(QPaintEvent* event);
+	/*
 	void focusInEvent(QFocusEvent* event) override { 
 
 		setStyleSheet(
@@ -32,7 +32,7 @@ class GraphicsView : public QGraphicsView
 			"border-radius: 4px;"
 		);
 	}
-
+	*/
 	void wheelEvent(QWheelEvent* event) override;
 
 public:

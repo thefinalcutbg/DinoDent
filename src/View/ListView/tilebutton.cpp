@@ -1,5 +1,6 @@
 ﻿#include "tilebutton.h"
 #include <QPainterPath>
+#include "View/Theme.h"
 
 TileButton::TileButton(QWidget* parent) : QAbstractButton(parent), hover(0), clicked(0)
 {
@@ -9,6 +10,10 @@ TileButton::TileButton(QWidget* parent) : QAbstractButton(parent), hover(0), cli
 	header.setBold(1);
 	info.setPointSizeF(8);
 	info.setFamily("Segoe UI");
+	
+	infoLabel.setFamily("Segoe UI");
+	infoLabel.setBold(true);
+	infoLabel.setPointSizeF(8);
 
 	this->installEventFilter(this);
 
@@ -17,28 +22,40 @@ TileButton::TileButton(QWidget* parent) : QAbstractButton(parent), hover(0), cli
 void TileButton::paintEvent(QPaintEvent* e)
 {
 
-	QColor color(251, 251, 251);
 
-	if(hover) color.setRgb(242, 242, 242);
+	//if(hover) color.setRgb(242, 242, 242);
 
 	QPainter painter(this);
+	painter.setRenderHint(QPainter::Antialiasing);
 
-	constexpr int radius = 8;
+	//getting the half-rounded button path:
 
-	QPainterPath path;
-	path.addRoundedRect(rect(), radius, radius);
+	
+	auto path = Theme::getHalfCurvedPath(width(), height());
 
-	painter.fillPath(path, color);
-		
+	if(m_reveresed) //transforming if reversed;
+	{
+		QTransform mirror(-1, 0, 0, 0, 1, 0, 0, 0, 1);
+		painter.setTransform(mirror);
+		painter.translate(-width(), 0);
+	}
 
-	painter.setPen(QPen(QColor(200, 200, 200)));
+	painter.fillPath(path, Theme::sectionBackground);
+
+	painter.setPen(QPen(Theme::border));
 
 	painter.drawPath(path);
 
-	QColor textColor = clicked ?
-		QColor(92, 93, 95)
+	if (m_reveresed)
+	{
+		painter.resetTransform();
+	}
+
+
+	QColor textColor = hover && !clicked ?
+		QColor(Theme::fontTurquoiseClicked)
 		:
-		QColor(26, 26, 26);
+		QColor(Theme::fontTurquoise);
 
 	painter.setPen(QPen(textColor));
 
@@ -81,8 +98,6 @@ QString TileButton::elide(const QString& text, int length)
 	return text.chopped(text.length() - length) + "...";
 }
 
-
-
 void PatientTile::paintInfo(QPainter* painter)
 {
 	QFontMetrics fm(info);
@@ -90,15 +105,35 @@ void PatientTile::paintInfo(QPainter* painter)
 	int phonePosX = width() - fm.horizontalAdvance(phone) - 10;
 	int addressPosX = width() - fm.horizontalAdvance(address) - 10;
 
-	painter->setFont(header);
-	painter->drawText(20, 25, name);
+	constexpr int rowYPos[3]{ 60,80,100 };
+
+	painter->setFont(infoLabel);
+	painter->drawText(20, rowYPos[0], idLabel);
+	painter->drawText(20, rowYPos[1], u8"Номер на ЗОК: ");
+	painter->drawText(20, rowYPos[2], u8"Рождена дата: ");
+	
+	painter->drawText(width() / 2, rowYPos[0], u8"Телефон: ");
+	painter->drawText(width() / 2, rowYPos[1], u8"Адрес: ");
+	painter->drawText(width() / 2, rowYPos[2], u8"Възраст: ");
+
+	QFontMetrics metric(infoLabel);
+
+	auto horizontalAdvance = [metric](const QString& label) {
+		return metric.horizontalAdvance(label);
+	};
+
 	painter->setFont(info);
-	painter->drawText(20, 50, id);
-	painter->drawText(20, 70, hirbNo);
-	painter->drawText(20, 90, birthDate);
-	painter->drawText(20, 110, age);
-	painter->drawText(phonePosX, 90, phone);
-	painter->drawText(addressPosX, 110, address);
+	painter->drawText(20 + horizontalAdvance(idLabel), rowYPos[0], id);
+	painter->drawText(20 + horizontalAdvance(u8"Номер на ЗОК: "), rowYPos[1], hirbNo);
+	painter->drawText(20 + horizontalAdvance(u8"Рождена дата: "), rowYPos[2], birthDate);
+	
+	painter->drawText(width()/2 + horizontalAdvance(u8"Телефон: "), rowYPos[0], phone);
+	painter->drawText(width()/2 + horizontalAdvance(u8"Адрес: "), rowYPos[1], address);
+	painter->drawText(width() / 2 + horizontalAdvance(u8"Възраст: "), rowYPos[2], age);
+
+	painter->setFont(header);
+	painter->setPen(hover && !clicked ? QPen(Theme::fontRedClicked) : QPen(QColor(Theme::fontRed)));
+	painter->drawText(20, 30, name);
 	
 }
 
@@ -110,20 +145,20 @@ PatientTile::PatientTile(QWidget* parent) : TileButton(parent)
 
 void PatientTile::setData(const Patient& patient, Date currentDate)
 {
-	name = elide(QString::fromStdString(patient.FirstName + " " + patient.MiddleName + " " + patient.LastName), 40);
+	name = elide(QString::fromStdString(patient.FirstName + " " + patient.MiddleName + " " + patient.LastName), 35);
 
-	if (patient.type == 1) type = "ЕГН: ";
-	else type = "ЛНЧ: ";
+	if (patient.type == 1) idLabel = "ЕГН: ";
+	else idLabel = "ЛНЧ: ";
 
-	id = type + QString::fromStdString(patient.id);
+	id = QString::fromStdString(patient.id);
 
 	if (patient.HIRBNo == "")
-		hirbNo = "Номер на ЗОК: Няма данни";
-	else hirbNo = "Номер на ЗОК: " + QString::fromStdString(patient.HIRBNo);
+		hirbNo = "Няма данни";
+	else hirbNo = QString::fromStdString(patient.HIRBNo);
 
-	birthDate = "Рождена дата: " + QString::fromStdString((patient.birth.toString()));
+	birthDate = QString::fromStdString((patient.birth.toString()));
 
-	age = "Възраст: " + QString::number(patient.getAge(currentDate)) + " г.";
+	age = QString::number(patient.getAge(currentDate)) + " г.";
 
 	QString city = QString::fromStdString(patient.city);
 
@@ -144,10 +179,10 @@ void PatientTile::setData(const Patient& patient, Date currentDate)
 	if (patient.address != "")
 		address.append(", " + QString::fromStdString(patient.address));
 
-	address = elide(address, 50);
+	address = elide(address, 30);
 
 	if (patient.phone != "")
-		phone = "Телефон: " + QString::fromStdString(patient.phone);
+		phone = QString::fromStdString(patient.phone);
 	else phone = "";
 
 	update();

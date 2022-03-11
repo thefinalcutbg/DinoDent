@@ -1,6 +1,7 @@
 ﻿#include "ListView.h"
 
 #include "TeethView/ContextMenu.h"
+#include "View/Theme.h"
 
 ListView::ListView(QWidget* parent)
 	: QWidget(parent), presenter(nullptr)
@@ -11,6 +12,8 @@ ListView::ListView(QWidget* parent)
 	teethViewScene = new TeethViewScene(ui.teethView);
 	contextMenu = new ContextMenu();
 	teethViewScene->setContextMenu(contextMenu);
+
+	ui.allergiesTile->reverse();
 
 	ui.teethView->setScene(teethViewScene);
 	ui.teethView->setSceneRect(teethViewScene->sceneRect());
@@ -97,7 +100,33 @@ void ListView::paintEvent(QPaintEvent* event)
 {
 	QPainter painter;
 	painter.begin(this);
-	painter.fillRect(rect(), QColor(255,255,255));
+	painter.setRenderHint(QPainter::RenderHint::Antialiasing);
+	painter.fillRect(rect(), Theme::background);
+
+	QPainterPath path;
+
+	path.addRoundedRect(
+		QRectF(
+			ui.teethView->x(),
+			ui.teethView->y(),
+			ui.controlPanel->x() + ui.controlPanel->width(),
+			ui.teethView->height()
+		),
+		Theme::radius/2,
+		Theme::radius/2
+	);
+
+	painter.fillPath(path, Theme::sectionBackground);
+	
+	painter.setPen(QPen(Theme::border));
+	painter.drawPath(path);
+
+	painter.drawLine(
+		ui.surfacePanel->x(),
+		ui.surfacePanel->y(),
+		ui.surfacePanel->x(),
+		ui.surfacePanel->y() + ui.teethView->height()
+	);
 
 	painter.end();
 }

@@ -36,7 +36,7 @@ TabView::TabView(QWidget *parent)
     noTabs->setStyleSheet("background-color:white");
 
     ui.scrollArea->setObjectName("ScrollArea");
-    setStyleSheet("#ScrollArea{background-color : white;}");
+    setStyleSheet("#ScrollArea{background-color : rgb(246, 245, 250);}");
 
 
   //  ui.stackedWidget->addWidget(noTabs);

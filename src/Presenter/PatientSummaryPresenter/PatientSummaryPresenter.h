@@ -33,7 +33,7 @@ public:
 	void print() override;
 	void setCurrent() override;
 
-	virtual std::string getTabName() override;
+	virtual TabName getTabName() override;
 
 	~PatientSummaryPresenter();
 };

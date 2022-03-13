@@ -47,13 +47,14 @@ ProcedureTable::ProcedureTable(QWidget* parent)
     //setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    
+
     setWordWrap(true);
+
+    
 }
 
 void ProcedureTable::setAmbListLayout()
 {
-
     hideColumn(0);
     setColumnWidth(1, 69);
     setColumnWidth(2, 200);
@@ -109,6 +110,8 @@ void ProcedureTable::fitToModel(int rows) //not working correctly yet
     }
 
     setFixedHeight(tableHeight);
+
+
 }
 
 void ProcedureTable::keyPressEvent(QKeyEvent* event)
@@ -144,7 +147,14 @@ void ProcedureTable::paintEvent(QPaintEvent* e)
     painter.translate(0, h-1);
     painter.rotate(-90);
 
-    painter.fillPath(path, Theme::sectionBackground);
+    QColor background(Theme::sectionBackground);
+/*
+    //buggy:
+    if (selectionModel()->currentIndex().row() == model()->rowCount() - 1) {
+        background = Theme::background;
+    }
+*/
+    painter.fillPath(path, background);
 
     painter.setPen(QPen(Theme::border));
     painter.drawPath(path);
@@ -154,7 +164,7 @@ void ProcedureTable::paintEvent(QPaintEvent* e)
     painter.drawLine(0, 0, 0, h - 8);
     painter.drawLine(w - 1, 0, w - 1, h - 8);
    
-    QPen eraser(Theme::sectionBackground);
+    QPen eraser(background);
     eraser.setWidth(3);
     painter.setPen(eraser);
     painter.drawLine(2, h- footerHeight, w - 3, h - footerHeight);

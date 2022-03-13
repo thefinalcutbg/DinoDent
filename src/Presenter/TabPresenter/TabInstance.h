@@ -7,6 +7,12 @@
 
 enum class TabType {AmbList, PerioList, PatientSummary};
 
+struct TabName {
+	std::string header;
+	std::string footer;
+	std::string toString() { return header + " " + footer; };
+};
+
 class TabInstance
 {
 
@@ -20,7 +26,9 @@ protected:
 		if (edited) return;
 
 		edited = true;
-		_tabView->changeTabName("*" + getTabName());
+		auto tabName = getTabName();
+		tabName.footer = "*" + tabName.footer;
+		_tabView->changeTabName(tabName);
 	}
 
 public:
@@ -40,7 +48,7 @@ public:
 	{
 		if (isNew() || edited)
 		{
-			DialogAnswer answer = ModalDialogBuilder::openSaveDialog(getTabName());
+			DialogAnswer answer = ModalDialogBuilder::openSaveDialog(getTabName().toString());
 
 			switch (answer)
 			{
@@ -62,7 +70,7 @@ public:
 	virtual void print() = 0;
 	virtual void setCurrent() = 0;
 	virtual bool isNew() = 0;
-	virtual std::string getTabName() = 0;
+	virtual TabName getTabName() = 0;
 
 protected:
 

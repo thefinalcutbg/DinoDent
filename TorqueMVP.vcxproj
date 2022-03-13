@@ -390,6 +390,7 @@
     <ClCompile Include="src\View\TabView\TabView.cpp" />
     <ClCompile Include="src\Model\Tooth\ToothContainer.cpp" />
     <ClCompile Include="src\Model\User\UserManager.cpp" />
+    <ClCompile Include="src\View\TabView\TabTitle.cpp" />
     <QtRcc Include="resources\Resource.qrc" />
     <QtUic Include="src\View\AddPracticeDialog\AddPracticeDialog.ui" />
     <QtUic Include="src\View\ListView\SurfacePanel\SurfacePanel.ui" />
@@ -461,8 +462,10 @@
     <QtUic Include="src\View\uiComponents\qt_derived\Widgets\SurfaceSelector.ui" />
     <QtUic Include="src\View\uiComponents\qt_derived\Widgets\VitaWidget.ui" />
     <QtUic Include="src\View\TabView\TabView.ui" />
+    <QtUic Include="src\View\TabView\TabTitle.ui" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="src\View\TabView\TabTitle.h" />
     <QtMoc Include="src\View\PerioView\Widgets\FurcationWidget.h" />
     <QtMoc Include="src\View\PerioView\Widgets\PerioStatusView.h" />
     <QtMoc Include="src\View\PerioView\Widgets\PerioTable.h" />

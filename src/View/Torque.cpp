@@ -4,7 +4,7 @@
 #include <QDebug>
 #include <QPixmap>
 #include <QFileDialog>
-
+#include "View/Theme.h"
 #include "View/SettingsDialog/SettingsDialog.h"
 
 QColor blue(133, 207, 234);
@@ -55,6 +55,8 @@ Torque::Torque(QWidget* parent)
 
     ui.userButton->setIcon(QIcon{":/icons/icon_user.png"});
 
+    ui.practiceLabel->setStyleSheet("color:" + Theme::getRGBStringFromColor(Theme::practiceLabel));
+
     presenter.setView(this);
 }
 
@@ -83,7 +85,7 @@ void Torque::paintEvent(QPaintEvent* event)
 {
     QPainter painter;
     painter.begin(this);
-    painter.fillRect(QRect(0, 0, width(), height()), Qt::white);
+    painter.fillRect(QRect(0, 0, width(), height()), QColor(170, 215, 220));
     painter.end();
 }
 

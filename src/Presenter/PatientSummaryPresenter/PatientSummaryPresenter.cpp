@@ -51,9 +51,12 @@ void PatientSummaryPresenter::setCurrent()
 
 
 
-std::string PatientSummaryPresenter::getTabName()
+TabName PatientSummaryPresenter::getTabName()
 {
-    return this->patient->firstLastName();
+    return{
+        u8"Пациент",
+        this->patient->firstLastName()
+    };
 }
 
 PatientSummaryPresenter::~PatientSummaryPresenter()

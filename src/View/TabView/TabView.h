@@ -26,10 +26,10 @@ public:
 	~TabView();
 
 	// Inherited via ITabView
-	void newTab(int vecPos, std::string tabName) override;
+	void newTab(int vecPos, const TabName& tabName) override;
 	void focusTab(int vecPos) override;
 	void removeCurrentTab() override;
-	void changeTabName(std::string tabName) override;
+	void changeTabName(const TabName& tabName) override;
 	void setTabPresenter(TabPresenter* presenter) override;
 	void removeTab(int vecPos) override;
 
@@ -46,7 +46,7 @@ public:
 	IPatientSummaryView* summaryView() override;
 
 signals:
-	void closeRequested();
+	void closeRequested(int mapIndex);
 
 private:
 	Ui::TabView ui;

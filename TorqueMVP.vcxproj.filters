@@ -537,6 +537,9 @@
     <ClCompile Include="src\View\ListView\SurfacePanel\SurfacePanel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\TabView\TabTitle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -743,6 +746,9 @@
     <QtMoc Include="src\View\ListView\SurfacePanel\SurfacePanel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\View\TabView\TabTitle.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="resources\Resource.qrc" />
@@ -866,6 +872,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\ListView\SurfacePanel\SurfacePanel.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\TabView\TabTitle.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

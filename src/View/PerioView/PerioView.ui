@@ -333,7 +333,6 @@
    </property>
    <property name="font">
     <font>
-     <family>Segoe UI</family>
      <pointsize>16</pointsize>
     </font>
    </property>
@@ -355,7 +354,6 @@
    </property>
    <property name="font">
     <font>
-     <family>Segoe UI</family>
      <pointsize>16</pointsize>
     </font>
    </property>
@@ -371,7 +369,7 @@
     <rect>
      <x>80</x>
      <y>20</y>
-     <width>461</width>
+     <width>521</width>
      <height>121</height>
     </rect>
    </property>
@@ -382,9 +380,9 @@
   <widget class="AllergiesTile" name="allergiesTile">
    <property name="geometry">
     <rect>
-     <x>560</x>
+     <x>590</x>
      <y>20</y>
-     <width>351</width>
+     <width>321</width>
      <height>121</height>
     </rect>
    </property>

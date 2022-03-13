@@ -17,3 +17,9 @@ QPainterPath Theme::getHalfCurvedPath(int width, int height)
 
 	return path;
 }
+
+QString Theme::getRGBStringFromColor(const QColor& color)
+{
+	QString style = " rgb(%1, %2, %3);";
+	return QString(style.arg(color.red()).arg(color.green()).arg(color.blue()));
+}

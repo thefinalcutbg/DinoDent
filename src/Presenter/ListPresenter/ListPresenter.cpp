@@ -109,21 +109,21 @@ void ListPresenter::chargeChanged(int index)
     makeEdited();
 }
 
-std::string ListPresenter::getTabName()
+TabName ListPresenter::getTabName()
 {
-    std::string tabName;
-    tabName.reserve(60);
+    std::string header;
 
-    tabName += m_ambList.isNew() ? u8"Нов амб.лист" :
+    std::string footer;
+
+    header += m_ambList.isNew() ? u8"Нов амб.лист" :
         u8"Амб.лист №" + std::to_string(m_ambList.number);
 
-    tabName += " ";
-    tabName += patient->FirstName;
-    tabName += " ";
+   ;
+    footer = patient->FirstName;
+    footer += " ";
+    footer += patient->LastName;
 
-    tabName += patient->LastName;
-
-    return tabName;
+    return {header, footer};
 }
 
 const std::string& ListPresenter::rowID() const
@@ -225,12 +225,14 @@ void ListPresenter::setCurrent()
     
     view->setSelectedTeeth(m_selectedIndexes);
 
+    showCurrentStatus(m_showCurrentStatus);
+
     refreshProcedureView();
 
     _tabView->showListView();
     setScrollPosition();
 
-    showCurrentStatus(m_showCurrentStatus);
+    
     
 }
 

@@ -1,4 +1,5 @@
 #pragma once
+#include <QString>
 #include <QColor>
 #include <QPainterPath>
 namespace Theme
@@ -14,8 +15,11 @@ namespace Theme
 	const QColor fontTurquoise(2, 127, 128);
 	const QColor fontTurquoiseClicked(75, 163, 162);
 	const QColor buttonFrame(170, 215, 220);
+	const QColor inactiveTabBG(205, 233, 236);
+	const QColor inactiveTabBGHover(193, 220, 228);
+	const QColor practiceLabel(0, 124, 121);
 
 	QPainterPath getHalfCurvedPath(int width, int heigt);
-
+	QString getRGBStringFromColor(const QColor& color);
 
 };

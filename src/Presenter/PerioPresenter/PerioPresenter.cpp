@@ -325,9 +325,12 @@ void PerioPresenter::prepareSwitch()
     TabInstance::prepareSwitch();
 }
 
-std::string PerioPresenter::getTabName()
+TabName PerioPresenter::getTabName()
 {
-    return u8"Пародонтален статус " + patient->firstLastName() + " " + m_perioStatus.date.toString();
+    return { 
+        u8"Пародонтален статус " + m_perioStatus.date.toString(),
+        patient->firstLastName() + " " + m_perioStatus.date.toString() 
+    };
 }
 
 PerioPresenter::~PerioPresenter()

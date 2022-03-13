@@ -9,6 +9,7 @@
 #include "Model/PerioStatistic.h"
 #include <string_view>
 #include <QDebug>
+#include "View/Theme.h"
 
 PerioView::PerioView(QWidget* parent)
 	: QWidget(parent)
@@ -234,7 +235,7 @@ void PerioView::setMeasurment(int index, int pd, int cal, int gm, int recession)
 void PerioView::paintEvent(QPaintEvent* event)
 {
     QPainter painter(this);
-    painter.fillRect(0, 0, width(), height(), Qt::GlobalColor::white);
+    painter.fillRect(0, 0, width(), height(), Theme::background);
 }
 
 

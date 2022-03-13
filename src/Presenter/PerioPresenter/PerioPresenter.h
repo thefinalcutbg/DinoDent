@@ -54,7 +54,7 @@ public:
 	virtual void print() override;
 	virtual void setCurrent() override;
 	virtual void prepareSwitch() override;
-	virtual std::string getTabName() override;
+	virtual TabName getTabName() override;
 
 	~PerioPresenter();
 };

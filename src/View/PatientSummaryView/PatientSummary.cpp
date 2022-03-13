@@ -1,7 +1,7 @@
 #include "PatientSummary.h"
 #include <QPainter>
 #include "Presenter/PatientSummaryPresenter/PatientSummaryPresenter.h"
-
+#include "View/Theme.h"
 PatientSummary::PatientSummary(QWidget *parent)
 	: QWidget(parent), presenter(nullptr)
 {
@@ -25,7 +25,7 @@ void PatientSummary::paintEvent(QPaintEvent* event)
 {
 	QPainter painter;
 	painter.begin(this);
-	painter.fillRect(0, 0, width(), height(), Qt::white);
+	painter.fillRect(0, 0, width(), height(), Theme::background);
 
 	painter.end();
 }
@@ -77,11 +77,7 @@ void PatientSummary::setProcedures(const std::vector<Procedure>& p)
 
 	//tova e copy-paste ot listView-to :
 	
-	int tableHeight = p.size() * 50 + 26;
-	//ne sym siguren izob6to, 4e taka iskam da izglejda:
-	auto size = ui.procedureTable->size();
-	size.setHeight(tableHeight);
-	ui.procedureTable->setFixedSize(size);
-	this->setFixedHeight(710 + tableHeight + 100);
+	ui.procedureTable->fitToModel(p.size());
+	this->setFixedHeight(710 + ui.procedureTable->height() + 100);
 	ui.procedureTable->setHidden(!p.size());
 }

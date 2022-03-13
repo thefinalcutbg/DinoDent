@@ -1,5 +1,6 @@
 ﻿#include "TabView.h"
 #include <QABstractScrollArea>
+#include "View/Theme.h"
 
 TabView::TabView(QWidget *parent)
 	: QWidget(parent), tabPresenter(nullptr)
@@ -16,16 +17,16 @@ TabView::TabView(QWidget *parent)
                 return;
             }
 
-            int tabIndex = ui.tabBar->tabData(index).toInt();
+            int tabId = ui.tabBar->getTabId(index);
 
-            tabPresenter->setCurrentTab(tabIndex);
+            tabPresenter->setCurrentTab(tabId);
         });
 
     connect(ui.tabBar, &QTabBar::tabCloseRequested,
         [=](int index)
         {
             ui.tabBar->setCurrentIndex(index);
-            emit closeRequested();
+            emit closeRequested(ui.tabBar->getTabId(index));
         });
 
     ui.scrollArea->setAlignment(Qt::AlignHCenter);
@@ -33,10 +34,10 @@ TabView::TabView(QWidget *parent)
     noTabs = new QLabel(this);
     noTabs->setPixmap(QPixmap("dino.png"));
     noTabs->setAlignment(Qt::AlignCenter);
-    noTabs->setStyleSheet("background-color:white");
+    noTabs->setStyleSheet("background-color:"+ Theme::getRGBStringFromColor(Theme::background));
 
     ui.scrollArea->setObjectName("ScrollArea");
-    setStyleSheet("#ScrollArea{background-color : rgb(246, 245, 250);}");
+    setStyleSheet("#ScrollArea{background-color:"+ Theme::getRGBStringFromColor(Theme::background) + "}");
 
 
   //  ui.stackedWidget->addWidget(noTabs);
@@ -65,9 +66,13 @@ void TabView::showTabWidget(QWidget* w)
     ui.scrollArea->setWidget(w);
 }
 
-void TabView::newTab(int tabIndex, std::string tabName)
+void TabView::newTab(int tabIndex, const TabName& tabName)
 {
-    ui.tabBar->addNewTab(QString::fromStdString(tabName), tabIndex);
+    ui.tabBar->addNewTab(
+        tabIndex,
+        QString::fromStdString(tabName.header), 
+        QString::fromStdString(tabName.footer)
+        );
 
   // ui.tabBar->setCurrentIndex(ui.tabBar->count() - 1);
 
@@ -77,7 +82,7 @@ void TabView::focusTab(int vecPos)
 {
     for (int i = 0; i < ui.tabBar->count(); i++)
     {
-        if (ui.tabBar->tabData(i) == vecPos)
+        if (ui.tabBar->getTabId(i) == vecPos)
             ui.tabBar->setCurrentIndex(i);
     }
 }
@@ -93,13 +98,17 @@ void TabView::removeCurrentTab()
 void TabView::removeTab(int vecPos)
 {
     for (int i = 0; i < ui.tabBar->count(); i++)
-        if (ui.tabBar->tabData(i) == vecPos)
+        if (ui.tabBar->getTabId(i) == vecPos)
             ui.tabBar->closeTab(i);
 }
 
-void TabView::changeTabName(std::string tabName)
+void TabView::changeTabName(const TabName& tabName)
 {
-    ui.tabBar->setTabText(ui.tabBar->currentIndex(), QString::fromStdString(tabName));
+    ui.tabBar->changeTabName(
+        ui.tabBar->currentIndex(), 
+        QString::fromStdString(tabName.header), 
+        QString::fromStdString(tabName.footer)
+    );
 }
 
 void TabView::setTabPresenter(TabPresenter* presenter)

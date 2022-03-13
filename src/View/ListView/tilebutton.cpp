@@ -137,11 +137,7 @@ void PatientTile::paintInfo(QPainter* painter)
 	
 }
 
-PatientTile::PatientTile(QWidget* parent) : TileButton(parent)
-{
-	setFixedSize(461, 121);
-
-}
+PatientTile::PatientTile(QWidget* parent) : TileButton(parent){}
 
 void PatientTile::setData(const Patient& patient, Date currentDate)
 {
@@ -179,7 +175,7 @@ void PatientTile::setData(const Patient& patient, Date currentDate)
 	if (patient.address != "")
 		address.append(", " + QString::fromStdString(patient.address));
 
-	address = elide(address, 30);
+	address = elide(address, 37);
 
 	if (patient.phone != "")
 		phone = QString::fromStdString(patient.phone);
@@ -196,8 +192,8 @@ AllergiesTile::AllergiesTile(QWidget* parent) :
 	pastDLabel("Минали заболявания:"),
 	noInfo("Пациентът не съобщава")
 {
+	reverse();
 	header.setPointSizeF(10);
-	setFixedSize(351, 121);
 }
 
 

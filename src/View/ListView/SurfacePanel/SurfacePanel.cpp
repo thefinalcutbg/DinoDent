@@ -25,6 +25,10 @@ SurfacePanel::SurfacePanel(QWidget* parent)
 	ui.surfaceView->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
 	toothGraphic = new CPTooth;
 
+	ui.sideBox->setStyleSheet("color: rgb(2, 127, 128); font-weight: bold;");
+
+	ui.sideCaries->pathology = true;
+	
 	scene->addItem(toothGraphic);
 
 	for (int i = 0; i < 5; i++) {
@@ -63,7 +67,7 @@ void SurfacePanel::setLabels(std::array<std::string, 6> surfaceNames)
 		labels[i] = QString::fromStdString(surfaceNames[i]);
 	}
 
-	ui.sideBox->setTitle(labels[5]);
+	ui.sideBox->setText(labels[5]+":");
 }
 
 void SurfacePanel::setStatuses(std::array<std::string, 6> StatusNames)

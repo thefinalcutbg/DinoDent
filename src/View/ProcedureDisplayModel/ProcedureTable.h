@@ -1,5 +1,17 @@
 #pragma once
 #include <QTableView>
+#include <QHeaderView>
+#include <thread>
+
+class ProcedureHeader : public QHeaderView
+{
+	void paintEvent(QPaintEvent* e) override;
+
+public:
+	ProcedureHeader(Qt::Orientation orientation, QWidget* parent = nullptr)
+		:
+		QHeaderView(orientation, parent){}
+};
 
 
 class ProcedureTable : public QTableView
@@ -8,6 +20,15 @@ class ProcedureTable : public QTableView
 
  void keyPressEvent(QKeyEvent* event) override;
 
+	void paintEvent(QPaintEvent* e) override;
+	 
+	ProcedureHeader header;
+
+	void focusOutEvent(QFocusEvent* event) override {
+
+		//setCurrentIndex(QModelIndex());
+	}
+
 public:
 	ProcedureTable(QWidget* parent);
 	
@@ -15,11 +36,11 @@ public:
 
 	void setAmbListLayout();
 	void setProcedureHistoryLayout();
-	void setProcedureSelectLayout();
+	void setProcedurePrintSelectLayout();
+	void fitToModel(int rows);
 
 signals:
 	void deletePressed();
 
 
 };
-

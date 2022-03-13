@@ -13,6 +13,7 @@ namespace Theme
 	const QColor fontRedClicked(255, 127, 94);
 	const QColor fontTurquoise(2, 127, 128);
 	const QColor fontTurquoiseClicked(75, 163, 162);
+	const QColor buttonFrame(170, 215, 220);
 
 	QPainterPath getHalfCurvedPath(int width, int heigt);
 

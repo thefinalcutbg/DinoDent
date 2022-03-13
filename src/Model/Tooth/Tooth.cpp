@@ -150,8 +150,8 @@ void Tooth::removeStatus(int statusCode)
 		case StatusCode::Obturation: obturation.set(false); break;
 		case StatusCode::Caries: caries.set(false); break;
 		case StatusCode::Pulpitis: pulpitis.set(false); break;
-		case StatusCode::EndoTreatment:
-		case StatusCode::Post: set(false, post, endo); break;
+		case StatusCode::EndoTreatment: set(false, post, endo); break;
+		case StatusCode::Post: set(false, post); break;
 		case StatusCode::ApicalLesion: lesion.set(false); break;
 		case StatusCode::Extraction: extraction.set(false); break;
 		case StatusCode::Root: root.set(false); break;

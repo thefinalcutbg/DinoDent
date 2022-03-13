@@ -11,7 +11,7 @@ ProcedurePrintSelectDialog::ProcedurePrintSelectDialog(const std::vector<Procedu
 	ui.tableView->setSelectionBehavior(QAbstractItemView::SelectionBehavior::SelectRows);
 	ui.tableView->setSelectionMode(QAbstractItemView::SelectionMode::NoSelection);
 	ui.tableView->setModel(&this->model);
-	ui.tableView->setProcedureSelectLayout();
+	ui.tableView->setProcedurePrintSelectLayout();
 
 	connect(ui.okButton, &QPushButton::pressed, [=]
 		{

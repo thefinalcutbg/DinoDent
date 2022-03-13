@@ -3,6 +3,7 @@
 #include "TeethView/ContextMenu.h"
 #include "View/Theme.h"
 
+
 ListView::ListView(QWidget* parent)
 	: QWidget(parent), presenter(nullptr)
 {
@@ -13,14 +14,23 @@ ListView::ListView(QWidget* parent)
 	contextMenu = new ContextMenu();
 	teethViewScene->setContextMenu(contextMenu);
 
-	ui.allergiesTile->reverse();
-
 	ui.teethView->setScene(teethViewScene);
 	ui.teethView->setSceneRect(teethViewScene->sceneRect());
-	
-	//ui.dateEdit->installEventFilter(this);
+
 	ui.procedureTable->setModel(&model);
 	ui.procedureTable->setAmbListLayout();
+
+	ui.procedureTable->setStyleSheet(
+		"color : rgb(2, 127, 128); "
+		"selection-color: rgb(75, 163, 162); "
+		"selection-background-color: rgb(246, 245, 250);"
+	);
+
+	ui.unfav_check->setStyleSheet("color : rgb(2, 127, 128);");
+	ui.priceLabel->setStyleSheet("color : rgb(2, 127, 128);");
+	ui.taxLabel->setStyleSheet("color : rgb(2, 127, 128); font-weight: bold;");
+	ui.procedureLabel->setStyleSheet("color : rgb(2, 127, 128); font-weight: bold; font-size: 12px;");
+
 
 	connect(ui.patientTile, &QAbstractButton::clicked, [=] { if(presenter) presenter->openPatientDialog(); });
 	connect(ui.allergiesTile, &QAbstractButton::clicked, [=] { if (presenter) presenter->openAllergiesDialog(); });
@@ -214,7 +224,7 @@ QString getPricesText(double patientPrice, double NZOKprice)
 	//if (!patientPrice && !NZOKprice) return result;
 
 	//if (NZOKprice)
-		result.append("Сума по НЗОК: " + priceToString(NZOKprice) + "       ");
+		result.append("Сума по НЗОК: " + priceToString(NZOKprice) + "<br>");
 
 	result.append("Сума за плащане: " + priceToString(patientPrice));
 
@@ -232,17 +242,10 @@ void ListView::setProcedures(const std::vector<Procedure>& m, double patientPric
 
 	teethViewScene->setProcedures(proc_teeth);
 	
-	int tableHeight = m.size() * 50 + 26;
-	//ne sym siguren izob6to, 4e taka iskam da izglejda:
-	auto size = ui.procedureTable->size();
-	size.setHeight(tableHeight);
-	ui.procedureTable->setFixedSize(size);
-	this->setFixedHeight(710 + tableHeight + 100);
+	ui.procedureTable->fitToModel(m.size());
+	this->setFixedHeight(710 + ui.procedureTable->height() + 100);
 
 	ui.priceLabel->setText(getPricesText(patientPrice, nzokPrice));
-
-	ui.procedureTable->setHidden(!m.size());
-	
 }
 
 AbstractComboBox* ListView::taxCombo()

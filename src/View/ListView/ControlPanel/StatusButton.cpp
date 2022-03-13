@@ -28,10 +28,13 @@ void StatusButton::paintEvent(QPaintEvent* e)
 	painter.setRenderHint(QPainter::RenderHint::Antialiasing);
 
 	QPainterPath outline;
+	outline.addRoundedRect(1, 1, rect().width() - 2, rect().height() - 2, 15, 15);
+	painter.fillPath(outline, m_hover ? Theme::background : Theme::sectionBackground);
+
+
 	
 
 	QPen pen;
-	pen.setColor(pathology ? Theme::fontRed : QColor(183, 221, 225));
 
 	QFont font("Segoe UI");
 	font.setPointSizeF(10);
@@ -39,24 +42,28 @@ void StatusButton::paintEvent(QPaintEvent* e)
 	if (isChecked())
 	{
 		font.setBold(true);
-		pen.setColor(QColor(237, 141, 126));
+
+		pen.setColor(pathology ? Theme::fontRed : Theme::fontTurquoiseClicked);
+		painter.setPen(pen);
+		painter.drawPath(outline);
+		painter.setFont(font);
+		painter.drawText(rect(), Qt::AlignCenter, text());
+		
+
 	}
+	else
+	{
+		pen.setColor(Theme::buttonFrame);
+		painter.setPen(pen);
+		painter.drawPath(outline);
 
-	outline.addRoundedRect(1, 1, rect().width() - 2, rect().height() - 2, 15, 15);
+		pen.setColor(Theme::fontTurquoise);
+		painter.setPen(pen);
+		painter.setFont(font);
+		painter.drawText(rect(), Qt::AlignCenter, text());
+	}	
 
-	if (m_hover) {
-		painter.fillPath(outline, Theme::background);
-	}
-
-	painter.setPen(pen);
-
-	painter.setFont(font);
-
-	painter.drawPath(outline);
-
-	painter.setPen(isChecked() ? QPen(Theme::fontRed) : QPen(Theme::fontTurquoise));
-
-	painter.drawText(rect(), Qt::AlignCenter, text());
+	
 
 
 	painter.end();

@@ -28,6 +28,17 @@ ControlPanel::ControlPanel(QWidget *parent)
 	statusButtons[StatusCode::Dsn] = ui.Dsn;
 	statusButtons[StatusCode::Impacted] = ui.Impacted;
 	
+	StatusButton* pathologies[12]
+	{
+		ui.Caries, ui.Pulpitis, ui.Extraction, ui.ApicalLesion, ui.Fracture, ui.Periodontitis, ui.Mobility1,
+		ui.Mobility2, ui.Mobility3, ui.Dsn, ui.Impacted, ui.Root
+	};
+
+	for (auto& p : pathologies)
+	{
+		p->pathology = true;
+	}
+
 
 	for (int i = 0; i<statusButtons.size(); i++)
 	{

@@ -60,7 +60,7 @@
       <item>
        <widget class="IconButton" name="newButton">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
@@ -68,13 +68,13 @@
         <property name="minimumSize">
          <size>
           <width>0</width>
-          <height>50</height>
+          <height>0</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>50</width>
-          <height>50</height>
+          <width>35</width>
+          <height>35</height>
          </size>
         </property>
         <property name="toolTip">
@@ -94,7 +94,7 @@
       <item>
        <widget class="IconButton" name="perioButton">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
@@ -107,8 +107,8 @@
         </property>
         <property name="maximumSize">
          <size>
-          <width>50</width>
-          <height>50</height>
+          <width>35</width>
+          <height>35</height>
          </size>
         </property>
         <property name="toolTip">
@@ -121,16 +121,22 @@
       </item>
       <item>
        <widget class="IconButton" name="listSelectButton">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="minimumSize">
          <size>
-          <width>50</width>
+          <width>0</width>
           <height>0</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>50</width>
-          <height>50</height>
+          <width>35</width>
+          <height>35</height>
          </size>
         </property>
         <property name="toolTip">
@@ -151,14 +157,14 @@
         </property>
         <property name="minimumSize">
          <size>
-          <width>50</width>
-          <height>50</height>
+          <width>0</width>
+          <height>0</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>50</width>
-          <height>50</height>
+          <width>35</width>
+          <height>35</height>
          </size>
         </property>
         <property name="toolTip">
@@ -179,14 +185,14 @@
         </property>
         <property name="minimumSize">
          <size>
-          <width>50</width>
-          <height>50</height>
+          <width>0</width>
+          <height>0</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>50</width>
-          <height>50</height>
+          <width>35</width>
+          <height>35</height>
          </size>
         </property>
         <property name="toolTip">
@@ -210,14 +216,14 @@
         </property>
         <property name="minimumSize">
          <size>
-          <width>50</width>
-          <height>50</height>
+          <width>0</width>
+          <height>0</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>50</width>
-          <height>50</height>
+          <width>35</width>
+          <height>35</height>
          </size>
         </property>
         <property name="toolTip">
@@ -238,14 +244,14 @@
         </property>
         <property name="minimumSize">
          <size>
-          <width>50</width>
-          <height>50</height>
+          <width>0</width>
+          <height>0</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>50</width>
-          <height>50</height>
+          <width>35</width>
+          <height>35</height>
          </size>
         </property>
         <property name="toolTip">
@@ -258,10 +264,16 @@
       </item>
       <item>
        <widget class="IconButton" name="invoiceButton">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="maximumSize">
          <size>
-          <width>50</width>
-          <height>50</height>
+          <width>35</width>
+          <height>35</height>
          </size>
         </property>
         <property name="toolTip">
@@ -274,10 +286,16 @@
       </item>
       <item>
        <widget class="IconButton" name="settingsButton">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="maximumSize">
          <size>
-          <width>50</width>
-          <height>50</height>
+          <width>35</width>
+          <height>35</height>
          </size>
         </property>
         <property name="toolTip">
@@ -293,6 +311,9 @@
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Expanding</enum>
+        </property>
         <property name="sizeHint" stdset="0">
          <size>
           <width>40</width>
@@ -305,7 +326,6 @@
        <widget class="QLabel" name="practiceLabel">
         <property name="font">
          <font>
-          <family>Segoe UI Semibold</family>
           <pointsize>14</pointsize>
           <bold>true</bold>
          </font>
@@ -333,6 +353,12 @@
       </item>
       <item>
        <widget class="QToolButton" name="userButton">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="minimumSize">
          <size>
           <width>0</width>

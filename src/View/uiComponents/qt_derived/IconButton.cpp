@@ -3,6 +3,8 @@
 #include <QIcon>
 #include <QEvent>
 #include <QPainterPath>
+#include "View/Theme.h"
+#include <QApplication>
 IconButton::IconButton(QWidget *parent)
 	: QPushButton(parent)
 {
@@ -16,33 +18,20 @@ void IconButton::paintEvent(QPaintEvent* event)
 	painter.setRenderHint(QPainter::Antialiasing, true);
 	painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
 
-	if (m_hover)
-	{
-		QPainterPath path;
-		path.addRoundedRect(rect(), 4, 4);
+	QPainterPath path;
+	path.addEllipse(rect());
 
-		QColor color = m_clicked ?
-			QColor(210, 210 ,210)
-			:
-			QColor{ 235, 239, 239 };
-			
-		painter.fillPath(path, color);	
-	}
+	QColor color{ m_hover ? Theme::background : Theme::sectionBackground };
 
-	auto iconRect = rect();
+	painter.fillPath(path, color);
 	
+	int padding = m_clicked && m_hover ? 15 : 12;
+
+	QRect iconRect(rect().center(), QSize(rect().width()-padding, rect().height()-padding));
+	iconRect.moveCenter(rect().center());
 
 	if (!icon().isNull())
-		icon().paint(&painter, 12, 12, 26, 26);
-	/*
-	painter.setPen(QPen(Qt::black));
-
-	QFontMetrics m(font());
-	auto text_w = m.boundingRect(text()).width();
-	auto text_h = m.boundingRect(text()).height();
-
-	painter.drawText()
-	*/
+		icon().paint(&painter, iconRect);
 
 
 }
@@ -51,11 +40,13 @@ bool IconButton::eventFilter(QObject* obj, QEvent* e)
 {
 	if (e->type() == QEvent::HoverEnter) {
 		m_hover = true;
+		//QApplication::setOverrideCursor(Qt::PointingHandCursor);
 		update();
 	}
 
 	if (e->type() == QEvent::HoverLeave) {
 		m_hover = false;
+		//QApplication::restoreOverrideCursor();
 		update();
 	}
 

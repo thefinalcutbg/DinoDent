@@ -27,7 +27,7 @@ protected:
 
 		edited = true;
 		auto tabName = getTabName();
-		tabName.footer = "*" + tabName.footer;
+		tabName.header = "*" + tabName.header;
 		_tabView->changeTabName(tabName);
 	}
 

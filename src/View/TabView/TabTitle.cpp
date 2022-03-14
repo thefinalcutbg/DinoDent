@@ -36,6 +36,24 @@ void TabTitle::setText(const QString& header, const QString& footer)
 {
 	ui.header->setText(header);
 	ui.footer->setText(footer);
+
+	QFontMetrics headerMetrics(ui.header->font());
+	QFontMetrics footerMetrics(ui.footer->font());
+
+	int width = std::max(
+		headerMetrics.boundingRect(ui.header->text()).width(),
+		footerMetrics.boundingRect(ui.footer->text()).width()
+	) + 30;
+
+	resize(width, height());
+
+	for (int i = 0; i < m_parent->count(); i++) {	//re-setting widget to tab view
+		if (m_parent->tabButton(i, QTabBar::RightSide) == static_cast<QWidget*>(this))
+		{
+			m_parent->setTabButton(i, QTabBar::RightSide, nullptr);
+			m_parent->setTabButton(i, QTabBar::RightSide, this);
+		}
+	}
 }
 
 void TabTitle::setCurrentAppearence(bool current)

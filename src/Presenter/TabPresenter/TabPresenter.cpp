@@ -2,6 +2,7 @@
 #include "Model/Patient.h"
 #include "Model/AmbList.h"
 #include "Model/TableRows.h"
+#include "Database/DbPatient.h"
 #include "../ListPresenter/ListPresenter.h"
 #include "../PerioPresenter/PerioPresenter.h"
 #include "../PatientSummaryPresenter/PatientSummaryPresenter.h"
@@ -71,7 +72,13 @@ std::shared_ptr<Patient> TabPresenter::getPatient_ptr(const Patient& patient)
             return tabInstance->patient;
     }
 
-    return std::make_shared<Patient>(patient);
+    auto result = std::make_shared<Patient>(patient);
+
+    DbPatient db;
+
+    result->teethNotes = db.getPresentNotes(result->id);
+
+    return result;
 }
 
 

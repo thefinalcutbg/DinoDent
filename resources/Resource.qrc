@@ -40,4 +40,7 @@
         <file>report_amb.lrxml</file>
         <file>report_invoice.lrxml</file>
     </qresource>
+    <qresource prefix="/fonts">
+        <file>font_RobotoCondensedRegular.ttf</file>
+    </qresource>
 </RCC>

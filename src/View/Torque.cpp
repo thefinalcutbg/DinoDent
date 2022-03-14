@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QPixmap>
 #include <QFileDialog>
+#include <QFontDatabase>
 #include "View/Theme.h"
 #include "View/SettingsDialog/SettingsDialog.h"
 
@@ -56,6 +57,14 @@ Torque::Torque(QWidget* parent)
     ui.userButton->setIcon(QIcon{":/icons/icon_user.png"});
 
     ui.practiceLabel->setStyleSheet("color:" + Theme::getRGBStringFromColor(Theme::practiceLabel));
+    
+    int id = QFontDatabase::addApplicationFont(":/fonts/font_RobotoCondensedRegular.ttf");
+    QString family = QFontDatabase::applicationFontFamilies(id).at(0);
+    QFont font(family);
+    font.setBold(true);
+    font.setPointSize(14);
+    ui.practiceLabel->setFont(font);
+
 
     presenter.setView(this);
 }

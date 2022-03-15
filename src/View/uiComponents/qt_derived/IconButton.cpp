@@ -40,13 +40,13 @@ bool IconButton::eventFilter(QObject* obj, QEvent* e)
 {
 	if (e->type() == QEvent::HoverEnter) {
 		m_hover = true;
-		//QApplication::setOverrideCursor(Qt::PointingHandCursor);
+		QApplication::setOverrideCursor(Qt::PointingHandCursor);
 		update();
 	}
 
 	if (e->type() == QEvent::HoverLeave) {
 		m_hover = false;
-		//QApplication::restoreOverrideCursor();
+		QApplication::restoreOverrideCursor();
 		update();
 	}
 

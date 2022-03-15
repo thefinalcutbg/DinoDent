@@ -3,13 +3,13 @@
 #include "Model/Procedure/MasterNZOK.h"
 #include "Model/Parser/Parser.h"
 #include "Model/User/UserManager.h"
-#include <QDebug>
+#include "Database.h"
 
-std::vector<Procedure> DbProcedure::getProcedures(const std::string& amblist_id)
+std::vector<Procedure> DbProcedure::getProcedures(const std::string& amblist_id, Db* existingConnection)
 {
 	std::vector<Procedure> mList;
 
-	openConnection();
+	
 
 	std::string query = "SELECT	procedure.nzok, "	//0
 							    "procedure.type, "	//1
@@ -25,43 +25,37 @@ std::vector<Procedure> DbProcedure::getProcedures(const std::string& amblist_id)
 						"FROM procedure LEFT JOIN amblist ON procedure.amblist_id = amblist.id "
 						"WHERE amblist.id = " + amblist_id + " ORDER BY seq";
 
-	sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
 
-	while (sqlite3_step(stmt) != SQLITE_DONE)
+	for (Db db(query, existingConnection); db.returnsRows();)
 	{
 		mList.emplace_back();
 		Procedure& p = mList.back();
-		
-		p.nzok = sqlite3_column_int(stmt, 0);
-		p.type = static_cast<ProcedureType>(sqlite3_column_int(stmt, 1));
-		p.code = sqlite3_column_int(stmt, 2);
-		p.tooth = sqlite3_column_int(stmt, 3);
-		p.date.day = sqlite3_column_int(stmt, 4);
-		p.date.month = sqlite3_column_int(stmt, 5);
-		p.date.year = sqlite3_column_int(stmt, 6);
-		p.price = sqlite3_column_double(stmt, 7);
-		Parser::parse(std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 8))), p);
-		p.temp = sqlite3_column_int(stmt, 9);
-		p.LPK = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 10));
+
+		p.nzok = db.asInt(0);
+		p.type = static_cast<ProcedureType>(db.asInt(1));
+		p.code = db.asInt(2);
+		p.tooth = db.asInt(3);
+		p.date.day = db.asInt(4);
+		p.date.month = db.asInt(5);
+		p.date.year = db.asInt(6);
+		p.price = db.asDouble(7);
+		Parser::parse(db.asString(8), p);
+		p.temp = db.asInt(9);
+		p.LPK = db.asString(10);
 	}
-
-	sqlite3_finalize(stmt);
-
-	closeConnection();
 
 	return mList;
 
 }
 
-void DbProcedure::saveProcedures(const std::string& amblist_id, const std::vector<Procedure>& mList)
+void DbProcedure::saveProcedures(const std::string& amblist_id, const std::vector<Procedure>& mList, Db* existingConnection)
 {
-
-	openConnection();
 
 	std::string query = "DELETE FROM procedure WHERE amblist_id = " + amblist_id;
 
-	rc = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
-	qDebug() << QString::fromStdString(query);
+	Db db(existingConnection);
+
+	db.execute(query);
 
 	for (int i = 0; i < mList.size(); i++)
 	{
@@ -80,23 +74,13 @@ void DbProcedure::saveProcedures(const std::string& amblist_id, const std::vecto
 			+ amblist_id + "')"
 			;
 
-			rc = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
-			
-			qDebug() << QString::fromStdString(query);
-
-			if (rc != SQLITE_OK)
-			{
-				qDebug() << "Error opening DB:" << QString::fromStdString(sqlite3_errmsg(db));
-			}
+		db.execute(query);
 	}
-	
-	closeConnection();
 
 }
 
 std::vector<ProcedureSummary> DbProcedure::getSummary(const std::string& patientID, const std::string& excludeAmbID)
 {
-	openConnection();
 
 	std::string query
 	{
@@ -107,29 +91,23 @@ std::vector<ProcedureSummary> DbProcedure::getSummary(const std::string& patient
 		"AND amblist.id != " + excludeAmbID
 	};
 
-	sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
-
 	 std::vector<ProcedureSummary> summary;
 
-	 while (sqlite3_step(stmt) != SQLITE_DONE)
+	 for (Db db(query); db.returnsRows();)
 	 {
 		 summary.push_back(
 			 {
 				Date
 				{
-					 sqlite3_column_int(stmt, 0),
-					 sqlite3_column_int(stmt, 1),
-					 sqlite3_column_int(stmt, 2)
+					 db.asInt(0),
+					 db.asInt(1),
+					 db.asInt(2)
 				},
-				 sqlite3_column_int(stmt, 3),
-				 sqlite3_column_int(stmt, 4)
+				db.asInt(3),
+				db.asInt(4)
 				 
 			 });
 	 }
-
-	 sqlite3_finalize(stmt);
-
-	 closeConnection();
 
 	 return summary;
 
@@ -137,49 +115,39 @@ std::vector<ProcedureSummary> DbProcedure::getSummary(const std::string& patient
 
 std::vector<Procedure> DbProcedure::getToothProcedures(const std::string& patientID, int tooth)
 {
-	openConnection();
-	
-	std::string query =
+		std::string query =
 		"SELECT  procedure.day, amblist.month, amblist.year, procedure.code, procedure.nzok, procedure.data, procedure.price, amblist.lpk, procedure.temp FROM "
 		"procedure LEFT JOIN amblist ON procedure.amblist_id = amblist.id "
 		"WHERE tooth = " + std::to_string(tooth) + " "
 		"AND patient_id = '" + patientID + "' "
 		"ORDER BY amblist.year ASC, amblist.month ASC, procedure.code ASC, procedure.seq ASC";
-		
-//	qDebug() << QString::fromStdString(query);
-
-	sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
 
 	std::vector<Procedure> procedures;
 	
-	while (sqlite3_step(stmt) != SQLITE_DONE)
+	for (Db db(query); db.returnsRows();)
 	{
 
 		procedures.emplace_back();
 		auto& p = procedures.back();
 		
 		p.date = Date{ 
-			sqlite3_column_int(stmt, 0), 
-			sqlite3_column_int(stmt, 1),
-			sqlite3_column_int(stmt, 2)
+			db.asInt(0),
+			db.asInt(1),
+			db.asInt(2)
 		};
 
-		p.code = sqlite3_column_int(stmt, 3);
-		p.nzok = sqlite3_column_int(stmt, 4);
+		p.code = db.asInt(3);
+		p.nzok = db.asInt(4);
 
-		Parser::parse(
-			std::string{ reinterpret_cast<const char*>(sqlite3_column_text(stmt, 5)) }, p
-		);
-		p.price = sqlite3_column_double(stmt, 6);
-		p.LPK = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 7));
-		p.temp = sqlite3_column_int(stmt, 8);
-		p.result = NoData{};
+		Parser::parse(db.asString(5), p);
+
+		p.price = db.asDouble(6);
+		p.LPK = db.asString(7);
+		p.temp = db.asInt(8);
+		//p.result = NoData{};
 		p.tooth = tooth;
 	}
 	
-	sqlite3_finalize(stmt);
-	
-	closeConnection();
 	
 	return procedures;
 

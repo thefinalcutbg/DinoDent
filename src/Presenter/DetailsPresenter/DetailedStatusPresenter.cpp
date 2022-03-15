@@ -14,10 +14,9 @@ DetailedStatusPresenter::DetailedStatusPresenter(const Tooth& tooth, const std::
 void DetailedStatusPresenter::setView(IDetailedStatusView* view)
 {
 	this->view = view; 
-	
-	DbProcedure db;
 
-	view->setHistoryData(db.getToothProcedures(patientID, m_tooth.index));
+
+	view->setHistoryData(DbProcedure::getToothProcedures(patientID, m_tooth.index));
 	
 	view->disableItem(StatusCode::Bridge, !m_tooth.bridge.exists());
 	view->disableItem(StatusCode::FiberSplint, !m_tooth.splint.exists());

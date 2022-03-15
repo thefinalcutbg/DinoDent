@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include "Database/DbProcedure.h"
+
 #include "Model/AmbList.h"
 #include "Model/Patient.h"
 //class AmbList;
@@ -17,8 +17,6 @@ class AmbListValidator
 	const Patient& patient;
 	Date ambListDate;
 	std::vector<Procedure> m_procedures; //only NZOK procedures
-
-	DbProcedure _db;
 	
 	bool noDuplicates();
 	bool validateTypeToStatus(const Tooth& tooth, const Procedure& p);

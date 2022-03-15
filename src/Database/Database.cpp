@@ -1,21 +1,134 @@
 #include "Database.h"
-#include "QDebug"
-Database::Database() : err(nullptr), db(nullptr), stmt(nullptr)
-{
 
-    sqlite3_open("DATATEST.db", &db);
+#include "Libraries/sqLite/sqlite3.h"
+
+Db::Db(Db* existingConnection)
+    :
+    m_connectionOwned{ existingConnection == nullptr },
+    stmt{nullptr}
+{
+    if(m_connectionOwned){
+        int i = sqlite3_open(dbLocation.c_str(), &db_connection);
+    }
+    else
+    {
+        db_connection = existingConnection->db_connection;
+    }
+    
+    if (db_connection == nullptr) {
+         throw;
+    }
+    
+}
+
+Db::Db(const std::string& query, Db* existingConnection) : Db(existingConnection)
+{
+    sqlite3_prepare_v2(db_connection, query.c_str(), -1, &stmt, NULL);
+}
+
+
+bool Db::returnsRows(){
+    return sqlite3_step(stmt) != SQLITE_DONE;
+}
+
+int Db::asInt(int column){ 
+    return sqlite3_column_int(stmt, column); 
+}
+
+double Db::asDouble(int column)
+{
+    return sqlite3_column_double(stmt, column);
+}
+
+std::string Db::asString(int column) { 
+    return reinterpret_cast<const char*>(sqlite3_column_text(stmt, column)); 
+}
+
+
+void Db::newStatement(const std::string& query)
+{
+    if (stmt != nullptr) {
+        sqlite3_finalize(stmt);
+    }
+
+    sqlite3_prepare_v2(db_connection, query.c_str(), -1, &stmt, NULL);
+}
+
+bool Db::execute(const std::string& query)
+{
+    sqlite3_finalize(stmt);
+
+    char* err;
+
+    int i = sqlite3_exec(db_connection, query.c_str(), NULL, NULL, &err);
+    return i == SQLITE_OK;
+        
+}
+
+int Db::lastInsertedRowID()
+{
+    return sqlite3_last_insert_rowid(db_connection);
+}
+
+void Db::closeConnection()
+{
+    if (db_connection) sqlite3_close_v2(db_connection);
+}
+
+void Db::setFilePath(const std::string& filePath)
+{
+    dbLocation = filePath;
+}
+
+bool Db::crudQuery(const std::string& query)
+{
+    char* err;
+    sqlite3* db;
+
+    int i = sqlite3_open(dbLocation.c_str(), &db);
+    if (db == nullptr) {
+        return false;
+    }
+
+    i = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
+    if (i != SQLITE_OK) {
+        return false;
+    }
+
+    return true;
+}
+
+
+Db::~Db()
+{
+    sqlite3_finalize(stmt);
+
+    if (m_connectionOwned && db_connection) {
+        sqlite3_close_v2(db_connection);
+    }
+}
+
+
+
+void Db::createIfNotExist()
+{
+    sqlite3* db;
+
+    sqlite3_open(dbLocation.c_str(), &db);
+    char* err;
+    int rc;
 
     rc = sqlite3_exec(db, "PRAGMA foreign_keys = ON", NULL, NULL, &err);
 
     rc = sqlite3_exec(
         db,
-        "CREATE TABLE note(patient_id VARCHAR(10) NOT NULL, tooth INT NOT NULL,text VARCHAR NOT NULL,PRIMARY KEY (patient_id, tooth), FOREIGN KEY (patient_id) REFERENCES patient(id) ON DELETE CASCADE ON UPDATE CASCADE)"  
+        "CREATE TABLE note(patient_id VARCHAR(10) NOT NULL, tooth INT NOT NULL,text VARCHAR NOT NULL,PRIMARY KEY (patient_id, tooth), FOREIGN KEY (patient_id) REFERENCES patient(id) ON DELETE CASCADE ON UPDATE CASCADE)"
         , NULL, NULL, &err);
 
     rc = sqlite3_exec(db,
         "CREATE TABLE procedure (id INTEGER NOT NULL PRIMARY KEY, nzok INT NOT NULL, code VARCHAR (10) NOT NULL, seq INT NOT NULL, type INT NOT NULL, day INT NOT NULL, tooth INT NOT NULL, \"temp\" INT, price REAL NOT NULL, data VARCHAR NOT NULL, amblist_id INT NOT NULL, FOREIGN KEY (amblist_id) REFERENCES amblist ON DELETE CASCADE ON UPDATE CASCADE)"
         , NULL, NULL, &err);
- 
+
     rc = sqlite3_exec(
         db,
         "CREATE TABLE patient (type INT NOT NULL, id VARCHAR (10) NOT NULL PRIMARY KEY, birth VARCHAR (10) NOT NULL, sex BOOLEAN NOT NULL, fname VARCHAR (50) NOT NULL, mname VARCHAR (50), lname VARCHAR (50) NOT NULL, city VARCHAR (100) NOT NULL, address VARCHAR (100), hirbno VARCHAR (8), phone VARCHAR (20), allergies VARCHAR (400), currentDiseases VARCHAR (400), pastDiseases VARCHAR (400))"

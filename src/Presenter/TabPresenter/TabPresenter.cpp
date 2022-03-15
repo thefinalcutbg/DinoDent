@@ -74,9 +74,8 @@ std::shared_ptr<Patient> TabPresenter::getPatient_ptr(const Patient& patient)
 
     auto result = std::make_shared<Patient>(patient);
 
-    DbPatient db;
 
-    result->teethNotes = db.getPresentNotes(result->id);
+    result->teethNotes = DbPatient::getPresentNotes(result->id);
 
     return result;
 }
@@ -108,13 +107,13 @@ void TabPresenter::open(const RowInstance& row)
     switch (row.type)
     {
     case TabType::AmbList:
-        newTab = new ListPresenter(view, getPatient_ptr(patient_db.getPatient(row.patientId)), row.rowID);
+        newTab = new ListPresenter(view, getPatient_ptr(DbPatient::getPatient(row.patientId)), row.rowID);
         break;
     case TabType::PerioList:
-        newTab = new PerioPresenter(view, getPatient_ptr(patient_db.getPatient(row.patientId)), row.rowID);
+        newTab = new PerioPresenter(view, getPatient_ptr(DbPatient::getPatient(row.patientId)), row.rowID);
         break;
     case TabType::PatientSummary:
-        newTab = new PatientSummaryPresenter(view, getPatient_ptr(patient_db.getPatient(row.patientId)));
+        newTab = new PatientSummaryPresenter(view, getPatient_ptr(DbPatient::getPatient(row.patientId)));
         break;
     }
 

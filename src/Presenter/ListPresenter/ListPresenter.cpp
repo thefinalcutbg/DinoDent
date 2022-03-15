@@ -9,7 +9,7 @@
 #include "Presenter/AllergiesDialog/AllergiesDialogPresenter.h"
 #include "Presenter/ProcedureDialog/ProcedureDialogPresenter.h"
 #include "View/ModalDialogBuilder.h"
-
+#include "Model/AmbList.h"
 
 bool ListPresenter::isValid()
 {
@@ -28,7 +28,7 @@ ListPresenter::ListPresenter(ITabView* tabView, std::shared_ptr<Patient> patient
     TabInstance(tabView, TabType::AmbList, patient),
     view(tabView->listView()),
     m_selectedProcedure(-1),
-    m_ambList(db.getListData(patient->id, Date::currentMonth(), Date::currentYear()))
+    m_ambList(DbAmbList::getNewAmbSheet(patient->id))
 {
     auto ambSheetDate = m_ambList.getAmbListDate();
 
@@ -56,7 +56,7 @@ ListPresenter::ListPresenter(ITabView* tabView, std::shared_ptr<Patient> patient
     :
     TabInstance(tabView, TabType::AmbList, patient),
     view(tabView->listView()),
-    m_ambList(db.getListData(ambListId)),
+    m_ambList(DbAmbList::getListData(ambListId)),
     m_selectedProcedure(-1)
 {
 
@@ -137,7 +137,7 @@ bool ListPresenter::save()
 
     if (!isValid()) return false;
 
-    if (edited) {  db.updateAmbList(m_ambList);}
+    if (edited) {  DbAmbList::updateAmbList(m_ambList);}
 
     edited = false;
 
@@ -155,10 +155,10 @@ bool ListPresenter::saveAs()
 
     auto ambSheetDate = m_ambList.getAmbListDate();
 
-    auto existingNumbers = db.getExistingNumbers(ambSheetDate.year);
+    auto existingNumbers = DbAmbList::getExistingNumbers(ambSheetDate.year);
 
     if (m_ambList.isNew() || m_ambList.hasNumberInconsistency()) {
-        newNumber = db.getNewNumber(ambSheetDate.year, m_ambList.hasNZOKProcedure());
+        newNumber = DbAmbList::getNewNumber(ambSheetDate.year, m_ambList.hasNZOKProcedure());
     }
     else {
         existingNumbers.erase(m_ambList.number);
@@ -172,11 +172,11 @@ bool ListPresenter::saveAs()
     m_ambList.number = newNumber;
 
     if (m_ambList.isNew()) {
-        m_ambList.id = db.insertAmbList(m_ambList, patient->id);
+        m_ambList.id = DbAmbList::insertAmbList(m_ambList, patient->id);
         
     }
     else {
-        db.updateAmbList(m_ambList);
+        DbAmbList::updateAmbList(m_ambList);
     }
 
   //  listSelector_.refreshModel();

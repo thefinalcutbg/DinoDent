@@ -1,35 +1,18 @@
 #pragma once
 
-#include "DbProcedure.h"
 #include <unordered_set>
-
-#include "AbstractORM.h"
-
 #include <vector>
+#include "Model/AmbList.h"
 
-
-class Procedure;
-class AmbList;
-
-class DbAmbList : public AbstractORM 
+namespace DbAmbList
 {
 
-
-    DbProcedure db_procedures;
-
-    std::string getLastStatus(std::string patientID);
-    std::vector<Procedure> previousProcedures(std::string patientID);
-
-public:
-    DbAmbList();
-
-    //amblist gets updated id after insertion
-
+    //returns the id of the inserted amblist
     std::string insertAmbList(const AmbList& ambList, const std::string& patientID); //returns the rowId of the new instered row
     void deleteCurrentSelection(const std::string& ambID);
     void updateAmbList(const AmbList& ambList);
 
-    AmbList getListData(const std::string& patientID, int currentMonth, int currentYear);
+    AmbList getNewAmbSheet(const std::string& patientID);
     AmbList getListData(const std::string& ambID);
     int getNewNumber(int currentYear, bool nzok);
     bool checkExistingAmbNum(int currentYear, int ambNum);

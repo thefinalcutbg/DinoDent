@@ -3,7 +3,6 @@
 #include <unordered_map>
 #include "View/TabView/ITabView.h"
 #include "Database/DbAmbList.h"
-#include "Database/DbPatient.h"
 
 #include "../ListPresenter/ListPresenter.h"
 
@@ -20,7 +19,6 @@ class TabPresenter
 	int _indexCounter;
 	int m_currentIndex;
 
-	DbPatient patient_db;
 
 	ITabView* view;
 

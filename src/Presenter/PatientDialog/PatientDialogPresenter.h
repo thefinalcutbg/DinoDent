@@ -4,14 +4,13 @@
 #include <optional>
 #include <array>
 
-#include "Database/DbPatient.h"
+
 #include "Model/Validator/DateValidator.h"
 #include "Model/Validator/NameValidator.h"
 #include "Model/Validator/PatientValidators.h"
 #include "Model/Patient.h"
 #include "Model/Date.h"
 
-#include "Database/Database.h"
 #include "View/PatientDialog/IPatientDialog.h"
 
 #include "View/uiComponents/AbstractLineEdit.h"
@@ -30,7 +29,6 @@ class PatientDialogPresenter
 	std::optional<Patient> _patient;
 
 	IPatientDialog* view;
-	DbPatient amb_db;
 
 	EgnValidator egn_validator;
 	Ln4Validator ln4_validator;

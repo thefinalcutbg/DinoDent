@@ -1,38 +1,36 @@
 #include "DbPatient.h"
-
+#include "Database.h"
 
 void DbPatient::insert(const Patient& patient)
 {
-    openConnection();
+    Db::crudQuery(
 
-    std::string query = "INSERT INTO patient VALUES ('"
-        + std::to_string(patient.type) + "','"
-        + patient.id + "','"
-        + patient.birth.toString() + "','"
-        + std::to_string(patient.sex) + "','"
-        + patient.FirstName + "','"
-        + patient.MiddleName + "','"
-        + patient.LastName + "','"
-        + patient.city + "','"
-        + patient.address + "','"
-        + patient.HIRBNo + "','"
-        + patient.phone + "','"
-        + patient.allergies + "','"
-        + patient.currentDiseases + "','"
-        + patient.pastDiseases +
-        +"')";
+            "INSERT INTO patient VALUES ('"
+            + std::to_string(patient.type) + "','"
+            + patient.id + "','"
+            + patient.birth.toString() + "','"
+            + std::to_string(patient.sex) + "','"
+            + patient.FirstName + "','"
+            + patient.MiddleName + "','"
+            + patient.LastName + "','"
+            + patient.city + "','"
+            + patient.address + "','"
+            + patient.HIRBNo + "','"
+            + patient.phone + "','"
+            + patient.allergies + "','"
+            + patient.currentDiseases + "','"
+            + patient.pastDiseases +
+            +"')"
+    );
 
-    rc = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
-    if (rc != SQLITE_OK) {}// << &db;
 
-    closeConnection();
 }
 
 void DbPatient::update(const Patient& patient)
 {
-    openConnection();
+    Db::crudQuery(
 
-    std::string query = "UPDATE patient SET "
+        "UPDATE patient SET "
         "type = " + std::to_string(patient.type) + ", "
         "birth = '" + patient.birth.toString() + "', "
         "sex = " + std::to_string(patient.sex) + ", "
@@ -46,90 +44,70 @@ void DbPatient::update(const Patient& patient)
         "allergies = '" + patient.allergies + "', "
         "currentDiseases = '" + patient.currentDiseases + "', "
         "pastDiseases = '" + patient.pastDiseases + "' "
-        "WHERE id = '" + patient.id + "'";
+        "WHERE id = '" + patient.id + "'"
+    );
 
-    rc = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
-    if (rc != SQLITE_OK) {}// << &db;
-
-    closeConnection();
 }
 
 Patient DbPatient::getPatient(std::string patientID)
 {
-    openConnection();
-
     std::string query = "SELECT * "
         "FROM patient WHERE id = '" + patientID + "'";
 
-    sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
-
     Patient patient;
 
-    while (sqlite3_step(stmt) != SQLITE_DONE)
+    for (Db db(query); db.returnsRows();)
     {
-        patient.id = std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1)));
+        patient.id = db.asString(1);
         if (patient.id == "") break;
 
-        patient.type = sqlite3_column_int(stmt, 0);
-        patient.birth = Date(std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 2))));
-        patient.sex = sqlite3_column_int(stmt, 3);
-        patient.FirstName = std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 4)));
-        patient.MiddleName = std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 5)));
-        patient.LastName = std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 6)));
-        patient.city = std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 7)));
-        patient.address = std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 8)));
-        patient.HIRBNo = std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 9)));
-        patient.phone = std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 10)));
-        patient.allergies = std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 11)));
-        patient.currentDiseases = (reinterpret_cast<const char*>(sqlite3_column_text(stmt, 12)));
-        patient.pastDiseases = (reinterpret_cast<const char*>(sqlite3_column_text(stmt, 13)));
+        patient.type = db.asInt(0);
+        patient.birth = Date(db.asString(2));
+        patient.sex = db.asInt(3);
+        patient.FirstName = db.asString(4);
+        patient.MiddleName = db.asString(5);
+        patient.LastName = db.asString(6);
+        patient.city = db.asString(7);
+        patient.address = db.asString(8);
+        patient.HIRBNo = db.asString(9);
+        patient.phone = db.asString(10);
+        patient.allergies = db.asString(11);
+        patient.currentDiseases = db.asString(12);
+        patient.pastDiseases = db.asString(13);
     }
 
-    sqlite3_finalize(stmt);
-
-    closeConnection();
-
-    patient.teethNotes = this->getPresentNotes(patient.id);
+    patient.teethNotes = getPresentNotes(patient.id);
 
     return patient;
 }
 
 void DbPatient::updateAllergies(const std::string& patientID, const std::string& allergies, const std::string& current, const std::string& past)
 {
-    openConnection();
-
-    std::string query = "UPDATE patient SET "
+    Db::crudQuery(
+        
+        "UPDATE patient SET "
         "allergies = '" + allergies + "', "
         "currentDiseases = '" + current + "', "
         "pastDiseases = '" + past + "' "
-        "WHERE id = '" + patientID + "'";
+        "WHERE id = '" + patientID + "'"
 
-    rc = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
-    if (rc != SQLITE_OK) {}// << &db;
-
-    closeConnection();
+    );
 }
 
 TeethNotes DbPatient::getPresentNotes(const std::string& patientID)
 {
-    openConnection();
 
     std::string query = "SELECT tooth, text "
         "FROM note WHERE patient_id = '" + patientID + "'";
 
-    sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
-
     TeethNotes notes{};
 
-    while (sqlite3_step(stmt) != SQLITE_DONE)
+    Db db(query);
+
+    while (db.returnsRows())
     {
-        notes[sqlite3_column_int(stmt, 0)] =
-                 reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
+        notes[db.asInt(0)] = db.asString(1);
     }
-
-    sqlite3_finalize(stmt);
-
-    closeConnection();
 
     return notes;
 }

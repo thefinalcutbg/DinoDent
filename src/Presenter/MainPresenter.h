@@ -2,7 +2,6 @@
 
 #include <vector>
 #include "View/IMainView.h"
-#include "Database/DbAmbList.h"
 #include "TabPresenter/TabPresenter.h"
 #include "ListSelector/ListSelectorPresenter.h"
 
@@ -11,8 +10,6 @@ class MainPresenter
 	TabPresenter _tabPresenter;
 	ListSelectorPresenter listSelector_;
 	IMainView* view;
-
-	DbAmbList amb_db;
 
 public:
 	MainPresenter();

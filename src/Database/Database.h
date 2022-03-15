@@ -1,21 +1,42 @@
 #pragma once
-#include "Libraries/sqLite/sqlite3.h"
-#include <iostream>
-#include "Model/Patient.h"
-#include "Model/AmbList.h"
-#include <vector>
-#include <map>
 
-class Database
+#include <string>
+
+struct sqlite3;
+struct sqlite3_stmt;
+
+class Db
 {
-    char* err;
-    sqlite3* db;
+    sqlite3* db_connection;
+    bool m_connectionOwned;
     sqlite3_stmt* stmt;
-    int rc;
+
+
+    static inline std::string dbLocation{ "DATATEST.db" };
+
 
 public:
-    Database();
-    ~Database(){ sqlite3_close_v2(db); }
+    static void setFilePath(const std::string& filePath);
+
+    //open new connection and execute query on the go
+    static bool crudQuery(const std::string& query); 
+    static void createIfNotExist();
+
+    //If connection exists, db finalizes statement in destructor, but does not break connection
+    Db(Db* existingConnection = nullptr);
+    //Create db connection with statement ready for retrieval:
+    Db(const std::string& query, Db* existingConnection = nullptr);
+
+    //returns true if there are more rows to get from database
+    bool returnsRows(); 
+    int asInt(int column);
+    double asDouble(int column);
+    std::string asString(int column);
+    void newStatement(const std::string& query);
+    bool execute(const std::string& query);
+    int lastInsertedRowID();
+    void closeConnection();
+    ~Db();
 
 };
 

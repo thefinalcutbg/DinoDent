@@ -1,7 +1,7 @@
 ﻿#include <unordered_set>
 #include <algorithm>
 #include "AmbListValidator.h"
-
+#include "Database/DbProcedure.h"
 #include "Procedure/MasterNZOK.h"
 #include "Tooth/ToothUtils.h"
 #include "Model/Procedure/PackageCounter.h"
@@ -67,7 +67,7 @@ bool AmbListValidator::ambListIsValid()
 
 bool AmbListValidator::isValidAccordingToDb()
 {
-    auto summary = _db.getSummary(patient.id, ambList.id); //getting all procedures;
+    auto summary = DbProcedure::getSummary(patient.id, ambList.id); //getting all procedures;
 
    
 

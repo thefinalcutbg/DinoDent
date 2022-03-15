@@ -1,6 +1,7 @@
 ﻿#include "PatientDialogPresenter.h"
 #include "View/ModalDialogBuilder.h"
 #include "Model/User/UserManager.h"
+#include "Database/DbPatient.h"
 
 PatientDialogPresenter::PatientDialogPresenter() :
 	view(nullptr),
@@ -83,8 +84,8 @@ void PatientDialogPresenter::accept()
 
 	_patient = getPatientFromView();
 
-	if(new_patient) amb_db.insert(_patient.value());
-	else amb_db.update(_patient.value());
+	if(new_patient) DbPatient::insert(_patient.value());
+	else DbPatient::update(_patient.value());
 	
 	view->close();
 }
@@ -94,7 +95,7 @@ void PatientDialogPresenter::searchDbForPatient(int type)
 	
 	std::string lineEditID = view->lineEdit(id)->getText();
 
-	Patient patient = amb_db.getPatient(lineEditID);
+	Patient patient = DbPatient::getPatient(lineEditID);
 
 	allergies = patient.allergies;
 	pastDiseases = patient.pastDiseases;

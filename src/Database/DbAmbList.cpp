@@ -1,73 +1,15 @@
 #include "DbAmbList.h"
+#include "Database/Database.h"
 #include "Model/User/UserManager.h"
 #include "Model/Patient.h"
 #include "Model/AmbList.h"
 #include "Model/Date.h"
 #include "Model/Parser/Parser.h"
-
-DbAmbList::DbAmbList()
-{}
-
-std::string DbAmbList::getLastStatus(std::string patientID)
-{
-    openConnection();
-
-    std::string jsonStatus;
-
-    std::string query = "SELECT status_json FROM amblist WHERE "
-        "patient_id = '" + patientID + "'"
-        " ORDER BY id DESC LIMIT 1";
-
-    sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
-
-    while (sqlite3_step(stmt) != SQLITE_DONE)
-    {
-        jsonStatus = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0));
-    }
-
-
-    sqlite3_finalize(stmt);
-
-    closeConnection();
-
-    return jsonStatus;
-}
-
-std::vector<Procedure> DbAmbList::previousProcedures(std::string patientID)
-{
-    openConnection();
-
-    std::string query = "SELECT id, day, month, year FROM amblist WHERE "
-        "patient_id = '" + patientID + "'"
-        " ORDER BY id DESC LIMIT 1";
-
-    sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
-
-    std::string amb_id;
-    Date date;
-
-    while (sqlite3_step(stmt) != SQLITE_DONE)
-    {
-        amb_id = std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0)));
-        date.day = sqlite3_column_int(stmt, 1);
-        date.month = sqlite3_column_int(stmt, 2);
-        date.year = sqlite3_column_int(stmt, 3);
-    }
-
-    sqlite3_finalize(stmt);
-
-    closeConnection();
-
-    if (amb_id.empty()) return std::vector<Procedure>{};
-
-    return db_procedures.getProcedures(amb_id);
-}
-
+#include "DbProcedure.h"
 
 std::string DbAmbList::insertAmbList(const AmbList& ambList, const std::string &patientID)
 {
-    openConnection();
-
+  
     auto ambSheetDate = ambList.getAmbListDate();
 
     std::string query = "INSERT INTO amblist (day, month, year, num, fullCoverage, charge, status_json, patient_id, lpk, rzi) VALUES ('"
@@ -83,15 +25,13 @@ std::string DbAmbList::insertAmbList(const AmbList& ambList, const std::string &
         + UserManager::currentUser().practice.rziCode
         + "')";
 
-    rc = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
+    Db db;
 
-    auto rowID = std::to_string((int)sqlite3_last_insert_rowid(db));
+    db.execute(query);
 
-    if (rc != SQLITE_OK) qDebug() << "Insert error:" << &db;
+    auto rowID = std::to_string(db.lastInsertedRowID());
 
-    closeConnection();
-
-    db_procedures.saveProcedures(rowID, ambList.procedures);
+    DbProcedure::saveProcedures(rowID, ambList.procedures, &db);
 
     return rowID;
 
@@ -99,7 +39,6 @@ std::string DbAmbList::insertAmbList(const AmbList& ambList, const std::string &
 
 void DbAmbList::updateAmbList(const AmbList& ambList)
 {
-    openConnection();
 
     auto ambSheetDate = ambList.getAmbListDate();
 
@@ -113,81 +52,87 @@ void DbAmbList::updateAmbList(const AmbList& ambList)
         ", status_json = '" + Parser::write(ambList.teeth) + "' "
         "WHERE id = " + ambList.id;
 
-    rc = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
-    if (rc != SQLITE_OK) qDebug() << "Update error:";// << &db;
+    Db db;
+    db.execute(query);
 
-    closeConnection();
-
-    db_procedures.saveProcedures(ambList.id, ambList.procedures);
+    DbProcedure::saveProcedures(ambList.id, ambList.procedures, &db);
 }
 
 std::vector<int> DbAmbList::getValidYears()
 {
     std::vector<int> years;
 
-    openConnection();
+    Db db("SELECT DISTINCT year FROM amblist ORDER BY year DESC");
 
-    sqlite3_prepare_v2(db, "SELECT DISTINCT year FROM amblist ORDER BY year DESC", -1, &stmt, NULL);
-
-    while (sqlite3_step(stmt) != SQLITE_DONE)
+    while (db.returnsRows())
     {
-        years.emplace_back(sqlite3_column_int(stmt, 0));
+        years.emplace_back(db.asInt(0));
     }
-
-    sqlite3_finalize(stmt);
-
-    closeConnection();
 
     return years;
 }
 
 
-AmbList DbAmbList::getListData(const std::string& patientID, int month, int year)
+AmbList DbAmbList::getNewAmbSheet(const std::string& patientID)
 {
-    openConnection();
-
-    std::string query = "SELECT id, num, fullCoverage, status_json, charge FROM amblist WHERE "
-        "patient_id = '" + patientID + "' AND "
-        "lpk = " + UserManager::currentUser().doctor.LPK + " AND "
-        "rzi = " + UserManager::currentUser().practice.rziCode + " AND "
-        "month = " + std::to_string(month) + " AND "
-        "year = " + std::to_string(year);
-
-    sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
 
     AmbList ambList;
+    ambList.LPK = UserManager::currentUser().doctor.LPK;
     std::string status_json;
 
-    while (sqlite3_step(stmt) != SQLITE_DONE)
-    {
-        ambList.id = std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0)));
-        ambList.number = sqlite3_column_int(stmt, 1);
-        ambList.full_coverage = sqlite3_column_int(stmt, 2);
-        status_json = std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 3)));
-        ambList.charge = static_cast<Charge>(sqlite3_column_int(stmt, 4));
-        ambList.LPK = UserManager::currentUser().doctor.LPK;
-    }
+    Db db(
     
-    sqlite3_finalize(stmt);
+        "SELECT id, num, fullCoverage, status_json, charge FROM amblist WHERE "
+        "patient_id = '" + patientID + "' AND "
+        "lpk = '" + UserManager::currentUser().doctor.LPK + "' AND "
+        "rzi = '" + UserManager::currentUser().practice.rziCode + "' AND "
+        "month = " + std::to_string(Date::currentMonth()) + " AND "
+        "year = " + std::to_string(Date::currentYear())
+    
+    );
 
-    closeConnection();
+    while(db.returnsRows())
+    {
+        ambList.id = db.asString(0);
+        ambList.number = db.asInt(1);
+        ambList.full_coverage = db.asInt(2);
+        status_json = db.asString(3);
+        ambList.charge = static_cast<Charge>(db.asInt(4));
+    }
 
     if (ambList.isNew())
     {
-        
-        Parser::parse(getLastStatus(patientID), ambList.teeth);
-        auto procedures = previousProcedures(patientID);
+        db.newStatement(
+            
+            "SELECT id, status_json FROM amblist WHERE "
+            "patient_id = '" + patientID + "'"
+            "ORDER BY year DESC, month DESC LIMIT 1"
+
+            );
+
+        std::string oldId;
+
+        while(db.returnsRows()){
+            
+            oldId = db.asString(0);
+            status_json = db.asString(1);
+        }
+
+        if (oldId.empty()) return ambList; //it means no data is found for this patient
+
+        Parser::parse(status_json, ambList.teeth);
+
+        auto procedures = DbProcedure::getProcedures(oldId, &db);
+
         for (auto& p : procedures)
         {
             p.applyProcedure(ambList.teeth);
         }
-
-        ambList.LPK = UserManager::currentUser().doctor.LPK;
     }
     else
     {
         Parser::parse(status_json, ambList.teeth);
-        ambList.procedures = db_procedures.getProcedures(ambList.id);
+        ambList.procedures = DbProcedure::getProcedures(ambList.id, &db);
     }
 
     return ambList;
@@ -195,33 +140,27 @@ AmbList DbAmbList::getListData(const std::string& patientID, int month, int year
 
 AmbList DbAmbList::getListData(const std::string& ambID)
 {
-    openConnection();
-
-    std::string query = "SELECT id, num, fullCoverage, status_json, charge FROM amblist WHERE "
-        "id = '" + ambID + "'";
-
-    sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
-
 
     std::string status_json;
     AmbList ambList;
 
-    while (sqlite3_step(stmt) != SQLITE_DONE)
+    Db db(
+        "SELECT id, num, fullCoverage, status_json, charge FROM amblist WHERE "
+        "id = '" + ambID + "'"
+    );
+
+    while (db.returnsRows())
     {
-        ambList.id = std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0)));
-        ambList.number = sqlite3_column_int(stmt, 1);
-        ambList.full_coverage = sqlite3_column_int(stmt, 2);
-        status_json = std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 3)));
-        ambList.charge = static_cast<Charge>(sqlite3_column_int(stmt, 4));
+        ambList.id = db.asString(0);
+        ambList.number = db.asInt(1);
+        ambList.full_coverage = db.asInt(2);
+        status_json = db.asString(3);
+        ambList.charge = static_cast<Charge>(db.asInt(4));
         ambList.LPK = UserManager::currentUser().doctor.LPK;
     }
 
-    sqlite3_finalize(stmt);
-
-    closeConnection();
-
     Parser::parse(status_json, ambList.teeth);
-    ambList.procedures = db_procedures.getProcedures(ambList.id);
+    ambList.procedures = DbProcedure::getProcedures(ambList.id, &db);
 
     return ambList;
 }
@@ -229,46 +168,28 @@ AmbList DbAmbList::getListData(const std::string& ambID)
 
 void DbAmbList::deleteCurrentSelection(const std::string& ambID)
 {
-    openConnection();
-
-    std::string query = "DELETE FROM amblist WHERE id = " + ambID;
-
-    rc = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
-
-    closeConnection();
-
+    Db::crudQuery("DELETE FROM amblist WHERE id = " + ambID + ")");
 }
-
-#include <QDebug>
 
 
 bool DbAmbList::checkExistingAmbNum(int currentYear, int ambNum)
 {
-    openConnection();
-
     std::string query = "SELECT EXISTS(SELECT 1 FROM amblist WHERE "
         "year = " + std::to_string(currentYear) +
         " AND num = " + std::to_string(ambNum) + ")"
         " AND lpk = '" + UserManager::currentUser().doctor.LPK + "' "
         " AND rzi = '" + UserManager::currentUser().practice.rziCode + "' ";
 
-    sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
-
     bool exists = 0;
 
-    while (sqlite3_step(stmt) != SQLITE_DONE)
-        exists = sqlite3_column_int(stmt, 0);
-
-    sqlite3_finalize(stmt);
-
-    closeConnection();
+    for (Db db(query); db.returnsRows();)
+        exists = db.asInt(0);
 
     return exists;
 }
 
 std::unordered_set<int> DbAmbList::getExistingNumbers(int currentYear)
 {
-    openConnection();
 
     std::unordered_set<int> existingNumbers;
 
@@ -277,16 +198,7 @@ std::unordered_set<int> DbAmbList::getExistingNumbers(int currentYear)
         "AND rzi = '" + UserManager::currentUser().practice.rziCode + "' "
         "AND year = " + std::to_string(currentYear);
 
-    sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
-
-    while (sqlite3_step(stmt) != SQLITE_DONE) {
-        
-        existingNumbers.insert(sqlite3_column_int(stmt, 0));
-    }
-
-    sqlite3_finalize(stmt);
-   
-    closeConnection();
+    for (Db db(query);db.returnsRows();) existingNumbers.emplace(db.asInt(0));
 
     return existingNumbers;
 }
@@ -294,8 +206,6 @@ std::unordered_set<int> DbAmbList::getExistingNumbers(int currentYear)
 
 int DbAmbList::getNewNumber(int currentYear, bool nzok)
 {
-
-    openConnection();
 
     std::string query;
 
@@ -312,19 +222,9 @@ int DbAmbList::getNewNumber(int currentYear, bool nzok)
         "AND rzi = '" + UserManager::currentUser().practice.rziCode + "' "
         "ORDER BY amblist.num DESC LIMIT 1";
 
-    sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
-
     int number = 0;
 
-    while (sqlite3_step(stmt) != SQLITE_DONE)
-    {
-        number = sqlite3_column_int(stmt, 0); 
-    }
-
-
-    sqlite3_finalize(stmt);
-
-    closeConnection();
+    for (Db db(query); db.returnsRows();) number = db.asInt(0);
 
     return number + 1;
 

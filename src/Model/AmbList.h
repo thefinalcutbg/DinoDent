@@ -41,15 +41,13 @@ struct AmbList
 	Date getAmbListDate() const //works only if procedures are sorted by date!
 	{
 		if (procedures.empty())
-			return Date{ 1, Date::currentMonth(), Date::currentYear() };
-
-		Date result = procedures[0].date;
+			return Date::currentDate();
 
 		for (auto& p : procedures)
 			if (p.nzok)
 				return p.date;
 		
-		return result;
+		return procedures[0].date;
 	}
 
 	Date getAmbSheetDateMin() const //returns the first day of the ambSheet month

@@ -10,16 +10,13 @@
 
 int main(int argc, char *argv[])
 {
+    Db::setFilePath("DATATEST.db");
+    Db::createIfNotExist();
 
-    {Database db;};
-
-    QFont font("Segoe UI");
-    font.setPointSize(8);
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     QApplication::highDpiScaleFactorRoundingPolicy();
-    QApplication::setFont(font);
-    
+    QApplication::setFont(QFont ("Segoe UI", 8));    
 
     QApplication a(argc, argv);
     a.setWindowIcon(QIcon(":/icons/icon_torque.png"));

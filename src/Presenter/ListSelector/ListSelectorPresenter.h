@@ -12,7 +12,6 @@ class ListSelectorPresenter
 {
 	TabPresenter* tab_presenter{ nullptr };
 	IListSelectorView* view{ nullptr };
-	DbListOpener m_db;
 
 	RowModelType m_currentModelType {RowModelType::AmbListRow};
 
@@ -21,9 +20,9 @@ class ListSelectorPresenter
 	Date m_from{ 1, Date::currentMonth(), Date::currentYear() };
 	Date m_to{ Date::currentDate().getMaxDateOfMonth() };
 	
-	std::vector<AmbRow> m_ambRows{ m_db.getAmbRows(m_from, m_to) };
-	std::vector<PatientRow> m_patientRows{ m_db.getPatientRows() };
-	std::vector<PerioRow> m_perioRows{ m_db.getPerioRows(m_from, m_to) };
+	std::vector<AmbRow> m_ambRows{ DbListOpener::getAmbRows(m_from, m_to) };
+	std::vector<PatientRow> m_patientRows{ DbListOpener::getPatientRows() };
+	std::vector<PerioRow> m_perioRows{ DbListOpener::getPerioRows(m_from, m_to) };
 
 
 

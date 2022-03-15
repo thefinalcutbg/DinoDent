@@ -2,7 +2,6 @@
 #include "View/AmbListSelector/IListSelectorView.h"
 #include "View/ModalDialogBuilder.h"
 #include <QDebug>
-
 ListSelectorPresenter::ListSelectorPresenter()
 {
 
@@ -40,9 +39,9 @@ void ListSelectorPresenter::setDates(const Date& from, const Date& to)
 void ListSelectorPresenter::refreshModel()
 {
 	
-	m_ambRows = m_db.getAmbRows(m_from, m_to);
-	m_perioRows = m_db.getPerioRows(m_from, m_to);
-	m_patientRows = m_db.getPatientRows();
+	m_ambRows = DbListOpener::getAmbRows(m_from, m_to);
+	m_perioRows = DbListOpener::getPerioRows(m_from, m_to);
+	m_patientRows = DbListOpener::getPatientRows();
 	
 	if (view != nullptr)
 	{
@@ -119,7 +118,7 @@ void ListSelectorPresenter::deleteCurrentSelection()
 		for (auto idx : selectedIndexes)
 		{
 			tab_presenter->removeTab(m_ambRows[idx].type, m_ambRows[idx].rowID);
-			m_db.deleteRecord("amblist", m_ambRows[idx].rowID);
+			DbListOpener::deleteRecord("amblist", m_ambRows[idx].rowID);
 		}
 		break;
 	case RowModelType::PerioRow:
@@ -131,7 +130,7 @@ void ListSelectorPresenter::deleteCurrentSelection()
 
 		for (auto idx : selectedIndexes)
 		{
-			m_db.deleteRecord("periostatus", m_perioRows[idx].rowID);
+			DbListOpener::deleteRecord("periostatus", m_perioRows[idx].rowID);
 			tab_presenter->removeTab(m_perioRows[idx].type, m_perioRows[idx].rowID);
 		}
 		break;
@@ -144,7 +143,7 @@ void ListSelectorPresenter::deleteCurrentSelection()
 
 			for (auto idx : selectedIndexes)
 			{
-				m_db.deleteRecord("patient", m_patientRows[idx].rowID);
+				DbListOpener::deleteRecord("patient", m_patientRows[idx].rowID);
 				tab_presenter->removePatientTabs(m_patientRows[idx].rowID);
 			}
 	}

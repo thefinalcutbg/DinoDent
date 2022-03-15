@@ -27,8 +27,8 @@ LoginView::LoginView(LoginPresenter* p, QWidget *parent)
 		}
 	);
 
-	//ui.userEdit->setText("220008771");
-	//ui.passEdit->setText("198312");
+	ui.userEdit->setText("220008771");
+	ui.passEdit->setText("198312");
 	ui.userEdit->setFocus();
 	
 }

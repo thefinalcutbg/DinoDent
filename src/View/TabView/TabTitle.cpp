@@ -62,7 +62,7 @@ void TabTitle::setCurrentAppearence(bool current)
 
 	if (current) {
 		setStyleSheet(
-			"QLabel{color:" + Theme::getRGBStringFromColor(Theme::fontTurquoiseClicked) + "}"
+			"QLabel{color:" + Theme::getRGBStringFromColor(Theme::fontTurquoise) + "}"
 			"QPushButton{color:" + Theme::getRGBStringFromColor(Theme::fontRed) + "background - color:transparent; } "
 			"QPushButton:hover{color:" + Theme::getRGBStringFromColor(Theme::fontRedClicked) + "}"
 			"QPushButton:pressed:hover{color: darkred;}"
@@ -72,8 +72,8 @@ void TabTitle::setCurrentAppearence(bool current)
 	else
 	{
 		setStyleSheet(
-			"QLabel{color:" + Theme::getRGBStringFromColor(Theme::fontTurquoise) + "}"
-			"QPushButton{color:" + Theme::getRGBStringFromColor(Theme::fontTurquoise) + "background - color:transparent; } "
+			"QLabel{color:" + Theme::getRGBStringFromColor(Theme::fontTurquoiseClicked) + "}"
+			"QPushButton{color:" + Theme::getRGBStringFromColor(Theme::fontTurquoiseClicked) + "background - color:transparent; } "
 			"QPushButton:hover{color:" + Theme::getRGBStringFromColor(Theme::fontRedClicked) + "}"
 			"QPushButton:pressed:hover{color: darkred;}"
 		);

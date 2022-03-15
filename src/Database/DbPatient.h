@@ -1,17 +1,9 @@
 #pragma once
 
-#include "AbstractORM.h"
-#include <iostream>
 #include "Model/Patient.h"
-#include <vector>
-#include <map>
 
-class DbPatient : public AbstractORM
+namespace DbPatient
 {
-
-
-public:
-
     void insert(const Patient& patient);
     void update(const Patient& patient);
     Patient getPatient(std::string patientID);

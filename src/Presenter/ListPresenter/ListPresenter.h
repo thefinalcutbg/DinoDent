@@ -5,7 +5,6 @@
 #include "View/ListView/IListView.h"
 
 #include "Database/DbAmbList.h"
-#include "Model/AmbList.h"
 
 #include "Presenter/TabPresenter/TabInstance.h"
 #include "SurfacePanel/SurfacePanelPresenter.h"
@@ -18,8 +17,6 @@ typedef std::vector<Procedure> Procedures;
 
 class ListPresenter : public TabInstance
 {
-    DbAmbList db;
-
     SurfacePanelPresenter surf_presenter;
 
     SelectedTeethIdx m_selectedIndexes;

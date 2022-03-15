@@ -1,6 +1,6 @@
 #include "AllergiesDialogPresenter.h"
 #include "View/ModalDialogBuilder.h"
-
+#include "Database/DbPatient.h"
 
 AllergiesDialogPresenter::AllergiesDialogPresenter(const Patient& patient)
     : patient(&patient), view(nullptr)
@@ -17,7 +17,9 @@ void AllergiesDialogPresenter::setView(IAllergiesDialog* view)
 void AllergiesDialogPresenter::okClicked()
 {
     auto data = view->getData();
-    amb_db.updateAllergies(patient->id, data.allergies, data.current, data.past);
+
+    DbPatient::updateAllergies(patient->id, data.allergies, data.current, data.past);
+
     allergies = data;
     view->close();
 }

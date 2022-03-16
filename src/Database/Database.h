@@ -28,7 +28,7 @@ public:
     Db(const std::string& query, Db* existingConnection = nullptr);
 
     //returns true if there are more rows to get from database
-    bool returnsRows(); 
+    bool hasRows(); 
     int asInt(int column);
     double asDouble(int column);
     std::string asString(int column);

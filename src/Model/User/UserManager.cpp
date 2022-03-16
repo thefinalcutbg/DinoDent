@@ -3,12 +3,11 @@
 UserManager UserManager::m_instance;
 User UserManager::m_currentUser;
 
-#include "Database/DbLogin.h"
+#include "Database/DbDoctor.h"
 
 void UserManager::initialize()
 {
-    DbLogin db;
-    m_names = db.getDoctorNames();
+    m_names = DbDoctor::getDoctorNames();
 }
 
 UserManager::UserManager()

@@ -56,7 +56,7 @@ Patient DbPatient::getPatient(std::string patientID)
 
     Patient patient;
 
-    for (Db db(query); db.returnsRows();)
+    for (Db db(query); db.hasRows();)
     {
         patient.id = db.asString(1);
         if (patient.id == "") break;
@@ -104,7 +104,7 @@ TeethNotes DbPatient::getPresentNotes(const std::string& patientID)
 
     Db db(query);
 
-    while (db.returnsRows())
+    while (db.hasRows())
     {
         notes[db.asInt(0)] = db.asString(1);
     }

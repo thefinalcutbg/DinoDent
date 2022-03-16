@@ -3,7 +3,7 @@
 #include "Model/Parser/Parser.h"
 #include "Model/Tooth/ToothUtils.h"
 #include "Model/User/UserManager.h"
-
+#include "Database/Database.h"
 
 
 int getSheetIdx(const std::vector<AmbListXML>& sheets, const std::string& amblist_id)
@@ -53,7 +53,6 @@ std::string getAllergiesAndStuff(const std::string& allergiesAndStuff)
 
 std::vector<AmbListXML> DbXML::getAmbListXML(int month, int year, std::string RZICode, std::string LPK)
 {
-    openConnection();
 
     std::string query =
         "SELECT "
@@ -84,47 +83,45 @@ std::vector<AmbListXML> DbXML::getAmbListXML(int month, int year, std::string RZ
         "AND amblist.lpk = '" + LPK + "' "
         "ORDER BY amblist.num";
 
-        sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
-
         std::vector<AmbListXML> report;
 
-    while (sqlite3_step(stmt) != SQLITE_DONE)
+    Db db(query);
+
+    while (db.hasRows())
     {
-        auto [RHIF, HealthRegion] = CityCode::getCodes(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 3)));
+        auto [RHIF, HealthRegion] = CityCode::getCodes(db.asString(3));
 
         report.emplace_back();
 
         auto& a = report.back();
 
-        a.id = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0));
-            a.personType = sqlite3_column_int(stmt, 1);
-            a.personIdentifier = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 2));
+        a.id = db.asString(0);
+            a.personType = db.asInt(1);
+            a.personIdentifier = db.asString(2);
 
             a.RHIF = RHIF;
             a.HealthRegion = HealthRegion;
 
-            a.personFirstName = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 4));
-            a.personMiddleName = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 5));
-            a.personLastName = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 6));
+            a.personFirstName = db.asString(4);
+            a.personMiddleName = db.asString(5);
+            a.personLastName = db.asString(6);
 
-            a.specificationType = getSpecType(static_cast<bool>(sqlite3_column_int(stmt, 7)));
-            a.ambulatorySheetNo = sqlite3_column_int(stmt, 8);
-            a.HIRBNo = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 9));
+            a.specificationType = getSpecType(db.asInt(7));
+            a.ambulatorySheetNo = db.asInt(8);
+            a.HIRBNo = db.asString(9);
 
-            a.allergies = getAllergiesAndStuff(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 10)));
-            a.pastDiseases = getAllergiesAndStuff(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 11)));
-            a.currentDiseases = getAllergiesAndStuff(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 12)));
+            a.allergies = getAllergiesAndStuff(db.asString(10));
+            a.pastDiseases = getAllergiesAndStuff(db.asString(11));
+            a.currentDiseases = getAllergiesAndStuff(db.asString(12));
             a.substitute = 0,
             a.sign = 1,
 
-            a.teeth = Parser::getTeethXML(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 13)));
-            a.birthDate = Date(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 14)));
+            a.teeth = Parser::getTeethXML(db.asString(13));
+            a.birthDate = Date(db.asString(14));
 
         
     }
 
-
-    sqlite3_finalize(stmt);
 
     query = "SELECT "
             "procedure.amblist_id,"     //0
@@ -145,36 +142,32 @@ std::vector<AmbListXML> DbXML::getAmbListXML(int month, int year, std::string RZ
             "AND amblist.lpk = '" + LPK + "' "
             "ORDER BY amblist.num ASC, procedure.seq ASC";
 
-    sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
+    db.newStatement(query);
 
-    while (sqlite3_step(stmt) != SQLITE_DONE)
+    while (db.hasRows())
     {
         auto& currentSheet = 
-            report[getSheetIdx(report, reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0)))];
+            report[getSheetIdx(report, db.asString(0))];
 
 
         currentSheet.services.emplace_back(
             ServiceXML{
 
                 Date{
-                    sqlite3_column_int(stmt, 1),
-                    sqlite3_column_int(stmt, 2),
-                    sqlite3_column_int(stmt, 3)
+                    db.asInt(1),
+                    db.asInt(2),
+                    db.asInt(3)
                 },
 
-                Parser::parseDiagnosis(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 4))),
+                Parser::parseDiagnosis(db.asString(4)),
 
-                ToothUtils::getToothNumber(sqlite3_column_int(stmt, 5), static_cast<bool>(sqlite3_column_int(stmt, 6))),
+                ToothUtils::getToothNumber(db.asInt(5), static_cast<bool>(db.asInt(6))),
 
-                sqlite3_column_int(stmt, 7)
+                db.asInt(7)
             }
             );
 
     }
-
-    sqlite3_finalize(stmt);
-
-    closeConnection();
 
     return report;
 }

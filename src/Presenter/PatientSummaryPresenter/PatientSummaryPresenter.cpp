@@ -5,12 +5,13 @@
 #include "Model/Patient.h"
 #include <array>
 #include <QDebug>
+#include "Database/DbPatientSummary.h"
 
 PatientSummaryPresenter::PatientSummaryPresenter(ITabView* view, std::shared_ptr<Patient> patient)
     :   TabInstance(view, TabType::PatientSummary, patient), 
         view(view->summaryView()),
         m_currentFrameIdx{ 0 },
-        statusTimeFrame(m_db.getFrames(patient->id))
+        statusTimeFrame(DbPatientSummary::getFrames(patient->id))
 {}
 
 

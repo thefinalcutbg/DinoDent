@@ -132,8 +132,8 @@ ReportResult XML::saveXMLreport(int month, int year, const std::string& path)
 
     //this is where we serialize the ambLists:
 
-    DbXML db;
-    auto ambSheets = db.getAmbListXML(month, year, practice.rziCode, doctor.LPK);
+  
+    auto ambSheets = DbXML::getAmbListXML(month, year, practice.rziCode, doctor.LPK);
 
     auto errors = getErrors(ambSheets);
 

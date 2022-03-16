@@ -8,6 +8,7 @@
 #include "Model/User/UserManager.h"
 #include "Model/XML/xml.h"
 #include "Presenter/AddPracticePresenter/AddPracticePresenter.h"
+#include "Database/DbPractice.h"
 
 MainPresenter::MainPresenter() :
     view(nullptr)
@@ -20,9 +21,7 @@ void MainPresenter::setView(IMainView* view)
     _tabPresenter.setView(view->tabView());
     listSelector_.setTabPresenter(&_tabPresenter);
 
-    DbLogin db;
-
-    if (db.noPractices())
+    if (DbPractice::noPractices())
     {
         ModalDialogBuilder::showMessage("Стартирате програмата за първи път. Моля добавете практика.");
 
@@ -31,8 +30,8 @@ void MainPresenter::setView(IMainView* view)
 
         if (result.has_value())
         {
-            db.insertPractice(result.value().practice);
-            db.setDoctorsPracticeList(result.value().doctorsList, result.value().practice.rziCode);
+            DbPractice::insertPractice(result.value().practice);
+            DbPractice::setDoctorsPracticeList(result.value().doctorsList, result.value().practice.rziCode);
         }
         else
         {

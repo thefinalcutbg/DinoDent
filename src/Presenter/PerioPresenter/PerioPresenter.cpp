@@ -5,13 +5,13 @@
 #include "Model/PerioStatistic.h"
 #include "Model/Parser/Parser.h"
 #include "View/ModalDialogBuilder.h"
-
+#include "Database/DbPerio.h"
 
 PerioPresenter::PerioPresenter(ITabView* view, std::shared_ptr<Patient> patient) :
     TabInstance(view, TabType::PerioList, patient), 
     view(view->perioView()),
-    m_toothStatus(m_db.getStatus(patient->id, Date::currentDate())),
-    m_perioStatus(m_db.getPerioStatus(patient->id, Date::currentDate()))
+    m_toothStatus(DbPerio::getStatus(patient->id, Date::currentDate())),
+    m_perioStatus(DbPerio::getPerioStatus(patient->id, Date::currentDate()))
 {
 
     if (m_perioStatus.date != Date::currentDate()) //if its not todays measurment
@@ -53,8 +53,8 @@ PerioPresenter::PerioPresenter(ITabView* view, std::shared_ptr<Patient> patient)
 PerioPresenter::PerioPresenter(ITabView* view, std::shared_ptr<Patient> patient, const std::string& perioId) :
     TabInstance(view, TabType::PerioList, patient),
     view(view->perioView()),
-    m_toothStatus(m_db.getStatus(patient->id, Date::currentDate())),
-    m_perioStatus(m_db.getPerioStatus(perioId))
+    m_toothStatus(DbPerio::getStatus(patient->id, Date::currentDate())),
+    m_perioStatus(DbPerio::getPerioStatus(perioId))
 {
 
     for (auto& tooth : m_toothStatus)
@@ -257,7 +257,7 @@ bool PerioPresenter::save()
     if(isNew())
         return saveAs();
 
-    m_db.updatePerioStatus(m_perioStatus);
+    DbPerio::updatePerioStatus(m_perioStatus);
     _tabView->changeTabName(getTabName());
     edited = false;
 
@@ -267,7 +267,7 @@ bool PerioPresenter::save()
 bool PerioPresenter::saveAs()
 {
 
-    m_db.insertPerioStatus(m_perioStatus, patient->id);
+    DbPerio::insertPerioStatus(m_perioStatus, patient->id);
     _tabView->changeTabName(getTabName());
     edited = false;
 

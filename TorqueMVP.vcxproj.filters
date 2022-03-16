@@ -369,9 +369,6 @@
     <ClCompile Include="src\Presenter\LoginPresenter\LoginPresenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Database\DbLogin.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\View\Printer\Printer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -538,6 +535,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\TabView\TabTitle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Database\DbDoctor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Database\DbPractice.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1005,9 +1008,6 @@
     <ClInclude Include="src\Model\Procedure\ProcedureTemplate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Database\AbstractORM.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\View\uiComponents\AbstractSpinBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1197,9 +1197,6 @@
     <ClInclude Include="src\Presenter\LoginPresenter\LoginPresenter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Database\DbLogin.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\View\Printer\Printer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1336,6 +1333,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\ListView\SurfacePanel\ISurfacePanel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Database\DbDoctor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Database\DbPractice.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

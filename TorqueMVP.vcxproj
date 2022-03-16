@@ -213,6 +213,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Database\DbDoctor.cpp" />
+    <ClCompile Include="src\Database\DbPractice.cpp" />
     <ClCompile Include="src\Presenter\AddPracticePresenter\AddPracticePresenter.cpp" />
     <ClCompile Include="src\View\AddPracticeDialog\AddPracticeDialog.cpp" />
     <ClCompile Include="src\Model\User\User.cpp" />
@@ -266,7 +268,6 @@
     <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\FiberSplintPresenter.cpp" />
     <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\ToothProcedurePresenter.cpp" />
     <ClCompile Include="src\View\ProcedureDialog\ProcedureFields\FiberSplintView.cpp" />
-    <ClCompile Include="src\Database\DbLogin.cpp" />
     <ClCompile Include="src\Presenter\LoginPresenter\LoginPresenter.cpp" />
     <ClCompile Include="src\View\LoginView\LoginView.cpp" />
     <ClCompile Include="src\Model\Parser\Parser.cpp" />
@@ -485,6 +486,8 @@
     <QtMoc Include="src\View\SettingsDialog\ProcedureTemplateDialog\ProcedureTemplateDialog.h" />
     <QtMoc Include="src\View\SettingsDialog\PracticeDoctorSettings\PracticeDoctorSettings.h" />
     <QtMoc Include="src\View\AddPracticeDialog\AddPracticeDialog.h" />
+    <ClInclude Include="src\Database\DbDoctor.h" />
+    <ClInclude Include="src\Database\DbPractice.h" />
     <ClInclude Include="src\Presenter\AddPracticePresenter\AddPracticePresenter.h" />
     <ClInclude Include="src\Presenter\SettingsPresenter\PracticeDoctorSettingsPresenter.h" />
     <ClInclude Include="src\Model\Validator\BulstatValidator.h" />
@@ -510,7 +513,6 @@
     <ClInclude Include="src\Presenter\PatientSummaryPresenter\PatientSummaryPresenter.h" />
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\GeneralProcedurePresenter.h" />
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\FiberSplintPresenter.h" />
-    <ClInclude Include="src\Database\DbLogin.h" />
     <ClInclude Include="src\Presenter\LoginPresenter\LoginPresenter.h" />
     <ClInclude Include="src\Model\Parser\Parser.h" />
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\ToothProcedurePresenter.h" />
@@ -620,7 +622,6 @@
     <QtMoc Include="src\View\ProcedureDisplayModel\ProcedureTable.h" />
     <QtMoc Include="src\View\ProcedureDisplayModel\ProcedureTableModel.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\SpinBox.h" />
-    <ClInclude Include="src\Database\AbstractORM.h" />
     <ClInclude Include="src\Model\Procedure\ProcedureTemplate.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\Widgets\SurfaceSelector.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\TextEdit.h" />

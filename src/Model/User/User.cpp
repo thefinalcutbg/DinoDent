@@ -1,8 +1,7 @@
 #include "User.h"
-#include "Database/DbLogin.h"
+#include "Database/DbDoctor.h"
 
 bool User::isAdmin() const
 {
-	DbLogin db;
-	return db.getAdminPremission(doctor.LPK, practice.rziCode);
+	return DbDoctor::getAdminPremission(doctor.LPK, practice.rziCode);
 }

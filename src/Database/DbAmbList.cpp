@@ -64,7 +64,7 @@ std::vector<int> DbAmbList::getValidYears()
 
     Db db("SELECT DISTINCT year FROM amblist ORDER BY year DESC");
 
-    while (db.returnsRows())
+    while (db.hasRows())
     {
         years.emplace_back(db.asInt(0));
     }
@@ -91,7 +91,7 @@ AmbList DbAmbList::getNewAmbSheet(const std::string& patientID)
     
     );
 
-    while(db.returnsRows())
+    while(db.hasRows())
     {
         ambList.id = db.asString(0);
         ambList.number = db.asInt(1);
@@ -112,7 +112,7 @@ AmbList DbAmbList::getNewAmbSheet(const std::string& patientID)
 
         std::string oldId;
 
-        while(db.returnsRows()){
+        while(db.hasRows()){
             
             oldId = db.asString(0);
             status_json = db.asString(1);
@@ -149,7 +149,7 @@ AmbList DbAmbList::getListData(const std::string& ambID)
         "id = '" + ambID + "'"
     );
 
-    while (db.returnsRows())
+    while (db.hasRows())
     {
         ambList.id = db.asString(0);
         ambList.number = db.asInt(1);
@@ -182,7 +182,7 @@ bool DbAmbList::checkExistingAmbNum(int currentYear, int ambNum)
 
     bool exists = 0;
 
-    for (Db db(query); db.returnsRows();)
+    for (Db db(query); db.hasRows();)
         exists = db.asInt(0);
 
     return exists;
@@ -198,7 +198,7 @@ std::unordered_set<int> DbAmbList::getExistingNumbers(int currentYear)
         "AND rzi = '" + UserManager::currentUser().practice.rziCode + "' "
         "AND year = " + std::to_string(currentYear);
 
-    for (Db db(query);db.returnsRows();) existingNumbers.emplace(db.asInt(0));
+    for (Db db(query);db.hasRows();) existingNumbers.emplace(db.asInt(0));
 
     return existingNumbers;
 }
@@ -224,7 +224,7 @@ int DbAmbList::getNewNumber(int currentYear, bool nzok)
 
     int number = 0;
 
-    for (Db db(query); db.returnsRows();) number = db.asInt(0);
+    for (Db db(query); db.hasRows();) number = db.asInt(0);
 
     return number + 1;
 

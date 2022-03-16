@@ -1,5 +1,6 @@
 ﻿#include "SettingsMainPresenter.h"
-#include "Database/DbLogin.h"
+#include "Database/DbPractice.h"
+#include "Database/DbDoctor.h"
 #include "Model/User/UserManager.h"
 #include "View/ModalDialogBuilder.h"
 
@@ -12,9 +13,8 @@ void SettingsMainPresenter::setView(ISettingsDialog* view)
 {
 	this->view = view;
 
-	DbLogin db;
 
-	m_practiceDoctorPresenter.setDoctorsList(db.getDoctors(UserManager::currentUser().practice.rziCode));
+	m_practiceDoctorPresenter.setDoctorsList(DbPractice::getDoctors(UserManager::currentUser().practice.rziCode));
 
 	m_practicePresenter.setView(view->practiceView());
 	m_priceListPresenter.setView(view->priceListView());
@@ -50,10 +50,10 @@ bool SettingsMainPresenter::applyChanges()
 	practice.priceList = m_priceListPresenter.priceList();
 	auto doctorsList = m_practiceDoctorPresenter.getDoctorsList();
 
-	DbLogin db;
-	db.updatePractice(practice, UserManager::currentUser().practice.rziCode);
-	db.updatePriceList(practice.priceList, practice.rziCode);
-	db.setDoctorsPracticeList(doctorsList, practice.rziCode);
+	
+	DbPractice::updatePractice(practice, UserManager::currentUser().practice.rziCode);
+	DbPractice::updatePriceList(practice.priceList, practice.rziCode);
+	DbPractice::setDoctorsPracticeList(doctorsList, practice.rziCode);
 
 	UserManager::setCurrentPractice(practice);
 

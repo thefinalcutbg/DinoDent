@@ -13,8 +13,6 @@ class DetailedStatusPresenter
 
 	IDetailedStatusView* view{ nullptr };
 
-	DbNotes db_notes;
-
 	StatusType m_category{ StatusType::general };
 	int m_code{ -1 };
 

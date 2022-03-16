@@ -10,7 +10,7 @@ std::vector<PatientRow> DbListOpener::getPatientRows()
     std::string query =
         "SELECT id, fname, mname, lname , phone FROM patient ORDER BY id ASC";
 
-    for (Db db(query);db.returnsRows();)
+    for (Db db(query);db.hasRows();)
     {
        rows.emplace_back(PatientRow{});
        
@@ -49,7 +49,7 @@ std::vector<AmbRow> DbListOpener::getAmbRows(const Date& from, const Date& to)
         "AND amblist.rzi = '" + UserManager::currentUser().practice.rziCode + "' "
         "ORDER BY amblist.year ASC, amblist.month ASC, amblist.day ASC, amblist.num ASC ";
 
-    for (Db db(query); db.returnsRows();)
+    for (Db db(query); db.hasRows();)
     {
         rows.emplace_back(AmbRow{});
 
@@ -88,7 +88,7 @@ std::vector<PerioRow> DbListOpener::getPerioRows(const Date& from, const Date& t
         "AND (" + std::to_string(to.year) + ", " + std::to_string(to.month) + ", " + std::to_string(to.day) + ") "
         "ORDER BY periostatus.year ASC, periostatus.month ASC, periostatus.day ASC ";
 
-    for (Db db(query); db.returnsRows();)
+    for (Db db(query); db.hasRows();)
     {
 
         rows.emplace_back(PerioRow{});

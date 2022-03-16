@@ -1,6 +1,7 @@
 #include "LoginPresenter.h"
 #include "View/ModalDialogBuilder.h"
-#include "Database/DbLogin.h"
+#include "Database/DbDoctor.h"
+#include "Database/DbPractice.h"
 #include <QDebug>
 #include "Model/User/UserManager.h"
 
@@ -33,7 +34,7 @@ void LoginPresenter::setView(ILoginView* view)
 
 void LoginPresenter::okPressed(const std::string& lpk, const std::string& pass)
 {
-    auto doctor = db.getDoctor(lpk, pass);
+    auto doctor = DbDoctor::getDoctor(lpk, pass);
 
     if (!doctor.has_value())
     {
@@ -41,7 +42,7 @@ void LoginPresenter::okPressed(const std::string& lpk, const std::string& pass)
         return;
     }
 
-    auto practiceList = db.getPracticeList(lpk);
+    auto practiceList = DbPractice::getPracticeList(lpk);
     
     int practiceIdx;
 
@@ -71,7 +72,7 @@ void LoginPresenter::okPressed(const std::string& lpk, const std::string& pass)
 
     User user;
 
-    user.practice = db.getPractice(practiceList[practiceIdx].rzi);
+    user.practice = DbPractice::getPractice(practiceList[practiceIdx].rzi);
     user.doctor = doctor.value();
 
     UserManager::setCurrentUser(user);

@@ -2,11 +2,10 @@
 #include "Model/AmbList.h"
 #include "Model/Parser/Parser.h"
 #include "Database/DbProcedure.h"
-#include "Database/DbProcedure.h"
+#include "Database/Database.h"
 
 std::vector<TimeFrame> DbPatientSummary::getFrames(const std::string& patientID)
 {
-    openConnection();
 
     std::vector<TimeFrame> timeFrames{ TimeFrame{} }; //allocating the first element as default status
 
@@ -25,23 +24,22 @@ std::vector<TimeFrame> DbPatientSummary::getFrames(const std::string& patientID)
         "GROUP BY procedure.day, amblist.month, amblist.year "
         "ORDER BY amblist.year ASC, amblist.month ASC, amblist.day ASC";
 
+    Db db(query);
 
-    sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
-
-    while (sqlite3_step(stmt) != SQLITE_DONE)
+    while (db.hasRows())
     {
 
 
         timeFrames.emplace_back(
             TimeFrame
             {
-               std::string{reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0))},
-               reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1)),
+               db.asString(0),
+               db.asString(1),
 
                Date{
-                    sqlite3_column_int(stmt, 2),
-                    sqlite3_column_int(stmt, 3),
-                    sqlite3_column_int(stmt, 4)
+                    db.asInt(2),
+                    db.asInt(3),
+                    db.asInt(4)
                }, 
                
                {} //allocating ToothContainer with default constructor
@@ -50,10 +48,9 @@ std::vector<TimeFrame> DbPatientSummary::getFrames(const std::string& patientID)
 
              );
       
-            Parser::parse(std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 5))), timeFrames.back().teeth);
+            Parser::parse(db.asString(5), timeFrames.back().teeth);
     }
 
-    sqlite3_finalize(stmt);
 
     //the element 0 always shows initial status, so we copy status[1] onto status [0]
     if (timeFrames.size() > 1)
@@ -77,26 +74,26 @@ std::vector<TimeFrame> DbPatientSummary::getFrames(const std::string& patientID)
         "WHERE amblist.patient_id = '" + patientID + "' " 
         "ORDER BY amblist.year ASC, amblist.month ASC, amblist.day ASC, seq ASC";
 
-    sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
+    db.newStatement(query);
 
     int tfIdx = 1; //time frame index - the 0 position is reserved for the initial status;
 
-    while (sqlite3_step(stmt) != SQLITE_DONE)
+    while (db.hasRows())
     {
         
         Procedure p;
 
-        p.nzok = sqlite3_column_int(stmt, 0);
-        p.type = static_cast<ProcedureType>(sqlite3_column_int(stmt, 1));
-        p.code = sqlite3_column_int(stmt, 2);
-        p.tooth = sqlite3_column_int(stmt, 3);
-        p.date.day = sqlite3_column_int(stmt, 4);
-        p.date.month = sqlite3_column_int(stmt, 5);
-        p.date.year = sqlite3_column_int(stmt, 6);
-        p.price = sqlite3_column_double(stmt, 7);
-        Parser::parse(std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 8))), p);
-        p.temp = sqlite3_column_int(stmt, 9);
-        p.LPK = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 10));
+        p.nzok = db.asInt(0);
+        p.type = static_cast<ProcedureType>(db.asInt(1));
+        p.code = db.asInt(2);
+        p.tooth = db.asInt(3);
+        p.date.day = db.asInt(4);
+        p.date.month = db.asInt(5);
+        p.date.year = db.asInt(6);
+        p.price = db.asDouble(7);
+        Parser::parse(db.asString(8), p);
+        p.temp = db.asInt(9);
+        p.LPK = db.asString(10);
         
         while (p.date != timeFrames[tfIdx].date)
            tfIdx++;
@@ -105,9 +102,6 @@ std::vector<TimeFrame> DbPatientSummary::getFrames(const std::string& patientID)
 
     }
 
-    sqlite3_finalize(stmt);
-
-    closeConnection();
 
     //the tooth statuses and procedures in their respective dates are allocated and sorted, but now
     //we have to apply them:

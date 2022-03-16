@@ -1,5 +1,4 @@
 ﻿#include "PracticeDoctorSettingsPresenter.h"
-#include "Database/DbLogin.h"
 #include "Model/User/UserManager.h"
 #include "View/ModalDialogBuilder.h"
 #include "Presenter/DoctorDialogPresenter/DoctorDialogPresenter.h"

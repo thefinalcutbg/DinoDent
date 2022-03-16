@@ -26,7 +26,7 @@ std::vector<Procedure> DbProcedure::getProcedures(const std::string& amblist_id,
 						"WHERE amblist.id = " + amblist_id + " ORDER BY seq";
 
 
-	for (Db db(query, existingConnection); db.returnsRows();)
+	for (Db db(query, existingConnection); db.hasRows();)
 	{
 		mList.emplace_back();
 		Procedure& p = mList.back();
@@ -93,7 +93,7 @@ std::vector<ProcedureSummary> DbProcedure::getSummary(const std::string& patient
 
 	 std::vector<ProcedureSummary> summary;
 
-	 for (Db db(query); db.returnsRows();)
+	 for (Db db(query); db.hasRows();)
 	 {
 		 summary.push_back(
 			 {
@@ -124,7 +124,7 @@ std::vector<Procedure> DbProcedure::getToothProcedures(const std::string& patien
 
 	std::vector<Procedure> procedures;
 	
-	for (Db db(query); db.returnsRows();)
+	for (Db db(query); db.hasRows();)
 	{
 
 		procedures.emplace_back();

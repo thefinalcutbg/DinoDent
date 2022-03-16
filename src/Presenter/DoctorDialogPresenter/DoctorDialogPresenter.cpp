@@ -1,6 +1,6 @@
 #include "DoctorDialogPresenter.h"
 #include "View/uiComponents/AbstractLineEdit.h"
-#include "Database/DbLogin.h"
+#include "Database/DbDoctor.h"
 #include "View/ModalDialogBuilder.h"
 
 DoctorDialogPresenter::DoctorDialogPresenter() : m_editMode(false), m_newDoctor(true)
@@ -36,13 +36,11 @@ void DoctorDialogPresenter::okPressed()
 
     auto doctor = view->getDoctor();
 
-    DbLogin db;
-
     if (m_editMode){
-        db.updateDoctor(doctor, current_LPK);
+        DbDoctor::updateDoctor(doctor, current_LPK);
     }
     else if (m_newDoctor){
-        db.insertDoctor(doctor);
+        DbDoctor::insertDoctor(doctor);
         
     }
 
@@ -58,8 +56,7 @@ void DoctorDialogPresenter::validLPK(const std::string& validLPK)
         return;
     }
 
-    DbLogin db;
-    auto doc = db.getDoctor(validLPK);
+    auto doc = DbDoctor::getDoctor(validLPK);
 
     if (doc.has_value())
     {

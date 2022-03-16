@@ -1,10 +1,8 @@
 #pragma once
+#include <string>
 
-#include "AbstractORM.h"
-
-class DbNotes : public AbstractORM
+namespace DbNotes
 {
-public:
 	std::string getNote(const std::string& patientID, int toothIdx);
 	void saveNote(const std::string& note, const std::string& patientID, int toothIdx);
 };

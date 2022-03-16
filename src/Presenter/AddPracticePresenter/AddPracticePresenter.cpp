@@ -1,7 +1,7 @@
 ﻿#include "AddPracticePresenter.h"
 #include "Database/Database.h"
 #include "View/ModalDialogBuilder.h"
-#include "Database/DbLogin.h"
+#include "Database/DbPractice.h"
 #include <fstream>
 #include <Model/Parser/Parser.h>
 
@@ -36,10 +36,8 @@ void AddPracticePresenter::okPressed()
 			m_doctorsPresenter.getDoctorsList()
 		}
 	);
-
-	DbLogin db;
 	
-	if (db.practiceExists(m_result.value().practice.rziCode)) {
+	if (DbPractice::practiceExists(m_result.value().practice.rziCode)) {
 		m_result.reset();
 		ModalDialogBuilder::showError(u8"Практика с такъв РЗИ номер вече съществува!");
 		return;

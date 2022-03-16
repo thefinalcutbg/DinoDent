@@ -27,7 +27,7 @@ Db::Db(const std::string& query, Db* existingConnection) : Db(existingConnection
 }
 
 
-bool Db::returnsRows(){
+bool Db::hasRows(){
     return sqlite3_step(stmt) != SQLITE_DONE;
 }
 

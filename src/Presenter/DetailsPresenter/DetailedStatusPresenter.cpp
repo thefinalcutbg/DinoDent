@@ -4,11 +4,12 @@
 #include "View/ModalDialogBuilder.h"
 #include "StatusController.h"
 #include "Database/DbProcedure.h"
+#include "Database/DbNotes.h"
 
 DetailedStatusPresenter::DetailedStatusPresenter(const Tooth& tooth, const std::string& patientID)
 	: m_tooth(tooth), m_checkModel(tooth), patientID(patientID), controller{nullptr}, view(nullptr)
 {
-	m_notes = db_notes.getNote(patientID, tooth.index);
+	m_notes = DbNotes::getNote(patientID, tooth.index);
 }
 
 void DetailedStatusPresenter::setView(IDetailedStatusView* view)
@@ -131,7 +132,7 @@ void DetailedStatusPresenter::okPressed()
 	
 	_result = m_tooth;
 
-	db_notes.saveNote(m_notes, patientID, m_tooth.index);
+	DbNotes::saveNote(m_notes, patientID, m_tooth.index);
 }
 
 std::optional<Tooth> DetailedStatusPresenter::open()

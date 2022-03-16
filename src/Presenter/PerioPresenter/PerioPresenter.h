@@ -6,13 +6,13 @@
 #include "View/PerioView/IPerioView.h"
 #include "Model/PerioStatistic.h"
 #include "Model/PerioStatus.h"
-#include "Database/DbPerio.h"
+#include "Model/Tooth/ToothContainer.h"
 
 class PerioPresenter : public TabInstance
 {
-	DbPerio m_db;
 
 	IPerioView* view;
+
 	ToothContainer m_toothStatus;
 	
 

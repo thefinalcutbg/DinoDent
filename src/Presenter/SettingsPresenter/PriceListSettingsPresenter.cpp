@@ -2,7 +2,6 @@
 #include "Model/User/UserManager.h"
 #include "View/SettingsDialog/PriceListSettings/IPriceListSettings.h"
 #include "View/ModalDialogBuilder.h"
-#include "Database/DbLogin.h"
 #include <algorithm>
 
 PriceListSettingsPresenter::PriceListSettingsPresenter() :

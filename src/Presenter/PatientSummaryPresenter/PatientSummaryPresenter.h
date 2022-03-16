@@ -1,7 +1,6 @@
 #pragma once
 #include "Presenter/TabPresenter/TabInstance.h"
 #include "Model/TimeFrame.h"
-#include "Database/DbPatientSummary.h"
 #include <memory>
 
 class PatientSummaryView;
@@ -10,7 +9,6 @@ struct Patient;
 
 class PatientSummaryPresenter final : public TabInstance
 {
-	DbPatientSummary m_db;
 
 	IPatientSummaryView* view;
 

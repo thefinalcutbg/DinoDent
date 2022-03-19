@@ -13,9 +13,9 @@ CityLineEdit::CityLineEdit(QWidget* parent) : LineEdit(parent), maxCharLength(70
 void CityLineEdit::cityLoader()
 {
 
-	for (auto& it : CityCode::getMap())
+	for (auto& it : CityCode::getCitieStrings())
 	{
-		QString cityString = QString::fromStdString(it.first);
+		QString cityString = QString::fromStdString(*it);
 		citySuggestions.append(cityString);
 
 		if (cityString.length() > maxCharLength)

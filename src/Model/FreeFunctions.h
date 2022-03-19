@@ -3,7 +3,7 @@
 #include <sstream>
 #include <iomanip>
 
-std::string formatDouble(const double& price)
+inline std::string formatDouble(const double& price)
 {
     bool isDecimal{ true };
 
@@ -18,3 +18,19 @@ std::string formatDouble(const double& price)
 
     return stream.str();
 };
+
+inline std::string leadZeroes(int num, int totalLength)
+{
+    std::string formated;
+    formated.reserve(totalLength);
+
+    std::string number(std::to_string(num));
+
+    for (int i = 0; i < totalLength - number.length(); i++) {
+        formated += "0";
+    }
+
+    formated += number;
+
+    return formated;
+}

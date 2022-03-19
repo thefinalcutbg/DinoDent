@@ -1,7 +1,7 @@
 ﻿#include "NameEdit.h"
 
-QString NameEdit::letters{ "абвгдежзийклмнопрстуфхцчшщъьюя-" };
-QString NameEdit::capletters{ "АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЬЮЯ " };
+QString NameEdit::letters{ u8"абвгдежзийклмнопрстуфхцчшщъьюя-" };
+QString NameEdit::capletters{ u8"АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЬЮЯ " };
 
 NameEdit::NameEdit(QWidget* parent) : LineEdit(parent)
 {
@@ -12,7 +12,7 @@ QString NameEdit::reformat(QString text)
 {
     QString& name = text;
 
-    if (name.isEmpty()) return "";
+    if (name.isEmpty() || !isValid()) return this->text();
 
     //Formats the name:
 //Removes spaces and dashes at the beginning and at the end of the name:

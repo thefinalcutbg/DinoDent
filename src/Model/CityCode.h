@@ -9,11 +9,12 @@ namespace CityCode
 {
 	void initialize();
 	const std::string getLabel(const std::string& cityString);
-	const std::string& getCityString(const RHIF& hrif, const HealthRegion& healthRegion);
-	const std::pair<HealthRegion, RHIF> &getCodes(const std::string& cityString);
+	const std::pair<RHIF, HealthRegion> getCodes(const std::string& cityString);
 	bool validCityString(const std::string& cityString);
+	const std::string& cityFromIndex(int idx);
+	int getDbCityIdx(const std::string& cityString);
 
-	const std::unordered_map <CityString, std::pair<RHIF, HealthRegion>>& getMap();
+	const std::vector<const CityString*>& getCitieStrings();
 	
 };
 

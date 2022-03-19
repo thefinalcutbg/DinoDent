@@ -89,13 +89,13 @@ std::vector<AmbListXML> DbXML::getAmbListXML(int month, int year, std::string RZ
 
     while (db.hasRows())
     {
-        auto [RHIF, HealthRegion] = CityCode::getCodes(db.asString(3));
+        auto [RHIF, HealthRegion] = CityCode::getCodes(CityCode::cityFromIndex(db.asInt(3)));
 
         report.emplace_back();
 
         auto& a = report.back();
 
-        a.id = db.asString(0);
+            a.id = db.asString(0);
             a.personType = db.asInt(1);
             a.personIdentifier = db.asString(2);
 

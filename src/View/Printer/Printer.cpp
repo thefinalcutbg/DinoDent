@@ -6,27 +6,12 @@
 #include "ProcedurePrintModel.h"
 #include "ProcedurePrintSelectDialog.h"
 #include "View/ProcedureDisplayModel/ProcedureTableModel.h"
+#include "Model/FreeFunctions.h"
 #include "qitemselectionmodel.h"
 //used as coordinates for the x-es in the checkboxes
 struct coords { int x; int y; };
 constexpr coords typeCoords[5]{ {0, 0}, { 50, 213 }, { 225, 213 }, {50, 255}, {225, 255} };
 constexpr QChar tempSymbol{ 0x25EF };
-
-//placing lead zeroes according to total lenght
-QString leadZeroes(int num, int totalLength)
-{
-    QString formated;
-    formated.reserve(totalLength);
-
-    QString number(QString::number(num));
-
-    for (int i = 0; i < totalLength - number.length(); i++)
-        formated += "0";
-
-    formated += number;
-
-    return formated;
-}
 
 void Print::ambList(const AmbList& amb, const Patient& patient, const User& user)
 {
@@ -66,7 +51,7 @@ void Print::ambList(const AmbList& amb, const Patient& patient, const User& user
     report.dataManager()->setReportVariable("address", QString::fromStdString(patient.address));
     report.dataManager()->setReportVariable("patientName", QString::fromStdString(patient.fullName()));
     report.dataManager()->setReportVariable("hirbNo", QString::fromStdString(patient.HIRBNo));
-    report.dataManager()->setReportVariable("ambNum", leadZeroes(amb.number, 6));
+    report.dataManager()->setReportVariable("ambNum", QString::fromStdString(leadZeroes(amb.number, 6)));
     
     
     auto[RHIF, health] = CityCode::getCodes(patient.city);

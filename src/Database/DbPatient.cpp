@@ -1,5 +1,6 @@
 #include "DbPatient.h"
 #include "Database.h"
+#include "Model/CityCode.h"
 
 void DbPatient::insert(const Patient& patient)
 {
@@ -12,8 +13,8 @@ void DbPatient::insert(const Patient& patient)
             + std::to_string(patient.sex) + "','"
             + patient.FirstName + "','"
             + patient.MiddleName + "','"
-            + patient.LastName + "','"
-            + patient.city + "','"
+            + patient.LastName + "',"
+            + std::to_string(CityCode::getDbCityIdx(patient.city)) + ",'"
             + patient.address + "','"
             + patient.HIRBNo + "','"
             + patient.phone + "','"
@@ -37,7 +38,7 @@ void DbPatient::update(const Patient& patient)
         "fname = '" + patient.FirstName + "', "
         "mname = '" + patient.MiddleName + "', "
         "lname = '" + patient.LastName + "', "
-        "city = '" + patient.city + "', "
+        "city = " + std::to_string(CityCode::getDbCityIdx(patient.city)) + ", "
         "address = '" + patient.address + "', "
         "hirbno = '" + patient.HIRBNo + "', "
         "phone = '" + patient.phone + "', "
@@ -67,7 +68,7 @@ Patient DbPatient::getPatient(std::string patientID)
         patient.FirstName = db.asString(4);
         patient.MiddleName = db.asString(5);
         patient.LastName = db.asString(6);
-        patient.city = db.asString(7);
+        patient.city = CityCode::cityFromIndex(db.asInt(7));
         patient.address = db.asString(8);
         patient.HIRBNo = db.asString(9);
         patient.phone = db.asString(10);

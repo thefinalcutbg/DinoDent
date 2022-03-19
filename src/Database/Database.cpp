@@ -131,7 +131,7 @@ void Db::createIfNotExist()
 
     rc = sqlite3_exec(
         db,
-        "CREATE TABLE patient (type INT NOT NULL, id VARCHAR (10) NOT NULL PRIMARY KEY, birth VARCHAR (10) NOT NULL, sex BOOLEAN NOT NULL, fname VARCHAR (50) NOT NULL, mname VARCHAR (50), lname VARCHAR (50) NOT NULL, city VARCHAR (100) NOT NULL, address VARCHAR (100), hirbno VARCHAR (8), phone VARCHAR (20), allergies VARCHAR (400), currentDiseases VARCHAR (400), pastDiseases VARCHAR (400))"
+        "CREATE TABLE patient (type INT NOT NULL, id VARCHAR (10) NOT NULL PRIMARY KEY, birth VARCHAR (10) NOT NULL, sex BOOLEAN NOT NULL, fname VARCHAR (50) NOT NULL, mname VARCHAR (50), lname VARCHAR (50) NOT NULL, city INT NOT NULL, address VARCHAR (150), hirbno VARCHAR (8), phone VARCHAR (20), allergies VARCHAR (400), currentDiseases VARCHAR (400), pastDiseases VARCHAR (400))"
         , NULL, NULL, &err);
 
     rc = sqlite3_exec(

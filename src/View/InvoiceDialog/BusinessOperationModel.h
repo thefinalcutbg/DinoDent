@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include <qabstractitemmodel.h>
 #include <vector>
-#include "Model/XML/InvoiceXML.h"
+#include "Model/Financial/Invoice.h"
 
 struct PrintOperation
 {

@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "Model/XML/InvoiceXML.h"
+#include "Model/Financial/Invoice.h"
 
 class IInvoiceDialog;
 

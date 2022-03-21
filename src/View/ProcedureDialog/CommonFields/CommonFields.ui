@@ -57,6 +57,13 @@
    <property name="buttonSymbols">
     <enum>QAbstractSpinBox::NoButtons</enum>
    </property>
+   <property name="minimumDate">
+    <date>
+     <year>2018</year>
+     <month>1</month>
+     <day>1</day>
+    </date>
+   </property>
    <property name="currentSectionIndex">
     <number>0</number>
    </property>

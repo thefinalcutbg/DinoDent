@@ -1,7 +1,7 @@
 ﻿#include "InvoiceDialog.h"
 #include <QFileDialog>
 #include "Presenter/InvoicePresenter/InvoicePresenter.h"
-#include "Model/XML/InvoiceXML.h"
+#include "Model/Financial/Invoice.h"
 #include "BusinessOperationModel.h"
 #include "View/GlobalFunctions.h"
 
@@ -116,8 +116,8 @@ void InvoiceDialog::enableUserFields()
 
 void InvoiceDialog::setInvoice(const Invoice& inv)
 {
-	m_report.dataManager()->setReportVariable("title", QString::fromStdString(inv.documentName));
-	m_report.dataManager()->setReportVariable("number_date", QString::fromStdString(u8" № " + inv.fin_document_no + u8" от дата " + inv.fin_document_date.toString() + u8"г."));
+	m_report.dataManager()->setReportVariable("title", QString::fromStdString(inv.name));
+	m_report.dataManager()->setReportVariable("number_date", QString::fromStdString(u8" № " + inv.number + u8" от дата " + inv.date.toString() + u8"г."));
 	
 	if (inv.mainDocument.has_value()) {
 		m_report.dataManager()->setReportVariable(
@@ -132,15 +132,22 @@ void InvoiceDialog::setInvoice(const Invoice& inv)
 	m_report.dataManager()->setReportVariable("recipient_name", QString::fromStdString(inv.recipient.name));
 	m_report.dataManager()->setReportVariable("recipient_address", QString::fromStdString(inv.recipient.address));
 	m_report.dataManager()->setReportVariable("recipient_bulstat", QString::fromStdString(inv.recipient.bulstat));
-	m_report.dataManager()->setReportVariable("practice_rzi", QString::fromStdString(inv.issuer.rhi_nhif_no));
-	m_report.dataManager()->setReportVariable("contract", QString::fromStdString(inv.issuer.contract_no + " / " + inv.issuer.contract_date.toString()) + u8" г.");
+	
 	m_report.dataManager()->setReportVariable("issuer_name", QString::fromStdString(inv.issuer.company_name));
 	m_report.dataManager()->setReportVariable("issuer_address", QString::fromStdString(inv.issuer.address_by_contract));
 	m_report.dataManager()->setReportVariable("issuer_bulstat", QString::fromStdString(inv.issuer.bulstat));
-	m_report.dataManager()->setReportVariable("period", QString::fromStdString(u8"от " + inv.date_from.toString() + u8" до " + inv.date_to.toString()));
-	m_report.dataManager()->setReportVariable("total", formatDoubleWithDecimal(inv.aggragated_amounts.total_amount));
-	m_report.dataManager()->setReportVariable("mon_notif_number", QString::fromStdString(u8"Информация от месечно известие № " + inv.fin_document_month_no));
 
+	m_report.dataManager()->setReportVariable("total", formatDoubleWithDecimal(inv.aggragated_amounts.total_amount));
+
+	if (inv.nzokData.has_value())
+	{
+		m_report.dataManager()->setReportVariable("practice_rzi", QString::fromStdString(inv.nzokData->rhi_nhif_no));
+		m_report.dataManager()->setReportVariable("contract", QString::fromStdString(inv.nzokData->contract_no + " / " + inv.nzokData->contract_date.toString()) + u8" г.");
+		m_report.dataManager()->setReportVariable("mon_notif_number", QString::fromStdString(u8"Информация от месечно известие № " + inv.nzokData->fin_document_month_no));
+		m_report.dataManager()->setReportVariable("period", QString::fromStdString(u8"от " + inv.nzokData->date_from.toString() + u8" до " + inv.nzokData->date_to.toString()));
+
+	}
+	
 	BusinessOperationModel* model = new BusinessOperationModel{ inv.businessOperations };
 	
 	m_report.dataManager()->addModel("operations", model, true);

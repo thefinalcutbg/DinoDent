@@ -268,12 +268,12 @@
   <customwidget>
    <class>PatientTile</class>
    <extends>QPushButton</extends>
-   <header>View/ListView/tilebutton.h</header>
+   <header>View/uiComponents/qt_derived/Widgets/TileButton.h</header>
   </customwidget>
   <customwidget>
    <class>AllergiesTile</class>
    <extends>QPushButton</extends>
-   <header>View/ListView/tilebutton.h</header>
+   <header>View/uiComponents/qt_derived/Widgets/TileButton.h</header>
   </customwidget>
   <customwidget>
    <class>ControlPanel</class>

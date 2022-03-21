@@ -1,5 +1,6 @@
 ﻿#include "TabView.h"
 #include <QABstractScrollArea>
+#include <QScrollBar>
 #include "View/Theme.h"
 
 TabView::TabView(QWidget *parent)
@@ -30,7 +31,7 @@ TabView::TabView(QWidget *parent)
         });
 
     ui.scrollArea->setAlignment(Qt::AlignHCenter);
-
+ 
     noTabs = new QLabel(this);
     noTabs->setPixmap(QPixmap("dino.png"));
     noTabs->setAlignment(Qt::AlignCenter);

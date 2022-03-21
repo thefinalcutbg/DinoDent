@@ -1,4 +1,4 @@
-﻿#include "tilebutton.h"
+﻿#include "TileButton.h"
 #include <QPainterPath>
 #include "View/Theme.h"
 
@@ -141,7 +141,7 @@ PatientTile::PatientTile(QWidget* parent) : TileButton(parent){}
 
 void PatientTile::setData(const Patient& patient, Date currentDate)
 {
-	name = elide(QString::fromStdString(patient.FirstName + " " + patient.MiddleName + " " + patient.LastName), 35);
+	name = elide(QString::fromStdString(patient.fullName()), 35);
 
 	if (patient.type == 1) idLabel = "ЕГН: ";
 	else idLabel = "ЛНЧ: ";
@@ -156,26 +156,7 @@ void PatientTile::setData(const Patient& patient, Date currentDate)
 
 	age = QString::number(patient.getAge(currentDate)) + " г.";
 
-	QString city = QString::fromStdString(patient.city);
-
-	for (int i = 0; i < city.size(); i++)
-	{
-		if (city[i] == '(')
-		{
-			address = "с. " + city.mid(0, i);
-			break;
-		}
-		else if (city[i] == ',' )
-		{
-			address = "гр. " + city.mid(0, i);
-			break;
-		}
-	}
-
-	if (patient.address != "")
-		address.append(", " + QString::fromStdString(patient.address));
-
-	address = elide(address, 37);
+	address = elide(QString::fromStdString(patient.getFullAddress()), 37);
 
 	if (patient.phone != "")
 		phone = QString::fromStdString(patient.phone);

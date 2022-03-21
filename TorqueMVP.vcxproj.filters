@@ -54,7 +54,7 @@
     <ClCompile Include="src\View\ListView\ListView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\ListView\tilebutton.cpp">
+    <ClCompile Include="src\View\uiComponents\qt_derived\Widgets\TileButton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Presenter\AllergiesDialog\AllergiesDialogPresenter.cpp">
@@ -447,7 +447,7 @@
     <ClCompile Include="src\Model\Validator\LpkValidator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Model\XML\InvoiceXML.cpp">
+    <ClCompile Include="src\Model\Financial\Invoice.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\InvoiceDialog\InvoiceDialog.cpp">
@@ -541,6 +541,24 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Database\DbPractice.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Model\Financial\NzokInvoiceData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Model\Financial\Recipient.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Model\Financial\Issuer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Presenter\FinancialPresenter\FinancialPresenter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\FinancialView\FinancialView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\FinancialView\FinancialTileButton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -752,6 +770,9 @@
     <QtMoc Include="src\View\TabView\TabTitle.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\View\FinancialView\FinancialView.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="resources\Resource.qrc" />
@@ -880,6 +901,9 @@
     <QtUic Include="src\View\TabView\TabTitle.ui">
       <Filter>Form Files</Filter>
     </QtUic>
+    <QtUic Include="src\View\FinancialView\FinancialView.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Presenter\MainPresenter.h">
@@ -912,7 +936,7 @@
     <ClInclude Include="src\View\ListView\IListView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\View\ListView\tilebutton.h">
+    <ClInclude Include="src\View\uiComponents\qt_derived\Widgets\TileButton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Presenter\AllergiesDialog\AllergiesDialogPresenter.h">
@@ -1269,7 +1293,7 @@
     <ClInclude Include="src\Model\Validator\LpkValidator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model\XML\InvoiceXML.h">
+    <ClInclude Include="src\Model\Financial\Invoice.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Presenter\InvoicePresenter\InvoicePresenter.h">
@@ -1339,6 +1363,24 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Database\DbPractice.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\Financial\NzokInvoiceData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\Financial\Recipient.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\Financial\Issuer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Presenter\FinancialPresenter\FinancialPresenter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\View\FinancialView\FinancialTileButton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\View\FinancialView\IFinancialView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

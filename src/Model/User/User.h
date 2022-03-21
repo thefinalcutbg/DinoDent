@@ -86,7 +86,15 @@ struct Practice
 
 	std::optional<NzokContract> nzok_contract;
 
-	std::vector<ProcedureTemplate> priceList;};
+	std::vector<ProcedureTemplate> priceList;
+
+	std::string RHIF() const {
+		return rziCode.substr(0, 2);
+	}
+
+};
+
+	
 
 struct User
 {

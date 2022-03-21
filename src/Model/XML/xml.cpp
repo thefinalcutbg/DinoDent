@@ -2,7 +2,7 @@
 #include "Libraries/TinyXML/tinyxml.h"
 #include "Model/User/UserManager.h"
 #include "Database/DbXML.h"
-#include "Model/XML/InvoiceXML.h"
+#include "Model/Financial/Invoice.h"
 #include <unordered_set>
 #include <cmath>
 #include "Model/User/UserManager.h"
@@ -293,10 +293,19 @@ void XML::saveXMLinvoice(const Invoice& invoice, const std::string& path)
         parent->LinkEndChild(element);
     };
 
-    addElementWithText(el_invoice, "fin_document_type_code", invoice.fin_document_type_code);
-    addElementWithText(el_invoice, "fin_document_no", invoice.fin_document_no);
-    addElementWithText(el_invoice, "fin_document_month_no", invoice.fin_document_month_no);
-    addElementWithText(el_invoice, "fin_document_date", invoice.fin_document_date.toXMLString());
+    auto getTypeCode = [](FinancialDocType type) {
+
+        switch (type) {
+        case FinancialDocType::Invoice: return "INVOICE";
+        case FinancialDocType::Credit:  return "CT_NOTIF";
+        case FinancialDocType::Debit: return "DT_NOTIF";
+        }
+    };
+
+    addElementWithText(el_invoice, "fin_document_type_code", getTypeCode(invoice.type));
+    addElementWithText(el_invoice, "fin_document_no", invoice.number);
+    addElementWithText(el_invoice, "fin_document_month_no", invoice.nzokData->fin_document_month_no);
+    addElementWithText(el_invoice, "fin_document_date", invoice.date.toXMLString());
 
     if (invoice.mainDocument.has_value())
     {
@@ -307,7 +316,7 @@ void XML::saveXMLinvoice(const Invoice& invoice, const std::string& path)
     }
 
     TiXmlElement* recipient = new TiXmlElement("Invoice_Recipient");
-        addElementWithText(recipient, "recipient_code", invoice.recipient.code);
+        addElementWithText(recipient, "recipient_code", UserManager::currentUser().practice.rziCode.substr(0,2));
         addElementWithText(recipient, "recipient_name", invoice.recipient.name);
         addElementWithText(recipient, "recipient_address", invoice.recipient.address);
         addElementWithText(recipient, "recipient_bulstat", invoice.recipient.bulstat);
@@ -356,17 +365,17 @@ void XML::saveXMLinvoice(const Invoice& invoice, const std::string& path)
                 if (invoice.issuer.registration_by_VAT.has_value()){
                     addElementWithText(issuer, "issuer_bulstat_no_vat", invoice.issuer.registration_by_VAT.value());
                 }
-                addElementWithText(issuer, "contract_no", invoice.issuer.contract_no);
-                addElementWithText(issuer, "contract_date", invoice.issuer.contract_date.toXMLString());
-                addElementWithText(issuer, "rhi_nhif_no", invoice.issuer.rhi_nhif_no);
+                addElementWithText(issuer, "contract_no", invoice.nzokData->contract_no);
+                addElementWithText(issuer, "contract_date", invoice.nzokData->contract_date.toXMLString());
+                addElementWithText(issuer, "rhi_nhif_no", invoice.nzokData->rhi_nhif_no);
 
     el_invoice->LinkEndChild(issuer);
 
     
-    addElementWithText(el_invoice, "health_insurance_fund_type_code", invoice.health_insurance_fund_type_code);
-    addElementWithText(el_invoice, "activity_type_code", std::to_string(invoice.activityTypeCode));
-    addElementWithText(el_invoice, "date_from", invoice.date_from.toXMLString());
-    addElementWithText(el_invoice, "date_to", invoice.date_to.toXMLString());
+    addElementWithText(el_invoice, "health_insurance_fund_type_code", invoice.nzokData->health_insurance_fund_type_code);
+    addElementWithText(el_invoice, "activity_type_code", std::to_string(invoice.nzokData->activityTypeCode));
+    addElementWithText(el_invoice, "date_from", invoice.nzokData->date_from.toXMLString());
+    addElementWithText(el_invoice, "date_to", invoice.nzokData->date_to.toXMLString());
 
     for (auto& operation : invoice.businessOperations)
     {

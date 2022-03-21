@@ -34,6 +34,7 @@ struct Patient
 	Date turns18At() const;
 	std::string fullName() const;
 	std::string firstLastName() const;
+	std::string getFullAddress() const;
 
 	~Patient();
 };

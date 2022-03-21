@@ -57,13 +57,13 @@
       <enum>QFrame::Plain</enum>
      </property>
      <property name="lineWidth">
-      <number>1</number>
+      <number>0</number>
      </property>
      <property name="widgetResizable">
       <bool>true</bool>
      </property>
      <property name="alignment">
-      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+      <set>Qt::AlignCenter</set>
      </property>
      <widget class="QWidget" name="scrollAreaWidgetContents">
       <property name="geometry">

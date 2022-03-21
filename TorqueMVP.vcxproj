@@ -213,8 +213,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\View\FinancialView\FinancialTileButton.cpp" />
+    <ClCompile Include="src\View\FinancialView\FinancialView.cpp" />
+    <ClCompile Include="src\Presenter\FinancialPresenter\FinancialPresenter.cpp" />
     <ClCompile Include="src\Database\DbDoctor.cpp" />
     <ClCompile Include="src\Database\DbPractice.cpp" />
+    <ClCompile Include="src\Model\Financial\Issuer.cpp" />
+    <ClCompile Include="src\Model\Financial\NzokInvoiceData.cpp" />
+    <ClCompile Include="src\Model\Financial\Recipient.cpp" />
     <ClCompile Include="src\Presenter\AddPracticePresenter\AddPracticePresenter.cpp" />
     <ClCompile Include="src\View\AddPracticeDialog\AddPracticeDialog.cpp" />
     <ClCompile Include="src\Model\User\User.cpp" />
@@ -242,7 +248,7 @@
     <ClCompile Include="src\Presenter\InvoicePresenter\InvoicePresenter.cpp" />
     <ClCompile Include="src\View\InvoiceDialog\InvoiceDialog.cpp" />
     <ClCompile Include="src\Model\Validator\LpkValidator.cpp" />
-    <ClCompile Include="src\Model\XML\InvoiceXML.cpp" />
+    <ClCompile Include="src\Model\Financial\Invoice.cpp" />
     <ClCompile Include="src\Presenter\DoctorDialogPresenter\DoctorDialogPresenter.cpp" />
     <ClCompile Include="src\View\DoctorSettingsDialog\DoctorSettingsDialog.cpp" />
     <ClCompile Include="src\View\InvoiceDialog\BusinessOperationModel.cpp" />
@@ -393,6 +399,7 @@
     <ClCompile Include="src\Model\User\UserManager.cpp" />
     <ClCompile Include="src\View\TabView\TabTitle.cpp" />
     <QtRcc Include="resources\Resource.qrc" />
+    <QtUic Include="src\View\FinancialView\FinancialView.ui" />
     <QtUic Include="src\View\AddPracticeDialog\AddPracticeDialog.ui" />
     <QtUic Include="src\View\ListView\SurfacePanel\SurfacePanel.ui" />
     <QtUic Include="src\View\SettingsDialog\PracticeDoctorSettings\PracticeDoctorSettings.ui" />
@@ -431,7 +438,7 @@
     <QtUic Include="src\View\PatientDialog\PatientFormDialog.ui" />
     <QtUic Include="src\View\Torque.ui" />
     <QtMoc Include="src\View\Torque.h" />
-    <ClCompile Include="src\View\ListView\tilebutton.cpp" />
+    <ClCompile Include="src\View\uiComponents\qt_derived\Widgets\TileButton.cpp" />
     <ClCompile Include="src\View\uiComponents\qt_derived\ComboBox.cpp" />
     <ClCompile Include="src\View\uiComponents\qt_derived\DateEdit.cpp" />
     <ClCompile Include="src\View\uiComponents\qt_derived\CityLineEdit.cpp" />
@@ -486,8 +493,13 @@
     <QtMoc Include="src\View\SettingsDialog\ProcedureTemplateDialog\ProcedureTemplateDialog.h" />
     <QtMoc Include="src\View\SettingsDialog\PracticeDoctorSettings\PracticeDoctorSettings.h" />
     <QtMoc Include="src\View\AddPracticeDialog\AddPracticeDialog.h" />
+    <QtMoc Include="src\View\FinancialView\FinancialView.h" />
+    <ClInclude Include="src\Presenter\FinancialPresenter\FinancialPresenter.h" />
     <ClInclude Include="src\Database\DbDoctor.h" />
     <ClInclude Include="src\Database\DbPractice.h" />
+    <ClInclude Include="src\Model\Financial\Issuer.h" />
+    <ClInclude Include="src\Model\Financial\NzokInvoiceData.h" />
+    <ClInclude Include="src\Model\Financial\Recipient.h" />
     <ClInclude Include="src\Presenter\AddPracticePresenter\AddPracticePresenter.h" />
     <ClInclude Include="src\Presenter\SettingsPresenter\PracticeDoctorSettingsPresenter.h" />
     <ClInclude Include="src\Model\Validator\BulstatValidator.h" />
@@ -495,7 +507,7 @@
     <ClInclude Include="src\Model\FreeFunctions.h" />
     <ClInclude Include="src\Model\Validator\RziValidaor.h" />
     <ClInclude Include="src\Presenter\InvoicePresenter\InvoicePresenter.h" />
-    <ClInclude Include="src\Model\XML\InvoiceXML.h" />
+    <ClInclude Include="src\Model\Financial\Invoice.h" />
     <ClInclude Include="src\Model\Validator\LpkValidator.h" />
     <ClInclude Include="src\Presenter\DoctorDialogPresenter\DoctorDialogPresenter.h" />
     <ClInclude Include="src\Database\DbXML.h" />
@@ -521,6 +533,8 @@
     <ClInclude Include="src\Presenter\SettingsPresenter\PracticeSettingsPresenter.h" />
     <ClInclude Include="src\Presenter\SettingsPresenter\PriceListSettingsPresenter.h" />
     <ClInclude Include="src\Presenter\SettingsPresenter\SettingsMainPresenter.h" />
+    <ClInclude Include="src\View\FinancialView\FinancialTileButton.h" />
+    <ClInclude Include="src\View\FinancialView\IFinancialView.h" />
     <ClInclude Include="src\View\ListView\SurfacePanel\ControlPanelPolygon.h" />
     <ClInclude Include="src\View\ListView\SurfacePanel\CPTooth.h" />
     <ClInclude Include="src\View\ListView\SurfacePanel\ISurfacePanel.h" />
@@ -671,7 +685,7 @@
     <QtMoc Include="src\View\AllergiesDialog\AllergiesDialog.h" />
     <ClInclude Include="src\View\AllergiesDialog\IAllergiesDialog.h" />
     <ClInclude Include="src\View\ListView\IListView.h" />
-    <ClInclude Include="src\View\ListView\tilebutton.h" />
+    <ClInclude Include="src\View\uiComponents\qt_derived\Widgets\TileButton.h" />
     <ClInclude Include="src\View\uiComponents\AbstractComboBox.h" />
     <ClInclude Include="src\View\uiComponents\qt_derived\CityLineEdit.h" />
     <ClInclude Include="src\Database\DbPatient.h" />

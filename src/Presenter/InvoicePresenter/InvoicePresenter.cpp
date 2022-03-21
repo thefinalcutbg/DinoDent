@@ -59,8 +59,8 @@ void InvoicePresenter::loadFile(const std::string& filePath)
         ModalDialogBuilder::showError(u8"Неуспешно зареждане на месечното известие");
         return;
     }
-    m_invoice.value().fin_document_no = addLeadZeroes(0, 10);
-    m_invoice.value().fin_document_date = Date::currentDate();
+    m_invoice.value().number = addLeadZeroes(0, 10);
+    m_invoice.value().date = Date::currentDate();
 
     view->enableUserFields();
     view->setInvoice(m_invoice.value());
@@ -74,14 +74,14 @@ void InvoicePresenter::saveAsXML(const std::string& filePath)
 
 void InvoicePresenter::docNumberChanged(int number)
 {
-    m_invoice.value().fin_document_no = addLeadZeroes(number, 10);
-    view->refreshNumberAndDate(m_invoice.value().fin_document_no, m_invoice.value().fin_document_date);
+    m_invoice.value().number = addLeadZeroes(number, 10);
+    view->refreshNumberAndDate(m_invoice.value().number, m_invoice.value().date);
 }
 
 void InvoicePresenter::docDateChanged(Date date)
 {
-    m_invoice.value().fin_document_date = date;
-    view->refreshNumberAndDate(m_invoice.value().fin_document_no, m_invoice.value().fin_document_date);
+    m_invoice.value().date = date;
+    view->refreshNumberAndDate(m_invoice.value().number, m_invoice.value().date);
 }
 
 void InvoicePresenter::open()
@@ -105,7 +105,7 @@ bool InvoicePresenter::invoiceIsValid()
         return false;
     }
 
-    if (m_invoice.value().fin_document_no == "0000000000")
+    if (m_invoice.value().number == "0000000000")
     {
         ModalDialogBuilder::showError(u8"Въведете номер на финансовият документ!");
         return false;

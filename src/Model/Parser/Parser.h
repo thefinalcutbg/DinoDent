@@ -4,7 +4,6 @@
 #include <vector>
 #include "Model/Procedure/ProcedureTemplate.h"
 #include "Model/XML/AmbListXML.h"
-#include "Model/XML/InvoiceXML.h"
 #include <optional>
 #include "Model/User/User.h"
 

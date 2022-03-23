@@ -30,7 +30,6 @@ void TileButton::paintEvent(QPaintEvent* e)
 
 	//getting the half-rounded button path:
 
-	
 	auto path = Theme::getHalfCurvedPath(width(), height());
 
 	if(m_reveresed) //transforming if reversed;

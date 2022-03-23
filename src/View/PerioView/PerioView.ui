@@ -380,7 +380,7 @@
   <widget class="AllergiesTile" name="allergiesTile">
    <property name="geometry">
     <rect>
-     <x>590</x>
+     <x>600</x>
      <y>20</y>
      <width>321</width>
      <height>121</height>

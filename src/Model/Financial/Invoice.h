@@ -21,34 +21,41 @@ struct BusinessOperation
 {
 	const std::string activity_code;
 	const std::string activity_name;
-	const static inline std::string measure_code{ "BR" };
 	const double unit_price;
 	const int quantity;
 	const double value_price;
 };
 
+typedef std::vector<BusinessOperation> BusinessOperations;
+
+enum class PaymentType { Cash, Bank };
+
 struct AggregatedAmounts
 {
-	const char* payment_type{ "B" };
+	PaymentType paymentType{PaymentType::Cash};
+
 	double total_amount {0};
 	double payment_amount {0};
-	//const std::string vat_rate;
-	const char* original {"Y"};
 	Date taxEventDate;
+
+	void calculate(const BusinessOperations& operations);
 };
 
 enum class FinancialDocType { Invoice, Debit, Credit};
 
 struct Invoice
 {
-	Invoice(const TiXmlDocument& monthNotifRoot, const User& user);
+
+	Invoice(const TiXmlDocument& monthNotif, const User& user);
+
+	int number{ 0 };
 
 	std::string rowId;
 
 	FinancialDocType type;
 
 	std::string name; //the title of the pdf invoice
-	std::string number; //leading zeroes! input by user !!!!!!!!!!!
+
 	Date date; //input by user !!!!!!!!!!!!!!!
 
 	std::optional<MainDocument> mainDocument; //for credit and debit note
@@ -58,8 +65,11 @@ struct Invoice
 	Recipient recipient;
 	const Issuer issuer;
 	
-	std::vector<BusinessOperation> businessOperations;
+	BusinessOperations businessOperations;
 
 	AggregatedAmounts aggragated_amounts;
+
+	std::string getInvoiceNumber() const;
+
 
 };

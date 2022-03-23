@@ -17,6 +17,8 @@ void ProcedureTableModel::setProcedures(const std::vector<Procedure>& rows)
         this->m_procedures.emplace_back(QProcedure{p});
 
     endResetModel();
+
+    emit dataChanged(index(0, 0), index(m_procedures.size(), poceduresColumnCount));
 }
 
 
@@ -37,14 +39,14 @@ QVariant ProcedureTableModel::headerData(int section, Qt::Orientation orientatio
         if (orientation == Qt::Horizontal) {
             switch (section)
             {
-            case 0: return "ID";
-            case 1: return "Дата";
-            case 2: return "Диагноза";
-            case 3: return "Зъб";
-            case 4: return "Манипулация";
-            case 5: return "Код";
-            case 6: return "Цена";
-            case 7: return "Извършил";
+            case 0: return u8"ID";
+            case 1: return u8"Дата";
+            case 2: return u8"Диагноза";
+            case 3: return u8"Зъб";
+            case 4: return u8"Манипулация";
+            case 5: return u8"Код";
+            case 6: return u8"Цена";
+            case 7: return u8"Извършил";
             }
         }
     }
@@ -59,7 +61,7 @@ int ProcedureTableModel::rowCount(const QModelIndex& parent) const
 
 int ProcedureTableModel::columnCount(const QModelIndex& parent) const
 {
-    return 8;
+    return poceduresColumnCount;
 }
 
 void ProcedureTableModel::filterProcedures(const std::vector<int>& selected)

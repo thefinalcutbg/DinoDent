@@ -1,7 +1,7 @@
 #pragma once
 
 class FinancialPresenter;
-struct Invoice;
+#include "Model/Financial/Invoice.h"
 
 class IFinancialView
 {
@@ -9,4 +9,5 @@ class IFinancialView
 public:
 	virtual void setPresenter(FinancialPresenter* presenter) =0;
 	virtual void setInvoice(const Invoice& inv) = 0;
+	virtual void setBusinessOperations(const BusinessOperations& businessOp, const AggregatedAmounts& amounts) = 0;
 };

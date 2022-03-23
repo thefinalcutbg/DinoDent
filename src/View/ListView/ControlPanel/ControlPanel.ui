@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>220</width>
-    <height>470</height>
+    <width>209</width>
+    <height>426</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,25 +15,25 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeType">
-      <enum>QSizePolicy::Preferred</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>76</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Expanding</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>76</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
        <item>
         <widget class="StatusButton" name="Obturation">
          <property name="sizePolicy">
@@ -288,6 +288,19 @@
      </item>
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
        <item>
         <widget class="StatusButton" name="Caries">
          <property name="sizePolicy">

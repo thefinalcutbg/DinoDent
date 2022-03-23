@@ -6,7 +6,8 @@
 #include "../ListPresenter/ListPresenter.h"
 #include "../PerioPresenter/PerioPresenter.h"
 #include "../PatientSummaryPresenter/PatientSummaryPresenter.h"
-
+#include "../FinancialPresenter/FinancialPresenter.h"
+#include "Libraries/TinyXML/tinyxml.h"
 
 TabPresenter::TabPresenter() : _indexCounter(-1), m_currentIndex(-1), view(nullptr)
 {}
@@ -68,7 +69,9 @@ std::shared_ptr<Patient> TabPresenter::getPatient_ptr(const Patient& patient)
 {
     for (auto& [index, tabInstance] : m_tabs)
     {
-        if (tabInstance->patient->id == patient.id)
+        if (tabInstance->patient != nullptr && 
+            tabInstance->patient->id == patient.id
+            )
             return tabInstance->patient;
     }
 
@@ -85,17 +88,26 @@ void TabPresenter::openList(const Patient& patient)
 {
     if (newListExists(patient)) return;
 
-    TabInstance* newTab = new ListPresenter(view, getPatient_ptr(patient));
-
-    openTab(newTab);
+    openTab(new ListPresenter(view, getPatient_ptr(patient)));
 
 }
 
 void TabPresenter::openPerio(const Patient& patient)
 {
-    TabInstance* newTab = new PerioPresenter(view, getPatient_ptr(patient));
+    openTab(new PerioPresenter(view, getPatient_ptr(patient)));
+}
 
-    openTab(newTab);
+void TabPresenter::openInvoice(const std::string& monthNotifFilePath)
+{
+
+    try {
+        openTab(new FinancialPresenter(view, monthNotifFilePath));
+    }
+    catch(const std::exception& e) {
+        ModalDialogBuilder::showError(e.what());
+    }
+
+    
 }
 
 void TabPresenter::open(const RowInstance& row)
@@ -177,7 +189,9 @@ void TabPresenter::removePatientTabs(const std::string& patientID)
 {
     for (const auto& [index, tab] : m_tabs)
     {
-        if (tab->patient.get()->id == patientID)
+        if (tab->patient != nullptr && 
+            tab->patient.get()->id == patientID
+        )
         {
             view->focusTab(index);
             removeCurrentTab();

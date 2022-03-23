@@ -28,10 +28,10 @@ namespace ModalDialogBuilder
 	void openDialog(std::optional<ReportDialogResult>& result);
 	void openDialog(AddPracticePresenter* p);
 	void openDialog(DoctorDialogPresenter* p);
-	void openDialog(InvoicePresenter* p);
 	int saveAsAmbSheetNumber(int newNum, std::unordered_set<int> existingNumbers);
 	std::optional<ProcedureTemplate> openProcedureTemplateDialog(const ProcedureTemplate* pTemp = nullptr, int code = 0);
 	DialogAnswer openSaveDialog(const std::string& text);
+	std::optional<std::string> getMonthlyNotification();
 	bool askDialog(const std::string& questionText);
 	void showError(const std::string& error);
 	void showErrorList(const std::string& errors);

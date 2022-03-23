@@ -81,13 +81,6 @@ void ModalDialogBuilder::openDialog(DoctorDialogPresenter* p)
 	d.exec();
 }
 
-#include "View/InvoiceDialog/InvoiceDialog.h"
-
-void ModalDialogBuilder::openDialog(InvoicePresenter* p)
-{
-	InvoiceDialog d(p);
-	d.exec();
-}
 
 #include "View/saveAsDialog/SaveAsDialog.h"
 
@@ -123,6 +116,19 @@ DialogAnswer ModalDialogBuilder::openSaveDialog(const std::string& title)
 	default:
 		return DialogAnswer::Cancel;
 	}
+}
+
+#include <QFileDialog>
+
+std::optional<std::string> ModalDialogBuilder::getMonthlyNotification()
+{
+	QString filePath = QFileDialog::getOpenFileName(nullptr, 
+		u8"Изберете месечно известие", "", "XML files(*.xml)");
+
+	if (filePath.isEmpty())
+		return {};
+
+	return filePath.toStdString();
 }
 
 bool ModalDialogBuilder::askDialog(const std::string& questionText)

@@ -4,7 +4,6 @@
 #include "View/Printer/Printer.h"
 #include "Presenter/LoginPresenter/LoginPresenter.h"
 #include "Presenter/DoctorDialogPresenter/DoctorDialogPresenter.h"
-#include "Presenter/InvoicePresenter/InvoicePresenter.h"
 #include "Model/User/UserManager.h"
 #include "Model/XML/xml.h"
 #include "Presenter/AddPracticePresenter/AddPracticePresenter.h"
@@ -115,8 +114,12 @@ void MainPresenter::generateReport()
 
 void MainPresenter::generateInvoice()
 {
-    InvoicePresenter p;
-    p.open();
+    auto filepathResult = ModalDialogBuilder::getMonthlyNotification();
+
+    if (!filepathResult.has_value()) return;
+
+    _tabPresenter.openInvoice(filepathResult.value());
+    
 }
 
 void MainPresenter::settingsPressed()

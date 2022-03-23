@@ -75,9 +75,5 @@ void PatientSummary::setProcedures(const std::vector<Procedure>& p)
 
 	m_teethScene.setProcedures(treatedTeeth);
 
-	//tova e copy-paste ot listView-to :
-	
-	ui.procedureTable->fitToModel(p.size());
 	this->setFixedHeight(710 + ui.procedureTable->height() + 100);
-	ui.procedureTable->setHidden(!p.size());
 }

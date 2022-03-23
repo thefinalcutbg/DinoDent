@@ -5,12 +5,12 @@
 #include "Model/User/User.h"
 #include <stdexcept>
 #include "Libraries/TinyXML/tinyxml.h"
-
+#include "Model/FreeFunctions.h"
 
 const char* getText(const TiXmlElement* element)
 {
         if (element == nullptr){
-            throw std::exception("wrong xml format");
+            throw std::exception(u8"Неуспешно зареждане на месечното известие");
     }
 
     return element->GetText();
@@ -77,16 +77,26 @@ Invoice::Invoice(const TiXmlDocument& monthNotif, const User& user)
 		);
 	}
 
-    for (auto& operation : businessOperations)
-    {
-        aggragated_amounts.payment_amount += operation.value_price;
-    }
-
-    aggragated_amounts.total_amount = aggragated_amounts.payment_amount;
+	aggragated_amounts.calculate(businessOperations);
+	aggragated_amounts.paymentType = PaymentType::Bank;
     aggragated_amounts.taxEventDate = nzokData.value().date_to;
 
 
 }
 
+std::string Invoice::getInvoiceNumber() const
+{
+	return leadZeroes(number, 10);
+}
 
+void AggregatedAmounts::calculate(const BusinessOperations& operations)
+{
+	payment_amount = 0;
 
+	for (auto& operation : operations)
+	{
+		payment_amount += operation.value_price;
+	}
+	
+	total_amount = payment_amount;
+}

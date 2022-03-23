@@ -22,4 +22,6 @@ struct NZOKInvoiceData {
 	const Date date_from;
 	const Date date_to;
 
+	std::string outputFileName;
+
 };

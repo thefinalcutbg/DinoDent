@@ -1,4 +1,4 @@
-#include "Date.h"
+﻿#include "Date.h"
 
 int Date::monthDays[12]{ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
@@ -78,8 +78,9 @@ Date Date::getBirthdateFromEgn(const std::string& egn)
 }
 
 
-std::string Date::toString() const
+std::string Date::toString(bool suffix) const
 {
+
       std::string dayStr;
 
     if (day < 10)
@@ -94,7 +95,12 @@ std::string Date::toString() const
     else
         monthStr = std::to_string(month);
 
-    return dayStr + "." + monthStr + "." + std::to_string(year);
+    std::string yearStr = std::to_string(year);
+
+    if (suffix)
+        yearStr += u8" г.";
+
+    return dayStr + "." + monthStr + "." + yearStr;
 }
 
 std::string Date::toXMLString() const

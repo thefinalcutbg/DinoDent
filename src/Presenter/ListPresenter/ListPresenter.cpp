@@ -133,6 +133,8 @@ const std::string& ListPresenter::rowID() const
 
 bool ListPresenter::save()
 {
+    if (!isNew() && !edited) return true;
+
     if (m_ambList.isNew() || m_ambList.hasNumberInconsistency()) return saveAs();
 
     if (!isValid()) return false;
@@ -195,7 +197,7 @@ bool ListPresenter::isNew()
 
 void ListPresenter::print()
 {
-    if(!isNew() || save())
+    if(save())
     Print::ambList(m_ambList, *patient);
 }
 

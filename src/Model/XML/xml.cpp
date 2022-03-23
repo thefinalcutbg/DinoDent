@@ -303,7 +303,7 @@ void XML::saveXMLinvoice(const Invoice& invoice, const std::string& path)
     };
 
     addElementWithText(el_invoice, "fin_document_type_code", getTypeCode(invoice.type));
-    addElementWithText(el_invoice, "fin_document_no", invoice.number);
+    addElementWithText(el_invoice, "fin_document_no", invoice.getInvoiceNumber());
     addElementWithText(el_invoice, "fin_document_month_no", invoice.nzokData->fin_document_month_no);
     addElementWithText(el_invoice, "fin_document_date", invoice.date.toXMLString());
 
@@ -383,7 +383,7 @@ void XML::saveXMLinvoice(const Invoice& invoice, const std::string& path)
         
             addElementWithText(businessOperation, "activity_code",   operation.activity_code);
             addElementWithText(businessOperation, "activity_name",   operation.activity_name);
-            addElementWithText(businessOperation, "measure_code",    operation.measure_code);
+            addElementWithText(businessOperation, "measure_code",    "BR");
             addElementWithText(businessOperation, "quantity",        std::to_string(operation.quantity));
             addElementWithText(businessOperation, "unit_price",      formatDouble(operation.unit_price));
             addElementWithText(businessOperation, "value_price",     formatDouble(operation.value_price));
@@ -393,17 +393,17 @@ void XML::saveXMLinvoice(const Invoice& invoice, const std::string& path)
 
     TiXmlElement* aggregatedAmounts = new TiXmlElement("Aggregated_amounts");
 
-        addElementWithText(aggregatedAmounts, "payment_type", invoice.aggragated_amounts.payment_type);
+        addElementWithText(aggregatedAmounts, "payment_type", "B");
         addElementWithText(aggregatedAmounts, "total_amount", formatDouble(invoice.aggragated_amounts.total_amount));
         addElementWithText(aggregatedAmounts, "payment_amount", formatDouble(invoice.aggragated_amounts.payment_amount));
-        addElementWithText(aggregatedAmounts, "original", invoice.aggragated_amounts.original);
+        addElementWithText(aggregatedAmounts, "original", "Y");
         addElementWithText(aggregatedAmounts, "tax_event_date", invoice.aggragated_amounts.taxEventDate.toXMLString());
 
     el_invoice->LinkEndChild(aggregatedAmounts);
 
     doc.LinkEndChild(el_invoice);
 
-    doc.SaveFile(path);
+    doc.SaveFile(path + "/" + invoice.nzokData->outputFileName);
 
 
 

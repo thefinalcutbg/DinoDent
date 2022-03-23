@@ -22,7 +22,7 @@ public:
     Date yesterday() const;
 
     static Date getBirthdateFromEgn(const std::string& egn);
-    std::string toString() const;
+    std::string toString(bool suffix = false) const;
     std::string toXMLString() const;
     std::string toXMLReportFileName() const; //required when saving the xml report file
     static Date currentDate();

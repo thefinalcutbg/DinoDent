@@ -21,16 +21,17 @@ ListView::ListView(QWidget* parent)
 	ui.procedureTable->setAmbListLayout();
 
 	ui.procedureTable->setStyleSheet(
-		"color : rgb(2, 127, 128); "
-		"selection-color: rgb(75, 163, 162); "
-		"selection-background-color: rgb(246, 245, 250);"
+		"color :" + Theme::getRGBStringFromColor(Theme::fontTurquoise) + "; "
+		"selection-color:" + Theme::getRGBStringFromColor(Theme::fontTurquoiseClicked) + "; "
+		"selection-background-color: " + Theme::getRGBStringFromColor(Theme::background) + "; "
 	);
 
-	ui.unfav_check->setStyleSheet("color : rgb(2, 127, 128);");
-	ui.priceLabel->setStyleSheet("color : rgb(2, 127, 128);");
-	ui.taxLabel->setStyleSheet("color : rgb(2, 127, 128); font-weight: bold;");
-	ui.procedureLabel->setStyleSheet("color : rgb(2, 127, 128); font-weight: bold; font-size: 12px;");
+	setStyleSheet("QLabel{ color :" + Theme::getRGBStringFromColor(Theme::fontTurquoise) + ";}");
 
+	ui.procedureLabel->setStyleSheet(
+		"color : " + Theme::getRGBStringFromColor(Theme::fontTurquoise) + "; "
+		"font-weight: bold; font-size: 12px;"
+	);
 
 	connect(ui.patientTile, &QAbstractButton::clicked, [=] { if(presenter) presenter->openPatientDialog(); });
 	connect(ui.allergiesTile, &QAbstractButton::clicked, [=] { if (presenter) presenter->openAllergiesDialog(); });
@@ -242,7 +243,6 @@ void ListView::setProcedures(const std::vector<Procedure>& m, double patientPric
 
 	teethViewScene->setProcedures(proc_teeth);
 	
-	ui.procedureTable->fitToModel(m.size());
 	this->setFixedHeight(710 + ui.procedureTable->height() + 100);
 
 	ui.priceLabel->setText(getPricesText(patientPrice, nzokPrice));

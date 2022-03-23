@@ -156,6 +156,15 @@ void TabView::showSummaryView()
     showTabWidget(&m_summaryView);
     m_listView.setPresenter(nullptr);
     m_perioView.setPresenter(nullptr);
+    m_financialView.setPresenter(nullptr);
+}
+
+void TabView::showFinancialView()
+{
+    showTabWidget(&m_financialView);
+    m_listView.setPresenter(nullptr);
+    m_perioView.setPresenter(nullptr);
+    m_summaryView.setPresenter(nullptr);
 }
 
 void TabView::showDinosaur()
@@ -178,6 +187,11 @@ IPerioView* TabView::perioView()
 IPatientSummaryView* TabView::summaryView()
 {
     return &m_summaryView;
+}
+
+IFinancialView* TabView::financialView()
+{
+    return &m_financialView;
 }
 
 

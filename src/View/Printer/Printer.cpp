@@ -7,7 +7,13 @@
 #include "ProcedurePrintSelectDialog.h"
 #include "View/ProcedureDisplayModel/ProcedureTableModel.h"
 #include "Model/FreeFunctions.h"
+#include "Model/Patient.h"
+#include "Model/AmbList.h"
+#include "Model/Financial/Invoice.h"
+#include "View/FinancialView/BusinessOperationModel.h"
+#include "View/GlobalFunctions.h"
 #include "qitemselectionmodel.h"
+
 //used as coordinates for the x-es in the checkboxes
 struct coords { int x; int y; };
 constexpr coords typeCoords[5]{ {0, 0}, { 50, 213 }, { 225, 213 }, {50, 255}, {225, 255} };
@@ -114,6 +120,59 @@ void Print::ambList(const AmbList& amb, const Patient& patient, const User& user
     report.setPreviewScaleType(LimeReport::ScaleType::FitWidth);
     report.setPreviewPageBackgroundColor(QColor(Qt::white));
     
+    report.previewReport(LimeReport::PreviewHint::HidePreviewStatusBar);
+}
+
+void Print::invoice(const Invoice& inv)
+{
+    QApplication::setOverrideCursor(Qt::BusyCursor);
+    auto report = LimeReport::ReportEngine();
+    report.loadFromFile(":/reports/report_invoice.lrxml");
+
+    report.dataManager()->setReportVariable("title", QString::fromStdString(inv.name));
+    report.dataManager()->setReportVariable("number_date", QString::fromStdString(u8" № " + inv.getInvoiceNumber() + u8" от дата " + inv.date.toString(true)));
+
+    if (inv.mainDocument.has_value()) {
+        report.dataManager()->setReportVariable(
+            "main_document",
+            QString::fromStdString(
+                u8"към фактура № "
+                + inv.mainDocument.value().number
+                + u8" от " + inv.mainDocument.value().date.toString()
+                + u8"г."));
+    }
+
+    report.dataManager()->setReportVariable("recipient_name", QString::fromStdString(inv.recipient.name));
+    report.dataManager()->setReportVariable("recipient_address", QString::fromStdString(inv.recipient.address));
+    report.dataManager()->setReportVariable("recipient_bulstat", QString::fromStdString(inv.recipient.bulstat));
+
+    report.dataManager()->setReportVariable("issuer_name", QString::fromStdString(inv.issuer.company_name));
+    report.dataManager()->setReportVariable("issuer_address", QString::fromStdString(inv.issuer.address_by_contract));
+    report.dataManager()->setReportVariable("issuer_bulstat", QString::fromStdString(inv.issuer.bulstat));
+
+    report.dataManager()->setReportVariable("total", formatDoubleWithDecimal(inv.aggragated_amounts.total_amount));
+
+    if (inv.nzokData.has_value())
+    {
+        report.dataManager()->setReportVariable("practice_rzi", QString::fromStdString(inv.nzokData->rhi_nhif_no));
+        report.dataManager()->setReportVariable("contract", QString::fromStdString(inv.nzokData->contract_no + " / " + inv.nzokData->contract_date.toString()) + u8" г.");
+        report.dataManager()->setReportVariable("mon_notif_number", QString::fromStdString(inv.nzokData->fin_document_month_no));
+        report.dataManager()->setReportVariable("period", QString::fromStdString(u8"от " + inv.nzokData->date_from.toString() + u8" до " + inv.nzokData->date_to.toString()));
+
+    }
+
+    BusinessOperationModel model{ inv.businessOperations };
+    report.dataManager()->addModel("operations", &model, false);
+
+    report.dataManager()->setReportVariable("taxEventDate", QString::fromStdString(inv.aggragated_amounts.taxEventDate.toString()));
+    report.dataManager()->setReportVariable("madeBy", QString::fromStdString(UserManager::currentUser().doctor.getFullName(false)));
+    report.dataManager()->setReportVariable("groundsNoVAT", QString::fromStdString(inv.issuer.grounds_for_not_charging_VAT));
+
+    QApplication::restoreOverrideCursor();
+
+    report.setPreviewScaleType(LimeReport::ScaleType::FitWidth);
+    report.setPreviewPageBackgroundColor(QColor(Qt::white));
+   // report.designReport();
     report.previewReport(LimeReport::PreviewHint::HidePreviewStatusBar);
 }
 

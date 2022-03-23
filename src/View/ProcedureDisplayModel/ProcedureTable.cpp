@@ -6,7 +6,7 @@
 #include <QPainterPath>
 #include <QPainter>
 #include <QStyledItemDelegate>
-
+#include <QDebug>
 class NoFocusDelegate : public QStyledItemDelegate
 {
 protected:
@@ -50,11 +50,14 @@ ProcedureTable::ProcedureTable(QWidget* parent)
 
     setWordWrap(true);
 
+
+
     
 }
 
 void ProcedureTable::setAmbListLayout()
 {
+    connect(model(), &QAbstractTableModel::dataChanged, [=] { fitToModel(model()->rowCount());});
     hideColumn(0);
     setColumnWidth(1, 69);
     setColumnWidth(2, 200);
@@ -68,6 +71,8 @@ void ProcedureTable::setAmbListLayout()
 
 void ProcedureTable::setProcedureHistoryLayout()
 {
+    connect(model(), &QAbstractTableModel::dataChanged, [=] { fitToModel(model()->rowCount());});
+
     hideColumn(0);
     setColumnWidth(1, 69);
     setColumnWidth(2, 200);
@@ -100,18 +105,29 @@ void ProcedureTable::setProcedurePrintSelectLayout()
     horizontalHeader()->setSectionResizeMode(7, QHeaderView::Stretch);
 }
 
+void ProcedureTable::setBusinessOperationLayout()
+{
+    connect(model(), &QAbstractTableModel::dataChanged, [=] { fitToModel(model()->rowCount());});
+    setColumnWidth(0, 50);
+    setColumnWidth(1, 50);
+    setColumnWidth(2, 400);
+    setColumnWidth(3, 50);
+    setColumnWidth(4, 75);
+    setColumnWidth(5, 75);
+}
+
 void ProcedureTable::fitToModel(int rows) //not working correctly yet
 {
-
     int tableHeight = rows*50 + horizontalHeader()->height() + 10;
 
     if (!rows) {
         tableHeight += 50;
     }
-
+    
     setFixedHeight(tableHeight);
 
-
+    qDebug() << "fitting table to " << rows << " rows";
+    
 }
 
 void ProcedureTable::keyPressEvent(QKeyEvent* event)
@@ -173,9 +189,9 @@ void ProcedureTable::paintEvent(QPaintEvent* e)
 
     int xPos = -1;
 
-    if (model()->rowCount()) {
+    if (model() != nullptr && model()->rowCount()) {
 
-        for (int i = 1; i < model()->columnCount() - 1; i++)
+        for (int i = 1; i < model()->columnCount(); i++)
         {
             if (horizontalHeader()->isSectionHidden(i)) {
                 continue;
@@ -230,24 +246,30 @@ void ProcedureHeader::paintEvent(QPaintEvent* e)
 
     int xPos{ 0 };
 
-    for (int i = 0; i < model()->columnCount(); i++) {
+    if (model() != nullptr)
+    {
+        for (int i = 0; i < model()->columnCount(); i++) {
 
-        if (isSectionHidden(i)) {
-            continue;
+            if (isSectionHidden(i)) {
+                continue;
+            }
+
+            QRect rect{
+                xPos,
+                0,
+                sectionSize(i),
+                height()
+            };
+
+            painter.drawText(rect, Qt::AlignCenter, model()->headerData(i, Qt::Orientation::Horizontal, Qt::DisplayRole).toString());
+
+            xPos += sectionSize(i);
+
         }
-           
-        QRect rect{
-            xPos,
-            0,
-            sectionSize(i),
-            height()
-        };
-
-        painter.drawText(rect, Qt::AlignCenter, model()->headerData(i, Qt::Orientation::Horizontal, Qt::DisplayRole).toString());
-        
-        xPos += sectionSize(i);
 
     }
+
+
 
 
     painter.end();

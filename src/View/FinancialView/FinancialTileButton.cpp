@@ -14,9 +14,7 @@ void RecipientTileButton::setRecipient(const Recipient& r)
 
 void RecipientTileButton::paintInfo(QPainter* painter)
 {
-	painter->setFont(header);
-	painter->setPen(hover && !clicked ? QPen(Theme::fontRedClicked) : QPen(QColor(Theme::fontRed)));
-	painter->drawText(20, 30, u8"Получател");
+
 
 	constexpr int rowYPos[3]{ 60,80,100 };
 
@@ -32,16 +30,17 @@ void RecipientTileButton::paintInfo(QPainter* painter)
 	};
 
 	painter->setFont(info);
-	painter->drawText(20 + horizontalAdvance(u8"Име"), rowYPos[0], name);
+	painter->drawText(20 + horizontalAdvance(u8"Име: "), rowYPos[0], name);
 	painter->drawText(20 + horizontalAdvance(u8"Идент.№: "), rowYPos[1], id);
 	painter->drawText(20 + horizontalAdvance(u8"Адрес: "), rowYPos[2], address);
+
+	painter->setFont(header);
+	painter->setPen(hover && !clicked ? QPen(Theme::fontRedClicked) : QPen(QColor(Theme::fontRed)));
+	painter->drawText(20, 30, u8"Получател");
 }
 
 void IssuerTileButton::paintInfo(QPainter* painter)
 {
-	painter->setFont(header);
-	painter->setPen(hover && !clicked ? QPen(Theme::fontRedClicked) : QPen(QColor(Theme::fontRed)));
-	painter->drawText(20, 30, u8"Идател");
 
 	constexpr int rowYPos[4]{ 60,80,100,120 };
 
@@ -58,10 +57,15 @@ void IssuerTileButton::paintInfo(QPainter* painter)
 	};
 
 	painter->setFont(info);
-	painter->drawText(20 + horizontalAdvance(u8"Име"), rowYPos[0], name);
+	painter->drawText(20 + horizontalAdvance(u8"Име: "), rowYPos[0], name);
 	painter->drawText(20 + horizontalAdvance(u8"Идент.№: "), rowYPos[1], id);
 	painter->drawText(20 + horizontalAdvance(u8"Адрес: "), rowYPos[2], address);
 	painter->drawText(20 + horizontalAdvance(u8"ДДС №: "), rowYPos[3], this->vat);
+
+	painter->setFont(header);
+	painter->setPen(hover && !clicked ? QPen(Theme::fontRedClicked) : QPen(QColor(Theme::fontRed)));
+	painter->drawText(20, 30, u8"Издател");
+
 }
 
 void IssuerTileButton::setIssuer(const Issuer& r)

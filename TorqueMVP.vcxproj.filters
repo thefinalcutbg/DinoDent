@@ -450,13 +450,7 @@
     <ClCompile Include="src\Model\Financial\Invoice.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\InvoiceDialog\InvoiceDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Presenter\InvoicePresenter\InvoicePresenter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\View\InvoiceDialog\BusinessOperationModel.cpp">
+    <ClCompile Include="src\View\FinancialView\BusinessOperationModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\Printer\ProcedurePrintSelectDialog.cpp">
@@ -559,6 +553,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\FinancialView\FinancialTileButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\TabView\ITabView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -734,9 +731,6 @@
     <QtMoc Include="src\View\DoctorSettingsDialog\DoctorSettingsDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\InvoiceDialog\InvoiceDialog.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="src\View\Printer\ProcedurePrintSelectDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
@@ -866,9 +860,6 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\DoctorSettingsDialog\DoctorSettingsDialog.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="src\View\InvoiceDialog\InvoiceDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\Printer\ProcedurePrintSelectDialog.ui">
@@ -1296,13 +1287,7 @@
     <ClInclude Include="src\Model\Financial\Invoice.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Presenter\InvoicePresenter\InvoicePresenter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\View\InvoiceDialog\IInvoiceDialog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\View\InvoiceDialog\BusinessOperationModel.h">
+    <ClInclude Include="src\View\FinancialView\BusinessOperationModel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Presenter\SettingsPresenter\PracticeSettingsPresenter.h">

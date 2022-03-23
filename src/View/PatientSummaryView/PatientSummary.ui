@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>799</width>
+    <width>808</width>
     <height>799</height>
    </rect>
   </property>
@@ -103,7 +103,7 @@
   <widget class="AllergiesTile" name="allergiesTile">
    <property name="geometry">
     <rect>
-     <x>500</x>
+     <x>510</x>
      <y>10</y>
      <width>291</width>
      <height>121</height>

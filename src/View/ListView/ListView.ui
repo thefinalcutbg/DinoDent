@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1070</width>
-    <height>1007</height>
+    <height>950</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -19,7 +19,7 @@
   <property name="minimumSize">
    <size>
     <width>1070</width>
-    <height>1000</height>
+    <height>950</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -63,7 +63,7 @@
   <widget class="AllergiesTile" name="allergiesTile">
    <property name="geometry">
     <rect>
-     <x>630</x>
+     <x>640</x>
      <y>30</y>
      <width>301</width>
      <height>121</height>
@@ -99,7 +99,7 @@
      <x>130</x>
      <y>770</y>
      <width>801</width>
-     <height>201</height>
+     <height>101</height>
     </rect>
    </property>
    <property name="styleSheet">

@@ -10,6 +10,7 @@
 #include "Presenter/ProcedureDialog/ProcedureDialogPresenter.h"
 #include "View/ModalDialogBuilder.h"
 #include "Model/AmbList.h"
+#include "Presenter/TabPresenter/TabPresenter.h"
 
 bool ListPresenter::isValid()
 {
@@ -24,9 +25,10 @@ bool ListPresenter::isValid()
 }
 
 
-ListPresenter::ListPresenter(ITabView* tabView, std::shared_ptr<Patient> patient) :
+ListPresenter::ListPresenter(ITabView* tabView, TabPresenter* tabPresenter, std::shared_ptr<Patient> patient) :
     TabInstance(tabView, TabType::AmbList, patient),
     view(tabView->listView()),
+    tabPresenter(tabPresenter),
     m_selectedProcedure(-1),
     m_ambList(DbAmbList::getNewAmbSheet(patient->id))
 {
@@ -52,10 +54,11 @@ ListPresenter::ListPresenter(ITabView* tabView, std::shared_ptr<Patient> patient
      */
 }
 
-ListPresenter::ListPresenter(ITabView* tabView, std::shared_ptr<Patient> patient, const std::string& ambListId)
+ListPresenter::ListPresenter(ITabView* tabView, TabPresenter* tabPresenter, std::shared_ptr<Patient> patient, const std::string& ambListId)
     :
     TabInstance(tabView, TabType::AmbList, patient),
     view(tabView->listView()),
+    tabPresenter(tabPresenter),
     m_ambList(DbAmbList::getListData(ambListId)),
     m_selectedProcedure(-1)
 {
@@ -601,6 +604,17 @@ void ListPresenter::setfullCoverage(bool unfav)
     makeEdited();
 
     refreshProcedureView();
+}
+
+void ListPresenter::createInvoice()
+{
+    auto selectedProcedures = ModalDialogBuilder::selectProcedures(m_ambList.procedures);
+
+    if (!selectedProcedures.has_value()) {
+        return;
+    }
+
+    tabPresenter->openInvoice(selectedProcedures.value(), *patient.get());
 }
 
 void ListPresenter::showCurrentStatus(bool show)

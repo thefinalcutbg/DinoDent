@@ -2,6 +2,8 @@
 #include "Presenter/TabPresenter/TabInstance.h"
 #include "Model/Financial/Invoice.h"
 #include "View/FinancialView/IFinancialView.h"
+#include "Model/AmbList.h"
+#include "Model/Patient.h"
 
 class FinancialPresenter : public TabInstance
 {
@@ -12,6 +14,7 @@ class FinancialPresenter : public TabInstance
 	// Inherited via TabInstance
 public:
 	FinancialPresenter(ITabView* tabView, const std::string& monthNotifFilepath);
+	FinancialPresenter(ITabView* tabView, const Patient& patient, const Procedures& procedures);
 
 	void addDeleteOperation(int idx);
 	void addOperation();

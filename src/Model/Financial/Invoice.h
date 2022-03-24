@@ -47,6 +47,7 @@ struct Invoice
 {
 
 	Invoice(const TiXmlDocument& monthNotif, const User& user);
+	Invoice(const Patient& p, const User& user);
 
 	int number{ 0 };
 

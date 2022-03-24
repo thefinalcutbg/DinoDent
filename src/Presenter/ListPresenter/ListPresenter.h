@@ -13,7 +13,9 @@
 
 typedef std::vector<int> SelectedTeethIdx;
 typedef std::vector<Tooth*> SelectedTeeth;
-typedef std::vector<Procedure> Procedures;
+
+
+class TabPresenter;
 
 class ListPresenter : public TabInstance
 {
@@ -29,6 +31,8 @@ class ListPresenter : public TabInstance
 
     IListView* view;
 
+    TabPresenter* tabPresenter;
+
     bool isValid();
     void refreshProcedureView();
     void statusChanged();
@@ -38,8 +42,8 @@ public:
     AmbList m_ambList;
 
 
-    ListPresenter(ITabView* tabView, std::shared_ptr<Patient> patient);
-    ListPresenter(ITabView* tabView, std::shared_ptr<Patient> patient, const std::string& ambListId);
+    ListPresenter(ITabView* tabView, TabPresenter* tabPresenter, std::shared_ptr<Patient> patient);
+    ListPresenter(ITabView* tabView, TabPresenter* tabPresenter, std::shared_ptr<Patient> patient, const std::string& ambListId);
 
     void chargeChanged(int index);
 
@@ -74,7 +78,7 @@ public:
     void deleteProcedure(int index);
     void setSelectedProcedure(int index);
     void setfullCoverage(bool unfav);
-
+    void createInvoice();
     void showCurrentStatus(bool show);
 
     ~ListPresenter();

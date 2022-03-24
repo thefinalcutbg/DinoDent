@@ -161,7 +161,7 @@
   <widget class="QLabel" name="priceLabel">
    <property name="geometry">
     <rect>
-     <x>700</x>
+     <x>850</x>
      <y>710</y>
      <width>211</width>
      <height>51</height>
@@ -247,6 +247,19 @@
     <bool>true</bool>
    </property>
   </widget>
+  <widget class="QPushButton" name="invoiceButton">
+   <property name="geometry">
+    <rect>
+     <x>666</x>
+     <y>724</y>
+     <width>101</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Издай фактура</string>
+   </property>
+  </widget>
   <zorder>teethView</zorder>
   <zorder>patientTile</zorder>
   <zorder>controlPanel</zorder>
@@ -262,6 +275,7 @@
   <zorder>taxLabel</zorder>
   <zorder>showCurrentStatusBox</zorder>
   <zorder>allergiesTile</zorder>
+  <zorder>invoiceButton</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>

@@ -84,6 +84,14 @@ Invoice::Invoice(const TiXmlDocument& monthNotif, const User& user)
 
 }
 
+Invoice::Invoice(const Patient& p, const User& user) :
+	name (u8"Фактура"),
+	type(FinancialDocType::Invoice),
+	recipient(p),
+	issuer{user}
+{
+}
+
 std::string Invoice::getInvoiceNumber() const
 {
 	return leadZeroes(number, 10);

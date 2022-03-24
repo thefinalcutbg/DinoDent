@@ -175,7 +175,6 @@ void Print::invoice(const Invoice& inv)
 
     report.setPreviewScaleType(LimeReport::ScaleType::FitWidth);
     report.setPreviewPageBackgroundColor(QColor(Qt::white));
-   // report.designReport();
     report.previewReport(LimeReport::PreviewHint::HidePreviewStatusBar);
 }
 
@@ -186,9 +185,11 @@ void Print::ambList(const User& user)
     auto report = LimeReport::ReportEngine();
 
     auto& doctor = user.doctor;
+    auto& practice = user.practice;
     
     report.loadFromFile(":/reports/report_amb.lrxml");
 
+    report.dataManager()->setReportVariable("RZICode", QString::fromStdString(practice.rziCode));
     report.dataManager()->setReportVariable("specialty", doctor.specialty);
     report.dataManager()->setReportVariable("LPK", QString::fromStdString(doctor.LPK));
     report.dataManager()->setReportVariable("doctorName", QString::fromStdString(doctor.getFullName(true)));
@@ -201,6 +202,6 @@ void Print::ambList(const User& user)
 
     report.setPreviewScaleType(LimeReport::ScaleType::FitWidth);
     report.setPreviewPageBackgroundColor(QColor(Qt::white));
-    report.designReport();
+    report.previewReport(LimeReport::PreviewHint::HidePreviewStatusBar);
 
 }

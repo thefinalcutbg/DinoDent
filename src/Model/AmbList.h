@@ -10,6 +10,8 @@
 
 enum class Charge {standard, retired, freed};
 
+typedef std::vector<Procedure> Procedures;
+
 struct AmbList
 {
 	AmbList() {}
@@ -72,7 +74,7 @@ struct AmbList
 			
 	}
 
-	std::vector<Procedure> procedures;
+	Procedures procedures;
 	~AmbList() {  }
 	bool isNew(){ return id == "0"; }
 };

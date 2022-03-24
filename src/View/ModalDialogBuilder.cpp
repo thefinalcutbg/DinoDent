@@ -131,6 +131,30 @@ std::optional<std::string> ModalDialogBuilder::getMonthlyNotification()
 	return filePath.toStdString();
 }
 
+#include "Printer/ProcedurePrintSelectDialog.h"
+
+std::optional<Procedures> ModalDialogBuilder::selectProcedures(const Procedures& procedures)
+{
+	std::vector<Procedure> result;
+
+	{
+		ProcedurePrintSelectDialog dialog(procedures);
+
+		if (dialog.exec() == QDialog::Rejected) {
+			return {};
+		}
+
+		auto selectedIndexes = dialog.selectedProcedures();
+
+		for (auto idx : selectedIndexes) {
+			result.push_back(procedures[idx]);
+		}
+
+	}
+
+	return result;
+}
+
 bool ModalDialogBuilder::askDialog(const std::string& questionText)
 {
 

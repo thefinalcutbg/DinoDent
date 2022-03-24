@@ -22,6 +22,7 @@ TiXmlDocument getDocument(const std::string& filePath)
 
 FinancialPresenter::FinancialPresenter(ITabView* tabView, const std::string& monthNotifFilepath) : 
     TabInstance(tabView, TabType::Financial, nullptr),
+    view(tabView->financialView()),
     m_invoice(getDocument(monthNotifFilepath), UserManager::currentUser())
 {
     this->view = tabView->financialView();
@@ -40,6 +41,29 @@ FinancialPresenter::FinancialPresenter(ITabView* tabView, const std::string& mon
 
     //checking the db for monthNotif number, and getting it from there actually
 
+}
+
+FinancialPresenter::FinancialPresenter(ITabView* tabView, const Patient& patient, const Procedures& procedures) :
+    TabInstance(tabView, TabType::Financial, nullptr),
+    view(tabView->financialView()),
+    m_invoice(patient, UserManager::currentUser())
+{
+    //insert some fancy sorting alghoritm here
+
+    for (auto& p : procedures) {
+        m_invoice.businessOperations.emplace_back(
+            BusinessOperation{
+                std::to_string(p.code),
+                p.name,
+                p.price,
+                1,
+                p.price
+            }
+
+        );
+    }
+
+    m_invoice.aggragated_amounts.calculate(m_invoice.businessOperations);
 }
 
 void FinancialPresenter::dateChanged(Date date)

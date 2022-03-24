@@ -8,6 +8,7 @@
 #include "Model/XML/xml.h"
 #include "Presenter/AddPracticePresenter/AddPracticePresenter.h"
 #include "Database/DbPractice.h"
+#include "View/Printer/Printer.h"
 
 MainPresenter::MainPresenter() :
     view(nullptr)
@@ -54,8 +55,13 @@ void MainPresenter::printPressed()
 {
     auto tab = _tabPresenter.currentTab();
 
-     if (tab != nullptr)
+    if (tab != nullptr) {
         tab->print();
+     }
+    else {
+        Print::ambList();
+    }
+ 
 }
 
 void MainPresenter::newAmbPressed()

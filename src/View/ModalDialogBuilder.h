@@ -3,6 +3,7 @@
 #include <string>
 #include "View/ReportDialog/ReportDialogResult.h"
 #include "Model/Procedure/ProcedureTemplate.h"
+#include "Model/AmbList.h"
 
 class ProcedureDialogPresenter;
 class PatientDialogPresenter;
@@ -32,6 +33,7 @@ namespace ModalDialogBuilder
 	std::optional<ProcedureTemplate> openProcedureTemplateDialog(const ProcedureTemplate* pTemp = nullptr, int code = 0);
 	DialogAnswer openSaveDialog(const std::string& text);
 	std::optional<std::string> getMonthlyNotification();
+	std::optional<Procedures> selectProcedures(const Procedures& procedures);
 	bool askDialog(const std::string& questionText);
 	void showError(const std::string& error);
 	void showErrorList(const std::string& errors);

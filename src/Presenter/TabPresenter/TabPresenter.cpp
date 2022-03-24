@@ -88,8 +88,8 @@ void TabPresenter::openList(const Patient& patient)
 {
     if (newListExists(patient)) return;
 
-    openTab(new ListPresenter(view, getPatient_ptr(patient)));
-
+    openTab(new ListPresenter(view, this, getPatient_ptr(patient)));
+    
 }
 
 void TabPresenter::openPerio(const Patient& patient)
@@ -110,6 +110,11 @@ void TabPresenter::openInvoice(const std::string& monthNotifFilePath)
     
 }
 
+void TabPresenter::openInvoice(const Procedures& procedures, const Patient& patient)
+{
+    openTab(new FinancialPresenter(view, patient, procedures));
+}
+
 void TabPresenter::open(const RowInstance& row)
 {
     if (tabAlreadyOpened(row.type, row.rowID)) return;
@@ -119,7 +124,7 @@ void TabPresenter::open(const RowInstance& row)
     switch (row.type)
     {
     case TabType::AmbList:
-        newTab = new ListPresenter(view, getPatient_ptr(DbPatient::getPatient(row.patientId)), row.rowID);
+        newTab = new ListPresenter(view, this, getPatient_ptr(DbPatient::getPatient(row.patientId)), row.rowID);
         break;
     case TabType::PerioList:
         newTab = new PerioPresenter(view, getPatient_ptr(DbPatient::getPatient(row.patientId)), row.rowID);

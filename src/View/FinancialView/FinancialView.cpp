@@ -64,6 +64,31 @@ void FinancialView::setInvoice(const Invoice& inv)
 	ui.recipientButton->setRecipient(inv.recipient);
 	ui.dateEdit->setDate(QDate{ inv.date.year, inv.date.month, inv.date.day });
 
+	bool nzokForm = inv.nzokData.has_value();
+
+	ui.addButton->setHidden(nzokForm);
+	ui.deleteButton->setHidden(nzokForm);
+	ui.editButton->setHidden(nzokForm);
+	ui.saveXMLButton->setHidden(!nzokForm);
+
+	//centering the label:
+
+	QPushButton* layoutButtons[4]{ ui.addButton, ui.deleteButton, ui.editButton, ui.saveXMLButton };
+
+	int buttonsSumWidth = 0;
+
+	for (auto button : layoutButtons) {
+		if (!button->isHidden())
+			buttonsSumWidth += button->width();
+	}
+
+	//auto hint = ui.opLabelSpacer->sizeHint();
+
+	//hint.setWidth(buttonsSumWidth);
+
+	ui.opLabelSpacer->changeSize(buttonsSumWidth, 10);
+	
+
 	setBusinessOperations(inv.businessOperations, inv.aggragated_amounts);
 
 }

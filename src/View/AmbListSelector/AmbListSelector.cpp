@@ -107,11 +107,10 @@ void AmbListSelector::setRows(const std::vector<AmbRow>& rows)
 
 		auto idxList = ui.tableView->selectionModel()->selectedRows();
 
-		std::vector<int>selectedIndexes;
+		std::set<int>selectedIndexes;
 
-		for (auto& idx : idxList)
-		{
-			selectedIndexes.push_back(phoneFilter.index(idx.row(), 0).data().toInt());
+		for (auto& idx : idxList){
+			selectedIndexes.insert(phoneFilter.index(idx.row(), 0).data().toInt());
 		}
 
 		this->presenter->selectionChanged(selectedIndexes);
@@ -154,14 +153,15 @@ void AmbListSelector::setRows(const std::vector<PerioRow>& rows)
 
 		auto idxList = ui.tableView->selectionModel()->selectedRows();
 
-		std::vector<int>selectedIndexes;
+		std::set<int>selectedIndexes;
 
-		for (auto& idx : idxList)
-		{
-			selectedIndexes.push_back(phoneFilter.index(idx.row(), 0).data().toInt());
+		for (auto& idx : idxList) {
+			selectedIndexes.insert(phoneFilter.index(idx.row(), 0).data().toInt());
 		}
 
 		this->presenter->selectionChanged(selectedIndexes);
+
+		
 
 		}
 
@@ -200,14 +200,14 @@ void AmbListSelector::setRows(const std::vector<PatientRow>& rows)
 
 		auto idxList = ui.tableView->selectionModel()->selectedRows();
 
-		std::vector<int>selectedIndexes;
+		std::set<int>selectedIndexes;
 
-		for (auto& idx : idxList)
-		{
-			selectedIndexes.push_back(phoneFilter.index(idx.row(), 0).data().toInt());
+		for (auto& idx : idxList) {
+			selectedIndexes.insert(phoneFilter.index(idx.row(), 0).data().toInt());
 		}
 
 		this->presenter->selectionChanged(selectedIndexes);
+
 
 		}
 

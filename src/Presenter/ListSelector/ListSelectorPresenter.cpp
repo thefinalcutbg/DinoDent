@@ -9,7 +9,10 @@ ListSelectorPresenter::ListSelectorPresenter()
 
 void ListSelectorPresenter::openDialog()
 {
-	if (!view) ModalDialogBuilder::openDialog(this);
+	if (!view) {
+		selectedIndexes.clear();
+		ModalDialogBuilder::openDialog(this);
+	}
 	else view->focus();
 }
 
@@ -54,7 +57,7 @@ void ListSelectorPresenter::refreshModel()
 void ListSelectorPresenter::setListType(RowModelType type)
 {
 	m_currentModelType = type;
-
+	selectedIndexes.clear();
 	switch (type)
 	{
 		case::RowModelType::AmbListRow: view->setRows(m_ambRows); break;
@@ -63,13 +66,9 @@ void ListSelectorPresenter::setListType(RowModelType type)
 	}
 }
 
-void ListSelectorPresenter::selectionChanged(std::vector<int> selectedIndexes)
+void ListSelectorPresenter::selectionChanged(std::set<int> selectedIndexes)
 { 
 	this->selectedIndexes = selectedIndexes;
-	for (auto i : this->selectedIndexes)
-	{
-		qDebug() << i;
-	}
 }
 
 

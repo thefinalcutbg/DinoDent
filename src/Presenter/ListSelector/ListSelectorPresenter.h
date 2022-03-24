@@ -2,7 +2,7 @@
 
 #include "Model/TableRows.h"
 #include "Database/DbListOpener.h"
-
+#include <set>
 class TabPresenter;
 class IListSelectorView;
 
@@ -15,7 +15,7 @@ class ListSelectorPresenter
 
 	RowModelType m_currentModelType {RowModelType::AmbListRow};
 
-	std::vector<int>selectedIndexes{};
+	std::set<int>selectedIndexes{};
 
 	Date m_from{ 1, Date::currentMonth(), Date::currentYear() };
 	Date m_to{ Date::currentDate().getMaxDateOfMonth() };
@@ -23,10 +23,6 @@ class ListSelectorPresenter
 	std::vector<AmbRow> m_ambRows{ DbListOpener::getAmbRows(m_from, m_to) };
 	std::vector<PatientRow> m_patientRows{ DbListOpener::getPatientRows() };
 	std::vector<PerioRow> m_perioRows{ DbListOpener::getPerioRows(m_from, m_to) };
-
-
-
-
 
 public:
 	ListSelectorPresenter();
@@ -43,7 +39,7 @@ public:
 
 	void setListType(RowModelType type);
 
-	void selectionChanged(std::vector<int> selectedIndexes);
+	void selectionChanged(std::set<int> selectedIndexes);
 
 	void openCurrentSelection();
 	void deleteCurrentSelection();

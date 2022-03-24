@@ -1802,7 +1802,7 @@
                   <itemLocation Type="enumAndFlags" Value="1"/>
                   <stretchToMaxHeight Type="bool" Value="0"/>
                   <itemAlign Type="enumAndFlags" Value="4"/>
-                  <content Type="QString">0.00</content>
+                  <content Type="QString">0.00 лв.</content>
                   <margin Type="int" Value="4"/>
                   <alignment Type="enumAndFlags" Value="33"/>
                   <autoWidth Type="enumAndFlags" Value="0"/>

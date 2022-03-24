@@ -282,7 +282,6 @@
     <ClCompile Include="src\Model\PerioToothData.cpp" />
     <ClCompile Include="src\View\PerioView\StatisticTableModel.cpp" />
     <ClCompile Include="src\View\Printer\Printer.cpp" />
-    <ClCompile Include="src\View\Printer\ProcedurePrintModel.cpp" />
     <ClCompile Include="src\View\ToothPaintDevices\SpriteSheets.cpp" />
     <ClCompile Include="src\View\PerioView\PerioGraphics\PerioGraphicsButton.cpp" />
     <ClCompile Include="src\View\PerioView\Widgets\PerioStatusView.cpp" />
@@ -548,7 +547,6 @@
     <ClInclude Include="src\View\PerioView\ToothUi.h" />
     <QtMoc Include="src\View\PerioView\StatisticTableModel.h" />
     <ClInclude Include="src\View\Printer\Printer.h" />
-    <ClInclude Include="src\View\Printer\ProcedurePrintModel.h" />
     <QtMoc Include="src\View\ProcedureDisplayModel\ProcedureSelectModel.h" />
     <ClInclude Include="src\View\ReportDialog\ReportDialogResult.h" />
     <ClInclude Include="src\View\SettingsDialog\ISettingsDialog.h" />

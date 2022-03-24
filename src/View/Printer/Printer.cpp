@@ -3,7 +3,6 @@
 #include <QString>
 #include <QApplication>
 #include "Model/CityCode.h"
-#include "ProcedurePrintModel.h"
 #include "ProcedurePrintSelectDialog.h"
 #include "View/ProcedureDisplayModel/ProcedureTableModel.h"
 #include "Model/FreeFunctions.h"
@@ -21,7 +20,7 @@ constexpr QChar tempSymbol{ 0x25EF };
 
 void Print::ambList(const AmbList& amb, const Patient& patient, const User& user)
 {
-    std::vector<int> selectedProcedures;
+    std::vector<Procedure> selectedProcedures;
 
     {
         ProcedurePrintSelectDialog dialog(amb.procedures);
@@ -30,11 +29,16 @@ void Print::ambList(const AmbList& amb, const Patient& patient, const User& user
             return;
         }
 
-        selectedProcedures = dialog.selectedProcedures();
+       auto selectedIndexes = dialog.selectedProcedures();
+
+       for (auto idx : selectedIndexes) {
+           selectedProcedures.push_back(amb.procedures[idx]);
+       }
 
     }
     
-    ProcedurePrintModel model(amb.procedures, selectedProcedures);
+    ProcedureTableModel model;
+    model.setProcedures(selectedProcedures);
 
     QApplication::setOverrideCursor(Qt::BusyCursor);
 
@@ -119,7 +123,6 @@ void Print::ambList(const AmbList& amb, const Patient& patient, const User& user
 
     report.setPreviewScaleType(LimeReport::ScaleType::FitWidth);
     report.setPreviewPageBackgroundColor(QColor(Qt::white));
-    
     report.previewReport(LimeReport::PreviewHint::HidePreviewStatusBar);
 }
 
@@ -190,7 +193,7 @@ void Print::ambList(const User& user)
     report.dataManager()->setReportVariable("LPK", QString::fromStdString(doctor.LPK));
     report.dataManager()->setReportVariable("doctorName", QString::fromStdString(doctor.getFullName(true)));
 
-    ProcedurePrintModel model;
+    ProcedureTableModel model;
 
     report.dataManager()->addModel("procedures", &model, false);
     report.setShowProgressDialog(true);

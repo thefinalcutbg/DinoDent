@@ -372,9 +372,6 @@
     <ClCompile Include="src\View\Printer\Printer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\Printer\ProcedurePrintModel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\View\ProcedureDialog\ProcedureFields\FiberSplintView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -1213,9 +1210,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\Printer\Printer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\View\Printer\ProcedurePrintModel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\ProcedureDialog\ProcedureFields\IFiberSplintView.h">

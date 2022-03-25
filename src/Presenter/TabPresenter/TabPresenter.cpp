@@ -110,9 +110,9 @@ void TabPresenter::openInvoice(const std::string& monthNotifFilePath)
     
 }
 
-void TabPresenter::openInvoice(const Procedures& procedures, const Patient& patient)
+void TabPresenter::openInvoice(const Procedures& procedures, std::shared_ptr<Patient> patient)
 {
-    openTab(new FinancialPresenter(view, patient, procedures));
+    openTab(new FinancialPresenter(view, procedures, patient));
 }
 
 void TabPresenter::open(const RowInstance& row)

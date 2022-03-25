@@ -59,18 +59,34 @@ std::string Tooth::getSimpleStatus() const
 {
 	auto boolStatus = getBoolStatus();
 
-	std::array<std::string, statusCount> statusLegend
+	std::array<std::string, statusCount> statusLegend //each letter corresponds to bool status
 	{
 		"", "O ", "C ", "P ", "G ", "", "", "R ", "F ", "E ",
 		"Pa ", "I ", "II ", "III ", "K ", "X ", "X", "Impl. ", "Dsn ", ""
-	};
-
-	if (boolStatus[StatusCode::Bridge] || boolStatus[StatusCode::FiberSplint]) //NZOK doesn't make a difference between a pontic and a retainer
-		boolStatus[StatusCode::Extraction] ?
-			statusLegend[StatusCode::Extraction] = ""
-			:
-			statusLegend[StatusCode::Bridge] = "K ";
+	};								//     ^     ^
+									//  bridge	splint (both defaulted as artificial tooth)
 	
+	if (boolStatus[StatusCode::Bridge])
+	{
+		boolStatus[StatusCode::Extraction] ?
+			statusLegend[StatusCode::Extraction] = "" //extraction won't be shown
+			:
+			statusLegend[StatusCode::Bridge] = "K "; //bridge will be shown as K
+
+	}
+
+	if (boolStatus[StatusCode::FiberSplint])
+	{
+		if (boolStatus[StatusCode::Extraction])
+		{
+			statusLegend[StatusCode::Extraction] = ""; //extraction won't be shown
+		}
+		else
+		{
+			boolStatus[StatusCode::Obturation] = true; //obturation WILL be shown
+			statusLegend[StatusCode::FiberSplint] = ""; //fibersplint WON'T be shown
+		}
+	}
 
 	std::string simpleStatus;
 

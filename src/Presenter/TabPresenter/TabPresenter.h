@@ -42,7 +42,7 @@ public:
 	void openList(const Patient& patient);
 	void openPerio(const Patient& patient);
 	void openInvoice(const std::string& monthNotifFilePath);
-	void openInvoice(const Procedures& procedures, const Patient& patient);
+	void openInvoice(const Procedures& procedures, std::shared_ptr<Patient> patient);
 	void open(const RowInstance& row);
 
 	void removeTab(TabType type, const std::string& rowID);

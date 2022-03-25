@@ -213,6 +213,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Database\DbInvoice.cpp" />
     <ClCompile Include="src\View\FinancialView\FinancialTileButton.cpp" />
     <ClCompile Include="src\View\FinancialView\FinancialView.cpp" />
     <ClCompile Include="src\Presenter\FinancialPresenter\FinancialPresenter.cpp" />
@@ -490,6 +491,7 @@
     <QtMoc Include="src\View\SettingsDialog\PracticeDoctorSettings\PracticeDoctorSettings.h" />
     <QtMoc Include="src\View\AddPracticeDialog\AddPracticeDialog.h" />
     <QtMoc Include="src\View\FinancialView\FinancialView.h" />
+    <ClInclude Include="src\Database\DbInvoice.h" />
     <ClInclude Include="src\Presenter\FinancialPresenter\FinancialPresenter.h" />
     <ClInclude Include="src\Database\DbDoctor.h" />
     <ClInclude Include="src\Database\DbPractice.h" />

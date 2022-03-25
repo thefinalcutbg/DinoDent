@@ -5,7 +5,7 @@
 #include "Model/PerioStatus.h"
 #include "Model/Procedure/Procedure.h"
 #include "Model/Procedure/TableStructs.h"
-
+#include <QDebug>
 Json::Value writePathology(int index, const Pathology& pathology)
 {
 	Json::Value parameters;
@@ -835,11 +835,11 @@ std::vector<ToothXML> Parser::getTeethXML(const std::string& jsonString)
 		{"Lesion",			"G"		},
 		{"Root",			"R"		},
 		{"Fracture",		"F"		},
-		{"Ectraction",		"E"		},
+		{"Extraction",		"E"		},
 		{"Periodontitis",	"Pa"	},
 		{"Crown",			"K"		},
-		{"Bridge",			"X"		},
-		{"Splint",			"X"		},
+		{"Bridge",			"K"		},
+		{"Splint",			"O"		},
 		{"Implant",			"Impl."	},
 		{"Hyperdontic",		"Dsn"	}
 	}};
@@ -860,38 +860,36 @@ std::vector<ToothXML> Parser::getTeethXML(const std::string& jsonString)
 	}
 
 	/*
-	Unfortunately NZOK doesn't differentiate between a single crown and a bridge retainer.
-	Bridge and fibersplint statuses are both marked as "X" by default (artificial tooth).
-	We iterate to see if the tooth is extracted and if "X" is present we remove the "E" status.
-	Else - we replace "X" with "K". Or simply put - pontic = "X", retainer = "K"
+	NZOK doesn't differentiate between a single crown and a bridge retainer.
+	Bridge and fibersplint statuses are marked as "B" and "O" respectively by default.
+	In case of extraction, we change their value to "X"
 	*/
 
 	for (auto& tooth : tempStatus){
 
-		bool extracted{ false };
-		int extractedPos{-1};
+		int extractedPos{-1}; //no extraction
 
 		for (int i = 0; i < tooth.size(); i++){
 
 			if(tooth[i] == "E"){
-				extracted = true;
-				extractedPos = i;
+				extractedPos = i; //extraction found
+				continue;
 			}
 
-			//No need to iterate all over.
-			//statusLegend guarantees that the parsing of the extraction will always come first
+			//if the tooth is extracted, possible bridge and fibersplint are set to X
+			if (extractedPos != -1 && (tooth[i] == "K" || tooth[i] == "O")) {
+					
+					tooth[i] = "X";
 
-			if (tooth[i] == "X") {	
-
-				if (extracted)
 					tooth.erase(tooth.begin() + extractedPos);
-				else
-					tooth[i] = "K";
+					extractedPos = -1; //no extraction
+					i--; //after erase, we have to decrement the inddex
 			}
 
-			//removing duplicates of O and C (since they are written by surfaces, not by teeth)
-			tooth.erase(std::unique(tooth.begin(), tooth.end()), tooth.end());
 		}
+
+		//removing duplicates of O and C (since they are written by surfaces, not by teeth)
+		tooth.erase(std::unique(tooth.begin(), tooth.end()), tooth.end());
 	}
 
 	//And now for the final result:

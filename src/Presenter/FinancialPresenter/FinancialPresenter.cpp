@@ -11,7 +11,7 @@ TiXmlDocument getDocument(const std::string& filePath)
     TiXmlDocument doc;
 
     bool loaded = doc.LoadFile(filePath, TiXmlEncoding::TIXML_ENCODING_UTF8);
-
+   
     if (!loaded) {
         std::string err = u8"Не е намерен файл: " + filePath;
         throw std::exception(err.c_str());
@@ -39,14 +39,15 @@ FinancialPresenter::FinancialPresenter(ITabView* tabView, const std::string& mon
 
     m_invoice.date = Date::currentDate();
 
-    //checking the db for monthNotif number, and getting it from there actually
+
+    //checking the db for monthNotif number, and getting it from there!!!!
 
 }
 
-FinancialPresenter::FinancialPresenter(ITabView* tabView, const Patient& patient, const Procedures& procedures) :
-    TabInstance(tabView, TabType::Financial, nullptr),
+FinancialPresenter::FinancialPresenter(ITabView* tabView, const Procedures& procedures, std::shared_ptr<Patient> patient) :
+    TabInstance(tabView, TabType::Financial, patient),
     view(tabView->financialView()),
-    m_invoice(patient, UserManager::currentUser())
+    m_invoice(*patient.get(), UserManager::currentUser())
 {
     //insert some fancy sorting alghoritm here
 
@@ -88,7 +89,7 @@ bool FinancialPresenter::save()
 
     if (isNew()) return saveAs();
 
-    //save the invoice
+    //update the invoice
 
 	return true;
 }
@@ -125,6 +126,11 @@ void FinancialPresenter::setCurrent()
 {
     
     view->setPresenter(this);
+
+    if (!m_invoice.nzokData) {
+        m_invoice.recipient = Recipient{ *patient.get() }; //refreshing the patient incase it's changed
+    }
+
 
     view->setInvoice(m_invoice);
 

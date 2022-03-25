@@ -555,6 +555,9 @@
     <ClCompile Include="src\View\TabView\ITabView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Database\DbInvoice.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -1360,6 +1363,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\FinancialView\IFinancialView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Database\DbInvoice.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

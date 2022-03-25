@@ -209,6 +209,8 @@ int DbAmbList::getNewNumber(int currentYear, bool nzok)
 
     std::string query;
 
+    
+
     std::string condition = nzok ? "sum(procedure.nzok) > 0 " : "sum(procedure.nzok) = 0 ";
 
     query = 
@@ -222,7 +224,7 @@ int DbAmbList::getNewNumber(int currentYear, bool nzok)
         "AND rzi = '" + UserManager::currentUser().practice.rziCode + "' "
         "ORDER BY amblist.num DESC LIMIT 1";
 
-    int number = 0;
+    int number = nzok ? 0 : 100000;
 
     for (Db db(query); db.hasRows();) number = db.asInt(0);
 

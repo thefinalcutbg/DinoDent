@@ -614,7 +614,7 @@ void ListPresenter::createInvoice()
         return;
     }
 
-    tabPresenter->openInvoice(selectedProcedures.value(), *patient.get());
+    tabPresenter->openInvoice(selectedProcedures.value(), patient);
 }
 
 void ListPresenter::showCurrentStatus(bool show)

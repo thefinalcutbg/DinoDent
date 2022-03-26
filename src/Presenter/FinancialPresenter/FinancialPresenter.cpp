@@ -7,6 +7,7 @@
 #include "Model/XML/xml.h"
 #include "Database/DbInvoice.h"
 
+
 TiXmlDocument getDocument(const std::string& filePath)
 {
     TiXmlDocument doc;
@@ -38,6 +39,8 @@ FinancialPresenter::FinancialPresenter(ITabView* tabView, const std::string& mon
 
     m_invoice.nzokData->outputFileName = "Invoice_" + fileName;
     
+    //if the month notif is already loaded in the db:
+
     auto existingData = DbInvoice::getDetailsIfAlreadyExist(m_invoice.nzokData->fin_document_month_no);
 
     if (existingData.has_value())
@@ -63,6 +66,9 @@ FinancialPresenter::FinancialPresenter(ITabView* tabView, const Procedures& proc
     m_invoice.date = Date::currentDate();
 
     for (auto& p : procedures) {
+
+        m_invoice.aggragated_amounts.taxEventDate = std::max(m_invoice.aggragated_amounts.taxEventDate, p.date);
+
         m_invoice.businessOperations.emplace_back(
             BusinessOperation{
                 std::to_string(p.code),
@@ -88,6 +94,18 @@ FinancialPresenter::FinancialPresenter(ITabView* tabView, int rowId) :
 void FinancialPresenter::dateChanged(Date date)
 {
     m_invoice.date = date;
+    makeEdited();
+}
+
+void FinancialPresenter::taxEventDateChanged(Date date)
+{
+    m_invoice.aggragated_amounts.taxEventDate = date;
+    makeEdited();
+}
+
+void FinancialPresenter::paymentTypeChanged(PaymentType type)
+{
+    m_invoice.aggragated_amounts.paymentType = type;
     makeEdited();
 }
 

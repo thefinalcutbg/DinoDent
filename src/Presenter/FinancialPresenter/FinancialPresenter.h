@@ -23,6 +23,8 @@ public:
 	void addOperation();
 	void removeOperation(int idx);
 	void dateChanged(Date date);
+	void taxEventDateChanged(Date date);
+	void paymentTypeChanged(PaymentType type);
 	void saveAsXML(const std::string& filePath);
 
 	const std::string& rowID() const override;

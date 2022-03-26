@@ -31,6 +31,17 @@ FinancialView::FinancialView(QWidget *parent)
 			presenter->dateChanged(Date(date.day(), date.month(), date.year()));
 		});
 
+	connect(ui.taxEventDateEdit, &QDateEdit::dateChanged,
+		[=](QDate date) {
+			if (presenter == nullptr) return;
+			presenter->taxEventDateChanged(Date(date.day(), date.month(), date.year()));
+		});
+
+	connect(ui.paymentTypeCombo, &QComboBox::currentIndexChanged,
+		[=](int index) {
+			presenter->paymentTypeChanged(static_cast<PaymentType>(index));
+		});
+
 	connect(ui.saveXMLButton, &QPushButton::clicked, [=]
 		{
 
@@ -63,11 +74,20 @@ void FinancialView::setInvoice(const Invoice& inv)
 	ui.issuerButton->setIssuer(inv.issuer);
 	ui.recipientButton->setRecipient(inv.recipient);
 
-	QSignalBlocker b(ui.dateEdit);
+	QSignalBlocker a(ui.dateEdit);
 	ui.dateEdit->setDate(QDate{ inv.date.year, inv.date.month, inv.date.day });
+
+	QSignalBlocker b(ui.taxEventDateEdit);
+	auto& d = inv.aggragated_amounts.taxEventDate;
+	ui.taxEventDateEdit->setDate(QDate(d.year, d.month, d.day));
+
+	QSignalBlocker c(ui.paymentTypeCombo);
+	ui.paymentTypeCombo->setCurrentIndex(static_cast<int>(inv.aggragated_amounts.paymentType));
 
 	bool nzokForm = inv.nzokData.has_value();
 
+	ui.paymentTypeCombo->setDisabled(nzokForm);
+	ui.taxEventDateEdit->setDisabled(nzokForm);
 	ui.addButton->setHidden(nzokForm);
 	ui.deleteButton->setHidden(nzokForm);
 	ui.editButton->setHidden(nzokForm);
@@ -88,7 +108,7 @@ void FinancialView::setInvoice(const Invoice& inv)
 
 	//hint.setWidth(buttonsSumWidth);
 
-	ui.opLabelSpacer->changeSize(buttonsSumWidth, 10);
+	ui.opLabelSpacer->changeSize(buttonsSumWidth, 0);
 	
 
 	setBusinessOperations(inv.businessOperations, inv.aggragated_amounts);

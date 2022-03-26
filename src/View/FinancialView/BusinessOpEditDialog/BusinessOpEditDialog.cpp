@@ -6,7 +6,7 @@ BusinessOpEditDialog::BusinessOpEditDialog(const BusinessOperation& op, QWidget 
 	ui.setupUi(this);
 
 	ui.nameEdit->setText(op.activity_name.c_str());
-	ui.codeSpinBox->setValue(op.activity_code);
+	ui.codeSpinBox->setValue(std::stoi(op.activity_code));
 	ui.priceSpinBox->setValue(op.unit_price);
 	ui.quantitySpinBox->setValue(op.quantity);
 
@@ -18,7 +18,7 @@ BusinessOpEditDialog::BusinessOpEditDialog(const BusinessOperation& op, QWidget 
 			auto quantity = ui.quantitySpinBox->value();
 
 			m_operation.emplace(
-				ui.codeSpinBox->value(),
+				std::to_string(ui.codeSpinBox->value()),
 				ui.nameEdit->text().toStdString(),
 				price,
 				quantity

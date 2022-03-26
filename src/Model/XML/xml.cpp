@@ -372,7 +372,7 @@ void XML::saveXMLinvoice(const Invoice& invoice, const std::string& path)
     {
         TiXmlElement* businessOperation = new TiXmlElement ("Business_operation");
         
-            addElementWithText(businessOperation, "activity_code",   std::to_string(operation.activity_code));
+            addElementWithText(businessOperation, "activity_code",   operation.activity_code);
             addElementWithText(businessOperation, "activity_name",   operation.activity_name);
             addElementWithText(businessOperation, "measure_code",    "BR");
             addElementWithText(businessOperation, "quantity",        std::to_string(operation.quantity));

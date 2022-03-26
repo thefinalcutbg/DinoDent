@@ -30,7 +30,7 @@ BusinessOperationModel::BusinessOperationModel(const std::vector<BusinessOperati
     {
         m_operations.emplace_back(PrintOperation
         {
-            QString::number(o.activity_code),
+            QString::fromStdString(o.activity_code),
             QString::fromStdString(o.activity_name),
             QString::number(o.quantity),
             formatDoubleWithDecimal(o.unit_price),
@@ -52,7 +52,7 @@ void BusinessOperationModel::setBusinessOperations(const BusinessOperations& bus
     {
         m_operations.emplace_back(PrintOperation
             {
-                QString::number(o.activity_code),
+                QString::fromStdString(o.activity_code),
                 QString::fromStdString(o.activity_name),
                 QString::number(o.quantity),
                 formatDoubleWithDecimal(o.unit_price),

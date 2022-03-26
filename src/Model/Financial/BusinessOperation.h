@@ -8,11 +8,11 @@ struct BusinessOperation
 {
 	BusinessOperation() {};
 
-	BusinessOperation(int activity, const std::string& name, double price, int quantity);
+	BusinessOperation(const std::string& code, const std::string& name, double price, int quantity);
 	
 	BusinessOperation(const Procedure& p);
 
-	int activity_code{ 0 };
+	std::string activity_code;
 	std::string activity_name;
 	double unit_price{ 0 };
 	int quantity{ 0 };

@@ -155,6 +155,7 @@ void Print::invoice(const Invoice& inv)
     report.dataManager()->setReportVariable("recipient_name", QString::fromStdString(inv.recipient.name));
     report.dataManager()->setReportVariable("recipient_address", QString::fromStdString(inv.recipient.address));
     report.dataManager()->setReportVariable("recipient_bulstat", QString::fromStdString(inv.recipient.bulstat));
+    report.dataManager()->setReportVariable("recipient_phone", QString::fromStdString(inv.recipient.phone));
 
     report.dataManager()->setReportVariable("issuer_name", QString::fromStdString(inv.issuer.company_name));
     report.dataManager()->setReportVariable("issuer_address", QString::fromStdString(inv.issuer.address_by_contract));
@@ -177,7 +178,13 @@ void Print::invoice(const Invoice& inv)
     report.dataManager()->setReportVariable("taxEventDate", QString::fromStdString(inv.aggragated_amounts.taxEventDate.toString()));
     report.dataManager()->setReportVariable("madeBy", QString::fromStdString(UserManager::currentUser().doctor.getFullName(false)));
     report.dataManager()->setReportVariable("groundsNoVAT", QString::fromStdString(inv.issuer.grounds_for_not_charging_VAT));
-
+    report.dataManager()->setReportVariable("paymentType", QString::fromStdString(
+        inv.aggragated_amounts.paymentType == PaymentType::Bank ? 
+        u8"Банков път" 
+        : 
+        u8"В брой"
+    ));
+    
     QApplication::restoreOverrideCursor();
 
     report.setPreviewScaleType(LimeReport::ScaleType::FitWidth);

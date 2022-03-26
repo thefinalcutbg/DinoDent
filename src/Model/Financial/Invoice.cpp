@@ -72,11 +72,11 @@ Invoice::Invoice(const TiXmlDocument& monthNotif, const User& user)
 
 		auto& bOp = businessOperations.back();
 
-		bOp.activity_code = std::stoi(business_operation->FirstChildElement("activity_code")->GetText());
-		bOp.activity_name = business_operation->FirstChildElement("activity_name")->GetText();
-		bOp.unit_price = std::stof(business_operation->FirstChildElement("unit_price")->GetText());
-		bOp.quantity = std::stoi(business_operation->FirstChildElement("quantity")->GetText());
-		bOp.value_price = std::stof(business_operation->FirstChildElement("value_price")->GetText());
+		bOp.activity_code = getText(business_operation->FirstChildElement("activity_code"));
+		bOp.activity_name = getText(business_operation->FirstChildElement("activity_name"));
+		bOp.unit_price = std::stof(getText(business_operation->FirstChildElement("unit_price")));
+		bOp.quantity = std::stoi(getText(business_operation->FirstChildElement("quantity")));
+		bOp.value_price = std::stof(getText(business_operation->FirstChildElement("value_price")));
 			
 	
 	}

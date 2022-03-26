@@ -6,6 +6,7 @@
 #include <stdexcept>
 #include "Libraries/TinyXML/tinyxml.h"
 #include "Model/FreeFunctions.h"
+#include "BusinessOperation.h"
 
 const char* getText(const TiXmlElement* element)
 {
@@ -68,7 +69,7 @@ Invoice::Invoice(const TiXmlDocument& monthNotif, const User& user)
 		businessOperations.emplace_back(
 
 			BusinessOperation{
-				business_operation->FirstChildElement("activity_code")->GetText(),
+				std::stoi(business_operation->FirstChildElement("activity_code")->GetText()),
 				business_operation->FirstChildElement("activity_name")->GetText(),
 				std::stof(business_operation->FirstChildElement("unit_price")->GetText()),
                 std::stoi(business_operation->FirstChildElement("quantity")->GetText()),
@@ -96,6 +97,25 @@ std::string Invoice::getInvoiceNumber() const
 {
 	return leadZeroes(number, 10);
 }
+
+void Invoice::removeOperation(int idx)
+{
+	businessOperations.erase(businessOperations.begin() + idx);
+	aggragated_amounts.calculate(businessOperations);
+}
+
+void Invoice::addOperation(const BusinessOperation& op)
+{
+	businessOperations.push_back(op);
+	aggragated_amounts.calculate(businessOperations);
+}
+
+void Invoice::editOperation(const BusinessOperation& op, int idx)
+{
+	businessOperations[idx] = op;
+	aggragated_amounts.calculate(businessOperations);
+}
+
 
 void AggregatedAmounts::calculate(const BusinessOperations& operations)
 {

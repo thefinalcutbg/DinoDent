@@ -5,7 +5,8 @@
 #include "Model/PerioStatus.h"
 #include "Model/Procedure/Procedure.h"
 #include "Model/Procedure/TableStructs.h"
-#include <QDebug>
+#include "Model/Financial/BusinessOperation.h"
+
 Json::Value writePathology(int index, const Pathology& pathology)
 {
 	Json::Value parameters;
@@ -858,7 +859,7 @@ void Parser::parse(const std::string& jsonString, Invoice& invoice)
 
 		invoice.businessOperations.emplace_back(
 			BusinessOperation{
-				operation["code"].asString(),
+				operation["code"].asInt(),
 				operation["name"].asString(),
 				price, quantity, price * quantity
 			}

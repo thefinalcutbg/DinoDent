@@ -19,9 +19,11 @@ public:
 	FinancialPresenter(ITabView* tabView, const std::string& monthNotifFilepath);
 	FinancialPresenter(ITabView* tabView, const Procedures& procedures, std::shared_ptr<Patient> patient);
 	FinancialPresenter(ITabView* tabView, int rowId);
-	void addDeleteOperation(int idx);
+
 	void addOperation();
+	void editOperation(int idx);
 	void removeOperation(int idx);
+
 	void dateChanged(Date date);
 	void taxEventDateChanged(Date date);
 	void paymentTypeChanged(PaymentType type);

@@ -561,6 +561,9 @@
     <ClCompile Include="src\View\AmbListSelector\Models\FinancialTableModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\FinancialView\BusinessOpEditDialog\BusinessOpEditDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -773,6 +776,9 @@
     <QtMoc Include="src\View\AmbListSelector\Models\FinancialTableModel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\View\FinancialView\BusinessOpEditDialog\BusinessOpEditDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="resources\Resource.qrc" />
@@ -899,6 +905,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\FinancialView\FinancialView.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\FinancialView\BusinessOpEditDialog\BusinessOpEditDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
@@ -1372,6 +1381,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Database\DbInvoice.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\Financial\BusinessOperation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

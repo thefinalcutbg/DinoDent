@@ -1,6 +1,20 @@
 ﻿#include "ProcedureSelectModel.h"
 #include <QIcon>
 
+
+void ProcedureSelectModel::selectOnlyRowsWhereNzokIs(bool nzok)
+{
+    beginResetModel();
+
+    for (int i = 0; i < m_procedures.size(); i++) {
+        m_selectedRows[i] = m_procedures[i].nzok == nzok;
+    }
+
+    endResetModel();
+
+    emit dataChanged(index(0, 0), index(rowCount() - 1, columnCount() - 1));
+}
+
 ProcedureSelectModel::ProcedureSelectModel(const std::vector<Procedure>& procedures, QObject* parent) : QAbstractTableModel(parent)
 {
     this->m_procedures.reserve(procedures.size());

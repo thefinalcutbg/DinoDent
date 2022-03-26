@@ -22,6 +22,8 @@ class ProcedureSelectModel : public QAbstractTableModel
 public:
 
 
+	void selectOnlyRowsWhereNzokIs(bool nzok);
+	
 	ProcedureSelectModel(const std::vector<Procedure>& p, QObject* parent = nullptr);
 	int rowCount(const QModelIndex& parent = QModelIndex()) const override;
 	int columnCount(const QModelIndex& parent = QModelIndex()) const override;

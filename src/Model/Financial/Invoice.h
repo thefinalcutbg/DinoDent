@@ -4,6 +4,7 @@
 #include "Recipient.h"
 #include "NzokInvoiceData.h"
 #include "Issuer.h"
+#include "BusinessOperation.h"
 
 class TiXmlDocument;
 struct User;
@@ -16,22 +17,11 @@ struct MainDocument //only in case of debit or credit note
 	const Date date;
 };
 
-
-struct BusinessOperation
-{
-	const std::string activity_code;
-	const std::string activity_name;
-	const double unit_price;
-	const int quantity;
-	const double value_price;
-};
-
-typedef std::vector<BusinessOperation> BusinessOperations;
-
 enum class PaymentType { Cash, Bank };
 
 struct AggregatedAmounts
 {
+
 	PaymentType paymentType{PaymentType::Cash};
 
 	double total_amount {0};
@@ -70,6 +60,11 @@ struct Invoice
 	AggregatedAmounts aggragated_amounts;
 
 	std::string getInvoiceNumber() const;
+
+	void removeOperation(int idx);
+	void addOperation(const BusinessOperation& op);
+	void editOperation(const BusinessOperation& op, int idx);
+	
 
 
 };

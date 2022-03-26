@@ -18,6 +18,8 @@ class ProcedurePrintSelectDialog : public QDialog
 public:
 	ProcedurePrintSelectDialog(const std::vector<Procedure>& procedures, QWidget *parent = Q_NULLPTR);
 	const std::vector<int> selectedProcedures() const;
+	void selectOnlyWhereNzokIs(bool nzok);
+
 	~ProcedurePrintSelectDialog();
 
 

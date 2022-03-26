@@ -29,7 +29,6 @@ ListPresenter::ListPresenter(ITabView* tabView, TabPresenter* tabPresenter, std:
     TabInstance(tabView, TabType::AmbList, patient),
     view(tabView->listView()),
     tabPresenter(tabPresenter),
-    m_selectedProcedure(-1),
     m_ambList(DbAmbList::getNewAmbSheet(patient->id))
 {
     auto ambSheetDate = m_ambList.getAmbListDate();
@@ -59,8 +58,7 @@ ListPresenter::ListPresenter(ITabView* tabView, TabPresenter* tabPresenter, std:
     TabInstance(tabView, TabType::AmbList, patient),
     view(tabView->listView()),
     tabPresenter(tabPresenter),
-    m_ambList(DbAmbList::getListData(ambListId)),
-    m_selectedProcedure(-1)
+    m_ambList(DbAmbList::getListData(ambListId))
 {
 
     surf_presenter.setStatusControl(this);
@@ -477,7 +475,7 @@ void ListPresenter::refreshProcedureView()
 
 void ListPresenter::addProcedure()
 {
-    if (view == nullptr) return;
+
 
     ProcedureDialogPresenter p
     {
@@ -507,6 +505,8 @@ void ListPresenter::addProcedure()
 
     this->addToProcedureList(openList);
 
+    if (view == nullptr) return;
+
     refreshProcedureView();
     makeEdited();
 
@@ -514,11 +514,11 @@ void ListPresenter::addProcedure()
 
 #include "Presenter/ProcedureDialog/ProcedureEditorPresenter.h"
 
-void ListPresenter::editProcedure()
+void ListPresenter::editProcedure(int index)
 {
-    if (m_selectedProcedure == -1) return;
+    if (index < 0 || index >= m_ambList.procedures.size()) return;
 
-    auto& m_for_edit = m_ambList.procedures.at(m_selectedProcedure);
+    auto& m_for_edit = m_ambList.procedures.at(index);
 
     ProcedureEditorPresenter p(m_for_edit, patient->turns18At());
 
@@ -549,7 +549,7 @@ void ListPresenter::editProcedure()
     }
     else
     {
-        deleteProcedure(m_selectedProcedure);
+        deleteProcedure(index);
         addToProcedureList(std::vector<Procedure>{m});
     }
 
@@ -560,17 +560,12 @@ void ListPresenter::editProcedure()
 
 void ListPresenter::deleteProcedure(int index)
 {
-    if (!m_ambList.procedures.size()) return;
+    if (index >= m_ambList.procedures.size() || index < 0) return;
 
     m_ambList.procedures.erase(m_ambList.procedures.begin() + index);
 
     refreshProcedureView();
     makeEdited();
-}
-
-void ListPresenter::setSelectedProcedure(int index)
-{
-    m_selectedProcedure = index;
 }
 
 void ListPresenter::setfullCoverage(bool unfav)
@@ -608,7 +603,7 @@ void ListPresenter::setfullCoverage(bool unfav)
 
 void ListPresenter::createInvoice()
 {
-    auto selectedProcedures = ModalDialogBuilder::selectProcedures(m_ambList.procedures);
+    auto selectedProcedures = ModalDialogBuilder::selectProcedures(m_ambList.procedures, SelectionPref::OnlyPaid);
 
     if (!selectedProcedures.has_value()) {
         return;

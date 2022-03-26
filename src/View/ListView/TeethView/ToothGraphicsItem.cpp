@@ -3,7 +3,7 @@
 #include <QIcon>
 #include <QGraphicsSceneMouseEvent>
 
-ToothGraphicsItem::ToothGraphicsItem(int index) : index(index), hasProcedure(false), hasNote(false)
+ToothGraphicsItem::ToothGraphicsItem(int index) : index(index), hasProcedure(false), hasNote(false), m_tooth(180, 500)
 {
 
     bounds.setHeight(224);
@@ -27,13 +27,13 @@ ToothGraphicsItem::ToothGraphicsItem(int index) : index(index), hasProcedure(fal
         :
         procedureMarkerHeight = 209;
 
+    
+
 }
 
 ToothGraphicsItem::~ToothGraphicsItem()
 {
 }
-
-
 
 QRectF ToothGraphicsItem::boundingRect() const
 {

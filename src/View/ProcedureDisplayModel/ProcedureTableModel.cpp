@@ -5,7 +5,6 @@ ProcedureTableModel::ProcedureTableModel(QObject* parent) : QAbstractTableModel(
 {}
 
 
-
 void ProcedureTableModel::setProcedures(const std::vector<Procedure>& rows)
 {
     beginResetModel();

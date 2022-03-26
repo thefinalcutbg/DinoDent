@@ -4,6 +4,7 @@
 #include "Model/Financial/Invoice.h"
 #include "View/Theme.h"
 #include "View/GlobalFunctions.h"
+#include <QDebug>
 
 FinancialView::FinancialView(QWidget *parent)
 	: QWidget(parent)
@@ -58,6 +59,36 @@ FinancialView::FinancialView(QWidget *parent)
 			presenter->saveAsXML(dirPath.toStdString());
 
 		});
+
+
+
+	connect(ui.deleteButton, &QPushButton::clicked,
+		[=] {
+
+			if (!presenter) return;
+
+			int currentIdx = ui.operationsTable->selectedRow();
+			int lastIdx = ui.operationsTable->verticalHeader()->count() - 1;
+
+			presenter->removeOperation(currentIdx);
+			
+			if (currentIdx == lastIdx)
+			{
+				ui.operationsTable->selectRow(currentIdx - 1);
+			}
+			else ui.operationsTable->selectRow(currentIdx);
+			
+		});
+
+
+	connect(ui.editButton, &QPushButton::clicked, [=]{ if (presenter) presenter->editOperation(ui.operationsTable->selectedRow());});
+
+	connect(ui.addButton, &QAbstractButton::clicked, [=] { if (presenter) presenter->addOperation(); });
+
+
+	connect(ui.operationsTable, &ProcedureTable::deletePressed,[=] { ui.deleteButton->click(); });
+	connect(ui.operationsTable, &QTableView::doubleClicked, [=] { ui.editButton->click(); });
+	
 }
 
 FinancialView::~FinancialView()

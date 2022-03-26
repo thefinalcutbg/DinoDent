@@ -24,6 +24,13 @@ void Print::ambList(const AmbList& amb, const Patient& patient, const User& user
 
     {
         ProcedurePrintSelectDialog dialog(amb.procedures);
+        
+        for (auto& p : amb.procedures) {
+            if (p.nzok) {
+                dialog.selectOnlyWhereNzokIs(true);
+                break;
+            }
+        }
 
         if (dialog.exec() == QDialog::Rejected) {
             return;

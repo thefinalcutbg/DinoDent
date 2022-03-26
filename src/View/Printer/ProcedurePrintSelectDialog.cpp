@@ -22,11 +22,19 @@ ProcedurePrintSelectDialog::ProcedurePrintSelectDialog(const std::vector<Procedu
 			accept();
 
 		});
+
+	connect(ui.paidButton, &QPushButton::clicked, [=] { this->model.selectOnlyRowsWhereNzokIs(false); });
+	connect(ui.nzokButton, &QPushButton::clicked, [=] { this->model.selectOnlyRowsWhereNzokIs(true); });
 }
 
 const std::vector<int> ProcedurePrintSelectDialog::selectedProcedures() const
 {
 	return m_selectedRows;
+}
+
+void ProcedurePrintSelectDialog::selectOnlyWhereNzokIs(bool nzok)
+{
+	model.selectOnlyRowsWhereNzokIs(nzok);
 }
 
 

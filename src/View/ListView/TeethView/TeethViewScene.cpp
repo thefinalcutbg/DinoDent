@@ -102,11 +102,14 @@ void TeethViewScene::setContextMenu(ContextMenu* contextMenu)
 void TeethViewScene::setPresenter(ListPresenter* presenter)
 {
     this->presenter = presenter;
+
+    /* //improves ram usage, but slows down the whole program
     if(!presenter)
         for (auto tooth : toothGraphic)
         {
             tooth->setToothPixmap(QPixmap());
         }
+    */
 }
 
 

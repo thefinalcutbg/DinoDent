@@ -133,12 +133,18 @@ std::optional<std::string> ModalDialogBuilder::getMonthlyNotification()
 
 #include "Printer/ProcedurePrintSelectDialog.h"
 
-std::optional<Procedures> ModalDialogBuilder::selectProcedures(const Procedures& procedures)
+std::optional<Procedures> ModalDialogBuilder::selectProcedures(const Procedures& procedures, SelectionPref s)
 {
 	std::vector<Procedure> result;
 
 	{
 		ProcedurePrintSelectDialog dialog(procedures);
+
+		switch (s) {
+			case SelectionPref::All: break; //everything in the dialog is selected by default;
+			case SelectionPref::OnlyNZOK: dialog.selectOnlyWhereNzokIs(true); break;
+			case SelectionPref::OnlyPaid: dialog.selectOnlyWhereNzokIs(false); break;
+		}
 
 		if (dialog.exec() == QDialog::Rejected) {
 			return {};
@@ -153,6 +159,15 @@ std::optional<Procedures> ModalDialogBuilder::selectProcedures(const Procedures&
 	}
 
 	return result;
+}
+
+#include "View/FinancialView/BusinessOpEditDialog/BusinessOpEditDialog.h"
+
+std::optional<BusinessOperation> ModalDialogBuilder::editBusinessOperation(const BusinessOperation& op)
+{
+	BusinessOpEditDialog d(op);
+	d.exec();
+	return d.getResult();
 }
 
 bool ModalDialogBuilder::askDialog(const std::string& questionText)

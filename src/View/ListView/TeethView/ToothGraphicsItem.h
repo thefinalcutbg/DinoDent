@@ -4,8 +4,6 @@
 
 class ToothGraphicsItem : public QGraphicsItem
 {
-
-    QPixmap m_tooth;
     QRectF bounds;
     int index;
 
@@ -17,6 +15,8 @@ class ToothGraphicsItem : public QGraphicsItem
     bool hasNote;
 
     int procedureMarkerHeight;
+
+    QPixmap m_tooth;
 
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override;
     

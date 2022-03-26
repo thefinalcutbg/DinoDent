@@ -23,7 +23,6 @@ class ListPresenter : public TabInstance
 
     SelectedTeethIdx m_selectedIndexes;
     SelectedTeeth m_selectedTeeth;
-    int m_selectedProcedure;
 
     bool m_showCurrentStatus{ false };
 
@@ -74,9 +73,8 @@ public:
 
 
     void addProcedure();
-    void editProcedure();
+    void editProcedure(int index);
     void deleteProcedure(int index);
-    void setSelectedProcedure(int index);
     void setfullCoverage(bool unfav);
     void createInvoice();
     void showCurrentStatus(bool show);

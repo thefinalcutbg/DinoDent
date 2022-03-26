@@ -71,7 +71,7 @@ FinancialPresenter::FinancialPresenter(ITabView* tabView, const Procedures& proc
 
         m_invoice.businessOperations.emplace_back(
             BusinessOperation{
-                std::to_string(p.code),
+                p.code,
                 p.name,
                 p.price,
                 1,
@@ -89,6 +89,41 @@ FinancialPresenter::FinancialPresenter(ITabView* tabView, int rowId) :
     view(tabView->financialView()),
     m_invoice(DbInvoice::getInvoice(std::to_string(rowId)))
 {
+}
+#include <QDebug>
+void FinancialPresenter::editOperation(int idx)
+{
+    qDebug() << idx << " clicked";
+    if (m_invoice.nzokData.has_value()) return;
+
+    qDebug() << "not nzok";
+
+    if (idx < 0 || idx >= m_invoice.businessOperations.size()) return;
+
+    qDebug() << "index in range";
+
+    auto op = ModalDialogBuilder::editBusinessOperation(m_invoice.businessOperations[idx]);
+
+    if (!op.has_value()) return;
+
+    m_invoice.editOperation(op.value(), idx);
+    view->setBusinessOperations(m_invoice.businessOperations, m_invoice.aggragated_amounts);
+    makeEdited();
+}
+
+void FinancialPresenter::addOperation()
+{
+    if (m_invoice.nzokData.has_value()) return;
+}
+
+void FinancialPresenter::removeOperation(int idx)
+{
+    if (m_invoice.nzokData.has_value()) return;
+
+    if (idx < 0 || idx >= m_invoice.businessOperations.size()) return;
+
+    m_invoice.removeOperation(idx);
+    view->setBusinessOperations(m_invoice.businessOperations, m_invoice.aggragated_amounts);
 }
 
 void FinancialPresenter::dateChanged(Date date)
@@ -108,6 +143,8 @@ void FinancialPresenter::paymentTypeChanged(PaymentType type)
     m_invoice.aggragated_amounts.paymentType = type;
     makeEdited();
 }
+
+
 
 void FinancialPresenter::saveAsXML(const std::string& filePath)
 {

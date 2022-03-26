@@ -1,5 +1,6 @@
 ﻿#include "BusinessOperationModel.h"
 #include "View/GlobalFunctions.h"
+#include "Model/Financial/BusinessOperation.h"
 
 QVariant BusinessOperationModel::headerData(int section, Qt::Orientation orientation, int role) const
 {   
@@ -29,7 +30,7 @@ BusinessOperationModel::BusinessOperationModel(const std::vector<BusinessOperati
     {
         m_operations.emplace_back(PrintOperation
         {
-            QString::fromStdString(o.activity_code),
+            QString::number(o.activity_code),
             QString::fromStdString(o.activity_name),
             QString::number(o.quantity),
             formatDoubleWithDecimal(o.unit_price),
@@ -51,7 +52,7 @@ void BusinessOperationModel::setBusinessOperations(const BusinessOperations& bus
     {
         m_operations.emplace_back(PrintOperation
             {
-                QString::fromStdString(o.activity_code),
+                QString::number(o.activity_code),
                 QString::fromStdString(o.activity_name),
                 QString::number(o.quantity),
                 formatDoubleWithDecimal(o.unit_price),

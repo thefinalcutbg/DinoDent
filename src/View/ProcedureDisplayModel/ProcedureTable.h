@@ -24,6 +24,8 @@ class ProcedureTable : public QTableView
 	 
 	ProcedureHeader header;
 
+
+
 	void focusOutEvent(QFocusEvent* event) override {
 
 		//setCurrentIndex(QModelIndex());
@@ -36,6 +38,7 @@ public:
 	
 	~ProcedureTable();
 
+	int selectedRow();
 	void setAmbListLayout();
 	void setProcedureHistoryLayout();
 	void setProcedurePrintSelectLayout();

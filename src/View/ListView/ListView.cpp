@@ -38,17 +38,17 @@ ListView::ListView(QWidget* parent)
 	connect(ui.procedureButton, &QAbstractButton::clicked, [=] { if (presenter) presenter->addProcedure(); });
 	connect(ui.procedureTable, &ProcedureTable::deletePressed, [=] { if (presenter) ui.deleteProcedure->click(); });
 	connect(ui.unfav_check, &QCheckBox::stateChanged, [=] { if (presenter) presenter->setfullCoverage(ui.unfav_check->isChecked()); });
-	connect(ui.editProcedure, &QPushButton::clicked, [=] { if (presenter) presenter->editProcedure(); });
+	connect(ui.editProcedure, &QPushButton::clicked, [=] { if (presenter) presenter->editProcedure(ui.procedureTable->selectedRow()); });
 	connect(ui.invoiceButton, &QPushButton::clicked, [=] { if (presenter) presenter->createInvoice(); });
 	connect(ui.deleteProcedure, &QAbstractButton::clicked, 
 		[=] {
 
 			if (!presenter) return;
 
-			int currentIdx = ui.procedureTable->selectionModel()->currentIndex().row();
+			int currentIdx = ui.procedureTable->selectedRow();
 			int lastIdx = ui.procedureTable->verticalHeader()->count()-1;
 
-			if (currentIdx == -1) return;
+//			if (currentIdx == -1) return;
 
 			presenter->deleteProcedure(currentIdx);
 
@@ -59,37 +59,10 @@ ListView::ListView(QWidget* parent)
 			else ui.procedureTable->selectRow(currentIdx);
 		});
 
-	connect(ui.procedureTable->selectionModel(), &QItemSelectionModel::selectionChanged, this, 
-		[=] 
-		{
-			if (!presenter) return;
-
-			int row = ui.procedureTable->selectionModel()->currentIndex().row();
-
-			if (row == -1) {
-
-				presenter->setSelectedProcedure(row);
-				return;
-			}
-
-			int manipulationIdx = ui.procedureTable->model()->index(row, 0).data().toInt();
-			presenter->setSelectedProcedure(row);
-		}
-	);
-
-	connect(ui.procedureTable, &QTableView::doubleClicked, [=] { if(presenter) presenter->editProcedure(); });
-	connect(ui.taxCombo, QOverload<int>::of(&QComboBox::currentIndexChanged),
+	connect(ui.procedureTable, &QTableView::doubleClicked, [=] { ui.editProcedure->click(); });
+	connect(ui.taxCombo, &QComboBox::currentIndexChanged,
 			[=](int index) {presenter->chargeChanged(index); });
 
-/*
-	connect(ui.dateEdit, &QDateEdit::dateChanged,
-		[=]
-		{
-			if (!presenter) return;
-			auto date = ui.dateEdit->date();
-			presenter->ambDateChanged({ date.day(), date.month(), date.year() });
-		});
-		*/
 	connect(ui.showCurrentStatusBox, &QPushButton::clicked, [=] { 
 			if (presenter) presenter->showCurrentStatus(ui.showCurrentStatusBox->isChecked()); 
 		});
@@ -142,24 +115,11 @@ void ListView::paintEvent(QPaintEvent* event)
 	painter.end();
 }
 
-/*
-bool ListView::eventFilter(QObject* obj, QEvent* event)
-{
-	if (event->type() == QEvent::Wheel && obj == ui.dateEdit)
-	{
-		event->ignore();
-		return true;
-	}
-
-	return false;
-}
-*/
 
 void ListView::refresh(const AmbList& ambList, const Patient& patient)
 {
 	ui.patientTile->setData(patient, ambList.getAmbListDate());
 	ui.allergiesTile->setData(patient);
-	//QSignalBlocker blocker(ui.dateEdit);
 	ui.taxCombo->setIndex(static_cast<int>(ambList.charge));
 	
 }

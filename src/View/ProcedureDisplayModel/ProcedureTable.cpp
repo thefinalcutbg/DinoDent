@@ -6,7 +6,7 @@
 #include <QPainterPath>
 #include <QPainter>
 #include <QStyledItemDelegate>
-#include <QDebug>
+
 class NoFocusDelegate : public QStyledItemDelegate
 {
 protected:
@@ -126,8 +126,6 @@ void ProcedureTable::fitToModel(int rows) //not working correctly yet
     
     setFixedHeight(tableHeight);
 
-    qDebug() << "fitting table to " << rows << " rows";
-    
 }
 
 void ProcedureTable::keyPressEvent(QKeyEvent* event)
@@ -206,6 +204,15 @@ void ProcedureTable::paintEvent(QPaintEvent* e)
 
 
     painter.end();
+
+}
+
+int ProcedureTable::selectedRow()
+{
+    if (selectionModel() == nullptr) return -1;
+
+    return selectionModel()->currentIndex().row();
+
 
 }
 

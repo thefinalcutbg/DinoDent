@@ -45,6 +45,7 @@ void ListSelectorPresenter::refreshModel()
 	m_ambRows = DbListOpener::getAmbRows(m_from, m_to);
 	m_perioRows = DbListOpener::getPerioRows(m_from, m_to);
 	m_patientRows = DbListOpener::getPatientRows();
+	m_financialRows = DbListOpener::getFinancialRows(m_from, m_to);
 	
 	if (view != nullptr)
 	{
@@ -63,6 +64,7 @@ void ListSelectorPresenter::setListType(RowModelType type)
 		case::RowModelType::AmbListRow: view->setRows(m_ambRows); break;
 		case::RowModelType::PerioRow: view->setRows(m_perioRows); break;
 		case::RowModelType::PatientRow: view->setRows(m_patientRows); break;
+		case::RowModelType::FinancialRow : view->setRows(m_financialRows); break;
 	}
 }
 
@@ -97,6 +99,10 @@ void ListSelectorPresenter::openCurrentSelection()
 		for (auto idx : selectedIndexes)
 			tab_presenter->open(m_patientRows[idx]);
 		break;
+	case RowModelType::FinancialRow:
+		for (auto idx : selectedIndexes)
+			tab_presenter->open(m_financialRows[idx]);
+		break;
 	}
 
 
@@ -109,10 +115,10 @@ void ListSelectorPresenter::deleteCurrentSelection()
 	{
 	case RowModelType::AmbListRow:
 
-		if (!ModalDialogBuilder::askDialog(
-			u8"Сигурни ли сте, че искате да изтриете амбулаторния лист?"
-		)) 
-			return;
+					if (!ModalDialogBuilder::askDialog(
+						u8"Сигурни ли сте, че искате да изтриете амбулаторния лист?"
+					))
+						return;
 
 		for (auto idx : selectedIndexes)
 		{
@@ -120,12 +126,13 @@ void ListSelectorPresenter::deleteCurrentSelection()
 			DbListOpener::deleteRecord("amblist", m_ambRows[idx].rowID);
 		}
 		break;
+
 	case RowModelType::PerioRow:
 
-		if (!ModalDialogBuilder::askDialog(
-			u8"Сигурни ли сте, че искате да изтриете пародонталното измерване?"
-		)) 
-			return;
+					if (!ModalDialogBuilder::askDialog(
+						u8"Сигурни ли сте, че искате да изтриете пародонталното измерване?"
+					))
+						return;
 
 		for (auto idx : selectedIndexes)
 		{
@@ -133,18 +140,33 @@ void ListSelectorPresenter::deleteCurrentSelection()
 			tab_presenter->removeTab(m_perioRows[idx].type, m_perioRows[idx].rowID);
 		}
 		break;
+
 	case RowModelType::PatientRow:
-		if (!ModalDialogBuilder::askDialog(
-			u8"Сигурни ли сте, че искате да изтриете този пациент? "
-			"Всички негови амбулаторни листи и пародонтални измервания ще бъдат премахнати!"
-		))
+
+					if (!ModalDialogBuilder::askDialog(
+						u8"Сигурни ли сте, че искате да изтриете този пациент? "
+						"Всички негови амбулаторни листи и пародонтални измервания ще бъдат премахнати!"
+					))
 			return;
 
-			for (auto idx : selectedIndexes)
-			{
-				DbListOpener::deleteRecord("patient", m_patientRows[idx].rowID);
-				tab_presenter->removePatientTabs(m_patientRows[idx].rowID);
-			}
+		for (auto idx : selectedIndexes)
+		{
+			DbListOpener::deleteRecord("patient", m_patientRows[idx].rowID);
+			tab_presenter->removePatientTabs(m_patientRows[idx].rowID);
+		}
+
+	case RowModelType::FinancialRow:
+
+					if (!ModalDialogBuilder::askDialog(
+						u8"Сигурни ли сте, че искате да изтриете финансовият документ?"
+					))
+						return;
+
+		for (auto idx : selectedIndexes)
+		{
+			tab_presenter->removeTab(m_financialRows[idx].type, m_financialRows[idx].rowID);
+			DbListOpener::deleteRecord("financial", m_financialRows[idx].rowID);
+		}
 	}
 
 		refreshModel();

@@ -1,5 +1,5 @@
 ﻿#include "Issuer.h"
-#include "Model/User/User.h"
+#include "Model/User/UserManager.h"
 
 IssuerType getIssuerType(int legalEntity, const Doctor& doctor)
 {
@@ -24,6 +24,10 @@ IssuerType getIssuerType(int legalEntity, const Doctor& doctor)
     }
 }
 
+
+Issuer::Issuer() : Issuer(UserManager::currentUser())
+{
+}
 
 Issuer::Issuer(const User& user) :
     type{ getIssuerType(user.practice.legal_entity, user.doctor) },

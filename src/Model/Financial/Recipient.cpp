@@ -170,10 +170,6 @@ Recipient::Recipient(int practiceRhif)
 Recipient::Recipient(const Patient& patient) :
     name{ patient.fullName() } ,
     address{ patient.getFullAddress() },
-    bulstat{ patient.id }
-{
-
-    name = patient.fullName();
-    address = patient.getFullAddress();
-    bulstat = patient.id;
-}
+    bulstat{ patient.id },
+    phone {patient.phone}
+{}

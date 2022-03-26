@@ -99,9 +99,13 @@ void TabPresenter::openPerio(const Patient& patient)
 
 void TabPresenter::openInvoice(const std::string& monthNotifFilePath)
 {
-
     try {
-        openTab(new FinancialPresenter(view, monthNotifFilePath));
+        auto presenter = new FinancialPresenter(view, monthNotifFilePath);
+
+        if (monthNotiAlreadyOpened(presenter->m_invoice.nzokData->fin_document_month_no))
+            return;
+
+        openTab(presenter);
     }
     catch(const std::exception& e) {
         ModalDialogBuilder::showError(e.what());
@@ -132,6 +136,9 @@ void TabPresenter::open(const RowInstance& row)
     case TabType::PatientSummary:
         newTab = new PatientSummaryPresenter(view, getPatient_ptr(DbPatient::getPatient(row.patientId)));
         break;
+    case TabType::Financial:
+        newTab = new FinancialPresenter(view, std::stoi(row.rowID));
+        break;
     }
 
     openTab(newTab);
@@ -143,6 +150,25 @@ bool TabPresenter::tabAlreadyOpened(TabType type, const std::string& rowID)
     {
         if (tabInstance->type == type && tabInstance->rowID() == rowID)
         {
+            view->focusTab(index);
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool TabPresenter::monthNotiAlreadyOpened(int monthNotifNum)
+{
+    for (auto& [index, tabInstance] : m_tabs)
+    {
+        if (tabInstance->type != TabType::Financial) continue;
+
+        auto finPresenter = static_cast<FinancialPresenter*>(tabInstance);
+
+        if (finPresenter->m_invoice.nzokData.has_value() &&
+            finPresenter->m_invoice.nzokData->fin_document_month_no == monthNotifNum) {
+
             view->focusTab(index);
             return true;
         }

@@ -15,7 +15,7 @@ class SaveAsDialog : public QDialog
 public:
     Q_OBJECT
 public:
-    SaveAsDialog(std::unordered_set<int>& existingNumbers, int currentNumber, QWidget *parent = Q_NULLPTR);
+    SaveAsDialog(std::unordered_set<int>& existingNumbers, int currentNumber, const std::string& docName, QWidget *parent = Q_NULLPTR);
     ~SaveAsDialog();
 
 private:

@@ -159,7 +159,7 @@ void Print::invoice(const Invoice& inv)
     {
         report.dataManager()->setReportVariable("practice_rzi", QString::fromStdString(inv.nzokData->rhi_nhif_no));
         report.dataManager()->setReportVariable("contract", QString::fromStdString(inv.nzokData->contract_no + " / " + inv.nzokData->contract_date.toString()) + u8" г.");
-        report.dataManager()->setReportVariable("mon_notif_number", QString::fromStdString(inv.nzokData->fin_document_month_no));
+        report.dataManager()->setReportVariable("mon_notif_number", QString::number(inv.nzokData->fin_document_month_no));
         report.dataManager()->setReportVariable("period", QString::fromStdString(u8"от " + inv.nzokData->date_from.toString() + u8" до " + inv.nzokData->date_to.toString()));
 
     }

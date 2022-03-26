@@ -58,7 +58,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Номер на амбулаторния лист:</string>
+    <string/>
    </property>
   </widget>
   <widget class="QPushButton" name="cancelButton">

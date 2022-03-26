@@ -45,7 +45,7 @@ enum class FinancialDocType { Invoice, Debit, Credit};
 
 struct Invoice
 {
-
+	Invoice() {};
 	Invoice(const TiXmlDocument& monthNotif, const User& user);
 	Invoice(const Patient& p, const User& user);
 
@@ -53,9 +53,8 @@ struct Invoice
 
 	std::string rowId;
 
-	FinancialDocType type;
-
-	std::string name; //the title of the pdf invoice
+	FinancialDocType type {FinancialDocType::Invoice};
+	std::string name{ u8"Фактура" }; //the title of the pdf invoice
 
 	Date date; //input by user !!!!!!!!!!!!!!!
 
@@ -64,7 +63,7 @@ struct Invoice
 	std::optional<NZOKInvoiceData> nzokData; //from monthNotif
 
 	Recipient recipient;
-	const Issuer issuer;
+	Issuer issuer;
 	
 	BusinessOperations businessOperations;
 

@@ -30,6 +30,8 @@ typedef std::variant<Company, SelfInsured> IssuerType;
 
 struct Issuer
 {
+	//default construction with current user
+	Issuer(); 
 	Issuer(const User& user);
 
 	const IssuerType type;

@@ -100,9 +100,9 @@ void ProcedureTable::setProcedurePrintSelectLayout()
     verticalHeader()->setDefaultSectionSize(20);
     setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-    horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
-    horizontalHeader()->setSectionResizeMode(4, QHeaderView::Stretch);
-    horizontalHeader()->setSectionResizeMode(7, QHeaderView::Stretch);
+  //  horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
+  //  horizontalHeader()->setSectionResizeMode(4, QHeaderView::Stretch);
+  //  horizontalHeader()->setSectionResizeMode(7, QHeaderView::Stretch);
 }
 
 void ProcedureTable::setBusinessOperationLayout()

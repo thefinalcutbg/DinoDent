@@ -1,13 +1,21 @@
 #pragma once
-
+#include <unordered_set>
 #include "Model/Financial/Invoice.h"
+#include <tuple>
+
+struct NzokFinancialDetails {
+	std::string rowId;
+	int num;
+	Date date;
+};
 
 namespace DbInvoice
 {
-	/*
-	void insertInvoice(const Invoice& invoice);
+	int getNewInvoiceNumber();
+	std::unordered_set<int>getExistingNumbers();
+	int insertInvoice(const Invoice& invoice);
 	void updateInvoice(const Invoice& invoice);
-	Invoice getInvoice(const std::string& monthNotif);
-	Invoice getInvoice(const std::string& rowId,)
-	*/
+	std::optional<NzokFinancialDetails> getDetailsIfAlreadyExist(int monthNotifNumber);
+	Invoice getInvoice(const std::string& rowId);
+	
 }

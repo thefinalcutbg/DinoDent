@@ -5,6 +5,7 @@
 #include <FileSystem>
 #include <stdexcept>
 #include "Model/XML/xml.h"
+#include "Database/DbInvoice.h"
 
 TiXmlDocument getDocument(const std::string& filePath)
 {
@@ -36,6 +37,16 @@ FinancialPresenter::FinancialPresenter(ITabView* tabView, const std::string& mon
     }
 
     m_invoice.nzokData->outputFileName = "Invoice_" + fileName;
+    
+    auto existingData = DbInvoice::getDetailsIfAlreadyExist(m_invoice.nzokData->fin_document_month_no);
+
+    if (existingData.has_value())
+    {
+        m_invoice.rowId = existingData->rowId;
+        m_invoice.number = existingData->num;
+        m_invoice.date = existingData->date;
+        return;
+    }
 
     m_invoice.date = Date::currentDate();
 
@@ -49,7 +60,7 @@ FinancialPresenter::FinancialPresenter(ITabView* tabView, const Procedures& proc
     view(tabView->financialView()),
     m_invoice(*patient.get(), UserManager::currentUser())
 {
-    //insert some fancy sorting alghoritm here
+    m_invoice.date = Date::currentDate();
 
     for (auto& p : procedures) {
         m_invoice.businessOperations.emplace_back(
@@ -65,6 +76,13 @@ FinancialPresenter::FinancialPresenter(ITabView* tabView, const Procedures& proc
     }
 
     m_invoice.aggragated_amounts.calculate(m_invoice.businessOperations);
+}
+
+FinancialPresenter::FinancialPresenter(ITabView* tabView, int rowId) :
+    TabInstance(tabView, TabType::Financial, nullptr),
+    view(tabView->financialView()),
+    m_invoice(DbInvoice::getInvoice(std::to_string(rowId)))
+{
 }
 
 void FinancialPresenter::dateChanged(Date date)
@@ -89,24 +107,42 @@ bool FinancialPresenter::save()
 
     if (isNew()) return saveAs();
 
-    //update the invoice
+    DbInvoice::updateInvoice(m_invoice);
+
+    edited = false;
+
+    _tabView->changeTabName(getTabName());
 
 	return true;
 }
 
 bool FinancialPresenter::saveAs()
 {
-    std::unordered_set<int> existingNumbers; //get it from db;
 
-    int newNumber = 1; //we have to get it from db actually
+    std::unordered_set<int> existingNumbers = DbInvoice::getExistingNumbers();
 
-    newNumber = ModalDialogBuilder::saveAsAmbSheetNumber(newNumber, existingNumbers);
+    int newNumber = 0;
 
-    if (!newNumber) return false; //it means the dialog has been cancled
+    if (isNew()) {
+        newNumber = DbInvoice::getNewInvoiceNumber();
+    }
+    else {
+        newNumber = m_invoice.number;
+        existingNumbers.erase(newNumber);
+    }
+
+    newNumber = ModalDialogBuilder::saveAsDocNumber(newNumber, existingNumbers, u8"Финансов документ");
+
+    if (!newNumber) return false; //it means the dialog has been canceled
 
     m_invoice.number = newNumber;
 
-    m_invoice.rowId = ""; // <- put the invoice into the db and get its rowid;
+    if (isNew()) {
+        m_invoice.rowId = DbInvoice::insertInvoice(m_invoice);
+    }
+    else{
+        DbInvoice::updateInvoice(m_invoice);
+    }
 
     edited = false;
 
@@ -127,7 +163,7 @@ void FinancialPresenter::setCurrent()
     
     view->setPresenter(this);
 
-    if (!m_invoice.nzokData) {
+    if (!m_invoice.nzokData && patient != nullptr) {
         m_invoice.recipient = Recipient{ *patient.get() }; //refreshing the patient incase it's changed
     }
 
@@ -140,7 +176,7 @@ void FinancialPresenter::setCurrent()
 
 bool FinancialPresenter::isNew()
 {
-	return m_invoice.rowId.empty();
+    return m_invoice.rowId.empty();
 }
 
 TabName FinancialPresenter::getTabName()

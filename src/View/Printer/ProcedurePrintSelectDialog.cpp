@@ -6,7 +6,7 @@ ProcedurePrintSelectDialog::ProcedurePrintSelectDialog(const std::vector<Procedu
 {
 	ui.setupUi(this);
 	setModal(true);
-	setWindowTitle(u8"Манипулации за принтиране");
+	setWindowTitle(u8"Избор на манипулации");
 
 	ui.tableView->setSelectionBehavior(QAbstractItemView::SelectionBehavior::SelectRows);
 	ui.tableView->setSelectionMode(QAbstractItemView::SelectionMode::NoSelection);

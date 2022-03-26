@@ -1,7 +1,7 @@
 ﻿#include "SaveAsDialog.h"
 #include "View/ModalDialogBuilder.h"
 
-SaveAsDialog::SaveAsDialog(std::unordered_set<int>& existingNumbers, int currentNumber, QWidget* parent)
+SaveAsDialog::SaveAsDialog(std::unordered_set<int>& existingNumbers, int currentNumber, const std::string& docName, QWidget* parent)
     : QDialog(parent), existingNumbers(existingNumbers), currentNumber(currentNumber)
 {
     ui.setupUi(this);
@@ -10,6 +10,8 @@ SaveAsDialog::SaveAsDialog(std::unordered_set<int>& existingNumbers, int current
 
     ui.ambNumSpin->setValue(currentNumber);
 
+    ui.label->setText(QString::fromStdString(docName) + u8" номер:");
+
     connect(ui.okButton, &QPushButton::clicked, this,
         [=] { 
 
@@ -17,7 +19,7 @@ SaveAsDialog::SaveAsDialog(std::unordered_set<int>& existingNumbers, int current
             if (existingNumbers.count(value))
             {
                 bool answer = ModalDialogBuilder::askDialog
-                (u8"Амбулаторен лист с такъв номер вече съществува."
+                (docName + u8" с такъв номер вече съществува."
                     u8"Сигурни ли сте, че искате да дублирате номерацията?");
 
                 if (!answer) return;

@@ -304,7 +304,7 @@ void XML::saveXMLinvoice(const Invoice& invoice, const std::string& path)
 
     addElementWithText(el_invoice, "fin_document_type_code", getTypeCode(invoice.type));
     addElementWithText(el_invoice, "fin_document_no", invoice.getInvoiceNumber());
-    addElementWithText(el_invoice, "fin_document_month_no", invoice.nzokData->fin_document_month_no);
+    addElementWithText(el_invoice, "fin_document_month_no", leadZeroes(invoice.nzokData->fin_document_month_no, 10));
     addElementWithText(el_invoice, "fin_document_date", invoice.date.toXMLString());
 
     if (invoice.mainDocument.has_value())

@@ -7,15 +7,18 @@
 
 class FinancialPresenter : public TabInstance
 {
-	Invoice m_invoice;
+
 	
 	IFinancialView* view;
 
 	// Inherited via TabInstance
 public:
+
+	Invoice m_invoice;
+
 	FinancialPresenter(ITabView* tabView, const std::string& monthNotifFilepath);
 	FinancialPresenter(ITabView* tabView, const Procedures& procedures, std::shared_ptr<Patient> patient);
-
+	FinancialPresenter(ITabView* tabView, int rowId);
 	void addDeleteOperation(int idx);
 	void addOperation();
 	void removeOperation(int idx);

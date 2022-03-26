@@ -25,6 +25,7 @@ class TabPresenter
 	bool newListExists(const Patient& patient);
 
 	bool tabAlreadyOpened(TabType type, const std::string& rowID);
+	bool monthNotiAlreadyOpened(int monthNotifNum);
 
 	void openTab(TabInstance* tabInstance);
 

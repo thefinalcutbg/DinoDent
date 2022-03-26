@@ -435,6 +435,36 @@ std::string Parser::write(const std::vector<ProcedureTemplate>& priceList)
 	return writer.write(priceJson);
 }
 
+#include "Model/Financial/Invoice.h"
+
+std::string Parser::write(const Invoice& inv)
+{
+	if (inv.nzokData.has_value())
+		return inv.nzokData->monthNotifData;
+
+	Json::Value json;
+
+	json["operations"] = Json::Value(Json::arrayValue);
+
+	for (auto op : inv.businessOperations)
+	{
+		Json::Value operation;
+
+		operation["code"] = op.activity_code;
+		operation["name"] = op.activity_name;
+		operation["quantity"] = op.quantity;
+		operation["price"] = op.unit_price;
+
+		json["operations"].append(operation);
+	}
+
+	json["taxEventDate"] = inv.aggragated_amounts.taxEventDate.toString();
+	json["paymentType"] = static_cast<int>(inv.aggragated_amounts.paymentType);
+
+	Json::FastWriter writer;
+	return writer.write(json);
+}
+
 void Parser::parse(const std::string& jsonString, Procedure& procedure)
 {
 	Json::Value json;
@@ -808,6 +838,41 @@ void Parser::parse(const std::string& jsonString, ToothContainer& status)
 
 }
 
+void Parser::parse(const std::string& jsonString, Invoice& invoice)
+{
+	Json::Value json;
+
+	Json::Reader reader;
+
+	bool parsingSuccessful = reader.parse(jsonString, json);
+
+	if (!parsingSuccessful) {
+		throw std::invalid_argument("could not parse invoice data");
+	}
+
+	for (const auto& operation : json["operations"])
+	{
+
+		double price = operation["price"].asDouble();
+		int quantity = operation["quantity"].asInt();
+
+		invoice.businessOperations.emplace_back(
+			BusinessOperation{
+				operation["code"].asString(),
+				operation["name"].asString(),
+				price, quantity, price * quantity
+			}
+		);
+	}
+
+	invoice.aggragated_amounts.calculate(invoice.businessOperations);
+	invoice.aggragated_amounts.paymentType = PaymentType::Cash;
+	invoice.aggragated_amounts.taxEventDate = Date(json["taxEventDate"].asString());
+	invoice.aggragated_amounts.paymentType = static_cast<PaymentType>(json["paymentType"].asInt());
+
+
+}
+
 
 #include <algorithm> //needed for removing duplicate carieses and obturations with std::unique
 
@@ -867,7 +932,7 @@ std::vector<ToothXML> Parser::getTeethXML(const std::string& jsonString)
 
 	for (auto& tooth : tempStatus){
 
-		int extractedPos{-1}; //no extraction
+		int extractedPos{-1}; //no extraction by default
 
 		for (int i = 0; i < tooth.size(); i++){
 
@@ -883,12 +948,12 @@ std::vector<ToothXML> Parser::getTeethXML(const std::string& jsonString)
 
 					tooth.erase(tooth.begin() + extractedPos);
 					extractedPos = -1; //no extraction
-					i--; //after erase, we have to decrement the inddex
+					i--; //after erase, we have to decrement the index
 			}
 
 		}
 
-		//removing duplicates of O and C (since they are written by surfaces, not by teeth)
+		//removing duplicates because of O and C (since they are written by surfaces)
 		tooth.erase(std::unique(tooth.begin(), tooth.end()), tooth.end());
 	}
 

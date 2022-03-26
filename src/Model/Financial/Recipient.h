@@ -5,6 +5,7 @@ struct Patient;
 
 struct Recipient
 {
+	Recipient() {};
 	//NZOK recipient
 	Recipient(int practiceRhif);
 
@@ -14,5 +15,6 @@ struct Recipient
 	std::string name;
 	std::string address;
 	std::string bulstat;
+	std::string phone;
 
 };

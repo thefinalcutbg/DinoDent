@@ -6,7 +6,7 @@
 class TabPresenter;
 class IListSelectorView;
 
-enum class RowModelType{ AmbListRow, PerioRow, PatientRow};
+enum class RowModelType{ AmbListRow, PerioRow, PatientRow, FinancialRow};
 
 class ListSelectorPresenter
 {
@@ -23,6 +23,7 @@ class ListSelectorPresenter
 	std::vector<AmbRow> m_ambRows{ DbListOpener::getAmbRows(m_from, m_to) };
 	std::vector<PatientRow> m_patientRows{ DbListOpener::getPatientRows() };
 	std::vector<PerioRow> m_perioRows{ DbListOpener::getPerioRows(m_from, m_to) };
+	std::vector<FinancialRow> m_financialRows{ DbListOpener::getFinancialRows(m_from, m_to) };
 
 public:
 	ListSelectorPresenter();

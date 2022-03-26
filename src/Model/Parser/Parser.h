@@ -12,6 +12,7 @@ class ToothContainer;
 struct Procedure;
 struct DetailsSummary;
 struct NzokContract;
+struct Invoice;
 
 namespace Parser
 {
@@ -20,12 +21,13 @@ namespace Parser
 	std::string write(const Procedure& procedure);
 	std::string write(const std::optional<NzokContract>& contract);
 	std::string write(const std::vector<ProcedureTemplate>& priceList);
+	std::string write(const Invoice& inv);
 
 	void parse(const std::string& jsonString, Procedure& procedure);
 	void parse(const std::string& jsonString, DetailsSummary& summary);
 	void parse(const std::string& jsonString, PerioStatus& status);
 	void parse(const std::string& jsonString, ToothContainer& status);
-	
+	void parse(const std::string& jsonString, Invoice& invoice);
 
 	std::vector<ToothXML> getTeethXML(const std::string& jsonString);
 	std::vector<ProcedureTemplate> getPriceList(const std::string& priceList);

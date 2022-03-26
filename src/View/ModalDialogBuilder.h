@@ -29,7 +29,7 @@ namespace ModalDialogBuilder
 	void openDialog(std::optional<ReportDialogResult>& result);
 	void openDialog(AddPracticePresenter* p);
 	void openDialog(DoctorDialogPresenter* p);
-	int saveAsAmbSheetNumber(int newNum, std::unordered_set<int> existingNumbers);
+	int saveAsDocNumber(int newNum, std::unordered_set<int> existingNumbers, const std::string& docName);
 	std::optional<ProcedureTemplate> openProcedureTemplateDialog(const ProcedureTemplate* pTemp = nullptr, int code = 0);
 	DialogAnswer openSaveDialog(const std::string& text);
 	std::optional<std::string> getMonthlyNotification();

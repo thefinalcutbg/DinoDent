@@ -60,6 +60,14 @@ const char* getText1(const TiXmlElement* element)
     return element->GetText();
 }
 
+std::string getMonthNotifData(const TiXmlDocument& monthNotif)
+{
+    TiXmlPrinter printer;
+
+    monthNotif.Accept(&printer);
+
+    return printer.Str();
+}
 
 NZOKInvoiceData::NZOKInvoiceData(const TiXmlDocument& monthNotif, const Practice& practice)
 	:
@@ -69,9 +77,9 @@ NZOKInvoiceData::NZOKInvoiceData(const TiXmlDocument& monthNotif, const Practice
 	NzokRecipientCode(practice.RHIF()),
 	activityTypeCode(std::stoi(getText1(monthNotif.RootElement()->FirstChildElement("nhif_type_code")))),
     health_insurance_fund_type_code (insuranceFunds[activityTypeCode-1]),
-    fin_document_month_no(getText1(monthNotif.RootElement()->FirstChildElement("monthly_notification_num"))),
+    fin_document_month_no(std::stoi(getText1(monthNotif.RootElement()->FirstChildElement("monthly_notification_num")))),
     date_from {Date::getDateFromXmlFormat(getText1(monthNotif.RootElement()->FirstChildElement("date_from")))},
-    date_to{ Date::getDateFromXmlFormat(getText1(monthNotif.RootElement()->FirstChildElement("date_to"))) }
-
+    date_to{ Date::getDateFromXmlFormat(getText1(monthNotif.RootElement()->FirstChildElement("date_to"))) },
+    monthNotifData{ getMonthNotifData(monthNotif) }
 {
 }

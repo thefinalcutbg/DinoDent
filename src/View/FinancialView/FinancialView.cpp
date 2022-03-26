@@ -62,6 +62,8 @@ void FinancialView::setInvoice(const Invoice& inv)
 {
 	ui.issuerButton->setIssuer(inv.issuer);
 	ui.recipientButton->setRecipient(inv.recipient);
+
+	QSignalBlocker b(ui.dateEdit);
 	ui.dateEdit->setDate(QDate{ inv.date.year, inv.date.month, inv.date.day });
 
 	bool nzokForm = inv.nzokData.has_value();

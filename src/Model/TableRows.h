@@ -41,3 +41,16 @@ struct PerioRow : public RowInstance
 	std::string patientName;
 	std::string patientPhone;
 };
+
+struct FinancialRow : public RowInstance
+{
+	FinancialRow() : RowInstance{TabType::Financial} {};
+
+	int number {0};
+	bool nzok{ 0 };
+	
+	Date date;
+	std::string recipientId;
+	std::string recipientName;
+	std::string recipientPhone;
+};

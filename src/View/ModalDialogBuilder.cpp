@@ -84,9 +84,9 @@ void ModalDialogBuilder::openDialog(DoctorDialogPresenter* p)
 
 #include "View/saveAsDialog/SaveAsDialog.h"
 
-int ModalDialogBuilder::saveAsAmbSheetNumber(int newNum, std::unordered_set<int> existingNumbers)
+int ModalDialogBuilder::saveAsDocNumber(int newNum, std::unordered_set<int> existingNumbers, const std::string& docName)
 {
-	SaveAsDialog d(existingNumbers, newNum);
+	SaveAsDialog d(existingNumbers, newNum, docName);
 	return d.exec();
 }
 

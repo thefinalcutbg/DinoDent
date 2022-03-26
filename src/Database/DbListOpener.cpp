@@ -110,6 +110,59 @@ std::vector<PerioRow> DbListOpener::getPerioRows(const Date& from, const Date& t
     return rows;
 }
 
+#include "Model/Financial/Recipient.h"
+
+
+std::vector<FinancialRow> DbListOpener::getFinancialRows(const Date& from, const Date& to)
+{
+    std::vector<FinancialRow> rows;
+
+    if (UserManager::currentUser().practice.rziCode == "") return rows;
+
+    Recipient nzokRecipient(std::stoi(UserManager::currentUser().practice.RHIF()));
+
+
+    std::string query =
+        "SELECT id, num, month_notif > 0, "
+        "day, month, year, "
+        "recipient_id, recipient_name, recipient_phone "
+        "FROM financial "
+        "WHERE (year, month, day) "
+        "BETWEEN (" + std::to_string(from.year) + ", " + std::to_string(from.month) + ", " + std::to_string(from.day) + ") "
+        "AND (" + std::to_string(to.year) + ", " + std::to_string(to.month) + ", " + std::to_string(to.day) + ") "
+        "AND practice_rzi = '" + UserManager::currentUser().practice.rziCode + "' "
+        "ORDER BY year ASC, month ASC, day ASC ";
+
+    for (Db db(query); db.hasRows();)
+    {
+        rows.emplace_back(FinancialRow{});
+
+        auto& row = rows.back();
+
+        row.rowID = db.asString(0);
+        row.patientId = "";
+        row.number = db.asInt(1);
+        row.nzok = db.asInt(2);
+        row.date = Date(db.asInt(3), db.asInt(4), db.asInt(5));
+
+        if (row.nzok) {
+            row.recipientId = nzokRecipient.bulstat;
+            row.recipientName = nzokRecipient.name;
+            row.recipientPhone = "";
+
+            continue;
+        }
+
+        row.recipientId = db.asString(6);
+        row.recipientName = db.asString(7);
+        row.recipientPhone = db.asString(8);
+       
+    }
+
+    return rows;
+
+}
+
 
 void DbListOpener::deleteRecord(const std::string& tableName, const std::string& id)
 {

@@ -21,9 +21,8 @@ AmbListSelector::AmbListSelector(ListSelectorPresenter* presenter) :
 
 	connect(ui.openButton, &QPushButton::clicked, [=] {presenter->openCurrentSelection(); });
 
-	connect(ui.ambRadio, &QRadioButton::clicked, [=] {presenter->setListType(RowModelType::AmbListRow);});
-	connect(ui.patientRadio, &QRadioButton::clicked, [=] {presenter->setListType(RowModelType::PatientRow);});
-	connect(ui.perioRadio, &QRadioButton::clicked, [=] {presenter->setListType(RowModelType::PerioRow);});
+	connect(ui.dataTypeCombo, &QComboBox::currentIndexChanged,
+		[=](int idx) {presenter->setListType(static_cast<RowModelType>(idx));});
 
 	connect(ui.idSearchEdit, &QLineEdit::textChanged, [=]
 		{
@@ -81,8 +80,8 @@ void AmbListSelector::setRows(const std::vector<AmbRow>& rows)
 
 	amb_model.setRows(rows);
 
-	QSignalBlocker block(ui.ambRadio);
-	ui.ambRadio->setChecked(true);
+	QSignalBlocker block(ui.dataTypeCombo);
+	ui.dataTypeCombo->setCurrentIndex(0);
 
 	idFilter.setSourceModel(&amb_model);
 	idFilter.setFilterKeyColumn(3);
@@ -125,8 +124,8 @@ void AmbListSelector::setRows(const std::vector<PerioRow>& rows)
 {
 	perio_model.setRows(rows);
 
-	QSignalBlocker block(ui.perioRadio);
-	ui.perioRadio->setChecked(true);
+	QSignalBlocker block(ui.dataTypeCombo);
+	ui.dataTypeCombo->setCurrentIndex(1);
 	
 	idFilter.setSourceModel(&perio_model);
 	idFilter.setFilterKeyColumn(2);
@@ -173,8 +172,8 @@ void AmbListSelector::setRows(const std::vector<PatientRow>& rows)
 {
 	patient_model.setRows(rows);
 
-	QSignalBlocker block(ui.patientRadio);
-	ui.patientRadio->setChecked(true);
+	QSignalBlocker block(ui.dataTypeCombo);
+	ui.dataTypeCombo->setCurrentIndex(2);
 
 	idFilter.setSourceModel(&patient_model);
 	idFilter.setFilterKeyColumn(1);
@@ -214,6 +213,49 @@ void AmbListSelector::setRows(const std::vector<PatientRow>& rows)
 	);
 }
 
+void AmbListSelector::setRows(const std::vector<FinancialRow>& rows)
+{
+
+	financial_model.setRows(rows);
+
+	QSignalBlocker block(ui.dataTypeCombo);
+	ui.dataTypeCombo->setCurrentIndex(3);
+
+	idFilter.setSourceModel(&financial_model);
+	idFilter.setFilterKeyColumn(3);
+	nameFilter.setSourceModel(&idFilter);
+	nameFilter.setFilterKeyColumn(4);
+	phoneFilter.setSourceModel(&nameFilter);
+	phoneFilter.setFilterKeyColumn(5);
+
+	ui.tableView->setModel(&phoneFilter);
+
+	ui.tableView->hideColumn(0);
+	ui.tableView->setColumnWidth(1, 100);
+	ui.tableView->setColumnWidth(2, 80);
+	ui.tableView->setColumnWidth(3, 100);
+	ui.tableView->setColumnWidth(4, 250);
+	ui.tableView->setColumnWidth(5, 100);
+
+	ui.fromDateEdit->setDisabled(false);
+	ui.toDateEdit->setDisabled(false);
+
+	connect(ui.tableView->selectionModel(), &QItemSelectionModel::selectionChanged, this, [=] {
+
+		auto idxList = ui.tableView->selectionModel()->selectedRows();
+
+		std::set<int>selectedIndexes;
+
+		for (auto& idx : idxList) {
+			selectedIndexes.insert(phoneFilter.index(idx.row(), 0).data().toInt());
+		}
+
+		this->presenter->selectionChanged(selectedIndexes);
+
+		}
+
+	);
+}
 
 
 void AmbListSelector::focus()

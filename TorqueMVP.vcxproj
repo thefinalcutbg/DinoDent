@@ -214,6 +214,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Database\DbInvoice.cpp" />
+    <ClCompile Include="src\View\AmbListSelector\Models\FinancialTableModel.cpp" />
     <ClCompile Include="src\View\FinancialView\FinancialTileButton.cpp" />
     <ClCompile Include="src\View\FinancialView\FinancialView.cpp" />
     <ClCompile Include="src\Presenter\FinancialPresenter\FinancialPresenter.cpp" />
@@ -530,6 +531,7 @@
     <ClInclude Include="src\Presenter\SettingsPresenter\PracticeSettingsPresenter.h" />
     <ClInclude Include="src\Presenter\SettingsPresenter\PriceListSettingsPresenter.h" />
     <ClInclude Include="src\Presenter\SettingsPresenter\SettingsMainPresenter.h" />
+    <QtMoc Include="src\View\AmbListSelector\Models\FinancialTableModel.h" />
     <ClInclude Include="src\View\FinancialView\FinancialTileButton.h" />
     <ClInclude Include="src\View\FinancialView\IFinancialView.h" />
     <ClInclude Include="src\View\ListView\SurfacePanel\ControlPanelPolygon.h" />

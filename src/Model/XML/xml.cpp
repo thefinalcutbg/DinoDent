@@ -293,16 +293,7 @@ void XML::saveXMLinvoice(const Invoice& invoice, const std::string& path)
         parent->LinkEndChild(element);
     };
 
-    auto getTypeCode = [](FinancialDocType type) {
-
-        switch (type) {
-        case FinancialDocType::Invoice: return "INVOICE";
-        case FinancialDocType::Credit:  return "CT_NOTIF";
-        case FinancialDocType::Debit: return "DT_NOTIF";
-        }
-    };
-
-    addElementWithText(el_invoice, "fin_document_type_code", getTypeCode(invoice.type));
+    addElementWithText(el_invoice, "fin_document_type_code", invoice.nzokData->fin_document_type_code);
     addElementWithText(el_invoice, "fin_document_no", invoice.getInvoiceNumber());
     addElementWithText(el_invoice, "fin_document_month_no", leadZeroes(invoice.nzokData->fin_document_month_no, 10));
     addElementWithText(el_invoice, "fin_document_date", invoice.date.toXMLString());
@@ -403,7 +394,7 @@ void XML::saveXMLinvoice(const Invoice& invoice, const std::string& path)
 
     doc.LinkEndChild(el_invoice);
 
-    doc.SaveFile(path + "/" + invoice.nzokData->outputFileName);
+    doc.SaveFile(path);
 
 
 

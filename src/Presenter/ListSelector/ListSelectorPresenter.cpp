@@ -154,6 +154,7 @@ void ListSelectorPresenter::deleteCurrentSelection()
 			DbListOpener::deleteRecord("patient", m_patientRows[idx].rowID);
 			tab_presenter->removePatientTabs(m_patientRows[idx].rowID);
 		}
+		break;
 
 	case RowModelType::FinancialRow:
 
@@ -164,9 +165,10 @@ void ListSelectorPresenter::deleteCurrentSelection()
 
 		for (auto idx : selectedIndexes)
 		{
-			tab_presenter->removeTab(m_financialRows[idx].type, m_financialRows[idx].rowID);
 			DbListOpener::deleteRecord("financial", m_financialRows[idx].rowID);
+			tab_presenter->removeTab(m_financialRows[idx].type, m_financialRows[idx].rowID);
 		}
+		break;
 	}
 
 		refreshModel();

@@ -858,11 +858,9 @@ void Parser::parse(const std::string& jsonString, Invoice& invoice)
 		int quantity = operation["quantity"].asInt();
 
 		invoice.businessOperations.emplace_back(
-			BusinessOperation{
 				operation["code"].asInt(),
 				operation["name"].asString(),
-				price, quantity, price * quantity
-			}
+				price, quantity
 		);
 	}
 

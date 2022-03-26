@@ -2,13 +2,15 @@
 
 #include <array>
 #include <fstream>
-#include "Model/User/User.h"
+#include "Model/User/UserManager.h"
 #include <stdexcept>
 #include "Libraries/TinyXML/tinyxml.h"
 #include "Model/FreeFunctions.h"
 #include "BusinessOperation.h"
+#include <random>
 
-const char* getText(const TiXmlElement* element)
+
+std::string getText(const TiXmlElement* element)
 {
         if (element == nullptr){
             throw std::exception(u8"Неуспешно зареждане на месечното известие");
@@ -66,16 +68,17 @@ Invoice::Invoice(const TiXmlDocument& monthNotif, const User& user)
 		business_operation = business_operation->NextSiblingElement("Monthly_Notification_Details")
 		)
 	{
-		businessOperations.emplace_back(
+		businessOperations.emplace_back();
 
-			BusinessOperation{
-				std::stoi(business_operation->FirstChildElement("activity_code")->GetText()),
-				business_operation->FirstChildElement("activity_name")->GetText(),
-				std::stof(business_operation->FirstChildElement("unit_price")->GetText()),
-                std::stoi(business_operation->FirstChildElement("quantity")->GetText()),
-				std::stof(business_operation->FirstChildElement("value_price")->GetText())
-			}
-		);
+		auto& bOp = businessOperations.back();
+
+		bOp.activity_code = std::stoi(business_operation->FirstChildElement("activity_code")->GetText());
+		bOp.activity_name = business_operation->FirstChildElement("activity_name")->GetText();
+		bOp.unit_price = std::stof(business_operation->FirstChildElement("unit_price")->GetText());
+		bOp.quantity = std::stoi(business_operation->FirstChildElement("quantity")->GetText());
+		bOp.value_price = std::stof(business_operation->FirstChildElement("value_price")->GetText());
+			
+	
 	}
 
 	aggragated_amounts.calculate(businessOperations);
@@ -114,6 +117,21 @@ void Invoice::editOperation(const BusinessOperation& op, int idx)
 {
 	businessOperations[idx] = op;
 	aggragated_amounts.calculate(businessOperations);
+}
+
+std::string Invoice::getFileName() //only nzok data files can be exported as xml
+{
+	if (!nzokData.has_value()) return std::string{};
+
+	return
+		//"FILE_SUBM_FDOC_" +
+		nzokData->fin_document_type_code + "_" +
+		UserManager::currentUser().practice.rziCode + "_" +
+		std::to_string(nzokData->activityTypeCode) + "_" +
+		aggragated_amounts.taxEventDate.toXMLInvoiceFileName() + "_" +
+		leadZeroes(nzokData->fin_document_month_no, 10)
+		+ ".xml";
+
 }
 
 

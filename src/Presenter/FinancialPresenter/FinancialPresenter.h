@@ -7,8 +7,6 @@
 
 class FinancialPresenter : public TabInstance
 {
-
-	
 	IFinancialView* view;
 
 	// Inherited via TabInstance
@@ -27,7 +25,7 @@ public:
 	void dateChanged(Date date);
 	void taxEventDateChanged(Date date);
 	void paymentTypeChanged(PaymentType type);
-	void saveAsXML(const std::string& filePath);
+	void saveAsXML();
 
 	const std::string& rowID() const override;
 	bool save() override;

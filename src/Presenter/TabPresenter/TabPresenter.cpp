@@ -202,11 +202,13 @@ bool TabPresenter::newListExists(const Patient& patient)
 
     return false;
 }
-
+#include "QDebug"
 void TabPresenter::removeTab(TabType type, const std::string& rowID)
 {
     for (const auto& [index, tab] : m_tabs)
     {
+        qDebug() << "tab type: " << static_cast<int>(tab->type) << " tab rowid is " << QString::fromStdString(tab->rowID());
+
         if (tab->type == type && tab->rowID() == rowID)
         {
             view->focusTab(index);

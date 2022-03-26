@@ -44,21 +44,7 @@ FinancialView::FinancialView(QWidget *parent)
 		});
 
 	connect(ui.saveXMLButton, &QPushButton::clicked, [=]
-		{
-
-
-			QString dirPath =
-				QFileDialog::getExistingDirectory(this, tr("Open Directory"),
-					"/home",
-					QFileDialog::ShowDirsOnly
-					| QFileDialog::DontResolveSymlinks);
-
-			if (dirPath.isEmpty())
-				return;
-
-			presenter->saveAsXML(dirPath.toStdString());
-
-		});
+		{ presenter->saveAsXML(); });
 
 
 

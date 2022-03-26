@@ -564,6 +564,9 @@
     <ClCompile Include="src\View\FinancialView\BusinessOpEditDialog\BusinessOpEditDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Model\Financial\BusinessOperation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">

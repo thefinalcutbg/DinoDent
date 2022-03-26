@@ -3,7 +3,7 @@
 #include "Model/User/UserManager.h"
 #include "Model/Parser/Parser.h"
 
-int DbInvoice::insertInvoice(const Invoice& invoice)
+std::string DbInvoice::insertInvoice(const Invoice& invoice)
 {
 
     bool nzok = invoice.nzokData.has_value();
@@ -48,7 +48,7 @@ int DbInvoice::insertInvoice(const Invoice& invoice)
 
     db.execute(query);
 
-    return db.lastInsertedRowID();
+    return std::to_string(db.lastInsertedRowID());
 
 
 }

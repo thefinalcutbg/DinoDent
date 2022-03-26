@@ -25,6 +25,7 @@ public:
     std::string toString(bool suffix = false) const;
     std::string toXMLString() const;
     std::string toXMLReportFileName() const; //required when saving the xml report file
+    std::string toXMLInvoiceFileName() const;
     static Date currentDate();
 
     static int currentDay();

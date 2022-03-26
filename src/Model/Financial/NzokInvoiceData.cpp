@@ -72,6 +72,7 @@ std::string getMonthNotifData(const TiXmlDocument& monthNotif)
 NZOKInvoiceData::NZOKInvoiceData(const TiXmlDocument& monthNotif, const Practice& practice)
 	:
     rhi_nhif_no(practice.rziCode),
+    fin_document_type_code(getText1(monthNotif.RootElement()->FirstChildElement("inv_type_code"))),
     contract_date(practice.nzok_contract.value().date),
     contract_no(practice.nzok_contract.value().contract_no),
 	NzokRecipientCode(practice.RHIF()),

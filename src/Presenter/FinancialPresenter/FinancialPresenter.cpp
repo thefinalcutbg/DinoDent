@@ -29,16 +29,6 @@ FinancialPresenter::FinancialPresenter(ITabView* tabView, const std::string& mon
 {
     this->view = tabView->financialView();
 
-    //the name of the output file
-    std::filesystem::path p(monthNotifFilepath);
-    std::string fileName = p.filename().string();
-
-    if (std::string_view(fileName.c_str(), 10) == "MON_NOTIF_") {
-        fileName.erase(0, 10);
-    }
-
-    m_invoice.nzokData->outputFileName = "Invoice_" + fileName;
-    
     //if the month notif is already loaded in the db:
 
     auto existingData = DbInvoice::getDetailsIfAlreadyExist(m_invoice.nzokData->fin_document_month_no);
@@ -54,8 +44,6 @@ FinancialPresenter::FinancialPresenter(ITabView* tabView, const std::string& mon
     m_invoice.date = Date::currentDate();
 
 
-    //checking the db for monthNotif number, and getting it from there!!!!
-
 }
 
 FinancialPresenter::FinancialPresenter(ITabView* tabView, const Procedures& procedures, std::shared_ptr<Patient> patient) :
@@ -69,16 +57,21 @@ FinancialPresenter::FinancialPresenter(ITabView* tabView, const Procedures& proc
 
         m_invoice.aggragated_amounts.taxEventDate = std::max(m_invoice.aggragated_amounts.taxEventDate, p.date);
 
-        m_invoice.businessOperations.emplace_back(
-            BusinessOperation{
-                p.code,
-                p.name,
-                p.price,
-                1,
-                p.price
-            }
+        BusinessOperation newOp(p);
+        
+        bool toBeInserted{ true };
 
-        );
+        for (auto& existingOp : m_invoice.businessOperations) {
+
+            if (existingOp == newOp) {
+                existingOp.addQuantity(1);
+                toBeInserted = false;
+                break;
+            }
+                
+        }
+
+        if(toBeInserted) m_invoice.businessOperations.push_back(newOp);
     }
 
     m_invoice.aggragated_amounts.calculate(m_invoice.businessOperations);
@@ -90,17 +83,13 @@ FinancialPresenter::FinancialPresenter(ITabView* tabView, int rowId) :
     m_invoice(DbInvoice::getInvoice(std::to_string(rowId)))
 {
 }
-#include <QDebug>
+
 void FinancialPresenter::editOperation(int idx)
 {
-    qDebug() << idx << " clicked";
+
     if (m_invoice.nzokData.has_value()) return;
 
-    qDebug() << "not nzok";
-
-    if (idx < 0 || idx >= m_invoice.businessOperations.size()) return;
-
-    qDebug() << "index in range";
+    if (idx < 0 || idx >= m_invoice.businessOperations.size()) return;;
 
     auto op = ModalDialogBuilder::editBusinessOperation(m_invoice.businessOperations[idx]);
 
@@ -146,9 +135,13 @@ void FinancialPresenter::paymentTypeChanged(PaymentType type)
 
 
 
-void FinancialPresenter::saveAsXML(const std::string& filePath)
+void FinancialPresenter::saveAsXML()
 {
-    XML::saveXMLinvoice(m_invoice, filePath);
+    auto filepath = ModalDialogBuilder::getFileNamePath(m_invoice.getFileName());
+
+    if (filepath.has_value()) {
+        XML::saveXMLinvoice(m_invoice, filepath.value());
+    }
 }
 
 const std::string& FinancialPresenter::rowID() const

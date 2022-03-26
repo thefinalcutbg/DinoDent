@@ -67,7 +67,7 @@ bool Db::execute(const std::string& query)
 
 int Db::lastInsertedRowID()
 {
-    return sqlite3_last_insert_rowid(db_connection);
+    return static_cast<int>(sqlite3_last_insert_rowid(db_connection));
 }
 
 void Db::closeConnection()

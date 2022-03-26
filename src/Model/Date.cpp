@@ -134,6 +134,17 @@ std::string Date::toXMLReportFileName() const
     return  std::to_string(year) + monthStr;
 }
 
+std::string Date::toXMLInvoiceFileName() const
+{
+    std::string dayStr;
+    if (day < 10)
+        dayStr = "0" + std::to_string(day);
+    else
+        dayStr = std::to_string(day);
+
+    return toXMLReportFileName() + dayStr;
+}
+
 bool Date::Date::operator == (const Date& other) const
 {
     if (year == other.year)

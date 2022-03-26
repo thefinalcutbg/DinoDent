@@ -17,13 +17,12 @@ BusinessOpEditDialog::BusinessOpEditDialog(const BusinessOperation& op, QWidget 
 			auto price = ui.priceSpinBox->value();
 			auto quantity = ui.quantitySpinBox->value();
 
-			m_operation.emplace(BusinessOperation{
+			m_operation.emplace(
 				ui.codeSpinBox->value(),
 				ui.nameEdit->text().toStdString(),
 				price,
-				quantity,
-				price*quantity
-			});
+				quantity
+			);
 
 			accept();
 		}

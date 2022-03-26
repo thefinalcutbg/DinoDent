@@ -220,3 +220,17 @@ void ModalDialogBuilder::openSettingsDialog()
 	SettingsDialog d;
 	d.exec();
 }
+
+std::optional<std::string> ModalDialogBuilder::getFileNamePath(const std::string& filename)
+{	
+	QString dirPath = QFileDialog::getSaveFileName(nullptr, u8"Запазване на финансовия документ",
+		QString::fromStdString(filename),
+		"XML (*xml)");
+		
+	if (dirPath.isEmpty())
+		return {};
+
+	return dirPath.toStdString();
+
+
+}

@@ -43,6 +43,7 @@ namespace ModalDialogBuilder
 	void showErrorList(const std::string& errors);
 	void showMessage(const std::string& message);
 	void openSettingsDialog();
+	std::optional<std::string> getFileNamePath(const std::string& filename);
 
 };
 

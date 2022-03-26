@@ -31,7 +31,13 @@ Issuer::Issuer() : Issuer(UserManager::currentUser())
 
 Issuer::Issuer(const User& user) :
     type{ getIssuerType(user.practice.legal_entity, user.doctor) },
-    company_name{ user.practice.nzok_contract.value().name_short },
+    company_name{ 
+        user.practice.nzok_contract.has_value() ?
+        user.practice.nzok_contract.value().name_short 
+        :
+        user.practice.name
+
+    },
     address_by_contract{ user.practice.firm_address },
     address_by_activity{ user.practice.practice_address },
 

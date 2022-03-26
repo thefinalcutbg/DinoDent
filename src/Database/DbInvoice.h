@@ -13,7 +13,7 @@ namespace DbInvoice
 {
 	int getNewInvoiceNumber();
 	std::unordered_set<int>getExistingNumbers();
-	int insertInvoice(const Invoice& invoice);
+	std::string insertInvoice(const Invoice& invoice);
 	void updateInvoice(const Invoice& invoice);
 	std::optional<NzokFinancialDetails> getDetailsIfAlreadyExist(int monthNotifNumber);
 	Invoice getInvoice(const std::string& rowId);

@@ -44,6 +44,7 @@ struct Invoice
 	std::string rowId;
 
 	FinancialDocType type {FinancialDocType::Invoice};
+	
 	std::string name{ u8"Фактура" }; //the title of the pdf invoice
 
 	Date date; //input by user !!!!!!!!!!!!!!!
@@ -64,6 +65,7 @@ struct Invoice
 	void removeOperation(int idx);
 	void addOperation(const BusinessOperation& op);
 	void editOperation(const BusinessOperation& op, int idx);
+	std::string getFileName();
 	
 
 

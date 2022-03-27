@@ -93,8 +93,9 @@ void MainPresenter::generateReport()
 {
     if (!UserManager::currentUser().practice.nzok_contract.has_value())
     {
-        ModalDialogBuilder::showError
-        (u8"За да генерирате отчет, моля попълнете данните на договора с НЗОК от настройки");
+        ModalDialogBuilder::showError(
+            u8"За да генерирате отчет, моля попълнете данните на договора с НЗОК от настройки"
+        );
         return;
     }
 
@@ -105,12 +106,16 @@ void MainPresenter::generateReport()
     if (dialogResult.has_value()) {
 
         auto reportResult = XML::saveXMLreport(dialogResult.value().month, dialogResult.value().year, dialogResult.value().path);
-
-        reportResult.success ?
-            ModalDialogBuilder::showMessage(
-                reportResult.message)
-            :
+        
+        if(reportResult.success)
+        {
+            ModalDialogBuilder::showMessage(reportResult.message);
+            ModalDialogBuilder::openExplorer(dialogResult->path);
+        }
+        else {
             ModalDialogBuilder::showErrorList(reportResult.message);
+        } 
+           
     }
         
 
@@ -120,6 +125,14 @@ void MainPresenter::generateReport()
 
 void MainPresenter::generateInvoice()
 {
+    if (!UserManager::currentUser().practice.nzok_contract.has_value())
+    {
+        ModalDialogBuilder::showError(
+            u8"За да заредите месечно известие, моля попълнете данните на договора с НЗОК от настройки"
+        );
+        return;
+    }
+
     auto filepathResult = ModalDialogBuilder::getMonthlyNotification();
 
     if (!filepathResult.has_value()) return;

@@ -24,8 +24,19 @@ void showFileInFolder(const QString& path) {
 
 */ 
 
+int getMinutes(const std::vector<AmbListXML>& report) {
 
-std::string getErrors(const std::vector<AmbListXML> report)
+    int sumMinutes = 0;
+
+    for (auto& r : report) for (auto& s : r.services) {
+        sumMinutes += MasterNZOK::instance().getDuration(s.activityCode);
+    }
+
+    return sumMinutes;
+
+}
+
+std::string getErrors(const std::vector<AmbListXML>& report)
 {
     std::string errors;
 
@@ -69,6 +80,20 @@ std::string getErrors(const std::vector<AmbListXML> report)
                     u8" и " + std::to_string(report[i].ambulatorySheetNo) + "\n";
         }
 
+    }
+
+   
+
+    auto& date = report[0].services[0].date;
+
+    int reportMinutes = getMinutes(report);
+    int maxMinutesAllowed = Date::getWorkdaysOfMonth(date.month, date.year)*360;
+    
+    qDebug() << "report minutes: " << reportMinutes << " maxAllowed: " << maxMinutesAllowed;
+
+    if (reportMinutes > maxMinutesAllowed) {
+        errors += u8"Надвишени лимит минути по НЗОК (" + std::to_string(reportMinutes)
+            + " от максимално позволени " + std::to_string(maxMinutesAllowed) + ")\n";
     }
 
     return errors;
@@ -265,9 +290,10 @@ ReportResult XML::saveXMLreport(int month, int year, const std::string& path)
     }
 
     return ReportResult{true,  
-                        u8"Отчетът е генериран успешно! Очаквана сума: " + 
-                        formatDouble(expectedPrice) +
-                        u8" лв."};
+                        u8"Отчетът е генериран успешно!\n"
+                        u8"Mинути дейност: " + std::to_string(getMinutes(ambSheets)) + "\n"
+                        u8"Максимално позволени: " + std::to_string(Date::getWorkdaysOfMonth(month, year)*360) + "\n"
+                        u8"Очаквана сума : " + formatDouble(expectedPrice) + u8" лв."};
 }
 
 

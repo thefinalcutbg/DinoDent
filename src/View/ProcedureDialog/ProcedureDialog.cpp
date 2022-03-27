@@ -96,27 +96,27 @@ void ProcedureDialog::setProcedureTemplates(std::vector<ProcedureTemplate> proce
 
 void ProcedureDialog::setSelectionLabel(const std::vector<int>& selectedTeethNum)
 {
-	QString label;
+	QString selectedTeeth;
 
-	label.reserve(15 + selectedTeethNum.size() * 3);
+	selectedTeeth.reserve(15 + selectedTeethNum.size() * 3);
 
-	label.append("Избрани зъби: ");
+	selectedTeeth.append("Избрани зъби: ");
 
 	for (int i = 0; i < selectedTeethNum.size(); i++)
 	{
-		label.append(QString::number(selectedTeethNum[i]));
+		selectedTeeth.append(QString::number(selectedTeethNum[i]));
 		if (i < selectedTeethNum.size() - 1)
 		{
-			label.append(", ");
+			selectedTeeth.append(", ");
 		}
 	}
 
 	if (!selectedTeethNum.size())
 	{
-		label.append("Няма");
+		selectedTeeth.append("Няма");
 	}
 
-	ui.selectedTeethLabel->setText(label);
+	ui.statusLabel->setText(selectedTeeth);
 }
 
 
@@ -179,6 +179,8 @@ void ProcedureDialog::setView(ProcedureTemplateType t)
 	default:
 		ui.stackedWidget->setCurrentIndex(0);
 	}
+
+
 }
 
 void ProcedureDialog::close() { QDialog::accept(); }
@@ -187,8 +189,6 @@ void ProcedureDialog::showErrorMessage(const std::string& error)
 {
 	ui.commonFields->hide();
 	ui.stackedWidget->setCurrentIndex(0);
-
-	ui.noTeethLabel->show();
-	ui.noTeethLabel->setText(QString::fromStdString(error));
+	ui.errorLabel->setText(QString::fromStdString(error));
 }
 

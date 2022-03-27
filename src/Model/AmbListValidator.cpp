@@ -41,9 +41,15 @@ bool AmbListValidator::ambListIsValid()
 
     for (auto& p : procedures)
     {
-        if (p.nzok && patient.HIRBNo.empty())
+        if (patient.HIRBNo.empty())
         {
             _error = u8"Не е въведен номер на здравната книжка на пациента";
+                return false;
+        }
+
+        if (p.date.isWeekend())
+        {
+            _error = u8"Манипулация " + std::to_string(p.code) + u8" не може да бъде извършена в почивен ден";
                 return false;
         }
 

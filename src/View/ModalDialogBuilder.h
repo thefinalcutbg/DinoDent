@@ -46,6 +46,7 @@ namespace ModalDialogBuilder
 	void showMessage(const std::string& message);
 	void openSettingsDialog();
 	std::optional<std::string> getFileNamePath(const std::string& filename);
+	void openExplorer(const std::string& path);
 
 };
 

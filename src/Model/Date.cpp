@@ -1,5 +1,7 @@
 ﻿#include "Date.h"
 
+#include <QDate>
+
 int Date::monthDays[12]{ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
 Date::Date() :
@@ -201,6 +203,32 @@ bool Date::Date::operator > (const Date& other) const
 bool Date::Date::operator >= (const Date& other) const { return *this == other || *this > other; }
 bool Date::Date::operator <= (const Date& other) const { return *this == other || *this < other; }
 
+bool Date::isWeekend() const
+{
+    QDate d(year, month, day);
+
+    return d.dayOfWeek() == 6 || d.dayOfWeek() == 7;
+}
+
+int Date::getWorkdaysOfMonth(int month, int year)
+{
+    int workDays{0};
+
+    QDate monthBegin(year, month, 1);
+    QDate monthEnd(year, month, monthBegin.daysInMonth());
+
+    while(monthBegin <= monthEnd)
+    {
+        int dayOfWeek = monthBegin.dayOfWeek();
+
+        if (dayOfWeek != 6 && dayOfWeek != 7) workDays++;
+
+        monthBegin = monthBegin.addDays(1);
+    }
+
+    return workDays;
+}
+
 bool Date::isInitialized() const
 {
     return (year == 1900 && month == 1 && day == 1);
@@ -208,7 +236,6 @@ bool Date::isInitialized() const
 
 Date Date::currentDate() { return Date(currentDay(), currentMonth(), currentYear()); }
 
-#include <QDate>
 int Date::currentDay() { return QDate::currentDate().day(); }
 int Date::currentMonth() { return QDate::currentDate().month(); }
 int Date::currentYear() { return QDate::currentDate().year(); }

@@ -219,6 +219,7 @@ void ModalDialogBuilder::showErrorList(const std::string& errors)
 void ModalDialogBuilder::showMessage(const std::string& message)
 {
 	QMessageBox msgBox;
+	msgBox.setModal(true);
 	msgBox.setText(QString::fromStdString(message));
 	msgBox.exec();
 }
@@ -243,4 +244,11 @@ std::optional<std::string> ModalDialogBuilder::getFileNamePath(const std::string
 	return dirPath.toStdString();
 
 
+}
+
+#include <QDesktopServices>
+
+void ModalDialogBuilder::openExplorer(const std::string& path)
+{
+	QDesktopServices::openUrl(QUrl::fromLocalFile(QString::fromStdString(path)));
 }

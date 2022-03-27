@@ -37,6 +37,7 @@ DetailedStatus::DetailedStatus(DetailedStatusPresenter* presenter) : presenter(p
 	dentistWidget = new DentistMadeWidget();
 	pathologyWidget = new PathologyWidget();
 	notesWidget = new QTextEdit();
+	notesWidget->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Expanding));
 
 	ui.imageLabel->setStyleSheet("border: 1px solid lightgray");
 
@@ -215,7 +216,7 @@ void DetailedStatus::setData(const PathologyData& data){setAndShow(layout, patho
 void DetailedStatus::setData(const std::string& notesData)
 {
 	notesWidget->setText(QString::fromStdString(notesData));
-	layout->addWidget(notesWidget);
+	layout->insertWidget(0, notesWidget);
 
 }
 

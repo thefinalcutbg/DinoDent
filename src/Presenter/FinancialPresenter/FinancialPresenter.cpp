@@ -146,15 +146,29 @@ void FinancialPresenter::paymentTypeChanged(PaymentType type)
 }
 
 
-
 void FinancialPresenter::saveAsXML()
 {
     if (!save()) return;
 
-    auto filepath = ModalDialogBuilder::getFileNamePath(m_invoice.getFileName());
+    auto result = ModalDialogBuilder::getFileNamePath(m_invoice.getFileName());
 
-    if (filepath.has_value()) {
-        XML::saveXMLinvoice(m_invoice, filepath.value());
+    if (result.has_value()) {
+
+        auto& filepath = result.value();
+
+        XML::saveXMLinvoice(m_invoice, filepath);
+
+        //getting the directory from filename:
+
+        int lastSlashPosition;
+
+        for (int i = 0; i < filepath.size(); i++)
+        {
+            if (filepath[i] == '\/')
+                lastSlashPosition = i;
+        }
+
+        ModalDialogBuilder::openExplorer(filepath.substr(0, lastSlashPosition + 1));
     }
 }
 

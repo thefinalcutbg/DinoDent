@@ -213,6 +213,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\View\FinancialView\BusinessOpAddDialog\BusinessOpAddDialog.cpp" />
     <ClCompile Include="src\Model\Financial\BusinessOperation.cpp" />
     <ClCompile Include="src\View\FinancialView\BusinessOpEditDialog\BusinessOpEditDialog.cpp" />
     <ClCompile Include="src\Database\DbInvoice.cpp" />
@@ -401,6 +402,7 @@
     <ClCompile Include="src\Model\User\UserManager.cpp" />
     <ClCompile Include="src\View\TabView\TabTitle.cpp" />
     <QtRcc Include="resources\Resource.qrc" />
+    <QtUic Include="src\View\FinancialView\BusinessOpAddDialog\BusinessOpAddDialog.ui" />
     <QtUic Include="src\View\FinancialView\BusinessOpEditDialog\BusinessOpEditDialog.ui" />
     <QtUic Include="src\View\FinancialView\FinancialView.ui" />
     <QtUic Include="src\View\AddPracticeDialog\AddPracticeDialog.ui" />
@@ -496,6 +498,7 @@
     <QtMoc Include="src\View\AddPracticeDialog\AddPracticeDialog.h" />
     <QtMoc Include="src\View\FinancialView\FinancialView.h" />
     <QtMoc Include="src\View\FinancialView\BusinessOpEditDialog\BusinessOpEditDialog.h" />
+    <QtMoc Include="src\View\FinancialView\BusinessOpAddDialog\BusinessOpAddDialog.h" />
     <ClInclude Include="src\Database\DbInvoice.h" />
     <ClInclude Include="src\Model\Financial\BusinessOperation.h" />
     <ClInclude Include="src\Presenter\FinancialPresenter\FinancialPresenter.h" />

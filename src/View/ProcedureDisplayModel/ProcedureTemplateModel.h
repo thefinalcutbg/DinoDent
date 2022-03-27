@@ -10,7 +10,7 @@ struct ProcedureRow
 {
 	int code;
 	QString name;
-	QString price;
+	double price;
 	bool nzok;
 };
 
@@ -32,7 +32,7 @@ public:
 	ProcedureTemplateModel(QObject *parent = nullptr);
 
 	void setProcedures(std::vector<ProcedureTemplate> procedures);
-
+	const ProcedureRow& getProcedureRow(int index) const;
 	~ProcedureTemplateModel();
 
 

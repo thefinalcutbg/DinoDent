@@ -170,6 +170,16 @@ std::optional<BusinessOperation> ModalDialogBuilder::editBusinessOperation(const
 	return d.getResult();
 }
 
+#include "View/FinancialView/BusinessOpAddDialog/BusinessOpAddDialog.h"
+
+std::optional<BusinessOperation> ModalDialogBuilder::addBusinessOperation(const std::vector<ProcedureTemplate>& priceList)
+{
+	BusinessOpAddDialog d(priceList);
+	d.exec();
+
+	return d.getResult();
+}
+
 bool ModalDialogBuilder::askDialog(const std::string& questionText)
 {
 

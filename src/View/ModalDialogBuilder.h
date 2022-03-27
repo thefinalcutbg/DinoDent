@@ -32,12 +32,14 @@ namespace ModalDialogBuilder
 	void openDialog(std::optional<ReportDialogResult>& result);
 	void openDialog(AddPracticePresenter* p);
 	void openDialog(DoctorDialogPresenter* p);
-	int saveAsDocNumber(int newNum, std::unordered_set<int> existingNumbers, const std::string& docName);
+	//returns 0 if canceled
+	int saveAsDocNumber(int newNum, std::unordered_set<int> existingNumbers, const std::string& docName); 
 	std::optional<ProcedureTemplate> openProcedureTemplateDialog(const ProcedureTemplate* pTemp = nullptr, int code = 0);
 	DialogAnswer openSaveDialog(const std::string& text);
 	std::optional<std::string> getMonthlyNotification();
 	std::optional<Procedures> selectProcedures(const Procedures& procedures, SelectionPref s = SelectionPref::All);
 	std::optional<BusinessOperation> editBusinessOperation(const BusinessOperation& op);
+	std::optional<BusinessOperation> addBusinessOperation(const std::vector<ProcedureTemplate>& priceList);
 	bool askDialog(const std::string& questionText);
 	void showError(const std::string& error);
 	void showErrorList(const std::string& errors);

@@ -567,6 +567,9 @@
     <ClCompile Include="src\Model\Financial\BusinessOperation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\FinancialView\BusinessOpAddDialog\BusinessOpAddDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -782,6 +785,9 @@
     <QtMoc Include="src\View\FinancialView\BusinessOpEditDialog\BusinessOpEditDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\View\FinancialView\BusinessOpAddDialog\BusinessOpAddDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="resources\Resource.qrc" />
@@ -911,6 +917,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\FinancialView\BusinessOpEditDialog\BusinessOpEditDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\FinancialView\BusinessOpAddDialog\BusinessOpAddDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

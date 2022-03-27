@@ -23,10 +23,15 @@ void ProcedureTemplateModel::setProcedures(std::vector<ProcedureTemplate> proced
         this->procedures.emplace_back
         (ProcedureRow{ m.code,
             QString::fromStdString(m.name),
-            priceToString(m.price), m.nzok });
+            m.price, m.nzok });
     }
     endResetModel();
 
+}
+
+const ProcedureRow& ProcedureTemplateModel::getProcedureRow(int index) const
+{
+    return procedures[index];
 }
 
 ProcedureTemplateModel::~ProcedureTemplateModel()
@@ -108,7 +113,7 @@ QVariant ProcedureTemplateModel::data(const QModelIndex& index, int role) const
         case 0: return index.row();
         case code: return procedures[row].code;
         case name: return procedures[row].name;
-        case price: return procedures[row].price;
+        case price: return priceToString(procedures[row].price);
         default: return QVariant();
         }
     case Qt::TextAlignmentRole:

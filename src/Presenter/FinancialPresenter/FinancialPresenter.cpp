@@ -75,6 +75,8 @@ FinancialPresenter::FinancialPresenter(ITabView* tabView, const Procedures& proc
     }
 
     m_invoice.aggragated_amounts.calculate(m_invoice.businessOperations);
+
+    if (!procedures.size()) m_invoice.aggragated_amounts.taxEventDate = Date::currentDate();
 }
 
 FinancialPresenter::FinancialPresenter(ITabView* tabView, int rowId) :
@@ -103,6 +105,16 @@ void FinancialPresenter::editOperation(int idx)
 void FinancialPresenter::addOperation()
 {
     if (m_invoice.nzokData.has_value()) return;
+
+    auto newOp = ModalDialogBuilder::addBusinessOperation(UserManager::currentUser().practice.priceList);
+
+    if (newOp.has_value())
+        m_invoice.addOperation(newOp.value());
+
+    view->setBusinessOperations(m_invoice.businessOperations, m_invoice.aggragated_amounts);
+
+    makeEdited();
+
 }
 
 void FinancialPresenter::removeOperation(int idx)
@@ -137,6 +149,8 @@ void FinancialPresenter::paymentTypeChanged(PaymentType type)
 
 void FinancialPresenter::saveAsXML()
 {
+    if (!save()) return;
+
     auto filepath = ModalDialogBuilder::getFileNamePath(m_invoice.getFileName());
 
     if (filepath.has_value()) {
@@ -151,6 +165,13 @@ const std::string& FinancialPresenter::rowID() const
 
 bool FinancialPresenter::save()
 {
+    if (!m_invoice.businessOperations.size()) {
+        ModalDialogBuilder::showError(
+            u8"Финансовият документ трябва да съдържа поне една услуга"
+        );
+        return false;
+    }
+
     if (!isNew() && !edited) return true;
 
     if (isNew()) return saveAs();

@@ -79,10 +79,10 @@ FinancialPresenter::FinancialPresenter(ITabView* tabView, const Procedures& proc
     if (!procedures.size()) m_invoice.aggragated_amounts.taxEventDate = Date::currentDate();
 }
 
-FinancialPresenter::FinancialPresenter(ITabView* tabView, int rowId) :
+FinancialPresenter::FinancialPresenter(ITabView* tabView, long long rowId) :
     TabInstance(tabView, TabType::Financial, nullptr),
     view(tabView->financialView()),
-    m_invoice(DbInvoice::getInvoice(std::to_string(rowId)))
+    m_invoice(DbInvoice::getInvoice(rowId))
 {
 }
 
@@ -172,7 +172,7 @@ void FinancialPresenter::saveAsXML()
  
 }
 
-const std::string& FinancialPresenter::rowID() const
+long long FinancialPresenter::rowID() const
 {
 	return m_invoice.rowId;
 }
@@ -259,7 +259,7 @@ void FinancialPresenter::setCurrent()
 
 bool FinancialPresenter::isNew()
 {
-    return m_invoice.rowId.empty();
+    return m_invoice.rowId == 0;
 }
 
 TabName FinancialPresenter::getTabName()

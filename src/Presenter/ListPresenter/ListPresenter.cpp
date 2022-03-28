@@ -53,12 +53,12 @@ ListPresenter::ListPresenter(ITabView* tabView, TabPresenter* tabPresenter, std:
      */
 }
 
-ListPresenter::ListPresenter(ITabView* tabView, TabPresenter* tabPresenter, std::shared_ptr<Patient> patient, const std::string& ambListId)
+ListPresenter::ListPresenter(ITabView* tabView, TabPresenter* tabPresenter, std::shared_ptr<Patient> patient, long long rowId)
     :
     TabInstance(tabView, TabType::AmbList, patient),
     view(tabView->listView()),
     tabPresenter(tabPresenter),
-    m_ambList(DbAmbList::getListData(ambListId))
+    m_ambList(DbAmbList::getListData(rowId))
 {
 
     surf_presenter.setStatusControl(this);
@@ -127,7 +127,7 @@ TabName ListPresenter::getTabName()
     return {header, footer};
 }
 
-const std::string& ListPresenter::rowID() const
+long long ListPresenter::rowID() const
 {
     return m_ambList.id;
 }

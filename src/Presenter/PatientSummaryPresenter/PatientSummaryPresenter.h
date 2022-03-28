@@ -22,7 +22,7 @@ public:
 
 	void setCurrentFrame(int index);
 
-	const std::string& rowID() const override;
+	long long rowID() const override;
 	bool save() override { return true; };
 	bool saveAs() override { return true; };
 	bool isNew() override { return false; };

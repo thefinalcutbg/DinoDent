@@ -14,7 +14,7 @@ std::vector<PatientRow> DbListOpener::getPatientRows()
     {
        rows.emplace_back(PatientRow{});
        
-       rows.back().rowID = db.asString(0);
+       rows.back().rowID = db.asRowId(0);
        rows.back().patientRowId = db.asRowId(0);
 
        rows.back().patientId = db.asString(1);
@@ -57,7 +57,7 @@ std::vector<AmbRow> DbListOpener::getAmbRows(const Date& from, const Date& to)
 
         auto& row = rows.back();
 
-        row.rowID = db.asString(0);
+        row.rowID = db.asRowId(0);
         row.ambNumber = db.asInt(1);
         row.nzok = bool(db.asInt(2));
         row.date = Date{ 
@@ -98,7 +98,7 @@ std::vector<PerioRow> DbListOpener::getPerioRows(const Date& from, const Date& t
 
         auto& row = rows.back();
 
-        row.rowID = db.asString(0);
+        row.rowID = db.asRowId(0);
         row.date = Date{
             db.asInt(1),
             db.asInt(2),
@@ -143,7 +143,7 @@ std::vector<FinancialRow> DbListOpener::getFinancialRows(const Date& from, const
 
         auto& row = rows.back();
 
-        row.rowID = db.asString(0);
+        row.rowID = db.asRowId(0);
         
         row.number = db.asInt(1);
         row.nzok = db.asInt(2);
@@ -168,7 +168,7 @@ std::vector<FinancialRow> DbListOpener::getFinancialRows(const Date& from, const
 }
 
 
-void DbListOpener::deleteRecord(const std::string& tableName, const std::string& id)
+void DbListOpener::deleteRecord(const std::string& tableName, long long rowid)
 {
-    Db::crudQuery("DELETE FROM " + tableName + " WHERE id = '" + id + "' ");
+    Db::crudQuery("DELETE FROM " + tableName + " WHERE id = " + std::to_string(rowid));
 }

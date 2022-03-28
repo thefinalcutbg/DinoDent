@@ -5,7 +5,7 @@
 #include "Model/User/UserManager.h"
 #include "Database.h"
 
-std::vector<Procedure> DbProcedure::getProcedures(const std::string& amblist_id, Db* existingConnection)
+std::vector<Procedure> DbProcedure::getProcedures(long long amblist_id, Db* existingConnection)
 {
 	std::vector<Procedure> mList;
 
@@ -23,7 +23,7 @@ std::vector<Procedure> DbProcedure::getProcedures(const std::string& amblist_id,
 								"procedure.temp, "	//9
 								"amblist.LPK "		//10
 						"FROM procedure LEFT JOIN amblist ON procedure.amblist_id = amblist.id "
-						"WHERE amblist.id = " + amblist_id + " ORDER BY seq";
+						"WHERE amblist.id = " + std::to_string(amblist_id) + " ORDER BY procedure.id";
 
 
 	for (Db db(query, existingConnection); db.hasRows();)
@@ -48,7 +48,7 @@ std::vector<Procedure> DbProcedure::getProcedures(const std::string& amblist_id,
 
 }
 
-void DbProcedure::saveProcedures(const std::string& amblist_id, const std::vector<Procedure>& mList, Db* existingConnection)
+void DbProcedure::saveProcedures(long long amblist_id, const std::vector<Procedure>& mList, Db* existingConnection)
 {
 
 	std::string query = "DELETE FROM procedure WHERE amblist_id = " + amblist_id;
@@ -61,17 +61,16 @@ void DbProcedure::saveProcedures(const std::string& amblist_id, const std::vecto
 	{
 		auto& m = mList[i];
 
-		query = "INSERT INTO procedure (seq, nzok, type, code, day, tooth, temp, price, data, amblist_id) VALUES ('"
-			+ std::to_string(i) + "','"
-			+ std::to_string(m.nzok) + "','"
-			+ std::to_string(static_cast<int>(m.type)) + "','"
-			+ std::to_string(m.code) + "','"
-			+ std::to_string(m.date.day) + "','"
-			+ std::to_string(m.tooth) + "','"
-			+ std::to_string(m.temp) + "','"
+		query = "INSERT INTO procedure (nzok, type, code, day, tooth, temp, price, data, amblist_id) VALUES ('"
+			+ std::to_string(m.nzok) + ","
+			+ std::to_string(static_cast<int>(m.type)) + ",'"
+			+ std::to_string(m.code) + "',"
+			+ std::to_string(m.date.day) + ","
+			+ std::to_string(m.tooth) + ","
+			+ std::to_string(m.temp) + ",'"
 			+ std::to_string(m.price) + "','"
-			+ Parser::write(m) + "','"
-			+ amblist_id + "')"
+			+ Parser::write(m) + "',"
+			+ std::to_string(amblist_id) + ")"
 			;
 
 		db.execute(query);
@@ -79,7 +78,7 @@ void DbProcedure::saveProcedures(const std::string& amblist_id, const std::vecto
 
 }
 
-std::vector<ProcedureSummary> DbProcedure::getSummary(long long patientRowId, const std::string& excludeAmbID)
+std::vector<ProcedureSummary> DbProcedure::getSummary(long long patientRowId, long long excludeAmbRowId)
 {
 
 	std::string query
@@ -88,7 +87,7 @@ std::vector<ProcedureSummary> DbProcedure::getSummary(long long patientRowId, co
 		"FROM procedure LEFT JOIN amblist ON procedure.amblist_id = amblist.id "
 		"WHERE nzok = 1 "
 		"AND amblist.patient_rowid = " + std::to_string(patientRowId) + " "
-		"AND amblist.id != " + excludeAmbID
+		"AND amblist.id != " + std::to_string(excludeAmbRowId)
 	};
 
 	 std::vector<ProcedureSummary> summary;

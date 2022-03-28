@@ -7,7 +7,7 @@
 struct RowInstance
 {
 	const TabType type;
-	std::string rowID;
+	long long rowID{0};
 	long long patientRowId{0};
 
 	RowInstance(TabType t) : type(t) {}

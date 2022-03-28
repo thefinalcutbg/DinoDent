@@ -6,7 +6,7 @@ constexpr int scoreSurfCount = 128;
 
 struct PerioStatus
 {
-	std::string id;
+	long long id;
 	Date date{ Date::currentDate() };
 
 	int smoker{ 0 };	//пушач, непушач, по колко цигари на ден и т.н.

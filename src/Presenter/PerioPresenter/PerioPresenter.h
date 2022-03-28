@@ -27,7 +27,7 @@ public:
 	PerioStatus m_perioStatus;
 
 	PerioPresenter(ITabView* view, std::shared_ptr<Patient> patient);
-	PerioPresenter(ITabView* view, std::shared_ptr<Patient> patient, const std::string& perioId);
+	PerioPresenter(ITabView* view, std::shared_ptr<Patient> patient, long long rowId);
 	void toothButtonClicked(int tooth);
 
 	void pdChanged(int index, int value);
@@ -47,7 +47,7 @@ public:
 
 
 	// Inherited via TabInstance
-	const std::string& rowID() const override;
+	long long rowID() const override;
 	virtual bool save() override;
 	virtual bool saveAs() override;
 	virtual bool isNew() override;

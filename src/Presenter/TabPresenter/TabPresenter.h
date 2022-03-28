@@ -24,7 +24,7 @@ class TabPresenter
 
 	bool newListExists(const Patient& patient);
 
-	bool tabAlreadyOpened(TabType type, const std::string& rowID);
+	bool tabAlreadyOpened(TabType type, long long rowID);
 	bool monthNotiAlreadyOpened(int monthNotifNum);
 
 	void openTab(TabInstance* tabInstance);
@@ -46,8 +46,8 @@ public:
 	void openInvoice(const Procedures& procedures, std::shared_ptr<Patient> patient);
 	void open(const RowInstance& row);
 
-	void removeTab(TabType type, const std::string& rowID);
-	void removePatientTabs(const std::string& patientID);
+	void removeTab(TabType type, long long rowID);
+	void removePatientTabs(long long patientRowid);
 	void removeCurrentTab();
 
 };

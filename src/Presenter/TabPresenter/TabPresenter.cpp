@@ -137,14 +137,14 @@ void TabPresenter::open(const RowInstance& row)
         newTab = new PatientSummaryPresenter(view, getPatient_ptr(DbPatient::get(row.patientRowId)));
         break;
     case TabType::Financial:
-        newTab = new FinancialPresenter(view, std::stoi(row.rowID));
+        newTab = new FinancialPresenter(view, row.rowID);
         break;
     }
 
     openTab(newTab);
 }
 
-bool TabPresenter::tabAlreadyOpened(TabType type, const std::string& rowID)
+bool TabPresenter::tabAlreadyOpened(TabType type, long long rowID)
 {
     for (auto& [index, tabInstance] : m_tabs)
     {
@@ -203,7 +203,7 @@ bool TabPresenter::newListExists(const Patient& patient)
     return false;
 }
 
-void TabPresenter::removeTab(TabType type, const std::string& rowID)
+void TabPresenter::removeTab(TabType type, long long rowID)
 {
     for (const auto& [index, tab] : m_tabs)
     {
@@ -217,12 +217,12 @@ void TabPresenter::removeTab(TabType type, const std::string& rowID)
     }
 }
 
-void TabPresenter::removePatientTabs(const std::string& patientID)
+void TabPresenter::removePatientTabs(const long long patientRowid)
 {
     for (const auto& [index, tab] : m_tabs)
     {
         if (tab->patient != nullptr && 
-            tab->patient.get()->id == patientID
+            tab->patient.get()->rowid == patientRowid
         )
         {
             view->focusTab(index);

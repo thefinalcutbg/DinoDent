@@ -3,7 +3,7 @@
 #include "Model/User/UserManager.h"
 #include "Model/Parser/Parser.h"
 
-std::string DbInvoice::insertInvoice(const Invoice& invoice)
+long long DbInvoice::insertInvoice(const Invoice& invoice)
 {
 
     bool nzok = invoice.nzokData.has_value();
@@ -48,7 +48,7 @@ std::string DbInvoice::insertInvoice(const Invoice& invoice)
 
     db.execute(query);
 
-    return std::to_string(db.lastInsertedRowID());
+    return db.lastInsertedRowID();
 
 
 }
@@ -99,7 +99,7 @@ std::optional<NzokFinancialDetails> DbInvoice::getDetailsIfAlreadyExist(int mont
 
          return NzokFinancialDetails{
 
-                    db.asString(0), 
+                    db.asRowId(0), 
                     db.asInt(1), 
                     Date {
                         db.asInt(2), 
@@ -114,12 +114,12 @@ std::optional<NzokFinancialDetails> DbInvoice::getDetailsIfAlreadyExist(int mont
 
 #include "Libraries/TinyXML/tinyxml.h"
 
-Invoice DbInvoice::getInvoice(const std::string& rowId)
+Invoice DbInvoice::getInvoice(long long rowId)
 {
     std::string query = "SELECT num, day, month, year, month_notif, data, "
         "recipient_id, recipient_name, recipient_phone, recipient_address "
         "FROM financial "
-        "WHERE id = " + rowId;
+        "WHERE id = " + std::to_string(rowId);
 
     Db db(query);
 

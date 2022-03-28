@@ -9,10 +9,10 @@ class Db;
 namespace DbProcedure
 {
 
-    std::vector<Procedure> getProcedures(const std::string& amblist_id, Db* existingConnection = nullptr);
-    void saveProcedures(const std::string& amblist_id, const std::vector<Procedure>& mList, Db* existingConnection = nullptr);
+    std::vector<Procedure> getProcedures(long long amblist_id, Db* existingConnection = nullptr);
+    void saveProcedures(long long amblist_id, const std::vector<Procedure>& mList, Db* existingConnection = nullptr);
 
-    std::vector<ProcedureSummary> getSummary(long long patientRowId, const std::string& excludeAmbIde);
+    std::vector<ProcedureSummary> getSummary(long long patientRowId, long long excludeAmbRowId);
     std::vector<Procedure> getToothProcedures(long long patientRowId, int tooth);
 };
 

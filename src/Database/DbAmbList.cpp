@@ -7,7 +7,7 @@
 #include "Model/Parser/Parser.h"
 #include "DbProcedure.h"
 
-std::string DbAmbList::insert(const AmbList& ambList, long long patientRowId)
+long long DbAmbList::insert(const AmbList& ambList, long long patientRowId)
 {
   
     auto ambSheetDate = ambList.getAmbListDate();
@@ -30,7 +30,7 @@ std::string DbAmbList::insert(const AmbList& ambList, long long patientRowId)
 
     db.execute(query);
 
-    auto rowID = std::to_string(db.lastInsertedRowID());
+    auto rowID = db.lastInsertedRowID();
 
     DbProcedure::saveProcedures(rowID, ambList.procedures, &db);
 
@@ -51,7 +51,7 @@ void DbAmbList::update(const AmbList& ambList)
         ", fullCoverage = " + std::to_string(ambList.full_coverage) +
         ", charge = " + std::to_string(static_cast<int>(ambList.charge)) +
         ", status_json = '" + Parser::write(ambList.teeth) + "' "
-        "WHERE id = " + ambList.id;
+        "WHERE id = " + std::to_string(ambList.id);
 
     Db db;
     db.execute(query);
@@ -94,7 +94,7 @@ AmbList DbAmbList::getNewAmbSheet(long long patientRowId)
 
     while(db.hasRows())
     {
-        ambList.id = db.asString(0);
+        ambList.id = db.asRowId(0);
         ambList.number = db.asInt(1);
         ambList.full_coverage = db.asInt(2);
         status_json = db.asString(3);
@@ -111,15 +111,15 @@ AmbList DbAmbList::getNewAmbSheet(long long patientRowId)
 
             );
 
-        std::string oldId;
+        long long oldId = 0;
 
         while(db.hasRows()){
             
-            oldId = db.asString(0);
+            oldId = db.asRowId(0);
             status_json = db.asString(1);
         }
 
-        if (oldId.empty()) return ambList; //it means no data is found for this patient
+        if (!oldId) return ambList; //it means no data is found for this patient
 
         Parser::parse(status_json, ambList.teeth);
 
@@ -139,7 +139,7 @@ AmbList DbAmbList::getNewAmbSheet(long long patientRowId)
     return ambList;
 }
 
-AmbList DbAmbList::getListData(const std::string& ambID)
+AmbList DbAmbList::getListData(long long rowId)
 {
 
     std::string status_json;
@@ -147,12 +147,12 @@ AmbList DbAmbList::getListData(const std::string& ambID)
 
     Db db(
         "SELECT id, num, fullCoverage, status_json, charge FROM amblist WHERE "
-        "id = '" + ambID + "'"
+        "id = " + std::to_string(rowId)
     );
 
     while (db.hasRows())
     {
-        ambList.id = db.asString(0);
+        ambList.id = db.asRowId(0);
         ambList.number = db.asInt(1);
         ambList.full_coverage = db.asInt(2);
         status_json = db.asString(3);

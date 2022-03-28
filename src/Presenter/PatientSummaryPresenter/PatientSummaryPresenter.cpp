@@ -27,9 +27,9 @@ void PatientSummaryPresenter::setCurrentFrame(int index)
         view->setDateLabel(u8"Начален статус");
 }
 
-const std::string& PatientSummaryPresenter::rowID() const
+long long PatientSummaryPresenter::rowID() const
 {
-    return patient->id;
+    return patient->rowid;
 }
 
 

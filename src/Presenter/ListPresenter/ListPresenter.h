@@ -42,16 +42,16 @@ public:
 
 
     ListPresenter(ITabView* tabView, TabPresenter* tabPresenter, std::shared_ptr<Patient> patient);
-    ListPresenter(ITabView* tabView, TabPresenter* tabPresenter, std::shared_ptr<Patient> patient, const std::string& ambListId);
+    ListPresenter(ITabView* tabView, TabPresenter* tabPresenter, std::shared_ptr<Patient> patient, long long rowId);
 
     void chargeChanged(int index);
 
-    virtual const std::string& rowID() const override;
-    virtual bool save() override;
-    virtual bool saveAs() override;
-    virtual bool isNew() override;
-    virtual void print() override;
-    virtual TabName getTabName() override;
+    long long rowID() const override;
+    bool save() override;
+    bool saveAs() override;
+    bool isNew() override;
+    void print() override;
+    TabName getTabName() override;
     void setCurrent() override;
 
     void openPatientDialog();

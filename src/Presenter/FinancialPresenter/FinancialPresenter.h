@@ -16,7 +16,7 @@ public:
 
 	FinancialPresenter(ITabView* tabView, const std::string& monthNotifFilepath);
 	FinancialPresenter(ITabView* tabView, const Procedures& procedures, std::shared_ptr<Patient> patient);
-	FinancialPresenter(ITabView* tabView, int rowId);
+	FinancialPresenter(ITabView* tabView, long long rowId);
 
 	void addOperation();
 	void editOperation(int idx);
@@ -27,7 +27,7 @@ public:
 	void paymentTypeChanged(PaymentType type);
 	void saveAsXML();
 
-	const std::string& rowID() const override;
+	long long rowID() const override;
 	bool save() override;
 	bool saveAs() override;
 	void print() override;

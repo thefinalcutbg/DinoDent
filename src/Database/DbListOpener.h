@@ -10,6 +10,6 @@ namespace DbListOpener
 	std::vector<AmbRow> getAmbRows(const Date& from, const Date& to);
 	std::vector<PerioRow> getPerioRows(const Date& from, const Date& to);
 	std::vector<FinancialRow> getFinancialRows(const Date& from, const Date& to);
-	void deleteRecord(const std::string& tableName, const std::string& id);
+	void deleteRecord(const std::string& tableName, const long long rowid);
 };
 

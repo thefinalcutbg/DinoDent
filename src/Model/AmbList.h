@@ -16,7 +16,7 @@ struct AmbList
 {
 	AmbList() {}
 
-	std::string id{"0"};
+	long long id{ 0 };
 	//Date date{ Date::currentDate() };
 	int number{ 0 };
 	std::string LPK;
@@ -76,5 +76,5 @@ struct AmbList
 
 	Procedures procedures;
 	~AmbList() {  }
-	bool isNew(){ return id == "0"; }
+	bool isNew(){ return id == 0; }
 };

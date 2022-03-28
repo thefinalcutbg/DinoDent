@@ -40,7 +40,7 @@ public:
 
 	bool edited{ false };
 
-	virtual const std::string& rowID() const = 0;
+	virtual long long rowID() const = 0;
 	virtual bool save() = 0;
 	virtual bool saveAs() = 0;
 

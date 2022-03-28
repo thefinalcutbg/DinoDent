@@ -72,7 +72,7 @@ std::vector<TimeFrame> DbPatientSummary::getFrames(long long patientRowId)
         "amblist.id "       //11
         "FROM procedure LEFT JOIN amblist ON procedure.amblist_id = amblist.id "
         "WHERE amblist.patient_rowid = " + std::to_string(patientRowId) + " "
-        "ORDER BY amblist.year ASC, amblist.month ASC, amblist.day ASC, seq ASC";
+        "ORDER BY amblist.year ASC, amblist.month ASC, amblist.day ASC, procedure.id ASC";
 
     db.newStatement(query);
 

@@ -140,7 +140,7 @@ bool ListPresenter::save()
 
     if (!isValid()) return false;
 
-    if (edited) {  DbAmbList::update(m_ambList);}
+    if (edited) { DbAmbList::update(m_ambList);}
 
     edited = false;
 

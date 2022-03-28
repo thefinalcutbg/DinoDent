@@ -164,7 +164,7 @@ void FinancialPresenter::saveAsXML()
 
             for (int i = 0; i < filepath.size(); i++)
             {
-                if (filepath[i] == '\/')
+                if (filepath[i] == '/')
                     lastSlashPosition = i;
             }
 

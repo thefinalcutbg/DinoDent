@@ -8,7 +8,7 @@ ToothContainer DbPerio::getStatus(long long patientRowId, const Date& date)
 
 
     std::string jsonStatus;
-    std::string amblistId;
+    long long amblistId{0};
     std::string LPK;
 
     Db db(
@@ -23,7 +23,7 @@ ToothContainer DbPerio::getStatus(long long patientRowId, const Date& date)
     while (db.hasRows())
     {
         jsonStatus = db.asString(0);
-        amblistId = db.asString(1);
+        amblistId = db.asRowId(1);
         LPK = db.asString(2);
     }
 
@@ -40,9 +40,9 @@ ToothContainer DbPerio::getStatus(long long patientRowId, const Date& date)
     db.newStatement(
     
         "SELECT type, tooth, deciduous, data FROM procedure WHERE"
-        " amblist_id = '" + amblistId + "'"
+        " amblist_id = " + std::to_string(amblistId) +
         " AND day <= " + std::to_string(date.day) +
-        " ORDER BY seq"
+        " ORDER BY id"
 
     );
 

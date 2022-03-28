@@ -203,30 +203,38 @@ bool TabPresenter::newListExists(const Patient& patient)
     return false;
 }
 
-void TabPresenter::removeTab(TabType type, long long rowID)
+bool TabPresenter::documentTabOpened(TabType type, long long rowID) const
 {
     for (const auto& [index, tab] : m_tabs)
     {
 
         if (tab->type == type && tab->rowID() == rowID)
         {
-            view->focusTab(index);
-            removeCurrentTab();
-            return;
+            return true;
         }
     }
+
+    //if user want's to delete the patient, check other types of documents related to the patient
+    if (type == TabType::PatientSummary)
+    {
+        for (const auto& [index, tab] : m_tabs)
+        {       
+            //the financial tabs patient ptr is always null
+            if (tab->type != TabType::Financial &&
+                tab->patient.get()->rowid == rowID
+                )
+            {
+                return true;
+            }
+        }
+    }
+
+    return false;
 }
 
-void TabPresenter::removePatientTabs(const long long patientRowid)
+bool TabPresenter::patientTabOpened(const long long patientRowid) const
 {
-    for (const auto& [index, tab] : m_tabs)
-    {
-        if (tab->patient != nullptr && 
-            tab->patient.get()->rowid == patientRowid
-        )
-        {
-            view->focusTab(index);
-            removeCurrentTab();
-        }
-    }
+   
+
+    return false;
 }

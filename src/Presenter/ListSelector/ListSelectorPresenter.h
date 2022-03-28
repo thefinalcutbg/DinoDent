@@ -6,14 +6,12 @@
 class TabPresenter;
 class IListSelectorView;
 
-enum class RowModelType{ AmbListRow, PerioRow, PatientRow, FinancialRow};
-
 class ListSelectorPresenter
 {
 	TabPresenter* tab_presenter{ nullptr };
 	IListSelectorView* view{ nullptr };
 
-	RowModelType m_currentModelType {RowModelType::AmbListRow};
+	TabType m_currentModelType { TabType::AmbList};
 
 	std::set<int>selectedIndexes{};
 
@@ -38,7 +36,7 @@ public:
 
 	void refreshModel();
 
-	void setListType(RowModelType type);
+	void setListType(TabType type);
 
 	void selectionChanged(std::set<int> selectedIndexes);
 

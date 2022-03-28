@@ -18,6 +18,8 @@ Db::Db(Db* existingConnection)
     if (db_connection == nullptr) {
          throw;
     }
+
+   // execute("PRAGMA foreign_keys = ON");
     
 }
 
@@ -55,17 +57,25 @@ void Db::newStatement(const std::string& query)
     if (stmt != nullptr) {
         sqlite3_finalize(stmt);
     }
-
+ 
     sqlite3_prepare_v2(db_connection, query.c_str(), -1, &stmt, NULL);
 }
-
+#include <QDebug>
 bool Db::execute(const std::string& query)
 {
-    sqlite3_finalize(stmt);
+    if (stmt != nullptr) {
+        sqlite3_finalize(stmt);
+    }
 
     char* err;
 
     int i = sqlite3_exec(db_connection, query.c_str(), NULL, NULL, &err);
+
+    if (err) {
+        qDebug() << QString::fromStdString(query);
+        qDebug() << err;
+    }
+
     return i == SQLITE_OK;
         
 }
@@ -95,18 +105,24 @@ bool Db::crudQuery(const std::string& query)
         return false;
     }
 
+   // sqlite3_exec(db, "PRAGMA foreign_keys = ON", NULL, NULL, &err);
+
     i = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
-    if (i != SQLITE_OK) {
-        return false;
+
+    if (err) {
+        qDebug() << QString::fromStdString(query);
+        qDebug() << err;
     }
 
-    return true;
+    return i == SQLITE_OK;
 }
 
 
 Db::~Db()
 {
-    sqlite3_finalize(stmt);
+    if (stmt != nullptr) {
+        sqlite3_finalize(stmt);
+    }
 
     if (m_connectionOwned && db_connection) {
         sqlite3_close_v2(db_connection);
@@ -114,9 +130,9 @@ Db::~Db()
 }
 
 
-
 void Db::createIfNotExist()
 {
+
     Db db;
 
     db.execute(

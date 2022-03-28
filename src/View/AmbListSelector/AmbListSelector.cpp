@@ -22,7 +22,7 @@ AmbListSelector::AmbListSelector(ListSelectorPresenter* presenter) :
 	connect(ui.openButton, &QPushButton::clicked, [=] {presenter->openCurrentSelection(); });
 
 	connect(ui.dataTypeCombo, &QComboBox::currentIndexChanged,
-		[=](int idx) {presenter->setListType(static_cast<RowModelType>(idx));});
+		[=](int idx) {presenter->setListType(static_cast<TabType>(idx));});
 
 	connect(ui.idSearchEdit, &QLineEdit::textChanged, [=]
 		{

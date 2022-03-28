@@ -168,7 +168,14 @@ std::vector<FinancialRow> DbListOpener::getFinancialRows(const Date& from, const
 }
 
 
-void DbListOpener::deleteRecord(const std::string& tableName, long long rowid)
+void DbListOpener::deleteRecord(TabType type, long long rowid)
 {
-    Db::crudQuery("DELETE FROM " + tableName + " WHERE id = " + std::to_string(rowid));
+    static constexpr const char* tableNames[4]{ "amblist", "periostatus", "patient", "financial" };
+
+    std::string tableName{ tableNames[static_cast<int>(type)] };
+
+    //This is what you get when you don't keep your own naming conventions :@ :@ :@
+    std::string rowidColumnName = (type == TabType::PatientSummary) ? "rowid" : "id";
+
+    Db::crudQuery("DELETE FROM " + tableName + " WHERE " + rowidColumnName + " = " + std::to_string(rowid));
 }

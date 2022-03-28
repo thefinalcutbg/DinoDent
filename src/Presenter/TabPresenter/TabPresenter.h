@@ -46,8 +46,8 @@ public:
 	void openInvoice(const Procedures& procedures, std::shared_ptr<Patient> patient);
 	void open(const RowInstance& row);
 
-	void removeTab(TabType type, long long rowID);
-	void removePatientTabs(long long patientRowid);
+	bool documentTabOpened(TabType type, long long rowID) const;
+	bool patientTabOpened(long long patientRowid) const;
 	void removeCurrentTab();
 
 };

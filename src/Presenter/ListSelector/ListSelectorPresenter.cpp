@@ -55,16 +55,16 @@ void ListSelectorPresenter::refreshModel()
 		
 }
 
-void ListSelectorPresenter::setListType(RowModelType type)
+void ListSelectorPresenter::setListType(TabType type)
 {
 	m_currentModelType = type;
 	selectedIndexes.clear();
 	switch (type)
 	{
-		case::RowModelType::AmbListRow: view->setRows(m_ambRows); break;
-		case::RowModelType::PerioRow: view->setRows(m_perioRows); break;
-		case::RowModelType::PatientRow: view->setRows(m_patientRows); break;
-		case::RowModelType::FinancialRow : view->setRows(m_financialRows); break;
+	case::TabType::AmbList: view->setRows(m_ambRows); break;
+	case::TabType::PerioList: view->setRows(m_perioRows); break;
+	case::TabType::PatientSummary: view->setRows(m_patientRows); break;
+	case::TabType::Financial : view->setRows(m_financialRows); break;
 	}
 }
 
@@ -87,19 +87,19 @@ void ListSelectorPresenter::openCurrentSelection()
 
 	switch (m_currentModelType)
 	{
-	case RowModelType::AmbListRow:
+	case TabType::AmbList:
 		for (auto idx : selectedIndexes)
 			tab_presenter->open(m_ambRows[idx]);
 		break;
-	case RowModelType::PerioRow:
+	case TabType::PerioList:
 		for (auto idx : selectedIndexes)
 			tab_presenter->open(m_perioRows[idx]);
 		break;
-	case RowModelType::PatientRow:
+	case TabType::PatientSummary:
 		for (auto idx : selectedIndexes)
 			tab_presenter->open(m_patientRows[idx]);
 		break;
-	case RowModelType::FinancialRow:
+	case TabType::Financial:
 		for (auto idx : selectedIndexes)
 			tab_presenter->open(m_financialRows[idx]);
 		break;
@@ -109,67 +109,66 @@ void ListSelectorPresenter::openCurrentSelection()
 	if (view) view->close();
 }
 
+//a free template function to "fix" the lack of decent polymorphism
+template<typename T>
+void deleteDocuments(	TabPresenter* tabPresenter, 
+						const std::set<int>& selectedIndexes, 
+						const std::vector<T>&rows, 
+						const std::string& warningMsg
+						) 
+{
+
+	if (!ModalDialogBuilder::askDialog(warningMsg))
+		return;
+	
+	for (auto idx : selectedIndexes)
+	{
+		if (tabPresenter->documentTabOpened(rows[idx].type, rows[idx].rowID))
+		{
+			ModalDialogBuilder::showMessage
+			(u8"Моля, първо затворете всички избрани за изтриване документи!");
+			return;
+		}
+	}
+
+	for (auto idx : selectedIndexes) {
+		DbListOpener::deleteRecord(rows[idx].type, rows[idx].rowID);
+	}
+
+
+}
+
 void ListSelectorPresenter::deleteCurrentSelection()
 {
+	
+
+	std::string warningMsg = u8"Сигурни ли сте, че искате да изтриете избраният/избраните ";
+
+	static constexpr const char* endString[4]{
+		u8"амбулаторни листи?",
+		u8"пародонтални измервания?",
+		u8"пацинети? Всички свързани прилежащи медицински докумнети ще бъдат изтрити!",
+		u8"финансови документи?"
+	};
+
+	warningMsg += endString[static_cast<int>(m_currentModelType)];
+
 	switch (m_currentModelType)
 	{
-	case RowModelType::AmbListRow:
-
-					if (!ModalDialogBuilder::askDialog(
-						u8"Сигурни ли сте, че искате да изтриете амбулаторния лист?"
-					))
-						return;
-
-		for (auto idx : selectedIndexes)
-		{
-			tab_presenter->removeTab(m_ambRows[idx].type, m_ambRows[idx].rowID);
-			DbListOpener::deleteRecord("amblist", m_ambRows[idx].rowID);
-		}
-		break;
-
-	case RowModelType::PerioRow:
-
-					if (!ModalDialogBuilder::askDialog(
-						u8"Сигурни ли сте, че искате да изтриете пародонталното измерване?"
-					))
-						return;
-
-		for (auto idx : selectedIndexes)
-		{
-			DbListOpener::deleteRecord("periostatus", m_perioRows[idx].rowID);
-			tab_presenter->removeTab(m_perioRows[idx].type, m_perioRows[idx].rowID);
-		}
-		break;
-
-	case RowModelType::PatientRow:
-
-					if (!ModalDialogBuilder::askDialog(
-						u8"Сигурни ли сте, че искате да изтриете този пациент? "
-						"Всички негови амбулаторни листи и пародонтални измервания ще бъдат премахнати!"
-					))
-			return;
-
-		for (auto idx : selectedIndexes)
-		{
-			DbListOpener::deleteRecord("patient", m_patientRows[idx].rowID);
-			tab_presenter->removePatientTabs(m_patientRows[idx].rowID);
-		}
-		break;
-
-	case RowModelType::FinancialRow:
-
-					if (!ModalDialogBuilder::askDialog(
-						u8"Сигурни ли сте, че искате да изтриете финансовият документ?"
-					))
-						return;
-
-		for (auto idx : selectedIndexes)
-		{
-			DbListOpener::deleteRecord("financial", m_financialRows[idx].rowID);
-			tab_presenter->removeTab(m_financialRows[idx].type, m_financialRows[idx].rowID);
-		}
-		break;
+		case TabType::AmbList:
+			deleteDocuments(tab_presenter, selectedIndexes, m_ambRows, warningMsg);
+			break;
+		case TabType::PerioList:
+			deleteDocuments(tab_presenter, selectedIndexes, m_perioRows, warningMsg);
+			break;
+		case TabType::Financial:
+			deleteDocuments(tab_presenter, selectedIndexes, m_financialRows, warningMsg);
+			break;
+		case TabType::PatientSummary:
+			deleteDocuments(tab_presenter, selectedIndexes, m_patientRows, warningMsg);
+			break;
 	}
+
 
 		refreshModel();
 	

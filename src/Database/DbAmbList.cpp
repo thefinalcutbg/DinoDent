@@ -59,21 +59,6 @@ void DbAmbList::update(const AmbList& ambList)
     DbProcedure::saveProcedures(ambList.id, ambList.procedures, &db);
 }
 
-std::vector<int> DbAmbList::getValidYears()
-{
-    std::vector<int> years;
-
-    Db db("SELECT DISTINCT year FROM amblist ORDER BY year DESC");
-
-    while (db.hasRows())
-    {
-        years.emplace_back(db.asInt(0));
-    }
-
-    return years;
-}
-
-
 AmbList DbAmbList::getNewAmbSheet(long long patientRowId)
 {
 

@@ -17,6 +17,6 @@ namespace DbAmbList
     int getNewNumber(int currentYear, bool nzok);
     bool checkExistingAmbNum(int currentYear, int ambNum);
     std::unordered_set<int> getExistingNumbers(int currentYear);
-    std::vector<int> getValidYears();
+
 };
 

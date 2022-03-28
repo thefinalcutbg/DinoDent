@@ -20,7 +20,7 @@ std::vector<Procedure> DbProcedure::getProcedures(long long amblist_id, Db* exis
 								"amblist.year,	"	//6
 								"procedure.price, "	//7
 								"procedure.data, "	//8
-								"procedure.temp, "	//9
+								"procedure.deciduous, "	//9
 								"amblist.LPK "		//10
 						"FROM procedure LEFT JOIN amblist ON procedure.amblist_id = amblist.id "
 						"WHERE amblist.id = " + std::to_string(amblist_id) + " ORDER BY procedure.id";
@@ -61,7 +61,7 @@ void DbProcedure::saveProcedures(long long amblist_id, const std::vector<Procedu
 	{
 		auto& m = mList[i];
 
-		query = "INSERT INTO procedure (nzok, type, code, day, tooth, temp, price, data, amblist_id) VALUES ('"
+		query = "INSERT INTO procedure (nzok, type, code, day, tooth, deciduous, price, data, amblist_id) VALUES ('"
 			+ std::to_string(m.nzok) + ","
 			+ std::to_string(static_cast<int>(m.type)) + ",'"
 			+ std::to_string(m.code) + "',"
@@ -115,7 +115,7 @@ std::vector<ProcedureSummary> DbProcedure::getSummary(long long patientRowId, lo
 std::vector<Procedure> DbProcedure::getToothProcedures(long long patientRowId, int tooth)
 {
 		std::string query =
-		"SELECT  procedure.day, amblist.month, amblist.year, procedure.code, procedure.nzok, procedure.data, procedure.price, amblist.lpk, procedure.temp FROM "
+		"SELECT  procedure.day, amblist.month, amblist.year, procedure.code, procedure.nzok, procedure.data, procedure.price, amblist.lpk, procedure.deciduous FROM "
 		"procedure LEFT JOIN amblist ON procedure.amblist_id = amblist.id "
 		"WHERE tooth = " + std::to_string(tooth) + " "
 		"AND patient_rowid = " + std::to_string(patientRowId) + " "

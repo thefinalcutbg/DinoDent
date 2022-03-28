@@ -19,7 +19,7 @@ struct ServiceXML //a.k.a. procedure
 
 struct AmbListXML
 {
-	std::string id; //needed for mapping services
+	long long rowid; //needed for mapping services
 	int personType;
 	std::string personIdentifier;
 	std::string RHIF;

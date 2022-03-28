@@ -67,7 +67,7 @@ std::vector<TimeFrame> DbPatientSummary::getFrames(long long patientRowId)
         "amblist.year,	"	//6
         "procedure.price, "	//7
         "procedure.data, "	//8
-        "procedure.temp, "	//9
+        "procedure.deciduous, "	//9
         "amblist.LPK, "		//10
         "amblist.id "       //11
         "FROM procedure LEFT JOIN amblist ON procedure.amblist_id = amblist.id "

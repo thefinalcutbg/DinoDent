@@ -39,7 +39,7 @@ ToothContainer DbPerio::getStatus(long long patientRowId, const Date& date)
 
     db.newStatement(
     
-        "SELECT type, tooth, temp, data FROM procedure WHERE"
+        "SELECT type, tooth, deciduous, data FROM procedure WHERE"
         " amblist_id = '" + amblistId + "'"
         " AND day <= " + std::to_string(date.day) +
         " ORDER BY seq"

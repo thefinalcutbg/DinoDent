@@ -41,7 +41,7 @@ struct Invoice
 
 	int number{ 0 };
 
-	long long rowId;
+	long long rowId{0};
 
 	FinancialDocType type {FinancialDocType::Invoice};
 	

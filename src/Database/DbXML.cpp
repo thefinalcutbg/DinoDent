@@ -5,11 +5,11 @@
 #include "Model/User/UserManager.h"
 #include "Database/Database.h"
 
-
-int getSheetIdx(const std::vector<AmbListXML>& sheets, const std::string& amblist_id)
+int getSheetIdx(const std::vector<AmbListXML>& sheets, long long amb_rowid)
 {
+
     for (int i = 0; i<sheets.size(); i++){
-        if (sheets[i].id == amblist_id){
+        if (sheets[i].rowid == amb_rowid){
             return i;
         }
     }
@@ -95,7 +95,7 @@ std::vector<AmbListXML> DbXML::getAmbListXML(int month, int year, std::string RZ
 
         auto& a = report.back();
 
-            a.id = db.asString(0);
+            a.rowid = db.asRowId(0);
             a.personType = db.asInt(1);
             a.personIdentifier = db.asString(2);
 
@@ -130,7 +130,7 @@ std::vector<AmbListXML> DbXML::getAmbListXML(int month, int year, std::string RZ
             "amblist.year,"             //3
             "procedure.data,"           //4
             "procedure.tooth, "         //5
-            "procedure.temp, "          //6
+            "procedure.deciduous, "     //6
             "procedure.code "           //7
             "FROM procedure "
             "LEFT JOIN amblist ON amblist.id = procedure.amblist_id "
@@ -140,14 +140,14 @@ std::vector<AmbListXML> DbXML::getAmbListXML(int month, int year, std::string RZ
             "AND procedure.nzok = 1 "
             "AND amblist.rzi = '" + RZICode + "' "
             "AND amblist.lpk = '" + LPK + "' "
-            "ORDER BY amblist.num ASC, procedure.seq ASC";
+            "ORDER BY amblist.num ASC, procedure.id ASC";
 
     db.newStatement(query);
 
     while (db.hasRows())
     {
         auto& currentSheet = 
-            report[getSheetIdx(report, db.asString(0))];
+            report[getSheetIdx(report, db.asRowId(0))];
 
 
         currentSheet.services.emplace_back(

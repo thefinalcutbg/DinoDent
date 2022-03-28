@@ -159,6 +159,7 @@ void Db::createIfNotExist()
         "CREATE TABLE practice_doctor (practice_rzi VARCHAR (10) NOT NULL REFERENCES practice ON DELETE CASCADE ON UPDATE CASCADE, doctor_lpk VARCHAR (9) NOT NULL, admin INT NOT NULL, FOREIGN KEY (doctor_lpk) REFERENCES doctor (lpk) ON DELETE CASCADE ON UPDATE CASCADE)"
         , NULL, NULL, &err);
 
+  //  rc = sqlite3_exec(db,"VACUUM", NULL, NULL, &err);
 
     if (rc != SQLITE_OK)
     {

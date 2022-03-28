@@ -66,13 +66,13 @@ ProcedureDialog::ProcedureDialog(ProcedureDialogPresenter* presenter, QWidget *p
 		presenter->indexChanged(-1);
 		});
 
-	ui.errorLabel->setStyleSheet("color:red");
 	ui.crownWidget->ui.rangeWidget->setErrorLabel(ui.errorLabel);
 	ui.obturWidget->ui.surfaceSelector->setErrorLabel(ui.errorLabel);
 	ui.fiberWidget->ui.rangeWidget->setErrorLabel(ui.errorLabel);
 	ui.commonFields->ui.dateEdit->setErrorLabel(ui.errorLabel);
 	ui.commonFields->ui.diagnosisEdit->setErrorLabel(ui.errorLabel);
 	ui.commonFields->ui.manipulationEdit->setErrorLabel(ui.errorLabel);
+	
 
 
 	ui.searchEdit->setText(s_search);
@@ -158,7 +158,7 @@ void ProcedureDialog::setView(ProcedureTemplateType t)
 {
 
 	ui.commonFields->show();
-
+	
 	switch (t)
 	{	
 	case ProcedureTemplateType::obturation:
@@ -178,6 +178,7 @@ void ProcedureDialog::setView(ProcedureTemplateType t)
 		break;
 	default:
 		ui.stackedWidget->setCurrentIndex(0);
+		ui.errorLabel->setText("");
 	}
 
 

@@ -152,24 +152,24 @@ void FinancialPresenter::saveAsXML()
 
     auto result = ModalDialogBuilder::getFileNamePath(m_invoice.getFileName());
 
-    if (result.has_value()) {
+    if (!result.has_value()) return;
 
-        auto& filepath = result.value();
+    auto& filepath = result.value();
 
-        XML::saveXMLinvoice(m_invoice, filepath);
+    XML::saveXMLinvoice(m_invoice, filepath);
 
-        //getting the directory from filename:
+            //getting the directory from filename:
 
-        int lastSlashPosition;
+            int lastSlashPosition{0};
 
-        for (int i = 0; i < filepath.size(); i++)
-        {
-            if (filepath[i] == '\/')
-                lastSlashPosition = i;
-        }
+            for (int i = 0; i < filepath.size(); i++)
+            {
+                if (filepath[i] == '\/')
+                    lastSlashPosition = i;
+            }
 
-        ModalDialogBuilder::openExplorer(filepath.substr(0, lastSlashPosition + 1));
-    }
+    ModalDialogBuilder::openExplorer(filepath.substr(0, lastSlashPosition + 1));
+ 
 }
 
 const std::string& FinancialPresenter::rowID() const

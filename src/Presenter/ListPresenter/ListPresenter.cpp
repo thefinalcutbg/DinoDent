@@ -29,7 +29,7 @@ ListPresenter::ListPresenter(ITabView* tabView, TabPresenter* tabPresenter, std:
     TabInstance(tabView, TabType::AmbList, patient),
     view(tabView->listView()),
     tabPresenter(tabPresenter),
-    m_ambList(DbAmbList::getNewAmbSheet(patient->id))
+    m_ambList(DbAmbList::getNewAmbSheet(patient->rowid))
 {
     auto ambSheetDate = m_ambList.getAmbListDate();
 
@@ -140,7 +140,7 @@ bool ListPresenter::save()
 
     if (!isValid()) return false;
 
-    if (edited) {  DbAmbList::updateAmbList(m_ambList);}
+    if (edited) {  DbAmbList::update(m_ambList);}
 
     edited = false;
 
@@ -175,11 +175,11 @@ bool ListPresenter::saveAs()
     m_ambList.number = newNumber;
 
     if (m_ambList.isNew()) {
-        m_ambList.id = DbAmbList::insertAmbList(m_ambList, patient->id);
+        m_ambList.id = DbAmbList::insert(m_ambList, patient->rowid);
         
     }
     else {
-        DbAmbList::updateAmbList(m_ambList);
+        DbAmbList::update(m_ambList);
     }
 
   //  listSelector_.refreshModel();
@@ -391,7 +391,7 @@ void ListPresenter::setSelectedTeeth(const std::vector<int>& SelectedIndexes)
 
 void ListPresenter::openDetails(int toothIdx)
 {
-    DetailedStatusPresenter d(m_ambList.teeth[toothIdx], patient->id);
+    DetailedStatusPresenter d(m_ambList.teeth[toothIdx], patient->rowid);
 
     auto result = d.open();
 

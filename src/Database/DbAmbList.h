@@ -8,11 +8,11 @@ namespace DbAmbList
 {
 
     //returns the id of the inserted amblist
-    std::string insertAmbList(const AmbList& ambList, const std::string& patientID); //returns the rowId of the new instered row
+    std::string insert(const AmbList& ambList, long long patientRowId); //returns the rowId of the new instered row
     void deleteCurrentSelection(const std::string& ambID);
-    void updateAmbList(const AmbList& ambList);
+    void update(const AmbList& ambList);
 
-    AmbList getNewAmbSheet(const std::string& patientID);
+    AmbList getNewAmbSheet(long long patientRowId);
     AmbList getListData(const std::string& ambID);
     int getNewNumber(int currentYear, bool nzok);
     bool checkExistingAmbNum(int currentYear, int ambNum);

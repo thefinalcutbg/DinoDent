@@ -6,10 +6,10 @@
 #include "Database/DbProcedure.h"
 #include "Database/DbNotes.h"
 
-DetailedStatusPresenter::DetailedStatusPresenter(const Tooth& tooth, const std::string& patientID)
-	: m_tooth(tooth), m_checkModel(tooth), patientID(patientID), controller{nullptr}, view(nullptr)
+DetailedStatusPresenter::DetailedStatusPresenter(const Tooth& tooth, long long patientRowId)
+	: m_tooth(tooth), m_checkModel(tooth), patientRowId(patientRowId), controller{nullptr}, view(nullptr)
 {
-	m_notes = DbNotes::getNote(patientID, tooth.index);
+	m_notes = DbNotes::getNote(patientRowId, tooth.index);
 }
 
 void DetailedStatusPresenter::setView(IDetailedStatusView* view)
@@ -17,7 +17,7 @@ void DetailedStatusPresenter::setView(IDetailedStatusView* view)
 	this->view = view; 
 
 
-	view->setHistoryData(DbProcedure::getToothProcedures(patientID, m_tooth.index));
+	view->setHistoryData(DbProcedure::getToothProcedures(patientRowId, m_tooth.index));
 	
 	view->disableItem(StatusCode::Bridge, !m_tooth.bridge.exists());
 	view->disableItem(StatusCode::FiberSplint, !m_tooth.splint.exists());
@@ -132,7 +132,7 @@ void DetailedStatusPresenter::okPressed()
 	
 	_result = m_tooth;
 
-	DbNotes::saveNote(m_notes, patientID, m_tooth.index);
+	DbNotes::saveNote(m_notes, patientRowId, m_tooth.index);
 }
 
 std::optional<Tooth> DetailedStatusPresenter::open()

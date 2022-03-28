@@ -35,6 +35,11 @@ int Db::asInt(int column){
     return sqlite3_column_int(stmt, column); 
 }
 
+long long Db::asRowId(int column)
+{
+    return sqlite3_column_int64(stmt, column);
+}
+
 double Db::asDouble(int column)
 {
     return sqlite3_column_double(stmt, column);
@@ -65,9 +70,9 @@ bool Db::execute(const std::string& query)
         
 }
 
-int Db::lastInsertedRowID()
+long long Db::lastInsertedRowID()
 {
-    return static_cast<int>(sqlite3_last_insert_rowid(db_connection));
+    return sqlite3_last_insert_rowid(db_connection);
 }
 
 void Db::closeConnection()

@@ -3,7 +3,7 @@
 
 namespace DbNotes
 {
-	std::string getNote(const std::string& patientID, int toothIdx);
-	void saveNote(const std::string& note, const std::string& patientID, int toothIdx);
+	std::string getNote(long long patientRowId, int toothIdx);
+	void saveNote(const std::string& note, long long patientRowId, int toothIdx);
 };
 

@@ -73,7 +73,7 @@ bool AmbListValidator::ambListIsValid()
 
 bool AmbListValidator::isValidAccordingToDb()
 {
-    auto summary = DbProcedure::getSummary(patient.id, ambList.id); //getting all procedures;
+    auto summary = DbProcedure::getSummary(patient.rowid, ambList.id); //getting all procedures;
 
    
 

@@ -8,7 +8,7 @@ struct RowInstance
 {
 	const TabType type;
 	std::string rowID;
-	std::string patientId;
+	long long patientRowId{0};
 
 	RowInstance(TabType t) : type(t) {}
 };
@@ -21,6 +21,7 @@ struct AmbRow : public RowInstance
 	bool nzok{0};
 	Date date;
 
+	std::string patientId;
 	std::string patientName;
 	std::string patientPhone;
 };
@@ -29,6 +30,7 @@ struct PatientRow : public RowInstance
 {
 	PatientRow() : RowInstance{ TabType::PatientSummary } {};
 
+	std::string patientId;
 	std::string name;
 	std::string phone;
 };
@@ -38,6 +40,7 @@ struct PerioRow : public RowInstance
 	PerioRow() : RowInstance{ TabType::PerioList } {};
 
 	Date date;
+	std::string patientId;
 	std::string patientName;
 	std::string patientPhone;
 };

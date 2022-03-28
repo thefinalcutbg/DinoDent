@@ -70,7 +70,7 @@ std::shared_ptr<Patient> TabPresenter::getPatient_ptr(const Patient& patient)
     for (auto& [index, tabInstance] : m_tabs)
     {
         if (tabInstance->patient != nullptr && 
-            tabInstance->patient->id == patient.id
+            tabInstance->patient->rowid == patient.rowid
             )
             return tabInstance->patient;
     }
@@ -78,7 +78,7 @@ std::shared_ptr<Patient> TabPresenter::getPatient_ptr(const Patient& patient)
     auto result = std::make_shared<Patient>(patient);
 
 
-    result->teethNotes = DbPatient::getPresentNotes(result->id);
+    result->teethNotes = DbPatient::getPresentNotes(result->rowid);
 
     return result;
 }
@@ -128,13 +128,13 @@ void TabPresenter::open(const RowInstance& row)
     switch (row.type)
     {
     case TabType::AmbList:
-        newTab = new ListPresenter(view, this, getPatient_ptr(DbPatient::getPatient(row.patientId)), row.rowID);
+        newTab = new ListPresenter(view, this, getPatient_ptr(DbPatient::get(row.patientRowId)), row.rowID);
         break;
     case TabType::PerioList:
-        newTab = new PerioPresenter(view, getPatient_ptr(DbPatient::getPatient(row.patientId)), row.rowID);
+        newTab = new PerioPresenter(view, getPatient_ptr(DbPatient::get(row.patientRowId)), row.rowID);
         break;
     case TabType::PatientSummary:
-        newTab = new PatientSummaryPresenter(view, getPatient_ptr(DbPatient::getPatient(row.patientId)));
+        newTab = new PatientSummaryPresenter(view, getPatient_ptr(DbPatient::get(row.patientRowId)));
         break;
     case TabType::Financial:
         newTab = new FinancialPresenter(view, std::stoi(row.rowID));
@@ -202,12 +202,11 @@ bool TabPresenter::newListExists(const Patient& patient)
 
     return false;
 }
-#include "QDebug"
+
 void TabPresenter::removeTab(TabType type, const std::string& rowID)
 {
     for (const auto& [index, tab] : m_tabs)
     {
-        qDebug() << "tab type: " << static_cast<int>(tab->type) << " tab rowid is " << QString::fromStdString(tab->rowID());
 
         if (tab->type == type && tab->rowID() == rowID)
         {

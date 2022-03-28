@@ -3,7 +3,7 @@
 #include "Model/Procedure/Procedure.h"
 #include "Database.h"
 
-ToothContainer DbPerio::getStatus(const std::string& patientID, const Date& date)
+ToothContainer DbPerio::getStatus(long long patientRowId, const Date& date)
 {
 
 
@@ -14,7 +14,7 @@ ToothContainer DbPerio::getStatus(const std::string& patientID, const Date& date
     Db db(
 
         "SELECT status_json, id, LPK FROM amblist WHERE "
-        " patient_id = '" + patientID + "'"
+        " patient_rowid = " + std::to_string(patientRowId) +
         " AND year <= " + std::to_string(date.year) +
         " AND month <= " + std::to_string(date.month) +
         " ORDER BY id DESC LIMIT 1"
@@ -62,12 +62,12 @@ ToothContainer DbPerio::getStatus(const std::string& patientID, const Date& date
    
 }
 
-PerioStatus DbPerio::getPerioStatus(const std::string& patientID, Date date)
+PerioStatus DbPerio::getPerioStatus(long long patientRowId, Date date)
 {
     PerioStatus perioStatus;
 
     std::string query = "SELECT id, day, month, year, data FROM periostatus WHERE"
-        " patient_id = '" + patientID + "'"
+        " patient_rowid = " + std::to_string(patientRowId) +
         " AND year <= " + std::to_string(date.year) +
         " AND month <= " + std::to_string(date.month) +
         " AND day <= " + std::to_string(date.day) +
@@ -114,15 +114,15 @@ PerioStatus DbPerio::getPerioStatus(const std::string& perioID)
     return perioStatus;
 }
 
-void DbPerio::insertPerioStatus(PerioStatus& perioStatus, const std::string& patientID)
+void DbPerio::insertPerioStatus(PerioStatus& perioStatus, long long patientRowId)
 {
 
     std::string query =
-        "INSERT INTO periostatus (day, month, year, patient_id, data) VALUES ('"
-        + std::to_string(perioStatus.date.day) + "','"
-        + std::to_string(perioStatus.date.month) + "','"
-        + std::to_string(perioStatus.date.year) + "','"
-        + patientID + "','"
+        "INSERT INTO periostatus (day, month, year, patient_rowid, data) VALUES ("
+        + std::to_string(perioStatus.date.day) + ","
+        + std::to_string(perioStatus.date.month) + ","
+        + std::to_string(perioStatus.date.year) + ","
+        + std::to_string(patientRowId) + ",'"
         + Parser::write(perioStatus) + "')";
 
     Db db;

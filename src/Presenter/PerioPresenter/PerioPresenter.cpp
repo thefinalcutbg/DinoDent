@@ -10,8 +10,8 @@
 PerioPresenter::PerioPresenter(ITabView* view, std::shared_ptr<Patient> patient) :
     TabInstance(view, TabType::PerioList, patient), 
     view(view->perioView()),
-    m_toothStatus(DbPerio::getStatus(patient->id, Date::currentDate())),
-    m_perioStatus(DbPerio::getPerioStatus(patient->id, Date::currentDate()))
+    m_toothStatus(DbPerio::getStatus(patient->rowid, Date::currentDate())),
+    m_perioStatus(DbPerio::getPerioStatus(patient->rowid, Date::currentDate()))
 {
 
     if (m_perioStatus.date != Date::currentDate()) //if its not todays measurment
@@ -53,7 +53,7 @@ PerioPresenter::PerioPresenter(ITabView* view, std::shared_ptr<Patient> patient)
 PerioPresenter::PerioPresenter(ITabView* view, std::shared_ptr<Patient> patient, const std::string& perioId) :
     TabInstance(view, TabType::PerioList, patient),
     view(view->perioView()),
-    m_toothStatus(DbPerio::getStatus(patient->id, Date::currentDate())),
+    m_toothStatus(DbPerio::getStatus(patient->rowid, Date::currentDate())),
     m_perioStatus(DbPerio::getPerioStatus(perioId))
 {
 
@@ -267,7 +267,7 @@ bool PerioPresenter::save()
 bool PerioPresenter::saveAs()
 {
 
-    DbPerio::insertPerioStatus(m_perioStatus, patient->id);
+    DbPerio::insertPerioStatus(m_perioStatus, patient->rowid);
     _tabView->changeTabName(getTabName());
     edited = false;
 

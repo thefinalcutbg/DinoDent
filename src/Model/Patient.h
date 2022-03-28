@@ -9,6 +9,8 @@ typedef std::array<std::string, 32>TeethNotes;
 
 struct Patient
 {
+	long long rowid{ 0 };
+
 	int type{ 1 };
 	std::string id;
 	Date birth;

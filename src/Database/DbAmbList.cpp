@@ -7,20 +7,21 @@
 #include "Model/Parser/Parser.h"
 #include "DbProcedure.h"
 
-std::string DbAmbList::insertAmbList(const AmbList& ambList, const std::string &patientID)
+std::string DbAmbList::insert(const AmbList& ambList, long long patientRowId)
 {
   
     auto ambSheetDate = ambList.getAmbListDate();
 
-    std::string query = "INSERT INTO amblist (day, month, year, num, fullCoverage, charge, status_json, patient_id, lpk, rzi) VALUES ('"
-        + std::to_string(ambSheetDate.day) + "','"
-        + std::to_string(ambSheetDate.month) + "','"
-        + std::to_string(ambSheetDate.year) + "','"
-        + std::to_string(ambList.number) + "','"
-        + std::to_string(ambList.full_coverage) + "','"
-        + std::to_string(static_cast<int>(ambList.charge)) + "','"
-        + Parser::write(ambList.teeth) + "','"
-        + patientID + "','"
+    std::string query = "INSERT INTO amblist (day, month, year, num, fullCoverage, charge, status_json, patient_rowid, lpk, rzi) "
+        "VALUES ("
+        + std::to_string(ambSheetDate.day) + ","
+        + std::to_string(ambSheetDate.month) + ","
+        + std::to_string(ambSheetDate.year) + ","
+        + std::to_string(ambList.number) + ","
+        + std::to_string(ambList.full_coverage) + ","
+        + std::to_string(static_cast<int>(ambList.charge)) + ",'"
+        + Parser::write(ambList.teeth) + "',"
+        + std::to_string(patientRowId) + ",'"
         + ambList.LPK + "','"
         + UserManager::currentUser().practice.rziCode
         + "')";
@@ -37,7 +38,7 @@ std::string DbAmbList::insertAmbList(const AmbList& ambList, const std::string &
 
 }
 
-void DbAmbList::updateAmbList(const AmbList& ambList)
+void DbAmbList::update(const AmbList& ambList)
 {
 
     auto ambSheetDate = ambList.getAmbListDate();
@@ -73,7 +74,7 @@ std::vector<int> DbAmbList::getValidYears()
 }
 
 
-AmbList DbAmbList::getNewAmbSheet(const std::string& patientID)
+AmbList DbAmbList::getNewAmbSheet(long long patientRowId)
 {
 
     AmbList ambList;
@@ -83,7 +84,7 @@ AmbList DbAmbList::getNewAmbSheet(const std::string& patientID)
     Db db(
     
         "SELECT id, num, fullCoverage, status_json, charge FROM amblist WHERE "
-        "patient_id = '" + patientID + "' AND "
+        "patient_rowid = " + std::to_string(patientRowId) + " AND "
         "lpk = '" + UserManager::currentUser().doctor.LPK + "' AND "
         "rzi = '" + UserManager::currentUser().practice.rziCode + "' AND "
         "month = " + std::to_string(Date::currentMonth()) + " AND "
@@ -105,7 +106,7 @@ AmbList DbAmbList::getNewAmbSheet(const std::string& patientID)
         db.newStatement(
             
             "SELECT id, status_json FROM amblist WHERE "
-            "patient_id = '" + patientID + "'"
+            "patient_rowid = " + std::to_string(patientRowId) + " "
             "ORDER BY year DESC, month DESC LIMIT 1"
 
             );
@@ -209,13 +210,11 @@ int DbAmbList::getNewNumber(int currentYear, bool nzok)
 
     std::string query;
 
-    
-
     std::string condition = nzok ? "sum(procedure.nzok) > 0 " : "sum(procedure.nzok) = 0 ";
 
     query = 
         "SELECT amblist.num FROM amblist "
-        "LEFT JOIN procedure ON amblist.id = procedure.amblist_id "
+        "JOIN procedure ON amblist.id = procedure.amblist_id "
         "GROUP BY amblist.id "
         "HAVING "
         + condition +

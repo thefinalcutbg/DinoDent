@@ -18,7 +18,7 @@ void AllergiesDialogPresenter::okClicked()
 {
     auto data = view->getData();
 
-    DbPatient::updateAllergies(patient->id, data.allergies, data.current, data.past);
+    DbPatient::updateAllergies(patient->rowid, data.allergies, data.current, data.past);
 
     allergies = data;
     view->close();

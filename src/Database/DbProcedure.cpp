@@ -79,7 +79,7 @@ void DbProcedure::saveProcedures(const std::string& amblist_id, const std::vecto
 
 }
 
-std::vector<ProcedureSummary> DbProcedure::getSummary(const std::string& patientID, const std::string& excludeAmbID)
+std::vector<ProcedureSummary> DbProcedure::getSummary(long long patientRowId, const std::string& excludeAmbID)
 {
 
 	std::string query
@@ -87,7 +87,7 @@ std::vector<ProcedureSummary> DbProcedure::getSummary(const std::string& patient
 		"SELECT procedure.day, amblist.month, amblist.year, procedure.code, procedure.tooth "
 		"FROM procedure LEFT JOIN amblist ON procedure.amblist_id = amblist.id "
 		"WHERE nzok = 1 "
-		"AND amblist.patient_id = '" + patientID + "' "
+		"AND amblist.patient_rowid = " + std::to_string(patientRowId) + " "
 		"AND amblist.id != " + excludeAmbID
 	};
 
@@ -113,13 +113,13 @@ std::vector<ProcedureSummary> DbProcedure::getSummary(const std::string& patient
 
 }
 
-std::vector<Procedure> DbProcedure::getToothProcedures(const std::string& patientID, int tooth)
+std::vector<Procedure> DbProcedure::getToothProcedures(long long patientRowId, int tooth)
 {
 		std::string query =
 		"SELECT  procedure.day, amblist.month, amblist.year, procedure.code, procedure.nzok, procedure.data, procedure.price, amblist.lpk, procedure.temp FROM "
 		"procedure LEFT JOIN amblist ON procedure.amblist_id = amblist.id "
 		"WHERE tooth = " + std::to_string(tooth) + " "
-		"AND patient_id = '" + patientID + "' "
+		"AND patient_rowid = " + std::to_string(patientRowId) + " "
 		"ORDER BY amblist.year ASC, amblist.month ASC, procedure.code ASC, procedure.seq ASC";
 
 	std::vector<Procedure> procedures;

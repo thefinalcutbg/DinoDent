@@ -72,7 +72,7 @@ std::vector<AmbListXML> DbXML::getAmbListXML(int month, int year, std::string RZ
         "amblist.status_json, "         //13
         "patient.birth "                //14
         "FROM amblist "
-        "LEFT JOIN patient ON amblist.patient_id = patient.id "
+        "LEFT JOIN patient ON amblist.patient_rowid = patient.rowid "
         "LEFT JOIN procedure ON amblist.id = procedure.amblist_id "
         "GROUP BY amblist.id "
         "HAVING "

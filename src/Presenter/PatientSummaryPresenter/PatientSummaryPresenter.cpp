@@ -11,7 +11,7 @@ PatientSummaryPresenter::PatientSummaryPresenter(ITabView* view, std::shared_ptr
     :   TabInstance(view, TabType::PatientSummary, patient), 
         view(view->summaryView()),
         m_currentFrameIdx{ 0 },
-        statusTimeFrame(DbPatientSummary::getFrames(patient->id))
+        statusTimeFrame(DbPatientSummary::getFrames(patient->rowid))
 {}
 
 

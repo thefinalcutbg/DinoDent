@@ -4,7 +4,7 @@
 #include "Database/DbProcedure.h"
 #include "Database/Database.h"
 
-std::vector<TimeFrame> DbPatientSummary::getFrames(const std::string& patientID)
+std::vector<TimeFrame> DbPatientSummary::getFrames(long long patientRowId)
 {
 
     std::vector<TimeFrame> timeFrames{ TimeFrame{} }; //allocating the first element as default status
@@ -20,7 +20,7 @@ std::vector<TimeFrame> DbPatientSummary::getFrames(const std::string& patientID)
 
         "FROM amblist LEFT JOIN procedure ON "
         "amblist.id = procedure.amblist_id "
-        "WHERE amblist.patient_id = '" + patientID + "' "
+        "WHERE amblist.patient_rowid = " + std::to_string(patientRowId) + " "
         "GROUP BY procedure.day, amblist.month, amblist.year "
         "ORDER BY amblist.year ASC, amblist.month ASC, amblist.day ASC";
 
@@ -71,7 +71,7 @@ std::vector<TimeFrame> DbPatientSummary::getFrames(const std::string& patientID)
         "amblist.LPK, "		//10
         "amblist.id "       //11
         "FROM procedure LEFT JOIN amblist ON procedure.amblist_id = amblist.id "
-        "WHERE amblist.patient_id = '" + patientID + "' " 
+        "WHERE amblist.patient_rowid = " + std::to_string(patientRowId) + " "
         "ORDER BY amblist.year ASC, amblist.month ASC, amblist.day ASC, seq ASC";
 
     db.newStatement(query);

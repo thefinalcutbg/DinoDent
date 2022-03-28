@@ -7,11 +7,11 @@
 namespace DbPerio
 {
 
-	ToothContainer getStatus(const std::string& patientID, const Date& date);
+	ToothContainer getStatus(long long patientRowId, const Date& date);
 
-	PerioStatus getPerioStatus(const std::string& patientID, Date date);
+	PerioStatus getPerioStatus(long long patientRowId, Date date);
 	PerioStatus getPerioStatus(const std::string& perioID);
-	void insertPerioStatus(PerioStatus& perioStatus, const std::string& patientID);
+	void insertPerioStatus(PerioStatus& perioStatus, long long patientRowId);
 	void updatePerioStatus(const PerioStatus& perioStatus);
 };
 

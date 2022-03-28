@@ -4,14 +4,13 @@
 #include "Database/DbPatient.h"
 
 PatientDialogPresenter::PatientDialogPresenter() :
-	view(nullptr),
-	new_patient(true)
+	view(nullptr)
 {}
 
 PatientDialogPresenter::PatientDialogPresenter(const Patient& patient) :
 	_patient(patient),
-	view(nullptr),
-	new_patient(false)
+	rowid(patient.rowid),
+	view(nullptr)
 {}
 
 
@@ -81,10 +80,13 @@ void PatientDialogPresenter::accept()
 
 	if (!inputIsValid(view->dateEdit())) return;
 
-
+	
 	_patient = getPatientFromView();
-
-	if(new_patient) DbPatient::insert(_patient.value());
+	
+	if (rowid == 0) {
+		rowid = _patient->rowid;
+		_patient->rowid = DbPatient::insert(_patient.value());
+	}
 	else DbPatient::update(_patient.value());
 	
 	view->close();
@@ -93,29 +95,31 @@ void PatientDialogPresenter::accept()
 void PatientDialogPresenter::searchDbForPatient(int type)
 {
 	
-	std::string lineEditID = view->lineEdit(id)->getText();
+	std::string patientId = view->lineEdit(id)->getText();
 
-	Patient patient = DbPatient::getPatient(lineEditID);
+	Patient patient = DbPatient::get(patientId, type);
 
 	allergies = patient.allergies;
 	pastDiseases = patient.pastDiseases;
 	currentDiseases = patient.currentDiseases;
 
-	if (patient.id.empty())
+	if (patient.rowid == 0)
 	{
-		new_patient = true;
-		patient.id = lineEditID;
+		patient.id = patientId;
 		patient.type = type;
 		//patient.city = UserManager::currentUser().practice_address; no!
 
 		if (patient.type == 1)
 		{
 			patient.birth = Date::getBirthdateFromEgn(patient.id);
-			patient.sex = Patient::getSexFromEgn(lineEditID);
+			patient.sex = Patient::getSexFromEgn(patientId);
 		}
 	}
 	else
-		new_patient = false;
+	{
+		rowid = patient.rowid;
+	}
+		
 
 	setPatientToView(patient);
 	
@@ -163,6 +167,7 @@ Patient PatientDialogPresenter::getPatientFromView()
 	patient.allergies = allergies;
 	patient.currentDiseases = currentDiseases;
 	patient.pastDiseases = pastDiseases;
+	patient.rowid = rowid;
 
 	return patient;
 }

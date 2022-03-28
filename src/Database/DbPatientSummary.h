@@ -5,6 +5,6 @@
 namespace DbPatientSummary
 {
 
-	std::vector<TimeFrame> getFrames(const std::string& patientID);
+	std::vector<TimeFrame> getFrames(long long patientRowId);
 };
 

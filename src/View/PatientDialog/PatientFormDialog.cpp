@@ -137,6 +137,7 @@ Patient PatientFormDialog::getPatient()
 
     return Patient
     {
+        0,
         ui.typeComboBox->currentIndex() + 1,
         ui.idLineEdit->text().toStdString(),
         Date(birthDate.day(), birthDate.month(), birthDate.year()),

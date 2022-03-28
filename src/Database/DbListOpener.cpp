@@ -8,20 +8,22 @@ std::vector<PatientRow> DbListOpener::getPatientRows()
     rows.reserve(50);
 
     std::string query =
-        "SELECT id, fname, mname, lname , phone FROM patient ORDER BY id ASC";
+        "SELECT rowid, id, fname, mname, lname , phone FROM patient ORDER BY id ASC";
 
     for (Db db(query);db.hasRows();)
     {
        rows.emplace_back(PatientRow{});
        
        rows.back().rowID = db.asString(0);
-       rows.back().patientId = rows.back().rowID;
+       rows.back().patientRowId = db.asRowId(0);
 
-       rows.back().name = db.asString(1) + " " +
-                          db.asString(2) + " " +
-                          db.asString(3);
+       rows.back().patientId = db.asString(1);
 
-       rows.back().phone = db.asString(4);
+       rows.back().name = db.asString(2) + " " +
+                          db.asString(3) + " " +
+                          db.asString(4);
+
+       rows.back().phone = db.asString(5);
     }
 
     return rows;
@@ -36,9 +38,9 @@ std::vector<AmbRow> DbListOpener::getAmbRows(const Date& from, const Date& to)
     std::string query =
         "SELECT amblist.id, amblist.num, sum(procedure.nzok) > 0, " 
         "amblist.day, amblist.month, amblist.year, "
-        "patient.id, patient.fname, patient.mname, patient.lname, patient.phone "
+        "patient.rowid, patient.id, patient.fname, patient.mname, patient.lname, patient.phone "
 
-        "FROM amblist JOIN patient ON amblist.patient_id = patient.id "
+        "FROM amblist JOIN patient ON amblist.patient_rowid = patient.rowid "
         "LEFT JOIN procedure on amblist.id = procedure.amblist_id "
         "GROUP BY amblist.id "
 
@@ -63,12 +65,13 @@ std::vector<AmbRow> DbListOpener::getAmbRows(const Date& from, const Date& to)
             db.asInt(4),
             db.asInt(5)
         };
-        row.patientId = db.asString(6);
-        row.patientName = db.asString(7) + " " +
-                          db.asString(8) + " " +
-                          db.asString(9);
+        row.patientRowId = db.asRowId(6);
+        row.patientId = db.asString(7);
+        row.patientName = db.asString(8) + " " +
+                          db.asString(9) + " " +
+                          db.asString(10);
 
-        row.patientPhone = db.asString(10);
+        row.patientPhone = db.asString(11);
     }
         
 
@@ -81,8 +84,8 @@ std::vector<PerioRow> DbListOpener::getPerioRows(const Date& from, const Date& t
     rows.reserve(50);
 
     std::string query =
-        "SELECT periostatus.id, periostatus.day, periostatus.month, periostatus.year, patient.id, patient.fname, patient.mname, patient.lname, patient.phone "
-        "FROM periostatus INNER JOIN patient ON periostatus.patient_id = patient.id "
+        "SELECT periostatus.id, periostatus.day, periostatus.month, periostatus.year, patient.rowid, patient.id, patient.fname, patient.mname, patient.lname, patient.phone "
+        "FROM periostatus INNER JOIN patient ON periostatus.patient_rowid = patient.rowid "
         "WHERE (periostatus.year, periostatus.month, periostatus.day) "
         "BETWEEN (" + std::to_string(from.year) + ", " + std::to_string(from.month) + ", " + std::to_string(from.day) + ") "
         "AND (" + std::to_string(to.year) + ", " + std::to_string(to.month) + ", " + std::to_string(to.day) + ") "
@@ -101,9 +104,10 @@ std::vector<PerioRow> DbListOpener::getPerioRows(const Date& from, const Date& t
             db.asInt(2),
             db.asInt(3)
         };
-        row.patientId = db.asString(4);
-        row.patientName = db.asString(5)+ " " + db.asString(6) + " " + db.asString(7);
-        row.patientPhone = db.asString(8);
+        row.patientRowId = db.asRowId(4);
+        row.patientId = db.asString(5);
+        row.patientName = db.asString(6)+ " " + db.asString(7) + " " + db.asString(8);
+        row.patientPhone = db.asString(9);
 
     }
 
@@ -140,7 +144,7 @@ std::vector<FinancialRow> DbListOpener::getFinancialRows(const Date& from, const
         auto& row = rows.back();
 
         row.rowID = db.asString(0);
-        row.patientId = "";
+        
         row.number = db.asInt(1);
         row.nzok = db.asInt(2);
         row.date = Date(db.asInt(3), db.asInt(4), db.asInt(5));

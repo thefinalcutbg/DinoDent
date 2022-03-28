@@ -21,7 +21,7 @@ class DetailedStatusPresenter
 	std::unique_ptr<DetailedStatusController> controller;
 	
 
-	const std::string& patientID;
+	long long patientRowId;
 
 	Tooth m_tooth;
 	std::string m_notes;
@@ -29,7 +29,7 @@ class DetailedStatusPresenter
 	std::optional<Tooth> _result{};
 
 public:
-	DetailedStatusPresenter(const Tooth& tooth, const std::string& patientID);
+	DetailedStatusPresenter(const Tooth& tooth, long long patientRowId);
 
 	void setView(IDetailedStatusView* view);
 	void checkStateChanged(bool checked);

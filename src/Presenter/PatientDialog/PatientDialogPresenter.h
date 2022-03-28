@@ -24,7 +24,7 @@
 class PatientDialogPresenter
 {
 
-	bool new_patient;
+	
 
 	std::optional<Patient> _patient;
 
@@ -38,6 +38,8 @@ class PatientDialogPresenter
 	CityValidator city_validator;
 	CyrillicValidator cyrillic_validator;
 
+	//data not present in view:
+	long long rowid{ 0 };
 	std::string allergies;
 	std::string pastDiseases;
 	std::string currentDiseases;

@@ -30,11 +30,12 @@ public:
     //returns true if there are more rows to get from database
     bool hasRows(); 
     int asInt(int column);
+    long long asRowId(int column);
     double asDouble(int column);
     std::string asString(int column);
     void newStatement(const std::string& query);
     bool execute(const std::string& query);
-    int lastInsertedRowID();
+    long long lastInsertedRowID();
     void closeConnection();
     ~Db();
 

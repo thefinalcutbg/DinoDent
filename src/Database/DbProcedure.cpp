@@ -5,27 +5,29 @@
 #include "Model/User/UserManager.h"
 #include "Database.h"
 
+#include <QDebug>
+
 std::vector<Procedure> DbProcedure::getProcedures(long long amblist_id, Db* existingConnection)
 {
 	std::vector<Procedure> mList;
 
 	
 
-	std::string query = "SELECT	procedure.nzok, "	//0
-							    "procedure.type, "	//1
-								"procedure.code, "	//2
-								"procedure.tooth, "	//3
-								"procedure.day, "	//4
-								"amblist.month, "	//5
-								"amblist.year,	"	//6
-								"procedure.price, "	//7
-								"procedure.data, "	//8
+	std::string query =  "SELECT procedure.nzok, "		//0
+							    "procedure.type, "		//1
+								"procedure.code, "		//2
+								"procedure.tooth, "		//3
+								"procedure.day, "		//4
+								"amblist.month, "		//5
+								"amblist.year, "		//6
+								"procedure.price, "		//7
+								"procedure.data, "		//8
 								"procedure.deciduous, "	//9
-								"amblist.LPK "		//10
+								"amblist.LPK "			//10
 						"FROM procedure LEFT JOIN amblist ON procedure.amblist_id = amblist.id "
 						"WHERE amblist.id = " + std::to_string(amblist_id) + " ORDER BY procedure.id";
 
-
+	
 	for (Db db(query, existingConnection); db.hasRows();)
 	{
 		mList.emplace_back();
@@ -51,7 +53,7 @@ std::vector<Procedure> DbProcedure::getProcedures(long long amblist_id, Db* exis
 void DbProcedure::saveProcedures(long long amblist_id, const std::vector<Procedure>& mList, Db* existingConnection)
 {
 
-	std::string query = "DELETE FROM procedure WHERE amblist_id = " + amblist_id;
+	std::string query = "DELETE FROM procedure WHERE amblist_id = " + std::to_string(amblist_id);
 
 	Db db(existingConnection);
 
@@ -61,7 +63,7 @@ void DbProcedure::saveProcedures(long long amblist_id, const std::vector<Procedu
 	{
 		auto& m = mList[i];
 
-		query = "INSERT INTO procedure (nzok, type, code, day, tooth, deciduous, price, data, amblist_id) VALUES ('"
+		query = "INSERT INTO procedure (nzok, type, code, day, tooth, deciduous, price, data, amblist_id) VALUES ("
 			+ std::to_string(m.nzok) + ","
 			+ std::to_string(static_cast<int>(m.type)) + ",'"
 			+ std::to_string(m.code) + "',"

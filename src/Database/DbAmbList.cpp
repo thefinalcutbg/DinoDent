@@ -51,7 +51,7 @@ void DbAmbList::update(const AmbList& ambList)
         ", fullCoverage = " + std::to_string(ambList.full_coverage) +
         ", charge = " + std::to_string(static_cast<int>(ambList.charge)) +
         ", status_json = '" + Parser::write(ambList.teeth) + "' "
-        "WHERE id = " + std::to_string(ambList.id);
+        "WHERE rowid = " + std::to_string(ambList.id);
 
     Db db;
     db.execute(query);
@@ -68,7 +68,7 @@ AmbList DbAmbList::getNewAmbSheet(long long patientRowId)
 
     Db db(
     
-        "SELECT id, num, fullCoverage, status_json, charge FROM amblist WHERE "
+        "SELECT rowid, num, fullCoverage, status_json, charge FROM amblist WHERE "
         "patient_rowid = " + std::to_string(patientRowId) + " AND "
         "lpk = '" + UserManager::currentUser().doctor.LPK + "' AND "
         "rzi = '" + UserManager::currentUser().practice.rziCode + "' AND "
@@ -90,7 +90,7 @@ AmbList DbAmbList::getNewAmbSheet(long long patientRowId)
     {
         db.newStatement(
             
-            "SELECT id, status_json FROM amblist WHERE "
+            "SELECT rowid, status_json FROM amblist WHERE "
             "patient_rowid = " + std::to_string(patientRowId) + " "
             "ORDER BY year DESC, month DESC LIMIT 1"
 
@@ -131,8 +131,8 @@ AmbList DbAmbList::getListData(long long rowId)
     AmbList ambList;
 
     Db db(
-        "SELECT id, num, fullCoverage, status_json, charge FROM amblist WHERE "
-        "id = " + std::to_string(rowId)
+        "SELECT rowid, num, fullCoverage, status_json, charge FROM amblist WHERE "
+        "rowid = " + std::to_string(rowId)
     );
 
     while (db.hasRows())
@@ -154,7 +154,7 @@ AmbList DbAmbList::getListData(long long rowId)
 
 void DbAmbList::deleteCurrentSelection(const std::string& ambID)
 {
-    Db::crudQuery("DELETE FROM amblist WHERE id = " + ambID + ")");
+    Db::crudQuery("DELETE FROM amblist WHERE rowid = " + ambID + ")");
 }
 
 
@@ -199,8 +199,8 @@ int DbAmbList::getNewNumber(int currentYear, bool nzok)
 
     query = 
         "SELECT amblist.num FROM amblist "
-        "JOIN procedure ON amblist.id = procedure.amblist_id "
-        "GROUP BY amblist.id "
+        "JOIN procedure ON amblist.rowid = procedure.amblist_rowid "
+        "GROUP BY amblist.rowid "
         "HAVING "
         + condition +
         "AND year = " + std::to_string(currentYear) + " "

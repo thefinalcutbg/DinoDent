@@ -74,7 +74,7 @@ FinancialView::FinancialView(QWidget *parent)
 
 	connect(ui.operationsTable, &ProcedureTable::deletePressed,[=] { ui.deleteButton->click(); });
 	connect(ui.operationsTable, &QTableView::doubleClicked, [=] { ui.editButton->click(); });
-	
+	connect(ui.docTypeCombo, &QComboBox::currentIndexChanged, [=](int idx) { this->showMainDocumentDetails(idx != 0);});
 }
 
 FinancialView::~FinancialView()
@@ -103,8 +103,21 @@ void FinancialView::setInvoice(const Invoice& inv)
 
 	bool nzokForm = inv.nzokData.has_value();
 
+	QSignalBlocker dd(ui.docTypeCombo);
+	ui.docTypeCombo->setCurrentIndex(static_cast<int>(inv.type));
+
+	showMainDocumentDetails(inv.mainDocument.has_value());
+	if (inv.mainDocument.has_value())
+	{
+		//ui.mainDocNumSpin->setValue(inv.mainDocument->number);
+		//ui.mainDocDateEdit->setDate()
+	}
+
 	ui.paymentTypeCombo->setDisabled(nzokForm);
 	ui.taxEventDateEdit->setDisabled(nzokForm);
+	ui.docTypeCombo->setDisabled(nzokForm);
+	ui.mainDocDateEdit->setDisabled(nzokForm);
+	ui.mainDocNumSpin->setDisabled(nzokForm);
 	ui.addButton->setHidden(nzokForm);
 	ui.deleteButton->setHidden(nzokForm);
 	ui.editButton->setHidden(nzokForm);
@@ -120,10 +133,6 @@ void FinancialView::setInvoice(const Invoice& inv)
 		if (!button->isHidden())
 			buttonsSumWidth += button->width();
 	}
-
-	//auto hint = ui.opLabelSpacer->sizeHint();
-
-	//hint.setWidth(buttonsSumWidth);
 
 	ui.opLabelSpacer->changeSize(buttonsSumWidth, 0);
 	
@@ -147,4 +156,18 @@ void FinancialView::paintEvent(QPaintEvent* event)
 	painter.begin(this);
 	painter.setRenderHint(QPainter::RenderHint::Antialiasing);
 	painter.fillRect(rect(), Theme::background);
+}
+
+void FinancialView::showMainDocumentDetails(bool show)
+{
+	QWidget* const mainDocWidgets[4]{
+
+		ui.mainDocNumLabel, 
+		ui.mainDocNumSpin, 
+		ui.mainDocDateLabel, 
+		ui.mainDocDateEdit 
+	};
+
+	for (auto& w : mainDocWidgets)
+		w->setHidden(!show);
 }

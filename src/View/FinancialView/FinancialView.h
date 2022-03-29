@@ -16,6 +16,8 @@ class FinancialView : public QWidget, public IFinancialView
 
 	void paintEvent(QPaintEvent* event);
 
+	void showMainDocumentDetails(bool show);
+
 public:
 	FinancialView(QWidget *parent = Q_NULLPTR);
 

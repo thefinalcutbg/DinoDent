@@ -13,7 +13,7 @@ struct Practice;
 
 struct MainDocument //only in case of debit or credit note
 {
-	const std::string number;
+	const int number;
 	const Date date;
 };
 

@@ -29,6 +29,8 @@ std::vector<PatientRow> DbListOpener::getPatientRows()
     return rows;
 }
 
+#include <QDebug>
+
 std::vector<AmbRow> DbListOpener::getAmbRows(const Date& from, const Date& to)
 {
 
@@ -36,13 +38,13 @@ std::vector<AmbRow> DbListOpener::getAmbRows(const Date& from, const Date& to)
     rows.reserve(50);
 
     std::string query =
-        "SELECT amblist.id, amblist.num, sum(procedure.nzok) > 0, " 
+        "SELECT amblist.rowid, amblist.num, sum(procedure.nzok) > 0, " 
         "amblist.day, amblist.month, amblist.year, "
         "patient.rowid, patient.id, patient.fname, patient.mname, patient.lname, patient.phone "
 
         "FROM amblist JOIN patient ON amblist.patient_rowid = patient.rowid "
-        "LEFT JOIN procedure on amblist.id = procedure.amblist_id "
-        "GROUP BY amblist.id "
+        "LEFT JOIN procedure on amblist.rowid = procedure.amblist_rowid "
+        "GROUP BY amblist.rowid "
 
         "HAVING (amblist.year, amblist.month, amblist.day) "
         "BETWEEN (" + std::to_string(from.year) + ", " + std::to_string(from.month) + ", " + std::to_string(from.day) + ") "
@@ -51,14 +53,17 @@ std::vector<AmbRow> DbListOpener::getAmbRows(const Date& from, const Date& to)
         "AND amblist.rzi = '" + UserManager::currentUser().practice.rziCode + "' "
         "ORDER BY amblist.year ASC, amblist.month ASC, amblist.day ASC, amblist.num ASC ";
 
-    for (Db db(query); db.hasRows();)
+    Db db(query);
+
+    while (db.hasRows())
     {
         rows.emplace_back(AmbRow{});
 
         auto& row = rows.back();
-
+        
         row.rowID = db.asRowId(0);
         row.ambNumber = db.asInt(1);
+        
         row.nzok = bool(db.asInt(2));
         row.date = Date{ 
             db.asInt(3),
@@ -66,6 +71,7 @@ std::vector<AmbRow> DbListOpener::getAmbRows(const Date& from, const Date& to)
             db.asInt(5)
         };
         row.patientRowId = db.asRowId(6);
+
         row.patientId = db.asString(7);
         row.patientName = db.asString(8) + " " +
                           db.asString(9) + " " +
@@ -84,7 +90,7 @@ std::vector<PerioRow> DbListOpener::getPerioRows(const Date& from, const Date& t
     rows.reserve(50);
 
     std::string query =
-        "SELECT periostatus.id, periostatus.day, periostatus.month, periostatus.year, patient.rowid, patient.id, patient.fname, patient.mname, patient.lname, patient.phone "
+        "SELECT periostatus.rowid, periostatus.day, periostatus.month, periostatus.year, patient.rowid, patient.id, patient.fname, patient.mname, patient.lname, patient.phone "
         "FROM periostatus INNER JOIN patient ON periostatus.patient_rowid = patient.rowid "
         "WHERE (periostatus.year, periostatus.month, periostatus.day) "
         "BETWEEN (" + std::to_string(from.year) + ", " + std::to_string(from.month) + ", " + std::to_string(from.day) + ") "
@@ -127,7 +133,7 @@ std::vector<FinancialRow> DbListOpener::getFinancialRows(const Date& from, const
 
 
     std::string query =
-        "SELECT id, num, month_notif > 0, "
+        "SELECT rowid, num, month_notif > 0, "
         "day, month, year, "
         "recipient_id, recipient_name, recipient_phone "
         "FROM financial "
@@ -174,8 +180,5 @@ void DbListOpener::deleteRecord(TabType type, long long rowid)
 
     std::string tableName{ tableNames[static_cast<int>(type)] };
 
-    //This is what you get when you don't keep your own naming conventions :@ :@ :@
-    std::string rowidColumnName = (type == TabType::PatientSummary) ? "rowid" : "id";
-
-    Db::crudQuery("DELETE FROM " + tableName + " WHERE " + rowidColumnName + " = " + std::to_string(rowid));
+    Db::crudQuery("DELETE FROM " + tableName + " WHERE rowid = " + std::to_string(rowid));
 }

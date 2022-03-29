@@ -13,11 +13,11 @@ ToothContainer DbPerio::getStatus(long long patientRowId, const Date& date)
 
     Db db(
 
-        "SELECT status_json, id, LPK FROM amblist WHERE "
+        "SELECT status_json, rowid, LPK FROM amblist WHERE "
         " patient_rowid = " + std::to_string(patientRowId) +
         " AND year <= " + std::to_string(date.year) +
         " AND month <= " + std::to_string(date.month) +
-        " ORDER BY id DESC LIMIT 1"
+        " ORDER BY rowid DESC LIMIT 1"
     );
 
     while (db.hasRows())
@@ -40,9 +40,9 @@ ToothContainer DbPerio::getStatus(long long patientRowId, const Date& date)
     db.newStatement(
     
         "SELECT type, tooth, deciduous, data FROM procedure WHERE"
-        " amblist_id = " + std::to_string(amblistId) +
+        " amblist_rowid = " + std::to_string(amblistId) +
         " AND day <= " + std::to_string(date.day) +
-        " ORDER BY id"
+        " ORDER BY rowid"
 
     );
 
@@ -66,12 +66,12 @@ PerioStatus DbPerio::getPerioStatus(long long patientRowId, Date date)
 {
     PerioStatus perioStatus;
 
-    std::string query = "SELECT id, day, month, year, data FROM periostatus WHERE"
+    std::string query = "SELECT rowid, day, month, year, data FROM periostatus WHERE"
         " patient_rowid = " + std::to_string(patientRowId) +
         " AND year <= " + std::to_string(date.year) +
         " AND month <= " + std::to_string(date.month) +
         " AND day <= " + std::to_string(date.day) +
-        " ORDER BY id DESC LIMIT 1";
+        " ORDER BY rowid DESC LIMIT 1";
 
     for(Db db(query); db.hasRows();)
     {
@@ -95,8 +95,8 @@ PerioStatus DbPerio::getPerioStatus(long long rowid)
     PerioStatus perioStatus;
 
     Db db(
-        "SELECT id, day, month, year, data FROM periostatus WHERE"
-        " id = " + std::to_string(rowid));
+        "SELECT rowid, day, month, year, data FROM periostatus WHERE"
+        " rowid = " + std::to_string(rowid));
 
     while (db.hasRows())
     {
@@ -140,7 +140,7 @@ void DbPerio::updatePerioStatus(const PerioStatus& perioStatus)
         ", month = " + std::to_string(perioStatus.date.month) +
         ", year = " + std::to_string(perioStatus.date.year) +
         ", data = '" + Parser::write(perioStatus) + "' "
-        "WHERE id = " + std::to_string(perioStatus.id)
+        "WHERE rowid = " + std::to_string(perioStatus.id)
 
     );
 

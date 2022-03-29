@@ -7,7 +7,7 @@
 
 #include <QDebug>
 
-std::vector<Procedure> DbProcedure::getProcedures(long long amblist_id, Db* existingConnection)
+std::vector<Procedure> DbProcedure::getProcedures(long long amblist_rowid, Db* existingConnection)
 {
 	std::vector<Procedure> mList;
 
@@ -24,8 +24,8 @@ std::vector<Procedure> DbProcedure::getProcedures(long long amblist_id, Db* exis
 								"procedure.data, "		//8
 								"procedure.deciduous, "	//9
 								"amblist.LPK "			//10
-						"FROM procedure LEFT JOIN amblist ON procedure.amblist_id = amblist.id "
-						"WHERE amblist.id = " + std::to_string(amblist_id) + " ORDER BY procedure.id";
+						"FROM procedure LEFT JOIN amblist ON procedure.amblist_rowid = amblist.rowid "
+						"WHERE amblist.rowid = " + std::to_string(amblist_rowid) + " ORDER BY procedure.rowid";
 
 	
 	for (Db db(query, existingConnection); db.hasRows();)
@@ -50,10 +50,10 @@ std::vector<Procedure> DbProcedure::getProcedures(long long amblist_id, Db* exis
 
 }
 
-void DbProcedure::saveProcedures(long long amblist_id, const std::vector<Procedure>& mList, Db* existingConnection)
+void DbProcedure::saveProcedures(long long amblist_rowid, const std::vector<Procedure>& mList, Db* existingConnection)
 {
 
-	std::string query = "DELETE FROM procedure WHERE amblist_id = " + std::to_string(amblist_id);
+	std::string query = "DELETE FROM procedure WHERE amblist_rowid = " + std::to_string(amblist_rowid);
 
 	Db db(existingConnection);
 
@@ -63,7 +63,7 @@ void DbProcedure::saveProcedures(long long amblist_id, const std::vector<Procedu
 	{
 		auto& m = mList[i];
 
-		query = "INSERT INTO procedure (nzok, type, code, day, tooth, deciduous, price, data, amblist_id) VALUES ("
+		query = "INSERT INTO procedure (nzok, type, code, day, tooth, deciduous, price, data, amblist_rowid) VALUES ("
 			+ std::to_string(m.nzok) + ","
 			+ std::to_string(static_cast<int>(m.type)) + ",'"
 			+ std::to_string(m.code) + "',"
@@ -72,7 +72,7 @@ void DbProcedure::saveProcedures(long long amblist_id, const std::vector<Procedu
 			+ std::to_string(m.temp) + ",'"
 			+ std::to_string(m.price) + "','"
 			+ Parser::write(m) + "',"
-			+ std::to_string(amblist_id) + ")"
+			+ std::to_string(amblist_rowid) + ")"
 			;
 
 		db.execute(query);
@@ -86,10 +86,10 @@ std::vector<ProcedureSummary> DbProcedure::getSummary(long long patientRowId, lo
 	std::string query
 	{
 		"SELECT procedure.day, amblist.month, amblist.year, procedure.code, procedure.tooth "
-		"FROM procedure LEFT JOIN amblist ON procedure.amblist_id = amblist.id "
+		"FROM procedure LEFT JOIN amblist ON procedure.amblist_rowid = amblist.rowid "
 		"WHERE nzok = 1 "
 		"AND amblist.patient_rowid = " + std::to_string(patientRowId) + " "
-		"AND amblist.id != " + std::to_string(excludeAmbRowId)
+		"AND amblist.rowid != " + std::to_string(excludeAmbRowId)
 	};
 
 	 std::vector<ProcedureSummary> summary;
@@ -118,10 +118,10 @@ std::vector<Procedure> DbProcedure::getToothProcedures(long long patientRowId, i
 {
 		std::string query =
 		"SELECT  procedure.day, amblist.month, amblist.year, procedure.code, procedure.nzok, procedure.data, procedure.price, amblist.lpk, procedure.deciduous FROM "
-		"procedure LEFT JOIN amblist ON procedure.amblist_id = amblist.id "
+		"procedure LEFT JOIN amblist ON procedure.amblist_rowid = amblist.rowid "
 		"WHERE tooth = " + std::to_string(tooth) + " "
 		"AND patient_rowid = " + std::to_string(patientRowId) + " "
-		"ORDER BY amblist.year ASC, amblist.month ASC, procedure.code ASC, procedure.id ASC";
+		"ORDER BY amblist.year ASC, amblist.month ASC, procedure.code ASC, procedure.rowid ASC";
 
 	std::vector<Procedure> procedures;
 	

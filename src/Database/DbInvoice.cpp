@@ -79,7 +79,7 @@ void DbInvoice::updateInvoice(const Invoice& invoice)
 
     }
 
-    query += "WHERE id = " + invoice.rowId;
+    query += "WHERE rowid = " + invoice.rowId;
 
     Db::crudQuery(query);
 }
@@ -89,7 +89,7 @@ std::optional<NzokFinancialDetails> DbInvoice::getDetailsIfAlreadyExist(int mont
 
 
      std::string query =
-         "SELECT id, num, day, month, year FROM financial "
+         "SELECT rowid, num, day, month, year FROM financial "
          "WHERE month_notif = " + std::to_string(monthNotifNumber) + " "
          "AND practice_rzi = '" + UserManager::currentUser().practice.rziCode + "'";
 
@@ -119,7 +119,7 @@ Invoice DbInvoice::getInvoice(long long rowId)
     std::string query = "SELECT num, day, month, year, month_notif, data, "
         "recipient_id, recipient_name, recipient_phone, recipient_address "
         "FROM financial "
-        "WHERE id = " + std::to_string(rowId);
+        "WHERE rowid = " + std::to_string(rowId);
 
     Db db(query);
 

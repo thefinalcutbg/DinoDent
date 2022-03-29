@@ -327,7 +327,7 @@ void XML::saveXMLinvoice(const Invoice& invoice, const std::string& path)
     if (invoice.mainDocument.has_value())
     {
         TiXmlElement* mainDocument = new TiXmlElement("Main_Fin_Doc");
-            addElementWithText(mainDocument, "document_no", invoice.mainDocument.value().number);
+            addElementWithText(mainDocument, "document_no", leadZeroes(invoice.mainDocument.value().number, 10));
             addElementWithText(mainDocument, "document_date", invoice.mainDocument.value().date.toXMLString());
         el_invoice->LinkEndChild(mainDocument);
     }

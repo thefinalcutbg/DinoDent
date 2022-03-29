@@ -52,13 +52,13 @@ Invoice::Invoice(const TiXmlDocument& monthNotif, const User& user)
         std::optional<MainDocument>{} 
         :
         MainDocument{
-        getText(monthNotif.RootElement()->FirstChildElement("from_inv_num")),
+        std::stoi(getText(monthNotif.RootElement()->FirstChildElement("from_inv_num"))),
         Date::getDateFromXmlFormat(getText(monthNotif.RootElement()->FirstChildElement("from_inv_date")))
         }
     },
 
 	nzokData{ NZOKInvoiceData(monthNotif, user.practice)},
-	recipient						{stoi(user.practice.RHIF())},
+	recipient						{std::stoi(user.practice.RHIF())},
 	issuer							{user}
 {
 

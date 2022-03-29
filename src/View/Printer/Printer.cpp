@@ -147,8 +147,8 @@ void Print::invoice(const Invoice& inv)
             "main_document",
             QString::fromStdString(
                 u8"към фактура № "
-                + inv.mainDocument.value().number
-                + u8" от " + inv.mainDocument.value().date.toString()
+                + leadZeroes(inv.mainDocument->number, 10)
+                + u8" от " + inv.mainDocument->date.toString()
                 + u8"г."));
     }
 

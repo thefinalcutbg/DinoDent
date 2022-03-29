@@ -56,7 +56,7 @@ std::vector<AmbListXML> DbXML::getAmbListXML(int month, int year, std::string RZ
 
     std::string query =
         "SELECT "
-        "amblist.id,"                   //0
+        "amblist.rowid,"                   //0
         "patient.type,"                 //1
         "patient.id,"                   //2
         "patient.city,"                 //3
@@ -73,8 +73,8 @@ std::vector<AmbListXML> DbXML::getAmbListXML(int month, int year, std::string RZ
         "patient.birth "                //14
         "FROM amblist "
         "LEFT JOIN patient ON amblist.patient_rowid = patient.rowid "
-        "LEFT JOIN procedure ON amblist.id = procedure.amblist_id "
-        "GROUP BY amblist.id "
+        "LEFT JOIN procedure ON amblist.rowid = procedure.amblist_rowid "
+        "GROUP BY amblist.rowid "
         "HAVING "
             "amblist.month = " + std::to_string(month) + " "
         "AND amblist.year = " + std::to_string(year) + " "
@@ -124,7 +124,7 @@ std::vector<AmbListXML> DbXML::getAmbListXML(int month, int year, std::string RZ
 
 
     query = "SELECT "
-            "procedure.amblist_id,"     //0
+            "procedure.amblist_rowid,"     //0
             "procedure.day,"            //1
             "amblist.month,"            //2
             "amblist.year,"             //3
@@ -133,14 +133,14 @@ std::vector<AmbListXML> DbXML::getAmbListXML(int month, int year, std::string RZ
             "procedure.deciduous, "     //6
             "procedure.code "           //7
             "FROM procedure "
-            "LEFT JOIN amblist ON amblist.id = procedure.amblist_id "
+            "LEFT JOIN amblist ON amblist.rowid = procedure.amblist_rowid "
             "WHERE "
             "amblist.month = " + std::to_string(month) + " "
             "AND amblist.year = " + std::to_string(year) + " "
             "AND procedure.nzok = 1 "
             "AND amblist.rzi = '" + RZICode + "' "
             "AND amblist.lpk = '" + LPK + "' "
-            "ORDER BY amblist.num ASC, procedure.id ASC";
+            "ORDER BY amblist.num ASC, procedure.rowid ASC";
 
     db.newStatement(query);
 

@@ -18,10 +18,10 @@ class ListSelectorPresenter
 	Date m_from{ 1, Date::currentMonth(), Date::currentYear() };
 	Date m_to{ Date::currentDate().getMaxDateOfMonth() };
 	
-	std::vector<AmbRow> m_ambRows{ DbListOpener::getAmbRows(m_from, m_to) };
-	std::vector<PatientRow> m_patientRows{ DbListOpener::getPatientRows() };
-	std::vector<PerioRow> m_perioRows{ DbListOpener::getPerioRows(m_from, m_to) };
-	std::vector<FinancialRow> m_financialRows{ DbListOpener::getFinancialRows(m_from, m_to) };
+	std::vector<AmbRow> m_ambRows;
+	std::vector<PatientRow> m_patientRows;
+	std::vector<PerioRow> m_perioRows;
+	std::vector<FinancialRow> m_financialRows;
 
 public:
 	ListSelectorPresenter();

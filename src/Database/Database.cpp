@@ -148,7 +148,7 @@ void Db::createIfNotExist()
     );
 
     db.execute(
-        "CREATE TABLE financial (id INTEGER PRIMARY KEY, practice_rzi VARCHAR (10) NOT NULL REFERENCES practice (rzi) ON DELETE CASCADE ON UPDATE CASCADE, num INT NOT NULL, day INT NOT NULL, month INT NOT NULL, year INT NOT NULL, month_notif INT, recipient_id VARCHAR (100), recipient_name, recipient_phone VARCHAR (20), recipient_address, data TEXT NOT NULL)"
+        "CREATE TABLE financial (rowid INTEGER PRIMARY KEY, practice_rzi VARCHAR (10) NOT NULL REFERENCES practice (rzi) ON DELETE CASCADE ON UPDATE CASCADE, num INT NOT NULL, day INT NOT NULL, month INT NOT NULL, year INT NOT NULL, month_notif INT, recipient_id VARCHAR (100), recipient_name, recipient_phone VARCHAR (20), recipient_address, data TEXT NOT NULL)"
     );
 
     db.execute(
@@ -156,11 +156,11 @@ void Db::createIfNotExist()
     );
 
     db.execute(
-        "CREATE TABLE amblist (id INTEGER NOT NULL PRIMARY KEY, patient_rowid INTEGER NOT NULL, day INT NOT NULL, month INT NOT NULL, year INT NOT NULL, num INT NOT NULL, lpk VARCHAR (9) NOT NULL REFERENCES doctor (lpk) ON DELETE CASCADE ON UPDATE CASCADE, rzi VARCHAR (10) REFERENCES practice (rzi) ON DELETE CASCADE ON UPDATE CASCADE NOT NULL, fullCoverage INT NOT NULL, charge INT NOT NULL, status_json VARCHAR, FOREIGN KEY (patient_rowid) REFERENCES patient (rowid) ON DELETE CASCADE ON UPDATE CASCADE)"
+        "CREATE TABLE amblist (rowid INTEGER NOT NULL PRIMARY KEY, patient_rowid INTEGER NOT NULL, day INT NOT NULL, month INT NOT NULL, year INT NOT NULL, num INT NOT NULL, lpk VARCHAR (9) NOT NULL REFERENCES doctor (lpk) ON DELETE CASCADE ON UPDATE CASCADE, rzi VARCHAR (10) REFERENCES practice (rzi) ON DELETE CASCADE ON UPDATE CASCADE NOT NULL, fullCoverage INT NOT NULL, charge INT NOT NULL, status_json VARCHAR, FOREIGN KEY (patient_rowid) REFERENCES patient (rowid) ON DELETE CASCADE ON UPDATE CASCADE)"
     );
 
     db.execute(
-        "CREATE TABLE periostatus (id INTEGER NOT NULL PRIMARY KEY, patient_rowid INTEGER NOT NULL REFERENCES patient (rowid) ON DELETE CASCADE ON UPDATE CASCADE, year INT NOT NULL, month INT NOT NULL, day INT NOT NULL, data VARCHAR NOT NULL, FOREIGN KEY (patient_rowid) REFERENCES patient (rowid) ON DELETE CASCADE ON UPDATE CASCADE)"
+        "CREATE TABLE periostatus (rowid INTEGER NOT NULL PRIMARY KEY, patient_rowid INTEGER NOT NULL REFERENCES patient (rowid) ON DELETE CASCADE ON UPDATE CASCADE, year INT NOT NULL, month INT NOT NULL, day INT NOT NULL, data VARCHAR NOT NULL, FOREIGN KEY (patient_rowid) REFERENCES patient (rowid) ON DELETE CASCADE ON UPDATE CASCADE)"
     );
 
     db.execute(
@@ -168,7 +168,7 @@ void Db::createIfNotExist()
     );
 
     db.execute(
-        "CREATE TABLE procedure (id INTEGER NOT NULL PRIMARY KEY, amblist_id INTEGER NOT NULL, nzok INT NOT NULL, code VARCHAR (10) NOT NULL, type INT NOT NULL, day INT NOT NULL, tooth INT NOT NULL, deciduous INT NOT NULL, price REAL NOT NULL, data VARCHAR NOT NULL, FOREIGN KEY (amblist_id) REFERENCES amblist (id) ON DELETE CASCADE ON UPDATE CASCADE)"
+        "CREATE TABLE procedure (rowid INTEGER NOT NULL PRIMARY KEY, amblist_rowid INTEGER NOT NULL, nzok INT NOT NULL, code VARCHAR (10) NOT NULL, type INT NOT NULL, day INT NOT NULL, tooth INT NOT NULL, deciduous INT NOT NULL, price REAL NOT NULL, data VARCHAR NOT NULL, FOREIGN KEY (amblist_rowid) REFERENCES amblist (id) ON DELETE CASCADE ON UPDATE CASCADE)"
     );
 
     db.execute(

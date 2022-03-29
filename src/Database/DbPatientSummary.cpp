@@ -11,7 +11,7 @@ std::vector<TimeFrame> DbPatientSummary::getFrames(long long patientRowId)
 
     std::string query =
         "SELECT "
-        "amblist.id, "
+        "amblist.rowid, "
         "amblist.lpk, "
         "procedure.day, "
         "amblist.month, "
@@ -19,7 +19,7 @@ std::vector<TimeFrame> DbPatientSummary::getFrames(long long patientRowId)
         "amblist.status_json "
 
         "FROM amblist LEFT JOIN procedure ON "
-        "amblist.id = procedure.amblist_id "
+        "amblist.rowid = procedure.amblist_rowid "
         "WHERE amblist.patient_rowid = " + std::to_string(patientRowId) + " "
         "GROUP BY procedure.day, amblist.month, amblist.year "
         "ORDER BY amblist.year ASC, amblist.month ASC, amblist.day ASC";
@@ -69,10 +69,10 @@ std::vector<TimeFrame> DbPatientSummary::getFrames(long long patientRowId)
         "procedure.data, "	//8
         "procedure.deciduous, "	//9
         "amblist.LPK, "		//10
-        "amblist.id "       //11
-        "FROM procedure LEFT JOIN amblist ON procedure.amblist_id = amblist.id "
+        "amblist.rowid "       //11
+        "FROM procedure LEFT JOIN amblist ON procedure.amblist_rowid = amblist.rowid "
         "WHERE amblist.patient_rowid = " + std::to_string(patientRowId) + " "
-        "ORDER BY amblist.year ASC, amblist.month ASC, amblist.day ASC, procedure.id ASC";
+        "ORDER BY amblist.year ASC, amblist.month ASC, amblist.day ASC, procedure.rowid ASC";
 
     db.newStatement(query);
 

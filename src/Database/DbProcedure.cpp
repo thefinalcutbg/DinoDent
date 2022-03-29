@@ -121,7 +121,7 @@ std::vector<Procedure> DbProcedure::getToothProcedures(long long patientRowId, i
 		"procedure LEFT JOIN amblist ON procedure.amblist_id = amblist.id "
 		"WHERE tooth = " + std::to_string(tooth) + " "
 		"AND patient_rowid = " + std::to_string(patientRowId) + " "
-		"ORDER BY amblist.year ASC, amblist.month ASC, procedure.code ASC, procedure.seq ASC";
+		"ORDER BY amblist.year ASC, amblist.month ASC, procedure.code ASC, procedure.id ASC";
 
 	std::vector<Procedure> procedures;
 	

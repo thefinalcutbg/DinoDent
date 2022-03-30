@@ -74,7 +74,7 @@ FinancialView::FinancialView(QWidget *parent)
 
 	connect(ui.operationsTable, &ProcedureTable::deletePressed,[=] { ui.deleteButton->click(); });
 	connect(ui.operationsTable, &QTableView::doubleClicked, [=] { ui.editButton->click(); });
-	connect(ui.docTypeCombo, &QComboBox::currentIndexChanged, [=](int idx) { this->showMainDocumentDetails(idx != 0);});
+	connect(ui.docTypeCombo, &QComboBox::currentIndexChanged, [=](int idx) { presenter->docTypeChanged(idx);});
 }
 
 FinancialView::~FinancialView()
@@ -106,12 +106,7 @@ void FinancialView::setInvoice(const Invoice& inv)
 	QSignalBlocker dd(ui.docTypeCombo);
 	ui.docTypeCombo->setCurrentIndex(static_cast<int>(inv.type));
 
-	showMainDocumentDetails(inv.mainDocument.has_value());
-	if (inv.mainDocument.has_value())
-	{
-		//ui.mainDocNumSpin->setValue(inv.mainDocument->number);
-		//ui.mainDocDateEdit->setDate()
-	}
+	setMainDocument(inv.mainDocument);
 
 	ui.paymentTypeCombo->setDisabled(nzokForm);
 	ui.taxEventDateEdit->setDisabled(nzokForm);
@@ -148,6 +143,19 @@ void FinancialView::setBusinessOperations(const BusinessOperations& businessOp, 
 	ui.priceLabel->setText(formatDoubleWithDecimal(amounts.payment_amount) + u8" лв.");
 	ui.vatLabel->setText(u8"0%");
 	ui.sumLabel->setText(formatDoubleWithDecimal(amounts.total_amount) + u8" лв.");
+}
+
+void FinancialView::setMainDocument(const std::optional<MainDocument>& mainDoc)
+{
+	if (mainDoc) {
+		ui.mainDocNumSpin->setValue(mainDoc->number);
+		ui.mainDocDateEdit->setDate(QDate(mainDoc->date.year, mainDoc->date.month, mainDoc->date.day));
+		showMainDocumentDetails(true);
+	}
+	else {
+		showMainDocumentDetails(false);
+	}
+
 }
 
 void FinancialView::paintEvent(QPaintEvent* event)

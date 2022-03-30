@@ -161,7 +161,7 @@ bool ListPresenter::saveAs()
     auto existingNumbers = DbAmbList::getExistingNumbers(ambSheetDate.year);
 
     if (m_ambList.isNew() || m_ambList.hasNumberInconsistency()) {
-        newNumber = DbAmbList::getNewNumber(ambSheetDate.year, m_ambList.hasNZOKProcedure());
+        newNumber = DbAmbList::getNewNumber(ambSheetDate, m_ambList.hasNZOKProcedure());
     }
     else {
         existingNumbers.erase(m_ambList.number);

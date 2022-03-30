@@ -172,6 +172,24 @@ void FinancialPresenter::saveAsXML()
  
 }
 
+void FinancialPresenter::docTypeChanged(int index)
+{
+    m_invoice.type = static_cast<FinancialDocType>(index);
+
+    switch(m_invoice.type)
+    {
+    case::FinancialDocType::Invoice:
+
+        m_invoice.mainDocument.reset();
+        break;
+    default:
+        m_invoice.mainDocument.emplace(MainDocument{ 1, Date::currentDate() });
+        break;
+    }
+
+    view->setMainDocument(m_invoice.mainDocument);
+}
+
 long long FinancialPresenter::rowID() const
 {
 	return m_invoice.rowId;

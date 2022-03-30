@@ -26,6 +26,7 @@ public:
 	void taxEventDateChanged(Date date);
 	void paymentTypeChanged(PaymentType type);
 	void saveAsXML();
+	void docTypeChanged(int index);
 
 	long long rowID() const override;
 	bool save() override;

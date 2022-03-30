@@ -445,6 +445,12 @@ std::string Parser::write(const Invoice& inv)
 
 	Json::Value json;
 
+
+	if (inv.mainDocument) {
+		json["mainDocumentNum"] = inv.mainDocument->number;
+		json["mainDocumentDate"] = inv.date.toString();
+	}
+
 	json["operations"] = Json::Value(Json::arrayValue);
 
 	for (auto op : inv.businessOperations)
@@ -849,6 +855,14 @@ void Parser::parse(const std::string& jsonString, Invoice& invoice)
 
 	if (!parsingSuccessful) {
 		throw std::invalid_argument("could not parse invoice data");
+	}
+
+	if (json.isMember("mainDocumentNum")) {
+		invoice.mainDocument.emplace(MainDocument{
+			json["mainDocumentNum"].asInt(),
+			Date(json["mainDocumentDate"].asString())
+			}
+		);
 	}
 
 	for (const auto& operation : json["operations"])

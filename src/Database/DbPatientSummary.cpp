@@ -72,7 +72,7 @@ std::vector<TimeFrame> DbPatientSummary::getFrames(long long patientRowId)
         "amblist.rowid "       //11
         "FROM procedure LEFT JOIN amblist ON procedure.amblist_rowid = amblist.rowid "
         "WHERE amblist.patient_rowid = " + std::to_string(patientRowId) + " "
-        "ORDER BY amblist.year ASC, amblist.month ASC, amblist.day ASC, procedure.rowid ASC";
+        "ORDER BY amblist.year ASC, amblist.month ASC, procedure.day ASC, procedure.rowid ASC";
 
     db.newStatement(query);
 
@@ -94,9 +94,10 @@ std::vector<TimeFrame> DbPatientSummary::getFrames(long long patientRowId)
         Parser::parse(db.asString(8), p);
         p.temp = db.asInt(9);
         p.LPK = db.asString(10);
-        
+
         while (p.date != timeFrames[tfIdx].date)
            tfIdx++;
+
 
         timeFrames[tfIdx].procedures.push_back(p);
 

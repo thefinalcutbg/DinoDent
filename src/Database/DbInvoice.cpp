@@ -13,10 +13,11 @@ long long DbInvoice::insertInvoice(const Invoice& invoice)
 
     if(nzok){
         query = 
-            "INSERT INTO financial (practice_rzi, num, day, month, year, month_notif, data) "
+            "INSERT INTO financial (practice_rzi, num, type, day, month, year, month_notif, data) "
             "VALUES ("
             "'" + UserManager::currentUser().practice.rziCode + "',"
             + std::to_string(invoice.number) + ","
+            + std::to_string(static_cast<int>(invoice.type)) + ","
             + std::to_string(invoice.date.day) + ","
             + std::to_string(invoice.date.month) + ","
             + std::to_string(invoice.date.year) + ","
@@ -26,11 +27,12 @@ long long DbInvoice::insertInvoice(const Invoice& invoice)
     }
     else
     {
-        query = "INSERT INTO financial (practice_rzi, num, day, month, year, month_notif, data," 
+        query = "INSERT INTO financial (practice_rzi, num, type, day, month, year, month_notif, data," 
                                 " recipient_id, recipient_name, recipient_address, recipient_phone) "
             "VALUES ("
             "'" + UserManager::currentUser().practice.rziCode + "',"
             + std::to_string(invoice.number) + ","
+            + std::to_string(static_cast<int>(invoice.type)) + ","
             + std::to_string(invoice.date.day) + ","
             + std::to_string(invoice.date.month) + ","
             + std::to_string(invoice.date.year) + ","
@@ -61,6 +63,7 @@ void DbInvoice::updateInvoice(const Invoice& invoice)
         "UPDATE financial SET "
 
         "num = " + std::to_string(invoice.number) + ","
+        "type = " + std::to_string(static_cast<int>(invoice.type)) + ","
         "day = " + std::to_string(invoice.date.day) + ","
         "month = " + std::to_string(invoice.date.month) + ","
         "year = " + std::to_string(invoice.date.year) + ","
@@ -116,7 +119,7 @@ std::optional<NzokFinancialDetails> DbInvoice::getDetailsIfAlreadyExist(int mont
 
 Invoice DbInvoice::getInvoice(long long rowId)
 {
-    std::string query = "SELECT num, day, month, year, month_notif, data, "
+    std::string query = "SELECT num, type, day, month, year, month_notif, data, "
         "recipient_id, recipient_name, recipient_phone, recipient_address "
         "FROM financial "
         "WHERE rowid = " + std::to_string(rowId);
@@ -126,21 +129,21 @@ Invoice DbInvoice::getInvoice(long long rowId)
     while (db.hasRows()) {
         
         int invNumber = db.asInt(0);
-
+        FinancialDocType type = static_cast<FinancialDocType>(db.asInt(1));
         Date invDate{
-            db.asInt(1),
             db.asInt(2),
-            db.asInt(3)
+            db.asInt(3),
+            db.asInt(4)
         };
 
-        int monthNotif = db.asInt(4);
+        int monthNotif = db.asInt(5);
 
 
         //if it's from monthly notification, parse the xml data and return the result:
                     if (monthNotif) {
 
                         TiXmlDocument doc;
-                        doc.Parse(db.asString(5).c_str(), 0, TIXML_ENCODING_UTF8);
+                        doc.Parse(db.asString(6).c_str(), 0, TIXML_ENCODING_UTF8);
 
                         Invoice result(doc, UserManager::currentUser());
 
@@ -158,13 +161,14 @@ Invoice DbInvoice::getInvoice(long long rowId)
         inv.rowId = rowId;
         inv.number = invNumber;
         inv.date = invDate;
+        inv.type = type;
 
         inv.recipient.bulstat = db.asString(6);
         inv.recipient.name = db.asString(7);
         inv.recipient.phone = db.asString(8);
         inv.recipient.address = db.asString(9);
 
-        Parser::parse(db.asString(5), inv);
+        Parser::parse(db.asString(6), inv);
 
         return inv;
     }

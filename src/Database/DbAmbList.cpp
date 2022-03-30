@@ -189,8 +189,7 @@ std::unordered_set<int> DbAmbList::getExistingNumbers(int currentYear)
     return existingNumbers;
 }
 
-
-int DbAmbList::getNewNumber(int currentYear, bool nzok)
+int DbAmbList::getNewNumber(Date ambDate, bool nzok)
 {
 
     std::string query;
@@ -203,14 +202,18 @@ int DbAmbList::getNewNumber(int currentYear, bool nzok)
         "GROUP BY amblist.rowid "
         "HAVING "
         + condition +
-        "AND year = " + std::to_string(currentYear) + " "
-        "AND lpk = '" + UserManager::currentUser().doctor.LPK + "' "
-        "AND rzi = '" + UserManager::currentUser().practice.rziCode + "' "
+        "AND amblist.year = " + std::to_string(ambDate.year) + " "
+        "AND amblist.month <= " + std::to_string(ambDate.month) + " "
+        "AND amblist.day <= " + std::to_string(ambDate.day) + " "
+        "AND amblist.lpk = '" + UserManager::currentUser().doctor.LPK + "' "
+        "AND amblist.rzi = '" + UserManager::currentUser().practice.rziCode + "' "
         "ORDER BY amblist.num DESC LIMIT 1";
 
     int number = nzok ? 0 : 100000;
 
-    for (Db db(query); db.hasRows();) number = db.asInt(0);
+    for (Db db(query); db.hasRows();) {
+        number = db.asInt(0);
+    };
 
     return number + 1;
 

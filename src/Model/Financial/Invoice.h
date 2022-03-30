@@ -13,8 +13,8 @@ struct Practice;
 
 struct MainDocument //only in case of debit or credit note
 {
-	const int number;
-	const Date date;
+	int number;
+	Date date;
 };
 
 enum class PaymentType { Cash, Bank };

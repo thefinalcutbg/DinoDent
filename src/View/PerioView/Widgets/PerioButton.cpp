@@ -13,19 +13,15 @@ bool PerioButton::eventFilter(QObject* obj, QEvent* e)
 		m_hover = false;
 		update();
 	}
-
+	
 	return false;
 }
 
 PerioButton::PerioButton(QWidget *parent)
 	: QAbstractButton(parent)
 {
-	
-	//setMinimumSize(1, 1);
-	//setMaximumSize(200, 200);
 	this->installEventFilter(this);
-	setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-	
+	setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
 }
 
 
@@ -47,7 +43,10 @@ void PerioButton::paintEvent(QPaintEvent* event)
 
 	painter.fillRect(rect, color);
 
-	QPen pen; pen.setColor(QColor(Qt::GlobalColor::gray));
+	QPen pen; 
+	pen.setColor(QColor(Qt::GlobalColor::gray));
+	pen.setWidth(1);
+	pen.setCosmetic(true);
 	painter.setPen(pen);
 	painter.drawRect(rect);
 
@@ -72,7 +71,9 @@ void PerioButton::paintEvent(QPaintEvent* event)
 	{
 		QRectF rect(0, 0, width(), height());
 
-		QPen pen; pen.setColor(QColor(0, 122, 204));
+		QPen pen; 
+		pen.setColor(QColor(0, 122, 204));
+		pen.setCosmetic(true);
 		pen.setWidth(2);
 		painter.setPen(pen);
 		painter.drawRect(rect);

@@ -143,6 +143,7 @@ void FinancialView::setBusinessOperations(const BusinessOperations& businessOp, 
 	ui.priceLabel->setText(formatDoubleWithDecimal(amounts.payment_amount) + u8" лв.");
 	ui.vatLabel->setText(u8"0%");
 	ui.sumLabel->setText(formatDoubleWithDecimal(amounts.total_amount) + u8" лв.");
+	update();
 }
 
 void FinancialView::setMainDocument(const std::optional<MainDocument>& mainDoc)

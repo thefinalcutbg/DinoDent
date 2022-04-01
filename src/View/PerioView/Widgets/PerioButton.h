@@ -17,5 +17,5 @@ protected:
 public:
 	PerioButton(QWidget *parent);
 
-	~PerioButton();
+	virtual ~PerioButton();
 };

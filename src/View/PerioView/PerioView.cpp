@@ -23,6 +23,7 @@ PerioView::PerioView(QWidget* parent)
 
 	ui.hexGraphicsView->setScene(new QGraphicsScene());
 	ui.hexGraphicsView->scene()->addItem(&hexagonGraphic);
+	ui.hexGraphicsView->setStyleSheet("background: transparent");
 
 	setFixedHeight(1470);
 
@@ -315,8 +316,8 @@ void PerioView::initializeCommon()
 		m_tooth[i] = new QPushButton(ui.maxilla);
 		m_tooth[i]->setCheckable(true);
 		m_tooth[i]->setChecked(true);
-		m_tooth[i]->setMinimumWidth(10);
-
+		m_tooth[i]->setSizePolicy(QSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored));
+		
 		ui.maxilla->ui.toothHeaderLayout->addWidget(m_tooth[i]);
 
 		m_mobi[i] = new PerioStateButton(ui.maxilla);

@@ -41,7 +41,10 @@ void TileButton::paintEvent(QPaintEvent* e)
 
 	painter.fillPath(path, Theme::sectionBackground);
 
-	painter.setPen(QPen(Theme::border));
+	QPen pen(Theme::border);
+	pen.setCosmetic(true);
+	pen.setWidth(2);
+	painter.setPen(pen);
 
 	painter.drawPath(path);
 

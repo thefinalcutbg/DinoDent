@@ -11,15 +11,8 @@ PerioSpinBox::PerioSpinBox(QWidget*parent)
 	setButtonSymbols(QAbstractSpinBox::ButtonSymbols::NoButtons);
 	setValue(0);
 	setAlignment(Qt::AlignCenter);
-	setSizePolicy(QSizePolicy::Policy::MinimumExpanding, QSizePolicy::Policy::MinimumExpanding);
+	setSizePolicy(QSizePolicy::Policy::Ignored, QSizePolicy::Policy::Ignored);
 	setFrame(true);
-
-	setStyleSheet(
-		"font-weight: normal; "
-		"color: black;"
-		"selection-color: black;"
-		"selection-background-color: white;"
-	);
 
 	connect(this, QOverload<int>::of(&QSpinBox::valueChanged),
 		[=](int value){ colorCodeChange(); });
@@ -71,8 +64,10 @@ void PerioSpinBox::paintEvent(QPaintEvent* event)
 
 	QRectF rect(0, 0, width(), height());
 
-	QPen pen; pen.setColor(QColor(0, 122, 204));
+	QPen pen; 
+	pen.setColor(QColor(0, 122, 204));
 	pen.setWidth(2);
+	pen.setCosmetic(true);
 	painter.setPen(pen);
 	painter.drawRect(rect);
 

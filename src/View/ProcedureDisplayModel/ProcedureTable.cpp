@@ -68,7 +68,7 @@ void ProcedureTable::setAmbListLayout()
     setColumnWidth(6, 69);
     hideColumn(7);
     horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
-    //setShowGrid(false);
+    setShowGrid(false);
 }
 
 void ProcedureTable::setProcedureHistoryLayout()
@@ -88,6 +88,7 @@ void ProcedureTable::setProcedureHistoryLayout()
     horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
     horizontalHeader()->setSectionResizeMode(4, QHeaderView::Stretch);
     horizontalHeader()->setSectionResizeMode(7, QHeaderView::Stretch);
+    setShowGrid(false);
 }
 
 void ProcedureTable::setProcedurePrintSelectLayout()
@@ -102,9 +103,10 @@ void ProcedureTable::setProcedurePrintSelectLayout()
     verticalHeader()->setDefaultSectionSize(20);
     setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-  //  horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
+    horizontalHeader()->setSectionResizeMode(3, QHeaderView::Stretch);
   //  horizontalHeader()->setSectionResizeMode(4, QHeaderView::Stretch);
   //  horizontalHeader()->setSectionResizeMode(7, QHeaderView::Stretch);
+    setShowGrid(false);
 }
 
 void ProcedureTable::setBusinessOperationLayout()
@@ -116,6 +118,8 @@ void ProcedureTable::setBusinessOperationLayout()
     setColumnWidth(3, 50);
     setColumnWidth(4, 75);
     setColumnWidth(5, 75);
+    horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
+    setShowGrid(false);
 }
 
 void ProcedureTable::fitToModel(int rows) //not working correctly yet
@@ -145,7 +149,7 @@ void ProcedureTable::keyPressEvent(QKeyEvent* event)
 
 void ProcedureTable::paintEvent(QPaintEvent* e)
 {
-    QTableView::paintEvent(e);
+
 
     constexpr int footerHeight = 10;
 
@@ -156,41 +160,40 @@ void ProcedureTable::paintEvent(QPaintEvent* e)
 
     painter.setRenderHint(QPainter::RenderHint::Antialiasing);
 
-    painter.fillRect(QRect(0, h - footerHeight +1, w, footerHeight), Theme::background);
+    painter.fillRect(rect(), Theme::background);
 
-    QPainterPath path = Theme::getHalfCurvedPath(footerHeight, w);
+    QPainterPath path = Theme::getHalfCurvedPath(h, w);
 
-    painter.translate(0, h-1);
+    painter.translate(0, h);
     painter.rotate(-90);
 
-    QColor background(Theme::sectionBackground);
-/*
-    //buggy:
-    if (selectionModel()->currentIndex().row() == model()->rowCount() - 1) {
-        background = Theme::background;
-    }
-*/
-    painter.fillPath(path, background);
+    painter.fillPath(path, Theme::sectionBackground);
 
-    painter.setPen(QPen(Theme::border));
+    painter.end();
+
+    QTableView::paintEvent(e);
+   
+
+    painter.begin(viewport());
+
+    painter.translate(0, h);
+    painter.rotate(-90);
+
+    QPen borderPen(Theme::border);
+    borderPen.setCosmetic(true);
+    borderPen.setWidth(4);
+
+    painter.setPen(borderPen);
     painter.drawPath(path);
 
     painter.resetTransform();
 
-    painter.drawLine(0, 0, 0, h - 8);
-    painter.drawLine(w - 1, 0, w - 1, h - 8);
-   
-    QPen eraser(background);
-    eraser.setWidth(3);
-    painter.setPen(eraser);
-    painter.drawLine(2, h- footerHeight-1, w - 3, h - footerHeight-1);
-
-    QPen border(Theme::border);
-    border.setWidthF(1*devicePixelRatioFScale());
-    painter.setPen(border);
-
+    QPen pen(Theme::fontTurquoise);
+    pen.setCosmetic(true);
+    pen.setWidth(1);
+    painter.setPen(pen);
     
-
+    //drawing the columns:
     if (model() != nullptr && model()->rowCount()) {
 
         double xPos = 0;
@@ -210,14 +213,35 @@ void ProcedureTable::paintEvent(QPaintEvent* e)
                 continue;
             }
 
-            painter.drawLine(QPointF(xPos-1, 0), QPointF(xPos, h + footerHeight));
+            painter.drawLine(QPointF(xPos-1, 0), QPointF(xPos-1, h + footerHeight));
             
         }
 
     }
 
+    //drawing the rows:
 
-    painter.end();
+    if (model() != nullptr && model()->columnCount()) {
+
+        double yPos = 0;
+
+        for (int i = 1; i < model()->rowCount(); i++)
+        {
+
+            if (verticalHeader()->isSectionHidden(i)) {
+                continue;
+            }
+
+            yPos += verticalHeader()->sectionSize(i - 1);
+
+
+            painter.drawLine(QPointF(1, yPos), QPointF(w-1, yPos));
+
+        }
+
+    }
+
+
 
 }
 
@@ -238,20 +262,22 @@ void ProcedureHeader::paintEvent(QPaintEvent* e)
 {
     QPainter painter(this->viewport());
 
-    int radius = 6;
-
     painter.setRenderHint(QPainter::Antialiasing);
 
     painter.fillRect(rect(), Theme::background);
 
-    QPainterPath path = Theme::getHalfCurvedPath(height(), width()-1);;
+    QPainterPath path = Theme::getHalfCurvedPath(height(), width());;
 
-    painter.translate(width()-1, 1);
+    painter.translate(width(), 0);
     painter.rotate(90);
     
     painter.fillPath(path, Theme::sectionBackground);
 
-    painter.setPen(Theme::border);
+    QPen borderPen(Theme::border);
+    borderPen.setWidth(4);
+    borderPen.setCosmetic(true);
+
+    painter.setPen(borderPen);
     painter.drawPath(path);
 
     painter.resetTransform();

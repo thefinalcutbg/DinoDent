@@ -10,12 +10,6 @@ PerioStateButton::PerioStateButton(QWidget *parent)
 	auto f = font();
 	f.setBold(true);
 	setFont(f);
-
-	QPalette palet = palette();
-	QColor textColor(Qt::GlobalColor::darkGray);
-	palet.setBrush(QPalette::Text, QBrush(textColor));
-	setPalette(palet);
-
 	
 	connect(this, &QAbstractButton::clicked, [=] { setState(m_state + 1); });
 }

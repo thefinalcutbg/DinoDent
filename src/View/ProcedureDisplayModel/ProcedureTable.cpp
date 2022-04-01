@@ -23,6 +23,7 @@ protected:
 ProcedureTable::ProcedureTable(QWidget* parent)
     : QTableView(parent), header(Qt::Orientation::Horizontal)
 {
+    
     setHorizontalHeader(&header);
     installEventFilter(this);
     setItemDelegate(new NoFocusDelegate);
@@ -67,6 +68,7 @@ void ProcedureTable::setAmbListLayout()
     setColumnWidth(6, 69);
     hideColumn(7);
     horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
+    //setShowGrid(false);
 }
 
 void ProcedureTable::setProcedureHistoryLayout()
@@ -181,23 +183,35 @@ void ProcedureTable::paintEvent(QPaintEvent* e)
     QPen eraser(background);
     eraser.setWidth(3);
     painter.setPen(eraser);
-    painter.drawLine(2, h- footerHeight, w - 3, h - footerHeight);
+    painter.drawLine(2, h- footerHeight-1, w - 3, h - footerHeight-1);
 
-    painter.setPen(Theme::border);
+    QPen border(Theme::border);
+    border.setWidthF(1*devicePixelRatioFScale());
+    painter.setPen(border);
 
-    int xPos = -1;
+    
 
     if (model() != nullptr && model()->rowCount()) {
 
+        double xPos = 0;
+        bool skipFirst = true;
+
         for (int i = 1; i < model()->columnCount(); i++)
         {
+            
             if (horizontalHeader()->isSectionHidden(i)) {
                 continue;
             }
 
-            xPos += horizontalHeader()->sectionSize(i-1);
+            xPos += horizontalHeader()->sectionSize(i - 1);
 
-            painter.drawLine(xPos, 0, xPos, h+footerHeight);
+            if (skipFirst) { 
+                skipFirst = false; 
+                continue;
+            }
+
+            painter.drawLine(QPointF(xPos-1, 0), QPointF(xPos, h + footerHeight));
+            
         }
 
     }

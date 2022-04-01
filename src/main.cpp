@@ -28,8 +28,8 @@ int main(int argc, char *argv[])
 
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
-    QApplication::highDpiScaleFactorRoundingPolicy();
-    //QApplication::setFont(QFont ("Segoe UI", 8));    
+    QApplication::setHighDpiScaleFactorRoundingPolicy(Qt::HighDpiScaleFactorRoundingPolicy::Round);
+    QApplication::setFont(QFont ("Segoe UI", 8));    
 
     QApplication a(argc, argv);
     a.setWindowIcon(QIcon(":/icons/icon_torque.png"));

@@ -7,7 +7,7 @@
 std::vector<TimeFrame> DbPatientSummary::getFrames(long long patientRowId)
 {
 
-    std::vector<TimeFrame> timeFrames{ TimeFrame{} }; //allocating the first element as default status
+    std::vector<TimeFrame> timeFrames;
 
     std::string query =
         "SELECT "
@@ -28,12 +28,11 @@ std::vector<TimeFrame> DbPatientSummary::getFrames(long long patientRowId)
 
     while (db.hasRows())
     {
-
-
         timeFrames.emplace_back(
             TimeFrame
             {
-               db.asString(0),
+               TimeFrameType::Procedures,
+               db.asRowId(0),
                db.asString(1),
 
                Date{
@@ -49,34 +48,42 @@ std::vector<TimeFrame> DbPatientSummary::getFrames(long long patientRowId)
              );
       
             Parser::parse(db.asString(5), timeFrames.back().teeth);
+
+            //inserting InitialAmb if necessary:
+            int currentIdx = timeFrames.size() - 1;
+            
+            if (currentIdx == 0 
+                ||
+                timeFrames[currentIdx - 1].rowid != timeFrames[currentIdx].rowid)
+            {
+                timeFrames.back().type = TimeFrameType::InitialAmb;
+                timeFrames.push_back(timeFrames.back());
+                timeFrames.back().type = TimeFrameType::Procedures;
+
+            }
     }
-
-
-    //the element 0 always shows initial status, so we copy status[1] onto status [0]
-    if (timeFrames.size() > 1)
-        timeFrames[0] = timeFrames[1];
 
     
     query = "SELECT	"
-        "procedure.nzok, "	//0
-        "procedure.type, "	//1
-        "procedure.code, "	//2
-        "procedure.tooth, "	//3
-        "procedure.day, "	//4
-        "amblist.month, "	//5
-        "amblist.year,	"	//6
-        "procedure.price, "	//7
-        "procedure.data, "	//8
+        "procedure.nzok, "  	//0
+        "procedure.type, "  	//1
+        "procedure.code, "  	//2
+        "procedure.tooth, " 	//3
+        "procedure.day, "	    //4
+        "amblist.month, "	    //5
+        "amblist.year,	"	    //6
+        "procedure.price, "	    //7
+        "procedure.data, "	    //8
         "procedure.deciduous, "	//9
-        "amblist.LPK, "		//10
-        "amblist.rowid "       //11
+        "amblist.LPK, "		    //10
+        "amblist.rowid "        //11
         "FROM procedure LEFT JOIN amblist ON procedure.amblist_rowid = amblist.rowid "
         "WHERE amblist.patient_rowid = " + std::to_string(patientRowId) + " "
         "ORDER BY amblist.year ASC, amblist.month ASC, procedure.day ASC, procedure.rowid ASC";
 
     db.newStatement(query);
 
-    int tfIdx = 1; //time frame index - the 0 position is reserved for the initial status;
+
 
     while (db.hasRows())
     {
@@ -94,22 +101,30 @@ std::vector<TimeFrame> DbPatientSummary::getFrames(long long patientRowId)
         Parser::parse(db.asString(8), p);
         p.temp = db.asInt(9);
         p.LPK = db.asString(10);
+    
+        for (int i = 0; i < timeFrames.size(); i++) { //optimize it!
 
-        while (p.date != timeFrames[tfIdx].date)
-           tfIdx++;
+            if (timeFrames[i].type == TimeFrameType::InitialAmb ||
+                timeFrames[i].date != p.date
+                ) {
+                continue;
+            }
 
+            timeFrames[i].procedures.push_back(p);
 
-        timeFrames[tfIdx].procedures.push_back(p);
+        }    
 
     }
 
 
     //the tooth statuses and procedures in their respective dates are allocated and sorted, but now
     //we have to apply them:
-
-    for (int i = 1; i < timeFrames.size(); i++)
+    
+    for (int i = 0; i < timeFrames.size(); i++)
     {
-        if (timeFrames[i].ambId == timeFrames[i - 1].ambId)
+        if (timeFrames[i].type == TimeFrameType::InitialAmb) continue;
+
+        if (timeFrames[i].rowid == timeFrames[i - 1].rowid)
                  timeFrames[i].teeth = timeFrames[i - 1].teeth;
 
         for (auto& procedure : timeFrames[i].procedures)

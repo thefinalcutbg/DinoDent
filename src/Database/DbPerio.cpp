@@ -66,7 +66,7 @@ PerioStatus DbPerio::getPerioStatus(long long patientRowId, Date date)
 {
     PerioStatus perioStatus;
 
-    std::string query = "SELECT rowid, day, month, year, data FROM periostatus WHERE"
+    std::string query = "SELECT rowid, lpk, day, month, year, data FROM periostatus WHERE"
         " patient_rowid = " + std::to_string(patientRowId) +
         " AND year <= " + std::to_string(date.year) +
         " AND month <= " + std::to_string(date.month) +
@@ -76,14 +76,15 @@ PerioStatus DbPerio::getPerioStatus(long long patientRowId, Date date)
     for(Db db(query); db.hasRows();)
     {
 
-        perioStatus.id = db.asRowId(0);
+        perioStatus.rowid = db.asRowId(0);
+        perioStatus.LPK = db.asString(1);
         perioStatus.date = Date(
-                                        db.asInt(1),
                                         db.asInt(2),
-                                        db.asInt(3)
+                                        db.asInt(3),
+                                        db.asInt(4)
                                 );
 
-        Parser::parse(db.asString(4), perioStatus);
+        Parser::parse(db.asString(5), perioStatus);
     }
 
     return perioStatus;
@@ -95,30 +96,63 @@ PerioStatus DbPerio::getPerioStatus(long long rowid)
     PerioStatus perioStatus;
 
     Db db(
-        "SELECT rowid, day, month, year, data FROM periostatus WHERE"
+        "SELECT rowid, lpk, day, month, year, data FROM periostatus WHERE"
         " rowid = " + std::to_string(rowid));
 
     while (db.hasRows())
     {
 
-        perioStatus.id = db.asRowId(0);
+        perioStatus.rowid = db.asRowId(0);
+        perioStatus.LPK = db.asString(1);
         perioStatus.date = Date(
-            db.asInt(1),
             db.asInt(2),
-            db.asInt(3)
+            db.asInt(3),
+            db.asInt(4)
         );
 
-        Parser::parse(db.asString(4), perioStatus);
+        Parser::parse(db.asString(5), perioStatus);
     }
 
     return perioStatus;
+}
+
+std::vector<PerioStatus> DbPerio::getAllPerioStatuses(long long patientRowId)
+{
+    std::vector<PerioStatus> result;
+
+
+    std::string query = "SELECT rowid, lpk, day, month, year, data FROM periostatus WHERE"
+        " patient_rowid = " + std::to_string(patientRowId) +
+        " ORDER BY year ASC, month ASC, day ASC";
+
+    for (Db db(query); db.hasRows();)
+    {
+        result.emplace_back();
+
+        auto& perioStatus = result.back();
+
+        perioStatus.rowid = db.asRowId(0);
+        perioStatus.LPK = db.asString(1);
+        perioStatus.date = Date(
+            db.asInt(2),
+            db.asInt(3),
+            db.asInt(4)
+        );
+
+        Parser::parse(db.asString(5), perioStatus);
+    }
+
+    return result;
+
 }
 
 void DbPerio::insertPerioStatus(PerioStatus& perioStatus, long long patientRowId)
 {
 
     std::string query =
-        "INSERT INTO periostatus (day, month, year, patient_rowid, data) VALUES ("
+        "INSERT INTO periostatus (lpk, rzi, day, month, year, patient_rowid, data) VALUES ("
+        "'" + UserManager::currentUser().doctor.LPK + "',"
+        "'" + UserManager::currentUser().practice.rziCode + "',"
         + std::to_string(perioStatus.date.day) + ","
         + std::to_string(perioStatus.date.month) + ","
         + std::to_string(perioStatus.date.year) + ","
@@ -128,7 +162,7 @@ void DbPerio::insertPerioStatus(PerioStatus& perioStatus, long long patientRowId
     Db db;
     db.execute(query);
 
-    perioStatus.id = db.lastInsertedRowID();
+    perioStatus.rowid = db.lastInsertedRowID();
 }
 
 void DbPerio::updatePerioStatus(const PerioStatus& perioStatus)
@@ -140,7 +174,7 @@ void DbPerio::updatePerioStatus(const PerioStatus& perioStatus)
         ", month = " + std::to_string(perioStatus.date.month) +
         ", year = " + std::to_string(perioStatus.date.year) +
         ", data = '" + Parser::write(perioStatus) + "' "
-        "WHERE rowid = " + std::to_string(perioStatus.id)
+        "WHERE rowid = " + std::to_string(perioStatus.rowid)
 
     );
 

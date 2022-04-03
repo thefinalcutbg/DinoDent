@@ -6,9 +6,10 @@
 #include "Model/Date.h"
 #include "View/ToothPaintDevices/PaintHint.h"
 
+
 class PatientSummaryPresenter;
-class ToothPaintHint;
-class Patient;
+struct PerioWithDisabled;
+struct Patient;
 
 class IPatientSummaryView
 {
@@ -20,6 +21,7 @@ public:
 	virtual void setPatient(const Patient& patient) = 0;
 	virtual void setTeeth(const std::array<ToothPaintHint, 32>& teeth) = 0;
 	virtual void setProcedures(const std::vector<Procedure>& p) = 0;
+	virtual void setPerioData(const PerioWithDisabled& perio) = 0;
 
 
 };

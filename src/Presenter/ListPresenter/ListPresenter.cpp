@@ -129,7 +129,7 @@ TabName ListPresenter::getTabName()
 
 long long ListPresenter::rowID() const
 {
-    return m_ambList.id;
+    return m_ambList.rowid;
 }
 
 bool ListPresenter::save()
@@ -175,7 +175,7 @@ bool ListPresenter::saveAs()
     m_ambList.number = newNumber;
 
     if (m_ambList.isNew()) {
-        m_ambList.id = DbAmbList::insert(m_ambList, patient->rowid);
+        m_ambList.rowid = DbAmbList::insert(m_ambList, patient->rowid);
         
     }
     else {

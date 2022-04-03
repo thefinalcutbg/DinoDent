@@ -67,6 +67,7 @@ void PerioGraphicsButton::paint(QPainter* painter, const QStyleOptionGraphicsIte
     QPen pen;
     pen.setColor(Qt::GlobalColor::darkGray);
     pen.setWidthF(1);
+    pen.setCosmetic(true);
     painter->setPen(pen);
 
     painter->drawPath(path);

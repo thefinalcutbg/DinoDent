@@ -14,12 +14,12 @@ struct SpritesheetCoords
     QRect frontSplintPaint;
     QRect lingualSplintPaint;
 
-    QRect buccalImpactCrop;
-    QRect lingualImpactCrop;
+    QRect buccalCrop;
+    QRect lingualCrop;
 
     QRect SurfacePanelCrop;      //coordinates for the control panel
     QRect BuccalOcclusalCrop; 
-
+    QRect lingualOcclusalCrop;
 
 
     QRect implantLesionCrop;

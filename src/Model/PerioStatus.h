@@ -4,10 +4,13 @@ constexpr int upperCount = 0;
 constexpr int perioSurfCount = 192;
 constexpr int scoreSurfCount = 128;
 
+
 struct PerioStatus
 {
-	long long id;
+	long long rowid{ 0 };
 	Date date{ Date::currentDate() };
+
+	std::string LPK;
 
 	int smoker{ 0 };	//пушач, непушач, по колко цигари на ден и т.н.
 	int boneLoss{ 0 };	//загуба на кост в %
@@ -27,3 +30,22 @@ struct PerioStatus
 
 };
 
+
+struct PerioWithDisabled {
+
+	PerioWithDisabled(const PerioStatus& p) {
+		for (int i = 0; i < perioSurfCount; i++) {
+			
+			bool disabled = p.disabled[i / 6];
+
+			cal[i] = disabled ? 0 : p.cal[i];
+			pd[i] = disabled ? 0 : p.pd[i];
+			bop[i] = disabled ? 0 : p.bop[i];
+		}
+	}
+
+	int cal[perioSurfCount]{ 0 };
+	int pd[perioSurfCount]{ 0 };
+	bool bop[perioSurfCount]{ false };
+
+};

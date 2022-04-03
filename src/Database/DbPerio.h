@@ -11,6 +11,7 @@ namespace DbPerio
 
 	PerioStatus getPerioStatus(long long patientRowId, Date date);
 	PerioStatus getPerioStatus(long long rowid);
+	std::vector<PerioStatus> getAllPerioStatuses(long long patientRowId);
 	void insertPerioStatus(PerioStatus& perioStatus, long long patientRowId);
 	void updatePerioStatus(const PerioStatus& perioStatus);
 };

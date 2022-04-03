@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>808</width>
-    <height>799</height>
+    <height>817</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -29,7 +29,7 @@
    <property name="geometry">
     <rect>
      <x>9</x>
-     <y>138</y>
+     <y>170</y>
      <width>721</width>
      <height>451</height>
     </rect>
@@ -60,7 +60,7 @@
    <property name="geometry">
     <rect>
      <x>9</x>
-     <y>623</y>
+     <y>655</y>
      <width>721</width>
      <height>141</height>
     </rect>
@@ -129,7 +129,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>598</y>
+     <y>630</y>
      <width>121</width>
      <height>16</height>
     </rect>
@@ -154,7 +154,7 @@
    <property name="geometry">
     <rect>
      <x>137</x>
-     <y>596</y>
+     <y>628</y>
      <width>591</width>
      <height>20</height>
     </rect>
@@ -176,6 +176,32 @@
    </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="showLingual">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>140</y>
+     <width>151</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Изглед от лингвално</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="showPerio">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>140</y>
+     <width>181</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Пародонтални измервания</string>
    </property>
   </widget>
  </widget>

@@ -17,7 +17,7 @@ PerioPresenter::PerioPresenter(ITabView* view, std::shared_ptr<Patient> patient)
     if (m_perioStatus.date != Date::currentDate()) //if its not todays measurment
     {
 
-                            m_perioStatus.id = 0; //clearing the id, because it's new measurment
+                            m_perioStatus.rowid = 0; //clearing the id, because it's new measurment
 
                             auto getPrevious = ModalDialogBuilder::askDialog
                             (u8"Открито е предишно пародонтално измерване. "
@@ -248,7 +248,7 @@ void PerioPresenter::restorationChanged(bool enabled)
 
 long long PerioPresenter::rowID() const
 {
-    return m_perioStatus.id;
+    return m_perioStatus.rowid;
 }
 
 bool PerioPresenter::save()
@@ -276,7 +276,7 @@ bool PerioPresenter::saveAs()
 
 bool PerioPresenter::isNew()
 {
-    return m_perioStatus.id == 0;
+    return m_perioStatus.rowid == 0;
 }
 
 void PerioPresenter::print()

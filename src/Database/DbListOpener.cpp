@@ -95,6 +95,8 @@ std::vector<PerioRow> DbListOpener::getPerioRows(const Date& from, const Date& t
         "WHERE (periostatus.year, periostatus.month, periostatus.day) "
         "BETWEEN (" + std::to_string(from.year) + ", " + std::to_string(from.month) + ", " + std::to_string(from.day) + ") "
         "AND (" + std::to_string(to.year) + ", " + std::to_string(to.month) + ", " + std::to_string(to.day) + ") "
+        "AND lpk = '" + UserManager::currentUser().doctor.LPK + "' "
+        "AND rzi = '" + UserManager::currentUser().practice.rziCode + "' "
         "ORDER BY periostatus.year ASC, periostatus.month ASC, periostatus.day ASC ";
 
     for (Db db(query); db.hasRows();)

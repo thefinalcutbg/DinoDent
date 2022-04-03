@@ -445,6 +445,19 @@ void rotateByQuadrant(QPainter& painter, int textureWidth, int textureHeight, Qu
 
 }
 
+void rotateByQuadrantLingual(QPainter& painter, int textureWidth, int textureHeight, Quadrant q)
+{
+    switch (q)
+    {
+    case Quadrant::First: q = Quadrant::Third; break;
+    case Quadrant::Second: q = Quadrant::Fourth; break;
+    case Quadrant::Third: q = Quadrant::First; break;
+    case Quadrant::Fourth: q = Quadrant::Second; break;
+    }
+
+    rotateByQuadrant(painter, textureWidth, textureHeight, q);
+}
+
 QPixmap ToothPainter::getBuccalOcclusal(const ToothPaintHint& tooth)
 {
 	constexpr int pixmapHeight = 746;
@@ -468,8 +481,8 @@ QPixmap ToothPainter::getBuccalOcclusal(const ToothPaintHint& tooth)
 
     if (tooth.impacted)
     {
-        int yPos = tooth.idx > 15 ? 200 : 40;
-        painter.drawPixmap(QRect(0, 40, coords.toothRect.width(), 360), getToothPixmap(tooth), coords.buccalImpactCrop);
+       // int yPos = tooth.idx > 15 ? 200 : 40;
+        painter.drawPixmap(QRect(0, 40, coords.toothRect.width(), 360), getToothPixmap(tooth), coords.buccalCrop);
     }
     else
     {
@@ -505,8 +518,8 @@ QPixmap ToothPainter::getBuccalLingual(const ToothPaintHint& tooth)
     if (tooth.impacted)
     {
         QPixmap normalTooth = getToothPixmap(tooth);
-        painter.drawPixmap(QRect(0, 40, coords.toothRect.width(), 320), normalTooth, coords.buccalImpactCrop);
-        painter.drawPixmap(QRect(0, 750, coords.toothRect.width(), 320), normalTooth, coords.lingualImpactCrop);
+        painter.drawPixmap(QRect(0, 40, coords.toothRect.width(), 320), normalTooth, coords.buccalCrop);
+        painter.drawPixmap(QRect(0, 750, coords.toothRect.width(), 320), normalTooth, coords.lingualCrop);
     }
     else
     {
@@ -562,6 +575,46 @@ QPixmap ToothPainter::getOcclusal(const ToothPaintHint& tooth)
     rotateByQuadrant(painter, 150, 150, ToothUtils::getQuadrant(tooth.idx));
 
     painter.drawPixmap(QRect(0, 0, 150, 150), toothPx, coords.SurfacePanelCrop);
+
+    return pixmap;
+}
+
+QPixmap ToothPainter::getLingualOcclusal(const ToothPaintHint& tooth)
+{
+    constexpr int pixmapHeight = 746;
+
+    auto& coords = SpriteSheets::container().getCoordinates(tooth.idx, tooth.temp);
+    auto& currentTexture = SpriteSheets::container().getTexturePack(tooth.idx, tooth.temp);
+
+    QPixmap pixmap(coords.toothRect.width(), pixmapHeight);
+    pixmap.fill(Qt::transparent);
+
+    drawMobilityLabel(tooth, pixmap);
+    drawFractureLabel(tooth, pixmap);
+    drawToothNumberLabel(tooth, pixmap);
+
+    QPainter painter(&pixmap);
+
+    constexpr int toothYPosition = 123;
+
+    rotateByQuadrantLingual(painter, coords.toothRect.width(), pixmapHeight, ToothUtils::getQuadrant(tooth.idx));
+
+    if (tooth.impacted)
+    {
+        painter.drawPixmap(
+            QRect(0, 360-40, coords.toothRect.width(), 360),
+            getToothPixmap(tooth), 
+            coords.lingualCrop
+        );
+    }
+    else
+    {
+        painter.drawPixmap(
+            QRect(0, toothYPosition, coords.toothRect.width(), 500),
+            getToothPixmap(tooth), 
+            coords.lingualOcclusalCrop
+        );
+    }
 
     return pixmap;
 }

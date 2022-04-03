@@ -17,7 +17,8 @@ public:
 	PerioChartItem(bool even = true);
 
 	QRectF boundingRect() const override;
-	void setMeasurment(int idx, int gm, int cal);
+	void setMeasurment(int idx, int gm, int cal, bool repaint = true);
+	
 	void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override;
 	~PerioChartItem();
 };

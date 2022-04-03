@@ -5,6 +5,8 @@
 #include "IPatientSummaryView.h"
 #include "View/ListView/TeethView/TeethViewScene.h"
 #include "View/ProcedureDisplayModel/ProcedureTableModel.h"
+#include "TeethView/TeethBuccalScene.h"
+#include "TeethView/TeethLingualScene.h"
 
 class PatientSummary final : public QWidget, public IPatientSummaryView
 {
@@ -17,7 +19,9 @@ private:
 
 	void paintEvent(QPaintEvent* event);
 	ProcedureTableModel m_procedureModel;
-	TeethViewScene m_teethScene;
+	
+	TeethBuccalScene buccalScene;
+	TeethLingualScene lingualScene;
 
 public:
 
@@ -27,6 +31,7 @@ public:
 
 
 	// Inherited via IPatientSummaryView
+	
 	void setPresenter(PatientSummaryPresenter* presenter) final;
 	void setDateLabel(const std::string& dateLabel) final;
 	void setTickPosition(int idx) final;
@@ -34,6 +39,7 @@ public:
 	void setPatient(const Patient& patient) final;
 	void setTeeth(const std::array<ToothPaintHint, 32>& teeth) final;
 	void setProcedures(const std::vector<Procedure>& p) final;
+	void setPerioData(const PerioWithDisabled& perio) final;
 
 private:
 	Ui::PatientSummary ui;

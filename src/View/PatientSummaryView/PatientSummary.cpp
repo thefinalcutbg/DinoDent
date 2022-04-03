@@ -6,7 +6,7 @@ PatientSummary::PatientSummary(QWidget *parent)
 	: QWidget(parent), presenter(nullptr)
 {
 	ui.setupUi(this);
-	ui.teethView->setScene(&m_teethScene);
+	ui.teethView->setScene(&buccalScene);
 	ui.teethView->setDisabled(true);
 
 	ui.procedureTable->setModel(&m_procedureModel);
@@ -14,6 +14,29 @@ PatientSummary::PatientSummary(QWidget *parent)
 	ui.dateSlider->setTickPosition(QSlider::TickPosition::TicksBelow);
 
 	connect(ui.dateSlider, &QSlider::valueChanged, this, [=] {presenter->setCurrentFrame(ui.dateSlider->value());});
+
+	connect(ui.showLingual, &QCheckBox::stateChanged, this,
+		[=] {
+			if (ui.showLingual->isChecked()) {
+				ui.teethView->setScene(&lingualScene);
+			}
+			else {
+				ui.teethView->setScene(&buccalScene);
+			}
+		}
+	);
+
+	connect(ui.showPerio, &QCheckBox::stateChanged, this,
+		[=] {
+				bool show = ui.showPerio->isChecked();
+				lingualScene.showPerio(show);
+				buccalScene.showPerio(show);
+
+		}
+	);
+
+	lingualScene.showPerio(false);
+	buccalScene.showPerio(false);
 }
 
 PatientSummary::~PatientSummary()
@@ -59,8 +82,11 @@ void PatientSummary::setPatient(const Patient& patient)
 
 void PatientSummary::setTeeth(const std::array<ToothPaintHint, 32>& teeth)
 {
-	for (auto& t : teeth)
-		m_teethScene.display(t);
+	for (auto& t : teeth) {
+		buccalScene.display(t);
+		lingualScene.display(t);
+	}
+
 }
 
 void PatientSummary::setProcedures(const std::vector<Procedure>& p)
@@ -73,7 +99,17 @@ void PatientSummary::setProcedures(const std::vector<Procedure>& p)
 		if(procedure.tooth != -1)
 		treatedTeeth.push_back(procedure.tooth);
 
-	m_teethScene.setProcedures(treatedTeeth);
+	
+	buccalScene.setProcedures(treatedTeeth);
+	lingualScene.setProcedures(treatedTeeth);
 
 	this->setFixedHeight(710 + ui.procedureTable->height() + 100);
+
+	update();
+}
+
+void PatientSummary::setPerioData(const PerioWithDisabled& perio)
+{
+	buccalScene.setMeasurments(perio.pd, perio.cal);
+	lingualScene.setMeasurments(perio.pd, perio.cal);
 }

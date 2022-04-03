@@ -51,12 +51,12 @@ void DbAmbList::update(const AmbList& ambList)
         ", fullCoverage = " + std::to_string(ambList.full_coverage) +
         ", charge = " + std::to_string(static_cast<int>(ambList.charge)) +
         ", status_json = '" + Parser::write(ambList.teeth) + "' "
-        "WHERE rowid = " + std::to_string(ambList.id);
+        "WHERE rowid = " + std::to_string(ambList.rowid);
 
     Db db;
     db.execute(query);
 
-    DbProcedure::saveProcedures(ambList.id, ambList.procedures, &db);
+    DbProcedure::saveProcedures(ambList.rowid, ambList.procedures, &db);
 }
 
 AmbList DbAmbList::getNewAmbSheet(long long patientRowId)
@@ -79,7 +79,7 @@ AmbList DbAmbList::getNewAmbSheet(long long patientRowId)
 
     while(db.hasRows())
     {
-        ambList.id = db.asRowId(0);
+        ambList.rowid = db.asRowId(0);
         ambList.number = db.asInt(1);
         ambList.full_coverage = db.asInt(2);
         status_json = db.asString(3);
@@ -118,7 +118,7 @@ AmbList DbAmbList::getNewAmbSheet(long long patientRowId)
     else
     {
         Parser::parse(status_json, ambList.teeth);
-        ambList.procedures = DbProcedure::getProcedures(ambList.id, &db);
+        ambList.procedures = DbProcedure::getProcedures(ambList.rowid, &db);
     }
 
     return ambList;
@@ -137,7 +137,7 @@ AmbList DbAmbList::getListData(long long rowId)
 
     while (db.hasRows())
     {
-        ambList.id = db.asRowId(0);
+        ambList.rowid = db.asRowId(0);
         ambList.number = db.asInt(1);
         ambList.full_coverage = db.asInt(2);
         status_json = db.asString(3);
@@ -146,7 +146,7 @@ AmbList DbAmbList::getListData(long long rowId)
     }
 
     Parser::parse(status_json, ambList.teeth);
-    ambList.procedures = DbProcedure::getProcedures(ambList.id, &db);
+    ambList.procedures = DbProcedure::getProcedures(ambList.rowid, &db);
 
     return ambList;
 }

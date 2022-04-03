@@ -56,20 +56,25 @@ void PerioSpinBox::setValueCustom(int value)
 void PerioSpinBox::paintEvent(QPaintEvent* event)
 {
 
-	QSpinBox::paintEvent(event);
+	//QSpinBox::paintEvent(event);
 
-	if (!m_hover || !hasFocus() || !isEnabled() || isReadOnly()) return;
+	QPen pen(Qt::lightGray);
+	pen.setWidth(1);
+	pen.setCosmetic(true);
 
-	QPainter painter(this);
 
 	QRectF rect(0, 0, width(), height());
-
-	QPen pen; 
-	pen.setColor(QColor(0, 122, 204));
-	pen.setWidth(2);
-	pen.setCosmetic(true);
+	QPainter painter(this);
 	painter.setPen(pen);
 	painter.drawRect(rect);
+	if (!m_hover || !hasFocus() || !isEnabled() || isReadOnly()) {
+		return;
+	}
+
+	pen.setColor(QColor(0, 122, 204));
+
+	painter.setPen(pen);
+	
 
 }
 

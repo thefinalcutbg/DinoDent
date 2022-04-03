@@ -65,14 +65,27 @@ QRectF PerioChartItem::boundingRect() const
 }
 
 
-void PerioChartItem::setMeasurment(int idx, int gm, int cal)
+void PerioChartItem::setMeasurment(int idx, int gm, int cal, bool repaint)
 {
-
 	gm_polygon[idx +1].setY((gm* y_coef + y_pos));
 	cal_polygon[idx +1].setY(cal*(-y_coef) + y_pos);
+
+	if (repaint) {
+		update();
+	}
+}
+/*
+void PerioChartItem::setBulkMeasurment(const int pd[48], const int cal[48])
+{
+	for (int idx = 0; idx < 48; idx++) {
+		int gm = pd[idx] - cal[idx];
+		gm_polygon[idx + 1].setY((gm * y_coef + y_pos));
+		cal_polygon[idx + 1].setY(cal[idx] * (-y_coef) + y_pos);
+	}
+
 	update();
 }
-
+*/
 
 
 void PerioChartItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
@@ -80,14 +93,15 @@ void PerioChartItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* op
 
 	painter->setRenderHint(QPainter::Antialiasing);
 
-	QPen pen; pen.setColor(QColor(Qt::GlobalColor::red)); pen.setWidth(3);
+	QPen pen; pen.setColor(QColor(Qt::GlobalColor::red)); pen.setWidth(5);
+	pen.setCosmetic(true);
 	pen.setJoinStyle(Qt::PenJoinStyle::RoundJoin);
 	painter->setPen(pen);
 
 	QPainterPath path1; path1.addPolygon(cal_polygon);
 	painter->drawPath(path1);
 
-	pen.setWidth(2);
+	pen.setWidth(5);
 
 	pen.setColor(Qt::GlobalColor::lightGray);
 	painter->setPen(pen);

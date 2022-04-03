@@ -467,7 +467,7 @@ void PerioView::initializeSurfaces()
 		ui.mandibula->ui.bopUpLayout->addWidget(m_BOP[i]);
 
 		this->chartIndex[i].position = ChartPosition::mandLing;
-		this->chartIndex[i].index = chartArrayIdx;
+		this->chartIndex[i].index = chartArrayIdx-1;
 		chartArrayIdx--;
 
 		if (!(i % 3) && i != 188) i -= 3;
@@ -498,7 +498,7 @@ void PerioView::initializeSurfaces()
 		ui.mandibula->ui.bopDownLayout->addWidget(m_BOP[i]);
 
 		this->chartIndex[i].position = ChartPosition::mandBuccal;
-		this->chartIndex[i].index = chartArrayIdx;
+		this->chartIndex[i].index = chartArrayIdx-1;
 		chartArrayIdx--;
 
 		if (!(i % 3) && i != 192) i -= 3;

@@ -39,12 +39,12 @@ void PerioButton::paintEvent(QPaintEvent* event)
 	else if (m_hover) color = QColor{ 236, 236, 236 };
 
 	
-	QRectF rect(0, 0, width(), height());
-
+	QRect rect = this->rect();
+	
 	painter.fillRect(rect, color);
 
 	QPen pen; 
-	pen.setColor(QColor(Qt::GlobalColor::gray));
+	pen.setColor(Qt::gray);
 	pen.setWidth(1);
 	pen.setCosmetic(true);
 	painter.setPen(pen);
@@ -55,15 +55,13 @@ void PerioButton::paintEvent(QPaintEvent* event)
 	if (isEnabled() && isChecked())
 	{
 		if(!icon().isNull())
-			icon().paint(&painter, rect.toRect());
+			icon().paint(&painter, rect);
 		
-		auto fontRect = fontMetrics().boundingRect(text());
-
-		int x = (width() - fontRect.width()) / 2;
-		int y = (height() + fontRect.height()) / 2;
 
 		painter.setPen(palette().color(QPalette::ColorRole::Text));
-		painter.drawText(x, y, text());
+		auto font = painter.font();
+		
+		painter.drawText(rect, Qt::AlignCenter, text());
 		
 	}
 

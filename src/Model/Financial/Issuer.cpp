@@ -56,7 +56,7 @@ Issuer::Issuer(const User& user) :
                                                 
                     u8"Чл. 39 от ЗДДС"
                     :
-                    u8"Чл.113, ал.9 от ЗДДС"
+                    u8"Чл.113,ал.9 от ЗДДС"
     },
 
     bulstat{ user.practice.bulstat }

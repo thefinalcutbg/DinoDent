@@ -157,10 +157,10 @@ std::array<NZOKRecipient, nzokRecipientCount> nzokRecipients
 
 Recipient::Recipient(int practiceRhif) 
 {
-    if (practiceRhif >= nzokRecipients.size() || practiceRhif < 0)
+    if (practiceRhif >= nzokRecipients.size() || practiceRhif < 1)
         throw std::exception("Invalid RHIF");
 
-    NZOKRecipient& nzok = nzokRecipients[practiceRhif];
+    NZOKRecipient& nzok = nzokRecipients[practiceRhif-1];
 
     name = nzok.name;
     address = nzok.address;

@@ -142,13 +142,15 @@ void Print::invoice(const Invoice& inv)
     report.dataManager()->setReportVariable("title", QString::fromStdString(inv.name));
     report.dataManager()->setReportVariable("number_date", QString::fromStdString(u8" № " + inv.getInvoiceNumber() + u8" от дата " + inv.date.toString(true)));
 
-    if (inv.mainDocument.has_value()) {
+    auto mainDoc = inv.mainDocument();
+
+    if (mainDoc) {
         report.dataManager()->setReportVariable(
             "main_document",
             QString::fromStdString(
                 u8"към фактура № "
-                + leadZeroes(inv.mainDocument->number, 10)
-                + u8" от " + inv.mainDocument->date.toString()
+                + leadZeroes(mainDoc->number, 10)
+                + u8" от " + mainDoc->date.toString()
                 + u8"г."));
     }
 

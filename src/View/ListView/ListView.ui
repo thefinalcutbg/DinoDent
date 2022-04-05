@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1070</width>
-    <height>950</height>
+    <height>953</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -161,17 +161,17 @@
   <widget class="QLabel" name="priceLabel">
    <property name="geometry">
     <rect>
-     <x>850</x>
-     <y>710</y>
-     <width>211</width>
-     <height>51</height>
+     <x>130</x>
+     <y>690</y>
+     <width>521</width>
+     <height>20</height>
     </rect>
    </property>
    <property name="text">
     <string/>
    </property>
    <property name="alignment">
-    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
    </property>
    <property name="wordWrap">
     <bool>true</bool>
@@ -250,14 +250,27 @@
   <widget class="QPushButton" name="invoiceButton">
    <property name="geometry">
     <rect>
-     <x>666</x>
-     <y>724</y>
+     <x>660</x>
+     <y>720</y>
      <width>101</width>
      <height>31</height>
     </rect>
    </property>
    <property name="text">
     <string>Издай фактура</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="perioButton">
+   <property name="geometry">
+    <rect>
+     <x>780</x>
+     <y>720</y>
+     <width>151</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Пародонт. измерване</string>
    </property>
   </widget>
   <zorder>teethView</zorder>
@@ -276,6 +289,7 @@
   <zorder>showCurrentStatusBox</zorder>
   <zorder>allergiesTile</zorder>
   <zorder>invoiceButton</zorder>
+  <zorder>perioButton</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>

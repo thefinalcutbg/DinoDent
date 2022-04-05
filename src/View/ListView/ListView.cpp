@@ -40,6 +40,7 @@ ListView::ListView(QWidget* parent)
 	connect(ui.unfav_check, &QCheckBox::stateChanged, [=] { if (presenter) presenter->setfullCoverage(ui.unfav_check->isChecked()); });
 	connect(ui.editProcedure, &QPushButton::clicked, [=] { if (presenter) presenter->editProcedure(ui.procedureTable->selectedRow()); });
 	connect(ui.invoiceButton, &QPushButton::clicked, [=] { if (presenter) presenter->createInvoice(); });
+	connect(ui.perioButton, &QPushButton::clicked, [=] { if (presenter) presenter->createPerioMeasurment(); });
 	connect(ui.deleteProcedure, &QAbstractButton::clicked, 
 		[=] {
 
@@ -185,7 +186,7 @@ QString getPricesText(double patientPrice, double NZOKprice)
 	//if (!patientPrice && !NZOKprice) return result;
 
 	//if (NZOKprice)
-		result.append("Сума по НЗОК: " + priceToString(NZOKprice) + "<br>");
+		result.append("Сума по НЗОК: " + priceToString(NZOKprice) + " ");
 
 	result.append("Сума за плащане: " + priceToString(patientPrice));
 

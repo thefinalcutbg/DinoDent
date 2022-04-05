@@ -24,7 +24,7 @@ ProcedureTemplateDialog::ProcedureTemplateDialog(const ProcedureTemplate* pTemp,
 			result.type = static_cast<ProcedureTemplateType>(ui.typeEdit->currentIndex());
 			result.material = ui.materialEdit->getText();
 			result.price = ui.priceEdit->value();
-			result.diagnosis = ui.materialEdit->getText();
+			result.diagnosis = ui.diagnosisEdit->getText();
 			result.nzok = false;
 
 			m_procedureTemplate.emplace(result);

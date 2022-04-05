@@ -324,11 +324,13 @@ void XML::saveXMLinvoice(const Invoice& invoice, const std::string& path)
     addElementWithText(el_invoice, "fin_document_month_no", leadZeroes(invoice.nzokData->fin_document_month_no, 10));
     addElementWithText(el_invoice, "fin_document_date", invoice.date.toXMLString());
 
-    if (invoice.mainDocument.has_value())
+    auto mainDoc = invoice.mainDocument();
+
+    if (mainDoc)
     {
         TiXmlElement* mainDocument = new TiXmlElement("Main_Fin_Doc");
-            addElementWithText(mainDocument, "document_no", leadZeroes(invoice.mainDocument.value().number, 10));
-            addElementWithText(mainDocument, "document_date", invoice.mainDocument.value().date.toXMLString());
+            addElementWithText(mainDocument, "document_no", leadZeroes(mainDoc->number, 10));
+            addElementWithText(mainDocument, "document_date", mainDoc->date.toXMLString());
         el_invoice->LinkEndChild(mainDocument);
     }
 

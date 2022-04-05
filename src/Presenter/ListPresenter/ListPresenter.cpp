@@ -612,6 +612,11 @@ void ListPresenter::createInvoice()
     tabPresenter->openInvoice(selectedProcedures.value(), patient);
 }
 
+void ListPresenter::createPerioMeasurment()
+{
+    tabPresenter->openPerio(*this->patient.get());
+}
+
 void ListPresenter::showCurrentStatus(bool show)
 {
     view->disableGraphicsView(show);

@@ -13,8 +13,8 @@ struct Practice;
 
 struct MainDocument //only in case of debit or credit note
 {
-	int number;
-	Date date;
+	int number{1};
+	Date date{Date::currentDate()};
 };
 
 enum class PaymentType { Cash, Bank };
@@ -38,6 +38,9 @@ struct Invoice
 	Invoice() {};
 	Invoice(const TiXmlDocument& monthNotif, const User& user);
 	Invoice(const Patient& p, const User& user);
+	std::optional<MainDocument> mainDocument() const;
+
+	void setMainDocumentData(int num, Date date);
 
 	int number{ 0 };
 
@@ -49,7 +52,7 @@ struct Invoice
 
 	Date date; //input by user !!!!!!!!!!!!!!!
 
-	std::optional<MainDocument> mainDocument; //for credit and debit note
+	//std::optional<MainDocument> mainDocument; 
 
 	std::optional<NZOKInvoiceData> nzokData; //from monthNotif
 
@@ -67,6 +70,7 @@ struct Invoice
 	void editOperation(const BusinessOperation& op, int idx);
 	std::string getFileName();
 	
-
+private:
+	MainDocument m_mainDocument; //for credit and debit note
 
 };

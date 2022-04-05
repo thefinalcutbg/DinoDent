@@ -27,6 +27,7 @@ public:
 	void paymentTypeChanged(PaymentType type);
 	void saveAsXML();
 	void docTypeChanged(int index);
+	void mainDocumentChanged(int num, Date date);
 
 	long long rowID() const override;
 	bool save() override;

@@ -176,18 +176,28 @@ void FinancialPresenter::docTypeChanged(int index)
 {
     m_invoice.type = static_cast<FinancialDocType>(index);
 
-    switch(m_invoice.type)
-    {
-    case::FinancialDocType::Invoice:
+    //forcing refresh of the tab name:
+    edited = false;
+    makeEdited();
 
-        m_invoice.mainDocument.reset();
-        break;
-    default:
-        m_invoice.mainDocument.emplace(MainDocument{ 1, Date::currentDate() });
-        break;
+    view->setMainDocument(m_invoice.mainDocument());
+
+   
+}
+
+void FinancialPresenter::mainDocumentChanged(int num, Date date)
+{
+    //we assume, that since ui has enabled mainDocument,
+    //the optional main doc has value:
+    if (m_invoice.mainDocument()->number != num) {
+
+        //presumably get the date from db if main document with that number already exist?
     }
 
-    view->setMainDocument(m_invoice.mainDocument);
+    m_invoice.setMainDocumentData(num, date);
+
+
+    makeEdited();
 }
 
 long long FinancialPresenter::rowID() const
@@ -282,13 +292,17 @@ bool FinancialPresenter::isNew()
 
 TabName FinancialPresenter::getTabName()
 {
-    if(!m_invoice.number) return TabName{ u8"Нов финансов документ", ""};
+    int nameIdx = static_cast<int>(m_invoice.type);
 
-    static constexpr const char* names[3]{ u8"Фактура", u8"Дебитно известие", u8"Кредитно известие" };
+    if (!m_invoice.number) {
 
-    return TabName{  
-        names[static_cast<int>(m_invoice.type)],
-        "№" + m_invoice.getInvoiceNumber()
-    };
+        static const std::string newName[3]{ u8"Новa фактура", u8"Ново дебитно известие", u8"Ново кредитно известие" };
+
+        return { newName[nameIdx], "" };
+    }
+
+    static const std::string docTypeName[3]{ u8"Фактура", u8"Дебитно известие", u8"Кредитно известие" };
+
+    return { docTypeName[nameIdx], "№" + m_invoice.getInvoiceNumber()};
    
 }

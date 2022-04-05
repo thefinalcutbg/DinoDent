@@ -77,6 +77,7 @@ public:
     void deleteProcedure(int index);
     void setfullCoverage(bool unfav);
     void createInvoice();
+    void createPerioMeasurment();
     void showCurrentStatus(bool show);
 
     ~ListPresenter();

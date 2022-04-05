@@ -75,6 +75,18 @@ FinancialView::FinancialView(QWidget *parent)
 	connect(ui.operationsTable, &ProcedureTable::deletePressed,[=] { ui.deleteButton->click(); });
 	connect(ui.operationsTable, &QTableView::doubleClicked, [=] { ui.editButton->click(); });
 	connect(ui.docTypeCombo, &QComboBox::currentIndexChanged, [=](int idx) { presenter->docTypeChanged(idx);});
+	
+	
+	
+	
+	
+	connect(ui.mainDocDateEdit, &QDateEdit::dateChanged, [=] (QDate d) {
+		presenter->mainDocumentChanged(ui.mainDocNumSpin->value(), Date(d.day(), d.month(), d.year()));
+		});
+	connect(ui.mainDocNumSpin, &QSpinBox::valueChanged, [=](int value) {
+		auto d = ui.mainDocDateEdit->date();
+		presenter->mainDocumentChanged(value, Date(d.day(), d.month(), d.year()));
+		});
 }
 
 FinancialView::~FinancialView()
@@ -91,22 +103,25 @@ void FinancialView::setInvoice(const Invoice& inv)
 	ui.issuerButton->setIssuer(inv.issuer);
 	ui.recipientButton->setRecipient(inv.recipient);
 
-	QSignalBlocker a(ui.dateEdit);
+	QSignalBlocker blockers[4]{
+		QSignalBlocker{ui.dateEdit},
+		QSignalBlocker{ui.taxEventDateEdit},
+		QSignalBlocker{ui.paymentTypeCombo},
+		QSignalBlocker{ui.docTypeCombo}
+	};
+
 	ui.dateEdit->setDate(QDate{ inv.date.year, inv.date.month, inv.date.day });
 
-	QSignalBlocker b(ui.taxEventDateEdit);
 	auto& d = inv.aggragated_amounts.taxEventDate;
 	ui.taxEventDateEdit->setDate(QDate(d.year, d.month, d.day));
 
-	QSignalBlocker c(ui.paymentTypeCombo);
 	ui.paymentTypeCombo->setCurrentIndex(static_cast<int>(inv.aggragated_amounts.paymentType));
 
 	bool nzokForm = inv.nzokData.has_value();
 
-	QSignalBlocker dd(ui.docTypeCombo);
 	ui.docTypeCombo->setCurrentIndex(static_cast<int>(inv.type));
 
-	setMainDocument(inv.mainDocument);
+	setMainDocument(inv.mainDocument());
 
 	ui.paymentTypeCombo->setDisabled(nzokForm);
 	ui.taxEventDateEdit->setDisabled(nzokForm);
@@ -149,6 +164,12 @@ void FinancialView::setBusinessOperations(const BusinessOperations& businessOp, 
 void FinancialView::setMainDocument(const std::optional<MainDocument>& mainDoc)
 {
 	if (mainDoc) {
+
+		QSignalBlocker blockers[2]{
+			QSignalBlocker(ui.mainDocDateEdit), 
+			QSignalBlocker(ui.mainDocNumSpin) 
+		};
+
 		ui.mainDocNumSpin->setValue(mainDoc->number);
 		ui.mainDocDateEdit->setDate(QDate(mainDoc->date.year, mainDoc->date.month, mainDoc->date.day));
 		showMainDocumentDetails(true);

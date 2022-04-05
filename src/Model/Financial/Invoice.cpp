@@ -46,10 +46,10 @@ Invoice::Invoice(const TiXmlDocument& monthNotif, const User& user)
 	type						{getType(getText(monthNotif.RootElement()->FirstChildElement("inv_type_code")))},
 	
 	
-    mainDocument{           
+    m_mainDocument{           
         type == FinancialDocType::Invoice
         ?
-        std::optional<MainDocument>{} 
+		MainDocument{}
         :
         MainDocument{
         std::stoi(getText(monthNotif.RootElement()->FirstChildElement("from_inv_num"))),
@@ -94,6 +94,19 @@ Invoice::Invoice(const Patient& p, const User& user) :
 	recipient(p),
 	issuer{user}
 {
+}
+
+std::optional<MainDocument> Invoice::mainDocument() const
+{
+	if (type == FinancialDocType::Invoice)	return {};
+
+	return m_mainDocument;
+}
+
+void Invoice::setMainDocumentData(int num, Date date)
+{
+	m_mainDocument.number = num;
+	m_mainDocument.date = date;
 }
 
 std::string Invoice::getInvoiceNumber() const

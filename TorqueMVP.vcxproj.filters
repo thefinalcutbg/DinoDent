@@ -48,9 +48,6 @@
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\TabView\TabBar.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\View\ListView\ListView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -582,9 +579,6 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\PatientDialog\PatientFormDialog.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="src\View\TabView\TabBar.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\ListView\ListView.h">

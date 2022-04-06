@@ -29,7 +29,7 @@ public:
 	
 
 	//returns false when user selects cancel, otherwise returns true
-	bool closeTab();
+	//bool closeTab();
 	//returns false when user selects cancel, otherwise returns true
 	bool closeAllTabs();
 };

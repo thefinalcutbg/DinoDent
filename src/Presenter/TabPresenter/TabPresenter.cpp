@@ -29,7 +29,7 @@ TabInstance* TabPresenter::currentTab()
 }
 
 
-void TabPresenter::openTab(TabInstance* tabInstance)
+void TabPresenter::openTab(TabInstance* tabInstance, bool setFocus)
 {
     _indexCounter++;
 
@@ -37,13 +37,13 @@ void TabPresenter::openTab(TabInstance* tabInstance)
 
     view->newTab(_indexCounter, m_tabs[_indexCounter]->getTabName());
 
-    view->focusTab(_indexCounter);
-    setCurrentTab(_indexCounter);
+    //tabs size() > 1, because the first tab gets focused by the view automatically
+    if (setFocus && m_tabs.size() > 1)
+        view->focusTab(_indexCounter);
 }
 
 void TabPresenter::setCurrentTab(int index)
 {
-
     if (currentTab() != nullptr) currentTab()->prepareSwitch();
 
     m_currentIndex = index;
@@ -55,13 +55,58 @@ void TabPresenter::setCurrentTab(int index)
     }
 
     m_tabs[index]->setCurrent();
+    
 }
 
-void TabPresenter::removeCurrentTab()
+
+
+void TabPresenter::closeTabRequested(int tabId)
 {
-    delete m_tabs[m_currentIndex];
-    m_tabs.erase(m_currentIndex);
-    view->removeCurrentTab();
+    auto& tabInstance = m_tabs[tabId];
+
+    if (!tabInstance->isNew() && !tabInstance->edited) {
+        removeTabInstance(tabId);
+    }
+    else
+    {
+        view->focusTab(tabId);
+        //the tabView then sends tabChanged() signal back to the presenter
+
+        if (tabInstance->save()) {
+            removeTabInstance(tabId);
+        }
+    }
+
+}
+
+void TabPresenter::removeTabInstance(int tabId)
+{
+    delete m_tabs[tabId];
+    m_tabs.erase(tabId);
+    view->removeTab(tabId);
+}
+
+bool TabPresenter::removeAllTabs()
+{
+    std::vector<int> mapKeys;
+    mapKeys.reserve(m_tabs.size());
+
+    for (auto& pair : m_tabs)
+    {
+        mapKeys.push_back(pair.first);
+    }
+
+    for (auto key : mapKeys)
+    {
+        closeTabRequested(key);
+
+        //if the tab hasn't been removed:
+        if (m_tabs.count(key)) {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 
@@ -83,6 +128,19 @@ std::shared_ptr<Patient> TabPresenter::getPatient_ptr(const Patient& patient)
     return result;
 }
 
+
+void TabPresenter::refreshPatientTabNames(long long patientRowId)
+{
+    for (auto tab : m_tabs) {
+
+        if (tab.second->patient == nullptr ||
+            tab.second->patient->rowid != patientRowId) {
+            continue;
+        }
+
+        view->changeTabName(tab.second->getTabName(), tab.first);
+    }
+}
 
 void TabPresenter::openList(const Patient& patient)
 {
@@ -141,7 +199,7 @@ void TabPresenter::open(const RowInstance& row)
         break;
     }
 
-    openTab(newTab);
+    openTab(newTab, false);
 }
 
 bool TabPresenter::tabAlreadyOpened(TabType type, long long rowID)

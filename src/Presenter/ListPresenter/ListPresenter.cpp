@@ -242,6 +242,7 @@ void ListPresenter::setCurrent()
 
 void ListPresenter::openPatientDialog()
 {
+    if (patient == nullptr) return;
 
     PatientDialogPresenter p{ *patient };
   
@@ -251,12 +252,15 @@ void ListPresenter::openPatientDialog()
 
     *this->patient = patient.value();
 
+    tabPresenter->refreshPatientTabNames(patient->rowid);
 
     view->refresh
     (
         m_ambList,
         *this->patient.get()
     );
+
+    
 
 }
 

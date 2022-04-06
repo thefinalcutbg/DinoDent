@@ -45,6 +45,8 @@ public:
 	void systemicChanged(bool enabled);
 	void restorationChanged(bool enabled);
 
+	void openPatientDialog();
+	void openAllergiesDialog();
 
 	// Inherited via TabInstance
 	long long rowID() const override;

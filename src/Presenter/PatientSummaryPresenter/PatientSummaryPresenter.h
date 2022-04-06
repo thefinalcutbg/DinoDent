@@ -21,6 +21,8 @@ public:
 	PatientSummaryPresenter(ITabView* view, std::shared_ptr<Patient> patient);
 
 	void setCurrentFrame(int index);
+	void openPatientDialog();
+	void openAllergiesDialog();
 
 	long long rowID() const override;
 	bool save() override { return true; };

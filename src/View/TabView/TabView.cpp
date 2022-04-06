@@ -2,11 +2,36 @@
 #include <QABstractScrollArea>
 #include <QScrollBar>
 #include "View/Theme.h"
+#include "TabTitle.h"
 
 TabView::TabView(QWidget *parent)
 	: QWidget(parent), tabPresenter(nullptr)
 {
 	ui.setupUi(this);
+
+    ui.tabBar->setExpanding(false);
+    ui.tabBar->setMovable(true);
+    ui.tabBar->setTabsClosable(true);
+    ui.tabBar->setElideMode(Qt::TextElideMode::ElideNone);
+
+    ui.tabBar->setStyleSheet(
+        "QTabBar::tab{"
+        "background-color:" + Theme::getRGBStringFromColor(Theme::inactiveTabBG) +
+        "border-top-left-radius: 8px;"
+        "border-top-right-radius: 8px;"
+        "margin-right: 1px;"
+        "}"
+
+        "QTabBar::tab:selected {"
+        "background-color: " + Theme::getRGBStringFromColor(Theme::background) +
+        "}"
+
+        "QTabBar::tab:hover:!selected {"
+        "background-color:" + Theme::getRGBStringFromColor(Theme::inactiveTabBGHover) +
+        "}"
+    );
+
+
 
 
     connect(ui.tabBar, &QTabBar::currentChanged,
@@ -18,17 +43,13 @@ TabView::TabView(QWidget *parent)
                 return;
             }
 
-            int tabId = ui.tabBar->getTabId(index);
+            auto tabId = static_cast<TabTitle*>
+                (ui.tabBar->tabButton(index, QTabBar::ButtonPosition::RightSide))
+                    ->getTabId();
 
             tabPresenter->setCurrentTab(tabId);
         });
 
-    connect(ui.tabBar, &QTabBar::tabCloseRequested,
-        [=](int index)
-        {
-            ui.tabBar->setCurrentIndex(index);
-            emit closeRequested(ui.tabBar->getTabId(index));
-        });
 
     ui.scrollArea->setAlignment(Qt::AlignHCenter);
  
@@ -49,8 +70,38 @@ TabView::TabView(QWidget *parent)
     
 }
 
-TabView::~TabView()
+
+void TabView::requestClose(int tabId)
 {
+    tabPresenter->closeTabRequested(tabId);
+}
+
+TabTitle* TabView::getTabTitle(int tabId)
+{
+    for (int i = 0; i < ui.tabBar->count(); i++)
+    {
+        auto tab = static_cast<TabTitle*>(ui.tabBar->tabButton(i, QTabBar::ButtonPosition::RightSide));
+        
+        if (tab->getTabId() == tabId) {
+            return tab;
+        }
+    }
+
+    return nullptr;
+}
+
+int TabView::getTabIndex(int tabId)
+{
+    for (int i = 0; i < ui.tabBar->count(); i++)
+    {
+        auto tab = static_cast<TabTitle*>(ui.tabBar->tabButton(i, QTabBar::ButtonPosition::RightSide));
+
+        if (tab->getTabId() == tabId) {
+            return i;
+        }
+    }
+
+    return -1;
 }
 
 
@@ -67,49 +118,67 @@ void TabView::showTabWidget(QWidget* w)
     ui.scrollArea->setWidget(w);
 }
 
-void TabView::newTab(int tabIndex, const TabName& tabName)
+void TabView::newTab(int tabId, const TabName& tabName)
 {
-    ui.tabBar->addNewTab(
-        tabIndex,
-        QString::fromStdString(tabName.header), 
-        QString::fromStdString(tabName.footer)
-        );
+    TabTitle* tab = new TabTitle(this, tabId);
 
-  // ui.tabBar->setCurrentIndex(ui.tabBar->count() - 1);
+    tab->setText(QString::fromStdString(tabName.header), QString::fromStdString(tabName.footer));
+
+    {
+        QSignalBlocker блоцкер(ui.tabBar);
+
+        int newTabIdx = ui.tabBar->addTab("");
+
+        ui.tabBar->setTabButton(newTabIdx, QTabBar::ButtonPosition::RightSide, tab);
+
+    }
+    //if the tab, which is added is the first one:
+    if (ui.tabBar->count() == 1) ui.tabBar->currentChanged(0);
+    
+
 
 }
 
-void TabView::focusTab(int vecPos)
-{
-    for (int i = 0; i < ui.tabBar->count(); i++)
-    {
-        if (ui.tabBar->getTabId(i) == vecPos)
-            ui.tabBar->setCurrentIndex(i);
-    }
+void TabView::focusTab(int tabId)
+{    
+    ui.tabBar->setCurrentIndex(getTabIndex(tabId));
+
 }
 
 void TabView::removeCurrentTab()
 {
-    int index = ui.tabBar->currentIndex();
-
-    ui.tabBar->closeTab(index);
-        
+    ui.tabBar->removeTab(ui.tabBar->currentIndex());
 }
 
-void TabView::removeTab(int vecPos)
+void TabView::removeTab(int tabId)
 {
-    for (int i = 0; i < ui.tabBar->count(); i++)
-        if (ui.tabBar->getTabId(i) == vecPos)
-            ui.tabBar->closeTab(i);
+    ui.tabBar->removeTab(getTabIndex(tabId));
 }
 
 void TabView::changeTabName(const TabName& tabName)
 {
-    ui.tabBar->changeTabName(
-        ui.tabBar->currentIndex(), 
-        QString::fromStdString(tabName.header), 
-        QString::fromStdString(tabName.footer)
-    );
+    auto tab = static_cast<TabTitle*>
+        (ui.tabBar->tabButton(ui.tabBar->currentIndex(), QTabBar::ButtonPosition::RightSide));
+
+    tab->setText(QString::fromStdString(tabName.header), QString::fromStdString(tabName.footer));
+
+    //re-setting the tab into the tabbar, to change the layout
+    ui.tabBar->setTabButton(ui.tabBar->currentIndex(), QTabBar::ButtonPosition::RightSide, nullptr);
+    ui.tabBar->setTabButton(ui.tabBar->currentIndex(), QTabBar::ButtonPosition::RightSide, tab);
+}
+
+void TabView::changeTabName(const TabName& tabName, int tabId)
+{
+    int tabIndex = getTabIndex(tabId);
+
+    auto tab = static_cast<TabTitle*>
+        (ui.tabBar->tabButton(tabIndex, QTabBar::ButtonPosition::RightSide));
+
+    tab->setText(QString::fromStdString(tabName.header), QString::fromStdString(tabName.footer));
+    
+    //re-setting the tab into the tabbar, to change the layout
+    ui.tabBar->setTabButton(tabIndex, QTabBar::ButtonPosition::RightSide, nullptr);
+    ui.tabBar->setTabButton(tabIndex, QTabBar::ButtonPosition::RightSide, tab);
 }
 
 void TabView::setTabPresenter(TabPresenter* presenter)
@@ -192,6 +261,11 @@ IPatientSummaryView* TabView::summaryView()
 IFinancialView* TabView::financialView()
 {
     return &m_financialView;
+}
+
+
+TabView::~TabView()
+{
 }
 
 

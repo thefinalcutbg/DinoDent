@@ -6,6 +6,8 @@
 #include "Model/Parser/Parser.h"
 #include "View/ModalDialogBuilder.h"
 #include "Database/DbPerio.h"
+#include "Presenter/PatientDialog/PatientDialogPresenter.h"
+#include "Presenter/AllergiesDialog/AllergiesDialogPresenter.h"
 
 PerioPresenter::PerioPresenter(ITabView* view, std::shared_ptr<Patient> patient) :
     TabInstance(view, TabType::PerioList, patient), 
@@ -331,6 +333,36 @@ TabName PerioPresenter::getTabName()
         u8"Пародонт. статус " + m_perioStatus.date.toString(),
         patient->firstLastName() 
     };
+}
+
+void PerioPresenter::openPatientDialog()
+{
+    PatientDialogPresenter p{ *patient };
+
+    auto patient = p.open();
+
+    if (!patient.has_value()) return;
+
+    *this->patient = patient.value();
+
+    view->setPatient(*this->patient.get(), m_perioStatus.date);
+}
+
+void PerioPresenter::openAllergiesDialog()
+{
+    AllergiesDialogPresenter p(*patient.get());
+
+    auto data = p.openDialog();
+
+    if (!data.has_value()) return;
+
+    auto& d = data.value();
+
+    patient->allergies = d.allergies;
+    patient->currentDiseases = d.current;
+    patient->pastDiseases = d.past;
+
+    view->setPatient(*this->patient.get(), m_perioStatus.date);
 }
 
 PerioPresenter::~PerioPresenter()

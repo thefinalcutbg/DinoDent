@@ -4,9 +4,10 @@
 #include "Presenter/ListPresenter/ToothHintCreator.h"
 #include "Model/Patient.h"
 #include <array>
-#include <QDebug>
 #include "Database/DbPatientSummary.h"
 #include "Database/DbPerio.h"
+#include "Presenter/PatientDialog/PatientDialogPresenter.h"
+#include "Presenter/AllergiesDialog/AllergiesDialogPresenter.h"
 
 PatientSummaryPresenter::PatientSummaryPresenter(ITabView* view, std::shared_ptr<Patient> patient)
     :   TabInstance(view, TabType::PatientSummary, patient), 
@@ -103,6 +104,36 @@ void PatientSummaryPresenter::setCurrentFrame(int index)
 
     view->setDateLabel("Дата: " + statusTimeFrame[m_currentFrameIdx].date.toString());
 
+}
+
+void PatientSummaryPresenter::openPatientDialog()
+{
+    PatientDialogPresenter p{ *patient };
+
+    auto patient = p.open();
+
+    if (!patient.has_value()) return;
+
+    *this->patient = patient.value();
+
+    view->setPatient( *this->patient.get() );
+}
+
+void PatientSummaryPresenter::openAllergiesDialog()
+{
+        AllergiesDialogPresenter p(*patient.get());
+
+        auto data = p.openDialog();
+
+        if (!data.has_value()) return;
+
+        auto& d = data.value();
+
+        patient->allergies = d.allergies;
+        patient->currentDiseases = d.current;
+        patient->pastDiseases = d.past;
+
+        view->setPatient(*this->patient.get());
 }
 
 long long PatientSummaryPresenter::rowID() const

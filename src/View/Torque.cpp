@@ -36,7 +36,6 @@ Torque::Torque(QWidget* parent)
     connect(ui.newButton, &QPushButton::clicked, [&] { presenter.newAmbPressed(); });
     connect(ui.saveAsButton, &QPushButton::clicked, [&] { presenter.saveAs(); });
     connect(ui.saveButton, &QPushButton::clicked, [&] { presenter.save(); });
-    connect(ui.tabView, &TabView::closeRequested, [&] {presenter.closeTab(); });
     connect(ui.listSelectButton, &QPushButton::clicked, [&] {presenter.showListSelector(); });
     connect(ui.printButton, &QPushButton::clicked, [&] {presenter.printPressed(); });
     connect(ui.perioButton, &QPushButton::clicked, [&] {presenter.newPerioPressed(); });

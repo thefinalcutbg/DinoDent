@@ -181,7 +181,7 @@ void ProcedureTable::paintEvent(QPaintEvent* e)
 
     QPen borderPen(Theme::border);
     borderPen.setCosmetic(true);
-    borderPen.setWidth(4);
+    borderPen.setWidth(2);
 
     painter.setPen(borderPen);
     painter.drawPath(path);
@@ -274,7 +274,7 @@ void ProcedureHeader::paintEvent(QPaintEvent* e)
     painter.fillPath(path, Theme::sectionBackground);
 
     QPen borderPen(Theme::border);
-    borderPen.setWidth(4);
+    borderPen.setWidth(2);
     borderPen.setCosmetic(true);
 
     painter.setPen(borderPen);
@@ -282,7 +282,9 @@ void ProcedureHeader::paintEvent(QPaintEvent* e)
 
     painter.resetTransform();
 
-    painter.setPen(Theme::fontTurquoiseClicked);
+    borderPen.setColor(Theme::fontTurquoiseClicked);
+
+    painter.setPen(borderPen);
 
     painter.drawLine(0, height(), width() - 1, height());
 

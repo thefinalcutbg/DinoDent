@@ -202,24 +202,8 @@ void MainPresenter::userSettingsPressed()
         UserManager::setCurrentDoctor(doctor.value());
 }
 
-
-bool MainPresenter::closeTab()
-{
-    if (!_tabPresenter.currentTab()->close()) return false;
-
-    _tabPresenter.removeCurrentTab();
-
-    return true;
-}
-
 bool MainPresenter::closeAllTabs()
 {
-    while (_tabPresenter.currentTab())
-    {
-       bool canceled = !closeTab();
-       if (canceled) return false;
-    }
-    
-    return true;
+    return _tabPresenter.removeAllTabs();
 }
 

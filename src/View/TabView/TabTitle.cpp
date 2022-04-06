@@ -1,19 +1,18 @@
 #include "TabTitle.h"
-#include "TabBar.h"
+#include "View/TabView/TabView.h"
 #include <QFontMetrics>
 #include <algorithm>
 #include "View/Theme.h"
 
-TabTitle::TabTitle(TabBar* parent, int tabId)
-	: QWidget(parent), tabId(tabId), m_parent(parent)
+TabTitle::TabTitle(TabView* tabView, int tabId)
+	: tabId(tabId), m_id(tabId)
 {
 	ui.setupUi(this);
 
-	int tabIndex = parent->addTab("");
-	parent->setTabButton(tabIndex, TabBar::RightSide, this);
+	setCurrentAppearence(false);
 
 	connect(ui.pushButton, &QPushButton::clicked, this, [=] {
-				m_parent->requestClose(this);
+				tabView->requestClose(tabId);
 	});
 
 	ui.header->setAttribute(Qt::WidgetAttribute::WA_TransparentForMouseEvents);
@@ -46,7 +45,8 @@ void TabTitle::setText(const QString& header, const QString& footer)
 	) + 30;
 
 	resize(width, height());
-
+	
+	/*
 	for (int i = 0; i < m_parent->count(); i++) {	//re-setting widget to tab view
 		if (m_parent->tabButton(i, QTabBar::RightSide) == static_cast<QWidget*>(this))
 		{
@@ -54,11 +54,11 @@ void TabTitle::setText(const QString& header, const QString& footer)
 			m_parent->setTabButton(i, QTabBar::RightSide, this);
 		}
 	}
+	*/
 }
 
 void TabTitle::setCurrentAppearence(bool current)
 {
-	
 
 	if (current) {
 		setStyleSheet(
@@ -78,6 +78,17 @@ void TabTitle::setCurrentAppearence(bool current)
 			"QPushButton:pressed:hover{color: darkred;}"
 		);
 	}
+}
+
+void TabTitle::mouseReleaseEvent(QMouseEvent* event)
+{
+	if (event->button() == Qt::MiddleButton)
+	{
+		ui.pushButton->click();
+		return;
+	}
+
+	QWidget::mouseReleaseEvent(event);
 }
 
 TabTitle::~TabTitle()

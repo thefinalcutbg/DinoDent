@@ -387,7 +387,6 @@
     <ClCompile Include="src\Presenter\ListPresenter\ListPresenter.cpp" />
     <ClCompile Include="src\View\AllergiesDialog\AllergiesDialog.cpp" />
     <ClCompile Include="src\View\ListView\ListView.cpp" />
-    <ClCompile Include="src\View\TabView\TabBar.cpp" />
     <ClCompile Include="src\View\ListView\ControlPanel\StatusButton.cpp" />
     <ClCompile Include="src\Presenter\ListPresenter\SurfacePanel\ButtonSurfaceMatrix.cpp" />
     <ClCompile Include="src\Presenter\ListPresenter\SurfacePanel\SurfacePanelPresenter.cpp" />
@@ -677,7 +676,6 @@
     <QtMoc Include="src\View\ListView\TeethView\ContextMenu.h" />
     <ClInclude Include="src\Presenter\ListPresenter\CheckState.h" />
     <ClInclude Include="src\Model\Tooth\Tooth.h" />
-    <QtMoc Include="src\View\TabView\TabBar.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\DateEdit.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\ComboBox.h" />
     <QtMoc Include="src\View\ListView\ListView.h" />

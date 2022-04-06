@@ -6,6 +6,12 @@ PatientSummary::PatientSummary(QWidget *parent)
 	: QWidget(parent), presenter(nullptr)
 {
 	ui.setupUi(this);
+
+
+	connect(ui.patientTile, &QAbstractButton::clicked, [=] { if (presenter) presenter->openPatientDialog(); });
+	connect(ui.allergiesTile, &QAbstractButton::clicked, [=] { if (presenter) presenter->openAllergiesDialog(); });
+
+
 	ui.teethView->setScene(&buccalScene);
 	ui.teethView->setDisabled(true);
 

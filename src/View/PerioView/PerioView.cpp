@@ -16,6 +16,9 @@ PerioView::PerioView(QWidget* parent)
 {
 	ui.setupUi(this);
 
+	connect(ui.patientTile, &QAbstractButton::clicked, [=] { if (presenter) presenter->openPatientDialog(); });
+	connect(ui.allergiesTile, &QAbstractButton::clicked, [=] { if (presenter) presenter->openAllergiesDialog(); });
+
 	QButtonGroup* group = new QButtonGroup(this);
 	group->addButton(ui.upperButton);
 	group->addButton(ui.lowerButton);

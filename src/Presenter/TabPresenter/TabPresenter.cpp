@@ -74,8 +74,8 @@ void TabPresenter::closeTabRequested(int tabId)
     view->focusTab(tabId);
 
     auto answer = ModalDialogBuilder::openSaveDialog(
-        u8"Желаете ли да запазите промените по " +
-        tabInstance->getTabName().toString() + "?");
+        tabInstance->getTabName().toString()
+    );
 
     switch (answer) {
 

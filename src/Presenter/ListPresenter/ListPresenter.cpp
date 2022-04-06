@@ -170,7 +170,7 @@ bool ListPresenter::saveAs()
   
     newNumber = ModalDialogBuilder::saveAsDocNumber(newNumber, existingNumbers, u8"Амбулаторен лист");
 
-    if (!newNumber) return false; //a.k.a. dialog is canceled
+    if (newNumber == 0) return false; //a.k.a. dialog is canceled
 
     m_ambList.number = newNumber;
 

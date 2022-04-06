@@ -1,4 +1,4 @@
-#include "TabPresenter.h"
+﻿#include "TabPresenter.h"
 #include "Model/Patient.h"
 #include "Model/AmbList.h"
 #include "Model/TableRows.h"
@@ -66,16 +66,35 @@ void TabPresenter::closeTabRequested(int tabId)
 
     if (!tabInstance->isNew() && !tabInstance->edited) {
         removeTabInstance(tabId);
+        return;
     }
-    else
-    {
-        view->focusTab(tabId);
-        //the tabView then sends tabChanged() signal back to the presenter
+   
 
-        if (tabInstance->save()) {
-            removeTabInstance(tabId);
+    //the tabView then sends tabChanged() signal back to the presenter
+    view->focusTab(tabId);
+
+    auto answer = ModalDialogBuilder::openSaveDialog(
+        u8"Желаете ли да запазите промените по " +
+        tabInstance->getTabName().toString() + "?");
+
+    switch (answer) {
+
+        case DialogAnswer::Yes: {
+            if (tabInstance->save()) {
+                removeTabInstance(tabId);
+            }
+            break;
         }
+
+        case DialogAnswer::No: removeTabInstance(tabId); break;
+
+        case DialogAnswer::Cancel: break;
+
     }
+
+
+
+
 
 }
 

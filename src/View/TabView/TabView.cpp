@@ -53,7 +53,7 @@ TabView::TabView(QWidget *parent)
 
     ui.scrollArea->setAlignment(Qt::AlignHCenter);
  
-    noTabs = new QLabel(this);
+    noTabs = new PixmapLabel(this);
     noTabs->setPixmap(QPixmap("dino.png"));
     noTabs->setAlignment(Qt::AlignCenter);
     noTabs->setStyleSheet("background-color:"+ Theme::getRGBStringFromColor(Theme::background));

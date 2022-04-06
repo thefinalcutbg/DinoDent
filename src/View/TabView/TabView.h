@@ -7,7 +7,7 @@
 #include "View/PerioView/PerioView.h"
 #include "View/PatientSummaryView/PatientSummary.h"
 #include "View/FinancialView/FinancialView.h"
-
+#include "View/uiComponents/qt_derived/PixmapLabel.h"
 class TabTitle;
 
 class TabView : public QWidget, public ITabView
@@ -21,7 +21,7 @@ class TabView : public QWidget, public ITabView
 	PatientSummary m_summaryView;
 	FinancialView m_financialView;
 
-	QLabel* noTabs;
+	PixmapLabel* noTabs;
 
 	void showTabWidget(QWidget* w);
 

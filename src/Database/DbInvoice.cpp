@@ -163,12 +163,13 @@ Invoice DbInvoice::getInvoice(long long rowId)
         inv.date = invDate;
         inv.type = type;
 
-        inv.recipient.bulstat = db.asString(6);
-        inv.recipient.name = db.asString(7);
-        inv.recipient.phone = db.asString(8);
-        inv.recipient.address = db.asString(9);
-
         Parser::parse(db.asString(6), inv);
+        inv.recipient.bulstat = db.asString(7);
+        inv.recipient.name = db.asString(8);
+        inv.recipient.phone = db.asString(9);
+        inv.recipient.address = db.asString(10);
+
+  
 
         return inv;
     }

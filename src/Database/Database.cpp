@@ -171,9 +171,6 @@ void Db::createIfNotExist()
         "CREATE TABLE procedure (rowid INTEGER NOT NULL PRIMARY KEY, amblist_rowid INTEGER NOT NULL, nzok INT NOT NULL, code VARCHAR (10) NOT NULL, type INT NOT NULL, day INT NOT NULL, tooth INT NOT NULL, deciduous INT NOT NULL, price REAL NOT NULL, data VARCHAR NOT NULL, FOREIGN KEY (amblist_rowid) REFERENCES amblist (id) ON DELETE CASCADE ON UPDATE CASCADE)"
     );
 
-    db.execute(
-        "VACUUM"
-    );
   //  rc = sqlite3_exec(db,"VACUUM", NULL, NULL, &err);
 
 

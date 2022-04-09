@@ -1,9 +1,11 @@
 #include "PerioButton.h"
 #include <QEvent>
 #include <QPainter>
+#include "View/Theme.h"
 
 bool PerioButton::eventFilter(QObject* obj, QEvent* e)
 {
+
 	if (e->type() == QEvent::HoverEnter) {
 		m_hover = true;
 		update();
@@ -24,7 +26,6 @@ PerioButton::PerioButton(QWidget *parent)
 	setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
 }
 
-
 PerioButton::~PerioButton()
 {
 }
@@ -35,7 +36,7 @@ void PerioButton::paintEvent(QPaintEvent* event)
 	QPainter painter(this);
 
 	QColor color(Qt::GlobalColor::white);
-	if (!isEnabled()) color = QColor(Qt::GlobalColor::lightGray);
+	if (!isEnabled()) color = Theme::background;
 	else if (m_hover) color = QColor{ 236, 236, 236 };
 
 	
@@ -49,8 +50,6 @@ void PerioButton::paintEvent(QPaintEvent* event)
 	pen.setCosmetic(true);
 	painter.setPen(pen);
 	painter.drawRect(rect);
-
-
 
 	if (isEnabled() && isChecked())
 	{

@@ -39,10 +39,12 @@ void TabTitle::setText(const QString& header, const QString& footer)
 	QFontMetrics headerMetrics(ui.header->font());
 	QFontMetrics footerMetrics(ui.footer->font());
 
+	int padding = ui.iconLabel->isHidden() ? 40 : 50;
+
 	int width = std::max(
 		headerMetrics.boundingRect(ui.header->text()).width(),
 		footerMetrics.boundingRect(ui.footer->text()).width()
-	) + 30;
+	) + padding;
 
 	resize(width, height());
 	
@@ -89,6 +91,13 @@ void TabTitle::mouseReleaseEvent(QMouseEvent* event)
 	}
 
 	QWidget::mouseReleaseEvent(event);
+}
+
+void TabTitle::setIcon(const QPixmap& px)
+{
+	ui.iconLabel->setHidden(px.isNull());
+	ui.iconLabel->setPixmap(px);
+	
 }
 
 TabTitle::~TabTitle()

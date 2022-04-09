@@ -71,7 +71,7 @@
    <property name="geometry">
     <rect>
      <x>130</x>
-     <y>290</y>
+     <y>250</y>
      <width>111</width>
      <height>20</height>
     </rect>
@@ -129,7 +129,7 @@
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>290</y>
+     <y>250</y>
      <width>47</width>
      <height>14</height>
     </rect>
@@ -155,7 +155,7 @@
    <property name="geometry">
     <rect>
      <x>130</x>
-     <y>250</y>
+     <y>290</y>
      <width>61</width>
      <height>20</height>
     </rect>
@@ -341,7 +341,7 @@
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>250</y>
+     <y>290</y>
      <width>71</width>
      <height>21</height>
     </rect>
@@ -427,8 +427,8 @@
   <tabstop>mNameEdit</tabstop>
   <tabstop>lNameEdit</tabstop>
   <tabstop>cityLineEdit</tabstop>
-  <tabstop>HIRBNoEdit</tabstop>
   <tabstop>addressEdit</tabstop>
+  <tabstop>HIRBNoEdit</tabstop>
   <tabstop>phoneEdit</tabstop>
   <tabstop>birthEdit</tabstop>
   <tabstop>sexCombo</tabstop>

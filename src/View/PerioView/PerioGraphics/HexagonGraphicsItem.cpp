@@ -1,6 +1,7 @@
 #include "HexagonGraphicsItem.h"
 #include <QPainter>
 #include <cmath>
+#include "View/Theme.h"
 
 QPolygonF getHexaPolygon(int radius)
 {
@@ -41,6 +42,11 @@ HexagonGraphicsItem::HexagonGraphicsItem()
 void HexagonGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
 	painter->setRenderHint(QPainter::Antialiasing);
+
+
+	QPainterPath background;
+	background.addPolygon(polygon[5]);
+	painter->fillPath(background, Qt::white);
 
 	QPainterPath riskPath;
 	riskPath.addPolygon(riskPoly);
@@ -83,7 +89,7 @@ void HexagonGraphicsItem::setRiskValue(const std::array<int, 6>& values, int ris
 
 	switch (risk)
 	{
-		case 0: riskColor = QColor(Qt::GlobalColor::green); break;
+		case 0: riskColor = Theme::mainBackgroundColor; break;
 		case 1: riskColor = QColor(247, 167, 62); break;
 		case 2: riskColor = QColor(Qt::GlobalColor::red); break;
 		default: riskColor = QColor(Qt::GlobalColor::white); break;

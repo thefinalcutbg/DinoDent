@@ -32,8 +32,6 @@ void IconButton::paintEvent(QPaintEvent* event)
 
 	if (!icon().isNull())
 		icon().paint(&painter, iconRect);
-
-
 }
 
 bool IconButton::eventFilter(QObject* obj, QEvent* e)

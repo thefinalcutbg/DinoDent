@@ -67,6 +67,7 @@ void ProcedureTable::setAmbListLayout()
     setColumnWidth(5, 49);
     setColumnWidth(6, 69);
     hideColumn(7);
+
     horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
     setShowGrid(false);
 }
@@ -104,8 +105,6 @@ void ProcedureTable::setProcedurePrintSelectLayout()
     setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     horizontalHeader()->setSectionResizeMode(3, QHeaderView::Stretch);
-  //  horizontalHeader()->setSectionResizeMode(4, QHeaderView::Stretch);
-  //  horizontalHeader()->setSectionResizeMode(7, QHeaderView::Stretch);
     setShowGrid(false);
 }
 
@@ -197,23 +196,27 @@ void ProcedureTable::paintEvent(QPaintEvent* e)
     if (model() != nullptr && model()->rowCount()) {
 
         double xPos = 0;
-        bool skipFirst = true;
 
-        for (int i = 1; i < model()->columnCount(); i++)
+        bool firstVisible(true);
+
+        for (int i = 0; i < model()->columnCount(); i++)
         {
-            
+
             if (horizontalHeader()->isSectionHidden(i)) {
                 continue;
             }
 
-            xPos += horizontalHeader()->sectionSize(i - 1);
 
-            if (skipFirst) { 
-                skipFirst = false; 
+
+            if (firstVisible) {
+                firstVisible = false;
+                xPos += horizontalHeader()->sectionSize(i);
                 continue;
             }
 
             painter.drawLine(QPointF(xPos-1, 0), QPointF(xPos-1, h + footerHeight));
+
+            xPos += horizontalHeader()->sectionSize(i);
             
         }
 

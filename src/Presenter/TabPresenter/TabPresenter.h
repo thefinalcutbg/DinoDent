@@ -45,7 +45,7 @@ public:
 	void openPerio(const Patient& patient);
 	void openInvoice(const std::string& monthNotifFilePath);
 	void openInvoice(const Procedures& procedures, std::shared_ptr<Patient> patient);
-	void open(const RowInstance& row);
+	void open(const RowInstance& row, bool setFocus = false);
 
 	bool documentTabOpened(TabType type, long long rowID) const;
 	bool patientTabOpened(long long patientRowid) const;

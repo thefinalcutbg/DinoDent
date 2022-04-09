@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>808</width>
-    <height>817</height>
+    <height>849</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -29,7 +29,7 @@
    <property name="geometry">
     <rect>
      <x>9</x>
-     <y>170</y>
+     <y>190</y>
      <width>721</width>
      <height>451</height>
     </rect>
@@ -60,7 +60,7 @@
    <property name="geometry">
     <rect>
      <x>9</x>
-     <y>655</y>
+     <y>675</y>
      <width>721</width>
      <height>141</height>
     </rect>
@@ -129,7 +129,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>630</y>
+     <y>650</y>
      <width>121</width>
      <height>16</height>
     </rect>
@@ -154,7 +154,7 @@
    <property name="geometry">
     <rect>
      <x>137</x>
-     <y>628</y>
+     <y>648</y>
      <width>591</width>
      <height>20</height>
     </rect>
@@ -178,30 +178,49 @@
     <enum>Qt::Horizontal</enum>
    </property>
   </widget>
-  <widget class="QCheckBox" name="showLingual">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>140</y>
-     <width>151</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Изглед от лингвално</string>
-   </property>
-  </widget>
   <widget class="QCheckBox" name="showPerio">
    <property name="geometry">
     <rect>
-     <x>180</x>
-     <y>140</y>
+     <x>550</x>
+     <y>150</y>
      <width>181</width>
      <height>20</height>
     </rect>
    </property>
    <property name="text">
     <string>Пародонтални измервания</string>
+   </property>
+  </widget>
+  <widget class="HalfRoundedButton" name="showLingual">
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>140</y>
+     <width>91</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Лингвално</string>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="HalfRoundedButton" name="showBuccal">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>140</y>
+     <width>101</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Букално</string>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
    </property>
   </widget>
  </widget>
@@ -226,6 +245,11 @@
    <class>AllergiesTile</class>
    <extends>QPushButton</extends>
    <header>View/uiComponents/qt_derived/Widgets/TileButton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>HalfRoundedButton</class>
+   <extends>QPushButton</extends>
+   <header>View/uiComponents/qt_derived/HalfRoundedButton.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

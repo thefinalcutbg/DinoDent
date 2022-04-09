@@ -93,7 +93,7 @@ void Torque::paintEvent(QPaintEvent* event)
 {
     QPainter painter;
     painter.begin(this);
-    painter.fillRect(QRect(0, 0, width(), height()), QColor(170, 215, 220));
+    painter.fillRect(rect(), Theme::mainBackgroundColor);
     painter.end();
 }
 

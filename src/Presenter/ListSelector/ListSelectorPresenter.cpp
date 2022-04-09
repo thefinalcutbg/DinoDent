@@ -81,6 +81,24 @@ void ListSelectorPresenter::setTabPresenter(TabPresenter* tabPresenter)
 	this->tab_presenter = tabPresenter;
 }
 
+template<typename T>
+void openDocuments(TabPresenter* tabPresenter,
+	const std::set<int>& selectedIndexes,
+	const std::vector<T>& rows
+)
+{
+	int last{ 0 };
+
+	for (auto idx : selectedIndexes) {
+
+		last = idx;
+
+		tabPresenter->open(rows[idx]);
+	}
+	tabPresenter->open(rows[last], true);
+
+
+}
 void ListSelectorPresenter::openCurrentSelection()
 {
 	if (!selectedIndexes.size()) return;
@@ -88,21 +106,13 @@ void ListSelectorPresenter::openCurrentSelection()
 	switch (m_currentModelType)
 	{
 	case TabType::AmbList:
-		for (auto idx : selectedIndexes)
-			tab_presenter->open(m_ambRows[idx]);
-		break;
+		openDocuments(tab_presenter, selectedIndexes, m_ambRows); break;
 	case TabType::PerioList:
-		for (auto idx : selectedIndexes)
-			tab_presenter->open(m_perioRows[idx]);
-		break;
+		openDocuments(tab_presenter, selectedIndexes, m_perioRows); break;
 	case TabType::PatientSummary:
-		for (auto idx : selectedIndexes)
-			tab_presenter->open(m_patientRows[idx]);
-		break;
+		openDocuments(tab_presenter, selectedIndexes, m_patientRows); break;
 	case TabType::Financial:
-		for (auto idx : selectedIndexes)
-			tab_presenter->open(m_financialRows[idx]);
-		break;
+		openDocuments(tab_presenter, selectedIndexes, m_financialRows); break;
 	}
 
 

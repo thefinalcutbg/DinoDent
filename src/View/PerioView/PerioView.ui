@@ -29,7 +29,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>200</y>
+     <y>230</y>
      <width>1195</width>
      <height>801</height>
     </rect>
@@ -37,13 +37,13 @@
    <widget class="PerioStatusView" name="maxilla"/>
    <widget class="PerioStatusView" name="mandibula"/>
   </widget>
-  <widget class="QPushButton" name="upperButton">
+  <widget class="HalfRoundedButton" name="upperButton">
    <property name="geometry">
     <rect>
-     <x>80</x>
-     <y>160</y>
-     <width>131</width>
-     <height>21</height>
+     <x>420</x>
+     <y>170</y>
+     <width>151</width>
+     <height>31</height>
     </rect>
    </property>
    <property name="text">
@@ -53,13 +53,13 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="lowerButton">
+  <widget class="HalfRoundedButton" name="lowerButton">
    <property name="geometry">
     <rect>
-     <x>230</x>
-     <y>160</y>
-     <width>131</width>
-     <height>21</height>
+     <x>570</x>
+     <y>170</y>
+     <width>161</width>
+     <height>31</height>
     </rect>
    </property>
    <property name="text">
@@ -73,7 +73,7 @@
    <property name="geometry">
     <rect>
      <x>80</x>
-     <y>1050</y>
+     <y>1080</y>
      <width>802</width>
      <height>221</height>
     </rect>
@@ -134,7 +134,7 @@
    <property name="geometry">
     <rect>
      <x>930</x>
-     <y>150</y>
+     <y>140</y>
      <width>281</width>
      <height>31</height>
     </rect>
@@ -205,7 +205,7 @@
    <property name="geometry">
     <rect>
      <x>890</x>
-     <y>1000</y>
+     <y>1030</y>
      <width>341</width>
      <height>321</height>
     </rect>
@@ -218,7 +218,7 @@
    <property name="geometry">
     <rect>
      <x>1030</x>
-     <y>1000</y>
+     <y>1030</y>
      <width>71</width>
      <height>41</height>
     </rect>
@@ -234,7 +234,7 @@
    <property name="geometry">
     <rect>
      <x>1160</x>
-     <y>1080</y>
+     <y>1110</y>
      <width>71</width>
      <height>31</height>
     </rect>
@@ -250,7 +250,7 @@
    <property name="geometry">
     <rect>
      <x>1160</x>
-     <y>1210</y>
+     <y>1240</y>
      <width>71</width>
      <height>41</height>
     </rect>
@@ -269,7 +269,7 @@
    <property name="geometry">
     <rect>
      <x>1010</x>
-     <y>1290</y>
+     <y>1320</y>
      <width>111</width>
      <height>31</height>
     </rect>
@@ -288,7 +288,7 @@
    <property name="geometry">
     <rect>
      <x>890</x>
-     <y>1190</y>
+     <y>1220</y>
      <width>81</width>
      <height>81</height>
     </rect>
@@ -307,7 +307,7 @@
    <property name="geometry">
     <rect>
      <x>890</x>
-     <y>1070</y>
+     <y>1100</y>
      <width>61</width>
      <height>51</height>
     </rect>
@@ -326,7 +326,7 @@
    <property name="geometry">
     <rect>
      <x>480</x>
-     <y>1270</y>
+     <y>1300</y>
      <width>401</width>
      <height>51</height>
     </rect>
@@ -347,7 +347,7 @@
    <property name="geometry">
     <rect>
      <x>80</x>
-     <y>1270</y>
+     <y>1300</y>
      <width>401</width>
      <height>51</height>
     </rect>
@@ -413,6 +413,11 @@
    <class>AllergiesTile</class>
    <extends>QPushButton</extends>
    <header>View/uiComponents/qt_derived/Widgets/TileButton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>HalfRoundedButton</class>
+   <extends>QPushButton</extends>
+   <header>View/uiComponents/qt_derived/HalfRoundedButton.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

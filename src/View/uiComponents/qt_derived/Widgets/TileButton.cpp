@@ -1,6 +1,7 @@
 ﻿#include "TileButton.h"
 #include <QPainterPath>
 #include "View/Theme.h"
+#include <QApplication>
 
 TileButton::TileButton(QWidget* parent) : QAbstractButton(parent), hover(0), clicked(0)
 {
@@ -70,10 +71,12 @@ bool TileButton::eventFilter(QObject* obj, QEvent* e)
 {
 	if (e->type() == QEvent::HoverEnter) {
 		hover = true;
+		QApplication::setOverrideCursor(QCursor(Qt::PointingHandCursor));
 		update();
 	}
 
 	if (e->type() == QEvent::HoverLeave) {
+		QApplication::restoreOverrideCursor();
 		hover = false;
 		update();
 	}

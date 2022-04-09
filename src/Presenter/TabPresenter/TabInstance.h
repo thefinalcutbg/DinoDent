@@ -10,6 +10,7 @@ enum class TabType {AmbList, PerioList, PatientSummary, Financial};
 struct TabName {
 	std::string header;
 	std::string footer;
+	bool nzok{ false };
 	std::string toString() { return header + " " + footer; };
 };
 
@@ -20,6 +21,8 @@ class TabInstance
 
 protected:
 	ITabView* _tabView;
+
+	bool edited{ false };
 
 	void makeEdited()
 	{
@@ -38,7 +41,9 @@ public:
 
 	TabInstance(ITabView* tabView, TabType type, std::shared_ptr<Patient> patient) : _tabView(tabView), type(type), patient(patient) {  };
 
-	bool edited{ false };
+	
+
+	bool requiresSaving() { return edited || isNew(); }
 
 	virtual long long rowID() const = 0;
 	virtual bool save() = 0;

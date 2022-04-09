@@ -64,7 +64,7 @@ void TabPresenter::closeTabRequested(int tabId)
 {
     auto& tabInstance = m_tabs[tabId];
 
-    if (!tabInstance->isNew() && !tabInstance->edited) {
+    if (!tabInstance->requiresSaving()) {
         removeTabInstance(tabId);
         return;
     }
@@ -196,7 +196,7 @@ void TabPresenter::openInvoice(const Procedures& procedures, std::shared_ptr<Pat
     openTab(new FinancialPresenter(view, procedures, patient));
 }
 
-void TabPresenter::open(const RowInstance& row)
+void TabPresenter::open(const RowInstance& row, bool setFocus)
 {
     if (tabAlreadyOpened(row.type, row.rowID)) return;
 
@@ -218,7 +218,7 @@ void TabPresenter::open(const RowInstance& row)
         break;
     }
 
-    openTab(newTab, false);
+    openTab(newTab, setFocus);
 }
 
 bool TabPresenter::tabAlreadyOpened(TabType type, long long rowID)

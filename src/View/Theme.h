@@ -7,6 +7,7 @@ namespace Theme
 	enum class Orientation {Left, Center, Right};
 
 	constexpr int radius{ 20 };
+	const QColor mainBackgroundColor(170, 215, 220);
 	const QColor background(246, 245, 250);
 	const QColor sectionBackground(Qt::white);
 	const QColor border(225, 225, 225);
@@ -20,6 +21,7 @@ namespace Theme
 	const QColor practiceLabel(0, 124, 121);
 
 	QPainterPath getHalfCurvedPath(int width, int heigt);
+	QPainterPath getOneCornerCurvedRect(int width, int height);
 	QString getRGBStringFromColor(const QColor& color);
 
 };

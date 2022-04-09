@@ -98,7 +98,7 @@
     <rect>
      <x>130</x>
      <y>770</y>
-     <width>801</width>
+     <width>791</width>
      <height>101</height>
     </rect>
    </property>
@@ -247,30 +247,72 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="invoiceButton">
+  <widget class="IconButton" name="invoiceButton">
    <property name="geometry">
     <rect>
-     <x>660</x>
+     <x>830</x>
      <y>720</y>
-     <width>101</width>
-     <height>31</height>
+     <width>35</width>
+     <height>35</height>
     </rect>
    </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>0</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>35</width>
+     <height>35</height>
+    </size>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Издрай фактура&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
    <property name="text">
-    <string>Издай фактура</string>
+    <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="perioButton">
+  <widget class="IconButton" name="perioButton">
    <property name="geometry">
     <rect>
-     <x>780</x>
+     <x>880</x>
      <y>720</y>
-     <width>151</width>
-     <height>31</height>
+     <width>35</width>
+     <height>35</height>
     </rect>
    </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>0</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>35</width>
+     <height>35</height>
+    </size>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Нов пародонтален статус&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
    <property name="text">
-    <string>Пародонт. измерване</string>
+    <string/>
    </property>
   </widget>
   <zorder>teethView</zorder>
@@ -329,6 +371,11 @@
    <class>ComboBox</class>
    <extends>QComboBox</extends>
    <header>View/uiComponents/qt_derived/ComboBox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>IconButton</class>
+   <extends>QPushButton</extends>
+   <header>View/uiComponents/qt_derived/iconbutton.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

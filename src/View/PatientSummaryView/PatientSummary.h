@@ -27,7 +27,6 @@ public:
 
 	PatientSummary(QWidget* parent = Q_NULLPTR);
 	~PatientSummary();
-	void openPatientDialog();
 
 	// Inherited via IPatientSummaryView
 	

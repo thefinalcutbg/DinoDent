@@ -573,6 +573,12 @@
     <ClCompile Include="src\View\PatientSummaryView\TeethView\TeethLingualScene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\PerioView\Widgets\ToothButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\uiComponents\qt_derived\HalfRoundedButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -792,6 +798,12 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\PatientSummaryView\TeethView\TeethLingualScene.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\PerioView\Widgets\ToothButton.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\uiComponents\qt_derived\HalfRoundedButton.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

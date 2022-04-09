@@ -11,6 +11,12 @@
 #include <QDebug>
 #include "View/Theme.h"
 
+#include "PerioGraphics/PerioChartItem.h"
+#include "PerioGraphics/PerioGraphicsButton.h"
+#include "PerioGraphics/PerioScene.h"
+#include "Widgets/ToothButton.h"
+#include "Model/PerioStatistic.h"
+
 PerioView::PerioView(QWidget* parent)
 	: QWidget(parent)
 {
@@ -23,6 +29,8 @@ PerioView::PerioView(QWidget* parent)
 	group->addButton(ui.upperButton);
 	group->addButton(ui.lowerButton);
 	group->setExclusive(true);
+
+	ui.lowerButton->setReversed();
 
 	ui.hexGraphicsView->setScene(new QGraphicsScene());
 	ui.hexGraphicsView->scene()->addItem(&hexagonGraphic);
@@ -53,7 +61,7 @@ PerioView::PerioView(QWidget* parent)
 	
 	for (int i = 0; i < 32; i++)
 	{
-		connect(m_tooth[i], &QPushButton::clicked, 
+		connect(m_tooth[i], &ToothButton::clicked, 
 			[=] { presenter->toothButtonClicked(i); });
 
 		connect(m_furcation[i], &FurcationWidget::valueChanged,
@@ -316,7 +324,7 @@ void PerioView::initializeCommon()
 
 	for (int i = 0; i < 16; i++)
 	{
-		m_tooth[i] = new QPushButton(ui.maxilla);
+		m_tooth[i] = new ToothButton(ui.maxilla);
 		m_tooth[i]->setCheckable(true);
 		m_tooth[i]->setChecked(true);
 		m_tooth[i]->setSizePolicy(QSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored));
@@ -337,7 +345,7 @@ void PerioView::initializeCommon()
 	//initializing common stuff for mandibular view
 	for (int i = 31; i >= 16; i--)
 	{
-		m_tooth[i] = new QPushButton(ui.mandibula);
+		m_tooth[i] = new ToothButton(ui.mandibula);
 		m_tooth[i]->setCheckable(true);
 		m_tooth[i]->setChecked(true);
 		m_tooth[i]->setMinimumWidth(10);
@@ -362,6 +370,11 @@ void PerioView::initializeCommon()
 	m_smoke[2] = ui.radioSmoke_3;
 	m_smoke[3] = ui.radioSmoke_4;
 	m_smoke[4] = ui.radioSmoke_5;
+
+	m_tooth[0]->setLayoutPos(LayoutPosition::Left);
+	m_tooth[15]->setLayoutPos(LayoutPosition::Right);
+	m_tooth[16]->setLayoutPos(LayoutPosition::Right);
+	m_tooth[31]->setLayoutPos(LayoutPosition::Left);
 
 }
 

@@ -2,6 +2,8 @@
 #include <QPainter>
 #include "Presenter/PatientSummaryPresenter/PatientSummaryPresenter.h"
 #include "View/Theme.h"
+#include <QButtonGroup>
+
 PatientSummary::PatientSummary(QWidget *parent)
 	: QWidget(parent), presenter(nullptr)
 {
@@ -11,6 +13,14 @@ PatientSummary::PatientSummary(QWidget *parent)
 	connect(ui.patientTile, &QAbstractButton::clicked, [=] { if (presenter) presenter->openPatientDialog(); });
 	connect(ui.allergiesTile, &QAbstractButton::clicked, [=] { if (presenter) presenter->openAllergiesDialog(); });
 
+	QButtonGroup* group = new QButtonGroup(this);
+	group->addButton(ui.showBuccal);
+	group->addButton(ui.showLingual);
+	group->setExclusive(true);
+
+	ui.showLingual->setReversed();
+
+	ui.showBuccal->setChecked(true);
 
 	ui.teethView->setScene(&buccalScene);
 	ui.teethView->setDisabled(true);
@@ -21,14 +31,15 @@ PatientSummary::PatientSummary(QWidget *parent)
 
 	connect(ui.dateSlider, &QSlider::valueChanged, this, [=] {presenter->setCurrentFrame(ui.dateSlider->value());});
 
-	connect(ui.showLingual, &QCheckBox::stateChanged, this,
+	connect(ui.showLingual, &QPushButton::clicked, this,
 		[=] {
-			if (ui.showLingual->isChecked()) {
 				ui.teethView->setScene(&lingualScene);
-			}
-			else {
-				ui.teethView->setScene(&buccalScene);
-			}
+		}
+	);
+
+	connect(ui.showBuccal, &QPushButton::clicked, this,
+		[=] {
+			ui.teethView->setScene(&buccalScene);
 		}
 	);
 

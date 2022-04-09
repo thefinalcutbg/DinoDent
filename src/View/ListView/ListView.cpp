@@ -20,6 +20,9 @@ ListView::ListView(QWidget* parent)
 	ui.procedureTable->setModel(&model);
 	ui.procedureTable->setAmbListLayout();
 
+	ui.perioButton->setIcon(QIcon(":/icons/icon_periosheet.png"));
+	ui.invoiceButton->setIcon(QIcon(":/icons/icon_invoice.png"));
+
 	ui.procedureTable->setStyleSheet(
 		"color :" + Theme::getRGBStringFromColor(Theme::fontTurquoise) + "; "
 		"selection-color:" + Theme::getRGBStringFromColor(Theme::fontTurquoiseClicked) + "; "

@@ -25,13 +25,15 @@ class TabView : public QWidget, public ITabView
 
 	void showTabWidget(QWidget* w);
 
+	TabTitle* getTabTitle(int tabId);
+	int getTabIndex(int tabId);
+	void setTabIcon(int tabAt, bool nzok);
+
 public:
 	TabView(QWidget *parent = Q_NULLPTR);
 	~TabView();
 
 	void requestClose(int tabId);
-	TabTitle* getTabTitle(int tabId);
-	int getTabIndex(int tabId);
 
 	// Inherited via ITabView
 	void newTab(int tabId, const TabName& tabName) override;

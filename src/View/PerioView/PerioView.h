@@ -2,17 +2,22 @@
 
 #include <QWidget>
 #include "ui_PerioView.h"
-#include "PerioGraphics/PerioChartItem.h"
-#include "PerioGraphics/PerioGraphicsButton.h"
-#include "PerioGraphics/PerioScene.h"
-#include "Model/PerioStatistic.h"
+
 #include "StatisticTableModel.h"
 
 #include "IPerioView.h"
 #include "ToothUi.h"
 #include "PerioGraphics/HexagonGraphicsItem.h"
 
+class ToothButton;
+class PerioChartItem;
+class PerioGraphicsButton;
+class PerioSpinBox;
+class PerioScene;
+class PerioStatistic;
+
 enum ChartPosition { maxBuccal, maxPalatal, mandBuccal, mandLing };
+
 struct ChartIndex
 {
     ChartPosition position;
@@ -34,7 +39,7 @@ class PerioView : public QWidget, public IPerioView
 
     const inline static PerioButtonStates m_mobiStates{"I", "II", "III"};
 
-    QPushButton* m_tooth[32];
+    ToothButton* m_tooth[32];
     PerioStateButton* m_mobi[32];
     FurcationWidget* m_furcation[32];
     PerioSpinBox* m_Rec[64];

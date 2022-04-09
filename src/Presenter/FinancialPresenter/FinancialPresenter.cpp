@@ -303,6 +303,6 @@ TabName FinancialPresenter::getTabName()
 
     static const std::string docTypeName[3]{ u8"Фактура", u8"Дебитно известие", u8"Кредитно известие" };
 
-    return { docTypeName[nameIdx], "№" + m_invoice.getInvoiceNumber()};
+    return { docTypeName[nameIdx], "№" + m_invoice.getInvoiceNumber(), m_invoice.nzokData.has_value()};
    
 }

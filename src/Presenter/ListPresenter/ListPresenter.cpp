@@ -124,7 +124,7 @@ TabName ListPresenter::getTabName()
     footer += " ";
     footer += patient->LastName;
 
-    return {header, footer};
+    return {header, footer, m_ambList.hasNZOKProcedure()};
 }
 
 long long ListPresenter::rowID() const
@@ -134,11 +134,11 @@ long long ListPresenter::rowID() const
 
 bool ListPresenter::save()
 {
-    if (!isNew() && !edited) return true;
-
-    if (m_ambList.isNew() || m_ambList.hasNumberInconsistency()) return saveAs();
+    if (!requiresSaving()) return true;
 
     if (!isValid()) return false;
+
+    if (m_ambList.isNew() || m_ambList.hasNumberInconsistency()) return saveAs();
 
     if (edited) { DbAmbList::update(m_ambList);}
 
@@ -234,9 +234,7 @@ void ListPresenter::setCurrent()
 
     _tabView->showListView();
     setScrollPosition();
-
-    
-    
+   
 }
 
 
@@ -263,6 +261,7 @@ void ListPresenter::openPatientDialog()
     
 
 }
+
 
 void ListPresenter::openAllergiesDialog()
 {
@@ -512,6 +511,8 @@ void ListPresenter::addProcedure()
     if (view == nullptr) return;
 
     refreshProcedureView();
+
+    edited = false;
     makeEdited();
 
 }
@@ -569,6 +570,8 @@ void ListPresenter::deleteProcedure(int index)
     m_ambList.procedures.erase(m_ambList.procedures.begin() + index);
 
     refreshProcedureView();
+
+    edited = false;
     makeEdited();
 }
 

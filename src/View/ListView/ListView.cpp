@@ -22,6 +22,15 @@ ListView::ListView(QWidget* parent)
 
 	ui.perioButton->setIcon(QIcon(":/icons/icon_periosheet.png"));
 	ui.invoiceButton->setIcon(QIcon(":/icons/icon_invoice.png"));
+	ui.addProcedure->setIcon(QIcon(":/icons/icon_add.png"));
+	ui.deleteProcedure->setIcon(QIcon(":/icons/icon_remove.png"));
+	ui.editProcedure->setIcon(QIcon(":/icons/icon_edit.png"));
+
+	ui.perioButton->setHoverColor(Theme::mainBackgroundColor);
+	ui.invoiceButton->setHoverColor(Theme::mainBackgroundColor);
+	ui.addProcedure->setHoverColor(Theme::mainBackgroundColor);
+	ui.deleteProcedure->setHoverColor(Theme::mainBackgroundColor);
+	ui.editProcedure->setHoverColor(Theme::mainBackgroundColor);
 
 	ui.procedureTable->setStyleSheet(
 		"color :" + Theme::getRGBStringFromColor(Theme::fontTurquoise) + "; "
@@ -38,7 +47,7 @@ ListView::ListView(QWidget* parent)
 
 	connect(ui.patientTile, &QAbstractButton::clicked, [=] { if(presenter) presenter->openPatientDialog(); });
 	connect(ui.allergiesTile, &QAbstractButton::clicked, [=] { if (presenter) presenter->openAllergiesDialog(); });
-	connect(ui.procedureButton, &QAbstractButton::clicked, [=] { if (presenter) presenter->addProcedure(); });
+	connect(ui.addProcedure, &QAbstractButton::clicked, [=] { if (presenter) presenter->addProcedure(); });
 	connect(ui.procedureTable, &ProcedureTable::deletePressed, [=] { if (presenter) ui.deleteProcedure->click(); });
 	connect(ui.unfav_check, &QCheckBox::stateChanged, [=] { if (presenter) presenter->setfullCoverage(ui.unfav_check->isChecked()); });
 	connect(ui.editProcedure, &QPushButton::clicked, [=] { if (presenter) presenter->editProcedure(ui.procedureTable->selectedRow()); });
@@ -207,7 +216,7 @@ void ListView::setProcedures(const std::vector<Procedure>& m, double patientPric
 
 	teethViewScene->setProcedures(proc_teeth);
 	
-	this->setFixedHeight(710 + ui.procedureTable->height() + 100);
+	//this->setFixedHeight(710 + ui.procedureTable->height() + 100);
 
 	ui.priceLabel->setText(getPricesText(patientPrice, nzokPrice));
 }

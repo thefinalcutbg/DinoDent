@@ -6,7 +6,7 @@
 #include "View/Theme.h"
 #include <QApplication>
 IconButton::IconButton(QWidget *parent)
-	: QPushButton(parent)
+	: QPushButton(parent), hoverColor(Theme::background)
 {
 	this->installEventFilter(this);
 }
@@ -21,7 +21,7 @@ void IconButton::paintEvent(QPaintEvent* event)
 	QPainterPath path;
 	path.addEllipse(rect());
 
-	QColor color{ m_hover ? Theme::background : Theme::sectionBackground };
+	QColor color{ m_hover ? hoverColor : Theme::sectionBackground };
 
 	painter.fillPath(path, color);
 	
@@ -61,6 +61,12 @@ bool IconButton::eventFilter(QObject* obj, QEvent* e)
 	return false;
 }
 
+
+void IconButton::setHoverColor(const QColor& color)
+{
+	hoverColor = color;
+	update();
+}
 
 IconButton::~IconButton()
 {

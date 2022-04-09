@@ -233,6 +233,7 @@ void ListPresenter::setCurrent()
     refreshProcedureView();
 
     _tabView->showListView();
+
     setScrollPosition();
    
 }

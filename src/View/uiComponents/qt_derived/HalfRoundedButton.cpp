@@ -67,7 +67,7 @@ void HalfRoundedButton::paintEvent(QPaintEvent* event)
 	painter.resetTransform();
 
 
-	painter.setPen(isChecked() || m_hover ? Theme::sectionBackground : Theme::fontTurquoise);
+	painter.setPen(isChecked() || m_hover ? Theme::sectionBackground : Theme::mainBackgroundColor);
 
 	painter.drawText(rect(), Qt::AlignCenter, text());
 

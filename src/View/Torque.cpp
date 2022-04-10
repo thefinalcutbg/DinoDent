@@ -13,7 +13,6 @@ QColor blue(133, 207, 234);
 Torque::Torque(QWidget* parent)
     : QMainWindow(parent)
 {
-
     ui.setupUi(this);
     showMaximized();
 

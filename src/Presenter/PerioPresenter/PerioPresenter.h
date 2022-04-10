@@ -13,7 +13,7 @@ class PerioPresenter : public TabInstance
 
 	IPerioView* view;
 
-	ToothContainer m_toothStatus;
+
 	
 
 	ShowTeeth m_teethShow{ false };
@@ -25,6 +25,7 @@ class PerioPresenter : public TabInstance
 public:
 
 	PerioStatus m_perioStatus;
+	ToothContainer m_toothStatus;
 
 	PerioPresenter(ITabView* view, std::shared_ptr<Patient> patient);
 	PerioPresenter(ITabView* view, std::shared_ptr<Patient> patient, long long rowId);

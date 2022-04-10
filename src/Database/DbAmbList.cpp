@@ -188,7 +188,7 @@ std::unordered_set<int> DbAmbList::getExistingNumbers(int currentYear)
 
     return existingNumbers;
 }
-#include <QDebug>
+
 int DbAmbList::getNewNumber(Date ambDate, bool nzok)
 {
 
@@ -214,8 +214,6 @@ int DbAmbList::getNewNumber(Date ambDate, bool nzok)
         "AND amblist.lpk = '" + UserManager::currentUser().doctor.LPK + "' "
         "AND amblist.rzi = '" + UserManager::currentUser().practice.rziCode + "' "
         "ORDER BY amblist.num DESC LIMIT 1";
-
-    qDebug() << QString::fromStdString(query);
 
     int number = nzok ? 0 : 100000;
 

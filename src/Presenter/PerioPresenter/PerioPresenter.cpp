@@ -51,12 +51,11 @@ PerioPresenter::PerioPresenter(ITabView* view, std::shared_ptr<Patient> patient)
 
 }
 
-
 PerioPresenter::PerioPresenter(ITabView* view, std::shared_ptr<Patient> patient, long long rowId) :
     TabInstance(view, TabType::PerioList, patient),
     view(view->perioView()),
-    m_toothStatus(DbPerio::getStatus(patient->rowid, Date::currentDate())),
-    m_perioStatus(DbPerio::getPerioStatus(rowId))
+    m_perioStatus(DbPerio::getPerioStatus(rowId)),
+    m_toothStatus(DbPerio::getStatus(patient->rowid, m_perioStatus.date))
 {
 
     for (auto& tooth : m_toothStatus)
@@ -74,6 +73,7 @@ PerioPresenter::PerioPresenter(ITabView* view, std::shared_ptr<Patient> patient,
             m_perioStatus.mobility[tooth.index] =
             static_cast<int>(tooth.mobility.degree) + 1;
     }
+
 }
 
 
@@ -329,8 +329,12 @@ void PerioPresenter::prepareSwitch()
 
 TabName PerioPresenter::getTabName()
 {
+    if (isNew()) {
+        return { u8"Нов пародонтален статус", patient->firstLastName() };
+    }
+
     return { 
-        u8"Пародонт. статус " + m_perioStatus.date.toString(),
+        u8"Пародонтaлен статус " + m_perioStatus.date.toString(),
         patient->firstLastName() 
     };
 }

@@ -67,6 +67,26 @@ void PatientSummary::paintEvent(QPaintEvent* event)
 	painter.begin(this);
 	painter.fillRect(0, 0, width(), height(), Theme::background);
 
+	QPainterPath path;
+
+	QRect teethRect(ui.teethView->x(),
+		ui.teethView->y(),
+		ui.teethView->width(),
+		ui.teethView->height()
+	);
+
+	path.addRoundedRect(teethRect, Theme::radius, Theme::radius);
+
+	painter.fillPath(path, Theme::sectionBackground);
+
+	QPen pen(Theme::border);
+	pen.setCosmetic(true);
+	pen.setWidth(2);
+
+	painter.setPen(pen);
+	painter.drawPath(path);
+	
+
 	painter.end();
 }
 

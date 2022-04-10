@@ -2,29 +2,40 @@
 #include "Model/Parser/Parser.h"
 #include "Model/Procedure/Procedure.h"
 #include "Database.h"
+#include <QDebug>
 
 ToothContainer DbPerio::getStatus(long long patientRowId, const Date& date)
 {
-
 
     std::string jsonStatus;
     long long amblistId{0};
     std::string LPK;
 
-    Db db(
+    std::string query = " SELECT amblist.status_json, amblist.rowid, amblist.LPK, procedure.rowid"
+                        " FROM amblist LEFT JOIN procedure ON amblist.rowid = procedure.amblist_rowid WHERE "
+                        " amblist.patient_rowid = " + std::to_string(patientRowId) +
+                        " AND (amblist.year, amblist.month, procedure.day) "
+                        " BETWEEN (2000, 1, 1) AND ("
+                         + std::to_string(date.year) + ","
+                         + std::to_string(date.month) + ","
+                         + std::to_string(date.day) + 
+                         ")"
 
-        "SELECT status_json, rowid, LPK FROM amblist WHERE "
-        " patient_rowid = " + std::to_string(patientRowId) +
-        " AND year <= " + std::to_string(date.year) +
-        " AND month <= " + std::to_string(date.month) +
-        " ORDER BY rowid DESC LIMIT 1"
-    );
+                        " ORDER BY amblist.year DESC, amblist.month DESC, procedure.day DESC, procedure.rowid DESC" 
+                        " LIMIT 1";
+
+    Db db(query);
+
+    qDebug() << QString::fromStdString(query);
+
+    long long procedureRowId{0};
 
     while (db.hasRows())
     {
         jsonStatus = db.asString(0);
         amblistId = db.asRowId(1);
         LPK = db.asString(2);
+        procedureRowId = db.asRowId(3);
     }
 
     if (jsonStatus.empty())
@@ -38,13 +49,15 @@ ToothContainer DbPerio::getStatus(long long patientRowId, const Date& date)
 
 
     db.newStatement(
-    
+
         "SELECT type, tooth, deciduous, data FROM procedure WHERE"
         " amblist_rowid = " + std::to_string(amblistId) +
-        " AND day <= " + std::to_string(date.day) +
+        " AND rowid <= " + std::to_string(procedureRowId) +
         " ORDER BY rowid"
 
     );
+
+
 
 
     while (db.hasRows())
@@ -68,10 +81,14 @@ PerioStatus DbPerio::getPerioStatus(long long patientRowId, Date date)
 
     std::string query = "SELECT rowid, lpk, day, month, year, data FROM periostatus WHERE"
         " patient_rowid = " + std::to_string(patientRowId) +
-        " AND year <= " + std::to_string(date.year) +
-        " AND month <= " + std::to_string(date.month) +
-        " AND day <= " + std::to_string(date.day) +
-        " ORDER BY rowid DESC LIMIT 1";
+        " AND (year,month,day) BETWEEN (0,0,0) AND"
+        " (" + std::to_string(date.year) +
+        "," + std::to_string(date.month) +
+        "," + std::to_string(date.day) + ")"
+        " ORDER BY year DESC, month DESC, day DESC LIMIT 1";
+
+
+    qDebug() << QString::fromStdString(query);
 
     for(Db db(query); db.hasRows();)
     {

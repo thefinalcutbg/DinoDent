@@ -1,7 +1,7 @@
 #pragma once
 #include <array>
 #include <vector>
-
+#include <memory>
 #include "Model/Tooth/Tooth.h"
 
 static constexpr int teethCount = 32;
@@ -9,7 +9,7 @@ static constexpr int teethCount = 32;
 class ToothContainer
 {
 
-	std::array<Tooth, teethCount>* teeth;
+	std::unique_ptr<std::array<Tooth, teethCount>> teeth;
 
 public:
 	ToothContainer();
@@ -38,8 +38,6 @@ public:
 	Tooth& operator [](int index);
 
 	int getMissingTeethCount(bool countWisdom = false) const;
-
-	~ToothContainer();
 
 
 };

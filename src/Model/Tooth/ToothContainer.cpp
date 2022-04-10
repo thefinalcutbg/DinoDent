@@ -6,7 +6,7 @@
 constexpr int defaultSurfaces[32] = { 0,0,0,0,0,3,3,3,3,3,3,0,0,0,0,0,0,0,0,0,0,3,3,3,3,3,3,0,0,0,0,0 };
 
 ToothContainer::ToothContainer(){
-    teeth = new std::array<Tooth, teethCount>{};
+	teeth = std::make_unique<std::array<Tooth, teethCount>>();
 	for (int i = 0; i < teethCount; i++)
 	{
 		teeth->at(i).setIndex(i);
@@ -16,17 +16,16 @@ ToothContainer::ToothContainer(){
 }
 
 ToothContainer::ToothContainer(const ToothContainer& other){
-    teeth = new std::array<Tooth, teethCount>;
+    teeth = std::make_unique<std::array<Tooth, teethCount>>();
     for (int i = 0; i < teethCount; i++) teeth->at(i) = other.teeth->at(i);
 }
 
 ToothContainer::ToothContainer(ToothContainer&& other) noexcept{
-    teeth = other.teeth; other.teeth = nullptr;
+    teeth = std::move(other.teeth);
 }
 
 Tooth& ToothContainer::operator[](int index)
 {
-
     if (teeth == nullptr) throw std::invalid_argument("container has been moved");
 
     if (index >= teethCount || index < 0) throw std::invalid_argument("index out of range");
@@ -76,15 +75,10 @@ ToothContainer& ToothContainer::operator=(const ToothContainer& other)
 {
 	if (this == &other) return *this;
 
-	delete teeth;
-	teeth = new std::array<Tooth, teethCount>;
 	for (int i = 0; i < teethCount; i++) teeth->at(i) = other.teeth->at(i);
 	return *this;
 }
 
-ToothContainer::~ToothContainer(){
-    if (teeth) delete teeth;
-}
 
 
 void ToothContainer::formatBridges(const std::vector<int>& indexes)

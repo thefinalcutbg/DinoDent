@@ -90,6 +90,16 @@ int ModalDialogBuilder::saveAsDocNumber(int newNum, std::unordered_set<int> exis
 	return d.exec();
 }
 
+#include "View/SaveAsDateDialog/SaveAsDateDialog.h"
+
+std::optional<Date> ModalDialogBuilder::saveAsDate(const Date& date, const std::string& docName)
+{
+	SaveAsDateDialog d(date, docName);
+	d.exec();
+
+	return d.getResult();
+}
+
 #include "View/SettingsDialog/ProcedureTemplateDialog/ProcedureTemplateDialog.h"
 
 std::optional<ProcedureTemplate> ModalDialogBuilder::openProcedureTemplateDialog(const ProcedureTemplate* pTemp, int code)

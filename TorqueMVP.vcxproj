@@ -214,6 +214,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\View\SaveAsDateDialog\SaveAsDateDialog.cpp" />
     <ClCompile Include="src\View\uiComponents\qt_derived\HalfRoundedButton.cpp" />
     <ClCompile Include="src\View\FinancialView\BusinessOpAddDialog\BusinessOpAddDialog.cpp" />
     <ClCompile Include="src\Model\Financial\BusinessOperation.cpp" />
@@ -406,6 +407,7 @@
     <ClCompile Include="src\View\PatientSummaryView\TeethView\TeethLingualScene.cpp" />
     <ClCompile Include="src\View\PerioView\Widgets\ToothButton.cpp" />
     <QtRcc Include="resources\Resource.qrc" />
+    <QtUic Include="src\View\SaveAsDateDialog\SaveAsDateDialog.ui" />
     <QtUic Include="src\View\FinancialView\BusinessOpAddDialog\BusinessOpAddDialog.ui" />
     <QtUic Include="src\View\FinancialView\BusinessOpEditDialog\BusinessOpEditDialog.ui" />
     <QtUic Include="src\View\FinancialView\FinancialView.ui" />
@@ -507,6 +509,7 @@
     <QtMoc Include="src\View\FinancialView\BusinessOpEditDialog\BusinessOpEditDialog.h" />
     <QtMoc Include="src\View\FinancialView\BusinessOpAddDialog\BusinessOpAddDialog.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\HalfRoundedButton.h" />
+    <QtMoc Include="src\View\SaveAsDateDialog\SaveAsDateDialog.h" />
     <ClInclude Include="src\Database\DbInvoice.h" />
     <ClInclude Include="src\Model\Financial\BusinessOperation.h" />
     <ClInclude Include="src\Presenter\FinancialPresenter\FinancialPresenter.h" />

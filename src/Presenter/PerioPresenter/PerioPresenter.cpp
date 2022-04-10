@@ -268,8 +268,20 @@ bool PerioPresenter::save()
 
 bool PerioPresenter::saveAs()
 {
+    auto result = ModalDialogBuilder::saveAsDate(m_perioStatus.date, u8"Пародонтален статус");
 
-    DbPerio::insertPerioStatus(m_perioStatus, patient->rowid);
+    if (!result.has_value()) return false;
+
+    m_perioStatus.date = result.value();
+    
+    if (isNew()) {
+        m_perioStatus.rowid = DbPerio::insertPerioStatus(m_perioStatus, patient->rowid);
+    }
+    else {
+        DbPerio::updatePerioStatus(m_perioStatus);
+    }
+
+
     _tabView->changeTabName(getTabName());
     edited = false;
 

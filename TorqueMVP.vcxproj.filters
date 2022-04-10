@@ -579,6 +579,9 @@
     <ClCompile Include="src\View\uiComponents\qt_derived\HalfRoundedButton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\SaveAsDateDialog\SaveAsDateDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -806,6 +809,9 @@
     <QtMoc Include="src\View\uiComponents\qt_derived\HalfRoundedButton.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\View\SaveAsDateDialog\SaveAsDateDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="resources\Resource.qrc" />
@@ -938,6 +944,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\FinancialView\BusinessOpAddDialog\BusinessOpAddDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\SaveAsDateDialog\SaveAsDateDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

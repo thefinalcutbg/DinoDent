@@ -163,7 +163,7 @@ std::vector<PerioStatus> DbPerio::getAllPerioStatuses(long long patientRowId)
 
 }
 
-void DbPerio::insertPerioStatus(PerioStatus& perioStatus, long long patientRowId)
+;long long DbPerio::insertPerioStatus(const PerioStatus& perioStatus, long long patientRowId)
 {
 
     std::string query =
@@ -179,7 +179,7 @@ void DbPerio::insertPerioStatus(PerioStatus& perioStatus, long long patientRowId
     Db db;
     db.execute(query);
 
-    perioStatus.rowid = db.lastInsertedRowID();
+    return db.lastInsertedRowID();
 }
 
 void DbPerio::updatePerioStatus(const PerioStatus& perioStatus)

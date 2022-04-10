@@ -150,7 +150,7 @@ void deleteDocuments(	TabPresenter* tabPresenter,
 
 void ListSelectorPresenter::deleteCurrentSelection()
 {
-	
+	if (selectedIndexes.empty()) return;
 
 	std::string warningMsg = u8"Сигурни ли сте, че искате да изтриете избраният/избраните ";
 
@@ -180,7 +180,7 @@ void ListSelectorPresenter::deleteCurrentSelection()
 	}
 
 
-		refreshModel();
+	refreshModel();
 	
 }
 

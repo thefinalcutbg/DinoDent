@@ -130,6 +130,20 @@ void TabView::showTabWidget(QWidget* w)
     ui.scrollArea->setWidget(w);
 }
 
+void TabView::removeAllTabs()
+{
+    ui.tabBar->blockSignals(true);
+    
+    while (ui.tabBar->count()) {
+        ui.tabBar->removeTab(0);
+    }
+
+    ui.tabBar->blockSignals(false);
+    
+    ui.tabBar->currentChanged(-1);
+
+}
+
 void TabView::newTab(int tabId, const TabName& tabName)
 {
     TabTitle* tab = new TabTitle(this, tabId);

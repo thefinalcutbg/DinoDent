@@ -22,7 +22,7 @@ class TabPresenter
 	ITabView* view;
 
 	bool newListExists(const Patient& patient);
-
+	bool permissionToClose(int tabId);
 	bool tabAlreadyOpened(TabType type, long long rowID);
 	bool monthNotiAlreadyOpened(int monthNotifNum);
 
@@ -54,6 +54,6 @@ public:
 
 
 	//returns false if not all of the tabs are removed(a.k.a. user breaks the operation)
-	bool removeAllTabs();
+	bool permissionToLogOut();
 };
 

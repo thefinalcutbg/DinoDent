@@ -29,6 +29,7 @@ class TabView : public QWidget, public ITabView
 	int getTabIndex(int tabId);
 	void setTabIcon(int tabAt, bool nzok);
 
+
 public:
 	TabView(QWidget *parent = Q_NULLPTR);
 	~TabView();
@@ -36,6 +37,7 @@ public:
 	void requestClose(int tabId);
 
 	// Inherited via ITabView
+	void removeAllTabs();
 	void newTab(int tabId, const TabName& tabName) override;
 	void focusTab(int tabId) override;
 	void removeCurrentTab() override;

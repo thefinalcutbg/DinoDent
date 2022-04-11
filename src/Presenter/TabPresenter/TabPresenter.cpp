@@ -50,6 +50,11 @@ void TabPresenter::setCurrentTab(int index)
 
     if (index == -1)
     {
+        //it's 100% empty, but just in case...
+        if (m_tabs.empty()) {
+            _indexCounter = -1;
+        }
+
         view->showDinosaur();
         return;
     }
@@ -58,44 +63,9 @@ void TabPresenter::setCurrentTab(int index)
     
 }
 
-
-
 void TabPresenter::closeTabRequested(int tabId)
 {
-    auto& tabInstance = m_tabs[tabId];
-
-    if (!tabInstance->requiresSaving()) {
-        removeTabInstance(tabId);
-        return;
-    }
-   
-
-    //the tabView then sends tabChanged() signal back to the presenter
-    view->focusTab(tabId);
-
-    auto answer = ModalDialogBuilder::openSaveDialog(
-        tabInstance->getTabName().toString()
-    );
-
-    switch (answer) {
-
-        case DialogAnswer::Yes: {
-            if (tabInstance->save()) {
-                removeTabInstance(tabId);
-            }
-            break;
-        }
-
-        case DialogAnswer::No: removeTabInstance(tabId); break;
-
-        case DialogAnswer::Cancel: break;
-
-    }
-
-
-
-
-
+    if(permissionToClose(tabId)) removeTabInstance(tabId);
 }
 
 void TabPresenter::removeTabInstance(int tabId)
@@ -105,25 +75,16 @@ void TabPresenter::removeTabInstance(int tabId)
     view->removeTab(tabId);
 }
 
-bool TabPresenter::removeAllTabs()
+bool TabPresenter::permissionToLogOut()
 {
-    std::vector<int> mapKeys;
-    mapKeys.reserve(m_tabs.size());
-
     for (auto& pair : m_tabs)
     {
-        mapKeys.push_back(pair.first);
-    }
-
-    for (auto key : mapKeys)
-    {
-        closeTabRequested(key);
-
-        //if the tab hasn't been removed:
-        if (m_tabs.count(key)) {
+        if (!permissionToClose(pair.first))
             return false;
-        }
     }
+
+    m_tabs.clear();
+    view->removeAllTabs();
 
     return true;
 }
@@ -278,6 +239,29 @@ bool TabPresenter::newListExists(const Patient& patient)
     }
 
     return false;
+}
+
+bool TabPresenter::permissionToClose(int tabId)
+{
+    auto& tabInstance = m_tabs[tabId];
+
+    if (!tabInstance->requiresSaving()) {
+        return true;
+    }
+
+    //the tabView then sends tabChanged() signal back to the presenter
+    view->focusTab(tabId);
+
+    auto answer = ModalDialogBuilder::openSaveDialog(
+        tabInstance->getTabName().toString()
+    );
+
+    switch (answer) {
+        case DialogAnswer::Yes: if (tabInstance->save()) return true;
+        case DialogAnswer::No: return true; 
+        case DialogAnswer::Cancel: return false;
+    }
+
 }
 
 bool TabPresenter::documentTabOpened(TabType type, long long rowID) const

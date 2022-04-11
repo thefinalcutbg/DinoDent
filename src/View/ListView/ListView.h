@@ -25,7 +25,8 @@ class ListView : public QWidget, public IListView
 
     void paintEvent(QPaintEvent* event);
 
-  //  bool eventFilter(QObject* obj, QEvent* event);
+    bool m_teethViewFocused {false};
+    bool eventFilter(QObject* obj, QEvent* event);
 
 public:
     ListView(QWidget* parent = Q_NULLPTR);

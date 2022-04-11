@@ -19,6 +19,7 @@ public:
 	virtual void changeTabName(const TabName& tabName) = 0;
 	virtual void changeTabName(const TabName& tabName, int mapIdx) = 0;
 	virtual void setTabPresenter(TabPresenter* presenter) = 0;
+	virtual void removeAllTabs() = 0;
 
 	virtual ScrollPos getScrollPos() = 0;
 	virtual void setScrollPos(ScrollPos scrollPos) = 0;

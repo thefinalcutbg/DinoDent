@@ -16,7 +16,7 @@ ListView::ListView(QWidget* parent)
 
 	ui.teethView->setScene(teethViewScene);
 	ui.teethView->setSceneRect(teethViewScene->sceneRect());
-
+	ui.teethView->installEventFilter(this);
 	ui.procedureTable->setModel(&model);
 	ui.procedureTable->setAmbListLayout();
 
@@ -125,7 +125,40 @@ void ListView::paintEvent(QPaintEvent* event)
 		ui.surfacePanel->y() + ui.teethView->height()
 	);
 
-	painter.end();
+	if (!m_teethViewFocused) return;
+
+	painter.setPen(QPen(Theme::mainBackgroundColor));
+
+	auto teethViewPath = Theme::getHalfCurvedPath(
+		ui.teethView->width(), 
+		ui.teethView->height()
+	);
+
+	painter.translate(ui.teethView->pos());
+	painter.drawPath(teethViewPath);
+
+
+
+}
+
+bool ListView::eventFilter(QObject* obj, QEvent* event)
+{
+	if (obj != ui.teethView) return false;
+
+	if (event->type() == QEvent::FocusOut)
+	{
+			m_teethViewFocused = false;
+			repaint();
+
+	}
+	else if (event->type() == QEvent::FocusIn)
+	{
+		m_teethViewFocused = true;
+		repaint();
+	}
+
+
+	return false;
 }
 
 

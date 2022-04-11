@@ -204,6 +204,6 @@ void MainPresenter::userSettingsPressed()
 
 bool MainPresenter::closeAllTabs()
 {
-    return _tabPresenter.removeAllTabs();
+    return _tabPresenter.permissionToLogOut();
 }
 

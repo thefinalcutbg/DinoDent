@@ -29,6 +29,17 @@ std::string getSpecType(bool fullCoverage)
 
     auto& specialty = UserManager::currentUser().doctor.specialty;
 
+    //specialty check:
+    {
+        constexpr int specialtyCheck[5]{ 60, 61, 62, 64, 68 };
+
+        bool specialtyFound{ false };
+        for (auto spec : specialtyCheck) {
+            if (specialty == spec)
+                specialtyFound = true;
+        }
+    }
+
     bool primaryDentalAid = specialty == 60 || specialty == 64;
 
     if (!fullCoverage && primaryDentalAid)
@@ -42,6 +53,8 @@ std::string getSpecType(bool fullCoverage)
 
     if (!fullCoverage && primaryDentalAid)
         return specType[3];
+
+    throw std::exception(u8"НЕВАЛИДНА СПЕЦИФИКАЦИЯ");
 }
 
 std::string getAllergiesAndStuff(const std::string& allergiesAndStuff)

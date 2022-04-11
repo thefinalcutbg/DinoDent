@@ -8,7 +8,7 @@
 #include "Database/DbInvoice.h"
 
 
-TiXmlDocument getDocument(const std::string& filePath)
+Invoice getInvoiceFromMonthNotif(const std::string& filePath)
 {
     TiXmlDocument doc;
 
@@ -19,30 +19,28 @@ TiXmlDocument getDocument(const std::string& filePath)
         throw std::exception(err.c_str());
     }
 
-    return doc;
-}
+    Invoice i(doc, UserManager::currentUser());
+    i.date = Date::currentDate();
 
-FinancialPresenter::FinancialPresenter(ITabView* tabView, const std::string& monthNotifFilepath) : 
-    TabInstance(tabView, TabType::Financial, nullptr),
-    view(tabView->financialView()),
-    m_invoice(getDocument(monthNotifFilepath), UserManager::currentUser())
-{
-    this->view = tabView->financialView();
+    auto existingRowid = DbInvoice::invoiceAlreadyExists(i.nzokData->fin_document_month_no);
 
-    //if the month notif is already loaded in the db:
-
-    auto existingData = DbInvoice::getDetailsIfAlreadyExist(m_invoice.nzokData->fin_document_month_no);
-
-    if (existingData.has_value())
-    {
-        m_invoice.rowId = existingData->rowId;
-        m_invoice.number = existingData->num;
-        m_invoice.date = existingData->date;
-        return;
+    if (!existingRowid) {
+        return i;
     }
 
-    m_invoice.date = Date::currentDate();
+    bool loadFromDb = ModalDialogBuilder::askDialog
+    (u8"Към това месечно известие съществува такава фактура. \n"
+        "Желаете ли да бъде заредена? \nВ противен случай ще бъде създаден нов документ.");
 
+    return loadFromDb ? DbInvoice::getInvoice(existingRowid) : i;    
+}
+
+FinancialPresenter::FinancialPresenter(ITabView* tabView, const std::string& monthNotifFilepath) :
+    TabInstance(tabView, TabType::Financial, nullptr),
+    view(tabView->financialView()),
+    m_invoice(getInvoiceFromMonthNotif(monthNotifFilepath))
+{
+    this->view = tabView->financialView();
 
 }
 
@@ -298,7 +296,7 @@ TabName FinancialPresenter::getTabName()
 
         static const std::string newName[3]{ u8"Новa фактура", u8"Ново дебитно известие", u8"Ново кредитно известие" };
 
-        return { newName[nameIdx], "" };
+        return { newName[nameIdx], "", m_invoice.nzokData.has_value()};
     }
 
     static const std::string docTypeName[3]{ u8"Фактура", u8"Дебитно известие", u8"Кредитно известие" };

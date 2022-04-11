@@ -314,8 +314,8 @@ void ListPresenter::setMainStatus(int code)
 
     if (code == StatusCode::Bridge || code == StatusCode::Crown || code == StatusCode::FiberSplint) {
         m_ambList.teeth.formatBridges(m_selectedIndexes);
-        for (int i = 0; i < 32; i++)
-        {
+
+        for (int i = 0; i < 32; i++){
             view->repaintTooth(ToothHintCreator::getToothHint(m_ambList.teeth[i]));
         }
     }
@@ -600,13 +600,13 @@ void ListPresenter::setfullCoverage(bool unfav)
     */
     if (unfav)
     {
-        view->taxCombo()->setIndex(2);
         m_ambList.charge = Charge::freed;
+        view->taxCombo()->setIndex(2);
     }
 
     makeEdited();
 
-    refreshProcedureView();
+   // refreshProcedureView();
 }
 
 void ListPresenter::createInvoice()

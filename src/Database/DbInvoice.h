@@ -15,7 +15,8 @@ namespace DbInvoice
 	std::unordered_set<int>getExistingNumbers();
 	long long insertInvoice(const Invoice& invoice);
 	void updateInvoice(const Invoice& invoice);
-	std::optional<NzokFinancialDetails> getDetailsIfAlreadyExist(int monthNotifNumber);
+	//returns rowid of existing invoice for this monthly notification:
+	long long invoiceAlreadyExists(int monthNotifNumber);
 	Invoice getInvoice(long long rowId);
 	
 }

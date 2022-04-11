@@ -87,32 +87,23 @@ void DbInvoice::updateInvoice(const Invoice& invoice)
     Db::crudQuery(query);
 }
 
-std::optional<NzokFinancialDetails> DbInvoice::getDetailsIfAlreadyExist(int monthNotifNumber)
+long long DbInvoice::invoiceAlreadyExists(int monthNotifNumber)
 {
 
 
      std::string query =
-         "SELECT rowid, num, day, month, year FROM financial "
+         "SELECT rowid FROM financial "
          "WHERE month_notif = " + std::to_string(monthNotifNumber) + " "
-         "AND practice_rzi = '" + UserManager::currentUser().practice.rziCode + "'";
+         "AND practice_rzi = '" + UserManager::currentUser().practice.rziCode + "' "
+         "ORDER BY num DESC LIMIT 1";
 
      Db db(query);
 
      while (db.hasRows()) {
-
-         return NzokFinancialDetails{
-
-                    db.asRowId(0), 
-                    db.asInt(1), 
-                    Date {
-                        db.asInt(2), 
-                        db.asInt(3), 
-                        db.asInt(4)
-                    } 
-         };
+         return db.asRowId(0);
      }
 
-     return {};
+     return 0;
 }
 
 #include "Libraries/TinyXML/tinyxml.h"

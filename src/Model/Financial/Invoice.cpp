@@ -33,11 +33,14 @@ std::string getDocumentName(const TiXmlElement* element)
 
 FinancialDocType getType(const std::string& inv_type_code)
 {
+
 	if (inv_type_code == "INVOICE") return FinancialDocType::Invoice;
+
+	if (inv_type_code == "DT_NOTIF") return FinancialDocType::Debit;
 
 	if (inv_type_code == "CT_NOTIF") return FinancialDocType::Credit;
 
-	if (inv_type_code == "DT_NOTIF") return FinancialDocType::Debit;
+	throw std::exception(u8"Неразпознат inv_type_code");
 }
 
 Invoice::Invoice(const TiXmlDocument& monthNotif, const User& user)
@@ -146,7 +149,24 @@ std::string Invoice::getFileName() //only nzok data files can be exported as xml
 		+ ".xml";
 
 }
-
+/*
+Invoice& Invoice::operator=(const Invoice& other)
+{
+	rowId = other.rowId;
+	type = other.type;
+	number = other.number;
+	name = other.name;
+	date = other.date;
+	m_mainDocument = other.m_mainDocument;
+	nzokData.emplace(other.nzokData);
+	recipient = other.recipient;
+	issuer = other.issuer;
+	businessOperations = other.businessOperations;
+	aggragated_amounts = other.aggragated_amounts;
+	
+	return *this;
+}
+*/
 
 void AggregatedAmounts::calculate(const BusinessOperations& operations)
 {

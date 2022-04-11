@@ -274,9 +274,9 @@ void TeethViewScene::keyPressEvent(QKeyEvent* event)
    }
 }
 
-
 void TeethViewScene::display(const ToothPaintHint& tooth)
 {
+
     toothGraphic[tooth.idx]->setToothPixmap(ToothPainter::getBuccalOcclusal(tooth));
 }
 

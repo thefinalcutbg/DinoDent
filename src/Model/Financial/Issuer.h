@@ -34,14 +34,14 @@ struct Issuer
 	Issuer(); 
 	Issuer(const User& user);
 
-	const IssuerType type;
-	const std::string company_name;
-	const std::string address_by_contract;
-	const std::string address_by_activity;
+	IssuerType type;
+	std::string company_name;
+	std::string address_by_contract;
+	std::string address_by_activity;
 
-	const std::optional<std::string> registration_by_VAT;
-	const std::string grounds_for_not_charging_VAT;
+	std::optional<std::string> registration_by_VAT;
+	std::string grounds_for_not_charging_VAT;
 
-	const std::string issuer_bulstat_no_vat;
-	const std::string bulstat;
+	std::string issuer_bulstat_no_vat;
+	std::string bulstat;
 };

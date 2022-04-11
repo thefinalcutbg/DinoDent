@@ -20,9 +20,10 @@ ToothContainer::ToothContainer(const ToothContainer& other){
     for (int i = 0; i < teethCount; i++) teeth->at(i) = other.teeth->at(i);
 }
 
-ToothContainer::ToothContainer(ToothContainer&& other) noexcept{
-    teeth = std::move(other.teeth);
-}
+ToothContainer::ToothContainer(ToothContainer&& other) noexcept
+	:
+	teeth(std::move(other.teeth))
+{}
 
 Tooth& ToothContainer::operator[](int index)
 {

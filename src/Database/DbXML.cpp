@@ -33,12 +33,16 @@ std::string getSpecType(bool fullCoverage)
     {
         constexpr int specialtyCheck[5]{ 60, 61, 62, 64, 68 };
 
-        bool specialtyFound{ false };
         for (auto spec : specialtyCheck) {
-            if (specialty == spec)
-                specialtyFound = true;
+            if (specialty == spec) {
+                goto specTypeValid;
+            }
         }
+
+        throw std::exception(u8"Невалиден код специалност на доктора");
     }
+
+    specTypeValid:
 
     bool primaryDentalAid = specialty == 60 || specialty == 64;
 
@@ -51,7 +55,7 @@ std::string getSpecType(bool fullCoverage)
     if (!fullCoverage && !primaryDentalAid)
         return specType[2];
 
-    if (!fullCoverage && primaryDentalAid)
+    if (fullCoverage && primaryDentalAid)
         return specType[3];
 
     throw std::exception(u8"НЕВАЛИДНА СПЕЦИФИКАЦИЯ");

@@ -33,13 +33,13 @@ TeethBuccalScene::TeethBuccalScene()
     }
 
     maxillaryChart = new PerioChartItem(false);
-    maxillaryChart->setPos(15, 12);
+    maxillaryChart->setPos(15, 15);
     addItem(maxillaryChart);
 
     mandibularChart = new PerioChartItem(false);
     //mandibularChart->setTransform(QTransform::fromScale(-1, 1));
     mandibularChart->setRotation(180);
-    mandibularChart->setPos(mandibularChart->boundingRect().width() + 15, 468);
+    mandibularChart->setPos(mandibularChart->boundingRect().width() + 15, 460);
     addItem(mandibularChart);
 }
 

@@ -64,8 +64,8 @@ void SpritesheetCoords::molar()
 
 
 	SurfacePanelCrop.setCoords(25, 360, 165, 500);
-	BuccalOcclusalCrop.setCoords(0, 0, 180, 500);
-	lingualOcclusalCrop.setCoords(0, 350, 180, 860);
+	BuccalOcclusalCrop.setCoords(0, 0, 180, 640);
+	lingualOcclusalCrop.setCoords(0, 490, 180, 1140);
 
 }
 
@@ -76,8 +76,8 @@ void SpritesheetCoords::premolar()
 	lingualCrop.setCoords(0, 500, 120, 860);
 
 	SurfacePanelCrop.setCoords(12, 360, 106, 476);
-	BuccalOcclusalCrop.setCoords(0, 0, 120, 500);
-	lingualOcclusalCrop.setCoords(0, 350, 120, 860);
+	BuccalOcclusalCrop.setCoords(0, 0, 120, 640);
+	lingualOcclusalCrop.setCoords(0, 490, 120, 1140);
 }
 
 void SpritesheetCoords::frontal()
@@ -86,23 +86,23 @@ void SpritesheetCoords::frontal()
 	lingualCrop.setCoords(0, 500, 120, 860);
 
 	SurfacePanelCrop.setCoords(-10, 210, 120, 355);
-	BuccalOcclusalCrop.setCoords(0, 0, 120, 500);
-	lingualOcclusalCrop.setCoords(0, 350, 120, 860);
+	BuccalOcclusalCrop.setCoords(0, 0, 120, 640);
+	lingualOcclusalCrop.setCoords(0, 490, 120, 1140);
 }
 
 void SpritesheetCoords::tempfrontal()
 {
 	SurfacePanelCrop.setCoords(20, 205, 100, 290);
-	BuccalOcclusalCrop.setCoords(0, 0, 120, 500);
-	lingualOcclusalCrop.setCoords(0, 350, 120, 860);
+	BuccalOcclusalCrop.setCoords(0, 0, 120, 640);
+	lingualOcclusalCrop.setCoords(0, 490, 120, 1140);
 }
 
 void SpritesheetCoords::tempmolar()
 {
 
-	SurfacePanelCrop.setCoords(5, 370, 120, 470);
-	BuccalOcclusalCrop.setCoords(0, 0, 120, 500);
-	lingualOcclusalCrop.setCoords(0, 350, 120, 860);
+	SurfacePanelCrop.setCoords(5, 365, 120, 465);
+	BuccalOcclusalCrop.setCoords(0, 0, 120, 640);
+	lingualOcclusalCrop.setCoords(0, 490, 120, 1140);
 
 }
 

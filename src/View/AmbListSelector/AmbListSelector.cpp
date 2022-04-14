@@ -3,6 +3,7 @@
 #include <QMessageBox>
 #include <QDebug>
 #include  <QRegularExpression>
+#include <QApplication>
 
 AmbListSelector::AmbListSelector(ListSelectorPresenter* presenter) :
 	presenter(presenter)
@@ -19,7 +20,13 @@ AmbListSelector::AmbListSelector(ListSelectorPresenter* presenter) :
 	connect(ui.toDateEdit, &QDateEdit::dateChanged,
 		[=]() {presenter->setDates(ui.fromDateEdit->getDate(), ui.toDateEdit->getDate()); });
 
-	connect(ui.openButton, &QPushButton::clicked, [=] {presenter->openCurrentSelection(); });
+	connect(ui.openButton, &QPushButton::clicked, [=] {
+		
+		QApplication::setOverrideCursor(QCursor(Qt::CursorShape::WaitCursor));
+		presenter->openCurrentSelection(); 
+		QApplication::restoreOverrideCursor();
+		
+		});
 
 	connect(ui.dataTypeCombo, &QComboBox::currentIndexChanged,
 		[=](int idx) {presenter->setListType(static_cast<TabType>(idx));});

@@ -8,6 +8,8 @@ enum surf {occ, med, dist, buc, ling, cerv};
 struct SpritesheetCoords
 {
     SpritesheetCoords(SpriteRectType type);
+    int toothCanvasHeight{ 1140 };
+    int painterVTranslate{ 140 };
     QRect toothRect; //the rect of the whole tooth texture;
     QRect crownRect; //the rect which contains the crown parts of the tooth
 

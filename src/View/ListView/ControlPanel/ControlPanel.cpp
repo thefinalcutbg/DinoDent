@@ -42,7 +42,7 @@ ControlPanel::ControlPanel(QWidget *parent)
 
 	for (int i = 0; i<statusButtons.size(); i++)
 	{
-		connect( statusButtons[i], &QPushButton::pressed, this, [=] {
+		connect( statusButtons[i], &QPushButton::clicked, this, [=] {
 
 			if (presenter == NULL) return;
 			presenter->setMainStatus(i); 

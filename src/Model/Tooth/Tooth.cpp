@@ -147,8 +147,8 @@ void Tooth::addStatus(int statusCode)
 		case StatusCode::Mobility1: set(true, mobility); set(false, extraction, impacted); mobility.degree = Degree::First; break;
 		case StatusCode::Mobility2: set(true, mobility); set(false, extraction, impacted); mobility.degree = Degree::Second; break;
 		case StatusCode::Mobility3: set(true, mobility); set(false, extraction, impacted); mobility.degree = Degree::Third; break;
-		case StatusCode::Crown: set(true, crown); set(false, bridge, extraction, root, impacted, splint); break;
-		case StatusCode::Bridge: set(true, bridge); set(false, hyperdontic, crown, splint, impacted); bridge.LPK.clear(); break;
+		case StatusCode::Crown: set(true, crown); set(false, bridge, extraction, root, splint); break;
+		case StatusCode::Bridge: set(true, bridge); set(false, hyperdontic, crown, splint); bridge.LPK.clear(); break;
 		case StatusCode::FiberSplint: set(true, splint); set(false, crown, bridge, implant); break;
 		case StatusCode::Dsn: set(true, hyperdontic); set(false, extraction); break;
 		case StatusCode::Impacted: if (!hyperdontic.exists()) set(false, extraction, implant, crown, post, endo, mobility, fracture);

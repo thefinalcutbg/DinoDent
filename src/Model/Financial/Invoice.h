@@ -13,7 +13,7 @@ struct Practice;
 
 struct MainDocument //only in case of debit or credit note
 {
-	int number{1};
+	long long number{1};
 	Date date{Date::currentDate()};
 };
 
@@ -41,9 +41,9 @@ struct Invoice
 
 	std::optional<MainDocument> mainDocument() const;
 
-	void setMainDocumentData(int num, Date date);
+	void setMainDocumentData(long long num, Date date);
 
-	int number{ 0 };
+	long long number{ 0 };
 	long long rowId{0};
 	FinancialDocType type {FinancialDocType::Invoice};
 	std::string name{ u8"Фактура" }; //the title of the pdf invoice

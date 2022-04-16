@@ -42,6 +42,11 @@ long long Db::asRowId(int column)
     return sqlite3_column_int64(stmt, column);
 }
 
+long long Db::asLongLong(int column)
+{
+    return sqlite3_column_int64(stmt, column);
+}
+
 double Db::asDouble(int column)
 {
     return sqlite3_column_double(stmt, column);

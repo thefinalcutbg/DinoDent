@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>822</width>
+    <width>832</width>
     <height>409</height>
    </rect>
   </property>
@@ -163,12 +163,21 @@
         </widget>
        </item>
        <item>
-        <widget class="QSpinBox" name="mainDocNumSpin">
+        <widget class="LeadingZeroSpinBox" name="mainDocNumSpin">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>100</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
          </property>
          <property name="prefix">
           <string/>
@@ -187,7 +196,7 @@
        <item>
         <widget class="QLabel" name="mainDocDateLabel">
          <property name="text">
-          <string>от дата</string>
+          <string>от</string>
          </property>
         </widget>
        </item>
@@ -597,6 +606,11 @@
    <class>ProcedureTable</class>
    <extends>QTableView</extends>
    <header>View/ProcedureDisplayModel/ProcedureTable.h</header>
+  </customwidget>
+  <customwidget>
+   <class>LeadingZeroSpinBox</class>
+   <extends>QSpinBox</extends>
+   <header>View/uiComponents/qt_derived/leadingzerospinbox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -19,7 +19,7 @@ inline std::string formatDouble(const double& price)
     return stream.str();
 };
 
-inline std::string leadZeroes(int num, int totalLength)
+inline std::string leadZeroes(long long num, int totalLength)
 {
     std::string formated;
     formated.reserve(totalLength);

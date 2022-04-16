@@ -582,6 +582,9 @@
     <ClCompile Include="src\View\SaveAsDateDialog\SaveAsDateDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\uiComponents\qt_derived\LeadingZeroSpinBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -810,6 +813,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\SaveAsDateDialog\SaveAsDateDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\uiComponents\qt_derived\LeadingZeroSpinBox.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

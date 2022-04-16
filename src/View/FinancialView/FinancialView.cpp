@@ -26,6 +26,8 @@ FinancialView::FinancialView(QWidget *parent)
 		 "font-weight: bold; font-size: 12px;"
 	);
 
+	ui.mainDocNumSpin->setTotalLength(10);
+
 	connect(ui.dateEdit, &QDateEdit::dateChanged, 
 		[=](QDate date){
 			if (presenter == nullptr) return;
@@ -83,7 +85,7 @@ FinancialView::FinancialView(QWidget *parent)
 	connect(ui.mainDocDateEdit, &QDateEdit::dateChanged, [=] (QDate d) {
 		presenter->mainDocumentChanged(ui.mainDocNumSpin->value(), Date(d.day(), d.month(), d.year()));
 		});
-	connect(ui.mainDocNumSpin, &QSpinBox::valueChanged, [=](int value) {
+	connect(ui.mainDocNumSpin, &LeadingZeroSpinBox::valueChanged, [=](long long value) {
 		auto d = ui.mainDocDateEdit->date();
 		presenter->mainDocumentChanged(value, Date(d.day(), d.month(), d.year()));
 		});

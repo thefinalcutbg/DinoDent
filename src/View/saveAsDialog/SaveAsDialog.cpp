@@ -1,7 +1,7 @@
 ﻿#include "SaveAsDialog.h"
 #include "View/ModalDialogBuilder.h"
 
-SaveAsDialog::SaveAsDialog(std::unordered_set<int>& existingNumbers, int currentNumber, const std::string& docName, QWidget* parent)
+SaveAsDialog::SaveAsDialog(std::unordered_set<int>& existingNumbers, long long currentNumber, const std::string& docName, QWidget* parent)
     : QDialog(parent), existingNumbers(existingNumbers), currentNumber(currentNumber)
 {
     ui.setupUi(this);
@@ -25,11 +25,16 @@ SaveAsDialog::SaveAsDialog(std::unordered_set<int>& existingNumbers, int current
                 if (!answer) return;
             }
 
-                done(ui.ambNumSpin->value()); close();
+                m_result = ui.ambNumSpin->value(); close();
         
         
         });
     connect(ui.cancelButton, &QPushButton::clicked, this, [=] { done(0); close(); });
+}
+
+void SaveAsDialog::setMaxNumLength(int numberCharLength)
+{
+    ui.ambNumSpin->setTotalLength(numberCharLength);
 }
 
 

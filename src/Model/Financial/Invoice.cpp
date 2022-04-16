@@ -55,7 +55,7 @@ Invoice::Invoice(const TiXmlDocument& monthNotif, const User& user)
 		MainDocument{}
         :
         MainDocument{
-        std::stoi(getText(monthNotif.RootElement()->FirstChildElement("from_inv_num"))),
+        std::stoll(getText(monthNotif.RootElement()->FirstChildElement("from_inv_num"))),
         Date::getDateFromXmlFormat(getText(monthNotif.RootElement()->FirstChildElement("from_inv_date")))
         }
     },
@@ -106,7 +106,7 @@ std::optional<MainDocument> Invoice::mainDocument() const
 	return m_mainDocument;
 }
 
-void Invoice::setMainDocumentData(int num, Date date)
+void Invoice::setMainDocumentData(long long num, Date date)
 {
 	m_mainDocument.number = num;
 	m_mainDocument.date = date;

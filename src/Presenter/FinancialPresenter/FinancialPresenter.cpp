@@ -174,26 +174,45 @@ void FinancialPresenter::docTypeChanged(int index)
 {
     m_invoice.type = static_cast<FinancialDocType>(index);
 
+
+
     //forcing refresh of the tab name:
     edited = false;
     makeEdited();
+
+    if (m_invoice.type != FinancialDocType::Invoice) {
+
+        auto mainDocDb = DbInvoice::getMainDocument(m_invoice.recipient.bulstat);
+
+        if (mainDocDb) {
+            m_invoice.setMainDocumentData(mainDocDb->number, mainDocDb->date);
+        }
+
+    }
 
     view->setMainDocument(m_invoice.mainDocument());
 
    
 }
 
-void FinancialPresenter::mainDocumentChanged(int num, Date date)
+void FinancialPresenter::mainDocumentChanged(long long num, Date date)
 {
     //we assume, that since ui has enabled mainDocument,
     //the optional main doc has value:
     if (m_invoice.mainDocument()->number != num) {
+        
+        //it means that user has changed the number, so
+        //we get the date from db if main document with that number already exist:
 
-        //presumably get the date from db if main document with that number already exist?
+        auto db_date = DbInvoice::getMainDocDate(num, m_invoice.recipient.bulstat);
+
+        if (db_date)
+            date = db_date.value();
     }
 
     m_invoice.setMainDocumentData(num, date);
 
+    view->setMainDocument(m_invoice.mainDocument());
 
     makeEdited();
 }
@@ -240,7 +259,7 @@ bool FinancialPresenter::saveAs()
         existingNumbers.erase(newNumber);
     }
 
-    newNumber = ModalDialogBuilder::saveAsDocNumber(newNumber, existingNumbers, u8"Финансов документ");
+    newNumber = ModalDialogBuilder::saveAsDocNumber(newNumber, existingNumbers, u8"Финансов документ", 10);
 
     if (!newNumber) return false; //it means the dialog has been canceled
 

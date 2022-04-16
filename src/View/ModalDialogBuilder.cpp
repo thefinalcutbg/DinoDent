@@ -84,10 +84,12 @@ void ModalDialogBuilder::openDialog(DoctorDialogPresenter* p)
 
 #include "View/saveAsDialog/SaveAsDialog.h"
 
-int ModalDialogBuilder::saveAsDocNumber(int newNum, std::unordered_set<int> existingNumbers, const std::string& docName)
+long long ModalDialogBuilder::saveAsDocNumber(long long newNum, std::unordered_set<int> existingNumbers, const std::string& docName, int numberCharLength)
 {
 	SaveAsDialog d(existingNumbers, newNum, docName);
-	return d.exec();
+	d.setMaxNumLength(numberCharLength);
+	d.exec();
+	return d.result();
 }
 
 #include "View/SaveAsDateDialog/SaveAsDateDialog.h"

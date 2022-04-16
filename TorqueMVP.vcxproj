@@ -214,6 +214,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\View\uiComponents\qt_derived\LeadingZeroSpinBox.cpp" />
     <ClCompile Include="src\View\SaveAsDateDialog\SaveAsDateDialog.cpp" />
     <ClCompile Include="src\View\uiComponents\qt_derived\HalfRoundedButton.cpp" />
     <ClCompile Include="src\View\FinancialView\BusinessOpAddDialog\BusinessOpAddDialog.cpp" />
@@ -510,6 +511,7 @@
     <QtMoc Include="src\View\FinancialView\BusinessOpAddDialog\BusinessOpAddDialog.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\HalfRoundedButton.h" />
     <QtMoc Include="src\View\SaveAsDateDialog\SaveAsDateDialog.h" />
+    <QtMoc Include="src\View\uiComponents\qt_derived\LeadingZeroSpinBox.h" />
     <ClInclude Include="src\Database\DbInvoice.h" />
     <ClInclude Include="src\Model\Financial\BusinessOperation.h" />
     <ClInclude Include="src\Presenter\FinancialPresenter\FinancialPresenter.h" />

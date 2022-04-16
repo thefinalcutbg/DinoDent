@@ -13,7 +13,7 @@ long long DbInvoice::insertInvoice(const Invoice& invoice)
 
     if(nzok){
         query = 
-            "INSERT INTO financial (practice_rzi, num, type, day, month, year, month_notif, data) "
+            "INSERT INTO financial (practice_rzi, num, type, day, month, year, month_notif, recipient_id, data) "
             "VALUES ("
             "'" + UserManager::currentUser().practice.rziCode + "',"
             + std::to_string(invoice.number) + ","
@@ -22,6 +22,7 @@ long long DbInvoice::insertInvoice(const Invoice& invoice)
             + std::to_string(invoice.date.month) + ","
             + std::to_string(invoice.date.year) + ","
             + std::to_string(invoice.nzokData->fin_document_month_no) + ","
+            "'" + invoice.recipient.bulstat + "' "
             "'" + invoice.nzokData->monthNotifData + "'"
             ")";
     }
@@ -67,8 +68,9 @@ void DbInvoice::updateInvoice(const Invoice& invoice)
         "day = " + std::to_string(invoice.date.day) + ","
         "month = " + std::to_string(invoice.date.month) + ","
         "year = " + std::to_string(invoice.date.year) + ","
+        "recipient_id = '" + invoice.recipient.bulstat + "', "
         "data = '" + Parser::write(invoice) + "' "
-        
+
         ;
 
     if (!invoice.nzokData.has_value()) {
@@ -82,7 +84,7 @@ void DbInvoice::updateInvoice(const Invoice& invoice)
 
     }
 
-    query += "WHERE rowid = " + invoice.rowId;
+    query += "WHERE rowid = " + std::to_string(invoice.rowId);
 
     Db::crudQuery(query);
 }
@@ -106,6 +108,48 @@ long long DbInvoice::invoiceAlreadyExists(int monthNotifNumber)
      return 0;
 }
 
+std::optional<Date> DbInvoice::getMainDocDate(long long invoiceNumber, const std::string& recipient_id)
+{
+    std::string query{
+        "SELECT day, month, year FROM financial WHERE "
+        "num = " + std::to_string(invoiceNumber) + " "
+        "AND type = 0 "
+        "AND recipient_id = '" + recipient_id + "' "
+        "AND practice_rzi = '" + UserManager::currentUser().practice.rziCode + "'"
+    };
+
+    for (Db db(query); db.hasRows();)
+    {
+        return Date(db.asInt(0), db.asInt(1), db.asInt(2));
+    }
+
+    return {};
+}
+
+std::optional<MainDocument> DbInvoice::getMainDocument(const std::string& recipient_id)
+{
+    std::string query{
+    "SELECT num, day, month, year FROM financial WHERE "
+    "type = 0 "
+    "AND recipient_id = '" + recipient_id + "' "
+    "AND practice_rzi = '" + UserManager::currentUser().practice.rziCode + "'"
+    "ORDER BY num DESC LIMIT 1"
+    };
+
+    for (Db db(query); db.hasRows();)
+    {
+        return MainDocument{
+            db.asLongLong(0),
+            Date{
+                db.asInt(1),
+                db.asInt(2),
+                db.asInt(3) }
+        };
+    }
+
+    return {};
+}
+
 #include "Libraries/TinyXML/tinyxml.h"
 
 Invoice DbInvoice::getInvoice(long long rowId)
@@ -119,7 +163,7 @@ Invoice DbInvoice::getInvoice(long long rowId)
 
     while (db.hasRows()) {
         
-        int invNumber = db.asInt(0);
+        long long invNumber = db.asLongLong(0);
         FinancialDocType type = static_cast<FinancialDocType>(db.asInt(1));
         Date invDate{
             db.asInt(2),

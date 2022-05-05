@@ -21,7 +21,7 @@ void IconButton::paintEvent(QPaintEvent* event)
 	QPainterPath path;
 	path.addEllipse(rect());
 
-	QColor color{ m_hover ? hoverColor : Theme::sectionBackground };
+	QColor color{ m_hover || isChecked() ? hoverColor : Theme::sectionBackground};
 
 	painter.fillPath(path, color);
 	

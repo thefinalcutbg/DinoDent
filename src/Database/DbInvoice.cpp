@@ -22,7 +22,7 @@ long long DbInvoice::insertInvoice(const Invoice& invoice)
             + std::to_string(invoice.date.month) + ","
             + std::to_string(invoice.date.year) + ","
             + std::to_string(invoice.nzokData->fin_document_month_no) + ","
-            "'" + invoice.recipient.bulstat + "' "
+            "'" + invoice.recipient.bulstat + "', "
             "'" + invoice.nzokData->monthNotifData + "'"
             ")";
     }

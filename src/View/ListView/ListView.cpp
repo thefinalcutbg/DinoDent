@@ -25,12 +25,14 @@ ListView::ListView(QWidget* parent)
 	ui.addProcedure->setIcon(QIcon(":/icons/icon_add.png"));
 	ui.deleteProcedure->setIcon(QIcon(":/icons/icon_remove.png"));
 	ui.editProcedure->setIcon(QIcon(":/icons/icon_edit.png"));
+	ui.showAppliedButton->setIcon(QIcon(":/icons/icon_apply.png"));
 
 	ui.perioButton->setHoverColor(Theme::mainBackgroundColor);
 	ui.invoiceButton->setHoverColor(Theme::mainBackgroundColor);
 	ui.addProcedure->setHoverColor(Theme::mainBackgroundColor);
 	ui.deleteProcedure->setHoverColor(Theme::mainBackgroundColor);
 	ui.editProcedure->setHoverColor(Theme::mainBackgroundColor);
+	ui.showAppliedButton->setHoverColor(Theme::mainBackgroundColor);
 
 	ui.procedureTable->setStyleSheet(
 		"color :" + Theme::getRGBStringFromColor(Theme::fontTurquoise) + "; "
@@ -76,8 +78,8 @@ ListView::ListView(QWidget* parent)
 	connect(ui.taxCombo, &QComboBox::currentIndexChanged,
 			[=](int index) {presenter->chargeChanged(index); });
 
-	connect(ui.showCurrentStatusBox, &QPushButton::clicked, [=] { 
-			if (presenter) presenter->showCurrentStatus(ui.showCurrentStatusBox->isChecked()); 
+	connect(ui.showAppliedButton, &QPushButton::clicked, [=] {
+			if (presenter) presenter->showCurrentStatus(ui.showAppliedButton->isChecked());
 		});
 
 	ui.controlPanel->hide();
@@ -208,8 +210,8 @@ void ListView::disableGraphicsView(bool disabled)
 	teethViewScene->setSelectedTeeth({});
 	ui.teethView->setDisabled(disabled);
 
-	QSignalBlocker b(ui.showCurrentStatusBox);
-	ui.showCurrentStatusBox->setChecked(disabled);
+	QSignalBlocker b(ui.showAppliedButton);
+	ui.showAppliedButton->setChecked(disabled);
 }
 
 

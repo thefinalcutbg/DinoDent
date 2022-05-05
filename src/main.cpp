@@ -10,7 +10,7 @@
 
 int main(int argc, char *argv[])
 {
-    Db::setFilePath("DATATEST.db");
+    Db::setFilePath("TorqueDB.db");
     Db::createIfNotExist();
 
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);

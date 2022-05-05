@@ -12,7 +12,7 @@ class Db
     sqlite3_stmt* stmt;
 
 
-    static inline std::string dbLocation{ "DATATEST.db" };
+    static inline std::string dbLocation{ "TorqueDB.db" };
 
 
 public:

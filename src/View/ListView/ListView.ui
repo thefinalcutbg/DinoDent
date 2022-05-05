@@ -343,7 +343,7 @@
           </widget>
          </item>
          <item>
-          <widget class="IconButton" name="showCurrentStatusBox">
+          <widget class="IconButton" name="showAppliedButton">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
              <horstretch>0</horstretch>

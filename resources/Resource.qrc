@@ -20,6 +20,7 @@
         <file>icon_add.png</file>
         <file>icon_edit.png</file>
         <file>icon_remove.png</file>
+        <file>icon_apply.png</file>
     </qresource>
     <qresource prefix="/tooth">
         <file>tooth_approximal.png</file>

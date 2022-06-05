@@ -264,3 +264,19 @@ void ModalDialogBuilder::openExplorer(const std::string& path)
 {
 	QDesktopServices::openUrl(QUrl::fromLocalFile(QString::fromStdString(path)));
 }
+
+#include <QInputDialog>
+
+std::optional<std::string> ModalDialogBuilder::getStringInput(const std::string& dialogName, const std::string& fieldName)
+{
+	bool ok;
+
+	QString text = QInputDialog::getText(NULL, dialogName.data(),
+		fieldName.data(),
+		QLineEdit::Password, QString(), &ok);
+
+	if (text.isEmpty()) return {};
+
+	return text.toStdString();
+
+}

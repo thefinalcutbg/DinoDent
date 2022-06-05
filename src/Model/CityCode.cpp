@@ -4,7 +4,7 @@
 #include <utility>
 #include <algorithm>
 
-#include "Libraries/JsonCpp/json.h"
+#include <JsonCpp/json.h>
 #include "Model/FreeFunctions.h"
 #include <QDebug>
 

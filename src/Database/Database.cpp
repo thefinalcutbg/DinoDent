@@ -1,6 +1,6 @@
 #include "Database.h"
 
-#include "Libraries/sqLite/sqlite3.h"
+#include <sqLite/sqlite3.h>
 
 Db::Db(Db* existingConnection)
     :

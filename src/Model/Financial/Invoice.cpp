@@ -4,10 +4,10 @@
 #include <fstream>
 #include "Model/User/UserManager.h"
 #include <stdexcept>
-#include "Libraries/TinyXML/tinyxml.h"
+#include <TinyXML/tinyxml.h>
 #include "Model/FreeFunctions.h"
 #include "BusinessOperation.h"
-#include <random>
+
 
 
 std::string getText(const TiXmlElement* element)

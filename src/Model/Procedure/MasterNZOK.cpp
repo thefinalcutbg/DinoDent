@@ -1,5 +1,5 @@
 #include "MasterNZOK.h"
-#include "Libraries/JsonCpp/json.h"
+#include <JsonCpp/json.h>
 #include <fstream>
 #include <tuple>
 

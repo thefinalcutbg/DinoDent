@@ -25,7 +25,7 @@ PatientFormDialog::PatientFormDialog(PatientDialogPresenter* p, QWidget* parent)
     connect(ui.okButton, &QPushButton::clicked, [=] { presenter->accept(); });
     connect(ui.idLineEdit, &QLineEdit::textEdited, [=]{ if(ui.idLineEdit->isValid()) presenter->searchDbForPatient(ui.typeComboBox->currentIndex()+1); });
     connect(ui.cityLineEdit, &QLineEdit::textChanged, [=] {presenter->cityChanged(); });
-
+    connect(ui.pushButton, &QPushButton::clicked, [=] { presenter->activeHirbnoCheck();});
 
     patientFields[id] = ui.idLineEdit;
     patientFields[fname] = ui.fNameEdit;

@@ -7,7 +7,7 @@
 #include "../PerioPresenter/PerioPresenter.h"
 #include "../PatientSummaryPresenter/PatientSummaryPresenter.h"
 #include "../FinancialPresenter/FinancialPresenter.h"
-#include "Libraries/TinyXML/tinyxml.h"
+#include <TinyXML/tinyxml.h>
 
 TabPresenter::TabPresenter() : _indexCounter(-1), m_currentIndex(-1), view(nullptr)
 {}

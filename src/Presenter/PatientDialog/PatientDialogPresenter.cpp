@@ -70,6 +70,30 @@ void PatientDialogPresenter::changePatientType(int index)
 	}
 }
 
+#include <QDebug>
+
+
+#include "Model/Crypto/PISServ.h"
+
+#include "View/ModalDialogBuilder.h"
+
+
+
+void PatientDialogPresenter::activeHirbnoCheck()
+{
+	auto p = view->getPatient();
+
+	
+	try{
+		PISServ::sendRequest(PISServ::activeHIRBNo(p.id, p.type));
+	}
+	catch(std::exception& e)
+	{
+		ModalDialogBuilder::showMessage(e.what());
+	}
+	
+}
+
 void PatientDialogPresenter::accept()
 {
 

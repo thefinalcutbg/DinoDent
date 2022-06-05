@@ -1,5 +1,5 @@
 #include "DiagnosisContainer.h"
-#include "Libraries/JsonCpp/json.h"
+#include <JsonCpp/json.h>
 #include <fstream>
 
 inline void diagListParse(std::vector<std::string>& list, const Json::Value& jsonValue)

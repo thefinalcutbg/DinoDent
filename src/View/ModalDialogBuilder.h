@@ -48,6 +48,6 @@ namespace ModalDialogBuilder
 	void openSettingsDialog();
 	std::optional<std::string> getFileNamePath(const std::string& filename);
 	void openExplorer(const std::string& path);
-
+	std::optional<std::string> getStringInput(const std::string& dialogName, const std::string& fieldName);
 };
 

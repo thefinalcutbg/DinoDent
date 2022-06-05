@@ -8,8 +8,22 @@
 #include <QTextCodec>
 #include "Model/CityCode.h"
 
+#include "Model/Crypto/SoapParser.h"
+#include "View/ModalDialogBuilder.h"
+
+#include <fstream>
+std::string getFile() {
+
+    std::ifstream t("reply.xml");
+    return std::string((std::istreambuf_iterator<char>(t)),
+        std::istreambuf_iterator<char>());
+
+}
+
+
 int main(int argc, char *argv[])
 {
+
     Db::setFilePath("TorqueDB.db");
     Db::createIfNotExist();
 
@@ -20,6 +34,7 @@ int main(int argc, char *argv[])
 
     QApplication a(argc, argv);
     a.setWindowIcon(QIcon(":/icons/icon_torque.png"));
+
 
     //Intializing singletons
     CityCode::initialize();

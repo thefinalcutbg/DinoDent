@@ -109,20 +109,20 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>GeneratedFiles\$(ConfigurationName);GeneratedFiles;c:\Dev\Qt\6.2.2\msvc2019_64\include\;$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);src/;Dependencies/LimeReport/include;.\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Dev\Torque\include;GeneratedFiles\$(ConfigurationName);GeneratedFiles;$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);src/</AdditionalIncludeDirectories>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>$(Qt_LIBS_);%(AdditionalDependencies);$(ProjectDir)dependencies/LimeReport/$(Platform)/$(Configuration)/lib/limereportd.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>c:/Dev/Torque/dependencies/LimeReport/x64/Debug/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>limereportd.lib;QtZintd.lib;libcrypto.lib;libssl.lib;pkcs11.lib;libp11.lib;$(Qt_LIBS_);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Dev\Torque\dependencies\lib;$(Qt_LIBPATH_);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>GeneratedFiles\$(ConfigurationName);GeneratedFiles;$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);src/;Dependencies/LimeReport/include;c:/Dev/Qt/6.2.2/msvc2019_64/include;.\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Dev\Torque\include;GeneratedFiles\$(ConfigurationName);GeneratedFiles;$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);src/</AdditionalIncludeDirectories>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -130,18 +130,18 @@
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>c:/Dev/Torque/dependencies/LimeReport/x64/Release;$(Qt_LIBPATH_);%(AdditionalLibraryDirectories);</AdditionalLibraryDirectories>
-      <AdditionalDependencies>$(Qt_LIBS_);%(AdditionalDependencies);$(ProjectDir)dependencies/LimeReport/$(Platform)/$(Configuration)/lib/limereport.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Dev\Torque\dependencies\lib;$(Qt_LIBPATH_);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>limereport.lib;QtZint.lib;libcrypto.lib;libssl.lib;pkcs11.lib;libp11.lib;$(Qt_LIBS_);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
     <QtInstall>6.2.2_msvc2019_64</QtInstall>
-    <QtModules>core;gui;widgets;qml;printsupport;core5compat;openglwidgets;</QtModules>
+    <QtModules>core;network;gui;widgets;qml;printsupport;core5compat;openglwidgets;</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
     <QtInstall>6.2.2_msvc2019_64</QtInstall>
-    <QtModules>core;gui;widgets;qml;printsupport;core5compat;openglwidgets;</QtModules>
+    <QtModules>core;network;gui;svg;uitools;widgets;qml;printsupport;core5compat;openglwidgets;</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|Win32'" Label="QtSettings">
@@ -214,6 +214,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="include\JsonCpp\jsoncpp.cpp" />
+    <ClCompile Include="include\sqLite\shell.c" />
+    <ClCompile Include="include\sqLite\sqlite3.c" />
+    <ClCompile Include="include\TinyXML\tinystr.cpp" />
+    <ClCompile Include="include\TinyXML\tinyxml.cpp" />
+    <ClCompile Include="include\TinyXML\tinyxmlerror.cpp" />
+    <ClCompile Include="include\TinyXML\tinyxmlparser.cpp" />
+    <ClCompile Include="src\Model\Crypto\SoapParser.cpp" />
+    <ClCompile Include="src\Model\Crypto\PISServ.cpp" />
+    <ClCompile Include="src\Model\Crypto\Network.cpp" />
+    <ClCompile Include="src\Model\Crypto\Base64Convert.cpp" />
+    <ClCompile Include="src\Model\Crypto\PKCS11.cpp" />
     <ClCompile Include="src\View\uiComponents\qt_derived\LeadingZeroSpinBox.cpp" />
     <ClCompile Include="src\View\SaveAsDateDialog\SaveAsDateDialog.cpp" />
     <ClCompile Include="src\View\uiComponents\qt_derived\HalfRoundedButton.cpp" />
@@ -264,13 +276,6 @@
     <ClCompile Include="src\View\uiComponents\qt_derived\IconButton.cpp" />
     <ClCompile Include="src\View\ReportDialog\ReportDialog.cpp" />
     <ClCompile Include="src\Database\DbXML.cpp" />
-    <ClCompile Include="src\Libraries\JsonCpp\jsoncpp.cpp" />
-    <ClCompile Include="src\Libraries\sqLite\shell.c" />
-    <ClCompile Include="src\Libraries\sqLite\sqlite3.c" />
-    <ClCompile Include="src\Libraries\TinyXML\tinystr.cpp" />
-    <ClCompile Include="src\Libraries\TinyXML\tinyxml.cpp" />
-    <ClCompile Include="src\Libraries\TinyXML\tinyxmlerror.cpp" />
-    <ClCompile Include="src\Libraries\TinyXML\tinyxmlparser.cpp" />
     <ClCompile Include="src\Model\XML\xml.cpp" />
     <ClCompile Include="src\View\LoginView\PracticeListDialog.cpp" />
     <ClCompile Include="src\Database\DbPatientSummary.cpp" />
@@ -512,7 +517,19 @@
     <QtMoc Include="src\View\uiComponents\qt_derived\HalfRoundedButton.h" />
     <QtMoc Include="src\View\SaveAsDateDialog\SaveAsDateDialog.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\LeadingZeroSpinBox.h" />
+    <ClInclude Include="include\JsonCpp\json-forwards.h" />
+    <ClInclude Include="include\JsonCpp\json.h" />
+    <ClInclude Include="include\sqLite\sqlite3.h" />
+    <ClInclude Include="include\sqLite\sqlite3ext.h" />
+    <ClInclude Include="include\TinyXML\tinystr.h" />
+    <ClInclude Include="include\TinyXML\tinyxml.h" />
+    <ClInclude Include="src\Model\Crypto\SoapParser.h" />
+    <ClInclude Include="src\Model\Crypto\PISServ.h" />
+    <ClInclude Include="src\Model\Crypto\Network.h" />
+    <ClInclude Include="src\Model\Crypto\Base64Convert.h" />
+    <ClInclude Include="src\Model\Crypto\CryptoEngine.h" />
     <ClInclude Include="src\Database\DbInvoice.h" />
+    <ClInclude Include="src\Model\Crypto\PKCS11.h" />
     <ClInclude Include="src\Model\Financial\BusinessOperation.h" />
     <ClInclude Include="src\Presenter\FinancialPresenter\FinancialPresenter.h" />
     <ClInclude Include="src\Database\DbDoctor.h" />

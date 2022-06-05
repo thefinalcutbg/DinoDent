@@ -2,7 +2,7 @@
 #include "Database/Database.h"
 #include "Model/User/UserManager.h"
 #include "Model/Parser/Parser.h"
-
+#include <TinyXML/tinyxml.h>
 long long DbInvoice::insertInvoice(const Invoice& invoice)
 {
 
@@ -150,7 +150,7 @@ std::optional<MainDocument> DbInvoice::getMainDocument(const std::string& recipi
     return {};
 }
 
-#include "Libraries/TinyXML/tinyxml.h"
+
 
 Invoice DbInvoice::getInvoice(long long rowId)
 {

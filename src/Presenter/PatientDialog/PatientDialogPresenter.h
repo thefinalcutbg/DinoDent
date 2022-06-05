@@ -57,7 +57,7 @@ public:
 	std::optional<Patient> open();
 
 	void changePatientType(int index);
-
+	void activeHirbnoCheck();
 	void searchDbForPatient(int type);
 	void accept();
 

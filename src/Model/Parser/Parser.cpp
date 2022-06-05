@@ -1,5 +1,5 @@
 #include "Parser.h"
-#include "Libraries/JsonCpp/json.h"
+#include <JsonCpp/json.h>
 #include "Model/Tooth/ToothUtils.h"
 #include "Model/Tooth/ToothContainer.h"
 #include "Model/PerioStatus.h"

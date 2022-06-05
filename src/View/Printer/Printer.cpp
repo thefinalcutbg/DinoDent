@@ -1,5 +1,5 @@
 #include "Printer.h"
-#include <lrreportengine.h>
+#include <LimeReport/lrreportengine.h>
 #include <QString>
 #include <QApplication>
 #include "Model/CityCode.h"

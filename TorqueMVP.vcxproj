@@ -109,20 +109,20 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Dev\Torque\include;GeneratedFiles\$(ConfigurationName);GeneratedFiles;$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);src/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>:\Dev\Qt\Tools\OpenSSL\Win_x64\include;C:\Dev\Torque\include;GeneratedFiles\$(ConfigurationName);GeneratedFiles;$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);src/</AdditionalIncludeDirectories>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>limereportd.lib;QtZintd.lib;libcrypto.lib;libssl.lib;pkcs11.lib;libp11.lib;$(Qt_LIBS_);%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Dev\Torque\dependencies\lib;$(Qt_LIBPATH_);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>limereportd.lib;QtZintd.lib;libcrypto.lib;libssl.lib;libxml2.lib;libxmlsec-openssl.lib;libxmlsec.lib;libexslt.lib;libxslt.lib;pkcs11.lib;libp11.lib;$(Qt_LIBS_);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Dev\Qt\Tools\OpenSSL\Win_x64\lib;C:\Dev\Torque\dependencies\lib;$(Qt_LIBPATH_);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Dev\Torque\include;GeneratedFiles\$(ConfigurationName);GeneratedFiles;$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);src/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>:\Dev\Qt\Tools\OpenSSL\Win_x64\include;C:\Dev\Torque\include;GeneratedFiles\$(ConfigurationName);GeneratedFiles;$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);src/</AdditionalIncludeDirectories>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -130,18 +130,18 @@
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>C:\Dev\Torque\dependencies\lib;$(Qt_LIBPATH_);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>limereport.lib;QtZint.lib;libcrypto.lib;libssl.lib;pkcs11.lib;libp11.lib;$(Qt_LIBS_);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Dev\Qt\Tools\OpenSSL\Win_x64\lib;C:\Dev\Torque\dependencies\lib;$(Qt_LIBPATH_);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>limereport.lib;QtZint.lib;libcrypto.lib;libssl.lib;libxml2.lib;libxmlsec.lib;libxmlsec-openssl.lib;libexslt.lib;libxslt.lib;pkcs11.lib;libp11.lib;$(Qt_LIBS_);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
     <QtInstall>6.2.2_msvc2019_64</QtInstall>
-    <QtModules>core;network;gui;widgets;qml;printsupport;core5compat;openglwidgets;</QtModules>
+    <QtModules>core;network;gui;widgets;qml;printsupport;core5compat;</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
     <QtInstall>6.2.2_msvc2019_64</QtInstall>
-    <QtModules>core;network;gui;svg;uitools;widgets;qml;printsupport;core5compat;openglwidgets;</QtModules>
+    <QtModules>core;network;gui;svg;widgets;qml;printsupport;core5compat;</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|Win32'" Label="QtSettings">
@@ -162,7 +162,7 @@
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <Optimization>MaxSpeed</Optimization>
+      <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
@@ -221,11 +221,11 @@
     <ClCompile Include="include\TinyXML\tinyxml.cpp" />
     <ClCompile Include="include\TinyXML\tinyxmlerror.cpp" />
     <ClCompile Include="include\TinyXML\tinyxmlparser.cpp" />
-    <ClCompile Include="src\Model\Crypto\SoapParser.cpp" />
-    <ClCompile Include="src\Model\Crypto\PISServ.cpp" />
-    <ClCompile Include="src\Model\Crypto\Network.cpp" />
-    <ClCompile Include="src\Model\Crypto\Base64Convert.cpp" />
-    <ClCompile Include="src\Model\Crypto\PKCS11.cpp" />
+    <ClCompile Include="src\Network\PISServ.cpp" />
+    <ClCompile Include="src\Network\Network.cpp" />
+    <ClCompile Include="src\Network\Base64Convert.cpp" />
+    <ClCompile Include="src\Network\PKCS11.cpp" />
+    <ClCompile Include="src\Network\XmlSigner.cpp" />
     <ClCompile Include="src\View\uiComponents\qt_derived\LeadingZeroSpinBox.cpp" />
     <ClCompile Include="src\View\SaveAsDateDialog\SaveAsDateDialog.cpp" />
     <ClCompile Include="src\View\uiComponents\qt_derived\HalfRoundedButton.cpp" />
@@ -523,13 +523,14 @@
     <ClInclude Include="include\sqLite\sqlite3ext.h" />
     <ClInclude Include="include\TinyXML\tinystr.h" />
     <ClInclude Include="include\TinyXML\tinyxml.h" />
-    <ClInclude Include="src\Model\Crypto\SoapParser.h" />
-    <ClInclude Include="src\Model\Crypto\PISServ.h" />
-    <ClInclude Include="src\Model\Crypto\Network.h" />
-    <ClInclude Include="src\Model\Crypto\Base64Convert.h" />
+    <ClInclude Include="src\Network\ReplyHandler.h" />
+    <ClInclude Include="src\Network\PISServ.h" />
+    <ClInclude Include="src\Network\Network.h" />
+    <ClInclude Include="src\Network\Base64Convert.h" />
     <ClInclude Include="src\Model\Crypto\CryptoEngine.h" />
     <ClInclude Include="src\Database\DbInvoice.h" />
-    <ClInclude Include="src\Model\Crypto\PKCS11.h" />
+    <ClInclude Include="src\Network\PKCS11.h" />
+    <ClInclude Include="src\Network\XmlSigner.h" />
     <ClInclude Include="src\Model\Financial\BusinessOperation.h" />
     <ClInclude Include="src\Presenter\FinancialPresenter\FinancialPresenter.h" />
     <ClInclude Include="src\Database\DbDoctor.h" />

@@ -8,7 +8,7 @@
 #include <QTextCodec>
 #include "Model/CityCode.h"
 
-#include "Model/Crypto/SoapParser.h"
+
 #include "View/ModalDialogBuilder.h"
 
 #include <fstream>

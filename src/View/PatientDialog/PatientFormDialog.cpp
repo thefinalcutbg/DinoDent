@@ -152,6 +152,13 @@ Patient PatientFormDialog::getPatient()
     };
 }
 
+void PatientFormDialog::setHirbno(const std::string& hirbno)
+{
+    ui.HIRBNoEdit->setText(hirbno.data());
+    ui.HIRBNoEdit->setFocus();
+    ui.HIRBNoEdit->selectAll();
+}
+
 AbstractLineEdit* PatientFormDialog::lineEdit(PatientField field)
 {
     return patientFields[field];

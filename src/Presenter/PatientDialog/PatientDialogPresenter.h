@@ -18,14 +18,11 @@
 #include "View/uiComponents/AbstractLabel.h"
 
 #include "Model/CityCode.h"
+#include "Network/ReplyHandler.h"
 
 
-
-class PatientDialogPresenter
+class PatientDialogPresenter : private ReplyHandler
 {
-
-	
-
 	std::optional<Patient> _patient;
 
 	IPatientDialog* view;
@@ -49,6 +46,8 @@ class PatientDialogPresenter
 	Patient getPatientFromView();
 	void setPatientToView(const Patient& patient);
 
+	void getReply(const std::string& reply);
+
 public:
 	PatientDialogPresenter();
 	PatientDialogPresenter(const Patient& patient);
@@ -58,6 +57,7 @@ public:
 
 	void changePatientType(int index);
 	void activeHirbnoCheck();
+	void activeHirbnoReplyCallback(const std::string& reply);
 	void searchDbForPatient(int type);
 	void accept();
 

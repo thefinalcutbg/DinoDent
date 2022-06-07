@@ -2,6 +2,7 @@
 #include "View/ModalDialogBuilder.h"
 #include "Model/User/UserManager.h"
 #include "Database/DbPatient.h"
+#include "View/ModalDialogBuilder.h"
 
 PatientDialogPresenter::PatientDialogPresenter() :
 	view(nullptr)
@@ -73,7 +74,7 @@ void PatientDialogPresenter::changePatientType(int index)
 #include <QDebug>
 
 
-#include "Model/Crypto/PISServ.h"
+#include "Network/PISServ.h"
 
 #include "View/ModalDialogBuilder.h"
 
@@ -85,13 +86,17 @@ void PatientDialogPresenter::activeHirbnoCheck()
 
 	
 	try{
-		PISServ::sendRequest(PISServ::activeHIRBNo(p.id, p.type));
+		PISServ::sendRequest(PISServ::activeHIRBNo(p.id, p.type), this);
 	}
 	catch(std::exception& e)
 	{
 		ModalDialogBuilder::showMessage(e.what());
 	}
 	
+}
+
+void PatientDialogPresenter::activeHirbnoReplyCallback(const std::string& reply)
+{
 }
 
 void PatientDialogPresenter::accept()
@@ -171,6 +176,18 @@ void PatientDialogPresenter::setPatientToView(const Patient& patient)
 	allergies = patient.allergies;
 	currentDiseases = patient.currentDiseases;
 	pastDiseases = patient.pastDiseases;
+}
+
+void PatientDialogPresenter::getReply(const std::string& reply)
+{
+	try {
+		view->setHirbno(PISServ::parseHIRBNoReply(reply));
+	}
+	catch(std::exception)
+	{
+		ModalDialogBuilder::showMessage(u8"Не е намерена активна здравна книжка");
+	}
+
 }
 
 bool PatientDialogPresenter::inputIsValid(AbstractUIElement* uiElement)

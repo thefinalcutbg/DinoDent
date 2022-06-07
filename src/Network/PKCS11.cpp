@@ -1,4 +1,4 @@
-#include "PKCS11.h"
+﻿#include "PKCS11.h"
 #include <libp11/libp11.h>
 #include <vector>
 #include "Base64Convert.h"
@@ -76,7 +76,7 @@ PKCS11::PKCS11()
 
 		if (!loadModuleWithToken()) {
 
-			throw std::exception("no token found");
+			throw std::exception(u8"Не е открит КЕП");
 		}
 
 		PKCS11_enumerate_slots(ctx, &m_slots, &nslots);
@@ -86,14 +86,14 @@ PKCS11::PKCS11()
 	m_slot = PKCS11_find_token(ctx, m_slots, nslots);
 
 	if (m_slot == nullptr)
-		throw std::exception("no token found2");
+		throw std::exception(u8"Не е открит КЕП");
 
 	PKCS11_enumerate_certs(m_slot->token, &certs, &ncerts);
 
 	m_certificate = &certs[0];
 
 	if (!m_certificate || ncerts <= 0) {
-		throw std::exception("no certificate found");
+		throw std::exception(u8"Не е открит КЕП");
 	}
 
 	//getting the certificate
@@ -121,6 +121,25 @@ PKCS11::PKCS11()
 	if (!loginRequired())
 		m_prv_key = PKCS11_get_private_key(PKCS11_find_key(m_certificate));
 
+//getting the subject name
+	char* subj = X509_NAME_oneline(X509_get_subject_name(m_certificate->x509), NULL, 0);
+	m_subjectName = std::string(subj);
+	OPENSSL_free(subj);
+//getting the issuer
+	char* issuer = X509_NAME_oneline(X509_get_issuer_name(m_certificate->x509), NULL, 0);
+	m_issuer = std::string(issuer);
+	OPENSSL_free(issuer);
+
+}
+
+const std::string& PKCS11::subjectName()
+{
+	return m_subjectName;
+}
+
+const std::string& PKCS11::issuer()
+{
+	return m_issuer;
 }
 
 bool PKCS11::loginRequired()
@@ -150,12 +169,13 @@ std::string PKCS11::x509certBase64() const
 
 std::string PKCS11::ssl_x509cert() const
 {
-	return "-----BEGIN CERTIFICATE-----\n" + m_509 + "-----END CERTIFICATE-----\n";
+	return "-----BEGIN CERTIFICATE-----\n" + m_509 + "\n-----END CERTIFICATE-----";
 }
 
-evp_pkey_st* PKCS11::getPrivateKey()
+evp_pkey_st* PKCS11::takePrivateKey()
 {
 	return m_prv_key;
+
 }
 
 std::string PKCS11::sha1Digest(const std::string& data)
@@ -202,7 +222,7 @@ std::string PKCS11::getSignedValue64(const std::string& digestValue)
 	unsigned char* EncMsg{ nullptr };
 	size_t MsgLenEnc{ 0 };
 
-	auto pkey = getPrivateKey();
+	auto pkey = takePrivateKey();
 
 	if (!pkey) {
 		return std::string();
@@ -233,5 +253,10 @@ std::string PKCS11::getSignedValue64(const std::string& digestValue)
 
 PKCS11::~PKCS11()
 {
+	
+	/*
+		both xmlsec and qt take ownership of the private key
+		so releasing the slots causes a crash
+	*/
 	//PKCS11_release_all_slots(ctx, m_slots, nslots);
 }

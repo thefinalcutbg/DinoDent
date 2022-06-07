@@ -564,19 +564,16 @@
     <ClCompile Include="src\View\uiComponents\qt_derived\LeadingZeroSpinBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Model\Crypto\Base64Convert.cpp">
+    <ClCompile Include="src\Network\Base64Convert.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Model\Crypto\Network.cpp">
+    <ClCompile Include="src\Network\Network.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Model\Crypto\PKCS11.cpp">
+    <ClCompile Include="src\Network\PKCS11.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Model\Crypto\PISServ.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Model\Crypto\SoapParser.cpp">
+    <ClCompile Include="src\Network\PISServ.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="include\JsonCpp\jsoncpp.cpp">
@@ -598,6 +595,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="include\sqLite\sqlite3.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Network\XmlSigner.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1449,19 +1449,16 @@
     <ClInclude Include="src\Model\Crypto\CryptoEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model\Crypto\Base64Convert.h">
+    <ClInclude Include="src\Network\Base64Convert.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model\Crypto\Network.h">
+    <ClInclude Include="src\Network\Network.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model\Crypto\PKCS11.h">
+    <ClInclude Include="src\Network\PKCS11.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model\Crypto\PISServ.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Model\Crypto\SoapParser.h">
+    <ClInclude Include="src\Network\PISServ.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\JsonCpp\json.h">
@@ -1480,6 +1477,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\sqLite\sqlite3ext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Network\XmlSigner.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Network\ReplyHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

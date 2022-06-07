@@ -17,15 +17,21 @@ class PKCS11
 
 	int isLoggedIn{ false };
 
+	std::string m_subjectName;
+	std::string m_issuer;
+
 
 public:
 	PKCS11();
+	const std::string& subjectName();
+	const std::string& issuer();
 	bool loginRequired();
 	bool login(std::string pass);
 	std::string x509certBase64() const;
 	std::string ssl_x509cert() const;
 	std::string getSignedValue64(const std::string& digestValue);
-	evp_pkey_st* getPrivateKey();
+	//assumes the prv_key ownership has been passed on
+	evp_pkey_st* takePrivateKey();
 
 
 	static std::string sha1digest64(const std::string& canonicalized);

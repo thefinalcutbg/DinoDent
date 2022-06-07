@@ -1,7 +1,7 @@
 #pragma once
 
 #include <QWidget>
-#include <QOpenGLWidget>
+
 
 #include "ui_ListView.h"
 #include "IListView.h"

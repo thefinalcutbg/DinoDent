@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
 
+class ReplyHandler;
+
 class PKCS11;
 
 namespace Network
@@ -8,7 +10,9 @@ namespace Network
 	void sendRequestToPis(
 		const std::string& soapRequest, 
 		PKCS11& token, 
-		void (*_returnFn)(const std::string& reply)
+		ReplyHandler *handler
 	);
+
+	void unsubscribeHandler(ReplyHandler* handler);
 };
 

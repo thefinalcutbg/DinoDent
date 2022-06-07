@@ -1,7 +1,5 @@
 ﻿#include "SurfacePanel.h"
 
-#include <QOpenGLWidget>
-
 #include "Presenter/ListPresenter/ToothHintCreator.h"
 #include "Presenter/ListPresenter/SurfacePanel/SurfacePanelPresenter.h"
 #include "../../ToothPaintDevices/ToothPainter.h"

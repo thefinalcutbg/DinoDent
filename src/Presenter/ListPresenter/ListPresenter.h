@@ -9,7 +9,7 @@
 #include "Presenter/TabPresenter/TabInstance.h"
 #include "SurfacePanel/SurfacePanelPresenter.h"
 #include "CheckState.h"
-
+#include "Network/ReplyHandlers/DentalActivitiesHandler.h"
 
 typedef std::vector<int> SelectedTeethIdx;
 typedef std::vector<Tooth*> SelectedTeeth;
@@ -23,6 +23,8 @@ class ListPresenter : public TabInstance
 
     SelectedTeethIdx m_selectedIndexes;
     SelectedTeeth m_selectedTeeth;
+
+    DentalActivitiesHandler handler{this};
 
     bool m_showCurrentStatus{ false };
 
@@ -61,16 +63,16 @@ public:
     void setObturation(int surface);
     void setMainStatus(int code);
     void setOther(int code);
-
+    
     void setSelectedTeeth(const std::vector<int>& SelectedIndexes);
 
-
+    void checkPISActivities();
+    void showPISActivities(const std::vector<SimpleProcedure>& activities);
 
     void openDetails(int toothIdx);
     void openDetails();
 
     void addToProcedureList(const std::vector<Procedure>& new_mList);
-
 
     void addProcedure();
     void editProcedure(int index);

@@ -5,56 +5,50 @@
 #include <TinyXML/tinyxml.h>
 #include "Model/FreeFunctions.h"
 #include "XmlSigner.h"
-TiXmlElement* nullCheck(TiXmlElement* e) {
 
-	if (e == nullptr) {
-		throw std::exception("Invalid reply");
-	}
 
-	return e;
-}
-
-std::string PISServ::parseHIRBNoReply(const std::string& reply)
+const char* personTypeArr[5]
 {
-	if (reply.empty())
-		return {};
+	"",
+	"egn",
+	"lnch",
+	"",
+	"",
+};
 
-	TiXmlDocument doc;
 
-	doc.Parse(reply.data(), 0, TIXML_ENCODING_UTF8);
-
-	auto env = doc.RootElement();
-	auto header = nullCheck(env->FirstChildElement());
-	auto body = nullCheck(header->NextSiblingElement());
-	auto table = nullCheck(body->FirstChildElement());
-	auto headerRow = nullCheck(table->FirstChildElement());
-	auto tableRow = nullCheck(headerRow->NextSiblingElement());
-	auto tableData = nullCheck(tableRow->FirstChildElement());
-
-	std::string result = tableData->GetText();
-
-	if (result.size() > 8)
-	{
-		return result.substr(result.size() - 8);
-	}
-
-	return leadZeroes(tableData->GetText(), 8);
-
-}
-
-/*
-* No need of this function, since xmlsec handles the signing for us
-std::string canonicalize(const std::string& soapBody)
+std::string SOAP::dentalActivities(const std::string& id, int personType)
 {
-	std::string append = " xmlns:e=\"http://schemas.xmlsoap.org/soap/envelope/\"";
-	std::string canon;
-	canon.reserve(soapBody.length() + append.length());
-	canon = soapBody;
-	canon.insert(7, append);
 
-	return canon;
+	std::string tag = personTypeArr[personType];
+
+	return
+		"<ns3:query xmlns:ns1=\"http://pis.technologica.com/views/\" "
+				   "xmlns:ns3=\"http://pis.technologica.com/ws/\">"
+		"<ns3:user>"
+		"<ns3:" + tag + ">" + id + "</ns3:" + tag + ">"
+		"</ns3:user>"
+		"<ns3:from_clause>INYEAR_DENTAL_ACTS</ns3:from_clause>"
+		"</ns3:query>"
+		;
 }
-*/
+
+std::string SOAP::activeHIRBNo(const std::string& id, int personType)
+{
+	std::string tag = personTypeArr[personType];
+
+	return
+		"<ns3:query xmlns:ns1=\"http://pis.technologica.com/views/\" "
+		"xmlns:ns3=\"http://pis.technologica.com/ws/\">"
+		"<ns3:user>"
+		"<ns3:" + tag + ">" + id + "</ns3:" + tag + ">"
+		"</ns3:user>"
+		"<ns3:from_clause>ACTIVE_HB</ns3:from_clause>"
+		"</ns3:query>"
+		;
+
+}
+
 std::string soapToSign(const std::string& soapBody)
 {
 	
@@ -80,52 +74,13 @@ std::string soapToSign(const std::string& soapBody)
 				"</Signature>"
 			"</e:Header>"
 			"<e:Body id=\"signedContent\">"
-				+ soapBody +
+				+ soapBody + //the soap body
 			"</e:Body>"
 		"</e:Envelope>";
 }
 
 
-std::string PISServ::activeHIRBNo(const std::string& id, int personType)
-{
-	const char* personTypeArr[5]
-	{
-		"",
-		"egn",
-		"lnch",
-		"",
-		"",
-	};
-
-	std::string tag = personTypeArr[personType];
-
-	return
-
-		"<ns3:query xmlns:ns1=\"http://pis.technologica.com/views/\" xmlns:ns3=\"http://pis.technologica.com/ws/\">"
-		"<ns3:user>"
-		"<ns3:" + tag + ">" + id + "</ns3:" + tag + ">"
-		"</ns3:user>"
-		"<ns3:from_clause>ACTIVE_HB</ns3:from_clause>"
-		"</ns3:query>";
-		
-}
-/*
-#include "View/ModalDialogBuilder.h"
-void replyHandler(const std::string& reply) 
-{
-	try {
-		auto result = parseHirbnoReply(reply);
-		ModalDialogBuilder::showMessage(result);
-	}
-	catch (std::exception& e)
-	{
-
-		ModalDialogBuilder::showMessage(u8"Не е открита здравна книжка");
-	}
-
-}
-*/
-void PISServ::sendRequest(const std::string& soapBody, ReplyHandler* handler)
+bool PIS::sendRequest(const std::string& soapBody, AbstractReplyHandler& handler)
 {
 
 /*
@@ -135,20 +90,26 @@ we have to create two PKCS11 instances - one for the signing and one for the SSL
 
 	PKCS11 signer;
 
+	if (!signer.hsmLoaded())
+	{
+		ModalDialogBuilder::showError(u8"Не е открит КЕП");
+		return false;
+	}
+
 	if (signer.loginRequired()) {
 
 		auto pin = ModalDialogBuilder::getStringInput(signer.subjectName(), u8"ПИН:");
 
 		/*if the dialog has been cancled*/
 		if (!pin.has_value()) {
-			return;
+			return false;
 		}
 
 	
 		if (!signer.login(pin.value()))
 		{
 			ModalDialogBuilder::showError(u8"Грешна парола или блокирана карта");
-			return;
+			return false;
 		};
 	}
 			
@@ -156,21 +117,19 @@ we have to create two PKCS11 instances - one for the signing and one for the SSL
 	//creating another instance for the SSL certificate
 	PKCS11 sslBuilder;
 
-	try {
-		Network::sendRequestToPis(
 
-			XmlSigner::signSoapTemplate(
-				soapToSign(soapBody), 
-				signer.takePrivateKey(), 
-				signer.ssl_x509cert()
-			),
+	Network::sendRequestToPis(
 
-			sslBuilder,
-			handler
-		);
-	}
-	catch(std::exception& e) {
-        ModalDialogBuilder::showMessage("Не е открита активна здравна книжка");
-	}
+		XmlSigner::signSoapTemplate(
+			soapToSign(soapBody), 
+			signer.takePrivateKey(), 
+			signer.ssl_x509cert()
+		),
+
+		sslBuilder,
+		&handler
+	);
+
+	return true;
 	
 }

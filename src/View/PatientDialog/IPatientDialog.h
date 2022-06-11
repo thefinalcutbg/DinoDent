@@ -14,6 +14,7 @@ public:
 
 	virtual void close() = 0;
 	virtual void setHirbno(const std::string& hirbno) = 0;
+	virtual void disableHirbnoButton(bool disabled) = 0;
 	virtual void setLn4View(bool show) = 0;
 	virtual void setEditMode(bool editMode) = 0;
 	virtual void setCodeInfo(const std::string& codeInfo) = 0;

@@ -16,13 +16,14 @@ class PKCS11
 	evp_pkey_st* m_prv_key{ nullptr };
 
 	int isLoggedIn{ false };
-
+	bool m_loaded{ false };
 	std::string m_subjectName;
 	std::string m_issuer;
 
 
 public:
 	PKCS11();
+	bool hsmLoaded();
 	const std::string& subjectName();
 	const std::string& issuer();
 	bool loginRequired();

@@ -11,6 +11,7 @@
 #include "View/ModalDialogBuilder.h"
 #include "Model/AmbList.h"
 #include "Presenter/TabPresenter/TabPresenter.h"
+#include "Network/PISServ.h"
 
 bool ListPresenter::isValid()
 {
@@ -373,6 +374,7 @@ void ListPresenter::setOther(int code)
     statusChanged();
 }
 
+
 void ListPresenter::setSelectedTeeth(const std::vector<int>& SelectedIndexes)
 {
     m_selectedIndexes = SelectedIndexes;
@@ -389,6 +391,31 @@ void ListPresenter::setSelectedTeeth(const std::vector<int>& SelectedIndexes)
     
     view->hideControlPanel(!m_selectedTeeth.size());
     view->hideSurfacePanel(!oneToothSelected);
+}
+
+#include <QDebug>
+
+
+void ListPresenter::checkPISActivities()
+{
+    view->disableActivitiesButton(true);
+
+    bool success = PIS::sendRequest(
+        SOAP::dentalActivities(patient->id, patient->type),
+        handler
+    );
+
+    if (!success)
+        view->disableActivitiesButton(false);
+
+}
+
+void ListPresenter::showPISActivities(const std::vector<SimpleProcedure>& activities)
+{
+    for (auto a : activities) {
+        qDebug() << a.date.day << a.date.month << a.date.year << a.tooth << a.code.data();
+    }
+    view->disableActivitiesButton(false);
 }
 
 #include "Presenter/DetailsPresenter/DetailedStatusPresenter.h"

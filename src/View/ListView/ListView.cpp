@@ -46,7 +46,7 @@ ListView::ListView(QWidget* parent)
 		"color : " + Theme::getRGBStringFromColor(Theme::fontTurquoise) + "; "
 		"font-weight: bold; font-size: 12px;"
 	);
-
+	connect(ui.nzokActivities, &QPushButton::clicked, [=] { if (presenter) presenter->checkPISActivities(); });
 	connect(ui.patientTile, &QAbstractButton::clicked, [=] { if(presenter) presenter->openPatientDialog(); });
 	connect(ui.allergiesTile, &QAbstractButton::clicked, [=] { if (presenter) presenter->openAllergiesDialog(); });
 	connect(ui.addProcedure, &QAbstractButton::clicked, [=] { if (presenter) presenter->addProcedure(); });
@@ -187,6 +187,15 @@ void ListView::hideSurfacePanel(bool hidden)
 void ListView::hideControlPanel(bool hidden)
 {
 	ui.controlPanel->setHidden(hidden);
+}
+
+void ListView::disableActivitiesButton(bool disabled)
+{
+	if (disabled) {
+		ui.nzokActivities->clearFocus();
+	}
+
+	ui.nzokActivities->setDisabled(disabled);
 }
 
 ISurfacePanel* ListView::surfacePanel()

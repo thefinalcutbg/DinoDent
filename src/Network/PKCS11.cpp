@@ -4,13 +4,15 @@
 #include "Base64Convert.h"
 #include <iostream>
 #include <exception>
+#include <filesystem>
 
 PKCS11_CTX* ctx{ nullptr };
 
 std::vector<std::string> modules{
-	"c:/dev/bit4xpki.dll",
-	"c:/dev/IDPrimePKCS1164.dll"
+	"bit4xpki.dll",
+	"IDPrimePKCS1164.dll"
 };
+
 
 bool loadModuleWithToken()
 {
@@ -23,9 +25,12 @@ bool loadModuleWithToken()
 	for (int i = 0; i < modules.size(); i++)
 	{
 
-		std::cout << modules[i] << std::endl;
+		if (!std::filesystem::exists(modules[i]))
+		{
+			continue;
+		}
 
-		if (PKCS11_CTX_load(ctx, modules[i].data()))
+ 		if (PKCS11_CTX_load(ctx, modules[i].data()))
 		{
 			PKCS11_CTX_unload(ctx);
 			continue;
@@ -66,6 +71,9 @@ bool loadModuleWithToken()
 		break;
 	}
 
+	if (!success)
+		ctx = nullptr;
+
 	return success;
 
 }
@@ -75,8 +83,8 @@ PKCS11::PKCS11()
 	if (PKCS11_enumerate_slots(ctx, &m_slots, &nslots) == -1) {
 
 		if (!loadModuleWithToken()) {
-
-			throw std::exception(u8"Не е открит КЕП");
+			
+			return;
 		}
 
 		PKCS11_enumerate_slots(ctx, &m_slots, &nslots);
@@ -130,6 +138,12 @@ PKCS11::PKCS11()
 	m_issuer = std::string(issuer);
 	OPENSSL_free(issuer);
 
+	m_loaded = true;
+}
+
+bool PKCS11::hsmLoaded()
+{
+	return m_loaded;
 }
 
 const std::string& PKCS11::subjectName()

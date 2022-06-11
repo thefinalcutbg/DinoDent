@@ -600,6 +600,15 @@
     <ClCompile Include="src\Network\XmlSigner.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Network\ReplyHandlers\HirbnoReplyHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Network\ReplyHandlers\DentalActivitiesHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Network\ReplyHandlers\AbstractReplyHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -1482,7 +1491,13 @@
     <ClInclude Include="src\Network\XmlSigner.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Network\ReplyHandler.h">
+    <ClInclude Include="src\Network\ReplyHandlers\AbstractReplyHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Network\ReplyHandlers\HirbnoReplyHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Network\ReplyHandlers\DentalActivitiesHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

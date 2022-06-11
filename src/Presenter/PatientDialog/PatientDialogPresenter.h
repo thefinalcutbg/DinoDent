@@ -16,12 +16,12 @@
 #include "View/uiComponents/AbstractLineEdit.h"
 #include "View/uiComponents/AbstractComboBox.h"
 #include "View/uiComponents/AbstractLabel.h"
-
 #include "Model/CityCode.h"
-#include "Network/ReplyHandler.h"
+
+#include "Network/ReplyHandlers/HirbnoReplyHandler.h"
 
 
-class PatientDialogPresenter : private ReplyHandler
+class PatientDialogPresenter
 {
 	std::optional<Patient> _patient;
 
@@ -35,6 +35,8 @@ class PatientDialogPresenter : private ReplyHandler
 	CityValidator city_validator;
 	CyrillicValidator cyrillic_validator;
 
+	HirbnoReplyHandler hirbnoHandler{this};
+
 	//data not present in view:
 	long long rowid{ 0 };
 	std::string allergies;
@@ -46,7 +48,7 @@ class PatientDialogPresenter : private ReplyHandler
 	Patient getPatientFromView();
 	void setPatientToView(const Patient& patient);
 
-	void getReply(const std::string& reply);
+	
 
 public:
 	PatientDialogPresenter();
@@ -56,8 +58,8 @@ public:
 	std::optional<Patient> open();
 
 	void changePatientType(int index);
+	void setHirbno(const std::string& hirbno);
 	void activeHirbnoCheck();
-	void activeHirbnoReplyCallback(const std::string& reply);
 	void searchDbForPatient(int type);
 	void accept();
 

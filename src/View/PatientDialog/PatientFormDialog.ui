@@ -392,17 +392,17 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="hirbnoButton">
    <property name="geometry">
     <rect>
      <x>210</x>
      <y>290</y>
-     <width>75</width>
+     <width>31</width>
      <height>24</height>
     </rect>
    </property>
    <property name="text">
-    <string>Зареди</string>
+    <string/>
    </property>
   </widget>
  </widget>

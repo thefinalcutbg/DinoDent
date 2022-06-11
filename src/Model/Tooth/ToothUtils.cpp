@@ -16,7 +16,7 @@ constexpr std::array<int, 32> types
 
 
 std::array<std::string, 6> surfaceNames
-{ "Оклузално", "Медиално", "Дистално", "Букално", "Лингвално", "Цервикално" };
+{ u8"Оклузално", u8"Медиално", u8"Дистално", u8"Букално", u8"Лингвално", u8"Цервикално" };
 
 
 
@@ -63,7 +63,7 @@ std::array<std::string, 6> ToothUtils::getSurfaceNames(int index)
     if (index == 5 || index == 10 || index == 21 || index == 26) //canine teeth
     {
         return std::array<std::string, 6>{
-                 "Куспидално",
+                u8"Куспидално",
                 surfaceNames[1],
                 surfaceNames[2],
                 surfaceNames[3],
@@ -75,7 +75,7 @@ std::array<std::string, 6> ToothUtils::getSurfaceNames(int index)
     if (getToothType(index) == ToothType::Frontal) //frontal teeth
     {
         return std::array<std::string, 6>{
-                                            "Инцизално",
+                                            u8"Инцизално",
                                              surfaceNames[1],
                                              surfaceNames[2],
                                              surfaceNames[3],
@@ -86,4 +86,26 @@ std::array<std::string, 6> ToothUtils::getSurfaceNames(int index)
 
     return surfaceNames; //any other teeth
     
+}
+
+std::pair<int, bool> ToothUtils::getArrayIdxAndTemp(int index)
+{
+    if (index > 85)
+        return { 99, false };
+
+    bool temp = index > 50;
+
+    if (temp) {
+        index -= 40;
+    }
+
+    for (int i = 0; i < numbers.size(); i++) {
+        
+        if (index = numbers[i]) {
+            return { index, temp };
+        }
+    }
+
+    return { -1, false };
+
 }

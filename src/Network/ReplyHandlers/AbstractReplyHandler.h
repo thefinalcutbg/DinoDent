@@ -1,13 +1,15 @@
 #pragma once
 
 #include <string>
-#include "Network.h"
+#include "../Network.h"
+class TiXmlElement;
 
-class ReplyHandler
+class AbstractReplyHandler
 {
+
 public:
 	virtual void getReply(const std::string& reply) = 0;
-	~ReplyHandler() {
+	~AbstractReplyHandler() {
 		Network::unsubscribeHandler(this);
 	}
 

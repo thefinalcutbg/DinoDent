@@ -214,6 +214,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Network\ReplyHandlers\AbstractReplyHandler.cpp" />
+    <ClCompile Include="src\Network\ReplyHandlers\DentalActivitiesHandler.cpp" />
+    <ClCompile Include="src\Network\ReplyHandlers\HirbnoReplyHandler.cpp" />
     <ClCompile Include="include\JsonCpp\jsoncpp.cpp" />
     <ClCompile Include="include\sqLite\shell.c" />
     <ClCompile Include="include\sqLite\sqlite3.c" />
@@ -517,13 +520,15 @@
     <QtMoc Include="src\View\uiComponents\qt_derived\HalfRoundedButton.h" />
     <QtMoc Include="src\View\SaveAsDateDialog\SaveAsDateDialog.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\LeadingZeroSpinBox.h" />
+    <ClInclude Include="src\Network\ReplyHandlers\DentalActivitiesHandler.h" />
+    <ClInclude Include="src\Network\ReplyHandlers\HirbnoReplyHandler.h" />
     <ClInclude Include="include\JsonCpp\json-forwards.h" />
     <ClInclude Include="include\JsonCpp\json.h" />
     <ClInclude Include="include\sqLite\sqlite3.h" />
     <ClInclude Include="include\sqLite\sqlite3ext.h" />
     <ClInclude Include="include\TinyXML\tinystr.h" />
     <ClInclude Include="include\TinyXML\tinyxml.h" />
-    <ClInclude Include="src\Network\ReplyHandler.h" />
+    <ClInclude Include="src\Network\ReplyHandlers\AbstractReplyHandler.h" />
     <ClInclude Include="src\Network\PISServ.h" />
     <ClInclude Include="src\Network\Network.h" />
     <ClInclude Include="src\Network\Base64Convert.h" />

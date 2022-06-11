@@ -5,28 +5,30 @@
 #include <QSslKey>
 #include "PKCS11.h"
 #include <qDebug>
-#include "ReplyHandler.h"
+#include "ReplyHandlers/AbstractReplyHandler.h"
 #include <unordered_set>
 #include "View/ModalDialogBuilder.h"
+#include <QApplication>
+
+
 
 QNetworkAccessManager* s_manager {nullptr};
 void (*s_returnFn)(const std::string& reply){ nullptr };
 
-std::unordered_set<ReplyHandler*> handlers;
+std::unordered_set<AbstractReplyHandler*> handlers;
 
 
 void Network::sendRequestToPis(
                                 const std::string& soapRequest,
                                 PKCS11& token,
-                                ReplyHandler* handler
+                                AbstractReplyHandler* handler
                               )
 {
-    qDebug() << soapRequest.data();
+
 
     if (!s_manager) {
         s_manager = new QNetworkAccessManager();
     }
-
 
     handlers.insert(handler);
 
@@ -43,21 +45,39 @@ void Network::sendRequestToPis(
     request.setRawHeader("SOAPAction", "\"http://pis.technologica.com/view\"");
     request.setRawHeader("accept", "\"application/xml\"");
     
+
+
     auto reply = s_manager->post(request, soapRequest.data());
+
+    QApplication::setOverrideCursor(Qt::BusyCursor);
 
     QObject::connect(reply, &QNetworkReply::finished, [=]{
             
-                if (handlers.count(handler) == 0) return;
+        QApplication::setOverrideCursor(Qt::ArrowCursor);
 
-                handler->getReply(reply->readAll().data());
-                Network::unsubscribeHandler(handler);
-                s_manager->clearAccessCache();
+        if (handlers.count(handler) == 0) return;
+
+        std::string replyString = reply->readAll().toStdString();
+
+        if (replyString.empty())
+        {
+            ModalDialogBuilder::showError(u8"Неуспешна връзка със сървъра");
+        }
+        else
+        {
+            handler->getReply(replyString);
+        }
+
+        Network::unsubscribeHandler(handler);
+        s_manager->clearAccessCache();
 
         });
 
-    QObject::connect(reply, &QNetworkReply::error, [=] {
+    QObject::connect(reply, &QNetworkReply::sslErrors, [=] {
 
-        ModalDialogBuilder::showError(u8"Неуспешна връзка със сървъра");
+        QApplication::setOverrideCursor(Qt::ArrowCursor);
+
+        ModalDialogBuilder::showError(u8"Неуспешна автентификация");
         Network::unsubscribeHandler(handler);
         s_manager->clearAccessCache();
 
@@ -66,9 +86,12 @@ void Network::sendRequestToPis(
     
 }
 
-void Network::unsubscribeHandler(ReplyHandler* handler)
+void Network::unsubscribeHandler(AbstractReplyHandler* handler)
 {
+
     if (handlers.count(handler)) {
         handlers.erase(handler);
     }
+
+    
 }

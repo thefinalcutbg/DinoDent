@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include <array>
 #include <string>
+#include <utility>
 
 class Tooth;
 
@@ -16,4 +17,5 @@ namespace ToothUtils
 	std::string getNomenclature(const Tooth& t);
 	Quadrant getQuadrant(int index);
 	std::array<std::string, 6> getSurfaceNames(int index);
+	std::pair<int, bool> getArrayIdxAndTemp(int index);
 };

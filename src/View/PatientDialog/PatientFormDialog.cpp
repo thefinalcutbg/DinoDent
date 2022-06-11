@@ -5,6 +5,8 @@ PatientFormDialog::PatientFormDialog(PatientDialogPresenter* p, QWidget* parent)
     presenter(p)
 {
     ui.setupUi(this);
+    ui.hirbnoButton->setIcon(QIcon(":/icons/icon_nzok.png"));
+
     setModal(true);
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     setWindowTitle(u8"Нов амбулаторен лист");
@@ -25,7 +27,7 @@ PatientFormDialog::PatientFormDialog(PatientDialogPresenter* p, QWidget* parent)
     connect(ui.okButton, &QPushButton::clicked, [=] { presenter->accept(); });
     connect(ui.idLineEdit, &QLineEdit::textEdited, [=]{ if(ui.idLineEdit->isValid()) presenter->searchDbForPatient(ui.typeComboBox->currentIndex()+1); });
     connect(ui.cityLineEdit, &QLineEdit::textChanged, [=] {presenter->cityChanged(); });
-    connect(ui.pushButton, &QPushButton::clicked, [=] { presenter->activeHirbnoCheck();});
+    connect(ui.hirbnoButton, &QPushButton::clicked, [=] { presenter->activeHirbnoCheck();});
 
     patientFields[id] = ui.idLineEdit;
     patientFields[fname] = ui.fNameEdit;
@@ -57,7 +59,6 @@ void PatientFormDialog::paintEvent(QPaintEvent* event)
 
 PatientFormDialog::~PatientFormDialog()
 {
-
 }
 
 void PatientFormDialog::setEditMode(bool editMode)
@@ -157,6 +158,11 @@ void PatientFormDialog::setHirbno(const std::string& hirbno)
     ui.HIRBNoEdit->setText(hirbno.data());
     ui.HIRBNoEdit->setFocus();
     ui.HIRBNoEdit->selectAll();
+}
+
+void PatientFormDialog::disableHirbnoButton(bool disabled)
+{
+    ui.hirbnoButton->setDisabled(disabled);
 }
 
 AbstractLineEdit* PatientFormDialog::lineEdit(PatientField field)

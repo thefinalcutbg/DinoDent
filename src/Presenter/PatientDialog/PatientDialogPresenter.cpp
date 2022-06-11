@@ -1,8 +1,7 @@
 ﻿#include "PatientDialogPresenter.h"
 #include "View/ModalDialogBuilder.h"
-#include "Model/User/UserManager.h"
 #include "Database/DbPatient.h"
-#include "View/ModalDialogBuilder.h"
+#include "Network/PISServ.h"
 
 PatientDialogPresenter::PatientDialogPresenter() :
 	view(nullptr)
@@ -71,32 +70,18 @@ void PatientDialogPresenter::changePatientType(int index)
 	}
 }
 
-#include <QDebug>
-
-
-#include "Network/PISServ.h"
-
-#include "View/ModalDialogBuilder.h"
-
-
-
 void PatientDialogPresenter::activeHirbnoCheck()
 {
+	view->disableHirbnoButton(true);
+
 	auto p = view->getPatient();
-
 	
-	try{
-		PISServ::sendRequest(PISServ::activeHIRBNo(p.id, p.type), this);
-	}
-	catch(std::exception& e)
-	{
-		ModalDialogBuilder::showMessage(e.what());
+	bool success = PIS::sendRequest(SOAP::activeHIRBNo(p.id, p.type), hirbnoHandler);
+	
+	if (!success) {
+		view->disableHirbnoButton(false);
 	}
 	
-}
-
-void PatientDialogPresenter::activeHirbnoReplyCallback(const std::string& reply)
-{
 }
 
 void PatientDialogPresenter::accept()
@@ -136,7 +121,6 @@ void PatientDialogPresenter::searchDbForPatient(int type)
 	{
 		patient.id = patientId;
 		patient.type = type;
-		//patient.city = UserManager::currentUser().practice_address; no!
 
 		if (patient.type == 1)
 		{
@@ -178,16 +162,16 @@ void PatientDialogPresenter::setPatientToView(const Patient& patient)
 	pastDiseases = patient.pastDiseases;
 }
 
-void PatientDialogPresenter::getReply(const std::string& reply)
+void PatientDialogPresenter::setHirbno(const std::string& hirbno)
 {
-	try {
-		view->setHirbno(PISServ::parseHIRBNoReply(reply));
-	}
-	catch(std::exception)
-	{
+	view->disableHirbnoButton(false);
+
+	if(hirbno.empty()){
 		ModalDialogBuilder::showMessage(u8"Не е намерена активна здравна книжка");
+		return;
 	}
 
+	view->setHirbno(hirbno);
 }
 
 bool PatientDialogPresenter::inputIsValid(AbstractUIElement* uiElement)

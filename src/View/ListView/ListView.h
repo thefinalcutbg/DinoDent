@@ -40,6 +40,7 @@ public:
 
     void hideSurfacePanel(bool hidden) override;
     void hideControlPanel(bool hidden) override;
+    void disableActivitiesButton(bool disabled) override;
     ISurfacePanel* surfacePanel() override;
     void repaintTooth(const ToothPaintHint& tooth) override;
     void setNotes(const std::array<std::string, 32>& notes) override;

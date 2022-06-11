@@ -48,7 +48,7 @@ public:
     void setPatient(const Patient& patient) override;
     Patient getPatient() override;
     void setHirbno(const std::string& hirbno) override;
-
+    void disableHirbnoButton(bool disabled) override;
     AbstractLineEdit* lineEdit(PatientField field) override;
     AbstractDateEdit* dateEdit() override;
 };

@@ -1,14 +1,19 @@
 #pragma once
 #include <string>
+#include <vector>
+#include "Model/Date.h"
+class AbstractReplyHandler;
 
-class ReplyHandler;
-
-namespace PISServ
+namespace SOAP
 {
-
 	std::string activeHIRBNo(const std::string& id, int personType);
-	std::string parseHIRBNoReply(const std::string& reply);
-	void sendRequest(const std::string& soapBody, ReplyHandler* handler);
+	std::string dentalActivities(const std::string& id, int personType);
+}
+
+namespace PIS
+{
+	//returns true if the request was passed to the network
+	bool sendRequest(const std::string& soapBody, AbstractReplyHandler& handler);
 	
 }
 

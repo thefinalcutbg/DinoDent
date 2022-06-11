@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 
-class ReplyHandler;
+class AbstractReplyHandler;
 
 class PKCS11;
 
@@ -10,9 +10,9 @@ namespace Network
 	void sendRequestToPis(
 		const std::string& soapRequest, 
 		PKCS11& token, 
-		ReplyHandler *handler
+		AbstractReplyHandler *handler
 	);
 
-	void unsubscribeHandler(ReplyHandler* handler);
+	void unsubscribeHandler(AbstractReplyHandler* handler);
 };
 

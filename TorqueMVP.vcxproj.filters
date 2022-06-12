@@ -609,6 +609,9 @@
     <ClCompile Include="src\Network\ReplyHandlers\AbstractReplyHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\PISHistoryDialog\PISHistoryDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -842,6 +845,9 @@
     <QtMoc Include="src\View\uiComponents\qt_derived\LeadingZeroSpinBox.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\View\PISHistoryDialog\PISHistoryDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="resources\Resource.qrc" />
@@ -977,6 +983,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\SaveAsDateDialog\SaveAsDateDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\PISHistoryDialog\PISHistoryDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

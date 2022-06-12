@@ -34,7 +34,7 @@ public:
 	std::pair<patientPrice, nzokPrice> getPrices(int code, Date date, int specialty, bool adult, bool unfav);
 	double getPatientPrice(int code, Date date, int specialty, bool adult, bool unfav);
 	double getNZOKPrice(int code, Date date, int specialty, bool adult, bool unfav);
-	
+
 	std::vector<ProcedurePackage> getPackages(Date ambDate);
 
 	ProcedureTemplate getTemplateByCode(int code);

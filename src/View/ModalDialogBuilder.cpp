@@ -173,6 +173,16 @@ std::optional<Procedures> ModalDialogBuilder::selectProcedures(const Procedures&
 	return result;
 }
 
+#include "View/PISHistoryDialog/PISHistoryDialog.h"
+
+bool ModalDialogBuilder::pisHistoryDialog(const Procedures& procedures)
+{
+	PISHistoryDialog d(procedures);
+	d.exec();
+
+	return d.applyProcedures;
+}
+
 #include "View/FinancialView/BusinessOpEditDialog/BusinessOpEditDialog.h"
 
 std::optional<BusinessOperation> ModalDialogBuilder::editBusinessOperation(const BusinessOperation& op)

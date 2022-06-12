@@ -1,6 +1,7 @@
 #pragma once
 #include "AbstractReplyHandler.h"
 #include "Model/Date.h"
+#include "Model/Procedure/Procedure.h"
 
 struct SimpleProcedure {
 

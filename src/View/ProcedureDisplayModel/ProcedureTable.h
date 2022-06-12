@@ -43,6 +43,8 @@ public:
 	void setProcedureHistoryLayout();
 	void setProcedurePrintSelectLayout();
 	void setBusinessOperationLayout();
+	//buggy
+	void setPISActivitiesLayout();
 	
 
 

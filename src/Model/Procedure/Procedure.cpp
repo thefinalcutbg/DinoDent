@@ -1,9 +1,27 @@
 #include "Procedure.h"
 #include "Model/Tooth/ToothContainer.h"
-#include <QDebug>
-void Procedure::applyProcedure(ToothContainer& teeth)
-{
 
+
+Procedure::Procedure(const ProcedureTemplate& t, Date date, std::string diagnosis, int tooth, bool temp)
+	:
+	code{ t.code },
+	name{ t.name },
+	date{ date },
+	nzok{ t.nzok },
+	tooth{ tooth },
+	temp{ temp },
+	diagnosis(diagnosis)
+	
+{
+	if (static_cast<int>(t.type) < 7)
+		type = static_cast<ProcedureType>(t.type);
+	else
+		type = static_cast<ProcedureType>(static_cast<int>(t.type) + 1);
+
+}
+
+void Procedure::applyProcedure(ToothContainer& teeth) const
+{
 
 		switch (type)
 		{
@@ -21,11 +39,13 @@ void Procedure::applyProcedure(ToothContainer& teeth)
 
 					tooth.obturation[i].data.color = result.data.color;
 					tooth.obturation[i].data.material = result.data.material;
-					tooth.obturation[i].LPK = LPK;
+					
 				}
 
 				if (result.post) tooth.setStatus(StatusType::general, StatusCode::Post, true);
+				
 				tooth.post.LPK = LPK;
+	
 			}
 			break;
 
@@ -34,8 +54,11 @@ void Procedure::applyProcedure(ToothContainer& teeth)
 				auto& tooth = teeth[this->tooth];
 				tooth.setStatus(StatusType::general, StatusCode::Extraction);
 
-				if (tooth.extraction.exists()) //if the tooth was temporary or hyperdontic, the status won't be present
-						tooth.extraction.LPK = LPK;
+				if (!tooth.extraction.exists()) return; //if the tooth was temporary or hyperdontic, the status won't be present
+						
+				tooth.extraction.LPK = LPK;
+
+				
 			}
 			break;
 
@@ -43,7 +66,9 @@ void Procedure::applyProcedure(ToothContainer& teeth)
 			{
 				auto& tooth = teeth[this->tooth];
 				tooth.setStatus(StatusType::general, StatusCode::EndoTreatment);
+
 				tooth.endo.LPK = LPK;
+
 			}
 			break;
 
@@ -57,7 +82,10 @@ void Procedure::applyProcedure(ToothContainer& teeth)
 			tooth.crown.data.material = result.material;
 			tooth.crown.data.prep_type = result.prep_type;
 			tooth.crown.data.color = result.color;
-			tooth.crown.LPK = LPK;
+			
+			if (!LPK.empty()) {
+				tooth.endo.LPK = LPK;
+			}
 		}
 		break;
 
@@ -69,7 +97,7 @@ void Procedure::applyProcedure(ToothContainer& teeth)
 			tooth.setStatus(StatusType::general, StatusCode::Implant);
 
 			auto& implant = tooth.implant;
-			implant.LPK = LPK;
+			
 			implant.data.system = result.system;
 			implant.data.time = result.time;
 			implant.data.type = result.type;
@@ -79,6 +107,9 @@ void Procedure::applyProcedure(ToothContainer& teeth)
 			implant.data.bone_aug = result.bone_aug;
 			implant.data.membrane = result.membrane;
 			implant.data.sinusLift = result.sinusLift;
+
+			implant.LPK = LPK;
+
 		}
 		break;
 
@@ -103,7 +134,10 @@ void Procedure::applyProcedure(ToothContainer& teeth)
 				tooth.bridge.data.color = result.crown.color;
 				tooth.bridge.data.material = result.crown.material;
 				tooth.bridge.data.prep_type = result.crown.prep_type;
+
 				tooth.bridge.LPK = LPK;
+
+				
 	
 			}
 
@@ -131,6 +165,7 @@ void Procedure::applyProcedure(ToothContainer& teeth)
 				tooth.setStatus(StatusType::general, StatusCode::FiberSplint);
 				tooth.splint.color = result.obtur.color;
 				tooth.splint.material = result.obtur.material;
+
 				tooth.splint.LPK = LPK;
 
 			}
@@ -149,5 +184,47 @@ void Procedure::applyProcedure(ToothContainer& teeth)
 		default:
 			break;
 		}
+	
+}
+
+void Procedure::applyPISProcedure(ToothContainer& teeth) const
+{
+	/*
+	
+		This function is a simple status applier, not taking into
+		consideration the result, since PIS doesn't store additional data
+	
+	*/
+
+	auto idx = this->tooth;
+
+	if (idx == -1){
+		return;
+	}
+
+	auto& tooth = teeth[idx];
+
+	if (temp) {
+		tooth.setStatus(StatusCode::Temporary);
+	}
+	else if (tooth.temporary.exists())
+	{
+		tooth.removeStatus();
+	}
+
+	switch (type)
+	{
+	case ProcedureType::obturation:
+		tooth.setStatus(StatusCode::Obturation); break;
+	case ProcedureType::endo:
+		tooth.setStatus(StatusCode::EndoTreatment); break;
+	case ProcedureType::extraction:
+		tooth.setStatus(StatusCode::Extraction); break;
+	case ProcedureType::crown:
+		tooth.setStatus(StatusCode::Crown); break;
+	case ProcedureType::implant:
+		tooth.setStatus(StatusCode::Implant); break;
+	}
+
 	
 }

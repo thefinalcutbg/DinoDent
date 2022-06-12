@@ -39,6 +39,8 @@ namespace ModalDialogBuilder
 	DialogAnswer openSaveDialog(const std::string& text);
 	std::optional<std::string> getMonthlyNotification();
 	std::optional<Procedures> selectProcedures(const Procedures& procedures, SelectionPref s = SelectionPref::All);
+	//returns true if user wants to apply the procedures to the status
+	bool pisHistoryDialog(const Procedures& procedures);
 	std::optional<BusinessOperation> editBusinessOperation(const BusinessOperation& op);
 	std::optional<BusinessOperation> addBusinessOperation(const std::vector<ProcedureTemplate>& priceList);
 	bool askDialog(const std::string& questionText);

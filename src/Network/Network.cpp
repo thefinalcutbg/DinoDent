@@ -53,7 +53,7 @@ void Network::sendRequestToPis(
 
     QObject::connect(reply, &QNetworkReply::finished, [=]{
             
-        QApplication::setOverrideCursor(Qt::ArrowCursor);
+        QApplication::restoreOverrideCursor();
 
         if (handlers.count(handler) == 0) return;
 
@@ -75,7 +75,7 @@ void Network::sendRequestToPis(
 
     QObject::connect(reply, &QNetworkReply::sslErrors, [=] {
 
-        QApplication::setOverrideCursor(Qt::ArrowCursor);
+        QApplication::restoreOverrideCursor();
 
         ModalDialogBuilder::showError(u8"Неуспешна автентификация");
         Network::unsubscribeHandler(handler);

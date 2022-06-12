@@ -294,6 +294,8 @@ void XmlSigner::cleanup()
 #endif /* XMLSEC_NO_XSLT */
 
     xmlCleanupParser();
+
+    init = false;
 }
 
 

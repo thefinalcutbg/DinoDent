@@ -88,21 +88,21 @@ std::array<std::string, 6> ToothUtils::getSurfaceNames(int index)
     
 }
 
-std::pair<int, bool> ToothUtils::getArrayIdxAndTemp(int index)
+std::pair<int, bool> ToothUtils::getArrayIdxAndTemp(int toothNum)
 {
-    if (index > 85)
-        return { 99, false };
+    if (toothNum == 99)
+        return { -1, false };
 
-    bool temp = index > 50;
+    bool temp = toothNum > 48;
 
     if (temp) {
-        index -= 40;
+        toothNum = toothNum - 40;
     }
 
     for (int i = 0; i < numbers.size(); i++) {
         
-        if (index = numbers[i]) {
-            return { index, temp };
+        if (toothNum == numbers[i]) {
+            return { i, temp };
         }
     }
 

@@ -67,7 +67,7 @@ public:
     void setSelectedTeeth(const std::vector<int>& SelectedIndexes);
 
     void checkPISActivities();
-    void showPISActivities(const std::vector<SimpleProcedure>& activities);
+    void setPISActivities(const std::optional<Procedures>& pisProcedures);
 
     void openDetails(int toothIdx);
     void openDetails();

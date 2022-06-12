@@ -94,14 +94,14 @@ PKCS11::PKCS11()
 	m_slot = PKCS11_find_token(ctx, m_slots, nslots);
 
 	if (m_slot == nullptr)
-		throw std::exception(u8"Не е открит КЕП");
+		return;
 
 	PKCS11_enumerate_certs(m_slot->token, &certs, &ncerts);
 
 	m_certificate = &certs[0];
 
 	if (!m_certificate || ncerts <= 0) {
-		throw std::exception(u8"Не е открит КЕП");
+		return;
 	}
 
 	//getting the certificate

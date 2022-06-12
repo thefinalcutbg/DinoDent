@@ -393,11 +393,32 @@ void ListPresenter::setSelectedTeeth(const std::vector<int>& SelectedIndexes)
     view->hideSurfacePanel(!oneToothSelected);
 }
 
-#include <QDebug>
-
-
 void ListPresenter::checkPISActivities()
 {
+    if (patient->PISHistory.has_value())
+    {
+
+        if (!ModalDialogBuilder::pisHistoryDialog(patient->PISHistory.value())) {
+            return;
+        }
+
+            auto procedures = patient->PISHistory.value();
+
+            for (int i = procedures.size() - 1; i > -1; i--) {
+                procedures[i].applyPISProcedure(m_ambList.teeth);
+            }
+
+            for (auto& t : m_ambList.teeth)
+            {
+                view->repaintTooth(ToothHintCreator::getToothHint(t));
+            }
+
+            makeEdited();
+
+            return;
+    }
+        
+    //sending request to PIS
     view->disableActivitiesButton(true);
 
     bool success = PIS::sendRequest(
@@ -410,12 +431,17 @@ void ListPresenter::checkPISActivities()
 
 }
 
-void ListPresenter::showPISActivities(const std::vector<SimpleProcedure>& activities)
+void ListPresenter::setPISActivities(const std::optional<Procedures>& pisProcedures)
 {
-    for (auto a : activities) {
-        qDebug() << a.date.day << a.date.month << a.date.year << a.tooth << a.code.data();
-    }
+    patient->PISHistory = pisProcedures;
     view->disableActivitiesButton(false);
+
+    if (!pisProcedures.has_value()) {
+        ModalDialogBuilder::showMessage(u8"Не са намерени манипулации за този пациент");
+        return;
+    }
+
+    checkPISActivities();
 }
 
 #include "Presenter/DetailsPresenter/DetailedStatusPresenter.h"

@@ -92,7 +92,7 @@ we have to create two PKCS11 instances - one for the signing and one for the SSL
 
 	if (!signer.hsmLoaded())
 	{
-		ModalDialogBuilder::showError(u8"Не е открит КЕП");
+		ModalDialogBuilder::showMessage(u8"Не е открит КЕП");
 		return false;
 	}
 
@@ -129,6 +129,8 @@ we have to create two PKCS11 instances - one for the signing and one for the SSL
 		sslBuilder,
 		&handler
 	);
+
+	//XmlSigner::cleanup();
 
 	return true;
 	

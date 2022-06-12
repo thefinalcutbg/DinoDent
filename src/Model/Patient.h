@@ -3,7 +3,9 @@
 #include "Date.h"
 #include <memory>
 #include <array>
-
+#include "Model/Procedure/Procedure.h"
+#include <optional>
+#include <vector>
 typedef std::array<std::string, 32>TeethNotes;
 
 
@@ -29,6 +31,8 @@ struct Patient
 	std::string pastDiseases;
 
 	TeethNotes teethNotes;
+
+	std::optional<std::vector<Procedure>> PISHistory;
 
 	static bool getSexFromEgn(const std::string& egn);
 	int getAge(const Date& currentDate = Date::currentDate())  const;

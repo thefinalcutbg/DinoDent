@@ -109,7 +109,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>:\Dev\Qt\Tools\OpenSSL\Win_x64\include;C:\Dev\Torque\include;GeneratedFiles\$(ConfigurationName);GeneratedFiles;$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);src/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>:\Dev\Qt\Tools\OpenSSL\Win_x64\include;C:\Dev\Torque\include;GeneratedFiles\$(ConfigurationName);GeneratedFiles;$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);src/;.\</AdditionalIncludeDirectories>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -122,7 +122,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>:\Dev\Qt\Tools\OpenSSL\Win_x64\include;C:\Dev\Torque\include;GeneratedFiles\$(ConfigurationName);GeneratedFiles;$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);src/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>:\Dev\Qt\Tools\OpenSSL\Win_x64\include;C:\Dev\Torque\include;GeneratedFiles\$(ConfigurationName);GeneratedFiles;$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);src/;.\</AdditionalIncludeDirectories>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -214,6 +214,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\View\PISHistoryDialog\PISHistoryDialog.cpp" />
     <ClCompile Include="src\Network\ReplyHandlers\AbstractReplyHandler.cpp" />
     <ClCompile Include="src\Network\ReplyHandlers\DentalActivitiesHandler.cpp" />
     <ClCompile Include="src\Network\ReplyHandlers\HirbnoReplyHandler.cpp" />
@@ -416,6 +417,7 @@
     <ClCompile Include="src\View\PatientSummaryView\TeethView\TeethLingualScene.cpp" />
     <ClCompile Include="src\View\PerioView\Widgets\ToothButton.cpp" />
     <QtRcc Include="resources\Resource.qrc" />
+    <QtUic Include="src\View\PISHistoryDialog\PISHistoryDialog.ui" />
     <QtUic Include="src\View\SaveAsDateDialog\SaveAsDateDialog.ui" />
     <QtUic Include="src\View\FinancialView\BusinessOpAddDialog\BusinessOpAddDialog.ui" />
     <QtUic Include="src\View\FinancialView\BusinessOpEditDialog\BusinessOpEditDialog.ui" />
@@ -520,6 +522,7 @@
     <QtMoc Include="src\View\uiComponents\qt_derived\HalfRoundedButton.h" />
     <QtMoc Include="src\View\SaveAsDateDialog\SaveAsDateDialog.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\LeadingZeroSpinBox.h" />
+    <QtMoc Include="src\View\PISHistoryDialog\PISHistoryDialog.h" />
     <ClInclude Include="src\Network\ReplyHandlers\DentalActivitiesHandler.h" />
     <ClInclude Include="src\Network\ReplyHandlers\HirbnoReplyHandler.h" />
     <ClInclude Include="include\JsonCpp\json-forwards.h" />

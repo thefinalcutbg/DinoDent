@@ -3,6 +3,7 @@
 #include <vector>
 #include "Model/Tooth/ToothUtils.h"
 #include "Presenter/ListPresenter/ListPresenter.h"
+#include "Model/Procedure/MasterNZOK.h"
 DentalActivitiesHandler::DentalActivitiesHandler(ListPresenter* p) :
 	p_presenter(p)
 {
@@ -26,7 +27,7 @@ void DentalActivitiesHandler::getReply(const std::string& reply)
 		.Child(1)						  //body
 		.FirstChildElement();			  //table
 		
-	std::vector<SimpleProcedure> result;
+	std::vector<Procedure> result;
 
 	//i is 1, since 0 is the table header (td)
 	for(int i = 1; ; i++)
@@ -36,22 +37,24 @@ void DentalActivitiesHandler::getReply(const std::string& reply)
 		if (!row.ToElement()) {
 			break;
 		}
+		
+		auto [tooth, temp] = ToothUtils::getArrayIdxAndTemp(std::stoi(row.Child(5).ToElement()->GetText()));
 
+		result.emplace_back(
+			MasterNZOK::instance().getTemplateByCode(std::stoi(row.Child(2).ToElement()->GetText())),
+			Date::getDateFromXmlFormat(row.Child(0).ToElement()->GetText()),
+			row.Child(4).ToElement()->GetText(), //diagnosis
+			tooth, 
+			temp
+		);
 
-		SimpleProcedure p;
-
-		p.date = Date::getDateFromXmlFormat(row.Child(0).ToElement()->GetText());
-		p.code = row.Child(2).ToElement()->GetText();
-		p.diagnosis = row.Child(4).ToElement()->GetText();
-		p.tooth = std::stoi(row.Child(5).ToElement()->GetText());
-
-		auto pair = ToothUtils::getArrayIdxAndTemp(p.tooth);
-		p.idx = pair.first;
-		p.temp = pair.second;
-
-		result.push_back(p);
 	}
 
-	p_presenter->showPISActivities(result);
+	if (result.empty()) {
+		p_presenter->setPISActivities({});
+		return;
+	}
+
+	p_presenter->setPISActivities(result);
 
 }

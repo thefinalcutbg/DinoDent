@@ -59,7 +59,7 @@ enum class ProcedureType
 
 struct Procedure
 {
-
+    Procedure(const ProcedureTemplate& t, Date date, std::string diagnosis, int tooth = 99, bool temp = false);
 
     Procedure(const ProcedureTemplate& t, Date date, std::string name, std::string diagnosis, double price, Result result = NoData{}, int tooth = -1, bool temp = false)
         :
@@ -81,6 +81,8 @@ struct Procedure
             type = static_cast<ProcedureType>(t.type);
         else
             type = static_cast<ProcedureType>(templateType + 1);
+
+
     }
 
     Procedure() {};
@@ -98,7 +100,9 @@ struct Procedure
     bool nzok{ false };
     std::string LPK;
 
-    void applyProcedure(ToothContainer& teeth);
+    void applyProcedure(ToothContainer& teeth) const;
+    //applies the procedures, not taking data into account
+    void applyPISProcedure(ToothContainer& teeth) const;
 
 
 };

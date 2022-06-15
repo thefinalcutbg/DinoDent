@@ -5,7 +5,7 @@
 #include "NzokInvoiceData.h"
 #include "Issuer.h"
 #include "BusinessOperation.h"
-
+#include "FinancialEnums.h"
 class TiXmlDocument;
 struct User;
 struct Practice;
@@ -17,7 +17,6 @@ struct MainDocument //only in case of debit or credit note
 	Date date{Date::currentDate()};
 };
 
-enum class PaymentType { Cash, Bank };
 
 struct AggregatedAmounts
 {
@@ -31,7 +30,7 @@ struct AggregatedAmounts
 	void calculate(const BusinessOperations& operations);
 };
 
-enum class FinancialDocType { Invoice, Debit, Credit};
+
 
 struct Invoice
 {

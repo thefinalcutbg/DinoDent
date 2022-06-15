@@ -81,6 +81,14 @@ void ModalDialogBuilder::openDialog(DoctorDialogPresenter* p)
 	d.exec();
 }
 
+#include "View/MonthNotifDialog/MonthNotifDialog.h"
+
+int ModalDialogBuilder::monthNotifPicker(const std::vector<MonthNotifRow>& rows)
+{
+	MonthNotifDialog d(rows);
+	return d.exec();
+}
+
 
 #include "View/saveAsDialog/SaveAsDialog.h"
 
@@ -132,7 +140,7 @@ DialogAnswer ModalDialogBuilder::openSaveDialog(const std::string& title)
 
 #include <QFileDialog>
 
-std::optional<std::string> ModalDialogBuilder::getMonthlyNotification()
+std::optional<std::string> ModalDialogBuilder::getMonthNotifFromFile()
 {
 	QString filePath = QFileDialog::getOpenFileName(nullptr, 
 		u8"Изберете месечно известие", "", "XML files(*.xml)");
@@ -204,7 +212,6 @@ std::optional<BusinessOperation> ModalDialogBuilder::addBusinessOperation(const 
 
 bool ModalDialogBuilder::askDialog(const std::string& questionText)
 {
-
 	QMessageBox msg;
 
 	msg.setWindowTitle("Torque");
@@ -273,6 +280,27 @@ std::optional<std::string> ModalDialogBuilder::getFileNamePath(const std::string
 void ModalDialogBuilder::openExplorer(const std::string& path)
 {
 	QDesktopServices::openUrl(QUrl::fromLocalFile(QString::fromStdString(path)));
+}
+
+#include <QDialogButtonBox>
+
+MonthNotifLoad ModalDialogBuilder::monthNotifLoadDialog()
+{
+	QMessageBox msg;
+
+	msg.setText(u8"Зареждане на месечно известие от:");
+
+	msg.setStandardButtons(QMessageBox::Yes | QMessageBox::YesAll | QMessageBox::No);
+	msg.setButtonText(QMessageBox::Yes, u8"ПИС");
+	msg.setButtonText(QMessageBox::YesAll, u8"XML файл");
+	msg.setButtonText(QMessageBox::No, u8"Отказ");
+	msg.setIcon(QMessageBox::Icon::Question);
+
+	switch (msg.exec()) {
+		case QMessageBox::Yes: return MonthNotifLoad::FromPIS;
+		case QMessageBox::YesAll: return MonthNotifLoad::FromFile;
+		default: return MonthNotifLoad::Rejected;
+	}
 }
 
 #include <QInputDialog>

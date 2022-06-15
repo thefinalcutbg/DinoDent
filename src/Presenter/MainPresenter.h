@@ -4,11 +4,13 @@
 #include "View/IMainView.h"
 #include "TabPresenter/TabPresenter.h"
 #include "ListSelector/ListSelectorPresenter.h"
+#include "MonthNotifLoader.h"
 
 class MainPresenter
 {
 	TabPresenter _tabPresenter;
 	ListSelectorPresenter listSelector_;
+	MonthNotifLoader m_notifLoader;
 	IMainView* view;
 
 public:

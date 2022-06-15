@@ -5,6 +5,7 @@
 #include "Model/Date.h"
 #include "ProcedureTemplate.h"
 #include "../Tooth/StatusData.h"
+
 class ToothContainer;
 
 struct NoData {};

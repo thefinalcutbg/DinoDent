@@ -1,9 +1,10 @@
-#include "HirbnoReplyHandler.h"
+﻿#include "HirbnoReplyHandler.h"
 #include "Presenter/PatientDialog/PatientDialogPresenter.h"
 #include "Network/PISServ.h"
 #include <TinyXML/tinyxml.h>
 #include "Model/FreeFunctions.h"
 #include <QDebug>
+#include "View/ModalDialogBuilder.h"
 HirbnoReplyHandler::HirbnoReplyHandler(PatientDialogPresenter* presenter) :
 	p_presenter{ presenter }
 {
@@ -12,6 +13,12 @@ HirbnoReplyHandler::HirbnoReplyHandler(PatientDialogPresenter* presenter) :
 void HirbnoReplyHandler::getReply(const std::string& reply)
 {
 	if (p_presenter == nullptr) return;
+
+	if (reply.empty()) {
+		ModalDialogBuilder::showError(u8"Неуспешна връзка със сървъра");
+		p_presenter->setHirbno("");
+		return;
+	}
 
 	TiXmlDocument doc;
 

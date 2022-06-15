@@ -60,3 +60,9 @@ std::string Base64Convert::encode(const char* in, size_t in_len)
 
     return result;
 }
+#include <QString>
+std::string Base64Convert::decode(const std::string& input)
+{
+    return
+    QString(QByteArray::fromBase64(input.data())).toStdString();
+}

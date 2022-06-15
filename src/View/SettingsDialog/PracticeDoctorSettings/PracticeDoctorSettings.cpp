@@ -32,6 +32,12 @@ void PracticeDoctorSettings::setDoctorList(const std::vector<PracticeDoctor>& do
 		QString postfix = doctor.admin ? u8" (администратор)" : "";
 		ui.doctorList->addItem(QString::fromStdString(doctor.name) + postfix);
 	}
+
+	auto count = ui.doctorList->count();
+
+	if (count) {
+		ui.doctorList->setCurrentRow(count - 1);
+	}
 }
 
 void PracticeDoctorSettings::setPresenter(PracticeDoctorSettingsPresenter* presenter)

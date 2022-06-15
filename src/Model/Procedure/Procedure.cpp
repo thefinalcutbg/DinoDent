@@ -39,6 +39,7 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 
 					tooth.obturation[i].data.color = result.data.color;
 					tooth.obturation[i].data.material = result.data.material;
+					tooth.obturation[i].LPK = LPK;
 					
 				}
 
@@ -82,10 +83,8 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 			tooth.crown.data.material = result.material;
 			tooth.crown.data.prep_type = result.prep_type;
 			tooth.crown.data.color = result.color;
-			
-			if (!LPK.empty()) {
-				tooth.endo.LPK = LPK;
-			}
+			tooth.crown.LPK = LPK;
+
 		}
 		break;
 

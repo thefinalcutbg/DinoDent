@@ -1,4 +1,4 @@
-#include "DentalActivitiesHandler.h"
+﻿#include "DentalActivitiesHandler.h"
 #include "TinyXML/tinyxml.h"
 #include <vector>
 #include "Model/Tooth/ToothUtils.h"
@@ -14,6 +14,12 @@ void DentalActivitiesHandler::getReply(const std::string& reply)
 {
 
 	if (p_presenter == nullptr) return;
+
+	if (reply.empty()) {
+		ModalDialogBuilder::showError(u8"Неуспешна връзка със сървъра");
+		p_presenter->setPISActivities({});
+		return;
+	}
 
 	TiXmlDocument doc;
 
@@ -48,11 +54,6 @@ void DentalActivitiesHandler::getReply(const std::string& reply)
 			temp
 		);
 
-	}
-
-	if (result.empty()) {
-		p_presenter->setPISActivities({});
-		return;
 	}
 
 	p_presenter->setPISActivities(result);

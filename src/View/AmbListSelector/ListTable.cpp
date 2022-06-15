@@ -25,29 +25,13 @@ ListTable::ListTable(QWidget* parent)
 
     verticalHeader()->setDefaultSectionSize(20);
     setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+    horizontalHeader()->setStretchLastSection(true);
 
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-    horizontalHeader()->setStretchLastSection(true);
     horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeMode::Fixed);
 
 }
-
-/*
-void ListTable::resizeEvent(QResizeEvent* ev)
-{
-    int lastColumnIdx = model()->columnCount() - 1;
-    int columnWidth{ 0 };
-
-    for (int i = 0; i < model()->columnCount()-1; i++)
-    {
-        columnWidth += this->columnWidth(i);
-    }
-    setColumnWidth(lastColumnIdx, width() - columnWidth - 2);
-
-    QTableView::resizeEvent(ev);
-}
-*/
 
 
 void ListTable::keyPressEvent(QKeyEvent* event)

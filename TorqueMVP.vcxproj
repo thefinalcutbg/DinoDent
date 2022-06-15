@@ -214,8 +214,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\View\PISHistoryDialog\PISHistoryDialog.cpp" />
+    <ClCompile Include="src\Network\ReplyHandlers\MonthNotifDataHandler.cpp" />
+    <ClCompile Include="src\Presenter\MonthNotifLoader.cpp" />
     <ClCompile Include="src\Network\ReplyHandlers\AbstractReplyHandler.cpp" />
+    <ClCompile Include="src\View\MonthNotifDialog\MonthNotifTableModel.cpp" />
+    <ClCompile Include="src\View\MonthNotifDialog\MonthNotifDialog.cpp" />
+    <ClCompile Include="src\Network\ReplyHandlers\NotifListHandler.cpp" />
+    <ClCompile Include="src\View\PISHistoryDialog\PISHistoryDialog.cpp" />
     <ClCompile Include="src\Network\ReplyHandlers\DentalActivitiesHandler.cpp" />
     <ClCompile Include="src\Network\ReplyHandlers\HirbnoReplyHandler.cpp" />
     <ClCompile Include="include\JsonCpp\jsoncpp.cpp" />
@@ -417,6 +422,7 @@
     <ClCompile Include="src\View\PatientSummaryView\TeethView\TeethLingualScene.cpp" />
     <ClCompile Include="src\View\PerioView\Widgets\ToothButton.cpp" />
     <QtRcc Include="resources\Resource.qrc" />
+    <QtUic Include="src\View\MonthNotifDialog\MonthNotifDialog.ui" />
     <QtUic Include="src\View\PISHistoryDialog\PISHistoryDialog.ui" />
     <QtUic Include="src\View\SaveAsDateDialog\SaveAsDateDialog.ui" />
     <QtUic Include="src\View\FinancialView\BusinessOpAddDialog\BusinessOpAddDialog.ui" />
@@ -523,6 +529,12 @@
     <QtMoc Include="src\View\SaveAsDateDialog\SaveAsDateDialog.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\LeadingZeroSpinBox.h" />
     <QtMoc Include="src\View\PISHistoryDialog\PISHistoryDialog.h" />
+    <QtMoc Include="src\View\MonthNotifDialog\MonthNotifDialog.h" />
+    <ClInclude Include="src\Network\ReplyHandlers\MonthNotifDataHandler.h" />
+    <ClInclude Include="src\Presenter\MonthNotifLoader.h" />
+    <ClInclude Include="src\Model\Financial\FinancialEnums.h" />
+    <ClInclude Include="src\Model\Financial\MonthNotifRow.h" />
+    <ClInclude Include="src\Network\ReplyHandlers\NotifListHandler.h" />
     <ClInclude Include="src\Network\ReplyHandlers\DentalActivitiesHandler.h" />
     <ClInclude Include="src\Network\ReplyHandlers\HirbnoReplyHandler.h" />
     <ClInclude Include="include\JsonCpp\json-forwards.h" />
@@ -585,6 +597,7 @@
     <ClInclude Include="src\View\ListView\SurfacePanel\CPTooth.h" />
     <ClInclude Include="src\View\ListView\SurfacePanel\ISurfacePanel.h" />
     <QtMoc Include="src\View\ListView\SurfacePanel\SurfacePanel.h" />
+    <QtMoc Include="src\View\MonthNotifDialog\MonthNotifTableModel.h" />
     <ClInclude Include="src\View\Theme.h" />
     <ClInclude Include="src\View\DoctorSettingsDialog\IDoctorSettingsDialog.h" />
     <ClInclude Include="src\View\AddPracticeDialog\IAddPracticeDialog.h" />

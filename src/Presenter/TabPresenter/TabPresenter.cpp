@@ -135,13 +135,15 @@ void TabPresenter::openPerio(const Patient& patient)
     openTab(new PerioPresenter(view, getPatient_ptr(patient)));
 }
 
-void TabPresenter::openInvoice(const std::string& monthNotifFilePath)
+void TabPresenter::openInvoice(const std::string& monthNotif)
 {
     try {
-        auto presenter = new FinancialPresenter(view, monthNotifFilePath);
+        auto presenter = new FinancialPresenter(view, monthNotif);
 
-        if (monthNotiAlreadyOpened(presenter->m_invoice.nzokData->fin_document_month_no))
+        if (monthNotiAlreadyOpened(presenter->m_invoice.nzokData->fin_document_month_no)) {
+            delete presenter;
             return;
+        }
 
         openTab(presenter);
     }

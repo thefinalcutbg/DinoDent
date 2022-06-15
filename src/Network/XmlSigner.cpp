@@ -74,7 +74,7 @@ bool initialize()
 
 
 
-std::string XmlSigner::signXML(const std::string& document, evp_pkey_st* prvKey, const std::string& x509)
+std::string XmlSigner::signXML(const std::string& document, evp_pkey_st* prvKey, const std::string& pem_x509)
 {
 
     if (!init && !initialize()) {
@@ -83,7 +83,7 @@ std::string XmlSigner::signXML(const std::string& document, evp_pkey_st* prvKey,
     init = true;
 
     if (prvKey == nullptr) return{};
-    if (x509.empty()) return{};
+    if (pem_x509.empty()) return{};
 
     std::string result;
 
@@ -158,8 +158,8 @@ std::string XmlSigner::signXML(const std::string& document, evp_pkey_st* prvKey,
     if (
         xmlSecOpenSSLAppKeyCertLoadMemory(
             dsigCtx->signKey,
-            reinterpret_cast<const unsigned char*>(x509.data()),
-            x509.size(),
+            reinterpret_cast<const unsigned char*>(pem_x509.data()),
+            pem_x509.size(),
             xmlSecKeyDataFormatPem) < 0
         )
 
@@ -194,7 +194,7 @@ std::string XmlSigner::signXML(const std::string& document, evp_pkey_st* prvKey,
 
 }
 
-std::string XmlSigner::signSoapTemplate(const std::string& document, evp_pkey_st* prvKey, const std::string& x509)
+std::string XmlSigner::signSoapTemplate(const std::string& document, evp_pkey_st* prvKey, const std::string& pem_x509)
 {
 
     if (!init && !initialize()) {
@@ -203,7 +203,7 @@ std::string XmlSigner::signSoapTemplate(const std::string& document, evp_pkey_st
     init = true;
    
     if (prvKey == nullptr) return{};
-    if (x509.empty()) return{};
+    if (pem_x509.empty()) return{};
 
     std::string result;
 
@@ -240,8 +240,8 @@ std::string XmlSigner::signSoapTemplate(const std::string& document, evp_pkey_st
     if (
         xmlSecOpenSSLAppKeyCertLoadMemory(
             dsigCtx->signKey,
-            reinterpret_cast<const unsigned char*>(x509.data()),
-            x509.size(),
+            reinterpret_cast<const unsigned char*>(pem_x509.data()),
+            pem_x509.size(),
             xmlSecKeyDataFormatPem) < 0
         )
 

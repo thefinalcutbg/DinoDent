@@ -29,7 +29,7 @@ public:
 	bool loginRequired();
 	bool login(std::string pass);
 	std::string x509certBase64() const;
-	std::string ssl_x509cert() const;
+	std::string pem_x509cert() const;
 	std::string getSignedValue64(const std::string& digestValue);
 	//assumes the prv_key ownership has been passed on
 	evp_pkey_st* takePrivateKey();

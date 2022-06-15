@@ -4,6 +4,7 @@
 #include "View/Printer/Printer.h"
 #include "Presenter/LoginPresenter/LoginPresenter.h"
 #include "Presenter/DoctorDialogPresenter/DoctorDialogPresenter.h"
+
 #include "Model/User/UserManager.h"
 #include "Model/XML/xml.h"
 #include "Presenter/AddPracticePresenter/AddPracticePresenter.h"
@@ -11,7 +12,8 @@
 #include "View/Printer/Printer.h"
 
 MainPresenter::MainPresenter() :
-    view(nullptr)
+    view(nullptr),
+    m_notifLoader(&_tabPresenter)
 {}
 
 void MainPresenter::setView(IMainView* view)
@@ -125,6 +127,7 @@ void MainPresenter::generateReport()
 
 void MainPresenter::generateInvoice()
 {
+
     if (!UserManager::currentUser().practice.nzok_contract.has_value())
     {
         ModalDialogBuilder::showError(
@@ -133,12 +136,8 @@ void MainPresenter::generateInvoice()
         return;
     }
 
-    auto filepathResult = ModalDialogBuilder::getMonthlyNotification();
+    m_notifLoader.loadNotification();
 
-    if (!filepathResult.has_value()) return;
-
-    _tabPresenter.openInvoice(filepathResult.value());
-    
 }
 
 void MainPresenter::settingsPressed()

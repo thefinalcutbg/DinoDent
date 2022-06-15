@@ -5,7 +5,7 @@
 #include <TinyXML/tinyxml.h>
 #include "Model/FreeFunctions.h"
 #include "XmlSigner.h"
-
+#include "Base64Convert.h"
 
 const char* personTypeArr[5]
 {
@@ -33,13 +33,92 @@ std::string SOAP::dentalActivities(const std::string& id, int personType)
 		;
 }
 
+std::string SOAP::NotifList(const std::string& rziCode)
+{
+	return 
+		"<ns3:query xmlns:ns1=\"http://pis.technologica.com/views/\" "
+				   "xmlns:ns3=\"http://pis.technologica.com/ws/\">"
+			"<ns3:user><ns3:msp>" + rziCode + "</ns3:msp></ns3:user>"
+			"<ns3:select_clause>"
+					"<ns1:scolumn>MONTHNOTIF_ID_HASH</ns1:scolumn>" //needed to get the actual data
+					"<ns1:scolumn>ACC_DATE</ns1:scolumn>"			//the notif date
+					"<ns1:scolumn>FILE_TYPE_CODE</ns1:scolumn>"		//notification type
+					"<ns1:scolumn>MSP_CODE</ns1:scolumn>"			//RZI code
+					"<ns1:scolumn>UIN_NUMBER</ns1:scolumn>"			//LPK code
+					"<ns1:scolumn>CLAIM_ID_HASH</ns1:scolumn>"		//has it been claimed?
+			"</ns3:select_clause>"
+			"<ns3:from_clause>MONTH_NOTIF_INFO</ns3:from_clause>"
+
+			"<ns3:orderby_clause>"
+                "<ns1:ocolumn sort=\"DESC\">ACC_DATE</ns1:ocolumn>"
+           "</ns3:orderby_clause>"
+
+		"</ns3:query>"
+		;
+}
+
+std::string SOAP::getNotificationData(const std::string& rziCode, const std::string& notifHash)
+{
+	return 
+		"<ns3:query xmlns:ns1=\"http://pis.technologica.com/views/\" "
+				   "xmlns:ns3=\"http://pis.technologica.com/ws/\">"
+
+			"<ns3:user><ns3:msp>" + rziCode + "</ns3:msp></ns3:user>"
+
+			"<ns3:select_clause>"
+					"<ns1:scolumn>MONTHNOTIF_FILE_BYTES</ns1:scolumn>" //the actual data
+			"</ns3:select_clause>"
+
+			"<ns3:from_clause>MONTH_NOTIF_INFO</ns3:from_clause>"
+
+			"<ns3:where_clause>"
+					"<ns1:filter>"
+						"<ns1:xfy oper=\"=\">"
+							"<ns1:fcolumn>MONTHNOTIF_ID_HASH</ns1:fcolumn>"
+							"<ns1:fvalue>" + notifHash + "</ns1:fvalue>"
+						"</ns1:xfy>"
+					"</ns1:filter>"
+			"</ns3:where_clause>"
+
+		"</ns3:query>"
+		;
+}
+
+
+
+std::string SOAP::sendFile(const std::string& file, const std::string& doctorEGN, FilePurpose purpose)
+{
+	const char* purposeArr[4]{
+		"FDOC_INV",
+		"FDOC_DTNOTE",
+		"FDOC_CTNOTE"
+		"AMB_DENT"
+	};
+
+	return
+	"<ns1:userFile xmlns:ns1=\"http://pis.technologica.com/ws/\" "
+				  "xmlns:ns2=\"http://pis.technologica.com/files/\">"
+
+		"<ns1:user><ns1:egn>"+ doctorEGN + "</ns1:egn></ns1:user>"
+
+			"<ns1:file>"
+				"<ns2:base64>" + Base64Convert::encode(file.data(), file.size()) + "</ns2:base64>"
+				"<ns2:type>xml</ns2:type>"
+				"<ns2:encoding>utf-8</ns2:encoding>"
+			"</ns1:file>"
+			"<ns1:purpose>" + purposeArr[static_cast<int>(purpose)] + "</ns1:purpose>"
+
+	"</ns1:userFile>"
+	;
+}
+
 std::string SOAP::activeHIRBNo(const std::string& id, int personType)
 {
 	std::string tag = personTypeArr[personType];
 
 	return
 		"<ns3:query xmlns:ns1=\"http://pis.technologica.com/views/\" "
-		"xmlns:ns3=\"http://pis.technologica.com/ws/\">"
+				   "xmlns:ns3=\"http://pis.technologica.com/ws/\">"
 		"<ns3:user>"
 		"<ns3:" + tag + ">" + id + "</ns3:" + tag + ">"
 		"</ns3:user>"
@@ -79,6 +158,7 @@ std::string soapToSign(const std::string& soapBody)
 		"</e:Envelope>";
 }
 
+#include <QDebug>
 
 bool PIS::sendRequest(const std::string& soapBody, AbstractReplyHandler& handler)
 {
@@ -87,6 +167,8 @@ bool PIS::sendRequest(const std::string& soapBody, AbstractReplyHandler& handler
 Since both xmlSec and qt network manager adopt the private key and release it on their own
 we have to create two PKCS11 instances - one for the signing and one for the SSL connection
 */
+
+	qDebug() << soapToSign(soapBody).data();
 
 	PKCS11 signer;
 
@@ -113,7 +195,7 @@ we have to create two PKCS11 instances - one for the signing and one for the SSL
 		};
 	}
 			
-
+	
 	//creating another instance for the SSL certificate
 	PKCS11 sslBuilder;
 
@@ -123,7 +205,7 @@ we have to create two PKCS11 instances - one for the signing and one for the SSL
 		XmlSigner::signSoapTemplate(
 			soapToSign(soapBody), 
 			signer.takePrivateKey(), 
-			signer.ssl_x509cert()
+			signer.pem_x509cert()
 		),
 
 		sslBuilder,

@@ -34,7 +34,7 @@ void Network::sendRequestToPis(
 
     QSslConfiguration config = QSslConfiguration::defaultConfiguration();
     config.setProtocol(QSsl::SslProtocol::TlsV1_2);
-    config.setLocalCertificate(QSslCertificate(token.ssl_x509cert().data()));
+    config.setLocalCertificate(QSslCertificate(token.pem_x509cert().data()));
     config.setPrivateKey(QSslKey(Qt::HANDLE(token.takePrivateKey()), QSsl::KeyType::PrivateKey));
     
     QUrl url("https://pis.nhif.bg/ws/PISService");
@@ -44,7 +44,6 @@ void Network::sendRequestToPis(
     request.setHeader(QNetworkRequest::KnownHeaders::ContentTypeHeader, "text/xml;charset=\"utf-8\"");
     request.setRawHeader("SOAPAction", "\"http://pis.technologica.com/view\"");
     request.setRawHeader("accept", "\"application/xml\"");
-    
 
 
     auto reply = s_manager->post(request, soapRequest.data());
@@ -59,14 +58,8 @@ void Network::sendRequestToPis(
 
         std::string replyString = reply->readAll().toStdString();
 
-        if (replyString.empty())
-        {
-            ModalDialogBuilder::showError(u8"Неуспешна връзка със сървъра");
-        }
-        else
-        {
-            handler->getReply(replyString);
-        }
+        handler->getReply(replyString);
+
 
         Network::unsubscribeHandler(handler);
         s_manager->clearAccessCache();
@@ -78,6 +71,7 @@ void Network::sendRequestToPis(
         QApplication::restoreOverrideCursor();
 
         ModalDialogBuilder::showError(u8"Неуспешна автентификация");
+        handler->getReply("");
         Network::unsubscribeHandler(handler);
         s_manager->clearAccessCache();
 

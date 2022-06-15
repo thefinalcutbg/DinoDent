@@ -14,7 +14,7 @@ public:
 
 	Invoice m_invoice;
 
-	FinancialPresenter(ITabView* tabView, const std::string& monthNotifFilepath);
+	FinancialPresenter(ITabView* tabView, const std::string& monthNotif);
 	FinancialPresenter(ITabView* tabView, const Procedures& procedures, std::shared_ptr<Patient> patient);
 	FinancialPresenter(ITabView* tabView, long long rowId);
 

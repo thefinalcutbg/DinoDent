@@ -31,7 +31,7 @@ std::string getDocumentName(const TiXmlElement* element)
    return s;
 }
 
-FinancialDocType getType(const std::string& inv_type_code)
+FinancialDocType getFinancialType(const std::string& inv_type_code)
 {
 
 	if (inv_type_code == "INVOICE") return FinancialDocType::Invoice;
@@ -46,7 +46,7 @@ FinancialDocType getType(const std::string& inv_type_code)
 Invoice::Invoice(const TiXmlDocument& monthNotif, const User& user)
     :
     name                        {getDocumentName(monthNotif.RootElement())},
-	type						{getType(getText(monthNotif.RootElement()->FirstChildElement("inv_type_code")))},
+	type						{ getFinancialType(getText(monthNotif.RootElement()->FirstChildElement("inv_type_code")))},
 	
 	
     m_mainDocument{           

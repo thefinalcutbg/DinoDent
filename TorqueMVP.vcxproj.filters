@@ -606,10 +606,25 @@
     <ClCompile Include="src\Network\ReplyHandlers\DentalActivitiesHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\PISHistoryDialog\PISHistoryDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Network\ReplyHandlers\NotifListHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\MonthNotifDialog\MonthNotifDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\MonthNotifDialog\MonthNotifTableModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\Network\ReplyHandlers\AbstractReplyHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\PISHistoryDialog\PISHistoryDialog.cpp">
+    <ClCompile Include="src\Presenter\MonthNotifLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Network\ReplyHandlers\MonthNotifDataHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -848,6 +863,12 @@
     <QtMoc Include="src\View\PISHistoryDialog\PISHistoryDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\View\MonthNotifDialog\MonthNotifDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\MonthNotifDialog\MonthNotifTableModel.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="resources\Resource.qrc" />
@@ -986,6 +1007,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\PISHistoryDialog\PISHistoryDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\MonthNotifDialog\MonthNotifDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
@@ -1507,6 +1531,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Network\ReplyHandlers\DentalActivitiesHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Network\ReplyHandlers\NotifListHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\Financial\MonthNotifRow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\Financial\FinancialEnums.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Presenter\MonthNotifLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Network\ReplyHandlers\MonthNotifDataHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

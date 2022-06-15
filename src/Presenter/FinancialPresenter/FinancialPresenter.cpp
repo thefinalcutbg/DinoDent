@@ -8,16 +8,11 @@
 #include "Database/DbInvoice.h"
 
 
-Invoice getInvoiceFromMonthNotif(const std::string& filePath)
+Invoice getInvoiceFromMonthNotif(const std::string& xmlstring)
 {
     TiXmlDocument doc;
 
-    bool loaded = doc.LoadFile(filePath, TiXmlEncoding::TIXML_ENCODING_UTF8);
-   
-    if (!loaded) {
-        std::string err = u8"Не е намерен файл: " + filePath;
-        throw std::exception(err.c_str());
-    }
+    const char* load = doc.Parse(xmlstring.data(), 0, TIXML_ENCODING_UTF8);
 
     Invoice i(doc, UserManager::currentUser());
     i.date = Date::currentDate();
@@ -35,10 +30,10 @@ Invoice getInvoiceFromMonthNotif(const std::string& filePath)
     return loadFromDb ? DbInvoice::getInvoice(existingRowid) : i;    
 }
 
-FinancialPresenter::FinancialPresenter(ITabView* tabView, const std::string& monthNotifFilepath) :
+FinancialPresenter::FinancialPresenter(ITabView* tabView, const std::string& monthNotif) :
     TabInstance(tabView, TabType::Financial, nullptr),
     view(tabView->financialView()),
-    m_invoice(getInvoiceFromMonthNotif(monthNotifFilepath))
+    m_invoice(getInvoiceFromMonthNotif(monthNotif))
 {
     this->view = tabView->financialView();
 

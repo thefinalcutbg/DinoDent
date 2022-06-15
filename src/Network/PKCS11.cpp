@@ -181,7 +181,7 @@ std::string PKCS11::x509certBase64() const
 
 
 
-std::string PKCS11::ssl_x509cert() const
+std::string PKCS11::pem_x509cert() const
 {
 	return "-----BEGIN CERTIFICATE-----\n" + m_509 + "\n-----END CERTIFICATE-----";
 }

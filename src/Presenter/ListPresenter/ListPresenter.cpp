@@ -433,13 +433,18 @@ void ListPresenter::checkPISActivities()
 
 void ListPresenter::setPISActivities(const std::optional<Procedures>& pisProcedures)
 {
-    patient->PISHistory = pisProcedures;
     view->disableActivitiesButton(false);
 
     if (!pisProcedures.has_value()) {
-        ModalDialogBuilder::showMessage(u8"Не са намерени манипулации за този пациент");
         return;
     }
+
+    if (pisProcedures->empty()) {
+        ModalDialogBuilder::showMessage(u8"Не са намерени данни за този пациент");
+        return;
+    }
+
+    patient->PISHistory = pisProcedures;
 
     checkPISActivities();
 }

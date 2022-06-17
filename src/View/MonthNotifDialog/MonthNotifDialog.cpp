@@ -1,9 +1,11 @@
-#include "MonthNotifDialog.h"
+﻿#include "MonthNotifDialog.h"
 
 MonthNotifDialog::MonthNotifDialog(const std::vector<MonthNotifRow>& rows, QWidget *parent)
     : QDialog(parent)
 {
 	ui.setupUi(this);
+
+    setWindowTitle(u8"Месечни известия");
 
     ui.tableView->setModel(&model);
     model.setRows(rows);

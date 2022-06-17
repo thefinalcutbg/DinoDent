@@ -57,5 +57,7 @@ namespace ModalDialogBuilder
 	void openExplorer(const std::string& path);
 	MonthNotifLoad monthNotifLoadDialog();
 	std::optional<std::string> getStringInput(const std::string& dialogName, const std::string& fieldName);
+	//returns empty string if canceled
+	std::string pinPromptDialog(const std::string& pem);
 };
 

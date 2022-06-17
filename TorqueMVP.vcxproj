@@ -214,6 +214,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\View\PinPromptDialog\PinPromptDialog.cpp" />
     <ClCompile Include="src\Network\ReplyHandlers\MonthNotifDataHandler.cpp" />
     <ClCompile Include="src\Presenter\MonthNotifLoader.cpp" />
     <ClCompile Include="src\Network\ReplyHandlers\AbstractReplyHandler.cpp" />
@@ -422,6 +423,7 @@
     <ClCompile Include="src\View\PatientSummaryView\TeethView\TeethLingualScene.cpp" />
     <ClCompile Include="src\View\PerioView\Widgets\ToothButton.cpp" />
     <QtRcc Include="resources\Resource.qrc" />
+    <QtUic Include="src\View\PinPromptDialog\PinPromptDialog.ui" />
     <QtUic Include="src\View\MonthNotifDialog\MonthNotifDialog.ui" />
     <QtUic Include="src\View\PISHistoryDialog\PISHistoryDialog.ui" />
     <QtUic Include="src\View\SaveAsDateDialog\SaveAsDateDialog.ui" />
@@ -530,6 +532,7 @@
     <QtMoc Include="src\View\uiComponents\qt_derived\LeadingZeroSpinBox.h" />
     <QtMoc Include="src\View\PISHistoryDialog\PISHistoryDialog.h" />
     <QtMoc Include="src\View\MonthNotifDialog\MonthNotifDialog.h" />
+    <QtMoc Include="src\View\PinPromptDialog\PinPromptDialog.h" />
     <ClInclude Include="src\Network\ReplyHandlers\MonthNotifDataHandler.h" />
     <ClInclude Include="src\Presenter\MonthNotifLoader.h" />
     <ClInclude Include="src\Model\Financial\FinancialEnums.h" />

@@ -1,18 +1,17 @@
 #pragma once
 #include <string>
-#include <vector>
-#include "Model/Date.h"
+#include "Model/Financial/FinancialEnums.h"
 class AbstractReplyHandler;
 
-enum class FilePurpose{Invoice, DebitNote, CreditNote, AmbReport};
 
 namespace SOAP
 {
 	std::string activeHIRBNo(const std::string& id, int personType);
 	std::string dentalActivities(const std::string& id, int personType);
-	std::string NotifList(const std::string& doctorEGN);
-	std::string getNotificationData(const std::string& doctorEGN, const std::string& notifHash);
-	std::string sendFile(const std::string& file, const std::string& doctorEGN, FilePurpose purpose);
+	std::string NotifList(const std::string& rziCode);
+	std::string getNotificationData(const std::string& rziCode, const std::string& notifHash);
+	std::string sendInvoice(const std::string& data, const std::string& rziCode, FinancialDocType purpose);
+	std::string sendAmbReport(const std::string& data, const std::string& doctorEgn);
 }
 
 namespace PIS

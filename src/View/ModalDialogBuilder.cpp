@@ -318,3 +318,13 @@ std::optional<std::string> ModalDialogBuilder::getStringInput(const std::string&
 	return text.toStdString();
 
 }
+
+#include "PinPromptDialog/PinPromptDialog.h"
+
+std::string ModalDialogBuilder::pinPromptDialog(const std::string& pem)
+{
+	PinPromptDialog d(pem);
+	d.exec();
+
+	return d.getResult().toStdString();
+}

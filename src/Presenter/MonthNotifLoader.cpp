@@ -2,7 +2,6 @@
 #include "View/ModalDialogBuilder.h"
 #include "Presenter/TabPresenter/TabPresenter.h"
 #include "Network/PISServ.h"
-#include "Network/Base64Convert.h"
 #include <fstream>
 #include <streambuf>
 
@@ -33,7 +32,6 @@ void MonthNotifLoader::loadNotification()
         if (!filepathResult.has_value()) return;
 
         std::ifstream t(filepathResult.value());
-        std::string str();
 
         presenter->openInvoice({
             (std::istreambuf_iterator<char>(t)),
@@ -60,7 +58,6 @@ void MonthNotifLoader::loadNotification()
 
 void MonthNotifLoader::setMonthNotif(const std::string& monthNotifBase64)
 {
-
     m_awaitingReply = false;
     presenter->openInvoice(monthNotifBase64);
 }

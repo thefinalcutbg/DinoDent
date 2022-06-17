@@ -296,12 +296,10 @@ ReportResult XML::saveXMLreport(int month, int year, const std::string& path)
                         u8"Очаквана сума : " + formatDouble(expectedPrice) + u8" лв."};
 }
 
-
-void XML::saveXMLinvoice(const Invoice& invoice, const std::string& path)
+TiXmlDocument invoiceToDoc(const Invoice& invoice)
 {
-
     TiXmlDocument doc("Invoice");
-   
+
     TiXmlDeclaration* decl = new TiXmlDeclaration{ "1.0", "UTF-8" ,"" };
     doc.LinkEndChild(decl);
 
@@ -329,68 +327,68 @@ void XML::saveXMLinvoice(const Invoice& invoice, const std::string& path)
     if (mainDoc)
     {
         TiXmlElement* mainDocument = new TiXmlElement("Main_Fin_Doc");
-            addElementWithText(mainDocument, "document_no", leadZeroes(mainDoc->number, 10));
-            addElementWithText(mainDocument, "document_date", mainDoc->date.toXMLString());
+        addElementWithText(mainDocument, "document_no", leadZeroes(mainDoc->number, 10));
+        addElementWithText(mainDocument, "document_date", mainDoc->date.toXMLString());
         el_invoice->LinkEndChild(mainDocument);
     }
 
     TiXmlElement* recipient = new TiXmlElement("Invoice_Recipient");
-        addElementWithText(recipient, "recipient_code", UserManager::currentUser().practice.rziCode.substr(0,2));
-        addElementWithText(recipient, "recipient_name", invoice.recipient.name);
-        addElementWithText(recipient, "recipient_address", invoice.recipient.address);
-        addElementWithText(recipient, "recipient_bulstat", invoice.recipient.bulstat);
+    addElementWithText(recipient, "recipient_code", UserManager::currentUser().practice.rziCode.substr(0, 2));
+    addElementWithText(recipient, "recipient_name", invoice.recipient.name);
+    addElementWithText(recipient, "recipient_address", invoice.recipient.address);
+    addElementWithText(recipient, "recipient_bulstat", invoice.recipient.bulstat);
     el_invoice->LinkEndChild(recipient);
 
     TiXmlElement* issuer = new TiXmlElement("Invoice_Issuer");
 
-                addElementWithText(issuer, "issuer_type", std::to_string(invoice.issuer.type.index()));
+    addElementWithText(issuer, "issuer_type", std::to_string(invoice.issuer.type.index()));
 
-                if (invoice.issuer.type.index() == 1)
-                {
-                    auto& selfInsured = std::get<SelfInsured>(invoice.issuer.type);
+    if (invoice.issuer.type.index() == 1)
+    {
+        auto& selfInsured = std::get<SelfInsured>(invoice.issuer.type);
 
-                    addElementWithText(issuer, "self_insured", "Y");
-                    addElementWithText(issuer, "self_insured_declaration", selfInsured.self_insured_declaration);
+        addElementWithText(issuer, "self_insured", "Y");
+        addElementWithText(issuer, "self_insured_declaration", selfInsured.self_insured_declaration);
 
-                    TiXmlElement* person_info = new TiXmlElement("Person_Info");
-                
-                              TiXmlElement* identifier = new TiXmlElement("Identifier");
-                                addElementWithText(identifier, "grao_no", selfInsured.person_info.identifier);
-                              person_info->LinkEndChild(identifier);
-            
-                             addElementWithText(person_info, "first_name", selfInsured.person_info.first_name);
-                             addElementWithText(person_info, "second_name", selfInsured.person_info.second_name);
-                             addElementWithText(person_info, "last_name", selfInsured.person_info.last_name);
+        TiXmlElement* person_info = new TiXmlElement("Person_Info");
 
-                     issuer->LinkEndChild(person_info);
+        TiXmlElement* identifier = new TiXmlElement("Identifier");
+        addElementWithText(identifier, "grao_no", selfInsured.person_info.identifier);
+        person_info->LinkEndChild(identifier);
 
-                }
-                else
-                {
-                    auto& company = std::get<Company>(invoice.issuer.type);
-                    addElementWithText(issuer, "legal_form", company.legal_form);
-                }
+        addElementWithText(person_info, "first_name", selfInsured.person_info.first_name);
+        addElementWithText(person_info, "second_name", selfInsured.person_info.second_name);
+        addElementWithText(person_info, "last_name", selfInsured.person_info.last_name);
 
-                addElementWithText(issuer, "company_name", invoice.issuer.company_name);
-                addElementWithText(issuer, "address_by_contract", invoice.issuer.address_by_contract);
+        issuer->LinkEndChild(person_info);
 
-                if(UserManager::currentUser().doctor.severalRHIF){
-                    addElementWithText(issuer, "address_by_activity", invoice.issuer.address_by_activity);
-                }
+    }
+    else
+    {
+        auto& company = std::get<Company>(invoice.issuer.type);
+        addElementWithText(issuer, "legal_form", company.legal_form);
+    }
 
-                addElementWithText(issuer, "registration_by_VAT", std::to_string(invoice.issuer.registration_by_VAT.has_value()));
-                addElementWithText(issuer, "grounds_for_not_charging_VAT", invoice.issuer.grounds_for_not_charging_VAT);
-                addElementWithText(issuer, "issuer_bulstat", invoice.issuer.bulstat);
-                if (invoice.issuer.registration_by_VAT.has_value()){
-                    addElementWithText(issuer, "issuer_bulstat_no_vat", invoice.issuer.registration_by_VAT.value());
-                }
-                addElementWithText(issuer, "contract_no", invoice.nzokData->contract_no);
-                addElementWithText(issuer, "contract_date", invoice.nzokData->contract_date.toXMLString());
-                addElementWithText(issuer, "rhi_nhif_no", invoice.nzokData->rhi_nhif_no);
+    addElementWithText(issuer, "company_name", invoice.issuer.company_name);
+    addElementWithText(issuer, "address_by_contract", invoice.issuer.address_by_contract);
+
+    if (UserManager::currentUser().doctor.severalRHIF) {
+        addElementWithText(issuer, "address_by_activity", invoice.issuer.address_by_activity);
+    }
+
+    addElementWithText(issuer, "registration_by_VAT", std::to_string(invoice.issuer.registration_by_VAT.has_value()));
+    addElementWithText(issuer, "grounds_for_not_charging_VAT", invoice.issuer.grounds_for_not_charging_VAT);
+    addElementWithText(issuer, "issuer_bulstat", invoice.issuer.bulstat);
+    if (invoice.issuer.registration_by_VAT.has_value()) {
+        addElementWithText(issuer, "issuer_bulstat_no_vat", invoice.issuer.registration_by_VAT.value());
+    }
+    addElementWithText(issuer, "contract_no", invoice.nzokData->contract_no);
+    addElementWithText(issuer, "contract_date", invoice.nzokData->contract_date.toXMLString());
+    addElementWithText(issuer, "rhi_nhif_no", invoice.nzokData->rhi_nhif_no);
 
     el_invoice->LinkEndChild(issuer);
 
-    
+
     addElementWithText(el_invoice, "health_insurance_fund_type_code", invoice.nzokData->health_insurance_fund_type_code);
     addElementWithText(el_invoice, "activity_type_code", std::to_string(invoice.nzokData->activityTypeCode));
     addElementWithText(el_invoice, "date_from", invoice.nzokData->date_from.toXMLString());
@@ -398,32 +396,46 @@ void XML::saveXMLinvoice(const Invoice& invoice, const std::string& path)
 
     for (auto& operation : invoice.businessOperations)
     {
-        TiXmlElement* businessOperation = new TiXmlElement ("Business_operation");
-        
-            addElementWithText(businessOperation, "activity_code",   operation.activity_code);
-            addElementWithText(businessOperation, "activity_name",   operation.activity_name);
-            addElementWithText(businessOperation, "measure_code",    "BR");
-            addElementWithText(businessOperation, "quantity",        std::to_string(operation.quantity));
-            addElementWithText(businessOperation, "unit_price",      formatDouble(operation.unit_price));
-            addElementWithText(businessOperation, "value_price",     formatDouble(operation.value_price));
+        TiXmlElement* businessOperation = new TiXmlElement("Business_operation");
+
+        addElementWithText(businessOperation, "activity_code", operation.activity_code);
+        addElementWithText(businessOperation, "activity_name", operation.activity_name);
+        addElementWithText(businessOperation, "measure_code", "BR");
+        addElementWithText(businessOperation, "quantity", std::to_string(operation.quantity));
+        addElementWithText(businessOperation, "unit_price", formatDouble(operation.unit_price));
+        addElementWithText(businessOperation, "value_price", formatDouble(operation.value_price));
 
         el_invoice->LinkEndChild(businessOperation);
     }
 
     TiXmlElement* aggregatedAmounts = new TiXmlElement("Aggregated_amounts");
 
-        addElementWithText(aggregatedAmounts, "payment_type", "B");
-        addElementWithText(aggregatedAmounts, "total_amount", formatDouble(invoice.aggragated_amounts.total_amount));
-        addElementWithText(aggregatedAmounts, "payment_amount", formatDouble(invoice.aggragated_amounts.payment_amount));
-        addElementWithText(aggregatedAmounts, "original", "Y");
-        addElementWithText(aggregatedAmounts, "tax_event_date", invoice.aggragated_amounts.taxEventDate.toXMLString());
+    addElementWithText(aggregatedAmounts, "payment_type", "B");
+    addElementWithText(aggregatedAmounts, "total_amount", formatDouble(invoice.aggragated_amounts.total_amount));
+    addElementWithText(aggregatedAmounts, "payment_amount", formatDouble(invoice.aggragated_amounts.payment_amount));
+    addElementWithText(aggregatedAmounts, "original", "Y");
+    addElementWithText(aggregatedAmounts, "tax_event_date", invoice.aggragated_amounts.taxEventDate.toXMLString());
 
     el_invoice->LinkEndChild(aggregatedAmounts);
 
     doc.LinkEndChild(el_invoice);
 
-    doc.SaveFile(path);
+    return doc;
+}
 
 
 
+void XML::saveXMLinvoice(const Invoice& invoice, const std::string& path)
+{
+    invoiceToDoc(invoice).SaveFile(path);
+}
+
+std::string XML::invoiceToString(const Invoice& invoice)
+{
+    TiXmlPrinter printer;
+    printer.SetStreamPrinting();
+
+    invoiceToDoc(invoice).Accept(&printer);
+
+    return printer.Str();
 }

@@ -14,6 +14,7 @@ struct ReportResult
 namespace XML
 {
 	ReportResult saveXMLreport(int month, int year, const std::string& path);
-	void saveXMLinvoice(const Invoice& invioice, const std::string& path);
+	void saveXMLinvoice(const Invoice& invoice, const std::string& path);
+	std::string invoiceToString(const Invoice& invoice);
 	
 };

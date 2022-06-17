@@ -627,6 +627,9 @@
     <ClCompile Include="src\Network\ReplyHandlers\MonthNotifDataHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\PinPromptDialog\PinPromptDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -869,6 +872,9 @@
     <QtMoc Include="src\View\MonthNotifDialog\MonthNotifTableModel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\View\PinPromptDialog\PinPromptDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="resources\Resource.qrc" />
@@ -1010,6 +1016,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\MonthNotifDialog\MonthNotifDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\PinPromptDialog\PinPromptDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

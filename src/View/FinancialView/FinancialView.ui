@@ -126,7 +126,7 @@
        <item>
         <widget class="QLabel" name="label_7">
          <property name="text">
-          <string>Вид документ:</string>
+          <string>Вид:</string>
          </property>
         </widget>
        </item>
@@ -299,6 +299,25 @@
          </property>
          <property name="text">
           <string>Запази като XML</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="sendPisButton">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>107</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Изпрати към ПИС</string>
          </property>
         </widget>
        </item>

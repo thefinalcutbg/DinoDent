@@ -86,23 +86,23 @@ std::string SOAP::getNotificationData(const std::string& rziCode, const std::str
 
 
 
-std::string SOAP::sendFile(const std::string& file, const std::string& doctorEGN, FilePurpose purpose)
+std::string SOAP::sendInvoice(const std::string& data, const std::string& rziCode, FinancialDocType purpose)
 {
 	const char* purposeArr[4]{
 		"FDOC_INV",
 		"FDOC_DTNOTE",
-		"FDOC_CTNOTE"
-		"AMB_DENT"
+		"FDOC_CTNOTE",
+		""
 	};
 
 	return
 	"<ns1:userFile xmlns:ns1=\"http://pis.technologica.com/ws/\" "
 				  "xmlns:ns2=\"http://pis.technologica.com/files/\">"
 
-		"<ns1:user><ns1:egn>"+ doctorEGN + "</ns1:egn></ns1:user>"
+		"<ns1:user><ns1:msp>"+ rziCode + "</ns1:msp></ns1:user>"
 
 			"<ns1:file>"
-				"<ns2:base64>" + Base64Convert::encode(file.data(), file.size()) + "</ns2:base64>"
+				"<ns2:base64>" + Base64Convert::encode(data.data(), data.size()) + "</ns2:base64>"
 				"<ns2:type>xml</ns2:type>"
 				"<ns2:encoding>utf-8</ns2:encoding>"
 			"</ns1:file>"
@@ -110,6 +110,25 @@ std::string SOAP::sendFile(const std::string& file, const std::string& doctorEGN
 
 	"</ns1:userFile>"
 	;
+}
+
+std::string SOAP::sendAmbReport(const std::string& data, const std::string& doctorEgn)
+{
+	return
+		"<ns1:userFile xmlns:ns1=\"http://pis.technologica.com/ws/\" "
+		"xmlns:ns2=\"http://pis.technologica.com/files/\">"
+
+		"<ns1:user><ns1:egn>" + doctorEgn + "</ns1:egn></ns1:user>"
+
+		"<ns1:file>"
+		"<ns2:base64>" + Base64Convert::encode(data.data(), data.size()) + "</ns2:base64>"
+		"<ns2:type>xml</ns2:type>"
+		"<ns2:encoding>utf-8</ns2:encoding>"
+		"</ns1:file>"
+		"<ns1:purpose>AMB_DENT</ns1:purpose>"
+
+		"</ns1:userFile>"
+		;
 }
 
 std::string SOAP::activeHIRBNo(const std::string& id, int personType)
@@ -180,22 +199,20 @@ we have to create two PKCS11 instances - one for the signing and one for the SSL
 
 	if (signer.loginRequired()) {
 
-		auto pin = ModalDialogBuilder::getStringInput(signer.subjectName(), u8"ПИН:");
+		auto pin = ModalDialogBuilder::pinPromptDialog(signer.pem_x509cert());
 
-		/*if the dialog has been cancled*/
-		if (!pin.has_value()) {
+		if (pin.empty()) {
 			return false;
 		}
 
 	
-		if (!signer.login(pin.value()))
+		if (!signer.login(pin))
 		{
 			ModalDialogBuilder::showError(u8"Грешна парола или блокирана карта");
 			return false;
 		};
 	}
-			
-	
+
 	//creating another instance for the SSL certificate
 	PKCS11 sslBuilder;
 

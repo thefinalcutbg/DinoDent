@@ -75,8 +75,6 @@ bool AmbListValidator::isValidAccordingToDb()
 {
     auto summary = DbProcedure::getSummary(patient.rowid, ambList.rowid); //getting all procedures;
 
-   
-
     typedef int Code, Count, Tooth;
     typedef bool Temporary;
     std::unordered_map<Code, Count> currentYear;

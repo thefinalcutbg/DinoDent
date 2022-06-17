@@ -45,9 +45,8 @@ FinancialView::FinancialView(QWidget *parent)
 			presenter->paymentTypeChanged(static_cast<PaymentType>(index));
 		});
 
-	connect(ui.saveXMLButton, &QPushButton::clicked, [=]
-		{ presenter->saveAsXML(); });
-
+	connect(ui.saveXMLButton, &QPushButton::clicked, [=] {presenter->saveAsXML(); });
+	connect(ui.sendPisButton, &QPushButton::clicked, [=] {presenter->sendToPis();});
 
 
 	connect(ui.deleteButton, &QPushButton::clicked,
@@ -77,7 +76,6 @@ FinancialView::FinancialView(QWidget *parent)
 	connect(ui.operationsTable, &ProcedureTable::deletePressed,[=] { ui.deleteButton->click(); });
 	connect(ui.operationsTable, &QTableView::doubleClicked, [=] { ui.editButton->click(); });
 	connect(ui.docTypeCombo, &QComboBox::currentIndexChanged, [=](int idx) { presenter->docTypeChanged(idx);});
-	
 	
 	
 	
@@ -134,6 +132,7 @@ void FinancialView::setInvoice(const Invoice& inv)
 	ui.deleteButton->setHidden(nzokForm);
 	ui.editButton->setHidden(nzokForm);
 	ui.saveXMLButton->setHidden(!nzokForm);
+	ui.sendPisButton->setHidden(!nzokForm);
 
 	//centering the label:
 

@@ -165,6 +165,17 @@ void FinancialPresenter::saveAsXML()
  
 }
 
+#include <QDebug>
+#include "Network/PISServ.h"
+void FinancialPresenter::sendToPis()
+{
+    qDebug() << SOAP::sendInvoice(
+        XML::invoiceToString(m_invoice),
+        UserManager::currentUser().practice.rziCode,
+        m_invoice.type
+    ).data();
+}
+
 void FinancialPresenter::docTypeChanged(int index)
 {
     m_invoice.type = static_cast<FinancialDocType>(index);

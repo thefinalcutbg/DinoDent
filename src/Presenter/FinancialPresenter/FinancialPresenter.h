@@ -26,6 +26,7 @@ public:
 	void taxEventDateChanged(Date date);
 	void paymentTypeChanged(PaymentType type);
 	void saveAsXML();
+	void sendToPis();
 	void docTypeChanged(int index);
 	void mainDocumentChanged(long long num, Date date);
 

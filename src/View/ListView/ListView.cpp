@@ -26,6 +26,7 @@ ListView::ListView(QWidget* parent)
 	ui.deleteProcedure->setIcon(QIcon(":/icons/icon_remove.png"));
 	ui.editProcedure->setIcon(QIcon(":/icons/icon_edit.png"));
 	ui.showAppliedButton->setIcon(QIcon(":/icons/icon_apply.png"));
+	ui.nzokActivities->setIcon(QIcon(":/icons/icon_nzok.png"));
 
 	ui.perioButton->setHoverColor(Theme::mainBackgroundColor);
 	ui.invoiceButton->setHoverColor(Theme::mainBackgroundColor);
@@ -33,6 +34,7 @@ ListView::ListView(QWidget* parent)
 	ui.deleteProcedure->setHoverColor(Theme::mainBackgroundColor);
 	ui.editProcedure->setHoverColor(Theme::mainBackgroundColor);
 	ui.showAppliedButton->setHoverColor(Theme::mainBackgroundColor);
+	ui.nzokActivities->setHoverColor(Theme::mainBackgroundColor);
 
 	ui.procedureTable->setStyleSheet(
 		"color :" + Theme::getRGBStringFromColor(Theme::fontTurquoise) + "; "

@@ -207,19 +207,6 @@
          </rect>
         </property>
        </widget>
-       <widget class="QPushButton" name="nzokActivities">
-        <property name="geometry">
-         <rect>
-          <x>590</x>
-          <y>170</y>
-          <width>191</width>
-          <height>24</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Отчетени процедури по НЗОК</string>
-        </property>
-       </widget>
       </widget>
      </item>
     </layout>
@@ -383,6 +370,37 @@
            </property>
            <property name="checkable">
             <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="IconButton" name="nzokActivities">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>35</width>
+             <height>35</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>35</width>
+             <height>35</height>
+            </size>
+           </property>
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Зареди манипулации от ПИС&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+           <property name="text">
+            <string>PIS</string>
+           </property>
+           <property name="checkable">
+            <bool>false</bool>
            </property>
           </widget>
          </item>

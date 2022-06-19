@@ -31,7 +31,8 @@ ListPresenter::ListPresenter(ITabView* tabView, TabPresenter* tabPresenter, std:
     else if (m_ambList.isNew() && patient->getAge(ambSheetDate) > 70)
         m_ambList.charge = Charge::retired;
 
-    if (GlobalSettings::getPisHistoryAuto &&
+    if (!rowId &&
+        GlobalSettings::getPisHistoryAuto &&
         UserManager::currentUser().practice.nzok_contract.has_value()) 
     {
         requestPisActivities();

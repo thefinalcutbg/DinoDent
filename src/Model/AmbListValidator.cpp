@@ -97,7 +97,6 @@ std::vector<ProcedureSummary> getSummaryFromPisHistory(const std::vector<Procedu
 
 bool AmbListValidator::isValidAccordingToDb()
 {
-
     std::vector<ProcedureSummary> summary;
 
     //if nhif history is present
@@ -119,9 +118,9 @@ bool AmbListValidator::isValidAccordingToDb()
     else
     {
         ModalDialogBuilder::showMessage(
-            u8"Поради липсващи данни от ПИС, "
-            u8"листът ще бъде проверен само "
-            u8"спрямо съществуващите записи в базата данни");
+            u8"Не са заредени данни от ПИС. "
+            u8"Листът ще бъде валидиран само "
+            u8"спрямо съществуващите записи в локалната база данни");
 
         summary = DbProcedure::getNhifSummary(
             patient.rowid,

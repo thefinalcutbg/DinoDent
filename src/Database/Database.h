@@ -32,6 +32,7 @@ public:
     int asInt(int column);
     long long asRowId(int column);
     long long asLongLong(int column);
+    bool asBool(int column);
     double asDouble(int column);
     std::string asString(int column);
     void newStatement(const std::string& query);

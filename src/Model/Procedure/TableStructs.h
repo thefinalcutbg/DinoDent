@@ -30,6 +30,8 @@ struct ProcedureSummary
     Date date;
     int code;
     int tooth;
+    bool temp;
+    bool extr;
 };
 
 

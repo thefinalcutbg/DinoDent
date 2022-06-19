@@ -533,6 +533,7 @@
     <QtMoc Include="src\View\PISHistoryDialog\PISHistoryDialog.h" />
     <QtMoc Include="src\View\MonthNotifDialog\MonthNotifDialog.h" />
     <QtMoc Include="src\View\PinPromptDialog\PinPromptDialog.h" />
+    <ClInclude Include="src\GlobalSettings.h" />
     <ClInclude Include="src\Network\ReplyHandlers\MonthNotifDataHandler.h" />
     <ClInclude Include="src\Presenter\MonthNotifLoader.h" />
     <ClInclude Include="src\Model\Financial\FinancialEnums.h" />

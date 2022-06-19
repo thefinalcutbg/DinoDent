@@ -29,6 +29,11 @@ std::string SOAP::dentalActivities(const std::string& id, int personType)
 		"<ns3:" + tag + ">" + id + "</ns3:" + tag + ">"
 		"</ns3:user>"
 		"<ns3:from_clause>INYEAR_DENTAL_ACTS</ns3:from_clause>"
+
+		"<ns3:orderby_clause>"
+			"<ns1:ocolumn sort=\"DESC\">ACTIVITY_DATE</ns1:ocolumn>"
+		"</ns3:orderby_clause>"
+
 		"</ns3:query>"
 		;
 }

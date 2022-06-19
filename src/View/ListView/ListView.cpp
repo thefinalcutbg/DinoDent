@@ -46,7 +46,7 @@ ListView::ListView(QWidget* parent)
 		"color : " + Theme::getRGBStringFromColor(Theme::fontTurquoise) + "; "
 		"font-weight: bold; font-size: 12px;"
 	);
-	connect(ui.nzokActivities, &QPushButton::clicked, [=] { if (presenter) presenter->checkPISActivities(); });
+	connect(ui.nzokActivities, &QPushButton::clicked, [=] { if (presenter) presenter->openPisHistory(); });
 	connect(ui.patientTile, &QAbstractButton::clicked, [=] { if(presenter) presenter->openPatientDialog(); });
 	connect(ui.allergiesTile, &QAbstractButton::clicked, [=] { if (presenter) presenter->openAllergiesDialog(); });
 	connect(ui.addProcedure, &QAbstractButton::clicked, [=] { if (presenter) presenter->addProcedure(); });
@@ -166,7 +166,7 @@ bool ListView::eventFilter(QObject* obj, QEvent* event)
 
 void ListView::refresh(const AmbList& ambList, const Patient& patient)
 {
-	ui.patientTile->setData(patient, ambList.getAmbListDate());
+	ui.patientTile->setData(patient, ambList.getDate());
 	ui.allergiesTile->setData(patient);
 	ui.taxCombo->setIndex(static_cast<int>(ambList.charge));
 	

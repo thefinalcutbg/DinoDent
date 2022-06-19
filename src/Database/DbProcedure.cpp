@@ -80,16 +80,25 @@ void DbProcedure::saveProcedures(long long amblist_rowid, const std::vector<Proc
 
 }
 
-std::vector<ProcedureSummary> DbProcedure::getSummary(long long patientRowId, long long excludeAmbRowId)
+std::vector<ProcedureSummary> DbProcedure::getNhifSummary(long long patientRowId, long long excludeAmbRowId, const Date& from, const Date& to)
 {
-
 	std::string query
 	{
-		"SELECT procedure.day, amblist.month, amblist.year, procedure.code, procedure.tooth "
+		"SELECT procedure.day, amblist.month, amblist.year, procedure.code, procedure.tooth,  procedure.deciduous, procedure.type "
 		"FROM procedure LEFT JOIN amblist ON procedure.amblist_rowid = amblist.rowid "
 		"WHERE nzok = 1 "
 		"AND amblist.patient_rowid = " + std::to_string(patientRowId) + " "
-		"AND amblist.rowid != " + std::to_string(excludeAmbRowId)
+		"AND amblist.rowid != " + std::to_string(excludeAmbRowId) + " "
+
+		"AND(amblist.year, amblist.month, amblist.day) "
+		" BETWEEN  ("
+		+ std::to_string(from.year) + ", "
+		+ std::to_string(from.month) + ", "
+		+ std::to_string(from.day) + ") "
+		"AND ("
+		+ std::to_string(to.year) + ", "
+		+ std::to_string(to.month) + ", "
+		+ std::to_string(to.day) + ")"
 	};
 
 	 std::vector<ProcedureSummary> summary;
@@ -105,8 +114,9 @@ std::vector<ProcedureSummary> DbProcedure::getSummary(long long patientRowId, lo
 					 db.asInt(2)
 				},
 				db.asInt(3),
-				db.asInt(4)
-				 
+				db.asInt(4),
+				db.asBool(5),
+				static_cast<ProcedureType>(db.asInt(6)) == ProcedureType::extraction
 			 });
 	 }
 

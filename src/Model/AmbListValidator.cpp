@@ -5,6 +5,7 @@
 #include "Procedure/MasterNZOK.h"
 #include "Tooth/ToothUtils.h"
 #include "Model/Procedure/PackageCounter.h"
+#include "View/ModalDialogBuilder.h"
 
 struct pair_hash
 {
@@ -17,7 +18,7 @@ struct pair_hash
 
 AmbListValidator::AmbListValidator(const AmbList& list, const Patient& patient)
     :
-    ambList(list), patient(patient), ambListDate(ambList.getAmbListDate())
+    ambList(list), patient(patient), ambListDate(ambList.getDate())
 {
     _error.reserve(100);
     for (auto &p : list.procedures)
@@ -30,6 +31,8 @@ AmbListValidator::AmbListValidator(const AmbList& list, const Patient& patient)
 
 bool AmbListValidator::ambListIsValid()
 {
+    if (!ambList.hasNZOKProcedure()) return true;
+
     auto& teeth = ambList.teeth;
     auto& procedures = m_procedures;
 
@@ -71,9 +74,62 @@ bool AmbListValidator::ambListIsValid()
     return true;
 }
 
+
+std::vector<ProcedureSummary> getSummaryFromPisHistory(const std::vector<Procedure> pisHistory, Date ambListDate)
+{
+    std::vector<ProcedureSummary> result;
+
+    for (auto& p : pisHistory) {
+
+        if (p.date < ambListDate) {
+            result.push_back({
+                    p.date,
+                    p.code,
+                    p.tooth,
+                    p.temp,
+                    p.type == ProcedureType::extraction
+                });
+        }
+    }
+
+    return result;
+}
+
 bool AmbListValidator::isValidAccordingToDb()
 {
-    auto summary = DbProcedure::getSummary(patient.rowid, ambList.rowid); //getting all procedures;
+
+    std::vector<ProcedureSummary> summary;
+
+    //if nhif history is present
+    if (patient.PISHistory) {
+
+        auto nhifHistory = getSummaryFromPisHistory(patient.PISHistory.value(), ambList.getDate());
+
+        //getting procedures from local db, from the day after the last record in NHIF
+        summary = DbProcedure::getNhifSummary(
+            patient.rowid,
+            ambList.rowid,
+            nhifHistory.begin()->date.tomorrow(),
+            ambList.getDate()
+        );
+
+        //inserting the rest of the nzok procedures
+        summary.insert(summary.end(), nhifHistory.begin(), nhifHistory.end());
+    }
+    else
+    {
+        ModalDialogBuilder::showMessage(
+            u8"Поради липсващи данни от ПИС, "
+            u8"листът ще бъде проверен само "
+            u8"спрямо съществуващите записи в базата данни");
+
+        summary = DbProcedure::getNhifSummary(
+            patient.rowid,
+            ambList.rowid,
+            Date{},
+            ambList.getDate()
+        );
+    }
 
     typedef int Code, Count, Tooth;
     typedef bool Temporary;
@@ -86,8 +142,7 @@ bool AmbListValidator::isValidAccordingToDb()
             currentYear[p.code] ++;
 
         //getting the already extracted teeth
-        if (p.code == 508) extractedTeeth.insert(std::make_pair(p.tooth, true));
-        else if (p.code == 509 || p.code == 510) extractedTeeth.insert(std::make_pair(p.tooth, false));
+        if (p.extr) extractedTeeth.insert(std::make_pair(p.tooth, p.temp));
     }
 
     PackageCounter packageCounter(MasterNZOK::instance().getPackages(ambListDate)); //creating a package counter
@@ -139,7 +194,6 @@ bool AmbListValidator::isValidAccordingToDb()
     return true;
 }
 
-#include <QDebug>
 
 bool AmbListValidator::dateIsValid()
 {

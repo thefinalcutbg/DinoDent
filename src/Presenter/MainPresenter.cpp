@@ -4,7 +4,7 @@
 #include "View/Printer/Printer.h"
 #include "Presenter/LoginPresenter/LoginPresenter.h"
 #include "Presenter/DoctorDialogPresenter/DoctorDialogPresenter.h"
-
+#include "Network/PKCS11.h"
 #include "Model/User/UserManager.h"
 #include "Model/XML/xml.h"
 #include "Presenter/AddPracticePresenter/AddPracticePresenter.h"
@@ -177,6 +177,8 @@ void MainPresenter::logOut()
     if (!closeAllTabs()) return;
 
     view->setUserLabel("", "");
+
+    PKCS11::unloadModule();
 
     LoginPresenter login;
 

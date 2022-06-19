@@ -63,6 +63,15 @@ Date Date::yesterday() const
     return Date{31, 12, year - 1};
 }
 
+Date Date::tomorrow() const
+{
+    if (day != getMaxDayOfMonth()) return Date{ day + 1, month, year };
+
+    if (month != 12) return Date{ 1, month + 1, year };
+
+    return Date{ 1, 1, year + 1 };
+}
+
 Date Date::getBirthdateFromEgn(const std::string& egn)
 {
 

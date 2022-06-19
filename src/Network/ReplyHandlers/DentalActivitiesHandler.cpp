@@ -32,7 +32,7 @@ void DentalActivitiesHandler::getReply(const std::string& reply)
 		.FirstChildElement()			  //envelope
 		.Child(1)						  //body
 		.FirstChildElement();			  //table
-		
+
 	std::vector<Procedure> result;
 
 	//i is 1, since 0 is the table header (td)

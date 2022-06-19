@@ -16,7 +16,7 @@ void PackageCounter::insertCode(int code)
 		if (packages[i].codes.count(code))
 			procedure_count[i]++;
 }
-#include <qDebug>
+
 bool PackageCounter::validate(bool adult, bool pregnant)
 {
 
@@ -31,7 +31,6 @@ bool PackageCounter::validate(bool adult, bool pregnant)
 
 		if (procedure_count[i] > limit)
 		{
-			qDebug() << "Надхвърлен лимит в пакет: " << i << "\nЛимит: " << limit << "\nБрой манипулации: " << procedure_count[i];
 			return false;
 		}
 	}

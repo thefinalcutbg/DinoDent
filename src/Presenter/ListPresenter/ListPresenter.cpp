@@ -12,77 +12,31 @@
 #include "Model/AmbList.h"
 #include "Presenter/TabPresenter/TabPresenter.h"
 #include "Network/PISServ.h"
-
-bool ListPresenter::isValid()
-{
-    AmbListValidator checker(m_ambList, *patient);
-
-    if(checker.ambListIsValid())
-        return true;
-
-    ModalDialogBuilder::showError(checker.getErrorMsg());
-
-    return false;
-}
-
-
-ListPresenter::ListPresenter(ITabView* tabView, TabPresenter* tabPresenter, std::shared_ptr<Patient> patient) :
-    TabInstance(tabView, TabType::AmbList, patient),
-    view(tabView->listView()),
-    tabPresenter(tabPresenter),
-    m_ambList(DbAmbList::getNewAmbSheet(patient->rowid))
-{
-    auto ambSheetDate = m_ambList.getAmbListDate();
-
-    surf_presenter.setStatusControl(this);
-
-    if (m_ambList.isNew() && !patient->isAdult(ambSheetDate))
-        m_ambList.charge = Charge::freed;
-    else if (m_ambList.isNew() && patient->getAge(ambSheetDate) > 70)
-       m_ambList.charge = Charge::retired;
-
-    /*
-    for (auto& m : m_ambList.procedures) //autofill NZOK procedures
-        if (m.nzok)
-            m.price = MasterNZOK::instance()
-            .getPatientPrice(
-                m.code, m_ambList.getAmbListDate(),
-                UserManager::currentUser().doctor.specialty, 
-                patient->isAdult(), 
-                m_ambList.full_coverage
-            );
-     */
-}
+#include "GlobalSettings.h"
 
 ListPresenter::ListPresenter(ITabView* tabView, TabPresenter* tabPresenter, std::shared_ptr<Patient> patient, long long rowId)
     :
     TabInstance(tabView, TabType::AmbList, patient),
     view(tabView->listView()),
     tabPresenter(tabPresenter),
-    m_ambList(DbAmbList::getListData(rowId))
+    m_ambList(rowId ? DbAmbList::getListData(rowId) : DbAmbList::getNewAmbSheet(patient->rowid))
 {
 
     surf_presenter.setStatusControl(this);
 
-    auto ambSheetDate = m_ambList.getAmbListDate();
+    auto ambSheetDate = m_ambList.getDate();
 
     if (m_ambList.isNew() && !patient->isAdult(ambSheetDate))
         m_ambList.charge = Charge::freed;
     else if (m_ambList.isNew() && patient->getAge(ambSheetDate) > 70)
         m_ambList.charge = Charge::retired;
 
-    /*
-    for (auto& m : m_ambList.procedures) //autofill NZOK procedures
-        if (m.nzok)
-            m.price = MasterNZOK::instance()
-               .getPatientPrice(
-                   m.code, 
-                   ambSheetDate,
-                   UserManager::currentUser().doctor.specialty, 
-                   patient->isAdult(), 
-                   m_ambList.full_coverage
-               );
-    */
+    if (GlobalSettings::getPisHistoryAuto &&
+        UserManager::currentUser().practice.nzok_contract.has_value()) 
+    {
+        requestPisActivities();
+    }
+
 }
 
 void ListPresenter::statusChanged()
@@ -102,6 +56,18 @@ void ListPresenter::statusChanged()
     makeEdited();
 }
 
+
+bool ListPresenter::isValid()
+{
+    AmbListValidator checker(m_ambList, *patient);
+
+    if (checker.ambListIsValid())
+        return true;
+
+    ModalDialogBuilder::showError(checker.getErrorMsg());
+
+    return false;
+}
 
 
 
@@ -137,9 +103,9 @@ bool ListPresenter::save()
 {
     if (!requiresSaving()) return true;
 
-    if (!isValid()) return false;
-
     if (m_ambList.isNew() || m_ambList.hasNumberInconsistency()) return saveAs();
+
+    if (!isValid()) return false;
 
     if (edited) { DbAmbList::update(m_ambList);}
 
@@ -157,7 +123,7 @@ bool ListPresenter::saveAs()
 
     int newNumber = 0;
 
-    auto ambSheetDate = m_ambList.getAmbListDate();
+    auto ambSheetDate = m_ambList.getDate();
 
     auto existingNumbers = DbAmbList::getExistingNumbers(ambSheetDate.year);
 
@@ -393,63 +359,74 @@ void ListPresenter::setSelectedTeeth(const std::vector<int>& SelectedIndexes)
     view->hideSurfacePanel(!oneToothSelected);
 }
 
-void ListPresenter::checkPISActivities()
+void ListPresenter::requestPisActivities()
 {
-    if (patient->PISHistory.has_value())
-    {
+    if (patient->PISHistory.has_value()) return;
 
-        if (!ModalDialogBuilder::pisHistoryDialog(patient->PISHistory.value())) {
-            return;
-        }
-
-            auto procedures = patient->PISHistory.value();
-
-            for (int i = procedures.size() - 1; i > -1; i--) {
-                procedures[i].applyPISProcedure(m_ambList.teeth);
-            }
-
-            for (auto& t : m_ambList.teeth)
-            {
-                view->repaintTooth(ToothHintCreator::getToothHint(t));
-            }
-
-            makeEdited();
-
-            return;
-    }
-        
+    if (awaitingPisHistoryReply) return;
+      
     //sending request to PIS
-    view->disableActivitiesButton(true);
+    awaitingPisHistoryReply = true;
 
     bool success = PIS::sendRequest(
         SOAP::dentalActivities(patient->id, patient->type),
         handler
     );
 
-    if (!success)
-        view->disableActivitiesButton(false);
+    if (!success) {
+        awaitingPisHistoryReply = false;
+    }   
 
 }
 
 void ListPresenter::setPISActivities(const std::optional<Procedures>& pisProcedures)
 {
-    view->disableActivitiesButton(false);
+    awaitingPisHistoryReply = false;
 
     if (!pisProcedures.has_value()) {
-        return;
-    }
-
-    if (pisProcedures->empty()) {
-        ModalDialogBuilder::showMessage(u8"Не са намерени данни за този пациент");
+        m_openHistoryDialogOnReply = false;
         return;
     }
 
     patient->PISHistory = pisProcedures;
 
-    checkPISActivities();
+    if (m_openHistoryDialogOnReply) openPisHistory();
 }
 
 #include "Presenter/DetailsPresenter/DetailedStatusPresenter.h"
+
+void ListPresenter::openPisHistory()
+{
+
+    if (!patient->PISHistory.has_value())
+    {
+        m_openHistoryDialogOnReply = true;
+        requestPisActivities();
+        return;
+    }
+
+    m_openHistoryDialogOnReply = false;
+
+    auto& history = patient->PISHistory.value();
+
+    if (history.empty()) {
+        ModalDialogBuilder::showMessage(u8"В ПИС не са намерени данни за този пациент");
+        return;
+    }
+
+    bool applyToStatus = ModalDialogBuilder::pisHistoryDialog(history);
+
+    if (!applyToStatus) return;
+    
+                for (auto it = history.rbegin(); it != history.rend(); ++it)
+                it->applyPISProcedure(m_ambList.teeth);
+
+                for (auto& t : m_ambList.teeth)
+                view->repaintTooth(ToothHintCreator::getToothHint(t)); 
+   
+
+    makeEdited();
+}
 
 void ListPresenter::openDetails(int toothIdx)
 {
@@ -526,7 +503,7 @@ void ListPresenter::refreshProcedureView()
 
         if (m.nzok)
         {
-            auto [p, nzok] = MasterNZOK::instance().getPrices(m.code, m_ambList.getAmbListDate(), UserManager::currentUser().doctor.specialty, patient->isAdult(m.date), m_ambList.full_coverage);
+            auto [p, nzok] = MasterNZOK::instance().getPrices(m.code, m_ambList.getDate(), UserManager::currentUser().doctor.specialty, patient->isAdult(m.date), m_ambList.full_coverage);
             nzokPrice = nzokPrice + nzok;
         }
 

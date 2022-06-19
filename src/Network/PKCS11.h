@@ -34,7 +34,7 @@ public:
 	//assumes the prv_key ownership has been passed on
 	evp_pkey_st* takePrivateKey();
 
-
+	static void unloadModule();
 	static std::string sha1digest64(const std::string& canonicalized);
 	static std::string sha1Digest(const std::string& data);
 	static std::string toBase64(const std::string& data);

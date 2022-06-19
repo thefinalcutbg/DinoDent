@@ -20,6 +20,7 @@ public:
     bool isInitialized() const;
     //all my troubles seem so far away
     Date yesterday() const;
+    Date tomorrow() const;
 
     static Date getBirthdateFromEgn(const std::string& egn);
     std::string toString(bool suffix = false) const;

@@ -47,6 +47,11 @@ long long Db::asLongLong(int column)
     return sqlite3_column_int64(stmt, column);
 }
 
+bool Db::asBool(int column)
+{
+    return static_cast<bool>(asInt(column));
+}
+
 double Db::asDouble(int column)
 {
     return sqlite3_column_double(stmt, column);

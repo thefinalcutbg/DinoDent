@@ -1557,5 +1557,8 @@
     <ClInclude Include="src\Network\ReplyHandlers\MonthNotifDataHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\GlobalSettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

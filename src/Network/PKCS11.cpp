@@ -210,6 +210,14 @@ std::string PKCS11::sha1Digest(const std::string& data)
 
 
 
+void PKCS11::unloadModule()
+{
+	if (ctx)
+	{
+		PKCS11_CTX_unload(ctx);
+	}
+}
+
 std::string PKCS11::sha1digest64(const std::string& canonized)
 {
 	return toBase64(sha1Digest(canonized));

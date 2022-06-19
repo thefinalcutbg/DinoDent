@@ -32,8 +32,12 @@ class ListPresenter : public TabInstance
 
     IListView* view;
 
+    bool m_openHistoryDialogOnReply { false };
+    bool awaitingPisHistoryReply{ false };
+
     TabPresenter* tabPresenter;
 
+    void requestPisActivities();
     bool isValid();
     void refreshProcedureView();
     void statusChanged();
@@ -42,9 +46,7 @@ public:
 
     AmbList m_ambList;
 
-
-    ListPresenter(ITabView* tabView, TabPresenter* tabPresenter, std::shared_ptr<Patient> patient);
-    ListPresenter(ITabView* tabView, TabPresenter* tabPresenter, std::shared_ptr<Patient> patient, long long rowId);
+    ListPresenter(ITabView* tabView, TabPresenter* tabPresenter, std::shared_ptr<Patient> patient, long long rowId = 0);
 
     void chargeChanged(int index);
 
@@ -66,9 +68,9 @@ public:
     
     void setSelectedTeeth(const std::vector<int>& SelectedIndexes);
 
-    void checkPISActivities();
     void setPISActivities(const std::optional<Procedures>& pisProcedures);
 
+    void openPisHistory();
     void openDetails(int toothIdx);
     void openDetails();
 

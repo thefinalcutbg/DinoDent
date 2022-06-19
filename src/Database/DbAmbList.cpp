@@ -10,7 +10,7 @@
 long long DbAmbList::insert(const AmbList& ambList, long long patientRowId)
 {
   
-    auto ambSheetDate = ambList.getAmbListDate();
+    auto ambSheetDate = ambList.getDate();
 
     std::string query = "INSERT INTO amblist (day, month, year, num, fullCoverage, charge, status_json, patient_rowid, lpk, rzi) "
         "VALUES ("
@@ -41,7 +41,7 @@ long long DbAmbList::insert(const AmbList& ambList, long long patientRowId)
 void DbAmbList::update(const AmbList& ambList)
 {
 
-    auto ambSheetDate = ambList.getAmbListDate();
+    auto ambSheetDate = ambList.getDate();
 
     std::string query = "UPDATE amblist SET"
         " num = " + std::to_string(ambList.number) +

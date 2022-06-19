@@ -20,6 +20,8 @@ struct AmbList
 	//Date date{ Date::currentDate() };
 	int number{ 0 };
 	std::string LPK;
+
+	/* NHIF specific */
 	bool full_coverage{ false };
 	bool pregnancy{ false };
 	Charge charge{ Charge::standard };
@@ -40,7 +42,7 @@ struct AmbList
 		return hasNZOKProcedure() != number < 100000;
 	}
 
-	Date getAmbListDate() const //works only if procedures are sorted by date!
+	Date getDate() const //works only if procedures are sorted by date!
 	{
 		if (procedures.empty())
 			return Date::currentDate();
@@ -54,7 +56,7 @@ struct AmbList
 
 	Date getAmbSheetDateMin() const //returns the first day of the ambSheet month
 	{
-		auto date = getAmbListDate();
+		auto date = getDate();
 
 		return Date(1, date.month, date.year);
 
@@ -62,7 +64,7 @@ struct AmbList
 
 	Date newProcedureDate() const
 	{
-		auto sheetDate = getAmbListDate();
+		auto sheetDate = getDate();
 
 		if (sheetDate.month == Date::currentMonth()
 			&& sheetDate.year == Date::currentYear()) {

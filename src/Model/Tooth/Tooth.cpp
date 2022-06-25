@@ -100,6 +100,50 @@ std::string Tooth::getSimpleStatus() const
 
 }
 
+std::vector<std::string> Tooth::getSimpleStatuses() const
+{
+	auto boolStatus = getBoolStatus();
+
+	std::array<std::string, statusCount> statusLegend //each letter corresponds to bool status
+	{
+		"T", "O", "C", "P", "G", "", "", "R", "F", "E",
+		"Pa ", "I", "II", "III", "K", "X", "X", "Impl.", "Dsn", ""
+	};							//     ^     ^
+								//  bridge	splint (both defaulted as artificial tooth)
+
+	if (boolStatus[StatusCode::Bridge])
+	{
+		boolStatus[StatusCode::Extraction] ?
+			statusLegend[StatusCode::Extraction] = "" //extraction won't be shown
+			:
+			statusLegend[StatusCode::Bridge] = "K "; //bridge will be shown as K
+
+	}
+
+	if (boolStatus[StatusCode::FiberSplint])
+	{
+		if (boolStatus[StatusCode::Extraction])
+		{
+			statusLegend[StatusCode::Extraction] = ""; //extraction won't be shown
+		}
+		else
+		{
+			boolStatus[StatusCode::Obturation] = true; //obturation WILL be shown
+			statusLegend[StatusCode::FiberSplint] = ""; //fibersplint WON'T be shown
+		}
+	}
+
+	std::vector<std::string> simpleStatus;
+
+	for (int i = 0; i < statusCount; i++)
+	{
+		if (boolStatus[i] && !statusLegend[i].empty())
+			simpleStatus.push_back(statusLegend[i]);
+	}
+
+	return simpleStatus;
+}
+
 //some free template functions to improve readability (hopefully)
 
 template<class... Status> inline void set(bool state, Status&... parameters) { 

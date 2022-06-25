@@ -7,11 +7,11 @@
 
 #include <QDebug>
 
-std::vector<Procedure> DbProcedure::getProcedures(long long amblist_rowid, Db* existingConnection)
+std::vector<Procedure> DbProcedure::getProcedures(long long amblist_rowid, Db* existingConnection, bool nhifOnly)
 {
 	std::vector<Procedure> mList;
 
-	
+	const char* condition = nhifOnly ? " AND procedure.nzok = 1 " : "" ;
 
 	std::string query =  "SELECT procedure.nzok, "		//0
 							    "procedure.type, "		//1
@@ -25,7 +25,9 @@ std::vector<Procedure> DbProcedure::getProcedures(long long amblist_rowid, Db* e
 								"procedure.deciduous, "	//9
 								"amblist.LPK "			//10
 						"FROM procedure LEFT JOIN amblist ON procedure.amblist_rowid = amblist.rowid "
-						"WHERE amblist.rowid = " + std::to_string(amblist_rowid) + " ORDER BY procedure.rowid";
+						"WHERE amblist.rowid = " + std::to_string(amblist_rowid) +
+						+ condition +
+						" ORDER BY procedure.rowid";
 
 	
 	for (Db db(query, existingConnection); db.hasRows();)

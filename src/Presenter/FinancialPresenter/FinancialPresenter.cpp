@@ -6,7 +6,7 @@
 #include <stdexcept>
 #include "Model/XML/xml.h"
 #include "Database/DbInvoice.h"
-
+#include <fstream>
 
 Invoice getInvoiceFromMonthNotif(const std::string& xmlstring)
 {
@@ -149,19 +149,13 @@ void FinancialPresenter::saveAsXML()
 
     auto& filepath = result.value();
 
-    XML::saveXMLinvoice(m_invoice, filepath);
+    std::ofstream out(result.value());
+    out << XML::getInvoice(m_invoice);
+    out.close();
 
-            //getting the directory from filename:
+    ModalDialogBuilder::openExplorer(filepath);
 
-            int lastSlashPosition{0};
-
-            for (int i = 0; i < filepath.size(); i++)
-            {
-                if (filepath[i] == '/')
-                    lastSlashPosition = i;
-            }
-
-    ModalDialogBuilder::openExplorer(filepath.substr(0, lastSlashPosition + 1));
+    ModalDialogBuilder::openExplorer(filepath);
  
 }
 
@@ -170,7 +164,7 @@ void FinancialPresenter::saveAsXML()
 void FinancialPresenter::sendToPis()
 {
     qDebug() << SOAP::sendInvoice(
-        XML::invoiceToString(m_invoice),
+        XML::getInvoice(m_invoice),
         UserManager::currentUser().practice.rziCode,
         m_invoice.type
     ).data();

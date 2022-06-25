@@ -17,6 +17,7 @@ struct AmbList
 	AmbList() {}
 
 	long long rowid{ 0 };
+	long long patient_rowid{ 0 };
 	//Date date{ Date::currentDate() };
 	int number{ 0 };
 	std::string LPK;

@@ -24,7 +24,7 @@ class ListPresenter : public TabInstance
     SelectedTeethIdx m_selectedIndexes;
     SelectedTeeth m_selectedTeeth;
 
-    DentalActivitiesHandler handler{this};
+    DentalActivitiesHandler<ListPresenter> handler{this};
 
     bool m_showCurrentStatus{ false };
 

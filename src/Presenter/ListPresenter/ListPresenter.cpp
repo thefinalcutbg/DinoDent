@@ -60,6 +60,14 @@ void ListPresenter::statusChanged()
 
 bool ListPresenter::isValid()
 {
+    if (!patient->PISHistory.has_value()) {
+        ModalDialogBuilder::showMessage(
+            u8"Не са заредени данни от ПИС. "
+            u8"Листът ще бъде валидиран само "
+            u8"спрямо съществуващите записи в локалната база данни");
+    }
+
+
     AmbListValidator checker(m_ambList, *patient);
 
     if (checker.ambListIsValid())

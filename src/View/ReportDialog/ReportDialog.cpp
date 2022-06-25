@@ -1,8 +1,10 @@
 ﻿#include "ReportDialog.h"
 #include <QFileDialog>
 #include <QPainter>
-ReportDialog::ReportDialog(std::optional<ReportDialogResult>& result, QWidget *parent)
-	: ref_result(result), QDialog(parent)
+#include "Presenter/ReportDialogPresenter/ReportDialogPresenter.h"
+
+ReportDialog::ReportDialog(ReportDialogPresenter* p, QWidget *parent)
+	: presenter(p), QDialog(parent)
 {
 	ui.setupUi(this);
 
@@ -30,36 +32,30 @@ ReportDialog::ReportDialog(std::optional<ReportDialogResult>& result, QWidget *p
 	for (int i = 0; i < 12; i++)
 		ui.monthCombo->addItem(monthNames[i]);
 
-	int currentMonth = Date::currentMonth();
-	int previousMonth = currentMonth == 1 ? 12 : currentMonth - 1;
-
-	int year = currentMonth == 1 ? Date::currentYear()-1 : Date::currentYear();
-
-	ui.monthCombo->setCurrentIndex(previousMonth - 1); // index 0 == january;
-	ui.yearSpin->setValue(year);
-	ui.pathLineEdit->setText(QCoreApplication::applicationDirPath());
-
-	connect(ui.okButton, &QPushButton::clicked, [&] {
+	connect(ui.generateButton, &QPushButton::clicked, [=] {
 			
-		ref_result.emplace(ReportDialogResult
-			{
-			ui.monthCombo->currentIndex() + 1,
-			ui.yearSpin->value(),
-			ui.pathLineEdit->text().toStdString()
+		presenter->generateReport(
+			ui.checkBox->isChecked()
+			);
+
+	});
+
+	connect(ui.monthCombo, &QComboBox::currentIndexChanged, [=](int idx) {
+		presenter->setDate(ui.monthCombo->currentIndex() + 1, ui.yearSpin->value());
 		});
 
-		this->accept();
-		
+	connect(ui.yearSpin, &QSpinBox::valueChanged, [=](int value) {
+		presenter->setDate(ui.monthCombo->currentIndex() + 1, ui.yearSpin->value());
 		});
 
-	connect(ui.browseButton, &QPushButton::clicked, [&] {
+	connect(ui.pisButton, &QPushButton::clicked, [=] { presenter->sendToPis(); });
+	connect(ui.xmlButton, &QPushButton::clicked, [=] { presenter->saveToXML(); });
 
-			ui.pathLineEdit->setText(
-				QFileDialog::getExistingDirectory(this, tr("Open Directory"),
-				"/home",
-				QFileDialog::ShowDirsOnly
-				| QFileDialog::DontResolveSymlinks));
-		});
+	presenter->setView(this);
+
+	ui.monthCombo->setCurrentIndex(Date::currentMonth() - 1); // index 0 == january;
+	ui.yearSpin->setValue(Date::currentYear());
+
 	
 }
 
@@ -73,4 +69,25 @@ void ReportDialog::paintEvent(QPaintEvent* event)
 
 ReportDialog::~ReportDialog()
 {
+}
+
+void ReportDialog::appendText(const std::string& text)
+{
+	ui.textEdit->append(text.data());
+}
+
+void ReportDialog::clearText()
+{
+	ui.textEdit->clear();
+}
+
+void ReportDialog::setPercent(int percent)
+{
+	ui.progressBar->setValue(percent);
+}
+
+void ReportDialog::enableReportButtons(bool enabled)
+{
+	ui.pisButton->setEnabled(enabled);
+	ui.xmlButton->setEnabled(enabled);
 }

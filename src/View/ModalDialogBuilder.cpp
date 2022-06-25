@@ -60,17 +60,17 @@ void ModalDialogBuilder::openDialog(LoginPresenter* p)
 
 #include <View/ReportDialog/ReportDialog.h>
 
-void ModalDialogBuilder::openDialog(std::optional<ReportDialogResult>& result)
-{
-	ReportDialog d(result);
-	d.exec();
-}
 
 #include "View/AddPracticeDialog/AddPracticeDialog.h"
 
 void ModalDialogBuilder::openDialog(AddPracticePresenter* p)
 {
 	AddPracticeDialog d(p);
+	d.exec();
+}
+void ModalDialogBuilder::openDialog(ReportDialogPresenter* p)
+{
+	ReportDialog d(p);
 	d.exec();
 }
 #include "View/DoctorSettingsDialog/DoctorSettingsDialog.h"
@@ -275,14 +275,17 @@ std::optional<std::string> ModalDialogBuilder::getFileNamePath(const std::string
 
 }
 
-#include <QDesktopServices>
-
+#include <QProcess>
 void ModalDialogBuilder::openExplorer(const std::string& path)
 {
-	QDesktopServices::openUrl(QUrl::fromLocalFile(QString::fromStdString(path)));
-}
+	#ifdef _WIN32    //Code for Windows
+		QProcess::startDetached("explorer.exe", { "/select,", QDir::toNativeSeparators(path.c_str()) });
+	#elif defined(__APPLE__)    //Code for Mac
+		QProcess::execute("/usr/bin/osascript", { "-e", "tell application \"Finder\" to reveal POSIX file \"" + path + "\"" });
+		QProcess::execute("/usr/bin/osascript", { "-e", "tell application \"Finder\" to activate" });
+	#endif
 
-#include <QDialogButtonBox>
+}
 
 MonthNotifLoad ModalDialogBuilder::monthNotifLoadDialog()
 {

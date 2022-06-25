@@ -402,9 +402,6 @@
     <ClCompile Include="src\Model\XML\xml.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Database\DbXML.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\View\ReportDialog\ReportDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -430,9 +427,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\ProcedureDisplayModel\ProcedureSelectModel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Model\AmbList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\ReportDialog\ReportErrorDialog\ReportErrorDialog.cpp">
@@ -628,6 +622,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\PinPromptDialog\PinPromptDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Presenter\ReportDialogPresenter\ReportDialogPresenter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Model\XML\AmbListXML.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1389,12 +1389,6 @@
     <ClInclude Include="src\Model\XML\xml.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Database\DbXML.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Model\XML\AmbListXML.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\View\ReportDialog\ReportDialogResult.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1558,6 +1552,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\GlobalSettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Presenter\ReportDialogPresenter\ReportDialogPresenter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\View\ReportDialog\IReportDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

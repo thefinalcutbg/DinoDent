@@ -13,7 +13,6 @@
 
 
 QNetworkAccessManager* s_manager {nullptr};
-void (*s_returnFn)(const std::string& reply){ nullptr };
 
 std::unordered_set<AbstractReplyHandler*> handlers;
 
@@ -30,12 +29,18 @@ void Network::sendRequestToPis(
         s_manager = new QNetworkAccessManager();
     }
 
+    qDebug() << "REQUEST: ";
+    qDebug() << soapRequest.c_str();
+
     handlers.insert(handler);
 
     QSslConfiguration config = QSslConfiguration::defaultConfiguration();
+    config = QSslConfiguration::defaultConfiguration();
     config.setProtocol(QSsl::SslProtocol::TlsV1_2);
     config.setLocalCertificate(QSslCertificate(token.pem_x509cert().data()));
     config.setPrivateKey(QSslKey(Qt::HANDLE(token.takePrivateKey()), QSsl::KeyType::PrivateKey));
+
+
     
     QUrl url("https://pis.nhif.bg/ws/PISService");
 
@@ -44,6 +49,7 @@ void Network::sendRequestToPis(
     request.setHeader(QNetworkRequest::KnownHeaders::ContentTypeHeader, "text/xml;charset=\"utf-8\"");
     request.setRawHeader("SOAPAction", "\"http://pis.technologica.com/view\"");
     request.setRawHeader("accept", "\"application/xml\"");
+    request.setRawHeader("Connection", "Keep-Alive");
 
 
     auto reply = s_manager->post(request, soapRequest.data());
@@ -52,17 +58,27 @@ void Network::sendRequestToPis(
 
     QObject::connect(reply, &QNetworkReply::finished, [=]{
             
-        QApplication::restoreOverrideCursor();
+            QApplication::restoreOverrideCursor();
 
-        if (handlers.count(handler) == 0) return;
+            if (handlers.count(handler) == 0) return;
 
-        std::string replyString = reply->readAll().toStdString();
+            std::string replyString = reply->readAll().toStdString();
 
-        handler->getReply(replyString);
+            qDebug() << reply->rawHeaderPairs();
 
+            qDebug() << "REPLY: ";
+            qDebug() << replyString.c_str();
 
-        Network::unsubscribeHandler(handler);
-        s_manager->clearAccessCache();
+            //the html error reply from the server begins with <!DOCTYPE ...
+            if (replyString[1] == '!') {
+                replyString.clear();
+            }
+
+            handler->getReply(replyString);
+
+            Network::unsubscribeHandler(handler);
+
+           // s_manager->clearAccessCache();
 
         });
 
@@ -74,6 +90,7 @@ void Network::sendRequestToPis(
         handler->getReply("");
         Network::unsubscribeHandler(handler);
         s_manager->clearAccessCache();
+
 
     });
 

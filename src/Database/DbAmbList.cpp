@@ -79,6 +79,7 @@ AmbList DbAmbList::getNewAmbSheet(long long patientRowId)
 
     while(db.hasRows())
     {
+        ambList.patient_rowid = patientRowId;
         ambList.rowid = db.asRowId(0);
         ambList.number = db.asInt(1);
         ambList.full_coverage = db.asInt(2);
@@ -131,7 +132,7 @@ AmbList DbAmbList::getListData(long long rowId)
     AmbList ambList;
 
     Db db(
-        "SELECT rowid, num, fullCoverage, status_json, charge FROM amblist WHERE "
+        "SELECT rowid, num, fullCoverage, status_json, charge, patient_rowid FROM amblist WHERE "
         "rowid = " + std::to_string(rowId)
     );
 
@@ -143,6 +144,7 @@ AmbList DbAmbList::getListData(long long rowId)
         status_json = db.asString(3);
         ambList.charge = static_cast<Charge>(db.asInt(4));
         ambList.LPK = UserManager::currentUser().doctor.LPK;
+        ambList.patient_rowid = db.asRowId(5);
     }
 
     Parser::parse(status_json, ambList.teeth);
@@ -187,6 +189,56 @@ std::unordered_set<int> DbAmbList::getExistingNumbers(int currentYear)
     for (Db db(query);db.hasRows();) existingNumbers.emplace(db.asInt(0));
 
     return existingNumbers;
+}
+
+std::vector<long long> DbAmbList::getRowIdNhif(int month, int year)
+{
+
+    std::string query = 
+        "SELECT amblist.rowid FROM amblist "
+        "JOIN procedure ON amblist.rowid = procedure.amblist_rowid "
+        "GROUP BY amblist.rowid "
+        "HAVING "
+        "lpk = '" + UserManager::currentUser().doctor.LPK + "' "
+        "AND rzi = '" + UserManager::currentUser().practice.rziCode + "' "
+        "AND sum(procedure.nzok) > 0 "
+        "AND month = " + std::to_string(month) + " "
+        "AND year = " + std::to_string(year) + " "
+        "ORDER BY amblist.num ASC";
+
+    std::vector<long long> result;
+
+    for(Db db(query);db.hasRows();) result.push_back(db.asRowId(0));
+
+    return result;
+}
+
+AmbList DbAmbList::getListNhifProceduresOnly(long long rowId)
+{
+
+    std::string status_json;
+    AmbList ambList;
+
+    Db db(
+        "SELECT rowid, num, fullCoverage, status_json, charge, patient_rowid FROM amblist WHERE "
+        "rowid = " + std::to_string(rowId)
+    );
+
+    while (db.hasRows())
+    {
+        ambList.rowid = db.asRowId(0);
+        ambList.number = db.asInt(1);
+        ambList.full_coverage = db.asInt(2);
+        status_json = db.asString(3);
+        ambList.charge = static_cast<Charge>(db.asInt(4));
+        ambList.LPK = UserManager::currentUser().doctor.LPK;
+        ambList.patient_rowid = db.asRowId(5);
+    }
+
+    Parser::parse(status_json, ambList.teeth);
+    ambList.procedures = DbProcedure::getProcedures(ambList.rowid, &db, true);
+
+    return ambList;
 }
 
 int DbAmbList::getNewNumber(Date ambDate, bool nzok)

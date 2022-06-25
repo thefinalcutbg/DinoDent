@@ -8,6 +8,7 @@
 #include "Model/User/UserManager.h"
 #include "Model/XML/xml.h"
 #include "Presenter/AddPracticePresenter/AddPracticePresenter.h"
+#include "Presenter/ReportDialogPresenter/ReportDialogPresenter.h"
 #include "Database/DbPractice.h"
 #include "View/Printer/Printer.h"
 
@@ -101,28 +102,10 @@ void MainPresenter::generateReport()
         return;
     }
 
-    std::optional<ReportDialogResult> dialogResult;
+    ReportDialogPresenter p;
 
-    ModalDialogBuilder::openDialog(dialogResult);
-
-    if (dialogResult.has_value()) {
-
-        auto reportResult = XML::saveXMLreport(dialogResult.value().month, dialogResult.value().year, dialogResult.value().path);
-        
-        if(reportResult.success)
-        {
-            ModalDialogBuilder::showMessage(reportResult.message);
-            ModalDialogBuilder::openExplorer(dialogResult->path);
-        }
-        else {
-            ModalDialogBuilder::showErrorList(reportResult.message);
-        } 
-           
-    }
-        
-
-   
-
+    ModalDialogBuilder::openDialog(&p);
+       
 }
 
 void MainPresenter::generateInvoice()

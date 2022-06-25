@@ -8,6 +8,8 @@
 #include "Model/User/UserManager.h"
 #include "Model/Procedure/MasterNZOK.h"
 #include "Model/FreeFunctions.h"
+#include "Model/CityCode.h"
+#include "Model/Tooth/ToothUtils.h"
 /*
 
 #include <QProcess>
@@ -24,91 +26,60 @@ void showFileInFolder(const QString& path) {
 
 */ 
 
-int getMinutes(const std::vector<AmbListXML>& report) {
-
-    int sumMinutes = 0;
-
-    for (auto& r : report) for (auto& s : r.services) {
-        sumMinutes += MasterNZOK::instance().getDuration(s.activityCode);
-    }
-
-    return sumMinutes;
-
-}
-
-std::string getErrors(const std::vector<AmbListXML>& report)
+std::string getSpec(bool fullCoverage)
 {
-    std::string errors;
-
-    std::unordered_set<int> uniqueSheetNumbers;
-
-    for (int i = 0; i < report.size(); i++)
+    constexpr const char* specType[4]
     {
-        if (report[i].HIRBNo.empty())
-        {
-            errors +=
-                u8"Амбулаторен лист "
-                + std::to_string(report[i].ambulatorySheetNo) +
-                u8" няма данни за номер на здравноосигурителна книжка" + "\n";
+        "PRIMARY NORM", //код специалнсот 60 или 64 и цената се покрива частично/изцяло от НЗОК
+        "PRIMARY SPEC", //код специалнсот 60 или 64 и цената се покрива ИЗЦЯЛО от НЗОК
+        "SPEC NORM",    //код специалнсот 61, 62 или 68 и цената се покрива частично/изцяло от НЗОК
+        "SPEC DOMOVE"   //код специалнсот 61, 62 или 68 и цената се покрива ИЗЦЯЛО от НЗОК
+        //"SPEC_PS      //за обща анестезия (такъв няма feature все още)
+    };
+
+    auto& specialty = UserManager::currentUser().doctor.specialty;
+
+    //specialty check:
+    {
+        constexpr int specialtyCheck[5]{ 60, 61, 62, 64, 68 };
+
+        for (auto spec : specialtyCheck) {
+            if (specialty == spec) {
+                goto specTypeValid;
+            }
         }
 
-        if (uniqueSheetNumbers.count(report[i].ambulatorySheetNo))
-        {
-            errors +=
-                u8"Дублирана номерация на амбулаторен лист "
-                + std::to_string(report[i].ambulatorySheetNo) + "\n";
-
-            uniqueSheetNumbers.insert(report[i].ambulatorySheetNo);
-
-            continue;
-        }
-
-        uniqueSheetNumbers.insert(report[i].ambulatorySheetNo);
-
-        if (i && report[i].services[0].date < report[i - 1].services[0].date) {
-
-            errors +=
-                u8"Несъответствие на датата на първите манипулации и поредните номера между амбулаторни листи "
-                + std::to_string(report[i - 1].ambulatorySheetNo) +
-                u8" и " + std::to_string(report[i].ambulatorySheetNo) + "\n";
-        }
-
-        if (i && report[i].ambulatorySheetNo != report[i - 1].ambulatorySheetNo + 1) {
-
-            errors += u8"Нарушена поредност на номерата. Липсваща номерация между амбулаторни листи "
-                    + std::to_string(report[i - 1].ambulatorySheetNo) +
-                    u8" и " + std::to_string(report[i].ambulatorySheetNo) + "\n";
-        }
-
+        throw std::exception(u8"Невалиден код специалност на доктора");
     }
 
-   
+specTypeValid:
 
-    auto& date = report[0].services[0].date;
+    bool primaryDentalAid = specialty == 60 || specialty == 64;
 
-    int reportMinutes = getMinutes(report);
-    int maxMinutesAllowed = Date::getWorkdaysOfMonth(date.month, date.year)*360;
-    
-    qDebug() << "report minutes: " << reportMinutes << " maxAllowed: " << maxMinutesAllowed;
+    if (!fullCoverage && primaryDentalAid)
+        return specType[0];
 
-    if (reportMinutes > maxMinutesAllowed) {
-        errors += u8"Надвишени лимит минути по НЗОК (" + std::to_string(reportMinutes)
-            + " от максимално позволени " + std::to_string(maxMinutesAllowed) + ")\n";
-    }
+    if (fullCoverage && primaryDentalAid)
+        return specType[1];
 
-    return errors;
+    if (!fullCoverage && !primaryDentalAid)
+        return specType[2];
+
+    if (fullCoverage && primaryDentalAid)
+        return specType[3];
+
+    throw std::exception(u8"НЕВАЛИДНА СПЕЦИФИКАЦИЯ");
 }
 
 
-ReportResult XML::saveXMLreport(int month, int year, const std::string& path)
+std::string XML::getReport(const std::vector<AmbList>& lists, const std::unordered_map<long long, Patient>& patients)
 {
-    
 
     auto& doctor = UserManager::currentUser().doctor;
     auto& practice = UserManager::currentUser().practice;
 
     TiXmlDocument doc("StomReport");
-    
+
     TiXmlDeclaration* decl = new TiXmlDeclaration{ "1.0", "UTF-8" ,"" };
     doc.LinkEndChild(decl);
 
@@ -130,173 +101,157 @@ ReportResult XML::saveXMLreport(int month, int year, const std::string& path)
     //getting the first two characters of user.rziCode:
     report->SetAttribute("RHIF", practice.rziCode.substr(0, 2));
 
-    Date from{ 1, month, year };
+    Date from{ 1, lists[0].getDate().month, lists[0].getDate().year };
     Date to = from.getMaxDateOfMonth();
 
     report->SetAttribute("startFrom", from.toXMLString());
     report->SetAttribute("endTo", to.toXMLString());
     report->SetAttribute("dentalServiceType", doctor.dentalServiceType());
-    
+
 
     TiXmlElement* dentalCareServices = new TiXmlElement("dentalCareServices");
-    
+
 
     //this is where we serialize the ambLists:
 
-  
-    auto ambSheets = DbXML::getAmbListXML(month, year, practice.rziCode, doctor.LPK);
 
-    auto errors = getErrors(ambSheets);
-
-    if (!errors.empty())
+    for (auto& list : lists)
     {
-        return ReportResult{ false, errors };
-    }
-
-
-    for (auto& sheet : ambSheets)
-    {
-        TiXmlElement* dentalCareService = new TiXmlElement("dentalCareService");
         
-            dentalCareService->SetAttribute("personType", sheet.personType);
-            dentalCareService->SetAttribute("personIdentifier", sheet.personIdentifier);
-            dentalCareService->SetAttribute("RHIFCode", sheet.RHIF);
-            dentalCareService->SetAttribute("healthRegionCode", sheet.HealthRegion);
+        auto& patient = patients.at(list.patient_rowid);
 
-            if (sheet.personType != 1){
-                dentalCareService->SetAttribute("birthDate", sheet.birthDate.toXMLString());
-            }
-            
-            dentalCareService->SetAttribute("personFirstName", sheet.personFirstName);
+        TiXmlElement* dentalCareService = new TiXmlElement("dentalCareService");
 
-            if(!sheet.personMiddleName.empty())
-                 dentalCareService->SetAttribute("personMiddleName", sheet.personMiddleName);
+        dentalCareService->SetAttribute("personType", patient.type);
+        dentalCareService->SetAttribute("personIdentifier", patient.id);
 
-            dentalCareService->SetAttribute("personLastName", sheet.personLastName);
-            dentalCareService->SetAttribute("specificationType", sheet.specificationType);
-            dentalCareService->SetAttribute("ambulatorySheetNo", leadZeroes(sheet.ambulatorySheetNo, 6));
-            dentalCareService->SetAttribute("HIRBNo", sheet.HIRBNo); //throw if HIRBNo empty?
-            dentalCareService->SetAttribute("unfavorableCondition", 0);
-            dentalCareService->SetAttribute("substitute", sheet.substitute);
-            dentalCareService->SetAttribute("Sign", sheet.sign);
-           
+        auto [rhif, healthRegion] = CityCode::getCodes(patient.city);
+
+        dentalCareService->SetAttribute("RHIFCode", rhif);
+        dentalCareService->SetAttribute("healthRegionCode", healthRegion);
+
+        if (patient.type != 1) {
+            dentalCareService->SetAttribute("birthDate", patient.birth.toXMLString());
+        }
+
+        dentalCareService->SetAttribute("personFirstName", patient.FirstName);
+
+        if (!patient.MiddleName.empty())
+            dentalCareService->SetAttribute("personMiddleName", patient.MiddleName);
+
+        dentalCareService->SetAttribute("personLastName", patient.LastName);
+        dentalCareService->SetAttribute("specificationType", getSpec(list.full_coverage));
+        dentalCareService->SetAttribute("ambulatorySheetNo", leadZeroes(list.number, 6));
+        dentalCareService->SetAttribute("HIRBNo", patient.HIRBNo); //throw if HIRBNo empty?
+        dentalCareService->SetAttribute("unfavorableCondition", 0);
+        dentalCareService->SetAttribute("substitute", 0);
+        dentalCareService->SetAttribute("Sign", 1);
+
+
+        auto getAllergiesAndStuff = [](const std::string& str) {
+            if (!str.size())
+                return std::string(u8"Не съобщава");
+            return str;
+        };
+
+        {
+            TiXmlElement* allergies = new TiXmlElement("allergies");
+            TiXmlElement* allergy = new TiXmlElement("allergy");
+            allergy->SetAttribute("allergyName", getAllergiesAndStuff(patient.allergies));
+            allergies->LinkEndChild(allergy);
+
+            dentalCareService->LinkEndChild(allergies);
+        }
+
+        {
+            TiXmlElement* pastDiseases = new TiXmlElement("pastDiseases");
+
+            TiXmlElement* pastDisease = new TiXmlElement("pastDisease");
+            pastDisease->SetAttribute("name", getAllergiesAndStuff(patient.pastDiseases));
+            pastDiseases->LinkEndChild(pastDisease);
+
+            dentalCareService->LinkEndChild(pastDiseases);
+        }
+
+        {
+            TiXmlElement* currentDiseases = new TiXmlElement("currentDiseases");
+
+            TiXmlElement* currentDisease = new TiXmlElement("currentDisease");
+            currentDisease->SetAttribute("name", getAllergiesAndStuff(patient.currentDiseases));
+            currentDiseases->LinkEndChild(currentDisease);
+
+            dentalCareService->LinkEndChild(currentDiseases);
+        }
+
+        TiXmlElement* teeth = new TiXmlElement("teeth");
+
+        //parsing status
+
+        for (auto& t : list.teeth)
+        {
+            auto status = t.getSimpleStatuses();
+            if (status.empty()) continue;
+
+            TiXmlElement* tooth = new TiXmlElement("tooth");
+            tooth->SetAttribute("toothCode", ToothUtils::getNomenclature(t));
+
+            TiXmlElement* toothStatuses = new TiXmlElement("toothStatuses");
+
+            for (auto& s : status)
             {
-                TiXmlElement* allergies = new TiXmlElement("allergies");
-                        TiXmlElement* allergy = new TiXmlElement("allergy");
-                            allergy->SetAttribute("allergyName", sheet.allergies);
-                         allergies->LinkEndChild(allergy);
-          
-                 dentalCareService->LinkEndChild(allergies);
+                TiXmlElement* toothStatus = new TiXmlElement("toothStatus");
+                toothStatus->SetAttribute("toothStatusCode", s);
+                toothStatuses->LinkEndChild(toothStatus);
             }
 
-            {
-                TiXmlElement* pastDiseases = new TiXmlElement("pastDiseases");
-  
-                        TiXmlElement* pastDisease = new TiXmlElement("pastDisease");
-                            pastDisease->SetAttribute("name", sheet.pastDiseases);
-                        pastDiseases->LinkEndChild(pastDisease);
+            tooth->LinkEndChild(toothStatuses);
 
-                dentalCareService->LinkEndChild(pastDiseases);
-            }
+            teeth->LinkEndChild(tooth);
+        }
 
-            {
-                TiXmlElement* currentDiseases = new TiXmlElement("currentDiseases");
-            
-                        TiXmlElement* currentDisease = new TiXmlElement("currentDisease");
-                             currentDisease->SetAttribute("name", sheet.currentDiseases);
-                        currentDiseases->LinkEndChild(currentDisease);
+        //parsing procedures
 
-                dentalCareService->LinkEndChild(currentDiseases);
-            }
+        dentalCareService->LinkEndChild(teeth);
 
-            TiXmlElement* teeth = new TiXmlElement("teeth");
+        TiXmlElement* services = new TiXmlElement("services");
 
-                for (auto& toothSimple : sheet.teeth)
-                {
-                    TiXmlElement* tooth = new TiXmlElement("tooth");
-                    tooth->SetAttribute("toothCode", toothSimple.toothCode);
+        for (auto& procedure : list.procedures)
+        {
+            TiXmlElement* service = new TiXmlElement("service");
 
-                        TiXmlElement* toothStatuses = new TiXmlElement("toothStatuses");
+            service->SetAttribute("date", procedure.date.toXMLString());
+            service->SetAttribute("diagnosis", procedure.diagnosis);
+            service->SetAttribute("toothCode", ToothUtils::getToothNumber(procedure.tooth, procedure.temp));
+            service->SetAttribute("activityCode", procedure.code);
 
-                            for (auto& status : toothSimple.toothStatus)
-                            {
-                                TiXmlElement* toothStatus = new TiXmlElement("toothStatus");
-                                    toothStatus->SetAttribute("toothStatusCode", status);
-                                 toothStatuses->LinkEndChild(toothStatus);
-                            }
+            services->LinkEndChild(service);
 
-                            tooth->LinkEndChild(toothStatuses);
+        }
 
-                    teeth->LinkEndChild(tooth);
-                }
+        dentalCareService->LinkEndChild(services);
 
-            dentalCareService->LinkEndChild(teeth);
-
-            TiXmlElement* services = new TiXmlElement("services");
-
-                for(auto& procedure : sheet.services)
-                {
-                    TiXmlElement* service = new TiXmlElement("service");
-                    
-                        service->SetAttribute("date", procedure.date.toXMLString());
-                        service->SetAttribute("diagnosis", procedure.diagnosis);
-                        service->SetAttribute("toothCode", procedure.toothCode);
-                        service->SetAttribute("activityCode", procedure.activityCode);
-
-                    services->LinkEndChild(service);
-
-                }
-
-            dentalCareService->LinkEndChild(services);
-
-            //no such features yet
-            dentalCareService->LinkEndChild(new TiXmlElement("medicalReferrals"));
-            dentalCareService->LinkEndChild(new TiXmlElement("MDAReferrals"));
-            dentalCareService->LinkEndChild(new TiXmlElement("prescSpecialists"));
+        //no such features yet
+        dentalCareService->LinkEndChild(new TiXmlElement("medicalReferrals"));
+        dentalCareService->LinkEndChild(new TiXmlElement("MDAReferrals"));
+        dentalCareService->LinkEndChild(new TiXmlElement("prescSpecialists"));
 
         dentalCareServices->LinkEndChild(dentalCareService);
     }
-    
+
     report->LinkEndChild(dentalCareServices);
 
     doc.LinkEndChild(report);
 
+    TiXmlPrinter printer;
+    printer.SetStreamPrinting();
 
+    doc.Accept(&printer);
 
-    doc.SaveFile(path + "/STOM_" 
-                + practice.rziCode + "_"
-                + doctor.LPK + "_"
-                + std::to_string(doctor.specialty) + "_"
-                + from.toXMLReportFileName()
-                +"_01.xml");
+    return printer.Str();
 
-
-    double expectedPrice{0}; //calculating the expected price
-
-    for(auto& list : ambSheets){
-        for (auto& service : list.services) {
-
-            expectedPrice += MasterNZOK::instance().getNZOKPrice
-            (
-                service.activityCode,
-                service.date,
-                UserManager::currentUser().doctor.specialty,
-                list.birthDate.getAge(service.date) > 17,
-                false
-            );
-
-
-        }
-    }
-
-    return ReportResult{true,  
-                        u8"Отчетът е генериран успешно!\n"
-                        u8"Mинути дейност: " + std::to_string(getMinutes(ambSheets)) + "\n"
-                        u8"Максимално позволени: " + std::to_string(Date::getWorkdaysOfMonth(month, year)*360) + "\n"
-                        u8"Очаквана сума : " + formatDouble(expectedPrice) + u8" лв."};
 }
 
-TiXmlDocument invoiceToDoc(const Invoice& invoice)
+std::string XML::getInvoice(const Invoice& invoice)
 {
     TiXmlDocument doc("Invoice");
 
@@ -420,22 +375,10 @@ TiXmlDocument invoiceToDoc(const Invoice& invoice)
 
     doc.LinkEndChild(el_invoice);
 
-    return doc;
-}
-
-
-
-void XML::saveXMLinvoice(const Invoice& invoice, const std::string& path)
-{
-    invoiceToDoc(invoice).SaveFile(path);
-}
-
-std::string XML::invoiceToString(const Invoice& invoice)
-{
     TiXmlPrinter printer;
     printer.SetStreamPrinting();
 
-    invoiceToDoc(invoice).Accept(&printer);
+    doc.Accept(&printer);
 
     return printer.Str();
 }

@@ -5,7 +5,7 @@
 #include "Procedure/MasterNZOK.h"
 #include "Tooth/ToothUtils.h"
 #include "Model/Procedure/PackageCounter.h"
-#include "View/ModalDialogBuilder.h"
+
 
 struct pair_hash
 {
@@ -100,7 +100,7 @@ bool AmbListValidator::isValidAccordingToDb()
     std::vector<ProcedureSummary> summary;
 
     //if nhif history is present
-    if (patient.PISHistory) {
+    if (patient.PISHistory && !patient.PISHistory->empty()) {
 
         auto nhifHistory = getSummaryFromPisHistory(patient.PISHistory.value(), ambList.getDate());
 
@@ -117,11 +117,6 @@ bool AmbListValidator::isValidAccordingToDb()
     }
     else
     {
-        ModalDialogBuilder::showMessage(
-            u8"Не са заредени данни от ПИС. "
-            u8"Листът ще бъде валидиран само "
-            u8"спрямо съществуващите записи в локалната база данни");
-
         summary = DbProcedure::getNhifSummary(
             patient.rowid,
             ambList.rowid,

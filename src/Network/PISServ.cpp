@@ -192,8 +192,6 @@ Since both xmlSec and qt network manager adopt the private key and release it on
 we have to create two PKCS11 instances - one for the signing and one for the SSL connection
 */
 
-	qDebug() << soapToSign(soapBody).data();
-
 	PKCS11 signer;
 
 	if (!signer.hsmLoaded())

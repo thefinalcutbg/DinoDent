@@ -22,6 +22,7 @@ class DoctorDialogPresenter;
 class InvoicePresenter;
 class AddPracticePresenter;
 class MonthNotifPresenter;
+class ReportDialogPresenter;
 enum class DialogAnswer { Yes, No, Cancel };
 
 namespace ModalDialogBuilder
@@ -33,8 +34,8 @@ namespace ModalDialogBuilder
 	void openDialog(ListSelectorPresenter* p);
 	void openDialog(DetailedStatusPresenter* p);
 	void openDialog(LoginPresenter* p);
-	void openDialog(std::optional<ReportDialogResult>& result);
 	void openDialog(AddPracticePresenter* p);
+	void openDialog(ReportDialogPresenter* p);
 	void openDialog(DoctorDialogPresenter* p);
 	int monthNotifPicker(const std::vector<MonthNotifRow>& rows);
 	//returns 0 if canceled

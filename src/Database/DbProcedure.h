@@ -11,9 +11,8 @@ class Db;
 namespace DbProcedure
 {
 
-    std::vector<Procedure> getProcedures(long long amblist_rowid, Db* existingConnection = nullptr);
+    std::vector<Procedure> getProcedures(long long amblist_rowid, Db* existingConnection = nullptr, bool nhifOnly = false);
     void saveProcedures(long long amblist_rowid, const std::vector<Procedure>& mList, Db* existingConnection = nullptr);
-
     std::vector<ProcedureSummary> getNhifSummary(
         long long patientRowId,
         long long excludeAmbRowId, 

@@ -54,6 +54,7 @@ public:
 	void removeStatus(StatusType type);
 
 	std::string getSimpleStatus() const;
+	std::vector<std::string> getSimpleStatuses() const;
 
 
 };

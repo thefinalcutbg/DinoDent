@@ -133,6 +133,16 @@ int CityCode::getDbCityIdx(const std::string& cityString)
     return cityStringToCodes[cityString].dbIdx;
 }
 
+RHIF CityCode::getRhif(const std::string& cityString)
+{
+    return getCodes(cityString).first;
+}
+
+HealthRegion CityCode::getHealthRegion(const std::string& cityString)
+{
+    return getCodes(cityString).second;
+}
+
 const std::vector<const CityString*>& CityCode::getCitieStrings()
 {
     return dbCodeToCityString;

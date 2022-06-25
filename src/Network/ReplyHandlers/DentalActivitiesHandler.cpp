@@ -1,23 +1,22 @@
 ﻿#include "DentalActivitiesHandler.h"
+/*
 #include "TinyXML/tinyxml.h"
 #include <vector>
 #include "Model/Tooth/ToothUtils.h"
-#include "Presenter/ListPresenter/ListPresenter.h"
+#include "View/ModalDialogBuilder.h"
 #include "Model/Procedure/MasterNZOK.h"
-DentalActivitiesHandler::DentalActivitiesHandler(ListPresenter* p) :
-	p_presenter(p)
-{
-}
 
 
-void DentalActivitiesHandler::getReply(const std::string& reply)
+
+template<typename T>
+void DentalActivitiesHandler<T>::getReply(const std::string& reply)
 {
 
-	if (p_presenter == nullptr) return;
+	if (reciever == nullptr) return;
 
 	if (reply.empty()) {
 		ModalDialogBuilder::showError(u8"Неуспешна връзка със сървъра");
-		p_presenter->setPISActivities({});
+		reciever->setPISActivities({});
 		return;
 	}
 
@@ -56,6 +55,7 @@ void DentalActivitiesHandler::getReply(const std::string& reply)
 
 	}
 
-	p_presenter->setPISActivities(result);
+	reciever->setPISActivities(result);
 
 }
+*/

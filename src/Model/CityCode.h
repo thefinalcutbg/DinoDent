@@ -13,6 +13,8 @@ namespace CityCode
 	bool validCityString(const std::string& cityString);
 	const std::string& cityFromIndex(int idx);
 	int getDbCityIdx(const std::string& cityString);
+	RHIF getRhif(const std::string& cityString);
+	HealthRegion getHealthRegion(const std::string& cityString);
 
 	const std::vector<const CityString*>& getCitieStrings();
 	

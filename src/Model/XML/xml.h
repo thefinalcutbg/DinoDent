@@ -2,19 +2,23 @@
 #include <string>
 #include <variant>
 #include "Model/Date.h"
+#include <unordered_map>
 struct Invoice;
 
+#include "Model/AmbList.h"
+#include "Model/Patient.h"
 
 struct ReportResult
 {
-	bool success{ false };
+	std::optional<std::string> report;
 	std::string message;
 };
 
 namespace XML
 {
-	ReportResult saveXMLreport(int month, int year, const std::string& path);
-	void saveXMLinvoice(const Invoice& invoice, const std::string& path);
-	std::string invoiceToString(const Invoice& invoice);
+	//ReportResult getXMLReport(int month, int year);
+	std::string getReport(const std::vector<AmbList>& lists, const std::unordered_map<long long, Patient>& patients);
+	std::string getInvoice(const Invoice& invoice);
+
 	
 };

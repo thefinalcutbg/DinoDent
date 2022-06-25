@@ -214,6 +214,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Model\XML\AmbListXML.cpp" />
+    <ClCompile Include="src\Presenter\ReportDialogPresenter\ReportDialogPresenter.cpp" />
     <ClCompile Include="src\View\PinPromptDialog\PinPromptDialog.cpp" />
     <ClCompile Include="src\Network\ReplyHandlers\MonthNotifDataHandler.cpp" />
     <ClCompile Include="src\Presenter\MonthNotifLoader.cpp" />
@@ -275,7 +277,6 @@
     <ClCompile Include="src\View\SettingsDialog\PracticeSettings\PracticeSettings.cpp" />
     <ClCompile Include="src\View\SettingsDialog\SettingsDialog.cpp" />
     <ClCompile Include="src\View\ReportDialog\ReportErrorDialog\ReportErrorDialog.cpp" />
-    <ClCompile Include="src\Model\AmbList.cpp" />
     <ClCompile Include="src\View\Printer\ProcedurePrintSelectDialog.cpp" />
     <ClCompile Include="src\Model\Validator\LpkValidator.cpp" />
     <ClCompile Include="src\Model\Financial\Invoice.cpp" />
@@ -285,7 +286,6 @@
     <ClCompile Include="src\View\ProcedureDisplayModel\ProcedureSelectModel.cpp" />
     <ClCompile Include="src\View\uiComponents\qt_derived\IconButton.cpp" />
     <ClCompile Include="src\View\ReportDialog\ReportDialog.cpp" />
-    <ClCompile Include="src\Database\DbXML.cpp" />
     <ClCompile Include="src\Model\XML\xml.cpp" />
     <ClCompile Include="src\View\LoginView\PracticeListDialog.cpp" />
     <ClCompile Include="src\Database\DbPatientSummary.cpp" />
@@ -533,6 +533,7 @@
     <QtMoc Include="src\View\PISHistoryDialog\PISHistoryDialog.h" />
     <QtMoc Include="src\View\MonthNotifDialog\MonthNotifDialog.h" />
     <QtMoc Include="src\View\PinPromptDialog\PinPromptDialog.h" />
+    <ClInclude Include="src\Presenter\ReportDialogPresenter\ReportDialogPresenter.h" />
     <ClInclude Include="src\GlobalSettings.h" />
     <ClInclude Include="src\Network\ReplyHandlers\MonthNotifDataHandler.h" />
     <ClInclude Include="src\Presenter\MonthNotifLoader.h" />
@@ -571,7 +572,6 @@
     <ClInclude Include="src\Model\Financial\Invoice.h" />
     <ClInclude Include="src\Model\Validator\LpkValidator.h" />
     <ClInclude Include="src\Presenter\DoctorDialogPresenter\DoctorDialogPresenter.h" />
-    <ClInclude Include="src\Database\DbXML.h" />
     <ClInclude Include="src\Database\DbPatientSummary.h" />
     <ClInclude Include="src\Database\DbListOpener.h" />
     <ClInclude Include="src\Libraries\JsonCpp\json-forwards.h" />
@@ -580,7 +580,6 @@
     <ClInclude Include="src\Libraries\sqLite\sqlite3ext.h" />
     <ClInclude Include="src\Libraries\TinyXML\tinystr.h" />
     <ClInclude Include="src\Libraries\TinyXML\tinyxml.h" />
-    <ClInclude Include="src\Model\XML\AmbListXML.h" />
     <ClInclude Include="src\Model\TimeFrame.h" />
     <ClInclude Include="src\Model\XML\xml.h" />
     <ClInclude Include="src\Presenter\PatientSummaryPresenter\PatientSummaryPresenter.h" />
@@ -602,6 +601,7 @@
     <ClInclude Include="src\View\ListView\SurfacePanel\ISurfacePanel.h" />
     <QtMoc Include="src\View\ListView\SurfacePanel\SurfacePanel.h" />
     <QtMoc Include="src\View\MonthNotifDialog\MonthNotifTableModel.h" />
+    <ClInclude Include="src\View\ReportDialog\IReportDialog.h" />
     <ClInclude Include="src\View\Theme.h" />
     <ClInclude Include="src\View\DoctorSettingsDialog\IDoctorSettingsDialog.h" />
     <ClInclude Include="src\View\AddPracticeDialog\IAddPracticeDialog.h" />

@@ -3,18 +3,29 @@
 #include <QDialog>
 #include "ui_ReportDialog.h"
 #include "ReportDialogResult.h"
+#include "IReportDialog.h"
 
-class ReportDialog : public QDialog
+class ReportDialogPresenter;
+
+class ReportDialog : public QDialog, public IReportDialog
 {
 	Q_OBJECT
 
-	std::optional<ReportDialogResult>& ref_result;
+	ReportDialogPresenter* presenter;
+
 	void paintEvent(QPaintEvent* event) override;
 
 public:
-	ReportDialog(std::optional<ReportDialogResult>& result, QWidget *parent = Q_NULLPTR);
+	ReportDialog(ReportDialogPresenter* p, QWidget *parent = Q_NULLPTR);
+
 	~ReportDialog();
 
 private:
 	Ui::ReportDialog ui;
+
+	// Inherited via IReportDialog
+	virtual void appendText(const std::string& text) override;
+	virtual void clearText() override;
+	virtual void setPercent(int percent) override;
+	virtual void enableReportButtons(bool enabled) override;
 };

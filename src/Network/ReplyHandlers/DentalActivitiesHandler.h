@@ -22,11 +22,10 @@ public:
 	DentalActivitiesHandler(T* reciever) : reciever(reciever) {};
 
 	void getReply(const std::string& reply) override {
-	
+
 		if (reciever == nullptr) return;
 
 		if (reply.empty()) {
-			ModalDialogBuilder::showError(u8"Неуспешна връзка със сървъра");
 			reciever->setPISActivities({});
 			return;
 		}

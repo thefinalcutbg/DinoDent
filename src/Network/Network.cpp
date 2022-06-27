@@ -20,66 +20,73 @@ std::unordered_set<AbstractReplyHandler*> handlers;
 void Network::sendRequestToPis(
                                 const std::string& soapRequest,
                                 PKCS11& token,
-                                AbstractReplyHandler* handler
+                                AbstractReplyHandler* handler,
+                                int timeout
                               )
 {
 
 
     if (!s_manager) {
         s_manager = new QNetworkAccessManager();
+       // s_manager->setAutoDeleteReplies(true); //produces crashes sometimes lol
+        QObject::connect(s_manager, &QNetworkAccessManager::sslErrors, [=] {
+                 qDebug() << "ERRORRRR";
+            });
     }
 
-    qDebug() << "REQUEST: ";
-    qDebug() << soapRequest.c_str();
-
+    qDebug() << "inserting handler";
     handlers.insert(handler);
+    qDebug() << "HANDLERS SIZE: " << handlers.size();
 
     QSslConfiguration config = QSslConfiguration::defaultConfiguration();
-    config = QSslConfiguration::defaultConfiguration();
+    //config = QSslConfiguration::defaultConfiguration();
     config.setProtocol(QSsl::SslProtocol::TlsV1_2);
     config.setLocalCertificate(QSslCertificate(token.pem_x509cert().data()));
     config.setPrivateKey(QSslKey(Qt::HANDLE(token.takePrivateKey()), QSsl::KeyType::PrivateKey));
 
-
-    
-    QUrl url("https://pis.nhif.bg/ws/PISService");
-
-    QNetworkRequest request(url);
+    QNetworkRequest request(QUrl("https://pis.nhif.bg/ws/PISService"));
     request.setSslConfiguration(config);
     request.setHeader(QNetworkRequest::KnownHeaders::ContentTypeHeader, "text/xml;charset=\"utf-8\"");
     request.setRawHeader("SOAPAction", "\"http://pis.technologica.com/view\"");
     request.setRawHeader("accept", "\"application/xml\"");
-    request.setRawHeader("Connection", "Keep-Alive");
+    request.setTransferTimeout(timeout);
+
 
 
     auto reply = s_manager->post(request, soapRequest.data());
 
     QApplication::setOverrideCursor(Qt::BusyCursor);
 
-    QObject::connect(reply, &QNetworkReply::finished, [=]{
+    QObject::connect(reply, &QNetworkReply::errorOccurred,
+        [=](QNetworkReply::NetworkError code)
+        {
+            qDebug() << "ReplyError: " << code;
+        }
+    );
+
+    QObject::connect(reply, &QNetworkReply::finished, 
+        [=] {
             
             QApplication::restoreOverrideCursor();
 
             if (handlers.count(handler) == 0) return;
+            unsubscribeHandler(handler);
 
             std::string replyString = reply->readAll().toStdString();
 
-            qDebug() << reply->rawHeaderPairs();
-
-            qDebug() << "REPLY: ";
-            qDebug() << replyString.c_str();
+           // qDebug() << "REPLY: ";
+           // qDebug() << replyString.c_str();
 
             //the html error reply from the server begins with <!DOCTYPE ...
-            if (replyString[1] == '!') {
+            //otherwise it begins with <?xml ....
+            if (replyString.empty() || replyString[1] == '!') {
                 replyString.clear();
             }
 
             handler->getReply(replyString);
 
-            Network::unsubscribeHandler(handler);
-
-           // s_manager->clearAccessCache();
-
+            reply->deleteLater();
+            
         });
 
     QObject::connect(reply, &QNetworkReply::sslErrors, [=] {
@@ -89,20 +96,24 @@ void Network::sendRequestToPis(
         ModalDialogBuilder::showError(u8"Неуспешна автентификация");
         handler->getReply("");
         Network::unsubscribeHandler(handler);
-        s_manager->clearAccessCache();
-
+        reply->deleteLater();
 
     });
+
 
     
 }
 
+void Network::clearAccessCache()
+{
+    if (s_manager == nullptr) return;
+
+    s_manager->clearAccessCache();
+}
+
 void Network::unsubscribeHandler(AbstractReplyHandler* handler)
 {
-
     if (handlers.count(handler)) {
         handlers.erase(handler);
     }
-
-    
 }

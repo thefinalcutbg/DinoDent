@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include "Model/Financial/FinancialEnums.h"
+#include <vector>
 class AbstractReplyHandler;
 
 
@@ -17,7 +18,9 @@ namespace SOAP
 namespace PIS
 {
 	//returns true if the request was passed to the network
-	bool sendRequest(const std::string& soapBody, AbstractReplyHandler& handler);
+	bool sendRequest(const std::string& soapBody, AbstractReplyHandler& handler, int timeout = 10000);
+	bool sendBulkRequest(const std::vector<std::string>& soapBodies, AbstractReplyHandler& h);
+	
 	
 }
 

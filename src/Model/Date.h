@@ -27,6 +27,7 @@ public:
     std::string toXMLString() const;
     std::string toXMLReportFileName() const; //required when saving the xml report file
     std::string toXMLInvoiceFileName() const;
+    bool isFromPreviousMonths(const Date& other) const;
     static Date currentDate();
 
     static int currentDay();

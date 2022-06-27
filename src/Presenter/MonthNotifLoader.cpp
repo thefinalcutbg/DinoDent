@@ -56,23 +56,28 @@ void MonthNotifLoader::loadNotification()
     );
 }
 
-void MonthNotifLoader::setMonthNotif(const std::string& monthNotifBase64)
+void MonthNotifLoader::setMonthNotif(const std::string& monthNotif)
 {
     m_awaitingReply = false;
-    presenter->openInvoice(monthNotifBase64);
+    if (monthNotif.empty()) return;
+
+    presenter->openInvoice(monthNotif);
 }
 
-void MonthNotifLoader::setNotifRows(const std::vector<MonthNotifRow>& notifRows)
+void MonthNotifLoader::setNotifRows(const std::optional<std::vector<MonthNotifRow>>& notifRows)
 {
     m_awaitingReply = false;
-    m_notifRows = notifRows;
 
-    if (notifRows.empty()) {
+    if (!notifRows.has_value()) { return; }
+
+    m_notifRows = notifRows.value();
+
+    if (m_notifRows.empty()) {
         ModalDialogBuilder::showMessage(u8"Не са открити месечни известия");
         return;
     }
 
-    auto idx = ModalDialogBuilder::monthNotifPicker(notifRows);
+    auto idx = ModalDialogBuilder::monthNotifPicker(m_notifRows);
 
     if (idx == -1) {
         return;

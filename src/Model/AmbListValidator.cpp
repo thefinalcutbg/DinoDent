@@ -28,7 +28,6 @@ AmbListValidator::AmbListValidator(const AmbList& list, const Patient& patient)
     }
 }
 
-
 bool AmbListValidator::ambListIsValid()
 {
     if (!ambList.hasNZOKProcedure()) return true;
@@ -81,15 +80,16 @@ std::vector<ProcedureSummary> getSummaryFromPisHistory(const std::vector<Procedu
 
     for (auto& p : pisHistory) {
 
-        if (p.date < ambListDate) {
-            result.push_back({
-                    p.date,
-                    p.code,
-                    p.tooth,
-                    p.temp,
-                    p.type == ProcedureType::extraction
-                });
-        }
+        if (p.date >= ambListDate) continue;
+
+        result.push_back({
+                p.date,
+                p.code,
+                p.tooth,
+                p.temp,
+                p.type == ProcedureType::extraction
+            });
+
     }
 
     return result;
@@ -99,31 +99,28 @@ bool AmbListValidator::isValidAccordingToDb()
 {
     std::vector<ProcedureSummary> summary;
 
-    //if nhif history is present
-    if (patient.PISHistory && !patient.PISHistory->empty()) {
+    std::vector<ProcedureSummary> nhifHistory;
 
-        auto nhifHistory = getSummaryFromPisHistory(patient.PISHistory.value(), ambList.getDate());
-
-        //getting procedures from local db, from the day after the last record in NHIF
-        summary = DbProcedure::getNhifSummary(
-            patient.rowid,
-            ambList.rowid,
-            nhifHistory.begin()->date.tomorrow(),
-            ambList.getDate()
-        );
-
-        //inserting the rest of the nzok procedures
-        summary.insert(summary.end(), nhifHistory.begin(), nhifHistory.end());
-    }
-    else
+    if (patient.PISHistory.has_value())
     {
-        summary = DbProcedure::getNhifSummary(
-            patient.rowid,
-            ambList.rowid,
-            Date{},
-            ambList.getDate()
+        nhifHistory = getSummaryFromPisHistory(
+                    patient.PISHistory.value(), 
+                    ambList.getDate()
         );
     }
+   
+    //getting procedures from local db, from the day after the last record in NHIF
+
+    summary = DbProcedure::getNhifSummary(
+        patient.rowid,
+        ambList.rowid,
+        nhifHistory.empty() ? Date{} : nhifHistory.begin()->date.tomorrow(),
+        ambList.getDate()
+    );
+
+    //inserting the rest of the nzok procedures from local db
+    summary.insert(summary.end(), nhifHistory.begin(), nhifHistory.end());
+
 
     typedef int Code, Count, Tooth;
     typedef bool Temporary;

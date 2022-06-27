@@ -12,6 +12,8 @@ class ReportDialog : public QDialog, public IReportDialog
 	Q_OBJECT
 
 	ReportDialogPresenter* presenter;
+	//if true, generate button acts as abort button
+	bool m_stop{false};
 
 	void paintEvent(QPaintEvent* event) override;
 
@@ -24,8 +26,9 @@ private:
 	Ui::ReportDialog ui;
 
 	// Inherited via IReportDialog
-	virtual void appendText(const std::string& text) override;
-	virtual void clearText() override;
-	virtual void setPercent(int percent) override;
-	virtual void enableReportButtons(bool enabled) override;
+	void appendText(const std::string& text) override;
+	void clearText() override;
+	void setPercent(int percent) override;
+	void enableReportButtons(bool enabled) override;
+	void showStopButton(bool yes) override;
 };

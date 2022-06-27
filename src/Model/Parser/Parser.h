@@ -3,7 +3,6 @@
 #include <string>
 #include <vector>
 #include "Model/Procedure/ProcedureTemplate.h"
-#include "Model/XML/AmbListXML.h"
 #include <optional>
 #include "Model/User/User.h"
 
@@ -29,7 +28,6 @@ namespace Parser
 	void parse(const std::string& jsonString, ToothContainer& status);
 	void parse(const std::string& jsonString, Invoice& invoice);
 
-	std::vector<ToothXML> getTeethXML(const std::string& jsonString);
 	std::vector<ProcedureTemplate> getPriceList(const std::string& priceList);
 	std::string parseDiagnosis(const std::string& jsonProcedureString);
 	std::optional<NzokContract> parseContract(const std::string& jsonString);

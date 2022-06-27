@@ -60,7 +60,7 @@ void ListPresenter::statusChanged()
 
 bool ListPresenter::isValid()
 {
-    if (!patient->PISHistory.has_value()) {
+    if (m_ambList.hasNZOKProcedure() && !patient->PISHistory.has_value()) {
         ModalDialogBuilder::showMessage(
             u8"Не са заредени данни от ПИС. "
             u8"Листът ще бъде валидиран само "
@@ -393,6 +393,7 @@ void ListPresenter::setPISActivities(const std::optional<Procedures>& pisProcedu
     awaitingPisHistoryReply = false;
 
     if (!pisProcedures.has_value()) {
+        ModalDialogBuilder::showError(u8"Неуспешна връзка със сървъра");
         m_openHistoryDialogOnReply = false;
         return;
     }

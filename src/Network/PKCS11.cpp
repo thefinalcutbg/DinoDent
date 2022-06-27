@@ -101,6 +101,7 @@ PKCS11::PKCS11()
 	m_certificate = &certs[0];
 
 	if (!m_certificate || ncerts <= 0) {
+		
 		return;
 	}
 

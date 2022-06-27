@@ -3,6 +3,7 @@
 #include "Network/ReplyHandlers/MonthNotifDataHandler.h"
 #include "Model/Financial/MonthNotifRow.h"
 #include <vector>
+#include <optional>
 
 class TabPresenter;
 
@@ -22,7 +23,7 @@ public:
 	MonthNotifLoader(TabPresenter* presenter);
 	void loadNotification();
 	//handles the reply from replyhandler
-	void setNotifRows(const std::vector<MonthNotifRow>& notifRows);
+	void setNotifRows(const std::optional<std::vector<MonthNotifRow>>& notifRows);
 	void setMonthNotif(const std::string& monthNotif);
 
 };

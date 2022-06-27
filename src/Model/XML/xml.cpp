@@ -1,7 +1,6 @@
 ﻿#include "xml.h"
 #include <TinyXML/tinyxml.h>
 #include "Model/User/UserManager.h"
-#include "Database/DbXML.h"
 #include "Model/Financial/Invoice.h"
 #include <unordered_set>
 #include <cmath>
@@ -10,21 +9,7 @@
 #include "Model/FreeFunctions.h"
 #include "Model/CityCode.h"
 #include "Model/Tooth/ToothUtils.h"
-/*
 
-#include <QProcess>
-#include <QDir>
-
-void showFileInFolder(const QString& path) {
-#ifdef _WIN32    //Code for Windows
-    QProcess::startDetached("explorer.exe", { "/select,", QDir::toNativeSeparators(path) });
-#elif defined(__APPLE__)    //Code for Mac
-    QProcess::execute("/usr/bin/osascript", { "-e", "tell application \"Finder\" to reveal POSIX file \"" + path + "\"" });
-    QProcess::execute("/usr/bin/osascript", { "-e", "tell application \"Finder\" to activate" });
-#endif
-}
-
-*/ 
 
 std::string getSpec(bool fullCoverage)
 {

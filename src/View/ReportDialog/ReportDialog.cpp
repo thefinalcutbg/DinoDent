@@ -33,7 +33,10 @@ ReportDialog::ReportDialog(ReportDialogPresenter* p, QWidget *parent)
 		ui.monthCombo->addItem(monthNames[i]);
 
 	connect(ui.generateButton, &QPushButton::clicked, [=] {
-			
+		
+		m_stop? 
+		presenter->reset()
+		:
 		presenter->generateReport(
 			ui.checkBox->isChecked()
 			);
@@ -90,4 +93,14 @@ void ReportDialog::enableReportButtons(bool enabled)
 {
 	ui.pisButton->setEnabled(enabled);
 	ui.xmlButton->setEnabled(enabled);
+}
+
+void ReportDialog::showStopButton(bool yes)
+{
+	yes ?
+		ui.generateButton->setText(u8"Спри")
+		:
+		ui.generateButton->setText(u8"Генерирай отчет");
+
+		m_stop = yes;
 }

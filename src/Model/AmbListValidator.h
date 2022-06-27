@@ -4,10 +4,6 @@
 
 #include "Model/AmbList.h"
 #include "Model/Patient.h"
-//class AmbList;
-//class Patient;
-//class Tooth;
-//class Procedure;
 
 class AmbListValidator
 {

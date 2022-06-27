@@ -9,4 +9,5 @@ public:
 	virtual void clearText() = 0;
 	virtual void setPercent(int percent) = 0;
 	virtual void enableReportButtons(bool enabled) = 0;
+	virtual void showStopButton(bool yes) = 0;
 };

@@ -184,7 +184,7 @@ std::string soapToSign(const std::string& soapBody)
 
 #include <QDebug>
 
-bool PIS::sendRequest(const std::string& soapBody, AbstractReplyHandler& handler)
+bool PIS::sendRequest(const std::string& soapBody, AbstractReplyHandler& handler, int timeout)
 {
 
 /*
@@ -197,11 +197,13 @@ we have to create two PKCS11 instances - one for the signing and one for the SSL
 	if (!signer.hsmLoaded())
 	{
 		ModalDialogBuilder::showMessage(u8"Не е открит КЕП");
+		//Network::clearAccessCache();
 		return false;
 	}
 
 	if (signer.loginRequired()) {
 
+		Network::clearAccessCache();
 		auto pin = ModalDialogBuilder::pinPromptDialog(signer.pem_x509cert());
 
 		if (pin.empty()) {
@@ -219,17 +221,17 @@ we have to create two PKCS11 instances - one for the signing and one for the SSL
 	//creating another instance for the SSL certificate
 	PKCS11 sslBuilder;
 
+	auto signedRequest = XmlSigner::signSoapTemplate(
+		soapToSign(soapBody),
+		signer.takePrivateKey(),
+		signer.pem_x509cert()
+	);
 
 	Network::sendRequestToPis(
-
-		XmlSigner::signSoapTemplate(
-			soapToSign(soapBody), 
-			signer.takePrivateKey(), 
-			signer.pem_x509cert()
-		),
-
+		signedRequest,
 		sslBuilder,
-		&handler
+		&handler,
+		timeout
 	);
 
 	//XmlSigner::cleanup();

@@ -198,7 +198,7 @@ std::string XmlSigner::signSoapTemplate(const std::string& document, evp_pkey_st
 {
 
     if (!init && !initialize()) {
-        return "xmlsec could not be initialized";
+        return {};//"xmlsec could not be initialized";
     }
     init = true;
    
@@ -213,7 +213,7 @@ std::string XmlSigner::signSoapTemplate(const std::string& document, evp_pkey_st
     /* load doc file */
     xmlDocPtr doc = xmlParseMemory(document.data(), document.size());
     if ((doc == NULL) || (xmlDocGetRootElement(doc) == NULL)) {
-        return "Error: unable to parse file";
+        return {};//"Error: unable to parse file";
     }
     
     xmlAttrPtr attr = xmlDocGetRootElement(doc)->children->next->properties;
@@ -222,13 +222,13 @@ std::string XmlSigner::signSoapTemplate(const std::string& document, evp_pkey_st
 
     xmlNodePtr signNode = xmlSecFindNode(xmlDocGetRootElement(doc), xmlSecNodeSignature, xmlSecDSigNs);
     if (signNode == NULL) {
-        return "Error: start node not found";
+        return {};//"Error: start node not found";
     }
 
     /* create signature context */
     xmlSecDSigCtxPtr dsigCtx = xmlSecDSigCtxCreate(NULL);
     if (dsigCtx == NULL) {
-        return "Error: failed to create signature context\n";
+        return {};//"Error: failed to create signature context\n";
     }
 
     //dsigCtx->enabledReferenceUris = xmlSecTransformUriTypeSameDocument;
@@ -245,12 +245,13 @@ std::string XmlSigner::signSoapTemplate(const std::string& document, evp_pkey_st
             xmlSecKeyDataFormatPem) < 0
         )
 
-    { return "Failed to load certificate"; }
-    
+    {
+        return {};//"Failed to load certificate"; }
+    }
 
      /* sign the template */
     if (xmlSecDSigCtxSign(dsigCtx, signNode) < 0) {
-        return "Error: signature failed\n";
+        return {};//"Error: signature failed\n";
 
     }
 

@@ -156,6 +156,13 @@ std::string Date::toXMLInvoiceFileName() const
     return toXMLReportFileName() + dayStr;
 }
 
+bool Date::isFromPreviousMonths(const Date& other) const
+{
+    if (year < other.year) return true;
+    if (year == other.year && month < other.month) return true;
+    return false;
+}
+
 bool Date::Date::operator == (const Date& other) const
 {
     if (year == other.year)

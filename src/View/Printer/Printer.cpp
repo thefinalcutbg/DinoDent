@@ -128,9 +128,10 @@ void Print::ambList(const AmbList& amb, const Patient& patient, const User& user
 
     QApplication::restoreOverrideCursor();
 
-    report.setPreviewScaleType(LimeReport::ScaleType::FitWidth);
-    report.setPreviewPageBackgroundColor(QColor(Qt::white));
-    report.previewReport(LimeReport::PreviewHint::HidePreviewStatusBar);
+   // report.setPreviewScaleType(LimeReport::ScaleType::FitWidth);
+   // report.setPreviewPageBackgroundColor(QColor(Qt::white));
+   // report.previewReport(LimeReport::PreviewHint::HidePreviewStatusBar);
+    report.printReport();
 }
 
 void Print::invoice(const Invoice& inv)
@@ -189,9 +190,11 @@ void Print::invoice(const Invoice& inv)
     
     QApplication::restoreOverrideCursor();
 
-    report.setPreviewScaleType(LimeReport::ScaleType::FitWidth);
-    report.setPreviewPageBackgroundColor(QColor(Qt::white));
-    report.previewReport(LimeReport::PreviewHint::HidePreviewStatusBar);
+   // report.setPreviewScaleType(LimeReport::ScaleType::FitWidth);
+   // report.setPreviewPageBackgroundColor(QColor(Qt::white));
+   // report.previewReport(LimeReport::PreviewHint::HidePreviewStatusBar);
+
+    report.printReport();
 }
 
 void Print::ambList(const User& user)
@@ -216,8 +219,10 @@ void Print::ambList(const User& user)
     report.setShowProgressDialog(true);
     QApplication::restoreOverrideCursor();
 
-    report.setPreviewScaleType(LimeReport::ScaleType::FitWidth);
-    report.setPreviewPageBackgroundColor(QColor(Qt::white));
-    report.previewReport(LimeReport::PreviewHint::HidePreviewStatusBar);
+  //  report.setPreviewScaleType(LimeReport::ScaleType::FitWidth);
+  //  report.setPreviewPageBackgroundColor(QColor(Qt::white));
+  //  report.previewReport(LimeReport::PreviewHint::HidePreviewStatusBar);
+
+    report.printReport();
 
 }

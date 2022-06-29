@@ -104,7 +104,7 @@ void PatientFormDialog::resetFields()
     ui.HIRBNoEdit->reset();
     ui.phoneEdit->reset();
     ui.addressEdit->reset();
-
+    ui.insuredLabel->setText("");
     ui.codeLabel->setText("");
     ui.sexCombo->setCurrentIndex(0);
 
@@ -165,17 +165,17 @@ void PatientFormDialog::setInsuranceStatus(Insured status)
     switch (status)
     {
     case Insured::NoData: 
-        ui.insuredLabel->setText(u8"Няма данни");
+        ui.insuredLabel->setText(u8"Няма данни за здравни осигуровки");
         ui.insuredLabel->setStyleSheet("QLabel { color : orange; font: bold }");
         break;
 
     case Insured::Yes: 
-        ui.insuredLabel->setText(u8"Здравно осигурен");
+        ui.insuredLabel->setText(u8"Пациентът е здравно осигурен");
         ui.insuredLabel->setStyleSheet("QLabel { color : green; font: bold }");
         break;
 
     case Insured::No:
-        ui.insuredLabel->setText(u8"Няма данни");
+        ui.insuredLabel->setText(u8"Пациентът няма здравни осигуровки");
         ui.insuredLabel->setStyleSheet("QLabel { color : red; font: bold }");
         break;
         

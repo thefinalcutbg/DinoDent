@@ -43,7 +43,7 @@ class PatientDialogPresenter
 	std::string allergies;
 	std::string pastDiseases;
 	std::string currentDiseases;
-	std::optional<InsuranceStatus> insurance;
+	InsuranceStatus insurance;
 
 	bool inputIsValid(AbstractUIElement* uiElement);
 	Patient getPatientFromView();

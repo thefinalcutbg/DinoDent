@@ -18,12 +18,16 @@ public:
 	{
 		if (reciever == nullptr) return;
 
+		qDebug() << "NRA REPLY: ";
+		qDebug() << reply.c_str();
+
 		TiXmlDocument doc;
 
 		doc.Parse(reply.data(), 0, TIXML_ENCODING_UTF8);
 
 		if (!doc.RootElement()) {
 			reciever->setInsuranceStatus({});
+			return;
 		}
 
 		TiXmlHandle statusHandle(&doc);
@@ -35,7 +39,7 @@ public:
 
 
 
-		if (patient.Child(0).ToElement() == nullptr) {
+		if (patient.FirstChild().ToElement() == nullptr) {
 			reciever->setInsuranceStatus({});
 		}
 

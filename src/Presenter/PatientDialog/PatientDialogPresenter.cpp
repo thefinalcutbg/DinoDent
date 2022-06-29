@@ -55,6 +55,7 @@ void PatientDialogPresenter::changePatientType(int index)
 		view->lineEdit(mname)->setInputValidator(&name_validator);
 		view->lineEdit(id)->validateInput();
 		view->resetFields();
+		insurance = InsuranceStatus{};
 		break;
 	case 2:
 		view->setLn4View(true);
@@ -63,6 +64,7 @@ void PatientDialogPresenter::changePatientType(int index)
 		view->lineEdit(mname)->setInputValidator(&cyrillic_validator);
 		view->lineEdit(id)->validateInput();;
 		view->resetFields();
+		insurance = InsuranceStatus{};
 		break;
 	default:
 		break;
@@ -175,6 +177,7 @@ void PatientDialogPresenter::setPatientToView(const Patient& patient)
 
 void PatientDialogPresenter::setHirbno(const std::string& hirbno)
 {
+
 	if(hirbno.empty()){
 		ModalDialogBuilder::showMessage(u8"Не е намерена активна здравна книжка");
 		return;
@@ -185,7 +188,8 @@ void PatientDialogPresenter::setHirbno(const std::string& hirbno)
 
 void PatientDialogPresenter::setInsuranceStatus(InsuranceStatus insurance)
 {
-	if (insurance.status == Insured::NoData) {
+	if (insurance.status == Insured::NoData &&
+		this->insurance.status != Insured::NoData) {
 		return;
 	}
 

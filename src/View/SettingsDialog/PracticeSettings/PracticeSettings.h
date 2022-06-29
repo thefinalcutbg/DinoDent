@@ -11,7 +11,7 @@ class PracticeSettings : public QWidget, public IPracticeSettings
 
 	PracticeSettingsPresenter* presenter{nullptr};
 
-	static constexpr int lineEditCount = 9;
+	static constexpr int lineEditCount = 10;
 	std::array<AbstractLineEdit*, lineEditCount> lineEdits;
 
 	void paintEvent(QPaintEvent* event) override;

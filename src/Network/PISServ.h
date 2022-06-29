@@ -1,9 +1,12 @@
 #pragma once
 #include <string>
 #include "Model/Financial/FinancialEnums.h"
+#include "Model/Date.h"
 #include <vector>
+
 class AbstractReplyHandler;
 
+struct Patient;
 
 namespace SOAP
 {
@@ -18,9 +21,8 @@ namespace SOAP
 namespace PIS
 {
 	//returns true if the request was passed to the network
-	bool sendRequest(const std::string& soapBody, AbstractReplyHandler& handler, int timeout = 10000);
-	bool sendBulkRequest(const std::vector<std::string>& soapBodies, AbstractReplyHandler& h);
-	
-	
+	bool sendRequest(const std::string& soapBody, AbstractReplyHandler& handler);
+	bool insuranceRequest(AbstractReplyHandler& handler, const Patient& p, const Date& date = Date::currentDate());
 }
+
 

@@ -7,7 +7,7 @@
 
 MonthNotifLoader::MonthNotifLoader(TabPresenter* presenter) :
     m_listHandler{ this },
-    m_dataHandler{ this },
+    m_notifHandler{ this },
     presenter{presenter}
 {}
 
@@ -41,7 +41,8 @@ void MonthNotifLoader::loadNotification()
         return;
     }
 
-    if (m_awaitingReply) {
+    if (m_listHandler.awaiting_reply ||
+        m_notifHandler.awaiting_reply) {
         return;
     }
 
@@ -50,7 +51,7 @@ void MonthNotifLoader::loadNotification()
         return;
     }
 
-    m_awaitingReply = PIS::sendRequest(
+        PIS::sendRequest(
         SOAP::NotifList(UserManager::currentUser().practice.rziCode),
         m_listHandler
     );
@@ -58,7 +59,6 @@ void MonthNotifLoader::loadNotification()
 
 void MonthNotifLoader::setMonthNotif(const std::string& monthNotif)
 {
-    m_awaitingReply = false;
     if (monthNotif.empty()) return;
 
     presenter->openInvoice(monthNotif);
@@ -66,8 +66,6 @@ void MonthNotifLoader::setMonthNotif(const std::string& monthNotif)
 
 void MonthNotifLoader::setNotifRows(const std::optional<std::vector<MonthNotifRow>>& notifRows)
 {
-    m_awaitingReply = false;
-
     if (!notifRows.has_value()) { return; }
 
     m_notifRows = notifRows.value();
@@ -86,8 +84,8 @@ void MonthNotifLoader::setNotifRows(const std::optional<std::vector<MonthNotifRo
     //send the pis request for the hash
     auto& hash = m_notifRows[idx].hash;
 
-    m_awaitingReply = PIS::sendRequest(
+    PIS::sendRequest(
         SOAP::getNotificationData(UserManager::currentUser().practice.rziCode, hash),
-        m_dataHandler
+        m_notifHandler
     );
 }

@@ -11,11 +11,11 @@ class MonthNotifLoader
 {
 
 	NotifListHandler m_listHandler;
-	MonthNotifDataHandler m_dataHandler;
+	MonthNotifDataHandler m_notifHandler;
 
 	TabPresenter* presenter;
 
-	bool m_awaitingReply{ false };
+	//bool m_awaitingReply{ false };
 	
 	std::vector<MonthNotifRow> m_notifRows;
 

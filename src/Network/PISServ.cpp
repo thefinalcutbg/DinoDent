@@ -184,7 +184,7 @@ std::string soapToSign(const std::string& soapBody)
 
 #include <QDebug>
 
-bool PIS::sendRequest(const std::string& soapBody, AbstractReplyHandler& handler, int timeout)
+bool PIS::sendRequest(const std::string& soapBody, AbstractReplyHandler& handler)
 {
 
 /*
@@ -230,12 +230,57 @@ we have to create two PKCS11 instances - one for the signing and one for the SSL
 	Network::sendRequestToPis(
 		signedRequest,
 		sslBuilder,
-		&handler,
-		timeout
+		&handler
 	);
 
 	//XmlSigner::cleanup();
 
 	return true;
 	
+}
+
+#include "Model/Patient.h"
+#include "Model/User/UserManager.h"
+#include <QTime>
+
+bool PIS::insuranceRequest(AbstractReplyHandler& handler, const Patient& p, const Date& date)
+{
+	auto& practice = UserManager::currentUser().practice;
+
+	if (!practice.nzok_contract.has_value() ||
+		practice.nzok_contract->nra_pass.empty()
+	) 
+	{
+		ModalDialogBuilder::showMessage(u8"Не е въведена парола за достъп към НАП");
+		return false;
+	}
+
+	auto time = 
+		date.toXMLString() +
+		"T" +
+		QTime::currentTime().toString("hh:mm:ss").toStdString();
+		+ ".0Z";
+
+	std::string query{
+
+		"<?xml version=\"1.0\" encoding=\"UTF-8\"?> "
+			"<PIS_Request xmlns=\"request.ws.nhif\" "
+						 "ReqDate=\"" +  time + "\" " +
+						 "RespType = \"0\" "
+						 "RCZNo=\"" + practice.rziCode + "\" "
+						 "RCZEik = \"" + practice.bulstat + "\" "
+						 "RCZPassword=\"" + practice.nzok_contract->nra_pass + "\">"
+			 "<Patient>"
+			  "<PIN>" + p.id + "</PIN>"
+			  "<PINType>0</PINType>"
+			  "<ChkDt>" + time + "</ChkDt>"
+			"</Patient>"
+			"</PIS_Request>"
+
+	};
+
+	Network::setRequestToNra(query, &handler);
+
+	return true;
+
 }

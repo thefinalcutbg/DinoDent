@@ -191,15 +191,6 @@ void ListView::hideControlPanel(bool hidden)
 	ui.controlPanel->setHidden(hidden);
 }
 
-void ListView::disableActivitiesButton(bool disabled)
-{
-	if (disabled) {
-		ui.nzokActivities->clearFocus();
-	}
-
-	ui.nzokActivities->setDisabled(disabled);
-}
-
 ISurfacePanel* ListView::surfacePanel()
 {
 	return ui.surfacePanel;

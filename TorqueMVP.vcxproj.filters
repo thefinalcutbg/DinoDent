@@ -630,6 +630,9 @@
     <ClCompile Include="src\Model\XML\AmbListXML.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Network\ReplyHandlers\NraReplyHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -1558,6 +1561,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\ReportDialog\IReportDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Network\ReplyHandlers\NraReplyHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\InsuranceStatus.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

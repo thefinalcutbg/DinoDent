@@ -16,7 +16,6 @@ class IListView
 public:
 	virtual void refresh(const AmbList& ambList, const Patient &patient) = 0;
 	virtual void setPresenter(ListPresenter* presenter) = 0;
-	virtual void disableActivitiesButton(bool disabled) = 0;
 
 	virtual void setCheckModel(const CheckModel& checkModel) = 0;
 	virtual void setSelectedTeeth(std::vector<int> selectedTeeth) = 0;

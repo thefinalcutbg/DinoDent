@@ -122,55 +122,7 @@ bool ReportDialogPresenter::checkAmbList(const AmbList& list, const Patient& pat
 	return result;
 }
 
-void ReportDialogPresenter::finish()
-{
 
-	auto errors = consecutionCheck(lists);
-
-	if (!errors.empty()) {
-		m_hasErrors = true;
-		view->appendText(errors);
-	}
-
-	double expectedPrice{0};
-	int sumMinutes{ 0 };
-
-	for (auto& list : lists) {
-		for (auto& procedure : list.procedures) {
-
-			expectedPrice += MasterNZOK::instance().getNZOKPrice
-			(
-				procedure.code,
-				procedure.date,
-				UserManager::currentUser().doctor.specialty,
-				patients[list.patient_rowid].isAdult(procedure.date),
-				false
-			);
-
-			sumMinutes += MasterNZOK::instance().getDuration(procedure.code);
-		}
-	}
-
-	int maxMinutesAllowed = Date::getWorkdaysOfMonth(month, year) * 360;
-
-	
-	view->appendText(
-			u8"Mинути дейност: " + std::to_string(sumMinutes) + "\n"
-			u8"Максимално позволени: " + std::to_string(maxMinutesAllowed) + "\n"
-			u8"Очаквана сума : " + formatDouble(expectedPrice) + u8" лв."
-	);
-
-	m_hasErrors ?
-		view->appendText(u8"Отчетът е генериран с грешки!")
-		:
-		view->appendText(u8"Отчетът е генериран с успешно!");
-
-	m_currentIndex = -1;
-
-	m_report = XML::getReport(lists, patients);
-	view->showStopButton(false);
-	view->enableReportButtons(true);
-}
 
 void ReportDialogPresenter::reset()
 {
@@ -292,6 +244,30 @@ void ReportDialogPresenter::generateReport(bool checkPis)
 		return;
 	}
 
+	//checking individual lists
+
+	if (checkPis) {
+		view->showStopButton(true);
+		pisCheckNext();
+		return;
+	}
+	
+	for (auto list : lists) {
+		bool valid = checkAmbList(list, patients[list.patient_rowid]);
+		
+		if (!valid) {
+
+		}
+
+		m_currentIndex++;
+		updateProgressBar();
+	}
+	
+	finish();
+}
+
+void ReportDialogPresenter::finish()
+{
 	//checking list number and date sequence - this will probably become obsolete with HIS
 
 	auto errors = consecutionCheck(lists);
@@ -301,9 +277,9 @@ void ReportDialogPresenter::generateReport(bool checkPis)
 	double expectedPrice{ 0 };
 	int sumMinutes{ 0 };
 
-	for (auto& list : lists){
-		for(auto& procedure : list.procedures)
-			{
+	for (auto& list : lists) {
+		for (auto& procedure : list.procedures)
+		{
 
 			expectedPrice += MasterNZOK::instance().getNZOKPrice
 			(
@@ -327,29 +303,26 @@ void ReportDialogPresenter::generateReport(bool checkPis)
 
 	if (!errors.empty()) {
 		view->appendText(errors);
-		return;
+		m_hasErrors = true;
 	}
 
-	//checking individual lists
 
-	if (checkPis) {
-		view->showStopButton(true);
-		pisCheckNext();
-		return;
-	}
-	
-	for (auto list : lists) {
-		bool valid = checkAmbList(list, patients[list.patient_rowid]);
-		
-		if (!valid) {
+	view->appendText(
+		u8"Mинути дейност: " + std::to_string(sumMinutes) + "\n"
+		u8"Максимално позволени: " + std::to_string(maxMinutesAllowed) + "\n"
+		u8"Очаквана сума : " + formatDouble(expectedPrice) + u8" лв."
+	);
 
-		}
+	m_hasErrors ?
+		view->appendText(u8"Отчетът е генериран с грешки!")
+		:
+		view->appendText(u8"Отчетът е генериран с успешно!");
 
-		m_currentIndex++;
-		updateProgressBar();
-	}
-	
-	finish();
+	m_currentIndex = -1;
+
+	m_report = XML::getReport(lists, patients);
+	view->showStopButton(false);
+	view->enableReportButtons(true);
 }
 
 void ReportDialogPresenter::setView(IReportDialog* view)

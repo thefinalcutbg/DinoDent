@@ -37,7 +37,6 @@ void HirbnoReplyHandler::getReply(const std::string& reply)
 	
 
 	if (!hirbno) {
-		p_presenter->setHirbno("");
 		return;
 	}
 

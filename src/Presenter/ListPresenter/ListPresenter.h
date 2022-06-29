@@ -33,7 +33,6 @@ class ListPresenter : public TabInstance
     IListView* view;
 
     bool m_openHistoryDialogOnReply { false };
-    bool awaitingPisHistoryReply{ false };
 
     TabPresenter* tabPresenter;
 

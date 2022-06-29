@@ -214,6 +214,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Network\ReplyHandlers\NraReplyHandler.cpp" />
     <ClCompile Include="src\Model\XML\AmbListXML.cpp" />
     <ClCompile Include="src\Presenter\ReportDialogPresenter\ReportDialogPresenter.cpp" />
     <ClCompile Include="src\View\PinPromptDialog\PinPromptDialog.cpp" />
@@ -533,6 +534,8 @@
     <QtMoc Include="src\View\PISHistoryDialog\PISHistoryDialog.h" />
     <QtMoc Include="src\View\MonthNotifDialog\MonthNotifDialog.h" />
     <QtMoc Include="src\View\PinPromptDialog\PinPromptDialog.h" />
+    <ClInclude Include="src\Model\InsuranceStatus.h" />
+    <ClInclude Include="src\Network\ReplyHandlers\NraReplyHandler.h" />
     <ClInclude Include="src\Presenter\ReportDialogPresenter\ReportDialogPresenter.h" />
     <ClInclude Include="src\GlobalSettings.h" />
     <ClInclude Include="src\Network\ReplyHandlers\MonthNotifDataHandler.h" />

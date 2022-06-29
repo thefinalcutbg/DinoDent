@@ -5,13 +5,13 @@ struct Practice;
 #include "View/uiComponents/AbstractLineEdit.h"
 #include "View/uiComponents/AbstractDateEdit.h"
 
-constexpr int practiceTextFieldCount = 8;
+constexpr int practiceTextFieldCount = 9;
 
 class PracticeSettingsPresenter;
 
 namespace PracticeTextFields
 {
-	enum Field{Name, RZI, Bulstat, Address, ActivityAddress, Password, VAT, NZOKContract, NZOKShortName  };
+	enum Field{Name, RZI, Bulstat, Address, ActivityAddress, Password, VAT, NZOKContract, NZOKShortName, NraPass  };
 };
 
 class IPracticeSettings

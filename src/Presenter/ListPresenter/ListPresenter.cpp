@@ -372,25 +372,19 @@ void ListPresenter::requestPisActivities()
 {
     if (patient->PISHistory.has_value()) return;
 
-    if (awaitingPisHistoryReply) return;
+    if (handler.awaiting_reply) return;
       
     //sending request to PIS
-    awaitingPisHistoryReply = true;
 
-    bool success = PIS::sendRequest(
+    PIS::sendRequest(
         SOAP::dentalActivities(patient->id, patient->type),
         handler
     );
-
-    if (!success) {
-        awaitingPisHistoryReply = false;
-    }   
 
 }
 
 void ListPresenter::setPISActivities(const std::optional<Procedures>& pisProcedures)
 {
-    awaitingPisHistoryReply = false;
 
     if (!pisProcedures.has_value()) {
         ModalDialogBuilder::showError(u8"Неуспешна връзка със сървъра");

@@ -4,6 +4,7 @@
 #include <memory>
 #include <array>
 #include "Model/Procedure/Procedure.h"
+#include "InsuranceStatus.h"
 #include <optional>
 #include <vector>
 typedef std::array<std::string, 32>TeethNotes;
@@ -33,7 +34,7 @@ struct Patient
 	TeethNotes teethNotes;
 
 	std::optional<std::vector<Procedure>> PISHistory;
-
+	std::optional<InsuranceStatus> InsuranceStatus;
 	static bool getSexFromEgn(const std::string& egn);
 	int getAge(const Date& currentDate = Date::currentDate())  const;
 	bool isAdult(const Date& currentDate = Date::currentDate())  const;

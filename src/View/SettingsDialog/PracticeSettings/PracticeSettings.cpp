@@ -22,6 +22,7 @@ PracticeSettings::PracticeSettings(QWidget *parent)
 	lineEdits[PracticeTextFields::VAT] = ui.vatEdit;
 	lineEdits[PracticeTextFields::NZOKContract] = ui.contractEdit;
 	lineEdits[PracticeTextFields::NZOKShortName] = ui.practiceNameNZOK;
+	lineEdits[PracticeTextFields::NraPass] = ui.nraPass;
 
 	for (auto lineEdit : lineEdits)
 	{
@@ -49,12 +50,13 @@ void PracticeSettings::setPractice(const Practice& practice)
 	ui.vatGroup->setChecked(!practice.vat.empty());
 	ui.vatEdit->setText(QString::fromStdString(practice.vat));
 	ui.passEdit->setText(QString::fromStdString(practice.pass));
-
+	
 	ui.nzokGroup->setChecked(practice.nzok_contract.has_value());
-	if (ui.nzokGroup->isChecked()) {
+	if (practice.nzok_contract) {
 		ui.contractEdit->setText(QString::fromStdString(practice.nzok_contract.value().contract_no));
 		ui.contractDateEdit->set_Date(practice.nzok_contract.value().date);
 		ui.practiceNameNZOK->setText(QString::fromStdString(practice.nzok_contract.value().name_short));
+		ui.nraPass->setText(practice.nzok_contract->nra_pass.data());
 	}
 }
 
@@ -76,6 +78,7 @@ Practice PracticeSettings::getPractice()
 		c.date = ui.contractDateEdit->getDate();
 		c.contract_no = ui.contractEdit->getText();
 		c.name_short = ui.practiceNameNZOK->getText();
+		c.nra_pass = ui.nraPass->getText();
 		p.nzok_contract.emplace(c);
 	}
 

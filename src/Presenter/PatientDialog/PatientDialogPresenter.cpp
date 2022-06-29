@@ -8,7 +8,7 @@ PatientDialogPresenter::PatientDialogPresenter() :
 {}
 
 PatientDialogPresenter::PatientDialogPresenter(const Patient& patient) :
-	_patient(patient),
+	m_patient(patient),
 	rowid(patient.rowid),
 	view(nullptr)
 {}
@@ -17,7 +17,7 @@ PatientDialogPresenter::PatientDialogPresenter(const Patient& patient) :
 std::optional<Patient> PatientDialogPresenter::open()
 {
 	ModalDialogBuilder::openDialog(this);
-	return _patient;
+	return m_patient;
 }
 
 void PatientDialogPresenter::setView(IPatientDialog* view)
@@ -36,9 +36,9 @@ void PatientDialogPresenter::setView(IPatientDialog* view)
 	view->dateEdit()->setInputValidator(&birth_validator);
 	changePatientType(1);
 
-	if (_patient.has_value())
+	if (m_patient.has_value())
 	{
-		setPatientToView(_patient.value());
+		setPatientToView(m_patient.value());
 		view->setEditMode(true);
 	}
 
@@ -70,18 +70,22 @@ void PatientDialogPresenter::changePatientType(int index)
 	}
 }
 
-void PatientDialogPresenter::activeHirbnoCheck()
+void PatientDialogPresenter::checkHirbno()
 {
-	view->disableHirbnoButton(true);
+	if (hirbnoHandler.awaiting_reply) {
+		return;
+	}
 
 	auto p = view->getPatient();
 	
-	bool success = PIS::sendRequest(SOAP::activeHIRBNo(p.id, p.type), hirbnoHandler);
-	
-	if (!success) {
-		view->disableHirbnoButton(false);
-	}
-	
+	PIS::sendRequest(SOAP::activeHIRBNo(p.id, p.type), hirbnoHandler);	
+}
+
+void PatientDialogPresenter::checkHealthInsurance()
+{
+	if (nraHandler.awaiting_reply) return;
+
+	PIS::insuranceRequest(nraHandler, view->getPatient());
 }
 
 void PatientDialogPresenter::accept()
@@ -95,13 +99,14 @@ void PatientDialogPresenter::accept()
 	if (!inputIsValid(view->dateEdit())) return;
 
 	
-	_patient = getPatientFromView();
+	m_patient = getPatientFromView();
+	m_patient->InsuranceStatus = this->insurance;
 	
 	if (rowid == 0) {
-		rowid = _patient->rowid;
-		_patient->rowid = DbPatient::insert(_patient.value());
+		rowid = m_patient->rowid;
+		m_patient->rowid = DbPatient::insert(m_patient.value());
 	}
-	else DbPatient::update(_patient.value());
+	else DbPatient::update(m_patient.value());
 	
 	view->close();
 }
@@ -132,7 +137,13 @@ void PatientDialogPresenter::searchDbForPatient(int type)
 	{
 		rowid = patient.rowid;
 	}
-		
+	
+	if (UserManager::currentUser().practice.nzok_contract &&
+		!UserManager::currentUser().practice.nzok_contract->nra_pass.empty()
+		) 
+	{
+		checkHealthInsurance();
+	}
 
 	setPatientToView(patient);
 	
@@ -164,14 +175,25 @@ void PatientDialogPresenter::setPatientToView(const Patient& patient)
 
 void PatientDialogPresenter::setHirbno(const std::string& hirbno)
 {
-	view->disableHirbnoButton(false);
-
 	if(hirbno.empty()){
 		ModalDialogBuilder::showMessage(u8"Не е намерена активна здравна книжка");
 		return;
 	}
 
 	view->setHirbno(hirbno);
+}
+
+void PatientDialogPresenter::setInsuranceStatus(InsuranceStatus insurance)
+{
+	if (insurance.status == Insured::NoData) {
+		return;
+	}
+
+	this->insurance = insurance;
+
+	view->setInsuranceStatus(insurance.status);
+
+		
 }
 
 bool PatientDialogPresenter::inputIsValid(AbstractUIElement* uiElement)

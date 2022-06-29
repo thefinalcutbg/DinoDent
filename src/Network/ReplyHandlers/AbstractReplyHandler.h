@@ -13,6 +13,8 @@ protected:
 public:
 	virtual void getReply(const std::string& reply) = 0;
 
+	//intended to be set only from the network;
+	bool awaiting_reply{ false };
 
 
 	~AbstractReplyHandler() {

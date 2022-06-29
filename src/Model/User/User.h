@@ -57,6 +57,7 @@ struct NzokContract
 	std::string contract_no;
 	Date date;
 	std::string name_short;
+	std::string nra_pass;
 	std::string bank;
 	std::string bic;
 	std::string iban;

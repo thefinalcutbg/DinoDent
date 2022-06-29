@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>432</width>
-    <height>487</height>
+    <height>517</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -189,7 +189,7 @@
      <x>10</x>
      <y>300</y>
      <width>291</width>
-     <height>141</height>
+     <height>181</height>
     </rect>
    </property>
    <property name="title">
@@ -306,6 +306,29 @@
      <number>100</number>
     </property>
    </widget>
+   <widget class="QLabel" name="label_7">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>150</y>
+      <width>101</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Парола за НАП:</string>
+    </property>
+   </widget>
+   <widget class="LineEdit" name="nraPass">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>150</y>
+      <width>141</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QGroupBox" name="vatGroup">
    <property name="geometry">
@@ -366,7 +389,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>450</y>
+     <y>490</y>
      <width>391</width>
      <height>21</height>
     </rect>

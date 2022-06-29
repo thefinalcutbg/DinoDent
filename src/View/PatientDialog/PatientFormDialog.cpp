@@ -6,7 +6,7 @@ PatientFormDialog::PatientFormDialog(PatientDialogPresenter* p, QWidget* parent)
 {
     ui.setupUi(this);
     ui.hirbnoButton->setIcon(QIcon(":/icons/icon_nzok.png"));
-
+    ui.nraButton->setIcon(QIcon(":/icons/icon_nra.png"));
     setModal(true);
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     setWindowTitle(u8"Нов амбулаторен лист");
@@ -27,8 +27,8 @@ PatientFormDialog::PatientFormDialog(PatientDialogPresenter* p, QWidget* parent)
     connect(ui.okButton, &QPushButton::clicked, [=] { presenter->accept(); });
     connect(ui.idLineEdit, &QLineEdit::textEdited, [=]{ if(ui.idLineEdit->isValid()) presenter->searchDbForPatient(ui.typeComboBox->currentIndex()+1); });
     connect(ui.cityLineEdit, &QLineEdit::textChanged, [=] {presenter->cityChanged(); });
-    connect(ui.hirbnoButton, &QPushButton::clicked, [=] { presenter->activeHirbnoCheck();});
-
+    connect(ui.hirbnoButton, &QPushButton::clicked, [=] { presenter->checkHirbno();});
+    connect(ui.nraButton, &QPushButton::clicked, [=] { presenter->checkHealthInsurance();});
     patientFields[id] = ui.idLineEdit;
     patientFields[fname] = ui.fNameEdit;
     patientFields[mname] = ui.mNameEdit;
@@ -160,9 +160,26 @@ void PatientFormDialog::setHirbno(const std::string& hirbno)
     ui.HIRBNoEdit->selectAll();
 }
 
-void PatientFormDialog::disableHirbnoButton(bool disabled)
+void PatientFormDialog::setInsuranceStatus(Insured status)
 {
-    ui.hirbnoButton->setDisabled(disabled);
+    switch (status)
+    {
+    case Insured::NoData: 
+        ui.insuredLabel->setText(u8"Няма данни");
+        ui.insuredLabel->setStyleSheet("QLabel { color : orange; font: bold }");
+        break;
+
+    case Insured::Yes: 
+        ui.insuredLabel->setText(u8"Здравно осигурен");
+        ui.insuredLabel->setStyleSheet("QLabel { color : green; font: bold }");
+        break;
+
+    case Insured::No:
+        ui.insuredLabel->setText(u8"Няма данни");
+        ui.insuredLabel->setStyleSheet("QLabel { color : red; font: bold }");
+        break;
+        
+    }
 }
 
 AbstractLineEdit* PatientFormDialog::lineEdit(PatientField field)

@@ -6,7 +6,7 @@
 #include "PKCS11.h"
 #include <qDebug>
 #include "ReplyHandlers/AbstractReplyHandler.h"
-#include <unordered_set>
+#include <set>
 #include "View/ModalDialogBuilder.h"
 #include <QApplication>
 
@@ -14,14 +14,13 @@
 
 QNetworkAccessManager* s_manager {nullptr};
 
-std::unordered_set<AbstractReplyHandler*> handlers;
+std::set<AbstractReplyHandler*> handlers;
 
 
 void Network::sendRequestToPis(
                                 const std::string& soapRequest,
                                 PKCS11& token,
-                                AbstractReplyHandler* handler,
-                                int timeout
+                                AbstractReplyHandler* handler
                               )
 {
 
@@ -34,9 +33,7 @@ void Network::sendRequestToPis(
             });
     }
 
-    qDebug() << "inserting handler";
     handlers.insert(handler);
-    qDebug() << "HANDLERS SIZE: " << handlers.size();
 
     QSslConfiguration config = QSslConfiguration::defaultConfiguration();
     //config = QSslConfiguration::defaultConfiguration();
@@ -48,12 +45,13 @@ void Network::sendRequestToPis(
     request.setSslConfiguration(config);
     request.setHeader(QNetworkRequest::KnownHeaders::ContentTypeHeader, "text/xml;charset=\"utf-8\"");
     request.setRawHeader("SOAPAction", "\"http://pis.technologica.com/view\"");
+   // request.setRawHeader("SOAPAction", "\"http://pis.technologica.com/files/\"");
     request.setRawHeader("accept", "\"application/xml\"");
-    request.setTransferTimeout(timeout);
 
-
-
+    handler->awaiting_reply = true;
     auto reply = s_manager->post(request, soapRequest.data());
+
+    
 
     QApplication::setOverrideCursor(Qt::BusyCursor);
 
@@ -85,6 +83,8 @@ void Network::sendRequestToPis(
 
             handler->getReply(replyString);
 
+            handler->awaiting_reply = false;
+
             reply->deleteLater();
             
         });
@@ -103,6 +103,72 @@ void Network::sendRequestToPis(
 
     
 }
+
+void Network::setRequestToNra(const std::string xmlRequest, AbstractReplyHandler* handler)
+{
+    if (!s_manager) {
+        s_manager = new QNetworkAccessManager();
+        // s_manager->setAutoDeleteReplies(true); //produces crashes sometimes lol
+        QObject::connect(s_manager, &QNetworkAccessManager::sslErrors, [=] {
+            qDebug() << "ERRORRRR";
+            });
+    }
+
+    handlers.insert(handler);
+
+    QNetworkRequest request(QUrl("https://nraapp03.nra.bg:4445/nhifrcz/NhifStatus5Port"));
+    request.setSslConfiguration(QSslConfiguration::defaultConfiguration());
+    request.setHeader(QNetworkRequest::KnownHeaders::ContentTypeHeader, "application/xml;charset=\"utf-8\"");
+    request.setRawHeader("accept", "\"application/xml\"");
+    
+    handler->awaiting_reply = true;
+    auto reply = s_manager->post(request, xmlRequest.data());
+    
+
+    QApplication::setOverrideCursor(Qt::BusyCursor);
+
+    QObject::connect(reply, &QNetworkReply::errorOccurred,
+        [=](QNetworkReply::NetworkError code)
+        {
+            qDebug() << "ReplyError: " << code;
+        }
+    );
+
+    QObject::connect(reply, &QNetworkReply::finished,
+        [=] {
+
+            QApplication::restoreOverrideCursor();
+
+            if (handlers.count(handler) == 0) return;
+            unsubscribeHandler(handler);
+            
+
+            std::string replyString = reply->readAll().toStdString();
+
+            if (replyString.empty() || replyString[1] == '!') {
+                replyString.clear();
+            }
+
+            handler->getReply(replyString);
+            handler->awaiting_reply = false;
+            reply->deleteLater();
+
+        });
+
+    QObject::connect(reply, &QNetworkReply::sslErrors, [=] {
+
+            QApplication::restoreOverrideCursor();
+
+            ModalDialogBuilder::showError(u8"Неуспешна автентификация");
+            handler->getReply("");
+            Network::unsubscribeHandler(handler);
+            reply->deleteLater();
+
+        });
+
+
+}
+
 
 void Network::clearAccessCache()
 {

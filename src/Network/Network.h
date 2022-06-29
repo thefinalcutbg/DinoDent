@@ -11,9 +11,9 @@ namespace Network
 	void sendRequestToPis(
 		const std::string& soapRequest, 
 		PKCS11& token, 
-		AbstractReplyHandler *handler,
-		int timeout
+		AbstractReplyHandler *handler
 	);
+	void setRequestToNra(const std::string xmlRequest, AbstractReplyHandler* handler);
 	void clearAccessCache();
 	void unsubscribeHandler(AbstractReplyHandler* handler);
 };

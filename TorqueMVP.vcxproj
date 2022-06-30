@@ -214,6 +214,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Model\InsuranceStatus.cpp" />
     <ClCompile Include="src\Network\ReplyHandlers\NraReplyHandler.cpp" />
     <ClCompile Include="src\Model\XML\AmbListXML.cpp" />
     <ClCompile Include="src\Presenter\ReportDialogPresenter\ReportDialogPresenter.cpp" />

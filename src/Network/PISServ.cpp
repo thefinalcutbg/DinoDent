@@ -255,11 +255,11 @@ bool PIS::insuranceRequest(AbstractReplyHandler& handler, const Patient& p, cons
 		return false;
 	}
 
-	auto time = 
+	auto time =
 		date.toXMLString() +
 		"T" +
 		QTime::currentTime().toString("hh:mm:ss").toStdString();
-		+ ".0Z";
+		//+ ".0Z";
 
 	std::string query{
 

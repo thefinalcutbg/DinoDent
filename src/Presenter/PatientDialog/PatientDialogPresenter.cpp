@@ -40,6 +40,13 @@ void PatientDialogPresenter::setView(IPatientDialog* view)
 	{
 		setPatientToView(m_patient.value());
 		view->setEditMode(true);
+
+		if (UserManager::currentUser().practice.nzok_contract &&
+			!UserManager::currentUser().practice.nzok_contract->nra_pass.empty()
+			)
+		{
+			checkHealthInsurance(false);
+		}
 	}
 
 }
@@ -83,8 +90,10 @@ void PatientDialogPresenter::checkHirbno()
 	PIS::sendRequest(SOAP::activeHIRBNo(p.id, p.type), hirbnoHandler);	
 }
 
-void PatientDialogPresenter::checkHealthInsurance()
+void PatientDialogPresenter::checkHealthInsurance(bool showNoInsuranceDialog)
 {
+	m_noInsuranceDialog = showNoInsuranceDialog;
+
 	if (nraHandler.awaiting_reply) return;
 
 	PIS::insuranceRequest(nraHandler, view->getPatient());
@@ -144,7 +153,7 @@ void PatientDialogPresenter::searchDbForPatient(int type)
 		!UserManager::currentUser().practice.nzok_contract->nra_pass.empty()
 		) 
 	{
-		checkHealthInsurance();
+		checkHealthInsurance(false);
 	}
 
 	setPatientToView(patient);
@@ -196,6 +205,11 @@ void PatientDialogPresenter::setInsuranceStatus(InsuranceStatus insurance)
 	this->insurance = insurance;
 
 	view->setInsuranceStatus(insurance.status);
+
+	if (insurance.status == Insured::No && m_noInsuranceDialog) {
+		m_noInsuranceDialog = false;
+		ModalDialogBuilder::showMessage(insurance.getYearsText());
+	}
 
 		
 }

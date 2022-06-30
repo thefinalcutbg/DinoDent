@@ -28,7 +28,7 @@ PatientFormDialog::PatientFormDialog(PatientDialogPresenter* p, QWidget* parent)
     connect(ui.idLineEdit, &QLineEdit::textEdited, [=]{ if(ui.idLineEdit->isValid()) presenter->searchDbForPatient(ui.typeComboBox->currentIndex()+1); });
     connect(ui.cityLineEdit, &QLineEdit::textChanged, [=] {presenter->cityChanged(); });
     connect(ui.hirbnoButton, &QPushButton::clicked, [=] { presenter->checkHirbno();});
-    connect(ui.nraButton, &QPushButton::clicked, [=] { presenter->checkHealthInsurance();});
+    connect(ui.nraButton, &QPushButton::clicked, [=] { presenter->checkHealthInsurance(true);});
     patientFields[id] = ui.idLineEdit;
     patientFields[fname] = ui.fNameEdit;
     patientFields[mname] = ui.mNameEdit;
@@ -165,17 +165,17 @@ void PatientFormDialog::setInsuranceStatus(Insured status)
     switch (status)
     {
     case Insured::NoData: 
-        ui.insuredLabel->setText(u8"Няма данни за здравни осигуровки");
+        ui.insuredLabel->setText(u8"Няма данни");
         ui.insuredLabel->setStyleSheet("QLabel { color : orange; font: bold }");
         break;
 
     case Insured::Yes: 
-        ui.insuredLabel->setText(u8"Пациентът е здравно осигурен");
+        ui.insuredLabel->setText(u8"Осигурен");
         ui.insuredLabel->setStyleSheet("QLabel { color : green; font: bold }");
         break;
 
     case Insured::No:
-        ui.insuredLabel->setText(u8"Пациентът няма здравни осигуровки");
+        ui.insuredLabel->setText(u8"Неосигурен");
         ui.insuredLabel->setStyleSheet("QLabel { color : red; font: bold }");
         break;
         

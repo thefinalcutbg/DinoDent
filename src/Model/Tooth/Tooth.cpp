@@ -55,48 +55,27 @@ std::array<bool, statusCount> Tooth::getBoolStatus() const
 	};
 }
 
-std::string Tooth::getSimpleStatus() const
+std::string Tooth::getStringStatus() const
 {
-	auto boolStatus = getBoolStatus();
+	auto vec = getSimpleStatuses();
 
-	std::array<std::string, statusCount> statusLegend //each letter corresponds to bool status
-	{
-		"", "O ", "C ", "P ", "G ", "", "", "R ", "F ", "E ",
-		"Pa ", "I ", "II ", "III ", "K ", "X ", "X", "Impl. ", "Dsn ", ""
-	};								//     ^     ^
-									//  bridge	splint (both defaulted as artificial tooth)
-	
-	if (boolStatus[StatusCode::Bridge])
-	{
-		boolStatus[StatusCode::Extraction] ?
-			statusLegend[StatusCode::Extraction] = "" //extraction won't be shown
-			:
-			statusLegend[StatusCode::Bridge] = "K "; //bridge will be shown as K
+	std::string result;
+	result.reserve(vec.size() * 3);
 
+	for (auto s : vec)
+	{
+		if (s == "T") continue;
+
+		result += s;
+		result += " ";
 	}
 
-	if (boolStatus[StatusCode::FiberSplint])
-	{
-		if (boolStatus[StatusCode::Extraction])
-		{
-			statusLegend[StatusCode::Extraction] = ""; //extraction won't be shown
-		}
-		else
-		{
-			boolStatus[StatusCode::Obturation] = true; //obturation WILL be shown
-			statusLegend[StatusCode::FiberSplint] = ""; //fibersplint WON'T be shown
-		}
+	if (!result.empty()){
+
+		result.pop_back(); //removing the last interval
 	}
 
-	std::string simpleStatus;
-
-	for (int i = 0; i < statusCount; i++)
-	{
-		if (boolStatus[i])
-			simpleStatus += statusLegend[i];
-	}
-
-	return simpleStatus;
+	return result;
 
 }
 
@@ -107,7 +86,7 @@ std::vector<std::string> Tooth::getSimpleStatuses() const
 	std::array<std::string, statusCount> statusLegend //each letter corresponds to bool status
 	{
 		"T", "O", "C", "P", "G", "", "", "R", "F", "E",
-		"Pa ", "I", "II", "III", "K", "X", "X", "Impl.", "Dsn", ""
+		"Pa", "I", "II", "III", "K", "X", "X", "Impl.", "Dsn", ""
 	};							//     ^     ^
 								//  bridge	splint (both defaulted as artificial tooth)
 
@@ -116,7 +95,7 @@ std::vector<std::string> Tooth::getSimpleStatuses() const
 		boolStatus[StatusCode::Extraction] ?
 			statusLegend[StatusCode::Extraction] = "" //extraction won't be shown
 			:
-			statusLegend[StatusCode::Bridge] = "K "; //bridge will be shown as K
+			statusLegend[StatusCode::Bridge] = "K"; //bridge will be shown as K
 
 	}
 

@@ -90,9 +90,9 @@ void PatientDialogPresenter::checkHirbno()
 	PIS::sendRequest(SOAP::activeHIRBNo(p.id, p.type), hirbnoHandler);	
 }
 
-void PatientDialogPresenter::checkHealthInsurance(bool showNoInsuranceDialog)
+void PatientDialogPresenter::checkHealthInsurance(bool showDialog)
 {
-	m_noInsuranceDialog = showNoInsuranceDialog;
+	m_insuranceDialog = showDialog;
 
 	if (nraHandler.awaiting_reply) return;
 
@@ -206,8 +206,8 @@ void PatientDialogPresenter::setInsuranceStatus(InsuranceStatus insurance)
 
 	view->setInsuranceStatus(insurance.status);
 
-	if (insurance.status == Insured::No && m_noInsuranceDialog) {
-		m_noInsuranceDialog = false;
+	if (m_insuranceDialog) {
+		m_insuranceDialog = false;
 		ModalDialogBuilder::showMessage(insurance.getYearsText());
 	}
 

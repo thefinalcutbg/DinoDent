@@ -6,7 +6,9 @@
 #include "Model/AmbList.h"
 #include "Model/Patient.h"
 #include "Network/ReplyHandlers/DentalActivitiesHandler.h"
+#include "Network/ReplyHandlers/FileSentHandler.h"
 #include <optional>
+
 class ReportDialogPresenter
 {
 	IReportDialog* view;
@@ -26,6 +28,7 @@ class ReportDialogPresenter
 	static inline std::unordered_map<long long, Patient> patients;
 
 	DentalActivitiesHandler<ReportDialogPresenter> reply_handler{this};
+	FileSentHandler fileSent_handler;//{ this };
 
 	void pisCheckNext();
 	void updateProgressBar();

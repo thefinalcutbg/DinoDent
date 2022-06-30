@@ -147,6 +147,18 @@ void ReportDialogPresenter::sendToPis()
 	{
 		return;
 	}
+
+	PIS::sendRequest(
+
+		SOAP::sendAmbReport(
+			m_report.value(),
+			UserManager::currentUser().doctor.egn
+		),
+		fileSent_handler,
+		PIS::SOAPAction::Files
+	);
+
+
 }
 
 void ReportDialogPresenter::saveToXML()

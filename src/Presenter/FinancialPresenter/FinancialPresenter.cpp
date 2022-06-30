@@ -163,11 +163,20 @@ void FinancialPresenter::saveAsXML()
 #include "Network/PISServ.h"
 void FinancialPresenter::sendToPis()
 {
-    qDebug() << SOAP::sendInvoice(
-        XML::getInvoice(m_invoice),
-        UserManager::currentUser().practice.rziCode,
-        m_invoice.type
-    ).data();
+
+    ModalDialogBuilder::showMessage(u8"Уверете се, че ползвате фирмения си електронен подпис");
+
+    PIS::sendRequest(
+
+        SOAP::sendInvoice(
+            XML::getInvoice(m_invoice),
+            UserManager::currentUser().practice.rziCode,
+            m_invoice.type
+        ),
+        file_handler,
+        PIS::SOAPAction::Files
+    );
+
 }
 
 void FinancialPresenter::docTypeChanged(int index)

@@ -184,7 +184,7 @@ std::string soapToSign(const std::string& soapBody)
 
 #include <QDebug>
 
-bool PIS::sendRequest(const std::string& soapBody, AbstractReplyHandler& handler)
+bool PIS::sendRequest(const std::string& soapBody, AbstractReplyHandler& handler, SOAPAction header)
 {
 
 /*
@@ -219,7 +219,7 @@ we have to create two PKCS11 instances - one for the signing and one for the SSL
 	}
 
 	//creating another instance for the SSL certificate
-	PKCS11 sslBuilder;
+	PKCS11 clientSsl;
 
 	auto signedRequest = XmlSigner::signSoapTemplate(
 		soapToSign(soapBody),
@@ -227,10 +227,26 @@ we have to create two PKCS11 instances - one for the signing and one for the SSL
 		signer.pem_x509cert()
 	);
 
+	std::string soapActionHeader;
+
+	switch (header)
+	{
+	case SOAPAction::View: 
+		soapActionHeader = "\"http://pis.technologica.com/view\""; 
+		break;
+
+	case SOAPAction::Files:
+		soapActionHeader = "\"http://pis.technologica.com/files/\"";
+		break;
+
+	}
+
+
 	Network::sendRequestToPis(
 		signedRequest,
-		sslBuilder,
-		&handler
+		clientSsl,
+		&handler,
+		soapActionHeader.c_str()
 	);
 
 	//XmlSigner::cleanup();

@@ -627,13 +627,13 @@
     <ClCompile Include="src\Presenter\ReportDialogPresenter\ReportDialogPresenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Model\XML\AmbListXML.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Network\ReplyHandlers\NraReplyHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Model\InsuranceStatus.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Network\ReplyHandlers\FileSentHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1570,6 +1570,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\InsuranceStatus.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Network\ReplyHandlers\FileSentHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

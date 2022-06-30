@@ -20,8 +20,9 @@ namespace SOAP
 
 namespace PIS
 {
+	enum class SOAPAction { View, Files };
 	//returns true if the request was passed to the network
-	bool sendRequest(const std::string& soapBody, AbstractReplyHandler& handler);
+	bool sendRequest(const std::string& soapBody, AbstractReplyHandler& handler, SOAPAction header = SOAPAction::View);
 	bool insuranceRequest(AbstractReplyHandler& handler, const Patient& p, const Date& date = Date::currentDate());
 }
 

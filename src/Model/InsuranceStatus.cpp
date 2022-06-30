@@ -2,18 +2,21 @@
 
 std::string InsuranceStatus::getYearsText()
 {
-	if (status != Insured::No) return {};
+	if (status == Insured::NoData) return u8"Не са открити данни!";
 
-	std::string result{ u8"Месеци без здравно осигуряване : \t\n\n" };
-
+	std::string result;
+	
+	if (yearsMonths.size()) {
+		result += u8"Месеци без здравно осигуряване : \t\n\n";
+	}
 	result.reserve(yearsMonths.size() * 20);
 
 	for (auto [year, months] : yearsMonths) 
 	{
-		result.append(std::to_string(year) + ": ");
+		result += std::to_string(year) + ": ";
 
 		for (auto month : months) {
-			result.append(std::to_string(month) + ", ");
+			result += std::to_string(month) + ", ";
 		}
 
 		//turning the last comma into newline
@@ -21,6 +24,13 @@ std::string InsuranceStatus::getYearsText()
 		result.back() = '\n';
 
 	}
+
+	result +=
+		status == Insured::Yes ?
+		u8"Пациентът е здравно осигурен!"
+		:
+		u8"Пациентът не е здравно осигурен!";
+
 
 	return result;
 }

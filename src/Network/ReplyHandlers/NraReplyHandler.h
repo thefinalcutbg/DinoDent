@@ -17,10 +17,6 @@ public:
 	void getReply(const std::string& reply) override
 	{
 		if (reciever == nullptr) return;
-
-		qDebug() << "NRA REPLY: ";
-		qDebug() << reply.c_str();
-
 		TiXmlDocument doc;
 
 		doc.Parse(reply.data(), 0, TIXML_ENCODING_UTF8);

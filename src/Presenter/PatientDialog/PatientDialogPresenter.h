@@ -49,7 +49,7 @@ class PatientDialogPresenter
 	Patient getPatientFromView();
 	void setPatientToView(const Patient& patient);
 
-	bool m_noInsuranceDialog{ false };
+	bool m_insuranceDialog{ false };
 	
 
 public:
@@ -63,7 +63,7 @@ public:
 	void setHirbno(const std::string& hirbno);
 	void setInsuranceStatus(InsuranceStatus status_result);
 	void checkHirbno();
-	void checkHealthInsurance(bool showNoInsuranceDialog);
+	void checkHealthInsurance(bool showDialog);
 	void searchDbForPatient(int type);
 	void accept();
 

@@ -20,7 +20,8 @@ std::set<AbstractReplyHandler*> handlers;
 void Network::sendRequestToPis(
                                 const std::string& soapRequest,
                                 PKCS11& token,
-                                AbstractReplyHandler* handler
+                                AbstractReplyHandler* handler,
+                                const char* soapHeader
                               )
 {
 
@@ -44,8 +45,7 @@ void Network::sendRequestToPis(
     QNetworkRequest request(QUrl("https://pis.nhif.bg/ws/PISService"));
     request.setSslConfiguration(config);
     request.setHeader(QNetworkRequest::KnownHeaders::ContentTypeHeader, "text/xml;charset=\"utf-8\"");
-    request.setRawHeader("SOAPAction", "\"http://pis.technologica.com/view\"");
-   // request.setRawHeader("SOAPAction", "\"http://pis.technologica.com/files/\"");
+    request.setRawHeader("SOAPAction", soapHeader);
     request.setRawHeader("accept", "\"application/xml\"");
 
     handler->awaiting_reply = true;

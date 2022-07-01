@@ -38,7 +38,8 @@ ReportDialog::ReportDialog(ReportDialogPresenter* p, QWidget *parent)
 		presenter->reset()
 		:
 		presenter->generateReport(
-			ui.checkBox->isChecked()
+			ui.pisCheck->isChecked(),
+			ui.nraCheck->isChecked()
 			);
 
 	});
@@ -93,6 +94,7 @@ void ReportDialog::enableReportButtons(bool enabled)
 {
 	ui.pisButton->setEnabled(enabled);
 	ui.xmlButton->setEnabled(enabled);
+
 }
 
 void ReportDialog::showStopButton(bool yes)
@@ -103,4 +105,9 @@ void ReportDialog::showStopButton(bool yes)
 		ui.generateButton->setText(u8"Генерирай отчет");
 
 		m_stop = yes;
+
+		ui.nraCheck->setDisabled(yes);
+		ui.pisCheck->setDisabled(yes);
+		ui.monthCombo->setDisabled(yes);
+		ui.yearSpin->setDisabled(yes);
 }

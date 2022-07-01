@@ -234,7 +234,6 @@ bool AmbListValidator::examIsFirst()
     return true;
 }
 
-
 bool AmbListValidator::noDuplicates()
 {
     typedef int Tooth, Code;

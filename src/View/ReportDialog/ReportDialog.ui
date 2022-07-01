@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>479</width>
-    <height>326</height>
+    <width>474</width>
+    <height>345</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>ReportDialog</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
@@ -81,11 +81,22 @@
     </layout>
    </item>
    <item>
-    <widget class="QCheckBox" name="checkBox">
-     <property name="text">
-      <string>Проверка спрямо ПИС</string>
-     </property>
-    </widget>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QCheckBox" name="pisCheck">
+       <property name="text">
+        <string>Проверка спрямо ПИС</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="nraCheck">
+       <property name="text">
+        <string>Проверка спрямо НАП</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
     <widget class="QTextEdit" name="textEdit">

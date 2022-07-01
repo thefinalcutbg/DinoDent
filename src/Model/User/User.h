@@ -93,6 +93,11 @@ struct Practice
 		return rziCode.substr(0, 2);
 	}
 
+	bool hasNraAccess() const {
+		return nzok_contract.has_value() && !
+			nzok_contract->nra_pass.empty();
+	}
+
 };
 
 	

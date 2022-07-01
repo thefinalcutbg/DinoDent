@@ -1,12 +1,12 @@
-#pragma once
+﻿#pragma once
 #include "AbstractReplyHandler.h"
 #include "View/ModalDialogBuilder.h"
 #include <QDebug>
 #include <TinyXML/tinyxml.h>
 #include "Model/InsuranceStatus.h"
 
-//the template class has to implement void setInsuranceStatus(InsuranceStatus)
-template<typename T>
+//the template class has to implement void setInsuranceStatus(std::optional<InsuranceStatus>)
+template<class T>
 class NraReplyHandler : public AbstractReplyHandler
 {
 	T* reciever;
@@ -23,6 +23,7 @@ public:
 
 		if (!doc.RootElement()) {
 			reciever->setInsuranceStatus({});
+			ModalDialogBuilder::showError(u8"Неуспешна връзка с НАП");
 			return;
 		}
 
@@ -31,21 +32,27 @@ public:
 		auto patient =
 			statusHandle
 			.FirstChildElement()			  //response
-			.FirstChildElement();			  //patient
-
+			.FirstChildElement();			  //patient OR error
 
 
 		if (patient.FirstChild().ToElement() == nullptr) {
 			reciever->setInsuranceStatus({});
+			return;
+		}
+
+		if (patient.ToElement()->ValueStr() == "ns0:Error") {
+			ModalDialogBuilder::showError(
+				patient.Child(1).ToElement()->GetText()
+			);
+			reciever->setInsuranceStatus({});
+			return;
 		}
 
 		int insuredCode = std::stoi(patient.Child(0).ToElement()->GetText());
 
-		
-
 		switch(insuredCode)
 		{
-		case 1:  reciever->setInsuranceStatus({ Insured::Yes }); break;
+		case 1:  reciever->setInsuranceStatus(InsuranceStatus{ Insured::Yes }); break;
 
 		case 2: 
 			{

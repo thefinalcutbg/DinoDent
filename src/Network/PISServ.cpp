@@ -288,8 +288,8 @@ bool PIS::insuranceRequest(AbstractReplyHandler& handler, const Patient& p, cons
 						 "RCZPassword=\"" + practice.nzok_contract->nra_pass + "\">"
 			 "<Patient>"
 			  "<PIN>" + p.id + "</PIN>"
-			  "<PINType>0</PINType>"
-			  "<ChkDt>" + time + "</ChkDt>"
+			  "<PINType>"+ std::to_string(p.type-1) + "</PINType>"
+			  "<ChkDt>" + date.toXMLString() + "T00:00:00" + "</ChkDt>"
 			"</Patient>"
 			"</PIS_Request>"
 

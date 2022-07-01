@@ -111,7 +111,7 @@ void PatientDialogPresenter::accept()
 
 	
 	m_patient = getPatientFromView();
-	m_patient->InsuranceStatus = this->insurance;
+	m_patient->insuranceStatus = this->insurance;
 	
 	if (rowid == 0) {
 		rowid = m_patient->rowid;
@@ -195,10 +195,9 @@ void PatientDialogPresenter::setHirbno(const std::string& hirbno)
 	view->setHirbno(hirbno);
 }
 
-void PatientDialogPresenter::setInsuranceStatus(InsuranceStatus insurance)
+void PatientDialogPresenter::setInsuranceStatus(const std::optional<InsuranceStatus>& status_result)
 {
-	if (insurance.status == Insured::NoData &&
-		this->insurance.status != Insured::NoData) {
+	if(!status_result){
 		return;
 	}
 

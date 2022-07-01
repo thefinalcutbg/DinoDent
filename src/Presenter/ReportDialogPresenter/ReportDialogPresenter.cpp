@@ -51,47 +51,6 @@ std::string consecutionCheck(const std::vector<AmbList>& lists) {
 
 }
 
-
-void ReportDialogPresenter::pisCheckNext()
-{ 
-
-	if (m_currentIndex >= lists.size()) {
-
-		finish();
-		return;
-	}
-
-	auto& list = lists[m_currentIndex];
-
-	auto& patient = patients[list.patient_rowid];
-
-	if(!patient.PISHistory.has_value())
-	{
-		bool success = 
-			PIS::sendRequest(
-			SOAP::dentalActivities(
-				patient.id, patient.type),
-				reply_handler
-		);
-
-		if (!success) {
-			reset();
-		}
-
-		return;
-
-	}
-
-	checkAmbList(list, patient);
-
-	m_currentIndex++;
-	updateProgressBar();
-	pisCheckNext();
-
-	
-	
-}
-
 void ReportDialogPresenter::updateProgressBar()
 {
 	double percent = (static_cast<double>(m_currentIndex) / lists.size()) * 100;
@@ -119,7 +78,27 @@ bool ReportDialogPresenter::checkAmbList(const AmbList& list, const Patient& pat
 
 	}
 
-	return result;
+	if (!nraCheck) return result;
+
+	switch (patient.insuranceStatus->status) {
+	case Insured::Yes: break;
+
+	case Insured::NoData: view->appendText(
+		u8"За пациент с ЕГН/ЛНЧ "
+		+ patient.id +
+		u8" не са открити данни в НАП");
+		result = false;
+		m_hasErrors = true;
+		break;
+
+	case Insured::No:
+		view->appendText(u8"Пациент с ЕГН/ЛНЧ " + patient.id + u8" е неосигурен");
+		m_hasErrors = false;
+		break;
+	}
+
+
+
 }
 
 
@@ -159,6 +138,55 @@ void ReportDialogPresenter::sendToPis()
 	);
 
 
+}
+
+void ReportDialogPresenter::checkNext()
+{
+
+	if (m_currentIndex >= lists.size()) {
+
+		finish();
+		return;
+	}
+
+	auto& list = lists[m_currentIndex];
+
+	auto& patient = patients[list.patient_rowid];
+
+	//sending request to PIS
+	if (pisCheck && !patient.PISHistory.has_value())
+	{
+		bool success =
+			PIS::sendRequest(
+				SOAP::dentalActivities(
+					patient.id, patient.type),
+				pis_handler
+			);
+
+		if (!success) { reset();}
+
+		return;
+	}
+
+	//sending request to NRA
+	if (nraCheck && !patient.insuranceStatus.has_value())
+	{
+		bool success = PIS::insuranceRequest(
+			nra_handler, 
+			patient, 
+			list.getDate()
+		);
+		
+		if (!success) { reset(); };
+
+		return;
+	}
+
+	checkAmbList(list, patient);
+
+	m_currentIndex++;
+	updateProgressBar();
+	checkNext();
 }
 
 void ReportDialogPresenter::saveToXML()
@@ -210,8 +238,23 @@ void ReportDialogPresenter::setPISActivities(const std::optional<Procedures>& pi
 	}
 
 	patients[lists[m_currentIndex].patient_rowid].PISHistory = pisProcedures.value();
-	pisCheckNext();
+	checkNext();
 	
+}
+
+void ReportDialogPresenter::setInsuranceStatus(const std::optional<InsuranceStatus>& insuranceStatus)
+{
+	if (!insuranceStatus) {
+		reset();
+	}
+
+	if (m_currentIndex == -1) {
+		return;
+	}
+
+	patients[lists[m_currentIndex].patient_rowid].insuranceStatus = insuranceStatus;
+
+	checkNext();
 }
 
 void ReportDialogPresenter::setDate(int month, int year)
@@ -221,9 +264,13 @@ void ReportDialogPresenter::setDate(int month, int year)
 	reset();
 }
 
-void ReportDialogPresenter::generateReport(bool checkPis)
+void ReportDialogPresenter::generateReport(bool checkPis, bool checkNra)
 {
+
 	//getting amblists and patients:
+
+	pisCheck = checkPis;
+	nraCheck = checkNra;
 
 	lists.clear();
 
@@ -258,24 +305,14 @@ void ReportDialogPresenter::generateReport(bool checkPis)
 
 	//checking individual lists
 
-	if (checkPis) {
-		view->showStopButton(true);
-		pisCheckNext();
-		return;
-	}
-	
-	for (auto list : lists) {
-		bool valid = checkAmbList(list, patients[list.patient_rowid]);
-		
-		if (!valid) {
 
-		}
+	view->showStopButton(true);
+	checkNext();
 
-		m_currentIndex++;
-		updateProgressBar();
-	}
+	return;
+
 	
-	finish();
+
 }
 
 void ReportDialogPresenter::finish()

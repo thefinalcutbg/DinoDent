@@ -19,6 +19,8 @@ public:
 	static void initialize();
 	static inline UserManager& instance() { return m_instance; }
 	static inline const User& currentUser() { return m_currentUser; }
+	static inline const Practice& practice() { return m_currentUser.practice; }
+	static inline const Doctor& doctor() { return m_currentUser.doctor; }
 	static inline void setCurrentUser(const User& user) { m_currentUser = user; }
 	static inline void setCurrentDoctor(const Doctor& doctor) { m_currentUser.doctor = doctor; }
 	static inline void setPriceList(const std::vector<ProcedureTemplate>& priceList) { m_currentUser.practice.priceList = priceList; }

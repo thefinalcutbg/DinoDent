@@ -34,7 +34,7 @@ struct Patient
 	TeethNotes teethNotes;
 
 	std::optional<std::vector<Procedure>> PISHistory;
-	std::optional<InsuranceStatus> InsuranceStatus;
+	std::optional<InsuranceStatus> insuranceStatus;
 	static bool getSexFromEgn(const std::string& egn);
 	int getAge(const Date& currentDate = Date::currentDate())  const;
 	bool isAdult(const Date& currentDate = Date::currentDate())  const;

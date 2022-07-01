@@ -61,7 +61,7 @@ public:
 
 	void changePatientType(int index);
 	void setHirbno(const std::string& hirbno);
-	void setInsuranceStatus(InsuranceStatus status_result);
+	void setInsuranceStatus(const std::optional<InsuranceStatus>& status_result);
 	void checkHirbno();
 	void checkHealthInsurance(bool showDialog);
 	void searchDbForPatient(int type);

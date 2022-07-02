@@ -2,6 +2,7 @@
 #include <string>
 #include <sstream>
 #include <iomanip>
+#include <fstream>
 
 inline std::string formatDouble(const double& price)
 {
@@ -47,4 +48,13 @@ inline std::string leadZeroes(const std::string& number, int totalLength) {
     formated += number;
 
     return formated;
+}
+
+
+inline std::string getFile(const std::string& filepath) {
+
+    std::ifstream t(filepath);
+    return std::string((std::istreambuf_iterator<char>(t)),
+        std::istreambuf_iterator<char>());
+
 }

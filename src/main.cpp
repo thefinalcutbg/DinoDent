@@ -5,20 +5,12 @@
 #include "Model/Tooth/DiagnosisContainer.h"
 #include "Model/User/User.h"
 #include "Database/Database.h"
-#include <QTextCodec>
+
 #include "Model/CityCode.h"
 
 
 #include "View/ModalDialogBuilder.h"
 
-#include <fstream>
-std::string getFile() {
-
-    std::ifstream t("reply.xml");
-    return std::string((std::istreambuf_iterator<char>(t)),
-        std::istreambuf_iterator<char>());
-
-}
 
 
 int main(int argc, char *argv[])
@@ -29,7 +21,6 @@ int main(int argc, char *argv[])
 
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
-    //QApplication::setHighDpiScaleFactorRoundingPolicy(Qt::HighDpiScaleFactorRoundingPolicy::Round);
     QApplication::setFont(QFont ("Segoe UI", 8));    
 
     QApplication a(argc, argv);
@@ -38,10 +29,12 @@ int main(int argc, char *argv[])
 
     //Intializing singletons
     CityCode::initialize();
+    User::initialize();
     SpriteSheets::container().initialize(); //loading textures, otherwise program will crash;
     DiagnosisContainer::initialize();
-    User::initialize();
+
     MasterNZOK::instance().loadUpdates(); //parsing json of nzok data
+
 
     Torque w;
 

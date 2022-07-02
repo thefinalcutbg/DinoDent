@@ -42,7 +42,8 @@ void PatientDialogPresenter::setView(IPatientDialog* view)
 		view->setEditMode(true);
 
 		if (User::practice().nzok_contract &&
-			!User::practice().nzok_contract->nra_pass.empty()
+			!User::practice().nzok_contract->nra_pass.empty() &&
+			User::settings().getNraStatusAuto
 			)
 		{
 			checkHealthInsurance(false);
@@ -150,7 +151,8 @@ void PatientDialogPresenter::searchDbForPatient(int type)
 	}
 	
 	if (User::practice().nzok_contract &&
-		!User::practice().nzok_contract->nra_pass.empty()
+		!User::practice().nzok_contract->nra_pass.empty() &&
+		User::settings().getNraStatusAuto
 		) 
 	{
 		checkHealthInsurance(false);
@@ -184,15 +186,18 @@ void PatientDialogPresenter::setPatientToView(const Patient& patient)
 	pastDiseases = patient.pastDiseases;
 }
 
-void PatientDialogPresenter::setHirbno(const std::string& hirbno)
+void PatientDialogPresenter::setHirbno(const std::optional<std::string>&hirbno)
 {
+	if (!hirbno) {
+		return;
+	}
 
-	if(hirbno.empty()){
+	if(hirbno->empty()){
 		ModalDialogBuilder::showMessage(u8"Не е намерена активна здравна книжка");
 		return;
 	}
 
-	view->setHirbno(hirbno);
+	view->setHirbno(hirbno.value());
 }
 
 void PatientDialogPresenter::setInsuranceStatus(const std::optional<InsuranceStatus>& status_result)
@@ -201,7 +206,7 @@ void PatientDialogPresenter::setInsuranceStatus(const std::optional<InsuranceSta
 		return;
 	}
 
-	this->insurance = insurance;
+	this->insurance = status_result.value();
 
 	view->setInsuranceStatus(insurance.status);
 

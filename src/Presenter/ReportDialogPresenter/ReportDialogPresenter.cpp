@@ -7,6 +7,7 @@
 #include "Model/XML/xml.h"
 #include <fstream>
 #include "Model/FreeFunctions.h"
+#include "Model/Procedure/MasterNZOK.h"
 
 //returns empty string if valid
 std::string consecutionCheck(const std::vector<AmbList>& lists) {

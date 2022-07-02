@@ -16,8 +16,8 @@ void HirbnoReplyHandler::getReply(const std::string& reply)
 
 
 	if (reply.empty()) {
-		ModalDialogBuilder::showError(u8"Неуспешна връзка със сървъра");
-		p_presenter->setHirbno("");
+		ModalDialogBuilder::showError(u8"Неуспешна връзка с ПИС");
+		p_presenter->setHirbno({});
 		return;
 	}
 

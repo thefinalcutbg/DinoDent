@@ -9,13 +9,13 @@ Tooth::Tooth() :
 {
 	for (int i = 0; i < surfaceCount; i++)
 	{
-		caries[i].data.setDiagnosisList(DiagnosisContainer::caries());
+		caries[i].data.setDiagnosisList(diagnosis(DiagnosisContainer::DiagnosisType::Caries));
 	}
 
-	pulpitis.data.setDiagnosisList(DiagnosisContainer::pulpitis());
-	lesion.data.setDiagnosisList(DiagnosisContainer::lesion());
-	fracture.data.setDiagnosisList(DiagnosisContainer::fracture());
-	root.data.setDiagnosisList(DiagnosisContainer::root());
+	pulpitis.data.setDiagnosisList(diagnosis(DiagnosisContainer::DiagnosisType::Pulpitis));
+	lesion.data.setDiagnosisList(diagnosis(DiagnosisContainer::DiagnosisType::Lesion));
+	fracture.data.setDiagnosisList(diagnosis(DiagnosisContainer::DiagnosisType::Fracture));
+	root.data.setDiagnosisList(diagnosis(DiagnosisContainer::DiagnosisType::Root));
 
 }
 

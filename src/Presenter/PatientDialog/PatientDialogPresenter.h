@@ -60,7 +60,7 @@ public:
 	std::optional<Patient> open();
 
 	void changePatientType(int index);
-	void setHirbno(const std::string& hirbno);
+	void setHirbno(const std::optional<std::string>& hirbno);
 	void setInsuranceStatus(const std::optional<InsuranceStatus>& status_result);
 	void checkHirbno();
 	void checkHealthInsurance(bool showDialog);

@@ -146,7 +146,7 @@ void Db::createIfNotExist()
     Db db;
 
     db.execute(
-        "CREATE TABLE practice (rzi VARCHAR NOT NULL PRIMARY KEY, name VARCHAR NOT NULL, bulstat VARCHAR NOT NULL, firm_address VARCHAR, practice_address VARCHAR, pass VARCHAR NOT NULL, legal_entity INT, vat VARCHAR, nzok_contract VARCHAR, priceList VARCHAR)"
+        "CREATE TABLE practice (rzi VARCHAR NOT NULL PRIMARY KEY, name VARCHAR NOT NULL, bulstat VARCHAR NOT NULL, firm_address VARCHAR, practice_address VARCHAR, pass VARCHAR NOT NULL, legal_entity INT, vat VARCHAR, nzok_contract VARCHAR, priceList VARCHAR, settings VARCHAR)"
     );
 
     db.execute(

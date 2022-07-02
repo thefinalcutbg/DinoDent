@@ -1,6 +1,12 @@
 #include "DiagnosisContainer.h"
 #include <JsonCpp/json.h>
+#include <array>
 #include <fstream>
+
+bool s_init{ false };
+
+std::array<std::vector<std::string>, 5> s_diagnosis;
+
 
 inline void diagListParse(std::vector<std::string>& list, const Json::Value& jsonValue)
 {
@@ -20,11 +26,16 @@ void DiagnosisContainer::initialize()
 
 	reader.parse(ifs, jDiagList);
 
-	diagListParse(s_caries, jDiagList["caries"]);
-	diagListParse(s_pulpitis, jDiagList["pulpitis"]);
-	diagListParse(s_lesion, jDiagList["periodontitis"]);
-	diagListParse(s_fracture, jDiagList["fracture"]);
-	diagListParse(s_root, jDiagList["radix"]);
+	diagListParse(s_diagnosis[DiagnosisType::Caries], jDiagList["caries"]);
+	diagListParse(s_diagnosis[DiagnosisType::Pulpitis], jDiagList["pulpitis"]);
+	diagListParse(s_diagnosis[DiagnosisType::Lesion], jDiagList["periodontitis"]);
+	diagListParse(s_diagnosis[DiagnosisType::Fracture], jDiagList["fracture"]);
+	diagListParse(s_diagnosis[DiagnosisType::Root], jDiagList["radix"]);
 
 	s_init = true;
+}
+
+std::vector<std::string>& DiagnosisContainer::diagnosis(DiagnosisType type)
+{
+	return s_diagnosis[type];
 }

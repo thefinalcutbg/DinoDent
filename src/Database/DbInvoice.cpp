@@ -1,6 +1,6 @@
 #include "DbInvoice.h"
 #include "Database/Database.h"
-#include "Model/User/UserManager.h"
+#include "Model/User/User.h"
 #include "Model/Parser/Parser.h"
 #include <TinyXML/tinyxml.h>
 long long DbInvoice::insertInvoice(const Invoice& invoice)
@@ -15,7 +15,7 @@ long long DbInvoice::insertInvoice(const Invoice& invoice)
         query = 
             "INSERT INTO financial (practice_rzi, num, type, day, month, year, month_notif, recipient_id, data) "
             "VALUES ("
-            "'" + UserManager::currentUser().practice.rziCode + "',"
+            "'" + User::practice().rziCode + "',"
             + std::to_string(invoice.number) + ","
             + std::to_string(static_cast<int>(invoice.type)) + ","
             + std::to_string(invoice.date.day) + ","
@@ -31,7 +31,7 @@ long long DbInvoice::insertInvoice(const Invoice& invoice)
         query = "INSERT INTO financial (practice_rzi, num, type, day, month, year, month_notif, data," 
                                 " recipient_id, recipient_name, recipient_address, recipient_phone) "
             "VALUES ("
-            "'" + UserManager::currentUser().practice.rziCode + "',"
+            "'" + User::practice().rziCode + "',"
             + std::to_string(invoice.number) + ","
             + std::to_string(static_cast<int>(invoice.type)) + ","
             + std::to_string(invoice.date.day) + ","
@@ -96,7 +96,7 @@ long long DbInvoice::invoiceAlreadyExists(int monthNotifNumber)
      std::string query =
          "SELECT rowid FROM financial "
          "WHERE month_notif = " + std::to_string(monthNotifNumber) + " "
-         "AND practice_rzi = '" + UserManager::currentUser().practice.rziCode + "' "
+         "AND practice_rzi = '" + User::practice().rziCode + "' "
          "ORDER BY num DESC LIMIT 1";
 
      Db db(query);
@@ -115,7 +115,7 @@ std::optional<Date> DbInvoice::getMainDocDate(long long invoiceNumber, const std
         "num = " + std::to_string(invoiceNumber) + " "
         "AND type = 0 "
         "AND recipient_id = '" + recipient_id + "' "
-        "AND practice_rzi = '" + UserManager::currentUser().practice.rziCode + "'"
+        "AND practice_rzi = '" + User::practice().rziCode + "'"
     };
 
     for (Db db(query); db.hasRows();)
@@ -132,7 +132,7 @@ std::optional<MainDocument> DbInvoice::getMainDocument(const std::string& recipi
     "SELECT num, day, month, year FROM financial WHERE "
     "type = 0 "
     "AND recipient_id = '" + recipient_id + "' "
-    "AND practice_rzi = '" + UserManager::currentUser().practice.rziCode + "'"
+    "AND practice_rzi = '" + User::practice().rziCode + "'"
     "ORDER BY num DESC LIMIT 1"
     };
 
@@ -180,7 +180,7 @@ Invoice DbInvoice::getInvoice(long long rowId)
                         TiXmlDocument doc;
                         doc.Parse(db.asString(6).c_str(), 0, TIXML_ENCODING_UTF8);
 
-                        Invoice result(doc, UserManager::currentUser());
+                        Invoice result(doc, User::practice(), User::doctor());
 
                         result.rowId = rowId;
                         result.number = invNumber;
@@ -218,7 +218,7 @@ int DbInvoice::getNewInvoiceNumber()
 
     Db db(
         "SELECT num FROM financial WHERE "
-        "practice_rzi = '" + UserManager::currentUser().practice.rziCode + "' "
+        "practice_rzi = '" + User::practice().rziCode + "' "
         "ORDER BY num DESC LIMIT 1"
     );
 
@@ -233,7 +233,7 @@ std::unordered_set<int> DbInvoice::getExistingNumbers()
 
     Db db(
         "SELECT num FROM financial WHERE "
-        "practice_rzi = '" + UserManager::currentUser().practice.rziCode + "' "
+        "practice_rzi = '" + User::practice().rziCode + "' "
     );
 
     while (db.hasRows()) {

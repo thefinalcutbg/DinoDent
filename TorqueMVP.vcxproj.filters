@@ -300,7 +300,7 @@
     <ClCompile Include="src\Database\DbNotes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Model\User\UserManager.cpp">
+    <ClCompile Include="src\Model\User\User.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\PerioView\PerioView.cpp">
@@ -469,9 +469,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Presenter\SettingsPresenter\PracticeDoctorSettingsPresenter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Model\User\User.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\SettingsDialog\PracticeDoctorSettings\IPracticeDoctorSettings.cpp">
@@ -1212,7 +1209,7 @@
     <ClInclude Include="src\Model\Procedure\NZOKmaps.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model\User\User.h">
+    <ClInclude Include="src\Model\User\UserStructs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\ToothPaintDevices\ToothSprite.h">
@@ -1296,7 +1293,7 @@
     <ClInclude Include="src\Database\DbNotes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model\User\UserManager.h">
+    <ClInclude Include="src\Model\User\User.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Presenter\TabPresenter\TabInstance.h">
@@ -1566,9 +1563,6 @@
     <ClInclude Include="src\Network\ReplyHandlers\MonthNotifDataHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\GlobalSettings.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Presenter\ReportDialogPresenter\ReportDialogPresenter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1582,6 +1576,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Network\ReplyHandlers\FileSentHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\Settings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

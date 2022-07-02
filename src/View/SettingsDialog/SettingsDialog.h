@@ -19,6 +19,8 @@ public:
 	IPracticeSettings* practiceView() override { return ui.practiceSettings; };
 	IPriceListSettings* priceListView() override { return ui.priceSettings; };
 	IPracticeDoctorSettings* practiceDoctorView() override { return ui.practiceDoctorSettings; };
+	void setSettings(const Settings& settings) override;
+	Settings getSettings() override;
 
 	~SettingsDialog();
 

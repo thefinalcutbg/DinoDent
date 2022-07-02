@@ -259,7 +259,6 @@
     <ClCompile Include="src\Model\Financial\Recipient.cpp" />
     <ClCompile Include="src\Presenter\AddPracticePresenter\AddPracticePresenter.cpp" />
     <ClCompile Include="src\View\AddPracticeDialog\AddPracticeDialog.cpp" />
-    <ClCompile Include="src\Model\User\User.cpp" />
     <ClCompile Include="src\Presenter\SettingsPresenter\PracticeDoctorSettingsPresenter.cpp" />
     <ClCompile Include="src\View\ListView\SurfacePanel\ControlPanelPolygon.cpp" />
     <ClCompile Include="src\View\ListView\SurfacePanel\CPTooth.cpp" />
@@ -420,7 +419,7 @@
     <ClCompile Include="src\Presenter\TabPresenter\TabPresenter.cpp" />
     <ClCompile Include="src\View\TabView\TabView.cpp" />
     <ClCompile Include="src\Model\Tooth\ToothContainer.cpp" />
-    <ClCompile Include="src\Model\User\UserManager.cpp" />
+    <ClCompile Include="src\Model\User\User.cpp" />
     <ClCompile Include="src\View\TabView\TabTitle.cpp" />
     <ClCompile Include="src\View\PatientSummaryView\TeethView\TeethBuccalScene.cpp" />
     <ClCompile Include="src\View\PatientSummaryView\TeethView\TeethLingualScene.cpp" />
@@ -537,11 +536,11 @@
     <QtMoc Include="src\View\PISHistoryDialog\PISHistoryDialog.h" />
     <QtMoc Include="src\View\MonthNotifDialog\MonthNotifDialog.h" />
     <QtMoc Include="src\View\PinPromptDialog\PinPromptDialog.h" />
+    <ClInclude Include="src\Model\Settings.h" />
     <ClInclude Include="src\Network\ReplyHandlers\FileSentHandler.h" />
     <ClInclude Include="src\Model\InsuranceStatus.h" />
     <ClInclude Include="src\Network\ReplyHandlers\NraReplyHandler.h" />
     <ClInclude Include="src\Presenter\ReportDialogPresenter\ReportDialogPresenter.h" />
-    <ClInclude Include="src\GlobalSettings.h" />
     <ClInclude Include="src\Network\ReplyHandlers\MonthNotifDataHandler.h" />
     <ClInclude Include="src\Presenter\MonthNotifLoader.h" />
     <ClInclude Include="src\Model\Financial\FinancialEnums.h" />
@@ -647,7 +646,7 @@
     <ClInclude Include="src\Model\Procedure\TableStructs.h" />
     <ClInclude Include="src\Presenter\DetailsPresenter\DetailedStatusPresenter.h" />
     <ClInclude Include="src\Presenter\DetailsPresenter\StatusController.h" />
-    <ClInclude Include="src\Model\User\UserManager.h" />
+    <ClInclude Include="src\Model\User\User.h" />
     <QtMoc Include="src\View\DetailsView\DetailedStatus.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\Widgets\PathologyWidget.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\Widgets\CrownWidget.h" />
@@ -680,7 +679,7 @@
     <ClInclude Include="src\View\uiComponents\qt_derived\Widgets\IImplantView.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\Widgets\ImplantView.h" />
     <ClInclude Include="src\View\ModalDialogBuilder.h" />
-    <ClInclude Include="src\Model\User\User.h" />
+    <ClInclude Include="src\Model\User\UserStructs.h" />
     <ClInclude Include="src\View\TabView\ITabView.h" />
     <ClInclude Include="src\View\ToothPaintDevices\ToothSprite.h" />
     <ClInclude Include="src\Presenter\TabPresenter\TabPresenter.h" />

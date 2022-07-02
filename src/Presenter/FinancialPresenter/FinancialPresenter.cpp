@@ -1,11 +1,13 @@
 ﻿#include "FinancialPresenter.h"
-#include "Model/User/UserManager.h"
-#include <TinyXML/tinyxml.h>
-#include "View/Printer/Printer.h"
-#include <FileSystem>
-#include <stdexcept>
+
 #include "Model/XML/xml.h"
 #include "Database/DbInvoice.h"
+#include "View/Printer/Printer.h"
+#include "Model/User/User.h"
+
+#include <TinyXML/tinyxml.h>
+#include <FileSystem>
+#include <stdexcept>
 #include <fstream>
 
 Invoice getInvoiceFromMonthNotif(const std::string& xmlstring)
@@ -14,7 +16,7 @@ Invoice getInvoiceFromMonthNotif(const std::string& xmlstring)
 
     const char* load = doc.Parse(xmlstring.data(), 0, TIXML_ENCODING_UTF8);
 
-    Invoice i(doc, UserManager::currentUser());
+    Invoice i(doc, User::practice(), User::doctor());
     i.date = Date::currentDate();
 
     auto existingRowid = DbInvoice::invoiceAlreadyExists(i.nzokData->fin_document_month_no);
@@ -42,7 +44,7 @@ FinancialPresenter::FinancialPresenter(ITabView* tabView, const std::string& mon
 FinancialPresenter::FinancialPresenter(ITabView* tabView, const Procedures& procedures, std::shared_ptr<Patient> patient) :
     TabInstance(tabView, TabType::Financial, patient),
     view(tabView->financialView()),
-    m_invoice(*patient.get(), UserManager::currentUser())
+    m_invoice(*patient.get(), User::practice(), User::doctor())
 {
     m_invoice.date = Date::currentDate();
 
@@ -99,7 +101,7 @@ void FinancialPresenter::addOperation()
 {
     if (m_invoice.nzokData.has_value()) return;
 
-    auto newOp = ModalDialogBuilder::addBusinessOperation(UserManager::currentUser().practice.priceList);
+    auto newOp = ModalDialogBuilder::addBusinessOperation(User::practice().priceList);
 
     if (newOp.has_value())
         m_invoice.addOperation(newOp.value());
@@ -170,7 +172,7 @@ void FinancialPresenter::sendToPis()
 
         SOAP::sendInvoice(
             XML::getInvoice(m_invoice),
-            UserManager::currentUser().practice.rziCode,
+            User::practice().rziCode,
             m_invoice.type
         ),
         file_handler,

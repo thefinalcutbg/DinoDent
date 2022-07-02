@@ -7,9 +7,9 @@
 #include "BusinessOperation.h"
 #include "FinancialEnums.h"
 class TiXmlDocument;
-struct User;
-struct Practice;
 
+struct Practice;
+struct Doctor;
 
 struct MainDocument //only in case of debit or credit note
 {
@@ -35,8 +35,8 @@ struct AggregatedAmounts
 struct Invoice
 {
 	Invoice() {};
-	Invoice(const TiXmlDocument& monthNotif, const User& user);
-	Invoice(const Patient& p, const User& user);
+	Invoice(const TiXmlDocument& monthNotif, const Practice& practice, const Doctor& doctor);
+	Invoice(const Patient& p, const Practice& practice, const Doctor& doctor);
 
 	std::optional<MainDocument> mainDocument() const;
 

@@ -1,15 +1,15 @@
 ﻿#include "xml.h"
 #include <TinyXML/tinyxml.h>
-#include "Model/User/UserManager.h"
-#include "Model/Financial/Invoice.h"
+
 #include <unordered_set>
 #include <cmath>
-#include "Model/User/UserManager.h"
+
 #include "Model/Procedure/MasterNZOK.h"
 #include "Model/FreeFunctions.h"
 #include "Model/CityCode.h"
 #include "Model/Tooth/ToothUtils.h"
-
+#include "Model/User/User.h"
+#include "Model/Financial/Invoice.h"
 
 std::string getSpec(bool fullCoverage)
 {
@@ -22,7 +22,7 @@ std::string getSpec(bool fullCoverage)
         //"SPEC_PS      //за обща анестезия (такъв няма feature все още)
     };
 
-    auto& specialty = UserManager::currentUser().doctor.specialty;
+    auto& specialty = User::doctor().specialty;
 
     //specialty check:
     {
@@ -60,8 +60,8 @@ specTypeValid:
 std::string XML::getReport(const std::vector<AmbList>& lists, const std::unordered_map<long long, Patient>& patients)
 {
 
-    auto& doctor = UserManager::currentUser().doctor;
-    auto& practice = UserManager::currentUser().practice;
+    auto& doctor = User::doctor();
+    auto& practice = User::practice();
 
     TiXmlDocument doc("StomReport");
 
@@ -273,7 +273,7 @@ std::string XML::getInvoice(const Invoice& invoice)
     }
 
     TiXmlElement* recipient = new TiXmlElement("Invoice_Recipient");
-    addElementWithText(recipient, "recipient_code", UserManager::currentUser().practice.rziCode.substr(0, 2));
+    addElementWithText(recipient, "recipient_code", User::practice().rziCode.substr(0, 2));
     addElementWithText(recipient, "recipient_name", invoice.recipient.name);
     addElementWithText(recipient, "recipient_address", invoice.recipient.address);
     addElementWithText(recipient, "recipient_bulstat", invoice.recipient.bulstat);
@@ -312,7 +312,7 @@ std::string XML::getInvoice(const Invoice& invoice)
     addElementWithText(issuer, "company_name", invoice.issuer.company_name);
     addElementWithText(issuer, "address_by_contract", invoice.issuer.address_by_contract);
 
-    if (UserManager::currentUser().doctor.severalRHIF) {
+    if (User::doctor().severalRHIF) {
         addElementWithText(issuer, "address_by_activity", invoice.issuer.address_by_activity);
     }
 

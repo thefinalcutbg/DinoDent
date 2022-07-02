@@ -1,5 +1,5 @@
 #pragma once
-#include "Model/User/UserManager.h"
+#include "Model/User/User.h"
 #include "View/DetailsView/IDetailedStatusView.h"
 #include "Model/Tooth/Status.h"
 #include "Model/Tooth/SurfStatus.h"
@@ -46,10 +46,10 @@ class DentistMadeControl : public DetailedStatusController
 	std::string getMadeByLabel(const std::string& statusLPK) const
 	{
 		if (statusLPK.empty()) {
-			return UserManager::currentUser().doctor.getFullName();
+			return User::doctor().getFullName();
 		}
 
-		return UserManager::getDoctorName(statusLPK);
+		return User::getNameFromLPK(statusLPK);
 	}
 
 public:
@@ -61,7 +61,7 @@ public:
 		DentistData data;
 		data.dentistName = getMadeByLabel(LPK);
 		data.isChecked = (!LPK.empty());
-		data.isEnabled = (LPK.empty() || UserManager::isCurrentUser(LPK));
+		data.isEnabled = (LPK.empty() || User::isCurrentUser(LPK));
 
 		permissionToWrite = data.isEnabled;
 
@@ -75,7 +75,7 @@ public:
 		auto isChecked = view.getDentistData();
 
 		if (isChecked)
-			LPK = UserManager::currentUser().doctor.LPK;
+			LPK = User::doctor().LPK;
 		else LPK.clear();
 	}
 
@@ -143,12 +143,12 @@ public:
 		DentistData dentistData;
 
 		dentistData.dentistName = LPK.empty() ?
-			UserManager::currentUser().doctor.getFullName()
+			User::doctor().getFullName()
 			:
-			UserManager::getDoctorName(LPK);
+			User::getNameFromLPK(LPK);
 
 		dentistData.isChecked = (!LPK.empty());
-		dentistData.isEnabled = (LPK.empty() || UserManager::isCurrentUser(LPK));
+		dentistData.isEnabled = (LPK.empty() || User::isCurrentUser(LPK));
 
 		view.setData(dentistData);
 		view.setData(ObturationData{});
@@ -169,8 +169,8 @@ public:
 
 			if (statusResult.material.size()) status[i].data.material = statusResult.material;
 
-			if (status[i].LPK == UserManager::currentUser().doctor.LPK || status[i].LPK.empty())
-				status[i].LPK = doctorResult ? UserManager::currentUser().doctor.LPK : "";
+			if (status[i].LPK == User::doctor().LPK || status[i].LPK.empty())
+				status[i].LPK = doctorResult ? User::doctor().LPK : "";
 
 		}
 	};

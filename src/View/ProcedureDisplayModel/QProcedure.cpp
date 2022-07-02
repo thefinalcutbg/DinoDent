@@ -2,7 +2,7 @@
 
 #include "View/GlobalFunctions.h"
 #include "Model/Tooth/ToothUtils.h"
-#include "Model/User/UserManager.h"
+#include "Model/User/User.h"
 
 QProcedure::QProcedure(const Procedure& p) :
 	date(QString::fromStdString(p.date.toString())),
@@ -10,6 +10,6 @@ QProcedure::QProcedure(const Procedure& p) :
 	tooth(ToothUtils::getToothNumber(p.tooth, p.temp)),
 	procedureName(QString::fromStdString(p.name)),
 	code(p.code), nzok(p.nzok), price(priceToString(p.price)),
-	doctor(QString::fromStdString(UserManager::getDoctorName(p.LPK)))
+	doctor(QString::fromStdString(User::getNameFromLPK(p.LPK)))
 {
 }

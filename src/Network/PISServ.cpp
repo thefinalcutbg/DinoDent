@@ -256,12 +256,12 @@ we have to create two PKCS11 instances - one for the signing and one for the SSL
 }
 
 #include "Model/Patient.h"
-#include "Model/User/UserManager.h"
+#include "Model/User/User.h"
 #include <QTime>
 
 bool PIS::insuranceRequest(AbstractReplyHandler& handler, const Patient& p, const Date& date)
 {
-	auto& practice = UserManager::currentUser().practice;
+	auto& practice = User::practice();
 
 	if (!practice.nzok_contract.has_value() ||
 		practice.nzok_contract->nra_pass.empty()

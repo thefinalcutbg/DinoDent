@@ -2,7 +2,7 @@
 #include "View/AddPracticeDialog/IAddPracticeDialog.h"
 #include "Presenter/SettingsPresenter/PracticeSettingsPresenter.h"
 #include "Presenter/SettingsPresenter/PracticeDoctorSettingsPresenter.h"
-#include "Model/User/User.h"
+#include "Model/User/UserStructs.h"
 #include <optional>
 
 struct NewPractice {

@@ -3,7 +3,7 @@
 #include "View/ToothPaintDevices/SpriteSheets.h"
 #include "Model/Procedure/MasterNZOK.h"
 #include "Model/Tooth/DiagnosisContainer.h"
-#include "Model/User/UserManager.h"
+#include "Model/User/User.h"
 #include "Database/Database.h"
 #include <QTextCodec>
 #include "Model/CityCode.h"
@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
     CityCode::initialize();
     SpriteSheets::container().initialize(); //loading textures, otherwise program will crash;
     DiagnosisContainer::initialize();
-    UserManager::initialize();
+    User::initialize();
     MasterNZOK::instance().loadUpdates(); //parsing json of nzok data
 
     Torque w;

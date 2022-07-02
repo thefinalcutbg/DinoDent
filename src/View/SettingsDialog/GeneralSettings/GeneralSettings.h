@@ -9,8 +9,8 @@ class GeneralSettings : public QWidget
 
 public:
 	GeneralSettings(QWidget *parent = nullptr);
+	
 	~GeneralSettings();
 
-private:
 	Ui::GeneralSettingsClass ui;
 };

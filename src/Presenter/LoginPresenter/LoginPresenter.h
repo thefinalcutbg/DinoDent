@@ -3,7 +3,7 @@
 class ILoginView;
 
 #include <optional>
-#include "Model/User/User.h"
+#include "Model/User/UserStructs.h"
 #include "View/LoginView/ILoginView.h"
 
 class LoginPresenter

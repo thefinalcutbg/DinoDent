@@ -3,7 +3,8 @@
 #include <variant>
 #include <optional>
 
-struct User;
+struct Practice;
+struct Doctor;
 
 struct PersonInfo
 {
@@ -32,7 +33,7 @@ struct Issuer
 {
 	//default construction with current user
 	Issuer(); 
-	Issuer(const User& user);
+	Issuer(const Practice& user, const Doctor& doctor);
 
 	IssuerType type;
 	std::string company_name;

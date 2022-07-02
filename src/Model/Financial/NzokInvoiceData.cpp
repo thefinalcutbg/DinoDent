@@ -1,6 +1,6 @@
 #include "NzokInvoiceData.h"
 #include <TinyXML/tinyxml.h>
-#include "Model/User/User.h"
+#include "Model/User/UserStructs.h"
 
 constexpr const char* insuranceFunds[46]
 {

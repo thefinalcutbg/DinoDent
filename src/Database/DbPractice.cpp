@@ -5,7 +5,7 @@
 
 Practice DbPractice::getPractice(const std::string rziCode)
 {
-    std::string query = "SELECT rzi, name, bulstat, firm_address, practice_address, legal_entity, pass, vat, nzok_contract, priceList "
+    std::string query = "SELECT rzi, name, bulstat, firm_address, practice_address, legal_entity, pass, vat, nzok_contract, priceList, settings "
         "FROM practice WHERE rzi = '" + rziCode + "'";
 
     Practice practice;
@@ -22,6 +22,7 @@ Practice DbPractice::getPractice(const std::string rziCode)
         practice.vat = db.asString(7);
         practice.nzok_contract = Parser::parseContract(db.asString(8));
         practice.priceList = Parser::getPriceList(db.asString(9));
+        practice.settings = Parser::parseSettings(db.asString(10));
 
     }
 
@@ -42,7 +43,8 @@ void DbPractice::updatePractice(const Practice& practice, const std::string& cur
         "legal_entity = '" + std::to_string(practice.legal_entity) + "', "
         "vat = '" + practice.vat + "', "
         "pass = '" + practice.pass + "', "
-        "nzok_contract = '" + Parser::write(practice.nzok_contract) + "' "
+        "nzok_contract = '" + Parser::write(practice.nzok_contract) + "', "
+        "settings = '" + Parser::write(practice.settings) + "' "
         "WHERE rzi = '" + currentRZI + "' "
 
     );
@@ -60,7 +62,7 @@ void DbPractice::insertPractice(const Practice& practice)
     Db::crudQuery(
 
         "INSERT INTO practice "
-        "(rzi, name, bulstat, firm_address, practice_address, pass, legal_entity, vat, nzok_contract, priceList) "
+        "(rzi, name, bulstat, firm_address, practice_address, pass, legal_entity, vat, nzok_contract, priceList, settings) "
         "VALUES("
         "'" + practice.rziCode + "', "
         "'" + practice.name + "', "
@@ -71,6 +73,7 @@ void DbPractice::insertPractice(const Practice& practice)
         "'" + std::to_string(practice.legal_entity) + "', "
         "'" + practice.vat + "', "
         "'" + Parser::write(practice.nzok_contract) + "', "
+        "'" + Parser::write(practice.settings) + "' "
         "'" + text + "')"
 
     );

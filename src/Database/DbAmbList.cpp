@@ -1,6 +1,6 @@
 #include "DbAmbList.h"
 #include "Database/Database.h"
-#include "Model/User/UserManager.h"
+#include "Model/User/User.h"
 #include "Model/Patient.h"
 #include "Model/AmbList.h"
 #include "Model/Date.h"
@@ -23,7 +23,7 @@ long long DbAmbList::insert(const AmbList& ambList, long long patientRowId)
         + Parser::write(ambList.teeth) + "',"
         + std::to_string(patientRowId) + ",'"
         + ambList.LPK + "','"
-        + UserManager::currentUser().practice.rziCode
+        + User::practice().rziCode
         + "')";
 
     Db db;
@@ -63,15 +63,15 @@ AmbList DbAmbList::getNewAmbSheet(long long patientRowId)
 {
 
     AmbList ambList;
-    ambList.LPK = UserManager::currentUser().doctor.LPK;
+    ambList.LPK = User::doctor().LPK;
     std::string status_json;
 
     Db db(
     
         "SELECT rowid, num, fullCoverage, status_json, charge FROM amblist WHERE "
         "patient_rowid = " + std::to_string(patientRowId) + " AND "
-        "lpk = '" + UserManager::currentUser().doctor.LPK + "' AND "
-        "rzi = '" + UserManager::currentUser().practice.rziCode + "' AND "
+        "lpk = '" + User::doctor().LPK + "' AND "
+        "rzi = '" + User::practice().rziCode + "' AND "
         "month = " + std::to_string(Date::currentMonth()) + " AND "
         "year = " + std::to_string(Date::currentYear())
     
@@ -143,7 +143,7 @@ AmbList DbAmbList::getListData(long long rowId)
         ambList.full_coverage = db.asInt(2);
         status_json = db.asString(3);
         ambList.charge = static_cast<Charge>(db.asInt(4));
-        ambList.LPK = UserManager::currentUser().doctor.LPK;
+        ambList.LPK = User::doctor().LPK;
         ambList.patient_rowid = db.asRowId(5);
     }
 
@@ -165,8 +165,8 @@ bool DbAmbList::checkExistingAmbNum(int currentYear, int ambNum)
     std::string query = "SELECT EXISTS(SELECT 1 FROM amblist WHERE "
         "year = " + std::to_string(currentYear) +
         " AND num = " + std::to_string(ambNum) + ")"
-        " AND lpk = '" + UserManager::currentUser().doctor.LPK + "' "
-        " AND rzi = '" + UserManager::currentUser().practice.rziCode + "' ";
+        " AND lpk = '" + User::doctor().LPK + "' "
+        " AND rzi = '" + User::practice().rziCode + "' ";
 
     bool exists = 0;
 
@@ -182,8 +182,8 @@ std::unordered_set<int> DbAmbList::getExistingNumbers(int currentYear)
     std::unordered_set<int> existingNumbers;
 
     std::string query = "SELECT num FROM amblist WHERE " 
-        "lpk = '" + UserManager::currentUser().doctor.LPK + "' "
-        "AND rzi = '" + UserManager::currentUser().practice.rziCode + "' "
+        "lpk = '" + User::doctor().LPK + "' "
+        "AND rzi = '" + User::practice().rziCode + "' "
         "AND year = " + std::to_string(currentYear);
 
     for (Db db(query);db.hasRows();) existingNumbers.emplace(db.asInt(0));
@@ -199,8 +199,8 @@ std::vector<long long> DbAmbList::getRowIdNhif(int month, int year)
         "JOIN procedure ON amblist.rowid = procedure.amblist_rowid "
         "GROUP BY amblist.rowid "
         "HAVING "
-        "lpk = '" + UserManager::currentUser().doctor.LPK + "' "
-        "AND rzi = '" + UserManager::currentUser().practice.rziCode + "' "
+        "lpk = '" + User::doctor().LPK + "' "
+        "AND rzi = '" + User::practice().rziCode + "' "
         "AND sum(procedure.nzok) > 0 "
         "AND month = " + std::to_string(month) + " "
         "AND year = " + std::to_string(year) + " "
@@ -231,7 +231,7 @@ AmbList DbAmbList::getListNhifProceduresOnly(long long rowId)
         ambList.full_coverage = db.asInt(2);
         status_json = db.asString(3);
         ambList.charge = static_cast<Charge>(db.asInt(4));
-        ambList.LPK = UserManager::currentUser().doctor.LPK;
+        ambList.LPK = User::doctor().LPK;
         ambList.patient_rowid = db.asRowId(5);
     }
 
@@ -263,8 +263,8 @@ int DbAmbList::getNewNumber(Date ambDate, bool nzok)
         + std::to_string(ambDate.year) + ", "
         + std::to_string(ambDate.month) + ", "
         + std::to_string(ambDate.day) + ") "
-        "AND amblist.lpk = '" + UserManager::currentUser().doctor.LPK + "' "
-        "AND amblist.rzi = '" + UserManager::currentUser().practice.rziCode + "' "
+        "AND amblist.lpk = '" + User::doctor().LPK + "' "
+        "AND amblist.rzi = '" + User::practice().rziCode + "' "
         "ORDER BY amblist.num DESC LIMIT 1";
 
     qDebug() << query.c_str();

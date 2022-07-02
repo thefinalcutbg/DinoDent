@@ -14,7 +14,7 @@ MonthNotifLoader::MonthNotifLoader(TabPresenter* presenter) :
 void MonthNotifLoader::loadNotification()
 { 
 
-    if (!UserManager::currentUser().isAdmin()) {
+    if (!User::isAdmin()) {
         ModalDialogBuilder::showMessage(u8"За да издавате фактури е необходимо да сте влезли като администратор");
         return;
     }
@@ -52,7 +52,7 @@ void MonthNotifLoader::loadNotification()
     }
 
         PIS::sendRequest(
-        SOAP::NotifList(UserManager::currentUser().practice.rziCode),
+        SOAP::NotifList(User::practice().rziCode),
         m_listHandler
     );
 }
@@ -85,7 +85,7 @@ void MonthNotifLoader::setNotifRows(const std::optional<std::vector<MonthNotifRo
     auto& hash = m_notifRows[idx].hash;
 
     PIS::sendRequest(
-        SOAP::getNotificationData(UserManager::currentUser().practice.rziCode, hash),
+        SOAP::getNotificationData(User::practice().rziCode, hash),
         m_notifHandler
     );
 }

@@ -2,7 +2,7 @@
 
 #include <array>
 #include <fstream>
-#include "Model/User/UserManager.h"
+#include "Model/User/User.h"
 #include <stdexcept>
 #include <TinyXML/tinyxml.h>
 #include "Model/FreeFunctions.h"
@@ -43,7 +43,7 @@ FinancialDocType getFinancialType(const std::string& inv_type_code)
 	throw std::exception(u8"Неразпознат inv_type_code");
 }
 
-Invoice::Invoice(const TiXmlDocument& monthNotif, const User& user)
+Invoice::Invoice(const TiXmlDocument& monthNotif, const Practice& practice, const Doctor& doctor)
     :
     name                        {getDocumentName(monthNotif.RootElement())},
 	type						{ getFinancialType(getText(monthNotif.RootElement()->FirstChildElement("inv_type_code")))},
@@ -60,9 +60,9 @@ Invoice::Invoice(const TiXmlDocument& monthNotif, const User& user)
         }
     },
 
-	nzokData{ NZOKInvoiceData(monthNotif, user.practice)},
-	recipient						{std::stoi(user.practice.RHIF())},
-	issuer							{user}
+	nzokData{ NZOKInvoiceData(monthNotif, practice)},
+	recipient						{std::stoi(practice.RHIF())},
+	issuer							{practice, doctor}
 {
 
 	for (
@@ -91,11 +91,11 @@ Invoice::Invoice(const TiXmlDocument& monthNotif, const User& user)
 
 }
 
-Invoice::Invoice(const Patient& p, const User& user) :
+Invoice::Invoice(const Patient& p, const Practice& practice, const Doctor& doctor) :
 	name (u8"Фактура"),
 	type(FinancialDocType::Invoice),
 	recipient(p),
-	issuer{user}
+	issuer{practice, doctor}
 {
 }
 
@@ -142,7 +142,7 @@ std::string Invoice::getFileName() //only nzok data files can be exported as xml
 	return
 		//"FILE_SUBM_FDOC_" +
 		nzokData->fin_document_type_code + "_" +
-		UserManager::currentUser().practice.rziCode + "_" +
+		User::practice().rziCode + "_" +
 		std::to_string(nzokData->activityTypeCode) + "_" +
 		aggragated_amounts.taxEventDate.toXMLInvoiceFileName() + "_" +
 		leadZeroes(nzokData->fin_document_month_no, 10)

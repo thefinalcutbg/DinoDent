@@ -93,13 +93,13 @@ void ProcedureDialogPresenter::procedureDateChanged(const Date& date)
 	procedureList = MasterNZOK::instance().getM_Templates
 	(
 		date,
-		UserManager::currentUser().doctor.specialty,
+		User::doctor().specialty,
 		date >= patientTurns18,
 		ambList.full_coverage
 	);
 
 	//getting custom procedures:
-	auto customProcedures = UserManager::currentUser().practice.priceList;
+	auto customProcedures = User::practice().priceList;
 
 	procedureList.insert(procedureList.end(), customProcedures.begin(), customProcedures.end());
 

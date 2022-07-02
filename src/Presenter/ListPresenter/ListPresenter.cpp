@@ -1,6 +1,6 @@
 #include "ListPresenter.h"
 #include "Model/Procedure/MasterNZOK.h"
-#include "Model/User/UserManager.h"
+#include "Model/User/User.h"
 #include "Database/DbAmbList.h"
 #include "Model/AmbListValidator.h"
 #include "View/ModalDialogBuilder.h"
@@ -12,7 +12,7 @@
 #include "Model/AmbList.h"
 #include "Presenter/TabPresenter/TabPresenter.h"
 #include "Network/PISServ.h"
-#include "GlobalSettings.h"
+
 
 ListPresenter::ListPresenter(ITabView* tabView, TabPresenter* tabPresenter, std::shared_ptr<Patient> patient, long long rowId)
     :
@@ -32,8 +32,8 @@ ListPresenter::ListPresenter(ITabView* tabView, TabPresenter* tabPresenter, std:
         m_ambList.charge = Charge::retired;
 
     if (!rowId &&
-        GlobalSettings::getPisHistoryAuto &&
-        UserManager::currentUser().practice.nzok_contract.has_value()) 
+        User::settings().getPisHistoryAuto &&
+        User::practice().nzok_contract) 
     {
         requestPisActivities();
     }
@@ -507,7 +507,7 @@ void ListPresenter::refreshProcedureView()
 
         if (m.nzok)
         {
-            auto [p, nzok] = MasterNZOK::instance().getPrices(m.code, m_ambList.getDate(), UserManager::currentUser().doctor.specialty, patient->isAdult(m.date), m_ambList.full_coverage);
+            auto [p, nzok] = MasterNZOK::instance().getPrices(m.code, m_ambList.getDate(), User::doctor().specialty, patient->isAdult(m.date), m_ambList.full_coverage);
             nzokPrice = nzokPrice + nzok;
         }
 
@@ -539,7 +539,7 @@ void ListPresenter::addProcedure()
             getPatientPrice
             (
                 m.code, m_ambList.getAmbListDate(),
-                UserManager::currentUser().doctor.specialty,
+                User::currentUser().doctor.specialty,
                 patient->isAdult(m.date),
                 m_ambList.full_coverage
             );
@@ -581,7 +581,7 @@ void ListPresenter::editProcedure(int index)
             (
                 m.code,
                 m_ambList.getAmbSheetDateMin(),
-                UserManager::currentUser().doctor.specialty,
+                User::currentUser().doctor.specialty,
                 patient->isAdult(m.date),
                 m_ambList.full_coverage
             );
@@ -629,7 +629,7 @@ void ListPresenter::setfullCoverage(bool unfav)
                 (
                     m.code,
                     m_ambList.getAmbSheetDateMin(),
-                    UserManager::currentUser().doctor.specialty,
+                    User::currentUser().doctor.specialty,
                     patient->isAdult(m.date),
                     unfav
                 );

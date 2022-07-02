@@ -1,5 +1,5 @@
 #pragma once
-#include "Model/User/User.h"
+#include "Model/User/UserStructs.h"
 #include "View/SettingsDialog/PracticeDoctorSettings/IPracticeDoctorSettings.h"
 
 

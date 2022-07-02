@@ -131,7 +131,7 @@ void ReportDialogPresenter::sendToPis()
 
 		SOAP::sendAmbReport(
 			m_report.value(),
-			UserManager::currentUser().doctor.egn
+			User::doctor().egn
 		),
 		fileSent_handler,
 		PIS::SOAPAction::Files
@@ -200,13 +200,11 @@ void ReportDialogPresenter::saveToXML()
 		return;
 	}
 
-	//getting the filename
-	auto& user = UserManager::currentUser();
 
 	auto fileName = "STOM_"
-		+ user.practice.rziCode + "_"
-		+ user.doctor.LPK + "_"
-		+ std::to_string(user.doctor.specialty) + "_"
+		+ User::practice().rziCode + "_"
+		+ User::doctor().LPK + "_"
+		+ std::to_string(User::doctor().specialty) + "_"
 		+ Date(1, month, year).toXMLReportFileName()
 		+ "_01.xml";
 
@@ -334,7 +332,7 @@ void ReportDialogPresenter::finish()
 			(
 				procedure.code,
 				procedure.date,
-				UserManager::currentUser().doctor.specialty,
+				User::doctor().specialty,
 				patients[list.patient_rowid].isAdult(procedure.date),
 				false
 			);

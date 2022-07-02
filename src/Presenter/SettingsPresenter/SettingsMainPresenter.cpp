@@ -1,7 +1,7 @@
 ﻿#include "SettingsMainPresenter.h"
 #include "Database/DbPractice.h"
 #include "Database/DbDoctor.h"
-#include "Model/User/UserManager.h"
+#include "Model/User/User.h"
 #include "View/ModalDialogBuilder.h"
 
 SettingsMainPresenter::SettingsMainPresenter()
@@ -14,14 +14,16 @@ void SettingsMainPresenter::setView(ISettingsDialog* view)
 	this->view = view;
 
 
-	m_practiceDoctorPresenter.setDoctorsList(DbPractice::getDoctors(UserManager::currentUser().practice.rziCode));
+	m_practiceDoctorPresenter.setDoctorsList(DbPractice::getDoctors(User::practice().rziCode));
 
 	m_practicePresenter.setView(view->practiceView());
 	m_priceListPresenter.setView(view->priceListView());
 	m_practiceDoctorPresenter.setView(view->practiceDoctorView());
 
-	m_practicePresenter.setPractice(UserManager::currentUser().practice);
-	m_priceListPresenter.setPriceList(UserManager::currentUser().practice.priceList);
+	m_practicePresenter.setPractice(User::practice());
+	m_priceListPresenter.setPriceList(User::practice().priceList);
+
+	view->setSettings(User::practice().settings);
 }
 
 void SettingsMainPresenter::okPressed()
@@ -48,14 +50,15 @@ bool SettingsMainPresenter::applyChanges()
 
 	auto practice = m_practicePresenter.getPractice();
 	practice.priceList = m_priceListPresenter.priceList();
+	practice.settings = view->getSettings();
 	auto doctorsList = m_practiceDoctorPresenter.getDoctorsList();
-
 	
-	DbPractice::updatePractice(practice, UserManager::currentUser().practice.rziCode);
+	
+	DbPractice::updatePractice(practice, User::practice().rziCode);
 	DbPractice::updatePriceList(practice.priceList, practice.rziCode);
 	DbPractice::setDoctorsPracticeList(doctorsList, practice.rziCode);
 
-	UserManager::setCurrentPractice(practice);
+	User::setCurrentPractice(practice);
 
 	return true;
 }

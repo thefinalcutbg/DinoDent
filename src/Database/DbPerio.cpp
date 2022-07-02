@@ -168,8 +168,8 @@ std::vector<PerioStatus> DbPerio::getAllPerioStatuses(long long patientRowId)
 
     std::string query =
         "INSERT INTO periostatus (lpk, rzi, day, month, year, patient_rowid, data) VALUES ("
-        "'" + UserManager::currentUser().doctor.LPK + "',"
-        "'" + UserManager::currentUser().practice.rziCode + "',"
+        "'" + User::doctor().LPK + "',"
+        "'" + User::practice().rziCode + "',"
         + std::to_string(perioStatus.date.day) + ","
         + std::to_string(perioStatus.date.month) + ","
         + std::to_string(perioStatus.date.year) + ","

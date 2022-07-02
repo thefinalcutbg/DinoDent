@@ -1,5 +1,5 @@
 #include "DbListOpener.h"
-#include "Model/User/UserManager.h"
+#include "Model/User/User.h"
 #include "Database.h"
 
 std::vector<PatientRow> DbListOpener::getPatientRows()
@@ -49,8 +49,8 @@ std::vector<AmbRow> DbListOpener::getAmbRows(const Date& from, const Date& to)
         "HAVING (amblist.year, amblist.month, amblist.day) "
         "BETWEEN (" + std::to_string(from.year) + ", " + std::to_string(from.month) + ", " + std::to_string(from.day) + ") "
         "AND (" + std::to_string(to.year) + ", " + std::to_string(to.month) + ", " + std::to_string(to.day) + ") "
-        "AND amblist.lpk = '" + UserManager::currentUser().doctor.LPK + "' "
-        "AND amblist.rzi = '" + UserManager::currentUser().practice.rziCode + "' "
+        "AND amblist.lpk = '" + User::doctor().LPK + "' "
+        "AND amblist.rzi = '" + User::practice().rziCode + "' "
         "ORDER BY amblist.year ASC, amblist.month ASC, amblist.day ASC, amblist.num ASC ";
 
     Db db(query);
@@ -95,8 +95,8 @@ std::vector<PerioRow> DbListOpener::getPerioRows(const Date& from, const Date& t
         "WHERE (periostatus.year, periostatus.month, periostatus.day) "
         "BETWEEN (" + std::to_string(from.year) + ", " + std::to_string(from.month) + ", " + std::to_string(from.day) + ") "
         "AND (" + std::to_string(to.year) + ", " + std::to_string(to.month) + ", " + std::to_string(to.day) + ") "
-        "AND lpk = '" + UserManager::currentUser().doctor.LPK + "' "
-        "AND rzi = '" + UserManager::currentUser().practice.rziCode + "' "
+        "AND lpk = '" + User::doctor().LPK + "' "
+        "AND rzi = '" + User::practice().rziCode + "' "
         "ORDER BY periostatus.year ASC, periostatus.month ASC, periostatus.day ASC ";
 
     for (Db db(query); db.hasRows();)
@@ -129,9 +129,9 @@ std::vector<FinancialRow> DbListOpener::getFinancialRows(const Date& from, const
 {
     std::vector<FinancialRow> rows;
 
-    if (UserManager::currentUser().practice.rziCode == "") return rows;
+    if (User::practice().rziCode == "") return rows;
 
-    Recipient nzokRecipient(std::stoi(UserManager::currentUser().practice.RHIF()));
+    Recipient nzokRecipient(std::stoi(User::practice().RHIF()));
 
 
     std::string query =
@@ -142,7 +142,7 @@ std::vector<FinancialRow> DbListOpener::getFinancialRows(const Date& from, const
         "WHERE (year, month, day) "
         "BETWEEN (" + std::to_string(from.year) + ", " + std::to_string(from.month) + ", " + std::to_string(from.day) + ") "
         "AND (" + std::to_string(to.year) + ", " + std::to_string(to.month) + ", " + std::to_string(to.day) + ") "
-        "AND practice_rzi = '" + UserManager::currentUser().practice.rziCode + "' "
+        "AND practice_rzi = '" + User::practice().rziCode + "' "
         "ORDER BY year ASC, month ASC, day ASC ";
 
     for (Db db(query); db.hasRows();)

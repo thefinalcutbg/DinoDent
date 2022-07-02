@@ -1,5 +1,5 @@
 #pragma once
-#include "Model/User/User.h"
+#include "Model/User/UserStructs.h"
 
 class PracticeDoctorSettingsPresenter;
 

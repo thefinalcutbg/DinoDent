@@ -1,5 +1,5 @@
 ﻿#include "PracticeDoctorSettingsPresenter.h"
-#include "Model/User/UserManager.h"
+#include "Model/User/User.h"
 #include "View/ModalDialogBuilder.h"
 #include "Presenter/DoctorDialogPresenter/DoctorDialogPresenter.h"
 #include <algorithm>
@@ -53,7 +53,7 @@ void PracticeDoctorSettingsPresenter::deleteDoctor()
 {
 	if(m_currentIndex < 0) return;
 
-	if (UserManager::isCurrentUser(m_doctorsList[m_currentIndex].lpk))
+	if (User::isCurrentUser(m_doctorsList[m_currentIndex].lpk))
 	{
 		ModalDialogBuilder::showError(u8"Не можете да изтриете профила от който сте влезли в момента");
 		return;

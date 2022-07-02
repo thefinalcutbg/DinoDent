@@ -3,6 +3,7 @@
 #include "PracticeSettings/IPacticeSettings.h"
 #include "PriceListSettings/PriceListSettings.h"
 #include "PracticeDoctorSettings/IPracticeDoctorSettings.h"
+#include "Model/Settings.h"
 class MainSettingsPresenter;
 
 enum class SettingsTab {General, Practice, PriceList, Doctor};
@@ -15,4 +16,7 @@ public:
 	virtual IPracticeSettings* practiceView() = 0;
 	virtual IPriceListSettings* priceListView() = 0;
 	virtual IPracticeDoctorSettings* practiceDoctorView() = 0;
+	virtual void setSettings(const Settings& settings) = 0;
+	virtual Settings getSettings() = 0;
+	
 };

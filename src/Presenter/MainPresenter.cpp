@@ -5,7 +5,7 @@
 #include "Presenter/LoginPresenter/LoginPresenter.h"
 #include "Presenter/DoctorDialogPresenter/DoctorDialogPresenter.h"
 #include "Network/PKCS11.h"
-#include "Model/User/UserManager.h"
+#include "Model/User/User.h"
 #include "Model/XML/xml.h"
 #include "Presenter/AddPracticePresenter/AddPracticePresenter.h"
 #include "Presenter/ReportDialogPresenter/ReportDialogPresenter.h"
@@ -48,8 +48,8 @@ void MainPresenter::setView(IMainView* view)
     view->m_initialized = login.successful();
 
     view->setUserLabel(
-        UserManager::currentUser().doctor.getFullName(),
-        UserManager::currentUser().practice.name
+        User::doctor().getFullName(),
+        User::practice().name
     );
 
 }
@@ -94,7 +94,7 @@ void MainPresenter::showListSelector()
 
 void MainPresenter::generateReport()
 {
-    if (!UserManager::currentUser().practice.nzok_contract.has_value())
+    if (!User::practice().nzok_contract.has_value())
     {
         ModalDialogBuilder::showError(
             u8"За да генерирате отчет, моля попълнете данните на договора с НЗОК от настройки"
@@ -111,7 +111,7 @@ void MainPresenter::generateReport()
 void MainPresenter::generateInvoice()
 {
 
-    if (!UserManager::currentUser().practice.nzok_contract.has_value())
+    if (!User::practice().nzok_contract)
     {
         ModalDialogBuilder::showError(
             u8"За да заредите месечно известие, моля попълнете данните на договора с НЗОК от настройки"
@@ -125,7 +125,7 @@ void MainPresenter::generateInvoice()
 
 void MainPresenter::settingsPressed()
 {
-    if (!UserManager::currentUser().isAdmin())
+    if (!User::isAdmin())
     {
         ModalDialogBuilder::showError(u8"Нямате администраторски права, за да влезете в настройки");
         return;
@@ -134,8 +134,8 @@ void MainPresenter::settingsPressed()
     ModalDialogBuilder::openSettingsDialog();
 
     view->setUserLabel(
-        UserManager::currentUser().doctor.getFullName(),
-        UserManager::currentUser().practice.name
+        User::doctor().getFullName(),
+        User::practice().name
     );
 }
 
@@ -171,19 +171,19 @@ void MainPresenter::logOut()
     }
 
     view->setUserLabel(
-        UserManager::currentUser().doctor.getFullName(),
-        UserManager::currentUser().practice.name
+        User::doctor().getFullName(),
+        User::practice().name
         );
     
 }
 
 void MainPresenter::userSettingsPressed()
 {
-    DoctorDialogPresenter p(UserManager::currentUser().doctor);
+    DoctorDialogPresenter p(User::doctor());
     auto doctor = p.open();
 
     if (doctor.has_value())
-        UserManager::setCurrentDoctor(doctor.value());
+        User::setCurrentDoctor(doctor.value());
 }
 
 bool MainPresenter::closeAllTabs()

@@ -12,13 +12,14 @@
 #include "View/FinancialView/BusinessOperationModel.h"
 #include "View/GlobalFunctions.h"
 #include "qitemselectionmodel.h"
+#include "Model/User/User.h"
 
 //used as coordinates for the x-es in the checkboxes
 struct coords { int x; int y; };
 constexpr coords typeCoords[5]{ {0, 0}, { 50, 213 }, { 225, 213 }, {50, 255}, {225, 255} };
 constexpr QChar tempSymbol{ 0x25EF };
 
-void Print::ambList(const AmbList& amb, const Patient& patient, const User& user)
+void Print::ambList(const AmbList& amb, const Patient& patient)
 {
     std::vector<Procedure> selectedProcedures;
 
@@ -52,8 +53,8 @@ void Print::ambList(const AmbList& amb, const Patient& patient, const User& user
     auto report = LimeReport::ReportEngine();
     report.loadFromFile(":/reports/report_amb.lrxml");
     
-    auto& practice = user.practice;
-    auto& doctor = user.doctor;
+    auto& practice = User::practice();
+    auto& doctor = User::doctor();
 	
 	report.dataManager()->setReportVariable("id", QString::fromStdString(patient.id));
 
@@ -179,7 +180,7 @@ void Print::invoice(const Invoice& inv)
     report.dataManager()->addModel("operations", &model, false);
 
     report.dataManager()->setReportVariable("taxEventDate", QString::fromStdString(inv.aggragated_amounts.taxEventDate.toString()));
-    report.dataManager()->setReportVariable("madeBy", QString::fromStdString(UserManager::currentUser().doctor.getFullName(false)));
+    report.dataManager()->setReportVariable("madeBy", QString::fromStdString(User::doctor().getFullName(false)));
     report.dataManager()->setReportVariable("groundsNoVAT", QString::fromStdString(inv.issuer.grounds_for_not_charging_VAT));
     report.dataManager()->setReportVariable("paymentType", QString::fromStdString(
         inv.aggragated_amounts.paymentType == PaymentType::Bank ? 
@@ -197,14 +198,14 @@ void Print::invoice(const Invoice& inv)
     report.printReport();
 }
 
-void Print::ambList(const User& user)
+void Print::ambList()
 {
     QApplication::setOverrideCursor(Qt::BusyCursor);
 
     auto report = LimeReport::ReportEngine();
 
-    auto& doctor = user.doctor;
-    auto& practice = user.practice;
+    auto& doctor = User::doctor();
+    auto& practice = User::practice();
     
     report.loadFromFile(":/reports/report_amb.lrxml");
 

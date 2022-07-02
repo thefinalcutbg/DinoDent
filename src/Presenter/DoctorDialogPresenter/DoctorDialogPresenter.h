@@ -1,5 +1,5 @@
 #pragma once
-#include "Model/User/User.h"
+#include "Model/User/UserStructs.h"
 #include "Model/Validator/NameValidator.h"
 #include "Model/Validator/CommonValidators.h"
 #include "Model/Validator/PatientValidators.h"

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <unordered_map>
-#include "Model/User/User.h"
+#include "Model/User/UserStructs.h"
 
 namespace DbDoctor
 {

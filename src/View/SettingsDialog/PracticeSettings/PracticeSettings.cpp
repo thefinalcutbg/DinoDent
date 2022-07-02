@@ -1,5 +1,5 @@
 #include "PracticeSettings.h"
-#include "Model/User/User.h"
+#include "Model/User/UserStructs.h"
 #include <QPainter>
 
 void PracticeSettings::paintEvent(QPaintEvent* event)

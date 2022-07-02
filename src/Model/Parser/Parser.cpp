@@ -473,6 +473,17 @@ std::string Parser::write(const Invoice& inv)
 	return writer.write(json);
 }
 
+std::string Parser::write(const Settings& settings)
+{
+	Json::Value json;
+
+	json["pisCheck"] = settings.getPisHistoryAuto;
+	json["nraCheck"] = settings.getNraStatusAuto;
+
+	Json::FastWriter writer;
+	return writer.write(json);
+}
+
 void Parser::parse(const std::string& jsonString, Procedure& procedure)
 {
 	Json::Value json;
@@ -957,4 +968,20 @@ std::optional<NzokContract> Parser::parseContract(const std::string& jsonString)
 
 
 
+}
+
+Settings Parser::parseSettings(const std::string& settingsString)
+{
+	Json::Reader reader;
+	Json::Value json;
+
+	if (!reader.parse(settingsString, json)) {
+		return {};
+	}
+
+	Settings s;
+	s.getPisHistoryAuto = json["pisCheck"].asBool();
+	s.getNraStatusAuto = json["nraCheck"].asBool();
+
+	return s;
 }

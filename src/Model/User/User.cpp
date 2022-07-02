@@ -1,7 +1,70 @@
-#include "User.h"
+﻿#include "User.h"
 #include "Database/DbDoctor.h"
 
-bool User::isAdmin() const
+
+static Practice s_practice;
+static Doctor s_doctor;
+
+std::unordered_map<std::string, std::string> s_names;
+
+void User::initialize()
 {
-	return DbDoctor::getAdminPremission(doctor.LPK, practice.rziCode);
+    s_names = DbDoctor::getDoctorNames();
+}
+
+
+const Practice& User::practice()
+{
+    return s_practice;
+}
+
+const Settings& User::settings()
+{
+    return s_practice.settings;
+}
+
+const Doctor& User::doctor()
+{
+    return s_doctor;
+}
+
+void User::setCurrentDoctor(const Doctor& doctor)
+{
+    s_doctor = doctor;
+}
+
+void User::setPriceList(const std::vector<ProcedureTemplate>& priceList)
+{
+    s_practice.priceList = priceList;
+}
+
+void User::setCurrentPractice(const Practice& practice)
+{
+    s_practice = practice;
+}
+
+void User::resetUser()
+{
+    s_practice = Practice();
+    s_doctor = Doctor();
+}
+
+
+const bool User::isCurrentUser(const std::string& LPK)
+{
+    return LPK == s_doctor.LPK;
+}
+
+bool User::isAdmin()
+{
+    return DbDoctor::getAdminPremission(s_doctor.LPK, s_practice.rziCode);
+}
+
+std::string User::getNameFromLPK(const std::string& LPK)
+{
+    if (s_names.count(LPK))
+        return s_names[LPK];
+
+    return LPK;
+
 }

@@ -3,13 +3,13 @@
 #include "Database/DbDoctor.h"
 #include "Database/DbPractice.h"
 #include <QDebug>
-#include "Model/User/UserManager.h"
+#include "Model/User/User.h"
 
 
 
 bool LoginPresenter::successful()
 {
-    UserManager::resetUser();
+    User::resetUser();
 
     ModalDialogBuilder::openDialog(this); //for fast login comment this out 
     
@@ -70,12 +70,10 @@ void LoginPresenter::okPressed(const std::string& lpk, const std::string& pass)
         break;
     }
 
-    User user;
 
-    user.practice = DbPractice::getPractice(practiceList[practiceIdx].rzi);
-    user.doctor = doctor.value();
+    User::setCurrentPractice(DbPractice::getPractice(practiceList[practiceIdx].rzi));
+    User::setCurrentDoctor(doctor.value());
 
-    UserManager::setCurrentUser(user);
 
     loginSuccessful = true;
 

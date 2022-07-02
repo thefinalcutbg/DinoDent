@@ -4,7 +4,7 @@
 #include "Model/Date.h"
 #include "StatusData.h"
 #include "Enums.h"
-#include "Model/User/UserManager.h"
+#include "Model/User/User.h"
 
 class Status
 {

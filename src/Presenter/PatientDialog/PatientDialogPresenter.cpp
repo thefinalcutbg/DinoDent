@@ -41,8 +41,8 @@ void PatientDialogPresenter::setView(IPatientDialog* view)
 		setPatientToView(m_patient.value());
 		view->setEditMode(true);
 
-		if (UserManager::currentUser().practice.nzok_contract &&
-			!UserManager::currentUser().practice.nzok_contract->nra_pass.empty()
+		if (User::practice().nzok_contract &&
+			!User::practice().nzok_contract->nra_pass.empty()
 			)
 		{
 			checkHealthInsurance(false);
@@ -149,8 +149,8 @@ void PatientDialogPresenter::searchDbForPatient(int type)
 		rowid = patient.rowid;
 	}
 	
-	if (UserManager::currentUser().practice.nzok_contract &&
-		!UserManager::currentUser().practice.nzok_contract->nra_pass.empty()
+	if (User::practice().nzok_contract &&
+		!User::practice().nzok_contract->nra_pass.empty()
 		) 
 	{
 		checkHealthInsurance(false);

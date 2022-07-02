@@ -1,11 +1,11 @@
 ﻿#include "PriceListSettingsPresenter.h"
-#include "Model/User/UserManager.h"
+#include "Model/User/User.h"
 #include "View/SettingsDialog/PriceListSettings/IPriceListSettings.h"
 #include "View/ModalDialogBuilder.h"
 #include <algorithm>
 
 PriceListSettingsPresenter::PriceListSettingsPresenter() :
-	m_priceList{UserManager::currentUser().practice.priceList}
+	m_priceList{User::practice().priceList}
 {
 }
 

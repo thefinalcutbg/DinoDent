@@ -4,7 +4,7 @@
 #include <vector>
 #include "Model/Procedure/ProcedureTemplate.h"
 #include <optional>
-#include "Model/User/User.h"
+#include "Model/User/UserStructs.h"
 
 struct PerioStatus;
 class ToothContainer;
@@ -21,6 +21,7 @@ namespace Parser
 	std::string write(const std::optional<NzokContract>& contract);
 	std::string write(const std::vector<ProcedureTemplate>& priceList);
 	std::string write(const Invoice& inv);
+	std::string write(const Settings& settings);
 
 	void parse(const std::string& jsonString, Procedure& procedure);
 	void parse(const std::string& jsonString, DetailsSummary& summary);
@@ -31,4 +32,5 @@ namespace Parser
 	std::vector<ProcedureTemplate> getPriceList(const std::string& priceList);
 	std::string parseDiagnosis(const std::string& jsonProcedureString);
 	std::optional<NzokContract> parseContract(const std::string& jsonString);
+	Settings parseSettings(const std::string& settings);
 };

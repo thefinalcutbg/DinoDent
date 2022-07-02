@@ -2,7 +2,7 @@
 
 #include "Model/Procedure/MasterNZOK.h"
 #include "Model/Parser/Parser.h"
-#include "Model/User/UserManager.h"
+#include "Model/User/User.h"
 #include "Database.h"
 
 #include <QDebug>

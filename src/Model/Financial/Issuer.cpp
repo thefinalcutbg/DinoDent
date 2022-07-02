@@ -1,5 +1,5 @@
 ﻿#include "Issuer.h"
-#include "Model/User/UserManager.h"
+#include "Model/User/User.h"
 
 IssuerType getIssuerType(int legalEntity, const Doctor& doctor)
 {
@@ -25,29 +25,29 @@ IssuerType getIssuerType(int legalEntity, const Doctor& doctor)
 }
 
 
-Issuer::Issuer() : Issuer(UserManager::currentUser())
+Issuer::Issuer() : Issuer(User::practice(), User::doctor())
 {
 }
 
-Issuer::Issuer(const User& user) :
-    type{ getIssuerType(user.practice.legal_entity, user.doctor) },
+Issuer::Issuer(const Practice& practice, const Doctor& doctor) :
+    type{ getIssuerType(practice.legal_entity, doctor) },
     company_name{ 
-        user.practice.nzok_contract.has_value() ?
-        user.practice.nzok_contract.value().name_short 
+        practice.nzok_contract.has_value() ?
+        practice.nzok_contract.value().name_short 
         :
-        user.practice.name
+        practice.name
 
     },
-    address_by_contract{ user.practice.firm_address },
-    address_by_activity{ user.practice.practice_address },
+    address_by_contract{ practice.firm_address },
+    address_by_activity{ practice.practice_address },
 
     registration_by_VAT{
 
-                user.practice.vat.empty() ?
+                practice.vat.empty() ?
 
                 std::optional<std::string>{}
                 :
-                user.practice.vat
+                practice.vat
     },
 
     grounds_for_not_charging_VAT{
@@ -59,5 +59,5 @@ Issuer::Issuer(const User& user) :
                     u8"Чл.113,ал.9 от ЗДДС"
     },
 
-    bulstat{ user.practice.bulstat }
+    bulstat{ practice.bulstat }
 {}

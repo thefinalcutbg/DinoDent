@@ -1,5 +1,5 @@
 #pragma once
-#include "Model/User/UserManager.h"
+#include "Model/User/User.h"
 #include "View/SettingsDialog/PracticeSettings/IPacticeSettings.h"
 #include "Model/Validator/RziValidaor.h"
 #include "Model/Validator/NzokContractValidator.h"

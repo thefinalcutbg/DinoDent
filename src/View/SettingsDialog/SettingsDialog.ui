@@ -19,6 +19,11 @@
      <property name="currentIndex">
       <number>0</number>
      </property>
+     <widget class="GeneralSettings" name="generalSettings">
+      <attribute name="title">
+       <string>Общи</string>
+      </attribute>
+     </widget>
      <widget class="PracticeSettings" name="practiceSettings">
       <attribute name="title">
        <string>Практика</string>
@@ -94,6 +99,12 @@
    <class>PracticeDoctorSettings</class>
    <extends>QWidget</extends>
    <header>View/SettingsDialog/PracticeDoctorSettings/practicedoctorsettings.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>GeneralSettings</class>
+   <extends>QWidget</extends>
+   <header>View/SettingsDialog/GeneralSettings/GeneralSettings.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

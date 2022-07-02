@@ -2,10 +2,11 @@
 #include "Model/User/UserManager.h"
 #include "Model/Tooth/ToothContainer.h"
 
+//I'm a puppet on a string
 bool R_U_Mine(const DentistMade& procedure)
 {
    
-    return UserManager::instance().isCurrentUser(procedure.LPK);
+    return UserManager::isCurrentUser(procedure.LPK);
 }
 
 BridgeTerminal getPosition(int toothIdx, BridgePos position)

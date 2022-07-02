@@ -636,6 +636,9 @@
     <ClCompile Include="src\Network\ReplyHandlers\FileSentHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\SettingsDialog\GeneralSettings\GeneralSettings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -881,6 +884,9 @@
     <QtMoc Include="src\View\PinPromptDialog\PinPromptDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\View\SettingsDialog\GeneralSettings\GeneralSettings.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="resources\Resource.qrc" />
@@ -1025,6 +1031,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\PinPromptDialog\PinPromptDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\SettingsDialog\GeneralSettings\GeneralSettings.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

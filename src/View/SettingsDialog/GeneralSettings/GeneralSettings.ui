@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>GeneralSettingsClass</class>
+ <widget class="QWidget" name="GeneralSettingsClass">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>466</width>
+    <height>363</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>GeneralSettings</string>
+  </property>
+  <widget class="QGroupBox" name="groupBox">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>20</y>
+     <width>281</width>
+     <height>161</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Нов амбулаторен лист</string>
+   </property>
+   <widget class="QCheckBox" name="autoPisCheck">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>261</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Автоматично извличане на данни от ПИС</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="autoNraCheck">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>60</y>
+      <width>261</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Автоматично извличане на данни от НАП</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="autoNrnCheck">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>90</y>
+      <width>261</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Автоматично получаване на НРН</string>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections/>
+</ui>

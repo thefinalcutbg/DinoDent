@@ -136,12 +136,12 @@
   </ItemDefinitionGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
     <QtInstall>6.2.2_msvc2019_64</QtInstall>
-    <QtModules>core;network;gui;widgets;qml;printsupport;core5compat;</QtModules>
+    <QtModules>core;network;gui;widgets;qml;printsupport;core5compat</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
     <QtInstall>6.2.2_msvc2019_64</QtInstall>
-    <QtModules>core;network;gui;svg;widgets;qml;printsupport;core5compat;</QtModules>
+    <QtModules>core;network;gui;svg;widgets;qml;printsupport;core5compat</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|Win32'" Label="QtSettings">
@@ -240,6 +240,7 @@
     <ClCompile Include="src\Network\Base64Convert.cpp" />
     <ClCompile Include="src\Network\PKCS11.cpp" />
     <ClCompile Include="src\Network\XmlSigner.cpp" />
+    <ClCompile Include="src\View\SettingsDialog\GeneralSettings\GeneralSettings.cpp" />
     <ClCompile Include="src\View\uiComponents\qt_derived\LeadingZeroSpinBox.cpp" />
     <ClCompile Include="src\View\SaveAsDateDialog\SaveAsDateDialog.cpp" />
     <ClCompile Include="src\View\uiComponents\qt_derived\HalfRoundedButton.cpp" />
@@ -434,6 +435,7 @@
     <QtUic Include="src\View\FinancialView\FinancialView.ui" />
     <QtUic Include="src\View\AddPracticeDialog\AddPracticeDialog.ui" />
     <QtUic Include="src\View\ListView\SurfacePanel\SurfacePanel.ui" />
+    <QtUic Include="src\View\SettingsDialog\GeneralSettings\GeneralSettings.ui" />
     <QtUic Include="src\View\SettingsDialog\PracticeDoctorSettings\PracticeDoctorSettings.ui" />
     <QtUic Include="src\View\SettingsDialog\ProcedureTemplateDialog\ProcedureTemplateDialog.ui" />
     <QtUic Include="src\View\SettingsDialog\PriceListSettings\PriceListSettings.ui" />
@@ -607,6 +609,7 @@
     <QtMoc Include="src\View\ListView\SurfacePanel\SurfacePanel.h" />
     <QtMoc Include="src\View\MonthNotifDialog\MonthNotifTableModel.h" />
     <ClInclude Include="src\View\ReportDialog\IReportDialog.h" />
+    <QtMoc Include="src\View\SettingsDialog\GeneralSettings\GeneralSettings.h" />
     <ClInclude Include="src\View\Theme.h" />
     <ClInclude Include="src\View\DoctorSettingsDialog\IDoctorSettingsDialog.h" />
     <ClInclude Include="src\View\AddPracticeDialog\IAddPracticeDialog.h" />

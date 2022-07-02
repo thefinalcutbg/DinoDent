@@ -6,7 +6,7 @@
 #include "Model/Date.h"
 #include "Model/Parser/Parser.h"
 #include "DbProcedure.h"
-
+#include <QDebug>
 long long DbAmbList::insert(const AmbList& ambList, long long patientRowId)
 {
   
@@ -266,6 +266,8 @@ int DbAmbList::getNewNumber(Date ambDate, bool nzok)
         "AND amblist.lpk = '" + UserManager::currentUser().doctor.LPK + "' "
         "AND amblist.rzi = '" + UserManager::currentUser().practice.rziCode + "' "
         "ORDER BY amblist.num DESC LIMIT 1";
+
+    qDebug() << query.c_str();
 
     int number = nzok ? 0 : 100000;
 

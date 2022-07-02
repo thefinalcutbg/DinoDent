@@ -40,7 +40,7 @@ public:
 class DentistMadeControl : public DetailedStatusController
 {
 	std::string& LPK;
-	UserManager& m_manager;
+
 	bool permissionToWrite{ false };
 
 	std::string getMadeByLabel(const std::string& statusLPK) const
@@ -55,14 +55,13 @@ class DentistMadeControl : public DetailedStatusController
 public:
 	DentistMadeControl(IDetailedStatusView& view, DentistMade& status) :
 	DetailedStatusController(view),
-	LPK(status.LPK),
-	m_manager(UserManager::instance())
+	LPK(status.LPK)
 	{
 
 		DentistData data;
 		data.dentistName = getMadeByLabel(LPK);
 		data.isChecked = (!LPK.empty());
-		data.isEnabled = (LPK.empty() || m_manager.isCurrentUser(LPK));
+		data.isEnabled = (LPK.empty() || UserManager::isCurrentUser(LPK));
 
 		permissionToWrite = data.isEnabled;
 
@@ -76,7 +75,7 @@ public:
 		auto isChecked = view.getDentistData();
 
 		if (isChecked)
-			LPK = m_manager.currentUser().doctor.LPK;
+			LPK = UserManager::currentUser().doctor.LPK;
 		else LPK.clear();
 	}
 
@@ -149,7 +148,7 @@ public:
 			UserManager::getDoctorName(LPK);
 
 		dentistData.isChecked = (!LPK.empty());
-		dentistData.isEnabled = (LPK.empty() || UserManager::instance().isCurrentUser(LPK));
+		dentistData.isEnabled = (LPK.empty() || UserManager::isCurrentUser(LPK));
 
 		view.setData(dentistData);
 		view.setData(ObturationData{});

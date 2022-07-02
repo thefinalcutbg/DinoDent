@@ -53,7 +53,7 @@ void PracticeDoctorSettingsPresenter::deleteDoctor()
 {
 	if(m_currentIndex < 0) return;
 
-	if (UserManager::instance().isCurrentUser(m_doctorsList[m_currentIndex].lpk))
+	if (UserManager::isCurrentUser(m_doctorsList[m_currentIndex].lpk))
 	{
 		ModalDialogBuilder::showError(u8"Не можете да изтриете профила от който сте влезли в момента");
 		return;

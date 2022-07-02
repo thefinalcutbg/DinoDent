@@ -5,7 +5,7 @@
 #include "PracticeDoctorSettings/IPracticeDoctorSettings.h"
 class MainSettingsPresenter;
 
-enum class SettingsTab {Practice, PriceList, Doctor};
+enum class SettingsTab {General, Practice, PriceList, Doctor};
 
 class ISettingsDialog
 {

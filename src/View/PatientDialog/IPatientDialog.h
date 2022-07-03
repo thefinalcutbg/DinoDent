@@ -18,7 +18,6 @@ public:
 	virtual void setEditMode(bool editMode) = 0;
 	virtual void setCodeInfo(const std::string& codeInfo) = 0;
 	virtual void setPatient(const Patient& patient) = 0;
-	virtual void setInsuranceStatus(Insured status) = 0;
 	virtual void resetFields() = 0;
 	virtual Patient getPatient() = 0;
 

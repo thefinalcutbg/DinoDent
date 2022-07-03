@@ -6,7 +6,10 @@
 #include "View/Theme.h"
 #include <QApplication>
 IconButton::IconButton(QWidget *parent)
-	: QPushButton(parent), hoverColor(Theme::background)
+	: 
+	QPushButton(parent), 
+	hoverColor(Theme::background), 
+	backgroundColor(Theme::sectionBackground)
 {
 	this->installEventFilter(this);
 }
@@ -21,7 +24,8 @@ void IconButton::paintEvent(QPaintEvent* event)
 	QPainterPath path;
 	path.addEllipse(rect());
 
-	QColor color{ m_hover || isChecked() ? hoverColor : Theme::sectionBackground};
+	QColor color = (m_hover || isChecked()) ?
+			hoverColor : backgroundColor ;
 
 	painter.fillPath(path, color);
 	
@@ -32,6 +36,7 @@ void IconButton::paintEvent(QPaintEvent* event)
 
 	if (!icon().isNull())
 		icon().paint(&painter, iconRect);
+	
 }
 
 bool IconButton::eventFilter(QObject* obj, QEvent* e)
@@ -65,6 +70,12 @@ bool IconButton::eventFilter(QObject* obj, QEvent* e)
 void IconButton::setHoverColor(const QColor& color)
 {
 	hoverColor = color;
+	update();
+}
+
+void IconButton::setBackgroundColor(const QColor& color)
+{
+	backgroundColor = color;
 	update();
 }
 

@@ -31,12 +31,20 @@ ListPresenter::ListPresenter(ITabView* tabView, TabPresenter* tabPresenter, std:
     else if (m_ambList.isNew() && patient->getAge(ambSheetDate) > 70)
         m_ambList.charge = Charge::retired;
 
-    if (!rowId &&
-        User::settings().getPisHistoryAuto &&
-        User::practice().nzok_contract) 
+    //the list is not new
+    if (rowId) return;
+
+    if (!User::practice().nzok_contract) return;
+
+    if(User::settings().getPisHistoryAuto) requestPisActivities();
+
+    if (User::practice().nzok_contract->nra_pass.size() &&
+        User::settings().getNraStatusAuto
+    )
     {
-        requestPisActivities();
+        checkHealthInsurance(false);
     }
+
 
 }
 
@@ -397,6 +405,23 @@ void ListPresenter::setPISActivities(const std::optional<Procedures>& pisProcedu
     if (m_openHistoryDialogOnReply) openPisHistory();
 }
 
+void ListPresenter::setInsuranceStatus(const std::optional<InsuranceStatus>& status_result)
+{
+    if (!status_result) {
+        return;
+    }
+
+    patient->insuranceStatus = status_result.value();
+
+    view->refresh(m_ambList, *patient.get());
+
+    if (m_showInsuranceDialog) {
+        m_showInsuranceDialog = false;
+        ModalDialogBuilder::showMessage(status_result->getYearsText());
+    }
+
+}
+
 #include "Presenter/DetailsPresenter/DetailedStatusPresenter.h"
 
 void ListPresenter::openPisHistory()
@@ -430,6 +455,20 @@ void ListPresenter::openPisHistory()
    
 
     makeEdited();
+}
+
+void ListPresenter::checkHealthInsurance(bool showDialog)
+{
+
+    m_showInsuranceDialog = showDialog;
+
+    if (patient->insuranceStatus) {
+        setInsuranceStatus(patient->insuranceStatus.value());
+    }
+
+    if (nraHandler.awaiting_reply) return;
+
+    PIS::insuranceRequest(nraHandler, *patient.get());
 }
 
 void ListPresenter::openDetails(int toothIdx)

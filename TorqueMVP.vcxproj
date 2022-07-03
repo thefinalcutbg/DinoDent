@@ -415,6 +415,7 @@
     <ClCompile Include="src\View\uiComponents\qt_derived\TextEdit.cpp" />
     <ClCompile Include="src\View\uiComponents\qt_derived\Widgets\SurfaceSelector.cpp" />
     <ClCompile Include="src\Presenter\ListPresenter\ToothHintCreator.cpp" />
+    <ClCompile Include="src\View\uiComponents\qt_derived\UserButton.cpp" />
     <ClCompile Include="src\View\uiComponents\qt_derived\Widgets\VitaWidget.cpp" />
     <ClCompile Include="src\Presenter\TabPresenter\TabPresenter.cpp" />
     <ClCompile Include="src\View\TabView\TabView.cpp" />
@@ -505,6 +506,7 @@
     <QtUic Include="src\View\TabView\TabTitle.ui" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="src\View\uiComponents\qt_derived\UserButton.h" />
     <QtMoc Include="src\View\PerioView\Widgets\ToothButton.h" />
     <QtMoc Include="src\View\PatientSummaryView\TeethView\TeethBuccalScene.h" />
     <QtMoc Include="src\View\PatientSummaryView\TeethView\TeethLingualScene.h" />

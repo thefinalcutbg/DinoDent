@@ -352,7 +352,7 @@
        </spacer>
       </item>
       <item>
-       <widget class="QToolButton" name="userButton">
+       <widget class="UserButton" name="userButton">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -427,6 +427,11 @@
    <class>IconButton</class>
    <extends>QPushButton</extends>
    <header>View/uiComponents/qt_derived/iconbutton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>UserButton</class>
+   <extends>QToolButton</extends>
+   <header>View/uiComponents/qt_derived/userbutton.h</header>
   </customwidget>
  </customwidgets>
  <resources>

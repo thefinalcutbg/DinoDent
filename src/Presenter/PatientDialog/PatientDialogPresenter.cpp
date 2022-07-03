@@ -40,14 +40,6 @@ void PatientDialogPresenter::setView(IPatientDialog* view)
 	{
 		setPatientToView(m_patient.value());
 		view->setEditMode(true);
-
-		if (User::practice().nzok_contract &&
-			!User::practice().nzok_contract->nra_pass.empty() &&
-			User::settings().getNraStatusAuto
-			)
-		{
-			checkHealthInsurance(false);
-		}
 	}
 
 }
@@ -63,7 +55,6 @@ void PatientDialogPresenter::changePatientType(int index)
 		view->lineEdit(mname)->setInputValidator(&name_validator);
 		view->lineEdit(id)->validateInput();
 		view->resetFields();
-		insurance = InsuranceStatus{};
 		break;
 	case 2:
 		view->setLn4View(true);
@@ -72,7 +63,6 @@ void PatientDialogPresenter::changePatientType(int index)
 		view->lineEdit(mname)->setInputValidator(&cyrillic_validator);
 		view->lineEdit(id)->validateInput();;
 		view->resetFields();
-		insurance = InsuranceStatus{};
 		break;
 	default:
 		break;
@@ -91,14 +81,6 @@ void PatientDialogPresenter::checkHirbno()
 	PIS::sendRequest(SOAP::activeHIRBNo(p.id, p.type), hirbnoHandler);	
 }
 
-void PatientDialogPresenter::checkHealthInsurance(bool showDialog)
-{
-	m_insuranceDialog = showDialog;
-
-	if (nraHandler.awaiting_reply) return;
-
-	PIS::insuranceRequest(nraHandler, view->getPatient());
-}
 
 void PatientDialogPresenter::accept()
 {
@@ -112,7 +94,6 @@ void PatientDialogPresenter::accept()
 
 	
 	m_patient = getPatientFromView();
-	m_patient->insuranceStatus = this->insurance;
 	
 	if (rowid == 0) {
 		rowid = m_patient->rowid;
@@ -150,13 +131,6 @@ void PatientDialogPresenter::searchDbForPatient(int type)
 		rowid = patient.rowid;
 	}
 	
-	if (User::practice().nzok_contract &&
-		!User::practice().nzok_contract->nra_pass.empty() &&
-		User::settings().getNraStatusAuto
-		) 
-	{
-		checkHealthInsurance(false);
-	}
 
 	setPatientToView(patient);
 	
@@ -200,23 +174,6 @@ void PatientDialogPresenter::setHirbno(const std::optional<std::string>&hirbno)
 	view->setHirbno(hirbno.value());
 }
 
-void PatientDialogPresenter::setInsuranceStatus(const std::optional<InsuranceStatus>& status_result)
-{
-	if(!status_result){
-		return;
-	}
-
-	this->insurance = status_result.value();
-
-	view->setInsuranceStatus(insurance.status);
-
-	if (m_insuranceDialog) {
-		m_insuranceDialog = false;
-		ModalDialogBuilder::showMessage(insurance.getYearsText());
-	}
-
-		
-}
 
 bool PatientDialogPresenter::inputIsValid(AbstractUIElement* uiElement)
 {

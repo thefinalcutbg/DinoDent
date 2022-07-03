@@ -3,6 +3,7 @@
 #include "View/Theme.h"
 #include <QApplication>
 
+
 TileButton::TileButton(QWidget* parent) : QAbstractButton(parent), hover(0), clicked(0)
 {
 	header.setFamily("Segoe UI semibold");
@@ -103,6 +104,18 @@ QString TileButton::elide(const QString& text, int length)
 	return text.chopped(text.length() - length) + "...";
 }
 
+
+
+PatientTile::PatientTile(QWidget* parent) : TileButton(parent)
+{
+	nraIcon = new IconButton(this);
+	nraIcon->setIcon(QIcon(":/icons/icon_nra.png"));
+	nraIcon->move(10, 10);
+	nraIcon->setFixedSize(nraSize, nraSize);
+
+}
+
+
 void PatientTile::paintInfo(QPainter* painter)
 {
 	QFontMetrics fm(info);
@@ -138,11 +151,10 @@ void PatientTile::paintInfo(QPainter* painter)
 
 	painter->setFont(header);
 	painter->setPen(hover && !clicked ? QPen(Theme::fontRedClicked) : QPen(QColor(Theme::fontRed)));
-	painter->drawText(20, 30, name);
+	painter->drawText(nraIcon->x() + nraSize + 5, 27, name);
 	
 }
 
-PatientTile::PatientTile(QWidget* parent) : TileButton(parent){}
 
 void PatientTile::setData(const Patient& patient, Date currentDate)
 {
@@ -166,6 +178,36 @@ void PatientTile::setData(const Patient& patient, Date currentDate)
 	if (patient.phone != "")
 		phone = QString::fromStdString(patient.phone);
 	else phone = "";
+
+	if (patient.insuranceStatus)
+	{
+		QColor nraBackgroundColor;
+
+		switch (patient.insuranceStatus->status)
+		{
+		case Insured::Yes:
+			nraIcon->setBackgroundColor(QColor(101,199,208));
+			nraIcon->setHoverColor(QColor(80,152,154));
+			nraIcon->setToolTip(u8"Пациентът е здравноосигурен");
+			break;
+		case Insured::No:
+			nraIcon->setBackgroundColor(Theme::fontRed);
+			nraIcon->setHoverColor(Theme::fontRedClicked); 
+			nraIcon->setToolTip(u8"Пациентът няма здравни осигуровки");
+			break;
+		case Insured::NoData:
+			nraIcon->setBackgroundColor(QColor(255, 165, 0));
+			nraIcon->setHoverColor(QColor(255, 165, 0));
+			nraIcon->setToolTip(u8"За този пациент няма данни в НАП");
+			break;
+		}
+	}
+	else
+	{
+		nraIcon->setBackgroundColor(Theme::sectionBackground);
+		nraIcon->setHoverColor(Theme::background);
+		nraIcon->setToolTip(u8"Проверка на здравноосигурителен статус");
+	}
 
 	update();
 }

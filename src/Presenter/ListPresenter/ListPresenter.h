@@ -10,6 +10,7 @@
 #include "SurfacePanel/SurfacePanelPresenter.h"
 #include "CheckState.h"
 #include "Network/ReplyHandlers/DentalActivitiesHandler.h"
+#include "Network/ReplyHandlers/NraReplyHandler.h"
 
 typedef std::vector<int> SelectedTeethIdx;
 typedef std::vector<Tooth*> SelectedTeeth;
@@ -25,8 +26,10 @@ class ListPresenter : public TabInstance
     SelectedTeeth m_selectedTeeth;
 
     DentalActivitiesHandler<ListPresenter> handler{this};
+    NraReplyHandler<ListPresenter> nraHandler{ this };
 
     bool m_showCurrentStatus{ false };
+    bool m_showInsuranceDialog{ false };
 
     CheckModel m_checkModel;
 
@@ -68,8 +71,10 @@ public:
     void setSelectedTeeth(const std::vector<int>& SelectedIndexes);
 
     void setPISActivities(const std::optional<Procedures>& pisProcedures);
+    void setInsuranceStatus(const std::optional<InsuranceStatus>& status_result);
 
     void openPisHistory();
+    void checkHealthInsurance(bool showDialog);
     void openDetails(int toothIdx);
     void openDetails();
 

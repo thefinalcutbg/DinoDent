@@ -10,6 +10,6 @@ struct InsuranceStatus {
 	Insured status{ Insured::NoData };
 	MissingPeriods yearsMonths;
 
-	std::string getYearsText();
+	std::string getYearsText() const;
 
 };

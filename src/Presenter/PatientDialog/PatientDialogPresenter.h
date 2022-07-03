@@ -19,7 +19,7 @@
 #include "Model/CityCode.h"
 
 #include "Network/ReplyHandlers/HirbnoReplyHandler.h"
-#include "Network/ReplyHandlers/NraReplyHandler.h"
+
 
 class PatientDialogPresenter
 {
@@ -36,21 +36,16 @@ class PatientDialogPresenter
 	CyrillicValidator cyrillic_validator;
 
 	HirbnoReplyHandler hirbnoHandler{this};
-	NraReplyHandler<PatientDialogPresenter> nraHandler{ this };
 
 	//data not present in view:
 	long long rowid{ 0 };
 	std::string allergies;
 	std::string pastDiseases;
 	std::string currentDiseases;
-	InsuranceStatus insurance;
 
 	bool inputIsValid(AbstractUIElement* uiElement);
 	Patient getPatientFromView();
 	void setPatientToView(const Patient& patient);
-
-	bool m_insuranceDialog{ false };
-	
 
 public:
 	PatientDialogPresenter();
@@ -61,9 +56,7 @@ public:
 
 	void changePatientType(int index);
 	void setHirbno(const std::optional<std::string>& hirbno);
-	void setInsuranceStatus(const std::optional<InsuranceStatus>& status_result);
 	void checkHirbno();
-	void checkHealthInsurance(bool showDialog);
 	void searchDbForPatient(int type);
 	void accept();
 

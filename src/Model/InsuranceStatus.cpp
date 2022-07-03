@@ -1,8 +1,8 @@
 ﻿#include "InsuranceStatus.h"
 
-std::string InsuranceStatus::getYearsText()
+std::string InsuranceStatus::getYearsText() const
 {
-	if (status == Insured::NoData) return u8"Не са открити данни!";
+	if (status == Insured::NoData) return u8"За този пациент не са открити данни в НАП";
 
 	std::string result;
 	

@@ -636,6 +636,9 @@
     <ClCompile Include="src\View\SettingsDialog\GeneralSettings\GeneralSettings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\uiComponents\qt_derived\UserButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -882,6 +885,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\SettingsDialog\GeneralSettings\GeneralSettings.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\uiComponents\qt_derived\UserButton.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

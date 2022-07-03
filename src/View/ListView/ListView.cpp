@@ -48,6 +48,8 @@ ListView::ListView(QWidget* parent)
 		"color : " + Theme::getRGBStringFromColor(Theme::fontTurquoise) + "; "
 		"font-weight: bold; font-size: 12px;"
 	);
+
+	connect(ui.patientTile->nraIcon, &QPushButton::clicked, [=] {if (presenter)presenter->checkHealthInsurance(true);});
 	connect(ui.nzokActivities, &QPushButton::clicked, [=] { if (presenter) presenter->openPisHistory(); });
 	connect(ui.patientTile, &QAbstractButton::clicked, [=] { if(presenter) presenter->openPatientDialog(); });
 	connect(ui.allergiesTile, &QAbstractButton::clicked, [=] { if (presenter) presenter->openAllergiesDialog(); });

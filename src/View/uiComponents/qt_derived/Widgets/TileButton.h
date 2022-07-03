@@ -35,6 +35,8 @@ public:
     void reverse() { m_reveresed = !m_reveresed; };
 };
 
+#include "../IconButton.h"
+
 class PatientTile : public TileButton
 {
     QString idLabel;
@@ -47,9 +49,13 @@ class PatientTile : public TileButton
     QString address;
     QString phone;
 
+
+    static constexpr int nraSize = 20;
+
     void paintInfo(QPainter* painter);
 
 public:
+    IconButton* nraIcon;
     PatientTile(QWidget* parent = 0);
     void setData(const Patient& patient, Date currentDate);
 

@@ -62,8 +62,36 @@ Torque::Torque(QWidget* parent)
     font.setBold(true);
     font.setPointSize(14);
     ui.practiceLabel->setFont(font);
+/*
+    setStyleSheet(
+        "QMenu{"
+        " background-color: white;"
+        " }"
+
+        "   QMenu::item {"
+        "   padding: 2px 20px 2px 20px;"
+        "  border: 1px solid transparent; "// reserve space for selection border
+        "   spacing: 20px;"
+        "    }"
 
 
+        "  QMenu::item:selected {"
+        "       border-color: darkblue;"
+        "        background: rgb(53, 120, 191, 150);"
+        "       color:white;"
+        "      }"
+
+        "    QMenu::separator {"
+        "       height: 2px;"
+        "         margin: 2px 5px 2px 4px;"
+        "      }"
+
+        "     QMenu::indicator {"
+        "       width: 20px;"
+        "       height: 13px;"
+        "    }"
+    );
+ */
     presenter.setView(this);
 }
 

@@ -73,8 +73,9 @@ void DbPractice::insertPractice(const Practice& practice)
         "'" + std::to_string(practice.legal_entity) + "', "
         "'" + practice.vat + "', "
         "'" + Parser::write(practice.nzok_contract) + "', "
+        "'" + text + "', "
         "'" + Parser::write(practice.settings) + "' "
-        "'" + text + "')"
+        ")"
 
     );
 }

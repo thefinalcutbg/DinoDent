@@ -51,7 +51,7 @@ inline void ContextMenu::setModel(const ModelArray& model, ActionArray& action)
             action[i]->setIcon(QIcon(QPixmap(":/icons/icon_checked.png")));
             break;
         case CheckState::partially_checked:
-            action[i]->setIcon(QIcon(QPixmap("::/icons/icon_tristate.png")));
+            action[i]->setIcon(QIcon(QPixmap(":/icons/icon_tristate.png")));
             break;
         default:
             action[i]->setIcon(QIcon());

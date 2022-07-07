@@ -464,6 +464,7 @@ void ListPresenter::checkHealthInsurance(bool showDialog)
 
     if (patient->insuranceStatus) {
         setInsuranceStatus(patient->insuranceStatus.value());
+        return;
     }
 
     if (nraHandler.awaiting_reply) return;

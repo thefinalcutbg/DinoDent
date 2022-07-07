@@ -8,6 +8,7 @@ namespace Theme
 
 	constexpr int radius{ 20 };
 	const QColor mainBackgroundColor(170, 215, 220);
+	//const QColor mainBackgroundColor(Qt::white);
 	const QColor background(246, 245, 250);
 	const QColor sectionBackground(Qt::white);
 	const QColor border(225, 225, 225);

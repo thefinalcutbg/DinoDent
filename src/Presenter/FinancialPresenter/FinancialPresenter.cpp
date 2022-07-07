@@ -161,10 +161,11 @@ void FinancialPresenter::saveAsXML()
  
 }
 
-#include <QDebug>
+
 #include "Network/PISServ.h"
 void FinancialPresenter::sendToPis()
 {
+    if (!save()) return;
 
     ModalDialogBuilder::showMessage(u8"Уверете се, че ползвате фирмения си електронен подпис");
 

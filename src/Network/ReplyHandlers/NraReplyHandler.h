@@ -19,10 +19,16 @@ public:
 		if (reciever == nullptr) return;
 		TiXmlDocument doc;
 
+		if (reply.empty()) {
+			ModalDialogBuilder::showError(u8"Неуспешна връзка с НАП");
+			reciever->setInsuranceStatus({});
+			return;
+		}
+
 		doc.Parse(reply.data(), 0, TIXML_ENCODING_UTF8);
 
 		if (!doc.RootElement()) {
-			reciever->setInsuranceStatus({});
+
 			ModalDialogBuilder::showError(u8"Неуспешна връзка с НАП");
 			return;
 		}
@@ -76,7 +82,7 @@ public:
 				reciever->setInsuranceStatus({result});
 				break;
 			}
-			default:  reciever->setInsuranceStatus({}); break;
+		default:  reciever->setInsuranceStatus(InsuranceStatus{Insured::NoData}); break;
 		}
 
 	}

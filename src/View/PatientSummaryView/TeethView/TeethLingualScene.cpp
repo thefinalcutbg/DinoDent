@@ -3,6 +3,7 @@
 #include "View/ListView/TeethView/ToothGraphicsItem.h"
 #include "View/ToothPaintDevices/ToothPainter.h"
 #include "View/PerioView/PerioGraphics/PerioChartItem.h"
+#include "View/ListView/TeethView/DsnToothGraphicsItem.h"
 
 TeethLingualScene::TeethLingualScene()
 {
@@ -20,6 +21,18 @@ TeethLingualScene::TeethLingualScene()
         toothGraphic[i]->setZValue(0);
         toothGraphic[i]->setPos(posX, posY);
         addItem(toothGraphic[i]);
+
+        dsnToothGraphic[i] = new DsnToothGraphicsItem(i);
+        dsnToothGraphic[i]->setZValue(-1);
+
+        int dnsPos = (i < 8 || i > 23) ?
+            posX + (dsnToothGraphic[i]->boundingRect().width() / 2)
+            :
+            posX - (dsnToothGraphic[i]->boundingRect().width() / 2);
+
+        dsnToothGraphic[i]->setPos(dnsPos, posY);
+        addItem(dsnToothGraphic[i]);
+
 
         if (i < 15)
             posX -= toothGraphic[i]->boundingRect().width();
@@ -45,6 +58,7 @@ TeethLingualScene::TeethLingualScene()
 void TeethLingualScene::display(const ToothPaintHint& tooth)
 {
     toothGraphic[tooth.idx]->setToothPixmap(ToothPainter::getLingualOcclusal(tooth));
+    dsnToothGraphic[tooth.idx]->setToothPixmap(ToothPainter::getDnsLingual(tooth));
 }
 
 void TeethLingualScene::setProcedures(std::vector<int> teeth_procedures)

@@ -9,7 +9,7 @@ struct SpritesheetCoords
 {
     SpritesheetCoords(SpriteRectType type);
     int toothCanvasHeight{ 1140 };
-    int painterVTranslate{ 140 };
+    int impactedOffset{ 140 };
     QRect toothRect; //the rect of the whole tooth texture;
     QRect crownRect; //the rect which contains the crown parts of the tooth
 

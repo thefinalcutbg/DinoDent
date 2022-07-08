@@ -362,7 +362,7 @@ inline QPixmap getToothPixmap(const ToothPaintHint& tooth)
     toothPx.fill(Qt::transparent);
     QPainter painter(&toothPx);
 
-    painter.translate(0, coords.painterVTranslate);
+    painter.translate(0, coords.impactedOffset);
 
     //drawing the splint from behind:
     painter.setOpacity(0.3);
@@ -371,9 +371,9 @@ inline QPixmap getToothPixmap(const ToothPaintHint& tooth)
 
     
 
-    if (tooth.impacted) {
+    if (tooth.impacted && !tooth.dns) {
 
-        painter.translate(0, -coords.painterVTranslate);
+        painter.translate(0, -coords.impactedOffset);
 
         QPixmap toothOnly = getTooth(tooth);
 
@@ -389,7 +389,7 @@ inline QPixmap getToothPixmap(const ToothPaintHint& tooth)
             QRect(0, 500, coords.toothRect.width(), 360)
         );
 
-        painter.translate(0, coords.painterVTranslate);
+        painter.translate(0, coords.impactedOffset);
     }
     else
     {
@@ -576,11 +576,6 @@ QPixmap ToothPainter::getBuccalLingual(const ToothPaintHint& tooth)
     QPixmap pixmap(coords.toothRect.width(), pixmapHeight);
     pixmap.fill(Qt::transparent);
 
-
-    drawMobilityLabel(tooth, pixmap);
-    drawFractureLabel(tooth, pixmap);
-    drawToothNumberLabel(tooth, pixmap);
-
     QPainter painter(&pixmap);
 
     constexpr int toothYPosition = 123;
@@ -670,6 +665,99 @@ QPixmap ToothPainter::getLingualOcclusal(const ToothPaintHint& tooth)
 
 
 
+
+    return pixmap;
+}
+
+QPixmap ToothPainter::getDnsBuccal(const ToothPaintHint& toothHint)
+{
+    if (!toothHint.dns) return QPixmap();
+
+    constexpr int pixmapHeight = 746;
+
+    auto& coords = SpriteSheets::container().getCoordinates(toothHint.idx, false);
+    auto& currentTexture = SpriteSheets::container().getTexturePack(toothHint.idx, false);
+
+    QPixmap pixmap(coords.toothRect.width(), pixmapHeight);
+    pixmap.fill(Qt::transparent);
+
+    QPainter painter(&pixmap);
+
+    int toothYPosition = toothHint.impacted ? 40 : 140;
+
+    rotateByQuadrant(painter, coords.toothRect.width(), pixmapHeight, ToothUtils::getQuadrant(toothHint.idx));
+
+    painter.drawPixmap(QRect(0, toothYPosition,
+        coords.buccalCrop.width(), coords.buccalCrop.height()),
+        *currentTexture.tooth, coords.buccalCrop);
+
+
+    return pixmap;
+}
+
+QPixmap ToothPainter::getDnsBuccalLingual(const ToothPaintHint& toothHint)
+{
+    if (!toothHint.dns) return QPixmap();
+
+    auto& coords = SpriteSheets::container().getCoordinates(toothHint.idx, false);
+    auto& currentTexture = SpriteSheets::container().getTexturePack(toothHint.idx, false);
+
+    int pixmapHeight = coords.toothRect.height() + 246;
+
+    QPixmap pixmap(coords.toothRect.width(), pixmapHeight);
+    pixmap.fill(Qt::transparent);
+
+    QPainter painter(&pixmap);
+
+    rotateByQuadrant(painter, coords.toothRect.width(), pixmapHeight, ToothUtils::getQuadrant(toothHint.idx));
+
+    if (toothHint.impacted) {
+
+        painter.drawPixmap(
+            QRect(0, 0 + 40, coords.toothRect.width(), 350),
+            *currentTexture.tooth,
+            QRect(0, 0, coords.toothRect.width(), 350)
+        );
+
+        painter.drawPixmap(
+            QRect(0, 780 - 60, coords.toothRect.width(), 350),
+            *currentTexture.tooth,
+            QRect(0, 500, coords.toothRect.width(), 350)
+        );
+
+    }
+    else
+    {
+        painter.translate(0, coords.impactedOffset);
+        painter.drawPixmap(0, 0, *currentTexture.tooth);
+
+        painter.eraseRect(0, 350, coords.toothRect.width(), 150);
+    }
+
+    return pixmap;
+}
+
+QPixmap ToothPainter::getDnsLingual(const ToothPaintHint& tooth)
+{
+    if (!tooth.dns) return QPixmap();
+
+    constexpr int pixmapHeight = 746;
+
+    auto& coords = SpriteSheets::container().getCoordinates(tooth.idx, tooth.temp);
+    auto& currentTexture = SpriteSheets::container().getTexturePack(tooth.idx, tooth.temp);
+
+    QPixmap pixmap(coords.toothRect.width(), pixmapHeight);
+    pixmap.fill(Qt::transparent);
+
+    QPainter painter(&pixmap);
+
+    int toothYPosition = tooth.impacted ? 340 : 270;
+
+    rotateByQuadrantLingual(painter, coords.toothRect.width(), pixmapHeight, ToothUtils::getQuadrant(tooth.idx));
+
+    painter.drawPixmap(QRect(0, toothYPosition,
+        coords.lingualCrop.width(), coords.lingualCrop.height()),
+        *currentTexture.tooth, coords.lingualCrop);
 
     return pixmap;
 }

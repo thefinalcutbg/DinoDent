@@ -3,7 +3,7 @@
 #include "Model/Procedure/TableStructs.h"
 #include "View/ToothPaintDevices/PaintHint.h"
 
-
+class DsnToothGraphicsItem;
 class ToothGraphicsItem;
 class PerioChartItem;
 
@@ -12,6 +12,7 @@ class TeethBuccalScene : public QGraphicsScene
 	Q_OBJECT
 
 	ToothGraphicsItem* toothGraphic[32];
+	DsnToothGraphicsItem* dsnToothGraphic[32];
 	PerioChartItem* maxillaryChart;
 	PerioChartItem* mandibularChart;
 

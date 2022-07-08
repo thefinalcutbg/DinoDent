@@ -5,13 +5,14 @@
 
 class ToothGraphicsItem;
 class PerioChartItem;
+class DsnToothGraphicsItem;
 
 class TeethLingualScene : public QGraphicsScene
 {
 	Q_OBJECT
 
 	ToothGraphicsItem* toothGraphic[32];
-
+	DsnToothGraphicsItem* dsnToothGraphic[32];
 	PerioChartItem* maxillaryChart;
 	PerioChartItem* mandibularChart;
 

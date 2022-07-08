@@ -2,6 +2,7 @@
 
 #include "View/ListView/TeethView/ToothGraphicsItem.h"
 #include "Model/Tooth/ToothContainer.h"
+#include "View/ListView/TeethView/DsnToothGraphicsItem.h"
 #include "View/ToothPaintDevices/ToothPainter.h"
 #include "View/ToothPaintDevices/PaintHint.h"
 #include <QDebug>
@@ -25,6 +26,18 @@ PerioScene::PerioScene()
         toothGraphic[i]->setPos(posX, posY);
         addItem(toothGraphic[i]);
 
+        dsnToothGraphic[i] = new DsnToothGraphicsItem(i);
+        dsnToothGraphic[i]->setWidth(70);
+        dsnToothGraphic[i]->showLingual(true);
+        dsnToothGraphic[i]->setZValue(-1);
+
+        int dnsPos = (i < 8) ?
+            posX - (dsnToothGraphic[i]->boundingRect().width() / 2)
+            :
+            posX + (dsnToothGraphic[i]->boundingRect().width() / 2);
+
+        dsnToothGraphic[i]->setPos(dnsPos, posY);
+        addItem(dsnToothGraphic[i]);
 
         //centerX = centerX + 70;
 
@@ -35,10 +48,16 @@ PerioScene::PerioScene()
 
 void PerioScene::display(const ToothPaintHint& tooth)
 {
-    if(tooth.idx < 16)
-    toothGraphic[tooth.idx]->setToothPixmap(ToothPainter::getBuccalLingual(tooth));
-    else
-    toothGraphic[31-tooth.idx]->setToothPixmap(ToothPainter::getBuccalLingual(tooth));
+    if (tooth.idx < 16) {
+        toothGraphic[tooth.idx]->setToothPixmap(ToothPainter::getBuccalLingual(tooth));
+        dsnToothGraphic[tooth.idx]->setToothPixmap(ToothPainter::getDnsBuccalLingual(tooth));
+    }
+
+    else {
+        toothGraphic[31 - tooth.idx]->setToothPixmap(ToothPainter::getBuccalLingual(tooth));
+        dsnToothGraphic[31 - tooth.idx]->setToothPixmap(ToothPainter::getDnsBuccalLingual(tooth));
+    }
+
 }
 
 void PerioScene::deletePixmaps()

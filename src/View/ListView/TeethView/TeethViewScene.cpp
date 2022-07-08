@@ -4,6 +4,7 @@
 #include <QKeyEvent>
 #include "ContextMenu.h"
 #include "ToothGraphicsItem.h"
+#include "DsnToothGraphicsItem.h"
 #include "SelectionBox.h"
 #include "Presenter/ListPresenter/ListPresenter.h"
 #include <QGuiApplication>
@@ -53,14 +54,32 @@ TeethViewScene::TeethViewScene(QObject *parent)
         }
 
         toothGraphic[i] = new ToothGraphicsItem(i);
-        toothGraphic[i]->setZValue(0);
+        toothGraphic[i]->setZValue(1);
         toothGraphic[i]->setPos(posX, posY);
         addItem(toothGraphic[i]);
 
-        selectionBox[i] = new SelectionBox(i);
-        selectionBox[i]->setZValue(2);
-        selectionBox[i]->setPos(posX, selectionBox_posY);
-        addItem(selectionBox[i]);
+        {
+            dsnToothGraphic[i] = new DsnToothGraphicsItem(i);
+            dsnToothGraphic[i]->setZValue(0);
+
+        
+            int dnsPos = (i < 8 || i > 23) ?
+                posX - (dsnToothGraphic[i]->boundingRect().width() / 2)
+                :
+                posX + (dsnToothGraphic[i]->boundingRect().width() / 2);
+
+            dsnToothGraphic[i]->setPos(dnsPos, posY);
+            addItem(dsnToothGraphic[i]);
+        }
+
+        {
+
+            selectionBox[i] = new SelectionBox(i);
+            selectionBox[i]->setZValue(2);
+            selectionBox[i]->setPos(posX, selectionBox_posY);
+            addItem(selectionBox[i]);
+
+        }
 
         if (i < 15)
             posX += toothGraphic[i]->boundingRect().width();
@@ -267,6 +286,7 @@ void TeethViewScene::keyPressEvent(QKeyEvent* event)
       case Qt::Key_B :presenter->setMainStatus(StatusCode::Bridge); break;
       case Qt::Key_M: presenter->setMainStatus(StatusCode::Impacted); break;
       case Qt::Key_N: presenter->setMainStatus(StatusCode::FiberSplint); break;
+      case Qt::Key_H: presenter->setMainStatus(StatusCode::Dsn); break;
       case Qt::Key_A:
           if (event->modifiers() & Qt::ControlModifier)
               for (int i = 0; i < 32; i++) selectionBox[i]->setSelected(1);
@@ -276,8 +296,8 @@ void TeethViewScene::keyPressEvent(QKeyEvent* event)
 
 void TeethViewScene::display(const ToothPaintHint& tooth)
 {
-
     toothGraphic[tooth.idx]->setToothPixmap(ToothPainter::getBuccalOcclusal(tooth));
+    dsnToothGraphic[tooth.idx]->setToothPixmap(ToothPainter::getDnsBuccal(tooth));
 }
 
 

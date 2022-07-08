@@ -10,7 +10,7 @@ class SelectionBox;
 class BridgeItem;
 class ToothGraphicsItem;
 class ListPresenter;
-
+class DsnToothGraphicsItem;
 
 class TeethViewScene : public QGraphicsScene
 {
@@ -18,6 +18,7 @@ class TeethViewScene : public QGraphicsScene
 
 
 	ToothGraphicsItem* toothGraphic[32];
+	DsnToothGraphicsItem* dsnToothGraphic[32];
 	SelectionBox* selectionBox[32];
 
 	ListPresenter* presenter;

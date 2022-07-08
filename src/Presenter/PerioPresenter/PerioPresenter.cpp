@@ -37,7 +37,7 @@ PerioPresenter::PerioPresenter(ITabView* view, std::shared_ptr<Patient> patient)
 
         if (
             tooth.extraction.exists() ||
-            tooth.impacted.exists() ||
+            (tooth.impacted.exists() && !tooth.hyperdontic.exists()) ||
             tooth.implant.exists()
         )
             m_perioStatus.disabled[tooth.index] = true;

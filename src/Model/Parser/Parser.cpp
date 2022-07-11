@@ -420,6 +420,11 @@ std::string Parser::write(const std::vector<ProcedureTemplate>& priceList)
 		pTemplate["code"] = p.code;
 		pTemplate["name"] = p.name;
 		pTemplate["price"] = p.price;
+		
+		if (!p.ksmp.empty())
+		{
+			pTemplate["ksmp"] = p.ksmp;
+		}
 
 		if (!p.diagnosis.empty()) {
 			pTemplate["default_diag"] = p.diagnosis;
@@ -920,11 +925,16 @@ std::vector<ProcedureTemplate> Parser::getPriceList(const std::string& priceList
 		{
 			m.diagnosis = procedureTemplate[i]["default_diag"].asString();
 		}
+
 		if (!procedureTemplate[i]["material"].isNull())
 		{
 			m.material = procedureTemplate[i]["material"].asString();
 		}
 
+		if (!procedureTemplate[i]["ksmp"].isNull())
+		{
+			m.ksmp = procedureTemplate[i]["ksmp"].asString();
+		}
 		procedureTemplateList.emplace_back(m);
 	}
 

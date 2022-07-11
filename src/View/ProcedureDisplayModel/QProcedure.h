@@ -11,6 +11,7 @@ struct QProcedure
 	int tooth{ -1 };
 	QString procedureName;
 	int code{ -1 };
+	QString ksmp;
 	bool nzok{ false };
 	QString price;
 	QString doctor;

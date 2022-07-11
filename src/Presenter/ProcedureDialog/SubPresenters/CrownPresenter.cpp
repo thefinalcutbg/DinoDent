@@ -1,12 +1,13 @@
 ﻿#include "CrownPresenter.h"
 
 #include "Model/Tooth/ToothContainer.h"
-
+#include "Model/KSMP.h"
 CrownPresenter::CrownPresenter(
-    const std::vector<Tooth*>& selectedTeeth, 
-    const ToothContainer& teeth
-) 
-    :
+	const std::vector<Tooth*>& selectedTeeth,
+	const ToothContainer& teeth
+)
+	:
+	AbstractSubPresenter(ProcedureType::crown),
     teeth(teeth),
 	selectedTeeth(selectedTeeth),
 	view(nullptr),
@@ -28,7 +29,6 @@ void CrownPresenter::setProcedureTemplate(const ProcedureTemplate& m)
 	auto data = view->getData();
 	data.material = m.material;
 	view->setData(data);
-	
 	
 
 
@@ -144,7 +144,7 @@ void CrownPresenter::selectAsBridge(bool checked)
 		common_view->diagnosisEdit()->set_Text(m_bridgeDiagnosis);
 		common_view->manipulationEdit()->set_Text(m_template.name + m_bridgeRangeString);
 		common_view->priceEdit()->set_Value(m_bridgePrice);
-
+		m_procedureType = ProcedureType::bridge;
 		return;
 	}
 
@@ -152,6 +152,8 @@ void CrownPresenter::selectAsBridge(bool checked)
 	common_view->diagnosisEdit()->set_Text(m_diagnosis);
 	common_view->manipulationEdit()->set_Text(m_template.name);
 	common_view->priceEdit()->set_Value(m_template.price);
+	m_procedureType = ProcedureType::crown;
+	
 
 }
 

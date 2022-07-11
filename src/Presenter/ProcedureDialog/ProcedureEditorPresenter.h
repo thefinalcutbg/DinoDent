@@ -31,5 +31,6 @@ public:
 	std::optional<Procedure> openDialog();
 	void setView(IProcedureEditDialog* view);
 	void okPressed();
+	void ksmpPressed();
 };
 

@@ -8,10 +8,13 @@ CommonFields::CommonFields(QWidget *parent)
 
 	connect(ui.diagnosisEdit, &QTextEdit::textChanged,
 		[=] { 
-				if(presenter!=nullptr) 
+				if(presenter) 
 					presenter->diagnosisTextChanged(ui.diagnosisEdit->getText()); 
 			});
 
+	connect(ui.ksmpButton, &QPushButton::clicked, 
+		[=] {if (presenter)presenter->ksmpButtonClicked();}
+	);
 }
 
 void CommonFields::setExternalDateEdit(DateEdit* externalDateEdit)
@@ -23,6 +26,11 @@ void CommonFields::setExternalDateEdit(DateEdit* externalDateEdit)
 
 CommonFields::~CommonFields()
 {
+}
+
+QPushButton* CommonFields::ksmpButton()
+{
+	return ui.ksmpButton;
 }
 
 AbstractLineEdit* CommonFields::manipulationEdit()
@@ -47,6 +55,11 @@ AbstractDateEdit* CommonFields::dateEdit()
 	}
 	
 	return externalDateEdit;
+}
+
+void CommonFields::setKSMPButtonCode(const std::string& code)
+{
+	ui.ksmpButton->setText(code.c_str());
 }
 
 void CommonFields::set_hidden(bool hidden)

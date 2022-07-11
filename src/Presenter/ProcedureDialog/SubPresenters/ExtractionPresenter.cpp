@@ -2,6 +2,7 @@
 
 
 ExtractionPresenter::ExtractionPresenter(const std::vector<Tooth*>& selectedTeeth)	:
+	AbstractSubPresenter(ProcedureType::extraction),
 	selectedTeeth(selectedTeeth)
 {
 	if (selectedTeeth.size() == 1)

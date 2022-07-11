@@ -16,6 +16,6 @@ public:
 	virtual AbstractSpinBox* priceEdit() = 0;
 	virtual AbstractDateEdit* dateEdit() = 0;
 	virtual void set_hidden(bool hidden) = 0;
-
+	virtual void setKSMPButtonCode(const std::string& code) = 0;
 	virtual void setCurrentPresenter(AbstractSubPresenter* presenter) { this->presenter = presenter; }
 };

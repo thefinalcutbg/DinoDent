@@ -331,3 +331,14 @@ std::string ModalDialogBuilder::pinPromptDialog(const std::string& pem)
 
 	return d.getResult().toStdString();
 }
+
+#include "KSMPDialog/KSMPDialog.h"
+
+std::string ModalDialogBuilder::ksmpDialog(KsmpList& list, const std::string& preSelectCode)
+{
+	KSMPDialog d(list, preSelectCode);
+	d.exec();
+
+
+	return d.getResult();
+}

@@ -2,6 +2,7 @@
 
 
 EndoPresenter::EndoPresenter(const std::vector<Tooth*>& selectedTeeth) :
+	AbstractSubPresenter(ProcedureType::endo),
 	selectedTeeth(selectedTeeth)
 {
 	if (selectedTeeth.size() == 1)

@@ -642,6 +642,15 @@
     <ClCompile Include="src\View\ListView\TeethView\DsnToothGraphicsItem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Model\KSMP.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\KSMPDialog\KSMPDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\ProcedureDisplayModel\KSMPModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -893,6 +902,12 @@
     <QtMoc Include="src\View\uiComponents\qt_derived\UserButton.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\View\KSMPDialog\KSMPDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\ProcedureDisplayModel\KSMPModel.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="resources\Resource.qrc" />
@@ -1040,6 +1055,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\SettingsDialog\GeneralSettings\GeneralSettings.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\KSMPDialog\KSMPDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
@@ -1591,6 +1609,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\ListView\TeethView\DsnToothGraphicsItem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\KSMP.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

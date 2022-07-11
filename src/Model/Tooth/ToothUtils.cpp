@@ -8,7 +8,7 @@ constexpr std::array<int, 32> numbers
   38, 37, 36, 35, 34, 33, 32, 31,     41, 42, 43, 44, 45, 46, 47, 48
 };
 
-constexpr std::array<int, 32> types
+constexpr std::array<int, 32> procedureType
 {
     0,0,0,1,1,2,2,2,    2,2,2,1,1,0,0,0,
     0,0,0,1,1,2,2,2,    2,2,2,1,1,0,0,0
@@ -22,7 +22,7 @@ std::array<std::string, 6> surfaceNames
 
 ToothType ToothUtils::getToothType(int index)
 {
-    return static_cast<ToothType>(types[index]);
+    return static_cast<ToothType>(procedureType[index]);
 }
 
 constexpr  int invalidToothIdx = 99;

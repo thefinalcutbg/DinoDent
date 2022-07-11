@@ -7,6 +7,7 @@
 #include "Model/AmbList.h"
 #include "Model/Financial/BusinessOperation.h"
 #include "Model/Financial/MonthNotifRow.h"
+#include "Model/KSMP.h"
 
 enum class SelectionPref {All, OnlyNZOK, OnlyPaid};
 enum class MonthNotifLoad {FromPIS, FromFile, Rejected};
@@ -60,5 +61,6 @@ namespace ModalDialogBuilder
 	std::optional<std::string> getStringInput(const std::string& dialogName, const std::string& fieldName);
 	//returns empty string if canceled
 	std::string pinPromptDialog(const std::string& pem);
+	std::string ksmpDialog(KsmpList& list, const std::string& preSelectCode = {});
 };
 

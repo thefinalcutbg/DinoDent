@@ -214,10 +214,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\View\ProcedureDisplayModel\KSMPModel.cpp" />
+    <ClCompile Include="src\Model\KSMP.cpp" />
     <ClCompile Include="src\Network\ReplyHandlers\FileSentHandler.cpp" />
     <ClCompile Include="src\Model\InsuranceStatus.cpp" />
     <ClCompile Include="src\Network\ReplyHandlers\NraReplyHandler.cpp" />
     <ClCompile Include="src\Presenter\ReportDialogPresenter\ReportDialogPresenter.cpp" />
+    <ClCompile Include="src\View\KSMPDialog\KSMPDialog.cpp" />
     <ClCompile Include="src\View\ListView\TeethView\DsnToothGraphicsItem.cpp" />
     <ClCompile Include="src\View\PinPromptDialog\PinPromptDialog.cpp" />
     <ClCompile Include="src\Network\ReplyHandlers\MonthNotifDataHandler.cpp" />
@@ -427,6 +430,7 @@
     <ClCompile Include="src\View\PatientSummaryView\TeethView\TeethLingualScene.cpp" />
     <ClCompile Include="src\View\PerioView\Widgets\ToothButton.cpp" />
     <QtRcc Include="resources\Resource.qrc" />
+    <QtUic Include="src\View\KSMPDialog\KSMPDialog.ui" />
     <QtUic Include="src\View\PinPromptDialog\PinPromptDialog.ui" />
     <QtUic Include="src\View\MonthNotifDialog\MonthNotifDialog.ui" />
     <QtUic Include="src\View\PISHistoryDialog\PISHistoryDialog.ui" />
@@ -539,6 +543,8 @@
     <QtMoc Include="src\View\PISHistoryDialog\PISHistoryDialog.h" />
     <QtMoc Include="src\View\MonthNotifDialog\MonthNotifDialog.h" />
     <QtMoc Include="src\View\PinPromptDialog\PinPromptDialog.h" />
+    <QtMoc Include="src\View\ProcedureDisplayModel\KSMPModel.h" />
+    <ClInclude Include="src\Model\KSMP.h" />
     <ClInclude Include="src\Model\Settings.h" />
     <ClInclude Include="src\Network\ReplyHandlers\FileSentHandler.h" />
     <ClInclude Include="src\Model\InsuranceStatus.h" />
@@ -605,6 +611,7 @@
     <QtMoc Include="src\View\AmbListSelector\Models\FinancialTableModel.h" />
     <ClInclude Include="src\View\FinancialView\FinancialTileButton.h" />
     <ClInclude Include="src\View\FinancialView\IFinancialView.h" />
+    <QtMoc Include="src\View\KSMPDialog\KSMPDialog.h" />
     <ClInclude Include="src\View\ListView\SurfacePanel\ControlPanelPolygon.h" />
     <ClInclude Include="src\View\ListView\SurfacePanel\CPTooth.h" />
     <ClInclude Include="src\View\ListView\SurfacePanel\ISurfacePanel.h" />

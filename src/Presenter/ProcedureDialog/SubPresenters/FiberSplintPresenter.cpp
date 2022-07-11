@@ -87,6 +87,7 @@ std::string FiberSplintPresenter::getDiagnosis()
 FiberSplintPresenter::FiberSplintPresenter(const std::vector<Tooth*>& selectedTeeth, 
 										   const ToothContainer& teeth)
 	:
+	AbstractSubPresenter(ProcedureType::fibersplint),
 	selectedTeeth(selectedTeeth),
 	teeth(teeth),
 	view(nullptr),

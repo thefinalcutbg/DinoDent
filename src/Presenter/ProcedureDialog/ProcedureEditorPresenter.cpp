@@ -1,6 +1,6 @@
 #include "ProcedureEditorPresenter.h"
 #include "View/ProcedureDialog/CommonFields/ICommonFields.h"
-
+#include "Model/KSMP.h"
 ProcedureEditorPresenter::ProcedureEditorPresenter(const Procedure& m, const Date& patientTurns18)
 	: 
 	m(m), 
@@ -30,6 +30,7 @@ void ProcedureEditorPresenter::setView(IProcedureEditDialog* view)
 	view->commonFields()->diagnosisEdit()->set_Text(m.diagnosis);
 	view->commonFields()->manipulationEdit()->set_Text(m.name);
 	view->commonFields()->priceEdit()->set_Value(m.price);
+	view->commonFields()->setKSMPButtonCode(m.ksmp);
 
 	view->commonFields()->diagnosisEdit()->setInputValidator(&_emptyValidator);
 	view->commonFields()->manipulationEdit()->setInputValidator(&_emptyValidator);
@@ -101,7 +102,7 @@ void ProcedureEditorPresenter::okPressed()
 	m.diagnosis = view->commonFields()->diagnosisEdit()->getText();
 	m.name = view->commonFields()->manipulationEdit()->getText();
 	m.price = view->commonFields()->priceEdit()->get_Value();
-
+	
 	switch (m.type)
 	{
 		case ProcedureType::obturation:
@@ -128,4 +129,14 @@ void ProcedureEditorPresenter::okPressed()
 	result = m;
 
 	view->closeDialog();
+}
+
+void ProcedureEditorPresenter::ksmpPressed()
+{
+	auto result = ModalDialogBuilder::ksmpDialog(KSMP::getByType(m.type), m.ksmp);
+
+	if (result.empty()) return;
+
+	m.ksmp = result;
+	view->commonFields()->setKSMPButtonCode(result);
 }

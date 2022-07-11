@@ -23,13 +23,14 @@ std::vector<Procedure> DbProcedure::getProcedures(long long amblist_rowid, Db* e
 								"procedure.price, "		//7
 								"procedure.data, "		//8
 								"procedure.deciduous, "	//9
-								"amblist.LPK "			//10
+								"amblist.LPK, "			//10
+								"procedure.ksmp "		//11
 						"FROM procedure LEFT JOIN amblist ON procedure.amblist_rowid = amblist.rowid "
 						"WHERE amblist.rowid = " + std::to_string(amblist_rowid) +
 						+ condition +
 						" ORDER BY procedure.rowid";
 
-	
+
 	for (Db db(query, existingConnection); db.hasRows();)
 	{
 		mList.emplace_back();
@@ -46,6 +47,7 @@ std::vector<Procedure> DbProcedure::getProcedures(long long amblist_rowid, Db* e
 		Parser::parse(db.asString(8), p);
 		p.temp = db.asInt(9);
 		p.LPK = db.asString(10);
+		p.ksmp = db.asString(11);
 	}
 
 	return mList;
@@ -65,7 +67,7 @@ void DbProcedure::saveProcedures(long long amblist_rowid, const std::vector<Proc
 	{
 		auto& m = mList[i];
 
-		query = "INSERT INTO procedure (nzok, type, code, day, tooth, deciduous, price, data, amblist_rowid) VALUES ("
+		query = "INSERT INTO procedure (nzok, type, code, day, tooth, deciduous, price, data, ksmp, amblist_rowid) VALUES ("
 			+ std::to_string(m.nzok) + ","
 			+ std::to_string(static_cast<int>(m.type)) + ",'"
 			+ std::to_string(m.code) + "',"
@@ -73,7 +75,8 @@ void DbProcedure::saveProcedures(long long amblist_rowid, const std::vector<Proc
 			+ std::to_string(m.tooth) + ","
 			+ std::to_string(m.temp) + ",'"
 			+ std::to_string(m.price) + "','"
-			+ Parser::write(m) + "',"
+			+ Parser::write(m) + "','"
+			+ m.ksmp + "',"
 			+ std::to_string(amblist_rowid) + ")"
 			;
 
@@ -129,7 +132,7 @@ std::vector<ProcedureSummary> DbProcedure::getNhifSummary(long long patientRowId
 std::vector<Procedure> DbProcedure::getToothProcedures(long long patientRowId, int tooth)
 {
 		std::string query =
-		"SELECT  procedure.day, amblist.month, amblist.year, procedure.code, procedure.nzok, procedure.data, procedure.price, amblist.lpk, procedure.deciduous FROM "
+		"SELECT  procedure.day, amblist.month, amblist.year, procedure.code, procedure.nzok, procedure.data, procedure.price, amblist.lpk, procedure.deciduous, procedure.ksmp FROM "
 		"procedure LEFT JOIN amblist ON procedure.amblist_rowid = amblist.rowid "
 		"WHERE tooth = " + std::to_string(tooth) + " "
 		"AND patient_rowid = " + std::to_string(patientRowId) + " "
@@ -159,6 +162,7 @@ std::vector<Procedure> DbProcedure::getToothProcedures(long long patientRowId, i
 		p.temp = db.asInt(8);
 		//p.result = NoData{};
 		p.tooth = tooth;
+		p.ksmp = db.asString(9);
 	}
 	
 	

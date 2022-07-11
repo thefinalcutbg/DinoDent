@@ -17,9 +17,13 @@ protected:
 	ProcedureTemplate m_template;
 	NotEmptyValidator notEmpty_validator;
 
+	ProcedureType m_procedureType;
+	std::string m_ksmp;
+
 	Procedure getProcedureCommonFields();
 
 public:
+	AbstractSubPresenter(ProcedureType t) : m_procedureType(t) {};
 	
 	void setCommonFieldsView(ICommonFields* view) { common_view = view;};
 
@@ -28,6 +32,8 @@ public:
 	virtual void setProcedureTemplate(const ProcedureTemplate& m);
 
 	virtual bool isValid();
+
+	void ksmpButtonClicked();
 
 	virtual std::vector<Procedure> getProcedures() = 0;
 	

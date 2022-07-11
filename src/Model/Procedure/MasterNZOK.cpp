@@ -32,6 +32,7 @@ void MasterNZOK::loadData()
 		m.name = procedure[i]["name"].asString();
 		m.price = -1;
 		m.nzok = true;
+		m.ksmp = procedure[i]["ksmp"].asString();
 
 		if (!procedure[i]["default_diag"].isNull())
 			m.diagnosis = procedure[i]["default_diag"].asString();

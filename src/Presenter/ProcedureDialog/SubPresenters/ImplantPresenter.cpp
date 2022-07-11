@@ -5,7 +5,9 @@
 
 
 ImplantPresenter::ImplantPresenter(const std::vector<Tooth*>& selectedTeeth)
-: selectedTeeth(selectedTeeth), view(nullptr)
+	:
+	AbstractSubPresenter(ProcedureType::implant),
+	selectedTeeth(selectedTeeth), view(nullptr)
 {
 	if (selectedTeeth.size() == 1)
 		m_diagnosis = getDiagnosis(*selectedTeeth.at(0));

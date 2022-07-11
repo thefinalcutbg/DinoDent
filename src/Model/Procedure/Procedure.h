@@ -100,6 +100,7 @@ struct Procedure
     Result result{ NoData{} };
     bool nzok{ false };
     std::string LPK;
+    std::string ksmp;
 
     void applyProcedure(ToothContainer& teeth) const;
     //applies the procedures, not taking data into account

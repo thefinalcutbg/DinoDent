@@ -2,7 +2,9 @@
 
 
 ToothProcedurePresenter::ToothProcedurePresenter(const std::vector<Tooth*>& selectedTeeth)
-	: selectedTeeth(selectedTeeth)
+	:
+	AbstractSubPresenter(ProcedureType::any),
+	selectedTeeth(selectedTeeth)
 {
 	
 }

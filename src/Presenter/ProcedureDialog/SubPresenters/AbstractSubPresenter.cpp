@@ -1,5 +1,5 @@
 #include "AbstractSubPresenter.h"
-
+#include "Model/KSMP.h"
 
 void AbstractSubPresenter::setProcedureTemplate(const ProcedureTemplate& m)
 {
@@ -26,6 +26,14 @@ void AbstractSubPresenter::setProcedureTemplate(const ProcedureTemplate& m)
 	common_view->diagnosisEdit()->setInputValidator(&notEmpty_validator);
 	common_view->manipulationEdit()->setInputValidator(&notEmpty_validator);
 
+	m_ksmp = (m.ksmp.empty() && m_ksmp.empty()) ?
+		KSMP::getByType(m_procedureType)[0]->code
+		:
+		m.ksmp;
+	
+	common_view->setKSMPButtonCode(m_ksmp);
+
+
 }
 
 bool AbstractSubPresenter::isValid()
@@ -50,6 +58,18 @@ bool AbstractSubPresenter::isValid()
 	return true;
 }
 
+#include "View/ModalDialogBuilder.h"
+
+void AbstractSubPresenter::ksmpButtonClicked()
+{
+	auto code = ModalDialogBuilder::ksmpDialog(KSMP::getByType(m_procedureType), m_ksmp);
+	
+	if (!code.empty()) {
+		m_ksmp = code;
+		common_view->setKSMPButtonCode(code);
+	}
+}
+
 
 
 Procedure AbstractSubPresenter::getProcedureCommonFields()
@@ -59,10 +79,11 @@ Procedure AbstractSubPresenter::getProcedureCommonFields()
 		  Date{common_view->dateEdit()->getDate()},
 		  common_view->manipulationEdit()->getText(),
 		  common_view->diagnosisEdit()->getText(),
-		  common_view->priceEdit()->get_Value(),
+		  common_view->priceEdit()->get_Value()
 	};
 
 	result.LPK = User::doctor().LPK;
+	result.ksmp = m_ksmp;
 
 	return result;
 }

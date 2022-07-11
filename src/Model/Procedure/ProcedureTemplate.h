@@ -28,5 +28,6 @@ struct ProcedureTemplate
 	bool nzok{ false };
 
 	std::string material;
+	std::string ksmp;
 
 };

@@ -3,6 +3,7 @@
 #include "Model/Tooth/ToothUtils.h"
 
 ObturationPresenter::ObturationPresenter(const std::vector<Tooth*>& selectedTeeth) :
+    AbstractSubPresenter(ProcedureType::obturation),
     selectedTeeth(selectedTeeth),
     view(nullptr)
 {

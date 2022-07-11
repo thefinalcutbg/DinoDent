@@ -5,13 +5,8 @@
 #include "Model/Tooth/DiagnosisContainer.h"
 #include "Model/User/User.h"
 #include "Database/Database.h"
-
+#include "Model/KSMP.h"
 #include "Model/CityCode.h"
-
-
-#include "View/ModalDialogBuilder.h"
-
-
 
 int main(int argc, char *argv[])
 {
@@ -29,12 +24,12 @@ int main(int argc, char *argv[])
 
     //Intializing singletons
     CityCode::initialize();
+    KSMP::initialize();
     User::initialize();
     SpriteSheets::container().initialize(); //loading textures, otherwise program will crash;
     DiagnosisContainer::initialize();
 
     MasterNZOK::instance().loadUpdates(); //parsing json of nzok data
-
 
     Torque w;
 

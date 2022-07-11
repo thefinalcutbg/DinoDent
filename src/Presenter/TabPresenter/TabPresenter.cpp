@@ -277,7 +277,7 @@ bool TabPresenter::documentTabOpened(TabType type, long long rowID) const
         }
     }
 
-    //if user want's to delete the patient, check other types of documents related to the patient
+    //if user want's to delete the patient, check other procedureType of documents related to the patient
     if (type == TabType::PatientSummary)
     {
         for (const auto& [index, tab] : m_tabs)

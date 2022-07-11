@@ -10,6 +10,7 @@ QProcedure::QProcedure(const Procedure& p) :
 	tooth(ToothUtils::getToothNumber(p.tooth, p.temp)),
 	procedureName(QString::fromStdString(p.name)),
 	code(p.code), nzok(p.nzok), price(priceToString(p.price)),
+	ksmp(QString::fromStdString(p.ksmp)),
 	doctor(QString::fromStdString(User::getNameFromLPK(p.LPK)))
 {
 }

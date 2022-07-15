@@ -53,6 +53,8 @@ DoctorSettingsDialog::DoctorSettingsDialog(DoctorDialogPresenter* presenter, QWi
 
 void DoctorSettingsDialog::setDoctor(const Doctor& doctor)
 {
+	ui.passEdit->setEchoMode(QLineEdit::EchoMode::Password);
+
 	int specialtyIndex{ -1 };
 
 	for (int i = 0; i < specIdxSize; i++)

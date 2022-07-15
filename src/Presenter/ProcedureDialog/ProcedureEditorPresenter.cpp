@@ -3,15 +3,13 @@
 #include "Model/KSMP.h"
 ProcedureEditorPresenter::ProcedureEditorPresenter(const Procedure& m, const Date& patientTurns18)
 	: 
-	m(m), 
+	m_procedure(m),
 	view(nullptr),
 	_dateValidator(patientTurns18),
-	_validatableElements{nullptr}
+	m_validatableElement{nullptr},
+	commonEditorPresenter(m)
 {
 	_dateValidator.setProcedure(m.code, m.nzok);
-
-	for (auto& e : _validatableElements)
-		e = nullptr;
 }
 
 std::optional<Procedure> ProcedureEditorPresenter::openDialog()
@@ -25,54 +23,35 @@ void ProcedureEditorPresenter::setView(IProcedureEditDialog* view)
 {
 	this->view = view;
 
-	view->setMtype(m.type);
-	view->commonFields()->dateEdit()->set_Date(m.date);
-	view->commonFields()->diagnosisEdit()->set_Text(m.diagnosis);
-	view->commonFields()->manipulationEdit()->set_Text(m.name);
-	view->commonFields()->priceEdit()->set_Value(m.price);
-	view->commonFields()->setKSMPButtonCode(m.ksmp);
+	commonEditorPresenter.setCommonFieldsView(view->commonFields());
 
-	view->commonFields()->diagnosisEdit()->setInputValidator(&_emptyValidator);
-	view->commonFields()->manipulationEdit()->setInputValidator(&_emptyValidator);
 	view->commonFields()->dateEdit()->setInputValidator(&_dateValidator);
 
-	_validatableElements[0] = view->commonFields()->manipulationEdit();
-	_validatableElements[1] = view->commonFields()->diagnosisEdit();
-	_validatableElements[2] = view->commonFields()->dateEdit();
-
+	view->setMtype(m_procedure.type);
 	
-
-	if (m.nzok)
-	{
-		//view->commonFields()->priceEdit()->disable(true);
-		view->commonFields()->manipulationEdit()->disable(true);
-	}
-
-	//view->crownView()->rangeWidget()->disbleBridgeSwitch(true);
-
-	switch (m.type)
+	switch (m_procedure.type)
 	{
 		case ProcedureType::obturation:
-			view->obturationView()->setData(std::get<ProcedureObtData>(m.result));
+			view->obturationView()->setData(std::get<ProcedureObtData>(m_procedure.result));
 			//view->obturationView()->surfaceSelector()->setInputValidator(&_surfValidator);
-			_validatableElements[3] = view->obturationView()->surfaceSelector();
+			m_validatableElement = view->obturationView()->surfaceSelector();
 			break;
 		case ProcedureType::implant:
-			view->implantView()->setData(std::get<ImplantData>(m.result));
+			view->implantView()->setData(std::get<ImplantData>(m_procedure.result));
 			break;
 		case ProcedureType::crown:
-			view->crownView()->setData(std::get<CrownData>(m.result));
+			view->crownView()->setData(std::get<CrownData>(m_procedure.result));
 			view->crownView()->rangeWidget()->disable(true);
 			break;
 		case ProcedureType::bridge:
-			view->crownView()->setData(std::get<ProcedureBridgeData>(m.result));
+			view->crownView()->setData(std::get<ProcedureBridgeData>(m_procedure.result));
 			view->crownView()->rangeWidget()->setInputValidator(&_bridgeValidator);
-			_validatableElements[3] = view->crownView()->rangeWidget();
+			m_validatableElement = view->crownView()->rangeWidget();
 			break;
 		case ProcedureType::fibersplint:
-			view->fiberView()->setData(std::get<ProcedureFiberData>(m.result));
+			view->fiberView()->setData(std::get<ProcedureFiberData>(m_procedure.result));
 			view->fiberView()->rangeWidget()->setInputValidator(&_bridgeValidator);
-			_validatableElements[3] = view->fiberView()->rangeWidget();
+			m_validatableElement = view->fiberView()->rangeWidget();
 			break;
 	}
 
@@ -83,60 +62,48 @@ void ProcedureEditorPresenter::okPressed()
 {
 	//validation:
 	
-	for (auto& v : _validatableElements)
+	if (!commonEditorPresenter.isValid()) {
+		return;
+	}
+
+	if (m_validatableElement)
 	{
-		if (v == nullptr) continue;
+		m_validatableElement->validateInput();
 
-		v->validateInput();
-
-		if (v->isValid() == false)
-		{
-			v->setFocus();
+		if (!m_validatableElement->isValid()) {
+			m_validatableElement->setFocus();
 			return;
 		}
+
 	}
 
 	//procedure creator:
 
-	m.date = view->commonFields()->dateEdit()->getDate();
-	m.diagnosis = view->commonFields()->diagnosisEdit()->getText();
-	m.name = view->commonFields()->manipulationEdit()->getText();
-	m.price = view->commonFields()->priceEdit()->get_Value();
-	
-	switch (m.type)
-	{
-		case ProcedureType::obturation:
-			m.result = view->obturationView()->getData();
-			break;
-		case ProcedureType::implant:
-			m.result = view->implantView()->getData();
-			break;
-		case ProcedureType::crown:
-			m.result = view->crownView()->getData();
-			break;
-		case ProcedureType::bridge:
-		{
-			auto [begin, end] = view->crownView()->rangeWidget()->getRange();
-			m.result = ProcedureBridgeData{ begin, end, view->crownView()->getData()};
-			break;
-		}
-		case ProcedureType::fibersplint:
-			auto [begin, end] = view->fiberView()->rangeWidget()->getRange();
-			m.result = ProcedureFiberData{ begin, end, view->fiberView()->getData() };
-			break;
-	}
+	result = commonEditorPresenter.getProcedures().at(0);
 
-	result = m;
+	switch (m_procedure.type)
+	{
+	case ProcedureType::obturation:
+		m_procedure.result = view->obturationView()->getData();
+		break;
+	case ProcedureType::implant:
+		m_procedure.result = view->implantView()->getData();
+		break;
+	case ProcedureType::crown:
+		m_procedure.result = view->crownView()->getData();
+		break;
+	case ProcedureType::bridge:
+	{
+		auto [begin, end] = view->crownView()->rangeWidget()->getRange();
+		m_procedure.result = ProcedureBridgeData{ begin, end, view->crownView()->getData() };
+		break;
+	}
+	case ProcedureType::fibersplint:
+		auto [begin, end] = view->fiberView()->rangeWidget()->getRange();
+		m_procedure.result = ProcedureFiberData{ begin, end, view->fiberView()->getData() };
+		break;
+	}
 
 	view->closeDialog();
 }
 
-void ProcedureEditorPresenter::ksmpPressed()
-{
-	auto result = ModalDialogBuilder::ksmpDialog(KSMP::getByType(m.type), m.ksmp);
-
-	if (result.empty()) return;
-
-	m.ksmp = result;
-	view->commonFields()->setKSMPButtonCode(result);
-}

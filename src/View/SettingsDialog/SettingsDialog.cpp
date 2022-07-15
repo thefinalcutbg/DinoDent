@@ -13,6 +13,8 @@ SettingsDialog::SettingsDialog(QDialog*parent)
 	connect(ui.applyButton, &QPushButton::clicked, [&] {presenter.applyChanges();});
 	connect(ui.okButton, &QPushButton::clicked, [&] {presenter.okPressed();});
 
+	ui.practiceSettings->hidePassword();
+
 	presenter.setView(this);
 }
 

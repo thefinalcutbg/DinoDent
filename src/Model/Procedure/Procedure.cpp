@@ -2,23 +2,6 @@
 #include "Model/Tooth/ToothContainer.h"
 
 
-Procedure::Procedure(const ProcedureTemplate& t, Date date, std::string diagnosis, int tooth, bool temp)
-	:
-	code{ t.code },
-	name{ t.name },
-	date{ date },
-	nzok{ t.nzok },
-	tooth{ tooth },
-	temp{ temp },
-	diagnosis(diagnosis)
-	
-{
-	if (static_cast<int>(t.type) < 7)
-		type = static_cast<ProcedureType>(t.type);
-	else
-		type = static_cast<ProcedureType>(static_cast<int>(t.type) + 1);
-
-}
 
 void Procedure::applyProcedure(ToothContainer& teeth) const
 {

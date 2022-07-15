@@ -60,8 +60,26 @@ enum class ProcedureType
 
 struct Procedure
 {
-    Procedure(const ProcedureTemplate& t, Date date, std::string diagnosis, int tooth = 99, bool temp = false);
+    
+    Procedure(const ProcedureTemplate& t, Date date, std::string diagnosis, int tooth = 99, bool temp = false)
+    :
+    code{ t.code },
+        name{ t.name },
+        date{ date },
+        nzok{ t.nzok },
+        tooth{ tooth },
+        temp{ temp },
+        diagnosis(diagnosis)
 
+    {
+        if (static_cast<int>(t.type) < 7)
+            type = static_cast<ProcedureType>(t.type);
+        else
+            type = static_cast<ProcedureType>(static_cast<int>(t.type) + 1);
+
+    }
+    
+    /*
     Procedure(const ProcedureTemplate& t, Date date, std::string name, std::string diagnosis, double price, Result result = NoData{}, int tooth = -1, bool temp = false)
         :
         
@@ -84,10 +102,9 @@ struct Procedure
             type = static_cast<ProcedureType>(templateType + 1);
 
 
-    }
+    }*/
 
-    Procedure() {};
-
+    Procedure() {}
     //common parameters:
     ProcedureType type{ ProcedureType::general };
     int code{ -1 };
@@ -101,6 +118,8 @@ struct Procedure
     bool nzok{ false };
     std::string LPK;
     std::string ksmp;
+
+   // Procedure() {};
 
     void applyProcedure(ToothContainer& teeth) const;
     //applies the procedures, not taking data into account

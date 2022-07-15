@@ -110,3 +110,8 @@ void PracticeSettings::setPresenter(PracticeSettingsPresenter* presenter)
 	this->presenter = presenter;
 }
 
+void PracticeSettings::hidePassword()
+{
+	ui.passEdit->setEchoMode(QLineEdit::EchoMode::Password);
+}
+

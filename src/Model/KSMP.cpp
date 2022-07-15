@@ -9,10 +9,10 @@
 
 constexpr int procedureTypeCount = 11;
 
-std::unordered_map<std::string, KsmpDetails> codeToInstance;
+std::unordered_map<std::string, KSMP> codeToInstance;
 std::unordered_map<int, std::string> blocks;
 std::unordered_map<int, std::string > chapters;
-std::array<std::vector<const KsmpDetails*>, procedureTypeCount> ksmpByType;
+std::array<std::vector<const KSMP*>, procedureTypeCount> ksmpByType;
 
 void KSMP::initialize()
 {
@@ -34,14 +34,14 @@ void KSMP::initialize()
        if (!blocks.count(block)) { blocks[block] = value["blockname"].asString(); }
        if (!chapters.count(chapter)) { chapters[chapter] = value["chaptername"].asString(); }
 
-       codeToInstance[code] =
-           KsmpDetails{
-                        code,
-                        value["name"].asString(),
-                        block,
-                        chapter,
-                        value["type"].asInt()
-        };
+       codeToInstance[code] = 
+           KSMP{
+                code,
+                value["name"].asString(),
+                block,
+                chapter,
+                value["type"].asInt()
+           };
 
 
        ksmpByType[value["type"].asInt()].push_back(&codeToInstance[code]);
@@ -51,10 +51,14 @@ void KSMP::initialize()
 }
 
 
-const KsmpDetails& KSMP::getByCode(const std::string code)
+const KSMP& KSMP::getByCode(const std::string& code)
 {
-
     return codeToInstance[code];
+}
+
+const std::string& KSMP::getName(const std::string& code)
+{
+    return codeToInstance[code].name;
 }
 
 const std::string& KSMP::chapterName(int chapter)
@@ -69,7 +73,7 @@ const std::string& KSMP::blockName(int block)
 
 #include "Model/Procedure/Procedure.h"
 
-const std::vector<const KsmpDetails*>& KSMP::getByType(ProcedureType type)
+const std::vector<const KSMP*>& KSMP::getByType(ProcedureType type)
 {
 
     return ksmpByType[static_cast<int>(type)];
@@ -77,7 +81,7 @@ const std::vector<const KsmpDetails*>& KSMP::getByType(ProcedureType type)
 }
 
 
-const std::vector<const KsmpDetails*>& KSMP::getByType(ProcedureTemplateType type)
+const std::vector<const KSMP*>& KSMP::getByType(ProcedureTemplateType type)
 {
     //fixing the offset
     constexpr ProcedureType templToProcedureType[9]{

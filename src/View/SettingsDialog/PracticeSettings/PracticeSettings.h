@@ -26,6 +26,7 @@ public:
 	AbstractDateEdit* dateEdit() override;
 	int legalForm() override;
 	void setPresenter(PracticeSettingsPresenter* presenter) override;
+	void hidePassword() override;
 
 
 private:

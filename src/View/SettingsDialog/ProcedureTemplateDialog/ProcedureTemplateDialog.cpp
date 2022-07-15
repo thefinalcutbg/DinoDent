@@ -1,4 +1,4 @@
-#include "ProcedureTemplateDialog.h"
+﻿#include "ProcedureTemplateDialog.h"
 #include "Model/KSMP.h"
 #include "View/ModalDialogBuilder.h"
 ProcedureTemplateDialog::ProcedureTemplateDialog(const ProcedureTemplate* pTemp, int code, QWidget* parent)
@@ -23,22 +23,37 @@ ProcedureTemplateDialog::ProcedureTemplateDialog(const ProcedureTemplate* pTemp,
 			{
 				auto& ksmp_ptr = KSMP::getByType(static_cast<ProcedureTemplateType>(i)).at(0);
 				ui.ksmpButton->setText(ksmp_ptr->code.c_str());
-				ui.ksmpLabel->setText(ksmp_ptr->name.c_str());
+				if (ui.ksmpCheck->isChecked()) {
+					ui.nameEdit->setText(KSMP::getName(ui.ksmpButton->text().toStdString()).c_str());
+				}
+
 				currentType = static_cast<ProcedureTemplateType>(i);
 			});
 	}
 
 	ui.nameEdit->setInputValidator(&m_validator);
+	
+	connect(ui.ksmpCheck, &QCheckBox::toggled, [=](bool toggled) {
+				
+				ui.ksmpButton->setHidden(!toggled);
+
+				if (toggled) {
+					ui.nameEdit->setText(KSMP::getName(ui.ksmpButton->text().toStdString()).c_str());
+				}
+
+
+				
+		});
 
 	connect(ui.ksmpButton, &QPushButton::clicked,
 		[=] {
 
-			auto result = ModalDialogBuilder::ksmpDialog(KSMP::getByType(pTemp->type), ui.ksmpButton->text().toStdString());
+			auto result = ModalDialogBuilder::ksmpDialog(KSMP::getByType(currentType), ui.ksmpButton->text().toStdString());
 			
 			if (result.empty()) return;
 
 			ui.ksmpButton->setText(result.c_str());
-			ui.ksmpLabel->setText(KSMP::getByCode(result).name.c_str());
+			ui.nameEdit->setText(KSMP::getName(result).c_str());
 		}
 		);
 
@@ -60,7 +75,7 @@ ProcedureTemplateDialog::ProcedureTemplateDialog(const ProcedureTemplate* pTemp,
 			result.price = ui.priceEdit->value();
 			result.diagnosis = ui.diagnosisEdit->getText();
 			result.nzok = false;
-			result.ksmp = ui.ksmpButton->text().toStdString();
+			result.ksmp = ui.ksmpButton->isEnabled() ? ui.ksmpButton->text().toStdString() : "";
 			m_procedureTemplate.emplace(result);
 
 			this->close();
@@ -90,11 +105,18 @@ ProcedureTemplateDialog::ProcedureTemplateDialog(const ProcedureTemplate* pTemp,
 	ui.materialEdit->set_Text(pTemp->material);
 	procedureType[static_cast<int>(pTemp->type)]->click();
 
-	if (pTemp->ksmp.empty()) return;
+	if (pTemp->ksmp.empty()) {
+		
+		ui.ksmpCheck->setChecked(false);
+		ui.ksmpButton->setHidden(true);
+		return;
+	}
 
+	QSignalBlocker b(ui.ksmpCheck);
+	ui.ksmpCheck->setChecked(true);
 	auto ksmp = KSMP::getByCode(pTemp->ksmp);
 	ui.ksmpButton->setText(ksmp.code.c_str());
-	ui.ksmpLabel->setText(ksmp.name.c_str());
+	
 
 }
 

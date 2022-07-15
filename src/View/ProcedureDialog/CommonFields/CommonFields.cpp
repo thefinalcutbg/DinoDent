@@ -1,4 +1,4 @@
-#include "CommonFields.h"
+﻿#include "CommonFields.h"
 #include "Presenter/ProcedureDialog/SubPresenters/AbstractSubPresenter.h"
 
 CommonFields::CommonFields(QWidget *parent)
@@ -13,8 +13,12 @@ CommonFields::CommonFields(QWidget *parent)
 			});
 
 	connect(ui.ksmpButton, &QPushButton::clicked, 
-		[=] {if (presenter)presenter->ksmpButtonClicked();}
+		[=] {	if (presenter)presenter->ksmpButtonClicked();}
 	);
+
+	connect(ui.ksmpCheck, &QCheckBox::toggled, [=](bool toggled) {
+				if(presenter)presenter->ksmpToggled(toggled);
+		});
 }
 
 void CommonFields::setExternalDateEdit(DateEdit* externalDateEdit)
@@ -28,12 +32,8 @@ CommonFields::~CommonFields()
 {
 }
 
-QPushButton* CommonFields::ksmpButton()
-{
-	return ui.ksmpButton;
-}
 
-AbstractLineEdit* CommonFields::manipulationEdit()
+AbstractLineEdit* CommonFields::procedureNameEdit()
 {
 	return ui.manipulationEdit;
 }
@@ -57,9 +57,29 @@ AbstractDateEdit* CommonFields::dateEdit()
 	return externalDateEdit;
 }
 
-void CommonFields::setKSMPButtonCode(const std::string& code)
+void CommonFields::setKSMPCode(const std::string& code)
 {
 	ui.ksmpButton->setText(code.c_str());
+}
+
+void CommonFields::enableKSMP(bool enabled)
+{
+	QSignalBlocker b(ui.ksmpCheck);
+	ui.ksmpCheck->setChecked(enabled);
+	ui.ksmpButton->setHidden(!enabled);
+}
+
+void CommonFields::allowKSMPDisable(bool allowed)
+{
+	ui.ksmpCheck->setDisabled(!allowed);
+
+}
+
+std::string CommonFields::getKSMPCode()
+{
+	if (!ui.ksmpCheck->isChecked()) { return {}; };
+
+	return ui.ksmpButton->text().toStdString();
 }
 
 void CommonFields::set_hidden(bool hidden)

@@ -23,4 +23,5 @@ public:
 	virtual AbstractDateEdit* dateEdit() = 0;
 	virtual int legalForm() = 0;
 	virtual void setPresenter(PracticeSettingsPresenter* presenter) = 0;
+	virtual void hidePassword() = 0;
 };

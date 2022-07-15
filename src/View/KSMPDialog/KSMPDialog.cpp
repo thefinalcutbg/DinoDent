@@ -40,8 +40,8 @@ KSMPDialog::KSMPDialog(KsmpList& list, const std::string& code, QWidget* parent)
 			ui.tableView->selectRow(m_selectedRow);
 		});
 
-	connect(ui.cancelButton, &QPushButton::clicked, [=] { m_selectedRow = -1; close(); });
-	connect(ui.okButton, &QPushButton::clicked, [=] { if(m_selectedRow > -1) close(); });
+	connect(ui.cancelButton, &QPushButton::clicked, [=] { reject(); });
+	connect(ui.okButton, &QPushButton::clicked, [=] { if(m_selectedRow > -1) accept(); });
 	connect(ui.tableView, &QTableView::doubleClicked, [=] { ui.okButton->click(); });
 	int selectRow = m_model.getRowFromCode(code);
 
@@ -50,7 +50,7 @@ KSMPDialog::KSMPDialog(KsmpList& list, const std::string& code, QWidget* parent)
 
 std::string KSMPDialog::getResult()
 {
-	if(m_selectedRow == -1) return {};
+	if(result() == QDialog::Rejected) return {};
 
 	return ui.tableView->model()->data(
 		ui.tableView->model()->index(m_selectedRow, 0)

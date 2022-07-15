@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>751</width>
-    <height>513</height>
+    <height>551</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,7 +19,7 @@
      <x>10</x>
      <y>10</y>
      <width>721</width>
-     <height>451</height>
+     <height>491</height>
     </rect>
    </property>
   </widget>
@@ -29,7 +29,7 @@
      <x>320</x>
      <y>270</y>
      <width>411</width>
-     <height>191</height>
+     <height>231</height>
     </rect>
    </property>
   </widget>
@@ -37,7 +37,7 @@
    <property name="geometry">
     <rect>
      <x>650</x>
-     <y>480</y>
+     <y>520</y>
      <width>81</width>
      <height>24</height>
     </rect>
@@ -52,9 +52,6 @@
     <bool>false</bool>
    </property>
   </widget>
-  <zorder>practiceSettings</zorder>
-  <zorder>okButton</zorder>
-  <zorder>doctorSettings</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>

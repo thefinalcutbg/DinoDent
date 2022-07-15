@@ -651,6 +651,9 @@
     <ClCompile Include="src\View\ProcedureDisplayModel\KSMPModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\EditorPresenter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -1612,6 +1615,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\KSMP.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\EditorPresenter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

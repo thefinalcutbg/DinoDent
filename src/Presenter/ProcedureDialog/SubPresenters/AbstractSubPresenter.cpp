@@ -5,12 +5,16 @@ void AbstractSubPresenter::setProcedureTemplate(const ProcedureTemplate& m)
 {
 	common_view->setCurrentPresenter(this);
 
-	m_template = m;
+	m_code = m.code;
+	m_price = m.price;
+	m_nzok = m.nzok;
+	m_name = m.name;
+
 
 	//common_view->priceEdit()->disable(m.nzok);
-	common_view->manipulationEdit()->disable(m.nzok);
+	common_view->procedureNameEdit()->disable(m.nzok);
 
-	common_view->manipulationEdit()->set_Text(m.name);
+	common_view->procedureNameEdit()->set_Text(m.name);
 	common_view->priceEdit()->set_Value(m.price);
 
 	//If the template doesn't have default diagnosis, 
@@ -24,14 +28,25 @@ void AbstractSubPresenter::setProcedureTemplate(const ProcedureTemplate& m)
 		common_view->diagnosisEdit()->set_Text(m_diagnosis);
 
 	common_view->diagnosisEdit()->setInputValidator(&notEmpty_validator);
-	common_view->manipulationEdit()->setInputValidator(&notEmpty_validator);
+	common_view->procedureNameEdit()->setInputValidator(&notEmpty_validator);
 
-	m_ksmp = (m.ksmp.empty() && m_ksmp.empty()) ?
-		KSMP::getByType(m_procedureType)[0]->code
-		:
-		m.ksmp;
-	
-	common_view->setKSMPButtonCode(m_ksmp);
+	common_view->allowKSMPDisable(m.nzok == false);
+
+	if (m.ksmp.empty()) {
+
+		m_ksmp.code = KSMP::getByType(m.type).at(0)->code;
+		m_ksmp.enabled = false;
+		
+	}
+	else
+	{
+		m_ksmp.code = m.ksmp;
+		m_ksmp.enabled = true;
+	}
+
+	common_view->setKSMPCode(m_ksmp.code);
+	common_view->enableKSMP(m_ksmp.enabled);
+
 
 
 }
@@ -41,7 +56,7 @@ bool AbstractSubPresenter::isValid()
 	std::array<AbstractUIElement*, 3>validatable
 	{
 		common_view->dateEdit(),
-		common_view->manipulationEdit(),
+		common_view->procedureNameEdit(),
 		common_view->diagnosisEdit()
 	};
 
@@ -62,28 +77,40 @@ bool AbstractSubPresenter::isValid()
 
 void AbstractSubPresenter::ksmpButtonClicked()
 {
-	auto code = ModalDialogBuilder::ksmpDialog(KSMP::getByType(m_procedureType), m_ksmp);
+	auto result = ModalDialogBuilder::ksmpDialog(KSMP::getByType(m_type), m_ksmp.code);
 	
-	if (!code.empty()) {
-		m_ksmp = code;
-		common_view->setKSMPButtonCode(code);
+	if (!result.empty()) {
+		m_ksmp.code = result;
+
+		common_view->setKSMPCode(m_ksmp.code);
+		common_view->procedureNameEdit()->set_Text(KSMP::getName(result));
 	}
 }
 
+void AbstractSubPresenter::ksmpToggled(bool toggled)
+{
+	m_ksmp.enabled = toggled;
+	common_view->setKSMPCode(m_ksmp.code);
+	common_view->enableKSMP(m_ksmp.enabled);
+
+	common_view->procedureNameEdit()->set_Text(KSMP::getName(m_ksmp.code));
+}
 
 
 Procedure AbstractSubPresenter::getProcedureCommonFields()
 {
-	Procedure result{
-		  m_template,
-		  Date{common_view->dateEdit()->getDate()},
-		  common_view->manipulationEdit()->getText(),
-		  common_view->diagnosisEdit()->getText(),
-		  common_view->priceEdit()->get_Value()
-	};
+	Procedure result;
 
+	result.code = m_code;
+	result.type = m_type;
+	result.nzok = m_nzok;
+	result.name = common_view->procedureNameEdit()->getText();
 	result.LPK = User::doctor().LPK;
-	result.ksmp = m_ksmp;
+	result.ksmp = m_ksmp.enabled ? m_ksmp.code : "";
+	result.date = common_view->dateEdit()->getDate();
+	result.diagnosis = common_view->diagnosisEdit()->getText();
+	result.price = common_view->priceEdit()->get_Value();
+
 
 	return result;
 }

@@ -7,6 +7,7 @@
 
 class DateEdit;
 
+
 class CommonFields : public QWidget, public ICommonFields
 {
 	Q_OBJECT
@@ -20,15 +21,16 @@ public:
 	void setExternalDateEdit(DateEdit* externalDateEdit); //does not take ownership over the DateEdit!
 	~CommonFields();
 
-	QPushButton* ksmpButton();
-
 	// Inherited via ICommonFields
-	virtual AbstractLineEdit* manipulationEdit() override;
-	virtual AbstractLineEdit* diagnosisEdit() override;
-	virtual AbstractSpinBox* priceEdit() override;
-	virtual AbstractDateEdit* dateEdit() override;
-	void setKSMPButtonCode(const std::string& code) override;
-	virtual void set_hidden(bool hidden) override;
+	AbstractLineEdit* procedureNameEdit() override;
+	AbstractLineEdit* diagnosisEdit() override;
+	AbstractSpinBox* priceEdit() override;
+	AbstractDateEdit* dateEdit() override;
+	void setKSMPCode(const std::string& code) override;
+	void enableKSMP(bool enabled) override;
+	void allowKSMPDisable(bool allowed) override;
+	std::string getKSMPCode() override;
+	void set_hidden(bool hidden) override;
 
 	Ui::CommonFields ui;
 };

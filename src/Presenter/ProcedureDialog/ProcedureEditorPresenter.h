@@ -11,14 +11,17 @@
 #include "Presenter/ProcedureDialog/SubPresenters/ImplantPresenter.h"
 #include "Presenter/ProcedureDialog/SubPresenters/CrownPresenter.h"
 #include "Presenter/ProcedureDialog/SubPresenters/ObturationPresenter.h"
+#include "Presenter/ProcedureDialog/SubPresenters/EditorPresenter.h"
 
 class ProcedureEditorPresenter
 {
+	//required for some procedures (surfaces, range, etc)
+	AbstractUIElement* m_validatableElement;
 
-	std::array<AbstractUIElement*, 4> _validatableElements;
+	EditorPresenter commonEditorPresenter;
 
 	IProcedureEditDialog* view;
-	Procedure m;
+	Procedure m_procedure;
 	std::optional<Procedure> result;
 
 	SurfaceValidator _surfValidator;
@@ -31,6 +34,5 @@ public:
 	std::optional<Procedure> openDialog();
 	void setView(IProcedureEditDialog* view);
 	void okPressed();
-	void ksmpPressed();
 };
 

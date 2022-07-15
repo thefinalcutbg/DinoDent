@@ -11,7 +11,7 @@ class Db
     bool m_connectionOwned;
     sqlite3_stmt* stmt;
 
-
+    static inline bool showErrorDialog{ false };
     static inline std::string dbLocation{ "TorqueDB.db" };
 
 

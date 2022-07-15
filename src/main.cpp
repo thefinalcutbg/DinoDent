@@ -11,9 +11,6 @@
 int main(int argc, char *argv[])
 {
 
-    Db::setFilePath("TorqueDB.db");
-    Db::createIfNotExist();
-
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     QApplication::setFont(QFont ("Segoe UI", 8));    
@@ -21,6 +18,8 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     a.setWindowIcon(QIcon(":/icons/icon_torque.png"));
 
+    Db::setFilePath("TorqueDB.db");
+    Db::createIfNotExist();
 
     //Intializing singletons
     CityCode::initialize();

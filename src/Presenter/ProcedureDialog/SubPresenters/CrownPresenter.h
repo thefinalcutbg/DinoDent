@@ -20,6 +20,8 @@ class CrownPresenter : public AbstractSubPresenter
 	bool m_bridgeSelected;
 	double m_bridgePrice;
 
+	std::string ksmp_other;
+
 	std::string getBridgeDiagnosis(int begin, int end, const ToothContainer& teeth);
 	std::string getBridgeRangeName(int begin, int end, const ToothContainer& teeth);
 	std::tuple<int, int> getInitialBridgeRange(const std::vector<Tooth*>& selectedTeeth);

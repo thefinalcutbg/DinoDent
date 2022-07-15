@@ -1,5 +1,5 @@
-#include "Database.h"
-
+﻿#include "Database.h"
+#include "View/ModalDialogBuilder.h"
 #include <sqLite/sqlite3.h>
 
 Db::Db(Db* existingConnection)
@@ -70,7 +70,7 @@ void Db::newStatement(const std::string& query)
  
     sqlite3_prepare_v2(db_connection, query.c_str(), -1, &stmt, NULL);
 }
-#include <QDebug>
+
 bool Db::execute(const std::string& query)
 {
     if (stmt != nullptr) {
@@ -81,9 +81,8 @@ bool Db::execute(const std::string& query)
 
     int i = sqlite3_exec(db_connection, query.c_str(), NULL, NULL, &err);
 
-    if (err) {
-        qDebug() << QString::fromStdString(query);
-        qDebug() << err;
+    if (err && showErrorDialog) {
+        ModalDialogBuilder::showMessage(u8"Неуспешно записване в базата данни");
     }
 
     return i == SQLITE_OK;
@@ -119,9 +118,8 @@ bool Db::crudQuery(const std::string& query)
 
     i = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
 
-    if (err) {
-        qDebug() << QString::fromStdString(query);
-        qDebug() << err;
+    if (err && showErrorDialog) {
+        ModalDialogBuilder::showMessage(u8"Неуспешно записване в базата данни");
     }
 
     return i == SQLITE_OK;
@@ -182,6 +180,6 @@ void Db::createIfNotExist()
     );
 
   //  rc = sqlite3_exec(db,"VACUUM", NULL, NULL, &err);
-
+    showErrorDialog = true;
 
 }

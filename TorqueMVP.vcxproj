@@ -214,6 +214,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\EditorPresenter.cpp" />
     <ClCompile Include="src\View\ProcedureDisplayModel\KSMPModel.cpp" />
     <ClCompile Include="src\Model\KSMP.cpp" />
     <ClCompile Include="src\Network\ReplyHandlers\FileSentHandler.cpp" />
@@ -544,6 +545,7 @@
     <QtMoc Include="src\View\MonthNotifDialog\MonthNotifDialog.h" />
     <QtMoc Include="src\View\PinPromptDialog\PinPromptDialog.h" />
     <QtMoc Include="src\View\ProcedureDisplayModel\KSMPModel.h" />
+    <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\EditorPresenter.h" />
     <ClInclude Include="src\Model\KSMP.h" />
     <ClInclude Include="src\Model\Settings.h" />
     <ClInclude Include="src\Network\ReplyHandlers\FileSentHandler.h" />

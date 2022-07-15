@@ -114,10 +114,10 @@ void FiberSplintPresenter::rangeChanged(int begin, int end)
 	m_diagnosis = getDiagnosis();
 	splintRangeName = getSplintRangeName(begin, end, teeth);
 
-	m_price = (end - begin + 1) * m_template.price;
+	m_price = (end - begin + 1) * m_price;
 
 	common_view->diagnosisEdit()->set_Text(m_diagnosis);
-	common_view->manipulationEdit()->set_Text(m_template.name + splintRangeName);
+	common_view->procedureNameEdit()->set_Text(m_name + splintRangeName);
 	common_view->priceEdit()->set_Value(m_price);
 }
 
@@ -129,11 +129,11 @@ void FiberSplintPresenter::setProcedureTemplate(const ProcedureTemplate& m)
 	view->set_hidden(false);
 
 	AbstractSubPresenter::setProcedureTemplate(m);
-	common_view->manipulationEdit()->set_Text(m.name + splintRangeName);
+	common_view->procedureNameEdit()->set_Text(m.name + splintRangeName);
 
 	auto [begin, end] = view->rangeWidget()->getRange();
 	int length = end - begin + 1;
-	m_price = m_template.price * length;
+	m_price = m_price * length;
 
 	auto data = view->getData();
 	data.material = m.material;

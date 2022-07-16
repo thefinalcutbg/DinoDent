@@ -132,12 +132,12 @@
             </size>
            </property>
            <property name="currentIndex">
-            <number>2</number>
+            <number>0</number>
            </property>
            <widget class="QWidget" name="page">
             <layout class="QVBoxLayout" name="verticalLayout_4">
              <item>
-              <widget class="QLabel" name="errorLabel">
+              <widget class="QLabel" name="selectToothLabel">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                  <horstretch>0</horstretch>
@@ -164,6 +164,16 @@
            <widget class="CrownView" name="crownWidget"/>
            <widget class="ImplantView" name="implantWidget"/>
            <widget class="FiberSplintView" name="fiberWidget"/>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="errorLabel">
+           <property name="styleSheet">
+            <string notr="true">color : red;</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
           </widget>
          </item>
          <item>
@@ -245,6 +255,9 @@
        </property>
        <property name="text">
         <string>OK</string>
+       </property>
+       <property name="default">
+        <bool>true</bool>
        </property>
       </widget>
      </item>

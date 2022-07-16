@@ -158,7 +158,8 @@ void ProcedureDialog::setView(ProcedureTemplateType t)
 {
 
 	ui.commonFields->show();
-	
+	ui.errorLabel->show();
+
 	switch (t)
 	{	
 	case ProcedureTemplateType::obturation:
@@ -178,7 +179,7 @@ void ProcedureDialog::setView(ProcedureTemplateType t)
 		break;
 	default:
 		ui.stackedWidget->setCurrentIndex(0);
-		ui.errorLabel->setText("");
+		ui.selectToothLabel->setText("");
 	}
 
 
@@ -189,7 +190,8 @@ void ProcedureDialog::close() { QDialog::accept(); }
 void ProcedureDialog::showErrorMessage(const std::string& error)
 {
 	ui.commonFields->hide();
+	ui.errorLabel->hide();
 	ui.stackedWidget->setCurrentIndex(0);
-	ui.errorLabel->setText(QString::fromStdString(error));
+	ui.selectToothLabel->setText(QString::fromStdString(error));
 }
 

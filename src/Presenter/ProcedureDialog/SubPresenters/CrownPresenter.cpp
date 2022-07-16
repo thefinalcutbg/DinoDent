@@ -31,20 +31,57 @@ void CrownPresenter::setProcedureTemplate(const ProcedureTemplate& m)
 
 	AbstractSubPresenter::setProcedureTemplate(m);
 
-	auto data = view->getData();
-	data.material = m.material;
-	view->setData(data);
+	auto crownData = view->getData();
+	crownData.material = m.material;
 
 	auto [begin, end] = view->rangeWidget()->getRange();
 	int length = end - begin + 1;
 	m_bridgePrice = m_price * length;
 
-	if (!m_bridgeSelected) return;
+	if (!m_bridgeSelected) {
+		view->setData(crownData);
+		return;
+	}
+	else
+	{
+		view->setData(
+			ProcedureBridgeData{
+				begin, end,
+				crownData
+
+			});
+	}
 
 	if (!range_validator.validateInput(begin, end))
 		m_bridgePrice = 0;
 
 	selectAsBridge(true);
+
+}
+
+void CrownPresenter::selectAsBridge(bool checked)
+{
+	std::swap(m_ksmp.code, ksmp_other);
+	common_view->setKSMPCode(m_ksmp.code);
+
+	if (checked)
+	{
+		m_bridgeSelected = true;
+		common_view->diagnosisEdit()->set_Text(m_bridgeDiagnosis);
+		common_view->procedureNameEdit()->set_Text(m_name + m_bridgeRangeString);
+		common_view->priceEdit()->set_Value(m_bridgePrice);
+		m_type = ProcedureType::bridge;
+
+
+
+		return;
+	}
+
+	m_bridgeSelected = false;
+	common_view->diagnosisEdit()->set_Text(m_diagnosis);
+	common_view->procedureNameEdit()->set_Text(m_name);
+	common_view->priceEdit()->set_Value(m_price);
+	m_type = ProcedureType::crown;
 
 }
 
@@ -82,6 +119,8 @@ std::vector<Procedure> CrownPresenter::getProcedures()
 
 bool CrownPresenter::isValid()
 {
+	if (!AbstractSubPresenter::isValid()) return false;
+
 	if (!selectedTeeth.size()) return false;
 
 	if (m_bridgeSelected)
@@ -133,37 +172,6 @@ void CrownPresenter::rangeChanged(int begin, int end)
 	common_view->diagnosisEdit()->set_Text(m_bridgeDiagnosis);
 	common_view->procedureNameEdit()->set_Text(m_name + m_bridgeRangeString);
 	common_view->priceEdit()->set_Value(m_bridgePrice);
-}
-
-
-
-
-
-void CrownPresenter::selectAsBridge(bool checked)
-{
-	std::swap(m_ksmp.code, ksmp_other);
-	common_view->setKSMPCode(m_ksmp.code);
-
-	if(checked)
-	{
-		m_bridgeSelected = true;
-		common_view->diagnosisEdit()->set_Text(m_bridgeDiagnosis);
-		common_view->procedureNameEdit()->set_Text(m_name + m_bridgeRangeString);
-		common_view->priceEdit()->set_Value(m_bridgePrice);
-		m_type = ProcedureType::bridge;
-
-		
-
-		return;
-	}
-
-	m_bridgeSelected = false;
-	common_view->diagnosisEdit()->set_Text(m_diagnosis);
-	common_view->procedureNameEdit()->set_Text(m_name);
-	common_view->priceEdit()->set_Value(m_price);
-	m_type = ProcedureType::crown;
-	
-	
 }
 
 std::string CrownPresenter::getDiagnosis(const Tooth& tooth)

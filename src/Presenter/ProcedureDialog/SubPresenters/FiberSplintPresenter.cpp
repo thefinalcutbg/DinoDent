@@ -150,6 +150,8 @@ void FiberSplintPresenter::setProcedureTemplate(const ProcedureTemplate& m)
 
 bool FiberSplintPresenter::isValid()
 {
+	if (!AbstractSubPresenter::isValid()) return false;
+
 	auto rW = view->rangeWidget();
 
 	rW->validateInput();

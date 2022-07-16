@@ -42,10 +42,12 @@ void ProcedureEditorPresenter::setView(IProcedureEditDialog* view)
 		case ProcedureType::crown:
 			view->crownView()->setData(std::get<CrownData>(m_procedure.result));
 			view->crownView()->rangeWidget()->disable(true);
+			view->crownView()->lockBridgeCheckbox();
 			break;
 		case ProcedureType::bridge:
 			view->crownView()->setData(std::get<ProcedureBridgeData>(m_procedure.result));
 			view->crownView()->rangeWidget()->setInputValidator(&_bridgeValidator);
+			view->crownView()->lockBridgeCheckbox();
 			m_validatableElement = view->crownView()->rangeWidget();
 			break;
 		case ProcedureType::fibersplint:
@@ -81,26 +83,26 @@ void ProcedureEditorPresenter::okPressed()
 
 	result = commonEditorPresenter.getProcedures().at(0);
 
-	switch (m_procedure.type)
+	switch (result->type)
 	{
 	case ProcedureType::obturation:
-		m_procedure.result = view->obturationView()->getData();
+		result->result = view->obturationView()->getData();
 		break;
 	case ProcedureType::implant:
-		m_procedure.result = view->implantView()->getData();
+		result->result = view->implantView()->getData();
 		break;
 	case ProcedureType::crown:
-		m_procedure.result = view->crownView()->getData();
+		result->result = view->crownView()->getData();
 		break;
 	case ProcedureType::bridge:
 	{
 		auto [begin, end] = view->crownView()->rangeWidget()->getRange();
-		m_procedure.result = ProcedureBridgeData{ begin, end, view->crownView()->getData() };
+		result->result = ProcedureBridgeData{ begin, end, view->crownView()->getData() };
 		break;
 	}
 	case ProcedureType::fibersplint:
 		auto [begin, end] = view->fiberView()->rangeWidget()->getRange();
-		m_procedure.result = ProcedureFiberData{ begin, end, view->fiberView()->getData() };
+		result->result = ProcedureFiberData{ begin, end, view->fiberView()->getData() };
 		break;
 	}
 

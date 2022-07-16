@@ -16,6 +16,8 @@ ProcedureTemplateDialog::ProcedureTemplateDialog(const ProcedureTemplate* pTemp,
 	procedureType[7] = ui.radioButton_8;
 	procedureType[8] = ui.radioButton_9;
 	
+	ui.ksmpButton->hide();
+
 	for (int i =0; i<9; i++)
 	{
 

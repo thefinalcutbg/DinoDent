@@ -52,13 +52,19 @@ void CrownView::setData(const CrownData& data)
 	ui.crownWidget->setData(data);
 }
 
+void CrownView::setMaterial(const std::string& material)
+{
+	ui.crownWidget->ui.materialEdit->setText(material.c_str());
+}
+
 CrownData CrownView::getData()
 {
 	return ui.crownWidget->getData();
 }
 
-void CrownView::lockBridgeCheckbox()
+void CrownView::lockBridgeCheckbox(bool asChecked = true)
 {
+	ui.bridgeCheckBox->setChecked(asChecked);
 	ui.bridgeCheckBox->setDisabled(true);
 }
 

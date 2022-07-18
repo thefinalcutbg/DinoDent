@@ -15,6 +15,7 @@ public:
 	void setData(const CrownData& data);
 	CrownData getData();
 
-private:
 	Ui::CrownWidget ui;
+private:
+
 };

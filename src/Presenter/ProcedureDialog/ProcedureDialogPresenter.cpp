@@ -89,14 +89,18 @@ void ProcedureDialogPresenter::procedureDateChanged(const Date& date)
 {
 	procedureList.clear();
 
-	//getting NZOK procedures:
-	procedureList = MasterNZOK::instance().getM_Templates
-	(
-		date,
-		User::doctor().specialty,
-		date >= patientTurns18,
-		ambList.full_coverage
-	);
+	if (User::practice().nzok_contract)
+	{
+		//getting NZOK procedures:
+		procedureList = MasterNZOK::instance().getM_Templates
+		(
+			date,
+			User::doctor().specialty,
+			date >= patientTurns18,
+			ambList.full_coverage
+		);
+	}
+
 
 	//getting custom procedures:
 	auto customProcedures = User::practice().priceList;
@@ -116,13 +120,16 @@ void ProcedureDialogPresenter::indexChanged(int index)
 
 	if (currentIndex == -1)
 	{
-		view->showErrorMessage("Изберете манипулация");
+		view->showErrorMessage(u8"Изберете манипулация");
 		return;
 	}
 
 	auto& procedureTemplate = procedureList[currentIndex];
 
-	if (procedureTemplate.type != ProcedureTemplateType::general && !selectedTeeth.size())
+	if (procedureTemplate.type != ProcedureTemplateType::general &&
+		procedureTemplate.type != ProcedureTemplateType::prosthodontic && 
+		!selectedTeeth.size()
+		)
 	{
 		view->showErrorMessage(u8"Изберете поне един зъб!");
 		return;

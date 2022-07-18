@@ -124,10 +124,10 @@
     <ClCompile>
       <AdditionalIncludeDirectories>:\Dev\Qt\Tools\OpenSSL\Win_x64\include;C:\Dev\Torque\include;GeneratedFiles\$(ConfigurationName);GeneratedFiles;$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);src/;.\</AdditionalIncludeDirectories>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <LanguageStandard_C>stdc17</LanguageStandard_C>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>C:\Dev\Qt\Tools\OpenSSL\Win_x64\lib;C:\Dev\Torque\dependencies\lib;$(Qt_LIBPATH_);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -214,6 +214,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\BridgeHelper.cpp" />
     <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\EditorPresenter.cpp" />
     <ClCompile Include="src\View\ProcedureDisplayModel\KSMPModel.cpp" />
     <ClCompile Include="src\Model\KSMP.cpp" />
@@ -545,6 +546,7 @@
     <QtMoc Include="src\View\MonthNotifDialog\MonthNotifDialog.h" />
     <QtMoc Include="src\View\PinPromptDialog\PinPromptDialog.h" />
     <QtMoc Include="src\View\ProcedureDisplayModel\KSMPModel.h" />
+    <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\BridgeHelper.h" />
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\EditorPresenter.h" />
     <ClInclude Include="src\Model\KSMP.h" />
     <ClInclude Include="src\Model\Settings.h" />

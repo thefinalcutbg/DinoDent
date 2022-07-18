@@ -22,10 +22,11 @@ public:
 
 	void set_hidden(bool hidden) override;
 
-	void setData(const ProcedureBridgeData& data) override;;
-	void setData(const CrownData& data) override;;
+	void setData(const ProcedureBridgeData& data) override;
+	void setData(const CrownData& data) override;
+	void setMaterial(const std::string& material) override;
 	virtual CrownData getData() override;
-	void lockBridgeCheckbox() override;
+	void lockBridgeCheckbox(bool asChecked) override;
 	void setPresenter(CrownPresenter* presenter);
 
 

@@ -3,29 +3,27 @@
 #include "View/ProcedureDialog/ProcedureFields/ICrownView.h"
 #include "Model/Validator/ProcedureValidators.h"
 #include "Model/Tooth/ToothUtils.h"
-
+#include "BridgeHelper.h"
 class ToothContainer;
+
 
 class CrownPresenter : public AbstractSubPresenter
 {
+
+	//a variable which holds the bridge data
+
+
 	ICrownView* view;
 
 	const ToothContainer& teeth;
 	const std::vector<Tooth*>& selectedTeeth;
 
 	BridgeRangeValidator range_validator;
+	std::string m_ksmpOther;
 
-	std::string m_bridgeDiagnosis;
-	std::string m_bridgeRangeString;
+	BridgeHelper bridgeLogic;
+
 	bool m_bridgeSelected;
-	double m_bridgePrice;
-
-	std::string ksmp_other;
-
-	std::string getBridgeDiagnosis(int begin, int end, const ToothContainer& teeth);
-	std::string getBridgeRangeName(int begin, int end, const ToothContainer& teeth);
-	std::tuple<int, int> getInitialBridgeRange(const std::vector<Tooth*>& selectedTeeth);
-
 
 	std::string getDiagnosis(const Tooth& tooth);
 

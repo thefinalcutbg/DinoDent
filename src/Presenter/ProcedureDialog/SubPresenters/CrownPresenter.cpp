@@ -40,30 +40,34 @@ void CrownPresenter::setView(ICrownView* view)
 
 void CrownPresenter::setProcedureTemplate(const ProcedureTemplate& m)
 {
-	//remembering the bridge ksmp, otherwise it will be replaced
+	if (m_bridgeSelected) {
+		std::swap(m_ksmp.code, m_ksmpOther);
+	}
+	
+	AbstractSubPresenter::setProcedureTemplate(m);
+
 	if (m_bridgeSelected) {
 		std::swap(m_ksmp.code, m_ksmpOther);
 	}
 
-	AbstractSubPresenter::setProcedureTemplate(m);
-
 	bridgeLogic.setPrice(m.price);
 
 	view->setMaterial(m.material);
-	
+
 	selectAsBridge(m_bridgeSelected);
 
 }
 
 void CrownPresenter::selectAsBridge(bool checked)
 {
-	//if the function has been called from ui and not programatically:
+	//condition in which fn is called from ui
 	if (m_bridgeSelected != checked) {
 		std::swap(m_ksmp.code, m_ksmpOther);
-		common_view->setKSMPCode(m_ksmp.code);
-	}
+		
+	} //else, they are already swapped in  setProcedureTemplate fn
 
 	m_bridgeSelected = checked;
+	common_view->setKSMPCode(m_ksmp.code);
 
 	if (checked)
 	{
@@ -116,7 +120,8 @@ bool CrownPresenter::isValid()
 {
 	if (!AbstractSubPresenter::isValid()) return false;
 
-	if (!selectedTeeth.size()) return false;
+	if (m_type == ProcedureType::crown &&
+		!selectedTeeth.size()) return false;
 
 	if (m_bridgeSelected)
 	{

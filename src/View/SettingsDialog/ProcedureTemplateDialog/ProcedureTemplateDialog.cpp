@@ -15,31 +15,68 @@ ProcedureTemplateDialog::ProcedureTemplateDialog(const ProcedureTemplate* pTemp,
 	procedureType[6] = ui.radioButton_7;
 	procedureType[7] = ui.radioButton_8;
 	procedureType[8] = ui.radioButton_9;
-	
-	ui.ksmpButton->hide();
+
+	//new procedure mode:
+	if (pTemp == nullptr) {
+
+		procedureType[0]->setChecked(true);
+		ui.codeEdit->setValue(code);
+		ui.ksmpCheck->setChecked(false);
+		ui.ksmpButton->setHidden(true);
+		ui.ksmpButton->setText(
+			KSMP::getByType(ProcedureType::general)
+				.at(0)->code.c_str()
+		);
+	}
+	//edit mode:
+	else
+	{
+
+		ui.nameEdit->set_Text(pTemp->name);
+		ui.priceEdit->setValue(pTemp->price);
+		ui.codeEdit->setValue(pTemp->code);
+		ui.diagnosisEdit->set_Text(pTemp->diagnosis);
+		ui.materialEdit->set_Text(pTemp->material);
+		procedureType[static_cast<int>(pTemp->type)]->toggle();
+
+		bool ksmp = !pTemp->ksmp.empty();
+		ui.ksmpCheck->setChecked(ksmp);
+		ui.ksmpButton->setHidden(!ksmp);
+
+		ui.ksmpButton->setText(
+			ksmp ? 
+			pTemp->ksmp.c_str() 
+			:
+			KSMP::getByType(pTemp->type).at(0)->code.c_str()
+		);
+
+		
+	}
+
 
 	for (int i =0; i<9; i++)
 	{
 
-		connect(procedureType[i], &QRadioButton::clicked, [=]
+		connect(procedureType[i], &QRadioButton::toggled, [=]
 			{
 				auto& ksmp_ptr = KSMP::getByType(static_cast<ProcedureTemplateType>(i)).at(0);
 				ui.ksmpButton->setText(ksmp_ptr->code.c_str());
-				if (ui.ksmpCheck->isChecked()) {
+				if (ui.ksmpCheck->isChecked())
+				{
 					ui.nameEdit->setText(KSMP::getName(ui.ksmpButton->text().toStdString()).c_str());
 				}
-
+				
 				currentType = static_cast<ProcedureTemplateType>(i);
 			});
 	}
 
 	ui.nameEdit->setInputValidator(&m_validator);
 	
-	connect(ui.ksmpCheck, &QCheckBox::toggled, [=](bool toggled) {
+	connect(ui.ksmpCheck, &QCheckBox::clicked, [=](bool checked) {
 				
-				ui.ksmpButton->setHidden(!toggled);
+				ui.ksmpButton->setHidden(!checked);
 
-				if (toggled) {
+				if (checked) {
 					ui.nameEdit->setText(KSMP::getName(ui.ksmpButton->text().toStdString()).c_str());
 				}
 
@@ -57,7 +94,7 @@ ProcedureTemplateDialog::ProcedureTemplateDialog(const ProcedureTemplate* pTemp,
 			ui.ksmpButton->setText(result.c_str());
 			ui.nameEdit->setText(KSMP::getName(result).c_str());
 		}
-		);
+	);
 
 	connect(ui.okButton, &QPushButton::clicked,
 		[=] {
@@ -77,7 +114,7 @@ ProcedureTemplateDialog::ProcedureTemplateDialog(const ProcedureTemplate* pTemp,
 			result.price = ui.priceEdit->value();
 			result.diagnosis = ui.diagnosisEdit->getText();
 			result.nzok = false;
-			result.ksmp = ui.ksmpButton->isEnabled() ? ui.ksmpButton->text().toStdString() : "";
+			result.ksmp = ui.ksmpCheck->isChecked() ? ui.ksmpButton->text().toStdString() : "";
 			m_procedureTemplate.emplace(result);
 
 			this->close();
@@ -90,35 +127,6 @@ ProcedureTemplateDialog::ProcedureTemplateDialog(const ProcedureTemplate* pTemp,
 
 	ui.nameEdit->setFocus();
 
-	if (pTemp == nullptr) {
-
-		ui.codeEdit->setValue(code);
-		procedureType[0]->click();
-		return;
-	}
-
-	
-
-	//edit mode
-	ui.nameEdit->set_Text(pTemp->name);
-	ui.priceEdit->setValue(pTemp->price);
-	ui.codeEdit->setValue(pTemp->code);
-	ui.diagnosisEdit->set_Text(pTemp->diagnosis);
-	ui.materialEdit->set_Text(pTemp->material);
-	procedureType[static_cast<int>(pTemp->type)]->click();
-
-	if (pTemp->ksmp.empty()) {
-		
-		ui.ksmpCheck->setChecked(false);
-		ui.ksmpButton->setHidden(true);
-		return;
-	}
-
-	QSignalBlocker b(ui.ksmpCheck);
-	ui.ksmpCheck->setChecked(true);
-	auto ksmp = KSMP::getByCode(pTemp->ksmp);
-	ui.ksmpButton->setText(ksmp.code.c_str());
-	
 
 }
 

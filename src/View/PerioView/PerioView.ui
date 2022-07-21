@@ -69,22 +69,6 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="PerioTable" name="tableView">
-   <property name="geometry">
-    <rect>
-     <x>80</x>
-     <y>1080</y>
-     <width>802</width>
-     <height>221</height>
-    </rect>
-   </property>
-   <property name="frameShape">
-    <enum>QFrame::StyledPanel</enum>
-   </property>
-   <property name="frameShadow">
-    <enum>QFrame::Plain</enum>
-   </property>
-  </widget>
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
@@ -201,152 +185,10 @@
     </item>
    </layout>
   </widget>
-  <widget class="QGraphicsView" name="hexGraphicsView">
-   <property name="geometry">
-    <rect>
-     <x>890</x>
-     <y>1030</y>
-     <width>341</width>
-     <height>321</height>
-    </rect>
-   </property>
-   <property name="frameShape">
-    <enum>QFrame::NoFrame</enum>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_2">
-   <property name="geometry">
-    <rect>
-     <x>1030</x>
-     <y>1030</y>
-     <width>71</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>BOP%</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_3">
-   <property name="geometry">
-    <rect>
-     <x>1160</x>
-     <y>1110</y>
-     <width>71</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>PD≥5mm</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_4">
-   <property name="geometry">
-    <rect>
-     <x>1160</x>
-     <y>1240</y>
-     <width>71</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Липсващи зъби</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-   <property name="wordWrap">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_5">
-   <property name="geometry">
-    <rect>
-     <x>1010</x>
-     <y>1320</y>
-     <width>111</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Костна загуба (индекс)</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-   <property name="wordWrap">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_6">
-   <property name="geometry">
-    <rect>
-     <x>890</x>
-     <y>1220</y>
-     <width>81</width>
-     <height>81</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Системни заболявания</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-   <property name="wordWrap">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_7">
-   <property name="geometry">
-    <rect>
-     <x>890</x>
-     <y>1100</y>
-     <width>61</width>
-     <height>51</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Пушене</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-   <property name="wordWrap">
-    <bool>true</bool>
-   </property>
-  </widget>
   <widget class="QLabel" name="riskLabel">
    <property name="geometry">
     <rect>
      <x>480</x>
-     <y>1300</y>
-     <width>401</width>
-     <height>51</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>16</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="diagnosisLabel">
-   <property name="geometry">
-    <rect>
-     <x>80</x>
      <y>1300</y>
      <width>401</width>
      <height>51</height>
@@ -390,6 +232,16 @@
     <string>PushButton</string>
    </property>
   </widget>
+  <widget class="PerioStatisticView" name="perioStatistics" native="true">
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>1030</y>
+     <width>1091</width>
+     <height>393</height>
+    </rect>
+   </property>
+  </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
@@ -398,11 +250,6 @@
    <extends>QWidget</extends>
    <header>Widgets/periostatusview.h</header>
    <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>PerioTable</class>
-   <extends>QTableView</extends>
-   <header>Widgets/PerioTable.h</header>
   </customwidget>
   <customwidget>
    <class>PatientTile</class>
@@ -418,6 +265,12 @@
    <class>HalfRoundedButton</class>
    <extends>QPushButton</extends>
    <header>View/uiComponents/qt_derived/HalfRoundedButton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>PerioStatisticView</class>
+   <extends>QWidget</extends>
+   <header>Widgets/periostatisticview.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

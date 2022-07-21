@@ -54,7 +54,7 @@ Torque::Torque(QWidget* parent)
 
     ui.userButton->setIcon(QIcon{":/icons/icon_user.png"});
 
-    ui.practiceLabel->setStyleSheet("color:" + Theme::getRGBStringFromColor(Theme::practiceLabel));
+    ui.practiceLabel->setStyleSheet("color:" + Theme::colorToString(Theme::practiceLabel));
     
     int id = QFontDatabase::addApplicationFont(":/fonts/font_RobotoCondensedRegular.ttf");
     QString family = QFontDatabase::applicationFontFamilies(id).at(0);

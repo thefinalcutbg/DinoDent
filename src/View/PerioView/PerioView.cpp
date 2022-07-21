@@ -32,10 +32,6 @@ PerioView::PerioView(QWidget* parent)
 
 	ui.lowerButton->setReversed();
 
-	ui.hexGraphicsView->setScene(new QGraphicsScene());
-	ui.hexGraphicsView->scene()->addItem(&hexagonGraphic);
-	ui.hexGraphicsView->setStyleSheet("background: transparent");
-
 	setFixedHeight(1470);
 
 	ui.upperButton->setChecked(true);
@@ -55,9 +51,6 @@ PerioView::PerioView(QWidget* parent)
 	initializeRecAndAtt();
 	initializeTeethScenes();
 	initializeFullMouth();
-
-	ui.tableView->setModel(&stat_model);
-	ui.tableView->initializeSize();
 	
 	for (int i = 0; i < 32; i++)
 	{
@@ -142,31 +135,10 @@ void PerioView::setToothData(const PerioToothData& data)
 	}
 }
 
-constexpr std::string_view perioStage[5]{ "Здрав пародонт", "Начален" , "Умерен", "Тежък", "Напреднал" };
-constexpr std::string_view perioRisk[3]{ "Нисък", "Среден", "Висок" };
 
 void PerioView::setPerioStatistic(const PerioStatistic& stat)
 {
-	stat_model.setStatistics(stat);
-	hexagonGraphic.setRiskValue(stat.riskHexagon, static_cast<int>(stat.risk));
-	
-	
-
-	QString diagnosis = perioStage[static_cast<int>(stat.stage)].data();
-
-	if (stat.stage != Stage::Healthy)
-	{
-		diagnosis+=stat.localized ? u8" локализиран" : u8" генерализиран";
-		diagnosis+=u8" периодонтит";
-	}
-
-	ui.diagnosisLabel->setText(diagnosis);
-	
-	QString risk = u8"Оценка на риска: ";
-	risk+=perioRisk[static_cast<int>(stat.risk)].data();
-	risk += u8" риск";
-
-	ui.riskLabel->setText(risk);
+	ui.perioStatistics->setPerioStatistic(stat);
 }
 
 void PerioView::setPresenter(PerioPresenter* presenter)

@@ -216,6 +216,7 @@
   <ItemGroup>
     <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\BridgeHelper.cpp" />
     <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\EditorPresenter.cpp" />
+    <ClCompile Include="src\View\PerioView\Widgets\PerioStatisticView.cpp" />
     <ClCompile Include="src\View\ProcedureDisplayModel\KSMPModel.cpp" />
     <ClCompile Include="src\Model\KSMP.cpp" />
     <ClCompile Include="src\Network\ReplyHandlers\FileSentHandler.cpp" />
@@ -433,6 +434,7 @@
     <ClCompile Include="src\View\PerioView\Widgets\ToothButton.cpp" />
     <QtRcc Include="resources\Resource.qrc" />
     <QtUic Include="src\View\KSMPDialog\KSMPDialog.ui" />
+    <QtUic Include="src\View\PerioView\Widgets\PerioStatisticView.ui" />
     <QtUic Include="src\View\PinPromptDialog\PinPromptDialog.ui" />
     <QtUic Include="src\View\MonthNotifDialog\MonthNotifDialog.ui" />
     <QtUic Include="src\View\PISHistoryDialog\PISHistoryDialog.ui" />
@@ -622,6 +624,7 @@
     <QtMoc Include="src\View\ListView\SurfacePanel\SurfacePanel.h" />
     <QtMoc Include="src\View\MonthNotifDialog\MonthNotifTableModel.h" />
     <ClInclude Include="src\View\ListView\TeethView\DsnToothGraphicsItem.h" />
+    <QtMoc Include="src\View\PerioView\Widgets\PerioStatisticView.h" />
     <ClInclude Include="src\View\ReportDialog\IReportDialog.h" />
     <QtMoc Include="src\View\SettingsDialog\GeneralSettings\GeneralSettings.h" />
     <ClInclude Include="src\View\Theme.h" />

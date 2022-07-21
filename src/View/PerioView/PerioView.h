@@ -7,7 +7,6 @@
 
 #include "IPerioView.h"
 #include "ToothUi.h"
-#include "PerioGraphics/HexagonGraphicsItem.h"
 
 class ToothButton;
 class PerioChartItem;
@@ -50,10 +49,6 @@ class PerioView : public QWidget, public IPerioView
     PerioButton* m_BOP[192];
     PerioGraphicsButton* m_FMBS[128];
     PerioGraphicsButton* m_FMPS[128];
-
-    StatisticTableModel stat_model;
-
-    HexagonGraphicsItem hexagonGraphic;
 
     QRadioButton* m_smoke[5];
 

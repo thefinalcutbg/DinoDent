@@ -94,9 +94,10 @@ std::shared_ptr<Patient> TabPresenter::getPatient_ptr(const Patient& patient)
 {
     for (auto& [index, tabInstance] : m_tabs)
     {
-        if (tabInstance->patient != nullptr && 
+        if (tabInstance->patient != nullptr &&
             tabInstance->patient->rowid == patient.rowid
             )
+            *tabInstance->patient.get() = patient;
             return tabInstance->patient;
     }
 

@@ -16,18 +16,18 @@ TabView::TabView(QWidget *parent)
 
     ui.tabBar->setStyleSheet(
         "QTabBar::tab{"
-        "background-color:" + Theme::getRGBStringFromColor(Theme::inactiveTabBG) +
+        "background-color:" + Theme::colorToString(Theme::inactiveTabBG) +
         "border-top-left-radius: 8px;"
         "border-top-right-radius: 8px;"
         "margin-right: 1px;"
         "}"
 
         "QTabBar::tab:selected {"
-        "background-color: " + Theme::getRGBStringFromColor(Theme::background) +
+        "background-color: " + Theme::colorToString(Theme::background) +
         "}"
 
         "QTabBar::tab:hover:!selected {"
-        "background-color:" + Theme::getRGBStringFromColor(Theme::inactiveTabBGHover) +
+        "background-color:" + Theme::colorToString(Theme::inactiveTabBGHover) +
         "}"
     );
 
@@ -56,10 +56,10 @@ TabView::TabView(QWidget *parent)
     noTabs = new PixmapLabel(this);
     noTabs->setPixmap(QPixmap("dino.png"));
     noTabs->setAlignment(Qt::AlignCenter);
-    noTabs->setStyleSheet("background-color:"+ Theme::getRGBStringFromColor(Theme::background));
+    noTabs->setStyleSheet("background-color:"+ Theme::colorToString(Theme::background));
 
     ui.scrollArea->setObjectName("ScrollArea");
-    setStyleSheet("#ScrollArea{background-color:"+ Theme::getRGBStringFromColor(Theme::background) + "}");
+    setStyleSheet("#ScrollArea{background-color:"+ Theme::colorToString(Theme::background) + "}");
 
 
   //  ui.stackedWidget->addWidget(noTabs);

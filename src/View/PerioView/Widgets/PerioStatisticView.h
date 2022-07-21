@@ -1,0 +1,22 @@
+#pragma once
+
+#include <QWidget>
+#include "ui_PerioStatisticView.h"
+
+class HexagonGraphicsItem;
+struct PerioStatistic;
+
+class PerioStatisticView : public QWidget
+{
+	Q_OBJECT
+
+	HexagonGraphicsItem* hexagonGraphicsItem;
+
+public:
+	PerioStatisticView(QWidget *parent = nullptr);
+	void setPerioStatistic(const PerioStatistic& stat);
+	~PerioStatisticView();
+
+private:
+	Ui::PerioStatisticViewClass ui;
+};

@@ -14,15 +14,15 @@ FinancialView::FinancialView(QWidget *parent)
 	ui.operationsTable->setModel(&m_model);
 	ui.operationsTable->setBusinessOperationLayout();
 	ui.operationsTable->setStyleSheet(
-		"color :" + Theme::getRGBStringFromColor(Theme::fontTurquoise) + "; "
-		"selection-color:" + Theme::getRGBStringFromColor(Theme::fontTurquoiseClicked) + "; "
-		"selection-background-color: " + Theme::getRGBStringFromColor(Theme::background) + "; "
+		"color :" + Theme::colorToString(Theme::fontTurquoise) + "; "
+		"selection-color:" + Theme::colorToString(Theme::fontTurquoiseClicked) + "; "
+		"selection-background-color: " + Theme::colorToString(Theme::background) + "; "
 	);
 
-	setStyleSheet("QLabel{ color :" + Theme::getRGBStringFromColor(Theme::fontTurquoise) + ";}");
+	setStyleSheet("QLabel{ color :" + Theme::colorToString(Theme::fontTurquoise) + ";}");
 
 	ui.operationsLabel->setStyleSheet(
-		"color : " + Theme::getRGBStringFromColor(Theme::fontTurquoise) + "; "
+		"color : " + Theme::colorToString(Theme::fontTurquoise) + "; "
 		 "font-weight: bold; font-size: 12px;"
 	);
 

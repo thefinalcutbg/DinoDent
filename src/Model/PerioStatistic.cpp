@@ -227,7 +227,7 @@ PerioStatistic::PerioStatistic(const PerioStatus& status, int age) :
 	BI{ calculatePercent(PerioIterator{status.FMBS, 128, status.disabled}) },
 	BOP{ calculatePercent(PerioIterator{status.bop, 192, status.disabled}) },
 	calAverage(calculateAvg(PerioIterator{status.cal, 192,status.disabled })),
-	calDistribution{ calculatePercent(PerioIterator{&status.cal, 192, status.disabled}) },
+	calDistribution{ calculatePercent(PerioIterator{status.cal, 192, status.disabled}) },
 	pdAverage{ calculateAvg(PerioIterator{ status.pd, 192, status.disabled }) },
 
 	pdHistogramCount{ 

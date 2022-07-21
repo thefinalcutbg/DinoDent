@@ -41,13 +41,12 @@ void ProcedureEditorPresenter::setView(IProcedureEditDialog* view)
 			break;
 		case ProcedureType::crown:
 			view->crownView()->setData(std::get<CrownData>(m_procedure.result));
-			view->crownView()->rangeWidget()->disable(true);
-			view->crownView()->lockBridgeCheckbox();
+			view->crownView()->lockBridgeCheckbox(false);
 			break;
 		case ProcedureType::bridge:
 			view->crownView()->setData(std::get<ProcedureBridgeData>(m_procedure.result));
 			view->crownView()->rangeWidget()->setInputValidator(&_bridgeValidator);
-			view->crownView()->lockBridgeCheckbox();
+			view->crownView()->lockBridgeCheckbox(true);
 			m_validatableElement = view->crownView()->rangeWidget();
 			break;
 		case ProcedureType::fibersplint:

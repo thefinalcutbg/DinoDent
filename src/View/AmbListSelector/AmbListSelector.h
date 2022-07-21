@@ -29,18 +29,21 @@ private:
 
 public:
 	AmbListSelector(ListSelectorPresenter *p);
-	~AmbListSelector();
-
-private:
-	Ui::AmbListSelector ui;
 
 	void setDates(const Date& from, const Date& to) override;
 
 	void setRows(const std::vector<AmbRow>& rows) override;
 	void setRows(const std::vector<PatientRow>& rows) override;
-    void setRows(const std::vector<PerioRow>& rows) override;
+	void setRows(const std::vector<PerioRow>& rows) override;
 	void setRows(const std::vector<FinancialRow>& rows) override;
 
+	~AmbListSelector();
+
+private:
+	Ui::AmbListSelector ui;
+
+	//shows the additional buttons and changes selectionMode
+	void setPatientMode(bool enable);
 	void focus() override;
 	void close() override;
 

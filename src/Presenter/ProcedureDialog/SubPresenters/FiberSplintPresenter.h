@@ -16,8 +16,6 @@ class FiberSplintPresenter : public AbstractSubPresenter
 
 	BridgeRangeValidator range_validator;
 
-	double m_price;
-
 	std::string getSplintRangeName(int begin, int end, const ToothContainer& teeth);
 	std::tuple<int, int> getInitialSplintRange(const std::vector<Tooth*>& selectedTeeth);
 

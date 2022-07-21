@@ -126,9 +126,10 @@ void ProcedureDialogPresenter::indexChanged(int index)
 
 	auto& procedureTemplate = procedureList[currentIndex];
 
-	if (procedureTemplate.type != ProcedureTemplateType::general &&
+	if (!selectedTeeth.size() &&
+		procedureTemplate.type != ProcedureTemplateType::general &&
 		procedureTemplate.type != ProcedureTemplateType::prosthodontic && 
-		!selectedTeeth.size()
+		procedureTemplate.type != ProcedureTemplateType::fibersplint
 		)
 	{
 		view->showErrorMessage(u8"Изберете поне един зъб!");

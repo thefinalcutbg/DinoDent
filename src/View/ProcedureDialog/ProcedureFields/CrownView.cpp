@@ -66,6 +66,7 @@ void CrownView::lockBridgeCheckbox(bool asChecked = true)
 {
 	ui.bridgeCheckBox->setChecked(asChecked);
 	ui.bridgeCheckBox->setDisabled(true);
+	ui.rangeWidget->setDisabled(!asChecked);
 }
 
 

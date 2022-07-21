@@ -154,9 +154,18 @@ void TabPresenter::openInvoice(const std::string& monthNotif)
     
 }
 
-void TabPresenter::openInvoice(const Procedures& procedures, std::shared_ptr<Patient> patient)
+void TabPresenter::openInvoice(const Procedures& procedures, long long patientRowId)
 {
-    openTab(new FinancialPresenter(view, procedures, patient));
+    
+    
+    openTab(new FinancialPresenter(
+                view, 
+                procedures, 
+                getPatient_ptr(
+                    DbPatient::get(patientRowId)
+                )
+            )
+    );
 }
 
 void TabPresenter::open(const RowInstance& row, bool setFocus)

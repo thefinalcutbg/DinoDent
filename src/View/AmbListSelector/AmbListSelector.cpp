@@ -61,6 +61,11 @@ AmbListSelector::AmbListSelector(ListSelectorPresenter* presenter) :
 				presenter->deleteCurrentSelection();
 		});
 
+	
+	connect(ui.newListButton, &QPushButton::clicked, [=] { presenter->openNew(TabType::AmbList);});
+	connect(ui.newPerioButton, &QPushButton::clicked, [=] { presenter->openNew(TabType::PerioList);});
+	connect(ui.newFinancialButton, &QPushButton::clicked, [=] { presenter->openNew(TabType::Financial);});
+
 	presenter->setView(this);
 
 }
@@ -84,7 +89,7 @@ void AmbListSelector::setDates(const Date& from, const Date& to)
 
 void AmbListSelector::setRows(const std::vector<AmbRow>& rows)
 {
-
+	setPatientMode(false);
 	amb_model.setRows(rows);
 
 	QSignalBlocker block(ui.dataTypeCombo);
@@ -98,7 +103,7 @@ void AmbListSelector::setRows(const std::vector<AmbRow>& rows)
 	phoneFilter.setFilterKeyColumn(5);
 
 	ui.tableView->setModel(&phoneFilter);
-
+	
 	ui.tableView->hideColumn(0);
 	ui.tableView->setColumnWidth(1, 100);
 	ui.tableView->setColumnWidth(2, 80);
@@ -129,6 +134,7 @@ void AmbListSelector::setRows(const std::vector<AmbRow>& rows)
 
 void AmbListSelector::setRows(const std::vector<PerioRow>& rows)
 {
+	setPatientMode(false);
 	perio_model.setRows(rows);
 
 	QSignalBlocker block(ui.dataTypeCombo);
@@ -177,6 +183,7 @@ void AmbListSelector::setRows(const std::vector<PerioRow>& rows)
 
 void AmbListSelector::setRows(const std::vector<PatientRow>& rows)
 {
+	setPatientMode(true);
 	patient_model.setRows(rows);
 
 	QSignalBlocker block(ui.dataTypeCombo);
@@ -222,7 +229,7 @@ void AmbListSelector::setRows(const std::vector<PatientRow>& rows)
 
 void AmbListSelector::setRows(const std::vector<FinancialRow>& rows)
 {
-
+	setPatientMode(false);
 	financial_model.setRows(rows);
 
 	QSignalBlocker block(ui.dataTypeCombo);
@@ -264,6 +271,19 @@ void AmbListSelector::setRows(const std::vector<FinancialRow>& rows)
 	);
 }
 
+
+void AmbListSelector::setPatientMode(bool enable)
+{
+	ui.newFinancialButton->setHidden(!enable);
+	ui.newListButton->setHidden(!enable);
+	ui.newPerioButton->setHidden(!enable);
+
+	enable ?
+		ui.tableView->setSelectionMode(QAbstractItemView::SingleSelection)
+		:
+		ui.tableView->setSelectionMode(QAbstractItemView::MultiSelection);
+		    
+}
 
 void AmbListSelector::focus()
 {

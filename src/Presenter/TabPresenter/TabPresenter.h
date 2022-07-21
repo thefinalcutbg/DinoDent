@@ -43,8 +43,9 @@ public:
 	void refreshPatientTabNames(long long patientRowId);
 	void openList(const Patient& patient);
 	void openPerio(const Patient& patient);
+
 	void openInvoice(const std::string& monthNotif);
-	void openInvoice(const Procedures& procedures, std::shared_ptr<Patient> patient);
+	void openInvoice(const Procedures& procedures, long long patientRowId);
 	void open(const RowInstance& row, bool setFocus = false);
 
 	bool documentTabOpened(TabType type, long long rowID) const;

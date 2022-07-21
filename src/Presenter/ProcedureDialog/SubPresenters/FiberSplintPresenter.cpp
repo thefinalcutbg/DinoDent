@@ -1,6 +1,57 @@
 ﻿#include "FiberSplintPresenter.h"
 #include "Model/Tooth/ToothContainer.h"
 
+FiberSplintPresenter::FiberSplintPresenter(const std::vector<Tooth*>& selectedTeeth,
+	const ToothContainer& teeth)
+	:
+	AbstractSubPresenter(ProcedureType::fibersplint),
+	selectedTeeth(selectedTeeth),
+	teeth(teeth),
+	view(nullptr)
+{
+
+}
+
+void FiberSplintPresenter::setView(IFiberSplintView* view)
+{
+	this->view = view;
+	auto [begin, end] = getInitialSplintRange(selectedTeeth);
+
+	view->rangeWidget()->setBridgeRange(begin, end);
+	view->rangeWidget()->setInputValidator(&range_validator);
+
+//	m_diagnosis = getDiagnosis();
+//	splintRangeName = getSplintRangeName(begin, end, teeth);
+}
+
+void FiberSplintPresenter::setProcedureTemplate(const ProcedureTemplate& m)
+{
+	AbstractSubPresenter::setProcedureTemplate(m);
+
+	auto data = view->getData();
+
+	data.material = m.material;
+	auto [begin, end] = view->rangeWidget()->getRange();
+
+	view->setData(ProcedureFiberData{ begin, end, data });
+
+	rangeChanged(begin, end);
+
+}
+
+void FiberSplintPresenter::rangeChanged(int begin, int end)
+{
+	if (!range_validator.validateInput(begin, end)) return;
+
+	m_diagnosis = getDiagnosis();
+	splintRangeName = getSplintRangeName(begin, end, teeth);
+
+	common_view->diagnosisEdit()->set_Text(m_diagnosis);
+	common_view->procedureNameEdit()->set_Text(m_name + splintRangeName);
+	common_view->priceEdit()->set_Value((end - begin + 1) * m_price);
+}
+
+
 std::string FiberSplintPresenter::getSplintRangeName(int begin, int end, const ToothContainer& teeth)
 {
 
@@ -84,69 +135,6 @@ std::string FiberSplintPresenter::getDiagnosis()
 }
 
 
-FiberSplintPresenter::FiberSplintPresenter(const std::vector<Tooth*>& selectedTeeth, 
-										   const ToothContainer& teeth)
-	:
-	AbstractSubPresenter(ProcedureType::fibersplint),
-	selectedTeeth(selectedTeeth),
-	teeth(teeth),
-	view(nullptr),
-	m_price(0)
-{
-
-}
-
-void FiberSplintPresenter::setView(IFiberSplintView* view)
-{
-	this->view = view;
-	auto [begin, end] = getInitialSplintRange(selectedTeeth);
-
-	view->rangeWidget()->setBridgeRange(begin, end);
-	m_diagnosis = getDiagnosis();
-	splintRangeName = getSplintRangeName(begin, end, teeth);
-
-
-	view->rangeWidget()->setInputValidator(&range_validator);
-}
-
-void FiberSplintPresenter::rangeChanged(int begin, int end)
-{
-	m_diagnosis = getDiagnosis();
-	splintRangeName = getSplintRangeName(begin, end, teeth);
-
-	m_price = (end - begin + 1) * m_price;
-
-	common_view->diagnosisEdit()->set_Text(m_diagnosis);
-	common_view->procedureNameEdit()->set_Text(m_name + splintRangeName);
-	common_view->priceEdit()->set_Value(m_price);
-}
-
-
-void FiberSplintPresenter::setProcedureTemplate(const ProcedureTemplate& m)
-{
-
-	common_view->set_hidden(false);
-	view->set_hidden(false);
-
-	AbstractSubPresenter::setProcedureTemplate(m);
-	common_view->procedureNameEdit()->set_Text(m.name + splintRangeName);
-
-	auto [begin, end] = view->rangeWidget()->getRange();
-	int length = end - begin + 1;
-	m_price = m_price * length;
-
-	auto data = view->getData();
-	data.material = m.material;
-	view->setData(ProcedureFiberData{begin, end, data });
-
-	if (!range_validator.validateInput(begin, end))
-		m_price = 0;
-
-	common_view->priceEdit()->set_Value(m_price);
-
-	view->setData(ProcedureFiberData{begin, end, data});
-
-}
 
 bool FiberSplintPresenter::isValid()
 {

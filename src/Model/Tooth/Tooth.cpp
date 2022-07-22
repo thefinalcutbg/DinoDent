@@ -237,6 +237,11 @@ void Tooth::removeStatus(StatusType type)
 	}
 }
 
+std::string Tooth::getToothInfo()
+{
+	return u8"аз съм зъбко :)))";
+}
+
 
 
 

@@ -4,7 +4,7 @@
 #include "ui_PerioStatisticView.h"
 
 class HexagonGraphicsItem;
-struct PerioStatistic;
+class PerioStatistic;
 
 class PerioStatisticView : public QWidget
 {

@@ -351,9 +351,6 @@
     <ClCompile Include="src\View\PerioView\Widgets\PerioTable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\PerioView\StatisticTableModel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\View\PerioView\PerioGraphics\HexagonGraphicsItem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -660,6 +657,9 @@
     <ClCompile Include="src\View\PerioView\Widgets\PerioStatisticView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Model\TimeFrame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -798,9 +798,6 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\PerioView\Widgets\PerioTable.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="src\View\PerioView\StatisticTableModel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\LoginView\LoginView.h">

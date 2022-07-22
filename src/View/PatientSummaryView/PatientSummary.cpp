@@ -1,4 +1,4 @@
-#include "PatientSummary.h"
+﻿#include "PatientSummary.h"
 #include <QPainter>
 #include "Presenter/PatientSummaryPresenter/PatientSummaryPresenter.h"
 #include "View/Theme.h"
@@ -9,10 +9,12 @@ PatientSummary::PatientSummary(QWidget *parent)
 {
 	ui.setupUi(this);
 
+	ui.openButton->setIcon(QIcon(":/icons/icon_open.png"));
+	setStyleSheet("QLabel { color :" + Theme::colorToString(Theme::fontTurquoise) + ";}");
 
 	connect(ui.patientTile, &QAbstractButton::clicked, [=] { if (presenter) presenter->openPatientDialog(); });
 	connect(ui.allergiesTile, &QAbstractButton::clicked, [=] { if (presenter) presenter->openAllergiesDialog(); });
-
+	connect(ui.openButton, &QAbstractButton::clicked, [=] {if (presenter) presenter->openCurrentDocument();});
 	QButtonGroup* group = new QButtonGroup(this);
 	group->addButton(ui.showBuccal);
 	group->addButton(ui.showLingual);
@@ -22,38 +24,56 @@ PatientSummary::PatientSummary(QWidget *parent)
 
 	ui.showBuccal->setChecked(true);
 
-	ui.teethView->setScene(&buccalScene);
-	ui.teethView->setDisabled(true);
+	buccalScene = new TeethBuccalScene();
+	lingualScene = new TeethLingualScene();
+
+	ui.teethView->setScene(buccalScene);
+	ui.teethView->disableMultiSelection();
 
 	ui.procedureTable->setModel(&m_procedureModel);
 	ui.procedureTable->setProcedureHistoryLayout();
 	ui.dateSlider->setTickPosition(QSlider::TickPosition::TicksBelow);
 
+
+	connect(buccalScene, &QGraphicsScene::selectionChanged, [=] {
+			auto idx = buccalScene->selectedTooth();
+			lingualScene->setSelectedTooth(idx);
+			presenter->toothSelected(idx);
+		});
+
+	connect(lingualScene, &QGraphicsScene::selectionChanged, [=] {
+			auto idx = lingualScene->selectedTooth();
+			buccalScene->setSelectedTooth(idx);
+			presenter->toothSelected(idx);
+		});
+
+
 	connect(ui.dateSlider, &QSlider::valueChanged, this, [=] {presenter->setCurrentFrame(ui.dateSlider->value());});
 
 	connect(ui.showLingual, &QPushButton::clicked, this,
 		[=] {
-				ui.teethView->setScene(&lingualScene);
+				ui.teethView->setScene(lingualScene);
 		}
 	);
 
 	connect(ui.showBuccal, &QPushButton::clicked, this,
 		[=] {
-			ui.teethView->setScene(&buccalScene);
+			ui.teethView->setScene(buccalScene);
 		}
 	);
 
 	connect(ui.showPerio, &QCheckBox::stateChanged, this,
 		[=] {
 				bool show = ui.showPerio->isChecked();
-				lingualScene.showPerio(show);
-				buccalScene.showPerio(show);
+				lingualScene->showPerio(show);
+				buccalScene->showPerio(show);
 
 		}
 	);
 
-	lingualScene.showPerio(false);
-	buccalScene.showPerio(false);
+	ui.showPerio->setChecked(true);
+	lingualScene->showPerio(true);
+	buccalScene->showPerio(true);
 }
 
 PatientSummary::~PatientSummary()
@@ -95,11 +115,6 @@ void PatientSummary::setPresenter(PatientSummaryPresenter* presenter)
 	this->presenter = presenter;
 }
 
-void PatientSummary::setDateLabel(const std::string& dateLabel)
-{
-	ui.dateLabel->setText(QString::fromStdString(dateLabel));
-}
-
 void PatientSummary::setTickPosition(int idx)
 {
 	ui.dateSlider->setValue(idx);
@@ -107,7 +122,27 @@ void PatientSummary::setTickPosition(int idx)
 
 void PatientSummary::setTimeFrameCount(int count)
 {
+	bool noData = count == 0;
+
+	ui.teethView->setHidden(noData);
+
+	ui.stackedWidget->setCurrentIndex(0);
+
+	ui.openButton->setHidden(noData);
+	ui.dateSlider->setHidden(noData);
+	ui.showBuccal->setHidden(noData);
+	ui.showLingual->setHidden(noData);
+	ui.showPerio->setHidden(noData);
+
+	if (noData) {
+		ui.docName->setText("Не са открити данни за този пациент");
+		ui.docDate->clear();
+		ui.docDoctor->clear();
+		return;
+	}
+
 	ui.dateSlider->setRange(0, count - 1);
+	
 }
 
 void PatientSummary::setPatient(const Patient& patient)
@@ -119,11 +154,24 @@ void PatientSummary::setPatient(const Patient& patient)
 
 void PatientSummary::setTeeth(const std::array<ToothPaintHint, 32>& teeth)
 {
+
 	for (auto& t : teeth) {
-		buccalScene.display(t);
-		lingualScene.display(t);
+		buccalScene->display(t);
+		lingualScene->display(t);
 	}
 
+}
+
+
+void PatientSummary::setPerioData(const PerioWithDisabled& perio)
+{
+	buccalScene->setMeasurments(perio.pd, perio.cal);
+	lingualScene->setMeasurments(perio.pd, perio.cal);
+}
+
+void PatientSummary::setInitialAmbList()
+{
+	ui.stackedWidget->setCurrentIndex(0);
 }
 
 void PatientSummary::setProcedures(const std::vector<Procedure>& p)
@@ -131,22 +179,42 @@ void PatientSummary::setProcedures(const std::vector<Procedure>& p)
 	m_procedureModel.setProcedures(p);
 
 	std::vector<int> treatedTeeth;
-	
+
 	for (auto& procedure : p)
-		if(procedure.tooth != -1)
-		treatedTeeth.push_back(procedure.tooth);
+		if (procedure.tooth != -1)
+			treatedTeeth.push_back(procedure.tooth);
 
-	
-	buccalScene.setProcedures(treatedTeeth);
-	lingualScene.setProcedures(treatedTeeth);
 
-	this->setFixedHeight(710 + ui.procedureTable->height() + 100);
+	buccalScene->setProcedures(treatedTeeth);
+	lingualScene->setProcedures(treatedTeeth);
+
+	ui.stackedWidget->setCurrentIndex(1);
 
 	update();
 }
 
-void PatientSummary::setPerioData(const PerioWithDisabled& perio)
+
+void PatientSummary::setPerioStatistic(const PerioStatistic& stat)
 {
-	buccalScene.setMeasurments(perio.pd, perio.cal);
-	lingualScene.setMeasurments(perio.pd, perio.cal);
+	ui.perioStatisticView->setPerioStatistic(stat);
+	ui.stackedWidget->setCurrentIndex(2);
 }
+
+void PatientSummary::setDocumentLabel(const std::string& label, const std::string& date, const std::string& doctor)
+{
+	ui.docName->setText(label.c_str());
+	ui.docDate->setText(u8"Дата: " + QString(date.c_str()));
+	ui.docDoctor->setText(u8"Създаден от: " + QString(doctor.c_str()));
+}
+
+void PatientSummary::setToothInfo(const std::string& info)
+{
+	ui.toothInfo->setText(info.c_str());
+}
+
+void PatientSummary::setSelectedTooth(int toothIdx)
+{
+	buccalScene->setSelectedTooth(toothIdx);
+	lingualScene->setSelectedTooth(toothIdx);
+}
+

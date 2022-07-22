@@ -2,7 +2,7 @@
 
 class PerioPresenter;
 class ToothPaintHint;
-class PerioStatus;
+struct PerioStatus;
 class PerioToothData;
 class PerioStatistic;
 class Patient;

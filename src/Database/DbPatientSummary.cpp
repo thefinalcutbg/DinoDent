@@ -12,11 +12,13 @@ std::vector<TimeFrame> DbPatientSummary::getFrames(long long patientRowId)
     std::string query =
         "SELECT "
         "amblist.rowid, "
+        "amblist.num, "
         "amblist.lpk, "
         "procedure.day, "
         "amblist.month, "
         "amblist.year, "
         "amblist.status_json "
+
 
         "FROM amblist LEFT JOIN procedure ON "
         "amblist.rowid = procedure.amblist_rowid "
@@ -28,26 +30,25 @@ std::vector<TimeFrame> DbPatientSummary::getFrames(long long patientRowId)
 
     while (db.hasRows())
     {
-        timeFrames.emplace_back(
+        timeFrames.push_back(
             TimeFrame
             {
                TimeFrameType::Procedures,
                db.asRowId(0),
                db.asString(1),
+               db.asString(2),
 
                Date{
-                    db.asInt(2),
                     db.asInt(3),
-                    db.asInt(4)
-               }, 
-               
-               {} //allocating ToothContainer with default constructor
-                
-            }
+                    db.asInt(4),
+                    db.asInt(5)
+               },
 
+            }
+                
              );
       
-            Parser::parse(db.asString(5), timeFrames.back().teeth);
+            Parser::parse(db.asString(6), timeFrames.back().teeth);
 
             //inserting InitialAmb if necessary:
             int currentIdx = timeFrames.size() - 1;

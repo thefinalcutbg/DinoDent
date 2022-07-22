@@ -13,9 +13,6 @@ class PerioPresenter : public TabInstance
 
 	IPerioView* view;
 
-
-	
-
 	ShowTeeth m_teethShow{ false };
 
 	void refreshMeasurment(int index);

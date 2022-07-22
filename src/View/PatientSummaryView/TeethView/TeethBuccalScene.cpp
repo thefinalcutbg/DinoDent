@@ -3,6 +3,10 @@
 #include "View/ToothPaintDevices/ToothPainter.h"
 #include "View/PerioView/PerioGraphics/PerioChartItem.h"
 #include "View/ListView/TeethView/DsnToothGraphicsItem.h"
+#include "View/ListView/TeethView/SelectionBox.h"
+#include <QGraphicsSceneMouseEvent>
+
+
 TeethBuccalScene::TeethBuccalScene()
 {
     int posY = 15;
@@ -19,12 +23,17 @@ TeethBuccalScene::TeethBuccalScene()
         }
 
         toothGraphic[i] = new ToothGraphicsItem(i);
-        toothGraphic[i]->setZValue(0);
+        toothGraphic[i]->setZValue(1);
         toothGraphic[i]->setPos(posX, posY);
         addItem(toothGraphic[i]);
 
+        selectionBox[i] = new SelectionBox(i);
+        selectionBox[i]->setZValue(3);
+        selectionBox[i]->setPos(posX, selectionBox_posY);
+        addItem(selectionBox[i]);
+
         dsnToothGraphic[i] = new DsnToothGraphicsItem(i);
-        dsnToothGraphic[i]->setZValue(-1);
+        dsnToothGraphic[i]->setZValue(0);
 
         int dnsPos = (i < 8 || i > 23) ?
             posX - (dsnToothGraphic[i]->boundingRect().width() / 2)
@@ -46,14 +55,17 @@ TeethBuccalScene::TeethBuccalScene()
 
     maxillaryChart = new PerioChartItem(false);
     maxillaryChart->setPos(15, 15);
+    maxillaryChart->setZValue(2);
     addItem(maxillaryChart);
 
     mandibularChart = new PerioChartItem(false);
     //mandibularChart->setTransform(QTransform::fromScale(-1, 1));
+    mandibularChart->setZValue(2);
     mandibularChart->setRotation(180);
     mandibularChart->setPos(mandibularChart->boundingRect().width() + 15, 460);
     addItem(mandibularChart);
 }
+
 
 void TeethBuccalScene::display(const ToothPaintHint& tooth)
 {
@@ -102,4 +114,35 @@ void TeethBuccalScene::showPerio(bool shown)
         mandibularChart->hide();
     }
 
+}
+
+int TeethBuccalScene::selectedTooth()
+{
+    if (selectedItems().empty()) return -1;
+
+    return static_cast<SelectionBox*>(selectedItems()[0])->getIndex();
+}
+
+void TeethBuccalScene::setSelectedTooth(int toothIdx)
+{
+    
+    QSignalBlocker b(this);
+
+    for (auto i : selectedItems()) i->setSelected(false);
+
+    if (toothIdx == -1) return;
+
+    selectionBox[toothIdx]->setSelected(true);
+  
+}
+
+void TeethBuccalScene::mousePressEvent(QGraphicsSceneMouseEvent* event)
+{
+    //disables multiselection
+    if (event->modifiers() == Qt::Modifier::CTRL) {
+        event->setModifiers(Qt::KeyboardModifier::NoModifier);
+
+    }
+
+    QGraphicsScene::mousePressEvent(event);
 }

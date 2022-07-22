@@ -97,7 +97,7 @@ std::shared_ptr<Patient> TabPresenter::getPatient_ptr(const Patient& patient)
         if (tabInstance->patient != nullptr &&
             tabInstance->patient->rowid == patient.rowid
             )
-            *tabInstance->patient.get() = patient;
+           // *tabInstance->patient.get() = patient;
             return tabInstance->patient;
     }
 
@@ -184,7 +184,7 @@ void TabPresenter::open(const RowInstance& row, bool setFocus)
         newTab = new PerioPresenter(view, getPatient_ptr(DbPatient::get(row.patientRowId)), row.rowID);
         break;
     case TabType::PatientSummary:
-        newTab = new PatientSummaryPresenter(view, getPatient_ptr(DbPatient::get(row.patientRowId)));
+        newTab = new PatientSummaryPresenter(view, this, getPatient_ptr(DbPatient::get(row.patientRowId)));
         break;
     case TabType::Financial:
         newTab = new FinancialPresenter(view, row.rowID);

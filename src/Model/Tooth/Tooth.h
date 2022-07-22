@@ -52,6 +52,7 @@ public:
 	void setStatus(StatusType type, int code, bool state = true);
 	void setStatus(int code, bool state = true);
 	void removeStatus(StatusType type);
+	std::string getToothInfo();
 
 	//for printing (T status is omitted)
 	std::string getStringStatus() const;

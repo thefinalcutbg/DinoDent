@@ -20,9 +20,9 @@ private:
 	void paintEvent(QPaintEvent* event);
 	ProcedureTableModel m_procedureModel;
 	
-	TeethBuccalScene buccalScene;
-	TeethLingualScene lingualScene;
-
+	TeethBuccalScene* buccalScene;
+	TeethLingualScene* lingualScene;
+	
 public:
 
 	PatientSummary(QWidget* parent = Q_NULLPTR);
@@ -30,15 +30,18 @@ public:
 
 	// Inherited via IPatientSummaryView
 	
-	void setPresenter(PatientSummaryPresenter* presenter) final;
-	void setDateLabel(const std::string& dateLabel) final;
-	void setTickPosition(int idx) final;
-	void setTimeFrameCount(int count) final;
-	void setPatient(const Patient& patient) final;
-	void setTeeth(const std::array<ToothPaintHint, 32>& teeth) final;
-	void setProcedures(const std::vector<Procedure>& p) final;
-	void setPerioData(const PerioWithDisabled& perio) final;
-
+	void setPresenter(PatientSummaryPresenter* presenter) override;
+	void setTickPosition(int idx) override;
+	void setTimeFrameCount(int count) override;
+	void setPatient(const Patient& patient) override;
+	void setTeeth(const std::array<ToothPaintHint, 32>& teeth) override;
+	void setProcedures(const std::vector<Procedure>& p) override;
+	void setPerioData(const PerioWithDisabled& perio) override;
+	void setInitialAmbList() override;
+	void setPerioStatistic(const PerioStatistic& stat) override;
+	void setDocumentLabel(const std::string& label, const std::string& date, const std::string& doctor) override;
+	void setToothInfo(const std::string& info) override;
+	void setSelectedTooth(int toothIdx) override;
 private:
 	Ui::PatientSummary ui;
 };

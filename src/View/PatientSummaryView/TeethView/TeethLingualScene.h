@@ -6,6 +6,7 @@
 class ToothGraphicsItem;
 class PerioChartItem;
 class DsnToothGraphicsItem;
+class SelectionBox;
 
 class TeethLingualScene : public QGraphicsScene
 {
@@ -13,8 +14,11 @@ class TeethLingualScene : public QGraphicsScene
 
 	ToothGraphicsItem* toothGraphic[32];
 	DsnToothGraphicsItem* dsnToothGraphic[32];
+	SelectionBox* selectionBox[32];
 	PerioChartItem* maxillaryChart;
 	PerioChartItem* mandibularChart;
+
+	void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
 
 public:
 	TeethLingualScene();
@@ -22,5 +26,8 @@ public:
 	void setProcedures(std::vector<int> teeth_procedures);
 	void setMeasurments(const int pd[192], const int cal[192]);
 	void showPerio(bool shown);
+	int selectedTooth();
+	//Doesn't emit signal!
+	void setSelectedTooth(int toothIdx);
 };
 

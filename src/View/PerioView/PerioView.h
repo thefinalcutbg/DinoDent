@@ -3,8 +3,6 @@
 #include <QWidget>
 #include "ui_PerioView.h"
 
-#include "StatisticTableModel.h"
-
 #include "IPerioView.h"
 #include "ToothUi.h"
 

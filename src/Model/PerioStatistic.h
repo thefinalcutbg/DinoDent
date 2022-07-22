@@ -1,6 +1,7 @@
 #pragma once
-class PerioStatus;
+
 class ToothContainer;
+struct PerioStatus;
 
 #include <array>
 #include <string_view>

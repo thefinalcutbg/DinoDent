@@ -12,9 +12,13 @@ struct TimeFrame
 {
 	TimeFrameType type;
 	long long rowid{ 0 };
+	std::string number;
 	std::string LPK;
 	Date date;
 	ToothContainer teeth;
 	std::vector<Procedure> procedures;
 	PerioStatus perioData;
+
+	std::string getFrameName() const;
+
 };

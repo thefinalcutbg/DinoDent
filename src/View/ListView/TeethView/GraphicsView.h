@@ -13,7 +13,7 @@ class GraphicsView : public QGraphicsView
 
 public:
 	GraphicsView(QWidget *parent);
-
+	void disableMultiSelection();
 	~GraphicsView();
 
 signals:

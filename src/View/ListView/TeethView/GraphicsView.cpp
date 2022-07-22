@@ -18,6 +18,11 @@ GraphicsView::GraphicsView(QWidget *parent)
 	
 }
 
+void GraphicsView::disableMultiSelection()
+{
+	setDragMode(QGraphicsView::DragMode::NoDrag);
+}
+
 void GraphicsView::mousePressEvent(QMouseEvent* event)
 {
 	QGraphicsView::mousePressEvent(event);

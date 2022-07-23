@@ -27,7 +27,6 @@ void Tooth::setIndex(int index)
 }
 
 
-
 std::array<bool, statusCount> Tooth::getBoolStatus() const
 {
 	return std::array<bool, statusCount>
@@ -239,7 +238,90 @@ void Tooth::removeStatus(StatusType type)
 
 std::string Tooth::getToothInfo()
 {
-	return u8"аз съм зъбко :)))";
+
+	auto result = 
+		"<b><center><font size=10>" + ToothUtils::getName(index, temporary.exists()) + "</font size></center></b><br>";
+
+	if (hyperdontic) result.append(u8"<br><b>Свръхброен</b><br>");
+	if (impacted) result.append(u8"<br><b>Ретениран/в пробив</b><br>");
+	
+
+	if (endo) result.append(u8"<br><b>Девитализиран</b><br>");
+
+	if (obturation) {
+		result.append(u8"<br><b>Обтурация</b><br>");
+		result.append(obturation.getInfo(index));
+	}
+
+	if (splint) {
+		extraction ?
+			result.append(u8"<br><b>Възстановен с фибромост</b><br>")
+			:
+			result.append(u8"<br><b>Шиниран с фибровлакно</b><br>");
+
+		result.append(splint.infoStr());
+	}
+
+	if (post) result.append(u8"<br><b>Радикуларен щифт</b><br>");
+	
+
+	if (caries) {
+		result.append(u8"<br><b><font color=\"red\">Кариес</font></b><br>");
+		result.append(caries.getInfo(index));
+	}
+
+	if (crown) {
+		result.append(u8"<br><br><b>Корона</b><br>");
+		result.append(crown.data.infoStr());
+	}
+
+	if (bridge) {
+		
+		extraction ?
+			result.append(u8"<br><br><b>Мостово тяло</b><br>")
+			:
+			result.append(u8"<br><br><b>Мостоносител</b><br>");
+
+		result.append(bridge.data.infoStr());
+	}
+	else if (extraction) {
+		result.append(u8"<br><br><b>Екстрахиран</b><br>");
+	}
+
+	if (implant) {
+		result.append(u8"<br><br><b>Имплант</b><br>");
+		result.append(implant.data.infoStr());
+	}
+
+	std::array<Pathology*, 4> pato{
+		&pulpitis, &lesion, &fracture, &root
+	};
+
+	for (auto p : pato) {
+		if (!p->exists()) continue;
+
+		result.append("<br><br><b><font color=\"red\">" + p->info() + "</font></b><br>"
+					+u8" (диагностициран на " + p->data.date_diagnosed.toString(true) + ")<br>");
+	}
+
+	if (periodontitis) { result.append(u8"<br><br><b><font color=\"red\">Пародонтит</font></b><br>");
+}
+	if (mobility) {
+
+		result.append("<br><br><b><font color = \"red\">");
+
+		switch (mobility.degree) {
+		case Degree::First: result.append(u8"Първа степен подвижност"); break;
+		case Degree::Second: result.append(u8"Втора степен подвижност"); break;
+		case Degree::Third: result.append(u8"Трета степен подвижност"); break;
+		}
+
+		result.append("</font></b><br>");
+	}
+
+	return result;
+
+
 }
 
 

@@ -63,7 +63,7 @@ void VitaWidget::switchColor(int index)
 void VitaWidget::setIndex(int index)
 {
     //checking for valid index
-    if (index < -1 || index > 45){
+    if (index < 0 || index >= 46){
         setIndex(0); 
         return;
     }

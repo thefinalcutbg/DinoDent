@@ -155,52 +155,10 @@
         <widget class="QLineEdit" name="system_edit"/>
        </item>
        <item>
-        <widget class="QComboBox" name="timeCombo">
-         <item>
-          <property name="text">
-           <string/>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Отложено</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Ранно</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Имедиантно</string>
-          </property>
-         </item>
-        </widget>
+        <widget class="QComboBox" name="timeCombo"/>
        </item>
        <item>
-        <widget class="QComboBox" name="typeCombo">
-         <item>
-          <property name="text">
-           <string/>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Закрито</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Цикатризационен винт</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Временна корона</string>
-          </property>
-         </item>
-        </widget>
+        <widget class="QComboBox" name="typeCombo"/>
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_5">
@@ -233,57 +191,10 @@
         </layout>
        </item>
        <item>
-        <widget class="QComboBox" name="tissueCombo">
-         <item>
-          <property name="text">
-           <string/>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Roll flap</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Free gingival graft</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Connective tissue graft</string>
-          </property>
-         </item>
-        </widget>
+        <widget class="QComboBox" name="tissueCombo"/>
        </item>
        <item>
-        <widget class="QComboBox" name="boneCombo">
-         <item>
-          <property name="text">
-           <string/>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Xenograft</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Allograft</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Autograft</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Бета-3-калциев фосфат</string>
-          </property>
-         </item>
-        </widget>
+        <widget class="QComboBox" name="boneCombo"/>
        </item>
        <item>
         <widget class="QCheckBox" name="sinusCheck">

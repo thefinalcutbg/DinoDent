@@ -1,5 +1,6 @@
-#pragma once
+﻿#pragma once
 #include "Status.h"
+#include "ToothUtils.h"
 
 template <typename T> class SurfaceStatus;
 
@@ -45,6 +46,39 @@ class SurfaceStatus : public Status
 public:
 
 	SurfaceStatus() : default_surface{ 0 } {}
+
+	std::string getInfo(int toothIdx) const
+	{
+		if (!exists()) return "";
+
+		std::string result;
+
+		auto surfNames = ToothUtils::getSurfaceNames(toothIdx);
+
+		for (int i = 0; i < surfaceCount; i++) {
+
+			if (!exists(i)) continue;
+
+			//if (obtur.empty()) obtur.append(u8"<br><b>Обтурация:</b> ");
+
+			result += surfNames[i];
+
+			auto infoStr =  surfaces[i].info();
+			if (infoStr.size()) {
+				result.append(" (" + infoStr + ")");
+			}
+
+			result += ", ";
+		}
+
+		if (result.size()) {
+			result.pop_back();
+			result.pop_back();
+			result.append("<br>");
+		}
+
+		return result;
+	}
 
 	void setDefaultSurface(int surface)
 	{

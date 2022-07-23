@@ -10,6 +10,11 @@ ImplantView::ImplantView(QWidget *parent)
 	ui.membrCheck->setDisabled(true);
 	ui.sinusCheck->setDisabled(true);
 
+	for (auto& str : ImplantData::typeStr()) ui.typeCombo->addItem(str.data());
+	for (auto& str : ImplantData::timeStr()) ui.timeCombo->addItem(str.data());
+	for (auto& str : ImplantData::tissueAugStr()) ui.tissueCombo->addItem(str.data());
+	for (auto& str : ImplantData::boneAugStr()) ui.boneCombo->addItem(str.data());
+
 	connect(ui.boneCombo, QOverload<int>::of(&QComboBox::currentIndexChanged),
 		[=](int index)
 		{

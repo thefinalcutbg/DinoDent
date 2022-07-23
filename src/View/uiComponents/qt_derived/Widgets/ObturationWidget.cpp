@@ -7,19 +7,10 @@ ObturationWidget::ObturationWidget(QWidget *parent)
 {
 	ui.setupUi(this);
 
-	static std::array<QString, 17> colorCodes
-	{
-		"",
-		"A1", "A2", "A3", "A3,5", "A4",
-		"B1", "B2", "B3", "B4",
-		"C1", "C2", "C3", "C4",
-		"D2", "D3", "D4"
-	};
 
-
-	for (QString code : colorCodes)
+	for (auto code : ObturationData::colorStrings())
 	{
-		ui.combo_color->addItem(code);
+		ui.combo_color->addItem(code.data());
 	}
 }
 

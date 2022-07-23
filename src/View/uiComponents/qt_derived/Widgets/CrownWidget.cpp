@@ -5,6 +5,7 @@ CrownWidget::CrownWidget(QWidget *parent)
 {
 	ui.setupUi(this);
 
+	for (auto str : CrownData::prepTypes()) ui.comboBox->addItem(str.data());
 
 }
 

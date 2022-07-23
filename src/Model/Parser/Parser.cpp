@@ -817,7 +817,7 @@ void Parser::parse(const std::string& jsonString, ToothContainer& status)
 		Tooth& tooth = status[implant[i]["idx"].asInt()];
 		tooth.implant.set(true);
 		tooth.implant.LPK = implant[i]["LPK"].asString();
-		tooth.implant.data.system = implant[i]["material"].asString();
+		tooth.implant.data.system = implant[i]["system"].asString();
 		tooth.implant.data.length = implant[i]["l"].asDouble();
 		tooth.implant.data.width = implant[i]["w"].asDouble();
 		tooth.implant.data.time = implant[i]["time"].asInt();
@@ -837,6 +837,8 @@ void Parser::parse(const std::string& jsonString, ToothContainer& status)
 		tooth.crown.set(true);
 		tooth.crown.LPK = crown[i]["LPK"].asString();
 		tooth.crown.data.material = crown[i]["material"].asString();
+		tooth.crown.data.prep_type = crown[i]["prep"].asInt();
+		tooth.crown.data.color = crown[i]["color"].asInt();
 	}
 
 	const Json::Value& bridge = json["Bridge"];
@@ -847,6 +849,8 @@ void Parser::parse(const std::string& jsonString, ToothContainer& status)
 		tooth.bridge.set(true);
 		tooth.bridge.LPK = bridge[i]["LPK"].asString();
 		tooth.bridge.data.material = bridge[i]["material"].asString();
+		tooth.bridge.data.prep_type = bridge[i]["prep"].asInt();
+		tooth.bridge.data.color = bridge[i]["color"].asInt();
 		tooth.bridge.position = static_cast<BridgePos>(bridge[i]["pos"].asInt());
 	}
 

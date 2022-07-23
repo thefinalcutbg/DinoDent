@@ -124,7 +124,7 @@
     <ClCompile>
       <AdditionalIncludeDirectories>:\Dev\Qt\Tools\OpenSSL\Win_x64\include;C:\Dev\Torque\include;GeneratedFiles\$(ConfigurationName);GeneratedFiles;$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);src/;.\</AdditionalIncludeDirectories>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
@@ -215,6 +215,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Model\TimeFrame.cpp" />
+    <ClCompile Include="src\Model\Tooth\Status.cpp" />
+    <ClCompile Include="src\Model\Tooth\StatusData.cpp" />
     <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\BridgeHelper.cpp" />
     <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\EditorPresenter.cpp" />
     <ClCompile Include="src\View\PerioView\Widgets\PerioStatisticView.cpp" />

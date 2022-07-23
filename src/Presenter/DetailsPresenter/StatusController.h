@@ -244,6 +244,28 @@ public:
 	}
 };
 
+
+class FiberSplintControl : public DetailedStatusController
+{
+	FiberSplint& status;
+
+	DentistMadeControl m_dentistCtrl;
+public:
+	FiberSplintControl(IDetailedStatusView& view, FiberSplint& status) :
+		DetailedStatusController(view),
+		status(status),
+		m_dentistCtrl(view, status)
+
+	{
+		view.setData(status.data);
+	}
+
+	void applyChange() override {
+		status.data = view.getObturationData();
+		m_dentistCtrl.applyChange();
+	}
+};
+
 class ImplantControl : public DetailedStatusController
 {
 	Implant& status;

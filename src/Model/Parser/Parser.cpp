@@ -301,6 +301,8 @@ std::string Parser::write(const ToothContainer& status)
 
 			auto param = writeDentistMade(i, tooth.splint);
 			param["pos"] = static_cast<int>(tooth.splint.position);
+			param["material"] = tooth.splint.data.material;
+			param["color"] = tooth.splint.data.color;
 			json["Splint"].append(param);
 		}
 	}
@@ -861,6 +863,8 @@ void Parser::parse(const std::string& jsonString, ToothContainer& status)
 		Tooth& tooth = status[splint[i]["idx"].asInt()];
 		tooth.splint.position = static_cast<BridgePos>(splint[i]["pos"].asInt());
 		tooth.splint.LPK = splint[i]["LPK"].asString();
+		tooth.splint.data.material = splint[i]["material"].asString();
+		tooth.splint.data.color = splint[i]["color"].asInt();
 		tooth.splint.set(true);
 	}
 

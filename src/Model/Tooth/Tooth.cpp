@@ -259,7 +259,7 @@ std::string Tooth::getToothInfo()
 			:
 			result.append(u8"<br><b>Шиниран с фибровлакно</b><br>");
 
-		result.append(splint.infoStr());
+		result.append(splint.data.infoStr());
 	}
 
 	if (post) result.append(u8"<br><b>Радикуларен щифт</b><br>");

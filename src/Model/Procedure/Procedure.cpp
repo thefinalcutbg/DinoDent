@@ -145,8 +145,8 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 				auto& tooth = teeth[i];
 
 				tooth.setStatus(StatusType::general, StatusCode::FiberSplint);
-				tooth.splint.color = result.obtur.color;
-				tooth.splint.material = result.obtur.material;
+				tooth.splint.data.color = result.obtur.color;
+				tooth.splint.data.material = result.obtur.material;
 
 				tooth.splint.LPK = LPK;
 

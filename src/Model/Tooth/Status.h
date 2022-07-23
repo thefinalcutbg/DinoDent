@@ -42,13 +42,15 @@ private:
     std::string getInfo() const override;
   
 };
-
-struct Construction : virtual public DentistMade { BridgePos position{ BridgePos::Middle }; };
+//DIAMOND INHERITANCE PROBLEM...
+struct Construction : virtual public DentistMade { BridgePos position{ BridgePos::Middle }; 
+};
 struct Crown : virtual public DentistMade { 
     CrownData data; 
 };
+//...EMERGES HERE:
 struct Bridge : public Crown, public Construction {};
-struct FiberSplint : public ObturationData, public Construction {};
+struct FiberSplint : public Construction { ObturationData data; };
 
 struct Implant : public DentistMade { ImplantData data; };
 struct Mobility : public Status { Degree degree{ Degree::First };};

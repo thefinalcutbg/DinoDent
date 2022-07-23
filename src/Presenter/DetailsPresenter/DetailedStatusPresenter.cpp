@@ -86,7 +86,7 @@ void DetailedStatusPresenter::statusSelected(int category, int code)
 			case StatusCode::Bridge:
 				controller = std::make_unique<CrownControl>(*view, m_tooth.bridge); break;
 			case StatusCode::FiberSplint:
-				controller = std::make_unique<DentistMadeControl>(*view, m_tooth.splint); break;
+				controller = std::make_unique<FiberSplintControl>(*view, m_tooth.splint); break;
 			case StatusCode::Implant:
 				controller = std::make_unique<ImplantControl>(*view, m_tooth.implant); break;
 			default: break;

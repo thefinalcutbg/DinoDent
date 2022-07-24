@@ -30,6 +30,11 @@ AmbListValidator::AmbListValidator(const AmbList& list, const Patient& patient)
 
 bool AmbListValidator::ambListIsValid()
 {
+    if (ambList.procedures.empty()) {
+        _error = u8"Листът трябва да съдържа поне една манипулация!";
+        return false;
+    }
+
     if (!ambList.hasNZOKProcedure()) return true;
 
     auto& teeth = ambList.teeth;

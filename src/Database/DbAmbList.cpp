@@ -267,8 +267,6 @@ int DbAmbList::getNewNumber(Date ambDate, bool nzok)
         "AND amblist.rzi = '" + User::practice().rziCode + "' "
         "ORDER BY amblist.num DESC LIMIT 1";
 
-    qDebug() << query.c_str();
-
     int number = nzok ? 0 : 100000;
 
     for (Db db(query); db.hasRows();) {

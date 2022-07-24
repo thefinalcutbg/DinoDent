@@ -69,7 +69,7 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
     report.dataManager()->setReportVariable("address", QString::fromStdString(patient.address));
     report.dataManager()->setReportVariable("patientName", QString::fromStdString(patient.fullName()));
     report.dataManager()->setReportVariable("hirbNo", QString::fromStdString(patient.HIRBNo));
-    report.dataManager()->setReportVariable("ambNum", QString::fromStdString(leadZeroes(amb.number, 6)));
+    report.dataManager()->setReportVariable("ambNum", QString::fromStdString(leadZeroes(amb.number, 12)));
     
     
     auto[RHIF, health] = CityCode::getCodes(patient.city);

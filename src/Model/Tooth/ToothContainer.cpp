@@ -17,18 +17,6 @@ ToothContainer::ToothContainer(){
 	}
 }
 
-ToothContainer::ToothContainer(const ToothContainer& other){
-
-	teeth.reserve(teethCount);
-
-    for (int i = 0; i < teethCount; i++) teeth.push_back(other[i]);
-}
-#include "View/ModalDialogBuilder.h"
-ToothContainer::ToothContainer(ToothContainer&& other) noexcept
-	:
-	teeth(std::move(other.teeth))
-{}
-
 const Tooth& ToothContainer::operator[](int index) const
 {
 	if (teeth.empty()) throw std::invalid_argument("container has been moved");
@@ -76,16 +64,6 @@ std::vector<Tooth*> ToothContainer::getSelectedTeethPtr(std::vector<int> selecte
 		selectedPtr.push_back(&teeth.at(i));
 	return selectedPtr;
 }
-
-ToothContainer& ToothContainer::operator=(const ToothContainer& other)
-{
-	if (this == &other) return *this;
-
-	
-	for (int i = 0; i < teethCount; i++) teeth.push_back(other.teeth.at(i));
-	return *this;
-}
-
 
 
 void ToothContainer::formatBridges(const std::vector<int>& indexes)

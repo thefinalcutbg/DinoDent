@@ -1,7 +1,5 @@
 #pragma once
-#include <array>
 #include <vector>
-#include <memory>
 #include "Model/Tooth/Tooth.h"
 
 static constexpr int teethCount = 32;
@@ -13,8 +11,6 @@ class ToothContainer
 
 public:
 	ToothContainer();
-	ToothContainer(const ToothContainer& other);
-	ToothContainer(ToothContainer&& other) noexcept;
 
 	void formatBridges(const std::vector<int>& selectedIndexes);
 	void removeBridge(int tooth_idx);
@@ -33,7 +29,7 @@ public:
 	Tooth& at(int index) { return (*this)[index]; }
 	const Tooth& at(int index) const { return(*this)[index]; }
 
-	ToothContainer& operator=(const ToothContainer& other);
+
 	const Tooth& operator [](int tooth) const;
 	Tooth& operator [](int index);
 

@@ -103,7 +103,7 @@ void PatientSummaryPresenter::openCurrentDocument()
     if (frame->LPK != User::doctor().LPK)
     {
         ModalDialogBuilder::showMessage(
-            u8"Документът принадлежи на друг доктор и не може да бъде отворен"
+            u8"Документът принадлежи на друг доктор и не може да бъде отворен за корекция"
         );
         return;
     }

@@ -17,8 +17,8 @@ std::vector<TimeFrame> DbPatientSummary::getFrames(long long patientRowId)
         "procedure.day, "
         "amblist.month, "
         "amblist.year, "
-        "amblist.status_json "
-
+        "amblist.status_json, "
+        "amblist.day "
 
         "FROM amblist LEFT JOIN procedure ON "
         "amblist.rowid = procedure.amblist_rowid "
@@ -30,6 +30,9 @@ std::vector<TimeFrame> DbPatientSummary::getFrames(long long patientRowId)
 
     while (db.hasRows())
     {
+        //if the day of the procedure is 0, then there are none
+        bool listHasProcedures = db.asBool(3);
+
         timeFrames.push_back(
             TimeFrame
             {
@@ -39,7 +42,8 @@ std::vector<TimeFrame> DbPatientSummary::getFrames(long long patientRowId)
                db.asString(2),
 
                Date{
-                    db.asInt(3),
+                //if there are no procedures, the amblist day is taken
+                    listHasProcedures ? db.asInt(3) : db.asInt(7),
                     db.asInt(4),
                     db.asInt(5)
                },
@@ -50,16 +54,21 @@ std::vector<TimeFrame> DbPatientSummary::getFrames(long long patientRowId)
       
             Parser::parse(db.asString(6), timeFrames.back().teeth);
 
-            //inserting InitialAmb if necessary:
+
             int currentIdx = timeFrames.size() - 1;
             
+            //inserting InitialAmb if necessary:
             if (currentIdx == 0 
                 ||
                 timeFrames[currentIdx - 1].rowid != timeFrames[currentIdx].rowid)
             {
                 timeFrames.back().type = TimeFrameType::InitialAmb;
-                timeFrames.push_back(timeFrames.back());
-                timeFrames.back().type = TimeFrameType::Procedures;
+
+                if (listHasProcedures) {
+                    timeFrames.push_back(timeFrames.back());
+                    timeFrames.back().type = TimeFrameType::Procedures;
+                }
+
 
             }
     }

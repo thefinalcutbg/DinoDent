@@ -25,7 +25,7 @@ std::vector<std::vector<int> > selectionCutter(const std::vector<int>& indexes)
 
 
 template <auto ptr>
-void formatSelection(const std::vector<int>& selection, std::array<Tooth, 32>& teeth)
+void formatSelection(const std::vector<int>& selection, std::vector<Tooth>& teeth)
 {
 
 	if (selection.size() == 1) //case in which only one tooth is selected
@@ -77,7 +77,7 @@ void formatSelection(const std::vector<int>& selection, std::array<Tooth, 32>& t
 
 
 template<auto ptr>
-std::pair<int, int> getConstructionRange(const std::array<Tooth, teethCount>& teeth, int tooth_idx)
+std::pair<int, int> getConstructionRange(const std::vector<Tooth>& teeth, int tooth_idx)
 {
 	int begin{ tooth_idx }, end{ tooth_idx };
 

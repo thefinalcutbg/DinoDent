@@ -6,32 +6,45 @@
 constexpr int defaultSurfaces[32] = { 0,0,0,0,0,3,3,3,3,3,3,0,0,0,0,0,0,0,0,0,0,3,3,3,3,3,3,0,0,0,0,0 };
 
 ToothContainer::ToothContainer(){
-	teeth = std::make_unique<std::array<Tooth, teethCount>>();
+
+	teeth.reserve(teethCount);
 	for (int i = 0; i < teethCount; i++)
 	{
-		teeth->at(i).setIndex(i);
-		teeth->at(i).caries.setDefaultSurface(defaultSurfaces[i]);
-		teeth->at(i).obturation.setDefaultSurface(defaultSurfaces[i]);
+		teeth.emplace_back();
+		teeth.back().setIndex(i);
+		teeth.back().caries.setDefaultSurface(defaultSurfaces[i]);
+		teeth.back().obturation.setDefaultSurface(defaultSurfaces[i]);
 	}
 }
 
 ToothContainer::ToothContainer(const ToothContainer& other){
-    teeth = std::make_unique<std::array<Tooth, teethCount>>();
-    for (int i = 0; i < teethCount; i++) teeth->at(i) = other.teeth->at(i);
-}
 
+	teeth.reserve(teethCount);
+
+    for (int i = 0; i < teethCount; i++) teeth.push_back(other[i]);
+}
+#include "View/ModalDialogBuilder.h"
 ToothContainer::ToothContainer(ToothContainer&& other) noexcept
 	:
 	teeth(std::move(other.teeth))
 {}
 
+const Tooth& ToothContainer::operator[](int index) const
+{
+	if (teeth.empty()) throw std::invalid_argument("container has been moved");
+
+	if (index >= teethCount || index < 0) throw std::invalid_argument("index out of range");
+
+	return teeth.at(index);
+}
+
+
 Tooth& ToothContainer::operator[](int index)
 {
-    if (teeth == nullptr) throw std::invalid_argument("container has been moved");
-
+  
     if (index >= teethCount || index < 0) throw std::invalid_argument("index out of range");
 
-    return teeth->at(index);
+    return teeth.at(index);
 }
 
 int ToothContainer::getMissingTeethCount(bool countWisdom) const
@@ -40,7 +53,7 @@ int ToothContainer::getMissingTeethCount(bool countWisdom) const
 
 	constexpr int wisdomTeethIdx[4]{ 0, 15, 16, 31 };
 
-	for (const auto& t : *teeth)
+	for (const auto& t : teeth)
 	{
 		for (auto& i : wisdomTeethIdx)
 			if (!countWisdom && t.index == i)
@@ -53,14 +66,6 @@ int ToothContainer::getMissingTeethCount(bool countWisdom) const
 	return missingTeeth;
 }
 
-const Tooth& ToothContainer::operator[](int index) const
-{
-	if (teeth == nullptr) throw std::invalid_argument("container has been moved");
-
-	if (index >= teethCount || index < 0) throw std::invalid_argument("index out of range");
-
-	return teeth->at(index);
-}
 
 
 std::vector<Tooth*> ToothContainer::getSelectedTeethPtr(std::vector<int> selectedIndexes)
@@ -68,7 +73,7 @@ std::vector<Tooth*> ToothContainer::getSelectedTeethPtr(std::vector<int> selecte
 	std::vector<Tooth*> selectedPtr;
 	selectedPtr.reserve(selectedIndexes.size());
 	for (auto i : selectedIndexes)
-		selectedPtr.push_back(&teeth->at(i));
+		selectedPtr.push_back(&teeth.at(i));
 	return selectedPtr;
 }
 
@@ -76,7 +81,8 @@ ToothContainer& ToothContainer::operator=(const ToothContainer& other)
 {
 	if (this == &other) return *this;
 
-	for (int i = 0; i < teethCount; i++) teeth->at(i) = other.teeth->at(i);
+	
+	for (int i = 0; i < teethCount; i++) teeth.push_back(other.teeth.at(i));
 	return *this;
 }
 
@@ -88,18 +94,18 @@ void ToothContainer::formatBridges(const std::vector<int>& indexes)
 
     for (auto selection : selections)
 	{
-        formatSelection<&Tooth::bridge>(selection, *teeth);
-		formatSelection<&Tooth::splint>(selection, *teeth);
+        formatSelection<&Tooth::bridge>(selection, teeth);
+		formatSelection<&Tooth::splint>(selection, teeth);
     }
 }
 
 
 void ToothContainer::removeBridge(int tooth_idx)
 {
-	auto [bridgeBegin, bridgeEnd] = getConstructionRange<&Tooth::bridge>(*teeth, tooth_idx);
+	auto [bridgeBegin, bridgeEnd] = getConstructionRange<&Tooth::bridge>(teeth, tooth_idx);
 
 	for (int i = bridgeBegin; i <= bridgeEnd; i++)
-		teeth->at(i).bridge.set(false);
+		teeth.at(i).bridge.set(false);
 
 }
 
@@ -108,13 +114,13 @@ void ToothContainer::setToothDetails(const Tooth& tooth)
 {
 	int idx = tooth.index;
 
-	auto [bridgeBegin, bridgeEnd] = getConstructionRange<&Tooth::bridge>(*teeth, idx);
+	auto [bridgeBegin, bridgeEnd] = getConstructionRange<&Tooth::bridge>(teeth, idx);
 
 	auto& bridgeStat = tooth.bridge;
 
 	for (int i = bridgeBegin; i <= bridgeEnd; i++)
 	{
-		auto& bridge = teeth->at(i).bridge;
+		auto& bridge = teeth.at(i).bridge;
 		bridge.set(bridgeStat.exists());
 		bridge.data = bridgeStat.data;
 		bridge.LPK = bridgeStat.LPK;
@@ -122,15 +128,15 @@ void ToothContainer::setToothDetails(const Tooth& tooth)
 
 	auto& splitStat = tooth.splint;
 
-	auto [splintBegin, splintEnd] = getConstructionRange<&Tooth::splint>(*teeth, idx);
+	auto [splintBegin, splintEnd] = getConstructionRange<&Tooth::splint>(teeth, idx);
 
 	for (int i = splintBegin; i <= splintEnd; i++)
 	{
-		auto& splint = teeth->at(i).splint;
+		auto& splint = teeth.at(i).splint;
 		splint.set(splitStat.exists());
 		splint.LPK = splitStat.LPK;
 	}
 
-	teeth->at(idx) = tooth;
+	teeth.at(idx) = tooth;
 
 }

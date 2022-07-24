@@ -40,36 +40,37 @@ PatientSummaryPresenter::PatientSummaryPresenter(ITabView* view, TabPresenter* t
     //inserting perioTimeFrames into their corresponding locations:
 
     for (int i = 0; i < perioStatuses.size(); i++) {
-        TimeFrame t{
+
+        TimeFrame perioFrame{
             TimeFrameType::Perio,
             perioStatuses[i].rowid,
             {},
             perioStatuses[i].LPK,
             perioStatuses[i].date,
-            {},
+            ToothContainer{},
             {},
             perioStatuses[i]
 
         };
 
-        int instertAtIdx = 0;
+        int insertAtIdx = 0;
         
         for (int y = 0; y < statusTimeFrame.size(); y++) {
-            if (statusTimeFrame[y].date > t.date)
+
+            if (statusTimeFrame[y].date > perioFrame.date)
             {
-                //getting the tooth status from previous frame
-                if (y) {
-                    t.teeth = statusTimeFrame[y - 1].teeth;
-                }
-                
                 //the position at which the perio status frame should be inserted:
-                instertAtIdx = y;
+                insertAtIdx = y;
                 break;
             }
         }
+        
+        statusTimeFrame.insert(statusTimeFrame.begin() + insertAtIdx, perioFrame);
 
-        statusTimeFrame.insert(statusTimeFrame.begin() + instertAtIdx, t);
-
+        //getting status from the previous timeframe
+        if (insertAtIdx) {
+            statusTimeFrame[insertAtIdx].teeth = statusTimeFrame[insertAtIdx - 1].teeth;
+        }
     }
 
     //applying periostatus to all other timeframes

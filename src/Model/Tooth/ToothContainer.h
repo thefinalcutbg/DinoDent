@@ -9,7 +9,7 @@ static constexpr int teethCount = 32;
 class ToothContainer
 {
 
-	std::unique_ptr<std::array<Tooth, teethCount>> teeth;
+	std::vector<Tooth> teeth;
 
 public:
 	ToothContainer();
@@ -21,10 +21,10 @@ public:
 
 	void setToothDetails(const Tooth& tooth);
 
-	auto begin() { return teeth->begin(); }
-	auto end() { return teeth->end(); }
-	auto begin() const { return teeth->begin(); }
-	auto end() const { return teeth->end(); };
+	auto begin() { return teeth.begin(); }
+	auto end() { return teeth.end(); }
+	auto begin() const { return teeth.begin(); }
+	auto end() const { return teeth.end(); };
 
 	constexpr int size() const { return teethCount; }
 

@@ -52,7 +52,7 @@ public:
 	virtual bool saveAs() override;
 	virtual bool isNew() override;
 	virtual void print() override;
-	virtual void setCurrent() override;
+	virtual void setDataToView() override;
 	virtual void prepareSwitch() override;
 	virtual TabName getTabName() override;
 

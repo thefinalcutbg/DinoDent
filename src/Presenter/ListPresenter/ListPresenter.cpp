@@ -128,7 +128,7 @@ bool ListPresenter::save()
 
     edited = false;
 
-    _tabView->changeTabName(getTabName());
+    refreshTabName();
 
     return true;
 
@@ -170,7 +170,7 @@ bool ListPresenter::saveAs()
 
     edited = false;
 
-    _tabView->changeTabName(getTabName());
+    refreshTabName();
 
     return true;
 }
@@ -186,7 +186,7 @@ void ListPresenter::print()
     Print::ambList(m_ambList, *patient);
 }
 
-void ListPresenter::setCurrent()
+void ListPresenter::setDataToView()
 {
     
     view->setPresenter(this);
@@ -216,9 +216,6 @@ void ListPresenter::setCurrent()
 
     refreshProcedureView();
 
-    _tabView->showListView();
-
-    setScrollPosition();
    
 }
 

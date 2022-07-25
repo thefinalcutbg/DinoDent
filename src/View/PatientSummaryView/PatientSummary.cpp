@@ -39,6 +39,7 @@ PatientSummary::PatientSummary(QWidget *parent)
 		auto f = ui.dateFrom->date();
 		auto t = ui.dateTo->date();
 
+		if (presenter)
 		presenter->pricePeriodChanged(
 			Date(f.day(), f.month(), f.year()),
 			Date(t.day(), t.month(), t.year())
@@ -47,17 +48,18 @@ PatientSummary::PatientSummary(QWidget *parent)
 
 	connect(ui.dateFrom, &QDateEdit::dateChanged, [=]() { getDateFromView();});
 	connect(ui.dateTo, &QDateEdit::dateChanged, [=]() { getDateFromView();});
+	
 
 	connect(buccalScene, &QGraphicsScene::selectionChanged, [=] {
 			auto idx = buccalScene->selectedTooth();
 			lingualScene->setSelectedTooth(idx);
-			presenter->toothSelected(idx);
+			if (presenter) presenter->toothSelected(idx);
 		});
 
 	connect(lingualScene, &QGraphicsScene::selectionChanged, [=] {
 			auto idx = lingualScene->selectedTooth();
 			buccalScene->setSelectedTooth(idx);
-			presenter->toothSelected(idx);
+			if (presenter) presenter->toothSelected(idx);
 		});
 
 
@@ -66,12 +68,14 @@ PatientSummary::PatientSummary(QWidget *parent)
 	connect(ui.showLingual, &QPushButton::clicked, this,
 		[=] {
 				ui.teethView->setScene(lingualScene);
+				if (presenter) presenter->teethViewButtonClicked(false);
 		}
 	);
 
 	connect(ui.showBuccal, &QPushButton::clicked, this,
 		[=] {
 			ui.teethView->setScene(buccalScene);
+			if(presenter) presenter->teethViewButtonClicked(true);
 		}
 	);
 
@@ -80,13 +84,12 @@ PatientSummary::PatientSummary(QWidget *parent)
 				bool show = ui.showPerio->isChecked();
 				lingualScene->showPerio(show);
 				buccalScene->showPerio(show);
-
+				if(presenter) presenter->perioCheckBoxClicked(show);
+		
 		}
 	);
 
-	ui.showPerio->setChecked(true);
-	lingualScene->showPerio(true);
-	buccalScene->showPerio(true);
+
 }
 
 PatientSummary::~PatientSummary()
@@ -148,44 +151,6 @@ void PatientSummary::paintEvent(QPaintEvent* event)
 void PatientSummary::setPresenter(PatientSummaryPresenter* presenter)
 {
 	this->presenter = presenter;
-}
-
-void PatientSummary::setTickPosition(int idx)
-{
-	ui.dateSlider->setValue(idx);
-}
-
-
-void PatientSummary::setTimeFrameCount(int count)
-{
-	bool noData = count == 0;
-
-	ui.openButton->setHidden(noData);
-	ui.dateSlider->setHidden(noData);
-	ui.showBuccal->setHidden(noData);
-	ui.showLingual->setHidden(noData);
-	ui.showPerio->setHidden(noData);
-
-	if (noData) {
-		ui.teethView->setScene(emptyScene);
-		ui.hStack->setCurrentIndex(0);
-		ui.vStack->setCurrentIndex(0);
-		ui.docName->setText("Не са открити данни за този пациент");
-		ui.docDate->clear();
-		ui.docDoctor->clear();
-		return;
-	}
-	else
-	{
-		//THE STATE SHOULD BE KEPT IN THE PRESENTER!!!!
-		ui.showBuccal->isChecked() ?
-			ui.teethView->setScene(buccalScene)
-			:
-			ui.teethView->setScene(lingualScene);
-	}
-
-	ui.dateSlider->setRange(0, count - 1);
-	
 }
 
 void PatientSummary::setPatient(const Patient& patient)
@@ -270,28 +235,73 @@ void PatientSummary::setToothInfo(const ToothInfoStr& info)
 
 }
 
-void PatientSummary::setSelectedTooth(int toothIdx)
-{
-	if (toothIdx == -1) {
-		ui.vStack->setCurrentIndex(0);
-	}
-	buccalScene->setSelectedTooth(toothIdx);
-	lingualScene->setSelectedTooth(toothIdx);
-}
+
 
 #include "View/GlobalFunctions.h"
 
 void PatientSummary::setPrice(const PriceInfoStr& p)
 {
-	QSignalBlocker b1(ui.dateFrom);
-	QSignalBlocker b2(ui.dateTo);
-
-	ui.dateFrom->setDate(QDate(p.from.year, p.from.month, p.from.day));
-	ui.dateTo->setDate(QDate(p.to.year, p.to.month, p.to.day));
-
 	ui.priceLabel->setText(
 		u8"Платени: <b>" + priceToString(p.price) + "</b>" +
 		u8" НЗОК: <b>" + priceToString(p.nzok) + "</b>"
 	);
+}
+
+void PatientSummary::setUiState(const SummaryState& s)
+{
+	//ui.dateTo will still emit the signal
+	QSignalBlocker b(ui.dateFrom);
+	ui.dateFrom->setDate(QDate(s.from.year, s.from.month, s.from.day));
+	ui.dateTo->setDate(QDate(s.to.year, s.to.month, s.to.day));
+
+	bool noData = s.noData();
+
+	ui.openButton->setHidden(noData);
+	ui.dateSlider->setHidden(noData);
+	ui.showBuccal->setHidden(noData);
+	ui.showLingual->setHidden(noData);
+	ui.showPerio->setHidden(noData);
+
+	if (noData) {
+		ui.teethView->setScene(emptyScene);
+		ui.hStack->setCurrentIndex(0);
+		ui.vStack->setCurrentIndex(0);
+		ui.docName->setText(u8"Не са открити данни за този пациент");
+		ui.docDate->clear();
+		ui.docDoctor->clear();
+		return;
+	}
+
+
+		if (s.buccalSelected) {
+			ui.showBuccal->setChecked(true);
+			ui.showBuccal->click();
+		}
+		else {
+			ui.showLingual->setChecked(true);
+			ui.showLingual->click();
+		}
+			
+
+
+	ui.dateSlider->setRange(0, s.frameCount - 1);
+
+	ui.dateSlider->setValue(s.currentIdx);
+	presenter->setCurrentFrame(s.currentIdx);
+
+	ui.showPerio->setChecked(s.showPerioGraph);
+	lingualScene->showPerio(s.showPerioGraph);
+	buccalScene->showPerio(s.showPerioGraph);
+	
+	if (s.selectedTooth == -1) {
+		ui.vStack->setCurrentIndex(0);
+		
+	}
+	
+	buccalScene->setSelectedTooth(s.selectedTooth);
+	lingualScene->setSelectedTooth(s.selectedTooth);
+
+	
+	
 }
 

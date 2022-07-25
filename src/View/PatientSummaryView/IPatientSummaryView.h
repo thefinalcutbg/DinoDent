@@ -19,18 +19,27 @@ struct ToothInfoStr {
 };
 
 struct PriceInfoStr {
-	Date from;
-	Date to;
+
 	double price;
 	double nzok;
+};
+
+struct SummaryState
+{
+	int frameCount{ 0 };
+	int currentIdx{ -1 };
+	Date from{ 1,1,2020 };
+	Date to{ Date::currentDate() };
+	bool buccalSelected{true};
+	bool showPerioGraph{false};
+	int selectedTooth{ -1 };
+	bool noData() const { return frameCount==0; };
 };
 
 class IPatientSummaryView
 {
 public:
 	virtual void setPresenter(PatientSummaryPresenter* presenter) = 0;
-	virtual void setTimeFrameCount(int count) = 0;
-	virtual void setTickPosition(int idx) = 0;
 	virtual void setPatient(const Patient& patient) = 0;
 	virtual void setTeeth(const std::array<ToothPaintHint, 32>& teeth) = 0;
 	virtual void setProcedures(const std::vector<Procedure>& p) = 0;
@@ -39,7 +48,7 @@ public:
 	virtual void setPerioStatistic(const PerioStatistic& stat) = 0;
 	virtual void setDocumentLabel(const std::string& label, const std::string& date, const std::string& doctor) = 0;
 	virtual void setToothInfo(const ToothInfoStr& info) = 0;
-	virtual void setSelectedTooth(int toothIdx) = 0;
 	virtual void setPrice(const PriceInfoStr& priceLabel) = 0;
+	virtual void setUiState(const SummaryState& state) = 0;
 
 };

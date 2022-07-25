@@ -260,7 +260,9 @@ bool PerioPresenter::save()
         return saveAs();
 
     DbPerio::updatePerioStatus(m_perioStatus);
-    _tabView->changeTabName(getTabName());
+    
+    refreshTabName();
+
     edited = false;
 
     return true;
@@ -282,7 +284,8 @@ bool PerioPresenter::saveAs()
     }
 
 
-    _tabView->changeTabName(getTabName());
+    refreshTabName();
+
     edited = false;
 
     return true;
@@ -297,10 +300,9 @@ void PerioPresenter::print()
 {
 }
 
-void PerioPresenter::setCurrent()
+void PerioPresenter::setDataToView()
 {
     view->setPresenter(this);
-    _tabView->showPerioView();
 
     for (int i = 0; i < 32; i++){
         view->setToothHint(ToothHintCreator::getToothHint(m_toothStatus[i]));
@@ -329,8 +331,6 @@ void PerioPresenter::setCurrent()
     view->setPatient(*patient.get(), m_perioStatus.date);
 
     view->setTeethView(m_teethShow);
-
-    setScrollPosition();
 
 }
 

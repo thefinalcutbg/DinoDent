@@ -18,9 +18,11 @@ class TabInstance
 {
 
 	ScrollPos m_scrollPos;
+	ITabView* _tabView;
+	void setScrollPosition() { _tabView->setScrollPos(m_scrollPos); }
 
 protected:
-	ITabView* _tabView;
+
 
 	bool edited{ false };
 
@@ -34,6 +36,11 @@ protected:
 		_tabView->changeTabName(tabName);
 	}
 
+	void refreshTabName() { _tabView->changeTabName(getTabName()); }
+
+	virtual void setDataToView() = 0;
+
+
 public:
 	const TabType type;
 
@@ -41,7 +48,7 @@ public:
 
 	TabInstance(ITabView* tabView, TabType type, std::shared_ptr<Patient> patient) : _tabView(tabView), type(type), patient(patient) {  };
 
-	
+
 
 	bool requiresSaving() { return edited || isNew(); }
 
@@ -73,13 +80,28 @@ public:
 	}
 
 	virtual void print() = 0;
-	virtual void setCurrent() = 0;
+
+
+
+	void setCurrent() {
+
+		setDataToView();
+
+		switch (type)
+		{
+		case TabType::AmbList: _tabView->showListView(); break;
+		case TabType::PerioList: _tabView->showPerioView(); break;
+		case TabType::PatientSummary: _tabView->summaryView(); break;
+		case TabType::Financial:_tabView->showFinancialView(); break;
+		}
+
+		setScrollPosition();
+	}
+
 	virtual bool isNew() = 0;
 	virtual TabName getTabName() = 0;
 
-protected:
 
-	void setScrollPosition() {_tabView->setScrollPos(m_scrollPos);}
 
 
 public:

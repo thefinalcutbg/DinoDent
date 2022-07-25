@@ -58,7 +58,7 @@ public:
     bool isNew() override;
     void print() override;
     TabName getTabName() override;
-    void setCurrent() override;
+    void setDataToView() override;
 
     void openPatientDialog();
     void openAllergiesDialog();

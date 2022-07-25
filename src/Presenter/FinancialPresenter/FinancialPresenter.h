@@ -37,7 +37,7 @@ public:
 	bool save() override;
 	bool saveAs() override;
 	void print() override;
-	void setCurrent() override;
+	void setDataToView() override;
 	bool isNew() override;
 	TabName getTabName() override;
 };

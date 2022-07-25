@@ -17,23 +17,25 @@
 
 TimeFrame* PatientSummaryPresenter::currentFrame()
 {
-    if (m_currentFrameIdx < 0 ||
-        m_currentFrameIdx >= statusTimeFrame.size()) 
+    if (state.currentIdx < 0 ||
+        state.currentIdx >= statusTimeFrame.size()) 
     {
         return nullptr;
     }
 
-    return &statusTimeFrame[m_currentFrameIdx];
+    return &statusTimeFrame[state.currentIdx];
 }
 
 PatientSummaryPresenter::PatientSummaryPresenter(ITabView* view, TabPresenter* tabPresenter, std::shared_ptr<Patient> patient)
     :   TabInstance(view, TabType::PatientSummary, patient), 
         view(view->summaryView()),
          tab_presenter(tabPresenter),
-        m_currentFrameIdx{ -1 },
+
         statusTimeFrame(DbPatientSummary::getFrames(patient->rowid))
 {
     auto perioStatuses = DbPerio::getAllPerioStatuses(patient->rowid);
+
+    state.showPerioGraph = !perioStatuses.empty();
 
     statusTimeFrame.reserve(statusTimeFrame.size() + perioStatuses.size());
 
@@ -90,7 +92,8 @@ PatientSummaryPresenter::PatientSummaryPresenter(ITabView* view, TabPresenter* t
         }
     }
 
-    if (statusTimeFrame.size()) m_currentFrameIdx = 0;
+    state.frameCount = statusTimeFrame.size();
+    if (state.frameCount) state.currentIdx = 0;
 
     //getting the price period:
 
@@ -100,11 +103,11 @@ PatientSummaryPresenter::PatientSummaryPresenter(ITabView* view, TabPresenter* t
         for (auto& p : frame.procedures)
         {
             if (!firstFound) {
-                m_dateFrom = p.date;
+                state.from = p.date;
                 firstFound = true;
             }
 
-            m_dateTo = p.date;
+            state.to = p.date;
         }
 
 }
@@ -148,8 +151,8 @@ void PatientSummaryPresenter::pricePeriodChanged(const Date& from, const Date& t
     double price = 0;
     double nzokPrice = 0;
 
-    m_dateFrom = from;
-    m_dateTo = to;
+    state.from = from;
+    state.to = to;
 
     for (auto& frame : statusTimeFrame)
         for (auto& p : frame.procedures)        
@@ -174,21 +177,21 @@ void PatientSummaryPresenter::pricePeriodChanged(const Date& from, const Date& t
 finish:
 
     
-    view->setPrice(PriceInfoStr{ from, to, price, nzokPrice });
+    view->setPrice(PriceInfoStr{ price, nzokPrice });
 
 }
 
 void PatientSummaryPresenter::setCurrentFrame(int index)
 {
-    m_currentFrameIdx = index;
-
-    toothSelected(m_selectedTooth);
+    state.currentIdx = index;
 
     auto frame = currentFrame();
 
     if (!frame) return;
 
-    view->setTeeth(ToothHintCreator::getTeethHint(statusTimeFrame[m_currentFrameIdx].teeth));
+    toothSelected(state.selectedTooth);
+
+    view->setTeeth(ToothHintCreator::getTeethHint(frame->teeth));
     view->setPerioData(PerioWithDisabled(frame->perioData));
  
     view->setDocumentLabel(
@@ -225,6 +228,8 @@ void PatientSummaryPresenter::openPatientDialog()
     *this->patient = patient.value();
 
     view->setPatient( *this->patient.get() );
+
+    refreshTabName();
 }
 
 void PatientSummaryPresenter::openAllergiesDialog()
@@ -256,33 +261,23 @@ void PatientSummaryPresenter::print()
 }
 
 
-void PatientSummaryPresenter::setCurrent()
+void PatientSummaryPresenter::setDataToView()
 {
     view->setPresenter(this);
 
     view->setPatient(*patient.get());
 
-    view->setSelectedTooth(m_selectedTooth);
-    view->setTimeFrameCount(statusTimeFrame.size());
-
-    setCurrentFrame(m_currentFrameIdx);
-
-    view->setTickPosition(m_currentFrameIdx);
-
-    _tabView->showSummaryView();
+    view->setUiState(state);
 }
 
 void PatientSummaryPresenter::toothSelected(int toothIdx)
 {
-    m_selectedTooth = toothIdx;
+    state.selectedTooth = toothIdx;
 
     auto frame = currentFrame();
 
-    if (toothIdx == -1 || !frame) {
-        //set no toothInfo in the view
-        pricePeriodChanged(m_dateFrom, m_dateTo);
-        return;
-    }
+    if (toothIdx == -1 || !frame)  return;
+
 
     view->setToothInfo(ToothInfoStr{
             frame->teeth[toothIdx].toothName(),
@@ -290,6 +285,16 @@ void PatientSummaryPresenter::toothSelected(int toothIdx)
             patient->teethNotes[toothIdx]
         });
     
+}
+
+void PatientSummaryPresenter::teethViewButtonClicked(bool showBuccal)
+{
+    state.buccalSelected = showBuccal;
+}
+
+void PatientSummaryPresenter::perioCheckBoxClicked(bool checked)
+{
+    state.showPerioGraph = checked;
 }
 
 

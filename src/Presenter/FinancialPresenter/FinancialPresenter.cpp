@@ -251,7 +251,7 @@ bool FinancialPresenter::save()
 
     edited = false;
 
-    _tabView->changeTabName(getTabName());
+    refreshTabName();
 
 	return true;
 }
@@ -286,7 +286,7 @@ bool FinancialPresenter::saveAs()
 
     edited = false;
 
-    _tabView->changeTabName(getTabName());
+    refreshTabName();
 
     return true;
 
@@ -298,7 +298,7 @@ void FinancialPresenter::print()
     Print::invoice(m_invoice);
 }
 
-void FinancialPresenter::setCurrent()
+void FinancialPresenter::setDataToView()
 {
     
     view->setPresenter(this);
@@ -309,8 +309,6 @@ void FinancialPresenter::setCurrent()
 
 
     view->setInvoice(m_invoice);
-
-    _tabView->showFinancialView();
     
 }
 

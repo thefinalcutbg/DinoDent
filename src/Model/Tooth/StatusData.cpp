@@ -9,12 +9,10 @@ inline std::string getInfoResult(
 	const std::string& suffix
 )
 {
-	if (!i || i >= T) return "";
+	if (i == 0 || i >= T) return "";
 	
 	return description + arr[i].data() + suffix;
 }
-
-
 
 
 std::string ObturationData::infoStr() const
@@ -41,17 +39,16 @@ const std::array<std::string_view, 5>& CrownData::prepTypes()
 	return crownPrep;
 }
 
-
 std::string CrownData::infoStr()
 {
 	std::string result;
 
 	result += getInfoResult(prep_type, prepTypes(), "", "<br>");
 
-	if (material.size()) result += "Материал: " + material + "<br>";
+	if (material.size()) { result += "Материал: " + material + "<br>"; }
 
 	if (color.getIndex()) {
-		result = u8"Цвят: " + std::string(color.getColorString()) + "<br> ";
+		result += u8"Цвят: " + std::string(color.getColorString()) + "<br> ";
 	}
 
 	return result;

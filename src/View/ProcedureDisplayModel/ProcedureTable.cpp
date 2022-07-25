@@ -92,6 +92,7 @@ void ProcedureTable::setProcedureHistoryLayout()
     horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
     horizontalHeader()->setSectionResizeMode(4, QHeaderView::Stretch);
     horizontalHeader()->setSectionResizeMode(8, QHeaderView::Stretch);
+    setSelectionMode(QAbstractItemView::SelectionMode::NoSelection);
     setShowGrid(false);
 }
 

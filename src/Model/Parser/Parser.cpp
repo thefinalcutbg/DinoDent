@@ -520,7 +520,7 @@ void Parser::parse(const std::string& jsonString, Procedure& procedure)
 			json["post"].asBool(),
 			ObturationData
 			{
-				json["color"].asInt(),
+				VitaColor(json["color"].asInt()),
 				json["material"].asString()
 
 			}
@@ -541,7 +541,7 @@ void Parser::parse(const std::string& jsonString, Procedure& procedure)
 		{
 			json["material"].asString(),
 			json["prep"].asInt(),
-			json["color_idx"].asInt()
+			VitaColor(json["color_idx"].asInt())
 		};
 
 		break;
@@ -557,7 +557,7 @@ void Parser::parse(const std::string& jsonString, Procedure& procedure)
 			{
 				json["material"].asString(),
 				json["prep"].asInt(),
-				json["color_idx"].asInt()
+				VitaColor(json["color_idx"].asInt())
 			}
 
 		};
@@ -589,7 +589,7 @@ void Parser::parse(const std::string& jsonString, Procedure& procedure)
 		json["end"].asInt(),
 
 		ObturationData{
-				json["color"].asInt(),
+				VitaColor(json["color"].asInt()),
 				json["material"].asString()
 				}
 		};

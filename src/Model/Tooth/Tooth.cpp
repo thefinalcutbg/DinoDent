@@ -284,18 +284,18 @@ std::string Tooth::getToothInfo()
 	if (bridge) {
 		
 		extraction ?
-			result.append(u8"<br><br><b>Мостово тяло</b><br>")
+			result.append(u8"<br><b>Мостово тяло</b><br>")
 			:
-			result.append(u8"<br><br><b>Мостоносител</b><br>");
+			result.append(u8"<br><b>Мостоносител</b><br>");
 
 		result.append(bridge.data.infoStr());
 	}
 	else if (extraction) {
-		result.append(u8"<br><br><b>Екстрахиран</b><br>");
+		result.append(u8"<br><b>Екстрахиран</b><br>");
 	}
 
 	if (implant) {
-		result.append(u8"<br><br><b>Имплант</b><br>");
+		result.append(u8"<br><b>Имплант</b><br>");
 		result.append(implant.data.infoStr());
 	}
 
@@ -306,15 +306,15 @@ std::string Tooth::getToothInfo()
 	for (auto p : pato) {
 		if (!p->exists()) continue;
 
-		result.append("<br><br><b><font color=\"red\">" + p->info() + "</font></b><br>"
+		result.append("<br><b><font color=\"red\">" + p->info() + "</font></b><br>"
 					+u8" (диагностициран на " + p->data.date_diagnosed.toString(true) + ")<br>");
 	}
 
-	if (periodontitis) { result.append(u8"<br><br><b><font color=\"red\">Пародонтит</font></b><br>");
+	if (periodontitis) { result.append(u8"<br><b><font color=\"red\">Пародонтит</font></b><br>");
 }
 	if (mobility) {
 
-		result.append("<br><br><b><font color = \"red\">");
+		result.append("<br><b><font color = \"red\">");
 
 		switch (mobility.degree) {
 		case Degree::First: result.append(u8"Първа степен подвижност"); break;

@@ -281,7 +281,7 @@ void AmbListSelector::setPatientMode(bool enable)
 	enable ?
 		ui.tableView->setSelectionMode(QAbstractItemView::SingleSelection)
 		:
-		ui.tableView->setSelectionMode(QAbstractItemView::SelectionMode::MultiSelection);
+		ui.tableView->setSelectionMode(QAbstractItemView::SelectionMode::ContiguousSelection);
 		    
 }
 

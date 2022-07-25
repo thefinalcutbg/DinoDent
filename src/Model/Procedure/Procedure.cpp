@@ -2,7 +2,7 @@
 #include "Model/Tooth/ToothContainer.h"
 
 
-
+#include <QDebug>
 void Procedure::applyProcedure(ToothContainer& teeth) const
 {
 

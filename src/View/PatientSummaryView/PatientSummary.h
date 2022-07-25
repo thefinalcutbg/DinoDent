@@ -22,6 +22,7 @@ private:
 	
 	TeethBuccalScene* buccalScene;
 	TeethLingualScene* lingualScene;
+	QGraphicsScene* emptyScene;
 	
 public:
 
@@ -40,8 +41,10 @@ public:
 	void setInitialAmbList() override;
 	void setPerioStatistic(const PerioStatistic& stat) override;
 	void setDocumentLabel(const std::string& label, const std::string& date, const std::string& doctor) override;
-	void setToothInfo(const std::string& info) override;
+	void setToothInfo(const ToothInfoStr& info) override;
 	void setSelectedTooth(int toothIdx) override;
+	void setPrice(const PriceInfoStr& priceLabel) override;;
+
 private:
 	Ui::PatientSummary ui;
 };

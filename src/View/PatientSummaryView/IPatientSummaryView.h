@@ -12,6 +12,19 @@ struct PerioWithDisabled;
 struct Patient;
 class PerioStatistic;
 
+struct ToothInfoStr {
+	std::string label;
+	std::string info;
+	std::string notes;
+};
+
+struct PriceInfoStr {
+	Date from;
+	Date to;
+	double price;
+	double nzok;
+};
+
 class IPatientSummaryView
 {
 public:
@@ -25,7 +38,8 @@ public:
 	virtual void setInitialAmbList() = 0;
 	virtual void setPerioStatistic(const PerioStatistic& stat) = 0;
 	virtual void setDocumentLabel(const std::string& label, const std::string& date, const std::string& doctor) = 0;
-	virtual void setToothInfo(const std::string& info) = 0;
+	virtual void setToothInfo(const ToothInfoStr& info) = 0;
 	virtual void setSelectedTooth(int toothIdx) = 0;
+	virtual void setPrice(const PriceInfoStr& priceLabel) = 0;
 
 };

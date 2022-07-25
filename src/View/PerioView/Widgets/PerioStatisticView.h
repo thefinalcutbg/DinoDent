@@ -12,6 +12,8 @@ class PerioStatisticView : public QWidget
 
 	HexagonGraphicsItem* hexagonGraphicsItem;
 
+	void paintEvent(QPaintEvent* event);
+
 public:
 	PerioStatisticView(QWidget *parent = nullptr);
 	void setPerioStatistic(const PerioStatistic& stat);

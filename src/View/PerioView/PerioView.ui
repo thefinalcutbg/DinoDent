@@ -235,10 +235,10 @@
   <widget class="PerioStatisticView" name="perioStatistics" native="true">
    <property name="geometry">
     <rect>
-     <x>110</x>
-     <y>1030</y>
-     <width>1091</width>
-     <height>393</height>
+     <x>80</x>
+     <y>1050</y>
+     <width>1121</width>
+     <height>361</height>
     </rect>
    </property>
   </widget>

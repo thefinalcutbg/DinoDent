@@ -78,6 +78,8 @@ std::string Tooth::getStringStatus() const
 
 }
 
+
+
 std::vector<std::string> Tooth::getSimpleStatuses() const
 {
 	auto boolStatus = getBoolStatus();
@@ -236,11 +238,15 @@ void Tooth::removeStatus(StatusType type)
 	}
 }
 
+std::string Tooth::toothName() const
+{
+	return ToothUtils::getName(index, temporary.exists());
+}
+
 std::string Tooth::getToothInfo()
 {
 
-	auto result = 
-		"<b><center><font size=10>" + ToothUtils::getName(index, temporary.exists()) + "</font size></center></b><br>";
+	std::string result;
 
 	if (hyperdontic) result.append(u8"<br><b>Свръхброен</b><br>");
 	if (impacted) result.append(u8"<br><b>Ретениран/в пробив</b><br>");

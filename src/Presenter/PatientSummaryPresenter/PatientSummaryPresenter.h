@@ -16,7 +16,8 @@ class PatientSummaryPresenter : public TabInstance
 	int m_currentFrameIdx;
 	std::vector<TimeFrame> statusTimeFrame;
 	int m_selectedTooth{ -1 };
-
+	Date m_dateFrom{ 1,1,2020 };
+	Date m_dateTo{Date::currentDate()};
 
 	//a function for convinience
 	TimeFrame* currentFrame();
@@ -35,6 +36,8 @@ public:
 	bool saveAs() override { return true; };
 	bool isNew() override { return false; };
 	void openCurrentDocument();
+
+	void pricePeriodChanged(const Date& from, const Date& to);
 
 	void print() override;
 	void setCurrent() override;

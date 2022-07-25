@@ -8,6 +8,29 @@ constexpr std::string_view perioStage[5]{ "Здрав пародонт", "Нач
 constexpr std::string_view perioRisk[3]{ "Нисък", "Среден", "Висок" };
 
 
+void PerioStatisticView::paintEvent(QPaintEvent* event)
+{
+	QPainter painter;
+	painter.begin(this);
+	painter.setRenderHint(QPainter::RenderHint::Antialiasing);
+	painter.fillRect(rect(), Theme::background);
+
+	QPainterPath path;
+
+	path.addRoundedRect(
+		QRectF(0, 0, width(), height()),
+		Theme::radius / 2,
+		Theme::radius / 2
+	);
+
+	painter.fillPath(path, Theme::sectionBackground);
+
+	painter.setPen(QPen(Theme::border));
+	painter.drawPath(path);
+
+	painter.end();
+}
+
 PerioStatisticView::PerioStatisticView(QWidget *parent)
 	: QWidget(parent)
 {

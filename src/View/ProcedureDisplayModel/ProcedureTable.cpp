@@ -78,19 +78,20 @@ void ProcedureTable::setProcedureHistoryLayout()
     connect(model(), &QAbstractTableModel::dataChanged, [=] { fitToModel(model()->rowCount());});
 
     hideColumn(0);
-    hideColumn(6);
+   
     setColumnWidth(1, 69);
     setColumnWidth(2, 200);
     setColumnWidth(3, 25);
     setColumnWidth(4, 300);
     setColumnWidth(5, 49);
+    setColumnWidth(6, 70);
     setColumnWidth(7, 69);
     setColumnWidth(8, 140);
     setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
     horizontalHeader()->setSectionResizeMode(4, QHeaderView::Stretch);
-    horizontalHeader()->setSectionResizeMode(7, QHeaderView::Stretch);
+    horizontalHeader()->setSectionResizeMode(8, QHeaderView::Stretch);
     setShowGrid(false);
 }
 

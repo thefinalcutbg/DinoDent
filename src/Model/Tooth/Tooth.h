@@ -53,10 +53,10 @@ public:
 	void setStatus(int code, bool state = true);
 	void removeStatus(StatusType type);
 	std::string getToothInfo();
+	std::string toothName() const;
 
 	//for printing (T status is omitted)
 	std::string getStringStatus() const;
-
 	//for xml report generation
 	std::vector<std::string> getSimpleStatuses() const;
 

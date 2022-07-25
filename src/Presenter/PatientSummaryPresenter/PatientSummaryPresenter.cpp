@@ -13,7 +13,7 @@
 #include "Presenter/TabPresenter/TabPresenter.h"
 #include "Model/TableRows.h"
 #include "Model/User/User.h"
-
+#include "Model/FreeFunctions.h"
 
 TimeFrame* PatientSummaryPresenter::currentFrame()
 {
@@ -92,6 +92,21 @@ PatientSummaryPresenter::PatientSummaryPresenter(ITabView* view, TabPresenter* t
 
     if (statusTimeFrame.size()) m_currentFrameIdx = 0;
 
+    //getting the price period:
+
+    bool firstFound{ false };
+
+    for (auto& frame : statusTimeFrame)
+        for (auto& p : frame.procedures)
+        {
+            if (!firstFound) {
+                m_dateFrom = p.date;
+                firstFound = true;
+            }
+
+            m_dateTo = p.date;
+        }
+
 }
 
 void PatientSummaryPresenter::openCurrentDocument()
@@ -126,6 +141,41 @@ void PatientSummaryPresenter::openCurrentDocument()
             break;
         }
     }
+}
+
+void PatientSummaryPresenter::pricePeriodChanged(const Date& from, const Date& to)
+{
+    double price = 0;
+    double nzokPrice = 0;
+
+    m_dateFrom = from;
+    m_dateTo = to;
+
+    for (auto& frame : statusTimeFrame)
+        for (auto& p : frame.procedures)        
+        {
+            if (p.date < from || p.LPK != User::doctor().LPK) continue;
+            if (p.date > to) goto finish;
+
+            price += p.price;
+
+            if (p.nzok) {
+                nzokPrice +=
+                MasterNZOK::instance().getNZOKPrice(
+                    p.code,
+                    p.date,
+                    User::doctor().specialty,
+                    patient->isAdult(p.date),
+                    false);
+            }
+        }
+
+
+finish:
+
+    
+    view->setPrice(PriceInfoStr{ from, to, price, nzokPrice });
+
 }
 
 void PatientSummaryPresenter::setCurrentFrame(int index)
@@ -210,13 +260,14 @@ void PatientSummaryPresenter::setCurrent()
 {
     view->setPresenter(this);
 
-
     view->setPatient(*patient.get());
-    view->setTimeFrameCount(statusTimeFrame.size());
-    view->setTickPosition(m_currentFrameIdx);  
+
     view->setSelectedTooth(m_selectedTooth);
+    view->setTimeFrameCount(statusTimeFrame.size());
 
     setCurrentFrame(m_currentFrameIdx);
+
+    view->setTickPosition(m_currentFrameIdx);
 
     _tabView->showSummaryView();
 }
@@ -229,11 +280,15 @@ void PatientSummaryPresenter::toothSelected(int toothIdx)
 
     if (toothIdx == -1 || !frame) {
         //set no toothInfo in the view
-        view->setToothInfo({});
+        pricePeriodChanged(m_dateFrom, m_dateTo);
         return;
     }
 
-    view->setToothInfo(frame->teeth.at(toothIdx).getToothInfo());
+    view->setToothInfo(ToothInfoStr{
+            frame->teeth[toothIdx].toothName(),
+            frame->teeth.at(toothIdx).getToothInfo(),
+            patient->teethNotes[toothIdx]
+        });
     
 }
 

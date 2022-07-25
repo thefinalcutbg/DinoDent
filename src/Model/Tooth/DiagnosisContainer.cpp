@@ -1,7 +1,8 @@
 #include "DiagnosisContainer.h"
 #include <JsonCpp/json.h>
 #include <array>
-#include <fstream>
+
+#include "Resources.h"
 
 bool s_init{ false };
 
@@ -20,11 +21,10 @@ void DiagnosisContainer::initialize()
 {
 	if (s_init) return;
 
-	std::ifstream ifs("data/diagnosis.json");
 	Json::Reader reader;
 	Json::Value jDiagList;
 
-	reader.parse(ifs, jDiagList);
+	reader.parse(Resources::defaultDiagnosisListJson(), jDiagList);
 
 	diagListParse(s_diagnosis[DiagnosisType::Caries], jDiagList["caries"]);
 	diagListParse(s_diagnosis[DiagnosisType::Pulpitis], jDiagList["pulpitis"]);

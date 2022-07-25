@@ -214,6 +214,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Resources.cpp" />
     <ClCompile Include="src\Model\TimeFrame.cpp" />
     <ClCompile Include="src\Model\Tooth\Status.cpp" />
     <ClCompile Include="src\Model\Tooth\StatusData.cpp" />
@@ -550,6 +551,7 @@
     <QtMoc Include="src\View\MonthNotifDialog\MonthNotifDialog.h" />
     <QtMoc Include="src\View\PinPromptDialog\PinPromptDialog.h" />
     <QtMoc Include="src\View\ProcedureDisplayModel\KSMPModel.h" />
+    <ClInclude Include="src\Resources.h" />
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\BridgeHelper.h" />
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\EditorPresenter.h" />
     <ClInclude Include="src\Model\KSMP.h" />

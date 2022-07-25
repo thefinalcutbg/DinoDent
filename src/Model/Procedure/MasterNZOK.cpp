@@ -1,7 +1,8 @@
 #include "MasterNZOK.h"
 #include <JsonCpp/json.h>
-#include <fstream>
 #include <tuple>
+
+#include "Resources.h"
 
 MasterNZOK MasterNZOK::_instance;
 
@@ -11,11 +12,11 @@ MasterNZOK::MasterNZOK()
 
 void MasterNZOK::loadData()
 {
-	std::ifstream ifs("data/nzok.json");
+
 	Json::Reader reader;
 	Json::Value p;
 
-	reader.parse(ifs, p);
+	reader.parse(Resources::nzokDataJson(), p);
 
 	//1.Getting all NZOK procedures
 

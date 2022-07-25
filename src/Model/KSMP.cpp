@@ -1,11 +1,12 @@
 #include "KSMP.h"
 
-#include <fstream>
+
 #include <unordered_map>
 #include <tuple>
 #include <array>
-
 #include <JsonCpp/json.h>
+
+#include "Resources.h"
 
 constexpr int procedureTypeCount = 11;
 
@@ -16,11 +17,11 @@ std::array<std::vector<const KSMP*>, procedureTypeCount> ksmpByType;
 
 void KSMP::initialize()
 {
-    std::ifstream ifs("data/ksmp.json");
+
     Json::Value ksmpList = Json::arrayValue;
 
     Json::Reader reader;
-    reader.parse(ifs, ksmpList);
+    reader.parse(Resources::ksmpJson(), ksmpList);
 
     codeToInstance.reserve(ksmpList.size());
    

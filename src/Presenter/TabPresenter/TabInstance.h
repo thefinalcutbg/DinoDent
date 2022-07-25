@@ -89,10 +89,10 @@ public:
 
 		switch (type)
 		{
-		case TabType::AmbList: _tabView->showListView(); break;
-		case TabType::PerioList: _tabView->showPerioView(); break;
-		case TabType::PatientSummary: _tabView->summaryView(); break;
-		case TabType::Financial:_tabView->showFinancialView(); break;
+			case TabType::AmbList: _tabView->showListView(); break;
+			case TabType::PerioList: _tabView->showPerioView(); break;
+			case TabType::PatientSummary: _tabView->showSummaryView(); break;
+			case TabType::Financial:_tabView->showFinancialView(); break;
 		}
 
 		setScrollPosition();

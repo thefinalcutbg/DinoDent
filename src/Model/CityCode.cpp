@@ -1,12 +1,13 @@
 ﻿#include "CityCode.h"
 
-#include <fstream>
 #include <utility>
 #include <algorithm>
 
 #include <JsonCpp/json.h>
 #include "Model/FreeFunctions.h"
-#include <QDebug>
+
+
+#include "Resources.h"
 
 typedef std::string RHIF, HealthRegion , CityString;
 
@@ -61,11 +62,11 @@ void CityCode::initialize()
 {
     cityStringToCodes.clear();
 
-    std::ifstream ifs("data/cities.json");
+   
     Json::Value cities = Json::arrayValue;
 
     Json::Reader reader;
-    reader.parse(ifs, cities);
+    reader.parse(Resources::citiesJson(), cities);
 
     int cityCount = cities.size();
 

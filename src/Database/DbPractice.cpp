@@ -1,7 +1,6 @@
 #include "DbPractice.h"
 #include "Database.h"
 #include "Model/Parser/Parser.h"
-#include <fstream>
 
 Practice DbPractice::getPractice(const std::string rziCode)
 {
@@ -50,14 +49,10 @@ void DbPractice::updatePractice(const Practice& practice, const std::string& cur
     );
 }
 
+#include "Resources.h"
+
 void DbPractice::insertPractice(const Practice& practice)
 {
-    std::string line, text;
-    std::ifstream in("data/defaultPriceList.json");
-    while (std::getline(in, line))
-    {
-        text += line;
-    }
 
     Db::crudQuery(
 
@@ -73,7 +68,7 @@ void DbPractice::insertPractice(const Practice& practice)
         "'" + std::to_string(practice.legal_entity) + "', "
         "'" + practice.vat + "', "
         "'" + Parser::write(practice.nzok_contract) + "', "
-        "'" + text + "', "
+        "'" + Resources::defaultPriceListJson() + "', "
         "'" + Parser::write(practice.settings) + "' "
         ")"
 

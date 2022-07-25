@@ -7,6 +7,9 @@
 #include "Database/Database.h"
 #include "Model/KSMP.h"
 #include "Model/CityCode.h"
+#include "Resources.h"
+
+
 
 int main(int argc, char *argv[])
 {
@@ -16,18 +19,19 @@ int main(int argc, char *argv[])
     QApplication::setFont(QFont ("Segoe UI", 8));    
 
     QApplication a(argc, argv);
+
     a.setWindowIcon(QIcon(":/icons/icon_torque.png"));
 
     Db::setFilePath("TorqueDB.db");
     Db::createIfNotExist();
 
     //Intializing singletons
+    Resources::initialize();
     CityCode::initialize();
     KSMP::initialize();
     User::initialize();
     SpriteSheets::container().initialize(); //loading textures, otherwise program will crash;
     DiagnosisContainer::initialize();
-
     MasterNZOK::instance().loadUpdates(); //parsing json of nzok data
 
     Torque w;

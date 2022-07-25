@@ -666,6 +666,9 @@
     <ClCompile Include="src\Model\Tooth\Status.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Resources.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -1636,6 +1639,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\BridgeHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Resources.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

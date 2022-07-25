@@ -2,6 +2,7 @@
 #include "../Date.h"
 #include <vector>
 #include <array>
+#include "VitaColor.h"
 
 struct DentistData
 {
@@ -38,7 +39,7 @@ struct CrownData {
 
     std::string material;
     int prep_type{ 0 };
-    int color{0};
+    VitaColor color;
 
     std::string infoStr();
 
@@ -49,11 +50,11 @@ struct CrownData {
 
 struct ObturationData
 {
-    int color{ 0 };
+    VitaColor color;
     std::string material;
 
     std::string infoStr() const;
-    static const std::array <std::string_view, 17>& colorStrings();
+
 };
 
 struct ImplantData 

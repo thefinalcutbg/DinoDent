@@ -435,6 +435,7 @@
     <ClCompile Include="src\View\PatientSummaryView\TeethView\TeethBuccalScene.cpp" />
     <ClCompile Include="src\View\PatientSummaryView\TeethView\TeethLingualScene.cpp" />
     <ClCompile Include="src\View\PerioView\Widgets\ToothButton.cpp" />
+    <ClCompile Include="src\Model\Tooth\VitaColor.cpp" />
     <QtRcc Include="resources\Resource.qrc" />
     <QtUic Include="src\View\KSMPDialog\KSMPDialog.ui" />
     <QtUic Include="src\View\PerioView\Widgets\PerioStatisticView.ui" />
@@ -518,6 +519,7 @@
     <QtUic Include="src\View\TabView\TabTitle.ui" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Model\Tooth\VitaColor.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\UserButton.h" />
     <QtMoc Include="src\View\PerioView\Widgets\ToothButton.h" />
     <QtMoc Include="src\View\PatientSummaryView\TeethView\TeethBuccalScene.h" />

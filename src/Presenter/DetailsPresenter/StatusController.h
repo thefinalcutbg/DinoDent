@@ -165,7 +165,7 @@ public:
 
 			if (!status.exists(i)) continue;
 
-			if (statusResult.color) status[i].data.color = statusResult.color;
+			if (statusResult.color.getIndex()) status[i].data.color = VitaColor(statusResult.color);
 
 			if (statusResult.material.size()) status[i].data.material = statusResult.material;
 

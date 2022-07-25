@@ -8,7 +8,7 @@ ObturationWidget::ObturationWidget(QWidget *parent)
 	ui.setupUi(this);
 
 
-	for (auto code : ObturationData::colorStrings())
+	for (auto code : VitaColor::vitaClassic)
 	{
 		ui.combo_color->addItem(code.data());
 	}
@@ -28,6 +28,6 @@ ObturationData ObturationWidget::getData()
 
 void ObturationWidget::setData(const ObturationData& data)
 {
-	ui.combo_color->setCurrentIndex(data.color);
+	ui.combo_color->setCurrentIndex(data.color.getIndex());
 	ui.materialEdit->setText(QString::fromStdString(data.material));
 }

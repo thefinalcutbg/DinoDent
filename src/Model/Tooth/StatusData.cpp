@@ -15,55 +15,14 @@ inline std::string getInfoResult(
 }
 
 
-const std::array<std::string_view, 17>& ObturationData::colorStrings()
-{
-	static const std::array<std::string_view, 17> restorationColor
-	{
-		"",
-		"A1", "A2", "A3", "A3,5", "A4",
-		"B1", "B2", "B3", "B4",
-		"C1", "C2", "C3", "C4",
-		"D2", "D3", "D4"
-	};
-
-	return restorationColor;
-}
-
 
 
 std::string ObturationData::infoStr() const
 {
 	std::string result;
-	if (material.size()) result += material + " ";
+	if (material.size()) { result += material + " "; }
 
-	result += getInfoResult(color, colorStrings(), u8"Цвят: ", "");
-
-	return result;
-}
-
-const std::array<std::string_view, 46> crownColor{
-	"",
-	"A1", "A2", "A3", "A3,5", "A4",
-	"B1", "B2", "B3", "B4",
-	"C1", "C2", "C3", "C4",
-	"D2", "D3", "D4",
-	"0M1", "0M2", "0M3",
-	"1M2", "1M3",
-	"2L1,5", "2L2,5", "2M1", "2M2", "2M3", "2R1,5", "2R2,5",
-	"2L1,5", "2L2,5", "2M1", "2M2", "2M3", "2R1,5", "2R2,5",
-	"2L1,5", "2L2,5", "2M1", "2M2", "2M3", "2R1,5", "2R2,5",
-	"5M1", "5M2", "5M3"
-};
-
-std::string CrownData::infoStr()
-{
-	std::string result;
-
-	result += getInfoResult(prep_type, prepTypes(), "", "<br>");
-
-	if (material.size()) result += "Материал: " + material + "<br>";
-	
-	result += getInfoResult(color, crownColor, u8"Цвят: ", "<br> ");
+	result.append(std::string(color.getColorString()));
 
 	return result;
 }
@@ -81,6 +40,23 @@ const std::array<std::string_view, 5>& CrownData::prepTypes()
 
 	return crownPrep;
 }
+
+
+std::string CrownData::infoStr()
+{
+	std::string result;
+
+	result += getInfoResult(prep_type, prepTypes(), "", "<br>");
+
+	if (material.size()) result += "Материал: " + material + "<br>";
+
+	if (color.getIndex()) {
+		result = u8"Цвят: " + std::string(color.getColorString()) + "<br> ";
+	}
+
+	return result;
+}
+
 
 
 const std::array<std::string_view, 4>& ImplantData::typeStr()

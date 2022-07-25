@@ -1,6 +1,6 @@
 ﻿#include "VitaWidget.h"
-
-
+#include "Model/Tooth/VitaColor.h"
+#include <QDebug>
 
 VitaWidget::VitaWidget(QWidget* parent)
     : QWidget(parent)
@@ -15,6 +15,7 @@ VitaWidget::VitaWidget(QWidget* parent)
     connect(ui.radioMaster, &QRadioButton::toggled, [=] {set3DMaster(true); });
     connect(ui.index, QOverload<int>::of(&QComboBox::currentIndexChanged), [=](int index) {switchColor(index); });
 
+    set3DMaster(false);
 }
 
 void VitaWidget::set3DMaster(bool vita_3d)
@@ -28,8 +29,8 @@ void VitaWidget::set3DMaster(bool vita_3d)
     {
         ui.idx_label->setText(u8"Цвят:");
 
-        for (int i = 0; i < vita_classic.size(); i++)
-            ui.index->addItem(vita_classic[i]);
+        for (auto& string : VitaColor::vitaClassic)
+            ui.index->addItem(QString(string.data()));
 
         return;
     }
@@ -38,38 +39,38 @@ void VitaWidget::set3DMaster(bool vita_3d)
 
     ui.idx_label->setText(u8"Яркост:");
 
+    for (auto& string : VitaColor::lightness)
+        ui.index->addItem(string.data());
 
-    ui.index->addItem(QString{});
-
-    for (int i = 0; i < 6; i++)
-        ui.index->addItem(QString::number(i));
+    ui.index->setCurrentIndex(0);
 }
 
 void VitaWidget::switchColor(int index)
 {
-    if (!index){
-        ui.chroma_hue->clear(); 
-        return;
-    }
+    ui.chroma_hue->clear();
 
-    switch (--index) {
-        case 0: case 5: changeColorContents(idx0_5); break;
-        case 1: changeColorContents(idx1); break;
-        case 2: case 3: case 4: changeColorContents(idx2_3_4);  break;
+    if (ui.radioClassic->isChecked()) { return; }
+
+    int& lightness = index;
+
+    for (auto& string : VitaColor::getChroma(lightness))
+    {
+        ui.chroma_hue->addItem(string.data());
     }
 }
 
 
 void VitaWidget::setIndex(int index)
 {
-    //checking for valid index
-    if (index < 0 || index >= 46){
-        setIndex(0); 
-        return;
-    }
+    auto var = VitaColor(index).toColor();
+
+    qDebug() << index;
 
     // Vita classic
-    if (index < 17) {
+    if (var.index() == 0) {
+
+        ui.radioMaster->setChecked(false);
+        set3DMaster(false);
         ui.index->setCurrentIndex(index);
         ui.radioClassic->setChecked(true);
         return;
@@ -78,27 +79,28 @@ void VitaWidget::setIndex(int index)
     //Vita 3D Master
     ui.radioMaster->setChecked(true);
 
-    for (int i = 0; i < lightnessCount; i++) //Vita 3D Master
-    {
-        if (index <= dateMax[i])
-        {
-            ui.index->setCurrentIndex(i + 1); //index 0 is invalid;
-            ui.chroma_hue->setCurrentIndex(index - lightnessMin[i]);
+    auto vita3d = std::get<Vita3dMaster>(var);
 
-            return;
-        }
-    }
+    set3DMaster(true);
+
+    qDebug() << vita3d.m_lightness << vita3d.m_chroma;
+
+    ui.index->setCurrentIndex(vita3d.m_lightness);
+    ui.chroma_hue->setCurrentIndex(vita3d.m_chroma);
 }
 
 int VitaWidget::getIndex()
 {
+    
+    //vita classic
+    if (ui.radioClassic->isChecked()) {
+        auto color = VitaColor(ui.index->currentIndex());
+        return color.getIndex();
+    }
+ 
 
-    if (ui.radioClassic->isChecked()) return ui.index->currentIndex(); //vita classic
+    auto color = VitaColor(ui.index->currentIndex(), ui.chroma_hue->currentIndex());
 
-    if (ui.index->currentIndex() == 0) return 0; //3d master non-set
+    return color.getIndex();
 
-    int idx = ui.index->currentIndex()-1;
-    int chroma = ui.chroma_hue->currentIndex();
-
-    return lightnessMin[idx] + chroma; 
 }

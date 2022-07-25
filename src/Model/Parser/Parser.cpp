@@ -148,7 +148,7 @@ std::string Parser::write(const ToothContainer& status)
 
 					auto parameters = writeDentistMade(i, tooth.obturation[y]);
 					parameters["Surface"] = y;
-					parameters["color"] = tooth.obturation[y].data.color;
+					parameters["color"] = tooth.obturation[y].data.color.getIndex();
 					parameters["material"] = tooth.obturation[y].data.material;
 					json["Obturation"].append(parameters);
 				}
@@ -255,7 +255,7 @@ std::string Parser::write(const ToothContainer& status)
 			auto param = writeDentistMade(i, tooth.crown);
 			param["material"] = tooth.crown.data.material;
 			param["prep"] = tooth.crown.data.prep_type;
-			param["color"] = tooth.crown.data.color;
+			param["color"] = tooth.crown.data.color.getIndex();
 			json["Crown"].append(param);
 		}
 
@@ -288,7 +288,7 @@ std::string Parser::write(const ToothContainer& status)
 			param["pos"] = static_cast<int>(tooth.bridge.position);
 			param["material"] = tooth.bridge.data.material;
 			param["prep"] = tooth.bridge.data.prep_type;
-			param["color"] = tooth.bridge.data.color;
+			param["color"] = tooth.bridge.data.color.getIndex();
 			json["Bridge"].append(param);
 		}
 
@@ -302,7 +302,7 @@ std::string Parser::write(const ToothContainer& status)
 			auto param = writeDentistMade(i, tooth.splint);
 			param["pos"] = static_cast<int>(tooth.splint.position);
 			param["material"] = tooth.splint.data.material;
-			param["color"] = tooth.splint.data.color;
+			param["color"] = tooth.splint.data.color.getIndex();
 			json["Splint"].append(param);
 		}
 	}
@@ -324,7 +324,7 @@ std::string Parser::write(const Procedure& procedure)
 	case ProcedureType::obturation:
 	{
 		auto& r = std::get<ProcedureObtData>(procedure.result);
-		json["color"] = r.data.color;
+		json["color"] = r.data.color.getIndex();
 		json["post"] = r.post;
 		json["material"] = r.data.material;
 		json["surfaces"] = Json::Value(Json::arrayValue);
@@ -337,7 +337,7 @@ std::string Parser::write(const Procedure& procedure)
 	case ProcedureType::crown:
 	{
 		auto& r = std::get<CrownData>(procedure.result);
-		json["color_idx"] = r.color;
+		json["color_idx"] = r.color.getIndex();
 		json["material"] = r.material;
 		json["prep"] = r.prep_type;
 		break;
@@ -345,7 +345,7 @@ std::string Parser::write(const Procedure& procedure)
 	case ProcedureType::bridge:
 	{
 		auto& r = std::get<ProcedureBridgeData>(procedure.result);
-		json["color_idx"] = r.crown.color;
+		json["color_idx"] = r.crown.color.getIndex();
 		json["material"] = r.crown.material;
 		json["prep"] = r.crown.prep_type;
 		json["begin"] = r.tooth_begin;
@@ -372,7 +372,7 @@ std::string Parser::write(const Procedure& procedure)
 	case ProcedureType::fibersplint:
 	{
 		auto& r = std::get<ProcedureFiberData>(procedure.result);
-		json["color"] = r.obtur.color;
+		json["color"] = r.obtur.color.getIndex();
 		json["material"] = r.obtur.material;
 		json["begin"] = r.tooth_begin;
 		json["end"] = r.tooth_end;
@@ -729,7 +729,7 @@ void Parser::parse(const std::string& jsonString, ToothContainer& status)
 		tooth.obturation.set(true, surface);
 		tooth.obturation[surface].LPK = obturation[i]["LPK"].asString();
 		tooth.obturation[surface].data.material = obturation[i]["material"].asString();
-		tooth.obturation[surface].data.color = obturation[i]["color"].asInt();
+		tooth.obturation[surface].data.color = VitaColor(obturation[i]["color"].asInt());
 	}
 
 	const Json::Value& car = json["Caries"];
@@ -840,7 +840,7 @@ void Parser::parse(const std::string& jsonString, ToothContainer& status)
 		tooth.crown.LPK = crown[i]["LPK"].asString();
 		tooth.crown.data.material = crown[i]["material"].asString();
 		tooth.crown.data.prep_type = crown[i]["prep"].asInt();
-		tooth.crown.data.color = crown[i]["color"].asInt();
+		tooth.crown.data.color = VitaColor(crown[i]["color"].asInt());
 	}
 
 	const Json::Value& bridge = json["Bridge"];
@@ -852,7 +852,7 @@ void Parser::parse(const std::string& jsonString, ToothContainer& status)
 		tooth.bridge.LPK = bridge[i]["LPK"].asString();
 		tooth.bridge.data.material = bridge[i]["material"].asString();
 		tooth.bridge.data.prep_type = bridge[i]["prep"].asInt();
-		tooth.bridge.data.color = bridge[i]["color"].asInt();
+		tooth.bridge.data.color = VitaColor(bridge[i]["color"].asInt());
 		tooth.bridge.position = static_cast<BridgePos>(bridge[i]["pos"].asInt());
 	}
 
@@ -864,7 +864,7 @@ void Parser::parse(const std::string& jsonString, ToothContainer& status)
 		tooth.splint.position = static_cast<BridgePos>(splint[i]["pos"].asInt());
 		tooth.splint.LPK = splint[i]["LPK"].asString();
 		tooth.splint.data.material = splint[i]["material"].asString();
-		tooth.splint.data.color = splint[i]["color"].asInt();
+		tooth.splint.data.color = VitaColor(splint[i]["color"].asInt());
 		tooth.splint.set(true);
 	}
 

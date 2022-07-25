@@ -16,7 +16,7 @@ CrownWidget::~CrownWidget()
 void CrownWidget::setData(const CrownData& data)
 {
 	ui.comboBox->setCurrentIndex(data.prep_type);
-	ui.vitaWidget->setIndex(data.color);
+	ui.vitaWidget->setIndex(data.color.getIndex());
 	ui.materialEdit->setText(QString::fromStdString(data.material));
 }
 

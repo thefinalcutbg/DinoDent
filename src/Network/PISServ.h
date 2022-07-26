@@ -8,7 +8,7 @@ class AbstractReplyHandler;
 
 struct Patient;
 
-namespace SOAP
+namespace PISQuery
 {
 	std::string activeHIRBNo(const std::string& id, int personType);
 	std::string dentalActivities(const std::string& id, int personType);

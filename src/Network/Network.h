@@ -14,7 +14,10 @@ namespace Network
 		AbstractReplyHandler* handler,
 		const char* header
 	);
-	void setRequestToNra(const std::string xmlRequest, AbstractReplyHandler* handler);
+
+	//void hisGetChallenge(PKCS11&AbstractReplyHandler* handler);
+
+	void sendRequestToNra(const std::string xmlRequest, AbstractReplyHandler* handler);
 	void clearAccessCache();
 	void unsubscribeHandler(AbstractReplyHandler* handler);
 };

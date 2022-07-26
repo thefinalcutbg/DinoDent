@@ -220,6 +220,7 @@
     <ClCompile Include="src\Model\Tooth\StatusData.cpp" />
     <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\BridgeHelper.cpp" />
     <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\EditorPresenter.cpp" />
+    <ClCompile Include="src\View\FinancialView\RecipientEditDialog\RecipientEditView.cpp" />
     <ClCompile Include="src\View\PerioView\Widgets\PerioStatisticView.cpp" />
     <ClCompile Include="src\View\ProcedureDisplayModel\KSMPModel.cpp" />
     <ClCompile Include="src\Model\KSMP.cpp" />
@@ -436,7 +437,9 @@
     <ClCompile Include="src\View\PatientSummaryView\TeethView\TeethLingualScene.cpp" />
     <ClCompile Include="src\View\PerioView\Widgets\ToothButton.cpp" />
     <ClCompile Include="src\Model\Tooth\VitaColor.cpp" />
+    <ClCompile Include="src\Network\ReplyHandlers\TokenHandler.cpp" />
     <QtRcc Include="resources\Resource.qrc" />
+    <QtUic Include="src\View\FinancialView\RecipientEditDialog\RecipientEditView.ui" />
     <QtUic Include="src\View\KSMPDialog\KSMPDialog.ui" />
     <QtUic Include="src\View\PerioView\Widgets\PerioStatisticView.ui" />
     <QtUic Include="src\View\PinPromptDialog\PinPromptDialog.ui" />
@@ -520,6 +523,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Model\Tooth\VitaColor.h" />
+    <ClInclude Include="src\Network\ReplyHandlers\TokenHandler.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\UserButton.h" />
     <QtMoc Include="src\View\PerioView\Widgets\ToothButton.h" />
     <QtMoc Include="src\View\PatientSummaryView\TeethView\TeethBuccalScene.h" />
@@ -553,6 +557,7 @@
     <QtMoc Include="src\View\MonthNotifDialog\MonthNotifDialog.h" />
     <QtMoc Include="src\View\PinPromptDialog\PinPromptDialog.h" />
     <QtMoc Include="src\View\ProcedureDisplayModel\KSMPModel.h" />
+    <ClInclude Include="src\Network\HISServ.h" />
     <ClInclude Include="src\Resources.h" />
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\BridgeHelper.h" />
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\EditorPresenter.h" />
@@ -624,6 +629,7 @@
     <ClInclude Include="src\View\FinancialView\FinancialTileButton.h" />
     <ClInclude Include="src\View\FinancialView\IFinancialView.h" />
     <QtMoc Include="src\View\KSMPDialog\KSMPDialog.h" />
+    <QtMoc Include="src\View\FinancialView\RecipientEditDialog\RecipientEditView.h" />
     <ClInclude Include="src\View\ListView\SurfacePanel\ControlPanelPolygon.h" />
     <ClInclude Include="src\View\ListView\SurfacePanel\CPTooth.h" />
     <ClInclude Include="src\View\ListView\SurfacePanel\ISurfacePanel.h" />

@@ -130,7 +130,7 @@ void ReportDialogPresenter::sendToPis()
 
 	PIS::sendRequest(
 
-		SOAP::sendAmbReport(
+		PISQuery::sendAmbReport(
 			m_report.value(),
 			User::doctor().egn
 		),
@@ -159,7 +159,7 @@ void ReportDialogPresenter::checkNext()
 	{
 		bool success =
 			PIS::sendRequest(
-				SOAP::dentalActivities(
+				PISQuery::dentalActivities(
 					patient.id, patient.type),
 				pis_handler
 			);

@@ -17,7 +17,7 @@ const char* personTypeArr[5]
 };
 
 
-std::string SOAP::dentalActivities(const std::string& id, int personType)
+std::string PISQuery::dentalActivities(const std::string& id, int personType)
 {
 
 	std::string tag = personTypeArr[personType];
@@ -38,7 +38,7 @@ std::string SOAP::dentalActivities(const std::string& id, int personType)
 		;
 }
 
-std::string SOAP::NotifList(const std::string& rziCode)
+std::string PISQuery::NotifList(const std::string& rziCode)
 {
 	return 
 		"<ns3:query xmlns:ns1=\"http://pis.technologica.com/views/\" "
@@ -62,7 +62,7 @@ std::string SOAP::NotifList(const std::string& rziCode)
 		;
 }
 
-std::string SOAP::getNotificationData(const std::string& rziCode, const std::string& notifHash)
+std::string PISQuery::getNotificationData(const std::string& rziCode, const std::string& notifHash)
 {
 	return 
 		"<ns3:query xmlns:ns1=\"http://pis.technologica.com/views/\" "
@@ -91,7 +91,7 @@ std::string SOAP::getNotificationData(const std::string& rziCode, const std::str
 
 
 
-std::string SOAP::sendInvoice(const std::string& data, const std::string& rziCode, FinancialDocType purpose)
+std::string PISQuery::sendInvoice(const std::string& data, const std::string& rziCode, FinancialDocType purpose)
 {
 	const char* purposeArr[4]{
 		"FDOC_INV",
@@ -117,7 +117,7 @@ std::string SOAP::sendInvoice(const std::string& data, const std::string& rziCod
 	;
 }
 
-std::string SOAP::sendAmbReport(const std::string& data, const std::string& doctorEgn)
+std::string PISQuery::sendAmbReport(const std::string& data, const std::string& doctorEgn)
 {
 	return
 		"<ns1:userFile xmlns:ns1=\"http://pis.technologica.com/ws/\" "
@@ -136,7 +136,7 @@ std::string SOAP::sendAmbReport(const std::string& data, const std::string& doct
 		;
 }
 
-std::string SOAP::activeHIRBNo(const std::string& id, int personType)
+std::string PISQuery::activeHIRBNo(const std::string& id, int personType)
 {
 	std::string tag = personTypeArr[personType];
 
@@ -152,39 +152,8 @@ std::string SOAP::activeHIRBNo(const std::string& id, int personType)
 
 }
 
-std::string soapToSign(const std::string& soapBody)
-{
-	
-	return
-		"<?xml version=\"1.0\" encoding=\"utf-8\"?>"
-		"<e:Envelope xmlns:e=\"http://schemas.xmlsoap.org/soap/envelope/\">"
-			"<e:Header>"
-				"<Signature xmlns=\"http://www.w3.org/2000/09/xmldsig#\">"
-					"<SignedInfo>"
-						"<CanonicalizationMethod Algorithm=\"http://www.w3.org/2001/10/xml-exc-c14n#\" />"
-						"<SignatureMethod Algorithm=\"http://www.w3.org/2000/09/xmldsig#rsa-sha1\" />"
-						"<Reference URI=\"#signedContent\">"
-							"<DigestMethod Algorithm=\"http://www.w3.org/2000/09/xmldsig#sha1\" />"
-							"<DigestValue>"/*digest goes here*/"</DigestValue>"
-						"</Reference>"
-					"</SignedInfo>"
-				"<SignatureValue>"/*signature value*/"</SignatureValue>"
-				"<KeyInfo>" 
-					"<X509Data>"
-						"<X509Certificate>"/*x509 certificate*/"</X509Certificate>"
-					"</X509Data>"
-				"</KeyInfo>"
-				"</Signature>"
-			"</e:Header>"
-			"<e:Body id=\"signedContent\">"
-				+ soapBody + //the soap body
-			"</e:Body>"
-		"</e:Envelope>";
-}
 
-#include <QDebug>
-
-bool PIS::sendRequest(const std::string& soapBody, AbstractReplyHandler& handler, SOAPAction header)
+bool PIS::sendRequest(const std::string& query, AbstractReplyHandler& handler, SOAPAction header)
 {
 
 /*
@@ -221,8 +190,8 @@ we have to create two PKCS11 instances - one for the signing and one for the SSL
 	//creating another instance for the SSL certificate
 	PKCS11 clientSsl;
 
-	auto signedRequest = XmlSigner::signSoapTemplate(
-		soapToSign(soapBody),
+	auto signedRequest = XmlSigner::signPisQuery(
+		query,
 		signer.takePrivateKey(),
 		signer.pem_x509cert()
 	);
@@ -295,7 +264,7 @@ bool PIS::insuranceRequest(AbstractReplyHandler& handler, const Patient& p, cons
 
 	};
 
-	Network::setRequestToNra(query, &handler);
+	Network::sendRequestToNra(query, &handler);
 
 	return true;
 

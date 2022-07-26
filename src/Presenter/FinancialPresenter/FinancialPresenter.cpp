@@ -171,7 +171,7 @@ void FinancialPresenter::sendToPis()
 
     PIS::sendRequest(
 
-        SOAP::sendInvoice(
+        PISQuery::sendInvoice(
             XML::getInvoice(m_invoice),
             User::practice().rziCode,
             m_invoice.type

@@ -103,8 +103,27 @@ void Network::sendRequestToPis(
 
     
 }
+/*
+void Network::hisGetChallenge(AbstractReplyHandler* handler)
+{
+    if (!s_manager) {
+        s_manager = new QNetworkAccessManager();
+        // s_manager->setAutoDeleteReplies(true); //produces crashes sometimes lol
+        QObject::connect(s_manager, &QNetworkAccessManager::sslErrors, [=] {
+            qDebug() << "ERRORRRR";
+            });
+    }
 
-void Network::setRequestToNra(const std::string xmlRequest, AbstractReplyHandler* handler)
+    QApplication::setOverrideCursor(Qt::BusyCursor);
+
+    QUrl url("https://ptest-auth.his.bg/token");
+
+    QNetworkRequest request(url);
+
+    QNetworkReply* r = s_manager->get(request);
+}
+*/
+void Network::sendRequestToNra(const std::string xmlRequest, AbstractReplyHandler* handler)
 {
     if (!s_manager) {
         s_manager = new QNetworkAccessManager();

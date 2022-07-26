@@ -382,7 +382,7 @@ void ListPresenter::requestPisActivities()
     //sending request to PIS
 
     PIS::sendRequest(
-        SOAP::dentalActivities(patient->id, patient->type),
+        PISQuery::dentalActivities(patient->id, patient->type),
         handler
     );
 

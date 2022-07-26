@@ -672,6 +672,12 @@
     <ClCompile Include="src\Model\Tooth\VitaColor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\FinancialView\RecipientEditDialog\RecipientEditView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Network\ReplyHandlers\TokenHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -929,6 +935,9 @@
     <QtMoc Include="src\View\PerioView\Widgets\PerioStatisticView.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\View\FinancialView\RecipientEditDialog\RecipientEditView.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="resources\Resource.qrc" />
@@ -1082,6 +1091,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\PerioView\Widgets\PerioStatisticView.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\FinancialView\RecipientEditDialog\RecipientEditView.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
@@ -1648,6 +1660,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\Tooth\VitaColor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Network\HISServ.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Network\ReplyHandlers\TokenHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

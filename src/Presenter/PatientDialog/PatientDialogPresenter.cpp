@@ -78,7 +78,7 @@ void PatientDialogPresenter::checkHirbno()
 
 	auto p = view->getPatient();
 	
-	PIS::sendRequest(SOAP::activeHIRBNo(p.id, p.type), hirbnoHandler);	
+	PIS::sendRequest(PISQuery::activeHIRBNo(p.id, p.type), hirbnoHandler);	
 }
 
 

@@ -52,7 +52,7 @@ void MonthNotifLoader::loadNotification()
     }
 
         PIS::sendRequest(
-        SOAP::NotifList(User::practice().rziCode),
+        PISQuery::NotifList(User::practice().rziCode),
         m_listHandler
     );
 }
@@ -85,7 +85,7 @@ void MonthNotifLoader::setNotifRows(const std::optional<std::vector<MonthNotifRo
     auto& hash = m_notifRows[idx].hash;
 
     PIS::sendRequest(
-        SOAP::getNotificationData(User::practice().rziCode, hash),
+        PISQuery::getNotificationData(User::practice().rziCode, hash),
         m_notifHandler
     );
 }

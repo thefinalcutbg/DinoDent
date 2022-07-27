@@ -1,13 +1,12 @@
 ﻿#include "ReportDialogPresenter.h"
 #include "Database/DbAmbList.h"
 #include "Database/DbPatient.h"
-#include "Network/PISServ.h"
 #include "Model/AmbListValidator.h"
-#include "Network/PISServ.h"
 #include "Model/XML/xml.h"
 #include <fstream>
 #include "Model/FreeFunctions.h"
 #include "Model/Procedure/MasterNZOK.h"
+#include "View/ModalDialogBuilder.h"
 
 //returns empty string if valid
 std::string consecutionCheck(const std::vector<AmbList>& lists) {
@@ -128,14 +127,9 @@ void ReportDialogPresenter::sendToPis()
 		return;
 	}
 
-	PIS::sendRequest(
-
-		PISQuery::sendAmbReport(
-			m_report.value(),
-			User::doctor().egn
-		),
-		fileSent_handler,
-		PIS::SOAPAction::Files
+	sendFileService.sendAmbReport(
+		m_report.value(),
+		User::doctor().egn
 	);
 
 
@@ -158,11 +152,11 @@ void ReportDialogPresenter::checkNext()
 	if (pisCheck && !patient.PISHistory.has_value())
 	{
 		bool success =
-			PIS::sendRequest(
-				PISQuery::dentalActivities(
-					patient.id, patient.type),
-				pis_handler
-			);
+		activitiesService.sendRequest(
+			patient.type, patient.id,
+			[=](auto& result) {if (this)this->setPISActivities(result);}
+
+		);
 
 		if (!success) { reset();}
 
@@ -172,9 +166,10 @@ void ReportDialogPresenter::checkNext()
 	//sending request to NRA
 	if (nraCheck && !patient.insuranceStatus.has_value())
 	{
-		bool success = PIS::insuranceRequest(
-			nra_handler, 
-			patient, 
+		bool success = 
+			nraService.sendRequest(
+			patient,
+				[=](auto& result) { if (this)this->setInsuranceStatus(result);},
 			list.getDate()
 		);
 		

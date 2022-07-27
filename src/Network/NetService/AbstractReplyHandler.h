@@ -4,22 +4,23 @@
 #include "../Network.h"
 class TiXmlElement;
 
+
+class TiXmlElement;
+
 class AbstractReplyHandler
 {
-protected:
 
+protected:
+	bool awaiting_reply{ false };
+
+	virtual void parseReply(const std::string& reply) = 0;
 	std::string getTextNullCheck(const TiXmlElement* e);
 
 public:
-	virtual void getReply(const std::string& reply) = 0;
+	void getReply(const std::string& reply);
 
-	//intended to be set only from the network;
-	bool awaiting_reply{ false };
-
-
-	~AbstractReplyHandler() {
+	virtual ~AbstractReplyHandler() {
 		Network::unsubscribeHandler(this);
 	}
-
 };
 

@@ -1,7 +1,7 @@
 ﻿#include "PatientDialogPresenter.h"
 #include "View/ModalDialogBuilder.h"
 #include "Database/DbPatient.h"
-#include "Network/PISServ.h"
+
 
 PatientDialogPresenter::PatientDialogPresenter() :
 	view(nullptr)
@@ -72,13 +72,12 @@ void PatientDialogPresenter::changePatientType(int index)
 
 void PatientDialogPresenter::checkHirbno()
 {
-	if (hirbnoHandler.awaiting_reply) {
-		return;
-	}
-
 	auto p = view->getPatient();
 	
-	PIS::sendRequest(PISQuery::activeHIRBNo(p.id, p.type), hirbnoHandler);	
+	hirbnoHandler.sendRequest(p.type, p.id, 
+		[=](auto hirbno) {if (this)this->setHirbno(hirbno);}
+	);
+
 }
 
 
@@ -160,18 +159,14 @@ void PatientDialogPresenter::setPatientToView(const Patient& patient)
 	pastDiseases = patient.pastDiseases;
 }
 
-void PatientDialogPresenter::setHirbno(const std::optional<std::string>&hirbno)
+void PatientDialogPresenter::setHirbno(const std::string& hirbno)
 {
-	if (!hirbno) {
-		return;
-	}
-
-	if(hirbno->empty()){
+	if(hirbno.empty()){
 		ModalDialogBuilder::showMessage(u8"Не е намерена активна здравна книжка");
 		return;
 	}
 
-	view->setHirbno(hirbno.value());
+	view->setHirbno(hirbno);
 }
 
 

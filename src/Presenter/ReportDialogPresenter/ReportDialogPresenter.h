@@ -5,9 +5,9 @@
 #include <unordered_map>
 #include "Model/AmbList.h"
 #include "Model/Patient.h"
-#include "Network/ReplyHandlers/DentalActivitiesHandler.h"
-#include "Network/ReplyHandlers/NraReplyHandler.h"
-#include "Network/ReplyHandlers/FileSentHandler.h"
+#include "Network/NetService/DentalActivitiesService.h"
+#include "Network/NetService/NraStatusService.h"
+#include "Network/NetService/SendFileService.h"
 #include <optional>
 #include <queue>
 
@@ -31,10 +31,9 @@ class ReportDialogPresenter
 	//stores the rowid and the patient
 	static inline std::unordered_map<long long, Patient> patients;
 
-	DentalActivitiesHandler<ReportDialogPresenter> pis_handler{this};
-	NraReplyHandler<ReportDialogPresenter> nra_handler{ this };
-
-	FileSentHandler fileSent_handler;
+	DentalActivitiesService activitiesService;
+	NraStatusService nraService;
+	SendFileService sendFileService;
 
 	//void pisCheckNext();
 	void updateProgressBar();

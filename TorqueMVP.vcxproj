@@ -214,6 +214,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Network\NetService\NraStatusService.cpp" />
+    <ClCompile Include="src\Network\NetService\GetMonthNotifListService.cpp" />
+    <ClCompile Include="src\Network\NetService\GetMonthNotifService.cpp" />
+    <ClCompile Include="src\Network\NetService\GetHirbnoService.cpp" />
+    <ClCompile Include="src\Network\NetService\SendFileService.cpp" />
+    <ClCompile Include="src\Network\NetService\PisService.cpp" />
+    <ClCompile Include="src\Network\NetService\DentalActivitiesService.cpp" />
     <ClCompile Include="src\Resources.cpp" />
     <ClCompile Include="src\Model\TimeFrame.cpp" />
     <ClCompile Include="src\Model\Tooth\Status.cpp" />
@@ -224,22 +231,16 @@
     <ClCompile Include="src\View\PerioView\Widgets\PerioStatisticView.cpp" />
     <ClCompile Include="src\View\ProcedureDisplayModel\KSMPModel.cpp" />
     <ClCompile Include="src\Model\KSMP.cpp" />
-    <ClCompile Include="src\Network\ReplyHandlers\FileSentHandler.cpp" />
     <ClCompile Include="src\Model\InsuranceStatus.cpp" />
-    <ClCompile Include="src\Network\ReplyHandlers\NraReplyHandler.cpp" />
     <ClCompile Include="src\Presenter\ReportDialogPresenter\ReportDialogPresenter.cpp" />
     <ClCompile Include="src\View\KSMPDialog\KSMPDialog.cpp" />
     <ClCompile Include="src\View\ListView\TeethView\DsnToothGraphicsItem.cpp" />
     <ClCompile Include="src\View\PinPromptDialog\PinPromptDialog.cpp" />
-    <ClCompile Include="src\Network\ReplyHandlers\MonthNotifDataHandler.cpp" />
     <ClCompile Include="src\Presenter\MonthNotifLoader.cpp" />
-    <ClCompile Include="src\Network\ReplyHandlers\AbstractReplyHandler.cpp" />
+    <ClCompile Include="src\Network\NetService\AbstractReplyHandler.cpp" />
     <ClCompile Include="src\View\MonthNotifDialog\MonthNotifTableModel.cpp" />
     <ClCompile Include="src\View\MonthNotifDialog\MonthNotifDialog.cpp" />
-    <ClCompile Include="src\Network\ReplyHandlers\NotifListHandler.cpp" />
     <ClCompile Include="src\View\PISHistoryDialog\PISHistoryDialog.cpp" />
-    <ClCompile Include="src\Network\ReplyHandlers\DentalActivitiesHandler.cpp" />
-    <ClCompile Include="src\Network\ReplyHandlers\HirbnoReplyHandler.cpp" />
     <ClCompile Include="include\JsonCpp\jsoncpp.cpp" />
     <ClCompile Include="include\sqLite\shell.c" />
     <ClCompile Include="include\sqLite\sqlite3.c" />
@@ -247,7 +248,6 @@
     <ClCompile Include="include\TinyXML\tinyxml.cpp" />
     <ClCompile Include="include\TinyXML\tinyxmlerror.cpp" />
     <ClCompile Include="include\TinyXML\tinyxmlparser.cpp" />
-    <ClCompile Include="src\Network\PISServ.cpp" />
     <ClCompile Include="src\Network\Network.cpp" />
     <ClCompile Include="src\Network\Base64Convert.cpp" />
     <ClCompile Include="src\Network\PKCS11.cpp" />
@@ -437,7 +437,6 @@
     <ClCompile Include="src\View\PatientSummaryView\TeethView\TeethLingualScene.cpp" />
     <ClCompile Include="src\View\PerioView\Widgets\ToothButton.cpp" />
     <ClCompile Include="src\Model\Tooth\VitaColor.cpp" />
-    <ClCompile Include="src\Network\ReplyHandlers\TokenHandler.cpp" />
     <QtRcc Include="resources\Resource.qrc" />
     <QtUic Include="src\View\FinancialView\RecipientEditDialog\RecipientEditView.ui" />
     <QtUic Include="src\View\KSMPDialog\KSMPDialog.ui" />
@@ -522,8 +521,14 @@
     <QtUic Include="src\View\TabView\TabTitle.ui" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Network\NetService\NraStatusService.h" />
+    <ClInclude Include="src\Network\NetService\GetMonthNotifListService.h" />
+    <ClInclude Include="src\Network\NetService\GetMonthNotifService.h" />
+    <ClInclude Include="src\Network\NetService\GetHirbnoService.h" />
+    <ClInclude Include="src\Network\NetService\SendFileService.h" />
+    <ClInclude Include="src\Network\NetService\PisService.h" />
+    <ClInclude Include="src\Network\NetService\DentalActivitiesService.h" />
     <ClInclude Include="src\Model\Tooth\VitaColor.h" />
-    <ClInclude Include="src\Network\ReplyHandlers\TokenHandler.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\UserButton.h" />
     <QtMoc Include="src\View\PerioView\Widgets\ToothButton.h" />
     <QtMoc Include="src\View\PatientSummaryView\TeethView\TeethBuccalScene.h" />
@@ -557,31 +562,23 @@
     <QtMoc Include="src\View\MonthNotifDialog\MonthNotifDialog.h" />
     <QtMoc Include="src\View\PinPromptDialog\PinPromptDialog.h" />
     <QtMoc Include="src\View\ProcedureDisplayModel\KSMPModel.h" />
-    <ClInclude Include="src\Network\HISServ.h" />
     <ClInclude Include="src\Resources.h" />
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\BridgeHelper.h" />
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\EditorPresenter.h" />
     <ClInclude Include="src\Model\KSMP.h" />
     <ClInclude Include="src\Model\Settings.h" />
-    <ClInclude Include="src\Network\ReplyHandlers\FileSentHandler.h" />
     <ClInclude Include="src\Model\InsuranceStatus.h" />
-    <ClInclude Include="src\Network\ReplyHandlers\NraReplyHandler.h" />
     <ClInclude Include="src\Presenter\ReportDialogPresenter\ReportDialogPresenter.h" />
-    <ClInclude Include="src\Network\ReplyHandlers\MonthNotifDataHandler.h" />
     <ClInclude Include="src\Presenter\MonthNotifLoader.h" />
     <ClInclude Include="src\Model\Financial\FinancialEnums.h" />
     <ClInclude Include="src\Model\Financial\MonthNotifRow.h" />
-    <ClInclude Include="src\Network\ReplyHandlers\NotifListHandler.h" />
-    <ClInclude Include="src\Network\ReplyHandlers\DentalActivitiesHandler.h" />
-    <ClInclude Include="src\Network\ReplyHandlers\HirbnoReplyHandler.h" />
     <ClInclude Include="include\JsonCpp\json-forwards.h" />
     <ClInclude Include="include\JsonCpp\json.h" />
     <ClInclude Include="include\sqLite\sqlite3.h" />
     <ClInclude Include="include\sqLite\sqlite3ext.h" />
     <ClInclude Include="include\TinyXML\tinystr.h" />
     <ClInclude Include="include\TinyXML\tinyxml.h" />
-    <ClInclude Include="src\Network\ReplyHandlers\AbstractReplyHandler.h" />
-    <ClInclude Include="src\Network\PISServ.h" />
+    <ClInclude Include="src\Network\NetService\AbstractReplyHandler.h" />
     <ClInclude Include="src\Network\Network.h" />
     <ClInclude Include="src\Network\Base64Convert.h" />
     <ClInclude Include="src\Model\Crypto\CryptoEngine.h" />

@@ -161,24 +161,17 @@ void FinancialPresenter::saveAsXML()
  
 }
 
-
-#include "Network/PISServ.h"
 void FinancialPresenter::sendToPis()
 {
     if (!save()) return;
 
     ModalDialogBuilder::showMessage(u8"Уверете се, че ползвате фирмения си електронен подпис");
 
-    PIS::sendRequest(
-
-        PISQuery::sendInvoice(
-            XML::getInvoice(m_invoice),
-            User::practice().rziCode,
-            m_invoice.type
-        ),
-        file_handler,
-        PIS::SOAPAction::Files
+    file_handler.sendInvoice(
+        m_invoice,
+        User::practice().rziCode
     );
+
 
 }
 

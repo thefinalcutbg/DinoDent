@@ -1,6 +1,7 @@
 #pragma once
-#include "Network/ReplyHandlers/NotifListHandler.h"
-#include "Network/ReplyHandlers/MonthNotifDataHandler.h"
+
+#include "Network/NetService/GetMonthNotifListService.h"
+#include "Network/NetService/GetMonthNotifService.h"
 #include "Model/Financial/MonthNotifRow.h"
 #include <vector>
 #include <optional>
@@ -10,8 +11,8 @@ class TabPresenter;
 class MonthNotifLoader
 {
 
-	NotifListHandler m_listHandler;
-	MonthNotifDataHandler m_notifHandler;
+	GetMonthNotifListService m_listHandler;
+	GetMonthNotifService m_notifHandler;
 
 	TabPresenter* presenter;
 

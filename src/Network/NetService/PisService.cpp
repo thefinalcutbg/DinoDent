@@ -1,0 +1,79 @@
+﻿#include "PisService.h"
+#include "View/ModalDialogBuilder.h"
+#include "../PKCS11.h"
+#include "../Network.h"
+#include "../XmlSigner.h"
+#include "TinyXML/tinyxml.h"
+
+bool PisService::sendRequest(const std::string& query, SOAPAction header)
+{
+	/*
+Since both xmlSec and qt network manager adopt the private key and release it on their own
+we have to create two PKCS11 instances - one for the signing and one for the SSL connection
+*/
+	if (awaiting_reply) return true;
+
+	PKCS11 signer;
+
+	if (!signer.hsmLoaded())
+	{
+		ModalDialogBuilder::showMessage(u8"Не е открит КЕП");
+		//Network::clearAccessCache();
+		return false;
+	}
+
+	if (signer.loginRequired()) {
+
+		Network::clearAccessCache();
+		auto pin = ModalDialogBuilder::pinPromptDialog(signer.pem_x509cert());
+
+		if (pin.empty()) {
+			return false;
+		}
+
+
+		if (!signer.login(pin))
+		{
+			ModalDialogBuilder::showError(u8"Грешна парола или блокирана карта");
+			return false;
+		};
+	}
+
+	//creating another instance for the SSL certificate
+	PKCS11 clientSsl;
+
+	auto signedRequest = XmlSigner::signPisQuery(
+		query,
+		signer.takePrivateKey(),
+		signer.pem_x509cert()
+	);
+
+	std::string soapActionHeader;
+
+	switch (header)
+	{
+	case SOAPAction::View:
+		soapActionHeader = "\"http://pis.technologica.com/view\"";
+		break;
+
+	case SOAPAction::Files:
+		soapActionHeader = "\"http://pis.technologica.com/files/\"";
+		break;
+
+	}
+
+	awaiting_reply = true;
+
+	Network::sendRequestToPis(
+		signedRequest,
+		clientSsl,
+		this,
+		soapActionHeader.c_str()
+	);
+
+	//XmlSigner::cleanup();
+
+
+
+	return true;
+}

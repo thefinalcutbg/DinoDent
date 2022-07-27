@@ -561,9 +561,6 @@
     <ClCompile Include="src\Network\PKCS11.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Network\PISServ.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="include\JsonCpp\jsoncpp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -588,16 +585,7 @@
     <ClCompile Include="src\Network\XmlSigner.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Network\ReplyHandlers\HirbnoReplyHandler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Network\ReplyHandlers\DentalActivitiesHandler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\View\PISHistoryDialog\PISHistoryDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Network\ReplyHandlers\NotifListHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\MonthNotifDialog\MonthNotifDialog.cpp">
@@ -606,13 +594,10 @@
     <ClCompile Include="src\View\MonthNotifDialog\MonthNotifTableModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Network\ReplyHandlers\AbstractReplyHandler.cpp">
+    <ClCompile Include="src\Network\NetService\AbstractReplyHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Presenter\MonthNotifLoader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Network\ReplyHandlers\MonthNotifDataHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\PinPromptDialog\PinPromptDialog.cpp">
@@ -621,13 +606,7 @@
     <ClCompile Include="src\Presenter\ReportDialogPresenter\ReportDialogPresenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Network\ReplyHandlers\NraReplyHandler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Model\InsuranceStatus.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Network\ReplyHandlers\FileSentHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\SettingsDialog\GeneralSettings\GeneralSettings.cpp">
@@ -675,7 +654,25 @@
     <ClCompile Include="src\View\FinancialView\RecipientEditDialog\RecipientEditView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Network\ReplyHandlers\TokenHandler.cpp">
+    <ClCompile Include="src\Network\NetService\DentalActivitiesService.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Network\NetService\PisService.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Network\NetService\SendFileService.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Network\NetService\GetHirbnoService.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Network\NetService\GetMonthNotifService.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Network\NetService\GetMonthNotifListService.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Network\NetService\NraStatusService.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1578,9 +1575,6 @@
     <ClInclude Include="src\Network\PKCS11.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Network\PISServ.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\JsonCpp\json.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1602,16 +1596,7 @@
     <ClInclude Include="src\Network\XmlSigner.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Network\ReplyHandlers\AbstractReplyHandler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Network\ReplyHandlers\HirbnoReplyHandler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Network\ReplyHandlers\DentalActivitiesHandler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Network\ReplyHandlers\NotifListHandler.h">
+    <ClInclude Include="src\Network\NetService\AbstractReplyHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\Financial\MonthNotifRow.h">
@@ -1623,22 +1608,13 @@
     <ClInclude Include="src\Presenter\MonthNotifLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Network\ReplyHandlers\MonthNotifDataHandler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Presenter\ReportDialogPresenter\ReportDialogPresenter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\ReportDialog\IReportDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Network\ReplyHandlers\NraReplyHandler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Model\InsuranceStatus.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Network\ReplyHandlers\FileSentHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\Settings.h">
@@ -1662,10 +1638,25 @@
     <ClInclude Include="src\Model\Tooth\VitaColor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Network\HISServ.h">
+    <ClInclude Include="src\Network\NetService\DentalActivitiesService.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Network\ReplyHandlers\TokenHandler.h">
+    <ClInclude Include="src\Network\NetService\PisService.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Network\NetService\SendFileService.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Network\NetService\GetHirbnoService.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Network\NetService\GetMonthNotifService.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Network\NetService\GetMonthNotifListService.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Network\NetService\NraStatusService.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

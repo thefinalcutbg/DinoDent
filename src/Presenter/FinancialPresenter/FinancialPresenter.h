@@ -4,13 +4,14 @@
 #include "View/FinancialView/IFinancialView.h"
 #include "Model/AmbList.h"
 #include "Model/Patient.h"
-#include "Network/ReplyHandlers/FileSentHandler.h"
+#include "Network/NetService/SendFileService.h"
+
 
 class FinancialPresenter : public TabInstance
 {
 	IFinancialView* view;
 
-	FileSentHandler file_handler;
+	SendFileService file_handler;
 
 	// Inherited via TabInstance
 public:

@@ -18,7 +18,7 @@
 #include "View/uiComponents/AbstractLabel.h"
 #include "Model/CityCode.h"
 
-#include "Network/ReplyHandlers/HirbnoReplyHandler.h"
+#include "Network/NetService/GetHirbnoService.h"
 
 
 class PatientDialogPresenter
@@ -35,7 +35,7 @@ class PatientDialogPresenter
 	CityValidator city_validator;
 	CyrillicValidator cyrillic_validator;
 
-	HirbnoReplyHandler hirbnoHandler{this};
+	GetHirbnoService hirbnoHandler;
 
 	//data not present in view:
 	long long rowid{ 0 };
@@ -55,7 +55,7 @@ public:
 	std::optional<Patient> open();
 
 	void changePatientType(int index);
-	void setHirbno(const std::optional<std::string>& hirbno);
+	void setHirbno(const std::string& hirbno);
 	void checkHirbno();
 	void searchDbForPatient(int type);
 	void accept();

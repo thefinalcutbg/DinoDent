@@ -11,7 +11,7 @@
 #include "View/ModalDialogBuilder.h"
 #include "Model/AmbList.h"
 #include "Presenter/TabPresenter/TabPresenter.h"
-#include "Network/PISServ.h"
+
 
 
 ListPresenter::ListPresenter(ITabView* tabView, TabPresenter* tabPresenter, std::shared_ptr<Patient> patient, long long rowId)
@@ -376,14 +376,14 @@ void ListPresenter::setSelectedTeeth(const std::vector<int>& SelectedIndexes)
 void ListPresenter::requestPisActivities()
 {
     if (patient->PISHistory.has_value()) return;
-
-    if (handler.awaiting_reply) return;
       
     //sending request to PIS
 
-    PIS::sendRequest(
-        PISQuery::dentalActivities(patient->id, patient->type),
-        handler
+    dentalActService.sendRequest(patient->type, patient->id,
+
+        [=](auto procedures) {
+            if (this) this->setPISActivities(procedures);
+        }
     );
 
 }
@@ -464,9 +464,12 @@ void ListPresenter::checkHealthInsurance(bool showDialog)
         return;
     }
 
-    if (nraHandler.awaiting_reply) return;
+    nraStatusServ.sendRequest(*patient.get(),
 
-    PIS::insuranceRequest(nraHandler, *patient.get());
+        [=](auto status){if(this)this->setInsuranceStatus(status);}
+
+    );
+
 }
 
 void ListPresenter::openDetails(int toothIdx)

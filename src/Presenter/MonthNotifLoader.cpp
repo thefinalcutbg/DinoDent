@@ -1,13 +1,11 @@
 ﻿#include "MonthNotifLoader.h"
 #include "View/ModalDialogBuilder.h"
 #include "Presenter/TabPresenter/TabPresenter.h"
-#include "Network/PISServ.h"
+
 #include <fstream>
 #include <streambuf>
 
 MonthNotifLoader::MonthNotifLoader(TabPresenter* presenter) :
-    m_listHandler{ this },
-    m_notifHandler{ this },
     presenter{presenter}
 {}
 
@@ -41,19 +39,17 @@ void MonthNotifLoader::loadNotification()
         return;
     }
 
-    if (m_listHandler.awaiting_reply ||
-        m_notifHandler.awaiting_reply) {
-        return;
-    }
 
     if (!m_notifRows.empty()) {
         setNotifRows(m_notifRows);
         return;
     }
 
-        PIS::sendRequest(
-        PISQuery::NotifList(User::practice().rziCode),
-        m_listHandler
+    m_listHandler.sendRequest(User::practice().rziCode,
+        [=](auto result) {
+            if (this)
+                this->setNotifRows(result);
+        }
     );
 }
 
@@ -84,8 +80,7 @@ void MonthNotifLoader::setNotifRows(const std::optional<std::vector<MonthNotifRo
     //send the pis request for the hash
     auto& hash = m_notifRows[idx].hash;
 
-    PIS::sendRequest(
-        PISQuery::getNotificationData(User::practice().rziCode, hash),
-        m_notifHandler
-    );
+    m_notifHandler.sendRequest(User::practice().rziCode, hash,
+        [=](auto result) { if(this)this->setMonthNotif(result);});
+
 }

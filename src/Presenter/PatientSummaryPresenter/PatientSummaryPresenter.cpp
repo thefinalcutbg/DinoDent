@@ -14,6 +14,7 @@
 #include "Model/TableRows.h"
 #include "Model/User/User.h"
 #include "Model/FreeFunctions.h"
+#include "Model/Procedure/MasterNZOK.h"
 
 TimeFrame* PatientSummaryPresenter::currentFrame()
 {

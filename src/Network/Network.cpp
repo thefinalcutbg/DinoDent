@@ -4,8 +4,7 @@
 #include <QNetworkRequest>
 #include <QSslKey>
 #include "PKCS11.h"
-#include <qDebug>
-#include "ReplyHandlers/AbstractReplyHandler.h"
+#include "Network/NetService/AbstractReplyHandler.h"
 #include <set>
 #include "View/ModalDialogBuilder.h"
 #include <QApplication>
@@ -48,7 +47,6 @@ void Network::sendRequestToPis(
     request.setRawHeader("SOAPAction", soapHeader);
     request.setRawHeader("accept", "\"application/xml\"");
 
-    handler->awaiting_reply = true;
     auto reply = s_manager->post(request, soapRequest.data());
 
     
@@ -83,7 +81,6 @@ void Network::sendRequestToPis(
 
             handler->getReply(replyString);
 
-            handler->awaiting_reply = false;
 
             reply->deleteLater();
             
@@ -140,7 +137,6 @@ void Network::sendRequestToNra(const std::string xmlRequest, AbstractReplyHandle
     request.setHeader(QNetworkRequest::KnownHeaders::ContentTypeHeader, "application/xml;charset=\"utf-8\"");
     request.setRawHeader("accept", "\"application/xml\"");
     
-    handler->awaiting_reply = true;
     auto reply = s_manager->post(request, xmlRequest.data());
     
 
@@ -169,7 +165,7 @@ void Network::sendRequestToNra(const std::string xmlRequest, AbstractReplyHandle
             }
 
             handler->getReply(replyString);
-            handler->awaiting_reply = false;
+
             reply->deleteLater();
 
         });

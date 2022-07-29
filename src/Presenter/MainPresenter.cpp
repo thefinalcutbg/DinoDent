@@ -4,7 +4,7 @@
 #include "View/Printer/Printer.h"
 #include "Presenter/LoginPresenter/LoginPresenter.h"
 #include "Presenter/DoctorDialogPresenter/DoctorDialogPresenter.h"
-#include "Network/PKCS11.h"
+#include "Network/Common/PKCS11.h"
 #include "Model/User/User.h"
 #include "Model/XML/xml.h"
 #include "Presenter/AddPracticePresenter/AddPracticePresenter.h"

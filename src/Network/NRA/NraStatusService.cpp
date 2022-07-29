@@ -1,5 +1,6 @@
 ﻿#include "NraStatusService.h"
 #include "View/ModalDialogBuilder.h"
+#include "Network/Common/NetworkManager.h"
 
 void NraStatusService::parseReply(const std::string& reply)
 {
@@ -114,7 +115,9 @@ bool NraStatusService::sendRequest(const Patient& p, std::function<void(const st
 
 	};
 
-	Network::sendRequestToNra(query, this);
+	awaiting_reply = true;
+
+	NetworkManager::sendRequestToNra(query, this);
 
 	return true;
 }

@@ -1,9 +1,6 @@
 #pragma once
 
 #include <string>
-#include "../Network.h"
-class TiXmlElement;
-
 
 class TiXmlElement;
 
@@ -19,8 +16,6 @@ protected:
 public:
 	void getReply(const std::string& reply);
 
-	virtual ~AbstractReplyHandler() {
-		Network::unsubscribeHandler(this);
-	}
+	~AbstractReplyHandler();
 };
 

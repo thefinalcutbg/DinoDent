@@ -18,7 +18,7 @@
 #include "View/uiComponents/AbstractLabel.h"
 #include "Model/CityCode.h"
 
-#include "Network/NetService/GetHirbnoService.h"
+#include "Network/PIS/GetHirbnoService.h"
 
 
 class PatientDialogPresenter

@@ -10,8 +10,8 @@
 #include "SurfacePanel/SurfacePanelPresenter.h"
 #include "CheckState.h"
 
-#include "Network/NetService/DentalActivitiesService.h"
-#include "Network/NetService/NraStatusService.h"
+#include "Network/PIS/DentalActivitiesService.h"
+#include "Network/NRA/NraStatusService.h"
 
 typedef std::vector<int> SelectedTeethIdx;
 typedef std::vector<Tooth*> SelectedTeeth;

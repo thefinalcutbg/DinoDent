@@ -238,7 +238,7 @@ std::string XmlSigner::signNhifMessage(const std::string& document, evp_pkey_st*
     int signedLength{ 0 };
 
     /* load doc file */
-    xmlDocPtr doc = xmlParseMemory(document.data(), document.size());
+    xmlDocPtr doc = xmlParseMemory(result.data(), result.size());
     if ((doc == NULL) || (xmlDocGetRootElement(doc) == NULL)) {
         return {};//"Error: unable to parse file";
     }

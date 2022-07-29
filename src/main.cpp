@@ -9,8 +9,6 @@
 #include "Model/CityCode.h"
 #include "Resources.h"
 
-
-
 int main(int argc, char *argv[])
 {
 

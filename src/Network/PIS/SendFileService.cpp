@@ -2,7 +2,7 @@
 #include <TinyXML/tinyxml.h>
 #include "View/ModalDialogBuilder.h"
 #include "Model/Financial/Invoice.h"
-#include "../Base64Convert.h"
+#include "Network/Common/Base64Convert.h"
 #include "Model/XML/xml.h"
 
 

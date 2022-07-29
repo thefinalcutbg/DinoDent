@@ -8,6 +8,8 @@
 #include "View/Theme.h"
 #include "View/SettingsDialog/SettingsDialog.h"
 
+
+
 QColor blue(133, 207, 234);
 
 Torque::Torque(QWidget* parent)
@@ -42,7 +44,10 @@ Torque::Torque(QWidget* parent)
     connect(settingsAction, &QAction::triggered, [&] {presenter.userSettingsPressed();});
     connect(ui.invoiceButton, &QPushButton::clicked, [&] { presenter.generateInvoice();});
     connect(ui.settingsButton, &QPushButton::clicked, [&] { presenter.settingsPressed();});
+    connect(ui.hisButton, &QPushButton::clicked, [&] {    
+        
 
+    s.sendRequest("Haha");});
 
     connect(exitAction, &QAction::triggered, [&] { presenter.logOut(); });
 
@@ -104,6 +109,7 @@ void Torque::setUserLabel(const std::string& doctorName, const std::string& prac
 {
     ui.userButton->setText(QString::fromStdString("  " + doctorName));
     ui.practiceLabel->setText(QString::fromStdString(practiceName));
+    
 }
 
 void Torque::exitProgram()

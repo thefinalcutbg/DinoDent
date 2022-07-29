@@ -5,9 +5,9 @@
 #include <unordered_map>
 #include "Model/AmbList.h"
 #include "Model/Patient.h"
-#include "Network/NetService/DentalActivitiesService.h"
-#include "Network/NetService/NraStatusService.h"
-#include "Network/NetService/SendFileService.h"
+#include "Network/PIS/DentalActivitiesService.h"
+#include "Network/NRA/NraStatusService.h"
+#include "Network/PIS/SendFileService.h"
 #include <optional>
 #include <queue>
 

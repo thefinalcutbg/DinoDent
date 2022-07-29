@@ -4,7 +4,7 @@
 #include "View/FinancialView/IFinancialView.h"
 #include "Model/AmbList.h"
 #include "Model/Patient.h"
-#include "Network/NetService/SendFileService.h"
+#include "Network/PIS/SendFileService.h"
 
 
 class FinancialPresenter : public TabInstance

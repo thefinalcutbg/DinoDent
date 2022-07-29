@@ -1,8 +1,8 @@
 ﻿#include "PisService.h"
 #include "View/ModalDialogBuilder.h"
-#include "../PKCS11.h"
-#include "../Network.h"
-#include "../XmlSigner.h"
+#include "Network/Common/PKCS11.h"
+#include "Network/Common//NetworkManager.h"
+#include "Network/Common//XmlSigner.h"
 #include "TinyXML/tinyxml.h"
 
 bool PisService::sendRequest(const std::string& query, SOAPAction header)
@@ -24,7 +24,7 @@ we have to create two PKCS11 instances - one for the signing and one for the SSL
 
 	if (signer.loginRequired()) {
 
-		Network::clearAccessCache();
+		NetworkManager::clearAccessCache();
 		auto pin = ModalDialogBuilder::pinPromptDialog(signer.pem_x509cert());
 
 		if (pin.empty()) {
@@ -64,7 +64,7 @@ we have to create two PKCS11 instances - one for the signing and one for the SSL
 
 	awaiting_reply = true;
 
-	Network::sendRequestToPis(
+	NetworkManager::sendRequestToPis(
 		signedRequest,
 		clientSsl,
 		this,

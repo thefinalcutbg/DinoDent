@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Network/NetService/GetMonthNotifListService.h"
-#include "Network/NetService/GetMonthNotifService.h"
+#include "Network/PIS/GetMonthNotifListService.h"
+#include "Network/PIS/GetMonthNotifService.h"
 #include "Model/Financial/MonthNotifRow.h"
 #include <vector>
 #include <optional>

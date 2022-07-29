@@ -2,6 +2,8 @@
 #include "TinyXML/tinyxml.h"
 #include "QDebug"
 #include "View/ModalDialogBuilder.h"
+#include "NetworkManager.h"
+
 std::string AbstractReplyHandler::getTextNullCheck(const TiXmlElement* e)
 {
     auto ptr = e->GetText();
@@ -25,3 +27,8 @@ void AbstractReplyHandler::getReply(const std::string& reply)
 
 	parseReply(reply);
 }
+
+AbstractReplyHandler::~AbstractReplyHandler() {
+	NetworkManager::unsubscribeHandler(this);
+}
+

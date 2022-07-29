@@ -52,7 +52,7 @@ namespace ModalDialogBuilder
 	std::optional<BusinessOperation> addBusinessOperation(const std::vector<ProcedureTemplate>& priceList);
 	bool askDialog(const std::string& questionText);
 	void showError(const std::string& error);
-	void showErrorList(const std::string& errors);
+	void showMultilineDialog(const std::string& errors);
 	void showMessage(const std::string& message);
 	void openSettingsDialog();
 	std::optional<std::string> getFileNamePath(const std::string& filename);

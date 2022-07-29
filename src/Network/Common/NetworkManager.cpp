@@ -1,10 +1,11 @@
-﻿#include "Network.h"
+﻿#include "NetworkManager.h"
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include <QSslKey>
 #include "PKCS11.h"
-#include "Network/NetService/AbstractReplyHandler.h"
+#include "AbstractReplyHandler.h"
+#include "Network/HIS/HisToken.h"
 #include <set>
 #include "View/ModalDialogBuilder.h"
 #include <QApplication>
@@ -16,7 +17,7 @@ QNetworkAccessManager* s_manager {nullptr};
 std::set<AbstractReplyHandler*> handlers;
 
 
-void Network::sendRequestToPis(
+void NetworkManager::sendRequestToPis(
                                 const std::string& soapRequest,
                                 PKCS11& token,
                                 AbstractReplyHandler* handler,
@@ -70,9 +71,6 @@ void Network::sendRequestToPis(
 
             std::string replyString = reply->readAll().toStdString();
 
-           // qDebug() << "REPLY: ";
-           // qDebug() << replyString.c_str();
-
             //the html error reply from the server begins with <!DOCTYPE ...
             //otherwise it begins with <?xml ....
             if (replyString.empty() || replyString[1] == '!') {
@@ -92,7 +90,7 @@ void Network::sendRequestToPis(
 
         ModalDialogBuilder::showError(u8"Неуспешна автентификация");
         handler->getReply("");
-        Network::unsubscribeHandler(handler);
+        NetworkManager::unsubscribeHandler(handler);
         reply->deleteLater();
 
     });
@@ -100,8 +98,7 @@ void Network::sendRequestToPis(
 
     
 }
-/*
-void Network::hisGetChallenge(AbstractReplyHandler* handler)
+void NetworkManager::sendRequestToHis(const std::string& nhifMessage, AbstractReplyHandler* handler, const std::string& bearerToken)
 {
     if (!s_manager) {
         s_manager = new QNetworkAccessManager();
@@ -113,14 +110,31 @@ void Network::hisGetChallenge(AbstractReplyHandler* handler)
 
     QApplication::setOverrideCursor(Qt::BusyCursor);
 
-    QUrl url("https://ptest-auth.his.bg/token");
+    QUrl url("https://ptest-auth.his.bg/");
+
+    QString authValue = "Bearer ";
+    authValue += bearerToken.c_str();
 
     QNetworkRequest request(url);
+    request.setHeader(QNetworkRequest::KnownHeaders::ContentTypeHeader, "application/xml;charset=\"utf-8\"");
+    request.setRawHeader("accept", "\"application/xml\"");
+    request.setRawHeader("Connection", "Keep-Alive");
+    request.setRawHeader("Authorization",  authValue.toUtf8());
 
-    QNetworkReply* r = s_manager->get(request);
+    QNetworkReply* reply = s_manager->post(request, nhifMessage.data());
+
+    QObject::connect(reply, &QNetworkReply::finished,
+        [=] {
+
+            QApplication::restoreOverrideCursor();
+
+            ModalDialogBuilder::showMultilineDialog(reply->readAll().constData());
+
+
+        });
 }
-*/
-void Network::sendRequestToNra(const std::string xmlRequest, AbstractReplyHandler* handler)
+
+void NetworkManager::sendRequestToNra(const std::string xmlRequest, AbstractReplyHandler* handler)
 {
     if (!s_manager) {
         s_manager = new QNetworkAccessManager();
@@ -176,7 +190,7 @@ void Network::sendRequestToNra(const std::string xmlRequest, AbstractReplyHandle
 
             ModalDialogBuilder::showError(u8"Неуспешна автентификация");
             handler->getReply("");
-            Network::unsubscribeHandler(handler);
+            NetworkManager::unsubscribeHandler(handler);
             reply->deleteLater();
 
         });
@@ -184,15 +198,68 @@ void Network::sendRequestToNra(const std::string xmlRequest, AbstractReplyHandle
 
 }
 
+void NetworkManager::requestChallenge()
+{
+    if (!s_manager) {
+        s_manager = new QNetworkAccessManager();
+        // s_manager->setAutoDeleteReplies(true); //produces crashes sometimes lol
+        QObject::connect(s_manager, &QNetworkAccessManager::sslErrors, [=] {
+            qDebug() << "ERRORRRR";
+            });
+    }
 
-void Network::clearAccessCache()
+
+    QUrl url("https://ptest-auth.his.bg/token");
+
+    QNetworkRequest request(url);
+    QNetworkReply* reply = s_manager->get(request);
+
+    QApplication::setOverrideCursor(Qt::BusyCursor);
+
+    QObject::connect(reply, &QNetworkReply::finished,
+        [=] {
+
+            QApplication::restoreOverrideCursor();
+
+            HisToken::setChallengeMessage(reply->readAll().toStdString());
+
+            reply->deleteLater();
+
+        });
+}
+
+void NetworkManager::requestToken(const std::string& signedChallenge)
+{
+    QUrl url("https://ptest-auth.his.bg/token");
+
+    QNetworkRequest request(url);
+    request.setHeader(QNetworkRequest::KnownHeaders::ContentTypeHeader, "application/xml;charset=\"utf-8\"");
+    request.setRawHeader("accept", "\"application/xml\"");
+    request.setRawHeader("Connection", "Keep-Alive");
+
+    QNetworkReply* reply = s_manager->post(request, signedChallenge.c_str());
+    
+    QObject::connect(reply, &QNetworkReply::finished,
+        [=] {
+
+            QApplication::restoreOverrideCursor();
+
+            HisToken::setAuthRepy(reply->readAll().toStdString());
+
+            reply->deleteLater();
+
+        });
+}
+
+
+void NetworkManager::clearAccessCache()
 {
     if (s_manager == nullptr) return;
 
     s_manager->clearAccessCache();
 }
 
-void Network::unsubscribeHandler(AbstractReplyHandler* handler)
+void NetworkManager::unsubscribeHandler(AbstractReplyHandler* handler)
 {
     if (handlers.count(handler)) {
         handlers.erase(handler);

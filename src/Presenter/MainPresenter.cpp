@@ -8,21 +8,18 @@
 #include "Model/User/User.h"
 #include "Model/XML/xml.h"
 #include "Presenter/AddPracticePresenter/AddPracticePresenter.h"
-#include "Presenter/ReportDialogPresenter/ReportDialogPresenter.h"
 #include "Database/DbPractice.h"
 #include "View/Printer/Printer.h"
 
-MainPresenter::MainPresenter() :
-    view(nullptr),
-    m_notifLoader(&_tabPresenter)
+MainPresenter::MainPresenter()
 {}
 
 void MainPresenter::setView(IMainView* view)
 {
     this->view = view;
 
-    _tabPresenter.setView(view->tabView());
-    listSelector_.setTabPresenter(&_tabPresenter);
+    m_tabPresenter.setView(view->tabView());
+    m_listSelector.setTabPresenter(&m_tabPresenter);
 
     if (DbPractice::noPractices())
     {
@@ -57,7 +54,7 @@ void MainPresenter::setView(IMainView* view)
 
 void MainPresenter::printPressed()
 {
-    auto tab = _tabPresenter.currentTab();
+    auto tab = m_tabPresenter.currentTab();
 
     if (tab != nullptr) {
         tab->print();
@@ -75,7 +72,7 @@ void MainPresenter::newAmbPressed()
     auto patient = p.open();
 
     if (patient.has_value())
-        _tabPresenter.openList(patient.value());
+        m_tabPresenter.openList(patient.value());
 }
 
 void MainPresenter::newPerioPressed()
@@ -85,42 +82,26 @@ void MainPresenter::newPerioPressed()
     auto patient = p.open();
 
     if (patient.has_value())
-        _tabPresenter.openPerio(patient.value());
+        m_tabPresenter.openPerio(patient.value());
 }
 
 void MainPresenter::showListSelector()
 {
-    listSelector_.openDialog();
+    m_listSelector.openDialog();
 }
 
-void MainPresenter::generateReport()
+
+void MainPresenter::pisDialog()
 {
-    if (!User::practice().nzok_contract.has_value())
-    {
-        ModalDialogBuilder::showError(
-            u8"За да генерирате отчет, моля попълнете данните на договора с НЗОК от настройки"
-        );
-        return;
-    }
-
-    ReportDialogPresenter p;
-
-    ModalDialogBuilder::openDialog(&p);
-       
-}
-
-void MainPresenter::generateInvoice()
-{
-
     if (!User::practice().nzok_contract)
     {
         ModalDialogBuilder::showError(
-            u8"За да заредите месечно известие, моля попълнете данните на договора с НЗОК от настройки"
+            u8"Моля попълнете данните на договора с НЗОК от настройки"
         );
         return;
     }
 
-    m_notifLoader.loadNotification();
+    ModalDialogBuilder::pisDialog(&m_notifPresenter);
 
 }
 
@@ -142,16 +123,16 @@ void MainPresenter::settingsPressed()
 
 bool MainPresenter::save() 
 {
-    if(_tabPresenter.currentTab())
-        return _tabPresenter.currentTab()->save();
+    if(m_tabPresenter.currentTab())
+        return m_tabPresenter.currentTab()->save();
 
     return true;
 }
 
 bool MainPresenter::saveAs()
 {
-    if (_tabPresenter.currentTab())
-        return _tabPresenter.currentTab()->saveAs();
+    if (m_tabPresenter.currentTab())
+        return m_tabPresenter.currentTab()->saveAs();
 
     return true;
 }
@@ -189,6 +170,6 @@ void MainPresenter::userSettingsPressed()
 
 bool MainPresenter::closeAllTabs()
 {
-    return _tabPresenter.permissionToLogOut();
+    return m_tabPresenter.permissionToLogOut();
 }
 

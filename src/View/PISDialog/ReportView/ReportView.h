@@ -1,29 +1,28 @@
 #pragma once
 
-#include <QDialog>
-#include "ui_ReportDialog.h"
+#include <QWidget>
+#include "ui_ReportView.h"
 #include "ReportDialogResult.h"
-#include "IReportDialog.h"
+#include "IReportView.h"
+#include "Presenter/PISDialogPresenter/ReportPresenter/ReportPresenter.h"
 
-class ReportDialogPresenter;
-
-class ReportDialog : public QDialog, public IReportDialog
+class ReportView : public QWidget, public IReportView
 {
 	Q_OBJECT
 
-	ReportDialogPresenter* presenter;
+	ReportPresenter presenter;
 	//if true, generate button acts as abort button
 	bool m_stop{false};
 
 	void paintEvent(QPaintEvent* event) override;
 
 public:
-	ReportDialog(ReportDialogPresenter* p, QWidget *parent = Q_NULLPTR);
+	ReportView(QWidget *parent = Q_NULLPTR);
 
-	~ReportDialog();
+	~ReportView();
 
 private:
-	Ui::ReportDialog ui;
+	Ui::ReportViewClass ui;
 
 	// Inherited via IReportDialog
 	void appendText(const std::string& text) override;

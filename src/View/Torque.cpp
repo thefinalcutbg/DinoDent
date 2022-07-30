@@ -24,8 +24,7 @@ Torque::Torque(QWidget* parent)
     ui.saveAsButton->setIcon(QIcon(":/icons/icon_saveAs.png"));
     ui.listSelectButton->setIcon(QIcon(":/icons/icon_open.png"));
     ui.printButton->setIcon(QIcon(":/icons/icon_print.png"));
-    ui.reportButton->setIcon(QIcon(":/icons/icon_reports.png"));
-    ui.invoiceButton->setIcon(QIcon(":/icons/icon_invoice.png"));
+    ui.pisButton->setIcon(QIcon(":/icons/icon_nzok.png"));
     ui.settingsButton->setIcon(QIcon(":/icons/icon_settings.png"));
 
     QAction* settingsAction = new QAction(u8"Настройки");
@@ -40,9 +39,8 @@ Torque::Torque(QWidget* parent)
     connect(ui.listSelectButton, &QPushButton::clicked, [&] {presenter.showListSelector(); });
     connect(ui.printButton, &QPushButton::clicked, [&] {presenter.printPressed(); });
     connect(ui.perioButton, &QPushButton::clicked, [&] {presenter.newPerioPressed(); });
-    connect(ui.reportButton, &QPushButton::clicked, [&] {presenter.generateReport(); });
     connect(settingsAction, &QAction::triggered, [&] {presenter.userSettingsPressed();});
-    connect(ui.invoiceButton, &QPushButton::clicked, [&] { presenter.generateInvoice();});
+    connect(ui.pisButton, &QPushButton::clicked, [&] { presenter.pisDialog();});
     connect(ui.settingsButton, &QPushButton::clicked, [&] { presenter.settingsPressed();});
 
     connect(exitAction, &QAction::triggered, [&] { presenter.logOut(); });

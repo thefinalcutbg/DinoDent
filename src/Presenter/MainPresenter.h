@@ -4,14 +4,14 @@
 #include "View/IMainView.h"
 #include "TabPresenter/TabPresenter.h"
 #include "ListSelector/ListSelectorPresenter.h"
-#include "MonthNotifLoader.h"
+#include "PISDialogPresenter/MonthNotifPresenter/MonthNotifPresenter.h"
 
 class MainPresenter
 {
-	TabPresenter _tabPresenter;
-	ListSelectorPresenter listSelector_;
-	MonthNotifLoader m_notifLoader;
-	IMainView* view;
+	TabPresenter m_tabPresenter;
+	ListSelectorPresenter m_listSelector;
+	MonthNotifPresenter m_notifPresenter{ &m_tabPresenter };
+	IMainView* view{nullptr};
 
 public:
 	MainPresenter();
@@ -21,8 +21,7 @@ public:
 	void newAmbPressed();
 	void newPerioPressed();
 	void showListSelector();
-	void generateReport();
-	void generateInvoice();
+	void pisDialog();
 	void settingsPressed();
 	bool save();
 	bool saveAs();

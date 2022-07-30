@@ -1,5 +1,5 @@
 #pragma once
-#include "View/ReportDialog/IReportDialog.h"
+#include "View/PISDialog/ReportView/IReportView.h"
 
 #include <vector>
 #include <unordered_map>
@@ -11,9 +11,9 @@
 #include <optional>
 #include <queue>
 
-class ReportDialogPresenter
+class ReportPresenter
 {
-	IReportDialog* view;
+	IReportView* view;
 
 	//stores the amblists
 	std::vector<AmbList> lists;
@@ -37,7 +37,7 @@ class ReportDialogPresenter
 
 	//void pisCheckNext();
 	void updateProgressBar();
-	bool checkAmbList(const AmbList& list, const Patient& patient);
+	void checkAmbList(const AmbList& list, const Patient& patient);
 	void finish();
 
 	void checkNext();
@@ -50,6 +50,6 @@ public:
 	void setInsuranceStatus(const std::optional<InsuranceStatus>& insuranceStatus);
 	void setDate(int month, int year);
 	void generateReport(bool checkPis, bool checkNra);
-	void setView(IReportDialog* view);
+	void setView(IReportView* view);
 };
 

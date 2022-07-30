@@ -2,7 +2,7 @@
 
 #include <string>
 
-class IReportDialog
+class IReportView
 {
 public:
 	virtual void appendText(const std::string& text) = 0;

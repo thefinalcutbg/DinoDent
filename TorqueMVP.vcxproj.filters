@@ -399,9 +399,6 @@
     <ClCompile Include="src\Model\XML\xml.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\ReportDialog\ReportDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\View\uiComponents\qt_derived\IconButton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -426,7 +423,7 @@
     <ClCompile Include="src\View\ProcedureDisplayModel\ProcedureSelectModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\ReportDialog\ReportErrorDialog\ReportErrorDialog.cpp">
+    <ClCompile Include="src\View\ReportErrorDialog\ReportErrorDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\SettingsDialog\SettingsDialog.cpp">
@@ -588,22 +585,19 @@
     <ClCompile Include="src\View\PISHistoryDialog\PISHistoryDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\MonthNotifDialog\MonthNotifDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\View\MonthNotifDialog\MonthNotifTableModel.cpp">
+    <ClCompile Include="src\View\PISDialog\MonthNotifView\MonthNotifTableModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Network\Common\AbstractReplyHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Presenter\MonthNotifLoader.cpp">
+    <ClCompile Include="src\Presenter\PISDialogPresenter\MonthNotifPresenter\MonthNotifPresenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\PinPromptDialog\PinPromptDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Presenter\ReportDialogPresenter\ReportDialogPresenter.cpp">
+    <ClCompile Include="src\Presenter\PISDialogPresenter\ReportPresenter\ReportPresenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Model\InsuranceStatus.cpp">
@@ -679,6 +673,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Network\HIS\HisToken.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\PISDialog\PisDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\PISDialog\ReportView\ReportView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\PISDialog\MonthNotifView\MonthNotifView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -839,9 +842,6 @@
     <QtMoc Include="src\View\LoginView\PracticeListDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\ReportDialog\ReportDialog.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="src\View\uiComponents\qt_derived\IconButton.h">
       <Filter>Header Files</Filter>
     </QtMoc>
@@ -854,7 +854,7 @@
     <QtMoc Include="src\View\ProcedureDisplayModel\ProcedureSelectModel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\ReportDialog\ReportErrorDialog\ReportErrorDialog.h">
+    <QtMoc Include="src\View\ReportErrorDialog\ReportErrorDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\SettingsDialog\SettingsDialog.h">
@@ -914,10 +914,7 @@
     <QtMoc Include="src\View\PISHistoryDialog\PISHistoryDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\MonthNotifDialog\MonthNotifDialog.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="src\View\MonthNotifDialog\MonthNotifTableModel.h">
+    <QtMoc Include="src\View\PISDialog\MonthNotifView\MonthNotifTableModel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\PinPromptDialog\PinPromptDialog.h">
@@ -939,6 +936,15 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\FinancialView\RecipientEditDialog\RecipientEditView.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\PISDialog\PisDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\PISDialog\ReportView\ReportView.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\PISDialog\MonthNotifView\MonthNotifView.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -1030,16 +1036,13 @@
     <QtUic Include="src\View\LoginView\PracticeListDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="src\View\ReportDialog\ReportDialog.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
     <QtUic Include="src\View\DoctorSettingsDialog\DoctorSettingsDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\Printer\ProcedurePrintSelectDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="src\View\ReportDialog\ReportErrorDialog\ReportErrorDialog.ui">
+    <QtUic Include="src\View\ReportErrorDialog\ReportErrorDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\SettingsDialog\SettingsDialog.ui">
@@ -1081,9 +1084,6 @@
     <QtUic Include="src\View\PISHistoryDialog\PISHistoryDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="src\View\MonthNotifDialog\MonthNotifDialog.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
     <QtUic Include="src\View\PinPromptDialog\PinPromptDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
@@ -1097,6 +1097,15 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\FinancialView\RecipientEditDialog\RecipientEditView.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\PISDialog\PisDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\PISDialog\MonthNotifView\MonthNotifView.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\PISDialog\ReportView\ReportView.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
@@ -1467,9 +1476,6 @@
     <ClInclude Include="src\Model\XML\xml.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\View\ReportDialog\ReportDialogResult.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Presenter\DoctorDialogPresenter\DoctorDialogPresenter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1611,13 +1617,10 @@
     <ClInclude Include="src\Model\Financial\FinancialEnums.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Presenter\MonthNotifLoader.h">
+    <ClInclude Include="src\Presenter\PISDialogPresenter\MonthNotifPresenter\MonthNotifPresenter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Presenter\ReportDialogPresenter\ReportDialogPresenter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\View\ReportDialog\IReportDialog.h">
+    <ClInclude Include="src\Presenter\PISDialogPresenter\ReportPresenter\ReportPresenter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\InsuranceStatus.h">
@@ -1669,6 +1672,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Network\HIS\HisToken.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\View\PISDialog\ReportView\ReportDialogResult.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\View\PISDialog\ReportView\IReportView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\View\PISDialog\MonthNotifView\IMonthNotifView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -7,25 +7,29 @@
 #include <optional>
 
 class TabPresenter;
+class IMonthNotifView;
 
-class MonthNotifLoader
+class MonthNotifPresenter
 {
 
 	GetMonthNotifListService m_listHandler;
 	GetMonthNotifService m_notifHandler;
 
-	TabPresenter* presenter;
-
-	//bool m_awaitingReply{ false };
+	TabPresenter* tab_presenter;
+	IMonthNotifView* view{ nullptr };
 	
 	std::vector<MonthNotifRow> m_notifRows;
 
 public:
-	MonthNotifLoader(TabPresenter* presenter);
-	void loadNotification();
+	MonthNotifPresenter(TabPresenter* presenter);
+	
+	void setView(IMonthNotifView* view);
+	void loadFromXml();
+	void loadFromPis();
+	void okPressed(int currentIdx);
 	//handles the reply from replyhandler
 	void setNotifRows(const std::optional<std::vector<MonthNotifRow>>& notifRows);
-	void setMonthNotif(const std::string& monthNotif);
+
 
 };
 

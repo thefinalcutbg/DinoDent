@@ -58,8 +58,6 @@ void ModalDialogBuilder::openDialog(LoginPresenter* p)
 	d.exec();
 }
 
-#include <View/ReportDialog/ReportDialog.h>
-
 
 #include "View/AddPracticeDialog/AddPracticeDialog.h"
 
@@ -68,11 +66,7 @@ void ModalDialogBuilder::openDialog(AddPracticePresenter* p)
 	AddPracticeDialog d(p);
 	d.exec();
 }
-void ModalDialogBuilder::openDialog(ReportDialogPresenter* p)
-{
-	ReportDialog d(p);
-	d.exec();
-}
+
 #include "View/DoctorSettingsDialog/DoctorSettingsDialog.h"
 
 void ModalDialogBuilder::openDialog(DoctorDialogPresenter* p)
@@ -81,13 +75,6 @@ void ModalDialogBuilder::openDialog(DoctorDialogPresenter* p)
 	d.exec();
 }
 
-#include "View/MonthNotifDialog/MonthNotifDialog.h"
-
-int ModalDialogBuilder::monthNotifPicker(const std::vector<MonthNotifRow>& rows)
-{
-	MonthNotifDialog d(rows);
-	return d.exec();
-}
 
 
 #include "View/saveAsDialog/SaveAsDialog.h"
@@ -246,7 +233,7 @@ void ModalDialogBuilder::showError(const std::string& error)
 
 }
 
-#include "View/ReportDialog/ReportErrorDialog/ReportErrorDialog.h"
+#include "View/ReportErrorDialog/ReportErrorDialog.h"
 
 void ModalDialogBuilder::showMultilineDialog(const std::string& errors)
 {
@@ -351,3 +338,15 @@ std::string ModalDialogBuilder::ksmpDialog(KsmpList& list, const std::string& pr
 
 	return d.getResult();
 }
+
+#include "View/PISDialog/PisDialog.h"
+
+void ModalDialogBuilder::pisDialog(MonthNotifPresenter* presenter)
+{
+	PisDialog d;
+	d.monthNotifView()->setPresenter(presenter);
+	d.exec();
+}
+
+
+

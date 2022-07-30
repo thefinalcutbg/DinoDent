@@ -2,7 +2,6 @@
 #include <unordered_set>
 #include <string>
 #include <vector>
-#include "View/ReportDialog/ReportDialogResult.h"
 #include "Model/Procedure/ProcedureTemplate.h"
 #include "Model/AmbList.h"
 #include "Model/Financial/BusinessOperation.h"
@@ -24,8 +23,11 @@ class DoctorDialogPresenter;
 class InvoicePresenter;
 class AddPracticePresenter;
 class MonthNotifPresenter;
-class ReportDialogPresenter;
+
 enum class DialogAnswer { Yes, No, Cancel };
+
+enum class NotificationType {NoData, Xml, PisHash };
+
 
 namespace ModalDialogBuilder
 {
@@ -37,9 +39,8 @@ namespace ModalDialogBuilder
 	void openDialog(DetailedStatusPresenter* p);
 	void openDialog(LoginPresenter* p);
 	void openDialog(AddPracticePresenter* p);
-	void openDialog(ReportDialogPresenter* p);
 	void openDialog(DoctorDialogPresenter* p);
-	int monthNotifPicker(const std::vector<MonthNotifRow>& rows);
+
 	//returns 0 if canceled
 	long long saveAsDocNumber(long long newNum, std::unordered_set<int> existingNumbers, const std::string& docName, int numberCharLength);
 	std::optional<Date> saveAsDate(const Date& date, const std::string& docName);
@@ -65,5 +66,6 @@ namespace ModalDialogBuilder
 	std::string pinPromptDialog(const std::string& pem);
 	//returns empty string if canceled
 	std::string ksmpDialog(KsmpList& list, const std::string& preSelectCode = {});
+	void pisDialog(MonthNotifPresenter* presenter);
 };
 

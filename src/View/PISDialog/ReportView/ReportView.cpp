@@ -1,14 +1,14 @@
-﻿#include "ReportDialog.h"
+﻿#include "ReportView.h"
 #include <QFileDialog>
 #include <QPainter>
-#include "Presenter/ReportDialogPresenter/ReportDialogPresenter.h"
 
-ReportDialog::ReportDialog(ReportDialogPresenter* p, QWidget *parent)
-	: presenter(p), QDialog(parent)
+
+ReportView::ReportView( QWidget *parent)
+	: QWidget(parent)
 {
 	ui.setupUi(this);
 
-	setModal(true);
+	
 
 	setWindowTitle("Генериране на отчет");
 	setWindowIcon(QIcon(":/icons/icon_reports.png"));
@@ -32,30 +32,31 @@ ReportDialog::ReportDialog(ReportDialogPresenter* p, QWidget *parent)
 	for (int i = 0; i < 12; i++)
 		ui.monthCombo->addItem(monthNames[i]);
 
-	connect(ui.generateButton, &QPushButton::clicked, [=] {
+	connect(ui.generateButton, &QPushButton::clicked, [&] {
 		
 		m_stop? 
-		presenter->reset()
+		presenter.reset()
 		:
-		presenter->generateReport(
+		presenter.generateReport(
 			ui.pisCheck->isChecked(),
 			ui.nraCheck->isChecked()
 			);
 
 	});
 
-	connect(ui.monthCombo, &QComboBox::currentIndexChanged, [=](int idx) {
-		presenter->setDate(ui.monthCombo->currentIndex() + 1, ui.yearSpin->value());
+	connect(ui.monthCombo, &QComboBox::currentIndexChanged, [&](int idx) {
+		presenter.setDate(ui.monthCombo->currentIndex() + 1, ui.yearSpin->value());
 		});
 
-	connect(ui.yearSpin, &QSpinBox::valueChanged, [=](int value) {
-		presenter->setDate(ui.monthCombo->currentIndex() + 1, ui.yearSpin->value());
+	connect(ui.yearSpin, &QSpinBox::valueChanged, [&](int value) {
+		presenter.setDate(ui.monthCombo->currentIndex() + 1, ui.yearSpin->value());
 		});
 
-	connect(ui.pisButton, &QPushButton::clicked, [=] { presenter->sendToPis(); });
-	connect(ui.xmlButton, &QPushButton::clicked, [=] { presenter->saveToXML(); });
+	connect(ui.pisButton, &QPushButton::clicked, [&] { presenter.sendToPis(); });
+	connect(ui.xmlButton, &QPushButton::clicked, [&] { presenter.saveToXML(); });
 
-	presenter->setView(this);
+	//CHANGE THIS LATER
+	presenter.setView(this);
 
 	ui.monthCombo->setCurrentIndex(Date::currentMonth() - 1); // index 0 == january;
 	ui.yearSpin->setValue(Date::currentYear());
@@ -64,40 +65,40 @@ ReportDialog::ReportDialog(ReportDialogPresenter* p, QWidget *parent)
 }
 
 
-void ReportDialog::paintEvent(QPaintEvent* event)
+void ReportView::paintEvent(QPaintEvent* event)
 {
 	QPainter painter(this);
 	painter.fillRect(rect(), QColor(Qt::white));
 }
 
 
-ReportDialog::~ReportDialog()
+ReportView::~ReportView()
 {
 }
 
-void ReportDialog::appendText(const std::string& text)
+void ReportView::appendText(const std::string& text)
 {
 	ui.textEdit->append(text.data());
 }
 
-void ReportDialog::clearText()
+void ReportView::clearText()
 {
 	ui.textEdit->clear();
 }
 
-void ReportDialog::setPercent(int percent)
+void ReportView::setPercent(int percent)
 {
 	ui.progressBar->setValue(percent);
 }
 
-void ReportDialog::enableReportButtons(bool enabled)
+void ReportView::enableReportButtons(bool enabled)
 {
 	ui.pisButton->setEnabled(enabled);
 	ui.xmlButton->setEnabled(enabled);
 
 }
 
-void ReportDialog::showStopButton(bool yes)
+void ReportView::showStopButton(bool yes)
 {
 	yes ?
 		ui.generateButton->setText(u8"Спри")

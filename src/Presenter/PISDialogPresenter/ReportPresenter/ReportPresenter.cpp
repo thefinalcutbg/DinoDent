@@ -1,4 +1,4 @@
-﻿#include "ReportDialogPresenter.h"
+﻿#include "ReportPresenter.h"
 #include "Database/DbAmbList.h"
 #include "Database/DbPatient.h"
 #include "Model/AmbListValidator.h"
@@ -51,14 +51,14 @@ std::string consecutionCheck(const std::vector<AmbList>& lists) {
 
 }
 
-void ReportDialogPresenter::updateProgressBar()
+void ReportPresenter::updateProgressBar()
 {
 	double percent = (static_cast<double>(m_currentIndex) / lists.size()) * 100;
 
 	view->setPercent(percent);
 }
 
-bool ReportDialogPresenter::checkAmbList(const AmbList& list, const Patient& patient)
+void ReportPresenter::checkAmbList(const AmbList& list, const Patient& patient)
 {
 	AmbListValidator v(list, patient);
 
@@ -78,7 +78,7 @@ bool ReportDialogPresenter::checkAmbList(const AmbList& list, const Patient& pat
 
 	}
 
-	if (!nraCheck) return result;
+	if (!nraCheck) return;
 
 	switch (patient.insuranceStatus->status) {
 	case Insured::Yes: break;
@@ -93,17 +93,16 @@ bool ReportDialogPresenter::checkAmbList(const AmbList& list, const Patient& pat
 
 	case Insured::No:
 		view->appendText(u8"Пациент с ЕГН/ЛНЧ " + patient.id + u8" е неосигурен");
-		m_hasErrors = false;
+		m_hasErrors = true;
 		break;
 	}
-
 
 
 }
 
 
 
-void ReportDialogPresenter::reset()
+void ReportPresenter::reset()
 {
 	//reseting
 	m_report.reset();
@@ -116,7 +115,7 @@ void ReportDialogPresenter::reset()
 
 }
 
-void ReportDialogPresenter::sendToPis()
+void ReportPresenter::sendToPis()
 {
 	if (m_hasErrors &&
 		!ModalDialogBuilder::askDialog(
@@ -135,7 +134,7 @@ void ReportDialogPresenter::sendToPis()
 
 }
 
-void ReportDialogPresenter::checkNext()
+void ReportPresenter::checkNext()
 {
 
 	if (m_currentIndex >= lists.size()) {
@@ -185,7 +184,7 @@ void ReportDialogPresenter::checkNext()
 	checkNext();
 }
 
-void ReportDialogPresenter::saveToXML()
+void ReportPresenter::saveToXML()
 {
 	if (m_hasErrors && 
 		!ModalDialogBuilder::askDialog(
@@ -219,7 +218,7 @@ void ReportDialogPresenter::saveToXML()
 	ModalDialogBuilder::openExplorer(filepath);
 }
 
-void ReportDialogPresenter::setPISActivities(const std::optional<Procedures>& pisProcedures)
+void ReportPresenter::setPISActivities(const std::optional<Procedures>& pisProcedures)
 {
 	if (!pisProcedures.has_value()) {
 		ModalDialogBuilder::showError(u8"Неуспешна връзка със сървъра.");
@@ -236,7 +235,7 @@ void ReportDialogPresenter::setPISActivities(const std::optional<Procedures>& pi
 	
 }
 
-void ReportDialogPresenter::setInsuranceStatus(const std::optional<InsuranceStatus>& insuranceStatus)
+void ReportPresenter::setInsuranceStatus(const std::optional<InsuranceStatus>& insuranceStatus)
 {
 	if (!insuranceStatus) {
 		reset();
@@ -251,14 +250,14 @@ void ReportDialogPresenter::setInsuranceStatus(const std::optional<InsuranceStat
 	checkNext();
 }
 
-void ReportDialogPresenter::setDate(int month, int year)
+void ReportPresenter::setDate(int month, int year)
 {
 	this->month = month; 
 	this->year = year;
 	reset();
 }
 
-void ReportDialogPresenter::generateReport(bool checkPis, bool checkNra)
+void ReportPresenter::generateReport(bool checkPis, bool checkNra)
 {
 
 	//getting amblists and patients:
@@ -309,7 +308,7 @@ void ReportDialogPresenter::generateReport(bool checkPis, bool checkNra)
 
 }
 
-void ReportDialogPresenter::finish()
+void ReportPresenter::finish()
 {
 	//checking list number and date sequence - this will probably become obsolete with HIS
 
@@ -368,7 +367,7 @@ void ReportDialogPresenter::finish()
 	view->enableReportButtons(true);
 }
 
-void ReportDialogPresenter::setView(IReportDialog* view)
+void ReportPresenter::setView(IReportView* view)
 {
 	this->view = view;
 }

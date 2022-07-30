@@ -12,11 +12,17 @@ bool HisService::sendRequest(const std::string& query)
 		return HisToken::requestToken(this, query);
 	}
 
+
 	auto signedMsg = signMessage(query);
 
-	//if (signedMsg.empty()) return false;
+	if (signedMsg.empty()) return false;
 
-	NetworkManager::sendRequestToHis(signedMsg, this, HisToken::getToken());
+	NetworkManager::sendRequestToHis(
+		  this, 
+		  signedMsg, 
+		  HisToken::getToken(), 
+		 "https://ptest-auth.his.bg/" + getServicePath()
+	);
 
 	return true;
 	
@@ -24,6 +30,7 @@ bool HisService::sendRequest(const std::string& query)
 
 void HisService::parseReply(const std::string& reply)
 {
+	ModalDialogBuilder::showMultilineDialog(reply);
 }
 
 std::string HisService::signMessage(const std::string& message)

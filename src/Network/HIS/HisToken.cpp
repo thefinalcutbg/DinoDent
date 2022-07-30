@@ -3,7 +3,7 @@
 #include "Network/Common//PKCS11.h"
 #include "Network/Common//XmlSigner.h"
 #include "Network/Common/NetworkManager.h"
-#include "HisToken.h".h"
+#include "HisToken.h"
 #include "HisService.h"
 
 HisService* current_service{nullptr};
@@ -118,8 +118,7 @@ void HisToken::setAuthRepy(const std::string& reply)
 		NextSiblingElement()->						//issuedOn
 		NextSiblingElement()->Attribute("value");	//expiresOn
 
-	ModalDialogBuilder::showMessage(u8"Токен: " + s_token + 
-		"\n изтича на: " + expiresOn);
+	//ModalDialogBuilder::showMessage(u8"Токен: " + s_token)
 
 	current_service->sendRequest(query_temp);
 }

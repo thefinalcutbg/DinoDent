@@ -6,6 +6,14 @@ struct Patient;
 struct Recipient
 {
 	Recipient() {};
+
+	Recipient(
+		const std::string& name,
+		const std::string& address,
+		const std::string& bulstat,
+		const std::string& phone
+	) : name(name), address(address), bulstat(bulstat), phone(phone) {}
+
 	//NZOK recipient
 	Recipient(int practiceRhif);
 

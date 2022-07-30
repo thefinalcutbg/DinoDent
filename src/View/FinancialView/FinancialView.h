@@ -25,6 +25,7 @@ public:
 	void setInvoice(const Invoice& inv) override;
 	void setBusinessOperations(const BusinessOperations& businessOp, const AggregatedAmounts& amounts) override;
 	void setMainDocument(const std::optional<MainDocument>& mainDoc);
+
 	~FinancialView();
 
 private:

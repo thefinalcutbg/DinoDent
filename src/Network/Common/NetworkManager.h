@@ -4,6 +4,7 @@
 class AbstractReplyHandler;
 class PKCS11;
 
+
 namespace NetworkManager
 {
 
@@ -15,9 +16,10 @@ namespace NetworkManager
 	);
 
 	void sendRequestToHis(
-		const std::string& nhifMessage,
 		AbstractReplyHandler* handler,
-		const std::string& bearerToken
+		const std::string& nhifMessage,
+		const std::string& token,
+		const std::string& urlAndServicePath
 	);
 
 	void sendRequestToNra(

@@ -44,10 +44,6 @@ Torque::Torque(QWidget* parent)
     connect(settingsAction, &QAction::triggered, [&] {presenter.userSettingsPressed();});
     connect(ui.invoiceButton, &QPushButton::clicked, [&] { presenter.generateInvoice();});
     connect(ui.settingsButton, &QPushButton::clicked, [&] { presenter.settingsPressed();});
-    connect(ui.hisButton, &QPushButton::clicked, [&] {    
-        
-
-    s.sendRequest("Haha");});
 
     connect(exitAction, &QAction::triggered, [&] { presenter.logOut(); });
 

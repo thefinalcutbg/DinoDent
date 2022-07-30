@@ -9,6 +9,7 @@ class RecipientTileButton : public TileButton
 	QString name;
 	QString id;
 	QString address;
+	QString phone;
 
 	void paintInfo(QPainter* painter) override;
 

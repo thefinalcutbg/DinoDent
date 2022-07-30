@@ -1,7 +1,7 @@
-#include "GetHirbnoService.h"
+﻿#include "GetHirbnoService.h"
 #include <TinyXML/tinyxml.h>
 #include "Model/FreeFunctions.h"
-
+#include "View/ModalDialogBuilder.h"
 void GetHirbnoService::sendRequest(int personType, const std::string& id, std::function<void(const std::string&)> callback)
 {
 	m_callback = callback;
@@ -39,7 +39,10 @@ void GetHirbnoService::parseReply(const std::string& reply)
 
 
 
-	if (!hirbno) {return;}
+	if (!hirbno) {
+		ModalDialogBuilder::showMessage(u8"Не е намерена активна здравна книжка");
+		return;
+	}
 
 	std::string result = hirbno->GetText();
 

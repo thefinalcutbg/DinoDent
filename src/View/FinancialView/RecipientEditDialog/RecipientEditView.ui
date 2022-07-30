@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>RecipientEditViewClass</class>
- <widget class="QWidget" name="RecipientEditViewClass">
+ <widget class="QDialog" name="RecipientEditViewClass">
   <property name="windowModality">
    <enum>Qt::ApplicationModal</enum>
   </property>
@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>288</width>
+    <width>373</width>
     <height>162</height>
    </rect>
   </property>
@@ -54,16 +54,32 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
-        <widget class="QLineEdit" name="nameEdit"/>
+        <widget class="QLineEdit" name="nameEdit">
+         <property name="maxLength">
+          <number>400</number>
+         </property>
+        </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="idEdit"/>
+        <widget class="QLineEdit" name="idEdit">
+         <property name="maxLength">
+          <number>13</number>
+         </property>
+        </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="addressEdit"/>
+        <widget class="QLineEdit" name="addressEdit">
+         <property name="maxLength">
+          <number>400</number>
+         </property>
+        </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="phoneEdit"/>
+        <widget class="QLineEdit" name="phoneEdit">
+         <property name="maxLength">
+          <number>20</number>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>

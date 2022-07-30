@@ -222,6 +222,24 @@ void FinancialPresenter::mainDocumentChanged(long long num, Date date)
     makeEdited();
 }
 
+void FinancialPresenter::editRecipient()
+{
+    if (m_invoice.nzokData) {
+
+        ModalDialogBuilder::showMessage(u8"Не можете да редактирате тези данни");
+        return;
+    }
+    auto result = ModalDialogBuilder::editRecipient(m_invoice.recipient);
+
+    if (!result) return;
+
+    m_invoice.recipient = result.value();
+
+    view->setInvoice(m_invoice);
+
+    makeEdited();
+}
+
 long long FinancialPresenter::rowID() const
 {
 	return m_invoice.rowId;

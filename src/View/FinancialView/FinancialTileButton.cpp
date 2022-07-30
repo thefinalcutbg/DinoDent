@@ -8,6 +8,7 @@ void RecipientTileButton::setRecipient(const Recipient& r)
 	this->name = QString::fromStdString(r.name);
 	this->id = QString::fromStdString(r.bulstat);
 	this->address = QString::fromStdString(r.address);
+	this->phone = QString::fromStdString(r.phone);
 	repaint();
 }
 
@@ -16,12 +17,13 @@ void RecipientTileButton::paintInfo(QPainter* painter)
 {
 
 
-	constexpr int rowYPos[3]{ 60,80,100 };
+	constexpr int rowYPos[4]{ 60,80,100,120 };
 
 	painter->setFont(infoLabel);
 	painter->drawText(20, rowYPos[0], u8"Име: ");
 	painter->drawText(20, rowYPos[1], u8"Идент.№: ");
 	painter->drawText(20, rowYPos[2], u8"Адрес: ");
+	painter->drawText(20, rowYPos[3], u8"Телефон: ");
 
 	QFontMetrics metric(infoLabel);
 
@@ -33,6 +35,7 @@ void RecipientTileButton::paintInfo(QPainter* painter)
 	painter->drawText(20 + horizontalAdvance(u8"Име: "), rowYPos[0], name);
 	painter->drawText(20 + horizontalAdvance(u8"Идент.№: "), rowYPos[1], id);
 	painter->drawText(20 + horizontalAdvance(u8"Адрес: "), rowYPos[2], address);
+	painter->drawText(20 + horizontalAdvance(u8"Телефон: "), rowYPos[3], phone);
 
 	painter->setFont(header);
 	painter->setPen(hover && !clicked ? QPen(Theme::fontRedClicked) : QPen(QColor(Theme::fontRed)));

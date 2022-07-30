@@ -33,6 +33,7 @@ public:
 	void sendToPis();
 	void docTypeChanged(int index);
 	void mainDocumentChanged(long long num, Date date);
+	void editRecipient();
 
 	long long rowID() const override;
 	bool save() override;

@@ -98,22 +98,24 @@ void NetworkManager::sendRequestToPis(
 
     
 }
-void NetworkManager::sendRequestToHis(const std::string& nhifMessage, AbstractReplyHandler* handler, const std::string& bearerToken)
+void NetworkManager::sendRequestToHis(
+                    AbstractReplyHandler* handler,
+                    const std::string& nhifMessage,
+                    const std::string& token,
+                    const std::string& urlAndServicePath
+)
 {
-    if (!s_manager) {
-        s_manager = new QNetworkAccessManager();
-        // s_manager->setAutoDeleteReplies(true); //produces crashes sometimes lol
-        QObject::connect(s_manager, &QNetworkAccessManager::sslErrors, [=] {
-            qDebug() << "ERRORRRR";
-            });
-    }
+    if (!s_manager) {s_manager = new QNetworkAccessManager(); }
 
     QApplication::setOverrideCursor(Qt::BusyCursor);
 
-    QUrl url("https://ptest-auth.his.bg/");
-
+    QUrl url(urlAndServicePath.c_str());
+    
     QString authValue = "Bearer ";
-    authValue += bearerToken.c_str();
+    authValue.append(token.c_str());
+
+    QSslConfiguration config(QSslConfiguration::defaultConfiguration());
+    config.setProtocol(QSsl::SslProtocol::TlsV1_3);
 
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::KnownHeaders::ContentTypeHeader, "application/xml;charset=\"utf-8\"");

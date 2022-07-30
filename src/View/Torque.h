@@ -16,7 +16,6 @@ class Torque : public QMainWindow, public IMainView
 
     MainPresenter presenter;
 
-
     void paintEvent(QPaintEvent* event);
     void closeEvent(QCloseEvent* event);
 
@@ -26,7 +25,7 @@ public:
     void setUserLabel(const std::string& doctorName, const std::string& practiceName) override;
     void exitProgram() override;
     bool initialized();
-    HisService s;
+
 private:
     Ui::TorqueClass ui;
 };

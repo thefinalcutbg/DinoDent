@@ -7,6 +7,7 @@
 #include "Model/AmbList.h"
 #include "Model/Financial/BusinessOperation.h"
 #include "Model/Financial/MonthNotifRow.h"
+#include "Model/Financial/Recipient.h"
 #include "Model/KSMP.h"
 
 enum class SelectionPref {All, OnlyNZOK, OnlyPaid};
@@ -50,6 +51,7 @@ namespace ModalDialogBuilder
 	bool pisHistoryDialog(const Procedures& procedures);
 	std::optional<BusinessOperation> editBusinessOperation(const BusinessOperation& op);
 	std::optional<BusinessOperation> addBusinessOperation(const std::vector<ProcedureTemplate>& priceList);
+	std::optional<Recipient> editRecipient(const Recipient& r);
 	bool askDialog(const std::string& questionText);
 	void showError(const std::string& error);
 	void showMultilineDialog(const std::string& errors);

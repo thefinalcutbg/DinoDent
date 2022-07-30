@@ -210,6 +210,15 @@ std::optional<BusinessOperation> ModalDialogBuilder::addBusinessOperation(const 
 	return d.getResult();
 }
 
+#include "View/FinancialView/RecipientEditDialog/RecipientEditView.h"
+
+std::optional<Recipient> ModalDialogBuilder::editRecipient(const Recipient& r)
+{
+	RecipientEditView d(r);
+	d.exec();
+	return d.getResult();
+}
+
 bool ModalDialogBuilder::askDialog(const std::string& questionText)
 {
 	QMessageBox msg;

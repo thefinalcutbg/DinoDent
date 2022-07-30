@@ -80,7 +80,7 @@ void DbInvoice::updateInvoice(const Invoice& invoice)
             "recipient_id = '" + invoice.recipient.bulstat + "', "
             "recipient_name = '" + invoice.recipient.name + "', "
             "recipient_phone = '" + invoice.recipient.phone + "', "
-            "recipient_address = '" + invoice.recipient.name + "' ";
+            "recipient_address = '" + invoice.recipient.address + "' ";
 
     }
 

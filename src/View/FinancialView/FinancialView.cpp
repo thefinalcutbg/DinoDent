@@ -28,6 +28,8 @@ FinancialView::FinancialView(QWidget *parent)
 
 	ui.mainDocNumSpin->setTotalLength(10);
 
+	connect(ui.recipientButton, &QPushButton::clicked, [=] {presenter->editRecipient();});
+
 	connect(ui.dateEdit, &QDateEdit::dateChanged, 
 		[=](QDate date){
 			if (presenter == nullptr) return;
@@ -180,6 +182,7 @@ void FinancialView::setMainDocument(const std::optional<MainDocument>& mainDoc)
 	}
 
 }
+
 
 void FinancialView::paintEvent(QPaintEvent* event)
 {

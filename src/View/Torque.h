@@ -8,13 +8,15 @@
 #include "ui_Torque.h"
 
 #include "IMainView.h"
-#include "Network/HIS/HisService.h"
+#include "Network/HIS/ConcreteHisTest.h"
 
 class Torque : public QMainWindow, public IMainView
 {
     Q_OBJECT
 
     MainPresenter presenter;
+
+    ConcreteHisTest test;
 
     void paintEvent(QPaintEvent* event);
     void closeEvent(QCloseEvent* event);

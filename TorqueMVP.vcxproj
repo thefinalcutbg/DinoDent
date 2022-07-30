@@ -214,6 +214,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Network\HIS\ConcreteHisTest.cpp" />
     <ClCompile Include="src\Network\HIS\HisToken.cpp" />
     <ClCompile Include="src\Network\HIS\HisService.cpp" />
     <ClCompile Include="src\Network\NRA\NraStatusService.cpp" />
@@ -525,6 +526,7 @@
     <QtUic Include="src\View\TabView\TabTitle.ui" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Network\HIS\ConcreteHisTest.h" />
     <ClInclude Include="src\Network\HIS\HisToken.h" />
     <ClInclude Include="src\Network\HIS\HisService.h" />
     <ClInclude Include="src\Network\NRA\NraStatusService.h" />

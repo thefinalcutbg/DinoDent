@@ -180,6 +180,8 @@ std::string XmlSigner::signPisQuery(const std::string& bodyContent, evp_pkey_st*
 
 std::string XmlSigner::signNhifMessage(const std::string& document, evp_pkey_st* prvKey, const std::string pem_x509)
 {
+
+
     std::string_view signatureTemplate{
 
         "<Signature xmlns=\"http://www.w3.org/2000/09/xmldsig#\">"
@@ -203,8 +205,6 @@ std::string XmlSigner::signNhifMessage(const std::string& document, evp_pkey_st*
         "</Signature>"
 
     };
-
-
 
     std::string result{};
 

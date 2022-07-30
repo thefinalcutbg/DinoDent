@@ -684,6 +684,9 @@
     <ClCompile Include="src\View\PISDialog\MonthNotifView\MonthNotifView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Network\HIS\ConcreteHisTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -1681,6 +1684,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\PISDialog\MonthNotifView\IMonthNotifView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Network\HIS\ConcreteHisTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

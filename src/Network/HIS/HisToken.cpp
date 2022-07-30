@@ -39,6 +39,7 @@ void HisToken::setChallengeMessage(const std::string& challenge)
 		auto pin = ModalDialogBuilder::pinPromptDialog(signer.pem_x509cert());
 
 		if (pin.empty()) {
+			current_service = nullptr;
 			return;
 		}
 
@@ -120,5 +121,5 @@ void HisToken::setAuthRepy(const std::string& reply)
 
 	//ModalDialogBuilder::showMessage(u8"Токен: " + s_token)
 
-	current_service->sendRequest(query_temp);
+	current_service->sendRequestToHis(query_temp);
 }

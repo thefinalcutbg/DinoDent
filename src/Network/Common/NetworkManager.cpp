@@ -110,7 +110,7 @@ void NetworkManager::sendRequestToHis(
     QApplication::setOverrideCursor(Qt::BusyCursor);
 
     QUrl url(urlAndServicePath.c_str());
-    
+
     QString authValue = "Bearer ";
     authValue.append(token.c_str());
 

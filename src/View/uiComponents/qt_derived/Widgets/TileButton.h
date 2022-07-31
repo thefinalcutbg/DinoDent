@@ -50,7 +50,7 @@ class PatientTile : public TileButton
     QString phone;
 
 
-    static constexpr int nraSize = 20;
+    static constexpr int nraSize = 30;
 
     void paintInfo(QPainter* painter);
 
@@ -73,10 +73,12 @@ class AllergiesTile : public TileButton
     QString currentDiseases;
     QString pastDiseases;
 
+    static constexpr int nzokSize = 30;
 
-    void paintInfo(QPainter* painter);
-
+    void paintInfo(QPainter* painter) override;
+    void resizeEvent(QResizeEvent* event) override;
 public:
+    IconButton* nzokIcon;
     AllergiesTile(QWidget* parent = 0);
     void setData(const Patient& patient);
 

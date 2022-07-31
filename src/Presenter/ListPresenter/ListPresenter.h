@@ -12,6 +12,7 @@
 
 #include "Network/PIS/DentalActivitiesService.h"
 #include "Network/NRA/NraStatusService.h"
+#include "Network/PIS/DiagnosisService.h"
 
 typedef std::vector<int> SelectedTeethIdx;
 typedef std::vector<Tooth*> SelectedTeeth;
@@ -39,6 +40,7 @@ class ListPresenter : public TabInstance
 
     DentalActivitiesService dentalActService;
     NraStatusService nraStatusServ;
+    DiagnosisService nhifDiagnosisServ;
 
     void requestPisActivities();
     bool isValid();
@@ -77,6 +79,7 @@ public:
 
     void openPisHistory();
     void checkHealthInsurance(bool showDialog);
+    void checkDiagnosisNhif();
     void openDetails(int toothIdx);
     void openDetails();
 

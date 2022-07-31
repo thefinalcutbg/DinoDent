@@ -50,6 +50,7 @@ ListView::ListView(QWidget* parent)
 	);
 
 	connect(ui.patientTile->nraIcon, &QPushButton::clicked, [=] {if (presenter)presenter->checkHealthInsurance(true);});
+	connect(ui.allergiesTile->nzokIcon, &QPushButton::clicked, [=] {if (presenter)presenter->checkDiagnosisNhif();});
 	connect(ui.nzokActivities, &QPushButton::clicked, [=] { if (presenter) presenter->openPisHistory(); });
 	connect(ui.patientTile, &QAbstractButton::clicked, [=] { if(presenter) presenter->openPatientDialog(); });
 	connect(ui.allergiesTile, &QAbstractButton::clicked, [=] { if (presenter) presenter->openAllergiesDialog(); });

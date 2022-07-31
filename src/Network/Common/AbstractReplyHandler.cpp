@@ -21,6 +21,8 @@ void AbstractReplyHandler::getReply(const std::string& reply)
 {
 	awaiting_reply = false;
 
+	NetworkManager::unsubscribeHandler(this);
+
 	if (reply.empty()) {
 		ModalDialogBuilder::showError(u8"Неуспешна връзка със сървъра");
 	}

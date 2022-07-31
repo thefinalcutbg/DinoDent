@@ -19,8 +19,6 @@ bool HisService::sendRequestToHis(const std::string& query)
 
 	awaiting_reply = true;
 
-//	return true;
-
 	NetworkManager::sendRequestToHis(
 		  this, 
 		  signedMsg, 

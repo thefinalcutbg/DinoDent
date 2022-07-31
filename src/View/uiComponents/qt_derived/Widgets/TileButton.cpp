@@ -110,7 +110,7 @@ PatientTile::PatientTile(QWidget* parent) : TileButton(parent)
 {
 	nraIcon = new IconButton(this);
 	nraIcon->setIcon(QIcon(":/icons/icon_nra.png"));
-	nraIcon->move(10, 10);
+	nraIcon->move(5, 5);
 	nraIcon->setFixedSize(nraSize, nraSize);
 
 }
@@ -207,6 +207,7 @@ void PatientTile::setData(const Patient& patient, Date currentDate)
 		nraIcon->setBackgroundColor(Theme::sectionBackground);
 		nraIcon->setHoverColor(Theme::background);
 		nraIcon->setToolTip(u8"Проверка на здравноосигурителен статус");
+
 	}
 
 	update();
@@ -222,6 +223,13 @@ AllergiesTile::AllergiesTile(QWidget* parent) :
 {
 	reverse();
 	header.setPointSizeF(10);
+
+	nzokIcon = new IconButton(this);
+	nzokIcon->setIcon(QIcon(":/icons/icon_nzok.png"));
+	nzokIcon->setFixedSize(nzokSize, nzokSize);
+	nzokIcon->move(width() - nzokSize, 5);
+	nzokIcon->setToolTip(u8"Проверка на диагнози в рецептурната книжка");
+
 }
 
 
@@ -253,4 +261,13 @@ void AllergiesTile::paintInfo(QPainter* painter)
 	painter->drawText(20, 37, allergies);
 	painter->drawText(20, 75, currentDiseases);
 	painter->drawText(20, 113, pastDiseases);
+
+}
+
+void AllergiesTile::resizeEvent(QResizeEvent* event)
+{
+	QWidget::resizeEvent(event);
+
+	nzokIcon->move(width() - 5 - nzokSize, 5);
+	update();
 }

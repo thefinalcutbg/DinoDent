@@ -23,11 +23,11 @@ AllergiesDialog::AllergiesDialog(AllergiesDialogPresenter* p)
 
 }
 
-void AllergiesDialog::setData(const Allergies& allergies)
+void AllergiesDialog::setData(const Allergies& a)
 {
-    ui.allergiesEdit->set_Text(allergies.allergies);
-    ui.pastEdit->set_Text(allergies.past);
-    ui.currentEdit->set_Text(allergies.current);
+    ui.allergiesEdit->set_Text(a.allergies);
+    ui.pastEdit->set_Text(a.past);
+    ui.currentEdit->set_Text(a.current);
 }
 
 Allergies AllergiesDialog::getData()

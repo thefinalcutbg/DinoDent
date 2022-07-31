@@ -9,6 +9,10 @@ PisDialog::PisDialog(QWidget *parent)
 	setWindowIcon(QIcon(":/icons/icon_nzok.png"));
 
 	ui.monthNotifView->setParentDialog(this);
+
+	ui.tabWidget->setStyleSheet(
+		"QTabBar::tab:selected {background-color: white}"
+	);
 }
 
 PisDialog::~PisDialog()

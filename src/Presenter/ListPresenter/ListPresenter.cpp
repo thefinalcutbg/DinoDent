@@ -472,6 +472,30 @@ void ListPresenter::checkHealthInsurance(bool showDialog)
 
 }
 
+void ListPresenter::checkDiagnosisNhif()
+{
+    nhifDiagnosisServ.sendRequest(
+        patient->type,
+        patient->id,
+
+        //lamest call ever
+        [=](const std::string& currentDiseases) {
+
+            if (currentDiseases.empty()) {
+                ModalDialogBuilder::showMessage(u8"Няма данни в рецептурната книжка");
+                return;
+            }
+
+            Patient patient = *this->patient;
+            patient.currentDiseases = currentDiseases;
+            AllergiesDialogPresenter p(patient);
+            ModalDialogBuilder::openDialog(&p);
+            *this->patient = patient;
+            view->refresh(m_ambList, patient);
+        }
+    );
+}
+
 void ListPresenter::openDetails(int toothIdx)
 {
     DetailedStatusPresenter d(m_ambList.teeth[toothIdx], patient->rowid);

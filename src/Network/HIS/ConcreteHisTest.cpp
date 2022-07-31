@@ -1,6 +1,7 @@
 #include "ConcreteHisTest.h"
 #include "View/ModalDialogBuilder.h"
 #include "Model/FreeFunctions.h"
+
 void ConcreteHisTest::parseReply(const std::string& reply)
 {
 	ModalDialogBuilder::showMultilineDialog(reply);

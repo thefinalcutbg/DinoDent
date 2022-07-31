@@ -18,6 +18,8 @@ Torque::Torque(QWidget* parent)
     ui.setupUi(this);
     showMaximized();
 
+    ui.hisButton->hide();
+
     ui.newButton->setIcon(QIcon(":/icons/icon_sheet.png"));
     ui.perioButton->setIcon(QIcon(":/icons/icon_periosheet.png"));
     ui.saveButton->setIcon(QIcon(":/icons/icon_save.png"));
@@ -42,7 +44,7 @@ Torque::Torque(QWidget* parent)
     connect(settingsAction, &QAction::triggered, [&] {presenter.userSettingsPressed();});
     connect(ui.pisButton, &QPushButton::clicked, [&] { presenter.pisDialog();});
     connect(ui.settingsButton, &QPushButton::clicked, [&] { presenter.settingsPressed();});
-    connect(ui.hisButton, &QPushButton::clicked, [&] { test.sendRequest(5);});
+    connect(ui.hisButton, &QPushButton::clicked, [&] { test.sendRequest(11);});
 
     connect(exitAction, &QAction::triggered, [&] { presenter.logOut(); });
 
@@ -104,7 +106,6 @@ void Torque::setUserLabel(const std::string& doctorName, const std::string& prac
 {
     ui.userButton->setText(QString::fromStdString("  " + doctorName));
     ui.practiceLabel->setText(QString::fromStdString(practiceName));
-    
 }
 
 void Torque::exitProgram()

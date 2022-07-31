@@ -14,7 +14,7 @@ protected:
 		"",
 	};
 
-	enum class SOAPAction { View, Files };
+	enum class SOAPAction { View, Files, Diagnosis };
 	bool sendRequest(const std::string& query, SOAPAction header);
 
 };

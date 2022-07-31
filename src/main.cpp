@@ -8,6 +8,7 @@
 #include "Model/KSMP.h"
 #include "Model/CityCode.h"
 #include "Resources.h"
+#include "Model/MKB.h"
 #include "Network/HIS/ConcreteHisTest.h"
 int main(int argc, char *argv[])
 {
@@ -24,9 +25,10 @@ int main(int argc, char *argv[])
     Db::createIfNotExist();
 
     //Intializing singletons
-    Resources::initialize();
+
     CityCode::initialize();
     KSMP::initialize();
+    MKB::initialize();
     User::initialize();
     SpriteSheets::container().initialize(); //loading textures, otherwise program will crash;
     DiagnosisContainer::initialize();

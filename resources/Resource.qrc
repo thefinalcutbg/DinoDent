@@ -54,5 +54,6 @@
         <file>json_diagnosis.json</file>
         <file>json_ksmp.json</file>
         <file>json_nzok.json</file>
+        <file>json_mkb.json</file>
     </qresource>
 </RCC>

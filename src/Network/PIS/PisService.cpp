@@ -3,7 +3,7 @@
 #include "Network/Common/PKCS11.h"
 #include "Network/Common//NetworkManager.h"
 #include "Network/Common//XmlSigner.h"
-#include "TinyXML/tinyxml.h"
+
 
 bool PisService::sendRequest(const std::string& query, SOAPAction header)
 {
@@ -58,6 +58,9 @@ we have to create two PKCS11 instances - one for the signing and one for the SSL
 
 	case SOAPAction::Files:
 		soapActionHeader = "\"http://pis.technologica.com/files/\"";
+		break;
+	case SOAPAction::Diagnosis:
+		soapActionHeader = "\"http://pis.technologica.com/pdDiagnosis\"";
 		break;
 
 	}

@@ -67,7 +67,6 @@ void NetworkManager::sendRequestToPis(
             QApplication::restoreOverrideCursor();
 
             if (handlers.count(handler) == 0) return;
-            unsubscribeHandler(handler);
 
             std::string replyString = reply->readAll().toStdString();
 
@@ -79,7 +78,6 @@ void NetworkManager::sendRequestToPis(
 
             handler->getReply(replyString);
 
-
             reply->deleteLater();
             
         });
@@ -89,8 +87,9 @@ void NetworkManager::sendRequestToPis(
         QApplication::restoreOverrideCursor();
 
         ModalDialogBuilder::showError(u8"Неуспешна автентификация");
+
         handler->getReply("");
-        NetworkManager::unsubscribeHandler(handler);
+
         reply->deleteLater();
 
     });
@@ -109,6 +108,8 @@ void NetworkManager::sendRequestToHis(
 
     QApplication::setOverrideCursor(Qt::BusyCursor);
 
+    handlers.insert(handler);
+
     QUrl url(urlAndServicePath.c_str());
 
     QString authValue = "Bearer ";
@@ -126,11 +127,15 @@ void NetworkManager::sendRequestToHis(
     QNetworkReply* reply = s_manager->post(request, nhifMessage.data());
 
     QObject::connect(reply, &QNetworkReply::finished,
-        [=] {
+        [=]() {
 
             QApplication::restoreOverrideCursor();
 
-            ModalDialogBuilder::showMultilineDialog(reply->readAll().constData());
+            if (handlers.count(handler) == 0) return;
+
+            handler->getReply(reply->readAll().toStdString());
+
+            reply->deleteLater();
 
 
         });

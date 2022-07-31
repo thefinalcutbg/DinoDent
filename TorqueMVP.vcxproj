@@ -214,9 +214,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Model\MKB.cpp" />
     <ClCompile Include="src\Network\HIS\ConcreteHisTest.cpp" />
     <ClCompile Include="src\Network\HIS\HisToken.cpp" />
     <ClCompile Include="src\Network\HIS\HisService.cpp" />
+    <ClCompile Include="src\Network\PIS\DiagnosisService.cpp" />
     <ClCompile Include="src\Network\NRA\NraStatusService.cpp" />
     <ClCompile Include="src\Network\PIS\GetMonthNotifListService.cpp" />
     <ClCompile Include="src\Network\PIS\GetMonthNotifService.cpp" />
@@ -526,9 +528,11 @@
     <QtUic Include="src\View\TabView\TabTitle.ui" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Model\MKB.h" />
     <ClInclude Include="src\Network\HIS\ConcreteHisTest.h" />
     <ClInclude Include="src\Network\HIS\HisToken.h" />
     <ClInclude Include="src\Network\HIS\HisService.h" />
+    <ClInclude Include="src\Network\PIS\DiagnosisService.h" />
     <ClInclude Include="src\Network\NRA\NraStatusService.h" />
     <ClInclude Include="src\Network\PIS\GetMonthNotifListService.h" />
     <ClInclude Include="src\Network\PIS\GetMonthNotifService.h" />

@@ -108,6 +108,24 @@ long long DbInvoice::invoiceAlreadyExists(int monthNotifNumber)
      return 0;
 }
 
+bool DbInvoice::invoiceAlreadyExists(long long number, long long rowid)
+{
+    std::string query{
+        "SELECT num FROM financial WHERE "
+        "num =" + std::to_string(number) + " "
+        "AND practice_rzi = '" + User::practice().rziCode + "' "
+        "AND rowid !=" + std::to_string(rowid)
+    };
+
+    for (Db db(query); db.hasRows();)
+    {
+        return true;
+    }
+
+    return false;
+
+}
+
 std::optional<Date> DbInvoice::getMainDocDate(long long invoiceNumber, const std::string& recipient_id)
 {
     std::string query{

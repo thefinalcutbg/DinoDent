@@ -6,6 +6,7 @@ struct PerioStatus;
 class PerioToothData;
 class PerioStatistic;
 class Patient;
+struct Date;
 
 enum class ShowTeeth {ShowUpperTeeth, ShowLowerTeeth};
 
@@ -22,4 +23,5 @@ public:
 	virtual void setTeethView(ShowTeeth t) = 0;
 	virtual void disableTooth(int index) = 0;
     virtual void setToothData(const PerioToothData& data) = 0;
+	virtual void setDate(const Date& date) = 0;
 };

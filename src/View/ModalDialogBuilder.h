@@ -41,9 +41,6 @@ namespace ModalDialogBuilder
 	void openDialog(AddPracticePresenter* p);
 	void openDialog(DoctorDialogPresenter* p);
 
-	//returns 0 if canceled
-	long long saveAsDocNumber(long long newNum, std::unordered_set<int> existingNumbers, const std::string& docName, int numberCharLength);
-	std::optional<Date> saveAsDate(const Date& date, const std::string& docName);
 	std::optional<ProcedureTemplate> openProcedureTemplateDialog(const ProcedureTemplate* pTemp = nullptr, int code = 0);
 	DialogAnswer openSaveDialog(const std::string& text);
 	std::optional<std::string> getMonthNotifFromFile();

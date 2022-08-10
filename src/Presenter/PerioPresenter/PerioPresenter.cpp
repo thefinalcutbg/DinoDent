@@ -247,6 +247,13 @@ void PerioPresenter::restorationChanged(bool enabled)
     makeEdited();
 }
 
+void PerioPresenter::dateChanged(const Date& date)
+{
+    m_perioStatus.date = date;
+    edited = false;
+    makeEdited();
+}
+
 
 long long PerioPresenter::rowID() const
 {
@@ -255,34 +262,13 @@ long long PerioPresenter::rowID() const
 
 bool PerioPresenter::save()
 {
-    
-    if(isNew())
-        return saveAs();
-
-    DbPerio::updatePerioStatus(m_perioStatus);
-    
-    refreshTabName();
-
-    edited = false;
-
-    return true;
-}
-
-bool PerioPresenter::saveAs()
-{
-    auto result = ModalDialogBuilder::saveAsDate(m_perioStatus.date, u8"Пародонтален статус");
-
-    if (!result.has_value()) return false;
-
-    m_perioStatus.date = result.value();
-    
     if (isNew()) {
         m_perioStatus.rowid = DbPerio::insertPerioStatus(m_perioStatus, patient->rowid);
     }
-    else {
+    else
+    {
         DbPerio::updatePerioStatus(m_perioStatus);
     }
-
 
     refreshTabName();
 
@@ -290,6 +276,7 @@ bool PerioPresenter::saveAs()
 
     return true;
 }
+
 
 bool PerioPresenter::isNew()
 {
@@ -303,6 +290,8 @@ void PerioPresenter::print()
 void PerioPresenter::setDataToView()
 {
     view->setPresenter(this);
+
+    view->setDate(m_perioStatus.date);
 
     for (int i = 0; i < 32; i++){
         view->setToothHint(ToothHintCreator::getToothHint(m_toothStatus[i]));

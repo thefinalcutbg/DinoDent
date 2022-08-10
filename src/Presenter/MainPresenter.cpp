@@ -129,14 +129,6 @@ bool MainPresenter::save()
     return true;
 }
 
-bool MainPresenter::saveAs()
-{
-    if (m_tabPresenter.currentTab())
-        return m_tabPresenter.currentTab()->saveAs();
-
-    return true;
-}
-
 void MainPresenter::logOut()
 {
     if (!closeAllTabs()) return;

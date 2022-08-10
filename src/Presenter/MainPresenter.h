@@ -24,7 +24,6 @@ public:
 	void pisDialog();
 	void settingsPressed();
 	bool save();
-	bool saveAs();
 	void logOut();
 	void userSettingsPressed();
 	

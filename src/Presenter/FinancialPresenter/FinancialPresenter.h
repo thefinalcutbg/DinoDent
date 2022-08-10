@@ -34,10 +34,10 @@ public:
 	void docTypeChanged(int index);
 	void mainDocumentChanged(long long num, Date date);
 	void editRecipient();
+	void invoiceNumberChanged(long long number);
 
 	long long rowID() const override;
 	bool save() override;
-	bool saveAs() override;
 	void print() override;
 	void setDataToView() override;
 	bool isNew() override;

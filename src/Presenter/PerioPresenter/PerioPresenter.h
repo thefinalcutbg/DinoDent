@@ -43,18 +43,19 @@ public:
 	void systemicChanged(bool enabled);
 	void restorationChanged(bool enabled);
 
+	void dateChanged(const Date& date);
+
 	void openPatientDialog();
 	void openAllergiesDialog();
 
 	// Inherited via TabInstance
 	long long rowID() const override;
-	virtual bool save() override;
-	virtual bool saveAs() override;
-	virtual bool isNew() override;
-	virtual void print() override;
-	virtual void setDataToView() override;
-	virtual void prepareSwitch() override;
-	virtual TabName getTabName() override;
+	bool save() override;
+	bool isNew() override;
+	void print() override;
+	void setDataToView() override;
+	void prepareSwitch() override;
+	TabName getTabName() override;
 
 	~PerioPresenter();
 };

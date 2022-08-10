@@ -24,7 +24,7 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
     std::vector<Procedure> selectedProcedures;
 
     {
-        ProcedurePrintSelectDialog dialog(amb.procedures);
+        ProcedurePrintSelectDialog dialog(amb.procedures.list());
         
         for (auto& p : amb.procedures) {
             if (p.nzok) {
@@ -40,7 +40,7 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
        auto selectedIndexes = dialog.selectedProcedures();
 
        for (auto idx : selectedIndexes) {
-           selectedProcedures.push_back(amb.procedures[idx]);
+           selectedProcedures.push_back(amb.procedures.at(idx));
        }
 
     }

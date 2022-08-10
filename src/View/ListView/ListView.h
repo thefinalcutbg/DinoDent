@@ -34,10 +34,9 @@ public:
     void setPresenter(ListPresenter* presenter) override;
 
     void refresh(const AmbList& ambList, const Patient& patient) override;
-
+    void setAmbListNum(int number) override;
     //IStatusView
     void setCheckModel(const CheckModel& checkModel) override;
-
     void hideSurfacePanel(bool hidden) override;
     void hideControlPanel(bool hidden) override;
     ISurfacePanel* surfacePanel() override;

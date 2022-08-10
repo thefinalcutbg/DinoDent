@@ -11,6 +11,8 @@ FinancialView::FinancialView(QWidget *parent)
 {
 	ui.setupUi(this);
 
+	ui.numberSpinBox->setTotalLength(10);
+
 	ui.operationsTable->setModel(&m_model);
 	ui.operationsTable->setBusinessOperationLayout();
 	ui.operationsTable->setStyleSheet(
@@ -50,6 +52,7 @@ FinancialView::FinancialView(QWidget *parent)
 	connect(ui.saveXMLButton, &QPushButton::clicked, [=] {presenter->saveAsXML(); });
 	connect(ui.sendPisButton, &QPushButton::clicked, [=] {presenter->sendToPis();});
 
+	connect(ui.numberSpinBox, &LeadingZeroSpinBox::valueChanged, [=](long long num) {if (presenter)presenter->invoiceNumberChanged(num);});
 
 	connect(ui.deleteButton, &QPushButton::clicked,
 		[=] {
@@ -181,6 +184,12 @@ void FinancialView::setMainDocument(const std::optional<MainDocument>& mainDoc)
 		showMainDocumentDetails(false);
 	}
 
+}
+
+void FinancialView::setNumberSpinBox(long long num)
+{
+	QSignalBlocker b(ui.numberSpinBox);
+	ui.numberSpinBox->setValue(num);
 }
 
 

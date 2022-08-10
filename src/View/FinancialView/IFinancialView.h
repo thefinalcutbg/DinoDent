@@ -12,4 +12,5 @@ public:
 	virtual void setInvoice(const Invoice& inv) = 0;
 	virtual void setBusinessOperations(const BusinessOperations& businessOp, const AggregatedAmounts& amounts) = 0;
 	virtual void setMainDocument(const std::optional<MainDocument>& mainDoc) = 0;
+	virtual void setNumberSpinBox(long long num) = 0;
 };

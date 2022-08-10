@@ -14,6 +14,8 @@ ListView::ListView(QWidget* parent)
 	contextMenu = new ContextMenu();
 	teethViewScene->setContextMenu(contextMenu);
 
+	ui.ambNumSpin->setTotalLength(6);
+
 	ui.teethView->setScene(teethViewScene);
 	ui.teethView->setSceneRect(teethViewScene->sceneRect());
 	ui.teethView->installEventFilter(this);
@@ -50,6 +52,7 @@ ListView::ListView(QWidget* parent)
 	);
 
 	connect(ui.patientTile->nraIcon, &QPushButton::clicked, [=] {if (presenter)presenter->checkHealthInsurance(true);});
+	connect(ui.ambNumSpin, &LeadingZeroSpinBox::valueChanged, [=](long long value) {if(presenter)presenter->ambNumChanged(value);});
 	connect(ui.allergiesTile->nzokIcon, &QPushButton::clicked, [=] {if (presenter)presenter->checkDiagnosisNhif();});
 	connect(ui.nzokActivities, &QPushButton::clicked, [=] { if (presenter) presenter->openPisHistory(); });
 	connect(ui.patientTile, &QAbstractButton::clicked, [=] { if(presenter) presenter->openPatientDialog(); });
@@ -175,6 +178,12 @@ void ListView::refresh(const AmbList& ambList, const Patient& patient)
 	ui.allergiesTile->setData(patient);
 	ui.taxCombo->setIndex(static_cast<int>(ambList.charge));
 	
+}
+
+void ListView::setAmbListNum(int number)
+{
+	QSignalBlocker b(ui.ambNumSpin);
+	ui.ambNumSpin->setValue(number);
 }
 
 void ListView::setCheckModel(const CheckModel& checkModel)

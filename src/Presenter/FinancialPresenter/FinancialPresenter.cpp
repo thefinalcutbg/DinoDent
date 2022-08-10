@@ -18,7 +18,7 @@ Invoice getInvoiceFromMonthNotif(const std::string& xmlstring)
 
     Invoice i(doc, User::practice(), User::doctor());
     i.date = Date::currentDate();
-
+    i.number = DbInvoice::getNewInvoiceNumber();
     auto existingRowid = DbInvoice::invoiceAlreadyExists(i.nzokData->fin_document_month_no);
 
     if (!existingRowid) {
@@ -72,6 +72,8 @@ FinancialPresenter::FinancialPresenter(ITabView* tabView, const Procedures& proc
     m_invoice.aggragated_amounts.calculate(m_invoice.businessOperations);
 
     if (!procedures.size()) m_invoice.aggragated_amounts.taxEventDate = Date::currentDate();
+
+    m_invoice.number = DbInvoice::getNewInvoiceNumber();
 }
 
 FinancialPresenter::FinancialPresenter(ITabView* tabView, long long rowId) :
@@ -240,6 +242,13 @@ void FinancialPresenter::editRecipient()
     makeEdited();
 }
 
+void FinancialPresenter::invoiceNumberChanged(long long number)
+{
+    m_invoice.number = number;
+    edited = false;
+    makeEdited();
+}
+
 long long FinancialPresenter::rowID() const
 {
 	return m_invoice.rowId;
@@ -247,60 +256,38 @@ long long FinancialPresenter::rowID() const
 
 bool FinancialPresenter::save()
 {
-    if (!m_invoice.businessOperations.size()) {
+    if (m_invoice.businessOperations.empty()) {
         ModalDialogBuilder::showError(
             u8"Финансовият документ трябва да съдържа поне една услуга"
         );
         return false;
     }
 
+    if(DbInvoice::invoiceAlreadyExists(m_invoice.number, m_invoice.rowId) &&
+        !ModalDialogBuilder::askDialog(
+            u8"Фактура с такъв номер вече съществуа. Сигурни ли сте, че искате да дублирате номерацията?"
+        )
+    )
+    {
+        return false;
+    }
+
     if (!isNew() && !edited) return true;
 
-    if (isNew()) return saveAs();
+    if (isNew())
+    {
+        m_invoice.rowId = DbInvoice::insertInvoice(m_invoice);
+    }
+    else
+    {
+        DbInvoice::updateInvoice(m_invoice);
 
-    DbInvoice::updateInvoice(m_invoice);
-
+    }
     edited = false;
 
     refreshTabName();
 
 	return true;
-}
-
-bool FinancialPresenter::saveAs()
-{
-
-    std::unordered_set<int> existingNumbers = DbInvoice::getExistingNumbers();
-
-    int newNumber = 0;
-
-    if (isNew()) {
-        newNumber = DbInvoice::getNewInvoiceNumber();
-    }
-    else {
-        newNumber = m_invoice.number;
-        existingNumbers.erase(newNumber);
-    }
-
-    newNumber = ModalDialogBuilder::saveAsDocNumber(newNumber, existingNumbers, u8"Финансов документ", 10);
-
-    if (!newNumber) return false; //it means the dialog has been canceled
-
-    m_invoice.number = newNumber;
-
-    if (isNew()) {
-        m_invoice.rowId = DbInvoice::insertInvoice(m_invoice);
-    }
-    else{
-        DbInvoice::updateInvoice(m_invoice);
-    }
-
-    edited = false;
-
-    refreshTabName();
-
-    return true;
-
 }
 
 void FinancialPresenter::print()
@@ -320,7 +307,7 @@ void FinancialPresenter::setDataToView()
 
 
     view->setInvoice(m_invoice);
-    
+    view->setNumberSpinBox(m_invoice.number);
 }
 
 bool FinancialPresenter::isNew()
@@ -332,7 +319,7 @@ TabName FinancialPresenter::getTabName()
 {
     int nameIdx = static_cast<int>(m_invoice.type);
 
-    if (!m_invoice.number) {
+    if (!m_invoice.rowId) {
 
         static const std::string newName[3]{ u8"Новa фактура", u8"Ново дебитно известие", u8"Ново кредитно известие" };
 

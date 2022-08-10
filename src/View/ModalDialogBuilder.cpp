@@ -77,26 +77,6 @@ void ModalDialogBuilder::openDialog(DoctorDialogPresenter* p)
 
 
 
-#include "View/saveAsDialog/SaveAsDialog.h"
-
-long long ModalDialogBuilder::saveAsDocNumber(long long newNum, std::unordered_set<int> existingNumbers, const std::string& docName, int numberCharLength)
-{
-	SaveAsDialog d(existingNumbers, newNum, docName);
-	d.setMaxNumLength(numberCharLength);
-	d.exec();
-	return d.result();
-}
-
-#include "View/SaveAsDateDialog/SaveAsDateDialog.h"
-
-std::optional<Date> ModalDialogBuilder::saveAsDate(const Date& date, const std::string& docName)
-{
-	SaveAsDateDialog d(date, docName);
-	d.exec();
-
-	return d.getResult();
-}
-
 #include "View/SettingsDialog/ProcedureTemplateDialog/ProcedureTemplateDialog.h"
 
 std::optional<ProcedureTemplate> ModalDialogBuilder::openProcedureTemplateDialog(const ProcedureTemplate* pTemp, int code)

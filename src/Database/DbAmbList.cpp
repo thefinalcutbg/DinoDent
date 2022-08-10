@@ -32,7 +32,7 @@ long long DbAmbList::insert(const AmbList& ambList, long long patientRowId)
 
     auto rowID = db.lastInsertedRowID();
 
-    DbProcedure::saveProcedures(rowID, ambList.procedures, &db);
+    DbProcedure::saveProcedures(rowID, ambList.procedures.list(), &db);
 
     return rowID;
 
@@ -56,7 +56,7 @@ void DbAmbList::update(const AmbList& ambList)
     Db db;
     db.execute(query);
 
-    DbProcedure::saveProcedures(ambList.rowid, ambList.procedures, &db);
+    DbProcedure::saveProcedures(ambList.rowid, ambList.procedures.list(), &db);
 }
 
 AmbList DbAmbList::getNewAmbSheet(long long patientRowId)
@@ -119,7 +119,7 @@ AmbList DbAmbList::getNewAmbSheet(long long patientRowId)
     else
     {
         Parser::parse(status_json, ambList.teeth);
-        ambList.procedures = DbProcedure::getProcedures(ambList.rowid, &db);
+        ambList.procedures.addProcedures(DbProcedure::getProcedures(ambList.rowid, &db));
     }
 
     return ambList;
@@ -148,7 +148,7 @@ AmbList DbAmbList::getListData(long long rowId)
     }
 
     Parser::parse(status_json, ambList.teeth);
-    ambList.procedures = DbProcedure::getProcedures(ambList.rowid, &db);
+    ambList.procedures.addProcedures(DbProcedure::getProcedures(ambList.rowid, &db));
 
     return ambList;
 }
@@ -189,6 +189,26 @@ std::unordered_set<int> DbAmbList::getExistingNumbers(int currentYear)
     for (Db db(query);db.hasRows();) existingNumbers.emplace(db.asInt(0));
 
     return existingNumbers;
+}
+
+bool DbAmbList::suchNumberExists(int year, int ambNum, long long ambRowid)
+{
+
+    Db db{
+        "SELECT COUNT(num) FROM amblist WHERE "
+        "lpk = '" + User::doctor().LPK + "' "
+        "AND rzi ='" + User::practice().rziCode + "' "
+        "AND year =" + std::to_string(year) + " "
+        "AND num =" + std::to_string(ambNum) + " "
+        "AND rowid !=" + std::to_string(ambRowid)
+    };
+
+    for (;db.hasRows();) {
+        return db.asBool(0);
+    }
+   
+    return false;
+
 }
 
 std::vector<long long> DbAmbList::getRowIdNhif(int month, int year)
@@ -236,7 +256,7 @@ AmbList DbAmbList::getListNhifProceduresOnly(long long rowId)
     }
 
     Parser::parse(status_json, ambList.teeth);
-    ambList.procedures = DbProcedure::getProcedures(ambList.rowid, &db, true);
+    ambList.procedures.addProcedures(DbProcedure::getProcedures(ambList.rowid, &db, true));
 
     return ambList;
 }

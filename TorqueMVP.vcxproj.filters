@@ -60,9 +60,6 @@
     <ClCompile Include="src\View\AllergiesDialog\AllergiesDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\saveAsDialog\SaveAsDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Database\DbAmbList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -543,9 +540,6 @@
     <ClCompile Include="src\View\uiComponents\qt_derived\HalfRoundedButton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\SaveAsDateDialog\SaveAsDateDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\View\uiComponents\qt_derived\LeadingZeroSpinBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -693,6 +687,9 @@
     <ClCompile Include="src\Model\MKB.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Model\Procedure\ProcedureContainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -705,9 +702,6 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\AllergiesDialog\AllergiesDialog.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="src\View\saveAsDialog\SaveAsDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\saveDialog\SaveDialog.h">
@@ -914,9 +908,6 @@
     <QtMoc Include="src\View\uiComponents\qt_derived\HalfRoundedButton.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\SaveAsDateDialog\SaveAsDateDialog.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="src\View\uiComponents\qt_derived\LeadingZeroSpinBox.h">
       <Filter>Header Files</Filter>
     </QtMoc>
@@ -971,9 +962,6 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\AllergiesDialog\AllergiesDialog.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="src\View\saveAsDialog\SaveAsDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\ListView\ControlPanel\ControlPanel.ui">
@@ -1085,9 +1073,6 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\FinancialView\BusinessOpAddDialog\BusinessOpAddDialog.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="src\View\SaveAsDateDialog\SaveAsDateDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\PISHistoryDialog\PISHistoryDialog.ui">
@@ -1699,6 +1684,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\MKB.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\Procedure\ProcedureContainer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

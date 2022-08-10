@@ -101,7 +101,7 @@
        <widget class="QLabel" name="taxLabel">
         <property name="geometry">
          <rect>
-          <x>140</x>
+          <x>580</x>
           <y>170</y>
           <width>131</width>
           <height>21</height>
@@ -127,7 +127,7 @@
        <widget class="QCheckBox" name="unfav_check">
         <property name="geometry">
          <rect>
-          <x>380</x>
+          <x>820</x>
           <y>170</y>
           <width>211</width>
           <height>21</height>
@@ -153,7 +153,7 @@
        <widget class="ComboBox" name="taxCombo">
         <property name="geometry">
          <rect>
-          <x>270</x>
+          <x>710</x>
           <y>170</y>
           <width>81</width>
           <height>21</height>
@@ -205,6 +205,53 @@
           <width>271</width>
           <height>161</height>
          </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>170</y>
+          <width>121</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Номер на амб. лист:</string>
+        </property>
+       </widget>
+       <widget class="LeadingZeroSpinBox" name="ambNumSpin">
+        <property name="geometry">
+         <rect>
+          <x>150</x>
+          <y>170</y>
+          <width>100</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>100</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+        <property name="buttonSymbols">
+         <enum>QAbstractSpinBox::NoButtons</enum>
+        </property>
+        <property name="minimum">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <number>999999</number>
         </property>
        </widget>
       </widget>
@@ -585,6 +632,11 @@
    <class>IconButton</class>
    <extends>QPushButton</extends>
    <header>View/uiComponents/qt_derived/iconbutton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>LeadingZeroSpinBox</class>
+   <extends>QSpinBox</extends>
+   <header>View/uiComponents/qt_derived/leadingzerospinbox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

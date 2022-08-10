@@ -23,7 +23,6 @@ Torque::Torque(QWidget* parent)
     ui.newButton->setIcon(QIcon(":/icons/icon_sheet.png"));
     ui.perioButton->setIcon(QIcon(":/icons/icon_periosheet.png"));
     ui.saveButton->setIcon(QIcon(":/icons/icon_save.png"));
-    ui.saveAsButton->setIcon(QIcon(":/icons/icon_saveAs.png"));
     ui.listSelectButton->setIcon(QIcon(":/icons/icon_open.png"));
     ui.printButton->setIcon(QIcon(":/icons/icon_print.png"));
     ui.pisButton->setIcon(QIcon(":/icons/icon_nzok.png"));
@@ -36,7 +35,6 @@ Torque::Torque(QWidget* parent)
     userMenu->addAction(exitAction);
 
     connect(ui.newButton, &QPushButton::clicked, [&] { presenter.newAmbPressed(); });
-    connect(ui.saveAsButton, &QPushButton::clicked, [&] { presenter.saveAs(); });
     connect(ui.saveButton, &QPushButton::clicked, [&] { presenter.save(); });
     connect(ui.listSelectButton, &QPushButton::clicked, [&] {presenter.showListSelector(); });
     connect(ui.printButton, &QPushButton::clicked, [&] {presenter.printPressed(); });

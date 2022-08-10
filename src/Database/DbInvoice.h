@@ -17,6 +17,7 @@ namespace DbInvoice
 	void updateInvoice(const Invoice& invoice);
 	//returns rowid of existing invoice for this monthly notification:
 	long long invoiceAlreadyExists(int monthNotifNumber);
+	bool invoiceAlreadyExists(long long number, long long rowid);
 	std::optional<Date> getMainDocDate(long long invoiceNumber, const std::string& recipientId);
 	std::optional<MainDocument> getMainDocument(const std::string& recipient_id);
 	Invoice getInvoice(long long rowId);

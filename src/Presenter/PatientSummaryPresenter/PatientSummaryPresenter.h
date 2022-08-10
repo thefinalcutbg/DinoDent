@@ -39,7 +39,6 @@ public:
 
 	long long rowID() const override;
 	bool save() override { return true; };
-	bool saveAs() override { return true; };
 	bool isNew() override { return false; };
 	void openCurrentDocument();
 	void print() override;

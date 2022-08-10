@@ -10,7 +10,7 @@
 #include <string_view>
 #include <QDebug>
 #include "View/Theme.h"
-
+#include <Model/Date.h>
 #include "PerioGraphics/PerioChartItem.h"
 #include "PerioGraphics/PerioGraphicsButton.h"
 #include "PerioGraphics/PerioScene.h"
@@ -24,7 +24,7 @@ PerioView::PerioView(QWidget* parent)
 
 	connect(ui.patientTile, &QAbstractButton::clicked, [=] { if (presenter) presenter->openPatientDialog(); });
 	connect(ui.allergiesTile, &QAbstractButton::clicked, [=] { if (presenter) presenter->openAllergiesDialog(); });
-
+	connect(ui.dateEdit, &QDateEdit::dateChanged, [=](QDate d) {if (presenter)presenter->dateChanged(Date{ d.day(), d.month(), d.year() });});
 	QButtonGroup* group = new QButtonGroup(this);
 	group->addButton(ui.upperButton);
 	group->addButton(ui.lowerButton);
@@ -212,6 +212,12 @@ void PerioView::setMeasurment(int index, int pd, int cal, int gm, int recession)
 	m_Rec[index / 3]->setValue(recession);
 
 	refreshChartMeasurment(index);
+}
+
+void PerioView::setDate(const Date& d)
+{
+	QSignalBlocker b(ui.dateEdit);
+	ui.dateEdit->setDate(QDate(d.year, d.month, d.day));
 }
 
 

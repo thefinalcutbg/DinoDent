@@ -54,7 +54,6 @@ public:
 
 	virtual long long rowID() const = 0;
 	virtual bool save() = 0;
-	virtual bool saveAs() = 0;
 
 	bool close()
 	{

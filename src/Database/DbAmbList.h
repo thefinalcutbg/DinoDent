@@ -19,6 +19,8 @@ namespace DbAmbList
     bool checkExistingAmbNum(int currentYear, int ambNum);
     std::unordered_set<int> getExistingNumbers(int currentYear);
 
+    bool suchNumberExists(int year, int ambNum, long long ambRowid);
+
     //Gets all NHIF lists for report generation:
     std::vector<long long> getRowIdNhif(int month, int year);
     //with HIS this function becomes obsolete. Use getListData() instead.

@@ -5,7 +5,7 @@
 #include "Patient.h"
 #include "Date.h"
 #include "Tooth/ToothContainer.h"
-#include "Procedure/Procedure.h"
+#include "Procedure/ProcedureContainer.h"
 #include <algorithm>
 
 enum class Charge {standard, retired, freed};
@@ -28,14 +28,11 @@ struct AmbList
 	Charge charge{ Charge::standard };
 
 	ToothContainer teeth;
+	ProcedureContainer procedures;
 
 	bool hasNZOKProcedure() const
 	{
-		for (auto p : procedures)
-			if (p.nzok)
-				return true;
-
-		return false;
+		return procedures.hasNzokProcedure();
 	}
 
 	bool hasNumberInconsistency() const
@@ -77,7 +74,6 @@ struct AmbList
 			
 	}
 
-	Procedures procedures;
 	~AmbList() {  }
 	bool isNew(){ return rowid == 0; }
 };

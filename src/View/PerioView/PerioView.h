@@ -76,6 +76,7 @@ public:
     void setTeethView(ShowTeeth t) override;
     void setPatient(const Patient& patient, Date date) override;
     void setMeasurment(int index, int pd, int cal, int gm, int recession) override;
+    void setDate(const Date& date) override;
     
 
 private:

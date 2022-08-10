@@ -34,6 +34,8 @@ ListPresenter::ListPresenter(ITabView* tabView, TabPresenter* tabPresenter, std:
     //the list is not new
     if (rowId) return;
 
+    m_ambList.number = DbAmbList::getNewNumber(m_ambList.getDate(), m_ambList.hasNZOKProcedure());
+
     if (!User::practice().nzok_contract) return;
 
     if(User::settings().getPisHistoryAuto) requestPisActivities();
@@ -120,59 +122,33 @@ bool ListPresenter::save()
 {
     if (!requiresSaving()) return true;
 
-    if (m_ambList.isNew() || m_ambList.hasNumberInconsistency()) return saveAs();
-
     if (!isValid()) return false;
 
-    if (edited) { DbAmbList::update(m_ambList);}
+    auto d = m_ambList.getDate();
 
-    edited = false;
-
-    refreshTabName();
-
-    return true;
-
-}
-
-bool ListPresenter::saveAs()
-{
-    if (!isValid()) return false;
-
-    int newNumber = 0;
-
-    auto ambSheetDate = m_ambList.getDate();
-
-    auto existingNumbers = DbAmbList::getExistingNumbers(ambSheetDate.year);
-
-    if (m_ambList.isNew() || m_ambList.hasNumberInconsistency()) {
-        newNumber = DbAmbList::getNewNumber(ambSheetDate, m_ambList.hasNZOKProcedure());
+    if (DbAmbList::suchNumberExists(d.year, m_ambList.number, m_ambList.rowid) &&
+        !ModalDialogBuilder::askDialog(
+            u8"Амбулаторен лист с такъв номер вече съществува. "
+            u8"Сигурни ли сте че искате да дублирате номерацията?"))
+    {
+        return false;
     }
-    else {
-        existingNumbers.erase(m_ambList.number);
-        newNumber = m_ambList.number;
-    }
-  
-    newNumber = ModalDialogBuilder::saveAsDocNumber(newNumber, existingNumbers, u8"Амбулаторен лист", 6);
 
-    if (newNumber == 0) return false; //a.k.a. dialog is canceled
-
-    m_ambList.number = newNumber;
-
-    if (m_ambList.isNew()) {
+    if (m_ambList.isNew())
+    {
         m_ambList.rowid = DbAmbList::insert(m_ambList, patient->rowid);
-        
     }
-    else {
+    else
+    {
         DbAmbList::update(m_ambList);
     }
 
-  //  listSelector_.refreshModel();
-
     edited = false;
 
     refreshTabName();
 
     return true;
+
 }
 
 bool ListPresenter::isNew()
@@ -197,6 +173,8 @@ void ListPresenter::setDataToView()
         m_ambList,
         *patient.get()
     );
+
+    view->setAmbListNum(m_ambList.number);
 
     surf_presenter.setStatusControl(this);
     surf_presenter.setView(view->surfacePanel());
@@ -264,6 +242,13 @@ void ListPresenter::openAllergiesDialog()
         m_ambList,
         *patient.get()
     );
+}
+
+void ListPresenter::ambNumChanged(long long value)
+{
+    m_ambList.number = value;
+    edited = false;
+    makeEdited();
 }
 
 void ListPresenter::setCaries(int surface)
@@ -371,6 +356,19 @@ void ListPresenter::setSelectedTeeth(const std::vector<int>& SelectedIndexes)
     
     view->hideControlPanel(!m_selectedTeeth.size());
     view->hideSurfacePanel(!oneToothSelected);
+}
+
+int ListPresenter::generateAmbListNumber()
+{
+    int newNumber = m_ambList.number;
+
+    auto ambSheetDate = m_ambList.getDate();
+
+    if (m_ambList.isNew() || m_ambList.hasNumberInconsistency()) {
+        newNumber = DbAmbList::getNewNumber(ambSheetDate, m_ambList.hasNZOKProcedure());
+    }
+
+    return newNumber;
 }
 
 void ListPresenter::requestPisActivities()
@@ -528,25 +526,7 @@ void ListPresenter::openDetails()
 
 void ListPresenter::addToProcedureList(const std::vector<Procedure>& new_mList)
 {
-    auto& mList = m_ambList.procedures;
-
-    mList.reserve(mList.size() + new_mList.size());
-
-    for (int i = 0; i < mList.size(); i++)
-    {
-        if (new_mList[0].date < mList[i].date)
-        {
-            mList.insert(mList.begin() + i, new_mList.begin(), new_mList.end());
-            return;
-        }
-    }
-
-    //if list is empty, or date is max
-    for (auto& mInsert : new_mList)
-    {
-        mList.push_back(mInsert);
-    }
-
+    m_ambList.procedures.addProcedures(new_mList);
 }
 
 void ListPresenter::refreshProcedureView()
@@ -558,15 +538,10 @@ void ListPresenter::refreshProcedureView()
     double patientPrice(0);
     double nzokPrice(0);
 
-    for (auto& m : mList)
+    m_ambList.procedures.refreshTeethTemporary(m_ambList.teeth);
+
+    for (auto& m : m_ambList.procedures.list())
     {
-        int toothIndex(m.tooth);
-
-        if (toothIndex >= 0 && toothIndex < 32)
-        {
-            m.temp = m_ambList.teeth[toothIndex].temporary.exists();
-        }
-
         patientPrice = patientPrice + m.price;
 
         if (m.nzok)
@@ -577,7 +552,7 @@ void ListPresenter::refreshProcedureView()
 
     }
 
-    view->setProcedures(mList, patientPrice, nzokPrice);
+    view->setProcedures(m_ambList.procedures.list(), patientPrice, nzokPrice);
 }
 
 void ListPresenter::addProcedure()
@@ -612,7 +587,13 @@ void ListPresenter::addProcedure()
 
     this->addToProcedureList(openList);
 
+    if (m_ambList.hasNumberInconsistency()) {
+        m_ambList.number = DbAmbList::getNewNumber(m_ambList.getDate(), m_ambList.hasNZOKProcedure());
+    }
+
     if (view == nullptr) return;
+
+    view->setAmbListNum(m_ambList.number);
 
     refreshProcedureView();
 
@@ -633,34 +614,11 @@ void ListPresenter::editProcedure(int index)
 
     auto result = p.openDialog();
 
-    if (!result.has_value()) return;
+    if (!result) return;
 
     auto& m = result.value();
 
-    /*
-    if (m.nzok)
-    {
-        m.price = MasterNZOK::instance().
-            getPatientPrice
-            (
-                m.code,
-                m_ambList.getAmbSheetDateMin(),
-                User::currentUser().doctor.specialty,
-                patient->isAdult(m.date),
-                m_ambList.full_coverage
-            );
-
-    }
-    */
-    if (m.date == m_for_edit.date)
-    {
-        m_for_edit = m;
-    }
-    else
-    {
-        deleteProcedure(index);
-        addToProcedureList(std::vector<Procedure>{m});
-    }
+    m_ambList.procedures.replaceProcedure(m, index);
 
     refreshProcedureView();
     makeEdited();
@@ -669,9 +627,13 @@ void ListPresenter::editProcedure(int index)
 
 void ListPresenter::deleteProcedure(int index)
 {
-    if (index >= m_ambList.procedures.size() || index < 0) return;
+    m_ambList.procedures.removeProcedure(index);
 
-    m_ambList.procedures.erase(m_ambList.procedures.begin() + index);
+    if (m_ambList.hasNumberInconsistency()) {
+        m_ambList.number = DbAmbList::getNewNumber(m_ambList.getDate(), m_ambList.hasNZOKProcedure());
+    }
+
+    view->setAmbListNum(m_ambList.number);
 
     refreshProcedureView();
 
@@ -714,7 +676,7 @@ void ListPresenter::setfullCoverage(bool unfav)
 
 void ListPresenter::createInvoice()
 {
-    auto selectedProcedures = ModalDialogBuilder::selectProcedures(m_ambList.procedures, SelectionPref::OnlyPaid);
+    auto selectedProcedures = ModalDialogBuilder::selectProcedures(m_ambList.procedures.list(), SelectionPref::OnlyPaid);
 
     if (!selectedProcedures.has_value()) {
         return;
@@ -736,7 +698,7 @@ void ListPresenter::showCurrentStatus(bool show)
 
     auto currentStatus = m_ambList.teeth;
 
-    for (auto& p : m_ambList.procedures)
+    for (auto& p : m_ambList.procedures.list())
     {
         p.applyProcedure(currentStatus);
     }

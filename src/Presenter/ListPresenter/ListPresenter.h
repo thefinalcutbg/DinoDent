@@ -42,6 +42,7 @@ class ListPresenter : public TabInstance
     NraStatusService nraStatusServ;
     DiagnosisService nhifDiagnosisServ;
 
+    int generateAmbListNumber();
     void requestPisActivities();
     bool isValid();
     void refreshProcedureView();
@@ -57,7 +58,6 @@ public:
 
     long long rowID() const override;
     bool save() override;
-    bool saveAs() override;
     bool isNew() override;
     void print() override;
     TabName getTabName() override;
@@ -65,7 +65,7 @@ public:
 
     void openPatientDialog();
     void openAllergiesDialog();
-
+    void ambNumChanged(long long value);
     void setCaries(int surface);
     void setObturation(int surface);
     void setMainStatus(int code);

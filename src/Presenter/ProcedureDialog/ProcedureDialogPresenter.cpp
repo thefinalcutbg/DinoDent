@@ -89,13 +89,13 @@ void ProcedureDialogPresenter::procedureDateChanged(const Date& date)
 {
 	procedureList.clear();
 
-	if (User::practice().nzok_contract)
+	if (User::practice().nzok_contract && User::doctor().specialty != NhifSpecialty::None)
 	{
 		//getting NZOK procedures:
 		procedureList = MasterNZOK::instance().getM_Templates
 		(
 			date,
-			User::doctor().specialty,
+			User::doctor().specialtyAsInt(),
 			date >= patientTurns18,
 			ambList.full_coverage
 		);

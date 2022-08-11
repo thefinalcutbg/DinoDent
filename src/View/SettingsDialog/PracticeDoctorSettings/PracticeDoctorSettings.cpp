@@ -8,10 +8,20 @@ void PracticeDoctorSettings::paintEvent(QPaintEvent* event)
 	painter.fillRect(rect(), QColor(Qt::white));
 }
 
+constexpr int specIdxSize = 5;
+constexpr const char* specialties[specIdxSize]{
+	"", "64", "61", "62", "68"
+};
+
 PracticeDoctorSettings::PracticeDoctorSettings(QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
+
+	for (auto& specialty : specialties)
+	{
+		ui.specialtyCombo->addItem(specialty);
+	}
 
 	ui.adminCheck->setEnabled(false);
 
@@ -21,6 +31,10 @@ PracticeDoctorSettings::PracticeDoctorSettings(QWidget *parent)
 	connect(ui.addDoctor, &QPushButton::clicked, [=] {presenter->addDoctor();});
 	connect(ui.doctorList, &QListWidget::currentRowChanged, [=](int row) {presenter->indexChanged(row);});
 	connect(ui.adminCheck, &QCheckBox::stateChanged, [=](int state) { presenter->setAdminPrivilege(state);});
+	connect(ui.specialtyCombo, &QComboBox::currentIndexChanged, [=](int index) {
+		presenter->setDoctorNhifSpecialty(static_cast<NhifSpecialty>(index)); 
+		}
+	);
 }
 
 void PracticeDoctorSettings::setDoctorList(const std::vector<PracticeDoctor>& doctors)
@@ -45,25 +59,25 @@ void PracticeDoctorSettings::setPresenter(PracticeDoctorSettingsPresenter* prese
 	this->presenter = presenter;
 }
 
-void PracticeDoctorSettings::setAdminCheckbox(AdminStatus status)
+void PracticeDoctorSettings::setDoctorProperties(bool admin, NhifSpecialty specialty)
 {
-	QSignalBlocker blocker(ui.adminCheck); //recursion guard
+	ui.adminCheck->show();
+	ui.specialtyCombo->show();
 
-	switch (status)
-	{
-		case AdminStatus::Checked:
-			ui.adminCheck->setEnabled(true);
-			ui.adminCheck->setChecked(true);
-			break;
-		case AdminStatus::Unchecked:
-			ui.adminCheck->setEnabled(true);
-			ui.adminCheck->setChecked(false);
-			break;
-		case AdminStatus::Hidden:
-			ui.adminCheck->setEnabled(false);
-			ui.adminCheck->setChecked(false);
-			break;
-	}
+	//recursion guards
+	QSignalBlocker blocker(ui.adminCheck); 
+	QSignalBlocker blocker2(ui.specialtyCombo);
+
+	ui.adminCheck->setChecked(admin);
+	ui.specialtyCombo->setCurrentIndex(static_cast<int>(specialty));
+
+}
+
+
+void PracticeDoctorSettings::hideDoctorProperties()
+{
+	ui.adminCheck->hide();
+	ui.specialtyCombo->hide();
 }
 
 void PracticeDoctorSettings::replaceCurrentItem(const PracticeDoctor& item)

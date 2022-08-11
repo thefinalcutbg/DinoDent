@@ -168,7 +168,7 @@ void PatientSummaryPresenter::pricePeriodChanged(const Date& from, const Date& t
                 MasterNZOK::instance().getNZOKPrice(
                     p.code,
                     p.date,
-                    User::doctor().specialty,
+                    User::doctor().specialtyAsInt(),
                     patient->isAdult(p.date),
                     false);
             }

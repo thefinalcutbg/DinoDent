@@ -93,13 +93,6 @@ void MainPresenter::showListSelector()
 
 void MainPresenter::pisDialog()
 {
-    if (!User::practice().nzok_contract)
-    {
-        ModalDialogBuilder::showError(
-            u8"Моля попълнете данните на договора с НЗОК от настройки"
-        );
-        return;
-    }
 
     ModalDialogBuilder::pisDialog(&m_notifPresenter);
 

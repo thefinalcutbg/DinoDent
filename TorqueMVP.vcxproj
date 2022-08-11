@@ -284,7 +284,6 @@
     <ClCompile Include="src\View\ListView\SurfacePanel\SurfacePanel.cpp" />
     <ClCompile Include="src\View\TabView\ITabView.cpp" />
     <ClCompile Include="src\View\Theme.cpp" />
-    <ClCompile Include="src\View\SettingsDialog\PracticeDoctorSettings\IPracticeDoctorSettings.cpp" />
     <ClCompile Include="src\View\SettingsDialog\PracticeDoctorSettings\PracticeDoctorSettings.cpp" />
     <ClCompile Include="src\Model\Validator\BulstatValidator.cpp" />
     <ClCompile Include="src\Model\Validator\NzokContractValidator.cpp" />

@@ -9,6 +9,9 @@
 
 constexpr const char* doctorPrefix = u8"д-р ";
 
+enum class NhifSpecialty {None, General, Pediatric, OralSurgeon, Maxillofacial};
+
+constexpr int specialtyToInt[5]{ 0, 64, 61, 62, 68 };
 
 struct PracticePair
 {
@@ -21,9 +24,8 @@ struct PracticeDoctor
 	std::string lpk;
 	std::string name;
 	bool admin;
+	NhifSpecialty specialty;
 };
-
-
 
 struct Doctor
 {
@@ -33,14 +35,18 @@ struct Doctor
 	std::string mname;
 	std::string lname;
 	std::string egn;
-	int specialty{ -1 };
+	NhifSpecialty specialty{ NhifSpecialty::None };
 	std::string pass;
+	std::string phone;
 	bool severalRHIF{ false };
+
 	int dentalServiceType() const
 	{
-		if (specialty == 60 || specialty == 64) return 0;
-		if (specialty == 61 || specialty == 62 || specialty == 68) return 1;
-		return -1;
+		switch (specialty) {
+			case NhifSpecialty::None: return -1;
+			case NhifSpecialty::General: return 0;
+			default: return 1;
+		}
 	}
 
 	std::string getFullName(bool prefix = true) const
@@ -49,6 +55,10 @@ struct Doctor
 			doctorPrefix + fname + " " + lname
 			:
 			fname + " " + lname;
+	}
+
+	int specialtyAsInt() const {
+		return specialtyToInt[static_cast<int>(specialty)];
 	}
 
 };

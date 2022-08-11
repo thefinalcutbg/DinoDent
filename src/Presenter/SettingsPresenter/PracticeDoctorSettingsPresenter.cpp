@@ -70,14 +70,12 @@ void PracticeDoctorSettingsPresenter::indexChanged(int index)
 
 	 if (m_currentIndex < 0)
 	 {
-		 view->setAdminCheckbox(AdminStatus::Hidden);
+		 view->hideDoctorProperties();
 		 return;
 	 }
 
-	 m_doctorsList[index].admin ?
-		 view->setAdminCheckbox(AdminStatus::Checked)
-		 :
-		 view->setAdminCheckbox(AdminStatus::Unchecked);
+	 view->setDoctorProperties(m_doctorsList[index].admin, m_doctorsList[index].specialty);
+	
 }
 
 void PracticeDoctorSettingsPresenter::setAdminPrivilege(bool admin)
@@ -85,6 +83,11 @@ void PracticeDoctorSettingsPresenter::setAdminPrivilege(bool admin)
 	m_doctorsList[m_currentIndex].admin = admin;
 
 	view->replaceCurrentItem(m_doctorsList[m_currentIndex]);
+}
+
+void PracticeDoctorSettingsPresenter::setDoctorNhifSpecialty(NhifSpecialty spec)
+{
+	m_doctorsList[m_currentIndex].specialty = spec;
 }
 
 bool PracticeDoctorSettingsPresenter::isValid()

@@ -4,8 +4,6 @@
 class NameEdit : public LineEdit
 {
 
-	static QString letters; //= "абвгдежзийклмнопрстуфхцчшщъьюя-";
-	static QString capletters; //= "АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЬЮЯ ";
 
 	QString	reformat(QString text);
 	void makeFirstLetterCapital();

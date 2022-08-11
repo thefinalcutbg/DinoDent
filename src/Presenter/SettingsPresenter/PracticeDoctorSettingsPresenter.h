@@ -19,6 +19,7 @@ public:
 	void deleteDoctor();
 	void indexChanged(int index);
 	void setAdminPrivilege(bool admin);
+	void setDoctorNhifSpecialty(NhifSpecialty spec);
 	bool isValid();
 	std::vector<PracticeDoctor> getDoctorsList();
 };

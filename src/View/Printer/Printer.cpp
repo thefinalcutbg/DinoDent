@@ -79,7 +79,7 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
     report.dataManager()->setReportVariable("birth", QString::fromStdString(patient.birth.toString()));
 
     report.dataManager()->setReportVariable("RZICode", QString::fromStdString(practice.rziCode));
-    report.dataManager()->setReportVariable("specialty", doctor.specialty);
+    report.dataManager()->setReportVariable("specialty", doctor.specialtyAsInt());
     report.dataManager()->setReportVariable("LPK", QString::fromStdString(doctor.LPK));
     report.dataManager()->setReportVariable("doctorName", QString::fromStdString(doctor.getFullName(true)));
 
@@ -210,7 +210,7 @@ void Print::ambList()
     report.loadFromFile(":/reports/report_amb.lrxml");
 
     report.dataManager()->setReportVariable("RZICode", QString::fromStdString(practice.rziCode));
-    report.dataManager()->setReportVariable("specialty", doctor.specialty);
+    report.dataManager()->setReportVariable("specialty", doctor.specialtyAsInt());
     report.dataManager()->setReportVariable("LPK", QString::fromStdString(doctor.LPK));
     report.dataManager()->setReportVariable("doctorName", QString::fromStdString(doctor.getFullName(true)));
 

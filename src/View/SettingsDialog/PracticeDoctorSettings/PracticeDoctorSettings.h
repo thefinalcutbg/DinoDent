@@ -16,7 +16,8 @@ public:
 	PracticeDoctorSettings(QWidget *parent = Q_NULLPTR);
 	void setDoctorList(const std::vector<PracticeDoctor>& doctors) override;
 	void setPresenter(PracticeDoctorSettingsPresenter* presenter) override;
-	void setAdminCheckbox(AdminStatus status) override;
+	void setDoctorProperties(bool admin, NhifSpecialty spec) override;
+	void hideDoctorProperties() override;
 	void replaceCurrentItem(const PracticeDoctor& item) override;
 	~PracticeDoctorSettings();
 

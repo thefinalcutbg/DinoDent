@@ -57,7 +57,7 @@ const bool User::isCurrentUser(const std::string& LPK)
 
 bool User::isAdmin()
 {
-    return DbDoctor::getAdminPremission(s_doctor.LPK, s_practice.rziCode);
+    return std::get<0>(DbDoctor::getAdminAndSpecialty(s_doctor.LPK, s_practice.rziCode));
 }
 
 std::string User::getNameFromLPK(const std::string& LPK)

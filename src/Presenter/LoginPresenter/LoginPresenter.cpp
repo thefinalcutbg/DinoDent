@@ -70,9 +70,11 @@ void LoginPresenter::okPressed(const std::string& lpk, const std::string& pass)
         break;
     }
 
-
+    
+    doctor->specialty = static_cast<NhifSpecialty>(std::get<1>(DbDoctor::getAdminAndSpecialty(doctor->LPK, practiceList[practiceIdx].rzi)));
     User::setCurrentPractice(DbPractice::getPractice(practiceList[practiceIdx].rzi));
     User::setCurrentDoctor(doctor.value());
+    
 
 
     loginSuccessful = true;

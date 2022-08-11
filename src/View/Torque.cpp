@@ -18,7 +18,7 @@ Torque::Torque(QWidget* parent)
     ui.setupUi(this);
     showMaximized();
 
-    ui.hisButton->hide();
+   // ui.hisButton->hide();
 
     ui.newButton->setIcon(QIcon(":/icons/icon_sheet.png"));
     ui.perioButton->setIcon(QIcon(":/icons/icon_periosheet.png"));

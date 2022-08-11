@@ -199,7 +199,7 @@ void ReportPresenter::saveToXML()
 	auto fileName = "STOM_"
 		+ User::practice().rziCode + "_"
 		+ User::doctor().LPK + "_"
-		+ std::to_string(User::doctor().specialty) + "_"
+		+ std::to_string(User::doctor().specialtyAsInt()) + "_"
 		+ Date(1, month, year).toXMLReportFileName()
 		+ "_01.xml";
 
@@ -259,6 +259,14 @@ void ReportPresenter::setDate(int month, int year)
 
 void ReportPresenter::generateReport(bool checkPis, bool checkNra)
 {
+
+	if (!User::practice().nzok_contract) {
+		ModalDialogBuilder::showError(u8"Моля попълнете даннит от договора с НЗОК от настройки"); return;
+	}
+
+	if (User::doctor().specialty == NhifSpecialty::None) {
+		ModalDialogBuilder::showError(u8"Лекарят няма въведена специалност по НЗОК"); return;
+	}
 
 	//getting amblists and patients:
 
@@ -327,7 +335,7 @@ void ReportPresenter::finish()
 			(
 				procedure.code,
 				procedure.date,
-				User::doctor().specialty,
+				User::doctor().specialtyAsInt(),
 				patients[list.patient_rowid].isAdult(procedure.date),
 				false
 			);

@@ -1,7 +1,7 @@
 ﻿#include "NameEdit.h"
 
-QString NameEdit::letters{ u8"абвгдежзийклмнопрстуфхцчшщъьюя-" };
-QString NameEdit::capletters{ u8"АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЬЮЯ " };
+QString letters{ u8"абвгдежзийклмнопрстуфхцчшщъьюя " };
+QString capletters{ u8"АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЬЮЯ " };
 
 NameEdit::NameEdit(QWidget* parent) : LineEdit(parent)
 {
@@ -17,7 +17,7 @@ QString NameEdit::reformat(QString text)
     //Formats the name:
 //Removes spaces and dashes at the beginning and at the end of the name:
 
-    while (name[name.size() - 1] == ' ' || name[name.size() - 1] == '-')
+    while (name[name.size() - 1] == ' ' || name[name.size() - 1] == ' ')
     {
         name.remove(name.size() - 1, 1);
     }
@@ -29,7 +29,7 @@ QString NameEdit::reformat(QString text)
     //makese it all lowercase, and formats the dashes:
     for (int i = 0; i < name.size(); i++)
     {
-        if (name[i] == ' ') name[i] = '-';
+        if (name[i] == ' ') name[i] = ' ';
 
         for (int y = 0; y < 31; y++)
         {
@@ -40,7 +40,7 @@ QString NameEdit::reformat(QString text)
     //formats the dashes between the names:
     for (int i = 0; i < name.size(); i++)
     {
-        if (name[i] == '-' && name[i + 1] == '-') { name.remove(i + 1, 1); i--; }
+        if (name[i] == ' ' && name[i + 1] == ' ') { name.remove(i + 1, 1); i--; }
     }
 
     //makes the first letter capital:
@@ -51,7 +51,7 @@ QString NameEdit::reformat(QString text)
     // capitalizes the letter after the dash:
     for (int i = 0; i < name.size(); i++)
     {
-        if (name[i] == '-')
+        if (name[i] == ' ')
         {
             for (int y = 0; y < 32; y++)
             {

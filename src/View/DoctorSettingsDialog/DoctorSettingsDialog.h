@@ -11,7 +11,7 @@ class DoctorSettingsDialog final : public QDialog, public IDoctorSettingsDialog
 
 	DoctorDialogPresenter* presenter;
 
-	LineEdit* lineEdits[6];
+	LineEdit* lineEdits[7];
 
 	void paintEvent(QPaintEvent* event) override;
 

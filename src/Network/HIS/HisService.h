@@ -3,6 +3,8 @@
 
 #include <string_view>
 
+struct Patient;
+
 class HisService : protected AbstractReplyHandler
 {
 
@@ -15,6 +17,9 @@ private:
 	const std::string servicePath;
 
 protected:
+
+	std::string subject(const Patient& p);
+	std::string requester();
 
 	HisService(const std::string& messageType, const std::string& servPath)
 		:

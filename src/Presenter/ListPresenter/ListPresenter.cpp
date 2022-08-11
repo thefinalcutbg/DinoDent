@@ -546,7 +546,7 @@ void ListPresenter::refreshProcedureView()
 
         if (m.nzok)
         {
-            auto [p, nzok] = MasterNZOK::instance().getPrices(m.code, m_ambList.getDate(), User::doctor().specialty, patient->isAdult(m.date), m_ambList.full_coverage);
+            auto [p, nzok] = MasterNZOK::instance().getPrices(m.code, m_ambList.getDate(), User::doctor().specialtyAsInt(), patient->isAdult(m.date), m_ambList.full_coverage);
             nzokPrice = nzokPrice + nzok;
         }
 

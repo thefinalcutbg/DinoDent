@@ -24,22 +24,10 @@ std::string getSpec(bool fullCoverage)
 
     auto& specialty = User::doctor().specialty;
 
-    //specialty check:
-    {
-        constexpr int specialtyCheck[5]{ 60, 61, 62, 64, 68 };
+    if(specialty == NhifSpecialty::None) throw std::exception(u8"Невалиден код специалност на доктора");
 
-        for (auto spec : specialtyCheck) {
-            if (specialty == spec) {
-                goto specTypeValid;
-            }
-        }
 
-        throw std::exception(u8"Невалиден код специалност на доктора");
-    }
-
-specTypeValid:
-
-    bool primaryDentalAid = specialty == 60 || specialty == 64;
+    bool primaryDentalAid = specialty == NhifSpecialty::General;
 
     if (!fullCoverage && primaryDentalAid)
         return specType[0];
@@ -80,7 +68,7 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
     report->SetAttribute("RCZCode", practice.rziCode);
     report->SetAttribute("contractNo", practice.nzok_contract.value().contract_no);
     report->SetAttribute("dentistName", doctor.getFullName(false));
-    report->SetAttribute("dentistSpec", doctor.specialty);
+    report->SetAttribute("dentistSpec", doctor.specialtyAsInt());
     report->SetAttribute("dentistPersonalCode", doctor.LPK);
 
     //getting the first two characters of user.rziCode:

@@ -115,7 +115,8 @@ void DbPractice::setDoctorsPracticeList(std::vector<PracticeDoctor> doctors, con
             "VALUES ('"
             + practiceRZI + "', '"
             + doc.lpk + "', "
-            + std::to_string(doc.admin) + ")"
+            + std::to_string(doc.admin) + ", "
+            + std::to_string(static_cast<int>(doc.specialty)) + ")"
         );
     }
 }
@@ -124,7 +125,7 @@ std::vector<PracticeDoctor> DbPractice::getDoctors(const std::string& practiceRZ
 {
     std::vector<PracticeDoctor> result;
 
-    std::string query = "SELECT practice_doctor.doctor_lpk, doctor.fname, doctor.lname, practice_doctor.admin "
+    std::string query = "SELECT practice_doctor.doctor_lpk, doctor.fname, doctor.lname, practice_doctor.admin, practice_doctor.specialty "
         "FROM practice_doctor LEFT JOIN doctor ON practice_doctor.doctor_lpk = doctor.lpk "
         "WHERE practice_doctor.practice_rzi = '" + practiceRZI + "'";
 
@@ -134,7 +135,8 @@ std::vector<PracticeDoctor> DbPractice::getDoctors(const std::string& practiceRZ
             PracticeDoctor{
                 db.asString(0),
                 doctorPrefix + db.asString(1) + " " + db.asString(2),
-                static_cast<bool>(db.asInt(3))
+                db.asBool(3), 
+                static_cast<NhifSpecialty>(db.asInt(4))
             }
         );
     }

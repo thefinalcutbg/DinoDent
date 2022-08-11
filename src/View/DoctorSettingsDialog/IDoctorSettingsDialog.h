@@ -8,7 +8,7 @@ class AbstractLineEdit;
 
 namespace DoctorFields
 {
-	enum Field { LPK, EGN, FirstName, MiddleName, LastName, Password };
+	enum Field { LPK, EGN, FirstName, MiddleName, LastName, Phone, Password };
 }
 
 

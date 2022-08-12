@@ -28,7 +28,6 @@ public:
 	AbstractDateEdit* dateEdit() override;
 	void setKSMPCode(const std::string& code) override;
 	void enableKSMP(bool enabled) override;
-	void allowKSMPDisable(bool allowed) override;
 	std::string getKSMPCode() override;
 	void set_hidden(bool hidden) override;
 

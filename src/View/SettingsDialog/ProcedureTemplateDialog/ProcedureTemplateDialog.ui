@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>409</width>
-    <height>352</height>
+    <height>354</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -45,13 +45,6 @@
          </item>
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout">
-           <item>
-            <widget class="QCheckBox" name="ksmpCheck">
-             <property name="text">
-              <string>КСМП</string>
-             </property>
-            </widget>
-           </item>
            <item>
             <widget class="QPushButton" name="ksmpButton">
              <property name="text">

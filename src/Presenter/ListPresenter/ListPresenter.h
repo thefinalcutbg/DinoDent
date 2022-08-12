@@ -47,6 +47,7 @@ class ListPresenter : public TabInstance
     bool isValid();
     void refreshProcedureView();
     void statusChanged();
+    void refreshPrices();
 
 public:
 
@@ -74,7 +75,7 @@ public:
     void setSelectedTeeth(const std::vector<int>& SelectedIndexes);
 
 
-    void setPISActivities(const std::optional<Procedures>& pisProcedures);
+    void setPISActivities(const std::optional<std::vector<Procedure>>& pisProcedures);
     void setInsuranceStatus(const std::optional<InsuranceStatus>& status_result);
 
     void openPisHistory();
@@ -88,7 +89,9 @@ public:
     void addProcedure();
     void editProcedure(int index);
     void deleteProcedure(int index);
-    void setfullCoverage(bool unfav);
+
+    void setNhifData(const NhifSheetData& data);
+
     void createInvoice();
     void createPerioMeasurment();
     void showCurrentStatus(bool show);

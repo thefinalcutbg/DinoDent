@@ -27,6 +27,7 @@ class ListView : public QWidget, public IListView
 
     bool m_teethViewFocused {false};
     bool eventFilter(QObject* obj, QEvent* event);
+    void nhifChanged();
 
 public:
     ListView(QWidget* parent = Q_NULLPTR);
@@ -43,12 +44,13 @@ public:
     void repaintTooth(const ToothPaintHint& tooth) override;
     void setNotes(const std::array<std::string, 32>& notes) override;
     void disableGraphicsView(bool disabled) override;
-
+    void refreshPriceLabel(double patientPrice, double nzokPrice) override;
     //IProcedureView
     void setSelectedTeeth(std::vector<int> selectedTeeth) override;
-    void setProcedures(const std::vector<Procedure>& m, double patientPrice, double nzokPrice) override;
-    AbstractComboBox* taxCombo() override;
-    void setUnfav(bool unfav) override;
+    void setProcedures(const std::vector<Procedure>& m) override;
+    void hideNhifSheetData() override;
+    void setNhifData(const NhifSheetData& data) override;
+
     ~ListView();
 
 private:

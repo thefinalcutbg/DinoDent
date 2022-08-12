@@ -3,20 +3,13 @@
 #include <unordered_set>
 #include "ProcedureTemplate.h"
 #include "NZOKmaps.h"
-
+#include "Model/NhifSheetData.h"
 
 class MasterNZOK
 {
 	static MasterNZOK _instance;
 
-	std::unordered_map<int, ProcedureTemplate> _procedures;
-	std::unordered_map<int, int> code_durations;
-	std::unordered_map<int, int> _timeframes;
-	std::vector<NZOKUpdates> _updates;
 
-	std::unordered_set<int> minor_only;
-	std::unordered_set<int> temp_only;
-	std::unordered_set<int> perma_only;
 	
 
 	MasterNZOK();
@@ -30,10 +23,10 @@ public:
 
 	int getDuration(int nzokCode);
 	int getYearLimit(int nzokCode);
-	std::vector<ProcedureTemplate> getM_Templates(Date date, int specialty, bool adult, bool unfav);
-	std::pair<patientPrice, nzokPrice> getPrices(int code, Date date, int specialty, bool adult, bool unfav);
-	double getPatientPrice(int code, Date date, int specialty, bool adult, bool unfav);
-	double getNZOKPrice(int code, Date date, int specialty, bool adult, bool unfav);
+	std::vector<ProcedureTemplate> getM_Templates(Date date, NhifSpecialty specialty, bool adult, NhifSpecification specification);
+	std::pair<patientPrice, nzokPrice> getPrices(int code, Date date, bool adult, NhifSpecialty doctorSpecialty, NhifSpecification specification);
+	double getPatientPrice(int code, Date date, NhifSpecialty specialty, bool adult, NhifSpecification specification);
+	double getNZOKPrice(int code, Date date, NhifSpecialty specialty, bool adult, NhifSpecification specification);
 
 	std::vector<ProcedurePackage> getPackages(Date ambDate);
 

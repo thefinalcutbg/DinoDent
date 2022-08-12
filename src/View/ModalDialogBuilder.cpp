@@ -120,7 +120,7 @@ std::optional<std::string> ModalDialogBuilder::getMonthNotifFromFile()
 
 #include "Printer/ProcedurePrintSelectDialog.h"
 
-std::optional<Procedures> ModalDialogBuilder::selectProcedures(const Procedures& procedures, SelectionPref s)
+std::optional<std::vector<Procedure>> ModalDialogBuilder::selectProcedures(const std::vector<Procedure>& procedures, SelectionPref s)
 {
 	std::vector<Procedure> result;
 
@@ -150,7 +150,7 @@ std::optional<Procedures> ModalDialogBuilder::selectProcedures(const Procedures&
 
 #include "View/PISHistoryDialog/PISHistoryDialog.h"
 
-bool ModalDialogBuilder::pisHistoryDialog(const Procedures& procedures)
+bool ModalDialogBuilder::pisHistoryDialog(const std::vector<Procedure>& procedures)
 {
 	PISHistoryDialog d(procedures);
 	d.exec();

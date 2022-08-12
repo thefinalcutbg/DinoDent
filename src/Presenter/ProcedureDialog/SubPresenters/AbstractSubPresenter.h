@@ -11,7 +11,7 @@ class AbstractSubPresenter
 {
 
 protected:
-	struct KsmpState { std::string code; bool enabled{ false }; };
+
 	ICommonFields* common_view{ NULL };
 
 	ProcedureType m_type;
@@ -23,7 +23,7 @@ protected:
 
 	NotEmptyValidator notEmpty_validator;
 
-	KsmpState m_ksmp;
+	std::string m_ksmp;
 	//returns tooth 99, non-temporary;
 	Procedure getProcedureCommonFields();
 
@@ -39,8 +39,6 @@ public:
 	virtual bool isValid();
 
 	void ksmpButtonClicked();
-
-	void ksmpToggled(bool toggled);
 
 	virtual std::vector<Procedure> getProcedures() = 0;
 	

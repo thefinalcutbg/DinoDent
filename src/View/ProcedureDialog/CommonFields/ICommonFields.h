@@ -19,7 +19,6 @@ public:
 	//if code is empty, the checkbox will be disabled
 	virtual void setKSMPCode(const std::string& code) = 0;
 	virtual void enableKSMP(bool enabled) = 0;
-	virtual void allowKSMPDisable(bool allowed) = 0;
 	virtual std::string getKSMPCode() = 0;
 	virtual void setCurrentPresenter(AbstractSubPresenter* presenter) { this->presenter = presenter; }
 };

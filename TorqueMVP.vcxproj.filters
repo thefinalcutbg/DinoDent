@@ -687,6 +687,9 @@
     <ClCompile Include="src\Model\Procedure\ProcedureContainer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Model\NhifSheetData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -1684,6 +1687,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\Procedure\ProcedureContainer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\NhifSheetData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

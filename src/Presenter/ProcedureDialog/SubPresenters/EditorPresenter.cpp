@@ -14,17 +14,12 @@ EditorPresenter::EditorPresenter(const Procedure& p) :
 	m_date = p.date;
 	m_diagnosis = p.diagnosis;
 
-	if (p.ksmp.empty()) {
+	p.ksmp.empty() ?
+		m_ksmp = KSMP::getByType(p.type).at(0)->code
+		:
+		m_ksmp = p.ksmp;
 
-		m_ksmp.code = KSMP::getByType(p.type).at(0)->code;
-		m_ksmp.enabled = false;
 
-	}
-	else
-	{
-		m_ksmp.code = p.ksmp;
-		m_ksmp.enabled = true;
-	}
 }
 
 void EditorPresenter::setCommonFieldsView(ICommonFields* view)
@@ -40,10 +35,9 @@ void EditorPresenter::setCommonFieldsView(ICommonFields* view)
 	common_view->diagnosisEdit()->setInputValidator(&notEmpty_validator);
 	common_view->procedureNameEdit()->setInputValidator(&notEmpty_validator);
 	common_view->dateEdit()->set_Date(m_date);
-	common_view->allowKSMPDisable(m_nzok == false);
+	common_view->enableKSMP(m_nzok == false);
 
-	common_view->setKSMPCode(m_ksmp.code);
-	common_view->enableKSMP(m_ksmp.enabled);
+	common_view->setKSMPCode(m_ksmp);
 
 }
 

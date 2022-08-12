@@ -7,10 +7,7 @@
 #include "Tooth/ToothContainer.h"
 #include "Procedure/ProcedureContainer.h"
 #include <algorithm>
-
-enum class Charge {standard, retired, freed};
-
-typedef std::vector<Procedure> Procedures;
+#include "Model/NhifSheetData.h"
 
 struct AmbList
 {
@@ -23,9 +20,7 @@ struct AmbList
 	std::string LPK;
 
 	/* NHIF specific */
-	bool full_coverage{ false };
-	bool pregnancy{ false };
-	Charge charge{ Charge::standard };
+	NhifSheetData nhifData;
 
 	ToothContainer teeth;
 	ProcedureContainer procedures;

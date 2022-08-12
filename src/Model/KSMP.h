@@ -22,7 +22,7 @@ struct KSMP
 	static const std::string& chapterName(int chapter);
 	static const std::string& getName(const std::string& code);
 	static const KSMP& getByCode(const std::string& code);
-
+	static bool isValid(const std::string& code);
 
 };
 

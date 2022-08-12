@@ -21,12 +21,8 @@ ProcedureTemplateDialog::ProcedureTemplateDialog(const ProcedureTemplate* pTemp,
 
 		procedureType[0]->setChecked(true);
 		ui.codeEdit->setValue(code);
-		ui.ksmpCheck->setChecked(false);
-		ui.ksmpButton->setHidden(true);
-		ui.ksmpButton->setText(
-			KSMP::getByType(ProcedureType::general)
-				.at(0)->code.c_str()
-		);
+		ui.ksmpButton->setText(u8"Изберете КСМП");
+		currentType = ProcedureTemplateType::general;
 	}
 	//edit mode:
 	else
@@ -38,17 +34,17 @@ ProcedureTemplateDialog::ProcedureTemplateDialog(const ProcedureTemplate* pTemp,
 		ui.diagnosisEdit->set_Text(pTemp->diagnosis);
 		ui.materialEdit->set_Text(pTemp->material);
 		procedureType[static_cast<int>(pTemp->type)]->toggle();
+		currentType = pTemp->type;
 
-		bool ksmp = !pTemp->ksmp.empty();
-		ui.ksmpCheck->setChecked(ksmp);
-		ui.ksmpButton->setHidden(!ksmp);
-
-		ui.ksmpButton->setText(
-			ksmp ? 
-			pTemp->ksmp.c_str() 
-			:
-			KSMP::getByType(pTemp->type).at(0)->code.c_str()
-		);
+		if (KSMP::isValid(pTemp->ksmp))
+		{
+			ui.ksmpButton->setText(pTemp->ksmp.c_str());
+		}
+		else
+		{
+			ui.ksmpButton->setText("");
+			
+		}
 
 		
 	}
@@ -61,28 +57,13 @@ ProcedureTemplateDialog::ProcedureTemplateDialog(const ProcedureTemplate* pTemp,
 			{
 				auto& ksmp_ptr = KSMP::getByType(static_cast<ProcedureTemplateType>(i)).at(0);
 				ui.ksmpButton->setText(ksmp_ptr->code.c_str());
-				if (ui.ksmpCheck->isChecked())
-				{
-					ui.nameEdit->setText(KSMP::getName(ui.ksmpButton->text().toStdString()).c_str());
-				}
-				
+				ui.nameEdit->setText(KSMP::getName(ui.ksmpButton->text().toStdString()).c_str());
 				currentType = static_cast<ProcedureTemplateType>(i);
 			});
 	}
 
 	ui.nameEdit->setInputValidator(&m_validator);
-	
-	connect(ui.ksmpCheck, &QCheckBox::clicked, [=](bool checked) {
-				
-				ui.ksmpButton->setHidden(!checked);
 
-				if (checked) {
-					ui.nameEdit->setText(KSMP::getName(ui.ksmpButton->text().toStdString()).c_str());
-				}
-
-
-				
-		});
 
 	connect(ui.ksmpButton, &QPushButton::clicked,
 		[=] {
@@ -105,6 +86,12 @@ ProcedureTemplateDialog::ProcedureTemplateDialog(const ProcedureTemplate* pTemp,
 				return;
 			}
 
+			if (!KSMP::isValid(ui.ksmpButton->text().toStdString()))
+			{
+				ModalDialogBuilder::showError(u8"Невалиден КСМП код");
+				return;
+			}
+
 			ProcedureTemplate result;
 
 			result.code = ui.codeEdit->value();
@@ -114,8 +101,10 @@ ProcedureTemplateDialog::ProcedureTemplateDialog(const ProcedureTemplate* pTemp,
 			result.price = ui.priceEdit->value();
 			result.diagnosis = ui.diagnosisEdit->getText();
 			result.nzok = false;
-			result.ksmp = ui.ksmpCheck->isChecked() ? ui.ksmpButton->text().toStdString() : "";
+			result.ksmp = ui.ksmpButton->text().toStdString();
 			m_procedureTemplate.emplace(result);
+
+		
 
 			this->close();
 		});

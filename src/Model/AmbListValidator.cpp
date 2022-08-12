@@ -152,7 +152,8 @@ bool AmbListValidator::isValidAccordingToDb()
         
         packageCounter.insertCode(procedure.code);
 
-        if (!packageCounter.validate(patient.isAdult(procedure.date), ambList.pregnancy)) //validating max allowed per year
+        if (ambList.nhifData.specification != NhifSpecification::Anesthesia &&
+            !packageCounter.validate(patient.isAdult(procedure.date), ambList.nhifData.pregnancy)) //validating max allowed per year
         {
             _error = u8"Надвишен лимит по НЗОК за код " + std::to_string(procedure.code) + "!";
             return false;

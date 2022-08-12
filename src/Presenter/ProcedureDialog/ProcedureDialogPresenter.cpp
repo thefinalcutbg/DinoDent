@@ -95,9 +95,9 @@ void ProcedureDialogPresenter::procedureDateChanged(const Date& date)
 		procedureList = MasterNZOK::instance().getM_Templates
 		(
 			date,
-			User::doctor().specialtyAsInt(),
+			User::doctor().specialty,
 			date >= patientTurns18,
-			ambList.full_coverage
+			ambList.nhifData.specification
 		);
 	}
 

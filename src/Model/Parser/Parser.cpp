@@ -491,6 +491,21 @@ std::string Parser::write(const Settings& settings)
 	return writer.write(json);
 }
 
+std::string Parser::write(const NhifSheetData& nhifData, bool nhifSource)
+{
+	if (!nhifSource) return std::string{};
+
+	Json::Value json;
+
+	json["charge"] = static_cast<int>(nhifData.charge);
+	json["spec"] = static_cast<int>(nhifData.specification);
+	json["pregnancy"] = static_cast<bool>(nhifData.pregnancy);
+
+	Json::FastWriter writer;
+	return writer.write(json);
+
+}
+
 void Parser::parse(const std::string& jsonString, Procedure& procedure)
 {
 	Json::Value json;
@@ -908,6 +923,24 @@ void Parser::parse(const std::string& jsonString, Invoice& invoice)
 	invoice.aggragated_amounts.paymentType = static_cast<PaymentType>(json["paymentType"].asInt());
 
 
+}
+
+NhifSheetData Parser::parseNhifData(const std::string& nhif)
+{
+	NhifSheetData result;
+
+	if (nhif.empty()) return result;
+
+	Json::Reader reader;
+	Json::Value json;
+	reader.parse(nhif, json);
+
+	
+	result.charge = static_cast<NhifCharge>(json["charge"].asInt());
+	result.specification = static_cast<NhifSpecification>(json["spec"].asInt());
+	result.pregnancy = json["pregnancy"].asBool();
+
+	return result;
 }
 
 std::vector<ProcedureTemplate> Parser::getPriceList(const std::string& priceList)

@@ -16,9 +16,6 @@ CommonFields::CommonFields(QWidget *parent)
 		[=] {	if (presenter)presenter->ksmpButtonClicked();}
 	);
 
-	connect(ui.ksmpCheck, &QCheckBox::toggled, [=](bool toggled) {
-				if(presenter)presenter->ksmpToggled(toggled);
-		});
 }
 
 void CommonFields::setExternalDateEdit(DateEdit* externalDateEdit)
@@ -64,21 +61,11 @@ void CommonFields::setKSMPCode(const std::string& code)
 
 void CommonFields::enableKSMP(bool enabled)
 {
-	QSignalBlocker b(ui.ksmpCheck);
-	ui.ksmpCheck->setChecked(enabled);
-	ui.ksmpButton->setHidden(!enabled);
-}
-
-void CommonFields::allowKSMPDisable(bool allowed)
-{
-	ui.ksmpCheck->setDisabled(!allowed);
-
+	ui.ksmpButton->setEnabled(enabled);
 }
 
 std::string CommonFields::getKSMPCode()
 {
-	if (!ui.ksmpCheck->isChecked()) { return {}; };
-
 	return ui.ksmpButton->text().toStdString();
 }
 

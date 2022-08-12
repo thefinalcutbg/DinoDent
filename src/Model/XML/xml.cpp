@@ -11,38 +11,6 @@
 #include "Model/User/User.h"
 #include "Model/Financial/Invoice.h"
 
-std::string getSpec(bool fullCoverage)
-{
-    constexpr const char* specType[4]
-    {
-        "PRIMARY NORM", //код специалнсот 60 или 64 и цената се покрива частично/изцяло от НЗОК
-        "PRIMARY SPEC", //код специалнсот 60 или 64 и цената се покрива ИЗЦЯЛО от НЗОК
-        "SPEC NORM",    //код специалнсот 61, 62 или 68 и цената се покрива частично/изцяло от НЗОК
-        "SPEC DOMOVE"   //код специалнсот 61, 62 или 68 и цената се покрива ИЗЦЯЛО от НЗОК
-        //"SPEC_PS      //за обща анестезия (такъв няма feature все още)
-    };
-
-    auto& specialty = User::doctor().specialty;
-
-    if(specialty == NhifSpecialty::None) throw std::exception(u8"Невалиден код специалност на доктора");
-
-
-    bool primaryDentalAid = specialty == NhifSpecialty::General;
-
-    if (!fullCoverage && primaryDentalAid)
-        return specType[0];
-
-    if (fullCoverage && primaryDentalAid)
-        return specType[1];
-
-    if (!fullCoverage && !primaryDentalAid)
-        return specType[2];
-
-    if (fullCoverage && primaryDentalAid)
-        return specType[3];
-
-    throw std::exception(u8"НЕВАЛИДНА СПЕЦИФИКАЦИЯ");
-}
 
 
 std::string XML::getReport(const std::vector<AmbList>& lists, const std::unordered_map<long long, Patient>& patients)
@@ -113,7 +81,7 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
             dentalCareService->SetAttribute("personMiddleName", patient.MiddleName);
 
         dentalCareService->SetAttribute("personLastName", patient.LastName);
-        dentalCareService->SetAttribute("specificationType", getSpec(list.full_coverage));
+        dentalCareService->SetAttribute("specificationType", list.nhifData.getSpecString(doctor.specialty));
         dentalCareService->SetAttribute("ambulatorySheetNo", leadZeroes(list.number, 6));
         dentalCareService->SetAttribute("HIRBNo", patient.HIRBNo); //throw if HIRBNo empty?
         dentalCareService->SetAttribute("unfavorableCondition", 0);

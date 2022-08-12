@@ -165,12 +165,12 @@ void PatientSummaryPresenter::pricePeriodChanged(const Date& from, const Date& t
 
             if (p.nzok) {
                 nzokPrice +=
-                MasterNZOK::instance().getNZOKPrice(
-                    p.code,
-                    p.date,
-                    User::doctor().specialtyAsInt(),
-                    patient->isAdult(p.date),
-                    false);
+                    MasterNZOK::instance().getNZOKPrice(
+                        p.code,
+                        p.date,
+                        User::doctor().specialty,
+                        patient->isAdult(p.date),
+                        NhifSpecification::PartialCoverage); //WE NEED THIS DATA!
             }
         }
 

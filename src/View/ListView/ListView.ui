@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1091</width>
-    <height>1026</height>
+    <height>1047</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -54,13 +54,13 @@
        <property name="minimumSize">
         <size>
          <width>1071</width>
-         <height>710</height>
+         <height>750</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
          <width>1071</width>
-         <height>710</height>
+         <height>750</height>
         </size>
        </property>
        <property name="frameShape">
@@ -73,7 +73,7 @@
         <property name="geometry">
          <rect>
           <x>120</x>
-          <y>690</y>
+          <y>730</y>
           <width>521</width>
           <height>20</height>
          </rect>
@@ -92,23 +92,10 @@
         <property name="geometry">
          <rect>
           <x>759</x>
-          <y>300</y>
+          <y>330</y>
           <width>271</width>
           <height>391</height>
          </rect>
-        </property>
-       </widget>
-       <widget class="QLabel" name="taxLabel">
-        <property name="geometry">
-         <rect>
-          <x>580</x>
-          <y>170</y>
-          <width>131</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Потребителска такса:</string>
         </property>
        </widget>
        <widget class="AllergiesTile" name="allergiesTile">
@@ -124,19 +111,6 @@
          <string>PushButton</string>
         </property>
        </widget>
-       <widget class="QCheckBox" name="unfav_check">
-        <property name="geometry">
-         <rect>
-          <x>820</x>
-          <y>170</y>
-          <width>211</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>ДП изцяло заплащана от НЗОК</string>
-        </property>
-       </widget>
        <widget class="PatientTile" name="patientTile">
         <property name="geometry">
          <rect>
@@ -150,36 +124,11 @@
          <string>PushButton</string>
         </property>
        </widget>
-       <widget class="ComboBox" name="taxCombo">
-        <property name="geometry">
-         <rect>
-          <x>710</x>
-          <y>170</y>
-          <width>81</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <item>
-         <property name="text">
-          <string>2,90 лв.</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>1,00 лв.</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Освободен</string>
-         </property>
-        </item>
-       </widget>
        <widget class="GraphicsView" name="teethView">
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>210</y>
+          <y>240</y>
           <width>751</width>
           <height>481</height>
          </rect>
@@ -201,7 +150,7 @@
         <property name="geometry">
          <rect>
           <x>760</x>
-          <y>210</y>
+          <y>240</y>
           <width>271</width>
           <height>161</height>
          </rect>
@@ -211,7 +160,7 @@
         <property name="geometry">
          <rect>
           <x>20</x>
-          <y>170</y>
+          <y>160</y>
           <width>121</width>
           <height>21</height>
          </rect>
@@ -224,7 +173,7 @@
         <property name="geometry">
          <rect>
           <x>150</x>
-          <y>170</y>
+          <y>160</y>
           <width>100</width>
           <height>22</height>
          </rect>
@@ -254,6 +203,117 @@
          <number>999999</number>
         </property>
        </widget>
+       <widget class="QGroupBox" name="nhifGroup">
+        <property name="geometry">
+         <rect>
+          <x>610</x>
+          <y>150</y>
+          <width>421</width>
+          <height>80</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>НЗОК</string>
+        </property>
+        <widget class="QLabel" name="label_2">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>50</y>
+           <width>91</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Спецификация:</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="taxLabel">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>20</y>
+           <width>131</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Потребителска такса:</string>
+         </property>
+        </widget>
+        <widget class="QComboBox" name="specCombo">
+         <property name="geometry">
+          <rect>
+           <x>150</x>
+           <y>50</y>
+           <width>261</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <item>
+          <property name="text">
+           <string>Изцяло или частично заплащана от НЗОК</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Изцяло заплащана от НЗОК</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Обща анестезия</string>
+          </property>
+         </item>
+        </widget>
+        <widget class="ComboBox" name="taxCombo">
+         <property name="geometry">
+          <rect>
+           <x>150</x>
+           <y>20</y>
+           <width>81</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <item>
+          <property name="text">
+           <string>2,90 лв.</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>1,00 лв.</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Освободен</string>
+          </property>
+         </item>
+        </widget>
+        <widget class="QCheckBox" name="pregnancyCheck">
+         <property name="geometry">
+          <rect>
+           <x>320</x>
+           <y>20</y>
+           <width>91</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>бременност</string>
+         </property>
+        </widget>
+       </widget>
+       <zorder>controlPanel</zorder>
+       <zorder>allergiesTile</zorder>
+       <zorder>patientTile</zorder>
+       <zorder>teethView</zorder>
+       <zorder>surfacePanel</zorder>
+       <zorder>label</zorder>
+       <zorder>ambNumSpin</zorder>
+       <zorder>nhifGroup</zorder>
+       <zorder>priceLabel</zorder>
       </widget>
      </item>
     </layout>

@@ -57,6 +57,11 @@ const KSMP& KSMP::getByCode(const std::string& code)
     return codeToInstance[code];
 }
 
+bool KSMP::isValid(const std::string& code)
+{
+    return codeToInstance.count(code);
+}
+
 const std::string& KSMP::getName(const std::string& code)
 {
     return codeToInstance[code].name;

@@ -11,7 +11,7 @@ struct PriceKey
 {
 	int specialty;
 	bool adult;
-	bool unfav;
+	int unfav;
 
 	bool operator == (const PriceKey& p) const 
 	{
@@ -28,7 +28,7 @@ struct std::hash<PriceKey>
 	{
 		std::size_t h1 = std::hash<int>()(node.specialty);
 		std::size_t h2 = std::hash<bool>()(node.adult);
-		std::size_t h3 = std::hash<bool>()(node.unfav);
+		std::size_t h3 = std::hash<int>()(node.unfav);
 
 		return h1 ^ h2 ^ h3;
 	}

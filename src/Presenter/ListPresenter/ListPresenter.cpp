@@ -26,11 +26,6 @@ ListPresenter::ListPresenter(ITabView* tabView, TabPresenter* tabPresenter, std:
 
     auto ambSheetDate = m_ambList.getDate();
 
-    if (m_ambList.isNew() && !patient->isAdult(ambSheetDate))
-        m_ambList.charge = Charge::freed;
-    else if (m_ambList.isNew() && patient->getAge(ambSheetDate) > 70)
-        m_ambList.charge = Charge::retired;
-
     //the list is not new
     if (rowId) return;
 
@@ -67,6 +62,27 @@ void ListPresenter::statusChanged()
     makeEdited();
 }
 
+void ListPresenter::refreshPrices()
+{
+    double patientPrice(0);
+    double nzokPrice(0);
+
+
+    for (auto& m : m_ambList.procedures.list())
+    {
+        patientPrice = patientPrice + m.price;
+
+        if (m.nzok)
+        {
+            auto [p, nzok] = MasterNZOK::instance().getPrices(m.code, m_ambList.getDate(), patient->isAdult(m.date), User::doctor().specialty, m_ambList.nhifData.specification);
+            nzokPrice = nzokPrice + nzok;
+        }
+
+    }
+
+    view->refreshPriceLabel(patientPrice, nzokPrice);
+}
+
 
 bool ListPresenter::isValid()
 {
@@ -92,7 +108,7 @@ bool ListPresenter::isValid()
 
 void ListPresenter::chargeChanged(int index)
 {
-    m_ambList.charge = static_cast<Charge>(index);
+    m_ambList.nhifData.charge = static_cast<NhifCharge>(index);
     makeEdited();
 }
 
@@ -192,6 +208,7 @@ void ListPresenter::setDataToView()
 
     showCurrentStatus(m_showCurrentStatus);
 
+    refreshPrices();
     refreshProcedureView();
 
    
@@ -286,6 +303,7 @@ void ListPresenter::setMainStatus(int code)
         }
     }
     else if (code == StatusCode::Temporary){ 
+        refreshPrices();
         refreshProcedureView(); //updates the teeth num
     }
 
@@ -386,7 +404,7 @@ void ListPresenter::requestPisActivities()
 
 }
 
-void ListPresenter::setPISActivities(const std::optional<Procedures>& pisProcedures)
+void ListPresenter::setPISActivities(const std::optional<std::vector<Procedure>>& pisProcedures)
 {
 
     if (!pisProcedures.has_value()) {
@@ -535,30 +553,13 @@ void ListPresenter::refreshProcedureView()
 
     auto& mList = m_ambList.procedures;
 
-    double patientPrice(0);
-    double nzokPrice(0);
-
     m_ambList.procedures.refreshTeethTemporary(m_ambList.teeth);
 
-    for (auto& m : m_ambList.procedures.list())
-    {
-        patientPrice = patientPrice + m.price;
-
-        if (m.nzok)
-        {
-            auto [p, nzok] = MasterNZOK::instance().getPrices(m.code, m_ambList.getDate(), User::doctor().specialtyAsInt(), patient->isAdult(m.date), m_ambList.full_coverage);
-            nzokPrice = nzokPrice + nzok;
-        }
-
-    }
-
-    view->setProcedures(m_ambList.procedures.list(), patientPrice, nzokPrice);
+    view->setProcedures(m_ambList.procedures.list());
 }
 
 void ListPresenter::addProcedure()
 {
-
-
     ProcedureDialogPresenter p
     {
         m_ambList,
@@ -566,35 +567,25 @@ void ListPresenter::addProcedure()
         patient->turns18At()
     };
 
-    auto openList = p.openDialog();
+    auto procedures = p.openDialog();
 
-    if (openList.empty()) return;
+    if (procedures.empty()) return;
 
-    /*
-    if (openList[0].nzok) //re-getting the prices because of edge-case (18th birthday in current month)
-    {
-        for (auto& m : openList)
-            m.price = MasterNZOK::instance().
-            getPatientPrice
-            (
-                m.code, m_ambList.getAmbListDate(),
-                User::currentUser().doctor.specialty,
-                patient->isAdult(m.date),
-                m_ambList.full_coverage
-            );
-    }
-    */
-
-    this->addToProcedureList(openList);
+    this->addToProcedureList(procedures);
 
     if (m_ambList.hasNumberInconsistency()) {
+
         m_ambList.number = DbAmbList::getNewNumber(m_ambList.getDate(), m_ambList.hasNZOKProcedure());
+        
+        if (procedures[0].nzok) view->setNhifData(m_ambList.nhifData);
+        
     }
 
     if (view == nullptr) return;
 
     view->setAmbListNum(m_ambList.number);
 
+    refreshPrices();
     refreshProcedureView();
 
     edited = false;
@@ -620,6 +611,7 @@ void ListPresenter::editProcedure(int index)
 
     m_ambList.procedures.replaceProcedure(m, index);
 
+    refreshPrices();
     refreshProcedureView();
     makeEdited();
 
@@ -631,47 +623,26 @@ void ListPresenter::deleteProcedure(int index)
 
     if (m_ambList.hasNumberInconsistency()) {
         m_ambList.number = DbAmbList::getNewNumber(m_ambList.getDate(), m_ambList.hasNZOKProcedure());
+        
+        if (!m_ambList.hasNZOKProcedure()) {
+            view->hideNhifSheetData();
+        }
     }
 
     view->setAmbListNum(m_ambList.number);
 
+    refreshPrices();
     refreshProcedureView();
 
     edited = false;
     makeEdited();
 }
 
-void ListPresenter::setfullCoverage(bool unfav)
+void ListPresenter::setNhifData(const NhifSheetData& data)
 {
-    m_ambList.full_coverage = unfav;
-
-    /*
-    for (auto& m : m_ambList.procedures)
-    {
-        if (m.nzok)
-        {
-            m.price = MasterNZOK::instance().
-                getPatientPrice
-                (
-                    m.code,
-                    m_ambList.getAmbSheetDateMin(),
-                    User::currentUser().doctor.specialty,
-                    patient->isAdult(m.date),
-                    unfav
-                );
-
-        }
-    }
-    */
-    if (unfav)
-    {
-        m_ambList.charge = Charge::freed;
-        view->taxCombo()->setIndex(2);
-    }
-
+    m_ambList.nhifData = data;
+    refreshPrices();
     makeEdited();
-
-   // refreshProcedureView();
 }
 
 void ListPresenter::createInvoice()
@@ -717,9 +688,6 @@ void ListPresenter::showCurrentStatus(bool show)
             view->repaintTooth(ToothHintCreator::getToothHint(t));
         }
     }
-
-
-   
 }
 
 ListPresenter::~ListPresenter()

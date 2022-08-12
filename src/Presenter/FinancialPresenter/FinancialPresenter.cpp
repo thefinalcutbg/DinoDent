@@ -41,7 +41,7 @@ FinancialPresenter::FinancialPresenter(ITabView* tabView, const std::string& mon
 
 }
 
-FinancialPresenter::FinancialPresenter(ITabView* tabView, const Procedures& procedures, std::shared_ptr<Patient> patient) :
+FinancialPresenter::FinancialPresenter(ITabView* tabView, const std::vector<Procedure>& procedures, std::shared_ptr<Patient> patient) :
     TabInstance(tabView, TabType::Financial, patient),
     view(tabView->financialView()),
     m_invoice(*patient.get(), User::practice(), User::doctor())

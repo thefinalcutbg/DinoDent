@@ -218,7 +218,7 @@ void ReportPresenter::saveToXML()
 	ModalDialogBuilder::openExplorer(filepath);
 }
 
-void ReportPresenter::setPISActivities(const std::optional<Procedures>& pisProcedures)
+void ReportPresenter::setPISActivities(const std::optional<std::vector<Procedure>>& pisProcedures)
 {
 	if (!pisProcedures.has_value()) {
 		ModalDialogBuilder::showError(u8"Неуспешна връзка със сървъра.");
@@ -335,9 +335,9 @@ void ReportPresenter::finish()
 			(
 				procedure.code,
 				procedure.date,
-				User::doctor().specialtyAsInt(),
+				User::doctor().specialty,
 				patients[list.patient_rowid].isAdult(procedure.date),
-				false
+				list.nhifData.specification
 			);
 
 			sumMinutes += MasterNZOK::instance().getDuration(procedure.code);

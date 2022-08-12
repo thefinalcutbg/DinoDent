@@ -6,6 +6,15 @@
 
 MasterNZOK MasterNZOK::_instance;
 
+std::vector<ProcedureTemplate> _procedures;
+std::unordered_map<int, int> code_durations;
+std::unordered_map<int, int> _timeframes;
+std::vector<NZOKUpdates> _updates;
+
+std::unordered_set<int> minor_only;
+std::unordered_set<int> temp_only;
+std::unordered_set<int> perma_only;
+
 MasterNZOK::MasterNZOK()
 {
 }
@@ -31,7 +40,7 @@ void MasterNZOK::loadData()
 		m.type = static_cast<ProcedureTemplateType>(procedure[i]["type"].asInt());
 		m.code = procedure[i]["code"].asInt();
 		m.name = procedure[i]["name"].asString();
-		m.price = -1;
+		m.price = 0;
 		m.nzok = true;
 		m.ksmp = procedure[i]["ksmp"].asString();
 
@@ -42,10 +51,10 @@ void MasterNZOK::loadData()
 			m.material = procedure[i]["material"].asString();
 
 		code_durations[m.code] = (procedure[i]["duration"].asInt());
-		_procedures[m.code] = m;
+		_procedures.push_back(m);
 	}
 
-	//2.Getting some constraints on those procedures
+	//2.Getting the constraints procedures
 
 	const Json::Value& constraints = p["constraints"];
 
@@ -123,12 +132,12 @@ void MasterNZOK::loadData()
 
 					const Json::Value& specialty = priceMap["specialty"];
 					const Json::Value& adult = priceMap["adult"];
-					const Json::Value& unfav = priceMap["unfav"];
+					const Json::Value& unfav = priceMap["specification"];
 
 					for (auto& spec : specialty)
 					{
 
-						PriceKey key{ spec.asInt(), adult.asBool(), unfav.asBool() };
+						PriceKey key{ spec.asInt(), adult.asBool(), unfav.asInt() };
 						c.prices[key] = price_value;
 					}
 
@@ -152,7 +161,7 @@ void MasterNZOK::loadUpdates()
 
 
 
-std::vector<ProcedureTemplate> MasterNZOK::getM_Templates(Date ambDate, int specialty, bool adult, bool unfav)
+std::vector<ProcedureTemplate> MasterNZOK::getM_Templates(Date ambDate, NhifSpecialty specialty, bool adult, NhifSpecification specification)
 {
 	int currentUpdateIdx = -1;
 
@@ -167,29 +176,35 @@ std::vector<ProcedureTemplate> MasterNZOK::getM_Templates(Date ambDate, int spec
 
 	auto& update = _updates[currentUpdateIdx];
 
-	auto& m_map = update.prices[PriceKey{ specialty, adult, unfav }].priceMap;
+	auto& m_map = update.prices[PriceKey{ static_cast<int>(specialty), adult, static_cast<int>(specification) }].priceMap;
 
 	std::vector<ProcedureTemplate> product;
 
 	product.reserve(m_map.size());
 
-	for (auto& kv : m_map)
+	for (auto& kv : m_map) 
 	{
-		product.push_back(_procedures[kv.first]);
-		product.back().price = std::get<0>(kv.second);
+		for (auto& p : _procedures)
+		{
+			if (p.code != kv.first) continue;
+
+			product.push_back(p);
+			product.back().price = std::get<0>(kv.second);
+		}
+
 	}
 
 	return product;
 }
 
 std::pair<patientPrice, nzokPrice> MasterNZOK::getPrices
-(int code, Date ambDate, int specialty, bool adult,bool unfav)
+(int code, Date date, bool adult, NhifSpecialty doctorSpecialty, NhifSpecification specification)
 {
 	int currentUpdateIdx = -1;
 
 	for (int i = 0; i < _updates.size(); i++)
 	{
-		if (ambDate < _updates[i].date) continue;
+		if (date < _updates[i].date) continue;
 
 		currentUpdateIdx = i; break;
 	}
@@ -197,7 +212,7 @@ std::pair<patientPrice, nzokPrice> MasterNZOK::getPrices
 	//or throw an exception maybe?!
 	if (currentUpdateIdx == -1) return std::make_pair(0,0);
 
-	return _updates[currentUpdateIdx].prices[PriceKey{ specialty, adult, unfav }].
+	return _updates[currentUpdateIdx].prices[PriceKey{ static_cast<int>(doctorSpecialty), adult, static_cast<int>(specification) }].
 		priceMap[code];
 }
 
@@ -211,13 +226,18 @@ std::vector<ProcedurePackage> MasterNZOK::getPackages(Date ambDate)
 }
 
 
-ProcedureTemplate MasterNZOK::getTemplateByCode(int code) { return _procedures[code]; }
+ProcedureTemplate MasterNZOK::getTemplateByCode(int code){ 
 
-double MasterNZOK::getPatientPrice(int code, Date date, int specialty, bool adult, bool unfav)
-{ return std::get<0>(getPrices(code, date, specialty, adult, unfav)); }
+	for (auto& p : _procedures) if (p.code == code) return p;
 
-double MasterNZOK::getNZOKPrice(int code, Date date, int specialty, bool adult, bool unfav)
-{ return std::get<1>(getPrices(code, date, specialty, adult, unfav)); }
+	throw std::exception("No procedure with this code");
+}
+
+double MasterNZOK::getPatientPrice(int code, Date date, NhifSpecialty specialty, bool adult, NhifSpecification specification)
+{ return std::get<0>(getPrices(code, date, adult, specialty, specification)); }
+
+double MasterNZOK::getNZOKPrice(int code, Date date, NhifSpecialty specialty, bool adult, NhifSpecification specification)
+{ return std::get<1>(getPrices(code, date, adult, specialty, specification)); }
 
 int MasterNZOK::getDuration(int nzokCode) { return code_durations[nzokCode]; }
 

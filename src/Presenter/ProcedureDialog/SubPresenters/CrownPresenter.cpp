@@ -41,13 +41,13 @@ void CrownPresenter::setView(ICrownView* view)
 void CrownPresenter::setProcedureTemplate(const ProcedureTemplate& m)
 {
 	if (m_bridgeSelected) {
-		std::swap(m_ksmp.code, m_ksmpOther);
+		std::swap(m_ksmp, m_ksmpOther);
 	}
 	
 	AbstractSubPresenter::setProcedureTemplate(m);
 
 	if (m_bridgeSelected) {
-		std::swap(m_ksmp.code, m_ksmpOther);
+		std::swap(m_ksmp, m_ksmpOther);
 	}
 
 	bridgeLogic.setPrice(m.price);
@@ -62,12 +62,12 @@ void CrownPresenter::selectAsBridge(bool checked)
 {
 	//condition in which fn is called from ui
 	if (m_bridgeSelected != checked) {
-		std::swap(m_ksmp.code, m_ksmpOther);
+		std::swap(m_ksmp, m_ksmpOther);
 		
 	} //else, they are already swapped in  setProcedureTemplate fn
 
 	m_bridgeSelected = checked;
-	common_view->setKSMPCode(m_ksmp.code);
+	common_view->setKSMPCode(m_ksmp);
 
 	if (checked)
 	{

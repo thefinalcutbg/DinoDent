@@ -155,7 +155,7 @@ void TabPresenter::openInvoice(const std::string& monthNotif)
     
 }
 
-void TabPresenter::openInvoice(const Procedures& procedures, long long patientRowId)
+void TabPresenter::openInvoice(const std::vector<Procedure>& procedures, long long patientRowId)
 {
     
     

@@ -2,7 +2,7 @@
 
 #include "TeethView/ContextMenu.h"
 #include "View/Theme.h"
-
+#include "Model/NhifSheetData.h"
 
 ListView::ListView(QWidget* parent)
 	: QWidget(parent), presenter(nullptr)
@@ -59,7 +59,9 @@ ListView::ListView(QWidget* parent)
 	connect(ui.allergiesTile, &QAbstractButton::clicked, [=] { if (presenter) presenter->openAllergiesDialog(); });
 	connect(ui.addProcedure, &QAbstractButton::clicked, [=] { if (presenter) presenter->addProcedure(); });
 	connect(ui.procedureTable, &ProcedureTable::deletePressed, [=] { if (presenter) ui.deleteProcedure->click(); });
-	connect(ui.unfav_check, &QCheckBox::stateChanged, [=] { if (presenter) presenter->setfullCoverage(ui.unfav_check->isChecked()); });
+	connect(ui.pregnancyCheck, &QCheckBox::stateChanged, [=] {nhifChanged();});
+	connect(ui.taxCombo, &QComboBox::currentIndexChanged, [=] {nhifChanged();});
+	connect(ui.specCombo, &QComboBox::currentIndexChanged, [=] {nhifChanged();});
 	connect(ui.editProcedure, &QPushButton::clicked, [=] { if (presenter) presenter->editProcedure(ui.procedureTable->selectedRow()); });
 	connect(ui.invoiceButton, &QPushButton::clicked, [=] { if (presenter) presenter->createInvoice(); });
 	connect(ui.perioButton, &QPushButton::clicked, [=] { if (presenter) presenter->createPerioMeasurment(); });
@@ -171,12 +173,28 @@ bool ListView::eventFilter(QObject* obj, QEvent* event)
 	return false;
 }
 
+void ListView::nhifChanged()
+{
+	if (presenter == nullptr) return;
+
+	NhifSheetData data;
+
+	data.charge = static_cast<NhifCharge>(ui.taxCombo->currentIndex());
+	data.pregnancy = ui.pregnancyCheck->isChecked();
+	data.specification = static_cast<NhifSpecification>(ui.specCombo->currentIndex());
+
+	presenter->setNhifData(data);
+}
+
 
 void ListView::refresh(const AmbList& ambList, const Patient& patient)
 {
 	ui.patientTile->setData(patient, ambList.getDate());
 	ui.allergiesTile->setData(patient);
-	ui.taxCombo->setIndex(static_cast<int>(ambList.charge));
+	ambList.hasNZOKProcedure() ?
+		setNhifData(ambList.nhifData)
+		:
+		hideNhifSheetData();
 	
 }
 
@@ -228,33 +246,29 @@ void ListView::disableGraphicsView(bool disabled)
 	ui.showAppliedButton->setChecked(disabled);
 }
 
+#include "View/GlobalFunctions.h"
+void ListView::refreshPriceLabel(double patientPrice, double nzokPrice)
+{
+	QString result;
+
+	result.append("Сума по НЗОК: " + priceToString(nzokPrice) + " ");
+
+	result.append("Сума за плащане: " + priceToString(patientPrice));
+
+	ui.priceLabel->setText(result);
+}
+
 
 void ListView::setSelectedTeeth(std::vector<int> selectedIndexes)
 {
-
 	teethViewScene->setSelectedTeeth(selectedIndexes);
 
 	ui.teethView->update(); //the only way to update qgraphicsview without most of the bugs
 
 }
 
-#include "View/GlobalFunctions.h"
 
-QString getPricesText(double patientPrice, double NZOKprice)
-{
-	QString result;
-
-	//if (!patientPrice && !NZOKprice) return result;
-
-	//if (NZOKprice)
-		result.append("Сума по НЗОК: " + priceToString(NZOKprice) + " ");
-
-	result.append("Сума за плащане: " + priceToString(patientPrice));
-
-	return result;
-}
-
-void ListView::setProcedures(const std::vector<Procedure>& m, double patientPrice, double nzokPrice)
+void ListView::setProcedures(const std::vector<Procedure>& m)
 {
 	model.setProcedures(m);
 
@@ -264,21 +278,24 @@ void ListView::setProcedures(const std::vector<Procedure>& m, double patientPric
 	for (auto t : m) proc_teeth.push_back(t.tooth);
 
 	teethViewScene->setProcedures(proc_teeth);
-	
-	//this->setFixedHeight(710 + ui.procedureTable->height() + 100);
 
-	ui.priceLabel->setText(getPricesText(patientPrice, nzokPrice));
 }
 
-AbstractComboBox* ListView::taxCombo()
+void ListView::hideNhifSheetData()
 {
-	return ui.taxCombo;
+	ui.nhifGroup->hide();
 }
 
-void ListView::setUnfav(bool unfav)
+void ListView::setNhifData(const NhifSheetData& data)
 {
-	QSignalBlocker blocker(ui.unfav_check);
-	ui.unfav_check->setChecked(unfav);
+	ui.nhifGroup->show();
+	for (auto& w : ui.nhifGroup->children()) w->blockSignals(true);
+
+	ui.taxCombo->setCurrentIndex(static_cast<int>(data.charge));
+	ui.pregnancyCheck->setChecked(data.pregnancy);
+	ui.specCombo->setCurrentIndex(static_cast<int>(data.specification));
+
+	for (auto& w : ui.nhifGroup->children()) w->blockSignals(false);
 }
 
 

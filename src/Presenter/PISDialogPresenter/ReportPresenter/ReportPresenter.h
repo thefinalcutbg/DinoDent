@@ -46,7 +46,7 @@ public:
 	void reset();
 	void sendToPis();
 	void saveToXML();
-	void setPISActivities(const std::optional<Procedures>& pisProcedures);
+	void setPISActivities(const std::optional<std::vector<Procedure>>& pisProcedures);
 	void setInsuranceStatus(const std::optional<InsuranceStatus>& insuranceStatus);
 	void setDate(int month, int year);
 	void generateReport(bool checkPis, bool checkNra);

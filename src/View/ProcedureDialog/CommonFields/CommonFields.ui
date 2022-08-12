@@ -74,13 +74,6 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <widget class="QCheckBox" name="ksmpCheck">
-       <property name="text">
-        <string>КСМП</string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QPushButton" name="ksmpButton">
        <property name="text">
         <string>КСМП</string>

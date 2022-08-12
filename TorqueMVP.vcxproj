@@ -214,6 +214,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Model\NhifSheetData.cpp" />
     <ClCompile Include="src\Model\Procedure\ProcedureContainer.cpp" />
     <ClCompile Include="src\Model\MKB.cpp" />
     <ClCompile Include="src\Network\HIS\ConcreteHisTest.cpp" />
@@ -524,6 +525,7 @@
     <QtUic Include="src\View\TabView\TabTitle.ui" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Model\NhifSheetData.h" />
     <ClInclude Include="src\Model\Procedure\ProcedureContainer.h" />
     <ClInclude Include="src\Model\MKB.h" />
     <ClInclude Include="src\Network\HIS\ConcreteHisTest.h" />

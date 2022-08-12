@@ -5,20 +5,37 @@
 		{
 			"type": 0, 
 			"code": 101, 
-			"name": "Обстоен преглед със снемане на орален статус – в т.ч. еднократен допълнителенпреглед за бременни",	
+			"name": "Обстоен преглед със снемане на орален статус",	
 			"duration": 15,
 			"default_diag": "Преглед",
 			"ksmp": "97017-00"
 		},
 		
+		{
+			"type": 0, 
+			"code": 101, 
+			"name": "Обстоен преглед със снемане на орален статус при бременни",	
+			"duration": 15,
+			"default_diag": "Преглед",
+			"ksmp": "97017-01"
+		},
 		
 		{
 			"type": 2, 
 			"code": 301, 
-			"name": "Обтурация с амалгама или химичен композит",	
+			"name": "Обтурация с химичен композит",	
 			"duration": 26,
 			"material": "Химиополимер",
 			"ksmp": "97546-01"
+		},
+		
+		{
+			"type": 2, 
+			"code": 301, 
+			"name": "Обтурация с амалгама",	
+			"duration": 26,
+			"material": "Химиополимер",
+			"ksmp": "97546-00"
 		},
 		
 		{
@@ -136,7 +153,7 @@
 	
 "constraints":
 {
-	"minor_only": [332, 333, 508, 901, 902, 903],
+	"minor_only": [332, 333, 508],
 	"temp_only": [332, 508],
 	"perma_only": [333, 509],
 	
@@ -154,7 +171,8 @@
 		
 		"packages":
 		[
-			{"codes":[101, 102], "adult":1, "minor":1, "pregnant":2},
+			{"codes":[101], "adult":1, "minor":1, "pregnant":2},
+			{"codes":[102], "adult":1, "minor":1},
 			{"codes":[301, 508, 509, 332, 333, 502, 510, 544], "adult":3, "minor":4},
 			{"codes":[332, 333], "minor":2, "adult":2}
 
@@ -163,126 +181,105 @@
 		"price_list":
 		[
 			{
-				"specialty": [60, 64],
-				"adult": false,
-				"unfav": false,
-				
-				"bigCode": 11,
+				"specialty": 	[1], "adult": false, "specification": 0, "bigCode": 11,
 				"procedures":	[101,  301,   508,   509,   332,   333,   832, 833],
 				"patient":		[1.8,  0,     0,     0,     4.7,   12.3,  0,   0],
 				"nzok":			[15.31, 55.85, 22.44, 55.85, 33.25, 109.79, 210, 210] 
 			},
 			
 			
-			{
-				"specialty": [60, 64],
-				"adult": true,
-				"unfav": false,
-
-				"bigCode": 12,
+			{   "specialty": 	[1], "adult": true, "specification": 0, "bigCode": 12,
 				"procedures":	[101,  301,   509,   832, 833],
 				"patient":		[1.8,  4,     4,  	 0,   0],
 				"nzok":			[15.31, 51.85, 51.85, 210, 210] 			
 			},
 			
 			{
-				"specialty": [60, 64],
-				"adult": false,
-				"unfav": true,
-				
-				"bigCode": 111,
+				"specialty": 	[1], "adult": false, "specification": 1, "bigCode": 111,
 				"procedures":	[101,  		301, 	  508,   509,   332,   333,   832, 833],
-				"patient":		[0, 		0,     	  0,  	 0,   	0,     0,	0,	0],
+				"patient":		[0, 		0,     	  0,  	 0,   	0,     0,	  0,   0],
 				"nzok": 		[17.11,  	73.26,   22.44, 55.85, 42,17, 130.01, 210, 210]
 			},
 			
 			{
-				"specialty": [60, 64],
-				"adult": true,
-				"unfav": true,
-				
-				"bigCode": 121,
+				"specialty": 	[1], "adult": true, "specification": 1, "bigCode": 121,
 				"procedures":	[101,	 301,   509,  832, 833],
 				"patient":		[0, 	 0,     0,    0,	0],
 				"nzok": 		[17.11,  73,26, 55.85,  210, 210]
 			},
 			
 			{
-				"specialty": [61],
-				"adult": false,
-				"unfav": false,
-				
-				"bigCode": 21,
-				"procedures":	[101,  301,   508,   509,   332,   333,   832, 833],
-				"patient":		[1.8,  0,     0,     0,     4.7,   12.3,  0,   0],
-				"nzok":			[16.53, 58.84, 25.01, 58.84, 37.04, 121.36, 210, 210] 
+				"specialty": 	[1], "adult": false, "specification": 2, "bigCode": 212,
+				"procedures":	[101, 	301, 	508, 	509, 	332, 	333, 	901,	902, 	903, 	832,	 833],
+				"patient":		[0, 	0,     	0,  	0,   	0,      0,	    0,      0,	    0 ,		0,		 0 ],
+				"nzok": 		[27.51, 73.28, 	34.42, 	73.28,	60.72,  199.13,	58.80, 	58.80,	36.06, 	210, 	 210] 
+			},
+		
+			{
+				"specialty": 	[1], "adult": true, "specification": 2, "bigCode": 112,
+				"procedures":	[101,	 301,   509, 	901,	902, 	903, 	832,	 833],
+				"patient":		[0, 	 0,     0,   	0,		0,		0,		0,		 0 ],
+				"nzok": 		[27.51,  73.28, 73.27,  58.80, 	58.80,	36.06, 	210, 	 210] 
 			},
 			
 			{
-				"specialty": [61],
-				"adult": false,
-				"unfav": true,
+				"specialty": 	[2], "adult": false, "specification": 0, "bigCode": 121,
+				"procedures":	[101,  301,   508,   509,   332,   333,   832, 833],
+				"patient":		[1.8,  0,     0,     0,     4.7,   12.3,  0,   0],
+				"nzok":			[16.53, 58.84, 25.01, 58.84, 37.04, 121.36, 210, 210] 
 				
-				"bigCode": 211,
+			},
+			
+			{
+				"specialty": 	[2], "adult": false, "specification": 1, "bigCode": 211,
 				"procedures":	[101,  	301,   508,   509,   332,   333,   832, 833],
 				"patient":		[0, 	0,     0,  	  0,     0,     0,	   0,	0],
 				"nzok":			[18.33,	78.59, 26.74, 58.84, 55.97, 141.60, 210, 210] 
 			},
-
+			
 			{
-				"specialty":[62, 68],
-				"adult":false,
-				"unfav":false,
-				
-				"bigCode": 214,
+				"specialty":	[2], "adult": false, "specification": 2, "bigCode": 212,
+				"procedures":	[101,  	301,   508,   509,   332,   333,    901,	902,    903,  	832,	 833],
+				"patient":		[0, 	0,     0,  	  0,     0,     0,	    0,	    0,	    0,		0,		 0],
+				"nzok":			[18.33,	78.59, 26.74, 58.84, 55.97, 141.60, 58.80, 	58.80,	36.06,  210,     210] 
+			},
+			
+			{
+				"specialty":	[3, 4], "adult":false, "specification":0, "bigCode": 214,
 				"procedures":	[102, 	520, 	510,	544, 	832,	 833],
 				"patient":		[1.8,	3,		5, 	    0.8,    0,       0],
 				"nzok":			[16.53,	24.65,	60.64,  5.75,    210,     210] 
 			},
 			
 			{
-				"specialty":[62, 68],
-				"adult": true,
-				"unfav": false,
-				
-				"bigCode": 224,
+				"specialty":	[3, 4], "adult": true, "specification": 0, "bigCode": 224,
 				"procedures":	[102, 	520, 	510,	544, 	832,	 833],
 				"patient":		[1.8,	7.5,	13.5, 	0.8,    0,       0],
 				"nzok":			[16.53,	20.15,	51.16,  5.75,    210,     210] 
 			},
 			
 			{
-				"specialty":[62, 68],
-				"adult": false,
-				"unfav": true,
-				
-				"bigCode": 2114,
+				"specialty":	[3, 4], "adult": false, "specification": 1, "bigCode": 2114,
 				"procedures":	[102, 	520, 	510,	544, 	832,	 833],
 				"patient":		[0, 	0,      0,  	0,   	0, 	     0],
 				"nzok":			[18.33,	27.65,	66.22,  6.55,    210,     210] 
 			},
 			
 			{
-				"specialty":[62, 68],
-				"adult": true,
-				"unfav": true,
-				
-				"bigCode": 2214,
+				"specialty":	[3, 4], "adult": true, "specification": 1, "bigCode": 2214,
 				"procedures":	[102, 	520, 	510,	544, 	832,	 833],
 				"patient":		[0, 	0,      0,  	0,   	0, 	     0],
 				"nzok":			[18.33,	27.65,	66.22,  6.55,    210,     210] 
-			}
-
+			},
 			
-		],
-		
-		"anestesia_override":{
-				
-				"bigCode": 212,
-				"procedures":	[101, 	301, 	508, 	509, 	332, 	333, 	502,	510, 	544,	832,	833,	901,	902, 	903],
-				"nzok": 		[27.51, 73.28, 	34.42, 	73.28,	60.72, 199.13, 43.62, 	96.47,	11.48,	200,	200,	58.80, 	58.80,	36.06] 
+			{
+				"specialty":	[3, 4], "adult":true, "specification":2, "bigCode": 222,
+				"procedures":	[102, 	520, 	510,	544, 	 901,		902,    903, 	832,	 833],
+				"patient":		[0,		0,		0, 	    0, 		 0,    		0,		0,		0,		 0],
+				"nzok":			[27.51,	43.62,	96.47,  11.48,   58.80, 	58.80,	36.06,	210,	 210]
 			}
-		
+			
+		]
 		
 
 	},
@@ -290,11 +287,13 @@
 
 
 	{
-		"date": "01.01.2020",
+		"date": "01.01.2021",
 		
 		"packages":
 		[
-			{"codes":[101, 102], "adult":1, "minor":1, "pregnant":2},
+		
+			{"codes":[101], "adult":1, "minor":1, "pregnant":2},
+			{"codes":[102], "adult":1, "minor":1},
 			{"codes":[301, 508, 509, 332, 333, 502, 510, 544], "adult":3, "minor":4},
 			{"codes":[332, 333], "minor":2, "adult":2}
 
@@ -303,9 +302,9 @@
 		"price_list":
 		[
 			{
-				"specialty": [60, 64],
+				"specialty": [1],
 				"adult": false,
-				"unfav": false,
+				"specification": 0,
 				
 				"bigCode": 11,
 				"procedures":[101,  301,   508,   509,   332,   333,   832, 833],
@@ -315,9 +314,9 @@
 			
 			
 			{
-				"specialty": [60, 64],
+				"specialty": [1],
 				"adult": true,
-				"unfav": false,
+				"specification": 0,
 
 				"bigCode": 12,
 				"procedures":	[101,  301,   509,   832, 833],
@@ -326,9 +325,9 @@
 			},
 			
 			{
-				"specialty": [60, 64],
+				"specialty": [1],
 				"adult": false,
-				"unfav": true,
+				"specification": 1,
 				
 				"bigCode": 111,
 				"procedures":	[101,  		301, 	  508,   509,   332,   333,   832, 833],
@@ -337,9 +336,9 @@
 			},
 			
 			{
-				"specialty": [60, 64],
+				"specialty": [1],
 				"adult": true,
-				"unfav": true,
+				"specification": 1,
 				
 				"bigCode": 121,
 				"procedures":	[101,	 301,   509,  832, 833],
@@ -348,9 +347,9 @@
 			},
 			
 			{
-				"specialty": [61],
+				"specialty": [2],
 				"adult": false,
-				"unfav": false,
+				"specification": 0,
 				
 				"bigCode": 21,
 				"procedures":	[101,  301,   508,   509,   332,   333,   832, 833],
@@ -359,9 +358,9 @@
 			},
 			
 			{
-				"specialty": [61],
+				"specialty": [2],
 				"adult": false,
-				"unfav": true,
+				"specification": true,
 				
 				"bigCode": 211,
 				"procedures":	[101,  	301,   508,   509,   332,   333,   832, 833],
@@ -370,9 +369,9 @@
 			},
 
 			{
-				"specialty":[62, 68],
+				"specialty":[3, 4],
 				"adult":false,
-				"unfav":false,
+				"specification":0,
 				
 				"bigCode": 214,
 				"procedures":	[102, 	520, 	510,	544, 	832,	 833],
@@ -381,9 +380,9 @@
 			},
 			
 			{
-				"specialty":[62, 68],
+				"specialty":[3, 4],
 				"adult": true,
-				"unfav": false,
+				"specification": 0,
 				
 				"bigCode": 224,
 				"procedures":	[102, 	520, 	510,	544, 	832,	 833],
@@ -392,9 +391,9 @@
 			},
 			
 			{
-				"specialty":[62, 68],
+				"specialty":[3, 4],
 				"adult": false,
-				"unfav": true,
+				"specification": 1,
 				
 				"bigCode": 2114,
 				"procedures":	[102, 	520, 	510,	544, 	832,	 833],
@@ -403,9 +402,9 @@
 			},
 			
 			{
-				"specialty":[62, 68],
+				"specialty":[3, 4],
 				"adult": true,
-				"unfav": true,
+				"specification": 1,
 				
 				"bigCode": 2214,
 				"procedures":	[102, 	520, 	510,	544, 	832,	 833],
@@ -443,21 +442,21 @@
 		"price_list":
 		[
 			{
-				"specialty": [60, 64],
+				"specialty": [1],
 				"adult": false,
-				"unfav": false,
+				"specification": 0,
 				
 				"bigCode": 11,
 				"procedures":[101,  301,   508,   509,   332,   333,   832, 833],
 				"patient":		[1.8,  0,     0,     0,     4.7,   12.3,  0,   0],
-				"nzok":			[10.2, 39.18, 15.74, 39.18, 21.29, 68.93, 200, 200] 
+				"nzok":			[10.2, 39.18, 15.74, 39.18, 21.29, 4.93, 200, 200] 
 			},
 			
 			
 			{
-				"specialty": [60, 64],
+				"specialty": [1],
 				"adult": true,
-				"unfav": false,
+				"specification": 0,
 
 				"bigCode": 12,
 				"procedures":[101,  301,   509,   832, 833],
@@ -466,10 +465,9 @@
 			},
 			
 			{
-				"specialty": [60, 64],
+				"specialty": [1],
 				"adult": false,
-				"unfav": true,
-				
+				"specification": 1
 				"bigCode": 111,
 				"procedures":[101,  301,   508,   509,   332,   333,   832, 833],
 				"patient":		[0, 	0,     0,  	 0,   	0,     0,	0,	0],
@@ -477,9 +475,9 @@
 			},
 			
 			{
-				"specialty": [60, 64],
+				"specialty": [1],
 				"adult": true,
-				"unfav": true,
+				"specification": 1,
 				
 				"bigCode": 121,
 				"procedures":[101,  301,  509,  832, 833],
@@ -488,9 +486,9 @@
 			},
 			
 			{
-				"specialty": [61],
+				"specialty": [2],
 				"adult": false,
-				"unfav": false,
+				"specification": 0,
 				
 				"bigCode": 21,
 				"procedures":[101,  301,   508,   509,   332,   333,   832, 833],
@@ -499,9 +497,9 @@
 			},
 			
 			{
-				"specialty": [61],
+				"specialty": [2],
 				"adult": false,
-				"unfav": true,
+				"specification": 1,
 				
 				"bigCode": 211,
 				"procedures":[101,  	301,   508,   509,   332,   333,   832, 833],
@@ -510,9 +508,9 @@
 			},
 
 			{
-				"specialty":[62, 68],
+				"specialty":[3, 4],
 				"adult":false,
-				"unfav":false,
+				"specification":0,
 				
 				"bigCode": 214,
 				"procedures":[102, 	520, 	510,	544, 	832,	 833],
@@ -521,9 +519,9 @@
 			},
 			
 			{
-				"specialty":[62, 68],
+				"specialty":[3, 4],
 				"adult": true,
-				"unfav": false,
+				"specification": 0,
 				
 				"bigCode": 224,
 				"procedures":[102, 	520, 	510,	544, 	832,	 833],
@@ -532,9 +530,9 @@
 			},
 			
 			{
-				"specialty":[62, 68],
+				"specialty":[3, 4],
 				"adult": false,
-				"unfav": true,
+				"specification": 1,
 				
 				"bigCode": 2114,
 				"procedures":[102, 	520, 	510,	544, 	832,	 833],
@@ -543,9 +541,9 @@
 			},
 			
 			{
-				"specialty":[62, 68],
+				"specialty":[3, 4],
 				"adult": true,
-				"unfav": true,
+				"specification": 1,
 				
 				"bigCode": 2214,
 				"procedures":[102, 	520, 	510,	544, 	832,	 833],
@@ -560,7 +558,7 @@
 				
 				"bigCode": 212,
 				"procedures":[101, 	301, 	508, 	509, 	332, 	333, 	502,	510, 	544,	832,	833,	901,	902, 	903],
-				"nzok": 		[19.3, 	51.41, 	24.15, 	51.41,	42.6, 	139.7, 	30.6, 	67.68,	8.05,	200,	200,	41.25, 	41.25,	25.3] 
+				"nzok": 		[19.3, 	51.41, 	24.15, 	51.41,	42.6, 	139.7, 	30.6, 	67.4,	8.05,	200,	200,	41.25, 	41.25,	25.3] 
 			}
 		
 	}, 
@@ -580,21 +578,21 @@
 		"price_list":
 		[
 			{
-				"specialty": [60, 64],
+				"specialty": [1],
 				"adult": false,
-				"unfav": false,
+				"specification": 0,
 				
 				"bigCode": 11,
 				"procedures":[101,  301,   508,   509,   332,   333],
 				"patient":		[1.8,  0,     0,     0,     4.7,   12.3],
-				"nzok":			[8.2, 36.25, 14.56, 36.25, 21.92, 68.93] 
+				"nzok":			[8.2, 36.25, 14.56, 36.25, 21.92, 4.93] 
 			},
 			
 			
 			{
-				"specialty": [60, 64],
+				"specialty": [1],
 				"adult": true,
-				"unfav": false,
+				"specification": 0,
 
 				"bigCode": 12,
 				"procedures":[101,  301,   509,   832, 833],
@@ -603,9 +601,9 @@
 			},
 			
 			{
-				"specialty": [60, 64],
+				"specialty": [1],
 				"adult": false,
-				"unfav": true,
+				"specification": 1,
 				
 				"bigCode": 111,
 				"procedures":[101,  301,   508,   509,   332,   333],
@@ -614,9 +612,9 @@
 			},
 			
 			{
-				"specialty": [60, 64],
+				"specialty": [1],
 				"adult": true,
-				"unfav": true,
+				"specification": 1,
 				
 				"bigCode": 121,
 				"procedures":[101,  301,   509,   832, 833],
@@ -625,9 +623,9 @@
 			},
 			
 			{
-				"specialty": [61],
+				"specialty": [2],
 				"adult": false,
-				"unfav": false,
+				"specification": 0,
 				
 				"bigCode": 21,
 				"procedures":[101,  301,   508,   509,   332,   333],
@@ -636,9 +634,9 @@
 			},
 			
 			{
-				"specialty": [61],
+				"specialty": [2],
 				"adult": false,
-				"unfav": true,
+				"specification": 1,
 				
 				"bigCode": 211,
 				"procedures":[101,  	301,   508,   509,   332,   333],
@@ -647,9 +645,9 @@
 			},
 
 			{
-				"specialty":[62, 68],
+				"specialty":[3, 4],
 				"adult":false,
-				"unfav":false,
+				"specification":0,
 				
 				"bigCode": 214,
 				"procedures":[102, 	520, 	510,	544],
@@ -658,9 +656,9 @@
 			},
 			
 			{
-				"specialty":[62, 68],
+				"specialty":[3, 4],
 				"adult": true,
-				"unfav": false,
+				"specification": 0,
 				
 				"bigCode": 224,
 				"procedures":[102, 	520, 	510,	544, 	832,	 833],
@@ -669,9 +667,9 @@
 			},
 			
 			{
-				"specialty":[62, 68],
+				"specialty":[3, 4],
 				"adult": false,
-				"unfav": true,
+				"specification": 1,
 				
 				"bigCode": 2114,
 				"procedures":[102, 	520, 	510,	544],
@@ -680,9 +678,9 @@
 			},
 			
 			{
-				"specialty":[62, 68],
+				"specialty":[3, 4],
 				"adult": true,
-				"unfav": true,
+				"specification": 1,
 				
 				"bigCode": 2214,
 				"procedures":[102, 	520, 	510,	544, 	832,	 833],
@@ -697,7 +695,7 @@
 				
 				"bigCode": 212,
 				"procedures":[101, 	301, 	508, 	509, 	332, 	333, 	502,	510, 	544,	901,	902, 	903],
-				"nzok": 		[17.3, 	47.56, 	22.34, 	47.56,	42.6, 	139.7, 	30.6, 	62.61,	8.05,	41.25, 	41.25,	25.3] 
+				"nzok": 		[17.3, 	47.56, 	22.34, 	47.56,	42.6, 	139.7, 	30.6, 	3.2,	8.05,	41.25, 	41.25,	25.3] 
 			}
 		
 	}

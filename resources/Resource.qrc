@@ -49,11 +49,11 @@
         <file>font_RobotoCondensedRegular.ttf</file>
     </qresource>
     <qresource prefix="/json">
-        <file>json_cities.json</file>
         <file>json_defaultPriceList.json</file>
         <file>json_diagnosis.json</file>
         <file>json_ksmp.json</file>
         <file>json_nzok.json</file>
         <file>json_mkb.json</file>
+        <file>json_ekatte.json</file>
     </qresource>
 </RCC>

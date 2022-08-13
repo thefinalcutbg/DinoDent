@@ -36,17 +36,10 @@ ProcedureTemplateDialog::ProcedureTemplateDialog(const ProcedureTemplate* pTemp,
 		procedureType[static_cast<int>(pTemp->type)]->toggle();
 		currentType = pTemp->type;
 
-		if (KSMP::isValid(pTemp->ksmp))
-		{
-			ui.ksmpButton->setText(pTemp->ksmp.c_str());
-		}
-		else
-		{
-			ui.ksmpButton->setText("");
-			
-		}
-
-		
+		KSMP::isValid(pTemp->ksmp) ?
+			ui.ksmpButton->setText(pTemp->ksmp.c_str())
+			:
+			ui.ksmpButton->setText(u8"Изберете КСМП");
 	}
 
 

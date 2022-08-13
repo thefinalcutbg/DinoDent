@@ -5,7 +5,7 @@
 
 #include "Model/Tooth/ToothUtils.h"
 #include "View/ModalDialogBuilder.h"
-#include "Model/Procedure/MasterNZOK.h"
+#include "Model/Procedure/NhifProcedures.h"
 
 
 bool DentalActivitiesService::sendRequest(int personType, const std::string& patientId, std::function<void(const std::optional<std::vector<Procedure>>&)> callback)
@@ -69,7 +69,7 @@ void DentalActivitiesService::parseReply(const std::string& reply)
 		auto [tooth, temp] = ToothUtils::getArrayIdxAndTemp(std::stoi(row.Child(5).ToElement()->GetText()));
 
 		result.emplace_back(
-			MasterNZOK::instance().getTemplateByCode(std::stoi(row.Child(2).ToElement()->GetText())),
+			NhifProcedures::getTemplateByCode(std::stoi(row.Child(2).ToElement()->GetText())),
 			Date::getDateFromXmlFormat(row.Child(0).ToElement()->GetText()),
 			row.Child(4).ToElement()->GetText(), //diagnosis
 			tooth,

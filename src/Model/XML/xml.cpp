@@ -4,9 +4,8 @@
 #include <unordered_set>
 #include <cmath>
 
-#include "Model/Procedure/MasterNZOK.h"
+#include "Model/Procedure/NhifProcedures.h"
 #include "Model/FreeFunctions.h"
-#include "Model/CityCode.h"
 #include "Model/Tooth/ToothUtils.h"
 #include "Model/User/User.h"
 #include "Model/Financial/Invoice.h"
@@ -66,10 +65,8 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
         dentalCareService->SetAttribute("personType", patient.type);
         dentalCareService->SetAttribute("personIdentifier", patient.id);
 
-        auto [rhif, healthRegion] = CityCode::getCodes(patient.city);
-
-        dentalCareService->SetAttribute("RHIFCode", rhif);
-        dentalCareService->SetAttribute("healthRegionCode", healthRegion);
+        dentalCareService->SetAttribute("RHIFCode", patient.city.getRhif());
+        dentalCareService->SetAttribute("healthRegionCode", patient.city.getHealthRegion());
 
         if (patient.type != 1) {
             dentalCareService->SetAttribute("birthDate", patient.birth.toXMLString());

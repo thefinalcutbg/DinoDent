@@ -1,6 +1,5 @@
 #include "DbPatient.h"
 #include "Database.h"
-#include "Model/CityCode.h"
 
 long long DbPatient::insert(const Patient& patient)
 {
@@ -10,7 +9,7 @@ long long DbPatient::insert(const Patient& patient)
 
             "INSERT INTO patient "
             "(type, id, birth, sex, fname, mname, lname, " 
-            "city, address, hirbno, phone , allergies, pastDiseases, currentDiseases) " 
+            "ekatte, address, hirbno, phone , allergies, pastDiseases, currentDiseases) " 
             "VALUES ("
             + std::to_string(patient.type) + ","
             "'" + patient.id + "',"
@@ -19,7 +18,7 @@ long long DbPatient::insert(const Patient& patient)
             "'" + patient.FirstName + "',"
             "'" + patient.MiddleName + "',"
             "'" + patient.LastName + "',"
-                + std::to_string(CityCode::getDbCityIdx(patient.city)) + ","
+                + patient.city.ekatte() + ","
             "'" + patient.address + "',"
             "'" + patient.HIRBNo + "',"
             "'" + patient.phone + "',"
@@ -45,7 +44,7 @@ void DbPatient::update(const Patient& patient)
         "fname = '" + patient.FirstName + "', "
         "mname = '" + patient.MiddleName + "', "
         "lname = '" + patient.LastName + "', "
-        "city = " + std::to_string(CityCode::getDbCityIdx(patient.city)) + ", "
+        "ekatte = " + patient.city.ekatte() + ", "
         "address = '" + patient.address + "', "
         "hirbno = '" + patient.HIRBNo + "', "
         "phone = '" + patient.phone + "', "
@@ -75,7 +74,7 @@ Patient DbPatient::get(std::string patientID, int type)
         patient.FirstName = db.asString(5);
         patient.MiddleName = db.asString(6);
         patient.LastName = db.asString(7);
-        patient.city = CityCode::cityFromIndex(db.asInt(8));
+        patient.city = Ekatte(db.asInt(8));
         patient.address = db.asString(9);
         patient.HIRBNo = db.asString(10);
         patient.phone = db.asString(11);
@@ -106,7 +105,7 @@ Patient DbPatient::get(long long rowid)
         patient.FirstName = db.asString(5);
         patient.MiddleName = db.asString(6);
         patient.LastName = db.asString(7);
-        patient.city = CityCode::cityFromIndex(db.asInt(8));
+        patient.city = db.asInt(8);
         patient.address = db.asString(9);
         patient.HIRBNo = db.asString(10);
         patient.phone = db.asString(11);

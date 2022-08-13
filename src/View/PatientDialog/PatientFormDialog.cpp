@@ -25,7 +25,6 @@ PatientFormDialog::PatientFormDialog(PatientDialogPresenter* p, QWidget* parent)
 
     connect(ui.okButton, &QPushButton::clicked, [=] { presenter->accept(); });
     connect(ui.idLineEdit, &QLineEdit::textEdited, [=]{ if(ui.idLineEdit->isValid()) presenter->searchDbForPatient(ui.typeComboBox->currentIndex()+1); });
-    connect(ui.cityLineEdit, &QLineEdit::textChanged, [=] {presenter->cityChanged(); });
     connect(ui.hirbnoButton, &QPushButton::clicked, [=] { presenter->checkHirbno();});
  
     patientFields[id] = ui.idLineEdit;
@@ -86,11 +85,6 @@ void PatientFormDialog::setLn4View(bool show)
 
 }
 
-void PatientFormDialog::setCodeInfo(const std::string& codeInfo)
-{
-    ui.codeLabel->setText(QString::fromStdString(codeInfo));
-}
-
 void PatientFormDialog::resetFields()
 {
     ui.idLineEdit->reset();
@@ -103,7 +97,6 @@ void PatientFormDialog::resetFields()
     ui.HIRBNoEdit->reset();
     ui.phoneEdit->reset();
     ui.addressEdit->reset();
-    ui.codeLabel->setText("");
     ui.sexCombo->setCurrentIndex(0);
 
 }
@@ -123,7 +116,7 @@ void PatientFormDialog::setPatient(const Patient& patient)
     ui.mNameEdit->QLineEdit::setText(QString::fromStdString(patient.MiddleName));
     ui.lNameEdit->QLineEdit::setText(QString::fromStdString(patient.LastName));
 
-    ui.cityLineEdit->QLineEdit::setText(QString::fromStdString(patient.city));
+    ui.cityLineEdit->QLineEdit::setText(QString::fromStdString(patient.city.getString(false)));
     
     ui.addressEdit->QLineEdit::setText(QString::fromStdString(patient.address));
     ui.HIRBNoEdit->QLineEdit::setText(QString::fromStdString(patient.HIRBNo));

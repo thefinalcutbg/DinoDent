@@ -1,5 +1,5 @@
 #include "ListPresenter.h"
-#include "Model/Procedure/MasterNZOK.h"
+#include "Model/Procedure/NhifProcedures.h"
 #include "Model/User/User.h"
 #include "Database/DbAmbList.h"
 #include "Model/AmbListValidator.h"
@@ -74,7 +74,7 @@ void ListPresenter::refreshPrices()
 
         if (m.nzok)
         {
-            auto [p, nzok] = MasterNZOK::instance().getPrices(m.code, m_ambList.getDate(), patient->isAdult(m.date), User::doctor().specialty, m_ambList.nhifData.specification);
+            auto [p, nzok] = NhifProcedures::getPrices(m.code, m_ambList.getDate(), patient->isAdult(m.date), User::doctor().specialty, m_ambList.nhifData.specification);
             nzokPrice = nzokPrice + nzok;
         }
 

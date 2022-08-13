@@ -2,7 +2,7 @@
 #include <algorithm>
 #include "AmbListValidator.h"
 #include "Database/DbProcedure.h"
-#include "Procedure/MasterNZOK.h"
+#include "Procedure/NhifProcedures.h"
 #include "Tooth/ToothUtils.h"
 #include "Model/Procedure/PackageCounter.h"
 
@@ -141,7 +141,7 @@ bool AmbListValidator::isValidAccordingToDb()
         if (p.extr) extractedTeeth.insert(std::make_pair(p.tooth, p.temp));
     }
 
-    PackageCounter packageCounter(MasterNZOK::instance().getPackages(ambListDate)); //creating a package counter
+    PackageCounter packageCounter(NhifProcedures::getPackages(ambListDate)); //creating a package counter
 
     for (auto& t : currentYear) //loading the procedures from the current year
         for (int i = 0; i < t.second; i++) packageCounter.insertCode(t.first);
@@ -159,13 +159,13 @@ bool AmbListValidator::isValidAccordingToDb()
             return false;
         };
 
-        MasterNZOK::instance().getYearLimit(procedure.code);
+        NhifProcedures::getYearLimit(procedure.code);
 
         for (auto& p : summary) //validating max allowed per time period and per tooth
         {
             if (p.code != procedure.code || p.tooth != procedure.tooth) continue;
 
-            auto yearLimit = MasterNZOK::instance().getYearLimit(procedure.code);
+            auto yearLimit = NhifProcedures::getYearLimit(procedure.code);
 
             Date date = { p.date.day, p.date.month, p.date.year + yearLimit };
          
@@ -203,7 +203,7 @@ bool AmbListValidator::dateIsValid()
             return false;
         }
 
-        if (p.nzok && MasterNZOK::instance().isMinorOnly(p.code) && patient.isAdult(p.date))
+        if (p.nzok && NhifProcedures::isMinorOnly(p.code) && patient.isAdult(p.date))
         {
             _error = u8"Манипулация " + std::to_string(p.code) + u8" е позволена само при лица под 18 годишна възраст!";
             return false;
@@ -364,13 +364,13 @@ bool AmbListValidator::validatePermaTemp(const Tooth& tooth, const Procedure& p)
 
     bool temp = tooth.temporary.exists();
 
-    if (MasterNZOK::instance().isTempOnly(p.code) && !temp)
+    if (NhifProcedures::isTempOnly(p.code) && !temp)
     {
         _error = u8"Манипулация "+ std::to_string(p.code) + u8" на зъб " + ToothUtils::getNomenclature(p.tooth, temp) + u8" е позволена само при временни зъби";
         return false;
     }
     
-    if (MasterNZOK::instance().isPermaOnly(p.code) && temp)
+    if (NhifProcedures::isPermaOnly(p.code) && temp)
     {
         _error = u8"Манипулация " + std::to_string(p.code) + u8" на зъб " + ToothUtils::getNomenclature(p.tooth, temp) + u8" е позволена само при постоянни зъби";
         return false;

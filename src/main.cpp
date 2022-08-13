@@ -1,15 +1,15 @@
 ﻿#include <QtWidgets/QApplication>
 #include "View/Torque.h"
 #include "View/ToothPaintDevices/SpriteSheets.h"
-#include "Model/Procedure/MasterNZOK.h"
+#include "Model/Procedure/NhifProcedures.h"
 #include "Model/Tooth/DiagnosisContainer.h"
 #include "Model/User/User.h"
 #include "Database/Database.h"
 #include "Model/KSMP.h"
-#include "Model/CityCode.h"
 #include "Resources.h"
 #include "Model/MKB.h"
 #include "Network/HIS/ConcreteHisTest.h"
+#include "Model/Ekatte.h"
 int main(int argc, char *argv[])
 {
 
@@ -24,18 +24,14 @@ int main(int argc, char *argv[])
     Db::setFilePath("TorqueDB.db");
     Db::createIfNotExist();
 
-    //Intializing singletons
-
-    CityCode::initialize();
-    KSMP::initialize();
+    //Intializing static data
+    Ekatte::initialize();
     MKB::initialize();
     User::initialize();
+    KSMP::initialize();
     SpriteSheets::container().initialize(); //loading textures, otherwise program will crash;
     DiagnosisContainer::initialize();
-    MasterNZOK::instance().loadUpdates(); //parsing json of nzok data
-
-  //  ConcreteHisTest test;
-  //  test.sendRequest();
+    NhifProcedures::initialize(); //parsing json of nzok data
 
     
 

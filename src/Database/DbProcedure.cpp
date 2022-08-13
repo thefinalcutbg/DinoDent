@@ -1,6 +1,6 @@
 #include "DbProcedure.h"
 
-#include "Model/Procedure/MasterNZOK.h"
+#include "Model/Procedure/NhifProcedures.h"
 #include "Model/Parser/Parser.h"
 #include "Model/User/User.h"
 #include "Database.h"

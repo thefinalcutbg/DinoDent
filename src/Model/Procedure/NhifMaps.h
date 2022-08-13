@@ -2,7 +2,7 @@
 #include <tuple>
 #include <unordered_map>
 #include "Model/Date.h"
-#include <QDebug>
+#include <unordered_set>
 
 typedef double nzokPrice;
 typedef double patientPrice;
@@ -40,7 +40,7 @@ struct PriceObj
 	std::unordered_map<int, std::pair<patientPrice, nzokPrice> > priceMap;
 };
 
-#include <unordered_set>
+
 
 struct ProcedurePackage
 {

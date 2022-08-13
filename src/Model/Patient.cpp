@@ -1,5 +1,4 @@
 ﻿#include "Patient.h"
-#include "CityCode.h"
 
 bool Patient::getSexFromEgn(const std::string& egn)
 {
@@ -54,26 +53,22 @@ std::string Patient::firstLastName() const
 
 std::string Patient::getFullAddress() const
 {
-	std::string fullAddress;
+	std::string cityStr = city.getString();
 
-	for (int i = 0; i < city.size(); i++)
+	if (address.empty()) return cityStr;
+
+	for (int i = 0; i < cityStr.size(); i++)
 	{
-		if (city[i] == '(')
+		if (cityStr[i] == ',')
 		{
-			fullAddress = u8"с. " + city.substr(0, i);
-			break;
-		}
-		else if (city[i] == ',')
-		{
-			fullAddress = u8"гр. " + city.substr(0, i);
+			cityStr = cityStr.substr(0, i);
 			break;
 		}
 	}
 
-	if (address != "")
-		fullAddress.append(", " + address);
+	cityStr.append(", " + address);
 
-	return fullAddress;
+	return cityStr;
 }
 
 

@@ -2,7 +2,7 @@
 #include "Model/Date.h"
 #include "View/ProcedureDialog/IProcedureDialog.h"
 #include "View/ModalDialogBuilder.h"
-#include "Model/Procedure/MasterNZOK.h"
+#include "Model/Procedure/NhifProcedures.h"
 #include "Model/AmbList.h"
 
 //this implementation is a total mess and needs refactoring
@@ -92,7 +92,7 @@ void ProcedureDialogPresenter::procedureDateChanged(const Date& date)
 	if (User::practice().nzok_contract && User::doctor().specialty != NhifSpecialty::None)
 	{
 		//getting NZOK procedures:
-		procedureList = MasterNZOK::instance().getM_Templates
+		procedureList = NhifProcedures::getM_Templates
 		(
 			date,
 			User::doctor().specialty,

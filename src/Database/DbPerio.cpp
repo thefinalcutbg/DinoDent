@@ -11,7 +11,7 @@ ToothContainer DbPerio::getStatus(long long patientRowId, const Date& date)
     long long amblistId{0};
     std::string LPK;
 
-    std::string query = " SELECT amblist.status_json, amblist.rowid, amblist.LPK, procedure.rowid"
+    std::string query = " SELECT amblist.status, amblist.rowid, amblist.LPK, procedure.rowid"
                         " FROM amblist LEFT JOIN procedure ON amblist.rowid = procedure.amblist_rowid WHERE "
                         " amblist.patient_rowid = " + std::to_string(patientRowId) +
                         " AND (amblist.year, amblist.month, procedure.day) "

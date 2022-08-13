@@ -17,7 +17,7 @@ std::vector<TimeFrame> DbPatientSummary::getFrames(long long patientRowId)
         "procedure.day, "
         "amblist.month, "
         "amblist.year, "
-        "amblist.status_json, "
+        "amblist.status, "
         "amblist.day "
 
         "FROM amblist LEFT JOIN procedure ON "

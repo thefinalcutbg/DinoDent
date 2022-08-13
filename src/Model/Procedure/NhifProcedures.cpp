@@ -1,10 +1,8 @@
-#include "MasterNZOK.h"
+#include "NhifProcedures.h"
 #include <JsonCpp/json.h>
 #include <tuple>
 
 #include "Resources.h"
-
-MasterNZOK MasterNZOK::_instance;
 
 std::vector<ProcedureTemplate> _procedures;
 std::unordered_map<int, int> code_durations;
@@ -15,11 +13,8 @@ std::unordered_set<int> minor_only;
 std::unordered_set<int> temp_only;
 std::unordered_set<int> perma_only;
 
-MasterNZOK::MasterNZOK()
-{
-}
 
-void MasterNZOK::loadData()
+void NhifProcedures::initialize()
 {
 
 	Json::Reader reader;
@@ -149,19 +144,11 @@ void MasterNZOK::loadData()
 
 }
 
-MasterNZOK& MasterNZOK::instance()
-{
-	return _instance;
-}
-
-void MasterNZOK::loadUpdates()
-{
-	_instance.loadData();
-}
 
 
 
-std::vector<ProcedureTemplate> MasterNZOK::getM_Templates(Date ambDate, NhifSpecialty specialty, bool adult, NhifSpecification specification)
+
+std::vector<ProcedureTemplate> NhifProcedures::getM_Templates(Date ambDate, NhifSpecialty specialty, bool adult, NhifSpecification specification)
 {
 	int currentUpdateIdx = -1;
 
@@ -197,7 +184,7 @@ std::vector<ProcedureTemplate> MasterNZOK::getM_Templates(Date ambDate, NhifSpec
 	return product;
 }
 
-std::pair<patientPrice, nzokPrice> MasterNZOK::getPrices
+std::pair<patientPrice, nzokPrice> NhifProcedures::getPrices
 (int code, Date date, bool adult, NhifSpecialty doctorSpecialty, NhifSpecification specification)
 {
 	int currentUpdateIdx = -1;
@@ -216,7 +203,7 @@ std::pair<patientPrice, nzokPrice> MasterNZOK::getPrices
 		priceMap[code];
 }
 
-std::vector<ProcedurePackage> MasterNZOK::getPackages(Date ambDate)
+std::vector<ProcedurePackage> NhifProcedures::getPackages(Date ambDate)
 {
 	for (auto& u : _updates) 
 		if (ambDate > u.date) 
@@ -226,25 +213,25 @@ std::vector<ProcedurePackage> MasterNZOK::getPackages(Date ambDate)
 }
 
 
-ProcedureTemplate MasterNZOK::getTemplateByCode(int code){ 
+ProcedureTemplate NhifProcedures::getTemplateByCode(int code){ 
 
 	for (auto& p : _procedures) if (p.code == code) return p;
 
 	throw std::exception("No procedure with this code");
 }
 
-double MasterNZOK::getPatientPrice(int code, Date date, NhifSpecialty specialty, bool adult, NhifSpecification specification)
+double NhifProcedures::getPatientPrice(int code, Date date, NhifSpecialty specialty, bool adult, NhifSpecification specification)
 { return std::get<0>(getPrices(code, date, adult, specialty, specification)); }
 
-double MasterNZOK::getNZOKPrice(int code, Date date, NhifSpecialty specialty, bool adult, NhifSpecification specification)
+double NhifProcedures::getNZOKPrice(int code, Date date, NhifSpecialty specialty, bool adult, NhifSpecification specification)
 { return std::get<1>(getPrices(code, date, adult, specialty, specification)); }
 
-int MasterNZOK::getDuration(int nzokCode) { return code_durations[nzokCode]; }
+int NhifProcedures::getDuration(int nzokCode) { return code_durations[nzokCode]; }
 
-int MasterNZOK::getYearLimit(int nzokCode) { return _timeframes.count(nzokCode) ? _timeframes[nzokCode] : 0; }
+int NhifProcedures::getYearLimit(int nzokCode) { return _timeframes.count(nzokCode) ? _timeframes[nzokCode] : 0; }
 
-bool MasterNZOK::isTempOnly(int code) { return temp_only.count(code); }
+bool NhifProcedures::isTempOnly(int code) { return temp_only.count(code); }
 
-bool MasterNZOK::isPermaOnly(int code) { return perma_only.count(code); }
+bool NhifProcedures::isPermaOnly(int code) { return perma_only.count(code); }
 
-bool MasterNZOK::isMinorOnly(int code) { return minor_only.count(code); }
+bool NhifProcedures::isMinorOnly(int code) { return minor_only.count(code); }

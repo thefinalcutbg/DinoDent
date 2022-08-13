@@ -137,8 +137,8 @@ std::string HisService::subject(const Patient& p)
 		"<nhis:address>"
 			"<nhis:country value=\"BG\"/>"
 			//<!-- Optional: -->
-			//<nhis:ekatte value="[code]"/>
-			"<nhis:city value=\"" + p.city + "\"/>"
+			"<nhis:ekatte value=\"" + p.city.ekatte() + "\"/>"
+			"<nhis:city value=\"" + p.city.getString() + "\"/>"
 		"</nhis:address>"
 		"<nhis:phone value=\""+p.phone+"\"/>"
 		//<nhis:email value="[string]"/>

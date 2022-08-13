@@ -12,7 +12,7 @@ long long DbAmbList::insert(const AmbList& ambList, long long patientRowId)
   
     auto ambSheetDate = ambList.getDate();
 
-    std::string query = "INSERT INTO amblist (day, month, year, num, nhif, status_json, patient_rowid, lpk, rzi) "
+    std::string query = "INSERT INTO amblist (day, month, year, num, nhif, status, patient_rowid, lpk, rzi) "
         "VALUES ("
         + std::to_string(ambSheetDate.day) + ","
         + std::to_string(ambSheetDate.month) + ","
@@ -41,13 +41,13 @@ void DbAmbList::update(const AmbList& ambList)
 
     auto ambSheetDate = ambList.getDate();
 
-    std::string query = "UPDATE amblist SET"
+    std::string query = "UPDATE amblist SET "
         "num=" + std::to_string(ambList.number) + ","
         "day=" + std::to_string(ambSheetDate.day) + ","
         "month=" + std::to_string(ambSheetDate.month) + ","
         "year=" + std::to_string(ambSheetDate.year) + ","
         "nhif='" + Parser::write(ambList.nhifData, ambList.hasNZOKProcedure()) + "',"
-        "status_json = '" + Parser::write(ambList.teeth) + "' "
+        "status = '" + Parser::write(ambList.teeth) + "' "
         "WHERE rowid = " + std::to_string(ambList.rowid);
 
     Db db;
@@ -61,11 +61,11 @@ AmbList DbAmbList::getNewAmbSheet(long long patientRowId)
 
     AmbList ambList;
     ambList.LPK = User::doctor().LPK;
-    std::string status_json;
+    std::string status;
 
     Db db(
     
-        "SELECT rowid, num, nhif, status_json FROM amblist WHERE "
+        "SELECT rowid, num, nhif, status FROM amblist WHERE "
         "patient_rowid = " + std::to_string(patientRowId) + " AND "
         "lpk = '" + User::doctor().LPK + "' AND "
         "rzi = '" + User::practice().rziCode + "' AND "
@@ -80,14 +80,14 @@ AmbList DbAmbList::getNewAmbSheet(long long patientRowId)
         ambList.rowid = db.asRowId(0);
         ambList.number = db.asInt(1);
         ambList.nhifData = Parser::parseNhifData(db.asString(2));
-        status_json = db.asString(3);
+        status = db.asString(3);
     }
 
     if (ambList.isNew())
     {
         db.newStatement(
             
-            "SELECT rowid, status_json FROM amblist WHERE "
+            "SELECT rowid, status FROM amblist WHERE "
             "patient_rowid = " + std::to_string(patientRowId) + " "
             "ORDER BY year DESC, month DESC LIMIT 1"
 
@@ -98,12 +98,12 @@ AmbList DbAmbList::getNewAmbSheet(long long patientRowId)
         while(db.hasRows()){
             
             oldId = db.asRowId(0);
-            status_json = db.asString(1);
+            status = db.asString(1);
         }
 
         if (!oldId) return ambList; //it means no data is found for this patient
 
-        Parser::parse(status_json, ambList.teeth);
+        Parser::parse(status, ambList.teeth);
 
         auto procedures = DbProcedure::getProcedures(oldId, &db);
 
@@ -114,7 +114,7 @@ AmbList DbAmbList::getNewAmbSheet(long long patientRowId)
     }
     else
     {
-        Parser::parse(status_json, ambList.teeth);
+        Parser::parse(status, ambList.teeth);
         ambList.procedures.addProcedures(DbProcedure::getProcedures(ambList.rowid, &db));
     }
 
@@ -124,11 +124,11 @@ AmbList DbAmbList::getNewAmbSheet(long long patientRowId)
 AmbList DbAmbList::getListData(long long rowId)
 {
 
-    std::string status_json;
+    std::string status;
     AmbList ambList;
 
     Db db(
-        "SELECT rowid, num, nhif, status_json, patient_rowid FROM amblist WHERE "
+        "SELECT rowid, num, nhif, status, patient_rowid FROM amblist WHERE "
         "rowid = " + std::to_string(rowId)
     );
 
@@ -137,12 +137,12 @@ AmbList DbAmbList::getListData(long long rowId)
         ambList.rowid = db.asRowId(0);
         ambList.number = db.asInt(1);
         ambList.nhifData = Parser::parseNhifData(db.asString(2));
-        status_json = db.asString(3);
+        status = db.asString(3);
         ambList.LPK = User::doctor().LPK;
         ambList.patient_rowid = db.asRowId(4);
     }
 
-    Parser::parse(status_json, ambList.teeth);
+    Parser::parse(status, ambList.teeth);
     ambList.procedures.addProcedures(DbProcedure::getProcedures(ambList.rowid, &db));
 
     return ambList;
@@ -231,11 +231,11 @@ std::vector<long long> DbAmbList::getRowIdNhif(int month, int year)
 AmbList DbAmbList::getListNhifProceduresOnly(long long rowId)
 {
 
-    std::string status_json;
+    std::string status;
     AmbList ambList;
 
     Db db(
-        "SELECT rowid, num, nhif, status_json, patient_rowid FROM amblist WHERE "
+        "SELECT rowid, num, nhif, status, patient_rowid FROM amblist WHERE "
         "rowid = " + std::to_string(rowId)
     );
 
@@ -244,12 +244,12 @@ AmbList DbAmbList::getListNhifProceduresOnly(long long rowId)
         ambList.rowid = db.asRowId(0);
         ambList.number = db.asInt(1);
         ambList.nhifData = Parser::parseNhifData(db.asString(2));
-        status_json = db.asString(3);
+        status = db.asString(3);
         ambList.LPK = User::doctor().LPK;
         ambList.patient_rowid = db.asRowId(4);
     }
 
-    Parser::parse(status_json, ambList.teeth);
+    Parser::parse(status, ambList.teeth);
     ambList.procedures.addProcedures(DbProcedure::getProcedures(ambList.rowid, &db, true));
 
     return ambList;

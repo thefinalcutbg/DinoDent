@@ -16,7 +16,7 @@
 #include "View/uiComponents/AbstractLineEdit.h"
 #include "View/uiComponents/AbstractComboBox.h"
 #include "View/uiComponents/AbstractLabel.h"
-#include "Model/CityCode.h"
+
 
 #include "Network/PIS/GetHirbnoService.h"
 
@@ -51,7 +51,6 @@ public:
 	PatientDialogPresenter();
 	PatientDialogPresenter(const Patient& patient);
 
-	void cityChanged();
 	std::optional<Patient> open();
 
 	void changePatientType(int index);

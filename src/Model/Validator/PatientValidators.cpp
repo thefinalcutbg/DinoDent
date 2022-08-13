@@ -125,9 +125,9 @@ bool HIRBNoValidator::validateInput(const std::string& text)
 
 const std::string CityValidator::invalidCity{ "vНевалидно населено място" };
 
-#include "Model/CityCode.h"
+#include "Model/Ekatte.h"
 
 bool CityValidator::validateInput(const std::string& text)
 {
-    return CityCode::validCityString(text);
+    return Ekatte::isValidStr(text);
 }

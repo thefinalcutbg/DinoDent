@@ -7,6 +7,7 @@
 #include "InsuranceStatus.h"
 #include <optional>
 #include <vector>
+#include "Model/Ekatte.h"
 typedef std::array<std::string, 32>TeethNotes;
 
 
@@ -23,7 +24,7 @@ struct Patient
 	std::string FirstName;
 	std::string MiddleName;
 	std::string LastName;
-	std::string city;
+	Ekatte city;
 	std::string address;
 	std::string HIRBNo;
 	std::string phone;

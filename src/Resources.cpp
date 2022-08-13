@@ -14,7 +14,7 @@ inline  const std::string fromQtResource(const QString& path)
 	return result.toStdString();
 }
 
-const std::string Resources::citiesJson() { return fromQtResource(":/json/json_cities.json");}
+const std::string Resources::citiesJson() { return fromQtResource(":/json/json_ekatte.json");}
 const std::string Resources::nzokDataJson() { return fromQtResource(":/json/json_nzok.json"); }
 const std::string Resources::defaultPriceListJson() { return fromQtResource(":/json/json_defaultPriceList.json"); }
 const std::string Resources::defaultDiagnosisListJson() { return fromQtResource(":/json/json_diagnosis.json"); }

@@ -1,11 +1,10 @@
 ﻿#include "DiagnosisService.h"
-#include "Model/Date.h"
 
-#include "TinyXML/tinyxml.h"
+#include <TinyXML/tinyxml.h>
 
 #include "Model/Tooth/ToothUtils.h"
 #include "View/ModalDialogBuilder.h"
-#include "Model/Procedure/MasterNZOK.h"
+#include "Model/Procedure/NhifProcedures.h"
 #include "Model/Date.h"
 #include "Model/MKB.h"
 
@@ -57,8 +56,6 @@ void DiagnosisService::parseReply(const std::string& reply)
 		if (!mkb.ToElement()) {
 			break;
 		}
-
-		qDebug() << mkb.ToElement()->GetText();
 
 		result.append(
 			MKB::getNameFromMKBCode(

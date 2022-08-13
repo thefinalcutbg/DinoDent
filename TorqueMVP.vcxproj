@@ -214,6 +214,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Model\Ekatte.cpp" />
     <ClCompile Include="src\Model\NhifSheetData.cpp" />
     <ClCompile Include="src\Model\Procedure\ProcedureContainer.cpp" />
     <ClCompile Include="src\Model\MKB.cpp" />
@@ -367,7 +368,7 @@
     <ClCompile Include="src\View\uiComponents\qt_derived\NameEdit.cpp" />
     <ClCompile Include="src\View\uiComponents\qt_derived\Widgets\ImplantView.cpp" />
     <ClCompile Include="src\View\ModalDialogBuilder.cpp" />
-    <ClCompile Include="src\Model\Procedure\MasterNZOK.cpp" />
+    <ClCompile Include="src\Model\Procedure\NhifProcedures.cpp" />
     <ClCompile Include="src\Model\Patient.cpp" />
     <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\ImplantPresenter.cpp" />
     <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\EndoPresenter.cpp" />
@@ -410,12 +411,6 @@
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <ClCompile Include="src\Database\DbAmbList.cpp" />
-    <ClCompile Include="src\Model\CityCode.cpp">
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/utf-8 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">/utf-8 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">/utf-8 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">/utf-8 %(AdditionalOptions)</AdditionalOptions>
-    </ClCompile>
     <ClCompile Include="src\View\ToothPaintDevices\SpriteRect.cpp" />
     <ClCompile Include="src\View\ListView\TeethView\SelectionBox.cpp" />
     <ClCompile Include="src\View\ListView\TeethView\TeethViewScene.cpp" />
@@ -525,6 +520,7 @@
     <QtUic Include="src\View\TabView\TabTitle.ui" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Model\Ekatte.h" />
     <ClInclude Include="src\Model\NhifSheetData.h" />
     <ClInclude Include="src\Model\Procedure\ProcedureContainer.h" />
     <ClInclude Include="src\Model\MKB.h" />
@@ -724,8 +720,8 @@
     <QtMoc Include="src\View\ProcedureDialog\CommonFields\CommonFields.h" />
     <QtMoc Include="src\View\ProcedureDialog\ProcedureFields\ObturationView.h" />
     <QtMoc Include="src\View\ProcedureDialog\ProcedureFields\CrownView.h" />
-    <ClInclude Include="src\Model\Procedure\MasterNZOK.h" />
-    <ClInclude Include="src\Model\Procedure\NZOKmaps.h" />
+    <ClInclude Include="src\Model\Procedure\NhifProcedures.h" />
+    <ClInclude Include="src\Model\Procedure\NhifMaps.h" />
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\ImplantPresenter.h" />
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\EndoPresenter.h" />
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\ExtractionPresenter.h" />
@@ -779,7 +775,6 @@
     <QtMoc Include="src\View\ListView\ListView.h" />
     <QtMoc Include="src\View\saveDialog\SaveDialog.h" />
     <ClInclude Include="src\Database\DbAmbList.h" />
-    <ClInclude Include="src\Model\CityCode.h" />
     <ClInclude Include="src\View\ListView\TeethView\SelectionBox.h" />
     <ClInclude Include="src\View\ToothPaintDevices\SpriteRect.h" />
     <QtMoc Include="src\View\ListView\TeethView\TeethViewScene.h" />

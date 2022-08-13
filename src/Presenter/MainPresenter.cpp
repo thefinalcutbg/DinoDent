@@ -1,5 +1,6 @@
 ﻿#include "MainPresenter.h"
-#include "Model/Procedure/MasterNZOK.h"
+
+#include "Model/Procedure/NhifProcedures.h"
 #include "Presenter/PatientDialog/PatientDialogPresenter.h"
 #include "View/Printer/Printer.h"
 #include "Presenter/LoginPresenter/LoginPresenter.h"

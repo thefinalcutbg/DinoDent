@@ -1,5 +1,5 @@
 #include "CityLineEdit.h"
-
+#include "Model/Ekatte.h"
 CityLineEdit::CityLineEdit(QWidget* parent) : LineEdit(parent), maxCharLength(70)
 {
 	cityLoader();
@@ -8,14 +8,13 @@ CityLineEdit::CityLineEdit(QWidget* parent) : LineEdit(parent), maxCharLength(70
 	connect(this, &QLineEdit::textChanged, [=] { AbstractUIElement::validateInput(); }); //because it's also changed programatically
 }
 
-#include "Model/CityCode.h"
 
 void CityLineEdit::cityLoader()
 {
 
-	for (auto& it : CityCode::getCitieStrings())
+	for (auto& it : Ekatte::cityNameToIdx())
 	{
-		QString cityString = QString::fromStdString(*it);
+		QString cityString = QString::fromStdString(it.first);
 		citySuggestions.append(cityString);
 
 		if (cityString.length() > maxCharLength)

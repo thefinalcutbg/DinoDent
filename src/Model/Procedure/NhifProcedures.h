@@ -2,25 +2,13 @@
 #include <vector>
 #include <unordered_set>
 #include "ProcedureTemplate.h"
-#include "NZOKmaps.h"
+#include "NhifMaps.h"
 #include "Model/NhifSheetData.h"
 
-class MasterNZOK
+namespace NhifProcedures
 {
-	static MasterNZOK _instance;
 
-
-	
-
-	MasterNZOK();
-	void loadData();
-
-public:
-	MasterNZOK(const MasterNZOK&) = delete;
-	static MasterNZOK& instance();
-
-	void loadUpdates();
-
+	void initialize();
 	int getDuration(int nzokCode);
 	int getYearLimit(int nzokCode);
 	std::vector<ProcedureTemplate> getM_Templates(Date date, NhifSpecialty specialty, bool adult, NhifSpecification specification);

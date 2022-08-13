@@ -66,9 +66,6 @@
     <ClCompile Include="src\View\saveDialog\SaveDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Model\CityCode.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\View\ListView\ControlPanel\ControlPanel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -195,7 +192,7 @@
     <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\ImplantPresenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Model\Procedure\MasterNZOK.cpp">
+    <ClCompile Include="src\Model\Procedure\NhifProcedures.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Model\Patient.cpp">
@@ -690,6 +687,9 @@
     <ClCompile Include="src\Model\NhifSheetData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Model\Ekatte.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -1146,9 +1146,6 @@
     <ClInclude Include="src\Database\DbAmbList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model\CityCode.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Model\Validator\AbstractValidator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1272,10 +1269,10 @@
     <ClInclude Include="src\Presenter\ProcedureDialog\SubPresenters\ImplantPresenter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model\Procedure\MasterNZOK.h">
+    <ClInclude Include="src\Model\Procedure\NhifProcedures.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model\Procedure\NZOKmaps.h">
+    <ClInclude Include="src\Model\Procedure\NhifMaps.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\User\UserStructs.h">
@@ -1690,6 +1687,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\NhifSheetData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\Ekatte.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

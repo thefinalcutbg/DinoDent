@@ -18,7 +18,7 @@ bool ProcedureDateValidator::validateInput(const Date& date)
 }
 
 
-#include "Model/Procedure/MasterNZOK.h"
+#include "Model/Procedure/NhifProcedures.h"
 
 void ProcedureDateValidator::setProcedure(int code, bool nzok)
 {
@@ -27,7 +27,7 @@ void ProcedureDateValidator::setProcedure(int code, bool nzok)
 		_dayBefore18 < _validator.getMax() &&
 		_dayBefore18 > _validator.getMin() &&
 		nzok &&
-		MasterNZOK::instance().isMinorOnly(code))
+		NhifProcedures::isMinorOnly(code))
 	{
 		_validator.setMaxDate(_dayBefore18);
 		_validator.setMaxErrorMsg(u8"Тази манипулация е възможна само за лица под 18 годишна възраст");

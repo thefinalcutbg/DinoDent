@@ -2,7 +2,6 @@
 #include <LimeReport/lrreportengine.h>
 #include <QString>
 #include <QApplication>
-#include "Model/CityCode.h"
 #include "ProcedurePrintSelectDialog.h"
 #include "View/ProcedureDisplayModel/ProcedureTableModel.h"
 #include "Model/FreeFunctions.h"
@@ -65,17 +64,15 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
         report.dataManager()->setReportVariable("typeY", typeCoords[patient.type].y);
     }
 
-    report.dataManager()->setReportVariable("city", QString::fromStdString(patient.city));
+    report.dataManager()->setReportVariable("city", QString::fromStdString(patient.city.getString()));
     report.dataManager()->setReportVariable("address", QString::fromStdString(patient.address));
     report.dataManager()->setReportVariable("patientName", QString::fromStdString(patient.fullName()));
     report.dataManager()->setReportVariable("hirbNo", QString::fromStdString(patient.HIRBNo));
     report.dataManager()->setReportVariable("ambNum", QString::fromStdString(leadZeroes(amb.number, 12)));
     
-    
-    auto[RHIF, health] = CityCode::getCodes(patient.city);
 
-    report.dataManager()->setReportVariable("RHIFCode", QString::fromStdString(RHIF));
-    report.dataManager()->setReportVariable("healthRegion", QString::fromStdString(health));
+    report.dataManager()->setReportVariable("RHIFCode", QString::fromStdString(patient.city.getRhif()));
+    report.dataManager()->setReportVariable("healthRegion", QString::fromStdString(patient.city.getHealthRegion()));
     report.dataManager()->setReportVariable("birth", QString::fromStdString(patient.birth.toString()));
 
     report.dataManager()->setReportVariable("RZICode", QString::fromStdString(practice.rziCode));

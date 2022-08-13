@@ -89,6 +89,7 @@ bool Db::execute(const std::string& query)
 
     if (err && showErrorDialog) {
         ModalDialogBuilder::showMessage(u8"Неуспешно записване в базата данни");
+        ModalDialogBuilder::showMultilineDialog(query);
     }
 
     return i == SQLITE_OK;
@@ -166,7 +167,7 @@ void Db::createIfNotExist()
     );
 
     db.execute(
-        "CREATE TABLE amblist (rowid INTEGER NOT NULL PRIMARY KEY, patient_rowid INTEGER NOT NULL, day INT NOT NULL, month INT NOT NULL, year INT NOT NULL, num INT NOT NULL, lpk VARCHAR (9) NOT NULL REFERENCES doctor (lpk) ON DELETE CASCADE ON UPDATE CASCADE, rzi VARCHAR (10) REFERENCES practice (rzi) ON DELETE CASCADE ON UPDATE CASCADE NOT NULL, fullCoverage INT NOT NULL, charge INT NOT NULL, status_json VARCHAR, FOREIGN KEY (patient_rowid) REFERENCES patient (rowid) ON DELETE CASCADE ON UPDATE CASCADE)"
+        "CREATE TABLE amblist (rowid INTEGER NOT NULL PRIMARY KEY, patient_rowid INTEGER NOT NULL, day INT NOT NULL, month INT NOT NULL, year INT NOT NULL, num INT NOT NULL, lpk VARCHAR (9) NOT NULL REFERENCES doctor (lpk) ON DELETE CASCADE ON UPDATE CASCADE, rzi VARCHAR (10) REFERENCES practice (rzi) ON DELETE CASCADE ON UPDATE CASCADE NOT NULL, fullCoverage INT NOT NULL, charge INT NOT NULL, status VARCHAR, FOREIGN KEY (patient_rowid) REFERENCES patient (rowid) ON DELETE CASCADE ON UPDATE CASCADE)"
     );
 
     db.execute(

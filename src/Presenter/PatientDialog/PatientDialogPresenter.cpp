@@ -135,14 +135,6 @@ void PatientDialogPresenter::searchDbForPatient(int type)
 	
 }
 
-void PatientDialogPresenter::cityChanged()
-{
-	view->lineEdit(city)->isValid() ?
-
-		view->setCodeInfo(CityCode::getLabel(view->lineEdit(city)->getText()))
-		:
-		view->setCodeInfo("");
-}
 
 void PatientDialogPresenter::setPatientToView(const Patient& patient)
 {
@@ -151,8 +143,6 @@ void PatientDialogPresenter::setPatientToView(const Patient& patient)
 	view->setPatient(patient);
 	
 	view->lineEdit(id)->validateInput();
-
-	cityChanged();
 
 	allergies = patient.allergies;
 	currentDiseases = patient.currentDiseases;

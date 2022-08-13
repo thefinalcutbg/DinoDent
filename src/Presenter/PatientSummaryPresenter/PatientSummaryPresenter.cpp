@@ -14,7 +14,7 @@
 #include "Model/TableRows.h"
 #include "Model/User/User.h"
 #include "Model/FreeFunctions.h"
-#include "Model/Procedure/MasterNZOK.h"
+#include "Model/Procedure/NhifProcedures.h"
 
 TimeFrame* PatientSummaryPresenter::currentFrame()
 {
@@ -165,7 +165,7 @@ void PatientSummaryPresenter::pricePeriodChanged(const Date& from, const Date& t
 
             if (p.nzok) {
                 nzokPrice +=
-                    MasterNZOK::instance().getNZOKPrice(
+                    NhifProcedures::getNZOKPrice(
                         p.code,
                         p.date,
                         User::doctor().specialty,

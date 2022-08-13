@@ -5,7 +5,7 @@
 #include "Model/XML/xml.h"
 #include <fstream>
 #include "Model/FreeFunctions.h"
-#include "Model/Procedure/MasterNZOK.h"
+#include "Model/Procedure/NhifProcedures.h"
 #include "View/ModalDialogBuilder.h"
 
 //returns empty string if valid
@@ -331,7 +331,7 @@ void ReportPresenter::finish()
 		for (auto& procedure : list.procedures)
 		{
 
-			expectedPrice += MasterNZOK::instance().getNZOKPrice
+			expectedPrice += NhifProcedures::getNZOKPrice
 			(
 				procedure.code,
 				procedure.date,
@@ -340,7 +340,7 @@ void ReportPresenter::finish()
 				list.nhifData.specification
 			);
 
-			sumMinutes += MasterNZOK::instance().getDuration(procedure.code);
+			sumMinutes += NhifProcedures::getDuration(procedure.code);
 		}
 	}
 

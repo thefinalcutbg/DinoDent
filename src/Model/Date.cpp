@@ -1,7 +1,7 @@
 ﻿#include "Date.h"
 
 #include <QDate>
-
+#include <View/ModalDialogBuilder.h>
 int Date::monthDays[12]{ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
 Date::Date() :
@@ -16,15 +16,16 @@ Date::Date(int day, int month, int year) :
     year(year)
 {}
 
-Date::Date(const std::string& dd_dot_MM_dot_yyyy):
-    day(stoi(dd_dot_MM_dot_yyyy.substr(9, 2))),
-    month(stoi(dd_dot_MM_dot_yyyy.substr(6, 2))),
-    year(stoi(dd_dot_MM_dot_yyyy.substr(0, 4)))
+Date::Date(const std::string& str):
+    day(stoi(str.substr(9, 2))),
+    month(stoi(str.substr(6, 2))),
+    year(stoi(str.substr(0, 4)))
 {
-    if (dd_dot_MM_dot_yyyy[2] == '.') {
-        day = stoi(dd_dot_MM_dot_yyyy.substr(0, 2));
-        month = stoi(dd_dot_MM_dot_yyyy.substr(3, 2));
-        year = stoi(dd_dot_MM_dot_yyyy.substr(6, 4));
+ 
+    if (str[2] == '.') {
+        day = stoi(str.substr(0, 2));
+        month = stoi(str.substr(3, 2));
+        year = stoi(str.substr(6, 4));
     }
 
 }

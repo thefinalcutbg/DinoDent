@@ -3,7 +3,7 @@
 #include "Model/Parser/Parser.h"
 #include "Database/DbProcedure.h"
 #include "Database/Database.h"
-
+#include "qdebug.h"
 std::vector<TimeFrame> DbPatientSummary::getFrames(long long patientRowId)
 {
 
@@ -11,28 +11,23 @@ std::vector<TimeFrame> DbPatientSummary::getFrames(long long patientRowId)
 
     std::string query =
         "SELECT "
-        "amblist.rowid, "
-        "amblist.num, "
-        "amblist.lpk, "
-        "procedure.day, "
-        "amblist.month, "
-        "amblist.year, "
-        "amblist.status, "
-        "amblist.day "
+        "amblist.rowid,"
+        "amblist.num,"
+        "amblist.lpk,"
+        "procedure.date,"
+        "amblist.status "
 
         "FROM amblist LEFT JOIN procedure ON "
         "amblist.rowid = procedure.amblist_rowid "
         "WHERE amblist.patient_rowid = " + std::to_string(patientRowId) + " "
-        "GROUP BY procedure.day, amblist.month, amblist.year "
-        "ORDER BY amblist.year ASC, amblist.month ASC, amblist.day ASC";
+        "GROUP BY procedure.date "
+        "ORDER BY procedure.date ASC";
+
 
     Db db(query);
 
     while (db.hasRows())
     {
-        //if the day of the procedure is 0, then there are none
-        bool listHasProcedures = db.asBool(3);
-
         timeFrames.push_back(
             TimeFrame
             {
@@ -40,37 +35,21 @@ std::vector<TimeFrame> DbPatientSummary::getFrames(long long patientRowId)
                db.asRowId(0),
                db.asString(1),
                db.asString(2),
-
-               Date{
-                //if there are no procedures, the amblist day is taken
-                    listHasProcedures ? db.asInt(3) : db.asInt(7),
-                    db.asInt(4),
-                    db.asInt(5)
-               },
-
+               Date{db.asString(3)}
             }
-                
-             );
+        );
       
-            Parser::parse(db.asString(6), timeFrames.back().teeth);
+        Parser::parse(db.asString(4), timeFrames.back().teeth);
 
-
-            int currentIdx = timeFrames.size() - 1;
+        int currentIdx = timeFrames.size() - 1;
             
-            //inserting InitialAmb if necessary:
-            if (currentIdx == 0 
-                ||
-                timeFrames[currentIdx - 1].rowid != timeFrames[currentIdx].rowid)
-            {
-                timeFrames.back().type = TimeFrameType::InitialAmb;
-
-                if (listHasProcedures) {
-                    timeFrames.push_back(timeFrames.back());
-                    timeFrames.back().type = TimeFrameType::Procedures;
-                }
-
-
-            }
+        //inserting InitialAmb if necessary:
+        if (currentIdx == 0 
+            ||
+            timeFrames[currentIdx - 1].rowid != timeFrames[currentIdx].rowid)
+        {
+            timeFrames.back().type = TimeFrameType::InitialAmb;
+        }
     }
 
     
@@ -79,38 +58,31 @@ std::vector<TimeFrame> DbPatientSummary::getFrames(long long patientRowId)
         "procedure.type, "  	//1
         "procedure.code, "  	//2
         "procedure.tooth, " 	//3
-        "procedure.day, "	    //4
-        "amblist.month, "	    //5
-        "amblist.year,	"	    //6
-        "procedure.price, "	    //7
-        "procedure.data, "	    //8
-        "procedure.deciduous, "	//9
-        "amblist.LPK, "		    //10
-        "amblist.rowid "        //11
+        "procedure.date, "	    //4
+        "procedure.price, "	    //5
+        "procedure.data, "	    //6
+        "procedure.deciduous, "	//7
+        "amblist.LPK "		    //8
         "FROM procedure LEFT JOIN amblist ON procedure.amblist_rowid = amblist.rowid "
         "WHERE amblist.patient_rowid = " + std::to_string(patientRowId) + " "
-        "ORDER BY amblist.year ASC, amblist.month ASC, procedure.day ASC, procedure.rowid ASC";
+        "ORDER BY procedure.date ASC, procedure.rowid ASC";
 
     db.newStatement(query);
 
 
-
     while (db.hasRows())
     {
-        
         Procedure p;
 
         p.nzok = db.asInt(0);
         p.type = static_cast<ProcedureType>(db.asInt(1));
         p.code = db.asInt(2);
         p.tooth = db.asInt(3);
-        p.date.day = db.asInt(4);
-        p.date.month = db.asInt(5);
-        p.date.year = db.asInt(6);
-        p.price = db.asDouble(7);
-        Parser::parse(db.asString(8), p);
-        p.temp = db.asInt(9);
-        p.LPK = db.asString(10);
+        p.date = db.asString(4);
+        p.price = db.asDouble(5);
+        Parser::parse(db.asString(6), p);
+        p.temp = db.asInt(7);
+        p.LPK = db.asString(8);
     
         for (int i = 0; i < timeFrames.size(); i++) { //optimize it!
 

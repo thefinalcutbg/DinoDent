@@ -17,10 +17,17 @@ Date::Date(int day, int month, int year) :
 {}
 
 Date::Date(const std::string& dd_dot_MM_dot_yyyy):
-    day(stoi(dd_dot_MM_dot_yyyy.substr(0, 2))),
-    month(stoi(dd_dot_MM_dot_yyyy.substr(3, 2))),
-    year(stoi(dd_dot_MM_dot_yyyy.substr(6, 4)))
-{}
+    day(stoi(dd_dot_MM_dot_yyyy.substr(9, 2))),
+    month(stoi(dd_dot_MM_dot_yyyy.substr(6, 2))),
+    year(stoi(dd_dot_MM_dot_yyyy.substr(0, 4)))
+{
+    if (dd_dot_MM_dot_yyyy[2] == '.') {
+        day = stoi(dd_dot_MM_dot_yyyy.substr(0, 2));
+        month = stoi(dd_dot_MM_dot_yyyy.substr(3, 2));
+        year = stoi(dd_dot_MM_dot_yyyy.substr(6, 4));
+    }
+
+}
 
 
 bool Date::isLeapYear(int year)
@@ -89,7 +96,7 @@ Date Date::getBirthdateFromEgn(const std::string& egn)
 }
 
 
-std::string Date::toString(bool suffix) const
+std::string Date::toBgStandard(bool suffix) const
 {
 
       std::string dayStr;
@@ -114,7 +121,7 @@ std::string Date::toString(bool suffix) const
     return dayStr + "." + monthStr + "." + yearStr;
 }
 
-std::string Date::toXMLString() const
+std::string Date::to8601() const
 {
     std::string dayStr;
 

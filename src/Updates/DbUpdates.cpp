@@ -11,7 +11,7 @@
 
 void DbUpdates::reformatDates()
 {
-	
+	/*
 	{
 		std::string query{
 			"SELECT rowid, birth FROM PATIENT"
@@ -27,7 +27,7 @@ void DbUpdates::reformatDates()
 		for (auto &pair : memory)
 		{
 			std::string updateQuery{
-				"UPDATE patient SET birth='" + pair.second.toXMLString() + "' "
+				"UPDATE patient SET birth='" + pair.second.to8601() + "' "
 				"WHERE rowid = " + std::to_string(pair.first)
 			};
 
@@ -37,7 +37,7 @@ void DbUpdates::reformatDates()
 	
 	{
 		std::string query{
-			"SELECT rowid, status_json FROM amblist"
+			"SELECT rowid, status FROM amblist"
 		};
 
 		std::unordered_map<long long, std::string> memory;
@@ -62,7 +62,7 @@ void DbUpdates::reformatDates()
 			qDebug() << "writing" << rowidCount; rowidCount++;
 
 			std::string updateQuery{
-				"UPDATE amblist SET status_json='" + pair.second + "' "
+				"UPDATE amblist SET status='" + pair.second + "' "
 				"WHERE rowid = " + std::to_string(pair.first)
 			};
 
@@ -106,10 +106,10 @@ void DbUpdates::reformatDates()
 	}
 	
 
-	//
-
 
 	{
+		int rowidCount = 0;
+
 		Db::crudQuery("ALTER TABLE ambList ADD COLUMN date TEXT NOT NULL DEFAULT '1900-01-01Z00:00:00'");
 		
 		std::unordered_map<long long, Date> memory;
@@ -120,13 +120,19 @@ void DbUpdates::reformatDates()
 
 		for (Db db(query); db.hasRows();)
 		{
+			qDebug() << "parsing " << rowidCount; rowidCount++;
+
 			memory[db.asRowId(0)] = Date(db.asInt(1), db.asInt(2), db.asInt(3));
 		}
 
+		rowidCount = 0;
+
 		for (auto& pair : memory)
 		{
+			qDebug() << "writing" << rowidCount; rowidCount++;
+
 			std::string updateQuery{
-				"UPDATE ambList SET date='" + pair.second.toXMLString() + "Z00:00:00" "' "
+				"UPDATE ambList SET date='" + pair.second.to8601() + "Z00:00:00" "' "
 				"WHERE rowid = " + std::to_string(pair.first)
 			};
 
@@ -134,6 +140,105 @@ void DbUpdates::reformatDates()
 		}
 
 	}
+
+	{
+		int rowidCount = 0;
+
+		Db::crudQuery("ALTER TABLE procedure ADD COLUMN date TEXT NOT NULL DEFAULT '1900-01-01'");
+		std::unordered_map<long long, Date> memory;
+
+		std::string query{
+			"SELECT procedure.rowid, procedure.day, amblist.month, amblist.year FROM procedure LEFT JOIN ambList ON procedure.amblist_rowid = amblist.rowid"
+		};
+
+		for (Db db(query); db.hasRows();)
+		{
+			qDebug() << "parsing " << rowidCount; rowidCount++;
+
+			memory[db.asRowId(0)] = Date(db.asInt(1), db.asInt(2), db.asInt(3));
+		}
+
+		rowidCount = 0;
+
+		for (auto& pair : memory)
+		{
+			qDebug() << "writing" << rowidCount; rowidCount++;
+
+			std::string updateQuery{
+				"UPDATE procedure SET date='" + pair.second.to8601() + "' "
+				"WHERE rowid = " + std::to_string(pair.first)
+			};
+
+			Db::crudQuery(updateQuery);
+		}
+
+	}
+	
+	{
+		int rowidCount = 0;
+
+		Db::crudQuery("ALTER TABLE financial ADD COLUMN date TEXT NOT NULL DEFAULT '1900-01-01'");
+		std::unordered_map<long long, Date> memory;
+
+		std::string query{
+			"SELECT rowid, day, month, year FROM financial"
+		};
+
+		for (Db db(query); db.hasRows();)
+		{
+			qDebug() << "parsing " << rowidCount; rowidCount++;
+
+			memory[db.asRowId(0)] = Date(db.asInt(1), db.asInt(2), db.asInt(3));
+		}
+
+		rowidCount = 0;
+
+		for (auto& pair : memory)
+		{
+			qDebug() << "writing" << rowidCount; rowidCount++;
+
+			std::string updateQuery{
+				"UPDATE financial SET date='" + pair.second.to8601() + "' "
+				"WHERE rowid = " + std::to_string(pair.first)
+			};
+
+			Db::crudQuery(updateQuery);
+		}
+	}
+
+	{
+		int rowidCount = 0;
+
+		Db::crudQuery("ALTER TABLE periostatus ADD COLUMN date TEXT NOT NULL DEFAULT '1900-01-01'");
+		std::unordered_map<long long, Date> memory;
+
+		std::string query{
+			"SELECT rowid, day, month, year FROM financial"
+		};
+
+		for (Db db(query); db.hasRows();)
+		{
+			qDebug() << "parsing " << rowidCount; rowidCount++;
+
+			memory[db.asRowId(0)] = Date(db.asInt(1), db.asInt(2), db.asInt(3));
+		}
+
+		rowidCount = 0;
+
+		for (auto& pair : memory)
+		{
+			qDebug() << "writing" << rowidCount; rowidCount++;
+
+			std::string updateQuery{
+				"UPDATE periostatus SET date='" + pair.second.to8601() + "' "
+				"WHERE rowid = " + std::to_string(pair.first)
+			};
+
+			Db::crudQuery(updateQuery);
+		}
+
+	}
+	*/
 }
 
 

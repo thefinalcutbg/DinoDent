@@ -235,6 +235,7 @@
     <ClCompile Include="src\Model\Tooth\StatusData.cpp" />
     <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\BridgeHelper.cpp" />
     <ClCompile Include="src\Presenter\ProcedureDialog\SubPresenters\EditorPresenter.cpp" />
+    <ClCompile Include="src\Updates\DbUpdates.cpp" />
     <ClCompile Include="src\View\FinancialView\RecipientEditDialog\RecipientEditView.cpp" />
     <ClCompile Include="src\View\PerioView\Widgets\PerioStatisticView.cpp" />
     <ClCompile Include="src\View\PISDialog\MonthNotifView\MonthNotifView.cpp" />
@@ -627,6 +628,7 @@
     <ClInclude Include="src\Presenter\SettingsPresenter\PriceListSettingsPresenter.h" />
     <ClInclude Include="src\Presenter\SettingsPresenter\SettingsMainPresenter.h" />
     <QtMoc Include="src\View\AmbListSelector\Models\FinancialTableModel.h" />
+    <ClInclude Include="src\Updates\DbUpdates.h" />
     <ClInclude Include="src\View\FinancialView\FinancialTileButton.h" />
     <ClInclude Include="src\View\FinancialView\IFinancialView.h" />
     <QtMoc Include="src\View\KSMPDialog\KSMPDialog.h" />

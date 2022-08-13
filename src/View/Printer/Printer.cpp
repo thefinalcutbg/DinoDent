@@ -73,7 +73,7 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
 
     report.dataManager()->setReportVariable("RHIFCode", QString::fromStdString(patient.city.getRhif()));
     report.dataManager()->setReportVariable("healthRegion", QString::fromStdString(patient.city.getHealthRegion()));
-    report.dataManager()->setReportVariable("birth", QString::fromStdString(patient.birth.toString()));
+    report.dataManager()->setReportVariable("birth", QString::fromStdString(patient.birth.toBgStandard()));
 
     report.dataManager()->setReportVariable("RZICode", QString::fromStdString(practice.rziCode));
     report.dataManager()->setReportVariable("specialty", doctor.specialtyAsInt());
@@ -139,7 +139,7 @@ void Print::invoice(const Invoice& inv)
     report.loadFromFile(":/reports/report_invoice.lrxml");
 
     report.dataManager()->setReportVariable("title", QString::fromStdString(inv.name));
-    report.dataManager()->setReportVariable("number_date", QString::fromStdString(u8" № " + inv.getInvoiceNumber() + u8" от дата " + inv.date.toString(true)));
+    report.dataManager()->setReportVariable("number_date", QString::fromStdString(u8" № " + inv.getInvoiceNumber() + u8" от дата " + inv.date.toBgStandard(true)));
 
     auto mainDoc = inv.mainDocument();
 
@@ -149,7 +149,7 @@ void Print::invoice(const Invoice& inv)
             QString::fromStdString(
                 u8"към фактура № "
                 + leadZeroes(mainDoc->number, 10)
-                + u8" от " + mainDoc->date.toString()
+                + u8" от " + mainDoc->date.toBgStandard()
                 + u8"г."));
     }
 
@@ -167,16 +167,16 @@ void Print::invoice(const Invoice& inv)
     if (inv.nzokData.has_value())
     {
         report.dataManager()->setReportVariable("practice_rzi", QString::fromStdString(inv.nzokData->rhi_nhif_no));
-        report.dataManager()->setReportVariable("contract", QString::fromStdString(inv.nzokData->contract_no + " / " + inv.nzokData->contract_date.toString()) + u8" г.");
+        report.dataManager()->setReportVariable("contract", QString::fromStdString(inv.nzokData->contract_no + " / " + inv.nzokData->contract_date.toBgStandard()) + u8" г.");
         report.dataManager()->setReportVariable("mon_notif_number", QString::number(inv.nzokData->fin_document_month_no));
-        report.dataManager()->setReportVariable("period", QString::fromStdString(u8"от " + inv.nzokData->date_from.toString() + u8" до " + inv.nzokData->date_to.toString()));
+        report.dataManager()->setReportVariable("period", QString::fromStdString(u8"от " + inv.nzokData->date_from.toBgStandard() + u8" до " + inv.nzokData->date_to.toBgStandard()));
 
     }
 
     BusinessOperationModel model{ inv.businessOperations };
     report.dataManager()->addModel("operations", &model, false);
 
-    report.dataManager()->setReportVariable("taxEventDate", QString::fromStdString(inv.aggragated_amounts.taxEventDate.toString()));
+    report.dataManager()->setReportVariable("taxEventDate", QString::fromStdString(inv.aggragated_amounts.taxEventDate.toBgStandard()));
     report.dataManager()->setReportVariable("madeBy", QString::fromStdString(User::doctor().getFullName(false)));
     report.dataManager()->setReportVariable("groundsNoVAT", QString::fromStdString(inv.issuer.grounds_for_not_charging_VAT));
     report.dataManager()->setReportVariable("paymentType", QString::fromStdString(

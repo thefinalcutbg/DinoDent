@@ -127,7 +127,7 @@ std::string HisService::subject(const Patient& p)
 	"<nhis:subject>"
 		"<nhis:identifierType value=\"" + std::to_string(p.type) + "\"/>"
 		"<nhis:identifier value=\"" + p.id + "\"/>"
-		"<nhis:birthDate value=\"" + p.birth.toXMLString() + "\"/>"
+		"<nhis:birthDate value=\"" + p.birth.to8601() + "\"/>"
 		"<nhis:gender value=\"" + std::to_string(static_cast<int>(p.sex) + 1) + "\"/>"
 		"<nhis:name>"
 			"<nhis:given value=\"" + p.FirstName + "\"/>"

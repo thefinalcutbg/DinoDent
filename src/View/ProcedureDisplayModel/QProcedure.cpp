@@ -5,7 +5,7 @@
 #include "Model/User/User.h"
 
 QProcedure::QProcedure(const Procedure& p) :
-	date(QString::fromStdString(p.date.toString())),
+	date(QString::fromStdString(p.date.toBgStandard())),
 	diagnosis(QString::fromStdString(p.diagnosis)),
 	tooth(ToothUtils::getToothNumber(p.tooth, p.temp)),
 	procedureName(QString::fromStdString(p.name)),

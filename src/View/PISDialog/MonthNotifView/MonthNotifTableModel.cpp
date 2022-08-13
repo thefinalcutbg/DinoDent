@@ -17,7 +17,7 @@ void MonthNotifTableModel::setRows(const std::vector<MonthNotifRow>& rows)
         this->rows.emplace_back(
 
             QMonthNotifRow{
-                r.date.toString().data(),
+                r.date.toBgStandard().data(),
                 r.type,
                 r.rziCode.data(),
                 r.uin.data(),

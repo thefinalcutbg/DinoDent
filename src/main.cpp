@@ -8,8 +8,8 @@
 #include "Model/KSMP.h"
 #include "Resources.h"
 #include "Model/MKB.h"
-#include "Network/HIS/ConcreteHisTest.h"
 #include "Model/Ekatte.h"
+#include "Updates/DbUpdates.h"
 int main(int argc, char *argv[])
 {
 
@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
     DiagnosisContainer::initialize();
     NhifProcedures::initialize(); //parsing json of nzok data
 
-    
+    DbUpdates::reformatDates();
 
     Torque w;
 

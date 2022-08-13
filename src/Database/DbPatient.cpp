@@ -13,7 +13,7 @@ long long DbPatient::insert(const Patient& patient)
             "VALUES ("
             + std::to_string(patient.type) + ","
             "'" + patient.id + "',"
-            "'" + patient.birth.toString() + "',"
+            "'" + patient.birth.toBgStandard() + "',"
                 + std::to_string(patient.sex) + ","
             "'" + patient.FirstName + "',"
             "'" + patient.MiddleName + "',"
@@ -39,7 +39,7 @@ void DbPatient::update(const Patient& patient)
 
         "UPDATE patient SET "
         "type = " + std::to_string(patient.type) + ", "
-        "birth = '" + patient.birth.toString() + "', "
+        "birth = '" + patient.birth.toBgStandard() + "', "
         "sex = " + std::to_string(patient.sex) + ", "
         "fname = '" + patient.FirstName + "', "
         "mname = '" + patient.MiddleName + "', "

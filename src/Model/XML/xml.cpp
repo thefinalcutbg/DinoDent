@@ -44,8 +44,8 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
     Date from{ 1, lists[0].getDate().month, lists[0].getDate().year };
     Date to = from.getMaxDateOfMonth();
 
-    report->SetAttribute("startFrom", from.toXMLString());
-    report->SetAttribute("endTo", to.toXMLString());
+    report->SetAttribute("startFrom", from.to8601());
+    report->SetAttribute("endTo", to.to8601());
     report->SetAttribute("dentalServiceType", doctor.dentalServiceType());
 
 
@@ -69,7 +69,7 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
         dentalCareService->SetAttribute("healthRegionCode", patient.city.getHealthRegion());
 
         if (patient.type != 1) {
-            dentalCareService->SetAttribute("birthDate", patient.birth.toXMLString());
+            dentalCareService->SetAttribute("birthDate", patient.birth.to8601());
         }
 
         dentalCareService->SetAttribute("personFirstName", patient.FirstName);
@@ -157,7 +157,7 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
         {
             TiXmlElement* service = new TiXmlElement("service");
 
-            service->SetAttribute("date", procedure.date.toXMLString());
+            service->SetAttribute("date", procedure.date.to8601());
             service->SetAttribute("diagnosis", procedure.diagnosis);
             service->SetAttribute("toothCode", ToothUtils::getToothNumber(procedure.tooth, procedure.temp));
             service->SetAttribute("activityCode", procedure.code);
@@ -213,7 +213,7 @@ std::string XML::getInvoice(const Invoice& invoice)
     addElementWithText(el_invoice, "fin_document_type_code", invoice.nzokData->fin_document_type_code);
     addElementWithText(el_invoice, "fin_document_no", invoice.getInvoiceNumber());
     addElementWithText(el_invoice, "fin_document_month_no", leadZeroes(invoice.nzokData->fin_document_month_no, 10));
-    addElementWithText(el_invoice, "fin_document_date", invoice.date.toXMLString());
+    addElementWithText(el_invoice, "fin_document_date", invoice.date.to8601());
 
     auto mainDoc = invoice.mainDocument();
 
@@ -221,7 +221,7 @@ std::string XML::getInvoice(const Invoice& invoice)
     {
         TiXmlElement* mainDocument = new TiXmlElement("Main_Fin_Doc");
         addElementWithText(mainDocument, "document_no", leadZeroes(mainDoc->number, 10));
-        addElementWithText(mainDocument, "document_date", mainDoc->date.toXMLString());
+        addElementWithText(mainDocument, "document_date", mainDoc->date.to8601());
         el_invoice->LinkEndChild(mainDocument);
     }
 
@@ -276,7 +276,7 @@ std::string XML::getInvoice(const Invoice& invoice)
         addElementWithText(issuer, "issuer_bulstat_no_vat", invoice.issuer.registration_by_VAT.value());
     }
     addElementWithText(issuer, "contract_no", invoice.nzokData->contract_no);
-    addElementWithText(issuer, "contract_date", invoice.nzokData->contract_date.toXMLString());
+    addElementWithText(issuer, "contract_date", invoice.nzokData->contract_date.to8601());
     addElementWithText(issuer, "rhi_nhif_no", invoice.nzokData->rhi_nhif_no);
 
     el_invoice->LinkEndChild(issuer);
@@ -284,8 +284,8 @@ std::string XML::getInvoice(const Invoice& invoice)
 
     addElementWithText(el_invoice, "health_insurance_fund_type_code", invoice.nzokData->health_insurance_fund_type_code);
     addElementWithText(el_invoice, "activity_type_code", std::to_string(invoice.nzokData->activityTypeCode));
-    addElementWithText(el_invoice, "date_from", invoice.nzokData->date_from.toXMLString());
-    addElementWithText(el_invoice, "date_to", invoice.nzokData->date_to.toXMLString());
+    addElementWithText(el_invoice, "date_from", invoice.nzokData->date_from.to8601());
+    addElementWithText(el_invoice, "date_to", invoice.nzokData->date_to.to8601());
 
     for (auto& operation : invoice.businessOperations)
     {
@@ -307,7 +307,7 @@ std::string XML::getInvoice(const Invoice& invoice)
     addElementWithText(aggregatedAmounts, "total_amount", formatDouble(invoice.aggragated_amounts.total_amount));
     addElementWithText(aggregatedAmounts, "payment_amount", formatDouble(invoice.aggragated_amounts.payment_amount));
     addElementWithText(aggregatedAmounts, "original", "Y");
-    addElementWithText(aggregatedAmounts, "tax_event_date", invoice.aggragated_amounts.taxEventDate.toXMLString());
+    addElementWithText(aggregatedAmounts, "tax_event_date", invoice.aggragated_amounts.taxEventDate.to8601());
 
     el_invoice->LinkEndChild(aggregatedAmounts);
 

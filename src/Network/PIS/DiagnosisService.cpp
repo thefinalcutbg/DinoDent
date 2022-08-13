@@ -17,7 +17,7 @@ bool DiagnosisService::sendRequest(int personType, const std::string& patientId,
 	auto query =
 		"<ns3:pdDiagnosisIn xmlns:ns3 = \"http://pis.technologica.com/ws/\">"
 			"<ns3:" + tag + ">" + patientId + "</ns3:" + tag + ">"
-			"<ns3:date>" + Date::currentDate().toXMLString()  +"</ns3:date>"
+			"<ns3:date>" + Date::currentDate().to8601()  +"</ns3:date>"
 		"</ns3:pdDiagnosisIn>"
 	;
 

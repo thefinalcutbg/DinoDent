@@ -6,17 +6,15 @@
 #include "Model/Date.h"
 #include "Model/Parser/Parser.h"
 #include "DbProcedure.h"
-
+#include <qdebug.h>
 long long DbAmbList::insert(const AmbList& ambList, long long patientRowId)
 {
   
     auto ambSheetDate = ambList.getDate();
 
-    std::string query = "INSERT INTO amblist (day, month, year, num, nhif, status, patient_rowid, lpk, rzi) "
+    std::string query = "INSERT INTO amblist (date, num, nhif, status, patient_rowid, lpk, rzi) "
         "VALUES ("
-        + std::to_string(ambSheetDate.day) + ","
-        + std::to_string(ambSheetDate.month) + ","
-        + std::to_string(ambSheetDate.year) + ","
+        "'" + ambList.getDate().to8601() + "T00:00:00" + "',"
         + std::to_string(ambList.number) + ", "
         "'" + Parser::write(ambList.nhifData, ambList.hasNZOKProcedure()) + "',"
         "'" + Parser::write(ambList.teeth) + "',"
@@ -43,9 +41,7 @@ void DbAmbList::update(const AmbList& ambList)
 
     std::string query = "UPDATE amblist SET "
         "num=" + std::to_string(ambList.number) + ","
-        "day=" + std::to_string(ambSheetDate.day) + ","
-        "month=" + std::to_string(ambSheetDate.month) + ","
-        "year=" + std::to_string(ambSheetDate.year) + ","
+        "date='" + ambList.getDate().to8601() + "T00:00:00" + "',"
         "nhif='" + Parser::write(ambList.nhifData, ambList.hasNZOKProcedure()) + "',"
         "status = '" + Parser::write(ambList.teeth) + "' "
         "WHERE rowid = " + std::to_string(ambList.rowid);
@@ -63,16 +59,19 @@ AmbList DbAmbList::getNewAmbSheet(long long patientRowId)
     ambList.LPK = User::doctor().LPK;
     std::string status;
 
-    Db db(
+    Db db;
+    std::string query(
     
         "SELECT rowid, num, nhif, status FROM amblist WHERE "
         "patient_rowid = " + std::to_string(patientRowId) + " AND "
         "lpk = '" + User::doctor().LPK + "' AND "
         "rzi = '" + User::practice().rziCode + "' AND "
-        "month = " + std::to_string(Date::currentMonth()) + " AND "
-        "year = " + std::to_string(Date::currentYear())
+        "strftime('%Y',amblist.date) = strftime('%Y',date('now')) AND  strftime('%m',amblist.date) = strftime('%m',date('now'))"
     
     );
+
+    qDebug() << query.data();
+    db.newStatement(query);
 
     while(db.hasRows())
     {
@@ -89,7 +88,7 @@ AmbList DbAmbList::getNewAmbSheet(long long patientRowId)
             
             "SELECT rowid, status FROM amblist WHERE "
             "patient_rowid = " + std::to_string(patientRowId) + " "
-            "ORDER BY year DESC, month DESC LIMIT 1"
+            "ORDER BY date DESC LIMIT 1"
 
             );
 
@@ -158,10 +157,10 @@ void DbAmbList::deleteCurrentSelection(const std::string& ambID)
 bool DbAmbList::checkExistingAmbNum(int currentYear, int ambNum)
 {
     std::string query = "SELECT EXISTS(SELECT 1 FROM amblist WHERE "
-        "year = " + std::to_string(currentYear) +
-        " AND num = " + std::to_string(ambNum) + ")"
-        " AND lpk = '" + User::doctor().LPK + "' "
-        " AND rzi = '" + User::practice().rziCode + "' ";
+        "strftime('%Y',date)=" + std::to_string(currentYear) + " "
+        "AND num = " + std::to_string(ambNum) + ") "
+        "AND lpk = '" + User::doctor().LPK + "' "
+        "AND rzi = '" + User::practice().rziCode + "' ";
 
     bool exists = 0;
 
@@ -176,10 +175,10 @@ std::unordered_set<int> DbAmbList::getExistingNumbers(int currentYear)
 
     std::unordered_set<int> existingNumbers;
 
-    std::string query = "SELECT num FROM amblist WHERE " 
+    std::string query = "SELECT num FROM amblist WHERE "
         "lpk = '" + User::doctor().LPK + "' "
         "AND rzi = '" + User::practice().rziCode + "' "
-        "AND year = " + std::to_string(currentYear);
+        "AND strftime('%Y',date)=" + std::to_string(currentYear);
 
     for (Db db(query);db.hasRows();) existingNumbers.emplace(db.asInt(0));
 
@@ -193,7 +192,7 @@ bool DbAmbList::suchNumberExists(int year, int ambNum, long long ambRowid)
         "SELECT COUNT(num) FROM amblist WHERE "
         "lpk = '" + User::doctor().LPK + "' "
         "AND rzi ='" + User::practice().rziCode + "' "
-        "AND year =" + std::to_string(year) + " "
+        "AND strftime('%Y',date)=" + std::to_string(year) + " "
         "AND num =" + std::to_string(ambNum) + " "
         "AND rowid !=" + std::to_string(ambRowid)
     };
@@ -217,8 +216,8 @@ std::vector<long long> DbAmbList::getRowIdNhif(int month, int year)
         "lpk = '" + User::doctor().LPK + "' "
         "AND rzi = '" + User::practice().rziCode + "' "
         "AND sum(procedure.nzok) > 0 "
-        "AND month = " + std::to_string(month) + " "
-        "AND year = " + std::to_string(year) + " "
+        "AND strftime('%m',amblist.date)=" + std::to_string(month) + " "
+        "AND strftime('%Y',amblist.date)=" + std::to_string(year) + " "
         "ORDER BY amblist.num ASC";
 
     std::vector<long long> result;
@@ -268,15 +267,8 @@ int DbAmbList::getNewNumber(Date ambDate, bool nzok)
         "GROUP BY amblist.rowid "
         "HAVING "
         + condition +
-        "AND amblist.year = " + std::to_string(ambDate.year) + " "
-        "AND amblist.month <= " + std::to_string(ambDate.month) + " "
-//        "AND amblist.day <= " + std::to_string(ambDate.day) + " "
-        "AND (amblist.year, amblist.month, amblist.day) BETWEEN "
-        "("+ std::to_string(ambDate.year) + ", 1, 1) "
-        "AND ("
-        + std::to_string(ambDate.year) + ", "
-        + std::to_string(ambDate.month) + ", "
-        + std::to_string(ambDate.day) + ") "
+        "AND strftime('%Y-%m-%d', amblist.date) BETWEEN '" + std::to_string(ambDate.year) + "-01-01'"
+        "AND '" + ambDate.to8601() + "' "
         "AND amblist.lpk = '" + User::doctor().LPK + "' "
         "AND amblist.rzi = '" + User::practice().rziCode + "' "
         "ORDER BY amblist.num DESC LIMIT 1";

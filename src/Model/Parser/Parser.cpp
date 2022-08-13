@@ -11,7 +11,7 @@ Json::Value writePathology(int index, const Pathology& pathology)
 {
 	Json::Value parameters;
 	parameters["diag_idx"] = pathology.data.diagnosis_index;
-	parameters["date"] = pathology.data.date_diagnosed.toString();
+	parameters["date"] = pathology.data.date_diagnosed.to8601();
 	parameters["idx"] = index;
 	return parameters;
 }
@@ -399,7 +399,7 @@ std::string Parser::write(const std::optional<NzokContract>& contract)
 
 	json["name_short"] = c.name_short;
 	json["contract_no"] = c.contract_no;
-	json["date"] = c.date.toString();
+	json["date"] = c.date.to8601();
 	json["bank"] = c.bank;
 	json["iban"] = c.iban;
 	json["bic"] = c.bic;
@@ -456,7 +456,7 @@ std::string Parser::write(const Invoice& inv)
 	auto mainDoc = inv.mainDocument();
 	if (mainDoc) {
 		json["mainDocumentNum"] = mainDoc->number;
-		json["mainDocumentDate"] = mainDoc->date.toString();
+		json["mainDocumentDate"] = mainDoc->date.to8601();
 	}
 
 	json["operations"] = Json::Value(Json::arrayValue);
@@ -473,7 +473,7 @@ std::string Parser::write(const Invoice& inv)
 		json["operations"].append(operation);
 	}
 
-	json["taxEventDate"] = inv.aggragated_amounts.taxEventDate.toString();
+	json["taxEventDate"] = inv.aggragated_amounts.taxEventDate.to8601();
 	json["paymentType"] = static_cast<int>(inv.aggragated_amounts.paymentType);
 
 	Json::FastWriter writer;

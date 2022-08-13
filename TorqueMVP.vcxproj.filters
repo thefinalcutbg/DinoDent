@@ -690,6 +690,9 @@
     <ClCompile Include="src\Model\Ekatte.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Updates\DbUpdates.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -1690,6 +1693,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\Ekatte.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Updates\DbUpdates.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

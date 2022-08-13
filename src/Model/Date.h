@@ -23,8 +23,8 @@ public:
     Date tomorrow() const;
 
     static Date getBirthdateFromEgn(const std::string& egn);
-    std::string toString(bool suffix = false) const;
-    std::string toXMLString() const;
+    std::string toBgStandard(bool suffix = false) const;
+    std::string to8601() const;
     std::string toXMLReportFileName() const; //required when saving the xml report file
     std::string toXMLInvoiceFileName() const;
     bool isFromPreviousMonths(const Date& other) const;

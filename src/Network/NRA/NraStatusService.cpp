@@ -92,7 +92,7 @@ bool NraStatusService::sendRequest(const Patient& p, std::function<void(const st
 	}
 
 	auto time =
-		date.toXMLString() +
+		date.to8601() +
 		"T" +
 		QTime::currentTime().toString("hh:mm:ss").toStdString();
 	//+ ".0Z";
@@ -109,7 +109,7 @@ bool NraStatusService::sendRequest(const Patient& p, std::function<void(const st
 			 "<Patient>"
 			  "<PIN>" + p.id + "</PIN>"
 			  "<PINType>" + std::to_string(p.type - 1) + "</PINType>"
-			  "<ChkDt>" + date.toXMLString() + "T00:00:00" + "</ChkDt>"
+			  "<ChkDt>" + date.to8601() + "T00:00:00" + "</ChkDt>"
 			"</Patient>"
 			"</PIS_Request>"
 

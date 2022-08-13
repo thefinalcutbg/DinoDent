@@ -335,7 +335,7 @@ TabName PerioPresenter::getTabName()
     }
 
     return { 
-        u8"Пародонтaлен статус " + m_perioStatus.date.toString(),
+        u8"Пародонтaлен статус " + m_perioStatus.date.toBgStandard(),
         patient->firstLastName() 
     };
 }

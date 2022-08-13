@@ -19,7 +19,7 @@ void AmbListTableModel::setRows(std::vector<AmbRow> rows)
             QAmbListRow{
                 r.ambNumber,
                 r.nzok,
-                QString::fromStdString(r.date.toString()),
+                QString::fromStdString(r.date.toBgStandard()),
                 QString::fromStdString(r.patientId),
                 QString::fromStdString(r.patientName),
                 QString::fromStdString(r.patientPhone)

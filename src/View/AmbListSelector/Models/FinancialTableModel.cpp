@@ -20,7 +20,7 @@ void FinancialTableModel::setRows(std::vector<FinancialRow> rows)
             QFinancialRow{
                 r.number,
                 r.nzok,
-                QString::fromStdString(r.date.toString()),
+                QString::fromStdString(r.date.toBgStandard()),
                 QString::fromStdString(r.recipientId),
                 QString::fromStdString(r.recipientName),
                 QString::fromStdString(r.recipientPhone)

@@ -2,6 +2,8 @@
 #include "Model/User/User.h"
 #include "Database.h"
 
+#include <qdebug.h>
+
 std::vector<PatientRow> DbListOpener::getPatientRows()
 {
     std::vector<PatientRow> rows;
@@ -39,19 +41,18 @@ std::vector<AmbRow> DbListOpener::getAmbRows(const Date& from, const Date& to)
 
     std::string query =
         "SELECT amblist.rowid, amblist.num, sum(procedure.nzok) > 0, " 
-        "amblist.day, amblist.month, amblist.year, "
+        "amblist.date, "
         "patient.rowid, patient.id, patient.fname, patient.mname, patient.lname, patient.phone "
 
         "FROM amblist JOIN patient ON amblist.patient_rowid = patient.rowid "
         "LEFT JOIN procedure on amblist.rowid = procedure.amblist_rowid "
         "GROUP BY amblist.rowid "
-
-        "HAVING (amblist.year, amblist.month, amblist.day) "
-        "BETWEEN (" + std::to_string(from.year) + ", " + std::to_string(from.month) + ", " + std::to_string(from.day) + ") "
-        "AND (" + std::to_string(to.year) + ", " + std::to_string(to.month) + ", " + std::to_string(to.day) + ") "
+        "HAVING amblist.date BETWEEN '" + from.to8601() + "' AND '" + to.to8601() + "' "
         "AND amblist.lpk = '" + User::doctor().LPK + "' "
         "AND amblist.rzi = '" + User::practice().rziCode + "' "
-        "ORDER BY amblist.year ASC, amblist.month ASC, amblist.day ASC, amblist.num ASC ";
+        "ORDER BY amblist.date ASC, amblist.num ASC ";
+
+    qDebug() << query.data();
 
     Db db(query);
 
@@ -65,19 +66,16 @@ std::vector<AmbRow> DbListOpener::getAmbRows(const Date& from, const Date& to)
         row.ambNumber = db.asInt(1);
         
         row.nzok = bool(db.asInt(2));
-        row.date = Date{ 
-            db.asInt(3),
-            db.asInt(4),
-            db.asInt(5)
-        };
-        row.patientRowId = db.asRowId(6);
+        row.date = db.asString(3);
+        
+        row.patientRowId = db.asRowId(4);
 
-        row.patientId = db.asString(7);
-        row.patientName = db.asString(8) + " " +
-                          db.asString(9) + " " +
-                          db.asString(10);
+        row.patientId = db.asString(5);
+        row.patientName = db.asString(6) + " " +
+                          db.asString(7) + " " +
+                          db.asString(8);
 
-        row.patientPhone = db.asString(11);
+        row.patientPhone = db.asString(9);
     }
         
 
@@ -90,14 +88,15 @@ std::vector<PerioRow> DbListOpener::getPerioRows(const Date& from, const Date& t
     rows.reserve(50);
 
     std::string query =
-        "SELECT periostatus.rowid, periostatus.day, periostatus.month, periostatus.year, patient.rowid, patient.id, patient.fname, patient.mname, patient.lname, patient.phone "
+        "SELECT periostatus.rowid, periostatus.date, patient.rowid, patient.id, patient.fname, patient.mname, patient.lname, patient.phone "
         "FROM periostatus INNER JOIN patient ON periostatus.patient_rowid = patient.rowid "
-        "WHERE (periostatus.year, periostatus.month, periostatus.day) "
-        "BETWEEN (" + std::to_string(from.year) + ", " + std::to_string(from.month) + ", " + std::to_string(from.day) + ") "
-        "AND (" + std::to_string(to.year) + ", " + std::to_string(to.month) + ", " + std::to_string(to.day) + ") "
+        "WHERE "
+        "periostatus.date BETWEEN '" + from.to8601() + "' AND '" + to.to8601() + "' "
         "AND lpk = '" + User::doctor().LPK + "' "
         "AND rzi = '" + User::practice().rziCode + "' "
-        "ORDER BY periostatus.year ASC, periostatus.month ASC, periostatus.day ASC ";
+        "ORDER BY periostatus.date ASC ";
+
+    qDebug() << query.data();
 
     for (Db db(query); db.hasRows();)
     {
@@ -107,15 +106,11 @@ std::vector<PerioRow> DbListOpener::getPerioRows(const Date& from, const Date& t
         auto& row = rows.back();
 
         row.rowID = db.asRowId(0);
-        row.date = Date{
-            db.asInt(1),
-            db.asInt(2),
-            db.asInt(3)
-        };
-        row.patientRowId = db.asRowId(4);
-        row.patientId = db.asString(5);
-        row.patientName = db.asString(6)+ " " + db.asString(7) + " " + db.asString(8);
-        row.patientPhone = db.asString(9);
+        row.date = db.asString(1);
+        row.patientRowId = db.asRowId(2);
+        row.patientId = db.asString(3);
+        row.patientName = db.asString(4)+ " " + db.asString(5) + " " + db.asString(6);
+        row.patientPhone = db.asString(7);
 
     }
 
@@ -136,14 +131,15 @@ std::vector<FinancialRow> DbListOpener::getFinancialRows(const Date& from, const
 
     std::string query =
         "SELECT rowid, num, month_notif > 0, "
-        "day, month, year, "
+        "date, "
         "recipient_id, recipient_name, recipient_phone "
         "FROM financial "
-        "WHERE (year, month, day) "
-        "BETWEEN (" + std::to_string(from.year) + ", " + std::to_string(from.month) + ", " + std::to_string(from.day) + ") "
-        "AND (" + std::to_string(to.year) + ", " + std::to_string(to.month) + ", " + std::to_string(to.day) + ") "
+        "WHERE "
+        "date BETWEEN '" + from.to8601() + "' AND '" + to.to8601() + "' "
         "AND practice_rzi = '" + User::practice().rziCode + "' "
-        "ORDER BY year ASC, month ASC, day ASC ";
+        "ORDER BY date ASC ";
+
+    qDebug() << query.data();
 
     for (Db db(query); db.hasRows();)
     {
@@ -155,7 +151,7 @@ std::vector<FinancialRow> DbListOpener::getFinancialRows(const Date& from, const
         
         row.number = db.asInt(1);
         row.nzok = db.asInt(2);
-        row.date = Date(db.asInt(3), db.asInt(4), db.asInt(5));
+        row.date = db.asString(3);
 
         if (row.nzok) {
             row.recipientId = nzokRecipient.bulstat;
@@ -165,9 +161,9 @@ std::vector<FinancialRow> DbListOpener::getFinancialRows(const Date& from, const
             continue;
         }
 
-        row.recipientId = db.asString(6);
-        row.recipientName = db.asString(7);
-        row.recipientPhone = db.asString(8);
+        row.recipientId = db.asString(4);
+        row.recipientName = db.asString(5);
+        row.recipientPhone = db.asString(6);
        
     }
 

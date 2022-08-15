@@ -13,14 +13,12 @@ long long DbInvoice::insertInvoice(const Invoice& invoice)
 
     if(nzok){
         query = 
-            "INSERT INTO financial (practice_rzi, num, type, day, month, year, month_notif, recipient_id, data) "
+            "INSERT INTO financial (practice_rzi, num, type, date, month_notif, recipient_id, data) "
             "VALUES ("
             "'" + User::practice().rziCode + "',"
             + std::to_string(invoice.number) + ","
-            + std::to_string(static_cast<int>(invoice.type)) + ","
-            + std::to_string(invoice.date.day) + ","
-            + std::to_string(invoice.date.month) + ","
-            + std::to_string(invoice.date.year) + ","
+            + std::to_string(static_cast<int>(invoice.type)) + ",'"
+            + invoice.date.to8601() + "',"
             + std::to_string(invoice.nzokData->fin_document_month_no) + ","
             "'" + invoice.recipient.bulstat + "', "
             "'" + invoice.nzokData->monthNotifData + "'"
@@ -28,15 +26,13 @@ long long DbInvoice::insertInvoice(const Invoice& invoice)
     }
     else
     {
-        query = "INSERT INTO financial (practice_rzi, num, type, day, month, year, month_notif, data," 
+        query = "INSERT INTO financial (practice_rzi, num, type, date, month_notif, data," 
                                 " recipient_id, recipient_name, recipient_address, recipient_phone) "
             "VALUES ("
             "'" + User::practice().rziCode + "',"
             + std::to_string(invoice.number) + ","
-            + std::to_string(static_cast<int>(invoice.type)) + ","
-            + std::to_string(invoice.date.day) + ","
-            + std::to_string(invoice.date.month) + ","
-            + std::to_string(invoice.date.year) + ","
+            + std::to_string(static_cast<int>(invoice.type)) + ",'"
+            + invoice.date.to8601() + "',"
             + "0" + ","
             "'" + Parser::write(invoice) + "',"
             "'" + invoice.recipient.bulstat + "',"
@@ -55,7 +51,7 @@ long long DbInvoice::insertInvoice(const Invoice& invoice)
 
 
 }
-
+#include <qdebug.h>
 void DbInvoice::updateInvoice(const Invoice& invoice)
 {
 
@@ -65,14 +61,12 @@ void DbInvoice::updateInvoice(const Invoice& invoice)
 
         "num = " + std::to_string(invoice.number) + ","
         "type = " + std::to_string(static_cast<int>(invoice.type)) + ","
-        "day = " + std::to_string(invoice.date.day) + ","
-        "month = " + std::to_string(invoice.date.month) + ","
-        "year = " + std::to_string(invoice.date.year) + ","
+        "date = '" + invoice.date.to8601() + "',"
         "recipient_id = '" + invoice.recipient.bulstat + "', "
         "data = '" + Parser::write(invoice) + "' "
 
         ;
-
+ 
     if (!invoice.nzokData.has_value()) {
 
 
@@ -85,7 +79,7 @@ void DbInvoice::updateInvoice(const Invoice& invoice)
     }
 
     query += "WHERE rowid = " + std::to_string(invoice.rowId);
-
+    qDebug() << query.data();
     Db::crudQuery(query);
 }
 
@@ -129,7 +123,7 @@ bool DbInvoice::invoiceAlreadyExists(long long number, long long rowid)
 std::optional<Date> DbInvoice::getMainDocDate(long long invoiceNumber, const std::string& recipient_id)
 {
     std::string query{
-        "SELECT day, month, year FROM financial WHERE "
+        "SELECT date FROM financial WHERE "
         "num = " + std::to_string(invoiceNumber) + " "
         "AND type = 0 "
         "AND recipient_id = '" + recipient_id + "' "
@@ -138,7 +132,7 @@ std::optional<Date> DbInvoice::getMainDocDate(long long invoiceNumber, const std
 
     for (Db db(query); db.hasRows();)
     {
-        return Date(db.asInt(0), db.asInt(1), db.asInt(2));
+        return Date(db.asString(0));
     }
 
     return {};
@@ -147,7 +141,7 @@ std::optional<Date> DbInvoice::getMainDocDate(long long invoiceNumber, const std
 std::optional<MainDocument> DbInvoice::getMainDocument(const std::string& recipient_id)
 {
     std::string query{
-    "SELECT num, day, month, year FROM financial WHERE "
+    "SELECT num, date, FROM financial WHERE "
     "type = 0 "
     "AND recipient_id = '" + recipient_id + "' "
     "AND practice_rzi = '" + User::practice().rziCode + "'"
@@ -158,10 +152,7 @@ std::optional<MainDocument> DbInvoice::getMainDocument(const std::string& recipi
     {
         return MainDocument{
             db.asLongLong(0),
-            Date{
-                db.asInt(1),
-                db.asInt(2),
-                db.asInt(3) }
+            db.asString(1)
         };
     }
 
@@ -172,7 +163,7 @@ std::optional<MainDocument> DbInvoice::getMainDocument(const std::string& recipi
 
 Invoice DbInvoice::getInvoice(long long rowId)
 {
-    std::string query = "SELECT num, type, day, month, year, month_notif, data, "
+    std::string query = "SELECT num, type, date, month_notif, data, "
         "recipient_id, recipient_name, recipient_phone, recipient_address "
         "FROM financial "
         "WHERE rowid = " + std::to_string(rowId);
@@ -183,20 +174,17 @@ Invoice DbInvoice::getInvoice(long long rowId)
         
         long long invNumber = db.asLongLong(0);
         FinancialDocType type = static_cast<FinancialDocType>(db.asInt(1));
-        Date invDate{
-            db.asInt(2),
-            db.asInt(3),
-            db.asInt(4)
-        };
+        Date invDate = db.asString(2);
 
-        int monthNotif = db.asInt(5);
+
+        int monthNotif = db.asInt(3);
 
 
         //if it's from monthly notification, parse the xml data and return the result:
                     if (monthNotif) {
 
                         TiXmlDocument doc;
-                        doc.Parse(db.asString(6).c_str(), 0, TIXML_ENCODING_UTF8);
+                        doc.Parse(db.asString(4).c_str(), 0, TIXML_ENCODING_UTF8);
 
                         Invoice result(doc, User::practice(), User::doctor());
 
@@ -216,11 +204,11 @@ Invoice DbInvoice::getInvoice(long long rowId)
         inv.date = invDate;
         inv.type = type;
 
-        Parser::parse(db.asString(6), inv);
-        inv.recipient.bulstat = db.asString(7);
-        inv.recipient.name = db.asString(8);
-        inv.recipient.phone = db.asString(9);
-        inv.recipient.address = db.asString(10);
+        Parser::parse(db.asString(4), inv);
+        inv.recipient.bulstat = db.asString(5);
+        inv.recipient.name = db.asString(6);
+        inv.recipient.phone = db.asString(7);
+        inv.recipient.address = db.asString(8);
 
   
 

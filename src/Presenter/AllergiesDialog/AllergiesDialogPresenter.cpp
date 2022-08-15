@@ -1,9 +1,9 @@
 #include "AllergiesDialogPresenter.h"
 #include "View/ModalDialogBuilder.h"
-#include "Database/DbPatient.h"
+
 
 AllergiesDialogPresenter::AllergiesDialogPresenter(const Patient& patient)
-    : patient(&patient), view(nullptr)
+    : view(nullptr), allergies{ Allergies{ patient.allergies, patient.currentDiseases, patient.pastDiseases } }
 {
 
 }
@@ -11,14 +11,13 @@ AllergiesDialogPresenter::AllergiesDialogPresenter(const Patient& patient)
 void AllergiesDialogPresenter::setView(IAllergiesDialog* view)
 {
     this->view = view;
-    view->setData(Allergies{ patient->allergies, patient->currentDiseases, patient->pastDiseases });
+    view->setData(allergies.value());
+    allergies.reset();
 }
 
 void AllergiesDialogPresenter::okClicked()
 {
     auto data = view->getData();
-
-    DbPatient::updateAllergies(patient->rowid, data.allergies, data.current, data.past);
 
     allergies = data;
     view->close();
@@ -26,8 +25,7 @@ void AllergiesDialogPresenter::okClicked()
 
 std::optional<Allergies> AllergiesDialogPresenter::openDialog()
 {
-    if(patient)
-        ModalDialogBuilder::openDialog(this);
+    ModalDialogBuilder::openDialog(this);
 
     return allergies;
 }

@@ -11,7 +11,7 @@
 #include "View/ModalDialogBuilder.h"
 #include "Model/AmbList.h"
 #include "Presenter/TabPresenter/TabPresenter.h"
-
+#include "Database/DbPatient.h"
 
 
 ListPresenter::ListPresenter(ITabView* tabView, TabPresenter* tabPresenter, std::shared_ptr<Patient> patient, long long rowId)
@@ -96,8 +96,7 @@ bool ListPresenter::isValid()
 
     AmbListValidator checker(m_ambList, *patient);
 
-    if (checker.ambListIsValid())
-        return true;
+    if (checker.ambListIsValid()) return true;
 
     ModalDialogBuilder::showError(checker.getErrorMsg());
 
@@ -249,6 +248,10 @@ void ListPresenter::openAllergiesDialog()
     if (!data.has_value()) return;
 
     auto& d = data.value();
+
+    auto success = DbPatient::updateAllergies(patient->rowid, d.allergies,d.current,d.past);
+
+    if (!success) return;
 
     patient->allergies = d.allergies;
     patient->currentDiseases = d.current;
@@ -494,7 +497,7 @@ void ListPresenter::checkDiagnosisNhif()
         patient->type,
         patient->id,
 
-        //lamest call ever
+
         [=](const std::string& currentDiseases) {
 
             if (currentDiseases.empty()) {
@@ -504,9 +507,18 @@ void ListPresenter::checkDiagnosisNhif()
 
             Patient patient = *this->patient;
             patient.currentDiseases = currentDiseases;
+            
             AllergiesDialogPresenter p(patient);
-            ModalDialogBuilder::openDialog(&p);
+            auto result = p.openDialog();
+
+            if (!result) return;
+
+            auto success = DbPatient::updateAllergies(patient.rowid, patient.allergies, patient.currentDiseases, patient.pastDiseases);
+
+            if (!success) return;
+
             *this->patient = patient;
+  
             view->refresh(m_ambList, patient);
         }
     );

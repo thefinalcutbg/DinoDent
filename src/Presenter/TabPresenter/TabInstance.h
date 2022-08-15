@@ -57,25 +57,20 @@ public:
 
 	bool close()
 	{
-		if (isNew() || edited)
+		if (!isNew() && !edited) return true;
+
+		DialogAnswer answer = ModalDialogBuilder::openSaveDialog(getTabName().toString());
+
+		switch (answer)
 		{
-			DialogAnswer answer = ModalDialogBuilder::openSaveDialog(getTabName().toString());
+		case DialogAnswer::Yes:
+			//is save interrupted?
+			return save() ? true : false; 
 
-			switch (answer)
-			{
-			case DialogAnswer::Yes:
-				if (save()) //if the save is not interrupted
-					break;
-				else
-					return false;
+		case DialogAnswer::No: return true;
 
-			case DialogAnswer::No: break;
-
-			case DialogAnswer::Cancel: return false;
-			}
+		case DialogAnswer::Cancel: return false;
 		}
-
-		return true;
 	}
 
 	virtual void print() = 0;

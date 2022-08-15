@@ -7,6 +7,8 @@
 #include "Model/Parser/Parser.h"
 #include "DbProcedure.h"
 #include <qdebug.h>
+#include "Model/FreeFunctions.h"
+
 long long DbAmbList::insert(const AmbList& ambList, long long patientRowId)
 {
   
@@ -157,7 +159,7 @@ void DbAmbList::deleteCurrentSelection(const std::string& ambID)
 bool DbAmbList::checkExistingAmbNum(int currentYear, int ambNum)
 {
     std::string query = "SELECT EXISTS(SELECT 1 FROM amblist WHERE "
-        "strftime('%Y',date)=" + std::to_string(currentYear) + " "
+        "strftime('%Y',date)=" + leadZeroes(currentYear, 2) + " "
         "AND num = " + std::to_string(ambNum) + ") "
         "AND lpk = '" + User::doctor().LPK + "' "
         "AND rzi = '" + User::practice().rziCode + "' ";
@@ -207,7 +209,6 @@ bool DbAmbList::suchNumberExists(int year, int ambNum, long long ambRowid)
 
 std::vector<long long> DbAmbList::getRowIdNhif(int month, int year)
 {
-
     std::string query = 
         "SELECT amblist.rowid FROM amblist "
         "JOIN procedure ON amblist.rowid = procedure.amblist_rowid "
@@ -216,8 +217,8 @@ std::vector<long long> DbAmbList::getRowIdNhif(int month, int year)
         "lpk = '" + User::doctor().LPK + "' "
         "AND rzi = '" + User::practice().rziCode + "' "
         "AND sum(procedure.nzok) > 0 "
-        "AND strftime('%m',amblist.date)=" + std::to_string(month) + " "
-        "AND strftime('%Y',amblist.date)=" + std::to_string(year) + " "
+        "AND strftime('%m', amblist.date)='" + leadZeroes(month, 2) + "' "
+        "AND strftime('%Y', amblist.date)='" + std::to_string(year) + "' "
         "ORDER BY amblist.num ASC";
 
     std::vector<long long> result;

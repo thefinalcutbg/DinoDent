@@ -24,11 +24,11 @@ inline std::string leadZeroes(long long num, int totalLength)
 {
     std::string formated;
     formated.reserve(totalLength);
-
     std::string number(std::to_string(num));
 
     for (int i = 0; i < totalLength - number.length(); i++) {
         formated += "0";
+
     }
 
     formated += number;

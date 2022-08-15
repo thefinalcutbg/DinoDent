@@ -5,8 +5,6 @@
 
 struct Allergies
 {
-	Allergies(const std::string &allergies, const std::string& current, const std::string& past) :
-		allergies(allergies), current(current), past(past) {};
 	std::string allergies;
 	std::string current;
 	std::string past;
@@ -16,7 +14,6 @@ struct Allergies
 class AllergiesDialogPresenter
 {
 	IAllergiesDialog* view;
-	const Patient* patient;
 	std::optional<Allergies> allergies;
 
 public:

@@ -255,25 +255,7 @@ bool TabPresenter::newListExists(const Patient& patient)
 
 bool TabPresenter::permissionToClose(int tabId)
 {
-    auto& tabInstance = m_tabs[tabId];
-
-    if (!tabInstance->requiresSaving()) {
-        return true;
-    }
-
-    //the tabView then sends tabChanged() signal back to the presenter
-    view->focusTab(tabId);
-
-    auto answer = ModalDialogBuilder::openSaveDialog(
-        tabInstance->getTabName().toString()
-    );
-
-    switch (answer) {
-        case DialogAnswer::Yes: if (tabInstance->save()) return true;
-        case DialogAnswer::No: return true; 
-        case DialogAnswer::Cancel: return false;
-    }
-
+    return m_tabs[tabId]->close();
 }
 
 bool TabPresenter::documentTabOpened(TabType type, long long rowID) const

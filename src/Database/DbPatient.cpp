@@ -119,9 +119,9 @@ Patient DbPatient::get(long long rowid)
     return patient;
 }
 
-void DbPatient::updateAllergies(long long patientRowId, const std::string& allergies, const std::string& current, const std::string& past)
+bool DbPatient::updateAllergies(long long patientRowId, const std::string& allergies, const std::string& current, const std::string& past)
 {
-    Db::crudQuery(
+    return Db::crudQuery(
 
         "UPDATE patient SET "
         "allergies = '" + allergies + "', "

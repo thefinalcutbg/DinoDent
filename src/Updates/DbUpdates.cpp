@@ -69,7 +69,7 @@ void DbUpdates::reformatDates()
 			Db::crudQuery(updateQuery);
 		}
 	}
-
+	
 	{
 		std::string query{
 			"SELECT rowid, data FROM financial WHERE month_notif = 0"
@@ -238,7 +238,41 @@ void DbUpdates::reformatDates()
 		}
 
 	}
-	*/
+
+
+		{
+		int rowidCount = 0;
+
+		std::unordered_map<std::string, std::optional<NzokContract>> memory;
+
+		std::string query{
+			"SELECT rzi, nzok_contract FROM practice"
+		};
+
+		for (Db db(query); db.hasRows();)
+		{
+			qDebug() << "parsing " << rowidCount; rowidCount++;
+
+			memory[db.asString(0)] = Parser::parseContract(db.asString(1));
+		}
+
+		rowidCount = 0;
+
+		for (auto& pair : memory)
+		{
+			qDebug() << "writing" << rowidCount; rowidCount++;
+
+			std::string updateQuery{
+				"UPDATE practice SET nzok_contract='" + Parser::write(pair.second) + "' "
+				"WHERE rzi='" + pair.first + "'"
+			};
+
+			Db::crudQuery(updateQuery);
+		}
+
+	}
+
+		*/
 }
 
 

@@ -26,9 +26,10 @@ inline std::string leadZeroes(long long num, int totalLength)
     formated.reserve(totalLength);
     std::string number(std::to_string(num));
 
+    if (totalLength < number.length()) return number;
+
     for (int i = 0; i < totalLength - number.length(); i++) {
         formated += "0";
-
     }
 
     formated += number;
@@ -41,13 +42,13 @@ inline std::string leadZeroes(const std::string& number, int totalLength) {
     std::string formated;
     formated.reserve(totalLength);
 
+    if (totalLength < number.length()) return number;
+
     for (int i = 0; i < totalLength - number.length(); i++) {
         formated += "0";
     }
 
-    formated += number;
-
-    return formated;
+    return formated + number;
 }
 
 

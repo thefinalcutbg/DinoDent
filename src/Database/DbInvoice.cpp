@@ -2,7 +2,9 @@
 #include "Database/Database.h"
 #include "Model/User/User.h"
 #include "Model/Parser/Parser.h"
+
 #include <TinyXML/tinyxml.h>
+
 long long DbInvoice::insertInvoice(const Invoice& invoice)
 {
 
@@ -51,7 +53,7 @@ long long DbInvoice::insertInvoice(const Invoice& invoice)
 
 
 }
-#include <qdebug.h>
+
 void DbInvoice::updateInvoice(const Invoice& invoice)
 {
 
@@ -79,7 +81,7 @@ void DbInvoice::updateInvoice(const Invoice& invoice)
     }
 
     query += "WHERE rowid = " + std::to_string(invoice.rowId);
-    qDebug() << query.data();
+
     Db::crudQuery(query);
 }
 

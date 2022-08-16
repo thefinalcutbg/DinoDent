@@ -10,6 +10,7 @@
 #include "Model/MKB.h"
 #include "Model/Ekatte.h"
 #include "Updates/DbUpdates.h"
+
 int main(int argc, char *argv[])
 {
 
@@ -33,7 +34,7 @@ int main(int argc, char *argv[])
     DiagnosisContainer::initialize();
     NhifProcedures::initialize(); //parsing json of nzok data
 
-    DbUpdates::reformatDates();
+    //DbUpdates::reformatDates();
 
     Torque w;
 

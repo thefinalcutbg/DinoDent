@@ -17,6 +17,7 @@ int main(int argc, char *argv[])
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     QApplication::setFont(QFont ("Segoe UI", 8));    
+    QCoreApplication::setApplicationName("DinoDent");
 
     QApplication a(argc, argv);
 
@@ -33,6 +34,7 @@ int main(int argc, char *argv[])
     SpriteSheets::container().initialize(); //loading textures, otherwise program will crash;
     DiagnosisContainer::initialize();
     NhifProcedures::initialize(); //parsing json of nzok data
+    
 
     //DbUpdates::reformatDates();
 

@@ -16,7 +16,7 @@ long long DbAmbList::insert(const AmbList& ambList, long long patientRowId)
 
     std::string query = "INSERT INTO amblist (date, num, nhif, status, patient_rowid, lpk, rzi) "
         "VALUES ("
-        "'" + ambList.getDate().to8601() + "T00:00:00" + "',"
+        "'" + ambList.time.to8601(ambList.getDate()) + "',"
         + std::to_string(ambList.number) + ", "
         "'" + Parser::write(ambList.nhifData, ambList.hasNZOKProcedure()) + "',"
         "'" + Parser::write(ambList.teeth) + "',"
@@ -43,7 +43,7 @@ void DbAmbList::update(const AmbList& ambList)
 
     std::string query = "UPDATE amblist SET "
         "num=" + std::to_string(ambList.number) + ","
-        "date='" + ambList.getDate().to8601() + "T00:00:00" + "',"
+        "date='" + ambList.time.to8601(ambList.getDate()) + "',"
         "nhif='" + Parser::write(ambList.nhifData, ambList.hasNZOKProcedure()) + "',"
         "status = '" + Parser::write(ambList.teeth) + "' "
         "WHERE rowid = " + std::to_string(ambList.rowid);
@@ -129,7 +129,7 @@ AmbList DbAmbList::getListData(long long rowId)
     AmbList ambList;
 
     Db db(
-        "SELECT rowid, num, nhif, status, patient_rowid FROM amblist WHERE "
+        "SELECT rowid, num, nhif, status, patient_rowid, date FROM amblist WHERE "
         "rowid = " + std::to_string(rowId)
     );
 
@@ -141,6 +141,7 @@ AmbList DbAmbList::getListData(long long rowId)
         status = db.asString(3);
         ambList.LPK = User::doctor().LPK;
         ambList.patient_rowid = db.asRowId(4);
+        ambList.time = db.asString(5);
     }
 
     Parser::parse(status, ambList.teeth);
@@ -235,7 +236,7 @@ AmbList DbAmbList::getListNhifProceduresOnly(long long rowId)
     AmbList ambList;
 
     Db db(
-        "SELECT rowid, num, nhif, status, patient_rowid FROM amblist WHERE "
+        "SELECT rowid, num, nhif, status, patient_rowid, date FROM amblist WHERE "
         "rowid = " + std::to_string(rowId)
     );
 
@@ -247,6 +248,7 @@ AmbList DbAmbList::getListNhifProceduresOnly(long long rowId)
         status = db.asString(3);
         ambList.LPK = User::doctor().LPK;
         ambList.patient_rowid = db.asRowId(4);
+        ambList.time = db.asString(5);
     }
 
     Parser::parse(status, ambList.teeth);

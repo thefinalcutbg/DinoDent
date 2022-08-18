@@ -134,12 +134,9 @@
         </widget>
        </item>
        <item>
-        <widget class="QDateEdit" name="dateEdit">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
+        <widget class="CustomDateEdit" name="dateEdit">
+         <property name="displayFormat">
+          <string notr="true">d.M.yyyy 'г.'</string>
          </property>
          <property name="calendarPopup">
           <bool>true</bool>
@@ -224,7 +221,14 @@
         </widget>
        </item>
        <item>
-        <widget class="QDateEdit" name="mainDocDateEdit"/>
+        <widget class="CustomDateEdit" name="mainDocDateEdit">
+         <property name="displayFormat">
+          <string notr="true">d.M.yyyy 'г.'</string>
+         </property>
+         <property name="calendarPopup">
+          <bool>true</bool>
+         </property>
+        </widget>
        </item>
        <item>
         <spacer name="horizontalSpacer_4">
@@ -233,7 +237,7 @@
          </property>
          <property name="sizeHint" stdset="0">
           <size>
-           <width>0</width>
+           <width>13</width>
            <height>20</height>
           </size>
          </property>
@@ -444,12 +448,15 @@
               </widget>
              </item>
              <item>
-              <widget class="QDateEdit" name="taxEventDateEdit">
+              <widget class="CustomDateEdit" name="taxEventDateEdit">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
+               </property>
+               <property name="displayFormat">
+                <string notr="true">d.M.yyyy 'г.'</string>
                </property>
                <property name="calendarPopup">
                 <bool>true</bool>
@@ -653,6 +660,11 @@
    <class>LeadingZeroSpinBox</class>
    <extends>QSpinBox</extends>
    <header>View/uiComponents/qt_derived/leadingzerospinbox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>CustomDateEdit</class>
+   <extends>QDateEdit</extends>
+   <header>View/uiComponents/qt_derived/customdateedit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

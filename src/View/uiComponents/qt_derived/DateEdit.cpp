@@ -1,6 +1,7 @@
 #include "DateEdit.h"
 #include <QLabel>
-DateEdit::DateEdit(QWidget* parent) : QDateEdit(parent), errorLabel(nullptr)
+
+DateEdit::DateEdit(QWidget* parent) : CustomDateEdit(parent), errorLabel(nullptr)
 {
 	connect(this, &QDateEdit::dateChanged, [=] { AbstractUIElement::validateInput(); });
 }
@@ -8,11 +9,12 @@ DateEdit::DateEdit(QWidget* parent) : QDateEdit(parent), errorLabel(nullptr)
 
 void DateEdit::setValidAppearence(bool valid)
 {
+	/*
 	if (valid)
 		setStyleSheet("");
 	else
 		setStyleSheet("border: 1px solid red;");
-
+		*/
 	if (errorLabel == nullptr) return;
 
 	valid ?

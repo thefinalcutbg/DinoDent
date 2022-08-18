@@ -209,101 +209,159 @@
           <x>610</x>
           <y>150</y>
           <width>421</width>
-          <height>80</height>
+          <height>81</height>
          </rect>
         </property>
         <property name="title">
          <string>НЗОК</string>
         </property>
-        <widget class="QLabel" name="label_2">
-         <property name="geometry">
-          <rect>
-           <x>20</x>
-           <y>50</y>
-           <width>91</width>
-           <height>20</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Спецификация:</string>
-         </property>
-        </widget>
-        <widget class="QLabel" name="taxLabel">
-         <property name="geometry">
-          <rect>
-           <x>20</x>
-           <y>20</y>
-           <width>131</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Потребителска такса:</string>
-         </property>
-        </widget>
-        <widget class="QComboBox" name="specCombo">
-         <property name="geometry">
-          <rect>
-           <x>150</x>
-           <y>50</y>
-           <width>261</width>
-           <height>22</height>
-          </rect>
-         </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
          <item>
-          <property name="text">
-           <string>Изцяло или частично заплащана от НЗОК</string>
-          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_3">
+           <item>
+            <widget class="QLabel" name="taxLabel">
+             <property name="text">
+              <string>Потребителска такса:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_2">
+             <property name="text">
+              <string>Спецификация:</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
          <item>
-          <property name="text">
-           <string>Изцяло заплащана от НЗОК</string>
-          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_4">
+           <item>
+            <widget class="ComboBox" name="taxCombo">
+             <item>
+              <property name="text">
+               <string>2,90 лв.</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>1,00 лв.</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Освободен</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="specCombo">
+             <item>
+              <property name="text">
+               <string>Изцяло или частично заплащана от НЗОК</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Изцяло заплащана от НЗОК</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Обща анестезия при психични заболявания</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+          </layout>
          </item>
-         <item>
-          <property name="text">
-           <string>Обща анестезия</string>
-          </property>
-         </item>
-        </widget>
-        <widget class="ComboBox" name="taxCombo">
-         <property name="geometry">
-          <rect>
-           <x>150</x>
-           <y>20</y>
-           <width>81</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <item>
-          <property name="text">
-           <string>2,90 лв.</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>1,00 лв.</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Освободен</string>
-          </property>
-         </item>
-        </widget>
-        <widget class="QCheckBox" name="pregnancyCheck">
-         <property name="geometry">
-          <rect>
-           <x>320</x>
-           <y>20</y>
-           <width>91</width>
-           <height>20</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>бременност</string>
-         </property>
-        </widget>
+        </layout>
+       </widget>
+       <widget class="QTimeEdit" name="timeEdit">
+        <property name="geometry">
+         <rect>
+          <x>450</x>
+          <y>160</y>
+          <width>61</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+        <property name="buttonSymbols">
+         <enum>QAbstractSpinBox::PlusMinus</enum>
+        </property>
+        <property name="displayFormat">
+         <string notr="true">HH:mm</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_3">
+        <property name="geometry">
+         <rect>
+          <x>410</x>
+          <y>160</y>
+          <width>41</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Час:</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_4">
+        <property name="geometry">
+         <rect>
+          <x>270</x>
+          <y>160</y>
+          <width>49</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Дата:</string>
+        </property>
+       </widget>
+       <widget class="DateEdit" name="dateEdit">
+        <property name="geometry">
+         <rect>
+          <x>310</x>
+          <y>160</y>
+          <width>90</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>90</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="wrapping">
+         <bool>false</bool>
+        </property>
+        <property name="frame">
+         <bool>true</bool>
+        </property>
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+        <property name="buttonSymbols">
+         <enum>QAbstractSpinBox::NoButtons</enum>
+        </property>
+        <property name="calendarPopup">
+         <bool>true</bool>
+        </property>
+        <property name="currentSectionIndex">
+         <number>0</number>
+        </property>
        </widget>
        <zorder>controlPanel</zorder>
        <zorder>allergiesTile</zorder>
@@ -314,6 +372,10 @@
        <zorder>ambNumSpin</zorder>
        <zorder>nhifGroup</zorder>
        <zorder>priceLabel</zorder>
+       <zorder>timeEdit</zorder>
+       <zorder>label_3</zorder>
+       <zorder>label_4</zorder>
+       <zorder>dateEdit</zorder>
       </widget>
      </item>
     </layout>
@@ -697,6 +759,11 @@
    <class>LeadingZeroSpinBox</class>
    <extends>QSpinBox</extends>
    <header>View/uiComponents/qt_derived/leadingzerospinbox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>DateEdit</class>
+   <extends>QDateEdit</extends>
+   <header>View/uiComponents/qt_derived/DateEdit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

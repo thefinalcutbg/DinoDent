@@ -1,10 +1,10 @@
 #pragma once
-#include <QDateEdit>
+#include "customdateedit.h"
 #include "../AbstractDateEdit.h"
 
 class QLabel;
 
-class DateEdit : public QDateEdit, public AbstractDateEdit
+class DateEdit : public CustomDateEdit, public AbstractDateEdit
 {
 	Q_OBJECT
 	

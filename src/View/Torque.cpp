@@ -42,7 +42,7 @@ Torque::Torque(QWidget* parent)
     connect(settingsAction, &QAction::triggered, [&] {presenter.userSettingsPressed();});
     connect(ui.pisButton, &QPushButton::clicked, [&] { presenter.pisDialog();});
     connect(ui.settingsButton, &QPushButton::clicked, [&] { presenter.settingsPressed();});
-    connect(ui.hisButton, &QPushButton::clicked, [&] { test.sendRequest(11);});
+   // connect(ui.hisButton, &QPushButton::clicked, [&] { test.sendRequest(11);});
 
     connect(exitAction, &QAction::triggered, [&] { presenter.logOut(); });
 

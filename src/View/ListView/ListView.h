@@ -36,6 +36,7 @@ public:
 
     void refresh(const AmbList& ambList, const Patient& patient) override;
     void setAmbListNum(int number) override;
+    void setDateTime(const Date& date, const Time& time) override;
     //IStatusView
     void setCheckModel(const CheckModel& checkModel) override;
     void hideSurfacePanel(bool hidden) override;

@@ -6009,7 +6009,7 @@ static int zipfileScanExtra(u8 *aExtra, int nExtra, u32 *pmTime){
 ** fields of the CDS structure passed as the only argument to a 32-bit
 ** UNIX seconds-since-the-epoch timestamp. Return the result.
 **
-** "Standard" MS-DOS time format:
+** "standard" MS-DOS time format:
 **
 **   File modification time:
 **     Bits 00-04: seconds divided by 2

@@ -499,7 +499,6 @@ std::string Parser::write(const NhifSheetData& nhifData, bool nhifSource)
 
 	json["charge"] = static_cast<int>(nhifData.charge);
 	json["spec"] = static_cast<int>(nhifData.specification);
-	json["pregnancy"] = static_cast<bool>(nhifData.pregnancy);
 
 	Json::FastWriter writer;
 	return writer.write(json);
@@ -935,10 +934,8 @@ NhifSheetData Parser::parseNhifData(const std::string& nhif)
 	Json::Value json;
 	reader.parse(nhif, json);
 
-	
 	result.charge = static_cast<NhifCharge>(json["charge"].asInt());
 	result.specification = static_cast<NhifSpecification>(json["spec"].asInt());
-	result.pregnancy = json["pregnancy"].asBool();
 
 	return result;
 }

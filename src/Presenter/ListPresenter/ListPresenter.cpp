@@ -566,7 +566,7 @@ void ListPresenter::refreshProcedureView()
     auto& mList = m_ambList.procedures;
 
     m_ambList.procedures.refreshTeethTemporary(m_ambList.teeth);
-
+    view->setDateTime(m_ambList.getDate(), m_ambList.time);
     view->setProcedures(m_ambList.procedures.list());
 }
 

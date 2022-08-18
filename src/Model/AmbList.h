@@ -2,11 +2,14 @@
 #include <string>
 #include <array>
 #include <vector>
+#include <algorithm>
+
 #include "Patient.h"
 #include "Date.h"
+#include "Time.h"
 #include "Tooth/ToothContainer.h"
 #include "Procedure/ProcedureContainer.h"
-#include <algorithm>
+
 #include "Model/NhifSheetData.h"
 
 struct AmbList
@@ -16,6 +19,8 @@ struct AmbList
 	long long rowid{ 0 };
 	long long patient_rowid{ 0 };
 	//Date date{ Date::currentDate() };
+	Time time{Time::currentTime()};
+
 	int number{ 0 };
 	std::string LPK;
 

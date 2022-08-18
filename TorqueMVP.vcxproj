@@ -218,6 +218,7 @@
     <ClCompile Include="src\Model\NhifSheetData.cpp" />
     <ClCompile Include="src\Model\Procedure\ProcedureContainer.cpp" />
     <ClCompile Include="src\Model\MKB.cpp" />
+    <ClCompile Include="src\Model\Time.cpp" />
     <ClCompile Include="src\Network\HIS\ConcreteHisTest.cpp" />
     <ClCompile Include="src\Network\HIS\HisToken.cpp" />
     <ClCompile Include="src\Network\HIS\HisService.cpp" />
@@ -264,6 +265,7 @@
     <ClCompile Include="src\Network\Common\PKCS11.cpp" />
     <ClCompile Include="src\Network\Common\XmlSigner.cpp" />
     <ClCompile Include="src\View\SettingsDialog\GeneralSettings\GeneralSettings.cpp" />
+    <ClCompile Include="src\View\uiComponents\qt_derived\customdateedit.cpp" />
     <ClCompile Include="src\View\uiComponents\qt_derived\LeadingZeroSpinBox.cpp" />
     <ClCompile Include="src\View\uiComponents\qt_derived\HalfRoundedButton.cpp" />
     <ClCompile Include="src\View\FinancialView\BusinessOpAddDialog\BusinessOpAddDialog.cpp" />
@@ -525,6 +527,7 @@
     <ClInclude Include="src\Model\NhifSheetData.h" />
     <ClInclude Include="src\Model\Procedure\ProcedureContainer.h" />
     <ClInclude Include="src\Model\MKB.h" />
+    <ClInclude Include="src\Model\Time.h" />
     <ClInclude Include="src\Network\HIS\ConcreteHisTest.h" />
     <ClInclude Include="src\Network\HIS\HisToken.h" />
     <ClInclude Include="src\Network\HIS\HisService.h" />
@@ -712,6 +715,7 @@
     <QtMoc Include="src\View\uiComponents\qt_derived\PixmapLabel.h" />
     <ClInclude Include="src\View\ToothPaintDevices\ToothPainter.h" />
     <ClInclude Include="src\View\ProcedureDialog\ProcedureFields\IFiberSplintView.h" />
+    <QtMoc Include="src\View\uiComponents\qt_derived\customdateedit.h" />
     <ClInclude Include="src\View\uiComponents\qt_derived\Widgets\IImplantView.h" />
     <QtMoc Include="src\View\uiComponents\qt_derived\Widgets\ImplantView.h" />
     <ClInclude Include="src\View\ModalDialogBuilder.h" />

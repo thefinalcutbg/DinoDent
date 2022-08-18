@@ -693,6 +693,12 @@
     <ClCompile Include="src\Updates\DbUpdates.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\uiComponents\qt_derived\customdateedit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Model\Time.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -948,6 +954,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\PISDialog\MonthNotifView\MonthNotifView.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\uiComponents\qt_derived\customdateedit.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -1696,6 +1705,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Updates\DbUpdates.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\Time.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

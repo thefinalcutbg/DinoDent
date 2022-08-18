@@ -807,7 +807,7 @@ struct sqlite3_io_methods {
 };
 
 /*
-** CAPI3REF: Standard File Control Opcodes
+** CAPI3REF: standard File Control Opcodes
 ** KEYWORDS: {file control opcodes} {file control opcode}
 **
 ** These integer constants are opcodes for the xFileControl method

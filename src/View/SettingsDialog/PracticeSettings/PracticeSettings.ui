@@ -272,9 +272,12 @@
       <day>1</day>
      </date>
     </property>
+    <property name="displayFormat">
+     <string notr="true">dd.MM.yyyy 'г.'</string>
+    </property>
     <property name="date">
      <date>
-      <year>1900</year>
+      <year>2000</year>
       <month>1</month>
       <day>1</day>
      </date>

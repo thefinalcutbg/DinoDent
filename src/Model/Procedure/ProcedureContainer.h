@@ -18,7 +18,7 @@ public:
 	void replaceProcedure(const Procedure& p, int idx);
 	const Procedure& at(int index) const;
 	size_t size() const { return m_proc.size(); }
-
+	bool hasPregnancy() const;
 	auto begin() { return m_proc.begin(); }
 	auto end() { return m_proc.end(); }
 	auto begin() const { return m_proc.begin(); }

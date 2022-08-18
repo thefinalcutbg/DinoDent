@@ -80,3 +80,12 @@ const Procedure& ProcedureContainer::at(int index) const
 {
     return m_proc.at(index);
 }
+
+bool ProcedureContainer::hasPregnancy() const
+{
+    for (auto& p : m_proc) {
+        if (p.nzok && p.code == 101 && p.ksmp == "97017-01") return true;
+    }
+
+    return false;
+}

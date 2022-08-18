@@ -14,11 +14,12 @@ AmbListSelector::AmbListSelector(ListSelectorPresenter* presenter) :
 	setWindowTitle(u8"Документи");
 	setWindowIcon(QIcon(":/icons/icon_open.png"));
 
+	auto lambda = [=](QDate date) { return Date{ date.day(), date.month(), date.year() };};
 
 	connect(ui.fromDateEdit, &QDateEdit::dateChanged,
-		[=]() {presenter->setDates(ui.fromDateEdit->getDate(), ui.toDateEdit->getDate()); });
+		[=]() {presenter->setDates(lambda(ui.fromDateEdit->date()), lambda(ui.toDateEdit->date())); });
 	connect(ui.toDateEdit, &QDateEdit::dateChanged,
-		[=]() {presenter->setDates(ui.fromDateEdit->getDate(), ui.toDateEdit->getDate()); });
+		[=]() {presenter->setDates(lambda(ui.fromDateEdit->date()), lambda(ui.toDateEdit->date())); });
 
 	connect(ui.openButton, &QPushButton::clicked, [=] {
 		
@@ -27,6 +28,7 @@ AmbListSelector::AmbListSelector(ListSelectorPresenter* presenter) :
 		QApplication::restoreOverrideCursor();
 		
 		});
+
 
 	connect(ui.dataTypeCombo, &QComboBox::currentIndexChanged,
 		[=](int idx) {presenter->setListType(static_cast<TabType>(idx));});

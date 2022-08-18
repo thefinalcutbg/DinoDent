@@ -59,7 +59,6 @@ ListView::ListView(QWidget* parent)
 	connect(ui.allergiesTile, &QAbstractButton::clicked, [=] { if (presenter) presenter->openAllergiesDialog(); });
 	connect(ui.addProcedure, &QAbstractButton::clicked, [=] { if (presenter) presenter->addProcedure(); });
 	connect(ui.procedureTable, &ProcedureTable::deletePressed, [=] { if (presenter) ui.deleteProcedure->click(); });
-	connect(ui.pregnancyCheck, &QCheckBox::stateChanged, [=] {nhifChanged();});
 	connect(ui.taxCombo, &QComboBox::currentIndexChanged, [=] {nhifChanged();});
 	connect(ui.specCombo, &QComboBox::currentIndexChanged, [=] {nhifChanged();});
 	connect(ui.editProcedure, &QPushButton::clicked, [=] { if (presenter) presenter->editProcedure(ui.procedureTable->selectedRow()); });
@@ -180,7 +179,6 @@ void ListView::nhifChanged()
 	NhifSheetData data;
 
 	data.charge = static_cast<NhifCharge>(ui.taxCombo->currentIndex());
-	data.pregnancy = ui.pregnancyCheck->isChecked();
 	data.specification = static_cast<NhifSpecification>(ui.specCombo->currentIndex());
 
 	presenter->setNhifData(data);
@@ -195,6 +193,9 @@ void ListView::refresh(const AmbList& ambList, const Patient& patient)
 		setNhifData(ambList.nhifData)
 		:
 		hideNhifSheetData();
+
+	ui.dateEdit->set_Date(ambList.getDate());
+	ui.timeEdit->setTime(QTime(ambList.time.hour, ambList.time.min));
 	
 }
 
@@ -202,6 +203,12 @@ void ListView::setAmbListNum(int number)
 {
 	QSignalBlocker b(ui.ambNumSpin);
 	ui.ambNumSpin->setValue(number);
+}
+
+void ListView::setDateTime(const Date& d, const Time& t)
+{
+	ui.timeEdit->setTime(QTime(t.hour, t.min, t.sec));
+	ui.dateEdit->setDate(QDate(d.year, d.month, d.day));
 }
 
 void ListView::setCheckModel(const CheckModel& checkModel)
@@ -292,7 +299,6 @@ void ListView::setNhifData(const NhifSheetData& data)
 	for (auto& w : ui.nhifGroup->children()) w->blockSignals(true);
 
 	ui.taxCombo->setCurrentIndex(static_cast<int>(data.charge));
-	ui.pregnancyCheck->setChecked(data.pregnancy);
 	ui.specCombo->setCurrentIndex(static_cast<int>(data.specification));
 
 	for (auto& w : ui.nhifGroup->children()) w->blockSignals(false);

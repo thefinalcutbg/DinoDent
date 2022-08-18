@@ -242,7 +242,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QDateEdit" name="dateEdit">
+  <widget class="DateEdit" name="dateEdit">
    <property name="geometry">
     <rect>
      <x>140</x>
@@ -300,6 +300,11 @@
    <extends>QWidget</extends>
    <header>Widgets/periostatisticview.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>DateEdit</class>
+   <extends>QDateEdit</extends>
+   <header>View/uiComponents/qt_derived/dateedit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

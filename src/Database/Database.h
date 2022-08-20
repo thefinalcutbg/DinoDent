@@ -17,7 +17,8 @@ class Db
 
 public:
     static void setFilePath(const std::string& filePath);
-
+    static int version();
+    static void setVersion(int version);
     //open new connection and execute query on the go
     static bool crudQuery(const std::string& query); 
     static void createIfNotExist();

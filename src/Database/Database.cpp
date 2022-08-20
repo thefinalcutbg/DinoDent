@@ -19,7 +19,7 @@ Db::Db(Db* existingConnection)
          throw;
     }
 
-   // execute("PRAGMA foreign_keys = ON");
+  //  execute("PRAGMA foreign_keys = ON");
     
 }
 
@@ -111,6 +111,20 @@ void Db::setFilePath(const std::string& filePath)
     dbLocation = filePath;
 }
 
+int Db::version()
+{
+    Db db("PRAGMA user_version");
+
+    while (db.hasRows()) {
+        return db.asLongLong(0);
+    }
+}
+
+void Db::setVersion(int version)
+{
+    Db::crudQuery("PRAGMA user_version =" + std::to_string(version));
+}
+
 bool Db::crudQuery(const std::string& query)
 {
     char* err;
@@ -127,6 +141,7 @@ bool Db::crudQuery(const std::string& query)
 
     if (err && showErrorDialog) {
         ModalDialogBuilder::showMessage(u8"Неуспешно записване в базата данни");
+        ModalDialogBuilder::showMultilineDialog(query);
     }
 
     return i == SQLITE_OK;

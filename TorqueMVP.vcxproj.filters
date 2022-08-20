@@ -699,6 +699,12 @@
     <ClCompile Include="src\Model\Time.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Updates\Updater.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\UpdateDialog\UpdateDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Torque.h">
@@ -959,6 +965,9 @@
     <QtMoc Include="src\View\uiComponents\qt_derived\customdateedit.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\View\UpdateDialog\UpdateDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="resources\Resource.qrc" />
@@ -1112,6 +1121,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\PISDialog\ReportView\ReportView.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\UpdateDialog\UpdateDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
@@ -1708,6 +1720,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\Time.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Updates\Updater.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

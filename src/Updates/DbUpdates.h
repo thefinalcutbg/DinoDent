@@ -1,7 +1,9 @@
 #pragma once
 
+class UpdateDialog;
+
 namespace DbUpdates
 {
-	void reformatDates();
+	void update1(UpdateDialog* d);
 
 }

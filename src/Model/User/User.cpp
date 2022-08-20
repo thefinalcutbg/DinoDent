@@ -60,6 +60,11 @@ bool User::isAdmin()
     return std::get<0>(DbDoctor::getAdminAndSpecialty(s_doctor.LPK, s_practice.rziCode));
 }
 
+void User::refereshPracticeDoctor()
+{
+   s_doctor.specialty = static_cast<NhifSpecialty>(std::get<1>(DbDoctor::getAdminAndSpecialty(s_doctor.LPK, s_practice.rziCode)));
+}
+
 std::string User::getNameFromLPK(const std::string& LPK)
 {
     if (s_names.count(LPK))

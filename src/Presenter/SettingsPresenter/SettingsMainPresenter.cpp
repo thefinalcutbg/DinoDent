@@ -58,7 +58,11 @@ bool SettingsMainPresenter::applyChanges()
 	DbPractice::updatePriceList(practice.priceList, practice.rziCode);
 	DbPractice::setDoctorsPracticeList(doctorsList, practice.rziCode);
 
+	//the specialty could be changed!
+	User::refereshPracticeDoctor();
 	User::setCurrentPractice(practice);
 
+
+	
 	return true;
 }

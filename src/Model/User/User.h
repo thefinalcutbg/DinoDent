@@ -26,6 +26,7 @@ namespace User
 	void resetUser();
 	const bool isCurrentUser(const std::string& LPK);
 	bool isAdmin();
+	void refereshPracticeDoctor();
 	std::string getNameFromLPK(const std::string& LPK);
 	
 };

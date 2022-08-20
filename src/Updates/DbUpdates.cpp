@@ -1,27 +1,58 @@
 #include "DbUpdates.h"
-#include "Database/Database.h"
 
 #include <unordered_map>
+#include <utility>
+#include <JsonCpp/json.h>
+
+#include "Database/Database.h"
 #include "Model/Date.h"
 #include "Model/Parser/Parser.h"
 #include "Model/Tooth/ToothContainer.h"
 #include "Model/Financial/Invoice.h"
 #include "Database/DbInvoice.h"
 #include "View/UpdateDialog/UpdateDialog.h"
-
+#include "Resources.h"
+#include <qdebug.h>
 void DbUpdates::update1(UpdateDialog* d)
 {
 	constexpr int version = 1;
+
+	//UPDATING ekatte:
+	Db::crudQuery("ALTER TABLE patient ADD COLUMN ekatte INT NOT NULL DEFAULT 4047");
+
+	{
+		Json::Value cities = Json::arrayValue;
+
+		Json::Reader reader;
+		reader.parse(Resources::fromPath(":/updates/update_dbEkatte.json"), cities);
+
+		d->setRange(cities.size());
+
+		Db db;
+
+		for (auto& pair : cities)
+		{
+			std::string query("UPDATE patient SET ekatte=" + pair["ekatte"].asString() +
+				" WHERE city=" + pair["db"].asString()
+			);
+
+			db.execute(query);
+
+			d->increment();
+		}
+
+
+	}
 
 	//updating all DATES:
 
 	//patient birth:
 	{
 
-		std::unordered_map<long long, Date> memory;
+		std::vector<std::pair<long long, Date>> memory;
 
 		for (Db db("SELECT rowid, birth FROM PATIENT"); db.hasRows();)
-			memory[db.asRowId(0)] = Date(db.asString(1));
+			memory.push_back(std::make_pair(db.asRowId(0), Date(db.asString(1))));
 
 		d->setRange(memory.size());
 		
@@ -268,10 +299,8 @@ void DbUpdates::update1(UpdateDialog* d)
 	db.execute("CREATE TABLE sqlitestudio_temp_table AS SELECT * FROM patient");
 	db.execute("DROP TABLE patient");
 	db.execute("CREATE TABLE patient ( rowid INTEGER PRIMARY KEY, type INT NOT NULL, id VARCHAR (10) NOT NULL, birth VARCHAR (10) NOT NULL, sex BOOLEAN NOT NULL, fname VARCHAR (50) NOT NULL, mname VARCHAR (50), lname VARCHAR (50) NOT NULL, ekatte INT DEFAULT (4047) NOT NULL, address VARCHAR (100), hirbno VARCHAR (8), phone VARCHAR (20), allergies VARCHAR (400), currentDiseases VARCHAR (400), pastDiseases VARCHAR (400) )");
-	db.execute("INSERT INTO patient ( rowid, type, id, birth, sex, fname, mname, lname, address, hirbno, phone, allergies, currentDiseases, pastDiseases ) SELECT rowid, type, id, birth, sex, fname, mname, lname, address, hirbno, phone, allergies, currentDiseases, pastDiseases FROM sqlitestudio_temp_table");
+	db.execute("INSERT INTO patient ( rowid, type, id, birth, sex, fname, mname, lname, address, hirbno, phone, allergies, currentDiseases, pastDiseases, ekatte ) SELECT rowid, type, id, birth, sex, fname, mname, lname, address, hirbno, phone, allergies, currentDiseases, pastDiseases, ekatte FROM sqlitestudio_temp_table");
 	db.execute("DROP TABLE sqlitestudio_temp_table");
-	db.execute("UPDATE patient SET ekkate = 4047"); //LAAAAME
-
 
 	db.execute("CREATE TABLE sqlitestudio_temp_table AS SELECT * FROM procedure");
 	db.execute("DROP TABLE procedure");

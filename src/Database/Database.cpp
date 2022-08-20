@@ -87,7 +87,7 @@ bool Db::execute(const std::string& query)
 
     int i = sqlite3_exec(db_connection, query.c_str(), NULL, NULL, &err);
 
-    if (err && showErrorDialog) {
+    if (err && s_showError) {
         ModalDialogBuilder::showMessage(u8"Неуспешно записване в базата данни");
         ModalDialogBuilder::showMultilineDialog(query);
     }
@@ -118,6 +118,8 @@ int Db::version()
     while (db.hasRows()) {
         return db.asLongLong(0);
     }
+
+    return -1;
 }
 
 void Db::setVersion(int version)
@@ -139,7 +141,7 @@ bool Db::crudQuery(const std::string& query)
 
     i = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
 
-    if (err && showErrorDialog) {
+    if (err && s_showError) {
         ModalDialogBuilder::showMessage(u8"Неуспешно записване в базата данни");
         ModalDialogBuilder::showMultilineDialog(query);
     }
@@ -202,6 +204,6 @@ void Db::createIfNotExist()
     );
 
   //  rc = sqlite3_exec(db,"VACUUM", NULL, NULL, &err);
-    showErrorDialog = true;
+    s_showError = true;
 
 }

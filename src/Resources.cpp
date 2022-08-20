@@ -3,7 +3,7 @@
 #include <QTextStream>
 #include <QDebug>
 
-inline  const std::string fromQtResource(const QString& path)
+std::string Resources::fromPath(const char* path)
 {
 	QFile file(path);
 	file.open(QIODeviceBase::ReadOnly);
@@ -14,10 +14,10 @@ inline  const std::string fromQtResource(const QString& path)
 	return result.toStdString();
 }
 
-const std::string Resources::citiesJson() { return fromQtResource(":/json/json_ekatte.json");}
-const std::string Resources::nzokDataJson() { return fromQtResource(":/json/json_nzok.json"); }
-const std::string Resources::defaultPriceListJson() { return fromQtResource(":/json/json_defaultPriceList.json"); }
-const std::string Resources::defaultDiagnosisListJson() { return fromQtResource(":/json/json_diagnosis.json"); }
-const std::string Resources::ksmpJson() { return fromQtResource(":/json/json_ksmp.json"); }
-const std::string Resources::mkbJson(){ return fromQtResource(":/json/json_mkb.json"); }
+std::string Resources::citiesJson() { return fromPath(":/json/json_ekatte.json");}
+std::string Resources::nzokDataJson() { return fromPath(":/json/json_nzok.json"); }
+std::string Resources::defaultPriceListJson() { return fromPath(":/json/json_defaultPriceList.json"); }
+std::string Resources::defaultDiagnosisListJson() { return fromPath(":/json/json_diagnosis.json"); }
+std::string Resources::ksmpJson() { return fromPath(":/json/json_ksmp.json"); }
+std::string Resources::mkbJson(){ return fromPath(":/json/json_mkb.json"); }
 

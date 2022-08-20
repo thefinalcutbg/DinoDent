@@ -9,9 +9,10 @@ class Db
 {
     sqlite3* db_connection;
     bool m_connectionOwned;
+
     sqlite3_stmt* stmt;
 
-    static inline bool showErrorDialog{ false };
+    static inline bool s_showError{ false };
     static inline std::string dbLocation{ "TorqueDB.db" };
 
 
@@ -22,6 +23,7 @@ public:
     //open new connection and execute query on the go
     static bool crudQuery(const std::string& query); 
     static void createIfNotExist();
+    static void showErrorDialog(bool show) {s_showError = show;}
 
     //If connection exists, db finalizes statement in destructor, but does not break connection
     Db(Db* existingConnection = nullptr);

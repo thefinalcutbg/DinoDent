@@ -109,6 +109,9 @@
            <height>0</height>
           </size>
          </property>
+         <property name="buttonSymbols">
+          <enum>QAbstractSpinBox::NoButtons</enum>
+         </property>
         </widget>
        </item>
        <item>
@@ -198,6 +201,9 @@
          </property>
          <property name="alignment">
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+         <property name="buttonSymbols">
+          <enum>QAbstractSpinBox::NoButtons</enum>
          </property>
          <property name="prefix">
           <string/>

@@ -26,6 +26,7 @@
         <file>nextYear.png</file>
         <file>prevMonth.png</file>
         <file>prevYear.png</file>
+        <file>icon_downArrow.png</file>
     </qresource>
     <qresource prefix="/tooth">
         <file>tooth_approximal.png</file>

@@ -181,15 +181,13 @@ void FinancialPresenter::docTypeChanged(int index)
 {
     m_invoice.type = static_cast<FinancialDocType>(index);
 
-
-
     //forcing refresh of the tab name:
     edited = false;
     makeEdited();
 
     if (m_invoice.type != FinancialDocType::Invoice) {
 
-        auto mainDocDb = DbInvoice::getMainDocument(m_invoice.recipient.bulstat);
+        auto mainDocDb = DbInvoice::getMainDocument(m_invoice.recipient.bulstat, m_invoice.rowId);
 
         if (mainDocDb) {
             m_invoice.setMainDocumentData(mainDocDb->number, mainDocDb->date);

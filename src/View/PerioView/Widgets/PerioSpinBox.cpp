@@ -10,7 +10,7 @@ PerioSpinBox::PerioSpinBox(QWidget*parent)
 	setMinimum(0);
 	setButtonSymbols(QAbstractSpinBox::ButtonSymbols::NoButtons);
 	setValue(0);
-	setAlignment(Qt::AlignCenter);
+	setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
 	setSizePolicy(QSizePolicy::Policy::Ignored, QSizePolicy::Policy::Ignored);
 	setFrame(true);
 
@@ -62,18 +62,21 @@ void PerioSpinBox::paintEvent(QPaintEvent* event)
 	pen.setWidth(1);
 	pen.setCosmetic(true);
 
+	QBrush background = this->isEnabled() ? QBrush(Qt::white) : QBrush(Qt::lightGray);
 
 	QRectF rect(0, 0, width(), height());
+
 	QPainter painter(this);
+
+	painter.fillRect(rect, background);
+
 	painter.setPen(pen);
 	painter.drawRect(rect);
 	if (!m_hover || !hasFocus() || !isEnabled() || isReadOnly()) {
 		return;
 	}
 
-	pen.setColor(QColor(0, 122, 204));
 
-	painter.setPen(pen);
 	
 
 }
@@ -104,6 +107,7 @@ void PerioSpinBox::colorCodeChange()
 			"color: darkred;"
 			"selection-color: darkred;"
 			"selection-background-color: white;"
+			"background-color: white;"
 		);
 
 		isRed = true;
@@ -117,6 +121,7 @@ void PerioSpinBox::colorCodeChange()
 			"color: black;"
 			"selection-color: black;"
 			"selection-background-color: white;"
+			"background-color: white;"
 		);
 	}
 }

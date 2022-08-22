@@ -16,12 +16,14 @@ Date::Date(int day, int month, int year) :
     year(year)
 {}
 
-Date::Date(const std::string& str):
-    day(stoi(str.substr(9, 2))),
-    month(stoi(str.substr(6, 2))),
-    year(stoi(str.substr(0, 4)))
+Date::Date(const std::string& str)
 {
- 
+    if (str[4] == '-') {
+        day = (stoi(str.substr(8, 2)));
+        month = (stoi(str.substr(5, 2)));
+        year = (stoi(str.substr(0, 4)));
+    }
+
     if (str[2] == '.') {
         day = stoi(str.substr(0, 2));
         month = stoi(str.substr(3, 2));

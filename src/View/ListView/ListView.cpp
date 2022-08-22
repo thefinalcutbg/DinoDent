@@ -7,7 +7,6 @@
 ListView::ListView(QWidget* parent)
 	: QWidget(parent), presenter(nullptr)
 {
-
 	ui.setupUi(this);
 	
 	teethViewScene = new TeethViewScene(ui.teethView);
@@ -38,13 +37,13 @@ ListView::ListView(QWidget* parent)
 	ui.showAppliedButton->setHoverColor(Theme::mainBackgroundColor);
 	ui.nzokActivities->setHoverColor(Theme::mainBackgroundColor);
 
-	ui.procedureTable->setStyleSheet(
-		"color :" + Theme::colorToString(Theme::fontTurquoise) + "; "
-		"selection-color:" + Theme::colorToString(Theme::fontTurquoiseClicked) + "; "
-		"selection-background-color: " + Theme::colorToString(Theme::background) + "; "
-	);
+	setStyleSheet(Theme::getFancyStylesheet());
 
-	setStyleSheet("QLabel{ color :" + Theme::colorToString(Theme::fontTurquoise) + ";}");
+	//hiding the date and time for now
+	ui.label_4->setHidden(true);
+	ui.label_3->setHidden(true);
+	ui.dateEdit->setHidden(true);
+	ui.timeEdit->setHidden(true);
 
 	ui.procedureLabel->setStyleSheet(
 		"color : " + Theme::colorToString(Theme::fontTurquoise) + "; "

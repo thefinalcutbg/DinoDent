@@ -140,13 +140,16 @@ std::optional<Date> DbInvoice::getMainDocDate(long long invoiceNumber, const std
     return {};
 }
 
-std::optional<MainDocument> DbInvoice::getMainDocument(const std::string& recipient_id)
+#include <qdebug.h>
+
+std::optional<MainDocument> DbInvoice::getMainDocument(const std::string& recipient_id, long long currentRowid)
 {
     std::string query{
-    "SELECT num, date, FROM financial WHERE "
+    "SELECT num, date FROM financial WHERE "
     "type = 0 "
     "AND recipient_id = '" + recipient_id + "' "
-    "AND practice_rzi = '" + User::practice().rziCode + "'"
+    "AND practice_rzi = '" + User::practice().rziCode + "' "
+    "AND rowid !="+std::to_string(currentRowid) + " "
     "ORDER BY num DESC LIMIT 1"
     };
 

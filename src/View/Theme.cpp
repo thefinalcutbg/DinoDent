@@ -38,3 +38,85 @@ QString Theme::colorToString(const QColor& color)
 	QString style = " rgb(%1, %2, %3);";
 	return QString(style.arg(color.red()).arg(color.green()).arg(color.blue()));
 }
+
+QString Theme::getFancyStylesheet()
+{
+	return QString(
+			"QLabel{ color :" + Theme::colorToString(Theme::fontTurquoise) + ";}"
+			
+			"QCheckBox{"
+				"color :" + Theme::colorToString(Theme::fontTurquoise) + ";"
+			"}"
+
+			"QRadioButton{"
+				"color :" + Theme::colorToString(Theme::fontTurquoise) + ";"
+			"}"
+
+			"QTableView{"
+			"color :" + Theme::colorToString(Theme::fontTurquoise) + "; "
+			"selection-color:" + Theme::colorToString(Theme::fontTurquoiseClicked) + "; "
+			"selection-background-color: " + Theme::colorToString(Theme::background) + "; "
+			"}"
+
+			"QComboBox{"
+			"color: " + Theme::colorToString(Theme::fontTurquoise) + "; "
+			"background-color:" + Theme::colorToString(Theme::sectionBackground) + "; "
+			"border: 1px solid; "
+			"border-color: " + Theme::colorToString(Theme::buttonFrame) + "; "
+			"border-radius: 10px; "
+			"padding: 3px 0px 3px 10px;"
+			"}"
+
+			"QAbstractSpinBox{"
+			"color: " + Theme::colorToString(Theme::fontTurquoise) + "; "
+			"background-color:" + Theme::colorToString(Theme::sectionBackground) + "; "
+			"border: 1px solid; "
+			"border-color: " + Theme::colorToString(Theme::buttonFrame) + "; "
+			"border-radius: 10px; "
+			"padding: 3px 0px 3px 10px;"
+			"}"
+
+			"QComboBox::hover{"
+			"border-color: " + Theme::colorToString(Theme::fontTurquoiseClicked) + "; "
+			"color: " + Theme::colorToString(Theme::fontTurquoise) + "; "
+			"background-color:" + Theme::colorToString(Theme::background) + ";"
+			"}"
+
+			"QComboBox::drop-down:button{"
+			"background-color: transparent; "
+			"}"
+
+			"QComboBox::down-arrow {"
+			"image: url(:/icons/icon_downArrow.png);"
+			"width: 10px;"
+			"height: 10px;"
+			"}"
+
+			"QDateEdit{"
+			"color: " + Theme::colorToString(Theme::fontTurquoise) + "; "
+			"background-color:" + Theme::colorToString(Theme::sectionBackground) + "; "
+			"border: 1px solid; "
+			"border-color: " + Theme::colorToString(Theme::buttonFrame) + "; "
+			"border-radius: 10px; "
+			"padding: 3px 0px 3px 10px;"
+			"selection-background-color:" + Theme::colorToString(Theme::background) + ";"
+			"selection-color:" + Theme::colorToString(Theme::fontTurquoiseClicked) + ";"
+			"}"
+
+			"QDateEdit::hover{"
+			"border-color: " + Theme::colorToString(Theme::fontTurquoiseClicked) + "; "
+			"color: " + Theme::colorToString(Theme::fontTurquoise) + "; "
+			"background-color:" + Theme::colorToString(Theme::background) + ";"
+			"}"
+
+			"QDateEdit::drop-down:button{"
+			"background-color: transparent; "
+			"}"
+
+			"QDateEdit::down-arrow {"
+			"image: url(:/icons/icon_downArrow.png);"
+			"width: 10px;"
+			"height: 10px;"
+			"}"
+	);
+}

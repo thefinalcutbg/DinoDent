@@ -24,5 +24,6 @@ namespace Theme
 	QPainterPath getHalfCurvedPath(int width, int heigt);
 	QPainterPath getOneCornerCurvedRect(int width, int height);
 	QString colorToString(const QColor& color);
+	QString getFancyStylesheet();
 
 };

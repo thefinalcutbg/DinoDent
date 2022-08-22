@@ -21,7 +21,7 @@ FinancialView::FinancialView(QWidget *parent)
 		"selection-background-color: " + Theme::colorToString(Theme::background) + "; "
 	);
 
-	setStyleSheet("QLabel{ color :" + Theme::colorToString(Theme::fontTurquoise) + ";}");
+	setStyleSheet(Theme::getFancyStylesheet());
 
 	ui.operationsLabel->setStyleSheet(
 		"color : " + Theme::colorToString(Theme::fontTurquoise) + "; "

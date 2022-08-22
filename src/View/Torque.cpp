@@ -46,7 +46,6 @@ Torque::Torque(QWidget* parent)
 
     connect(exitAction, &QAction::triggered, [&] { presenter.logOut(); });
 
-
     ui.userButton->setMenu(userMenu);
     ui.userButton->setPopupMode(QToolButton::InstantPopup);
     ui.userButton->setIconSize(QSize(25, 25));

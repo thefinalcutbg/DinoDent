@@ -1,10 +1,12 @@
 #include "customdateedit.h"
 #include <qlocale.h>
+#include "View/Theme.h"
 
 CustomDateEdit::CustomDateEdit(QWidget * parent, menuContent type) :
     QDateEdit (parent) {
     this->type = type;
     initCalendar();
+
 }
 CustomDateEdit::~CustomDateEdit() {}
 
@@ -29,7 +31,7 @@ void CustomDateEdit::initCalendar() {
     QFile dateEditFile(":/style/dateEditStyle.qss");
     if (dateEditFile.open(QFile::ReadOnly)) {
         QString styleSheet = QLatin1String(dateEditFile.readAll());
-        setStyleSheet(styleSheet);
+        calendarWidget()->setStyleSheet(styleSheet);
         dateEditFile.close();
     }
     initHeaderWidget();

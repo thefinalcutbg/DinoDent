@@ -97,6 +97,8 @@ PerioView::PerioView(QWidget* parent)
 	connect(ui.restoreCheck, &QCheckBox::clicked,
 		[=] {presenter->restorationChanged(ui.restoreCheck->isChecked()); });
 
+	setStyleSheet(Theme::getFancyStylesheet());
+
 }
 
 void PerioView::PerioGraphicClicked(int index, PerioGraphicsType type)

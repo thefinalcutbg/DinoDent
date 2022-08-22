@@ -12,7 +12,16 @@
 #include "Database/DbInvoice.h"
 #include "View/UpdateDialog/UpdateDialog.h"
 #include "Resources.h"
-#include <qdebug.h>
+
+
+Date parseDate(const std::string& date) {
+	return Date(
+		stoi(date.substr(0, 2)),
+		stoi(date.substr(3, 2)),
+		stoi(date.substr(6, 4))
+	);
+}
+
 void DbUpdates::update1(UpdateDialog* d)
 {
 	constexpr int version = 1;
@@ -75,7 +84,7 @@ void DbUpdates::update1(UpdateDialog* d)
 	{
 		d->setRange(0);
 
-		std::unordered_map<long long, std::string> memory;
+		std::vector<std::pair<long long, std::string>> memory;
 	
 		for (Db db("SELECT rowid, status FROM amblist"); db.hasRows();)
 		{	
@@ -83,7 +92,7 @@ void DbUpdates::update1(UpdateDialog* d)
 
 			Parser::parse(db.asString(1), t);
 
-			memory[db.asRowId(0)] = Parser::write(t);
+			memory.push_back(std::make_pair(db.asRowId(0), Parser::write(t)));
 		}
 
 		d->setRange(memory.size());
@@ -98,7 +107,7 @@ void DbUpdates::update1(UpdateDialog* d)
 	}
 	
 	{
-		std::unordered_map<long long, std::string> memory;
+		std::vector<std::pair<long long, std::string>> memory;
 
 		d->setRange(0);
 
@@ -108,7 +117,7 @@ void DbUpdates::update1(UpdateDialog* d)
 		{
 			Invoice inv;
 			Parser::parse(db.asString(1), inv);
-			memory[db.asRowId(0)] = Parser::write(inv);
+			memory.push_back(std::make_pair(db.asRowId(0), Parser::write(inv)));
 		}
 
 		d->setRange(memory.size());
@@ -132,7 +141,7 @@ void DbUpdates::update1(UpdateDialog* d)
 
 		Db::crudQuery("ALTER TABLE ambList ADD COLUMN date TEXT NOT NULL DEFAULT '1900-01-01T00:00:00'");
 		
-		std::unordered_map<long long, Date> memory;
+		std::vector<std::pair<long long, Date>> memory;
 
 		std::string query{
 			"SELECT rowid, day, month, year FROM ambList"
@@ -143,7 +152,7 @@ void DbUpdates::update1(UpdateDialog* d)
 		for (Db db(query); db.hasRows();)
 		{
 
-			memory[db.asRowId(0)] = Date(db.asInt(1), db.asInt(2), db.asInt(3));
+			memory.push_back(std::make_pair(db.asRowId(0), Date(db.asInt(1), db.asInt(2), db.asInt(3))));
 		}
 
 		d->setRange(memory.size());
@@ -165,7 +174,7 @@ void DbUpdates::update1(UpdateDialog* d)
 	{
 		Db::crudQuery("ALTER TABLE procedure ADD COLUMN date TEXT NOT NULL DEFAULT '1900-01-01'");
 
-		std::unordered_map<long long, Date> memory;
+		std::vector<std::pair<long long, Date>> memory;
 
 		std::string query{
 			"SELECT procedure.rowid, procedure.day, amblist.month, amblist.year FROM procedure LEFT JOIN ambList ON procedure.amblist_rowid = amblist.rowid"
@@ -173,7 +182,8 @@ void DbUpdates::update1(UpdateDialog* d)
 
 		for (Db db(query); db.hasRows();)
 		{
-			memory[db.asRowId(0)] = Date(db.asInt(1), db.asInt(2), db.asInt(3));
+
+			memory.push_back(std::make_pair(db.asRowId(0), Date(db.asInt(1), db.asInt(2), db.asInt(3))));
 		}
 
 		d->setRange(memory.size());
@@ -192,9 +202,13 @@ void DbUpdates::update1(UpdateDialog* d)
 
 	}
 	
+	
+
+	Db::crudQuery("ALTER TABLE financial ADD COLUMN date TEXT NOT NULL DEFAULT '1900-01-01'");
+
 	{
-		Db::crudQuery("ALTER TABLE financial ADD COLUMN date TEXT NOT NULL DEFAULT '1900-01-01'");
-		std::unordered_map<long long, Date> memory;
+		
+		std::vector<std::pair<long long, Date>> memory;
 
 		std::string query{
 			"SELECT rowid, day, month, year FROM financial"
@@ -204,7 +218,8 @@ void DbUpdates::update1(UpdateDialog* d)
 
 		for (Db db(query); db.hasRows();)
 		{
-			memory[db.asRowId(0)] = Date(db.asInt(1), db.asInt(2), db.asInt(3));
+
+			memory.push_back(std::make_pair(db.asRowId(0), Date(db.asInt(1), db.asInt(2), db.asInt(3))));
 		}
 
 		d->setRange(memory.size());
@@ -222,9 +237,54 @@ void DbUpdates::update1(UpdateDialog* d)
 		}
 	}
 
+	//TAX EVENT DATE
+
+	{
+
+		std::vector<std::pair<long long, std::string>> memory;
+
+		std::string query{
+			"SELECT rowid, data FROM financial WHERE month_notif = 0"
+		};
+
+		d->setRange(0);
+
+		for (Db db(query); db.hasRows();)
+		{
+			Json::Value json;
+			Json::Reader reader;
+			reader.parse(db.asString(1), json);
+
+			if (json.isMember("mainDocumentNum")) {
+				json["mainDocumentDate"] = Date{json["mainDocumentDate"].asString()}.to8601();
+			}
+
+			json["taxEventDate"] = Date{ json["taxEventDate"].asString() }.to8601();
+			Json::FastWriter writer;
+
+			memory.push_back(std::make_pair(db.asRowId(0), writer.write(json)));
+		}
+
+		d->setRange(memory.size());
+
+		for (auto& pair : memory)
+		{
+			d->increment();
+
+			std::string updateQuery{
+				"UPDATE financial SET data='" + pair.second + "' "
+				"WHERE rowid = " + std::to_string(pair.first)
+			};
+
+			Db::crudQuery(updateQuery);
+		}
+	}
+
+	//PERIO STATUS DATE
+
 	{
 		Db::crudQuery("ALTER TABLE periostatus ADD COLUMN date TEXT NOT NULL DEFAULT '1900-01-01'");
-		std::unordered_map<long long, Date> memory;
+		std::vector<std::pair<long long, Date>> memory;
 
 		d->setRange(0);
 
@@ -234,8 +294,7 @@ void DbUpdates::update1(UpdateDialog* d)
 
 		for (Db db(query); db.hasRows();)
 		{
-
-			memory[db.asRowId(0)] = Date(db.asInt(1), db.asInt(2), db.asInt(3));
+			memory.push_back(std::make_pair(db.asRowId(0), Date(db.asInt(1), db.asInt(2), db.asInt(3))));
 		}
 
 		d->setRange(memory.size());
@@ -293,6 +352,8 @@ void DbUpdates::update1(UpdateDialog* d)
 
 	}
 
+	//cleaning up unneeded tables
+
 	Db db;
 	db.execute("PRAGMA foreign_keys = OFF");
 
@@ -333,7 +394,6 @@ void DbUpdates::update1(UpdateDialog* d)
 	db.execute("DROP TABLE sqlitestudio_temp_table");
 
 	db.execute("PRAGMA foreign_keys = ON");
-
 
 	Db::setVersion(version);
 		

@@ -1,9 +1,11 @@
 #include "ComboBox.h"
-
-ComboBox::ComboBox(QWidget *parent)
+#include <qfile.h>
+#include <qabstractitemview.h>
+#include "View/ModalDialogBuilder.h"
+#include "View/Theme.h"
+ComboBox::ComboBox(QWidget* parent)
 	: QComboBox(parent)
-{
-}
+{}
 
 ComboBox::~ComboBox()
 {

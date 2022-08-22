@@ -13,6 +13,7 @@
 
 class CustomDateEdit : public QDateEdit
 {
+
     Q_OBJECT
 
 public:

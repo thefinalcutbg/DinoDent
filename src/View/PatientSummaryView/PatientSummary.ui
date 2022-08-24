@@ -572,7 +572,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QDateEdit" name="dateFrom">
+            <widget class="DateEdit" name="dateFrom">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
                <horstretch>0</horstretch>
@@ -592,7 +592,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QDateEdit" name="dateTo">
+            <widget class="DateEdit" name="dateTo">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
                <horstretch>0</horstretch>
@@ -784,6 +784,11 @@
    <class>IconButton</class>
    <extends>QPushButton</extends>
    <header>View/uiComponents/qt_derived/iconbutton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>DateEdit</class>
+   <extends>QDateEdit</extends>
+   <header>View/uiComponents/qt_derived/DateEdit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

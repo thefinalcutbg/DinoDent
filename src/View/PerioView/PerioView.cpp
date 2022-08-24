@@ -30,7 +30,7 @@ PerioView::PerioView(QWidget* parent)
 	group->addButton(ui.lowerButton);
 	group->setExclusive(true);
 
-	ui.lowerButton->setReversed();
+	ui.lowerButton->setPosition(HalfRoundedButton::Position::Right);
 
 	setFixedHeight(1470);
 

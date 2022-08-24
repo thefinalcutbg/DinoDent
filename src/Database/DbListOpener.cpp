@@ -2,8 +2,6 @@
 #include "Model/User/User.h"
 #include "Database.h"
 
-#include <qdebug.h>
-
 std::vector<PatientRow> DbListOpener::getPatientRows()
 {
     std::vector<PatientRow> rows;
@@ -31,8 +29,6 @@ std::vector<PatientRow> DbListOpener::getPatientRows()
     return rows;
 }
 
-#include <QDebug>
-
 std::vector<AmbRow> DbListOpener::getAmbRows(const Date& from, const Date& to)
 {
 
@@ -52,7 +48,6 @@ std::vector<AmbRow> DbListOpener::getAmbRows(const Date& from, const Date& to)
         "AND amblist.rzi = '" + User::practice().rziCode + "' "
         "ORDER BY amblist.date ASC, amblist.num ASC ";
 
-    qDebug() << query.data();
 
     Db db(query);
 
@@ -96,8 +91,6 @@ std::vector<PerioRow> DbListOpener::getPerioRows(const Date& from, const Date& t
         "AND rzi = '" + User::practice().rziCode + "' "
         "ORDER BY periostatus.date ASC ";
 
-    qDebug() << query.data();
-
     for (Db db(query); db.hasRows();)
     {
 
@@ -138,8 +131,6 @@ std::vector<FinancialRow> DbListOpener::getFinancialRows(const Date& from, const
         "date BETWEEN '" + from.to8601() + "' AND '" + to.to8601() + "' "
         "AND practice_rzi = '" + User::practice().rziCode + "' "
         "ORDER BY date ASC ";
-
-    qDebug() << query.data();
 
     for (Db db(query); db.hasRows();)
     {

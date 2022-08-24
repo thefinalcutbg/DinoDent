@@ -254,13 +254,13 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_5">
        <property name="spacing">
-        <number>0</number>
+        <number>6</number>
        </property>
        <property name="topMargin">
         <number>20</number>
        </property>
        <item>
-        <widget class="QPushButton" name="addButton">
+        <widget class="IconButton" name="addButton">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -269,9 +269,18 @@
          </property>
          <property name="minimumSize">
           <size>
-           <width>81</width>
-           <height>0</height>
+           <width>35</width>
+           <height>35</height>
           </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>35</width>
+           <height>35</height>
+          </size>
+         </property>
+         <property name="toolTip">
+          <string>Добави</string>
          </property>
          <property name="text">
           <string>Добави</string>
@@ -279,7 +288,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="deleteButton">
+        <widget class="IconButton" name="editButton">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -288,28 +297,18 @@
          </property>
          <property name="minimumSize">
           <size>
-           <width>81</width>
-           <height>0</height>
+           <width>35</width>
+           <height>35</height>
           </size>
          </property>
-         <property name="text">
-          <string>Изтрий</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="editButton">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
+         <property name="maximumSize">
           <size>
-           <width>81</width>
-           <height>0</height>
+           <width>35</width>
+           <height>35</height>
           </size>
+         </property>
+         <property name="toolTip">
+          <string>Редактирай</string>
          </property>
          <property name="text">
           <string>Редактирай</string>
@@ -317,7 +316,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="saveXMLButton">
+        <widget class="IconButton" name="deleteButton">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -326,9 +325,46 @@
          </property>
          <property name="minimumSize">
           <size>
-           <width>107</width>
-           <height>0</height>
+           <width>35</width>
+           <height>35</height>
           </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>35</width>
+           <height>35</height>
+          </size>
+         </property>
+         <property name="toolTip">
+          <string>Изтрий</string>
+         </property>
+         <property name="text">
+          <string>Изтрий</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="IconButton" name="saveXMLButton">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>35</width>
+           <height>35</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>35</width>
+           <height>35</height>
+          </size>
+         </property>
+         <property name="toolTip">
+          <string>Запази като XML</string>
          </property>
          <property name="text">
           <string>Запази като XML</string>
@@ -336,7 +372,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="sendPisButton">
+        <widget class="IconButton" name="sendPisButton">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -345,9 +381,18 @@
          </property>
          <property name="minimumSize">
           <size>
-           <width>107</width>
-           <height>0</height>
+           <width>35</width>
+           <height>35</height>
           </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>35</width>
+           <height>35</height>
+          </size>
+         </property>
+         <property name="toolTip">
+          <string>Изпрати към ПИС</string>
          </property>
          <property name="text">
           <string>Изпрати към ПИС</string>
@@ -380,7 +425,7 @@
          </property>
          <property name="sizeHint" stdset="0">
           <size>
-           <width>136</width>
+           <width>205</width>
            <height>20</height>
           </size>
          </property>
@@ -671,6 +716,11 @@
    <class>CustomDateEdit</class>
    <extends>QDateEdit</extends>
    <header>View/uiComponents/qt_derived/customdateedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>IconButton</class>
+   <extends>QPushButton</extends>
+   <header>View/uiComponents/qt_derived/iconbutton.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

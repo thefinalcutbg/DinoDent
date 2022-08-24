@@ -40,6 +40,7 @@ QAbstractItemView:disabled {
 }
 QTableView {
     selection-color: white;
+
     selection-background-color: qradialgradient(cx:0.38, cy:0.4,
         radius:0.56, fx:0.6, fy:0.6,
         stop:0.5 rgba(81, 203, 204, 255),
@@ -47,12 +48,27 @@ QTableView {
     outline: none;
 }
 
+QTableView::item:hover:!selected {
+        border: 1px solid gray;
+        border-radius: 5px; 
+}
+
+QTableView::item:hover:selected {
+        border: 1px solid gray;
+        border-radius: 5px; 
+        color: white;
+        background-color: qradialgradient(cx:0.38, cy:0.4,
+        radius:0.56, fx:0.6, fy:0.6,
+        stop:0.5 rgba(81, 203, 204, 255),
+        stop:0.56 rgba(255, 255, 255, 255));
+}
+
 QWidget {
     background: white;
 }
 QCalendarWidget {
-    min-width: 315px;
-    min-height: 315px;
+    min-width: 150px;
+    min-height: 250px;
     border-radius: 8px;
 }
 #monthMenu, #yearMenu {
@@ -80,6 +96,7 @@ QPushButton:pressed {
 #monthListDisabled:hover, #yearListDisabled:hover,
 #monthListSelected:hover, #yearListSelected:hover {
     border: 1px solid gray;
+    border-radius: 5px; 
     color: rgb(30, 30, 30);
 }
 QToolTip {

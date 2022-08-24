@@ -20,7 +20,7 @@ PatientSummary::PatientSummary(QWidget *parent)
 	group->addButton(ui.showLingual);
 	group->setExclusive(true);
 
-	ui.showLingual->setReversed();
+	ui.showLingual->setPosition(HalfRoundedButton::Position::Right);
 
 	ui.showBuccal->setChecked(true);
 
@@ -89,7 +89,7 @@ PatientSummary::PatientSummary(QWidget *parent)
 		}
 	);
 
-
+	setStyleSheet(Theme::getFancyStylesheet());
 }
 
 PatientSummary::~PatientSummary()

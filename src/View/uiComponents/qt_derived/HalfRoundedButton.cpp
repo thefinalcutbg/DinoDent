@@ -27,7 +27,6 @@ HalfRoundedButton::HalfRoundedButton(QWidget *parent)
 {
 	this->installEventFilter(this);
 	setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
-	setCheckable(true);
 
 	auto f = font();
 	f.setBold(true);
@@ -51,14 +50,19 @@ void HalfRoundedButton::paintEvent(QPaintEvent* event)
 	pen.setWidth(2);
 	painter.setPen(pen);
 
+	QPainterPath path;
 
-	auto path = Theme::getHalfCurvedPath(width(), height());
-
-
-	if (m_reversed) {
-		QTransform mirror(-1, 0, 0, 0, 1, 0, 0, 0, 1);
-		painter.setTransform(mirror);
-		painter.translate(-width(), 0);
+	switch (m_position)
+	{
+	case Position::Center: path.addRect(this->rect()); break;
+	case Position::Left: path = Theme::getHalfCurvedPath(width(), height()); break;
+	case Position::Right:
+		{
+			path = Theme::getHalfCurvedPath(width(), height());
+			QTransform mirror(-1, 0, 0, 0, 1, 0, 0, 0, 1);
+			painter.setTransform(mirror);
+			painter.translate(-width(), 0);
+		}
 	}
 
 	painter.fillPath(path, color);

@@ -13,6 +13,12 @@ FinancialView::FinancialView(QWidget *parent)
 
 	ui.numberSpinBox->setTotalLength(10);
 
+	ui.saveXMLButton->setIcon(QIcon(":/icons/icon_xml.png"));
+	ui.sendPisButton->setIcon(QIcon(":/icons/icon_nzok.png"));
+	ui.addButton->setIcon(QIcon(":/icons/icon_add.png"));
+	ui.deleteButton->setIcon(QIcon(":/icons/icon_remove.png"));
+	ui.editButton->setIcon(QIcon(":/icons/icon_edit.png"));
+
 	ui.operationsTable->setModel(&m_model);
 	ui.operationsTable->setBusinessOperationLayout();
 	ui.operationsTable->setStyleSheet(
@@ -27,6 +33,8 @@ FinancialView::FinancialView(QWidget *parent)
 		"color : " + Theme::colorToString(Theme::fontTurquoise) + "; "
 		 "font-weight: bold; font-size: 12px;"
 	);
+
+	
 
 	ui.mainDocNumSpin->setTotalLength(10);
 

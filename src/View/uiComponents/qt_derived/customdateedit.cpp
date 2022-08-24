@@ -221,7 +221,7 @@ void CustomDateEdit::yearMenuPopup() {
     for (int yearTableRow = 0; yearTableRow < 4; yearTableRow++) { // 年份的行
         for (int yearTableColumn = 0; yearTableColumn < 4; yearTableColumn++) { // 年份的列
             yearList << new QPushButton(this);
-            yearList[yearTableCount]->setText(QStringLiteral("%1г.").arg(yearCount));
+            yearList[yearTableCount]->setText(QStringLiteral("%1").arg(yearCount));
             if (yearTableCount == 12) {
                 yearList[yearTableCount]->setObjectName("yearListSelected");
             } else if (yearTableCount <= 2 || yearTableCount >= 13) {
@@ -259,11 +259,11 @@ void CustomDateEdit::changeMenu(int sequence) {
     monthMenu->hide(); // 隐藏月份菜单
     switch (sequence) {
     case menuContent::YEAR: yearMenu->show();
-        yearButton->setStyleSheet("border: 1px solid gray;");
+        yearButton->setStyleSheet("border: 1px solid gray; border-radius: 5px;");
         monthButton->setStyleSheet("border: 0;");
         break;
     case menuContent::MONTH: monthMenu->show();
-        monthButton->setStyleSheet("border: 1px solid gray;");
+        monthButton->setStyleSheet("border: 1px solid gray; border-radius: 5px;");
         yearButton->setStyleSheet("border: 0;");
         break;
     case menuContent::DAY: vBodyLayout->itemAt(4)->widget()->show();

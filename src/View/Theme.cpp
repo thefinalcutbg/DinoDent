@@ -1,6 +1,4 @@
-
 #include "Theme.h"
-
 
 QPainterPath Theme::getHalfCurvedPath(int width, int height)
 {
@@ -92,6 +90,10 @@ QString Theme::getFancyStylesheet()
 			"height: 10px;"
 			"}"
 
+			"QComboBox::down-arrow::disabled {"
+			"image: none"
+			"}"
+
 			"QDateEdit{"
 			"color: " + Theme::colorToString(Theme::fontTurquoise) + "; "
 			"background-color:" + Theme::colorToString(Theme::sectionBackground) + "; "
@@ -117,6 +119,10 @@ QString Theme::getFancyStylesheet()
 			"image: url(:/icons/icon_downArrow.png);"
 			"width: 10px;"
 			"height: 10px;"
+			"}"
+
+			"QDateEdit::down-arrow::disabled {"
+			"image: none"
 			"}"
 	);
 }

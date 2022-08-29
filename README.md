@@ -14,7 +14,7 @@ From dentists for dentists
 
 ## General Information
 
-DinoDent is a not-yet-opensource dental practice management software written in C++. Made for all bulgarian dentists out there, it is designed to be as user-friendly as possible. The project is not finished yet and lacks lots of features. However it already has integration with NHIF and NRA, so submitting monthly reports and invoices and performing different register checks are working.
+DinoDent is a not-yet-opensource dental practice management software written in C++. Made for all bulgarian dentists out there, it is designed to be as user-friendly as possible. The project is not finished yet and lacks lots of features. However it already has integration with NHIF and NRA, so submitting monthly reports and invoices and performing different register checks is already possible.
 
 
 ## Frameworks and Libraries Used

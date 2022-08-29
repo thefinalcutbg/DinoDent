@@ -1,16 +1,16 @@
 ﻿#include "MainPresenter.h"
 
-#include "Model/Procedure/NhifProcedures.h"
-#include "Presenter/PatientDialog/PatientDialogPresenter.h"
-#include "View/Printer/Printer.h"
-#include "Presenter/LoginPresenter/LoginPresenter.h"
-#include "Presenter/DoctorDialogPresenter/DoctorDialogPresenter.h"
-#include "Network/Common/PKCS11.h"
-#include "Model/User/User.h"
-#include "Model/XML/xml.h"
-#include "Presenter/AddPracticePresenter/AddPracticePresenter.h"
+#include "Model/Dental/NhifProcedures.h"
+#include "Presenter/PatientDialogPresenter.h"
+#include "View/Printer.h"
+#include "Presenter/LoginPresenter.h"
+#include "Presenter/DoctorDialogPresenter.h"
+#include "Network/PKCS11.h"
+#include "Model/User.h"
+#include "Model/xml.h"
+#include "Presenter/AddPracticePresenter.h"
 #include "Database/DbPractice.h"
-#include "View/Printer/Printer.h"
+#include "View/Printer.h"
 
 MainPresenter::MainPresenter()
 {}

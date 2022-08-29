@@ -10,7 +10,7 @@
  */
 #ifndef __XMLSEC_TRANSFORMS_H__
 #define __XMLSEC_TRANSFORMS_H__
-
+#define XMLSEC_NO_XSLT
 #include <libxml/tree.h>
 #include <libxml/xpath.h>
 

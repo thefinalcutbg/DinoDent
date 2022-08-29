@@ -68,4 +68,7 @@
     <qresource prefix="/updates">
         <file>update_dbEkatte.json</file>
     </qresource>
+    <qresource prefix="/db">
+        <file>dbSchema.txt</file>
+    </qresource>
 </RCC>

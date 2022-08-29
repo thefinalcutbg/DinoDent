@@ -2,11 +2,11 @@
 
 #include <TinyXML/tinyxml.h>
 
-#include "Model/Tooth/ToothUtils.h"
+#include "Model/Dental/ToothUtils.h"
 #include "View/ModalDialogBuilder.h"
-#include "Model/Procedure/NhifProcedures.h"
+#include "Model/Dental/NhifProcedures.h"
 #include "Model/Date.h"
-#include "Model/MKB.h"
+#include "Model/Dental/MKB.h"
 
 bool DiagnosisService::sendRequest(int personType, const std::string& patientId, std::function<void(const std::string&)> callback)
 {

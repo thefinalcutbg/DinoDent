@@ -1,5 +1,5 @@
 #pragma once
-#include "Network/Common/AbstractReplyHandler.h"
+#include "Network/AbstractReplyHandler.h"
 
 #include <string_view>
 

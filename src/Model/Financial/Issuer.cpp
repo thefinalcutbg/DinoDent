@@ -1,5 +1,5 @@
 ﻿#include "Issuer.h"
-#include "Model/User/User.h"
+#include "Model/User.h"
 
 IssuerType getIssuerType(int legalEntity, const Doctor& doctor)
 {

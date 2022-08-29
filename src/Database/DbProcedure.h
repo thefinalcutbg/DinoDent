@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Model/Procedure/TableStructs.h"
-#include "Model/Procedure/Procedure.h"
+#include "Model/TableStructs.h"
+#include "Model/Dental/Procedure.h"
 #include <vector>
 
 class Date;

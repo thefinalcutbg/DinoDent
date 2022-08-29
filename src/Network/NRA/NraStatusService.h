@@ -1,5 +1,5 @@
 #pragma once
-#include "Network/Common/AbstractReplyHandler.h"
+#include "Network/AbstractReplyHandler.h"
 #include <TinyXML/tinyxml.h>
 #include "Model/InsuranceStatus.h"
 #include <functional>

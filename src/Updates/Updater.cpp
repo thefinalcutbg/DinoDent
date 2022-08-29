@@ -1,7 +1,7 @@
 #include "Updater.h"
 #include "Database/Database.h"
 #include "DbUpdates.h"
-#include "View/UpdateDialog/UpdateDialog.h"
+#include "View/Widgets/UpdateDialog.h"
 
 constexpr int current_version = 1;
 

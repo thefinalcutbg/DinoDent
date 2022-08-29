@@ -1,10 +1,10 @@
 #pragma once
 
 #include <vector>
-#include "View/IMainView.h"
-#include "TabPresenter/TabPresenter.h"
-#include "ListSelector/ListSelectorPresenter.h"
-#include "PISDialogPresenter/MonthNotifPresenter/MonthNotifPresenter.h"
+#include "View/Interfaces/IMainView.h"
+#include "TabPresenter.h"
+#include "ListSelectorPresenter.h"
+#include "MonthNotifPresenter.h"
 
 class MainPresenter
 {

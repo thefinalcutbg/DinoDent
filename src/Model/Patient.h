@@ -3,7 +3,7 @@
 #include "Date.h"
 #include <memory>
 #include <array>
-#include "Model/Procedure/Procedure.h"
+#include "Model/Dental/Procedure.h"
 #include "InsuranceStatus.h"
 #include <optional>
 #include <vector>

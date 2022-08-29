@@ -1,6 +1,6 @@
 #include "DbPerio.h"
-#include "Model/Parser/Parser.h"
-#include "Model/Procedure/Procedure.h"
+#include "Model/Parser.h"
+#include "Model/Dental/Procedure.h"
 #include "Database.h"
 #include <QDebug>
 

@@ -1,8 +1,8 @@
 ﻿
 #include "View/ModalDialogBuilder.h"
-#include "Network/Common//PKCS11.h"
-#include "Network/Common//XmlSigner.h"
-#include "Network/Common/NetworkManager.h"
+#include "Network/PKCS11.h"
+#include "Network/XmlSigner.h"
+#include "Network/NetworkManager.h"
 #include "HisToken.h"
 #include "HisService.h"
 

@@ -1,6 +1,6 @@
 #include "DbPatientSummary.h"
-#include "Model/AmbList.h"
-#include "Model/Parser/Parser.h"
+#include "Model/Dental/AmbList.h"
+#include "Model/Parser.h"
 #include "Database/DbProcedure.h"
 #include "Database/Database.h"
 #include "qdebug.h"

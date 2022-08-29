@@ -2,7 +2,7 @@
 
 #include <array>
 #include <fstream>
-#include "Model/User/User.h"
+#include "Model/User.h"
 #include <stdexcept>
 #include <TinyXML/tinyxml.h>
 #include "Model/FreeFunctions.h"

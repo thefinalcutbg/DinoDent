@@ -1,8 +1,8 @@
 ﻿#include "PisService.h"
 #include "View/ModalDialogBuilder.h"
-#include "Network/Common/PKCS11.h"
-#include "Network/Common//NetworkManager.h"
-#include "Network/Common//XmlSigner.h"
+#include "Network/PKCS11.h"
+#include "Network/NetworkManager.h"
+#include "Network/XmlSigner.h"
 
 
 bool PisService::sendRequest(const std::string& query, SOAPAction header)

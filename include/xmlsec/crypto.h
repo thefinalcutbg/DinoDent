@@ -11,10 +11,7 @@
 #ifndef __XMLSEC_CRYPTO_H__
 #define __XMLSEC_CRYPTO_H__
 
-//#define XMLSEC_CRYPTO_OPENSSL
-#define XMLSEC_CRYPTO_OPENSSL
 #include <xmlsec/xmlsec.h>
-
 
 /* include nothing if we compile xmlsec library itself */
 #ifndef IN_XMLSEC
@@ -24,10 +21,11 @@
 #error Dynamic loading for xmlsec-crypto libraries is disabled during library compilation
 #endif /* defined(XMLSEC_NO_CRYPTO_DYNAMIC_LOADING) && defined(XMLSEC_CRYPTO_DYNAMIC_LOADING) */
 
+#define XMLSEC_CRYPTO_OPENSSL
+
 #ifdef XMLSEC_CRYPTO_DYNAMIC_LOADING
 #include <xmlsec/app.h>
 #else /* XMLSEC_CRYPTO_DYNAMIC_LOADING */
-
 #ifdef XMLSEC_CRYPTO_OPENSSL
 #include <xmlsec/openssl/app.h>
 #include <xmlsec/openssl/crypto.h>

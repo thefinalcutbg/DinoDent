@@ -1,10 +1,10 @@
 #include "DbAmbList.h"
 #include "Database/Database.h"
-#include "Model/User/User.h"
+#include "Model/User.h"
 #include "Model/Patient.h"
-#include "Model/AmbList.h"
+#include "Model/Dental/AmbList.h"
 #include "Model/Date.h"
-#include "Model/Parser/Parser.h"
+#include "Model/Parser.h"
 #include "DbProcedure.h"
 #include <qdebug.h>
 #include "Model/FreeFunctions.h"

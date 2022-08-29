@@ -2,8 +2,8 @@
 #include <TinyXML/tinyxml.h>
 #include "View/ModalDialogBuilder.h"
 #include "Model/Financial/Invoice.h"
-#include "Network/Common/Base64Convert.h"
-#include "Model/XML/xml.h"
+#include "Network/Base64Convert.h"
+#include "Model/xml.h"
 
 
 void SendFileService::sendInvoice(const Invoice& invoice, const std::string& rziCode)

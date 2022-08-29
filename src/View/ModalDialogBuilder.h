@@ -2,12 +2,15 @@
 #include <unordered_set>
 #include <string>
 #include <vector>
-#include "Model/Procedure/ProcedureTemplate.h"
-#include "Model/AmbList.h"
+
+#include "Model/Dental/ProcedureTemplate.h"
+#include "Model/Dental/AmbList.h"
+#include "Model/Dental/KSMP.h"
+
 #include "Model/Financial/BusinessOperation.h"
 #include "Model/Financial/MonthNotifRow.h"
 #include "Model/Financial/Recipient.h"
-#include "Model/KSMP.h"
+
 
 enum class SelectionPref {All, OnlyNZOK, OnlyPaid};
 enum class MonthNotifLoad {FromPIS, FromFile, Rejected};

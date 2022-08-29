@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Model/Tooth/ToothContainer.h"
+#include "Model/Dental/ToothContainer.h"
 #include "Model/Date.h"
-#include "Model/PerioStatus.h"
+#include "Model/Dental/PerioStatus.h"
 
 namespace DbPerio
 {

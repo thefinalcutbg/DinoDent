@@ -6,11 +6,11 @@
 
 #include "Database/Database.h"
 #include "Model/Date.h"
-#include "Model/Parser/Parser.h"
-#include "Model/Tooth/ToothContainer.h"
+#include "Model/Parser.h"
+#include "Model/Dental/ToothContainer.h"
 #include "Model/Financial/Invoice.h"
 #include "Database/DbInvoice.h"
-#include "View/UpdateDialog/UpdateDialog.h"
+#include "View/Widgets/UpdateDialog.h"
 #include "Resources.h"
 
 

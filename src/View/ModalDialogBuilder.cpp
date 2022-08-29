@@ -1,6 +1,6 @@
 #include "ModalDialogBuilder.h"
 
-#include "View/ProcedureDialog/ProcedureDialog.h"
+#include "View/Widgets/ProcedureDialog.h"
 
 void ModalDialogBuilder::openDialog(ProcedureDialogPresenter* p)
 {
@@ -8,7 +8,7 @@ void ModalDialogBuilder::openDialog(ProcedureDialogPresenter* p)
 	d.exec();
 }
 
-#include "View/PatientDialog/PatientFormDialog.h"
+#include "View/Widgets/PatientFormDialog.h"
 
 void ModalDialogBuilder::openDialog(PatientDialogPresenter* p)
 {
@@ -16,7 +16,7 @@ void ModalDialogBuilder::openDialog(PatientDialogPresenter* p)
 	d.exec();
 }
 
-#include "View/ProcedureEditDialog/ProcedureEditDialog.h"
+#include "View/Widgets/ProcedureEditDialog.h"
 
 void ModalDialogBuilder::openDialog(ProcedureEditorPresenter* p)
 {
@@ -24,7 +24,7 @@ void ModalDialogBuilder::openDialog(ProcedureEditorPresenter* p)
 	d.exec();
 }
 
-#include "View/AllergiesDialog/AllergiesDialog.h"
+#include "View/Widgets/AllergiesDialog.h"
 
 void ModalDialogBuilder::openDialog(AllergiesDialogPresenter* p)
 {
@@ -32,7 +32,7 @@ void ModalDialogBuilder::openDialog(AllergiesDialogPresenter* p)
 	d.exec();
 }
 
-#include "View/AmbListSelector/AmbListSelector.h"
+#include "View/Widgets/AmbListSelector.h"
 
 void ModalDialogBuilder::openDialog(ListSelectorPresenter* p)
 {
@@ -41,7 +41,7 @@ void ModalDialogBuilder::openDialog(ListSelectorPresenter* p)
 	d->show();
 }
 
-#include "View/DetailsView/DetailedStatus.h"
+#include "View/Widgets/DetailedStatus.h"
 
 void ModalDialogBuilder::openDialog(DetailedStatusPresenter* p)
 {
@@ -50,7 +50,7 @@ void ModalDialogBuilder::openDialog(DetailedStatusPresenter* p)
 
 }
 
-#include "View/LoginView/LoginView.h"
+#include "View/Widgets/LoginView.h"
 
 void ModalDialogBuilder::openDialog(LoginPresenter* p)
 {
@@ -59,7 +59,7 @@ void ModalDialogBuilder::openDialog(LoginPresenter* p)
 }
 
 
-#include "View/AddPracticeDialog/AddPracticeDialog.h"
+#include "View/Widgets/AddPracticeDialog.h"
 
 void ModalDialogBuilder::openDialog(AddPracticePresenter* p)
 {
@@ -67,7 +67,7 @@ void ModalDialogBuilder::openDialog(AddPracticePresenter* p)
 	d.exec();
 }
 
-#include "View/DoctorSettingsDialog/DoctorSettingsDialog.h"
+#include "View/Widgets/DoctorSettingsDialog.h"
 
 void ModalDialogBuilder::openDialog(DoctorDialogPresenter* p)
 {
@@ -77,7 +77,7 @@ void ModalDialogBuilder::openDialog(DoctorDialogPresenter* p)
 
 
 
-#include "View/SettingsDialog/ProcedureTemplateDialog/ProcedureTemplateDialog.h"
+#include "View/Widgets/ProcedureTemplateDialog.h"
 
 std::optional<ProcedureTemplate> ModalDialogBuilder::openProcedureTemplateDialog(const ProcedureTemplate* pTemp, int code)
 {
@@ -87,7 +87,7 @@ std::optional<ProcedureTemplate> ModalDialogBuilder::openProcedureTemplateDialog
 }
 
 
-#include "View/saveDialog/SaveDialog.h"
+#include "View/Widgets/SaveDialog.h"
 
 DialogAnswer ModalDialogBuilder::openSaveDialog(const std::string& title)
 {
@@ -118,7 +118,7 @@ std::optional<std::string> ModalDialogBuilder::getMonthNotifFromFile()
 	return filePath.toStdString();
 }
 
-#include "Printer/ProcedurePrintSelectDialog.h"
+#include "View/Widgets/ProcedurePrintSelectDialog.h"
 
 std::optional<std::vector<Procedure>> ModalDialogBuilder::selectProcedures(const std::vector<Procedure>& procedures, SelectionPref s)
 {
@@ -148,7 +148,7 @@ std::optional<std::vector<Procedure>> ModalDialogBuilder::selectProcedures(const
 	return result;
 }
 
-#include "View/PISHistoryDialog/PISHistoryDialog.h"
+#include "View/Widgets/PISHistoryDialog.h"
 
 bool ModalDialogBuilder::pisHistoryDialog(const std::vector<Procedure>& procedures)
 {
@@ -158,7 +158,7 @@ bool ModalDialogBuilder::pisHistoryDialog(const std::vector<Procedure>& procedur
 	return d.applyProcedures;
 }
 
-#include "View/FinancialView/BusinessOpEditDialog/BusinessOpEditDialog.h"
+#include "View/Widgets/BusinessOpEditDialog.h"
 
 std::optional<BusinessOperation> ModalDialogBuilder::editBusinessOperation(const BusinessOperation& op)
 {
@@ -167,7 +167,7 @@ std::optional<BusinessOperation> ModalDialogBuilder::editBusinessOperation(const
 	return d.getResult();
 }
 
-#include "View/FinancialView/BusinessOpAddDialog/BusinessOpAddDialog.h"
+#include "View/Widgets/BusinessOpAddDialog.h"
 
 std::optional<BusinessOperation> ModalDialogBuilder::addBusinessOperation(const std::vector<ProcedureTemplate>& priceList)
 {
@@ -177,7 +177,7 @@ std::optional<BusinessOperation> ModalDialogBuilder::addBusinessOperation(const 
 	return d.getResult();
 }
 
-#include "View/FinancialView/RecipientEditDialog/RecipientEditView.h"
+#include "View/Widgets/RecipientEditView.h"
 
 std::optional<Recipient> ModalDialogBuilder::editRecipient(const Recipient& r)
 {
@@ -213,7 +213,7 @@ void ModalDialogBuilder::showError(const std::string& error)
 
 }
 
-#include "View/ReportErrorDialog/ReportErrorDialog.h"
+#include "View/Widgets/ReportErrorDialog.h"
 
 void ModalDialogBuilder::showMultilineDialog(const std::string& errors)
 {
@@ -229,7 +229,7 @@ void ModalDialogBuilder::showMessage(const std::string& message)
 	msgBox.exec();
 }
 
-#include "View/SettingsDialog/SettingsDialog.h"
+#include "View/Widgets/SettingsDialog.h"
 
 void ModalDialogBuilder::openSettingsDialog()
 {
@@ -298,7 +298,7 @@ std::optional<std::string> ModalDialogBuilder::getStringInput(const std::string&
 
 }
 
-#include "PinPromptDialog/PinPromptDialog.h"
+#include "View/Widgets/PinPromptDialog.h"
 
 std::string ModalDialogBuilder::pinPromptDialog(const std::string& pem)
 {
@@ -308,7 +308,7 @@ std::string ModalDialogBuilder::pinPromptDialog(const std::string& pem)
 	return d.getResult().toStdString();
 }
 
-#include "KSMPDialog/KSMPDialog.h"
+#include "View/Widgets/KSMPDialog.h"
 
 std::string ModalDialogBuilder::ksmpDialog(KsmpList& list, const std::string& preSelectCode)
 {
@@ -319,7 +319,7 @@ std::string ModalDialogBuilder::ksmpDialog(KsmpList& list, const std::string& pr
 	return d.getResult();
 }
 
-#include "View/PISDialog/PisDialog.h"
+#include "View/Widgets/PisDialog.h"
 
 void ModalDialogBuilder::pisDialog(MonthNotifPresenter* presenter)
 {

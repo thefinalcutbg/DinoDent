@@ -1,6 +1,6 @@
 #include "GetMonthNotifService.h"
 #include <TinyXML/tinyxml.h>
-#include "Network/Common/Base64Convert.h"
+#include "Network/Base64Convert.h"
 
 
 void GetMonthNotifService::sendRequest(const std::string& rziCode, const std::string& notifHash, std::function<void(const std::string&)> callback)

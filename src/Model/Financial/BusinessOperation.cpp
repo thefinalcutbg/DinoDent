@@ -1,5 +1,5 @@
 #include "BusinessOperation.h"
-#include "Model/Procedure/Procedure.h"
+#include "Model/Dental/Procedure.h"
 
 BusinessOperation::BusinessOperation(const std::string& code, const std::string& name, double price, int quantity) :
 	activity_code(code),

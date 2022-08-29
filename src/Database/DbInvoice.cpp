@@ -1,7 +1,7 @@
 #include "DbInvoice.h"
 #include "Database/Database.h"
-#include "Model/User/User.h"
-#include "Model/Parser/Parser.h"
+#include "Model/User.h"
+#include "Model/Parser.h"
 
 #include <TinyXML/tinyxml.h>
 

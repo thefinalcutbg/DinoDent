@@ -3,9 +3,9 @@
 
 #include "TinyXML/tinyxml.h"
 
-#include "Model/Tooth/ToothUtils.h"
+#include "Model/Dental/ToothUtils.h"
 #include "View/ModalDialogBuilder.h"
-#include "Model/Procedure/NhifProcedures.h"
+#include "Model/Dental/NhifProcedures.h"
 
 
 bool DentalActivitiesService::sendRequest(int personType, const std::string& patientId, std::function<void(const std::optional<std::vector<Procedure>>&)> callback)

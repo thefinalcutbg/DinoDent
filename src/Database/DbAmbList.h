@@ -2,7 +2,7 @@
 
 #include <unordered_set>
 #include <vector>
-#include "Model/AmbList.h"
+#include "Model/Dental/AmbList.h"
 
 namespace DbAmbList
 {

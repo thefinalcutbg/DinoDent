@@ -21,3 +21,20 @@ std::string Resources::defaultDiagnosisListJson() { return fromPath(":/json/json
 std::string Resources::ksmpJson() { return fromPath(":/json/json_ksmp.json"); }
 std::string Resources::mkbJson(){ return fromPath(":/json/json_mkb.json"); }
 
+std::vector<std::string> Resources::dbSchema() {
+
+	std::vector<std::string> result;
+
+	QFile inputFile(":/db/dbSchema.txt");
+	if (inputFile.open(QIODevice::ReadOnly))
+	{
+		QTextStream in(&inputFile);
+		while (!in.atEnd())
+		{ 
+			result.emplace_back(std::move(in.readLine().toStdString()));
+		}
+		inputFile.close();
+	}
+	return result;
+}
+

@@ -1,6 +1,6 @@
 ﻿#include "NraStatusService.h"
 #include "View/ModalDialogBuilder.h"
-#include "Network/Common/NetworkManager.h"
+#include "Network/NetworkManager.h"
 
 void NraStatusService::parseReply(const std::string& reply)
 {

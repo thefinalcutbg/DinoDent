@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-#include "Model/User/UserStructs.h"
+#include "Model/UserStructs.h"
 
 
 namespace DbPractice

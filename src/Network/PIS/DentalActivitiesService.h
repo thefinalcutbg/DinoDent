@@ -3,7 +3,7 @@
 
 #include <functional>
 #include <optional>
-#include "Model/Procedure/Procedure.h"
+#include "Model/Dental/Procedure.h"
 
 class DentalActivitiesService final: private PisService
 {

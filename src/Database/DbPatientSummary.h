@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Model/TimeFrame.h"
+#include "Model/Dental/TimeFrame.h"
 
 namespace DbPatientSummary
 {

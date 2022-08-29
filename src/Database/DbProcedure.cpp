@@ -1,8 +1,8 @@
 #include "DbProcedure.h"
 
-#include "Model/Procedure/NhifProcedures.h"
-#include "Model/Parser/Parser.h"
-#include "Model/User/User.h"
+#include "Model/Dental/NhifProcedures.h"
+#include "Model/Parser.h"
+#include "Model/User.h"
 #include "Database.h"
 
 #include <QDebug>

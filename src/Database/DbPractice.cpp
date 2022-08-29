@@ -1,6 +1,6 @@
 #include "DbPractice.h"
 #include "Database.h"
-#include "Model/Parser/Parser.h"
+#include "Model/Parser.h"
 
 Practice DbPractice::getPractice(const std::string rziCode)
 {

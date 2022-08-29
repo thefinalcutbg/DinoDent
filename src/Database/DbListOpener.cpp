@@ -1,5 +1,5 @@
 #include "DbListOpener.h"
-#include "Model/User/User.h"
+#include "Model/User.h"
 #include "Database.h"
 
 std::vector<PatientRow> DbListOpener::getPatientRows()

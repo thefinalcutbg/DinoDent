@@ -10,7 +10,7 @@
  */
 #ifndef __XMLSEC_H__
 #define __XMLSEC_H__
-#define XMLSEC_NO_SIZE_T
+
 #include <libxml/tree.h>
 
 #include <xmlsec/version.h>

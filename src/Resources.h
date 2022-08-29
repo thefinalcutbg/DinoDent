@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-
+#include <vector>
 /*
 Ideally these should be used only once in the program lifetime
 */
@@ -13,5 +13,6 @@ namespace Resources
 	std::string defaultDiagnosisListJson();
 	std::string ksmpJson();
 	std::string mkbJson();
+	std::vector<std::string> dbSchema();
 };
 

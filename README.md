@@ -1,11 +1,11 @@
 # DinoDent
-From dentists for dentist
+##From dentists for dentists
 
 ## Table of Contents
 * [General Info](#general-information)
 * [Technologies Used](#technologies-used)
 * [Features](#features)
-<-- * [Screenshots](#screenshots) -->
+<!-- * [Screenshots](#screenshots) -->
 * [Setup](#setup)
 * [Usage](#usage)
 * [Project Status](#project-status)
@@ -38,17 +38,15 @@ List the ready features here:
 - Dental status and procedure history
 - Periodontal status
 - Financial stuff - invoices, debit and credit notifications
+- Integration with electronic signatures using the PKCS11 standard
 - Full NHIF API integration
 - Multiple practices and user accounts (UI implementation still incomplete)
 
 <!-- ## Screenshots -->
 <!-- [Example screenshot](./img/screenshot.png) -->
 
-
 ## Setup
 See the [INSTALL](INSTALL.md) file
-
-Proceed to describe how to install / setup one's local environment / get started with the project.
 
 
 ## Project Status
@@ -60,7 +58,7 @@ Always in progress.
 - Special thanks to Lachezar Kozhuharov, Konstantin Shegunov, Hasan Hasanov and all other real programmers, who have always been there to answer my stupid questions
 
 ## Contact
-Created by [@TheFinalCut](hristo.konstantinov89@gmail.com) - feel free to contact me!
+Created by [@TheFinalCut](https://github.com/thefinalcutbg) - feel free to contact me!
 
 ## License
 This project is note yet open source and available under the... I have to read more about licensing, lol

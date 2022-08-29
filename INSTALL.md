@@ -47,14 +47,21 @@ This library is responsible for the PKCS11 interface. Go to [https://github.com/
 
 If you have followed everything  as described, you'll have all of the required binaries:
 
-limereport-qt6 (LimeReport)
-libcrypto (OpenSSL)
-libssl (OpenSSL)
-libxml2 (LibXml2)
-libxmlsec (XmlSec)
-libxmlsec-openssl (XmlSec)
-libp11 (Libp11)
-pkcs11 (Libp11)
+- limereport-qt6 (LimeReport)
+
+- libcrypto (OpenSSL)
+
+- libssl (OpenSSL)
+
+- libxml2 (LibXml2)
+
+- libxmlsec (XmlSec)
+
+- libxmlsec-openssl (XmlSec)
+
+- libp11 (Libp11)
+
+- pkcs11 (Libp11)
 
 
 ## Building DinoDent itself

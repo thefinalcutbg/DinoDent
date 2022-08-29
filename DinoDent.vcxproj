@@ -26,7 +26,7 @@
     <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Debug|Win32'">10.0.18362.0</WindowsTargetPlatformVersion>
     <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Release|Win32'">10.0.18362.0</WindowsTargetPlatformVersion>
     <QtMsBuild Condition="'$(QtMsBuild)'=='' OR !Exists('$(QtMsBuild)\qt.targets')">$(MSBuildProjectDirectory)\QtMsBuild</QtMsBuild>
-    <ProjectName>Torque</ProjectName>
+    <ProjectName>DinoDent</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
@@ -116,8 +116,8 @@
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>limereportd.lib;QtZintd.lib;libcrypto.lib;libssl.lib;libxml2.lib;libxmlsec-openssl.lib;libxmlsec.lib;libexslt.lib;libxslt.lib;pkcs11.lib;libp11.lib;$(Qt_LIBS_);%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Dev\Qt\Tools\OpenSSL\Win_x64\lib;C:\Dev\Torque\dependencies\lib;$(Qt_LIBPATH_);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>limereport-qt6.lib;libcrypto.lib;libssl.lib;libxml2.lib;libxmlsec.lib;libxmlsec-openssl.lib;libexslt.lib;libxslt.lib;pkcs11.lib;libp11.lib;$(Qt_LIBS_);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Dev\Torque\dependencies\lib\Debug;C:\Dev\Qt\Tools\OpenSSL\Win_x64\lib;C:\Dev\Torque\dependencies\lib;$(Qt_LIBPATH_);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -130,17 +130,17 @@
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>C:\Dev\Qt\Tools\OpenSSL\Win_x64\lib;C:\Dev\Torque\dependencies\lib;$(Qt_LIBPATH_);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>limereport.lib;QtZint.lib;libcrypto.lib;libssl.lib;libxml2.lib;libxmlsec.lib;libxmlsec-openssl.lib;libexslt.lib;libxslt.lib;pkcs11.lib;libp11.lib;$(Qt_LIBS_);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Dev\Torque\dependencies\lib\Release;C:\Dev\Qt\Tools\OpenSSL\Win_x64\lib;C:\Dev\Torque\dependencies\lib;$(Qt_LIBPATH_);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>limereport-qt6.lib;libcrypto.lib;libssl.lib;libxml2.lib;libxmlsec.lib;libxmlsec-openssl.lib;libexslt.lib;libxslt.lib;pkcs11.lib;libp11.lib;$(Qt_LIBS_);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
-    <QtInstall>6.2.2_msvc2019_64</QtInstall>
+    <QtInstall>6.3.1_msvc2019_64</QtInstall>
     <QtModules>core;network;gui;widgets;qml;printsupport;core5compat</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
-    <QtInstall>6.2.2_msvc2019_64</QtInstall>
+    <QtInstall>6.3.1_msvc2019_64</QtInstall>
     <QtModules>core;network;gui;svg;widgets;qml;printsupport;core5compat</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
   </PropertyGroup>
@@ -214,6 +214,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="include\JsonCpp\jsoncpp.cpp" />
+    <ClCompile Include="include\sqLite3\shell.c" />
+    <ClCompile Include="include\sqLite3\sqlite3.c" />
+    <ClCompile Include="include\TinyXML\tinystr.cpp" />
+    <ClCompile Include="include\TinyXML\tinyxml.cpp" />
+    <ClCompile Include="include\TinyXML\tinyxmlerror.cpp" />
+    <ClCompile Include="include\TinyXML\tinyxmlparser.cpp" />
     <ClCompile Include="src\Database\Database.cpp" />
     <ClCompile Include="src\Database\DbAmbList.cpp" />
     <ClCompile Include="src\Database\DbDoctor.cpp" />
@@ -436,6 +443,12 @@
     <ClCompile Include="src\View\Widgets\UpdateDialog.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\JsonCpp\json-forwards.h" />
+    <ClInclude Include="include\JsonCpp\json.h" />
+    <ClInclude Include="include\sqLite3\sqlite3.h" />
+    <ClInclude Include="include\sqLite3\sqlite3ext.h" />
+    <ClInclude Include="include\TinyXML\tinystr.h" />
+    <ClInclude Include="include\TinyXML\tinyxml.h" />
     <ClInclude Include="src\Database\Database.h" />
     <ClInclude Include="src\Database\DbAmbList.h" />
     <ClInclude Include="src\Database\DbDoctor.h" />

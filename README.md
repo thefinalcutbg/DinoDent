@@ -1,5 +1,5 @@
 # DinoDent
-##From dentists for dentists
+From dentists for dentists
 
 ## Table of Contents
 * [General Info](#general-information)
@@ -34,7 +34,6 @@ DinoDent is an not-yet-opensource dental practice management software written in
 
 
 ## Features
-List the ready features here:
 - Dental status and procedure history
 - Periodontal status
 - Financial stuff - invoices, debit and credit notifications

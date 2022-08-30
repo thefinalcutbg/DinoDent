@@ -70,7 +70,11 @@
        </widget>
       </item>
       <item>
-       <widget class="CustomDateEdit" name="fromDateEdit"/>
+       <widget class="CustomDateEdit" name="fromDateEdit">
+        <property name="displayFormat">
+         <string notr="true">d.M.yyyy 'г.'</string>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="QLabel" name="label_2">
@@ -80,7 +84,11 @@
        </widget>
       </item>
       <item>
-       <widget class="CustomDateEdit" name="toDateEdit"/>
+       <widget class="CustomDateEdit" name="toDateEdit">
+        <property name="displayFormat">
+         <string notr="true">d.M.yyyy 'г.'</string>
+        </property>
+       </widget>
       </item>
       <item>
        <spacer name="horizontalSpacer_2">

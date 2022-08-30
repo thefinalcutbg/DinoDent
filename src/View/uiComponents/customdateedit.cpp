@@ -10,7 +10,7 @@ CustomDateEdit::~CustomDateEdit() {}
 void CustomDateEdit::initCalendar() {
     setDate(QDate::currentDate());
     setCalendarPopup(true); // 设置日期编辑为弹出式
-    calendarWidget()->setLocale(QLocale(QLocale::Chinese)); // 设置程序的区域为中文使用地区
+    calendarWidget()->setLocale(QLocale(QLocale::Bulgarian)); // 设置程序的区域为中文使用地区
     calendarWidget()->setVerticalHeaderFormat(QCalendarWidget::NoVerticalHeader); // 去除日历左边的列头
     calendarWidget()->setHorizontalHeaderFormat(QCalendarWidget::SingleLetterDayNames); // 只显示周的一个字
     calendarWidget()->setFirstDayOfWeek(Qt::Monday); // 设置每周由周一开始
@@ -47,22 +47,22 @@ void CustomDateEdit::initHeaderWidget() {
     prevYearButton = new QPushButton(topWidget); // 上一年按钮
     prevYearButton->setObjectName("prevYearButton");
     prevYearButton->setFixedSize(16, 16);
-    prevYearButton->setToolTip("上一年");
+    prevYearButton->setToolTip(u8"Предишна година");
 
     nextYearButton = new QPushButton(topWidget); // 下一年按钮
     nextYearButton->setObjectName("nextYearButton");
     nextYearButton->setFixedSize(16, 16);
-    nextYearButton->setToolTip("下一年");
+    nextYearButton->setToolTip(u8"Следваща година");
 
     prevMonthButton = new QPushButton(topWidget); // 上个月按钮
     prevMonthButton->setObjectName("prevMonthButton");
     prevMonthButton->setFixedSize(16, 16);
-    prevMonthButton->setToolTip("上一个月");
+    prevMonthButton->setToolTip(u8"Предишен месец");
 
     nextMonthButton = new QPushButton(topWidget); // 下个月按钮
     nextMonthButton->setObjectName("nextMonthButton");
     nextMonthButton->setFixedSize(16, 16);
-    nextMonthButton->setToolTip("下一个月");
+    nextMonthButton->setToolTip(u8"Следващ месец");
 
     yearButton = new QPushButton(topWidget); // 年份按钮
     yearButton->setObjectName("yearButton");
@@ -143,8 +143,10 @@ void CustomDateEdit::initHeaderWidget() {
 }
 /* 设置日期标签的文本 */
 void CustomDateEdit::setDateLabelText(int year, int month) {
-    yearButton->setText(QStringLiteral("%1年").arg(year));
-    monthButton->setText(QStringLiteral("%1月").arg(month));
+    yearButton->setText(QStringLiteral("%1").arg(year));
+
+    QLocale l(QLocale::Bulgarian);
+    monthButton->setText(l.monthName(month, QLocale::LongFormat).arg(month));
 }
 /* 选择月份 */
 void CustomDateEdit::selectedMonth(int year, int month) {
@@ -176,7 +178,10 @@ void CustomDateEdit::monthMenuPopup() {
             actualMonth = (monthCount <= 0)
                     ? (monthCount + 12) : ((monthCount) > 12)
                       ? (monthCount % 12) : (monthCount);
-            monthList[monthTableCount]->setText(QStringLiteral("%1月").arg(actualMonth));
+
+            QLocale l(QLocale::Bulgarian);
+
+            monthList[monthTableCount]->setText(l.monthName(actualMonth, QLocale::ShortFormat));
             if (monthTableCount == 12) {
                 monthList[monthTableCount]->setObjectName("monthListSelected");
             } else if (monthTableCount > minMonth && monthTableCount < maxMonth) {
@@ -210,7 +215,7 @@ void CustomDateEdit::yearMenuPopup() {
     for (int yearTableRow = 0; yearTableRow < 4; yearTableRow++) { // 年份的行
         for (int yearTableColumn = 0; yearTableColumn < 4; yearTableColumn++) { // 年份的列
             yearList << new QPushButton(this);
-            yearList[yearTableCount]->setText(QStringLiteral("%1年").arg(yearCount));
+            yearList[yearTableCount]->setText(QStringLiteral("%1").arg(yearCount));
             if (yearTableCount == 12) {
                 yearList[yearTableCount]->setObjectName("yearListSelected");
             } else if (yearTableCount <= 2 || yearTableCount >= 13) {
@@ -288,11 +293,11 @@ void CustomDateEdit::changeType(menuContent type) {
     this->type = type;
     if (type == menuContent::DAY) {
         changeMenu(menuContent::DAY);
-        setDisplayFormat("yyyy-MM-dd");
+        setDisplayFormat("dd-MM-yyyy");
         monthButton->show();
     } else if (type == menuContent::MONTH) {
         monthMenuPopup();
-        setDisplayFormat("yyyy-MM");
+        setDisplayFormat("MM-yyyy");
         monthButton->show();
     } else if (type == menuContent::YEAR) {
         yearMenuPopup();

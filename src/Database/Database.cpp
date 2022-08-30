@@ -2,6 +2,7 @@
 #include "View/ModalDialogBuilder.h"
 #include <sqLite3/sqlite3.h>
 #include "Resources.h"
+#include <filesystem>
 
 Db::Db(Db* existingConnection)
     :
@@ -165,6 +166,8 @@ Db::~Db()
 
 void Db::createIfNotExist()
 {
+    if (std::filesystem::exists("TorqueDB.db")) return;
+
     Db db;
 
     for (auto& tableSchema : Resources::dbSchema())

@@ -11,7 +11,7 @@ This library is required for generating and printing the ambulatory sheets and i
 
 ### OpenSsl
 
-Provide Openssl for your system. OpenSsl is dependency of XmlSec and Libp11. The project has been tested with OpenSsl 1.1.1 distributed by the Qt Maintaince tool.
+Provide Openssl for your system. OpenSsl is a dependency of XmlSec and Libp11. The project has been tested with OpenSsl 1.1.1 distributed by the Qt Maintaince tool.
 
 ### LibXml2
 
@@ -26,7 +26,7 @@ Then type:
 $ nmake install
 ```
 
-Wait for the build process to finish. This generates several binaries, but the one you need is called libxml2. The binarie whose names end _a are not required.
+Wait for the build process to finish. This generates several binaries, but the one you need is called libxml2. The binaries whose names end _a are not required.
 
 
 ### XmlSec

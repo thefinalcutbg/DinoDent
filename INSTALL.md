@@ -4,7 +4,7 @@ Generate the project file with your IDE of choice, by running the CMakeLists.txt
 
 ## Building dependencies:
 
-For convinince the source of Sqlite3, JsonCpp and TinyXml is already included and configured to be built and linked statically by CMake. You have to build the other dependencies by yourself. However their header files are already included and configured in the include directory of the project, so you only have to provide the binaries.
+For convinience the source of Sqlite3, JsonCpp and TinyXml is already included and configured to be built and linked statically by CMake. You have to build the other dependencies yourself. However their header files are already included and configured in the include directory of the project, so you only have to provide the binaries.
 
 ### LimeReport
 This library is required for generating and printing the ambulatory sheets and invoices. Go to [https://github.com/fralx/LimeReport](https://github.com/fralx/LimeReport) and download the source code. Build it as dynamic library with CMake (or use QtCreator with the provided *.pri file). The additional QZint dependency is not required, so if you are building with Cmake, be sure to turn the option off. If you want to run DinoDent in debug mode, be sure to build another binary of LimeReport in Debug configuration, since the Qt Print Module has different binaries for Debug and Release.

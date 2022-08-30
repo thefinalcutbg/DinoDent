@@ -194,7 +194,7 @@ void ListView::refresh(const AmbList& ambList, const Patient& patient)
 		hideNhifSheetData();
 
 	ui.dateEdit->set_Date(ambList.getDate());
-	ui.timeEdit->setTime(QTime(ambList.time.hour, ambList.time.min));
+	ui.timeEdit->setTime(QTime(ambList.time.hour, ambList.time.minutes));
 	
 }
 
@@ -206,7 +206,7 @@ void ListView::setAmbListNum(int number)
 
 void ListView::setDateTime(const Date& d, const Time& t)
 {
-	ui.timeEdit->setTime(QTime(t.hour, t.min, t.sec));
+	ui.timeEdit->setTime(QTime(t.hour, t.minutes, t.sec));
 	ui.dateEdit->setDate(QDate(d.year, d.month, d.day));
 }
 

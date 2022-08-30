@@ -24,9 +24,6 @@ bool init{ false };
 bool initialize()
 {
 
-#ifndef XMLSEC_NO_XSLT
-    xmlIndentTreeOutput = 1;
-#endif /* XMLSEC_NO_XSLT */
 
     /* Init libxml and libxslt libraries */
     xmlInitParser();
@@ -49,7 +46,7 @@ bool initialize()
     return true;
 }
 
-
+#include "View/ModalDialogBuilder.h"
 std::string XmlSigner::signPisQuery(const std::string& bodyContent, evp_pkey_st* prvKey, const std::string& pem_x509)
 {
 
@@ -79,6 +76,8 @@ std::string XmlSigner::signPisQuery(const std::string& bodyContent, evp_pkey_st*
 			"</e:Body>"
 		"</e:Envelope>";
 
+    ModalDialogBuilder::showMultilineDialog(result);
+
     if (!init && !initialize()) {
         return {};//"xmlsec could not be initialized";
     }
@@ -95,7 +94,7 @@ std::string XmlSigner::signPisQuery(const std::string& bodyContent, evp_pkey_st*
     if ((doc == NULL) || (xmlDocGetRootElement(doc) == NULL)) {
         return {};//"Error: unable to parse file";
     }
-    
+
     xmlAttrPtr attr = xmlDocGetRootElement(doc)->children->next->properties;
 
     xmlIDPtr ptr = xmlAddID(NULL, doc, (const xmlChar*)"signedContent", attr);
@@ -131,6 +130,7 @@ std::string XmlSigner::signPisQuery(const std::string& bodyContent, evp_pkey_st*
 
      /* sign the template */
     if (xmlSecDSigCtxSign(dsigCtx, signNode) < 0) {
+        
         return {};//"Error: signature failed\n";
 
     }

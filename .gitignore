@@ -366,3 +366,5 @@ FodyWeavers.xsd
 /TorqueDB1.db
 /TorqueDB.db
 dependencies/
+/IDPrimePKCS1164.dll
+/bit4xpki.dll

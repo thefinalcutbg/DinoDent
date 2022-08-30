@@ -39,6 +39,8 @@ typedef void*                                   xmlSecPtr;
  * Size of something. Should be typedef instead of define
  * but it will break ABI (todo).
  */
+#define XMLSEC_NO_SIZE_T
+
 #ifdef XMLSEC_NO_SIZE_T
 #define xmlSecSize                              unsigned int
 #else  /* XMLSEC_NO_SIZE_T */

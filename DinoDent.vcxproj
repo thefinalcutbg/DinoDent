@@ -116,7 +116,7 @@
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>limereport-qt6.lib;libcrypto.lib;libssl.lib;libxml2.lib;libxmlsec.lib;libxmlsec-openssl.lib;libexslt.lib;libxslt.lib;pkcs11.lib;libp11.lib;$(Qt_LIBS_);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>limereport-qt6.lib;libcrypto.lib;libssl.lib;libxml2.lib;libxmlsec.lib;libxmlsec-openssl.lib;pkcs11.lib;libp11.lib;$(Qt_LIBS_);%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)\dependencies\lib\Debug;$(SolutionDir)\dependencies\lib;$(Qt_LIBPATH_);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -131,7 +131,7 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)\dependencies\lib\Release;$(SolutionDir)\dependencies\lib;$(Qt_LIBPATH_);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>limereport-qt6.lib;libcrypto.lib;libssl.lib;libxml2.lib;libxmlsec.lib;libxmlsec-openssl.lib;libexslt.lib;libxslt.lib;pkcs11.lib;libp11.lib;$(Qt_LIBS_);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>limereport-qt6.lib;libcrypto.lib;libssl.lib;libxml2.lib;libxmlsec.lib;libxmlsec-openssl.lib;pkcs11.lib;libp11.lib;$(Qt_LIBS_);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">

@@ -10,8 +10,6 @@
 #include "View/ModalDialogBuilder.h"
 #include <QApplication>
 
-
-
 QNetworkAccessManager* s_manager {nullptr};
 
 std::set<AbstractReplyHandler*> handlers;

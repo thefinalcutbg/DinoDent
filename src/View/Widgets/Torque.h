@@ -8,7 +8,7 @@
 #include "ui_Torque.h"
 
 #include "View/Interfaces/IMainView.h"
-#include "Network/HIS/ConcreteHisTest.h"
+#include "Network/HIS/UpdateMedications.h"
 
 class Torque : public QMainWindow, public IMainView
 {
@@ -16,7 +16,7 @@ class Torque : public QMainWindow, public IMainView
 
     MainPresenter presenter;
 
-    ConcreteHisTest test;
+    UpdateMedications test;
 
     void paintEvent(QPaintEvent* event);
     void closeEvent(QCloseEvent* event);

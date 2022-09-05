@@ -20,11 +20,13 @@ Torque::Torque(QWidget* parent)
 
     ui.newButton->setIcon(QIcon(":/icons/icon_sheet.png"));
     ui.perioButton->setIcon(QIcon(":/icons/icon_periosheet.png"));
+    ui.perscrButton->setIcon(QIcon(":/icons/icon_prescr.png"));
     ui.saveButton->setIcon(QIcon(":/icons/icon_save.png"));
     ui.listSelectButton->setIcon(QIcon(":/icons/icon_open.png"));
     ui.printButton->setIcon(QIcon(":/icons/icon_print.png"));
     ui.pisButton->setIcon(QIcon(":/icons/icon_nzok.png"));
     ui.settingsButton->setIcon(QIcon(":/icons/icon_settings.png"));
+
 
     QAction* settingsAction = new QAction(u8"Настройки");
     QAction* exitAction = new QAction(u8"Изход");
@@ -35,13 +37,14 @@ Torque::Torque(QWidget* parent)
     connect(ui.newButton, &QPushButton::clicked, [&] { presenter.newAmbPressed(); });
     connect(ui.saveButton, &QPushButton::clicked, [&] { presenter.save(); });
     connect(ui.listSelectButton, &QPushButton::clicked, [&] {presenter.showListSelector(); });
+    connect(ui.perscrButton, &QPushButton::clicked, [&] { presenter.newPerscriptionPressed(); });
     connect(ui.printButton, &QPushButton::clicked, [&] {presenter.printPressed(); });
     connect(ui.perioButton, &QPushButton::clicked, [&] {presenter.newPerioPressed(); });
     connect(settingsAction, &QAction::triggered, [&] {presenter.userSettingsPressed();});
     connect(ui.pisButton, &QPushButton::clicked, [&] { presenter.pisDialog();});
     connect(ui.settingsButton, &QPushButton::clicked, [&] { presenter.settingsPressed();});
-   // connect(ui.hisButton, &QPushButton::clicked, [&] { test.sendRequest(11);});
-
+    connect(ui.hisButton, &QPushButton::clicked, [&] { test.update();});
+    
     connect(exitAction, &QAction::triggered, [&] { presenter.logOut(); });
 
     ui.userButton->setMenu(userMenu);
@@ -110,7 +113,7 @@ void Torque::exitProgram()
 
 bool Torque::initialized()
 {
-    return m_initialized;
+    return m_loggedIn;
 }
 
 void Torque::paintEvent(QPaintEvent* event)

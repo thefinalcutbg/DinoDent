@@ -25,26 +25,27 @@ bool HisService::sendRequestToHis(const std::string& query)
 		return HisToken::requestToken(this, query);
 	}
 
-	ModalDialogBuilder::showMultilineDialog(buildMessage(query));
-
 	auto signedMsg = signMessage(buildMessage(query));
 
 	if (signedMsg.empty()) return false;
 
-	return true;
-
 	awaiting_reply = true;
-
 
 	NetworkManager::sendRequestToHis(
 		  this, 
 		  signedMsg, 
 		  HisToken::getToken(), 
-		 "https://ptest-api.his.bg/" + servicePath
+		 "https://api.his.bg/" + servicePath
 	);
 
 	return true;
 	
+}
+
+bool HisService::sendRequestToHisNoAuth(const std::string& query)
+{
+	NetworkManager::sendRequestToHisNoAuth(this, buildMessage(query), "https://api.his.bg/" + servicePath);
+	return true;
 }
 
 const std::string HisService::signMessage(const std::string& message)
@@ -83,7 +84,7 @@ const std::string HisService::signMessage(const std::string& message)
 const std::string HisService::buildMessage(const std::string& query)
 {
 
-	constexpr const char* softwareName = "Torque";
+	constexpr const char* softwareName = "DinoDent";
 
 	std::string result;
 

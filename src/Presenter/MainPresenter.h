@@ -20,6 +20,7 @@ public:
 	void printPressed();
 	void newAmbPressed();
 	void newPerioPressed();
+	void newPerscriptionPressed();
 	void showListSelector();
 	void pisDialog();
 	void settingsPressed();

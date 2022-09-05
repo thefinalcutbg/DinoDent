@@ -36,19 +36,19 @@ bool Db::hasRows(){
 }
 
 int Db::asInt(int column){ 
-    if (sqlite3_column_type(stmt, column) == SQLITE_NULL) return -1;
+    if (sqlite3_column_type(stmt, column) == SQLITE_NULL) return 0;
     return sqlite3_column_int(stmt, column); 
 }
 
 long long Db::asRowId(int column)
 {
-    if (sqlite3_column_type(stmt, column) == SQLITE_NULL) return -1;
+    if (sqlite3_column_type(stmt, column) == SQLITE_NULL) return 0;
     return sqlite3_column_int64(stmt, column);
 }
 
 long long Db::asLongLong(int column)
 {
-    if (sqlite3_column_type(stmt, column) == SQLITE_NULL) return -1;
+    if (sqlite3_column_type(stmt, column) == SQLITE_NULL) return 0;
     return sqlite3_column_int64(stmt, column);
 }
 
@@ -60,7 +60,7 @@ bool Db::asBool(int column)
 
 double Db::asDouble(int column)
 {
-    if (sqlite3_column_type(stmt, column) == SQLITE_NULL) return -1;
+    if (sqlite3_column_type(stmt, column) == SQLITE_NULL) return 0;
     return sqlite3_column_double(stmt, column);
 }
 

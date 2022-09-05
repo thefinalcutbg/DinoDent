@@ -57,7 +57,7 @@ class PatientTile : public TileButton
 public:
     IconButton* nraIcon;
     PatientTile(QWidget* parent = 0);
-    void setData(const Patient& patient, Date currentDate);
+    void setData(const Patient& patient, const Date& currentDate);
 
 };
 

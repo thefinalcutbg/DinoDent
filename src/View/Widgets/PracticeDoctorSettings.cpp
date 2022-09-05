@@ -41,6 +41,8 @@ void PracticeDoctorSettings::setDoctorList(const std::vector<PracticeDoctor>& do
 {
 	ui.doctorList->clear();
 
+	ui.adminCheck->setEnabled(doctors.size());
+
 	for (auto doctor : doctors)
 	{
 		QString postfix = doctor.admin ? u8" (администратор)" : "";

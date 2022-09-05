@@ -28,6 +28,7 @@
         <file>prevYear.png</file>
         <file>icon_downArrow.png</file>
         <file>icon_xml.png</file>
+        <file>icon_prescr.png</file>
     </qresource>
     <qresource prefix="/tooth">
         <file>tooth_approximal.png</file>
@@ -61,9 +62,13 @@
         <file>json_nzok.json</file>
         <file>json_mkb.json</file>
         <file>json_ekatte.json</file>
+        <file>json_medicationForms.json</file>
+        <file>json_dose.json</file>
+        <file>json_route.json</file>
     </qresource>
     <qresource prefix="/style">
         <file>dateEditStyle.qss</file>
+        <file>json_medicationForms.json</file>
     </qresource>
     <qresource prefix="/updates">
         <file>update_dbEkatte.json</file>

@@ -183,7 +183,7 @@
     <ClCompile Include="src\Model\xml.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Network\HIS\ConcreteHisTest.cpp">
+    <ClCompile Include="src\Network\HIS\GetNumenclature.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Network\HIS\HisService.cpp">
@@ -486,7 +486,7 @@
     <ClCompile Include="src\View\SubWidgets\VitaWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\uiComponents\CityLineEdit.cpp">
+    <ClCompile Include="src\View\uiComponents\AutoCompleteLineEdit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\uiComponents\ComboBox.cpp">
@@ -705,6 +705,48 @@
     <ClCompile Include="include\TinyXML\tinyxmlparser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Model\Perscription\Perscription.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Model\Perscription\Medication.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Model\Perscription\Dosage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Network\HIS\UpdateMedications.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Presenter\PerscriptionPresenter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\Widgets\PerscriptionView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\Widgets\MedicationDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\Widgets\DosageDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Presenter\MedicationPresenter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Presenter\DosagePresenter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Model\Perscription\TimeLapse.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Model\Perscription\DoseQuantity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Model\Perscription\Route.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Model\Validators\PerscriptionValidators.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Database\Database.h">
@@ -911,7 +953,7 @@
     <ClInclude Include="src\Model\xml.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Network\HIS\ConcreteHisTest.h">
+    <ClInclude Include="src\Network\HIS\GetNumenclature.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Network\HIS\HisService.h">
@@ -1235,7 +1277,7 @@
     <ClInclude Include="src\View\Models\QProcedure.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\View\uiComponents\CityLineEdit.h">
+    <ClInclude Include="src\View\uiComponents\AutoCompleteLineEdit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\uiComponents\FinancialTileButton.h">
@@ -1281,6 +1323,48 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\TinyXML\tinyxml.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\Perscription\Perscription.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\Perscription\Medication.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\Perscription\Dosage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Network\HIS\UpdateMedications.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Presenter\PerscriptionPresenter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\View\Interfaces\IPerscriptionView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\View\Interfaces\IMedicationDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Presenter\MedicationPresenter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Presenter\DosagePresenter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\View\Interfaces\IDosageDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\Perscription\TimeLapse.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\Perscription\DoseQuantity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\Perscription\Route.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\Validators\PerscriptionValidators.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1546,6 +1630,15 @@
     <QtMoc Include="src\View\Widgets\UpdateDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\View\Widgets\PerscriptionView.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\Widgets\MedicationDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\Widgets\DosageDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\View\Widgets\AddPracticeDialog.ui">
@@ -1699,6 +1792,15 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\SubWidgets\VitaWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\Widgets\PerscriptionView.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\Widgets\MedicationDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\Widgets\DosageDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

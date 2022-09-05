@@ -139,6 +139,42 @@ void NetworkManager::sendRequestToHis(
         });
 }
 
+void NetworkManager::sendRequestToHisNoAuth(AbstractReplyHandler* handler, const std::string& nhifMessage, const std::string& urlAndServicePath)
+{
+
+    if (!s_manager) { s_manager = new QNetworkAccessManager(); }
+
+    QApplication::setOverrideCursor(Qt::BusyCursor);
+
+    handlers.insert(handler);
+
+    QUrl url(urlAndServicePath.c_str());
+
+    QSslConfiguration config(QSslConfiguration::defaultConfiguration());
+    config.setProtocol(QSsl::SslProtocol::TlsV1_3);
+
+    QNetworkRequest request(url);
+    request.setHeader(QNetworkRequest::KnownHeaders::ContentTypeHeader, "application/xml;charset=\"utf-8\"");
+    request.setRawHeader("accept", "\"application/xml\"");
+    request.setRawHeader("Connection", "Keep-Alive");
+
+    QNetworkReply* reply = s_manager->post(request, nhifMessage.data());
+
+    QObject::connect(reply, &QNetworkReply::finished,
+        [=]() {
+
+            QApplication::restoreOverrideCursor();
+
+            if (handlers.count(handler) == 0) return;
+
+            handler->getReply(reply->readAll().toStdString());
+
+            reply->deleteLater();
+
+
+        });
+}
+
 void NetworkManager::sendRequestToNra(const std::string xmlRequest, AbstractReplyHandler* handler)
 {
     if (!s_manager) {
@@ -214,7 +250,7 @@ void NetworkManager::requestChallenge()
     }
 
 
-    QUrl url("https://ptest-auth.his.bg/token");
+    QUrl url("https://auth.his.bg/token");
 
     QNetworkRequest request(url);
     QNetworkReply* reply = s_manager->get(request);
@@ -235,7 +271,7 @@ void NetworkManager::requestChallenge()
 
 void NetworkManager::requestToken(const std::string& signedChallenge)
 {
-    QUrl url("https://ptest-auth.his.bg/token");
+    QUrl url("https://auth.his.bg/token");
 
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::KnownHeaders::ContentTypeHeader, "application/xml;charset=\"utf-8\"");

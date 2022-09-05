@@ -44,7 +44,7 @@ class CityValidator : public Validator
 	static const std::string invalidCity;
 
 public:
-
+	CityValidator() { _errorMsg = &invalidCity; }
 	bool validateInput(const std::string& text);
 };
 

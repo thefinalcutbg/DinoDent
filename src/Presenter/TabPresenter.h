@@ -43,6 +43,7 @@ public:
 	void refreshPatientTabNames(long long patientRowId);
 	void openList(const Patient& patient);
 	void openPerio(const Patient& patient);
+	void openPerscription(const Patient& patient);
 
 	void openInvoice(const std::string& monthNotif);
 	void openInvoice(const std::vector<Procedure>& procedures, long long patientRowId);

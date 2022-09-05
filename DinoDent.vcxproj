@@ -214,6 +214,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Model\Perscription\Route.cpp" />
+    <ClCompile Include="src\Model\Perscription\DoseQuantity.cpp" />
+    <ClCompile Include="src\Model\Perscription\TimeLapse.cpp" />
+    <ClCompile Include="src\Model\Validators\PerscriptionValidators.cpp" />
+    <ClCompile Include="src\Presenter\DosagePresenter.cpp" />
+    <ClCompile Include="src\Presenter\MedicationPresenter.cpp" />
+    <ClCompile Include="src\Presenter\PerscriptionPresenter.cpp" />
+    <ClCompile Include="src\Network\HIS\UpdateMedications.cpp" />
+    <ClCompile Include="src\Model\Perscription\Dosage.cpp" />
     <ClCompile Include="include\JsonCpp\jsoncpp.cpp" />
     <ClCompile Include="include\sqLite3\shell.c" />
     <ClCompile Include="include\sqLite3\sqlite3.c" />
@@ -221,6 +230,8 @@
     <ClCompile Include="include\TinyXML\tinyxml.cpp" />
     <ClCompile Include="include\TinyXML\tinyxmlerror.cpp" />
     <ClCompile Include="include\TinyXML\tinyxmlparser.cpp" />
+    <ClCompile Include="src\Model\Perscription\Medication.cpp" />
+    <ClCompile Include="src\Model\Perscription\Perscription.cpp" />
     <ClCompile Include="src\Database\Database.cpp" />
     <ClCompile Include="src\Database\DbAmbList.cpp" />
     <ClCompile Include="src\Database\DbDoctor.cpp" />
@@ -277,7 +288,7 @@
     <ClCompile Include="src\Model\xml.cpp" />
     <ClCompile Include="src\Network\AbstractReplyHandler.cpp" />
     <ClCompile Include="src\Network\Base64Convert.cpp" />
-    <ClCompile Include="src\Network\HIS\ConcreteHisTest.cpp" />
+    <ClCompile Include="src\Network\HIS\GetNumenclature.cpp" />
     <ClCompile Include="src\Network\HIS\HisService.cpp" />
     <ClCompile Include="src\Network\HIS\HisToken.cpp" />
     <ClCompile Include="src\Network\NetworkManager.cpp" />
@@ -381,7 +392,7 @@
     <ClCompile Include="src\View\SubWidgets\TabTitle.cpp" />
     <ClCompile Include="src\View\SubWidgets\VitaWidget.cpp" />
     <ClCompile Include="src\View\Theme.cpp" />
-    <ClCompile Include="src\View\uiComponents\CityLineEdit.cpp" />
+    <ClCompile Include="src\View\uiComponents\AutoCompleteLineEdit.cpp" />
     <ClCompile Include="src\View\uiComponents\ComboBox.cpp" />
     <ClCompile Include="src\View\uiComponents\customdateedit.cpp" />
     <ClCompile Include="src\View\uiComponents\DateEdit.cpp" />
@@ -412,16 +423,19 @@
     <ClCompile Include="src\View\Widgets\BusinessOpEditDialog.cpp" />
     <ClCompile Include="src\View\Widgets\DetailedStatus.cpp" />
     <ClCompile Include="src\View\Widgets\DoctorSettingsDialog.cpp" />
+    <ClCompile Include="src\View\Widgets\DosageDialog.cpp" />
     <ClCompile Include="src\View\Widgets\FinancialView.cpp" />
     <ClCompile Include="src\View\Widgets\GeneralSettings.cpp" />
     <ClCompile Include="src\View\Widgets\KSMPDialog.cpp" />
     <ClCompile Include="src\View\Widgets\ListView.cpp" />
     <ClCompile Include="src\View\Widgets\LoginView.cpp" />
+    <ClCompile Include="src\View\Widgets\MedicationDialog.cpp" />
     <ClCompile Include="src\View\Widgets\MonthNotifView.cpp" />
     <ClCompile Include="src\View\Widgets\PatientFormDialog.cpp" />
     <ClCompile Include="src\View\Widgets\PatientSummary.cpp" />
     <ClCompile Include="src\View\Widgets\PerioStatusView.cpp" />
     <ClCompile Include="src\View\Widgets\PerioView.cpp" />
+    <ClCompile Include="src\View\Widgets\PerscriptionView.cpp" />
     <ClCompile Include="src\View\Widgets\PinPromptDialog.cpp" />
     <ClCompile Include="src\View\Widgets\PisDialog.cpp" />
     <ClCompile Include="src\View\Widgets\PISHistoryDialog.cpp" />
@@ -443,12 +457,23 @@
     <ClCompile Include="src\View\Widgets\UpdateDialog.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Model\Perscription\Route.h" />
+    <ClInclude Include="src\Model\Perscription\DoseQuantity.h" />
+    <ClInclude Include="src\Model\Perscription\TimeLapse.h" />
+    <ClInclude Include="src\Model\Validators\PerscriptionValidators.h" />
+    <ClInclude Include="src\Presenter\DosagePresenter.h" />
+    <ClInclude Include="src\Presenter\MedicationPresenter.h" />
+    <ClInclude Include="src\Presenter\PerscriptionPresenter.h" />
+    <ClInclude Include="src\Network\HIS\UpdateMedications.h" />
+    <ClInclude Include="src\Model\Perscription\Dosage.h" />
     <ClInclude Include="include\JsonCpp\json-forwards.h" />
     <ClInclude Include="include\JsonCpp\json.h" />
     <ClInclude Include="include\sqLite3\sqlite3.h" />
     <ClInclude Include="include\sqLite3\sqlite3ext.h" />
     <ClInclude Include="include\TinyXML\tinystr.h" />
     <ClInclude Include="include\TinyXML\tinyxml.h" />
+    <ClInclude Include="src\Model\Perscription\Medication.h" />
+    <ClInclude Include="src\Model\Perscription\Perscription.h" />
     <ClInclude Include="src\Database\Database.h" />
     <ClInclude Include="src\Database\DbAmbList.h" />
     <ClInclude Include="src\Database\DbDoctor.h" />
@@ -519,7 +544,7 @@
     <ClInclude Include="src\Model\xml.h" />
     <ClInclude Include="src\Network\AbstractReplyHandler.h" />
     <ClInclude Include="src\Network\Base64Convert.h" />
-    <ClInclude Include="src\Network\HIS\ConcreteHisTest.h" />
+    <ClInclude Include="src\Network\HIS\GetNumenclature.h" />
     <ClInclude Include="src\Network\HIS\HisService.h" />
     <ClInclude Include="src\Network\HIS\HisToken.h" />
     <ClInclude Include="src\Network\NetworkManager.h" />
@@ -604,6 +629,7 @@
     <ClInclude Include="src\View\Interfaces\ICrownView.h" />
     <ClInclude Include="src\View\Interfaces\IDetailedStatusView.h" />
     <ClInclude Include="src\View\Interfaces\IDoctorSettingsDialog.h" />
+    <ClInclude Include="src\View\Interfaces\IDosageDialog.h" />
     <ClInclude Include="src\View\Interfaces\IFiberSplintView.h" />
     <ClInclude Include="src\View\Interfaces\IFinancialView.h" />
     <ClInclude Include="src\View\Interfaces\IImplantView.h" />
@@ -611,12 +637,14 @@
     <ClInclude Include="src\View\Interfaces\IListView.h" />
     <ClInclude Include="src\View\Interfaces\ILoginView.h" />
     <ClInclude Include="src\View\Interfaces\IMainView.h" />
+    <ClInclude Include="src\View\Interfaces\IMedicationDialog.h" />
     <ClInclude Include="src\View\Interfaces\IMonthNotifView.h" />
     <ClInclude Include="src\View\Interfaces\IObturationView.h" />
     <ClInclude Include="src\View\Interfaces\IPacticeSettings.h" />
     <ClInclude Include="src\View\Interfaces\IPatientDialog.h" />
     <ClInclude Include="src\View\Interfaces\IPatientSummaryView.h" />
     <ClInclude Include="src\View\Interfaces\IPerioView.h" />
+    <ClInclude Include="src\View\Interfaces\IPerscriptionView.h" />
     <ClInclude Include="src\View\Interfaces\IPracticeDoctorSettings.h" />
     <ClInclude Include="src\View\Interfaces\IPriceListSettings.h" />
     <ClInclude Include="src\View\Interfaces\IProcedureDialog.h" />
@@ -630,9 +658,12 @@
     <ClInclude Include="src\View\Models\QProcedure.h" />
     <ClInclude Include="src\View\Printer.h" />
     <ClInclude Include="src\View\Theme.h" />
-    <ClInclude Include="src\View\uiComponents\CityLineEdit.h" />
+    <ClInclude Include="src\View\uiComponents\AutoCompleteLineEdit.h" />
     <ClInclude Include="src\View\uiComponents\FinancialTileButton.h" />
     <ClInclude Include="src\View\uiComponents\TileButton.h" />
+    <QtMoc Include="src\View\Widgets\PerscriptionView.h" />
+    <QtMoc Include="src\View\Widgets\MedicationDialog.h" />
+    <QtMoc Include="src\View\Widgets\DosageDialog.h" />
     <ClInclude Include="src\View\Widgets\ReportDialogResult.h" />
     <ClInclude Include="src\View\Widgets\ToothUi.h" />
     <QtMoc Include="src\View\Widgets\UpdateDialog.h" />
@@ -747,16 +778,19 @@
     <QtUic Include="src\View\Widgets\BusinessOpEditDialog.ui" />
     <QtUic Include="src\View\Widgets\DetailedStatus.ui" />
     <QtUic Include="src\View\Widgets\DoctorSettingsDialog.ui" />
+    <QtUic Include="src\View\Widgets\DosageDialog.ui" />
     <QtUic Include="src\View\Widgets\FinancialView.ui" />
     <QtUic Include="src\View\Widgets\GeneralSettings.ui" />
     <QtUic Include="src\View\Widgets\KSMPDialog.ui" />
     <QtUic Include="src\View\Widgets\ListView.ui" />
     <QtUic Include="src\View\Widgets\LoginView.ui" />
+    <QtUic Include="src\View\Widgets\MedicationDialog.ui" />
     <QtUic Include="src\View\Widgets\MonthNotifView.ui" />
     <QtUic Include="src\View\Widgets\PatientFormDialog.ui" />
     <QtUic Include="src\View\Widgets\PatientSummary.ui" />
     <QtUic Include="src\View\Widgets\PerioStatusView.ui" />
     <QtUic Include="src\View\Widgets\PerioView.ui" />
+    <QtUic Include="src\View\Widgets\PerscriptionView.ui" />
     <QtUic Include="src\View\Widgets\PinPromptDialog.ui" />
     <QtUic Include="src\View\Widgets\PisDialog.ui" />
     <QtUic Include="src\View\Widgets\PISHistoryDialog.ui" />

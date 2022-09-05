@@ -8,7 +8,7 @@ PatientFormDialog::PatientFormDialog(PatientDialogPresenter* p, QWidget* parent)
     ui.hirbnoButton->setIcon(QIcon(":/icons/icon_nzok.png"));
     setModal(true);
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
-    setWindowTitle(u8"Нов амбулаторен лист");
+    setWindowTitle(u8"Нов документ");
 
     numValidator = new QRegularExpressionValidator(QRegularExpression("[0-9]+"), this);
 
@@ -19,6 +19,8 @@ PatientFormDialog::PatientFormDialog(PatientDialogPresenter* p, QWidget* parent)
 
     phoneValidator = new QRegularExpressionValidator(QRegularExpression("[0-9-+ a-z A-Z ]+"), this);
     ui.phoneEdit->QLineEdit::setValidator(phoneValidator);
+
+    ui.cityLineEdit->setCompletions(Ekatte::cityNameToIdx());
 
     connect(ui.typeComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
         [=](int index) { presenter->changePatientType(index + 1); ui.idLineEdit->QLineEdit::setFocus(); });
@@ -83,6 +85,11 @@ void PatientFormDialog::setLn4View(bool show)
 {
     ui.sexCombo->setCurrentIndex(0);
 
+}
+
+void PatientFormDialog::setTitle(const std::string& title)
+{
+    setWindowTitle(title.c_str());
 }
 
 void PatientFormDialog::resetFields()

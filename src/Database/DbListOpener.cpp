@@ -46,8 +46,7 @@ std::vector<AmbRow> DbListOpener::getAmbRows(const Date& from, const Date& to)
         "HAVING amblist.date BETWEEN '" + from.to8601() + "' AND '" + to.to8601() + "' "
         "AND amblist.lpk = '" + User::doctor().LPK + "' "
         "AND amblist.rzi = '" + User::practice().rziCode + "' "
-        "ORDER BY amblist.date ASC, amblist.num ASC ";
-
+        "ORDER BY strftime('%Y %m %d', amblist.date) ASC, amblist.num ASC ";
 
     Db db(query);
 

@@ -41,7 +41,7 @@ public:
     void setEditMode(bool editMode) override;
     void close() override;
     void setLn4View(bool show) override;
-
+    void setTitle(const std::string& title) override;
     void resetFields() override;
 
     void setPatient(const Patient& patient) override;

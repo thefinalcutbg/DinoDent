@@ -49,7 +49,6 @@ class PatientDialogPresenter
 public:
 	PatientDialogPresenter();
 	PatientDialogPresenter(const Patient& patient);
-
 	std::optional<Patient> open();
 
 	void changePatientType(int index);

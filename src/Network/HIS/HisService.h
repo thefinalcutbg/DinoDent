@@ -28,6 +28,7 @@ protected:
 	{}
 public:
 	bool sendRequestToHis(const std::string& query);
+	bool sendRequestToHisNoAuth(const std::string& query);
 
 };
 

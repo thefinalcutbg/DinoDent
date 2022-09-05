@@ -9,11 +9,10 @@ class LineEdit : public QLineEdit, public AbstractLineEdit
 {
 	Q_OBJECT
 	
-	bool defaultWidthSet;
-	int defaultWidth;
 	void dynamicWidthChange();
 	bool disabled;
 	QLabel* errorLabel;
+	int initialWidth{ 0 };
 protected:
 
 public:

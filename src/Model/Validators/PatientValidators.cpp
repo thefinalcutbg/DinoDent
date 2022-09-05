@@ -123,7 +123,7 @@ bool HIRBNoValidator::validateInput(const std::string& text)
     return true;
 }
 
-const std::string CityValidator::invalidCity{ "vНевалидно населено място" };
+const std::string CityValidator::invalidCity{ "Невалидно населено място" };
 
 #include "Model/Ekatte.h"
 

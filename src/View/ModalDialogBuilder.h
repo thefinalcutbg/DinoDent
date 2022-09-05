@@ -26,6 +26,8 @@ class DoctorDialogPresenter;
 class InvoicePresenter;
 class AddPracticePresenter;
 class MonthNotifPresenter;
+class MedicationPresenter;
+class DosagePresenter;
 
 enum class DialogAnswer { Yes, No, Cancel };
 
@@ -43,6 +45,8 @@ namespace ModalDialogBuilder
 	void openDialog(LoginPresenter* p);
 	void openDialog(AddPracticePresenter* p);
 	void openDialog(DoctorDialogPresenter* p);
+	void openDialog(MedicationPresenter* p);
+	void openDialog(DosagePresenter* p);
 
 	std::optional<ProcedureTemplate> openProcedureTemplateDialog(const ProcedureTemplate* pTemp = nullptr, int code = 0);
 	DialogAnswer openSaveDialog(const std::string& text);

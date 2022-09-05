@@ -293,11 +293,11 @@ void CustomDateEdit::changeType(menuContent type) {
     this->type = type;
     if (type == menuContent::DAY) {
         changeMenu(menuContent::DAY);
-        setDisplayFormat("dd-MM-yyyy");
+        setDisplayFormat("dd.MM.yyyy");
         monthButton->show();
     } else if (type == menuContent::MONTH) {
         monthMenuPopup();
-        setDisplayFormat("MM-yyyy");
+        setDisplayFormat("MM.yyyy");
         monthButton->show();
     } else if (type == menuContent::YEAR) {
         yearMenuPopup();

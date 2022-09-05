@@ -242,10 +242,11 @@ void TabView::setScrollPos(ScrollPos scrollPos)
 
 void TabView::showListView()
 {
-
     showTabWidget(&m_listView);
     m_perioView.setPresenter(nullptr);
     m_summaryView.setPresenter(nullptr);
+    m_perscriptionView.setPresenter(nullptr);
+    m_financialView.setPresenter(nullptr);
 }
 
 void TabView::showPerioView()
@@ -253,6 +254,8 @@ void TabView::showPerioView()
     showTabWidget(&m_perioView);
     m_listView.setPresenter(nullptr);
     m_summaryView.setPresenter(nullptr);
+    m_perscriptionView.setPresenter(nullptr);
+    m_financialView.setPresenter(nullptr);
 }
 
 void TabView::showSummaryView()
@@ -261,6 +264,7 @@ void TabView::showSummaryView()
     m_listView.setPresenter(nullptr);
     m_perioView.setPresenter(nullptr);
     m_financialView.setPresenter(nullptr);
+    m_perscriptionView.setPresenter(nullptr);
 }
 
 void TabView::showFinancialView()
@@ -269,6 +273,16 @@ void TabView::showFinancialView()
     m_listView.setPresenter(nullptr);
     m_perioView.setPresenter(nullptr);
     m_summaryView.setPresenter(nullptr);
+    m_perscriptionView.setPresenter(nullptr);
+}
+
+void TabView::showPerscriptionView()
+{
+    showTabWidget(&m_perscriptionView);
+    m_listView.setPresenter(nullptr);
+    m_perioView.setPresenter(nullptr);
+    m_summaryView.setPresenter(nullptr);
+    m_financialView.setPresenter(nullptr);
 }
 
 void TabView::showDinosaur()
@@ -276,28 +290,9 @@ void TabView::showDinosaur()
     showTabWidget(noTabs);
     m_listView.setPresenter(nullptr);
     m_perioView.setPresenter(nullptr);
+    m_summaryView.setPresenter(nullptr);
+    m_financialView.setPresenter(nullptr);
 }
-
-IListView* TabView::listView()
-{
-    return &m_listView;
-}
-
-IPerioView* TabView::perioView()
-{
-    return &m_perioView;
-}
-
-IPatientSummaryView* TabView::summaryView()
-{
-    return &m_summaryView;
-}
-
-IFinancialView* TabView::financialView()
-{
-    return &m_financialView;
-}
-
 
 TabView::~TabView()
 {

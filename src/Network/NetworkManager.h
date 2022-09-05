@@ -22,6 +22,12 @@ namespace NetworkManager
 		const std::string& urlAndServicePath
 	);
 
+	void sendRequestToHisNoAuth(
+		AbstractReplyHandler* handler,
+		const std::string& nhifMessage,
+		const std::string& urlAndServicePath
+	);
+
 	void sendRequestToNra(
 		const std::string xmlRequest, 
 		AbstractReplyHandler* handler

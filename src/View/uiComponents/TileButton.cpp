@@ -156,7 +156,7 @@ void PatientTile::paintInfo(QPainter* painter)
 }
 
 
-void PatientTile::setData(const Patient& patient, Date currentDate)
+void PatientTile::setData(const Patient& patient, const Date& currentDate)
 {
 	name = elide(QString::fromStdString(patient.fullName()), 35);
 

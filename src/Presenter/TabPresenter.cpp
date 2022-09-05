@@ -6,6 +6,7 @@
 #include "ListPresenter.h"
 #include "PerioPresenter.h"
 #include "PatientSummaryPresenter.h"
+#include "PerscriptionPresenter.h"
 #include "FinancialPresenter.h"
 #include <TinyXML/tinyxml.h>
 
@@ -134,6 +135,11 @@ void TabPresenter::openList(const Patient& patient)
 void TabPresenter::openPerio(const Patient& patient)
 {
     openTab(new PerioPresenter(view, getPatient_ptr(patient)));
+}
+
+void TabPresenter::openPerscription(const Patient& patient)
+{
+    openTab(new PerscriptionPresenter(view, this, getPatient_ptr(patient)));
 }
 
 void TabPresenter::openInvoice(const std::string& monthNotif)

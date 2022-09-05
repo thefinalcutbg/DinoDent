@@ -37,14 +37,14 @@ void MainPresenter::setView(IMainView* view)
         }
         else
         {
-            view->m_initialized = false;
+            view->m_loggedIn = false;
             return;
         }
     }
 
     LoginPresenter login;
 
-    view->m_initialized = login.successful();
+    view->m_loggedIn = login.successful();
 
     view->setUserLabel(
         User::doctor().getFullName(),
@@ -84,6 +84,16 @@ void MainPresenter::newPerioPressed()
 
     if (patient.has_value())
         m_tabPresenter.openPerio(patient.value());
+}
+
+void MainPresenter::newPerscriptionPressed()
+{
+    PatientDialogPresenter p;
+
+    auto patient = p.open();
+
+    if (patient.has_value())
+        m_tabPresenter.openPerscription(patient.value());
 }
 
 void MainPresenter::showListSelector()

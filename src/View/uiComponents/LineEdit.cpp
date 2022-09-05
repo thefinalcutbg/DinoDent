@@ -3,8 +3,6 @@
 #include <QLabel>
 LineEdit::LineEdit(QWidget* parent)
 	: QLineEdit(parent),
-	defaultWidth(width()),
-	defaultWidthSet(0),
 	disabled(0),
 	errorLabel(nullptr)
 {
@@ -91,16 +89,15 @@ void LineEdit::keyPressEvent(QKeyEvent* event)
 
 void LineEdit::dynamicWidthChange()
 {
-	if (!defaultWidthSet)
-	{
-		defaultWidth = width(); defaultWidthSet = true;
-	};
+	if (sizePolicy().horizontalPolicy() == QSizePolicy::Policy::Expanding) return;
 
-	QFontMetrics fm(font());
-	int pixelsWide = fm.boundingRect(text()).width();
-	if (pixelsWide > defaultWidth - 6)
+	if(!initialWidth) initialWidth = width();
+
+	int pixelsWide = QFontMetrics(font()).boundingRect(text()).width();
+
+	if (pixelsWide > initialWidth - 6)
 		setFixedWidth(pixelsWide + 9);
-	else setFixedWidth(defaultWidth);
+	else setFixedWidth(initialWidth);
 }
 
 

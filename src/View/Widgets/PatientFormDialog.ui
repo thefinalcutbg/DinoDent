@@ -138,14 +138,20 @@
     <string>Адрес:</string>
    </property>
   </widget>
-  <widget class="CityLineEdit" name="cityLineEdit">
+  <widget class="AutoCompleteLineEdit" name="cityLineEdit">
    <property name="geometry">
     <rect>
      <x>130</x>
      <y>180</y>
-     <width>121</width>
+     <width>241</width>
      <height>20</height>
     </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
    </property>
    <property name="maxLength">
     <number>68</number>
@@ -262,7 +268,7 @@
    </property>
    <property name="maximumDateTime">
     <datetime>
-     <hour>21</hour>
+     <hour>9</hour>
      <minute>59</minute>
      <second>59</second>
      <year>9999</year>
@@ -401,9 +407,9 @@
    <header>View/uiComponents/LineEdit.h</header>
   </customwidget>
   <customwidget>
-   <class>CityLineEdit</class>
+   <class>AutoCompleteLineEdit</class>
    <extends>QLineEdit</extends>
-   <header>View/uiComponents/CityLineEdit.h</header>
+   <header>View/uiComponents/AutoCompleteLineEdit.h</header>
   </customwidget>
   <customwidget>
    <class>DateEdit</class>

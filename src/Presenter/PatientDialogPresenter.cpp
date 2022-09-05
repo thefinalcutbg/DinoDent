@@ -13,7 +13,6 @@ PatientDialogPresenter::PatientDialogPresenter(const Patient& patient) :
 	view(nullptr)
 {}
 
-
 std::optional<Patient> PatientDialogPresenter::open()
 {
 	ModalDialogBuilder::openDialog(this);

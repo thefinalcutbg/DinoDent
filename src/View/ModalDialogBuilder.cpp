@@ -75,6 +75,22 @@ void ModalDialogBuilder::openDialog(DoctorDialogPresenter* p)
 	d.exec();
 }
 
+#include "View/Widgets/MedicationDialog.h"
+
+void ModalDialogBuilder::openDialog(MedicationPresenter* p)
+{
+	MedicationDialog d(p);
+	d.exec();
+}
+
+#include "View/Widgets/DosageDialog.h"
+
+void ModalDialogBuilder::openDialog(DosagePresenter* p)
+{
+	DosageDialog d(p);
+	d.exec();
+}
+
 
 
 #include "View/Widgets/ProcedureTemplateDialog.h"

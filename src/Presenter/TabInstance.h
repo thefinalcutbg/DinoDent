@@ -5,7 +5,7 @@
 #include "Model/Patient.h"
 #include <memory>
 
-enum class TabType {AmbList, PerioList, PatientSummary, Financial};
+enum class TabType {AmbList, PerioList, Perscription, PatientSummary, Financial};
 
 struct TabName {
 	std::string header;
@@ -87,6 +87,7 @@ public:
 			case TabType::PerioList: _tabView->showPerioView(); break;
 			case TabType::PatientSummary: _tabView->showSummaryView(); break;
 			case TabType::Financial:_tabView->showFinancialView(); break;
+			case TabType::Perscription:_tabView->showPerscriptionView(); break;
 		}
 
 		setScrollPosition();

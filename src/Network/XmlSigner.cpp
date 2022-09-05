@@ -46,7 +46,6 @@ bool initialize()
     return true;
 }
 
-#include "View/ModalDialogBuilder.h"
 std::string XmlSigner::signPisQuery(const std::string& bodyContent, evp_pkey_st* prvKey, const std::string& pem_x509)
 {
 
@@ -76,7 +75,6 @@ std::string XmlSigner::signPisQuery(const std::string& bodyContent, evp_pkey_st*
 			"</e:Body>"
 		"</e:Envelope>";
 
-    ModalDialogBuilder::showMultilineDialog(result);
 
     if (!init && !initialize()) {
         return {};//"xmlsec could not be initialized";

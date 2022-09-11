@@ -16,7 +16,7 @@ constexpr std::array<DurationStruct, durations_size> mapping
 	{"wk", u8"седмица", u8"седмици"}
 } };
 
-std::vector<std::string> TimeLapse::getUnitNamesList()
+std::vector<std::string> TimeLapse::getUnitNamesList() const
 {
 	std::vector<std::string> result;
 	result.reserve(durations_size);
@@ -33,22 +33,22 @@ std::vector<std::string> TimeLapse::getUnitNamesList()
 	return result;
 }
 
-std::string TimeLapse::getUnitName() {
+std::string TimeLapse::getUnitName() const {
 
 	if (value == 1) return mapping[m_unit].singular.data();
 
 	return mapping[m_unit].plural.data();
 }
 
-std::string TimeLapse::getNHISKey()
+std::string TimeLapse::getNHISKey() const
 {
 	return mapping[m_unit].key.data();
 }
 
-bool TimeLapse::setUnit(Unit u)
+bool TimeLapse::setUnit(int unitKey)
 {
-	if (u < 0 || u >= durations_size) return false;
+	if (unitKey < 0 || unitKey >= durations_size) return false;
 
-	m_unit = u;
+	m_unit = unitKey;
 	return true;
 }

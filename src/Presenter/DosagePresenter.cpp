@@ -11,18 +11,22 @@ void DosagePresenter::setView(IDosageDialog* view)
 {
 	this->view = view;
 
-	view->setRouteList(Route::getStringList());	
+	view->setDosage(m_dosage);
+}
 
-	periodValueChanged(m_dosage.period.value);
-	durationValueChanged(m_dosage.duration.value);
-	frequencyChanged(m_dosage.frequency);
-	doseQuantityValueChanged(m_dosage.doseQuantity.value);
-
+void DosagePresenter::okPressed()
+{
+	if(view->fieldsAreValid()) {
+		ok_pressed = true;
+		view->closeUi();
+	}
 }
 
 std::optional<Dosage> DosagePresenter::openDialog()
 {
 	ModalDialogBuilder::openDialog(this);
 
-	return std::optional<Dosage>();
+	if (ok_pressed) return m_dosage;
+
+	return std::optional<Dosage>{};
 }

@@ -399,6 +399,17 @@ void DbUpdates::update1(UpdateDialog* d)
 		
 }
 
+void DbUpdates::update2(UpdateDialog* d)
+{
+	constexpr int version = 2;
+
+	Db db;
+	db.execute("CREATE TABLE medication (num INT NOT NULL PRIMARY KEY, name VARCHAR NOT NULL, form INT NOT NULL)");
+
+
+
+}
+
 
 
 

@@ -11,13 +11,23 @@ class MedicationPresenter
 
 	Medication m_medication;
 
+	bool ok_pressed{ false };
+
 public:
 	
 	MedicationPresenter();
-	void quantityChanged(int quantity);
+	MedicationPresenter(const Medication& m) : m_medication{ m } {};
+	void commonDataChanged(int quantity, bool quantityByForm, bool allowSubstitution);
 	void medicationChanged(const std::string& medication);
-	void substitutionChanged(bool allowSubstitution);
+	void noteChanged(const std::string& note);
+
+
 	void addDosage();
+	void editDosage(int idx);
+	void deleteDosage(int idx);
+
+	void okPressed();
+
 	std::optional<Medication> openDialog();
 	void setView(IMedicationDialog* view);
 

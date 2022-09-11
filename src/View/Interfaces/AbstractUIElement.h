@@ -24,7 +24,7 @@ public:
 	virtual void setValidAppearence(bool valid) {};
 
 	void setInputValidator(Validator* validator);
-	virtual void validateInput();
+	virtual bool validateInput();
 	bool isValid();
 public:
 };

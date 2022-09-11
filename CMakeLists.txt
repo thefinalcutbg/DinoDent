@@ -162,6 +162,7 @@ src\Model\Financial\NzokInvoiceData.cpp
 src\Model\Financial\NzokInvoiceData.h
 src\Model\Financial\Recipient.cpp
 src\Model\Financial\Recipient.h
+src\Model\Perscription\Dispensation.h
 src\Model\Perscription\Dosage.cpp
 src\Model\Perscription\Dosage.h
 src\Model\Perscription\DoseQuantity.cpp
@@ -174,6 +175,8 @@ src\Model\Perscription\Route.cpp
 src\Model\Perscription\Route.h
 src\Model\Perscription\TimeLapse.cpp
 src\Model\Perscription\TimeLapse.h
+src\Model\Perscription\WhenToTake.cpp
+src\Model\Perscription\WhenToTake.h
 src\Model\Validators\AbstractValidator.h
 src\Model\Validators\AmbListValidator.cpp
 src\Model\Validators\AmbListValidator.h
@@ -412,6 +415,8 @@ src\View\Models\FinancialTableModel.cpp
 src\View\Models\FinancialTableModel.h
 src\View\Models\KSMPModel.cpp
 src\View\Models\KSMPModel.h
+src\View\Models\MedicationTableModel.cpp
+src\View\Models\MedicationTableModel.h
 src\View\Models\MonthNotifTableModel.cpp
 src\View\Models\MonthNotifTableModel.h
 src\View\Models\PatientTableModel.cpp
@@ -640,7 +645,6 @@ src\View\Widgets\Torque.ui
 src\View\Widgets\UpdateDialog.cpp
 src\View\Widgets\UpdateDialog.h
 src\View\Widgets\UpdateDialog.ui
-
 )
 
 include_directories(${CMAKE_SOURCE_DIR}/include)

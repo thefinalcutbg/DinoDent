@@ -5,21 +5,27 @@
 class DoseQuantity
 {  
 	int m_unit{ 0 };
+	std::string m_ucum;
+	bool is_ucum{ false };
+
 public:
 
 	static void initialize();
-	static bool isValidFormName(const std::string& formName);
 
 	bool setUnitFromCL010(const std::string& formStr);
 	bool setUnit(int unit);
-	bool setUnit(const std::string& unitName);
+	void setUnit(const std::string& unitName);
 
 	double value{ 1 };
 
-	std::string getUnitName();
+	std::string getUnitName() const;
 
-	std::string getParsedUnit();
+	std::string getParsedUnit() const;
 
-	const std::vector<std::string>& unitNames();
+	bool isValid() const;
+
+	std::string getXmlUnitValue() const;
+
+	const std::vector<std::string>& unitNames() const;
 
 };

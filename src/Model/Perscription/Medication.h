@@ -22,8 +22,10 @@ struct Medication
 
 	bool setName(const std::string& name);
 
-	const std::string& name();
-	const std::string& formStr();
+	std::vector<std::string> dosageList() const;
+
+	const std::string& name() const;
+	const std::string& formStr() const;
 
 	static bool isValidName(const std::string& name);
 	static const std::unordered_map<std::string, int>& names();

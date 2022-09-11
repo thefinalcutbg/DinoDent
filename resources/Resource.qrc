@@ -65,6 +65,7 @@
         <file>json_medicationForms.json</file>
         <file>json_dose.json</file>
         <file>json_route.json</file>
+        <file>json_when.json</file>
     </qresource>
     <qresource prefix="/style">
         <file>dateEditStyle.qss</file>

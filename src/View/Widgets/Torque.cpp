@@ -16,8 +16,6 @@ Torque::Torque(QWidget* parent)
     ui.setupUi(this);
     showMaximized();
 
-   // ui.hisButton->hide();
-
     ui.newButton->setIcon(QIcon(":/icons/icon_sheet.png"));
     ui.perioButton->setIcon(QIcon(":/icons/icon_periosheet.png"));
     ui.perscrButton->setIcon(QIcon(":/icons/icon_prescr.png"));
@@ -43,7 +41,6 @@ Torque::Torque(QWidget* parent)
     connect(settingsAction, &QAction::triggered, [&] {presenter.userSettingsPressed();});
     connect(ui.pisButton, &QPushButton::clicked, [&] { presenter.pisDialog();});
     connect(ui.settingsButton, &QPushButton::clicked, [&] { presenter.settingsPressed();});
-    connect(ui.hisButton, &QPushButton::clicked, [&] { test.update();});
     
     connect(exitAction, &QAction::triggered, [&] { presenter.logOut(); });
 

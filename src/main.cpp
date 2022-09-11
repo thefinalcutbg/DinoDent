@@ -40,6 +40,7 @@ int main(int argc, char *argv[])
 #include "Model/Dental/KSMP.h"
 #include "Model/Perscription/Medication.h"
 #include "Model/Perscription/DoseQuantity.h"
+#include "Model/Perscription/WhenToTake.h"
 #include "Model/Dental/MKB.h"
 #include "Model/Ekatte.h"
 #include "Updates/Updater.h"
@@ -48,6 +49,8 @@ void initFunction() {
 
     Db::setFilePath("TorqueDB.db");
     Db::createIfNotExist();
+
+
 
     //Intializing static data
     SpriteSheets::container().initialize(); //loading textures, otherwise program will crash;
@@ -60,6 +63,7 @@ void initFunction() {
     User::initialize();
     DoseQuantity::initialize();
     Route::initialize();
+    WhenToTake::initialize();
 
     DbUpdater::updateDb();
 

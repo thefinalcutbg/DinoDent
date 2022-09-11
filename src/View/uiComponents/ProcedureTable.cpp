@@ -50,15 +50,12 @@ ProcedureTable::ProcedureTable(QWidget* parent)
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     setWordWrap(true);
-
-
-
     
 }
 
 void ProcedureTable::setAmbListLayout()
 {
-    connect(model(), &QAbstractTableModel::dataChanged, [=] { fitToModel(model()->rowCount());});
+    connect(model(), &QAbstractTableModel::dataChanged, [=] { fitToModel();});
     hideColumn(0);
     setColumnWidth(1, 69);
     setColumnWidth(2, 280);
@@ -75,7 +72,7 @@ void ProcedureTable::setAmbListLayout()
 
 void ProcedureTable::setProcedureHistoryLayout()
 {
-    connect(model(), &QAbstractTableModel::dataChanged, [=] { fitToModel(model()->rowCount());});
+    connect(model(), &QAbstractTableModel::dataChanged, [=] { fitToModel();});
 
     hideColumn(0);
    
@@ -114,7 +111,7 @@ void ProcedureTable::setProcedurePrintSelectLayout()
 
 void ProcedureTable::setBusinessOperationLayout()
 {
-    connect(model(), &QAbstractTableModel::dataChanged, [=] { fitToModel(model()->rowCount());});
+    connect(model(), &QAbstractTableModel::dataChanged, [=] { fitToModel();});
     setColumnWidth(0, 50);
     setColumnWidth(1, 50);
     setColumnWidth(2, 400);
@@ -125,9 +122,20 @@ void ProcedureTable::setBusinessOperationLayout()
     setShowGrid(false);
 }
 
+void ProcedureTable::setMedicationLayot()
+{
+    connect(model(), &QAbstractTableModel::dataChanged, [=] { fitToModel();});
+
+    setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
+    setShowGrid(false);
+    setWordWrap(true);
+}
+
 void ProcedureTable::setPISActivitiesLayout()
 {
-    connect(model(), &QAbstractTableModel::dataChanged, [=] { fitToModel(model()->rowCount());});
+    connect(model(), &QAbstractTableModel::dataChanged, [=] { fitToModel();});
 
     hideColumn(0);
     setColumnWidth(1, 69);
@@ -147,8 +155,10 @@ void ProcedureTable::setPISActivitiesLayout()
     setShowGrid(false);
 }
 
-void ProcedureTable::fitToModel(int rows) //not working correctly yet
+void ProcedureTable::fitToModel() //not working correctly yet
 {
+    auto rows = model()->rowCount();
+
     int tableHeight = rows*50 + horizontalHeader()->height() + 10;
 
     if (!rows) {
@@ -174,8 +184,6 @@ void ProcedureTable::keyPressEvent(QKeyEvent* event)
 
 void ProcedureTable::paintEvent(QPaintEvent* e)
 {
-
-
     constexpr int footerHeight = 10;
 
     int h = viewport()->height();
@@ -231,8 +239,6 @@ void ProcedureTable::paintEvent(QPaintEvent* e)
             if (horizontalHeader()->isSectionHidden(i)) {
                 continue;
             }
-
-
 
             if (firstVisible) {
                 firstVisible = false;

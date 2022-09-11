@@ -5,13 +5,13 @@
 #include "Model/Patient.h"
 #include <memory>
 
-enum class TabType {AmbList, PerioList, Perscription, PatientSummary, Financial};
+enum class TabType {AmbList, PerioList, PatientSummary, Financial, Perscription};
 
 struct TabName {
 	std::string header;
 	std::string footer;
 	bool nzok{ false };
-	std::string toString() { return header + " " + footer; };
+	std::string toString() const { return header + " " + footer; };
 };
 
 class TabInstance

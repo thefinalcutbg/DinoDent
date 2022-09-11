@@ -3,16 +3,19 @@
 #include "Model/Date.h"
 #include <vector>
 #include "Medication.h"
+#include "Dispensation.h"
 
 class Perscription
 {
 
 public:
 
-	long long rowid;
+	long long rowid{ 0 };
 
 	std::string LRN;
-	Date date; //authoredOn
+	std::string NRN;
+
+	Date date{ Date::currentDate() };//authoredOn
 
 	static constexpr bool isProtocolBased = false; //protocol base, protocol num
 
@@ -22,14 +25,13 @@ public:
 
 	static constexpr int financingSource = 4; //patient;
 
-	enum DispensationType { SingleUse = 1, MultipleUses = 2 };
-	DispensationType dispensationType;
-
-	unsigned int numberOfRepeats{ 0 };//incase of MultipleUses
+	Dispensation dispensation;
 
 	std::string supplements;
 
 	std::vector<Medication> medicationGroup;
+
+	std::vector<std::string> getMedList() const;
 
 };
 

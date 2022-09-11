@@ -3,6 +3,7 @@
 #include <TinyXML/tinyxml.h>
 #include <qdebug.h>
 #include "Database/Database.h"
+#include "Model/Perscription/Medication.h"
 
 void UpdateMedications::update()
 {
@@ -55,14 +56,16 @@ void UpdateMedications::parseReply(const std::string& reply)
 		}
 
 		db.execute(
-			"INSERT INTO medication (key, name, form) VALUES ("
+			"INSERT INTO medication (num, name, form) VALUES ("
 			+ key + ",'" + name + "'," + form + ") "
-			"ON CONFLICT(key) DO UPDATE SET "
+			"ON CONFLICT(num) DO UPDATE SET "
 			"name='" + name + "',"
 			"form=" + form
 		);
 	}
 
+	
+	Medication::initialize();
 
 
 }

@@ -57,7 +57,7 @@ ListView::ListView(QWidget* parent)
 	connect(ui.patientTile, &QAbstractButton::clicked, [=] { if(presenter) presenter->openPatientDialog(); });
 	connect(ui.allergiesTile, &QAbstractButton::clicked, [=] { if (presenter) presenter->openAllergiesDialog(); });
 	connect(ui.addProcedure, &QAbstractButton::clicked, [=] { if (presenter) presenter->addProcedure(); });
-	connect(ui.procedureTable, &ProcedureTable::deletePressed, [=] { if (presenter) ui.deleteProcedure->click(); });
+	
 	connect(ui.taxCombo, &QComboBox::currentIndexChanged, [=] {nhifChanged();});
 	connect(ui.specCombo, &QComboBox::currentIndexChanged, [=] {nhifChanged();});
 	connect(ui.editProcedure, &QPushButton::clicked, [=] { if (presenter) presenter->editProcedure(ui.procedureTable->selectedRow()); });
@@ -83,6 +83,8 @@ ListView::ListView(QWidget* parent)
 		});
 
 	connect(ui.procedureTable, &QTableView::doubleClicked, [=] { ui.editProcedure->click(); });
+	connect(ui.procedureTable, &ProcedureTable::deletePressed, [=] { if (presenter) ui.deleteProcedure->click(); });
+
 	connect(ui.taxCombo, &QComboBox::currentIndexChanged,
 			[=](int index) {presenter->chargeChanged(index); });
 

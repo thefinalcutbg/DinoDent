@@ -4,6 +4,8 @@
 #include <JsonCpp/json.h>
 #include "Resources.h"
 
+#include <qstring.h>
+
 const std::pair<std::string_view, std::string_view> s_defaultDoseParse{ 
 			u8"приложение", u8"приложения" 
 };
@@ -50,19 +52,10 @@ void DoseQuantity::initialize()
 	}
 }
 
-bool DoseQuantity::isValidFormName(const std::string& formName)
+std::string DoseQuantity::getParsedUnit() const
 {
-	for (int i = 1; i < s_keyToDoseUnitSingular.size(); i++)
-	{
-		if (s_keyToDoseUnitSingular[i] == formName) return true;
-		if (s_keyToDoseUnitPlural[i] == formName) return true;
-	}
+	if (is_ucum) return m_ucum + " по ";
 
-	return false;
-}
-
-std::string DoseQuantity::getParsedUnit()
-{
 	std::string result;
 
 	if (s_doseParse.count(m_unit)) {
@@ -74,26 +67,41 @@ std::string DoseQuantity::getParsedUnit()
 		result = value == 1 ? s_defaultDoseParse.first.data() : s_defaultDoseParse.second.data();
 	}
 
-	result.append(u8" по ");
-
 	return result;
 }
 
-std::string DoseQuantity::getUnitName() {
+std::string DoseQuantity::getUnitName() const {
+
+	if (is_ucum) return m_ucum;
 
 	if (value == 1) return s_keyToDoseUnitSingular[m_unit];
 
 	return s_keyToDoseUnitPlural[m_unit];
 }
 
-const std::vector<std::string>& DoseQuantity::unitNames()
+const std::vector<std::string>& DoseQuantity::unitNames() const
 {
 	if (value == 1) return s_keyToDoseUnitSingular;
 
 	return s_keyToDoseUnitPlural;
 }
 
-#include <qstring.h>
+bool DoseQuantity::isValid() const
+{
+	//insert UCUM mapping?
+	if (is_ucum) return m_ucum.size();
+
+	return m_unit >= 0 && m_unit < s_keyToDoseUnitSingular.size();
+}
+
+std::string DoseQuantity::getXmlUnitValue() const
+{
+	if (is_ucum) return m_ucum;
+
+	if (!m_unit) return {};
+
+	return std::to_string(m_unit);
+}
 
 bool DoseQuantity::setUnitFromCL010(const std::string& formStr)
 {
@@ -121,29 +129,33 @@ bool DoseQuantity::setUnit(int unit)
 {
 	if (unit > 0 && unit < s_keyToDoseUnitSingular.size()) {
 		m_unit = unit;
+		is_ucum = false;
 		return true;
 	}
 
 	return false;
 }
 
-bool DoseQuantity::setUnit(const std::string& unitName)
+void DoseQuantity::setUnit(const std::string& unitName)
 {
 	for (int i = 1; i < s_keyToDoseUnitSingular.size(); i++)
 	{
 		if (unitName == s_keyToDoseUnitSingular[i])
 		{
 			m_unit = i;
-			return true;
+			is_ucum = false;
+			return;
 		}
 
 		if (unitName == s_keyToDoseUnitPlural[i])
 		{
 			m_unit = i;
-			return true;
+			is_ucum = false;
+			return;
 		}
 	}
 
-	return false;
+	is_ucum = true;
+	m_ucum = unitName;
 
 }

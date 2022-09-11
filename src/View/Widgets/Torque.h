@@ -8,15 +8,13 @@
 #include "ui_Torque.h"
 
 #include "View/Interfaces/IMainView.h"
-#include "Network/HIS/UpdateMedications.h"
+
 
 class Torque : public QMainWindow, public IMainView
 {
     Q_OBJECT
 
     MainPresenter presenter;
-
-    UpdateMedications test;
 
     void paintEvent(QPaintEvent* event);
     void closeEvent(QCloseEvent* event);

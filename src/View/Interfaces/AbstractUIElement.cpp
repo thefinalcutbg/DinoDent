@@ -13,11 +13,13 @@ void AbstractUIElement::setInputValidator(Validator* validator)
 	
 	setValidAppearence(true); //not sure about this?
 }
-void AbstractUIElement::validateInput()
+bool AbstractUIElement::validateInput()
 {
 	valid_State = validator ? validationOperation() : true;
 
 	setValidAppearence(valid_State);
+
+	return valid_State;
 }
 bool AbstractUIElement::isValid()
 {

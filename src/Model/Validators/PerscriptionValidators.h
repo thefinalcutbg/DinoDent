@@ -11,15 +11,6 @@ public:
 
 };
 
-class DosageFormValidator : public Validator
-{
-	static inline const std::string invalidForm = u8"Невалидна форма на приложение";
-
-public:
-	DosageFormValidator() { _errorMsg = &invalidForm; }
-	bool validateInput(const std::string& text);
-
-};
 
 class RouteFormValidator : public Validator
 {
@@ -27,6 +18,16 @@ class RouteFormValidator : public Validator
 
 public:
 	RouteFormValidator() { _errorMsg = &invalidForm; }
+	bool validateInput(const std::string& text);
+
+};
+
+class WhenTextValidator : public Validator
+{
+	static inline const std::string invalidForm = u8"Невалидно указание за прием";
+
+public:
+	WhenTextValidator() { _errorMsg = &invalidForm; }
 	bool validateInput(const std::string& text);
 
 };

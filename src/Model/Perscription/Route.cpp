@@ -61,7 +61,7 @@ bool Route::set(const std::string& valueStr)
 	return false;
 }
 
-const std::string& Route::getValueStr()
+const std::string& Route::getValueStr() const
 {
 	return s_routeNum[m_key];
 }

@@ -3,8 +3,7 @@
 
 class UpdateMedications : private GetNumenclature
 {
-
-	virtual void parseReply(const std::string& reply) override;
+	 void parseReply(const std::string& reply) override;
 
 public:
 	void update();

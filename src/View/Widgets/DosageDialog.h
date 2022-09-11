@@ -15,21 +15,34 @@ class DosageDialog final: public QDialog, public IDosageDialog
 
 	DosagePresenter* presenter;
 
-	DosageFormValidator form_validator;
 	RouteFormValidator route_validator;
+	WhenTextValidator when_validator;
 
 public:
-	DosageDialog(DosagePresenter* p, QWidget *parent = nullptr);
+	DosageDialog(DosagePresenter* p, QWidget* parent = nullptr);
 	~DosageDialog();
 
 private:
 	Ui::DosageDialogClass ui;
 
-	void setDurationList(const std::vector<std::string>& list) override;
+	void setBoundsList(const std::vector<std::string>& list) override;
 	void setPeriodList(const std::vector<std::string>& list) override;
+
 	void setDoseFormCompletionList(const std::vector<std::string>& list) override;
+	void setWhenFormCompletionList(const std::vector<std::string>& list) override;
+
 	void setDosageUnit(const std::string& unitName) override;
-	void setDosageLabel(const std::string& label) override;
+
 	void setRouteList(const std::vector<std::string>& list) override;
+
 	 void setRouteString(const std::string& route) override;
+
+	 void setWhenTags(const std::vector<std::string>& tags, bool offsetAllowed) override;
+
+	 void setParsed(const std::string& parsed) override;
+
+	 void setDosage(const Dosage& d) override;
+
+	 bool fieldsAreValid() override;
+	 void closeUi() override {close();}
 };

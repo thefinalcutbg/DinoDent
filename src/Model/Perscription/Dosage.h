@@ -3,6 +3,8 @@
 #include "TimeLapse.h"
 #include "DoseQuantity.h"
 #include "Route.h"
+#include "WhenToTake.h"
+
 struct Dosage
 {
 	//int sequence <- deduced when in container
@@ -13,24 +15,17 @@ struct Dosage
 
 	DoseQuantity doseQuantity;
 
-	unsigned int frequency;
+	unsigned int frequency{ 1 };
 
-	TimeLapse period;
+	TimeLapse period{ 1 };
 
-	TimeLapse duration;
+	TimeLapse bounds{ 0 };
 
-	std::vector<int> whenToTake; //numenclature
+	WhenToTake when;
 
-	unsigned int offset;
+	std::string additionalInstructions;
 
-	std::string frequencySuffix()
-	{
-		if (frequency != 1) return u8" пъти на ";
-		
-		return u8" път на ";
-	}
-
-	std::string interpretation();
+	std::string parse() const;
 
 
 };

@@ -31,7 +31,6 @@ class ProcedureTable : public QTableView
 		//setCurrentIndex(QModelIndex());
 	}
 
-	void fitToModel(int rows);
 
 public:
 	ProcedureTable(QWidget* parent);
@@ -43,9 +42,11 @@ public:
 	void setProcedureHistoryLayout();
 	void setProcedurePrintSelectLayout();
 	void setBusinessOperationLayout();
+	void setMedicationLayot();
 	//buggy
 	void setPISActivitiesLayout();
-	
+
+	void fitToModel();
 
 
 

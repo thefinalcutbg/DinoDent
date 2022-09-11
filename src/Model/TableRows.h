@@ -57,3 +57,13 @@ struct FinancialRow : public RowInstance
 	std::string recipientName;
 	std::string recipientPhone;
 };
+
+struct PerscriptionRow : public RowInstance
+{
+	PerscriptionRow() : RowInstance{ TabType::Perscription } {};
+
+	Date date;
+	std::string patientId;
+	std::string patientName;
+	std::string patientPhone;
+};

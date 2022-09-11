@@ -3,7 +3,7 @@
 #include "DbUpdates.h"
 #include "View/Widgets/UpdateDialog.h"
 
-constexpr int current_version = 1;
+constexpr int current_version = 2;
 
 
 
@@ -18,7 +18,7 @@ void DbUpdater::updateDb()
 	d.show();
 
 	if (ver == 0) { DbUpdates::update1(&d); }
-
+	if (ver == 1) { DbUpdates::update2(&d); }
 	
 
 }

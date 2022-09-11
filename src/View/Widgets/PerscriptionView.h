@@ -4,6 +4,7 @@
 #include "ui_PerscriptionView.h"
 
 #include "View/Interfaces/IPerscriptionView.h"
+#include "View/Models/MedicationTableModel.h"
 
 class PerscriptionView : public QWidget, public IPerscriptionView
 {
@@ -11,12 +12,25 @@ class PerscriptionView : public QWidget, public IPerscriptionView
 
 	PerscriptionPresenter* presenter{ nullptr };
 
+	MedicationTableModel medModel;
+
+	void dispensationLogic();
+
 public:
 	PerscriptionView(QWidget *parent = nullptr);
 	void setPresenter(PerscriptionPresenter* p) override { presenter = p;}
-	void setPatient(const Patient& patient, const Date& currentDate);
+	void setPatient(const Patient& patient, const Date& currentDate) override;
+	void setMedicationList(const std::vector<std::string>) override;
+	void setDispensation(const Dispensation& d) override;
+
+
 	~PerscriptionView();
 
 private:
 	Ui::PerscriptionViewClass ui;
+
+
+
+
+
 };

@@ -59,3 +59,15 @@ inline std::string getFile(const std::string& filepath) {
         std::istreambuf_iterator<char>());
 
 }
+
+inline std::string removeTrailing(double a)
+{
+    auto result = std::to_string(a);
+
+    while (result.back() == '0' && result.size()) result.pop_back();
+
+    if (result.back() == '.') result.pop_back();
+
+    return result;
+
+}

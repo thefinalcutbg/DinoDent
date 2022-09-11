@@ -1,7 +1,10 @@
 #include "PerscriptionView.h"
 #include "Presenter/PerscriptionPresenter.h"
+#include "View/Theme.h"
 
-PerscriptionView::PerscriptionView(QWidget *parent)
+
+
+PerscriptionView::PerscriptionView(QWidget* parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
@@ -10,7 +13,36 @@ PerscriptionView::PerscriptionView(QWidget *parent)
 	ui.deleteButton->setIcon(QIcon(":/icons/icon_remove.png"));
 	ui.editButton->setIcon(QIcon(":/icons/icon_edit.png"));
 
-	connect(ui.addButton, &QPushButton::pressed, [=] {if (presenter)presenter->addPressed();});
+	ui.medicationTable->setModel(&medModel);
+
+	ui.medicationTable->setMedicationLayot();
+
+	setStyleSheet(Theme::getFancyStylesheet());
+
+	connect(ui.addButton, &QPushButton::clicked, [=] {if (presenter)presenter->addPressed();});
+	connect(ui.editButton, &QPushButton::clicked, [=] {if (presenter)presenter->editPressed(ui.medicationTable->selectedRow());});
+	connect(ui.deleteButton, &QPushButton::clicked, [=] {
+
+		if (!presenter) return;
+
+		int currentIdx = ui.medicationTable->selectedRow();
+		int lastIdx = ui.medicationTable->verticalHeader()->count() - 1;
+
+		presenter->deletePressed(currentIdx);
+
+		if (currentIdx == lastIdx)
+		{
+			ui.medicationTable->selectRow(currentIdx - 1);
+		}
+		else ui.medicationTable->selectRow(currentIdx);
+
+		});
+
+	connect(ui.medicationTable, &QTableView::doubleClicked, [=] { ui.editButton->click(); });
+	connect(ui.medicationTable, &ProcedureTable::deletePressed, [=] { if (presenter) ui.deleteButton->click(); });
+	connect(ui.dispensationCombo, &QComboBox::currentIndexChanged, [&] { dispensationLogic(); });
+	connect(ui.repeats, &QSpinBox::valueChanged, [&] { if (ui.repeats->isHidden()) return; dispensationLogic(); });
+
 }
 
 void PerscriptionView::setPatient(const Patient& patient, const Date& currentDate)
@@ -19,6 +51,64 @@ void PerscriptionView::setPatient(const Patient& patient, const Date& currentDat
 	ui.allergiesTile->setData(patient);
 }
 
+
+void PerscriptionView::setMedicationList(const std::vector<std::string> rows)
+{
+	medModel.setRows(rows);
+}
+
+void PerscriptionView::dispensationLogic()
+{
+	if (!presenter) return;
+
+	auto dispensationIdx = ui.dispensationCombo->currentIndex();
+
+	switch (dispensationIdx)
+	{
+		case 0:
+		{
+			ui.repeats->hide();
+			ui.repeatsLabel->hide();
+			ui.repeats->setValue(1);
+			break;
+		}
+		case 1:
+		{
+			ui.repeats->show();
+			int repeats = ui.repeats->value();
+			ui.repeatsLabel->show();
+			break;
+		}
+		case 2:
+		{
+			ui.repeats->hide();
+			ui.repeatsLabel->hide();
+			ui.repeats->setValue(1);
+			break;
+		}
+	}
+
+	presenter->dispensationChanged(
+		Dispensation{ 
+			static_cast<Dispensation::Type>(dispensationIdx),
+			static_cast<unsigned int>(ui.repeats->value()) 
+		});
+
+}
+
+
 PerscriptionView::~PerscriptionView()
 {
+}
+
+void PerscriptionView::setDispensation(const Dispensation& d)
+{
+	QSignalBlocker b1(ui.repeats);
+	QSignalBlocker b2(ui.dispensationCombo);
+
+	ui.dispensationCombo->setCurrentIndex(static_cast<int>(d.type));
+	ui.repeats->setValue(d.repeats);
+	
+	ui.repeats->setHidden(d.type != Dispensation::Type::MultipleUse);
+
 }

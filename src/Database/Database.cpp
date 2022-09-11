@@ -30,9 +30,9 @@ Db::Db(const std::string& query, Db* existingConnection) : Db(existingConnection
     sqlite3_prepare_v2(db_connection, query.c_str(), -1, &stmt, NULL);
 }
 
-
 bool Db::hasRows(){
-    return sqlite3_step(stmt) != SQLITE_DONE;
+
+    return sqlite3_step(stmt) == SQLITE_ROW;//|| sqlite3_step(stmt) != ;
 }
 
 int Db::asInt(int column){ 

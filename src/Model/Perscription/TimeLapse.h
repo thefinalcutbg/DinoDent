@@ -4,23 +4,27 @@
 
 class TimeLapse {
 
+	enum Unit { Day, Year, Hour, Minute, Month, Second, Week };
+	int m_unit{ Unit::Day };
+
 public:
 
-	enum Unit { Day, Year, Hour, Minute, Month, Second, Week };
+	TimeLapse();
+
+	TimeLapse(int value) : value(value) {};
 
 	double value{ 1 };
 
 	//returns list of duration names according to the value(singular/plural)
-	std::vector<std::string> getUnitNamesList();
+	std::vector<std::string> getUnitNamesList() const;
 
-	std::string getUnitName();
-	std::string getNHISKey();
+	std::string getUnitName() const;
+	int getUnitIndex() const { return m_unit; }
+
+	std::string getNHISKey() const;
 
 	//returns true on success
-	bool setUnit(Unit u);
-	bool setUnit(int u) { return setUnit(static_cast<Unit>(u)); }
+	bool setUnit(int unitKey);
 
-private:
-	int m_unit{ Unit::Day };
 
 };

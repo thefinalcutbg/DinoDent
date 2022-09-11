@@ -217,6 +217,7 @@
     <ClCompile Include="src\Model\Perscription\Route.cpp" />
     <ClCompile Include="src\Model\Perscription\DoseQuantity.cpp" />
     <ClCompile Include="src\Model\Perscription\TimeLapse.cpp" />
+    <ClCompile Include="src\Model\Perscription\WhenToTake.cpp" />
     <ClCompile Include="src\Model\Validators\PerscriptionValidators.cpp" />
     <ClCompile Include="src\Presenter\DosagePresenter.cpp" />
     <ClCompile Include="src\Presenter\MedicationPresenter.cpp" />
@@ -367,6 +368,7 @@
     <ClCompile Include="src\View\Models\BusinessOperationModel.cpp" />
     <ClCompile Include="src\View\Models\FinancialTableModel.cpp" />
     <ClCompile Include="src\View\Models\KSMPModel.cpp" />
+    <ClCompile Include="src\View\Models\MedicationTableModel.cpp" />
     <ClCompile Include="src\View\Models\MonthNotifTableModel.cpp" />
     <ClCompile Include="src\View\Models\PatientTableModel.cpp" />
     <ClCompile Include="src\View\Models\PerioTableModel.cpp" />
@@ -457,9 +459,11 @@
     <ClCompile Include="src\View\Widgets\UpdateDialog.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Model\Perscription\Dispensation.h" />
     <ClInclude Include="src\Model\Perscription\Route.h" />
     <ClInclude Include="src\Model\Perscription\DoseQuantity.h" />
     <ClInclude Include="src\Model\Perscription\TimeLapse.h" />
+    <ClInclude Include="src\Model\Perscription\WhenToTake.h" />
     <ClInclude Include="src\Model\Validators\PerscriptionValidators.h" />
     <ClInclude Include="src\Presenter\DosagePresenter.h" />
     <ClInclude Include="src\Presenter\MedicationPresenter.h" />
@@ -655,6 +659,7 @@
     <ClInclude Include="src\View\Interfaces\ITabView.h" />
     <ClInclude Include="src\View\ModalDialogBuilder.h" />
     <ClInclude Include="src\View\Models\BusinessOperationModel.h" />
+    <ClInclude Include="src\View\Models\MedicationTableModel.h" />
     <ClInclude Include="src\View\Models\QProcedure.h" />
     <ClInclude Include="src\View\Printer.h" />
     <ClInclude Include="src\View\Theme.h" />

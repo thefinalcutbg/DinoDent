@@ -13,7 +13,7 @@ MedicationDialog::MedicationDialog(MedicationPresenter* p, QWidget* parent)
 	connect(ui.quantity, &QSpinBox::valueChanged, [&] { commonDataChanged(); });
 	connect(ui.quantityValue, &QComboBox::currentIndexChanged, [&] { commonDataChanged(); });
 	connect(ui.substitutionCheck, &QCheckBox::stateChanged, [&](bool state) { commonDataChanged(); });
-	
+	connect(ui.priorityCombo, &QComboBox::currentIndexChanged, [=](int index) { presenter->priorityChanged(index); });
 	connect(ui.notesEdit, &QLineEdit::textChanged, [=](const QString& text) { presenter->noteChanged(text.toStdString());});
 
 	connect(ui.medicationEdit, &QLineEdit::textChanged, [=](const QString& text) { 
@@ -26,7 +26,7 @@ MedicationDialog::MedicationDialog(MedicationPresenter* p, QWidget* parent)
 	connect(ui.deleteButton, &QPushButton::clicked, [=] { presenter->deleteDosage(ui.dosageList->currentRow());});
 	connect(ui.okButton, &QPushButton::clicked, [&] {presenter->okPressed();});
 	connect(ui.cancelButton, &QPushButton::clicked, [&] {close();});
-
+	
 	presenter->setView(this);
 }
 
@@ -81,18 +81,16 @@ void MedicationDialog::setMedication(const Medication & m)
 
 	ui.medicationEdit->setValidAppearence(true);
 
-	QSignalBlocker b[2]{ 
+	QSignalBlocker b[3]{ 
 		QSignalBlocker{ui.substitutionCheck}, 
-		QSignalBlocker{ui.quantity} 
+		QSignalBlocker{ui.quantity},
+		QSignalBlocker{ui.priorityCombo}
 	};
 
-	ui.substitutionCheck->setChecked(m.isSubstitutionAllowed);
-	ui.quantity->setValue(m.quantityValue);
-	ui.quantityValue->setCurrentIndex(static_cast<int>(m.isQuantityByForm));
-
-
-
-
+	ui.priorityCombo->setCurrentIndex(m.priority);
+	ui.substitutionCheck->setChecked(m.substitution);
+	ui.quantity->setValue(m.quantity);
+	ui.quantityValue->setCurrentIndex(static_cast<int>(m.byForm));
 
 	ui.notesEdit->setText(m.note.c_str());
 }

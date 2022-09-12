@@ -404,9 +404,9 @@ void DbUpdates::update2(UpdateDialog* d)
 	constexpr int version = 2;
 
 	Db db;
-	db.execute("CREATE TABLE medication (num INT NOT NULL PRIMARY KEY, name VARCHAR NOT NULL, form INT NOT NULL)");
-
-
+	db.execute("CREATE TABLE numMed (rowid INTEGER NOT NULL PRIMARY KEY, name VARCHAR NOT NULL, form INT NOT NULL)");
+	db.execute("CREATE TABLE perscription (rowid INTEGER PRIMARY KEY NOT NULL, patient_rowid INTEGER REFERENCES patient (rowid) ON DELETE CASCADE ON UPDATE CASCADE, lrn VARCHAR (36) NOT NULL, nrn VARCHAR (12), date TEXT (10) NOT NULL, dispensation INT  NOT NULL,repeats INT, supplements VARCHAR (2000))");
+	db.execute("CREATE TABLE medication (rowid INTEGER PRIMARY KEY NOT NULL, perscription_rowid INTEGER REFERENCES perscription (rowid) ON DELETE RESTRICT ON UPDATE CASCADE NOT NULL, numMed_rowid INTEGER REFERENCES numMed (rowid) ON DELETE CASCADE ON UPDATE CASCADE NOT NULL, is_form BOOLEAN NOT NULL, quantity INT NOT NULL, priority INT, substitution BOOLEAN, notes VARCHAR (2000), dosage TEXT)");
 
 }
 

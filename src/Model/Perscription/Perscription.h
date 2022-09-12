@@ -21,9 +21,9 @@ public:
 
 	static constexpr const char* category = "T1";
 
-	std::string basedOnNrn;
-
 	static constexpr int financingSource = 4; //patient;
+
+	std::string basedOnNrn;
 
 	Dispensation dispensation;
 

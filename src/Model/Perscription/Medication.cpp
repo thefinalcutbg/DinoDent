@@ -33,7 +33,7 @@ bool Medication::initialize()
     s_medications.clear();
     s_medNameToIdx.clear();
 
-    db.newStatement("SELECT COUNT(*) FROM medication");
+    db.newStatement("SELECT COUNT(*) FROM numMed");
 
     while (db.hasRows()) {
 
@@ -42,7 +42,7 @@ bool Medication::initialize()
         s_medNameToIdx.reserve(size);
     }
 
-    db.newStatement("SELECT num, name, form FROM medication");
+    db.newStatement("SELECT rowid, name, form FROM numMed");
 
     while (db.hasRows())
     {
@@ -59,6 +59,11 @@ bool Medication::initialize()
 
 }
 
+Medication::Medication(int key) :
+    key(key), form(s_medications[key].second)
+{
+}
+
 std::vector<std::string> Medication::dosageList() const {
 
     std::vector<std::string> result;
@@ -69,6 +74,8 @@ std::vector<std::string> Medication::dosageList() const {
 
     return result;
 }
+
+
 
 bool Medication::setName(const std::string& name)
 {
@@ -82,11 +89,15 @@ bool Medication::setName(const std::string& name)
 
 const std::string& Medication::name() const
 {
+    if (!key) return s_dummyResult;
+
     return std::get<0>(s_medications[key]);
 }
 
 const std::string& Medication::formStr() const
 {
+    if (!form) return s_dummyResult;
+
     return s_medForms[form];
 }
 

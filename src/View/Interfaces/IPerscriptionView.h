@@ -14,5 +14,6 @@ public:
 	virtual void setPresenter(PerscriptionPresenter* p) = 0;
 	virtual void setMedicationList(const std::vector<std::string>) = 0;
 	virtual void setDispensation(const Dispensation& d) = 0;
+	virtual void setSupplements(const std::string& supplements) = 0;
 
 };

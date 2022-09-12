@@ -19,6 +19,7 @@ public:
 	MedicationPresenter(const Medication& m) : m_medication{ m } {};
 	void commonDataChanged(int quantity, bool quantityByForm, bool allowSubstitution);
 	void medicationChanged(const std::string& medication);
+	void priorityChanged(int idx) { m_medication.priority = static_cast<Medication::Priority>(idx); }
 	void noteChanged(const std::string& note);
 
 

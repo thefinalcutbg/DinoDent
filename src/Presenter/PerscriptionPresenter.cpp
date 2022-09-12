@@ -8,6 +8,7 @@ PerscriptionPresenter::PerscriptionPresenter(ITabView* tabView, TabPresenter* ta
 
 void PerscriptionPresenter::addPressed()
 {
+
 	MedicationPresenter p;
 
 	auto result = p.openDialog();
@@ -54,7 +55,6 @@ void PerscriptionPresenter::supplementsChanged(const std::string& s)
 void PerscriptionPresenter::dispensationChanged(const Dispensation& d)
 {
 	m_perscription.dispensation = d;
-
 }
 
 void PerscriptionPresenter::setDataToView()
@@ -62,6 +62,7 @@ void PerscriptionPresenter::setDataToView()
 	view->setPresenter(this);
 	view->setPatient(*patient.get(), Date::currentDate());
 	view->setDispensation(m_perscription.dispensation);
+	view->setSupplements(m_perscription.supplements);
 	view->setMedicationList(m_perscription.getMedList());
 }
 

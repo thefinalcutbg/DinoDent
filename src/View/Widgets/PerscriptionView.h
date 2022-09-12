@@ -6,7 +6,7 @@
 #include "View/Interfaces/IPerscriptionView.h"
 #include "View/Models/MedicationTableModel.h"
 
-class PerscriptionView : public QWidget, public IPerscriptionView
+class PerscriptionView final : public QWidget, public IPerscriptionView
 {
 	Q_OBJECT
 
@@ -22,7 +22,7 @@ public:
 	void setPatient(const Patient& patient, const Date& currentDate) override;
 	void setMedicationList(const std::vector<std::string>) override;
 	void setDispensation(const Dispensation& d) override;
-
+	void setSupplements(const std::string& supplements) override;
 
 	~PerscriptionView();
 

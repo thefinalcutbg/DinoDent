@@ -8,9 +8,9 @@ MedicationPresenter::MedicationPresenter()
 
 void MedicationPresenter::commonDataChanged(int quantity, bool quantityByForm, bool allowSubstitution)
 {
-	m_medication.quantityValue = quantity;
-	m_medication.isQuantityByForm = quantityByForm;
-	m_medication.isSubstitutionAllowed = allowSubstitution;
+	m_medication.quantity = quantity;
+	m_medication.byForm = quantityByForm;
+	m_medication.substitution = allowSubstitution;
 
 	if (quantity == 1) {
 		view->setQuantityListNames(u8"Опаковка", u8"Лекарствена форма");
@@ -45,7 +45,7 @@ void MedicationPresenter::addDosage()
 		return;
 	}
 
-	DosagePresenter p(m_medication.form);
+	DosagePresenter p(m_medication.getFormKey());
 	auto result = p.openDialog();
 
 	if (result.has_value()) {
@@ -57,6 +57,11 @@ void MedicationPresenter::addDosage()
 
 std::optional<Medication> MedicationPresenter::openDialog()
 {
+	if (Medication::names().empty()) {
+		ModalDialogBuilder::showMessage(u8"Първо заредете номенклатурата за лекарствата от Настройки");
+		return std::optional<Medication>();
+	}
+
 	ModalDialogBuilder::openDialog(this);
 
 	if (ok_pressed) return m_medication;

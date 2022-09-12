@@ -56,9 +56,9 @@ void UpdateMedications::parseReply(const std::string& reply)
 		}
 
 		db.execute(
-			"INSERT INTO medication (num, name, form) VALUES ("
+			"INSERT INTO numMed (rowid, name, form) VALUES ("
 			+ key + ",'" + name + "'," + form + ") "
-			"ON CONFLICT(num) DO UPDATE SET "
+			"ON CONFLICT(rowid) DO UPDATE SET "
 			"name='" + name + "',"
 			"form=" + form
 		);

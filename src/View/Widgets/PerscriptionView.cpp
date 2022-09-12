@@ -42,7 +42,7 @@ PerscriptionView::PerscriptionView(QWidget* parent)
 	connect(ui.medicationTable, &ProcedureTable::deletePressed, [=] { if (presenter) ui.deleteButton->click(); });
 	connect(ui.dispensationCombo, &QComboBox::currentIndexChanged, [&] { dispensationLogic(); });
 	connect(ui.repeats, &QSpinBox::valueChanged, [&] { if (ui.repeats->isHidden()) return; dispensationLogic(); });
-
+	connect(ui.supplementsEdit, &QLineEdit::textChanged, [=](const QString& text) {if (presenter) presenter->supplementsChanged(text.toStdString());});
 }
 
 void PerscriptionView::setPatient(const Patient& patient, const Date& currentDate)
@@ -96,11 +96,6 @@ void PerscriptionView::dispensationLogic()
 
 }
 
-
-PerscriptionView::~PerscriptionView()
-{
-}
-
 void PerscriptionView::setDispensation(const Dispensation& d)
 {
 	QSignalBlocker b1(ui.repeats);
@@ -111,4 +106,15 @@ void PerscriptionView::setDispensation(const Dispensation& d)
 	
 	ui.repeats->setHidden(d.type != Dispensation::Type::MultipleUse);
 
+}
+
+void PerscriptionView::setSupplements(const std::string& supplements)
+{
+	QSignalBlocker b(ui.supplementsEdit);
+	ui.supplementsEdit->setText(supplements.c_str());
+}
+
+
+PerscriptionView::~PerscriptionView()
+{
 }

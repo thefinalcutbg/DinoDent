@@ -73,7 +73,7 @@ std::vector<TimeFrame> DbPatientSummary::getFrames(long long patientRowId)
     while (db.hasRows())
     {
         Procedure p;
-
+        qDebug() << "procedure found";
         p.nzok = db.asInt(0);
         p.type = static_cast<ProcedureType>(db.asInt(1));
         p.code = db.asInt(2);

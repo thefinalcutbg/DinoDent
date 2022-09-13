@@ -236,6 +236,14 @@ std::string XML::getInvoice(const Invoice& invoice)
 
     addElementWithText(issuer, "issuer_type", std::to_string(invoice.issuer.type.index()));
 
+    if (invoice.issuer.type.index() != 1)
+    {
+        auto& company = std::get<Company>(invoice.issuer.type);
+        addElementWithText(issuer, "legal_form", company.legal_form);
+    }
+
+    addElementWithText(issuer, "company_name", invoice.issuer.company_name);
+
     if (invoice.issuer.type.index() == 1)
     {
         auto& selfInsured = std::get<SelfInsured>(invoice.issuer.type);
@@ -256,13 +264,7 @@ std::string XML::getInvoice(const Invoice& invoice)
         issuer->LinkEndChild(person_info);
 
     }
-    else
-    {
-        auto& company = std::get<Company>(invoice.issuer.type);
-        addElementWithText(issuer, "legal_form", company.legal_form);
-    }
 
-    addElementWithText(issuer, "company_name", invoice.issuer.company_name);
     addElementWithText(issuer, "address_by_contract", invoice.issuer.address_by_contract);
 
     if (User::doctor().severalRHIF) {

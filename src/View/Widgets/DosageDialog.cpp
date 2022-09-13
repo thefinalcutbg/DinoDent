@@ -191,6 +191,8 @@ void DosageDialog::setWhenTags(const std::vector<std::string>& tags, bool offset
 
 		QPushButton* tagButton = new QPushButton(tags[i].c_str(), this);
 
+		tagButton->setToolTip(u8"Премахни");
+
 		ui.tagLayout->addWidget(tagButton);
 
 		QObject::connect(tagButton, &QPushButton::clicked, [=] {presenter->removeTag(i);});

@@ -14,8 +14,9 @@ std::vector<TimeFrame> DbPatientSummary::getFrames(long long patientRowId)
         "amblist.rowid,"
         "amblist.num,"
         "amblist.lpk,"
-        "procedure.date,"
-        "amblist.status "
+        "amblist.date,"
+        "amblist.status, "
+        "procedure.date "
 
         "FROM amblist LEFT JOIN procedure ON "
         "amblist.rowid = procedure.amblist_rowid "
@@ -23,33 +24,32 @@ std::vector<TimeFrame> DbPatientSummary::getFrames(long long patientRowId)
         "GROUP BY procedure.date "
         "ORDER BY procedure.date ASC";
 
-
+    
     Db db(query);
-
+    
     while (db.hasRows())
     {
-        timeFrames.push_back(
-            TimeFrame
-            {
-               TimeFrameType::Procedures,
-               db.asRowId(0),
-               db.asString(1),
-               db.asString(2),
-               Date{db.asString(3)}
-            }
-        );
-      
-        Parser::parse(db.asString(4), timeFrames.back().teeth);
+        long long rowid = db.asRowId(0);
 
-        int currentIdx = timeFrames.size() - 1;
-            
-        //inserting InitialAmb if necessary:
-        if (currentIdx == 0 
-            ||
-            timeFrames[currentIdx - 1].rowid != timeFrames[currentIdx].rowid)
+        if (timeFrames.empty() || timeFrames.back().rowid != rowid)
         {
-            timeFrames.back().type = TimeFrameType::InitialAmb;
+            timeFrames.push_back(
+                TimeFrame
+                {
+                   TimeFrameType::InitialAmb,
+                   rowid,
+                   db.asString(1),
+                   db.asString(2),
+                   Date{db.asString(3)}
+                }
+            );
+
+            Parser::parse(db.asString(4), timeFrames.back().teeth);
         }
+
+        timeFrames.push_back(timeFrames.back());
+        timeFrames.back().type = TimeFrameType::Procedures;
+        timeFrames.back().date = db.asString(5);
     }
 
     
@@ -73,7 +73,6 @@ std::vector<TimeFrame> DbPatientSummary::getFrames(long long patientRowId)
     while (db.hasRows())
     {
         Procedure p;
-        qDebug() << "procedure found";
         p.nzok = db.asInt(0);
         p.type = static_cast<ProcedureType>(db.asInt(1));
         p.code = db.asInt(2);

@@ -1,10 +1,10 @@
-#include "PerscriptionView.h"
-#include "Presenter/PerscriptionPresenter.h"
+﻿#include "PrescriptionView.h"
+#include "Presenter/PrescriptionPresenter.h"
 #include "View/Theme.h"
 
 
 
-PerscriptionView::PerscriptionView(QWidget* parent)
+PrescriptionView::PrescriptionView(QWidget* parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
@@ -43,21 +43,24 @@ PerscriptionView::PerscriptionView(QWidget* parent)
 	connect(ui.dispensationCombo, &QComboBox::currentIndexChanged, [&] { dispensationLogic(); });
 	connect(ui.repeats, &QSpinBox::valueChanged, [&] { if (ui.repeats->isHidden()) return; dispensationLogic(); });
 	connect(ui.supplementsEdit, &QLineEdit::textChanged, [=](const QString& text) {if (presenter) presenter->supplementsChanged(text.toStdString());});
+	connect(ui.nrnButton, &QPushButton::clicked, [=] {if (presenter) presenter->nrnButtonClicked(); });
+	connect(ui.dateEdit, &QDateEdit::dateChanged, [=](QDate d) {if (presenter) presenter->dateChanged(Date{ d.day(),d.month(),d.year() });});
+
 }
 
-void PerscriptionView::setPatient(const Patient& patient, const Date& currentDate)
+void PrescriptionView::setPatient(const Patient& patient, const Date& currentDate)
 {
 	ui.patientTile->setData(patient, currentDate);
 	ui.allergiesTile->setData(patient);
 }
 
 
-void PerscriptionView::setMedicationList(const std::vector<std::string> rows)
+void PrescriptionView::setMedicationList(const std::vector<std::string> rows)
 {
 	medModel.setRows(rows);
 }
 
-void PerscriptionView::dispensationLogic()
+void PrescriptionView::dispensationLogic()
 {
 	if (!presenter) return;
 
@@ -96,7 +99,7 @@ void PerscriptionView::dispensationLogic()
 
 }
 
-void PerscriptionView::setDispensation(const Dispensation& d)
+void PrescriptionView::setDispensation(const Dispensation& d)
 {
 	QSignalBlocker b1(ui.repeats);
 	QSignalBlocker b2(ui.dispensationCombo);
@@ -105,16 +108,49 @@ void PerscriptionView::setDispensation(const Dispensation& d)
 	ui.repeats->setValue(d.repeats);
 	
 	ui.repeats->setHidden(d.type != Dispensation::Type::MultipleUse);
-
+	ui.repeatsLabel->setHidden(d.type != Dispensation::Type::MultipleUse);
 }
 
-void PerscriptionView::setSupplements(const std::string& supplements)
+void PrescriptionView::setSupplements(const std::string& supplements)
 {
 	QSignalBlocker b(ui.supplementsEdit);
 	ui.supplementsEdit->setText(supplements.c_str());
 }
 
+void PrescriptionView::setDate(const Date& d)
+{
+	QSignalBlocker b(ui.dateEdit);
+	ui.dateEdit->setDate(QDate(d.year, d.month, d.day));
+}
 
-PerscriptionView::~PerscriptionView()
+void PrescriptionView::setReadOnly(bool readOnly)
+{
+	ui.addButton->setHidden(readOnly);
+	ui.editButton->setDisabled(readOnly);
+	ui.deleteButton->setHidden(readOnly);
+	ui.editButton->setHidden(readOnly);
+	ui.dateEdit->setReadOnly(readOnly);
+	ui.dispensationCombo->setDisabled(readOnly);
+	ui.repeats->setReadOnly(readOnly);
+	ui.supplementsEdit->setReadOnly(readOnly);
+
+}
+
+void PrescriptionView::setNrn(const std::string& nrn)
+{
+	if (nrn.empty()) {
+
+		ui.nrnButton->setText(u8"Няма");
+		ui.nrnButton->setHoverText(u8"Изпрати към НЗИС");
+		return;
+	}
+
+	ui.nrnButton->setText(nrn.c_str());
+	ui.nrnButton->setHoverText(u8"Анулирай");
+
+}
+
+
+PrescriptionView::~PrescriptionView()
 {
 }

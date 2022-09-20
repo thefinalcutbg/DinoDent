@@ -243,7 +243,7 @@ void PatientSummary::setPrice(const PriceInfoStr& p)
 {
 	ui.priceLabel->setText(
 		u8"Платени: <b>" + priceToString(p.price) + "</b>" +
-		u8" НЗОК: <b>" + priceToString(p.nzok) + "</b>"
+		u8" НЗОК: <b>" + priceToString(p.nhif) + "</b>"
 	);
 }
 

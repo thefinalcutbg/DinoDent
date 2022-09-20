@@ -5,12 +5,11 @@
 #include "Medication.h"
 #include "Dispensation.h"
 
-class Perscription
+struct Prescription
 {
 
-public:
-
 	long long rowid{ 0 };
+	long long patient_rowid{ 0 };
 
 	std::string LRN;
 	std::string NRN;

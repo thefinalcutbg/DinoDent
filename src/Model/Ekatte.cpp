@@ -65,8 +65,8 @@ Ekatte::Ekatte(const std::string& cityString) : Ekatte(s_stringToIdx[cityString]
 
 #include "Model/FreeFunctions.h"
 
-std::string Ekatte::getRhif() const { return leadZeroes(rhif, 2); }
-std::string Ekatte::getHealthRegion() const { return leadZeroes(healthRegion, 2); }
+std::string Ekatte::getRhif() const { return  FreeFn::leadZeroes(rhif, 2); }
+std::string Ekatte::getHealthRegion() const { return FreeFn::leadZeroes(healthRegion, 2); }
 
 
 std::string Ekatte::getString(bool prefix) const
@@ -83,7 +83,7 @@ std::string Ekatte::getString(bool prefix) const
 
 std::string Ekatte::ekatte() const
 {
-    return leadZeroes(ekatteIdx, 5); 
+    return FreeFn::leadZeroes(ekatteIdx, 5);
 }
 
 const std::unordered_map<std::string, int>& Ekatte::cityNameToIdx() { return s_stringToIdx; }

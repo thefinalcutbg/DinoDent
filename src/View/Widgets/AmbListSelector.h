@@ -7,6 +7,7 @@
 #include "View/Models/PatientTableModel.h"
 #include "View/Models/PerioTableModel.h"
 #include "View/Models/FinancialTableModel.h"
+#include "View/Models/PrescriptionTableModel.h"
 #include <QSortFilterProxyModel>
 
 class ListSelectorPresenter;
@@ -26,6 +27,7 @@ private:
 	PatientTableModel patient_model;
 	PerioTableModel perio_model;
 	FinancialTableModel financial_model;
+	PrescriptionTableModel perscription_model;
 
 public:
 	AmbListSelector(ListSelectorPresenter *p);
@@ -36,7 +38,7 @@ public:
 	void setRows(const std::vector<PatientRow>& rows) override;
 	void setRows(const std::vector<PerioRow>& rows) override;
 	void setRows(const std::vector<FinancialRow>& rows) override;
-
+	void setRows(const std::vector<PrescriptionRow>& rows) override;
 	~AmbListSelector();
 
 private:

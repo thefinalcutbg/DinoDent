@@ -6,12 +6,9 @@
 #include "View/ModalDialogBuilder.h"
 #include "Model/User.h"
 #include "View/ModalDialogBuilder.h"
-
-#include <QUuid>
+#include "Model/FreeFunctions.h"
+#include "Model/Patient.h"
 #include <QDateTime>
-std::string getUuid() {
-	return QUuid::createUuid().toString(QUuid::StringFormat::Id128).toStdString();
-}
 
 std::string timeNow() {
 	auto t = QDateTime::currentDateTime();
@@ -21,6 +18,9 @@ std::string timeNow() {
 
 bool HisService::sendRequestToHis(const std::string& query)
 {
+	if (awaiting_reply) return false;
+	//ModalDialogBuilder::showMultilineDialog(buildMessage(query)); return true;
+
 	if (HisToken::getToken().empty()) {
 		return HisToken::requestToken(this, query);
 	}
@@ -35,7 +35,7 @@ bool HisService::sendRequestToHis(const std::string& query)
 		  this, 
 		  signedMsg, 
 		  HisToken::getToken(), 
-		 "https://api.his.bg/" + servicePath
+		 "https://api.his.bg" + servicePath
 	);
 
 	return true;
@@ -103,7 +103,7 @@ const std::string HisService::buildMessage(const std::string& query)
 				"<nhis:senderISName value=\"" + softwareName + "\"/>"
 				"<nhis:recipient value=\"4\"/>"
 				"<nhis:recipientId value=\"NHIS\"/>"
-				"<nhis:messageId value=\"" + getUuid() + "\"/>"
+				"<nhis:messageId value=\"" + FreeFn::getUuid() + "\"/>"
 				"<nhis:messageType value=\"" + messageType + "\"/>"
 				"<nhis:createdOn  value=\"" + timeNow() + "\"/>"
 			"</nhis:header>"
@@ -143,13 +143,16 @@ std::string HisService::subject(const Patient& p)
 		"</nhis:address>"
 		"<nhis:phone value=\""+p.phone+"\"/>"
 		//<nhis:email value="[string]"/>
+		"<nhis:various>"
+			+bind("age", p.getAge())+
+		"</nhis:various>"
 	"</nhis:subject>"
 	;
 
 	return subject;
 }
 
-std::string HisService::requester()
+std::string HisService::requester(bool nhif)
 {
 	//cl008 numenclature
 	auto lambda = []()->std::string{
@@ -165,10 +168,13 @@ std::string HisService::requester()
 
 	};
 
-	std::string qualification = User::practice().nzok_contract ?
-		"<nhis:qualification value=\"" + lambda() + "\" nhifCode=\"" + std::to_string(User::doctor().specialtyAsInt()) + "\"/>"
+	std::string nhifCode = User::practice().nzok_contract && nhif ?
+		" nhifCode=\"" + std::to_string(User::doctor().specialtyAsInt()) + "\""
 		:
 		"";
+
+	std::string qualification =
+		"<nhis:qualification value=\"" + lambda() + "\"" + nhifCode + "/>";
 
 	std::string requester =
 		"<nhis:requester>"
@@ -183,3 +189,65 @@ std::string HisService::requester()
 
 }
 
+std::string HisService::bind(const std::string& name, double value)
+{
+	return value ? bind(name, FreeFn::formatDouble(value)) : "";
+}
+
+std::string HisService::bind(const std::string& name, const char* value)
+{
+	if (value == "") return "";
+
+	return "<nhis:" + name + " value=\"" + value + "\" />";
+}
+
+std::string HisService::bind(const std::string& name, std::string value)
+{
+	if (value.empty()) return "";
+
+	return "<nhis:" + name + " value=\"" + value + "\" />";
+}
+
+std::string HisService::bind(const std::string& name, int value)
+{
+	return value ? bind(name, std::to_string(value)) : "";
+}
+
+std::string HisService::bind(const std::string& name, bool value)
+{
+	return bind(name, value ? "true" : "false");
+}
+
+#include <TinyXML/tinyxml.h>
+
+std::string HisService::getErrors(const std::string& reply)
+{
+	TiXmlDocument doc;
+
+	doc.Parse(reply.data(), 0, TIXML_ENCODING_UTF8);
+
+	TiXmlHandle docHandle(&doc);
+
+	auto contentChild = docHandle.
+			FirstChild(). //message
+			Child(1).	  //contents
+			FirstChildElement(). //possible error
+			ToElement();
+
+	while (contentChild)
+	{
+		if (contentChild->ValueStr() == "nhis:error") {
+
+			return
+				contentChild->
+					FirstChild()->
+						NextSiblingElement()->
+								Attribute("value");
+		}
+
+		contentChild = contentChild->NextSiblingElement();
+	}
+
+	return std::string{};
+
+}

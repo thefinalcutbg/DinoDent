@@ -273,6 +273,48 @@ void AmbListSelector::setRows(const std::vector<FinancialRow>& rows)
 	);
 }
 
+void AmbListSelector::setRows(const std::vector<PrescriptionRow>& rows)
+{
+	setPatientMode(false);
+	perscription_model.setRows(rows);
+
+	QSignalBlocker block(ui.dataTypeCombo);
+	ui.dataTypeCombo->setCurrentIndex(4);
+
+	idFilter.setSourceModel(&perscription_model);
+	idFilter.setFilterKeyColumn(3);
+	nameFilter.setSourceModel(&idFilter);
+	nameFilter.setFilterKeyColumn(4);
+	phoneFilter.setSourceModel(&nameFilter);
+	phoneFilter.setFilterKeyColumn(5);
+
+	ui.tableView->setModel(&phoneFilter);
+
+	ui.tableView->hideColumn(0);
+	ui.tableView->setColumnWidth(1, 100);
+	ui.tableView->setColumnWidth(2, 80);
+	ui.tableView->setColumnWidth(3, 250);
+	ui.tableView->setColumnWidth(4, 120);
+
+	ui.fromDateEdit->setDisabled(false);
+	ui.toDateEdit->setDisabled(false);
+
+	connect(ui.tableView->selectionModel(), &QItemSelectionModel::selectionChanged, this, [=] {
+
+		auto idxList = ui.tableView->selectionModel()->selectedRows();
+
+		std::set<int>selectedIndexes;
+
+		for (auto& idx : idxList) {
+			selectedIndexes.insert(phoneFilter.index(idx.row(), 0).data().toInt());
+		}
+
+		this->presenter->selectionChanged(selectedIndexes);
+
+		}
+
+	);
+}
 
 void AmbListSelector::setPatientMode(bool enable)
 {

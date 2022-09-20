@@ -25,7 +25,7 @@ struct ProcedureTemplate
 	
 	std::string diagnosis;
 
-	bool nzok{ false };
+	bool nhif{ false };
 
 	std::string material;
 	std::string ksmp;

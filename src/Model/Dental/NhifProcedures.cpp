@@ -36,7 +36,7 @@ void NhifProcedures::initialize()
 		m.code = procedure[i]["code"].asInt();
 		m.name = procedure[i]["name"].asString();
 		m.price = 0;
-		m.nzok = true;
+		m.nhif = true;
 		m.ksmp = procedure[i]["ksmp"].asString();
 
 		if (!procedure[i]["default_diag"].isNull())
@@ -119,10 +119,10 @@ void NhifProcedures::initialize()
 					for (int i = 0; i < procedures.size(); i++)
 					{
 						int m_code = procedures[i].asInt();
-						double nzok = nzok_price[i].asDouble();
+						double nhif = nzok_price[i].asDouble();
 						double patient = patient_price[i].asDouble();
 
-						price_value.priceMap[m_code] = std::make_pair(patient, nzok);
+						price_value.priceMap[m_code] = std::make_pair(patient, nhif);
 					}
 
 					const Json::Value& specialty = priceMap["specialty"];

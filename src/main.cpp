@@ -38,9 +38,9 @@ int main(int argc, char *argv[])
 #include "Model/Dental/NhifProcedures.h"
 #include "Model/Dental/DiagnosisContainer.h"
 #include "Model/Dental/KSMP.h"
-#include "Model/Perscription/Medication.h"
-#include "Model/Perscription/DoseQuantity.h"
-#include "Model/Perscription/WhenToTake.h"
+#include "Model/Prescription/Medication.h"
+#include "Model/Prescription/DoseQuantity.h"
+#include "Model/Prescription/WhenToTake.h"
 #include "Model/Dental/MKB.h"
 #include "Model/Ekatte.h"
 #include "Updates/Updater.h"
@@ -55,7 +55,7 @@ void initFunction() {
     //Intializing static data
     SpriteSheets::container().initialize(); //loading textures, otherwise program will crash;
     DiagnosisContainer::initialize();
-    NhifProcedures::initialize(); //parsing json of nzok data
+    NhifProcedures::initialize(); //parsing json of nhif data
     Medication::initialize();
     KSMP::initialize();
     Ekatte::initialize();

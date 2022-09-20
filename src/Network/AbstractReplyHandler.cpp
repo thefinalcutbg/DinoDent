@@ -16,7 +16,6 @@ std::string AbstractReplyHandler::getTextNullCheck(const TiXmlElement* e)
 
 }
 
-
 void AbstractReplyHandler::getReply(const std::string& reply)
 {
 	awaiting_reply = false;

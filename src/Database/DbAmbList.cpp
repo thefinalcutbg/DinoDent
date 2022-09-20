@@ -160,7 +160,7 @@ void DbAmbList::deleteCurrentSelection(const std::string& ambID)
 bool DbAmbList::checkExistingAmbNum(int currentYear, int ambNum)
 {
     std::string query = "SELECT EXISTS(SELECT 1 FROM amblist WHERE "
-        "strftime('%Y',date)=" + leadZeroes(currentYear, 2) + " "
+        "strftime('%Y',date)=" + FreeFn::leadZeroes(currentYear, 2) + " "
         "AND num = " + std::to_string(ambNum) + ") "
         "AND lpk = '" + User::doctor().LPK + "' "
         "AND rzi = '" + User::practice().rziCode + "' ";
@@ -218,7 +218,7 @@ std::vector<long long> DbAmbList::getRowIdNhif(int month, int year)
         "lpk = '" + User::doctor().LPK + "' "
         "AND rzi = '" + User::practice().rziCode + "' "
         "AND sum(procedure.nzok) > 0 "
-        "AND strftime('%m', amblist.date)='" + leadZeroes(month, 2) + "' "
+        "AND strftime('%m', amblist.date)='" + FreeFn::leadZeroes(month, 2) + "' "
         "AND strftime('%Y', amblist.date)='" + std::to_string(year) + "' "
         "ORDER BY amblist.num ASC";
 
@@ -257,12 +257,12 @@ AmbList DbAmbList::getListNhifProceduresOnly(long long rowId)
     return ambList;
 }
 
-int DbAmbList::getNewNumber(Date ambDate, bool nzok)
+int DbAmbList::getNewNumber(Date ambDate, bool nhif)
 {
 
     std::string query;
 
-    std::string condition = nzok ? "sum(procedure.nzok) > 0 " : "sum(procedure.nzok) = 0 ";
+    std::string condition = nhif ? "sum(procedure.nzok) > 0 " : "sum(procedure.nzok) = 0 ";
 
     query = 
         "SELECT amblist.num FROM amblist "
@@ -276,7 +276,7 @@ int DbAmbList::getNewNumber(Date ambDate, bool nzok)
         "AND amblist.rzi = '" + User::practice().rziCode + "' "
         "ORDER BY amblist.num DESC LIMIT 1";
 
-    int number = nzok ? 0 : 100000;
+    int number = nhif ? 0 : 100000;
 
     for (Db db(query); db.hasRows();) {
         number = db.asInt(0);

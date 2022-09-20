@@ -17,7 +17,8 @@ public:
 	void setText(const QString& header, const QString& footer);
 	void setCurrentAppearence(bool current);
 	void mouseReleaseEvent(QMouseEvent* event) override;
-	void setIcon(const QPixmap& px);
+	void setNhifIcon(const QPixmap& px);
+	void setHisIcon(const QPixmap& px);
 	int getTabId() const { return m_id; };
 	~TabTitle();
 

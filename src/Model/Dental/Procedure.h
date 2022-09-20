@@ -67,7 +67,7 @@ struct Procedure
     code{ t.code },
         name{ t.name },
         date{ date },
-        nzok{ t.nzok },
+        nhif{ t.nhif },
         tooth{ tooth },
         temp{ temp },
         diagnosis(diagnosis)
@@ -91,7 +91,7 @@ struct Procedure
         price{ price },
         tooth{ tooth },
         temp{ temp },
-        nzok{ t.nzok },
+        nhif{ t.nhif },
         result{ result }
     {
         int templateType = static_cast<int>(t.type);
@@ -116,7 +116,7 @@ struct Procedure
     int tooth{ -1 };        //-1 for general/several teeth, any in range 0-31 for specific tooth
     bool temp{ false };
     Result result{ NoData{} };
-    bool nzok{ false };
+    bool nhif{ false };
     std::string LPK;
     std::string ksmp;
 

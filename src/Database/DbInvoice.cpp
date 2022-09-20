@@ -8,12 +8,12 @@
 long long DbInvoice::insertInvoice(const Invoice& invoice)
 {
 
-    bool nzok = invoice.nzokData.has_value();
+    bool nhif = invoice.nzokData.has_value();
    
 
     std::string query;
 
-    if(nzok){
+    if(nhif){
         query = 
             "INSERT INTO financial (practice_rzi, num, type, date, month_notif, recipient_id, data) "
             "VALUES ("

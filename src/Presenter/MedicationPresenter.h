@@ -3,7 +3,7 @@
 #include <optional>
 
 #include "View/Interfaces/IMedicationDialog.h"
-#include "Model/Perscription/Medication.h"
+#include "Model/Prescription/Medication.h"
 
 class MedicationPresenter
 {

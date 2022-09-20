@@ -144,7 +144,7 @@ bool Db::crudQuery(const std::string& query)
     i = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
 
     if (err && s_showError) {
-        ModalDialogBuilder::showMessage(u8"Неуспешно записване в базата данни");
+        ModalDialogBuilder::showMessage(u8"Неуспешна операция в базата данни");
         ModalDialogBuilder::showMultilineDialog(query);
     }
 

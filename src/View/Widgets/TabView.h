@@ -7,7 +7,7 @@
 #include "View/Widgets/PerioView.h"
 #include "View/Widgets/PatientSummary.h"
 #include "View/Widgets/FinancialView.h"
-#include "View/Widgets/PerscriptionView.h"
+#include "View/Widgets/PrescriptionView.h"
 #include "View/uiComponents/PixmapLabel.h"
 
 #include "View/Interfaces/ITabView.h"
@@ -25,7 +25,7 @@ class TabView : public QWidget, public ITabView
 	ListView m_listView;
 	PatientSummary m_summaryView;
 	FinancialView m_financialView;
-	PerscriptionView m_perscriptionView;
+	PrescriptionView m_perscriptionView;
 
 	PixmapLabel* noTabs;
 
@@ -33,7 +33,7 @@ class TabView : public QWidget, public ITabView
 
 	TabTitle* getTabTitle(int tabId);
 	int getTabIndex(int tabId);
-	void setTabIcon(int tabAt, bool nzok);
+	void setTabIcon(int tabAt, bool nhif, bool his);
 
 
 public:
@@ -66,7 +66,7 @@ public:
 	IPerioView* perioView() override { return &m_perioView; }
 	IPatientSummaryView* summaryView() override { return &m_summaryView; }
 	IFinancialView* financialView() override { return &m_financialView; }
-	IPerscriptionView* perscriptionView() override { return &m_perscriptionView; }
+	IPrescriptionView* perscriptionView() override { return &m_perscriptionView; }
 
 signals:
 	void closeRequested(int mapIndex);

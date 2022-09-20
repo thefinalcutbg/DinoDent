@@ -4,7 +4,7 @@
 
 #include "View/Interfaces/IMedicationDialog.h"
 #include "Presenter/MedicationPresenter.h"
-#include "Model/Validators/PerscriptionValidators.h"
+#include "Model/Validators/PrescriptionValidators.h"
 
 #include "ui_MedicationDialog.h"
 

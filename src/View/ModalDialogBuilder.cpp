@@ -344,5 +344,16 @@ void ModalDialogBuilder::pisDialog(MonthNotifPresenter* presenter)
 	d.exec();
 }
 
+#include "View/Widgets/InputDialog.h"
+
+std::string ModalDialogBuilder::getFromInputDialog(const std::string& text, const std::string& title)
+{
+	InputDialog d;
+	d.setLabel(text);
+	d.setTitle(title);
+	d.exec();
+	return d.result();
+}
+
 
 

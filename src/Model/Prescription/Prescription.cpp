@@ -1,6 +1,6 @@
-﻿#include "Perscription.h"
+﻿#include "Prescription.h"
 
-std::vector<std::string> Perscription::getMedList() const
+std::vector<std::string> Prescription::getMedList() const
 {
     std::vector<std::string> result;
 

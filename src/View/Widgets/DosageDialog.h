@@ -5,7 +5,7 @@
 #include "View/Interfaces/IDosageDialog.h"
 
 #include "ui_DosageDialog.h"
-#include "Model/Validators/PerscriptionValidators.h"
+#include "Model/Validators/PrescriptionValidators.h"
 
 class DosagePresenter;
 

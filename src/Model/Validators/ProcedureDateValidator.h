@@ -10,7 +10,7 @@ class ProcedureDateValidator : public Validator
 
 public:
 	ProcedureDateValidator(Date patientTurns18);
-	void setProcedure(int code, bool nzok);
+	void setProcedure(int code, bool nhif);
 	bool validateInput(const Date& date) override;
 };
 

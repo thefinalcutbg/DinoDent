@@ -1,12 +1,14 @@
 ﻿#include "DosageDialog.h"
 #include "Presenter/DosagePresenter.h"
 #include "View/uiComponents/LineEdit.h"
-#include "Model/Perscription/Dosage.h"
+#include "Model/Prescription/Dosage.h"
 
 DosageDialog::DosageDialog(DosagePresenter* p, QWidget* parent) :
 	presenter(p), QDialog(parent)
 {
 	ui.setupUi(this);
+
+	setWindowTitle(u8"Дозировка");
 
 	ui.offsetCheck->hide();
 	ui.offsetSpin->hide();
@@ -119,6 +121,7 @@ void DosageDialog::setBoundsList(const std::vector<std::string>&list)
 
 void DosageDialog::setPeriodList(const std::vector<std::string>& list)
 {
+	
 	if (!ui.periodCombo->count()) {
 
 		for (auto& s : list) ui.periodCombo->addItem(s.c_str());
@@ -226,13 +229,22 @@ void DosageDialog::setParsed(const std::string& parsed)
 	ui.parseLabel->setText(parsed.c_str());
 }
 
+#include <qdebug.h>
+
 void DosageDialog::setDosage(const Dosage& d)
 {
+	QSignalBlocker blockers[4]{
+		QSignalBlocker{ui.periodCombo},
+		QSignalBlocker{ui.boundsCombo},
+		QSignalBlocker{ui.periodSpin},
+		QSignalBlocker{ui.boundsSpin}
+	};
+
 	ui.asNeededCheck->setChecked(d.asNeeded);
 
 	setRouteList(Route::getStringList());
 	setPeriodList(d.period.getUnitNamesList());
-	setBoundsList(d.period.getUnitNamesList());
+	setBoundsList(d.bounds.getUnitNamesList());
 	setDoseFormCompletionList(d.doseQuantity.unitNames());
 
 	ui.routeCombo->setCurrentText(d.route.getValueStr().c_str());
@@ -245,8 +257,8 @@ void DosageDialog::setDosage(const Dosage& d)
 	ui.boundsSpin->setValue(d.bounds.value);
 
 	ui.periodCombo->setCurrentIndex(d.period.getUnitIndex());
-	
-ui.boundsCombo->setCurrentIndex(d.bounds.getUnitIndex());
+
+	ui.boundsCombo->setCurrentIndex(d.bounds.getUnitIndex());
 
 	setWhenFormCompletionList(d.when.tagsList());
 	setWhenTags(d.when.getTags(), d.when.offsetAllowed());

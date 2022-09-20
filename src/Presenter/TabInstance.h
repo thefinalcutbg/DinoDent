@@ -5,12 +5,13 @@
 #include "Model/Patient.h"
 #include <memory>
 
-enum class TabType {AmbList, PerioList, PatientSummary, Financial, Perscription};
+enum class TabType {AmbList, PerioList, PatientSummary, Financial, Prescription};
 
 struct TabName {
 	std::string header;
 	std::string footer;
-	bool nzok{ false };
+	bool nhif{ false };
+	bool his{ false };
 	std::string toString() const { return header + " " + footer; };
 };
 
@@ -87,7 +88,7 @@ public:
 			case TabType::PerioList: _tabView->showPerioView(); break;
 			case TabType::PatientSummary: _tabView->showSummaryView(); break;
 			case TabType::Financial:_tabView->showFinancialView(); break;
-			case TabType::Perscription:_tabView->showPerscriptionView(); break;
+			case TabType::Prescription:_tabView->showPerscriptionView(); break;
 		}
 
 		setScrollPosition();

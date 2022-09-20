@@ -24,6 +24,7 @@ public:
 	bool enableOffset(bool enabled);
 	bool offsetEnabled() const { return m_offsetEnabled; }
 	int getOffset() const { if (offsetAllowed() && offsetEnabled()) return m_offset; return 0; }
+	const std::vector<int>& getTagIdx() const { return m_tags; }
 
 	std::string parse() const;
 };

@@ -37,8 +37,8 @@ public:
 	const std::string& name() const;
 	const std::string& formStr() const;
 
-	int getFormKey() { return form; };
-	int getNumenclatureKey() { return key;}
+	int getFormKey() const { return form; };
+	int getNumenclatureKey() const { return key;}
 
 	static bool isValidName(const std::string& name);
 	static const std::unordered_map<std::string, int>& names();

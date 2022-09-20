@@ -9,7 +9,7 @@ ProcedureEditorPresenter::ProcedureEditorPresenter(const Procedure& m, const Dat
 	m_validatableElement{nullptr},
 	commonEditorPresenter(m)
 {
-	_dateValidator.setProcedure(m.code, m.nzok);
+	_dateValidator.setProcedure(m.code, m.nhif);
 }
 
 std::optional<Procedure> ProcedureEditorPresenter::openDialog()

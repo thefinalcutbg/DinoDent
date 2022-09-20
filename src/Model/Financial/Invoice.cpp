@@ -114,7 +114,7 @@ void Invoice::setMainDocumentData(long long num, Date date)
 
 std::string Invoice::getInvoiceNumber() const
 {
-	return leadZeroes(number, 10);
+	return FreeFn::leadZeroes(number, 10);
 }
 
 void Invoice::removeOperation(int idx)
@@ -135,7 +135,7 @@ void Invoice::editOperation(const BusinessOperation& op, int idx)
 	aggragated_amounts.calculate(businessOperations);
 }
 
-std::string Invoice::getFileName() //only nzok data files can be exported as xml
+std::string Invoice::getFileName() //only nhif data files can be exported as xml
 {
 	if (!nzokData.has_value()) return std::string{};
 
@@ -145,7 +145,7 @@ std::string Invoice::getFileName() //only nzok data files can be exported as xml
 		User::practice().rziCode + "_" +
 		std::to_string(nzokData->activityTypeCode) + "_" +
 		aggragated_amounts.taxEventDate.toXMLInvoiceFileName() + "_" +
-		leadZeroes(nzokData->fin_document_month_no, 10)
+		FreeFn::leadZeroes(nzokData->fin_document_month_no, 10)
 		+ ".xml";
 
 }

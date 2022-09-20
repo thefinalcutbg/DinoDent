@@ -7,7 +7,7 @@ EditorPresenter::EditorPresenter(const Procedure& p) :
 {
 	m_code = p.code;
 	m_price = p.price;
-	m_nzok = p.nzok;
+	m_nzok = p.nhif;
 	m_name = p.name;
 	m_temp = p.temp;
 	m_tooth = p.tooth;

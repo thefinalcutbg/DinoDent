@@ -22,6 +22,7 @@ class ListSelectorPresenter
 	std::vector<PatientRow> m_patientRows;
 	std::vector<PerioRow> m_perioRows;
 	std::vector<FinancialRow> m_financialRows;
+	std::vector<PrescriptionRow> m_perscriptionRows;
 
 public:
 	ListSelectorPresenter();

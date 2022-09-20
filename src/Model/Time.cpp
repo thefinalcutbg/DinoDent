@@ -20,9 +20,9 @@ std::string Time::to8601(const Date& date, char separator) const
 	result += date.to8601();
 	result += separator;
 	result +=
-		leadZeroes(hour, 2) + ":" +
-		leadZeroes(minutes, 2) + ":" +
-		leadZeroes(sec, 2)
+		FreeFn::leadZeroes(hour, 2) + ":" +
+		FreeFn::leadZeroes(minutes, 2) + ":" +
+		FreeFn::leadZeroes(sec, 2)
 		;
 
 	return result;

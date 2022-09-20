@@ -360,7 +360,7 @@ void ReportPresenter::finish()
 	view->appendText(
 		u8"Mинути дейност: " + std::to_string(sumMinutes) + "\n"
 		u8"Максимално позволени: " + std::to_string(maxMinutesAllowed) + "\n"
-		u8"Очаквана сума : " + formatDouble(expectedPrice) + u8" лв."
+		u8"Очаквана сума : " + FreeFn::formatDouble(expectedPrice) + u8" лв."
 	);
 
 	m_hasErrors ?

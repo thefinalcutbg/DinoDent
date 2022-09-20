@@ -23,7 +23,7 @@ void ProcedureTemplateModel::setProcedures(std::vector<ProcedureTemplate> proced
         this->procedures.emplace_back
         (ProcedureRow{ m.code,
             QString::fromStdString(m.name),
-            m.price, m.nzok });
+            m.price, m.nhif });
     }
     endResetModel();
 
@@ -100,7 +100,7 @@ QVariant ProcedureTemplateModel::data(const QModelIndex& index, int role) const
         switch (column)
         {
         case code:
-            if (procedures[row].nzok)
+            if (procedures[row].nhif)
                 return QIcon(":/icons/icon_nzok.png");
             break;
         default:

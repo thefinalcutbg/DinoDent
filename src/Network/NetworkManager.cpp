@@ -241,6 +241,7 @@ void NetworkManager::sendRequestToNra(const std::string xmlRequest, AbstractRepl
 
 void NetworkManager::requestChallenge()
 {
+
     if (!s_manager) {
         s_manager = new QNetworkAccessManager();
         // s_manager->setAutoDeleteReplies(true); //produces crashes sometimes lol

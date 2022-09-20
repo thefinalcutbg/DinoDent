@@ -21,7 +21,7 @@ struct ToothInfoStr {
 struct PriceInfoStr {
 
 	double price;
-	double nzok;
+	double nhif;
 };
 
 struct SummaryState

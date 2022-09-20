@@ -1,6 +1,6 @@
 #include "DosagePresenter.h"
 #include "View/ModalDialogBuilder.h"
-#include "Model/Perscription/Medication.h"
+#include "Model/Prescription/Medication.h"
 
 DosagePresenter::DosagePresenter(int medicationFormUnit)
 {

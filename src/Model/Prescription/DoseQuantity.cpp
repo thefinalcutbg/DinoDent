@@ -86,6 +86,13 @@ const std::vector<std::string>& DoseQuantity::unitNames() const
 	return s_keyToDoseUnitPlural;
 }
 
+std::variant<int, std::string> DoseQuantity::getUnit() const
+{
+	if (is_ucum) return m_ucum;
+
+	return m_unit;
+}
+
 bool DoseQuantity::isValid() const
 {
 	//insert UCUM mapping?

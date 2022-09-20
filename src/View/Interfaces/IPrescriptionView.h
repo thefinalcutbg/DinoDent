@@ -2,18 +2,21 @@
 #include <string>
 #include <vector>
 
-class PerscriptionPresenter;
+class PrescriptionPresenter;
 class Date;
 struct Patient;
 struct Dispensation;
 
-class IPerscriptionView
+class IPrescriptionView
 {
 public:
 	virtual void setPatient(const Patient& patient, const Date& currentDate) = 0;
-	virtual void setPresenter(PerscriptionPresenter* p) = 0;
+	virtual void setPresenter(PrescriptionPresenter* p) = 0;
 	virtual void setMedicationList(const std::vector<std::string>) = 0;
 	virtual void setDispensation(const Dispensation& d) = 0;
 	virtual void setSupplements(const std::string& supplements) = 0;
+	virtual void setDate(const Date& date) = 0;
+	virtual void setReadOnly(bool readOnly) = 0;
+	virtual void setNrn(const std::string& nrn) = 0;
 
 };

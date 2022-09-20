@@ -1,6 +1,6 @@
-#include "PerscriptionValidators.h"
+#include "PrescriptionValidators.h"
 
-#include "Model/Perscription/Medication.h"
+#include "Model/Prescription/Medication.h"
 
 bool MedicationNameValidator::validateInput(const std::string& text)
 {
@@ -8,14 +8,14 @@ bool MedicationNameValidator::validateInput(const std::string& text)
 }
 
 
-#include "Model/Perscription/Route.h"
+#include "Model/Prescription/Route.h"
 
 bool RouteFormValidator::validateInput(const std::string& text)
 {
     return Route::isValidStr(text);
 }
 
-#include "Model/Perscription/WhenToTake.h"
+#include "Model/Prescription/WhenToTake.h"
 
 bool WhenTextValidator::validateInput(const std::string& text)
 {

@@ -71,5 +71,6 @@ namespace ModalDialogBuilder
 	//returns empty string if canceled
 	std::string ksmpDialog(KsmpList& list, const std::string& preSelectCode = {});
 	void pisDialog(MonthNotifPresenter* presenter);
+	std::string getFromInputDialog(const std::string& text, const std::string& title);
 };
 

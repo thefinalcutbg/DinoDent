@@ -26,7 +26,7 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
         ProcedurePrintSelectDialog dialog(amb.procedures.list());
         
         for (auto& p : amb.procedures) {
-            if (p.nzok) {
+            if (p.nhif) {
                 dialog.selectOnlyWhereNzokIs(true);
                 break;
             }
@@ -68,7 +68,7 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
     report.dataManager()->setReportVariable("address", QString::fromStdString(patient.address));
     report.dataManager()->setReportVariable("patientName", QString::fromStdString(patient.fullName()));
     report.dataManager()->setReportVariable("hirbNo", QString::fromStdString(patient.HIRBNo));
-    report.dataManager()->setReportVariable("ambNum", QString::fromStdString(leadZeroes(amb.number, 12)));
+    report.dataManager()->setReportVariable("ambNum", QString::fromStdString(FreeFn::leadZeroes(amb.number, 12)));
     
 
     report.dataManager()->setReportVariable("RHIFCode", QString::fromStdString(patient.city.getRhif()));
@@ -148,7 +148,7 @@ void Print::invoice(const Invoice& inv)
             "main_document",
             QString::fromStdString(
                 u8"към фактура № "
-                + leadZeroes(mainDoc->number, 10)
+                + FreeFn::leadZeroes(mainDoc->number, 10)
                 + u8" от " + mainDoc->date.toBgStandard()
                 + u8"г."));
     }

@@ -11,7 +11,7 @@ struct ProcedureRow
 	int code;
 	QString name;
 	double price;
-	bool nzok;
+	bool nhif;
 };
 
 class ProcedureTemplateModel : public QAbstractTableModel

@@ -19,7 +19,15 @@ private:
 protected:
 
 	std::string subject(const Patient& p);
-	std::string requester();
+	std::string requester(bool includeNhifCode = false);
+
+	std::string bind(const std::string& name, std::string value);
+	std::string bind(const std::string& name, int value);
+	std::string bind(const std::string& name, bool value);
+	std::string bind(const std::string& name, double value);
+	std::string bind(const std::string& name, const char* value);
+
+	std::string getErrors(const std::string& reply);
 
 	HisService(const std::string& messageType, const std::string& servPath)
 		:
@@ -27,8 +35,8 @@ protected:
 		servicePath{ servPath }
 	{}
 public:
-	bool sendRequestToHis(const std::string& query);
-	bool sendRequestToHisNoAuth(const std::string& query);
+	bool sendRequestToHis(const std::string& contents);
+	bool sendRequestToHisNoAuth(const std::string& contents);
 
 };
 

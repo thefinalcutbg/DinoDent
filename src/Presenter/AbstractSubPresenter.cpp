@@ -7,12 +7,12 @@ void AbstractSubPresenter::setProcedureTemplate(const ProcedureTemplate& m)
 
 	m_code = m.code;
 	m_price = m.price;
-	m_nzok = m.nzok;
+	m_nzok = m.nhif;
 	m_name = m.name;
 
 
-	//common_view->priceEdit()->disable(m.nzok);
-	common_view->procedureNameEdit()->disable(m.nzok);
+	//common_view->priceEdit()->disable(m.nhif);
+	common_view->procedureNameEdit()->disable(m.nhif);
 
 	common_view->procedureNameEdit()->set_Text(m.name);
 	common_view->priceEdit()->set_Value(m.price);
@@ -30,7 +30,7 @@ void AbstractSubPresenter::setProcedureTemplate(const ProcedureTemplate& m)
 	common_view->diagnosisEdit()->setInputValidator(&notEmpty_validator);
 	common_view->procedureNameEdit()->setInputValidator(&notEmpty_validator);
 
-	common_view->enableKSMP(m.nzok == false);
+	common_view->enableKSMP(m.nhif == false);
 
 	m.ksmp.empty() ? 
 		m_ksmp = KSMP::getByType(m.type).at(0)->code
@@ -84,7 +84,7 @@ Procedure AbstractSubPresenter::getProcedureCommonFields()
 
 	result.code = m_code;
 	result.type = m_type;
-	result.nzok = m_nzok;
+	result.nhif = m_nzok;
 	result.name = common_view->procedureNameEdit()->getText();
 	result.LPK = User::doctor().LPK;
 	result.ksmp = m_ksmp;

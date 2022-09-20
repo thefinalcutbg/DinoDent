@@ -19,7 +19,7 @@ void FinancialTableModel::setRows(std::vector<FinancialRow> rows)
 
             QFinancialRow{
                 r.number,
-                r.nzok,
+                r.nhif,
                 QString::fromStdString(r.date.toBgStandard()),
                 QString::fromStdString(r.recipientId),
                 QString::fromStdString(r.recipientName),
@@ -107,7 +107,7 @@ QVariant FinancialTableModel::data(const QModelIndex& index, int role) const
         switch (column)
         {
         case 1:
-            if (rows[row].nzok)
+            if (rows[row].nhif)
                 return QIcon(":/icons/icon_nzok.png");
             break;
         default:

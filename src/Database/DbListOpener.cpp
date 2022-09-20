@@ -59,7 +59,7 @@ std::vector<AmbRow> DbListOpener::getAmbRows(const Date& from, const Date& to)
         row.rowID = db.asRowId(0);
         row.ambNumber = db.asInt(1);
         
-        row.nzok = bool(db.asInt(2));
+        row.nhif = bool(db.asInt(2));
         row.date = db.asString(3);
         
         row.patientRowId = db.asRowId(4);
@@ -140,10 +140,10 @@ std::vector<FinancialRow> DbListOpener::getFinancialRows(const Date& from, const
         row.rowID = db.asRowId(0);
         
         row.number = db.asInt(1);
-        row.nzok = db.asInt(2);
+        row.nhif = db.asInt(2);
         row.date = db.asString(3);
 
-        if (row.nzok) {
+        if (row.nhif) {
             row.recipientId = nzokRecipient.bulstat;
             row.recipientName = nzokRecipient.name;
             row.recipientPhone = "";
@@ -161,10 +161,53 @@ std::vector<FinancialRow> DbListOpener::getFinancialRows(const Date& from, const
 
 }
 
+std::vector<PrescriptionRow> DbListOpener::getPrescriptionRows(const Date& from, const Date& to)
+{
+    std::vector<PrescriptionRow> rows;
+    rows.reserve(50);
+
+    std::string query =
+        "SELECT " 
+        "prescription.rowid, "
+        "prescription.date, "
+        "prescription.nrn, "
+        "patient.rowid, "
+        "patient.id, "
+        "patient.fname, "
+        "patient.mname, "
+        "patient.lname, "
+        "patient.phone "
+        "FROM prescription INNER JOIN patient ON prescription.patient_rowid = patient.rowid "
+        "WHERE "
+        "prescription.date BETWEEN '" + from.to8601() + "' AND '" + to.to8601() + "' "
+        "AND prescription.lpk = '" + User::doctor().LPK + "' "
+        "AND prescription.rzi = '" + User::practice().rziCode + "' "
+        "ORDER BY prescription.date ASC ";
+
+    Db db(query);
+
+    while (db.hasRows())
+    {
+        rows.emplace_back();
+
+        auto& p = rows.back();
+
+       p.rowID = db.asRowId(0);
+       p.date = db.asString(1);
+       p.nrn = db.asString(2);
+       p.patientRowId = db.asRowId(3);
+       p.patientId = db.asString(4);
+       p.patientName = db.asString(5) + " " + db.asString(6) + " " + db.asString(7);
+       p.patientPhone = db.asString(8);
+    }
+
+    return rows;
+}
+
 
 void DbListOpener::deleteRecord(TabType type, long long rowid)
 {
-    static constexpr const char* tableNames[4]{ "amblist", "periostatus", "patient", "financial" };
+    static constexpr const char* tableNames[5]{ "amblist", "periostatus", "patient", "financial", "prescription" };
 
     std::string tableName{ tableNames[static_cast<int>(type)] };
 

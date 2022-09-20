@@ -46,7 +46,7 @@ struct AmbList
 			return Date::currentDate();
 
 		for (auto& p : procedures)
-			if (p.nzok)
+			if (p.nhif)
 				return p.date;
 		
 		return procedures[0].date;

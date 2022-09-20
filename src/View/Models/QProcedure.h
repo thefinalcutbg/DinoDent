@@ -12,7 +12,7 @@ struct QProcedure
 	QString procedureName;
 	int code{ -1 };
 	QString ksmp;
-	bool nzok{ false };
+	bool nhif{ false };
 	QString price;
 	QString doctor;
 };

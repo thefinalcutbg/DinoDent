@@ -705,22 +705,22 @@
     <ClCompile Include="include\TinyXML\tinyxmlparser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Model\Perscription\Perscription.cpp">
+    <ClCompile Include="src\Model\Prescription\Prescription.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Model\Perscription\Medication.cpp">
+    <ClCompile Include="src\Model\Prescription\Medication.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Model\Perscription\Dosage.cpp">
+    <ClCompile Include="src\Model\Prescription\Dosage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Network\HIS\UpdateMedications.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Presenter\PerscriptionPresenter.cpp">
+    <ClCompile Include="src\Presenter\PrescriptionPresenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\Widgets\PerscriptionView.cpp">
+    <ClCompile Include="src\View\Widgets\PrescriptionView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\Widgets\MedicationDialog.cpp">
@@ -735,22 +735,40 @@
     <ClCompile Include="src\Presenter\DosagePresenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Model\Perscription\TimeLapse.cpp">
+    <ClCompile Include="src\Model\Prescription\TimeLapse.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Model\Perscription\DoseQuantity.cpp">
+    <ClCompile Include="src\Model\Prescription\DoseQuantity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Model\Perscription\Route.cpp">
+    <ClCompile Include="src\Model\Prescription\Route.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Model\Validators\PerscriptionValidators.cpp">
+    <ClCompile Include="src\Model\Validators\PrescriptionValidators.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Model\Perscription\WhenToTake.cpp">
+    <ClCompile Include="src\Model\Prescription\WhenToTake.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\Models\MedicationTableModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Database\DbPrescription.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\Models\PrescriptionTableModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Model\FreeFunctions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Network\HIS\EPrescription.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\Widgets\InputDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\uiComponents\HoverButton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1331,22 +1349,22 @@
     <ClInclude Include="include\TinyXML\tinyxml.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model\Perscription\Perscription.h">
+    <ClInclude Include="src\Model\Prescription\Prescription.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model\Perscription\Medication.h">
+    <ClInclude Include="src\Model\Prescription\Medication.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model\Perscription\Dosage.h">
+    <ClInclude Include="src\Model\Prescription\Dosage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Network\HIS\UpdateMedications.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Presenter\PerscriptionPresenter.h">
+    <ClInclude Include="src\Presenter\PrescriptionPresenter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\View\Interfaces\IPerscriptionView.h">
+    <ClInclude Include="src\View\Interfaces\IPrescriptionView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\Interfaces\IMedicationDialog.h">
@@ -1361,25 +1379,31 @@
     <ClInclude Include="src\View\Interfaces\IDosageDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model\Perscription\TimeLapse.h">
+    <ClInclude Include="src\Model\Prescription\TimeLapse.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model\Perscription\DoseQuantity.h">
+    <ClInclude Include="src\Model\Prescription\DoseQuantity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model\Perscription\Route.h">
+    <ClInclude Include="src\Model\Prescription\Route.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model\Validators\PerscriptionValidators.h">
+    <ClInclude Include="src\Model\Validators\PrescriptionValidators.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model\Perscription\WhenToTake.h">
+    <ClInclude Include="src\Model\Prescription\WhenToTake.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\Models\MedicationTableModel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model\Perscription\Dispensation.h">
+    <ClInclude Include="src\Model\Prescription\Dispensation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Database\DbPrescription.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Network\HIS\EPrescription.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1645,13 +1669,22 @@
     <QtMoc Include="src\View\Widgets\UpdateDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\Widgets\PerscriptionView.h">
+    <QtMoc Include="src\View\Widgets\PrescriptionView.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\Widgets\MedicationDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\Widgets\DosageDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\Models\PrescriptionTableModel.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\Widgets\InputDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\uiComponents\HoverButton.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -1809,13 +1842,16 @@
     <QtUic Include="src\View\SubWidgets\VitaWidget.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="src\View\Widgets\PerscriptionView.ui">
+    <QtUic Include="src\View\Widgets\PrescriptionView.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\Widgets\MedicationDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\Widgets\DosageDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\Widgets\InputDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

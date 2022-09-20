@@ -79,7 +79,7 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
 
         dentalCareService->SetAttribute("personLastName", patient.LastName);
         dentalCareService->SetAttribute("specificationType", list.nhifData.getSpecString(doctor.specialty));
-        dentalCareService->SetAttribute("ambulatorySheetNo", leadZeroes(list.number, 6));
+        dentalCareService->SetAttribute("ambulatorySheetNo", FreeFn::leadZeroes(list.number, 6));
         dentalCareService->SetAttribute("HIRBNo", patient.HIRBNo); //throw if HIRBNo empty?
         dentalCareService->SetAttribute("unfavorableCondition", 0);
         dentalCareService->SetAttribute("substitute", 0);
@@ -212,7 +212,7 @@ std::string XML::getInvoice(const Invoice& invoice)
 
     addElementWithText(el_invoice, "fin_document_type_code", invoice.nzokData->fin_document_type_code);
     addElementWithText(el_invoice, "fin_document_no", invoice.getInvoiceNumber());
-    addElementWithText(el_invoice, "fin_document_month_no", leadZeroes(invoice.nzokData->fin_document_month_no, 10));
+    addElementWithText(el_invoice, "fin_document_month_no", FreeFn::leadZeroes(invoice.nzokData->fin_document_month_no, 10));
     addElementWithText(el_invoice, "fin_document_date", invoice.date.to8601());
 
     auto mainDoc = invoice.mainDocument();
@@ -220,7 +220,7 @@ std::string XML::getInvoice(const Invoice& invoice)
     if (mainDoc)
     {
         TiXmlElement* mainDocument = new TiXmlElement("Main_Fin_Doc");
-        addElementWithText(mainDocument, "document_no", leadZeroes(mainDoc->number, 10));
+        addElementWithText(mainDocument, "document_no", FreeFn::leadZeroes(mainDoc->number, 10));
         addElementWithText(mainDocument, "document_date", mainDoc->date.to8601());
         el_invoice->LinkEndChild(mainDocument);
     }
@@ -297,8 +297,8 @@ std::string XML::getInvoice(const Invoice& invoice)
         addElementWithText(businessOperation, "activity_name", operation.activity_name);
         addElementWithText(businessOperation, "measure_code", "BR");
         addElementWithText(businessOperation, "quantity", std::to_string(operation.quantity));
-        addElementWithText(businessOperation, "unit_price", formatDouble(operation.unit_price));
-        addElementWithText(businessOperation, "value_price", formatDouble(operation.value_price));
+        addElementWithText(businessOperation, "unit_price", FreeFn::formatDouble(operation.unit_price));
+        addElementWithText(businessOperation, "value_price", FreeFn::formatDouble(operation.value_price));
 
         el_invoice->LinkEndChild(businessOperation);
     }
@@ -306,8 +306,8 @@ std::string XML::getInvoice(const Invoice& invoice)
     TiXmlElement* aggregatedAmounts = new TiXmlElement("Aggregated_amounts");
 
     addElementWithText(aggregatedAmounts, "payment_type", "B");
-    addElementWithText(aggregatedAmounts, "total_amount", formatDouble(invoice.aggragated_amounts.total_amount));
-    addElementWithText(aggregatedAmounts, "payment_amount", formatDouble(invoice.aggragated_amounts.payment_amount));
+    addElementWithText(aggregatedAmounts, "total_amount", FreeFn::formatDouble(invoice.aggragated_amounts.total_amount));
+    addElementWithText(aggregatedAmounts, "payment_amount", FreeFn::formatDouble(invoice.aggragated_amounts.payment_amount));
     addElementWithText(aggregatedAmounts, "original", "Y");
     addElementWithText(aggregatedAmounts, "tax_event_date", invoice.aggragated_amounts.taxEventDate.to8601());
 

@@ -3,7 +3,7 @@
 #include <TinyXML/tinyxml.h>
 #include <qdebug.h>
 #include "Database/Database.h"
-#include "Model/Perscription/Medication.h"
+#include "Model/Prescription/Medication.h"
 
 void UpdateMedications::update()
 {

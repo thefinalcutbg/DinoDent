@@ -163,7 +163,7 @@ void PatientSummaryPresenter::pricePeriodChanged(const Date& from, const Date& t
 
             price += p.price;
 
-            if (p.nzok) {
+            if (p.nhif) {
                 nzokPrice +=
                     NhifProcedures::getNZOKPrice(
                         p.code,

@@ -50,7 +50,7 @@ void GetHirbnoService::parseReply(const std::string& reply)
 	result.size() > 8 ?
 		result = result.substr(result.size() - 8)
 		:
-		result = leadZeroes(result, 8);
+		result = FreeFn::leadZeroes(result, 8);
 
 	m_callback(result);
 }

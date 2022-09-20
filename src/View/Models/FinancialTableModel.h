@@ -9,7 +9,7 @@
 struct QFinancialRow
 {
 	int num;
-	bool nzok;
+	bool nhif;
 	QString date;
 	QString recipientId;
 	QString recipientName;

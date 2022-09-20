@@ -10,7 +10,7 @@ bool GetNumenclature::sendRequest(int num)
 	if (num < 1 || num > 99) return false;
 
 	std::string request =
-		"<nhis:nomenclatureId value=\"CL" + leadZeroes(num, 3) + "\"/>";
+		"<nhis:nomenclatureId value=\"CL" + FreeFn::leadZeroes(num, 3) + "\"/>";
 
 	return HisService::sendRequestToHisNoAuth(request);
 }

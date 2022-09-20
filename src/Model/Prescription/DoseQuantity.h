@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <string>
+#include <variant>
 
 class DoseQuantity
 {  
@@ -27,5 +28,7 @@ public:
 	std::string getXmlUnitValue() const;
 
 	const std::vector<std::string>& unitNames() const;
+
+	std::variant<int, std::string> getUnit() const;
 
 };

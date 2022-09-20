@@ -20,13 +20,13 @@ bool ProcedureDateValidator::validateInput(const Date& date)
 
 #include "Model/Dental/NhifProcedures.h"
 
-void ProcedureDateValidator::setProcedure(int code, bool nzok)
+void ProcedureDateValidator::setProcedure(int code, bool nhif)
 {
 
 	if (
 		_dayBefore18 < _validator.getMax() &&
 		_dayBefore18 > _validator.getMin() &&
-		nzok &&
+		nhif &&
 		NhifProcedures::isMinorOnly(code))
 	{
 		_validator.setMaxDate(_dayBefore18);

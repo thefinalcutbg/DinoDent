@@ -2,12 +2,12 @@
 #include <QIcon>
 
 
-void ProcedureSelectModel::selectOnlyRowsWhereNzokIs(bool nzok)
+void ProcedureSelectModel::selectOnlyRowsWhereNzokIs(bool nhif)
 {
     beginResetModel();
 
     for (int i = 0; i < m_procedures.size(); i++) {
-        m_selectedRows[i] = m_procedures[i].nzok == nzok;
+        m_selectedRows[i] = m_procedures[i].nhif == nhif;
     }
 
     endResetModel();
@@ -105,7 +105,7 @@ QVariant ProcedureSelectModel::data(const QModelIndex& index, int role) const
             switch (column)
             {
             case 0:
-                if (m_procedures[row].nzok)
+                if (m_procedures[row].nhif)
                     return QIcon(":/icons/icon_nzok.png");
             default:
                 return QVariant();

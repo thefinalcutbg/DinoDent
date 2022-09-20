@@ -1,7 +1,7 @@
 #pragma once
 #include <optional>
 
-#include "Model/Perscription/Dosage.h"
+#include "Model/Prescription/Dosage.h"
 #include "View/Interfaces/IDosageDialog.h"
 #include "View/ModalDialogBuilder.h"
 class DosagePresenter

@@ -94,7 +94,7 @@ ProcedureTemplateDialog::ProcedureTemplateDialog(const ProcedureTemplate* pTemp,
 			result.material = ui.materialEdit->getText();
 			result.price = ui.priceEdit->value();
 			result.diagnosis = ui.diagnosisEdit->getText();
-			result.nzok = false;
+			result.nhif = false;
 			result.ksmp = ui.ksmpButton->text().toStdString();
 			m_procedureTemplate.emplace(result);
 

@@ -18,7 +18,7 @@ struct AmbRow : public RowInstance
 	AmbRow() : RowInstance{ TabType::AmbList } {};
 
 	int ambNumber{-1};
-	bool nzok{0};
+	bool nhif{0};
 	Date date;
 
 	std::string patientId;
@@ -50,7 +50,7 @@ struct FinancialRow : public RowInstance
 	FinancialRow() : RowInstance{TabType::Financial} {};
 
 	int number {0};
-	bool nzok{ 0 };
+	bool nhif{ 0 };
 	
 	Date date;
 	std::string recipientId;
@@ -58,11 +58,12 @@ struct FinancialRow : public RowInstance
 	std::string recipientPhone;
 };
 
-struct PerscriptionRow : public RowInstance
+struct PrescriptionRow : public RowInstance
 {
-	PerscriptionRow() : RowInstance{ TabType::Perscription } {};
+	PrescriptionRow() : RowInstance{ TabType::Prescription } {};
 
 	Date date;
+	std::string nrn;
 	std::string patientId;
 	std::string patientName;
 	std::string patientPhone;

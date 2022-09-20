@@ -10,7 +10,7 @@ struct ProcedureRowData
     std::string manipulation;
     int code;
     double price;
-    bool nzok;
+    bool nhif;
 };
 
 struct DetailsSummary
@@ -18,7 +18,7 @@ struct DetailsSummary
     Date date;
     std::string procedureDiagnosis;
     std::string procedureName;
-    bool nzok;
+    bool nhif;
     int tooth;
     int code;
     double price{ 0 };

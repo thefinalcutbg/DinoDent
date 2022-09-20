@@ -46,6 +46,7 @@ void ListSelectorPresenter::refreshModel()
 	m_perioRows = DbListOpener::getPerioRows(m_from, m_to);
 	m_patientRows = DbListOpener::getPatientRows();
 	m_financialRows = DbListOpener::getFinancialRows(m_from, m_to);
+	m_perscriptionRows = DbListOpener::getPrescriptionRows(m_from, m_to);
 	
 	if (view != nullptr)
 	{
@@ -61,10 +62,11 @@ void ListSelectorPresenter::setListType(TabType type)
 	selectedIndexes.clear();
 	switch (type)
 	{
-	case::TabType::AmbList: view->setRows(m_ambRows); break;
-	case::TabType::PerioList: view->setRows(m_perioRows); break;
-	case::TabType::PatientSummary: view->setRows(m_patientRows); break;
-	case::TabType::Financial : view->setRows(m_financialRows); break;
+		case::TabType::AmbList: view->setRows(m_ambRows); break;
+		case::TabType::PerioList: view->setRows(m_perioRows); break;
+		case::TabType::PatientSummary: view->setRows(m_patientRows); break;
+		case::TabType::Financial : view->setRows(m_financialRows); break;
+		case::TabType::Prescription: view->setRows(m_perscriptionRows); break;
 	}
 }
 
@@ -87,15 +89,16 @@ void openDocuments(TabPresenter* tabPresenter,
 	const std::vector<T>& rows
 )
 {
-	int last{ 0 };
+	auto size = selectedIndexes.size();
+
+	int counter{ 0 };
 
 	for (auto idx : selectedIndexes) {
 
-		last = idx;
+		bool isLastTab = ++counter == size;
 
-		tabPresenter->open(rows[idx]);
+		tabPresenter->open(rows[idx], isLastTab);
 	}
-	tabPresenter->open(rows[last], true);
 
 
 }
@@ -113,6 +116,8 @@ void ListSelectorPresenter::openCurrentSelection()
 		openDocuments(tab_presenter, selectedIndexes, m_patientRows); break;
 	case TabType::Financial:
 		openDocuments(tab_presenter, selectedIndexes, m_financialRows); break;
+	case TabType::Prescription:
+		openDocuments(tab_presenter, selectedIndexes, m_perscriptionRows); break;
 	}
 
 
@@ -154,11 +159,12 @@ void ListSelectorPresenter::deleteCurrentSelection()
 
 	std::string warningMsg = u8"Сигурни ли сте, че искате да изтриете избраният/избраните ";
 
-	static constexpr const char* endString[4]{
+	static constexpr const char* endString[5]{
 		u8"амбулаторни листи?",
 		u8"пародонтални измервания?",
 		u8"пацинети? Всички свързани прилежащи медицински докумнети ще бъдат изтрити!",
-		u8"финансови документи?"
+		u8"финансови документи?",
+		u8"рецепти?"
 	};
 
 	warningMsg += endString[static_cast<int>(m_currentModelType)];
@@ -176,6 +182,9 @@ void ListSelectorPresenter::deleteCurrentSelection()
 			break;
 		case TabType::PatientSummary:
 			deleteDocuments(tab_presenter, selectedIndexes, m_patientRows, warningMsg);
+			break;
+		case TabType::Prescription:
+			deleteDocuments(tab_presenter, selectedIndexes, m_perscriptionRows, warningMsg);
 			break;
 	}
 

@@ -29,6 +29,7 @@
         <file>icon_downArrow.png</file>
         <file>icon_xml.png</file>
         <file>icon_prescr.png</file>
+        <file>icon_his.png</file>
     </qresource>
     <qresource prefix="/tooth">
         <file>tooth_approximal.png</file>

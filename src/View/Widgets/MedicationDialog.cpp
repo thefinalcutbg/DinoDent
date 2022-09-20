@@ -1,11 +1,13 @@
 ﻿#include "MedicationDialog.h"
-#include "Model/Perscription/Medication.h"
+#include "Model/Prescription/Medication.h"
 
 
 MedicationDialog::MedicationDialog(MedicationPresenter* p, QWidget* parent)
 	: presenter(p), QDialog(parent)
 {
 	ui.setupUi(this);
+
+	setWindowTitle(u8"Медикамент");
 
 	ui.medicationEdit->setCompletions(Medication::names());
 	ui.medicationEdit->setInputValidator(&nameValidator);
@@ -38,6 +40,11 @@ void MedicationDialog::setQuantityListNames(const std::string& pack, const std::
 
 void MedicationDialog::setFormLabel(const std::string& formName)
 {
+	if (formName.empty()) {
+		ui.formLabel->setText("");
+		return;
+	}
+
 	ui.formLabel->setText(u8"Лекарствена форма: " + QString(formName.c_str()));
 }
 

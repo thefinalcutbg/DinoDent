@@ -15,7 +15,7 @@ namespace DbAmbList
     AmbList getNewAmbSheet(long long patientRowId);
     AmbList getListData(long long ambID);
     
-    int getNewNumber(Date ambDate, bool nzok);
+    int getNewNumber(Date ambDate, bool nhif);
     bool checkExistingAmbNum(int currentYear, int ambNum);
     std::unordered_set<int> getExistingNumbers(int currentYear);
 

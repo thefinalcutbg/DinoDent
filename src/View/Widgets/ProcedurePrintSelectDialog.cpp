@@ -32,9 +32,9 @@ const std::vector<int> ProcedurePrintSelectDialog::selectedProcedures() const
 	return m_selectedRows;
 }
 
-void ProcedurePrintSelectDialog::selectOnlyWhereNzokIs(bool nzok)
+void ProcedurePrintSelectDialog::selectOnlyWhereNzokIs(bool nhif)
 {
-	model.selectOnlyRowsWhereNzokIs(nzok);
+	model.selectOnlyRowsWhereNzokIs(nhif);
 }
 
 

@@ -25,7 +25,7 @@ std::string Dosage::parse() const
 
 	//frequency parse
 	if (frequency == 1) {
-		result += u8"по веднъж на ";
+		result += u8"веднъж на ";
 	}
 	else {
 		result += u8"по " + std::to_string(frequency) + u8" пъти на ";

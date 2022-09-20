@@ -6,7 +6,7 @@ class IListView;
 class IPerioView;
 class IPatientSummaryView;
 class IFinancialView;
-class IPerscriptionView;
+class IPrescriptionView;
 
 struct TabName;
 struct ScrollPos { int height{ 0 }, width{ 0 }; };
@@ -35,7 +35,7 @@ public:
 
 	virtual IListView* listView() = 0;
 	virtual IPerioView* perioView() = 0;
-	virtual IPerscriptionView* perscriptionView() = 0;
+	virtual IPrescriptionView* perscriptionView() = 0;
 	virtual IPatientSummaryView* summaryView() = 0;
 	virtual IFinancialView* financialView() = 0;
 	

@@ -72,10 +72,10 @@ void ListPresenter::refreshPrices()
     {
         patientPrice = patientPrice + m.price;
 
-        if (m.nzok)
+        if (m.nhif)
         {
-            auto [p, nzok] = NhifProcedures::getPrices(m.code, m_ambList.getDate(), patient->isAdult(m.date), User::doctor().specialty, m_ambList.nhifData.specification);
-            nzokPrice = nzokPrice + nzok;
+            auto [p, nhif] = NhifProcedures::getPrices(m.code, m_ambList.getDate(), patient->isAdult(m.date), User::doctor().specialty, m_ambList.nhifData.specification);
+            nzokPrice = nzokPrice + nhif;
         }
 
     }
@@ -113,19 +113,20 @@ void ListPresenter::chargeChanged(int index)
 
 TabName ListPresenter::getTabName()
 {
-    std::string header;
+    TabName n;
 
-    std::string footer;
 
-    header += m_ambList.isNew() ? u8"Нов амб.лист" :
+    n.header += m_ambList.isNew() ? u8"Нов амб.лист" :
         u8"Амб.лист №" + std::to_string(m_ambList.number);
 
-   ;
-    footer = patient->FirstName;
-    footer += " ";
-    footer += patient->LastName;
+   
+    n.footer = patient->FirstName;
+    n.footer += " ";
+    n.footer += patient->LastName;
 
-    return {header, footer, m_ambList.hasNZOKProcedure()};
+    n.nhif = m_ambList.hasNZOKProcedure();
+
+    return n;
 }
 
 long long ListPresenter::rowID() const
@@ -589,7 +590,7 @@ void ListPresenter::addProcedure()
 
         m_ambList.number = DbAmbList::getNewNumber(m_ambList.getDate(), m_ambList.hasNZOKProcedure());
         
-        if (procedures[0].nzok) view->setNhifData(m_ambList.nhifData);
+        if (procedures[0].nhif) view->setNhifData(m_ambList.nhifData);
         
     }
 

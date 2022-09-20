@@ -18,7 +18,7 @@ void AmbListTableModel::setRows(std::vector<AmbRow> rows)
 
             QAmbListRow{
                 r.ambNumber,
-                r.nzok,
+                r.nhif,
                 QString::fromStdString(r.date.toBgStandard()),
                 QString::fromStdString(r.patientId),
                 QString::fromStdString(r.patientName),
@@ -106,7 +106,7 @@ QVariant AmbListTableModel::data(const QModelIndex& index, int role) const
         switch (column)
         {
         case 1:
-            if (rows[row].nzok)
+            if (rows[row].nhif)
                 return QIcon(":/icons/icon_nzok.png");
             break;
         default:

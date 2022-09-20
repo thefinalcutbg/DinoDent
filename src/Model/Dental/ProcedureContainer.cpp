@@ -44,7 +44,7 @@ void ProcedureContainer::addProcedure(const Procedure& p)
 bool ProcedureContainer::hasNzokProcedure() const
 {
         for (auto& p : m_proc)
-            if (p.nzok)
+            if (p.nhif)
                 return true;
 
         return false;
@@ -84,7 +84,7 @@ const Procedure& ProcedureContainer::at(int index) const
 bool ProcedureContainer::hasPregnancy() const
 {
     for (auto& p : m_proc) {
-        if (p.nzok && p.code == 101 && p.ksmp == "97017-01") return true;
+        if (p.nhif && p.code == 101 && p.ksmp == "97017-01") return true;
     }
 
     return false;

@@ -102,7 +102,7 @@ QVariant ProcedureTableModel::data(const QModelIndex& index, int role) const
             switch (column)
             {
             case 5:
-                if (m_procedures[row].nzok)
+                if (m_procedures[row].nhif)
                     return QIcon(":/icons/icon_nzok.png");
             default:
                 return QVariant();

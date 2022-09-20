@@ -34,7 +34,7 @@ std::vector<Procedure> DbProcedure::getProcedures(long long amblist_rowid, Db* e
 		mList.emplace_back();
 		Procedure& p = mList.back();
 
-		p.nzok = db.asInt(0);
+		p.nhif = db.asInt(0);
 		p.type = static_cast<ProcedureType>(db.asInt(1));
 		p.code = db.asInt(2);
 		p.tooth = db.asInt(3);
@@ -64,7 +64,7 @@ void DbProcedure::saveProcedures(long long amblist_rowid, const std::vector<Proc
 		auto& m = mList[i];
 
 		query = "INSERT INTO procedure (nzok, type, code, date, tooth, deciduous, price, data, ksmp, amblist_rowid) VALUES ("
-			+ std::to_string(m.nzok) + ","
+			+ std::to_string(m.nhif) + ","
 			+ std::to_string(static_cast<int>(m.type)) + ",'"
 			+ std::to_string(m.code) + "','"
 			+ m.date.to8601() + "',"
@@ -131,7 +131,7 @@ std::vector<Procedure> DbProcedure::getToothProcedures(long long patientRowId, i
 		p.date = Date{ db.asString(0) };
 
 		p.code = db.asInt(1);
-		p.nzok = db.asInt(2);
+		p.nhif = db.asInt(2);
 
 		Parser::parse(db.asString(3), p);
 

@@ -6,6 +6,7 @@
 #include <optional>
 #include "Model/UserStructs.h"
 #include "Model/Dental/NhifSheetData.h"
+#include "Model/Prescription/Dosage.h"
 
 struct PerioStatus;
 class ToothContainer;
@@ -25,6 +26,7 @@ namespace Parser
 	std::string write(const Invoice& inv);
 	std::string write(const Settings& settings);
 	std::string write(const NhifSheetData& nhifData, bool nhifSource);
+	std::string write(const std::vector<Dosage>& dosage);
 
 	void parse(const std::string& jsonString, Procedure& procedure);
 	void parse(const std::string& jsonString, DetailsSummary& summary);
@@ -37,4 +39,5 @@ namespace Parser
 	std::string parseDiagnosis(const std::string& jsonProcedureString);
 	std::optional<NzokContract> parseContract(const std::string& jsonString);
 	Settings parseSettings(const std::string& settings);
+	std::vector<Dosage> parseDosage(const std::string& dosage);
 };

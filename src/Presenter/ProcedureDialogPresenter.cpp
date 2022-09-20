@@ -143,7 +143,7 @@ void ProcedureDialogPresenter::indexChanged(int index)
 	current_m_presenter = presenters_ptr[static_cast<int>(procedureTemplate.type)];
 	current_m_presenter->setProcedureTemplate(procedureTemplate);
 
-	date_validator.setProcedure(procedureList[index].code, procedureList[index].nzok);
+	date_validator.setProcedure(procedureList[index].code, procedureList[index].nhif);
 	view->commonFields()->dateEdit()->validateInput();
 }
 

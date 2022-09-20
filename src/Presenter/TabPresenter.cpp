@@ -6,7 +6,7 @@
 #include "ListPresenter.h"
 #include "PerioPresenter.h"
 #include "PatientSummaryPresenter.h"
-#include "PerscriptionPresenter.h"
+#include "PrescriptionPresenter.h"
 #include "FinancialPresenter.h"
 #include <TinyXML/tinyxml.h>
 
@@ -139,7 +139,7 @@ void TabPresenter::openPerio(const Patient& patient)
 
 void TabPresenter::openPerscription(const Patient& patient)
 {
-    openTab(new PerscriptionPresenter(view, this, getPatient_ptr(patient)));
+    openTab(new PrescriptionPresenter(view, this, getPatient_ptr(patient)));
 }
 
 void TabPresenter::openInvoice(const std::string& monthNotif)
@@ -194,6 +194,9 @@ void TabPresenter::open(const RowInstance& row, bool setFocus)
         break;
     case TabType::Financial:
         newTab = new FinancialPresenter(view, row.rowID);
+        break;
+    case TabType::Prescription:
+        newTab = new PrescriptionPresenter(view, this, getPatient_ptr(DbPatient::get(row.patientRowId)), row.rowID);
         break;
     }
 
@@ -275,7 +278,7 @@ bool TabPresenter::documentTabOpened(TabType type, long long rowID) const
         }
     }
 
-    //if user want's to delete the patient, check other procedureType of documents related to the patient
+    //if user wants to delete the patient, check other procedureType of documents related to the patient
     if (type == TabType::PatientSummary)
     {
         for (const auto& [index, tab] : m_tabs)

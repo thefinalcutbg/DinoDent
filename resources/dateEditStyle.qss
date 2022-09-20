@@ -1,0 +1,120 @@
+#headerWidget {
+    color: black;
+    background: white;
+}
+QAbstractItemView:enabled {
+    color: black;
+    background: white;
+}
+QAbstractItemView:disabled {
+    color: rgb(180, 180, 180);
+}
+#nextMonthButton, #prevMonthButton,
+#prevYearButton, #nextYearButton {
+    border: 0;
+    background: white;
+}
+#nextMonthButton:hover, #prevMonthButton:hover,
+#prevYearButton:hover, #nextYearButton:hover {
+    padding: -2px 0 0;
+}
+#nextMonthButton:pressed, #prevMonthButton:pressed,
+#prevYearButton:pressed, #nextYearButton:pressed {
+    padding: 2px 0 0;
+}
+#nextMonthButton {
+    image: url(:/icons/nextMonth);
+}
+#prevMonthButton {
+    image: url(:/icons/prevMonth);
+}
+#nextYearButton {
+    image: url(:/icons/nextYear);
+}
+#prevYearButton {
+    image: url(:/icons/prevYear);
+}
+QAbstractItemView:enabled,
+QAbstractItemView:disabled {
+    background: white;
+}
+QTableView {
+    selection-color: white;
+
+    selection-background-color: qradialgradient(cx:0.38, cy:0.4,
+        radius:0.56, fx:0.6, fy:0.6,
+        stop:0.5 rgba(81, 203, 204, 255),
+        stop:0.56 rgba(255, 255, 255, 255));
+    outline: none;
+}
+
+QTableView::item:hover:!selected {
+        border: 1px solid gray;
+        border-radius: 5px; 
+}
+
+QTableView::item:hover:selected {
+        border: 1px solid gray;
+        border-radius: 5px; 
+        color: white;
+        background-color: qradialgradient(cx:0.38, cy:0.4,
+        radius:0.56, fx:0.6, fy:0.6,
+        stop:0.5 rgba(81, 203, 204, 255),
+        stop:0.56 rgba(255, 255, 255, 255));
+}
+
+QWidget {
+    background: white;
+}
+QCalendarWidget {
+    min-width: 150px;
+    min-height: 250px;
+    border-radius: 8px;
+}
+#monthMenu, #yearMenu {
+    background: white;
+}
+#monthListEnabled, #yearListEnabled,
+#monthListDisabled, #yearListDisabled,
+#monthListSelected, #yearListSelected {
+    height: 80px;
+    border: 0;
+    font-size: 9pt;
+}
+#monthListEnabled, #yearListEnabled {
+    color: black;
+    background: white;
+}
+#monthListDisabled, #yearListDisabled {
+    color: gray;
+    background: white;
+}
+QPushButton:pressed {
+    padding: 3px 0 0;
+}
+#monthListEnabled:hover, #yearListEnabled:hover,
+#monthListDisabled:hover, #yearListDisabled:hover,
+#monthListSelected:hover, #yearListSelected:hover {
+    border: 1px solid gray;
+    border-radius: 5px; 
+    color: rgb(30, 30, 30);
+}
+QToolTip {
+    color: black;
+    background: white;
+    border: 0;
+}
+#yearButton, #monthButton {
+    min-width: 50px;
+    min-height: 30px;
+    background: white;
+    border: 0;
+    color: black;
+}
+#monthListSelected, #yearListSelected {
+    color: white;
+    background-color: qradialgradient(cx:0.5, cy:0.5,
+        radius:0.5, fx:0.5, fy:0.5,
+        stop:0.55 rgba(81, 203, 204, 255),
+        stop:0.6 rgba(255, 255, 255, 255));
+}

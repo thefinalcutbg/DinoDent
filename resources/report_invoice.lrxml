@@ -1,0 +1,2533 @@
+<?xml version="1.0" encoding="UTF8"?>
+<Report>
+  <object ClassName="LimeReport::ReportEnginePrivate" Type="Object">
+    <objectName Type="QString"></objectName>
+    <pages Type="Collection">
+      <item ClassName="LimeReport::PageDesignIntf" Type="Object">
+        <objectName Type="QString">page1</objectName>
+        <sceneRect x="-50" height="2894" y="-50" Type="QRect" width="2259"/>
+        <bspTreeDepth Value="5" Type="int"/>
+        <font underline="0" family="MS Shell Dlg 2" weight="50" Type="QFont" pointSize="8" italic="0"/>
+        <sortCacheEnabled Value="0" Type="bool"/>
+        <stickyFocus Value="0" Type="bool"/>
+        <minimumRenderSize Value="0" Type="qreal"/>
+        <focusOnTouch Value="1" Type="bool"/>
+        <pageItem ClassName="PageItem" Type="Object">
+          <objectName Type="QString">Reportpage1</objectName>
+          <geometry x="0" height="2794" y="0" Type="QRect" width="2159"/>
+          <children Type="Collection">
+            <item ClassName="Data" Type="Object">
+              <objectName Type="QString">Operations</objectName>
+              <geometry x="50" height="174" y="967" Type="QRect" width="2059"/>
+              <children Type="Collection">
+                <item ClassName="TextItem" Type="Object">
+                  <objectName Type="QString">TextItem48</objectName>
+                  <geometry x="1320" height="100" y="0" Type="QRect" width="250"/>
+                  <children Type="Collection"/>
+                  <zOrder Value="0" Type="qreal"/>
+                  <borders Value="15" Type="enumAndFlags"/>
+                  <parentName Type="QString">Operations</parentName>
+                  <borderLineSize Value="2" Type="int"/>
+                  <isVisible Value="1" Type="bool"/>
+                  <borderColor Value="#000000" Type="QColor"/>
+                  <geometryLocked Value="0" Type="bool"/>
+                  <itemLocation Value="0" Type="enumAndFlags"/>
+                  <stretchToMaxHeight Value="0" Type="bool"/>
+                  <itemAlign Value="4" Type="enumAndFlags"/>
+                  <content Type="QString">$D{operations.Кол-во}</content>
+                  <margin Value="1" Type="int"/>
+                  <alignment Value="132" Type="enumAndFlags"/>
+                  <autoWidth Value="0" Type="enumAndFlags"/>
+                  <autoHeight Value="0" Type="bool"/>
+                  <font underline="0" family="Arial" weight="16" Type="QFont" pointSize="10" italic="0"/>
+                  <backgroundOpacity Value="100" Type="int"/>
+                  <backgroundMode Value="1" Type="enumAndFlags"/>
+                  <backgroundColor Value="#ffffff" Type="QColor"/>
+                  <fontColor Value="#000000" Type="QColor"/>
+                  <angle Value="0" Type="enumAndFlags"/>
+                  <foregroundOpacity Value="100" Type="int"/>
+                  <underlines Value="0" Type="bool"/>
+                  <adaptFontToSize Value="0" Type="bool"/>
+                  <trimValue Value="0" Type="bool"/>
+                  <lineSpacing Value="1" Type="int"/>
+                  <underlineLineSize Value="1" Type="int"/>
+                  <allowHTML Value="0" Type="bool"/>
+                  <allowHTMLInFields Value="0" Type="bool"/>
+                  <format Type="QString"></format>
+                  <valueType Value="0" Type="enumAndFlags"/>
+                  <followTo Type="QString"></followTo>
+                  <backgroundBrushStyle Value="0" Type="enumAndFlags"/>
+                  <textIndent Value="0" Type="qreal"/>
+                  <textLayoutDirection Value="2" Type="enumAndFlags"/>
+                  <fillInSecondPass Value="0" Type="bool"/>
+                  <watermark Value="0" Type="bool"/>
+                  <replaceCRwithBR Value="0" Type="bool"/>
+                  <hideIfEmpty Value="0" Type="bool"/>
+                  <fontLetterSpacing Value="0" Type="int"/>
+                </item>
+                <item ClassName="TextItem" Type="Object">
+                  <objectName Type="QString">TextItem33</objectName>
+                  <geometry x="350" height="100" y="0" Type="QRect" width="970"/>
+                  <children Type="Collection"/>
+                  <zOrder Value="0" Type="qreal"/>
+                  <borders Value="15" Type="enumAndFlags"/>
+                  <parentName Type="QString">Operations</parentName>
+                  <borderLineSize Value="2" Type="int"/>
+                  <isVisible Value="1" Type="bool"/>
+                  <borderColor Value="#000000" Type="QColor"/>
+                  <geometryLocked Value="0" Type="bool"/>
+                  <itemLocation Value="0" Type="enumAndFlags"/>
+                  <stretchToMaxHeight Value="0" Type="bool"/>
+                  <itemAlign Value="4" Type="enumAndFlags"/>
+                  <content Type="QString">$D{operations.Наименование на стоката/услугата}</content>
+                  <margin Value="1" Type="int"/>
+                  <alignment Value="129" Type="enumAndFlags"/>
+                  <autoWidth Value="0" Type="enumAndFlags"/>
+                  <autoHeight Value="0" Type="bool"/>
+                  <font underline="0" family="Arial" weight="16" Type="QFont" pointSize="10" italic="0"/>
+                  <backgroundOpacity Value="100" Type="int"/>
+                  <backgroundMode Value="1" Type="enumAndFlags"/>
+                  <backgroundColor Value="#ffffff" Type="QColor"/>
+                  <fontColor Value="#000000" Type="QColor"/>
+                  <angle Value="0" Type="enumAndFlags"/>
+                  <foregroundOpacity Value="100" Type="int"/>
+                  <underlines Value="0" Type="bool"/>
+                  <adaptFontToSize Value="0" Type="bool"/>
+                  <trimValue Value="0" Type="bool"/>
+                  <lineSpacing Value="1" Type="int"/>
+                  <underlineLineSize Value="1" Type="int"/>
+                  <allowHTML Value="0" Type="bool"/>
+                  <allowHTMLInFields Value="0" Type="bool"/>
+                  <format Type="QString"></format>
+                  <valueType Value="0" Type="enumAndFlags"/>
+                  <followTo Type="QString"></followTo>
+                  <backgroundBrushStyle Value="0" Type="enumAndFlags"/>
+                  <textIndent Value="0" Type="qreal"/>
+                  <textLayoutDirection Value="2" Type="enumAndFlags"/>
+                  <fillInSecondPass Value="0" Type="bool"/>
+                  <watermark Value="0" Type="bool"/>
+                  <replaceCRwithBR Value="0" Type="bool"/>
+                  <hideIfEmpty Value="0" Type="bool"/>
+                  <fontLetterSpacing Value="0" Type="int"/>
+                </item>
+                <item ClassName="TextItem" Type="Object">
+                  <objectName Type="QString">TextItem36</objectName>
+                  <geometry x="1570" height="100" y="0" Type="QRect" width="180"/>
+                  <children Type="Collection"/>
+                  <zOrder Value="0" Type="qreal"/>
+                  <borders Value="15" Type="enumAndFlags"/>
+                  <parentName Type="QString">Operations</parentName>
+                  <borderLineSize Value="2" Type="int"/>
+                  <isVisible Value="1" Type="bool"/>
+                  <borderColor Value="#000000" Type="QColor"/>
+                  <geometryLocked Value="0" Type="bool"/>
+                  <itemLocation Value="0" Type="enumAndFlags"/>
+                  <stretchToMaxHeight Value="0" Type="bool"/>
+                  <itemAlign Value="4" Type="enumAndFlags"/>
+                  <content Type="QString">$D{operations.Ед.цена}</content>
+                  <margin Value="1" Type="int"/>
+                  <alignment Value="132" Type="enumAndFlags"/>
+                  <autoWidth Value="0" Type="enumAndFlags"/>
+                  <autoHeight Value="0" Type="bool"/>
+                  <font underline="0" family="Arial" weight="16" Type="QFont" pointSize="10" italic="0"/>
+                  <backgroundOpacity Value="100" Type="int"/>
+                  <backgroundMode Value="1" Type="enumAndFlags"/>
+                  <backgroundColor Value="#ffffff" Type="QColor"/>
+                  <fontColor Value="#000000" Type="QColor"/>
+                  <angle Value="0" Type="enumAndFlags"/>
+                  <foregroundOpacity Value="100" Type="int"/>
+                  <underlines Value="0" Type="bool"/>
+                  <adaptFontToSize Value="0" Type="bool"/>
+                  <trimValue Value="0" Type="bool"/>
+                  <lineSpacing Value="1" Type="int"/>
+                  <underlineLineSize Value="1" Type="int"/>
+                  <allowHTML Value="0" Type="bool"/>
+                  <allowHTMLInFields Value="0" Type="bool"/>
+                  <format Type="QString"></format>
+                  <valueType Value="0" Type="enumAndFlags"/>
+                  <followTo Type="QString"></followTo>
+                  <backgroundBrushStyle Value="0" Type="enumAndFlags"/>
+                  <textIndent Value="0" Type="qreal"/>
+                  <textLayoutDirection Value="2" Type="enumAndFlags"/>
+                  <fillInSecondPass Value="0" Type="bool"/>
+                  <watermark Value="0" Type="bool"/>
+                  <replaceCRwithBR Value="0" Type="bool"/>
+                  <hideIfEmpty Value="0" Type="bool"/>
+                  <fontLetterSpacing Value="0" Type="int"/>
+                </item>
+                <item ClassName="TextItem" Type="Object">
+                  <objectName Type="QString">TextItem35</objectName>
+                  <geometry x="50" height="100" y="0" Type="QRect" width="150"/>
+                  <children Type="Collection"/>
+                  <zOrder Value="0" Type="qreal"/>
+                  <borders Value="15" Type="enumAndFlags"/>
+                  <parentName Type="QString">Operations</parentName>
+                  <borderLineSize Value="2" Type="int"/>
+                  <isVisible Value="1" Type="bool"/>
+                  <borderColor Value="#000000" Type="QColor"/>
+                  <geometryLocked Value="0" Type="bool"/>
+                  <itemLocation Value="0" Type="enumAndFlags"/>
+                  <stretchToMaxHeight Value="0" Type="bool"/>
+                  <itemAlign Value="4" Type="enumAndFlags"/>
+                  <content Type="QString">$D{operations.№}</content>
+                  <margin Value="1" Type="int"/>
+                  <alignment Value="132" Type="enumAndFlags"/>
+                  <autoWidth Value="0" Type="enumAndFlags"/>
+                  <autoHeight Value="0" Type="bool"/>
+                  <font underline="0" family="Arial" weight="16" Type="QFont" pointSize="10" italic="0"/>
+                  <backgroundOpacity Value="100" Type="int"/>
+                  <backgroundMode Value="1" Type="enumAndFlags"/>
+                  <backgroundColor Value="#ffffff" Type="QColor"/>
+                  <fontColor Value="#000000" Type="QColor"/>
+                  <angle Value="0" Type="enumAndFlags"/>
+                  <foregroundOpacity Value="100" Type="int"/>
+                  <underlines Value="0" Type="bool"/>
+                  <adaptFontToSize Value="0" Type="bool"/>
+                  <trimValue Value="0" Type="bool"/>
+                  <lineSpacing Value="1" Type="int"/>
+                  <underlineLineSize Value="1" Type="int"/>
+                  <allowHTML Value="0" Type="bool"/>
+                  <allowHTMLInFields Value="0" Type="bool"/>
+                  <format Type="QString"></format>
+                  <valueType Value="0" Type="enumAndFlags"/>
+                  <followTo Type="QString"></followTo>
+                  <backgroundBrushStyle Value="0" Type="enumAndFlags"/>
+                  <textIndent Value="0" Type="qreal"/>
+                  <textLayoutDirection Value="2" Type="enumAndFlags"/>
+                  <fillInSecondPass Value="0" Type="bool"/>
+                  <watermark Value="0" Type="bool"/>
+                  <replaceCRwithBR Value="0" Type="bool"/>
+                  <hideIfEmpty Value="0" Type="bool"/>
+                  <fontLetterSpacing Value="0" Type="int"/>
+                </item>
+                <item ClassName="TextItem" Type="Object">
+                  <objectName Type="QString">TextItem37</objectName>
+                  <geometry x="1750" height="100" y="0" Type="QRect" width="200"/>
+                  <children Type="Collection"/>
+                  <zOrder Value="0" Type="qreal"/>
+                  <borders Value="15" Type="enumAndFlags"/>
+                  <parentName Type="QString">Operations</parentName>
+                  <borderLineSize Value="2" Type="int"/>
+                  <isVisible Value="1" Type="bool"/>
+                  <borderColor Value="#000000" Type="QColor"/>
+                  <geometryLocked Value="0" Type="bool"/>
+                  <itemLocation Value="0" Type="enumAndFlags"/>
+                  <stretchToMaxHeight Value="0" Type="bool"/>
+                  <itemAlign Value="4" Type="enumAndFlags"/>
+                  <content Type="QString">$D{operations.Сума}</content>
+                  <margin Value="1" Type="int"/>
+                  <alignment Value="132" Type="enumAndFlags"/>
+                  <autoWidth Value="0" Type="enumAndFlags"/>
+                  <autoHeight Value="0" Type="bool"/>
+                  <font underline="0" family="Arial" weight="16" Type="QFont" pointSize="10" italic="0"/>
+                  <backgroundOpacity Value="100" Type="int"/>
+                  <backgroundMode Value="1" Type="enumAndFlags"/>
+                  <backgroundColor Value="#ffffff" Type="QColor"/>
+                  <fontColor Value="#000000" Type="QColor"/>
+                  <angle Value="0" Type="enumAndFlags"/>
+                  <foregroundOpacity Value="100" Type="int"/>
+                  <underlines Value="0" Type="bool"/>
+                  <adaptFontToSize Value="0" Type="bool"/>
+                  <trimValue Value="0" Type="bool"/>
+                  <lineSpacing Value="1" Type="int"/>
+                  <underlineLineSize Value="1" Type="int"/>
+                  <allowHTML Value="0" Type="bool"/>
+                  <allowHTMLInFields Value="0" Type="bool"/>
+                  <format Type="QString"></format>
+                  <valueType Value="0" Type="enumAndFlags"/>
+                  <followTo Type="QString"></followTo>
+                  <backgroundBrushStyle Value="0" Type="enumAndFlags"/>
+                  <textIndent Value="0" Type="qreal"/>
+                  <textLayoutDirection Value="2" Type="enumAndFlags"/>
+                  <fillInSecondPass Value="0" Type="bool"/>
+                  <watermark Value="0" Type="bool"/>
+                  <replaceCRwithBR Value="0" Type="bool"/>
+                  <hideIfEmpty Value="0" Type="bool"/>
+                  <fontLetterSpacing Value="0" Type="int"/>
+                </item>
+                <item ClassName="TextItem" Type="Object">
+                  <objectName Type="QString">TextItem27</objectName>
+                  <geometry x="200" height="100" y="0" Type="QRect" width="150"/>
+                  <children Type="Collection"/>
+                  <zOrder Value="0" Type="qreal"/>
+                  <borders Value="15" Type="enumAndFlags"/>
+                  <parentName Type="QString">Operations</parentName>
+                  <borderLineSize Value="2" Type="int"/>
+                  <isVisible Value="1" Type="bool"/>
+                  <borderColor Value="#000000" Type="QColor"/>
+                  <geometryLocked Value="0" Type="bool"/>
+                  <itemLocation Value="0" Type="enumAndFlags"/>
+                  <stretchToMaxHeight Value="0" Type="bool"/>
+                  <itemAlign Value="4" Type="enumAndFlags"/>
+                  <content Type="QString">$D{operations.Код}</content>
+                  <margin Value="1" Type="int"/>
+                  <alignment Value="132" Type="enumAndFlags"/>
+                  <autoWidth Value="0" Type="enumAndFlags"/>
+                  <autoHeight Value="0" Type="bool"/>
+                  <font underline="0" family="Arial" weight="16" Type="QFont" pointSize="10" italic="0"/>
+                  <backgroundOpacity Value="100" Type="int"/>
+                  <backgroundMode Value="1" Type="enumAndFlags"/>
+                  <backgroundColor Value="#ffffff" Type="QColor"/>
+                  <fontColor Value="#000000" Type="QColor"/>
+                  <angle Value="0" Type="enumAndFlags"/>
+                  <foregroundOpacity Value="100" Type="int"/>
+                  <underlines Value="0" Type="bool"/>
+                  <adaptFontToSize Value="0" Type="bool"/>
+                  <trimValue Value="0" Type="bool"/>
+                  <lineSpacing Value="1" Type="int"/>
+                  <underlineLineSize Value="1" Type="int"/>
+                  <allowHTML Value="0" Type="bool"/>
+                  <allowHTMLInFields Value="0" Type="bool"/>
+                  <format Type="QString"></format>
+                  <valueType Value="0" Type="enumAndFlags"/>
+                  <followTo Type="QString"></followTo>
+                  <backgroundBrushStyle Value="0" Type="enumAndFlags"/>
+                  <textIndent Value="0" Type="qreal"/>
+                  <textLayoutDirection Value="2" Type="enumAndFlags"/>
+                  <fillInSecondPass Value="0" Type="bool"/>
+                  <watermark Value="0" Type="bool"/>
+                  <replaceCRwithBR Value="0" Type="bool"/>
+                  <hideIfEmpty Value="0" Type="bool"/>
+                  <fontLetterSpacing Value="0" Type="int"/>
+                </item>
+              </children>
+              <zOrder Value="0" Type="qreal"/>
+              <borders Value="0" Type="enumAndFlags"/>
+              <parentName Type="QString">Reportpage1</parentName>
+              <borderLineSize Value="1" Type="int"/>
+              <isVisible Value="1" Type="bool"/>
+              <borderColor Value="#000000" Type="QColor"/>
+              <geometryLocked Value="1" Type="bool"/>
+              <autoHeight Value="1" Type="bool"/>
+              <bandIndex Value="3" Type="int"/>
+              <keepBottomSpace Value="0" Type="bool"/>
+              <keepTopSpace Value="0" Type="bool"/>
+              <parentBand Type="QString"></parentBand>
+              <backgroundColor Value="#ffffff" Type="QColor"/>
+              <backgroundBrushStyle Value="1" Type="enumAndFlags"/>
+              <printIfEmpty Value="0" Type="bool"/>
+              <backgroundMode Value="0" Type="enumAndFlags"/>
+              <backgroundOpacity Value="100" Type="int"/>
+              <datasource Type="QString">operations</datasource>
+              <keepSubdetailTogether Value="0" Type="bool"/>
+              <splittable Value="0" Type="bool"/>
+              <keepFooterTogether Value="0" Type="bool"/>
+              <sliceLastRow Value="0" Type="bool"/>
+              <columnsCount Value="1" Type="int"/>
+              <columnsFillDirection Value="0" Type="enumAndFlags"/>
+              <startNewPage Value="0" Type="bool"/>
+              <startFromNewPage Value="0" Type="bool"/>
+              <alternateBackgroundColor Value="#ffffff" Type="QColor"/>
+              <useAlternateBackgroundColor Value="0" Type="bool"/>
+            </item>
+            <item ClassName="DataHeader" Type="Object">
+              <objectName Type="QString">DataHeaderBand48</objectName>
+              <geometry x="50" height="130" y="837" Type="QRect" width="2059"/>
+              <children Type="Collection">
+                <item ClassName="TextItem" Type="Object">
+                  <objectName Type="QString">TextItem53</objectName>
+                  <geometry x="1750" height="90" y="40" Type="QRect" width="200"/>
+                  <children Type="Collection"/>
+                  <zOrder Value="0" Type="qreal"/>
+                  <borders Value="15" Type="enumAndFlags"/>
+                  <parentName Type="QString">DataHeaderBand48</parentName>
+                  <borderLineSize Value="3" Type="int"/>
+                  <isVisible Value="1" Type="bool"/>
+                  <borderColor Value="#000000" Type="QColor"/>
+                  <geometryLocked Value="0" Type="bool"/>
+                  <itemLocation Value="0" Type="enumAndFlags"/>
+                  <stretchToMaxHeight Value="0" Type="bool"/>
+                  <itemAlign Value="4" Type="enumAndFlags"/>
+                  <content Type="QString">Сума</content>
+                  <margin Value="4" Type="int"/>
+                  <alignment Value="132" Type="enumAndFlags"/>
+                  <autoWidth Value="0" Type="enumAndFlags"/>
+                  <autoHeight Value="0" Type="bool"/>
+                  <font underline="0" family="Arial" weight="75" Type="QFont" pointSize="10" italic="0"/>
+                  <backgroundOpacity Value="100" Type="int"/>
+                  <backgroundMode Value="1" Type="enumAndFlags"/>
+                  <backgroundColor Value="#ffffff" Type="QColor"/>
+                  <fontColor Value="#000000" Type="QColor"/>
+                  <angle Value="0" Type="enumAndFlags"/>
+                  <foregroundOpacity Value="100" Type="int"/>
+                  <underlines Value="0" Type="bool"/>
+                  <adaptFontToSize Value="0" Type="bool"/>
+                  <trimValue Value="1" Type="bool"/>
+                  <lineSpacing Value="1" Type="int"/>
+                  <underlineLineSize Value="1" Type="int"/>
+                  <allowHTML Value="0" Type="bool"/>
+                  <allowHTMLInFields Value="0" Type="bool"/>
+                  <format Type="QString"></format>
+                  <valueType Value="0" Type="enumAndFlags"/>
+                  <followTo Type="QString"></followTo>
+                  <backgroundBrushStyle Value="1" Type="enumAndFlags"/>
+                  <textIndent Value="0" Type="qreal"/>
+                  <textLayoutDirection Value="2" Type="enumAndFlags"/>
+                  <fillInSecondPass Value="0" Type="bool"/>
+                  <watermark Value="0" Type="bool"/>
+                  <replaceCRwithBR Value="0" Type="bool"/>
+                  <hideIfEmpty Value="0" Type="bool"/>
+                  <fontLetterSpacing Value="0" Type="int"/>
+                </item>
+                <item ClassName="TextItem" Type="Object">
+                  <objectName Type="QString">TextItem51</objectName>
+                  <geometry x="1570" height="90" y="40" Type="QRect" width="180"/>
+                  <children Type="Collection"/>
+                  <zOrder Value="0" Type="qreal"/>
+                  <borders Value="15" Type="enumAndFlags"/>
+                  <parentName Type="QString">DataHeaderBand48</parentName>
+                  <borderLineSize Value="3" Type="int"/>
+                  <isVisible Value="1" Type="bool"/>
+                  <borderColor Value="#000000" Type="QColor"/>
+                  <geometryLocked Value="0" Type="bool"/>
+                  <itemLocation Value="0" Type="enumAndFlags"/>
+                  <stretchToMaxHeight Value="0" Type="bool"/>
+                  <itemAlign Value="4" Type="enumAndFlags"/>
+                  <content Type="QString">Ед. цена</content>
+                  <margin Value="4" Type="int"/>
+                  <alignment Value="132" Type="enumAndFlags"/>
+                  <autoWidth Value="0" Type="enumAndFlags"/>
+                  <autoHeight Value="0" Type="bool"/>
+                  <font underline="0" family="Arial" weight="75" Type="QFont" pointSize="10" italic="0"/>
+                  <backgroundOpacity Value="100" Type="int"/>
+                  <backgroundMode Value="1" Type="enumAndFlags"/>
+                  <backgroundColor Value="#ffffff" Type="QColor"/>
+                  <fontColor Value="#000000" Type="QColor"/>
+                  <angle Value="0" Type="enumAndFlags"/>
+                  <foregroundOpacity Value="100" Type="int"/>
+                  <underlines Value="0" Type="bool"/>
+                  <adaptFontToSize Value="0" Type="bool"/>
+                  <trimValue Value="1" Type="bool"/>
+                  <lineSpacing Value="1" Type="int"/>
+                  <underlineLineSize Value="1" Type="int"/>
+                  <allowHTML Value="0" Type="bool"/>
+                  <allowHTMLInFields Value="0" Type="bool"/>
+                  <format Type="QString"></format>
+                  <valueType Value="0" Type="enumAndFlags"/>
+                  <followTo Type="QString"></followTo>
+                  <backgroundBrushStyle Value="1" Type="enumAndFlags"/>
+                  <textIndent Value="0" Type="qreal"/>
+                  <textLayoutDirection Value="2" Type="enumAndFlags"/>
+                  <fillInSecondPass Value="0" Type="bool"/>
+                  <watermark Value="0" Type="bool"/>
+                  <replaceCRwithBR Value="0" Type="bool"/>
+                  <hideIfEmpty Value="0" Type="bool"/>
+                  <fontLetterSpacing Value="0" Type="int"/>
+                </item>
+                <item ClassName="TextItem" Type="Object">
+                  <objectName Type="QString">TextItem50</objectName>
+                  <geometry x="350" height="90" y="40" Type="QRect" width="970"/>
+                  <children Type="Collection"/>
+                  <zOrder Value="0" Type="qreal"/>
+                  <borders Value="15" Type="enumAndFlags"/>
+                  <parentName Type="QString">DataHeaderBand48</parentName>
+                  <borderLineSize Value="3" Type="int"/>
+                  <isVisible Value="1" Type="bool"/>
+                  <borderColor Value="#000000" Type="QColor"/>
+                  <geometryLocked Value="0" Type="bool"/>
+                  <itemLocation Value="0" Type="enumAndFlags"/>
+                  <stretchToMaxHeight Value="0" Type="bool"/>
+                  <itemAlign Value="4" Type="enumAndFlags"/>
+                  <content Type="QString">Наименование</content>
+                  <margin Value="4" Type="int"/>
+                  <alignment Value="132" Type="enumAndFlags"/>
+                  <autoWidth Value="0" Type="enumAndFlags"/>
+                  <autoHeight Value="0" Type="bool"/>
+                  <font underline="0" family="Arial" weight="75" Type="QFont" pointSize="10" italic="0"/>
+                  <backgroundOpacity Value="100" Type="int"/>
+                  <backgroundMode Value="1" Type="enumAndFlags"/>
+                  <backgroundColor Value="#ffffff" Type="QColor"/>
+                  <fontColor Value="#000000" Type="QColor"/>
+                  <angle Value="0" Type="enumAndFlags"/>
+                  <foregroundOpacity Value="100" Type="int"/>
+                  <underlines Value="0" Type="bool"/>
+                  <adaptFontToSize Value="0" Type="bool"/>
+                  <trimValue Value="1" Type="bool"/>
+                  <lineSpacing Value="1" Type="int"/>
+                  <underlineLineSize Value="1" Type="int"/>
+                  <allowHTML Value="0" Type="bool"/>
+                  <allowHTMLInFields Value="0" Type="bool"/>
+                  <format Type="QString"></format>
+                  <valueType Value="0" Type="enumAndFlags"/>
+                  <followTo Type="QString"></followTo>
+                  <backgroundBrushStyle Value="1" Type="enumAndFlags"/>
+                  <textIndent Value="0" Type="qreal"/>
+                  <textLayoutDirection Value="2" Type="enumAndFlags"/>
+                  <fillInSecondPass Value="0" Type="bool"/>
+                  <watermark Value="0" Type="bool"/>
+                  <replaceCRwithBR Value="0" Type="bool"/>
+                  <hideIfEmpty Value="0" Type="bool"/>
+                  <fontLetterSpacing Value="0" Type="int"/>
+                </item>
+                <item ClassName="TextItem" Type="Object">
+                  <objectName Type="QString">TextItem52</objectName>
+                  <geometry x="1320" height="90" y="40" Type="QRect" width="250"/>
+                  <children Type="Collection"/>
+                  <zOrder Value="0" Type="qreal"/>
+                  <borders Value="15" Type="enumAndFlags"/>
+                  <parentName Type="QString">DataHeaderBand48</parentName>
+                  <borderLineSize Value="3" Type="int"/>
+                  <isVisible Value="1" Type="bool"/>
+                  <borderColor Value="#000000" Type="QColor"/>
+                  <geometryLocked Value="0" Type="bool"/>
+                  <itemLocation Value="0" Type="enumAndFlags"/>
+                  <stretchToMaxHeight Value="0" Type="bool"/>
+                  <itemAlign Value="4" Type="enumAndFlags"/>
+                  <content Type="QString">Количество</content>
+                  <margin Value="4" Type="int"/>
+                  <alignment Value="132" Type="enumAndFlags"/>
+                  <autoWidth Value="0" Type="enumAndFlags"/>
+                  <autoHeight Value="0" Type="bool"/>
+                  <font underline="0" family="Arial" weight="75" Type="QFont" pointSize="10" italic="0"/>
+                  <backgroundOpacity Value="100" Type="int"/>
+                  <backgroundMode Value="1" Type="enumAndFlags"/>
+                  <backgroundColor Value="#ffffff" Type="QColor"/>
+                  <fontColor Value="#000000" Type="QColor"/>
+                  <angle Value="0" Type="enumAndFlags"/>
+                  <foregroundOpacity Value="100" Type="int"/>
+                  <underlines Value="0" Type="bool"/>
+                  <adaptFontToSize Value="0" Type="bool"/>
+                  <trimValue Value="1" Type="bool"/>
+                  <lineSpacing Value="1" Type="int"/>
+                  <underlineLineSize Value="1" Type="int"/>
+                  <allowHTML Value="0" Type="bool"/>
+                  <allowHTMLInFields Value="0" Type="bool"/>
+                  <format Type="QString"></format>
+                  <valueType Value="0" Type="enumAndFlags"/>
+                  <followTo Type="QString"></followTo>
+                  <backgroundBrushStyle Value="1" Type="enumAndFlags"/>
+                  <textIndent Value="0" Type="qreal"/>
+                  <textLayoutDirection Value="2" Type="enumAndFlags"/>
+                  <fillInSecondPass Value="0" Type="bool"/>
+                  <watermark Value="0" Type="bool"/>
+                  <replaceCRwithBR Value="0" Type="bool"/>
+                  <hideIfEmpty Value="0" Type="bool"/>
+                  <fontLetterSpacing Value="0" Type="int"/>
+                </item>
+                <item ClassName="TextItem" Type="Object">
+                  <objectName Type="QString">TextItem49</objectName>
+                  <geometry x="200" height="90" y="40" Type="QRect" width="150"/>
+                  <children Type="Collection"/>
+                  <zOrder Value="0" Type="qreal"/>
+                  <borders Value="15" Type="enumAndFlags"/>
+                  <parentName Type="QString">DataHeaderBand48</parentName>
+                  <borderLineSize Value="3" Type="int"/>
+                  <isVisible Value="1" Type="bool"/>
+                  <borderColor Value="#000000" Type="QColor"/>
+                  <geometryLocked Value="0" Type="bool"/>
+                  <itemLocation Value="0" Type="enumAndFlags"/>
+                  <stretchToMaxHeight Value="0" Type="bool"/>
+                  <itemAlign Value="4" Type="enumAndFlags"/>
+                  <content Type="QString">Код</content>
+                  <margin Value="4" Type="int"/>
+                  <alignment Value="132" Type="enumAndFlags"/>
+                  <autoWidth Value="0" Type="enumAndFlags"/>
+                  <autoHeight Value="0" Type="bool"/>
+                  <font underline="0" family="Arial" weight="75" Type="QFont" pointSize="10" italic="0"/>
+                  <backgroundOpacity Value="100" Type="int"/>
+                  <backgroundMode Value="1" Type="enumAndFlags"/>
+                  <backgroundColor Value="#ffffff" Type="QColor"/>
+                  <fontColor Value="#000000" Type="QColor"/>
+                  <angle Value="0" Type="enumAndFlags"/>
+                  <foregroundOpacity Value="100" Type="int"/>
+                  <underlines Value="0" Type="bool"/>
+                  <adaptFontToSize Value="0" Type="bool"/>
+                  <trimValue Value="1" Type="bool"/>
+                  <lineSpacing Value="1" Type="int"/>
+                  <underlineLineSize Value="1" Type="int"/>
+                  <allowHTML Value="0" Type="bool"/>
+                  <allowHTMLInFields Value="0" Type="bool"/>
+                  <format Type="QString"></format>
+                  <valueType Value="0" Type="enumAndFlags"/>
+                  <followTo Type="QString"></followTo>
+                  <backgroundBrushStyle Value="1" Type="enumAndFlags"/>
+                  <textIndent Value="0" Type="qreal"/>
+                  <textLayoutDirection Value="2" Type="enumAndFlags"/>
+                  <fillInSecondPass Value="0" Type="bool"/>
+                  <watermark Value="0" Type="bool"/>
+                  <replaceCRwithBR Value="0" Type="bool"/>
+                  <hideIfEmpty Value="0" Type="bool"/>
+                  <fontLetterSpacing Value="0" Type="int"/>
+                </item>
+                <item ClassName="TextItem" Type="Object">
+                  <objectName Type="QString">TextItem3</objectName>
+                  <geometry x="50" height="90" y="40" Type="QRect" width="150"/>
+                  <children Type="Collection"/>
+                  <zOrder Value="0" Type="qreal"/>
+                  <borders Value="15" Type="enumAndFlags"/>
+                  <parentName Type="QString">DataHeaderBand48</parentName>
+                  <borderLineSize Value="3" Type="int"/>
+                  <isVisible Value="1" Type="bool"/>
+                  <borderColor Value="#000000" Type="QColor"/>
+                  <geometryLocked Value="0" Type="bool"/>
+                  <itemLocation Value="0" Type="enumAndFlags"/>
+                  <stretchToMaxHeight Value="0" Type="bool"/>
+                  <itemAlign Value="4" Type="enumAndFlags"/>
+                  <content Type="QString">№</content>
+                  <margin Value="4" Type="int"/>
+                  <alignment Value="132" Type="enumAndFlags"/>
+                  <autoWidth Value="0" Type="enumAndFlags"/>
+                  <autoHeight Value="0" Type="bool"/>
+                  <font underline="0" family="Arial" weight="75" Type="QFont" pointSize="10" italic="0"/>
+                  <backgroundOpacity Value="100" Type="int"/>
+                  <backgroundMode Value="1" Type="enumAndFlags"/>
+                  <backgroundColor Value="#ffffff" Type="QColor"/>
+                  <fontColor Value="#000000" Type="QColor"/>
+                  <angle Value="0" Type="enumAndFlags"/>
+                  <foregroundOpacity Value="100" Type="int"/>
+                  <underlines Value="0" Type="bool"/>
+                  <adaptFontToSize Value="0" Type="bool"/>
+                  <trimValue Value="1" Type="bool"/>
+                  <lineSpacing Value="1" Type="int"/>
+                  <underlineLineSize Value="1" Type="int"/>
+                  <allowHTML Value="0" Type="bool"/>
+                  <allowHTMLInFields Value="0" Type="bool"/>
+                  <format Type="QString"></format>
+                  <valueType Value="0" Type="enumAndFlags"/>
+                  <followTo Type="QString"></followTo>
+                  <backgroundBrushStyle Value="1" Type="enumAndFlags"/>
+                  <textIndent Value="0" Type="qreal"/>
+                  <textLayoutDirection Value="2" Type="enumAndFlags"/>
+                  <fillInSecondPass Value="0" Type="bool"/>
+                  <watermark Value="0" Type="bool"/>
+                  <replaceCRwithBR Value="0" Type="bool"/>
+                  <hideIfEmpty Value="0" Type="bool"/>
+                  <fontLetterSpacing Value="0" Type="int"/>
+                </item>
+              </children>
+              <zOrder Value="0" Type="qreal"/>
+              <borders Value="0" Type="enumAndFlags"/>
+              <parentName Type="QString">Reportpage1</parentName>
+              <borderLineSize Value="1" Type="int"/>
+              <isVisible Value="1" Type="bool"/>
+              <borderColor Value="#000000" Type="QColor"/>
+              <geometryLocked Value="1" Type="bool"/>
+              <autoHeight Value="1" Type="bool"/>
+              <bandIndex Value="2" Type="int"/>
+              <keepBottomSpace Value="0" Type="bool"/>
+              <keepTopSpace Value="1" Type="bool"/>
+              <parentBand Type="QString">Operations</parentBand>
+              <backgroundColor Value="#ffffff" Type="QColor"/>
+              <backgroundBrushStyle Value="1" Type="enumAndFlags"/>
+              <printIfEmpty Value="0" Type="bool"/>
+              <backgroundMode Value="0" Type="enumAndFlags"/>
+              <backgroundOpacity Value="100" Type="int"/>
+              <reprintOnEachPage Value="0" Type="bool"/>
+              <columnsCount Value="1" Type="int"/>
+              <columnsFillDirection Value="0" Type="enumAndFlags"/>
+              <printAlways Value="0" Type="bool"/>
+              <repeatOnEachRow Value="0" Type="bool"/>
+            </item>
+            <item ClassName="ReportHeader" Type="Object">
+              <objectName Type="QString">ReportHeader48</objectName>
+              <geometry x="50" height="787" y="50" Type="QRect" width="2059"/>
+              <children Type="Collection">
+                <item ClassName="ShapeItem" Type="Object">
+                  <objectName Type="QString">ShapeItem8</objectName>
+                  <geometry x="970" height="310" y="335" Type="QRect" width="40"/>
+                  <children Type="Collection"/>
+                  <zOrder Value="0.1" Type="qreal"/>
+                  <borders Value="0" Type="enumAndFlags"/>
+                  <parentName Type="QString">ReportHeader48</parentName>
+                  <borderLineSize Value="1" Type="int"/>
+                  <isVisible Value="1" Type="bool"/>
+                  <borderColor Value="#000000" Type="QColor"/>
+                  <geometryLocked Value="0" Type="bool"/>
+                  <itemLocation Value="1" Type="enumAndFlags"/>
+                  <stretchToMaxHeight Value="0" Type="bool"/>
+                  <itemAlign Value="4" Type="enumAndFlags"/>
+                  <shape Value="1" Type="enumAndFlags"/>
+                  <shapeColor Value="#000000" Type="QColor"/>
+                  <shapeBrushColor Value="#000000" Type="QColor"/>
+                  <shapeBrush Value="0" Type="enumAndFlags"/>
+                  <lineWidth Value="3" Type="qreal"/>
+                  <penStyle Value="1" Type="enumAndFlags"/>
+                  <opacity Value="100" Type="int"/>
+                  <cornerRadius Value="0" Type="int"/>
+                </item>
+                <item ClassName="TextItem" Type="Object">
+                  <objectName Type="QString">TextItem26</objectName>
+                  <geometry x="50" height="94" y="10" Type="QRect" width="1900"/>
+                  <children Type="Collection"/>
+                  <zOrder Value="0" Type="qreal"/>
+                  <borders Value="0" Type="enumAndFlags"/>
+                  <parentName Type="QString">ReportHeader48</parentName>
+                  <borderLineSize Value="1" Type="int"/>
+                  <isVisible Value="1" Type="bool"/>
+                  <borderColor Value="#000000" Type="QColor"/>
+                  <geometryLocked Value="0" Type="bool"/>
+                  <itemLocation Value="1" Type="enumAndFlags"/>
+                  <stretchToMaxHeight Value="0" Type="bool"/>
+                  <itemAlign Value="4" Type="enumAndFlags"/>
+                  <content Type="QString">$V{title}</content>
+                  <margin Value="4" Type="int"/>
+                  <alignment Value="132" Type="enumAndFlags"/>
+                  <autoWidth Value="0" Type="enumAndFlags"/>
+                  <autoHeight Value="0" Type="bool"/>
+                  <font underline="0" bold = "1" family="Arial" weight="75" Type="QFont" pointSize="14" italic="0"/>
+                  <backgroundOpacity Value="100" Type="int"/>
+                  <backgroundMode Value="1" Type="enumAndFlags"/>
+                  <backgroundColor Value="#ffffff" Type="QColor"/>
+                  <fontColor Value="#000000" Type="QColor"/>
+                  <angle Value="0" Type="enumAndFlags"/>
+                  <foregroundOpacity Value="100" Type="int"/>
+                  <underlines Value="0" Type="bool"/>
+                  <adaptFontToSize Value="0" Type="bool"/>
+                  <trimValue Value="1" Type="bool"/>
+                  <lineSpacing Value="1" Type="int"/>
+                  <underlineLineSize Value="1" Type="int"/>
+                  <allowHTML Value="0" Type="bool"/>
+                  <allowHTMLInFields Value="0" Type="bool"/>
+                  <format Type="QString"></format>
+                  <valueType Value="0" Type="enumAndFlags"/>
+                  <followTo Type="QString"></followTo>
+                  <backgroundBrushStyle Value="1" Type="enumAndFlags"/>
+                  <textIndent Value="0" Type="qreal"/>
+                  <textLayoutDirection Value="2" Type="enumAndFlags"/>
+                  <fillInSecondPass Value="0" Type="bool"/>
+                  <watermark Value="0" Type="bool"/>
+                  <replaceCRwithBR Value="0" Type="bool"/>
+                  <hideIfEmpty Value="0" Type="bool"/>
+                  <fontLetterSpacing Value="0" Type="int"/>
+                </item>
+                <item ClassName="TextItem" Type="Object">
+                  <objectName Type="QString">TextItem1</objectName>
+                  <geometry x="50" height="60" y="170" Type="QRect" width="1900"/>
+                  <children Type="Collection"/>
+                  <zOrder Value="0" Type="qreal"/>
+                  <borders Value="0" Type="enumAndFlags"/>
+                  <parentName Type="QString">ReportHeader48</parentName>
+                  <borderLineSize Value="0" Type="int"/>
+                  <isVisible Value="1" Type="bool"/>
+                  <borderColor Value="#000000" Type="QColor"/>
+                  <geometryLocked Value="0" Type="bool"/>
+                  <itemLocation Value="1" Type="enumAndFlags"/>
+                  <stretchToMaxHeight Value="0" Type="bool"/>
+                  <itemAlign Value="4" Type="enumAndFlags"/>
+                  <content Type="QString">$V{number_date}</content>
+                  <margin Value="4" Type="int"/>
+                  <alignment Value="132" Type="enumAndFlags"/>
+                  <autoWidth Value="0" Type="enumAndFlags"/>
+                  <autoHeight Value="0" Type="bool"/>
+                  <font underline="0" family="Arial" weight="75" Type="QFont" pointSize="10" italic="0"/>
+                  <backgroundOpacity Value="100" Type="int"/>
+                  <backgroundMode Value="1" Type="enumAndFlags"/>
+                  <backgroundColor Value="#ffffff" Type="QColor"/>
+                  <fontColor Value="#000000" Type="QColor"/>
+                  <angle Value="0" Type="enumAndFlags"/>
+                  <foregroundOpacity Value="100" Type="int"/>
+                  <underlines Value="0" Type="bool"/>
+                  <adaptFontToSize Value="0" Type="bool"/>
+                  <trimValue Value="1" Type="bool"/>
+                  <lineSpacing Value="1" Type="int"/>
+                  <underlineLineSize Value="1" Type="int"/>
+                  <allowHTML Value="0" Type="bool"/>
+                  <allowHTMLInFields Value="0" Type="bool"/>
+                  <format Type="QString"></format>
+                  <valueType Value="0" Type="enumAndFlags"/>
+                  <followTo Type="QString"></followTo>
+                  <backgroundBrushStyle Value="1" Type="enumAndFlags"/>
+                  <textIndent Value="0" Type="qreal"/>
+                  <textLayoutDirection Value="2" Type="enumAndFlags"/>
+                  <fillInSecondPass Value="0" Type="bool"/>
+                  <watermark Value="0" Type="bool"/>
+                  <replaceCRwithBR Value="0" Type="bool"/>
+                  <hideIfEmpty Value="0" Type="bool"/>
+                  <fontLetterSpacing Value="0" Type="int"/>
+                </item>
+                <item ClassName="TextItem" Type="Object">
+                  <objectName Type="QString">TextItem2</objectName>
+                  <geometry x="50" height="60" y="230" Type="QRect" width="1900"/>
+                  <children Type="Collection"/>
+                  <zOrder Value="0" Type="qreal"/>
+                  <borders Value="0" Type="enumAndFlags"/>
+                  <parentName Type="QString">ReportHeader48</parentName>
+                  <borderLineSize Value="0" Type="int"/>
+                  <isVisible Value="1" Type="bool"/>
+                  <borderColor Value="#000000" Type="QColor"/>
+                  <geometryLocked Value="0" Type="bool"/>
+                  <itemLocation Value="1" Type="enumAndFlags"/>
+                  <stretchToMaxHeight Value="0" Type="bool"/>
+                  <itemAlign Value="4" Type="enumAndFlags"/>
+                  <content Type="QString">$V{main_document}</content>
+                  <margin Value="4" Type="int"/>
+                  <alignment Value="132" Type="enumAndFlags"/>
+                  <autoWidth Value="0" Type="enumAndFlags"/>
+                  <autoHeight Value="0" Type="bool"/>
+                  <font underline="0" bold = "1"  family="Arial" weight="75" Type="QFont" pointSize="10" italic="0"/>
+                  <backgroundOpacity Value="100" Type="int"/>
+                  <backgroundMode Value="1" Type="enumAndFlags"/>
+                  <backgroundColor Value="#ffffff" Type="QColor"/>
+                  <fontColor Value="#000000" Type="QColor"/>
+                  <angle Value="0" Type="enumAndFlags"/>
+                  <foregroundOpacity Value="100" Type="int"/>
+                  <underlines Value="0" Type="bool"/>
+                  <adaptFontToSize Value="0" Type="bool"/>
+                  <trimValue Value="1" Type="bool"/>
+                  <lineSpacing Value="1" Type="int"/>
+                  <underlineLineSize Value="1" Type="int"/>
+                  <allowHTML Value="0" Type="bool"/>
+                  <allowHTMLInFields Value="0" Type="bool"/>
+                  <format Type="QString"></format>
+                  <valueType Value="0" Type="enumAndFlags"/>
+                  <followTo Type="QString"></followTo>
+                  <backgroundBrushStyle Value="1" Type="enumAndFlags"/>
+                  <textIndent Value="0" Type="qreal"/>
+                  <textLayoutDirection Value="2" Type="enumAndFlags"/>
+                  <fillInSecondPass Value="0" Type="bool"/>
+                  <watermark Value="0" Type="bool"/>
+                  <replaceCRwithBR Value="0" Type="bool"/>
+                  <hideIfEmpty Value="0" Type="bool"/>
+                  <fontLetterSpacing Value="0" Type="int"/>
+                </item>
+                <item ClassName="TextItem" Type="Object">
+                  <objectName Type="QString">TextItem38</objectName>
+                  <geometry x="50" height="60" y="110" Type="QRect" width="1900"/>
+                  <children Type="Collection"/>
+                  <zOrder Value="0" Type="qreal"/>
+                  <borders Value="0" Type="enumAndFlags"/>
+                  <parentName Type="QString">ReportHeader48</parentName>
+                  <borderLineSize Value="0" Type="int"/>
+                  <isVisible Value="1" Type="bool"/>
+                  <borderColor Value="#000000" Type="QColor"/>
+                  <geometryLocked Value="0" Type="bool"/>
+                  <itemLocation Value="1" Type="enumAndFlags"/>
+                  <stretchToMaxHeight Value="0" Type="bool"/>
+                  <itemAlign Value="4" Type="enumAndFlags"/>
+                  <content Type="QString">ОРИГИНАЛ</content>
+                  <margin Value="4" Type="int"/>
+                  <alignment Value="132" Type="enumAndFlags"/>
+                  <autoWidth Value="0" Type="enumAndFlags"/>
+                  <autoHeight Value="0" Type="bool"/>
+                  <font underline="0" bold = "1" family="Arial" weight="75" Type="QFont" pointSize="10" italic="0"/>
+                  <backgroundOpacity Value="100" Type="int"/>
+                  <backgroundMode Value="1" Type="enumAndFlags"/>
+                  <backgroundColor Value="#ffffff" Type="QColor"/>
+                  <fontColor Value="#000000" Type="QColor"/>
+                  <angle Value="0" Type="enumAndFlags"/>
+                  <foregroundOpacity Value="100" Type="int"/>
+                  <underlines Value="0" Type="bool"/>
+                  <adaptFontToSize Value="0" Type="bool"/>
+                  <trimValue Value="1" Type="bool"/>
+                  <lineSpacing Value="1" Type="int"/>
+                  <underlineLineSize Value="1" Type="int"/>
+                  <allowHTML Value="0" Type="bool"/>
+                  <allowHTMLInFields Value="0" Type="bool"/>
+                  <format Type="QString"></format>
+                  <valueType Value="0" Type="enumAndFlags"/>
+                  <followTo Type="QString"></followTo>
+                  <backgroundBrushStyle Value="1" Type="enumAndFlags"/>
+                  <textIndent Value="0" Type="qreal"/>
+                  <textLayoutDirection Value="2" Type="enumAndFlags"/>
+                  <fillInSecondPass Value="0" Type="bool"/>
+                  <watermark Value="0" Type="bool"/>
+                  <replaceCRwithBR Value="0" Type="bool"/>
+                  <hideIfEmpty Value="0" Type="bool"/>
+                  <fontLetterSpacing Value="0" Type="int"/>
+                </item>
+                <item ClassName="ShapeItem" Type="Object">
+                  <objectName Type="QString">ShapeItem4</objectName>
+                  <geometry x="50" height="320" y="330" Type="QRect" width="1900"/>
+                  <children Type="Collection"/>
+                  <zOrder Value="-0.1" Type="qreal"/>
+                  <borders Value="0" Type="enumAndFlags"/>
+                  <parentName Type="QString">ReportHeader48</parentName>
+                  <borderLineSize Value="1" Type="int"/>
+                  <isVisible Value="1" Type="bool"/>
+                  <borderColor Value="#000000" Type="QColor"/>
+                  <geometryLocked Value="0" Type="bool"/>
+                  <itemLocation Value="1" Type="enumAndFlags"/>
+                  <stretchToMaxHeight Value="0" Type="bool"/>
+                  <itemAlign Value="4" Type="enumAndFlags"/>
+                  <shape Value="3" Type="enumAndFlags"/>
+                  <shapeColor Value="#000000" Type="QColor"/>
+                  <shapeBrushColor Value="#000000" Type="QColor"/>
+                  <shapeBrush Value="0" Type="enumAndFlags"/>
+                  <lineWidth Value="5" Type="qreal"/>
+                  <penStyle Value="1" Type="enumAndFlags"/>
+                  <opacity Value="100" Type="int"/>
+                  <cornerRadius Value="0" Type="int"/>
+                </item>
+                <item ClassName="VLayout" Type="Object">
+                  <objectName Type="QString">VerticalLayout44</objectName>
+                  <geometry x="1018" height="200" y="350" Type="QRect" width="890"/>
+                  <children Type="Collection">
+                    <item ClassName="HLayout" Type="Object">
+                      <objectName Type="QString">HorizontalLayout41</objectName>
+                      <geometry x="0" height="50" y="0" Type="QRect" width="890"/>
+                      <children Type="Collection">
+                        <item ClassName="TextItem" Type="Object">
+                          <objectName Type="QString">TextItem5</objectName>
+                          <geometry x="0" height="50" y="0" Type="QRect" width="240"/>
+                          <children Type="Collection"/>
+                          <zOrder Value="-1" Type="qreal"/>
+                          <borders Value="0" Type="enumAndFlags"/>
+                          <parentName Type="QString">HorizontalLayout41</parentName>
+                          <borderLineSize Value="0" Type="int"/>
+                          <isVisible Value="1" Type="bool"/>
+                          <borderColor Value="#000000" Type="QColor"/>
+                          <geometryLocked Value="1" Type="bool"/>
+                          <itemLocation Value="1" Type="enumAndFlags"/>
+                          <stretchToMaxHeight Value="0" Type="bool"/>
+                          <itemAlign Value="4" Type="enumAndFlags"/>
+                          <content Type="QString">Издател:</content>
+                          <margin Value="4" Type="int"/>
+                          <alignment Value="33" Type="enumAndFlags"/>
+                          <autoWidth Value="0" Type="enumAndFlags"/>
+                          <autoHeight Value="0" Type="bool"/>
+                          <font underline="0" bold = "1" family="Arial" weight="16" Type="QFont" pointSize="10" italic="0"/>
+                          <backgroundOpacity Value="100" Type="int"/>
+                          <backgroundMode Value="1" Type="enumAndFlags"/>
+                          <backgroundColor Value="#ffffff" Type="QColor"/>
+                          <fontColor Value="#000000" Type="QColor"/>
+                          <angle Value="0" Type="enumAndFlags"/>
+                          <foregroundOpacity Value="100" Type="int"/>
+                          <underlines Value="0" Type="bool"/>
+                          <adaptFontToSize Value="0" Type="bool"/>
+                          <trimValue Value="1" Type="bool"/>
+                          <lineSpacing Value="1" Type="int"/>
+                          <underlineLineSize Value="1" Type="int"/>
+                          <allowHTML Value="0" Type="bool"/>
+                          <allowHTMLInFields Value="0" Type="bool"/>
+                          <format Type="QString"></format>
+                          <valueType Value="0" Type="enumAndFlags"/>
+                          <followTo Type="QString"></followTo>
+                          <backgroundBrushStyle Value="0" Type="enumAndFlags"/>
+                          <textIndent Value="0" Type="qreal"/>
+                          <textLayoutDirection Value="2" Type="enumAndFlags"/>
+                          <fillInSecondPass Value="0" Type="bool"/>
+                          <watermark Value="0" Type="bool"/>
+                          <replaceCRwithBR Value="0" Type="bool"/>
+                          <hideIfEmpty Value="0" Type="bool"/>
+                          <fontLetterSpacing Value="0" Type="int"/>
+                        </item>
+                        <item ClassName="TextItem" Type="Object">
+                          <objectName Type="QString">TextItem13</objectName>
+                          <geometry x="240" height="50" y="0" Type="QRect" width="650"/>
+                          <children Type="Collection"/>
+                          <zOrder Value="-1" Type="qreal"/>
+                          <borders Value="0" Type="enumAndFlags"/>
+                          <parentName Type="QString">HorizontalLayout41</parentName>
+                          <borderLineSize Value="0" Type="int"/>
+                          <isVisible Value="1" Type="bool"/>
+                          <borderColor Value="#000000" Type="QColor"/>
+                          <geometryLocked Value="0" Type="bool"/>
+                          <itemLocation Value="1" Type="enumAndFlags"/>
+                          <stretchToMaxHeight Value="1" Type="bool"/>
+                          <itemAlign Value="4" Type="enumAndFlags"/>
+                          <content Type="QString">$V{issuer_name}</content>
+                          <margin Value="4" Type="int"/>
+                          <alignment Value="33" Type="enumAndFlags"/>
+                          <autoWidth Value="0" Type="enumAndFlags"/>
+                          <autoHeight Value="1" Type="bool"/>
+                          <font underline="0" family="Arial" weight="75" Type="QFont" pointSize="10" italic="0"/>
+                          <backgroundOpacity Value="100" Type="int"/>
+                          <backgroundMode Value="1" Type="enumAndFlags"/>
+                          <backgroundColor Value="#ffffff" Type="QColor"/>
+                          <fontColor Value="#000000" Type="QColor"/>
+                          <angle Value="0" Type="enumAndFlags"/>
+                          <foregroundOpacity Value="100" Type="int"/>
+                          <underlines Value="0" Type="bool"/>
+                          <adaptFontToSize Value="0" Type="bool"/>
+                          <trimValue Value="1" Type="bool"/>
+                          <lineSpacing Value="1" Type="int"/>
+                          <underlineLineSize Value="1" Type="int"/>
+                          <allowHTML Value="0" Type="bool"/>
+                          <allowHTMLInFields Value="0" Type="bool"/>
+                          <format Type="QString"></format>
+                          <valueType Value="0" Type="enumAndFlags"/>
+                          <followTo Type="QString"></followTo>
+                          <backgroundBrushStyle Value="1" Type="enumAndFlags"/>
+                          <textIndent Value="0" Type="qreal"/>
+                          <textLayoutDirection Value="2" Type="enumAndFlags"/>
+                          <fillInSecondPass Value="0" Type="bool"/>
+                          <watermark Value="0" Type="bool"/>
+                          <replaceCRwithBR Value="0" Type="bool"/>
+                          <hideIfEmpty Value="0" Type="bool"/>
+                          <fontLetterSpacing Value="0" Type="int"/>
+                        </item>
+                      </children>
+                      <zOrder Value="-1" Type="qreal"/>
+                      <borders Value="0" Type="enumAndFlags"/>
+                      <parentName Type="QString">VerticalLayout44</parentName>
+                      <borderLineSize Value="1" Type="int"/>
+                      <isVisible Value="1" Type="bool"/>
+                      <borderColor Value="#000000" Type="QColor"/>
+                      <geometryLocked Value="0" Type="bool"/>
+                      <itemLocation Value="1" Type="enumAndFlags"/>
+                      <stretchToMaxHeight Value="0" Type="bool"/>
+                      <itemAlign Value="4" Type="enumAndFlags"/>
+                      <hideEmptyItems Value="0" Type="bool"/>
+                      <layoutSpacing Value="0" Type="int"/>
+                      <layoutType Value="0" Type="enumAndFlags"/>
+                    </item>
+                    <item ClassName="HLayout" Type="Object">
+                      <objectName Type="QString">HorizontalLayout42</objectName>
+                      <geometry x="0" height="50" y="50" Type="QRect" width="890"/>
+                      <children Type="Collection">
+                        <item ClassName="TextItem" Type="Object">
+                          <objectName Type="QString">TextItem19</objectName>
+                          <geometry x="0" height="50" y="0" Type="QRect" width="240"/>
+                          <children Type="Collection"/>
+                          <zOrder Value="-1" Type="qreal"/>
+                          <borders Value="0" Type="enumAndFlags"/>
+                          <parentName Type="QString">HorizontalLayout42</parentName>
+                          <borderLineSize Value="0" Type="int"/>
+                          <isVisible Value="1" Type="bool"/>
+                          <borderColor Value="#000000" Type="QColor"/>
+                          <geometryLocked Value="1" Type="bool"/>
+                          <itemLocation Value="1" Type="enumAndFlags"/>
+                          <stretchToMaxHeight Value="0" Type="bool"/>
+                          <itemAlign Value="4" Type="enumAndFlags"/>
+                          <content Type="QString">Идент. №:</content>
+                          <margin Value="4" Type="int"/>
+                          <alignment Value="33" Type="enumAndFlags"/>
+                          <autoWidth Value="0" Type="enumAndFlags"/>
+                          <autoHeight Value="0" Type="bool"/>
+                          <font underline="0" bold = "1" family="Arial" weight="16" Type="QFont" pointSize="10" italic="0"/>
+                          <backgroundOpacity Value="100" Type="int"/>
+                          <backgroundMode Value="1" Type="enumAndFlags"/>
+                          <backgroundColor Value="#ffffff" Type="QColor"/>
+                          <fontColor Value="#000000" Type="QColor"/>
+                          <angle Value="0" Type="enumAndFlags"/>
+                          <foregroundOpacity Value="100" Type="int"/>
+                          <underlines Value="0" Type="bool"/>
+                          <adaptFontToSize Value="0" Type="bool"/>
+                          <trimValue Value="1" Type="bool"/>
+                          <lineSpacing Value="1" Type="int"/>
+                          <underlineLineSize Value="1" Type="int"/>
+                          <allowHTML Value="0" Type="bool"/>
+                          <allowHTMLInFields Value="0" Type="bool"/>
+                          <format Type="QString"></format>
+                          <valueType Value="0" Type="enumAndFlags"/>
+                          <followTo Type="QString"></followTo>
+                          <backgroundBrushStyle Value="1" Type="enumAndFlags"/>
+                          <textIndent Value="0" Type="qreal"/>
+                          <textLayoutDirection Value="2" Type="enumAndFlags"/>
+                          <fillInSecondPass Value="0" Type="bool"/>
+                          <watermark Value="0" Type="bool"/>
+                          <replaceCRwithBR Value="0" Type="bool"/>
+                          <hideIfEmpty Value="0" Type="bool"/>
+                          <fontLetterSpacing Value="0" Type="int"/>
+                        </item>
+                        <item ClassName="TextItem" Type="Object">
+                          <objectName Type="QString">TextItem17</objectName>
+                          <geometry x="240" height="50" y="0" Type="QRect" width="650"/>
+                          <children Type="Collection"/>
+                          <zOrder Value="-1" Type="qreal"/>
+                          <borders Value="0" Type="enumAndFlags"/>
+                          <parentName Type="QString">HorizontalLayout42</parentName>
+                          <borderLineSize Value="0" Type="int"/>
+                          <isVisible Value="1" Type="bool"/>
+                          <borderColor Value="#000000" Type="QColor"/>
+                          <geometryLocked Value="0" Type="bool"/>
+                          <itemLocation Value="1" Type="enumAndFlags"/>
+                          <stretchToMaxHeight Value="0" Type="bool"/>
+                          <itemAlign Value="4" Type="enumAndFlags"/>
+                          <content Type="QString">$V{issuer_bulstat}</content>
+                          <margin Value="4" Type="int"/>
+                          <alignment Value="33" Type="enumAndFlags"/>
+                          <autoWidth Value="0" Type="enumAndFlags"/>
+                          <autoHeight Value="1" Type="bool"/>
+                          <font underline="0" family="Arial" weight="16" Type="QFont" pointSize="10" italic="0"/>
+                          <backgroundOpacity Value="100" Type="int"/>
+                          <backgroundMode Value="1" Type="enumAndFlags"/>
+                          <backgroundColor Value="#ffffff" Type="QColor"/>
+                          <fontColor Value="#000000" Type="QColor"/>
+                          <angle Value="0" Type="enumAndFlags"/>
+                          <foregroundOpacity Value="100" Type="int"/>
+                          <underlines Value="0" Type="bool"/>
+                          <adaptFontToSize Value="0" Type="bool"/>
+                          <trimValue Value="1" Type="bool"/>
+                          <lineSpacing Value="1" Type="int"/>
+                          <underlineLineSize Value="1" Type="int"/>
+                          <allowHTML Value="0" Type="bool"/>
+                          <allowHTMLInFields Value="0" Type="bool"/>
+                          <format Type="QString"></format>
+                          <valueType Value="0" Type="enumAndFlags"/>
+                          <followTo Type="QString"></followTo>
+                          <backgroundBrushStyle Value="1" Type="enumAndFlags"/>
+                          <textIndent Value="0" Type="qreal"/>
+                          <textLayoutDirection Value="2" Type="enumAndFlags"/>
+                          <fillInSecondPass Value="0" Type="bool"/>
+                          <watermark Value="0" Type="bool"/>
+                          <replaceCRwithBR Value="0" Type="bool"/>
+                          <hideIfEmpty Value="0" Type="bool"/>
+                          <fontLetterSpacing Value="0" Type="int"/>
+                        </item>
+                      </children>
+                      <zOrder Value="-1" Type="qreal"/>
+                      <borders Value="0" Type="enumAndFlags"/>
+                      <parentName Type="QString">VerticalLayout44</parentName>
+                      <borderLineSize Value="1" Type="int"/>
+                      <isVisible Value="1" Type="bool"/>
+                      <borderColor Value="#000000" Type="QColor"/>
+                      <geometryLocked Value="0" Type="bool"/>
+                      <itemLocation Value="1" Type="enumAndFlags"/>
+                      <stretchToMaxHeight Value="0" Type="bool"/>
+                      <itemAlign Value="4" Type="enumAndFlags"/>
+                      <hideEmptyItems Value="0" Type="bool"/>
+                      <layoutSpacing Value="0" Type="int"/>
+                      <layoutType Value="0" Type="enumAndFlags"/>
+                    </item>
+                    <item ClassName="HLayout" Type="Object">
+                      <objectName Type="QString">HorizontalLayout43</objectName>
+                      <geometry x="0" height="50" y="100" Type="QRect" width="890"/>
+                      <children Type="Collection">
+                        <item ClassName="TextItem" Type="Object">
+                          <objectName Type="QString">TextItem18</objectName>
+                          <geometry x="0" height="50" y="0" Type="QRect" width="240"/>
+                          <children Type="Collection"/>
+                          <zOrder Value="-1" Type="qreal"/>
+                          <borders Value="0" Type="enumAndFlags"/>
+                          <parentName Type="QString">HorizontalLayout43</parentName>
+                          <borderLineSize Value="0" Type="int"/>
+                          <isVisible Value="1" Type="bool"/>
+                          <borderColor Value="#000000" Type="QColor"/>
+                          <geometryLocked Value="0" Type="bool"/>
+                          <itemLocation Value="1" Type="enumAndFlags"/>
+                          <stretchToMaxHeight Value="0" Type="bool"/>
+                          <itemAlign Value="4" Type="enumAndFlags"/>
+                          <content Type="QString">Адрес:</content>
+                          <margin Value="4" Type="int"/>
+                          <alignment Value="33" Type="enumAndFlags"/>
+                          <autoWidth Value="0" Type="enumAndFlags"/>
+                          <autoHeight Value="0" Type="bool"/>
+                          <font underline="0" bold = "1" family="Arial" weight="16" Type="QFont" pointSize="10" italic="0"/>
+                          <backgroundOpacity Value="100" Type="int"/>
+                          <backgroundMode Value="1" Type="enumAndFlags"/>
+                          <backgroundColor Value="#ffffff" Type="QColor"/>
+                          <fontColor Value="#000000" Type="QColor"/>
+                          <angle Value="0" Type="enumAndFlags"/>
+                          <foregroundOpacity Value="100" Type="int"/>
+                          <underlines Value="0" Type="bool"/>
+                          <adaptFontToSize Value="0" Type="bool"/>
+                          <trimValue Value="1" Type="bool"/>
+                          <lineSpacing Value="1" Type="int"/>
+                          <underlineLineSize Value="1" Type="int"/>
+                          <allowHTML Value="0" Type="bool"/>
+                          <allowHTMLInFields Value="0" Type="bool"/>
+                          <format Type="QString"></format>
+                          <valueType Value="0" Type="enumAndFlags"/>
+                          <followTo Type="QString"></followTo>
+                          <backgroundBrushStyle Value="1" Type="enumAndFlags"/>
+                          <textIndent Value="0" Type="qreal"/>
+                          <textLayoutDirection Value="2" Type="enumAndFlags"/>
+                          <fillInSecondPass Value="0" Type="bool"/>
+                          <watermark Value="0" Type="bool"/>
+                          <replaceCRwithBR Value="0" Type="bool"/>
+                          <hideIfEmpty Value="0" Type="bool"/>
+                          <fontLetterSpacing Value="0" Type="int"/>
+                        </item>
+                        <item ClassName="TextItem" Type="Object">
+                          <objectName Type="QString">TextItem16</objectName>
+                          <geometry x="240" height="50" y="0" Type="QRect" width="650"/>
+                          <children Type="Collection"/>
+                          <zOrder Value="-1" Type="qreal"/>
+                          <borders Value="0" Type="enumAndFlags"/>
+                          <parentName Type="QString">HorizontalLayout43</parentName>
+                          <borderLineSize Value="0" Type="int"/>
+                          <isVisible Value="1" Type="bool"/>
+                          <borderColor Value="#000000" Type="QColor"/>
+                          <geometryLocked Value="0" Type="bool"/>
+                          <itemLocation Value="1" Type="enumAndFlags"/>
+                          <stretchToMaxHeight Value="0" Type="bool"/>
+                          <itemAlign Value="4" Type="enumAndFlags"/>
+                          <content Type="QString">$V{issuer_address}</content>
+                          <margin Value="4" Type="int"/>
+                          <alignment Value="33" Type="enumAndFlags"/>
+                          <autoWidth Value="0" Type="enumAndFlags"/>
+                          <autoHeight Value="1" Type="bool"/>
+                          <font underline="0" family="Arial" weight="16" Type="QFont" pointSize="10" italic="0"/>
+                          <backgroundOpacity Value="100" Type="int"/>
+                          <backgroundMode Value="1" Type="enumAndFlags"/>
+                          <backgroundColor Value="#ffffff" Type="QColor"/>
+                          <fontColor Value="#000000" Type="QColor"/>
+                          <angle Value="0" Type="enumAndFlags"/>
+                          <foregroundOpacity Value="100" Type="int"/>
+                          <underlines Value="0" Type="bool"/>
+                          <adaptFontToSize Value="0" Type="bool"/>
+                          <trimValue Value="1" Type="bool"/>
+                          <lineSpacing Value="1" Type="int"/>
+                          <underlineLineSize Value="1" Type="int"/>
+                          <allowHTML Value="0" Type="bool"/>
+                          <allowHTMLInFields Value="0" Type="bool"/>
+                          <format Type="QString"></format>
+                          <valueType Value="0" Type="enumAndFlags"/>
+                          <followTo Type="QString"></followTo>
+                          <backgroundBrushStyle Value="1" Type="enumAndFlags"/>
+                          <textIndent Value="0" Type="qreal"/>
+                          <textLayoutDirection Value="2" Type="enumAndFlags"/>
+                          <fillInSecondPass Value="0" Type="bool"/>
+                          <watermark Value="0" Type="bool"/>
+                          <replaceCRwithBR Value="0" Type="bool"/>
+                          <hideIfEmpty Value="0" Type="bool"/>
+                          <fontLetterSpacing Value="0" Type="int"/>
+                        </item>
+                      </children>
+                      <zOrder Value="-1" Type="qreal"/>
+                      <borders Value="0" Type="enumAndFlags"/>
+                      <parentName Type="QString">VerticalLayout44</parentName>
+                      <borderLineSize Value="1" Type="int"/>
+                      <isVisible Value="1" Type="bool"/>
+                      <borderColor Value="#000000" Type="QColor"/>
+                      <geometryLocked Value="0" Type="bool"/>
+                      <itemLocation Value="1" Type="enumAndFlags"/>
+                      <stretchToMaxHeight Value="0" Type="bool"/>
+                      <itemAlign Value="4" Type="enumAndFlags"/>
+                      <hideEmptyItems Value="0" Type="bool"/>
+                      <layoutSpacing Value="0" Type="int"/>
+                      <layoutType Value="0" Type="enumAndFlags"/>
+                    </item>
+                    <item ClassName="TextItem" Type="Object">
+                      <objectName Type="QString">TextItem25</objectName>
+                      <geometry x="0" height="50" y="150" Type="QRect" width="890"/>
+                      <children Type="Collection"/>
+                      <zOrder Value="0" Type="qreal"/>
+                      <borders Value="0" Type="enumAndFlags"/>
+                      <parentName Type="QString">VerticalLayout44</parentName>
+                      <borderLineSize Value="0" Type="int"/>
+                      <isVisible Value="1" Type="bool"/>
+                      <borderColor Value="#000000" Type="QColor"/>
+                      <geometryLocked Value="1" Type="bool"/>
+                      <itemLocation Value="1" Type="enumAndFlags"/>
+                      <stretchToMaxHeight Value="0" Type="bool"/>
+                      <itemAlign Value="4" Type="enumAndFlags"/>
+                      <content Type="QString">ДДС №:</content>
+                      <margin Value="4" Type="int"/>
+                      <alignment Value="33" Type="enumAndFlags"/>
+                      <autoWidth Value="0" Type="enumAndFlags"/>
+                      <autoHeight Value="0" Type="bool"/>
+                      <font underline="0" bold = "1" family="Arial" weight="16" Type="QFont" pointSize="10" italic="0"/>
+                      <backgroundOpacity Value="100" Type="int"/>
+                      <backgroundMode Value="1" Type="enumAndFlags"/>
+                      <backgroundColor Value="#ffffff" Type="QColor"/>
+                      <fontColor Value="#000000" Type="QColor"/>
+                      <angle Value="0" Type="enumAndFlags"/>
+                      <foregroundOpacity Value="100" Type="int"/>
+                      <underlines Value="0" Type="bool"/>
+                      <adaptFontToSize Value="0" Type="bool"/>
+                      <trimValue Value="1" Type="bool"/>
+                      <lineSpacing Value="1" Type="int"/>
+                      <underlineLineSize Value="1" Type="int"/>
+                      <allowHTML Value="0" Type="bool"/>
+                      <allowHTMLInFields Value="0" Type="bool"/>
+                      <format Type="QString"></format>
+                      <valueType Value="0" Type="enumAndFlags"/>
+                      <followTo Type="QString"></followTo>
+                      <backgroundBrushStyle Value="1" Type="enumAndFlags"/>
+                      <textIndent Value="0" Type="qreal"/>
+                      <textLayoutDirection Value="2" Type="enumAndFlags"/>
+                      <fillInSecondPass Value="0" Type="bool"/>
+                      <watermark Value="0" Type="bool"/>
+                      <replaceCRwithBR Value="0" Type="bool"/>
+                      <hideIfEmpty Value="0" Type="bool"/>
+                      <fontLetterSpacing Value="0" Type="int"/>
+                    </item>
+                  </children>
+                  <zOrder Value="0" Type="qreal"/>
+                  <borders Value="0" Type="enumAndFlags"/>
+                  <parentName Type="QString">ReportHeader48</parentName>
+                  <borderLineSize Value="1" Type="int"/>
+                  <isVisible Value="1" Type="bool"/>
+                  <borderColor Value="#000000" Type="QColor"/>
+                  <geometryLocked Value="0" Type="bool"/>
+                  <itemLocation Value="1" Type="enumAndFlags"/>
+                  <stretchToMaxHeight Value="0" Type="bool"/>
+                  <itemAlign Value="4" Type="enumAndFlags"/>
+                  <hideEmptyItems Value="0" Type="bool"/>
+                  <layoutSpacing Value="0" Type="int"/>
+                </item>
+              </children>
+              <zOrder Value="0" Type="qreal"/>
+              <borders Value="0" Type="enumAndFlags"/>
+              <parentName Type="QString">Reportpage1</parentName>
+              <borderLineSize Value="1" Type="int"/>
+              <isVisible Value="1" Type="bool"/>
+              <borderColor Value="#000000" Type="QColor"/>
+              <geometryLocked Value="1" Type="bool"/>
+              <autoHeight Value="1" Type="bool"/>
+              <bandIndex Value="1" Type="int"/>
+              <keepBottomSpace Value="0" Type="bool"/>
+              <keepTopSpace Value="1" Type="bool"/>
+              <parentBand Type="QString"></parentBand>
+              <backgroundColor Value="#ffffff" Type="QColor"/>
+              <backgroundBrushStyle Value="1" Type="enumAndFlags"/>
+              <printIfEmpty Value="0" Type="bool"/>
+              <backgroundMode Value="0" Type="enumAndFlags"/>
+              <backgroundOpacity Value="100" Type="int"/>
+              <splittable Value="0" Type="bool"/>
+              <printBeforePageHeader Value="0" Type="bool"/>
+            </item>
+            <item ClassName="DataFooter" Type="Object">
+              <objectName Type="QString">DataFooterBand1</objectName>
+              <geometry x="50" height="1511" y="1141" Type="QRect" width="2059"/>
+              <children Type="Collection">
+                <item ClassName="TextItem" Type="Object">
+                  <objectName Type="QString">TextItem21</objectName>
+                  <geometry x="1470" height="50" y="160" Type="QRect" width="230"/>
+                  <children Type="Collection"/>
+                  <zOrder Value="0" Type="qreal"/>
+                  <borders Value="0" Type="enumAndFlags"/>
+                  <parentName Type="QString">DataFooterBand1</parentName>
+                  <borderLineSize Value="0" Type="int"/>
+                  <isVisible Value="1" Type="bool"/>
+                  <borderColor Value="#000000" Type="QColor"/>
+                  <geometryLocked Value="0" Type="bool"/>
+                  <itemLocation Value="1" Type="enumAndFlags"/>
+                  <stretchToMaxHeight Value="0" Type="bool"/>
+                  <itemAlign Value="4" Type="enumAndFlags"/>
+                  <content Type="QString">Обща сума:</content>
+                  <margin Value="4" Type="int"/>
+                  <alignment Value="34" Type="enumAndFlags"/>
+                  <autoWidth Value="0" Type="enumAndFlags"/>
+                  <autoHeight Value="0" Type="bool"/>
+                  <font underline="0" bold = "1" family="Arial" weight="75" Type="QFont" pointSize="10" italic="0"/>
+                  <backgroundOpacity Value="100" Type="int"/>
+                  <backgroundMode Value="1" Type="enumAndFlags"/>
+                  <backgroundColor Value="#ffffff" Type="QColor"/>
+                  <fontColor Value="#000000" Type="QColor"/>
+                  <angle Value="0" Type="enumAndFlags"/>
+                  <foregroundOpacity Value="100" Type="int"/>
+                  <underlines Value="0" Type="bool"/>
+                  <adaptFontToSize Value="0" Type="bool"/>
+                  <trimValue Value="1" Type="bool"/>
+                  <lineSpacing Value="1" Type="int"/>
+                  <underlineLineSize Value="1" Type="int"/>
+                  <allowHTML Value="0" Type="bool"/>
+                  <allowHTMLInFields Value="0" Type="bool"/>
+                  <format Type="QString"></format>
+                  <valueType Value="0" Type="enumAndFlags"/>
+                  <followTo Type="QString"></followTo>
+                  <backgroundBrushStyle Value="1" Type="enumAndFlags"/>
+                  <textIndent Value="0" Type="qreal"/>
+                  <textLayoutDirection Value="2" Type="enumAndFlags"/>
+                  <fillInSecondPass Value="0" Type="bool"/>
+                  <watermark Value="0" Type="bool"/>
+                  <replaceCRwithBR Value="0" Type="bool"/>
+                  <hideIfEmpty Value="0" Type="bool"/>
+                  <fontLetterSpacing Value="0" Type="int"/>
+                </item>
+                <item ClassName="TextItem" Type="Object">
+                  <objectName Type="QString">TextItem23</objectName>
+                  <geometry x="1750" height="50" y="160" Type="QRect" width="200"/>
+                  <children Type="Collection"/>
+                  <zOrder Value="0" Type="qreal"/>
+                  <borders Value="0" Type="enumAndFlags"/>
+                  <parentName Type="QString">DataFooterBand1</parentName>
+                  <borderLineSize Value="0" Type="int"/>
+                  <isVisible Value="1" Type="bool"/>
+                  <borderColor Value="#000000" Type="QColor"/>
+                  <geometryLocked Value="0" Type="bool"/>
+                  <itemLocation Value="1" Type="enumAndFlags"/>
+                  <stretchToMaxHeight Value="0" Type="bool"/>
+                  <itemAlign Value="4" Type="enumAndFlags"/>
+                  <content Type="QString">$V{total}</content>
+                  <margin Value="4" Type="int"/>
+                  <alignment Value="33" Type="enumAndFlags"/>
+                  <autoWidth Value="0" Type="enumAndFlags"/>
+                  <autoHeight Value="0" Type="bool"/>
+                  <font underline="0" family="Arial" weight="16" Type="QFont" pointSize="10" italic="0"/>
+                  <backgroundOpacity Value="100" Type="int"/>
+                  <backgroundMode Value="1" Type="enumAndFlags"/>
+                  <backgroundColor Value="#ffffff" Type="QColor"/>
+                  <fontColor Value="#000000" Type="QColor"/>
+                  <angle Value="0" Type="enumAndFlags"/>
+                  <foregroundOpacity Value="100" Type="int"/>
+                  <underlines Value="0" Type="bool"/>
+                  <adaptFontToSize Value="0" Type="bool"/>
+                  <trimValue Value="1" Type="bool"/>
+                  <lineSpacing Value="1" Type="int"/>
+                  <underlineLineSize Value="1" Type="int"/>
+                  <allowHTML Value="0" Type="bool"/>
+                  <allowHTMLInFields Value="0" Type="bool"/>
+                  <format Type="QString"></format>
+                  <valueType Value="0" Type="enumAndFlags"/>
+                  <followTo Type="QString"></followTo>
+                  <backgroundBrushStyle Value="1" Type="enumAndFlags"/>
+                  <textIndent Value="0" Type="qreal"/>
+                  <textLayoutDirection Value="2" Type="enumAndFlags"/>
+                  <fillInSecondPass Value="0" Type="bool"/>
+                  <watermark Value="0" Type="bool"/>
+                  <replaceCRwithBR Value="0" Type="bool"/>
+                  <hideIfEmpty Value="0" Type="bool"/>
+                  <fontLetterSpacing Value="0" Type="int"/>
+                </item>
+                <item ClassName="TextItem" Type="Object">
+                  <objectName Type="QString">TextItem29</objectName>
+                  <geometry x="1470" height="50" y="60" Type="QRect" width="230"/>
+                  <children Type="Collection"/>
+                  <zOrder Value="0" Type="qreal"/>
+                  <borders Value="0" Type="enumAndFlags"/>
+                  <parentName Type="QString">DataFooterBand1</parentName>
+                  <borderLineSize Value="0" Type="int"/>
+                  <isVisible Value="1" Type="bool"/>
+                  <borderColor Value="#000000" Type="QColor"/>
+                  <geometryLocked Value="0" Type="bool"/>
+                  <itemLocation Value="1" Type="enumAndFlags"/>
+                  <stretchToMaxHeight Value="0" Type="bool"/>
+                  <itemAlign Value="4" Type="enumAndFlags"/>
+                  <content Type="QString">Стойност:</content>
+                  <margin Value="4" Type="int"/>
+                  <alignment Value="34" Type="enumAndFlags"/>
+                  <autoWidth Value="0" Type="enumAndFlags"/>
+                  <autoHeight Value="0" Type="bool"/>
+                  <font underline="0" bold = "1" family="Arial" weight="75" Type="QFont" pointSize="10" italic="0"/>
+                  <backgroundOpacity Value="100" Type="int"/>
+                  <backgroundMode Value="1" Type="enumAndFlags"/>
+                  <backgroundColor Value="#ffffff" Type="QColor"/>
+                  <fontColor Value="#000000" Type="QColor"/>
+                  <angle Value="0" Type="enumAndFlags"/>
+                  <foregroundOpacity Value="100" Type="int"/>
+                  <underlines Value="0" Type="bool"/>
+                  <adaptFontToSize Value="0" Type="bool"/>
+                  <trimValue Value="1" Type="bool"/>
+                  <lineSpacing Value="1" Type="int"/>
+                  <underlineLineSize Value="1" Type="int"/>
+                  <allowHTML Value="0" Type="bool"/>
+                  <allowHTMLInFields Value="0" Type="bool"/>
+                  <format Type="QString"></format>
+                  <valueType Value="0" Type="enumAndFlags"/>
+                  <followTo Type="QString"></followTo>
+                  <backgroundBrushStyle Value="1" Type="enumAndFlags"/>
+                  <textIndent Value="0" Type="qreal"/>
+                  <textLayoutDirection Value="2" Type="enumAndFlags"/>
+                  <fillInSecondPass Value="0" Type="bool"/>
+                  <watermark Value="0" Type="bool"/>
+                  <replaceCRwithBR Value="0" Type="bool"/>
+                  <hideIfEmpty Value="0" Type="bool"/>
+                  <fontLetterSpacing Value="0" Type="int"/>
+                </item>
+                <item ClassName="TextItem" Type="Object">
+                  <objectName Type="QString">TextItem30</objectName>
+                  <geometry x="1750" height="50" y="60" Type="QRect" width="200"/>
+                  <children Type="Collection"/>
+                  <zOrder Value="0" Type="qreal"/>
+                  <borders Value="0" Type="enumAndFlags"/>
+                  <parentName Type="QString">DataFooterBand1</parentName>
+                  <borderLineSize Value="0" Type="int"/>
+                  <isVisible Value="1" Type="bool"/>
+                  <borderColor Value="#000000" Type="QColor"/>
+                  <geometryLocked Value="0" Type="bool"/>
+                  <itemLocation Value="1" Type="enumAndFlags"/>
+                  <stretchToMaxHeight Value="0" Type="bool"/>
+                  <itemAlign Value="4" Type="enumAndFlags"/>
+                  <content Type="QString">$V{total}</content>
+                  <margin Value="4" Type="int"/>
+                  <alignment Value="33" Type="enumAndFlags"/>
+                  <autoWidth Value="0" Type="enumAndFlags"/>
+                  <autoHeight Value="0" Type="bool"/>
+                  <font underline="0" family="Arial" weight="16" Type="QFont" pointSize="10" italic="0"/>
+                  <backgroundOpacity Value="100" Type="int"/>
+                  <backgroundMode Value="1" Type="enumAndFlags"/>
+                  <backgroundColor Value="#ffffff" Type="QColor"/>
+                  <fontColor Value="#000000" Type="QColor"/>
+                  <angle Value="0" Type="enumAndFlags"/>
+                  <foregroundOpacity Value="100" Type="int"/>
+                  <underlines Value="0" Type="bool"/>
+                  <adaptFontToSize Value="0" Type="bool"/>
+                  <trimValue Value="1" Type="bool"/>
+                  <lineSpacing Value="1" Type="int"/>
+                  <underlineLineSize Value="1" Type="int"/>
+                  <allowHTML Value="0" Type="bool"/>
+                  <allowHTMLInFields Value="0" Type="bool"/>
+                  <format Type="QString"></format>
+                  <valueType Value="0" Type="enumAndFlags"/>
+                  <followTo Type="QString"></followTo>
+                  <backgroundBrushStyle Value="1" Type="enumAndFlags"/>
+                  <textIndent Value="0" Type="qreal"/>
+                  <textLayoutDirection Value="2" Type="enumAndFlags"/>
+                  <fillInSecondPass Value="0" Type="bool"/>
+                  <watermark Value="0" Type="bool"/>
+                  <replaceCRwithBR Value="0" Type="bool"/>
+                  <hideIfEmpty Value="0" Type="bool"/>
+                  <fontLetterSpacing Value="0" Type="int"/>
+                </item>
+                <item ClassName="TextItem" Type="Object">
+                  <objectName Type="QString">TextItem31</objectName>
+                  <geometry x="1750" height="50" y="110" Type="QRect" width="200"/>
+                  <children Type="Collection"/>
+                  <zOrder Value="0" Type="qreal"/>
+                  <borders Value="0" Type="enumAndFlags"/>
+                  <parentName Type="QString">DataFooterBand1</parentName>
+                  <borderLineSize Value="0" Type="int"/>
+                  <isVisible Value="1" Type="bool"/>
+                  <borderColor Value="#000000" Type="QColor"/>
+                  <geometryLocked Value="0" Type="bool"/>
+                  <itemLocation Value="1" Type="enumAndFlags"/>
+                  <stretchToMaxHeight Value="0" Type="bool"/>
+                  <itemAlign Value="4" Type="enumAndFlags"/>
+                  <content Type="QString">0.00</content>
+                  <margin Value="4" Type="int"/>
+                  <alignment Value="33" Type="enumAndFlags"/>
+                  <autoWidth Value="0" Type="enumAndFlags"/>
+                  <autoHeight Value="0" Type="bool"/>
+                  <font underline="0" family="Arial" weight="16" Type="QFont" pointSize="10" italic="0"/>
+                  <backgroundOpacity Value="100" Type="int"/>
+                  <backgroundMode Value="1" Type="enumAndFlags"/>
+                  <backgroundColor Value="#ffffff" Type="QColor"/>
+                  <fontColor Value="#000000" Type="QColor"/>
+                  <angle Value="0" Type="enumAndFlags"/>
+                  <foregroundOpacity Value="100" Type="int"/>
+                  <underlines Value="0" Type="bool"/>
+                  <adaptFontToSize Value="0" Type="bool"/>
+                  <trimValue Value="1" Type="bool"/>
+                  <lineSpacing Value="1" Type="int"/>
+                  <underlineLineSize Value="1" Type="int"/>
+                  <allowHTML Value="0" Type="bool"/>
+                  <allowHTMLInFields Value="0" Type="bool"/>
+                  <format Type="QString"></format>
+                  <valueType Value="0" Type="enumAndFlags"/>
+                  <followTo Type="QString"></followTo>
+                  <backgroundBrushStyle Value="1" Type="enumAndFlags"/>
+                  <textIndent Value="0" Type="qreal"/>
+                  <textLayoutDirection Value="2" Type="enumAndFlags"/>
+                  <fillInSecondPass Value="0" Type="bool"/>
+                  <watermark Value="0" Type="bool"/>
+                  <replaceCRwithBR Value="0" Type="bool"/>
+                  <hideIfEmpty Value="0" Type="bool"/>
+                  <fontLetterSpacing Value="0" Type="int"/>
+                </item>
+                <item ClassName="TextItem" Type="Object">
+                  <objectName Type="QString">TextItem32</objectName>
+                  <geometry x="1470" height="50" y="110" Type="QRect" width="230"/>
+                  <children Type="Collection"/>
+                  <zOrder Value="0" Type="qreal"/>
+                  <borders Value="0" Type="enumAndFlags"/>
+                  <parentName Type="QString">DataFooterBand1</parentName>
+                  <borderLineSize Value="0" Type="int"/>
+                  <isVisible Value="1" Type="bool"/>
+                  <borderColor Value="#000000" Type="QColor"/>
+                  <geometryLocked Value="0" Type="bool"/>
+                  <itemLocation Value="1" Type="enumAndFlags"/>
+                  <stretchToMaxHeight Value="0" Type="bool"/>
+                  <itemAlign Value="4" Type="enumAndFlags"/>
+                  <content Type="QString">ДДС 20%:</content>
+                  <margin Value="4" Type="int"/>
+                  <alignment Value="34" Type="enumAndFlags"/>
+                  <autoWidth Value="0" Type="enumAndFlags"/>
+                  <autoHeight Value="0" Type="bool"/>
+                  <font underline="0" bold = "1" family="Arial" weight="75" Type="QFont" pointSize="10" italic="0"/>
+                  <backgroundOpacity Value="100" Type="int"/>
+                  <backgroundMode Value="1" Type="enumAndFlags"/>
+                  <backgroundColor Value="#ffffff" Type="QColor"/>
+                  <fontColor Value="#000000" Type="QColor"/>
+                  <angle Value="0" Type="enumAndFlags"/>
+                  <foregroundOpacity Value="100" Type="int"/>
+                  <underlines Value="0" Type="bool"/>
+                  <adaptFontToSize Value="0" Type="bool"/>
+                  <trimValue Value="1" Type="bool"/>
+                  <lineSpacing Value="1" Type="int"/>
+                  <underlineLineSize Value="1" Type="int"/>
+                  <allowHTML Value="0" Type="bool"/>
+                  <allowHTMLInFields Value="0" Type="bool"/>
+                  <format Type="QString"></format>
+                  <valueType Value="0" Type="enumAndFlags"/>
+                  <followTo Type="QString"></followTo>
+                  <backgroundBrushStyle Value="1" Type="enumAndFlags"/>
+                  <textIndent Value="0" Type="qreal"/>
+                  <textLayoutDirection Value="2" Type="enumAndFlags"/>
+                  <fillInSecondPass Value="0" Type="bool"/>
+                  <watermark Value="0" Type="bool"/>
+                  <replaceCRwithBR Value="0" Type="bool"/>
+                  <hideIfEmpty Value="0" Type="bool"/>
+                  <fontLetterSpacing Value="0" Type="int"/>
+                </item>
+                <item ClassName="TextItem" Type="Object">
+                  <objectName Type="QString">TextItem40</objectName>
+                  <geometry x="50" height="50" y="360" Type="QRect" width="230"/>
+                  <children Type="Collection"/>
+                  <zOrder Value="-2" Type="qreal"/>
+                  <borders Value="0" Type="enumAndFlags"/>
+                  <parentName Type="QString">DataFooterBand1</parentName>
+                  <borderLineSize Value="0" Type="int"/>
+                  <isVisible Value="1" Type="bool"/>
+                  <borderColor Value="#000000" Type="QColor"/>
+                  <geometryLocked Value="0" Type="bool"/>
+                  <itemLocation Value="1" Type="enumAndFlags"/>
+                  <stretchToMaxHeight Value="0" Type="bool"/>
+                  <itemAlign Value="4" Type="enumAndFlags"/>
+                  <content Type="QString">Съставил:</content>
+                  <margin Value="4" Type="int"/>
+                  <alignment Value="33" Type="enumAndFlags"/>
+                  <autoWidth Value="0" Type="enumAndFlags"/>
+                  <autoHeight Value="0" Type="bool"/>
+                  <font underline="0" bold = "1" family="Arial" weight="75" Type="QFont" pointSize="10" italic="0"/>
+                  <backgroundOpacity Value="100" Type="int"/>
+                  <backgroundMode Value="1" Type="enumAndFlags"/>
+                  <backgroundColor Value="#ffffff" Type="QColor"/>
+                  <fontColor Value="#000000" Type="QColor"/>
+                  <angle Value="0" Type="enumAndFlags"/>
+                  <foregroundOpacity Value="100" Type="int"/>
+                  <underlines Value="0" Type="bool"/>
+                  <adaptFontToSize Value="0" Type="bool"/>
+                  <trimValue Value="1" Type="bool"/>
+                  <lineSpacing Value="1" Type="int"/>
+                  <underlineLineSize Value="1" Type="int"/>
+                  <allowHTML Value="0" Type="bool"/>
+                  <allowHTMLInFields Value="0" Type="bool"/>
+                  <format Type="QString"></format>
+                  <valueType Value="0" Type="enumAndFlags"/>
+                  <followTo Type="QString"></followTo>
+                  <backgroundBrushStyle Value="1" Type="enumAndFlags"/>
+                  <textIndent Value="0" Type="qreal"/>
+                  <textLayoutDirection Value="2" Type="enumAndFlags"/>
+                  <fillInSecondPass Value="0" Type="bool"/>
+                  <watermark Value="0" Type="bool"/>
+                  <replaceCRwithBR Value="0" Type="bool"/>
+                  <hideIfEmpty Value="0" Type="bool"/>
+                  <fontLetterSpacing Value="0" Type="int"/>
+                </item>
+                <item ClassName="TextItem" Type="Object">
+                  <objectName Type="QString">TextItem28</objectName>
+                  <geometry x="50" height="50" width="680" y="60" Type="QRect" />
+                  <children Type="Collection"/>
+                  <zOrder Value="-2" Type="qreal"/>
+                  <borders Value="0" Type="enumAndFlags"/>
+                  <parentName Type="QString">DataFooterBand1</parentName>
+                  <borderLineSize Value="0" Type="int"/>
+                  <isVisible Value="1" Type="bool"/>
+                  <borderColor Value="#000000" Type="QColor"/>
+                  <geometryLocked Value="0" Type="bool"/>
+                  <itemLocation Value="1" Type="enumAndFlags"/>
+                  <stretchToMaxHeight Value="0" Type="bool"/>
+                  <itemAlign Value="4" Type="enumAndFlags"/>
+                  <content Type="QString">Дата на данъчното събитие:</content>
+                  <margin Value="4" Type="int"/>
+                  <alignment Value="33" Type="enumAndFlags"/>
+                  <autoWidth Value="0" Type="enumAndFlags"/>
+                  <autoHeight Value="0" Type="bool"/>
+                  <font underline="0" bold = "1" family="Arial" weight="75" Type="QFont" pointSize="10" italic="0"/>
+                  <backgroundOpacity Value="100" Type="int"/>
+                  <backgroundMode Value="1" Type="enumAndFlags"/>
+                  <backgroundColor Value="#ffffff" Type="QColor"/>
+                  <fontColor Value="#000000" Type="QColor"/>
+                  <angle Value="0" Type="enumAndFlags"/>
+                  <foregroundOpacity Value="100" Type="int"/>
+                  <underlines Value="0" Type="bool"/>
+                  <adaptFontToSize Value="0" Type="bool"/>
+                  <trimValue Value="1" Type="bool"/>
+                  <lineSpacing Value="1" Type="int"/>
+                  <underlineLineSize Value="1" Type="int"/>
+                  <allowHTML Value="0" Type="bool"/>
+                  <allowHTMLInFields Value="0" Type="bool"/>
+                  <format Type="QString"></format>
+                  <valueType Value="0" Type="enumAndFlags"/>
+                  <followTo Type="QString"></followTo>
+                  <backgroundBrushStyle Value="1" Type="enumAndFlags"/>
+                  <textIndent Value="0" Type="qreal"/>
+                  <textLayoutDirection Value="2" Type="enumAndFlags"/>
+                  <fillInSecondPass Value="0" Type="bool"/>
+                  <watermark Value="0" Type="bool"/>
+                  <replaceCRwithBR Value="0" Type="bool"/>
+                  <hideIfEmpty Value="0" Type="bool"/>
+                  <fontLetterSpacing Value="0" Type="int"/>
+                </item>
+                <item ClassName="TextItem" Type="Object">
+                  <objectName Type="QString">TextItem39</objectName>
+                  <geometry x="50" height="50" y="160" Type="QRect" width="680"/>
+                  <children Type="Collection"/>
+                  <zOrder Value="0.1" Type="qreal"/>
+                  <borders Value="0" Type="enumAndFlags"/>
+                  <parentName Type="QString">DataFooterBand1</parentName>
+                  <borderLineSize Value="0" Type="int"/>
+                  <isVisible Value="1" Type="bool"/>
+                  <borderColor Value="#000000" Type="QColor"/>
+                  <geometryLocked Value="0" Type="bool"/>
+                  <itemLocation Value="1" Type="enumAndFlags"/>
+                  <stretchToMaxHeight Value="0" Type="bool"/>
+                  <itemAlign Value="4" Type="enumAndFlags"/>
+                  <content Type="QString">Основание за неначисляване на ДДС:</content>
+                  <margin Value="4" Type="int"/>
+                  <alignment Value="33" Type="enumAndFlags"/>
+                  <autoWidth Value="0" Type="enumAndFlags"/>
+                  <autoHeight Value="1" Type="bool"/>
+                  <font underline="0" bold = "1" family="Arial" weight="75" Type="QFont" pointSize="10" italic="0"/>
+                  <backgroundOpacity Value="100" Type="int"/>
+                  <backgroundMode Value="1" Type="enumAndFlags"/>
+                  <backgroundColor Value="#ffffff" Type="QColor"/>
+                  <fontColor Value="#000000" Type="QColor"/>
+                  <angle Value="0" Type="enumAndFlags"/>
+                  <foregroundOpacity Value="100" Type="int"/>
+                  <underlines Value="0" Type="bool"/>
+                  <adaptFontToSize Value="0" Type="bool"/>
+                  <trimValue Value="1" Type="bool"/>
+                  <lineSpacing Value="1" Type="int"/>
+                  <underlineLineSize Value="1" Type="int"/>
+                  <allowHTML Value="0" Type="bool"/>
+                  <allowHTMLInFields Value="0" Type="bool"/>
+                  <format Type="QString"></format>
+                  <valueType Value="0" Type="enumAndFlags"/>
+                  <followTo Type="QString"></followTo>
+                  <backgroundBrushStyle Value="1" Type="enumAndFlags"/>
+                  <textIndent Value="0" Type="qreal"/>
+                  <textLayoutDirection Value="2" Type="enumAndFlags"/>
+                  <fillInSecondPass Value="0" Type="bool"/>
+                  <watermark Value="0" Type="bool"/>
+                  <replaceCRwithBR Value="0" Type="bool"/>
+                  <hideIfEmpty Value="0" Type="bool"/>
+                  <fontLetterSpacing Value="0" Type="int"/>
+                </item>
+                <item ClassName="TextItem" Type="Object">
+                  <objectName Type="QString">TextItem7</objectName>
+                  <geometry x="50" height="52" y="110" Type="QRect" width="480"/>
+                  <children Type="Collection"/>
+                  <zOrder Value="-2" Type="qreal"/>
+                  <borders Value="0" Type="enumAndFlags"/>
+                  <parentName Type="QString">DataFooterBand1</parentName>
+                  <borderLineSize Value="0" Type="int"/>
+                  <isVisible Value="1" Type="bool"/>
+                  <borderColor Value="#000000" Type="QColor"/>
+                  <geometryLocked Value="0" Type="bool"/>
+                  <itemLocation Value="1" Type="enumAndFlags"/>
+                  <stretchToMaxHeight Value="0" Type="bool"/>
+                  <itemAlign Value="4" Type="enumAndFlags"/>
+                  <content Type="QString">Начин на плащане:</content>
+                  <margin Value="4" Type="int"/>
+                  <alignment Value="33" Type="enumAndFlags"/>
+                  <autoWidth Value="0" Type="enumAndFlags"/>
+                  <autoHeight Value="0" Type="bool"/>
+                  <font underline="0" bold = "1" family="Arial" weight="75" Type="QFont" pointSize="10" italic="0"/>
+                  <backgroundOpacity Value="100" Type="int"/>
+                  <backgroundMode Value="1" Type="enumAndFlags"/>
+                  <backgroundColor Value="#ffffff" Type="QColor"/>
+                  <fontColor Value="#000000" Type="QColor"/>
+                  <angle Value="0" Type="enumAndFlags"/>
+                  <foregroundOpacity Value="100" Type="int"/>
+                  <underlines Value="0" Type="bool"/>
+                  <adaptFontToSize Value="0" Type="bool"/>
+                  <trimValue Value="1" Type="bool"/>
+                  <lineSpacing Value="1" Type="int"/>
+                  <underlineLineSize Value="1" Type="int"/>
+                  <allowHTML Value="0" Type="bool"/>
+                  <allowHTMLInFields Value="0" Type="bool"/>
+                  <format Type="QString"></format>
+                  <valueType Value="0" Type="enumAndFlags"/>
+                  <followTo Type="QString"></followTo>
+                  <backgroundBrushStyle Value="1" Type="enumAndFlags"/>
+                  <textIndent Value="0" Type="qreal"/>
+                  <textLayoutDirection Value="2" Type="enumAndFlags"/>
+                  <fillInSecondPass Value="0" Type="bool"/>
+                  <watermark Value="0" Type="bool"/>
+                  <replaceCRwithBR Value="0" Type="bool"/>
+                  <hideIfEmpty Value="0" Type="bool"/>
+                  <fontLetterSpacing Value="0" Type="int"/>
+                </item>
+                <item ClassName="TextItem" Type="Object">
+                  <objectName Type="QString">TextItem8</objectName>
+                  <geometry x="730" height="50" y="60" Type="QRect" width="500"/>
+                  <children Type="Collection"/>
+                  <zOrder Value="-2" Type="qreal"/>
+                  <borders Value="0" Type="enumAndFlags"/>
+                  <parentName Type="QString">DataFooterBand1</parentName>
+                  <borderLineSize Value="0" Type="int"/>
+                  <isVisible Value="1" Type="bool"/>
+                  <borderColor Value="#000000" Type="QColor"/>
+                  <geometryLocked Value="0" Type="bool"/>
+                  <itemLocation Value="1" Type="enumAndFlags"/>
+                  <stretchToMaxHeight Value="0" Type="bool"/>
+                  <itemAlign Value="4" Type="enumAndFlags"/>
+                  <content Type="QString">$V{taxEventDate}</content>
+                  <margin Value="4" Type="int"/>
+                  <alignment Value="33" Type="enumAndFlags"/>
+                  <autoWidth Value="0" Type="enumAndFlags"/>
+                  <autoHeight Value="0" Type="bool"/>
+                  <font underline="0" family="Arial" weight="16" Type="QFont" pointSize="10" italic="0"/>
+                  <backgroundOpacity Value="100" Type="int"/>
+                  <backgroundMode Value="1" Type="enumAndFlags"/>
+                  <backgroundColor Value="#ffffff" Type="QColor"/>
+                  <fontColor Value="#000000" Type="QColor"/>
+                  <angle Value="0" Type="enumAndFlags"/>
+                  <foregroundOpacity Value="100" Type="int"/>
+                  <underlines Value="0" Type="bool"/>
+                  <adaptFontToSize Value="0" Type="bool"/>
+                  <trimValue Value="1" Type="bool"/>
+                  <lineSpacing Value="1" Type="int"/>
+                  <underlineLineSize Value="1" Type="int"/>
+                  <allowHTML Value="0" Type="bool"/>
+                  <allowHTMLInFields Value="0" Type="bool"/>
+                  <format Type="QString"></format>
+                  <valueType Value="0" Type="enumAndFlags"/>
+                  <followTo Type="QString"></followTo>
+                  <backgroundBrushStyle Value="1" Type="enumAndFlags"/>
+                  <textIndent Value="0" Type="qreal"/>
+                  <textLayoutDirection Value="2" Type="enumAndFlags"/>
+                  <fillInSecondPass Value="0" Type="bool"/>
+                  <watermark Value="0" Type="bool"/>
+                  <replaceCRwithBR Value="0" Type="bool"/>
+                  <hideIfEmpty Value="0" Type="bool"/>
+                  <fontLetterSpacing Value="0" Type="int"/>
+                </item>
+                <item ClassName="TextItem" Type="Object">
+                  <objectName Type="QString">TextItem9</objectName>
+                  <geometry x="730" height="50" y="110" Type="QRect" width="500"/>
+                  <children Type="Collection"/>
+                  <zOrder Value="-2" Type="qreal"/>
+                  <borders Value="0" Type="enumAndFlags"/>
+                  <parentName Type="QString">DataFooterBand1</parentName>
+                  <borderLineSize Value="0" Type="int"/>
+                  <isVisible Value="1" Type="bool"/>
+                  <borderColor Value="#000000" Type="QColor"/>
+                  <geometryLocked Value="0" Type="bool"/>
+                  <itemLocation Value="1" Type="enumAndFlags"/>
+                  <stretchToMaxHeight Value="0" Type="bool"/>
+                  <itemAlign Value="4" Type="enumAndFlags"/>
+                  <content Type="QString">$V{paymentType}</content>
+                  <margin Value="4" Type="int"/>
+                  <alignment Value="33" Type="enumAndFlags"/>
+                  <autoWidth Value="0" Type="enumAndFlags"/>
+                  <autoHeight Value="0" Type="bool"/>
+                  <font underline="0" family="Arial" weight="16" Type="QFont" pointSize="10" italic="0"/>
+                  <backgroundOpacity Value="100" Type="int"/>
+                  <backgroundMode Value="1" Type="enumAndFlags"/>
+                  <backgroundColor Value="#ffffff" Type="QColor"/>
+                  <fontColor Value="#000000" Type="QColor"/>
+                  <angle Value="0" Type="enumAndFlags"/>
+                  <foregroundOpacity Value="100" Type="int"/>
+                  <underlines Value="0" Type="bool"/>
+                  <adaptFontToSize Value="0" Type="bool"/>
+                  <trimValue Value="1" Type="bool"/>
+                  <lineSpacing Value="1" Type="int"/>
+                  <underlineLineSize Value="1" Type="int"/>
+                  <allowHTML Value="0" Type="bool"/>
+                  <allowHTMLInFields Value="0" Type="bool"/>
+                  <format Type="QString"></format>
+                  <valueType Value="0" Type="enumAndFlags"/>
+                  <followTo Type="QString"></followTo>
+                  <backgroundBrushStyle Value="1" Type="enumAndFlags"/>
+                  <textIndent Value="0" Type="qreal"/>
+                  <textLayoutDirection Value="2" Type="enumAndFlags"/>
+                  <fillInSecondPass Value="0" Type="bool"/>
+                  <watermark Value="0" Type="bool"/>
+                  <replaceCRwithBR Value="0" Type="bool"/>
+                  <hideIfEmpty Value="0" Type="bool"/>
+                  <fontLetterSpacing Value="0" Type="int"/>
+                </item>
+                <item ClassName="TextItem" Type="Object">
+                  <objectName Type="QString">TextItem10</objectName>
+                  <geometry x="730" height="50" y="160" Type="QRect" width="710"/>
+                  <children Type="Collection"/>
+                  <zOrder Value="-2" Type="qreal"/>
+                  <borders Value="0" Type="enumAndFlags"/>
+                  <parentName Type="QString">DataFooterBand1</parentName>
+                  <borderLineSize Value="0" Type="int"/>
+                  <isVisible Value="1" Type="bool"/>
+                  <borderColor Value="#000000" Type="QColor"/>
+                  <geometryLocked Value="0" Type="bool"/>
+                  <itemLocation Value="1" Type="enumAndFlags"/>
+                  <stretchToMaxHeight Value="0" Type="bool"/>
+                  <itemAlign Value="4" Type="enumAndFlags"/>
+                  <content Type="QString">$V{groundsNoVAT}</content>
+                  <margin Value="4" Type="int"/>
+                  <alignment Value="33" Type="enumAndFlags"/>
+                  <autoWidth Value="0" Type="enumAndFlags"/>
+                  <autoHeight Value="0" Type="bool"/>
+                  <font underline="0" family="Arial" weight="16" Type="QFont" pointSize="10" italic="0"/>
+                  <backgroundOpacity Value="100" Type="int"/>
+                  <backgroundMode Value="1" Type="enumAndFlags"/>
+                  <backgroundColor Value="#ffffff" Type="QColor"/>
+                  <fontColor Value="#000000" Type="QColor"/>
+                  <angle Value="0" Type="enumAndFlags"/>
+                  <foregroundOpacity Value="100" Type="int"/>
+                  <underlines Value="0" Type="bool"/>
+                  <adaptFontToSize Value="0" Type="bool"/>
+                  <trimValue Value="1" Type="bool"/>
+                  <lineSpacing Value="1" Type="int"/>
+                  <underlineLineSize Value="1" Type="int"/>
+                  <allowHTML Value="0" Type="bool"/>
+                  <allowHTMLInFields Value="0" Type="bool"/>
+                  <format Type="QString"></format>
+                  <valueType Value="0" Type="enumAndFlags"/>
+                  <followTo Type="QString"></followTo>
+                  <backgroundBrushStyle Value="1" Type="enumAndFlags"/>
+                  <textIndent Value="0" Type="qreal"/>
+                  <textLayoutDirection Value="2" Type="enumAndFlags"/>
+                  <fillInSecondPass Value="0" Type="bool"/>
+                  <watermark Value="0" Type="bool"/>
+                  <replaceCRwithBR Value="0" Type="bool"/>
+                  <hideIfEmpty Value="0" Type="bool"/>
+                  <fontLetterSpacing Value="0" Type="int"/>
+                </item>
+                <item ClassName="TextItem" Type="Object">
+                  <objectName Type="QString">TextItem12</objectName>
+                  <geometry x="280" height="50" y="360" Type="QRect" width="630"/>
+                  <children Type="Collection"/>
+                  <zOrder Value="-2" Type="qreal"/>
+                  <borders Value="0" Type="enumAndFlags"/>
+                  <parentName Type="QString">DataFooterBand1</parentName>
+                  <borderLineSize Value="0" Type="int"/>
+                  <isVisible Value="1" Type="bool"/>
+                  <borderColor Value="#000000" Type="QColor"/>
+                  <geometryLocked Value="0" Type="bool"/>
+                  <itemLocation Value="1" Type="enumAndFlags"/>
+                  <stretchToMaxHeight Value="0" Type="bool"/>
+                  <itemAlign Value="4" Type="enumAndFlags"/>
+                  <content Type="QString">$V{madeBy}</content>
+                  <margin Value="4" Type="int"/>
+                  <alignment Value="33" Type="enumAndFlags"/>
+                  <autoWidth Value="0" Type="enumAndFlags"/>
+                  <autoHeight Value="0" Type="bool"/>
+                  <font underline="0" family="Arial" weight="16" Type="QFont" pointSize="10" italic="0"/>
+                  <backgroundOpacity Value="100" Type="int"/>
+                  <backgroundMode Value="1" Type="enumAndFlags"/>
+                  <backgroundColor Value="#ffffff" Type="QColor"/>
+                  <fontColor Value="#000000" Type="QColor"/>
+                  <angle Value="0" Type="enumAndFlags"/>
+                  <foregroundOpacity Value="100" Type="int"/>
+                  <underlines Value="0" Type="bool"/>
+                  <adaptFontToSize Value="0" Type="bool"/>
+                  <trimValue Value="1" Type="bool"/>
+                  <lineSpacing Value="1" Type="int"/>
+                  <underlineLineSize Value="1" Type="int"/>
+                  <allowHTML Value="0" Type="bool"/>
+                  <allowHTMLInFields Value="0" Type="bool"/>
+                  <format Type="QString"></format>
+                  <valueType Value="0" Type="enumAndFlags"/>
+                  <followTo Type="QString"></followTo>
+                  <backgroundBrushStyle Value="1" Type="enumAndFlags"/>
+                  <textIndent Value="0" Type="qreal"/>
+                  <textLayoutDirection Value="2" Type="enumAndFlags"/>
+                  <fillInSecondPass Value="0" Type="bool"/>
+                  <watermark Value="0" Type="bool"/>
+                  <replaceCRwithBR Value="0" Type="bool"/>
+                  <hideIfEmpty Value="0" Type="bool"/>
+                  <fontLetterSpacing Value="0" Type="int"/>
+                </item>
+                <item ClassName="TextItem" Type="Object">
+                  <objectName Type="QString">TextItem20</objectName>
+                  <geometry x="1270" height="50" y="360" Type="QRect" width="310"/>
+                  <children Type="Collection"/>
+                  <zOrder Value="-2" Type="qreal"/>
+                  <borders Value="0" Type="enumAndFlags"/>
+                  <parentName Type="QString">DataFooterBand1</parentName>
+                  <borderLineSize Value="0" Type="int"/>
+                  <isVisible Value="1" Type="bool"/>
+                  <borderColor Value="#000000" Type="QColor"/>
+                  <geometryLocked Value="0" Type="bool"/>
+                  <itemLocation Value="1" Type="enumAndFlags"/>
+                  <stretchToMaxHeight Value="0" Type="bool"/>
+                  <itemAlign Value="4" Type="enumAndFlags"/>
+                  <content Type="QString">Подпис и печат:</content>
+                  <margin Value="4" Type="int"/>
+                  <alignment Value="33" Type="enumAndFlags"/>
+                  <autoWidth Value="0" Type="enumAndFlags"/>
+                  <autoHeight Value="0" Type="bool"/>
+                  <font underline="0" bold = "1" family="Arial" weight="75" Type="QFont" pointSize="10" italic="0"/>
+                  <backgroundOpacity Value="100" Type="int"/>
+                  <backgroundMode Value="1" Type="enumAndFlags"/>
+                  <backgroundColor Value="#ffffff" Type="QColor"/>
+                  <fontColor Value="#000000" Type="QColor"/>
+                  <angle Value="0" Type="enumAndFlags"/>
+                  <foregroundOpacity Value="100" Type="int"/>
+                  <underlines Value="0" Type="bool"/>
+                  <adaptFontToSize Value="0" Type="bool"/>
+                  <trimValue Value="1" Type="bool"/>
+                  <lineSpacing Value="1" Type="int"/>
+                  <underlineLineSize Value="1" Type="int"/>
+                  <allowHTML Value="0" Type="bool"/>
+                  <allowHTMLInFields Value="0" Type="bool"/>
+                  <format Type="QString"></format>
+                  <valueType Value="0" Type="enumAndFlags"/>
+                  <followTo Type="QString"></followTo>
+                  <backgroundBrushStyle Value="1" Type="enumAndFlags"/>
+                  <textIndent Value="0" Type="qreal"/>
+                  <textLayoutDirection Value="2" Type="enumAndFlags"/>
+                  <fillInSecondPass Value="0" Type="bool"/>
+                  <watermark Value="0" Type="bool"/>
+                  <replaceCRwithBR Value="0" Type="bool"/>
+                  <hideIfEmpty Value="0" Type="bool"/>
+                  <fontLetterSpacing Value="0" Type="int"/>
+                </item>
+                <item ClassName="TextItem" Type="Object">
+                  <objectName Type="QString">TextItem41</objectName>
+                  <geometry x="1580" height="50" y="360" Type="QRect" width="350"/>
+                  <children Type="Collection"/>
+                  <zOrder Value="-2" Type="qreal"/>
+                  <borders Value="0" Type="enumAndFlags"/>
+                  <parentName Type="QString">DataFooterBand1</parentName>
+                  <borderLineSize Value="0" Type="int"/>
+                  <isVisible Value="1" Type="bool"/>
+                  <borderColor Value="#000000" Type="QColor"/>
+                  <geometryLocked Value="0" Type="bool"/>
+                  <itemLocation Value="1" Type="enumAndFlags"/>
+                  <stretchToMaxHeight Value="0" Type="bool"/>
+                  <itemAlign Value="4" Type="enumAndFlags"/>
+                  <content Type="QString">.............................</content>
+                  <margin Value="4" Type="int"/>
+                  <alignment Value="65" Type="enumAndFlags"/>
+                  <autoWidth Value="0" Type="enumAndFlags"/>
+                  <autoHeight Value="0" Type="bool"/>
+                  <font underline="0" family="Arial" weight="50" Type="QFont" pointSize="10" italic="0"/>
+                  <backgroundOpacity Value="100" Type="int"/>
+                  <backgroundMode Value="1" Type="enumAndFlags"/>
+                  <backgroundColor Value="#ffffff" Type="QColor"/>
+                  <fontColor Value="#000000" Type="QColor"/>
+                  <angle Value="0" Type="enumAndFlags"/>
+                  <foregroundOpacity Value="100" Type="int"/>
+                  <underlines Value="0" Type="bool"/>
+                  <adaptFontToSize Value="0" Type="bool"/>
+                  <trimValue Value="1" Type="bool"/>
+                  <lineSpacing Value="1" Type="int"/>
+                  <underlineLineSize Value="1" Type="int"/>
+                  <allowHTML Value="0" Type="bool"/>
+                  <allowHTMLInFields Value="0" Type="bool"/>
+                  <format Type="QString"></format>
+                  <valueType Value="0" Type="enumAndFlags"/>
+                  <followTo Type="QString"></followTo>
+                  <backgroundBrushStyle Value="1" Type="enumAndFlags"/>
+                  <textIndent Value="0" Type="qreal"/>
+                  <textLayoutDirection Value="2" Type="enumAndFlags"/>
+                  <fillInSecondPass Value="0" Type="bool"/>
+                  <watermark Value="0" Type="bool"/>
+                  <replaceCRwithBR Value="0" Type="bool"/>
+                  <hideIfEmpty Value="0" Type="bool"/>
+                  <fontLetterSpacing Value="0" Type="int"/>
+                </item>
+              </children>
+              <zOrder Value="0" Type="qreal"/>
+              <borders Value="0" Type="enumAndFlags"/>
+              <parentName Type="QString">Reportpage1</parentName>
+              <borderLineSize Value="1" Type="int"/>
+              <isVisible Value="1" Type="bool"/>
+              <borderColor Value="#000000" Type="QColor"/>
+              <geometryLocked Value="0" Type="bool"/>
+              <autoHeight Value="1" Type="bool"/>
+              <bandIndex Value="4" Type="int"/>
+              <keepBottomSpace Value="0" Type="bool"/>
+              <keepTopSpace Value="1" Type="bool"/>
+              <parentBand Type="QString">Operations</parentBand>
+              <backgroundColor Value="#ffffff" Type="QColor"/>
+              <backgroundBrushStyle Value="1" Type="enumAndFlags"/>
+              <printIfEmpty Value="0" Type="bool"/>
+              <backgroundMode Value="0" Type="enumAndFlags"/>
+              <backgroundOpacity Value="100" Type="int"/>
+              <columnsCount Value="1" Type="int"/>
+              <columnsFillDirection Value="0" Type="enumAndFlags"/>
+              <printAlways Value="0" Type="bool"/>
+            </item>
+            <item ClassName="PageFooter" Type="Object">
+              <objectName Type="QString">PageFooter7</objectName>
+              <geometry x="50" height="100" y="2652" Type="QRect" width="2059"/>
+              <children Type="Collection"/>
+              <zOrder Value="0" Type="qreal"/>
+              <borders Value="0" Type="enumAndFlags"/>
+              <parentName Type="QString">Reportpage1</parentName>
+              <borderLineSize Value="1" Type="int"/>
+              <isVisible Value="1" Type="bool"/>
+              <borderColor Value="#000000" Type="QColor"/>
+              <geometryLocked Value="0" Type="bool"/>
+              <autoHeight Value="0" Type="bool"/>
+              <bandIndex Value="5" Type="int"/>
+              <keepBottomSpace Value="0" Type="bool"/>
+              <keepTopSpace Value="1" Type="bool"/>
+              <parentBand Type="QString"></parentBand>
+              <backgroundColor Value="#ffffff" Type="QColor"/>
+              <backgroundBrushStyle Value="1" Type="enumAndFlags"/>
+              <printIfEmpty Value="0" Type="bool"/>
+              <backgroundMode Value="0" Type="enumAndFlags"/>
+              <backgroundOpacity Value="100" Type="int"/>
+              <printOnFirstPage Value="1" Type="bool"/>
+              <printOnLastPage Value="1" Type="bool"/>
+            </item>
+            <item ClassName="VLayout" Type="Object">
+              <objectName Type="QString">VerticalLayout34</objectName>
+              <geometry x="112" height="200" y="399" Type="QRect" width="902"/>
+              <children Type="Collection">
+                <item ClassName="HLayout" Type="Object">
+                  <objectName Type="QString">HorizontalLayout1</objectName>
+                  <geometry x="0" height="50" y="0" Type="QRect" width="902"/>
+                  <children Type="Collection">
+                    <item ClassName="TextItem" Type="Object">
+                      <objectName Type="QString">TextItem4</objectName>
+                      <geometry x="0" height="50" y="0" Type="QRect" width="240"/>
+                      <children Type="Collection"/>
+                      <zOrder Value="-2" Type="qreal"/>
+                      <borders Value="0" Type="enumAndFlags"/>
+                      <parentName Type="QString">HorizontalLayout1</parentName>
+                      <borderLineSize Value="0" Type="int"/>
+                      <isVisible Value="1" Type="bool"/>
+                      <borderColor Value="#000000" Type="QColor"/>
+                      <geometryLocked Value="1" Type="bool"/>
+                      <itemLocation Value="1" Type="enumAndFlags"/>
+                      <stretchToMaxHeight Value="0" Type="bool"/>
+                      <itemAlign Value="4" Type="enumAndFlags"/>
+                      <content Type="QString">Получател:</content>
+                      <margin Value="4" Type="int"/>
+                      <alignment Value="129" Type="enumAndFlags"/>
+                      <autoWidth Value="0" Type="enumAndFlags"/>
+                      <autoHeight Value="0" Type="bool"/>
+                      <font underline="0" bold = "1" family="Arial" weight="16" Type="QFont" pointSize="10" italic="0"/>
+                      <backgroundOpacity Value="100" Type="int"/>
+                      <backgroundMode Value="1" Type="enumAndFlags"/>
+                      <backgroundColor Value="#ffffff" Type="QColor"/>
+                      <fontColor Value="#000000" Type="QColor"/>
+                      <angle Value="0" Type="enumAndFlags"/>
+                      <foregroundOpacity Value="100" Type="int"/>
+                      <underlines Value="0" Type="bool"/>
+                      <adaptFontToSize Value="0" Type="bool"/>
+                      <trimValue Value="1" Type="bool"/>
+                      <lineSpacing Value="1" Type="int"/>
+                      <underlineLineSize Value="1" Type="int"/>
+                      <allowHTML Value="0" Type="bool"/>
+                      <allowHTMLInFields Value="0" Type="bool"/>
+                      <format Type="QString"></format>
+                      <valueType Value="0" Type="enumAndFlags"/>
+                      <followTo Type="QString"></followTo>
+                      <backgroundBrushStyle Value="0" Type="enumAndFlags"/>
+                      <textIndent Value="0" Type="qreal"/>
+                      <textLayoutDirection Value="2" Type="enumAndFlags"/>
+                      <fillInSecondPass Value="0" Type="bool"/>
+                      <watermark Value="0" Type="bool"/>
+                      <replaceCRwithBR Value="0" Type="bool"/>
+                      <hideIfEmpty Value="0" Type="bool"/>
+                      <fontLetterSpacing Value="0" Type="int"/>
+                    </item>
+                    <item ClassName="TextItem" Type="Object">
+                      <objectName Type="QString">TextItem6</objectName>
+                      <geometry x="240" height="50" y="0" Type="QRect" width="662"/>
+                      <children Type="Collection"/>
+                      <zOrder Value="-2" Type="qreal"/>
+                      <borders Value="0" Type="enumAndFlags"/>
+                      <parentName Type="QString">HorizontalLayout1</parentName>
+                      <borderLineSize Value="0" Type="int"/>
+                      <isVisible Value="1" Type="bool"/>
+                      <borderColor Value="#000000" Type="QColor"/>
+                      <geometryLocked Value="0" Type="bool"/>
+                      <itemLocation Value="1" Type="enumAndFlags"/>
+                      <stretchToMaxHeight Value="0" Type="bool"/>
+                      <itemAlign Value="4" Type="enumAndFlags"/>
+                      <content Type="QString">$V{recipient_name}</content>
+                      <margin Value="4" Type="int"/>
+                      <alignment Value="129" Type="enumAndFlags"/>
+                      <autoWidth Value="0" Type="enumAndFlags"/>
+                      <autoHeight Value="1" Type="bool"/>
+                      <font underline="0" family="Arial" weight="75" Type="QFont" pointSize="10" italic="0"/>
+                      <backgroundOpacity Value="100" Type="int"/>
+                      <backgroundMode Value="1" Type="enumAndFlags"/>
+                      <backgroundColor Value="#ffffff" Type="QColor"/>
+                      <fontColor Value="#000000" Type="QColor"/>
+                      <angle Value="0" Type="enumAndFlags"/>
+                      <foregroundOpacity Value="100" Type="int"/>
+                      <underlines Value="0" Type="bool"/>
+                      <adaptFontToSize Value="0" Type="bool"/>
+                      <trimValue Value="1" Type="bool"/>
+                      <lineSpacing Value="1" Type="int"/>
+                      <underlineLineSize Value="1" Type="int"/>
+                      <allowHTML Value="0" Type="bool"/>
+                      <allowHTMLInFields Value="0" Type="bool"/>
+                      <format Type="QString"></format>
+                      <valueType Value="0" Type="enumAndFlags"/>
+                      <followTo Type="QString"></followTo>
+                      <backgroundBrushStyle Value="1" Type="enumAndFlags"/>
+                      <textIndent Value="0" Type="qreal"/>
+                      <textLayoutDirection Value="2" Type="enumAndFlags"/>
+                      <fillInSecondPass Value="0" Type="bool"/>
+                      <watermark Value="0" Type="bool"/>
+                      <replaceCRwithBR Value="0" Type="bool"/>
+                      <hideIfEmpty Value="0" Type="bool"/>
+                      <fontLetterSpacing Value="0" Type="int"/>
+                    </item>
+                  </children>
+                  <zOrder Value="-5" Type="qreal"/>
+                  <borders Value="0" Type="enumAndFlags"/>
+                  <parentName Type="QString">VerticalLayout34</parentName>
+                  <borderLineSize Value="1" Type="int"/>
+                  <isVisible Value="1" Type="bool"/>
+                  <borderColor Value="#000000" Type="QColor"/>
+                  <geometryLocked Value="0" Type="bool"/>
+                  <itemLocation Value="1" Type="enumAndFlags"/>
+                  <stretchToMaxHeight Value="0" Type="bool"/>
+                  <itemAlign Value="4" Type="enumAndFlags"/>
+                  <hideEmptyItems Value="0" Type="bool"/>
+                  <layoutSpacing Value="0" Type="int"/>
+                  <layoutType Value="0" Type="enumAndFlags"/>
+                </item>
+                <item ClassName="HLayout" Type="Object">
+                  <objectName Type="QString">HorizontalLayout6</objectName>
+                  <geometry x="0" height="50" y="50" Type="QRect" width="902"/>
+                  <children Type="Collection">
+                    <item ClassName="TextItem" Type="Object">
+                      <objectName Type="QString">TextItem11</objectName>
+                      <geometry x="0" height="50" y="0" Type="QRect" width="240"/>
+                      <children Type="Collection"/>
+                      <zOrder Value="-2" Type="qreal"/>
+                      <borders Value="0" Type="enumAndFlags"/>
+                      <parentName Type="QString">HorizontalLayout6</parentName>
+                      <borderLineSize Value="0" Type="int"/>
+                      <isVisible Value="1" Type="bool"/>
+                      <borderColor Value="#000000" Type="QColor"/>
+                      <geometryLocked Value="1" Type="bool"/>
+                      <itemLocation Value="1" Type="enumAndFlags"/>
+                      <stretchToMaxHeight Value="0" Type="bool"/>
+                      <itemAlign Value="4" Type="enumAndFlags"/>
+                      <content Type="QString">Идент. №:</content>
+                      <margin Value="4" Type="int"/>
+                      <alignment Value="129" Type="enumAndFlags"/>
+                      <autoWidth Value="0" Type="enumAndFlags"/>
+                      <autoHeight Value="0" Type="bool"/>
+                      <font underline="0" bold = "1" family="Arial" weight="16" Type="QFont" pointSize="10" italic="0"/>
+                      <backgroundOpacity Value="100" Type="int"/>
+                      <backgroundMode Value="1" Type="enumAndFlags"/>
+                      <backgroundColor Value="#ffffff" Type="QColor"/>
+                      <fontColor Value="#000000" Type="QColor"/>
+                      <angle Value="0" Type="enumAndFlags"/>
+                      <foregroundOpacity Value="100" Type="int"/>
+                      <underlines Value="0" Type="bool"/>
+                      <adaptFontToSize Value="0" Type="bool"/>
+                      <trimValue Value="1" Type="bool"/>
+                      <lineSpacing Value="1" Type="int"/>
+                      <underlineLineSize Value="1" Type="int"/>
+                      <allowHTML Value="0" Type="bool"/>
+                      <allowHTMLInFields Value="0" Type="bool"/>
+                      <format Type="QString"></format>
+                      <valueType Value="0" Type="enumAndFlags"/>
+                      <followTo Type="QString"></followTo>
+                      <backgroundBrushStyle Value="1" Type="enumAndFlags"/>
+                      <textIndent Value="0" Type="qreal"/>
+                      <textLayoutDirection Value="2" Type="enumAndFlags"/>
+                      <fillInSecondPass Value="0" Type="bool"/>
+                      <watermark Value="0" Type="bool"/>
+                      <replaceCRwithBR Value="0" Type="bool"/>
+                      <hideIfEmpty Value="0" Type="bool"/>
+                      <fontLetterSpacing Value="0" Type="int"/>
+                    </item>
+                    <item ClassName="TextItem" Type="Object">
+                      <objectName Type="QString">TextItem14</objectName>
+                      <geometry x="240" height="50" y="0" Type="QRect" width="662"/>
+                      <children Type="Collection"/>
+                      <zOrder Value="-1" Type="qreal"/>
+                      <borders Value="0" Type="enumAndFlags"/>
+                      <parentName Type="QString">HorizontalLayout6</parentName>
+                      <borderLineSize Value="0" Type="int"/>
+                      <isVisible Value="1" Type="bool"/>
+                      <borderColor Value="#000000" Type="QColor"/>
+                      <geometryLocked Value="0" Type="bool"/>
+                      <itemLocation Value="1" Type="enumAndFlags"/>
+                      <stretchToMaxHeight Value="0" Type="bool"/>
+                      <itemAlign Value="4" Type="enumAndFlags"/>
+                      <content Type="QString">$V{recipient_bulstat}</content>
+                      <margin Value="4" Type="int"/>
+                      <alignment Value="129" Type="enumAndFlags"/>
+                      <autoWidth Value="0" Type="enumAndFlags"/>
+                      <autoHeight Value="1" Type="bool"/>
+                      <font underline="0" family="Arial" weight="16" Type="QFont" pointSize="10" italic="0"/>
+                      <backgroundOpacity Value="100" Type="int"/>
+                      <backgroundMode Value="1" Type="enumAndFlags"/>
+                      <backgroundColor Value="#ffffff" Type="QColor"/>
+                      <fontColor Value="#000000" Type="QColor"/>
+                      <angle Value="0" Type="enumAndFlags"/>
+                      <foregroundOpacity Value="100" Type="int"/>
+                      <underlines Value="0" Type="bool"/>
+                      <adaptFontToSize Value="0" Type="bool"/>
+                      <trimValue Value="1" Type="bool"/>
+                      <lineSpacing Value="1" Type="int"/>
+                      <underlineLineSize Value="1" Type="int"/>
+                      <allowHTML Value="0" Type="bool"/>
+                      <allowHTMLInFields Value="0" Type="bool"/>
+                      <format Type="QString"></format>
+                      <valueType Value="0" Type="enumAndFlags"/>
+                      <followTo Type="QString"></followTo>
+                      <backgroundBrushStyle Value="1" Type="enumAndFlags"/>
+                      <textIndent Value="0" Type="qreal"/>
+                      <textLayoutDirection Value="2" Type="enumAndFlags"/>
+                      <fillInSecondPass Value="0" Type="bool"/>
+                      <watermark Value="0" Type="bool"/>
+                      <replaceCRwithBR Value="0" Type="bool"/>
+                      <hideIfEmpty Value="0" Type="bool"/>
+                      <fontLetterSpacing Value="0" Type="int"/>
+                    </item>
+                  </children>
+                  <zOrder Value="-5" Type="qreal"/>
+                  <borders Value="0" Type="enumAndFlags"/>
+                  <parentName Type="QString">VerticalLayout34</parentName>
+                  <borderLineSize Value="1" Type="int"/>
+                  <isVisible Value="1" Type="bool"/>
+                  <borderColor Value="#000000" Type="QColor"/>
+                  <geometryLocked Value="0" Type="bool"/>
+                  <itemLocation Value="1" Type="enumAndFlags"/>
+                  <stretchToMaxHeight Value="0" Type="bool"/>
+                  <itemAlign Value="4" Type="enumAndFlags"/>
+                  <hideEmptyItems Value="0" Type="bool"/>
+                  <layoutSpacing Value="0" Type="int"/>
+                  <layoutType Value="0" Type="enumAndFlags"/>
+                </item>
+                <item ClassName="HLayout" Type="Object">
+                  <objectName Type="QString">HorizontalLayout14</objectName>
+                  <geometry x="0" height="50" y="100" Type="QRect" width="902"/>
+                  <children Type="Collection">
+                    <item ClassName="TextItem" Type="Object">
+                      <objectName Type="QString">TextItem24</objectName>
+                      <geometry x="0" height="50" y="0" Type="QRect" width="240"/>
+                      <children Type="Collection"/>
+                      <zOrder Value="-2" Type="qreal"/>
+                      <borders Value="0" Type="enumAndFlags"/>
+                      <parentName Type="QString">HorizontalLayout14</parentName>
+                      <borderLineSize Value="0" Type="int"/>
+                      <isVisible Value="1" Type="bool"/>
+                      <borderColor Value="#000000" Type="QColor"/>
+                      <geometryLocked Value="1" Type="bool"/>
+                      <itemLocation Value="1" Type="enumAndFlags"/>
+                      <stretchToMaxHeight Value="0" Type="bool"/>
+                      <itemAlign Value="4" Type="enumAndFlags"/>
+                      <content Type="QString">Адрес:</content>
+                      <margin Value="4" Type="int"/>
+                      <alignment Value="129" Type="enumAndFlags"/>
+                      <autoWidth Value="0" Type="enumAndFlags"/>
+                      <autoHeight Value="0" Type="bool"/>
+                      <font underline="0" bold = "1" family="Arial" weight="16" Type="QFont" pointSize="10" italic="0"/>
+                      <backgroundOpacity Value="100" Type="int"/>
+                      <backgroundMode Value="1" Type="enumAndFlags"/>
+                      <backgroundColor Value="#ffffff" Type="QColor"/>
+                      <fontColor Value="#000000" Type="QColor"/>
+                      <angle Value="0" Type="enumAndFlags"/>
+                      <foregroundOpacity Value="100" Type="int"/>
+                      <underlines Value="0" Type="bool"/>
+                      <adaptFontToSize Value="0" Type="bool"/>
+                      <trimValue Value="1" Type="bool"/>
+                      <lineSpacing Value="1" Type="int"/>
+                      <underlineLineSize Value="1" Type="int"/>
+                      <allowHTML Value="0" Type="bool"/>
+                      <allowHTMLInFields Value="0" Type="bool"/>
+                      <format Type="QString"></format>
+                      <valueType Value="0" Type="enumAndFlags"/>
+                      <followTo Type="QString"></followTo>
+                      <backgroundBrushStyle Value="1" Type="enumAndFlags"/>
+                      <textIndent Value="0" Type="qreal"/>
+                      <textLayoutDirection Value="2" Type="enumAndFlags"/>
+                      <fillInSecondPass Value="0" Type="bool"/>
+                      <watermark Value="0" Type="bool"/>
+                      <replaceCRwithBR Value="0" Type="bool"/>
+                      <hideIfEmpty Value="0" Type="bool"/>
+                      <fontLetterSpacing Value="0" Type="int"/>
+                    </item>
+                    <item ClassName="TextItem" Type="Object">
+                      <objectName Type="QString">TextItem15</objectName>
+                      <geometry x="240" height="50" y="0" Type="QRect" width="662"/>
+                      <children Type="Collection"/>
+                      <zOrder Value="-3" Type="qreal"/>
+                      <borders Value="0" Type="enumAndFlags"/>
+                      <parentName Type="QString">HorizontalLayout14</parentName>
+                      <borderLineSize Value="0" Type="int"/>
+                      <isVisible Value="1" Type="bool"/>
+                      <borderColor Value="#000000" Type="QColor"/>
+                      <geometryLocked Value="0" Type="bool"/>
+                      <itemLocation Value="1" Type="enumAndFlags"/>
+                      <stretchToMaxHeight Value="0" Type="bool"/>
+                      <itemAlign Value="4" Type="enumAndFlags"/>
+                      <content Type="QString">$V{recipient_address}</content>
+                      <margin Value="4" Type="int"/>
+                      <alignment Value="129" Type="enumAndFlags"/>
+                      <autoWidth Value="0" Type="enumAndFlags"/>
+                      <autoHeight Value="1" Type="bool"/>
+                      <font underline="0" family="Arial" weight="16" Type="QFont" pointSize="10" italic="0"/>
+                      <backgroundOpacity Value="100" Type="int"/>
+                      <backgroundMode Value="1" Type="enumAndFlags"/>
+                      <backgroundColor Value="#ffffff" Type="QColor"/>
+                      <fontColor Value="#000000" Type="QColor"/>
+                      <angle Value="0" Type="enumAndFlags"/>
+                      <foregroundOpacity Value="100" Type="int"/>
+                      <underlines Value="0" Type="bool"/>
+                      <adaptFontToSize Value="0" Type="bool"/>
+                      <trimValue Value="1" Type="bool"/>
+                      <lineSpacing Value="1" Type="int"/>
+                      <underlineLineSize Value="1" Type="int"/>
+                      <allowHTML Value="0" Type="bool"/>
+                      <allowHTMLInFields Value="0" Type="bool"/>
+                      <format Type="QString"></format>
+                      <valueType Value="0" Type="enumAndFlags"/>
+                      <followTo Type="QString"></followTo>
+                      <backgroundBrushStyle Value="1" Type="enumAndFlags"/>
+                      <textIndent Value="0" Type="qreal"/>
+                      <textLayoutDirection Value="2" Type="enumAndFlags"/>
+                      <fillInSecondPass Value="0" Type="bool"/>
+                      <watermark Value="0" Type="bool"/>
+                      <replaceCRwithBR Value="0" Type="bool"/>
+                      <hideIfEmpty Value="0" Type="bool"/>
+                      <fontLetterSpacing Value="0" Type="int"/>
+                    </item>
+                  </children>
+                  <zOrder Value="-4" Type="qreal"/>
+                  <borders Value="0" Type="enumAndFlags"/>
+                  <parentName Type="QString">VerticalLayout34</parentName>
+                  <borderLineSize Value="1" Type="int"/>
+                  <isVisible Value="1" Type="bool"/>
+                  <borderColor Value="#000000" Type="QColor"/>
+                  <geometryLocked Value="0" Type="bool"/>
+                  <itemLocation Value="1" Type="enumAndFlags"/>
+                  <stretchToMaxHeight Value="0" Type="bool"/>
+                  <itemAlign Value="4" Type="enumAndFlags"/>
+                  <hideEmptyItems Value="0" Type="bool"/>
+                  <layoutSpacing Value="0" Type="int"/>
+                  <layoutType Value="0" Type="enumAndFlags"/>
+                </item>
+                <item ClassName="HLayout" Type="Object">
+                  <objectName Type="QString">HorizontalLayout34</objectName>
+                  <geometry x="0" height="50" y="150" Type="QRect" width="902"/>
+                  <children Type="Collection">
+                    <item ClassName="TextItem" Type="Object">
+                      <objectName Type="QString">TextItem22</objectName>
+                      <geometry x="0" height="50" y="0" Type="QRect" width="240"/>
+                      <children Type="Collection"/>
+                      <zOrder Value="-1" Type="qreal"/>
+                      <borders Value="0" Type="enumAndFlags"/>
+                      <parentName Type="QString">HorizontalLayout34</parentName>
+                      <borderLineSize Value="1" Type="int"/>
+                      <isVisible Value="1" Type="bool"/>
+                      <borderColor Value="#000000" Type="QColor"/>
+                      <geometryLocked Value="1" Type="bool"/>
+                      <itemLocation Value="0" Type="enumAndFlags"/>
+                      <stretchToMaxHeight Value="0" Type="bool"/>
+                      <itemAlign Value="4" Type="enumAndFlags"/>
+                      <content Type="QString">Телефон:</content>
+                      <margin Value="4" Type="int"/>
+                      <alignment Value="129" Type="enumAndFlags"/>
+                      <autoWidth Value="0" Type="enumAndFlags"/>
+                      <autoHeight Value="0" Type="bool"/>
+                      <font underline="0" bold = "1" family="Arial" weight="50" Type="QFont" pointSize="10" italic="0"/>
+                      <backgroundOpacity Value="100" Type="int"/>
+                      <backgroundMode Value="1" Type="enumAndFlags"/>
+                      <backgroundColor Value="#ffffff" Type="QColor"/>
+                      <fontColor Value="#000000" Type="QColor"/>
+                      <angle Value="0" Type="enumAndFlags"/>
+                      <foregroundOpacity Value="100" Type="int"/>
+                      <underlines Value="0" Type="bool"/>
+                      <adaptFontToSize Value="0" Type="bool"/>
+                      <trimValue Value="1" Type="bool"/>
+                      <lineSpacing Value="1" Type="int"/>
+                      <underlineLineSize Value="1" Type="int"/>
+                      <allowHTML Value="0" Type="bool"/>
+                      <allowHTMLInFields Value="0" Type="bool"/>
+                      <format Type="QString"></format>
+                      <valueType Value="0" Type="enumAndFlags"/>
+                      <followTo Type="QString"></followTo>
+                      <backgroundBrushStyle Value="1" Type="enumAndFlags"/>
+                      <textIndent Value="0" Type="qreal"/>
+                      <textLayoutDirection Value="2" Type="enumAndFlags"/>
+                      <fillInSecondPass Value="0" Type="bool"/>
+                      <watermark Value="0" Type="bool"/>
+                      <replaceCRwithBR Value="0" Type="bool"/>
+                      <hideIfEmpty Value="0" Type="bool"/>
+                      <fontLetterSpacing Value="0" Type="int"/>
+                    </item>
+                    <item ClassName="TextItem" Type="Object">
+                      <objectName Type="QString">TextItem34</objectName>
+                      <geometry x="240" height="50" y="0" Type="QRect" width="662"/>
+                      <children Type="Collection"/>
+                      <zOrder Value="-1" Type="qreal"/>
+                      <borders Value="0" Type="enumAndFlags"/>
+                      <parentName Type="QString">HorizontalLayout34</parentName>
+                      <borderLineSize Value="1" Type="int"/>
+                      <isVisible Value="1" Type="bool"/>
+                      <borderColor Value="#000000" Type="QColor"/>
+                      <geometryLocked Value="0" Type="bool"/>
+                      <itemLocation Value="0" Type="enumAndFlags"/>
+                      <stretchToMaxHeight Value="0" Type="bool"/>
+                      <itemAlign Value="4" Type="enumAndFlags"/>
+                      <content Type="QString">$V{recipient_phone}</content>
+                      <margin Value="4" Type="int"/>
+                      <alignment Value="129" Type="enumAndFlags"/>
+                      <autoWidth Value="0" Type="enumAndFlags"/>
+                      <autoHeight Value="0" Type="bool"/>
+                      <font underline="0" family="Arial" weight="50" Type="QFont" pointSize="10" italic="0"/>
+                      <backgroundOpacity Value="100" Type="int"/>
+                      <backgroundMode Value="1" Type="enumAndFlags"/>
+                      <backgroundColor Value="#ffffff" Type="QColor"/>
+                      <fontColor Value="#000000" Type="QColor"/>
+                      <angle Value="0" Type="enumAndFlags"/>
+                      <foregroundOpacity Value="100" Type="int"/>
+                      <underlines Value="0" Type="bool"/>
+                      <adaptFontToSize Value="0" Type="bool"/>
+                      <trimValue Value="1" Type="bool"/>
+                      <lineSpacing Value="1" Type="int"/>
+                      <underlineLineSize Value="1" Type="int"/>
+                      <allowHTML Value="0" Type="bool"/>
+                      <allowHTMLInFields Value="0" Type="bool"/>
+                      <format Type="QString"></format>
+                      <valueType Value="0" Type="enumAndFlags"/>
+                      <followTo Type="QString"></followTo>
+                      <backgroundBrushStyle Value="1" Type="enumAndFlags"/>
+                      <textIndent Value="0" Type="qreal"/>
+                      <textLayoutDirection Value="2" Type="enumAndFlags"/>
+                      <fillInSecondPass Value="0" Type="bool"/>
+                      <watermark Value="0" Type="bool"/>
+                      <replaceCRwithBR Value="0" Type="bool"/>
+                      <hideIfEmpty Value="0" Type="bool"/>
+                      <fontLetterSpacing Value="0" Type="int"/>
+                    </item>
+                  </children>
+                  <zOrder Value="-3" Type="qreal"/>
+                  <borders Value="0" Type="enumAndFlags"/>
+                  <parentName Type="QString">VerticalLayout34</parentName>
+                  <borderLineSize Value="1" Type="int"/>
+                  <isVisible Value="1" Type="bool"/>
+                  <borderColor Value="#000000" Type="QColor"/>
+                  <geometryLocked Value="0" Type="bool"/>
+                  <itemLocation Value="0" Type="enumAndFlags"/>
+                  <stretchToMaxHeight Value="0" Type="bool"/>
+                  <itemAlign Value="4" Type="enumAndFlags"/>
+                  <hideEmptyItems Value="0" Type="bool"/>
+                  <layoutSpacing Value="0" Type="int"/>
+                  <layoutType Value="0" Type="enumAndFlags"/>
+                </item>
+              </children>
+              <zOrder Value="0" Type="qreal"/>
+              <borders Value="0" Type="enumAndFlags"/>
+              <parentName Type="QString">Reportpage1</parentName>
+              <borderLineSize Value="1" Type="int"/>
+              <isVisible Value="1" Type="bool"/>
+              <borderColor Value="#000000" Type="QColor"/>
+              <geometryLocked Value="0" Type="bool"/>
+              <itemLocation Value="1" Type="enumAndFlags"/>
+              <stretchToMaxHeight Value="0" Type="bool"/>
+              <itemAlign Value="4" Type="enumAndFlags"/>
+              <hideEmptyItems Value="0" Type="bool"/>
+              <layoutSpacing Value="0" Type="int"/>
+            </item>
+          </children>
+          <zOrder Value="0" Type="qreal"/>
+          <borders Value="15" Type="enumAndFlags"/>
+          <parentName Type="QString"></parentName>
+          <borderLineSize Value="1" Type="int"/>
+          <isVisible Value="1" Type="bool"/>
+          <borderColor Value="#000000" Type="QColor"/>
+          <geometryLocked Value="1" Type="bool"/>
+          <topMargin Value="5" Type="int"/>
+          <bottomMargin Value="5" Type="int"/>
+          <rightMargin Value="5" Type="int"/>
+          <leftMargin Value="5" Type="int"/>
+          <pageOrientation Value="0" Type="enumAndFlags"/>
+          <pageSize Value="0" Type="enumAndFlags"/>
+          <gridStep Value="10" Type="int"/>
+          <fullPage Value="0" Type="bool"/>
+          <oldPrintMode Value="0" Type="bool"/>
+          <resetPageNumber Value="0" Type="bool"/>
+          <isExtendedInDesignMode Value="0" Type="bool"/>
+          <extendedHeight Value="1000" Type="int"/>
+          <pageIsTOC Value="0" Type="bool"/>
+          <setPageSizeToPrinter Value="0" Type="bool"/>
+          <endlessHeight Value="0" Type="bool"/>
+          <printable Value="1" Type="bool"/>
+          <printerName Type="QString"></printerName>
+          <units Value="0" Type="enumAndFlags"/>
+          <printBehavior Value="1" Type="enumAndFlags"/>
+        </pageItem>
+      </item>
+    </pages>
+    <datasourcesManager ClassName="LimeReport::DataSourceManager" Type="Object">
+      <objectName Type="QString">datasources</objectName>
+      <connections Type="Collection"/>
+      <queries Type="Collection"/>
+      <subqueries Type="Collection"/>
+      <subproxies Type="Collection"/>
+      <variables Type="Collection"/>
+      <csvs Type="Collection"/>
+    </datasourcesManager>
+    <scriptContext ClassName="LimeReport::ScriptEngineContext" Type="Object">
+      <objectName Type="QString"></objectName>
+      <dialogs Type="Collection"/>
+      <initScript Type="QString"></initScript>
+    </scriptContext>
+    <suppressFieldAndVarError Value="0" Type="bool"/>
+    <translation Type="Translation"/>
+  </object>
+</Report>

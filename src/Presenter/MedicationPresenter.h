@@ -1,0 +1,36 @@
+#pragma once
+
+#include <optional>
+
+#include "View/Interfaces/IMedicationDialog.h"
+#include "Model/Perscription/Medication.h"
+
+class MedicationPresenter
+{
+	IMedicationDialog* view{ nullptr };
+
+	Medication m_medication;
+
+	bool ok_pressed{ false };
+
+public:
+	
+	MedicationPresenter();
+	MedicationPresenter(const Medication& m) : m_medication{ m } {};
+	void commonDataChanged(int quantity, bool quantityByForm, bool allowSubstitution);
+	void medicationChanged(const std::string& medication);
+	void priorityChanged(int idx) { m_medication.priority = static_cast<Medication::Priority>(idx); }
+	void noteChanged(const std::string& note);
+
+
+	void addDosage();
+	void editDosage(int idx);
+	void deleteDosage(int idx);
+
+	void okPressed();
+
+	std::optional<Medication> openDialog();
+	void setView(IMedicationDialog* view);
+
+};
+

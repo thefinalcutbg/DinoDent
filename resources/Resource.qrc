@@ -1,0 +1,80 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>dino.png</file>
+        <file>icon_BOP.png</file>
+        <file>icon_checked.png</file>
+        <file>icon_note.png</file>
+        <file>icon_nzok.png</file>
+        <file>icon_periosheet.png</file>
+        <file>icon_print.png</file>
+        <file>icon_reports.png</file>
+        <file>icon_save.png</file>
+        <file>icon_saveAs.png</file>
+        <file>icon_settings.png</file>
+        <file>icon_sheet.png</file>
+        <file>icon_tristate.png</file>
+        <file>icon_user.png</file>
+        <file>icon_open.png</file>
+        <file>icon_torque.png</file>
+        <file>icon_invoice.png</file>
+        <file>icon_add.png</file>
+        <file>icon_edit.png</file>
+        <file>icon_remove.png</file>
+        <file>icon_apply.png</file>
+        <file>icon_nra.png</file>
+        <file>nextMonth.png</file>
+        <file>nextYear.png</file>
+        <file>prevMonth.png</file>
+        <file>prevYear.png</file>
+        <file>icon_downArrow.png</file>
+        <file>icon_xml.png</file>
+        <file>icon_prescr.png</file>
+    </qresource>
+    <qresource prefix="/tooth">
+        <file>tooth_approximal.png</file>
+        <file>tooth_bridgeCon.png</file>
+        <file>tooth_bridgeSep.png</file>
+        <file>tooth_buccal.png</file>
+        <file>tooth_cervical.png</file>
+        <file>tooth_common.png</file>
+        <file>tooth_crown.png</file>
+        <file>tooth_endo.png</file>
+        <file>tooth_fiberBridge.png</file>
+        <file>tooth_lesion.png</file>
+        <file>tooth_lingual.png</file>
+        <file>tooth_occlusal.png</file>
+        <file>tooth_perio.png</file>
+        <file>tooth_post.png</file>
+        <file>tooth_roots.png</file>
+        <file>tooth_teeth.png</file>
+    </qresource>
+    <qresource prefix="/reports">
+        <file>report_amb.lrxml</file>
+        <file>report_invoice.lrxml</file>
+    </qresource>
+    <qresource prefix="/fonts">
+        <file>font_RobotoCondensedRegular.ttf</file>
+    </qresource>
+    <qresource prefix="/json">
+        <file>json_defaultPriceList.json</file>
+        <file>json_diagnosis.json</file>
+        <file>json_ksmp.json</file>
+        <file>json_nzok.json</file>
+        <file>json_mkb.json</file>
+        <file>json_ekatte.json</file>
+        <file>json_medicationForms.json</file>
+        <file>json_dose.json</file>
+        <file>json_route.json</file>
+        <file>json_when.json</file>
+    </qresource>
+    <qresource prefix="/style">
+        <file>dateEditStyle.qss</file>
+        <file>json_medicationForms.json</file>
+    </qresource>
+    <qresource prefix="/updates">
+        <file>update_dbEkatte.json</file>
+    </qresource>
+    <qresource prefix="/db">
+        <file>dbSchema.txt</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,58 @@
+#pragma once
+
+#include <string>
+
+class Date
+{
+
+    static int monthDays[12];
+
+public:
+    int day;
+    int month;
+    int year;
+
+    Date();
+    Date(int day, int month, int year);
+    Date(const std::string& dd_dot_MM_dot_yyyy);
+    
+
+    bool isInitialized() const;
+    //all my troubles seem so far away
+    Date yesterday() const;
+    Date tomorrow() const;
+
+    static Date getBirthdateFromEgn(const std::string& egn);
+    std::string toBgStandard(bool suffix = false) const;
+    std::string to8601() const;
+    std::string toXMLReportFileName() const; //required when saving the xml report file
+    std::string toXMLInvoiceFileName() const;
+    bool isFromPreviousMonths(const Date& other) const;
+    static Date currentDate();
+
+    static int currentDay();
+    static int currentMonth();
+    static int currentYear();
+    static Date getDateFromXmlFormat(const std::string& yyyy_dash_MM_dash_dd);
+
+    static bool isLeapYear(int year);
+    int getMaxDayOfMonth() const;
+
+    Date getMaxDateOfMonth() const;
+
+    bool isTheSameMonthAs(const Date& date) const;
+
+    int getAge(const Date& currentDate = Date::currentDate());
+
+    bool operator < (const Date& other) const;
+    bool operator > (const Date& other) const;
+    bool operator == (const Date& other) const;
+    bool operator != (const Date& other) const;
+    bool operator >= (const Date& other) const;
+    bool operator <= (const Date& other) const;
+
+    bool isWeekend() const;
+    
+    static int getWorkdaysOfMonth(int month, int year);
+};
+

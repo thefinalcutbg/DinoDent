@@ -338,6 +338,7 @@
     <ClCompile Include="src\Presenter\ReportPresenter.cpp" />
     <ClCompile Include="src\Presenter\SettingsMainPresenter.cpp" />
     <ClCompile Include="src\Presenter\SurfacePanelPresenter.cpp" />
+    <ClCompile Include="src\Presenter\TabInstance.cpp" />
     <ClCompile Include="src\Presenter\TabPresenter.cpp" />
     <ClCompile Include="src\Presenter\ToothHintCreator.cpp" />
     <ClCompile Include="src\Presenter\ToothProcedurePresenter.cpp" />

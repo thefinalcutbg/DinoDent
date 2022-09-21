@@ -18,8 +18,8 @@ public:
 	virtual void focusTab(int vecPos) = 0;
 	virtual void removeCurrentTab() = 0;
 	virtual void removeTab(int vecPos) = 0;
-	virtual void changeTabName(const TabName& tabName) = 0;
-	virtual void changeTabName(const TabName& tabName, int mapIdx) = 0;
+//	virtual void changeTabName(const TabName& tabName) = 0;
+	virtual void changeTabName(const TabName& tabName, int presenterIdx) = 0;
 	virtual void setTabPresenter(TabPresenter* presenter) = 0;
 	virtual void removeAllTabs() = 0;
 

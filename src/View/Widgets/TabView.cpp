@@ -97,28 +97,12 @@ int TabView::getTabIndex(int tabId)
         auto tab = static_cast<TabTitle*>(ui.tabBar->tabButton(i, QTabBar::ButtonPosition::RightSide));
 
         if (tab->getTabId() == tabId) {
+
             return i;
         }
     }
 
     return -1;
-}
-
-void TabView::setTabIcon(int tabAt, bool nhif, bool his)
-{
-    auto tab = static_cast<TabTitle*>
-        (ui.tabBar->tabButton(ui.tabBar->currentIndex(), QTabBar::ButtonPosition::RightSide));
-
-    (nhif) ?
-        tab->setNhifIcon(QPixmap(":/icons/icon_nzok.png"))
-        :
-        tab->setNhifIcon(QPixmap(""));
-
-    (his) ?
-        tab->setHisIcon(QPixmap(":/icons/icon_his.png"))
-        :
-        tab->setHisIcon(QPixmap(""));
-
 }
 
 
@@ -190,7 +174,7 @@ void TabView::removeTab(int tabId)
 {
     ui.tabBar->removeTab(getTabIndex(tabId));
 }
-
+/*
 void TabView::changeTabName(const TabName& tabName)
 {
     auto tab = static_cast<TabTitle*>
@@ -203,19 +187,28 @@ void TabView::changeTabName(const TabName& tabName)
     ui.tabBar->setTabButton(ui.tabBar->currentIndex(), QTabBar::ButtonPosition::RightSide, nullptr);
     ui.tabBar->setTabButton(ui.tabBar->currentIndex(), QTabBar::ButtonPosition::RightSide, tab);
 }
-
+*/
 void TabView::changeTabName(const TabName& tabName, int tabId)
 {
     int tabIndex = getTabIndex(tabId);
 
+    if (tabIndex == -1) return;
+
     auto tab = static_cast<TabTitle*>
         (ui.tabBar->tabButton(tabIndex, QTabBar::ButtonPosition::RightSide));
 
-    setTabIcon(tabIndex, tabName.nhif, tabName.his);
+    (tabName.nhif) ?
+        tab->setNhifIcon(QPixmap(":/icons/icon_nzok.png"))
+        :
+        tab->setNhifIcon(QPixmap(""));
+
+    (tabName.his) ?
+        tab->setHisIcon(QPixmap(":/icons/icon_his.png"))
+        :
+        tab->setHisIcon(QPixmap(""));
+
     tab->setText(QString::fromStdString(tabName.header), QString::fromStdString(tabName.footer));
     
-    
-
     //re-setting the tab into the tabbar, to change the layout
     ui.tabBar->setTabButton(tabIndex, QTabBar::ButtonPosition::RightSide, nullptr);
     ui.tabBar->setTabButton(tabIndex, QTabBar::ButtonPosition::RightSide, tab);

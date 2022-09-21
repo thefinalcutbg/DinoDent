@@ -26,7 +26,7 @@ class TabPresenter
 	bool tabAlreadyOpened(TabType type, long long rowID);
 	bool monthNotiAlreadyOpened(int monthNotifNum);
 
-	void openTab(TabInstance* tabInstance, bool setFocus = true);
+	void createNewTab(TabInstance* tabInstance, bool setFocus = true);
 
 	std::shared_ptr<Patient> getPatient_ptr(const Patient& patient);
 

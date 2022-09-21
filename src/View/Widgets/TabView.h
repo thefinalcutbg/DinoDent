@@ -33,7 +33,6 @@ class TabView : public QWidget, public ITabView
 
 	TabTitle* getTabTitle(int tabId);
 	int getTabIndex(int tabId);
-	void setTabIcon(int tabAt, bool nhif, bool his);
 
 
 public:
@@ -47,7 +46,7 @@ public:
 	void newTab(int tabId, const TabName& tabName) override;
 	void focusTab(int tabId) override;
 	void removeCurrentTab() override;
-	void changeTabName(const TabName& tabName) override;
+	//void changeTabName(const TabName& tabName) override;
 	void changeTabName(const TabName& tabName, int tabId) override;
 	void setTabPresenter(TabPresenter* presenter) override;
 	void removeTab(int tabId) override;

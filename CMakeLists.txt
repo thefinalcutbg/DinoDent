@@ -329,6 +329,7 @@ src/Presenter/StatusController.h
 src/Presenter/SurfacePanelPresenter.cpp
 src/Presenter/SurfacePanelPresenter.h
 src/Presenter/TabInstance.h
+src/Presenter/TabInstance.cpp
 src/Presenter/TabPresenter.cpp
 src/Presenter/TabPresenter.h
 src/Presenter/ToothHintCreator.cpp

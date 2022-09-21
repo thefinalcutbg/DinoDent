@@ -30,11 +30,13 @@ TabInstance* TabPresenter::currentTab()
 }
 
 
-void TabPresenter::openTab(TabInstance* tabInstance, bool setFocus)
+void TabPresenter::createNewTab(TabInstance* tabInstance, bool setFocus)
 {
     _indexCounter++;
 
     m_tabs[_indexCounter] = tabInstance;
+
+    tabInstance->setContainerIdx(_indexCounter);
 
     view->newTab(_indexCounter, m_tabs[_indexCounter]->getTabName());
 
@@ -128,18 +130,18 @@ void TabPresenter::openList(const Patient& patient)
 {
     if (newListExists(patient)) return;
 
-    openTab(new ListPresenter(view, this, getPatient_ptr(patient)));
+    createNewTab(new ListPresenter(view, this, getPatient_ptr(patient)));
     
 }
 
 void TabPresenter::openPerio(const Patient& patient)
 {
-    openTab(new PerioPresenter(view, getPatient_ptr(patient)));
+    createNewTab(new PerioPresenter(view, getPatient_ptr(patient)));
 }
 
 void TabPresenter::openPerscription(const Patient& patient)
 {
-    openTab(new PrescriptionPresenter(view, this, getPatient_ptr(patient)));
+    createNewTab(new PrescriptionPresenter(view, this, getPatient_ptr(patient)));
 }
 
 void TabPresenter::openInvoice(const std::string& monthNotif)
@@ -152,7 +154,7 @@ void TabPresenter::openInvoice(const std::string& monthNotif)
             return;
         }
 
-        openTab(presenter);
+        createNewTab(presenter);
     }
     catch(const std::exception& e) {
         ModalDialogBuilder::showError(e.what());
@@ -165,7 +167,7 @@ void TabPresenter::openInvoice(const std::vector<Procedure>& procedures, long lo
 {
     
     
-    openTab(new FinancialPresenter(
+    createNewTab(new FinancialPresenter(
                 view, 
                 procedures, 
                 getPatient_ptr(
@@ -200,7 +202,7 @@ void TabPresenter::open(const RowInstance& row, bool setFocus)
         break;
     }
 
-    openTab(newTab, setFocus);
+    createNewTab(newTab, setFocus);
 }
 
 bool TabPresenter::tabAlreadyOpened(TabType type, long long rowID)

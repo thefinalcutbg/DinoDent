@@ -10,6 +10,9 @@
 #include "Model/Patient.h"
 #include <QDateTime>
 
+//constexpr std::string_view hisUrl = "https://api.his.bg/";
+constexpr const char* hisUrl = "https://ptest-api.his.bg/";
+
 std::string timeNow() {
 	auto t = QDateTime::currentDateTime();
 	return t.toString(Qt::DateFormat::ISODate).toStdString();
@@ -35,7 +38,7 @@ bool HisService::sendRequestToHis(const std::string& query)
 		  this, 
 		  signedMsg, 
 		  HisToken::getToken(), 
-		 "https://api.his.bg" + servicePath
+		  hisUrl + servicePath
 	);
 
 	return true;
@@ -44,7 +47,7 @@ bool HisService::sendRequestToHis(const std::string& query)
 
 bool HisService::sendRequestToHisNoAuth(const std::string& query)
 {
-	NetworkManager::sendRequestToHisNoAuth(this, buildMessage(query), "https://api.his.bg/" + servicePath);
+	NetworkManager::sendRequestToHisNoAuth(this, buildMessage(query), hisUrl + servicePath);
 	return true;
 }
 

@@ -10,8 +10,8 @@
 #include "Model/Patient.h"
 #include <QDateTime>
 
-//constexpr std::string_view hisUrl = "https://api.his.bg/";
-constexpr const char* hisUrl = "https://ptest-api.his.bg/";
+constexpr const char* hisUrl = "https://api.his.bg/";
+//constexpr const char* hisUrl = "https://ptest-api.his.bg/";
 
 std::string timeNow() {
 	auto t = QDateTime::currentDateTime();

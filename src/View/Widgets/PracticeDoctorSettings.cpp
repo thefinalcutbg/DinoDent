@@ -24,6 +24,7 @@ PracticeDoctorSettings::PracticeDoctorSettings(QWidget *parent)
 	}
 
 	ui.adminCheck->setEnabled(false);
+	ui.specialtyCombo->setEnabled(false);
 
 	ui.doctorList->setSelectionMode(QAbstractItemView::SingleSelection);
 
@@ -42,6 +43,7 @@ void PracticeDoctorSettings::setDoctorList(const std::vector<PracticeDoctor>& do
 	ui.doctorList->clear();
 
 	ui.adminCheck->setEnabled(doctors.size());
+	ui.specialtyCombo->setEnabled(doctors.size());
 
 	for (auto doctor : doctors)
 	{
@@ -80,6 +82,7 @@ void PracticeDoctorSettings::hideDoctorProperties()
 {
 	ui.adminCheck->hide();
 	ui.specialtyCombo->hide();
+	ui.label->hide();
 }
 
 void PracticeDoctorSettings::replaceCurrentItem(const PracticeDoctor& item)

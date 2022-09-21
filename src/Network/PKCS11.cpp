@@ -5,7 +5,7 @@
 #include <iostream>
 #include <exception>
 #include <filesystem>
-
+#include <qdebug.h>
 PKCS11_CTX* ctx{ nullptr };
 
 std::vector<std::string> modules{
@@ -50,8 +50,11 @@ bool loadModuleWithToken()
 		if (testSlot == NULL || testSlot->token == NULL) {
 
 			std::cout << "no valid token" << std::endl;
+
 			PKCS11_release_all_slots(ctx, testSlots, testNSlots);
-			PKCS11_CTX_unload(ctx);
+			//causes seg fault if no drivers are installed
+			//PKCS11_CTX_unload(ctx);
+
 			continue;
 		}
 

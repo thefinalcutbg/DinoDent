@@ -10,6 +10,9 @@ class Db
     sqlite3* db_connection;
     bool m_connectionOwned;
 
+    int total_bindings{ 0 };
+    int successful_bindings{ 0 };
+
     sqlite3_stmt* stmt;
 
     static inline bool s_showError{ false };
@@ -29,7 +32,7 @@ public:
     Db(Db* existingConnection = nullptr);
     //Create db connection with statement ready for retrieval:
     Db(const std::string& query, Db* existingConnection = nullptr);
-
+     
     //returns true if there are more rows to get from database
     bool hasRows(); 
     int asInt(int column);
@@ -46,10 +49,10 @@ public:
 
 
     //bindings with prepared statement:
-    bool bind(int index, const std::string& value);
-    bool bind(int index, int value);
-    bool bind(int index, double value);
-    bool bind(int index, long long value);
+    void bind(int index, const std::string& value);
+    void bind(int index, int value);
+    void bind(int index, double value);
+    void bind(int index, long long value);
     //executes already prepared statement with bindings
     bool execute();
 

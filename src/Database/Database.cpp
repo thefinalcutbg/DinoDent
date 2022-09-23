@@ -32,6 +32,8 @@ Db::Db(const std::string& query, Db* existingConnection) : Db(existingConnection
 
 bool Db::hasRows(){
 
+    if (total_bindings != successful_bindings) return false;
+
     return sqlite3_step(stmt) == SQLITE_ROW;//|| sqlite3_step(stmt) != ;
 }
 
@@ -74,6 +76,8 @@ void Db::newStatement(const std::string& query)
 {
     if (stmt != nullptr) {
         sqlite3_finalize(stmt);
+        total_bindings = 0;
+        successful_bindings = 0;
     }
  
     sqlite3_prepare_v2(db_connection, query.c_str(), -1, &stmt, NULL);
@@ -83,6 +87,8 @@ bool Db::execute(const std::string& query)
 {
     if (stmt != nullptr) {
         sqlite3_finalize(stmt);
+        total_bindings = 0;
+        successful_bindings = 0;
     }
 
     char* err;
@@ -98,15 +104,6 @@ bool Db::execute(const std::string& query)
         
 }
 
-bool Db::execute()
-{
-    if (stmt == nullptr) return false;
-
-    if (sqlite3_step(stmt) != SQLITE_DONE) return false;
-
-    return true;
-}
-
 long long Db::lastInsertedRowID()
 {
     return sqlite3_last_insert_rowid(db_connection);
@@ -117,72 +114,64 @@ void Db::closeConnection()
     if (db_connection) sqlite3_close_v2(db_connection);
 }
 
-bool Db::bind(int index, const std::string& value)
+void Db::bind(int index, const std::string& value)
 {
-    if(stmt == nullptr) return false;
+    if(stmt == nullptr) return;
 
-    if (sqlite3_bind_text(
-        stmt,
-        index,
-        value.c_str(),
-        value.size(),  // length of text
-        SQLITE_STATIC
-    ) != SQLITE_OK) {
-        return false;
-    }
+    total_bindings++;
 
-    return true;
+    successful_bindings +=
+        sqlite3_bind_text(stmt, index, value.c_str(), value.size(), SQLITE_STATIC) == SQLITE_OK;
 }
 
-bool Db::bind(int index, int value)
+void Db::bind(int index, int value)
 {
-    if (stmt == nullptr) return false;
+    if (stmt == nullptr) return;
 
-    if (sqlite3_bind_int(
-        stmt,
-        index,  // Index of wildcard
-        value
-    )
-        != SQLITE_OK) {
-        return false;
-    }
+    total_bindings++;
 
-    return true;
+    successful_bindings +=
+        sqlite3_bind_int(stmt,index,value) == SQLITE_OK;
 }
 
-bool Db::bind(int index, double value)
+void Db::bind(int index, double value)
 {
-    if (stmt == nullptr) return false;
+    if (stmt == nullptr) return;
 
-    if (sqlite3_bind_double(
-        stmt,
-        index,  // Index of wildcard
-        value
-    )
-        != SQLITE_OK) {
-        return false;
-    }
+    total_bindings++;
 
-    return true;
+    successful_bindings +=
+        sqlite3_bind_double(stmt, index, value) == SQLITE_OK;
+
 }
 
-bool Db::bind(int index, long long value)
+void Db::bind(int index, long long value)
+{
+    if (stmt == nullptr) return;
+
+    total_bindings++;
+
+    successful_bindings +=
+        sqlite3_bind_int64(stmt, index, value) == SQLITE_OK;
+}
+
+bool Db::execute()
 {
     if (stmt == nullptr) return false;
 
-    if (sqlite3_bind_int64(
-        stmt,
-        index,  // Index of wildcard
-        value
-    )
-        != SQLITE_OK) {
+    if (total_bindings != successful_bindings ||
+        sqlite3_step(stmt) != SQLITE_DONE)
+
+    {
+        total_bindings = 0;
+        successful_bindings = 0;
+        sqlite3_reset(stmt);
         return false;
     }
 
     return true;
-
-
 }
+
 
 void Db::setFilePath(const std::string& filePath)
 {

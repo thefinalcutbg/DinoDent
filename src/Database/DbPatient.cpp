@@ -11,25 +11,20 @@ long long DbPatient::insert(const Patient& patient)
         "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
     );
 
-    constexpr int bindingCount = 14;
-
-    int success =
-        db.bind(1, patient.type) +
-        db.bind(2, patient.id) +
-        db.bind(3, patient.birth.to8601()) +
-        db.bind(4, patient.sex) +
-        db.bind(5, patient.FirstName) +
-        db.bind(6, patient.MiddleName) +
-        db.bind(7, patient.LastName) +
-        db.bind(8, patient.city.getIdxAsInt()) +
-        db.bind(9, patient.address) +
-        db.bind(10, patient.HIRBNo) +
-        db.bind(11, patient.phone) +
-        db.bind(12, patient.allergies) +
-        db.bind(13, patient.pastDiseases) +
-        db.bind(14, patient.currentDiseases);
-
-    if (success != bindingCount) return false;
+    db.bind(1, patient.type);
+    db.bind(2, patient.id);
+    db.bind(3, patient.birth.to8601());
+    db.bind(4, patient.sex);
+    db.bind(5, patient.FirstName);
+    db.bind(6, patient.MiddleName);
+    db.bind(7, patient.LastName);
+    db.bind(8, patient.city.getIdxAsInt());
+    db.bind(9, patient.address);
+    db.bind(10, patient.HIRBNo);
+    db.bind(11, patient.phone);
+    db.bind(12, patient.allergies);
+    db.bind(13, patient.pastDiseases);
+    db.bind(14, patient.currentDiseases);
 
     if (db.execute()) return db.lastInsertedRowID();
 
@@ -58,25 +53,20 @@ bool DbPatient::update(const Patient& patient)
         "WHERE rowid=?"
     );
 
-    constexpr int bindingCount = 14;
-
-    int success =
-        db.bind(1, patient.type) +
-        db.bind(2, patient.birth.to8601()) +
-        db.bind(3, patient.sex) +
-        db.bind(4, patient.FirstName) +
-        db.bind(5, patient.MiddleName) +
-        db.bind(6, patient.LastName) +
-        db.bind(7, patient.city.getIdxAsInt()) +
-        db.bind(8, patient.address) +
-        db.bind(9, patient.HIRBNo) +
-        db.bind(10, patient.phone) +
-        db.bind(11, patient.allergies) +
-        db.bind(12, patient.pastDiseases) +
-        db.bind(13, patient.currentDiseases) +
-        db.bind(14, patient.rowid);
-
-    if (success != bindingCount) return false;
+    db.bind(1, patient.type);
+    db.bind(2, patient.birth.to8601());
+    db.bind(3, patient.sex);
+    db.bind(4, patient.FirstName);
+    db.bind(5, patient.MiddleName);
+    db.bind(6, patient.LastName);
+    db.bind(7, patient.city.getIdxAsInt());
+    db.bind(8, patient.address);
+    db.bind(9, patient.HIRBNo);
+    db.bind(10, patient.phone);
+    db.bind(11, patient.allergies);
+    db.bind(12, patient.pastDiseases);
+    db.bind(13, patient.currentDiseases);
+    db.bind(14, patient.rowid);
 
     return db.execute();
 
@@ -155,24 +145,21 @@ bool DbPatient::updateAllergies(long long patientRowId, const std::string& aller
         "WHERE rowid=?" + std::to_string(patientRowId)
     );
 
-     constexpr int bindCount = 4;
-
-     int success = db.bind(1, allergies) + db.bind(2, current) + db.bind(3, past) + bind(4, patientRowId);
-
-     if (success != bindCount) return false;
+     db.bind(1, allergies); 
+     db.bind(2, current); 
+     db.bind(3, past); 
+     db.bind(4, patientRowId);
 
      return db.execute();
 }
 
 TeethNotes DbPatient::getPresentNotes(long long patientRowId)
 {
+    Db db("SELECT tooth, text FROM note WHERE patient_rowid=?");
 
-    std::string query = "SELECT tooth, text "
-        "FROM note WHERE patient_rowid = " + std::to_string(patientRowId);
+    db.bind(1, patientRowId);
 
     TeethNotes notes{};
-
-    Db db(query);
 
     while (db.hasRows())
     {

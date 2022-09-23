@@ -93,11 +93,22 @@ void PatientDialogPresenter::accept()
 	
 	m_patient = getPatientFromView();
 	
+	bool success{ false };
+
 	if (rowid == 0) {
 		rowid = m_patient->rowid;
 		m_patient->rowid = DbPatient::insert(m_patient.value());
+
+		if (!m_patient->rowid) m_patient.reset();
 	}
-	else DbPatient::update(m_patient.value());
+	else
+	{
+		if (!DbPatient::update(m_patient.value())) m_patient.reset();
+	}
+
+	if (!m_patient) {
+		ModalDialogBuilder::showError(u8"Неуспешно записване в базата данни");
+	}
 	
 	view->close();
 }

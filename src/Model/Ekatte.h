@@ -25,6 +25,7 @@ public:
 	std::string getHealthRegion() const;
 	std::string getString(bool prefix = true) const;
 	std::string ekatte() const;
+	int getIdxAsInt() const { return ekatteIdx; }
 	static const std::unordered_map<std::string, int>& cityNameToIdx();
 };
 

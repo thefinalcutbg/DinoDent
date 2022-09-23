@@ -110,7 +110,9 @@ void PatientFormDialog::resetFields()
 
 void PatientFormDialog::setPatient(const Patient& patient)
 {
-    QSignalBlocker blocker(this);
+    QSignalBlocker b1(ui.idLineEdit);
+    QSignalBlocker b2(ui.typeComboBox);
+    QSignalBlocker b3(ui.cityLineEdit);
 
     ui.typeComboBox->setCurrentIndex(patient.type - 1);
     ui.idLineEdit->QLineEdit::setText(QString::fromStdString(patient.id));

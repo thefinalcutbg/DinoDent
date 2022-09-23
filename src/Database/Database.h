@@ -40,8 +40,19 @@ public:
     std::string asString(int column);
     void newStatement(const std::string& query);
     bool execute(const std::string& query);
+
     long long lastInsertedRowID();
     void closeConnection();
+
+
+    //bindings with prepared statement:
+    bool bind(int index, const std::string& value);
+    bool bind(int index, int value);
+    bool bind(int index, double value);
+    bool bind(int index, long long value);
+    //executes already prepared statement with bindings
+    bool execute();
+
     ~Db();
 
 };

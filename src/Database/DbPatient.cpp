@@ -1,58 +1,84 @@
 #include "DbPatient.h"
 #include "Database.h"
+#include "qdebug.h"
 
 long long DbPatient::insert(const Patient& patient)
 {
-    Db db;
-
-    bool success = db.execute(
-
-            "INSERT INTO patient "
-            "(type, id, birth, sex, fname, mname, lname, " 
-            "ekatte, address, hirbno, phone , allergies, pastDiseases, currentDiseases) " 
-            "VALUES ("
-            + std::to_string(patient.type) + ","
-            "'" + patient.id + "',"
-            "'" + patient.birth.toBgStandard() + "',"
-                + std::to_string(patient.sex) + ","
-            "'" + patient.FirstName + "',"
-            "'" + patient.MiddleName + "',"
-            "'" + patient.LastName + "',"
-                + patient.city.ekatte() + ","
-            "'" + patient.address + "',"
-            "'" + patient.HIRBNo + "',"
-            "'" + patient.phone + "',"
-            "'" + patient.allergies + "',"
-            "'" + patient.currentDiseases + "',"
-            "'" + patient.pastDiseases +  "'"
-            +")"
+    Db db(
+        "INSERT INTO patient "
+        "(type, id, birth, sex, fname, mname, lname, "
+        "ekatte, address, hirbno, phone , allergies, pastDiseases, currentDiseases) "
+        "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
     );
 
-    if(success) return db.lastInsertedRowID();
+    constexpr int bindingCount = 14;
+
+    int success =
+        db.bind(1, patient.type) +
+        db.bind(2, patient.id) +
+        db.bind(3, patient.birth.to8601()) +
+        db.bind(4, patient.sex) +
+        db.bind(5, patient.FirstName) +
+        db.bind(6, patient.MiddleName) +
+        db.bind(7, patient.LastName) +
+        db.bind(8, patient.city.getIdxAsInt()) +
+        db.bind(9, patient.address) +
+        db.bind(10, patient.HIRBNo) +
+        db.bind(11, patient.phone) +
+        db.bind(12, patient.allergies) +
+        db.bind(13, patient.pastDiseases) +
+        db.bind(14, patient.currentDiseases);
+
+    if (success != bindingCount) return false;
+
+    if (db.execute()) return db.lastInsertedRowID();
 
     return 0;
+
 }
 
-void DbPatient::update(const Patient& patient)
+bool DbPatient::update(const Patient& patient)
 {
-    Db::crudQuery(
+    Db db(
 
         "UPDATE patient SET "
-        "type = " + std::to_string(patient.type) + ", "
-        "birth = '" + patient.birth.toBgStandard() + "', "
-        "sex = " + std::to_string(patient.sex) + ", "
-        "fname = '" + patient.FirstName + "', "
-        "mname = '" + patient.MiddleName + "', "
-        "lname = '" + patient.LastName + "', "
-        "ekatte = " + patient.city.ekatte() + ", "
-        "address = '" + patient.address + "', "
-        "hirbno = '" + patient.HIRBNo + "', "
-        "phone = '" + patient.phone + "', "
-        "allergies = '" + patient.allergies + "', "
-        "currentDiseases = '" + patient.currentDiseases + "', "
-        "pastDiseases = '" + patient.pastDiseases + "' "
-        "WHERE rowid = " + std::to_string(patient.rowid)
+        "type=?,"
+        "birth=?,"
+        "sex=?,"
+        "fname=?,"
+        "mname=?,"
+        "lname=?,"
+        "ekatte=?,"
+        "address=?,"
+        "hirbno=?,"
+        "phone=?,"
+        "allergies=?,"
+        "currentDiseases=?,"
+        "pastDiseases=? "
+        "WHERE rowid=?"
     );
+
+    constexpr int bindingCount = 14;
+
+    int success =
+        db.bind(1, patient.type) +
+        db.bind(2, patient.birth.to8601()) +
+        db.bind(3, patient.sex) +
+        db.bind(4, patient.FirstName) +
+        db.bind(5, patient.MiddleName) +
+        db.bind(6, patient.LastName) +
+        db.bind(7, patient.city.getIdxAsInt()) +
+        db.bind(8, patient.address) +
+        db.bind(9, patient.HIRBNo) +
+        db.bind(10, patient.phone) +
+        db.bind(11, patient.allergies) +
+        db.bind(12, patient.pastDiseases) +
+        db.bind(13, patient.currentDiseases) +
+        db.bind(14, patient.rowid);
+
+    if (success != bindingCount) return false;
+
+    return db.execute();
 
 }
 
@@ -121,15 +147,21 @@ Patient DbPatient::get(long long rowid)
 
 bool DbPatient::updateAllergies(long long patientRowId, const std::string& allergies, const std::string& current, const std::string& past)
 {
-    return Db::crudQuery(
-
+     Db db(
         "UPDATE patient SET "
-        "allergies = '" + allergies + "', "
-        "currentDiseases = '" + current + "', "
-        "pastDiseases = '" + past + "' "
-        "WHERE rowid = " + std::to_string(patientRowId)
-
+        "allergies=?,"
+        "currentDiseases=?,"
+        "pastDiseases=? "
+        "WHERE rowid=?" + std::to_string(patientRowId)
     );
+
+     constexpr int bindCount = 4;
+
+     int success = db.bind(1, allergies) + db.bind(2, current) + db.bind(3, past) + bind(4, patientRowId);
+
+     if (success != bindCount) return false;
+
+     return db.execute();
 }
 
 TeethNotes DbPatient::getPresentNotes(long long patientRowId)

@@ -34,7 +34,11 @@ bool Db::hasRows(){
 
     if (total_bindings != successful_bindings) return false;
 
-    return sqlite3_step(stmt) == SQLITE_ROW;//|| sqlite3_step(stmt) != ;
+    bool result = sqlite3_step(stmt) == SQLITE_ROW;//|| sqlite3_step(stmt) != ;
+
+    if(!result) finalizeStatement();
+
+    return result;
 }
 
 int Db::asInt(int column){ 
@@ -73,24 +77,12 @@ std::string Db::asString(int column) {
 
 
 void Db::newStatement(const std::string& query)
-{
-    if (stmt != nullptr) {
-        sqlite3_finalize(stmt);
-        total_bindings = 0;
-        successful_bindings = 0;
-    }
- 
+{ 
     sqlite3_prepare_v2(db_connection, query.c_str(), -1, &stmt, NULL);
 }
 
 bool Db::execute(const std::string& query)
 {
-    if (stmt != nullptr) {
-        sqlite3_finalize(stmt);
-        total_bindings = 0;
-        successful_bindings = 0;
-    }
-
     char* err;
 
     int i = sqlite3_exec(db_connection, query.c_str(), NULL, NULL, &err);
@@ -99,6 +91,8 @@ bool Db::execute(const std::string& query)
         ModalDialogBuilder::showMessage(u8"Неуспешно записване в базата данни");
         ModalDialogBuilder::showMultilineDialog(query);
     }
+
+    finalizeStatement();
 
     return i == SQLITE_OK;
         
@@ -111,17 +105,26 @@ long long Db::lastInsertedRowID()
 
 void Db::closeConnection()
 {
-    if (db_connection) sqlite3_close_v2(db_connection);
+    if (!db_connection) return;
+
+    if (stmt) sqlite3_reset(stmt);
+
+    successful_bindings = 0;
+    total_bindings = 0;
+
+     sqlite3_close_v2(db_connection);
 }
+
 
 void Db::bind(int index, const std::string& value)
 {
     if(stmt == nullptr) return;
 
     total_bindings++;
+    
 
     successful_bindings +=
-        sqlite3_bind_text(stmt, index, value.c_str(), value.size(), SQLITE_STATIC) == SQLITE_OK;
+        sqlite3_bind_text(stmt, index, value.c_str(), -1, SQLITE_TRANSIENT) == SQLITE_OK;
 }
 
 void Db::bind(int index, int value)
@@ -142,7 +145,6 @@ void Db::bind(int index, double value)
 
     successful_bindings +=
         sqlite3_bind_double(stmt, index, value) == SQLITE_OK;
-
 }
 
 void Db::bind(int index, long long value)
@@ -154,24 +156,34 @@ void Db::bind(int index, long long value)
     successful_bindings +=
         sqlite3_bind_int64(stmt, index, value) == SQLITE_OK;
 }
-
+#include <qdebug.h>
 bool Db::execute()
 {
     if (stmt == nullptr) return false;
 
-    if (total_bindings != successful_bindings ||
-        sqlite3_step(stmt) != SQLITE_DONE)
-
+    if (total_bindings != successful_bindings)
     {
-        total_bindings = 0;
-        successful_bindings = 0;
-        sqlite3_reset(stmt);
+        finalizeStatement();
         return false;
     }
 
-    return true;
+    auto result = sqlite3_step(stmt);
+    finalizeStatement();
+
+    qDebug() << result;
+
+    return result == SQLITE_DONE;
 }
 
+
+void Db::finalizeStatement()
+{
+    total_bindings = 0;
+    successful_bindings = 0;
+    sqlite3_finalize(stmt);
+    stmt = nullptr;
+    
+}
 
 void Db::setFilePath(const std::string& filePath)
 {

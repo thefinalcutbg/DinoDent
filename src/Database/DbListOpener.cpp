@@ -43,7 +43,7 @@ std::vector<AmbRow> DbListOpener::getAmbRows(const Date& from, const Date& to)
         "FROM amblist JOIN patient ON amblist.patient_rowid = patient.rowid "
         "LEFT JOIN procedure on amblist.rowid = procedure.amblist_rowid "
         "GROUP BY amblist.rowid "
-        "HAVING amblist.date BETWEEN '" + from.to8601() + "' AND '" + to.to8601() + "' "
+        "HAVING strftime('%Y-%m-%d', amblist.date) BETWEEN '" + from.to8601() + "' AND '" + to.to8601() + "' "
         "AND amblist.lpk = '" + User::doctor().LPK + "' "
         "AND amblist.rzi = '" + User::practice().rziCode + "' "
         "ORDER BY strftime('%Y %m %d', amblist.date) ASC, amblist.num ASC ";

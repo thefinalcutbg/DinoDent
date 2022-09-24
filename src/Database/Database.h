@@ -18,6 +18,8 @@ class Db
     static inline bool s_showError{ false };
     static inline std::string dbLocation{ "TorqueDB.db" };
 
+    void finalizeStatement();
+
 
 public:
     static void setFilePath(const std::string& filePath);

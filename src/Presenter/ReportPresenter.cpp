@@ -256,7 +256,7 @@ void ReportPresenter::setDate(int month, int year)
 	this->year = year;
 	reset();
 }
-
+#include <QDebug>
 void ReportPresenter::generateReport(bool checkPis, bool checkNra)
 {
 
@@ -273,30 +273,23 @@ void ReportPresenter::generateReport(bool checkPis, bool checkNra)
 	pisCheck = checkPis;
 	nraCheck = checkNra;
 
-	lists.clear();
-
 	view->clearText();
 	view->enableReportButtons(false);
 	view->setPercent(0);
 
 	m_hasErrors = false;
 	m_currentIndex = 0;
-	
-	auto rowIds = DbAmbList::getRowIdNhif(month, year);
 
-	lists.reserve(rowIds.size());
+	lists = DbAmbList::getMonthlyNhifSheets(month, year);
 
-	for (auto rowid : rowIds) {
-		
-		lists.emplace_back(DbAmbList::getListNhifProceduresOnly(rowid));
+	for (auto& l : lists)
+	{
+		auto& patientRowId = l.patient_rowid;
 
-		auto patientRowId = lists.back().patient_rowid;
-		
 		if (!patients.count(patientRowId))
 		{
 			patients[patientRowId] = DbPatient::get(patientRowId);
 		}
-		
 	}
 
 	if (lists.empty()) {

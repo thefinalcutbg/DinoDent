@@ -21,10 +21,7 @@ namespace DbAmbList
 
     bool suchNumberExists(int year, int ambNum, long long ambRowid);
 
-    //Gets all NHIF lists for report generation:
-    std::vector<long long> getRowIdNhif(int month, int year);
-    //with HIS this function becomes obsolete. Use getListData() instead.
-    AmbList getListNhifProceduresOnly(long long rowid);
+    std::vector<AmbList> getMonthlyNhifSheets(int month, int year);
 
 };
 

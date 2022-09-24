@@ -8,13 +8,13 @@ class Date
     static int monthDays[12];
 
 public:
-    int day;
-    int month;
-    int year;
+    int day{ 1 };
+    int month{ 1 };
+    int year{ 2000 };
 
     Date();
     Date(int day, int month, int year);
-    Date(const std::string& dd_dot_MM_dot_yyyy);
+    Date(const std::string& iso8601);
     
 
     bool isInitialized() const;

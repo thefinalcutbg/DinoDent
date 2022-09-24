@@ -38,7 +38,7 @@ std::vector<Procedure> DbProcedure::getProcedures(long long amblist_rowid, Db* e
 		p.type = static_cast<ProcedureType>(db.asInt(1));
 		p.code = db.asInt(2);
 		p.tooth = db.asInt(3);
-		p.date = db.asString(4);
+		p.date = Date{ db.asString(4) };
 		p.price = db.asDouble(5);
 		Parser::parse(db.asString(6), p);
 		p.temp = db.asInt(7);

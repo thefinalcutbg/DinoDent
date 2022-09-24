@@ -79,31 +79,6 @@ struct Procedure
             type = static_cast<ProcedureType>(static_cast<int>(t.type) + 1);
 
     }
-    
-    /*
-    Procedure(const ProcedureTemplate& t, Date date, std::string name, std::string diagnosis, double price, Result result = NoData{}, int tooth = -1, bool temp = false)
-        :
-        
-        code{ t.code },
-        date{ date },
-        name{ name },
-        diagnosis{ diagnosis },
-        price{ price },
-        tooth{ tooth },
-        temp{ temp },
-        nhif{ t.nhif },
-        result{ result }
-    {
-        int templateType = static_cast<int>(t.type);
-
-        //ProcedureTemplateType doesn't have bridge diagnosis on its own
-        if (templateType < 7)
-            type = static_cast<ProcedureType>(t.type);
-        else
-            type = static_cast<ProcedureType>(templateType + 1);
-
-
-    }*/
 
     Procedure() {}
     //common parameters:
@@ -112,7 +87,7 @@ struct Procedure
     Date date;
     std::string name;
     std::string diagnosis;
-    double price{ -1 };
+    double price{ 0 };
     int tooth{ -1 };        //-1 for general/several teeth, any in range 0-31 for specific tooth
     bool temp{ false };
     Result result{ NoData{} };

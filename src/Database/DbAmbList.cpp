@@ -9,49 +9,99 @@
 #include <qdebug.h>
 #include "Model/FreeFunctions.h"
 
-long long DbAmbList::insert(const AmbList& ambList, long long patientRowId)
+
+long long DbAmbList::insert(const AmbList& sheet, long long patientRowId)
 {
-  
-    auto ambSheetDate = ambList.getDate();
 
-    std::string query = "INSERT INTO amblist (date, num, nhif, status, patient_rowid, lpk, rzi) "
-        "VALUES ("
-        "'" + ambList.time.to8601(ambList.getDate()) + "',"
-        + std::to_string(ambList.number) + ", "
-        "'" + Parser::write(ambList.nhifData, ambList.hasNZOKProcedure()) + "',"
-        "'" + Parser::write(ambList.teeth) + "',"
-        + std::to_string(patientRowId) + ","
-        "'" + ambList.LPK + "',"
-        "'" + User::practice().rziCode +"')";
+    Db db("INSERT INTO amblist "
+        "(date, num, nhif, status, patient_rowid, lpk, rzi) "
+        "VALUES (?,?,?,?,?,?,?)");
 
-    Db db;
+    db.bind(1, sheet.time.to8601(sheet.getDate()));
+    db.bind(2, sheet.number);
+    db.bind(3, Parser::write(sheet.nhifData, sheet.hasNZOKProcedure()));
+    db.bind(4, Parser::write(sheet.teeth));
+    db.bind(5, patientRowId);
+    db.bind(6, sheet.LPK);
+    db.bind(7, User::practice().rziCode);
 
-    db.execute(query);
+    if (!db.execute()) {
+        return 0;
+    }
 
     auto rowID = db.lastInsertedRowID();
 
-    DbProcedure::saveProcedures(rowID, ambList.procedures.list(), &db);
+    db.execute("DELETE FROM procedure WHERE amblist_rowid = " + std::to_string(rowID));
+
+    for (auto& p : sheet.procedures)
+    {
+        db.newStatement(
+            "INSERT INTO procedure "
+            "(date, nzok, type, code, tooth, deciduous, price, data, ksmp, amblist_rowid) "
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+        db.bind(1, p.date.to8601());
+        db.bind(2, p.nhif);
+        db.bind(3, static_cast<int>(p.type));
+        db.bind(4, p.code);
+        db.bind(5, p.tooth);
+        db.bind(6, p.temp);
+        db.bind(7, p.price);
+        db.bind(8, Parser::write(p));
+        db.bind(9, p.ksmp);
+        db.bind(10, rowID);
+
+        db.execute();
+    }
 
     return rowID;
 
 }
-
-void DbAmbList::update(const AmbList& ambList)
+#include <qdebug.h>
+void DbAmbList::update(const AmbList& sheet)
 {
-
-    auto ambSheetDate = ambList.getDate();
-
     std::string query = "UPDATE amblist SET "
-        "num=" + std::to_string(ambList.number) + ","
-        "date='" + ambList.time.to8601(ambList.getDate()) + "',"
-        "nhif='" + Parser::write(ambList.nhifData, ambList.hasNZOKProcedure()) + "',"
-        "status = '" + Parser::write(ambList.teeth) + "' "
-        "WHERE rowid = " + std::to_string(ambList.rowid);
+        "num=?,"
+        "date=?,"
+        "nhif=?,"
+        "status=? "
+        "WHERE rowid=?"
+    ;
+    
+    Db db(query);
 
-    Db db;
-    db.execute(query);
+    qDebug() << sheet.time.to8601(sheet.getDate()).c_str();
 
-    DbProcedure::saveProcedures(ambList.rowid, ambList.procedures.list(), &db);
+    db.bind(1, sheet.number);
+    db.bind(2, sheet.time.to8601(sheet.getDate()));
+    db.bind(3, Parser::write(sheet.nhifData, sheet.hasNZOKProcedure()));
+    db.bind(4, Parser::write(sheet.teeth));
+    db.bind(5, sheet.rowid);
+
+    db.execute();
+
+    db.execute("DELETE FROM procedure WHERE amblist_rowid = " + std::to_string(sheet.rowid));
+
+    for (auto& p : sheet.procedures)
+    {
+        db.newStatement(
+            "INSERT INTO procedure "
+            "(nzok, type, code, date, tooth, deciduous, price, data, ksmp, amblist_rowid) "
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+        db.bind(1, p.nhif);
+        db.bind(2, static_cast<int>(p.type));
+        db.bind(3, p.code);
+        db.bind(4, p.date.to8601());
+        db.bind(5, p.tooth);
+        db.bind(6, p.temp);
+        db.bind(7, p.price);
+        db.bind(8, Parser::write(p));
+        db.bind(9, p.ksmp);
+        db.bind(10, sheet.rowid);
+
+        db.execute();
+    }
 }
 
 AmbList DbAmbList::getNewAmbSheet(long long patientRowId)
@@ -208,55 +258,6 @@ bool DbAmbList::suchNumberExists(int year, int ambNum, long long ambRowid)
 
 }
 
-std::vector<long long> DbAmbList::getRowIdNhif(int month, int year)
-{
-    std::string query = 
-        "SELECT amblist.rowid FROM amblist "
-        "JOIN procedure ON amblist.rowid = procedure.amblist_rowid "
-        "GROUP BY amblist.rowid "
-        "HAVING "
-        "lpk = '" + User::doctor().LPK + "' "
-        "AND rzi = '" + User::practice().rziCode + "' "
-        "AND sum(procedure.nzok) > 0 "
-        "AND strftime('%m', amblist.date)='" + FreeFn::leadZeroes(month, 2) + "' "
-        "AND strftime('%Y', amblist.date)='" + std::to_string(year) + "' "
-        "ORDER BY amblist.num ASC";
-
-    std::vector<long long> result;
-
-    for(Db db(query);db.hasRows();) result.push_back(db.asRowId(0));
-
-    return result;
-}
-
-AmbList DbAmbList::getListNhifProceduresOnly(long long rowId)
-{
-
-    std::string status;
-    AmbList ambList;
-
-    Db db(
-        "SELECT rowid, num, nhif, status, patient_rowid, date FROM amblist WHERE "
-        "rowid = " + std::to_string(rowId)
-    );
-
-    while (db.hasRows())
-    {
-        ambList.rowid = db.asRowId(0);
-        ambList.number = db.asInt(1);
-        ambList.nhifData = Parser::parseNhifData(db.asString(2));
-        status = db.asString(3);
-        ambList.LPK = User::doctor().LPK;
-        ambList.patient_rowid = db.asRowId(4);
-        ambList.time = db.asString(5);
-    }
-
-    Parser::parse(status, ambList.teeth);
-    ambList.procedures.addProcedures(DbProcedure::getProcedures(ambList.rowid, &db, true));
-
-    return ambList;
-}
-
 int DbAmbList::getNewNumber(Date ambDate, bool nhif)
 {
 
@@ -286,5 +287,76 @@ int DbAmbList::getNewNumber(Date ambDate, bool nhif)
 
 }
 
+std::vector<AmbList> DbAmbList::getMonthlyNhifSheets(int month, int year)
+{
+    std::vector<AmbList> result;
+
+     std::string query = 
+        "SELECT "
+        "amblist.rowid," 
+        "amblist.patient_rowid,"
+        "amblist.num,"
+        "amblist.nhif,"
+        "amblist.status,"
+        "amblist.LPK,"
+        "procedure.type,"	
+        "procedure.code,"		
+        "procedure.tooth,"		
+        "procedure.date,"			
+        "procedure.data,"		
+        "procedure.deciduous,"
+        "procedure.ksmp "		
+        "FROM amblist JOIN procedure ON amblist.rowid = procedure.amblist_rowid "
+        "WHERE procedure.nzok = 1 "
+        "AND lpk = '" + User::doctor().LPK + "' "
+        "AND rzi = '" + User::practice().rziCode + "' "
+        "AND strftime('%m', amblist.date)='" + FreeFn::leadZeroes(month, 2) + "' "
+        "AND strftime('%Y', amblist.date)='" + std::to_string(year) + "' "
+        "ORDER BY amblist.num ASC";
 
 
+
+     Db db(query);
+
+     long long sheetRowid = 0;
+
+     while (db.hasRows())
+     {
+         auto currentRowid = db.asRowId(0);
+
+         if (currentRowid != sheetRowid) {
+
+             result.emplace_back();
+
+             auto& sheet = result.back();
+
+             sheet.rowid = currentRowid;
+             sheet.patient_rowid = db.asRowId(1);
+             sheet.number = db.asInt(2);
+             sheet.nhifData = Parser::parseNhifData(db.asString(3));
+             Parser::parse(db.asString(4), sheet.teeth);
+
+             sheetRowid = currentRowid;
+             
+         }
+
+         Procedure p;
+
+         p.nhif = true;
+         p.LPK = db.asString(5);
+         p.type = static_cast<ProcedureType>(db.asInt(6));
+         p.code = db.asInt(7);
+         p.tooth = db.asInt(8);
+         p.date = db.asString(9);
+         Parser::parse(db.asString(10), p);
+         p.temp = db.asBool(11);
+         p.ksmp = db.asString(12);
+        
+
+         result.back().procedures.addProcedure(p);
+
+     }
+
+     return result;
+
+}

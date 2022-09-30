@@ -10,7 +10,7 @@ class Date
 public:
     int day{ 1 };
     int month{ 1 };
-    int year{ 2000 };
+    int year{ 1900 };
 
     Date();
     Date(int day, int month, int year);
@@ -21,6 +21,8 @@ public:
     //all my troubles seem so far away
     Date yesterday() const;
     Date tomorrow() const;
+
+    bool isDefault() const;
 
     static Date getBirthdateFromEgn(const std::string& egn);
     std::string toBgStandard(bool suffix = false) const;

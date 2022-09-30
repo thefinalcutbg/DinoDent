@@ -2,7 +2,7 @@
 
 #include <unordered_map>
 
-#include <JsonCpp/json.h>
+#include "Database/Database.h"
 
 #include "Resources.h"
 
@@ -11,15 +11,11 @@ const std::string empty{};
 
 void MKB::initialize() {
 
-	Json::Value mkbjson;
-	mkbjson.resize(40000);
+	mkbToName.clear();
 
-	Json::Reader reader;
-	reader.parse(Resources::mkbJson(), mkbjson);
+	Db db("SELECT code, description FROM mkb");
 
-	mkbToName.reserve(mkbjson.size());
-
-	for (auto& pair : mkbjson) mkbToName[pair["key"].asString()] = pair["value"].asString();
+	while (db.hasRows()) mkbToName[db.asString(0)] = db.asString(1);
 
 }
 
@@ -29,4 +25,9 @@ const std::string& MKB::getNameFromMKBCode(const std::string& mkbCode)
 	if (mkbToName.count(mkbCode)) return mkbToName.at(mkbCode);
 
 	return empty;
+}
+
+bool MKB::isInitialized()
+{
+	return !mkbToName.empty();
 }

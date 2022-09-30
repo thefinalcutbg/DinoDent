@@ -11,6 +11,7 @@ class PatientSummaryPresenter;
 struct PerioWithDisabled;
 struct Patient;
 class PerioStatistic;
+class IPatientTileInfo;
 
 struct ToothInfoStr {
 	std::string label;
@@ -40,7 +41,7 @@ class IPatientSummaryView
 {
 public:
 	virtual void setPresenter(PatientSummaryPresenter* presenter) = 0;
-	virtual void setPatient(const Patient& patient) = 0;
+	virtual IPatientTileInfo* patientTile() = 0;
 	virtual void setTeeth(const std::array<ToothPaintHint, 32>& teeth) = 0;
 	virtual void setProcedures(const std::vector<Procedure>& p) = 0;
 	virtual void setPerioData(const PerioWithDisabled& perio) = 0;

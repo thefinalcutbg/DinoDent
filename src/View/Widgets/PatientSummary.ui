@@ -25,7 +25,7 @@
   <property name="windowTitle">
    <string>PatientSummary</string>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout_6">
+  <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
     <spacer name="horizontalSpacer_7">
      <property name="orientation">
@@ -42,75 +42,14 @@
    <item>
     <layout class="QVBoxLayout" name="verticalLayout_5">
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout">
-       <property name="spacing">
-        <number>0</number>
+      <widget class="PatientTileInfo" name="patientInfoTile" native="true">
+       <property name="minimumSize">
+        <size>
+         <width>811</width>
+         <height>121</height>
+        </size>
        </property>
-       <item>
-        <spacer name="horizontalSpacer_5">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <widget class="PatientTile" name="patientTile">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>461</width>
-           <height>121</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>PushButton</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="AllergiesTile" name="allergiesTile">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>291</width>
-           <height>121</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>PushButton</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer name="horizontalSpacer">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
+      </widget>
      </item>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -760,16 +699,6 @@
    <header>View/uiComponents/ProcedureTable.h</header>
   </customwidget>
   <customwidget>
-   <class>PatientTile</class>
-   <extends>QPushButton</extends>
-   <header>View/uiComponents/TileButton.h</header>
-  </customwidget>
-  <customwidget>
-   <class>AllergiesTile</class>
-   <extends>QPushButton</extends>
-   <header>View/uiComponents/TileButton.h</header>
-  </customwidget>
-  <customwidget>
    <class>HalfRoundedButton</class>
    <extends>QPushButton</extends>
    <header>View/uiComponents/HalfRoundedButton.h</header>
@@ -789,6 +718,12 @@
    <class>DateEdit</class>
    <extends>QDateEdit</extends>
    <header>View/uiComponents/DateEdit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>PatientTileInfo</class>
+   <extends>QWidget</extends>
+   <header>View/SubWidgets/PatientTileInfo.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -7,6 +7,7 @@ class PerioToothData;
 class PerioStatistic;
 class Patient;
 struct Date;
+class IPatientTileInfo;
 
 enum class ShowTeeth {ShowUpperTeeth, ShowLowerTeeth};
 
@@ -14,7 +15,7 @@ class IPerioView
 {
 
 public:
-	virtual void setPatient(const Patient& patient, Date date) = 0;
+	virtual IPatientTileInfo* patientTile() = 0;
 	virtual void setPresenter(PerioPresenter* presenter) = 0;
 	virtual void setToothHint(const ToothPaintHint& hint) = 0;
 	virtual void setPerioStatistic(const PerioStatistic& stat) = 0;

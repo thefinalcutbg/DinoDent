@@ -22,10 +22,11 @@ std::string DbNotes::getNote(long long patientRowId, int toothIdx)
 void DbNotes::saveNote(const std::string& note, long long patientRowId, int toothIdx)
 {
 
+    Db db;
+
     if (note.empty())
     {
-        Db::crudQuery(
-            
+        db.execute(
             "DELETE FROM note WHERE "
             "patient_rowid = " + std::to_string(patientRowId) + " "
             "AND tooth = " + std::to_string(toothIdx)
@@ -34,10 +35,14 @@ void DbNotes::saveNote(const std::string& note, long long patientRowId, int toot
         return;
     }
 
+    db.newStatement(
+        "INSERT INTO note(patient_rowid, tooth, text) VALUES(?,?,?) "
+        "ON CONFLICT(patient_rowid, tooth) DO UPDATE SET text = excluded.text"
+    );
 
-    std::string query = "INSERT INTO note(patient_rowid, tooth, text) "
-        "VALUES(" + std::to_string(patientRowId) + ", " + std::to_string(toothIdx) + ",'" + note + "') "
-        "ON CONFLICT(patient_rowid, tooth) DO UPDATE SET text = excluded.text";
+    db.bind(1, patientRowId);
+    db.bind(2, toothIdx);
+    db.bind(3, note);
 
-    Db::crudQuery(query);
+    db.execute();
 }

@@ -49,15 +49,9 @@ ListView::ListView(QWidget* parent)
 		"color : " + Theme::colorToString(Theme::fontTurquoise) + "; "
 		"font-weight: bold; font-size: 12px;"
 	);
-
-	connect(ui.patientTile->nraIcon, &QPushButton::clicked, [=] {if (presenter)presenter->checkHealthInsurance(true);});
 	connect(ui.ambNumSpin, &LeadingZeroSpinBox::valueChanged, [=](long long value) {if(presenter)presenter->ambNumChanged(value);});
-	connect(ui.allergiesTile->nzokIcon, &QPushButton::clicked, [=] {if (presenter)presenter->checkDiagnosisNhif();});
 	connect(ui.nzokActivities, &QPushButton::clicked, [=] { if (presenter) presenter->openPisHistory(); });
-	connect(ui.patientTile, &QAbstractButton::clicked, [=] { if(presenter) presenter->openPatientDialog(); });
-	connect(ui.allergiesTile, &QAbstractButton::clicked, [=] { if (presenter) presenter->openAllergiesDialog(); });
 	connect(ui.addProcedure, &QAbstractButton::clicked, [=] { if (presenter) presenter->addProcedure(); });
-	
 	connect(ui.taxCombo, &QComboBox::currentIndexChanged, [=] {nhifChanged();});
 	connect(ui.specCombo, &QComboBox::currentIndexChanged, [=] {nhifChanged();});
 	connect(ui.editProcedure, &QPushButton::clicked, [=] { if (presenter) presenter->editProcedure(ui.procedureTable->selectedRow()); });
@@ -186,10 +180,8 @@ void ListView::nhifChanged()
 }
 
 
-void ListView::refresh(const AmbList& ambList, const Patient& patient)
+void ListView::refresh(const AmbList& ambList)
 {
-	ui.patientTile->setData(patient, ambList.getDate());
-	ui.allergiesTile->setData(patient);
 	ambList.hasNZOKProcedure() ?
 		setNhifData(ambList.nhifData)
 		:
@@ -232,6 +224,11 @@ void ListView::hideControlPanel(bool hidden)
 ISurfacePanel* ListView::surfacePanel()
 {
 	return ui.surfacePanel;
+}
+
+IPatientTileInfo* ListView::tileInfo()
+{
+	return ui.patientInfoTile;
 }
 
 void ListView::repaintTooth(const ToothPaintHint& tooth)

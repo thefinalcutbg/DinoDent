@@ -12,8 +12,6 @@ PatientSummary::PatientSummary(QWidget *parent)
 	ui.openButton->setIcon(QIcon(":/icons/icon_open.png"));
 	setStyleSheet("QLabel { color :" + Theme::colorToString(Theme::fontTurquoise) + ";}");
 
-	connect(ui.patientTile, &QAbstractButton::clicked, [=] { if (presenter) presenter->openPatientDialog(); });
-	connect(ui.allergiesTile, &QAbstractButton::clicked, [=] { if (presenter) presenter->openAllergiesDialog(); });
 	connect(ui.openButton, &QAbstractButton::clicked, [=] {if (presenter) presenter->openCurrentDocument();});
 	QButtonGroup* group = new QButtonGroup(this);
 	group->addButton(ui.showBuccal);
@@ -153,10 +151,9 @@ void PatientSummary::setPresenter(PatientSummaryPresenter* presenter)
 	this->presenter = presenter;
 }
 
-void PatientSummary::setPatient(const Patient& patient)
+IPatientTileInfo* PatientSummary::patientTile()
 {
-	ui.patientTile->setData(patient, Date::currentDate());
-	ui.allergiesTile->setData(patient);
+	return ui.patientInfoTile;
 }
 
 

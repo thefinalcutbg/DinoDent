@@ -57,7 +57,7 @@ long long DbAmbList::insert(const AmbList& sheet, long long patientRowId)
     return rowID;
 
 }
-#include <qdebug.h>
+
 void DbAmbList::update(const AmbList& sheet)
 {
     std::string query = "UPDATE amblist SET "
@@ -70,7 +70,6 @@ void DbAmbList::update(const AmbList& sheet)
     
     Db db(query);
 
-    qDebug() << sheet.time.to8601(sheet.getDate()).c_str();
 
     db.bind(1, sheet.number);
     db.bind(2, sheet.time.to8601(sheet.getDate()));

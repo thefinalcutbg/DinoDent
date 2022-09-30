@@ -13,7 +13,7 @@
 #include "Network/PIS/DentalActivitiesService.h"
 #include "Network/NRA/NraStatusService.h"
 #include "Network/PIS/DiagnosisService.h"
-
+#include "Presenter/PatientInfoPresenter.h"
 typedef std::vector<int> SelectedTeethIdx;
 typedef std::vector<Tooth*> SelectedTeeth;
 
@@ -23,12 +23,12 @@ class TabPresenter;
 class ListPresenter : public TabInstance
 {
     SurfacePanelPresenter surf_presenter;
+    PatientInfoPresenter patient_info;
 
     SelectedTeethIdx m_selectedIndexes;
     SelectedTeeth m_selectedTeeth;
 
     bool m_showCurrentStatus{ false };
-    bool m_showInsuranceDialog{ false };
 
     CheckModel m_checkModel;
 
@@ -64,8 +64,6 @@ public:
     TabName getTabName() override;
     void setDataToView() override;
 
-    void openPatientDialog();
-    void openAllergiesDialog();
     void ambNumChanged(long long value);
     void setCaries(int surface);
     void setObturation(int surface);
@@ -76,11 +74,8 @@ public:
 
 
     void setPISActivities(const std::optional<std::vector<Procedure>>& pisProcedures);
-    void setInsuranceStatus(const std::optional<InsuranceStatus>& status_result);
 
     void openPisHistory();
-    void checkHealthInsurance(bool showDialog);
-    void checkDiagnosisNhif();
     void openDetails(int toothIdx);
     void openDetails();
 

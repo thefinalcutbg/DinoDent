@@ -31,8 +31,8 @@ PatientSummaryPresenter::PatientSummaryPresenter(ITabView* view, TabPresenter* t
     :   TabInstance(view, TabType::PatientSummary, patient), 
         view(view->summaryView()),
          tab_presenter(tabPresenter),
-
-        statusTimeFrame(DbPatientSummary::getFrames(patient->rowid))
+        statusTimeFrame(DbPatientSummary::getFrames(patient->rowid)),
+        patient_presenter(view->summaryView()->patientTile(), patient)
 {
     auto perioStatuses = DbPerio::getAllPerioStatuses(patient->rowid);
 
@@ -201,6 +201,8 @@ void PatientSummaryPresenter::setCurrentFrame(int index)
         User::getNameFromLPK(frame->LPK)
     );
 
+    patient_presenter.setDate(frame->date);
+
     switch (frame->type)
     {
     case TimeFrameType::InitialAmb:
@@ -216,38 +218,6 @@ void PatientSummaryPresenter::setCurrentFrame(int index)
       
     }
 
-}
-
-void PatientSummaryPresenter::openPatientDialog()
-{
-    PatientDialogPresenter p{ *patient };
-
-    auto patient = p.open();
-
-    if (!patient.has_value()) return;
-
-    *this->patient = patient.value();
-
-    view->setPatient( *this->patient.get() );
-
-    refreshTabName();
-}
-
-void PatientSummaryPresenter::openAllergiesDialog()
-{
-        AllergiesDialogPresenter p(*patient.get());
-
-        auto data = p.openDialog();
-
-        if (!data.has_value()) return;
-
-        auto& d = data.value();
-
-        patient->allergies = d.allergies;
-        patient->currentDiseases = d.current;
-        patient->pastDiseases = d.past;
-
-        view->setPatient(*this->patient.get());
 }
 
 long long PatientSummaryPresenter::rowID() const
@@ -266,7 +236,7 @@ void PatientSummaryPresenter::setDataToView()
 {
     view->setPresenter(this);
 
-    view->setPatient(*patient.get());
+    patient_presenter.setCurrent();
 
     view->setUiState(state);
 }

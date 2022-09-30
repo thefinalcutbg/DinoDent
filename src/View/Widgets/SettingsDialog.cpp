@@ -13,7 +13,7 @@ SettingsDialog::SettingsDialog(QDialog*parent)
 	connect(ui.applyButton, &QPushButton::clicked, [&] {presenter.applyChanges();});
 	connect(ui.okButton, &QPushButton::clicked, [&] {presenter.okPressed();});
 	connect(ui.generalSettings->ui.updateMedButton, &QPushButton::clicked, [&] {presenter.updateMedications();});
-
+	connect(ui.generalSettings->ui.updateMkbButton, &QPushButton::clicked, [&] {presenter.updateMkb(); });
 	ui.practiceSettings->hidePassword();
 
 	presenter.setView(this);
@@ -32,6 +32,21 @@ Settings SettingsDialog::getSettings()
 		ui.generalSettings->ui.autoPisCheck->isChecked(),
 		ui.generalSettings->ui.autoNraCheck->isChecked()
 	};
+}
+
+void SettingsDialog::setUpdateDate(DynamicNum num, const Date& date)
+{
+	QString dateStr = date.isDefault() ? u8"Няма" : date.toBgStandard(true).c_str();
+
+	switch (num)
+	{
+	case DynamicNum::Medication:
+		ui.generalSettings->ui.medUpdateLabel->setText(dateStr);
+		break;
+	case DynamicNum::MKB:
+		ui.generalSettings->ui.mkbUpdateLabel->setText(dateStr);
+		break;
+	}
 }
 
 SettingsDialog::~SettingsDialog()

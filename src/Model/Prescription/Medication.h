@@ -1,5 +1,6 @@
 #pragma once
 #include "Dosage.h"
+#include "Model/Date.h"
 
 #include <string>
 #include <unordered_map>
@@ -8,8 +9,13 @@
 struct Medication
 {
 private:
-	int key{ 0 }; //towa mai trqbwa da e key-q na map-a
-	int form{ 0 }; //i tova sy6to, ama ot formite
+	int key{ 0 }; //medication key
+	int form{ 0 }; //medication form
+
+	static inline std::unordered_map<int, std::pair<std::string, int>> s_medications;
+	static inline std::unordered_map<std::string, int> s_medNameToIdx;
+	static inline std::vector<std::string> s_medForms;
+	static inline std::string s_dummyResult{};
 
 public:
 
@@ -44,7 +50,6 @@ public:
 	static const std::unordered_map<std::string, int>& names();
 	static const std::string& getFormByKey(int key);
 	static const std::vector<std::string>& forms();
-
 	static bool initialize();
 
 };

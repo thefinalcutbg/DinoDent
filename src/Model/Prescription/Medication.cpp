@@ -1,14 +1,11 @@
 #include "Medication.h"
-#include "Database/Database.h"
-#include <JsonCpp/json.h>
-#include "Resources.h"
+
 #include <vector>
+#include <JsonCpp/json.h>
 
-std::unordered_map<int, std::pair<std::string, int>> s_medications;
-std::unordered_map<std::string, int> s_medNameToIdx;
-std::vector<std::string> s_medForms;
-
-std::string s_dummyResult{};
+#include "Resources.h"
+#include "Database/Database.h"
+#include "Database/DbUpdateStatus.h"
 
 bool Medication::initialize()
 {

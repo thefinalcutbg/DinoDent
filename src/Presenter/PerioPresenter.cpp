@@ -10,10 +10,11 @@
 #include "Presenter/AllergiesDialogPresenter.h"
 
 PerioPresenter::PerioPresenter(ITabView* view, std::shared_ptr<Patient> patient) :
-    TabInstance(view, TabType::PerioList, patient), 
+    TabInstance(view, TabType::PerioList, patient),
     view(view->perioView()),
     m_toothStatus(DbPerio::getStatus(patient->rowid, Date::currentDate())),
-    m_perioStatus(DbPerio::getPerioStatus(patient->rowid, Date::currentDate()))
+    m_perioStatus(DbPerio::getPerioStatus(patient->rowid, Date::currentDate())),
+    patient_info(view->perioView()->patientTile(), patient)
 {
 
     if (m_perioStatus.date != Date::currentDate()) //if its not todays measurment
@@ -55,7 +56,8 @@ PerioPresenter::PerioPresenter(ITabView* view, std::shared_ptr<Patient> patient,
     TabInstance(view, TabType::PerioList, patient),
     view(view->perioView()),
     m_perioStatus(DbPerio::getPerioStatus(rowId)),
-    m_toothStatus(DbPerio::getStatus(patient->rowid, m_perioStatus.date))
+    m_toothStatus(DbPerio::getStatus(patient->rowid, m_perioStatus.date)),
+    patient_info(view->perioView()->patientTile(), patient)
 {
 
     for (auto& tooth : m_toothStatus)
@@ -249,6 +251,7 @@ void PerioPresenter::restorationChanged(bool enabled)
 
 void PerioPresenter::dateChanged(const Date& date)
 {
+    patient_info.setDate(date);
     m_perioStatus.date = date;
     edited = false;
     makeEdited();
@@ -317,7 +320,7 @@ void PerioPresenter::setDataToView()
             m_perioStatus.completeRestorationNeeded
     );
 
-    view->setPatient(*patient.get(), m_perioStatus.date);
+    patient_info.setDate(m_perioStatus.date);
 
     view->setTeethView(m_teethShow);
 
@@ -340,35 +343,6 @@ TabName PerioPresenter::getTabName()
     };
 }
 
-void PerioPresenter::openPatientDialog()
-{
-    PatientDialogPresenter p{ *patient };
-
-    auto patient = p.open();
-
-    if (!patient.has_value()) return;
-
-    *this->patient = patient.value();
-
-    view->setPatient(*this->patient.get(), m_perioStatus.date);
-}
-
-void PerioPresenter::openAllergiesDialog()
-{
-    AllergiesDialogPresenter p(*patient.get());
-
-    auto data = p.openDialog();
-
-    if (!data.has_value()) return;
-
-    auto& d = data.value();
-
-    patient->allergies = d.allergies;
-    patient->currentDiseases = d.current;
-    patient->pastDiseases = d.past;
-
-    view->setPatient(*this->patient.get(), m_perioStatus.date);
-}
 
 PerioPresenter::~PerioPresenter()
 {

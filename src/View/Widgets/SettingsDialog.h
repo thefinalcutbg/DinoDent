@@ -21,7 +21,7 @@ public:
 	IPracticeDoctorSettings* practiceDoctorView() override { return ui.practiceDoctorSettings; };
 	void setSettings(const Settings& settings) override;
 	Settings getSettings() override;
-
+	void setUpdateDate(DynamicNum num, const Date& date) override;
 	~SettingsDialog();
 
 private:

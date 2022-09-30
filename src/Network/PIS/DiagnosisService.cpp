@@ -10,6 +10,11 @@
 
 bool DiagnosisService::sendRequest(int personType, const std::string& patientId, std::function<void(const std::string&)> callback)
 {
+	if (!MKB::isInitialized()) {
+		ModalDialogBuilder::showMessage(u8"Първо заредете МКБ номенклатурите от настройки");
+		return false;
+	}
+
 	m_callback = callback;
 
 	std::string tag = personTypeArr[personType];

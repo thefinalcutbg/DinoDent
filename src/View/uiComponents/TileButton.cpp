@@ -156,7 +156,7 @@ void PatientTile::paintInfo(QPainter* painter)
 }
 
 
-void PatientTile::setData(const Patient& patient, const Date& currentDate)
+void PatientTile::setData(const Patient& patient, int age)
 {
 	name = elide(QString::fromStdString(patient.fullName()), 35);
 
@@ -171,7 +171,7 @@ void PatientTile::setData(const Patient& patient, const Date& currentDate)
 
 	birthDate = QString::fromStdString((patient.birth.toBgStandard()));
 
-	age = QString::number(patient.getAge(currentDate)) + " г.";
+	this->age = QString::number(age) + " г.";
 
 	address = elide(QString::fromStdString(patient.getFullAddress()), 37);
 

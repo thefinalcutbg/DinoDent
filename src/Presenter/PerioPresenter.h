@@ -2,6 +2,7 @@
 #include <memory>
 
 #include "Presenter/TabInstance.h"
+#include "Presenter/PatientInfoPresenter.h"
 #include "Model/Patient.h"
 #include "View/Interfaces/IPerioView.h"
 #include "Model/Dental/PerioStatistic.h"
@@ -18,7 +19,7 @@ class PerioPresenter : public TabInstance
 	void refreshMeasurment(int index);
 
 	int getRecession(int surfaceIndex);
-
+	PatientInfoPresenter patient_info;
 public:
 
 	PerioStatus m_perioStatus;
@@ -44,9 +45,6 @@ public:
 	void restorationChanged(bool enabled);
 
 	void dateChanged(const Date& date);
-
-	void openPatientDialog();
-	void openAllergiesDialog();
 
 	// Inherited via TabInstance
 	long long rowID() const override;

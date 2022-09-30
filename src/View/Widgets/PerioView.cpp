@@ -22,8 +22,6 @@ PerioView::PerioView(QWidget* parent)
 {
 	ui.setupUi(this);
 
-	connect(ui.patientTile, &QAbstractButton::clicked, [=] { if (presenter) presenter->openPatientDialog(); });
-	connect(ui.allergiesTile, &QAbstractButton::clicked, [=] { if (presenter) presenter->openAllergiesDialog(); });
 	connect(ui.dateEdit, &QDateEdit::dateChanged, [=](QDate d) {if (presenter)presenter->dateChanged(Date{ d.day(), d.month(), d.year() });});
 	QButtonGroup* group = new QButtonGroup(this);
 	group->addButton(ui.upperButton);
@@ -195,10 +193,9 @@ void PerioView::setTeethView(ShowTeeth t)
 	}
 }
 
-void PerioView::setPatient(const Patient& patient, Date date)
+IPatientTileInfo* PerioView::patientTile()
 {
-	ui.patientTile->setData(patient, date);
-	ui.allergiesTile->setData(patient);
+	return ui.patientInfoTile;
 }
 
 

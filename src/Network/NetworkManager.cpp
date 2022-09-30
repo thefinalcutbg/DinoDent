@@ -68,12 +68,12 @@ void NetworkManager::sendRequestToPis(
 
             std::string replyString = reply->readAll().toStdString();
 
-            //the html error reply from the server begins with <!DOCTYPE ...
+            //the html error reply from PIS begins with <!DOCTYPE ...
             //otherwise it begins with <?xml ....
-            if (replyString.empty() || replyString[1] == '!') {
-                replyString.clear();
+            if (replyString[1] == '!') {
+                replyString.clear(); 
             }
-
+            
             handler->getReply(replyString);
 
             reply->deleteLater();

@@ -32,7 +32,7 @@ public:
 	// Inherited via IPatientSummaryView
 	
 	void setPresenter(PatientSummaryPresenter* presenter) override;
-	void setPatient(const Patient& patient) override;
+	IPatientTileInfo* patientTile() override;
 	void setTeeth(const std::array<ToothPaintHint, 32>& teeth) override;
 	void setProcedures(const std::vector<Procedure>& p) override;
 	void setPerioData(const PerioWithDisabled& perio) override;

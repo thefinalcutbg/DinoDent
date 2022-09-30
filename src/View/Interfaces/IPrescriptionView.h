@@ -6,11 +6,12 @@ class PrescriptionPresenter;
 class Date;
 struct Patient;
 struct Dispensation;
+class IPatientTileInfo;
 
 class IPrescriptionView
 {
 public:
-	virtual void setPatient(const Patient& patient, const Date& currentDate) = 0;
+	virtual IPatientTileInfo* patientTile() = 0;
 	virtual void setPresenter(PrescriptionPresenter* p) = 0;
 	virtual void setMedicationList(const std::vector<std::string>) = 0;
 	virtual void setDispensation(const Dispensation& d) = 0;

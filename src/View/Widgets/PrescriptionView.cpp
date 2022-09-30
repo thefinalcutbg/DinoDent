@@ -48,12 +48,10 @@ PrescriptionView::PrescriptionView(QWidget* parent)
 
 }
 
-void PrescriptionView::setPatient(const Patient& patient, const Date& currentDate)
+IPatientTileInfo* PrescriptionView::patientTile()
 {
-	ui.patientTile->setData(patient, currentDate);
-	ui.allergiesTile->setData(patient);
+	return ui.patientInfoTile;
 }
-
 
 void PrescriptionView::setMedicationList(const std::vector<std::string> rows)
 {

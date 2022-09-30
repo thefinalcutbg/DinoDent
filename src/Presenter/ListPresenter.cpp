@@ -19,7 +19,8 @@ ListPresenter::ListPresenter(ITabView* tabView, TabPresenter* tabPresenter, std:
     TabInstance(tabView, TabType::AmbList, patient),
     view(tabView->listView()),
     tabPresenter(tabPresenter),
-    m_ambList(rowId ? DbAmbList::getListData(rowId) : DbAmbList::getNewAmbSheet(patient->rowid))
+    m_ambList(rowId ? DbAmbList::getListData(rowId) : DbAmbList::getNewAmbSheet(patient->rowid)),
+    patient_info(tabView->listView()->tileInfo(), patient)
 {
 
     surf_presenter.setStatusControl(this);
@@ -34,13 +35,6 @@ ListPresenter::ListPresenter(ITabView* tabView, TabPresenter* tabPresenter, std:
     if (!User::practice().nzok_contract) return;
 
     if(User::settings().getPisHistoryAuto) requestPisActivities();
-
-    if (User::practice().nzok_contract->nra_pass.size() &&
-        User::settings().getNraStatusAuto
-    )
-    {
-        checkHealthInsurance(false);
-    }
 
 
 }
@@ -182,13 +176,10 @@ void ListPresenter::setDataToView()
 {
     
     view->setPresenter(this);
-    
+    patient_info.setDate(m_ambList.getDate());
+    patient_info.setCurrent();
 
-    view->refresh
-    (
-        m_ambList,
-        *patient.get()
-    );
+    view->refresh(m_ambList);
 
     view->setAmbListNum(m_ambList.number);
 
@@ -214,56 +205,6 @@ void ListPresenter::setDataToView()
    
 }
 
-
-void ListPresenter::openPatientDialog()
-{
-    if (patient == nullptr) return;
-
-    PatientDialogPresenter p{ *patient };
-  
-    auto patient = p.open();
-
-    if (!patient.has_value()) return;
-
-    *this->patient = patient.value();
-
-    tabPresenter->refreshPatientTabNames(patient->rowid);
-
-    view->refresh
-    (
-        m_ambList,
-        *this->patient.get()
-    );
-
-    
-
-}
-
-
-void ListPresenter::openAllergiesDialog()
-{
-    AllergiesDialogPresenter p(*patient.get());
-
-    auto data = p.openDialog();
-
-    if (!data.has_value()) return;
-
-    auto& d = data.value();
-
-    auto success = DbPatient::updateAllergies(patient->rowid, d.allergies,d.current,d.past);
-
-    if (!success) return;
-
-    patient->allergies = d.allergies;
-    patient->currentDiseases = d.current;
-    patient->pastDiseases = d.past;
-
-    view->refresh
-    (
-        m_ambList,
-        *patient.get()
-    );
-}
 
 void ListPresenter::ambNumChanged(long long value)
 {
@@ -395,15 +336,8 @@ int ListPresenter::generateAmbListNumber()
 
 void ListPresenter::requestPisActivities()
 {
-    if (patient->PISHistory.has_value()) return;
-      
-    //sending request to PIS
-
     dentalActService.sendRequest(patient->type, patient->id,
-
-        [=](auto procedures) {
-            if (this) this->setPISActivities(procedures);
-        }
+        [&](auto procedures) { setPISActivities(procedures);}
     );
 
 }
@@ -412,7 +346,6 @@ void ListPresenter::setPISActivities(const std::optional<std::vector<Procedure>>
 {
 
     if (!pisProcedures.has_value()) {
-        ModalDialogBuilder::showError(u8"Неуспешна връзка със сървъра");
         m_openHistoryDialogOnReply = false;
         return;
     }
@@ -420,23 +353,6 @@ void ListPresenter::setPISActivities(const std::optional<std::vector<Procedure>>
     patient->PISHistory = pisProcedures;
 
     if (m_openHistoryDialogOnReply) openPisHistory();
-}
-
-void ListPresenter::setInsuranceStatus(const std::optional<InsuranceStatus>& status_result)
-{
-    if (!status_result) {
-        return;
-    }
-
-    patient->insuranceStatus = status_result.value();
-
-    view->refresh(m_ambList, *patient.get());
-
-    if (m_showInsuranceDialog) {
-        m_showInsuranceDialog = false;
-        ModalDialogBuilder::showMessage(status_result->getYearsText());
-    }
-
 }
 
 #include "Presenter/DetailedStatusPresenter.h"
@@ -472,57 +388,6 @@ void ListPresenter::openPisHistory()
    
 
     makeEdited();
-}
-
-void ListPresenter::checkHealthInsurance(bool showDialog)
-{
-
-    m_showInsuranceDialog = showDialog;
-
-    if (patient->insuranceStatus) {
-        setInsuranceStatus(patient->insuranceStatus.value());
-        return;
-    }
-
-    nraStatusServ.sendRequest(*patient.get(),
-
-        [=](auto status){if(this)this->setInsuranceStatus(status);}
-
-    );
-
-}
-
-void ListPresenter::checkDiagnosisNhif()
-{
-    nhifDiagnosisServ.sendRequest(
-        patient->type,
-        patient->id,
-
-
-        [=](const std::string& currentDiseases) {
-
-            if (currentDiseases.empty()) {
-                ModalDialogBuilder::showMessage(u8"Няма данни в рецептурната книжка");
-                return;
-            }
-
-            Patient patient = *this->patient;
-            patient.currentDiseases = currentDiseases;
-            
-            AllergiesDialogPresenter p(patient);
-            auto result = p.openDialog();
-
-            if (!result) return;
-
-            auto success = DbPatient::updateAllergies(patient.rowid, patient.allergies, patient.currentDiseases, patient.pastDiseases);
-
-            if (!success) return;
-
-            *this->patient = patient;
-  
-            view->refresh(m_ambList, patient);
-        }
-    );
 }
 
 void ListPresenter::openDetails(int toothIdx)
@@ -598,6 +463,7 @@ void ListPresenter::addProcedure()
 
     view->setAmbListNum(m_ambList.number);
 
+    patient_info.setDate(m_ambList.getDate());
     refreshPrices();
     refreshProcedureView();
 
@@ -624,6 +490,7 @@ void ListPresenter::editProcedure(int index)
 
     m_ambList.procedures.replaceProcedure(m, index);
 
+    patient_info.setDate(m_ambList.getDate());
     refreshPrices();
     refreshProcedureView();
     makeEdited();
@@ -644,6 +511,7 @@ void ListPresenter::deleteProcedure(int index)
 
     view->setAmbListNum(m_ambList.number);
 
+    patient_info.setDate(m_ambList.getDate());
     refreshPrices();
     refreshProcedureView();
 

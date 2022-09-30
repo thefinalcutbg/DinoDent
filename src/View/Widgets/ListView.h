@@ -34,7 +34,7 @@ public:
 
     void setPresenter(ListPresenter* presenter) override;
 
-    void refresh(const AmbList& ambList, const Patient& patient) override;
+    void refresh(const AmbList& ambList) override;
     void setAmbListNum(int number) override;
     void setDateTime(const Date& date, const Time& time) override;
     //IStatusView
@@ -42,6 +42,7 @@ public:
     void hideSurfacePanel(bool hidden) override;
     void hideControlPanel(bool hidden) override;
     ISurfacePanel* surfacePanel() override;
+    IPatientTileInfo* tileInfo() override;
     void repaintTooth(const ToothPaintHint& tooth) override;
     void setNotes(const std::array<std::string, 32>& notes) override;
     void disableGraphicsView(bool disabled) override;

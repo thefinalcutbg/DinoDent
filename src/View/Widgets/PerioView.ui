@@ -206,32 +206,6 @@
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="PatientTile" name="patientTile">
-   <property name="geometry">
-    <rect>
-     <x>80</x>
-     <y>20</y>
-     <width>521</width>
-     <height>121</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>PushButton</string>
-   </property>
-  </widget>
-  <widget class="AllergiesTile" name="allergiesTile">
-   <property name="geometry">
-    <rect>
-     <x>600</x>
-     <y>20</y>
-     <width>321</width>
-     <height>121</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>PushButton</string>
-   </property>
-  </widget>
   <widget class="PerioStatisticView" name="perioStatistics" native="true">
    <property name="geometry">
     <rect>
@@ -271,6 +245,29 @@
     <string>Дата:</string>
    </property>
   </widget>
+  <widget class="PatientTileInfo" name="patientInfoTile" native="true">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>20</y>
+     <width>811</width>
+     <height>121</height>
+    </rect>
+   </property>
+  </widget>
+  <zorder>patientInfoTile</zorder>
+  <zorder>stackedWidget</zorder>
+  <zorder>upperButton</zorder>
+  <zorder>lowerButton</zorder>
+  <zorder>label</zorder>
+  <zorder>boneSpin</zorder>
+  <zorder>systemicCheck</zorder>
+  <zorder>restoreCheck</zorder>
+  <zorder>groupBox</zorder>
+  <zorder>riskLabel</zorder>
+  <zorder>perioStatistics</zorder>
+  <zorder>dateEdit</zorder>
+  <zorder>label_2</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
@@ -279,16 +276,6 @@
    <extends>QWidget</extends>
    <header>View/Widgets/periostatusview.h</header>
    <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>PatientTile</class>
-   <extends>QPushButton</extends>
-   <header>View/uiComponents/TileButton.h</header>
-  </customwidget>
-  <customwidget>
-   <class>AllergiesTile</class>
-   <extends>QPushButton</extends>
-   <header>View/uiComponents/TileButton.h</header>
   </customwidget>
   <customwidget>
    <class>HalfRoundedButton</class>
@@ -305,6 +292,12 @@
    <class>DateEdit</class>
    <extends>QDateEdit</extends>
    <header>View/uiComponents/dateedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>PatientTileInfo</class>
+   <extends>QWidget</extends>
+   <header>View/SubWidgets/PatientTileInfo.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

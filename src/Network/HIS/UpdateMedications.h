@@ -1,9 +1,9 @@
 #pragma once
 #include "GetNumenclature.h"
 
-class UpdateMedications : private GetNumenclature
+class UpdateMedications : public GetNumenclature
 {
-	 void parseReply(const std::string& reply) override;
+	 bool parseNumenclature(const std::string& reply) override;
 
 public:
 	void update();

@@ -215,6 +215,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Database\DbPrescription.cpp" />
+    <ClCompile Include="src\Database\DbUpdateStatus.cpp" />
     <ClCompile Include="src\Model\FreeFunctions.cpp" />
     <ClCompile Include="src\Model\Prescription\Route.cpp" />
     <ClCompile Include="src\Model\Prescription\DoseQuantity.cpp" />
@@ -222,8 +223,10 @@
     <ClCompile Include="src\Model\Prescription\WhenToTake.cpp" />
     <ClCompile Include="src\Model\Validators\PrescriptionValidators.cpp" />
     <ClCompile Include="src\Network\HIS\EPrescription.cpp" />
+    <ClCompile Include="src\Network\HIS\UpdateMkb.cpp" />
     <ClCompile Include="src\Presenter\DosagePresenter.cpp" />
     <ClCompile Include="src\Presenter\MedicationPresenter.cpp" />
+    <ClCompile Include="src\Presenter\PatientInfoPresenter.cpp" />
     <ClCompile Include="src\Presenter\PrescriptionPresenter.cpp" />
     <ClCompile Include="src\Network\HIS\UpdateMedications.cpp" />
     <ClCompile Include="src\Model\Prescription\Dosage.cpp" />
@@ -392,6 +395,7 @@
     <ClCompile Include="src\View\SubWidgets\ObturationView.cpp" />
     <ClCompile Include="src\View\SubWidgets\ObturationWidget.cpp" />
     <ClCompile Include="src\View\SubWidgets\PathologyWidget.cpp" />
+    <ClCompile Include="src\View\SubWidgets\PatientTileInfo.cpp" />
     <ClCompile Include="src\View\SubWidgets\PerioStatisticView.cpp" />
     <ClCompile Include="src\View\SubWidgets\RangeWidget.cpp" />
     <ClCompile Include="src\View\SubWidgets\SurfacePanel.cpp" />
@@ -467,15 +471,20 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Database\DbPrescription.h" />
+    <ClInclude Include="src\Database\DbUpdateStatus.h" />
+    <ClInclude Include="src\Model\DynamicNum.h" />
     <ClInclude Include="src\Model\Prescription\Dispensation.h" />
     <ClInclude Include="src\Model\Prescription\Route.h" />
     <ClInclude Include="src\Model\Prescription\DoseQuantity.h" />
     <ClInclude Include="src\Model\Prescription\TimeLapse.h" />
     <ClInclude Include="src\Model\Prescription\WhenToTake.h" />
     <ClInclude Include="src\Model\Validators\PrescriptionValidators.h" />
+    <ClInclude Include="src\Network\DynamicNumenclatures.h" />
     <ClInclude Include="src\Network\HIS\EPrescription.h" />
+    <ClInclude Include="src\Network\HIS\UpdateMkb.h" />
     <ClInclude Include="src\Presenter\DosagePresenter.h" />
     <ClInclude Include="src\Presenter\MedicationPresenter.h" />
+    <ClInclude Include="src\Presenter\PatientInfoPresenter.h" />
     <ClInclude Include="src\Presenter\PrescriptionPresenter.h" />
     <ClInclude Include="src\Network\HIS\UpdateMedications.h" />
     <ClInclude Include="src\Model\Prescription\Dosage.h" />
@@ -656,6 +665,7 @@
     <ClInclude Include="src\View\Interfaces\IPacticeSettings.h" />
     <ClInclude Include="src\View\Interfaces\IPatientDialog.h" />
     <ClInclude Include="src\View\Interfaces\IPatientSummaryView.h" />
+    <ClInclude Include="src\View\Interfaces\IPatientTileInfo.h" />
     <ClInclude Include="src\View\Interfaces\IPerioView.h" />
     <ClInclude Include="src\View\Interfaces\IPrescriptionView.h" />
     <ClInclude Include="src\View\Interfaces\IPracticeDoctorSettings.h" />
@@ -672,6 +682,7 @@
     <QtMoc Include="src\View\Models\PrescriptionTableModel.h" />
     <ClInclude Include="src\View\Models\QProcedure.h" />
     <ClInclude Include="src\View\Printer.h" />
+    <QtMoc Include="src\View\SubWidgets\PatientTileInfo.h" />
     <ClInclude Include="src\View\Theme.h" />
     <ClInclude Include="src\View\uiComponents\AutoCompleteLineEdit.h" />
     <ClInclude Include="src\View\uiComponents\FinancialTileButton.h" />
@@ -782,6 +793,7 @@
     <QtUic Include="src\View\SubWidgets\ObturationView.ui" />
     <QtUic Include="src\View\SubWidgets\ObturationWidget.ui" />
     <QtUic Include="src\View\SubWidgets\PathologyWidget.ui" />
+    <QtUic Include="src\View\SubWidgets\PatientTileInfo.ui" />
     <QtUic Include="src\View\SubWidgets\PerioStatisticView.ui" />
     <QtUic Include="src\View\SubWidgets\RangeWidget.ui" />
     <QtUic Include="src\View\SubWidgets\SurfacePanel.ui" />

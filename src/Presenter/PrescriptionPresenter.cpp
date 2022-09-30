@@ -4,7 +4,10 @@
 #include "Model/FreeFunctions.h"
 
 PrescriptionPresenter::PrescriptionPresenter(ITabView* tabView, TabPresenter* tabPresenter, std::shared_ptr<Patient> patient, long long rowId) :
-	TabInstance(tabView, TabType::Prescription, patient), view(tabView->perscriptionView()), m_prescription(DbPrescription::get(rowId))
+	TabInstance(tabView, TabType::Prescription, patient), 
+	view(tabView->perscriptionView()),
+	m_prescription(DbPrescription::get(rowId)),
+	patient_presenter(view->patientTile(), patient)
 {
 	m_prescription.patient_rowid = patient->rowid;
 
@@ -126,13 +129,14 @@ void PrescriptionPresenter::dispensationChanged(const Dispensation& d)
 void PrescriptionPresenter::dateChanged(const Date& date)
 {
 	m_prescription.date = date;
+	patient_presenter.setDate(date);
 	makeEdited();
 }
 
 void PrescriptionPresenter::setDataToView()
 {
 	view->setPresenter(this);
-	view->setPatient(*patient.get(), Date::currentDate());
+	patient_presenter.setCurrent();
 	view->setDate(m_prescription.date);
 	view->setDispensation(m_prescription.dispensation);
 	view->setSupplements(m_prescription.supplements);

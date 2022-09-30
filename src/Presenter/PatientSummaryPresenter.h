@@ -1,5 +1,6 @@
 #pragma once
 #include "Presenter/TabInstance.h"
+#include "Presenter/PatientInfoPresenter.h"
 #include "Model/Dental/TimeFrame.h"
 #include <memory>
 #include "View/Theme.h"
@@ -13,7 +14,7 @@ class PatientSummaryPresenter : public TabInstance
 
 	IPatientSummaryView* view;
 	SummaryState state;
-
+	PatientInfoPresenter patient_presenter;
 	TabPresenter* tab_presenter;
 
 	std::vector<TimeFrame> statusTimeFrame;
@@ -33,9 +34,6 @@ public:
 	void toothSelected(int toothIdx);
 	void teethViewButtonClicked(bool showBuccal);
 	void perioCheckBoxClicked(bool checked);
-
-	void openPatientDialog();
-	void openAllergiesDialog();
 
 	long long rowID() const override;
 	bool save() override { return true; };

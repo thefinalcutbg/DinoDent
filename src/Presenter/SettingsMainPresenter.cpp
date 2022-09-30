@@ -3,6 +3,7 @@
 #include "Database/DbDoctor.h"
 #include "Model/User.h"
 #include "View/ModalDialogBuilder.h"
+#include "Database/DbUpdateStatus.h"
 
 SettingsMainPresenter::SettingsMainPresenter()
 {
@@ -24,6 +25,7 @@ void SettingsMainPresenter::setView(ISettingsDialog* view)
 	m_priceListPresenter.setPriceList(User::practice().priceList);
 
 	view->setSettings(User::practice().settings);
+	setUpdateLabels();
 }
 
 void SettingsMainPresenter::okPressed()
@@ -32,6 +34,38 @@ void SettingsMainPresenter::okPressed()
 	{
 		view->closeDialog();
 	}
+}
+
+void SettingsMainPresenter::setUpdateLabels() {
+
+	view->setUpdateDate(
+		DynamicNum::Medication,
+		DbUpdateStatus::lastUpdated(DynamicNum::Medication)
+	);
+
+	view->setUpdateDate(
+		DynamicNum::MKB,
+		DbUpdateStatus::lastUpdated(DynamicNum::MKB)
+	);
+}
+
+void SettingsMainPresenter::updateMedications()
+{
+	med_update.setCallback
+	(
+		[&](bool success) { if (success) setUpdateLabels();}
+	);
+
+	med_update.update();
+}
+
+void SettingsMainPresenter::updateMkb()
+{
+	mkb_update.setCallback(
+		[&](bool success) { }
+	);
+
+	mkb_update.update();
 }
 
 bool SettingsMainPresenter::applyChanges()

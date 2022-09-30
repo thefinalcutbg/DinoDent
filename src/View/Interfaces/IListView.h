@@ -2,7 +2,7 @@
 
 #include <vector>
 #include "Model/Dental/Procedure.h"
-
+#include "View/Interfaces/IPatientTileInfo.h"
 class CheckModel;
 class AmbList;
 class Patient;
@@ -17,7 +17,7 @@ class Time;
 class IListView
 {
 public:
-	virtual void refresh(const AmbList& ambList, const Patient &patient) = 0;
+	virtual void refresh(const AmbList& ambList) = 0;
 	virtual void setPresenter(ListPresenter* presenter) = 0;
 	virtual void setAmbListNum(int number) = 0;
 	virtual void setCheckModel(const CheckModel& checkModel) = 0;
@@ -29,7 +29,7 @@ public:
 	virtual void hideNhifSheetData() = 0;
 	virtual void setNhifData(const NhifSheetData& data) = 0;
 	virtual ISurfacePanel* surfacePanel() = 0;
-
+	virtual IPatientTileInfo* tileInfo() = 0;
 	virtual void repaintTooth(const ToothPaintHint& tooth) = 0;
 	virtual void setNotes(const std::array<std::string, 32>& notes) = 0;
 

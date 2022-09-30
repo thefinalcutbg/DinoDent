@@ -3,7 +3,10 @@
 #include "Model/FreeFunctions.h"
 #include "Database/DbPatient.h"
 
-GetNumenclature::GetNumenclature() : HisService("C001", "/v1/nomenclatures/all/get") {};
+
+GetNumenclature::GetNumenclature() :
+	HisService("C001", "/v1/nomenclatures/all/get")
+{};
 
 bool GetNumenclature::sendRequest(int num)
 {
@@ -13,4 +16,10 @@ bool GetNumenclature::sendRequest(int num)
 		"<nhis:nomenclatureId value=\"CL" + FreeFn::leadZeroes(num, 3) + "\"/>";
 
 	return HisService::sendRequestToHisNoAuth(request);
+}
+
+void GetNumenclature::parseReply(const std::string& reply)
+{
+	if (m_callable) m_callable(parseNumenclature(reply));
+	m_callable = nullptr;
 }

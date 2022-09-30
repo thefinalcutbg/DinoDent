@@ -4,15 +4,16 @@
 #include <qdebug.h>
 #include "Database/Database.h"
 #include "Model/Prescription/Medication.h"
+#include "View/ModalDialogBuilder.h"
+#include "Database/DbUpdateStatus.h"
 
 void UpdateMedications::update()
 {
 	GetNumenclature::sendRequest(9);
 }
 
-void UpdateMedications::parseReply(const std::string& reply)
+bool UpdateMedications::parseNumenclature(const std::string& reply)
 {
-	struct MediStruct { int key{ 0 }; std::string name{ 0 }; int form{ 0 }; };
 
 	TiXmlDocument doc;
 
@@ -29,10 +30,20 @@ void UpdateMedications::parseReply(const std::string& reply)
 
 	Db db;
 
-	for ( int i = 1; ; i++)
+	db.execute("PRAGMA foreign_keys = OFF");
+
+	db.execute("DELETE FROM numMed");
+	
+	std::string query;
+	query.reserve(10000);
+
+	for ( int i = 1; table.Child(i).ToElement(); i++)
 	{
+		if (query.empty()) {
+			query = "INSERT INTO numMed (rowid, name, form) VALUES ";
+		}
+
 		auto entryHandle = table.Child(i);
-		if (!entryHandle.ToElement()) break;
 
 		std::string key;
 		std::string name;
@@ -55,17 +66,28 @@ void UpdateMedications::parseReply(const std::string& reply)
 
 		}
 
-		db.execute(
-			"INSERT INTO numMed (rowid, name, form) VALUES ("
-			+ key + ",'" + name + "'," + form + ") "
-			"ON CONFLICT(rowid) DO UPDATE SET "
-			"name='" + name + "',"
-			"form=" + form
-		);
+		query.append("(" + key + ",'" + name + "'," + form + "),");
+		
+		if (!(i%200)) {
+			//removing the last comma;
+			query.pop_back();
+
+			db.execute(query);
+			query.clear();
+		}
+		
 	}
 
+	if (query.size()) {
+		query.pop_back();
+		db.execute(query);
+	}
 	
+	db.execute("PRAGMA foreign_keys = ON");
+	
+	DbUpdateStatus::setAsUpdated(DynamicNum::Medication);
+
 	Medication::initialize();
 
-
+	return true;
 }

@@ -84,6 +84,11 @@ Date Date::tomorrow() const
     return Date{ 1, 1, year + 1 };
 }
 
+bool Date::isDefault() const
+{
+    return (day == 1 && month == 1 && year == 1900);
+}
+
 Date Date::getBirthdateFromEgn(const std::string& egn)
 {
 

@@ -3,12 +3,14 @@
 #include "View/Interfaces/IPrescriptionView.h"
 #include "Model/Prescription/Prescription.h"
 #include "Network/HIS/EPrescription.h"
-
+#include "Presenter/PatientInfoPresenter.h"
 class PrescriptionPresenter : public TabInstance
 {
 	IPrescriptionView* view;
 
 	Prescription m_prescription;
+
+	PatientInfoPresenter patient_presenter;
 
 	EPrescription::Issue issue_prescription;
 	EPrescription::Cancel cancel_prescription;

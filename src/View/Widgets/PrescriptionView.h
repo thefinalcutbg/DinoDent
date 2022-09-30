@@ -19,7 +19,7 @@ class PrescriptionView final : public QWidget, public IPrescriptionView
 public:
 	PrescriptionView(QWidget *parent = nullptr);
 	void setPresenter(PrescriptionPresenter* p) override { presenter = p;}
-	void setPatient(const Patient& patient, const Date& currentDate) override;
+	IPatientTileInfo* patientTile() override;
 	void setMedicationList(const std::vector<std::string>) override;
 	void setDispensation(const Dispensation& d) override;
 	void setSupplements(const std::string& supplements) override;

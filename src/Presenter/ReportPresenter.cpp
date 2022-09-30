@@ -220,8 +220,7 @@ void ReportPresenter::saveToXML()
 
 void ReportPresenter::setPISActivities(const std::optional<std::vector<Procedure>>& pisProcedures)
 {
-	if (!pisProcedures.has_value()) {
-		ModalDialogBuilder::showError(u8"Неуспешна връзка със сървъра.");
+	if (!pisProcedures.has_value()) { 
 		reset();
 		return;
 	}
@@ -256,7 +255,7 @@ void ReportPresenter::setDate(int month, int year)
 	this->year = year;
 	reset();
 }
-#include <QDebug>
+
 void ReportPresenter::generateReport(bool checkPis, bool checkNra)
 {
 

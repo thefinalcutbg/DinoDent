@@ -39,7 +39,7 @@ const std::array<std::string_view, 5>& CrownData::prepTypes()
 	return crownPrep;
 }
 
-std::string CrownData::infoStr()
+std::string CrownData::infoStr() const
 {
 	std::string result;
 

@@ -36,5 +36,7 @@ struct ToothPaintHint
 	int mobility;
 
 	bool isUpper() { return idx < 16; };
+
+	std::string toolTip;
 	 
 };

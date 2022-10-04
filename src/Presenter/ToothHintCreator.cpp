@@ -146,7 +146,7 @@ ToothPaintHint ToothHintCreator::getToothHint(const Tooth& tooth)
     if (tooth.mobility.exists())
         hint.mobility = static_cast<int>(tooth.mobility.degree) + 1;
 
-
+    hint.toolTip = tooth.getToothInfo();
 
     return hint;
 }

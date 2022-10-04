@@ -1,7 +1,7 @@
 ﻿#include "Tooth.h"
 #include <vector>
 #include "ToothUtils.h"
-
+#include "View/Theme.h"
 
 
 Tooth::Tooth() : 
@@ -243,7 +243,7 @@ std::string Tooth::toothName() const
 	return ToothUtils::getName(index, temporary.exists());
 }
 
-std::string Tooth::getToothInfo()
+std::string Tooth::getToothInfo() const
 {
 
 	std::string result;
@@ -299,7 +299,7 @@ std::string Tooth::getToothInfo()
 		result.append(implant.data.infoStr());
 	}
 
-	std::array<Pathology*, 4> pato{
+	std::array<const Pathology*, 4> pato{
 		&pulpitis, &lesion, &fracture, &root
 	};
 

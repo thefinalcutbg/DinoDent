@@ -1,4 +1,4 @@
-#include "TeethViewScene.h"
+﻿#include "TeethViewScene.h"
 #include <QGraphicsSceneContextMenuEvent>
 #include <QGraphicsSceneMouseEvent>
 #include <QKeyEvent>
@@ -298,6 +298,7 @@ void TeethViewScene::display(const ToothPaintHint& tooth)
 {
     toothGraphic[tooth.idx]->setToothPixmap(ToothPainter::getBuccalOcclusal(tooth));
     dsnToothGraphic[tooth.idx]->setToothPixmap(ToothPainter::getDnsBuccal(tooth));
+    selectionBox[tooth.idx]->setToolTip(tooth.toolTip.c_str());
 }
 
 

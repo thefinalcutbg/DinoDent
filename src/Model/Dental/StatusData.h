@@ -41,7 +41,7 @@ struct CrownData {
     int prep_type{ 0 };
     VitaColor color;
 
-    std::string infoStr();
+    std::string infoStr() const;
 
     static const std::array<std::string_view, 5>& prepTypes();
 

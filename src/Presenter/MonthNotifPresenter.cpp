@@ -42,10 +42,6 @@ void MonthNotifPresenter::loadFromXml()
 
 void MonthNotifPresenter::loadFromPis()
 {
-    if (!m_notifRows.empty()) {
-        setNotifRows(m_notifRows);
-        return;
-    }
 
     m_listHandler.sendRequest(User::practice().rziCode,
         [=](auto result) {this->setNotifRows(result);}

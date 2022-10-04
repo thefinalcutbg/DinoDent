@@ -62,7 +62,7 @@ void SettingsMainPresenter::updateMedications()
 void SettingsMainPresenter::updateMkb()
 {
 	mkb_update.setCallback(
-		[&](bool success) { }
+		[&](bool success) { if (success) setUpdateLabels(); }
 	);
 
 	mkb_update.update();

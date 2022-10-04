@@ -3,6 +3,7 @@
 #include "View/Graphics/ContextMenu.h"
 #include "View/Theme.h"
 #include "Model/Dental/NhifSheetData.h"
+#include "View/uiComponents/MouseWheelGuard.h"
 
 ListView::ListView(QWidget* parent)
 	: QWidget(parent), presenter(nullptr)
@@ -14,6 +15,9 @@ ListView::ListView(QWidget* parent)
 	teethViewScene->setContextMenu(contextMenu);
 
 	ui.ambNumSpin->setTotalLength(6);
+	ui.ambNumSpin->installEventFilter(new MouseWheelGuard(ui.ambNumSpin));
+
+	ui.specCombo->installEventFilter(new MouseWheelGuard(ui.specCombo));
 
 	ui.teethView->setScene(teethViewScene);
 	ui.teethView->setSceneRect(teethViewScene->sceneRect());

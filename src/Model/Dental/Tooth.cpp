@@ -154,7 +154,7 @@ void Tooth::addStatus(int statusCode)
 			set(true, temporary);  set(false, extraction, implant, post);  break;
 
 		case StatusCode::Extraction:
-			if (hyperdontic.exists() || impacted.exists()) { set(false, hyperdontic, impacted);  break; }
+			if (hyperdontic.exists() || impacted.exists()) { set(false, hyperdontic, impacted, temporary);  break; }
 			if (temporary.exists()) { removeStatus(); temporary.set(false); break; }
 			set(true, extraction); set(false, obturation, caries, implant, pulpitis, endo, fracture, root, lesion, periodontitis, crown, post, mobility); break;
    

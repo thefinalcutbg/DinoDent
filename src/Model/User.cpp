@@ -67,8 +67,7 @@ void User::refereshPracticeDoctor()
 
 std::string User::getNameFromLPK(const std::string& LPK)
 {
-    if (s_names.count(LPK))
-        return s_names[LPK];
+    if (s_names.count(LPK)) return s_names[LPK];
 
     return LPK;
 

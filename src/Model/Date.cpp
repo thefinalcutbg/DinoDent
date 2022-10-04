@@ -3,6 +3,10 @@
 #include <QDate>
 #include <View/ModalDialogBuilder.h>
 int Date::monthDays[12]{ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+constexpr const char* monthNames[12]{
+    u8"Януари", u8"Февруари", u8"Март", u8"Април", u8"Май", u8"Юни",
+    u8"Юли", u8"Август", u8"Септември", u8"Октомври", u8"Ноември", u8"Декември"
+};
 
 Date::Date() :
     day(1),
@@ -173,6 +177,11 @@ std::string Date::toXMLInvoiceFileName() const
     return toXMLReportFileName() + dayStr;
 }
 
+std::string Date::getMonthName() const
+{
+    return monthNames[month - 1];
+}
+
 bool Date::isFromPreviousMonths(const Date& other) const
 {
     if (year < other.year) return true;
@@ -275,6 +284,8 @@ int Date::currentYear() { return QDate::currentDate().year(); }
 
 Date Date::getDateFromXmlFormat(const std::string& yyyy_dash_MM_dash_dd)
 {
+    if (yyyy_dash_MM_dash_dd.empty()) return Date();
+
     return Date{
            std::stoi(yyyy_dash_MM_dash_dd.substr(8, 2)),
            std::stoi(yyyy_dash_MM_dash_dd.substr(5, 2)),

@@ -29,6 +29,7 @@ public:
     std::string to8601() const;
     std::string toXMLReportFileName() const; //required when saving the xml report file
     std::string toXMLInvoiceFileName() const;
+    std::string getMonthName() const;
     bool isFromPreviousMonths(const Date& other) const;
     static Date currentDate();
 

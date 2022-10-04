@@ -4,13 +4,15 @@
 #include "Model/Financial/Invoice.h"
 #include "View/Theme.h"
 #include "View/GlobalFunctions.h"
-
+#include "View/uiComponents/MouseWheelGuard.h"
 FinancialView::FinancialView(QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
 
 	ui.numberSpinBox->setTotalLength(10);
+
+	ui.numberSpinBox->installEventFilter(new MouseWheelGuard(ui.numberSpinBox));
 
 	ui.saveXMLButton->setIcon(QIcon(":/icons/icon_xml.png"));
 	ui.sendPisButton->setIcon(QIcon(":/icons/icon_nzok.png"));

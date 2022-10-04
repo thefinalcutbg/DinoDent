@@ -14,6 +14,12 @@
 #include "Resources.h"
 #include "DbUpdates.h"
 
+bool needsUpdate(int update_ver) {
+
+	auto current_ver = Db::version();
+
+	return current_ver == update_ver - 1;
+}
 
 Date parseDate(const std::string& date) {
 	return Date(
@@ -26,6 +32,8 @@ Date parseDate(const std::string& date) {
 void DbUpdates::update1(UpdateDialog* d)
 {
 	constexpr int version = 1;
+
+	if (!needsUpdate(version)) return;
 
 	//UPDATING ekatte:
 	Db::crudQuery("ALTER TABLE patient ADD COLUMN ekatte INT NOT NULL DEFAULT 4047");
@@ -404,6 +412,8 @@ void DbUpdates::update2(UpdateDialog* d)
 {
 	constexpr int version = 2;
 
+	if (!needsUpdate(version)) return;
+
 	Db db;
 	db.execute("CREATE TABLE numMed (rowid INTEGER NOT NULL PRIMARY KEY, name VARCHAR NOT NULL, form INT NOT NULL)");
 	db.execute("CREATE TABLE prescription (rowid INTEGER PRIMARY KEY NOT NULL, patient_rowid INTEGER REFERENCES patient (rowid) ON DELETE CASCADE ON UPDATE CASCADE, lrn VARCHAR (36) NOT NULL, nrn VARCHAR (12), date TEXT (10) NOT NULL, dispensation INT NOT NULL, repeats INT, supplements VARCHAR (2000), lpk VARCHAR REFERENCES doctor (lpk) ON UPDATE CASCADE NOT NULL, rzi VARCHAR REFERENCES practice (rzi) ON DELETE CASCADE ON UPDATE CASCADE NOT NULL)");
@@ -414,6 +424,8 @@ void DbUpdates::update2(UpdateDialog* d)
 void DbUpdates::update3(UpdateDialog* d)
 {
 	constexpr int version = 3;
+
+	if (!needsUpdate(version)) return;
 
 	Db db;
 	db.execute("CREATE TABLE num_update(name VARCHAR NOT NULL UNIQUE, date TEXT NOT NULL)");

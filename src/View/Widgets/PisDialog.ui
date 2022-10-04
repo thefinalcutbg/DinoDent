@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
+    <width>679</width>
     <height>400</height>
    </rect>
   </property>
@@ -43,6 +43,11 @@
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_3"/>
      </widget>
+     <widget class="ReportFilesView" name="filesView">
+      <attribute name="title">
+       <string>Подадени файлове</string>
+      </attribute>
+     </widget>
     </widget>
    </item>
   </layout>
@@ -59,6 +64,12 @@
    <class>ReportView</class>
    <extends>QWidget</extends>
    <header>View/Widgets/reportview.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ReportFilesView</class>
+   <extends>QWidget</extends>
+   <header>View/Widgets/reportfilesview.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

@@ -49,6 +49,7 @@ public:
 	virtual void setPerioStatistic(const PerioStatistic& stat) = 0;
 	virtual void setDocumentLabel(const std::string& label, const std::string& date, const std::string& doctor) = 0;
 	virtual void setToothInfo(const ToothInfoStr& info) = 0;
+	virtual void hideToothInfo() = 0;
 	virtual void setPrice(const PriceInfoStr& priceLabel) = 0;
 	virtual void setUiState(const SummaryState& state) = 0;
 

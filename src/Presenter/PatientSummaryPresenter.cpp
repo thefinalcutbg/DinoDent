@@ -15,7 +15,7 @@
 #include "Model/User.h"
 #include "Model/FreeFunctions.h"
 #include "Model/Dental/NhifProcedures.h"
-
+#include "qdebug.h"
 TimeFrame* PatientSummaryPresenter::currentFrame()
 {
     if (state.currentIdx < 0 ||
@@ -56,24 +56,42 @@ PatientSummaryPresenter::PatientSummaryPresenter(ITabView* view, TabPresenter* t
 
         };
 
-        int insertAtIdx = 0;
+
+        //NEEDS REFACTORING:
+        qDebug() << "PERIO FRAME FOUND";
+
+        if (statusTimeFrame.empty()) {
+            statusTimeFrame.push_back(perioFrame);
+            continue;
+        }
         
         for (int y = 0; y < statusTimeFrame.size(); y++) {
 
-            if (statusTimeFrame[y].date > perioFrame.date)
-            {
-                //the position at which the perio status frame should be inserted:
-                insertAtIdx = y;
-                break;
+            if(statusTimeFrame[y].date < perioFrame.date && y != statusTimeFrame.size() -1) continue;
+
+            if (y != statusTimeFrame.size() - 1) {
+                statusTimeFrame.insert(statusTimeFrame.begin() + y, perioFrame);
+                
+                qDebug() << "perioFrame inserted";
+                if (y) { statusTimeFrame[y].teeth = statusTimeFrame[y - 1].teeth; }
             }
+            else
+            {
+                statusTimeFrame.push_back(perioFrame);
+                qDebug() << "perioFrame pushed";
+                if (statusTimeFrame.size()!=1) 
+                { statusTimeFrame.back().teeth = statusTimeFrame[statusTimeFrame.size() - 2].teeth; }
+            }
+
+            //getting status from the previous timeframe
+
+            
+
+            break;
+
         }
         
-        statusTimeFrame.insert(statusTimeFrame.begin() + insertAtIdx, perioFrame);
 
-        //getting status from the previous timeframe
-        if (insertAtIdx) {
-            statusTimeFrame[insertAtIdx].teeth = statusTimeFrame[insertAtIdx - 1].teeth;
-        }
     }
 
     //applying periostatus to all other timeframes
@@ -207,6 +225,7 @@ void PatientSummaryPresenter::setCurrentFrame(int index)
     {
     case TimeFrameType::InitialAmb:
         view->setInitialAmbList();
+        view->setProcedures({});
         break;
     case::TimeFrameType::Procedures:
         view->setProcedures(frame->procedures);
@@ -214,6 +233,7 @@ void PatientSummaryPresenter::setCurrentFrame(int index)
     case::TimeFrameType::Perio:
         auto stat = PerioStatistic(frame->perioData, patient->getAge(frame->date));
         view->setPerioStatistic(stat);
+        view->setProcedures({});
         break;
       
     }
@@ -247,7 +267,10 @@ void PatientSummaryPresenter::toothSelected(int toothIdx)
 
     auto frame = currentFrame();
 
-    if (toothIdx == -1 || !frame)  return;
+    if (toothIdx == -1 || !frame) {
+        view->hideToothInfo();
+        return;
+    }
 
 
     view->setToothInfo(ToothInfoStr{

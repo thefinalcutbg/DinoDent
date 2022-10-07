@@ -59,22 +59,14 @@ public:
 
 			if (!exists(i)) continue;
 
-			//if (obtur.empty()) obtur.append(u8"<br><b>Обтурация:</b> ");
-
 			result += surfNames[i];
 
 			auto infoStr =  surfaces[i].info();
 			if (infoStr.size()) {
-				result.append(" (" + infoStr + ")");
+				result.append(": " + infoStr);
 			}
 
-			result += ", ";
-		}
-
-		if (result.size()) {
-			result.pop_back();
-			result.pop_back();
-			result.append("<br>");
+			result += "<br>";
 		}
 
 		return result;

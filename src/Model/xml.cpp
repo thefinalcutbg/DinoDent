@@ -240,17 +240,16 @@ std::string XML::getInvoice(const Invoice& invoice)
     {
         auto& company = std::get<Company>(invoice.issuer.type);
         addElementWithText(issuer, "legal_form", company.legal_form);
+        addElementWithText(issuer, "company_name", invoice.issuer.company_name);
     }
-
-    addElementWithText(issuer, "company_name", invoice.issuer.company_name);
-
-    if (invoice.issuer.type.index() == 1)
+    else
     {
         auto& selfInsured = std::get<SelfInsured>(invoice.issuer.type);
 
         addElementWithText(issuer, "self_insured", "Y");
         addElementWithText(issuer, "self_insured_declaration", selfInsured.self_insured_declaration);
 
+        addElementWithText(issuer, "company_name", invoice.issuer.company_name);
         TiXmlElement* person_info = new TiXmlElement("Person_Info");
 
         TiXmlElement* identifier = new TiXmlElement("Identifier");

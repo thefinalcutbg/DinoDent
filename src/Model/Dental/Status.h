@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <string>
 #include <array>
 #include "Model/Date.h"
@@ -32,7 +32,8 @@ struct Pathology : public Status
     PathologyData data;
 private:
     std::string getInfo() const override {
-        return data.getDiagnosisName();
+        return "<b><font color=\"red\">" + data.getDiagnosisName() + "</font></b>"
+            + u8"<br>(диагностициран на " + data.date_diagnosed.toBgStandard(true) + ")";
     }
 };
 struct Obturation : public DentistMade

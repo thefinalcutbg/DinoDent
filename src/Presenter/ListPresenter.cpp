@@ -44,10 +44,10 @@ void ListPresenter::statusChanged()
     m_checkModel = CheckModel(m_ambList.teeth.getSelectedTeethPtr(m_selectedIndexes));
 
     view->setCheckModel(m_checkModel);;
-
+    
     for (auto& t : m_selectedTeeth)
     {
-        view->repaintTooth(ToothHintCreator::getToothHint(*t));
+        view->repaintTooth(ToothHintCreator::getToothHint(*t, patient->teethNotes[t->index]));
     }
 
     if (m_selectedIndexes.size() == 1)
@@ -244,7 +244,7 @@ void ListPresenter::setMainStatus(int code)
         m_ambList.teeth.formatBridges(m_selectedIndexes);
 
         for (int i = 0; i < 32; i++){
-            view->repaintTooth(ToothHintCreator::getToothHint(m_ambList.teeth[i]));
+            view->repaintTooth(ToothHintCreator::getToothHint(m_ambList.teeth[i], patient->teethNotes[i]));
         }
     }
     else if (code == StatusCode::Temporary){ 
@@ -293,7 +293,7 @@ void ListPresenter::setOther(int code)
         teeth.formatBridges(m_selectedIndexes);         
         for (int i = 0; i < 32; i++)
         {
-            view->repaintTooth(ToothHintCreator::getToothHint(m_ambList.teeth[i]));
+            view->repaintTooth(ToothHintCreator::getToothHint(m_ambList.teeth[i], patient->teethNotes[i]));
         } 
         break;
     case OtherInputs::removeAll: for (auto& t : m_selectedTeeth) t->removeStatus();  teeth.formatBridges(m_selectedIndexes); break;
@@ -384,7 +384,7 @@ void ListPresenter::openPisHistory()
                 it->applyPISProcedure(m_ambList.teeth);
 
                 for (auto& t : m_ambList.teeth)
-                view->repaintTooth(ToothHintCreator::getToothHint(t)); 
+                view->repaintTooth(ToothHintCreator::getToothHint(t, patient->teethNotes[t.index]));
    
 
     makeEdited();
@@ -406,7 +406,7 @@ void ListPresenter::openDetails(int toothIdx)
    
     for (int i = 0; i < 32; i++)
     {
-        view->repaintTooth(ToothHintCreator::getToothHint(m_ambList.teeth[i]));
+        view->repaintTooth(ToothHintCreator::getToothHint(m_ambList.teeth[i], patient->teethNotes[i]));
     }
 
     
@@ -559,14 +559,14 @@ void ListPresenter::showCurrentStatus(bool show)
     {
         for (auto& t : currentStatus)
         {
-            view->repaintTooth(ToothHintCreator::getToothHint(t));
+            view->repaintTooth(ToothHintCreator::getToothHint(t, patient->teethNotes[t.index]));
         }
     }
     else
     {
         for (auto& t : m_ambList.teeth)
         {
-            view->repaintTooth(ToothHintCreator::getToothHint(t));
+            view->repaintTooth(ToothHintCreator::getToothHint(t, patient->teethNotes[t.index]));
         }
     }
 }

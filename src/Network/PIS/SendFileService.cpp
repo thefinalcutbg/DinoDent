@@ -95,7 +95,7 @@ void SendFileService::parseReply(const std::string& reply)
 	if (success && success->GetText()) {
 		ModalDialogBuilder::showMessage(
 			u8"Файлът е изпратен успешно!\n"
-			u8"Следете статуса му на обработка от сайта на ПИС"
+			u8"Следете статуса му на обработка от Подадени файлове"
 		);
 	}
 

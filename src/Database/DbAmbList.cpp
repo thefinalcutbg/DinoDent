@@ -205,23 +205,6 @@ void DbAmbList::deleteCurrentSelection(const std::string& ambID)
     Db::crudQuery("DELETE FROM amblist WHERE rowid = " + ambID + ")");
 }
 
-
-bool DbAmbList::checkExistingAmbNum(int currentYear, int ambNum)
-{
-    std::string query = "SELECT EXISTS(SELECT 1 FROM amblist WHERE "
-        "strftime('%Y',date)=" + FreeFn::leadZeroes(currentYear, 2) + " "
-        "AND num = " + std::to_string(ambNum) + ") "
-        "AND lpk = '" + User::doctor().LPK + "' "
-        "AND rzi = '" + User::practice().rziCode + "' ";
-
-    bool exists = 0;
-
-    for (Db db(query); db.hasRows();)
-        exists = db.asInt(0);
-
-    return exists;
-}
-
 std::unordered_set<int> DbAmbList::getExistingNumbers(int currentYear)
 {
 
@@ -239,15 +222,17 @@ std::unordered_set<int> DbAmbList::getExistingNumbers(int currentYear)
 
 bool DbAmbList::suchNumberExists(int year, int ambNum, long long ambRowid)
 {
+    auto query =
 
-    Db db{
         "SELECT COUNT(num) FROM amblist WHERE "
         "lpk = '" + User::doctor().LPK + "' "
         "AND rzi ='" + User::practice().rziCode + "' "
-        "AND strftime('%Y',date)=" + std::to_string(year) + " "
+        "AND strftime('%Y',date)='" + std::to_string(year) + "' "
         "AND num =" + std::to_string(ambNum) + " "
         "AND rowid !=" + std::to_string(ambRowid)
-    };
+        ;
+
+    Db db {query};
 
     for (;db.hasRows();) {
         return db.asBool(0);

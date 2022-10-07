@@ -306,8 +306,7 @@ std::string Tooth::getToothInfo() const
 	for (auto p : pato) {
 		if (!p->exists()) continue;
 
-		result.append("<br><b><font color=\"red\">" + p->info() + "</font></b><br>"
-					+u8" (диагностициран на " + p->data.date_diagnosed.toBgStandard(true) + ")<br>");
+		result.append("<br>"+ p->info());
 	}
 
 	if (periodontitis) { result.append(u8"<br><b><font color=\"red\">Пародонтит</font></b><br>");

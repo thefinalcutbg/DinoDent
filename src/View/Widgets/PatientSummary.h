@@ -40,7 +40,7 @@ public:
 	void setPerioStatistic(const PerioStatistic& stat) override;
 	void setDocumentLabel(const std::string& label, const std::string& date, const std::string& doctor) override;
 	void setToothInfo(const ToothInfoStr& info) override;
-
+	void hideToothInfo() override;
 	void setPrice(const PriceInfoStr& priceLabel) override;
 	void setUiState(const SummaryState& state) override;
 private:

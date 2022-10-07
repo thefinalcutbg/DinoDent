@@ -232,6 +232,11 @@ void PatientSummary::setToothInfo(const ToothInfoStr& info)
 
 }
 
+void PatientSummary::hideToothInfo()
+{
+	ui.vStack->setCurrentIndex(0);
+}
+
 
 
 #include "View/GlobalFunctions.h"

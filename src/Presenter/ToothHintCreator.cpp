@@ -1,4 +1,4 @@
-#include "ToothHintCreator.h"
+﻿#include "ToothHintCreator.h"
 #include "Model/User.h"
 #include "Model/Dental/ToothContainer.h"
 
@@ -23,7 +23,7 @@ BridgeTerminal getPosition(int toothIdx, BridgePos position)
 
 }
 
-ToothPaintHint ToothHintCreator::getToothHint(const Tooth& tooth)
+ToothPaintHint ToothHintCreator::getToothHint(const Tooth& tooth, const std::string& notes)
 {
     ToothPaintHint hint;
 
@@ -146,7 +146,11 @@ ToothPaintHint ToothHintCreator::getToothHint(const Tooth& tooth)
     if (tooth.mobility.exists())
         hint.mobility = static_cast<int>(tooth.mobility.degree) + 1;
 
-    hint.toolTip = tooth.getToothInfo();
+    hint.toolTip = "<b>" +  tooth.toothName() + "</b><br>" + tooth.getToothInfo();
+
+    if (notes.size()) {
+        hint.toolTip += u8"<br><b>Бележки:</b><br>" + notes;
+    }
 
     return hint;
 }

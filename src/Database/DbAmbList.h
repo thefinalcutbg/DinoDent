@@ -16,7 +16,7 @@ namespace DbAmbList
     AmbList getListData(long long ambID);
     
     int getNewNumber(Date ambDate, bool nhif);
-    bool checkExistingAmbNum(int currentYear, int ambNum);
+
     std::unordered_set<int> getExistingNumbers(int currentYear);
 
     bool suchNumberExists(int year, int ambNum, long long ambRowid);

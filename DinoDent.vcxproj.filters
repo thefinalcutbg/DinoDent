@@ -798,6 +798,9 @@
     <ClCompile Include="src\Presenter\ReportFilesPresenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\Widgets\InvoicePrintDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Database\Database.h">
@@ -1756,6 +1759,9 @@
     <QtMoc Include="src\View\Models\ReportFilesModel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\View\Widgets\InvoicePrintDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\View\Widgets\AddPracticeDialog.ui">
@@ -1927,6 +1933,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\Widgets\ReportFilesView.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\Widgets\InvoicePrintDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

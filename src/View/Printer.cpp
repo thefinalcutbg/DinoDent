@@ -12,6 +12,7 @@
 #include "View/GlobalFunctions.h"
 #include "qitemselectionmodel.h"
 #include "Model/User.h"
+#include "View/Widgets/InvoicePrintDialog.h"
 
 //used as coordinates for the x-es in the checkboxes
 struct coords { int x; int y; };
@@ -134,12 +135,23 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
 
 void Print::invoice(const Invoice& inv)
 {
+
+    InvoicePrintDialog d;
+    d.exec();
+
+    auto result = d.result();
+
+    if (result == InvoicePrintDialog::Canceled) return;
+
+    bool original = result == InvoicePrintDialog::Original ? true : false;
+
     QApplication::setOverrideCursor(Qt::BusyCursor);
     auto report = LimeReport::ReportEngine();
     report.loadFromFile(":/reports/report_invoice.lrxml");
 
     report.dataManager()->setReportVariable("title", QString::fromStdString(inv.name));
     report.dataManager()->setReportVariable("number_date", QString::fromStdString(u8" № " + inv.getInvoiceNumber() + u8" от дата " + inv.date.toBgStandard(true)));
+    report.dataManager()->setReportVariable("invoice_type", original ? u8"ОРИГИНАЛ" : u8"ДУБЛИКАТ");
 
     auto mainDoc = inv.mainDocument();
 

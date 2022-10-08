@@ -591,6 +591,9 @@ src/View/Widgets/GeneralSettings.ui
 src/View/Widgets/InputDialog.cpp
 src/View/Widgets/InputDialog.h
 src/View/Widgets/InputDialog.ui
+src/View/Widgets/InvoicePrintDialog.cpp
+src/View/Widgets/InvoicePrintDialog.h
+src/View/Widgets/InvoicePrintDialog.ui
 src/View/Widgets/KSMPDialog.cpp
 src/View/Widgets/KSMPDialog.h
 src/View/Widgets/KSMPDialog.ui

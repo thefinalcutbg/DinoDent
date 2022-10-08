@@ -151,7 +151,7 @@ void Print::invoice(const Invoice& inv)
 
     report.dataManager()->setReportVariable("title", QString::fromStdString(inv.name));
     report.dataManager()->setReportVariable("number_date", QString::fromStdString(u8" № " + inv.getInvoiceNumber() + u8" от дата " + inv.date.toBgStandard(true)));
-    report.dataManager()->setReportVariable("invoice_type", original ? u8"ОРИГИНАЛ" : u8"ДУБЛИКАТ");
+    report.dataManager()->setReportVariable("invoice_type", original ? u8"ОРИГИНАЛ" : u8"КОПИЕ");
 
     auto mainDoc = inv.mainDocument();
 

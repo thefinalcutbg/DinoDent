@@ -33,7 +33,7 @@
       <item>
        <widget class="QRadioButton" name="duplicateRadio">
         <property name="text">
-         <string>Дубликат</string>
+         <string>Копие</string>
         </property>
        </widget>
       </item>

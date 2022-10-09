@@ -13,7 +13,6 @@ SettingsDialog::SettingsDialog(QDialog*parent)
 	connect(ui.applyButton, &QPushButton::clicked, [&] {presenter.applyChanges();});
 	connect(ui.okButton, &QPushButton::clicked, [&] {presenter.okPressed();});
 	connect(ui.generalSettings->ui.updateMedButton, &QPushButton::clicked, [&] {presenter.updateMedications();});
-	connect(ui.generalSettings->ui.updateMkbButton, &QPushButton::clicked, [&] {presenter.updateMkb(); });
 	ui.practiceSettings->hidePassword();
 
 	presenter.setView(this);
@@ -42,9 +41,6 @@ void SettingsDialog::setUpdateDate(DynamicNum num, const Date& date)
 	{
 	case DynamicNum::Medication:
 		ui.generalSettings->ui.medUpdateLabel->setText(dateStr);
-		break;
-	case DynamicNum::MKB:
-		ui.generalSettings->ui.mkbUpdateLabel->setText(dateStr);
 		break;
 	}
 }

@@ -22,7 +22,7 @@ public:
 	virtual void setAmbListNum(int number) = 0;
 	virtual void setCheckModel(const CheckModel& checkModel) = 0;
 	virtual void setSelectedTeeth(std::vector<int> selectedTeeth) = 0;
-	virtual void refreshPriceLabel(double patientPrice, double nzokPrice) = 0;
+	virtual void refreshPriceLabel(/*double patientPrice,*/ double nzokPrice) = 0;
 	virtual void setDateTime(const Date& date, const Time& time) = 0;
 	virtual void hideSurfacePanel(bool hidden) = 0;
 	virtual void hideControlPanel(bool hidden) = 0;

@@ -37,8 +37,8 @@ long long DbAmbList::insert(const AmbList& sheet, long long patientRowId)
     {
         db.newStatement(
             "INSERT INTO procedure "
-            "(date, nzok, type, code, tooth, deciduous, price, data, ksmp, amblist_rowid) "
-            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            "(date, nzok, type, code, tooth, deciduous, data, ksmp, amblist_rowid) "
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
         db.bind(1, p.date.to8601());
         db.bind(2, p.nhif);
@@ -46,10 +46,10 @@ long long DbAmbList::insert(const AmbList& sheet, long long patientRowId)
         db.bind(4, p.code);
         db.bind(5, p.tooth);
         db.bind(6, p.temp);
-        db.bind(7, p.price);
-        db.bind(8, Parser::write(p));
-        db.bind(9, p.ksmp);
-        db.bind(10, rowID);
+    //    db.bind(7, p.price);
+        db.bind(7, Parser::write(p));
+        db.bind(8, p.ksmp);
+        db.bind(9, rowID);
 
         db.execute();
     }
@@ -85,8 +85,8 @@ void DbAmbList::update(const AmbList& sheet)
     {
         db.newStatement(
             "INSERT INTO procedure "
-            "(nzok, type, code, date, tooth, deciduous, price, data, ksmp, amblist_rowid) "
-            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            "(nzok, type, code, date, tooth, deciduous, data, ksmp, amblist_rowid) "
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
         db.bind(1, p.nhif);
         db.bind(2, static_cast<int>(p.type));
@@ -94,10 +94,10 @@ void DbAmbList::update(const AmbList& sheet)
         db.bind(4, p.date.to8601());
         db.bind(5, p.tooth);
         db.bind(6, p.temp);
-        db.bind(7, p.price);
-        db.bind(8, Parser::write(p));
-        db.bind(9, p.ksmp);
-        db.bind(10, sheet.rowid);
+      //  db.bind(7, p.price);
+        db.bind(7, Parser::write(p));
+        db.bind(8, p.ksmp);
+        db.bind(9, sheet.rowid);
 
         db.execute();
     }

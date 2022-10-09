@@ -30,7 +30,7 @@ public:
 	bool noData() { return statusTimeFrame.empty(); }
 
 	void setCurrentFrame(int index);
-	void pricePeriodChanged(const Date& from, const Date& to);
+	//void pricePeriodChanged(const Date& from, const Date& to);
 	void toothSelected(int toothIdx);
 	void teethViewButtonClicked(bool showBuccal);
 	void perioCheckBoxClicked(bool checked);

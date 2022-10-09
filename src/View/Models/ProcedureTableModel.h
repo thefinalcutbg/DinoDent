@@ -16,7 +16,7 @@ class ProcedureTableModel : public QAbstractTableModel
 
 	std::vector<QProcedure> m_procedures;
 
-	static constexpr int poceduresColumnCount = 9;
+	static constexpr int poceduresColumnCount = 8;
 
 public:
 

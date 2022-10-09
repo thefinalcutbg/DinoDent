@@ -42,11 +42,6 @@ void SettingsMainPresenter::setUpdateLabels() {
 		DynamicNum::Medication,
 		DbUpdateStatus::lastUpdated(DynamicNum::Medication)
 	);
-
-	view->setUpdateDate(
-		DynamicNum::MKB,
-		DbUpdateStatus::lastUpdated(DynamicNum::MKB)
-	);
 }
 
 void SettingsMainPresenter::updateMedications()
@@ -57,15 +52,6 @@ void SettingsMainPresenter::updateMedications()
 	);
 
 	med_update.update();
-}
-
-void SettingsMainPresenter::updateMkb()
-{
-	mkb_update.setCallback(
-		[&](bool success) { if (success) setUpdateLabels(); }
-	);
-
-	mkb_update.update();
 }
 
 bool SettingsMainPresenter::applyChanges()

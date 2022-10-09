@@ -164,7 +164,7 @@ void PatientSummaryPresenter::openCurrentDocument()
         }
     }
 }
-
+/*
 void PatientSummaryPresenter::pricePeriodChanged(const Date& from, const Date& to)
 {
     double price = 0;
@@ -199,6 +199,7 @@ finish:
     view->setPrice(PriceInfoStr{ price, nzokPrice });
 
 }
+*/
 
 void PatientSummaryPresenter::setCurrentFrame(int index)
 {

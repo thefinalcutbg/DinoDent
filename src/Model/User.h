@@ -28,6 +28,6 @@ namespace User
 	bool isAdmin();
 	void refereshPracticeDoctor();
 	std::string getNameFromLPK(const std::string& LPK);
-	
+	double getPrice(int procedureCode);
 };
 

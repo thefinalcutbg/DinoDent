@@ -58,13 +58,12 @@ void ListPresenter::statusChanged()
 
 void ListPresenter::refreshPrices()
 {
-    double patientPrice(0);
+  //  double patientPrice(0);
     double nzokPrice(0);
-
 
     for (auto& m : m_ambList.procedures.list())
     {
-        patientPrice = patientPrice + m.price;
+      //  patientPrice = patientPrice + m.price;
 
         if (m.nhif)
         {
@@ -74,7 +73,7 @@ void ListPresenter::refreshPrices()
 
     }
 
-    view->refreshPriceLabel(patientPrice, nzokPrice);
+    view->refreshPriceLabel(nzokPrice);
 }
 
 

@@ -1,5 +1,7 @@
 #pragma once
-#pragma once
+
+
+/*
 #include "GetNumenclature.h"
 
 class UpdateMkb : public GetNumenclature
@@ -9,3 +11,4 @@ class UpdateMkb : public GetNumenclature
 public:
 	void update();
 };
+*/

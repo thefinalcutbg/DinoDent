@@ -26,7 +26,8 @@ ProcedureDialog::ProcedureDialog(ProcedureDialogPresenter* presenter, QWidget *p
 	table->hideColumn(0);
 	table->setColumnWidth(0, 20);
 	table->setColumnWidth(1, 70);
-	table->setColumnWidth(3, 70);
+	table->hideColumn(3);
+	//table->setColumnWidth(3, 70);
 	table->setSelectionBehavior(QAbstractItemView::SelectRows);
 	table->setSelectionMode(QAbstractItemView::SingleSelection);
 	table->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);

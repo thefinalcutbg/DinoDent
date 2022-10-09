@@ -12,7 +12,7 @@ class SettingsMainPresenter
 	PracticeDoctorSettingsPresenter m_practiceDoctorPresenter;
 
 	UpdateMedications med_update;
-	UpdateMkb mkb_update;
+//	UpdateMkb mkb_update;
 
 	ISettingsDialog* view{nullptr};
 
@@ -24,7 +24,6 @@ public:
 
 	void setView(ISettingsDialog* view);
 	void updateMedications();
-	void updateMkb();
 	void okPressed();
 	bool applyChanges();
 

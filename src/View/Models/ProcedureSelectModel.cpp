@@ -50,7 +50,7 @@ QVariant ProcedureSelectModel::headerData(int section, Qt::Orientation orientati
                 case 2: return "Зъб";
                 case 3: return "Манипулация";
                 case 4: return "Код";
-                case 5: return "Цена";
+      //          case 5: return "Цена";
             }
         }
     }
@@ -70,7 +70,7 @@ int ProcedureSelectModel::rowCount(const QModelIndex& parent) const
 
 int ProcedureSelectModel::columnCount(const QModelIndex& parent) const
 {
-    return 6;
+    return 5;
 }
 
 std::vector<int> ProcedureSelectModel::selectedRows()
@@ -119,7 +119,7 @@ QVariant ProcedureSelectModel::data(const QModelIndex& index, int role) const
                case 2: return m_procedures[row].tooth != 99 ? m_procedures[row].tooth : QVariant();
                case 3: return m_procedures[row].procedureName;
                case 4: return m_procedures[row].code;
-               case 5: return m_procedures[row].price;
+    //           case 5: return m_procedures[row].price;
             }
         case Qt::TextAlignmentRole:
             if (column == 2 || column == 4 || column == 5)

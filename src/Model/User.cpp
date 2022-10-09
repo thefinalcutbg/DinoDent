@@ -72,3 +72,14 @@ std::string User::getNameFromLPK(const std::string& LPK)
     return LPK;
 
 }
+
+double User::getPrice(int procedureCode)
+{
+    for (auto& item : s_practice.priceList)
+    {
+        if (item.code == procedureCode)
+            return item.price;
+    }
+
+    return 0;
+}

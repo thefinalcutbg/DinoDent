@@ -134,38 +134,6 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QLabel" name="label_5">
-       <property name="text">
-        <string>Цена:</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="SpinBox" name="priceSpinBox">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="frame">
-        <bool>true</bool>
-       </property>
-       <property name="buttonSymbols">
-        <enum>QAbstractSpinBox::NoButtons</enum>
-       </property>
-       <property name="prefix">
-        <string/>
-       </property>
-       <property name="suffix">
-        <string> лв.</string>
-       </property>
-       <property name="maximum">
-        <double>10000.000000000000000</double>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QLabel" name="dateLabel">
        <property name="text">
         <string>Дата:</string>
@@ -248,11 +216,6 @@
    <class>TextEdit</class>
    <extends>QTextEdit</extends>
    <header>View/uiComponents/TextEdit.h</header>
-  </customwidget>
-  <customwidget>
-   <class>SpinBox</class>
-   <extends>QDoubleSpinBox</extends>
-   <header>View/uiComponents/SpinBox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

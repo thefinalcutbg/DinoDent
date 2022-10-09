@@ -67,26 +67,12 @@
             </property>
            </widget>
           </item>
-          <item>
-           <widget class="QLabel" name="label_3">
-            <property name="text">
-             <string>МКБ:</string>
-            </property>
-           </widget>
-          </item>
          </layout>
         </item>
         <item>
          <layout class="QVBoxLayout" name="verticalLayout_4">
           <item>
            <widget class="QPushButton" name="updateMedButton">
-            <property name="text">
-             <string>Изтегли</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="updateMkbButton">
             <property name="text">
              <string>Изтегли</string>
             </property>
@@ -103,26 +89,12 @@
             </property>
            </widget>
           </item>
-          <item>
-           <widget class="QLabel" name="label_4">
-            <property name="text">
-             <string>Последен ъпдейт:</string>
-            </property>
-           </widget>
-          </item>
          </layout>
         </item>
         <item>
          <layout class="QVBoxLayout" name="verticalLayout_6">
           <item>
            <widget class="QLabel" name="medUpdateLabel">
-            <property name="text">
-             <string/>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="mkbUpdateLabel">
             <property name="text">
              <string/>
             </property>

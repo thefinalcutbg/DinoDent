@@ -24,7 +24,7 @@ public:
 	// Inherited via ICommonFields
 	AbstractLineEdit* procedureNameEdit() override;
 	AbstractLineEdit* diagnosisEdit() override;
-	AbstractSpinBox* priceEdit() override;
+//	AbstractSpinBox* priceEdit() override;
 	AbstractDateEdit* dateEdit() override;
 	void setKSMPCode(const std::string& code) override;
 	void enableKSMP(bool enabled) override;

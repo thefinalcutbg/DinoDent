@@ -63,8 +63,8 @@ void ProcedureTable::setAmbListLayout()
     setColumnWidth(4, 300);
     setColumnWidth(5, 49);
     setColumnWidth(6, 70);
-    setColumnWidth(7, 69);
-    hideColumn(8);
+   // setColumnWidth(7, 69);
+    hideColumn(7);
 
     horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
     setShowGrid(false);
@@ -82,8 +82,8 @@ void ProcedureTable::setProcedureHistoryLayout()
     setColumnWidth(4, 300);
     setColumnWidth(5, 49);
     setColumnWidth(6, 70);
-    setColumnWidth(7, 69);
-    setColumnWidth(8, 140);
+    //setColumnWidth(7, 69);
+    setColumnWidth(7, 140);
     setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
@@ -144,14 +144,14 @@ void ProcedureTable::setPISActivitiesLayout()
     setColumnWidth(4, 300);
     setColumnWidth(5, 49);
     hideColumn(6);
+   // hideColumn(7);
     hideColumn(7);
-    hideColumn(8);
     verticalHeader()->setDefaultSectionSize(20);
     setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
     horizontalHeader()->setSectionResizeMode(4, QHeaderView::Stretch);
-    horizontalHeader()->setSectionResizeMode(7, QHeaderView::Stretch);
+ //   horizontalHeader()->setSectionResizeMode(7, QHeaderView::Stretch);
     setShowGrid(false);
 }
 

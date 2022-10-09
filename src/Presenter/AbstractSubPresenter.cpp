@@ -15,7 +15,7 @@ void AbstractSubPresenter::setProcedureTemplate(const ProcedureTemplate& m)
 	common_view->procedureNameEdit()->disable(m.nhif);
 
 	common_view->procedureNameEdit()->set_Text(m.name);
-	common_view->priceEdit()->set_Value(m.price);
+//	common_view->priceEdit()->set_Value(m.price);
 
 	//If the template doesn't have default diagnosis, 
 	//each presenter class auto-generates one if possible.
@@ -90,7 +90,7 @@ Procedure AbstractSubPresenter::getProcedureCommonFields()
 	result.ksmp = m_ksmp;
 	result.date = common_view->dateEdit()->getDate();
 	result.diagnosis = common_view->diagnosisEdit()->getText();
-	result.price = common_view->priceEdit()->get_Value();
+//	result.price = common_view->priceEdit()->get_Value();
 
 
 	return result;

@@ -39,12 +39,12 @@ AbstractLineEdit* CommonFields::diagnosisEdit()
 {
 	return ui.diagnosisEdit;
 }
-
+/*
 AbstractSpinBox* CommonFields::priceEdit()
 {
 	return ui.priceSpinBox;
 }
-
+*/
 AbstractDateEdit* CommonFields::dateEdit()
 {
 	if (externalDateEdit == nullptr){

@@ -45,8 +45,8 @@ QVariant ProcedureTableModel::headerData(int section, Qt::Orientation orientatio
             case 4: return u8"Манипулация";
             case 5: return u8"Код";
             case 6: return u8"КСМП";
-            case 7: return u8"Цена";
-            case 8: return u8"Извършил";
+      //      case 7: return u8"Цена";
+            case 7: return u8"Извършил";
             }
         }
     }
@@ -118,8 +118,8 @@ QVariant ProcedureTableModel::data(const QModelIndex& index, int role) const
                case 4: return m_procedures[row].procedureName;
                case 5: return m_procedures[row].code;
                case 6: return m_procedures[row].ksmp;
-               case 7: return m_procedures[row].price;
-               case 8: return m_procedures[row].doctor;
+    //           case 7: return m_procedures[row].price;
+               case 7: return m_procedures[row].doctor;
             }
         case Qt::TextAlignmentRole:
              if (column == 1 || column == 3 || column == 5 || column == 6 || column == 7)

@@ -1,8 +1,7 @@
 #include "MKB.h"
 
 #include <unordered_map>
-
-#include "Database/Database.h"
+#include <JsonCpp/json.h>
 
 #include "Resources.h"
 
@@ -12,10 +11,16 @@ const std::string empty{};
 void MKB::initialize() {
 
 	mkbToName.clear();
+	Json::Value mkbjson;
+	mkbjson.resize(40000);
+	mkbToName.clear();
 
-	Db db("SELECT code, description FROM mkb");
+	Json::Reader reader;
+	reader.parse(Resources::mkbJson(), mkbjson);
+	mkbToName.reserve(mkbjson.size());
 
-	while (db.hasRows()) mkbToName[db.asString(0)] = db.asString(1);
+	for (auto& pair : mkbjson) mkbToName[pair["key"].asString()] = pair["value"].asString();
+
 
 }
 

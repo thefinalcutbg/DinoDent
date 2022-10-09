@@ -32,7 +32,7 @@ PatientSummary::PatientSummary(QWidget *parent)
 	ui.procedureTable->setModel(&m_procedureModel);
 	ui.procedureTable->setProcedureHistoryLayout();
 	ui.dateSlider->setTickPosition(QSlider::TickPosition::TicksBelow);
-
+/*
 	auto getDateFromView = [=] {
 		auto f = ui.dateFrom->date();
 		auto t = ui.dateTo->date();
@@ -46,7 +46,7 @@ PatientSummary::PatientSummary(QWidget *parent)
 
 	connect(ui.dateFrom, &QDateEdit::dateChanged, [=]() { getDateFromView();});
 	connect(ui.dateTo, &QDateEdit::dateChanged, [=]() { getDateFromView();});
-	
+*/
 
 	connect(buccalScene, &QGraphicsScene::selectionChanged, [=] {
 			auto idx = buccalScene->selectedTooth();
@@ -238,7 +238,7 @@ void PatientSummary::hideToothInfo()
 }
 
 
-
+/*
 #include "View/GlobalFunctions.h"
 
 void PatientSummary::setPrice(const PriceInfoStr& p)
@@ -248,14 +248,16 @@ void PatientSummary::setPrice(const PriceInfoStr& p)
 		u8" НЗОК: <b>" + priceToString(p.nhif) + "</b>"
 	);
 }
+*/
 
 void PatientSummary::setUiState(const SummaryState& s)
 {
+	/*
 	//ui.dateTo will still emit the signal
 	QSignalBlocker b(ui.dateFrom);
 	ui.dateFrom->setDate(QDate(s.from.year, s.from.month, s.from.day));
 	ui.dateTo->setDate(QDate(s.to.year, s.to.month, s.to.day));
-
+	*/
 	bool noData = s.noData();
 
 	ui.openButton->setHidden(noData);

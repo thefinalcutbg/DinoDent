@@ -421,7 +421,7 @@ void DbUpdates::update2(UpdateDialog* d)
 	Db::setVersion(version);
 }
 
-void DbUpdates::update3(UpdateDialog* d)
+void DbUpdates::update3()
 {
 	constexpr int version = 3;
 
@@ -432,5 +432,27 @@ void DbUpdates::update3(UpdateDialog* d)
 	db.execute("CREATE TABLE mkb(code VARCHAR UNIQUE, description VARCHAR)");
 	Db::setVersion(version);
 }
+
+
+void DbUpdates::update4()
+{
+	constexpr int version = 4;
+
+	if (!needsUpdate(version)) return;
+
+	Db db;
+	db.execute("PRAGMA foreign_keys = 0");
+	db.execute("CREATE TABLE sqlitestudio_temp_table AS SELECT * FROM procedure");
+	db.execute("DROP TABLE procedure");
+	db.execute("CREATE TABLE procedure(rowid INTEGER NOT NULL PRIMARY KEY, amblist_rowid INTEGER NOT NULL, date TEXT NOT NULL DEFAULT '1900-01-01', nzok INT NOT NULL, code VARCHAR(10) NOT NULL, ksmp VARCHAR(8) NOT NULL, type INT NOT NULL, tooth INT NOT NULL, deciduous INT NOT NULL, data VARCHAR NOT NULL, FOREIGN KEY(amblist_rowid) REFERENCES amblist(rowid) ON DELETE CASCADE ON UPDATE CASCADE)");
+	db.execute("INSERT INTO procedure(rowid, amblist_rowid, date, nzok, code, ksmp, type, tooth, deciduous, data) SELECT rowid, amblist_rowid, date, nzok, code, ksmp, type, tooth, deciduous, data FROM sqlitestudio_temp_table");
+	db.execute("DROP TABLE sqlitestudio_temp_table");
+	db.execute("DROP TABLE mkb");
+	db.execute("DELETE FROM num_update WHERE name='mkb'");
+	db.execute("PRAGMA foreign_keys = 1");
+	Db::setVersion(version);
+
+}
+
 
 

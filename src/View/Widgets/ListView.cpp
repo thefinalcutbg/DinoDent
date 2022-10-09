@@ -256,13 +256,13 @@ void ListView::disableGraphicsView(bool disabled)
 }
 
 #include "View/GlobalFunctions.h"
-void ListView::refreshPriceLabel(double patientPrice, double nzokPrice)
+void ListView::refreshPriceLabel(/*double patientPrice,*/ double nzokPrice)
 {
 	QString result;
 
 	result.append("Сума по НЗОК: " + priceToString(nzokPrice) + " ");
 
-	result.append("Сума за плащане: " + priceToString(patientPrice));
+	//result.append("Сума за плащане: " + priceToString(patientPrice));
 
 	ui.priceLabel->setText(result);
 }

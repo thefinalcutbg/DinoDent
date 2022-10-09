@@ -6,7 +6,7 @@ EditorPresenter::EditorPresenter(const Procedure& p) :
 	AbstractSubPresenter(p.type)
 {
 	m_code = p.code;
-	m_price = p.price;
+	//m_price = p.price;
 	m_nzok = p.nhif;
 	m_name = p.name;
 	m_temp = p.temp;
@@ -30,7 +30,7 @@ void EditorPresenter::setCommonFieldsView(ICommonFields* view)
 	common_view->procedureNameEdit()->disable(m_nzok);
 
 	common_view->procedureNameEdit()->set_Text(m_name);
-	common_view->priceEdit()->set_Value(m_price);
+//	common_view->priceEdit()->set_Value(m_price);
 	common_view->diagnosisEdit()->set_Text(m_diagnosis);
 	common_view->diagnosisEdit()->setInputValidator(&notEmpty_validator);
 	common_view->procedureNameEdit()->setInputValidator(&notEmpty_validator);

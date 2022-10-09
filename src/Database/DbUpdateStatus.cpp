@@ -3,7 +3,7 @@
 #include "Model/Date.h"
 #include <qdebug.h>
 
-std::string numRowNames[2]{ "med", "mkb" };
+std::string numRowNames[1]{"med"};
 
 void DbUpdateStatus::setAsUpdated(DynamicNum num)
 {

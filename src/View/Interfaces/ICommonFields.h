@@ -13,7 +13,7 @@ public:
 
 	virtual AbstractLineEdit* procedureNameEdit() = 0;
 	virtual AbstractLineEdit* diagnosisEdit() = 0;
-	virtual AbstractSpinBox* priceEdit() = 0;
+	//virtual AbstractSpinBox* priceEdit() = 0;
 	virtual AbstractDateEdit* dateEdit() = 0;
 	virtual void set_hidden(bool hidden) = 0;
 	//if code is empty, the checkbox will be disabled

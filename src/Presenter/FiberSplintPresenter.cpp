@@ -48,7 +48,7 @@ void FiberSplintPresenter::rangeChanged(int begin, int end)
 
 	common_view->diagnosisEdit()->set_Text(m_diagnosis);
 	common_view->procedureNameEdit()->set_Text(m_name + splintRangeName);
-	common_view->priceEdit()->set_Value((end - begin + 1) * m_price);
+//	common_view->priceEdit()->set_Value((end - begin + 1) * m_price);
 }
 
 

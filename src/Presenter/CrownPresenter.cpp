@@ -73,14 +73,14 @@ void CrownPresenter::selectAsBridge(bool checked)
 	{
 		common_view->diagnosisEdit()->set_Text(bridgeLogic.Diagnosis());
 		common_view->procedureNameEdit()->set_Text(m_name + bridgeLogic.rangeString());
-		common_view->priceEdit()->set_Value(bridgeLogic.price());
+//		common_view->priceEdit()->set_Value(bridgeLogic.price());
 		m_type = ProcedureType::bridge;
 		return;
 	}
 
 	common_view->diagnosisEdit()->set_Text(m_diagnosis);
 	common_view->procedureNameEdit()->set_Text(m_name);
-	common_view->priceEdit()->set_Value(m_price);
+//	common_view->priceEdit()->set_Value(m_price);
 	m_type = ProcedureType::crown;
 
 }
@@ -144,7 +144,7 @@ void CrownPresenter::rangeChanged(int begin, int end)
 
 	common_view->diagnosisEdit()->set_Text(bridgeLogic.Diagnosis());
 	common_view->procedureNameEdit()->set_Text(m_name + bridgeLogic.rangeString());
-	common_view->priceEdit()->set_Value(bridgeLogic.price());
+//	common_view->priceEdit()->set_Value(bridgeLogic.price());
 }
 
 std::string CrownPresenter::getDiagnosis(const Tooth& tooth)

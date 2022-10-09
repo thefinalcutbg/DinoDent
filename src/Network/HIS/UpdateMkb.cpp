@@ -1,4 +1,5 @@
 #include "UpdateMkb.h"
+/*
 #include "View/ModalDialogBuilder.h"
 #include "TinyXML/tinyxml.h"
 #include "Database/Database.h"
@@ -70,10 +71,12 @@ bool UpdateMkb::parseNumenclature(const std::string& reply)
 
 	db.execute("PRAGMA foreign_keys = ON");
 
-	DbUpdateStatus::setAsUpdated(DynamicNum::MKB);
+	//DbUpdateStatus::setAsUpdated(DynamicNum::MKB);
 
 	MKB::initialize();
 
 
 	return true;
 }
+
+*/

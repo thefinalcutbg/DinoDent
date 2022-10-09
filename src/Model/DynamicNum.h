@@ -1,3 +1,3 @@
 #pragma once
 
-enum class DynamicNum { Medication, MKB };
+enum class DynamicNum { Medication};

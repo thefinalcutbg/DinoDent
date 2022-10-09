@@ -87,7 +87,7 @@ struct Procedure
     Date date;
     std::string name;
     std::string diagnosis;
-    double price{ 0 };
+ //   double price{ 0 };
     int tooth{ -1 };        //-1 for general/several teeth, any in range 0-31 for specific tooth
     bool temp{ false };
     Result result{ NoData{} };

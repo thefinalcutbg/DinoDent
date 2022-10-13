@@ -156,7 +156,7 @@ void Db::bind(int index, long long value)
     successful_bindings +=
         sqlite3_bind_int64(stmt, index, value) == SQLITE_OK;
 }
-#include <qdebug.h>
+
 bool Db::execute()
 {
     if (stmt == nullptr) return false;
@@ -169,8 +169,6 @@ bool Db::execute()
 
     auto result = sqlite3_step(stmt);
     finalizeStatement();
-
-    qDebug() << result;
 
     return result == SQLITE_DONE;
 }

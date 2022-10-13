@@ -121,7 +121,6 @@ AmbList DbAmbList::getNewAmbSheet(long long patientRowId)
     
     );
 
-    qDebug() << query.data();
     db.newStatement(query);
 
     while(db.hasRows())
@@ -167,6 +166,7 @@ AmbList DbAmbList::getNewAmbSheet(long long patientRowId)
         Parser::parse(status, ambList.teeth);
         ambList.procedures.addProcedures(DbProcedure::getProcedures(ambList.rowid, &db));
     }
+
 
     return ambList;
 }
@@ -231,6 +231,8 @@ bool DbAmbList::suchNumberExists(int year, int ambNum, long long ambRowid)
         "AND num =" + std::to_string(ambNum) + " "
         "AND rowid !=" + std::to_string(ambRowid)
         ;
+    
+    qDebug() << query.c_str();
 
     Db db {query};
 

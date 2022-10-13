@@ -13,7 +13,6 @@
 #include "Presenter/TabPresenter.h"
 #include "Database/DbPatient.h"
 
-
 ListPresenter::ListPresenter(ITabView* tabView, TabPresenter* tabPresenter, std::shared_ptr<Patient> patient, long long rowId)
     :
     TabInstance(tabView, TabType::AmbList, patient),
@@ -28,7 +27,7 @@ ListPresenter::ListPresenter(ITabView* tabView, TabPresenter* tabPresenter, std:
     auto ambSheetDate = m_ambList.getDate();
 
     //the list is not new
-    if (rowId) return;
+    if (m_ambList.rowid) return;
 
     m_ambList.number = DbAmbList::getNewNumber(m_ambList.getDate(), m_ambList.hasNZOKProcedure());
 
@@ -91,9 +90,12 @@ bool ListPresenter::isValid()
 
     if (checker.ambListIsValid()) return true;
 
-    ModalDialogBuilder::showError(checker.getErrorMsg());
+    return 
+        ModalDialogBuilder::askDialog(
+            checker.getErrorMsg() + 
+            u8"\nЖелаете ли да запазите листа въпреки това?" 
+    );
 
-    return false;
 }
 
 

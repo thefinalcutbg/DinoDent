@@ -24,9 +24,8 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
     doc.LinkEndChild(decl);
 
     TiXmlElement* report = new TiXmlElement("report");
-    report->SetAttribute("xmlns", "http://localhost");
-    report->SetAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
-    report->SetAttribute("xsi:schemaLocation", "http://localhost ImportStomatologyReport.xsd");
+    report->SetAttribute("xmlns", "http://nhif.bg/xsd/dental");
+    report->SetAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");;
 
 
 

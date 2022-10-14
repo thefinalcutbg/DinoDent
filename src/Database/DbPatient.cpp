@@ -137,14 +137,14 @@ Patient DbPatient::get(long long rowid)
 
 bool DbPatient::updateAllergies(long long patientRowId, const std::string& allergies, const std::string& current, const std::string& past)
 {
-     Db db(
+    std::string query =
         "UPDATE patient SET "
         "allergies=?,"
         "currentDiseases=?,"
         "pastDiseases=? "
-        "WHERE rowid=?" + std::to_string(patientRowId)
-    );
-
+        "WHERE rowid=?"
+        ;
+     Db db(query);
      db.bind(1, allergies); 
      db.bind(2, current); 
      db.bind(3, past); 

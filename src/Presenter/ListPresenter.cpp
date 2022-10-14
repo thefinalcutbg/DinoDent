@@ -338,12 +338,15 @@ int ListPresenter::generateAmbListNumber()
 void ListPresenter::requestPisActivities()
 {
     dentalActService.sendRequest(patient->type, patient->id,
-        [&](auto procedures) { setPISActivities(procedures);}
+        [&](auto procedures, auto payment) { setPISActivities(procedures, payment);}
     );
 
 }
 
-void ListPresenter::setPISActivities(const std::optional<std::vector<Procedure>>& pisProcedures)
+void ListPresenter::setPISActivities(
+    const std::optional<std::vector<Procedure>>& pisProcedures,
+    const std::vector<std::string>& payment_status
+)
 {
 
     if (!pisProcedures.has_value()) {
@@ -352,6 +355,7 @@ void ListPresenter::setPISActivities(const std::optional<std::vector<Procedure>>
     }
 
     patient->PISHistory = pisProcedures;
+    patient->pis_paymentStatus = payment_status;
 
     if (m_openHistoryDialogOnReply) openPisHistory();
 }
@@ -377,15 +381,18 @@ void ListPresenter::openPisHistory()
         return;
     }
 
-    bool applyToStatus = ModalDialogBuilder::pisHistoryDialog(history);
+    bool applyToStatus = ModalDialogBuilder::pisHistoryDialog(history, patient->pis_paymentStatus);
 
     if (!applyToStatus) return;
     
-                for (auto it = history.rbegin(); it != history.rend(); ++it)
-                it->applyPISProcedure(m_ambList.teeth);
+    for (auto it = history.rbegin(); it != history.rend(); ++it)
+    it->applyPISProcedure(m_ambList.teeth);
 
-                for (auto& t : m_ambList.teeth)
-                view->repaintTooth(ToothHintCreator::getToothHint(t, patient->teethNotes[t.index]));
+    if (isCurrent()) {
+
+        for (auto& t : m_ambList.teeth)
+            view->repaintTooth(ToothHintCreator::getToothHint(t, patient->teethNotes[t.index]));
+    }
    
 
     makeEdited();

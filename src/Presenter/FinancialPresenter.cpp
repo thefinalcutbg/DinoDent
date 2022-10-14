@@ -167,7 +167,13 @@ void FinancialPresenter::sendToPis()
 {
     if (!save()) return;
 
-    ModalDialogBuilder::showMessage(u8"Уверете се, че ползвате фирмения си електронен подпис");
+    if (
+        !ModalDialogBuilder::askDialog(u8"Желаете ли да изпратите финансовият документ към ПИС?")
+    ) return;
+
+    if (User::practice().legal_entity != 0) {
+        ModalDialogBuilder::showMessage(u8"Уверете се, че ползвате фирмения си електронен подпис");
+    }
 
     file_handler.sendInvoice(
         m_invoice,

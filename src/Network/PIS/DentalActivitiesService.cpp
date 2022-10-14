@@ -7,8 +7,12 @@
 #include "View/ModalDialogBuilder.h"
 #include "Model/Dental/NhifProcedures.h"
 
-
-bool DentalActivitiesService::sendRequest(int personType, const std::string& patientId, std::function<void(const std::optional<std::vector<Procedure>>&)> callback)
+bool DentalActivitiesService::sendRequest(
+	int personType, 
+	const std::string& patientId, 
+	std::function<void(
+		const std::optional<std::vector<Procedure>>&, const std::vector<std::string>& payment_status
+	)> callback)
 {
 	m_callback = callback;
 
@@ -36,9 +40,8 @@ bool DentalActivitiesService::sendRequest(int personType, const std::string& pat
 
 void DentalActivitiesService::parseReply(const std::string& reply)
 {
-
 	if (reply.empty()) {
-		m_callback({});
+		m_callback({}, {});
 	}
 
 	TiXmlDocument doc;
@@ -55,8 +58,8 @@ void DentalActivitiesService::parseReply(const std::string& reply)
 		.Child(1)						  //body
 		.FirstChildElement();			  //table
 
-	std::vector<Procedure> result;
-
+	std::vector<Procedure> procedures;
+	std::vector<std::string> payment_status;
 	//i is 1, since 0 is the table header (td)
 	for (int i = 1; ; i++)
 	{
@@ -68,7 +71,7 @@ void DentalActivitiesService::parseReply(const std::string& reply)
 
 		auto [tooth, temp] = ToothUtils::getArrayIdxAndTemp(std::stoi(row.Child(5).ToElement()->GetText()));
 
-		result.emplace_back(
+		procedures.emplace_back(
 			NhifProcedures::getTemplateByCode(std::stoi(row.Child(2).ToElement()->GetText())),
 			Date::getDateFromXmlFormat(row.Child(0).ToElement()->GetText()),
 			row.Child(4).ToElement()->GetText(), //diagnosis
@@ -76,8 +79,10 @@ void DentalActivitiesService::parseReply(const std::string& reply)
 			temp
 		);
 
+		payment_status.emplace_back(row.Child(1).ToElement()->GetText());
+
 	}
 
-	m_callback(result);
+	m_callback(procedures, payment_status);
 
 }

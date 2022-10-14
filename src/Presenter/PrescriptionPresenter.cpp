@@ -33,7 +33,8 @@ void PrescriptionPresenter::sendPrescriptionToHis()
 			makeEdited();
 			save();
 			
-			//if is current!
+			if (!isCurrent()) return;
+			
 			view->setReadOnly(true);
 			view->setNrn(nrn);
 	});

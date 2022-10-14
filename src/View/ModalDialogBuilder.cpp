@@ -166,9 +166,12 @@ std::optional<std::vector<Procedure>> ModalDialogBuilder::selectProcedures(const
 
 #include "View/Widgets/PISHistoryDialog.h"
 
-bool ModalDialogBuilder::pisHistoryDialog(const std::vector<Procedure>& procedures)
+bool ModalDialogBuilder::pisHistoryDialog(
+	const std::vector<Procedure>& procedures, 
+	const std::vector<std::string>& payment_status
+)
 {
-	PISHistoryDialog d(procedures);
+	PISHistoryDialog d(procedures, payment_status);
 	d.exec();
 
 	return d.applyProcedures;

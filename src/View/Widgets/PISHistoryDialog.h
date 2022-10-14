@@ -2,19 +2,19 @@
 
 #include <QDialog>
 #include "ui_PISHistoryDialog.h"
-#include "View/Models/ProcedureTableModel.h"
+#include "View/Models/PISDentalActivitiesModel.h"
 #include "Model/Dental/Procedure.h"
 
 class PISHistoryDialog : public QDialog
 {
 	Q_OBJECT
 
-	ProcedureTableModel model;
+	PisDentalActivitiesModel model;
 	
 
 public:
 	bool applyProcedures{ false };
-	PISHistoryDialog(const std::vector<Procedure> procedures, QWidget *parent = Q_NULLPTR);
+	PISHistoryDialog(const std::vector<Procedure> procedures, const std::vector<std::string>& payment_status, QWidget *parent = Q_NULLPTR);
 	~PISHistoryDialog();
 
 private:

@@ -444,6 +444,8 @@ src/View/Models/PatientTableModel.cpp
 src/View/Models/PatientTableModel.h
 src/View/Models/PerioTableModel.cpp
 src/View/Models/PerioTableModel.h
+src/View/Models/PISDentalActivitiesModel.cpp
+src/View/Models/PISDentalActivitiesModel.h
 src/View/Models/PrescriptionTableModel.cpp
 src/View/Models/PrescriptionTableModel.h
 src/View/Models/ProcedureSelectModel.cpp

@@ -53,7 +53,7 @@ namespace ModalDialogBuilder
 	std::optional<std::string> getMonthNotifFromFile();
 	std::optional<std::vector<Procedure>> selectProcedures(const std::vector<Procedure>& procedures, SelectionPref s = SelectionPref::All);
 	//returns true if user wants to apply the procedures to the status
-	bool pisHistoryDialog(const std::vector<Procedure>& procedures);
+	bool pisHistoryDialog(const std::vector<Procedure>& procedures, const std::vector<std::string>& payment_status);
 	std::optional<BusinessOperation> editBusinessOperation(const BusinessOperation& op);
 	std::optional<BusinessOperation> addBusinessOperation(const std::vector<ProcedureTemplate>& priceList);
 	std::optional<Recipient> editRecipient(const Recipient& r);

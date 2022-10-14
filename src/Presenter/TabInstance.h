@@ -24,6 +24,8 @@ class TabInstance
 
 	int m_containerIdx{ -1 }; //used to change the tab name even if not current
 
+	bool is_current{ false };
+
 protected:
 
 
@@ -50,7 +52,7 @@ public:
 	bool close();
 
 	void setCurrent();
-
+	bool isCurrent() { return is_current; }
 	virtual bool isNew() = 0;
 	virtual TabName getTabName() = 0;
 	virtual bool save() = 0;

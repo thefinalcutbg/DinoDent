@@ -26,6 +26,7 @@ void NetworkManager::sendRequestToPis(
 
     if (!s_manager) {
         s_manager = new QNetworkAccessManager();
+        s_manager->setTransferTimeout(15000);
        // s_manager->setAutoDeleteReplies(true); //produces crashes sometimes lol
         QObject::connect(s_manager, &QNetworkAccessManager::sslErrors, [=] {
                  qDebug() << "ERRORRRR";

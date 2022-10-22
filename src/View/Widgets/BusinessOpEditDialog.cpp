@@ -1,9 +1,11 @@
-#include "BusinessOpEditDialog.h"
-
+﻿#include "BusinessOpEditDialog.h"
+#include <QPainter>
 BusinessOpEditDialog::BusinessOpEditDialog(const BusinessOperation& op, QWidget *parent)
 	: QDialog(parent)
 {
 	ui.setupUi(this);
+
+	setWindowTitle(u8"Редактиране");
 
 	ui.nameEdit->setText(op.activity_name.c_str());
 	ui.codeSpinBox->setValue(std::stoi(op.activity_code));
@@ -27,6 +29,15 @@ BusinessOpEditDialog::BusinessOpEditDialog(const BusinessOperation& op, QWidget 
 			accept();
 		}
 	);
+}
+
+
+void BusinessOpEditDialog::paintEvent(QPaintEvent* e)
+{
+	QPainter painter;
+	painter.begin(this);
+	painter.fillRect(QRect(0, 0, width(), height()), Qt::white);
+	painter.end();
 }
 
 

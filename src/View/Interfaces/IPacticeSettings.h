@@ -1,13 +1,14 @@
 #pragma once
-
-struct Practice;
+#include <vector>
 
 #include "View/Interfaces/AbstractLineEdit.h"
 #include "View/Interfaces/AbstractDateEdit.h"
+#include "Model/UserStructs.h"
 
 constexpr int practiceTextFieldCount = 9;
 
 class PracticeSettingsPresenter;
+struct Practice;
 
 namespace PracticeTextFields
 {
@@ -24,4 +25,7 @@ public:
 	virtual int legalForm() = 0;
 	virtual void setPresenter(PracticeSettingsPresenter* presenter) = 0;
 	virtual void hidePassword() = 0;
+	virtual void setDoctorList(const std::vector<PracticeDoctor>& doctors) = 0;
+	virtual void setDoctorProperties(bool admin, NhifSpecialty specialty) = 0;
+	virtual void replaceCurrentItem(const PracticeDoctor& item) = 0;
 };

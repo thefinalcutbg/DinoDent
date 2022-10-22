@@ -166,7 +166,7 @@ std::string HisService::requester(bool nhif)
 			case NhifSpecialty::General: return "2081";
 			case NhifSpecialty::OralSurgeon: return "2083";
 			case NhifSpecialty::Maxillofacial: return "3088";
-			default: throw std::exception("bad specialty");
+			default: return "2081";
 		}
 
 	};

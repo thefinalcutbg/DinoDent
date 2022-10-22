@@ -88,8 +88,8 @@ bool Db::execute(const std::string& query)
     int i = sqlite3_exec(db_connection, query.c_str(), NULL, NULL, &err);
 
     if (err && s_showError) {
-        ModalDialogBuilder::showMessage(u8"Неуспешно записване в базата данни");
-        ModalDialogBuilder::showMultilineDialog(query);
+        ModalDialogBuilder::showError(u8"Неуспешно записване в базата данни.");
+       // ModalDialogBuilder::showMultilineDialog(query);
     }
 
     finalizeStatement();
@@ -219,8 +219,7 @@ bool Db::crudQuery(const std::string& query)
     i = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
 
     if (err && s_showError) {
-        ModalDialogBuilder::showMessage(u8"Неуспешна операция в базата данни");
-        ModalDialogBuilder::showMultilineDialog(query);
+        ModalDialogBuilder::showError(u8"Неуспешно записване в базата данни.");
     }
 
     return i == SQLITE_OK;
@@ -239,17 +238,19 @@ Db::~Db()
 }
 
 
-void Db::createIfNotExist()
+bool Db::createIfNotExist()
 {
-    if (std::filesystem::exists("TorqueDB.db")) return;
+    if (std::filesystem::exists(dbLocation)) return true;
 
     Db db;
 
     for (auto& tableSchema : Resources::dbSchema())
     {
-        db.execute(tableSchema);
+        if (!db.execute(tableSchema)) return false;
     }
 
+    return true;
+
   //  rc = sqlite3_exec(db,"VACUUM", NULL, NULL, &err);
-    s_showError = true;
+
 }

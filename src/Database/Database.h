@@ -16,7 +16,7 @@ class Db
     sqlite3_stmt* stmt;
 
     static inline bool s_showError{ false };
-    static inline std::string dbLocation{ "TorqueDB.db" };
+    static inline std::string dbLocation{ "database.db" };
 
     void finalizeStatement();
 
@@ -27,7 +27,7 @@ public:
     static void setVersion(int version);
     //open new connection and execute query on the go
     static bool crudQuery(const std::string& query); 
-    static void createIfNotExist();
+    static bool createIfNotExist();
     static void showErrorDialog(bool show) {s_showError = show;}
 
     //If connection exists, db finalizes statement in destructor, but does not break connection

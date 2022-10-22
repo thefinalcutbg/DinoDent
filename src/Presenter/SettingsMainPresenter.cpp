@@ -5,7 +5,8 @@
 #include "View/ModalDialogBuilder.h"
 #include "Database/DbUpdateStatus.h"
 
-SettingsMainPresenter::SettingsMainPresenter()
+SettingsMainPresenter::SettingsMainPresenter() :
+	m_practicePresenter(User::practice().rziCode)
 {
 
 }
@@ -14,14 +15,8 @@ void SettingsMainPresenter::setView(ISettingsDialog* view)
 {
 	this->view = view;
 
-
-	m_practiceDoctorPresenter.setDoctorsList(DbPractice::getDoctors(User::practice().rziCode));
-
 	m_practicePresenter.setView(view->practiceView());
 	m_priceListPresenter.setView(view->priceListView());
-	m_practiceDoctorPresenter.setView(view->practiceDoctorView());
-
-	m_practicePresenter.setPractice(User::practice());
 	m_priceListPresenter.setPriceList(User::practice().priceList);
 
 	view->setSettings(User::practice().settings);
@@ -61,17 +56,23 @@ bool SettingsMainPresenter::applyChanges()
 		return false;
 	}
 
-	if (!m_practiceDoctorPresenter.isValid())
+	auto practice = m_practicePresenter.getPractice();
+
+	if (
+		practice.rziCode != User::practice().rziCode  //if the practice rzi has been changed
+		&&
+		DbPractice::practiceExists(practice.rziCode) //but the new rzi already exists in the db
+	) 
 	{
-		view->focusTab(SettingsTab::Doctor);
-		ModalDialogBuilder::showError(u8"Практиката трябва да има поне един администратор!");
+		view->focusTab(SettingsTab::Practice);
+		ModalDialogBuilder::showError("Практика с такъв РЗИ номер вече съществува");
 		return false;
 	}
 
-	auto practice = m_practicePresenter.getPractice();
+	auto doctorsList = m_practicePresenter.getDoctorsList();
 	practice.priceList = m_priceListPresenter.priceList();
 	practice.settings = view->getSettings();
-	auto doctorsList = m_practiceDoctorPresenter.getDoctorsList();
+
 	
 	
 	DbPractice::updatePractice(practice, User::practice().rziCode);
@@ -82,7 +83,5 @@ bool SettingsMainPresenter::applyChanges()
 	User::refereshPracticeDoctor();
 	User::setCurrentPractice(practice);
 
-
-	
 	return true;
 }

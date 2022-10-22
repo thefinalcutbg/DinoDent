@@ -1,7 +1,7 @@
 ﻿#include <QtWidgets/QApplication>
 #include "View/Widgets/Torque.h"
 
-void initFunction();
+bool initFunction();
 
 void testFn();
 
@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
 
     a.setWindowIcon(QIcon(":/icons/icon_torque.png"));
 
-    initFunction();
+    if (!initFunction()) { return 0; }
 
    // testFn(); return 0;
 
@@ -44,13 +44,21 @@ int main(int argc, char *argv[])
 #include "Model/Dental/MKB.h"
 #include "Model/Ekatte.h"
 #include "Updates/Updater.h"
+#include "Path.h"
 
-void initFunction() {
+bool initFunction() {
 
-    Db::setFilePath("TorqueDB.db");
-    Db::createIfNotExist();
+    Db::setFilePath(Path::getDbPath());
 
+    if (!Db::createIfNotExist()) {
 
+        ModalDialogBuilder::showError(
+            u8"Неуспешно създаване на базата данни."
+            "\nСтартирайте програмата като администратор"
+        );
+
+        return false;
+    };
 
     //Intializing static data
     SpriteSheets::container().initialize(); //loading textures, otherwise program will crash;
@@ -65,22 +73,15 @@ void initFunction() {
     Route::initialize();
     WhenToTake::initialize();
 
+    Db::showErrorDialog(true);
     DbUpdater::updateDb();
+
+    return true;
 
 }
 
 void testFn()
 {
-    /*
-    auto& forms = Medication::forms();
-
-    for (int i = 0; i < forms.size(); i++)
-    {
-        int mapping = DoseQuantity::CL010_to_CL035Converter(i);
-        
-        if (mapping == -1)
-            qDebug() << forms[i].c_str() << " no mapping";
-    }
-    */
+    Path::getDbPath();
 
 }

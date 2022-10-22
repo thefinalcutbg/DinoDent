@@ -234,7 +234,7 @@
     <ClCompile Include="src\Presenter\AbstractSubPresenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Presenter\AddPracticePresenter.cpp">
+    <ClCompile Include="src\Presenter\PracticeDialogPresenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Presenter\AllergiesDialogPresenter.cpp">
@@ -301,9 +301,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Presenter\PerioPresenter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Presenter\PracticeDoctorSettingsPresenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Presenter\PracticeSettingsPresenter.cpp">
@@ -558,7 +555,7 @@
     <ClCompile Include="src\View\uiComponents\UserButton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\Widgets\AddPracticeDialog.cpp">
+    <ClCompile Include="src\View\Widgets\PracticeDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\Widgets\AllergiesDialog.cpp">
@@ -616,9 +613,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\Widgets\PISHistoryDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\View\Widgets\PracticeDoctorSettings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\Widgets\PracticeListDialog.cpp">
@@ -802,6 +796,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\Models\PISDentalActivitiesModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\Widgets\PracticeSelectorView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Presenter\PracticeManagerPresenter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Path.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1061,7 +1064,7 @@
     <ClInclude Include="src\Presenter\AbstractSubPresenter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Presenter\AddPracticePresenter.h">
+    <ClInclude Include="src\Presenter\PracticeDialogPresenter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Presenter\AllergiesDialogPresenter.h">
@@ -1134,9 +1137,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Presenter\PerioPresenter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Presenter\PracticeDoctorSettingsPresenter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Presenter\PracticeSettingsPresenter.h">
@@ -1247,7 +1247,7 @@
     <ClInclude Include="src\View\Interfaces\AbstractUIElement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\View\Interfaces\IAddPracticeDialog.h">
+    <ClInclude Include="src\View\Interfaces\IPracticeDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\Interfaces\IAllergiesDialog.h">
@@ -1472,6 +1472,18 @@
     <ClInclude Include="src\View\uiComponents\MouseWheelGuard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Presenter\PracticeManagerPresenter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\View\Interfaces\IPracticeSelectorView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Path.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Graphics\ContextMenu.h">
@@ -1627,7 +1639,7 @@
     <QtMoc Include="src\View\uiComponents\UserButton.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\Widgets\AddPracticeDialog.h">
+    <QtMoc Include="src\View\Widgets\PracticeDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\Widgets\AllergiesDialog.h">
@@ -1685,9 +1697,6 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\Widgets\PISHistoryDialog.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="src\View\Widgets\PracticeDoctorSettings.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\Widgets\PracticeListDialog.h">
@@ -1768,9 +1777,12 @@
     <QtMoc Include="src\View\Models\PISDentalActivitiesModel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\View\Widgets\PracticeSelectorView.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
-    <QtUic Include="src\View\Widgets\AddPracticeDialog.ui">
+    <QtUic Include="src\View\Widgets\PracticeDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\Widgets\AllergiesDialog.ui">
@@ -1828,9 +1840,6 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\Widgets\PISHistoryDialog.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="src\View\Widgets\PracticeDoctorSettings.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\Widgets\PracticeListDialog.ui">
@@ -1944,6 +1953,9 @@
     <QtUic Include="src\View\Widgets\InvoicePrintDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
+    <QtUic Include="src\View\Widgets\PracticeSelectorView.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="resources\Resource.qrc" />
@@ -1954,5 +1966,15 @@
   <ItemGroup>
     <None Include="INSTALL.md" />
     <None Include="README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resource.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resources\DinoDent.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

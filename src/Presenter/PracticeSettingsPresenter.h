@@ -13,12 +13,24 @@ class PracticeSettingsPresenter
 	DateValidator m_dateValidator;
 	NzokContractValidator m_contractValidator;
 
+	std::string initialRzi;
+
+	std::vector<PracticeDoctor> m_doctorsList;
+
+	int m_currentIndex{ -1 };
+
 public:
-	PracticeSettingsPresenter();
+	PracticeSettingsPresenter(const std::string initialRzi);
 	void setView(IPracticeSettings* view);
-	void setPractice(const Practice& practice);
 	Practice getPractice();
+	//does not check db for rzi uniqueness
 	bool isValid();
 	void nzokContractEnabled(bool enabled);
 	void vatEnabled(bool enabled);
+	void addDoctor();
+	void deleteDoctor();
+	void indexChanged(int index);
+	void setAdminPrivilege(bool admin);
+	void setDoctorNhifSpecialty(NhifSpecialty spec);
+	std::vector<PracticeDoctor> getDoctorsList();
 };

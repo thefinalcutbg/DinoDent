@@ -11,6 +11,8 @@ class BusinessOpEditDialog : public QDialog
 
 	std::optional<BusinessOperation> m_operation;
 
+	void paintEvent(QPaintEvent* e) override;
+
 public:
 	BusinessOpEditDialog(const BusinessOperation& op, QWidget *parent = Q_NULLPTR);
 

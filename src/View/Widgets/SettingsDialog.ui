@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>701</width>
-    <height>567</height>
+    <width>752</width>
+    <height>601</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -34,11 +34,6 @@
        <string>Ценоразпис</string>
       </attribute>
      </widget>
-     <widget class="PracticeDoctorSettings" name="practiceDoctorSettings">
-      <attribute name="title">
-       <string>Доктори</string>
-      </attribute>
-     </widget>
     </widget>
    </item>
    <item>
@@ -57,13 +52,6 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="okButton">
-       <property name="text">
-        <string>ОК</string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QPushButton" name="cancelButton">
        <property name="text">
         <string>Отказ</string>
@@ -71,9 +59,9 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="applyButton">
+      <widget class="QPushButton" name="okButton">
        <property name="text">
-        <string>Запиши</string>
+        <string>ОК</string>
        </property>
       </widget>
      </item>
@@ -93,12 +81,6 @@
    <class>PriceListSettings</class>
    <extends>QWidget</extends>
    <header>View/Widgets/pricelistsettings.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>PracticeDoctorSettings</class>
-   <extends>QWidget</extends>
-   <header>View/Widgets/practicedoctorsettings.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>

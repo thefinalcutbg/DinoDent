@@ -225,9 +225,11 @@
     <ClCompile Include="src\Network\HIS\EPrescription.cpp" />
     <ClCompile Include="src\Network\HIS\UpdateMkb.cpp" />
     <ClCompile Include="src\Network\PIS\ReportFilesService.cpp" />
+    <ClCompile Include="src\Path.cpp" />
     <ClCompile Include="src\Presenter\DosagePresenter.cpp" />
     <ClCompile Include="src\Presenter\MedicationPresenter.cpp" />
     <ClCompile Include="src\Presenter\PatientInfoPresenter.cpp" />
+    <ClCompile Include="src\Presenter\PracticeManagerPresenter.cpp" />
     <ClCompile Include="src\Presenter\PrescriptionPresenter.cpp" />
     <ClCompile Include="src\Network\HIS\UpdateMedications.cpp" />
     <ClCompile Include="src\Model\Prescription\Dosage.cpp" />
@@ -311,7 +313,7 @@
     <ClCompile Include="src\Network\PKCS11.cpp" />
     <ClCompile Include="src\Network\XmlSigner.cpp" />
     <ClCompile Include="src\Presenter\AbstractSubPresenter.cpp" />
-    <ClCompile Include="src\Presenter\AddPracticePresenter.cpp" />
+    <ClCompile Include="src\Presenter\PracticeDialogPresenter.cpp" />
     <ClCompile Include="src\Presenter\AllergiesDialogPresenter.cpp" />
     <ClCompile Include="src\Presenter\BridgeHelper.cpp" />
     <ClCompile Include="src\Presenter\ButtonSurfaceMatrix.cpp" />
@@ -334,7 +336,6 @@
     <ClCompile Include="src\Presenter\PatientDialogPresenter.cpp" />
     <ClCompile Include="src\Presenter\PatientSummaryPresenter.cpp" />
     <ClCompile Include="src\Presenter\PerioPresenter.cpp" />
-    <ClCompile Include="src\Presenter\PracticeDoctorSettingsPresenter.cpp" />
     <ClCompile Include="src\Presenter\PracticeSettingsPresenter.cpp" />
     <ClCompile Include="src\Presenter\PriceListSettingsPresenter.cpp" />
     <ClCompile Include="src\Presenter\ProcedureDialogPresenter.cpp" />
@@ -432,7 +433,7 @@
     <ClCompile Include="src\View\uiComponents\TileButton.cpp" />
     <ClCompile Include="src\View\uiComponents\ToothButton.cpp" />
     <ClCompile Include="src\View\uiComponents\UserButton.cpp" />
-    <ClCompile Include="src\View\Widgets\AddPracticeDialog.cpp" />
+    <ClCompile Include="src\View\Widgets\PracticeDialog.cpp" />
     <ClCompile Include="src\View\Widgets\AllergiesDialog.cpp" />
     <ClCompile Include="src\View\Widgets\AmbListSelector.cpp" />
     <ClCompile Include="src\View\Widgets\BusinessOpAddDialog.cpp" />
@@ -453,11 +454,11 @@
     <ClCompile Include="src\View\Widgets\PatientSummary.cpp" />
     <ClCompile Include="src\View\Widgets\PerioStatusView.cpp" />
     <ClCompile Include="src\View\Widgets\PerioView.cpp" />
+    <ClCompile Include="src\View\Widgets\PracticeSelectorView.cpp" />
     <ClCompile Include="src\View\Widgets\PrescriptionView.cpp" />
     <ClCompile Include="src\View\Widgets\PinPromptDialog.cpp" />
     <ClCompile Include="src\View\Widgets\PisDialog.cpp" />
     <ClCompile Include="src\View\Widgets\PISHistoryDialog.cpp" />
-    <ClCompile Include="src\View\Widgets\PracticeDoctorSettings.cpp" />
     <ClCompile Include="src\View\Widgets\PracticeListDialog.cpp" />
     <ClCompile Include="src\View\Widgets\PracticeSettings.cpp" />
     <ClCompile Include="src\View\Widgets\PriceListSettings.cpp" />
@@ -476,8 +477,10 @@
     <ClCompile Include="src\View\Widgets\UpdateDialog.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="resource.h" />
     <ClInclude Include="src\Database\DbPrescription.h" />
     <ClInclude Include="src\Database\DbUpdateStatus.h" />
+    <ClInclude Include="src\Path.h" />
     <ClInclude Include="src\Model\Dental\ReportFile.h" />
     <ClInclude Include="src\Model\DynamicNum.h" />
     <ClInclude Include="src\Model\Prescription\Dispensation.h" />
@@ -493,6 +496,7 @@
     <ClInclude Include="src\Presenter\DosagePresenter.h" />
     <ClInclude Include="src\Presenter\MedicationPresenter.h" />
     <ClInclude Include="src\Presenter\PatientInfoPresenter.h" />
+    <ClInclude Include="src\Presenter\PracticeManagerPresenter.h" />
     <ClInclude Include="src\Presenter\PrescriptionPresenter.h" />
     <ClInclude Include="src\Network\HIS\UpdateMedications.h" />
     <ClInclude Include="src\Model\Prescription\Dosage.h" />
@@ -589,7 +593,7 @@
     <ClInclude Include="src\Network\PKCS11.h" />
     <ClInclude Include="src\Network\XmlSigner.h" />
     <ClInclude Include="src\Presenter\AbstractSubPresenter.h" />
-    <ClInclude Include="src\Presenter\AddPracticePresenter.h" />
+    <ClInclude Include="src\Presenter\PracticeDialogPresenter.h" />
     <ClInclude Include="src\Presenter\AllergiesDialogPresenter.h" />
     <ClInclude Include="src\Presenter\BridgeHelper.h" />
     <ClInclude Include="src\Presenter\ButtonSurfaceMatrix.h" />
@@ -614,7 +618,6 @@
     <ClInclude Include="src\Presenter\PatientDialogPresenter.h" />
     <ClInclude Include="src\Presenter\PatientSummaryPresenter.h" />
     <ClInclude Include="src\Presenter\PerioPresenter.h" />
-    <ClInclude Include="src\Presenter\PracticeDoctorSettingsPresenter.h" />
     <ClInclude Include="src\Presenter\PracticeSettingsPresenter.h" />
     <ClInclude Include="src\Presenter\PriceListSettingsPresenter.h" />
     <ClInclude Include="src\Presenter\ProcedureDialogPresenter.h" />
@@ -654,7 +657,7 @@
     <ClInclude Include="src\View\Interfaces\AbstractSpinBox.h" />
     <ClInclude Include="src\View\Interfaces\AbstractSurfaceSelector.h" />
     <ClInclude Include="src\View\Interfaces\AbstractUIElement.h" />
-    <ClInclude Include="src\View\Interfaces\IAddPracticeDialog.h" />
+    <ClInclude Include="src\View\Interfaces\IPracticeDialog.h" />
     <ClInclude Include="src\View\Interfaces\IAllergiesDialog.h" />
     <ClInclude Include="src\View\Interfaces\ICommonFields.h" />
     <ClInclude Include="src\View\Interfaces\ICrownView.h" />
@@ -676,6 +679,7 @@
     <ClInclude Include="src\View\Interfaces\IPatientSummaryView.h" />
     <ClInclude Include="src\View\Interfaces\IPatientTileInfo.h" />
     <ClInclude Include="src\View\Interfaces\IPerioView.h" />
+    <ClInclude Include="src\View\Interfaces\IPracticeSelectorView.h" />
     <ClInclude Include="src\View\Interfaces\IPrescriptionView.h" />
     <ClInclude Include="src\View\Interfaces\IPracticeDoctorSettings.h" />
     <ClInclude Include="src\View\Interfaces\IPriceListSettings.h" />
@@ -706,6 +710,7 @@
     <QtMoc Include="src\View\Widgets\DosageDialog.h" />
     <QtMoc Include="src\View\Widgets\InputDialog.h" />
     <QtMoc Include="src\View\Widgets\InvoicePrintDialog.h" />
+    <QtMoc Include="src\View\Widgets\PracticeSelectorView.h" />
     <ClInclude Include="src\View\Widgets\ReportDialogResult.h" />
     <QtMoc Include="src\View\Widgets\ReportFilesView.h" />
     <ClInclude Include="src\View\Widgets\ToothUi.h" />
@@ -724,7 +729,6 @@
     <QtMoc Include="src\View\Widgets\PriceListSettings.h" />
     <QtMoc Include="src\View\Widgets\PracticeSettings.h" />
     <QtMoc Include="src\View\Widgets\PracticeListDialog.h" />
-    <QtMoc Include="src\View\Widgets\PracticeDoctorSettings.h" />
     <QtMoc Include="src\View\Widgets\PISHistoryDialog.h" />
     <QtMoc Include="src\View\Widgets\PisDialog.h" />
     <QtMoc Include="src\View\Widgets\PinPromptDialog.h" />
@@ -744,7 +748,7 @@
     <QtMoc Include="src\View\Widgets\BusinessOpAddDialog.h" />
     <QtMoc Include="src\View\Widgets\AmbListSelector.h" />
     <QtMoc Include="src\View\Widgets\AllergiesDialog.h" />
-    <QtMoc Include="src\View\Widgets\AddPracticeDialog.h" />
+    <QtMoc Include="src\View\Widgets\PracticeDialog.h" />
     <QtMoc Include="src\View\uiComponents\UserButton.h" />
     <QtMoc Include="src\View\uiComponents\ToothButton.h" />
     <QtMoc Include="src\View\uiComponents\TextEdit.h" />
@@ -815,7 +819,7 @@
     <QtUic Include="src\View\SubWidgets\SurfaceSelector.ui" />
     <QtUic Include="src\View\SubWidgets\TabTitle.ui" />
     <QtUic Include="src\View\SubWidgets\VitaWidget.ui" />
-    <QtUic Include="src\View\Widgets\AddPracticeDialog.ui" />
+    <QtUic Include="src\View\Widgets\PracticeDialog.ui" />
     <QtUic Include="src\View\Widgets\AllergiesDialog.ui" />
     <QtUic Include="src\View\Widgets\AmbListSelector.ui" />
     <QtUic Include="src\View\Widgets\BusinessOpAddDialog.ui" />
@@ -836,11 +840,11 @@
     <QtUic Include="src\View\Widgets\PatientSummary.ui" />
     <QtUic Include="src\View\Widgets\PerioStatusView.ui" />
     <QtUic Include="src\View\Widgets\PerioView.ui" />
+    <QtUic Include="src\View\Widgets\PracticeSelectorView.ui" />
     <QtUic Include="src\View\Widgets\PrescriptionView.ui" />
     <QtUic Include="src\View\Widgets\PinPromptDialog.ui" />
     <QtUic Include="src\View\Widgets\PisDialog.ui" />
     <QtUic Include="src\View\Widgets\PISHistoryDialog.ui" />
-    <QtUic Include="src\View\Widgets\PracticeDoctorSettings.ui" />
     <QtUic Include="src\View\Widgets\PracticeListDialog.ui" />
     <QtUic Include="src\View\Widgets\PracticeSettings.ui" />
     <QtUic Include="src\View\Widgets\PriceListSettings.ui" />
@@ -866,6 +870,12 @@
   <ItemGroup>
     <None Include="INSTALL.md" />
     <None Include="README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resource.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resources\DinoDent.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

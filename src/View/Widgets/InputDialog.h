@@ -11,8 +11,10 @@ class InputDialog : public QDialog
 	NotEmptyValidator validator;
 	bool ok_pressed{ false };
 
+	void paintEvent(QPaintEvent* e) override;
+
 public:
-	InputDialog(QWidget *parent = nullptr);
+	InputDialog(bool password, QWidget *parent = nullptr);
 
 	void setLabel(const std::string& label);
 	void setTitle(const std::string& title);

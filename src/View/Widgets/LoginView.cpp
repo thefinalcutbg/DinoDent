@@ -2,7 +2,7 @@
 #include <QPainter>
 #include "Presenter/LoginPresenter.h"
 #include "PracticeListDialog.h"
-
+#include "View/Theme.h"
 LoginView::LoginView(LoginPresenter* p, QWidget *parent)
 	: presenter(p), QDialog(parent)
 {
@@ -10,12 +10,15 @@ LoginView::LoginView(LoginPresenter* p, QWidget *parent)
 
 	setModal(true);
 	setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
-	setWindowTitle(u8"Вход в системата");
+	setWindowTitle(u8"Вход");
 
+	ui.practiceButton->setCursor(QCursor(Qt::PointingHandCursor));
+	ui.practiceButton->setStyleSheet("color:" + Theme::colorToString(Theme::fontTurquoise));
 	ui.passEdit->setEchoMode(QLineEdit::Password);
 
 	presenter->setView(this);
 
+	connect(ui.practiceButton, &QPushButton::clicked, [=] {presenter->practiceListPressed();});
 	connect(ui.okButton, &QPushButton::clicked, [=]{
 
 				presenter->okPressed(
@@ -30,6 +33,9 @@ LoginView::LoginView(LoginPresenter* p, QWidget *parent)
 	//ui.userEdit->setText("220008771");
 	//ui.passEdit->setText("198312");
 	ui.userEdit->setFocus();
+
+
+	
 	
 }
 

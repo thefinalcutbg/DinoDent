@@ -24,11 +24,11 @@ class DetailedStatusPresenter;
 class LoginPresenter;
 class DoctorDialogPresenter;
 class InvoicePresenter;
-class AddPracticePresenter;
+class PracticeDialogPresenter;
 class MonthNotifPresenter;
 class MedicationPresenter;
 class DosagePresenter;
-
+class PracticeManagerPresenter;
 enum class DialogAnswer { Yes, No, Cancel };
 
 enum class NotificationType {NoData, Xml, PisHash };
@@ -43,10 +43,11 @@ namespace ModalDialogBuilder
 	void openDialog(ListSelectorPresenter* p);
 	void openDialog(DetailedStatusPresenter* p);
 	void openDialog(LoginPresenter* p);
-	void openDialog(AddPracticePresenter* p);
+	void openDialog(PracticeDialogPresenter* p);
 	void openDialog(DoctorDialogPresenter* p);
 	void openDialog(MedicationPresenter* p);
 	void openDialog(DosagePresenter* p);
+	void openDialog(PracticeManagerPresenter* p);
 
 	std::optional<ProcedureTemplate> openProcedureTemplateDialog(const ProcedureTemplate* pTemp = nullptr, int code = 0);
 	DialogAnswer openSaveDialog(const std::string& text);
@@ -71,6 +72,7 @@ namespace ModalDialogBuilder
 	//returns empty string if canceled
 	std::string ksmpDialog(KsmpList& list, const std::string& preSelectCode = {});
 	void pisDialog(MonthNotifPresenter* presenter);
-	std::string getFromInputDialog(const std::string& text, const std::string& title);
+	std::string inputDialog(const std::string& text, const std::string& title, bool asPassword = false);
+
 };
 

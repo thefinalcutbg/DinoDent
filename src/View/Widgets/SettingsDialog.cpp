@@ -10,7 +10,6 @@ SettingsDialog::SettingsDialog(QDialog*parent)
 	setWindowIcon(QIcon(":/icons/icon_settings.png"));
 	
 	connect(ui.cancelButton, &QPushButton::clicked, [&] {close();});
-	connect(ui.applyButton, &QPushButton::clicked, [&] {presenter.applyChanges();});
 	connect(ui.okButton, &QPushButton::clicked, [&] {presenter.okPressed();});
 	connect(ui.generalSettings->ui.updateMedButton, &QPushButton::clicked, [&] {presenter.updateMedications();});
 	ui.practiceSettings->hidePassword();

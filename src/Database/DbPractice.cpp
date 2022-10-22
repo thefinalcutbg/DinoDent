@@ -75,14 +75,29 @@ void DbPractice::insertPractice(const Practice& practice)
     );
 }
 
+bool DbPractice::deletePractice(const std::string& rziCode)
+{
+    Db db("DELETE FROM practice WHERE practice.rzi=?");
+
+    db.bind(1, rziCode);
+
+    return db.execute();
+}
+
 std::vector<PracticePair> DbPractice::getPracticeList(const std::string& doctorLPK)
 {
     std::string query =
-        "SELECT practice.rzi, practice.name "
-        "FROM practice LEFT JOIN practice_doctor ON "
-        "practice.rzi = practice_doctor.practice_rzi "
-        "WHERE practice_doctor.doctor_lpk = '" + doctorLPK + "' "
-        "ORDER BY name ASC";
+        "SELECT practice.rzi, practice.name, practice.pass FROM practice";
+        
+        if (doctorLPK.size()) {
+            query += 
+                " LEFT JOIN practice_doctor ON "
+                "practice.rzi = practice_doctor.practice_rzi "
+                "WHERE practice_doctor.doctor_lpk = '" + doctorLPK + "'"
+                ;
+        }
+
+       query += " ORDER BY practice.name ASC";
 
     std::vector<PracticePair> practiceList;
 
@@ -91,7 +106,8 @@ std::vector<PracticePair> DbPractice::getPracticeList(const std::string& doctorL
         practiceList.emplace_back(
             PracticePair{
                 db.asString(0),
-                db.asString(1)
+                db.asString(1),
+                db.asString(2)
             }
         );
     }

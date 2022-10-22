@@ -2,8 +2,11 @@
 #include "View/ModalDialogBuilder.h"
 #include "Database/DbDoctor.h"
 #include "Database/DbPractice.h"
+#include "Database/Database.h"
 #include <QDebug>
 #include "Model/User.h"
+#include "Presenter/PracticeManagerPresenter.h"
+#include "View/ModalDialogBuilder.h"
 
 bool LoginPresenter::successful()
 {
@@ -15,6 +18,15 @@ bool LoginPresenter::successful()
 
     return loginSuccessful;
 }
+
+void LoginPresenter::practiceListPressed()
+{
+    view->closeLogin();
+    PracticeManagerPresenter p;
+    ModalDialogBuilder::openDialog(&p);
+    ModalDialogBuilder::openDialog(this);
+}
+
 
 void LoginPresenter::setView(ILoginView* view)
 {

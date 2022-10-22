@@ -1,7 +1,7 @@
 ﻿#include "PatientDialogPresenter.h"
 #include "View/ModalDialogBuilder.h"
 #include "Database/DbPatient.h"
-
+#include "View/Printer.h"
 
 PatientDialogPresenter::PatientDialogPresenter() :
 	view(nullptr)
@@ -69,6 +69,20 @@ void PatientDialogPresenter::changePatientType(int index)
 	}
 }
 
+void PatientDialogPresenter::printConsent()
+{
+	if (!viewIsValid()) return;
+
+	Print::consent(view->getPatient());
+}
+
+void PatientDialogPresenter::printGDPR()
+{
+	if (!viewIsValid()) return;
+
+	Print::gdpr(view->getPatient());
+}
+
 void PatientDialogPresenter::checkHirbno()
 {
 	auto p = view->getPatient();
@@ -83,14 +97,8 @@ void PatientDialogPresenter::checkHirbno()
 void PatientDialogPresenter::accept()
 {
 
-	for(int i = 0; i < 8; i++)
-	{	
-		if (!inputIsValid(view->lineEdit(static_cast<PatientField>(i)))) return;
-	}
+	if (!viewIsValid()) return;
 
-	if (!inputIsValid(view->dateEdit())) return;
-
-	
 	m_patient = getPatientFromView();
 	
 	bool success{ false };
@@ -159,6 +167,29 @@ void PatientDialogPresenter::setPatientToView(const Patient& patient)
 	pastDiseases = patient.pastDiseases;
 }
 
+bool PatientDialogPresenter::viewIsValid()
+{
+	auto inputIsValid = [](AbstractUIElement* uiElement)
+	{
+		uiElement->validateInput();
+		if (!uiElement->isValid())
+		{
+			uiElement->setFocus();
+			return false;
+		}
+		return true;
+	};
+
+	for (int i = 0; i < 8; i++)
+	{
+		if (!inputIsValid(view->lineEdit(static_cast<PatientField>(i)))) return false;
+	}
+
+	if (!inputIsValid(view->dateEdit())) return false;
+
+	return true;
+}
+
 void PatientDialogPresenter::setHirbno(const std::string& hirbno)
 {
 	if(hirbno.empty()){
@@ -170,20 +201,9 @@ void PatientDialogPresenter::setHirbno(const std::string& hirbno)
 }
 
 
-bool PatientDialogPresenter::inputIsValid(AbstractUIElement* uiElement)
-{
-	uiElement->validateInput();
-	if (!uiElement->isValid())
-	{
-		uiElement->setFocus();
-		return false;
-	}
-	return true;
-}
-
 Patient PatientDialogPresenter::getPatientFromView()
 {
-	Patient patient = view->getPatient();;
+	Patient patient = view->getPatient();
 
 	patient.allergies = allergies;
 	patient.currentDiseases = currentDiseases;

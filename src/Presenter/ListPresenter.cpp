@@ -78,6 +78,23 @@ void ListPresenter::refreshPrices()
 
 bool ListPresenter::isValid()
 {
+    if (m_ambList.procedures.empty()) {
+        ModalDialogBuilder::showError(u8"Листът трябва да съдържа поне една манипулация!");
+        return false;
+    }
+
+    auto date = m_ambList.getDate();
+
+    for (auto& p : m_ambList.procedures)
+    {
+        if (p.date.month != date.month || p.date.year != date.year)
+        {
+            ModalDialogBuilder::showError(u8"Манипулациите трябва да са от един и същи месец!");
+            return false;
+        }
+
+    }
+
     if (m_ambList.hasNZOKProcedure() && !patient->PISHistory.has_value()) {
         ModalDialogBuilder::showMessage(
             u8"Не са заредени данни от ПИС. "
@@ -132,6 +149,8 @@ long long ListPresenter::rowID() const
 bool ListPresenter::save()
 {
     if (!requiresSaving()) return true;
+
+
 
     if (!isValid()) return false;
 

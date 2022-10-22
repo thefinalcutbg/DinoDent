@@ -1,7 +1,7 @@
 #pragma once
 #include "PracticeSettingsPresenter.h"
 #include "PriceListSettingsPresenter.h"
-#include "PracticeDoctorSettingsPresenter.h"
+
 #include "View/Interfaces/ISettingsDialog.h"
 #include "Network/HIS/UpdateMedications.h"
 #include "Network/HIS/UpdateMkb.h"
@@ -9,7 +9,7 @@ class SettingsMainPresenter
 {
 	PracticeSettingsPresenter m_practicePresenter;
 	PriceListSettingsPresenter m_priceListPresenter;
-	PracticeDoctorSettingsPresenter m_practiceDoctorPresenter;
+
 
 	UpdateMedications med_update;
 //	UpdateMkb mkb_update;

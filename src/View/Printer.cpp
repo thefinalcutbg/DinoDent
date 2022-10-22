@@ -207,6 +207,62 @@ void Print::invoice(const Invoice& inv)
     report.printReport();
 }
 
+void Print::consent(const Patient& patient)
+{
+    QApplication::setOverrideCursor(Qt::BusyCursor);
+
+    auto report = LimeReport::ReportEngine();
+
+    auto& doctor = User::doctor();
+    auto& practice = User::practice();
+
+    report.loadFromFile(":/reports/report_consent.lrxml");
+
+
+
+    report.dataManager()->setReportVariable("practice_name", QString::fromStdString(practice.name));
+    report.dataManager()->setReportVariable("practice_address", QString::fromStdString(practice.practice_address));
+    report.dataManager()->setReportVariable("doctor", QString::fromStdString(doctor.getFullName()));
+
+    report.dataManager()->setReportVariable("practice_address", QString::fromStdString(practice.practice_address));
+    report.dataManager()->setReportVariable("declarator", patient.sex ? u8"Долуподписаната" : u8"Долуподписаният");
+    report.dataManager()->setReportVariable("type", patient.type == 1 ? u8"ЕГН" : u8"ЛНЧ");
+    report.dataManager()->setReportVariable("name", QString::fromStdString(patient.fullName()));
+    report.dataManager()->setReportVariable("id", QString::fromStdString(patient.id));
+
+    report.dataManager()->setReportVariable("phone", QString::fromStdString(patient.phone));
+
+
+    QApplication::restoreOverrideCursor();
+
+    report.printReport();
+}
+
+void Print::gdpr(const Patient& patient)
+{
+    QApplication::setOverrideCursor(Qt::BusyCursor);
+
+    auto report = LimeReport::ReportEngine();
+
+    auto& practice = User::practice();
+
+    report.loadFromFile(":/reports/report_gdpr.lrxml");
+
+    report.dataManager()->setReportVariable("practice_name", QString::fromStdString(practice.name));
+    report.dataManager()->setReportVariable("practice_address", QString::fromStdString(practice.practice_address));
+    report.dataManager()->setReportVariable("declarator", patient.sex ? u8"Долуподписаната" : u8"Долуподписаният");
+    report.dataManager()->setReportVariable("type", patient.type == 1 ? u8"ЕГН" : u8"ЛНЧ");
+    report.dataManager()->setReportVariable("name", QString::fromStdString(patient.fullName()));
+    report.dataManager()->setReportVariable("id", QString::fromStdString(patient.id));
+    report.dataManager()->setReportVariable("address", QString::fromStdString(patient.getFullAddress()));
+    report.dataManager()->setReportVariable("acquainted", patient.sex ? u8"Запозната" : u8"Запознат");
+    report.dataManager()->setReportVariable("date", Date::currentDate().toBgStandard(true).c_str());
+
+    QApplication::restoreOverrideCursor();
+
+    report.printReport();
+}
+
 void Print::ambList()
 {
     QApplication::setOverrideCursor(Qt::BusyCursor);

@@ -42,9 +42,9 @@ class PatientDialogPresenter
 	std::string pastDiseases;
 	std::string currentDiseases;
 
-	bool inputIsValid(AbstractUIElement* uiElement);
 	Patient getPatientFromView();
 	void setPatientToView(const Patient& patient);
+	bool viewIsValid();
 
 public:
 	PatientDialogPresenter();
@@ -52,6 +52,8 @@ public:
 	std::optional<Patient> open();
 
 	void changePatientType(int index);
+	void printConsent();
+	void printGDPR();
 	void setHirbno(const std::string& hirbno);
 	void checkHirbno();
 	void searchDbForPatient(int type);

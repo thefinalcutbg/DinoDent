@@ -285,9 +285,10 @@
   <tabstop>fNameEdit</tabstop>
   <tabstop>mNameEdit</tabstop>
   <tabstop>lNameEdit</tabstop>
+  <tabstop>phoneEdit</tabstop>
   <tabstop>passEdit</tabstop>
-  <tabstop>severalRHIFcheck</tabstop>
   <tabstop>okButton</tabstop>
+  <tabstop>severalRHIFcheck</tabstop>
  </tabstops>
  <resources/>
  <connections/>

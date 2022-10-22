@@ -52,6 +52,8 @@
     <qresource prefix="/reports">
         <file>report_amb.lrxml</file>
         <file>report_invoice.lrxml</file>
+        <file>report_consent.lrxml</file>
+        <file>report_gdpr.lrxml</file>
     </qresource>
     <qresource prefix="/fonts">
         <file>font_RobotoCondensedRegular.ttf</file>

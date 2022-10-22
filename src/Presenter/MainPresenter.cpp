@@ -8,7 +8,7 @@
 #include "Network/PKCS11.h"
 #include "Model/User.h"
 #include "Model/xml.h"
-#include "Presenter/AddPracticePresenter.h"
+#include "Presenter/PracticeDialogPresenter.h"
 #include "Database/DbPractice.h"
 #include "View/Printer.h"
 
@@ -26,7 +26,7 @@ void MainPresenter::setView(IMainView* view)
     {
         ModalDialogBuilder::showMessage("Стартирате програмата за първи път. Моля добавете практика.");
 
-        AddPracticePresenter p;
+        PracticeDialogPresenter p{};
         auto result = p.open();
 
         if (result.has_value())
@@ -35,11 +35,13 @@ void MainPresenter::setView(IMainView* view)
             DbPractice::setDoctorsPracticeList(result.value().doctorsList, result.value().practice.rziCode);
             ModalDialogBuilder::showMessage("Зареден е ценоразпис с нулеви цени. Можете да го редактирате от Настройки");
         }
+        /*
         else
         {
             view->m_loggedIn = false;
             return;
         }
+        */
     }
 
     LoginPresenter login;

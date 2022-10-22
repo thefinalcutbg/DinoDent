@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>570</width>
-    <height>402</height>
+    <width>580</width>
+    <height>380</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -18,14 +18,14 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>570</width>
-    <height>402</height>
+    <width>580</width>
+    <height>380</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>570</width>
-    <height>402</height>
+    <width>580</width>
+    <height>380</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -34,7 +34,7 @@
   <widget class="ComboBox" name="sexCombo">
    <property name="geometry">
     <rect>
-     <x>300</x>
+     <x>320</x>
      <y>20</y>
      <width>41</width>
      <height>21</height>
@@ -75,6 +75,12 @@
      <width>121</width>
      <height>20</height>
     </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
    </property>
    <property name="text">
     <string/>
@@ -162,7 +168,7 @@
     <rect>
      <x>130</x>
      <y>260</y>
-     <width>71</width>
+     <width>81</width>
      <height>20</height>
     </rect>
    </property>
@@ -221,6 +227,12 @@
      <height>20</height>
     </rect>
    </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
    <property name="maxLength">
     <number>50</number>
    </property>
@@ -241,7 +253,7 @@
   <widget class="QLabel" name="label_8">
    <property name="geometry">
     <rect>
-     <x>260</x>
+     <x>270</x>
      <y>20</y>
      <width>41</width>
      <height>21</height>
@@ -254,7 +266,7 @@
   <widget class="DateEdit" name="birthEdit">
    <property name="geometry">
     <rect>
-     <x>460</x>
+     <x>480</x>
      <y>20</y>
      <width>81</width>
      <height>22</height>
@@ -268,12 +280,12 @@
    </property>
    <property name="maximumDateTime">
     <datetime>
-     <hour>9</hour>
+     <hour>21</hour>
      <minute>59</minute>
      <second>59</second>
      <year>9999</year>
      <month>12</month>
-     <day>30</day>
+     <day>29</day>
     </datetime>
    </property>
    <property name="minimumDate">
@@ -294,8 +306,8 @@
   <widget class="QPushButton" name="okButton">
    <property name="geometry">
     <rect>
-     <x>450</x>
-     <y>370</y>
+     <x>490</x>
+     <y>340</y>
      <width>71</width>
      <height>23</height>
     </rect>
@@ -307,7 +319,7 @@
   <widget class="QLabel" name="label_7">
    <property name="geometry">
     <rect>
-     <x>360</x>
+     <x>380</x>
      <y>20</y>
      <width>101</width>
      <height>21</height>
@@ -339,6 +351,12 @@
      <height>20</height>
     </rect>
    </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
    <property name="maxLength">
     <number>50</number>
    </property>
@@ -365,6 +383,12 @@
      <height>20</height>
     </rect>
    </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
    <property name="maxLength">
     <number>50</number>
    </property>
@@ -373,7 +397,7 @@
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>370</y>
+     <y>340</y>
      <width>311</width>
      <height>21</height>
     </rect>
@@ -396,6 +420,32 @@
    </property>
    <property name="text">
     <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="consentButton">
+   <property name="geometry">
+    <rect>
+     <x>410</x>
+     <y>60</y>
+     <width>151</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Информирано съгласие</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="gdprButton">
+   <property name="geometry">
+    <rect>
+     <x>410</x>
+     <y>100</y>
+     <width>151</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>GDPR</string>
    </property>
   </widget>
  </widget>

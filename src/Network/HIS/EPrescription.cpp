@@ -121,7 +121,7 @@ bool EPrescription::Cancel::sendRequest(const std::string& nrn, std::function<vo
 {
 	m_callback = success;
 
-	auto reason = ModalDialogBuilder::getFromInputDialog(
+	auto reason = ModalDialogBuilder::inputDialog(
 						u8"Основание за анулиране на рецептата:",
 						u8"Анулиране на рецепта"
 					);

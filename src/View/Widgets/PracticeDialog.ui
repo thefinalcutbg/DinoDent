@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>AddPracticeDialog</class>
- <widget class="QDialog" name="AddPracticeDialog">
+ <class>PracticeDialog</class>
+ <widget class="QDialog" name="PracticeDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>AddPracticeDialog</string>
+   <string>PracticeDialog</string>
   </property>
   <widget class="PracticeSettings" name="practiceSettings" native="true">
    <property name="geometry">
@@ -20,16 +20,6 @@
      <y>10</y>
      <width>721</width>
      <height>511</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="PracticeDoctorSettings" name="doctorSettings" native="true">
-   <property name="geometry">
-    <rect>
-     <x>320</x>
-     <y>290</y>
-     <width>411</width>
-     <height>231</height>
     </rect>
    </property>
   </widget>
@@ -59,12 +49,6 @@
    <class>PracticeSettings</class>
    <extends>QWidget</extends>
    <header>View/Widgets/PracticeSettings.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>PracticeDoctorSettings</class>
-   <extends>QWidget</extends>
-   <header>View/Widgets/practicedoctorsettings.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

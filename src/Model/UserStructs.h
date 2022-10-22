@@ -17,6 +17,7 @@ struct PracticePair
 {
 	std::string rzi;
 	std::string name;
+	std::string pass;
 };
 
 struct PracticeDoctor

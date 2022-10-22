@@ -1,5 +1,5 @@
 #include "InputDialog.h"
-
+#include <QPainter> 
 
 void InputDialog::setLabel(const std::string& label)
 {
@@ -11,23 +11,25 @@ void InputDialog::setTitle(const std::string& title)
 	setWindowTitle(title.c_str());
 }
 
-InputDialog::InputDialog(QWidget *parent)
-	: QDialog(parent)
+InputDialog::InputDialog(bool password, QWidget *parent) : QDialog(parent)
 {
 	ui.setupUi(this);
 
-	ui.textEdit->setInputValidator(&validator);
+	if (password) ui.lineEdit->setEchoMode(QLineEdit::Password);
+
+	ui.lineEdit->setInputValidator(&validator);
 
 	connect(ui.okButton, &QPushButton::clicked, [&] { 
 
-			if (ui.textEdit->validateInput()) {
+			if (ui.lineEdit->validateInput()) {
 				ok_pressed = true;
 				close();
 			}
 			else
 			{
-				ui.textEdit->setFocus();
+				ui.lineEdit->setFocus();
 			}
+		
 		});
 
 	connect(ui.cancelButton, &QPushButton::clicked, [&]{ close(); });
@@ -35,9 +37,17 @@ InputDialog::InputDialog(QWidget *parent)
 
 std::string InputDialog::result()
 {
-	if (ok_pressed) return ui.textEdit->getText();
+	if (ok_pressed) return ui.lineEdit->getText();
 
 	return std::string{};
+}
+
+void InputDialog::paintEvent(QPaintEvent* e)
+{
+	QPainter painter;
+	painter.begin(this);
+	painter.fillRect(QRect(0, 0, width(), height()), Qt::white);
+	painter.end();
 }
 
 InputDialog::~InputDialog()

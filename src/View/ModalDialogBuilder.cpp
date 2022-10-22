@@ -59,11 +59,11 @@ void ModalDialogBuilder::openDialog(LoginPresenter* p)
 }
 
 
-#include "View/Widgets/AddPracticeDialog.h"
+#include "View/Widgets/PracticeDialog.h"
 
-void ModalDialogBuilder::openDialog(AddPracticePresenter* p)
+void ModalDialogBuilder::openDialog(PracticeDialogPresenter* p)
 {
-	AddPracticeDialog d(p);
+	PracticeDialog d(p);
 	d.exec();
 }
 
@@ -88,6 +88,14 @@ void ModalDialogBuilder::openDialog(MedicationPresenter* p)
 void ModalDialogBuilder::openDialog(DosagePresenter* p)
 {
 	DosageDialog d(p);
+	d.exec();
+}
+
+#include "View/Widgets/PracticeSelectorView.h"
+
+void ModalDialogBuilder::openDialog(PracticeManagerPresenter* p)
+{	
+	PracticeSelectorView d(p);
 	d.exec();
 }
 
@@ -349,9 +357,9 @@ void ModalDialogBuilder::pisDialog(MonthNotifPresenter* presenter)
 
 #include "View/Widgets/InputDialog.h"
 
-std::string ModalDialogBuilder::getFromInputDialog(const std::string& text, const std::string& title)
+std::string ModalDialogBuilder::inputDialog(const std::string& text, const std::string& title, bool asPassword)
 {
-	InputDialog d;
+	InputDialog d(asPassword);
 	d.setLabel(text);
 	d.setTitle(title);
 	d.exec();

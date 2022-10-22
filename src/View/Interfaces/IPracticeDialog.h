@@ -7,6 +7,5 @@ class IAddPracticeDialog
 {
 public:
 	virtual IPracticeSettings* practiceSettingsView() = 0;
-	virtual IPracticeDoctorSettings* doctorSettingsView() = 0;
 	virtual void closeDialog() = 0;
 };

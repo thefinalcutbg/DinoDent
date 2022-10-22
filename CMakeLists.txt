@@ -63,6 +63,8 @@ add_library(
 
 set(SOURCES
 src/main.cpp
+src/Path.cpp
+src/Path.h
 src/Resources.cpp
 src/Resources.h
 src/Database/Database.cpp
@@ -253,8 +255,6 @@ src/Network/PIS/SendFileService.cpp
 src/Network/PIS/SendFileService.h
 src/Presenter/AbstractSubPresenter.cpp
 src/Presenter/AbstractSubPresenter.h
-src/Presenter/AddPracticePresenter.cpp
-src/Presenter/AddPracticePresenter.h
 src/Presenter/AllergiesDialogPresenter.cpp
 src/Presenter/AllergiesDialogPresenter.h
 src/Presenter/BridgeHelper.cpp
@@ -307,8 +307,10 @@ src/Presenter/PatientSummaryPresenter.cpp
 src/Presenter/PatientSummaryPresenter.h
 src/Presenter/PerioPresenter.cpp
 src/Presenter/PerioPresenter.h
-src/Presenter/PracticeDoctorSettingsPresenter.cpp
-src/Presenter/PracticeDoctorSettingsPresenter.h
+src/Presenter/PracticeDialogPresenter.cpp
+src/Presenter/PracticeDialogPresenter.h
+src/Presenter/PracticeManagerPresenter.cpp
+src/Presenter/PracticeManagerPresenter.h
 src/Presenter/PracticeSettingsPresenter.cpp
 src/Presenter/PracticeSettingsPresenter.h
 src/Presenter/PrescriptionPresenter.cpp
@@ -395,7 +397,6 @@ src/View/Interfaces/AbstractSpinBox.h
 src/View/Interfaces/AbstractSurfaceSelector.h
 src/View/Interfaces/AbstractUIElement.cpp
 src/View/Interfaces/AbstractUIElement.h
-src/View/Interfaces/IAddPracticeDialog.h
 src/View/Interfaces/IAllergiesDialog.h
 src/View/Interfaces/ICommonFields.h
 src/View/Interfaces/ICrownView.h
@@ -417,7 +418,9 @@ src/View/Interfaces/IPatientDialog.h
 src/View/Interfaces/IPatientSummaryView.h
 src/View/Interfaces/IPatientTileInfo.h
 src/View/Interfaces/IPerioView.h
+src/View/Interfaces/IPracticeDialog.h
 src/View/Interfaces/IPracticeDoctorSettings.h
+src/View/Interfaces/IPracticeSelectorView.h
 src/View/Interfaces/IPrescriptionView.h
 src/View/Interfaces/IPriceListSettings.h
 src/View/Interfaces/IProcedureDialog.h
@@ -560,9 +563,6 @@ src/View/uiComponents/ToothButton.cpp
 src/View/uiComponents/ToothButton.h
 src/View/uiComponents/UserButton.cpp
 src/View/uiComponents/UserButton.h
-src/View/Widgets/AddPracticeDialog.cpp
-src/View/Widgets/AddPracticeDialog.h
-src/View/Widgets/AddPracticeDialog.ui
 src/View/Widgets/AllergiesDialog.cpp
 src/View/Widgets/AllergiesDialog.h
 src/View/Widgets/AllergiesDialog.ui
@@ -632,12 +632,15 @@ src/View/Widgets/PisDialog.ui
 src/View/Widgets/PISHistoryDialog.cpp
 src/View/Widgets/PISHistoryDialog.h
 src/View/Widgets/PISHistoryDialog.ui
-src/View/Widgets/PracticeDoctorSettings.cpp
-src/View/Widgets/PracticeDoctorSettings.h
-src/View/Widgets/PracticeDoctorSettings.ui
+src/View/Widgets/PracticeDialog.cpp
+src/View/Widgets/PracticeDialog.h
+src/View/Widgets/PracticeDialog.ui
 src/View/Widgets/PracticeListDialog.cpp
 src/View/Widgets/PracticeListDialog.h
 src/View/Widgets/PracticeListDialog.ui
+src/View/Widgets/PracticeSelectorView.cpp
+src/View/Widgets/PracticeSelectorView.h
+src/View/Widgets/PracticeSelectorView.ui
 src/View/Widgets/PracticeSettings.cpp
 src/View/Widgets/PracticeSettings.h
 src/View/Widgets/PracticeSettings.ui

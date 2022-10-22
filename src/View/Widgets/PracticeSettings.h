@@ -27,6 +27,9 @@ public:
 	int legalForm() override;
 	void setPresenter(PracticeSettingsPresenter* presenter) override;
 	void hidePassword() override;
+	void setDoctorList(const std::vector<PracticeDoctor>& doctors) override;
+	void setDoctorProperties(bool admin, NhifSpecialty specialty) override;
+	void replaceCurrentItem(const PracticeDoctor& item) override;
 
 
 private:

@@ -1,12 +1,27 @@
-#include "UpdateDialog.h"
-#include "Updates/Updater.h"
+﻿#include "UpdateDialog.h"
+#include "Updates/DbUpdates.h"
 #include <qapplication.h>
+
 UpdateDialog::UpdateDialog(QWidget *parent)
 	: QDialog(parent)
 {
 	ui.setupUi(this);
-	setModal(false);
-	setWindowFlags(Qt::FramelessWindowHint);
+	setModal(true);
+	setWindowTitle(u8"Обновяване на базата данни");
+	//setWindowFlags(Qt::FramelessWindowHint);
+
+}
+
+void UpdateDialog::execute()
+{
+	open();
+
+	DbUpdates::update1(this);
+	DbUpdates::update2(this);
+	DbUpdates::update3();
+	DbUpdates::update4();
+
+	close();
 }
 
 void UpdateDialog::setRange(int range)

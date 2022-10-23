@@ -89,7 +89,6 @@ bool Db::execute(const std::string& query)
 
     if (err && s_showError) {
         ModalDialogBuilder::showError(u8"Неуспешно записване в базата данни.");
-       // ModalDialogBuilder::showMultilineDialog(query);
     }
 
     finalizeStatement();

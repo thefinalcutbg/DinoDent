@@ -13,7 +13,7 @@ PracticeDialog::PracticeDialog(PracticeDialogPresenter* presenter, QWidget *pare
 {
 	ui.setupUi(this);
 
-	setWindowTitle(u8"Добавяне на практика");
+	setWindowTitle(u8"Настройки на практиката");
 
 	connect(ui.okButton, &QPushButton::clicked, [=] {presenter->okPressed();});
 	presenter->setView(this);

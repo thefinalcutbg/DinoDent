@@ -4,6 +4,7 @@
 #include "Presenter/PracticeDialogPresenter.h"
 #include "Path.h"
 #include "Database/Database.h"
+#include "Updates/Updater.h"
 
 PracticeManagerPresenter::PracticeManagerPresenter() :
 	practices{DbPractice::getPracticeList()}
@@ -117,6 +118,10 @@ void PracticeManagerPresenter::dbChangePath()
 	if (pathResult.empty()) return;
 
 	Db::setFilePath(pathResult);
+
+	Db::createIfNotExist();
+
+	DbUpdater::updateDb();
 
 	practices = DbPractice::getPracticeList();
 

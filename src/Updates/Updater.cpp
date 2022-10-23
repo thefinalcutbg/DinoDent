@@ -5,16 +5,9 @@
 
 void DbUpdater::updateDb()
 {
-
 	UpdateDialog d;
 
-	d.show();
-
-	DbUpdates::update1(&d);
-    DbUpdates::update2(&d);
-	DbUpdates::update3();
-	DbUpdates::update4();
-	
+	d.execute();
 
 }
 

@@ -1,4 +1,4 @@
-#include "UpdateMedications.h"
+﻿#include "UpdateMedications.h"
 #include "Database/Database.h"
 #include <TinyXML/tinyxml.h>
 #include <qdebug.h>
@@ -14,7 +14,6 @@ void UpdateMedications::update()
 
 bool UpdateMedications::parseNumenclature(const std::string& reply)
 {
-
 	TiXmlDocument doc;
 
 	doc.Parse(reply.data(), 0, TIXML_ENCODING_UTF8);
@@ -25,32 +24,29 @@ bool UpdateMedications::parseNumenclature(const std::string& reply)
 		.FirstChild()	//nhis::message
 		.Child(1)		//nhis::contents
 		.FirstChild();	//nhis::numenclature
-	
+
 	//second entry
 
 	Db db;
 
 	db.execute("PRAGMA foreign_keys = OFF");
 
+	db.execute("BEGIN TRANSACTION");
+
 	db.execute("DELETE FROM numMed");
-	
-	std::string query;
-	query.reserve(10000);
+
 
 	for ( int i = 1; table.Child(i).ToElement(); i++)
 	{
-		if (query.empty()) {
-			query = "INSERT INTO numMed (rowid, name, form) VALUES ";
-		}
-
+		
+		db.newStatement("INSERT INTO numMed (rowid, name, form) VALUES (?,?,?)");
+	
 		auto entryHandle = table.Child(i);
 
-		std::string key;
-		std::string name;
-		std::string form;
-
-		key = entryHandle.Child(0).ToElement()->Attribute("value");
-		name = entryHandle.Child(1).ToElement()->Attribute("value");
+		db.bind(1, entryHandle.Child(0).ToElement()->Attribute("value"));
+		db.bind(2, entryHandle.Child(1).ToElement()->Attribute("value"));
+		
+		std::string form{ "0" };
 
 		//iterating meta to find the form id:
 		for (int y = 2;;y++)
@@ -63,24 +59,20 @@ bool UpdateMedications::parseNumenclature(const std::string& reply)
 
 			form = metaHandle.Child(1).ToElement()->FirstAttribute()->ValueStr();
 			break;
-
-		}
-
-		query.append("(" + key + ",'" + name + "'," + form + "),");
-		
-		if (!(i%200)) {
-			//removing the last comma;
-			query.pop_back();
-
-			db.execute(query);
-			query.clear();
-		}
-		
 	}
 
-	if (query.size()) {
-		query.pop_back();
-		db.execute(query);
+		db.bind(3, form);
+
+		db.execute();
+	
+	}
+
+	if (!db.execute("END TRANSACTION"))
+	{
+		db.execute("ROLLBACK");
+		db.execute("PRAGMA foreign_keys = ON");
+		ModalDialogBuilder::showError(u8"Неуспешно обновяване на номенклатурата");
+		return false;
 	}
 	
 	db.execute("PRAGMA foreign_keys = ON");
@@ -90,4 +82,5 @@ bool UpdateMedications::parseNumenclature(const std::string& reply)
 	Medication::initialize();
 
 	return true;
+
 }

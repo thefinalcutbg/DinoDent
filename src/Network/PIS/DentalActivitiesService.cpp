@@ -73,7 +73,7 @@ void DentalActivitiesService::parseReply(const std::string& reply)
 
 		procedures.emplace_back(
 			NhifProcedures::getTemplateByCode(std::stoi(row.Child(2).ToElement()->GetText())),
-			Date::getDateFromXmlFormat(row.Child(0).ToElement()->GetText()),
+			Date(row.Child(0).ToElement()->GetText()),
 			row.Child(4).ToElement()->GetText(), //diagnosis
 			tooth,
 			temp

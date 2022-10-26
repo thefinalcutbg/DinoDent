@@ -807,6 +807,12 @@
     <ClCompile Include="src\Path.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Network\UpdateService\UpdateService.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\Widgets\UpdateDownloader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Database\Database.h">
@@ -1484,6 +1490,9 @@
     <ClInclude Include="src\Path.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Network\UpdateService\UpdateService.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Graphics\ContextMenu.h">
@@ -1780,6 +1789,9 @@
     <QtMoc Include="src\View\Widgets\PracticeSelectorView.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\View\Widgets\UpdateDownloader.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\View\Widgets\PracticeDialog.ui">
@@ -1954,6 +1966,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\Widgets\PracticeSelectorView.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\Widgets\UpdateDownloader.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

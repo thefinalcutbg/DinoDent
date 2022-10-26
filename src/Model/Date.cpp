@@ -29,13 +29,6 @@ Date::Date(const std::string& str)
         return;
     }
 
-    if (str[2] == '.') {
-        day = stoi(str.substr(0, 2));
-        month = stoi(str.substr(3, 2));
-        year = stoi(str.substr(6, 4));
-        return;
-    }
-
 }
 
 
@@ -282,13 +275,3 @@ int Date::currentDay() { return QDate::currentDate().day(); }
 int Date::currentMonth() { return QDate::currentDate().month(); }
 int Date::currentYear() { return QDate::currentDate().year(); }
 
-Date Date::getDateFromXmlFormat(const std::string& yyyy_dash_MM_dash_dd)
-{
-    if (yyyy_dash_MM_dash_dd.empty()) return Date();
-
-    return Date{
-           std::stoi(yyyy_dash_MM_dash_dd.substr(8, 2)),
-           std::stoi(yyyy_dash_MM_dash_dd.substr(5, 2)),
-           std::stoi(yyyy_dash_MM_dash_dd.substr(0, 4))
-    };
-}

@@ -3,7 +3,7 @@
 
 class AbstractReplyHandler;
 class PKCS11;
-
+class QNetworkReply;
 
 namespace NetworkManager
 {
@@ -38,5 +38,7 @@ namespace NetworkManager
 
 	void clearAccessCache();
 	void unsubscribeHandler(AbstractReplyHandler* handler);
+
+	QNetworkReply* simpleRequest(const char* url);
 };
 

@@ -124,7 +124,7 @@
     <ClCompile>
       <AdditionalIncludeDirectories>$(SolutionDir)\include;GeneratedFiles\$(ConfigurationName);GeneratedFiles;$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);$(SolutionDir)/src/</AdditionalIncludeDirectories>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
@@ -225,6 +225,7 @@
     <ClCompile Include="src\Network\HIS\EPrescription.cpp" />
     <ClCompile Include="src\Network\HIS\UpdateMkb.cpp" />
     <ClCompile Include="src\Network\PIS\ReportFilesService.cpp" />
+    <ClCompile Include="src\Network\UpdateService\UpdateService.cpp" />
     <ClCompile Include="src\Path.cpp" />
     <ClCompile Include="src\Presenter\DosagePresenter.cpp" />
     <ClCompile Include="src\Presenter\MedicationPresenter.cpp" />
@@ -475,11 +476,13 @@
     <ClCompile Include="src\View\Widgets\TabView.cpp" />
     <ClCompile Include="src\View\Widgets\Torque.cpp" />
     <ClCompile Include="src\View\Widgets\UpdateDialog.cpp" />
+    <ClCompile Include="src\View\Widgets\UpdateDownloader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
     <ClInclude Include="src\Database\DbPrescription.h" />
     <ClInclude Include="src\Database\DbUpdateStatus.h" />
+    <ClInclude Include="src\Network\UpdateService\UpdateService.h" />
     <ClInclude Include="src\Path.h" />
     <ClInclude Include="src\Model\Dental\ReportFile.h" />
     <ClInclude Include="src\Model\DynamicNum.h" />
@@ -693,6 +696,7 @@
     <ClInclude Include="src\View\ModalDialogBuilder.h" />
     <ClInclude Include="src\View\Models\BusinessOperationModel.h" />
     <ClInclude Include="src\View\Models\MedicationTableModel.h" />
+    <QtMoc Include="src\View\Widgets\UpdateDownloader.h" />
     <QtMoc Include="src\View\Models\PrescriptionTableModel.h" />
     <QtMoc Include="src\View\Models\PISDentalActivitiesModel.h" />
     <ClInclude Include="src\View\Models\QProcedure.h" />
@@ -860,6 +864,7 @@
     <QtUic Include="src\View\Widgets\TabView.ui" />
     <QtUic Include="src\View\Widgets\Torque.ui" />
     <QtUic Include="src\View\Widgets\UpdateDialog.ui" />
+    <QtUic Include="src\View\Widgets\UpdateDownloader.ui" />
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="resources\Resource.qrc" />

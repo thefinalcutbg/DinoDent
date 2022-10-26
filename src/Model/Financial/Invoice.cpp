@@ -56,7 +56,7 @@ Invoice::Invoice(const TiXmlDocument& monthNotif, const Practice& practice, cons
         :
         MainDocument{
         std::stoll(getText(monthNotif.RootElement()->FirstChildElement("from_inv_num"))),
-        Date::getDateFromXmlFormat(getText(monthNotif.RootElement()->FirstChildElement("from_inv_date")))
+        Date(getText(monthNotif.RootElement()->FirstChildElement("from_inv_date")))
         }
     },
 

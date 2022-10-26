@@ -40,6 +40,15 @@ namespace PrvPath
 
 }
 
+std::string Path::getDataPath()
+{
+    auto dataFolder = QDir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation));
+
+    if (!dataFolder.exists()) dataFolder.mkpath(".");
+
+    return dataFolder.path().toLocal8Bit().toStdString();
+}
+
 std::string Path::getDbPath()
 {
 

@@ -36,7 +36,6 @@ public:
     static int currentDay();
     static int currentMonth();
     static int currentYear();
-    static Date getDateFromXmlFormat(const std::string& yyyy_dash_MM_dash_dd);
 
     static bool isLeapYear(int year);
     int getMaxDayOfMonth() const;

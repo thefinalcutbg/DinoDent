@@ -34,5 +34,4 @@ void PracticeDialog::closeDialog()
 
 PracticeDialog::~PracticeDialog()
 {
-	
 }

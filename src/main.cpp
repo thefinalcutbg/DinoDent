@@ -1,5 +1,6 @@
 ﻿#include <QtWidgets/QApplication>
 #include "View/Widgets/Torque.h"
+#include "Network/UpdateService/UpdateService.h"
 
 bool initFunction();
 
@@ -16,10 +17,10 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     a.setWindowIcon(QIcon(":/icons/icon_torque.png"));
+    
+    if (UpdateService::restartForUpdate()) { return 0; };
 
     if (!initFunction()) { return 0; }
-
-   // testFn(); return 0;
 
     Torque w;
 

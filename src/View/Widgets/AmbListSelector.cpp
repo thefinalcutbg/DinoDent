@@ -63,11 +63,6 @@ AmbListSelector::AmbListSelector(ListSelectorPresenter* presenter) :
 				presenter->deleteCurrentSelection();
 		});
 
-	
-	connect(ui.newListButton, &QPushButton::clicked, [=] { presenter->openNew(TabType::AmbList);});
-	connect(ui.newPerioButton, &QPushButton::clicked, [=] { presenter->openNew(TabType::PerioList);});
-	connect(ui.newFinancialButton, &QPushButton::clicked, [=] { presenter->openNew(TabType::Financial);});
-
 	presenter->setView(this);
 
 }
@@ -91,7 +86,6 @@ void AmbListSelector::setDates(const Date& from, const Date& to)
 
 void AmbListSelector::setRows(const std::vector<AmbRow>& rows)
 {
-	setPatientMode(false);
 	amb_model.setRows(rows);
 
 	QSignalBlocker block(ui.dataTypeCombo);
@@ -112,7 +106,8 @@ void AmbListSelector::setRows(const std::vector<AmbRow>& rows)
 	ui.tableView->setColumnWidth(3, 80);
 	ui.tableView->setColumnWidth(4, 250);
 	ui.tableView->setColumnWidth(5, 120);
-	
+
+
 	ui.fromDateEdit->setDisabled(false);
 	ui.toDateEdit->setDisabled(false);
 
@@ -136,7 +131,6 @@ void AmbListSelector::setRows(const std::vector<AmbRow>& rows)
 
 void AmbListSelector::setRows(const std::vector<PerioRow>& rows)
 {
-	setPatientMode(false);
 	perio_model.setRows(rows);
 
 	QSignalBlocker block(ui.dataTypeCombo);
@@ -185,7 +179,6 @@ void AmbListSelector::setRows(const std::vector<PerioRow>& rows)
 
 void AmbListSelector::setRows(const std::vector<PatientRow>& rows)
 {
-	setPatientMode(true);
 	patient_model.setRows(rows);
 
 	QSignalBlocker block(ui.dataTypeCombo);
@@ -231,7 +224,6 @@ void AmbListSelector::setRows(const std::vector<PatientRow>& rows)
 
 void AmbListSelector::setRows(const std::vector<FinancialRow>& rows)
 {
-	setPatientMode(false);
 	financial_model.setRows(rows);
 
 	QSignalBlocker block(ui.dataTypeCombo);
@@ -275,7 +267,6 @@ void AmbListSelector::setRows(const std::vector<FinancialRow>& rows)
 
 void AmbListSelector::setRows(const std::vector<PrescriptionRow>& rows)
 {
-	setPatientMode(false);
 	perscription_model.setRows(rows);
 
 	QSignalBlocker block(ui.dataTypeCombo);
@@ -314,19 +305,6 @@ void AmbListSelector::setRows(const std::vector<PrescriptionRow>& rows)
 		}
 
 	);
-}
-
-void AmbListSelector::setPatientMode(bool enable)
-{
-	ui.newFinancialButton->setHidden(!enable);
-	ui.newListButton->setHidden(!enable);
-	ui.newPerioButton->setHidden(!enable);
-
-	enable ?
-		ui.tableView->setSelectionMode(QAbstractItemView::SingleSelection)
-		:
-		ui.tableView->setSelectionMode(QAbstractItemView::SelectionMode::ContiguousSelection);
-		    
 }
 
 void AmbListSelector::focus()

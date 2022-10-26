@@ -10,7 +10,21 @@
 #include "View/ModalDialogBuilder.h"
 #include <QApplication>
 
-QNetworkAccessManager* s_manager {nullptr};
+QNetworkAccessManager* getManager() {
+
+    static QNetworkAccessManager* s_manager{ nullptr };
+
+    if (!s_manager) {
+        s_manager = new QNetworkAccessManager();
+        s_manager->setTransferTimeout(15000);
+        // s_manager->setAutoDeleteReplies(true); //produces crashes sometimes lol
+        QObject::connect(s_manager, &QNetworkAccessManager::sslErrors, [=] {
+            qDebug() << "ERRORRRR";
+            });
+    }
+
+    return s_manager;
+}
 
 std::set<AbstractReplyHandler*> handlers;
 
@@ -23,15 +37,7 @@ void NetworkManager::sendRequestToPis(
                               )
 {
 
-
-    if (!s_manager) {
-        s_manager = new QNetworkAccessManager();
-        s_manager->setTransferTimeout(15000);
-       // s_manager->setAutoDeleteReplies(true); //produces crashes sometimes lol
-        QObject::connect(s_manager, &QNetworkAccessManager::sslErrors, [=] {
-                 qDebug() << "ERRORRRR";
-            });
-    }
+    auto manager = getManager();
 
     handlers.insert(handler);
 
@@ -47,7 +53,7 @@ void NetworkManager::sendRequestToPis(
     request.setRawHeader("SOAPAction", soapHeader);
     request.setRawHeader("accept", "\"application/xml\"");
 
-    auto reply = s_manager->post(request, soapRequest.data());
+    auto reply = manager->post(request, soapRequest.data());
 
     
 
@@ -103,7 +109,7 @@ void NetworkManager::sendRequestToHis(
                     const std::string& urlAndServicePath
 )
 {
-    if (!s_manager) {s_manager = new QNetworkAccessManager(); }
+    auto manager = getManager();
 
     QApplication::setOverrideCursor(Qt::BusyCursor);
 
@@ -123,7 +129,7 @@ void NetworkManager::sendRequestToHis(
     request.setRawHeader("Connection", "Keep-Alive");
     request.setRawHeader("Authorization",  authValue.toUtf8());
 
-    QNetworkReply* reply = s_manager->post(request, nhifMessage.data());
+    QNetworkReply* reply = manager->post(request, nhifMessage.data());
 
     QObject::connect(reply, &QNetworkReply::finished,
         [=]() {
@@ -143,7 +149,7 @@ void NetworkManager::sendRequestToHis(
 void NetworkManager::sendRequestToHisNoAuth(AbstractReplyHandler* handler, const std::string& nhifMessage, const std::string& urlAndServicePath)
 {
 
-    if (!s_manager) { s_manager = new QNetworkAccessManager(); }
+    auto manager = getManager();
 
     QApplication::setOverrideCursor(Qt::BusyCursor);
 
@@ -159,7 +165,7 @@ void NetworkManager::sendRequestToHisNoAuth(AbstractReplyHandler* handler, const
     request.setRawHeader("accept", "\"application/xml\"");
     request.setRawHeader("Connection", "Keep-Alive");
 
-    QNetworkReply* reply = s_manager->post(request, nhifMessage.data());
+    QNetworkReply* reply = manager->post(request, nhifMessage.data());
 
     QObject::connect(reply, &QNetworkReply::finished,
         [=]() {
@@ -178,13 +184,7 @@ void NetworkManager::sendRequestToHisNoAuth(AbstractReplyHandler* handler, const
 
 void NetworkManager::sendRequestToNra(const std::string xmlRequest, AbstractReplyHandler* handler)
 {
-    if (!s_manager) {
-        s_manager = new QNetworkAccessManager();
-        // s_manager->setAutoDeleteReplies(true); //produces crashes sometimes lol
-        QObject::connect(s_manager, &QNetworkAccessManager::sslErrors, [=] {
-            qDebug() << "ERRORRRR";
-            });
-    }
+    auto manager = getManager();
 
     handlers.insert(handler);
 
@@ -193,7 +193,7 @@ void NetworkManager::sendRequestToNra(const std::string xmlRequest, AbstractRepl
     request.setHeader(QNetworkRequest::KnownHeaders::ContentTypeHeader, "application/xml;charset=\"utf-8\"");
     request.setRawHeader("accept", "\"application/xml\"");
     
-    auto reply = s_manager->post(request, xmlRequest.data());
+    auto reply = manager->post(request, xmlRequest.data());
     
 
     QApplication::setOverrideCursor(Qt::BusyCursor);
@@ -243,19 +243,12 @@ void NetworkManager::sendRequestToNra(const std::string xmlRequest, AbstractRepl
 void NetworkManager::requestChallenge()
 {
 
-    if (!s_manager) {
-        s_manager = new QNetworkAccessManager();
-        // s_manager->setAutoDeleteReplies(true); //produces crashes sometimes lol
-        QObject::connect(s_manager, &QNetworkAccessManager::sslErrors, [=] {
-            qDebug() << "ERRORRRR";
-            });
-    }
-
+    auto manager = getManager();
 
     QUrl url("https://auth.his.bg/token");
 
     QNetworkRequest request(url);
-    QNetworkReply* reply = s_manager->get(request);
+    QNetworkReply* reply = manager->get(request);
 
     QApplication::setOverrideCursor(Qt::BusyCursor);
 
@@ -273,6 +266,8 @@ void NetworkManager::requestChallenge()
 
 void NetworkManager::requestToken(const std::string& signedChallenge)
 {
+    auto manager = getManager();
+
     QUrl url("https://auth.his.bg/token");
 
     QNetworkRequest request(url);
@@ -280,7 +275,7 @@ void NetworkManager::requestToken(const std::string& signedChallenge)
     request.setRawHeader("accept", "\"application/xml\"");
     request.setRawHeader("Connection", "Keep-Alive");
 
-    QNetworkReply* reply = s_manager->post(request, signedChallenge.c_str());
+    QNetworkReply* reply = manager->post(request, signedChallenge.c_str());
     
     QObject::connect(reply, &QNetworkReply::finished,
         [=] {
@@ -297,9 +292,7 @@ void NetworkManager::requestToken(const std::string& signedChallenge)
 
 void NetworkManager::clearAccessCache()
 {
-    if (s_manager == nullptr) return;
-
-    s_manager->clearAccessCache();
+    getManager()->clearAccessCache();
 }
 
 void NetworkManager::unsubscribeHandler(AbstractReplyHandler* handler)
@@ -307,4 +300,12 @@ void NetworkManager::unsubscribeHandler(AbstractReplyHandler* handler)
     if (handlers.count(handler)) {
         handlers.erase(handler);
     }
+}
+
+
+QNetworkReply* NetworkManager::simpleRequest(const char* url)
+{
+    QNetworkRequest request(QUrl{url});
+    
+    return getManager()->get(request);
 }

@@ -262,6 +262,26 @@ void PatientSummaryPresenter::setDataToView()
     view->setUiState(state);
 }
 
+void PatientSummaryPresenter::newAmbSheet()
+{
+    tab_presenter->openList(*patient);
+}
+
+void PatientSummaryPresenter::newPerio()
+{
+    tab_presenter->openPerio(*patient);
+}
+
+void PatientSummaryPresenter::newPrescription()
+{
+    tab_presenter->openPerscription(*patient);
+}
+
+void PatientSummaryPresenter::newInvoice()
+{
+    tab_presenter->openInvoice({}, patient->rowid);
+}
+
 void PatientSummaryPresenter::toothSelected(int toothIdx)
 {
     state.selectedTooth = toothIdx;

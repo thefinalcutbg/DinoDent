@@ -45,7 +45,7 @@ private:
 	Ui::AmbListSelector ui;
 
 	//shows the additional buttons and changes selectionMode
-	void setPatientMode(bool enable);
+
 	void focus() override;
 	void close() override;
 

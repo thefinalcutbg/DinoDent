@@ -253,6 +253,8 @@ src/Network/PIS/ReportFilesService.cpp
 src/Network/PIS/ReportFilesService.h
 src/Network/PIS/SendFileService.cpp
 src/Network/PIS/SendFileService.h
+src/Network/UpdateService/UpdateService.cpp
+src/Network/UpdateService/UpdateService.h
 src/Presenter/AbstractSubPresenter.cpp
 src/Presenter/AbstractSubPresenter.h
 src/Presenter/AllergiesDialogPresenter.cpp
@@ -690,6 +692,9 @@ src/View/Widgets/Torque.ui
 src/View/Widgets/UpdateDialog.cpp
 src/View/Widgets/UpdateDialog.h
 src/View/Widgets/UpdateDialog.ui
+src/View/Widgets/UpdateDownloader.cpp
+src/View/Widgets/UpdateDownloader.h
+src/View/Widgets/UpdateDownloader.ui
 )
 
 include_directories(${CMAKE_SOURCE_DIR}/include)

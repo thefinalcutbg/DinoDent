@@ -80,7 +80,7 @@ void GetMonthNotifListService::parseReply(const std::string& reply)
 		result.emplace_back(
 			MonthNotifRow{
 				row.Child(0).ToElement()->GetText(),								//id hash
-				Date::getDateFromXmlFormat(row.Child(1).ToElement()->GetText()),	//date
+				Date(row.Child(1).ToElement()->GetText()),	//date
 				getNotifType(getTextNullCheck(row.Child(2).ToElement())),						//type
 				getTextNullCheck(row.Child(3).ToElement()),								//rzi
 				getTextNullCheck(row.Child(4).ToElement()),								//uin

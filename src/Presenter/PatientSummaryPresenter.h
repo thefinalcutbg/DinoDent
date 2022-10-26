@@ -41,6 +41,10 @@ public:
 	void openCurrentDocument();
 	void print() override;
 	void setDataToView() override;
+	void newAmbSheet();
+	void newPerio();
+	void newPrescription();
+	void newInvoice();
 
 	virtual TabName getTabName() override;
 

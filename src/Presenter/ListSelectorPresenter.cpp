@@ -193,34 +193,6 @@ void ListSelectorPresenter::deleteCurrentSelection()
 	
 }
 
-#include "Database/DbPatient.h"
-
-void ListSelectorPresenter::openNew(TabType type)
-{
-	if (m_currentModelType != TabType::PatientSummary ||
-		selectedIndexes.empty()
-	){ 
-		return;
-	}
-
-	auto patient = DbPatient::get(m_patientRows[*selectedIndexes.begin()].rowID);
-		
-	switch (type)
-	{
-	case TabType::AmbList:
-		tab_presenter->openList(patient);
-		break;
-	case TabType::PerioList:
-		tab_presenter->openPerio(patient);
-		break;
-	case TabType::Financial:
-		tab_presenter->openInvoice({}, patient.rowid);
-		break;
-	}
-
-	if (view) view->close();
-}
-
 ListSelectorPresenter::~ListSelectorPresenter()
 {
 }

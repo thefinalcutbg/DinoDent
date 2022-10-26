@@ -43,7 +43,6 @@ public:
 
 	void openCurrentSelection();
 	void deleteCurrentSelection();
-	void openNew(TabType type);
 	~ListSelectorPresenter();
 
 };

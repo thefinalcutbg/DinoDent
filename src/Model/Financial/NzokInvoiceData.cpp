@@ -79,8 +79,8 @@ NZOKInvoiceData::NZOKInvoiceData(const TiXmlDocument& monthNotif, const Practice
 	activityTypeCode(std::stoi(getText1(monthNotif.RootElement()->FirstChildElement("nhif_type_code")))),
     health_insurance_fund_type_code (insuranceFunds[activityTypeCode-1]),
     fin_document_month_no(std::stoi(getText1(monthNotif.RootElement()->FirstChildElement("monthly_notification_num")))),
-    date_from {Date::getDateFromXmlFormat(getText1(monthNotif.RootElement()->FirstChildElement("date_from")))},
-    date_to{ Date::getDateFromXmlFormat(getText1(monthNotif.RootElement()->FirstChildElement("date_to"))) },
+    date_from {(getText1(monthNotif.RootElement()->FirstChildElement("date_from")))},
+    date_to{(getText1(monthNotif.RootElement()->FirstChildElement("date_to"))) },
     monthNotifData{ getMonthNotifData(monthNotif) }
 {
 }

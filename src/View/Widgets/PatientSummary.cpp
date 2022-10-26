@@ -9,10 +9,19 @@ PatientSummary::PatientSummary(QWidget *parent)
 {
 	ui.setupUi(this);
 
+	ui.sheetButton->setIcon(QIcon(":/icons/icon_sheet.png"));
+	ui.invoiceButton->setIcon(QIcon(":/icons/icon_invoice.png"));
+	ui.perioButton->setIcon(QIcon(":/icons/icon_periosheet.png"));
+	ui.prescrButton->setIcon(QIcon(":/icons/icon_prescr.png"));
 	ui.openButton->setIcon(QIcon(":/icons/icon_open.png"));
 	setStyleSheet("QLabel { color :" + Theme::colorToString(Theme::fontTurquoise) + ";}");
 
 	connect(ui.openButton, &QAbstractButton::clicked, [=] {if (presenter) presenter->openCurrentDocument();});
+	connect(ui.sheetButton, &QAbstractButton::clicked, [=] {if (presenter) presenter->newAmbSheet();});
+	connect(ui.perioButton, &QAbstractButton::clicked, [=] {if (presenter) presenter->newPerio();});
+	connect(ui.prescrButton, &QAbstractButton::clicked, [=] {if (presenter) presenter->newPrescription();});
+	connect(ui.invoiceButton, &QAbstractButton::clicked, [=] {if (presenter) presenter->newInvoice();});
+	
 	QButtonGroup* group = new QButtonGroup(this);
 	group->addButton(ui.showBuccal);
 	group->addButton(ui.showLingual);

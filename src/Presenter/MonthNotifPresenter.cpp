@@ -24,18 +24,11 @@ void MonthNotifPresenter::loadFromXml()
         return;
     }
 
-    auto filepathResult = ModalDialogBuilder::getMonthNotifFromFile();
+    auto fileData = ModalDialogBuilder::openFile();
 
-    if (!filepathResult.has_value()) return;
+    if (!fileData.has_value()) return;
 
-    std::ifstream t(filepathResult.value());
-
-    view->closeParentDialog();
-
-    tab_presenter->openInvoice({
-        (std::istreambuf_iterator<char>(t)),
-        std::istreambuf_iterator<char>()
-        });
+    tab_presenter->openInvoice(fileData.value());
 
     return;
 }

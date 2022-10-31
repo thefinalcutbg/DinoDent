@@ -80,13 +80,13 @@ void Db::newStatement(const std::string& query)
 { 
     sqlite3_prepare_v2(db_connection, query.c_str(), -1, &stmt, NULL);
 }
-
+#include <qdebug.h>
 bool Db::execute(const std::string& query)
 {
     char* err;
 
     int i = sqlite3_exec(db_connection, query.c_str(), NULL, NULL, &err);
-
+    qDebug() << query.c_str();
     if (err && s_showError) {
         ModalDialogBuilder::showError(u8"Неуспешно записване в базата данни.");
     }

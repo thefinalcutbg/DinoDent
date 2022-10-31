@@ -195,7 +195,6 @@ void ReportPresenter::saveToXML()
 		return;
 	}
 
-
 	auto fileName = "STOM_"
 		+ User::practice().rziCode + "_"
 		+ User::doctor().LPK + "_"
@@ -203,19 +202,7 @@ void ReportPresenter::saveToXML()
 		+ Date(1, month, year).toXMLReportFileName()
 		+ "_01.xml";
 
-	//getting the filepath
-	auto result = ModalDialogBuilder::getFileNamePath(fileName);
-
-	if (!result.has_value()) return;
-
-	auto& filepath = result.value();
-
-	//saving
-	std::ofstream out(result.value());
-	out << m_report.value();
-	out.close();
-
-	ModalDialogBuilder::openExplorer(filepath);
+	ModalDialogBuilder::saveFile(m_report.value(), fileName);
 }
 
 void ReportPresenter::setPISActivities(const std::optional<std::vector<Procedure>>& pisProcedures)

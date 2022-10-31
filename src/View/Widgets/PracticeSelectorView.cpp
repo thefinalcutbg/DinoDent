@@ -1,6 +1,6 @@
 ﻿#include "PracticeSelectorView.h"
 #include <QPainter>
-
+#include <qtextcodec.h>
 PracticeSelectorView::PracticeSelectorView(PracticeManagerPresenter* p, QWidget *parent)
 	: QDialog(parent), presenter(p)
 {
@@ -40,5 +40,5 @@ void PracticeSelectorView::setPracticeList(const std::vector<std::string>&practi
 
 void PracticeSelectorView::setDbPath(const std::string& dbPath)
 {
-	ui.dbLine->setText(dbPath.c_str());
+	ui.dbLine->setText(QString::fromLocal8Bit(dbPath.c_str()));
 }

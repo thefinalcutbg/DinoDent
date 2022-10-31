@@ -147,19 +147,7 @@ void FinancialPresenter::saveAsXML()
 {
     if (!save()) return;
 
-    auto result = ModalDialogBuilder::getFileNamePath(m_invoice.getFileName());
-
-    if (!result.has_value()) return;
-
-    auto& filepath = result.value();
-
-    std::ofstream out(result.value());
-    out << XML::getInvoice(m_invoice);
-    out.close();
-
-    ModalDialogBuilder::openExplorer(filepath);
-
-    ModalDialogBuilder::openExplorer(filepath);
+    ModalDialogBuilder::saveFile(XML::getInvoice(m_invoice), m_invoice.getFileName());
  
 }
 

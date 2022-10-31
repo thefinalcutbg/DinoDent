@@ -130,7 +130,7 @@ DialogAnswer ModalDialogBuilder::openSaveDialog(const std::string& title)
 }
 
 #include <QFileDialog>
-
+/*
 std::optional<std::string> ModalDialogBuilder::getMonthNotifFromFile()
 {
 	QString filePath = QFileDialog::getOpenFileName(nullptr, 
@@ -138,10 +138,9 @@ std::optional<std::string> ModalDialogBuilder::getMonthNotifFromFile()
 
 	if (filePath.isEmpty())
 		return {};
-
 	return filePath.toStdString();
 }
-
+*/
 #include "View/Widgets/ProcedurePrintSelectDialog.h"
 
 std::optional<std::vector<Procedure>> ModalDialogBuilder::selectProcedures(const std::vector<Procedure>& procedures, SelectionPref s)
@@ -263,7 +262,7 @@ void ModalDialogBuilder::openSettingsDialog()
 	SettingsDialog d;
 	d.exec();
 }
-
+/*
 std::optional<std::string> ModalDialogBuilder::getFileNamePath(const std::string& filename)
 {	
 	QString dirPath = QFileDialog::getSaveFileName(nullptr, u8"Запазване на финансовия документ",
@@ -277,6 +276,51 @@ std::optional<std::string> ModalDialogBuilder::getFileNamePath(const std::string
 
 
 }
+*/
+void ModalDialogBuilder::saveFile(const std::string& data, const std::string& filename)
+{
+	
+	QString dirPath = QFileDialog::getSaveFileName(nullptr, u8"Запазване на финансовия документ",
+		QString::fromStdString(filename),
+		"XML (*xml)");
+		
+	if (dirPath.isEmpty()) return;
+
+	QFile file(dirPath);
+
+	//Open the file
+	if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) return;
+
+	QTextStream out(&file);
+
+	out << data.c_str();
+
+	file.close();
+
+	openExplorer(dirPath.toStdString());
+}
+
+std::optional<std::string> ModalDialogBuilder::openFile()
+{
+	QString filePath = QFileDialog::getOpenFileName(nullptr,
+		u8"Изберете месечно известие", "", "XML files(*.xml)");
+
+	if (filePath.isEmpty())
+		return {};
+
+	QFile file(filePath);
+
+	//Open the file
+	if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) return {};
+
+	QString result = file.readAll();
+
+	file.close();
+
+	return result.toStdString();
+}
+
+
 
 #include <QProcess>
 void ModalDialogBuilder::openExplorer(const std::string& path)
@@ -288,25 +332,6 @@ void ModalDialogBuilder::openExplorer(const std::string& path)
 		QProcess::execute("/usr/bin/osascript", { "-e", "tell application \"Finder\" to activate" });
 	#endif
 
-}
-
-MonthNotifLoad ModalDialogBuilder::monthNotifLoadDialog()
-{
-	QMessageBox msg;
-
-	msg.setText(u8"Зареждане на месечно известие от:");
-
-	msg.setStandardButtons(QMessageBox::Yes | QMessageBox::YesAll | QMessageBox::No);
-	msg.setButtonText(QMessageBox::Yes, u8"ПИС");
-	msg.setButtonText(QMessageBox::YesAll, u8"XML файл");
-	msg.setButtonText(QMessageBox::No, u8"Отказ");
-	msg.setIcon(QMessageBox::Icon::Question);
-
-	switch (msg.exec()) {
-		case QMessageBox::Yes: return MonthNotifLoad::FromPIS;
-		case QMessageBox::YesAll: return MonthNotifLoad::FromFile;
-		default: return MonthNotifLoad::Rejected;
-	}
 }
 
 #include <QInputDialog>

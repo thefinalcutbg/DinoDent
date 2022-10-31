@@ -368,3 +368,4 @@ FodyWeavers.xsd
 dependencies/
 /IDPrimePKCS1164.dll
 /bit4xpki.dll
+/database.db

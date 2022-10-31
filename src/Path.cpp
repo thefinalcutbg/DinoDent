@@ -56,14 +56,14 @@ std::string Path::getDbPath()
 
     cfg.open(QIODevice::ReadOnly);
 
-    std::string result;
+    QByteArray path;
 
     while (!cfg.atEnd())
     {
-       result = cfg.readLine().constData();
+       path = cfg.readLine();
     }
 
-    return result;
+    return QString(path).toLocal8Bit().data();
 }
 
 
@@ -83,7 +83,7 @@ std::string Path::setDbPath()
 
     cfg.open(QIODevice::ReadWrite);
     
-    cfg.write(str.toLocal8Bit());
+    cfg.write(str.toUtf8());
 
     return str.toStdString();
 }

@@ -279,7 +279,7 @@ void PatientSummaryPresenter::newPrescription()
 
 void PatientSummaryPresenter::newInvoice()
 {
-    tab_presenter->openInvoice({}, patient->rowid);
+    tab_presenter->openInvoice(patient->rowid);
 }
 
 void PatientSummaryPresenter::toothSelected(int toothIdx)

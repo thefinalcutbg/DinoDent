@@ -13,7 +13,8 @@ LoginView::LoginView(LoginPresenter* p, QWidget *parent)
 	setWindowTitle(u8"Вход");
 
 	ui.practiceButton->setCursor(QCursor(Qt::PointingHandCursor));
-	ui.practiceButton->setStyleSheet("color:" + Theme::colorToString(Theme::fontTurquoise));
+	ui.practiceButton->setStyleSheet("color:" + Theme::colorToString(Theme::fontTurquoiseClicked));
+	//ui.rememberCheck->setStyleSheet("color:" + Theme::colorToString(Theme::fontTurquoise));
 	ui.passEdit->setEchoMode(QLineEdit::Password);
 
 	presenter->setView(this);
@@ -22,9 +23,9 @@ LoginView::LoginView(LoginPresenter* p, QWidget *parent)
 	connect(ui.okButton, &QPushButton::clicked, [=]{
 
 				presenter->okPressed(
-
 						ui.userEdit->text().toStdString(),
-						ui.passEdit->text().toStdString()
+						ui.passEdit->text().toStdString(),
+						ui.rememberCheck->isChecked()
 				);
 
 		}

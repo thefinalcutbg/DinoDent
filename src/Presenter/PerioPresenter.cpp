@@ -320,6 +320,7 @@ void PerioPresenter::setDataToView()
             m_perioStatus.completeRestorationNeeded
     );
 
+    patient_info.setCurrent();
     patient_info.setDate(m_perioStatus.date);
 
     view->setTeethView(m_teethShow);

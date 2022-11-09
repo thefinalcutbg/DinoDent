@@ -3,7 +3,6 @@
 #include "Database/DbDoctor.h"
 #include "Database/DbPractice.h"
 #include "Database/Database.h"
-#include <QDebug>
 #include "Model/User.h"
 #include "Presenter/PracticeManagerPresenter.h"
 #include "View/ModalDialogBuilder.h"
@@ -42,7 +41,7 @@ void LoginPresenter::setView(ILoginView* view)
 }
 
 
-void LoginPresenter::okPressed(const std::string& lpk, const std::string& pass)
+void LoginPresenter::okPressed(const std::string& lpk, const std::string& pass, bool remember)
 {
     auto doctor = DbDoctor::getDoctor(lpk, pass);
 
@@ -85,7 +84,7 @@ void LoginPresenter::okPressed(const std::string& lpk, const std::string& pass)
     User::setCurrentPractice(DbPractice::getPractice(practiceList[practiceIdx].rzi));
     User::setCurrentDoctor(doctor.value());
     
-
+    if (remember)DbDoctor::setAutoLogin(lpk, true);
 
     loginSuccessful = true;
 

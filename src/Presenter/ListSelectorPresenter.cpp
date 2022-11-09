@@ -1,7 +1,8 @@
 ﻿#include "ListSelectorPresenter.h"
 #include "View/Interfaces/IListSelectorView.h"
 #include "View/ModalDialogBuilder.h"
-#include <QDebug>
+#include "Database/DbPatient.h"
+
 ListSelectorPresenter::ListSelectorPresenter()
 {
 
@@ -10,7 +11,7 @@ ListSelectorPresenter::ListSelectorPresenter()
 void ListSelectorPresenter::openDialog()
 {
 	if (!view) {
-		selectedIndexes.clear();
+		m_selectedInstances.clear();
 		ModalDialogBuilder::openDialog(this);
 	}
 	else view->focus();
@@ -59,7 +60,8 @@ void ListSelectorPresenter::refreshModel()
 void ListSelectorPresenter::setListType(TabType type)
 {
 	m_currentModelType = type;
-	selectedIndexes.clear();
+	m_selectedInstances.clear();
+
 	switch (type)
 	{
 		case::TabType::AmbList: view->setRows(m_ambRows); break;
@@ -72,9 +74,17 @@ void ListSelectorPresenter::setListType(TabType type)
 
 void ListSelectorPresenter::selectionChanged(std::set<int> selectedIndexes)
 { 
-	this->selectedIndexes = selectedIndexes;
-}
 
+	m_selectedInstances.clear();
+
+	switch (m_currentModelType) {
+		case::TabType::AmbList: for (auto idx : selectedIndexes) m_selectedInstances.push_back(&m_ambRows[idx]); break;
+		case::TabType::PerioList: for (auto idx : selectedIndexes) m_selectedInstances.push_back(&m_perioRows[idx]); break;
+		case::TabType::PatientSummary: for (auto idx : selectedIndexes) m_selectedInstances.push_back(&m_patientRows[idx]); break;
+		case::TabType::Financial: for (auto idx : selectedIndexes) m_selectedInstances.push_back(&m_financialRows[idx]); break;
+		case::TabType::Prescription: for (auto idx : selectedIndexes) m_selectedInstances.push_back(&m_perscriptionRows[idx]); break;
+	}
+}
 
 #include "Presenter/TabPresenter.h"
 
@@ -83,109 +93,79 @@ void ListSelectorPresenter::setTabPresenter(TabPresenter* tabPresenter)
 	this->tab_presenter = tabPresenter;
 }
 
-template<typename T>
-void openDocuments(TabPresenter* tabPresenter,
-	const std::set<int>& selectedIndexes,
-	const std::vector<T>& rows
-)
+
+
+void ListSelectorPresenter::openNewDocument(TabType type)
 {
-	auto size = selectedIndexes.size();
+	if (m_currentModelType == TabType::Financial) return;
+
+	for (int i = 0; i < m_selectedInstances.size(); i ++) {
+
+	
+
+		RowInstance row(type);
+		row.rowID = 0;
+		row.patientRowId = m_selectedInstances[i]->patientRowId;
+
+		tab_presenter->open(row, i == m_selectedInstances.size() - 1);
+	}
+
+	view->close();
+}
+
+
+void ListSelectorPresenter::openCurrentSelection()
+{
+	if (!m_selectedInstances.size()) return;
+
+	auto size = m_selectedInstances.size();
 
 	int counter{ 0 };
 
-	for (auto idx : selectedIndexes) {
+	for (auto& row : m_selectedInstances) {
 
 		bool isLastTab = ++counter == size;
 
-		tabPresenter->open(rows[idx], isLastTab);
+		tab_presenter->open(*row, isLastTab);
 	}
-
-
-}
-void ListSelectorPresenter::openCurrentSelection()
-{
-	if (!selectedIndexes.size()) return;
-
-	switch (m_currentModelType)
-	{
-	case TabType::AmbList:
-		openDocuments(tab_presenter, selectedIndexes, m_ambRows); break;
-	case TabType::PerioList:
-		openDocuments(tab_presenter, selectedIndexes, m_perioRows); break;
-	case TabType::PatientSummary:
-		openDocuments(tab_presenter, selectedIndexes, m_patientRows); break;
-	case TabType::Financial:
-		openDocuments(tab_presenter, selectedIndexes, m_financialRows); break;
-	case TabType::Prescription:
-		openDocuments(tab_presenter, selectedIndexes, m_perscriptionRows); break;
-	}
-
 
 	if (view) view->close();
 }
 
-//a free template function to "fix" the lack of decent polymorphism
-template<typename T>
-void deleteDocuments(	TabPresenter* tabPresenter, 
-						const std::set<int>& selectedIndexes, 
-						const std::vector<T>&rows, 
-						const std::string& warningMsg
-						) 
-{
-
-	if (!ModalDialogBuilder::askDialog(warningMsg))
-		return;
-	
-	for (auto idx : selectedIndexes)
-	{
-		if (tabPresenter->documentTabOpened(rows[idx].type, rows[idx].rowID))
-		{
-			ModalDialogBuilder::showMessage
-			(u8"Моля, първо затворете всички избрани за изтриване документи!");
-			return;
-		}
-	}
-
-	for (auto idx : selectedIndexes) {
-		DbListOpener::deleteRecord(rows[idx].type, rows[idx].rowID);
-	}
 
 
-}
 
 void ListSelectorPresenter::deleteCurrentSelection()
 {
-	if (selectedIndexes.empty()) return;
+	if (m_selectedInstances.empty()) return;
 
 	std::string warningMsg = u8"Сигурни ли сте, че искате да изтриете избраният/избраните ";
 
 	static constexpr const char* endString[5]{
 		u8"амбулаторни листи?",
 		u8"пародонтални измервания?",
-		u8"пацинети? Всички свързани прилежащи медицински докумнети ще бъдат изтрити!",
+		u8"пацинети? Всичките свързани медицински докумнети ще бъдат изтрити!",
 		u8"финансови документи?",
 		u8"рецепти?"
 	};
 
 	warningMsg += endString[static_cast<int>(m_currentModelType)];
 
-	switch (m_currentModelType)
+	if (!ModalDialogBuilder::askDialog(warningMsg))
+		return;
+
+	for (auto& row : m_selectedInstances)
 	{
-		case TabType::AmbList:
-			deleteDocuments(tab_presenter, selectedIndexes, m_ambRows, warningMsg);
-			break;
-		case TabType::PerioList:
-			deleteDocuments(tab_presenter, selectedIndexes, m_perioRows, warningMsg);
-			break;
-		case TabType::Financial:
-			deleteDocuments(tab_presenter, selectedIndexes, m_financialRows, warningMsg);
-			break;
-		case TabType::PatientSummary:
-			deleteDocuments(tab_presenter, selectedIndexes, m_patientRows, warningMsg);
-			break;
-		case TabType::Prescription:
-			deleteDocuments(tab_presenter, selectedIndexes, m_perscriptionRows, warningMsg);
-			break;
+		if (tab_presenter->documentTabOpened(row->type, row->rowID))
+		{
+			ModalDialogBuilder::showMessage
+			(u8"Първо затворете всички избрани за изтриване документи!");
+			return;
+		}
+	}
+
+	for (auto& row : m_selectedInstances) {
+		DbListOpener::deleteRecord(row->type, row->rowID);
 	}
 
 

@@ -561,7 +561,7 @@ void ListPresenter::createInvoice()
         return;
     }
 
-    tabPresenter->openInvoice(selectedProcedures.value(), patient->rowid);
+    tabPresenter->openInvoice(patient->rowid, selectedProcedures.value());
 }
 
 void ListPresenter::createPerioMeasurment()

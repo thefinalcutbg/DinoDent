@@ -18,7 +18,7 @@ namespace PrvPath
         if (!cfg.exists()) {
             
             cfg.open(QIODevice::ReadWrite);
-            cfg.write(dataFolder.filePath("database.db").toLocal8Bit());
+            cfg.write(dataFolder.filePath("database.db").toUtf8());
             cfg.close();
 
 
@@ -63,7 +63,9 @@ std::string Path::getDbPath()
        path = cfg.readLine();
     }
 
-    return QString(path).toLocal8Bit().data();
+    cfg.close();
+
+    return QString::fromUtf8(path).toLocal8Bit().data();
 }
 
 
@@ -83,7 +85,7 @@ std::string Path::setDbPath()
 
     cfg.open(QIODevice::ReadWrite);
     
-    cfg.write(str.toUtf8());
+    cfg.write(str.toLocal8Bit());
 
     return str.toStdString();
 }

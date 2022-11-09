@@ -163,23 +163,23 @@ void TabPresenter::openInvoice(const std::string& monthNotif)
     
 }
 
-void TabPresenter::openInvoice(const std::vector<Procedure>& procedures, long long patientRowId)
+void TabPresenter::openInvoice(long long patientRowId, const std::vector<Procedure>& procedures)
 {
     
     
     createNewTab(new FinancialPresenter(
                 view, 
-                procedures, 
                 getPatient_ptr(
                     DbPatient::get(patientRowId)
-                )
+                ),
+                procedures
             )
     );
 }
 
 void TabPresenter::open(const RowInstance& row, bool setFocus)
 {
-    if (tabAlreadyOpened(row.type, row.rowID)) return;
+    if (tabAlreadyOpened(row)) return;
 
     TabInstance* newTab{nullptr};
 
@@ -195,7 +195,10 @@ void TabPresenter::open(const RowInstance& row, bool setFocus)
         newTab = new PatientSummaryPresenter(view, this, getPatient_ptr(DbPatient::get(row.patientRowId)));
         break;
     case TabType::Financial:
-        newTab = new FinancialPresenter(view, row.rowID);
+        newTab = row.rowID ? 
+            new FinancialPresenter(view, row.rowID)
+            :
+            new FinancialPresenter(view, getPatient_ptr(DbPatient::get(row.patientRowId)));
         break;
     case TabType::Prescription:
         newTab = new PrescriptionPresenter(view, this, getPatient_ptr(DbPatient::get(row.patientRowId)), row.rowID);
@@ -205,11 +208,16 @@ void TabPresenter::open(const RowInstance& row, bool setFocus)
     createNewTab(newTab, setFocus);
 }
 
-bool TabPresenter::tabAlreadyOpened(TabType type, long long rowID)
+bool TabPresenter::tabAlreadyOpened(const RowInstance& row)
 {
-    for (auto& [index, tabInstance] : m_tabs)
+
+    for (auto& [index, tab] : m_tabs)
     {
-        if (tabInstance->type == type && tabInstance->rowID() == rowID)
+        if (tab->type == row.type && 
+            tab->rowID() == row.rowID &&
+            (tab->patient == nullptr || //financial tab edge case
+            tab->patient->rowid == row.patientRowId )
+        )
         {
             view->focusTab(index);
             return true;

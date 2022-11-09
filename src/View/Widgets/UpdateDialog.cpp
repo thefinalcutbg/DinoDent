@@ -15,12 +15,14 @@ UpdateDialog::UpdateDialog(QWidget *parent)
 void UpdateDialog::execute()
 {
 	open();
+
 	/*
 	DbUpdates::update1(this);
 	DbUpdates::update2(this);
 	DbUpdates::update3();
 	DbUpdates::update4();
 	*/
+	DbUpdates::update5();
 	close();
 }
 

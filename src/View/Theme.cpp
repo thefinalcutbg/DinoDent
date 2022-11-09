@@ -126,3 +126,11 @@ QString Theme::getFancyStylesheet()
 			"}"
 	);
 }
+
+QString Theme::getPopupMenuStylesheet()
+{
+	return
+		"QMenu{background-color:white}"
+		"QMenu::item::selected{background-color:rgb(144,200,246); color:black}"
+		;
+}

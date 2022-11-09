@@ -25,5 +25,6 @@ namespace Theme
 	QPainterPath getOneCornerCurvedRect(int width, int height);
 	QString colorToString(const QColor& color);
 	QString getFancyStylesheet();
+	QString getPopupMenuStylesheet();
 
 };

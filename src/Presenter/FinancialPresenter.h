@@ -19,7 +19,7 @@ public:
 	Invoice m_invoice;
 
 	FinancialPresenter(ITabView* tabView, const std::string& monthNotif);
-	FinancialPresenter(ITabView* tabView, const std::vector<Procedure>& procedures, std::shared_ptr<Patient> patient);
+	FinancialPresenter(ITabView* tabView, std::shared_ptr<Patient> patient, const std::vector<Procedure>& procedures = {});
 	FinancialPresenter(ITabView* tabView, long long rowId);
 
 	void addOperation();

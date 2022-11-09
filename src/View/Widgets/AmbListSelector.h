@@ -22,12 +22,14 @@ private:
 	QSortFilterProxyModel idFilter;
 	QSortFilterProxyModel nameFilter;
 	QSortFilterProxyModel phoneFilter;
-
+	QMenu* main_menu;
+	QMenu* sub_menu;
 	AmbListTableModel amb_model;
 	PatientTableModel patient_model;
 	PerioTableModel perio_model;
 	FinancialTableModel financial_model;
 	PrescriptionTableModel perscription_model;
+
 
 public:
 	AmbListSelector(ListSelectorPresenter *p);
@@ -48,5 +50,7 @@ private:
 
 	void focus() override;
 	void close() override;
+	void contextMenuRequested(const QPoint& p);
+
 
 };

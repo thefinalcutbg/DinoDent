@@ -1,5 +1,5 @@
 ﻿#include "MainPresenter.h"
-
+#include "Network/HIS/HisToken.h"
 #include "Model/Dental/NhifProcedures.h"
 #include "Presenter/PatientDialogPresenter.h"
 #include "View/Printer.h"
@@ -10,6 +10,7 @@
 #include "Model/xml.h"
 #include "Presenter/PracticeDialogPresenter.h"
 #include "Database/DbPractice.h"
+#include "Database/DbDoctor.h"
 #include "View/Printer.h"
 
 MainPresenter::MainPresenter()
@@ -24,7 +25,7 @@ void MainPresenter::setView(IMainView* view)
 
     if (DbPractice::noPractices())
     {
-        ModalDialogBuilder::showMessage("Стартирате програмата за първи път. Моля добавете практика.");
+        ModalDialogBuilder::showMessage(u8"Стартирате програмата за първи път. Моля добавете практика.");
 
         PracticeDialogPresenter p{};
         auto result = p.open();
@@ -33,7 +34,7 @@ void MainPresenter::setView(IMainView* view)
         {
             DbPractice::insertPractice(result.value().practice);
             DbPractice::setDoctorsPracticeList(result.value().doctorsList, result.value().practice.rziCode);
-            ModalDialogBuilder::showMessage("Зареден е ценоразпис с нулеви цени. Можете да го редактирате от Настройки");
+            ModalDialogBuilder::showMessage(u8"Зареден е ценоразпис с нулеви цени. Можете да го редактирате от Настройки");
         }
         /*
         else
@@ -46,7 +47,16 @@ void MainPresenter::setView(IMainView* view)
 
     LoginPresenter login;
 
-    view->m_loggedIn = login.successful();
+    auto auto_login = DbDoctor::getLpkAndPassAutoLogin();
+
+    if (auto_login.first.size()) {
+        login.okPressed(auto_login.first, auto_login.second, true);
+        view->m_loggedIn = true;
+    }
+    else
+    {
+        view->m_loggedIn = login.successful();
+    }
 
     view->setUserLabel(
         User::doctor().getFullName(),
@@ -142,6 +152,12 @@ void MainPresenter::logOut()
     view->setUserLabel("", "");
 
     PKCS11::unloadModule();
+
+    HisToken::nullifyToken();
+
+    DbDoctor::setAutoLogin(User::doctor().LPK, false);
+
+    
 
     LoginPresenter login;
 

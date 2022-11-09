@@ -1,4 +1,4 @@
-﻿
+﻿#include <QElapsedTimer>
 #include "View/ModalDialogBuilder.h"
 #include "Network/PKCS11.h"
 #include "Network/XmlSigner.h"
@@ -6,14 +6,19 @@
 #include "HisToken.h"
 #include "HisService.h"
 
-HisService* current_service{nullptr};
-std::string query_temp;
+namespace sToken {
 
-std::string s_token{};
+	HisService* current_service{ nullptr };
+	std::string query_temp;
+
+	std::string token{};
+	unsigned long long ms_expire{ 0 };
+	QElapsedTimer timer;
+}
 
 void abort(const std::string& uiMessage) {
 
-	current_service = nullptr;
+	sToken::current_service = nullptr;
 
 	ModalDialogBuilder::showMessage(uiMessage);
 }
@@ -39,7 +44,7 @@ void HisToken::setChallengeMessage(const std::string& challenge)
 		auto pin = ModalDialogBuilder::pinPromptDialog(signer.pem_x509cert());
 
 		if (pin.empty()) {
-			current_service = nullptr;
+			sToken::current_service = nullptr;
 			return;
 		}
 
@@ -64,15 +69,16 @@ void HisToken::setChallengeMessage(const std::string& challenge)
 
 void HisToken::nullifyToken()
 {
-	s_token.clear();
+	sToken::current_service = nullptr;
+	sToken::token.clear();
 }
 
 bool HisToken::requestToken(HisService* requester, const std::string& query)
 {
-	if (current_service) return false;
+	if (sToken::current_service) return false;
 
-	current_service = requester;
-	query_temp = query;
+	sToken::current_service = requester;
+	sToken::query_temp = query;
 
 
 	NetworkManager::requestChallenge();
@@ -82,7 +88,14 @@ bool HisToken::requestToken(HisService* requester, const std::string& query)
 
 const std::string& HisToken::getToken()
 {
-	return s_token;
+
+	if (sToken::timer.isValid() &&
+		sToken::timer.hasExpired(sToken::ms_expire))
+	{
+		nullifyToken();
+	}
+
+	return sToken::token;
 }
 
 #include "TinyXML/tinyxml.h"
@@ -107,19 +120,34 @@ void HisToken::setAuthRepy(const std::string& reply)
 
 	if (!ptr) { abort(u8"Невалидна стойност на токена"); return; }
 
-	s_token = ptr;
+	sToken::token = ptr;
 
-	auto seconds = std::stoi(tokenElement->
-		NextSiblingElement()->						//token type
-		NextSiblingElement()->Attribute("value"));	//seconds to expire
+	auto seconds_to_expire = strtoull(
+		tokenElement->
+		NextSiblingElement()->							//token type
+		NextSiblingElement()->Attribute("value"), 		//seconds to expire
+		nullptr, 0);
 
+	sToken::ms_expire = seconds_to_expire * 999ULL;
+
+	/* GIVES 2 HOURS BEHIND
 	auto expiresOn = tokenElement->					
 		NextSiblingElement()->					
 		NextSiblingElement()->
 		NextSiblingElement()->						//issuedOn
 		NextSiblingElement()->Attribute("value");	//expiresOn
+		*/
 
-	//ModalDialogBuilder::showMessage(u8"Токен: " + s_token)
+	if (sToken::timer.isValid())
+	{
+		sToken::timer.restart();
+	}
+	else
+	{
+		sToken::timer.start();
+	}
 
-	current_service->sendRequestToHis(query_temp);
+	sToken::current_service->sendRequestToHis(sToken::query_temp);
+
+	sToken::current_service = nullptr;
 }

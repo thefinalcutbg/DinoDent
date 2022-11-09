@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>236</width>
-    <height>168</height>
+    <width>247</width>
+    <height>169</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -89,7 +89,7 @@
   <widget class="QPushButton" name="okButton">
    <property name="geometry">
     <rect>
-     <x>80</x>
+     <x>90</x>
      <y>80</y>
      <width>75</width>
      <height>24</height>
@@ -102,10 +102,10 @@
   <widget class="QPushButton" name="practiceButton">
    <property name="geometry">
     <rect>
-     <x>70</x>
-     <y>140</y>
+     <x>140</x>
+     <y>133</y>
      <width>101</width>
-     <height>24</height>
+     <height>31</height>
     </rect>
    </property>
    <property name="text">
@@ -115,12 +115,27 @@
     <bool>true</bool>
    </property>
   </widget>
+  <widget class="QCheckBox" name="rememberCheck">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>140</y>
+     <width>101</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Запомни ме</string>
+   </property>
+  </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <tabstops>
   <tabstop>userEdit</tabstop>
   <tabstop>passEdit</tabstop>
   <tabstop>okButton</tabstop>
+  <tabstop>rememberCheck</tabstop>
+  <tabstop>practiceButton</tabstop>
  </tabstops>
  <resources/>
  <connections/>

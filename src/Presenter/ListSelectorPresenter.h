@@ -13,8 +13,6 @@ class ListSelectorPresenter
 
 	TabType m_currentModelType { TabType::AmbList};
 
-	std::set<int>selectedIndexes{};
-
 	Date m_from{ 1, Date::currentMonth(), Date::currentYear() };
 	Date m_to{ Date::currentDate().getMaxDateOfMonth() };
 	
@@ -23,6 +21,8 @@ class ListSelectorPresenter
 	std::vector<PerioRow> m_perioRows;
 	std::vector<FinancialRow> m_financialRows;
 	std::vector<PrescriptionRow> m_perscriptionRows;
+
+	std::vector<RowInstance*> m_selectedInstances;
 
 public:
 	ListSelectorPresenter();
@@ -40,7 +40,7 @@ public:
 	void setListType(TabType type);
 
 	void selectionChanged(std::set<int> selectedIndexes);
-
+	void openNewDocument(TabType type);
 	void openCurrentSelection();
 	void deleteCurrentSelection();
 	~ListSelectorPresenter();

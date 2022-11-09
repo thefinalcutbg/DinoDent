@@ -14,7 +14,7 @@ Torque::Torque(QWidget* parent)
     : QMainWindow(parent)
 {
     ui.setupUi(this);
-    showMaximized();
+   // showMaximized();
 
     ui.newButton->setIcon(QIcon(":/icons/icon_sheet.png"));
     ui.perioButton->setIcon(QIcon(":/icons/icon_periosheet.png"));
@@ -27,10 +27,13 @@ Torque::Torque(QWidget* parent)
 
 
     QAction* settingsAction = new QAction(u8"Настройки");
+    settingsAction->setIcon(QIcon(":/icons/icon_settings.png"));
     QAction* exitAction = new QAction(u8"Изход");
-    QMenu* userMenu = new QMenu();
+    exitAction->setIcon(QIcon(":/icons/icon_remove.png"));
+    QMenu* userMenu = new QMenu(this);
     userMenu->addAction(settingsAction);
     userMenu->addAction(exitAction);
+    userMenu->setStyleSheet(Theme::getPopupMenuStylesheet());
 
     connect(ui.newButton, &QPushButton::clicked, [&] { presenter.newAmbPressed(); });
     connect(ui.saveButton, &QPushButton::clicked, [&] { presenter.save(); });

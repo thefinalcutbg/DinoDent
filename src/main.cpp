@@ -1,7 +1,7 @@
 ﻿#include <QtWidgets/QApplication>
 #include "View/Widgets/Torque.h"
 #include "Network/UpdateService/UpdateService.h"
-
+#include <QTextCodec>
 bool initFunction();
 
 void testFn();
@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
     QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     QApplication::setFont(QFont ("Segoe UI", 8));    
     QCoreApplication::setApplicationName("DinoDent");
-
+    
     QApplication a(argc, argv);
 
     a.setWindowIcon(QIcon(":/icons/icon_torque.png"));
@@ -23,6 +23,7 @@ int main(int argc, char *argv[])
     if (!initFunction()) { return 0; }
 
     Torque w;
+    w.setWindowState(Qt::WindowMaximized);
 
     if (!w.m_loggedIn)
         return 0;

@@ -15,7 +15,7 @@ public:
 	bool successful();
 	void practiceListPressed();
 	void setView(ILoginView* view);
-	void okPressed(const std::string& lpk, const  std::string& pass);
+	void okPressed(const std::string& lpk, const  std::string& pass, bool remember);
 	
 };
 

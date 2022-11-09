@@ -2,7 +2,7 @@
 #include <string>
 
 enum class NhifCharge { Standard, retired, freed };
-enum class NhifSpecification { PartialCoverage, FullCoverage, Anesthesia };
+enum class NhifSpecification { PartialCoverage = 0, FullCoverage=1, Anesthesia=2 };
 enum class NhifSpecialty;
 
 struct NhifSheetData

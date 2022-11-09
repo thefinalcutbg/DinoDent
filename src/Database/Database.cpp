@@ -4,6 +4,12 @@
 #include "Resources.h"
 #include <filesystem>
 
+constexpr const char* database_error_msg = 
+    u8"Неуспешно записване в базата данни.\n"
+    u8"Уверете се, че пътят към нея е правилен и\n"
+    u8"че сте стартирали програмата като администратор.\n"
+    ;
+
 Db::Db(Db* existingConnection)
     :
     m_connectionOwned{ existingConnection == nullptr },
@@ -88,7 +94,7 @@ bool Db::execute(const std::string& query)
     int i = sqlite3_exec(db_connection, query.c_str(), NULL, NULL, &err);
     qDebug() << query.c_str();
     if (err && s_showError) {
-        ModalDialogBuilder::showError(u8"Неуспешно записване в базата данни.");
+        ModalDialogBuilder::showError(database_error_msg);
     }
 
     finalizeStatement();
@@ -156,6 +162,16 @@ void Db::bind(int index, long long value)
         sqlite3_bind_int64(stmt, index, value) == SQLITE_OK;
 }
 
+void Db::bindNull(int index)
+{
+    if (stmt == nullptr) return;
+
+    total_bindings++;
+
+    successful_bindings +=
+         sqlite3_bind_null(stmt, index);
+}
+
 bool Db::execute()
 {
     if (stmt == nullptr) return false;
@@ -218,7 +234,7 @@ bool Db::crudQuery(const std::string& query)
     i = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
 
     if (err && s_showError) {
-        ModalDialogBuilder::showError(u8"Неуспешно записване в базата данни.");
+        ModalDialogBuilder::showError(database_error_msg);
     }
 
     return i == SQLITE_OK;

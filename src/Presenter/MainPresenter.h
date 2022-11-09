@@ -27,10 +27,6 @@ public:
 	bool save();
 	void logOut();
 	void userSettingsPressed();
-	
-
-	//returns false when user selects cancel, otherwise returns true
-	//bool closeTab();
 	//returns false when user selects cancel, otherwise returns true
 	bool closeAllTabs();
 };

@@ -117,7 +117,7 @@ bool HIRBNoValidator::validateInput(const std::string& text)
         return true;
     else if (hirbNo.length() != 8)
         return false;
-    else if (hirbNo[0] != '0')
+    else if (hirbNo[0] != '0' && hirbNo[0] != '1')
         return false;
 
     return true;

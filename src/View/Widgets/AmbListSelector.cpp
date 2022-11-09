@@ -1,9 +1,9 @@
 ﻿#include "AmbListSelector.h"
 #include "Presenter/ListSelectorPresenter.h"
 #include <QMessageBox>
-#include <QDebug>
 #include  <QRegularExpression>
 #include <QApplication>
+#include "View/Theme.h"
 
 AmbListSelector::AmbListSelector(ListSelectorPresenter* presenter) :
 	presenter(presenter)
@@ -57,11 +57,59 @@ AmbListSelector::AmbListSelector(ListSelectorPresenter* presenter) :
 
 	connect(ui.tableView, &ListTable::deletePressed, this, [=] { ui.deleteButton->click(); });
 
+	ui.tableView->setContextMenuPolicy(Qt::CustomContextMenu);
+
+	connect(ui.tableView, &QTableView::customContextMenuRequested, this, [=](const QPoint& p) {contextMenuRequested(p);});
+
 	connect(ui.deleteButton, &QPushButton::clicked, 
 		[=] 
 		{
 				presenter->deleteCurrentSelection();
 		});
+
+
+
+	main_menu = new QMenu(this);
+
+	QAction* action;
+
+	action = (new QAction(u8"Отвори", main_menu));
+	connect(action, &QAction::triggered, [=] { presenter->openCurrentSelection(); });
+	action->setIcon(QIcon(":/icons/icon_open.png"));
+	main_menu->addAction(action);
+
+	sub_menu = new QMenu(u8"Нов документ", this);
+
+	//ui.printButton->setIcon(QIcon(":/icons/icon_print.png"));
+	main_menu->addMenu(sub_menu);
+
+	action = (new QAction(u8"Нов амбулаторен лист", sub_menu));
+	connect(action, &QAction::triggered, [=] { presenter->openNewDocument(TabType::AmbList); });
+	action->setIcon(QIcon(":/icons/icon_sheet.png"));
+	sub_menu->addAction(action);
+
+	action = (new QAction(u8"Ново пародонтално измерване", sub_menu));
+	connect(action, &QAction::triggered, [=] { presenter->openNewDocument(TabType::PerioList); });
+	action->setIcon(QIcon(":/icons/icon_periosheet.png"));
+	sub_menu->addAction(action);
+
+	action = (new QAction(u8"Нова рецепта", sub_menu));
+	connect(action, &QAction::triggered, [=] { presenter->openNewDocument(TabType::Prescription); });
+	action->setIcon(QIcon(":/icons/icon_prescr.png"));
+	sub_menu->addAction(action);
+
+	action = (new QAction(u8"Нова фактура", sub_menu));
+	connect(action, &QAction::triggered, [=] { presenter->openNewDocument(TabType::Financial); });
+	action->setIcon(QIcon(":/icons/icon_invoice.png"));
+	sub_menu->addAction(action);
+
+	action = (new QAction(u8"Изтрий", main_menu));
+	connect(action, &QAction::triggered, [=] { presenter->deleteCurrentSelection(); });
+	action->setIcon(QIcon(":/icons/icon_remove.png"));
+	main_menu->addAction(action);
+
+	main_menu->setStyleSheet(Theme::getPopupMenuStylesheet());
+	sub_menu->setStyleSheet(Theme::getPopupMenuStylesheet());
 
 	presenter->setView(this);
 
@@ -305,6 +353,16 @@ void AmbListSelector::setRows(const std::vector<PrescriptionRow>& rows)
 		}
 
 	);
+}
+
+
+void AmbListSelector::contextMenuRequested(const QPoint& p)
+{
+	if (ui.tableView->selectionModel()->currentIndex().row() == -1) return;
+
+	sub_menu->setDisabled(ui.dataTypeCombo->currentIndex() == 3);
+
+	main_menu->popup(ui.tableView->viewport()->mapToGlobal(p));
 }
 
 void AmbListSelector::focus()

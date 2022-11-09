@@ -57,6 +57,35 @@ std::optional<Doctor> DbDoctor::getDoctor(const std::string& lpk)
 
 }
 
+std::pair<std::string, std::string> DbDoctor::getLpkAndPassAutoLogin()
+{
+    std::string lpk;
+    std::string pass;
+
+    Db db("SELECT lpk, pass FROM doctor WHERE auto_login=1");
+
+    while (db.hasRows()) {
+        lpk = db.asString(0);
+        pass = db.asString(1);
+    }
+
+    return { lpk, pass };
+}
+
+void DbDoctor::setAutoLogin(const std::string& lpk, bool remember)
+{
+    std::string query =
+        "UPDATE doctor SET auto_login="
+        "CASE WHEN lpk = ? THEN ? ELSE 0 END";
+
+
+    Db db(query);
+    db.bind(1, lpk);
+    db.bind(2, remember);
+    db.execute();
+
+}
+
 void DbDoctor::updateDoctor(const Doctor& doctor, std::string& currentLPK)
 {
     Db::crudQuery(

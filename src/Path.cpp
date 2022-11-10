@@ -51,7 +51,6 @@ std::string Path::getDataPath()
 
 std::string Path::getDbPath()
 {
-
     QFile cfg(PrvPath::configFilePath());
 
     cfg.open(QIODevice::ReadOnly);
@@ -65,7 +64,9 @@ std::string Path::getDbPath()
 
     cfg.close();
 
-    return QString::fromUtf8(path).toLocal8Bit().data();
+    QDir dir;
+    
+    return dir.absoluteFilePath(path).toStdString();
 }
 
 
@@ -85,7 +86,7 @@ std::string Path::setDbPath()
 
     cfg.open(QIODevice::ReadWrite);
     
-    cfg.write(str.toLocal8Bit());
+    cfg.write(str.toUtf8());
 
     return str.toStdString();
 }

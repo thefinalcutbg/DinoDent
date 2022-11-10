@@ -45,5 +45,5 @@ void PracticeSelectorView::setPracticeList(const std::vector<std::string>&practi
 
 void PracticeSelectorView::setDbPath(const std::string& dbPath)
 {
-	ui.dbLine->setText(QString::fromLocal8Bit(dbPath.c_str()));
+	ui.dbLine->setText(dbPath.c_str());
 }

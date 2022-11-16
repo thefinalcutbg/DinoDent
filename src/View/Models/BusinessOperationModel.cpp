@@ -9,12 +9,12 @@ QVariant BusinessOperationModel::headerData(int section, Qt::Orientation orienta
         if (orientation == Qt::Horizontal) {
             switch (section)
             {
-            case 0: return u8"№";
-            case 1: return u8"Код";
-            case 2: return u8"Наименование на стоката/услугата";
-            case 3: return u8"Кол-во";
-            case 4: return u8"Ед.цена";
-            case 5: return u8"Сума";
+            case 0: return "№";
+            case 1: return "Код";
+            case 2: return "Наименование на стоката/услугата";
+            case 3: return "Кол-во";
+            case 4: return "Ед.цена";
+            case 5: return "Сума";
             }
         }
     }

@@ -4,14 +4,14 @@
 IssuerType getIssuerType(int legalEntity, const Doctor& doctor)
 {
     const char* legalForms[5]{
-        u8"ET",u8"ЕООД",u8"ООД",u8"ЕАД",u8"АД"
+        "ET","ЕООД","ООД","ЕАД","АД"
     };
 
     switch (legalEntity)
     {
     case 0:
         return SelfInsured{
-            u8"Декларация по чл.43,ал.5 от ЗДДФЛ, че съм самоосигуряващо се лице по смисъла на КСО",
+            "Декларация по чл.43,ал.5 от ЗДДФЛ, че съм самоосигуряващо се лице по смисъла на КСО",
             PersonInfo{
                 doctor.egn,
                 doctor.fname,
@@ -54,9 +54,9 @@ Issuer::Issuer(const Practice& practice, const Doctor& doctor) :
                                                 
                     registration_by_VAT ?
                                                 
-                    u8"Чл. 39 от ЗДДС"
+                    "Чл. 39 от ЗДДС"
                     :
-                    u8"Чл.113,ал.9 от ЗДДС"
+                    "Чл.113,ал.9 от ЗДДС"
     },
 
     bulstat{ practice.bulstat }

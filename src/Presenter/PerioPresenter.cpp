@@ -23,8 +23,8 @@ PerioPresenter::PerioPresenter(ITabView* view, std::shared_ptr<Patient> patient)
                             m_perioStatus.rowid = 0; //clearing the id, because it's new measurment
 
                             auto getPrevious = ModalDialogBuilder::askDialog
-                            (u8"Открито е предишно пародонтално измерване. "
-                                u8"Желаете ли да заредите старите резултати?");
+                            ("Открито е предишно пародонтално измерване. "
+                                "Желаете ли да заредите старите резултати?");
 
                             if(!getPrevious)
                                 m_perioStatus = PerioStatus();
@@ -335,11 +335,11 @@ void PerioPresenter::prepareSwitch()
 TabName PerioPresenter::getTabName()
 {
     if (isNew()) {
-        return { u8"Нов пародонтален статус", patient->firstLastName() };
+        return { "Нов пародонтален статус", patient->firstLastName() };
     }
 
     return { 
-        u8"Пародонтaлен статус " + m_perioStatus.date.toBgStandard(),
+        "Пародонтaлен статус " + m_perioStatus.date.toBgStandard(),
         patient->firstLastName() 
     };
 }

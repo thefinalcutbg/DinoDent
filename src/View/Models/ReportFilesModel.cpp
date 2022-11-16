@@ -61,11 +61,11 @@ QVariant ReportFilesModel::headerData(int section, Qt::Orientation orientation, 
     if (role == Qt::DisplayRole && orientation == Qt::Horizontal)
         switch (section)
         {
-            case 0: return u8"Дата";
-            case 1: return u8"Документ";
-            case 2: return u8"Статус";
-            case 3: return u8"Период";
-            case 4: return u8"Доктор";
+            case 0: return "Дата";
+            case 1: return "Документ";
+            case 2: return "Статус";
+            case 3: return "Период";
+            case 4: return "Доктор";
 
         }
 
@@ -106,7 +106,7 @@ QVariant ReportFilesModel::data(const QModelIndex& index, int role) const
         case 0:
             if (rows[row].error) return QIcon(":/icons/icon_remove.png");
 
-            if (rows[row].status == u8"успешно обработен") return QIcon(":/icons/icon_apply.png");
+            if (rows[row].status == "успешно обработен") return QIcon(":/icons/icon_apply.png");
             break;
         default:
             return QVariant();

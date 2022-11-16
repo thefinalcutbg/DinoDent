@@ -15,7 +15,7 @@ DoctorSettingsDialog::DoctorSettingsDialog(DoctorDialogPresenter* presenter, QWi
 {
 	ui.setupUi(this);
 
-	setWindowTitle(u8"Доктор");
+	setWindowTitle("Доктор");
 	setWindowIcon(QIcon{ ":/icons/icon_user.png" });
 
 	lineEdits[DoctorFields::EGN] = ui.egnLineEdit;

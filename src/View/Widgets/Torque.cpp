@@ -26,9 +26,9 @@ Torque::Torque(QWidget* parent)
     ui.settingsButton->setIcon(QIcon(":/icons/icon_settings.png"));
 
 
-    QAction* settingsAction = new QAction(u8"Настройки");
+    QAction* settingsAction = new QAction("Настройки");
     settingsAction->setIcon(QIcon(":/icons/icon_settings.png"));
-    QAction* exitAction = new QAction(u8"Изход");
+    QAction* exitAction = new QAction("Изход");
     exitAction->setIcon(QIcon(":/icons/icon_remove.png"));
     QMenu* userMenu = new QMenu(this);
     userMenu->addAction(settingsAction);

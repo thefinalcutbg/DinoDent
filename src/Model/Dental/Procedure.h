@@ -2,7 +2,7 @@
 #include <string>
 #include <array>
 #include <variant>
-
+#include <optional>
 #include "Model/Date.h"
 #include "ProcedureTemplate.h"
 #include "StatusData.h"
@@ -22,7 +22,7 @@ struct ProcedureBridgeData {
 struct ProcedureObtData
 {
     std::array<bool, 6>surfaces{ 0,0,0,0,0,0 };
-    bool post{ false };
+    std::optional<PostData> post;
 
     ObturationData data;
 };

@@ -6,7 +6,7 @@
 #include <vector>
 #include <string>
 
-#include "Model/Dental/StatusData.h"
+#include "Model/Dental/Status.h"
 
 class PathologyWidget : public QWidget
 {
@@ -14,7 +14,7 @@ class PathologyWidget : public QWidget
 
 public:
 	PathologyWidget(QWidget *parent = Q_NULLPTR);
-	void setData(const PathologyData& data);
+	void setData(const Pathology& data);
 	int getData();
 	~PathologyWidget();
 

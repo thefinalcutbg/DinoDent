@@ -11,7 +11,7 @@ QString roundDouble(double number)
 		QString::number(number, 'f', 2);
 }
 
-QString priceToString(double price) { return roundDouble(price) + u8" лв."; }
+QString priceToString(double price) { return roundDouble(price) + " лв."; }
 
 QString formatDoubleWithDecimal(const double& price) //adding the dot in case of integer
 {

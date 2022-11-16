@@ -17,10 +17,10 @@ struct QMonthNotifRow
 	const char* getDocTypeString() const {
 
 		constexpr static const char* typeString[4]{
-			u8"Фактура",
-			u8"Дебитно известие",
-			u8"Кредитно известие",
-			u8"НЕИЗВЕСТНО"
+			"Фактура",
+			"Дебитно известие",
+			"Кредитно известие",
+			"НЕИЗВЕСТНО"
 		};
 
 		return typeString[static_cast<int>(type)];

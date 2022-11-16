@@ -48,13 +48,13 @@ void PracticeManagerPresenter::removeClicked(int idx)
 
 	if (
 		!ModalDialogBuilder::askDialog(
-			u8"Сигурни ли сте, че искате да премахнете тази практика?"
+			"Сигурни ли сте, че искате да премахнете тази практика?"
 		)
 	) return;
 
 	auto passGuess = ModalDialogBuilder::inputDialog(
-		u8"Въведете парола на практиката",
-		u8"Премахване на практика",
+		"Въведете парола на практиката",
+		"Премахване на практика",
 		true
 	);
 
@@ -63,7 +63,7 @@ void PracticeManagerPresenter::removeClicked(int idx)
 
 	if (passGuess != practices[idx].pass)
 	{
-		ModalDialogBuilder::showError(u8"Грешна парола!");
+		ModalDialogBuilder::showError("Грешна парола!");
 		return;
 	}
 
@@ -81,8 +81,8 @@ void PracticeManagerPresenter::editClicked(int idx)
 	if (idx < 0 && idx >= practices.size()) return;
 
 	auto passGuess = ModalDialogBuilder::inputDialog(
-		u8"Въведете парола на практиката",
-		u8"Редактиране на практика",
+		"Въведете парола на практиката",
+		"Редактиране на практика",
 		true
 	);
 
@@ -90,7 +90,7 @@ void PracticeManagerPresenter::editClicked(int idx)
 
 	if (passGuess != practices[idx].pass)
 	{
-		ModalDialogBuilder::showError(u8"Грешна парола!");
+		ModalDialogBuilder::showError("Грешна парола!");
 		return;
 	}
 

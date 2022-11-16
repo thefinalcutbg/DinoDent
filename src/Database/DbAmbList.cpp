@@ -14,12 +14,12 @@ long long DbAmbList::insert(const AmbList& sheet, long long patientRowId)
 {
 
     Db db("INSERT INTO amblist "
-        "(date, num, nhif, status, patient_rowid, lpk, rzi) "
+        "(date, num, nhif_spec, status, patient_rowid, lpk, rzi) "
         "VALUES (?,?,?,?,?,?,?)");
 
     db.bind(1, sheet.time.to8601(sheet.getDate()));
     db.bind(2, sheet.number);
-    db.bind(3, Parser::write(sheet.nhifData, sheet.hasNZOKProcedure()));
+    sheet.hasNZOKProcedure() ? db.bind(3, static_cast<int>(sheet.nhifData.specification)) : db.bindNull(3);
     db.bind(4, Parser::write(sheet.teeth));
     db.bind(5, patientRowId);
     db.bind(6, sheet.LPK);
@@ -63,7 +63,7 @@ void DbAmbList::update(const AmbList& sheet)
     std::string query = "UPDATE amblist SET "
         "num=?,"
         "date=?,"
-        "nhif=?,"
+        "nhif_spec=?,"
         "status=? "
         "WHERE rowid=?"
     ;
@@ -73,7 +73,7 @@ void DbAmbList::update(const AmbList& sheet)
 
     db.bind(1, sheet.number);
     db.bind(2, sheet.time.to8601(sheet.getDate()));
-    db.bind(3, Parser::write(sheet.nhifData, sheet.hasNZOKProcedure()));
+    sheet.hasNZOKProcedure() ? db.bind(3, static_cast<int>(sheet.nhifData.specification)) : db.bindNull(3);
     db.bind(4, Parser::write(sheet.teeth));
     db.bind(5, sheet.rowid);
 
@@ -85,8 +85,8 @@ void DbAmbList::update(const AmbList& sheet)
     {
         db.newStatement(
             "INSERT INTO procedure "
-            "(nzok, type, code, date, tooth, deciduous, data, ksmp, amblist_rowid) "
-            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            "(nzok, type, code, date, tooth, deciduous, data, ksmp, amblist_rowid, name, diagnosis) "
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
         db.bind(1, p.nhif);
         db.bind(2, static_cast<int>(p.type));
@@ -98,6 +98,8 @@ void DbAmbList::update(const AmbList& sheet)
         db.bind(7, Parser::write(p));
         db.bind(8, p.ksmp);
         db.bind(9, sheet.rowid);
+        db.bind(10, p.name);
+        db.bind(11, p.diagnosis);
 
         db.execute();
     }
@@ -113,7 +115,7 @@ AmbList DbAmbList::getNewAmbSheet(long long patientRowId)
     Db db;
     std::string query(
     
-        "SELECT rowid, num, nhif, status FROM amblist WHERE "
+        "SELECT rowid, num, nhif_spec, status FROM amblist WHERE "
         "patient_rowid = " + std::to_string(patientRowId) + " AND "
         "lpk = '" + User::doctor().LPK + "' AND "
         "rzi = '" + User::practice().rziCode + "' AND "
@@ -128,7 +130,7 @@ AmbList DbAmbList::getNewAmbSheet(long long patientRowId)
         ambList.patient_rowid = patientRowId;
         ambList.rowid = db.asRowId(0);
         ambList.number = db.asInt(1);
-        ambList.nhifData = Parser::parseNhifData(db.asString(2));
+        ambList.nhifData.specification = static_cast<NhifSpecification>(db.asInt(2));
         status = db.asString(3);
     }
 
@@ -178,7 +180,7 @@ AmbList DbAmbList::getListData(long long rowId)
     AmbList ambList;
 
     Db db(
-        "SELECT rowid, num, nhif, status, patient_rowid, date FROM amblist WHERE "
+        "SELECT rowid, num, nhif_spec, status, patient_rowid, date FROM amblist WHERE "
         "rowid = " + std::to_string(rowId)
     );
 
@@ -186,7 +188,7 @@ AmbList DbAmbList::getListData(long long rowId)
     {
         ambList.rowid = db.asRowId(0);
         ambList.number = db.asInt(1);
-        ambList.nhifData = Parser::parseNhifData(db.asString(2));
+        ambList.nhifData.specification = static_cast<NhifSpecification>(db.asInt(2));
         status = db.asString(3);
         ambList.LPK = User::doctor().LPK;
         ambList.patient_rowid = db.asRowId(4);
@@ -251,8 +253,12 @@ int DbAmbList::getNewNumber(Date ambDate, bool nhif)
 
     std::string condition = nhif ? "sum(procedure.nzok) > 0 " : "sum(procedure.nzok) = 0 ";
 
-    query = 
-        "SELECT amblist.num FROM amblist "
+    query = nhif ?
+        "SELECT amblist.num FROM amblist WHERE nhif_spec IS NOT NULL"
+        :
+        "SELECT amblist.num FROM amblist WHERE nhif_spec IS NULL";
+
+        /*
         "JOIN procedure ON amblist.rowid = procedure.amblist_rowid "
         "GROUP BY amblist.rowid "
         "HAVING "
@@ -262,7 +268,7 @@ int DbAmbList::getNewNumber(Date ambDate, bool nhif)
         "AND amblist.lpk = '" + User::doctor().LPK + "' "
         "AND amblist.rzi = '" + User::practice().rziCode + "' "
         "ORDER BY amblist.num DESC LIMIT 1";
-
+        */
     int number = nhif ? 0 : 100000;
 
     for (Db db(query); db.hasRows();) {
@@ -282,16 +288,17 @@ std::vector<AmbList> DbAmbList::getMonthlyNhifSheets(int month, int year)
         "amblist.rowid," 
         "amblist.patient_rowid,"
         "amblist.num,"
-        "amblist.nhif,"
+        "amblist.nhif_spec,"
         "amblist.status,"
         "amblist.LPK,"
         "procedure.type,"	
         "procedure.code,"		
         "procedure.tooth,"		
         "procedure.date,"			
-        "procedure.data,"		
+        "procedure.name,"		
         "procedure.deciduous,"
-        "procedure.ksmp "		
+        "procedure.ksmp, "
+        "procedure.diagnosis "
         "FROM amblist JOIN procedure ON amblist.rowid = procedure.amblist_rowid "
         "WHERE procedure.nzok = 1 "
         "AND lpk = '" + User::doctor().LPK + "' "
@@ -319,7 +326,7 @@ std::vector<AmbList> DbAmbList::getMonthlyNhifSheets(int month, int year)
              sheet.rowid = currentRowid;
              sheet.patient_rowid = db.asRowId(1);
              sheet.number = db.asInt(2);
-             sheet.nhifData = Parser::parseNhifData(db.asString(3));
+             sheet.nhifData.specification = static_cast<NhifSpecification>(db.asInt(3));
              Parser::parse(db.asString(4), sheet.teeth);
 
              sheetRowid = currentRowid;
@@ -334,11 +341,11 @@ std::vector<AmbList> DbAmbList::getMonthlyNhifSheets(int month, int year)
          p.code = db.asInt(7);
          p.tooth = db.asInt(8);
          p.date = db.asString(9);
-         Parser::parse(db.asString(10), p);
+         p.name = db.asString(10);
          p.temp = db.asBool(11);
          p.ksmp = db.asString(12);
+         p.diagnosis = db.asString(13);
         
-
          result.back().procedures.addProcedure(p);
 
      }

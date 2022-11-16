@@ -58,7 +58,7 @@ void MonthNotifView::setMonthNotifRows(const std::vector<MonthNotifRow> rows)
 
     if (rows.size()) {
         ui.tableView->selectRow(0);
-        ui.loadPISbutton->setText(u8"Опресни");
+        ui.loadPISbutton->setText("Опресни");
     }
 }
 

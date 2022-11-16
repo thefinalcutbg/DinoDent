@@ -15,18 +15,18 @@ ReportView::ReportView( QWidget *parent)
 
 	constexpr const char* monthNames[12]
 	{
-		u8"Януари",
-		u8"Февруари",
-		u8"Март",
-		u8"Април",
-		u8"Май",
-		u8"Юни",
-		u8"Юли",
-		u8"Август",
-		u8"Септември",
-		u8"Октомври",
-		u8"Ноември",
-		u8"Декември"
+		"Януари",
+		"Февруари",
+		"Март",
+		"Април",
+		"Май",
+		"Юни",
+		"Юли",
+		"Август",
+		"Септември",
+		"Октомври",
+		"Ноември",
+		"Декември"
 	};
 
 	for (int i = 0; i < 12; i++)
@@ -101,9 +101,9 @@ void ReportView::enableReportButtons(bool enabled)
 void ReportView::showStopButton(bool yes)
 {
 	yes ?
-		ui.generateButton->setText(u8"Спри")
+		ui.generateButton->setText("Спри")
 		:
-		ui.generateButton->setText(u8"Генерирай отчет");
+		ui.generateButton->setText("Генерирай отчет");
 
 		m_stop = yes;
 

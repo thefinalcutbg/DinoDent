@@ -26,7 +26,7 @@ void abort(const std::string& uiMessage) {
 void HisToken::setChallengeMessage(const std::string& challenge)
 {
 	if (challenge.empty()) {
-		abort(u8"Неуспешна връзка с НЗИС");
+		abort("Неуспешна връзка с НЗИС");
 		return;
 	}
 
@@ -34,7 +34,7 @@ void HisToken::setChallengeMessage(const std::string& challenge)
 
 	if (!signer.hsmLoaded())
 	{
-		abort(u8"Не е открит КЕП");
+		abort("Не е открит КЕП");
 		return;
 	}
 
@@ -51,7 +51,7 @@ void HisToken::setChallengeMessage(const std::string& challenge)
 
 		if (!signer.login(pin))
 		{
-			abort(u8"Грешна парола или блокирана карта");
+			abort("Грешна парола или блокирана карта");
 			return;
 		};
 	}
@@ -59,7 +59,7 @@ void HisToken::setChallengeMessage(const std::string& challenge)
 	auto signedChallenge = XmlSigner::signNhifMessage(challenge, signer.takePrivateKey(), signer.pem_x509cert());
 
 	if (signedChallenge.empty()) {
-		abort(u8"Неуспешна автентификация в НЗИС");
+		abort("Неуспешна автентификация в НЗИС");
 		return;
 	}
 
@@ -114,11 +114,11 @@ void HisToken::setAuthRepy(const std::string& reply)
 		.FirstChildElement()			  //contents
 		.FirstChildElement().ToElement(); //token
 
-	if (!tokenElement) { abort(u8"Неуспешна идентификация"); return;  }
+	if (!tokenElement) { abort("Неуспешна идентификация"); return;  }
 
 	const char* ptr = tokenElement->Attribute("value");
 
-	if (!ptr) { abort(u8"Невалидна стойност на токена"); return; }
+	if (!ptr) { abort("Невалидна стойност на токена"); return; }
 
 	sToken::token = ptr;
 

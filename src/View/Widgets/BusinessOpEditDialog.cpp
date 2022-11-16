@@ -5,7 +5,7 @@ BusinessOpEditDialog::BusinessOpEditDialog(const BusinessOperation& op, QWidget 
 {
 	ui.setupUi(this);
 
-	setWindowTitle(u8"Редактиране");
+	setWindowTitle("Редактиране");
 
 	ui.nameEdit->setText(op.activity_name.c_str());
 	ui.codeSpinBox->setValue(std::stoi(op.activity_code));

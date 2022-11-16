@@ -7,13 +7,13 @@ std::string TimeFrame::getFrameName() const
 
     switch (type) {
     case TimeFrameType::InitialAmb:
-        result += u8"Амбулаторен лист №" + number + " (изходен статус)";
+        result += "Амбулаторен лист №" + number + " (изходен статус)";
         break;
     case TimeFrameType::Procedures:
-        result += u8"Амбулаторен лист №" + number + " (манипулации)";
+        result += "Амбулаторен лист №" + number + " (манипулации)";
         break;
     case TimeFrameType::Perio:
-        result += u8"Пародонтално измерване";
+        result += "Пародонтално измерване";
         break;
     }
     return result;

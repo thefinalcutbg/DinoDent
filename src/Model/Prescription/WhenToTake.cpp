@@ -118,7 +118,7 @@ std::string WhenToTake::parse() const
 	{
 		
 		result += std::to_string(m_offset);
-		result += m_offset == 1 ? u8" минута " : u8" минути ";
+		result += m_offset == 1 ? " минута " : " минути ";
 
 	}
 

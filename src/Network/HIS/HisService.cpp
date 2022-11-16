@@ -57,7 +57,7 @@ const std::string HisService::signMessage(const std::string& message)
 
 	if (!signer.hsmLoaded())
 	{
-		ModalDialogBuilder::showMessage(u8"Не е открит КЕП");
+		ModalDialogBuilder::showMessage("Не е открит КЕП");
 		return {};
 	}
 
@@ -73,7 +73,7 @@ const std::string HisService::signMessage(const std::string& message)
 
 		if (!signer.login(pin))
 		{
-			ModalDialogBuilder::showError(u8"Грешна парола или блокирана карта");
+			ModalDialogBuilder::showError("Грешна парола или блокирана карта");
 			return {};
 		};
 	}

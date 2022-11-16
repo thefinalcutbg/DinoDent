@@ -44,7 +44,7 @@ void PriceListSettingsPresenter::deleteTemplate()
 	if (m_currentIndex == -1)
 		return;
 
-	if (!ModalDialogBuilder::askDialog(u8"Изтриване на процедурата от ценоразписа?")) {
+	if (!ModalDialogBuilder::askDialog("Изтриване на процедурата от ценоразписа?")) {
 		return;
 	}
 

@@ -56,10 +56,9 @@ double calculatePercent(PerioIterator<T> data, bool countExisting = true)
 
 	for (; data.valid(); data.increment())
 	{
-		if (static_cast<bool>(data.value()) == countExisting)
-				sum++;
+		if (static_cast<bool>(data.value()) == countExisting) sum++;
 
-			total++;
+		total++;
 	}
 	
 	return getPercent(sum, total);

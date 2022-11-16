@@ -127,12 +127,12 @@ void PatientTile::paintInfo(QPainter* painter)
 
 	painter->setFont(infoLabel);
 	painter->drawText(20, rowYPos[0], idLabel);
-	painter->drawText(20, rowYPos[1], u8"Номер на ЗОК: ");
-	painter->drawText(20, rowYPos[2], u8"Рождена дата: ");
+	painter->drawText(20, rowYPos[1], "Номер на ЗОК: ");
+	painter->drawText(20, rowYPos[2], "Рождена дата: ");
 	
-	painter->drawText(width() / 2, rowYPos[0], u8"Телефон: ");
-	painter->drawText(width() / 2, rowYPos[1], u8"Адрес: ");
-	painter->drawText(width() / 2, rowYPos[2], u8"Възраст: ");
+	painter->drawText(width() / 2, rowYPos[0], "Телефон: ");
+	painter->drawText(width() / 2, rowYPos[1], "Адрес: ");
+	painter->drawText(width() / 2, rowYPos[2], "Възраст: ");
 
 	QFontMetrics metric(infoLabel);
 
@@ -142,12 +142,12 @@ void PatientTile::paintInfo(QPainter* painter)
 
 	painter->setFont(info);
 	painter->drawText(20 + horizontalAdvance(idLabel), rowYPos[0], id);
-	painter->drawText(20 + horizontalAdvance(u8"Номер на ЗОК: "), rowYPos[1], hirbNo);
-	painter->drawText(20 + horizontalAdvance(u8"Рождена дата: "), rowYPos[2], birthDate);
+	painter->drawText(20 + horizontalAdvance("Номер на ЗОК: "), rowYPos[1], hirbNo);
+	painter->drawText(20 + horizontalAdvance("Рождена дата: "), rowYPos[2], birthDate);
 	
-	painter->drawText(width()/2 + horizontalAdvance(u8"Телефон: "), rowYPos[0], phone);
-	painter->drawText(width()/2 + horizontalAdvance(u8"Адрес: "), rowYPos[1], address);
-	painter->drawText(width() / 2 + horizontalAdvance(u8"Възраст: "), rowYPos[2], age);
+	painter->drawText(width()/2 + horizontalAdvance("Телефон: "), rowYPos[0], phone);
+	painter->drawText(width()/2 + horizontalAdvance("Адрес: "), rowYPos[1], address);
+	painter->drawText(width() / 2 + horizontalAdvance("Възраст: "), rowYPos[2], age);
 
 	painter->setFont(header);
 	painter->setPen(hover && !clicked ? QPen(Theme::fontRedClicked) : QPen(QColor(Theme::fontRed)));
@@ -188,17 +188,17 @@ void PatientTile::setData(const Patient& patient, int age)
 		case Insured::Yes:
 			nraIcon->setBackgroundColor(QColor(101,199,208));
 			nraIcon->setHoverColor(QColor(80,152,154));
-			nraIcon->setToolTip(u8"Пациентът е здравноосигурен");
+			nraIcon->setToolTip("Пациентът е здравноосигурен");
 			break;
 		case Insured::No:
 			nraIcon->setBackgroundColor(Theme::fontRed);
 			nraIcon->setHoverColor(Theme::fontRedClicked); 
-			nraIcon->setToolTip(u8"Пациентът няма здравни осигуровки");
+			nraIcon->setToolTip("Пациентът няма здравни осигуровки");
 			break;
 		case Insured::NoData:
 			nraIcon->setBackgroundColor(QColor(255, 165, 0));
 			nraIcon->setHoverColor(QColor(255, 165, 0));
-			nraIcon->setToolTip(u8"За този пациент няма данни в НАП");
+			nraIcon->setToolTip("За този пациент няма данни в НАП");
 			break;
 		}
 	}
@@ -206,7 +206,7 @@ void PatientTile::setData(const Patient& patient, int age)
 	{
 		nraIcon->setBackgroundColor(Theme::sectionBackground);
 		nraIcon->setHoverColor(Theme::background);
-		nraIcon->setToolTip(u8"Проверка на здравноосигурителен статус");
+		nraIcon->setToolTip("Проверка на здравноосигурителен статус");
 
 	}
 
@@ -228,7 +228,7 @@ AllergiesTile::AllergiesTile(QWidget* parent) :
 	nzokIcon->setIcon(QIcon(":/icons/icon_nzok.png"));
 	nzokIcon->setFixedSize(nzokSize, nzokSize);
 	nzokIcon->move(width() - nzokSize, 5);
-	nzokIcon->setToolTip(u8"Проверка на диагнози в рецептурната книжка");
+	nzokIcon->setToolTip("Проверка на диагнози в рецептурната книжка");
 
 }
 

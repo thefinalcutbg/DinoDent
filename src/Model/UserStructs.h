@@ -7,7 +7,7 @@
 #include "Model/Settings.h"
 #include "Model/Dental/ProcedureTemplate.h"
 
-constexpr const char* doctorPrefix = u8"д-р ";
+constexpr const char* doctorPrefix = "д-р ";
 
 enum class NhifSpecialty {None, General, Pediatric, OralSurgeon, Maxillofacial};
 
@@ -77,12 +77,12 @@ struct NzokContract
 
 constexpr const char* legalEntities[6]
 {
-	u8"Свободна професия",
-	u8"ЕТ",
-	u8"ЕООД",
-	u8"ООД",
-	u8"ЕАД",
-	u8"АД"
+	"Свободна професия",
+	"ЕТ",
+	"ЕООД",
+	"ООД",
+	"ЕАД",
+	"АД"
 };
 
 struct Practice

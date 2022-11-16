@@ -813,6 +813,12 @@
     <ClCompile Include="src\View\Widgets\UpdateDownloader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\SubWidgets\PostWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Model\Dental\DentalNum.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Database\Database.h">
@@ -1493,6 +1499,12 @@
     <ClInclude Include="src\Network\UpdateService\UpdateService.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Model\Dental\DentalNum.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\NumenclatureTemplate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Graphics\ContextMenu.h">
@@ -1792,6 +1804,9 @@
     <QtMoc Include="src\View\Widgets\UpdateDownloader.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\View\SubWidgets\PostWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\View\Widgets\PracticeDialog.ui">
@@ -1969,6 +1984,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\Widgets\UpdateDownloader.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\SubWidgets\PostWidget.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

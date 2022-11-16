@@ -25,7 +25,6 @@ namespace Parser
 	std::string write(const std::vector<ProcedureTemplate>& priceList);
 	std::string write(const Invoice& inv);
 	std::string write(const Settings& settings);
-	std::string write(const NhifSheetData& nhifData, bool nhifSource);
 	std::string write(const std::vector<Dosage>& dosage);
 
 	void parse(const std::string& jsonString, Procedure& procedure);
@@ -34,7 +33,6 @@ namespace Parser
 	void parse(const std::string& jsonString, ToothContainer& status);
 	void parse(const std::string& jsonString, Invoice& invoice);
 	
-	NhifSheetData parseNhifData(const std::string& nhif);
 	std::vector<ProcedureTemplate> getPriceList(const std::string& priceList);
 	std::string parseDiagnosis(const std::string& jsonProcedureString);
 	std::optional<NzokContract> parseContract(const std::string& jsonString);

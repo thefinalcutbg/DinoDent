@@ -67,7 +67,7 @@ void SendFileService::parseReply(const std::string& reply)
 	doc.Parse(reply.data(), 0, TIXML_ENCODING_UTF8);
 
 	if (!doc.RootElement()) {
-		u8"Неуспешно прочитане на отговора от ПИС";
+		"Неуспешно прочитане на отговора от ПИС";
 	}
 
 	TiXmlHandle docHandle(&doc);
@@ -94,8 +94,8 @@ void SendFileService::parseReply(const std::string& reply)
 
 	if (success && success->GetText()) {
 		ModalDialogBuilder::showMessage(
-			u8"Файлът е изпратен успешно!\n"
-			u8"Следете статуса му на обработка от Подадени файлове"
+			"Файлът е изпратен успешно!\n"
+			"Следете статуса му на обработка от Подадени файлове"
 		);
 	}
 

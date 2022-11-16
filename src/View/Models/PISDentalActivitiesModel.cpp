@@ -55,12 +55,12 @@ QVariant PisDentalActivitiesModel::headerData(int section, Qt::Orientation orien
             switch (section)
             {
 
-            case 0: return u8"Дата";
-            case 1: return u8"Диагноза";
-            case 2: return u8"Зъб";
-            case 3: return u8"Манипулация";
-            case 4: return u8"Код";
-            case 5: return u8"Статус";
+            case 0: return "Дата";
+            case 1: return "Диагноза";
+            case 2: return "Зъб";
+            case 3: return "Манипулация";
+            case 4: return "Код";
+            case 5: return "Статус";
 
             }
         }

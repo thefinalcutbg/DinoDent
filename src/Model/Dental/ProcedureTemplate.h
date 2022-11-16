@@ -27,7 +27,7 @@ struct ProcedureTemplate
 
 	bool nhif{ false };
 
-	std::string material;
+	//std::string material;
 	std::string ksmp;
 
 };

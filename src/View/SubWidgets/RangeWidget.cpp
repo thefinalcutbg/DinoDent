@@ -92,7 +92,7 @@ void RangeWidget::setValidAppearence(bool valid)
 	}
 	else
 	{
-		errorLabel->setText(u8"Невалидна дължина на конструкцията");
+		errorLabel->setText("Невалидна дължина на конструкцията");
 	}
 }
 

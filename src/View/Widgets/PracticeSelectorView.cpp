@@ -7,7 +7,7 @@ PracticeSelectorView::PracticeSelectorView(PracticeManagerPresenter* p, QWidget 
 {
 	ui.setupUi(this);
 
-	setWindowTitle(u8"Списък с практики");
+	setWindowTitle("Списък с практики");
 
 	ui.backButton->setCursor(QCursor(Qt::PointingHandCursor));
 	ui.backButton->setStyleSheet("color:" + Theme::colorToString(Theme::fontTurquoise));

@@ -93,13 +93,13 @@ void BridgeHelper::refreshDiagnosis()
 
 	if (missingTeethIdx.size() == teethRange.size())
 	{
-		diagnosis = u8"Всички зъби са извадени, wtf?"; //all selected teeth are extracted, wtf user?
+		diagnosis = "Всички зъби са извадени, wtf?"; //all selected teeth are extracted, wtf user?
 		return;
 	}
 
 	if (!missingTeethIdx.size())
 	{
-		diagnosis = u8"Стабилизация с блок корони";
+		diagnosis = "Стабилизация с блок корони";
 		return;
 	}
 

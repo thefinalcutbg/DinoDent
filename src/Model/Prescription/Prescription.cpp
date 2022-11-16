@@ -8,7 +8,7 @@ std::vector<std::string> Prescription::getMedList() const
        
         result.push_back(m.name());
         
-        result.back() += u8"; Дозировка: ";
+        result.back() += "; Дозировка: ";
 
         for (auto d : m.dosage) result.back() += d.parse() +  "; ";
     }

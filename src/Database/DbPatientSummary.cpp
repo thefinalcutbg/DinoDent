@@ -22,7 +22,9 @@ std::vector<TimeFrame> DbPatientSummary::getFrames(long long patientRowId)
         "procedure.tooth," 	
      //   "procedure.price,"	    
         "procedure.data,"	    
-        "procedure.deciduous "	
+        "procedure.deciduous, "
+        "procedure.name, "
+        "procedure.diagnosis "
         "FROM amblist LEFT JOIN procedure ON "
         "amblist.rowid = procedure.amblist_rowid "
         "WHERE amblist.patient_rowid = " + std::to_string(patientRowId) + " "
@@ -73,6 +75,8 @@ std::vector<TimeFrame> DbPatientSummary::getFrames(long long patientRowId)
         Parser::parse(db.asString(10), p);
         p.temp = db.asInt(11);
         p.LPK = db.asString(2);
+        p.name = db.asString(12);
+        p.diagnosis = db.asString(13);
 
         result.back().procedures.push_back(p);
         p.applyProcedure(result.back().teeth);

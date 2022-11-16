@@ -23,7 +23,7 @@ void AbstractReplyHandler::getReply(const std::string& reply)
 	NetworkManager::unsubscribeHandler(this);
 
 	if (reply.empty()) {
-		ModalDialogBuilder::showError(u8"Неуспешна връзка със сървъра");
+		ModalDialogBuilder::showError("Неуспешна връзка със сървъра");
 	}
 
 	parseReply(reply);

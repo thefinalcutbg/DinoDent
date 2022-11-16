@@ -3,6 +3,7 @@
 #include <vector>
 #include <array>
 #include "VitaColor.h"
+#include "DentalNum.h"
 
 struct DentistData
 {
@@ -11,63 +12,42 @@ struct DentistData
     bool isChecked;
 };
 
-class PathologyData
+struct ObturationData
 {
-    const std::vector<std::string>* diagnosis_list{ nullptr };
+    VitaColor color;
+    RestorationMaterial material;
 
-public:
+    std::string infoStr() const;
+};
 
-    int diagnosis_index{ 0 };
-    Date date_diagnosed{ Date::currentDate() };
 
-    void setDiagnosisList(const std::vector<std::string>& diagnosisList){
-        diagnosis_list = &diagnosisList;
-    }
+struct PostData {
 
-    const std::vector<std::string>* diagnosisList() const { return diagnosis_list; }
-
-    std::string getDiagnosisName() const 
-    {
-        if (diagnosis_list == nullptr || !(diagnosis_index < diagnosis_list->size()))
-            return std::string{};
-
-        return diagnosis_list->at(diagnosis_index);
-    }
+    PostType type;
+    std::string infoStr() const { return type.getName(); }
 };
 
 struct CrownData {
 
-    std::string material;
-    int prep_type{ 0 };
+    CrownMaterial material;
+    CrownPreparation prep;
     VitaColor color;
 
     std::string infoStr() const;
-
-    static const std::array<std::string_view, 5>& prepTypes();
-
 };
 
-
-struct ObturationData
-{
-    VitaColor color;
-    std::string material;
-
-    std::string infoStr() const;
-
-};
 
 struct ImplantData 
 {
-    std::string system;
-    double width{ 0 }, length{ 0 };
-    int time{ 0 }, type{ 0 }, tissue_aug{ 0 }, bone_aug{ 0 };
-    bool membrane{ false }, sinusLift{ false };
+    ImplantTime time;
+    ImplantType type;
 
-    static const std::array <std::string_view, 4>& typeStr();
-    static const std::array <std::string_view, 4>& timeStr();
-    static const std::array <std::string_view, 4>& tissueAugStr();
-    static const std::array <std::string_view, 5>& boneAugStr();
+    double width{ 0 }, length{ 0 };
+
+    TissueAugmentation tissue_aug;
+    BoneAugmentation bone_aug;
+
+    bool membrane{ false }, sinusLift{ false };
 
     std::string infoStr() const;
 };

@@ -10,10 +10,10 @@ ImplantView::ImplantView(QWidget *parent)
 	ui.membrCheck->setDisabled(true);
 	ui.sinusCheck->setDisabled(true);
 
-	for (auto& str : ImplantData::typeStr()) ui.typeCombo->addItem(str.data());
-	for (auto& str : ImplantData::timeStr()) ui.timeCombo->addItem(str.data());
-	for (auto& str : ImplantData::tissueAugStr()) ui.tissueCombo->addItem(str.data());
-	for (auto& str : ImplantData::boneAugStr()) ui.boneCombo->addItem(str.data());
+	for (auto& str : ImplantType::getNames()) ui.typeCombo->addItem(str);
+	for (auto& str : ImplantTime::getNames()) ui.timeCombo->addItem(str);
+	for (auto& str : TissueAugmentation::getNames()) ui.tissueCombo->addItem(str);
+	for (auto& str : BoneAugmentation::getNames()) ui.boneCombo->addItem(str);
 
 	connect(ui.boneCombo, QOverload<int>::of(&QComboBox::currentIndexChanged),
 		[=](int index)
@@ -44,28 +44,26 @@ ImplantData ImplantView::getData()
 	return 
 			ImplantData
 	{
-				ui.system_edit->text().toStdString(),
-				ui.width->value(),
-				ui.length->value(),
-				ui.timeCombo->currentIndex(),
-				ui.typeCombo->currentIndex(),
-				ui.tissueCombo->currentIndex(),
-				boneCombo,
-				boneCombo != 0 && ui.membrCheck->isChecked(),
-				boneCombo != 0 && ui.sinusCheck->isChecked()
+		.time = ui.typeCombo->currentIndex(),
+		.type = ui.typeCombo->currentIndex(),
+		.width = ui.width->value(),
+		.length = ui.length->value(),
+		.tissue_aug = ui.tissueCombo->currentIndex(),
+		.bone_aug = boneCombo,
+		.membrane = boneCombo != 0 && ui.membrCheck->isChecked(),
+		.sinusLift = boneCombo != 0 && ui.sinusCheck->isChecked()
 	};
 }
 
 void ImplantView::setData(const ImplantData& data)
 {
-	ui.system_edit->setText(QString::fromStdString(data.system));
-	ui.timeCombo->setCurrentIndex(data.time);
-	ui.typeCombo->setCurrentIndex(data.type);
+	ui.timeCombo->setCurrentIndex(data.time.getIndex());
+	ui.typeCombo->setCurrentIndex(data.type.getIndex());
 	ui.length->setValue(data.length);
 	ui.width->setValue(data.width);
-	ui.tissueCombo->setCurrentIndex(data.tissue_aug);
-	ui.boneCombo->setCurrentIndex(data.bone_aug);
-	ui.membrCheck->setChecked(data.membrane && data.bone_aug);
-	ui.sinusCheck->setChecked(data.sinusLift && data.bone_aug);
+	ui.tissueCombo->setCurrentIndex(data.tissue_aug.getIndex());
+	ui.boneCombo->setCurrentIndex(data.bone_aug.getIndex());
+	ui.membrCheck->setChecked(data.membrane && data.bone_aug.getIndex());
+	ui.sinusCheck->setChecked(data.sinusLift && data.bone_aug.getIndex());
 
 }

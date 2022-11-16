@@ -38,15 +38,15 @@ QVariant ProcedureTableModel::headerData(int section, Qt::Orientation orientatio
         if (orientation == Qt::Horizontal) {
             switch (section)
             {
-            case 0: return u8"ID";
-            case 1: return u8"Дата";
-            case 2: return u8"Диагноза";
-            case 3: return u8"Зъб";
-            case 4: return u8"Манипулация";
-            case 5: return u8"Код";
-            case 6: return u8"КСМП";
-      //      case 7: return u8"Цена";
-            case 7: return u8"Извършил";
+            case 0: return "ID";
+            case 1: return "Дата";
+            case 2: return "Диагноза";
+            case 3: return "Зъб";
+            case 4: return "Манипулация";
+            case 5: return "Код";
+            case 6: return "КСМП";
+      //      case 7: return "Цена";
+            case 7: return "Извършил";
             }
         }
     }

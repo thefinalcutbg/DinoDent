@@ -4,8 +4,8 @@
 #include <View/ModalDialogBuilder.h>
 int Date::monthDays[12]{ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 constexpr const char* monthNames[12]{
-    u8"Януари", u8"Февруари", u8"Март", u8"Април", u8"Май", u8"Юни",
-    u8"Юли", u8"Август", u8"Септември", u8"Октомври", u8"Ноември", u8"Декември"
+    "Януари", "Февруари", "Март", "Април", "Май", "Юни",
+    "Юли", "Август", "Септември", "Октомври", "Ноември", "Декември"
 };
 
 Date::Date() :
@@ -123,7 +123,7 @@ std::string Date::toBgStandard(bool suffix) const
     std::string yearStr = std::to_string(year);
 
     if (suffix)
-        yearStr += u8" г.";
+        yearStr += " г.";
 
     return dayStr + "." + monthStr + "." + yearStr;
 }

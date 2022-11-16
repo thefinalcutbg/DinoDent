@@ -13,11 +13,11 @@ void MedicationPresenter::commonDataChanged(int quantity, bool quantityByForm, b
 	m_medication.substitution = allowSubstitution;
 
 	if (quantity == 1) {
-		view->setQuantityListNames(u8"Опаковка", u8"Лекарствена форма");
+		view->setQuantityListNames("Опаковка", "Лекарствена форма");
 	}
 	else
 	{
-		view->setQuantityListNames(u8"Опаковки", u8"Лекарствени форми");
+		view->setQuantityListNames("Опаковки", "Лекарствени форми");
 	}
 }
 
@@ -58,7 +58,7 @@ void MedicationPresenter::addDosage()
 std::optional<Medication> MedicationPresenter::openDialog()
 {
 	if (Medication::names().empty()) {
-		ModalDialogBuilder::showMessage(u8"Първо заредете номенклатурата за лекарствата от Настройки");
+		ModalDialogBuilder::showMessage("Първо заредете номенклатурата за лекарствата от Настройки");
 		return std::optional<Medication>();
 	}
 
@@ -96,7 +96,7 @@ void MedicationPresenter::okPressed()
 
 	if (m_medication.dosage.empty())
 	{
-		ModalDialogBuilder::showMessage(u8"Добавете поне една дозировка!");
+		ModalDialogBuilder::showMessage("Добавете поне една дозировка!");
 		return;
 	}
 

@@ -5,7 +5,7 @@ ProcedureDateValidator::ProcedureDateValidator (Date patientTurns18) :
 	_dayBefore18 {patientTurns18.yesterday()}
 {
 	_validator.setMinDate(Date(patientTurns18.day, patientTurns18.month, patientTurns18.year-18));
-    _validator.setMinErrorMsg(u8"Дата на манипулацията не може да е преди раждането на пациента!");
+    _validator.setMinErrorMsg("Дата на манипулацията не може да е преди раждането на пациента!");
 	setProcedure(0, 0);
 }
 
@@ -30,11 +30,11 @@ void ProcedureDateValidator::setProcedure(int code, bool nhif)
 		NhifProcedures::isMinorOnly(code))
 	{
 		_validator.setMaxDate(_dayBefore18);
-		_validator.setMaxErrorMsg(u8"Тази манипулация е възможна само за лица под 18 годишна възраст");
+		_validator.setMaxErrorMsg("Тази манипулация е възможна само за лица под 18 годишна възраст");
 	}
 	else
 	{
-		_validator.setMinErrorMsg(u8"Дата на манипулацията не може да е преди раждането на пациента!");
+		_validator.setMinErrorMsg("Дата на манипулацията не може да е преди раждането на пациента!");
 		_validator.setMaxDate(Date{ 1,1,3000 });
 	}
 }

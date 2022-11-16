@@ -7,7 +7,7 @@ enum class NhifSpecialty;
 
 struct NhifSheetData
 {
-	NhifCharge charge{ NhifCharge::Standard };
+	NhifCharge charge;
 	NhifSpecification specification{ NhifSpecification::PartialCoverage };
 	std::string getSpecString(NhifSpecialty specialty) const;
 };

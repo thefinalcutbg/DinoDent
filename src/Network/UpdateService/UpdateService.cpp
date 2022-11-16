@@ -41,8 +41,8 @@ bool UpdateService::restartForUpdate()
     {
 
         if (ModalDialogBuilder::askDialog(
-            u8"Открита е нова версия на програмата.\n"
-            u8"Желаете ли да я изтеглите?") == false
+            "Открита е нова версия на програмата.\n"
+            "Желаете ли да я изтеглите?") == false
             ) {
 
             return false;;

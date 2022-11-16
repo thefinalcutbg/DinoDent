@@ -7,13 +7,13 @@ constexpr int durations_size = 7;
 
 constexpr std::array<DurationStruct, durations_size> mapping
 { {
-	{"d", u8"ден",  u8"дни"},
-	{"a", u8"година", u8"години"},
-	{"h", u8"час", u8"часа"},
-	{"min", u8"минута", u8"минути"},
-	{"mo", u8"месец", u8"месеца"},
-	{"s", u8"секунда", u8"секунди"},
-	{"wk", u8"седмица", u8"седмици"}
+	{"d", "ден",  "дни"},
+	{"a", "година", "години"},
+	{"h", "час", "часа"},
+	{"min", "минута", "минути"},
+	{"mo", "месец", "месеца"},
+	{"s", "секунда", "секунди"},
+	{"wk", "седмица", "седмици"}
 } };
 
 std::vector<std::string> TimeLapse::getUnitNamesList() const

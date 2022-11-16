@@ -3,7 +3,7 @@
 
 class MedicationNameValidator : public Validator
 {
-	static inline const std::string invalidMedication = u8"Невалидно лекарство";
+	static inline const std::string invalidMedication = "Невалидно лекарство";
 
 public:
 	MedicationNameValidator() { _errorMsg = &invalidMedication; }
@@ -14,7 +14,7 @@ public:
 
 class RouteFormValidator : public Validator
 {
-	static inline const std::string invalidForm = u8"Невалиднен път на въвеждане";
+	static inline const std::string invalidForm = "Невалиднен път на въвеждане";
 
 public:
 	RouteFormValidator() { _errorMsg = &invalidForm; }
@@ -24,7 +24,7 @@ public:
 
 class WhenTextValidator : public Validator
 {
-	static inline const std::string invalidForm = u8"Невалидно указание за прием";
+	static inline const std::string invalidForm = "Невалидно указание за прием";
 
 public:
 	WhenTextValidator() { _errorMsg = &invalidForm; }

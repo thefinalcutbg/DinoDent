@@ -31,7 +31,7 @@ AmbListValidator::AmbListValidator(const AmbList& list, const Patient& patient)
 bool AmbListValidator::ambListIsValid()
 {
     if (ambList.procedures.empty()) {
-        _error = u8"Листът трябва да съдържа поне една манипулация!";
+        _error = "Листът трябва да съдържа поне една манипулация!";
         return false;
     }
 
@@ -50,13 +50,13 @@ bool AmbListValidator::ambListIsValid()
     {
         if (patient.HIRBNo.empty())
         {
-            _error = u8"Не е въведен номер на здравната книжка на пациента";
+            _error = "Не е въведен номер на здравната книжка на пациента";
                 return false;
         }
 
         if (p.date.isWeekend())
         {
-            _error = u8"Манипулация " + std::to_string(p.code) + u8" не може да бъде извършена в почивен ден";
+            _error = "Манипулация " + std::to_string(p.code) + " не може да бъде извършена в почивен ден";
                 return false;
         }
 
@@ -155,7 +155,7 @@ bool AmbListValidator::isValidAccordingToDb()
         if (ambList.nhifData.specification != NhifSpecification::Anesthesia &&
             !packageCounter.validate(patient.isAdult(procedure.date), ambList.procedures.hasPregnancy())) //validating max allowed per year
         {
-            _error = u8"Надвишен лимит по НЗОК за код " + std::to_string(procedure.code) + "!";
+            _error = "Надвишен лимит по НЗОК за код " + std::to_string(procedure.code) + "!";
             return false;
         };
 
@@ -171,8 +171,8 @@ bool AmbListValidator::isValidAccordingToDb()
          
             if (procedure.date < date)
             {
-                _error = u8"В базата данни съществува вече манипулация с код " + std::to_string(p.code) +
-                    u8" от преди по-малко от " + std::to_string(yearLimit) + u8" г.";
+                _error = "В базата данни съществува вече манипулация с код " + std::to_string(p.code) +
+                    " от преди по-малко от " + std::to_string(yearLimit) + " г.";
                 return false;
             }
         }
@@ -181,8 +181,8 @@ bool AmbListValidator::isValidAccordingToDb()
             extractedTeeth.count
             (std::make_pair(procedure.tooth, ambList.teeth[procedure.tooth].temporary.exists())))
         {
-            _error = u8"За зъб " + ToothUtils::getNomenclature(ambList.teeth[procedure.tooth])
-                + u8" вече съществуват данни за екстракция!";
+            _error = "За зъб " + ToothUtils::getNomenclature(ambList.teeth[procedure.tooth])
+                + " вече съществуват данни за екстракция!";
             return false;
         }
 
@@ -199,13 +199,13 @@ bool AmbListValidator::dateIsValid()
    {
         if (p.date.month != ambListDate.month || p.date.year != ambListDate.year)
         {
-            _error = u8"Манипулациите трябва да са от един и същи месец!";
+            _error = "Манипулациите трябва да са от един и същи месец!";
             return false;
         }
 
         if (p.nhif && NhifProcedures::isMinorOnly(p.code) && patient.isAdult(p.date))
         {
-            _error = u8"Манипулация " + std::to_string(p.code) + u8" е позволена само при лица под 18 годишна възраст!";
+            _error = "Манипулация " + std::to_string(p.code) + " е позволена само при лица под 18 годишна възраст!";
             return false;
         }
    }
@@ -232,7 +232,7 @@ bool AmbListValidator::examIsFirst()
     {
         if (p.nhif && p.code != examCode && p.date < ambListDate)
         {
-            _error = u8"Датата на манипулация " + std::to_string(p.code) + u8" е по-малка от датата на прегледа!";
+            _error = "Датата на манипулация " + std::to_string(p.code) + " е по-малка от датата на прегледа!";
             return false;
         }
     }
@@ -253,10 +253,10 @@ bool AmbListValidator::noDuplicates()
         if (tooth_set.count(pair))
         {
             p.tooth != -1 ?
-            _error = u8"За зъб " + ToothUtils::getNomenclature(ambList.teeth[p.tooth]) +
-                u8" манипулация с код " + std::to_string(p.code) + u8" е добавена повече от веднъж"
+            _error = "За зъб " + ToothUtils::getNomenclature(ambList.teeth[p.tooth]) +
+                " манипулация с код " + std::to_string(p.code) + " е добавена повече от веднъж"
             :
-            _error = u8"Направили сте 2 еднакви манипулации с код " + std::to_string(p.code);
+            _error = "Направили сте 2 еднакви манипулации с код " + std::to_string(p.code);
 
             return false;
         }
@@ -293,8 +293,8 @@ bool AmbListValidator::validateTypeToStatus(const Tooth& t, const Procedure& p)
 
             if (statusMissing)
             {
-                _error = u8"За манипулация " + code + u8" на зъб " + toothNum + u8" не е въведен валиден статус. "
-                    u8"Валидните статуси включват кариес, обтурация, пулпит, периодонтит, корен или фрактура.";
+                _error = "За манипулация " + code + " на зъб " + toothNum + " не е въведен валиден статус. "
+                    "Валидните статуси включват кариес, обтурация, пулпит, периодонтит, корен или фрактура.";
                 return false;
             }
             break;
@@ -317,8 +317,8 @@ bool AmbListValidator::validateTypeToStatus(const Tooth& t, const Procedure& p)
 
             if (statusMissing)
             {
-                _error = u8"За манипулация " + code + u8" на зъб " + toothNum + u8" не е въведен валиден статус. " +
-                    u8"Валидните статуси включват пулпит, периодонтит или фрактура.";
+                _error = "За манипулация " + code + " на зъб " + toothNum + " не е въведен валиден статус. " +
+                    "Валидните статуси включват пулпит, периодонтит или фрактура.";
                 return false;
             }
             break;
@@ -345,8 +345,8 @@ bool AmbListValidator::validateTypeToStatus(const Tooth& t, const Procedure& p)
 
         if (statusMissing)
         {
-            _error = u8"За манипулация " + code + u8" на зъб " + toothNum + u8" не е въведен валиден статус. "
-                u8"Валидните статуси включват периодонтит, корен, фрактура, пулпит, пародонтит, подвижност, имплант, свръхброен или временен зъб.";
+            _error = "За манипулация " + code + " на зъб " + toothNum + " не е въведен валиден статус. "
+                "Валидните статуси включват периодонтит, корен, фрактура, пулпит, пародонтит, подвижност, имплант, свръхброен или временен зъб.";
             return false;
         }
         break;
@@ -366,13 +366,13 @@ bool AmbListValidator::validatePermaTemp(const Tooth& tooth, const Procedure& p)
 
     if (NhifProcedures::isTempOnly(p.code) && !temp)
     {
-        _error = u8"Манипулация "+ std::to_string(p.code) + u8" на зъб " + ToothUtils::getNomenclature(p.tooth, temp) + u8" е позволена само при временни зъби";
+        _error = "Манипулация "+ std::to_string(p.code) + " на зъб " + ToothUtils::getNomenclature(p.tooth, temp) + " е позволена само при временни зъби";
         return false;
     }
     
     if (NhifProcedures::isPermaOnly(p.code) && temp)
     {
-        _error = u8"Манипулация " + std::to_string(p.code) + u8" на зъб " + ToothUtils::getNomenclature(p.tooth, temp) + u8" е позволена само при постоянни зъби";
+        _error = "Манипулация " + std::to_string(p.code) + " на зъб " + ToothUtils::getNomenclature(p.tooth, temp) + " е позволена само при постоянни зъби";
         return false;
     }
 

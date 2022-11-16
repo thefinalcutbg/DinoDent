@@ -10,7 +10,7 @@ PracticeListDialog::PracticeListDialog(QDialog *parent)
 
 	setModal(true);
 	setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
-	setWindowTitle(u8"Изберете практика");
+	setWindowTitle("Изберете практика");
 
 	connect(ui.okButton, &QPushButton::clicked, this,
 		[=] { done(ui.comboBox->currentIndex()); close(); });

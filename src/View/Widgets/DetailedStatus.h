@@ -11,6 +11,7 @@
 #include "View/SubWidgets/CrownWidget.h"
 #include "View/SubWidgets/PathologyWidget.h"
 #include "View/SubWidgets/DentistMadeWidget.h"
+#include "View/SubWidgets/PostWidget.h"
 #include "View/Models/ProcedureTableModel.h"
 #include <QTextEdit>
 
@@ -23,8 +24,8 @@ class DetailedStatus final: public QDialog, public IDetailedStatusView
 	DetailedStatusPresenter* presenter;
 
 	inline static QString surfName[surfaceCount]
-	{ u8"Оклузално", u8"Медиално", u8"Дистално",
-		u8"Букално", u8"Лингвално", u8"Цервикално" };
+	{ "Оклузално", "Медиално", "Дистално",
+		"Букално", "Лингвално", "Цервикално" };
 
 	QVBoxLayout* layout;
 
@@ -33,6 +34,7 @@ class DetailedStatus final: public QDialog, public IDetailedStatusView
 	ImplantView* implantWidget;
 	DentistMadeWidget* dentistWidget;
 	PathologyWidget* pathologyWidget;
+	PostWidget* postWidget;
 	QTextEdit* notesWidget;
 
 	ProcedureTableModel m_historyModel;
@@ -54,8 +56,9 @@ public:
 	void setData(const DentistData& data) override;
 	void setData(const CrownData& data) override;
 	void setData(const ObturationData& data) override;
-	void setData(const PathologyData& data) override;
+	void setData(const Pathology& data) override;
 	void setData(const std::string& notesData) override;
+	void setData(const PostData& data) override;
 
 	ObturationData getObturationData() override;
 	ImplantData getImplantData() override;
@@ -63,6 +66,7 @@ public:
 	CrownData getCrownData() override;
 	int getDiagnosisIndex() override;
 	std::string getNotes() override;
+	PostData getPostData() override;
 
 	void setHistoryData(const std::vector<Procedure>& history) override;
 

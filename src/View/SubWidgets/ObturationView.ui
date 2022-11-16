@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>156</width>
+    <width>185</width>
     <height>80</height>
    </rect>
   </property>
@@ -48,6 +48,9 @@
         </spacer>
        </item>
       </layout>
+     </item>
+     <item>
+      <widget class="PostWidget" name="postWidget" native="true"/>
      </item>
      <item>
       <spacer name="verticalSpacer">
@@ -92,6 +95,12 @@
    <class>ObturationWidget</class>
    <extends>QWidget</extends>
    <header>View/SubWidgets/ObturationWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>PostWidget</class>
+   <extends>QWidget</extends>
+   <header>View/SubWidgets/PostWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

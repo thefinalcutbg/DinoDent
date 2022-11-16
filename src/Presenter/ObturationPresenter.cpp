@@ -35,7 +35,7 @@ void ObturationPresenter::setProcedureTemplate(const ProcedureTemplate& m)
     AbstractSubPresenter::setProcedureTemplate(m);
 
     auto data = view->getData();
-    data.data.material = m.material;
+    //data.data.material = m.material;
     view->setData(data);
 }
 
@@ -47,7 +47,7 @@ bool ObturationPresenter::isValid()
 
     if (!view->surfaceSelector()->isValid())
     {
-        return ModalDialogBuilder::askDialog(u8"Резултатът от манипулацията няма да бъде приложен към статуса, "
+        return ModalDialogBuilder::askDialog("Резултатът от манипулацията няма да бъде приложен към статуса, "
             "тъй като не сте избрали повърхност. Желаете ли да продължите въпреки това?");
     }
 
@@ -87,29 +87,30 @@ std::string ObturationPresenter::getDiagnosis(const Tooth& tooth)
     for (int i = 0; i < 6; i++)		//getting the diagnosis of the first caries found
     {
         if (tooth.caries.exists(i)) {
-            cariesDiagnosis = tooth.caries[i].data.getDiagnosisName();
+            cariesDiagnosis = tooth.caries[i].getDiagnosisString();
         }
     }
 
     std::array<bool, 7> existing
     {
+            tooth.fracture.exists(),
             secondaryCaries,
             tooth.caries.exists(),
             tooth.endo.exists(),
             tooth.pulpitis.exists() && tooth.lesion.exists(),
-            tooth.fracture.exists(),
+            
             tooth.root.exists(),
             tooth.obturation.exists()
     };
 
     std::array<std::string, 7> diagnosis
     {
+        tooth.fracture.getDiagnosisString(),
         "Вторичен кариес",
         cariesDiagnosis,
         "Status post devital.",
         "Преендодонтско изграждане",
-        tooth.fracture.data.getDiagnosisName(),
-        tooth.root.data.getDiagnosisName(),
+        tooth.root.getDiagnosisString(),
         "Дефектна обтурация"
     };
 

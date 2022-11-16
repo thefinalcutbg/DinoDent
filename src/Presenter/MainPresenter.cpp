@@ -25,7 +25,7 @@ void MainPresenter::setView(IMainView* view)
 
     if (DbPractice::noPractices())
     {
-        ModalDialogBuilder::showMessage(u8"Стартирате програмата за първи път. Моля добавете практика.");
+        ModalDialogBuilder::showMessage("Стартирате програмата за първи път. Моля добавете практика.");
 
         PracticeDialogPresenter p{};
         auto result = p.open();
@@ -34,7 +34,7 @@ void MainPresenter::setView(IMainView* view)
         {
             DbPractice::insertPractice(result.value().practice);
             DbPractice::setDoctorsPracticeList(result.value().doctorsList, result.value().practice.rziCode);
-            ModalDialogBuilder::showMessage(u8"Зареден е ценоразпис с нулеви цени. Можете да го редактирате от Настройки");
+            ModalDialogBuilder::showMessage("Зареден е ценоразпис с нулеви цени. Можете да го редактирате от Настройки");
         }
         /*
         else
@@ -125,7 +125,7 @@ void MainPresenter::settingsPressed()
 {
     if (!User::isAdmin())
     {
-        ModalDialogBuilder::showError(u8"Нямате администраторски права, за да влезете в настройки");
+        ModalDialogBuilder::showError("Нямате администраторски права, за да влезете в настройки");
         return;
     }
 

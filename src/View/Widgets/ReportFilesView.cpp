@@ -48,7 +48,7 @@ void ReportFilesView::setFiles(const std::vector<ReportFile>&fileRows)
 	model.setRows(fileRows);
 	
 	if (fileRows.size()) {
-		ui.loadPISbutton->setText(u8"Опресни");
+		ui.loadPISbutton->setText("Опресни");
 	}
 }
 

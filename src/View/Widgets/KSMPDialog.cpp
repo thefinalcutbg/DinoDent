@@ -6,7 +6,7 @@ KSMPDialog::KSMPDialog(KsmpList& list, const std::string& code, QWidget* parent)
 {
 	ui.setupUi(this);
 	setWindowFlags(Qt::Window);
-	setWindowTitle(u8"Класификация на Медицинските Процедури");
+	setWindowTitle("Класификация на Медицинските Процедури");
 
 	m_proxyModel.setSourceModel(&m_model);
 	m_proxyModel.setFilterKeyColumn(1);

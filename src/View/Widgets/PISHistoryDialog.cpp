@@ -5,7 +5,7 @@ PISHistoryDialog::PISHistoryDialog(const std::vector<Procedure> procedures, cons
 {
 	ui.setupUi(this);
 
-	setWindowTitle(u8"Отчетени манипулации по НЗОК");
+	setWindowTitle("Отчетени манипулации по НЗОК");
 
 	model.setProcedures(procedures, payment_status);
 

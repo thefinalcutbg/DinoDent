@@ -25,7 +25,6 @@ void ImplantPresenter::setProcedureTemplate(const ProcedureTemplate& m)
 	AbstractSubPresenter::setProcedureTemplate(m);
 	
 	auto data = view->getData();
-	data.system = m.material;
 	view->setData(data);
 }
 

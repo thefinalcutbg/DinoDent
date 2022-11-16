@@ -11,7 +11,7 @@ AmbListSelector::AmbListSelector(ListSelectorPresenter* presenter) :
 	ui.setupUi(this);
 
 	setWindowFlags(Qt::Window);
-	setWindowTitle(u8"Документи");
+	setWindowTitle("Документи");
 	setWindowIcon(QIcon(":/icons/icon_open.png"));
 
 	auto lambda = [=](QDate date) { return Date{ date.day(), date.month(), date.year() };};
@@ -73,37 +73,37 @@ AmbListSelector::AmbListSelector(ListSelectorPresenter* presenter) :
 
 	QAction* action;
 
-	action = (new QAction(u8"Отвори", main_menu));
+	action = (new QAction("Отвори", main_menu));
 	connect(action, &QAction::triggered, [=] { presenter->openCurrentSelection(); });
 	action->setIcon(QIcon(":/icons/icon_open.png"));
 	main_menu->addAction(action);
 
-	sub_menu = new QMenu(u8"Нов документ", this);
+	sub_menu = new QMenu("Нов документ", this);
 
 	//ui.printButton->setIcon(QIcon(":/icons/icon_print.png"));
 	main_menu->addMenu(sub_menu);
 
-	action = (new QAction(u8"Нов амбулаторен лист", sub_menu));
+	action = (new QAction("Нов амбулаторен лист", sub_menu));
 	connect(action, &QAction::triggered, [=] { presenter->openNewDocument(TabType::AmbList); });
 	action->setIcon(QIcon(":/icons/icon_sheet.png"));
 	sub_menu->addAction(action);
 
-	action = (new QAction(u8"Ново пародонтално измерване", sub_menu));
+	action = (new QAction("Ново пародонтално измерване", sub_menu));
 	connect(action, &QAction::triggered, [=] { presenter->openNewDocument(TabType::PerioList); });
 	action->setIcon(QIcon(":/icons/icon_periosheet.png"));
 	sub_menu->addAction(action);
 
-	action = (new QAction(u8"Нова рецепта", sub_menu));
+	action = (new QAction("Нова рецепта", sub_menu));
 	connect(action, &QAction::triggered, [=] { presenter->openNewDocument(TabType::Prescription); });
 	action->setIcon(QIcon(":/icons/icon_prescr.png"));
 	sub_menu->addAction(action);
 
-	action = (new QAction(u8"Нова фактура", sub_menu));
+	action = (new QAction("Нова фактура", sub_menu));
 	connect(action, &QAction::triggered, [=] { presenter->openNewDocument(TabType::Financial); });
 	action->setIcon(QIcon(":/icons/icon_invoice.png"));
 	sub_menu->addAction(action);
 
-	action = (new QAction(u8"Изтрий", main_menu));
+	action = (new QAction("Изтрий", main_menu));
 	connect(action, &QAction::triggered, [=] { presenter->deleteCurrentSelection(); });
 	action->setIcon(QIcon(":/icons/icon_remove.png"));
 	main_menu->addAction(action);

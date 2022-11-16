@@ -1,6 +1,6 @@
 ﻿#include "CommonValidators.h"
 
-const std::string NotEmptyValidator::couldntBeEmpty{ u8"Това поле е задължително" };
+const std::string NotEmptyValidator::couldntBeEmpty{ "Това поле е задължително" };
 
 NotEmptyValidator::NotEmptyValidator()
 {
@@ -12,8 +12,8 @@ bool NotEmptyValidator::validateInput(const std::string& text)
     return text.size() > 0;
 }
 
-const std::string CyrillicValidator::mustBeCyrillic{ u8"Пишете на кирилица, ако обичате!" };
-static std::string_view allowed = (u8"абвгдежзийклмнопрстуфхцчшщъьюя-АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЬЮЯ ");
+const std::string CyrillicValidator::mustBeCyrillic{ "Пишете на кирилица, ако обичате!" };
+static std::string_view allowed = ("абвгдежзийклмнопрстуфхцчшщъьюя-АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЬЮЯ ");
 
 bool CyrillicValidator::validateInput(const std::string& text)
 {
@@ -39,7 +39,7 @@ bool CyrillicValidator::validateInput(const std::string& text)
     return true;
 }
 
-const std::string mustBeNumber{ u8"Това поле може да съдържа само цифри" };
+const std::string mustBeNumber{ "Това поле може да съдържа само цифри" };
 
 bool DigitsOnlyValidator::validateInput(const std::string& text)
 {

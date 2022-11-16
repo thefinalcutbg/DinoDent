@@ -27,11 +27,11 @@ public:
 	DetailedStatusController(view), 
 	status(status)
 	{
-		view.setData(status.data);
+		view.setData(status);
 	}
 
 	void applyChange() override {
-		status.data.diagnosis_index = view.getDiagnosisIndex();
+		status.setDiagnosisIdx(view.getDiagnosisIndex());
 	}
 
 
@@ -167,7 +167,7 @@ public:
 
 			if (statusResult.color.getIndex()) status[i].data.color = VitaColor(statusResult.color);
 
-			if (statusResult.material.size()) status[i].data.material = statusResult.material;
+			status[i].data.material = statusResult.material;
 
 			if (status[i].LPK == User::doctor().LPK || status[i].LPK.empty())
 				status[i].LPK = doctorResult ? User::doctor().LPK : "";
@@ -180,27 +180,26 @@ public:
 
 class CariesBulk : public DetailedStatusController
 {
-	SurfaceStatus<SurfaceChild<Pathology>>& status;
+	SurfaceStatus<SurfaceChild<Caries>>& status;
 	
-	PathologyData output_data; //output_data is needed for evaluation whether user has changed the index
+	Caries output_data; //output_data is needed for evaluation whether user has changed the index
 
 public:
-	CariesBulk(IDetailedStatusView& view, SurfaceStatus<SurfaceChild<Pathology>>& status) :
+	CariesBulk(IDetailedStatusView& view, SurfaceStatus<SurfaceChild<Caries>>& status) :
 		DetailedStatusController(view),
 		status(status)
 	{
 		Date uninitializedDate(1,1,1);
 
 		output_data.date_diagnosed = uninitializedDate;
-		output_data.setDiagnosisList(*status[0].data.diagnosisList());
 
 		for (int i = 0; i < surfaceCount; i++)
 		{
 			if(!status.exists(i))
 				continue;
 
-			output_data.diagnosis_index = std::max(status[i].data.diagnosis_index, output_data.diagnosis_index);
-			output_data.date_diagnosed = std::max(status[i].data.date_diagnosed, output_data.date_diagnosed);
+			output_data.setDiagnosisIdx(std::max(status[i].getDiagnosisIdx(), output_data.getDiagnosisIdx()));
+			output_data.date_diagnosed = std::max(status[i].date_diagnosed, output_data.date_diagnosed);
 		}
 
 		if (output_data.date_diagnosed == uninitializedDate)
@@ -216,8 +215,8 @@ public:
 
 		for (int i = 0; i < surfaceCount; i++)
 		{
-			if (statusResult != output_data.diagnosis_index) //checking if the index has been changed at all
-				status[i].data.diagnosis_index = statusResult;
+			if (statusResult != output_data.getDiagnosisIdx()) //checking if the index has been changed at all
+				status[i].setDiagnosisIdx(statusResult);
 		}
 	};
 
@@ -244,6 +243,26 @@ public:
 	}
 };
 
+class PostControl : public DetailedStatusController
+{
+	Post& status;
+
+	DentistMadeControl m_dentistCtrl;
+public:
+	PostControl(IDetailedStatusView& view, Post& status) :
+		DetailedStatusController(view),
+		status(status),
+		m_dentistCtrl(view, status)
+
+	{
+		view.setData(status.data);
+	}
+
+	void applyChange() override {
+		status.data = view.getPostData();
+		m_dentistCtrl.applyChange();
+	}
+};
 
 class FiberSplintControl : public DetailedStatusController
 {

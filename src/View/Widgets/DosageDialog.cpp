@@ -8,7 +8,7 @@ DosageDialog::DosageDialog(DosagePresenter* p, QWidget* parent) :
 {
 	ui.setupUi(this);
 
-	setWindowTitle(u8"Дозировка");
+	setWindowTitle("Дозировка");
 
 	ui.offsetCheck->hide();
 	ui.offsetSpin->hide();
@@ -50,9 +50,9 @@ DosageDialog::DosageDialog(DosagePresenter* p, QWidget* parent) :
 		/*
 		ui.frequencyLabel->setText(
 			value == 1 ?
-			u8" път на "
+			" път на "
 			:
-			u8" пъти на "
+			" пъти на "
 		);
 		*/
 		
@@ -170,7 +170,7 @@ void DosageDialog::setRouteList(const std::vector<std::string>& list)
 	for (auto& item : list)
 		ui.routeCombo->addItem(item.c_str());
 
-	ui.routeCombo->lineEdit()->setPlaceholderText(u8"По подразбиране");
+	ui.routeCombo->lineEdit()->setPlaceholderText("По подразбиране");
 	ui.routeCombo->setCurrentIndex(-1);
 }
 
@@ -194,7 +194,7 @@ void DosageDialog::setWhenTags(const std::vector<std::string>& tags, bool offset
 
 		QPushButton* tagButton = new QPushButton(tags[i].c_str(), this);
 
-		tagButton->setToolTip(u8"Премахни");
+		tagButton->setToolTip("Премахни");
 
 		ui.tagLayout->addWidget(tagButton);
 
@@ -217,7 +217,7 @@ bool DosageDialog::fieldsAreValid()
 	}
 
 	if (ui.doseFormCombo->currentText().isEmpty()) {
-		ui.errorLabel->setText(u8"Невалидна мерна единица на дозировката");
+		ui.errorLabel->setText("Невалидна мерна единица на дозировката");
 		return false;
 	}
 

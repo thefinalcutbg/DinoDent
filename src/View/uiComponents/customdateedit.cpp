@@ -47,22 +47,22 @@ void CustomDateEdit::initHeaderWidget() {
     prevYearButton = new QPushButton(topWidget); // 上一年按钮
     prevYearButton->setObjectName("prevYearButton");
     prevYearButton->setFixedSize(16, 16);
-    prevYearButton->setToolTip(u8"Предишна година");
+    prevYearButton->setToolTip("Предишна година");
 
     nextYearButton = new QPushButton(topWidget); // 下一年按钮
     nextYearButton->setObjectName("nextYearButton");
     nextYearButton->setFixedSize(16, 16);
-    nextYearButton->setToolTip(u8"Следваща година");
+    nextYearButton->setToolTip("Следваща година");
 
     prevMonthButton = new QPushButton(topWidget); // 上个月按钮
     prevMonthButton->setObjectName("prevMonthButton");
     prevMonthButton->setFixedSize(16, 16);
-    prevMonthButton->setToolTip(u8"Предишен месец");
+    prevMonthButton->setToolTip("Предишен месец");
 
     nextMonthButton = new QPushButton(topWidget); // 下个月按钮
     nextMonthButton->setObjectName("nextMonthButton");
     nextMonthButton->setFixedSize(16, 16);
-    nextMonthButton->setToolTip(u8"Следващ месец");
+    nextMonthButton->setToolTip("Следващ месец");
 
     yearButton = new QPushButton(topWidget); // 年份按钮
     yearButton->setObjectName("yearButton");

@@ -81,7 +81,7 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
     report.dataManager()->setReportVariable("LPK", QString::fromStdString(doctor.LPK));
     report.dataManager()->setReportVariable("doctorName", QString::fromStdString(doctor.getFullName(true)));
 
-    const char* defaultStatus{ u8"Не съобщатва" };
+    const char* defaultStatus{ "Не съобщава" };
 
     report.dataManager()->setReportVariable("allergies",
         patient.allergies.empty() ?
@@ -150,8 +150,8 @@ void Print::invoice(const Invoice& inv)
     report.loadFromFile(":/reports/report_invoice.lrxml");
 
     report.dataManager()->setReportVariable("title", QString::fromStdString(inv.name));
-    report.dataManager()->setReportVariable("number_date", QString::fromStdString(u8" № " + inv.getInvoiceNumber() + u8" от дата " + inv.date.toBgStandard(true)));
-    report.dataManager()->setReportVariable("invoice_type", original ? u8"ОРИГИНАЛ" : u8"КОПИЕ");
+    report.dataManager()->setReportVariable("number_date", QString::fromStdString(" № " + inv.getInvoiceNumber() + " от дата " + inv.date.toBgStandard(true)));
+    report.dataManager()->setReportVariable("invoice_type", original ? "ОРИГИНАЛ" : "КОПИЕ");
 
     auto mainDoc = inv.mainDocument();
 
@@ -159,10 +159,10 @@ void Print::invoice(const Invoice& inv)
         report.dataManager()->setReportVariable(
             "main_document",
             QString::fromStdString(
-                u8"към фактура № "
+                "към фактура № "
                 + FreeFn::leadZeroes(mainDoc->number, 10)
-                + u8" от " + mainDoc->date.toBgStandard()
-                + u8"г."));
+                + " от " + mainDoc->date.toBgStandard()
+                + "г."));
     }
 
     report.dataManager()->setReportVariable("recipient_name", QString::fromStdString(inv.recipient.name));
@@ -179,9 +179,9 @@ void Print::invoice(const Invoice& inv)
     if (inv.nzokData.has_value())
     {
         report.dataManager()->setReportVariable("practice_rzi", QString::fromStdString(inv.nzokData->rhi_nhif_no));
-        report.dataManager()->setReportVariable("contract", QString::fromStdString(inv.nzokData->contract_no + " / " + inv.nzokData->contract_date.toBgStandard()) + u8" г.");
+        report.dataManager()->setReportVariable("contract", QString::fromStdString(inv.nzokData->contract_no + " / " + inv.nzokData->contract_date.toBgStandard()) + " г.");
         report.dataManager()->setReportVariable("mon_notif_number", QString::number(inv.nzokData->fin_document_month_no));
-        report.dataManager()->setReportVariable("period", QString::fromStdString(u8"от " + inv.nzokData->date_from.toBgStandard() + u8" до " + inv.nzokData->date_to.toBgStandard()));
+        report.dataManager()->setReportVariable("period", QString::fromStdString("от " + inv.nzokData->date_from.toBgStandard() + " до " + inv.nzokData->date_to.toBgStandard()));
 
     }
 
@@ -193,9 +193,9 @@ void Print::invoice(const Invoice& inv)
     report.dataManager()->setReportVariable("groundsNoVAT", QString::fromStdString(inv.issuer.grounds_for_not_charging_VAT));
     report.dataManager()->setReportVariable("paymentType", QString::fromStdString(
         inv.aggragated_amounts.paymentType == PaymentType::Bank ? 
-        u8"Банков път" 
+        "Банков път" 
         : 
-        u8"В брой"
+        "В брой"
     ));
     
     QApplication::restoreOverrideCursor();
@@ -225,8 +225,8 @@ void Print::consent(const Patient& patient)
     report.dataManager()->setReportVariable("doctor", QString::fromStdString(doctor.getFullName()));
 
     report.dataManager()->setReportVariable("practice_address", QString::fromStdString(practice.practice_address));
-    report.dataManager()->setReportVariable("declarator", patient.sex ? u8"Долуподписаната" : u8"Долуподписаният");
-    report.dataManager()->setReportVariable("type", patient.type == 1 ? u8"ЕГН" : u8"ЛНЧ");
+    report.dataManager()->setReportVariable("declarator", patient.sex ? "Долуподписаната" : "Долуподписаният");
+    report.dataManager()->setReportVariable("type", patient.type == 1 ? "ЕГН" : "ЛНЧ");
     report.dataManager()->setReportVariable("name", QString::fromStdString(patient.fullName()));
     report.dataManager()->setReportVariable("id", QString::fromStdString(patient.id));
 
@@ -250,12 +250,12 @@ void Print::gdpr(const Patient& patient)
 
     report.dataManager()->setReportVariable("practice_name", QString::fromStdString(practice.name));
     report.dataManager()->setReportVariable("practice_address", QString::fromStdString(practice.practice_address));
-    report.dataManager()->setReportVariable("declarator", patient.sex ? u8"Долуподписаната" : u8"Долуподписаният");
-    report.dataManager()->setReportVariable("type", patient.type == 1 ? u8"ЕГН" : u8"ЛНЧ");
+    report.dataManager()->setReportVariable("declarator", patient.sex ? "Долуподписаната" : "Долуподписаният");
+    report.dataManager()->setReportVariable("type", patient.type == 1 ? "ЕГН" : "ЛНЧ");
     report.dataManager()->setReportVariable("name", QString::fromStdString(patient.fullName()));
     report.dataManager()->setReportVariable("id", QString::fromStdString(patient.id));
     report.dataManager()->setReportVariable("address", QString::fromStdString(patient.getFullAddress()));
-    report.dataManager()->setReportVariable("acquainted", patient.sex ? u8"Запозната" : u8"Запознат");
+    report.dataManager()->setReportVariable("acquainted", patient.sex ? "Запозната" : "Запознат");
     report.dataManager()->setReportVariable("date", Date::currentDate().toBgStandard(true).c_str());
 
     QApplication::restoreOverrideCursor();

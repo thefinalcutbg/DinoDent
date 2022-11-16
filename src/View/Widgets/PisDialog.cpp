@@ -5,7 +5,7 @@ PisDialog::PisDialog(QWidget *parent)
 {
 	ui.setupUi(this);
 
-	setWindowTitle(u8"Месечни отчети и известия");
+	setWindowTitle("Месечни отчети и известия");
 	setWindowIcon(QIcon(":/icons/icon_nzok.png"));
 
 	ui.monthNotifView->setParentDialog(this);

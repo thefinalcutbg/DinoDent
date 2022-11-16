@@ -22,7 +22,7 @@ ProcedureTemplateDialog::ProcedureTemplateDialog(const ProcedureTemplate* pTemp,
 
 		procedureType[0]->setChecked(true);
 		ui.codeEdit->setValue(code);
-		ui.ksmpButton->setText(u8"Изберете КСМП");
+		ui.ksmpButton->setText("Изберете КСМП");
 		currentType = ProcedureTemplateType::general;
 	}
 	//edit mode:
@@ -33,14 +33,13 @@ ProcedureTemplateDialog::ProcedureTemplateDialog(const ProcedureTemplate* pTemp,
 		ui.priceEdit->setValue(pTemp->price);
 		ui.codeEdit->setValue(pTemp->code);
 		ui.diagnosisEdit->set_Text(pTemp->diagnosis);
-		ui.materialEdit->set_Text(pTemp->material);
 		procedureType[static_cast<int>(pTemp->type)]->toggle();
 		currentType = pTemp->type;
 
 		KSMP::isValid(pTemp->ksmp) ?
 			ui.ksmpButton->setText(pTemp->ksmp.c_str())
 			:
-			ui.ksmpButton->setText(u8"Изберете КСМП");
+			ui.ksmpButton->setText("Изберете КСМП");
 	}
 
 
@@ -82,7 +81,7 @@ ProcedureTemplateDialog::ProcedureTemplateDialog(const ProcedureTemplate* pTemp,
 
 			if (!KSMP::isValid(ui.ksmpButton->text().toStdString()))
 			{
-				ModalDialogBuilder::showError(u8"Невалиден КСМП код");
+				ModalDialogBuilder::showError("Невалиден КСМП код");
 				return;
 			}
 
@@ -91,7 +90,6 @@ ProcedureTemplateDialog::ProcedureTemplateDialog(const ProcedureTemplate* pTemp,
 			result.code = ui.codeEdit->value();
 			result.name = ui.nameEdit->getText();
 			result.type = currentType;
-			result.material = ui.materialEdit->getText();
 			result.price = ui.priceEdit->value();
 			result.diagnosis = ui.diagnosisEdit->getText();
 			result.nhif = false;

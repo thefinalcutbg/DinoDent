@@ -24,9 +24,9 @@ void PatientDialogPresenter::setView(IPatientDialog* view)
 	this->view = view;
 
 	birth_validator.setMaxDate(Date::currentDate());
-	birth_validator.setMaxErrorMsg(u8"Невалидна рожденна дата");
+	birth_validator.setMaxErrorMsg("Невалидна рожденна дата");
 	birth_validator.setMinDate(Date(2, 1, 1900));
-	birth_validator.setMinErrorMsg(u8"Невалидна рожденна дата");
+	birth_validator.setMinErrorMsg("Невалидна рожденна дата");
 
 	view->lineEdit(city)->setInputValidator(&city_validator);
 	view->lineEdit(hirbno)->setInputValidator(&hirb_validator);
@@ -115,7 +115,7 @@ void PatientDialogPresenter::accept()
 	}
 
 	if (!m_patient) {
-		ModalDialogBuilder::showError(u8"Неуспешно записване в базата данни");
+		ModalDialogBuilder::showError("Неуспешно записване в базата данни");
 	}
 	
 	view->close();
@@ -193,7 +193,7 @@ bool PatientDialogPresenter::viewIsValid()
 void PatientDialogPresenter::setHirbno(const std::string& hirbno)
 {
 	if(hirbno.empty()){
-		ModalDialogBuilder::showMessage(u8"Не е намерена активна здравна книжка");
+		ModalDialogBuilder::showMessage("Не е намерена активна здравна книжка");
 		return;
 	}
 

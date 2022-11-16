@@ -74,8 +74,8 @@ std::string Path::setDbPath()
 {
     auto str = QFileDialog::getOpenFileName(
         nullptr, 
-        u8"Изберете местонахождение на бaзата данни", 
-        getDbPath().c_str(), u8"Файл база данни (*.db)"
+        "Изберете местонахождение на бaзата данни", 
+        getDbPath().c_str(), "Файл база данни (*.db)"
     );
 
     if (str.isEmpty()) return std::string();

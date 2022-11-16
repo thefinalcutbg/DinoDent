@@ -2,7 +2,7 @@
 #include "View/Interfaces/AbstractLineEdit.h"
 #include "View/Interfaces/AbstractSurfaceSelector.h"
 
-class ProcedureObtData;
+struct ProcedureObtData;
 
 class IObturationView
 {

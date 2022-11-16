@@ -139,14 +139,14 @@ void ListSelectorPresenter::deleteCurrentSelection()
 {
 	if (m_selectedInstances.empty()) return;
 
-	std::string warningMsg = u8"Сигурни ли сте, че искате да изтриете избраният/избраните ";
+	std::string warningMsg = "Сигурни ли сте, че искате да изтриете избраният/избраните ";
 
 	static constexpr const char* endString[5]{
-		u8"амбулаторни листи?",
-		u8"пародонтални измервания?",
-		u8"пацинети? Всичките свързани медицински докумнети ще бъдат изтрити!",
-		u8"финансови документи?",
-		u8"рецепти?"
+		"амбулаторни листи?",
+		"пародонтални измервания?",
+		"пацинети? Всичките свързани медицински докумнети ще бъдат изтрити!",
+		"финансови документи?",
+		"рецепти?"
 	};
 
 	warningMsg += endString[static_cast<int>(m_currentModelType)];
@@ -159,7 +159,7 @@ void ListSelectorPresenter::deleteCurrentSelection()
 		if (tab_presenter->documentTabOpened(row->type, row->rowID))
 		{
 			ModalDialogBuilder::showMessage
-			(u8"Първо затворете всички избрани за изтриване документи!");
+			("Първо затворете всички избрани за изтриване документи!");
 			return;
 		}
 	}

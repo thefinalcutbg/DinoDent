@@ -53,7 +53,7 @@ void PrescriptionPresenter::cancelPrescription()
 				//if is current!
 				view->setReadOnly(false);
 				view->setNrn("");
-				ModalDialogBuilder::showMessage(u8"Рецептата е анулирана успешно");
+				ModalDialogBuilder::showMessage("Рецептата е анулирана успешно");
 			}
 		}
 	);
@@ -158,7 +158,7 @@ bool PrescriptionPresenter::save()
 	if (!requiresSaving()) return true;
 
 	if (m_prescription.medicationGroup.empty()) {
-		ModalDialogBuilder::showError(u8"Рецептата трябва да съдържа поне едно лекарство");
+		ModalDialogBuilder::showError("Рецептата трябва да съдържа поне едно лекарство");
 		return false;
 	}
 
@@ -187,7 +187,7 @@ bool PrescriptionPresenter::isNew()
 TabName PrescriptionPresenter::getTabName()
 {
 	TabName result;
-	result.header = isNew() ? u8"Нова рецепта " : u8"Рецепта ";
+	result.header = isNew() ? "Нова рецепта " : "Рецепта ";
 
 	result.header += m_prescription.date.toBgStandard();
 

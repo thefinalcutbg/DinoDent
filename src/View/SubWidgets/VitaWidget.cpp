@@ -27,7 +27,7 @@ void VitaWidget::set3DMaster(bool vita_3d)
 
     if (!vita_3d) //Vita Classic appearence
     {
-        ui.idx_label->setText(u8"Цвят:");
+        ui.idx_label->setText("Цвят:");
 
         for (auto& string : VitaColor::vitaClassic)
             ui.index->addItem(QString(string.data()));
@@ -37,7 +37,7 @@ void VitaWidget::set3DMaster(bool vita_3d)
 
     //Vita 3D Master appearence
 
-    ui.idx_label->setText(u8"Яркост:");
+    ui.idx_label->setText("Яркост:");
 
     for (auto& string : VitaColor::lightness)
         ui.index->addItem(string.data());

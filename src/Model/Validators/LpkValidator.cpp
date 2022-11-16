@@ -9,7 +9,7 @@ const std::set<std::string_view> firstTwoSymbols
     "23","24","25","26","27","28"
 };
 
-const std::string errorMsg{ u8"Невалиден УИН" };
+const std::string errorMsg{ "Невалиден УИН" };
 
 bool LpkValidator::validateInput(const std::string& text)
 {

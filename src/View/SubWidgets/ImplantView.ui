@@ -34,19 +34,6 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_6">
        <item>
-        <widget class="QLabel" name="label_16">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>Система:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
         <widget class="QLabel" name="label_17">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
@@ -151,9 +138,6 @@
      </item>
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_5">
-       <item>
-        <widget class="QLineEdit" name="system_edit"/>
-       </item>
        <item>
         <widget class="QComboBox" name="timeCombo"/>
        </item>

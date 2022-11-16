@@ -149,7 +149,7 @@ ToothPaintHint ToothHintCreator::getToothHint(const Tooth& tooth, const std::str
     hint.toolTip = "<b>" +  tooth.toothName() + "</b><br>" + tooth.getToothInfo();
 
     if (notes.size()) {
-        hint.toolTip += u8"<br><b>Бележки:</b><br>" + notes;
+        hint.toolTip += "<br><b>Бележки:</b><br>" + notes;
     }
 
     return hint;

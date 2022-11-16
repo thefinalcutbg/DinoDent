@@ -91,7 +91,7 @@ void NetworkManager::sendRequestToPis(
 
         QApplication::restoreOverrideCursor();
 
-        ModalDialogBuilder::showError(u8"Неуспешна автентификация");
+        ModalDialogBuilder::showError("Неуспешна автентификация");
 
         handler->getReply("");
 
@@ -230,7 +230,7 @@ void NetworkManager::sendRequestToNra(const std::string xmlRequest, AbstractRepl
 
             QApplication::restoreOverrideCursor();
 
-            ModalDialogBuilder::showError(u8"Неуспешна автентификация");
+            ModalDialogBuilder::showError("Неуспешна автентификация");
             handler->getReply("");
             NetworkManager::unsubscribeHandler(handler);
             reply->deleteLater();

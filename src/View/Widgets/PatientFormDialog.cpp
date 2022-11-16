@@ -8,11 +8,11 @@ PatientFormDialog::PatientFormDialog(PatientDialogPresenter* p, QWidget* parent)
     ui.hirbnoButton->setIcon(QIcon(":/icons/icon_nzok.png"));
     setModal(true);
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
-    setWindowTitle(u8"Нов документ");
+    setWindowTitle("Нов документ");
 
     numValidator = new QRegularExpressionValidator(QRegularExpression("[0-9]+"), this);
 
-    nameValidator = new QRegularExpressionValidator(QRegularExpression(u8"[А-Я-а-я-a-z-A-Z ]+"), this);
+    nameValidator = new QRegularExpressionValidator(QRegularExpression("[А-Я-а-я-a-z-A-Z ]+"), this);
     ui.fNameEdit->QLineEdit::setValidator(nameValidator);
     ui.mNameEdit->QLineEdit::setValidator(nameValidator);
     ui.lNameEdit->QLineEdit::setValidator(nameValidator);
@@ -70,9 +70,9 @@ void PatientFormDialog::setEditMode(bool editMode)
     ui.idLineEdit->selectAll();
 
     editMode ?
-        setWindowTitle(u8"Редактиране на данните на пациента")
+        setWindowTitle("Редактиране на данните на пациента")
         :
-        setWindowTitle(u8"Нов документ");
+        setWindowTitle("Нов документ");
 
 
 }

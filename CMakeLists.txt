@@ -21,7 +21,7 @@ if(WIN32)
   set(CMAKE_WIN32_EXECUTABLE ON)
 endif()
 
-#set(CMAKE_CXX_STANDARD 17)
+#set(CMAKE_CXX_STANDARD 20)
 #set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt6 REQUIRED COMPONENTS 
@@ -102,6 +102,7 @@ src/Model/FreeFunctions.cpp
 src/Model/FreeFunctions.h
 src/Model/InsuranceStatus.cpp
 src/Model/InsuranceStatus.h
+src/Model/NumenclatureTemplate.h
 src/Model/Parser.cpp
 src/Model/Parser.h
 src/Model/Patient.cpp
@@ -118,6 +119,8 @@ src/Model/xml.cpp
 src/Model/xml.h
 src/Model/Dental/AmbList.h
 src/Model/Dental/BridgeAlgorithms.h
+src/Model/Dental/DentalNum.cpp
+src/Model/Dental/DentalNum.h
 src/Model/Dental/DiagnosisContainer.cpp
 src/Model/Dental/DiagnosisContainer.h
 src/Model/Dental/Enums.h
@@ -499,6 +502,9 @@ src/View/SubWidgets/PatientTileInfo.ui
 src/View/SubWidgets/PerioStatisticView.cpp
 src/View/SubWidgets/PerioStatisticView.h
 src/View/SubWidgets/PerioStatisticView.ui
+src/View/SubWidgets/PostWidget.cpp
+src/View/SubWidgets/PostWidget.h
+src/View/SubWidgets/PostWidget.ui
 src/View/SubWidgets/RangeWidget.cpp
 src/View/SubWidgets/RangeWidget.h
 src/View/SubWidgets/RangeWidget.ui

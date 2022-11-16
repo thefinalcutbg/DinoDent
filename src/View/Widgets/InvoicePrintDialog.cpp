@@ -7,7 +7,7 @@ InvoicePrintDialog::InvoicePrintDialog(QWidget *parent)
 {
 	ui.setupUi(this);
 
-	setWindowTitle(u8"Принтиране на фактура");
+	setWindowTitle("Принтиране на фактура");
 
 	connect(ui.okButton, &QPushButton::clicked, [&] {
 			

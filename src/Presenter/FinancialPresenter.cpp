@@ -26,7 +26,7 @@ Invoice getInvoiceFromMonthNotif(const std::string& xmlstring)
     }
 
     bool loadFromDb = ModalDialogBuilder::askDialog
-    (u8"Към това месечно известие съществува такава фактура. \n"
+    ("Към това месечно известие съществува такава фактура. \n"
         "Желаете ли да бъде заредена? \nВ противен случай ще бъде създаден нов документ.");
 
     return loadFromDb ? DbInvoice::getInvoice(existingRowid) : i;    
@@ -156,11 +156,11 @@ void FinancialPresenter::sendToPis()
     if (!save()) return;
 
     if (
-        !ModalDialogBuilder::askDialog(u8"Желаете ли да изпратите финансовият документ към ПИС?")
+        !ModalDialogBuilder::askDialog("Желаете ли да изпратите финансовият документ към ПИС?")
     ) return;
 
     if (User::practice().legal_entity != 0) {
-        ModalDialogBuilder::showMessage(u8"Уверете се, че ползвате фирмения си електронен подпис");
+        ModalDialogBuilder::showMessage("Уверете се, че ползвате фирмения си електронен подпис");
     }
 
     file_handler.sendInvoice(
@@ -220,7 +220,7 @@ void FinancialPresenter::editRecipient()
 {
     if (m_invoice.nzokData) {
 
-        ModalDialogBuilder::showMessage(u8"Не можете да редактирате тези данни");
+        ModalDialogBuilder::showMessage("Не можете да редактирате тези данни");
         return;
     }
     auto result = ModalDialogBuilder::editRecipient(m_invoice.recipient);
@@ -250,14 +250,14 @@ bool FinancialPresenter::save()
 {
     if (m_invoice.businessOperations.empty()) {
         ModalDialogBuilder::showError(
-            u8"Финансовият документ трябва да съдържа поне една услуга"
+            "Финансовият документ трябва да съдържа поне една услуга"
         );
         return false;
     }
 
     if(DbInvoice::invoiceAlreadyExists(m_invoice.number, m_invoice.rowId) &&
         !ModalDialogBuilder::askDialog(
-            u8"Фактура с такъв номер вече съществуа. Сигурни ли сте, че искате да дублирате номерацията?"
+            "Фактура с такъв номер вече съществуа. Сигурни ли сте, че искате да дублирате номерацията?"
         )
     )
     {
@@ -313,12 +313,12 @@ TabName FinancialPresenter::getTabName()
 
     if (!m_invoice.rowId) {
 
-        static const std::string newName[3]{ u8"Новa фактура", u8"Ново дебитно известие", u8"Ново кредитно известие" };
+        static const std::string newName[3]{ "Новa фактура", "Ново дебитно известие", "Ново кредитно известие" };
 
         return { newName[nameIdx], "", m_invoice.nzokData.has_value()};
     }
 
-    static const std::string docTypeName[3]{ u8"Фактура", u8"Дебитно известие", u8"Кредитно известие" };
+    static const std::string docTypeName[3]{ "Фактура", "Дебитно известие", "Кредитно известие" };
 
     return { docTypeName[nameIdx], "№" + m_invoice.getInvoiceNumber(), m_invoice.nzokData.has_value()};
    

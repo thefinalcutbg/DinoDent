@@ -16,7 +16,7 @@ UpdateDownloader::UpdateDownloader(const char* url, QWidget* parent)
 {
 	ui.setupUi(this);
 	setModal(true);
-	setWindowTitle(u8"Изтегляне на актуализацията");
+	setWindowTitle("Изтегляне на актуализацията");
 	connect(this, &QDialog::rejected, [=] {
 
 		if (m_reply) { 

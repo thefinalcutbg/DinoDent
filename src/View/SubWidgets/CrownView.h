@@ -24,7 +24,7 @@ public:
 
 	void setData(const ProcedureBridgeData& data) override;
 	void setData(const CrownData& data) override;
-	void setMaterial(const std::string& material) override;
+	void setMaterial(int material) override;
 	virtual CrownData getData() override;
 	void lockBridgeCheckbox(bool asChecked) override;
 	void setPresenter(CrownPresenter* presenter);

@@ -1,6 +1,6 @@
 ﻿#include "BulstatValidator.h"
 
-const std::string error{ u8"Невалиден булстат" };
+const std::string error{ "Невалиден булстат" };
 
 bool BulstatValidator::validateInput(const std::string& text)
 {

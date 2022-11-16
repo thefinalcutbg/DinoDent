@@ -5,7 +5,7 @@ BusinessOpAddDialog::BusinessOpAddDialog(const std::vector<ProcedureTemplate>& p
 {
 	ui.setupUi(this);
 
-	setWindowTitle(u8"Добавяне на услуга");
+	setWindowTitle("Добавяне на услуга");
 
 	m_priceList.setProcedures(priceList);
 

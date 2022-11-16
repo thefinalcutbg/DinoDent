@@ -1,6 +1,6 @@
 ﻿#include "NzokContractValidator.h"
 
-const std::string error{ u8"Невалиден номер на договор с НЗОК" };
+const std::string error{ "Невалиден номер на договор с НЗОК" };
 
 bool NzokContractValidator::validateInput(const std::string& text)
 {

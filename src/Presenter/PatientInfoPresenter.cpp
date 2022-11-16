@@ -47,7 +47,7 @@ void PatientInfoPresenter::diagnosisClicked()
         [=](const std::string& currentDiseases) {
 
             if (currentDiseases.empty()) {
-                ModalDialogBuilder::showMessage(u8"Няма данни в рецептурната книжка");
+                ModalDialogBuilder::showMessage("Няма данни в рецептурната книжка");
                 return;
             }
 

@@ -4,11 +4,11 @@
 ContextMenu::ContextMenu()
 {
 
-    addProcedure = new QAction(u8"Добави манипулация");
+    addProcedure = new QAction("Добави манипулация");
     addAction(addProcedure);
     connect(addProcedure, &QAction::triggered, [&] {if(presenter)presenter->addProcedure(); });
 
-    details = new QAction(u8"Детайли");
+    details = new QAction("Детайли");
     addAction(details);
     connect(details, &QAction::triggered, [&] {if (presenter) presenter->openDetails(); });
     
@@ -16,8 +16,8 @@ ContextMenu::ContextMenu()
 
     QString otherActionNames[otherInputsCount]
     {
-        u8"Обтурация МО", u8"Обтурация ДО", u8"Обтурация МОД",
-        u8"Премахни"/*обтурация*/, u8"Премахни"/*кариес*/, u8"Премахни статус", u8"Премахни мост"
+        "Обтурация МО", "Обтурация ДО", "Обтурация МОД",
+        "Премахни"/*обтурация*/, "Премахни"/*кариес*/, "Премахни статус", "Премахни мост"
     };
 
 
@@ -35,12 +35,12 @@ ContextMenu::ContextMenu()
 
     addAction(menuAction[StatusCode::Temporary]);
 
-    QMenu* ObturMenu = addMenu(u8"&Обтурация");
-    QMenu* CariesMenu = addMenu(u8"&Кариес");
-    QMenu* EndoMenu = addMenu(u8"&Ендодонтия");
-    QMenu* SurgeryMenu = addMenu(u8"&Хирургия");
+    QMenu* ObturMenu = addMenu("&Обтурация");
+    QMenu* CariesMenu = addMenu("&Кариес");
+    QMenu* EndoMenu = addMenu("&Ендодонтия");
+    QMenu* SurgeryMenu = addMenu("&Хирургия");
 
-    QString surfName[surfaceCount] = { u8"Оклузално", u8"Медиално", u8"Дистално", u8"Букално", u8"Лингвално", u8"Цервикално" };
+    QString surfName[surfaceCount] = { "Оклузално", "Медиално", "Дистално", "Букално", "Лингвално", "Цервикално" };
 
     for (int i = 0; i < surfaceCount; i++)
     {

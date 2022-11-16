@@ -21,7 +21,7 @@ std::string consecutionCheck(const std::vector<AmbList>& lists) {
 		if (uniqueSheetNumbers.count(lists[i].number))
 		{
 			errors +=
-				u8"Дублирана номерация на амбулаторен лист "
+				"Дублирана номерация на амбулаторен лист "
 				+ std::to_string(lists[i].number) + "\n";
 
 			uniqueSheetNumbers.insert(lists[i].number);
@@ -34,16 +34,16 @@ std::string consecutionCheck(const std::vector<AmbList>& lists) {
 		if (i && lists[i].procedures[0].date < lists[i - 1].procedures[0].date) {
 
 			errors +=
-				u8"Несъответствие на датата на първите манипулации и поредните номера между амбулаторни листи "
+				"Несъответствие на датата на първите манипулации и поредните номера между амбулаторни листи "
 				+ std::to_string(lists[i - 1].number) +
-				u8" и " + std::to_string(lists[i].number) + "\n";
+				" и " + std::to_string(lists[i].number) + "\n";
 		}
 
 		if (i && lists[i].number != lists[i - 1].number + 1) {
 
-			errors += u8"Нарушена поредност на номерата. Липсваща номерация между амбулаторни листи "
+			errors += "Нарушена поредност на номерата. Липсваща номерация между амбулаторни листи "
 				+ std::to_string(lists[i - 1].number) +
-				u8" и " + std::to_string(lists[i].number) + "\n";
+				" и " + std::to_string(lists[i].number) + "\n";
 		}
 	}
 
@@ -70,7 +70,7 @@ void ReportPresenter::checkAmbList(const AmbList& list, const Patient& patient)
 
 		view->appendText(
 
-			u8"Амбулаторен лист №"
+			"Амбулаторен лист №"
 			+ std::to_string(list.number) + ": "
 			+ v.getErrorMsg()
 			
@@ -84,15 +84,15 @@ void ReportPresenter::checkAmbList(const AmbList& list, const Patient& patient)
 	case Insured::Yes: break;
 
 	case Insured::NoData: view->appendText(
-		u8"За пациент с ЕГН/ЛНЧ "
+		"За пациент с ЕГН/ЛНЧ "
 		+ patient.id +
-		u8" не са открити данни в НАП");
+		" не са открити данни в НАП");
 		result = false;
 		m_hasErrors = true;
 		break;
 
 	case Insured::No:
-		view->appendText(u8"Пациент с ЕГН/ЛНЧ " + patient.id + u8" е неосигурен");
+		view->appendText("Пациент с ЕГН/ЛНЧ " + patient.id + " е неосигурен");
 		m_hasErrors = true;
 		break;
 	}
@@ -119,7 +119,7 @@ void ReportPresenter::sendToPis()
 {
 	if (m_hasErrors &&
 		!ModalDialogBuilder::askDialog(
-			u8"Открити са грешки в отчета. "
+			"Открити са грешки в отчета. "
 			"Сигурни ли сте, че искате да го изпратите към ПИС?")
 		)
 	{
@@ -188,7 +188,7 @@ void ReportPresenter::saveToXML()
 {
 	if (m_hasErrors && 
 		!ModalDialogBuilder::askDialog(
-		u8"Отчетът е генериран с грешки. "
+		"Отчетът е генериран с грешки. "
 		"Сигурни ли сте, че искате да го запазите?")
 	) 
 	{
@@ -247,11 +247,11 @@ void ReportPresenter::generateReport(bool checkPis, bool checkNra)
 {
 
 	if (!User::practice().nzok_contract) {
-		ModalDialogBuilder::showError(u8"Моля попълнете даннит от договора с НЗОК от настройки"); return;
+		ModalDialogBuilder::showError("Моля попълнете даннит от договора с НЗОК от настройки"); return;
 	}
 
 	if (User::doctor().specialty == NhifSpecialty::None) {
-		ModalDialogBuilder::showError(u8"Лекарят няма въведена специалност по НЗОК"); return;
+		ModalDialogBuilder::showError("Лекарят няма въведена специалност по НЗОК"); return;
 	}
 
 	//getting amblists and patients:
@@ -279,7 +279,7 @@ void ReportPresenter::generateReport(bool checkPis, bool checkNra)
 	}
 
 	if (lists.empty()) {
-		view->appendText(u8"Не са открити амбулаторни листи за съответния месец");
+		view->appendText("Не са открити амбулаторни листи за съответния месец");
 		return;
 	}
 
@@ -326,7 +326,7 @@ void ReportPresenter::finish()
 	int maxMinutesAllowed = Date::getWorkdaysOfMonth(month, year) * 360;
 
 	if (maxMinutesAllowed < sumMinutes) {
-		errors.append(u8"Надвишени лимит минути по НЗОК (" + std::to_string(sumMinutes)
+		errors.append("Надвишени лимит минути по НЗОК (" + std::to_string(sumMinutes)
 			+ " от максимално позволени " + std::to_string(maxMinutesAllowed) + ")\n");
 	}
 
@@ -337,15 +337,15 @@ void ReportPresenter::finish()
 
 
 	view->appendText(
-		u8"Mинути дейност: " + std::to_string(sumMinutes) + "\n"
-		u8"Максимално позволени: " + std::to_string(maxMinutesAllowed) + "\n"
-		u8"Очаквана сума : " + FreeFn::formatDouble(expectedPrice) + u8" лв."
+		"Mинути дейност: " + std::to_string(sumMinutes) + "\n"
+		"Максимално позволени: " + std::to_string(maxMinutesAllowed) + "\n"
+		"Очаквана сума : " + FreeFn::formatDouble(expectedPrice) + " лв."
 	);
 
 	m_hasErrors ?
-		view->appendText(u8"Отчетът е генериран с грешки!")
+		view->appendText("Отчетът е генериран с грешки!")
 		:
-		view->appendText(u8"Отчетът е генериран с успешно!");
+		view->appendText("Отчетът е генериран с успешно!");
 
 	m_currentIndex = -1;
 

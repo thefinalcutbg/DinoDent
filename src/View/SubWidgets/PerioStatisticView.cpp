@@ -87,15 +87,15 @@ void PerioStatisticView::setPerioStatistic(const PerioStatistic& stat)
 
 	if (stat.stage != Stage::Healthy)
 	{
-		diagnosis += stat.localized ? u8" локализиран" : u8" генерализиран";
-		diagnosis += u8" периодонтит";
+		diagnosis += stat.localized ? " локализиран" : " генерализиран";
+		diagnosis += " периодонтит";
 	}
 
-	ui.diagnosis->setText(u8"Диагноза: " + diagnosis);
+	ui.diagnosis->setText("Диагноза: " + diagnosis);
 
-	QString risk = u8"Оценка на риска: ";
+	QString risk = "Оценка на риска: ";
 	risk += perioRisk[static_cast<int>(stat.risk)].data();
-	risk += u8" риск";
+	risk += " риск";
 
 	ui.risk->setText(risk);
 }

@@ -40,7 +40,7 @@ void GetHirbnoService::parseReply(const std::string& reply)
 
 
 	if (!hirbno) {
-		ModalDialogBuilder::showMessage(u8"Не е намерена активна здравна книжка");
+		ModalDialogBuilder::showMessage("Не е намерена активна здравна книжка");
 		return;
 	}
 

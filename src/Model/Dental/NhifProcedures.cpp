@@ -42,8 +42,6 @@ void NhifProcedures::initialize()
 		if (!procedure[i]["default_diag"].isNull())
 			m.diagnosis = procedure[i]["default_diag"].asString();
 
-		if (!procedure[i]["material"].isNull())
-			m.material = procedure[i]["material"].asString();
 
 		code_durations[m.code] = (procedure[i]["duration"].asInt());
 		_procedures.push_back(m);

@@ -17,7 +17,7 @@ we have to create two PKCS11 instances - one for the signing and one for the SSL
 
 	if (!signer.hsmLoaded())
 	{
-		ModalDialogBuilder::showMessage(u8"Не е открит КЕП");
+		ModalDialogBuilder::showMessage("Не е открит КЕП");
 		//Network::clearAccessCache();
 		return false;
 	}
@@ -34,7 +34,7 @@ we have to create two PKCS11 instances - one for the signing and one for the SSL
 
 		if (!signer.login(pin))
 		{
-			ModalDialogBuilder::showError(u8"Грешна парола или блокирана карта");
+			ModalDialogBuilder::showError("Грешна парола или блокирана карта");
 			return false;
 		};
 	}

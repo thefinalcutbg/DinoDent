@@ -4,3 +4,4 @@ std::string Obturation::getInfo() const
 {
     return  data.infoStr();
 }
+

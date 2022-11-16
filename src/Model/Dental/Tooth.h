@@ -19,7 +19,7 @@ public:
 	ToothType type;
 
 	SurfaceStatus<SurfaceChild<Obturation> > obturation;
-	SurfaceStatus<SurfaceChild<Pathology> > caries;
+	SurfaceStatus<SurfaceChild<Caries> > caries;
 
 	Status temporary;
 	Status hyperdontic;
@@ -27,7 +27,7 @@ public:
 	Status impacted;
 	
 	DentistMade endo;
-	DentistMade post;
+	
 	DentistMade extraction;
 	
 	Implant implant;
@@ -35,10 +35,11 @@ public:
 	Bridge bridge;
 	FiberSplint splint;
 
-	Pathology pulpitis;
-	Pathology lesion;
-	Pathology fracture;
-	Pathology root;
+	Pulpitis pulpitis;
+	ApicalLesion lesion;
+	Fracture fracture;
+	Root root;
+	Post post;
 
 	Mobility mobility;
 

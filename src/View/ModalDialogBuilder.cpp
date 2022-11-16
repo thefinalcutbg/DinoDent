@@ -134,7 +134,7 @@ DialogAnswer ModalDialogBuilder::openSaveDialog(const std::string& title)
 std::optional<std::string> ModalDialogBuilder::getMonthNotifFromFile()
 {
 	QString filePath = QFileDialog::getOpenFileName(nullptr, 
-		u8"Изберете месечно известие", "", "XML files(*.xml)");
+		"Изберете месечно известие", "", "XML files(*.xml)");
 
 	if (filePath.isEmpty())
 		return {};
@@ -265,7 +265,7 @@ void ModalDialogBuilder::openSettingsDialog()
 /*
 std::optional<std::string> ModalDialogBuilder::getFileNamePath(const std::string& filename)
 {	
-	QString dirPath = QFileDialog::getSaveFileName(nullptr, u8"Запазване на финансовия документ",
+	QString dirPath = QFileDialog::getSaveFileName(nullptr, "Запазване на финансовия документ",
 		QString::fromStdString(filename),
 		"XML (*xml)");
 		
@@ -280,7 +280,7 @@ std::optional<std::string> ModalDialogBuilder::getFileNamePath(const std::string
 void ModalDialogBuilder::saveFile(const std::string& data, const std::string& filename)
 {
 	
-	QString dirPath = QFileDialog::getSaveFileName(nullptr, u8"Запазване на финансовия документ",
+	QString dirPath = QFileDialog::getSaveFileName(nullptr, "Запазване на финансовия документ",
 		QString::fromStdString(filename),
 		"XML (*xml)");
 		
@@ -303,7 +303,7 @@ void ModalDialogBuilder::saveFile(const std::string& data, const std::string& fi
 std::optional<std::string> ModalDialogBuilder::openFile()
 {
 	QString filePath = QFileDialog::getOpenFileName(nullptr,
-		u8"Изберете месечно известие", "", "XML files(*.xml)");
+		"Изберете месечно известие", "", "XML files(*.xml)");
 
 	if (filePath.isEmpty())
 		return {};

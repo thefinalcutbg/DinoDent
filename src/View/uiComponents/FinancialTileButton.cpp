@@ -20,10 +20,10 @@ void RecipientTileButton::paintInfo(QPainter* painter)
 	constexpr int rowYPos[4]{ 60,80,100,120 };
 
 	painter->setFont(infoLabel);
-	painter->drawText(20, rowYPos[0], u8"Име: ");
-	painter->drawText(20, rowYPos[1], u8"Идент.№: ");
-	painter->drawText(20, rowYPos[2], u8"Адрес: ");
-	painter->drawText(20, rowYPos[3], u8"Телефон: ");
+	painter->drawText(20, rowYPos[0], "Име: ");
+	painter->drawText(20, rowYPos[1], "Идент.№: ");
+	painter->drawText(20, rowYPos[2], "Адрес: ");
+	painter->drawText(20, rowYPos[3], "Телефон: ");
 
 	QFontMetrics metric(infoLabel);
 
@@ -32,14 +32,14 @@ void RecipientTileButton::paintInfo(QPainter* painter)
 	};
 
 	painter->setFont(info);
-	painter->drawText(20 + horizontalAdvance(u8"Име: "), rowYPos[0], name);
-	painter->drawText(20 + horizontalAdvance(u8"Идент.№: "), rowYPos[1], id);
-	painter->drawText(20 + horizontalAdvance(u8"Адрес: "), rowYPos[2], address);
-	painter->drawText(20 + horizontalAdvance(u8"Телефон: "), rowYPos[3], phone);
+	painter->drawText(20 + horizontalAdvance("Име: "), rowYPos[0], name);
+	painter->drawText(20 + horizontalAdvance("Идент.№: "), rowYPos[1], id);
+	painter->drawText(20 + horizontalAdvance("Адрес: "), rowYPos[2], address);
+	painter->drawText(20 + horizontalAdvance("Телефон: "), rowYPos[3], phone);
 
 	painter->setFont(header);
 	painter->setPen(hover && !clicked ? QPen(Theme::fontRedClicked) : QPen(QColor(Theme::fontRed)));
-	painter->drawText(20, 30, u8"Получател");
+	painter->drawText(20, 30, "Получател");
 }
 
 void IssuerTileButton::paintInfo(QPainter* painter)
@@ -48,10 +48,10 @@ void IssuerTileButton::paintInfo(QPainter* painter)
 	constexpr int rowYPos[4]{ 60,80,100,120 };
 
 	painter->setFont(infoLabel);
-	painter->drawText(20, rowYPos[0], u8"Име: ");
-	painter->drawText(20, rowYPos[1], u8"Идент.№: ");
-	painter->drawText(20, rowYPos[2], u8"Адрес: ");
-	painter->drawText(20, rowYPos[3], u8"ДДС №: ");
+	painter->drawText(20, rowYPos[0], "Име: ");
+	painter->drawText(20, rowYPos[1], "Идент.№: ");
+	painter->drawText(20, rowYPos[2], "Адрес: ");
+	painter->drawText(20, rowYPos[3], "ДДС №: ");
 
 	QFontMetrics metric(infoLabel);
 
@@ -60,14 +60,14 @@ void IssuerTileButton::paintInfo(QPainter* painter)
 	};
 
 	painter->setFont(info);
-	painter->drawText(20 + horizontalAdvance(u8"Име: "), rowYPos[0], name);
-	painter->drawText(20 + horizontalAdvance(u8"Идент.№: "), rowYPos[1], id);
-	painter->drawText(20 + horizontalAdvance(u8"Адрес: "), rowYPos[2], address);
-	painter->drawText(20 + horizontalAdvance(u8"ДДС №: "), rowYPos[3], this->vat);
+	painter->drawText(20 + horizontalAdvance("Име: "), rowYPos[0], name);
+	painter->drawText(20 + horizontalAdvance("Идент.№: "), rowYPos[1], id);
+	painter->drawText(20 + horizontalAdvance("Адрес: "), rowYPos[2], address);
+	painter->drawText(20 + horizontalAdvance("ДДС №: "), rowYPos[3], this->vat);
 
 	painter->setFont(header);
 	painter->setPen(hover && !clicked ? QPen(Theme::fontRedClicked) : QPen(QColor(Theme::fontRed)));
-	painter->drawText(20, 30, u8"Издател");
+	painter->drawText(20, 30, "Издател");
 
 }
 

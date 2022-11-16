@@ -9,12 +9,12 @@ QVariant KSMPModel::headerData(int section, Qt::Orientation orientation, int rol
         if (orientation == Qt::Horizontal) {
             switch (section)
             {
-                case 0: return u8"Код";
-                case 1: return u8"Процедура";
-                case 2: return u8"Блок";
-                case 3: return u8"Наименование";
-                case 4: return u8"Глава";
-                case 5: return u8"Наименование";
+                case 0: return "Код";
+                case 1: return "Процедура";
+                case 2: return "Блок";
+                case 3: return "Наименование";
+                case 4: return "Глава";
+                case 5: return "Наименование";
             }
         }
     }

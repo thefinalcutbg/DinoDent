@@ -5,9 +5,9 @@
 #include <filesystem>
 
 constexpr const char* database_error_msg = 
-    u8"Неуспешно записване в базата данни.\n"
-    u8"Уверете се, че пътят към нея е правилен и\n"
-    u8"че сте стартирали програмата като администратор.\n"
+    "Неуспешно записване в базата данни.\n"
+    "Уверете се, че пътят към нея е правилен и\n"
+    "че сте стартирали програмата като администратор.\n"
     ;
 
 Db::Db(Db* existingConnection)
@@ -168,8 +168,7 @@ void Db::bindNull(int index)
 
     total_bindings++;
 
-    successful_bindings +=
-         sqlite3_bind_null(stmt, index);
+    successful_bindings += sqlite3_bind_null(stmt, index) ? 0 : 1;
 }
 
 bool Db::execute()

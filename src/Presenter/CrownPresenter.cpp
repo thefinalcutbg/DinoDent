@@ -52,7 +52,7 @@ void CrownPresenter::setProcedureTemplate(const ProcedureTemplate& m)
 
 	bridgeLogic.setPrice(m.price);
 
-	view->setMaterial(m.material);
+	//view->setMaterial(m.material);
 
 	selectAsBridge(m_bridgeSelected);
 
@@ -160,7 +160,7 @@ std::string CrownPresenter::getDiagnosis(const Tooth& tooth)
 	std::array<std::string, 4> diagnosis
 	{
 		"Status post devitalisationem",
-		tooth.fracture.data.getDiagnosisName(),
+		tooth.fracture.getDiagnosisString(),
 		"Екстензивна ресторация",
 		"Протезиране върху имплант"
 	};

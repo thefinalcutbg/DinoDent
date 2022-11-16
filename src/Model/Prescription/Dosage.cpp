@@ -25,10 +25,10 @@ std::string Dosage::parse() const
 
 	//frequency parse
 	if (frequency == 1) {
-		result += u8"веднъж на ";
+		result += "веднъж на ";
 	}
 	else {
-		result += u8"по " + std::to_string(frequency) + u8" пъти на ";
+		result += "по " + std::to_string(frequency) + " пъти на ";
 	}
 
 	//period parse
@@ -38,7 +38,7 @@ std::string Dosage::parse() const
 	}
 	else {
 
-		result += u8"всеки " +
+		result += "всеки " +
 				  removeTrailing(period.value) + 
 				  " " + 
 				  period.getUnitName() + 

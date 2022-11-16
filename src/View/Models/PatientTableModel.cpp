@@ -53,9 +53,9 @@ QVariant PatientTableModel::headerData(int section, Qt::Orientation orientation,
             switch (section)
             {
                 case 0: return "ID";
-                case 1: return u8"ЕГН/ЛНЧ";
-                case 2: return u8"Име на пациента";
-                case 3: return u8"Телефон";
+                case 1: return "ЕГН/ЛНЧ";
+                case 2: return "Име на пациента";
+                case 3: return "Телефон";
             }
     if (role == Qt::TextAlignmentRole && orientation == Qt::Horizontal)
     {

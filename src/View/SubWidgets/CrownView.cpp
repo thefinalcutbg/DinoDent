@@ -52,9 +52,9 @@ void CrownView::setData(const CrownData& data)
 	ui.crownWidget->setData(data);
 }
 
-void CrownView::setMaterial(const std::string& material)
+void CrownView::setMaterial(int material)
 {
-	ui.crownWidget->ui.materialEdit->setText(material.c_str());
+	ui.crownWidget->ui.materialCombo->setCurrentIndex(material);
 }
 
 CrownData CrownView::getData()

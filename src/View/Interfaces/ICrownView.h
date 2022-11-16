@@ -15,6 +15,6 @@ public:
 	virtual void setData(const CrownData& data) = 0;
 	virtual void lockBridgeCheckbox(bool asChecked = true) = 0;
 	virtual CrownData getData() = 0;
-	virtual void setMaterial(const std::string& material) = 0;
+	virtual void setMaterial(int material) = 0;
 
 };

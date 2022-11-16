@@ -7,7 +7,7 @@ MedicationDialog::MedicationDialog(MedicationPresenter* p, QWidget* parent)
 {
 	ui.setupUi(this);
 
-	setWindowTitle(u8"Медикамент");
+	setWindowTitle("Медикамент");
 
 	ui.medicationEdit->setCompletions(Medication::names());
 	ui.medicationEdit->setInputValidator(&nameValidator);
@@ -45,7 +45,7 @@ void MedicationDialog::setFormLabel(const std::string& formName)
 		return;
 	}
 
-	ui.formLabel->setText(u8"Лекарствена форма: " + QString(formName.c_str()));
+	ui.formLabel->setText("Лекарствена форма: " + QString(formName.c_str()));
 }
 
 void MedicationDialog::setDosageList(const std::vector<std::string> dosageList)

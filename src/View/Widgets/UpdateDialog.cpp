@@ -7,7 +7,7 @@ UpdateDialog::UpdateDialog(QWidget *parent)
 {
 	ui.setupUi(this);
 	setModal(true);
-	setWindowTitle(u8"Обновяване на базата данни");
+	setWindowTitle("Обновяване на базата данни");
 	//setWindowFlags(Qt::FramelessWindowHint);
 
 }
@@ -23,6 +23,7 @@ void UpdateDialog::execute()
 	DbUpdates::update4();
 	*/
 	DbUpdates::update5();
+	DbUpdates::update6(*this);
 	close();
 }
 

@@ -3,12 +3,13 @@
 class CheckModel;
 class ToothPaintHint;
 
-class ImplantData;
-class DentistData;
-class CrownData;
-class PathologyData;
-class ObturationData;
-class DetailedStatusPresenter;
+struct ImplantData;
+struct DentistData;
+struct CrownData;
+struct Pathology;
+struct ObturationData;
+struct DetailedStatusPresenter;
+
 
 #include "Model/Dental/Procedure.h"
 #include <vector>
@@ -29,8 +30,9 @@ public:
 	virtual void setData(const ObturationData& data) = 0;
 	virtual void setData(const DentistData& data) = 0;
 	virtual void setData(const CrownData& data) = 0;
-	virtual void setData(const PathologyData& data) = 0;
+	virtual void setData(const Pathology& data) = 0;
 	virtual void setData(const std::string& notesData) = 0;
+	virtual void setData(const PostData& data) = 0;
 
 	virtual void disableDetails(bool disabled) = 0;
 	virtual ObturationData getObturationData() = 0;
@@ -39,5 +41,6 @@ public:
 	virtual CrownData getCrownData() = 0;
 	virtual int getDiagnosisIndex() = 0;
 	virtual std::string getNotes() = 0;
+	virtual PostData getPostData() = 0;
 
 };

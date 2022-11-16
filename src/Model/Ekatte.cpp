@@ -76,9 +76,9 @@ std::string Ekatte::getString(bool prefix) const
     if (!prefix) return *str;
 
     return isCity ?
-        u8"гр. " + *str
+        "гр. " + *str
         :
-        u8"с. " + *str;
+        "с. " + *str;
 }
 
 std::string Ekatte::ekatte() const

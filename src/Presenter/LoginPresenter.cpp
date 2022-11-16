@@ -47,7 +47,7 @@ void LoginPresenter::okPressed(const std::string& lpk, const std::string& pass, 
 
     if (!doctor.has_value())
     {
-        ModalDialogBuilder::showError(u8"Грешно потребителско име или парола");
+        ModalDialogBuilder::showError("Грешно потребителско име или парола");
         return;
     }
 
@@ -58,7 +58,7 @@ void LoginPresenter::okPressed(const std::string& lpk, const std::string& pass, 
     switch (practiceList.size())
     {
     case 0:
-        ModalDialogBuilder::showError(u8"Докторът не принадлежи към нито една практика");
+        ModalDialogBuilder::showError("Докторът не принадлежи към нито една практика");
         return;
 
     case 1:

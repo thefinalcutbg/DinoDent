@@ -97,13 +97,6 @@
          <item>
           <layout class="QVBoxLayout" name="verticalLayout_6">
            <item>
-            <widget class="QLabel" name="label_6">
-             <property name="text">
-              <string>Материал:</string>
-             </property>
-            </widget>
-           </item>
-           <item>
             <widget class="QLabel" name="label_3">
              <property name="text">
               <string>Код:</string>
@@ -114,9 +107,6 @@
          </item>
          <item>
           <layout class="QVBoxLayout" name="verticalLayout_7">
-           <item>
-            <widget class="LineEdit" name="materialEdit"/>
-           </item>
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_4">
              <item>
@@ -302,11 +292,6 @@
    <class>TextEdit</class>
    <extends>QTextEdit</extends>
    <header>View/uiComponents/TextEdit.h</header>
-  </customwidget>
-  <customwidget>
-   <class>LineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>View/uiComponents/LineEdit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

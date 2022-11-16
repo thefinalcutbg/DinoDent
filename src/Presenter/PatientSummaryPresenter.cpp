@@ -140,7 +140,7 @@ void PatientSummaryPresenter::openCurrentDocument()
     if (frame->LPK != User::doctor().LPK)
     {
         ModalDialogBuilder::showMessage(
-            u8"Документът принадлежи на друг доктор и не може да бъде отворен за корекция"
+            "Документът принадлежи на друг доктор и не може да бъде отворен за корекция"
         );
         return;
     }
@@ -317,7 +317,7 @@ void PatientSummaryPresenter::perioCheckBoxClicked(bool checked)
 TabName PatientSummaryPresenter::getTabName()
 {
     return{
-        u8"Пациент",
+        "Пациент",
         this->patient->firstLastName()
     };
 }

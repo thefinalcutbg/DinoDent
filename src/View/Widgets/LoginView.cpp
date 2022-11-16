@@ -10,7 +10,7 @@ LoginView::LoginView(LoginPresenter* p, QWidget *parent)
 
 	setModal(true);
 	setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
-	setWindowTitle(u8"Вход");
+	setWindowTitle("Вход");
 
 	ui.practiceButton->setCursor(QCursor(Qt::PointingHandCursor));
 	ui.practiceButton->setStyleSheet("color:" + Theme::colorToString(Theme::fontTurquoiseClicked));

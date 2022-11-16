@@ -20,7 +20,7 @@ void MonthNotifPresenter::setView(IMonthNotifView* view)
 void MonthNotifPresenter::loadFromXml()
 {
     if (!User::isAdmin()) {
-        ModalDialogBuilder::showMessage(u8"За да издавате фактури е необходимо да сте влезли като администратор");
+        ModalDialogBuilder::showMessage("За да издавате фактури е необходимо да сте влезли като администратор");
         return;
     }
 
@@ -62,7 +62,7 @@ void MonthNotifPresenter::setNotifRows(const std::optional<std::vector<MonthNoti
     m_notifRows = notifRows.value();
 
     if (m_notifRows.empty()) {
-        ModalDialogBuilder::showMessage(u8"Не са открити месечни известия");
+        ModalDialogBuilder::showMessage("Не са открити месечни известия");
         return;
     }
 

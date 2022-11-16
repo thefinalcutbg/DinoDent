@@ -56,7 +56,7 @@ ListView::ListView(QWidget* parent)
 	connect(ui.ambNumSpin, &LeadingZeroSpinBox::valueChanged, [=](long long value) {if(presenter)presenter->ambNumChanged(value);});
 	connect(ui.nzokActivities, &QPushButton::clicked, [=] { if (presenter) presenter->openPisHistory(); });
 	connect(ui.addProcedure, &QAbstractButton::clicked, [=] { if (presenter) presenter->addProcedure(); });
-	connect(ui.taxCombo, &QComboBox::currentIndexChanged, [=] {nhifChanged();});
+	//connect(ui.taxCombo, &QComboBox::currentIndexChanged, [=] {nhifChanged();});
 	connect(ui.specCombo, &QComboBox::currentIndexChanged, [=] {nhifChanged();});
 	connect(ui.editProcedure, &QPushButton::clicked, [=] { if (presenter) presenter->editProcedure(ui.procedureTable->selectedRow()); });
 	connect(ui.invoiceButton, &QPushButton::clicked, [=] { if (presenter) presenter->createInvoice(); });
@@ -82,9 +82,6 @@ ListView::ListView(QWidget* parent)
 
 	connect(ui.procedureTable, &QTableView::doubleClicked, [=] { ui.editProcedure->click(); });
 	connect(ui.procedureTable, &ProcedureTable::deletePressed, [=] { if (presenter) ui.deleteProcedure->click(); });
-
-	connect(ui.taxCombo, &QComboBox::currentIndexChanged,
-			[=](int index) {presenter->chargeChanged(index); });
 
 	connect(ui.showAppliedButton, &QPushButton::clicked, [=] {
 			if (presenter) presenter->showCurrentStatus(ui.showAppliedButton->isChecked());
@@ -177,7 +174,7 @@ void ListView::nhifChanged()
 
 	NhifSheetData data;
 
-	data.charge = static_cast<NhifCharge>(ui.taxCombo->currentIndex());
+	//data.charge = static_cast<NhifCharge>(ui.taxCombo->currentIndex());
 	data.specification = static_cast<NhifSpecification>(ui.specCombo->currentIndex());
 
 	presenter->setNhifData(data);
@@ -299,18 +296,19 @@ void ListView::setProcedures(const std::vector<Procedure>& m)
 
 void ListView::hideNhifSheetData()
 {
-	ui.nhifGroup->hide();
+	ui.spec_label->hide();
+	ui.specCombo->hide();
+
 }
 
 void ListView::setNhifData(const NhifSheetData& data)
 {
-	ui.nhifGroup->show();
-	for (auto& w : ui.nhifGroup->children()) w->blockSignals(true);
+	ui.spec_label->show();
+	ui.specCombo->show();
 
-	ui.taxCombo->setCurrentIndex(static_cast<int>(data.charge));
+	QSignalBlocker b(ui.specCombo);
 	ui.specCombo->setCurrentIndex(static_cast<int>(data.specification));
 
-	for (auto& w : ui.nhifGroup->children()) w->blockSignals(false);
 }
 
 

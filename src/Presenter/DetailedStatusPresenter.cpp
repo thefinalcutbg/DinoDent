@@ -82,7 +82,7 @@ void DetailedStatusPresenter::statusSelected(int category, int code)
 			case StatusCode::Extraction:
 				controller = std::make_unique<DentistMadeControl>(*view, m_tooth.extraction); break;
 			case StatusCode::Post:
-				controller = std::make_unique<DentistMadeControl>(*view, m_tooth.post); break;
+				controller = std::make_unique<PostControl>(*view, m_tooth.post); break;
 			case StatusCode::Bridge:
 				controller = std::make_unique<CrownControl>(*view, m_tooth.bridge); break;
 			case StatusCode::FiberSplint:

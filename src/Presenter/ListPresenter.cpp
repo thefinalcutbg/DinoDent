@@ -79,7 +79,7 @@ void ListPresenter::refreshPrices()
 bool ListPresenter::isValid()
 {
     if (m_ambList.procedures.empty()) {
-        ModalDialogBuilder::showError(u8"Листът трябва да съдържа поне една манипулация!");
+        ModalDialogBuilder::showError("Листът трябва да съдържа поне една манипулация!");
         return false;
     }
 
@@ -89,7 +89,7 @@ bool ListPresenter::isValid()
     {
         if (p.date.month != date.month || p.date.year != date.year)
         {
-            ModalDialogBuilder::showError(u8"Манипулациите трябва да са от един и същи месец!");
+            ModalDialogBuilder::showError("Манипулациите трябва да са от един и същи месец!");
             return false;
         }
 
@@ -97,9 +97,9 @@ bool ListPresenter::isValid()
 
     if (m_ambList.hasNZOKProcedure() && !patient->PISHistory.has_value()) {
         ModalDialogBuilder::showMessage(
-            u8"Не са заредени данни от ПИС. "
-            u8"Листът ще бъде валидиран само "
-            u8"спрямо съществуващите записи в локалната база данни");
+            "Не са заредени данни от ПИС. "
+            "Листът ще бъде валидиран само "
+            "спрямо съществуващите записи в локалната база данни");
     }
 
 
@@ -110,7 +110,7 @@ bool ListPresenter::isValid()
     return 
         ModalDialogBuilder::askDialog(
             checker.getErrorMsg() + 
-            u8"\nЖелаете ли да запазите листа въпреки това?" 
+            "\nЖелаете ли да запазите листа въпреки това?" 
     );
 
 }
@@ -128,8 +128,8 @@ TabName ListPresenter::getTabName()
     TabName n;
 
 
-    n.header += m_ambList.isNew() ? u8"Нов амб.лист" :
-        u8"Амб.лист №" + std::to_string(m_ambList.number);
+    n.header += m_ambList.isNew() ? "Нов амб.лист" :
+        "Амб.лист №" + std::to_string(m_ambList.number);
 
    
     n.footer = patient->FirstName;
@@ -158,8 +158,8 @@ bool ListPresenter::save()
 
     if (DbAmbList::suchNumberExists(d.year, m_ambList.number, m_ambList.rowid) &&
         !ModalDialogBuilder::askDialog(
-            u8"Амбулаторен лист с такъв номер вече съществува. "
-            u8"Сигурни ли сте че искате да дублирате номерацията?"))
+            "Амбулаторен лист с такъв номер вече съществува. "
+            "Сигурни ли сте че искате да дублирате номерацията?"))
     {
         return false;
     }
@@ -396,7 +396,7 @@ void ListPresenter::openPisHistory()
     auto& history = patient->PISHistory.value();
 
     if (history.empty()) {
-        ModalDialogBuilder::showMessage(u8"В ПИС не са намерени данни за този пациент");
+        ModalDialogBuilder::showMessage("В ПИС не са намерени данни за този пациент");
         return;
     }
 

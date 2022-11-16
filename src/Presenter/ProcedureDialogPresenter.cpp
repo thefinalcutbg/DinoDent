@@ -120,7 +120,7 @@ void ProcedureDialogPresenter::indexChanged(int index)
 
 	if (currentIndex == -1)
 	{
-		view->showErrorMessage(u8"Изберете манипулация");
+		view->showErrorMessage("Изберете манипулация");
 		return;
 	}
 
@@ -132,7 +132,7 @@ void ProcedureDialogPresenter::indexChanged(int index)
 		procedureTemplate.type != ProcedureTemplateType::fibersplint
 		)
 	{
-		view->showErrorMessage(u8"Изберете поне един зъб!");
+		view->showErrorMessage("Изберете поне един зъб!");
 		return;
 	}
 

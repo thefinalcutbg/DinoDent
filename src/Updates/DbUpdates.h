@@ -5,5 +5,5 @@ class UpdateDialog;
 namespace DbUpdates
 {
 	void update5();
-	void update6();
+	void update6(UpdateDialog& d);
 }

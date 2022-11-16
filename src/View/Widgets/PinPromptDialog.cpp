@@ -7,7 +7,7 @@ PinPromptDialog::PinPromptDialog(const std::string& pem, QWidget *parent)
 
 	QSslCertificate cert(pem.data());
 
-	setWindowTitle(u8"Вход с КЕП");
+	setWindowTitle("Вход с КЕП");
 
 	ui.issuerLabel->setText(cert.issuerDisplayName());
 	ui.nameLabel->setText(cert.subjectDisplayName());

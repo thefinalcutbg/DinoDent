@@ -169,9 +169,9 @@ void FinancialView::setBusinessOperations(const BusinessOperations& businessOp, 
 {
 	m_model.setBusinessOperations(businessOp);
 
-	ui.priceLabel->setText(formatDoubleWithDecimal(amounts.payment_amount) + u8" лв.");
-	ui.vatLabel->setText(u8"0%");
-	ui.sumLabel->setText(formatDoubleWithDecimal(amounts.total_amount) + u8" лв.");
+	ui.priceLabel->setText(formatDoubleWithDecimal(amounts.payment_amount) + " лв.");
+	ui.vatLabel->setText("0%");
+	ui.sumLabel->setText(formatDoubleWithDecimal(amounts.total_amount) + " лв.");
 	update();
 }
 

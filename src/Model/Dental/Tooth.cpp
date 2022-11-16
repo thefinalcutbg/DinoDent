@@ -7,6 +7,7 @@
 Tooth::Tooth() : 
 	index{ -1 }
 {
+	/*
 	for (int i = 0; i < surfaceCount; i++)
 	{
 		caries[i].data.setDiagnosisList(diagnosis(DiagnosisContainer::DiagnosisType::Caries));
@@ -16,7 +17,7 @@ Tooth::Tooth() :
 	lesion.data.setDiagnosisList(diagnosis(DiagnosisContainer::DiagnosisType::Lesion));
 	fracture.data.setDiagnosisList(diagnosis(DiagnosisContainer::DiagnosisType::Fracture));
 	root.data.setDiagnosisList(diagnosis(DiagnosisContainer::DiagnosisType::Root));
-
+	*/
 }
 
 void Tooth::setIndex(int index)
@@ -248,57 +249,63 @@ std::string Tooth::getToothInfo() const
 
 	std::string result;
 
-	if (hyperdontic) result.append(u8"<br><b>Свръхброен</b><br>");
-	if (impacted) result.append(u8"<br><b>Ретениран/в пробив</b><br>");
+	if (hyperdontic) result.append("<br><b>Свръхброен</b><br>");
+	if (impacted) result.append("<br><b>Ретениран/в пробив</b><br>");
 	
 
-	if (endo) result.append(u8"<br><b>Девитализиран</b><br>");
+	if (endo) result.append("<br><b>Девитализиран</b><br>");
 
 	if (obturation) {
-		result.append(u8"<br><b>Обтурация</b><br>");
+		result.append("<br><b>Обтурация</b><br>");
 		result.append(obturation.getInfo(index));
 	}
 
 	if (splint) {
 		extraction ?
-			result.append(u8"<br><b>Възстановен с фибромост</b><br>")
+			result.append("<br><b>Възстановен с фибромост</b><br>")
 			:
-			result.append(u8"<br><b>Шиниран с фибровлакно</b><br>");
+			result.append("<br><b>Шиниран с фибровлакно</b><br>");
 
 		result.append(splint.data.infoStr());
 	}
 
-	if (post) result.append(u8"<br><b>Радикуларен щифт</b><br>");
+	if (post) result.append("<br><b>Радикуларен щифт</b><br>");
 	
 
 	if (caries) {
-		result.append(u8"<br><b><font color=\"red\">Кариес</font></b><br>");
+		result.append("<br><b><font color=\"red\">Кариес</font></b><br>");
 		result.append(caries.getInfo(index));
 	}
 
 	if (crown) {
-		result.append(u8"<br><br><b>Корона</b><br>");
+		result.append("<br><br><b>Корона</b><br>");
 		result.append(crown.data.infoStr());
 	}
 
 	if (bridge) {
 		
 		extraction ?
-			result.append(u8"<br><b>Мостово тяло</b><br>")
+			result.append("<br><b>Мостово тяло</b><br>")
 			:
-			result.append(u8"<br><b>Мостоносител</b><br>");
+			result.append("<br><b>Мостоносител</b><br>");
 
 		result.append(bridge.data.infoStr());
 	}
 	else if (extraction) {
-		result.append(u8"<br><b>Екстрахиран</b><br>");
+		result.append("<br><b>Екстрахиран</b><br>");
 	}
 
 	if (implant) {
-		result.append(u8"<br><b>Имплант</b><br>");
+		result.append("<br><b>Имплант</b><br>");
 		result.append(implant.data.infoStr());
 	}
 
+	if(pulpitis.exists()) result.append("<br>" + pulpitis.info());
+	if (lesion.exists()) result.append("<br>" + lesion.info());
+	if (fracture.exists()) result.append("<br>" + fracture.info());
+	if (root.exists()) result.append("<br>" + root.info());
+	//FIX PATHOLOGY!!!
+	/*
 	std::array<const Pathology*, 4> pato{
 		&pulpitis, &lesion, &fracture, &root
 	};
@@ -308,17 +315,17 @@ std::string Tooth::getToothInfo() const
 
 		result.append("<br>"+ p->info());
 	}
-
-	if (periodontitis) { result.append(u8"<br><b><font color=\"red\">Пародонтит</font></b><br>");
+	*/
+	if (periodontitis) { result.append("<br><b><font color=\"red\">Пародонтит</font></b><br>");
 }
 	if (mobility) {
 
 		result.append("<br><b><font color = \"red\">");
 
 		switch (mobility.degree) {
-		case Degree::First: result.append(u8"Първа степен подвижност"); break;
-		case Degree::Second: result.append(u8"Втора степен подвижност"); break;
-		case Degree::Third: result.append(u8"Трета степен подвижност"); break;
+		case Degree::First: result.append("Първа степен подвижност"); break;
+		case Degree::Second: result.append("Втора степен подвижност"); break;
+		case Degree::Third: result.append("Трета степен подвижност"); break;
 		}
 
 		result.append("</font></b><br>");

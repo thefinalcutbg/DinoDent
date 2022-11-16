@@ -24,7 +24,7 @@ void ReportFilesService::parseReply(const std::string& reply)
 		
 		Date date(dateStr);
 
-		return date.getMonthName() + " " + std::to_string(date.year) + u8" г.";
+		return date.getMonthName() + " " + std::to_string(date.year) + " г.";
 	};
 
 	//i is 1, since 0 is the table header (td)

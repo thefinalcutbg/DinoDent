@@ -75,7 +75,7 @@ bool PracticeSettingsPresenter::isValid()
 		if (p.rzi == initialRzi) continue;
 
 		if (p.rzi == currentRzi) {
-			ModalDialogBuilder::showMessage(u8"Практика с такъв номер вече съществува");
+			ModalDialogBuilder::showMessage("Практика с такъв номер вече съществува");
 			return false;
 		}
 	}
@@ -84,7 +84,7 @@ bool PracticeSettingsPresenter::isValid()
 		if (doctor.admin) return true;
 	}
 
-	ModalDialogBuilder::showError(u8"Практиката трябва да има поне един администратор");
+	ModalDialogBuilder::showError("Практиката трябва да има поне един администратор");
 
 	return false;
 }
@@ -135,7 +135,7 @@ void PracticeSettingsPresenter::addDoctor()
 	{
 		if (docPair.lpk == doctor.value().LPK)
 		{
-			ModalDialogBuilder::showError(u8"Този доктор вече е прибавен към практиката");
+			ModalDialogBuilder::showError("Този доктор вече е прибавен към практиката");
 			return;
 		}
 	}
@@ -157,7 +157,7 @@ void PracticeSettingsPresenter::deleteDoctor()
 
 	if (User::isCurrentUser(m_doctorsList[m_currentIndex].lpk))
 	{
-		ModalDialogBuilder::showError(u8"Не можете да изтриете профила от който сте влезли в момента");
+		ModalDialogBuilder::showError("Не можете да изтриете профила от който сте влезли в момента");
 		return;
 	}
 

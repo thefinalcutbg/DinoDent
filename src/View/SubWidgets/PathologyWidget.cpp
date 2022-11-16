@@ -6,7 +6,7 @@ PathologyWidget::PathologyWidget(QWidget *parent)
 	ui.setupUi(this);
 }
 
-void PathologyWidget::setData(const PathologyData& data)
+void PathologyWidget::setData(const Pathology& data)
 {
 	ui.pathologyCombo->clear();
 	
@@ -14,16 +14,14 @@ void PathologyWidget::setData(const PathologyData& data)
 
 	ui.dateLabel->setText(QString::fromStdString(data.date_diagnosed.toBgStandard()));
 
-	auto list = data.diagnosisList();
+	auto list = data.getDiagnosisList();
 
-	if (list == nullptr) return;
-
-	for (auto& diagnosis : *data.diagnosisList())
+	for (auto& diagnosis : list)
 	{
 		ui.pathologyCombo->addItem(QString::fromStdString(diagnosis));
 	}
 	
-	ui.pathologyCombo->setCurrentIndex(data.diagnosis_index);
+	ui.pathologyCombo->setCurrentIndex(data.getDiagnosisIdx());
 
 }
 

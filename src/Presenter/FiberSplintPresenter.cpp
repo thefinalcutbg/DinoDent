@@ -30,7 +30,7 @@ void FiberSplintPresenter::setProcedureTemplate(const ProcedureTemplate& m)
 
 	auto data = view->getData();
 
-	data.material = m.material;
+	//data.material = m.material;
 	auto [begin, end] = view->rangeWidget()->getRange();
 
 	view->setData(ProcedureFiberData{ begin, end, data });
@@ -118,7 +118,7 @@ std::string FiberSplintPresenter::getDiagnosis()
 	}
 
 	if (!missingTeeth.size())
-		return u8"Пародонтално компрометирани зъби";
+		return "Пародонтално компрометирани зъби";
 
 	std::string diagnosis{ "Adontia " };
 

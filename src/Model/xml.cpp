@@ -87,7 +87,7 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
 
         auto getAllergiesAndStuff = [](const std::string& str) {
             if (!str.size())
-                return std::string(u8"Не съобщава");
+                return std::string("Не съобщава");
             return str;
         };
 

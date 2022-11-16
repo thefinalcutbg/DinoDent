@@ -17,17 +17,18 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 
 					tooth.setStatus(StatusType::obturation, i, true);
 					tooth.setStatus(StatusType::caries, i, false);
-
-					tooth.obturation[i].data.color = result.data.color;
-					tooth.obturation[i].data.material = result.data.material;
+					
+					tooth.obturation[i].data = result.data;
 					tooth.obturation[i].LPK = LPK;
 					
+
 				}
 
-				if (result.post) tooth.setStatus(StatusType::general, StatusCode::Post, true);
-				
-				tooth.post.LPK = LPK;
-	
+				if (result.post) {
+					tooth.setStatus(StatusType::general, StatusCode::Post, true);
+					tooth.post.data.type = result.post.value().type;
+					tooth.post.LPK = LPK;
+				}
 			}
 			break;
 
@@ -61,9 +62,7 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 
 			tooth.setStatus(StatusType::general, StatusCode::Crown);
 
-			tooth.crown.data.material = result.material;
-			tooth.crown.data.prep_type = result.prep_type;
-			tooth.crown.data.color = result.color;
+			tooth.crown.data = result;
 			tooth.crown.LPK = LPK;
 
 		}
@@ -76,19 +75,9 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 
 			tooth.setStatus(StatusType::general, StatusCode::Implant);
 
-			auto& implant = tooth.implant;
-			
-			implant.data.system = result.system;
-			implant.data.time = result.time;
-			implant.data.type = result.type;
-			implant.data.width = result.width;
-			implant.data.length = result.length;
-			implant.data.tissue_aug = result.tissue_aug;
-			implant.data.bone_aug = result.bone_aug;
-			implant.data.membrane = result.membrane;
-			implant.data.sinusLift = result.sinusLift;
+			tooth.implant.data = result;
 
-			implant.LPK = LPK;
+			tooth.implant.LPK = LPK;
 
 		}
 		break;
@@ -111,14 +100,8 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 				auto& tooth = teeth[i];
 
 				tooth.setStatus(StatusType::general, StatusCode::Bridge);
-				tooth.bridge.data.color = result.crown.color;
-				tooth.bridge.data.material = result.crown.material;
-				tooth.bridge.data.prep_type = result.crown.prep_type;
-
+				tooth.bridge.data = result.crown;
 				tooth.bridge.LPK = LPK;
-
-				
-	
 			}
 
 			teeth.formatBridges(indexes);
@@ -143,8 +126,7 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 				auto& tooth = teeth[i];
 
 				tooth.setStatus(StatusType::general, StatusCode::FiberSplint);
-				tooth.splint.data.color = result.obtur.color;
-				tooth.splint.data.material = result.obtur.material;
+				tooth.splint.data = result.obtur;
 
 				tooth.splint.LPK = LPK;
 

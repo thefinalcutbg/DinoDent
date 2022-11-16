@@ -8,7 +8,7 @@ void NraStatusService::parseReply(const std::string& reply)
 		TiXmlDocument doc;
 
 		if (reply.empty()) {
-			ModalDialogBuilder::showError(u8"Неуспешна връзка с НАП");
+			ModalDialogBuilder::showError("Неуспешна връзка с НАП");
 			m_callback({});
 			return;
 		}
@@ -17,7 +17,7 @@ void NraStatusService::parseReply(const std::string& reply)
 
 		if (!doc.RootElement()) {
 
-			ModalDialogBuilder::showError(u8"Неуспешна връзка с НАП");
+			ModalDialogBuilder::showError("Неуспешна връзка с НАП");
 			return;
 		}
 
@@ -87,7 +87,7 @@ bool NraStatusService::sendRequest(const Patient& p, std::function<void(const st
 		practice.nzok_contract->nra_pass.empty()
 		)
 	{
-		ModalDialogBuilder::showMessage(u8"Не е въведена парола за достъп към НАП");
+		ModalDialogBuilder::showMessage("Не е въведена парола за достъп към НАП");
 		return false;
 	}
 

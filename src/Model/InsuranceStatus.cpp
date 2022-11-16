@@ -2,12 +2,12 @@
 
 std::string InsuranceStatus::getYearsText() const
 {
-	if (status == Insured::NoData) return u8"За този пациент не са открити данни в НАП";
+	if (status == Insured::NoData) return "За този пациент не са открити данни в НАП";
 
 	std::string result;
 	
 	if (yearsMonths.size()) {
-		result += u8"Месеци без здравно осигуряване : \t\n\n";
+		result += "Месеци без здравно осигуряване : \t\n\n";
 	}
 	result.reserve(yearsMonths.size() * 20);
 
@@ -27,9 +27,9 @@ std::string InsuranceStatus::getYearsText() const
 
 	result +=
 		status == Insured::Yes ?
-		u8"Пациентът е здравно осигурен!"
+		"Пациентът е здравно осигурен!"
 		:
-		u8"Пациентът не е здравно осигурен!";
+		"Пациентът не е здравно осигурен!";
 
 
 	return result;

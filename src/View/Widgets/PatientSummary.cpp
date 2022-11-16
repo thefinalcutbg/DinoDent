@@ -218,8 +218,8 @@ void PatientSummary::setPerioStatistic(const PerioStatistic& stat)
 void PatientSummary::setDocumentLabel(const std::string& label, const std::string& date, const std::string& doctor)
 {
 	ui.docName->setText(label.c_str());
-	ui.docDate->setText(u8"Дата: " + QString(date.c_str()));
-	ui.docDoctor->setText(u8"Създаден от: " + QString(doctor.c_str()));
+	ui.docDate->setText("Дата: " + QString(date.c_str()));
+	ui.docDoctor->setText("Създаден от: " + QString(doctor.c_str()));
 }
 
 void PatientSummary::setToothInfo(const ToothInfoStr& info)
@@ -230,7 +230,7 @@ void PatientSummary::setToothInfo(const ToothInfoStr& info)
 
 	if (info.notes.size()) {
 		ui.toothNotes->setText(
-			u8"<b>Бележки:</b><br>" +
+			"<b>Бележки:</b><br>" +
 			QString::fromStdString(info.notes)
 		);
 	}
@@ -253,8 +253,8 @@ void PatientSummary::hideToothInfo()
 void PatientSummary::setPrice(const PriceInfoStr& p)
 {
 	ui.priceLabel->setText(
-		u8"Платени: <b>" + priceToString(p.price) + "</b>" +
-		u8" НЗОК: <b>" + priceToString(p.nhif) + "</b>"
+		"Платени: <b>" + priceToString(p.price) + "</b>" +
+		" НЗОК: <b>" + priceToString(p.nhif) + "</b>"
 	);
 }
 */
@@ -279,7 +279,7 @@ void PatientSummary::setUiState(const SummaryState& s)
 		ui.teethView->setScene(emptyScene);
 		ui.hStack->setCurrentIndex(0);
 		ui.vStack->setCurrentIndex(0);
-		ui.docName->setText(u8"Не са открити данни за този пациент");
+		ui.docName->setText("Не са открити данни за този пациент");
 		ui.docDate->clear();
 		ui.docDoctor->clear();
 		return;

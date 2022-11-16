@@ -138,13 +138,13 @@ void PrescriptionView::setNrn(const std::string& nrn)
 {
 	if (nrn.empty()) {
 
-		ui.nrnButton->setText(u8"Няма");
-		ui.nrnButton->setHoverText(u8"Изпрати към НЗИС");
+		ui.nrnButton->setText("Няма");
+		ui.nrnButton->setHoverText("Изпрати към НЗИС");
 		return;
 	}
 
 	ui.nrnButton->setText(nrn.c_str());
-	ui.nrnButton->setHoverText(u8"Анулирай");
+	ui.nrnButton->setHoverText("Анулирай");
 
 }
 

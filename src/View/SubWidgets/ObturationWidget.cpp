@@ -10,6 +10,11 @@ ObturationWidget::ObturationWidget(QWidget *parent)
 	{
 		ui.combo_color->addItem(code.data());
 	}
+
+	for (auto& str : RestorationMaterial::getNames())
+	{
+		ui.materialCombo->addItem(str);
+	}
 }
 
 ObturationWidget::~ObturationWidget()
@@ -19,13 +24,13 @@ ObturationWidget::~ObturationWidget()
 ObturationData ObturationWidget::getData()
 {
 	return ObturationData{
-		ui.combo_color->currentIndex(),
-		ui.materialEdit->text().toStdString()
+		.color = ui.combo_color->currentIndex(),
+		.material = ui.materialCombo->currentIndex()
 	};
 }
 
 void ObturationWidget::setData(const ObturationData& data)
 {
 	ui.combo_color->setCurrentIndex(data.color.getIndex());
-	ui.materialEdit->setText(QString::fromStdString(data.material));
+	ui.materialCombo->setCurrentIndex(data.material.getIndex());
 }

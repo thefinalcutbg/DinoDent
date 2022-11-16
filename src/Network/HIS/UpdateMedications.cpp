@@ -71,7 +71,7 @@ bool UpdateMedications::parseNumenclature(const std::string& reply)
 	{
 		db.execute("ROLLBACK");
 		db.execute("PRAGMA foreign_keys = ON");
-		ModalDialogBuilder::showError(u8"Неуспешно обновяване на номенклатурата");
+		ModalDialogBuilder::showError("Неуспешно обновяване на номенклатурата");
 		return false;
 	}
 	

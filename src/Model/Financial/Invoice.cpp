@@ -13,7 +13,7 @@
 std::string getText(const TiXmlElement* element)
 {
         if (element == nullptr){
-            throw std::exception(u8"Неуспешно зареждане на месечното известие");
+            throw std::exception("Неуспешно зареждане на месечното известие");
     }
 
     return element->GetText();
@@ -25,7 +25,7 @@ std::string getDocumentName(const TiXmlElement* element)
    std::string s = getText(element->FirstChildElement("inv_type"));
 
    s.erase(0, 40);
-   s += u8" за ";
+   s += " за ";
    s += getText(element->FirstChildElement("nhif_type"));
 
    return s;
@@ -40,7 +40,7 @@ FinancialDocType getFinancialType(const std::string& inv_type_code)
 
 	if (inv_type_code == "CT_NOTIF") return FinancialDocType::Credit;
 
-	throw std::exception(u8"Неразпознат inv_type_code");
+	throw std::exception("Неразпознат inv_type_code");
 }
 
 Invoice::Invoice(const TiXmlDocument& monthNotif, const Practice& practice, const Doctor& doctor)
@@ -92,7 +92,7 @@ Invoice::Invoice(const TiXmlDocument& monthNotif, const Practice& practice, cons
 }
 
 Invoice::Invoice(const Patient& p, const Practice& practice, const Doctor& doctor) :
-	name (u8"Фактура"),
+	name ("Фактура"),
 	type(FinancialDocType::Invoice),
 	recipient(p),
 	issuer{practice, doctor}

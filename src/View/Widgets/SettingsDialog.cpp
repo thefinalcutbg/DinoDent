@@ -6,7 +6,7 @@ SettingsDialog::SettingsDialog(QDialog*parent)
 {
 	ui.setupUi(this);
 
-	setWindowTitle(u8"Настройки");
+	setWindowTitle("Настройки");
 	setWindowIcon(QIcon(":/icons/icon_settings.png"));
 	
 	connect(ui.cancelButton, &QPushButton::clicked, [&] {close();});
@@ -34,7 +34,7 @@ Settings SettingsDialog::getSettings()
 
 void SettingsDialog::setUpdateDate(DynamicNum num, const Date& date)
 {
-	QString dateStr = date.isDefault() ? u8"Няма" : date.toBgStandard(true).c_str();
+	QString dateStr = date.isDefault() ? "Няма" : date.toBgStandard(true).c_str();
 
 	switch (num)
 	{

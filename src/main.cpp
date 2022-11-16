@@ -16,6 +16,8 @@ int main(int argc, char *argv[])
     
     QApplication a(argc, argv);
 
+   // testFn(); return 0;
+
     a.setWindowIcon(QIcon(":/icons/icon_torque.png"));
     
     if (UpdateService::restartForUpdate()) { return 0; };
@@ -55,9 +57,9 @@ bool initFunction() {
     if (!Db::createIfNotExist()) {
 
         ModalDialogBuilder::showError(
-            u8"Неуспешно създаване на базата данни."
-            u8"\nУверете се, че пътят към файлът е правилен и че"
-            u8"\nимате правомощия за модифицирането му."
+            "Неуспешно създаване на базата данни."
+            "\nУверете се, че пътят към файлът е правилен и че"
+            "\nимате правомощия за модифицирането му."
         );
     };
 
@@ -81,8 +83,19 @@ bool initFunction() {
 
 }
 
+#include "Model/Dental/DentalNum.h"
+
 void testFn()
 {
-    Path::getDbPath();
+   
+    RestorationMaterial m;
+   // m.setIndex(1);
 
+    ModalDialogBuilder::showMessage(m.getName());
+    
+    for (auto& n : m.getNamesAsStrings())
+    {
+        ModalDialogBuilder::showMessage(n);
+    }
+    
 }

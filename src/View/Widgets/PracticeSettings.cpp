@@ -162,7 +162,7 @@ void PracticeSettings::setDoctorList(const std::vector<PracticeDoctor>& doctors)
 
 	for (auto doctor : doctors)
 	{
-		QString postfix = doctor.admin ? u8" (администратор)" : "";
+		QString postfix = doctor.admin ? " (администратор)" : "";
 		ui.doctorList->addItem(QString::fromStdString(doctor.name) + postfix);
 	}
 
@@ -188,6 +188,6 @@ void PracticeSettings::setDoctorProperties(bool admin, NhifSpecialty specialty)
 
 void PracticeSettings::replaceCurrentItem(const PracticeDoctor& item)
 {
-	QString postfix = item.admin ? u8" (администратор)" : "";
+	QString postfix = item.admin ? " (администратор)" : "";
 	ui.doctorList->currentItem()->setText(QString::fromStdString(item.name) + postfix);
 }

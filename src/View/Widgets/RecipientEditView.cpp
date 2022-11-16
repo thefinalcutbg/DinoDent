@@ -7,7 +7,7 @@ RecipientEditView::RecipientEditView(const Recipient& r, QWidget *parent)
 {
 	ui.setupUi(this);
 
-	setWindowTitle(u8"Редакция на получател");
+	setWindowTitle("Редакция на получател");
 
 	ui.nameEdit->setText(r.name.c_str());
 	ui.addressEdit->setText(r.address.c_str());

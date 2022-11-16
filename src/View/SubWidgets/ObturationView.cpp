@@ -7,6 +7,14 @@ ObturationView::ObturationView(QWidget* parent)
 {
 	ui.setupUi(this);
 
+	ui.postWidget->setDisabled(true);
+
+	connect(ui.post_check, &QCheckBox::stateChanged, [&] {
+				
+			ui.postWidget->setEnabled(ui.post_check->isChecked());
+		
+	});
+
 }
 
 ObturationView::~ObturationView()
@@ -32,19 +40,29 @@ void ObturationView::set_hidden(bool hidden)
 
 void ObturationView::setData(const ProcedureObtData& data)
 {
-	ui.obturationWidget->setData(data.data);
-	ui.post_check->setChecked(data.post);
+
 	ui.surfaceSelector->setSurfaces(data.surfaces);
+	ui.obturationWidget->setData(data.data);
+
+	ui.post_check->setChecked(data.post.has_value());
+
+	if (data.post.has_value())
+	{
+		ui.postWidget->setData(data.post.value());
+	}
 }
 
 ProcedureObtData ObturationView::getData()
 {
 	return ProcedureObtData{
-		ui.surfaceSelector->getSurfaces(),
-		ui.post_check->isChecked(),
-		ObturationData{
-		ui.obturationWidget->getData()
-		}
+		.surfaces = ui.surfaceSelector->getSurfaces(),
+
+		.post = ui.post_check->isChecked() ?
+			ui.postWidget->getData() 
+			: 
+			std::optional<PostData>{},
+
+		.data = ui.obturationWidget->getData()
 	};
 
 

@@ -57,11 +57,11 @@ QVariant FinancialTableModel::headerData(int section, Qt::Orientation orientatio
         switch (section)
         {
         case 0: return "ID";
-        case 1: return u8"Документ №";
-        case 2: return u8"Дата";
-        case 3: return u8"ЕГН/ЛНЧ/ЕИК";
-        case 4: return u8"Име на получателя";
-        case 5: return u8"Телефон";
+        case 1: return "Документ №";
+        case 2: return "Дата";
+        case 3: return "ЕГН/ЛНЧ/ЕИК";
+        case 4: return "Име на получателя";
+        case 5: return "Телефон";
         }
 
     if (role == Qt::TextAlignmentRole && orientation == Qt::Horizontal)

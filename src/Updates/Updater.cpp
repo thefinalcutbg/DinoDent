@@ -3,7 +3,7 @@
 #include "DbUpdates.h"
 #include "View/Widgets/UpdateDialog.h"
 
-constexpr int db_current_version = 5;
+constexpr int db_current_version = 6;
 
 void DbUpdater::updateDb()
 {

@@ -5,7 +5,8 @@ CrownWidget::CrownWidget(QWidget *parent)
 {
 	ui.setupUi(this);
 
-	for (auto str : CrownData::prepTypes()) ui.comboBox->addItem(str.data());
+	for (auto& str : CrownPreparation::getNames()) ui.prepCombo->addItem(str);
+	for (auto& str : CrownMaterial::getNames()) ui.materialCombo->addItem(str);
 
 }
 
@@ -15,16 +16,16 @@ CrownWidget::~CrownWidget()
 
 void CrownWidget::setData(const CrownData& data)
 {
-	ui.comboBox->setCurrentIndex(data.prep_type);
+	ui.prepCombo->setCurrentIndex(data.prep.getIndex());
 	ui.vitaWidget->setIndex(data.color.getIndex());
-	ui.materialEdit->setText(QString::fromStdString(data.material));
+	ui.materialCombo->setCurrentIndex(data.material.getIndex());
 }
 
 CrownData CrownWidget::getData()
 {
 	return CrownData{
-		 ui.materialEdit->text().toStdString(),
-		 ui.comboBox->currentIndex(),
-		 ui.vitaWidget->getIndex()
+		 .material = ui.materialCombo->currentIndex(),
+		 .prep = ui.prepCombo->currentIndex(),
+		 .color = ui.vitaWidget->getIndex()
 	};
 }

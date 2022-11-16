@@ -37,12 +37,13 @@ DetailedStatus::DetailedStatus(DetailedStatusPresenter* presenter) : presenter(p
 	dentistWidget = new DentistMadeWidget();
 	pathologyWidget = new PathologyWidget();
 	notesWidget = new QTextEdit();
+	postWidget = new PostWidget();
 	notesWidget->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Expanding));
 
 	ui.imageLabel->setStyleSheet("border: 1px solid lightgray");
 
 	QTreeWidgetItem* notesItem = new QTreeWidgetItem();
-	notesItem->setText(0, u8"Бележки");
+	notesItem->setText(0, "Бележки");
 	notesItem->setData(0, Qt::UserRole, notes);
 	notesItem->setIcon(0, notesIcon);
 	ui.treeWidget->addTopLevelItem(notesItem);
@@ -191,6 +192,7 @@ void DetailedStatus::clearData()
 	dentistWidget->setParent(nullptr);
 	pathologyWidget->setParent(nullptr);
 	notesWidget->setParent(nullptr);
+	postWidget->setParent(nullptr);
 }
 
 void DetailedStatus::disableDetails(bool disabled)
@@ -211,7 +213,8 @@ void DetailedStatus::setData(const ImplantData& data){setAndShow(layout, implant
 void DetailedStatus::setData(const DentistData& data){setAndShow(layout, dentistWidget, data);}
 void DetailedStatus::setData(const CrownData& data){setAndShow(layout, crownWidget, data);}
 void DetailedStatus::setData(const ObturationData& data){setAndShow(layout, obtWidget, data);}
-void DetailedStatus::setData(const PathologyData& data){setAndShow(layout, pathologyWidget, data);}
+void DetailedStatus::setData(const Pathology& data){setAndShow(layout, pathologyWidget, data);}
+void DetailedStatus::setData(const PostData& data) {setAndShow(layout, postWidget, data);}
 
 void DetailedStatus::setData(const std::string& notesData)
 {
@@ -225,10 +228,8 @@ int DetailedStatus::getDiagnosisIndex() { return pathologyWidget->getData(); }
 ObturationData DetailedStatus::getObturationData(){  return obtWidget->getData();}
 ImplantData DetailedStatus::getImplantData(){ return implantWidget->getData();}
 CrownData DetailedStatus::getCrownData(){return crownWidget->getData();}
-std::string DetailedStatus::getNotes()
-{
-	return notesWidget->toPlainText().toStdString();
-}
+std::string DetailedStatus::getNotes(){ return notesWidget->toPlainText().toStdString(); }
+PostData DetailedStatus::getPostData() { return postWidget->getData(); }
 
 void DetailedStatus::setHistoryData(const std::vector<Procedure>& history)
 {
@@ -247,5 +248,6 @@ DetailedStatus::~DetailedStatus()
 	delete dentistWidget;
 	delete pathologyWidget;
 	delete notesWidget;
+	delete postWidget;
 }
 

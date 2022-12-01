@@ -1,0 +1,25 @@
+#pragma once
+#include <string>
+#include "Model/Referrals/Referral.h"
+
+class IReferralDialog 
+{
+public:
+
+
+	struct CommonData {
+		Date date;
+		int number;
+		std::string mkb;
+		int reason_idx;
+	};
+
+
+	virtual void setTitle(const std::string& str) = 0;
+	virtual void setReferral(const Referral& referral) = 0;
+	virtual MDD4Data MDD4data() = 0;
+	virtual CommonData getCommon() = 0;
+	virtual void closeDialog() = 0;
+	virtual void setErrorLabel(const std::string& str) = 0;
+	
+};

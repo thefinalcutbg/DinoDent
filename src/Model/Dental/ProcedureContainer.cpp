@@ -41,7 +41,7 @@ void ProcedureContainer::addProcedure(const Procedure& p)
 
 }
 
-bool ProcedureContainer::hasNzokProcedure() const
+bool ProcedureContainer::hasNhifProcedure() const
 {
         for (auto& p : m_proc)
             if (p.nhif)

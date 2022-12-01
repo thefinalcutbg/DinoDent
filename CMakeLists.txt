@@ -91,6 +91,8 @@ src/Database/DbPrescription.cpp
 src/Database/DbPrescription.h
 src/Database/DbProcedure.cpp
 src/Database/DbProcedure.h
+src/Database/DbReferral.cpp
+src/Database/DbReferral.h
 src/Database/DbUpdateStatus.cpp
 src/Database/DbUpdateStatus.h
 src/Model/Date.cpp
@@ -189,6 +191,11 @@ src/Model/Prescription/TimeLapse.cpp
 src/Model/Prescription/TimeLapse.h
 src/Model/Prescription/WhenToTake.cpp
 src/Model/Prescription/WhenToTake.h
+src/Model/Referrals/Referral.cpp
+src/Model/Referrals/Referral.h
+src/Model/Referrals/ReferralData.h
+src/Model/Referrals/RefNum.cpp
+src/Model/Referrals/RefNum.h
 src/Model/Validators/AbstractValidator.h
 src/Model/Validators/AmbListValidator.cpp
 src/Model/Validators/AmbListValidator.h
@@ -326,6 +333,8 @@ src/Presenter/ProcedureDialogPresenter.cpp
 src/Presenter/ProcedureDialogPresenter.h
 src/Presenter/ProcedureEditorPresenter.cpp
 src/Presenter/ProcedureEditorPresenter.h
+src/Presenter/ReferralPresenter.cpp
+src/Presenter/ReferralPresenter.h
 src/Presenter/ReportFilesPresenter.cpp
 src/Presenter/ReportFilesPresenter.h
 src/Presenter/ReportPresenter.cpp
@@ -430,6 +439,7 @@ src/View/Interfaces/IPrescriptionView.h
 src/View/Interfaces/IPriceListSettings.h
 src/View/Interfaces/IProcedureDialog.h
 src/View/Interfaces/IProcedureEditDialog.h
+src/View/Interfaces/IReferralDialog.h
 src/View/Interfaces/IReportFilesView.h
 src/View/Interfaces/IReportView.h
 src/View/Interfaces/ISettingsDialog.h
@@ -446,6 +456,8 @@ src/View/Models/KSMPModel.cpp
 src/View/Models/KSMPModel.h
 src/View/Models/MedicationTableModel.cpp
 src/View/Models/MedicationTableModel.h
+src/View/Models/MKBModel.cpp
+src/View/Models/MKBModel.h
 src/View/Models/MonthNotifTableModel.cpp
 src/View/Models/MonthNotifTableModel.h
 src/View/Models/PatientTableModel.cpp
@@ -508,6 +520,9 @@ src/View/SubWidgets/PostWidget.ui
 src/View/SubWidgets/RangeWidget.cpp
 src/View/SubWidgets/RangeWidget.h
 src/View/SubWidgets/RangeWidget.ui
+src/View/SubWidgets/ReferralTile.cpp
+src/View/SubWidgets/ReferralTile.h
+src/View/SubWidgets/ReferralTile.ui
 src/View/SubWidgets/SurfacePanel.cpp
 src/View/SubWidgets/SurfacePanel.h
 src/View/SubWidgets/SurfacePanel.ui
@@ -673,6 +688,9 @@ src/View/Widgets/ProcedureTemplateDialog.ui
 src/View/Widgets/RecipientEditView.cpp
 src/View/Widgets/RecipientEditView.h
 src/View/Widgets/RecipientEditView.ui
+src/View/Widgets/ReferralDialog.cpp
+src/View/Widgets/ReferralDialog.h
+src/View/Widgets/ReferralDialog.ui
 src/View/Widgets/ReportDialogResult.h
 src/View/Widgets/ReportErrorDialog.cpp
 src/View/Widgets/ReportErrorDialog.h

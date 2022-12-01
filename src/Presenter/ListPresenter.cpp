@@ -1,17 +1,23 @@
 #include "ListPresenter.h"
+
+#include "Database/DbPatient.h"
+#include "Database/DbReferral.h"
+#include "Database/DbAmbList.h"
+
 #include "Model/Dental/NhifProcedures.h"
 #include "Model/User.h"
-#include "Database/DbAmbList.h"
 #include "Model/Validators/AmbListValidator.h"
-#include "View/ModalDialogBuilder.h"
-#include "View/Printer.h"
+
 #include "Presenter/PatientDialogPresenter.h"
 #include "Presenter/AllergiesDialogPresenter.h"
 #include "Presenter/ProcedureDialogPresenter.h"
-#include "View/ModalDialogBuilder.h"
-
+#include "Presenter/ProcedureEditorPresenter.h"
+#include "Presenter/ReferralPresenter.h"
 #include "Presenter/TabPresenter.h"
-#include "Database/DbPatient.h"
+
+#include "View/ModalDialogBuilder.h"
+#include "View/ModalDialogBuilder.h"
+#include "View/Printer.h"
 
 ListPresenter::ListPresenter(ITabView* tabView, TabPresenter* tabPresenter, std::shared_ptr<Patient> patient, long long rowId)
     :
@@ -29,7 +35,7 @@ ListPresenter::ListPresenter(ITabView* tabView, TabPresenter* tabPresenter, std:
     //the list is not new
     if (m_ambList.rowid) return;
 
-    m_ambList.number = DbAmbList::getNewNumber(m_ambList.getDate(), m_ambList.hasNZOKProcedure());
+    m_ambList.number = DbAmbList::getNewNumber(m_ambList.getDate(), m_ambList.isNhifSheet());
 
     if (!User::practice().nzok_contract) return;
 
@@ -76,10 +82,36 @@ void ListPresenter::refreshPrices()
 }
 
 
+void ListPresenter::dynamicNhifConversion()
+{
+    bool numberDeducable = m_ambList.procedures.size() || m_ambList.referrals.size();
+
+    view->showSheetNumber(numberDeducable);
+
+    bool isNhif = m_ambList.isNhifSheet();
+
+    if (m_ambList.hasNumberInconsistency())
+    {
+        m_ambList.number = DbAmbList::getNewNumber(m_ambList.getDate(), isNhif);
+        view->setAmbListNum(m_ambList.number);
+    }
+
+    if (m_ambList.isNhifSheet()) {
+        view->setNhifData(m_ambList.nhifData);
+    }
+    else
+    {
+        view->hideNhifSheetData();
+    }
+
+    edited = false; //forces tab name change
+
+}
+
 bool ListPresenter::isValid()
 {
-    if (m_ambList.procedures.empty()) {
-        ModalDialogBuilder::showError("Листът трябва да съдържа поне една манипулация!");
+    if (m_ambList.procedures.empty() && m_ambList.referrals.empty()) {
+        ModalDialogBuilder::showError("Листът трябва да съдържа поне една манипулация или направление!");
         return false;
     }
 
@@ -95,7 +127,7 @@ bool ListPresenter::isValid()
 
     }
 
-    if (m_ambList.hasNZOKProcedure() && !patient->PISHistory.has_value()) {
+    if (m_ambList.isNhifSheet() && !patient->PISHistory.has_value()) {
         ModalDialogBuilder::showMessage(
             "Не са заредени данни от ПИС. "
             "Листът ще бъде валидиран само "
@@ -136,7 +168,7 @@ TabName ListPresenter::getTabName()
     n.footer += " ";
     n.footer += patient->LastName;
 
-    n.nhif = m_ambList.hasNZOKProcedure();
+    n.nhif = m_ambList.isNhifSheet() || m_ambList.referrals.size();
 
     return n;
 }
@@ -194,7 +226,7 @@ void ListPresenter::print()
 
 void ListPresenter::setDataToView()
 {
-    
+
     view->setPresenter(this);
     patient_info.setDate(m_ambList.getDate());
     patient_info.setCurrent();
@@ -217,10 +249,13 @@ void ListPresenter::setDataToView()
     
     view->setSelectedTeeth(m_selectedIndexes);
 
+    view->setReferrals(m_ambList.referrals);
+
     showCurrentStatus(m_showCurrentStatus);
 
     refreshPrices();
     refreshProcedureView();
+    dynamicNhifConversion();
 
    
 }
@@ -348,7 +383,7 @@ int ListPresenter::generateAmbListNumber()
     auto ambSheetDate = m_ambList.getDate();
 
     if (m_ambList.isNew() || m_ambList.hasNumberInconsistency()) {
-        newNumber = DbAmbList::getNewNumber(ambSheetDate, m_ambList.hasNZOKProcedure());
+        newNumber = DbAmbList::getNewNumber(ambSheetDate, m_ambList.isNhifSheet());
     }
 
     return newNumber;
@@ -447,10 +482,6 @@ void ListPresenter::openDetails()
 }
 
 
-void ListPresenter::addToProcedureList(const std::vector<Procedure>& new_mList)
-{
-    m_ambList.procedures.addProcedures(new_mList);
-}
 
 void ListPresenter::refreshProcedureView()
 {
@@ -476,30 +507,20 @@ void ListPresenter::addProcedure()
 
     if (procedures.empty()) return;
 
-    this->addToProcedureList(procedures);
-
-    if (m_ambList.hasNumberInconsistency()) {
-
-        m_ambList.number = DbAmbList::getNewNumber(m_ambList.getDate(), m_ambList.hasNZOKProcedure());
-        
-        if (procedures[0].nhif) view->setNhifData(m_ambList.nhifData);
-        
-    }
+    m_ambList.procedures.addProcedures(procedures);
 
     if (view == nullptr) return;
 
-    view->setAmbListNum(m_ambList.number);
-
     patient_info.setDate(m_ambList.getDate());
+
+    dynamicNhifConversion();
+
     refreshPrices();
     refreshProcedureView();
 
-    edited = false;
     makeEdited();
 
 }
-
-#include "Presenter/ProcedureEditorPresenter.h"
 
 void ListPresenter::editProcedure(int index)
 {
@@ -528,22 +549,75 @@ void ListPresenter::deleteProcedure(int index)
 {
     m_ambList.procedures.removeProcedure(index);
 
-    if (m_ambList.hasNumberInconsistency()) {
-        m_ambList.number = DbAmbList::getNewNumber(m_ambList.getDate(), m_ambList.hasNZOKProcedure());
-        
-        if (!m_ambList.hasNZOKProcedure()) {
-            view->hideNhifSheetData();
-        }
-    }
-
-    view->setAmbListNum(m_ambList.number);
-
     patient_info.setDate(m_ambList.getDate());
     refreshPrices();
     refreshProcedureView();
 
-    edited = false;
+    dynamicNhifConversion();
+
+
     makeEdited();
+}
+
+void ListPresenter::addReferral(ReferralType type)
+{
+
+    if (!User::hasNzokContract()) {
+        ModalDialogBuilder::showMessage(
+            "За да създадете направление, трябва да попълните данните" 
+            "\nна договора с НЗОК и кодът на специалността от насторйки!"
+        );
+
+        return;
+    }
+
+    ReferralPresenter p(m_ambList, type);
+
+    auto result = p.openDialog();
+
+    if (!result) return;
+
+    m_ambList.referrals.push_back(*result);
+
+    view->setReferrals(m_ambList.referrals);
+
+    dynamicNhifConversion();
+
+    makeEdited();
+
+}
+
+void ListPresenter::editReferral(int index)
+{
+    ReferralPresenter p(m_ambList.referrals[index]);
+
+    auto result = p.openDialog();
+
+    if (!result) return;
+
+    m_ambList.referrals[index] = *result;
+
+    view->setReferrals(m_ambList.referrals);
+
+    makeEdited();
+}
+
+void ListPresenter::removeReferral(int index)
+{
+    auto& ref = m_ambList.referrals;
+
+    ref.erase(ref.begin() + index);
+
+    view->setReferrals(ref);
+
+    dynamicNhifConversion();
+
+    makeEdited();
+
+}
+
+void ListPresenter::printReferral(int index)
+{
 }
 
 void ListPresenter::setNhifData(const NhifSheetData& data)

@@ -9,7 +9,7 @@
 #include "Model/Time.h"
 #include "ToothContainer.h"
 #include "Model/Dental/ProcedureContainer.h"
-
+#include "Model/Referrals/Referral.h"
 #include "Model/Dental/NhifSheetData.h"
 
 struct AmbList
@@ -19,7 +19,7 @@ struct AmbList
 	long long rowid{ 0 };
 	long long patient_rowid{ 0 };
 	//Date date{ Date::currentDate() };
-	Time time{Time::currentTime()};
+	Time time{ Time::currentTime() };
 
 	int number{ 0 };
 	std::string LPK;
@@ -30,25 +30,36 @@ struct AmbList
 	ToothContainer teeth;
 	ProcedureContainer procedures;
 
-	bool hasNZOKProcedure() const
+	std::vector<Referral> referrals;
+
+
+	bool isNhifSheet() const
 	{
-		return procedures.hasNzokProcedure();
+		return (referrals.size() || procedures.hasNhifProcedure());
 	}
 
 	bool hasNumberInconsistency() const
 	{
-		return hasNZOKProcedure() != number < 100000;
+		return isNhifSheet() != number < 100000;
 	}
 
 	Date getDate() const //works only if procedures are sorted by date!
 	{
-		if (procedures.empty())
-			return Date::currentDate();
 
-		for (auto& p : procedures)
-			if (p.nhif)
-				return p.date;
-		
+		if (procedures.empty() && referrals.empty()) return Date::currentDate();
+
+		if (isNhifSheet()) {
+
+			Date date(1, 1, 2200);
+
+			for (auto& p : procedures) if (p.nhif) date = std::min(date, p.date);
+
+			for (auto& r : referrals) date = std::min(date, r.date);
+
+			return date;
+
+		}
+
 		return procedures[0].date;
 	}
 
@@ -71,9 +82,12 @@ struct AmbList
 		}
 
 		return sheetDate;
-			
+
 	}
 
+	bool isNew() { return rowid == 0; }
+
+
 	~AmbList() {  }
-	bool isNew(){ return rowid == 0; }
+
 };

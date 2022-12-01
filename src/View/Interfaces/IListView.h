@@ -3,6 +3,8 @@
 #include <vector>
 #include "Model/Dental/Procedure.h"
 #include "View/Interfaces/IPatientTileInfo.h"
+#include "Model/Referrals/Referral.h"
+
 class CheckModel;
 class AmbList;
 class Patient;
@@ -32,8 +34,8 @@ public:
 	virtual IPatientTileInfo* tileInfo() = 0;
 	virtual void repaintTooth(const ToothPaintHint& tooth) = 0;
 	virtual void setNotes(const std::array<std::string, 32>& notes) = 0;
-
+	virtual void setReferrals(const std::vector<Referral>& referrals) = 0;
 	virtual void setProcedures(const std::vector<Procedure>& m) = 0;
-
+	virtual void showSheetNumber(bool show) = 0;
 	virtual void disableGraphicsView(bool disabled) = 0;
 };

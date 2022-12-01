@@ -229,7 +229,6 @@ void DosageDialog::setParsed(const std::string& parsed)
 	ui.parseLabel->setText(parsed.c_str());
 }
 
-#include <qdebug.h>
 
 void DosageDialog::setDosage(const Dosage& d)
 {

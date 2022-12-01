@@ -215,13 +215,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Database\DbPrescription.cpp" />
+    <ClCompile Include="src\Database\DbReferral.cpp" />
     <ClCompile Include="src\Database\DbUpdateStatus.cpp" />
     <ClCompile Include="src\Model\Dental\DentalNum.cpp" />
+    <ClCompile Include="src\Model\Referrals\Referral.cpp" />
     <ClCompile Include="src\Model\FreeFunctions.cpp" />
     <ClCompile Include="src\Model\Prescription\Route.cpp" />
     <ClCompile Include="src\Model\Prescription\DoseQuantity.cpp" />
     <ClCompile Include="src\Model\Prescription\TimeLapse.cpp" />
     <ClCompile Include="src\Model\Prescription\WhenToTake.cpp" />
+    <ClCompile Include="src\Model\Referrals\RefNum.cpp" />
     <ClCompile Include="src\Model\Validators\PrescriptionValidators.cpp" />
     <ClCompile Include="src\Network\HIS\EPrescription.cpp" />
     <ClCompile Include="src\Network\HIS\UpdateMkb.cpp" />
@@ -342,6 +345,7 @@
     <ClCompile Include="src\Presenter\PriceListSettingsPresenter.cpp" />
     <ClCompile Include="src\Presenter\ProcedureDialogPresenter.cpp" />
     <ClCompile Include="src\Presenter\ProcedureEditorPresenter.cpp" />
+    <ClCompile Include="src\Presenter\ReferralPresenter.cpp" />
     <ClCompile Include="src\Presenter\ReportFilesPresenter.cpp" />
     <ClCompile Include="src\Presenter\ReportPresenter.cpp" />
     <ClCompile Include="src\Presenter\SettingsMainPresenter.cpp" />
@@ -381,6 +385,7 @@
     <ClCompile Include="src\View\Models\FinancialTableModel.cpp" />
     <ClCompile Include="src\View\Models\KSMPModel.cpp" />
     <ClCompile Include="src\View\Models\MedicationTableModel.cpp" />
+    <ClCompile Include="src\View\Models\MKBModel.cpp" />
     <ClCompile Include="src\View\Models\MonthNotifTableModel.cpp" />
     <ClCompile Include="src\View\Models\PatientTableModel.cpp" />
     <ClCompile Include="src\View\Models\PerioTableModel.cpp" />
@@ -406,6 +411,7 @@
     <ClCompile Include="src\View\SubWidgets\PerioStatisticView.cpp" />
     <ClCompile Include="src\View\SubWidgets\PostWidget.cpp" />
     <ClCompile Include="src\View\SubWidgets\RangeWidget.cpp" />
+    <ClCompile Include="src\View\SubWidgets\ReferralTile.cpp" />
     <ClCompile Include="src\View\SubWidgets\SurfacePanel.cpp" />
     <ClCompile Include="src\View\SubWidgets\SurfaceSelector.cpp" />
     <ClCompile Include="src\View\SubWidgets\TabTitle.cpp" />
@@ -470,6 +476,7 @@
     <ClCompile Include="src\View\Widgets\ProcedurePrintSelectDialog.cpp" />
     <ClCompile Include="src\View\Widgets\ProcedureTemplateDialog.cpp" />
     <ClCompile Include="src\View\Widgets\RecipientEditView.cpp" />
+    <ClCompile Include="src\View\Widgets\ReferralDialog.cpp" />
     <ClCompile Include="src\View\Widgets\ReportErrorDialog.cpp" />
     <ClCompile Include="src\View\Widgets\ReportFilesView.cpp" />
     <ClCompile Include="src\View\Widgets\ReportView.cpp" />
@@ -483,9 +490,13 @@
   <ItemGroup>
     <ClInclude Include="resource.h" />
     <ClInclude Include="src\Database\DbPrescription.h" />
+    <ClInclude Include="src\Database\DbReferral.h" />
     <ClInclude Include="src\Database\DbUpdateStatus.h" />
     <ClInclude Include="src\Model\Dental\DentalNum.h" />
+    <ClInclude Include="src\Model\Referrals\Referral.h" />
     <ClInclude Include="src\Model\NumenclatureTemplate.h" />
+    <ClInclude Include="src\Model\Referrals\ReferralData.h" />
+    <ClInclude Include="src\Model\Referrals\RefNum.h" />
     <ClInclude Include="src\Network\UpdateService\UpdateService.h" />
     <ClInclude Include="src\Path.h" />
     <ClInclude Include="src\Model\Dental\ReportFile.h" />
@@ -629,6 +640,7 @@
     <ClInclude Include="src\Presenter\PriceListSettingsPresenter.h" />
     <ClInclude Include="src\Presenter\ProcedureDialogPresenter.h" />
     <ClInclude Include="src\Presenter\ProcedureEditorPresenter.h" />
+    <ClInclude Include="src\Presenter\ReferralPresenter.h" />
     <ClInclude Include="src\Presenter\ReportFilesPresenter.h" />
     <ClInclude Include="src\Presenter\ReportPresenter.h" />
     <ClInclude Include="src\Presenter\SettingsMainPresenter.h" />
@@ -692,6 +704,7 @@
     <ClInclude Include="src\View\Interfaces\IPriceListSettings.h" />
     <ClInclude Include="src\View\Interfaces\IProcedureDialog.h" />
     <ClInclude Include="src\View\Interfaces\IProcedureEditDialog.h" />
+    <ClInclude Include="src\View\Interfaces\IReferralDialog.h" />
     <ClInclude Include="src\View\Interfaces\IReportFilesView.h" />
     <ClInclude Include="src\View\Interfaces\IReportView.h" />
     <ClInclude Include="src\View\Interfaces\ISettingsDialog.h" />
@@ -703,11 +716,13 @@
     <QtMoc Include="src\View\Widgets\UpdateDownloader.h" />
     <QtMoc Include="src\View\Models\PrescriptionTableModel.h" />
     <QtMoc Include="src\View\Models\PISDentalActivitiesModel.h" />
+    <QtMoc Include="src\View\Models\MKBModel.h" />
     <ClInclude Include="src\View\Models\QProcedure.h" />
     <QtMoc Include="src\View\Models\ReportFilesModel.h" />
     <ClInclude Include="src\View\Printer.h" />
     <QtMoc Include="src\View\SubWidgets\PatientTileInfo.h" />
     <QtMoc Include="src\View\SubWidgets\PostWidget.h" />
+    <QtMoc Include="src\View\SubWidgets\ReferralTile.h" />
     <ClInclude Include="src\View\Theme.h" />
     <ClInclude Include="src\View\uiComponents\AutoCompleteLineEdit.h" />
     <ClInclude Include="src\View\uiComponents\FinancialTileButton.h" />
@@ -720,6 +735,7 @@
     <QtMoc Include="src\View\Widgets\InputDialog.h" />
     <QtMoc Include="src\View\Widgets\InvoicePrintDialog.h" />
     <QtMoc Include="src\View\Widgets\PracticeSelectorView.h" />
+    <QtMoc Include="src\View\Widgets\ReferralDialog.h" />
     <ClInclude Include="src\View\Widgets\ReportDialogResult.h" />
     <QtMoc Include="src\View\Widgets\ReportFilesView.h" />
     <ClInclude Include="src\View\Widgets\ToothUi.h" />
@@ -825,6 +841,7 @@
     <QtUic Include="src\View\SubWidgets\PerioStatisticView.ui" />
     <QtUic Include="src\View\SubWidgets\PostWidget.ui" />
     <QtUic Include="src\View\SubWidgets\RangeWidget.ui" />
+    <QtUic Include="src\View\SubWidgets\ReferralTile.ui" />
     <QtUic Include="src\View\SubWidgets\SurfacePanel.ui" />
     <QtUic Include="src\View\SubWidgets\SurfaceSelector.ui" />
     <QtUic Include="src\View\SubWidgets\TabTitle.ui" />
@@ -863,6 +880,7 @@
     <QtUic Include="src\View\Widgets\ProcedurePrintSelectDialog.ui" />
     <QtUic Include="src\View\Widgets\ProcedureTemplateDialog.ui" />
     <QtUic Include="src\View\Widgets\RecipientEditView.ui" />
+    <QtUic Include="src\View\Widgets\ReferralDialog.ui" />
     <QtUic Include="src\View\Widgets\ReportErrorDialog.ui" />
     <QtUic Include="src\View\Widgets\ReportFilesView.ui" />
     <QtUic Include="src\View\Widgets\ReportView.ui" />

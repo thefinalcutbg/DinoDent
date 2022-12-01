@@ -20,8 +20,8 @@ class TileButton : public QAbstractButton
 
 protected:
 
-    bool hover;
-    bool clicked;
+    bool hover{ false };
+    bool clicked{ false };
     bool m_reveresed{ false };
     QFont header;
     QFont info;

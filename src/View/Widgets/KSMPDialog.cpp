@@ -1,18 +1,17 @@
 ﻿#include "KSMPDialog.h"
+#include "View/Models/KSMPModel.h"
+#include "View/Models/MKBModel.h"
 
-
-KSMPDialog::KSMPDialog(KsmpList& list, const std::string& code, QWidget* parent) :
-	m_model(list), QDialog(parent)
+void KSMPDialog::initCommon()
 {
 	ui.setupUi(this);
 	setWindowFlags(Qt::Window);
-	setWindowTitle("Класификация на Медицинските Процедури");
 
-	m_proxyModel.setSourceModel(&m_model);
+	m_proxyModel.setSourceModel(m_model);
 	m_proxyModel.setFilterKeyColumn(1);
 
 	ui.tableView->setModel(&m_proxyModel);
-	
+
 	ui.tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
 	ui.tableView->setSelectionMode(QAbstractItemView::SingleSelection);
 	ui.tableView->horizontalHeader()->setHighlightSections(false);
@@ -34,16 +33,52 @@ KSMPDialog::KSMPDialog(KsmpList& list, const std::string& code, QWidget* parent)
 
 		});
 
-	connect(ui.searchEdit, &QLineEdit::textChanged, [=](const QString &text)
+	connect(ui.searchEdit, &QLineEdit::textChanged, [=](const QString& text)
 		{
 			m_proxyModel.setFilterRegularExpression(QRegularExpression(text, QRegularExpression::CaseInsensitiveOption));
-			ui.tableView->selectRow(m_selectedRow);
+	ui.tableView->selectRow(m_selectedRow);
 		});
 
 	connect(ui.cancelButton, &QPushButton::clicked, [=] { reject(); });
-	connect(ui.okButton, &QPushButton::clicked, [=] { if(m_selectedRow > -1) accept(); });
+	connect(ui.okButton, &QPushButton::clicked, [=] { if (m_selectedRow > -1) accept(); });
 	connect(ui.tableView, &QTableView::doubleClicked, [=] { ui.okButton->click(); });
-	int selectRow = m_model.getRowFromCode(code);
+
+}
+
+KSMPDialog::KSMPDialog(KsmpList& list, const std::string& code, QWidget* parent) :
+	m_model(new KSMPModel(list)), QDialog(parent)
+{
+	initCommon();
+
+	setWindowTitle("Класификация на Медицинските Процедури");
+
+	int selectRow = -1;
+	
+	for (int i = 0; i < list.size(); i++)
+	{
+		if (code == list[i]->code) {
+			selectRow = i;
+		}
+	}
+
+	ui.tableView->selectRow(selectRow);
+}
+
+KSMPDialog::KSMPDialog(const std::vector<MKB>& mkbList, const MKB& mkb_default) :
+	m_model(new MKBModel(mkbList))
+{
+	initCommon();
+
+	setWindowTitle("Международна класификация на болестите");
+
+	int selectRow = -1;
+
+	for (int i = 0; i < mkbList.size(); i++)
+	{
+		if (mkb_default.code() == mkbList[i].code()) {
+			selectRow = i;
+		}
+	}
 
 	ui.tableView->selectRow(selectRow);
 }
@@ -60,4 +95,6 @@ std::string KSMPDialog::getResult()
 }
 
 KSMPDialog::~KSMPDialog()
-{}
+{
+	delete m_model;
+}

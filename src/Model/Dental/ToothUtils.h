@@ -19,4 +19,5 @@ namespace ToothUtils
 	std::array<std::string, 6> getSurfaceNames(int index);
 	std::pair<int, bool> getArrayIdxAndTemp(int index);
 	std::string getName(int idx, bool temp);
+	const std::array<int, 32>& getToothNumbers();
 };

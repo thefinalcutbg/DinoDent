@@ -4,7 +4,7 @@
 #include <QApplication>
 
 
-TileButton::TileButton(QWidget* parent) : QAbstractButton(parent), hover(0), clicked(0)
+TileButton::TileButton(QWidget* parent) : QAbstractButton(parent)
 {
 	header.setFamily("Segoe UI semibold");
 	header.setPointSizeF(14);

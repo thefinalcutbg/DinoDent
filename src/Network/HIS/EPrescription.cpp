@@ -37,7 +37,7 @@ bool EPrescription::Issue::sendRequest(const Prescription& perscr, const Patient
 							"value=\"" + std::to_string(m.getNumenclatureKey()) + "\" " 
 							"name=\"" + m.name() + "\" />"
 						
-					+ bind("form", m.getFormKey())
+					+ bind("form", m.getFormKey(), false)
 					+ bind("priority", m.priority)
 					+ bind("note", m.note)
 					+ bind("quantityValue", static_cast<int>(m.quantity))

@@ -211,9 +211,11 @@ std::string HisService::bind(const std::string& name, std::string value)
 	return "<nhis:" + name + " value=\"" + value + "\" />";
 }
 
-std::string HisService::bind(const std::string& name, int value)
+std::string HisService::bind(const std::string& name, int value, bool ommitZero)
 {
-	return value ? bind(name, std::to_string(value)) : "";
+	if (!value && ommitZero) return {};
+
+	return bind(name, std::to_string(value));
 }
 
 std::string HisService::bind(const std::string& name, bool value)

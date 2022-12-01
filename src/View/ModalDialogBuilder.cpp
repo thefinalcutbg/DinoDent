@@ -99,6 +99,15 @@ void ModalDialogBuilder::openDialog(PracticeManagerPresenter* p)
 	d.exec();
 }
 
+#include "View/Widgets/ReferralDialog.h"
+
+void ModalDialogBuilder::openDialog(ReferralPresenter* p)
+{
+	ReferralDialog d(p);
+
+	d.exec();
+}
+
 
 
 #include "View/Widgets/ProcedureTemplateDialog.h"

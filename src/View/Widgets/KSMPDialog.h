@@ -3,7 +3,8 @@
 #include <QDialog>
 #include <QSortFilterProxyModel>
 #include "ui_KSMPDialog.h"
-#include "View/Models/KSMPModel.h"
+#include "Model/Dental/KSMP.h"
+#include "Model/Dental/MKB.h"
 
 class KSMPDialog : public QDialog
 {
@@ -11,11 +12,14 @@ class KSMPDialog : public QDialog
 
 	int m_selectedRow{ -1 };
 
+	void initCommon(); //common init fn for both of the constructors
+
 	QSortFilterProxyModel m_proxyModel;
-	KSMPModel m_model;
+	QAbstractTableModel* m_model;
 
 public:
 	KSMPDialog(KsmpList& list, const std::string& code = std::string(), QWidget* parent = nullptr);
+	KSMPDialog(const std::vector<MKB>& mkbList, const MKB& mkb_default = MKB{});
 	std::string getResult();
 	~KSMPDialog();
 

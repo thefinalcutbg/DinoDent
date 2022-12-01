@@ -14,6 +14,8 @@ void UpdateMedications::update()
 
 bool UpdateMedications::parseNumenclature(const std::string& reply)
 {
+	//ModalDialogBuilder::showMultilineDialog(reply);
+
 	TiXmlDocument doc;
 
 	doc.Parse(reply.data(), 0, TIXML_ENCODING_UTF8);
@@ -39,13 +41,12 @@ bool UpdateMedications::parseNumenclature(const std::string& reply)
 	for ( int i = 1; table.Child(i).ToElement(); i++)
 	{
 		
-		db.newStatement("INSERT INTO numMed (rowid, name, form) VALUES (?,?,?)");
-	
+
 		auto entryHandle = table.Child(i);
 
-		db.bind(1, entryHandle.Child(0).ToElement()->Attribute("value"));
-		db.bind(2, entryHandle.Child(1).ToElement()->Attribute("value"));
-		
+		auto rowid = entryHandle.Child(0).ToElement()->Attribute("value");
+		auto name = entryHandle.Child(1).ToElement()->Attribute("value");
+
 		std::string form{ "0" };
 
 		//iterating meta to find the form id:
@@ -59,8 +60,15 @@ bool UpdateMedications::parseNumenclature(const std::string& reply)
 
 			form = metaHandle.Child(1).ToElement()->FirstAttribute()->ValueStr();
 			break;
-	}
+		}
 
+		//if (form == "0") continue;
+
+		db.newStatement("INSERT INTO numMed (rowid, name, form) VALUES (?,?,?)");
+
+
+		db.bind(1, rowid);
+		db.bind(2, name);
 		db.bind(3, form);
 
 		db.execute();

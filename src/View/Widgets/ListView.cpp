@@ -4,6 +4,7 @@
 #include "View/Theme.h"
 #include "Model/Dental/NhifSheetData.h"
 #include "View/uiComponents/MouseWheelGuard.h"
+#include "View/SubWidgets/ReferralTile.h"
 
 ListView::ListView(QWidget* parent)
 	: QWidget(parent), presenter(nullptr)
@@ -41,6 +42,34 @@ ListView::ListView(QWidget* parent)
 	ui.showAppliedButton->setHoverColor(Theme::mainBackgroundColor);
 	ui.nzokActivities->setHoverColor(Theme::mainBackgroundColor);
 
+	QMenu* menu = new QMenu(ui.addRefButton);
+
+	menu->setStyleSheet(Theme::getPopupMenuStylesheet());
+
+	static constexpr const char* refNames[3]{
+		"Направление за МДД (бл.4)",
+		"Направление за психиатър (бл.3)",
+		"Направление за анестезиолог (бл.3А)"
+	};
+
+
+
+	for (int i = 0; i < 3; i++) {
+		const char* name = refNames[i];
+		QAction* action = new QAction(name, menu);
+		menu->addAction(action);
+
+		connect(action, &QAction::triggered, [=] { 
+			presenter->addReferral(static_cast<ReferralType>(i));
+			}
+		);
+	}
+
+	ui.addRefButton->setMenu(menu);
+
+	ui.addRefButton->setIcon(QIcon(":/icons/icon_add.png"));
+	ui.addRefButton->setHoverColor(Theme::mainBackgroundColor);
+
 	setStyleSheet(Theme::getFancyStylesheet());
 
 	//hiding the date and time for now
@@ -53,6 +82,13 @@ ListView::ListView(QWidget* parent)
 		"color : " + Theme::colorToString(Theme::fontTurquoise) + "; "
 		"font-weight: bold; font-size: 12px;"
 	);
+
+	ui.refLabel->setStyleSheet(
+		"color : " + Theme::colorToString(Theme::fontTurquoise) + "; "
+		"font-weight: bold; font-size: 12px;"
+	);
+
+
 	connect(ui.ambNumSpin, &LeadingZeroSpinBox::valueChanged, [=](long long value) {if(presenter)presenter->ambNumChanged(value);});
 	connect(ui.nzokActivities, &QPushButton::clicked, [=] { if (presenter) presenter->openPisHistory(); });
 	connect(ui.addProcedure, &QAbstractButton::clicked, [=] { if (presenter) presenter->addProcedure(); });
@@ -111,9 +147,9 @@ void ListView::paintEvent(QPaintEvent* event)
 
 	path.addRoundedRect(
 		QRectF(
-			ui.teethView->x(),
-			ui.teethView->y(),
-			ui.controlPanel->x() + ui.controlPanel->width(),
+			ui.frame->x() + ui.teethView->x(),
+			ui.frame->y() + ui.teethView->y(),
+			ui.teethView->width() + ui.controlPanel->width(),
 			ui.teethView->height()
 		),
 		Theme::radius/2,
@@ -126,23 +162,24 @@ void ListView::paintEvent(QPaintEvent* event)
 	painter.drawPath(path);
 
 	painter.drawLine(
-		ui.surfacePanel->x(),
-		ui.surfacePanel->y(),
-		ui.surfacePanel->x(),
-		ui.surfacePanel->y() + ui.teethView->height()
+		ui.frame->x() + ui.surfacePanel->x(),
+		ui.frame->y() + ui.surfacePanel->y(),
+		ui.frame->x() + ui.surfacePanel->x(),
+		ui.frame->y() + ui.surfacePanel->y() + ui.teethView->height()
 	);
 
 	if (!m_teethViewFocused) return;
 
 	painter.setPen(QPen(Theme::mainBackgroundColor));
-
+	/*
 	auto teethViewPath = Theme::getHalfCurvedPath(
 		ui.teethView->width(), 
 		ui.teethView->height()
 	);
 
 	painter.translate(ui.teethView->pos());
-	painter.drawPath(teethViewPath);
+	*/
+	painter.drawPath(path);
 
 
 
@@ -183,7 +220,7 @@ void ListView::nhifChanged()
 
 void ListView::refresh(const AmbList& ambList)
 {
-	ambList.hasNZOKProcedure() ?
+	ambList.isNhifSheet() ?
 		setNhifData(ambList.nhifData)
 		:
 		hideNhifSheetData();
@@ -203,6 +240,13 @@ void ListView::setDateTime(const Date& d, const Time& t)
 {
 	ui.timeEdit->setTime(QTime(t.hour, t.minutes, t.sec));
 	ui.dateEdit->setDate(QDate(d.year, d.month, d.day));
+}
+
+void ListView::showSheetNumber(bool show)
+{
+	ui.label->setHidden(!show);
+	ui.ambNumSpin->setHidden(!show);
+
 }
 
 void ListView::setCheckModel(const CheckModel& checkModel)
@@ -291,7 +335,6 @@ void ListView::setProcedures(const std::vector<Procedure>& m)
 	for (auto t : m) proc_teeth.push_back(t.tooth);
 
 	teethViewScene->setProcedures(proc_teeth);
-
 }
 
 void ListView::hideNhifSheetData()
@@ -308,6 +351,24 @@ void ListView::setNhifData(const NhifSheetData& data)
 
 	QSignalBlocker b(ui.specCombo);
 	ui.specCombo->setCurrentIndex(static_cast<int>(data.specification));
+
+}
+
+void ListView::setReferrals(const std::vector<Referral>& referrals)
+{
+	while (ui.referralLayout->count())
+	{
+		ui.referralLayout->takeAt(0)->widget()->deleteLater();
+	}
+
+
+	for (int i = 0; i < referrals.size(); i++) {
+		ReferralTile* refWidget = new ReferralTile(referrals[i], i, this);
+		connect(refWidget, &ReferralTile::remove, [=](int index) {presenter->removeReferral(index);});
+		connect(refWidget, &ReferralTile::clicked, [=](int index) {presenter->editReferral(index);});
+		ui.referralLayout->addWidget(refWidget);
+		
+	}
 
 }
 

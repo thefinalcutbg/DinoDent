@@ -19,7 +19,7 @@ long long DbAmbList::insert(const AmbList& sheet, long long patientRowId)
 
     db.bind(1, sheet.time.to8601(sheet.getDate()));
     db.bind(2, sheet.number);
-    sheet.hasNZOKProcedure() ? db.bind(3, static_cast<int>(sheet.nhifData.specification)) : db.bindNull(3);
+    sheet.isNhifSheet() ? db.bind(3, static_cast<int>(sheet.nhifData.specification)) : db.bindNull(3);
     db.bind(4, Parser::write(sheet.teeth));
     db.bind(5, patientRowId);
     db.bind(6, sheet.LPK);
@@ -73,7 +73,7 @@ void DbAmbList::update(const AmbList& sheet)
 
     db.bind(1, sheet.number);
     db.bind(2, sheet.time.to8601(sheet.getDate()));
-    sheet.hasNZOKProcedure() ? db.bind(3, static_cast<int>(sheet.nhifData.specification)) : db.bindNull(3);
+    sheet.isNhifSheet() ? db.bind(3, static_cast<int>(sheet.nhifData.specification)) : db.bindNull(3);
     db.bind(4, Parser::write(sheet.teeth));
     db.bind(5, sheet.rowid);
 
@@ -251,27 +251,28 @@ int DbAmbList::getNewNumber(Date ambDate, bool nhif)
 
     std::string query;
 
-    std::string condition = nhif ? "sum(procedure.nzok) > 0 " : "sum(procedure.nzok) = 0 ";
+//    std::string condition = nhif ? "sum(procedure.nzok) > 0 " : "sum(procedure.nzok) = 0 ";
 
     query = nhif ?
-        "SELECT amblist.num FROM amblist WHERE nhif_spec IS NOT NULL"
+        "SELECT num FROM amblist WHERE nhif_spec IS NOT NULL "
         :
-        "SELECT amblist.num FROM amblist WHERE nhif_spec IS NULL";
+        "SELECT num FROM amblist WHERE nhif_spec IS NULL ";
 
-        /*
-        "JOIN procedure ON amblist.rowid = procedure.amblist_rowid "
-        "GROUP BY amblist.rowid "
-        "HAVING "
-        + condition +
-        "AND strftime('%Y-%m-%d', amblist.date) BETWEEN '" + std::to_string(ambDate.year) + "-01-01'"
-        "AND '" + ambDate.to8601() + "' "
-        "AND amblist.lpk = '" + User::doctor().LPK + "' "
-        "AND amblist.rzi = '" + User::practice().rziCode + "' "
-        "ORDER BY amblist.num DESC LIMIT 1";
-        */
+    query +=
+        "AND strftime('%Y',date) = '" + std::to_string(ambDate.year) + "' "
+        "AND lpk = ? "
+        "AND rzi = ? "
+        "ORDER BY num DESC LIMIT 1";
+
     int number = nhif ? 0 : 100000;
 
-    for (Db db(query); db.hasRows();) {
+    Db db(query);
+
+  //  db.bind(1, ambDate.year);
+    db.bind(1, User::doctor().LPK);
+    db.bind(2, User::practice().rziCode);
+
+    while (db.hasRows()) {
         number = db.asInt(0);
     };
 

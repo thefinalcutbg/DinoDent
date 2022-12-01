@@ -18,6 +18,12 @@ UserButton::UserButton(QWidget* parent) : QToolButton(parent)
 	hoverColor = Theme::background;
 }
 
+void UserButton::setHoverColor(const QColor& color)
+{
+	this->hoverColor = color;
+	update();
+}
+
 void UserButton::paintEvent(QPaintEvent* event)
 {
 	QPainter painter(this);
@@ -34,7 +40,9 @@ void UserButton::paintEvent(QPaintEvent* event)
 
 	int padding = 15;
 
-	QRect iconRect(10, padding, height() - (padding * 2), height() - (padding * 2));
+	int refSize = std::min(height(), width());
+
+	QRect iconRect(10, padding, refSize - (padding * 2), refSize - (padding * 2));
 
 	if (!icon().isNull())
 		icon().paint(&painter, iconRect);

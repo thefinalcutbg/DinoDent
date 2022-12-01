@@ -189,3 +189,8 @@ std::string ToothUtils::getName(int idx, bool temp)
 
 
 }
+
+const std::array<int, 32>& ToothUtils::getToothNumbers()
+{
+    return numbers;
+}

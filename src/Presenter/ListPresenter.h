@@ -3,7 +3,7 @@
 #include <vector>
 #include <memory>
 #include "View/Interfaces/IListView.h"
-
+#include "Model/Referrals/RefNum.h"
 #include "Database/DbAmbList.h"
 
 #include "Presenter/TabInstance.h"
@@ -49,6 +49,9 @@ class ListPresenter : public TabInstance
     void statusChanged();
     void refreshPrices();
 
+    //call when adding or removing procedures and referrals
+    void dynamicNhifConversion();
+
 public:
 
     AmbList m_ambList;
@@ -82,11 +85,14 @@ public:
     void openDetails(int toothIdx);
     void openDetails();
 
-    void addToProcedureList(const std::vector<Procedure>& new_mList);
-
     void addProcedure();
     void editProcedure(int index);
     void deleteProcedure(int index);
+
+    void addReferral(ReferralType type);
+    void editReferral(int index);
+    void removeReferral(int index);
+    void printReferral(int index);
 
     void setNhifData(const NhifSheetData& data);
 

@@ -7,7 +7,6 @@
 #include "View/Interfaces/IListView.h"
 #include "Presenter/ListPresenter.h"
 #include "View/Graphics/TeethViewScene.h"
-
 #include "View/Models/ProcedureTableModel.h"
 
 
@@ -37,6 +36,7 @@ public:
     void refresh(const AmbList& ambList) override;
     void setAmbListNum(int number) override;
     void setDateTime(const Date& date, const Time& time) override;
+    void showSheetNumber(bool show) override;
     //IStatusView
     void setCheckModel(const CheckModel& checkModel) override;
     void hideSurfacePanel(bool hidden) override;
@@ -52,7 +52,7 @@ public:
     void setProcedures(const std::vector<Procedure>& m) override;
     void hideNhifSheetData() override;
     void setNhifData(const NhifSheetData& data) override;
-
+    void setReferrals(const std::vector<Referral>& referrals) override;
     ~ListView();
 
 private:

@@ -17,5 +17,6 @@ class UserButton  : public QToolButton
 
 public:
 	UserButton(QWidget *parent);
+	void setHoverColor(const QColor& color);
 	~UserButton();
 };

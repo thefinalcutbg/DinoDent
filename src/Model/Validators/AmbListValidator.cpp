@@ -35,7 +35,7 @@ bool AmbListValidator::ambListIsValid()
         return false;
     }
 
-    if (!ambList.hasNZOKProcedure()) return true;
+    if (!ambList.isNhifSheet()) return true;
 
     auto& teeth = ambList.teeth;
     auto& procedures = m_procedures;

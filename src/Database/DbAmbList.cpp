@@ -255,7 +255,7 @@ AmbList DbAmbList::getListData(long long rowId)
 
 
     db.newStatement(
-        "SELECT  referral.type, referral.number, referral.date, referral.reason,"
+        "SELECT referral.type, referral.number, referral.date, referral.reason,"
         "referral.main_diagnosis, referral.additional_diagnosis, referral.data "
         "FROM referral LEFT JOIN amblist ON referral.amblist_rowid=amblist.rowid "
         "WHERE amblist.rowid = ?"

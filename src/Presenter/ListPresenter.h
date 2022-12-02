@@ -14,9 +14,9 @@
 #include "Network/NRA/NraStatusService.h"
 #include "Network/PIS/DiagnosisService.h"
 #include "Presenter/PatientInfoPresenter.h"
+
 typedef std::vector<int> SelectedTeethIdx;
 typedef std::vector<Tooth*> SelectedTeeth;
-
 
 class TabPresenter;
 

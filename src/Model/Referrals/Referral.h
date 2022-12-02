@@ -30,12 +30,9 @@ private:
 
 public:
 
-
 	long long rowid{ 0 };
-	long long ambSheetRowid{ 0 };
 
 	int number{ 0 };
-	int ambSheetNumber{ 0 };
 
 	Date date{ Date::currentDate() };
 

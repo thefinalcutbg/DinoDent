@@ -31,8 +31,6 @@ long long DbAmbList::insert(const AmbList& sheet, long long patientRowId)
 
     auto rowID = db.lastInsertedRowID();
 
-    db.execute("DELETE FROM procedure WHERE amblist_rowid = " + std::to_string(rowID));
-
     for (auto& p : sheet.procedures)
     {
         db.newStatement(
@@ -50,6 +48,32 @@ long long DbAmbList::insert(const AmbList& sheet, long long patientRowId)
         db.bind(7, Parser::write(p));
         db.bind(8, p.ksmp);
         db.bind(9, rowID);
+
+        db.execute();
+    }
+
+    for (auto& r : sheet.referrals)
+    {
+        db.newStatement(
+            "INSERT INTO referral "
+            "(amblist_rowid, number, date, reason, main_diagnosis, additional_diagnosis, type, data) "
+            "VALUES (?,?,?,?,?,?,?,?) "
+        );
+
+        db.bind(1, rowID);
+        db.bind(2, r.number);
+        db.bind(3, r.date.to8601());
+        db.bind(4, r.reason.getIndex());
+        db.bind(5, r.diagnosis.main.code());
+        db.bind(6, r.diagnosis.additional.code());
+        db.bind(7, static_cast<int>(r.type));
+        
+        auto data = r.type == ReferralType::MDD4 ? 
+            std::to_string(std::get<MDD4Data>(r.data).tooth)
+            : 
+            std::string{};
+
+        db.bind(8, data);
 
         db.execute();
     }
@@ -103,6 +127,35 @@ void DbAmbList::update(const AmbList& sheet)
 
         db.execute();
     }
+
+    db.execute("DELETE FROM referral WHERE amblist_rowid = " + std::to_string(sheet.rowid));
+
+    for (auto& r : sheet.referrals)
+    {
+        db.newStatement(
+            "INSERT INTO referral "
+            "(amblist_rowid, number, date, reason, main_diagnosis, additional_diagnosis, type, data) "
+            "VALUES (?,?,?,?,?,?,?,?) "
+        );
+
+        db.bind(1, sheet.rowid);
+        db.bind(2, r.number);
+        db.bind(3, r.date.to8601());
+        db.bind(4, r.reason.getIndex());
+        db.bind(5, r.diagnosis.main.code());
+        db.bind(6, r.diagnosis.additional.code());
+        db.bind(7, static_cast<int>(r.type));
+
+        auto data = r.type == ReferralType::MDD4 ?
+            std::to_string(std::get<MDD4Data>(r.data).tooth)
+            :
+            std::string{};
+
+        db.bind(8, data);
+
+        db.execute();
+    }
+
 }
 
 AmbList DbAmbList::getNewAmbSheet(long long patientRowId)
@@ -170,6 +223,8 @@ AmbList DbAmbList::getNewAmbSheet(long long patientRowId)
     }
 
 
+
+
     return ambList;
 }
 
@@ -198,7 +253,37 @@ AmbList DbAmbList::getListData(long long rowId)
     Parser::parse(status, ambList.teeth);
     ambList.procedures.addProcedures(DbProcedure::getProcedures(ambList.rowid, &db));
 
+
+    db.newStatement(
+        "SELECT  referral.type, referral.number, referral.date, referral.reason,"
+        "referral.main_diagnosis, referral.additional_diagnosis, referral.data "
+        "FROM referral LEFT JOIN amblist ON referral.amblist_rowid=amblist.rowid "
+        "WHERE amblist.rowid = ?"
+    );
+
+    db.bind(1, ambList.rowid);
+
+    while (db.hasRows())
+    {
+        ambList.referrals.emplace_back(static_cast<ReferralType>(db.asInt(0)));
+        
+        auto& ref = ambList.referrals.back();
+
+        ref.number = db.asInt(1);
+        ref.date = db.asString(2);
+        ref.reason = db.asInt(3);
+        ref.diagnosis.main = db.asString(4);
+        ref.diagnosis.additional = db.asString(5);
+        
+        if (ref.type == ReferralType::MDD4) {
+            std::get<MDD4Data>(ref.data).tooth = std::stoi(db.asString(6));
+        }
+
+    }
+
+
     return ambList;
+
 }
 
 

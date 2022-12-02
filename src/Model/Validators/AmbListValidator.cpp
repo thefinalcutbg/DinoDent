@@ -30,10 +30,6 @@ AmbListValidator::AmbListValidator(const AmbList& list, const Patient& patient)
 
 bool AmbListValidator::ambListIsValid()
 {
-    if (ambList.procedures.empty()) {
-        _error = "Листът трябва да съдържа поне една манипулация!";
-        return false;
-    }
 
     if (!ambList.isNhifSheet()) return true;
 

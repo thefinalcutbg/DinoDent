@@ -169,7 +169,27 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
 
         //no such features yet
         dentalCareService->LinkEndChild(new TiXmlElement("medicalReferrals"));
-        dentalCareService->LinkEndChild(new TiXmlElement("MDAReferrals"));
+
+        
+        auto MDAReferrals = new TiXmlElement("MDAReferrals");
+
+        for (auto& r : list.referrals)
+        {
+            if (r.type != ReferralType::MDD4) continue;
+
+            auto mdaRef = new TiXmlElement("MDAReferral");
+            mdaRef->SetAttribute("pathwayNo", FreeFn::leadZeroes(r.number, 6));
+            mdaRef->SetAttribute("date", r.date.to8601());
+                auto codes = new TiXmlElement("codes");
+                    auto code = new TiXmlElement("code");
+                         code->SetAttribute("name", std::get<MDD4Data>(r.data).getCode());
+                    codes->LinkEndChild(code);
+                 mdaRef->LinkEndChild(codes);
+            MDAReferrals->LinkEndChild(mdaRef);
+        }
+
+        dentalCareService->LinkEndChild(MDAReferrals);
+        
         dentalCareService->LinkEndChild(new TiXmlElement("prescSpecialists"));
 
         dentalCareServices->LinkEndChild(dentalCareService);

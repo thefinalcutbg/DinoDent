@@ -13,14 +13,33 @@
 #include "qitemselectionmodel.h"
 #include "Model/User.h"
 #include "View/Widgets/InvoicePrintDialog.h"
+#include "Model/Referrals/Referral.h"
 
-//used as coordinates for the x-es in the checkboxes
-struct coords { int x; int y; };
-constexpr coords typeCoords[5]{ {0, 0}, { 50, 213 }, { 225, 213 }, {50, 255}, {225, 255} };
-constexpr QChar tempSymbol{ 0x25EF };
+void fillCommonData(LimeReport::ReportEngine& report, const Patient& patient, const Doctor& doctor, const Practice& practice)
+{
+
+    report.dataManager()->setReportVariable("id", QString::fromStdString(patient.id));
+    report.dataManager()->setReportVariable("city", QString::fromStdString(patient.city.getString()));
+    report.dataManager()->setReportVariable("address", QString::fromStdString(patient.address));
+    report.dataManager()->setReportVariable("patientName", QString::fromStdString(patient.fullName()));
+    report.dataManager()->setReportVariable("RHIFCode", QString::fromStdString(patient.city.getRhif()));
+    report.dataManager()->setReportVariable("healthRegion", QString::fromStdString(patient.city.getHealthRegion()));
+    report.dataManager()->setReportVariable("birth", QString::fromStdString(patient.birth.toBgStandard()));
+    report.dataManager()->setReportVariable("RZICode", QString::fromStdString(practice.rziCode));
+    report.dataManager()->setReportVariable("specialty", doctor.specialtyAsInt());
+    report.dataManager()->setReportVariable("LPK", QString::fromStdString(doctor.LPK));
+    report.dataManager()->setReportVariable("doctorName", QString::fromStdString(doctor.getFullName(true)));
+
+}
 
 void Print::ambList(const AmbList& amb, const Patient& patient)
 {
+
+    //used as coordinates for the x-es in the checkboxes
+    struct coords { int x; int y; };
+    constexpr coords typeCoords[5]{ {0, 0}, { 50, 213 }, { 225, 213 }, {50, 255}, {225, 255} };
+    constexpr QChar tempSymbol{ 0x25EF };
+
     std::vector<Procedure> selectedProcedures;
 
     {
@@ -56,7 +75,6 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
     auto& practice = User::practice();
     auto& doctor = User::doctor();
 	
-	report.dataManager()->setReportVariable("id", QString::fromStdString(patient.id));
 
     if (patient.type < 5);
     {
@@ -65,21 +83,11 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
         report.dataManager()->setReportVariable("typeY", typeCoords[patient.type].y);
     }
 
-    report.dataManager()->setReportVariable("city", QString::fromStdString(patient.city.getString()));
-    report.dataManager()->setReportVariable("address", QString::fromStdString(patient.address));
-    report.dataManager()->setReportVariable("patientName", QString::fromStdString(patient.fullName()));
+    fillCommonData(report, patient, doctor, practice);
+
     report.dataManager()->setReportVariable("hirbNo", QString::fromStdString(patient.HIRBNo));
     report.dataManager()->setReportVariable("ambNum", QString::fromStdString(FreeFn::leadZeroes(amb.number, 12)));
     
-
-    report.dataManager()->setReportVariable("RHIFCode", QString::fromStdString(patient.city.getRhif()));
-    report.dataManager()->setReportVariable("healthRegion", QString::fromStdString(patient.city.getHealthRegion()));
-    report.dataManager()->setReportVariable("birth", QString::fromStdString(patient.birth.toBgStandard()));
-
-    report.dataManager()->setReportVariable("RZICode", QString::fromStdString(practice.rziCode));
-    report.dataManager()->setReportVariable("specialty", doctor.specialtyAsInt());
-    report.dataManager()->setReportVariable("LPK", QString::fromStdString(doctor.LPK));
-    report.dataManager()->setReportVariable("doctorName", QString::fromStdString(doctor.getFullName(true)));
 
     const char* defaultStatus{ "Не съобщава" };
 
@@ -290,5 +298,66 @@ void Print::ambList()
   //  report.previewReport(LimeReport::PreviewHint::HidePreviewStatusBar);
 
     report.printReport();
+
+}
+
+void Print::referral(const Referral& ref, const Patient& patient, int ambSheetNumber)
+{
+
+    QApplication::setOverrideCursor(Qt::BusyCursor);
+
+    auto report = LimeReport::ReportEngine();
+
+    auto refCommonFill = [&] {
+        report.dataManager()->setReportVariable("ambNum", QString::fromStdString(FreeFn::leadZeroes(ambSheetNumber, 12)));
+        report.dataManager()->setReportVariable("refNum", QString::fromStdString(FreeFn::leadZeroes(ref.number, 11)));
+        report.dataManager()->setReportVariable("diagnosis_main", ref.diagnosis.main.code().c_str());
+        report.dataManager()->setReportVariable("diagnosis_additional", ref.diagnosis.additional.code().c_str());
+        report.dataManager()->setReportVariable("reason", FreeFn::leadZeroes(ref.reason.getIndex() + 1, 2).c_str());
+        report.dataManager()->setReportVariable("date", ref.date.toBgStandard().c_str());
+
+    };
+
+    auto mdd4fill = [&] {
+
+        auto& doctor = User::doctor();
+        auto& practice = User::practice();
+
+        report.loadFromFile(":/reports/report_mdd4.lrxml");
+
+        fillCommonData(report, patient, doctor, practice);
+
+        if (patient.type == 2) {
+            report.dataManager()->setReportVariable("type", "X");
+        }
+
+        refCommonFill();
+        /*
+        report.dataManager()->setReportVariable("ambNum", QString::fromStdString(FreeFn::leadZeroes(ambSheetNumber, 12)));
+        report.dataManager()->setReportVariable("refNum", QString::fromStdString(FreeFn::leadZeroes(ref.number, 12)));
+        report.dataManager()->setReportVariable("diagnosis_main", ref.diagnosis.main.code().c_str());
+        report.dataManager()->setReportVariable("diagnosis_additional", ref.diagnosis.additional.code().c_str());
+        report.dataManager()->setReportVariable("reason", FreeFn::leadZeroes(ref.reason.getIndex() + 1, 2).c_str());
+        */
+        auto mdd4data = std::get<MDD4Data>(ref.data);
+        report.dataManager()->setReportVariable("nhifCode", mdd4data.getCode().c_str());
+        report.dataManager()->setReportVariable("KSMP", mdd4data.getKSMP().c_str());
+
+    };
+
+    switch (ref.type)
+    {
+        case ReferralType::MDD4: 
+            mdd4fill(); 
+            break;
+
+        default: 
+            return;
+    }
+
+    report.setShowProgressDialog(true);
+    QApplication::restoreOverrideCursor();
+    report.printReport();
+
 
 }

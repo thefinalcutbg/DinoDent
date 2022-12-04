@@ -618,6 +618,7 @@ void ListPresenter::removeReferral(int index)
 
 void ListPresenter::printReferral(int index)
 {
+    Print::referral(m_ambList.referrals[index], *patient.get(), m_ambList.number);
 }
 
 void ListPresenter::setNhifData(const NhifSheetData& data)

@@ -366,6 +366,7 @@ void ListView::setReferrals(const std::vector<Referral>& referrals)
 		ReferralTile* refWidget = new ReferralTile(referrals[i], i, this);
 		connect(refWidget, &ReferralTile::remove, [=](int index) {presenter->removeReferral(index);});
 		connect(refWidget, &ReferralTile::clicked, [=](int index) {presenter->editReferral(index);});
+		connect(refWidget, &ReferralTile::print, [=](int index) {presenter->printReferral(index);});
 		ui.referralLayout->addWidget(refWidget);
 		
 	}

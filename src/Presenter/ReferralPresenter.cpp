@@ -10,15 +10,18 @@ ReferralPresenter::ReferralPresenter(const AmbList& sheet, ReferralType t) : m_t
 	//determening the sheet number
 	m_result->number = DbReferral::getRefNumber(t, sheet.getDate().year);
 
+	bool hasSuchReferral{ false };
+
 	for (auto& r : sheet.referrals)
 	{
 		if (r.type == t) {
+			hasSuchReferral = true;
 			m_result->number = std::max(m_result->number, r.number);
 		}
 
 	}
 
-	if (sheet.referrals.size()) {
+	if (hasSuchReferral) {
 		m_result->number++;
 	}
 

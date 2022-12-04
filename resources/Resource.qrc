@@ -54,6 +54,7 @@
         <file>report_invoice.lrxml</file>
         <file>report_consent.lrxml</file>
         <file>report_gdpr.lrxml</file>
+        <file>report_mdd4.lrxml</file>
     </qresource>
     <qresource prefix="/fonts">
         <file>font_RobotoCondensedRegular.ttf</file>

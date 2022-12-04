@@ -9,7 +9,6 @@
 #include <qdebug.h>
 #include "Model/FreeFunctions.h"
 
-
 long long DbAmbList::insert(const AmbList& sheet, long long patientRowId)
 {
 
@@ -276,7 +275,7 @@ AmbList DbAmbList::getListData(long long rowId)
         ref.diagnosis.additional = db.asString(5);
         
         if (ref.type == ReferralType::MDD4) {
-            std::get<MDD4Data>(ref.data).tooth = std::stoi(db.asString(6));
+           ref.data = MDD4Data(std::stoi(db.asString(6)));
         }
 
     }
@@ -386,7 +385,7 @@ std::vector<AmbList> DbAmbList::getMonthlyNhifSheets(int month, int year)
         "procedure.ksmp, "
         "procedure.diagnosis "
         "FROM amblist JOIN procedure ON amblist.rowid = procedure.amblist_rowid "
-        "WHERE procedure.nzok = 1 "
+        "WHERE amblist.nhif_spec IS NOT NULL "
         "AND lpk = '" + User::doctor().LPK + "' "
         "AND rzi = '" + User::practice().rziCode + "' "
         "AND strftime('%m', amblist.date)='" + FreeFn::leadZeroes(month, 2) + "' "
@@ -394,12 +393,9 @@ std::vector<AmbList> DbAmbList::getMonthlyNhifSheets(int month, int year)
         "ORDER BY amblist.num ASC";
 
 
-
-     Db db(query);
-
      long long sheetRowid = 0;
 
-     while (db.hasRows())
+     for(Db db(query); db.hasRows();)
      {
          auto currentRowid = db.asRowId(0);
 
@@ -436,6 +432,40 @@ std::vector<AmbList> DbAmbList::getMonthlyNhifSheets(int month, int year)
 
      }
 
+
+
+     for (auto& sheet : result)
+     {
+         Db db;
+
+         db.newStatement(
+             "SELECT referral.type, referral.number, referral.date, referral.reason,"
+             "referral.main_diagnosis, referral.additional_diagnosis, referral.data "
+             "FROM referral LEFT JOIN amblist ON referral.amblist_rowid=amblist.rowid "
+             "WHERE amblist.rowid = ?"
+         );
+
+         db.bind(1, sheet.rowid);
+
+         while (db.hasRows())
+         {
+             sheet.referrals.emplace_back(static_cast<ReferralType>(db.asInt(0)));
+
+             auto& ref = sheet.referrals.back();
+
+             ref.number = db.asInt(1);
+             ref.date = db.asString(2);
+             ref.reason = db.asInt(3);
+             ref.diagnosis.main = db.asString(4);
+             ref.diagnosis.additional = db.asString(5);
+
+             if (ref.type == ReferralType::MDD4) {
+                 ref.data = MDD4Data(std::stoi(db.asString(6)));
+             }
+
+         }
+     }
+    
      return result;
 
 }

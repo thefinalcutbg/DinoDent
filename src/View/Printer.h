@@ -2,6 +2,7 @@
 struct Patient;
 struct AmbList;
 struct Invoice;
+class Referral;
 
 namespace Print
 {
@@ -10,5 +11,6 @@ namespace Print
 	void consent(const Patient& patient);
 	void gdpr(const Patient& patient);
 	void ambList();
+	void referral(const Referral& ref, const Patient& patient, int ambSheetNumber);
 }
 

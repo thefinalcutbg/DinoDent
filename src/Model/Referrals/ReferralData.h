@@ -3,10 +3,21 @@
 
 struct MDD4Data
 {
+	
+private:
+
+	static inline std::string 
+		opgNhif = "10.62", 
+		opgKsmp = "57960-00",
+		segmentNhif = "06.01",
+		segmentKsmp = "57930-00";
+
+public:
+	
 	int tooth{ -1 }; //-1 for OPG, any valid tooth idx for tooth xRay
 
-	std::string getCode() { return tooth == -1 ? "10.62" : "06.01"; };
-	std::string getKSMP() { return tooth == -1 ? "57960-00" : "57930-00"; };
+	inline const std::string& getCode() const { return tooth == -1 ? opgNhif : segmentNhif; };
+	inline const std::string& getKSMP() const { return tooth == -1 ? opgKsmp : segmentKsmp; };
 
 };
 

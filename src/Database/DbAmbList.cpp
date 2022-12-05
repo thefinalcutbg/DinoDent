@@ -370,74 +370,75 @@ std::vector<AmbList> DbAmbList::getMonthlyNhifSheets(int month, int year)
 
      std::string query = 
         "SELECT "
-        "amblist.rowid," 
-        "amblist.patient_rowid,"
-        "amblist.num,"
-        "amblist.nhif_spec,"
-        "amblist.status,"
-        "amblist.LPK,"
-        "procedure.type,"	
-        "procedure.code,"		
-        "procedure.tooth,"		
-        "procedure.date,"			
-        "procedure.name,"		
-        "procedure.deciduous,"
-        "procedure.ksmp, "
-        "procedure.diagnosis "
-        "FROM amblist JOIN procedure ON amblist.rowid = procedure.amblist_rowid "
+        "rowid," 
+        "patient_rowid,"
+        "num,"
+        "nhif_spec,"
+        "status,"
+        "LPK "
+        "FROM amblist "
         "WHERE amblist.nhif_spec IS NOT NULL "
-        "AND procedure.nzok = 1, "
         "AND lpk = '" + User::doctor().LPK + "' "
         "AND rzi = '" + User::practice().rziCode + "' "
         "AND strftime('%m', amblist.date)='" + FreeFn::leadZeroes(month, 2) + "' "
         "AND strftime('%Y', amblist.date)='" + std::to_string(year) + "' "
-        "ORDER BY amblist.num ASC";
+        "ORDER BY num ASC";
 
+     Db db(query);
 
-     long long sheetRowid = 0;
-
-     for(Db db(query); db.hasRows();)
+     while(db.hasRows())
      {
-         auto currentRowid = db.asRowId(0);
-
-         if (currentRowid != sheetRowid) {
-
              result.emplace_back();
-
              auto& sheet = result.back();
-
-             sheet.rowid = currentRowid;
+             sheet.rowid = db.asRowId(0);
              sheet.patient_rowid = db.asRowId(1);
              sheet.number = db.asInt(2);
              sheet.nhifData.specification = static_cast<NhifSpecification>(db.asInt(3));
              Parser::parse(db.asString(4), sheet.teeth);
-
-             sheetRowid = currentRowid;
-             
-         }
-
-         Procedure p;
-
-         p.nhif = true;
-         p.LPK = db.asString(5);
-         p.type = static_cast<ProcedureType>(db.asInt(6));
-         p.code = db.asInt(7);
-         p.tooth = db.asInt(8);
-         p.date = db.asString(9);
-         p.name = db.asString(10);
-         p.temp = db.asBool(11);
-         p.ksmp = db.asString(12);
-         p.diagnosis = db.asString(13);
-        
-         result.back().procedures.addProcedure(p);
+             sheet.LPK = db.asString(5);
 
      }
 
-
-
      for (auto& sheet : result)
      {
-         Db db;
+         //getting procedures
+
+         db.newStatement(
+             "SELECT "
+             "procedure.type,"
+             "procedure.code,"
+             "procedure.tooth,"
+             "procedure.date,"
+             "procedure.name,"
+             "procedure.deciduous,"
+             "procedure.ksmp, "
+             "procedure.diagnosis "
+             "FROM procedure LEFT JOIN amblist ON procedure.amblist_rowid = amblist.rowid "
+             "WHERE procedure.nzok = 1 "
+             "AND amblist.rowid = ?"
+         );
+
+         db.bind(1, sheet.rowid);
+
+         while (db.hasRows())
+         {
+             Procedure p;
+
+             p.nhif = true;
+             p.LPK = sheet.LPK;
+             p.type = static_cast<ProcedureType>(db.asInt(0));
+             p.code = db.asInt(1);
+             p.tooth = db.asInt(2);
+             p.date = db.asString(3);
+             p.name = db.asString(4);
+             p.temp = db.asBool(5);
+             p.ksmp = db.asString(6);
+             p.diagnosis = db.asString(7);
+
+             sheet.procedures.addProcedure(p);
+         }
+
+         //getting referrals
 
          db.newStatement(
              "SELECT referral.type, referral.number, referral.date, referral.reason,"
@@ -465,8 +466,12 @@ std::vector<AmbList> DbAmbList::getMonthlyNhifSheets(int month, int year)
              }
 
          }
+
+
+
      }
-    
+
+
      return result;
 
 }

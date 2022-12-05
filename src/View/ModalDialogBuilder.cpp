@@ -271,6 +271,17 @@ void ModalDialogBuilder::openSettingsDialog()
 	SettingsDialog d;
 	d.exec();
 }
+
+#include "View/Widgets/ButtonDialog.h"
+
+int ModalDialogBuilder::openButtonDialog(const std::vector<std::string>& buttonNames, const std::string& title)
+{
+	ButtonDialog d(buttonNames, title);
+
+	d.exec();
+
+	return d.getResult();
+}
 /*
 std::optional<std::string> ModalDialogBuilder::getFileNamePath(const std::string& filename)
 {	

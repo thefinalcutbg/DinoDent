@@ -18,6 +18,7 @@ public:
 	PatientTileInfo(QWidget *parent = nullptr);
 	void setPatient(const Patient& p, int age) override;
 	void setPresenter(PatientInfoPresenter* p) override { presenter = p; }
+
 	~PatientTileInfo();
 
 private:

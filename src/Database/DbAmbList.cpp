@@ -386,6 +386,7 @@ std::vector<AmbList> DbAmbList::getMonthlyNhifSheets(int month, int year)
         "procedure.diagnosis "
         "FROM amblist JOIN procedure ON amblist.rowid = procedure.amblist_rowid "
         "WHERE amblist.nhif_spec IS NOT NULL "
+        "AND procedure.nzok = 1, "
         "AND lpk = '" + User::doctor().LPK + "' "
         "AND rzi = '" + User::practice().rziCode + "' "
         "AND strftime('%m', amblist.date)='" + FreeFn::leadZeroes(month, 2) + "' "

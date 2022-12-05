@@ -28,6 +28,8 @@ public:
 	void diagnosisClicked();
 	void patientTileClicked();
 	void allergiesTileClicked();
+	void printDeclarations();
 	void setCurrent();
+
 
 };

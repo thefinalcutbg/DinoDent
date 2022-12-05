@@ -39,6 +39,15 @@ public:
 
 class PatientTile : public TileButton
 {
+
+public:
+    IconButton* nraButton;
+    IconButton* printButton;
+    PatientTile(QWidget* parent = 0);
+    void setData(const Patient& patient, int age);
+
+private:
+
     QString idLabel;
     QString name;
     QString type;
@@ -54,10 +63,10 @@ class PatientTile : public TileButton
 
     void paintInfo(QPainter* painter);
 
-public:
-    IconButton* nraIcon;
-    PatientTile(QWidget* parent = 0);
-    void setData(const Patient& patient, int age);
+    void resizeEvent(QResizeEvent* event);
+
+
+
 
 };
 
@@ -78,7 +87,7 @@ class AllergiesTile : public TileButton
     void paintInfo(QPainter* painter) override;
     void resizeEvent(QResizeEvent* event) override;
 public:
-    IconButton* nzokIcon;
+    IconButton* nhifButton;
     AllergiesTile(QWidget* parent = 0);
     void setData(const Patient& patient);
 

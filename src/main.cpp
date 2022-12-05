@@ -83,19 +83,8 @@ bool initFunction() {
 
 }
 
-#include "Model/Dental/DentalNum.h"
-
 void testFn()
 {
    
-    RestorationMaterial m;
-   // m.setIndex(1);
-
-    ModalDialogBuilder::showMessage(m.getName());
-    
-    for (auto& n : m.getNamesAsStrings())
-    {
-        ModalDialogBuilder::showMessage(n);
-    }
     
 }

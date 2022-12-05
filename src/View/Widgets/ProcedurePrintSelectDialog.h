@@ -5,9 +5,9 @@
 #include <vector>
 #include <optional>
 #include "Model/Dental/Procedure.h"
-
+#include "Model/Referrals/Referral.h"
 #include "View/Models/ProcedureSelectModel.h"
-
+#include <QRadioButton>
 class ProcedurePrintSelectDialog : public QDialog
 {
 	Q_OBJECT
@@ -15,9 +15,15 @@ class ProcedurePrintSelectDialog : public QDialog
 	std::vector<int> m_selectedRows;
 	ProcedureSelectModel model;
 
+	std::vector<QRadioButton*> mdd4_buttons;
+	std::vector<ReferralType> ref_typeIndexes;
+
 public:
-	ProcedurePrintSelectDialog(const std::vector<Procedure>& procedures, QWidget *parent = Q_NULLPTR);
+	ProcedurePrintSelectDialog(const std::vector<Procedure>& procedures, const std::vector<Referral>& referrals = {}, QWidget* parent = Q_NULLPTR);
+	
 	const std::vector<int> selectedProcedures() const;
+	int mdd4Referral() const;
+	int referral() const;
 	void selectOnlyWhereNzokIs(bool nhif);
 
 	~ProcedurePrintSelectDialog();

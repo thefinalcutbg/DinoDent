@@ -3,7 +3,7 @@
 #include "Presenter/AllergiesDialogPresenter.h"
 #include "Database/DbPatient.h"
 #include "View/ModalDialogBuilder.h"
-
+#include "View/Printer.h"
 PatientInfoPresenter::PatientInfoPresenter(IPatientTileInfo* view, std::shared_ptr<Patient> p) :
     view(view), patient(p)
 {
@@ -106,6 +106,50 @@ void PatientInfoPresenter::allergiesTileClicked()
     patient->pastDiseases = d.past;
 
     view->setPatient(*patient, patient->getAge(current_date));
+}
+
+void PatientInfoPresenter::printDeclarations()
+{
+    static std::vector<std::string> printOptions{
+       "Декларация за тотални протези",
+       "Информирано съгласие",
+       "Декларация за GDPR"
+    };
+
+    static std::vector<std::string> declaratorType{
+       "За осигурено лице",
+       "За родител/настойник",
+       "Празна бланка" 
+    };
+
+    int result = ModalDialogBuilder::openButtonDialog(printOptions, "Изберете декларация");
+
+    switch (result)
+    {
+        case 0:
+        {
+
+            int decl_result = ModalDialogBuilder::openButtonDialog(
+                declaratorType,
+                "Декларация за тотални протези"
+            );
+          
+            if(decl_result == -1) return;
+
+            Print::DentureDeclaration type = static_cast<Print::DentureDeclaration>(decl_result);
+              
+            Print::printDentureDeclaration(*patient, type);
+
+            return;
+        }
+
+        case 1: Print::consent(*patient); return;
+
+        case 2: Print::gdpr(*patient); return;
+        default: return;
+    }
+
+
 }
 
 void PatientInfoPresenter::setCurrent()

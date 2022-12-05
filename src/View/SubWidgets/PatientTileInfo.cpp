@@ -6,7 +6,7 @@ PatientTileInfo::PatientTileInfo(QWidget *parent)
 {
 	ui.setupUi(this);
 
-	connect(ui.patientTile->nraIcon, &QPushButton::clicked, [=] {
+	connect(ui.patientTile->nraButton, &QPushButton::clicked, [=] {
 		if (presenter) presenter->nraClicked(true);
 	});
 
@@ -18,11 +18,14 @@ PatientTileInfo::PatientTileInfo(QWidget *parent)
 		if (presenter) presenter->allergiesTileClicked();
 	});
 
-	connect(ui.allergiesTile->nzokIcon, &QPushButton::clicked, [=] {
+	connect(ui.allergiesTile->nhifButton, &QPushButton::clicked, [=] {
 		if (presenter) presenter->diagnosisClicked();
 	});
-}
 
+	connect (ui.patientTile->printButton, &QPushButton::clicked, [=] {
+		if (presenter) presenter->printDeclarations();
+	});
+}
 void PatientTileInfo::setPatient(const Patient& p, int age)
 {
 	ui.patientTile->setData(p, age);

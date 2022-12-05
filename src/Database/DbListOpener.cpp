@@ -36,14 +36,12 @@ std::vector<AmbRow> DbListOpener::getAmbRows(const Date& from, const Date& to)
     rows.reserve(50);
 
     std::string query =
-        "SELECT amblist.rowid, amblist.num, sum(procedure.nzok) > 0, " 
+        "SELECT amblist.rowid, amblist.num, amblist.nhif_spec IS NOT NULL, " 
         "amblist.date, "
         "patient.rowid, patient.id, patient.fname, patient.mname, patient.lname, patient.phone "
 
         "FROM amblist JOIN patient ON amblist.patient_rowid = patient.rowid "
-        "LEFT JOIN procedure on amblist.rowid = procedure.amblist_rowid "
-        "GROUP BY amblist.rowid "
-        "HAVING strftime('%Y-%m-%d', amblist.date) BETWEEN '" + from.to8601() + "' AND '" + to.to8601() + "' "
+        "WHERE strftime('%Y-%m-%d', amblist.date) BETWEEN '" + from.to8601() + "' AND '" + to.to8601() + "' "
         "AND amblist.lpk = '" + User::doctor().LPK + "' "
         "AND amblist.rzi = '" + User::practice().rziCode + "' "
         "ORDER BY strftime('%Y %m %d', amblist.date) ASC, amblist.num ASC ";

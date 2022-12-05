@@ -108,10 +108,16 @@ QString TileButton::elide(const QString& text, int length)
 
 PatientTile::PatientTile(QWidget* parent) : TileButton(parent)
 {
-	nraIcon = new IconButton(this);
-	nraIcon->setIcon(QIcon(":/icons/icon_nra.png"));
-	nraIcon->move(5, 5);
-	nraIcon->setFixedSize(nraSize, nraSize);
+	nraButton = new IconButton(this);
+	nraButton->setIcon(QIcon(":/icons/icon_nra.png"));
+	nraButton->move(5, 5);
+	nraButton->setFixedSize(nraSize, nraSize);
+
+	printButton = new IconButton(this);
+	printButton->setIcon(QIcon(":/icons/icon_print.png"));
+	printButton->setFixedSize(nraSize, nraSize);
+	printButton->move(width() - (nraSize + 5), 5);
+	printButton->setToolTip("Принтиране на декларации");
 
 }
 
@@ -151,9 +157,18 @@ void PatientTile::paintInfo(QPainter* painter)
 
 	painter->setFont(header);
 	painter->setPen(hover && !clicked ? QPen(Theme::fontRedClicked) : QPen(QColor(Theme::fontRed)));
-	painter->drawText(nraIcon->x() + nraSize + 5, 27, name);
+	painter->drawText(nraButton->x() + nraSize + 5, 27, name);
 	
 }
+
+void PatientTile::resizeEvent(QResizeEvent* event)
+{
+	QWidget::resizeEvent(event);
+
+	printButton->move(width() - 5 - printButton->width(), 5);
+	update();
+}
+
 
 
 void PatientTile::setData(const Patient& patient, int age)
@@ -186,27 +201,27 @@ void PatientTile::setData(const Patient& patient, int age)
 		switch (patient.insuranceStatus->status)
 		{
 		case Insured::Yes:
-			nraIcon->setBackgroundColor(QColor(101,199,208));
-			nraIcon->setHoverColor(QColor(80,152,154));
-			nraIcon->setToolTip("Пациентът е здравноосигурен");
+			nraButton->setBackgroundColor(QColor(101,199,208));
+			nraButton->setHoverColor(QColor(80,152,154));
+			nraButton->setToolTip("Пациентът е здравноосигурен");
 			break;
 		case Insured::No:
-			nraIcon->setBackgroundColor(Theme::fontRed);
-			nraIcon->setHoverColor(Theme::fontRedClicked); 
-			nraIcon->setToolTip("Пациентът няма здравни осигуровки");
+			nraButton->setBackgroundColor(Theme::fontRed);
+			nraButton->setHoverColor(Theme::fontRedClicked); 
+			nraButton->setToolTip("Пациентът няма здравни осигуровки");
 			break;
 		case Insured::NoData:
-			nraIcon->setBackgroundColor(QColor(255, 165, 0));
-			nraIcon->setHoverColor(QColor(255, 165, 0));
-			nraIcon->setToolTip("За този пациент няма данни в НАП");
+			nraButton->setBackgroundColor(QColor(255, 165, 0));
+			nraButton->setHoverColor(QColor(255, 165, 0));
+			nraButton->setToolTip("За този пациент няма данни в НАП");
 			break;
 		}
 	}
 	else
 	{
-		nraIcon->setBackgroundColor(Theme::sectionBackground);
-		nraIcon->setHoverColor(Theme::background);
-		nraIcon->setToolTip("Проверка на здравноосигурителен статус");
+		nraButton->setBackgroundColor(Theme::sectionBackground);
+		nraButton->setHoverColor(Theme::background);
+		nraButton->setToolTip("Проверка на здравноосигурителен статус");
 
 	}
 
@@ -224,11 +239,11 @@ AllergiesTile::AllergiesTile(QWidget* parent) :
 	reverse();
 	header.setPointSizeF(10);
 
-	nzokIcon = new IconButton(this);
-	nzokIcon->setIcon(QIcon(":/icons/icon_nzok.png"));
-	nzokIcon->setFixedSize(nzokSize, nzokSize);
-	nzokIcon->move(width() - nzokSize, 5);
-	nzokIcon->setToolTip("Проверка на диагнози в рецептурната книжка");
+	nhifButton = new IconButton(this);
+	nhifButton->setIcon(QIcon(":/icons/icon_nzok.png"));
+	nhifButton->setFixedSize(nzokSize, nzokSize);
+	nhifButton->move(width() - nzokSize, 5);
+	nhifButton->setToolTip("Проверка на диагнози в рецептурната книжка");
 
 }
 
@@ -268,6 +283,6 @@ void AllergiesTile::resizeEvent(QResizeEvent* event)
 {
 	QWidget::resizeEvent(event);
 
-	nzokIcon->move(width() - 5 - nzokSize, 5);
+	nhifButton->move(width() - 5 - nzokSize, 5);
 	update();
 }

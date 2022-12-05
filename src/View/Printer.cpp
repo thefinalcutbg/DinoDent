@@ -22,6 +22,7 @@ void fillCommonData(LimeReport::ReportEngine& report, const Patient& patient, co
     report.dataManager()->setReportVariable("city", QString::fromStdString(patient.city.getString()));
     report.dataManager()->setReportVariable("address", QString::fromStdString(patient.address));
     report.dataManager()->setReportVariable("patientName", QString::fromStdString(patient.fullName()));
+    report.dataManager()->setReportVariable("patientPhone", QString::fromStdString(patient.phone));
     report.dataManager()->setReportVariable("RHIFCode", QString::fromStdString(patient.city.getRhif()));
     report.dataManager()->setReportVariable("healthRegion", QString::fromStdString(patient.city.getHealthRegion()));
     report.dataManager()->setReportVariable("birth", QString::fromStdString(patient.birth.toBgStandard()));
@@ -42,30 +43,27 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
 
     std::vector<Procedure> selectedProcedures;
 
-    {
-        ProcedurePrintSelectDialog dialog(amb.procedures.list());
+
+    ProcedurePrintSelectDialog dialog(amb.procedures.list(), amb.referrals);
         
-        for (auto& p : amb.procedures) {
-            if (p.nhif) {
-                dialog.selectOnlyWhereNzokIs(true);
-                break;
-            }
+    for (auto& p : amb.procedures) {
+        if (p.nhif) {
+            dialog.selectOnlyWhereNzokIs(true);
+            break;
         }
-
-        if (dialog.exec() == QDialog::Rejected) {
-            return;
-        }
-
-       auto selectedIndexes = dialog.selectedProcedures();
-
-       for (auto idx : selectedIndexes) {
-           selectedProcedures.push_back(amb.procedures.at(idx));
-       }
-
     }
-    
-    ProcedureTableModel model;
-    model.setProcedures(selectedProcedures);
+
+    if (dialog.exec() == QDialog::Rejected) {
+        return;
+    }
+
+    auto selectedIndexes = dialog.selectedProcedures();
+
+    for (auto idx : selectedIndexes) {
+        selectedProcedures.push_back(amb.procedures.at(idx));
+    }
+
+
 
     QApplication::setOverrideCursor(Qt::BusyCursor);
 
@@ -130,8 +128,37 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
     }
 
 
-    report.dataManager()->addModel("procedures", &model, false);
+    for (int i = 0; i < 6 && i < selectedProcedures.size(); i++)
+    {
+        auto& p = selectedProcedures[i];
 
+        QString idx = QString::number(i);
+
+        report.dataManager()->setReportVariable("pDate" + idx , p.date.toBgStandard().c_str());
+        report.dataManager()->setReportVariable("pDiag" + idx, p.name.c_str());
+        report.dataManager()->setReportVariable("pTooth" + idx, QString::number(ToothUtils::getToothNumber(p.tooth, p.temp)));
+        report.dataManager()->setReportVariable("pName" + idx, p.name.c_str());
+        report.dataManager()->setReportVariable("pNhif" + idx, QString::number(p.code));
+        report.dataManager()->setReportVariable("pKsmp" + idx, p.ksmp.c_str());
+    }
+
+
+
+    auto mdd4idx = dialog.mdd4Referral();
+
+    if (mdd4idx != -1)
+    {
+        auto& ref = amb.referrals[mdd4idx];
+        auto& mddData = std::get<MDD4Data>(ref.data);
+
+        report.dataManager()->setReportVariable("mdd4Num", FreeFn::leadZeroes(ref.number, 12).c_str());
+        report.dataManager()->setReportVariable("mdd4Date", ref.date.toBgStandard().c_str());
+        report.dataManager()->setReportVariable("mdd4Ksmp1", mddData.getKSMP().c_str());
+        report.dataManager()->setReportVariable("mdd4Nhif1", mddData.getCode().c_str());
+    }
+
+    //implement the other referrals here:
+    report.dataManager()->setReportVariable("refType", QString{ "" });
 
     QApplication::restoreOverrideCursor();
 
@@ -287,9 +314,8 @@ void Print::ambList()
     report.dataManager()->setReportVariable("LPK", QString::fromStdString(doctor.LPK));
     report.dataManager()->setReportVariable("doctorName", QString::fromStdString(doctor.getFullName(true)));
 
-    ProcedureTableModel model;
+    report.dataManager()->setReportVariable("refType", QString{ "" });
 
-    report.dataManager()->addModel("procedures", &model, false);
     report.setShowProgressDialog(true);
     QApplication::restoreOverrideCursor();
 
@@ -297,6 +323,34 @@ void Print::ambList()
   //  report.setPreviewPageBackgroundColor(QColor(Qt::white));
   //  report.previewReport(LimeReport::PreviewHint::HidePreviewStatusBar);
 
+    report.printReport();
+
+}
+
+void Print::printDentureDeclaration(const Patient& patient, DentureDeclaration type)
+{
+    QApplication::setOverrideCursor(Qt::BusyCursor);
+
+    auto report = LimeReport::ReportEngine();
+
+    switch (type)
+    {
+    case DentureDeclaration::Insured:    
+        report.loadFromFile(":/reports/report_dentureInsured.lrxml");
+        break;
+    case DentureDeclaration::Custody:
+        report.loadFromFile(":/reports/report_dentureCustody.lrxml");
+        break;
+    case DentureDeclaration::Empty:
+        report.loadFromFile(":/reports/report_dentureCustody.lrxml");
+        break;
+    }
+
+    if (type != DentureDeclaration::Empty) {
+        fillCommonData(report, patient, User::doctor(), User::practice());
+    }
+
+    QApplication::restoreOverrideCursor();
     report.printReport();
 
 }

@@ -368,6 +368,10 @@ std::vector<AmbList> DbAmbList::getMonthlyNhifSheets(int month, int year)
 {
     std::vector<AmbList> result;
 
+    std::map<long long, int> sheetRowIdMap;
+
+    //getting amb sheets
+
      std::string query = 
         "SELECT "
         "rowid," 
@@ -386,90 +390,106 @@ std::vector<AmbList> DbAmbList::getMonthlyNhifSheets(int month, int year)
 
      Db db(query);
 
+
+
      while(db.hasRows())
      {
-             result.emplace_back();
-             auto& sheet = result.back();
-             sheet.rowid = db.asRowId(0);
-             sheet.patient_rowid = db.asRowId(1);
-             sheet.number = db.asInt(2);
-             sheet.nhifData.specification = static_cast<NhifSpecification>(db.asInt(3));
-             Parser::parse(db.asString(4), sheet.teeth);
-             sheet.LPK = db.asString(5);
+        result.emplace_back();
+        auto& sheet = result.back();
+        sheet.rowid = db.asRowId(0);
+        sheet.patient_rowid = db.asRowId(1);
+        sheet.number = db.asInt(2);
+        sheet.nhifData.specification = static_cast<NhifSpecification>(db.asInt(3));
+        Parser::parse(db.asString(4), sheet.teeth);
+        sheet.LPK = db.asString(5);
 
+        sheetRowIdMap[sheet.rowid] = result.size() - 1;
      }
 
-     for (auto& sheet : result)
-     {
-         //getting procedures
+ 
+        //getting procedures
 
-         db.newStatement(
-             "SELECT "
-             "procedure.type,"
-             "procedure.code,"
-             "procedure.tooth,"
-             "procedure.date,"
-             "procedure.name,"
-             "procedure.deciduous,"
-             "procedure.ksmp, "
-             "procedure.diagnosis "
-             "FROM procedure LEFT JOIN amblist ON procedure.amblist_rowid = amblist.rowid "
-             "WHERE procedure.nzok = 1 "
-             "AND amblist.rowid = ?"
-         );
-
-         db.bind(1, sheet.rowid);
-
-         while (db.hasRows())
-         {
-             Procedure p;
-
-             p.nhif = true;
-             p.LPK = sheet.LPK;
-             p.type = static_cast<ProcedureType>(db.asInt(0));
-             p.code = db.asInt(1);
-             p.tooth = db.asInt(2);
-             p.date = db.asString(3);
-             p.name = db.asString(4);
-             p.temp = db.asBool(5);
-             p.ksmp = db.asString(6);
-             p.diagnosis = db.asString(7);
-
-             sheet.procedures.addProcedure(p);
-         }
-
-         //getting referrals
-
-         db.newStatement(
-             "SELECT referral.type, referral.number, referral.date, referral.reason,"
-             "referral.main_diagnosis, referral.additional_diagnosis, referral.data "
-             "FROM referral LEFT JOIN amblist ON referral.amblist_rowid=amblist.rowid "
-             "WHERE amblist.rowid = ?"
-         );
-
-         db.bind(1, sheet.rowid);
-
-         while (db.hasRows())
-         {
-             sheet.referrals.emplace_back(static_cast<ReferralType>(db.asInt(0)));
-
-             auto& ref = sheet.referrals.back();
-
-             ref.number = db.asInt(1);
-             ref.date = db.asString(2);
-             ref.reason = db.asInt(3);
-             ref.diagnosis.main = db.asString(4);
-             ref.diagnosis.additional = db.asString(5);
-
-             if (ref.type == ReferralType::MDD4) {
-                 ref.data = MDD4Data(std::stoi(db.asString(6)));
-             }
-
-         }
+        db.newStatement(
+            "SELECT "
+            "procedure.type,"
+            "procedure.code,"
+            "procedure.tooth,"
+            "procedure.date,"
+            "procedure.name,"
+            "procedure.deciduous,"
+            "procedure.ksmp, "
+            "procedure.diagnosis,"
+            "amblist.rowid "
+            "FROM procedure LEFT JOIN amblist ON procedure.amblist_rowid = amblist.rowid "
+            "WHERE procedure.nzok = 1 "
+            "AND amblist.nhif_spec IS NOT NULL "
+            "AND amblist.lpk = '" + User::doctor().LPK + "' "
+            "AND amblist.rzi = '" + User::practice().rziCode + "' "
+            "AND strftime('%m', amblist.date)='" + FreeFn::leadZeroes(month, 2) + "' "
+            "AND strftime('%Y', amblist.date)='" + std::to_string(year) + "' "
+            "ORDER BY amblist.num ASC"
+        );
 
 
+        while (db.hasRows())
+        {
+            if (!sheetRowIdMap.count(db.asRowId(8))) continue;
 
-     }
+            auto& sheet = result[sheetRowIdMap[db.asRowId(8)]];
+
+            Procedure p;
+
+            p.nhif = true;
+            p.LPK = sheet.LPK;
+            p.type = static_cast<ProcedureType>(db.asInt(0));
+            p.code = db.asInt(1);
+            p.tooth = db.asInt(2);
+            p.date = db.asString(3);
+            p.name = db.asString(4);
+            p.temp = db.asBool(5);
+            p.ksmp = db.asString(6);
+            p.diagnosis = db.asString(7);
+
+            sheet.procedures.addProcedure(p);
+        }
+
+        //getting referrals
+
+        query =
+            "SELECT referral.type, referral.number, referral.date, referral.reason,"
+            "referral.main_diagnosis, referral.additional_diagnosis, referral.data, amblist.rowid "
+            "FROM referral LEFT JOIN amblist ON referral.amblist_rowid=amblist.rowid "
+            "WHERE "
+            "amblist.lpk = '" + User::doctor().LPK + "' "
+            "AND amblist.rzi = '" + User::practice().rziCode + "' "
+            "AND strftime('%m', amblist.date)='" + FreeFn::leadZeroes(month, 2) + "' "
+            "AND strftime('%Y', amblist.date)='" + std::to_string(year) + "' "
+            "ORDER BY amblist.num ASC"
+            ;
+
+        db.newStatement(query);
+
+        while (db.hasRows())
+        {
+            if (!sheetRowIdMap.count(db.asRowId(8))) continue;
+
+            auto& sheet = result[sheetRowIdMap[db.asRowId(8)]];
+
+            sheet.referrals.emplace_back(static_cast<ReferralType>(db.asInt(0)));
+
+            auto& ref = sheet.referrals.back();
+
+            ref.number = db.asInt(1);
+            ref.date = db.asString(2);
+            ref.reason = db.asInt(3);
+            ref.diagnosis.main = db.asString(4);
+            ref.diagnosis.additional = db.asString(5);
+
+            if (ref.type == ReferralType::MDD4) {
+                ref.data = MDD4Data(std::stoi(db.asString(6)));
+            }
+
+        }
 
 
      return result;

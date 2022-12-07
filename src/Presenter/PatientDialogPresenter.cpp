@@ -69,20 +69,6 @@ void PatientDialogPresenter::changePatientType(int index)
 	}
 }
 
-void PatientDialogPresenter::printConsent()
-{
-	if (!viewIsValid()) return;
-
-	Print::consent(view->getPatient());
-}
-
-void PatientDialogPresenter::printGDPR()
-{
-	if (!viewIsValid()) return;
-
-	Print::gdpr(view->getPatient());
-}
-
 void PatientDialogPresenter::checkHirbno()
 {
 	auto p = view->getPatient();

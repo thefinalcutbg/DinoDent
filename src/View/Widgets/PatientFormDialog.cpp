@@ -28,8 +28,6 @@ PatientFormDialog::PatientFormDialog(PatientDialogPresenter* p, QWidget* parent)
     connect(ui.okButton, &QPushButton::clicked, [=] { presenter->accept(); });
     connect(ui.idLineEdit, &QLineEdit::textEdited, [=]{ if(ui.idLineEdit->isValid()) presenter->searchDbForPatient(ui.typeComboBox->currentIndex()+1); });
     connect(ui.hirbnoButton, &QPushButton::clicked, [=] { presenter->checkHirbno();});
-    connect(ui.consentButton, &QPushButton::clicked, [=] { presenter->printConsent();});
-    connect(ui.gdprButton, &QPushButton::clicked, [=] { presenter->printGDPR();});
     patientFields[id] = ui.idLineEdit;
     patientFields[fname] = ui.fNameEdit;
     patientFields[mname] = ui.mNameEdit;

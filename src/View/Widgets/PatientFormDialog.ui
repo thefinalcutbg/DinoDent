@@ -280,7 +280,7 @@
    </property>
    <property name="maximumDateTime">
     <datetime>
-     <hour>21</hour>
+     <hour>19</hour>
      <minute>59</minute>
      <second>59</second>
      <year>9999</year>
@@ -420,32 +420,6 @@
    </property>
    <property name="text">
     <string/>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="consentButton">
-   <property name="geometry">
-    <rect>
-     <x>410</x>
-     <y>60</y>
-     <width>151</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Информирано съгласие</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="gdprButton">
-   <property name="geometry">
-    <rect>
-     <x>410</x>
-     <y>100</y>
-     <width>151</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>GDPR</string>
    </property>
   </widget>
  </widget>

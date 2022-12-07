@@ -52,8 +52,6 @@ public:
 	std::optional<Patient> open();
 
 	void changePatientType(int index);
-	void printConsent();
-	void printGDPR();
 	void setHirbno(const std::string& hirbno);
 	void checkHirbno();
 	void searchDbForPatient(int type);

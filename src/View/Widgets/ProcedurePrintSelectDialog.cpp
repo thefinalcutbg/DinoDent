@@ -13,6 +13,9 @@ ProcedurePrintSelectDialog::ProcedurePrintSelectDialog(const std::vector<Procedu
 	ui.tableView->setModel(&this->model);
 	ui.tableView->setProcedurePrintSelectLayout();
 
+	ui.mdd4group->hide();
+	ui.mh119check->hide();
+
 	connect(ui.okButton, &QPushButton::pressed, [=]
 		{
 			auto select = ui.tableView->selectionModel()->selectedIndexes();
@@ -23,26 +26,34 @@ ProcedurePrintSelectDialog::ProcedurePrintSelectDialog(const std::vector<Procedu
 
 		});
 
-	connect(ui.paidButton, &QPushButton::clicked, [=] { this->model.selectOnlyRowsWhereNzokIs(false); });
-	connect(ui.nzokButton, &QPushButton::clicked, [=] { this->model.selectOnlyRowsWhereNzokIs(true); });
+	connect(ui.paidButton, &QPushButton::clicked, [&] { selectOnlyWhereNzokIs(false); });
+	connect(ui.nzokButton, &QPushButton::clicked, [=] { selectOnlyWhereNzokIs(true); });
 
-	if (referrals.empty())
-	{
-		ui.mdd4group->hide();
-		return;
-	}
+	if (referrals.empty()) return;
+	
 
-	for (auto& ref : referrals)
+	for (int i = 0; i < referrals.size(); i++)
 	{
+		auto ref = referrals[i];
+
 		ref_typeIndexes.push_back(ref.type);
 
 		if (ref.type == ReferralType::MDD4)
 		{
+			ui.mdd4group->show();
+
 			QString buttonName = "Направление МДД №";
 			buttonName += FreeFn::leadZeroes(ref.number, 6).c_str();
 
 			mdd4_buttons.push_back(new QRadioButton(buttonName, this));
 			ui.mdd4Layout->addWidget(mdd4_buttons.back());
+		}
+
+		if (ref.type == ReferralType::MH119)
+		{
+			ui.mh119check->show();
+			ui.mh119check->setChecked(true);
+			mh119index = i;
 		}
 	}
 
@@ -94,9 +105,17 @@ int ProcedurePrintSelectDialog::mdd4Referral() const
 
 }
 
+int ProcedurePrintSelectDialog::mh119Referral() const
+{
+	return ui.mh119check->isChecked() ? mh119index : -1;
+}
+
 void ProcedurePrintSelectDialog::selectOnlyWhereNzokIs(bool nhif)
 {
 	model.selectOnlyRowsWhereNzokIs(nhif);
+
+	ui.mdd4group->setChecked(nhif);
+	ui.mh119check->setChecked(nhif);
 }
 
 

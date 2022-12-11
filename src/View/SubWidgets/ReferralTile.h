@@ -25,6 +25,7 @@ signals:
 	void clicked(int index);
 	void print(int index);
 	void remove(int index);
+	void sendToHis(int index);
 
 private:
 	Ui::ReferralTileClass ui;

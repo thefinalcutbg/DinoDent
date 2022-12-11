@@ -77,6 +77,13 @@
     </layout>
    </item>
    <item>
+    <widget class="QCheckBox" name="mh119check">
+     <property name="text">
+      <string>Направление по 119МЗ</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
       <widget class="QGroupBox" name="groupBox">

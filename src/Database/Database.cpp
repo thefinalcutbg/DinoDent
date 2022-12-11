@@ -84,6 +84,7 @@ std::string Db::asString(int column) {
 
 void Db::newStatement(const std::string& query)
 { 
+    finalizeStatement();
     sqlite3_prepare_v2(db_connection, query.c_str(), -1, &stmt, NULL);
 }
 #include <qdebug.h>
@@ -192,6 +193,9 @@ void Db::finalizeStatement()
 {
     total_bindings = 0;
     successful_bindings = 0;
+
+    if (!stmt) return;
+
     sqlite3_finalize(stmt);
     stmt = nullptr;
     

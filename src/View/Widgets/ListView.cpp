@@ -46,17 +46,9 @@ ListView::ListView(QWidget* parent)
 
 	menu->setStyleSheet(Theme::getPopupMenuStylesheet());
 
-	static constexpr const char* refNames[3]{
-		"Направление за МДД (бл.4)",
-		"Направление за психиатър (бл.3)",
-		"Направление за анестезиолог (бл.3А)"
-	};
-
-
-
-	for (int i = 0; i < 3; i++) {
-		const char* name = refNames[i];
-		QAction* action = new QAction(name, menu);
+	for (int i = 0; i < Referral::refDescription.size(); i++) {
+		
+		QAction* action = new QAction(Referral::refDescription[i], menu);
 		menu->addAction(action);
 
 		connect(action, &QAction::triggered, [=] { 
@@ -82,12 +74,12 @@ ListView::ListView(QWidget* parent)
 		"color : " + Theme::colorToString(Theme::fontTurquoise) + "; "
 		"font-weight: bold; font-size: 12px;"
 	);
-
+	/*
 	ui.refLabel->setStyleSheet(
 		"color : " + Theme::colorToString(Theme::fontTurquoise) + "; "
 		"font-weight: bold; font-size: 12px;"
 	);
-
+	*/
 
 	connect(ui.ambNumSpin, &LeadingZeroSpinBox::valueChanged, [=](long long value) {if(presenter)presenter->ambNumChanged(value);});
 	connect(ui.nzokActivities, &QPushButton::clicked, [=] { if (presenter) presenter->openPisHistory(); });
@@ -367,6 +359,7 @@ void ListView::setReferrals(const std::vector<Referral>& referrals)
 		connect(refWidget, &ReferralTile::remove, [=](int index) {presenter->removeReferral(index);});
 		connect(refWidget, &ReferralTile::clicked, [=](int index) {presenter->editReferral(index);});
 		connect(refWidget, &ReferralTile::print, [=](int index) {presenter->printReferral(index);});
+		connect(refWidget, &ReferralTile::sendToHis, [=](int index) {presenter->sendReferralToHis(index);});
 		ui.referralLayout->addWidget(refWidget);
 		
 	}

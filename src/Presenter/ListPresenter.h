@@ -93,6 +93,7 @@ public:
     void editReferral(int index);
     void removeReferral(int index);
     void printReferral(int index);
+    void sendReferralToHis(int index);
 
     void setNhifData(const NhifSheetData& data);
 

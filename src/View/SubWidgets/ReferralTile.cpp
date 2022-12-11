@@ -14,11 +14,30 @@ ReferralTile::ReferralTile(const Referral& ref, int index, QWidget* parent)
 
 	ui.printButton->setIcon(QIcon(":/icons/icon_print.png"));
 	ui.deleteButton->setIcon(QIcon(":/icons/icon_remove.png"));
+	ui.hisButton->setIcon(QIcon(":/icons/icon_his.png"));
 
 	ui.printButton->setHoverColor(Theme::mainBackgroundColor);
 	ui.deleteButton->setHoverColor(Theme::mainBackgroundColor);
 
-	ui.numLabel->setText("<b>Номер:</b> " + QString::fromStdString(FreeFn::leadZeroes(ref.number, 6)));
+	if (ref.isNrnType())
+	{
+		ui.printButton->hide();
+		
+		bool hasNrn = ref.nrn.size();
+
+		if (hasNrn) ui.hisButton->hide();
+
+		QString nrn = hasNrn ? "<b>НРН:</b> " + QString(ref.nrn.c_str())
+			: "<b>НРН: </b>Няма";
+
+		ui.numLabel->setText(nrn);
+
+	}
+	else
+	{
+		ui.hisButton->hide();
+		ui.numLabel->setText("<b>Номер:</b> " + QString::fromStdString(FreeFn::leadZeroes(ref.number, 6)));
+	}
 	ui.dateLabel->setText("<b>Дата:</b> " + QString::fromStdString(ref.date.toBgStandard(true)));
 	ui.title->setText("<b>" + QString::fromStdString(ref.getTypeAsString()) + "</b>");
 
@@ -29,6 +48,7 @@ ReferralTile::ReferralTile(const Referral& ref, int index, QWidget* parent)
 
 	connect(ui.printButton, &QPushButton::clicked, [&] { print(m_index); });
 	connect(ui.deleteButton, &QPushButton::clicked, [&] { remove(m_index); });
+	connect(ui.hisButton, &QPushButton::clicked, [&] { sendToHis(m_index); });
 
 }
 
@@ -88,6 +108,7 @@ bool ReferralTile::eventFilter(QObject* obj, QEvent* e)
 	if (e->type() == QEvent::MouseButtonRelease)
 	{
 		m_clicked = false;
+		
 		emit clicked(m_index);
 		update();
 	}
@@ -97,4 +118,6 @@ bool ReferralTile::eventFilter(QObject* obj, QEvent* e)
 
 
 ReferralTile::~ReferralTile()
-{}
+{
+	QApplication::restoreOverrideCursor();
+}

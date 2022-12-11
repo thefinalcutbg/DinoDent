@@ -7,7 +7,7 @@
 
 #include <QDebug>
 
-std::vector<Procedure> DbProcedure::getProcedures(long long amblist_rowid, Db* existingConnection, bool nhifOnly)
+std::vector<Procedure> DbProcedure::getProcedures(long long amblist_rowid, Db& db, bool nhifOnly)
 {
 	std::vector<Procedure> mList;
 
@@ -30,8 +30,9 @@ std::vector<Procedure> DbProcedure::getProcedures(long long amblist_rowid, Db* e
 						+ condition +
 						" ORDER BY procedure.rowid";
 
+	db.newStatement(query);
 
-	for (Db db(query, existingConnection); db.hasRows();)
+	while(db.hasRows())
 	{
 		mList.emplace_back();
 		Procedure& p = mList.back();
@@ -54,39 +55,37 @@ std::vector<Procedure> DbProcedure::getProcedures(long long amblist_rowid, Db* e
 
 }
 
-void DbProcedure::saveProcedures(long long amblist_rowid, const std::vector<Procedure>& mList, Db* existingConnection)
+void DbProcedure::saveProcedures(long long amblist_rowid, const std::vector<Procedure>& mList, Db& db)
 {
-
 	std::string query = "DELETE FROM procedure WHERE amblist_rowid = " + std::to_string(amblist_rowid);
-
-	Db db(existingConnection);
 
 	db.execute(query);
 
+	qDebug() << "querry passed";
+
 	for (int i = 0; i < mList.size(); i++)
 	{
-		auto& m = mList[i];
+		auto& p = mList[i];
 
-		query = "INSERT INTO procedure "
-			"(nzok, type, code, date, tooth, deciduous, data, ksmp, amblist_rowid, name, diagnosis) "
-			"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		db.newStatement(
+			"INSERT INTO procedure "
+			"(date, nzok, type, code, tooth, deciduous, data, ksmp, amblist_rowid, name, diagnosis) "
+			"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-		db.newStatement(query);
-
-		db.bind(1, m.nhif);
-		db.bind(2, static_cast<int>(m.type));
-		db.bind(3, m.code);
-		db.bind(4, m.tooth);
-		db.bind(5, m.date.to8601());
-		db.bind(6, m.temp);
-		db.bind(7, m.date.to8601());
-		db.bind(8, Parser::write(m));
-		db.bind(9, m.ksmp);
-		db.bind(10, amblist_rowid);
-		db.bind(11, m.name);
-		db.bind(12, m.diagnosis);
-
-		db.execute(query);
+		db.bind(1, p.date.to8601());
+		db.bind(2, p.nhif);
+		db.bind(3, static_cast<int>(p.type));
+		db.bind(4, p.code);
+		db.bind(5, p.tooth);
+		db.bind(6, p.temp);
+		//    db.bind(7, p.price);
+		db.bind(7, Parser::write(p));
+		db.bind(8, p.ksmp);
+		db.bind(9, amblist_rowid);
+		db.bind(10, p.name);
+		db.bind(11, p.diagnosis);
+		db.execute();
+		
 	}
 
 }

@@ -7,14 +7,14 @@
 #include "Model/Dental/MKB.h"
 #include "Model/Dental/KSMP.h"
 #include "ReferralData.h"
-
+#include "Model/FreeFunctions.h"
 
 
 class Referral
 {
 public:
 
-	typedef std::variant<MDD4Data, R3Data, R3AData> RefData;
+	typedef std::variant<MDD4Data, R3Data, R3AData, MH119Data> RefData;
 
 private:
 
@@ -25,20 +25,32 @@ private:
 			case ReferralType::MDD4: return MDD4Data();
 			case::ReferralType::Form3: return R3Data();
 			case ReferralType::Form3A: return R3AData();
+			case ReferralType::MH119: return MH119Data();
 		}
 	}
 
 public:
 
+	static inline constexpr std::array<const char*, 4> refDescription{
+		"Направление за рентгенография (бл.4)",
+		"Направление за психиатър (бл.3)",
+		"Направление за анестезиолог (бл.3А)",
+		"Направление за орален хирург (бл.119МЗ)"
+	};
+
 	long long rowid{ 0 };
 
 	int number{ 0 };
+	std::string nrn;
+	std::string lrn;
+
 
 	Date date{ Date::currentDate() };
 
 	RefDiagnosis diagnosis;
+	RefDiagnosis comorbidity;
 
-	Reason reason{ 0 };
+	Reason reason{ 1 };
 
 	ReferralType type;
 
@@ -48,13 +60,15 @@ public:
 
 	const char* getTypeAsString() const {
 
-		static constexpr const char* refNames[3]{
-			"Направление за МДД (бл.4)",
-			"Направление за психиатър (бл.3)",
-			"Направление за анестезиолог (бл.3А)"
-		};
-
-		return refNames[static_cast<int>(type)];
+		return refDescription[static_cast<int>(type)];
 	};
 	
+
+	inline bool isNrnType() const { 
+		return type == ReferralType::Form3 || type == ReferralType::Form3A; 
+	}
+
+	inline bool isSentToHIS(){
+		return nrn.size();
+	}
 };

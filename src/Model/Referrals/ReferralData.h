@@ -26,9 +26,6 @@ struct R3Data
 	static constexpr int specialty = 18; //Психиатрия
 	static constexpr int hisSpecialty = 1050;
 
-	std::string additionalDocuments;
-
-
 };
 
 struct R3AData
@@ -38,7 +35,12 @@ struct R3AData
 	static constexpr const char* highlySpecializedActivity{ "89.07" };
 	static constexpr const char* ksmp{ "92500-00" };
 
-	std::string additionalDocuments;
 };
 
 
+struct MH119Data
+{
+	static constexpr int specCode = 62; //Орална хирургия
+	MH119Reason reason{ 0 };
+	std::string description;
+};

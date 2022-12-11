@@ -157,6 +157,17 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
         report.dataManager()->setReportVariable("mdd4Nhif1", mddData.getCode().c_str());
     }
 
+    auto mh119idx = dialog.mh119Referral();
+
+    if (mh119idx != -1)
+    {
+        auto& ref = amb.referrals[mh119idx];
+        auto& data = std::get<MH119Data>(ref.data);
+
+        report.dataManager()->setReportVariable("mh119SpecCode", QString::number(data.specCode));
+        report.dataManager()->setReportVariable("mh119Date", ref.date.toBgStandard().c_str());
+    }
+
     //implement the other referrals here:
     report.dataManager()->setReportVariable("refType", QString{ "" });
 
@@ -393,9 +404,32 @@ void Print::referral(const Referral& ref, const Patient& patient, int ambSheetNu
         report.dataManager()->setReportVariable("diagnosis_additional", ref.diagnosis.additional.code().c_str());
         report.dataManager()->setReportVariable("reason", FreeFn::leadZeroes(ref.reason.getIndex() + 1, 2).c_str());
         */
-        auto mdd4data = std::get<MDD4Data>(ref.data);
-        report.dataManager()->setReportVariable("nhifCode", mdd4data.getCode().c_str());
-        report.dataManager()->setReportVariable("KSMP", mdd4data.getKSMP().c_str());
+        auto data = std::get<MDD4Data>(ref.data);
+        report.dataManager()->setReportVariable("nhifCode", data.getCode().c_str());
+        report.dataManager()->setReportVariable("KSMP", data.getKSMP().c_str());
+
+    };
+
+    auto mh119fill = [&] {
+
+        report.loadFromFile(":/reports/report_mh119.lrxml");
+
+        refCommonFill();
+
+        fillCommonData(report, patient, User::doctor(), User::practice());
+
+        auto data = std::get<MH119Data>(ref.data);
+
+        report.dataManager()->setReportVariable("motives", data.description.c_str());
+        report.dataManager()->setReportVariable("doctorPhone", User::doctor().phone.c_str());
+        report.dataManager()->setReportVariable("diagnosis", ref.diagnosis.getText().c_str());
+        report.dataManager()->setReportVariable("comorbidity", ref.comorbidity.getText().c_str());
+        report.dataManager()->setReportVariable("specCode", data.specCode);
+        report.dataManager()->setReportVariable("practiceName", User::practice().name.c_str());
+        
+        int typeYpos[4] = { 440, 480, 525, 570 };
+
+        report.dataManager()->setReportVariable("typeY", typeYpos[data.reason.getIndex()]);
 
     };
 
@@ -404,8 +438,11 @@ void Print::referral(const Referral& ref, const Patient& patient, int ambSheetNu
         case ReferralType::MDD4: 
             mdd4fill(); 
             break;
-
+        case ReferralType::MH119:
+            mh119fill();
+            break;
         default: 
+            QApplication::restoreOverrideCursor();
             return;
     }
 

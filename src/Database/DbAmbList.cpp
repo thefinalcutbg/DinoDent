@@ -8,6 +8,7 @@
 #include "DbProcedure.h"
 #include <qdebug.h>
 #include "Model/FreeFunctions.h"
+#include "Database//DbReferral.h"
 
 long long DbAmbList::insert(const AmbList& sheet, long long patientRowId)
 {
@@ -30,52 +31,9 @@ long long DbAmbList::insert(const AmbList& sheet, long long patientRowId)
 
     auto rowID = db.lastInsertedRowID();
 
-    for (auto& p : sheet.procedures)
-    {
-        db.newStatement(
-            "INSERT INTO procedure "
-            "(date, nzok, type, code, tooth, deciduous, data, ksmp, amblist_rowid) "
-            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    DbProcedure::saveProcedures(rowID, sheet.procedures.list(), db);
 
-        db.bind(1, p.date.to8601());
-        db.bind(2, p.nhif);
-        db.bind(3, static_cast<int>(p.type));
-        db.bind(4, p.code);
-        db.bind(5, p.tooth);
-        db.bind(6, p.temp);
-    //    db.bind(7, p.price);
-        db.bind(7, Parser::write(p));
-        db.bind(8, p.ksmp);
-        db.bind(9, rowID);
-
-        db.execute();
-    }
-
-    for (auto& r : sheet.referrals)
-    {
-        db.newStatement(
-            "INSERT INTO referral "
-            "(amblist_rowid, number, date, reason, main_diagnosis, additional_diagnosis, type, data) "
-            "VALUES (?,?,?,?,?,?,?,?) "
-        );
-
-        db.bind(1, rowID);
-        db.bind(2, r.number);
-        db.bind(3, r.date.to8601());
-        db.bind(4, r.reason.getIndex());
-        db.bind(5, r.diagnosis.main.code());
-        db.bind(6, r.diagnosis.additional.code());
-        db.bind(7, static_cast<int>(r.type));
-        
-        auto data = r.type == ReferralType::MDD4 ? 
-            std::to_string(std::get<MDD4Data>(r.data).tooth)
-            : 
-            std::string{};
-
-        db.bind(8, data);
-
-        db.execute();
-    }
+    DbReferral::saveReferrals(sheet.referrals, rowID, db);
 
     return rowID;
 
@@ -102,58 +60,9 @@ void DbAmbList::update(const AmbList& sheet)
 
     db.execute();
 
-    db.execute("DELETE FROM procedure WHERE amblist_rowid = " + std::to_string(sheet.rowid));
+    DbProcedure::saveProcedures(sheet.rowid, sheet.procedures.list(), db);
 
-    for (auto& p : sheet.procedures)
-    {
-        db.newStatement(
-            "INSERT INTO procedure "
-            "(nzok, type, code, date, tooth, deciduous, data, ksmp, amblist_rowid, name, diagnosis) "
-            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-
-        db.bind(1, p.nhif);
-        db.bind(2, static_cast<int>(p.type));
-        db.bind(3, p.code);
-        db.bind(4, p.date.to8601());
-        db.bind(5, p.tooth);
-        db.bind(6, p.temp);
-      //  db.bind(7, p.price);
-        db.bind(7, Parser::write(p));
-        db.bind(8, p.ksmp);
-        db.bind(9, sheet.rowid);
-        db.bind(10, p.name);
-        db.bind(11, p.diagnosis);
-
-        db.execute();
-    }
-
-    db.execute("DELETE FROM referral WHERE amblist_rowid = " + std::to_string(sheet.rowid));
-
-    for (auto& r : sheet.referrals)
-    {
-        db.newStatement(
-            "INSERT INTO referral "
-            "(amblist_rowid, number, date, reason, main_diagnosis, additional_diagnosis, type, data) "
-            "VALUES (?,?,?,?,?,?,?,?) "
-        );
-
-        db.bind(1, sheet.rowid);
-        db.bind(2, r.number);
-        db.bind(3, r.date.to8601());
-        db.bind(4, r.reason.getIndex());
-        db.bind(5, r.diagnosis.main.code());
-        db.bind(6, r.diagnosis.additional.code());
-        db.bind(7, static_cast<int>(r.type));
-
-        auto data = r.type == ReferralType::MDD4 ?
-            std::to_string(std::get<MDD4Data>(r.data).tooth)
-            :
-            std::string{};
-
-        db.bind(8, data);
-
-        db.execute();
-    }
+    DbReferral::saveReferrals(sheet.referrals, sheet.rowid, db);
 
 }
 
@@ -208,7 +117,7 @@ AmbList DbAmbList::getNewAmbSheet(long long patientRowId)
 
         Parser::parse(status, ambList.teeth);
 
-        auto procedures = DbProcedure::getProcedures(oldId, &db);
+        auto procedures = DbProcedure::getProcedures(oldId, db);
 
         for (auto& p : procedures)
         {
@@ -218,11 +127,9 @@ AmbList DbAmbList::getNewAmbSheet(long long patientRowId)
     else
     {
         Parser::parse(status, ambList.teeth);
-        ambList.procedures.addProcedures(DbProcedure::getProcedures(ambList.rowid, &db));
+        ambList.procedures.addProcedures(DbProcedure::getProcedures(ambList.rowid, db));
+        ambList.referrals = DbReferral::getReferrals(ambList.rowid, db);
     }
-
-
-
 
     return ambList;
 }
@@ -250,35 +157,9 @@ AmbList DbAmbList::getListData(long long rowId)
     }
 
     Parser::parse(status, ambList.teeth);
-    ambList.procedures.addProcedures(DbProcedure::getProcedures(ambList.rowid, &db));
+    ambList.procedures.addProcedures(DbProcedure::getProcedures(ambList.rowid, db));
 
-
-    db.newStatement(
-        "SELECT referral.type, referral.number, referral.date, referral.reason,"
-        "referral.main_diagnosis, referral.additional_diagnosis, referral.data "
-        "FROM referral LEFT JOIN amblist ON referral.amblist_rowid=amblist.rowid "
-        "WHERE amblist.rowid = ?"
-    );
-
-    db.bind(1, ambList.rowid);
-
-    while (db.hasRows())
-    {
-        ambList.referrals.emplace_back(static_cast<ReferralType>(db.asInt(0)));
-        
-        auto& ref = ambList.referrals.back();
-
-        ref.number = db.asInt(1);
-        ref.date = db.asString(2);
-        ref.reason = db.asInt(3);
-        ref.diagnosis.main = db.asString(4);
-        ref.diagnosis.additional = db.asString(5);
-        
-        if (ref.type == ReferralType::MDD4) {
-           ref.data = MDD4Data(std::stoi(db.asString(6)));
-        }
-
-    }
+    ambList.referrals = DbReferral::getReferrals(ambList.rowid, db);
 
 
     return ambList;

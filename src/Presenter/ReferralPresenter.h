@@ -16,6 +16,7 @@ class ReferralPresenter
 
 	//data not stored in view:
 	long long ref_rowid{ 0 };
+	std::string lrn;
 	ReferralType m_type;
 
 

@@ -494,6 +494,7 @@
     <ClInclude Include="src\Database\DbReferral.h" />
     <ClInclude Include="src\Database\DbUpdateStatus.h" />
     <ClInclude Include="src\Model\Dental\DentalNum.h" />
+    <ClInclude Include="src\Model\Referrals\NumberVariant.h" />
     <ClInclude Include="src\Model\Referrals\Referral.h" />
     <ClInclude Include="src\Model\NumenclatureTemplate.h" />
     <ClInclude Include="src\Model\Referrals\ReferralData.h" />

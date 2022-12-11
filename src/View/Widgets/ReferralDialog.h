@@ -16,6 +16,8 @@ class ReferralDialog : public QDialog, public IReferralDialog
 
 	void paintEvent(QPaintEvent* event) override;
 
+	void setRefTypeView(ReferralType t);
+
 public:
 	ReferralDialog(ReferralPresenter *p, QWidget *parent = nullptr);
 
@@ -24,6 +26,7 @@ public:
 	void setReferral(const Referral& referral) override;
 	IReferralDialog::CommonData getCommon() override;
 	MDD4Data MDD4data() override;
+	MH119Data MH119data() override;
 	void setErrorLabel(const std::string& str) override;
 	void closeDialog()  override { close(); }
 

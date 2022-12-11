@@ -571,6 +571,18 @@ void ListPresenter::addReferral(ReferralType type)
         return;
     }
 
+    if (type == ReferralType::MH119) {
+        for (auto& r : m_ambList.referrals)
+        {
+            if (r.type == type) {
+                ModalDialogBuilder::showMessage(
+                    "Позволено е максимум едно направление от тип 119 МЗ"
+                );
+                return;
+            }
+        }
+    }
+
     ReferralPresenter p(m_ambList, type);
 
     auto result = p.openDialog();
@@ -604,21 +616,39 @@ void ListPresenter::editReferral(int index)
 
 void ListPresenter::removeReferral(int index)
 {
-    auto& ref = m_ambList.referrals;
+    auto& r = m_ambList.referrals[index];
 
-    ref.erase(ref.begin() + index);
+    if (!r.isNrnType() || !r.isSentToHIS())
+    {
+        auto& rList = m_ambList.referrals;
 
-    view->setReferrals(ref);
+        rList.erase(rList.begin() + index);
 
-    dynamicNhifConversion();
+        view->setReferrals(rList);
 
-    makeEdited();
+        dynamicNhifConversion();
+
+        makeEdited();
+
+        return;
+    }
+    
+    //query for his invalidation, then removal!
 
 }
 
 void ListPresenter::printReferral(int index)
 {
+    if (m_ambList.referrals[index].isNrnType()) return;
+
     Print::referral(m_ambList.referrals[index], *patient.get(), m_ambList.number);
+}
+
+void ListPresenter::sendReferralToHis(int index)
+{
+    if (!m_ambList.referrals[index].isNrnType()) return;
+
+    ModalDialogBuilder::showMessage("Все още няма възможност за изпращане на направления към НЗИС");
 }
 
 void ListPresenter::setNhifData(const NhifSheetData& data)

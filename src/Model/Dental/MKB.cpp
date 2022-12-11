@@ -9,6 +9,7 @@ namespace MKBPrv {
 	std::unordered_map<std::string, std::string> mkbToName;
 	const std::string empty{};
 	std::vector<MKB> dentalMKB;
+	std::vector<MKB> fullMKB;
 }
 
 using namespace MKBPrv;
@@ -36,11 +37,16 @@ void MKB::initialize() {
 	mkbToName.clear();
 	Json::Value mkbjson;
 	mkbjson.resize(40000);
+
+	fullMKB.clear();
+	dentalMKB.clear();
 	mkbToName.clear();
 
 	Json::Reader reader;
 	reader.parse(Resources::mkbJson(), mkbjson);
 	mkbToName.reserve(mkbjson.size());
+	fullMKB.reserve(mkbjson.size());
+	
 
 	for (auto& pair : mkbjson) {
 
@@ -49,10 +55,15 @@ void MKB::initialize() {
 		mkbToName[code] = pair["value"].asString();
 		
 		if (code[0] == 'K' && std::stoi(code.substr(1,2)) < 20) {
-			dentalMKB.emplace_back(code);
+			dentalMKB.push_back(code);
 		}
+
+		
 	}
 
+	for (auto& pair : mkbjson) {
+		fullMKB.push_back(pair["key"].asString());
+	}
 
 }
 
@@ -71,4 +82,9 @@ bool MKB::isInitialized()
 const std::vector<MKB>& MKB::getDentalMKBList()
 {
 	return dentalMKB;
+}
+
+const std::vector<MKB>& MKB::getFullMKBList()
+{
+	return fullMKB;
 }

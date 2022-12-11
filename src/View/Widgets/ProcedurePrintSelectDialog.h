@@ -17,6 +17,7 @@ class ProcedurePrintSelectDialog : public QDialog
 
 	std::vector<QRadioButton*> mdd4_buttons;
 	std::vector<ReferralType> ref_typeIndexes;
+	int mh119index{ -1 };
 
 public:
 	ProcedurePrintSelectDialog(const std::vector<Procedure>& procedures, const std::vector<Referral>& referrals = {}, QWidget* parent = Q_NULLPTR);
@@ -24,6 +25,7 @@ public:
 	const std::vector<int> selectedProcedures() const;
 	int mdd4Referral() const;
 	int referral() const;
+	int mh119Referral() const;
 	void selectOnlyWhereNzokIs(bool nhif);
 
 	~ProcedurePrintSelectDialog();

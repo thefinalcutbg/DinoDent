@@ -35,10 +35,7 @@ void DbUpdates::update5()
 
 void DbUpdates::update6(UpdateDialog& dialogProgress)
 {
-	if (Db::version() != 5) {
-		ModalDialogBuilder::showMessage(std::to_string(Db::version()));
-		return;
-	}
+	if (Db::version() != 5) return;
 
 	Db::showErrorDialog(true);
 
@@ -248,6 +245,8 @@ void DbUpdates::update6(UpdateDialog& dialogProgress)
 	}
 
 	db.execute("COMMIT");
+
+	db.execute("CREATE TABLE referral(rowid INTEGER PRIMARY KEY NOT NULL, amblist_rowid INTEGER REFERENCES amblist(rowid) ON DELETE CASCADE ON UPDATE CASCADE NOT NULL, type INTEGER NOT NULL, number INTEGER, nrn TEXT, lnr TEXT, date TEXT NOT NULL, reason INTEGER NOT NULL, diag_main TEXT NOT NULL, diag_add TEXT, comorb_main TEXT, comorb_add TEXT, tooth INTEGER, reason_119 INTEGER, motives_119 TEXT)");
 
 	db.execute("PRAGMA foreign_keys = 1");
 

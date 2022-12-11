@@ -25,6 +25,7 @@ public:
 	static const std::string& getNameFromMKBCode(const std::string& mkbCode);
 	static bool isInitialized();
 	static const std::vector<MKB>& getDentalMKBList();
+	static const std::vector<MKB>& getFullMKBList();
 	
 	
 };

@@ -191,6 +191,7 @@ src/Model/Prescription/TimeLapse.cpp
 src/Model/Prescription/TimeLapse.h
 src/Model/Prescription/WhenToTake.cpp
 src/Model/Prescription/WhenToTake.h
+src/Model/Referrals/NumberVariant.h
 src/Model/Referrals/Referral.cpp
 src/Model/Referrals/Referral.h
 src/Model/Referrals/ReferralData.h
@@ -598,6 +599,9 @@ src/View/Widgets/BusinessOpAddDialog.ui
 src/View/Widgets/BusinessOpEditDialog.cpp
 src/View/Widgets/BusinessOpEditDialog.h
 src/View/Widgets/BusinessOpEditDialog.ui
+src/View/Widgets/ButtonDialog.cpp
+src/View/Widgets/ButtonDialog.h
+src/View/Widgets/ButtonDialog.ui
 src/View/Widgets/DetailedStatus.cpp
 src/View/Widgets/DetailedStatus.h
 src/View/Widgets/DetailedStatus.ui

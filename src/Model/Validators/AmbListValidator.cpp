@@ -21,6 +21,7 @@ AmbListValidator::AmbListValidator(const AmbList& list, const Patient& patient)
     ambList(list), patient(patient), ambListDate(ambList.getDate())
 {
     _error.reserve(100);
+
     for (auto &p : list.procedures)
     {
         if (p.nhif)
@@ -33,6 +34,12 @@ bool AmbListValidator::ambListIsValid()
 
     if (!ambList.isNhifSheet()) return true;
 
+    if (patient.HIRBNo.empty())
+    {
+        _error = "Не е въведен номер на здравната книжка на пациента";
+        return false;
+    }
+
     auto& teeth = ambList.teeth;
     auto& procedures = m_procedures;
 
@@ -42,11 +49,6 @@ bool AmbListValidator::ambListIsValid()
 
     if (!examIsFirst()) return false;
 
-    if (ambList.isNhifSheet() && patient.HIRBNo.empty())
-    {
-        _error = "Не е въведен номер на здравната книжка на пациента";
-        return false;
-    }
 
     for (auto& p : procedures)
     {
@@ -67,7 +69,14 @@ bool AmbListValidator::ambListIsValid()
         }
     }
 
-    
+    for (auto& ref : ambList.referrals)
+    {
+        if (ref.date.isWeekend())
+        {
+            _error = std::string(ref.getTypeAsString()) + " №" + std::to_string(ref.number) + " не може да бъде издадено в почивен ден";
+            return false;
+        }
+    }
 
     if (!isValidAccordingToDb()) return false;
 

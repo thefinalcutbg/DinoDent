@@ -1,12 +1,19 @@
 ﻿#include "Date.h"
 
+#include <set>
 #include <QDate>
-#include <View/ModalDialogBuilder.h>
+#include <JsonCpp/json.h>
+#include "Resources.h"
+
 int Date::monthDays[12]{ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+
 constexpr const char* monthNames[12]{
     "Януари", "Февруари", "Март", "Април", "Май", "Юни",
     "Юли", "Август", "Септември", "Октомври", "Ноември", "Декември"
 };
+
+std::set<Date> s_holidays;
+std::set<Date> s_workdays;
 
 Date::Date() :
     day(1),
@@ -48,7 +55,12 @@ bool Date::isLeapYear(int year)
 
 int Date::getMaxDayOfMonth() const
 {
-    if (month < 1 || month > 12) throw "invalid month!";
+    return getMaxDayOfMonth(month, year);
+}
+
+int Date::getMaxDayOfMonth(int month, int year)
+{
+    if (month < 1 || month > 12) return 0;
 
     if (month != 2)
     {
@@ -60,7 +72,6 @@ int Date::getMaxDayOfMonth() const
     }
 
     return monthDays[1];
-
 }
 
 Date Date::yesterday() const
@@ -240,25 +251,45 @@ bool Date::Date::operator <= (const Date& other) const { return *this == other |
 
 bool Date::isWeekend() const
 {
+    if (s_workdays.count(*this)) return false;
+
+    if (s_holidays.count(*this)) return true;
+
     QDate d(year, month, day);
 
     return d.dayOfWeek() == 6 || d.dayOfWeek() == 7;
 }
 
+void Date::initializeHolidays()
+{
+    s_holidays.clear();
+    s_workdays.clear();
+
+    Json::Value holidaysJson;
+    
+    Json::Reader().parse(Resources::fromPath(":/json/json_holidays.json"), holidaysJson);
+
+    for (auto& val : holidaysJson["holidays"])
+    {
+        s_holidays.insert(val.asString());
+    }
+
+    for (auto& val : holidaysJson["workdays"])
+    {
+        s_workdays.insert(val.asString());
+    }
+}
+
 int Date::getWorkdaysOfMonth(int month, int year)
 {
     int workDays{0};
+    
+    int dayFirst = 1;
+    int dayLast = getMaxDayOfMonth(month, year);
 
-    QDate monthBegin(year, month, 1);
-    QDate monthEnd(year, month, monthBegin.daysInMonth());
-
-    while(monthBegin <= monthEnd)
+    for (int i = 1; i <= dayLast; i++)
     {
-        int dayOfWeek = monthBegin.dayOfWeek();
-
-        if (dayOfWeek != 6 && dayOfWeek != 7) workDays++;
-
-        monthBegin = monthBegin.addDays(1);
+        if (!Date(i, month, year).isWeekend()) workDays++;
     }
 
     return workDays;

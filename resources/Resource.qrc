@@ -73,6 +73,7 @@
         <file>json_route.json</file>
         <file>json_when.json</file>
         <file>json_mkb.json</file>
+        <file>json_holidays.json</file>
     </qresource>
     <qresource prefix="/style">
         <file>dateEditStyle.qss</file>

@@ -75,6 +75,7 @@ bool initFunction() {
     DoseQuantity::initialize();
     Route::initialize();
     WhenToTake::initialize();
+    Date::initializeHolidays();
 
     Db::showErrorDialog(true);
     DbUpdater::updateDb();

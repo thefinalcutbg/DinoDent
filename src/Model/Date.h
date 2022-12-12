@@ -39,6 +39,7 @@ public:
 
     static bool isLeapYear(int year);
     int getMaxDayOfMonth() const;
+    static int getMaxDayOfMonth(int month, int year);
 
     Date getMaxDateOfMonth() const;
 
@@ -55,6 +56,7 @@ public:
 
     bool isWeekend() const;
     
+    static void initializeHolidays();
     static int getWorkdaysOfMonth(int month, int year);
 };
 

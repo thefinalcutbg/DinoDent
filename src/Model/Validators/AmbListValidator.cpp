@@ -42,13 +42,14 @@ bool AmbListValidator::ambListIsValid()
 
     if (!examIsFirst()) return false;
 
+    if (ambList.isNhifSheet() && patient.HIRBNo.empty())
+    {
+        _error = "Не е въведен номер на здравната книжка на пациента";
+        return false;
+    }
+
     for (auto& p : procedures)
     {
-        if (patient.HIRBNo.empty())
-        {
-            _error = "Не е въведен номер на здравната книжка на пациента";
-                return false;
-        }
 
         if (p.date.isWeekend())
         {

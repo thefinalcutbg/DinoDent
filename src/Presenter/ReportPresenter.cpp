@@ -31,10 +31,10 @@ std::string consecutionCheck(const std::vector<AmbList>& lists) {
 
 		uniqueSheetNumbers.insert(lists[i].number);
 
-		if (i && lists[i].procedures[0].date < lists[i - 1].procedures[0].date) {
+		if (i && lists[i].getDate() < lists[i - 1].getDate()) {
 
 			errors +=
-				"Несъответствие на датата на първите манипулации и поредните номера между амбулаторни листи "
+				"Несъответствие на датите и поредните номера между амбулаторни листи "
 				+ std::to_string(lists[i - 1].number) +
 				" и " + std::to_string(lists[i].number) + "\n";
 		}
@@ -350,8 +350,10 @@ void ReportPresenter::finish()
 	m_currentIndex = -1;
 
 	m_report = XML::getReport(lists, patients);
+	patients.clear();
 	view->showStopButton(false);
 	view->enableReportButtons(true);
+	
 }
 
 void ReportPresenter::setView(IReportView* view)

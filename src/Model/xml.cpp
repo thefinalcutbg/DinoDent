@@ -170,27 +170,45 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
         //no such features yet
         dentalCareService->LinkEndChild(new TiXmlElement("medicalReferrals"));
 
-        
         auto MDAReferrals = new TiXmlElement("MDAReferrals");
+
+        auto prescSpecialists = new TiXmlElement("prescSpecialists");
 
         for (auto& r : list.referrals)
         {
-            if (r.type != ReferralType::MDD4) continue;
+            switch (r.type)
+            {
+                case(ReferralType::MDD4):
+                {
+                    auto mdaRef = new TiXmlElement("MDAReferral");
+                        mdaRef->SetAttribute("pathwayNo", FreeFn::leadZeroes(r.number, 6));
+                        mdaRef->SetAttribute("date", r.date.to8601());
+                             auto codes = new TiXmlElement("codes");
+                             auto code = new TiXmlElement("code");
+                             code->SetAttribute("name", std::get<MDD4Data>(r.data).getCode());
+                             codes->LinkEndChild(code);
+                        mdaRef->LinkEndChild(codes);
+                    MDAReferrals->LinkEndChild(mdaRef);
+                    break;
+                }
+                case(ReferralType::MH119):
+                {
+                    auto prescrSpec = new TiXmlElement("prescSpecialist");
 
-            auto mdaRef = new TiXmlElement("MDAReferral");
-            mdaRef->SetAttribute("pathwayNo", FreeFn::leadZeroes(r.number, 6));
-            mdaRef->SetAttribute("date", r.date.to8601());
-                auto codes = new TiXmlElement("codes");
-                    auto code = new TiXmlElement("code");
-                         code->SetAttribute("name", std::get<MDD4Data>(r.data).getCode());
-                    codes->LinkEndChild(code);
-                 mdaRef->LinkEndChild(codes);
-            MDAReferrals->LinkEndChild(mdaRef);
+                        prescrSpec->SetAttribute("SODPCode", MH119Data::specCode);
+                        prescrSpec->SetAttribute("date", r.date.to8601());
+
+                    prescSpecialists->LinkEndChild(prescrSpec);
+                    break;
+                }
+            }
+
+
         }
 
         dentalCareService->LinkEndChild(MDAReferrals);
         
-        dentalCareService->LinkEndChild(new TiXmlElement("prescSpecialists"));
+        dentalCareService->LinkEndChild(prescSpecialists);
 
         dentalCareServices->LinkEndChild(dentalCareService);
     }

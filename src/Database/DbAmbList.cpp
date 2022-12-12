@@ -334,42 +334,11 @@ std::vector<AmbList> DbAmbList::getMonthlyNhifSheets(int month, int year)
             sheet.procedures.addProcedure(p);
         }
 
-        //getting referrals
-
-        query =
-            "SELECT referral.type, referral.number, referral.date, referral.reason,"
-            "referral.main_diagnosis, referral.additional_diagnosis, referral.data, amblist.rowid "
-            "FROM referral LEFT JOIN amblist ON referral.amblist_rowid=amblist.rowid "
-            "WHERE "
-            "amblist.lpk = '" + User::doctor().LPK + "' "
-            "AND amblist.rzi = '" + User::practice().rziCode + "' "
-            "AND strftime('%m', amblist.date)='" + FreeFn::leadZeroes(month, 2) + "' "
-            "AND strftime('%Y', amblist.date)='" + std::to_string(year) + "' "
-            "ORDER BY amblist.num ASC"
-            ;
-
-        db.newStatement(query);
-
-        while (db.hasRows())
+        //getting referrals (inefficient :( );
+        
+        for (auto& sheet : result)
         {
-            if (!sheetRowIdMap.count(db.asRowId(8))) continue;
-
-            auto& sheet = result[sheetRowIdMap[db.asRowId(8)]];
-
-            sheet.referrals.emplace_back(static_cast<ReferralType>(db.asInt(0)));
-
-            auto& ref = sheet.referrals.back();
-
-            ref.number = db.asInt(1);
-            ref.date = db.asString(2);
-            ref.reason = db.asInt(3);
-            ref.diagnosis.main = db.asString(4);
-            ref.diagnosis.additional = db.asString(5);
-
-            if (ref.type == ReferralType::MDD4) {
-                ref.data = MDD4Data(std::stoi(db.asString(6)));
-            }
-
+           sheet.referrals = DbReferral::getReferrals(sheet.rowid, db);
         }
 
 

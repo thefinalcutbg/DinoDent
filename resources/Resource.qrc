@@ -83,6 +83,20 @@
         <file>update_dbEkatte.json</file>
     </qresource>
     <qresource prefix="/db">
-        <file>dbSchema.txt</file>
+        <file alias="zodiac">dbSchema.txt</file>
+    </qresource>
+    <qresource prefix="/zodiac">
+        <file>zodiac_0.png</file>
+        <file>zodiac_1.png</file>
+        <file>zodiac_2.png</file>
+        <file>zodiac_3.png</file>
+        <file>zodiac_4.png</file>
+        <file>zodiac_5.png</file>
+        <file>zodiac_6.png</file>
+        <file>zodiac_7.png</file>
+        <file>zodiac_8.png</file>
+        <file>zodiac_9.png</file>
+        <file>zodiac_10.png</file>
+        <file>zodiac_11.png</file>
     </qresource>
 </RCC>

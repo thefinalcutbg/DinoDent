@@ -2,7 +2,7 @@
 #include <QPainterPath>
 #include "View/Theme.h"
 #include <QApplication>
-
+#include "View/Graphics/Zodiac.h"
 
 TileButton::TileButton(QWidget* parent) : QAbstractButton(parent)
 {
@@ -150,7 +150,7 @@ void PatientTile::paintInfo(QPainter* painter)
 	painter->drawText(20 + horizontalAdvance(idLabel), rowYPos[0], id);
 	painter->drawText(20 + horizontalAdvance("Номер на ЗОК: "), rowYPos[1], hirbNo);
 	painter->drawText(20 + horizontalAdvance("Рождена дата: "), rowYPos[2], birthDate);
-	
+
 	painter->drawText(width()/2 + horizontalAdvance("Телефон: "), rowYPos[0], phone);
 	painter->drawText(width()/2 + horizontalAdvance("Адрес: "), rowYPos[1], address);
 	painter->drawText(width() / 2 + horizontalAdvance("Възраст: "), rowYPos[2], age);
@@ -158,6 +158,8 @@ void PatientTile::paintInfo(QPainter* painter)
 	painter->setFont(header);
 	painter->setPen(hover && !clicked ? QPen(Theme::fontRedClicked) : QPen(QColor(Theme::fontRed)));
 	painter->drawText(nraButton->x() + nraSize + 5, 27, name);
+
+	if (zodiac) painter->drawPixmap(width() - 40, height()-40, 35, 35, *zodiac);
 	
 }
 
@@ -184,7 +186,7 @@ void PatientTile::setData(const Patient& patient, int age)
 		hirbNo = "Няма данни";
 	else hirbNo = QString::fromStdString(patient.HIRBNo);
 
-	birthDate = QString::fromStdString((patient.birth.toBgStandard()));
+	birthDate = QString::fromStdString((patient.birth.toBgStandard(true)));
 
 	this->age = QString::number(age) + " г.";
 
@@ -224,6 +226,8 @@ void PatientTile::setData(const Patient& patient, int age)
 		nraButton->setToolTip("Проверка на здравноосигурителен статус");
 
 	}
+
+	zodiac = Zodiac::getPixmap(patient.birth.day, patient.birth.month);
 
 	update();
 }

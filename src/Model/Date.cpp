@@ -29,6 +29,8 @@ Date::Date(int day, int month, int year) :
 
 Date::Date(const std::string& str)
 {
+    if (str.empty()) return;
+
     if (str[4] == '-') {
         day = (stoi(str.substr(8, 2)));
         month = (stoi(str.substr(5, 2)));

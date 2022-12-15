@@ -401,6 +401,8 @@ src/View/Graphics/ToothGraphicsItem.h
 src/View/Graphics/ToothPainter.cpp
 src/View/Graphics/ToothPainter.h
 src/View/Graphics/ToothSprite.h
+src/View/Graphics/Zodiac.cpp
+src/View/Graphics/Zodiac.h
 src/View/Interfaces/AbstractComboBox.h
 src/View/Interfaces/AbstractDateEdit.cpp
 src/View/Interfaces/AbstractDateEdit.h

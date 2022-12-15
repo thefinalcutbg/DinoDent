@@ -2,9 +2,29 @@
 #include "Database/Database.h"
 #include "JsonCpp/json.h"
 #include "Model/Dental/NhifSheetData.h"
-#include <QDebug>
+#include <QFile>
 #include "View/Widgets/UpdateDialog.h"
 #include "View/ModalDialogBuilder.h"
+#include "Path.h"
+#include "Model/FreeFunctions.h"
+
+void DbUpdates::backupDatabase()
+{
+	auto time = Time::currentTime();
+
+	auto backupPath = Path::getDataPath() + 
+					  "/" + 
+					  "backup" +
+					  Date::currentDate().to8601() + "T" +
+					  FreeFn::leadZeroes(time.hour, 2) + "-" +
+					  FreeFn::leadZeroes(time.minutes, 2) + "-" +
+					  FreeFn::leadZeroes(time.sec, 2) +
+					  ".db"
+	;
+
+	QFile::copy(Db::getFilePath().c_str(), backupPath.c_str());
+
+}
 
 void DbUpdates::update5()
 {
@@ -137,28 +157,49 @@ void DbUpdates::update6(UpdateDialog& dialogProgress)
 		long long rowid; 
 		bool nhif; 
 		int spec;
-		std::string data;
-
 	};
 
 	std::vector<AmbSheetUpdate> ambSheetUpdate;
 
-
-	db.newStatement("SELECT amblist.rowid, sum(procedure.nzok) > 0, amblist.nhif, status "
+	db.newStatement("SELECT amblist.rowid, sum(procedure.nzok) > 0, amblist.nhif "
 		"FROM amblist JOIN procedure on amblist.rowid = procedure.amblist_rowid "
 		"GROUP BY amblist.rowid ");
-
 
 	while (db.hasRows())
 	{
 		bool nhif = db.asBool(1);
+		
+		Json::Value nhifData;
 
+		Json::Reader().parse(db.asString(2), nhifData);
+
+
+		ambSheetUpdate.push_back(
+			AmbSheetUpdate{
+				db.asRowId(0), nhif, 0
+			}
+		);
+	}
+
+	//getting status from amblist:
+
+	struct AmbSheetStatus {
+		long long rowid;
+		std::string status;
+	};
+
+	db.newStatement("SELECT amblist.rowid, status FROM amblist");
+
+	std::vector<AmbSheetStatus> ambSheetStatusUpdate;
+
+	while (db.hasRows())
+	{
 		Json::Value jsonStatus;
-		Json::Reader().parse(db.asString(3), jsonStatus);
+		Json::Reader().parse(db.asString(1), jsonStatus);
 
 		if (jsonStatus.isMember("Obturation")) {
 			for (auto& obtur : jsonStatus["Obturation"]) {
-				
+
 				obtur["material"] = materialStrToIdx(obtur["material"].asString());
 			}
 		}
@@ -191,15 +232,15 @@ void DbUpdates::update6(UpdateDialog& dialogProgress)
 			for (auto& implant : jsonStatus["Implant"])
 				implant.removeMember("system");
 		}
-		
-		Json::Value nhifData;
 
-		Json::Reader().parse(db.asString(2), nhifData);
+		ambSheetStatusUpdate.push_back(
 
+			AmbSheetStatus{ 
+				db.asRowId(0), 
+				Json::FastWriter().write(jsonStatus) 
+			}
 
-		ambSheetUpdate.push_back(AmbSheetUpdate{
-				db.asRowId(0), nhif, 0, Json::FastWriter().write(jsonStatus)
-		});
+		);
 	}
 
 	//THE UPDATE STARTS HERE:
@@ -232,12 +273,26 @@ void DbUpdates::update6(UpdateDialog& dialogProgress)
 	for (auto& sheet : ambSheetUpdate)
 	{
 
-		db.newStatement("UPDATE amblist SET nhif_spec = ?, status = ? WHERE rowid=?");
+		db.newStatement("UPDATE amblist SET nhif_spec = ? WHERE rowid=?");
 
 		sheet.nhif ? db.bind(1, sheet.spec) : db.bindNull(1);
 		
-		db.bind(2, sheet.data);
-		db.bind(3, sheet.rowid);
+
+		db.bind(2, sheet.rowid);
+
+		db.execute();
+
+		dialogProgress.increment();
+	}
+
+	dialogProgress.setRange(ambSheetStatusUpdate.size());
+
+	for (auto& sheet : ambSheetStatusUpdate)
+	{
+		db.newStatement("UPDATE amblist SET status = ? WHERE rowid=?");
+
+		db.bind(1, sheet.status);
+		db.bind(2, sheet.rowid);
 
 		db.execute();
 
@@ -249,6 +304,8 @@ void DbUpdates::update6(UpdateDialog& dialogProgress)
 	db.execute("CREATE TABLE referral(rowid INTEGER PRIMARY KEY NOT NULL, amblist_rowid INTEGER REFERENCES amblist(rowid) ON DELETE CASCADE ON UPDATE CASCADE NOT NULL, type INTEGER NOT NULL, number INTEGER, nrn TEXT, lnr TEXT, date TEXT NOT NULL, reason INTEGER NOT NULL, diag_main TEXT NOT NULL, diag_add TEXT, comorb_main TEXT, comorb_add TEXT, tooth INTEGER, reason_119 INTEGER, motives_119 TEXT)");
 
 	db.execute("PRAGMA foreign_keys = 1");
+
+	db.execute("VACUUM");
 
 	db.execute("PRAGMA user_version = 6");
 }

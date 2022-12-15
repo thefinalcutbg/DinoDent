@@ -375,6 +375,7 @@
     <ClCompile Include="src\View\Graphics\TeethViewScene.cpp" />
     <ClCompile Include="src\View\Graphics\ToothGraphicsItem.cpp" />
     <ClCompile Include="src\View\Graphics\ToothPainter.cpp" />
+    <ClCompile Include="src\View\Graphics\Zodiac.cpp" />
     <ClCompile Include="src\View\Interfaces\AbstractDateEdit.cpp" />
     <ClCompile Include="src\View\Interfaces\AbstractLineEdit.cpp" />
     <ClCompile Include="src\View\Interfaces\AbstractUIElement.cpp" />
@@ -670,6 +671,7 @@
     <ClInclude Include="src\View\Graphics\ToothGraphicsItem.h" />
     <ClInclude Include="src\View\Graphics\ToothPainter.h" />
     <ClInclude Include="src\View\Graphics\ToothSprite.h" />
+    <ClInclude Include="src\View\Graphics\Zodiac.h" />
     <ClInclude Include="src\View\Interfaces\AbstractComboBox.h" />
     <ClInclude Include="src\View\Interfaces\AbstractDateEdit.h" />
     <ClInclude Include="src\View\Interfaces\AbstractLabel.h" />

@@ -23,6 +23,7 @@ class Db
 
 public:
     static void setFilePath(const std::string& filePath);
+    static std::string& getFilePath() { return dbLocation; }
     static int version();
     static void setVersion(int version);
     //open new connection and execute query on the go

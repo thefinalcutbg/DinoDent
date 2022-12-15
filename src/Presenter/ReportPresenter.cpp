@@ -345,7 +345,7 @@ void ReportPresenter::finish()
 	m_hasErrors ?
 		view->appendText("Отчетът е генериран с грешки!")
 		:
-		view->appendText("Отчетът е генериран с успешно!");
+		view->appendText("Отчетът е генериран успешно!");
 
 	m_currentIndex = -1;
 

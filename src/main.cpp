@@ -39,6 +39,7 @@ int main(int argc, char *argv[])
 #include "Database/Database.h"
 #include "Model/User.h"
 #include "View/Graphics/SpriteSheets.h"
+#include "View/Graphics/Zodiac.h"
 #include "Model/Dental/NhifProcedures.h"
 #include "Model/Dental/DiagnosisContainer.h"
 #include "Model/Dental/KSMP.h"
@@ -65,6 +66,7 @@ bool initFunction() {
 
     //Intializing static data
     SpriteSheets::container().initialize(); //loading textures, otherwise program will crash;
+    Zodiac::initialize();
     DiagnosisContainer::initialize();
     NhifProcedures::initialize(); //parsing json of nhif data
     Medication::initialize();

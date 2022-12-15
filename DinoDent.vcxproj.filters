@@ -843,6 +843,9 @@
     <ClCompile Include="src\View\Widgets\ButtonDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\Graphics\Zodiac.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Database\Database.h">
@@ -1548,6 +1551,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\Referrals\NumberVariant.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\View\Graphics\Zodiac.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

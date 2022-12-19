@@ -30,7 +30,7 @@ void fillCommonData(LimeReport::ReportEngine& report, const Patient& patient, co
     report.dataManager()->setReportVariable("specialty", doctor.specialtyAsInt());
     report.dataManager()->setReportVariable("LPK", QString::fromStdString(doctor.LPK));
     report.dataManager()->setReportVariable("doctorName", QString::fromStdString(doctor.getFullName(true)));
-
+    report.dataManager()->setReportVariable("hirbNo", QString::fromStdString(patient.HIRBNo));
 }
 
 void Print::ambList(const AmbList& amb, const Patient& patient)
@@ -83,7 +83,6 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
 
     fillCommonData(report, patient, doctor, practice);
 
-    report.dataManager()->setReportVariable("hirbNo", QString::fromStdString(patient.HIRBNo));
     report.dataManager()->setReportVariable("ambNum", QString::fromStdString(FreeFn::leadZeroes(amb.number, 12)));
     
 
@@ -338,7 +337,7 @@ void Print::ambList()
 
 }
 
-void Print::printDentureDeclaration(const Patient& patient, DentureDeclaration type)
+void Print::printDentureDeclaration(const Patient& patient, DeclaratorType type)
 {
     QApplication::setOverrideCursor(Qt::BusyCursor);
 
@@ -346,18 +345,46 @@ void Print::printDentureDeclaration(const Patient& patient, DentureDeclaration t
 
     switch (type)
     {
-    case DentureDeclaration::Insured:    
+    case DeclaratorType::Insured:    
         report.loadFromFile(":/reports/report_dentureInsured.lrxml");
         break;
-    case DentureDeclaration::Custody:
+    case DeclaratorType::Custody:
         report.loadFromFile(":/reports/report_dentureCustody.lrxml");
         break;
-    case DentureDeclaration::Empty:
+    case DeclaratorType::Empty:
         report.loadFromFile(":/reports/report_dentureCustody.lrxml");
         break;
     }
 
-    if (type != DentureDeclaration::Empty) {
+    if (type != DeclaratorType::Empty) {
+        fillCommonData(report, patient, User::doctor(), User::practice());
+    }
+
+    QApplication::restoreOverrideCursor();
+    report.printReport();
+
+}
+
+void Print::printHirbNoDeclaration(const Patient& patient, DeclaratorType type)
+{
+    QApplication::setOverrideCursor(Qt::BusyCursor);
+
+    auto report = LimeReport::ReportEngine();
+
+    switch (type)
+    {
+    case DeclaratorType::Insured:
+        report.loadFromFile(":/reports/report_nhifInsured.lrxml");
+        break;
+    case DeclaratorType::Custody:
+        report.loadFromFile(":/reports/report_nhifCustody.lrxml");
+        break;
+    case DeclaratorType::Empty:
+        report.loadFromFile(":/reports/report_nhifCustody.lrxml");
+        break;
+    }
+
+    if (type != DeclaratorType::Empty) {
         fillCommonData(report, patient, User::doctor(), User::practice());
     }
 

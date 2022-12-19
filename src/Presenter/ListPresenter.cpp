@@ -37,10 +37,6 @@ ListPresenter::ListPresenter(ITabView* tabView, TabPresenter* tabPresenter, std:
 
     m_ambList.number = DbAmbList::getNewNumber(m_ambList.getDate(), m_ambList.isNhifSheet());
 
-    if (!User::practice().nzok_contract) return;
-
-    if(User::settings().getPisHistoryAuto) requestPisActivities();
-
 
 }
 
@@ -226,6 +222,12 @@ void ListPresenter::print()
 
 void ListPresenter::setDataToView()
 {
+
+    if (User::settings().getPisHistoryAuto &&
+        User::hasNzokContract() &&
+        !patient->PISHistory.has_value()) {
+        requestPisActivities();
+    }
 
     view->setPresenter(this);
     patient_info.setDate(m_ambList.getDate());

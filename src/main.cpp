@@ -1,5 +1,5 @@
 ﻿#include <QtWidgets/QApplication>
-#include "View/Widgets/Torque.h"
+#include "View/Widgets/DinoDent.h"
 #include "Network/UpdateService/UpdateService.h"
 #include <QTextCodec>
 bool initFunction();
@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
 
     if (!initFunction()) { return 0; }
 
-    Torque w;
+    DinoDent w;
     w.setWindowState(Qt::WindowMaximized);
 
     if (!w.m_loggedIn)

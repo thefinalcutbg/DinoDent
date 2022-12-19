@@ -18,7 +18,6 @@ we have to create two PKCS11 instances - one for the signing and one for the SSL
 	if (!signer.hsmLoaded())
 	{
 		ModalDialogBuilder::showMessage("Не е открит КЕП");
-		//Network::clearAccessCache();
 		return false;
 	}
 

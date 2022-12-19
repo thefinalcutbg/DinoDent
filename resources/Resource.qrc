@@ -58,6 +58,8 @@
         <file>report_dentureCustody.lrxml</file>
         <file>report_dentureInsured.lrxml</file>
         <file>report_mh119.lrxml</file>
+        <file>report_nhifCustody.lrxml</file>
+        <file>report_nhifInsured.lrxml</file>
     </qresource>
     <qresource prefix="/fonts">
         <file>font_RobotoCondensedRegular.ttf</file>

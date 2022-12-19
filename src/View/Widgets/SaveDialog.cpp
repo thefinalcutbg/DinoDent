@@ -3,7 +3,7 @@
 SaveDialog::SaveDialog(QString title, QWidget *parent)
 	: QMessageBox(parent)
 {
-	setWindowTitle("Torque");
+	setWindowTitle("DinoDent");
 
 	setText("Желаете ли да запазите промените по " + title + "?");
 	setStandardButtons(QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);

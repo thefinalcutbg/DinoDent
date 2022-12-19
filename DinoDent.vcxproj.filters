@@ -654,7 +654,7 @@
     <ClCompile Include="src\View\Widgets\TabView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\Widgets\Torque.cpp">
+    <ClCompile Include="src\View\Widgets\DinoDent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\Widgets\UpdateDialog.cpp">
@@ -1810,7 +1810,7 @@
     <QtMoc Include="src\View\Widgets\TabView.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\Widgets\Torque.h">
+    <QtMoc Include="src\View\Widgets\DinoDent.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\Widgets\UpdateDialog.h">
@@ -1968,7 +1968,7 @@
     <QtUic Include="src\View\Widgets\TabView.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="src\View\Widgets\Torque.ui">
+    <QtUic Include="src\View\Widgets\DinoDent.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\Widgets\UpdateDialog.ui">

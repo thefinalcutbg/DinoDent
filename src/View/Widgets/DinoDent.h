@@ -5,12 +5,12 @@
 
 #include "Database/Database.h"
 #include "Presenter/MainPresenter.h"
-#include "ui_Torque.h"
+#include "ui_DinoDent.h"
 
 #include "View/Interfaces/IMainView.h"
 
 
-class Torque : public QMainWindow, public IMainView
+class DinoDent : public QMainWindow, public IMainView
 {
     Q_OBJECT
 
@@ -20,12 +20,12 @@ class Torque : public QMainWindow, public IMainView
     void closeEvent(QCloseEvent* event);
 
 public:
-    Torque(QWidget *parent = Q_NULLPTR);
+    DinoDent(QWidget *parent = Q_NULLPTR);
     ITabView* tabView() override;
     void setUserLabel(const std::string& doctorName, const std::string& practiceName) override;
     void exitProgram() override;
     bool initialized();
 
 private:
-    Ui::TorqueClass ui;
+    Ui::DinoDentClass ui;
 };

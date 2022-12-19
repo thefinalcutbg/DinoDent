@@ -485,7 +485,7 @@
     <ClCompile Include="src\View\Widgets\SaveDialog.cpp" />
     <ClCompile Include="src\View\Widgets\SettingsDialog.cpp" />
     <ClCompile Include="src\View\Widgets\TabView.cpp" />
-    <ClCompile Include="src\View\Widgets\Torque.cpp" />
+    <ClCompile Include="src\View\Widgets\DinoDent.cpp" />
     <ClCompile Include="src\View\Widgets\UpdateDialog.cpp" />
     <ClCompile Include="src\View\Widgets\UpdateDownloader.cpp" />
   </ItemGroup>
@@ -745,7 +745,7 @@
     <QtMoc Include="src\View\Widgets\ReportFilesView.h" />
     <ClInclude Include="src\View\Widgets\ToothUi.h" />
     <QtMoc Include="src\View\Widgets\UpdateDialog.h" />
-    <QtMoc Include="src\View\Widgets\Torque.h" />
+    <QtMoc Include="src\View\Widgets\DinoDent.h" />
     <QtMoc Include="src\View\Widgets\TabView.h" />
     <QtMoc Include="src\View\Widgets\SettingsDialog.h" />
     <QtMoc Include="src\View\Widgets\SaveDialog.h" />
@@ -892,7 +892,7 @@
     <QtUic Include="src\View\Widgets\ReportView.ui" />
     <QtUic Include="src\View\Widgets\SettingsDialog.ui" />
     <QtUic Include="src\View\Widgets\TabView.ui" />
-    <QtUic Include="src\View\Widgets\Torque.ui" />
+    <QtUic Include="src\View\Widgets\DinoDent.ui" />
     <QtUic Include="src\View\Widgets\UpdateDialog.ui" />
     <QtUic Include="src\View\Widgets\UpdateDownloader.ui" />
   </ItemGroup>

@@ -26,6 +26,9 @@ PatientTileInfo::PatientTileInfo(QWidget *parent)
 		if (presenter) presenter->printDeclarations();
 	});
 }
+
+#include <QDebug>
+
 void PatientTileInfo::setPatient(const Patient& p, int age)
 {
 	ui.patientTile->setData(p, age);

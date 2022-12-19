@@ -4,21 +4,17 @@
 #include "Database/DbPatient.h"
 #include "View/ModalDialogBuilder.h"
 #include "View/Printer.h"
+
 PatientInfoPresenter::PatientInfoPresenter(IPatientTileInfo* view, std::shared_ptr<Patient> p) :
     view(view), patient(p)
-{
-    if (User::practice().nzok_contract->nra_pass.size() &&
-        User::settings().getNraStatusAuto
-        )
-    {
-        nraClicked(false);
-    }
-}
+{}
 
 void PatientInfoPresenter::setDate(const Date& date)
 {
     current_date = date;
-    if(view)view->setPatient(*patient, patient->getAge(current_date));
+
+    view->setPresenter(this);
+    view->setPatient(*patient, patient->getAge(current_date));
 }
 
 void PatientInfoPresenter::nraClicked(bool showDialog)
@@ -112,6 +108,7 @@ void PatientInfoPresenter::printDeclarations()
 {
     static std::vector<std::string> printOptions{
        "Декларация за тотални протези",
+       "Декларация за валидна здравна книжка",
        "Информирано съгласие",
        "Декларация за GDPR"
     };
@@ -129,23 +126,43 @@ void PatientInfoPresenter::printDeclarations()
         case 0:
         {
 
-            int decl_result = ModalDialogBuilder::openButtonDialog(
-                declaratorType,
-                "Декларация за тотални протези"
-            );
+            int decl_result = 
+                ModalDialogBuilder::openButtonDialog(
+                    declaratorType,
+                    printOptions[0]
+                );
           
             if(decl_result == -1) return;
 
-            Print::DentureDeclaration type = static_cast<Print::DentureDeclaration>(decl_result);
+            Print::DeclaratorType type = static_cast<Print::DeclaratorType>(decl_result);
               
             Print::printDentureDeclaration(*patient, type);
 
             return;
         }
 
-        case 1: Print::consent(*patient); return;
+        case 1:
+        {
+            {
 
-        case 2: Print::gdpr(*patient); return;
+                int decl_result = ModalDialogBuilder::openButtonDialog(
+                    declaratorType,
+                    printOptions[1]
+                );
+
+                if (decl_result == -1) return;
+
+                Print::DeclaratorType type = static_cast<Print::DeclaratorType>(decl_result);
+
+                Print::printHirbNoDeclaration(*patient, type);
+
+                return;
+            }
+        }
+
+        case 2: Print::consent(*patient); return;
+
+        case 3: Print::gdpr(*patient); return;
         default: return;
     }
 
@@ -154,6 +171,15 @@ void PatientInfoPresenter::printDeclarations()
 
 void PatientInfoPresenter::setCurrent()
 {
+    if (
+        !patient->insuranceStatus.has_value() &&
+        User::practice().nzok_contract->nra_pass.size() &&
+        User::settings().getNraStatusAuto
+        )
+    {
+        nraClicked(false);
+    }
+
     view->setPresenter(this);
     view->setPatient(*patient, patient->getAge(current_date));
 }

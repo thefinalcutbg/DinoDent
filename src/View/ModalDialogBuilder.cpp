@@ -225,7 +225,7 @@ bool ModalDialogBuilder::askDialog(const std::string& questionText)
 {
 	QMessageBox msg;
 
-	msg.setWindowTitle("Torque");
+	msg.setWindowTitle("DinoDent");
 
 	msg.setText(QString::fromStdString(questionText));
 	msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No );

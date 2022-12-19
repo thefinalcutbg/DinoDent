@@ -1,4 +1,4 @@
-#include "Torque.h"
+#include "DinoDent.h"
 #include <QAction>
 #include <QMenu>
 #include <QDebug>
@@ -10,7 +10,7 @@
 
 QColor blue(133, 207, 234);
 
-Torque::Torque(QWidget* parent)
+DinoDent::DinoDent(QWidget* parent)
     : QMainWindow(parent)
 {
     ui.setupUi(this);
@@ -95,28 +95,28 @@ Torque::Torque(QWidget* parent)
     presenter.setView(this);
 }
 
-ITabView* Torque::tabView()
+ITabView* DinoDent::tabView()
 {
     return ui.tabView;
 }
 
-void Torque::setUserLabel(const std::string& doctorName, const std::string& practiceName)
+void DinoDent::setUserLabel(const std::string& doctorName, const std::string& practiceName)
 {
     ui.userButton->setText(QString::fromStdString("  " + doctorName));
     ui.practiceLabel->setText(QString::fromStdString(practiceName));
 }
 
-void Torque::exitProgram()
+void DinoDent::exitProgram()
 {
     QApplication::quit();
 }
 
-bool Torque::initialized()
+bool DinoDent::initialized()
 {
     return m_loggedIn;
 }
 
-void Torque::paintEvent(QPaintEvent* event)
+void DinoDent::paintEvent(QPaintEvent* event)
 {
     QPainter painter;
     painter.begin(this);
@@ -124,7 +124,7 @@ void Torque::paintEvent(QPaintEvent* event)
     painter.end();
 }
 
-void Torque::closeEvent(QCloseEvent* event)
+void DinoDent::closeEvent(QCloseEvent* event)
 {
     if (!presenter.closeAllTabs())
         event->ignore();

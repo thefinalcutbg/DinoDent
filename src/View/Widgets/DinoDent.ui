@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>TorqueClass</class>
- <widget class="QMainWindow" name="TorqueClass">
+ <class>DinoDentClass</class>
+ <widget class="QMainWindow" name="DinoDentClass">
   <property name="geometry">
    <rect>
     <x>0</x>

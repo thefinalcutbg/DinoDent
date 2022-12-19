@@ -19,7 +19,8 @@ class PatientInfoPresenter
 	bool m_showInsuranceDialog{ false };
 
 	void setInsuranceStatus(const std::optional<InsuranceStatus>& status_result);
-
+	
+	bool m_current{ false };
 
 public:
 	PatientInfoPresenter(IPatientTileInfo* view, std::shared_ptr<Patient> p);

@@ -163,7 +163,7 @@ void PatientTile::paintInfo(QPainter* painter)
 
 	//int xZodiac = (nraButton->x() + nraSize + 5 + titleMetric.horizontalAdvance(name) + 5);
 
-	if (zodiac) painter->drawPixmap(width()-35, height()-35, 30, 30, *zodiac);
+	if (zodiac) painter->drawPixmap(width()-30, height()-30, 25, 25, *zodiac);
 	
 }
 

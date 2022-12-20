@@ -69,9 +69,11 @@ void NraStatusService::parseReply(const std::string& reply)
 
 #include <QDateTime>
 
-bool NraStatusService::sendRequest(const Patient& p, std::function<void(const std::optional<InsuranceStatus>&)> callback, const Date& date)
+bool NraStatusService::sendRequest(const Patient& p, std::function<void(const std::optional<InsuranceStatus>&)> callback, bool showDialogs, const Date& date )
 {
 	m_callback = callback;
+
+	this->show_dialogs = showDialogs;
 
 	auto& practice = User::practice();
 

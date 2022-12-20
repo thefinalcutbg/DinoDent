@@ -16,6 +16,7 @@ public:
 	bool sendRequest(
 		const Patient& p, 
 		std::function<void(const std::optional<InsuranceStatus>&)> callback,
+		bool showDialogs = true,
 		const Date& date = Date::currentDate()
 	);
 

@@ -38,12 +38,18 @@ ReferralDialog::ReferralDialog(ReferralPresenter* p, QWidget *parent)
 
 	ui.opgRadio->setChecked(true);
 	
-	QPushButton* mkbButtons[4]{
+	RightClickButton* mkbButtons[4]{
 		ui.mkbMainButton,
 		ui.mkbAdditionalButton,
 		ui.comorbidityMainButton,
 		ui.comorbidityAdditionalButton
 	};
+
+	for (auto& b : mkbButtons)
+	{
+		connect(b, &RightClickButton::rightClicked, [=]{ b->setText("Изберете"); });
+	}
+
 
 	connect(ui.mkbMainButton, &QPushButton::clicked,
 	[=] 

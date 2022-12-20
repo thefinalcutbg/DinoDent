@@ -153,7 +153,7 @@
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_6">
         <item>
-         <widget class="QPushButton" name="mkbMainButton">
+         <widget class="RightClickButton" name="mkbMainButton">
           <property name="minimumSize">
            <size>
             <width>0</width>
@@ -166,7 +166,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="mkbAdditionalButton">
+         <widget class="RightClickButton" name="mkbAdditionalButton">
           <property name="minimumSize">
            <size>
             <width>0</width>
@@ -235,7 +235,7 @@
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_8">
         <item>
-         <widget class="QPushButton" name="comorbidityMainButton">
+         <widget class="RightClickButton" name="comorbidityMainButton">
           <property name="minimumSize">
            <size>
             <width>0</width>
@@ -248,7 +248,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="comorbidityAdditionalButton">
+         <widget class="RightClickButton" name="comorbidityAdditionalButton">
           <property name="minimumSize">
            <size>
             <width>0</width>
@@ -403,6 +403,11 @@
    <class>CustomDateEdit</class>
    <extends>QDateEdit</extends>
    <header>View/uiComponents/customdateedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>RightClickButton</class>
+   <extends>QPushButton</extends>
+   <header>View/uiComponents/rightclickbutton.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

@@ -26,10 +26,10 @@ void PatientInfoPresenter::nraClicked(bool showDialog)
         return;
     }
 
-    nraStatusServ.sendRequest(*patient.get(),
-
-        [=](auto status) { this->setInsuranceStatus(status);}
-
+    nraStatusServ.sendRequest(
+        *patient.get(),
+        [=](auto status) { this->setInsuranceStatus(status);},
+        showDialog
     );
 }
 

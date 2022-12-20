@@ -169,6 +169,7 @@ void ReportPresenter::checkNext()
 			nraService.sendRequest(
 			patient,
 				[=](auto& result) { if (this)this->setInsuranceStatus(result);},
+			true,
 			list.getDate()
 		);
 		

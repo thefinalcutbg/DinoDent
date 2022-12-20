@@ -437,6 +437,7 @@
     <ClCompile Include="src\View\uiComponents\PerioTable.cpp" />
     <ClCompile Include="src\View\uiComponents\PixmapLabel.cpp" />
     <ClCompile Include="src\View\uiComponents\ProcedureTable.cpp" />
+    <ClCompile Include="src\View\uiComponents\RightClickButton.cpp" />
     <ClCompile Include="src\View\uiComponents\SpinBox.cpp" />
     <ClCompile Include="src\View\uiComponents\StatusButton.cpp" />
     <ClCompile Include="src\View\uiComponents\TextEdit.cpp" />
@@ -732,6 +733,7 @@
     <ClInclude Include="src\View\uiComponents\FinancialTileButton.h" />
     <QtMoc Include="src\View\uiComponents\HoverButton.h" />
     <ClInclude Include="src\View\uiComponents\MouseWheelGuard.h" />
+    <QtMoc Include="src\View\uiComponents\RightClickButton.h" />
     <ClInclude Include="src\View\uiComponents\TileButton.h" />
     <QtMoc Include="src\View\Widgets\PrescriptionView.h" />
     <QtMoc Include="src\View\Widgets\MedicationDialog.h" />

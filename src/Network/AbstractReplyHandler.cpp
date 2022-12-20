@@ -22,11 +22,13 @@ void AbstractReplyHandler::getReply(const std::string& reply)
 
 	NetworkManager::unsubscribeHandler(this);
 
-	if (reply.empty()) {
+	if (reply.empty() && show_dialogs) {
 		ModalDialogBuilder::showError("Неуспешна връзка със сървъра");
 	}
 
 	parseReply(reply);
+
+	show_dialogs = true;
 }
 
 AbstractReplyHandler::~AbstractReplyHandler() {

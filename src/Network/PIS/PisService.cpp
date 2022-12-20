@@ -4,7 +4,6 @@
 #include "Network/NetworkManager.h"
 #include "Network/XmlSigner.h"
 
-#include "View/ModalDialogBuilder.h"
 bool PisService::sendRequest(const std::string& query, SOAPAction header)
 {
 	/*
@@ -17,7 +16,11 @@ we have to create two PKCS11 instances - one for the signing and one for the SSL
 
 	if (!signer.hsmLoaded())
 	{
-		ModalDialogBuilder::showMessage("Не е открит КЕП");
+		if (show_dialogs) {
+			ModalDialogBuilder::showMessage("Не е открит КЕП");
+		}
+
+		show_dialogs = true;
 		return false;
 	}
 

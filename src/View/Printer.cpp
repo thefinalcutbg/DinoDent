@@ -84,7 +84,6 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
     fillCommonData(report, patient, doctor, practice);
 
     report.dataManager()->setReportVariable("ambNum", QString::fromStdString(FreeFn::leadZeroes(amb.number, 12)));
-    
 
     const char* defaultStatus{ "Не съобщава" };
 

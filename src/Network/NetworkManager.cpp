@@ -91,7 +91,7 @@ void NetworkManager::sendRequestToPis(
 
         QApplication::restoreOverrideCursor();
 
-        ModalDialogBuilder::showError("Неуспешна автентификация");
+       // ModalDialogBuilder::showError("Неуспешна автентификация");
 
         handler->getReply("");
 

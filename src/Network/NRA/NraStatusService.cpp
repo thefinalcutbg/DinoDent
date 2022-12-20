@@ -7,19 +7,11 @@ void NraStatusService::parseReply(const std::string& reply)
 	
 		TiXmlDocument doc;
 
-		if (reply.empty()) {
-			ModalDialogBuilder::showError("Неуспешна връзка с НАП");
-			m_callback({});
-			return;
-		}
+		if (reply.empty()) return;
 
 		doc.Parse(reply.data(), 0, TIXML_ENCODING_UTF8);
 
-		if (!doc.RootElement()) {
-
-			ModalDialogBuilder::showError("Неуспешна връзка с НАП");
-			return;
-		}
+		if (!doc.RootElement()) return;
 
 		TiXmlHandle statusHandle(&doc);
 

@@ -12,8 +12,12 @@ bool DentalActivitiesService::sendRequest(
 	const std::string& patientId, 
 	std::function<void(
 		const std::optional<std::vector<Procedure>>&, const std::vector<std::string>& payment_status
-	)> callback)
+	)> callback,
+	bool showDialogs
+	)
 {
+	this->show_dialogs = showDialogs;
+
 	m_callback = callback;
 
 	std::string tag = personTypeArr[personType];

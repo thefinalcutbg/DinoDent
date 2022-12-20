@@ -249,8 +249,6 @@ void ListPresenter::setDataToView()
 
     view->setNotes(patient->teethNotes);
     
-    view->setSelectedTeeth(m_selectedIndexes);
-
     view->setReferrals(m_ambList.referrals);
 
     showCurrentStatus(m_showCurrentStatus);
@@ -259,6 +257,7 @@ void ListPresenter::setDataToView()
     refreshProcedureView();
     dynamicNhifConversion();
 
+    view->setSelectedTeeth(m_selectedIndexes);
    
 }
 
@@ -393,8 +392,13 @@ int ListPresenter::generateAmbListNumber()
 
 void ListPresenter::requestPisActivities()
 {
-    dentalActService.sendRequest(patient->type, patient->id,
-        [&](auto procedures, auto payment) { setPISActivities(procedures, payment);}
+    dentalActService.sendRequest(
+        patient->type, 
+        patient->id,
+        [&](auto procedures, auto payment) { 
+            setPISActivities(procedures, payment);
+        },
+        m_openHistoryDialogOnReply
     );
 
 }

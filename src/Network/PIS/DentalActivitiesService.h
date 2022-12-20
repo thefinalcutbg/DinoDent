@@ -21,7 +21,8 @@ public:
 	bool sendRequest(
 		int personType,
 		const std::string& patientId,
-		std::function<void(const std::optional<std::vector<Procedure>>&, const std::vector<std::string>& payment_status)> callback
+		std::function<void(const std::optional<std::vector<Procedure>>&, const std::vector<std::string>& payment_status)> callback,
+		bool showDialogs = true
 	);
 
 };

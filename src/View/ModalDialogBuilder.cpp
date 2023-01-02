@@ -380,11 +380,13 @@ std::string ModalDialogBuilder::pinPromptDialog(const std::string& pem)
 	return d.getResult().toStdString();
 }
 
-#include "View/Widgets/KSMPDialog.h"
-
+#include "View/Widgets/TableViewDialog.h"
+#include "View/Models/KSMPModel.h"
 std::string ModalDialogBuilder::ksmpDialog(KsmpList& list, const std::string& preSelectCode)
 {
-	KSMPDialog d(list, preSelectCode);
+	KSMPModel model{ list };
+	TableViewDialog d(model, 0, preSelectCode);
+	d.setWindowTitle("Класификация на Медицинските Процедури");
 	d.exec();
 
 

@@ -4,7 +4,7 @@
 #include "ui_ReferralDialog.h"
 #include "Model/Referrals/ReferralData.h"
 #include "View/Interfaces/IReferralDialog.h"
-
+#include "View/Models/MKBModel.h"
 class ReferralPresenter;
 
 
@@ -13,6 +13,9 @@ class ReferralDialog : public QDialog, public IReferralDialog
 	Q_OBJECT
 
 		ReferralPresenter* presenter;
+
+	MKBModel m_mkbFull{ MKB::getFullMKBList() };
+	MKBModel m_mkbDental{ MKB::getDentalMKBList() };
 
 	void paintEvent(QPaintEvent* event) override;
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>KSMPDialogClass</class>
- <widget class="QDialog" name="KSMPDialogClass">
+ <class>TableViewDialogClass</class>
+ <widget class="QDialog" name="TableViewDialogClass">
   <property name="windowModality">
    <enum>Qt::ApplicationModal</enum>
   </property>
@@ -19,7 +19,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>KSMPDialog</string>
+   <string>TableViewDialog</string>
   </property>
   <property name="modal">
    <bool>true</bool>

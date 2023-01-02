@@ -20,7 +20,7 @@ QVariant MedicationTableModel::headerData(int section, Qt::Orientation orientati
     if (role == Qt::DisplayRole && orientation == Qt::Horizontal)
         switch (section)
         {
-         case 0: return "Изписани лекарства: ";
+         case 0: return "Изписани медикаменти: ";
         }
 
     if (role == Qt::TextAlignmentRole && orientation == Qt::Horizontal)

@@ -582,7 +582,7 @@
     <ClCompile Include="src\View\Widgets\GeneralSettings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\Widgets\KSMPDialog.cpp">
+    <ClCompile Include="src\View\Widgets\TableViewDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\Widgets\ListView.cpp">
@@ -1741,7 +1741,7 @@
     <QtMoc Include="src\View\Widgets\GeneralSettings.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\Widgets\KSMPDialog.h">
+    <QtMoc Include="src\View\Widgets\TableViewDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\Widgets\ListView.h">
@@ -1905,7 +1905,7 @@
     <QtUic Include="src\View\Widgets\GeneralSettings.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="src\View\Widgets\KSMPDialog.ui">
+    <QtUic Include="src\View\Widgets\TableViewDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\Widgets\ListView.ui">

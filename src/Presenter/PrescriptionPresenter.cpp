@@ -158,7 +158,7 @@ bool PrescriptionPresenter::save()
 	if (!requiresSaving()) return true;
 
 	if (m_prescription.medicationGroup.empty()) {
-		ModalDialogBuilder::showError("Рецептата трябва да съдържа поне едно лекарство");
+		ModalDialogBuilder::showError("Рецептата трябва да съдържа поне един медикамент");
 		return false;
 	}
 

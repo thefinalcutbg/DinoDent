@@ -19,6 +19,8 @@ class ProcedurePrintSelectDialog : public QDialog
 	std::vector<ReferralType> ref_typeIndexes;
 	int mh119index{ -1 };
 
+	void paintEvent(QPaintEvent* e) override;
+
 public:
 	ProcedurePrintSelectDialog(const std::vector<Procedure>& procedures, const std::vector<Referral>& referrals = {}, QWidget* parent = Q_NULLPTR);
 	

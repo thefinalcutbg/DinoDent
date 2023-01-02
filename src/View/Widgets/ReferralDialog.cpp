@@ -2,7 +2,7 @@
 #include "Presenter/ReferralPresenter.h"
 #include "Model/Referrals/Referral.h"
 #include "Model/Dental/ToothUtils.h"
-#include "KSMPDialog.h"
+#include "TableViewDialog.h"
 #include <QPainter>
 
 ReferralDialog::ReferralDialog(ReferralPresenter* p, QWidget *parent)
@@ -54,7 +54,8 @@ ReferralDialog::ReferralDialog(ReferralPresenter* p, QWidget *parent)
 	connect(ui.mkbMainButton, &QPushButton::clicked,
 	[=] 
 	{
-		KSMPDialog d(MKB::getDentalMKBList(), ui.mkbMainButton->text().toStdString());
+		TableViewDialog d(m_mkbDental,0, ui.mkbMainButton->text().toStdString());
+		d.setWindowTitle("Международна класификация на болестите");	
 		d.exec();
 		auto result = d.getResult();
 
@@ -67,7 +68,8 @@ ReferralDialog::ReferralDialog(ReferralPresenter* p, QWidget *parent)
 	connect(ui.mkbAdditionalButton, &QPushButton::clicked,
 	[=] 
 	{
-		KSMPDialog d(MKB::getDentalMKBList(), ui.mkbAdditionalButton->text().toStdString());
+		TableViewDialog d(m_mkbDental, 0, ui.mkbAdditionalButton->text().toStdString());
+		d.setWindowTitle("Международна класификация на болестите");
 		d.exec();
 		auto result = d.getResult();
 
@@ -79,7 +81,8 @@ ReferralDialog::ReferralDialog(ReferralPresenter* p, QWidget *parent)
 	connect(ui.comorbidityMainButton, &QPushButton::clicked,
 	[=] 
 	{
-		KSMPDialog d(MKB::getFullMKBList(), ui.comorbidityMainButton->text().toStdString());
+		TableViewDialog d(m_mkbFull,0, ui.comorbidityMainButton->text().toStdString());
+		d.setWindowTitle("Международна класификация на болестите");
 		d.exec();
 		auto result = d.getResult();
 
@@ -91,7 +94,8 @@ ReferralDialog::ReferralDialog(ReferralPresenter* p, QWidget *parent)
 	connect(ui.comorbidityAdditionalButton, &QPushButton::clicked,
 	[=] 
 	{
-		KSMPDialog d(MKB::getFullMKBList(), ui.comorbidityAdditionalButton->text().toStdString());
+		TableViewDialog d(m_mkbFull,0, ui.comorbidityAdditionalButton->text().toStdString());
+		d.setWindowTitle("Международна класификация на болестите");
 		d.exec();
 		auto result = d.getResult();
 

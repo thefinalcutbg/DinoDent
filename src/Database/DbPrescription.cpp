@@ -2,30 +2,31 @@
 #include "Database/Database.h"
 #include "Model/Parser.h"
 #include "Model/User.h"
-#include <qdebug.h>
+
 long long DbPrescription::insert(const Prescription& p)
 {
 
     Db db;
 
-   bool success = db.execute(
+    db.newStatement(
 
         "INSERT INTO prescription ("
-            "patient_rowid, lrn, nrn, date, dispensation, "
-            "repeats, supplements, lpk, rzi ) VALUES (" +
-
-            std::to_string(p.patient_rowid) + "," + 
-            "'" + p.LRN + "'," +
-            "'" + p.NRN + "'," +
-            "'" + p.date.to8601() + "'," +
-                  std::to_string(p.dispensation.type) + "," +
-                  std::to_string(p.dispensation.repeats) + "," +
-            "'" + p.supplements + "',"
-            "'" + User::doctor().LPK + "',"
-            "'" + User::practice().rziCode + "'"
-
-        + ")"
+        "patient_rowid, lrn, nrn, date, dispensation, "
+        "repeats, supplements, lpk, rzi) "
+        "VALUES (?,?,?,?,?,?,?,?,?)"
     );
+
+    db.bind(1, p.patient_rowid);
+    db.bind(2, p.LRN);
+    db.bind(3, p.NRN);
+    db.bind(4, p.date.to8601());
+    db.bind(5, p.dispensation.type);
+    db.bind(6, static_cast<int>(p.dispensation.repeats));
+    db.bind(7, p.supplements);
+    db.bind(8, User::doctor().LPK);
+    db.bind(9, User::practice().rziCode);
+
+    bool success = db.execute();
 
     long long rowid{ 0 };
 
@@ -36,26 +37,26 @@ long long DbPrescription::insert(const Prescription& p)
         return rowid;
     }
 
-
     for (auto& m : p.medicationGroup)
     {
-        db.execute(
+        db.newStatement(
 
             "INSERT INTO medication ("
             "prescription_rowid, numMed_rowid, is_form, quantity, "
-            "priority, substitution, notes, dosage) VALUES (" +
-
-                std::to_string(rowid) + "," +
-                std::to_string(m.getNumenclatureKey()) + "," +
-                std::to_string(m.byForm) + "," +
-                std::to_string(m.quantity) + "," +
-                std::to_string(m.priority) + "," +
-                std::to_string(m.substitution) + "," +
-                "'"+ m.note + "'," +
-                "'"+ Parser::write(m.dosage) + "'"
-            +")"
+            "priority, substitution, notes, dosage) "
+            "VALUES (?,?,?,?,?,?,?,?)"
         );
 
+        db.bind(1, rowid);
+        db.bind(2, m.getNumenclatureKey());
+        db.bind(3, m.byForm);
+        db.bind(4, static_cast<int>(m.quantity));
+        db.bind(5, m.priority);
+        db.bind(6, m.substitution);
+        db.bind(7, m.note);
+        db.bind(8, Parser::write(m.dosage));
+
+        db.execute();
     }
 
     return rowid;
@@ -126,8 +127,6 @@ bool DbPrescription::update(const Prescription& p)
 {
     Db db;
 
-    
-
     bool success = db.execute(
 
         "UPDATE prescription SET "
@@ -140,6 +139,7 @@ bool DbPrescription::update(const Prescription& p)
         "WHERE prescription.rowid=" + std::to_string(p.rowid)
     );
 
+    if (!success) return false;
 
     success = db.execute(
         "DELETE FROM medication WHERE prescription_rowid=" + std::to_string(p.rowid)
@@ -150,22 +150,24 @@ bool DbPrescription::update(const Prescription& p)
     //copy-paste from the insert function
     for (auto& m : p.medicationGroup)
     {
-       success =  db.execute(
+        db.newStatement(
 
             "INSERT INTO medication ("
             "prescription_rowid, numMed_rowid, is_form, quantity, "
-            "priority, substitution, notes, dosage) VALUES (" +
-
-            std::to_string(p.rowid) + "," +
-            std::to_string(m.getNumenclatureKey()) + "," +
-            std::to_string(m.byForm) + "," +
-            std::to_string(m.quantity) + "," +
-            std::to_string(m.priority) + "," +
-            std::to_string(m.substitution) + "," +
-            "'" + m.note + "'," +
-            "'" + Parser::write(m.dosage) + "'"
-            + ")"
+            "priority, substitution, notes, dosage) "
+            "VALUES (?,?,?,?,?,?,?,?)"
         );
+
+        db.bind(1, p.rowid);
+        db.bind(2, m.getNumenclatureKey());
+        db.bind(3, m.byForm);
+        db.bind(4, static_cast<int>(m.quantity));
+        db.bind(5, m.priority);
+        db.bind(6, m.substitution);
+        db.bind(7, m.note);
+        db.bind(8, Parser::write(m.dosage));
+
+        success = db.execute();
 
        if (!success) return false;
 

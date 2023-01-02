@@ -457,7 +457,7 @@
     <ClCompile Include="src\View\Widgets\GeneralSettings.cpp" />
     <ClCompile Include="src\View\Widgets\InputDialog.cpp" />
     <ClCompile Include="src\View\Widgets\InvoicePrintDialog.cpp" />
-    <ClCompile Include="src\View\Widgets\KSMPDialog.cpp" />
+    <ClCompile Include="src\View\Widgets\TableViewDialog.cpp" />
     <ClCompile Include="src\View\Widgets\ListView.cpp" />
     <ClCompile Include="src\View\Widgets\LoginView.cpp" />
     <ClCompile Include="src\View\Widgets\MedicationDialog.cpp" />
@@ -771,7 +771,7 @@
     <QtMoc Include="src\View\Widgets\MonthNotifView.h" />
     <QtMoc Include="src\View\Widgets\LoginView.h" />
     <QtMoc Include="src\View\Widgets\ListView.h" />
-    <QtMoc Include="src\View\Widgets\KSMPDialog.h" />
+    <QtMoc Include="src\View\Widgets\TableViewDialog.h" />
     <QtMoc Include="src\View\Widgets\GeneralSettings.h" />
     <QtMoc Include="src\View\Widgets\FinancialView.h" />
     <QtMoc Include="src\View\Widgets\DoctorSettingsDialog.h" />
@@ -866,7 +866,7 @@
     <QtUic Include="src\View\Widgets\GeneralSettings.ui" />
     <QtUic Include="src\View\Widgets\InputDialog.ui" />
     <QtUic Include="src\View\Widgets\InvoicePrintDialog.ui" />
-    <QtUic Include="src\View\Widgets\KSMPDialog.ui" />
+    <QtUic Include="src\View\Widgets\TableViewDialog.ui" />
     <QtUic Include="src\View\Widgets\ListView.ui" />
     <QtUic Include="src\View\Widgets\LoginView.ui" />
     <QtUic Include="src\View\Widgets\MedicationDialog.ui" />

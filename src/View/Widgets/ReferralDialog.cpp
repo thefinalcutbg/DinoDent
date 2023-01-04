@@ -144,15 +144,15 @@ void ReferralDialog::setReferral(const Referral & r)
 
 	if (r.type == ReferralType::MDD4)
 	{
-		auto& tooth = std::get<MDD4Data>(r.data).tooth;
+		auto& tooth_idx = std::get<MDD4Data>(r.data).tooth_idx;
 
-		if (tooth == -1) {
+		if (tooth_idx == -1) {
 			ui.opgRadio->setChecked(true);
 		}
 		else
 		{
 			ui.toothRadio->setChecked(true);
-			ui.toothCombo->setCurrentIndex(tooth);
+			ui.toothCombo->setCurrentIndex(tooth_idx);
 		}
 	}
 

@@ -14,10 +14,10 @@ private:
 
 public:
 	
-	int tooth{ -1 }; //-1 for OPG, any valid tooth idx for tooth xRay
-
-	inline const std::string& getCode() const { return tooth == -1 ? opgNhif : segmentNhif; };
-	inline const std::string& getKSMP() const { return tooth == -1 ? opgKsmp : segmentKsmp; };
+	int tooth_idx{ -1 }; //-1 for OPG, any valid tooth idx for tooth xRay
+	inline bool isOPG() const { return tooth_idx == -1; }
+	inline const std::string& getCode() const { return isOPG() ? opgNhif : segmentNhif; };
+	inline const std::string& getKSMP() const { return isOPG() ? opgKsmp : segmentKsmp; };
 
 };
 

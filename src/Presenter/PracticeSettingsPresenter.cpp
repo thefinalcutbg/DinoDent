@@ -80,6 +80,34 @@ bool PracticeSettingsPresenter::isValid()
 		}
 	}
 
+	//lame, the state of the practice has to be kept in the presenter
+	if (m_doctorsList.size() && 
+		m_doctorsList[0].specialty == NhifSpecialty::None && 
+		view->getPractice().nzok_contract
+	)
+	{
+
+		bool atLeastOneNhifDoctor{ false };
+
+		for (auto& d : m_doctorsList) {
+			
+			if (d.specialty != NhifSpecialty::None) {
+				atLeastOneNhifDoctor = true;
+				break;
+			}
+		}
+
+		if (atLeastOneNhifDoctor == false) {
+
+			bool answer = ModalDialogBuilder::askDialog(
+				"Практиката има договор по НЗОК, но нито един доктор в нея\n"
+				"няма код специалност по НЗОК. Да продължа ли въпреки това?");
+			if (!answer) return false;
+
+		}
+		
+	}
+
 	for (auto& doctor : m_doctorsList) {
 		if (doctor.admin) return true;
 	}
@@ -104,13 +132,20 @@ void PracticeSettingsPresenter::nzokContractEnabled(bool enabled)
 		validatableElements[1]->setInputValidator(&m_notEmptyValidator);
 		validatableElements[2]->setInputValidator(&m_dateValidator);
 
+		if (m_doctorsList.size() == 1 &&
+			m_doctorsList[0].specialty == NhifSpecialty::None) {
+			m_doctorsList[0].specialty = NhifSpecialty::General;
+			view->setDoctorList(m_doctorsList);
+		}
+
 	}
 	else {
 		for (auto& e : validatableElements){
 			e->setInputValidator(nullptr);
 		}
 	}
-	
+
+
 }
 
 void PracticeSettingsPresenter::vatEnabled(bool enabled)
@@ -144,6 +179,7 @@ void PracticeSettingsPresenter::addDoctor()
 
 	if (m_doctorsList.size() == 1) {
 		m_doctorsList[0].admin = true;
+
 	}
 
 	view->setDoctorList(m_doctorsList);

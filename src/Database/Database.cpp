@@ -255,7 +255,7 @@ Db::~Db()
     }
 }
 
-
+#include <qdebug.h>
 bool Db::createIfNotExist()
 {
     if (std::filesystem::exists(dbLocation)) return true;

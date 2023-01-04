@@ -106,20 +106,22 @@ void DbDoctor::updateDoctor(const Doctor& doctor, std::string& currentLPK)
 
 void DbDoctor::insertDoctor(const Doctor& doctor)
 {
-    Db::crudQuery(
-
-        "INSERT INTO doctor (lpk, fname, mname, lname, pass, egn, phone, several_rhif) "
-        "VALUES('"
-        + doctor.LPK + "', "
-        "'" + doctor.fname + "', "
-        "'" + doctor.mname + "', "
-        "'" + doctor.lname + "', "
-        "'" + doctor.pass + "', "
-        "'" + doctor.egn + "', "
-        "'" + doctor.phone + "', "
-        + std::to_string(doctor.severalRHIF) + ")"
-
+    Db db(
+        "INSERT INTO doctor (lpk, fname, mname, lname, pass, egn, phone, several_rhif, auto_login ) "
+        "VALUES(?,?,?,?,?,?,?,?,?)"
     );
+
+    db.bind(1, doctor.LPK);
+    db.bind(2, doctor.fname);
+    db.bind(3, doctor.mname);
+    db.bind(4, doctor.lname);
+    db.bind(5, doctor.pass);
+    db.bind(6, doctor.egn);
+    db.bind(7, doctor.phone);
+    db.bind(8, doctor.severalRHIF);
+    db.bind(9, false);
+
+    db.execute();
 }
 
 std::tuple<bool, int> DbDoctor::getAdminAndSpecialty(const std::string& lpk, const std::string& rzi)

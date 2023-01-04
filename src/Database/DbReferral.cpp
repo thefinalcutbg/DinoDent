@@ -139,7 +139,7 @@ void DbReferral::saveReferrals(const std::vector<Referral>& ref, long long ambLi
         db.bind(11, static_cast<int>(r.type));
 
         if (r.type == ReferralType::MDD4) {
-            db.bind(12, std::get<MDD4Data>(r.data).tooth);
+            db.bind(12, std::get<MDD4Data>(r.data).tooth_idx);
         }
 
         if (r.type == ReferralType::MH119)

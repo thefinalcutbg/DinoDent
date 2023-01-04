@@ -21,15 +21,17 @@ void PatientInfoPresenter::nraClicked(bool showDialog)
 {
     m_showInsuranceDialog = showDialog;
 
+    /*
     if (patient->insuranceStatus) {
         setInsuranceStatus(patient->insuranceStatus.value());
         return;
     }
-
+    */
     nraStatusServ.sendRequest(
         *patient.get(),
         [=](auto status) { this->setInsuranceStatus(status);},
-        showDialog
+        showDialog,
+        current_date
     );
 }
 

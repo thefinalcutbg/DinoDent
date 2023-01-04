@@ -115,7 +115,10 @@ void DbUpdates::update6(UpdateDialog& dialogProgress)
 				}
 
 				data["material"] = materialStrToIdx(data["material"].asString());
-
+				
+				if (data["surfaces"].empty()) {
+						data["surfaces"].append(0);
+				}
 				break;
 			}
 			case 5: {

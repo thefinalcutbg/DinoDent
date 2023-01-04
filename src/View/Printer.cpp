@@ -413,8 +413,10 @@ void Print::referral(const Referral& ref, const Patient& patient, int ambSheetNu
 
         auto& doctor = User::doctor();
         auto& practice = User::practice();
+        auto data = std::get<MDD4Data>(ref.data);
 
-        report.loadFromFile(":/reports/report_mdd4.lrxml");
+        report.loadFromFile(data.isOPG() ? ":/reports/report_mdd4.lrxml"
+        : ":/reports/report_mdd4tooth.lrxml");
 
         fillCommonData(report, patient, doctor, practice);
 
@@ -430,14 +432,19 @@ void Print::referral(const Referral& ref, const Patient& patient, int ambSheetNu
         report.dataManager()->setReportVariable("diagnosis_additional", ref.diagnosis.additional.code().c_str());
         report.dataManager()->setReportVariable("reason", FreeFn::leadZeroes(ref.reason.getIndex() + 1, 2).c_str());
         */
-        auto data = std::get<MDD4Data>(ref.data);
+
         report.dataManager()->setReportVariable("nhifCode", data.getCode().c_str());
         report.dataManager()->setReportVariable("KSMP", data.getKSMP().c_str());
+
+        if (!data.isOPG()) {
+            report.dataManager()->setReportVariable("tooth", ToothUtils::getToothNumber(data.tooth_idx, false));
+        }
 
     };
 
     auto mh119fill = [&] {
 
+        
         report.loadFromFile(":/reports/report_mh119.lrxml");
 
         refCommonFill();

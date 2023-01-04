@@ -269,7 +269,17 @@ std::string Tooth::getToothInfo() const
 		result.append(splint.data.infoStr());
 	}
 
-	if (post) result.append("<br><b>Радикуларен щифт</b><br>");
+	if (post) {
+
+		if (post.data.type.getIndex() == 0) {
+			result.append("<br><b>Радикуларен щифт</b><br>");
+		}
+		else
+		{
+			result.append("<br><b>" + post.data.type.getName() + "</b><br>");
+		}
+
+	}
 	
 
 	if (caries) {

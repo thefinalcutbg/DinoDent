@@ -95,7 +95,7 @@ struct Practice
 	std::string practice_address;
 	std::string vat;
 	std::string pass;
-	int legal_entity;
+	int legal_entity{ 0 };
 
 	Settings settings;
 

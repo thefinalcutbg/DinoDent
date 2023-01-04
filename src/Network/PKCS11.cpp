@@ -8,9 +8,10 @@
 #include <qdebug.h>
 PKCS11_CTX* ctx{ nullptr };
 
-std::vector<std::string> modules{
-	"bit4xpki.dll",
-	"IDPrimePKCS1164.dll"
+std::vector<std::string_view> modules{
+	"cmP1164.dll",
+	"IDPrimePKCS1164.dll",
+	"bit4xpki.dll"
 };
 
 

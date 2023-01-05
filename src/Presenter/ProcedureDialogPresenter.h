@@ -25,6 +25,7 @@ class ProcedureDialogPresenter
 	const AmbList& ambList;
 
 	Date patientTurns18;
+	bool pregnancyAllowed{ false };
 
 	GeneralProcedurePresenter general_presenter;
 	ToothProcedurePresenter toothNonSpecific_presenter;
@@ -57,7 +58,8 @@ class ProcedureDialogPresenter
 		(
 			const AmbList& ambSheet,
 			const std::vector<Tooth*>& selectedTeeth,
-			const Date& patientTurns18
+			const Date& patientTurns18,
+			bool pregnancyAllowed
 		);
 
 		void setView(IProcedureDialog* view);

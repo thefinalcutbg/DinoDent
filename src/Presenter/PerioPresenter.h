@@ -20,6 +20,11 @@ class PerioPresenter : public TabInstance
 
 	int getRecession(int surfaceIndex);
 	PatientInfoPresenter patient_info;
+
+	void prepareDerivedForSwitch() override {
+		patient_info.setCurrent(false);
+	}
+
 public:
 
 	PerioStatus m_perioStatus;

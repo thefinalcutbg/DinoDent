@@ -42,6 +42,10 @@ class ListPresenter : public TabInstance
     NraStatusService nraStatusServ;
     DiagnosisService nhifDiagnosisServ;
 
+    void prepareDerivedForSwitch() override {
+        patient_info.setCurrent(false);
+    }
+
     int generateAmbListNumber();
     void requestPisActivities();
     bool isValid();

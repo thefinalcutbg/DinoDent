@@ -22,6 +22,10 @@ class PatientSummaryPresenter : public TabInstance
 	//a function for convinience
 	TimeFrame* currentFrame();
 
+	void prepareDerivedForSwitch() override {
+		patient_presenter.setCurrent(false);
+	}
+
 public:
 
 	

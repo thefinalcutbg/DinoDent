@@ -141,7 +141,7 @@ Patient PatientFormDialog::getPatient()
         ui.typeComboBox->currentIndex() + 1,
         ui.idLineEdit->text().toStdString(),
         Date(birthDate.day(), birthDate.month(), birthDate.year()),
-        bool(ui.sexCombo->currentIndex()),
+        Patient::Sex(ui.sexCombo->currentIndex()),
         ui.fNameEdit->text().toStdString(),
         ui.mNameEdit->text().toStdString(),
         ui.lNameEdit->text().toStdString(),

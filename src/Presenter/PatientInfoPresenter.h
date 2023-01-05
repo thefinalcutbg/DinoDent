@@ -11,7 +11,7 @@ class PatientInfoPresenter
 	std::shared_ptr<Patient> patient;
 	IPatientTileInfo* view;
 
-	Date current_date{ Date::currentDate() };
+	int patientAge{ 0 };
 
 	NraStatusService nraStatusServ;
 	DiagnosisService nhifDiagnosisServ;
@@ -19,6 +19,8 @@ class PatientInfoPresenter
 	bool m_showInsuranceDialog{ false };
 
 	void setInsuranceStatus(const std::optional<InsuranceStatus>& status_result);
+
+	bool m_isCurrent{ false };
 
 public:
 	PatientInfoPresenter(IPatientTileInfo* view, std::shared_ptr<Patient> p);
@@ -28,7 +30,7 @@ public:
 	void patientTileClicked();
 	void allergiesTileClicked();
 	void printDeclarations();
-	void setCurrent();
+	void setCurrent(bool current);
 
 
 };

@@ -1,8 +1,8 @@
 ﻿#include "Patient.h"
 
-bool Patient::getSexFromEgn(const std::string& egn)
+Patient::Sex Patient::getSexFromEgn(const std::string& egn)
 {
-	return stoi(egn.substr(8, 1)) % 2 != 0;
+	return Sex(stoi(egn.substr(8, 1)) % 2 != 0);
 }
 
 
@@ -69,6 +69,15 @@ std::string Patient::getFullAddress() const
 	cityStr.append(", " + address);
 
 	return cityStr;
+}
+
+bool Patient::canBePregnant(const Date& date) const
+{
+	if (sex == Male) return false;
+
+	auto age = getAge(date);
+
+	return (age > 10 && age < 55);
 }
 
 

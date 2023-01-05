@@ -11,7 +11,8 @@ ProcedureDialogPresenter::ProcedureDialogPresenter
 (
 	const AmbList& ambSheet,
 	const std::vector<Tooth*>& selectedTeeth,
-	const Date& patientTurns18
+	const Date& patientTurns18,
+	bool pregnancyAllowed
 )
 	:
 
@@ -22,6 +23,7 @@ ProcedureDialogPresenter::ProcedureDialogPresenter
 	selectedTeeth(selectedTeeth),
 	patientTurns18(patientTurns18),
 	date_validator(patientTurns18),
+	pregnancyAllowed(pregnancyAllowed),
 	_errorState(true),
 
 	toothNonSpecific_presenter(this->selectedTeeth),
@@ -97,6 +99,7 @@ void ProcedureDialogPresenter::procedureDateChanged(const Date& date)
 			date,
 			User::doctor().specialty,
 			date >= patientTurns18,
+			pregnancyAllowed,
 			ambList.nhifData.specification
 		);
 	}

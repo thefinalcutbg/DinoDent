@@ -17,7 +17,7 @@ void TabInstance::refreshTabName()
 	_tabView->changeTabName(getTabName(), m_containerIdx);
 }
 
-bool TabInstance::close()
+bool TabInstance::premissionToClose()
 {
 	if (!isNew() && !edited) return true;
 
@@ -57,4 +57,5 @@ void TabInstance::prepareSwitch()
 {
 	m_scrollPos = _tabView->getScrollPos();
 	bool is_current = false;
+	prepareDerivedForSwitch();
 }

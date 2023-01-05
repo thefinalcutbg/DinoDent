@@ -146,7 +146,7 @@ void NhifProcedures::initialize()
 
 
 
-std::vector<ProcedureTemplate> NhifProcedures::getM_Templates(Date ambDate, NhifSpecialty specialty, bool adult, NhifSpecification specification)
+std::vector<ProcedureTemplate> NhifProcedures::getM_Templates(Date ambDate, NhifSpecialty specialty, bool adult, bool pregnancyAllowed, NhifSpecification specification)
 {
 	int currentUpdateIdx = -1;
 
@@ -163,9 +163,11 @@ std::vector<ProcedureTemplate> NhifProcedures::getM_Templates(Date ambDate, Nhif
 
 	auto& m_map = update.prices[PriceKey{ static_cast<int>(specialty), adult, static_cast<int>(specification) }].priceMap;
 
-	std::vector<ProcedureTemplate> product;
+	std::vector<ProcedureTemplate> pTemplates;
 
-	product.reserve(m_map.size());
+	pTemplates.reserve(m_map.size());
+
+	constexpr auto pregnancyKsmp = "97017-01";
 
 	for (auto& kv : m_map) 
 	{
@@ -173,13 +175,15 @@ std::vector<ProcedureTemplate> NhifProcedures::getM_Templates(Date ambDate, Nhif
 		{
 			if (p.code != kv.first) continue;
 
-			product.push_back(p);
-			product.back().price = std::get<0>(kv.second);
+			if (!pregnancyAllowed && p.ksmp == pregnancyKsmp) continue;
+
+			pTemplates.push_back(p);
+			pTemplates.back().price = std::get<0>(kv.second);
 		}
 
 	}
 
-	return product;
+	return pTemplates;
 }
 
 std::pair<patientPrice, nzokPrice> NhifProcedures::getPrices

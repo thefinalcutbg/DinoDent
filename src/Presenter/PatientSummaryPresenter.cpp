@@ -257,7 +257,7 @@ void PatientSummaryPresenter::setDataToView()
 {
     view->setPresenter(this);
 
-    patient_presenter.setCurrent();
+    patient_presenter.setCurrent(true);
 
     view->setUiState(state);
 }

@@ -86,7 +86,7 @@ Patient DbPatient::get(std::string patientID, int type)
         patient.type = db.asInt(1);
         patient.id = db.asString(2);
         patient.birth = Date(db.asString(3));
-        patient.sex = db.asInt(4);
+        patient.sex = Patient::Sex(db.asInt(4));
         patient.FirstName = db.asString(5);
         patient.MiddleName = db.asString(6);
         patient.LastName = db.asString(7);
@@ -117,7 +117,7 @@ Patient DbPatient::get(long long rowid)
         patient.type = db.asInt(1);
         patient.id = db.asString(2);
         patient.birth = Date(db.asString(3));
-        patient.sex = db.asInt(4);
+        patient.sex = Patient::Sex(db.asInt(4));
         patient.FirstName = db.asString(5);
         patient.MiddleName = db.asString(6);
         patient.LastName = db.asString(7);

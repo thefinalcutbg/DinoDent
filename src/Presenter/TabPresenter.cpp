@@ -10,7 +10,7 @@
 #include "FinancialPresenter.h"
 #include <TinyXML/tinyxml.h>
 
-TabPresenter::TabPresenter() : _indexCounter(-1), m_currentIndex(-1), view(nullptr)
+TabPresenter::TabPresenter() : m_indexCounter(-1), m_currentIndex(-1), view(nullptr)
 {}
 
 void TabPresenter::setView(ITabView* view)
@@ -32,17 +32,17 @@ TabInstance* TabPresenter::currentTab()
 
 void TabPresenter::createNewTab(TabInstance* tabInstance, bool setFocus)
 {
-    _indexCounter++;
+    m_indexCounter++;
 
-    m_tabs[_indexCounter] = tabInstance;
+    m_tabs[m_indexCounter] = tabInstance;
 
-    tabInstance->setContainerIdx(_indexCounter);
+    tabInstance->setContainerIdx(m_indexCounter);
 
-    view->newTab(_indexCounter, m_tabs[_indexCounter]->getTabName());
+    view->newTab(m_indexCounter, m_tabs[m_indexCounter]->getTabName());
 
     //tabs size() > 1, because the first tab gets focused by the view automatically
     if (setFocus && m_tabs.size() > 1)
-        view->focusTab(_indexCounter);
+        view->focusTab(m_indexCounter);
 }
 
 void TabPresenter::setCurrentTab(int index)
@@ -55,7 +55,7 @@ void TabPresenter::setCurrentTab(int index)
     {
         //it's 100% empty, but just in case...
         if (m_tabs.empty()) {
-            _indexCounter = -1;
+            m_indexCounter = -1;
         }
 
         view->showDinosaur();
@@ -66,23 +66,22 @@ void TabPresenter::setCurrentTab(int index)
     
 }
 
+
 void TabPresenter::closeTabRequested(int tabId)
 {
-    if(permissionToClose(tabId)) removeTabInstance(tabId);
-}
+    if (!m_tabs[tabId]->premissionToClose()) return;
 
-void TabPresenter::removeTabInstance(int tabId)
-{
     delete m_tabs[tabId];
     m_tabs.erase(tabId);
     view->removeTab(tabId);
 }
 
+
 bool TabPresenter::permissionToLogOut()
 {
     for (auto& pair : m_tabs)
     {
-        if (!permissionToClose(pair.first))
+        if (!m_tabs[pair.first]->premissionToClose())
             return false;
     }
 
@@ -272,10 +271,7 @@ bool TabPresenter::newListExists(const Patient& patient)
     return false;
 }
 
-bool TabPresenter::permissionToClose(int tabId)
-{
-    return m_tabs[tabId]->close();
-}
+
 
 bool TabPresenter::documentTabOpened(TabType type, long long rowID) const
 {

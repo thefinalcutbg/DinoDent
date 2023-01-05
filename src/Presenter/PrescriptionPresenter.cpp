@@ -7,7 +7,7 @@ PrescriptionPresenter::PrescriptionPresenter(ITabView* tabView, TabPresenter* ta
 	TabInstance(tabView, TabType::Prescription, patient), 
 	view(tabView->perscriptionView()),
 	m_prescription(DbPrescription::get(rowId)),
-	patient_presenter(view->patientTile(), patient)
+	patient_info(view->patientTile(), patient)
 {
 	m_prescription.patient_rowid = patient->rowid;
 
@@ -130,15 +130,15 @@ void PrescriptionPresenter::dispensationChanged(const Dispensation& d)
 void PrescriptionPresenter::dateChanged(const Date& date)
 {
 	m_prescription.date = date;
-	patient_presenter.setDate(date);
+	patient_info.setDate(date);
 	makeEdited();
 }
 
 void PrescriptionPresenter::setDataToView()
 {
 	view->setPresenter(this);
-	patient_presenter.setCurrent();
-	view->setDate(m_prescription.date);
+	patient_info.setCurrent(true);
+
 	view->setDispensation(m_prescription.dispensation);
 	view->setSupplements(m_prescription.supplements);
 	view->setMedicationList(m_prescription.getMedList());

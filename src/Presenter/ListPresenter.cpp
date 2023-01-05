@@ -90,6 +90,8 @@ void ListPresenter::dynamicNhifConversion()
     {
         m_ambList.number = DbAmbList::getNewNumber(m_ambList.getDate(), isNhif);
         view->setAmbListNum(m_ambList.number);
+        edited = false;
+        makeEdited();
     }
 
     if (m_ambList.isNhifSheet()) {
@@ -100,7 +102,6 @@ void ListPresenter::dynamicNhifConversion()
         view->hideNhifSheetData();
     }
 
-    edited = false; //forces tab name change
 
 }
 
@@ -222,7 +223,6 @@ void ListPresenter::print()
 
 void ListPresenter::setDataToView()
 {
-
     if (User::settings().getPisHistoryAuto &&
         User::hasNzokContract() &&
         !patient->PISHistory.has_value()) {
@@ -230,8 +230,10 @@ void ListPresenter::setDataToView()
     }
 
     view->setPresenter(this);
+    
     patient_info.setDate(m_ambList.getDate());
-    patient_info.setCurrent();
+
+    patient_info.setCurrent(true);
 
     view->refresh(m_ambList);
 
@@ -377,6 +379,7 @@ void ListPresenter::setSelectedTeeth(const std::vector<int>& SelectedIndexes)
     view->hideSurfacePanel(!oneToothSelected);
 }
 
+
 int ListPresenter::generateAmbListNumber()
 {
     int newNumber = m_ambList.number;
@@ -506,7 +509,8 @@ void ListPresenter::addProcedure()
     {
         m_ambList,
         m_selectedTeeth,
-        patient->turns18At()
+        patient->turns18At(),
+        patient->canBePregnant(m_ambList.getDate())
     };
 
     auto procedures = p.openDialog();

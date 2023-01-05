@@ -6,15 +6,16 @@
 #include "View/Printer.h"
 
 PatientInfoPresenter::PatientInfoPresenter(IPatientTileInfo* view, std::shared_ptr<Patient> p) :
-    view(view), patient(p)
+    view(view), patient(p), patientAge(patient->getAge(Date::currentDate()))
 {}
 
 void PatientInfoPresenter::setDate(const Date& date)
 {
-    current_date = date;
+    patientAge = patient->getAge(date);
 
-    view->setPresenter(this);
-    view->setPatient(*patient, patient->getAge(current_date));
+    if (!m_isCurrent) return;
+
+    view->setPatient(*patient, patientAge);
 }
 
 void PatientInfoPresenter::nraClicked(bool showDialog)
@@ -30,8 +31,7 @@ void PatientInfoPresenter::nraClicked(bool showDialog)
     nraStatusServ.sendRequest(
         *patient.get(),
         [=](auto status) { this->setInsuranceStatus(status);},
-        showDialog,
-        current_date
+        showDialog
     );
 }
 
@@ -63,7 +63,7 @@ void PatientInfoPresenter::diagnosisClicked()
 
             *this->patient = patient;
 
-            view->setPatient(patient, patient.getAge(current_date));
+            view->setPatient(patient, patientAge);
         }
     );
 }
@@ -82,7 +82,7 @@ void PatientInfoPresenter::patientTileClicked()
 
    // tabPresenter->refreshPatientTabNames(patient->rowid);
 
-    view->setPatient(*patient, patient->getAge(current_date));
+    view->setPatient(*patient, patientAge);
 }
 
 void PatientInfoPresenter::allergiesTileClicked()
@@ -103,7 +103,7 @@ void PatientInfoPresenter::allergiesTileClicked()
     patient->currentDiseases = d.current;
     patient->pastDiseases = d.past;
 
-    view->setPatient(*patient, patient->getAge(current_date));
+    view->setPatient(*patient, patientAge);
 }
 
 void PatientInfoPresenter::printDeclarations()
@@ -171,19 +171,26 @@ void PatientInfoPresenter::printDeclarations()
 
 }
 
-void PatientInfoPresenter::setCurrent()
+void PatientInfoPresenter::setCurrent(bool isCurrent)
 {
+    m_isCurrent = isCurrent;
+
+    if (!isCurrent) return;
+
+    view->setPresenter(this);
+
+    view->setPatient(*patient, patientAge);
+
     if (
-        !patient->insuranceStatus.has_value() &&
+        !patient->insuranceStatus &&
         User::practice().nzok_contract->nra_pass.size() &&
         User::settings().getNraStatusAuto
-        )
+    )
     {
         nraClicked(false);
     }
 
-    view->setPresenter(this);
-    view->setPatient(*patient, patient->getAge(current_date));
+
 }
 
 void PatientInfoPresenter::setInsuranceStatus(const std::optional<InsuranceStatus>& status_result)
@@ -194,7 +201,9 @@ void PatientInfoPresenter::setInsuranceStatus(const std::optional<InsuranceStatu
 
     patient->insuranceStatus = status_result.value();
 
-    view->setPatient(*patient, patient->getAge(current_date));
+    if (m_isCurrent) {
+        view->setPatient(*patient, patientAge);
+    }
 
     if (m_showInsuranceDialog) {
         m_showInsuranceDialog = false;

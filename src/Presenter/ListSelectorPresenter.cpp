@@ -118,13 +118,11 @@ void ListSelectorPresenter::openCurrentSelection()
 {
 	if (!m_selectedInstances.size()) return;
 
-	auto size = m_selectedInstances.size();
-
 	int counter{ 0 };
 
 	for (auto& row : m_selectedInstances) {
 
-		bool isLastTab = ++counter == size;
+		bool isLastTab = ++counter == m_selectedInstances.size();
 
 		tab_presenter->open(*row, isLastTab);
 	}

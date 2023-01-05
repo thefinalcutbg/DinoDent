@@ -15,14 +15,14 @@ class TabPresenter
 
 	std::unordered_map<int, TabInstance*> m_tabs;
 
-	int _indexCounter;
+	int m_indexCounter;
 	int m_currentIndex;
 
 
 	ITabView* view;
 
 	bool newListExists(const Patient& patient);
-	bool permissionToClose(int tabId);
+//	bool permissionToClose(int tabId);
 	bool tabAlreadyOpened(const RowInstance& tab);
 	bool monthNotiAlreadyOpened(int monthNotifNum);
 
@@ -30,7 +30,7 @@ class TabPresenter
 
 	std::shared_ptr<Patient> getPatient_ptr(const Patient& patient);
 
-	void removeTabInstance(int tabId);
+	//void removeTabInstance(int tabId);
 public:
 	
 	TabPresenter();

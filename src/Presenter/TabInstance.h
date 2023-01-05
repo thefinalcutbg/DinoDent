@@ -37,6 +37,8 @@ protected:
 
 	virtual void setDataToView() = 0;
 
+	virtual void prepareDerivedForSwitch() {};
+
 
 public:
 	const TabType type;
@@ -49,7 +51,7 @@ public:
 
 	bool requiresSaving() { return edited || isNew(); }
 
-	bool close();
+	bool premissionToClose();
 
 	void setCurrent();
 	bool isCurrent() { return is_current; }

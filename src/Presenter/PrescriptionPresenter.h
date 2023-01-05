@@ -10,13 +10,17 @@ class PrescriptionPresenter : public TabInstance
 
 	Prescription m_prescription;
 
-	PatientInfoPresenter patient_presenter;
+	PatientInfoPresenter patient_info;
 
 	EPrescription::Issue issue_prescription;
 	EPrescription::Cancel cancel_prescription;
 
 	void sendPrescriptionToHis();
 	void cancelPrescription();
+
+	void prepareDerivedForSwitch() override {
+		patient_info.setCurrent(false);
+	}
 
 public:
 	PrescriptionPresenter(ITabView* tabView, TabPresenter* tabPresenter, std::shared_ptr<Patient> patient, long long rowId = 0);

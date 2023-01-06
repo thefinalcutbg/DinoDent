@@ -97,6 +97,7 @@ void PracticeSettings::setPractice(const Practice& practice)
 		ui.contractDateEdit->set_Date(practice.nzok_contract.value().date);
 		ui.practiceNameNZOK->setText(QString::fromStdString(practice.nzok_contract.value().name_short));
 		ui.nraPass->setText(practice.nzok_contract->nra_pass.data());
+		ui.unfavCheck->setChecked(practice.nzok_contract->unfavourable);
 	}
 }
 
@@ -119,6 +120,7 @@ Practice PracticeSettings::getPractice()
 		c.contract_no = ui.contractEdit->getText();
 		c.name_short = ui.practiceNameNZOK->getText();
 		c.nra_pass = ui.nraPass->getText();
+		c.unfavourable = ui.unfavCheck->isChecked();
 		p.nzok_contract.emplace(c);
 	}
 

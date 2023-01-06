@@ -19,7 +19,6 @@ class Time;
 class IListView
 {
 public:
-	virtual void refresh(const AmbList& ambList) = 0;
 	virtual void setPresenter(ListPresenter* presenter) = 0;
 	virtual void setAmbListNum(int number) = 0;
 	virtual void setCheckModel(const CheckModel& checkModel) = 0;
@@ -29,7 +28,7 @@ public:
 	virtual void hideSurfacePanel(bool hidden) = 0;
 	virtual void hideControlPanel(bool hidden) = 0;
 	virtual void hideNhifSheetData() = 0;
-	virtual void setNhifData(const NhifSheetData& data) = 0;
+	virtual void setNhifData(const NhifSheetData& data, bool showUnfav) = 0;
 	virtual ISurfacePanel* surfacePanel() = 0;
 	virtual IPatientTileInfo* tileInfo() = 0;
 	virtual void repaintTooth(const ToothPaintHint& tooth) = 0;

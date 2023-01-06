@@ -86,6 +86,7 @@ ListView::ListView(QWidget* parent)
 	connect(ui.addProcedure, &QAbstractButton::clicked, [=] { if (presenter) presenter->addProcedure(); });
 	//connect(ui.taxCombo, &QComboBox::currentIndexChanged, [=] {nhifChanged();});
 	connect(ui.specCombo, &QComboBox::currentIndexChanged, [=] {nhifChanged();});
+	connect(ui.unfavCheck, &QCheckBox::stateChanged, [=] { nhifChanged(); });
 	connect(ui.editProcedure, &QPushButton::clicked, [=] { if (presenter) presenter->editProcedure(ui.procedureTable->selectedRow()); });
 	connect(ui.invoiceButton, &QPushButton::clicked, [=] { if (presenter) presenter->createInvoice(); });
 	connect(ui.perioButton, &QPushButton::clicked, [=] { if (presenter) presenter->createPerioMeasurment(); });
@@ -210,18 +211,6 @@ void ListView::nhifChanged()
 }
 
 
-void ListView::refresh(const AmbList& ambList)
-{
-	ambList.isNhifSheet() ?
-		setNhifData(ambList.nhifData)
-		:
-		hideNhifSheetData();
-
-	ui.dateEdit->set_Date(ambList.getDate());
-	ui.timeEdit->setTime(QTime(ambList.time.hour, ambList.time.minutes));
-	
-}
-
 void ListView::setAmbListNum(int number)
 {
 	QSignalBlocker b(ui.ambNumSpin);
@@ -333,16 +322,22 @@ void ListView::hideNhifSheetData()
 {
 	ui.spec_label->hide();
 	ui.specCombo->hide();
+	ui.unfavCheck->hide();
 
 }
 
-void ListView::setNhifData(const NhifSheetData& data)
+void ListView::setNhifData(const NhifSheetData& data, bool showUnfav)
 {
 	ui.spec_label->show();
 	ui.specCombo->show();
 
 	QSignalBlocker b(ui.specCombo);
 	ui.specCombo->setCurrentIndex(static_cast<int>(data.specification));
+
+	QSignalBlocker b1(ui.unfavCheck);
+	ui.unfavCheck->setChecked(data.unfavCheck);
+
+	ui.unfavCheck->setHidden(!showUnfav);
 
 }
 

@@ -69,6 +69,7 @@ struct NzokContract
 	std::string contract_no;
 	Date date;
 	std::string name_short;
+	bool unfavourable{ false };
 	std::string nra_pass;
 	std::string bank;
 	std::string bic;
@@ -110,6 +111,10 @@ struct Practice
 	bool hasNraAccess() const {
 		return nzok_contract.has_value() && !
 			nzok_contract->nra_pass.empty();
+	}
+
+	bool isUnfavourable() const {
+		return nzok_contract && nzok_contract->unfavourable;
 	}
 
 };

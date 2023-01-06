@@ -1,6 +1,6 @@
 ﻿#include "Ekatte.h"
 #include <unordered_map>
-
+#include <unordered_set>
 #include <JsonCpp/json.h>
 
 #include "Resources.h"
@@ -9,7 +9,7 @@ struct EkatteData { std::string name; bool isCity{ 0 }; int rhif{ 0 }; int healt
 
 std::unordered_map<int, EkatteData> s_idxToData;
 std::unordered_map<std::string, int> s_stringToIdx;
-
+std::unordered_set<int> s_nhifUnfav;
 
 void Ekatte::initialize()
 {
@@ -40,6 +40,9 @@ void Ekatte::initialize()
         
         s_stringToIdx[value["string"].asString()] = value["ekatte"].asInt();
 
+        if (value["unfav"].asBool()) { 
+            s_nhifUnfav.insert(value["ekatte"].asInt()); 
+        }
     }
 
 }
@@ -84,6 +87,11 @@ std::string Ekatte::getString(bool prefix) const
 std::string Ekatte::ekatte() const
 {
     return FreeFn::leadZeroes(ekatteIdx, 5);
+}
+
+bool Ekatte::isUnfav() const
+{
+    return s_nhifUnfav.count(ekatteIdx);
 }
 
 const std::unordered_map<std::string, int>& Ekatte::cityNameToIdx() { return s_stringToIdx; }

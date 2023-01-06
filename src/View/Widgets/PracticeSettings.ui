@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>709</width>
-    <height>517</height>
+    <height>542</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -207,7 +207,7 @@
      <x>10</x>
      <y>300</y>
      <width>291</width>
-     <height>181</height>
+     <height>211</height>
     </rect>
    </property>
    <property name="title">
@@ -331,7 +331,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>150</y>
+      <y>170</y>
       <width>101</width>
       <height>21</height>
      </rect>
@@ -344,10 +344,23 @@
     <property name="geometry">
      <rect>
       <x>140</x>
-      <y>150</y>
+      <y>170</y>
       <width>141</width>
       <height>21</height>
      </rect>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="unfavCheck">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>140</y>
+      <width>231</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Неблагоприятни условия</string>
     </property>
    </widget>
   </widget>
@@ -410,7 +423,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>490</y>
+     <y>520</y>
      <width>391</width>
      <height>21</height>
     </rect>
@@ -469,7 +482,7 @@
      <x>310</x>
      <y>300</y>
      <width>394</width>
-     <height>181</height>
+     <height>211</height>
     </rect>
    </property>
    <property name="title">

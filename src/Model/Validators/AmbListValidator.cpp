@@ -6,7 +6,6 @@
 #include "Model/Dental/ToothUtils.h"
 #include "Model/Dental/PackageCounter.h"
 
-
 struct pair_hash
 {
     template <class T1, class T2>
@@ -39,6 +38,17 @@ bool AmbListValidator::ambListIsValid()
         _error = "Не е въведен номер на здравната книжка на пациента";
         return false;
     }
+
+    if (
+        User::practice().isUnfavourable() &&
+        ambList.nhifData.unfavCheck &&
+        !patient.city.isUnfav()
+        ) {
+        _error = 
+            "Населеното място на пациента не фигурира в списъка на места с неблагоприятни условия";
+            return false;
+    }
+
 
     auto& teeth = ambList.teeth;
     auto& procedures = m_procedures;

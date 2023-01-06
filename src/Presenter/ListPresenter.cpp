@@ -35,6 +35,10 @@ ListPresenter::ListPresenter(ITabView* tabView, TabPresenter* tabPresenter, std:
     //the list is not new
     if (m_ambList.rowid) return;
 
+    if (User::practice().isUnfavourable() && patient->city.isUnfav()) {
+        m_ambList.nhifData.unfavCheck = true;
+    }
+
     m_ambList.number = DbAmbList::getNewNumber(m_ambList.getDate(), m_ambList.isNhifSheet());
 
 
@@ -95,7 +99,13 @@ void ListPresenter::dynamicNhifConversion()
     }
 
     if (m_ambList.isNhifSheet()) {
-        view->setNhifData(m_ambList.nhifData);
+
+        bool practiceIsUnfav =
+            User::practice().nzok_contract &&
+            User::practice().nzok_contract->unfavourable
+            ;
+
+        view->setNhifData(m_ambList.nhifData, practiceIsUnfav);
     }
     else
     {
@@ -234,8 +244,6 @@ void ListPresenter::setDataToView()
     patient_info.setDate(m_ambList.getDate());
 
     patient_info.setCurrent(true);
-
-    view->refresh(m_ambList);
 
     view->setAmbListNum(m_ambList.number);
 

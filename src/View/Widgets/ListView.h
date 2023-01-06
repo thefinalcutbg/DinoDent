@@ -33,7 +33,6 @@ public:
 
     void setPresenter(ListPresenter* presenter) override;
 
-    void refresh(const AmbList& ambList) override;
     void setAmbListNum(int number) override;
     void setDateTime(const Date& date, const Time& time) override;
     void showSheetNumber(bool show) override;
@@ -51,7 +50,7 @@ public:
     void setSelectedTeeth(std::vector<int> selectedTeeth) override;
     void setProcedures(const std::vector<Procedure>& m) override;
     void hideNhifSheetData() override;
-    void setNhifData(const NhifSheetData& data) override;
+    void setNhifData(const NhifSheetData& data, bool showUnfav) override;
     void setReferrals(const std::vector<Referral>& referrals) override;
     ~ListView();
 

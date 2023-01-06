@@ -408,6 +408,7 @@ std::string Parser::write(const std::optional<NzokContract>& contract)
 	json["iban"] = c.iban;
 	json["bic"] = c.bic;
 	json["nra"] = c.nra_pass;
+	json["unfav"] = c.unfavourable;
 
 	Json::FastWriter writer;
 
@@ -1063,6 +1064,7 @@ std::optional<NzokContract> Parser::parseContract(const std::string& jsonString)
 	contract.iban = json["iban"].asString();
 	contract.bic = json["bic"].asString();
 	contract.nra_pass = json["nra"].asString();
+	contract.unfavourable = json["unfav"].asBool();
 
 	return contract;
 

@@ -61,8 +61,6 @@ void DbProcedure::saveProcedures(long long amblist_rowid, const std::vector<Proc
 
 	db.execute(query);
 
-	qDebug() << "querry passed";
-
 	for (int i = 0; i < mList.size(); i++)
 	{
 		auto& p = mList[i];

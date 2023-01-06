@@ -81,6 +81,15 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
         report.dataManager()->setReportVariable("typeY", typeCoords[patient.type].y);
     }
 
+    if (
+        practice.isUnfavourable() &&
+        amb.isNhifSheet() &&
+        amb.nhifData.isUnfavourable
+        )
+    {
+        report.dataManager()->setReportVariable("unfav", "x");
+    }
+
     fillCommonData(report, patient, doctor, practice);
 
     report.dataManager()->setReportVariable("ambNum", QString::fromStdString(FreeFn::leadZeroes(amb.number, 12)));

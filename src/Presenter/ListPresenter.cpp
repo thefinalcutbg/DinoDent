@@ -36,7 +36,7 @@ ListPresenter::ListPresenter(ITabView* tabView, TabPresenter* tabPresenter, std:
     if (m_ambList.rowid) return;
 
     if (User::practice().isUnfavourable() && patient->city.isUnfav()) {
-        m_ambList.nhifData.unfavCheck = true;
+        m_ambList.nhifData.isUnfavourable = true;
     }
 
     m_ambList.number = DbAmbList::getNewNumber(m_ambList.getDate(), m_ambList.isNhifSheet());

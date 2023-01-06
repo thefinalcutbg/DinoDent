@@ -206,6 +206,7 @@ void ListView::nhifChanged()
 
 	//data.charge = static_cast<NhifCharge>(ui.taxCombo->currentIndex());
 	data.specification = static_cast<NhifSpecification>(ui.specCombo->currentIndex());
+	data.isUnfavourable = ui.unfavCheck->isChecked();
 
 	presenter->setNhifData(data);
 }
@@ -335,7 +336,7 @@ void ListView::setNhifData(const NhifSheetData& data, bool showUnfav)
 	ui.specCombo->setCurrentIndex(static_cast<int>(data.specification));
 
 	QSignalBlocker b1(ui.unfavCheck);
-	ui.unfavCheck->setChecked(data.unfavCheck);
+	ui.unfavCheck->setChecked(data.isUnfavourable);
 
 	ui.unfavCheck->setHidden(!showUnfav);
 

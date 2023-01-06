@@ -7,7 +7,7 @@
 #include "View/ModalDialogBuilder.h"
 #include "Path.h"
 #include "Model/FreeFunctions.h"
-#include "Model/Parser.h"
+
 void DbUpdates::backupDatabase()
 {
 	auto time = Time::currentTime();
@@ -247,28 +247,31 @@ void DbUpdates::update6(UpdateDialog& dialogProgress)
 	}
 
 	struct NHIFContractPair {
-		long long rowid;
+		std::string rzi;
 		std::string contractStr;
 	};
 
-	db.newStatement("SELECT rowid, nzok_contract FROM practice");
+	db.newStatement("SELECT rzi, nzok_contract FROM practice");
 
 	std::vector<NHIFContractPair> contracts;
+
+	Json::Reader reader;
+	Json::FastWriter writer;
 
 	while (db.hasRows()) {
 
 		Json::Value jsonContract;
 
-		Json::Reader().parse(db.asString(2), jsonContract);
+		reader.parse(db.asString(1), jsonContract);
 
 		if (jsonContract.empty()) continue;
 
 		jsonContract["unfav"] = false;
-
+		
 		contracts.push_back(
 			NHIFContractPair{
-				.rowid = db.asRowId(1),
-				.contractStr = Json::FastWriter().write(jsonContract)
+				.rzi = db.asString(0),
+				.contractStr = writer.write(jsonContract)
 			}
 		);
 	
@@ -280,7 +283,7 @@ void DbUpdates::update6(UpdateDialog& dialogProgress)
 	db.execute("PRAGMA foreign_keys = 0");
 	db.execute("BEGIN TRANSACTION");
 	db.execute("ALTER TABLE procedure ADD diagnosis VARCHAR");
-	db.execute("ALTER TABLE amblist ADD unfav INT");
+	db.execute("ALTER TABLE procedure ADD name VARCHAR");
 	db.execute("CREATE TABLE sqlitestudio_temp_table AS SELECT* FROM amblist");
 	db.execute("DROP TABLE amblist");
 	db.execute("CREATE TABLE amblist(rowid INTEGER NOT NULL PRIMARY KEY, patient_rowid INTEGER NOT NULL, date TEXT NOT NULL DEFAULT('1900-01-01T00:00:00'), num INT NOT NULL, lpk VARCHAR(9)  NOT NULL REFERENCES doctor(lpk) ON UPDATE CASCADE, nhif_spec INT, nhif_unfav INT, rzi VARCHAR(10) REFERENCES practice(rzi) ON UPDATE CASCADE NOT NULL, status VARCHAR, FOREIGN KEY(patient_rowid) REFERENCES patient(rowid) ON DELETE CASCADE ON UPDATE CASCADE)");
@@ -333,9 +336,9 @@ void DbUpdates::update6(UpdateDialog& dialogProgress)
 
 	for (auto& c : contracts)
 	{
-		db.newStatement("UPDATE practice SET nzok_contract = ? WHERE rowid=?");
+		db.newStatement("UPDATE practice SET nzok_contract = ? WHERE rzi=?");
 		db.bind(1, c.contractStr);
-		db.bind(2, c.rowid);
+		db.bind(2, c.rzi);
 
 		db.execute();
 

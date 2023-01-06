@@ -41,7 +41,7 @@ bool AmbListValidator::ambListIsValid()
 
     if (
         User::practice().isUnfavourable() &&
-        ambList.nhifData.unfavCheck &&
+        ambList.nhifData.isUnfavourable &&
         !patient.city.isUnfav()
         ) {
         _error = 

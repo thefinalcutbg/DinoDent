@@ -91,7 +91,7 @@ void Db::newStatement(const std::string& query)
 bool Db::execute(const std::string& query)
 {
     char* err;
-
+    finalizeStatement();
     int i = sqlite3_exec(db_connection, query.c_str(), NULL, NULL, &err);
    // qDebug() << query.c_str();
     if (err && s_showError) {

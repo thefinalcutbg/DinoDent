@@ -6,7 +6,6 @@
 #include "Model/Date.h"
 #include "Model/Parser.h"
 #include "DbProcedure.h"
-#include <qdebug.h>
 #include "Model/FreeFunctions.h"
 #include "Database//DbReferral.h"
 
@@ -22,7 +21,7 @@ long long DbAmbList::insert(const AmbList& sheet, long long patientRowId)
     db.bind(1, sheet.time.to8601(sheet.getDate()));
     db.bind(2, sheet.number);
     sheetIsNhif ? db.bind(3, static_cast<int>(sheet.nhifData.specification)) : db.bindNull(3);
-    sheetIsNhif ? db.bind(4, sheet.nhifData.unfavCheck) : db.bindNull(4);
+    sheetIsNhif ? db.bind(4, sheet.nhifData.isUnfavourable) : db.bindNull(4);
     db.bind(5, Parser::write(sheet.teeth));
     db.bind(6, patientRowId);
     db.bind(7, sheet.LPK);
@@ -55,11 +54,12 @@ void DbAmbList::update(const AmbList& sheet)
     
     Db db(query);
 
+    bool sheetIsNhif = sheet.isNhifSheet();
 
     db.bind(1, sheet.number);
     db.bind(2, sheet.time.to8601(sheet.getDate()));
-    sheet.isNhifSheet() ? db.bind(3, static_cast<int>(sheet.nhifData.specification)) : db.bindNull(3);
-    sheet.isNhifSheet() ? db.bind(4, sheet.nhifData.unfavCheck) : db.bindNull(4);
+    sheetIsNhif ? db.bind(3, static_cast<int>(sheet.nhifData.specification)) : db.bindNull(3);
+    sheetIsNhif ? db.bind(4, sheet.nhifData.isUnfavourable) : db.bindNull(4);
     db.bind(5, Parser::write(sheet.teeth));
     db.bind(6, sheet.rowid);
 
@@ -155,7 +155,7 @@ AmbList DbAmbList::getListData(long long rowId)
         ambList.rowid = db.asRowId(0);
         ambList.number = db.asInt(1);
         ambList.nhifData.specification = static_cast<NhifSpecification>(db.asInt(2));
-        ambList.nhifData.unfavCheck = db.asBool(3);
+        ambList.nhifData.isUnfavourable = db.asBool(3);
         status = db.asString(4);
         ambList.LPK = User::doctor().LPK;
         ambList.patient_rowid = db.asRowId(5);
@@ -205,8 +205,6 @@ bool DbAmbList::suchNumberExists(int year, int ambNum, long long ambRowid)
         "AND rowid !=" + std::to_string(ambRowid)
         ;
     
-    qDebug() << query.c_str();
-
     Db db {query};
 
     for (;db.hasRows();) {
@@ -288,7 +286,7 @@ std::vector<AmbList> DbAmbList::getMonthlyNhifSheets(int month, int year)
         sheet.patient_rowid = db.asRowId(1);
         sheet.number = db.asInt(2);
         sheet.nhifData.specification = static_cast<NhifSpecification>(db.asInt(3));
-        sheet.nhifData.unfavCheck = db.asInt(4);
+        sheet.nhifData.isUnfavourable = db.asInt(4);
         Parser::parse(db.asString(5), sheet.teeth);
         sheet.LPK = db.asString(6);
 

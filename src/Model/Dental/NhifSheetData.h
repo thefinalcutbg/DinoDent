@@ -10,6 +10,6 @@ struct NhifSheetData
 	NhifCharge charge;
 	NhifSpecification specification{ NhifSpecification::PartialCoverage };
 	std::string getSpecString(NhifSpecialty specialty) const;
-	bool unfavCheck{ false };
+	bool isUnfavourable{ false };
 };
 

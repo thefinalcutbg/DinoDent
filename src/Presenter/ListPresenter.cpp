@@ -233,12 +233,6 @@ void ListPresenter::print()
 
 void ListPresenter::setDataToView()
 {
-    if (User::settings().getPisHistoryAuto &&
-        User::hasNzokContract() &&
-        !patient->PISHistory.has_value()) {
-        requestPisActivities();
-    }
-
     view->setPresenter(this);
     
     patient_info.setDate(m_ambList.getDate());
@@ -268,6 +262,12 @@ void ListPresenter::setDataToView()
     dynamicNhifConversion();
 
     view->setSelectedTeeth(m_selectedIndexes);
+
+    if (User::settings().getPisHistoryAuto &&
+        User::hasNzokContract() &&
+        !patient->PISHistory.has_value()) {
+        requestPisActivities();
+    }
    
 }
 
@@ -362,7 +362,14 @@ void ListPresenter::setOther(int code)
             view->repaintTooth(ToothHintCreator::getToothHint(m_ambList.teeth[i], patient->teethNotes[i]));
         } 
         break;
-    case OtherInputs::removeAll: for (auto& t : m_selectedTeeth) t->removeStatus();  teeth.formatBridges(m_selectedIndexes); break;
+    case OtherInputs::removeAll: 
+        for (auto& t : m_selectedTeeth) t->removeStatus();  
+        teeth.formatBridges(m_selectedIndexes); 
+        for (int i = 0; i < 32; i++)
+        {
+            view->repaintTooth(ToothHintCreator::getToothHint(m_ambList.teeth[i], patient->teethNotes[i]));
+        }
+        break;
     }
 
     statusChanged();
@@ -697,6 +704,8 @@ void ListPresenter::showCurrentStatus(bool show)
     view->disableGraphicsView(show);
 
     m_showCurrentStatus = show;
+
+    if (!show) return;
 
     auto currentStatus = m_ambList.teeth;
 

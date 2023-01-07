@@ -271,7 +271,10 @@ void ListView::setNotes(const std::array<std::string, 32>& notes)
 
 void ListView::disableGraphicsView(bool disabled)
 {
-	teethViewScene->setSelectedTeeth({});
+	if (disabled) {
+		teethViewScene->setSelectedTeeth({});
+	}
+
 	ui.teethView->setDisabled(disabled);
 
 	QSignalBlocker b(ui.showAppliedButton);

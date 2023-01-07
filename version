@@ -1,6 +1,6 @@
 {
 	"win64": {
-		"ver": 1,
+		"ver": 2,
 		"dl": "https://github.com/thefinalcutbg/DinoDent/releases/download/v0.2/DinoDentSetup.exe"
 	}
 }

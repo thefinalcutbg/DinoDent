@@ -31,7 +31,6 @@ ListView::ListView(QWidget* parent)
 	ui.addProcedure->setIcon(QIcon(":/icons/icon_add.png"));
 	ui.deleteProcedure->setIcon(QIcon(":/icons/icon_remove.png"));
 	ui.editProcedure->setIcon(QIcon(":/icons/icon_edit.png"));
-	ui.showAppliedButton->setIcon(QIcon(":/icons/icon_apply.png"));
 	ui.nzokActivities->setIcon(QIcon(":/icons/icon_nzok.png"));
 
 	ui.perioButton->setHoverColor(Theme::mainBackgroundColor);
@@ -39,7 +38,6 @@ ListView::ListView(QWidget* parent)
 	ui.addProcedure->setHoverColor(Theme::mainBackgroundColor);
 	ui.deleteProcedure->setHoverColor(Theme::mainBackgroundColor);
 	ui.editProcedure->setHoverColor(Theme::mainBackgroundColor);
-	ui.showAppliedButton->setHoverColor(Theme::mainBackgroundColor);
 	ui.nzokActivities->setHoverColor(Theme::mainBackgroundColor);
 
 	QMenu* menu = new QMenu(ui.addRefButton);
@@ -112,9 +110,7 @@ ListView::ListView(QWidget* parent)
 	connect(ui.procedureTable, &QTableView::doubleClicked, [=] { ui.editProcedure->click(); });
 	connect(ui.procedureTable, &ProcedureTable::deletePressed, [=] { if (presenter) ui.deleteProcedure->click(); });
 
-	connect(ui.showAppliedButton, &QPushButton::clicked, [=] {
-			if (presenter) presenter->showCurrentStatus(ui.showAppliedButton->isChecked());
-		});
+
 
 	ui.controlPanel->hide();
 	ui.surfacePanel->hide();
@@ -267,18 +263,6 @@ void ListView::repaintTooth(const ToothPaintHint& tooth)
 void ListView::setNotes(const std::array<std::string, 32>& notes)
 {
 	teethViewScene->setNotes(notes);
-}
-
-void ListView::disableGraphicsView(bool disabled)
-{
-	if (disabled) {
-		teethViewScene->setSelectedTeeth({});
-	}
-
-	ui.teethView->setDisabled(disabled);
-
-	QSignalBlocker b(ui.showAppliedButton);
-	ui.showAppliedButton->setChecked(disabled);
 }
 
 #include "View/GlobalFunctions.h"

@@ -36,5 +36,5 @@ public:
 	virtual void setReferrals(const std::vector<Referral>& referrals) = 0;
 	virtual void setProcedures(const std::vector<Procedure>& m) = 0;
 	virtual void showSheetNumber(bool show) = 0;
-	virtual void disableGraphicsView(bool disabled) = 0;
+
 };

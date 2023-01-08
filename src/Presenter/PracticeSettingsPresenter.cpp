@@ -18,7 +18,7 @@ void PracticeSettingsPresenter::setView(IPracticeSettings* view)
 	view->setPresenter(this);
 
 	view->lineEdit(PracticeTextFields::Name)->setInputValidator(&m_notEmptyValidator);
-	view->lineEdit(PracticeTextFields::Bulstat)->setInputValidator(&m_notEmptyValidator);
+	view->lineEdit(PracticeTextFields::Bulstat)->setInputValidator(&m_bulstatValidator);
 	view->lineEdit(PracticeTextFields::RZI)->setInputValidator(&m_rziValidator);
 	view->lineEdit(PracticeTextFields::Password)->setInputValidator(&m_notEmptyValidator);
 	view->lineEdit(PracticeTextFields::ActivityAddress)->setInputValidator(&m_notEmptyValidator);

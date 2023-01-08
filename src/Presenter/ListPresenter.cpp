@@ -255,8 +255,6 @@ void ListPresenter::setDataToView()
     
     view->setReferrals(m_ambList.referrals);
 
-    showCurrentStatus(m_showCurrentStatus);
-
     refreshPrices();
     refreshProcedureView();
     dynamicNhifConversion();
@@ -699,36 +697,6 @@ void ListPresenter::createPerioMeasurment()
     tabPresenter->openPerio(*this->patient.get());
 }
 
-void ListPresenter::showCurrentStatus(bool show)
-{
-    view->disableGraphicsView(show);
-
-    m_showCurrentStatus = show;
-
-    if (!show) return;
-
-    auto currentStatus = m_ambList.teeth;
-
-    for (auto& p : m_ambList.procedures.list())
-    {
-        p.applyProcedure(currentStatus);
-    }
-
-    if (show)
-    {
-        for (auto& t : currentStatus)
-        {
-            view->repaintTooth(ToothHintCreator::getToothHint(t, patient->teethNotes[t.index]));
-        }
-    }
-    else
-    {
-        for (auto& t : m_ambList.teeth)
-        {
-            view->repaintTooth(ToothHintCreator::getToothHint(t, patient->teethNotes[t.index]));
-        }
-    }
-}
 
 ListPresenter::~ListPresenter()
 {

@@ -44,7 +44,6 @@ public:
     IPatientTileInfo* tileInfo() override;
     void repaintTooth(const ToothPaintHint& tooth) override;
     void setNotes(const std::array<std::string, 32>& notes) override;
-    void disableGraphicsView(bool disabled) override;
     void refreshPriceLabel(/*double patientPrice,*/ double nzokPrice) override;
     //IProcedureView
     void setSelectedTeeth(std::vector<int> selectedTeeth) override;

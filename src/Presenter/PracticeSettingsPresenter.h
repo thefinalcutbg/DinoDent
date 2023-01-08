@@ -4,7 +4,7 @@
 #include "Model/Validators/RziValidaor.h"
 #include "Model/Validators/NzokContractValidator.h"
 #include "Model/Validators/DateValidator.h"
-
+#include "Model/Validators/BulstatValidator.h"
 class PracticeSettingsPresenter
 {
 	IPracticeSettings* view {nullptr};
@@ -12,6 +12,7 @@ class PracticeSettingsPresenter
 	NotEmptyValidator m_notEmptyValidator;
 	DateValidator m_dateValidator;
 	NzokContractValidator m_contractValidator;
+	BulstatValidator m_bulstatValidator;
 
 	std::string initialRzi;
 

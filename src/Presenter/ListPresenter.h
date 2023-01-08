@@ -28,8 +28,6 @@ class ListPresenter : public TabInstance
     SelectedTeethIdx m_selectedIndexes;
     SelectedTeeth m_selectedTeeth;
 
-    bool m_showCurrentStatus{ false };
-
     CheckModel m_checkModel;
 
     IListView* view;
@@ -103,7 +101,7 @@ public:
 
     void createInvoice();
     void createPerioMeasurment();
-    void showCurrentStatus(bool show);
+
 
     ~ListPresenter();
 };

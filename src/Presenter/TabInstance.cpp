@@ -25,14 +25,16 @@ bool TabInstance::premissionToClose()
 
 	switch (answer)
 	{
-	case DialogAnswer::Yes:
-		//is save interrupted?
-		return save() ? true : false;
+		case DialogAnswer::Yes:
+			//is save interrupted?
+			return save() ? true : false;
 
-	case DialogAnswer::No: return true;
+		case DialogAnswer::No: return true;
 
-	case DialogAnswer::Cancel: return false;
+		case DialogAnswer::Cancel: return false;
 	}
+
+	return true;
 }
 
 void TabInstance::setCurrent()
@@ -43,11 +45,12 @@ void TabInstance::setCurrent()
 
 	switch (type)
 	{
-	case TabType::AmbList: _tabView->showListView(); break;
-	case TabType::PerioList: _tabView->showPerioView(); break;
-	case TabType::PatientSummary: _tabView->showSummaryView(); break;
-	case TabType::Financial:_tabView->showFinancialView(); break;
-	case TabType::Prescription:_tabView->showPerscriptionView(); break;
+		case TabType::AmbList: _tabView->showListView(); break;
+		case TabType::PerioList: _tabView->showPerioView(); break;
+		case TabType::PatientSummary: _tabView->showSummaryView(); break;
+		case TabType::Financial:_tabView->showFinancialView(); break;
+		case TabType::Prescription:_tabView->showPerscriptionView(); break;
+		case TabType::Statistic:_tabView->showStatistcView(); break;
 	}
 
 	setScrollPosition();

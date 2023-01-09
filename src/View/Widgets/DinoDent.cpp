@@ -24,6 +24,7 @@ DinoDent::DinoDent(QWidget* parent)
     ui.printButton->setIcon(QIcon(":/icons/icon_print.png"));
     ui.pisButton->setIcon(QIcon(":/icons/icon_nzok.png"));
     ui.settingsButton->setIcon(QIcon(":/icons/icon_settings.png"));
+    ui.statisticButton->setIcon(QIcon(":/icons/icon_statistic.png"));
 
 
     QAction* settingsAction = new QAction("Настройки");
@@ -41,6 +42,7 @@ DinoDent::DinoDent(QWidget* parent)
     connect(ui.perscrButton, &QPushButton::clicked, [&] { presenter.newPerscriptionPressed(); });
     connect(ui.printButton, &QPushButton::clicked, [&] {presenter.printPressed(); });
     connect(ui.perioButton, &QPushButton::clicked, [&] {presenter.newPerioPressed(); });
+    connect(ui.statisticButton, &QPushButton::clicked, [&] {presenter.statisticPressed(); });
     connect(settingsAction, &QAction::triggered, [&] {presenter.userSettingsPressed();});
     connect(ui.pisButton, &QPushButton::clicked, [&] { presenter.pisDialog();});
     connect(ui.settingsButton, &QPushButton::clicked, [&] { presenter.settingsPressed();});

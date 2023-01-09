@@ -343,21 +343,21 @@ bool AmbListValidator::validateTypeToStatus(const Tooth& t, const Procedure& p)
          case ProcedureType::extraction:
          {
 
-        bool statusMissing 
-        {
-            t.extraction.exists() ||
-            (
-            !t.pulpitis.exists() &&
-            !t.periodontitis.exists() &&
-            !t.fracture.exists() &&
-            !t.hyperdontic.exists() &&
-            !t.implant.exists() &&
-            !t.temporary.exists() &&
-            !t.lesion.exists() &&
-            !t.root.exists() &&
-            !t.mobility.exists() 
-             )
-        };
+            bool statusMissing 
+            {
+                t.extraction.exists() ||
+                (
+                !t.pulpitis.exists() &&
+                !t.periodontitis.exists() &&
+                !t.fracture.exists() &&
+                !t.hyperdontic.exists() &&
+                !t.implant.exists() &&
+                !t.temporary.exists() &&
+                !t.lesion.exists() &&
+                !t.root.exists() &&
+                !t.mobility.exists() 
+                 )
+            };
 
         if (statusMissing)
         {

@@ -8,6 +8,7 @@
 #include "PatientSummaryPresenter.h"
 #include "PrescriptionPresenter.h"
 #include "FinancialPresenter.h"
+#include "StatisticPresenter.h"
 #include <TinyXML/tinyxml.h>
 
 TabPresenter::TabPresenter() : m_indexCounter(-1), m_currentIndex(-1), view(nullptr)
@@ -96,15 +97,12 @@ std::shared_ptr<Patient> TabPresenter::getPatient_ptr(const Patient& patient)
 {
     for (auto& [index, tabInstance] : m_tabs)
     {
-        if (tabInstance->patient != nullptr &&
-            tabInstance->patient->rowid == patient.rowid
-            )
-           // *tabInstance->patient.get() = patient;
-            return tabInstance->patient;
+        if (!tabInstance->patient) continue;
+
+        if(tabInstance->patient->rowid == patient.rowid) return tabInstance->patient;
     }
 
     auto result = std::make_shared<Patient>(patient);
-
 
     result->teethNotes = DbPatient::getPresentNotes(result->rowid);
 
@@ -174,6 +172,11 @@ void TabPresenter::openInvoice(long long patientRowId, const std::vector<Procedu
                 procedures
             )
     );
+}
+
+void TabPresenter::openStatistic()
+{
+    createNewTab(new StatisticPresenter(view, 0));
 }
 
 void TabPresenter::open(const RowInstance& row, bool setFocus)

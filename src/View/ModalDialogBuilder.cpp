@@ -108,7 +108,13 @@ void ModalDialogBuilder::openDialog(ReferralPresenter* p)
 	d.exec();
 }
 
+#include "View/Widgets/StatisticDialogView.h"
 
+void ModalDialogBuilder::openDialog(StatisticDialogPresenter& p)
+{
+	StatisticDialogView d(p);
+	d.exec();
+}
 
 #include "View/Widgets/ProcedureTemplateDialog.h"
 

@@ -5,12 +5,14 @@
 
 struct DentalStatistic
 {
-	std::string name;
 
 	enum AgeFilter { None, Minor, Adult };
 	enum ToothFilter { All, Permanent, Temporary };
 
+	std::string name;
+
 	int procedureType{ 0 };
+
 	AgeFilter age{ None };
 	ToothFilter tooth{ All };
 	bool nhifOnly{ false };

@@ -10,6 +10,8 @@ class StatisticPresenter : public TabInstance
 public:
 	StatisticPresenter(ITabView* tabView, long long rowId = 0);
 
+	void addStatistic();
+
 	// Inherited via TabInstance
 	virtual void setDataToView() override;
 	virtual bool isNew() override;

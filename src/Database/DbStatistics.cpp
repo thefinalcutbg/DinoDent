@@ -63,9 +63,9 @@ const std::vector<std::string> DbStat::getProcedureNames(int procedureType)
     std::vector<std::string> result;
 
     Db db(
-        "SELECT DISTINCT procedure.name"
-        "FROM procedure"
-        "WHERE procedure.type = ?"
+        "SELECT DISTINCT procedure.name "
+        "FROM procedure "
+        "WHERE procedure.type=?"
     );
 
     db.bind(1, procedureType);
@@ -83,8 +83,8 @@ const std::vector<std::string> DbStat::getDiagnosis(int procedureType)
     std::vector<std::string> result;
 
     Db db(
-        "SELECT DISTINCT procedure.diagnosis"
-        "FROM procedure"
+        "SELECT DISTINCT procedure.diagnosis "
+        "FROM procedure "
         "WHERE procedure.type = ?"
     );
 

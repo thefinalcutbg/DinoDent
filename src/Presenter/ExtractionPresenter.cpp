@@ -35,7 +35,9 @@ std::vector<Procedure> ExtractionPresenter::getProcedures()
 
 std::string ExtractionPresenter::getDiagnosis(const Tooth& tooth)
 {
-	std::array<bool, 8> existing
+	constexpr int diagCount = 9;
+
+	std::array<bool, diagCount> existing
 	{
 		tooth.hyperdontic.exists(),
 		tooth.implant.exists(),
@@ -44,10 +46,11 @@ std::string ExtractionPresenter::getDiagnosis(const Tooth& tooth)
 		tooth.root.exists(),
 		tooth.periodontitis.exists(),
 		tooth.mobility.exists(),
-		tooth.fracture.exists()
+		tooth.fracture.exists(),
+		tooth.pulpitis.exists()
 	};
 
-	std::array<std::string, 8> diagnosis
+	std::array<std::string, diagCount> diagnosis
 	{
 		"Свръхброен зъб",
 		"Периимплантит",
@@ -56,10 +59,11 @@ std::string ExtractionPresenter::getDiagnosis(const Tooth& tooth)
 		tooth.root.getDiagnosisString(),
 		"Пародонтозен зъб",
 		"Подвижен зъб",
-		tooth.fracture.getDiagnosisString()
+		tooth.fracture.getDiagnosisString(),
+		tooth.pulpitis.getDiagnosisString()
 	};
 
-	for (int i = 0; i < 8; i++)
+	for (int i = 0; i < diagCount; i++)
 	{
 		if (existing[i]) {
 			return diagnosis[i];

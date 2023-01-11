@@ -400,6 +400,7 @@
     <ClCompile Include="src\View\Models\ProcedureTemplateModel.cpp" />
     <ClCompile Include="src\View\Models\QProcedure.cpp" />
     <ClCompile Include="src\View\Models\ReportFilesModel.cpp" />
+    <ClCompile Include="src\View\Models\StatisticTableModel.cpp" />
     <ClCompile Include="src\View\Printer.cpp" />
     <ClCompile Include="src\View\SubWidgets\CommonFields.cpp" />
     <ClCompile Include="src\View\SubWidgets\ControlPanel.cpp" />
@@ -735,6 +736,7 @@
     <QtMoc Include="src\View\Models\MKBModel.h" />
     <ClInclude Include="src\View\Models\QProcedure.h" />
     <QtMoc Include="src\View\Models\ReportFilesModel.h" />
+    <QtMoc Include="src\View\Models\StatisticTableModel.h" />
     <ClInclude Include="src\View\Printer.h" />
     <QtMoc Include="src\View\SubWidgets\PatientTileInfo.h" />
     <QtMoc Include="src\View\SubWidgets\PostWidget.h" />

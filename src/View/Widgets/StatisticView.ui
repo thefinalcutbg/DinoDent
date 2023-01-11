@@ -58,7 +58,7 @@
         </widget>
        </item>
        <item>
-        <widget class="CustomDateEdit" name="taxEventDateEdit">
+        <widget class="CustomDateEdit" name="dateFromEdit">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
            <horstretch>0</horstretch>
@@ -81,7 +81,7 @@
         </widget>
        </item>
        <item>
-        <widget class="CustomDateEdit" name="taxEventDateEdit_2">
+        <widget class="CustomDateEdit" name="dateToEdit">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
            <horstretch>0</horstretch>
@@ -185,7 +185,7 @@
       </layout>
      </item>
      <item>
-      <widget class="ProcedureTable" name="medicationTable">
+      <widget class="ProcedureTable" name="statisticTable">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
          <horstretch>0</horstretch>

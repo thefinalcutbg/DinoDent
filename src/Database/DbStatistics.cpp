@@ -6,7 +6,7 @@ namespace DbStatPrv {
 
     std::string dateRangeToClause(const Date& from, const Date& to)
     {
-        return "strftime('%Y-%m-%d', date) BETWEEN '" + from.to8601() + "' AND '" + to.to8601() + "' ";
+        return "AND strftime('%Y-%m-%d', procedure.date) BETWEEN '" + from.to8601() + "' AND '" + to.to8601() + "' ";
     }
 
     std::string ageToClause(DentalStatistic::AgeFilter filter)
@@ -49,9 +49,11 @@ namespace DbStatPrv {
     {
         switch (filter)
         {
-            case DentalStatistic::All: {};
-            case DentalStatistic::Temporary: return "AND procedure.deciduous = 1 ";
-            case DentalStatistic::Permanent: return "AND procedure.deciduous = 0 ";
+            case DentalStatistic::ToothFilter::All: return {};
+            case DentalStatistic::ToothFilter::Temporary: 
+                return "AND procedure.deciduous = 1 ";
+            case DentalStatistic::ToothFilter::Permanent: return 
+                "AND procedure.deciduous = 0 ";
         }
     }
 
@@ -98,9 +100,9 @@ const std::vector<std::string> DbStat::getDiagnosis(int procedureType)
     return result;
 }
 
+#include "View/ModalDialogBuilder.h"
 
-
-int DbStat::procedureCount(const DentalStatistic& stat, const Date& from, const Date& to)
+int DbStat::count(const DentalStatistic& stat, const Date& from, const Date& to)
 {
     Db db;
 
@@ -118,7 +120,10 @@ int DbStat::procedureCount(const DentalStatistic& stat, const Date& from, const 
         query += DbStatPrv::includeRowValues("procedure.diagnosis", stat.diagnosisFilter);
         query += DbStatPrv::includeRowValues("procedure.name", stat.procedureNameFilter);
 
-        db.execute(query);
+        db.newStatement(query);
+
+
+        ModalDialogBuilder::showMultilineDialog(query);
 
         while (db.hasRows()) return db.asInt(0);
 
@@ -140,9 +145,11 @@ int DbStat::procedureCount(const DentalStatistic& stat, const Date& from, const 
     query += DbStatPrv::includeRowValues("procedure.diagnosis", stat.diagnosisFilter);
     query += DbStatPrv::includeRowValues("procedure.name", stat.procedureNameFilter);
 
-    query += "))";
+    query += ")";
 
-    db.execute(query);
+    db.newStatement(query);
+
+    ModalDialogBuilder::showMultilineDialog(query);
 
     while (db.hasRows()) return db.asInt(0);
 

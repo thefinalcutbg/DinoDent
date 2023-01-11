@@ -19,4 +19,6 @@ struct DentalStatistic
 
 	std::vector<std::string> diagnosisFilter;
 	std::vector<std::string> procedureNameFilter;
+
+	int count{ 0 };
 };

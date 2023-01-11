@@ -4,12 +4,12 @@
 
 #include "Model/Date.h"
 
-class DentalStatistic;
+struct DentalStatistic;
 
 namespace DbStat
 {
 
-	int procedureCount(const DentalStatistic& stat, const Date& from, const Date& to);
+	int count(const DentalStatistic& stat, const Date& from, const Date& to);
 
 	const std::vector<std::string> getProcedureNames(int procedureType);
 	const std::vector<std::string> getDiagnosis(int procedureType);

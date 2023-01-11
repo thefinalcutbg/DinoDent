@@ -50,5 +50,7 @@ void StatisticDialogPresenter::setView(IStatisticDialogView* view)
 
 void StatisticDialogPresenter::okPressed()
 {
+	m_statistic = view->getStatistic();
+
 	view->closeDialog();
 }

@@ -864,6 +864,9 @@
     <ClCompile Include="src\Presenter\StatisticDialogPresenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\Models\StatisticTableModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Database\Database.h">
@@ -1913,6 +1916,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\Widgets\StatisticDialogView.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\Models\StatisticTableModel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

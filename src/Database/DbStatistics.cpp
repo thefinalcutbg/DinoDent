@@ -1,14 +1,16 @@
 #include "DbStatistics.h"
 #include "Database.h"
 #include "Model/Dental/DentalStatistics.h"
+#include "Model/UserStructs.h"
 
 namespace DbStatPrv {
 
+    /*
     std::string dateRangeToClause(const Date& from, const Date& to)
     {
         return "AND strftime('%Y-%m-%d', procedure.date) BETWEEN '" + from.to8601() + "' AND '" + to.to8601() + "' ";
     }
-
+    */
     std::string ageToClause(DentalStatistic::AgeFilter filter)
     {
         switch (filter)
@@ -39,7 +41,7 @@ namespace DbStatPrv {
             result += tableColumn;
             result += "='" + tableValue[i] + "' ";
 
-            i != tableValue.size() ? result += "OR " : result += ") ";
+            i != tableValue.size()-1 ? result += "OR " : result += ") ";
         }
 
         return result;
@@ -67,7 +69,8 @@ const std::vector<std::string> DbStat::getProcedureNames(int procedureType)
     Db db(
         "SELECT DISTINCT procedure.name "
         "FROM procedure "
-        "WHERE procedure.type=?"
+        "WHERE procedure.type=? "
+        "ORDER BY procedure.name ASC"
     );
 
     db.bind(1, procedureType);
@@ -87,7 +90,8 @@ const std::vector<std::string> DbStat::getDiagnosis(int procedureType)
     Db db(
         "SELECT DISTINCT procedure.diagnosis "
         "FROM procedure "
-        "WHERE procedure.type = ?"
+        "WHERE procedure.type = ? "
+        "ORDER BY procedure.diagnosis ASC"
     );
 
     db.bind(1, procedureType);
@@ -102,28 +106,31 @@ const std::vector<std::string> DbStat::getDiagnosis(int procedureType)
 
 #include "View/ModalDialogBuilder.h"
 
-int DbStat::count(const DentalStatistic& stat, const Date& from, const Date& to)
+int DbStat::count(const DentalStatistic& stat, int year)
 {
     Db db;
 
-    if (stat.procedureType == 0)
+    if (stat.procedureType == 0 || 
+        stat.procedureType == 7 ||
+        stat.procedureType == 8
+    )
     {
         std::string query =
             "SELECT COUNT(*) FROM procedure "
             "LEFT JOIN amblist ON procedure.amblist_rowid = amblist.rowid "
             "LEFT JOIN patient ON amblist.patient_rowid = patient.rowid "
-            "WHERE procedure.type = 0 "
+            "WHERE procedure.type = " + std::to_string(stat.procedureType) + " "
+            "AND amblist.lpk = '" + User::doctor().LPK + "' "
+            "AND amblist.rzi = '" + User::practice().rziCode + "' "
+            "AND strftime('%Y', amblist.date)='" + std::to_string(year) + "' " 
             ;
-        query += DbStatPrv::dateRangeToClause(from, to);
+       
         query += DbStatPrv::ageToClause(stat.age);
         query += DbStatPrv::nhifToClause(stat.nhifOnly);
         query += DbStatPrv::includeRowValues("procedure.diagnosis", stat.diagnosisFilter);
         query += DbStatPrv::includeRowValues("procedure.name", stat.procedureNameFilter);
 
         db.newStatement(query);
-
-
-        ModalDialogBuilder::showMultilineDialog(query);
 
         while (db.hasRows()) return db.asInt(0);
 
@@ -136,9 +143,11 @@ int DbStat::count(const DentalStatistic& stat, const Date& from, const Date& to)
             "FROM procedure LEFT JOIN amblist on procedure.amblist_rowid = amblist.rowid  "
             "LEFT JOIN patient on amblist.patient_rowid =  patient.rowid "
             "WHERE procedure.type = " + std::to_string(stat.procedureType) + " " 
+            "AND amblist.lpk = '" + User::doctor().LPK + "' "
+            "AND amblist.rzi = '" + User::practice().rziCode + "' "
+            "AND strftime('%Y', amblist.date)='" + std::to_string(year) + "' "
     ;     
 
-    query += DbStatPrv::dateRangeToClause(from, to);
     query += DbStatPrv::ageToClause(stat.age);
     query += DbStatPrv::toothFilterToClause(stat.tooth);
     query += DbStatPrv::nhifToClause(stat.nhifOnly);
@@ -148,8 +157,6 @@ int DbStat::count(const DentalStatistic& stat, const Date& from, const Date& to)
     query += ")";
 
     db.newStatement(query);
-
-    ModalDialogBuilder::showMultilineDialog(query);
 
     while (db.hasRows()) return db.asInt(0);
 

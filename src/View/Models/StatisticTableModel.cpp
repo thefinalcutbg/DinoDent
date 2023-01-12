@@ -25,6 +25,8 @@ void StatisticTableModel::setRows(std::vector<std::pair<std::string, int>> rows)
     }
 
     endResetModel();
+
+    emit dataChanged(index(0, 0), index(rows.size(), 2));
 }
 
 StatisticTableModel::~StatisticTableModel()
@@ -91,6 +93,11 @@ QVariant StatisticTableModel::data(const QModelIndex& index, int role) const
         case 1: return rows[row].count;
         default: return QVariant();
         }
+    case Qt::TextAlignmentRole:
+        return column == 1 ?
+            int(Qt::AlignCenter)
+            :
+            int(Qt::AlignLeft);
     }
 
     return QVariant();

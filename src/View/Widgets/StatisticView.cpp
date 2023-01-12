@@ -1,5 +1,6 @@
 #include "StatisticView.h"
 #include "View/Theme.h"
+
 StatisticView::StatisticView(QWidget *parent)
 	: QWidget(parent)
 {
@@ -15,21 +16,33 @@ StatisticView::StatisticView(QWidget *parent)
 
 	ui.statisticTable->setModel(&m_model);
 
+	ui.statisticTable->setStatisticLayout();
+
+	connect(ui.yearSpin, &QSpinBox::valueChanged, [=](int value) {
+			if (presenter) presenter->yearChanged(value);
+		});
+
+
 	connect(ui.addStat, &QPushButton::clicked, [=] {if (presenter) presenter->addStatistic();});
 
-	auto dateChanged = [=] {
+	connect(ui.deleteStat, &QAbstractButton::clicked,
+		[=] {
 
-		auto f = ui.dateFromEdit->date();
-		auto t = ui.dateToEdit->date();
+			if (!presenter) return;
 
-		presenter->dateRangeChanged(
-			{ f.day(), f.month(), f.year() },
-			{ t.day(), t.month(), t.year() }
-		);
-	};
+			int currentIdx = ui.statisticTable->selectedRow();
+			int lastIdx = ui.statisticTable->verticalHeader()->count() - 1;
 
-	connect(ui.dateFromEdit, &QDateEdit::dateChanged, [=] {dateChanged();});
-	connect(ui.dateToEdit, &QDateEdit::dateChanged, [=] {dateChanged();});
+			//			if (currentIdx == -1) return;
+
+			presenter->removeStatistic(currentIdx);
+
+			if (currentIdx == lastIdx)
+			{
+				ui.statisticTable->selectRow(currentIdx - 1);
+			}
+			else ui.statisticTable->selectRow(currentIdx);
+		});
 }
 
 void StatisticView::setStatList(const std::vector<std::pair<std::string, int>>& stat)
@@ -39,3 +52,10 @@ void StatisticView::setStatList(const std::vector<std::pair<std::string, int>>& 
 
 StatisticView::~StatisticView()
 {}
+
+void StatisticView::setYear(int year)
+{
+	QSignalBlocker b{ ui.yearSpin };
+
+	ui.yearSpin->setValue(year);
+}

@@ -4,14 +4,27 @@
 #include "StatisticDialogPresenter.h"
 #include "Database/DbStatistics.h"
 
+
+
 StatisticPresenter::StatisticPresenter(ITabView* tabView, long long rowId) :
 	TabInstance(tabView, TabType::Statistic, nullptr),
 	view{ tabView->statisticView() },
-	date_from(Date::currentDate()),
-	date_to(1, 1, date_from.year)
+	year{ Date::currentDate().year - 1 }
+
 {
 	view->setPresenter(this);
 
+}
+
+std::vector<std::pair<std::string, int>> StatisticPresenter::getStatList()
+{
+	std::vector<std::pair<std::string, int>> result;
+
+	for (auto& stat : m_statistics) {
+		result.push_back({ stat.name, stat.count });
+	}
+
+	return result;
 }
 
 void StatisticPresenter::addStatistic()
@@ -21,37 +34,38 @@ void StatisticPresenter::addStatistic()
 
 	if (!result) return;
 
-	result->count = DbStat::count(*result, date_from, date_to);
+	result->count = DbStat::count(*result, year);
 	
-	stats.push_back(*result);
+	m_statistics.push_back(*result);
 
-	std::vector<std::pair<std::string, int>> toView;
-
-	for (auto stat : stats) {
-		toView.push_back(std::make_pair(stat.name, stat.count));
-	}
-
-	view->setStatList(toView);
+	view->setStatList(getStatList());
 }
 
-void StatisticPresenter::dateRangeChanged(const Date& from, const Date& to)
+void StatisticPresenter::removeStatistic(int idx)
 {
-	date_from = from;
-	date_to = to;
+	if (idx < 0 || idx >= m_statistics.size()) return;
 
-	std::vector<std::pair<std::string, int>> toView;
+	m_statistics.erase(m_statistics.begin()+idx);
 
-	for (auto stat : stats) {
-		stat.count = DbStat::count(stat, from, to);
-		toView.push_back(std::make_pair(stat.name, stat.count));
+	view->setStatList(getStatList());
+}
+
+void StatisticPresenter::yearChanged(int year)
+{
+	this->year = year;
+
+	for (auto& stat : m_statistics) {
+		stat.count = DbStat::count(stat, year);
 	}
 
-	view->setStatList(toView);
-	
+	view->setStatList(getStatList());
 }
+
 
 void StatisticPresenter::setDataToView()
 {
+	view->setYear(year);
+	view->setStatList(getStatList());
 }
 
 bool StatisticPresenter::isNew()

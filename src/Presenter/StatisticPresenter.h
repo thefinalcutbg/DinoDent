@@ -10,16 +10,18 @@ class StatisticPresenter : public TabInstance
 {
 	IStatisticView* view{ nullptr };
 
-	std::vector<DentalStatistic> stats;
+	std::vector<DentalStatistic> m_statistics;
 
-	Date date_from;
-	Date date_to;
+	int year{ 0 };
+
+	std::vector<std::pair<std::string, int>> getStatList();
 
 public:
 	StatisticPresenter(ITabView* tabView, long long rowId = 0);
 
 	void addStatistic();
-	void dateRangeChanged(const Date& from, const Date& to);
+	void removeStatistic(int idx);
+	void yearChanged(int year);
 	// Inherited via TabInstance
 	virtual void setDataToView() override;
 	virtual bool isNew() override;

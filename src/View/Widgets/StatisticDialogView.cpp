@@ -82,8 +82,8 @@ DentalStatistic StatisticDialogView::getStatistic()
 
 }
 
-void StatisticDialogView::hideAgeFilter(bool hidden)
+void StatisticDialogView::hideToothFilter(bool hidden)
 {
-	ui.ageCombo->setHidden(hidden);
+	ui.toothCombo->setHidden(hidden);
 	ui.label_4->setHidden(hidden);
 }

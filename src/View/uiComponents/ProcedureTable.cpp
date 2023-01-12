@@ -133,6 +133,15 @@ void ProcedureTable::setMedicationLayot()
     setWordWrap(true);
 }
 
+void ProcedureTable::setStatisticLayout()
+{
+    connect(model(), &QAbstractTableModel::dataChanged, [=] { fitToModel();});
+
+    setColumnWidth(1, 70);
+    horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
+    setShowGrid(false);
+}
+
 void ProcedureTable::setPISActivitiesLayout()
 {
     connect(model(), &QAbstractTableModel::dataChanged, [=] { fitToModel();});

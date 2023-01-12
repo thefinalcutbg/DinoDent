@@ -13,5 +13,5 @@ public:
 	virtual void setStatistic(const DentalStatistic& s) = 0;
 	virtual DentalStatistic getStatistic() = 0;
 	virtual void closeDialog() = 0;
-	virtual void hideAgeFilter(bool hidden) = 0;
+	virtual void hideToothFilter(bool hidden) = 0;
 };

@@ -25,12 +25,12 @@ void StatisticDialogPresenter::setProcedureType(int type)
 
 	auto procedureType = static_cast<ProcedureType>(type);
 
-	bool hideAgeFilter = 
+	bool hideToothFilter = 
 			procedureType == ProcedureType::general ||
 			procedureType == ProcedureType::bridge 	||
 			procedureType == ProcedureType::fibersplint;
 
-	view->hideAgeFilter(hideAgeFilter);
+	view->hideToothFilter(hideToothFilter);
 }
 
 void StatisticDialogPresenter::setView(IStatisticDialogView* view)
@@ -45,7 +45,7 @@ void StatisticDialogPresenter::setView(IStatisticDialogView* view)
 
 	view->setDiagnosisFilterList(DbStat::getDiagnosis(0));
 	view->setNameFilterList(DbStat::getProcedureNames(0));
-	view->hideAgeFilter(true);
+	view->hideToothFilter(true);
 }
 
 void StatisticDialogPresenter::okPressed()

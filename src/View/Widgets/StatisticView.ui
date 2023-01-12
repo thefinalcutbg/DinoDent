@@ -53,46 +53,20 @@
        <item>
         <widget class="QLabel" name="label">
          <property name="text">
-          <string>От</string>
+          <string>Година:</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="CustomDateEdit" name="dateFromEdit">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
+        <widget class="QSpinBox" name="yearSpin">
+         <property name="suffix">
+          <string> г.</string>
          </property>
-         <property name="displayFormat">
-          <string notr="true">d.M.yyyy 'г.'</string>
+         <property name="minimum">
+          <number>2000</number>
          </property>
-         <property name="calendarPopup">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>до</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="CustomDateEdit" name="dateToEdit">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="displayFormat">
-          <string notr="true">d.M.yyyy 'г.'</string>
-         </property>
-         <property name="calendarPopup">
-          <bool>true</bool>
+         <property name="maximum">
+          <number>3000</number>
          </property>
         </widget>
        </item>
@@ -187,7 +161,7 @@
      <item>
       <widget class="ProcedureTable" name="statisticTable">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -244,11 +218,6 @@
    <class>ProcedureTable</class>
    <extends>QTableView</extends>
    <header>View/uiComponents/ProcedureTable.h</header>
-  </customwidget>
-  <customwidget>
-   <class>CustomDateEdit</class>
-   <extends>QDateEdit</extends>
-   <header>View/uiComponents/customdateedit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

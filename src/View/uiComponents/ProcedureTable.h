@@ -43,6 +43,7 @@ public:
 	void setProcedurePrintSelectLayout();
 	void setBusinessOperationLayout();
 	void setMedicationLayot();
+	void setStatisticLayout();
 	//buggy
 	void setPISActivitiesLayout();
 

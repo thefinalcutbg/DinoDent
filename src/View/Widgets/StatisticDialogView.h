@@ -25,5 +25,5 @@ private:
 	void setStatistic(const DentalStatistic& s) override;
 	DentalStatistic getStatistic() override;
 	void closeDialog() override { close(); }
-	void hideAgeFilter(bool hidden);
+	void hideToothFilter(bool hidden);
 };

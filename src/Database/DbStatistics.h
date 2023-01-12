@@ -2,15 +2,13 @@
 #include <vector>
 #include <string>
 
-#include "Model/Date.h"
-
 struct DentalStatistic;
 
 namespace DbStat
 {
 
-	int count(const DentalStatistic& stat, const Date& from, const Date& to);
-
+	int count(const DentalStatistic& stat, int year);
+	
 	const std::vector<std::string> getProcedureNames(int procedureType);
 	const std::vector<std::string> getDiagnosis(int procedureType);
 	

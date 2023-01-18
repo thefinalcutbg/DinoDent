@@ -33,7 +33,9 @@ ProcedureDialogPresenter::ProcedureDialogPresenter
 	crown_presenter(this->selectedTeeth, ambList.teeth),
 	impl_presenter(this->selectedTeeth),
 	fiber_presenter(this->selectedTeeth, ambList.teeth),
-	crownRemove_presenter(this->selectedTeeth),
+	crownRemove_presenter(this->selectedTeeth, ProcedureType::removecrown),
+	postRemove_presenter(this->selectedTeeth, ProcedureType::removepost),
+	bridgeSplintRemove_presenter(this->selectedTeeth, ProcedureType::removebridgeOrSplint),
 
 	presenters_ptr
 	{
@@ -45,7 +47,9 @@ ProcedureDialogPresenter::ProcedureDialogPresenter
 		&crown_presenter,
 		&impl_presenter,
 		&fiber_presenter,
-		&crownRemove_presenter
+		&crownRemove_presenter,
+		&postRemove_presenter,
+		&bridgeSplintRemove_presenter
 	}
 {
 
@@ -60,6 +64,7 @@ void ProcedureDialogPresenter::setView(IProcedureDialog* view)
 	view->setCrownPresenter(&crown_presenter);
 	view->setImplantPresenter(&impl_presenter);
 	view->setFiberSplintPresenter(&fiber_presenter);
+	view->setProcedureRangePresenter(&bridgeSplintRemove_presenter);
 
 	for (auto p : presenters_ptr)
 	{

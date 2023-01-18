@@ -244,6 +244,11 @@ std::string Tooth::toothName() const
 	return ToothUtils::getName(index, temporary.exists());
 }
 
+bool Tooth::canHaveACrown() const
+{
+	return !extraction && !root;
+}
+
 std::string Tooth::getToothInfo() const
 {
 

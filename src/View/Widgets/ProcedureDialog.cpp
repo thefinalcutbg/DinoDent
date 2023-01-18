@@ -150,6 +150,12 @@ void ProcedureDialog::setFiberSplintPresenter(FiberSplintPresenter* presenter)
 	ui.fiberWidget->setPresenter(presenter);
 }
 
+void ProcedureDialog::setProcedureRangePresenter(ProcedureRangePresenter* presenter)
+{
+	presenter->setCommonFieldsView(ui.commonFields);
+	presenter->setView(ui.rangeWidget);
+}
+
 ICommonFields* ProcedureDialog::commonFields()
 {
 	return ui.commonFields;
@@ -163,24 +169,27 @@ void ProcedureDialog::setView(ProcedureTemplateType t)
 
 	switch (t)
 	{	
-	case ProcedureTemplateType::obturation:
-		ui.stackedWidget->setCurrentWidget(ui.obturWidget);
-		break;
-	case ProcedureTemplateType::extraction:
-		ui.stackedWidget->setCurrentIndex(0);
-		break;
-	case ProcedureTemplateType::prosthodontic:
-		ui.stackedWidget->setCurrentWidget(ui.crownWidget);
-		break;
-	case ProcedureTemplateType::implant:
-		ui.stackedWidget->setCurrentWidget(ui.implantWidget);
-		break;
-	case ProcedureTemplateType::fibersplint:
-		ui.stackedWidget->setCurrentWidget(ui.fiberWidget);
-		break;
-	default:
-		ui.stackedWidget->setCurrentIndex(0);
-		ui.selectToothLabel->setText("");
+		case ProcedureTemplateType::obturation:
+			ui.stackedWidget->setCurrentWidget(ui.obturWidget);
+			break;
+		case ProcedureTemplateType::extraction:
+			ui.stackedWidget->setCurrentIndex(0);
+			break;
+		case ProcedureTemplateType::prosthodontic:
+			ui.stackedWidget->setCurrentWidget(ui.crownWidget);
+			break;
+		case ProcedureTemplateType::implant:
+			ui.stackedWidget->setCurrentWidget(ui.implantWidget);
+			break;
+		case ProcedureTemplateType::fibersplint:
+			ui.stackedWidget->setCurrentWidget(ui.fiberWidget);
+			break;
+		case ProcedureTemplateType::removebridgeorsplint:
+			ui.stackedWidget->setCurrentWidget(ui.rangeWidget);
+			break;
+		default:
+			ui.stackedWidget->setCurrentIndex(0);
+			ui.selectToothLabel->setText("");
 	}
 
 

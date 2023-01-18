@@ -328,8 +328,6 @@
     <ClCompile Include="src\Presenter\DetailedStatusPresenter.cpp" />
     <ClCompile Include="src\Presenter\DoctorDialogPresenter.cpp" />
     <ClCompile Include="src\Presenter\EditorPresenter.cpp" />
-    <ClCompile Include="src\Presenter\EndoPresenter.cpp" />
-    <ClCompile Include="src\Presenter\ExtractionPresenter.cpp" />
     <ClCompile Include="src\Presenter\FiberSplintPresenter.cpp" />
     <ClCompile Include="src\Presenter\FinancialPresenter.cpp" />
     <ClCompile Include="src\Presenter\ImplantPresenter.cpp" />
@@ -346,6 +344,7 @@
     <ClCompile Include="src\Presenter\PriceListSettingsPresenter.cpp" />
     <ClCompile Include="src\Presenter\ProcedureDialogPresenter.cpp" />
     <ClCompile Include="src\Presenter\ProcedureEditorPresenter.cpp" />
+    <ClCompile Include="src\Presenter\ProcedureRangePresenter.cpp" />
     <ClCompile Include="src\Presenter\ReferralPresenter.cpp" />
     <ClCompile Include="src\Presenter\ReportFilesPresenter.cpp" />
     <ClCompile Include="src\Presenter\ReportPresenter.cpp" />
@@ -632,8 +631,6 @@
     <ClInclude Include="src\Presenter\DetailedStatusPresenter.h" />
     <ClInclude Include="src\Presenter\DoctorDialogPresenter.h" />
     <ClInclude Include="src\Presenter\EditorPresenter.h" />
-    <ClInclude Include="src\Presenter\EndoPresenter.h" />
-    <ClInclude Include="src\Presenter\ExtractionPresenter.h" />
     <ClInclude Include="src\Presenter\FiberSplintPresenter.h" />
     <ClInclude Include="src\Presenter\FinancialPresenter.h" />
     <ClInclude Include="src\Presenter\GeneralProcedurePresenter.h" />
@@ -652,6 +649,7 @@
     <ClInclude Include="src\Presenter\PriceListSettingsPresenter.h" />
     <ClInclude Include="src\Presenter\ProcedureDialogPresenter.h" />
     <ClInclude Include="src\Presenter\ProcedureEditorPresenter.h" />
+    <ClInclude Include="src\Presenter\ProcedureRangePresenter.h" />
     <ClInclude Include="src\Presenter\ReferralPresenter.h" />
     <ClInclude Include="src\Presenter\ReportFilesPresenter.h" />
     <ClInclude Include="src\Presenter\ReportPresenter.h" />

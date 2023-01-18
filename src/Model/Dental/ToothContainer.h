@@ -14,7 +14,7 @@ public:
 
 	void formatBridges(const std::vector<int>& selectedIndexes);
 	void removeBridge(int tooth_idx);
-
+	void removeBridgeOrSplint(int tooth_begin, int tooth_end);
 	void setToothDetails(const Tooth& tooth);
 
 	auto begin() { return teeth.begin(); }

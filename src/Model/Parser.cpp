@@ -383,6 +383,13 @@ std::string Parser::write(const Procedure& procedure)
 
 		break;
 	}
+	case ProcedureType::removebridgeOrSplint:
+	{
+		auto& [begin, end] = std::get<ProcedureRangeRemoveData>(procedure.result);
+		json["begin"] = begin;
+		json["end"] = end;
+		break;
+	}
 	default:
 		break;
 	}
@@ -682,6 +689,14 @@ void Parser::parse(const std::string& jsonString, Procedure& procedure)
 		};
 
 		break;
+	case ProcedureType::removebridgeOrSplint:
+	{
+		procedure.result = ProcedureRangeRemoveData{
+					json["begin"].asInt(),
+					json["end"].asInt()
+		};
+	}
+	break;
 	default:
 		procedure.result = NoData{};
 	}

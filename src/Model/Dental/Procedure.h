@@ -36,12 +36,26 @@ struct ProcedureFiberData
 
 };
 
+struct ProcedureRangeRemoveData
+{
+    int toothBegin;
+    int toothEnd;
+};
 
 struct Anesthesia {
     int minutes{ 0 };
 };
 
-typedef std::variant<NoData, ProcedureObtData, CrownData, ProcedureBridgeData, ImplantData, ProcedureFiberData, Anesthesia> Result;
+typedef std::variant<
+            NoData, 
+            ProcedureObtData, 
+            CrownData, 
+            ProcedureBridgeData, 
+            ImplantData, 
+            ProcedureFiberData, 
+            ProcedureRangeRemoveData,
+            Anesthesia
+        > Result;
 
 enum class ProcedureType 
 { 
@@ -55,9 +69,10 @@ enum class ProcedureType
 	bridge = 7, 
 	fibersplint = 8, 
 	removecrown = 9, 
-	removebridge = 10,  
+    removepost = 10,
+	removebridgeOrSplint = 11
 };
-
+#include <QDebug>
 
 struct Procedure
 {

@@ -36,6 +36,7 @@ public:
 	void setCrownPresenter(CrownPresenter* presenter) override;
 	void setImplantPresenter(ImplantPresenter* presenter);
 	void setFiberSplintPresenter(FiberSplintPresenter* presenter) override;
+	void setProcedureRangePresenter(ProcedureRangePresenter* presenter) override;
 	ICommonFields* commonFields() override;
 
 

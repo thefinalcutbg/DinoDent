@@ -6,6 +6,7 @@
 class ToothProcedurePresenter : public AbstractSubPresenter
 {
 
+protected:
 	const std::vector<Tooth*>& selectedTeeth;
 
 	//virtual std::string getDiagnosis();
@@ -14,8 +15,29 @@ class ToothProcedurePresenter : public AbstractSubPresenter
 
 public:
 
-	ToothProcedurePresenter(const std::vector<Tooth*>& selectedTeeth);
+	ToothProcedurePresenter(const std::vector<Tooth*>& selectedTeeth, ProcedureType t = ProcedureType::any);
 	void setProcedureTemplate(const ProcedureTemplate& m) override;
+	std::vector<Procedure> getProcedures() override;
+};
+
+
+class EndoPresenter : public ToothProcedurePresenter
+{
+
+	std::string getDiagnosis(const Tooth& tooth);
+
+public:
+	EndoPresenter(const std::vector<Tooth*>& selectedTeeth);
+	std::vector<Procedure> getProcedures() override;
+};
+
+
+class ExtractionPresenter : public ToothProcedurePresenter
+{
+	std::string getDiagnosis(const Tooth& tooth);
+
+public:
+	ExtractionPresenter(const std::vector<Tooth*>& selectedTeeth);
 	std::vector<Procedure> getProcedures() override;
 };
 

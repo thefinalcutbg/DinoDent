@@ -14,7 +14,7 @@ class ProcedureTemplateDialog : public QDialog
 
 	NotEmptyValidator m_validator;
 
-	QRadioButton* procedureType[9];
+	QRadioButton* procedureType[11];
 
 	ProcedureTemplateType currentType {ProcedureTemplateType::general};
 

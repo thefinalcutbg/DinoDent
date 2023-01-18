@@ -147,7 +147,7 @@
             </size>
            </property>
            <property name="currentIndex">
-            <number>0</number>
+            <number>5</number>
            </property>
            <widget class="QWidget" name="page">
             <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -179,6 +179,7 @@
            <widget class="CrownView" name="crownWidget"/>
            <widget class="ImplantView" name="implantWidget"/>
            <widget class="FiberSplintView" name="fiberWidget"/>
+           <widget class="RangeWidget" name="rangeWidget"/>
           </widget>
          </item>
          <item>
@@ -316,6 +317,12 @@
    <class>DateEdit</class>
    <extends>QDateEdit</extends>
    <header>View/uiComponents/DateEdit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>RangeWidget</class>
+   <extends>QWidget</extends>
+   <header>View/SubWidgets/RangeWidget.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

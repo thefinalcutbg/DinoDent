@@ -4,14 +4,11 @@
 #include "Model/Validators/ProcedureValidators.h"
 #include "Model/Dental/ToothUtils.h"
 #include "BridgeHelper.h"
-class ToothContainer;
 
+class ToothContainer;
 
 class CrownPresenter : public AbstractSubPresenter
 {
-
-	//a variable which holds the bridge data
-
 
 	ICrownView* view;
 

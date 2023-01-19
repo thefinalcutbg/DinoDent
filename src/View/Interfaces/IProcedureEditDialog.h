@@ -6,6 +6,7 @@
 #include "View/Interfaces/ICrownView.h"
 #include "View/Interfaces/IFiberSplintView.h"
 #include "View/Interfaces/ICommonFields.h"
+#include "View/Interfaces/AbstractRangeEdit.h"
 
 class IProcedureEditDialog
 {
@@ -18,5 +19,6 @@ public:
 	virtual IObturationView* obturationView() = 0;
 	virtual IImplantView* implantView() = 0;
 	virtual IFiberSplintView* fiberView() = 0;
+	virtual AbstractRangeEdit* rangeRemove() = 0;
 	virtual void closeDialog() = 0;
 };

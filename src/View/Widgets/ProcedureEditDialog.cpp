@@ -52,6 +52,9 @@ void ProcedureEditDialog::setMtype(ProcedureType m)
 	case ProcedureType::fibersplint:
 		ui.stackedWidget->setCurrentIndex(4);
 		break;
+	case ProcedureType::removebridgeOrSplint:
+		ui.stackedWidget->setCurrentWidget(ui.rangeWidget);
+		break;
 	default:
 		ui.stackedWidget->hide();
 		setFixedWidth(311);
@@ -84,6 +87,11 @@ IImplantView* ProcedureEditDialog::implantView()
 IFiberSplintView* ProcedureEditDialog::fiberView()
 {
 	return ui.fiberWidget;
+}
+
+AbstractRangeEdit* ProcedureEditDialog::rangeRemove()
+{
+	return ui.rangeWidget;
 }
 
 void ProcedureEditDialog::closeDialog()

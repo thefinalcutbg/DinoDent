@@ -47,13 +47,14 @@
      <item>
       <widget class="QStackedWidget" name="stackedWidget">
        <property name="currentIndex">
-        <number>4</number>
+        <number>5</number>
        </property>
        <widget class="QWidget" name="empty"/>
        <widget class="ObturationView" name="obturWidget"/>
        <widget class="CrownView" name="crownWidget"/>
        <widget class="ImplantView" name="implantWidget"/>
        <widget class="FiberSplintView" name="fiberWidget"/>
+       <widget class="RangeWidget" name="rangeWidget"/>
       </widget>
      </item>
     </layout>
@@ -134,6 +135,12 @@
    <class>FiberSplintView</class>
    <extends>QWidget</extends>
    <header>View/SubWidgets/FiberSplintView.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>RangeWidget</class>
+   <extends>QWidget</extends>
+   <header>View/SubWidgets/rangewidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

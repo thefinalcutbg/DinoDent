@@ -54,6 +54,10 @@ void ProcedureEditorPresenter::setView(IProcedureEditDialog* view)
 			view->fiberView()->rangeWidget()->setInputValidator(&_bridgeValidator);
 			m_validatableElement = view->fiberView()->rangeWidget();
 			break;
+		case ProcedureType::removebridgeOrSplint:
+			auto [begin, end] = std::get<ProcedureRangeRemoveData>(m_procedure.result);
+			view->rangeRemove()->setBridgeRange(begin, end);
+			break;
 	}
 
 	view->commonFields()->dateEdit()->validateInput();
@@ -84,25 +88,34 @@ void ProcedureEditorPresenter::okPressed()
 
 	switch (result->type)
 	{
-	case ProcedureType::obturation:
-		result->result = view->obturationView()->getData();
-		break;
-	case ProcedureType::implant:
-		result->result = view->implantView()->getData();
-		break;
-	case ProcedureType::crown:
-		result->result = view->crownView()->getData();
-		break;
-	case ProcedureType::bridge:
-	{
-		auto [begin, end] = view->crownView()->rangeWidget()->getRange();
-		result->result = ProcedureBridgeData{ begin, end, view->crownView()->getData() };
-		break;
-	}
-	case ProcedureType::fibersplint:
-		auto [begin, end] = view->fiberView()->rangeWidget()->getRange();
-		result->result = ProcedureFiberData{ begin, end, view->fiberView()->getData() };
-		break;
+		case ProcedureType::obturation:
+			result->result = view->obturationView()->getData();
+			break;
+		case ProcedureType::implant:
+			result->result = view->implantView()->getData();
+			break;
+		case ProcedureType::crown:
+			result->result = view->crownView()->getData();
+			break;
+		case ProcedureType::bridge:
+		{
+			auto [begin, end] = view->crownView()->rangeWidget()->getRange();
+			result->result = ProcedureBridgeData{ begin, end, view->crownView()->getData() };
+			break;
+		}
+		case ProcedureType::fibersplint:
+		{
+			auto [begin, end] = view->fiberView()->rangeWidget()->getRange();
+			result->result = ProcedureFiberData{ begin, end, view->fiberView()->getData() };
+			break;
+		}
+		case ProcedureType::removebridgeOrSplint:
+		{
+			auto [begin, end] = view->rangeRemove()->getRange();
+			result->result = ProcedureRangeRemoveData{ begin, end };
+			break;
+
+		}
 	}
 
 	view->closeDialog();

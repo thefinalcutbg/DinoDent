@@ -34,7 +34,7 @@ void ObturationPresenter::setAdditionalTemplateParameters()
 
     view->setCurrentPresenter(this);
 
-    view->setLayout(ICommonFields::Restoration);
+    view->setLayout(ICommonFields::Restoration, true);
 
     view->surfaceSelector()->setInputValidator(&surf_validator);
 

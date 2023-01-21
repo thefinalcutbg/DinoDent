@@ -37,7 +37,7 @@ void EditorPresenter::setAdditionalTemplateParameters()
 	switch (m_type)
 	{
 	case ProcedureType::obturation:
-		view->setLayout(ICommonFields::Restoration);
+		view->setLayout(ICommonFields::Restoration, true);
 		view->surfaceSelector()->setInputValidator(&surface_validator);
 		break;
 	case ProcedureType::removebridgeOrSplint:
@@ -50,7 +50,7 @@ void EditorPresenter::setAdditionalTemplateParameters()
 		view->rangeWidget()->setInputValidator(&range_validator);
 		break;
 	default:
-		view->setLayout(ICommonFields::General);
+		view->setLayout(ICommonFields::General, m_type != ProcedureType::general);
 	}
 }
 

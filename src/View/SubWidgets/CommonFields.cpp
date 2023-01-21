@@ -125,11 +125,11 @@ void CommonFields::setErrorMsg(const std::string& error)
 	ui.notesEdit->setHidden(true);
 	ui.PHIFcheckbox->setHidden(true);
 	ui.notesLabel->setHidden(true);
-	
+	ui.hyperdonticCheckBox->setHidden(true);
 	ui.errorLabel->setText(error.c_str());
 }
 
-void CommonFields::setLayout(WidgetLayout layout)
+void CommonFields::setLayout(WidgetLayout layout, bool showHyperdontic)
 {
 	ui.label_2->setHidden(false);
 	ui.diagnosisEdit->setHidden(false);
@@ -139,19 +139,14 @@ void CommonFields::setLayout(WidgetLayout layout)
 	ui.notesEdit->setHidden(false);
 	ui.errorLabel->setText("");
 	ui.notesLabel->setHidden(false);
+	ui.hyperdonticCheckBox->setHidden(!showHyperdontic);
 
 	switch (layout)
 	{
 	case WidgetLayout::General:
-
 		//specific
 		ui.rangeWidget->setHidden(true);
 		ui.surfaceWidget->setHidden(true);
-		ui.bridgeCheckBox->setHidden(true);
-		break;
-	case WidgetLayout::Restoration:
-		ui.rangeWidget->setHidden(true);
-		ui.surfaceWidget->setHidden(false);
 		ui.bridgeCheckBox->setHidden(true);
 		break;
 	case WidgetLayout::Crown:
@@ -165,6 +160,12 @@ void CommonFields::setLayout(WidgetLayout layout)
 		ui.surfaceWidget->setHidden(true);
 		ui.bridgeCheckBox->setHidden(true);
 		break;
+	case WidgetLayout::Restoration:
+		ui.rangeWidget->setHidden(true);
+		ui.surfaceWidget->setHidden(false);
+		ui.bridgeCheckBox->setHidden(true);
+		break;
+	
 	}
 }
 
@@ -191,6 +192,16 @@ void CommonFields::setFinancingSource(Procedure::FinancingSource s)
 
 	ui.PHIFcheckbox->setChecked(s == Procedure::PHIF);
 
+}
+
+void CommonFields::setHyperdonticState(bool checked)
+{
+	ui.hyperdonticCheckBox->setChecked(checked);
+}
+
+bool CommonFields::onHyperdontic()
+{
+	return !ui.hyperdonticCheckBox->isHidden() && ui.hyperdonticCheckBox->isChecked();
 }
 
 

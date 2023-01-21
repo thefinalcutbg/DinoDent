@@ -31,10 +31,12 @@ public:
 	virtual AbstractSurfaceSelector* surfaceSelector() = 0;
 	virtual void setBridgeCheckState(BridgeCheckState state) = 0;
 	virtual void disableBridgeCheck(bool disabled) = 0;
-	virtual void setLayout(WidgetLayout layout) = 0;
+	virtual void setLayout(WidgetLayout layout, bool showHyperdontic = false) = 0;
 	virtual void setErrorMsg(const std::string& error) = 0;
 	virtual void setNotes(const std::string& notes) = 0;
 	virtual void setNhifLayout(bool nhif) = 0;
 	virtual void setFinancingSource(Procedure::FinancingSource s) = 0;
 	virtual Procedure::FinancingSource getFinancingSource() = 0;
+	virtual void setHyperdonticState(bool checked) = 0;
+	virtual bool onHyperdontic() = 0;
 };

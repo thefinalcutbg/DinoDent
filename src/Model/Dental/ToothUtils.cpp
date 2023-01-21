@@ -8,7 +8,7 @@ constexpr std::array<int, 32> s_tooth_FDI
   38, 37, 36, 35, 34, 33, 32, 31,     41, 42, 43, 44, 45, 46, 47, 48
 };
 
-
+constexpr  int nhifNoTooth = 99;
 
 
 ToothType ToothUtils::getToothType(int index)
@@ -23,11 +23,11 @@ ToothType ToothUtils::getToothType(int index)
     return static_cast<ToothType>(toothType[index]);
 }
 
-constexpr  int invalidToothIdx = 99;
+
 
 int ToothUtils::getToothNumber(int index, bool temporary)
 {
-    if (index < 0 || index > 31) return invalidToothIdx;
+    if (index < 0 || index > 31) return nhifNoTooth;
 
     if (temporary) {
         return s_tooth_FDI[index]+40;
@@ -38,12 +38,31 @@ int ToothUtils::getToothNumber(int index, bool temporary)
 std::string ToothUtils::getNomenclature(int tooth_idx, bool temporary) 
 { 
     auto num = getToothNumber(tooth_idx, temporary);
-    if (num == invalidToothIdx)
+    if (num == nhifNoTooth)
         return std::string();
 
     return std::to_string(num);
 }
-std::string ToothUtils::getNomenclature(const Tooth& t) { return getNomenclature(t.index, t.temporary.exists());}
+std::string ToothUtils::getNomenclature(const Tooth& t) { 
+    return getNomenclature(t.index, t.temporary);
+}
+
+std::string ToothUtils::getNhifNumber(int index, bool temporary, bool hyperdontic)
+{
+    int toothNumber = getToothNumber(index, temporary);
+
+    if (toothNumber == nhifNoTooth) return "99";
+
+    if (!hyperdontic) return std::to_string(toothNumber);
+
+    std::string result = std::to_string(getToothNumber(index, false));
+
+    static constexpr std::array<char, 4> DsnQuadrant = {'A','B','C','D'};
+
+    result[0] = DsnQuadrant.at(static_cast<int>(getQuadrant(index)));
+
+    return result;
+}
 
 Quadrant ToothUtils::getQuadrant(int index)
 { 
@@ -57,7 +76,6 @@ Quadrant ToothUtils::getQuadrant(int index)
 
 std::array<std::string, 6> ToothUtils::getSurfaceNames(int index)
 {
-
 
     auto getOcclusalName = [&] {
 
@@ -98,10 +116,31 @@ std::array<std::string, 6> ToothUtils::getSurfaceNames(int index)
     
 }
 
-std::pair<int, bool> ToothUtils::getArrayIdxAndTemp(int toothNum)
+ToothUtils::ToothProcedureCode ToothUtils::getToothFromNhifNum(const std::string& toothNhif)
 {
-    if (toothNum == 99)
-        return { -1, false };
+    if (toothNhif.length() != 2) return { -1, false, false };
+
+    if (toothNhif == "99") return { -1, false, false };
+
+    int toothNum = -1;
+
+    bool hyperdontic = false;
+
+    if (!std::isdigit(toothNhif[0]))
+    {
+        std::string val;
+
+        val += char(int(toothNhif[0]) - 16);
+        val += toothNhif[1];
+
+        toothNum = std::stoi(val);
+
+        hyperdontic = true;
+    }
+    else
+    {
+        toothNum = std::stoi(toothNhif);
+    }
 
     bool temp = toothNum > 48;
 
@@ -112,11 +151,11 @@ std::pair<int, bool> ToothUtils::getArrayIdxAndTemp(int toothNum)
     for (int i = 0; i < s_tooth_FDI.size(); i++) {
         
         if (toothNum == s_tooth_FDI[i]) {
-            return { i, temp };
+            return { i, temp, hyperdontic };
         }
     }
 
-    return { -1, false };
+    return { -1, temp, hyperdontic };
 
 }
 
@@ -200,7 +239,7 @@ std::string ToothUtils::getName(int idx, bool temp)
 
 }
 
-const std::array<int, 32>& ToothUtils::getToothNumbers()
+const std::array<int, 32>& ToothUtils::FDINumbers()
 {
     return s_tooth_FDI;
 }

@@ -117,9 +117,23 @@ void ListPresenter::dynamicNhifConversion()
 
 bool ListPresenter::isValid()
 {
+    //check date inconsistencies
     if (m_ambList.procedures.empty() && m_ambList.referrals.empty()) {
         ModalDialogBuilder::showError("Листът трябва да съдържа поне една манипулация или направление!");
         return false;
+    }
+
+    //check procedures and hyperdontic:
+
+    for (auto& p : m_ambList.procedures)
+    {
+        if (p.hyperdontic && !m_ambList.teeth[p.tooth].hyperdontic)
+        {
+            ModalDialogBuilder::showError(
+            "За да запишете манипулация на свръхброен зъб, отбележете го като такъв в статуса!"
+            );
+            return false;
+        }
     }
 
     auto date = m_ambList.getDate();

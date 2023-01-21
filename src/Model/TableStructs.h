@@ -32,6 +32,7 @@ struct ProcedureSummary
     int tooth;
     bool temp;
     bool extr;
+    bool hyperdontic;
 };
 
 

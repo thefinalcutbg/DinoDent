@@ -158,7 +158,7 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
 
             service->SetAttribute("date", procedure.date.to8601());
             service->SetAttribute("diagnosis", procedure.diagnosis);
-            service->SetAttribute("toothCode", ToothUtils::getToothNumber(procedure.tooth, procedure.temp));
+            service->SetAttribute("toothCode", ToothUtils::getNhifNumber(procedure.tooth, procedure.temp, procedure.hyperdontic));
             service->SetAttribute("activityCode", procedure.code);
 
             services->LinkEndChild(service);

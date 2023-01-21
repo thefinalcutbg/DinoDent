@@ -26,7 +26,8 @@ public:
 			return;
 		}
 
-		view->setLayout(ICommonFields::General);
+		view->setLayout(ICommonFields::General, true);
+		
 	}
 
 	bool additionalValidation() override { return !selectedTeeth.empty(); }

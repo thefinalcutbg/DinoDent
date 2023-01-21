@@ -8,7 +8,7 @@ struct QProcedure
 	QProcedure(const Procedure& p);
 	QString date;
 	QString diagnosis;
-	int tooth{ -1 };
+	QString tooth{};
 	QString procedureName;
 	int code{ -1 };
 	QString ksmp;

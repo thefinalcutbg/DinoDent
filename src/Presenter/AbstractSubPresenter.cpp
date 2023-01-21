@@ -99,6 +99,7 @@ Procedure AbstractSubPresenter::getProcedureCommonFields()
 	result.date = view->dateEdit()->getDate();
 	result.diagnosis = view->diagnosisEdit()->getText();
 	result.notes = view->getNotes();
+	result.hyperdontic = view->onHyperdontic();
 //	result.price = common_view->priceEdit()->get_Value();
 
 

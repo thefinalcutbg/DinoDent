@@ -31,6 +31,15 @@ AmbListValidator::AmbListValidator(const AmbList& list, const Patient& patient)
 bool AmbListValidator::ambListIsValid()
 {
 
+    for (auto& p : m_procedures)
+    {
+        if (p.hyperdontic && !ambList.teeth[p.tooth].hyperdontic)
+        {
+            _error = "Съществува процедура на срвъхброен зъб, който не е добавен в статуса";
+            return false;
+        }
+    }
+
     if (!ambList.isNhifSheet()) return true;
 
     if (patient.HIRBNo.empty())
@@ -264,12 +273,14 @@ bool AmbListValidator::noDuplicates()
 
     for (auto& p : m_procedures)
     {
-        auto pair = std::make_pair(p.tooth, p.code);
+        auto tooth = p.hyperdontic ? p.tooth + 80 : p.tooth;
+
+        auto pair = std::make_pair(tooth, p.code);
 
         if (tooth_set.count(pair))
         {
             p.tooth != -1 ?
-            _error = "За зъб " + ToothUtils::getNomenclature(ambList.teeth[p.tooth]) +
+            _error = "За зъб " + ToothUtils::getNhifNumber(p.tooth, p.temp, p.hyperdontic ) +
                 " манипулация с код " + std::to_string(p.code) + " е добавена повече от веднъж"
             :
             _error = "Направили сте 2 еднакви манипулации с код " + std::to_string(p.code);

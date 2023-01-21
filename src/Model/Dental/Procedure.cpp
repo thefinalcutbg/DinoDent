@@ -8,6 +8,8 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 		{
 			case::ProcedureType::obturation:
 			{
+				if (hyperdontic) return;
+
 				auto& tooth = teeth[this->tooth];
 				auto& result = std::get<ProcedureObtData>(this->result);
 
@@ -46,6 +48,8 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 
 			case::ProcedureType::endo:
 			{
+				if (hyperdontic) return;
+
 				auto& tooth = teeth[this->tooth];
 				tooth.setStatus(StatusType::general, StatusCode::EndoTreatment);
 
@@ -56,6 +60,8 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 
 			case::ProcedureType::crown:
 			{
+				if (hyperdontic) return;
+
 				auto& tooth = teeth[this->tooth];
 				//auto& result = std::get<CrownData>(this->result);
 
@@ -69,6 +75,8 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 
 			case::ProcedureType::implant:
 			{
+				if (hyperdontic) return;
+
 				auto& tooth = teeth[this->tooth];
 
 				tooth.addStatus(StatusCode::Implant);
@@ -134,6 +142,8 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 
 			case ProcedureType::removecrown:
 			{
+				if (hyperdontic) return;
+
 				auto& tooth = teeth[this->tooth];
 				tooth.removeStatus(StatusCode::Crown);
 			}
@@ -141,6 +151,8 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 
 			case ProcedureType::removepost:
 			{
+				if (hyperdontic) return;
+
 				auto& tooth = teeth[this->tooth];
 				tooth.removeStatus(StatusCode::Post);
 			}

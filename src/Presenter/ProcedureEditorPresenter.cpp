@@ -25,10 +25,10 @@ void ProcedureEditorPresenter::setView(IProcedureEditDialog* view)
 	commonEditorPresenter.setView(view->commonFields());
 	view->commonFields()->setCurrentPresenter(&commonEditorPresenter);
 	commonEditorPresenter.setAdditionalTemplateParameters();
+
 	view->commonFields()->setFinancingSource(m_procedure.financingSource);
-
+	view->commonFields()->setHyperdonticState(m_procedure.hyperdontic);
 	view->commonFields()->dateEdit()->setInputValidator(&_dateValidator);
-
 	view->commonFields()->setNotes(m_procedure.notes);
 
 	switch (m_procedure.type)

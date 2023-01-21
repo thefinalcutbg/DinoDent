@@ -53,15 +53,16 @@ enum class ProcedureType
 struct Procedure
 {
     enum FinancingSource { Patient, NHIF, PHIF };
-    Procedure(const ProcedureTemplate& t, Date date, std::string diagnosis, int tooth = 99, bool temp = false)
+    Procedure(const ProcedureTemplate& t, Date date, std::string diagnosis, int tooth = 99, bool temp = false, bool hyperdontic = false)
     :
-    code{ t.code },
+        code{ t.code },
         name{ t.name },
         date{ date },
         financingSource{ static_cast<FinancingSource>(t.nhif) },
         tooth{ tooth },
         temp{ temp },
-        diagnosis(diagnosis)
+        diagnosis(diagnosis),
+        hyperdontic(hyperdontic)
 
     {
         if (static_cast<int>(t.type) < 7)
@@ -81,11 +82,14 @@ struct Procedure
  //   double price{ 0 };
     int tooth{ -1 };        //-1 for general/several teeth, any in range 0-31 for specific tooth
     bool temp{ false };
+    bool hyperdontic{ false };
+
     Result result{ NoData{} };
     FinancingSource financingSource{ Patient };
     std::string LPK;
     std::string ksmp;
     std::string notes;
+
    // Procedure() {};
 
     void applyProcedure(ToothContainer& teeth) const;

@@ -14,7 +14,7 @@ ReferralDialog::ReferralDialog(ReferralPresenter* p, QWidget *parent)
 
 	ui.refNumSpin->setTotalLength(6);
 
-	for (auto num : ToothUtils::getToothNumbers()) {
+	for (auto num : ToothUtils::FDINumbers()) {
 		ui.toothCombo->addItem(QString::number(num));
 	}
 

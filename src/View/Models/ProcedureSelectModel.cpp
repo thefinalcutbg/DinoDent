@@ -118,7 +118,7 @@ QVariant ProcedureSelectModel::data(const QModelIndex& index, int role) const
             {
                case 0: return m_procedures[row].date;
                case 1: return m_procedures[row].diagnosis;
-               case 2: return m_procedures[row].tooth != 99 ? m_procedures[row].tooth : QVariant();
+               case 2: return m_procedures[row].tooth;
                case 3: return m_procedures[row].procedureName;
                case 4: return m_procedures[row].code;
     //           case 5: return m_procedures[row].price;

@@ -136,6 +136,13 @@
     </layout>
    </item>
    <item>
+    <widget class="QCheckBox" name="hyperdonticCheckBox">
+     <property name="text">
+      <string>На свръхброен зъб</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QCheckBox" name="bridgeCheckBox">
      <property name="text">
       <string>Мостова конструкция</string>

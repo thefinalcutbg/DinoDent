@@ -2,27 +2,25 @@
 #include <string>
 #include "Tooth.h"
 
-constexpr std::array<int, 32> numbers
+constexpr std::array<int, 32> s_tooth_FDI
 {
   18, 17, 16, 15, 14, 13, 12, 11,     21, 22, 23, 24, 25, 26, 27, 28,
   38, 37, 36, 35, 34, 33, 32, 31,     41, 42, 43, 44, 45, 46, 47, 48
 };
 
-constexpr std::array<int, 32> procedureType
-{
-    0,0,0,1,1,2,2,2,    2,2,2,1,1,0,0,0,
-    0,0,0,1,1,2,2,2,    2,2,2,1,1,0,0,0
-};
-
-
-std::array<std::string, 6> surfaceNames
-{ "Оклузално", "Медиално", "Дистално", "Букално", "Лингвално", "Цервикално" };
 
 
 
 ToothType ToothUtils::getToothType(int index)
 {
-    return static_cast<ToothType>(procedureType[index]);
+
+    constexpr static std::array<int, 32> toothType
+    {
+        0,0,0,1,1,2,2,2,    2,2,2,1,1,0,0,0,
+        0,0,0,1,1,2,2,2,    2,2,2,1,1,0,0,0
+    };
+
+    return static_cast<ToothType>(toothType[index]);
 }
 
 constexpr  int invalidToothIdx = 99;
@@ -32,9 +30,9 @@ int ToothUtils::getToothNumber(int index, bool temporary)
     if (index < 0 || index > 31) return invalidToothIdx;
 
     if (temporary) {
-        return numbers[index]+40;
+        return s_tooth_FDI[index]+40;
     }
-    return numbers[index];
+    return s_tooth_FDI[index];
 }
 
 std::string ToothUtils::getNomenclature(int tooth_idx, bool temporary) 
@@ -60,31 +58,43 @@ Quadrant ToothUtils::getQuadrant(int index)
 std::array<std::string, 6> ToothUtils::getSurfaceNames(int index)
 {
 
-    if (index == 5 || index == 10 || index == 21 || index == 26) //canine teeth
-    {
-        return std::array<std::string, 6>{
-                "Куспидално",
-                surfaceNames[1],
-                surfaceNames[2],
-                surfaceNames[3],
-                surfaceNames[4],
-                surfaceNames[5]
-        };
-    }
 
-    if (getToothType(index) == ToothType::Frontal) //frontal teeth
-    {
-        return std::array<std::string, 6>{
-                                            "Инцизално",
-                                             surfaceNames[1],
-                                             surfaceNames[2],
-                                             surfaceNames[3],
-                                             surfaceNames[4],
-                                             surfaceNames[5]
-        };
-    }
+    auto getOcclusalName = [&] {
 
-    return surfaceNames; //any other teeth
+        //canine
+        if (index == 5 || index == 10 || index == 21 || index == 26) return "Куспидално";
+
+        //incisor
+        if (getToothType(index) == ToothType::Frontal) return "Инцизално";
+
+        //molar and premolar
+        return "Оклузално";
+    };
+
+    auto getBuccalName = [&] {
+        if (getToothType(index) == ToothType::Frontal) return "Лабиално";
+
+        return "Букално";
+
+    };
+
+    auto getLingualName = [&] {
+
+        if (index < 16) return "Палатинално";
+
+        return "Лингвално";
+    };
+
+    
+    return std::array<std::string, 6>{
+            getOcclusalName(),
+            "Медиално",
+            "Дистално",
+            getBuccalName(),
+            getLingualName(),
+            "Цервикално"
+    };
+
     
 }
 
@@ -99,9 +109,9 @@ std::pair<int, bool> ToothUtils::getArrayIdxAndTemp(int toothNum)
         toothNum = toothNum - 40;
     }
 
-    for (int i = 0; i < numbers.size(); i++) {
+    for (int i = 0; i < s_tooth_FDI.size(); i++) {
         
-        if (toothNum == numbers[i]) {
+        if (toothNum == s_tooth_FDI[i]) {
             return { i, temp };
         }
     }
@@ -192,5 +202,5 @@ std::string ToothUtils::getName(int idx, bool temp)
 
 const std::array<int, 32>& ToothUtils::getToothNumbers()
 {
-    return numbers;
+    return s_tooth_FDI;
 }

@@ -161,7 +161,7 @@
    <item>
     <widget class="QCheckBox" name="PHIFcheckbox">
      <property name="text">
-      <string>Към допълнително здравно осигуряване</string>
+      <string>Фонд допълнително здравно осигуряване</string>
      </property>
     </widget>
    </item>

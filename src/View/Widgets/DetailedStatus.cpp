@@ -8,7 +8,7 @@
 #include "View/Graphics/ToothPainter.h"
 #include "Presenter/DetailedStatusPresenter.h"
 #include "Model/Dental/Enums.h"
-
+/*
 void DetailedStatus::paintEvent(QPaintEvent* event)
 {
 	QPainter painter;
@@ -16,7 +16,7 @@ void DetailedStatus::paintEvent(QPaintEvent* event)
 	painter.fillRect(QRect(0, 0, width(), height()), Qt::white);
 	painter.end();
 }
-
+*/
 DetailedStatus::DetailedStatus(DetailedStatusPresenter* presenter) : presenter(presenter)
 {
 
@@ -25,7 +25,7 @@ DetailedStatus::DetailedStatus(DetailedStatusPresenter* presenter) : presenter(p
 	ui.setupUi(this);
 	setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 	setWindowFlags(Qt::Window);
-	setWindowTitle("Tooth Details");
+	setWindowTitle("Детайли");
 
 
 	ui.imageLabel->setStyleSheet("border: 1px solid lightgray");
@@ -172,7 +172,30 @@ void DetailedStatus::setHistoryData(const std::vector<Procedure>& history)
 {
 	m_historyModel.setProcedures(history);
 	ui.tableView->setModel(&m_historyModel);
-	ui.tableView->setProcedureHistoryLayout();
+
+	ui.tableView->horizontalHeader()->setHighlightSections(false);
+
+	ui.tableView->verticalHeader()->setVisible(false);
+
+	ui.tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+	
+	ui.tableView->verticalHeader()->setDefaultSectionSize(50);
+	ui.tableView->setSelectionMode(QAbstractItemView::SingleSelection);
+	ui.tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
+
+	ui.tableView->hideColumn(0);
+	ui.tableView->setColumnWidth(1, 69);
+	ui.tableView->setColumnWidth(2, 150);
+	ui.tableView->setColumnWidth(3, 25);
+	ui.tableView->setColumnWidth(4, 150);
+	ui.tableView->setColumnWidth(5, 49);
+	ui.tableView->setColumnWidth(6, 70);
+	ui.tableView->setColumnWidth(7, 150);
+	ui.tableView->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+	ui.tableView->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+	ui.tableView->horizontalHeader()->setSectionResizeMode(8, QHeaderView::Stretch);
+	ui.tableView->setShowGrid(false);
+	
 }
 
 DetailedStatus::~DetailedStatus()

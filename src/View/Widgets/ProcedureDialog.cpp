@@ -11,13 +11,10 @@ ProcedureDialog::ProcedureDialog(ProcedureDialogPresenter* presenter, QWidget *p
 	setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 	setWindowTitle("Добавяне на манипулация");
 
-	ui.stackedWidget->setCurrentIndex(0);
-	ui.commonFields->hide();
-
 	auto table = ui.tableView;
 
-	ui.commonFields->setExternalDateEdit(ui.dateEdit);
-	ui.dateEdit->setErrorLabel(ui.errorLabel);
+	//ui.commonFields->setExternalDateEdit(ui.dateEdit);
+	//ui.dateEdit->setErrorLabel(ui.errorLabel);
 
 	proxyModel.setSourceModel(&model);
 	proxyModel.setFilterKeyColumn(2);
@@ -60,19 +57,14 @@ ProcedureDialog::ProcedureDialog(ProcedureDialogPresenter* presenter, QWidget *p
 
 	connect(ui.tableView, &QTableView::doubleClicked, [=] { presenter->formAccepted(); });
 
-	connect(ui.dateEdit, &QDateEdit::dateChanged, [=] {
+	connect(ui.commonFields->qDateEdit(), &QDateEdit::dateChanged, [=] {
 
-		auto date = ui.dateEdit->date();
+		auto date = ui.commonFields->qDateEdit()->date();
 		presenter->procedureDateChanged(Date{ date.day(), date.month(), date.year() });
 		presenter->indexChanged(-1);
 		});
 
-	ui.crownWidget->ui.rangeWidget->setErrorLabel(ui.errorLabel);
-	ui.obturWidget->ui.surfaceSelector->setErrorLabel(ui.errorLabel);
-	ui.fiberWidget->ui.rangeWidget->setErrorLabel(ui.errorLabel);
-	ui.commonFields->ui.dateEdit->setErrorLabel(ui.errorLabel);
-	ui.commonFields->ui.diagnosisEdit->setErrorLabel(ui.errorLabel);
-	ui.commonFields->ui.manipulationEdit->setErrorLabel(ui.errorLabel);
+	
 	
 
 
@@ -120,88 +112,13 @@ void ProcedureDialog::setSelectionLabel(const std::vector<int>& selectedTeethNum
 	ui.statusLabel->setText(selectedTeeth);
 }
 
-
-
-void ProcedureDialog::setObturationPresenter(ObturationPresenter* presenter)
-{
-	presenter->setCommonFieldsView(ui.commonFields);
-	presenter->setView(ui.obturWidget);
-	ui.obturWidget->setPresenter(presenter);
-}
-
-void ProcedureDialog::setCrownPresenter(CrownPresenter* presenter)
-{
-	presenter->setCommonFieldsView(ui.commonFields);
-	presenter->setView(ui.crownWidget);
-	ui.crownWidget->setPresenter(presenter);
-}
-
-void ProcedureDialog::setImplantPresenter(ImplantPresenter* presenter)
-{
-	presenter->setCommonFieldsView(ui.commonFields);
-	presenter->setView(ui.implantWidget);
-	ui.implantWidget->setPresenter(presenter);
-}
-
-void ProcedureDialog::setFiberSplintPresenter(FiberSplintPresenter* presenter)
-{
-	presenter->setCommonFieldsView(ui.commonFields);
-	presenter->setView(ui.fiberWidget);
-	ui.fiberWidget->setPresenter(presenter);
-}
-
-void ProcedureDialog::setProcedureRangePresenter(ProcedureRangePresenter* presenter)
-{
-	presenter->setCommonFieldsView(ui.commonFields);
-	presenter->setView(ui.rangeWidget);
-}
-
 ICommonFields* ProcedureDialog::commonFields()
 {
 	return ui.commonFields;
 }
 
-void ProcedureDialog::setView(ProcedureTemplateType t)
-{
-
-	ui.commonFields->show();
-	ui.errorLabel->show();
-
-	switch (t)
-	{	
-		case ProcedureTemplateType::obturation:
-			ui.stackedWidget->setCurrentWidget(ui.obturWidget);
-			break;
-		case ProcedureTemplateType::extraction:
-			ui.stackedWidget->setCurrentIndex(0);
-			break;
-		case ProcedureTemplateType::prosthodontic:
-			ui.stackedWidget->setCurrentWidget(ui.crownWidget);
-			break;
-		case ProcedureTemplateType::implant:
-			ui.stackedWidget->setCurrentWidget(ui.implantWidget);
-			break;
-		case ProcedureTemplateType::fibersplint:
-			ui.stackedWidget->setCurrentWidget(ui.fiberWidget);
-			break;
-		case ProcedureTemplateType::removebridgeorsplint:
-			ui.stackedWidget->setCurrentWidget(ui.rangeWidget);
-			break;
-		default:
-			ui.stackedWidget->setCurrentIndex(0);
-			ui.selectToothLabel->setText("");
-	}
-
-
-}
 
 void ProcedureDialog::close() { QDialog::accept(); }
 
-void ProcedureDialog::showErrorMessage(const std::string& error)
-{
-	ui.commonFields->hide();
-	ui.errorLabel->hide();
-	ui.stackedWidget->setCurrentIndex(0);
-	ui.selectToothLabel->setText(QString::fromStdString(error));
-}
+
 

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #pragma once
 #include "AbstractSubPresenter.h"
@@ -13,10 +13,24 @@ protected:
 	//virtual void modifyProcedure(Procedure& p) {}; //override in subclasses
 	//this function is called, when the procedures are generated
 
+
+
 public:
 
 	ToothProcedurePresenter(const std::vector<Tooth*>& selectedTeeth, ProcedureType t = ProcedureType::any);
-	void setProcedureTemplate(const ProcedureTemplate& m) override;
+	
+	void setAdditionalTemplateParameters() override {
+
+		if (selectedTeeth.empty()) {
+			view->setErrorMsg("Изберете поне един зъб");
+			return;
+		}
+
+		view->setLayout(ICommonFields::General);
+	}
+
+	bool additionalValidation() override { return !selectedTeeth.empty(); }
+
 	std::vector<Procedure> getProcedures() override;
 };
 
@@ -41,3 +55,10 @@ public:
 	std::vector<Procedure> getProcedures() override;
 };
 
+class ImplantPresenter : public ToothProcedurePresenter
+{
+	std::string getDiagnosis(const Tooth& tooth);
+
+public:
+	ImplantPresenter(const std::vector<Tooth*>& selectedTeeth);
+};

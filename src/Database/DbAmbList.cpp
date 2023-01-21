@@ -326,7 +326,7 @@ std::vector<AmbList> DbAmbList::getMonthlyNhifSheets(int month, int year)
 
             Procedure p;
 
-            p.nhif = true;
+            p.financingSource == Procedure::NHIF;
             p.LPK = sheet.LPK;
             p.type = static_cast<ProcedureType>(db.asInt(0));
             p.code = db.asInt(1);

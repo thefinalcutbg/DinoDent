@@ -7,7 +7,7 @@ EditorPresenter::EditorPresenter(const Procedure& p) :
 {
 	m_code = p.code;
 	//m_price = p.price;
-	m_nzok = p.nhif;
+	m_nzok = p.isNhif();
 	m_name = p.name;
 	m_temp = p.temp;
 	m_tooth = p.tooth;
@@ -19,26 +19,48 @@ EditorPresenter::EditorPresenter(const Procedure& p) :
 		:
 		m_ksmp = p.ksmp;
 
+	
 
 }
 
-void EditorPresenter::setCommonFieldsView(ICommonFields* view)
+void EditorPresenter::setAdditionalTemplateParameters()
 {
-	this->common_view = view;
-	common_view->setCurrentPresenter(this);
+	view->procedureNameEdit()->set_Text(m_name);
+	//	common_view->priceEdit()->set_Value(m_price);
+	view->diagnosisEdit()->set_Text(m_diagnosis);
+	view->diagnosisEdit()->setInputValidator(&notEmpty_validator);
+	view->procedureNameEdit()->setInputValidator(&notEmpty_validator);
+	view->dateEdit()->set_Date(m_date);
+	
+	view->setKSMPCode(m_ksmp);
 
-	common_view->procedureNameEdit()->disable(m_nzok);
+	switch (m_type)
+	{
+	case ProcedureType::obturation:
+		view->setLayout(ICommonFields::Restoration);
+		view->surfaceSelector()->setInputValidator(&surface_validator);
+		break;
+	case ProcedureType::removebridgeOrSplint:
+		view->setLayout(ICommonFields::Range);
+		view->rangeWidget()->setInputValidator(nullptr);
+		break;
+	case ProcedureType::bridge:
+	case ProcedureType::fibersplint:
+		view->setLayout(ICommonFields::Range);
+		view->rangeWidget()->setInputValidator(&range_validator);
+		break;
+	default:
+		view->setLayout(ICommonFields::General);
+	}
+}
 
-	common_view->procedureNameEdit()->set_Text(m_name);
-//	common_view->priceEdit()->set_Value(m_price);
-	common_view->diagnosisEdit()->set_Text(m_diagnosis);
-	common_view->diagnosisEdit()->setInputValidator(&notEmpty_validator);
-	common_view->procedureNameEdit()->setInputValidator(&notEmpty_validator);
-	common_view->dateEdit()->set_Date(m_date);
-	common_view->enableKSMP(m_nzok == false);
-
-	common_view->setKSMPCode(m_ksmp);
-
+bool EditorPresenter::additionalValidation()
+{
+	
+	return 
+		view->rangeWidget()->validateInput() && 
+		view->surfaceSelector()->validateInput()
+	;
 }
 
 std::vector<Procedure> EditorPresenter::getProcedures()

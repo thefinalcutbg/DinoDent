@@ -6,10 +6,9 @@ ProcedureEditorPresenter::ProcedureEditorPresenter(const Procedure& m, const Dat
 	m_procedure(m),
 	view(nullptr),
 	_dateValidator(patientTurns18),
-	m_validatableElement{nullptr},
 	commonEditorPresenter(m)
 {
-	_dateValidator.setProcedure(m.code, m.nhif);
+	_dateValidator.setProcedure(m.code, m.isNhif());
 }
 
 std::optional<Procedure> ProcedureEditorPresenter::openDialog()
@@ -23,40 +22,27 @@ void ProcedureEditorPresenter::setView(IProcedureEditDialog* view)
 {
 	this->view = view;
 
-	commonEditorPresenter.setCommonFieldsView(view->commonFields());
+	commonEditorPresenter.setView(view->commonFields());
+	view->commonFields()->setCurrentPresenter(&commonEditorPresenter);
+	commonEditorPresenter.setAdditionalTemplateParameters();
+	view->commonFields()->setFinancingSource(m_procedure.financingSource);
 
 	view->commonFields()->dateEdit()->setInputValidator(&_dateValidator);
 
-	view->setMtype(m_procedure.type);
-	
+	view->commonFields()->setNotes(m_procedure.notes);
+
 	switch (m_procedure.type)
 	{
 		case ProcedureType::obturation:
-			view->obturationView()->setData(std::get<ProcedureObtData>(m_procedure.result));
-			//view->obturationView()->surfaceSelector()->setInputValidator(&_surfValidator);
-			m_validatableElement = view->obturationView()->surfaceSelector();
-			break;
-		case ProcedureType::implant:
-			view->implantView()->setData(std::get<ImplantData>(m_procedure.result));
-			break;
-		case ProcedureType::crown:
-			view->crownView()->setData(std::get<CrownData>(m_procedure.result));
-			view->crownView()->lockBridgeCheckbox(false);
+			view->commonFields()->surfaceSelector()->setData(std::get<ProcedureObtData>(m_procedure.result));
 			break;
 		case ProcedureType::bridge:
-			view->crownView()->setData(std::get<ProcedureBridgeData>(m_procedure.result));
-			view->crownView()->rangeWidget()->setInputValidator(&_bridgeValidator);
-			view->crownView()->lockBridgeCheckbox(true);
-			m_validatableElement = view->crownView()->rangeWidget();
-			break;
 		case ProcedureType::fibersplint:
-			view->fiberView()->setData(std::get<ProcedureFiberData>(m_procedure.result));
-			view->fiberView()->rangeWidget()->setInputValidator(&_bridgeValidator);
-			m_validatableElement = view->fiberView()->rangeWidget();
-			break;
 		case ProcedureType::removebridgeOrSplint:
-			auto [begin, end] = std::get<ProcedureRangeRemoveData>(m_procedure.result);
-			view->rangeRemove()->setBridgeRange(begin, end);
+		{
+			auto [begin, end] = std::get<ConstructionRange>(m_procedure.result);
+			view->commonFields()->rangeWidget()->setBridgeRange(begin, end);
+		}
 			break;
 	}
 
@@ -71,51 +57,28 @@ void ProcedureEditorPresenter::okPressed()
 		return;
 	}
 
-	if (m_validatableElement)
-	{
-		m_validatableElement->validateInput();
-
-		if (!m_validatableElement->isValid()) {
-			m_validatableElement->setFocus();
-			return;
-		}
-
-	}
 
 	//procedure creator:
 
 	result = commonEditorPresenter.getProcedures().at(0);
 
+	result->notes = view->commonFields()->getNotes();
+
 	switch (result->type)
 	{
 		case ProcedureType::obturation:
-			result->result = view->obturationView()->getData();
-			break;
-		case ProcedureType::implant:
-			result->result = view->implantView()->getData();
-			break;
-		case ProcedureType::crown:
-			result->result = view->crownView()->getData();
+			result->result = view->commonFields()->surfaceSelector()->getData();
 			break;
 		case ProcedureType::bridge:
-		{
-			auto [begin, end] = view->crownView()->rangeWidget()->getRange();
-			result->result = ProcedureBridgeData{ begin, end, view->crownView()->getData() };
-			break;
-		}
 		case ProcedureType::fibersplint:
-		{
-			auto [begin, end] = view->fiberView()->rangeWidget()->getRange();
-			result->result = ProcedureFiberData{ begin, end, view->fiberView()->getData() };
-			break;
-		}
 		case ProcedureType::removebridgeOrSplint:
 		{
-			auto [begin, end] = view->rangeRemove()->getRange();
-			result->result = ProcedureRangeRemoveData{ begin, end };
-			break;
-
+			auto [begin, end] = view->commonFields()->rangeWidget()->getRange();
+			result->result = ConstructionRange{ begin, end };
 		}
+			break;
+		default:
+			result->result = NoData{};
 	}
 
 	view->closeDialog();

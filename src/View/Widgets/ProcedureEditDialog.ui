@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>620</width>
-    <height>310</height>
+    <width>342</width>
+    <height>460</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -18,14 +18,14 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>620</width>
-    <height>310</height>
+    <width>0</width>
+    <height>0</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>620</width>
-    <height>310</height>
+    <width>16777215</width>
+    <height>16777215</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -37,24 +37,11 @@
      <item>
       <widget class="CommonFields" name="commonWidget" native="true">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QStackedWidget" name="stackedWidget">
-       <property name="currentIndex">
-        <number>5</number>
-       </property>
-       <widget class="QWidget" name="empty"/>
-       <widget class="ObturationView" name="obturWidget"/>
-       <widget class="CrownView" name="crownWidget"/>
-       <widget class="ImplantView" name="implantWidget"/>
-       <widget class="FiberSplintView" name="fiberWidget"/>
-       <widget class="RangeWidget" name="rangeWidget"/>
       </widget>
      </item>
     </layout>
@@ -111,36 +98,6 @@
    <class>CommonFields</class>
    <extends>QWidget</extends>
    <header>View/SubWidgets/CommonFields.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>CrownView</class>
-   <extends>QWidget</extends>
-   <header>View/SubWidgets/CrownView.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>ObturationView</class>
-   <extends>QWidget</extends>
-   <header>View/SubWidgets/ObturationView.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>ImplantView</class>
-   <extends>QWidget</extends>
-   <header>View/SubWidgets/ImplantView.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>FiberSplintView</class>
-   <extends>QWidget</extends>
-   <header>View/SubWidgets/FiberSplintView.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>RangeWidget</class>
-   <extends>QWidget</extends>
-   <header>View/SubWidgets/rangewidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

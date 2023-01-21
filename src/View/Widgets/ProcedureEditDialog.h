@@ -21,14 +21,7 @@ public:
 	ProcedureEditDialog(ProcedureEditorPresenter* p, QWidget *parent = Q_NULLPTR);
 	~ProcedureEditDialog();
 
-	void setMtype(ProcedureType m) override;
 	ICommonFields* commonFields() override;
-
-	ICrownView* crownView() override;
-	IObturationView* obturationView() override;
-	IImplantView* implantView() override;
-	IFiberSplintView* fiberView() override;
-	AbstractRangeEdit* rangeRemove() override;
 
 	void closeDialog() override;
 

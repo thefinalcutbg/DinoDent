@@ -1,8 +1,10 @@
 #pragma once
 
-struct ProcedureBridgeData;
-struct CrownData;
+#include <optional>
+#include "Model/Dental/Procedure.h"
 #include "View/Interfaces/AbstractRangeEdit.h"
+
+class AbstractSubPresenter;
 
 class ICrownView
 {
@@ -10,11 +12,9 @@ public:
 	virtual AbstractRangeEdit* rangeWidget() = 0;
 	virtual void set_hidden(bool hidden) = 0;
 	//sets the bridge checkbox to true
-	virtual void setData(const ProcedureBridgeData& data) = 0;
+	virtual void setData(const std::optional<ConstructionRange>& data) = 0;
+	virtual std::optional<ConstructionRange> getData() = 0;
 	//sets the bridge checkbox to false
-	virtual void setData(const CrownData& data) = 0;
 	virtual void lockBridgeCheckbox(bool asChecked = true) = 0;
-	virtual CrownData getData() = 0;
-	virtual void setMaterial(int material) = 0;
-
+	virtual void setPresenter(AbstractSubPresenter* p) = 0;
 };

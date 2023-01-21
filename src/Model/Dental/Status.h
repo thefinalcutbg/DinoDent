@@ -30,7 +30,7 @@ struct DentistMade : public Status
 struct Pathology : public Status 
 {
     Date date_diagnosed{ Date::currentDate() };
-
+/*
     virtual std::string getDiagnosisString() const = 0;
     virtual bool setDiagnosisIdx(int idx) = 0;
     virtual int getDiagnosisIdx() const = 0;
@@ -41,11 +41,19 @@ private:
         return std::string("<b><font color=\"red\">") + getDiagnosisString() + "</font></b>"
             + "<br>(диагностициран на " + date_diagnosed.toBgStandard(true) + ")";
     }
+        */
 };
 
+struct Construction : virtual public DentistMade {
+    BridgePos position{ BridgePos::Middle };
+};
 
+struct Mobility : public Status { Degree degree{ Degree::First }; };
+
+/*
 struct Caries : public Pathology
 {
+    
     CariesDiagnosis diag;
 public:
     std::string getDiagnosisString() const override { return diag.getName(); }
@@ -105,18 +113,22 @@ private:
     std::string getInfo() const override;
   
 };
-//DIAMOND INHERITANCE PROBLEM...
-struct Construction : virtual public DentistMade { BridgePos position{ BridgePos::Middle }; 
-};
+
+
+
 struct Crown : virtual public DentistMade { 
     CrownData data; 
 };
+
+
+//DIAMOND INHERITANCE PROBLEM...
+
 //...EMERGES HERE:
-struct Bridge : public Crown, public Construction {};
-struct FiberSplint : public Construction { ObturationData data; };
+struct Bridge : public Construction {};
+struct FiberSplint : public Construction {};
 
 struct Implant : public DentistMade { ImplantData data; };
 struct Post : public DentistMade { PostData data; };
-struct Mobility : public Status { Degree degree{ Degree::First };};
 
 
+*/

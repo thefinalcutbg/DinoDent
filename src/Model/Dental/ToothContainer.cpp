@@ -142,7 +142,7 @@ void ToothContainer::setToothDetails(const Tooth& tooth)
 	{
 		auto& bridge = teeth.at(i).bridge;
 		bridge.set(bridgeStat.exists());
-		bridge.data = bridgeStat.data;
+		//bridge.data = bridgeStat.data;
 		bridge.LPK = bridgeStat.LPK;
 	}
 

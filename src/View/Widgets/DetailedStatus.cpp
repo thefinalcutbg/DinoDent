@@ -19,34 +19,16 @@ void DetailedStatus::paintEvent(QPaintEvent* event)
 
 DetailedStatus::DetailedStatus(DetailedStatusPresenter* presenter) : presenter(presenter)
 {
-	static QIcon notesIcon(QPixmap("notes.png"));
 
-	enum TreeWidgetEnumType{ general, obturation, caries, notes };
+	enum TreeWidgetEnumType{ general, obturation, caries };
 
 	ui.setupUi(this);
 	setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 	setWindowFlags(Qt::Window);
 	setWindowTitle("Tooth Details");
 
-	layout = new QVBoxLayout(ui.container);
-	layout->setContentsMargins(9, 9, 9, 0);
-	layout->addSpacerItem(new QSpacerItem(0, 0, QSizePolicy::Fixed, QSizePolicy::Expanding));
-	obtWidget = new ObturationWidget();
-	crownWidget = new CrownWidget();
-	implantWidget = new ImplantView();
-	dentistWidget = new DentistMadeWidget();
-	pathologyWidget = new PathologyWidget();
-	notesWidget = new QTextEdit();
-	postWidget = new PostWidget();
-	notesWidget->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Expanding));
 
 	ui.imageLabel->setStyleSheet("border: 1px solid lightgray");
-
-	QTreeWidgetItem* notesItem = new QTreeWidgetItem();
-	notesItem->setText(0, "Бележки");
-	notesItem->setData(0, Qt::UserRole, notes);
-	notesItem->setIcon(0, notesIcon);
-	ui.treeWidget->addTopLevelItem(notesItem);
 
 
 	for (int i = 0; i < statusCount; i++)
@@ -71,8 +53,8 @@ DetailedStatus::DetailedStatus(DetailedStatusPresenter* presenter) : presenter(p
 		obtSurf->setCheckState(0, Qt::Unchecked);
 		carSurf->setCheckState(0, Qt::Unchecked);
 
-		ui.treeWidget->topLevelItem(StatusCode::Obturation+1)->addChild(obtSurf);
-		ui.treeWidget->topLevelItem(StatusCode::Caries+1)->addChild(carSurf);
+		ui.treeWidget->topLevelItem(StatusCode::Obturation)->addChild(obtSurf);
+		ui.treeWidget->topLevelItem(StatusCode::Caries)->addChild(carSurf);
 	}
 	
 	connect(ui.treeWidget, &QTreeWidget::itemChanged, this, [=](QTreeWidgetItem* item, int column) 
@@ -108,21 +90,14 @@ DetailedStatus::DetailedStatus(DetailedStatusPresenter* presenter) : presenter(p
 			
 			switch (item->data(0, Qt::UserRole).toInt())
 			{
-			case general: presenter->statusSelected(0, code - 1); break;
-			case obturation: presenter->statusSelected(1, code); break;
-			case caries: presenter->statusSelected(2, code); break;
-			case notes: presenter->statusSelected(3, code); break;
+				case general: presenter->statusSelected(0, code); break;
+				case obturation: presenter->statusSelected(1, code); break;
+				case caries: presenter->statusSelected(2, code); break;
 			}
 		}
 
-		if (parent == -1) ui.statusTitle->setText(item->text(0));
-		else ui.statusTitle->setText(item->parent()->text(0) + " (" + item->text(0) + ")");
-
 		
 		});
-		
-	connect(dentistWidget, &DentistMadeWidget::checked, this, [=] { presenter->stateChanged(); });
-
 
 
 	connect(ui.okButton, &QPushButton::clicked, this, [=] {presenter->okPressed(); close(); });
@@ -142,25 +117,25 @@ void DetailedStatus::setCheckModel(const CheckModel& checkModel)
 	for (int i = 0; i < checkModel.generalStatus.size(); i++)
 	{
 		checkModel.generalStatus[i] == CheckState::checked ?
-			ui.treeWidget->topLevelItem(i+1)->setCheckState(0, Qt::CheckState::Checked)
+			ui.treeWidget->topLevelItem(i)->setCheckState(0, Qt::CheckState::Checked)
 			:
-			ui.treeWidget->topLevelItem(i+1)->setCheckState(0, Qt::CheckState::Unchecked);
+			ui.treeWidget->topLevelItem(i)->setCheckState(0, Qt::CheckState::Unchecked);
 	}
 
 	for (int i = 0; i < checkModel.obturationStatus.size(); i++)
 	{
 		checkModel.obturationStatus[i] == CheckState::checked ?
-			ui.treeWidget->topLevelItem(2)->child(i)->setCheckState(0, Qt::CheckState::Checked)
+			ui.treeWidget->topLevelItem(1)->child(i)->setCheckState(0, Qt::CheckState::Checked)
 			:
-			ui.treeWidget->topLevelItem(2)->child(i)->setCheckState(0, Qt::CheckState::Unchecked);
+			ui.treeWidget->topLevelItem(1)->child(i)->setCheckState(0, Qt::CheckState::Unchecked);
 	}
 
 	for (int i = 0; i < checkModel.cariesStatus.size(); i++)
 	{
 		checkModel.cariesStatus[i] == CheckState::checked ?
-			ui.treeWidget->topLevelItem(3)->child(i)->setCheckState(0, Qt::CheckState::Checked)
+			ui.treeWidget->topLevelItem(2)->child(i)->setCheckState(0, Qt::CheckState::Checked)
 			:
-			ui.treeWidget->topLevelItem(3)->child(i)->setCheckState(0, Qt::CheckState::Unchecked);
+			ui.treeWidget->topLevelItem(2)->child(i)->setCheckState(0, Qt::CheckState::Unchecked);
 	}
 }
 
@@ -168,7 +143,7 @@ void DetailedStatus::disableItem(int index, bool disabled)
 {
 	QSignalBlocker b(ui.treeWidget);
 
-	auto item = ui.treeWidget->topLevelItem(index+1);
+	auto item = ui.treeWidget->topLevelItem(index);
 
 	if (disabled)
 		item->setFlags(Qt::NoItemFlags);
@@ -183,53 +158,15 @@ void DetailedStatus::paintTooth(const ToothPaintHint& hint)
 	ui.imageLabel->setPixmap(tooth);
 }
 
-void DetailedStatus::clearData()
-{
-	ui.statusTitle->setText("");
-	obtWidget->setParent(nullptr);
-	crownWidget->setParent(nullptr);
-	implantWidget->setParent(nullptr);
-	dentistWidget->setParent(nullptr);
-	pathologyWidget->setParent(nullptr);
-	notesWidget->setParent(nullptr);
-	postWidget->setParent(nullptr);
-}
-
-void DetailedStatus::disableDetails(bool disabled)
-{
-	ui.container->setDisabled(disabled);
-
-	ui.statusTitle->setStyleSheet(disabled ? "color: lightgray" : "color : black");
-
-}
-
-template<typename L, typename W, typename D>
-inline void setAndShow(L& layout, W& widget, const D& data) {
-	widget->setData(data); 
-	layout->insertWidget(0, widget);
-}
-
-void DetailedStatus::setData(const ImplantData& data){setAndShow(layout, implantWidget, data);}
-void DetailedStatus::setData(const DentistData& data){setAndShow(layout, dentistWidget, data);}
-void DetailedStatus::setData(const CrownData& data){setAndShow(layout, crownWidget, data);}
-void DetailedStatus::setData(const ObturationData& data){setAndShow(layout, obtWidget, data);}
-void DetailedStatus::setData(const Pathology& data){setAndShow(layout, pathologyWidget, data);}
-void DetailedStatus::setData(const PostData& data) {setAndShow(layout, postWidget, data);}
 
 void DetailedStatus::setData(const std::string& notesData)
 {
-	notesWidget->setText(QString::fromStdString(notesData));
-	layout->insertWidget(0, notesWidget);
-
+	ui.notesEdit->setText(QString::fromStdString(notesData));
 }
 
-bool DetailedStatus::getDentistData() { return dentistWidget->userChecked(); }
-int DetailedStatus::getDiagnosisIndex() { return pathologyWidget->getData(); }
-ObturationData DetailedStatus::getObturationData(){  return obtWidget->getData();}
-ImplantData DetailedStatus::getImplantData(){ return implantWidget->getData();}
-CrownData DetailedStatus::getCrownData(){return crownWidget->getData();}
-std::string DetailedStatus::getNotes(){ return notesWidget->toPlainText().toStdString(); }
-PostData DetailedStatus::getPostData() { return postWidget->getData(); }
+
+std::string DetailedStatus::getNotes(){ return ui.notesEdit->toPlainText().toStdString(); }
+
 
 void DetailedStatus::setHistoryData(const std::vector<Procedure>& history)
 {
@@ -240,14 +177,5 @@ void DetailedStatus::setHistoryData(const std::vector<Procedure>& history)
 
 DetailedStatus::~DetailedStatus()
 {
-	clearData();
 
-	delete obtWidget;
-	delete crownWidget;
-	delete implantWidget;;
-	delete dentistWidget;
-	delete pathologyWidget;
-	delete notesWidget;
-	delete postWidget;
 }
-

@@ -23,7 +23,7 @@ AmbListValidator::AmbListValidator(const AmbList& list, const Patient& patient)
 
     for (auto &p : list.procedures)
     {
-        if (p.nhif)
+        if (p.isNhif())
             m_procedures.push_back(p);
     }
 }
@@ -219,7 +219,7 @@ bool AmbListValidator::dateIsValid()
             return false;
         }
 
-        if (p.nhif && NhifProcedures::isMinorOnly(p.code) && patient.isAdult(p.date))
+        if (p.isNhif() && NhifProcedures::isMinorOnly(p.code) && patient.isAdult(p.date))
         {
             _error = "Манипулация " + std::to_string(p.code) + " е позволена само при лица под 18 годишна възраст!";
             return false;
@@ -237,7 +237,7 @@ bool AmbListValidator::examIsFirst()
 
     auto it = std::find_if(procedures.begin(), procedures.end(),
         [&examCode](const Procedure& p){
-            return p.nhif && p.code == examCode;
+            return p.isNhif() && p.code == examCode;
         });
 
     if (it != procedures.end()){
@@ -246,7 +246,7 @@ bool AmbListValidator::examIsFirst()
 
     for (auto& p : procedures)
     {
-        if (p.nhif && p.code != examCode && p.date < ambListDate)
+        if (p.isNhif() && p.code != examCode && p.date < ambListDate)
         {
             _error = "Датата на манипулация " + std::to_string(p.code) + " е по-малка от датата на прегледа!";
             return false;

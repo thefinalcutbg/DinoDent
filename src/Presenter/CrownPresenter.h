@@ -1,39 +1,43 @@
 #pragma once
 #include "AbstractSubPresenter.h"
-#include "View/Interfaces/ICrownView.h"
+#include "View/Interfaces/AbstractRangeEdit.h"
 #include "Model/Validators/ProcedureValidators.h"
 #include "Model/Dental/ToothUtils.h"
-#include "BridgeHelper.h"
 
 class ToothContainer;
 
 class CrownPresenter : public AbstractSubPresenter
 {
-
-	ICrownView* view;
-
 	const ToothContainer& teeth;
 	const std::vector<Tooth*>& selectedTeeth;
 
 	BridgeRangeValidator range_validator;
 	std::string m_ksmpOther;
 
-	BridgeHelper bridgeLogic;
-
 	bool m_bridgeSelected;
 
+	int tooth_begin;
+	int tooth_end;
+
+	std::string bridgeDiagnosis;
+
 	std::string getDiagnosis(const Tooth& tooth);
+	std::string getBridgeDiagnosis();
+
+	bool firstTimeSelected = true;
+
 
 public:
 	CrownPresenter(const std::vector<Tooth*>& selectedTeeth, const ToothContainer& teeth);
 	
-	void setView(ICrownView* view);
-	void rangeChanged(int begin, int end);
-	void selectAsBridge(bool checked);
 
+	void rangeChanged(int begin, int end) override;
+	void bridgeChecked(bool checked) override;
+	
+	ConstructionRange getInitialRange();
 	// Inherited via ManipulationPresenter
-	void setProcedureTemplate(const ProcedureTemplate& m) override;
-	bool isValid() override;
+	void setAdditionalTemplateParameters() override;
+	bool additionalValidation() override;
 	std::vector<Procedure> getProcedures() override;
 };
 

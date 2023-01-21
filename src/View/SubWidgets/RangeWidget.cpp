@@ -41,8 +41,6 @@ RangeWidget::RangeWidget(QWidget *parent)
 				emit rangeChanged(begin, end);
 			}
 		});
-		
-	setErrorLabel(ui.errorLabel);
 	
 }
 

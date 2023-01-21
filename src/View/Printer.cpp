@@ -47,7 +47,7 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
     ProcedurePrintSelectDialog dialog(amb.procedures.list(), amb.referrals);
         
     for (auto& p : amb.procedures) {
-        if (p.nhif) {
+        if (p.isNhif()) {
             dialog.selectOnlyWhereNzokIs(true);
             break;
         }

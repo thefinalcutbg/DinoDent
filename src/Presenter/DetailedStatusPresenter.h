@@ -4,7 +4,7 @@
 #include "Model/Dental/Tooth.h"
 #include <optional>
 #include <memory>
-#include "StatusController.h"
+
 #include "Database/DbNotes.h"
 
 
@@ -17,9 +17,6 @@ class DetailedStatusPresenter
 	int m_code{ -1 };
 
 	CheckModel m_checkModel;
-
-	std::unique_ptr<DetailedStatusController> controller;
-	
 
 	long long patientRowId;
 
@@ -40,8 +37,5 @@ public:
 	void okPressed();
 
 	std::optional<Tooth> open();
-
-	void setDynamicDisable();
-
 };
 

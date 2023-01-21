@@ -44,7 +44,7 @@ void ProcedureContainer::addProcedure(const Procedure& p)
 bool ProcedureContainer::hasNhifProcedure() const
 {
         for (auto& p : m_proc)
-            if (p.nhif)
+            if (p.isNhif())
                 return true;
 
         return false;
@@ -86,7 +86,7 @@ const Procedure& ProcedureContainer::at(int index) const
 bool ProcedureContainer::hasPregnancy() const
 {
     for (auto& p : m_proc) {
-        if (p.nhif && p.code == 101 && p.ksmp == "97017-01") return true;
+        if (p.isNhif() && p.code == 101 && p.ksmp == "97017-01") return true;
     }
 
     return false;

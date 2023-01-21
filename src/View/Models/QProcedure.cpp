@@ -9,8 +9,9 @@ QProcedure::QProcedure(const Procedure& p) :
 	diagnosis(QString::fromStdString(p.diagnosis)),
 	tooth(ToothUtils::getToothNumber(p.tooth, p.temp)),
 	procedureName(QString::fromStdString(p.name)),
-	code(p.code), nhif(p.nhif),// price(priceToString(p.price)),
+	code(p.code), fsource(p.financingSource),
 	ksmp(QString::fromStdString(p.ksmp)),
-	doctor(QString::fromStdString(User::getNameFromLPK(p.LPK)))
+	doctor(QString::fromStdString(User::getNameFromLPK(p.LPK))),
+	notes(QString::fromStdString(p.notes))
 {
 }

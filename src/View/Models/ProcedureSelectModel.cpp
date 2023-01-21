@@ -7,7 +7,7 @@ void ProcedureSelectModel::selectOnlyRowsWhereNzokIs(bool nhif)
     beginResetModel();
 
     for (int i = 0; i < m_procedures.size(); i++) {
-        m_selectedRows[i] = m_procedures[i].nhif == nhif;
+        m_selectedRows[i] = m_procedures[i].fsource == nhif;
     }
 
     endResetModel();
@@ -105,8 +105,10 @@ QVariant ProcedureSelectModel::data(const QModelIndex& index, int role) const
             switch (column)
             {
             case 0:
-                if (m_procedures[row].nhif)
+                if (m_procedures[row].fsource == Procedure::NHIF)
                     return QIcon(":/icons/icon_nzok.png");
+                if (m_procedures[row].fsource == Procedure::PHIF)
+                    return QIcon(":/icons/icon_phif.png");
             default:
                 return QVariant();
             }

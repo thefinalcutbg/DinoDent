@@ -1,6 +1,6 @@
 ﻿#include "StatusData.h"
 
-
+/*
 std::string ObturationData::infoStr() const
 {
 	std::string result = material.getName();
@@ -54,3 +54,4 @@ std::string ImplantData::infoStr() const
 	return result;
 		
 }
+*/

@@ -1,5 +1,7 @@
 #include "ProcedureRangePresenter.h"
 
+
+
 ProcedureRangePresenter::ProcedureRangePresenter(const std::vector<Tooth*>& selectedTeeth, ProcedureType type) :
 	AbstractSubPresenter(type), selectedTeeth(selectedTeeth)
 {
@@ -30,19 +32,48 @@ ProcedureRangePresenter::ProcedureRangePresenter(const std::vector<Tooth*>& sele
 	return;
 }
 
-void ProcedureRangePresenter::setView(AbstractRangeEdit* view)
+void ProcedureRangePresenter::setAdditionalTemplateParameters()
 {
-	this->view = view;
-	view->setBridgeRange(begin, end);
+	view->setLayout(ICommonFields::Range);
+
+	if (m_type == ProcedureType::fibersplint) {
+		view->rangeWidget()->setInputValidator(&range_validator);
+	}
+	else
+	{
+		view->rangeWidget()->setInputValidator(nullptr);
+	}
+
+
+	view->rangeWidget()->setBridgeRange(begin, end);
+}
+
+void ProcedureRangePresenter::rangeChanged(int begin, int end)
+{
+	this->begin = begin;
+	this->end = end;
+
+	view->rangeWidget()->validateInput();
+}
+
+bool ProcedureRangePresenter::additionalValidation()
+{
+	
+	if (!view->rangeWidget()->validateInput()) {
+		view->rangeWidget()->setFocus();
+		return false;
+	}
+
+	return true;
 }
 
 std::vector<Procedure> ProcedureRangePresenter::getProcedures()
 {
 	auto procedure = AbstractSubPresenter::getProcedureCommonFields();
 
-	auto [begin, end] = view->getRange();
+	auto [begin, end] = view->rangeWidget()->getRange();
 
-	procedure.result = ProcedureRangeRemoveData{
+	procedure.result = ConstructionRange{
 		begin,
 		end
 	};

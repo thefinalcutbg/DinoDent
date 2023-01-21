@@ -1,22 +1,13 @@
 ﻿#include "ToothProcedurePresenter.h"
 
-
 ToothProcedurePresenter::ToothProcedurePresenter(const std::vector<Tooth*>& selectedTeeth, ProcedureType t)
 	:
 	AbstractSubPresenter(t),
 	selectedTeeth(selectedTeeth)
 {
-	
+
 }
 
-void ToothProcedurePresenter::setProcedureTemplate(const ProcedureTemplate& m)
-{
-	bool noTeethSelected = !selectedTeeth.size();
-	common_view->set_hidden(noTeethSelected);
-	if (noTeethSelected) return;
-
-	AbstractSubPresenter::setProcedureTemplate(m);
-}
 
 std::vector<Procedure> ToothProcedurePresenter::getProcedures()
 {
@@ -68,10 +59,10 @@ std::string EndoPresenter::getDiagnosis(const Tooth& tooth)
 
 	std::array<std::string, 4> diagnosis
 	{
-		tooth.pulpitis.getDiagnosisString(),
-		tooth.lesion.getDiagnosisString(),
+		"Pulpitis chronica ulcerosa",
+		"Periodontitis chronica granulomatosa localisata",
 		"Инфектиран коренов пълнеж",
-		tooth.fracture.getDiagnosisString()
+		"Фрактура"
 	};
 
 	for (int i = 0; i < 4; i++)
@@ -126,13 +117,13 @@ std::string ExtractionPresenter::getDiagnosis(const Tooth& tooth)
 	{
 		"Свръхброен зъб",
 		"Периимплантит",
-		tooth.lesion.getDiagnosisString(),
+		"Periodontitis chronica granulomatosa localisata",
 		"Разклатен млечен зъб",
-		tooth.root.getDiagnosisString(),
+		"Radix relicva",
 		"Пародонтозен зъб",
 		"Подвижен зъб",
-		tooth.fracture.getDiagnosisString(),
-		tooth.pulpitis.getDiagnosisString()
+		"Фрактура",
+		"Pulpitis chronica ulcerosa" 
 	};
 
 	for (int i = 0; i < 9; i++)
@@ -142,5 +133,20 @@ std::string ExtractionPresenter::getDiagnosis(const Tooth& tooth)
 		}
 	}
 
-	return std::string{};;
+	return std::string{};
+}
+
+
+ImplantPresenter::ImplantPresenter(const std::vector<Tooth*>& selectedTeeth) :
+	ToothProcedurePresenter(selectedTeeth, ProcedureType::extraction)
+{
+	if (selectedTeeth.size() == 1)
+		m_diagnosis = getDiagnosis(*selectedTeeth.at(0));
+}
+
+std::string ImplantPresenter::getDiagnosis(const Tooth& tooth)
+{
+	 if (tooth.extraction) return "Andontia partialis";
+
+	 return std::string{};
 }

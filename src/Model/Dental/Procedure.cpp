@@ -18,7 +18,7 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 					tooth.setStatus(StatusType::obturation, i, true);
 					tooth.setStatus(StatusType::caries, i, false);
 					
-					tooth.obturation[i].data = result.data;
+					//tooth.obturation[i].data = result.data;
 					tooth.obturation[i].LPK = LPK;
 					
 
@@ -26,7 +26,7 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 
 				if (result.post) {
 					tooth.addStatus(StatusCode::Post);
-					tooth.post.data.type = result.post.value().type;
+					//tooth.post.data.type = result.post.value().type;
 					tooth.post.LPK = LPK;
 				}
 			}
@@ -57,11 +57,11 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 			case::ProcedureType::crown:
 			{
 				auto& tooth = teeth[this->tooth];
-				auto& result = std::get<CrownData>(this->result);
+				//auto& result = std::get<CrownData>(this->result);
 
 				tooth.setStatus(StatusType::general, StatusCode::Crown);
 
-				tooth.crown.data = result;
+				//tooth.crown.data = result;
 				tooth.crown.LPK = LPK;
 
 			}
@@ -70,11 +70,8 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 			case::ProcedureType::implant:
 			{
 				auto& tooth = teeth[this->tooth];
-				auto& result = std::get<ImplantData>(this->result);
 
-				tooth.setStatus(StatusType::general, StatusCode::Implant);
-
-				tooth.implant.data = result;
+				tooth.addStatus(StatusCode::Implant);
 
 				tooth.implant.LPK = LPK;
 
@@ -83,7 +80,7 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 
 			case::ProcedureType::bridge:
 			{
-				auto& result = std::get<ProcedureBridgeData>(this->result);
+				auto& result = std::get<ConstructionRange>(this->result);
 
 				std::vector<int> indexes;
 				indexes.reserve(result.tooth_end - result.tooth_begin + 1);
@@ -99,7 +96,7 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 					auto& tooth = teeth[i];
 
 					tooth.setStatus(StatusType::general, StatusCode::Bridge);
-					tooth.bridge.data = result.crown;
+					//tooth.bridge.data = result.crown;
 					tooth.bridge.LPK = LPK;
 				}
 
@@ -109,7 +106,7 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 
 			case ProcedureType::fibersplint:
 			{
-				auto& result = std::get<ProcedureFiberData>(this->result);
+				auto& result = std::get<ConstructionRange>(this->result);
 
 				std::vector<int> indexes;
 				indexes.reserve(result.tooth_end - result.tooth_begin + 1);
@@ -125,7 +122,7 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 					auto& tooth = teeth[i];
 
 					tooth.setStatus(StatusType::general, StatusCode::FiberSplint);
-					tooth.splint.data = result.obtur;
+					//tooth.splint.data = result.obtur;
 
 					tooth.splint.LPK = LPK;
 
@@ -151,7 +148,7 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 
 			case ProcedureType::removebridgeOrSplint:
 			{
-				auto& [begin, end] = std::get<ProcedureRangeRemoveData>(result);
+				auto [begin, end] = std::get<ConstructionRange>(result);
 
 				teeth.removeBridgeOrSplint(begin, end);
 			}

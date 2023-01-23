@@ -1,0 +1,10 @@
+PRAGMA foreign_keys = 0;
+CREATE TABLE sqlitestudio_temp_table AS SELECT * FROM procedure;
+DROP TABLE procedure;
+CREATE TABLE procedure (rowid INTEGER NOT NULL PRIMARY KEY, amblist_rowid INTEGER NOT NULL, date TEXT NOT NULL DEFAULT '1900-01-01',financing_source INT NOT NULL,code VARCHAR (10) NOT NULL, ksmp VARCHAR (8) NOT NULL, type INT NOT NULL, tooth INT NOT NULL, deciduous INT NOT NULL, data VARCHAR NOT NULL, diagnosis VARCHAR,name VARCHAR, hyperdontic INTEGER, notes TEXT,FOREIGN KEY (amblist_rowid) REFERENCES amblist (rowid) ON DELETE CASCADE ON UPDATE CASCADE);
+INSERT INTO procedure (rowid,amblist_rowid,date,financing_source,code,ksmp,type,tooth,deciduous,data,diagnosis,name)SELECT rowid,amblist_rowid,date,nzok,code,ksmp,type,tooth,deciduous,data,diagnosis,name FROM sqlitestudio_temp_table;
+DROP TABLE sqlitestudio_temp_table;
+UPDATE procedure SET financing_source = 4 WHERE financing_source = 0;
+UPDATE procedure SET financing_source = 2 WHERE financing_source = 1;
+PRAGMA user_version = 7;
+PRAGMA foreign_keys = 1;

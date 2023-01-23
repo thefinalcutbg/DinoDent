@@ -38,7 +38,7 @@ public:
 
 	std::variant<int, Vita3dMaster> toColor() const;
 
-	const std::string_view& getColorString() const;
+	const std::string_view& getName() const;
 
 };
 

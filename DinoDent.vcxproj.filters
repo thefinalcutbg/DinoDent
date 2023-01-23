@@ -318,10 +318,10 @@
     <ClCompile Include="src\Presenter\ToothProcedurePresenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Updates\DbUpdates.cpp">
+    <ClCompile Include="src\DbUpdates\DbUpdates.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Updates\Updater.cpp">
+    <ClCompile Include="src\DbUpdates\Updater.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\Graphics\ContextMenu.cpp">
@@ -828,6 +828,15 @@
     <ClCompile Include="src\Presenter\ProcedureRangePresenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\DbUpdates\Update5.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DbUpdates\Update6.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DbUpdates\Update7.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Database\Database.h">
@@ -1178,10 +1187,10 @@
     <ClInclude Include="src\Presenter\ToothProcedurePresenter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Updates\DbUpdates.h">
+    <ClInclude Include="src\DbUpdates\DbUpdates.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Updates\Updater.h">
+    <ClInclude Include="src\DbUpdates\Updater.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\Graphics\ControlPanelPolygon.h">
@@ -1536,6 +1545,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Presenter\ProcedureRangePresenter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GlobalConst.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

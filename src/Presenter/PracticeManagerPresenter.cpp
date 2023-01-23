@@ -4,7 +4,7 @@
 #include "Presenter/PracticeDialogPresenter.h"
 #include "Path.h"
 #include "Database/Database.h"
-#include "Updates/Updater.h"
+#include "DbUpdates/Updater.h"
 
 PracticeManagerPresenter::PracticeManagerPresenter() :
 	practices{DbPractice::getPracticeList()}

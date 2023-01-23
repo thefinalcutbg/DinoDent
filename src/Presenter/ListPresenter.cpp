@@ -608,15 +608,31 @@ void ListPresenter::addReferral(ReferralType type)
         return;
     }
 
-    if (type == ReferralType::MH119) {
+    if (type != ReferralType::MDD4) {
         for (auto& r : m_ambList.referrals)
         {
             if (r.type == type) {
                 ModalDialogBuilder::showMessage(
-                    "Позволено е максимум едно направление от тип 119 МЗ"
+                    "Позволено е максимум по едно направление от тип бл.3, бл.3А и 119 МЗ"
                 );
                 return;
             }
+        }
+    }
+    else
+    {
+        int mddCounter = 0;
+
+        for (auto& r : m_ambList.referrals)
+        {
+            if (r.type == ReferralType::MDD4) mddCounter++;
+        }
+
+        if (mddCounter >= 2) {
+            ModalDialogBuilder::showMessage(
+                "Позволени са максимум две направления за медико-диагностична дейност"
+            );
+            return;
         }
     }
 

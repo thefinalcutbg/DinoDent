@@ -1,7 +1,6 @@
 #include "Resources.h"
 #include <QFile>
 #include <QTextStream>
-#include <QDebug>
 
 std::string Resources::fromPath(const char* path)
 {
@@ -33,7 +32,27 @@ std::vector<std::string> Resources::dbSchema() {
 		{ 
 			
 			result.emplace_back(std::move(in.readLine().toStdString()));
-			qDebug() << result.back().c_str();
+		}
+		inputFile.close();
+	}
+	return result;
+}
+
+std::vector<std::string> Resources::getMigrationScript(int version)
+{
+	std::vector<std::string> result;
+
+	QString path = ":/migrations/db_migrateTo";
+	path += QString::number(version);
+	path += ".txt";
+
+	QFile inputFile(path);
+	if (inputFile.open(QIODevice::ReadOnly))
+	{
+		QTextStream in(&inputFile);
+		while (!in.atEnd())
+		{
+			result.emplace_back(std::move(in.readLine().toStdString()));
 		}
 		inputFile.close();
 	}

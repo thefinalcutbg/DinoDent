@@ -167,8 +167,8 @@ std::optional<std::vector<Procedure>> ModalDialogBuilder::selectProcedures(const
 
 		switch (s) {
 			case SelectionPref::All: break; //everything in the dialog is selected by default;
-			case SelectionPref::OnlyNZOK: dialog.selectOnlyWhereNzokIs(true); break;
-			case SelectionPref::OnlyPaid: dialog.selectOnlyWhereNzokIs(false); break;
+			case SelectionPref::OnlyNZOK: dialog.selectNhifOnly(true); break;
+			case SelectionPref::OnlyPaid: dialog.selectNhifOnly(false); break;
 		}
 
 		if (dialog.exec() == QDialog::Rejected) {

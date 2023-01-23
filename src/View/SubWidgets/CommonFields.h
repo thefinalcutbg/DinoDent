@@ -39,8 +39,8 @@ public:
 	virtual void setLayout(WidgetLayout layout, bool showHyperdontic = false) override;
 	virtual void setNotes(const std::string& notes) override;
 	void setNhifLayout(bool nhif) override;
-	Procedure::FinancingSource getFinancingSource() override;
-	void setFinancingSource(Procedure::FinancingSource s) override;
+	FinancingSource getFinancingSource() override;
+	void setFinancingSource(FinancingSource s) override;
 	void setHyperdonticState(bool checked) override;
 	bool onHyperdontic() override;
 	

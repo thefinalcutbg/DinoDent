@@ -1,5 +1,5 @@
 ﻿#include "UpdateDialog.h"
-#include "Updates/DbUpdates.h"
+#include "DbUpdates/DbUpdates.h"
 #include <qapplication.h>
 
 UpdateDialog::UpdateDialog(QWidget *parent)
@@ -20,6 +20,7 @@ void UpdateDialog::execute()
 
 	DbUpdates::update5();
 	DbUpdates::update6(*this);
+	DbUpdates::update7(*this);
 	close();
 }
 

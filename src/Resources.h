@@ -14,5 +14,6 @@ namespace Resources
 	std::string ksmpJson();
 	std::string mkbJson();
 	std::vector<std::string> dbSchema();
+	std::vector<std::string> getMigrationScript(int version);
 };
 

@@ -182,15 +182,15 @@ void CommonFields::setNhifLayout(bool nhif)
 }
 
 
-void CommonFields::setFinancingSource(Procedure::FinancingSource s)
+void CommonFields::setFinancingSource(FinancingSource s)
 {
-	if (s == Procedure::NHIF)
+	if (s == FinancingSource::NHIF)
 	{
 		setNhifLayout(true);
 		return;
 	}
 
-	ui.PHIFcheckbox->setChecked(s == Procedure::PHIF);
+	ui.PHIFcheckbox->setChecked(s == FinancingSource::PHIF);
 
 }
 
@@ -205,13 +205,13 @@ bool CommonFields::onHyperdontic()
 }
 
 
-Procedure::FinancingSource CommonFields::getFinancingSource()
+FinancingSource CommonFields::getFinancingSource()
 {
-	if (ui.PHIFcheckbox->isHidden()) return Procedure::NHIF;
+	if (ui.PHIFcheckbox->isHidden()) return FinancingSource::NHIF;
 
-	if (ui.PHIFcheckbox->isChecked()) return Procedure::PHIF;
+	if (ui.PHIFcheckbox->isChecked()) return FinancingSource::PHIF;
 
-	return Procedure::Patient;
+	return FinancingSource::Patient;
 }
 
 CommonFields::~CommonFields()

@@ -6,6 +6,7 @@
 #include <QDir>
 #include <QProcess>
 #include <QStandardPaths>
+#include <QPainter>
 
 #include "Network/NetworkManager.h"
 #include "Path.h"
@@ -63,6 +64,11 @@ UpdateDownloader::UpdateDownloader(const char* url, QWidget* parent)
 
 			m_reply->deleteLater();
 
+			ModalDialogBuilder::showMessage(
+				"Следвайте стъпките от инсталатора. "
+				"\nНе стартирайте програмата по време на инсталация!"
+			);
+
 			QProcess process;
 
 			process.startDetached(filePath);
@@ -73,10 +79,15 @@ UpdateDownloader::UpdateDownloader(const char* url, QWidget* parent)
 
 		}
 	);
-
-
 }
 
+void UpdateDownloader::paintEvent(QPaintEvent* e)
+{
+	QPainter painter;
+	painter.begin(this);
+	painter.fillRect(QRect(0, 0, width(), height()), Qt::white);
+	painter.end();
+}
 
 UpdateDownloader::~UpdateDownloader()
 {}

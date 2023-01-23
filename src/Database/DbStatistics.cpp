@@ -2,6 +2,7 @@
 #include "Database.h"
 #include "Model/Dental/DentalStatistics.h"
 #include "Model/UserStructs.h"
+#include "Model/Dental/Procedure.h"
 
 namespace DbStatPrv {
 
@@ -27,7 +28,7 @@ namespace DbStatPrv {
 
         if (!nhifOnly) return {};
 
-        return "AND procedure.nzok = 1 ";
+        return "AND procedure.financing_source=" + std::to_string(static_cast<int>(FinancingSource::NHIF)) + " ";
     }
 
     std::string includeRowValues(const char* tableColumn, const std::vector<std::string>& tableValue)

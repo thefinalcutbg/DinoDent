@@ -16,7 +16,7 @@ std::vector<TimeFrame> DbPatientSummary::getFrames(long long patientRowId)
         "amblist.date,"
         "amblist.status,"
         "procedure.date,"
-        "procedure.nzok,"  	
+        "procedure.financing_source,"  	
         "procedure.type,"  	
         "procedure.code,"  	
         "procedure.tooth," 	
@@ -69,7 +69,7 @@ std::vector<TimeFrame> DbPatientSummary::getFrames(long long patientRowId)
 
         Procedure p;
         p.date = procedureDate;
-        p.financingSource = static_cast<Procedure::FinancingSource>(db.asInt(6));
+        p.financingSource = static_cast<FinancingSource>(db.asInt(6));
         p.type = static_cast<ProcedureType>(db.asInt(7));
         p.code = db.asInt(8);
         p.tooth = db.asInt(9);

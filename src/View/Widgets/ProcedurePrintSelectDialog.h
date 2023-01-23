@@ -25,10 +25,8 @@ public:
 	ProcedurePrintSelectDialog(const std::vector<Procedure>& procedures, const std::vector<Referral>& referrals = {}, QWidget* parent = Q_NULLPTR);
 	
 	const std::vector<int> selectedProcedures() const;
-	int mdd4Referral() const;
-	int referral() const;
-	int mh119Referral() const;
-	void selectOnlyWhereNzokIs(bool nhif);
+	bool printReferrals() const;
+	void selectNhifOnly(bool nhif);
 
 	~ProcedurePrintSelectDialog();
 

@@ -220,8 +220,6 @@ int DbAmbList::getNewNumber(Date ambDate, bool nhif)
 
     std::string query;
 
-//    std::string condition = nhif ? "sum(procedure.nzok) > 0 " : "sum(procedure.nzok) = 0 ";
-
     query = nhif ?
         "SELECT num FROM amblist WHERE nhif_spec IS NOT NULL "
         :
@@ -309,7 +307,8 @@ std::vector<AmbList> DbAmbList::getMonthlyNhifSheets(int month, int year)
             "procedure.hyperdontic,"
             "amblist.rowid "
             "FROM procedure LEFT JOIN amblist ON procedure.amblist_rowid = amblist.rowid "
-            "WHERE procedure.nzok = 1 "
+            "WHERE "
+            "procedure.financing_source=" + std::to_string(static_cast<int>(FinancingSource::NHIF)) + " "
             "AND amblist.nhif_spec IS NOT NULL "
             "AND amblist.lpk = '" + User::doctor().LPK + "' "
             "AND amblist.rzi = '" + User::practice().rziCode + "' "
@@ -327,7 +326,7 @@ std::vector<AmbList> DbAmbList::getMonthlyNhifSheets(int month, int year)
 
             Procedure p;
 
-            p.financingSource = Procedure::NHIF;
+            p.financingSource = FinancingSource::NHIF;
             p.LPK = sheet.LPK;
             p.type = static_cast<ProcedureType>(db.asInt(0));
             p.code = db.asInt(1);

@@ -35,8 +35,8 @@ public:
 	virtual void setErrorMsg(const std::string& error) = 0;
 	virtual void setNotes(const std::string& notes) = 0;
 	virtual void setNhifLayout(bool nhif) = 0;
-	virtual void setFinancingSource(Procedure::FinancingSource s) = 0;
-	virtual Procedure::FinancingSource getFinancingSource() = 0;
+	virtual void setFinancingSource(FinancingSource s) = 0;
+	virtual FinancingSource getFinancingSource() = 0;
 	virtual void setHyperdonticState(bool checked) = 0;
 	virtual bool onHyperdontic() = 0;
 };

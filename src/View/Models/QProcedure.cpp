@@ -3,6 +3,7 @@
 #include "View/GlobalFunctions.h"
 #include "Model/Dental/ToothUtils.h"
 #include "Model/User.h"
+#include "Model/Dental/Procedure.h"
 
 QProcedure::QProcedure(const Procedure& p) :
 	date(QString::fromStdString(p.date.toBgStandard())),

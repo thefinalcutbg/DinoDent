@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
 #include "Model/Prescription/WhenToTake.h"
 #include "Model/Dental/MKB.h"
 #include "Model/Ekatte.h"
-#include "Updates/Updater.h"
+#include "DbUpdates/Updater.h"
 #include "Path.h"
 
 bool initFunction() {

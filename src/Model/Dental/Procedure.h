@@ -50,9 +50,11 @@ enum class ProcedureType
 	removebridgeOrSplint = 11
 };
 
+enum class FinancingSource { NHIF = 2, PHIF = 3, Patient = 4 };
+
 struct Procedure
 {
-    enum FinancingSource { Patient, NHIF, PHIF };
+    
     Procedure(const ProcedureTemplate& t, Date date, std::string diagnosis, int tooth = 99, bool temp = false, bool hyperdontic = false)
     :
         code{ t.code },
@@ -85,7 +87,7 @@ struct Procedure
     bool hyperdontic{ false };
 
     Result result{ NoData{} };
-    FinancingSource financingSource{ Patient };
+    FinancingSource financingSource{ FinancingSource::Patient };
     std::string LPK;
     std::string ksmp;
     std::string notes;

@@ -11,9 +11,10 @@ std::vector<Procedure> DbProcedure::getProcedures(long long amblist_rowid, Db& d
 {
 	std::vector<Procedure> mList;
 
-	const char* condition = nhifOnly ? " AND procedure.nzok = 1 " : "" ;
+	std::string condition = nhifOnly ?
+		" AND procedure.financing_source=" + std::to_string(static_cast<int>(FinancingSource::NHIF)) : "" ;
 
-	std::string query =  "SELECT procedure.nzok, "		//0
+	std::string query =  "SELECT procedure.financing_source, "		//0
 							    "procedure.type, "		//1
 								"procedure.code, "		//2
 								"procedure.tooth, "		//3
@@ -27,7 +28,7 @@ std::vector<Procedure> DbProcedure::getProcedures(long long amblist_rowid, Db& d
 								"procedure.notes, "		//11
 								"procedure.hyperdontic "//12
 						"FROM procedure LEFT JOIN amblist ON procedure.amblist_rowid = amblist.rowid "
-						"WHERE amblist.rowid = " + std::to_string(amblist_rowid) +
+						"WHERE amblist.rowid = " + std::to_string(amblist_rowid)
 						+ condition +
 						" ORDER BY procedure.rowid";
 
@@ -38,7 +39,7 @@ std::vector<Procedure> DbProcedure::getProcedures(long long amblist_rowid, Db& d
 		mList.emplace_back();
 		Procedure& p = mList.back();
 
-		p.financingSource = static_cast<Procedure::FinancingSource>(db.asInt(0));
+		p.financingSource = static_cast<FinancingSource>(db.asInt(0));
 		p.type = static_cast<ProcedureType>(db.asInt(1));
 		p.code = db.asInt(2);
 		p.tooth = db.asInt(3);
@@ -70,11 +71,11 @@ void DbProcedure::saveProcedures(long long amblist_rowid, const std::vector<Proc
 
 		db.newStatement(
 			"INSERT INTO procedure "
-			"(date, nzok, type, code, tooth, deciduous, data, ksmp, amblist_rowid, name, diagnosis, notes, hyperdontic) "
+			"(date, financing_source, type, code, tooth, deciduous, data, ksmp, amblist_rowid, name, diagnosis, notes, hyperdontic) "
 			"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
 		db.bind(1, p.date.to8601());
-		db.bind(2, p.financingSource);
+		db.bind(2, static_cast<int>(p.financingSource));
 		db.bind(3, static_cast<int>(p.type));
 		db.bind(4, p.code);
 		db.bind(5, p.tooth);
@@ -99,7 +100,7 @@ std::vector<ProcedureSummary> DbProcedure::getNhifSummary(long long patientRowId
 	{
 		"SELECT procedure.date, procedure.code, procedure.tooth, procedure.deciduous, procedure.type, procedure.hyperdontic "
 		"FROM procedure LEFT JOIN amblist ON procedure.amblist_rowid = amblist.rowid "
-		"WHERE nzok = 1 "
+		"WHERE financing_source=" + std::to_string(static_cast<int>(FinancingSource::NHIF)) + " "
 		"AND amblist.patient_rowid = " + std::to_string(patientRowId) + " "
 		"AND amblist.rowid != " + std::to_string(excludeAmbRowId) + " "
 		"AND amblist.date BETWEEN  ('" + from.to8601() + "') AND ('" + to.to8601() + "')"
@@ -127,7 +128,7 @@ std::vector<ProcedureSummary> DbProcedure::getNhifSummary(long long patientRowId
 std::vector<Procedure> DbProcedure::getToothProcedures(long long patientRowId, int tooth)
 {
 		std::string query =
-		"SELECT  procedure.date, procedure.code, procedure.nzok, procedure.data, amblist.lpk, procedure.deciduous, procedure.ksmp, procedure.name, procedure.diagnosis, procedure.notes, procedure.hyperdontic FROM "
+		"SELECT  procedure.date, procedure.code, procedure.financing_source, procedure.data, amblist.lpk, procedure.deciduous, procedure.ksmp, procedure.name, procedure.diagnosis, procedure.notes, procedure.hyperdontic FROM "
 		"procedure LEFT JOIN amblist ON procedure.amblist_rowid = amblist.rowid "
 		"WHERE tooth = " + std::to_string(tooth) + " "
 		"AND patient_rowid = " + std::to_string(patientRowId) + " "
@@ -144,7 +145,7 @@ std::vector<Procedure> DbProcedure::getToothProcedures(long long patientRowId, i
 		p.date = Date{ db.asString(0) };
 
 		p.code = db.asInt(1);
-		p.financingSource = static_cast<Procedure::FinancingSource>(db.asInt(2));
+		p.financingSource = static_cast<FinancingSource>(db.asInt(2));
 
 		Parser::parse(db.asString(3), p);
 

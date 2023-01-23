@@ -12,7 +12,7 @@ struct QProcedure
 	QString procedureName;
 	int code{ -1 };
 	QString ksmp;
-	Procedure::FinancingSource fsource{ Procedure::FinancingSource::Patient };
+	FinancingSource fsource{ FinancingSource::Patient };
 	//QString price;
 	QString doctor;
 	QString notes;

@@ -4,7 +4,7 @@
 #include <array>
 #include "VitaColor.h"
 #include "DentalNum.h"
-
+/*
 struct DentistData
 {
     std::string dentistName;
@@ -51,3 +51,5 @@ struct ImplantData
 
     std::string infoStr() const;
 };
+
+*/

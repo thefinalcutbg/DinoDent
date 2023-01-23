@@ -70,7 +70,7 @@ void ListPresenter::refreshPrices()
     {
       //  patientPrice = patientPrice + m.price;
 
-        if (m.nhif)
+        if (m.isNhif())
         {
             auto [p, nhif] = NhifProcedures::getPrices(m.code, m_ambList.getDate(), patient->isAdult(m.date), User::doctor().specialty, m_ambList.nhifData.specification);
             nzokPrice = nzokPrice + nhif;
@@ -117,9 +117,23 @@ void ListPresenter::dynamicNhifConversion()
 
 bool ListPresenter::isValid()
 {
+    //check date inconsistencies
     if (m_ambList.procedures.empty() && m_ambList.referrals.empty()) {
         ModalDialogBuilder::showError("Листът трябва да съдържа поне една манипулация или направление!");
         return false;
+    }
+
+    //check procedures and hyperdontic:
+
+    for (auto& p : m_ambList.procedures)
+    {
+        if (p.hyperdontic && !m_ambList.teeth[p.tooth].hyperdontic)
+        {
+            ModalDialogBuilder::showError(
+            "За да запишете манипулация на свръхброен зъб, отбележете го като такъв в статуса!"
+            );
+            return false;
+        }
     }
 
     auto date = m_ambList.getDate();
@@ -594,15 +608,31 @@ void ListPresenter::addReferral(ReferralType type)
         return;
     }
 
-    if (type == ReferralType::MH119) {
+    if (type != ReferralType::MDD4) {
         for (auto& r : m_ambList.referrals)
         {
             if (r.type == type) {
                 ModalDialogBuilder::showMessage(
-                    "Позволено е максимум едно направление от тип 119 МЗ"
+                    "Позволено е максимум по едно направление от тип бл.3, бл.3А и 119 МЗ"
                 );
                 return;
             }
+        }
+    }
+    else
+    {
+        int mddCounter = 0;
+
+        for (auto& r : m_ambList.referrals)
+        {
+            if (r.type == ReferralType::MDD4) mddCounter++;
+        }
+
+        if (mddCounter >= 2) {
+            ModalDialogBuilder::showMessage(
+                "Позволени са максимум две направления за медико-диагностична дейност"
+            );
+            return;
         }
     }
 

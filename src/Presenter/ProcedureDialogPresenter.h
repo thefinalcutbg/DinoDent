@@ -7,11 +7,7 @@
 #include "ToothProcedurePresenter.h"
 #include "ObturationPresenter.h"
 #include "CrownPresenter.h"
-#include "ExtractionPresenter.h"
-#include "EndoPresenter.h"
-#include "ImplantPresenter.h"
-#include "FiberSplintPresenter.h"
-
+#include "ProcedureRangePresenter.h"
 #include "View/Interfaces/IProcedureDialog.h"
 
 struct AmbList;
@@ -34,14 +30,15 @@ class ProcedureDialogPresenter
 	ExtractionPresenter extr_presenter;
 	EndoPresenter endo_presenter;
 	ImplantPresenter impl_presenter;
-	FiberSplintPresenter fiber_presenter;
+	ProcedureRangePresenter fiber_presenter;
 	ToothProcedurePresenter crownRemove_presenter;
+	ToothProcedurePresenter postRemove_presenter;
+	ProcedureRangePresenter bridgeSplintRemove_presenter;
 
-	std::array<AbstractSubPresenter*, 9> presenters_ptr;
+	std::array<AbstractSubPresenter*, 11> presenters_ptr;
 	AbstractSubPresenter* current_m_presenter;
 
 	IProcedureDialog* view;
-	ICommonFields* common_fields;
 
 	std::vector<Procedure> procedures;
 
@@ -50,7 +47,7 @@ class ProcedureDialogPresenter
 	ProcedureDateValidator date_validator;
 
 
-	bool _errorState;
+	bool noProcedureSelected;
 
 	public:
 

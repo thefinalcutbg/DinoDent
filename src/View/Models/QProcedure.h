@@ -8,12 +8,13 @@ struct QProcedure
 	QProcedure(const Procedure& p);
 	QString date;
 	QString diagnosis;
-	int tooth{ -1 };
+	QString tooth{};
 	QString procedureName;
 	int code{ -1 };
 	QString ksmp;
-	bool nhif{ false };
+	FinancingSource fsource{ FinancingSource::Patient };
 	//QString price;
 	QString doctor;
+	QString notes;
 };
 

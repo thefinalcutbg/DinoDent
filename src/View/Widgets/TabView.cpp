@@ -245,6 +245,7 @@ void TabView::showListView()
     m_summaryView.setPresenter(nullptr);
     m_perscriptionView.setPresenter(nullptr);
     m_financialView.setPresenter(nullptr);
+    m_statisticView.setPresenter(nullptr);
 }
 
 void TabView::showPerioView()
@@ -254,6 +255,7 @@ void TabView::showPerioView()
     m_summaryView.setPresenter(nullptr);
     m_perscriptionView.setPresenter(nullptr);
     m_financialView.setPresenter(nullptr);
+    m_statisticView.setPresenter(nullptr);
 }
 
 void TabView::showSummaryView()
@@ -263,6 +265,7 @@ void TabView::showSummaryView()
     m_perioView.setPresenter(nullptr);
     m_financialView.setPresenter(nullptr);
     m_perscriptionView.setPresenter(nullptr);
+    m_statisticView.setPresenter(nullptr);
 }
 
 void TabView::showFinancialView()
@@ -272,6 +275,7 @@ void TabView::showFinancialView()
     m_perioView.setPresenter(nullptr);
     m_summaryView.setPresenter(nullptr);
     m_perscriptionView.setPresenter(nullptr);
+    m_statisticView.setPresenter(nullptr);
 }
 
 void TabView::showPerscriptionView()
@@ -281,6 +285,18 @@ void TabView::showPerscriptionView()
     m_perioView.setPresenter(nullptr);
     m_summaryView.setPresenter(nullptr);
     m_financialView.setPresenter(nullptr);
+    m_statisticView.setPresenter(nullptr);
+}
+
+void TabView::showStatistcView()
+{
+    showTabWidget(&m_statisticView);
+    m_listView.setPresenter(nullptr);
+    m_perioView.setPresenter(nullptr);
+    m_summaryView.setPresenter(nullptr);
+    m_financialView.setPresenter(nullptr);
+    m_perscriptionView.setPresenter(nullptr);
+    
 }
 
 void TabView::showDinosaur()
@@ -290,6 +306,8 @@ void TabView::showDinosaur()
     m_perioView.setPresenter(nullptr);
     m_summaryView.setPresenter(nullptr);
     m_financialView.setPresenter(nullptr);
+    m_perscriptionView.setPresenter(nullptr);
+    m_statisticView.setPresenter(nullptr);
 }
 
 TabView::~TabView()

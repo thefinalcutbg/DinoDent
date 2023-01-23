@@ -21,14 +21,7 @@ bool NameValidator::validateInput(const std::string& text)
     //        return false;
     //    }
 
-    for (char c : text)
-    {
-        if (c != ' ' && c != '-')
-        {
-            return true;
-        }
-    }
 
-    _errorMsg = &invalidName;
-    return false;
+
+    return true;
 };

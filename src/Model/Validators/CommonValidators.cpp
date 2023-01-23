@@ -12,8 +12,8 @@ bool NotEmptyValidator::validateInput(const std::string& text)
     return text.size() > 0;
 }
 
-const std::string CyrillicValidator::mustBeCyrillic{ "Пишете на кирилица, ако обичате!" };
-static std::string_view allowed = ("абвгдежзийклмнопрстуфхцчшщъьюя-АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЬЮЯ ");
+const std::string CyrillicValidator::mustBeCyrillic{ "Полето трябва да е изписано на кирилица" };
+static std::string_view allowed = ("абвгдежзийклмнопрстуфхцчшщъьюя-_АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЬЮЯ ");
 
 bool CyrillicValidator::validateInput(const std::string& text)
 {

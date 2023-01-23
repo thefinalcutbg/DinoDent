@@ -52,7 +52,7 @@ struct AmbList
 
 			Date date(1, 1, 2200);
 
-			for (auto& p : procedures) if (p.nhif) date = std::min(date, p.date);
+			for (auto& p : procedures) if (p.isNhif()) date = std::min(date, p.date);
 
 			for (auto& r : referrals) date = std::min(date, r.date);
 

@@ -47,6 +47,7 @@ QVariant ProcedureTableModel::headerData(int section, Qt::Orientation orientatio
             case 6: return "КСМП";
       //      case 7: return "Цена";
             case 7: return "Извършил";
+            case 8: return "Бележки";
             }
         }
     }
@@ -102,8 +103,10 @@ QVariant ProcedureTableModel::data(const QModelIndex& index, int role) const
             switch (column)
             {
             case 5:
-                if (m_procedures[row].nhif)
+                if (m_procedures[row].fsource == FinancingSource::NHIF)
                     return QIcon(":/icons/icon_nzok.png");
+                if (m_procedures[row].fsource == FinancingSource::PHIF)
+                    return QIcon(":/icons/icon_phif.png");
             default:
                 return QVariant();
             }
@@ -114,12 +117,13 @@ QVariant ProcedureTableModel::data(const QModelIndex& index, int role) const
                case 0: return index.row();
                case 1: return m_procedures[row].date;
                case 2: return m_procedures[row].diagnosis;
-               case 3: return m_procedures[row].tooth != 99 ? m_procedures[row].tooth : QVariant();
+               case 3: return m_procedures[row].tooth;
                case 4: return m_procedures[row].procedureName;
                case 5: return m_procedures[row].code;
                case 6: return m_procedures[row].ksmp;
     //           case 7: return m_procedures[row].price;
                case 7: return m_procedures[row].doctor;
+               case 8: return m_procedures[row].notes;
             }
         case Qt::TextAlignmentRole:
              if (column == 1 || column == 3 || column == 5 || column == 6 || column == 7)

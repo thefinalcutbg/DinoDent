@@ -23,6 +23,7 @@ public:
 	void newPerscriptionPressed();
 	void showListSelector();
 	void pisDialog();
+	void statisticPressed();
 	void settingsPressed();
 	bool save();
 	void logOut();

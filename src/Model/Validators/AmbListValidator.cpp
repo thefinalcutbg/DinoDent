@@ -23,13 +23,22 @@ AmbListValidator::AmbListValidator(const AmbList& list, const Patient& patient)
 
     for (auto &p : list.procedures)
     {
-        if (p.nhif)
+        if (p.isNhif())
             m_procedures.push_back(p);
     }
 }
 
 bool AmbListValidator::ambListIsValid()
 {
+
+    for (auto& p : m_procedures)
+    {
+        if (p.hyperdontic && !ambList.teeth[p.tooth].hyperdontic)
+        {
+            _error = "Съществува процедура на срвъхброен зъб, който не е добавен в статуса";
+            return false;
+        }
+    }
 
     if (!ambList.isNhifSheet()) return true;
 
@@ -219,7 +228,7 @@ bool AmbListValidator::dateIsValid()
             return false;
         }
 
-        if (p.nhif && NhifProcedures::isMinorOnly(p.code) && patient.isAdult(p.date))
+        if (p.isNhif() && NhifProcedures::isMinorOnly(p.code) && patient.isAdult(p.date))
         {
             _error = "Манипулация " + std::to_string(p.code) + " е позволена само при лица под 18 годишна възраст!";
             return false;
@@ -237,7 +246,7 @@ bool AmbListValidator::examIsFirst()
 
     auto it = std::find_if(procedures.begin(), procedures.end(),
         [&examCode](const Procedure& p){
-            return p.nhif && p.code == examCode;
+            return p.isNhif() && p.code == examCode;
         });
 
     if (it != procedures.end()){
@@ -246,7 +255,7 @@ bool AmbListValidator::examIsFirst()
 
     for (auto& p : procedures)
     {
-        if (p.nhif && p.code != examCode && p.date < ambListDate)
+        if (p.isNhif() && p.code != examCode && p.date < ambListDate)
         {
             _error = "Датата на манипулация " + std::to_string(p.code) + " е по-малка от датата на прегледа!";
             return false;
@@ -264,12 +273,14 @@ bool AmbListValidator::noDuplicates()
 
     for (auto& p : m_procedures)
     {
-        auto pair = std::make_pair(p.tooth, p.code);
+        auto tooth = p.hyperdontic ? p.tooth + 80 : p.tooth;
+
+        auto pair = std::make_pair(tooth, p.code);
 
         if (tooth_set.count(pair))
         {
             p.tooth != -1 ?
-            _error = "За зъб " + ToothUtils::getNomenclature(ambList.teeth[p.tooth]) +
+            _error = "За зъб " + ToothUtils::getNhifNumber(p.tooth, p.temp, p.hyperdontic ) +
                 " манипулация с код " + std::to_string(p.code) + " е добавена повече от веднъж"
             :
             _error = "Направили сте 2 еднакви манипулации с код " + std::to_string(p.code);
@@ -343,21 +354,21 @@ bool AmbListValidator::validateTypeToStatus(const Tooth& t, const Procedure& p)
          case ProcedureType::extraction:
          {
 
-        bool statusMissing 
-        {
-            t.extraction.exists() ||
-            (
-            !t.pulpitis.exists() &&
-            !t.periodontitis.exists() &&
-            !t.fracture.exists() &&
-            !t.hyperdontic.exists() &&
-            !t.implant.exists() &&
-            !t.temporary.exists() &&
-            !t.lesion.exists() &&
-            !t.root.exists() &&
-            !t.mobility.exists() 
-             )
-        };
+            bool statusMissing 
+            {
+                t.extraction.exists() ||
+                (
+                !t.pulpitis.exists() &&
+                !t.periodontitis.exists() &&
+                !t.fracture.exists() &&
+                !t.hyperdontic.exists() &&
+                !t.implant.exists() &&
+                !t.temporary.exists() &&
+                !t.lesion.exists() &&
+                !t.root.exists() &&
+                !t.mobility.exists() 
+                 )
+            };
 
         if (statusMissing)
         {

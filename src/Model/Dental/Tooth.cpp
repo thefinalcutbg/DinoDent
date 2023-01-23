@@ -244,6 +244,11 @@ std::string Tooth::toothName() const
 	return ToothUtils::getName(index, temporary.exists());
 }
 
+bool Tooth::canHaveACrown() const
+{
+	return !extraction && !root;
+}
+
 std::string Tooth::getToothInfo() const
 {
 
@@ -266,18 +271,18 @@ std::string Tooth::getToothInfo() const
 			:
 			result.append("<br><b>Шиниран с фибровлакно</b><br>");
 
-		result.append(splint.data.infoStr());
+		//result.append(splint.data.infoStr());
 	}
 
 	if (post) {
 
-		if (post.data.type.getIndex() == 0) {
+		//if (post.data.type.getIndex() == 0) {
 			result.append("<br><b>Радикуларен щифт</b><br>");
-		}
-		else
-		{
-			result.append("<br><b>" + post.data.type.getName() + "</b><br>");
-		}
+		//}
+		//else
+		//{
+		//	result.append("<br><b>" + post.data.type.getName() + "</b><br>");
+		//}
 
 	}
 	
@@ -289,7 +294,7 @@ std::string Tooth::getToothInfo() const
 
 	if (crown) {
 		result.append("<br><br><b>Корона</b><br>");
-		result.append(crown.data.infoStr());
+		//result.append(crown.data.infoStr());
 	}
 
 	if (bridge) {
@@ -299,7 +304,7 @@ std::string Tooth::getToothInfo() const
 			:
 			result.append("<br><b>Мостоносител</b><br>");
 
-		result.append(bridge.data.infoStr());
+		//result.append(bridge.data.infoStr());
 	}
 	else if (extraction) {
 		result.append("<br><b>Екстрахиран</b><br>");
@@ -307,7 +312,7 @@ std::string Tooth::getToothInfo() const
 
 	if (implant) {
 		result.append("<br><b>Имплант</b><br>");
-		result.append(implant.data.infoStr());
+		//result.append(implant.data.infoStr());
 	}
 
 	if(pulpitis.exists()) result.append("<br>" + pulpitis.info());

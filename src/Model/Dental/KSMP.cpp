@@ -8,7 +8,7 @@
 
 #include "Resources.h"
 
-constexpr int procedureTypeCount = 11;
+constexpr int procedureTypeCount = 12;
 
 std::unordered_map<std::string, KSMP> codeToInstance;
 std::unordered_map<int, std::string> blocks;
@@ -90,7 +90,7 @@ const std::vector<const KSMP*>& KSMP::getByType(ProcedureType type)
 const std::vector<const KSMP*>& KSMP::getByType(ProcedureTemplateType type)
 {
     //fixing the offset
-    constexpr ProcedureType templToProcedureType[9]{
+    constexpr static ProcedureType templToProcedureType[11]{
         ProcedureType::general,
         ProcedureType::any,
         ProcedureType::obturation,
@@ -99,7 +99,9 @@ const std::vector<const KSMP*>& KSMP::getByType(ProcedureTemplateType type)
         ProcedureType::crown,
         ProcedureType::implant,
         ProcedureType::fibersplint,
-        ProcedureType::removecrown
+        ProcedureType::removecrown,
+        ProcedureType::removepost,
+        ProcedureType::removebridgeOrSplint
     };
 
     return getByType(templToProcedureType[static_cast<int>(type)]);

@@ -35,36 +35,39 @@ void SurfaceSelector::disable(bool disable)
 }
 
 void SurfaceSelector::setValidAppearence(bool valid)
-{/*
+{
 	if (!errorLabel) return;
 
 	valid ?
 		errorLabel->setText("")
 		:
 		errorLabel->setText("Изберете поне една повърхност!");
-		*/
+		
 }
 
-std::array<bool, 6> SurfaceSelector::getSurfaces()
+ProcedureObtData SurfaceSelector::getData()
 {
-	return std::array<bool, 6>
+	return
 	{
 			ui.o_check->isChecked(),
 			ui.m_check->isChecked(),
 			ui.d_check->isChecked(),
 			ui.b_check->isChecked(),
 			ui.l_check->isChecked(),
-			ui.c_check->isChecked()
+			ui.c_check->isChecked(),
+			ui.postCheck->isChecked()
 	};
 }
 
 
-void SurfaceSelector::setSurfaces(const std::array<bool, 6>& surfaces)
+void SurfaceSelector::setData(const ProcedureObtData& data)
 {
-	ui.o_check->setChecked(surfaces[0]);
-	ui.m_check->setChecked(surfaces[1]);
-	ui.d_check->setChecked(surfaces[2]);
-	ui.b_check->setChecked(surfaces[3]);
-	ui.l_check->setChecked(surfaces[4]);
-	ui.c_check->setChecked(surfaces[5]);
+	ui.o_check->setChecked(data.surfaces[0]);
+	ui.m_check->setChecked(data.surfaces[1]);
+	ui.d_check->setChecked(data.surfaces[2]);
+	ui.b_check->setChecked(data.surfaces[3]);
+	ui.l_check->setChecked(data.surfaces[4]);
+	ui.c_check->setChecked(data.surfaces[5]);
+
+	ui.postCheck->setChecked(data.post);
 }

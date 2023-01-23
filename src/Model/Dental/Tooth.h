@@ -18,8 +18,8 @@ public:
 
 	ToothType type;
 
-	SurfaceStatus<SurfaceChild<Obturation> > obturation;
-	SurfaceStatus<SurfaceChild<Caries> > caries;
+	SurfaceStatus<SurfaceChild<DentistMade> > obturation;
+	SurfaceStatus<SurfaceChild<Pathology> > caries;
 
 	Status temporary;
 	Status hyperdontic;
@@ -30,16 +30,16 @@ public:
 	
 	DentistMade extraction;
 	
-	Implant implant;
-	Crown crown;
-	Bridge bridge;
-	FiberSplint splint;
+	DentistMade implant;
+	DentistMade crown;
+	Construction bridge;
+	Construction splint;
 
-	Pulpitis pulpitis;
-	ApicalLesion lesion;
-	Fracture fracture;
-	Root root;
-	Post post;
+	Pathology pulpitis;
+	Pathology lesion;
+	Pathology fracture;
+	Pathology root;
+	DentistMade post;
 
 	Mobility mobility;
 
@@ -55,6 +55,7 @@ public:
 	void removeStatus(StatusType type);
 	std::string getToothInfo() const;
 	std::string toothName() const;
+	bool canHaveACrown() const;
 
 	//for printing (T status is omitted)
 	std::string getStringStatus() const;

@@ -4,6 +4,7 @@
 #include "ui_ProcedureEditDialog.h"
 #include "View/Interfaces/IProcedureEditDialog.h"
 
+
 class ProcedureEditorPresenter;
 
 class ProcedureEditDialog : public QDialog, public IProcedureEditDialog
@@ -20,13 +21,8 @@ public:
 	ProcedureEditDialog(ProcedureEditorPresenter* p, QWidget *parent = Q_NULLPTR);
 	~ProcedureEditDialog();
 
-	void setMtype(ProcedureType m) override;
 	ICommonFields* commonFields() override;
 
-	ICrownView* crownView() override;
-	IObturationView* obturationView() override;
-	IImplantView* implantView() override;
-	IFiberSplintView* fiberView() override;
 	void closeDialog() override;
 
 private:

@@ -16,6 +16,8 @@ ProcedureTemplateDialog::ProcedureTemplateDialog(const ProcedureTemplate* pTemp,
 	procedureType[6] = ui.radioButton_7;
 	procedureType[7] = ui.radioButton_8;
 	procedureType[8] = ui.radioButton_9;
+	procedureType[9] = ui.radioButton_10;
+	procedureType[10] = ui.radioButton_11;
 
 	//new procedure mode:
 	if (pTemp == nullptr) {
@@ -43,7 +45,7 @@ ProcedureTemplateDialog::ProcedureTemplateDialog(const ProcedureTemplate* pTemp,
 	}
 
 
-	for (int i =0; i<9; i++)
+	for (int i =0; i<11; i++)
 	{
 
 		connect(procedureType[i], &QRadioButton::toggled, [=]

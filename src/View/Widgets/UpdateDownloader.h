@@ -12,6 +12,8 @@ class UpdateDownloader : public QDialog
 	QNetworkReply* m_reply{ nullptr };
 	bool file_downloaded{ false };
 
+	void paintEvent(QPaintEvent* e);
+
 public:
 	UpdateDownloader(const char* url, QWidget* parent = nullptr);
 	bool installerDownloaded() { return file_downloaded; }

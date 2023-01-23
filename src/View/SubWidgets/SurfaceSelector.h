@@ -22,8 +22,9 @@ public:
 	virtual void setFocus() override;
 	virtual void disable(bool disable) override;
 	virtual void setValidAppearence(bool valid) override;
-	virtual std::array<bool, 6> getSurfaces() override;
-	virtual void setSurfaces(const std::array<bool, 6>& surfaces);
+	virtual ProcedureObtData getData();
+	virtual void setData(const ProcedureObtData& data);
+	virtual void set_hidden(bool hidden) override { setHidden(hidden); }
 
 private:
 	Ui::SurfaceSelector ui;

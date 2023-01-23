@@ -1,9 +1,10 @@
-#include "AbstractSubPresenter.h"
+﻿#include "AbstractSubPresenter.h"
 #include "Model/Dental/KSMP.h"
+#include "View/ModalDialogBuilder.h"
 
 void AbstractSubPresenter::setProcedureTemplate(const ProcedureTemplate& m)
 {
-	common_view->setCurrentPresenter(this);
+	view->setCurrentPresenter(this);
 
 	m_code = m.code;
 	m_price = m.price;
@@ -12,9 +13,9 @@ void AbstractSubPresenter::setProcedureTemplate(const ProcedureTemplate& m)
 
 
 	//common_view->priceEdit()->disable(m.nhif);
-	common_view->procedureNameEdit()->disable(m.nhif);
+	view->procedureNameEdit()->disable(m.nhif);
 
-	common_view->procedureNameEdit()->set_Text(m.name);
+	view->procedureNameEdit()->set_Text(m.name);
 //	common_view->priceEdit()->set_Value(m.price);
 
 	//If the template doesn't have default diagnosis, 
@@ -23,14 +24,14 @@ void AbstractSubPresenter::setProcedureTemplate(const ProcedureTemplate& m)
 	//in the constructor of the subclass, or in the overriden getProcedure func:
 
 	!m.diagnosis.empty() ? 
-		common_view->diagnosisEdit()->set_Text(m.diagnosis)
+		view->diagnosisEdit()->set_Text(m.diagnosis)
 		:
-		common_view->diagnosisEdit()->set_Text(m_diagnosis);
+		view->diagnosisEdit()->set_Text(m_diagnosis);
 
-	common_view->diagnosisEdit()->setInputValidator(&notEmpty_validator);
-	common_view->procedureNameEdit()->setInputValidator(&notEmpty_validator);
+	view->diagnosisEdit()->setInputValidator(&notEmpty_validator);
+	view->procedureNameEdit()->setInputValidator(&notEmpty_validator);
 
-	common_view->enableKSMP(m.nhif == false);
+	view->setNhifLayout(m.nhif);
 
 	m.ksmp.empty() ? 
 		m_ksmp = KSMP::getByType(m.type).at(0)->code
@@ -38,7 +39,9 @@ void AbstractSubPresenter::setProcedureTemplate(const ProcedureTemplate& m)
 		m_ksmp = m.ksmp;
 
 
-	common_view->setKSMPCode(m_ksmp);
+	view->setKSMPCode(m_ksmp);
+
+	setAdditionalTemplateParameters();
 
 }
 
@@ -46,9 +49,9 @@ bool AbstractSubPresenter::isValid()
 {
 	std::array<AbstractUIElement*, 3>validatable
 	{
-		common_view->dateEdit(),
-		common_view->procedureNameEdit(),
-		common_view->diagnosisEdit()
+		view->dateEdit(),
+		view->procedureNameEdit(),
+		view->diagnosisEdit()
 	};
 
 	for (AbstractUIElement* e : validatable)
@@ -61,10 +64,15 @@ bool AbstractSubPresenter::isValid()
 		}
 	}
 
-	return true;
+	if (!KSMP::isValid(view->getKSMPCode())) {
+		ModalDialogBuilder::showMessage("Невалиден КСМП код");
+		return false;
+	}
+
+	return additionalValidation();
 }
 
-#include "View/ModalDialogBuilder.h"
+
 
 void AbstractSubPresenter::ksmpButtonClicked()
 {
@@ -73,8 +81,8 @@ void AbstractSubPresenter::ksmpButtonClicked()
 	if (!result.empty()) {
 		m_ksmp = result;
 
-		common_view->setKSMPCode(m_ksmp);
-		common_view->procedureNameEdit()->set_Text(KSMP::getName(result));
+		view->setKSMPCode(m_ksmp);
+		view->procedureNameEdit()->set_Text(KSMP::getName(result));
 	}
 }
 
@@ -84,14 +92,18 @@ Procedure AbstractSubPresenter::getProcedureCommonFields()
 
 	result.code = m_code;
 	result.type = m_type;
-	result.nhif = m_nzok;
-	result.name = common_view->procedureNameEdit()->getText();
+	result.financingSource = view->getFinancingSource();
+	result.name = view->procedureNameEdit()->getText();
 	result.LPK = User::doctor().LPK;
 	result.ksmp = m_ksmp;
-	result.date = common_view->dateEdit()->getDate();
-	result.diagnosis = common_view->diagnosisEdit()->getText();
+	result.date = view->dateEdit()->getDate();
+	result.diagnosis = view->diagnosisEdit()->getText();
+	result.notes = view->getNotes();
+	result.hyperdontic = view->onHyperdontic();
 //	result.price = common_view->priceEdit()->get_Value();
 
 
 	return result;
 }
+
+

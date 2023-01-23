@@ -42,44 +42,6 @@
          <item>
           <widget class="QLineEdit" name="searchEdit"/>
          </item>
-         <item>
-          <widget class="QLabel" name="label_2">
-           <property name="text">
-            <string>Дата:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="DateEdit" name="dateEdit">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>90</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="wrapping">
-            <bool>false</bool>
-           </property>
-           <property name="frame">
-            <bool>true</bool>
-           </property>
-           <property name="buttonSymbols">
-            <enum>QAbstractSpinBox::NoButtons</enum>
-           </property>
-           <property name="calendarPopup">
-            <bool>true</bool>
-           </property>
-           <property name="currentSectionIndex">
-            <number>0</number>
-           </property>
-          </widget>
-         </item>
         </layout>
        </item>
        <item>
@@ -92,117 +54,26 @@
        <item>
         <layout class="QVBoxLayout" name="verticalLayout">
          <item>
-          <spacer name="horizontalSpacer_2">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeType">
-            <enum>QSizePolicy::Preferred</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>13</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
           <widget class="CommonFields" name="commonFields" native="true">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+            <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
            <property name="minimumSize">
             <size>
-             <width>0</width>
-             <height>0</height>
-            </size>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QStackedWidget" name="stackedWidget">
-           <property name="enabled">
-            <bool>true</bool>
-           </property>
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>300</width>
-             <height>0</height>
+             <width>320</width>
+             <height>400</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>300</width>
+             <width>320</width>
              <height>16777215</height>
             </size>
            </property>
-           <property name="currentIndex">
-            <number>0</number>
-           </property>
-           <widget class="QWidget" name="page">
-            <layout class="QVBoxLayout" name="verticalLayout_4">
-             <item>
-              <widget class="QLabel" name="selectToothLabel">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignCenter</set>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-           <widget class="ObturationView" name="obturWidget"/>
-           <widget class="CrownView" name="crownWidget"/>
-           <widget class="ImplantView" name="implantWidget"/>
-           <widget class="FiberSplintView" name="fiberWidget"/>
           </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="errorLabel">
-           <property name="styleSheet">
-            <string notr="true">color : red;</string>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer name="verticalSpacer">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>40</height>
-            </size>
-           </property>
-          </spacer>
          </item>
         </layout>
        </item>
@@ -287,35 +158,6 @@
    <extends>QWidget</extends>
    <header>View/SubWidgets/CommonFields.h</header>
    <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>CrownView</class>
-   <extends>QWidget</extends>
-   <header>View/SubWidgets/CrownView.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>ObturationView</class>
-   <extends>QWidget</extends>
-   <header>View/SubWidgets/ObturationView.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>ImplantView</class>
-   <extends>QWidget</extends>
-   <header>View/SubWidgets/ImplantView.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>FiberSplintView</class>
-   <extends>QWidget</extends>
-   <header>View/SubWidgets/FiberSplintView.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>DateEdit</class>
-   <extends>QDateEdit</extends>
-   <header>View/uiComponents/DateEdit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

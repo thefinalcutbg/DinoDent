@@ -8,6 +8,8 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 		{
 			case::ProcedureType::obturation:
 			{
+				if (hyperdontic) return;
+
 				auto& tooth = teeth[this->tooth];
 				auto& result = std::get<ProcedureObtData>(this->result);
 
@@ -18,15 +20,15 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 					tooth.setStatus(StatusType::obturation, i, true);
 					tooth.setStatus(StatusType::caries, i, false);
 					
-					tooth.obturation[i].data = result.data;
+					//tooth.obturation[i].data = result.data;
 					tooth.obturation[i].LPK = LPK;
 					
 
 				}
 
 				if (result.post) {
-					tooth.setStatus(StatusType::general, StatusCode::Post, true);
-					tooth.post.data.type = result.post.value().type;
+					tooth.addStatus(StatusCode::Post);
+					//tooth.post.data.type = result.post.value().type;
 					tooth.post.LPK = LPK;
 				}
 			}
@@ -35,18 +37,19 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 			case::ProcedureType::extraction:
 			{
 				auto& tooth = teeth[this->tooth];
-				tooth.setStatus(StatusType::general, StatusCode::Extraction);
+				tooth.addStatus(StatusCode::Extraction);
 
-				if (!tooth.extraction.exists()) return; //if the tooth was temporary or hyperdontic, the status won't be present
-						
-				tooth.extraction.LPK = LPK;
-
-				
+				if (tooth.extraction.exists()) //if the tooth was temporary or hyperdontic, the status won't be present
+				{
+					tooth.extraction.LPK = LPK;
+				}
 			}
 			break;
 
 			case::ProcedureType::endo:
 			{
+				if (hyperdontic) return;
+
 				auto& tooth = teeth[this->tooth];
 				tooth.setStatus(StatusType::general, StatusCode::EndoTreatment);
 
@@ -55,93 +58,113 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 			}
 			break;
 
-		case::ProcedureType::crown:
-		{
-			auto& tooth = teeth[this->tooth];
-			auto& result = std::get<CrownData>(this->result);
-
-			tooth.setStatus(StatusType::general, StatusCode::Crown);
-
-			tooth.crown.data = result;
-			tooth.crown.LPK = LPK;
-
-		}
-		break;
-
-		case::ProcedureType::implant:
-		{
-			auto& tooth = teeth[this->tooth];
-			auto& result = std::get<ImplantData>(this->result);
-
-			tooth.setStatus(StatusType::general, StatusCode::Implant);
-
-			tooth.implant.data = result;
-
-			tooth.implant.LPK = LPK;
-
-		}
-		break;
-
-		case::ProcedureType::bridge:
-		{
-			auto& result = std::get<ProcedureBridgeData>(this->result);
-
-			std::vector<int> indexes;
-			indexes.reserve(result.tooth_end - result.tooth_begin + 1);
-
-			for (int i = result.tooth_begin; i <= result.tooth_end; i++)
-				indexes.push_back(i);
-
-			for (int i : indexes)
-				teeth.removeBridge(i);
-
-			for (int i : indexes)
+			case::ProcedureType::crown:
 			{
-				auto& tooth = teeth[i];
+				if (hyperdontic) return;
 
-				tooth.setStatus(StatusType::general, StatusCode::Bridge);
-				tooth.bridge.data = result.crown;
-				tooth.bridge.LPK = LPK;
-			}
+				auto& tooth = teeth[this->tooth];
+				//auto& result = std::get<CrownData>(this->result);
 
-			teeth.formatBridges(indexes);
-		}
-		break;
+				tooth.setStatus(StatusType::general, StatusCode::Crown);
 
-		case ProcedureType::fibersplint:
-		{
-			auto& result = std::get<ProcedureFiberData>(this->result);
-
-			std::vector<int> indexes;
-			indexes.reserve(result.tooth_end - result.tooth_begin + 1);
-
-			for (int i = result.tooth_begin; i <= result.tooth_end; i++)
-				indexes.push_back(i);
-
-			for (int i : indexes)
-				teeth.removeBridge(i);
-
-			for (int i : indexes)
-			{
-				auto& tooth = teeth[i];
-
-				tooth.setStatus(StatusType::general, StatusCode::FiberSplint);
-				tooth.splint.data = result.obtur;
-
-				tooth.splint.LPK = LPK;
+				//tooth.crown.data = result;
+				tooth.crown.LPK = LPK;
 
 			}
+			break;
 
-			teeth.formatBridges(indexes);
-		}
-		break;
+			case::ProcedureType::implant:
+			{
+				if (hyperdontic) return;
 
-		case ProcedureType::removecrown:
-		{
-			auto& tooth = teeth[this->tooth];
-			tooth.removeStatus(StatusCode::Crown);
-		}
-		break;
+				auto& tooth = teeth[this->tooth];
+
+				tooth.addStatus(StatusCode::Implant);
+
+				tooth.implant.LPK = LPK;
+
+			}
+			break;
+
+			case::ProcedureType::bridge:
+			{
+				auto& result = std::get<ConstructionRange>(this->result);
+
+				std::vector<int> indexes;
+				indexes.reserve(result.tooth_end - result.tooth_begin + 1);
+
+				for (int i = result.tooth_begin; i <= result.tooth_end; i++)
+					indexes.push_back(i);
+
+				for (int i : indexes)
+					teeth.removeBridge(i);
+
+				for (int i : indexes)
+				{
+					auto& tooth = teeth[i];
+
+					tooth.setStatus(StatusType::general, StatusCode::Bridge);
+					//tooth.bridge.data = result.crown;
+					tooth.bridge.LPK = LPK;
+				}
+
+				teeth.formatBridges(indexes);
+			}
+			break;
+
+			case ProcedureType::fibersplint:
+			{
+				auto& result = std::get<ConstructionRange>(this->result);
+
+				std::vector<int> indexes;
+				indexes.reserve(result.tooth_end - result.tooth_begin + 1);
+
+				for (int i = result.tooth_begin; i <= result.tooth_end; i++)
+					indexes.push_back(i);
+
+				for (int i : indexes)
+					teeth.removeBridge(i);
+
+				for (int i : indexes)
+				{
+					auto& tooth = teeth[i];
+
+					tooth.setStatus(StatusType::general, StatusCode::FiberSplint);
+					//tooth.splint.data = result.obtur;
+
+					tooth.splint.LPK = LPK;
+
+				}
+
+				teeth.formatBridges(indexes);
+			}
+			break;
+
+			case ProcedureType::removecrown:
+			{
+				if (hyperdontic) return;
+
+				auto& tooth = teeth[this->tooth];
+				tooth.removeStatus(StatusCode::Crown);
+			}
+			break;
+
+			case ProcedureType::removepost:
+			{
+				if (hyperdontic) return;
+
+				auto& tooth = teeth[this->tooth];
+				tooth.removeStatus(StatusCode::Post);
+			}
+			break;
+
+			case ProcedureType::removebridgeOrSplint:
+			{
+				auto [begin, end] = std::get<ConstructionRange>(result);
+
+				teeth.removeBridgeOrSplint(begin, end);
+			}
+			break;
 
 		default:
 			break;

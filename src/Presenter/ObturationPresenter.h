@@ -1,12 +1,11 @@
 #pragma once
 #include "AbstractSubPresenter.h"
-#include "View/Interfaces/IObturationView.h"
+#include "View/Interfaces/AbstractSurfaceSelector.h"
 #include "Model/Validators/ProcedureValidators.h"
 
 
 class ObturationPresenter : public AbstractSubPresenter
 {
-	IObturationView* view;
 	SurfaceValidator surf_validator;
 
 	const std::vector<Tooth*>& selectedTeeth;
@@ -15,13 +14,13 @@ class ObturationPresenter : public AbstractSubPresenter
 
 	std::array<bool, 6> autoSurfaces(const Tooth& tooth);
 
+	bool selectedForFirstTime = true;
+
 public:
 	ObturationPresenter(const std::vector<Tooth*>& selectedTeeth);
 
-	void setView(IObturationView* view);
-
-	void setProcedureTemplate(const ProcedureTemplate& m) override;
-	bool isValid() override;
+	void setAdditionalTemplateParameters() override;
+	bool additionalValidation() override;
 	virtual std::vector<Procedure> getProcedures() override;
 
 };

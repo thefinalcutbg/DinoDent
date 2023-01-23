@@ -87,6 +87,48 @@ void ToothContainer::removeBridge(int tooth_idx)
 
 }
 
+void ToothContainer::removeBridgeOrSplint(int begin, int end)
+{
+	for (int i = begin; i <= end; i++) {
+		teeth[i].removeStatus(StatusCode::Bridge);
+		teeth[i].removeStatus(StatusCode::FiberSplint);
+	}
+
+	if (begin != 0)
+	{
+		auto& prevTooth = teeth.at(begin - 1);
+
+		auto shouldBeCrown =
+			prevTooth.bridge.position == BridgePos::Begin &&
+			prevTooth.canHaveACrown()
+		;
+
+		if (shouldBeCrown) prevTooth.crown.set(true);
+	}
+
+	if (end != teeth.size() - 1)
+	{
+		auto& nextTooth = teeth.at(end + 1);
+
+		auto shouldBeCrown =
+			nextTooth.bridge.position == BridgePos::End &&
+			nextTooth.canHaveACrown()
+			;
+
+		if (shouldBeCrown) nextTooth.crown.set(true);
+	}
+
+	std::vector<int> selection;
+
+	for (auto i = begin; i <= end; i++)
+	{
+		selection.push_back(i);
+	}
+
+	formatBridges(selection);
+
+}
+
 
 void ToothContainer::setToothDetails(const Tooth& tooth)
 {
@@ -100,7 +142,7 @@ void ToothContainer::setToothDetails(const Tooth& tooth)
 	{
 		auto& bridge = teeth.at(i).bridge;
 		bridge.set(bridgeStat.exists());
-		bridge.data = bridgeStat.data;
+		//bridge.data = bridgeStat.data;
 		bridge.LPK = bridgeStat.LPK;
 	}
 

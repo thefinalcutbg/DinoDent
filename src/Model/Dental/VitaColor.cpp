@@ -106,7 +106,7 @@ std::variant<int, Vita3dMaster> VitaColor::toColor() const
 
 }
 
-const std::string_view& VitaColor::getColorString() const
+const std::string_view& VitaColor::getName() const
 {
     return colorStrings[m_index];
 }

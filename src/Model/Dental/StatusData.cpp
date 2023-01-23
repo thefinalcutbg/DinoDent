@@ -1,13 +1,13 @@
 ﻿#include "StatusData.h"
 
-
+/*
 std::string ObturationData::infoStr() const
 {
 	std::string result = material.getName();
 
 	if (result.size()) { result += " "; }
 
-	result.append(std::string(color.getColorString()));
+	result.append(std::string(color.getName()));
 
 	return result;
 }
@@ -21,7 +21,7 @@ std::string CrownData::infoStr() const
 	result += "Материал: " + material.getName() + "<br>";
 
 	if (color.getIndex()) {
-		result += "Цвят: " + std::string(color.getColorString()) + "<br> ";
+		result += "Цвят: " + std::string(color.getName()) + "<br> ";
 	}
 
 	return result;
@@ -54,3 +54,4 @@ std::string ImplantData::infoStr() const
 	return result;
 		
 }
+*/

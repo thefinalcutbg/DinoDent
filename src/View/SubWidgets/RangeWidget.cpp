@@ -41,8 +41,6 @@ RangeWidget::RangeWidget(QWidget *parent)
 				emit rangeChanged(begin, end);
 			}
 		});
-		
-	setErrorLabel(ui.errorLabel);
 	
 }
 
@@ -60,12 +58,11 @@ void RangeWidget::disable(bool disable)
 
 void RangeWidget::setBridgeRange(int begin, int end)
 {
-	ui.beginCombo->blockSignals(true);
-	ui.endCombo->blockSignals(true);
+	QSignalBlocker b(ui.beginCombo);
+	QSignalBlocker e(ui.endCombo);
+
 	ui.beginCombo->setCurrentIndex(begin);
 	ui.endCombo->setCurrentIndex(end);
-	ui.beginCombo->blockSignals(false);
-	ui.endCombo->blockSignals(false);
 
 	AbstractUIElement::validateInput();
 }
@@ -75,11 +72,9 @@ std::tuple<int, int> RangeWidget::getRange()
 	int begin = ui.beginCombo->currentIndex();
 	int end = ui.endCombo->currentIndex();
 
-		if (begin > end) {
-		std::swap(begin, end);
-	}
+	if (begin > end) std::swap(begin, end);
 
-	return std::tuple<int, int>(begin, end);
+	return { begin, end };
 }
 
 void RangeWidget::setValidAppearence(bool valid)

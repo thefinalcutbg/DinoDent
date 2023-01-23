@@ -121,6 +121,11 @@ void MainPresenter::pisDialog()
 
 }
 
+void MainPresenter::statisticPressed()
+{
+    m_tabPresenter.openStatistic();
+}
+
 void MainPresenter::settingsPressed()
 {
     if (!User::isAdmin())

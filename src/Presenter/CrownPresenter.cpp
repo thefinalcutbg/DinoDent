@@ -2,6 +2,8 @@
 
 #include "Model/Dental/ToothContainer.h"
 #include "Model/Dental/KSMP.h"
+#include "View/Interfaces/AbstractRangeEdit.h"
+
 CrownPresenter::CrownPresenter(
 	const std::vector<Tooth*>& selectedTeeth,
 	const ToothContainer& teeth
@@ -10,9 +12,7 @@ CrownPresenter::CrownPresenter(
 	AbstractSubPresenter(ProcedureType::crown),
     teeth(teeth),
 	selectedTeeth(selectedTeeth),
-	view(nullptr),
 	m_bridgeSelected(!selectedTeeth.size()), //if no teeth are selected
-	bridgeLogic(teeth, selectedTeeth),
 	m_ksmpOther(KSMP::getByType(ProcedureType::bridge).at(1)->code)
 {
 
@@ -21,44 +21,46 @@ CrownPresenter::CrownPresenter(
 		m_diagnosis = getDiagnosis(*selectedTeeth.front());
 	}
 
+
+	auto range = getInitialRange();
+
+	tooth_begin = range.tooth_begin;
+	tooth_end = range.tooth_end;
+
 }
 
-void CrownPresenter::setView(ICrownView* view)
+void CrownPresenter::setAdditionalTemplateParameters()
 {
-	this->view = view;
+	view->setLayout(ICommonFields::Crown);
 
-	view->rangeWidget()->setBridgeRange(bridgeLogic.Begin(), bridgeLogic.End());
-
-	view->rangeWidget()->setInputValidator(&range_validator);
+	if (firstTimeSelected)
+	{
+		view->rangeWidget()->setBridgeRange(tooth_begin, tooth_end);
+		firstTimeSelected = false;
+	}
 
 	if (selectedTeeth.empty()) //only bridge can be generated
 	{
-		view->lockBridgeCheckbox(true);
+		view->setBridgeCheckState(ICommonFields::Checked);
+		view->disableBridgeCheck(true);
+		
 	}
-}
 
-
-void CrownPresenter::setProcedureTemplate(const ProcedureTemplate& m)
-{
-	if (m_bridgeSelected) {
-		std::swap(m_ksmp, m_ksmpOther);
-	}
-	
-	AbstractSubPresenter::setProcedureTemplate(m);
 
 	if (m_bridgeSelected) {
 		std::swap(m_ksmp, m_ksmpOther);
 	}
 
-	bridgeLogic.setPrice(m.price);
 
-	//view->setMaterial(m.material);
+	if (m_bridgeSelected) {
+		std::swap(m_ksmp, m_ksmpOther);
+	}
 
-	selectAsBridge(m_bridgeSelected);
+	bridgeChecked(m_bridgeSelected);
 
 }
 
-void CrownPresenter::selectAsBridge(bool checked)
+void CrownPresenter::bridgeChecked(bool checked)
 {
 	//condition in which fn is called from ui
 	if (m_bridgeSelected != checked) {
@@ -67,58 +69,100 @@ void CrownPresenter::selectAsBridge(bool checked)
 	} //else, they are already swapped in  setProcedureTemplate fn
 
 	m_bridgeSelected = checked;
-	common_view->setKSMPCode(m_ksmp);
+	view->setKSMPCode(m_ksmp);
 
 	if (checked)
 	{
-		common_view->diagnosisEdit()->set_Text(bridgeLogic.Diagnosis());
-		common_view->procedureNameEdit()->set_Text(m_name + bridgeLogic.rangeString());
-//		common_view->priceEdit()->set_Value(bridgeLogic.price());
+		view->diagnosisEdit()->set_Text("Anodontia partialis");
 		m_type = ProcedureType::bridge;
+		view->rangeWidget()->setInputValidator(&range_validator);
+		view->rangeWidget()->hide(false);
 		return;
 	}
 
-	common_view->diagnosisEdit()->set_Text(m_diagnosis);
-	common_view->procedureNameEdit()->set_Text(m_name);
-//	common_view->priceEdit()->set_Value(m_price);
+	view->diagnosisEdit()->set_Text(m_diagnosis);
+	view->procedureNameEdit()->set_Text(m_name);
+	view->rangeWidget()->setInputValidator(nullptr);
+	view->rangeWidget()->hide(true);
 	m_type = ProcedureType::crown;
 
+}
+
+ConstructionRange CrownPresenter::getInitialRange()
+{
+	int begin;
+	int end;
+
+	if (!selectedTeeth.size())
+	{
+		begin = 0;
+		end = 1;
+		return { begin, end };
+	}
+
+	begin = 0;
+	end = 0;
+
+	if (selectedTeeth.size() == 1) //if only 1 tooth is selected, the bridge length is 2
+	{
+		begin = selectedTeeth[0]->index;
+
+		if (begin != 15 && begin != 31)
+		{
+			end = begin + 1;
+		}
+		else
+		{
+			end = begin - 1;
+			std::swap(end, begin);
+		}
+		return { begin, end };
+	}
+
+	begin = selectedTeeth[0]->index; //if multiple teeth are selected, the range is calculated to be valid
+	end = selectedTeeth.back()->index; //doesn't matter if the first and last teeth are on different jaws
+
+	if (begin < 16 && end > 15)
+	{
+		end = 15;
+	}
+
+	return { begin, end };
 }
 
 std::vector<Procedure> CrownPresenter::getProcedures()
 {
 	std::vector<Procedure> procedures;
 
-	if (!m_bridgeSelected)
+	if(m_bridgeSelected)
 	{
-		procedures.reserve(selectedTeeth.size());
+		auto procedure = AbstractSubPresenter::getProcedureCommonFields();
+		procedure.type = ProcedureType::bridge;
 
-		for (auto& tooth : selectedTeeth) {
-			procedures.push_back(AbstractSubPresenter::getProcedureCommonFields());
-			procedures.back().result = view->getData();
-			procedures.back().tooth = tooth->index;
-			procedures.back().temp = tooth->temporary.exists();
-		}
+		auto [begin, end] = view->rangeWidget()->getRange();
 
-		return procedures;
+		procedure.result = ConstructionRange{
+			begin, end
+		};
+
+		return { procedure };
 	}
 
-	
-	auto procedure = AbstractSubPresenter::getProcedureCommonFields();
-	procedure.type = ProcedureType::bridge;
 
-	auto data = view->getData();
+	procedures.reserve(selectedTeeth.size());
 
-	procedure.result = ProcedureBridgeData{
-		bridgeLogic.Begin(), bridgeLogic.End(), data
-	};
+	for (auto& tooth : selectedTeeth) {
+		procedures.push_back(AbstractSubPresenter::getProcedureCommonFields());
+		procedures.back().tooth = tooth->index;
+		procedures.back().temp = tooth->temporary.exists();
+	}
 
-	return {procedure};
+	return procedures;
 }
 
-bool CrownPresenter::isValid()
+
+bool CrownPresenter::additionalValidation()
 {
-	if (!AbstractSubPresenter::isValid()) return false;
 
 	if (m_type == ProcedureType::crown &&
 		!selectedTeeth.size()) return false;
@@ -140,10 +184,10 @@ bool CrownPresenter::isValid()
 
 void CrownPresenter::rangeChanged(int begin, int end)
 {
-	bridgeLogic.setRange(begin, end);
+	//bridgeLogic.setRange(begin, end);
 
-	common_view->diagnosisEdit()->set_Text(bridgeLogic.Diagnosis());
-	common_view->procedureNameEdit()->set_Text(m_name + bridgeLogic.rangeString());
+	view->diagnosisEdit()->set_Text(getBridgeDiagnosis());
+	//common_view->procedureNameEdit()->set_Text(m_name + bridgeLogic.rangeString());
 //	common_view->priceEdit()->set_Value(bridgeLogic.price());
 }
 
@@ -160,7 +204,7 @@ std::string CrownPresenter::getDiagnosis(const Tooth& tooth)
 	std::array<std::string, 4> diagnosis
 	{
 		"Status post devitalisationem",
-		tooth.fracture.getDiagnosisString(),
+		"Фрактура",
 		"Екстензивна ресторация",
 		"Протезиране върху имплант"
 	};
@@ -175,4 +219,20 @@ std::string CrownPresenter::getDiagnosis(const Tooth& tooth)
 	return std::string{};
 }
 
+std::string CrownPresenter::getBridgeDiagnosis()
+{
+	
+	if (!view->rangeWidget()->isValid()) return bridgeDiagnosis;
+
+	auto[begin, end] = view->rangeWidget()->getRange();
+
+	for (int i = begin; i <= end; i++)
+	{
+		auto& tooth = teeth.at(i);
+
+		if (tooth.extraction) return "Andontia partialis";
+	}
+
+	return "Стабилизация с блок корони";
+}
 

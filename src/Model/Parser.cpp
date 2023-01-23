@@ -10,7 +10,6 @@
 Json::Value writePathology(int index, const Pathology& pathology)
 {
 	Json::Value parameters;
-	parameters["diag_idx"] = pathology.getDiagnosisIdx();
 	parameters["date"] = pathology.date_diagnosed.to8601();
 	parameters["idx"] = index;
 	return parameters;
@@ -148,8 +147,6 @@ std::string Parser::write(const ToothContainer& status)
 
 					auto parameters = writeDentistMade(i, tooth.obturation[y]);
 					parameters["Surface"] = y;
-					parameters["color"] = tooth.obturation[y].data.color.getIndex();
-					parameters["material"] = tooth.obturation[y].data.material.getIndex();
 					json["Obturation"].append(parameters);
 				}
 			}
@@ -212,8 +209,6 @@ std::string Parser::write(const ToothContainer& status)
 
 			auto parameters = writeDentistMade(i, tooth.post);
 
-			parameters["type"] = tooth.post.data.type.getIndex();
-
 			json["Post"].append(parameters);
 		}
 
@@ -257,9 +252,6 @@ std::string Parser::write(const ToothContainer& status)
 				json["Crown"] = Json::Value(Json::arrayValue);
 			}
 			auto param = writeDentistMade(i, tooth.crown);
-			param["material"] = tooth.crown.data.material.getIndex();
-			param["prep"] = tooth.crown.data.prep.getIndex();
-			param["color"] = tooth.crown.data.color.getIndex();
 			json["Crown"].append(param);
 		}
 
@@ -270,14 +262,7 @@ std::string Parser::write(const ToothContainer& status)
 				json["Implant"] = Json::Value(Json::arrayValue);
 			}
 			auto param = writeDentistMade(i, tooth.implant);
-			param["time"] = tooth.implant.data.time.getIndex();
-			param["type"] = tooth.implant.data.type.getIndex();
-			param["w"] = tooth.implant.data.width;
-			param["l"] = tooth.implant.data.length;
-			param["bone"] = tooth.implant.data.bone_aug.getIndex();
-			param["tissue"] = tooth.implant.data.tissue_aug.getIndex();
-			param["sinus"] = tooth.implant.data.sinusLift;
-			param["membrane"] = tooth.implant.data.membrane;
+
 			json["Implant"].append(param);
 		}
 
@@ -289,9 +274,6 @@ std::string Parser::write(const ToothContainer& status)
 			}
 			auto param = writeDentistMade(i, tooth.bridge);
 			param["pos"] = static_cast<int>(tooth.bridge.position);
-			param["material"] = tooth.bridge.data.material.getIndex();
-			param["prep"] = tooth.bridge.data.prep.getIndex();
-			param["color"] = tooth.bridge.data.color.getIndex();
 			json["Bridge"].append(param);
 		}
 
@@ -304,8 +286,6 @@ std::string Parser::write(const ToothContainer& status)
 
 			auto param = writeDentistMade(i, tooth.splint);
 			param["pos"] = static_cast<int>(tooth.splint.position);
-			param["material"] = tooth.splint.data.material.getIndex();
-			param["color"] = tooth.splint.data.color.getIndex();
 			json["Splint"].append(param);
 		}
 	}
@@ -324,14 +304,12 @@ std::string Parser::write(const Procedure& procedure)
 	case ProcedureType::obturation:
 	{
 		auto& r = std::get<ProcedureObtData>(procedure.result);
-		json["color"] = r.data.color.getIndex();
 
-		if (r.post.has_value())
+		if (r.post)
 		{
-			json["post"] = r.post->type.getIndex();
+			json["post"] = r.post;
 		}
-		 
-		json["material"] = r.data.material.getIndex();
+	
 		json["surfaces"] = Json::Value(Json::arrayValue);
 
 		for (int i = 0; i < r.surfaces.size(); i++)
@@ -339,48 +317,28 @@ std::string Parser::write(const Procedure& procedure)
 
 		break;
 	}
-	case ProcedureType::crown:
-	{
-		auto& r = std::get<CrownData>(procedure.result);
-		json["color_idx"] = r.color.getIndex();
-		json["material"] = r.material.getIndex();
-		json["prep"] = r.prep.getIndex();
-		break;
-	}
+
 	case ProcedureType::bridge:
 	{
-		auto& r = std::get<ProcedureBridgeData>(procedure.result);
-		json["color_idx"] = r.crown.color.getIndex();
-		json["material"] = r.crown.material.getIndex();
-		json["prep"] = r.crown.prep.getIndex();
+		auto& r = std::get<ConstructionRange>(procedure.result);
 		json["begin"] = r.tooth_begin;
 		json["end"] = r.tooth_end;
 		break;
 	}
 
-	case ProcedureType::implant:
-	{
-		auto& r = std::get<ImplantData>(procedure.result);
-
-		json["time"] = r.time.getIndex();
-		json["type"] = r.type.getIndex();
-		json["w"] = r.width;
-		json["l"] = r.length;
-		json["tissue"] = r.tissue_aug.getIndex();
-		json["bone"] = r.bone_aug.getIndex();
-		json["membrane"] = r.membrane;
-		json["sinus"] = r.sinusLift;
-
-		break;
-	}
 	case ProcedureType::fibersplint:
 	{
-		auto& r = std::get<ProcedureFiberData>(procedure.result);
-		json["color"] = r.obtur.color.getIndex();
-		json["material"] = r.obtur.material.getIndex();
+		auto& r = std::get<ConstructionRange>(procedure.result);
 		json["begin"] = r.tooth_begin;
 		json["end"] = r.tooth_end;
 
+		break;
+	}
+	case ProcedureType::removebridgeOrSplint:
+	{
+		auto& [begin, end] = std::get<ConstructionRange>(procedure.result);
+		json["begin"] = begin;
+		json["end"] = end;
 		break;
 	}
 	default:
@@ -605,13 +563,7 @@ void Parser::parse(const std::string& jsonString, Procedure& procedure)
 		{
 			.surfaces = {false},
 
-			.post = json.isMember("post") ? PostData{json["post"].asInt()} : std::optional<PostData>{},
-
-			.data = ObturationData {
-				.color = VitaColor(json["color"].asInt()),
-				.material = json["material"].asInt()
-			},
-
+			.post = json.isMember("post")
 		};
 
 		const Json::Value& surfaces = json["surfaces"];
@@ -623,65 +575,36 @@ void Parser::parse(const std::string& jsonString, Procedure& procedure)
 		break;
 	}
 
-	case ProcedureType::crown:
-	{
-		procedure.result = CrownData
-		{
-			json["material"].asInt(),
-			json["prep"].asInt(),
-			VitaColor(json["color_idx"].asInt())
-		};
 
-		break;
-	}
 
 	case ProcedureType::bridge:
-	{
-		procedure.result = ProcedureBridgeData
-		{
-			json["begin"].asInt(),
-			json["end"].asInt(),
-			CrownData
-			{
-				json["material"].asInt(),
-				json["prep"].asInt(),
-				VitaColor(json["color_idx"].asInt())
-			}
 
+		procedure.result = ConstructionRange{
+			.tooth_begin = json["begin"].asInt(),
+			.tooth_end = json["end"].asInt(),
 		};
 
 		break;
-	}
 
-	case ProcedureType::implant:
-	{
-		procedure.result = ImplantData
-		{
-			.time = json["time"].asInt(),
-			.type = json["type"].asInt(),
-			.width = json["w"].asDouble(),
-			.length = json["l"].asDouble(),
-			.tissue_aug = json["tissue"].asInt(),
-			.bone_aug = json["bone"].asInt(),
-			.membrane = json["membrane"].asBool(),
-			.sinusLift = json["sinus"].asBool()
-		};
-
-		break;
-	}
 	case ProcedureType::fibersplint:
-		procedure.result = ProcedureFiberData{
 
-		json["begin"].asInt(),
-		json["end"].asInt(),
-
-		ObturationData{
-				VitaColor(json["color"].asInt()),
-				json["material"].asInt()
-				}
+		procedure.result = ConstructionRange{
+			.tooth_begin = json["begin"].asInt(),
+			.tooth_end = json["end"].asInt(),
 		};
 
 		break;
+
+
+	case ProcedureType::removebridgeOrSplint:
+	{
+		procedure.result = ConstructionRange{
+					json["begin"].asInt(),
+					json["end"].asInt()
+		};
+	}
+	break;
+
 	default:
 		procedure.result = NoData{};
 	}
@@ -815,8 +738,6 @@ void Parser::parse(const std::string& jsonString, ToothContainer& status)
 		int surface = obturation[i]["Surface"].asInt();
 		tooth.obturation.set(true, surface);
 		tooth.obturation[surface].LPK = obturation[i]["LPK"].asString();
-		tooth.obturation[surface].data.material = obturation[i]["material"].asInt();
-		tooth.obturation[surface].data.color = VitaColor(obturation[i]["color"].asInt());
 
 	}
 
@@ -827,7 +748,6 @@ void Parser::parse(const std::string& jsonString, ToothContainer& status)
 		Tooth& tooth = status[car[i]["idx"].asInt()];
 		int surface = car[i]["Surface"].asInt();
 		tooth.caries.set(true, surface);
-		tooth.caries[surface].diag  = car[i]["diag_idx"].asInt();
 		tooth.caries[surface].date_diagnosed = car[i]["date"].asString();
 	}
 
@@ -837,8 +757,6 @@ void Parser::parse(const std::string& jsonString, ToothContainer& status)
 	{
 		Tooth& tooth = status[pulpitis[i]["idx"].asInt()];
 		tooth.pulpitis.set(true);
-
-		tooth.pulpitis.diag = pulpitis[i]["diag_idx"].asInt();
 		tooth.pulpitis.date_diagnosed = pulpitis[i]["date"].asString();
 	}
 
@@ -848,7 +766,6 @@ void Parser::parse(const std::string& jsonString, ToothContainer& status)
 	{
 		Tooth& tooth = status[lesion[i]["idx"].asInt()];
 		tooth.lesion.set(true);
-		tooth.lesion.setDiagnosisIdx(lesion[i]["diag_idx"].asInt());
 		tooth.lesion.date_diagnosed = lesion[i]["date"].asString();
 	}
 
@@ -858,7 +775,6 @@ void Parser::parse(const std::string& jsonString, ToothContainer& status)
 	{
 		Tooth& tooth = status[fracture[i]["idx"].asInt()];
 		tooth.fracture.set(true);
-		tooth.fracture.setDiagnosisIdx(fracture[i]["diag_idx"].asInt());
 		tooth.fracture.date_diagnosed = fracture[i]["date"].asString();
 	}
 
@@ -896,7 +812,6 @@ void Parser::parse(const std::string& jsonString, ToothContainer& status)
 
 		Tooth& tooth = status[root[i]["idx"].asInt()];
 		tooth.root.date_diagnosed =  root[i]["date"].asString();
-		tooth.root.setDiagnosisIdx(root[i]["diag_idx"].asInt());
 		tooth.root.set(true);
 	}
 
@@ -907,15 +822,6 @@ void Parser::parse(const std::string& jsonString, ToothContainer& status)
 		Tooth& tooth = status[implant[i]["idx"].asInt()];
 		tooth.implant.set(true);
 		tooth.implant.LPK = implant[i]["LPK"].asString();
-		tooth.implant.data.length = implant[i]["l"].asDouble();
-		tooth.implant.data.width = implant[i]["w"].asDouble();
-		tooth.implant.data.time = implant[i]["time"].asInt();
-		tooth.implant.data.type = implant[i]["type"].asInt();
-		tooth.implant.data.bone_aug = implant[i]["bone"].asInt();
-		tooth.implant.data.tissue_aug = implant[i]["tissuee"].asInt();
-		tooth.implant.data.sinusLift = implant[i]["sinus"].asBool();
-		tooth.implant.data.membrane = implant[i]["membrane"].asBool();
-
 	}
 
 	const Json::Value& crown = json["Crown"];
@@ -925,9 +831,6 @@ void Parser::parse(const std::string& jsonString, ToothContainer& status)
 		Tooth& tooth = status[crown[i]["idx"].asInt()];
 		tooth.crown.set(true);
 		tooth.crown.LPK = crown[i]["LPK"].asString();
-		tooth.crown.data.material = crown[i]["material"].asInt();
-		tooth.crown.data.prep = crown[i]["prep"].asInt();
-		tooth.crown.data.color = VitaColor(crown[i]["color"].asInt());
 	}
 
 	const Json::Value& bridge = json["Bridge"];
@@ -937,9 +840,6 @@ void Parser::parse(const std::string& jsonString, ToothContainer& status)
 		Tooth& tooth = status[bridge[i]["idx"].asInt()];
 		tooth.bridge.set(true);
 		tooth.bridge.LPK = bridge[i]["LPK"].asString();
-		tooth.bridge.data.material = bridge[i]["material"].asInt();
-		tooth.bridge.data.prep = bridge[i]["prep"].asInt();
-		tooth.bridge.data.color = VitaColor(bridge[i]["color"].asInt());
 		tooth.bridge.position = static_cast<BridgePos>(bridge[i]["pos"].asInt());
 	}
 
@@ -950,8 +850,6 @@ void Parser::parse(const std::string& jsonString, ToothContainer& status)
 		Tooth& tooth = status[splint[i]["idx"].asInt()];
 		tooth.splint.position = static_cast<BridgePos>(splint[i]["pos"].asInt());
 		tooth.splint.LPK = splint[i]["LPK"].asString();
-		tooth.splint.data.material = splint[i]["material"].asInt();
-		tooth.splint.data.color = VitaColor(splint[i]["color"].asInt());
 		tooth.splint.set(true);
 	}
 

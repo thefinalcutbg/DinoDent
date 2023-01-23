@@ -1,50 +1,51 @@
 ﻿#include "ObturationPresenter.h"
 #include "View/ModalDialogBuilder.h"
 #include "Model/Dental/ToothUtils.h"
+#include "View/SubWidgets/RangeWidget.h"
 
 ObturationPresenter::ObturationPresenter(const std::vector<Tooth*>& selectedTeeth) :
     AbstractSubPresenter(ProcedureType::obturation),
-    selectedTeeth(selectedTeeth),
-    view(nullptr)
+    selectedTeeth(selectedTeeth)
 {
-    
-}
-
-void ObturationPresenter::setView(IObturationView* view)
-{
-    this->view = view;
-
-    view->surfaceSelector()->setInputValidator(&surf_validator);
-
     if (selectedTeeth.size() == 1)
     {
         m_diagnosis = getDiagnosis(*selectedTeeth.front());
-        view->surfaceSelector()->setSurfaces(autoSurfaces(*selectedTeeth.front()));
 
     }
 }
 
-void ObturationPresenter::setProcedureTemplate(const ProcedureTemplate& m)
+void ObturationPresenter::setAdditionalTemplateParameters()
 {
-    bool noTeethSelected = !selectedTeeth.size();
-    common_view->set_hidden(noTeethSelected);
-    view->set_hidden(noTeethSelected);
-    if(noTeethSelected) return;
+    if (!selectedTeeth.size())
+    {
+        view->setErrorMsg("Изберете поне един зъб");
+        return;
+    }
 
+    if (selectedForFirstTime)
+    {
+        view->surfaceSelector()->setData(ProcedureObtData{
+            autoSurfaces(*selectedTeeth.at(0)), false
+            }
+        );
 
-    AbstractSubPresenter::setProcedureTemplate(m);
+        selectedForFirstTime = false;
+    }
 
-    auto data = view->getData();
-    //data.data.material = m.material;
-    view->setData(data);
+    view->setCurrentPresenter(this);
+
+    view->setLayout(ICommonFields::Restoration, true);
+
+    view->surfaceSelector()->setInputValidator(&surf_validator);
+
 }
 
-bool ObturationPresenter::isValid()
+bool ObturationPresenter::additionalValidation()
 {
-    if (!AbstractSubPresenter::isValid()) return false;
+    if(selectedTeeth.empty()) return false;
 
-    view->surfaceSelector()->validateInput();
-
+    return view->surfaceSelector()->validateInput();
+    /*
     if (!view->surfaceSelector()->isValid())
     {
         return ModalDialogBuilder::askDialog("Резултатът от манипулацията няма да бъде приложен към статуса, "
@@ -52,6 +53,7 @@ bool ObturationPresenter::isValid()
     }
 
     return true;
+    */
 }
 
 std::vector<Procedure> ObturationPresenter::getProcedures()
@@ -61,7 +63,7 @@ std::vector<Procedure> ObturationPresenter::getProcedures()
 
     for (auto& tooth : selectedTeeth) {
         procedures.push_back(AbstractSubPresenter::getProcedureCommonFields());
-        procedures.back().result = view->getData();
+        procedures.back().result = view->surfaceSelector()->getData();
         procedures.back().tooth = tooth->index;
         procedures.back().temp = tooth->temporary.exists();
     }
@@ -73,21 +75,12 @@ std::vector<Procedure> ObturationPresenter::getProcedures()
 std::string ObturationPresenter::getDiagnosis(const Tooth& tooth)
 {
     bool secondaryCaries = false ;
-    std::string cariesDiagnosis;
-
-
+  
     for (int i = 0; i < 6; i++)		//checking if somewhere obturation is present also, returning secondary caries
     {
         if (tooth.caries.exists(i) && tooth.obturation.exists(i))
         {
             secondaryCaries = true;
-        }
-    }
-
-    for (int i = 0; i < 6; i++)		//getting the diagnosis of the first caries found
-    {
-        if (tooth.caries.exists(i)) {
-            cariesDiagnosis = tooth.caries[i].getDiagnosisString();
         }
     }
 
@@ -98,19 +91,18 @@ std::string ObturationPresenter::getDiagnosis(const Tooth& tooth)
             tooth.caries.exists(),
             tooth.endo.exists(),
             tooth.pulpitis.exists() && tooth.lesion.exists(),
-            
             tooth.root.exists(),
             tooth.obturation.exists()
     };
 
     std::array<std::string, 7> diagnosis
     {
-        tooth.fracture.getDiagnosisString(),
+        "Фрактура",
         "Вторичен кариес",
-        cariesDiagnosis,
+        "Кариес",
         "Status post devital.",
         "Преендодонтско изграждане",
-        tooth.root.getDiagnosisString(),
+        "Изграждане на корен за корона",
         "Дефектна обтурация"
     };
 

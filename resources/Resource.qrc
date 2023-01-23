@@ -30,6 +30,8 @@
         <file>icon_xml.png</file>
         <file>icon_prescr.png</file>
         <file>icon_his.png</file>
+        <file>icon_statistic.png</file>
+        <file>icon_phif.png</file>
     </qresource>
     <qresource prefix="/tooth">
         <file>tooth_approximal.png</file>
@@ -101,5 +103,8 @@
         <file>zodiac_9.png</file>
         <file>zodiac_10.png</file>
         <file>zodiac_11.png</file>
+    </qresource>
+    <qresource prefix="/migrations">
+        <file>db_migrateTo7.txt</file>
     </qresource>
 </RCC>

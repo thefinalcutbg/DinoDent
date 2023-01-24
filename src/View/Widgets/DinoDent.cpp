@@ -46,8 +46,10 @@ DinoDent::DinoDent(QWidget* parent)
     connect(settingsAction, &QAction::triggered, [&] {presenter.userSettingsPressed();});
     connect(ui.pisButton, &QPushButton::clicked, [&] { presenter.pisDialog();});
     connect(ui.settingsButton, &QPushButton::clicked, [&] { presenter.settingsPressed();});
-    
+
     connect(exitAction, &QAction::triggered, [&] { presenter.logOut(); });
+
+    ui.statisticButton->hide();
 
     ui.userButton->setMenu(userMenu);
     ui.userButton->setPopupMode(QToolButton::InstantPopup);

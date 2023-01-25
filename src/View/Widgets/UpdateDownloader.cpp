@@ -65,7 +65,7 @@ UpdateDownloader::UpdateDownloader(const char* url, QWidget* parent)
 			m_reply->deleteLater();
 
 			ModalDialogBuilder::showMessage(
-				"Следвайте стъпките от инсталатора. "
+				"Натиснете ОК за да стартирате инсталатора. "
 				"\nНе стартирайте програмата по време на инсталация!"
 			);
 

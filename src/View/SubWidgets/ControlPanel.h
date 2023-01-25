@@ -9,7 +9,6 @@ class ControlPanel : public QWidget
 {
 	Q_OBJECT
 
-	std::array<StatusButton*, statusCount> statusButtons;
 	ListPresenter* presenter;
 
 public:

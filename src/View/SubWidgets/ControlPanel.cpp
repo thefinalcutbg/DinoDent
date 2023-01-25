@@ -1,37 +1,17 @@
-#include "ControlPanel.h"
+﻿#include "ControlPanel.h"
 
 #include "Presenter/ListPresenter.h"
 
-ControlPanel::ControlPanel(QWidget *parent)
+
+
+ControlPanel::ControlPanel(QWidget* parent)
 	: QWidget(parent), presenter(nullptr)
 {
 	ui.setupUi(this);
-	
-	statusButtons[StatusCode::Temporary] = ui.Temporary;
-	statusButtons[StatusCode::Obturation] = ui.Obturation;
-	statusButtons[StatusCode::Caries] = ui.Caries;
-	statusButtons[StatusCode::Pulpitis] = ui.Pulpitis;
-	statusButtons[StatusCode::ApicalLesion] = ui.ApicalLesion;
-	statusButtons[StatusCode::EndoTreatment] = ui.EndoTreatment;
-	statusButtons[StatusCode::Fracture] = ui.Fracture;
-	statusButtons[StatusCode::Extraction] = ui.Extraction;
-	statusButtons[StatusCode::Post] = ui.post;
-	statusButtons[StatusCode::Root] = ui.Root;
-	statusButtons[StatusCode::Implant] = ui.Implant;
-	statusButtons[StatusCode::Periodontitis] = ui.Periodontitis;
-	statusButtons[StatusCode::Mobility1] = ui.Mobility1;
-	statusButtons[StatusCode::Mobility2] = ui.Mobility2;
-	statusButtons[StatusCode::Mobility3] = ui.Mobility3;
-	statusButtons[StatusCode::Crown] = ui.Crown;
-	statusButtons[StatusCode::Bridge] = ui.Bridge;
-	statusButtons[StatusCode::FiberSplint] = ui.Fiber;
-	statusButtons[StatusCode::Dsn] = ui.Dsn;
-	statusButtons[StatusCode::Impacted] = ui.Impacted;
-	
-	StatusButton* pathologies[12]
+
+	StatusButton* pathologies[]
 	{
-		ui.Caries, ui.Pulpitis, ui.Extraction, ui.ApicalLesion, ui.Fracture, ui.Periodontitis, ui.Mobility1,
-		ui.Mobility2, ui.Mobility3, ui.Dsn, ui.Impacted, ui.Root
+		ui.Caries, ui.Pulpitis, ui.Extraction, ui.ApicalLesion, ui.Fracture, ui.Periodontitis, ui.Dsn, ui.Impacted, ui.Root
 	};
 
 	for (auto& p : pathologies)
@@ -39,17 +19,50 @@ ControlPanel::ControlPanel(QWidget *parent)
 		p->pathology = true;
 	}
 
+	ui.Mobility->pathology = true;
 
-	for (int i = 0; i<statusButtons.size(); i++)
+
+	auto lambdaConnect = [this](QPushButton* button, StatusCode::StatusCode code)
 	{
-		connect( statusButtons[i], &QPushButton::clicked, this, [=] {
+		this->connect(button, &QPushButton::clicked, this, [=] {
 
 			if (presenter == NULL) return;
-			presenter->setMainStatus(i); 
-			
-			} );
-	}
+		presenter->setMainStatus(code);
+			});
+	};
 
+	lambdaConnect(ui.ApicalLesion, StatusCode::ApicalLesion);
+	lambdaConnect(ui.Bridge, StatusCode::Bridge);
+	lambdaConnect(ui.Caries, StatusCode::Caries);
+	lambdaConnect(ui.Crown, StatusCode::Crown);
+	lambdaConnect(ui.Dsn, StatusCode::Dsn);
+	lambdaConnect(ui.EndoTreatment, StatusCode::EndoTreatment);
+	lambdaConnect(ui.Extraction, StatusCode::Extraction);
+	lambdaConnect(ui.Fiber, StatusCode::FiberSplint);
+	lambdaConnect(ui.Fracture, StatusCode::Fracture);
+	lambdaConnect(ui.Impacted, StatusCode::Impacted);
+	lambdaConnect(ui.Obturation, StatusCode::Obturation);
+	lambdaConnect(ui.Periodontitis, StatusCode::Periodontitis);
+	lambdaConnect(ui.post, StatusCode::Post);
+	lambdaConnect(ui.Pulpitis, StatusCode::Pulpitis);
+	lambdaConnect(ui.Root, StatusCode::Root);
+	lambdaConnect(ui.Temporary, StatusCode::Temporary);
+
+	ui.Mobility->setStateNames({ "Подвижност", "Подвижност I", "Подвижност II", "Подвижност III" });
+
+	connect(ui.Mobility, &StatusMultiButton::stateChanged, [=](int state)
+		{
+			if (!presenter) return;
+			
+			switch (state)
+			{
+				case 0:presenter->setMainStatus(StatusCode::Mobility3); break;
+				case 1:presenter->setMainStatus(StatusCode::Mobility1); break;
+				case 2:presenter->setMainStatus(StatusCode::Mobility2); break;
+				case 3:presenter->setMainStatus(StatusCode::Mobility3); break;
+			}
+		}
+	);
 }
 
 ControlPanel::~ControlPanel()
@@ -66,11 +79,46 @@ void ControlPanel::hideCommonButtons(bool hidden)
 	ui.Obturation->setHidden(hidden);
 	ui.Caries->setHidden(hidden);
 }
-
+#include <qdebug.h> 
 void ControlPanel::setModel(const CheckModel& checkModel)
 {
-	for (int i = 0; i < statusButtons.size(); i++)
-	{
-		statusButtons[i]->setCheckState(checkModel.generalStatus[i]);
+
+	auto setCheck = [&](StatusButton* b, StatusCode::StatusCode s) {
+		b->setCheckState(checkModel.generalStatus[s]);
+	};
+
+	setCheck(ui.ApicalLesion, StatusCode::ApicalLesion);
+	setCheck(ui.Bridge, StatusCode::Bridge);
+	setCheck(ui.Caries, StatusCode::Caries);
+	setCheck(ui.Crown, StatusCode::Crown);
+	setCheck(ui.Dsn, StatusCode::Dsn);
+	setCheck(ui.EndoTreatment, StatusCode::EndoTreatment);
+	setCheck(ui.Extraction, StatusCode::Extraction);
+	setCheck(ui.Fiber, StatusCode::FiberSplint);
+	setCheck(ui.Fracture, StatusCode::Fracture);
+	setCheck(ui.Impacted, StatusCode::Impacted);
+	setCheck(ui.Obturation, StatusCode::Obturation);
+	setCheck(ui.Periodontitis, StatusCode::Periodontitis);
+	setCheck(ui.post, StatusCode::Post);
+	setCheck(ui.Pulpitis, StatusCode::Pulpitis);
+	setCheck(ui.Root, StatusCode::Root);
+	setCheck(ui.Temporary, StatusCode::Temporary);
+
+	if (checkModel.generalStatus[StatusCode::Mobility1] == CheckState::checked) {
+		ui.Mobility->setCurrentState(1); return;
 	}
+
+	if (checkModel.generalStatus[StatusCode::Mobility2] == CheckState::checked) {
+		ui.Mobility->setCurrentState(2); return;
+	}
+
+	if (checkModel.generalStatus[StatusCode::Mobility3] == CheckState::checked) {
+		ui.Mobility->setCurrentState(3); return;
+	}
+
+	ui.Mobility->setCurrentState(0); return;
+
+	
+	
+	
 }

@@ -135,6 +135,31 @@
         </widget>
        </item>
        <item>
+        <widget class="StatusButton" name="Root">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Бърз клавиш: R&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="styleSheet">
+          <string/>
+         </property>
+         <property name="text">
+          <string>Корен</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="StatusButton" name="Extraction">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -185,7 +210,7 @@
         </widget>
        </item>
        <item>
-        <widget class="StatusButton" name="Mobility1">
+        <widget class="StatusMultiButton" name="Mobility">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -205,57 +230,7 @@
           <string/>
          </property>
          <property name="text">
-          <string>Подвижност I</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="StatusButton" name="Mobility2">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>30</height>
-          </size>
-         </property>
-         <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Бърз клавиш: 2&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="styleSheet">
-          <string/>
-         </property>
-         <property name="text">
-          <string>Подвижност II</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="StatusButton" name="Mobility3">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>30</height>
-          </size>
-         </property>
-         <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Бърз клавиш: 3&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="styleSheet">
-          <string/>
-         </property>
-         <property name="text">
-          <string>Подвижност III</string>
+          <string>Подвижност</string>
          </property>
         </widget>
        </item>
@@ -373,31 +348,6 @@
          </property>
          <property name="text">
           <string>Фрактура</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="StatusButton" name="Root">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>30</height>
-          </size>
-         </property>
-         <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Бърз клавиш: R&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="styleSheet">
-          <string/>
-         </property>
-         <property name="text">
-          <string>Корен</string>
          </property>
         </widget>
        </item>
@@ -569,6 +519,11 @@
    <class>StatusButton</class>
    <extends>QPushButton</extends>
    <header>View/uiComponents/StatusButton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>StatusMultiButton</class>
+   <extends>QPushButton</extends>
+   <header>View/uiComponents/StatusMultiButton.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

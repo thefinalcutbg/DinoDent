@@ -1,7 +1,5 @@
 ﻿#include "NameEdit.h"
 
-QString letters{ "абвгдежзийклмнопрстуфхцчшщъьюя " };
-QString capletters{ "АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЬЮЯ " };
 
 NameEdit::NameEdit(QWidget* parent) : LineEdit(parent)
 {

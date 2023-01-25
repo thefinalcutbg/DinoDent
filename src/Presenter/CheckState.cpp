@@ -29,12 +29,14 @@ CheckModel::CheckModel(const std::vector<Tooth*>& selectedTeeth)
 	generalStatus{ CheckState::unchecked },
 	obturationStatus{ CheckState::unchecked },
 	cariesStatus{ CheckState::unchecked }
+	//mobilityStatus{ CheckState::unchecked }
 {
 	if (!selectedTeeth.size()) return;
 
 	firstIteration(generalStatus, selectedTeeth[0]->getBoolStatus());
 	firstIteration(cariesStatus, selectedTeeth[0]->caries.getBoolStatus());
 	firstIteration(obturationStatus, selectedTeeth[0]->obturation.getBoolStatus());
+
 
 	if (selectedTeeth.size() == 1) return;
 

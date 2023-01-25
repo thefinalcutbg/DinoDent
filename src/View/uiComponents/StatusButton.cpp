@@ -31,9 +31,6 @@ void StatusButton::paintEvent(QPaintEvent* e)
 	outline.addRoundedRect(1, 1, rect().width() - 2, rect().height() - 2, 15, 15);
 	painter.fillPath(outline, m_hover ? Theme::background : Theme::sectionBackground);
 
-
-	
-
 	QPen pen;
 
 	QFont font("Segoe UI");
@@ -62,9 +59,6 @@ void StatusButton::paintEvent(QPaintEvent* e)
 		painter.setFont(font);
 		painter.drawText(rect(), Qt::AlignCenter, text());
 	}	
-
-	
-
 
 	painter.end();
 

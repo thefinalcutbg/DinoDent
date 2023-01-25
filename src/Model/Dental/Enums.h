@@ -20,7 +20,7 @@ namespace Surface
 
 constexpr int statusCount = 20;
 constexpr int surfaceCount = 6;
-
+constexpr int mobilityCount = 3;
 
 constexpr std::string_view statusNames[statusCount]
 {

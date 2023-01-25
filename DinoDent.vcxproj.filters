@@ -837,6 +837,9 @@
     <ClCompile Include="src\DbUpdates\Update7.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\uiComponents\StatusMultiButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Database\Database.h">
@@ -1847,6 +1850,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\Models\StatisticTableModel.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\uiComponents\StatusMultiButton.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

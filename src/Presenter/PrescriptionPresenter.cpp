@@ -139,11 +139,13 @@ void PrescriptionPresenter::setDataToView()
 	view->setPresenter(this);
 	patient_info.setCurrent(true);
 
+	view->setDate(m_prescription.date);
 	view->setDispensation(m_prescription.dispensation);
 	view->setSupplements(m_prescription.supplements);
 	view->setMedicationList(m_prescription.getMedList());
 	view->setReadOnly(!m_prescription.NRN.empty());
 	view->setNrn(m_prescription.NRN);
+
 
 }
 

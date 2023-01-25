@@ -10,7 +10,7 @@ enum class Degree { First, Second, Third };
 
 namespace StatusCode
 {
-	enum StatusCode { Temporary, Obturation, Caries, Pulpitis, ApicalLesion, EndoTreatment, Post, Root, Fracture, Extraction, Periodontitis, Mobility1, Mobility2, Mobility3, Crown, Bridge, FiberSplint, Implant, Dsn, Impacted};
+	enum StatusCode { Temporary, Obturation, Caries, Pulpitis, ApicalLesion, EndoTreatment, Post, Root, Fracture, Extraction, Periodontitis, Mobility, Crown, Bridge, FiberSplint, Implant, Dsn, Impacted};
 }
 
 namespace Surface
@@ -18,7 +18,7 @@ namespace Surface
 	enum Surface { Occlusal, Medial, Distal, Buccal, Lingual, Cervical };
 }
 
-constexpr int statusCount = 20;
+constexpr int statusCount = 18;
 constexpr int surfaceCount = 6;
 constexpr int mobilityCount = 3;
 
@@ -26,6 +26,11 @@ constexpr std::string_view statusNames[statusCount]
 {
 	"Временен зъб", "Обтурация", "Кариес",  "Пулпит", "Периодонтит",
 	"Ендодонтско лечение", "Радикуларен щифт", "Корен","Фрактура", "Екстракция",
-	"Пародонтит", "Първа степен", "Втора степен", "Трета степен",
+	"Пародонтит", "Подвижност",
 	"Корона", "Мост/Блок корони", "Фибровлакно", "Имплант", "Свръхброен зъб", "Ретениран зъб"
+};
+
+constexpr std::string_view mobilityNames[mobilityCount]
+{
+	"Подвижност I", "Подвижност II", "Подвижност III"
 };

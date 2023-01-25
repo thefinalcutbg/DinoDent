@@ -48,7 +48,16 @@ struct Construction : virtual public DentistMade {
     BridgePos position{ BridgePos::Middle };
 };
 
-struct Mobility : public Status { Degree degree{ Degree::First }; };
+struct Mobility : public Status 
+{ 
+    Degree degree{ Degree::First }; 
+
+    std::array<bool, 3> getBoolStatus() const {
+        std::array<bool, 3> result{ false, false, false };
+        if(m_exists) result[static_cast<int>(degree)] = true;
+        return result;
+    }
+};
 
 /*
 struct Caries : public Pathology

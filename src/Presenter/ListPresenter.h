@@ -73,6 +73,7 @@ public:
     void setCaries(int surface);
     void setObturation(int surface);
     void setMainStatus(int code);
+    void setMobility(int degree);
     void setOther(int code);
     
     void setSelectedTeeth(const std::vector<int>& SelectedIndexes);

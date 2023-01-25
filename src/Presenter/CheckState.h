@@ -5,8 +5,6 @@
 
 enum class CheckState { unchecked, checked, partially_checked };
 
-class ToothContainer;
-
 struct CheckModel
 {
 
@@ -23,5 +21,5 @@ struct CheckModel
     std::array<CheckState, statusCount> generalStatus;
     std::array<CheckState, surfaceCount> obturationStatus;
     std::array<CheckState, surfaceCount> cariesStatus;
-   // std::array<CheckState, mobilityCount> mobilityStatus
+    std::array<CheckState, mobilityCount> mobilityStatus;
 };

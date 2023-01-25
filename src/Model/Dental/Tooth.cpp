@@ -43,9 +43,7 @@ std::array<bool, statusCount> Tooth::getBoolStatus() const
 		fracture.exists(),
 		extraction.exists(),
 		periodontitis.exists(),
-		mobility.exists() && mobility.degree == Degree::First,
-		mobility.exists() && mobility.degree == Degree::Second,
-		mobility.exists() && mobility.degree == Degree::Third,
+		mobility.exists(),
 		crown.exists(),
 		bridge.exists(),
 		splint.exists(),
@@ -88,7 +86,7 @@ std::vector<std::string> Tooth::getSimpleStatuses() const
 	std::array<std::string, statusCount> statusLegend //each letter corresponds to bool status
 	{
 		"T", "O", "C", "P", "G", "", "", "R", "F", "E",
-		"Pa", "I", "II", "III", "K", "X", "X", "Impl.", "Dsn", ""
+		"Pa", "I", "K", "X", "X", "Impl.", "Dsn", ""
 	};							//     ^     ^
 								//  bridge	splint (both defaulted as artificial tooth)
 
@@ -112,6 +110,12 @@ std::vector<std::string> Tooth::getSimpleStatuses() const
 			boolStatus[StatusCode::Obturation] = true; //obturation WILL be shown
 			statusLegend[StatusCode::FiberSplint] = ""; //fibersplint WON'T be shown
 		}
+	}
+
+	if (boolStatus[StatusCode::Mobility])
+	{
+		const char* mobility[3]{ "I", "II", "III" };
+		statusLegend[StatusCode::Mobility] = mobility[static_cast<int>(this->mobility.degree)];
 	}
 
 	std::vector<std::string> simpleStatus;
@@ -169,9 +173,7 @@ void Tooth::addStatus(int statusCode)
 		case StatusCode::ApicalLesion: set(true, lesion); set(false, pulpitis, extraction); break;
 		case StatusCode::Fracture: set(true, fracture); set(false, extraction, implant, impacted); break;
 		case StatusCode::Periodontitis: set(true, periodontitis); set(false, extraction); break;
-		case StatusCode::Mobility1: set(true, mobility); set(false, extraction, impacted); mobility.degree = Degree::First; break;
-		case StatusCode::Mobility2: set(true, mobility); set(false, extraction, impacted); mobility.degree = Degree::Second; break;
-		case StatusCode::Mobility3: set(true, mobility); set(false, extraction, impacted); mobility.degree = Degree::Third; break;
+		case StatusCode::Mobility: set(true, mobility); set(false, extraction, impacted); mobility.degree = Degree::First; break;
 		case StatusCode::Crown: set(true, crown); set(false, bridge, extraction, root, splint); break;
 		case StatusCode::Bridge: set(true, bridge); set(false, hyperdontic, crown, splint); bridge.LPK.clear(); break;
 		case StatusCode::FiberSplint: set(true, splint); set(false, crown, bridge, implant); break;
@@ -196,9 +198,7 @@ void Tooth::removeStatus(int statusCode)
 		case StatusCode::ApicalLesion: lesion.set(false); break;
 		case StatusCode::Extraction: extraction.set(false); break;
 		case StatusCode::Root: root.set(false); break;
-		case StatusCode::Mobility1: 
-		case StatusCode::Mobility2: 
-		case StatusCode::Mobility3: mobility.set(false); break;
+		case StatusCode::Mobility: mobility.set(false); break;
 		case StatusCode::Implant: implant.set(false); break;
 		case StatusCode::Fracture: fracture.set(false); break;
 		case StatusCode::Crown: crown.set(false); break;
@@ -223,6 +223,19 @@ void Tooth::setStatus(StatusType type, int code, bool state)
 		case StatusType::general: state ? addStatus(code) : removeStatus(code);  break;
 		case StatusType::obturation: state ? addSurface(obturation, code, *this) : removeSurface(obturation, code); break;
 		case StatusType::caries: state ? addSurface(caries, code, *this) : removeSurface(caries, code); break;
+		case StatusType::mobility:
+		{
+			if (state) {
+				addStatus(StatusCode::Mobility);
+				mobility.degree = static_cast<Degree>(code);
+			}
+			else
+			{
+				removeStatus(StatusCode::Mobility);
+			}
+			
+		}
+		break;
 	}
 }
 

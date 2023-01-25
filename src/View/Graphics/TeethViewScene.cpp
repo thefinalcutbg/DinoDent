@@ -278,9 +278,10 @@ void TeethViewScene::keyPressEvent(QKeyEvent* event)
       case Qt::Key_F: presenter->setMainStatus(StatusCode::Fracture); break;
       case Qt::Key_I :presenter->setMainStatus(StatusCode::Implant); break;
       case Qt::Key_L :presenter->setMainStatus(StatusCode::Periodontitis); break;
-      case Qt::Key_1 :presenter->setMainStatus(StatusCode::Mobility1); break;
-      case Qt::Key_2 :presenter->setMainStatus(StatusCode::Mobility2); break;
-      case Qt::Key_3 :presenter->setMainStatus(StatusCode::Mobility3); break;
+      case Qt::Key_0: presenter->setMainStatus(StatusCode::Mobility); break;
+      case Qt::Key_1 :presenter->setMobility(0); break;
+      case Qt::Key_2 :presenter->setMobility(1); break;
+      case Qt::Key_3 :presenter->setMobility(2); break;
       case Qt::Key_K :presenter->setMainStatus(StatusCode::Crown); break;
       case Qt::Key_G :presenter->setMainStatus(StatusCode::ApicalLesion); break;
       case Qt::Key_B :presenter->setMainStatus(StatusCode::Bridge); break;

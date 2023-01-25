@@ -39,16 +39,25 @@ ContextMenu::ContextMenu()
     QMenu* CariesMenu = addMenu("&Кариес");
     QMenu* EndoMenu = addMenu("&Ендодонтия");
     QMenu* SurgeryMenu = addMenu("&Хирургия");
+    QMenu* MobilityMenu = addMenu("&Подвижност");
 
     QString surfName[surfaceCount] = { "Оклузално", "Медиално", "Дистално", "Букално", "Лингвално", "Цервикално" };
 
     for (int i = 0; i < surfaceCount; i++)
     {
         surfObt[i] = ObturMenu->addAction(surfName[i]);
-        connect(surfObt[i], &QAction::triggered, [this, i]() {this->presenter->setObturation(i);  qDebug() << "presenter ptr:" << presenter; });
+        connect(surfObt[i], &QAction::triggered, [this, i]() {this->presenter->setObturation(i); });
 
         surfCar[i] = CariesMenu->addAction(surfName[i]);
         connect(surfCar[i], &QAction::triggered, [this, i]() {this->presenter->setCaries(i); });
+    }
+
+    for (int i = 0; i < mobilityCount; i++)
+    {
+        mobilityDegree[i] = MobilityMenu->addAction(mobilityNames[i].data());
+        connect(mobilityDegree[i], &QAction::triggered, [this, i]() {
+            this->presenter->setMobility(i); });
+
     }
 
 
@@ -75,10 +84,7 @@ ContextMenu::ContextMenu()
     SurgeryMenu->addAction(menuAction[StatusCode::Impacted]);
 
     addAction(menuAction[StatusCode::Periodontitis]);
-    QMenu* MobiMenu = addMenu("Подвижност");
-    MobiMenu->addAction(menuAction[StatusCode::Mobility1]);
-    MobiMenu->addAction(menuAction[StatusCode::Mobility2]);
-    MobiMenu->addAction(menuAction[StatusCode::Mobility3]);
+
     addSeparator();
     addAction(menuAction[StatusCode::Crown]);
     addAction(menuAction[StatusCode::Bridge]);
@@ -99,6 +105,7 @@ void ContextMenu::setModel(const CheckModel& checkModel)
     this->setModel(checkModel.generalStatus, menuAction);
     this->setModel(checkModel.obturationStatus, surfObt);
     this->setModel(checkModel.cariesStatus, surfCar);
+    this->setModel(checkModel.mobilityStatus, mobilityDegree);
 }
 
 

@@ -40,6 +40,7 @@ ControlPanel::ControlPanel(QWidget* parent)
 	lambdaConnect(ui.Extraction, StatusCode::Extraction);
 	lambdaConnect(ui.Fiber, StatusCode::FiberSplint);
 	lambdaConnect(ui.Fracture, StatusCode::Fracture);
+	lambdaConnect(ui.Implant, StatusCode::Implant);
 	lambdaConnect(ui.Impacted, StatusCode::Impacted);
 	lambdaConnect(ui.Obturation, StatusCode::Obturation);
 	lambdaConnect(ui.Periodontitis, StatusCode::Periodontitis);
@@ -50,16 +51,16 @@ ControlPanel::ControlPanel(QWidget* parent)
 
 	ui.Mobility->setStateNames({ "Подвижност", "Подвижност I", "Подвижност II", "Подвижност III" });
 
-	connect(ui.Mobility, &StatusMultiButton::stateChanged, [=](int state)
+	connect(ui.Mobility, &StatusMultiButton::stateChanged, [this](int state)
 		{
 			if (!presenter) return;
 			
 			switch (state)
 			{
-				case 0:presenter->setMainStatus(StatusCode::Mobility3); break;
-				case 1:presenter->setMainStatus(StatusCode::Mobility1); break;
-				case 2:presenter->setMainStatus(StatusCode::Mobility2); break;
-				case 3:presenter->setMainStatus(StatusCode::Mobility3); break;
+				case 0:presenter->setMainStatus(StatusCode::Mobility); break;
+				case 1:presenter->setMobility(0); break;
+				case 2:presenter->setMobility(1); break;
+				case 3:presenter->setMobility(2); break;
 			}
 		}
 	);
@@ -97,6 +98,7 @@ void ControlPanel::setModel(const CheckModel& checkModel)
 	setCheck(ui.Fiber, StatusCode::FiberSplint);
 	setCheck(ui.Fracture, StatusCode::Fracture);
 	setCheck(ui.Impacted, StatusCode::Impacted);
+	setCheck(ui.Implant, StatusCode::Implant);
 	setCheck(ui.Obturation, StatusCode::Obturation);
 	setCheck(ui.Periodontitis, StatusCode::Periodontitis);
 	setCheck(ui.post, StatusCode::Post);
@@ -104,21 +106,19 @@ void ControlPanel::setModel(const CheckModel& checkModel)
 	setCheck(ui.Root, StatusCode::Root);
 	setCheck(ui.Temporary, StatusCode::Temporary);
 
-	if (checkModel.generalStatus[StatusCode::Mobility1] == CheckState::checked) {
+
+	if (checkModel.mobilityStatus[0] == CheckState::checked) {
 		ui.Mobility->setCurrentState(1); return;
 	}
 
-	if (checkModel.generalStatus[StatusCode::Mobility2] == CheckState::checked) {
+	if (checkModel.mobilityStatus[1] == CheckState::checked) {
 		ui.Mobility->setCurrentState(2); return;
 	}
 
-	if (checkModel.generalStatus[StatusCode::Mobility3] == CheckState::checked) {
+	if (checkModel.mobilityStatus[2] == CheckState::checked) {
 		ui.Mobility->setCurrentState(3); return;
 	}
 
-	ui.Mobility->setCurrentState(0); return;
-
-	
-	
+	ui.Mobility->setCurrentState(0);
 	
 }

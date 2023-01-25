@@ -5,7 +5,7 @@
 #include <array>
 #include "DiagnosisContainer.h"
 
-enum class StatusType{general, obturation, caries};
+enum class StatusType{general, obturation, caries, mobility};
 
 class Tooth
 {

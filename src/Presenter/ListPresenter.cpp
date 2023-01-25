@@ -333,6 +333,16 @@ void ListPresenter::setMainStatus(int code)
     statusChanged();
 }
 
+void ListPresenter::setMobility(int degree)
+{
+    bool state = m_checkModel.mobilityStatus[degree] != CheckState::checked;
+
+    for (auto& t : m_selectedTeeth) t->setStatus(StatusType::mobility, degree, state);
+
+    statusChanged();
+
+}
+
 void ListPresenter::setOther(int code)
 {
     auto DO = [](Tooth* t)

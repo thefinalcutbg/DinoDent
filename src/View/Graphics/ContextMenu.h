@@ -23,6 +23,7 @@ class ContextMenu : public QMenu
     std::array<QAction*, surfaceCount>surfObt;
     std::array<QAction*, surfaceCount> surfCar;
     std::array<QAction*, statusCount> menuAction;
+    std::array<QAction*, mobilityCount> mobilityDegree;
     std::array<QAction*, otherInputsCount> otherActions;
 
 

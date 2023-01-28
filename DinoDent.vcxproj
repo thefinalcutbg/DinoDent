@@ -496,6 +496,7 @@
     <ClInclude Include="src\GlobalConst.h" />
     <ClInclude Include="src\Model\Dental\DentalNum.h" />
     <ClInclude Include="src\Model\Dental\DentalStatistics.h" />
+    <ClInclude Include="src\Model\HotfixExample.h" />
     <ClInclude Include="src\Model\Referrals\NumberVariant.h" />
     <ClInclude Include="src\Model\Referrals\Referral.h" />
     <ClInclude Include="src\Model\NumenclatureTemplate.h" />

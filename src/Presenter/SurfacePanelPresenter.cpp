@@ -65,16 +65,16 @@ void SurfacePanelPresenter::sideObturationClicked(){
 statusControl->setObturation(matrix.getSurface(currentIndex, ButtonPos::side));
 }
 
-void SurfacePanelPresenter::setTooth(Tooth* tooth)
+void SurfacePanelPresenter::setTooth(const Tooth& tooth)
 {
-	currentIndex = tooth->index;
+	currentIndex = tooth.index;
 
-	view->paintTooth(ToothHintCreator::getToothHint(*tooth));
+	view->paintTooth(ToothHintCreator::getToothHint(tooth));
 	auto surface = matrix.getSurface(currentIndex, ButtonPos::side);
 
 	view->setSideButtonsClicked(
-		tooth->obturation.exists(static_cast<int>(surface)),
-		tooth->caries.exists(static_cast<int>(surface))
+		tooth.obturation.exists(static_cast<int>(surface)),
+		tooth.caries.exists(static_cast<int>(surface))
 	);
 
 	std::array<std::string, 6> sateLabel;
@@ -86,18 +86,18 @@ void SurfacePanelPresenter::setTooth(Tooth* tooth)
 		auto surface = matrix.getSurface(currentIndex, static_cast<ButtonPos>(i));
 		surfaceName[i] = unorderedSurfaces[static_cast<int>(surface)];
 
-		if (tooth->obturation.exists(surface) && tooth->caries.exists(surface))
+		if (tooth.obturation.exists(surface) && tooth.caries.exists(surface))
 		{
 			surfaceState[i] = std::make_tuple(surface, SurfaceState::secondary);
 			sateLabel[i] = "вторичен кариес";
 		}
-		else if (tooth->obturation.exists(surface))
+		else if (tooth.obturation.exists(surface))
 		{
 			surfaceState[i] = std::make_tuple(surface, SurfaceState::obturation);
 			sateLabel[i] = "обтурация";
 		}
 
-		else if (tooth->caries.exists(surface))
+		else if (tooth.caries.exists(surface))
 		{
 			surfaceState[i] = std::make_tuple(surface, SurfaceState::caries);
 			sateLabel[i] = "кариес";

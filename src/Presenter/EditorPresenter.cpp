@@ -49,6 +49,9 @@ void EditorPresenter::setAdditionalTemplateParameters()
 		view->setLayout(ICommonFields::Range);
 		view->rangeWidget()->setInputValidator(&range_validator);
 		break;
+	case ProcedureType::nhif_anesthesia:
+		view->setLayout(ICommonFields::Anesthesia);
+		break;
 	default:
 		view->setLayout(ICommonFields::General, m_type != ProcedureType::general);
 	}

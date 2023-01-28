@@ -24,7 +24,7 @@ inline void furtherIterations(std::array<CheckState, Size> &checkArray,
 
 }
 
-CheckModel::CheckModel(const std::vector<Tooth*>& selectedTeeth)
+CheckModel::CheckModel(const std::vector<const Tooth*>& selectedTeeth)
 	:
 	generalStatus{ CheckState::unchecked },
 	obturationStatus{ CheckState::unchecked },

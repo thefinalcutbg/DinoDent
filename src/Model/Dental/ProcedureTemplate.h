@@ -13,7 +13,8 @@ enum class ProcedureTemplateType
 	fibersplint = 7,
 	removecrown = 8,
 	removepost = 9,
-	removebridgeorsplint = 10
+	removebridgeorsplint = 10,
+	anesthesia = 11
 };
 
 struct ProcedureTemplate

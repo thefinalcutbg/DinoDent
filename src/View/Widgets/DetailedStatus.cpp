@@ -20,7 +20,7 @@ void DetailedStatus::paintEvent(QPaintEvent* event)
 DetailedStatus::DetailedStatus(DetailedStatusPresenter* presenter) : presenter(presenter)
 {
 
-	enum TreeWidgetEnumType{ general, obturation, caries };
+	enum TreeWidgetEnumType{ general, obturation, caries, mobility };
 
 	ui.setupUi(this);
 	setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
@@ -55,6 +55,16 @@ DetailedStatus::DetailedStatus(DetailedStatusPresenter* presenter) : presenter(p
 
 		ui.treeWidget->topLevelItem(StatusCode::Obturation)->addChild(obtSurf);
 		ui.treeWidget->topLevelItem(StatusCode::Caries)->addChild(carSurf);
+	}
+
+	for (auto& name : mobilityNames)
+	{
+		QTreeWidgetItem* degree{ new QTreeWidgetItem() };
+		degree->setText(0, name.data());
+		degree->setData(0, Qt::UserRole, mobility);
+		degree->setCheckState(0, Qt::Unchecked);
+		ui.treeWidget->topLevelItem(StatusCode::Mobility)->addChild(degree);
+
 	}
 	
 	connect(ui.treeWidget, &QTreeWidget::itemChanged, this, [=](QTreeWidgetItem* item, int column) 
@@ -93,6 +103,7 @@ DetailedStatus::DetailedStatus(DetailedStatusPresenter* presenter) : presenter(p
 				case general: presenter->statusSelected(0, code); break;
 				case obturation: presenter->statusSelected(1, code); break;
 				case caries: presenter->statusSelected(2, code); break;
+				case mobility: presenter->statusSelected(3, code); break;
 			}
 		}
 
@@ -105,7 +116,7 @@ DetailedStatus::DetailedStatus(DetailedStatusPresenter* presenter) : presenter(p
 	
 	presenter->setView(this);
 
-	//notesItem->setSelected(true);
+	ui.notesEdit->setFocus();
 
 }
 
@@ -136,6 +147,14 @@ void DetailedStatus::setCheckModel(const CheckModel& checkModel)
 			ui.treeWidget->topLevelItem(2)->child(i)->setCheckState(0, Qt::CheckState::Checked)
 			:
 			ui.treeWidget->topLevelItem(2)->child(i)->setCheckState(0, Qt::CheckState::Unchecked);
+	}
+
+	for (int i = 0; i < checkModel.mobilityStatus.size(); i++)
+	{
+		checkModel.mobilityStatus[i] == CheckState::checked ?
+			ui.treeWidget->topLevelItem(StatusCode::Mobility)->child(i)->setCheckState(0, Qt::CheckState::Checked)
+			:
+			ui.treeWidget->topLevelItem(StatusCode::Mobility)->child(i)->setCheckState(0, Qt::CheckState::Unchecked);
 	}
 }
 

@@ -16,7 +16,7 @@
 #include "Presenter/PatientInfoPresenter.h"
 
 typedef std::vector<int> SelectedTeethIdx;
-typedef std::vector<Tooth*> SelectedTeeth;
+//typedef std::vector<Tooth*> SelectedTeeth;
 
 class TabPresenter;
 
@@ -26,7 +26,7 @@ class ListPresenter : public TabInstance
     PatientInfoPresenter patient_info;
 
     SelectedTeethIdx m_selectedIndexes;
-    SelectedTeeth m_selectedTeeth;
+    //SelectedTeeth m_selectedTeeth;
 
     CheckModel m_checkModel;
 

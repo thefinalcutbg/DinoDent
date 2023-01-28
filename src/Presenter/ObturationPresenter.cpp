@@ -3,7 +3,7 @@
 #include "Model/Dental/ToothUtils.h"
 #include "View/SubWidgets/RangeWidget.h"
 
-ObturationPresenter::ObturationPresenter(const std::vector<Tooth*>& selectedTeeth) :
+ObturationPresenter::ObturationPresenter(const std::vector<const Tooth*>& selectedTeeth) :
     AbstractSubPresenter(ProcedureType::obturation),
     selectedTeeth(selectedTeeth)
 {

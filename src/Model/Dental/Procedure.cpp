@@ -37,9 +37,14 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 			case::ProcedureType::extraction:
 			{
 				auto& tooth = teeth[this->tooth];
-				tooth.addStatus(StatusCode::Extraction);
+				if (hyperdontic) {
+					tooth.removeStatus(StatusCode::Dsn);
+					return;
+				}
+				
+				teeth.setStatus({this->tooth}, StatusCode::Extraction, true);
 
-				if (tooth.extraction.exists()) //if the tooth was temporary or hyperdontic, the status won't be present
+				if (tooth.extraction) //if the tooth was temporary or hyperdontic, the status won't be present
 				{
 					tooth.extraction.LPK = LPK;
 				}
@@ -49,11 +54,8 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 			case::ProcedureType::endo:
 			{
 				if (hyperdontic) return;
-
-				auto& tooth = teeth[this->tooth];
-				tooth.setStatus(StatusType::general, StatusCode::EndoTreatment);
-
-				tooth.endo.LPK = LPK;
+				teeth.setStatus({ this->tooth }, StatusCode::Extraction, true);
+				teeth[this->tooth].endo.LPK = LPK;
 
 			}
 			break;
@@ -93,22 +95,13 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 				std::vector<int> indexes;
 				indexes.reserve(result.tooth_end - result.tooth_begin + 1);
 
-				for (int i = result.tooth_begin; i <= result.tooth_end; i++)
-					indexes.push_back(i);
+				for (int i = result.tooth_begin; i <= result.tooth_end; i++)indexes.push_back(i);
 
-				for (int i : indexes)
-					teeth.removeBridge(i);
+				//teeth.removeBridgeOrSplint(indexes);
+				teeth.setStatus(indexes, StatusCode::Bridge, true);
 
-				for (int i : indexes)
-				{
-					auto& tooth = teeth[i];
+				for (int i : indexes) teeth[i].bridge.LPK = LPK;
 
-					tooth.setStatus(StatusType::general, StatusCode::Bridge);
-					//tooth.bridge.data = result.crown;
-					tooth.bridge.LPK = LPK;
-				}
-
-				teeth.formatBridges(indexes);
 			}
 			break;
 
@@ -119,24 +112,13 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 				std::vector<int> indexes;
 				indexes.reserve(result.tooth_end - result.tooth_begin + 1);
 
-				for (int i = result.tooth_begin; i <= result.tooth_end; i++)
-					indexes.push_back(i);
+				for (int i = result.tooth_begin; i <= result.tooth_end; i++) indexes.push_back(i);
 
-				for (int i : indexes)
-					teeth.removeBridge(i);
+				//teeth.removeBridgeOrSplint(indexes);
+				teeth.setStatus(indexes, StatusCode::FiberSplint, true);
 
-				for (int i : indexes)
-				{
-					auto& tooth = teeth[i];
+				for (int i : indexes) teeth[i].splint.LPK = LPK;
 
-					tooth.setStatus(StatusType::general, StatusCode::FiberSplint);
-					//tooth.splint.data = result.obtur;
-
-					tooth.splint.LPK = LPK;
-
-				}
-
-				teeth.formatBridges(indexes);
 			}
 			break;
 

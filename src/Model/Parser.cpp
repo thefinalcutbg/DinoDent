@@ -319,26 +319,18 @@ std::string Parser::write(const Procedure& procedure)
 	}
 
 	case ProcedureType::bridge:
-	{
-		auto& r = std::get<ConstructionRange>(procedure.result);
-		json["begin"] = r.tooth_begin;
-		json["end"] = r.tooth_end;
-		break;
-	}
-
 	case ProcedureType::fibersplint:
-	{
-		auto& r = std::get<ConstructionRange>(procedure.result);
-		json["begin"] = r.tooth_begin;
-		json["end"] = r.tooth_end;
-
-		break;
-	}
 	case ProcedureType::removebridgeOrSplint:
 	{
-		auto& [begin, end] = std::get<ConstructionRange>(procedure.result);
-		json["begin"] = begin;
-		json["end"] = end;
+		auto& r = std::get<ConstructionRange>(procedure.result);
+		json["begin"] = r.tooth_begin;
+		json["end"] = r.tooth_end;
+		break;
+	}
+	case ProcedureType::nhif_anesthesia:
+	{
+		auto& r = std::get<Anesthesia>(procedure.result);
+		json["min"] = r.minutes;
 		break;
 	}
 	default:
@@ -541,8 +533,6 @@ std::vector<Dosage> Parser::parseDosage(const std::string& str)
 }
 
 
-
-
 void Parser::parse(const std::string& jsonString, Procedure& procedure)
 {
 	Json::Value json;
@@ -578,16 +568,8 @@ void Parser::parse(const std::string& jsonString, Procedure& procedure)
 
 
 	case ProcedureType::bridge:
-
-		procedure.result = ConstructionRange{
-			.tooth_begin = json["begin"].asInt(),
-			.tooth_end = json["end"].asInt(),
-		};
-
-		break;
-
 	case ProcedureType::fibersplint:
-
+	case ProcedureType::removebridgeOrSplint:
 		procedure.result = ConstructionRange{
 			.tooth_begin = json["begin"].asInt(),
 			.tooth_end = json["end"].asInt(),
@@ -595,15 +577,11 @@ void Parser::parse(const std::string& jsonString, Procedure& procedure)
 
 		break;
 
-
-	case ProcedureType::removebridgeOrSplint:
-	{
-		procedure.result = ConstructionRange{
-					json["begin"].asInt(),
-					json["end"].asInt()
+	case ProcedureType::nhif_anesthesia:
+		procedure.result = Anesthesia{
+			.minutes = json["min"].asInt()
 		};
-	}
-	break;
+		break;
 
 	default:
 		procedure.result = NoData{};

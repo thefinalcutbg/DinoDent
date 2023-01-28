@@ -2,7 +2,7 @@
 
 
 
-ProcedureRangePresenter::ProcedureRangePresenter(const std::vector<Tooth*>& selectedTeeth, ProcedureType type) :
+ProcedureRangePresenter::ProcedureRangePresenter(const std::vector<const Tooth*>& selectedTeeth, ProcedureType type) :
 	AbstractSubPresenter(type), selectedTeeth(selectedTeeth)
 {
 	if (!selectedTeeth.size())

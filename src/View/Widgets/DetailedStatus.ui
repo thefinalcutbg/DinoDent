@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>700</width>
-    <height>580</height>
+    <height>443</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -114,13 +114,13 @@
                <property name="font">
                 <font>
                  <family>Segoe UI</family>
-                 <pointsize>8</pointsize>
+                 <pointsize>16</pointsize>
                  <bold>false</bold>
                  <kerning>false</kerning>
                 </font>
                </property>
                <property name="text">
-                <string>Бележки (не се изпращат към НЗИС) :</string>
+                <string>Бележки:</string>
                </property>
                <property name="textFormat">
                 <enum>Qt::PlainText</enum>
@@ -133,6 +133,13 @@
                </property>
                <property name="margin">
                 <number>0</number>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_2">
+               <property name="text">
+                <string> (не се изпращат към НЗИС)</string>
                </property>
               </widget>
              </item>

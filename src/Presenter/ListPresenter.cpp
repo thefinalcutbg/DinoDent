@@ -50,13 +50,15 @@ void ListPresenter::statusChanged()
 
     view->setCheckModel(m_checkModel);;
     
-    for (auto& t : m_selectedTeeth)
+    for (auto& idx : m_selectedIndexes)
     {
-        view->repaintTooth(ToothHintCreator::getToothHint(*t, patient->teethNotes[t->index]));
+        view->repaintTooth(
+            ToothHintCreator::getToothHint(m_ambList.teeth[idx], patient->teethNotes[idx])
+        );
     }
 
     if (m_selectedIndexes.size() == 1)
-        surf_presenter.setTooth(&m_ambList.teeth[m_selectedIndexes[0]]);
+        surf_presenter.setTooth(m_ambList.teeth[m_selectedIndexes[0]]);
 
     makeEdited();
 }
@@ -295,7 +297,7 @@ void ListPresenter::setCaries(int surface)
 {
     bool state = m_checkModel.cariesStatus[surface] != CheckState::checked;
 
-    for (auto& t : m_selectedTeeth) t->setStatus(StatusType::caries, surface, state);
+    for (auto idx : m_selectedIndexes) m_ambList.teeth[idx].setStatus(StatusType::caries, surface, state);
 
     statusChanged();
 }
@@ -304,7 +306,7 @@ void ListPresenter::setObturation(int surface)
 {
     bool state = m_checkModel.obturationStatus[surface] != CheckState::checked;
 
-    for (auto& t : m_selectedTeeth) t->setStatus(StatusType::obturation, surface, state);
+    for (auto idx : m_selectedIndexes) m_ambList.teeth[idx].setStatus(StatusType::obturation, surface, state);
 
     statusChanged();
 }
@@ -313,21 +315,15 @@ void ListPresenter::setMainStatus(int code)
 {
     bool state = m_checkModel.generalStatus[code] != CheckState::checked;
 
-    for (auto& t : m_selectedTeeth)
-    {
-        t->setStatus(StatusType::general, code, state);
-    }
+    m_ambList.teeth.setStatus(m_selectedIndexes, static_cast<StatusCode::StatusCode>(code), state);
 
-    if (code == StatusCode::Bridge || code == StatusCode::Crown || code == StatusCode::FiberSplint) {
-        m_ambList.teeth.formatBridges(m_selectedIndexes);
-
-        for (int i = 0; i < 32; i++){
-            view->repaintTooth(ToothHintCreator::getToothHint(m_ambList.teeth[i], patient->teethNotes[i]));
-        }
-    }
-    else if (code == StatusCode::Temporary){ 
+    if (code == StatusCode::Temporary) {
         refreshPrices();
         refreshProcedureView(); //updates the teeth num
+    }
+
+    for (int i = 0; i < 32; i++){
+        view->repaintTooth(ToothHintCreator::getToothHint(m_ambList.teeth[i], patient->teethNotes[i]));
     }
 
     statusChanged();
@@ -337,7 +333,7 @@ void ListPresenter::setMobility(int degree)
 {
     bool state = m_checkModel.mobilityStatus[degree] != CheckState::checked;
 
-    for (auto& t : m_selectedTeeth) t->setStatus(StatusType::mobility, degree, state);
+    for (auto idx : m_selectedIndexes) m_ambList.teeth[idx].setStatus(StatusType::mobility, degree, state);
 
     statusChanged();
 
@@ -345,53 +341,53 @@ void ListPresenter::setMobility(int degree)
 
 void ListPresenter::setOther(int code)
 {
-    auto DO = [](Tooth* t)
+    auto DO = [](Tooth& t) mutable
     {
-        t->removeStatus(StatusCode::Obturation);
-        t->setStatus(StatusType::obturation, Surface::Distal);
-        t->setStatus(StatusType::obturation, Surface::Occlusal);
+        t.removeStatus(StatusCode::Obturation);
+        t.setStatus(StatusType::obturation, Surface::Distal);
+        t.setStatus(StatusType::obturation, Surface::Occlusal);
     };
 
-    auto MO = [](Tooth* t)
+    auto MO = [](Tooth& t) mutable
     {
-        t->removeStatus(StatusCode::Obturation);
-        t->setStatus(StatusType::obturation, Surface::Medial);
-        t->setStatus(StatusType::obturation, Surface::Occlusal);
+        t.removeStatus(StatusCode::Obturation);
+        t.setStatus(StatusType::obturation, Surface::Medial);
+        t.setStatus(StatusType::obturation, Surface::Occlusal);
     };
 
-    auto MOD = [](Tooth* t)
+    auto MOD = [](Tooth& t)
     {
-        t->removeStatus(StatusCode::Obturation);
-        t->setStatus(StatusType::obturation, Surface::Medial);
-        t->setStatus(StatusType::obturation, Surface::Distal);
-        t->setStatus(StatusType::obturation, Surface::Occlusal);
+        t.removeStatus(StatusCode::Obturation);
+        t.setStatus(StatusType::obturation, Surface::Medial);
+        t.setStatus(StatusType::obturation, Surface::Distal);
+        t.setStatus(StatusType::obturation, Surface::Occlusal);
     };
 
     auto& teeth = m_ambList.teeth;
-
-    switch (code)
+    for (auto idx : m_selectedIndexes)
     {
-    case OtherInputs::DO: for (auto& t : m_selectedTeeth)DO(t); break;
-    case OtherInputs::MO: for (auto& t : m_selectedTeeth)MO(t); break;
-    case OtherInputs::MOD: for (auto& t : m_selectedTeeth)MOD(t); break;
-    case OtherInputs::removeC: for (auto& t : m_selectedTeeth) t->removeStatus(StatusType::caries); break;
-    case OtherInputs::removeO: for (auto& t : m_selectedTeeth) t->removeStatus(StatusType::obturation); break;
-    case OtherInputs::removeBridge: 
-        for (auto& t : m_selectedTeeth) teeth.removeBridge(t->index);  
-        teeth.formatBridges(m_selectedIndexes);         
-        for (int i = 0; i < 32; i++)
+
+        auto& tooth = m_ambList.teeth[idx];
+
+        switch (code)
         {
-            view->repaintTooth(ToothHintCreator::getToothHint(m_ambList.teeth[i], patient->teethNotes[i]));
-        } 
-        break;
-    case OtherInputs::removeAll: 
-        for (auto& t : m_selectedTeeth) t->removeStatus();  
-        teeth.formatBridges(m_selectedIndexes); 
-        for (int i = 0; i < 32; i++)
-        {
-            view->repaintTooth(ToothHintCreator::getToothHint(m_ambList.teeth[i], patient->teethNotes[i]));
+            case OtherInputs::DO: DO(tooth); break;
+            case OtherInputs::MO: MO(tooth); break;
+            case OtherInputs::MOD: MOD(tooth); break;
+            case OtherInputs::removeC: tooth.removeStatus(StatusType::caries); break;
+            case OtherInputs::removeO: tooth.removeStatus(StatusType::obturation); break;
+            case OtherInputs::removeBridge:
+                teeth.removeBridgeOrSplint(m_selectedIndexes);
+                break;
+            case OtherInputs::removeAll:
+                teeth.removeEveryStatus(m_selectedIndexes);
+                break;
         }
-        break;
+    }
+
+    for (int i = 0; i < 32; i++)
+    {
+        view->repaintTooth(ToothHintCreator::getToothHint(m_ambList.teeth[i], patient->teethNotes[i]));
     }
 
     statusChanged();
@@ -401,19 +397,21 @@ void ListPresenter::setOther(int code)
 void ListPresenter::setSelectedTeeth(const std::vector<int>& SelectedIndexes)
 {
     m_selectedIndexes = SelectedIndexes;
-    m_selectedTeeth = m_ambList.teeth.getSelectedTeethPtr(SelectedIndexes);
-    m_checkModel = CheckModel(m_selectedTeeth);
+
+    m_checkModel = CheckModel(m_ambList.teeth.getSelectedTeethPtr(SelectedIndexes));
+
     view->setCheckModel(m_checkModel);
 
-    bool oneToothSelected = m_selectedTeeth.size() == 1;
-
-    if (oneToothSelected)
-    {
-        surf_presenter.setTooth(m_selectedTeeth[0]);
+    if(m_selectedIndexes.size() == 1){
+        surf_presenter.setTooth(m_ambList.teeth[m_selectedIndexes[0]]);
+        view->hideSurfacePanel(false);
     }
-    
-    view->hideControlPanel(!m_selectedTeeth.size());
-    view->hideSurfacePanel(!oneToothSelected);
+    else {
+        view->hideSurfacePanel(true);
+    }
+
+    view->hideControlPanel(m_selectedIndexes.empty());
+
 }
 
 
@@ -524,7 +522,7 @@ void ListPresenter::openDetails(int toothIdx)
 
 void ListPresenter::openDetails()
 {
-    if (m_selectedTeeth.size() == 1) openDetails(m_selectedTeeth[0]->index);
+    if (m_selectedIndexes.size() == 1) openDetails(m_selectedIndexes[0]);
 }
 
 
@@ -545,7 +543,7 @@ void ListPresenter::addProcedure()
     ProcedureDialogPresenter p
     {
         m_ambList,
-        m_selectedTeeth,
+        m_ambList.teeth.getSelectedTeethPtr(m_selectedIndexes),
         patient->turns18At(),
         patient->canBePregnant(m_ambList.getDate())
     };

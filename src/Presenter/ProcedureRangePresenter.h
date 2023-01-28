@@ -13,7 +13,7 @@ class ProcedureRangePresenter : public AbstractSubPresenter
 
 	BridgeRangeValidator range_validator;
 
-	const std::vector<Tooth*>& selectedTeeth;
+	const std::vector<const Tooth*>& selectedTeeth;
 
 	int begin;
 	int end;
@@ -21,7 +21,7 @@ class ProcedureRangePresenter : public AbstractSubPresenter
 	void rangeChanged(int begin, int end) override;
 
 public:
-	ProcedureRangePresenter(const std::vector<Tooth*>& selectedTeeth, ProcedureType type);
+	ProcedureRangePresenter(const std::vector<const Tooth*>& selectedTeeth, ProcedureType type);
 	
 	void setAdditionalTemplateParameters() override;
 

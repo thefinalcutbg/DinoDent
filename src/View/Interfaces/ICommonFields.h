@@ -16,7 +16,7 @@ public:
 
 	enum BridgeCheckState { Checked, Unchecked, Hidden };
 
-	enum WidgetLayout { General, Restoration, Crown, Range };
+	enum WidgetLayout { General, Restoration, Crown, Range, Anesthesia };
 
 	virtual AbstractLineEdit* procedureNameEdit() = 0;
 	virtual AbstractLineEdit* diagnosisEdit() = 0;
@@ -37,6 +37,8 @@ public:
 	virtual void setNhifLayout(bool nhif) = 0;
 	virtual void setFinancingSource(FinancingSource s) = 0;
 	virtual FinancingSource getFinancingSource() = 0;
+	virtual int getMinutes() = 0;
+	virtual void setMinutes(int minutes) = 0;
 	virtual void setHyperdonticState(bool checked) = 0;
 	virtual bool onHyperdontic() = 0;
 };

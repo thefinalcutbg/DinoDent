@@ -44,6 +44,9 @@ void ProcedureEditorPresenter::setView(IProcedureEditDialog* view)
 			view->commonFields()->rangeWidget()->setBridgeRange(begin, end);
 		}
 			break;
+		case ProcedureType::nhif_anesthesia:
+			auto [minutes] = std::get<Anesthesia>(m_procedure.result);
+			view->commonFields()->setMinutes(minutes);
 	}
 
 	view->commonFields()->dateEdit()->validateInput();
@@ -76,6 +79,9 @@ void ProcedureEditorPresenter::okPressed()
 			auto [begin, end] = view->commonFields()->rangeWidget()->getRange();
 			result->result = ConstructionRange{ begin, end };
 		}
+			break;
+		case ProcedureType::nhif_anesthesia:
+			result->result = Anesthesia{ view->commonFields()->getMinutes() };
 			break;
 		default:
 			result->result = NoData{};

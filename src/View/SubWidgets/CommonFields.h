@@ -41,6 +41,8 @@ public:
 	void setNhifLayout(bool nhif) override;
 	FinancingSource getFinancingSource() override;
 	void setFinancingSource(FinancingSource s) override;
+	int getMinutes() override;
+	void setMinutes(int minutes) override;
 	void setHyperdonticState(bool checked) override;
 	bool onHyperdontic() override;
 	

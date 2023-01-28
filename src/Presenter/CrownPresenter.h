@@ -9,7 +9,7 @@ class ToothContainer;
 class CrownPresenter : public AbstractSubPresenter
 {
 	const ToothContainer& teeth;
-	const std::vector<Tooth*>& selectedTeeth;
+	const std::vector<const Tooth*>& selectedTeeth;
 
 	BridgeRangeValidator range_validator;
 	std::string m_ksmpOther;
@@ -28,7 +28,7 @@ class CrownPresenter : public AbstractSubPresenter
 
 
 public:
-	CrownPresenter(const std::vector<Tooth*>& selectedTeeth, const ToothContainer& teeth);
+	CrownPresenter(const std::vector<const Tooth*>& selectedTeeth, const ToothContainer& teeth);
 	
 
 	void rangeChanged(int begin, int end) override;

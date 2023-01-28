@@ -5,6 +5,7 @@
 
 constexpr int defaultSurfaces[32] = { 0,0,0,0,0,3,3,3,3,3,3,0,0,0,0,0,0,0,0,0,0,3,3,3,3,3,3,0,0,0,0,0 };
 
+
 ToothContainer::ToothContainer(){
 
 	teeth.reserve(teethCount);
@@ -56,13 +57,58 @@ int ToothContainer::getMissingTeethCount(bool countWisdom) const
 
 
 
-std::vector<Tooth*> ToothContainer::getSelectedTeethPtr(std::vector<int> selectedIndexes)
+std::vector<const Tooth*> ToothContainer::getSelectedTeethPtr(std::vector<int> selectedIndexes) const
 {
-	std::vector<Tooth*> selectedPtr;
+	std::vector<const Tooth*> selectedPtr;
 	selectedPtr.reserve(selectedIndexes.size());
 	for (auto i : selectedIndexes)
 		selectedPtr.push_back(&teeth.at(i));
 	return selectedPtr;
+}
+
+bool ToothContainer::canResultInNonRetainedConstruction(int status)
+{
+	return	status == StatusCode::Extraction ||
+		status == StatusCode::Impacted ||
+		status == StatusCode::Root
+		;
+}
+
+
+bool ToothContainer::needsBridgeFormatting(int status)
+{
+	return
+		status == StatusCode::Bridge ||
+		status == StatusCode::Crown ||
+		status == StatusCode::FiberSplint
+		;
+}
+
+void ToothContainer::setStatus(const std::vector<int>& selectedTeethIdx, StatusCode::StatusCode code, bool state)
+{
+	for (auto& idx : selectedTeethIdx)
+	{
+		teeth[idx].setStatus(StatusType::general, code, state);
+	}
+
+	if (needsBridgeFormatting(code)) {
+		formatBridges(selectedTeethIdx);
+	}
+	else if (canResultInNonRetainedConstruction(code))
+	{
+		removeNonRetainedConstruction();
+	}
+
+}
+
+void ToothContainer::removeEveryStatus(const std::vector<int>& selectedTeethidx)
+{
+	for (auto idx : selectedTeethidx)
+	{
+		teeth[idx].removeStatus();
+	}
+
+	formatBridges(selectedTeethidx);
 }
 
 
@@ -70,20 +116,74 @@ void ToothContainer::formatBridges(const std::vector<int>& indexes)
 {
     auto selections = std::move(selectionCutter(indexes));
 
-    for (auto selection : selections)
+    for (auto& selection : selections)
 	{
         formatSelection<&Tooth::bridge>(selection, teeth);
 		formatSelection<&Tooth::splint>(selection, teeth);
     }
+
+	removeNonRetainedConstruction();
 }
 
 
-void ToothContainer::removeBridge(int tooth_idx)
+void ToothContainer::removeNonRetainedConstruction()
 {
-	auto [bridgeBegin, bridgeEnd] = getConstructionRange<&Tooth::bridge>(teeth, tooth_idx);
+	int bridgeBegin{ -1 };
+	int bridgeLength{ 0 };
+	int noRetainer{ 0 };
 
-	for (int i = bridgeBegin; i <= bridgeEnd; i++)
-		teeth.at(i).bridge.set(false);
+	for (int i = 0; i < 32; i++)
+	{
+		bool hasBridge = teeth[i].bridge || teeth[i].splint;
+
+		if (!hasBridge) {
+			bridgeLength = 0;
+			noRetainer = 0;
+			continue;
+		}
+
+		bridgeLength++;
+
+		if (teeth[i].root || teeth[i].extraction || teeth[i].impacted) noRetainer++;
+
+		if (teeth[i].bridge.position == BridgePos::Begin) {
+			bridgeBegin = i;
+			continue;
+		}
+
+		if (teeth[i].bridge.position != BridgePos::End) continue;
+
+		int bridgeEnd = i;
+
+		if (bridgeLength == noRetainer)
+		{
+			for (int y = bridgeBegin; y <= bridgeEnd; y++)
+			{
+				teeth[y].bridge.set(false);
+				teeth[y].splint.set(false);
+			}
+		}
+	}
+}
+
+void ToothContainer::removeBridgeOrSplint(const std::vector<int>& selectedIndexes)
+{
+	for (auto index : selectedIndexes) {
+		auto [bridgeBegin, bridgeEnd] = getConstructionRange<&Tooth::bridge>(teeth, index);
+
+		for (int i = bridgeBegin; i <= bridgeEnd; i++)
+			teeth.at(i).bridge.set(false);
+	}
+
+	for (auto index : selectedIndexes) {
+		auto [bridgeBegin, bridgeEnd] = getConstructionRange<&Tooth::splint>(teeth, index);
+
+		for (int i = bridgeBegin; i <= bridgeEnd; i++)
+			teeth.at(i).splint.set(false);
+	}
+
+	formatBridges(selectedIndexes);
+	
 
 }
 
@@ -142,7 +242,6 @@ void ToothContainer::setToothDetails(const Tooth& tooth)
 	{
 		auto& bridge = teeth.at(i).bridge;
 		bridge.set(bridgeStat.exists());
-		//bridge.data = bridgeStat.data;
 		bridge.LPK = bridgeStat.LPK;
 	}
 

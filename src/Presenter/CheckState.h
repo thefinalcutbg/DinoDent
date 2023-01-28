@@ -8,7 +8,7 @@ enum class CheckState { unchecked, checked, partially_checked };
 struct CheckModel
 {
 
-    CheckModel(const std::vector<Tooth*>& selectedTeeth);
+    CheckModel(const std::vector<const Tooth*>& selectedTeeth);
     CheckModel(const Tooth& tooth);
 
     CheckModel() :

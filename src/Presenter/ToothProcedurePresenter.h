@@ -7,7 +7,7 @@ class ToothProcedurePresenter : public AbstractSubPresenter
 {
 
 protected:
-	const std::vector<Tooth*>& selectedTeeth;
+	const std::vector<const Tooth*>& selectedTeeth;
 
 	//virtual std::string getDiagnosis();
 	//virtual void modifyProcedure(Procedure& p) {}; //override in subclasses
@@ -17,7 +17,7 @@ protected:
 
 public:
 
-	ToothProcedurePresenter(const std::vector<Tooth*>& selectedTeeth, ProcedureType t = ProcedureType::any);
+	ToothProcedurePresenter(const std::vector<const Tooth*>& selectedTeeth, ProcedureType t = ProcedureType::any);
 	
 	void setAdditionalTemplateParameters() override {
 
@@ -42,7 +42,7 @@ class EndoPresenter : public ToothProcedurePresenter
 	std::string getDiagnosis(const Tooth& tooth);
 
 public:
-	EndoPresenter(const std::vector<Tooth*>& selectedTeeth);
+	EndoPresenter(const std::vector<const Tooth*>& selectedTeeth);
 	std::vector<Procedure> getProcedures() override;
 };
 
@@ -52,7 +52,7 @@ class ExtractionPresenter : public ToothProcedurePresenter
 	std::string getDiagnosis(const Tooth& tooth);
 
 public:
-	ExtractionPresenter(const std::vector<Tooth*>& selectedTeeth);
+	ExtractionPresenter(const std::vector<const Tooth*>& selectedTeeth);
 	std::vector<Procedure> getProcedures() override;
 };
 
@@ -61,5 +61,5 @@ class ImplantPresenter : public ToothProcedurePresenter
 	std::string getDiagnosis(const Tooth& tooth);
 
 public:
-	ImplantPresenter(const std::vector<Tooth*>& selectedTeeth);
+	ImplantPresenter(const std::vector<const Tooth*>& selectedTeeth);
 };

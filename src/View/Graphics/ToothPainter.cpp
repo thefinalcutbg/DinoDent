@@ -371,7 +371,7 @@ inline QPixmap getToothPixmap(const ToothPaintHint& tooth)
 
     
 
-    if (tooth.impacted && !tooth.dns) {
+    if (tooth.impacted) {
 
         painter.translate(0, -coords.impactedOffset);
 
@@ -683,7 +683,7 @@ QPixmap ToothPainter::getDnsBuccal(const ToothPaintHint& toothHint)
 
     QPainter painter(&pixmap);
 
-    int toothYPosition = toothHint.impacted ? 40 : 140;
+    int toothYPosition = toothHint.dnsToothImplacted ? 40 : 140;
 
     rotateByQuadrant(painter, coords.toothRect.width(), pixmapHeight, ToothUtils::getQuadrant(toothHint.idx));
 
@@ -711,7 +711,7 @@ QPixmap ToothPainter::getDnsBuccalLingual(const ToothPaintHint& toothHint)
 
     rotateByQuadrant(painter, coords.toothRect.width(), pixmapHeight, ToothUtils::getQuadrant(toothHint.idx));
 
-    if (toothHint.impacted) {
+    if (toothHint.dnsToothImplacted) {
 
         painter.drawPixmap(
             QRect(0, 0 + 40, coords.toothRect.width(), 350),
@@ -751,7 +751,7 @@ QPixmap ToothPainter::getDnsLingual(const ToothPaintHint& tooth)
 
     QPainter painter(&pixmap);
 
-    int toothYPosition = tooth.impacted ? 340 : 270;
+    int toothYPosition = tooth.dnsToothImplacted ? 340 : 270;
 
     rotateByQuadrantLingual(painter, coords.toothRect.width(), pixmapHeight, ToothUtils::getQuadrant(tooth.idx));
 

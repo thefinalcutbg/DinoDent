@@ -25,7 +25,7 @@ public:
 
 		void setView(ISurfacePanel* view);
 		void setStatusControl(ListPresenter* status_presenter);
-		void setTooth(Tooth* tooth);
+		void setTooth(const Tooth& tooth);
 		void buttonClicked(ButtonPos position, SurfaceClick click);
 		void sideCariesClicked();
 		void sideObturationClicked();

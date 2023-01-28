@@ -10,7 +10,7 @@
 ProcedureDialogPresenter::ProcedureDialogPresenter
 (
 	const AmbList& ambSheet,
-	const std::vector<Tooth*>& selectedTeeth,
+	const std::vector<const Tooth*>& selectedTeeth,
 	const Date& patientTurns18,
 	bool pregnancyAllowed
 )
@@ -35,7 +35,7 @@ ProcedureDialogPresenter::ProcedureDialogPresenter
 	crownRemove_presenter(this->selectedTeeth, ProcedureType::removecrown),
 	postRemove_presenter(this->selectedTeeth, ProcedureType::removepost),
 	bridgeSplintRemove_presenter(this->selectedTeeth, ProcedureType::removebridgeOrSplint),
-
+	
 	presenters_ptr
 	{
 		&general_presenter,
@@ -48,7 +48,8 @@ ProcedureDialogPresenter::ProcedureDialogPresenter
 		&fiber_presenter,
 		&crownRemove_presenter,
 		&postRemove_presenter,
-		&bridgeSplintRemove_presenter
+		&bridgeSplintRemove_presenter,
+		&anesthesia_presenter
 	}
 {
 

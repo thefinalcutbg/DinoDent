@@ -8,7 +8,7 @@ class ObturationPresenter : public AbstractSubPresenter
 {
 	SurfaceValidator surf_validator;
 
-	const std::vector<Tooth*>& selectedTeeth;
+	const std::vector<const Tooth*>& selectedTeeth;
 
 	std::string getDiagnosis(const Tooth& tooth);
 
@@ -17,7 +17,7 @@ class ObturationPresenter : public AbstractSubPresenter
 	bool selectedForFirstTime = true;
 
 public:
-	ObturationPresenter(const std::vector<Tooth*>& selectedTeeth);
+	ObturationPresenter(const std::vector<const Tooth*>& selectedTeeth);
 
 	void setAdditionalTemplateParameters() override;
 	bool additionalValidation() override;

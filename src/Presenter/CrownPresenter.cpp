@@ -5,7 +5,7 @@
 #include "View/Interfaces/AbstractRangeEdit.h"
 
 CrownPresenter::CrownPresenter(
-	const std::vector<Tooth*>& selectedTeeth,
+	const std::vector<const Tooth*>& selectedTeeth,
 	const ToothContainer& teeth
 )
 	:

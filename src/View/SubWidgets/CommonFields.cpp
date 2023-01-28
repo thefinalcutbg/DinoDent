@@ -127,6 +127,8 @@ void CommonFields::setErrorMsg(const std::string& error)
 	ui.notesLabel->setHidden(true);
 	ui.hyperdonticCheckBox->setHidden(true);
 	ui.errorLabel->setText(error.c_str());
+	ui.minutesLabel->setHidden(true);
+	ui.minutesSpin->setHidden(true);
 }
 
 void CommonFields::setLayout(WidgetLayout layout, bool showHyperdontic)
@@ -148,24 +150,37 @@ void CommonFields::setLayout(WidgetLayout layout, bool showHyperdontic)
 		ui.rangeWidget->setHidden(true);
 		ui.surfaceWidget->setHidden(true);
 		ui.bridgeCheckBox->setHidden(true);
+		ui.minutesLabel->setHidden(true);
+		ui.minutesSpin->setHidden(true);
 		break;
 	case WidgetLayout::Crown:
 		ui.rangeWidget->setHidden(false);
 		ui.surfaceWidget->setHidden(true);
 		ui.bridgeCheckBox->setHidden(false);
+		ui.minutesLabel->setHidden(true);
+		ui.minutesSpin->setHidden(true);
 		break;
 	case WidgetLayout::Range:
 		ui.rangeWidget->disable(false);
 		ui.rangeWidget->setHidden(false);
 		ui.surfaceWidget->setHidden(true);
 		ui.bridgeCheckBox->setHidden(true);
+		ui.minutesLabel->setHidden(true);
+		ui.minutesSpin->setHidden(true);
 		break;
 	case WidgetLayout::Restoration:
 		ui.rangeWidget->setHidden(true);
 		ui.surfaceWidget->setHidden(false);
 		ui.bridgeCheckBox->setHidden(true);
+		ui.minutesLabel->setHidden(true);
+		ui.minutesSpin->setHidden(true);
 		break;
-	
+	case WidgetLayout::Anesthesia:
+		ui.rangeWidget->setHidden(true);
+		ui.surfaceWidget->setHidden(true);
+		ui.bridgeCheckBox->setHidden(true);
+		ui.minutesLabel->setHidden(false);
+		ui.minutesSpin->setHidden(false);
 	}
 }
 
@@ -192,6 +207,16 @@ void CommonFields::setFinancingSource(FinancingSource s)
 
 	ui.PHIFcheckbox->setChecked(s == FinancingSource::PHIF);
 
+}
+
+int CommonFields::getMinutes()
+{
+	return ui.minutesSpin->isHidden() ? 0 : ui.minutesSpin->value();
+}
+
+void CommonFields::setMinutes(int minutes)
+{
+	ui.minutesSpin->setValue(minutes);
 }
 
 void CommonFields::setHyperdonticState(bool checked)

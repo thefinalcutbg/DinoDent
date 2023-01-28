@@ -47,7 +47,8 @@ enum class ProcedureType
 	fibersplint = 8, 
 	removecrown = 9, 
     removepost = 10,
-	removebridgeOrSplint = 11
+	removebridgeOrSplint = 11,
+    nhif_anesthesia = 12
 };
 
 enum class FinancingSource { NHIF = 2, PHIF = 3, Patient = 4 };

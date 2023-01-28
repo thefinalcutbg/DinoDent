@@ -1,6 +1,6 @@
 ﻿#include "ToothProcedurePresenter.h"
 
-ToothProcedurePresenter::ToothProcedurePresenter(const std::vector<Tooth*>& selectedTeeth, ProcedureType t)
+ToothProcedurePresenter::ToothProcedurePresenter(const std::vector<const Tooth*>& selectedTeeth, ProcedureType t)
 	:
 	AbstractSubPresenter(t),
 	selectedTeeth(selectedTeeth)
@@ -26,7 +26,7 @@ std::vector<Procedure> ToothProcedurePresenter::getProcedures()
 }
 
 
-EndoPresenter::EndoPresenter(const std::vector<Tooth*>& selectedTeeth) :
+EndoPresenter::EndoPresenter(const std::vector<const Tooth*>& selectedTeeth) :
 	ToothProcedurePresenter(selectedTeeth, ProcedureType::endo)
 {
 	if (selectedTeeth.size() == 1)
@@ -77,7 +77,7 @@ std::string EndoPresenter::getDiagnosis(const Tooth& tooth)
 
 
 
-ExtractionPresenter::ExtractionPresenter(const std::vector<Tooth*>& selectedTeeth) :
+ExtractionPresenter::ExtractionPresenter(const std::vector<const Tooth*>& selectedTeeth) :
 	ToothProcedurePresenter(selectedTeeth, ProcedureType::extraction)
 {
 	if (selectedTeeth.size() == 1)
@@ -137,7 +137,7 @@ std::string ExtractionPresenter::getDiagnosis(const Tooth& tooth)
 }
 
 
-ImplantPresenter::ImplantPresenter(const std::vector<Tooth*>& selectedTeeth) :
+ImplantPresenter::ImplantPresenter(const std::vector<const Tooth*>& selectedTeeth) :
 	ToothProcedurePresenter(selectedTeeth, ProcedureType::extraction)
 {
 	if (selectedTeeth.size() == 1)

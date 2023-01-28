@@ -16,7 +16,7 @@ class ProcedureDialogPresenter
 {
 	int currentIndex{ -1 };
 
-	std::vector<Tooth*> selectedTeeth;
+	std::vector<const Tooth*> selectedTeeth;
 
 	const AmbList& ambList;
 
@@ -34,8 +34,9 @@ class ProcedureDialogPresenter
 	ToothProcedurePresenter crownRemove_presenter;
 	ToothProcedurePresenter postRemove_presenter;
 	ProcedureRangePresenter bridgeSplintRemove_presenter;
+	NhifAnesthesiaPresenter anesthesia_presenter;
 
-	std::array<AbstractSubPresenter*, 11> presenters_ptr;
+	std::array<AbstractSubPresenter*, 12> presenters_ptr;
 	AbstractSubPresenter* current_m_presenter;
 
 	IProcedureDialog* view;
@@ -54,7 +55,7 @@ class ProcedureDialogPresenter
 		ProcedureDialogPresenter
 		(
 			const AmbList& ambSheet,
-			const std::vector<Tooth*>& selectedTeeth,
+			const std::vector<const Tooth*>& selectedTeeth,
 			const Date& patientTurns18,
 			bool pregnancyAllowed
 		);

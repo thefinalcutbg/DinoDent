@@ -30,6 +30,7 @@ struct ToothPaintHint
 
 	bool lesion;
 	bool dns;
+	bool dnsToothImplacted = false;
 	bool perio;
 	bool frac;
 	bool impacted;

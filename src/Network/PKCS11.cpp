@@ -3,26 +3,47 @@
 #include <vector>
 #include "Base64Convert.h"
 #include <iostream>
+#include <array>
 #include <exception>
 #include <filesystem>
 #include <qdebug.h>
+
 PKCS11_CTX* ctx{ nullptr };
 
-std::vector<std::string_view> modules{
-	//"cmP1164.dll",
-	//"IDPrimePKCS1164.dll",
-	//"bit4xpki.dll"
+
+std::vector<std::string> PKCS11::getModulesList()
+{
+	static std::array<std::string_view, 7> modules = {
 	"C:\\Program Files\\SafeNet\\Authentication\\SAC\\x64\\IDPrimePKCS1164.dll",
+	"C:\\Windows\\System32\\idprimepkcs11.dll",
 	"C:\\Windows\\System32\\bit4ipki.dll",
 	"C:\\Windows\\System32\\cmP11.dll",
 	"C:\\Windows\\System32\\cvP11.dll",
 	"C:\\Windows\\System32\\siecap11.dll",
-	"C:\\Windows\\System32\\cmP1164.dll",
-	"C:\\Windows\\System32\\idprimepkcs11.dll"
-};
+	"C:\\Windows\\System32\\cmP1164.dll"
+	};
+
+	bool newBTrustDriver{ false };
+
+	std::vector<std::string> result;
+
+	for (int i = 0; i < modules.size(); i++)
+	{
+		if (newBTrustDriver && i == 1) continue; //it slows down the process of loading pkcs11
+
+		if (!std::filesystem::exists(modules[i])) continue;
+
+		if (i == 0) newBTrustDriver = true;
+
+		result.push_back(modules[i].data());
+	}
+
+	return result;
+}
 
 
-bool loadModuleWithToken()
+
+bool PKCS11::loadModuleWithToken()
 {
 	if (!ctx) {
 		ctx = PKCS11_CTX_new();
@@ -30,15 +51,9 @@ bool loadModuleWithToken()
 
 	bool success = false;
 
-	for (int i = 0; i < modules.size(); i++)
+	for (auto& module : getModulesList())
 	{
-
-		if (!std::filesystem::exists(modules[i]))
-		{
-			continue;
-		}
-
- 		if (PKCS11_CTX_load(ctx, modules[i].data()))
+ 		if (PKCS11_CTX_load(ctx, module.data()))
 		{
 			PKCS11_CTX_unload(ctx);
 			continue;
@@ -88,6 +103,7 @@ bool loadModuleWithToken()
 	return success;
 
 }
+
 
 PKCS11::PKCS11()
 {

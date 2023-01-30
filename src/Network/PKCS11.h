@@ -1,4 +1,5 @@
 #include <string>
+#include <vector>
 
 struct evp_pkey_st;
 struct PKCS11_slot_st;
@@ -20,6 +21,8 @@ class PKCS11
 	std::string m_subjectName;
 	std::string m_issuer;
 
+	std::vector<std::string> getModulesList();
+	bool loadModuleWithToken();
 
 public:
 	PKCS11();

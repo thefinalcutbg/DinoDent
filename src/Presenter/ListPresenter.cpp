@@ -735,6 +735,11 @@ void ListPresenter::createPerioMeasurment()
     tabPresenter->openPerio(*this->patient.get());
 }
 
+void ListPresenter::createPrescription()
+{
+    tabPresenter->openPerscription(*this->patient.get());
+}
+
 
 ListPresenter::~ListPresenter()
 {

@@ -102,6 +102,7 @@ public:
 
     void createInvoice();
     void createPerioMeasurment();
+    void createPrescription();
 
 
     ~ListPresenter();

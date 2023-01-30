@@ -28,13 +28,16 @@ ListView::ListView(QWidget* parent)
 
 	ui.perioButton->setIcon(QIcon(":/icons/icon_periosheet.png"));
 	ui.invoiceButton->setIcon(QIcon(":/icons/icon_invoice.png"));
+	ui.prescrButton->setIcon(QIcon(":/icons/icon_prescr.png"));
 	ui.addProcedure->setIcon(QIcon(":/icons/icon_add.png"));
 	ui.deleteProcedure->setIcon(QIcon(":/icons/icon_remove.png"));
 	ui.editProcedure->setIcon(QIcon(":/icons/icon_edit.png"));
 	ui.nzokActivities->setIcon(QIcon(":/icons/icon_nzok.png"));
 
+
 	ui.perioButton->setHoverColor(Theme::mainBackgroundColor);
 	ui.invoiceButton->setHoverColor(Theme::mainBackgroundColor);
+	ui.prescrButton->setHoverColor(Theme::mainBackgroundColor);
 	ui.addProcedure->setHoverColor(Theme::mainBackgroundColor);
 	ui.deleteProcedure->setHoverColor(Theme::mainBackgroundColor);
 	ui.editProcedure->setHoverColor(Theme::mainBackgroundColor);
@@ -88,6 +91,7 @@ ListView::ListView(QWidget* parent)
 	connect(ui.editProcedure, &QPushButton::clicked, [=] { if (presenter) presenter->editProcedure(ui.procedureTable->selectedRow()); });
 	connect(ui.invoiceButton, &QPushButton::clicked, [=] { if (presenter) presenter->createInvoice(); });
 	connect(ui.perioButton, &QPushButton::clicked, [=] { if (presenter) presenter->createPerioMeasurment(); });
+	connect(ui.prescrButton, &QPushButton::clicked, [=] { if (presenter) presenter->createPrescription(); });
 	connect(ui.deleteProcedure, &QAbstractButton::clicked, 
 		[=] {
 

@@ -261,16 +261,18 @@ void AllergiesTile::setData(const Patient& patient)
 	if (!patient.allergies.size())
 		allergies = noInfo;
 	else
-		allergies = elide(QString::fromStdString(patient.allergies), 50);
+		allergies = elide(QString::fromStdString(patient.allergies), 40);
 
 	if (!patient.currentDiseases.size())
 		currentDiseases = noInfo;
-	else currentDiseases = elide(QString::fromStdString(patient.currentDiseases), 50);
+	else currentDiseases = elide(QString::fromStdString(patient.currentDiseases), 40);
 
 	if (!patient.pastDiseases.size())
 		pastDiseases = noInfo;
 	else
-		pastDiseases = elide(QString::fromStdString(patient.pastDiseases), 50);
+		pastDiseases = elide(QString::fromStdString(patient.pastDiseases), 40);
+
+	update();
 }
 
 void AllergiesTile::paintInfo(QPainter* painter)

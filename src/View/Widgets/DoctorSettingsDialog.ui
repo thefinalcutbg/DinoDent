@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>399</width>
-    <height>361</height>
+    <height>402</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -22,7 +22,7 @@
   <widget class="LineEdit" name="lpkEdit">
    <property name="geometry">
     <rect>
-     <x>90</x>
+     <x>110</x>
      <y>20</y>
      <width>81</width>
      <height>21</height>
@@ -88,7 +88,7 @@
    <property name="geometry">
     <rect>
      <x>310</x>
-     <y>330</y>
+     <y>370</y>
      <width>75</width>
      <height>24</height>
     </rect>
@@ -103,7 +103,7 @@
   <widget class="LineEdit" name="egnLineEdit">
    <property name="geometry">
     <rect>
-     <x>90</x>
+     <x>110</x>
      <y>60</y>
      <width>81</width>
      <height>20</height>
@@ -120,7 +120,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>260</y>
+     <y>300</y>
      <width>51</width>
      <height>21</height>
     </rect>
@@ -132,8 +132,8 @@
   <widget class="LineEdit" name="passEdit">
    <property name="geometry">
     <rect>
-     <x>90</x>
-     <y>260</y>
+     <x>110</x>
+     <y>300</y>
      <width>111</width>
      <height>21</height>
     </rect>
@@ -148,7 +148,7 @@
   <widget class="NameEdit" name="fNameEdit">
    <property name="geometry">
     <rect>
-     <x>90</x>
+     <x>110</x>
      <y>100</y>
      <width>113</width>
      <height>20</height>
@@ -161,7 +161,7 @@
   <widget class="NameEdit" name="lNameEdit">
    <property name="geometry">
     <rect>
-     <x>90</x>
+     <x>110</x>
      <y>180</y>
      <width>113</width>
      <height>20</height>
@@ -188,7 +188,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>330</y>
+     <y>370</y>
      <width>261</width>
      <height>21</height>
     </rect>
@@ -203,7 +203,7 @@
   <widget class="NameEdit" name="mNameEdit">
    <property name="geometry">
     <rect>
-     <x>90</x>
+     <x>110</x>
      <y>140</y>
      <width>113</width>
      <height>20</height>
@@ -230,7 +230,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>300</y>
+     <y>340</y>
      <width>191</width>
      <height>20</height>
     </rect>
@@ -242,7 +242,7 @@
   <widget class="LineEdit" name="phoneEdit">
    <property name="geometry">
     <rect>
-     <x>90</x>
+     <x>110</x>
      <y>220</y>
      <width>113</width>
      <height>20</height>
@@ -263,6 +263,32 @@
    </property>
    <property name="text">
     <string>Телефон:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_9">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>260</y>
+     <width>91</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Специалност:</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="specialtyButton">
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>260</y>
+     <width>75</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Изберете</string>
    </property>
   </widget>
  </widget>

@@ -56,7 +56,6 @@ public:
 	std::string getToothInfo() const;
 	std::string toothName() const;
 	bool canHaveACrown() const;
-
 	//for printing (T status is omitted)
 	std::string getStringStatus() const;
 	//for xml report generation

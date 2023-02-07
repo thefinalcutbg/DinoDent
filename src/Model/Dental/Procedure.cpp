@@ -195,3 +195,14 @@ void Procedure::applyPISProcedure(ToothContainer& teeth) const
 
 	
 }
+
+bool Procedure::isToothSpecific() const
+{
+	return
+		type != ProcedureType::general &&
+		type != ProcedureType::bridge &&
+		type != ProcedureType::fibersplint &&
+		type != ProcedureType::removebridgeOrSplint &&
+		type != ProcedureType::nhif_anesthesia
+	;
+}

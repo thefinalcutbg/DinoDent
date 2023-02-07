@@ -99,6 +99,10 @@ struct Procedure
     //applies the procedures, not taking data into account
     void applyPISProcedure(ToothContainer& teeth) const;
 
+    bool isToothSpecific() const;
+    bool isRangeSpecific() const {
+        return type == ProcedureType::bridge || type == ProcedureType::fibersplint;
+    }
     bool isNhif() const {
         return financingSource == FinancingSource::NHIF;
     }

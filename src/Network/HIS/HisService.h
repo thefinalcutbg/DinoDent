@@ -5,6 +5,9 @@
 
 struct Patient;
 
+constexpr const char* hisUrl = "https://api.his.bg/";
+//constexpr const char* hisUrl = "https://ptest-api.his.bg/";
+
 class HisService : protected AbstractReplyHandler
 {
 
@@ -20,6 +23,7 @@ protected:
 
 	std::string subject(const Patient& p);
 	std::string requester(bool includeNhifCode = false);
+	std::string performer();
 
 	std::string bind(const std::string& name, std::string value);
 	std::string bind(const std::string& name, int value, bool ommitZero = true);

@@ -13,6 +13,7 @@
 #include "Network/PIS/DentalActivitiesService.h"
 #include "Network/NRA/NraStatusService.h"
 #include "Network/PIS/DiagnosisService.h"
+#include "Network/HIS/EDental.h"
 #include "Presenter/PatientInfoPresenter.h"
 
 typedef std::vector<int> SelectedTeethIdx;
@@ -39,6 +40,7 @@ class ListPresenter : public TabInstance
     DentalActivitiesService dentalActService;
     NraStatusService nraStatusServ;
     DiagnosisService nhifDiagnosisServ;
+    EDental::Open eDentalOpenService;
 
     void prepareDerivedForSwitch() override {
         patient_info.setCurrent(false);
@@ -103,7 +105,8 @@ public:
     void createInvoice();
     void createPerioMeasurment();
     void createPrescription();
-
+    
+    void openHisExam();
 
     ~ListPresenter();
 };

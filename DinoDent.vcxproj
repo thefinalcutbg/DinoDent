@@ -229,7 +229,9 @@
     <ClCompile Include="src\Model\Prescription\TimeLapse.cpp" />
     <ClCompile Include="src\Model\Prescription\WhenToTake.cpp" />
     <ClCompile Include="src\Model\Referrals\RefNum.cpp" />
+    <ClCompile Include="src\Model\Specialty.cpp" />
     <ClCompile Include="src\Model\Validators\PrescriptionValidators.cpp" />
+    <ClCompile Include="src\Network\HIS\EDental.cpp" />
     <ClCompile Include="src\Network\HIS\EPrescription.cpp" />
     <ClCompile Include="src\Network\HIS\UpdateMkb.cpp" />
     <ClCompile Include="src\Network\PIS\ReportFilesService.cpp" />
@@ -399,6 +401,7 @@
     <ClCompile Include="src\View\Models\ProcedureTemplateModel.cpp" />
     <ClCompile Include="src\View\Models\QProcedure.cpp" />
     <ClCompile Include="src\View\Models\ReportFilesModel.cpp" />
+    <ClCompile Include="src\View\Models\SpecialtyTableModel.cpp" />
     <ClCompile Include="src\View\Models\StatisticTableModel.cpp" />
     <ClCompile Include="src\View\Printer.cpp" />
     <ClCompile Include="src\View\SubWidgets\CommonFields.cpp" />
@@ -501,6 +504,8 @@
     <ClInclude Include="src\Model\NumenclatureTemplate.h" />
     <ClInclude Include="src\Model\Referrals\ReferralData.h" />
     <ClInclude Include="src\Model\Referrals\RefNum.h" />
+    <ClInclude Include="src\Model\Specialty.h" />
+    <ClInclude Include="src\Network\HIS\EDental.h" />
     <ClInclude Include="src\Network\UpdateService\UpdateService.h" />
     <ClInclude Include="src\Path.h" />
     <ClInclude Include="src\Model\Dental\ReportFile.h" />
@@ -723,6 +728,7 @@
     <ClInclude Include="src\View\Models\QProcedure.h" />
     <QtMoc Include="src\View\Models\ReportFilesModel.h" />
     <QtMoc Include="src\View\Models\StatisticTableModel.h" />
+    <QtMoc Include="src\View\Models\SpecialtyTableModel.h" />
     <ClInclude Include="src\View\Printer.h" />
     <QtMoc Include="src\View\SubWidgets\PatientTileInfo.h" />
     <QtMoc Include="src\View\SubWidgets\ReferralTile.h" />

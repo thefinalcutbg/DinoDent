@@ -1,4 +1,4 @@
-#include "DoctorDialogPresenter.h"
+﻿#include "DoctorDialogPresenter.h"
 #include "View/Interfaces/AbstractLineEdit.h"
 #include "Database/DbDoctor.h"
 #include "View/ModalDialogBuilder.h"
@@ -36,6 +36,11 @@ void DoctorDialogPresenter::okPressed()
     }
 
     auto doctor = view->getDoctor();
+
+    if (!doctor.hisSpecialty.isValid()) {
+        ModalDialogBuilder::showMessage("Изберете специалност!");
+        return;
+    }
 
     if (m_editMode){
         DbDoctor::updateDoctor(doctor, current_LPK);

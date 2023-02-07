@@ -4,6 +4,7 @@
 #include "ui_DoctorSettingsDialog.h"
 
 #include "View/Interfaces/IDoctorSettingsDialog.h"
+#include "View/Models/SpecialtyTableModel.h"
 
 class DoctorSettingsDialog final : public QDialog, public IDoctorSettingsDialog
 {
@@ -12,6 +13,8 @@ class DoctorSettingsDialog final : public QDialog, public IDoctorSettingsDialog
 	DoctorDialogPresenter* presenter;
 
 	LineEdit* lineEdits[7];
+
+	SpecialtyTableModel his_specialtyModel;
 
 	void paintEvent(QPaintEvent* event) override;
 

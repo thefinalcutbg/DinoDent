@@ -2,7 +2,7 @@
 #include "Presenter/DoctorDialogPresenter.h"
 #include <unordered_map>
 #include <QPainter>
-
+#include "TableViewDialog.h"
 
 void DoctorSettingsDialog::paintEvent(QPaintEvent* event)
 {
@@ -39,6 +39,23 @@ DoctorSettingsDialog::DoctorSettingsDialog(DoctorDialogPresenter* presenter, QWi
 				presenter->validLPK(ui.lpkEdit->getText());
 		});
 
+
+	connect(ui.specialtyButton, &QPushButton::clicked,
+		[=] {
+
+				TableViewDialog d(his_specialtyModel, 1, ui.specialtyButton->text().toStdString());
+				d.setWindowTitle("Избор на специалност дентална медицина");
+				d.exec();
+
+				auto result = d.getResult();
+
+				if (d.getResult().size()) {
+					ui.specialtyButton->setText(result.c_str());
+					ui.specialtyButton->adjustSize();
+				}
+		}
+	);
+
 	presenter->setView(this);
 }
 
@@ -54,6 +71,15 @@ void DoctorSettingsDialog::setDoctor(const Doctor& doctor)
 	ui.phoneEdit->set_Text(doctor.phone);
 	ui.passEdit->set_Text(doctor.pass);
 	ui.severalRHIFcheck->setChecked(doctor.severalRHIF);
+
+	auto specialtyName = doctor.hisSpecialty.getName();
+
+	ui.specialtyButton->setText(
+		specialtyName.empty() ? "Изберете специалност" : specialtyName.c_str()
+	);
+
+	ui.specialtyButton->adjustSize();
+
 }
 
 Doctor DoctorSettingsDialog::getDoctor()
@@ -65,6 +91,7 @@ Doctor DoctorSettingsDialog::getDoctor()
 	doctor.mname = ui.mNameEdit->getText();
 	doctor.lname = ui.lNameEdit->getText();
 	doctor.phone = ui.phoneEdit->getText();
+	doctor.hisSpecialty = ui.specialtyButton->text().toStdString();
 	doctor.pass = ui.passEdit->getText();
 	doctor.severalRHIF = ui.severalRHIFcheck->isChecked();
 

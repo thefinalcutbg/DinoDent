@@ -740,6 +740,17 @@ void ListPresenter::createPrescription()
     tabPresenter->openPerscription(*this->patient.get());
 }
 
+void ListPresenter::openHisExam()
+{
+    eDentalOpenService.sendRequest(
+        m_ambList,
+        *patient,
+        [&](const std::string& nrn) {
+            ModalDialogBuilder::showMultilineDialog(nrn);
+        }
+    );
+}
+
 
 ListPresenter::~ListPresenter()
 {

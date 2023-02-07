@@ -45,7 +45,7 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
 
     report->SetAttribute("startFrom", from.to8601());
     report->SetAttribute("endTo", to.to8601());
-    report->SetAttribute("dentalServiceType", doctor.dentalServiceType());
+    report->SetAttribute("dentalServiceType", doctor.specialty == NhifSpecialty::General ? 0 : 1);
 
 
     TiXmlElement* dentalCareServices = new TiXmlElement("dentalCareServices");

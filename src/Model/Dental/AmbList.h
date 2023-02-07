@@ -21,6 +21,9 @@ struct AmbList
 	//Date date{ Date::currentDate() };
 	Time time{ Time::currentTime() };
 
+	std::string LNR;
+	std::string basedOn;
+
 	int number{ 0 };
 	std::string LPK;
 

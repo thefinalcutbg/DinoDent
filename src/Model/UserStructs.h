@@ -6,12 +6,11 @@
 #include "Model/Date.h"
 #include "Model/Settings.h"
 #include "Model/Dental/ProcedureTemplate.h"
+#include "Model/Specialty.h"
 
 constexpr const char* doctorPrefix = "д-р ";
 
 enum class NhifSpecialty {None, General, Pediatric, OralSurgeon, Maxillofacial};
-
-constexpr int specialtyToInt[5]{ 0, 64, 61, 62, 68 };
 
 struct PracticePair
 {
@@ -40,15 +39,7 @@ struct Doctor
 	std::string pass;
 	std::string phone;
 	bool severalRHIF{ false };
-
-	int dentalServiceType() const
-	{
-		switch (specialty) {
-			case NhifSpecialty::None: return -1;
-			case NhifSpecialty::General: return 0;
-			default: return 1;
-		}
-	}
+	Specialty hisSpecialty;
 
 	std::string getFullName(bool prefix = true) const
 	{
@@ -59,6 +50,9 @@ struct Doctor
 	}
 
 	int specialtyAsInt() const {
+
+		static constexpr int specialtyToInt[5]{ 0, 64, 61, 62, 68 };
+
 		return specialtyToInt[static_cast<int>(specialty)];
 	}
 

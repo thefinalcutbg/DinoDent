@@ -40,6 +40,7 @@ int main(int argc, char *argv[])
 #include "Model/User.h"
 #include "View/Graphics/SpriteSheets.h"
 #include "View/Graphics/Zodiac.h"
+#include "Model/Specialty.h"
 #include "Model/Dental/NhifProcedures.h"
 #include "Model/Dental/DiagnosisContainer.h"
 #include "Model/Dental/KSMP.h"
@@ -78,7 +79,7 @@ bool initFunction() {
     Route::initialize();
     WhenToTake::initialize();
     Date::initializeHolidays();
-
+    Specialty::initialize();
     Db::showErrorDialog(true);
     DbUpdater::updateDb();
 

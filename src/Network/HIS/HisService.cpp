@@ -10,9 +10,6 @@
 #include "Model/Patient.h"
 #include <QDateTime>
 
-constexpr const char* hisUrl = "https://api.his.bg/";
-//constexpr const char* hisUrl = "https://ptest-api.his.bg/";
-
 std::string timeNow() {
 	auto t = QDateTime::currentDateTime();
 	return t.toString(Qt::DateFormat::ISODate).toStdString();
@@ -22,7 +19,7 @@ std::string timeNow() {
 bool HisService::sendRequestToHis(const std::string& query)
 {
 	if (awaiting_reply) return false;
-	//ModalDialogBuilder::showMultilineDialog(buildMessage(query)); return true;
+	//ModalDialogBuilder::showMultilineDialog(buildMessage(query));// return true;
 
 	if (HisToken::getToken().empty()) {
 		return HisToken::requestToken(this, query);
@@ -155,6 +152,7 @@ std::string HisService::subject(const Patient& p)
 	return subject;
 }
 
+
 std::string HisService::requester(bool nhif)
 {
 	//cl008 numenclature
@@ -190,6 +188,34 @@ std::string HisService::requester(bool nhif)
 		;
 	return requester;
 
+}
+
+std::string HisService::performer()
+{
+
+
+	std::string nhifCode = User::hasNzokContract() ?
+		" nhifCode=\"" + std::to_string(User::doctor().specialtyAsInt()) + "\""
+		:
+		"";
+
+	std::string qualification =
+		"<nhis:qualification value=\"" 
+			+ std::to_string(User::doctor().hisSpecialty.getIdx())
+			+ "\"" + nhifCode + "/>";
+
+	std::string performer =
+		"<nhis:performer>"
+			"<nhis:pmi value=\"" + User::doctor().LPK + "\"/>"
+			+ qualification +
+			"<nhis:role value = \"1\"/>"
+			"<nhis:practiceNumber value=\"" + User::practice().rziCode + "\"/>"
+			"<nhis:nhifNumber value=\"" + User::practice().RHIF() + "\"/>"
+			"<nhis:phone value=\"" + User::doctor().phone + "\"/>"
+		"</nhis:performer>"
+		;
+
+	return performer;
 }
 
 std::string HisService::bind(const std::string& name, double value)

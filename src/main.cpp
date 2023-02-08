@@ -2,6 +2,7 @@
 #include "View/Widgets/DinoDent.h"
 #include "Network/UpdateService/UpdateService.h"
 #include <QTextCodec>
+#include "Model/FreeFunctions.h"
 bool initFunction();
 
 void testFn();

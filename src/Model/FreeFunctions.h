@@ -10,5 +10,6 @@ namespace FreeFn {
     std::string getFile(const std::string& filepath);
     std::string removeTrailing(double a);
     std::string getUuid();
+    std::string getTimeStamp();
 
 };

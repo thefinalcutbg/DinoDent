@@ -77,3 +77,10 @@ std::string FreeFn::getUuid()
 {
     return QUuid::createUuid().toString(QUuid::StringFormat::Id128).toStdString();
 }
+
+#include <QDateTime>
+
+std::string FreeFn::getTimeStamp()
+{
+    return QDateTime::currentDateTime().toString(Qt::ISODate).toStdString();
+}

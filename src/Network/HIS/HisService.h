@@ -3,10 +3,12 @@
 
 #include <string_view>
 
+class ProcedureContainer;
+class ToothContainer;
 struct Patient;
 
-constexpr const char* hisUrl = "https://api.his.bg/";
-//constexpr const char* hisUrl = "https://ptest-api.his.bg/";
+//constexpr const char* hisUrl = "https://api.his.bg/";
+constexpr const char* hisUrl = "https://ptest-api.his.bg/";
 
 class HisService : protected AbstractReplyHandler
 {
@@ -24,6 +26,8 @@ protected:
 	std::string subject(const Patient& p);
 	std::string requester(bool includeNhifCode = false);
 	std::string performer();
+	std::string getStatus(const ToothContainer& teeth);
+	std::string getProcedures(const ProcedureContainer& procedures);
 
 	std::string bind(const std::string& name, std::string value);
 	std::string bind(const std::string& name, int value, bool ommitZero = true);

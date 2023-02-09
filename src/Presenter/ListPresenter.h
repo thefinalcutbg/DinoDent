@@ -53,6 +53,8 @@ class ListPresenter : public TabInstance
     void statusChanged();
     void refreshPrices();
 
+    void makeEdited() override;
+
     //call when adding or removing procedures and referrals
     void dynamicNhifConversion();
 
@@ -106,7 +108,7 @@ public:
     void createPerioMeasurment();
     void createPrescription();
     
-    void openHisExam();
+    void hisButtonPressed();
 
     ~ListPresenter();
 };

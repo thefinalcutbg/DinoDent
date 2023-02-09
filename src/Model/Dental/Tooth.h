@@ -4,6 +4,7 @@
 #include <string>
 #include <array>
 #include "DiagnosisContainer.h"
+#include "Model/FreeFunctions.h"
 
 enum class StatusType{general, obturation, caries, mobility};
 
@@ -18,8 +19,10 @@ public:
 
 	ToothType type;
 
+	std::string last_update{ FreeFn::getTimeStamp() };
+
 	SurfaceStatus<SurfaceChild<DentistMade> > obturation;
-	SurfaceStatus<SurfaceChild<Pathology> > caries;
+	SurfaceStatus<SurfaceChild<Status> > caries;
 
 	Status temporary;
 	Status hyperdontic;
@@ -35,10 +38,10 @@ public:
 	Construction bridge;
 	Construction splint;
 
-	Pathology pulpitis;
-	Pathology lesion;
-	Pathology fracture;
-	Pathology root;
+	Status pulpitis;
+	Status lesion;
+	Status fracture;
+	Status root;
 	DentistMade post;
 
 	Mobility mobility;
@@ -60,6 +63,5 @@ public:
 	std::string getStringStatus() const;
 	//for xml report generation
 	std::vector<std::string> getSimpleStatuses() const;
-
 
 };

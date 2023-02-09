@@ -10,9 +10,6 @@ namespace EDental {
 	{
 		std::function<void(const std::string&)> m_callback;
 
-		std::string getStatus(const ToothContainer& teeth);
-		std::string getProcedures(const ProcedureContainer& procedures);
-
 	protected:
 		void parseReply(const std::string& reply) override;
 
@@ -26,6 +23,24 @@ namespace EDental {
 			std::function<void(const std::string&)> nrnCallback
 		);
 
+	};
+
+	class Augment : private HisService
+	{
+		std::function<void(bool)> m_callback;
+
+	protected:
+		void parseReply(const std::string& reply) override;
+
+	public:
+		Augment() :
+			HisService("D003", "/v1/edental/record/augment") {}
+
+		bool sendRequest(
+			const AmbList& ambSheet,
+			const Patient& patient,
+			std::function<void(bool)> success
+		);
 	};
 
 	class Cancel : private HisService

@@ -81,9 +81,8 @@ ListView::ListView(QWidget* parent)
 		"font-weight: bold; font-size: 12px;"
 	);
 	*/
-	ui.openHisButton->hide();
 
-	connect(ui.openHisButton, &QPushButton::clicked, [=] { if (presenter) presenter->openHisExam();});
+	connect(ui.hisButton, &QPushButton::clicked, [=] { if (presenter) presenter->hisButtonPressed();});
 	connect(ui.ambNumSpin, &LeadingZeroSpinBox::valueChanged, [=](long long value) {if(presenter)presenter->ambNumChanged(value);});
 	connect(ui.nzokActivities, &QPushButton::clicked, [=] { if (presenter) presenter->openPisHistory(); });
 	connect(ui.addProcedure, &QAbstractButton::clicked, [=] { if (presenter) presenter->addProcedure(); });

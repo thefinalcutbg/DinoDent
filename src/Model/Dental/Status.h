@@ -6,15 +6,19 @@
 #include "Enums.h"
 #include "Model/User.h"
 #include "Model/Dental/DentalNum.h"
+#include "Model/FreeFunctions.h"
 
 class Status
 {
+    std::string timeStamp;
 protected:
     bool m_exists{ 0 };
     virtual std::string getInfo() const { return {}; }
 public:
     virtual bool exists() const { return m_exists; }
-    virtual void set(bool exists) { m_exists = exists; }
+    virtual void set(bool exists) { 
+        m_exists = exists; 
+    }
     std::string info() const { return m_exists ? getInfo() : ""; }
 
     operator bool() const { return m_exists; };
@@ -23,25 +27,6 @@ public:
 struct DentistMade : public Status
 {
     std::string LPK;
-};
-
-
-
-struct Pathology : public Status 
-{
-    Date date_diagnosed{ Date::currentDate() };
-/*
-    virtual std::string getDiagnosisString() const = 0;
-    virtual bool setDiagnosisIdx(int idx) = 0;
-    virtual int getDiagnosisIdx() const = 0;
-    virtual std::vector<std::string> getDiagnosisList() const = 0;
-
-private:
-    std::string getInfo() const override {
-        return std::string("<b><font color=\"red\">") + getDiagnosisString() + "</font></b>"
-            + "<br>(диагностициран на " + date_diagnosed.toBgStandard(true) + ")";
-    }
-        */
 };
 
 struct Construction : virtual public DentistMade {
@@ -58,86 +43,3 @@ struct Mobility : public Status
         return result;
     }
 };
-
-/*
-struct Caries : public Pathology
-{
-    
-    CariesDiagnosis diag;
-public:
-    std::string getDiagnosisString() const override { return diag.getName(); }
-    bool setDiagnosisIdx(int idx) override { return diag.setIndex(idx); }
-    virtual int getDiagnosisIdx() const override { return diag.getIndex(); }
-    std::vector<std::string> getDiagnosisList() const override { return diag.getNamesAsStrings(); }
-};
-
-struct Pulpitis : public Pathology
-{
-    PulpitisDiagnosis diag;
-public:
-    std::string getDiagnosisString() const override { return diag.getName(); }
-    bool setDiagnosisIdx(int idx) override { return diag.setIndex(idx); }
-    virtual int getDiagnosisIdx() const override { return diag.getIndex(); }
-    std::vector<std::string> getDiagnosisList() const override { return diag.getNamesAsStrings(); }
-
-};
-
-struct Fracture : public Pathology
-{
-    FractureDiagnosis diag;
-public:
-    std::string getDiagnosisString() const override { return diag.getName(); }
-    bool setDiagnosisIdx(int idx) override { return diag.setIndex(idx); }
-    virtual int getDiagnosisIdx() const override { return diag.getIndex(); }
-    std::vector<std::string> getDiagnosisList() const override { return diag.getNamesAsStrings(); }
-
-};
-
-struct Root : public Pathology
-{
-    RootDiagnosis diag;
-public:
-    std::string getDiagnosisString() const override { return diag.getName(); }
-    bool setDiagnosisIdx(int idx) override { return diag.setIndex(idx); }
-    virtual int getDiagnosisIdx() const override { return diag.getIndex(); }
-    std::vector<std::string> getDiagnosisList() const override { return diag.getNamesAsStrings(); }
-
-};
-
-struct ApicalLesion : public Pathology
-{
-    ApicalLesionDiagnosis diag;
-public:
-    std::string getDiagnosisString() const override { return diag.getName(); }
-    bool setDiagnosisIdx(int idx) override { return diag.setIndex(idx); }
-    virtual int getDiagnosisIdx() const override { return diag.getIndex(); }
-    std::vector<std::string> getDiagnosisList() const override { return diag.getNamesAsStrings(); }
-
-};
-
-struct Obturation : public DentistMade
-{ 
-    ObturationData data; 
-private:
-    std::string getInfo() const override;
-  
-};
-
-
-
-struct Crown : virtual public DentistMade { 
-    CrownData data; 
-};
-
-
-//DIAMOND INHERITANCE PROBLEM...
-
-//...EMERGES HERE:
-struct Bridge : public Construction {};
-struct FiberSplint : public Construction {};
-
-struct Implant : public DentistMade { ImplantData data; };
-struct Post : public DentistMade { PostData data; };
-
-
-*/

@@ -181,6 +181,8 @@ void Tooth::addStatus(int statusCode)
 
 		default: break;
 	};
+
+	last_update = FreeFn::getTimeStamp();
 	
 }
 
@@ -208,7 +210,7 @@ void Tooth::removeStatus(int statusCode)
 		default: break;
 	}
 
-	
+	last_update = FreeFn::getTimeStamp();
 }
 
 void Tooth::removeStatus() { 
@@ -221,8 +223,24 @@ void Tooth::setStatus(StatusType type, int code, bool state)
 {
 	switch (type) {
 		case StatusType::general: state ? addStatus(code) : removeStatus(code);  break;
-		case StatusType::obturation: state ? addSurface(obturation, code, *this) : removeSurface(obturation, code); break;
-		case StatusType::caries: state ? addSurface(caries, code, *this) : removeSurface(caries, code); break;
+		case StatusType::obturation: 
+			state ? 
+				addSurface(obturation, code, *this) 
+				: 
+				removeSurface(obturation, code); 
+				
+			last_update = FreeFn::getTimeStamp();
+
+			break;
+		case StatusType::caries: 
+			state ? 
+				addSurface(caries, code, *this) 
+				: 
+				removeSurface(caries, code); 
+			
+			last_update = FreeFn::getTimeStamp();
+			
+			break;
 		case StatusType::mobility:
 		{
 			if (state) {
@@ -247,8 +265,8 @@ void Tooth::removeStatus(StatusType type)
 {
 	switch (type){
 		case StatusType::general: removeStatus(); break;
-		case StatusType::obturation: removeAllSurfaces(obturation); break;
-		case StatusType::caries: removeAllSurfaces(caries); break;
+		case StatusType::obturation: removeAllSurfaces(obturation); last_update = FreeFn::getTimeStamp(); break;
+		case StatusType::caries: removeAllSurfaces(caries); last_update = FreeFn::getTimeStamp(); break;
 	}
 }
 

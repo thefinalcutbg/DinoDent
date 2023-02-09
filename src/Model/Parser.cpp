@@ -7,10 +7,9 @@
 #include "Model/TableStructs.h"
 #include "Model/Financial/BusinessOperation.h"
 
-Json::Value writePathology(int index, const Pathology& pathology)
+Json::Value writeStatus(int index, const Status& status)
 {
 	Json::Value parameters;
-	parameters["date"] = pathology.date_diagnosed.to8601();
 	parameters["idx"] = index;
 	return parameters;
 }
@@ -84,9 +83,8 @@ std::string Parser::write(const ToothContainer& status)
 			{
 				json["Temporary"] = Json::Value(Json::arrayValue);
 			}
-			Json::Value parameters;
-			parameters["idx"] = i;
-			json["Temporary"].append(parameters);
+
+			json["Temporary"].append(writeStatus(i, tooth.temporary));
 		}
 
 		if (tooth.hyperdontic.exists())
@@ -95,9 +93,8 @@ std::string Parser::write(const ToothContainer& status)
 			{
 				json["Hyperdontic"] = Json::Value(Json::arrayValue);
 			}
-			Json::Value parameters;
-			parameters["idx"] = i;
-			json["Hyperdontic"].append(parameters);
+
+			json["Hyperdontic"].append(writeStatus(i, tooth.hyperdontic));
 		}
 
 
@@ -107,9 +104,8 @@ std::string Parser::write(const ToothContainer& status)
 			{
 				json["Impacted"] = Json::Value(Json::arrayValue);
 			}
-			Json::Value parameters;
-			parameters["idx"] = i;
-			json["Impacted"].append(parameters);
+
+			json["Impacted"].append(writeStatus(i, tooth.impacted));
 		}
 
 		if (tooth.mobility.exists())
@@ -118,8 +114,7 @@ std::string Parser::write(const ToothContainer& status)
 			{
 				json["Mobility"] = Json::Value(Json::arrayValue);
 			}
-			Json::Value parameters;
-			parameters["idx"] = i;
+			Json::Value parameters = writeStatus(i, tooth.mobility);
 			parameters["degree"] = static_cast<int>(tooth.mobility.degree);
 			json["Mobility"].append(parameters);
 		}
@@ -130,9 +125,8 @@ std::string Parser::write(const ToothContainer& status)
 			{
 				json["Periodontitis"] = Json::Value(Json::arrayValue);
 			}
-			Json::Value parameters;
-			parameters["idx"] = i;
-			json["Periodontitis"].append(parameters);
+
+			json["Periodontitis"].append(writeStatus(i, tooth.periodontitis));
 		}
 
 		if (tooth.obturation.exists())
@@ -163,7 +157,7 @@ std::string Parser::write(const ToothContainer& status)
 			{
 				if (tooth.caries.exists(y)) {
 
-					auto parameters = writePathology(i, tooth.caries[y]);
+					auto parameters = writeStatus(i, tooth.caries[y]);
 					parameters["Surface"] = y;
 					json["Caries"].append(parameters);
 				}
@@ -177,7 +171,7 @@ std::string Parser::write(const ToothContainer& status)
 			{
 				json["Pulpitis"] = Json::Value(Json::arrayValue);
 			}
-			json["Pulpitis"].append(writePathology(i, tooth.pulpitis));
+			json["Pulpitis"].append(writeStatus(i, tooth.pulpitis));
 		}
 
 		if (tooth.lesion.exists())
@@ -187,7 +181,7 @@ std::string Parser::write(const ToothContainer& status)
 				json["Lesion"] = Json::Value(Json::arrayValue);
 			}
 
-			json["Lesion"].append(writePathology(i, tooth.lesion));
+			json["Lesion"].append(writeStatus(i, tooth.lesion));
 		}
 
 		if (tooth.endo.exists())
@@ -207,9 +201,7 @@ std::string Parser::write(const ToothContainer& status)
 				json["Post"] = Json::Value(Json::arrayValue);
 			}
 
-			auto parameters = writeDentistMade(i, tooth.post);
-
-			json["Post"].append(parameters);
+			json["Post"].append(writeDentistMade(i, tooth.post));
 		}
 
 
@@ -231,7 +223,7 @@ std::string Parser::write(const ToothContainer& status)
 				json["Root"] = Json::Value(Json::arrayValue);
 			}
 
-			json["Root"].append(writePathology(i, tooth.root));
+			json["Root"].append(writeStatus(i, tooth.root));
 		}
 
 
@@ -242,7 +234,7 @@ std::string Parser::write(const ToothContainer& status)
 				json["Fracture"] = Json::Value(Json::arrayValue);
 			}
 
-			json["Fracture"].append(writePathology(i, tooth.fracture));
+			json["Fracture"].append(writeStatus(i, tooth.fracture));
 		}
 
 		if (tooth.crown.exists())
@@ -251,8 +243,8 @@ std::string Parser::write(const ToothContainer& status)
 			{
 				json["Crown"] = Json::Value(Json::arrayValue);
 			}
-			auto param = writeDentistMade(i, tooth.crown);
-			json["Crown"].append(param);
+			
+			json["Crown"].append(writeDentistMade(i, tooth.crown));
 		}
 
 		if (tooth.implant.exists())
@@ -261,9 +253,8 @@ std::string Parser::write(const ToothContainer& status)
 			{
 				json["Implant"] = Json::Value(Json::arrayValue);
 			}
-			auto param = writeDentistMade(i, tooth.implant);
 
-			json["Implant"].append(param);
+			json["Implant"].append(writeDentistMade(i, tooth.implant));
 		}
 
 		if (tooth.bridge.exists())
@@ -288,6 +279,12 @@ std::string Parser::write(const ToothContainer& status)
 			param["pos"] = static_cast<int>(tooth.splint.position);
 			json["Splint"].append(param);
 		}
+	}
+
+	json["TimeStamps"] = Json::Value(Json::arrayValue);
+
+	for (auto& tooth : status) {
+		json["TimeStamps"].append(tooth.last_update);
 	}
 
 	Json::FastWriter writer;
@@ -697,6 +694,7 @@ void Parser::parse(const std::string& jsonString, ToothContainer& status)
 		Tooth& tooth = status[mobility[i]["idx"].asInt()];
 		tooth.mobility.set(true);
 		tooth.mobility.degree = static_cast<Degree>(mobility[i]["degree"].asInt());
+
 	}
 
 	const Json::Value& periodontitis = json["Periodontitis"];
@@ -726,7 +724,6 @@ void Parser::parse(const std::string& jsonString, ToothContainer& status)
 		Tooth& tooth = status[car[i]["idx"].asInt()];
 		int surface = car[i]["Surface"].asInt();
 		tooth.caries.set(true, surface);
-		tooth.caries[surface].date_diagnosed = car[i]["date"].asString();
 	}
 
 	const Json::Value& pulpitis = json["Pulpitis"];
@@ -735,7 +732,7 @@ void Parser::parse(const std::string& jsonString, ToothContainer& status)
 	{
 		Tooth& tooth = status[pulpitis[i]["idx"].asInt()];
 		tooth.pulpitis.set(true);
-		tooth.pulpitis.date_diagnosed = pulpitis[i]["date"].asString();
+
 	}
 
 	const Json::Value& lesion = json["Lesion"];
@@ -744,7 +741,6 @@ void Parser::parse(const std::string& jsonString, ToothContainer& status)
 	{
 		Tooth& tooth = status[lesion[i]["idx"].asInt()];
 		tooth.lesion.set(true);
-		tooth.lesion.date_diagnosed = lesion[i]["date"].asString();
 	}
 
 	const Json::Value& fracture = json["Fracture"];
@@ -753,7 +749,6 @@ void Parser::parse(const std::string& jsonString, ToothContainer& status)
 	{
 		Tooth& tooth = status[fracture[i]["idx"].asInt()];
 		tooth.fracture.set(true);
-		tooth.fracture.date_diagnosed = fracture[i]["date"].asString();
 	}
 
 	const Json::Value& endo = json["EndoTreatment"];
@@ -789,7 +784,6 @@ void Parser::parse(const std::string& jsonString, ToothContainer& status)
 	{
 
 		Tooth& tooth = status[root[i]["idx"].asInt()];
-		tooth.root.date_diagnosed =  root[i]["date"].asString();
 		tooth.root.set(true);
 	}
 
@@ -829,6 +823,13 @@ void Parser::parse(const std::string& jsonString, ToothContainer& status)
 		tooth.splint.position = static_cast<BridgePos>(splint[i]["pos"].asInt());
 		tooth.splint.LPK = splint[i]["LPK"].asString();
 		tooth.splint.set(true);
+	}
+
+	const Json::Value& timeStamps = json["TimeStamps"];
+
+	for (int i = 0; i < teethCount; i++)
+	{
+		status[i].last_update = timeStamps[i].asString();
 	}
 
 }

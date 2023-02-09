@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1352</width>
+    <width>1372</width>
     <height>1171</height>
    </rect>
   </property>
@@ -108,9 +108,9 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="openHisButton">
+        <widget class="QPushButton" name="hisButton">
          <property name="text">
-          <string>Отвори в НЗИС</string>
+          <string>Изпрати към НЗИС</string>
          </property>
         </widget>
        </item>

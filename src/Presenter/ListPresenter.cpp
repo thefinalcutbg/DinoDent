@@ -32,15 +32,15 @@ ListPresenter::ListPresenter(ITabView* tabView, TabPresenter* tabPresenter, std:
 
     auto ambSheetDate = m_ambList.getDate();
 
-    //the list is not new
     if (m_ambList.rowid) return;
 
+    //the list is NEW:
     if (User::practice().isUnfavourable() && patient->city.isUnfav()) {
         m_ambList.nhifData.isUnfavourable = true;
     }
 
     m_ambList.number = DbAmbList::getNewNumber(m_ambList.getDate(), m_ambList.isNhifSheet());
-
+    m_ambList.lnr = FreeFn::getUuid();
 
 }
 
@@ -81,6 +81,12 @@ void ListPresenter::refreshPrices()
     }
 
     view->refreshPriceLabel(nzokPrice);
+}
+
+void ListPresenter::makeEdited()
+{
+    TabInstance::makeEdited();
+    m_ambList.his_updated = false;
 }
 
 
@@ -740,15 +746,25 @@ void ListPresenter::createPrescription()
     tabPresenter->openPerscription(*this->patient.get());
 }
 
-void ListPresenter::openHisExam()
+void ListPresenter::hisButtonPressed()
 {
-    eDentalOpenService.sendRequest(
-        m_ambList,
-        *patient,
-        [&](const std::string& nrn) {
-            ModalDialogBuilder::showMultilineDialog(nrn);
-        }
-    );
+    if (m_ambList.nrn.empty()) {
+
+        eDentalOpenService.sendRequest(
+            m_ambList,
+            *patient,
+            [&](const std::string& nrn) {
+                ModalDialogBuilder::showMultilineDialog(nrn);
+            }
+        );
+
+        return;
+    }
+
+    if (!m_ambList.his_updated)
+    {
+
+    }
 }
 
 

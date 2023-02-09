@@ -13,19 +13,23 @@ long long DbAmbList::insert(const AmbList& sheet, long long patientRowId)
 {
 
     Db db("INSERT INTO amblist "
-        "(date, num, nhif_spec, nhif_unfav, status, patient_rowid, lpk, rzi) "
-        "VALUES (?,?,?,?,?,?,?,?)");
+        "(date, nrn, lnr, his_updated, basedOnNrn, num, nhif_spec, nhif_unfav, status, patient_rowid, lpk, rzi) "
+        "VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
 
     bool sheetIsNhif = sheet.isNhifSheet();
 
     db.bind(1, sheet.time.to8601(sheet.getDate()));
-    db.bind(2, sheet.number);
-    sheetIsNhif ? db.bind(3, static_cast<int>(sheet.nhifData.specification)) : db.bindNull(3);
-    sheetIsNhif ? db.bind(4, sheet.nhifData.isUnfavourable) : db.bindNull(4);
-    db.bind(5, Parser::write(sheet.teeth));
-    db.bind(6, patientRowId);
-    db.bind(7, sheet.LPK);
-    db.bind(8, User::practice().rziCode);
+    db.bind(2, sheet.nrn);
+    db.bind(3, sheet.lnr);
+    db.bind(4, sheet.his_updated);
+    db.bind(5, sheet.basedOn);
+    db.bind(6, sheet.number);
+    sheetIsNhif ? db.bind(7, static_cast<int>(sheet.nhifData.specification)) : db.bindNull(7);
+    sheetIsNhif ? db.bind(8, sheet.nhifData.isUnfavourable) : db.bindNull(8);
+    db.bind(9, Parser::write(sheet.teeth));
+    db.bind(10, patientRowId);
+    db.bind(11, sheet.LPK);
+    db.bind(12, User::practice().rziCode);
 
     if (!db.execute()) {
         return 0;
@@ -44,6 +48,8 @@ long long DbAmbList::insert(const AmbList& sheet, long long patientRowId)
 void DbAmbList::update(const AmbList& sheet)
 {
     std::string query = "UPDATE amblist SET "
+        "nrn=?,"
+        "his_updated=?,"
         "num=?,"
         "date=?,"
         "nhif_spec=?,"
@@ -55,13 +61,14 @@ void DbAmbList::update(const AmbList& sheet)
     Db db(query);
 
     bool sheetIsNhif = sheet.isNhifSheet();
-
-    db.bind(1, sheet.number);
-    db.bind(2, sheet.time.to8601(sheet.getDate()));
-    sheetIsNhif ? db.bind(3, static_cast<int>(sheet.nhifData.specification)) : db.bindNull(3);
-    sheetIsNhif ? db.bind(4, sheet.nhifData.isUnfavourable) : db.bindNull(4);
-    db.bind(5, Parser::write(sheet.teeth));
-    db.bind(6, sheet.rowid);
+    db.bind(1, sheet.nrn);
+    db.bind(2, sheet.his_updated);
+    db.bind(3, sheet.number);
+    db.bind(4, sheet.time.to8601(sheet.getDate()));
+    sheetIsNhif ? db.bind(5, static_cast<int>(sheet.nhifData.specification)) : db.bindNull(5);
+    sheetIsNhif ? db.bind(6, sheet.nhifData.isUnfavourable) : db.bindNull(6);
+    db.bind(7, Parser::write(sheet.teeth));
+    db.bind(8, sheet.rowid);
 
     db.execute();
 
@@ -81,7 +88,7 @@ AmbList DbAmbList::getNewAmbSheet(long long patientRowId)
     Db db;
     std::string query(
     
-        "SELECT rowid, num, nhif_spec, status FROM amblist WHERE "
+        "SELECT rowid, nrn, lnr, his_updated, basedOnNrn, num, nhif_spec, status FROM amblist WHERE "
         "patient_rowid = " + std::to_string(patientRowId) + " AND "
         "lpk = '" + User::doctor().LPK + "' AND "
         "rzi = '" + User::practice().rziCode + "' AND "
@@ -95,30 +102,36 @@ AmbList DbAmbList::getNewAmbSheet(long long patientRowId)
     {
         ambList.patient_rowid = patientRowId;
         ambList.rowid = db.asRowId(0);
-        ambList.number = db.asInt(1);
-        ambList.nhifData.specification = static_cast<NhifSpecification>(db.asInt(2));
-        status = db.asString(3);
+        ambList.nrn = db.asString(1);
+        ambList.lnr = db.asString(2);
+        ambList.his_updated = db.asInt(3);
+        ambList.basedOn = db.asString(4);
+        ambList.number = db.asInt(5);
+        ambList.nhifData.specification = static_cast<NhifSpecification>(db.asInt(6));
+        status = db.asString(7);
     }
 
     if (ambList.isNew())
     {
         db.newStatement(
             
-            "SELECT rowid, status FROM amblist WHERE "
+            "SELECT rowid, nrn, status FROM amblist WHERE "
             "patient_rowid = " + std::to_string(patientRowId) + " "
             "ORDER BY date DESC LIMIT 1"
 
             );
 
         long long oldId = 0;
+        std::string basedOnNrn;
 
         while(db.hasRows()){
             
             oldId = db.asRowId(0);
-            status = db.asString(1);
+            basedOnNrn = db.asString(1);
+            status = db.asString(2);
         }
 
-        if (!oldId) return ambList; //it means no data is found for this patient
+        if (!oldId) return ambList; //no data is found for this patient
 
         Parser::parse(status, ambList.teeth);
 
@@ -128,13 +141,16 @@ AmbList DbAmbList::getNewAmbSheet(long long patientRowId)
         {
             p.applyProcedure(ambList.teeth);
         }
+
+        ambList.basedOn = basedOnNrn;
+
+        return ambList;
     }
-    else
-    {
-        Parser::parse(status, ambList.teeth);
-        ambList.procedures.addProcedures(DbProcedure::getProcedures(ambList.rowid, db));
-        ambList.referrals = DbReferral::getReferrals(ambList.rowid, db);
-    }
+
+    Parser::parse(status, ambList.teeth);
+    ambList.procedures.addProcedures(DbProcedure::getProcedures(ambList.rowid, db));
+    ambList.referrals = DbReferral::getReferrals(ambList.rowid, db);
+
 
     return ambList;
 }
@@ -146,20 +162,24 @@ AmbList DbAmbList::getListData(long long rowId)
     AmbList ambList;
 
     Db db(
-        "SELECT rowid, num, nhif_spec, nhif_unfav, status, patient_rowid, date FROM amblist WHERE "
+        "SELECT rowid, nrn, lnr, his_updated, basedOnNrn, num, nhif_spec, nhif_unfav, status, patient_rowid, date FROM amblist WHERE "
         "rowid = " + std::to_string(rowId)
     );
 
     while (db.hasRows())
     {
         ambList.rowid = db.asRowId(0);
-        ambList.number = db.asInt(1);
-        ambList.nhifData.specification = static_cast<NhifSpecification>(db.asInt(2));
-        ambList.nhifData.isUnfavourable = db.asBool(3);
-        status = db.asString(4);
+        ambList.nrn = db.asString(1);
+        ambList.lnr = db.asString(2);
+        ambList.his_updated = db.asBool(3);
+        ambList.basedOn = db.asString(4);
+        ambList.number = db.asInt(5);
+        ambList.nhifData.specification = static_cast<NhifSpecification>(db.asInt(6));
+        ambList.nhifData.isUnfavourable = db.asBool(7);
+        status = db.asString(8);
         ambList.LPK = User::doctor().LPK;
-        ambList.patient_rowid = db.asRowId(5);
-        ambList.time = db.asString(6);
+        ambList.patient_rowid = db.asRowId(9);
+        ambList.time = db.asString(10);
     }
 
     Parser::parse(status, ambList.teeth);
@@ -260,6 +280,7 @@ std::vector<AmbList> DbAmbList::getMonthlyNhifSheets(int month, int year)
         "rowid," 
         "patient_rowid,"
         "num,"
+        "nrn,"
         "nhif_spec,"
         "nhif_unfav,"
         "status,"
@@ -283,10 +304,11 @@ std::vector<AmbList> DbAmbList::getMonthlyNhifSheets(int month, int year)
         sheet.rowid = db.asRowId(0);
         sheet.patient_rowid = db.asRowId(1);
         sheet.number = db.asInt(2);
-        sheet.nhifData.specification = static_cast<NhifSpecification>(db.asInt(3));
-        sheet.nhifData.isUnfavourable = db.asInt(4);
-        Parser::parse(db.asString(5), sheet.teeth);
-        sheet.LPK = db.asString(6);
+        sheet.nrn = db.asString(3);
+        sheet.nhifData.specification = static_cast<NhifSpecification>(db.asInt(4));
+        sheet.nhifData.isUnfavourable = db.asInt(5);
+        Parser::parse(db.asString(6), sheet.teeth);
+        sheet.LPK = db.asString(7);
 
         sheetRowIdMap[sheet.rowid] = result.size() - 1;
      }

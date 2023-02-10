@@ -26,18 +26,18 @@ bool EDental::Open::sendRequest(
 
 	contents +=
 		"<nhis:dentalTreatment>"
-			+ bind("lnr", ambSheet.lnr)
+			+ bind("lrn", ambSheet.lnr)
 			+ bind("basedOn", ambSheet.basedOn)
 			+ bind("treatmentStart", ambSheet.time.to8601(ambSheet.getDate()))
-			+ bind("treatmentEnd", ambSheet.time.to8601(ambSheet.getDate())) //TO IMPLEMENT!!!
-			+ bind("adverseConditions", adverseConditions ? "true" : "false")
-			+ bind("rhifAreaNumber", User::practice().RHIF())
+			//+ bind("treatmentEnd", ambSheet.time.to8601(ambSheet.getDate())) //TO IMPLEMENT!!!
+			+ bind("adverseConditions", adverseConditions)
+			+ bind("rhifAreaNumber", patient.city.getRhif() + patient.city.getHealthRegion())
 			+ "<nhis:medicalStatus />" //TO IMPLEMENT!!!
 			+ getStatus(ambSheet.teeth)
 			+ getProcedures(ambSheet.procedures)
-			+ HisService::subject(patient)
-			+ HisService::performer()
 		+"</nhis:dentalTreatment>"
+		+ HisService::subject(patient)
+		+ HisService::performer()
 	;		
 
 	return HisService::sendRequestToHis(contents);

@@ -27,6 +27,7 @@ public:
 	std::string ekatte() const;
 	bool isUnfav() const;
 	int getIdxAsInt() const { return ekatteIdx; }
+	const std::string& getRegionCode() const;
 	static const std::unordered_map<std::string, int>& cityNameToIdx();
 };
 

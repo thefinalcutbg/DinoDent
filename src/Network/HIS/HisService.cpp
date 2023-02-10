@@ -127,26 +127,28 @@ std::string HisService::subject(const Patient& p)
 
 	std::string subject =
 	"<nhis:subject>"
-		"<nhis:identifierType value=\"" + std::to_string(p.type) + "\"/>"
-		"<nhis:identifier value=\"" + p.id + "\"/>"
-		"<nhis:birthDate value=\"" + p.birth.to8601() + "\"/>"
-		"<nhis:gender value=\"" + std::to_string(static_cast<int>(p.sex) + 1) + "\"/>"
-		"<nhis:name>"
-			"<nhis:given value=\"" + p.FirstName + "\"/>"
-			+ middleNameTag + //because it is optional
-			"<nhis:family value=\"" + p.LastName + "\"/>"
-		"</nhis:name>"
-		"<nhis:address>"
-			"<nhis:country value=\"BG\"/>"
-			//<!-- Optional: -->
-			"<nhis:ekatte value=\"" + p.city.ekatte() + "\"/>"
-			"<nhis:city value=\"" + p.city.getString() + "\"/>"
-		"</nhis:address>"
-		"<nhis:phone value=\""+p.phone+"\"/>"
+		+ bind("identifierType", std::to_string(p.type))
+		+ bind("identifier", p.id)
+		+ bind("nhifInsuranceNumber", p.HIRBNo)
+		+ bind("birthDate", p.birth.to8601())
+		+ bind("gender", p.sex + 1)
+		+"<nhis:name>"
+			+ bind("given", p.FirstName)
+			+ bind("middle", p.MiddleName)
+			+ bind("family", p.LastName)
+		+"</nhis:name>"
+		 "<nhis:address>"
+			+ bind("country", "BG")
+			+ bind("county", p.city.getRegionCode())
+			+ bind("ekatte", p.city.ekatte())
+			+ bind("city", p.city.getString())
+			+ bind("line", p.getFullAddress())
+		+"</nhis:address>"
+		+bind("phone", p.phone)
 		//<nhis:email value="[string]"/>
-		"<nhis:various>"
-			+bind("age", p.getAge())+
-		"</nhis:various>"
+		+"<nhis:various>"
+			+bind("age", p.getAge())
+		+ "</nhis:various>"
 	"</nhis:subject>"
 	;
 
@@ -156,19 +158,6 @@ std::string HisService::subject(const Patient& p)
 
 std::string HisService::requester(bool nhif)
 {
-	//cl008 numenclature
-	auto lambda = []()->std::string{
-
-		switch (User::doctor().specialty)
-		{
-			case NhifSpecialty::Pediatric: return "2079";
-			case NhifSpecialty::General: return "2081";
-			case NhifSpecialty::OralSurgeon: return "2083";
-			case NhifSpecialty::Maxillofacial: return "3088";
-			default: return "2081";
-		}
-
-	};
 
 	std::string nhifCode = User::practice().nzok_contract && nhif ?
 		" nhifCode=\"" + std::to_string(User::doctor().specialtyAsInt()) + "\""
@@ -176,7 +165,7 @@ std::string HisService::requester(bool nhif)
 		"";
 
 	std::string qualification =
-		"<nhis:qualification value=\"" + lambda() + "\"" + nhifCode + "/>";
+		"<nhis:qualification value=\"" + std::to_string(User::doctor().hisSpecialty.getIdx()) + "\"" + nhifCode + "/>";
 
 	std::string requester =
 		"<nhis:requester>"
@@ -193,8 +182,6 @@ std::string HisService::requester(bool nhif)
 
 std::string HisService::performer()
 {
-
-
 	std::string nhifCode = User::hasNzokContract() ?
 		" nhifCode=\"" + std::to_string(User::doctor().specialtyAsInt()) + "\""
 		:
@@ -207,12 +194,12 @@ std::string HisService::performer()
 
 	std::string performer =
 		"<nhis:performer>"
-			"<nhis:pmi value=\"" + User::doctor().LPK + "\"/>"
-			+ qualification +
-			"<nhis:role value = \"1\"/>"
-			"<nhis:practiceNumber value=\"" + User::practice().rziCode + "\"/>"
-			"<nhis:nhifNumber value=\"" + User::practice().RHIF() + "\"/>"
-			"<nhis:phone value=\"" + User::doctor().phone + "\"/>"
+			+bind("pmi", User::doctor().LPK)
+			+qualification
+			+bind("role", 1)
+			+bind("practiceNumber", User::practice().rziCode)
+			+bind("nhifNumber", User::practice().RHIF())
+			+bind("phone", User::doctor().phone) +
 		"</nhis:performer>"
 		;
 
@@ -316,24 +303,25 @@ std::string HisService::getProcedures(const ProcedureContainer& procedures)
 
 	for (auto& p : procedures)
 	{
+		sequence++;
+
 		result += "<nhis:dentalProcedure>";
 
 
 		result += bind("sequence", sequence);
 
-		sequence++;
 
 		//result += bind("index", ???);
 
-		result += bind("code", p.ksmp);
+		result += bind("code", "D-01-02");
 		result += bind("status", 6);
 		result += bind("type", static_cast<int>(p.type) + 1);
 
 		//result += bind("duration", ...);
-		result += bind("datePerformed", p.date.to8601()+"Т23:59:49");
+		result += bind("datePerformed", p.date.to8601());
 		result += bind("onSupernumeral", p.hyperdontic ? "true" : "false");
 		result += bind("financingSource", static_cast<int>(p.financingSource));
-		// CONDITION?!?!?!
+	
 		if (p.isToothSpecific())
 		{
 			result += bind("atToothIndex", ToothUtils::getToothNumber(p.tooth, p.temp));
@@ -357,6 +345,9 @@ std::string HisService::getProcedures(const ProcedureContainer& procedures)
 
 			result += bind("dentalPin", obtData.post);
 		}
+
+		result += bind("note", p.notes);
+
 		result += "<nhis:diagnosis>";
 		result += bind("note", p.diagnosis);
 		result += "</nhis:diagnosis>";

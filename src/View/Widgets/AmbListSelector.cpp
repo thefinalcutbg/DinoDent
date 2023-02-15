@@ -140,21 +140,21 @@ void AmbListSelector::setRows(const std::vector<AmbRow>& rows)
 	ui.dataTypeCombo->setCurrentIndex(0);
 
 	idFilter.setSourceModel(&amb_model);
-	idFilter.setFilterKeyColumn(3);
+	idFilter.setFilterKeyColumn(4);
 	nameFilter.setSourceModel(&idFilter);
-	nameFilter.setFilterKeyColumn(4);
+	nameFilter.setFilterKeyColumn(5);
 	phoneFilter.setSourceModel(&nameFilter);
-	phoneFilter.setFilterKeyColumn(5);
+	phoneFilter.setFilterKeyColumn(6);
 
 	ui.tableView->setModel(&phoneFilter);
 	
 	ui.tableView->hideColumn(0);
-	ui.tableView->setColumnWidth(1, 100);
-	ui.tableView->setColumnWidth(2, 80);
+	ui.tableView->setColumnWidth(1, 50);
+	ui.tableView->setColumnWidth(2, 120);
 	ui.tableView->setColumnWidth(3, 80);
-	ui.tableView->setColumnWidth(4, 250);
-	ui.tableView->setColumnWidth(5, 120);
-
+	ui.tableView->setColumnWidth(4, 80);
+	ui.tableView->setColumnWidth(5, 250);
+	ui.tableView->setColumnWidth(6, 120);
 
 	ui.fromDateEdit->setDisabled(false);
 	ui.toDateEdit->setDisabled(false);

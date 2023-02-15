@@ -24,7 +24,7 @@ public:
 	virtual void setCheckModel(const CheckModel& checkModel) = 0;
 	virtual void setSelectedTeeth(std::vector<int> selectedTeeth) = 0;
 	virtual void refreshPriceLabel(/*double patientPrice,*/ double nzokPrice) = 0;
-	virtual void setDateTime(const Date& date, const Time& time) = 0;
+	virtual void setDateTime(const std::string& time8601) = 0;
 	virtual void hideSurfacePanel(bool hidden) = 0;
 	virtual void hideControlPanel(bool hidden) = 0;
 	virtual void hideNhifSheetData() = 0;
@@ -35,6 +35,6 @@ public:
 	virtual void setNotes(const std::array<std::string, 32>& notes) = 0;
 	virtual void setReferrals(const std::vector<Referral>& referrals) = 0;
 	virtual void setProcedures(const std::vector<Procedure>& m) = 0;
-	virtual void showSheetNumber(bool show) = 0;
+	virtual void setNrn(const std::string& nrn) = 0;
 
 };

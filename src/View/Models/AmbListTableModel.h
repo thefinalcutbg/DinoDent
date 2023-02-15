@@ -7,7 +7,8 @@
 
 struct QAmbListRow
 {
-	int ambNumber;
+	QString ambNumber;
+	bool his;
 	bool nhif;
 	QString date;
 	QString patientID;

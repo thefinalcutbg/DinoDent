@@ -113,7 +113,7 @@ void DbReferral::saveReferrals(const std::vector<Referral>& ref, long long ambLi
     {
         db.newStatement(
             "INSERT INTO referral "
-            "(amblist_rowid, number, nrn, lnr, date, reason, "
+            "(amblist_rowid, number, nrn, lrn, date, reason, "
             "diag_main, diag_add, comorb_main, comorb_add, type, "
             "tooth, reason_119, motives_119) "//<-specific for some referrals
             "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?) "

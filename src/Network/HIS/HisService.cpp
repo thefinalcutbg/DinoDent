@@ -314,7 +314,6 @@ std::string HisService::getProcedures(const ProcedureContainer& procedures)
 		//result += bind("index", ???);
 
 		result += bind("code", "D-01-02");
-		result += bind("status", 6);
 		result += bind("type", static_cast<int>(p.type) + 1);
 
 		//result += bind("duration", ...);
@@ -351,7 +350,6 @@ std::string HisService::getProcedures(const ProcedureContainer& procedures)
 		result += "<nhis:diagnosis>";
 		result += bind("note", p.diagnosis);
 		result += "</nhis:diagnosis>";
-		//result += bind("diagnosis", p.diagnosis);
 
 		result += "</nhis:dentalProcedure>";
 

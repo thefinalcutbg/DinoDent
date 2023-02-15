@@ -78,7 +78,10 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
 
         dentalCareService->SetAttribute("personLastName", patient.LastName);
         dentalCareService->SetAttribute("specificationType", list.nhifData.getSpecString(doctor.specialty));
-        dentalCareService->SetAttribute("ambulatorySheetNo", FreeFn::leadZeroes(list.number, 6));
+        dentalCareService->SetAttribute("ambulatorySheetNo", 
+            list.nrn.size() ? list.nrn :
+            FreeFn::leadZeroes(list.number, 6)
+        );
         dentalCareService->SetAttribute("HIRBNo", patient.HIRBNo); //throw if HIRBNo empty?
         dentalCareService->SetAttribute("unfavorableCondition", practice.isUnfavourable() && list.nhifData.isUnfavourable);
         dentalCareService->SetAttribute("substitute", 0);

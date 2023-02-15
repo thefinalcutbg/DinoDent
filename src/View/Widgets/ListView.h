@@ -34,8 +34,7 @@ public:
     void setPresenter(ListPresenter* presenter) override;
 
     void setAmbListNum(int number) override;
-    void setDateTime(const Date& date, const Time& time) override;
-    void showSheetNumber(bool show) override;
+    void setDateTime(const std::string& time8601) override;
     //IStatusView
     void setCheckModel(const CheckModel& checkModel) override;
     void hideSurfacePanel(bool hidden) override;
@@ -51,6 +50,8 @@ public:
     void hideNhifSheetData() override;
     void setNhifData(const NhifSheetData& data, bool showUnfav) override;
     void setReferrals(const std::vector<Referral>& referrals) override;
+    void setNrn(const std::string& nrn) override;
+    
     ~ListView();
 
 private:

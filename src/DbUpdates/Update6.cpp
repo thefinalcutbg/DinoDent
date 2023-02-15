@@ -301,7 +301,7 @@ void DbUpdates::update6(UpdateDialog& dialogProgress)
 
 	db.execute("COMMIT");
 
-	db.execute("CREATE TABLE referral(rowid INTEGER PRIMARY KEY NOT NULL, amblist_rowid INTEGER REFERENCES amblist(rowid) ON DELETE CASCADE ON UPDATE CASCADE NOT NULL, type INTEGER NOT NULL, number INTEGER, nrn TEXT, lnr TEXT, date TEXT NOT NULL, reason INTEGER NOT NULL, diag_main TEXT NOT NULL, diag_add TEXT, comorb_main TEXT, comorb_add TEXT, tooth INTEGER, reason_119 INTEGER, motives_119 TEXT)");
+	db.execute("CREATE TABLE referral(rowid INTEGER PRIMARY KEY NOT NULL, amblist_rowid INTEGER REFERENCES amblist(rowid) ON DELETE CASCADE ON UPDATE CASCADE NOT NULL, type INTEGER NOT NULL, number INTEGER, nrn TEXT, lrn TEXT, date TEXT NOT NULL, reason INTEGER NOT NULL, diag_main TEXT NOT NULL, diag_add TEXT, comorb_main TEXT, comorb_add TEXT, tooth INTEGER, reason_119 INTEGER, motives_119 TEXT)");
 
 	db.execute("PRAGMA foreign_keys = 1");
 

@@ -39,12 +39,6 @@ std::string consecutionCheck(const std::vector<AmbList>& lists) {
 				" и " + std::to_string(lists[i].number) + "\n";
 		}
 
-		if (i && lists[i].number != lists[i - 1].number + 1) {
-
-			errors += "Нарушена поредност на номерата. Липсваща номерация между амбулаторни листи "
-				+ std::to_string(lists[i - 1].number) +
-				" и " + std::to_string(lists[i].number) + "\n";
-		}
 	}
 
 	return errors;

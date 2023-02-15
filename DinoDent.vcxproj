@@ -417,7 +417,8 @@
     <ClCompile Include="src\View\Theme.cpp" />
     <ClCompile Include="src\View\uiComponents\AutoCompleteLineEdit.cpp" />
     <ClCompile Include="src\View\uiComponents\ComboBox.cpp" />
-    <ClCompile Include="src\View\uiComponents\customdateedit.cpp" />
+    <ClCompile Include="src\View\uiComponents\CustomDateEdit.cpp" />
+    <ClCompile Include="src\View\uiComponents\CustomDateTimeEdit.cpp" />
     <ClCompile Include="src\View\uiComponents\DateEdit.cpp" />
     <ClCompile Include="src\View\uiComponents\FinancialTileButton.cpp" />
     <ClCompile Include="src\View\uiComponents\FurcationWidget.cpp" />
@@ -734,6 +735,7 @@
     <QtMoc Include="src\View\SubWidgets\ReferralTile.h" />
     <ClInclude Include="src\View\Theme.h" />
     <ClInclude Include="src\View\uiComponents\AutoCompleteLineEdit.h" />
+    <QtMoc Include="src\View\uiComponents\CustomDateTimeEdit.h" />
     <ClInclude Include="src\View\uiComponents\FinancialTileButton.h" />
     <QtMoc Include="src\View\uiComponents\HoverButton.h" />
     <ClInclude Include="src\View\uiComponents\MouseWheelGuard.h" />
@@ -807,7 +809,7 @@
     <QtMoc Include="src\View\uiComponents\HalfRoundedButton.h" />
     <QtMoc Include="src\View\uiComponents\FurcationWidget.h" />
     <QtMoc Include="src\View\uiComponents\DateEdit.h" />
-    <QtMoc Include="src\View\uiComponents\customdateedit.h" />
+    <QtMoc Include="src\View\uiComponents\CustomDateEdit.h" />
     <QtMoc Include="src\View\uiComponents\ComboBox.h" />
     <QtMoc Include="src\View\SubWidgets\VitaWidget.h" />
     <QtMoc Include="src\View\SubWidgets\TabTitle.h" />

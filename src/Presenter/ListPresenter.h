@@ -41,6 +41,7 @@ class ListPresenter : public TabInstance
     NraStatusService nraStatusServ;
     DiagnosisService nhifDiagnosisServ;
     EDental::Open eDentalOpenService;
+    EDental::Cancel eDentalCancelService;
 
     void prepareDerivedForSwitch() override {
         patient_info.setCurrent(false);
@@ -73,6 +74,7 @@ public:
     TabName getTabName() override;
     void setDataToView() override;
 
+    void setAmbDateTime(const std::string& datetime);
     void ambNumChanged(long long value);
     void setCaries(int surface);
     void setObturation(int surface);

@@ -57,5 +57,4 @@ namespace EDental {
 
 		bool sendRequest(const std::string& nrn, std::function<void(bool)> success);
 	};
-
 }

@@ -13,14 +13,14 @@ long long DbAmbList::insert(const AmbList& sheet, long long patientRowId)
 {
 
     Db db("INSERT INTO amblist "
-        "(date, nrn, lnr, his_updated, basedOnNrn, num, nhif_spec, nhif_unfav, status, patient_rowid, lpk, rzi) "
+        "(date, nrn, lrn, his_updated, basedOnNrn, num, nhif_spec, nhif_unfav, status, patient_rowid, lpk, rzi) "
         "VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
 
     bool sheetIsNhif = sheet.isNhifSheet();
 
-    db.bind(1, sheet.time.to8601(sheet.getDate()));
+    db.bind(1, sheet.date);
     db.bind(2, sheet.nrn);
-    db.bind(3, sheet.lnr);
+    db.bind(3, sheet.lrn);
     db.bind(4, sheet.his_updated);
     db.bind(5, sheet.basedOn);
     db.bind(6, sheet.number);
@@ -64,7 +64,7 @@ void DbAmbList::update(const AmbList& sheet)
     db.bind(1, sheet.nrn);
     db.bind(2, sheet.his_updated);
     db.bind(3, sheet.number);
-    db.bind(4, sheet.time.to8601(sheet.getDate()));
+    db.bind(4, sheet.date);
     sheetIsNhif ? db.bind(5, static_cast<int>(sheet.nhifData.specification)) : db.bindNull(5);
     sheetIsNhif ? db.bind(6, sheet.nhifData.isUnfavourable) : db.bindNull(6);
     db.bind(7, Parser::write(sheet.teeth));
@@ -88,7 +88,7 @@ AmbList DbAmbList::getNewAmbSheet(long long patientRowId)
     Db db;
     std::string query(
     
-        "SELECT rowid, nrn, lnr, his_updated, basedOnNrn, num, nhif_spec, status FROM amblist WHERE "
+        "SELECT rowid, nrn, lrn, his_updated, basedOnNrn, num, nhif_spec, status FROM amblist WHERE "
         "patient_rowid = " + std::to_string(patientRowId) + " AND "
         "lpk = '" + User::doctor().LPK + "' AND "
         "rzi = '" + User::practice().rziCode + "' AND "
@@ -103,7 +103,7 @@ AmbList DbAmbList::getNewAmbSheet(long long patientRowId)
         ambList.patient_rowid = patientRowId;
         ambList.rowid = db.asRowId(0);
         ambList.nrn = db.asString(1);
-        ambList.lnr = db.asString(2);
+        ambList.lrn = db.asString(2);
         ambList.his_updated = db.asInt(3);
         ambList.basedOn = db.asString(4);
         ambList.number = db.asInt(5);
@@ -162,7 +162,7 @@ AmbList DbAmbList::getListData(long long rowId)
     AmbList ambList;
 
     Db db(
-        "SELECT rowid, nrn, lnr, his_updated, basedOnNrn, num, nhif_spec, nhif_unfav, status, patient_rowid, date FROM amblist WHERE "
+        "SELECT rowid, nrn, lrn, his_updated, basedOnNrn, num, nhif_spec, nhif_unfav, status, patient_rowid, date FROM amblist WHERE "
         "rowid = " + std::to_string(rowId)
     );
 
@@ -170,7 +170,7 @@ AmbList DbAmbList::getListData(long long rowId)
     {
         ambList.rowid = db.asRowId(0);
         ambList.nrn = db.asString(1);
-        ambList.lnr = db.asString(2);
+        ambList.lrn = db.asString(2);
         ambList.his_updated = db.asBool(3);
         ambList.basedOn = db.asString(4);
         ambList.number = db.asInt(5);
@@ -179,7 +179,7 @@ AmbList DbAmbList::getListData(long long rowId)
         status = db.asString(8);
         ambList.LPK = User::doctor().LPK;
         ambList.patient_rowid = db.asRowId(9);
-        ambList.time = db.asString(10);
+        ambList.date = db.asString(10);
     }
 
     Parser::parse(status, ambList.teeth);
@@ -238,20 +238,12 @@ bool DbAmbList::suchNumberExists(int year, int ambNum, long long ambRowid)
 int DbAmbList::getNewNumber(Date ambDate, bool nhif)
 {
 
-    std::string query;
-
-    query = nhif ?
-        "SELECT num FROM amblist WHERE nhif_spec IS NOT NULL "
-        :
-        "SELECT num FROM amblist WHERE nhif_spec IS NULL ";
-
-    query +=
+    std::string query = 
+        "SELECT num FROM amblist WHERE " 
         "AND strftime('%Y',date) = '" + std::to_string(ambDate.year) + "' "
         "AND lpk = ? "
         "AND rzi = ? "
         "ORDER BY num DESC LIMIT 1";
-
-    int number = nhif ? 0 : 100000;
 
     Db db(query);
 
@@ -260,10 +252,10 @@ int DbAmbList::getNewNumber(Date ambDate, bool nhif)
     db.bind(2, User::practice().rziCode);
 
     while (db.hasRows()) {
-        number = db.asInt(0);
+        return db.asInt(0) + 1;
     };
 
-    return number + 1;
+    return 1;
 
 }
 
@@ -373,4 +365,15 @@ std::vector<AmbList> DbAmbList::getMonthlyNhifSheets(int month, int year)
 
      return result;
 
+}
+
+void DbAmbList::updateNrn(const std::string& nrn, long long ambRowId)
+{
+    Db db("UPDATE amblist SET nrn=? WHERE rowid=?");
+
+    nrn.empty() ? db.bindNull(1) : db.bind(1, nrn);
+
+    db.bind(2, ambRowId);
+
+    db.execute();
 }

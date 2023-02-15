@@ -40,7 +40,7 @@ ListPresenter::ListPresenter(ITabView* tabView, TabPresenter* tabPresenter, std:
     }
 
     m_ambList.number = DbAmbList::getNewNumber(m_ambList.getDate(), m_ambList.isNhifSheet());
-    m_ambList.lnr = FreeFn::getUuid();
+    m_ambList.lrn = FreeFn::getUuid();
 
 }
 
@@ -86,26 +86,15 @@ void ListPresenter::refreshPrices()
 void ListPresenter::makeEdited()
 {
     TabInstance::makeEdited();
-    m_ambList.his_updated = false;
+
+    if (m_ambList.nrn.size()) {
+        m_ambList.his_updated = false;
+    }
 }
 
 
 void ListPresenter::dynamicNhifConversion()
 {
-    bool numberDeducable = m_ambList.procedures.size() || m_ambList.referrals.size();
-
-    view->showSheetNumber(numberDeducable);
-
-    bool isNhif = m_ambList.isNhifSheet();
-
-    if (m_ambList.hasNumberInconsistency())
-    {
-        m_ambList.number = DbAmbList::getNewNumber(m_ambList.getDate(), isNhif);
-        view->setAmbListNum(m_ambList.number);
-        edited = false;
-        makeEdited();
-    }
-
     if (m_ambList.isNhifSheet()) {
 
         bool practiceIsUnfav =
@@ -119,7 +108,6 @@ void ListPresenter::dynamicNhifConversion()
     {
         view->hideNhifSheetData();
     }
-
 
 }
 
@@ -190,7 +178,12 @@ TabName ListPresenter::getTabName()
 
 
     n.header += m_ambList.isNew() ? "Нов амб.лист" :
-        "Амб.лист №" + std::to_string(m_ambList.number);
+        "Амб.лист ";
+    
+    n.header += m_ambList.nrn.size() ?
+            m_ambList.nrn
+            : 
+            "№" + std::to_string(m_ambList.number);
 
    
     n.footer = patient->FirstName;
@@ -198,7 +191,7 @@ TabName ListPresenter::getTabName()
     n.footer += patient->LastName;
 
     n.nhif = m_ambList.isNhifSheet() || m_ambList.referrals.size();
-
+    n.his = m_ambList.nrn.size();
     return n;
 }
 
@@ -210,8 +203,6 @@ long long ListPresenter::rowID() const
 bool ListPresenter::save()
 {
     if (!requiresSaving()) return true;
-
-
 
     if (!isValid()) return false;
 
@@ -263,6 +254,10 @@ void ListPresenter::setDataToView()
 
     view->setAmbListNum(m_ambList.number);
 
+    view->setNrn(m_ambList.nrn);
+
+    view->setDateTime(m_ambList.date);
+
     surf_presenter.setStatusControl(this);
     surf_presenter.setView(view->surfacePanel());
     view->surfacePanel()->setPresenter(&surf_presenter);
@@ -291,6 +286,11 @@ void ListPresenter::setDataToView()
    
 }
 
+
+void ListPresenter::setAmbDateTime(const std::string& datetime)
+{
+    m_ambList.date = datetime;
+}
 
 void ListPresenter::ambNumChanged(long long value)
 {
@@ -427,7 +427,7 @@ int ListPresenter::generateAmbListNumber()
 
     auto ambSheetDate = m_ambList.getDate();
 
-    if (m_ambList.isNew() || m_ambList.hasNumberInconsistency()) {
+    if (m_ambList.isNew()) {
         newNumber = DbAmbList::getNewNumber(ambSheetDate, m_ambList.isNhifSheet());
     }
 
@@ -540,7 +540,7 @@ void ListPresenter::refreshProcedureView()
     auto& mList = m_ambList.procedures;
 
     m_ambList.procedures.refreshTeethTemporary(m_ambList.teeth);
-    view->setDateTime(m_ambList.getDate(), m_ambList.time);
+
     view->setProcedures(m_ambList.procedures.list());
 }
 
@@ -748,23 +748,60 @@ void ListPresenter::createPrescription()
 
 void ListPresenter::hisButtonPressed()
 {
+
+
     if (m_ambList.nrn.empty()) {
+
+        if (!save()) return;
 
         eDentalOpenService.sendRequest(
             m_ambList,
             *patient,
-            [&](const std::string& nrn) {
-                ModalDialogBuilder::showMultilineDialog(nrn);
+            [this](const std::string& nrn) {
+                if (nrn.empty()) {
+                    return;
+                }
+                
+                m_ambList.nrn = nrn;
+                DbAmbList::updateNrn(nrn, m_ambList.rowid);
+
+                refreshTabName();
+
+                if (isCurrent())
+                {
+                    view->setNrn(m_ambList.nrn);
+                }
             }
         );
 
         return;
     }
 
+    if (m_ambList.nrn.size()) {
+        eDentalCancelService.sendRequest(m_ambList.nrn,
+            [this](bool success) {
+
+                if (!success) return;
+
+                m_ambList.nrn.clear();
+                DbAmbList::updateNrn(m_ambList.nrn, m_ambList.rowid);
+                
+                refreshTabName();
+
+                ModalDialogBuilder::showMessage("Денталният преглед е анулиран успешно");
+
+                if (isCurrent()) {
+                    view->setNrn("");
+                }
+        });
+    }
+
     if (!m_ambList.his_updated)
     {
 
     }
+
+
 }
 
 

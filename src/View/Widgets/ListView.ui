@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1372</width>
+    <width>1412</width>
     <height>1171</height>
    </rect>
   </property>
@@ -108,9 +108,21 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="hisButton">
+        <widget class="HoverButton" name="nrnButton">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>120</width>
+           <height>0</height>
+          </size>
+         </property>
          <property name="text">
-          <string>Изпрати към НЗИС</string>
+          <string/>
          </property>
         </widget>
        </item>
@@ -122,56 +134,24 @@
         </widget>
        </item>
        <item>
-        <widget class="DateEdit" name="dateEdit">
+        <widget class="CustomDateTimeEdit" name="dateTimeEdit">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
          <property name="minimumSize">
           <size>
-           <width>90</width>
+           <width>120</width>
            <height>0</height>
           </size>
          </property>
-         <property name="wrapping">
-          <bool>false</bool>
-         </property>
-         <property name="frame">
-          <bool>true</bool>
-         </property>
-         <property name="readOnly">
-          <bool>true</bool>
-         </property>
-         <property name="buttonSymbols">
-          <enum>QAbstractSpinBox::NoButtons</enum>
+         <property name="displayFormat">
+          <string>dd.MM.yyyy HH:mm</string>
          </property>
          <property name="calendarPopup">
           <bool>true</bool>
-         </property>
-         <property name="currentSectionIndex">
-          <number>0</number>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_3">
-         <property name="text">
-          <string>Час:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QTimeEdit" name="timeEdit">
-         <property name="readOnly">
-          <bool>true</bool>
-         </property>
-         <property name="buttonSymbols">
-          <enum>QAbstractSpinBox::NoButtons</enum>
-         </property>
-         <property name="displayFormat">
-          <string notr="true">HH:mm</string>
          </property>
         </widget>
        </item>
@@ -874,11 +854,6 @@
    <header>View/uiComponents/leadingzerospinbox.h</header>
   </customwidget>
   <customwidget>
-   <class>DateEdit</class>
-   <extends>QDateEdit</extends>
-   <header>View/uiComponents/DateEdit.h</header>
-  </customwidget>
-  <customwidget>
    <class>ControlPanel</class>
    <extends>QWidget</extends>
    <header>View/SubWidgets/ControlPanel.h</header>
@@ -888,6 +863,16 @@
    <class>UserButton</class>
    <extends>QToolButton</extends>
    <header location="global">View/uiComponents/userbutton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>HoverButton</class>
+   <extends>QPushButton</extends>
+   <header>View/uiComponents/hoverbutton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>CustomDateTimeEdit</class>
+   <extends>QDateTimeEdit</extends>
+   <header>View/uiComponents/customdatetimeedit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

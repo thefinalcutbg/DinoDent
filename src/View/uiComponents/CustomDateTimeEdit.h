@@ -1,6 +1,7 @@
+﻿#pragma once
 #pragma once
 
-#include <QDateEdit>
+#include <QDateTimeEdit>
 #include <QMenu>
 #include <QFile>
 #include <QTextCharFormat>
@@ -10,14 +11,14 @@
 #include <QPushButton>
 #include <QWheelEvent>
 
-class CustomDateEdit : public QDateEdit
+class CustomDateTimeEdit : public QDateTimeEdit
 {
     Q_OBJECT
 
 public:
-    enum menuContent {YEAR, MONTH, DAY}; // 表示菜单种类的枚举值
-    explicit CustomDateEdit(QWidget * parent = nullptr, menuContent type = menuContent::DAY);
-    ~CustomDateEdit();
+    enum menuContent { YEAR, MONTH, DAY }; // 表示菜单种类的枚举值
+    explicit CustomDateTimeEdit(QWidget* parent = nullptr, menuContent type = menuContent::DAY);
+    ~CustomDateTimeEdit();
     void changeType(menuContent type);
 
 private slots:
@@ -33,19 +34,18 @@ private:
     void initCalendar();            // 初始化整个日历菜单
     void initHeaderWidget();        // 初始化日历导航条
     menuContent type;               // 日历菜单类型
-    QPushButton * prevYearButton;   // 上一年按钮
-    QPushButton * nextYearButton;   // 下一年按钮
-    QPushButton * prevMonthButton;  // 上一月按钮
-    QPushButton * nextMonthButton;  // 下一月按钮
-    QPushButton * yearButton;       // 年份按钮
-    QPushButton * monthButton;      // 月份按钮
-    QVBoxLayout * vBodyLayout;      // 获取的父类日历控件的布局
-    QGridLayout * monthGridLayout;  // 月份菜单的栅格布局
-    QGridLayout * yearGridLayout;   // 年份菜单的栅格布局
-    QWidget * monthMenu;            // 月份菜单
-    QWidget * yearMenu;             // 年份菜单
+    QPushButton* prevYearButton;   // 上一年按钮
+    QPushButton* nextYearButton;   // 下一年按钮
+    QPushButton* prevMonthButton;  // 上一月按钮
+    QPushButton* nextMonthButton;  // 下一月按钮
+    QPushButton* yearButton;       // 年份按钮
+    QPushButton* monthButton;      // 月份按钮
+    QVBoxLayout* vBodyLayout;      // 获取的父类日历控件的布局
+    QGridLayout* monthGridLayout;  // 月份菜单的栅格布局
+    QGridLayout* yearGridLayout;   // 年份菜单的栅格布局
+    QWidget* monthMenu;            // 月份菜单
+    QWidget* yearMenu;             // 年份菜单
 
 protected:
-    bool eventFilter(QObject * widget, QEvent * event); // 鼠标滚轮的过滤事件
+    bool eventFilter(QObject* widget, QEvent* event); // 鼠标滚轮的过滤事件
 };
-

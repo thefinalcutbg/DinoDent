@@ -17,7 +17,8 @@ void AmbListTableModel::setRows(std::vector<AmbRow> rows)
         this->rows.emplace_back(
 
             QAmbListRow{
-                r.ambNumber,
+                QString::fromStdString(r.number),
+                r.his,
                 r.nhif,
                 QString::fromStdString(r.date.toBgStandard()),
                 QString::fromStdString(r.patientId),
@@ -56,16 +57,17 @@ QVariant AmbListTableModel::headerData(int section, Qt::Orientation orientation,
             switch (section)
             {
                 case 0: return "ID";
-                case 1: return "Амб.№";
-                case 2: return "Дата";
-                case 3: return "ЕГН/ЛНЧ";
-                case 4: return "Име на пациента";
-                case 5: return "Телефон";
+                case 1: return "НЗОК";
+                case 2: return "Амб.№";
+                case 3: return "Дата";
+                case 4: return "ЕГН/ЛНЧ";
+                case 5: return "Име на пациента";
+                case 6: return "Телефон";
             }
 
     if (role == Qt::TextAlignmentRole && orientation == Qt::Horizontal)
     {
-        if (section == 4 || section == 5)
+        if (section == 5 || section == 6)
             return int(Qt::AlignLeft);
         else
             return int(Qt::AlignCenter);
@@ -84,7 +86,7 @@ int AmbListTableModel::rowCount(const QModelIndex& parent) const
 
 int AmbListTableModel::columnCount(const QModelIndex& parent) const
 {
-    return 6;
+    return 7;
 }
 
 #include <QIcon>
@@ -106,9 +108,10 @@ QVariant AmbListTableModel::data(const QModelIndex& index, int role) const
         switch (column)
         {
         case 1:
-            if (rows[row].nhif)
-                return QIcon(":/icons/icon_nzok.png");
+            if (rows[row].nhif) return QIcon(":/icons/icon_nzok.png");
             break;
+        case 2:
+            if (rows[row].his) return QIcon(":/icons/icon_his.png");
         default:
             return QVariant();
         }
@@ -117,16 +120,15 @@ QVariant AmbListTableModel::data(const QModelIndex& index, int role) const
         switch (column)
         {
         case 0: return index.row();
-        case 1: return rows[row].ambNumber;
-        case 2: return rows[row].date;
-        case 3: return rows[row].patientID;
-        case 4: return rows[row].patientName;
-        case 5: return rows[row].patientPhone;
+        case 2: return rows[row].ambNumber;
+        case 3: return rows[row].date;
+        case 4: return rows[row].patientID;
+        case 5: return rows[row].patientName;
+        case 6: return rows[row].patientPhone;
         default: return QVariant();
         }
     case Qt::TextAlignmentRole:
-        if (column == 4 || column == 5) return int(Qt::AlignLeft);
-        else if (column == 1) return int(Qt::AlignRight);
+        if (column == 5 || column == 6 || column == 2) return int(Qt::AlignLeft);
         else return int(Qt::AlignCenter);
     }
 

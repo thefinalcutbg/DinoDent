@@ -17,8 +17,9 @@ struct AmbRow : public RowInstance
 {
 	AmbRow() : RowInstance{ TabType::AmbList } {};
 
-	int ambNumber{-1};
+	std::string number;
 	bool nhif{0};
+	bool his{0};
 	Date date;
 
 	std::string patientId;

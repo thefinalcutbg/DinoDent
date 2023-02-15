@@ -23,5 +23,7 @@ namespace DbAmbList
 
     std::vector<AmbList> getMonthlyNhifSheets(int month, int year);
 
+    void updateNrn(const std::string& nrn, long long ambRowId);
+
 };
 

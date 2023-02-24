@@ -310,13 +310,10 @@ std::vector<AmbList> DbAmbList::getMonthlyNhifSheets(int month, int year)
 
         db.newStatement(
             "SELECT "
-            "procedure.type,"
             "procedure.code,"
             "procedure.tooth,"
             "procedure.date,"
-            "procedure.name,"
             "procedure.deciduous,"
-            "procedure.ksmp, "
             "procedure.diagnosis,"
             "procedure.hyperdontic,"
             "amblist.rowid "
@@ -334,23 +331,20 @@ std::vector<AmbList> DbAmbList::getMonthlyNhifSheets(int month, int year)
 
         while (db.hasRows())
         {
-            if (!sheetRowIdMap.count(db.asRowId(9))) continue;
+            if (!sheetRowIdMap.count(db.asRowId(7))) continue;
 
-            auto& sheet = result[sheetRowIdMap[db.asRowId(9)]];
+            auto& sheet = result[sheetRowIdMap[db.asRowId(7)]];
 
             Procedure p;
 
             p.financingSource = FinancingSource::NHIF;
             p.LPK = sheet.LPK;
-            p.type = static_cast<ProcedureType>(db.asInt(0));
             p.code = db.asInt(1);
             p.tooth = db.asInt(2);
             p.date = db.asString(3);
-            p.name = db.asString(4);
-            p.temp = db.asBool(5);
-            p.ksmp = db.asString(6);
-            p.diagnosis = db.asString(7);
-            p.hyperdontic = db.asBool(8);
+            p.temp = db.asBool(4);
+            p.diagnosis = db.asString(5);
+            p.hyperdontic = db.asBool(6);
 
             sheet.procedures.addProcedure(p);
         }

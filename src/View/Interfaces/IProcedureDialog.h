@@ -13,7 +13,7 @@ class IProcedureDialog
 
 public:
 
-    virtual void setProcedureTemplates(std::vector<ProcedureTemplate> manipulationList) = 0;
+    virtual void setProcedureTemplates(std::vector<ProcedureCode> procedureList) = 0;
 
     virtual void close() = 0;
 

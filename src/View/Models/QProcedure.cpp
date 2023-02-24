@@ -9,9 +9,9 @@ QProcedure::QProcedure(const Procedure& p) :
 	date(QString::fromStdString(p.date.toBgStandard())),
 	diagnosis(QString::fromStdString(p.diagnosis)),
 	tooth(ToothUtils::getNhifNumber(p.tooth, p.temp, p.hyperdontic).c_str()),
-	procedureName(QString::fromStdString(p.name)),
-	code(p.code), fsource(p.financingSource),
-	ksmp(QString::fromStdString(p.ksmp)),
+	procedureName(QString::fromStdString(p.code.name())),
+	code(p.code.nhifCode()), fsource(p.financingSource),
+	ksmp(QString::fromStdString(p.code.ksmp())),
 	doctor(QString::fromStdString(User::getNameFromLPK(p.LPK))),
 	notes(QString::fromStdString(p.notes))
 {

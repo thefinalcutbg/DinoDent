@@ -2,7 +2,6 @@
 
 #include <string>
 #include <vector>
-#include "Model/Dental/ProcedureTemplate.h"
 #include <optional>
 #include "Model/UserStructs.h"
 #include "Model/Dental/NhifSheetData.h"
@@ -22,7 +21,7 @@ namespace Parser
 	std::string write(const ToothContainer& status);
 	std::string write(const Procedure& procedure);
 	std::string write(const std::optional<NzokContract>& contract);
-	std::string write(const std::vector<ProcedureTemplate>& priceList);
+	std::string write(const std::vector<ProcedureCode>& priceList);
 	std::string write(const Invoice& inv);
 	std::string write(const Settings& settings);
 	std::string write(const std::vector<Dosage>& dosage);
@@ -33,7 +32,7 @@ namespace Parser
 	void parse(const std::string& jsonString, ToothContainer& status);
 	void parse(const std::string& jsonString, Invoice& invoice);
 	
-	std::vector<ProcedureTemplate> getPriceList(const std::string& priceList);
+	std::vector<ProcedureCode> getPriceList(const std::string& priceList);
 	std::string parseDiagnosis(const std::string& jsonProcedureString);
 	std::optional<NzokContract> parseContract(const std::string& jsonString);
 	Settings parseSettings(const std::string& settings);

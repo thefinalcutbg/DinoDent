@@ -22,10 +22,10 @@ void PisDentalActivitiesModel::setProcedures(
 
         m_procedures.emplace_back();
         auto& p = m_procedures.back();
-        p.code = QString::number(rows[i].code);
+        p.code = QString::number(rows[i].code.nhifCode());
         p.tooth = ToothUtils::getToothNumber(rows[i].tooth, rows[i].temp);
         p.date = QString(rows[i].date.toBgStandard().c_str());
-        p.name = QString(rows[i].name.c_str());
+        p.name = QString(rows[i].code.name().c_str());
         p.diagnosis = QString(rows[i].diagnosis.c_str());
         p.payment = payment[i].c_str();
 

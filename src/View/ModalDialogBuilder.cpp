@@ -116,15 +116,6 @@ void ModalDialogBuilder::openDialog(StatisticDialogPresenter& p)
 	d.exec();
 }
 
-#include "View/Widgets/ProcedureTemplateDialog.h"
-
-std::optional<ProcedureTemplate> ModalDialogBuilder::openProcedureTemplateDialog(const ProcedureTemplate* pTemp, int code)
-{
-	ProcedureTemplateDialog d(pTemp, code);
-	d.exec();
-	return d.getProcedureTemplate();
-}
-
 
 #include "View/Widgets/SaveDialog.h"
 
@@ -210,7 +201,7 @@ std::optional<BusinessOperation> ModalDialogBuilder::editBusinessOperation(const
 
 #include "View/Widgets/BusinessOpAddDialog.h"
 
-std::optional<BusinessOperation> ModalDialogBuilder::addBusinessOperation(const std::vector<ProcedureTemplate>& priceList)
+std::optional<BusinessOperation> ModalDialogBuilder::addBusinessOperation(const std::vector<ProcedureCode>& priceList)
 {
 	BusinessOpAddDialog d(priceList);
 	d.exec();
@@ -387,6 +378,21 @@ std::string ModalDialogBuilder::pinPromptDialog(const std::string& pem)
 }
 
 #include "View/Widgets/TableViewDialog.h"
+#include "View/Models/ProcedureCodeModel.h"
+
+std::optional<ProcedureCode> ModalDialogBuilder::procedureCodeDialog()
+{
+	ProcedureCodeModel model;
+	TableViewDialog d(model, 0);
+	d.setWindowTitle("Класификация на Денталните Процедури");
+	d.exec();
+
+	auto result = d.getResult();
+
+	return result.empty() ? std::optional<ProcedureCode>{} : result;
+}
+
+
 #include "View/Models/KSMPModel.h"
 std::string ModalDialogBuilder::ksmpDialog(KsmpList& list, const std::string& preSelectCode)
 {

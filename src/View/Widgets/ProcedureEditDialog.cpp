@@ -1,7 +1,5 @@
 ﻿#include "ProcedureEditDialog.h"
 #include "Presenter/ProcedureEditorPresenter.h"
-#include "Presenter/ObturationPresenter.h"
-#include "Presenter/CrownPresenter.h"
 
 
 

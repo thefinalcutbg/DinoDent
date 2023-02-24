@@ -222,6 +222,7 @@
     <ClCompile Include="src\DbUpdates\Update6.cpp" />
     <ClCompile Include="src\DbUpdates\Update7.cpp" />
     <ClCompile Include="src\Model\Dental\DentalNum.cpp" />
+    <ClCompile Include="src\Model\Dental\ProcedureCode.cpp" />
     <ClCompile Include="src\Model\Referrals\Referral.cpp" />
     <ClCompile Include="src\Model\FreeFunctions.cpp" />
     <ClCompile Include="src\Model\Prescription\Route.cpp" />
@@ -323,22 +324,19 @@
     <ClCompile Include="src\Network\PIS\SendFileService.cpp" />
     <ClCompile Include="src\Network\PKCS11.cpp" />
     <ClCompile Include="src\Network\XmlSigner.cpp" />
-    <ClCompile Include="src\Presenter\AbstractSubPresenter.cpp" />
+    <ClCompile Include="src\Presenter\ProcedureCreator.cpp" />
     <ClCompile Include="src\Presenter\PracticeDialogPresenter.cpp" />
     <ClCompile Include="src\Presenter\AllergiesDialogPresenter.cpp" />
     <ClCompile Include="src\Presenter\ButtonSurfaceMatrix.cpp" />
     <ClCompile Include="src\Presenter\CheckState.cpp" />
-    <ClCompile Include="src\Presenter\CrownPresenter.cpp" />
     <ClCompile Include="src\Presenter\DetailedStatusPresenter.cpp" />
     <ClCompile Include="src\Presenter\DoctorDialogPresenter.cpp" />
-    <ClCompile Include="src\Presenter\EditorPresenter.cpp" />
     <ClCompile Include="src\Presenter\FinancialPresenter.cpp" />
     <ClCompile Include="src\Presenter\ListPresenter.cpp" />
     <ClCompile Include="src\Presenter\ListSelectorPresenter.cpp" />
     <ClCompile Include="src\Presenter\LoginPresenter.cpp" />
     <ClCompile Include="src\Presenter\MainPresenter.cpp" />
     <ClCompile Include="src\Presenter\MonthNotifPresenter.cpp" />
-    <ClCompile Include="src\Presenter\ObturationPresenter.cpp" />
     <ClCompile Include="src\Presenter\PatientDialogPresenter.cpp" />
     <ClCompile Include="src\Presenter\PatientSummaryPresenter.cpp" />
     <ClCompile Include="src\Presenter\PerioPresenter.cpp" />
@@ -346,7 +344,6 @@
     <ClCompile Include="src\Presenter\PriceListSettingsPresenter.cpp" />
     <ClCompile Include="src\Presenter\ProcedureDialogPresenter.cpp" />
     <ClCompile Include="src\Presenter\ProcedureEditorPresenter.cpp" />
-    <ClCompile Include="src\Presenter\ProcedureRangePresenter.cpp" />
     <ClCompile Include="src\Presenter\ReferralPresenter.cpp" />
     <ClCompile Include="src\Presenter\ReportFilesPresenter.cpp" />
     <ClCompile Include="src\Presenter\ReportPresenter.cpp" />
@@ -357,7 +354,6 @@
     <ClCompile Include="src\Presenter\TabInstance.cpp" />
     <ClCompile Include="src\Presenter\TabPresenter.cpp" />
     <ClCompile Include="src\Presenter\ToothHintCreator.cpp" />
-    <ClCompile Include="src\Presenter\ToothProcedurePresenter.cpp" />
     <ClCompile Include="src\Resources.cpp" />
     <ClCompile Include="src\DbUpdates\DbUpdates.cpp" />
     <ClCompile Include="src\DbUpdates\Updater.cpp" />
@@ -396,6 +392,7 @@
     <ClCompile Include="src\View\Models\PerioTableModel.cpp" />
     <ClCompile Include="src\View\Models\PISDentalActivitiesModel.cpp" />
     <ClCompile Include="src\View\Models\PrescriptionTableModel.cpp" />
+    <ClCompile Include="src\View\Models\ProcedureCodeModel.cpp" />
     <ClCompile Include="src\View\Models\ProcedureSelectModel.cpp" />
     <ClCompile Include="src\View\Models\ProcedureTableModel.cpp" />
     <ClCompile Include="src\View\Models\ProcedureTemplateModel.cpp" />
@@ -478,7 +475,6 @@
     <ClCompile Include="src\View\Widgets\ProcedureDialog.cpp" />
     <ClCompile Include="src\View\Widgets\ProcedureEditDialog.cpp" />
     <ClCompile Include="src\View\Widgets\ProcedurePrintSelectDialog.cpp" />
-    <ClCompile Include="src\View\Widgets\ProcedureTemplateDialog.cpp" />
     <ClCompile Include="src\View\Widgets\RecipientEditView.cpp" />
     <ClCompile Include="src\View\Widgets\ReferralDialog.cpp" />
     <ClCompile Include="src\View\Widgets\ReportErrorDialog.cpp" />
@@ -500,6 +496,7 @@
     <ClInclude Include="src\GlobalConst.h" />
     <ClInclude Include="src\Model\Dental\DentalNum.h" />
     <ClInclude Include="src\Model\Dental\DentalStatistics.h" />
+    <ClInclude Include="src\Model\Dental\ProcedureCode.h" />
     <ClInclude Include="src\Model\Referrals\NumberVariant.h" />
     <ClInclude Include="src\Model\Referrals\Referral.h" />
     <ClInclude Include="src\Model\NumenclatureTemplate.h" />
@@ -564,7 +561,6 @@
     <ClInclude Include="src\Model\Dental\PerioToothData.h" />
     <ClInclude Include="src\Model\Dental\Procedure.h" />
     <ClInclude Include="src\Model\Dental\ProcedureContainer.h" />
-    <ClInclude Include="src\Model\Dental\ProcedureTemplate.h" />
     <ClInclude Include="src\Model\Dental\Status.h" />
     <ClInclude Include="src\Model\Dental\StatusData.h" />
     <ClInclude Include="src\Model\Dental\SurfStatus.h" />
@@ -620,24 +616,20 @@
     <ClInclude Include="src\Network\PIS\SendFileService.h" />
     <ClInclude Include="src\Network\PKCS11.h" />
     <ClInclude Include="src\Network\XmlSigner.h" />
-    <ClInclude Include="src\Presenter\AbstractSubPresenter.h" />
+    <ClInclude Include="src\Presenter\ProcedureCreator.h" />
     <ClInclude Include="src\Presenter\PracticeDialogPresenter.h" />
     <ClInclude Include="src\Presenter\AllergiesDialogPresenter.h" />
     <ClInclude Include="src\Presenter\ButtonSurfaceMatrix.h" />
     <ClInclude Include="src\Presenter\CheckState.h" />
-    <ClInclude Include="src\Presenter\CrownPresenter.h" />
     <ClInclude Include="src\Presenter\DetailedStatusPresenter.h" />
     <ClInclude Include="src\Presenter\DoctorDialogPresenter.h" />
-    <ClInclude Include="src\Presenter\EditorPresenter.h" />
     <ClInclude Include="src\Presenter\FinancialPresenter.h" />
-    <ClInclude Include="src\Presenter\GeneralProcedurePresenter.h" />
     <ClInclude Include="src\Presenter\InputEnums.h" />
     <ClInclude Include="src\Presenter\ListPresenter.h" />
     <ClInclude Include="src\Presenter\ListSelectorPresenter.h" />
     <ClInclude Include="src\Presenter\LoginPresenter.h" />
     <ClInclude Include="src\Presenter\MainPresenter.h" />
     <ClInclude Include="src\Presenter\MonthNotifPresenter.h" />
-    <ClInclude Include="src\Presenter\ObturationPresenter.h" />
     <ClInclude Include="src\Presenter\PatientDialogPresenter.h" />
     <ClInclude Include="src\Presenter\PatientSummaryPresenter.h" />
     <ClInclude Include="src\Presenter\PerioPresenter.h" />
@@ -645,7 +637,6 @@
     <ClInclude Include="src\Presenter\PriceListSettingsPresenter.h" />
     <ClInclude Include="src\Presenter\ProcedureDialogPresenter.h" />
     <ClInclude Include="src\Presenter\ProcedureEditorPresenter.h" />
-    <ClInclude Include="src\Presenter\ProcedureRangePresenter.h" />
     <ClInclude Include="src\Presenter\ReferralPresenter.h" />
     <ClInclude Include="src\Presenter\ReportFilesPresenter.h" />
     <ClInclude Include="src\Presenter\ReportPresenter.h" />
@@ -656,7 +647,6 @@
     <ClInclude Include="src\Presenter\TabInstance.h" />
     <ClInclude Include="src\Presenter\TabPresenter.h" />
     <ClInclude Include="src\Presenter\ToothHintCreator.h" />
-    <ClInclude Include="src\Presenter\ToothProcedurePresenter.h" />
     <ClInclude Include="src\Resources.h" />
     <ClInclude Include="src\DbUpdates\DbUpdates.h" />
     <ClInclude Include="src\DbUpdates\Updater.h" />
@@ -726,6 +716,7 @@
     <QtMoc Include="src\View\Models\PrescriptionTableModel.h" />
     <QtMoc Include="src\View\Models\PISDentalActivitiesModel.h" />
     <QtMoc Include="src\View\Models\MKBModel.h" />
+    <QtMoc Include="src\View\Models\ProcedureCodeModel.h" />
     <ClInclude Include="src\View\Models\QProcedure.h" />
     <QtMoc Include="src\View\Models\ReportFilesModel.h" />
     <QtMoc Include="src\View\Models\StatisticTableModel.h" />
@@ -763,7 +754,6 @@
     <QtMoc Include="src\View\Widgets\ReportView.h" />
     <QtMoc Include="src\View\Widgets\ReportErrorDialog.h" />
     <QtMoc Include="src\View\Widgets\RecipientEditView.h" />
-    <QtMoc Include="src\View\Widgets\ProcedureTemplateDialog.h" />
     <QtMoc Include="src\View\Widgets\ProcedurePrintSelectDialog.h" />
     <QtMoc Include="src\View\Widgets\ProcedureEditDialog.h" />
     <QtMoc Include="src\View\Widgets\ProcedureDialog.h" />
@@ -880,7 +870,6 @@
     <QtUic Include="src\View\Widgets\ProcedureDialog.ui" />
     <QtUic Include="src\View\Widgets\ProcedureEditDialog.ui" />
     <QtUic Include="src\View\Widgets\ProcedurePrintSelectDialog.ui" />
-    <QtUic Include="src\View\Widgets\ProcedureTemplateDialog.ui" />
     <QtUic Include="src\View\Widgets\RecipientEditView.ui" />
     <QtUic Include="src\View\Widgets\ReferralDialog.ui" />
     <QtUic Include="src\View\Widgets\ReportErrorDialog.ui" />

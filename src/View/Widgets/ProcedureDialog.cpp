@@ -82,7 +82,7 @@ ProcedureDialog::~ProcedureDialog()
 }
 
 
-void ProcedureDialog::setProcedureTemplates(std::vector<ProcedureTemplate> procedureList)
+void ProcedureDialog::setProcedureTemplates(std::vector<ProcedureCode> procedureList)
 {
 	model.setProcedures(procedureList);
 }

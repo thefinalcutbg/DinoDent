@@ -2,12 +2,7 @@
 
 #include "Model/Dental/ToothUtils.h"
 #include "Model/Validators/ProcedureDateValidator.h"
-
-#include "GeneralProcedurePresenter.h"
-#include "ToothProcedurePresenter.h"
-#include "ObturationPresenter.h"
-#include "CrownPresenter.h"
-#include "ProcedureRangePresenter.h"
+#include "ProcedureCreator.h"
 #include "View/Interfaces/IProcedureDialog.h"
 
 struct AmbList;
@@ -23,27 +18,13 @@ class ProcedureDialogPresenter
 	Date patientTurns18;
 	bool pregnancyAllowed{ false };
 
-	GeneralProcedurePresenter general_presenter;
-	ToothProcedurePresenter toothNonSpecific_presenter;
-	ObturationPresenter obt_presenter;
-	CrownPresenter crown_presenter;
-	ExtractionPresenter extr_presenter;
-	EndoPresenter endo_presenter;
-	ImplantPresenter impl_presenter;
-	ProcedureRangePresenter fiber_presenter;
-	ToothProcedurePresenter crownRemove_presenter;
-	ToothProcedurePresenter postRemove_presenter;
-	ProcedureRangePresenter bridgeSplintRemove_presenter;
-	NhifAnesthesiaPresenter anesthesia_presenter;
-
-	std::array<AbstractSubPresenter*, 12> presenters_ptr;
-	AbstractSubPresenter* current_m_presenter;
+	ProcedureCreator procedure_creator;
 
 	IProcedureDialog* view;
 
 	std::vector<Procedure> procedures;
 
-	std::vector<ProcedureTemplate> procedureList;
+	std::vector<ProcedureCode> procedureList;
 
 	ProcedureDateValidator date_validator;
 

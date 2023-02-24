@@ -144,13 +144,10 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
         report.dataManager()->setReportVariable("pDate" + idx , p.date.toBgStandard().c_str());
         report.dataManager()->setReportVariable("pDiag" + idx, p.diagnosis.c_str());
         report.dataManager()->setReportVariable("pTooth" + idx, ToothUtils::getNomenclature(p.tooth, p.temp).c_str());
-        report.dataManager()->setReportVariable("pName" + idx, p.name.c_str());
-        report.dataManager()->setReportVariable("pNhif" + idx, QString::number(p.code));
-        report.dataManager()->setReportVariable("pKsmp" + idx, p.ksmp.c_str());
-        if (p.type == ProcedureType::nhif_anesthesia)
-        {
-            report.dataManager()->setReportVariable("pMin" + idx, std::get<Anesthesia>(p.result).minutes);
-        }
+        report.dataManager()->setReportVariable("pName" + idx, p.code.name().c_str());
+        report.dataManager()->setReportVariable("pNhif" + idx, QString::number(p.code.nhifCode()));
+        report.dataManager()->setReportVariable("pKsmp" + idx, p.code.ksmp().c_str());
+
     }
 
     const Referral *form3{ nullptr },

@@ -160,7 +160,7 @@ std::vector<PracticeDoctor> DbPractice::getDoctors(const std::string& practiceRZ
     return result;
 }
 
-void DbPractice::updatePriceList(const std::vector<ProcedureTemplate>& priceList, const std::string& rziCode)
+void DbPractice::updatePriceList(const std::vector<ProcedureCode>& priceList, const std::string& rziCode)
 {
     Db::crudQuery(
         "UPDATE practice SET "

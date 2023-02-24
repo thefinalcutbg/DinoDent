@@ -5,7 +5,7 @@
 
 #include "Model/Date.h"
 #include "Model/Settings.h"
-#include "Model/Dental/ProcedureTemplate.h"
+#include "Model/Dental/ProcedureCode.h"
 #include "Model/Specialty.h"
 
 constexpr const char* doctorPrefix = "д-р ";
@@ -96,7 +96,7 @@ struct Practice
 
 	std::optional<NzokContract> nzok_contract;
 
-	std::vector<ProcedureTemplate> priceList;
+	std::vector<ProcedureCode> priceList;
 
 	std::string RHIF() const {
 		return rziCode.substr(0, 2);

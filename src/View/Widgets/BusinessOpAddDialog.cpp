@@ -1,6 +1,6 @@
 ﻿#include "BusinessOpAddDialog.h"
 
-BusinessOpAddDialog::BusinessOpAddDialog(const std::vector<ProcedureTemplate>& priceList, QWidget* parent)
+BusinessOpAddDialog::BusinessOpAddDialog(const std::vector<ProcedureCode>& priceList, QWidget* parent)
 	: QDialog(parent)
 {
 	ui.setupUi(this);
@@ -55,7 +55,7 @@ void BusinessOpAddDialog::okPressed()
 
 	auto& row = m_priceList.getProcedureRow(index);
 
-	m_result.emplace(std::to_string(row.code), row.name.toStdString(), row.price, ui.quantitySpinBox->value());
+	m_result.emplace(row.code.toStdString(), row.name.toStdString(), row.price, ui.quantitySpinBox->value());
 
 	accept();
 }

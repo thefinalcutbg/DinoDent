@@ -314,7 +314,7 @@ std::string HisService::getProcedures(const ProcedureContainer& procedures)
 		//result += bind("index", ???);
 
 		result += bind("code", "D-01-02");
-		result += bind("type", static_cast<int>(p.type) + 1);
+		result += bind("type", static_cast<int>(p.code.type()));
 
 		//result += bind("duration", ...);
 		result += bind("datePerformed", p.date.to8601());
@@ -333,7 +333,7 @@ std::string HisService::getProcedures(const ProcedureContainer& procedures)
 			result += bind("toToothIndex", ToothUtils::getToothNumber(end, false));
 		}
 
-		if (p.type == ProcedureType::obturation)
+		if (p.code.type() == ProcedureType::obturation)
 		{
 			auto obtData = std::get<ProcedureObtData>(p.result);
 

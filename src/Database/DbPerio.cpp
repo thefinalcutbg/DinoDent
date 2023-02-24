@@ -44,7 +44,7 @@ ToothContainer DbPerio::getStatus(long long patientRowId, const Date& date)
 
     db.newStatement(
 
-        "SELECT type, tooth, deciduous, data FROM procedure WHERE"
+        "SELECT type, tooth, deciduous, hyperdontic, data FROM procedure WHERE"
         " amblist_rowid = " + std::to_string(amblistId) +
         " AND rowid <= " + std::to_string(procedureRowId) +
         " ORDER BY rowid"
@@ -53,12 +53,12 @@ ToothContainer DbPerio::getStatus(long long patientRowId, const Date& date)
 
     while (db.hasRows())
     {
-        Procedure p;
+        Procedure p(db.asString(0));
         p.LPK = LPK;
-        p.type = static_cast<ProcedureType>(db.asInt(0));
         p.tooth = db.asInt(1);
-        p.temp = db.asInt(2);
-        Parser::parse(db.asString(3), p);
+        p.temp = db.asBool(2);
+        p.hyperdontic = db.asBool(3);
+        Parser::parse(db.asString(4), p);
         p.applyProcedure(toothStatus);
     }
 

@@ -74,7 +74,7 @@ bool AmbListValidator::ambListIsValid()
 
         if (p.date.isWeekend())
         {
-            _error = "Манипулация " + std::to_string(p.code) + " не може да бъде извършена в почивен ден";
+            _error = "Манипулация " + std::to_string(p.code.nhifCode()) + " не може да бъде извършена в почивен ден";
                 return false;
         }
 
@@ -112,12 +112,13 @@ std::vector<ProcedureSummary> getSummaryFromPisHistory(const std::vector<Procedu
 
         if (p.date >= ambListDate) continue;
 
-        result.push_back({
-                p.date,
-                p.code,
-                p.tooth,
-                p.temp,
-                p.type == ProcedureType::extraction
+        result.push_back(ProcedureSummary{
+                .date = p.date,
+                .code = p.code.nhifCode(),
+                .tooth = p.tooth,
+                .temp = p.temp,
+                .extr = p.code.type() == ProcedureType::extraction,
+                .hyperdontic = p.hyperdontic,
             });
 
     }
@@ -175,22 +176,22 @@ bool AmbListValidator::isValidAccordingToDb()
     {
         auto& procedure = m_procedures[i];
         
-        packageCounter.insertCode(procedure.code);
+        packageCounter.insertCode(procedure.code.nhifCode());
 
         if (ambList.nhifData.specification != NhifSpecification::Anesthesia &&
             !packageCounter.validate(patient.isAdult(procedure.date), ambList.procedures.hasPregnancy())) //validating max allowed per year
         {
-            _error = "Надвишен лимит по НЗОК за код " + std::to_string(procedure.code) + "!";
+            _error = "Надвишен лимит по НЗОК за код " + std::to_string(procedure.code.nhifCode()) + "!";
             return false;
         };
 
-        NhifProcedures::getYearLimit(procedure.code);
+        NhifProcedures::getYearLimit(procedure.code.nhifCode());
 
         for (auto& p : summary) //validating max allowed per time period and per tooth
         {
-            if (p.code != procedure.code || p.tooth != procedure.tooth) continue;
+            if (p.code != procedure.code.nhifCode() || p.tooth != procedure.tooth) continue;
 
-            auto yearLimit = NhifProcedures::getYearLimit(procedure.code);
+            auto yearLimit = NhifProcedures::getYearLimit(procedure.code.nhifCode());
 
             Date date = { p.date.day, p.date.month, p.date.year + yearLimit };
          
@@ -228,9 +229,9 @@ bool AmbListValidator::dateIsValid()
             return false;
         }
 
-        if (p.isNhif() && NhifProcedures::isMinorOnly(p.code) && patient.isAdult(p.date))
+        if (p.isNhif() && NhifProcedures::isMinorOnly(p.code.nhifCode()) && patient.isAdult(p.date))
         {
-            _error = "Манипулация " + std::to_string(p.code) + " е позволена само при лица под 18 годишна възраст!";
+            _error = "Манипулация " + std::to_string(p.code.nhifCode()) + " е позволена само при лица под 18 годишна възраст!";
             return false;
         }
    }
@@ -246,7 +247,7 @@ bool AmbListValidator::examIsFirst()
 
     auto it = std::find_if(procedures.begin(), procedures.end(),
         [&examCode](const Procedure& p){
-            return p.isNhif() && p.code == examCode;
+            return p.isNhif() && p.code.nhifCode() == examCode;
         });
 
     if (it != procedures.end()){
@@ -255,9 +256,9 @@ bool AmbListValidator::examIsFirst()
 
     for (auto& p : procedures)
     {
-        if (p.isNhif() && p.code != examCode && p.date < ambListDate)
+        if (p.isNhif() && p.code.nhifCode() != examCode && p.date < ambListDate)
         {
-            _error = "Датата на манипулация " + std::to_string(p.code) + " е по-малка от датата на прегледа!";
+            _error = "Датата на манипулация " + std::to_string(p.code.nhifCode()) + " е по-малка от датата на прегледа!";
             return false;
         }
     }
@@ -275,15 +276,15 @@ bool AmbListValidator::noDuplicates()
     {
         auto tooth = p.hyperdontic ? p.tooth + 80 : p.tooth;
 
-        auto pair = std::make_pair(tooth, p.code);
+        auto pair = std::make_pair(tooth, p.code.nhifCode());
 
         if (tooth_set.count(pair))
         {
             p.tooth != -1 ?
             _error = "За зъб " + ToothUtils::getNhifNumber(p.tooth, p.temp, p.hyperdontic ) +
-                " манипулация с код " + std::to_string(p.code) + " е добавена повече от веднъж"
+                " манипулация с код " + std::to_string(p.code.nhifCode()) + " е добавена повече от веднъж"
             :
-            _error = "Направили сте 2 еднакви манипулации с код " + std::to_string(p.code);
+            _error = "Направили сте 2 еднакви манипулации с код " + std::to_string(p.code.nhifCode());
 
             return false;
         }
@@ -298,9 +299,9 @@ bool AmbListValidator::validateTypeToStatus(const Tooth& t, const Procedure& p)
 {
 
     std::string toothNum = ToothUtils::getNomenclature(t);
-    std::string code = std::to_string(p.code);
+    std::string code = std::to_string(p.code.nhifCode());
 
-    switch (p.type)
+    switch (p.code.type())
     {
         case ProcedureType::obturation:
         {
@@ -391,15 +392,15 @@ bool AmbListValidator::validatePermaTemp(const Tooth& tooth, const Procedure& p)
 
     bool temp = tooth.temporary.exists();
 
-    if (NhifProcedures::isTempOnly(p.code) && !temp)
+    if (NhifProcedures::isTempOnly(p.code.nhifCode()) && !temp)
     {
-        _error = "Манипулация "+ std::to_string(p.code) + " на зъб " + ToothUtils::getNomenclature(p.tooth, temp) + " е позволена само при временни зъби";
+        _error = "Манипулация "+ std::to_string(p.code.nhifCode()) + " на зъб " + ToothUtils::getNomenclature(p.tooth, temp) + " е позволена само при временни зъби";
         return false;
     }
     
-    if (NhifProcedures::isPermaOnly(p.code) && temp)
+    if (NhifProcedures::isPermaOnly(p.code.nhifCode()) && temp)
     {
-        _error = "Манипулация " + std::to_string(p.code) + " на зъб " + ToothUtils::getNomenclature(p.tooth, temp) + " е позволена само при постоянни зъби";
+        _error = "Манипулация " + std::to_string(p.code.nhifCode()) + " на зъб " + ToothUtils::getNomenclature(p.tooth, temp) + " е позволена само при постоянни зъби";
         return false;
     }
 

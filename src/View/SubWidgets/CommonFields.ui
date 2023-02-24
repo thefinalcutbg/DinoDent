@@ -96,96 +96,15 @@
     <widget class="LineEdit" name="diagnosisEdit"/>
    </item>
    <item>
-    <widget class="QLabel" name="label_3">
-     <property name="text">
-      <string>Манипулация:</string>
-     </property>
-    </widget>
+    <layout class="QHBoxLayout" name="horizontalLayout_2"/>
    </item>
    <item>
-    <widget class="LineEdit" name="procedureEdit"/>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
-     <item>
-      <widget class="QPushButton" name="ksmpButton">
-       <property name="text">
-        <string>КСМП</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeType">
-        <enum>QSizePolicy::Expanding</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>0</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_3">
-     <item>
-      <widget class="QSpinBox" name="minutesSpin">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>51</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="maximum">
-        <number>240</number>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="minutesLabel">
-       <property name="text">
-        <string>минути</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer_2">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-    </layout>
+    <layout class="QHBoxLayout" name="horizontalLayout_3"/>
    </item>
    <item>
     <widget class="QCheckBox" name="hyperdonticCheckBox">
      <property name="text">
       <string>На свръхброен зъб</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QCheckBox" name="bridgeCheckBox">
-     <property name="text">
-      <string>Мостова конструкция</string>
      </property>
     </widget>
    </item>

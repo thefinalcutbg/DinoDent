@@ -4,7 +4,6 @@
 
 #include "Resources.h"
 
-std::vector<ProcedureTemplate> _procedures;
 std::unordered_map<int, int> code_durations;
 std::unordered_map<int, int> _timeframes;
 std::vector<NZOKUpdates> _updates;
@@ -24,27 +23,13 @@ void NhifProcedures::initialize()
 
 	//1.Getting all NZOK procedures
 
-	const Json::Value& procedure = p["procedure"];
+	const Json::Value& dur = p["durations"];
 
-	_procedures.reserve(procedure.size());
-	code_durations.reserve(procedure.size());
+	code_durations.reserve(dur.size());
 
-	for (int i = 0; i < procedure.size(); i++) 
+	for (int i = 0; i < dur["code"].size(); i++) 
 	{
-		ProcedureTemplate m;
-		m.type = static_cast<ProcedureTemplateType>(procedure[i]["type"].asInt());
-		m.code = procedure[i]["code"].asInt();
-		m.name = procedure[i]["name"].asString();
-		m.price = 0;
-		m.nhif = true;
-		m.ksmp = procedure[i]["ksmp"].asString();
-
-		if (!procedure[i]["default_diag"].isNull())
-			m.diagnosis = procedure[i]["default_diag"].asString();
-
-
-		code_durations[m.code] = (procedure[i]["duration"].asInt());
-		_procedures.push_back(m);
+		code_durations[dur["code"][i].asInt()] = dur["minutes"][i].asInt();
 	}
 
 	//2.Getting the constraints procedures
@@ -142,11 +127,7 @@ void NhifProcedures::initialize()
 
 }
 
-
-
-
-
-std::vector<ProcedureTemplate> NhifProcedures::getM_Templates(Date ambDate, NhifSpecialty specialty, bool adult, bool pregnancyAllowed, NhifSpecification specification)
+std::vector<ProcedureCode> NhifProcedures::getNhifProcedures(Date ambDate, NhifSpecialty specialty, bool adult, bool pregnancyAllowed, NhifSpecification specification)
 {
 	int currentUpdateIdx = -1;
 
@@ -157,33 +138,25 @@ std::vector<ProcedureTemplate> NhifProcedures::getM_Templates(Date ambDate, Nhif
 		currentUpdateIdx = i; break;
 	}
 
-	if (currentUpdateIdx == -1) return std::vector<ProcedureTemplate>{};
+	if (currentUpdateIdx == -1) return {};
 
 	auto& update = _updates[currentUpdateIdx];
 
 	auto& m_map = update.prices[PriceKey{ static_cast<int>(specialty), adult, static_cast<int>(specification) }].priceMap;
 
-	std::vector<ProcedureTemplate> pTemplates;
 
-	pTemplates.reserve(m_map.size());
+	std::vector<ProcedureCode> result;
 
-	constexpr auto pregnancyKsmp = "97017-01";
+	result.reserve(m_map.size());
 
-	for (auto& kv : m_map) 
-	{
-		for (auto& p : _procedures)
-		{
-			if (p.code != kv.first) continue;
+	for (auto& kv : ProcedureCode::procedureByNhifCode()) {
 
-			if (!pregnancyAllowed && p.ksmp == pregnancyKsmp) continue;
-
-			pTemplates.push_back(p);
-			pTemplates.back().price = std::get<0>(kv.second);
+		if (m_map.count(kv.first)) {
+			result.push_back(kv.second);
 		}
-
 	}
 
-	return pTemplates;
+	return result;
 }
 
 std::pair<patientPrice, nzokPrice> NhifProcedures::getPrices
@@ -212,14 +185,6 @@ std::vector<ProcedurePackage> NhifProcedures::getPackages(Date ambDate)
 			return u.packages;
 
 	return std::vector<ProcedurePackage>();
-}
-
-
-ProcedureTemplate NhifProcedures::getTemplateByCode(int code){ 
-
-	for (auto& p : _procedures) if (p.code == code) return p;
-
-	throw std::exception("No procedure with this code");
 }
 
 double NhifProcedures::getPatientPrice(int code, Date date, NhifSpecialty specialty, bool adult, NhifSpecification specification)

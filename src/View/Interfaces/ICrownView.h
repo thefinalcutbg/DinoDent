@@ -4,7 +4,7 @@
 #include "Model/Dental/Procedure.h"
 #include "View/Interfaces/AbstractRangeEdit.h"
 
-class AbstractSubPresenter;
+class ProcedureCreator;
 
 class ICrownView
 {
@@ -16,5 +16,5 @@ public:
 	virtual std::optional<ConstructionRange> getData() = 0;
 	//sets the bridge checkbox to false
 	virtual void lockBridgeCheckbox(bool asChecked = true) = 0;
-	virtual void setPresenter(AbstractSubPresenter* p) = 0;
+	virtual void setPresenter(ProcedureCreator* p) = 0;
 };

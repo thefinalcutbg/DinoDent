@@ -1,5 +1,5 @@
 #pragma once
-#include "Model/Dental/ProcedureTemplate.h"
+#include "Model/Dental/ProcedureCode.h"
 #include <QAbstractTableModel>
 
 #include <vector>
@@ -8,7 +8,7 @@ enum procedureHeader { code = 1, name, price };
 
 struct ProcedureRow
 {
-	int code;
+	QString code;
 	QString name;
 	double price;
 	bool nhif;
@@ -31,7 +31,7 @@ class ProcedureTemplateModel : public QAbstractTableModel
 public:
 	ProcedureTemplateModel(QObject *parent = nullptr);
 
-	void setProcedures(std::vector<ProcedureTemplate> procedures);
+	void setProcedures(std::vector<ProcedureCode> procedures);
 	const ProcedureRow& getProcedureRow(int index) const;
 	~ProcedureTemplateModel();
 

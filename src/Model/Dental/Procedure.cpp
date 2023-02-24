@@ -1,10 +1,11 @@
 #include "Procedure.h"
 #include "Model/Dental/ToothContainer.h"
 
+
+
 void Procedure::applyProcedure(ToothContainer& teeth) const
 {
-
-		switch (type)
+		switch (code.type())
 		{
 			case::ProcedureType::obturation:
 			{
@@ -179,7 +180,7 @@ void Procedure::applyPISProcedure(ToothContainer& teeth) const
 		tooth.removeStatus();
 	}
 
-	switch (type)
+	switch (code.type())
 	{
 	case ProcedureType::obturation:
 		tooth.setStatus(StatusCode::Obturation); break;
@@ -198,11 +199,12 @@ void Procedure::applyPISProcedure(ToothContainer& teeth) const
 
 bool Procedure::isToothSpecific() const
 {
+	auto type = this->code.type();
+
 	return
 		type != ProcedureType::general &&
 		type != ProcedureType::bridge &&
 		type != ProcedureType::fibersplint &&
-		type != ProcedureType::removebridgeOrSplint &&
-		type != ProcedureType::nhif_anesthesia
+		type != ProcedureType::removebridgeOrSplint
 	;
 }

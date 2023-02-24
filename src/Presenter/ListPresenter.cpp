@@ -74,7 +74,7 @@ void ListPresenter::refreshPrices()
 
         if (m.isNhif())
         {
-            auto [p, nhif] = NhifProcedures::getPrices(m.code, m_ambList.getDate(), patient->isAdult(m.date), User::doctor().specialty, m_ambList.nhifData.specification);
+            auto [p, nhif] = NhifProcedures::getPrices(m.code.nhifCode(), m_ambList.getDate(), patient->isAdult(m.date), User::doctor().specialty, m_ambList.nhifData.specification);
             nzokPrice = nzokPrice + nhif;
         }
 

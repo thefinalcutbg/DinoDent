@@ -296,7 +296,7 @@ std::string Parser::write(const Procedure& procedure)
 {
 	Json::Value json;
 
-	switch (procedure.type)
+	switch (procedure.code.type())
 	{
 	case ProcedureType::obturation:
 	{
@@ -322,12 +322,6 @@ std::string Parser::write(const Procedure& procedure)
 		auto& r = std::get<ConstructionRange>(procedure.result);
 		json["begin"] = r.tooth_begin;
 		json["end"] = r.tooth_end;
-		break;
-	}
-	case ProcedureType::nhif_anesthesia:
-	{
-		auto& r = std::get<Anesthesia>(procedure.result);
-		json["min"] = r.minutes;
 		break;
 	}
 	default:
@@ -362,7 +356,7 @@ std::string Parser::write(const std::optional<NzokContract>& contract)
 	return writer.write(json);
 }
 
-std::string Parser::write(const std::vector<ProcedureTemplate>& priceList)
+std::string Parser::write(const std::vector<ProcedureCode>& priceList)
 {
 	Json::Value priceJson = Json::Value(Json::arrayValue);
 
@@ -370,20 +364,8 @@ std::string Parser::write(const std::vector<ProcedureTemplate>& priceList)
 	{
 		Json::Value pTemplate;
 
-		pTemplate["type"] = static_cast<int>(p.type);
-		pTemplate["code"] = p.code;
-		pTemplate["name"] = p.name;
-		pTemplate["price"] = p.price;
-		
-		if (!p.ksmp.empty())
-		{
-			pTemplate["ksmp"] = p.ksmp;
-		}
+		pTemplate["code"] = p.code();
 
-		if (!p.diagnosis.empty()) {
-			pTemplate["default_diag"] = p.diagnosis;
-		}
-		
 		priceJson.append(pTemplate);
 	}
 
@@ -542,7 +524,7 @@ void Parser::parse(const std::string& jsonString, Procedure& procedure)
 	}
 
 	//parsing additional data, where present:
-	switch (procedure.type)
+	switch (procedure.code.type())
 	{
 	case ProcedureType::obturation:
 	{
@@ -572,12 +554,6 @@ void Parser::parse(const std::string& jsonString, Procedure& procedure)
 			.tooth_end = json["end"].asInt(),
 		};
 
-		break;
-
-	case ProcedureType::nhif_anesthesia:
-		procedure.result = Anesthesia{
-			.minutes = json["min"].asInt()
-		};
 		break;
 
 	default:
@@ -875,7 +851,7 @@ void Parser::parse(const std::string& jsonString, Invoice& invoice)
 }
 
 
-std::vector<ProcedureTemplate> Parser::getPriceList(const std::string& priceList)
+std::vector<ProcedureCode> Parser::getPriceList(const std::string& priceList)
 {
 	
 	Json::Reader reader;
@@ -883,27 +859,12 @@ std::vector<ProcedureTemplate> Parser::getPriceList(const std::string& priceList
 
 	reader.parse(priceList, procedureTemplate);
 
-	std::vector<ProcedureTemplate> procedureTemplateList;
+	std::vector<ProcedureCode> procedureTemplateList;
 	procedureTemplateList.reserve(procedureTemplate.size());
 
 	for (int i = 0; i < procedureTemplate.size(); i++)
 	{
-		ProcedureTemplate m;
-		m.type = static_cast<ProcedureTemplateType>(procedureTemplate[i]["type"].asInt());
-		m.code = procedureTemplate[i]["code"].asInt();
-		m.name = procedureTemplate[i]["name"].asString();
-		m.price = procedureTemplate[i]["price"].asDouble();
-
-		if (!procedureTemplate[i]["default_diag"].isNull())
-		{
-			m.diagnosis = procedureTemplate[i]["default_diag"].asString();
-		}
-
-		if (!procedureTemplate[i]["ksmp"].isNull())
-		{
-			m.ksmp = procedureTemplate[i]["ksmp"].asString();
-		}
-		procedureTemplateList.emplace_back(m);
+		procedureTemplateList.emplace_back(procedureTemplate[i]["code"].asString());
 	}
 
 	return procedureTemplateList;

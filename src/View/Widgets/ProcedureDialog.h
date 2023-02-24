@@ -27,7 +27,7 @@ public:
 	 ~ProcedureDialog();
 
 
-	void setProcedureTemplates(std::vector<ProcedureTemplate> manipulationList) override;
+	void setProcedureTemplates(std::vector<ProcedureCode> procedureList) override;
 	
 
     void close() override;

@@ -36,9 +36,9 @@ PriceListSettings::PriceListSettings(QWidget *parent)
 		});
 
 	connect(ui.addButton, &QPushButton::clicked, this, [=] { if(presenter)presenter->addTemplate(); });
-	connect(ui.editButton, &QPushButton::clicked, this, [=] { if (presenter)presenter->editTemplate(); });
+	//connect(ui.editButton, &QPushButton::clicked, this, [=] { if (presenter)presenter->editTemplate(); });
 	connect(ui.deleteButton, &QPushButton::clicked, this, [=] { if (presenter)presenter->deleteTemplate(); });
-	connect(ui.tableView, &QTableView::doubleClicked, [=] { if (presenter)presenter->editTemplate(); });
+	//connect(ui.tableView, &QTableView::doubleClicked, [=] { if (presenter)presenter->editTemplate(); });
 
 }
 
@@ -47,7 +47,7 @@ void PriceListSettings::setPresenter(PriceListSettingsPresenter* presenter)
 	this->presenter = presenter;
 }
 
-void PriceListSettings::setTemplates(const std::vector<ProcedureTemplate>& templates)
+void PriceListSettings::setTemplates(const std::vector<ProcedureCode>& templates)
 {
 	m_model.setProcedures(templates);
 }

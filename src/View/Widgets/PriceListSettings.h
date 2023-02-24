@@ -5,6 +5,7 @@
 #include "View/Interfaces/IPriceListSettings.h"
 #include "Presenter/PriceListSettingsPresenter.h"
 #include "View/Models/ProcedureTemplateModel.h"
+#include "Model/Dental/ProcedureCode.h"
 
 class PriceListSettings : public QWidget, public IPriceListSettings
 {
@@ -18,7 +19,7 @@ class PriceListSettings : public QWidget, public IPriceListSettings
 public:
 	PriceListSettings(QWidget *parent = Q_NULLPTR);
 	void setPresenter(PriceListSettingsPresenter* presenter) override;
-	void setTemplates(const std::vector<ProcedureTemplate>& templates) override;
+	void setTemplates(const std::vector<ProcedureCode>& templates) override;
 	void setCurrentIndex(int idx) override;
 
 	~PriceListSettings();

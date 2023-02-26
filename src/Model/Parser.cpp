@@ -279,6 +279,16 @@ std::string Parser::write(const ToothContainer& status)
 			param["pos"] = static_cast<int>(tooth.splint.position);
 			json["Splint"].append(param);
 		}
+
+		if (tooth.denture.exists())
+		{
+			if (!json.isMember("Denture"))
+			{
+				json["Denture"] = Json::Value(Json::arrayValue);
+			}
+
+			json["Denture"].append(writeDentistMade(i, tooth.denture));
+		}
 	}
 
 	json["TimeStamps"] = Json::Value(Json::arrayValue);
@@ -799,6 +809,15 @@ void Parser::parse(const std::string& jsonString, ToothContainer& status)
 		tooth.splint.position = static_cast<BridgePos>(splint[i]["pos"].asInt());
 		tooth.splint.LPK = splint[i]["LPK"].asString();
 		tooth.splint.set(true);
+	}
+
+	const Json::Value& denture = json["Denture"];
+
+	for (int i = 0; i < denture.size(); i++)
+	{
+		Tooth& tooth = status[denture[i]["idx"].asInt()];
+		tooth.denture.LPK = denture[i]["LPK"].asString();
+		tooth.denture.set(true);
 	}
 
 	const Json::Value& timeStamps = json["TimeStamps"];

@@ -14,7 +14,6 @@ DinoDent::DinoDent(QWidget* parent)
     : QMainWindow(parent)
 {
     ui.setupUi(this);
-   // showMaximized();
 
     ui.newButton->setIcon(QIcon(":/icons/icon_sheet.png"));
     ui.perioButton->setIcon(QIcon(":/icons/icon_periosheet.png"));

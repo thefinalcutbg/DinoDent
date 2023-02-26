@@ -80,7 +80,8 @@ bool ToothContainer::needsBridgeFormatting(int status)
 	return
 		status == StatusCode::Bridge ||
 		status == StatusCode::Crown ||
-		status == StatusCode::FiberSplint
+		status == StatusCode::FiberSplint ||
+		status == StatusCode::Denture
 		;
 }
 

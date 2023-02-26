@@ -14,7 +14,8 @@ enum OtherInputs
 	removeO,
 	removeC,
 	removeAll,
-	removeBridge
+	removeBridge,
+	makeIntact
 };
 
 }

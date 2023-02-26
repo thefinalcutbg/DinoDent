@@ -87,18 +87,10 @@ std::vector<std::string> Tooth::getSimpleStatuses() const
 	std::array<std::string, statusCount> statusLegend //each letter corresponds to bool status
 	{
 		"T", "O", "C", "P", "G", "", "", "R", "F", "E",
-		"Pa", "I", "K", "K", "K", "Impl.", "Dsn", ""
+		"Pa", "I", "K", "K", "X", "Impl.", "Dsn", "", "X"
 	};							//     ^     ^
 								//  bridge	splint (both defaulted as artificial tooth)
 
-	if (boolStatus[StatusCode::Bridge])
-	{
-		boolStatus[StatusCode::Extraction] ?
-			statusLegend[StatusCode::Extraction] = "" //extraction won't be shown
-			:
-			statusLegend[StatusCode::Bridge] = "K"; //bridge will be shown as K
-
-	}
 
 	if (boolStatus[StatusCode::FiberSplint])
 	{
@@ -109,7 +101,7 @@ std::vector<std::string> Tooth::getSimpleStatuses() const
 		else
 		{
 			boolStatus[StatusCode::Obturation] = true; //obturation WILL be shown
-			statusLegend[StatusCode::FiberSplint] = ""; //fibersplint WON'T be shown
+			statusLegend[StatusCode::FiberSplint] = "O"; //fibersplint WON'T be shown
 		}
 	}
 
@@ -157,29 +149,111 @@ void Tooth::addStatus(int statusCode)
 	{
 		case StatusCode::Temporary: 
 			if (type == ToothType::Molar) break;
-			set(true, temporary);  set(false, extraction, implant, post);  break;
+			set(true, temporary);  
+			set(false, extraction, implant, post);  
+			break;
 
 		case StatusCode::Extraction:
-			if (temporary.exists()) { removeStatus(); temporary.set(false); break; }
-			set(true, extraction); set(false, obturation, caries, implant, pulpitis, endo, fracture, root, lesion, periodontitis, crown, post, mobility, denture); break;
-   
-		case StatusCode::Obturation: set(true, obturation); set(false, root, implant, extraction, impacted, denture); break;
-		case StatusCode::Caries: set(true, caries); set(false, root, implant, extraction, impacted, denture); break;
-		case StatusCode::Pulpitis: set(true, pulpitis); set(false, lesion, extraction, implant, endo, post, impacted, denture); break;
-		case StatusCode::EndoTreatment: set(true, endo); set(false, extraction, implant, pulpitis, impacted, denture); break;
-		case StatusCode::Post: set(true, post, endo); set(false, temporary, extraction, implant, pulpitis, impacted, denture); break;
-		case StatusCode::Root: set(true, root); set(false, caries, obturation, crown, extraction, implant); break;
-		case StatusCode::Implant: set(true, implant); set(false, temporary, extraction, obturation, caries, pulpitis, endo, fracture, root, post, mobility, splint, impacted, denture); break;
-		case StatusCode::ApicalLesion: set(true, lesion); set(false, pulpitis, extraction, impacted); break;
-		case StatusCode::Fracture: set(true, fracture); set(false, extraction, implant, impacted); break;
-		case StatusCode::Periodontitis: set(true, periodontitis); set(false, extraction, impacted); break;
-		case StatusCode::Mobility: set(true, mobility); set(false, extraction, impacted); mobility.degree = Degree::First; break;
-		case StatusCode::Crown: set(true, crown); set(false, bridge, extraction, root, splint, impacted); break;
-		case StatusCode::Bridge: set(true, bridge); set(false, crown, splint, denture); bridge.LPK.clear(); break;
-		case StatusCode::FiberSplint: set(true, splint); set(false, crown, bridge, implant, denture); break;
-		case StatusCode::Dsn: set(true, hyperdontic); break;
-		case StatusCode::Impacted: set(true, impacted); set(false, obturation, caries, extraction, periodontitis, lesion, implant, crown, post, endo, mobility, fracture); break;
-		case StatusCode::Denture: set(true, denture); set(false, obturation, caries, extraction, implant, crown, bridge, splint); break;
+			if (temporary.exists()){ removeStatus(); temporary.set(false); break; }
+			set(true, extraction);
+			set(false, obturation, caries, implant, pulpitis, endo, fracture, root, lesion, periodontitis, crown, post, mobility, denture); 
+			break;
+
+		case StatusCode::Obturation: 
+			set(true, obturation); 
+			set(false, root, implant, extraction, impacted, denture); 
+			break;
+
+		case StatusCode::Caries: 
+			set(true, caries); 
+			set(false, root, implant, extraction, impacted, denture);
+			break;
+
+		case StatusCode::Pulpitis: 
+			set(true, pulpitis); 
+			set(false, lesion, extraction, implant, endo, post, impacted);
+			if (denture && !root) denture.set(false);
+			break;
+
+		case StatusCode::EndoTreatment: 
+			set(true, endo); 
+			set(false, extraction, implant, pulpitis, impacted);
+			if (denture && !root) denture.set(false); 
+			break;
+
+		case StatusCode::Post: 
+			set(true, post, endo); 
+			set(false, temporary, extraction, implant, pulpitis, impacted, denture); 
+			break;
+
+		case StatusCode::Root: 
+			set(true, root); 
+			set(false, caries, obturation, crown, extraction, implant); 
+			break;
+
+		case StatusCode::Implant: 
+			set(true, implant); 
+			set(false, temporary, extraction, obturation, caries, pulpitis, endo, fracture, root, post, mobility, splint, impacted);
+			break;
+
+		case StatusCode::ApicalLesion: 
+			set(true, lesion); 
+			set(false, pulpitis, extraction, impacted); 
+			if (denture && !root) denture.set(false);
+			break;
+
+		case StatusCode::Fracture: 
+			set(true, fracture); 
+			set(false, extraction, implant, impacted);
+			if (denture && !root) denture.set(false);
+			break;
+
+		case StatusCode::Periodontitis: 
+			set(true, periodontitis); 
+			set(false, extraction, impacted);
+			if (denture && !root) denture.set(false);  
+			break;
+
+		case StatusCode::Mobility: 
+			set(true, mobility); 
+			set(false, extraction, impacted); 
+			mobility.degree = Degree::First; break;
+			if (denture && !root) denture.set(false);  
+			break;
+
+		case StatusCode::Crown: 
+			set(true, crown); 
+			set(false, bridge, extraction, root, splint, impacted, denture); 
+			break;
+
+		case StatusCode::Bridge: 
+			set(true, bridge); 
+			set(false, crown, splint, denture); 
+			bridge.LPK.clear(); 
+			break;
+
+		case StatusCode::FiberSplint:
+			set(true, splint); 
+			set(false, crown, bridge, implant, denture);
+			break;
+
+		case StatusCode::Dsn: 
+			set(true, hyperdontic); 
+			break;
+
+		case StatusCode::Impacted: 
+			set(true, impacted); 
+			set(false, obturation, caries, extraction, periodontitis, lesion, implant, crown, post, endo, mobility, fracture); 
+			break;
+
+		case StatusCode::Denture: 
+			set(true, denture); 
+			set(false, obturation, caries, extraction, crown, bridge, splint, post); 
+			if (!root) {
+				set(false, endo, lesion, pulpitis, periodontitis);
+			}
+			break;
+
 		default: break;
 	};
 
@@ -198,7 +272,7 @@ void Tooth::removeStatus(int statusCode)
 		case StatusCode::Post: set(false, post); break;
 		case StatusCode::ApicalLesion: lesion.set(false); break;
 		case StatusCode::Extraction: extraction.set(false); break;
-		case StatusCode::Root: root.set(false); break;
+		case StatusCode::Root: root.set(false); if (denture) denture.set(false); break;
 		case StatusCode::Mobility: mobility.set(false); break;
 		case StatusCode::Implant: implant.set(false); break;
 		case StatusCode::Fracture: fracture.set(false); break;
@@ -207,9 +281,9 @@ void Tooth::removeStatus(int statusCode)
 		case StatusCode::FiberSplint: splint.set(false); break;
 		case StatusCode::Periodontitis: periodontitis.set(false); break;
 		case StatusCode::Dsn: hyperdontic.set(false); break;
-		case StatusCode::Impacted: impacted.set(false); break;
+		case StatusCode::Impacted: impacted.set(false); if (denture || !root) denture.set(false); break;
 		case StatusCode::Denture: denture.set(false); break;
-		default: break;
+		default: return;
 	}
 
 	last_update = FreeFn::getTimeStamp();
@@ -333,7 +407,7 @@ std::string Tooth::getToothInfo() const
 
 	if (bridge) {
 		
-		extraction ?
+		extraction || root || impacted ?
 			result.append("<br><b>Мостово тяло</b><br>")
 			:
 			result.append("<br><b>Мостоносител</b><br>");
@@ -346,7 +420,7 @@ std::string Tooth::getToothInfo() const
 
 	if (implant) {
 		result.append("<br><b>Имплант</b><br>");
-		//result.append(implant.data.infoStr());
+	
 	}
 
 	if(pulpitis.exists()) result.append("<br>" + pulpitis.info());
@@ -372,9 +446,9 @@ std::string Tooth::getToothInfo() const
 		result.append("<br><b><font color = \"red\">");
 
 		switch (mobility.degree) {
-		case Degree::First: result.append("Първа степен подвижност"); break;
-		case Degree::Second: result.append("Втора степен подвижност"); break;
-		case Degree::Third: result.append("Трета степен подвижност"); break;
+			case Degree::First: result.append("Първа степен подвижност"); break;
+			case Degree::Second: result.append("Втора степен подвижност"); break;
+			case Degree::Third: result.append("Трета степен подвижност"); break;
 		}
 
 		result.append("</font></b><br>");

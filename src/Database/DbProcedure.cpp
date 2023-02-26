@@ -5,8 +5,6 @@
 #include "Model/User.h"
 #include "Database.h"
 
-#include <QDebug>
-
 std::vector<Procedure> DbProcedure::getProcedures(long long amblist_rowid, Db& db, bool nhifOnly)
 {
 	std::vector<Procedure> mList;

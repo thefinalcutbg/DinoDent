@@ -126,8 +126,12 @@ ToothPaintHint ToothHintCreator::getToothHint(const Tooth& tooth, const std::str
     }
     else if (tooth.denture.exists())
     {
-        hint.tooth = ToothTextureHint::none;
         hint.prostho = ProsthoHint::denture;
+
+        if(hint.tooth != ToothTextureHint::root && 
+           hint.tooth != ToothTextureHint::impl &&
+           hint.tooth != ToothTextureHint::impl_m
+        ) hint.tooth = ToothTextureHint::none;
     }
     
     hint.post = PostHint::none;

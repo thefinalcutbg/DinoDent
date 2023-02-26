@@ -49,6 +49,12 @@ ControlPanel::ControlPanel(QWidget* parent)
 	lambdaConnect(ui.Root, StatusCode::Root);
 	lambdaConnect(ui.Temporary, StatusCode::Temporary);
 	lambdaConnect(ui.falseTooth, StatusCode::Denture);
+	
+	connect(ui.healthyTooth, &QPushButton::clicked, this, [=] {
+
+			if (presenter == NULL) return;
+			presenter->setOther(OtherInputs::makeIntact);
+		});
 
 	ui.Mobility->setStateNames({ "Подвижност", "Подвижност I", "Подвижност II", "Подвижност III" });
 
@@ -81,7 +87,7 @@ void ControlPanel::hideCommonButtons(bool hidden)
 	ui.Obturation->setHidden(hidden);
 	ui.Caries->setHidden(hidden);
 }
-#include <qdebug.h> 
+
 void ControlPanel::setModel(const CheckModel& checkModel)
 {
 
@@ -107,6 +113,8 @@ void ControlPanel::setModel(const CheckModel& checkModel)
 	setCheck(ui.Root, StatusCode::Root);
 	setCheck(ui.Temporary, StatusCode::Temporary);
 	setCheck(ui.falseTooth, StatusCode::Denture);
+	
+	ui.healthyTooth->setChecked(checkModel.isHealthy);
 
 	if (checkModel.mobilityStatus[0] == CheckState::checked) {
 		ui.Mobility->setCurrentState(1); return;

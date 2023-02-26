@@ -123,6 +123,23 @@ QPixmap getSplintRect(const ToothPaintHint& tooth)
     return result;
 }
 
+inline QPixmap getDenture(const ToothPaintHint& tooth) {
+
+    if (tooth.prostho != ProsthoHint::denture) return {};
+    
+    auto& coords = SpriteSheets::container().getCoordinates(tooth.idx, tooth.temp);
+    auto& texturePack = SpriteSheets::container().getTexturePack(tooth.idx, tooth.temp);
+    
+    QPixmap denture(coords.toothRect.width(), coords.toothRect.height());
+    denture.fill(Qt::transparent);
+    
+    QPainter painter(&denture);
+    painter.drawPixmap(coords.toothRect, *texturePack.denture);
+    painter.drawPixmap(coords.crownRect, *texturePack.falseTooth);
+    
+    return denture;
+}
+
 inline QPixmap getSurfaceTexture(const ToothPaintHint& tooth)
 {
     auto& coords = SpriteSheets::container().getCoordinates(tooth.idx, tooth.temp);
@@ -434,8 +451,8 @@ inline QPixmap getToothPixmap(const ToothPaintHint& tooth)
         painter.drawPixmap(coords.lingualSplintPaint, getSplintRect(tooth));
         break;
     case ProsthoHint::denture:
-        painter.drawPixmap(coords.toothRect, *texturePack.denture);
-        painter.drawPixmap(coords.crownRect, *texturePack.falseTooth);
+        painter.setOpacity(0.6);
+        painter.drawPixmap(coords.toothRect, getDenture(tooth));
         break;
 
     }

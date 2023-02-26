@@ -331,20 +331,20 @@ std::vector<AmbList> DbAmbList::getMonthlyNhifSheets(int month, int year)
 
         while (db.hasRows())
         {
-            if (!sheetRowIdMap.count(db.asRowId(7))) continue;
+            if (!sheetRowIdMap.count(db.asRowId(6))) continue;
 
-            auto& sheet = result[sheetRowIdMap[db.asRowId(7)]];
+            auto& sheet = result[sheetRowIdMap[db.asRowId(6)]];
 
             Procedure p;
 
             p.financingSource = FinancingSource::NHIF;
             p.LPK = sheet.LPK;
-            p.code = db.asInt(1);
-            p.tooth = db.asInt(2);
-            p.date = db.asString(3);
-            p.temp = db.asBool(4);
-            p.diagnosis = db.asString(5);
-            p.hyperdontic = db.asBool(6);
+            p.code = db.asString(0);
+            p.tooth = db.asInt(1);
+            p.date = db.asString(2);
+            p.temp = db.asBool(3);
+            p.diagnosis = db.asString(4);
+            p.hyperdontic = db.asBool(5);
 
             sheet.procedures.addProcedure(p);
         }

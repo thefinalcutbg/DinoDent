@@ -11,8 +11,8 @@ constexpr int statusCount = 19;
 
 namespace StatusCode
 {
-	enum StatusCode					{ Temporary,	Obturation,	Caries,	Pulpitis,	ApicalLesion,	EndoTreatment,	Post,	Root,	Fracture,	Extraction,	Periodontitis,	Mobility,	Crown,	Bridge,	FiberSplint,	Implant,	Dsn,	Impacted, Denture};
-	static int hisNum[statusCount]	{ 1,			6,			2,		3,			4,				15,				16,		5,		12,			7,			10,				11,			8,		17,		18,				13,			14,		19,		  20};
+	enum StatusCode					{ Temporary,	Obturation,	Caries,	Pulpitis,	ApicalLesion,	EndoTreatment,	Post,	Root,	Fracture,	Extraction,	Periodontitis,	Mobility,	Crown,	Bridge,	FiberSplint,	Implant,	Dsn,	Impacted, Denture };
+	static int hisNum[statusCount]	{ 1,			6,			2,		3,			4,				15,				16,		5,		12,			7,			10,				11,			8,		17,		18,				13,			14,		19,		  20,	  };
 }
 
 namespace Surface

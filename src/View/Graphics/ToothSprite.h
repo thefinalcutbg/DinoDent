@@ -17,6 +17,8 @@ struct TexturePack
 	QPixmap* perioImplant;
 	QPixmap* bridgeConnected;
 	QPixmap* bridgeSeparated;
+	QPixmap* falseTooth;
+	QPixmap* denture;
 	std::array<QPixmap*, 6> surfaces;
 
 	inline static QPoint crownPaint{ 0, 210 };
@@ -34,6 +36,7 @@ struct TexturePack
 		delete perio;
 		delete bridgeConnected;
 		delete bridgeSeparated;
+		delete falseTooth;
 		
 		for (int i = 0; i < 6; i++)
 		{

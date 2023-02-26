@@ -5,7 +5,7 @@ enum class ToothTextureHint {none, normal, root, extr, extr_m, impl, impl_m};
 enum class SurfaceColor {none, red, blue, green};
 enum class EndoHint {none, red, darkred, blue, green};
 enum class PostHint {none, blue, green};
-enum class ProsthoHint {none, crown, crown_green, bridge, bridge_green, splint, splint_green};
+enum class ProsthoHint {none, crown, crown_green, bridge, bridge_green, splint, splint_green, denture};
 enum class BridgeAppearance { Middle, Terminal, None }; // DO NOT CHANGE THE ORDER IN ANY CIRUMSTANCES!!! (casting from bridgePos)
 enum class BridgeTerminal{Distal, Center, Medial};
 

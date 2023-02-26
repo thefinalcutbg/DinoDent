@@ -113,12 +113,13 @@ void ListPresenter::dynamicNhifConversion()
 
 bool ListPresenter::isValid()
 {
+    /*
     //check date inconsistencies
     if (m_ambList.procedures.empty() && m_ambList.referrals.empty()) {
         ModalDialogBuilder::showError("Листът трябва да съдържа поне една манипулация или направление!");
         return false;
     }
-
+    */
     //check procedures and hyperdontic:
 
     for (auto& p : m_ambList.procedures)

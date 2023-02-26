@@ -233,15 +233,12 @@ ConstructionRange ProcedureCreator::getBridgeRange(const std::vector<const Tooth
 	begin = selectedTeeth[0]->index; //if multiple teeth are selected, the range is calculated to be valid
 	end = selectedTeeth.back()->index; //doesn't matter if the first and last teeth are on different jaws
 
-	if (begin < 16 && end > 15)
-	{
-		end = 15;
-	}
+	if (begin < 16 && end > 15) { end = 15; }
 
 	return { begin, end };
 }
 
-std::string ProcedureCreator::bridgeOrFiberDiagnosis(const std::vector<const Tooth*> selectedTeeth, ConstructionRange& range)
+std::string ProcedureCreator::bridgeOrFiberDiagnosis(const std::vector<const Tooth*> selectedTeeth, const ConstructionRange& range)
 {
 	for (int i = range.tooth_begin; i <= range.tooth_end; i++)
 	{
@@ -258,13 +255,23 @@ void ProcedureCreator::setView(ICommonFields* view)
 	this->view = view;
 
 	if (m_selectedTeeth.size()) {
-		view->surfaceSelector()->setData(ProcedureObtData{ autoSurfaces(*m_selectedTeeth[0]), false });
+
+		auto t = m_selectedTeeth[0];
+
+		view->surfaceSelector()->setData(ProcedureObtData{ autoSurfaces(*t), false });
+		diag_map[ProcedureType::obturation] = restorationDiagnosis(*t);
+		diag_map[ProcedureType::extraction] = extractionDiagnosis(*t);
+		diag_map[ProcedureType::crown] = crownDiagnosis(*t);
+		diag_map[ProcedureType::implant] = implantDiagnosis(*t);
+
 	}
 
 	auto [begin, end] = getBridgeRange(m_selectedTeeth);
 
 	view->rangeWidget()->setBridgeRange(begin, end);
 
+	//diag_map[ProcedureType::bridge] = bridgeOrFiberDiagnosis(m_selectedTeeth, ConstructionRange{ begin, end });
+	//diag_map[ProcedureType::fibersplint] = bridgeOrFiberDiagnosis(m_selectedTeeth, ConstructionRange{ begin, end });
 
 }
 
@@ -274,12 +281,7 @@ void ProcedureCreator::setProcedureCode(const ProcedureCode& m)
 
 	m_code = m;
 
-	//If the template doesn't have default diagnosis, 
-	//each presenter class auto-generates one if possible.
-	//The implementation-defined diagnosis can be generated either
-	//in the constructor of the subclass, or in the overriden getProcedure func:
-
-	view->diagnosisEdit()->set_Text(m_diagnosis);
+	view->diagnosisEdit()->set_Text(diag_map[m.type()]);
 
 	view->diagnosisEdit()->setInputValidator(&notEmpty_validator);
 
@@ -364,7 +366,7 @@ std::vector<Procedure> ProcedureCreator::getProcedures()
 	procedure.diagnosis = view->diagnosisEdit()->getText();
 	procedure.notes = view->getNotes();
 	procedure.hyperdontic = view->onHyperdontic();
-	//	result.price = common_view->priceEdit()->get_Value();
+
 	procedure.tooth = -1;
 
 	switch (procedure.code.type())

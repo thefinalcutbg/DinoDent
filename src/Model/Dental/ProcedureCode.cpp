@@ -1,7 +1,7 @@
 #include "ProcedureCode.h"
 #include "Resources.h"
 #include <JsonCpp/json.h>
-#include <qdebug.h>
+#include <algorithm>
 void ProcedureCode::initialize()
 {
 	Json::Reader reader;

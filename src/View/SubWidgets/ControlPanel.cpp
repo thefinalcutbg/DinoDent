@@ -48,6 +48,7 @@ ControlPanel::ControlPanel(QWidget* parent)
 	lambdaConnect(ui.Pulpitis, StatusCode::Pulpitis);
 	lambdaConnect(ui.Root, StatusCode::Root);
 	lambdaConnect(ui.Temporary, StatusCode::Temporary);
+	lambdaConnect(ui.falseTooth, StatusCode::Denture);
 
 	ui.Mobility->setStateNames({ "Подвижност", "Подвижност I", "Подвижност II", "Подвижност III" });
 
@@ -105,7 +106,7 @@ void ControlPanel::setModel(const CheckModel& checkModel)
 	setCheck(ui.Pulpitis, StatusCode::Pulpitis);
 	setCheck(ui.Root, StatusCode::Root);
 	setCheck(ui.Temporary, StatusCode::Temporary);
-
+	setCheck(ui.falseTooth, StatusCode::Denture);
 
 	if (checkModel.mobilityStatus[0] == CheckState::checked) {
 		ui.Mobility->setCurrentState(1); return;

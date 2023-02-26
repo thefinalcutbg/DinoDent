@@ -7,12 +7,12 @@ enum class Quadrant { First, Second, Third, Fourth };
 enum class BridgePos { Begin, Middle, End };
 enum class Degree { First, Second, Third };
 
-constexpr int statusCount = 18;
+constexpr int statusCount = 19;
 
 namespace StatusCode
 {
-	enum StatusCode					{ Temporary,	Obturation,	Caries,	Pulpitis,	ApicalLesion,	EndoTreatment,	Post,	Root,	Fracture,	Extraction,	Periodontitis,	Mobility,	Crown,	Bridge,	FiberSplint,	Implant,	Dsn,	Impacted};
-	static int hisNum[statusCount]	{ 1,			6,			2,		3,			4,				15,				16,		5,		12,			7,			10,				11,			8,		17,		18,				13,			14,		19		};
+	enum StatusCode					{ Temporary,	Obturation,	Caries,	Pulpitis,	ApicalLesion,	EndoTreatment,	Post,	Root,	Fracture,	Extraction,	Periodontitis,	Mobility,	Crown,	Bridge,	FiberSplint,	Implant,	Dsn,	Impacted, Denture};
+	static int hisNum[statusCount]	{ 1,			6,			2,		3,			4,				15,				16,		5,		12,			7,			10,				11,			8,		17,		18,				13,			14,		19,		  20};
 }
 
 namespace Surface
@@ -28,7 +28,7 @@ constexpr std::string_view statusNames[statusCount]
 	"Временен зъб", "Обтурация", "Кариес",  "Пулпит", "Периодонтит",
 	"Ендодонтско лечение", "Радикуларен щифт", "Корен","Фрактура", "Екстракция",
 	"Пародонтит", "Подвижност",
-	"Корона", "Мост/Блок корони", "Фибровлакно", "Имплант", "Свръхброен зъб", "Ретениран зъб"
+	"Корона", "Мост/Блок корони", "Фибровлакно", "Имплант", "Свръхброен зъб", "Ретениран зъб", "Изкуствен зъб"
 };
 
 constexpr std::string_view mobilityNames[mobilityCount]

@@ -1,12 +1,14 @@
 #pragma once
+
+#include <map>
+#include <vector>
+
 #include "Model/Dental/Procedure.h"
 #include "Model/Dental/Tooth.h"
-#include "View/Interfaces/ICommonFields.h"
 #include "Model/Validators/ProcedureValidators.h"
 #include "Model/Validators/CommonValidators.h"
 #include "View/Interfaces/IProcedureDialog.h"
-
-#include <vector>
+#include "View/Interfaces/ICommonFields.h"
 
 class ProcedureCreator
 {
@@ -14,7 +16,7 @@ class ProcedureCreator
 	ICommonFields* view{ nullptr };
 
 	ProcedureCode m_code;
-	std::string m_diagnosis;
+	std::map<ProcedureType, std::string> diag_map;
 
 	const std::vector<const Tooth*> m_selectedTeeth;
 
@@ -29,7 +31,7 @@ class ProcedureCreator
 	std::string implantDiagnosis(const Tooth& tooth);
 	std::array<bool, 6> autoSurfaces(const Tooth& tooth);
 	ConstructionRange getBridgeRange(const std::vector<const Tooth*> m_selectedTeeth);
-	std::string bridgeOrFiberDiagnosis(const std::vector<const Tooth*> selectedTeeth, ConstructionRange& range);
+	std::string bridgeOrFiberDiagnosis(const std::vector<const Tooth*> selectedTeeth, const ConstructionRange& range);
 	
 	
 
@@ -39,7 +41,7 @@ public:
 
 	void setView(ICommonFields* view);
 
-	void diagnosisTextChanged(std::string text) { m_diagnosis = text; };
+	void diagnosisTextChanged(std::string text) { diag_map[m_code.type()] = text; };
 
 	void setProcedureCode(const ProcedureCode& m);
 

@@ -35,6 +35,7 @@ public:
 	
 	DentistMade implant;
 	DentistMade crown;
+	DentistMade denture;
 	Construction bridge;
 	Construction splint;
 

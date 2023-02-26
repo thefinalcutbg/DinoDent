@@ -433,6 +433,11 @@ inline QPixmap getToothPixmap(const ToothPaintHint& tooth)
         painter.setOpacity(0.3);
         painter.drawPixmap(coords.lingualSplintPaint, getSplintRect(tooth));
         break;
+    case ProsthoHint::denture:
+        painter.drawPixmap(coords.toothRect, *texturePack.denture);
+        painter.drawPixmap(coords.crownRect, *texturePack.falseTooth);
+        break;
+
     }
 
     painter.setOpacity(1);

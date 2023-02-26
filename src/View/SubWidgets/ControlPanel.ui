@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>209</width>
-    <height>426</height>
+    <height>427</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -259,6 +259,19 @@
          </property>
         </widget>
        </item>
+       <item>
+        <widget class="StatusButton" name="falseTooth">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Изкуствен зъб</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </item>
      <item>
@@ -297,7 +310,7 @@
           <string notr="true"/>
          </property>
          <property name="text">
-          <string>Кариес</string>
+          <string>ТЗТ дефект</string>
          </property>
         </widget>
        </item>
@@ -425,7 +438,7 @@
           <string notr="true"/>
          </property>
          <property name="text">
-          <string>Мост</string>
+          <string>Мост/Блок к.</string>
          </property>
         </widget>
        </item>
@@ -504,6 +517,19 @@
          </property>
          <property name="text">
           <string>Свръхброен</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="healthyTooth">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Интактен зъб</string>
          </property>
         </widget>
        </item>

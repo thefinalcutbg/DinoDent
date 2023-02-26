@@ -124,6 +124,11 @@ ToothPaintHint ToothHintCreator::getToothHint(const Tooth& tooth, const std::str
         hint.bridgePos = getPosition(tooth.index, tooth.splint.position);
 
     }
+    else if (tooth.denture.exists())
+    {
+        hint.tooth = ToothTextureHint::none;
+        hint.prostho = ProsthoHint::denture;
+    }
     
     hint.post = PostHint::none;
 

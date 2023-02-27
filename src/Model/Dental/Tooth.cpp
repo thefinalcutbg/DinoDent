@@ -129,7 +129,7 @@ template<class... Status> inline void set(bool state, Status&... parameters) {
 }
 
 template<typename T> void addSurface(SurfaceStatus<T>& status, int surface, Tooth& tooth){
-	if (!status.exists()) set(false, tooth.extraction, tooth.root, tooth.implant);
+	if (!status.exists()) set(false, tooth.extraction, tooth.root, tooth.implant, tooth.denture);
 	status.set(true, surface);
 }
 
@@ -144,7 +144,6 @@ template<typename T> void removeAllSurfaces(SurfaceStatus<T>& status) {
 
 void Tooth::addStatus(int statusCode)
 {
-
 	switch (statusCode)
 	{
 		case StatusCode::Temporary: 

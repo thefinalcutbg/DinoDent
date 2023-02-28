@@ -20,7 +20,7 @@ std::string timeNow() {
 bool HisService::sendRequestToHis(const std::string& query)
 {
 	if (awaiting_reply) return false;
-	ModalDialogBuilder::showMultilineDialog(buildMessage(query));// return true;
+	//ModalDialogBuilder::showMultilineDialog(buildMessage(query));// return true;
 
 	if (HisToken::getToken().empty()) {
 		return HisToken::requestToken(this, query);
@@ -298,7 +298,6 @@ std::string HisService::getProcedures(const ProcedureContainer& procedures)
 
 	result.reserve(1000);
 
-
 	int sequence = 0;
 
 	for (auto& p : procedures)
@@ -313,7 +312,7 @@ std::string HisService::getProcedures(const ProcedureContainer& procedures)
 
 		//result += bind("index", ???);
 
-		result += bind("code", "D-01-02");
+		result += bind("code", p.code.code());
 		result += bind("type", static_cast<int>(p.code.type()));
 
 		//result += bind("duration", ...);

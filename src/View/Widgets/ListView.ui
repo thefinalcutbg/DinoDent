@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1412</width>
+    <width>1443</width>
     <height>1171</height>
    </rect>
   </property>
@@ -152,6 +152,13 @@
          </property>
          <property name="calendarPopup">
           <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="getStatusButton">
+         <property name="text">
+          <string>Актуален Статус</string>
          </property>
         </widget>
        </item>

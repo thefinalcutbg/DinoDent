@@ -53,6 +53,8 @@ struct Procedure
     std::string LPK;
     std::string notes;
 
+    int his_index{ 0 };
+
     void applyProcedure(ToothContainer& teeth) const;
     //applies the procedures, not taking data into account
     void applyPISProcedure(ToothContainer& teeth) const;

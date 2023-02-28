@@ -764,20 +764,27 @@ void ListPresenter::hisButtonPressed()
         eDentalOpenService.sendRequest(
             m_ambList,
             *patient,
-            [this](const std::string& nrn) {
+            [this](const std::string& nrn, const std::vector<int>& procedureIndex) {
                 if (nrn.empty()) {
                     return;
                 }
                 
                 m_ambList.nrn = nrn;
-                DbAmbList::updateNrn(nrn, m_ambList.rowid);
 
+                for (int i = 0; i < procedureIndex.size(); i++) {
+                    m_ambList.procedures[i].his_index = procedureIndex[i];
+                }
+
+                DbAmbList::update(m_ambList);
+                
                 refreshTabName();
 
                 if (isCurrent())
                 {
                     view->setNrn(m_ambList.nrn);
                 }
+
+
             }
         );
 
@@ -791,7 +798,10 @@ void ListPresenter::hisButtonPressed()
                 if (!success) return;
 
                 m_ambList.nrn.clear();
-                DbAmbList::updateNrn(m_ambList.nrn, m_ambList.rowid);
+
+                for (auto& p : m_ambList.procedures) p.his_index = 0;
+
+                DbAmbList::update(m_ambList);
                 
                 refreshTabName();
 
@@ -809,6 +819,14 @@ void ListPresenter::hisButtonPressed()
     }
 
 
+}
+
+void ListPresenter::getStatusPressed()
+{
+    eDentalGetService.sendRequest(
+        *patient.get(),
+        [](const ToothContainer& c, const ProcedureContainer& p) {}
+    );
 }
 
 

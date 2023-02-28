@@ -83,11 +83,11 @@ ListView::ListView(QWidget* parent)
 	*/
 
 	connect(ui.nrnButton, &QPushButton::clicked, [=] { if (presenter) presenter->hisButtonPressed();});
+	connect(ui.getStatusButton, &QPushButton::clicked, [=] {if (presenter) presenter->getStatusPressed(); });
 	connect(ui.ambNumSpin, &LeadingZeroSpinBox::valueChanged, [=](long long value) {if(presenter)presenter->ambNumChanged(value);});
 	connect(ui.dateTimeEdit, &QDateTimeEdit::dateTimeChanged, [=](const QDateTime& t) {if (presenter)presenter->setAmbDateTime(t.toString(Qt::ISODate).toStdString());});
 	connect(ui.nzokActivities, &QPushButton::clicked, [=] { if (presenter) presenter->openPisHistory(); });
 	connect(ui.addProcedure, &QAbstractButton::clicked, [=] { if (presenter) presenter->addProcedure(); });
-	//connect(ui.taxCombo, &QComboBox::currentIndexChanged, [=] {nhifChanged();});
 	connect(ui.specCombo, &QComboBox::currentIndexChanged, [=] {nhifChanged();});
 	connect(ui.unfavCheck, &QCheckBox::stateChanged, [=] { nhifChanged(); });
 	connect(ui.editProcedure, &QPushButton::clicked, [=] { if (presenter) presenter->editProcedure(ui.procedureTable->selectedRow()); });

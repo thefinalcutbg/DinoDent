@@ -88,8 +88,8 @@ std::vector<std::string> Tooth::getSimpleStatuses() const
 	{
 		"T", "O", "C", "P", "G", "", "", "R", "F", "E",
 		"Pa", "I", "K", "K", "X", "Impl.", "Dsn", "", "X"
-	};							//     ^     ^
-								//  bridge	splint (both defaulted as artificial tooth)
+	};			  //     ^                        ^
+				  //  bridge	                splint
 
 
 	if (boolStatus[StatusCode::FiberSplint])

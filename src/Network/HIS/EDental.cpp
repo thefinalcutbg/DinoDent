@@ -13,6 +13,8 @@ void EDental::Open::parseReply(const std::string& reply)
 		return;
 	}
 
+	//ModalDialogBuilder::showMultilineDialog(reply);
+
 	TiXmlDocument doc;
 
 	doc.Parse(reply.data(), 0, TIXML_ENCODING_UTF8);
@@ -24,19 +26,34 @@ void EDental::Open::parseReply(const std::string& reply)
 		Child(1).	  //contents
 		FirstChildElement().ToElement(); //nrn
 
+	std::string nrnStr;
+
 	if (nrn) {
-		m_callback(nrn->Attribute("value"));
-		return;
+		nrnStr = nrn->Attribute("value");
 	}
 
-	m_callback(std::string());
+	std::vector<int> procedureIndex;
+
+	auto contents = docHandle.
+		FirstChild(). //message
+		Child(1);	  //contents
+
+
+	//dentalProcedures
+	for (int i = 3; contents.Child(i).ToElement(); i++)
+	{
+		//index
+		procedureIndex.push_back(std::stoi(contents.Child(i).Child(1).ToElement()->Attribute("value")));	
+	}
+
+	m_callback(nrnStr, procedureIndex);
 	
 }
 
 bool EDental::Open::sendRequest(
     const AmbList& ambSheet, 
     const Patient& patient, 
-    std::function<void(const std::string&)> nrnCallback
+    std::function<void(const std::string&, const std::vector<int>&)> nrnCallback
 )
 {
 	m_callback = nrnCallback;
@@ -126,4 +143,29 @@ void EDental::Cancel::parseReply(const std::string& reply)
 
 	m_callback(false);
 
+}
+
+void EDental::GetStatus::parseReply(const std::string& reply)
+{
+	auto errors = getErrors(reply);
+
+	if (errors.size()) {
+		ModalDialogBuilder::showError(errors);
+		return;
+	}
+
+	ModalDialogBuilder::showMultilineDialog(reply);
+}
+
+bool EDental::GetStatus::sendRequest(const Patient& patient, std::function<void(const ToothContainer&, const ProcedureContainer&)> callback)
+{
+	m_callback = callback;
+
+	std::string contents =
+		bind("identifierType", patient.type) +
+		bind("identifier", patient.id) +
+		bind("practiceNumber", User::practice().rziCode)
+	;
+
+	return HisService::sendRequestToHis(contents);
 }

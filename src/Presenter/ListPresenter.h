@@ -42,6 +42,7 @@ class ListPresenter : public TabInstance
     DiagnosisService nhifDiagnosisServ;
     EDental::Open eDentalOpenService;
     EDental::Cancel eDentalCancelService;
+    EDental::GetStatus eDentalGetService;
 
     void prepareDerivedForSwitch() override {
         patient_info.setCurrent(false);
@@ -111,6 +112,7 @@ public:
     void createPrescription();
     
     void hisButtonPressed();
+    void getStatusPressed();
 
     ~ListPresenter();
 };

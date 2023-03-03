@@ -47,24 +47,24 @@ void formatSelection(const std::vector<int>& selection, std::vector<Tooth>& teet
 		}
 	}
 
-	if (selection[0] != 0 && selection[0] != 16)
+	if (selection[0] != 0 && selection[0] != 16 && !teeth[selection[0]-1].noData())
 	{
 		auto& prev_tooth = teeth[selection[0] - 1].*ptr;
 
 		if (prev_tooth.position == BridgePos::Begin) {
 
 			prev_tooth.set(false);
-			if (teeth[selection[0]-1].noData()) {
-				teeth[selection[0]-1].setStatus(StatusCode::Healthy);
+			if (teeth[selection[0] - 1].noData()) {
+				teeth[selection[0] - 1].setStatus(StatusCode::Healthy);
 			}
-
 		}
 		else if (prev_tooth.position == BridgePos::Middle) {
 			prev_tooth.position = BridgePos::End;
 		}
+		
 	}
 
-	if (selection.back() != 15 && selection.back() != 31)
+	if (selection.back() != 15 && selection.back() != 31 && !teeth[selection.back()].noData())
 	{
 		auto& next_tooth = teeth[selection.back() + 1].*ptr;
 

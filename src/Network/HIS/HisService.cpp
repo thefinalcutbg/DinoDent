@@ -185,6 +185,7 @@ std::string HisService::requester(bool nhif)
 
 std::string HisService::performer()
 {
+	qDebug() << 188;
 	std::string nhifCode = User::hasNzokContract() ?
 		" nhifCode=\"" + std::to_string(User::doctor().specialtyAsInt()) + "\""
 		:
@@ -195,17 +196,21 @@ std::string HisService::performer()
 			+ std::to_string(User::doctor().hisSpecialty.getIdx())
 			+ "\"" + nhifCode + "/>";
 
-	std::string performer =
-		"<nhis:performer>"
-			+bind("pmi", User::doctor().LPK)
-			+qualification
-			+bind("role", 1)
-			+bind("practiceNumber", User::practice().rziCode)
-			+bind("nhifNumber", User::practice().RHIF())
-			+bind("phone", User::doctor().phone) +
-		"</nhis:performer>"
-		;
 
+
+	qDebug() << 199;
+
+	std::string performer;
+	performer += "<nhis:performer>";
+	performer += bind("pmi", User::doctor().LPK);
+	performer += qualification;
+	performer += bind("role", 1);
+	performer += bind("practiceNumber", User::practice().rziCode);
+	performer += bind("nhifNumber", User::practice().RHIF());
+	performer += bind("phone", User::doctor().phone);
+	performer += "</nhis:performer>";
+		
+	qDebug() << 211;
 	return performer;
 }
 
@@ -303,20 +308,6 @@ std::string HisService::getToothStatus(const Tooth& tooth, bool includeTimestamp
 
 	if (statuses.empty()) return result;
 
-	/* //intact teeth:
-	if (statuses.empty() || (statuses.size() == 1 && tooth.temporary))
-	{
-		//should intact teeth be included?
-		result += "<nhis:tooth>";
-		result += bind("toothIndex", ToothUtils::getToothNumber(tooth.index, tooth.temporary));
-		result += bind("dentalStatusDate", tooth.last_update);
-		result += "<nhis:condition>";
-		result += bind("code", 0, false);
-		result += "</nhis:condition>";
-		result += "</nhis:tooth>";
-		continue;
-	}
-	*/
 	result += "<nhis:tooth>";
 	result += bind("toothIndex", ToothUtils::getToothNumber(tooth.index, tooth.temporary));
 
@@ -388,14 +379,14 @@ std::string HisService::bind(const std::string& name, double value)
 	return value ? bind(name, FreeFn::formatDouble(value)) : "";
 }
 
-std::string HisService::bind(const std::string& name, const char* value)
+std::string HisService::bind(const std::string& name, const char* value, bool isUserInput)
 {
 	if (value == "") return "";
 
-	return "<nhis:" + name + " value=\"" + value + "\" />";
+	return bind(name, std::string{ value }, isUserInput);
 }
 
-std::string HisService::bind(const std::string& name, std::string value, bool isUserInput)
+std::string HisService::bind(const std::string& name, const std::string& value, bool isUserInput)
 {
 	if (value.empty()) return "";
 
@@ -404,6 +395,8 @@ std::string HisService::bind(const std::string& name, std::string value, bool is
 	result += isUserInput ? FreeFn::escapeXml(value) : value;
 
 	result += "\" />";
+
+	return result;
 }
 
 std::string HisService::bind(const std::string& name, int value, bool ommitZero)

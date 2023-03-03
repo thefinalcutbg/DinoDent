@@ -21,7 +21,7 @@ bool EPrescription::Issue::sendRequest(const Prescription& perscr, const Patient
 			+ bind("financingSource", "4")
 			+ bind("dispensationType", perscr.dispensation.getNhisDispensation())
 			+ bind("allowedRepeatsNumber", perscr.dispensation.getNhisRepeats())
-			+ bind("supplements", perscr.supplements)
+			+ bind("supplements", perscr.supplements, true)
 			+ "<nhis:group>"
 	;
 
@@ -67,7 +67,7 @@ bool EPrescription::Issue::sendRequest(const Prescription& perscr, const Patient
 
 							if (d.when.getTagIdx().size()) contents += bind("offset", d.when.getOffset());
 
-							contents += bind("text", d.additionalInstructions);
+							contents += bind("text", d.additionalInstructions, true);
 							contents += bind("interpretation", d.parse());
 
 					contents+= "</nhis:dosageInstruction>";

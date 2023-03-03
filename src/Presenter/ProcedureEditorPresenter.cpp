@@ -108,6 +108,7 @@ void ProcedureEditorPresenter::okPressed()
 	result->diagnosis = view->commonFields()->diagnosisEdit()->getText();
 	result->financingSource = view->commonFields()->getFinancingSource();
 	result->hyperdontic = view->commonFields()->onHyperdontic();
+	result->tooth = m_tooth;
 
 	switch (result->code.type())
 	{

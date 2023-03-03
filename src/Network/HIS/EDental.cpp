@@ -13,8 +13,6 @@ void EDental::Open::parseReply(const std::string& reply)
 		return;
 	}
 
-	//ModalDialogBuilder::showMultilineDialog(reply);
-
 	TiXmlDocument doc;
 
 	doc.Parse(reply.data(), 0, TIXML_ENCODING_UTF8);

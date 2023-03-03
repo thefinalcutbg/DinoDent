@@ -28,7 +28,7 @@ void TileButton::paintEvent(QPaintEvent* e)
 	//if(hover) color.setRgb(242, 242, 242);
 
 	QPainter painter(this);
-	painter.setRenderHint(QPainter::Antialiasing);
+	painter.setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
 
 	//getting the half-rounded button path:
 
@@ -159,11 +159,7 @@ void PatientTile::paintInfo(QPainter* painter)
 	painter->setPen(hover && !clicked ? QPen(Theme::fontRedClicked) : QPen(QColor(Theme::fontRed)));
 	painter->drawText(nraButton->x() + nraSize + 5, 27, name);
 
-	//QFontMetrics titleMetric(header);
-
-	//int xZodiac = (nraButton->x() + nraSize + 5 + titleMetric.horizontalAdvance(name) + 5);
-
-	if (zodiac) painter->drawPixmap(width()-30, height()-30, 25, 25, *zodiac);
+	//if (zodiac) painter->drawPixmap(width()-30, height()-30, 25, 25, *zodiac);
 	
 }
 

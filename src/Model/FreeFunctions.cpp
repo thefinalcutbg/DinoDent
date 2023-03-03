@@ -84,3 +84,22 @@ std::string FreeFn::getTimeStamp()
 {
     return QDateTime::currentDateTime().toString(Qt::ISODate).toStdString();
 }
+
+std::string FreeFn::escapeXml(const std::string& data)
+{
+    std::string result;
+    result.reserve(data.size());
+
+    for (size_t pos = 0; pos != data.size(); ++pos) {
+        switch (data[pos]) {
+        case '&':  result.append("&amp;");       break;
+        case '\"': result.append("&quot;");      break;
+        case '\'': result.append("&apos;");      break;
+        case '<':  result.append("&lt;");        break;
+        case '>':  result.append("&gt;");        break;
+        default:   result.append(&data[pos], 1); break;
+        }
+    }
+    
+    return result;
+}

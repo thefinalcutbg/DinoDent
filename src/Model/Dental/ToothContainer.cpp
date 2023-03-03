@@ -68,7 +68,9 @@ std::vector<const Tooth*> ToothContainer::getSelectedTeethPtr(std::vector<int> s
 
 bool ToothContainer::canResultInNonRetainedConstruction(int status)
 {
-	return	status == StatusCode::Extraction ||
+	return	
+		status == StatusCode::Healthy ||
+		status == StatusCode::Extraction ||
 		status == StatusCode::Impacted ||
 		status == StatusCode::Root
 		;
@@ -87,6 +89,14 @@ bool ToothContainer::needsBridgeFormatting(int status)
 
 void ToothContainer::setStatus(const std::vector<int>& selectedTeethIdx, StatusCode::StatusCode code, bool state)
 {
+	if (state &&
+		selectedTeethIdx.size() == 1 &&
+		(code == StatusCode::Bridge || code == StatusCode::FiberSplint)
+	)
+	{
+		return;
+	}
+
 	for (auto& idx : selectedTeethIdx)
 	{
 		teeth[idx].setStatus(StatusType::general, code, state);
@@ -119,8 +129,9 @@ void ToothContainer::formatBridges(const std::vector<int>& indexes)
 
     for (auto& selection : selections)
 	{
-        formatSelection<&Tooth::bridge>(selection, teeth);
-		formatSelection<&Tooth::splint>(selection, teeth);
+       formatSelection<&Tooth::bridge>(selection, teeth);
+	   formatSelection<&Tooth::splint>(selection, teeth);
+
     }
 
 	removeNonRetainedConstruction();
@@ -173,14 +184,14 @@ void ToothContainer::removeBridgeOrSplint(const std::vector<int>& selectedIndexe
 		auto [bridgeBegin, bridgeEnd] = getConstructionRange<&Tooth::bridge>(teeth, index);
 
 		for (int i = bridgeBegin; i <= bridgeEnd; i++)
-			teeth.at(i).bridge.set(false);
+			teeth.at(i).setStatus(StatusCode::Bridge, false);
 	}
 
 	for (auto index : selectedIndexes) {
 		auto [bridgeBegin, bridgeEnd] = getConstructionRange<&Tooth::splint>(teeth, index);
 
 		for (int i = bridgeBegin; i <= bridgeEnd; i++)
-			teeth.at(i).splint.set(false);
+			teeth.at(i).setStatus(StatusCode::FiberSplint, false);
 	}
 
 	formatBridges(selectedIndexes);
@@ -216,7 +227,7 @@ void ToothContainer::removeBridgeOrSplint(int begin, int end)
 			nextTooth.canHaveACrown()
 			;
 
-		if (shouldBeCrown) nextTooth.crown.set(true);
+		if (shouldBeCrown) nextTooth.setStatus(StatusCode::Crown, true);
 	}
 
 	std::vector<int> selection;

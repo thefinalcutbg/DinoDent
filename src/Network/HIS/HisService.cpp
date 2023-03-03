@@ -1,4 +1,7 @@
-﻿#include "HisService.h"
+﻿#include <TinyXML/tinyxml.h>"
+#include <QDateTime>
+
+#include "HisService.h"
 #include "Network/XmlSigner.h"
 #include "Network/PKCS11.h"
 #include "Network/NetworkManager.h"
@@ -9,13 +12,12 @@
 #include "Model/FreeFunctions.h"
 #include "Model/Patient.h"
 #include "Model/Dental/AmbList.h"
-#include <QDateTime>
+#include "Model/FreeFunctions.h"
 
 std::string timeNow() {
 	auto t = QDateTime::currentDateTime();
 	return t.toString(Qt::DateFormat::ISODate).toStdString();
 }
-
 
 bool HisService::sendRequestToHis(const std::string& query)
 {
@@ -79,9 +81,6 @@ const std::string HisService::signMessage(const std::string& message)
 	return XmlSigner::signNhifMessage(message, signer.takePrivateKey(), signer.pem_x509cert());
 }
 
-
-
-
 const std::string HisService::buildMessage(const std::string& query)
 {
 
@@ -116,6 +115,10 @@ const std::string HisService::buildMessage(const std::string& query)
 	
 	;
 
+
+	ModalDialogBuilder::showMultilineDialog(result);
+
+
 	return result;
 	
 }
@@ -142,7 +145,7 @@ std::string HisService::subject(const Patient& p)
 			+ bind("county", p.city.getRegionCode())
 			+ bind("ekatte", p.city.ekatte())
 			+ bind("city", p.city.getString())
-			+ bind("line", p.getFullAddress())
+			+ bind("line", FreeFn::escapeXml(p.getFullAddress()))
 		+"</nhis:address>"
 		+bind("phone", p.phone)
 		//<nhis:email value="[string]"/>
@@ -216,75 +219,7 @@ std::string HisService::getStatus(const ToothContainer& teeth)
 
 	for (auto& tooth : teeth)
 	{
-		std::vector<int> statuses;
-
-		auto boolStatus = tooth.getBoolStatus();
-
-		for (int i = 0; i < statusCount; i++) {
-			if (boolStatus[i]) statuses.push_back(StatusCode::hisNum[i]);
-		}
-
-		if (statuses.empty()) continue; //should intact teeth be included?
-
-		result += "<nhis:tooth>";
-		result += bind("toothIndex", ToothUtils::getToothNumber(tooth.index, tooth.temporary));
-		result += bind("dentalStatusDate", tooth.last_update);
-
-		for (auto& s : statuses)
-		{
-			result += "<nhis:condition>";
-
-			result += bind("code", s);
-
-			switch (s)
-			{
-			case 11: //mobility
-			{
-				result += bind("mobilityDegree",
-					static_cast<int>(tooth.mobility.degree) + 1
-				);
-			}
-			break;
-
-			case 6: //restoration
-			{
-				for (int i = 0; i < surfaceCount; i++)
-					if (tooth.obturation.exists(i))
-						result += bind("surface", i + 1);
-			}
-			break;
-
-			case 2: //caries
-			{
-				for (int i = 0; i < surfaceCount; i++)
-					if (tooth.caries.exists(i))
-						result += bind("surface", i + 1);
-			}
-			break;
-
-			case 17: //bridge
-			{
-				result += bind(
-					"isEndmost",
-					tooth.bridge.position != BridgePos::Middle ? "true" : "false"
-				);
-			}
-			break;
-
-			case 18: //splint
-			{
-				result += bind(
-					"isEndmost",
-					tooth.splint.position != BridgePos::Middle ? "true" : "false"
-				);
-			}
-			break;
-			}
-
-			result += "</nhis:condition>";
-		}
-
-		result += "</nhis:tooth>";
+		result += getToothStatus(tooth);
 	}
 
 	result += "</nhis:dentalStatus>";
@@ -292,13 +227,15 @@ std::string HisService::getStatus(const ToothContainer& teeth)
 	return result;
 }
 
-std::string HisService::getProcedures(const ProcedureContainer& procedures)
+std::string HisService::getProcedures(const ProcedureContainer& procedures, const ToothContainer& teeth)
 {
 	std::string result;
 
 	result.reserve(1000);
 
 	int sequence = 0;
+
+	ToothContainer teethChanged = teeth;
 
 	for (auto& p : procedures)
 	{
@@ -309,40 +246,35 @@ std::string HisService::getProcedures(const ProcedureContainer& procedures)
 
 		result += bind("sequence", sequence);
 
-
-		//result += bind("index", ???);
-
 		result += bind("code", p.code.code());
 		result += bind("type", static_cast<int>(p.code.type()));
 
-		//result += bind("duration", ...);
+
 		result += bind("datePerformed", p.date.to8601());
-		result += bind("onSupernumeral", p.hyperdontic ? "true" : "false");
+
 		result += bind("financingSource", static_cast<int>(p.financingSource));
 	
 		if (p.isToothSpecific())
 		{
-			result += bind("atToothIndex", ToothUtils::getToothNumber(p.tooth, p.temp));
+			p.applyProcedure(teethChanged);
+
+			result += getToothStatus(teethChanged.at(p.tooth), false);
 		}
 
 		if (p.isRangeSpecific())
 		{
 			auto [begin, end] = std::get<ConstructionRange>(p.result);
-			result += bind("fromToothIndex", ToothUtils::getToothNumber(begin, false));
-			result += bind("toToothIndex", ToothUtils::getToothNumber(end, false));
-		}
+			//result += bind("fromToothIndex", ToothUtils::getToothNumber(begin, false));
+			//result += bind("toToothIndex", ToothUtils::getToothNumber(end, false));
 
-		if (p.code.type() == ProcedureType::obturation)
-		{
-			auto obtData = std::get<ProcedureObtData>(p.result);
+			p.applyProcedure(teethChanged);
 
-			for (int i = 0; i < obtData.surfaces.size(); i++) {
-				if (obtData.surfaces[i])
-					result += bind("surface", i + 1);
+			for (int i = begin; i <= end; i++)
+			{
+				result += getToothStatus(teethChanged.at(i), false);
 			}
-
-			result += bind("dentalPin", obtData.post);
 		}
+
 
 		result += bind("note", p.notes);
 
@@ -353,6 +285,100 @@ std::string HisService::getProcedures(const ProcedureContainer& procedures)
 		result += "</nhis:dentalProcedure>";
 
 	}
+
+	return result;
+}
+
+std::string HisService::getToothStatus(const Tooth& tooth, bool includeTimestamp)
+{
+	std::string result;
+
+	std::vector<int> statuses;
+
+	auto boolStatus = tooth.getBoolStatus();
+
+	for (int i = 0; i < statusCount; i++) {
+		if (boolStatus[i]) statuses.push_back(StatusCode::hisNum[i]);
+	}
+
+	if (statuses.empty()) return result;
+
+	/* //intact teeth:
+	if (statuses.empty() || (statuses.size() == 1 && tooth.temporary))
+	{
+		//should intact teeth be included?
+		result += "<nhis:tooth>";
+		result += bind("toothIndex", ToothUtils::getToothNumber(tooth.index, tooth.temporary));
+		result += bind("dentalStatusDate", tooth.last_update);
+		result += "<nhis:condition>";
+		result += bind("code", 0, false);
+		result += "</nhis:condition>";
+		result += "</nhis:tooth>";
+		continue;
+	}
+	*/
+	result += "<nhis:tooth>";
+	result += bind("toothIndex", ToothUtils::getToothNumber(tooth.index, tooth.temporary));
+
+	if (includeTimestamp) {
+		result += bind("dentalStatusDate", tooth.last_update);
+	}
+
+	for (auto& s : statuses)
+	{
+		result += "<nhis:condition>";
+
+		result += bind("code", s);
+
+		switch (s)
+		{
+		case 11: //mobility
+		{
+			result += bind("mobilityDegree",
+				static_cast<int>(tooth.mobility.degree) + 1
+			);
+		}
+		break;
+
+		case 6: //restoration
+		{
+			for (int i = 0; i < surfaceCount; i++)
+				if (tooth.obturation.exists(i))
+					result += bind("surface", i + 1);
+		}
+		break;
+
+		case 2: //caries
+		{
+			for (int i = 0; i < surfaceCount; i++)
+				if (tooth.caries.exists(i))
+					result += bind("surface", i + 1);
+		}
+		break;
+
+		case 17: //bridge
+		{
+			result += bind(
+				"isEndmost",
+				tooth.bridge.position != BridgePos::Middle ? "true" : "false"
+			);
+		}
+		break;
+
+		case 18: //splint
+		{
+			result += bind(
+				"isEndmost",
+				tooth.splint.position != BridgePos::Middle ? "true" : "false"
+			);
+		}
+		break;
+		}
+
+		result += "</nhis:condition>";
+	}
+
+	result += "</nhis:tooth>";
 
 	return result;
 }
@@ -369,11 +395,15 @@ std::string HisService::bind(const std::string& name, const char* value)
 	return "<nhis:" + name + " value=\"" + value + "\" />";
 }
 
-std::string HisService::bind(const std::string& name, std::string value)
+std::string HisService::bind(const std::string& name, std::string value, bool isUserInput)
 {
 	if (value.empty()) return "";
 
-	return "<nhis:" + name + " value=\"" + value + "\" />";
+	auto result = "<nhis:" + name + " value=\"";
+
+	result += isUserInput ? FreeFn::escapeXml(value) : value;
+
+	result += "\" />";
 }
 
 std::string HisService::bind(const std::string& name, int value, bool ommitZero)

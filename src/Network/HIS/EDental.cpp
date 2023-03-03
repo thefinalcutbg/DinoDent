@@ -76,7 +76,7 @@ bool EDental::Open::sendRequest(
 			+ bind("rhifAreaNumber", patient.city.getRhif() + patient.city.getHealthRegion())
 			+ "<nhis:medicalStatus />" //TO IMPLEMENT!!!
 			+ getStatus(ambSheet.teeth)
-			+ getProcedures(ambSheet.procedures)
+			+ getProcedures(ambSheet.procedures, ambSheet.teeth)
 		+"</nhis:dentalTreatment>"
 		+ HisService::subject(patient)
 		+ HisService::performer()

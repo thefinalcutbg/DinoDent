@@ -136,17 +136,17 @@ void DetailedStatus::setCheckModel(const CheckModel& checkModel)
 	for (int i = 0; i < checkModel.obturationStatus.size(); i++)
 	{
 		checkModel.obturationStatus[i] == CheckState::checked ?
-			ui.treeWidget->topLevelItem(1)->child(i)->setCheckState(0, Qt::CheckState::Checked)
+			ui.treeWidget->topLevelItem(StatusCode::Obturation)->child(i)->setCheckState(0, Qt::CheckState::Checked)
 			:
-			ui.treeWidget->topLevelItem(1)->child(i)->setCheckState(0, Qt::CheckState::Unchecked);
+			ui.treeWidget->topLevelItem(StatusCode::Obturation)->child(i)->setCheckState(0, Qt::CheckState::Unchecked);
 	}
 
 	for (int i = 0; i < checkModel.cariesStatus.size(); i++)
 	{
 		checkModel.cariesStatus[i] == CheckState::checked ?
-			ui.treeWidget->topLevelItem(2)->child(i)->setCheckState(0, Qt::CheckState::Checked)
+			ui.treeWidget->topLevelItem(StatusCode::Caries)->child(i)->setCheckState(0, Qt::CheckState::Checked)
 			:
-			ui.treeWidget->topLevelItem(2)->child(i)->setCheckState(0, Qt::CheckState::Unchecked);
+			ui.treeWidget->topLevelItem(StatusCode::Caries)->child(i)->setCheckState(0, Qt::CheckState::Unchecked);
 	}
 
 	for (int i = 0; i < checkModel.mobilityStatus.size(); i++)

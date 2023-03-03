@@ -281,13 +281,18 @@ inline QPixmap getTooth(const ToothPaintHint& tooth) {
     case ToothTextureHint::normal:
             painter.drawPixmap(0, 0, *texturePack.tooth);
         break;
+    case ToothTextureHint::unknown:
+        painter.setOpacity(0.6);
+        painter.drawPixmap(0, 0, *texturePack.tooth);
+        painter.setOpacity(1);
+        break;
     case ToothTextureHint::extr:
-        painter.setOpacity(0.2);
+        painter.setOpacity(0.1);
         painter.drawPixmap(0, 0, *texturePack.tooth);
         painter.setOpacity(1);
         break;
     case ToothTextureHint::extr_m:
-        painter.setOpacity(0.2);
+        painter.setOpacity(0.1);
         painter.drawPixmap(0, 0, *texturePack.tooth);
         painter.drawPixmap(0, 0, textureFormat(*texturePack.tooth, Qt::green, 0.3));
         painter.setOpacity(1);
@@ -507,6 +512,28 @@ inline void drawFractureLabel(const ToothPaintHint& tooth, QPixmap& pixmap)
 
 }
 
+inline void drawQuestionMark(const ToothPaintHint& tooth, QPixmap& pixmap)
+{
+    if (tooth.tooth != ToothTextureHint::unknown) return;
+
+    int yPos = tooth.idx > 15 ? 280 : pixmap.height() - 420;
+
+    QPainter painter(&pixmap);
+    
+    QRect rect(0, yPos, pixmap.width(), 150);
+
+    QPen pen(Qt::lightGray);
+    pen.setWidth(20);
+    painter.setPen(pen);
+
+    painter.setRenderHint(QPainter::Antialiasing);
+
+    QFont font{ "Arial", 80 };
+    font.setBold(1);
+    painter.setFont(font);
+    painter.drawText(rect, Qt::AlignCenter, "?");
+}
+
 inline void drawToothNumberLabel(const ToothPaintHint& tooth, QPixmap& pixmap)
 {
 	QPainter painter(&pixmap);
@@ -570,6 +597,7 @@ QPixmap ToothPainter::getBuccalOcclusal(const ToothPaintHint& tooth)
 	pixmap.fill(Qt::transparent);
 
 
+
 	drawMobilityLabel(tooth, pixmap);
 	drawFractureLabel(tooth, pixmap);
 	drawToothNumberLabel(tooth, pixmap);
@@ -584,6 +612,9 @@ QPixmap ToothPainter::getBuccalOcclusal(const ToothPaintHint& tooth)
          coords.toothRect.width(), 640),
          getToothPixmap(tooth), coords.BuccalOcclusalCrop);
 
+    painter.end();
+
+    drawQuestionMark(tooth, pixmap);
 
     return pixmap;
 }
@@ -669,6 +700,7 @@ QPixmap ToothPainter::getLingualOcclusal(const ToothPaintHint& tooth)
     QPixmap pixmap(coords.toothRect.width(), pixmapHeight);
     pixmap.fill(Qt::transparent);
 
+
     drawMobilityLabel(tooth, pixmap);
     drawFractureLabel(tooth, pixmap);
     drawToothNumberLabel(tooth, pixmap);
@@ -685,8 +717,9 @@ QPixmap ToothPainter::getLingualOcclusal(const ToothPaintHint& tooth)
         coords.lingualOcclusalCrop
     );
 
+    painter.end();
 
-
+    drawQuestionMark(tooth, pixmap);
 
     return pixmap;
 }

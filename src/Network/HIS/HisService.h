@@ -6,7 +6,7 @@
 class ProcedureContainer;
 class ToothContainer;
 struct Patient;
-
+class Tooth;
 //constexpr const char* hisUrl = "https://api.his.bg/";
 constexpr const char* hisUrl = "https://ptest-api.his.bg/";
 
@@ -27,9 +27,10 @@ protected:
 	std::string requester(bool includeNhifCode = false);
 	std::string performer();
 	std::string getStatus(const ToothContainer& teeth);
-	std::string getProcedures(const ProcedureContainer& procedures);
+	std::string getProcedures(const ProcedureContainer& procedures, const ToothContainer& teeth);
+	std::string getToothStatus(const Tooth& tooth, bool includeTimestamp = true);
 
-	std::string bind(const std::string& name, std::string value);
+	std::string bind(const std::string& name, std::string value, bool isUserInput = false);
 	std::string bind(const std::string& name, int value, bool ommitZero = true);
 	std::string bind(const std::string& name, bool value);
 	std::string bind(const std::string& name, double value);

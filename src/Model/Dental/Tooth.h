@@ -11,6 +11,8 @@ enum class StatusType{general, obturation, caries, mobility};
 class Tooth
 {
 
+	bool isHealthyCheck();
+
 public:
 	Tooth();
 	
@@ -24,6 +26,7 @@ public:
 	SurfaceStatus<SurfaceChild<DentistMade> > obturation;
 	SurfaceStatus<SurfaceChild<Status> > caries;
 
+	Status healthy;
 	Status temporary;
 	Status hyperdontic;
 	Status periodontitis;
@@ -64,5 +67,5 @@ public:
 	std::string getStringStatus() const;
 	//for xml report generation
 	std::vector<std::string> getSimpleStatuses() const;
-
+	bool noData() const;
 };

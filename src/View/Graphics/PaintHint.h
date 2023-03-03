@@ -1,7 +1,7 @@
 #pragma once
 #include <array>
 
-enum class ToothTextureHint {none, normal, root, extr, extr_m, impl, impl_m};
+enum class ToothTextureHint {none, normal, root, extr, extr_m, impl, impl_m, unknown};
 enum class SurfaceColor {none, red, blue, green};
 enum class EndoHint {none, red, darkred, blue, green};
 enum class PostHint {none, blue, green};
@@ -17,24 +17,24 @@ struct SurfaceHint
 
 struct ToothPaintHint
 {
-	int idx;
-	bool temp;
-	int num;
+	int idx{ -1 };
+	bool temp{ false };
+	int num{ -1 };
 
-	ToothTextureHint tooth;
+	ToothTextureHint tooth{ 0 };
 	std::array<SurfaceHint, 6> surfaces;
-	EndoHint endo;
-	PostHint post;
-	ProsthoHint prostho;
-	BridgeTerminal bridgePos;
+	EndoHint endo{ 0 };
+	PostHint post{ 0 };
+	ProsthoHint prostho{ 0 };
+	BridgeTerminal bridgePos{ 0 };
 
-	bool lesion;
-	bool dns;
-	bool dnsToothImplacted = false;
-	bool perio;
-	bool frac;
-	bool impacted;
-	int mobility;
+	bool lesion{ false };
+	bool dns{ false };
+	bool dnsToothImplacted{ false };
+	bool perio{ false };
+	bool frac{ false };
+	bool impacted{ false };
+	int mobility{ 0 };
 
 	bool isUpper() { return idx < 16; };
 

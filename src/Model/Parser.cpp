@@ -76,6 +76,15 @@ std::string Parser::write(const ToothContainer& status)
 	{
 		const Tooth& tooth = status[i];
 
+		if (tooth.healthy)
+		{
+			if (!json.isMember("Healthy"))
+			{
+				json["Healthy"] = Json::Value(Json::arrayValue);
+			}
+
+			json["Healthy"].append(writeStatus(i, tooth.healthy));
+		}
 
 		if (tooth.temporary.exists())
 		{
@@ -648,6 +657,15 @@ void Parser::parse(const std::string& jsonString, ToothContainer& status)
 	if (!parsingSuccessful) {
 		return;
 	}
+
+	const Json::Value& healthy = json["Healthy"];
+
+	for (int i = 0; i < healthy.size(); i++)
+	{
+		Tooth& tooth = status[healthy[i]["idx"].asInt()];
+		tooth.healthy.set(true);
+	}
+
 
 	const Json::Value& temporary = json["Temporary"];
 

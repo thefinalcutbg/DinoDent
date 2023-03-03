@@ -50,7 +50,6 @@ CheckModel::CheckModel(const std::vector<const Tooth*>& selectedTeeth)
 
 	for (int i = 1; i < generalStatus.size(); i++) {
 		if (generalStatus[i] != CheckState::unchecked) {
-			isHealthy = false;
 			break;
 		}
 	}
@@ -74,7 +73,6 @@ CheckModel::CheckModel(const Tooth& tooth)
 
 	for (int i = 1; i < generalStatus.size(); i++) {
 		if (generalStatus[i] != CheckState::unchecked) {
-			isHealthy = false;
 			break;
 		}
 	}

@@ -240,16 +240,17 @@ int DbAmbList::getNewNumber(Date ambDate, bool nhif)
 
     std::string query = 
         "SELECT num FROM amblist WHERE " 
-        "AND strftime('%Y',date) = '" + std::to_string(ambDate.year) + "' "
-        "AND lpk = ? "
-        "AND rzi = ? "
+        "strftime('%Y',date)=? "
+        "AND lpk=? "
+        "AND rzi=? "
+        "AND nrn IS NULL "
         "ORDER BY num DESC LIMIT 1";
 
     Db db(query);
 
-  //  db.bind(1, ambDate.year);
-    db.bind(1, User::doctor().LPK);
-    db.bind(2, User::practice().rziCode);
+    db.bind(1, std::to_string(ambDate.year));
+    db.bind(2, User::doctor().LPK);
+    db.bind(3, User::practice().rziCode);
 
     while (db.hasRows()) {
         return db.asInt(0) + 1;
@@ -306,55 +307,55 @@ std::vector<AmbList> DbAmbList::getMonthlyNhifSheets(int month, int year)
      }
 
  
-        //getting procedures
+    //getting procedures
 
-        db.newStatement(
-            "SELECT "
-            "procedure.code,"
-            "procedure.tooth,"
-            "procedure.date,"
-            "procedure.deciduous,"
-            "procedure.diagnosis,"
-            "procedure.hyperdontic,"
-            "amblist.rowid "
-            "FROM procedure LEFT JOIN amblist ON procedure.amblist_rowid = amblist.rowid "
-            "WHERE "
-            "procedure.financing_source=" + std::to_string(static_cast<int>(FinancingSource::NHIF)) + " "
-            "AND amblist.nhif_spec IS NOT NULL "
-            "AND amblist.lpk = '" + User::doctor().LPK + "' "
-            "AND amblist.rzi = '" + User::practice().rziCode + "' "
-            "AND strftime('%m', amblist.date)='" + FreeFn::leadZeroes(month, 2) + "' "
-            "AND strftime('%Y', amblist.date)='" + std::to_string(year) + "' "
-            "ORDER BY amblist.num ASC"
-        );
+    db.newStatement(
+        "SELECT "
+        "procedure.code,"
+        "procedure.tooth,"
+        "procedure.date,"
+        "procedure.deciduous,"
+        "procedure.diagnosis,"
+        "procedure.hyperdontic,"
+        "amblist.rowid "
+        "FROM procedure LEFT JOIN amblist ON procedure.amblist_rowid = amblist.rowid "
+        "WHERE "
+        "procedure.financing_source=" + std::to_string(static_cast<int>(FinancingSource::NHIF)) + " "
+        "AND amblist.nhif_spec IS NOT NULL "
+        "AND amblist.lpk = '" + User::doctor().LPK + "' "
+        "AND amblist.rzi = '" + User::practice().rziCode + "' "
+        "AND strftime('%m', amblist.date)='" + FreeFn::leadZeroes(month, 2) + "' "
+        "AND strftime('%Y', amblist.date)='" + std::to_string(year) + "' "
+        "ORDER BY amblist.num ASC"
+    );
 
 
-        while (db.hasRows())
-        {
-            if (!sheetRowIdMap.count(db.asRowId(6))) continue;
+    while (db.hasRows())
+    {
+        if (!sheetRowIdMap.count(db.asRowId(6))) continue;
 
-            auto& sheet = result[sheetRowIdMap[db.asRowId(6)]];
+        auto& sheet = result[sheetRowIdMap[db.asRowId(6)]];
 
-            Procedure p;
+        Procedure p;
 
-            p.financingSource = FinancingSource::NHIF;
-            p.LPK = sheet.LPK;
-            p.code = db.asString(0);
-            p.tooth = db.asInt(1);
-            p.date = db.asString(2);
-            p.temp = db.asBool(3);
-            p.diagnosis = db.asString(4);
-            p.hyperdontic = db.asBool(5);
+        p.financingSource = FinancingSource::NHIF;
+        p.LPK = sheet.LPK;
+        p.code = db.asString(0);
+        p.tooth = db.asInt(1);
+        p.date = db.asString(2);
+        p.temp = db.asBool(3);
+        p.diagnosis = db.asString(4);
+        p.hyperdontic = db.asBool(5);
 
-            sheet.procedures.addProcedure(p);
-        }
+        sheet.procedures.addProcedure(p);
+    }
 
-        //getting referrals (inefficient :( );
+    //getting referrals (inefficient :( );
         
-        for (auto& sheet : result)
-        {
-           sheet.referrals = DbReferral::getReferrals(sheet.rowid, db);
-        }
+    for (auto& sheet : result)
+    {
+        sheet.referrals = DbReferral::getReferrals(sheet.rowid, db);
+    }
 
 
      return result;

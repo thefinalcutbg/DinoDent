@@ -389,12 +389,6 @@ void ListPresenter::setOther(int code)
             case OtherInputs::removeAll:
                 teeth.removeEveryStatus(m_selectedIndexes);
                 break;
-            case OtherInputs::makeIntact:
-                bool isTemp = tooth.temporary;
-                tooth.removeStatus();
-                tooth.temporary.set(isTemp);
-                break;
-
         }
     }
 

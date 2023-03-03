@@ -4,7 +4,19 @@
 #include "View/Theme.h"
 
 
-Tooth::Tooth() : 
+bool Tooth::isHealthyCheck()
+{
+	auto status = getBoolStatus();
+	
+	for (int i = 2; i < status.size(); i++) {
+		if(status[i]) return false;
+	}
+
+	return true;
+
+}
+
+Tooth::Tooth() :
 	index{ -1 }
 {
 	/*
@@ -32,6 +44,7 @@ std::array<bool, statusCount> Tooth::getBoolStatus() const
 {
 	return std::array<bool, statusCount>
 	{
+		healthy.exists(),
 		temporary.exists(),
 		obturation.exists(),
 		caries.exists(),
@@ -86,7 +99,7 @@ std::vector<std::string> Tooth::getSimpleStatuses() const
 
 	std::array<std::string, statusCount> statusLegend //each letter corresponds to bool status
 	{
-		"T", "O", "C", "P", "G", "", "", "R", "F", "E",
+		"", "T", "O", "C", "P", "G", "", "", "R", "F", "E",
 		"Pa", "I", "K", "K", "X", "Impl.", "Dsn", "", "X"
 	};			  //     ^                        ^
 				  //  bridge	                splint
@@ -122,6 +135,15 @@ std::vector<std::string> Tooth::getSimpleStatuses() const
 	return simpleStatus;
 }
 
+bool Tooth::noData() const
+{
+	for (auto status : getBoolStatus()) {
+		if(status) return false;
+	}
+
+	return true;
+}
+
 //some free template functions to improve readability (hopefully)
 
 template<class... Status> inline void set(bool state, Status&... parameters) { 
@@ -129,7 +151,7 @@ template<class... Status> inline void set(bool state, Status&... parameters) {
 }
 
 template<typename T> void addSurface(SurfaceStatus<T>& status, int surface, Tooth& tooth){
-	if (!status.exists()) set(false, tooth.extraction, tooth.root, tooth.implant, tooth.denture);
+	if (!status.exists()) set(false, tooth.healthy, tooth.extraction, tooth.root, tooth.implant, tooth.denture);
 	status.set(true, surface);
 }
 
@@ -146,31 +168,40 @@ void Tooth::addStatus(int statusCode)
 {
 	switch (statusCode)
 	{
+		case StatusCode::Healthy:
+		{
+			bool temp = temporary.exists();
+			removeStatus();
+			healthy.set(true);
+			temporary.set(temp);
+			break;
+		}
 		case StatusCode::Temporary: 
 			if (type == ToothType::Molar) break;
 			set(true, temporary);  
-			set(false, extraction, implant, post);  
+			set(false, post);  
+			healthy.set(isHealthyCheck());
 			break;
 
 		case StatusCode::Extraction:
-			if (temporary.exists()){ removeStatus(); temporary.set(false); break; }
+//			if (temporary.exists()){ removeStatus(); temporary.set(false); break; }
 			set(true, extraction);
-			set(false, obturation, caries, implant, pulpitis, endo, fracture, root, lesion, periodontitis, crown, post, mobility, denture); 
+			set(false, healthy, obturation, caries, implant, pulpitis, endo, fracture, root, lesion, periodontitis, crown, post, mobility, denture); 
 			break;
 
 		case StatusCode::Obturation: 
 			set(true, obturation); 
-			set(false, root, implant, extraction, impacted, denture); 
+			set(false, healthy, root, implant, extraction, impacted, denture);
 			break;
 
 		case StatusCode::Caries: 
 			set(true, caries); 
-			set(false, root, implant, extraction, impacted, denture);
+			set(false, healthy, root, implant, extraction, impacted, denture);
 			break;
 
 		case StatusCode::Pulpitis: 
 			set(true, pulpitis); 
-			set(false, lesion, extraction, implant, endo, post, impacted);
+			set(false, healthy, lesion, extraction, implant, endo, post, impacted);
 			if (denture && !root) denture.set(false);
 			break;
 
@@ -182,72 +213,72 @@ void Tooth::addStatus(int statusCode)
 
 		case StatusCode::Post: 
 			set(true, post, endo); 
-			set(false, temporary, extraction, implant, pulpitis, impacted, denture); 
+			set(false, healthy, temporary, extraction, implant, pulpitis, impacted, denture);
 			break;
 
 		case StatusCode::Root: 
 			set(true, root); 
-			set(false, caries, obturation, crown, extraction, implant); 
+			set(false, healthy, caries, obturation, crown, extraction, implant);
 			break;
 
 		case StatusCode::Implant: 
 			set(true, implant); 
-			set(false, temporary, extraction, obturation, caries, pulpitis, endo, fracture, root, post, mobility, splint, impacted);
+			set(false, temporary, healthy, extraction, obturation, caries, pulpitis, endo, fracture, root, post, mobility, splint, impacted);
 			break;
 
 		case StatusCode::ApicalLesion: 
 			set(true, lesion); 
-			set(false, pulpitis, extraction, impacted); 
+			set(false, healthy, pulpitis, extraction, impacted);
 			if (denture && !root) denture.set(false);
 			break;
 
 		case StatusCode::Fracture: 
 			set(true, fracture); 
-			set(false, extraction, implant, impacted);
+			set(false, healthy, extraction, implant, impacted);
 			if (denture && !root) denture.set(false);
 			break;
 
 		case StatusCode::Periodontitis: 
 			set(true, periodontitis); 
-			set(false, extraction, impacted);
+			set(false, healthy, extraction, impacted);
 			if (denture && !root) denture.set(false);  
 			break;
 
 		case StatusCode::Mobility: 
 			set(true, mobility); 
-			set(false, extraction, impacted); 
+			set(false, healthy, extraction, impacted);
 			mobility.degree = Degree::First; break;
 			if (denture && !root) denture.set(false);  
 			break;
 
 		case StatusCode::Crown: 
 			set(true, crown); 
-			set(false, bridge, extraction, root, splint, impacted, denture); 
+			set(false, healthy, bridge, extraction, root, splint, impacted, denture);
 			break;
 
 		case StatusCode::Bridge: 
 			set(true, bridge); 
-			set(false, crown, splint, denture); 
+			set(false, healthy, crown, splint, denture);
 			bridge.LPK.clear(); 
 			break;
 
 		case StatusCode::FiberSplint:
 			set(true, splint); 
-			set(false, crown, bridge, implant, denture);
+			set(false, healthy, crown, bridge, implant, denture);
 			break;
 
 		case StatusCode::Dsn: 
-			set(true, hyperdontic); 
+			set(true, healthy, hyperdontic);
 			break;
 
 		case StatusCode::Impacted: 
 			set(true, impacted); 
-			set(false, obturation, caries, extraction, periodontitis, lesion, implant, crown, post, endo, mobility, fracture); 
+			set(false, healthy, obturation, caries, extraction, periodontitis, lesion, implant, crown, post, endo, mobility, fracture);
 			break;
 
 		case StatusCode::Denture: 
 			set(true, denture); 
-			set(false, obturation, caries, extraction, crown, bridge, splint, post); 
+			set(false, healthy, obturation, caries, extraction, crown, bridge, splint, post);
 			if (!root) {
 				set(false, endo, lesion, pulpitis, periodontitis);
 			}
@@ -263,7 +294,8 @@ void Tooth::addStatus(int statusCode)
 void Tooth::removeStatus(int statusCode)
 {
 	switch (statusCode){
-		case StatusCode::Temporary: temporary.set(false); break;
+		case StatusCode::Healthy: healthy.set(false); if (isHealthyCheck()) temporary.set(false); break;
+		case StatusCode::Temporary: temporary.set(false); healthy.set(!isHealthyCheck()); break;
 		case StatusCode::Obturation: obturation.set(false); break;
 		case StatusCode::Caries: caries.set(false); break;
 		case StatusCode::Pulpitis: pulpitis.set(false); break;
@@ -284,6 +316,8 @@ void Tooth::removeStatus(int statusCode)
 		case StatusCode::Denture: denture.set(false); break;
 		default: return;
 	}
+
+	if (statusCode != StatusCode::Healthy && !noData()) healthy.set(true);
 
 	last_update = FreeFn::getTimeStamp();
 }
@@ -330,6 +364,8 @@ void Tooth::setStatus(StatusType type, int code, bool state)
 		}
 		break;
 	}
+
+	if (code != StatusCode::Healthy && noData()) healthy.set(true);
 }
 
 void Tooth::setStatus(int code, bool state){
@@ -343,6 +379,8 @@ void Tooth::removeStatus(StatusType type)
 		case StatusType::obturation: removeAllSurfaces(obturation); last_update = FreeFn::getTimeStamp(); break;
 		case StatusType::caries: removeAllSurfaces(caries); last_update = FreeFn::getTimeStamp(); break;
 	}
+
+	if (noData()) healthy.set(true);
 }
 
 std::string Tooth::toothName() const

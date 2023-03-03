@@ -6,6 +6,7 @@
 
 namespace EDental {
 
+
 	class Open : private HisService
 	{
 		std::function<void(const std::string&, const std::vector<int>&)> m_callback;

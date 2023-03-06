@@ -4,6 +4,43 @@
 
 #include "View/ModalDialogBuilder.h"
 
+
+
+bool EDental::Open::sendRequest(
+    const AmbList& ambSheet, 
+    const Patient& patient, 
+    std::function<void(const std::string&, const std::vector<int>&)> nrnCallback
+)
+{
+	m_callback = nrnCallback;
+
+	std::string contents;
+
+	bool isNhif = ambSheet.isNhifSheet();
+
+	bool adverseConditions = isNhif && ambSheet.nhifData.isUnfavourable;
+
+	contents.reserve(4000);
+
+	contents +=
+		"<nhis:dentalTreatment>"
+			+ bind("lrn", ambSheet.lrn)
+			+ bind("basedOn", ambSheet.basedOn)
+			+ bind("treatmentStart", ambSheet.date)
+			//+ bind("treatmentEnd", ambSheet.time.to8601(ambSheet.getDate())) //TO IMPLEMENT!!!
+			+ bind("adverseConditions", adverseConditions)
+			+ bind("rhifAreaNumber", patient.city.getRhif() + patient.city.getHealthRegion())
+			+ "<nhis:medicalStatus />" //TO IMPLEMENT!!!
+			+ getStatus(ambSheet.teeth)
+			+ getProcedures(ambSheet.procedures, ambSheet.teeth)
+		+"</nhis:dentalTreatment>"
+		+ HisService::subject(patient)
+		+ HisService::performer()
+	;		
+
+	return HisService::sendRequestToHis(contents);
+}
+
 void EDental::Open::parseReply(const std::string& reply)
 {
 	auto errors = getErrors(reply);
@@ -41,46 +78,11 @@ void EDental::Open::parseReply(const std::string& reply)
 	for (int i = 3; contents.Child(i).ToElement(); i++)
 	{
 		//index
-		procedureIndex.push_back(std::stoi(contents.Child(i).Child(1).ToElement()->Attribute("value")));	
+		procedureIndex.push_back(std::stoi(contents.Child(i).Child(1).ToElement()->Attribute("value")));
 	}
 
 	m_callback(nrnStr, procedureIndex);
-	
-}
 
-bool EDental::Open::sendRequest(
-    const AmbList& ambSheet, 
-    const Patient& patient, 
-    std::function<void(const std::string&, const std::vector<int>&)> nrnCallback
-)
-{
-	m_callback = nrnCallback;
-
-	std::string contents;
-
-	bool isNhif = ambSheet.isNhifSheet();
-
-	bool adverseConditions = isNhif && ambSheet.nhifData.isUnfavourable;
-
-	contents.reserve(4000);
-
-	contents +=
-		"<nhis:dentalTreatment>"
-			+ bind("lrn", ambSheet.lrn)
-			+ bind("basedOn", ambSheet.basedOn)
-			+ bind("treatmentStart", ambSheet.date)
-			//+ bind("treatmentEnd", ambSheet.time.to8601(ambSheet.getDate())) //TO IMPLEMENT!!!
-			+ bind("adverseConditions", adverseConditions)
-			+ bind("rhifAreaNumber", patient.city.getRhif() + patient.city.getHealthRegion())
-			+ "<nhis:medicalStatus />" //TO IMPLEMENT!!!
-			+ getStatus(ambSheet.teeth)
-			+ getProcedures(ambSheet.procedures, ambSheet.teeth)
-		+"</nhis:dentalTreatment>"
-		+ HisService::subject(patient)
-		+ HisService::performer()
-	;		
-
-	return HisService::sendRequestToHis(contents);
 }
 
 void EDental::Augment::parseReply(const std::string& reply)

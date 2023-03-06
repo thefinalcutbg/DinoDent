@@ -137,3 +137,47 @@ QVariant ProcedureTableModel::data(const QModelIndex& index, int role) const
 ProcedureTableModel::~ProcedureTableModel()
 {
 }
+
+Qt::ItemFlags ProcedureTableModel::flags(const QModelIndex& index) const
+{
+    Q_UNUSED(index);
+    auto flags = Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsDragEnabled;
+    if (itemsAreDropEnabled)
+        flags |= Qt::ItemIsDropEnabled;
+    return flags;
+}
+
+Qt::DropActions ProcedureTableModel::supportedDropActions() const
+{
+    auto flags = Qt::DropActions();
+    if (moveActionEnabled)
+        flags |= Qt::MoveAction;
+    return flags;
+}
+
+
+bool ProcedureTableModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex& index)
+{
+
+    Q_UNUSED(column)
+        QModelIndex newIndex;
+    if (index.isValid()) // row was dropped directly on an item (parent)
+    {
+        // If we apply dropMimeData without any modifications,
+        // the data overwrites the given row.
+        // However, we would like to insert the data *after* the given row.
+        // The TableModel inserts a row if the parent is the hidden root parent
+        // (provided by QModelIndex()), so we use that.
+        newIndex = QModelIndex();
+        row = index.row() + 1;
+    }
+    else
+        newIndex = index;
+
+    if (row == -1)
+        row = rowCount();
+
+    m_destinationDropRow = row;
+
+    return QAbstractTableModel::dropMimeData(data, action, row, 0, newIndex);
+}

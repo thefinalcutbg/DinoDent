@@ -1,4 +1,7 @@
 #include "ProcedureContainer.h"
+
+#include <algorithm>
+
 #include "Model/Dental/ToothContainer.h"
 
 void ProcedureContainer::addProcedures(const std::vector<Procedure>& p)
@@ -76,6 +79,41 @@ void ProcedureContainer::replaceProcedure(const Procedure& p, int idx)
         removeProcedure(idx);
         addProcedure(p);
     }
+}
+
+bool ProcedureContainer::moveProcedure(int from, int to)
+{
+
+    if (from == to) return false;
+    
+    if (to == m_proc.size()) {
+        auto temp = m_proc[from];
+        m_proc.erase(m_proc.begin() + from);
+        m_proc.push_back(temp);
+
+        std::sort(m_proc.begin(), m_proc.end(), [](const Procedure& first, const Procedure& second) { return first.date < second.date; });
+
+        return true;
+    }
+
+    auto temp = m_proc;
+
+    m_proc.clear();
+
+    for (int i = 0; i < temp.size(); i++)
+    {
+        if (i == from) continue;
+
+        if (i == to) {
+            m_proc.push_back(temp[from]);
+        }
+
+        m_proc.push_back(temp[i]);
+    }
+
+    std::sort(m_proc.begin(), m_proc.end(), [](const Procedure& first, const Procedure& second) { return first.date < second.date; });
+
+    return true;
 }
 
 const Procedure& ProcedureContainer::at(int index) const

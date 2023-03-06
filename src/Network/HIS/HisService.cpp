@@ -8,7 +8,6 @@
 #include "HisToken.h"
 #include "View/ModalDialogBuilder.h"
 #include "Model/User.h"
-#include "View/ModalDialogBuilder.h"
 #include "Model/FreeFunctions.h"
 #include "Model/Patient.h"
 #include "Model/Dental/AmbList.h"
@@ -185,7 +184,7 @@ std::string HisService::requester(bool nhif)
 
 std::string HisService::performer()
 {
-	qDebug() << 188;
+
 	std::string nhifCode = User::hasNzokContract() ?
 		" nhifCode=\"" + std::to_string(User::doctor().specialtyAsInt()) + "\""
 		:
@@ -197,9 +196,6 @@ std::string HisService::performer()
 			+ "\"" + nhifCode + "/>";
 
 
-
-	qDebug() << 199;
-
 	std::string performer;
 	performer += "<nhis:performer>";
 	performer += bind("pmi", User::doctor().LPK);
@@ -210,7 +206,6 @@ std::string HisService::performer()
 	performer += bind("phone", User::doctor().phone);
 	performer += "</nhis:performer>";
 		
-	qDebug() << 211;
 	return performer;
 }
 

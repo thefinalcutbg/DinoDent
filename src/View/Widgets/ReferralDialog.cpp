@@ -47,7 +47,7 @@ ReferralDialog::ReferralDialog(ReferralPresenter* p, QWidget *parent)
 
 	for (auto& b : mkbButtons)
 	{
-		connect(b, &RightClickButton::rightClicked, [=]{ b->setText("Изберете"); });
+		connect(b, &RightClickButton::rightClicked, [=]{ b->setText("Няма"); });
 	}
 
 
@@ -130,7 +130,7 @@ void ReferralDialog::setReferral(const Referral & r)
 
 		mkbButton->setText(
 			mkb.isValid() ? mkb.code().c_str()
-			: "Изберете"
+			: "Няма"
 		);
 
 	};
@@ -230,8 +230,8 @@ void ReferralDialog::setRefTypeView(ReferralType t)
 	{
 		case ReferralType::MDD4: 
 		{
-			ui.label->show();
-			ui.refNumSpin->show();
+			ui.label->hide();
+			ui.refNumSpin->hide();
 			ui.reasonCombo->show();
 			ui.mdd4group->show();
 			ui.reasonLabel->show();

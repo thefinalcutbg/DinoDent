@@ -611,6 +611,15 @@ void ListPresenter::deleteProcedure(int index)
     makeEdited();
 }
 
+void ListPresenter::moveProcedure(int from, int to)
+{
+    if(!m_ambList.procedures.moveProcedure(from, to)) return;
+
+    makeEdited();
+
+    view->setProcedures(m_ambList.procedures.list());
+}
+
 void ListPresenter::addReferral(ReferralType type)
 {
 
@@ -714,9 +723,49 @@ void ListPresenter::printReferral(int index)
 
 void ListPresenter::sendReferralToHis(int index)
 {
-    if (!m_ambList.referrals[index].isNrnType()) return;
+    auto& ref = m_ambList.referrals[index];
 
-    ModalDialogBuilder::showMessage("Все още няма възможност за изпращане на направления към НЗИС");
+    if (!ref.isNrnType()) return;
+
+    if (m_ambList.nrn.empty()) {
+        ModalDialogBuilder::showMessage("За да издадете направление, първо изпратете амбулаторния лист в НЗИС");
+        return;
+    }
+
+    if (ref.nrn.empty())
+    {
+        eReferralIssueService.sendRequest(
+            m_ambList.nrn,
+            *patient.get(),
+            m_ambList.referrals[index],
+            [=](const std::string& nrn) {
+
+                m_ambList.referrals[index].nrn = nrn;
+                DbAmbList::update(m_ambList);
+                if (isCurrent()) {
+                    view->setReferrals(m_ambList.referrals);
+                }
+
+            }
+        );
+
+        return;
+    }
+
+    eReferralCancelService.sendRequest(
+        ref.nrn,
+        [=](bool success) {
+            if (!success) return;
+
+            m_ambList.referrals[index].nrn.clear();
+            DbAmbList::update(m_ambList);
+            if (isCurrent()) {
+                view->setReferrals(m_ambList.referrals);
+            }
+        }
+    );
+
+
 }
 
 void ListPresenter::setNhifData(const NhifSheetData& data)

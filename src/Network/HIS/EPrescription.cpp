@@ -3,6 +3,7 @@
 #include "View/ModalDialogBuilder.h"
 #include "Model/FreeFunctions.h"
 #include "TinyXML/tinyxml.h"
+#include "EReferral.h"
 
 bool EPrescription::Issue::sendRequest(const Prescription& perscr, const Patient& patient, std::function<void(const std::string&)> nrnCallback)
 {
@@ -114,8 +115,6 @@ void EPrescription::Issue::parseReply(const std::string& reply)
 		m_callback(std::string());
 	}
 }
-
-
 
 bool EPrescription::Cancel::sendRequest(const std::string& nrn, std::function<void(bool)> success)
 {

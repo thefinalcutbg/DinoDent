@@ -40,7 +40,7 @@ ProcedureTable::ProcedureTable(QWidget* parent)
 
     setEditTriggers(QAbstractItemView::NoEditTriggers);
     horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);
-    viewport()->setFocusPolicy(Qt::StrongFocus);
+   // viewport()->setFocusPolicy(Qt::StrongFocus);
     setShowGrid(true);
 
     verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
@@ -48,6 +48,13 @@ ProcedureTable::ProcedureTable(QWidget* parent)
     //setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+    setDragEnabled(true);
+    setAcceptDrops(true);
+    setDragDropMode(QAbstractItemView::DragDrop);
+    setDefaultDropAction(Qt::MoveAction);
+    setDragDropOverwriteMode(false);
+    setDropIndicatorShown(true);
 
     setWordWrap(true);
     
@@ -67,6 +74,7 @@ void ProcedureTable::setAmbListLayout()
     hideColumn(7);
 
     horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
+
     setShowGrid(false);
 }
 
@@ -289,13 +297,44 @@ void ProcedureTable::paintEvent(QPaintEvent* e)
 
 }
 
+Q_INVOKABLE int ProcedureTable::selectedRow() const
+{
+    QItemSelectionModel* selection = selectionModel();
+    return selection->hasSelection() ? selection->selectedRows().front().row() : -1;
+}
+
+void ProcedureTable::dropEvent(QDropEvent* e)
+{
+    if (e->source() != this || e->dropAction() != Qt::MoveAction)
+        return;
+
+    int dragRow = selectedRow();
+
+    QTableView::dropEvent(e);  // m_dropRow is set by inserted row
+
+    emit rowDragged();
+
+  //  if (m_dropRow > dragRow)
+  //      --m_dropRow;
+
+
+    // The following code would take care of selecting the dropped row after the event.
+    // It works on Linux and Windows, but not on macOS for some reason.
+    // In the make it is not queue and has the same effect as selectRow(m_dropRow),
+    // which changes the selection and causes the drop to happen in the wrong place.
+
+    //       QMetaObject::invokeMethod(this,
+    //                                 std::bind(&MyTableView::selectRow, this, m_dropRow),
+    //                                 Qt::QueuedConnection);  // Postpones selection
+}
+
 int ProcedureTable::selectedRow()
 {
     if (selectionModel() == nullptr) return -1;
 
+   // qDebug() << "Source row:" << selectionModel()->currentIndex().row();
+
     return selectionModel()->currentIndex().row();
-
-
 }
 
 ProcedureTable::~ProcedureTable()

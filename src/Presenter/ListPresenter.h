@@ -14,6 +14,7 @@
 #include "Network/NRA/NraStatusService.h"
 #include "Network/PIS/DiagnosisService.h"
 #include "Network/HIS/EDental.h"
+#include "Network/HIS/EReferral.h"
 #include "Presenter/PatientInfoPresenter.h"
 
 typedef std::vector<int> SelectedTeethIdx;
@@ -43,6 +44,8 @@ class ListPresenter : public TabInstance
     EDental::Open eDentalOpenService;
     EDental::Cancel eDentalCancelService;
     EDental::GetStatus eDentalGetService;
+    EReferral::Issue eReferralIssueService;
+    EReferral::Cancel eReferralCancelService;
 
     void prepareDerivedForSwitch() override {
         patient_info.setCurrent(false);
@@ -98,6 +101,7 @@ public:
     void addProcedure();
     void editProcedure(int index);
     void deleteProcedure(int index);
+    void moveProcedure(int from, int to);
 
     void addReferral(ReferralType type);
     void editReferral(int index);

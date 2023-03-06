@@ -16,6 +16,8 @@ public:
 	void refreshTeethTemporary(const ToothContainer& teeth);
 	void removeProcedure(int idx);
 	void replaceProcedure(const Procedure& p, int idx);
+	//returns true if move is successful
+	bool moveProcedure(int from, int to);
 	const Procedure& at(int index) const;
 	size_t size() const { return m_proc.size(); }
 	bool hasPregnancy() const;

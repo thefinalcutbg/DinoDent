@@ -65,7 +65,7 @@ public:
 	
 
 	inline bool isNrnType() const { 
-		return type == ReferralType::Form3 || type == ReferralType::Form3A; 
+		return type != ReferralType::MH119;
 	}
 
 	inline bool isSentToHIS(){

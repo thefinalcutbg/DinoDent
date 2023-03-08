@@ -2,7 +2,8 @@
 #include <QIcon>
 
 ProcedureTableModel::ProcedureTableModel(QObject* parent) : QAbstractTableModel(parent)
-{}
+{
+}
 
 
 void ProcedureTableModel::setProcedures(const std::vector<Procedure>& rows)
@@ -38,16 +39,15 @@ QVariant ProcedureTableModel::headerData(int section, Qt::Orientation orientatio
         if (orientation == Qt::Horizontal) {
             switch (section)
             {
-            case 0: return "ID";
-            case 1: return "Дата";
-            case 2: return "Диагноза";
-            case 3: return "Зъб";
-            case 4: return "Манипулация";
-            case 5: return "Код";
-            case 6: return "КСМП";
-      //      case 7: return "Цена";
-            case 7: return "Извършил";
-            case 8: return "Бележки";
+                case 0: return "ID";
+                case 1: return "Дата";
+                case 2: return "Диагноза";
+                case 3: return "Зъб";
+                case 4: return "Манипулация";
+                case 5: return "Код";
+                case 6: return "КСМП";
+                case 7: return "Извършил";
+                case 8: return "Бележки";
             }
         }
     }
@@ -121,7 +121,6 @@ QVariant ProcedureTableModel::data(const QModelIndex& index, int role) const
                case 4: return m_procedures[row].procedureName;
                case 5: return m_procedures[row].code;
                case 6: return m_procedures[row].ksmp;
-    //           case 7: return m_procedures[row].price;
                case 7: return m_procedures[row].doctor;
                case 8: return m_procedures[row].notes;
             }
@@ -141,17 +140,14 @@ ProcedureTableModel::~ProcedureTableModel()
 Qt::ItemFlags ProcedureTableModel::flags(const QModelIndex& index) const
 {
     Q_UNUSED(index);
-    auto flags = Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsDragEnabled;
-    if (itemsAreDropEnabled)
-        flags |= Qt::ItemIsDropEnabled;
+    auto flags = Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled;
     return flags;
 }
 
 Qt::DropActions ProcedureTableModel::supportedDropActions() const
 {
     auto flags = Qt::DropActions();
-    if (moveActionEnabled)
-        flags |= Qt::MoveAction;
+    flags |= Qt::MoveAction;
     return flags;
 }
 

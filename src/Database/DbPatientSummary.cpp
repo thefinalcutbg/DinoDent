@@ -4,6 +4,8 @@
 #include "Database/DbProcedure.h"
 #include "Database/Database.h"
 
+#include <qdebug.h>
+
 std::vector<TimeFrame> DbPatientSummary::getFrames(long long patientRowId)
 {
     std::vector<TimeFrame> result;
@@ -67,16 +69,18 @@ std::vector<TimeFrame> DbPatientSummary::getFrames(long long patientRowId)
         Procedure p;
         p.date = procedureDate;
         p.financingSource = static_cast<FinancingSource>(db.asInt(6));
-        p.code = db.asInt(7);
+        p.code = db.asString(7);
         p.tooth = db.asInt(8);
         Parser::parse(db.asString(9), p);
         p.temp = db.asInt(10);
-        p.LPK = db.asString(11);
-        p.diagnosis = db.asString(12);
-        p.notes = db.asString(13);
-        p.hyperdontic = db.asBool(14);
+        p.LPK = db.asString(2);
+        p.diagnosis = db.asString(11);
+        p.notes = db.asString(12);
+        p.hyperdontic = db.asBool(13);
         result.back().procedures.push_back(p);
         p.applyProcedure(result.back().teeth);
+
+        qDebug() << p.diagnosis.c_str() << p.notes.c_str();
         
     }
 

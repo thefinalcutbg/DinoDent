@@ -10,8 +10,8 @@ class ProcedureTableModel : public QAbstractTableModel
 
 	int m_destinationDropRow{ -1 };
 
-	bool itemsAreDropEnabled = true;
-	bool moveActionEnabled = true;
+	//bool itemsAreDropEnabled = true;
+	//bool moveActionEnabled = true;
 
 	bool insertRows(int position, int rows, const QModelIndex& index = QModelIndex());
 	bool removeRows(int row, int count, const QModelIndex& parent = QModelIndex());

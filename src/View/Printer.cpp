@@ -200,7 +200,7 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
         auto& ref = *mh119;
         auto& data = std::get<MH119Data>(ref.data);
 
-        report.dataManager()->setReportVariable("mh119SpecCode", QString::number(data.specCode));
+        report.dataManager()->setReportVariable("mh119SpecCode", data.getSpecCode());
         report.dataManager()->setReportVariable("mh119Date", ref.date.toBgStandard().c_str());
     }
 
@@ -497,7 +497,7 @@ void Print::referral(const Referral& ref, const Patient& patient, int ambSheetNu
         report.dataManager()->setReportVariable("doctorPhone", User::doctor().phone.c_str());
         report.dataManager()->setReportVariable("diagnosis", ref.diagnosis.getText().c_str());
         report.dataManager()->setReportVariable("comorbidity", ref.comorbidity.getText().c_str());
-        report.dataManager()->setReportVariable("specCode", data.specCode);
+        report.dataManager()->setReportVariable("specCode", data.getSpecCode());
         report.dataManager()->setReportVariable("practiceName", User::practice().name.c_str());
         
         int typeYpos[4] = { 440, 480, 525, 570 };

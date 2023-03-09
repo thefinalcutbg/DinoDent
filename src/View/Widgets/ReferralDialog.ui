@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>380</width>
-    <height>555</height>
+    <width>318</width>
+    <height>647</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,7 +15,41 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_4">
    <item>
-    <widget class="QGroupBox" name="groupBox_2">
+    <layout class="QHBoxLayout" name="horizontalLayout_6">
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="label_4">
+       <property name="text">
+        <string>Дата:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="CustomDateEdit" name="dateEdit">
+       <property name="displayFormat">
+        <string notr="true">d.M.yyyy 'г.'</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="group119">
      <property name="title">
       <string/>
      </property>
@@ -23,16 +57,16 @@
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
-         <widget class="QLabel" name="label_4">
+         <widget class="QLabel" name="label">
           <property name="text">
-           <string>Дата:</string>
+           <string>Номер:</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="reasonLabel">
+         <widget class="QLabel" name="specLabel">
           <property name="text">
-           <string>Причина:</string>
+           <string>СИДП:</string>
           </property>
          </widget>
         </item>
@@ -49,33 +83,6 @@
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_3">
-          <item>
-           <widget class="CustomDateEdit" name="dateEdit">
-            <property name="displayFormat">
-             <string notr="true">d.M.yyyy 'г.'</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="horizontalSpacer_2">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QLabel" name="label">
-            <property name="text">
-             <string>Номер:</string>
-            </property>
-           </widget>
-          </item>
           <item>
            <widget class="LeadingZeroSpinBox" name="refNumSpin">
             <property name="sizePolicy">
@@ -107,12 +114,24 @@
          </layout>
         </item>
         <item>
-         <widget class="QComboBox" name="reasonCombo"/>
+         <widget class="QComboBox" name="mh119specCombo"/>
         </item>
         <item>
          <widget class="QComboBox" name="mh119combo"/>
         </item>
        </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="reasonGroup">
+     <property name="title">
+      <string>Причина</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_10">
+      <item>
+       <widget class="QComboBox" name="reasonCombo"/>
       </item>
      </layout>
     </widget>
@@ -279,7 +298,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="mh119Group">
+    <widget class="QGroupBox" name="motives119">
      <property name="title">
       <string>Изпраща се за: (медицински мотиви)</string>
      </property>
@@ -411,7 +430,6 @@
   </customwidget>
  </customwidgets>
  <tabstops>
-  <tabstop>reasonCombo</tabstop>
   <tabstop>mkbMainButton</tabstop>
   <tabstop>mkbAdditionalButton</tabstop>
   <tabstop>comorbidityGroup</tabstop>
@@ -420,7 +438,6 @@
   <tabstop>toothRadio</tabstop>
   <tabstop>toothCombo</tabstop>
   <tabstop>okButton</tabstop>
-  <tabstop>dateEdit</tabstop>
   <tabstop>refNumSpin</tabstop>
  </tabstops>
  <resources/>

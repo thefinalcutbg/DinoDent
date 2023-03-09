@@ -198,7 +198,7 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
                 {
                     auto prescrSpec = new TiXmlElement("prescSpecialist");
 
-                        prescrSpec->SetAttribute("SODPCode", MH119Data::specCode);
+                        prescrSpec->SetAttribute("SODPCode", std::get<MH119Data>(r.data).getSpecCode());
                         prescrSpec->SetAttribute("date", r.date.to8601());
 
                     prescSpecialists->LinkEndChild(prescrSpec);

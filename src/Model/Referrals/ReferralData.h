@@ -40,7 +40,12 @@ struct R3AData
 
 struct MH119Data
 {
-	static constexpr int specCode = 62; //Орална хирургия
+	MH119Spec specCode{ 0 };
 	MH119Reason reason{ 0 };
 	std::string description;
+
+	int getSpecCode() const {
+		static constexpr int codes[3]{ 61, 62, 64 };
+		return codes[specCode.getIndex()];
+	}
 };

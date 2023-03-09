@@ -65,7 +65,7 @@ std::vector<Referral> DbReferral::getReferrals(long long ambListId, Db& db)
     db.newStatement(
         "SELECT referral.type, referral.number, referral.date, referral.reason,"
         "referral.diag_main, referral.diag_add, comorb_main, comorb_add, referral.tooth, "
-        "referral.reason_119, referral.motives_119 "
+        "referral.spec_119, referral.reason_119, referral.motives_119 "
         "FROM referral LEFT JOIN amblist ON referral.amblist_rowid=amblist.rowid "
         "WHERE amblist.rowid = ?"
     );
@@ -93,8 +93,9 @@ std::vector<Referral> DbReferral::getReferrals(long long ambListId, Db& db)
         if (ref.type == ReferralType::MH119) {
 
             ref.data = MH119Data{
-                .reason = db.asInt(9),
-                .description = db.asString(10)
+                .specCode = db.asInt(9),
+                .reason = db.asInt(10),
+                .description = db.asString(11)
             };
         }
 
@@ -115,8 +116,8 @@ void DbReferral::saveReferrals(const std::vector<Referral>& ref, long long ambLi
             "INSERT INTO referral "
             "(amblist_rowid, number, nrn, lrn, date, reason, "
             "diag_main, diag_add, comorb_main, comorb_add, type, "
-            "tooth, reason_119, motives_119) "//<-specific for some referrals
-            "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?) "
+            "tooth, reason_119, motives_119, spec_119) "//<-specific for some referrals
+            "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) "
         );
 
         db.bind(1, ambListRowid);
@@ -147,6 +148,7 @@ void DbReferral::saveReferrals(const std::vector<Referral>& ref, long long ambLi
             auto& data = std::get<MH119Data>(r.data);
             db.bind(13, data.reason.getIndex());
             db.bind(14, data.description);
+            db.bind(15, data.specCode.getIndex());
         }
 
         db.execute();

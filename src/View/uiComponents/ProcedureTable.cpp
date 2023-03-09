@@ -90,7 +90,6 @@ void ProcedureTable::setProcedureHistoryLayout()
     setColumnWidth(4, 300);
     setColumnWidth(5, 49);
     setColumnWidth(6, 70);
-    //setColumnWidth(7, 69);
     setColumnWidth(7, 140);
     setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);

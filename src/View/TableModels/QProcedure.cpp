@@ -16,4 +16,12 @@ QProcedure::QProcedure(const Procedure& p) :
 	notes(QString::fromStdString(p.notes))
 {
 	if (tooth == "99") tooth.clear();
+
+	if (p.isRangeSpecific()) {
+		tooth.clear();
+		auto& range = std::get<ConstructionRange>(p.result);
+		tooth += QString::number(ToothUtils::getToothNumber(range.tooth_begin, false));
+		tooth += "-";
+		tooth += QString::number(ToothUtils::getToothNumber(range.tooth_end, false));
+	}
 }

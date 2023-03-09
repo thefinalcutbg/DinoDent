@@ -4,7 +4,7 @@
 #include "ui_FinancialView.h"
 #include "Presenter/FinancialPresenter.h"
 #include "View/Interfaces/IFinancialView.h"
-#include "View/Models/BusinessOperationModel.h"
+#include "View/TableModels/BusinessOperationModel.h"
 
 class FinancialView : public QWidget, public IFinancialView
 {

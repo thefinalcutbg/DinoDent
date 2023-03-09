@@ -3,11 +3,11 @@
 #include <QDialog>
 #include "ui_AmbListSelector.h"
 #include "View/Interfaces/IListSelectorView.h"
-#include "View/Models/AmbListTableModel.h"
-#include "View/Models/PatientTableModel.h"
-#include "View/Models/PerioTableModel.h"
-#include "View/Models/FinancialTableModel.h"
-#include "View/Models/PrescriptionTableModel.h"
+#include "View/TableModels/AmbListTableModel.h"
+#include "View/TableModels/PatientTableModel.h"
+#include "View/TableModels/PerioTableModel.h"
+#include "View/TableModels/FinancialTableModel.h"
+#include "View/TableModels/PrescriptionTableModel.h"
 #include <QSortFilterProxyModel>
 
 class ListSelectorPresenter;

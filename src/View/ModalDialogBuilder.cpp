@@ -378,7 +378,7 @@ std::string ModalDialogBuilder::pinPromptDialog(const std::string& pem)
 }
 
 #include "View/Widgets/TableViewDialog.h"
-#include "View/Models/ProcedureCodeModel.h"
+#include "View/TableModels/ProcedureCodeModel.h"
 
 std::optional<ProcedureCode> ModalDialogBuilder::procedureCodeDialog()
 {
@@ -393,7 +393,7 @@ std::optional<ProcedureCode> ModalDialogBuilder::procedureCodeDialog()
 }
 
 
-#include "View/Models/KSMPModel.h"
+#include "View/TableModels/KSMPModel.h"
 std::string ModalDialogBuilder::ksmpDialog(KsmpList& list, const std::string& preSelectCode)
 {
 	KSMPModel model{ list };

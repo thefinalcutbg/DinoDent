@@ -4,7 +4,7 @@
 #include "ui_DoctorSettingsDialog.h"
 
 #include "View/Interfaces/IDoctorSettingsDialog.h"
-#include "View/Models/SpecialtyTableModel.h"
+#include "View/TableModels/SpecialtyTableModel.h"
 
 class DoctorSettingsDialog final : public QDialog, public IDoctorSettingsDialog
 {

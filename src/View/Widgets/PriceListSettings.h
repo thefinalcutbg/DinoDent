@@ -4,7 +4,7 @@
 #include "ui_PriceListSettings.h"
 #include "View/Interfaces/IPriceListSettings.h"
 #include "Presenter/PriceListSettingsPresenter.h"
-#include "View/Models/ProcedureTemplateModel.h"
+#include "View/TableModels/ProcedureTemplateModel.h"
 #include "Model/Dental/ProcedureCode.h"
 
 class PriceListSettings : public QWidget, public IPriceListSettings

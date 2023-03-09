@@ -6,7 +6,7 @@
 #include "ui_ProcedureDialog.h"
 
 #include "View/Interfaces/IProcedureDialog.h"
-#include "View/Models/ProcedureTemplateModel.h"
+#include "View/TableModels/ProcedureTemplateModel.h"
 
 class ProcedureDialogPresenter;
 

@@ -3,8 +3,8 @@
 #include <QWidget>
 #include "ui_PatientSummary.h"
 #include "View/Interfaces/IPatientSummaryView.h"
+#include "View/TableModels/ProcedureTableModel.h"
 #include "View/Graphics/TeethViewScene.h"
-#include "View/Models/ProcedureTableModel.h"
 #include "View/Graphics/TeethBuccalScene.h"
 #include "View/Graphics/TeethLingualScene.h"
 

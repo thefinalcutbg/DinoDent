@@ -9,7 +9,7 @@
 
 #include "Model/Dental/ProcedureCode.h"
 #include "Model/Financial/BusinessOperation.h"
-#include "View/Models/ProcedureTemplateModel.h"
+#include "View/TableModels/ProcedureTemplateModel.h"
 
 class BusinessOpAddDialog : public QDialog
 {

@@ -3,12 +3,12 @@
 #include <QString>
 #include <QApplication>
 #include "View/Widgets/ProcedurePrintSelectDialog.h"
-#include "View/Models/ProcedureTableModel.h"
+#include "View/TableModels/ProcedureTableModel.h"
 #include "Model/FreeFunctions.h"
 #include "Model/Patient.h"
 #include "Model/Dental/AmbList.h"
 #include "Model/Financial/Invoice.h"
-#include "View/Models/BusinessOperationModel.h"
+#include "View/TableModels/BusinessOperationModel.h"
 #include "View/GlobalFunctions.h"
 #include "qitemselectionmodel.h"
 #include "Model/User.h"

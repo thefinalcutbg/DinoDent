@@ -4,8 +4,6 @@
 #include "Database/DbProcedure.h"
 #include "Database/Database.h"
 
-#include <qdebug.h>
-
 std::vector<TimeFrame> DbPatientSummary::getFrames(long long patientRowId)
 {
     std::vector<TimeFrame> result;
@@ -79,8 +77,6 @@ std::vector<TimeFrame> DbPatientSummary::getFrames(long long patientRowId)
         p.hyperdontic = db.asBool(13);
         result.back().procedures.push_back(p);
         p.applyProcedure(result.back().teeth);
-
-        qDebug() << p.diagnosis.c_str() << p.notes.c_str();
         
     }
 

@@ -2,7 +2,7 @@
 
 #include <QDialog>
 #include "ui_PISHistoryDialog.h"
-#include "View/Models/PISDentalActivitiesModel.h"
+#include "View/TableModels/PISDentalActivitiesModel.h"
 #include "Model/Dental/Procedure.h"
 
 class PISHistoryDialog : public QDialog

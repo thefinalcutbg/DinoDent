@@ -7,7 +7,7 @@
 #include "View/Graphics/ToothPainter.h"
 #include "Model/Dental/Enums.h"
 
-#include "View/Models/ProcedureTableModel.h"
+#include "View/TableModels/ProcedureTableModel.h"
 #include <QTextEdit>
 
 class DetailedStatusPresenter;

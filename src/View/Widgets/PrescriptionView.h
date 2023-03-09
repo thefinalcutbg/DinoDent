@@ -4,7 +4,7 @@
 #include "ui_PrescriptionView.h"
 
 #include "View/Interfaces/IPrescriptionView.h"
-#include "View/Models/MedicationTableModel.h"
+#include "View/TableModels/MedicationTableModel.h"
 
 class PrescriptionView final : public QWidget, public IPrescriptionView
 {

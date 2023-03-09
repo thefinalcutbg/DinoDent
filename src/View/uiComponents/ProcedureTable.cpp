@@ -65,8 +65,8 @@ void ProcedureTable::setAmbListLayout()
     connect(model(), &QAbstractTableModel::dataChanged, [=] { fitToModel();});
     hideColumn(0);
     setColumnWidth(1, 69);
-    setColumnWidth(2, 280);
-    setColumnWidth(3, 25);
+    setColumnWidth(2, 260);
+    setColumnWidth(3, 45);
     setColumnWidth(4, 300);
     setColumnWidth(5, 49);
     setColumnWidth(6, 70);
@@ -313,19 +313,6 @@ void ProcedureTable::dropEvent(QDropEvent* e)
     QTableView::dropEvent(e);  // m_dropRow is set by inserted row
 
     emit rowDragged();
-
-  //  if (m_dropRow > dragRow)
-  //      --m_dropRow;
-
-
-    // The following code would take care of selecting the dropped row after the event.
-    // It works on Linux and Windows, but not on macOS for some reason.
-    // In the make it is not queue and has the same effect as selectRow(m_dropRow),
-    // which changes the selection and causes the drop to happen in the wrong place.
-
-    //       QMetaObject::invokeMethod(this,
-    //                                 std::bind(&MyTableView::selectRow, this, m_dropRow),
-    //                                 Qt::QueuedConnection);  // Postpones selection
 }
 
 int ProcedureTable::selectedRow()

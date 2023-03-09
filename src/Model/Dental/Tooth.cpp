@@ -322,8 +322,14 @@ void Tooth::removeStatus(int statusCode)
 	last_update = FreeFn::getTimeStamp();
 }
 
-void Tooth::removeStatus() { 
-	for(int i = 0; i < statusCount; i++) removeStatus(i); 
+void Tooth::removeStatus() {
+
+	for (int i = 0; i < statusCount; i++) {
+		removeStatus(i);
+	}
+
+	healthy.set(false);
+	
 }
 
 //public setters:

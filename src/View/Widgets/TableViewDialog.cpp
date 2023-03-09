@@ -1,6 +1,5 @@
 ﻿#include "TableViewDialog.h"
-#include "View/Models/KSMPModel.h"
-#include "View/Models/MKBModel.h"
+
 
 
 TableViewDialog::TableViewDialog(QAbstractTableModel& model, int column, const std::string& code, QWidget* parent) :

@@ -7,7 +7,7 @@
 #include "View/Interfaces/IListView.h"
 #include "Presenter/ListPresenter.h"
 #include "View/Graphics/TeethViewScene.h"
-#include "View/Models/ProcedureTableModel.h"
+#include "View/TableModels/ProcedureTableModel.h"
 
 
 class ListView : public QWidget, public IListView

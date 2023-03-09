@@ -33,8 +33,9 @@ ContextMenu::ContextMenu()
         connect(otherActions[i], &QAction::triggered, [this, i]() { this->presenter->setOther(i); });
     }
 
+    addAction(menuAction[StatusCode::Healthy]);
     addAction(menuAction[StatusCode::Temporary]);
-
+    
     QMenu* ObturMenu = addMenu("&Обтурация");
     QMenu* CariesMenu = addMenu("&Кариес");
     QMenu* EndoMenu = addMenu("&Ендодонтия");

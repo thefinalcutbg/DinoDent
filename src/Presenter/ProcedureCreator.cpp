@@ -250,7 +250,7 @@ std::string ProcedureCreator::bridgeOrFiberDiagnosis(const std::vector<const Too
 	return "Стабилизация с блок корони";
 }
 
-void ProcedureCreator::setView(ICommonFields* view)
+void ProcedureCreator::setView(IProcedureInput* view)
 {
 	this->view = view;
 
@@ -296,28 +296,28 @@ void ProcedureCreator::setProcedureCode(const ProcedureCode& m)
 				view->setErrorMsg("Изберете поне един зъб!");
 				break;
 			}
-			view->setLayout(ICommonFields::Restoration); 
+			view->setLayout(IProcedureInput::Restoration); 
 			view->surfaceSelector()->setInputValidator(&surface_validator);
 			view->rangeWidget()->setInputValidator(nullptr);
 			break;
 		case ProcedureType::bridge:
 		case ProcedureType::fibersplint:
-			view->setLayout(ICommonFields::Range);
+			view->setLayout(IProcedureInput::Range);
 			view->surfaceSelector()->setInputValidator(nullptr);
 			view->rangeWidget()->setInputValidator(&range_validator);
 			break;
 		case ProcedureType::removebridgeOrSplint:
-			view->setLayout(ICommonFields::Range);
+			view->setLayout(IProcedureInput::Range);
 			view->surfaceSelector()->setInputValidator(nullptr);
 			view->rangeWidget()->setInputValidator(nullptr);
 			break;
 		case ProcedureType::general:
-			view->setLayout(ICommonFields::General);
+			view->setLayout(IProcedureInput::General);
 			view->surfaceSelector()->setInputValidator(nullptr);
 			view->rangeWidget()->setInputValidator(nullptr);
 			break;
 		default:
-			view->setLayout(ICommonFields::ToothSpecific);
+			view->setLayout(IProcedureInput::ToothSpecific);
 			view->surfaceSelector()->setInputValidator(nullptr);
 			view->rangeWidget()->setInputValidator(nullptr);
 			if (m_selectedTeeth.empty()) {

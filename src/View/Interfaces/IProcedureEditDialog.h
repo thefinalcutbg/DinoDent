@@ -4,7 +4,7 @@
 #include "View/Interfaces/IImplantView.h"
 #include "View/Interfaces/AbstractSurfaceSelector.h"
 #include "View/Interfaces/ICrownView.h"
-#include "View/Interfaces/ICommonFields.h"
+#include "View/Interfaces/IProcedureInput.h"
 #include "View/Interfaces/AbstractRangeEdit.h"
 
 class IProcedureEditDialog
@@ -12,6 +12,6 @@ class IProcedureEditDialog
 
 public:
 
-	virtual ICommonFields* commonFields() = 0;
+	virtual IProcedureInput* procedureInput() = 0;
 	virtual void closeDialog() = 0;
 };

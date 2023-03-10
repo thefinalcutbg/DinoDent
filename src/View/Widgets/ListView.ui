@@ -642,7 +642,7 @@
           </layout>
          </item>
          <item>
-          <widget class="ProcedureTable" name="procedureTable">
+          <widget class="TableView" name="procedureTable">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -841,9 +841,9 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>ProcedureTable</class>
+   <class>TableView</class>
    <extends>QTableView</extends>
-   <header>View/uiComponents/ProcedureTable.h</header>
+   <header>View/uiComponents/TableView.h</header>
   </customwidget>
   <customwidget>
    <class>GraphicsView</class>

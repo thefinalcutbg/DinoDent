@@ -33,7 +33,7 @@ public:
     void close() override;
 	void setSelectionLabel(const std::vector<int>& selectedTeethNum) override;
 
-	ICommonFields* commonFields() override;
+	IProcedureInput* procedureInput() override;
 
 
 private:

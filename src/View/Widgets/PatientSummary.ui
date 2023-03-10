@@ -678,7 +678,7 @@
           <number>0</number>
          </property>
          <item>
-          <widget class="ProcedureTable" name="procedureTable">
+          <widget class="TableView" name="procedureTable">
            <property name="maximumSize">
             <size>
              <width>16777215</width>
@@ -752,9 +752,9 @@
    <header>View/Graphics/GraphicsView.h</header>
   </customwidget>
   <customwidget>
-   <class>ProcedureTable</class>
+   <class>TableView</class>
    <extends>QTableView</extends>
-   <header>View/uiComponents/ProcedureTable.h</header>
+   <header>View/uiComponents/TableView.h</header>
   </customwidget>
   <customwidget>
    <class>HalfRoundedButton</class>

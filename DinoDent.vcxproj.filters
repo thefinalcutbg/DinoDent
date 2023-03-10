@@ -408,7 +408,7 @@
     <ClCompile Include="src\View\TableModels\QProcedure.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\SubWidgets\CommonFields.cpp">
+    <ClCompile Include="src\View\SubWidgets\ProcedureInput.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\SubWidgets\ControlPanel.cpp">
@@ -483,7 +483,7 @@
     <ClCompile Include="src\View\uiComponents\PixmapLabel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\uiComponents\ProcedureTable.cpp">
+    <ClCompile Include="src\View\uiComponents\TableView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\uiComponents\SpinBox.cpp">
@@ -1253,7 +1253,7 @@
     <ClInclude Include="src\View\Interfaces\IAllergiesDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\View\Interfaces\ICommonFields.h">
+    <ClInclude Include="src\View\Interfaces\IProcedureInput.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\Interfaces\ICrownView.h">
@@ -1591,7 +1591,7 @@
     <QtMoc Include="src\View\TableModels\ProcedureTemplateModel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\SubWidgets\CommonFields.h">
+    <QtMoc Include="src\View\SubWidgets\ProcedureInput.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\SubWidgets\ControlPanel.h">
@@ -1660,7 +1660,7 @@
     <QtMoc Include="src\View\uiComponents\PixmapLabel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\uiComponents\ProcedureTable.h">
+    <QtMoc Include="src\View\uiComponents\TableView.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\uiComponents\SpinBox.h">
@@ -1956,7 +1956,7 @@
     <QtUic Include="src\View\Widgets\UpdateDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="src\View\SubWidgets\CommonFields.ui">
+    <QtUic Include="src\View\SubWidgets\ProcedureInput.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\SubWidgets\ControlPanel.ui">

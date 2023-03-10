@@ -34,13 +34,13 @@ void ProcedureDialogPresenter::setView(IProcedureDialog* view)
 
 	view->setProcedureTemplates(procedureList);
 
-	view->commonFields()->dateEdit()->setInputValidator(&date_validator);
+	view->procedureInput()->dateEdit()->setInputValidator(&date_validator);
 
-	view->commonFields()->dateEdit()->set_Date(ambList.newProcedureDate());
+	view->procedureInput()->dateEdit()->set_Date(ambList.newProcedureDate());
 
 	this->procedureDateChanged(ambList.newProcedureDate());
 	
-	procedure_creator.setView(view->commonFields());
+	procedure_creator.setView(view->procedureInput());
 
 	//setting the label
 	std::vector<int> selectedTeethNum;
@@ -90,7 +90,7 @@ void ProcedureDialogPresenter::indexChanged(int index)
 
 	if (currentIndex == -1)
 	{
-		view->commonFields()->setErrorMsg("Изберете манипулация");
+		view->procedureInput()->setErrorMsg("Изберете манипулация");
 		return;
 	}
 
@@ -99,7 +99,7 @@ void ProcedureDialogPresenter::indexChanged(int index)
 	noProcedureSelected = false;
 
 	date_validator.setProcedure(procedureList[index].nhifCode());
-	view->commonFields()->dateEdit()->validateInput();
+	view->procedureInput()->dateEdit()->validateInput();
 
 
 	

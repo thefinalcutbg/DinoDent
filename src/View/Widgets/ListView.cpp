@@ -114,8 +114,8 @@ ListView::ListView(QWidget* parent)
 		});
 
 	connect(ui.procedureTable, &QTableView::doubleClicked, [=] { ui.editProcedure->click(); });
-	connect(ui.procedureTable, &ProcedureTable::deletePressed, [=] { if (presenter) ui.deleteProcedure->click(); });
-	connect(ui.procedureTable, &ProcedureTable::rowDragged, [=] { if(presenter) presenter->moveProcedure(ui.procedureTable->selectedRow(), model.lastDroppedRowIndex()); });
+	connect(ui.procedureTable, &TableView::deletePressed, [=] { if (presenter) ui.deleteProcedure->click(); });
+	connect(ui.procedureTable, &TableView::rowDragged, [=] { if(presenter) presenter->moveProcedure(ui.procedureTable->selectedRow(), model.lastDroppedRowIndex()); });
 
 
 	ui.controlPanel->hide();

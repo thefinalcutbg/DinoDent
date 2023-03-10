@@ -1,4 +1,4 @@
-﻿#include "ProcedureTable.h"
+﻿#include "TableView.h"
 #include "View/Theme.h"
 #include <QHeaderView>
 #include <QScrollBar>
@@ -20,7 +20,7 @@ protected:
 
 };
 
-ProcedureTable::ProcedureTable(QWidget* parent)
+TableView::TableView(QWidget* parent)
     : QTableView(parent), header(Qt::Orientation::Horizontal)
 {
     
@@ -60,7 +60,7 @@ ProcedureTable::ProcedureTable(QWidget* parent)
     
 }
 
-void ProcedureTable::setAmbListLayout()
+void TableView::setAmbListLayout()
 {
     connect(model(), &QAbstractTableModel::dataChanged, [=] { fitToModel();});
     hideColumn(0);
@@ -78,7 +78,7 @@ void ProcedureTable::setAmbListLayout()
     setShowGrid(false);
 }
 
-void ProcedureTable::setProcedureHistoryLayout()
+void TableView::setProcedureHistoryLayout()
 {
     connect(model(), &QAbstractTableModel::dataChanged, [=] { fitToModel();});
 
@@ -100,7 +100,7 @@ void ProcedureTable::setProcedureHistoryLayout()
     setShowGrid(false);
 }
 
-void ProcedureTable::setProcedurePrintSelectLayout()
+void TableView::setProcedurePrintSelectLayout()
 {
     setFocusPolicy(Qt::NoFocus);
     setColumnWidth(0, 110);
@@ -116,7 +116,7 @@ void ProcedureTable::setProcedurePrintSelectLayout()
     setShowGrid(false);
 }
 
-void ProcedureTable::setBusinessOperationLayout()
+void TableView::setBusinessOperationLayout()
 {
     connect(model(), &QAbstractTableModel::dataChanged, [=] { fitToModel();});
     setColumnWidth(0, 50);
@@ -129,7 +129,7 @@ void ProcedureTable::setBusinessOperationLayout()
     setShowGrid(false);
 }
 
-void ProcedureTable::setMedicationLayot()
+void TableView::setMedicationLayot()
 {
     connect(model(), &QAbstractTableModel::dataChanged, [=] { fitToModel();});
 
@@ -140,7 +140,7 @@ void ProcedureTable::setMedicationLayot()
     setWordWrap(true);
 }
 
-void ProcedureTable::setStatisticLayout()
+void TableView::setStatisticLayout()
 {
     connect(model(), &QAbstractTableModel::dataChanged, [=] { fitToModel();});
 
@@ -149,7 +149,7 @@ void ProcedureTable::setStatisticLayout()
     setShowGrid(false);
 }
 
-void ProcedureTable::setPISActivitiesLayout()
+void TableView::setPISActivitiesLayout()
 {
     connect(model(), &QAbstractTableModel::dataChanged, [=] { fitToModel();});
 
@@ -171,7 +171,7 @@ void ProcedureTable::setPISActivitiesLayout()
     setShowGrid(false);
 }
 
-void ProcedureTable::fitToModel() //not working correctly yet
+void TableView::fitToModel() //not working correctly yet
 {
     auto rows = model()->rowCount();
 
@@ -185,7 +185,7 @@ void ProcedureTable::fitToModel() //not working correctly yet
 
 }
 
-void ProcedureTable::keyPressEvent(QKeyEvent* event)
+void TableView::keyPressEvent(QKeyEvent* event)
 {
 
     switch (event->key())
@@ -198,7 +198,7 @@ void ProcedureTable::keyPressEvent(QKeyEvent* event)
     }
 }
 
-void ProcedureTable::paintEvent(QPaintEvent* e)
+void TableView::paintEvent(QPaintEvent* e)
 {
     constexpr int footerHeight = 10;
 
@@ -296,13 +296,13 @@ void ProcedureTable::paintEvent(QPaintEvent* e)
 
 }
 
-Q_INVOKABLE int ProcedureTable::selectedRow() const
+Q_INVOKABLE int TableView::selectedRow() const
 {
     QItemSelectionModel* selection = selectionModel();
     return selection->hasSelection() ? selection->selectedRows().front().row() : -1;
 }
 
-void ProcedureTable::dropEvent(QDropEvent* e)
+void TableView::dropEvent(QDropEvent* e)
 {
     if (e->source() != this || e->dropAction() != Qt::MoveAction)
         return;
@@ -314,7 +314,7 @@ void ProcedureTable::dropEvent(QDropEvent* e)
     emit rowDragged();
 }
 
-int ProcedureTable::selectedRow()
+int TableView::selectedRow()
 {
     if (selectionModel() == nullptr) return -1;
 
@@ -323,11 +323,11 @@ int ProcedureTable::selectedRow()
     return selectionModel()->currentIndex().row();
 }
 
-ProcedureTable::~ProcedureTable()
+TableView::~TableView()
 {
 }
 
-void ProcedureHeader::paintEvent(QPaintEvent* e)
+void TableViewHeader::paintEvent(QPaintEvent* e)
 {
     QPainter painter(this->viewport());
 

@@ -1,33 +1,33 @@
 #pragma once
 
 #include <QWidget>
-#include "ui_CommonFields.h"
+#include "ui_ProcedureInput.h"
 
-#include "View/Interfaces/ICommonFields.h"
+#include "View/Interfaces/IProcedureInput.h"
 
 class DateEdit;
 
 
-class CommonFields : public QWidget, public ICommonFields
+class ProcedureInput : public QWidget, public IProcedureInput
 {
 	Q_OBJECT
 
 
 public:
-	CommonFields(QWidget *parent = Q_NULLPTR);
+	ProcedureInput(QWidget *parent = Q_NULLPTR);
 	//void setExternalDateEdit(DateEdit* externalDateEdit); //does not take ownership over the DateEdit!
-	~CommonFields();
+	~ProcedureInput();
 
-	// Inherited via ICommonFields
+	// Inherited via IProcedureInput
 	AbstractLineEdit* diagnosisEdit() override;
 	AbstractDateEdit* dateEdit() override;
 	std::string getNotes() override;
 
 	QDateEdit* qDateEdit();
 
-	Ui::CommonFields ui;
+	Ui::ProcedureInput ui;
 
-	// Inherited via ICommonFields
+	// Inherited via IProcedureInput
 	virtual AbstractRangeEdit* rangeWidget() override;
 	virtual AbstractSurfaceSelector* surfaceSelector() override;
 	virtual void setErrorMsg(const std::string& error) override;

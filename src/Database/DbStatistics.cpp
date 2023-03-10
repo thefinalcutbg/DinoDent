@@ -21,6 +21,7 @@ namespace DbStatPrv {
                 "AND strftime('%Y/%m/%d', patient.birth, '18 Years') > strftime('%Y/%m/%d', procedure.date) ";
             case DentalStatistic::Adult: return
                 "AND strftime('%Y/%m/%d', patient.birth, '18 Years') < strftime('%Y/%m/%d', procedure.date) ";
+            default: return{};
         }
     }
 
@@ -57,6 +58,7 @@ namespace DbStatPrv {
                 return "AND procedure.deciduous = 1 ";
             case DentalStatistic::ToothFilter::Permanent: return 
                 "AND procedure.deciduous = 0 ";
+            default: return {};
         }
     }
 

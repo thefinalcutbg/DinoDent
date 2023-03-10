@@ -146,7 +146,7 @@
          </property>
          <property name="dateTime">
           <datetime>
-           <hour>14</hour>
+           <hour>10</hour>
            <minute>0</minute>
            <second>0</second>
            <year>2000</year>
@@ -368,7 +368,7 @@
         </spacer>
        </item>
        <item>
-        <widget class="ProcedureTable" name="medicationTable">
+        <widget class="TableView" name="medicationTable">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -447,9 +447,9 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>ProcedureTable</class>
+   <class>TableView</class>
    <extends>QTableView</extends>
-   <header>View/uiComponents/ProcedureTable.h</header>
+   <header>View/uiComponents/TableView.h</header>
   </customwidget>
   <customwidget>
    <class>IconButton</class>

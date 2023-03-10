@@ -402,7 +402,7 @@
     <ClCompile Include="src\View\TableModels\SpecialtyTableModel.cpp" />
     <ClCompile Include="src\View\TableModels\StatisticTableModel.cpp" />
     <ClCompile Include="src\View\Printer.cpp" />
-    <ClCompile Include="src\View\SubWidgets\CommonFields.cpp" />
+    <ClCompile Include="src\View\SubWidgets\ProcedureInput.cpp" />
     <ClCompile Include="src\View\SubWidgets\ControlPanel.cpp" />
     <ClCompile Include="src\View\SubWidgets\PatientTileInfo.cpp" />
     <ClCompile Include="src\View\SubWidgets\PerioStatisticView.cpp" />
@@ -432,7 +432,7 @@
     <ClCompile Include="src\View\uiComponents\PerioStateButton.cpp" />
     <ClCompile Include="src\View\uiComponents\PerioTable.cpp" />
     <ClCompile Include="src\View\uiComponents\PixmapLabel.cpp" />
-    <ClCompile Include="src\View\uiComponents\ProcedureTable.cpp" />
+    <ClCompile Include="src\View\uiComponents\TableView.cpp" />
     <ClCompile Include="src\View\uiComponents\RightClickButton.cpp" />
     <ClCompile Include="src\View\uiComponents\SpinBox.cpp" />
     <ClCompile Include="src\View\uiComponents\StatusButton.cpp" />
@@ -678,7 +678,7 @@
     <ClInclude Include="src\View\Interfaces\AbstractUIElement.h" />
     <ClInclude Include="src\View\Interfaces\IPracticeDialog.h" />
     <ClInclude Include="src\View\Interfaces\IAllergiesDialog.h" />
-    <ClInclude Include="src\View\Interfaces\ICommonFields.h" />
+    <ClInclude Include="src\View\Interfaces\IProcedureInput.h" />
     <ClInclude Include="src\View\Interfaces\ICrownView.h" />
     <ClInclude Include="src\View\Interfaces\IDetailedStatusView.h" />
     <ClInclude Include="src\View\Interfaces\IDoctorSettingsDialog.h" />
@@ -787,7 +787,7 @@
     <QtMoc Include="src\View\uiComponents\TextEdit.h" />
     <QtMoc Include="src\View\uiComponents\StatusButton.h" />
     <QtMoc Include="src\View\uiComponents\SpinBox.h" />
-    <QtMoc Include="src\View\uiComponents\ProcedureTable.h" />
+    <QtMoc Include="src\View\uiComponents\TableView.h" />
     <QtMoc Include="src\View\uiComponents\PixmapLabel.h" />
     <QtMoc Include="src\View\uiComponents\PerioTable.h" />
     <QtMoc Include="src\View\uiComponents\PerioStateButton.h" />
@@ -810,7 +810,7 @@
     <QtMoc Include="src\View\SubWidgets\RangeWidget.h" />
     <QtMoc Include="src\View\SubWidgets\PerioStatisticView.h" />
     <QtMoc Include="src\View\SubWidgets\ControlPanel.h" />
-    <QtMoc Include="src\View\SubWidgets\CommonFields.h" />
+    <QtMoc Include="src\View\SubWidgets\ProcedureInput.h" />
     <QtMoc Include="src\View\TableModels\ProcedureTemplateModel.h" />
     <QtMoc Include="src\View\TableModels\ProcedureTableModel.h" />
     <QtMoc Include="src\View\TableModels\ProcedureSelectModel.h" />
@@ -827,7 +827,7 @@
     <QtMoc Include="src\View\Graphics\ContextMenu.h" />
   </ItemGroup>
   <ItemGroup>
-    <QtUic Include="src\View\SubWidgets\CommonFields.ui" />
+    <QtUic Include="src\View\SubWidgets\ProcedureInput.ui" />
     <QtUic Include="src\View\SubWidgets\ControlPanel.ui" />
     <QtUic Include="src\View\SubWidgets\PatientTileInfo.ui" />
     <QtUic Include="src\View\SubWidgets\PerioStatisticView.ui" />

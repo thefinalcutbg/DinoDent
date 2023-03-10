@@ -54,7 +54,7 @@
        <item>
         <layout class="QVBoxLayout" name="verticalLayout">
          <item>
-          <widget class="CommonFields" name="commonFields" native="true">
+          <widget class="ProcedureInput" name="procedureInput" native="true">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
              <horstretch>0</horstretch>
@@ -154,9 +154,9 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>CommonFields</class>
+   <class>ProcedureInput</class>
    <extends>QWidget</extends>
-   <header>View/SubWidgets/CommonFields.h</header>
+   <header>View/SubWidgets/ProcedureInput.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

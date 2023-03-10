@@ -35,7 +35,7 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <widget class="CommonFields" name="commonWidget" native="true">
+      <widget class="ProcedureInput" name="procedureInput" native="true">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
          <horstretch>0</horstretch>
@@ -95,9 +95,9 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>CommonFields</class>
+   <class>ProcedureInput</class>
    <extends>QWidget</extends>
-   <header>View/SubWidgets/CommonFields.h</header>
+   <header>View/SubWidgets/ProcedureInput.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

@@ -21,7 +21,7 @@ public:
 	ProcedureEditDialog(ProcedureEditorPresenter* p, QWidget *parent = Q_NULLPTR);
 	~ProcedureEditDialog();
 
-	ICommonFields* commonFields() override;
+	IProcedureInput* procedureInput() override;
 
 	void closeDialog() override;
 

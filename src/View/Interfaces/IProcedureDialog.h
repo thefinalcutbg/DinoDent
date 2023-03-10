@@ -5,7 +5,7 @@
 
 class AbstractSurfaceSelector;
 class AbstractRangeEdit;
-class ICommonFields;
+class IProcedureInput;
 class ICrownView;
 
 class IProcedureDialog
@@ -19,7 +19,7 @@ public:
 
     virtual void setSelectionLabel(const std::vector<int>& selectedTeethNum) = 0;
 
-    virtual ICommonFields* commonFields() = 0;
+    virtual IProcedureInput* procedureInput() = 0;
 
 
 };

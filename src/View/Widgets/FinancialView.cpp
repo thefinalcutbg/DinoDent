@@ -86,7 +86,7 @@ FinancialView::FinancialView(QWidget *parent)
 	connect(ui.addButton, &QAbstractButton::clicked, [=] { if (presenter) presenter->addOperation(); });
 
 
-	connect(ui.operationsTable, &ProcedureTable::deletePressed,[=] { ui.deleteButton->click(); });
+	connect(ui.operationsTable, &TableView::deletePressed,[=] { ui.deleteButton->click(); });
 	connect(ui.operationsTable, &QTableView::doubleClicked, [=] { ui.editButton->click(); });
 	connect(ui.docTypeCombo, &QComboBox::currentIndexChanged, [=](int idx) { presenter->docTypeChanged(idx);});
 	

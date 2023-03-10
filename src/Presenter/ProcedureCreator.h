@@ -8,12 +8,12 @@
 #include "Model/Validators/ProcedureValidators.h"
 #include "Model/Validators/CommonValidators.h"
 #include "View/Interfaces/IProcedureDialog.h"
-#include "View/Interfaces/ICommonFields.h"
+#include "View/Interfaces/IProcedureInput.h"
 
 class ProcedureCreator
 {
 
-	ICommonFields* view{ nullptr };
+	IProcedureInput* view{ nullptr };
 
 	ProcedureCode m_code;
 	std::map<ProcedureType, std::string> diag_map;
@@ -39,7 +39,7 @@ public:
 	ProcedureCreator(const std::vector<const Tooth*>& selectedTeeth);
 
 
-	void setView(ICommonFields* view);
+	void setView(IProcedureInput* view);
 
 	void diagnosisTextChanged(std::string text) { diag_map[m_code.type()] = text; };
 

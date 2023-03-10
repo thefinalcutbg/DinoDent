@@ -1,7 +1,7 @@
-﻿#include "CommonFields.h"
+﻿#include "ProcedureInput.h"
 #include "Presenter/ProcedureCreator.h"
 
-CommonFields::CommonFields(QWidget *parent)
+ProcedureInput::ProcedureInput(QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
@@ -30,39 +30,39 @@ CommonFields::CommonFields(QWidget *parent)
 	ui.surfaceWidget->setErrorLabel(ui.errorLabel);
 }
 
-AbstractLineEdit* CommonFields::diagnosisEdit()
+AbstractLineEdit* ProcedureInput::diagnosisEdit()
 {
 	return ui.diagnosisEdit;
 }
 
-AbstractDateEdit* CommonFields::dateEdit()
+AbstractDateEdit* ProcedureInput::dateEdit()
 {
 	return ui.dateEdit;
 }
 
 
-std::string CommonFields::getNotes()
+std::string ProcedureInput::getNotes()
 {
 	return ui.notesEdit->text().toStdString();
 }
 
-QDateEdit* CommonFields::qDateEdit()
+QDateEdit* ProcedureInput::qDateEdit()
 {
 	return ui.dateEdit;
 }
 
-AbstractRangeEdit* CommonFields::rangeWidget()
+AbstractRangeEdit* ProcedureInput::rangeWidget()
 {
 	return ui.rangeWidget;
 }
 
-AbstractSurfaceSelector* CommonFields::surfaceSelector()
+AbstractSurfaceSelector* ProcedureInput::surfaceSelector()
 {
 	return ui.surfaceWidget;
 }
 
 
-void CommonFields::setErrorMsg(const std::string& error)
+void ProcedureInput::setErrorMsg(const std::string& error)
 {
 	ui.label_2->setHidden(true);
 	ui.diagnosisEdit->setHidden(true);
@@ -75,7 +75,7 @@ void CommonFields::setErrorMsg(const std::string& error)
 	ui.errorLabel->setText(error.c_str());
 }
 
-void CommonFields::setLayout(WidgetLayout layout)
+void ProcedureInput::setLayout(WidgetLayout layout)
 {
 	ui.label_2->setHidden(false);
 	ui.diagnosisEdit->setHidden(false);
@@ -110,18 +110,18 @@ void CommonFields::setLayout(WidgetLayout layout)
 	}
 }
 
-void CommonFields::setNotes(const std::string& notes)
+void ProcedureInput::setNotes(const std::string& notes)
 {
 	ui.notesEdit->setText(notes.c_str());
 }
 
-void CommonFields::setNhifLayout(bool nhif)
+void ProcedureInput::setNhifLayout(bool nhif)
 {
 	ui.PHIFcheckbox->setHidden(nhif);
 }
 
 
-void CommonFields::setFinancingSource(FinancingSource s)
+void ProcedureInput::setFinancingSource(FinancingSource s)
 {
 	if (s == FinancingSource::NHIF)
 	{
@@ -133,18 +133,18 @@ void CommonFields::setFinancingSource(FinancingSource s)
 
 }
 
-void CommonFields::setHyperdonticState(bool checked)
+void ProcedureInput::setHyperdonticState(bool checked)
 {
 	ui.hyperdonticCheckBox->setChecked(checked);
 }
 
-bool CommonFields::onHyperdontic()
+bool ProcedureInput::onHyperdontic()
 {
 	return !ui.hyperdonticCheckBox->isHidden() && ui.hyperdonticCheckBox->isChecked();
 }
 
 
-FinancingSource CommonFields::getFinancingSource()
+FinancingSource ProcedureInput::getFinancingSource()
 {
 	if (ui.PHIFcheckbox->isHidden()) return FinancingSource::NHIF;
 
@@ -153,7 +153,7 @@ FinancingSource CommonFields::getFinancingSource()
 	return FinancingSource::Patient;
 }
 
-CommonFields::~CommonFields()
+ProcedureInput::~ProcedureInput()
 {
 }
 

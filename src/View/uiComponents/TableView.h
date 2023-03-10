@@ -3,20 +3,20 @@
 #include <QHeaderView>
 #include <thread>
 
-class ProcedureHeader : public QHeaderView
+class TableViewHeader : public QHeaderView
 {
 	void paintEvent(QPaintEvent* e) override;
 
 	
 
 public:
-	ProcedureHeader(Qt::Orientation orientation, QWidget* parent = nullptr)
+	TableViewHeader(Qt::Orientation orientation, QWidget* parent = nullptr)
 		:
 		QHeaderView(orientation, parent){}
 };
 
 
-class ProcedureTable : public QTableView
+class TableView : public QTableView
 {
 	Q_OBJECT
 
@@ -26,7 +26,7 @@ class ProcedureTable : public QTableView
 
 	void paintEvent(QPaintEvent* e) override;
 	 
-	ProcedureHeader header;
+	TableViewHeader header;
 
 
 	void focusOutEvent(QFocusEvent* event) override {
@@ -36,9 +36,9 @@ class ProcedureTable : public QTableView
 
 
 public:
-	ProcedureTable(QWidget* parent);
+	TableView(QWidget* parent);
 	
-	~ProcedureTable();
+	~TableView();
 
 	int selectedRow();
 	Q_INVOKABLE int selectedRow() const;

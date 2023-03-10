@@ -8,7 +8,7 @@
 
 class ProcedureCreator;
 
-class ICommonFields
+class IProcedureInput
 {
 protected:
 	ProcedureCreator* presenter{nullptr};

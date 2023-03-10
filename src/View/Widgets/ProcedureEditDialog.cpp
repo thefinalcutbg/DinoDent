@@ -25,9 +25,9 @@ ProcedureEditDialog::~ProcedureEditDialog()
 
 
 
-ICommonFields* ProcedureEditDialog::commonFields()
+IProcedureInput* ProcedureEditDialog::procedureInput()
 {
-	return ui.commonWidget;
+	return ui.procedureInput;
 }
 
 

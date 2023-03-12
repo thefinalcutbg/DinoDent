@@ -2,6 +2,6 @@
 
 namespace GlobalConst
 {
-	constexpr int db_version = 7;
-	constexpr int program_version = 4;
+	constexpr int db_version = 8;
+	constexpr int program_version = 5;
 };

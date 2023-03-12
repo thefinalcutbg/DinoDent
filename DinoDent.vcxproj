@@ -487,6 +487,7 @@
     <ClCompile Include="src\View\Widgets\DinoDent.cpp" />
     <ClCompile Include="src\View\Widgets\UpdateDialog.cpp" />
     <ClCompile Include="src\View\Widgets\UpdateDownloader.cpp" />
+    <ClCompile Include="src\View\Widgets\UpdatePromptDialog.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
@@ -494,7 +495,6 @@
     <ClInclude Include="src\Database\DbReferral.h" />
     <ClInclude Include="src\Database\DbStatistics.h" />
     <ClInclude Include="src\Database\DbUpdateStatus.h" />
-    <ClInclude Include="src\GlobalConst.h" />
     <ClInclude Include="src\Model\Dental\DentalNum.h" />
     <ClInclude Include="src\Model\Dental\DentalStatistics.h" />
     <ClInclude Include="src\Model\Dental\ProcedureCode.h" />
@@ -652,6 +652,7 @@
     <ClInclude Include="src\Resources.h" />
     <ClInclude Include="src\DbUpdates\DbUpdates.h" />
     <ClInclude Include="src\DbUpdates\Updater.h" />
+    <ClInclude Include="src\Version.h" />
     <ClInclude Include="src\View\GlobalFunctions.h" />
     <ClInclude Include="src\View\Graphics\ControlPanelPolygon.h" />
     <ClInclude Include="src\View\Graphics\CPTooth.h" />
@@ -714,6 +715,7 @@
     <ClInclude Include="src\View\ModalDialogBuilder.h" />
     <ClInclude Include="src\View\TableModels\BusinessOperationModel.h" />
     <ClInclude Include="src\View\TableModels\MedicationTableModel.h" />
+    <QtMoc Include="src\View\Widgets\UpdatePromptDialog.h" />
     <QtMoc Include="src\View\Widgets\UpdateDownloader.h" />
     <QtMoc Include="src\View\TableModels\PrescriptionTableModel.h" />
     <QtMoc Include="src\View\TableModels\PISDentalActivitiesModel.h" />
@@ -882,6 +884,7 @@
     <QtUic Include="src\View\Widgets\DinoDent.ui" />
     <QtUic Include="src\View\Widgets\UpdateDialog.ui" />
     <QtUic Include="src\View\Widgets\UpdateDownloader.ui" />
+    <QtUic Include="src\View\Widgets\UpdatePromptDialog.ui" />
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="resources\Resource.qrc" />

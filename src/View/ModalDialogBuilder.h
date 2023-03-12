@@ -62,6 +62,7 @@ namespace ModalDialogBuilder
 	std::optional<BusinessOperation> addBusinessOperation(const std::vector<ProcedureCode>& priceList);
 	std::optional<Recipient> editRecipient(const Recipient& r);
 	bool askDialog(const std::string& questionText);
+	bool updatePrompt(const std::string& changeLog);
 	void showError(const std::string& error);
 	void showMultilineDialog(const std::string& errors);
 	void showMessage(const std::string& message);

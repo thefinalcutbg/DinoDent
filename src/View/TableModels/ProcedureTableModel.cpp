@@ -104,7 +104,7 @@ QVariant ProcedureTableModel::data(const QModelIndex& index, int role) const
             {
             case 5:
                 if (m_procedures[row].fsource == FinancingSource::NHIF)
-                    return QIcon(":/icons/icon_nzok.png");
+                    return QIcon(":/icons/icon_nhif.png");
                 if (m_procedures[row].fsource == FinancingSource::PHIF)
                     return QIcon(":/icons/icon_phif.png");
             default:

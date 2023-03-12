@@ -98,7 +98,7 @@ QVariant PisDentalActivitiesModel::data(const QModelIndex& index, int role) cons
     case Qt::DecorationRole:
         switch (column)
         {
-        case 4: return QIcon(":/icons/icon_nzok.png");
+        case 4: return QIcon(":/icons/icon_nhif.png");
         default:
             return QVariant();
         }

@@ -177,7 +177,7 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
         auto& ref = *mdd4_1;
         auto& mddData = std::get<MDD4Data>(ref.data);
 
-        report.dataManager()->setReportVariable("mdd4Num", FreeFn::leadZeroes(ref.number, 12).c_str());
+        report.dataManager()->setReportVariable("mdd4Num", ref.nrn.c_str());
         report.dataManager()->setReportVariable("mdd4Date", ref.date.toBgStandard().c_str());
         report.dataManager()->setReportVariable("mdd4Ksmp1", mddData.getKSMP().c_str());
         report.dataManager()->setReportVariable("mdd4Nhif1", mddData.getCode().c_str());
@@ -188,7 +188,7 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
         auto& ref = *mdd4_2;
         auto& mddData = std::get<MDD4Data>(ref.data);
 
-        report.dataManager()->setReportVariable("mdd4Num", FreeFn::leadZeroes(ref.number, 12).c_str());
+        report.dataManager()->setReportVariable("mdd4Num", ref.nrn.c_str());
         report.dataManager()->setReportVariable("mdd4Date", ref.date.toBgStandard().c_str());
         report.dataManager()->setReportVariable("mdd4Ksmp2", mddData.getKSMP().c_str());
         report.dataManager()->setReportVariable("mdd4Nhif2", mddData.getCode().c_str());

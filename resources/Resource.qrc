@@ -4,7 +4,6 @@
         <file>icon_BOP.png</file>
         <file>icon_checked.png</file>
         <file>icon_note.png</file>
-        <file>icon_nzok.png</file>
         <file>icon_periosheet.png</file>
         <file>icon_print.png</file>
         <file>icon_reports.png</file>
@@ -32,6 +31,7 @@
         <file>icon_his.png</file>
         <file>icon_statistic.png</file>
         <file>icon_phif.png</file>
+        <file>icon_nhif.png</file>
     </qresource>
     <qresource prefix="/tooth">
         <file>tooth_approximal.png</file>

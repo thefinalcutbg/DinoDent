@@ -32,7 +32,7 @@ ListView::ListView(QWidget* parent)
 	ui.addProcedure->setIcon(QIcon(":/icons/icon_add.png"));
 	ui.deleteProcedure->setIcon(QIcon(":/icons/icon_remove.png"));
 	ui.editProcedure->setIcon(QIcon(":/icons/icon_edit.png"));
-	ui.nzokActivities->setIcon(QIcon(":/icons/icon_nzok.png"));
+	ui.nzokActivities->setIcon(QIcon(":/icons/icon_nhif.png"));
 
 
 	ui.perioButton->setHoverColor(Theme::mainBackgroundColor);

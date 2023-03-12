@@ -5,7 +5,7 @@ PatientFormDialog::PatientFormDialog(PatientDialogPresenter* p, QWidget* parent)
     presenter(p)
 {
     ui.setupUi(this);
-    ui.hirbnoButton->setIcon(QIcon(":/icons/icon_nzok.png"));
+    ui.hirbnoButton->setIcon(QIcon(":/icons/icon_nhif.png"));
     setModal(true);
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     setWindowTitle("Нов документ");

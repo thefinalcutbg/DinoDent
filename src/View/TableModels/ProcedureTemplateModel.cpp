@@ -106,7 +106,7 @@ QVariant ProcedureTemplateModel::data(const QModelIndex& index, int role) const
         {
         case code:
             if (procedures[row].nhif)
-                return QIcon(":/icons/icon_nzok.png");
+                return QIcon(":/icons/icon_nhif.png");
             break;
         default:
             return QVariant();

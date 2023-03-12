@@ -108,7 +108,7 @@ QVariant AmbListTableModel::data(const QModelIndex& index, int role) const
         switch (column)
         {
         case 1:
-            if (rows[row].nhif) return QIcon(":/icons/icon_nzok.png");
+            if (rows[row].nhif) return QIcon(":/icons/icon_nhif.png");
             break;
         case 2:
             if (rows[row].his) return QIcon(":/icons/icon_his.png");

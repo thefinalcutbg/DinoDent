@@ -15,7 +15,7 @@ FinancialView::FinancialView(QWidget *parent)
 	ui.numberSpinBox->installEventFilter(new MouseWheelGuard(ui.numberSpinBox));
 
 	ui.saveXMLButton->setIcon(QIcon(":/icons/icon_xml.png"));
-	ui.sendPisButton->setIcon(QIcon(":/icons/icon_nzok.png"));
+	ui.sendPisButton->setIcon(QIcon(":/icons/icon_nhif.png"));
 	ui.addButton->setIcon(QIcon(":/icons/icon_add.png"));
 	ui.deleteButton->setIcon(QIcon(":/icons/icon_remove.png"));
 	ui.editButton->setIcon(QIcon(":/icons/icon_edit.png"));

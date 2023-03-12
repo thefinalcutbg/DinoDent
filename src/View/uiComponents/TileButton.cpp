@@ -244,7 +244,7 @@ AllergiesTile::AllergiesTile(QWidget* parent) :
 	header.setPointSizeF(10);
 
 	nhifButton = new IconButton(this);
-	nhifButton->setIcon(QIcon(":/icons/icon_nzok.png"));
+	nhifButton->setIcon(QIcon(":/icons/icon_nhif.png"));
 	nhifButton->setFixedSize(nzokSize, nzokSize);
 	nhifButton->move(width() - nzokSize, 5);
 	nhifButton->setToolTip("Проверка на диагнози в рецептурната книжка");

@@ -72,7 +72,9 @@ bool ToothContainer::canResultInNonRetainedConstruction(int status)
 		status == StatusCode::Healthy ||
 		status == StatusCode::Extraction ||
 		status == StatusCode::Impacted ||
-		status == StatusCode::Root
+		status == StatusCode::Root ||
+		status == StatusCode::Bridge ||
+		status == StatusCode::FiberSplint
 		;
 }
 
@@ -83,7 +85,8 @@ bool ToothContainer::needsBridgeFormatting(int status)
 		status == StatusCode::Bridge ||
 		status == StatusCode::Crown ||
 		status == StatusCode::FiberSplint ||
-		status == StatusCode::Denture
+		status == StatusCode::Denture ||
+		status == StatusCode::Healthy
 		;
 }
 

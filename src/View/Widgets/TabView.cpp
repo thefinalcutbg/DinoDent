@@ -137,7 +137,7 @@ void TabView::newTab(int tabId, const TabName& tabName)
 {
     TabTitle* tab = new TabTitle(this, tabId);
 
-    tab->setNhifIcon(tabName.nhif ? QPixmap(":/icons/icon_nzok.png") : QPixmap{});
+    tab->setNhifIcon(tabName.nhif ? QPixmap(":/icons/icon_nhif.png") : QPixmap{});
     tab->setHisIcon(tabName.his ? QPixmap(":/icons/icon_his.png") : QPixmap{});
     tab->setText(QString::fromStdString(tabName.header), QString::fromStdString(tabName.footer));
 
@@ -198,7 +198,7 @@ void TabView::changeTabName(const TabName& tabName, int tabId)
         (ui.tabBar->tabButton(tabIndex, QTabBar::ButtonPosition::RightSide));
 
     (tabName.nhif) ?
-        tab->setNhifIcon(QPixmap(":/icons/icon_nzok.png"))
+        tab->setNhifIcon(QPixmap(":/icons/icon_nhif.png"))
         :
         tab->setNhifIcon(QPixmap(""));
 

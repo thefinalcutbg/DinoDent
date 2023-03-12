@@ -3,10 +3,10 @@
 #include "Network/UpdateService/UpdateService.h"
 #include <QTextCodec>
 #include "Model/FreeFunctions.h"
+
 bool initFunction();
 
 void testFn();
-
 
 int main(int argc, char *argv[])
 {

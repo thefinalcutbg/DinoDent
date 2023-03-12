@@ -4,13 +4,12 @@
 
 #include <vector>
 
-enum procedureHeader { code = 1, name, price };
+enum procedureHeader { code = 1, name};
 
 struct ProcedureRow
 {
 	QString code;
 	QString name;
-	double price;
 	bool nhif;
 };
 

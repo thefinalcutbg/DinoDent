@@ -25,7 +25,6 @@ void ProcedureTemplateModel::setProcedures(std::vector<ProcedureCode> procedures
             ProcedureRow{ 
             .code = m.code().c_str(),
             .name = m.name().c_str(),
-            .price = 0, 
             .nhif = m.nhifCode() != 0 
             }
         );
@@ -65,10 +64,9 @@ QVariant ProcedureTemplateModel::headerData(int section, Qt::Orientation orienta
         if (orientation == Qt::Horizontal) {
             switch (section)
             {
-            case 0: return "ID";
-            case code: return "Код";
-            case name: return "Манипулация";
-            case price: return "Цена";
+                case 0: return "ID";
+                case code: return "Код";
+                case name: return "Манипулация";
             }
         }
     }
@@ -83,7 +81,7 @@ int ProcedureTemplateModel::rowCount(const QModelIndex& parent) const
 
 int ProcedureTemplateModel::columnCount(const QModelIndex& parent) const
 {
-    return 4;
+    return 3;
 }
 
 #include <QIcon>
@@ -115,11 +113,10 @@ QVariant ProcedureTemplateModel::data(const QModelIndex& index, int role) const
     case Qt::DisplayRole:
         switch (column)
         {
-        case 0: return index.row();
-        case code: return procedures[row].code;
-        case name: return procedures[row].name;
-        case price: return priceToString(procedures[row].price);
-        default: return QVariant();
+            case 0: return index.row();
+            case code: return procedures[row].code;
+            case name: return procedures[row].name;
+            default: return QVariant();
         }
     case Qt::TextAlignmentRole:
         if (column == 1 ||column == 3)

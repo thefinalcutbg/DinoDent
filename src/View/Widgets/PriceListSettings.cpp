@@ -10,10 +10,8 @@ PriceListSettings::PriceListSettings(QWidget *parent)
 	table->setModel(&m_model);
 
 	table->hideColumn(0);
-	table->setColumnWidth(0, 20);
-	table->setColumnWidth(1, 70);
+	table->setColumnWidth(1, 100);
 	table->setColumnWidth(2, 370);
-	table->setColumnWidth(3, 70);
 	table->setSelectionBehavior(QAbstractItemView::SelectRows);
 	table->setSelectionMode(QAbstractItemView::SingleSelection);
 	table->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);

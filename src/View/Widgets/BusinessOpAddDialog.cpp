@@ -55,7 +55,7 @@ void BusinessOpAddDialog::okPressed()
 
 	auto& row = m_priceList.getProcedureRow(index);
 
-	m_result.emplace(row.code.toStdString(), row.name.toStdString(), row.price, ui.quantitySpinBox->value());
+	m_result.emplace(row.code.toStdString(), row.name.toStdString(), 0, ui.quantitySpinBox->value());
 
 	accept();
 }

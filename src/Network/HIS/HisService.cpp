@@ -1,4 +1,4 @@
-﻿#include <TinyXML/tinyxml.h>"
+﻿#include <TinyXML/tinyxml.h>
 #include <QDateTime>
 
 #include "HisService.h"

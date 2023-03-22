@@ -4,7 +4,7 @@
 #include  <QRegularExpression>
 #include <QApplication>
 #include "View/Theme.h"
-
+#include "QtVersion.h"
 AmbListSelector::AmbListSelector(ListSelectorPresenter* presenter) :
 	presenter(presenter)
 {
@@ -29,9 +29,8 @@ AmbListSelector::AmbListSelector(ListSelectorPresenter* presenter) :
 		
 		});
 
-
-	connect(ui.dataTypeCombo, &QComboBox::currentIndexChanged,
-		[=](int idx) {presenter->setListType(static_cast<TabType>(idx));});
+	connect(ui.dataTypeCombo, QtComboIndexChanged, 
+		[=](int idx) {presenter->setListType(static_cast<TabType>(idx)); });
 
 	connect(ui.idSearchEdit, &QLineEdit::textChanged, [=]
 		{

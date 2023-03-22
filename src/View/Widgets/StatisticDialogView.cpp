@@ -1,12 +1,12 @@
 #include "StatisticDialogView.h"
 #include "Presenter/StatisticDialogPresenter.h"
-
+#include "QtVersion.h"
 StatisticDialogView::StatisticDialogView(StatisticDialogPresenter& p, QWidget *parent)
 	: presenter(p), QDialog(parent)
 {
 	ui.setupUi(this);
 
-	connect(ui.procedureCombo, &QComboBox::currentIndexChanged, [&](int idx) {presenter.setProcedureType(idx);});
+	connect(ui.procedureCombo, QtComboIndexChanged, [&](int idx) {presenter.setProcedureType(idx);});
 	connect(ui.okButton, &QPushButton::clicked, [&] {presenter.okPressed();});
 
 	presenter.setView(this);

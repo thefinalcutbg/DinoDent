@@ -1,5 +1,6 @@
 #include "StatisticView.h"
 #include "View/Theme.h"
+#include "QtVersion.h"
 
 StatisticView::StatisticView(QWidget *parent)
 	: QWidget(parent)
@@ -18,7 +19,7 @@ StatisticView::StatisticView(QWidget *parent)
 
 	ui.statisticTable->setStatisticLayout();
 
-	connect(ui.yearSpin, &QSpinBox::valueChanged, [=](int value) {
+	connect(ui.yearSpin, QtSpinValueChanged, [=](int value) {
 			if (presenter) presenter->yearChanged(value);
 		});
 

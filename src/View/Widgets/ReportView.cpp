@@ -1,7 +1,7 @@
 ﻿#include "ReportView.h"
 #include <QFileDialog>
 #include <QPainter>
-
+#include "QtVersion.h"
 
 ReportView::ReportView( QWidget *parent)
 	: QWidget(parent)
@@ -44,11 +44,11 @@ ReportView::ReportView( QWidget *parent)
 
 	});
 
-	connect(ui.monthCombo, &QComboBox::currentIndexChanged, [&](int idx) {
+	connect(ui.monthCombo, QtComboIndexChanged, [&](int idx) {
 		presenter.setDate(ui.monthCombo->currentIndex() + 1, ui.yearSpin->value());
 		});
 
-	connect(ui.yearSpin, &QSpinBox::valueChanged, [&](int value) {
+	connect(ui.yearSpin, QtSpinValueChanged, [&](int value) {
 		presenter.setDate(ui.monthCombo->currentIndex() + 1, ui.yearSpin->value());
 		});
 

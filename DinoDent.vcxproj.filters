@@ -1550,6 +1550,9 @@
     <ClInclude Include="src\Version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\QtVersion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Graphics\ContextMenu.h">

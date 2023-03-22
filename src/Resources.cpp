@@ -1,11 +1,11 @@
 #include "Resources.h"
 #include <QFile>
 #include <QTextStream>
-
+#include "QtVersion.h"
 std::string Resources::fromPath(const char* path)
 {
 	QFile file(path);
-	file.open(QIODeviceBase::ReadOnly);
+	file.open(QtIODevice::ReadOnly);
 	QTextStream in(&file);
 
 	QString result = in.readAll();

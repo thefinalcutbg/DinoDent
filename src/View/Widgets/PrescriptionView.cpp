@@ -1,7 +1,7 @@
 ﻿#include "PrescriptionView.h"
 #include "Presenter/PrescriptionPresenter.h"
 #include "View/Theme.h"
-
+#include "QtVersion.h"
 
 
 PrescriptionView::PrescriptionView(QWidget* parent)
@@ -40,8 +40,8 @@ PrescriptionView::PrescriptionView(QWidget* parent)
 
 	connect(ui.medicationTable, &QTableView::doubleClicked, [=] { ui.editButton->click(); });
 	connect(ui.medicationTable, &TableView::deletePressed, [=] { if (presenter) ui.deleteButton->click(); });
-	connect(ui.dispensationCombo, &QComboBox::currentIndexChanged, [&] { dispensationLogic(); });
-	connect(ui.repeats, &QSpinBox::valueChanged, [&] { if (ui.repeats->isHidden()) return; dispensationLogic(); });
+	connect(ui.dispensationCombo, QtComboIndexChanged, [&] { dispensationLogic(); });
+	connect(ui.repeats, QtSpinValueChanged, [&] { if (ui.repeats->isHidden()) return; dispensationLogic(); });
 	connect(ui.supplementsEdit, &QLineEdit::textChanged, [=](const QString& text) {if (presenter) presenter->supplementsChanged(text.toStdString());});
 	connect(ui.nrnButton, &QPushButton::clicked, [=] {if (presenter) presenter->nrnButtonClicked(); });
 	connect(ui.dateEdit, &QDateEdit::dateChanged, [=](QDate d) {if (presenter) presenter->dateChanged(Date{ d.day(),d.month(),d.year() });});

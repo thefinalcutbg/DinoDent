@@ -5,7 +5,7 @@
 #include "Model/Dental/NhifSheetData.h"
 #include "View/uiComponents/MouseWheelGuard.h"
 #include "View/SubWidgets/ReferralTile.h"
-
+#include "QtVersion.h"
 ListView::ListView(QWidget* parent)
 	: QWidget(parent), presenter(nullptr)
 {
@@ -88,7 +88,7 @@ ListView::ListView(QWidget* parent)
 	connect(ui.dateTimeEdit, &QDateTimeEdit::dateTimeChanged, [=](const QDateTime& t) {if (presenter)presenter->setAmbDateTime(t.toString(Qt::ISODate).toStdString());});
 	connect(ui.nzokActivities, &QPushButton::clicked, [=] { if (presenter) presenter->openPisHistory(); });
 	connect(ui.addProcedure, &QAbstractButton::clicked, [=] { if (presenter) presenter->addProcedure(); });
-	connect(ui.specCombo, &QComboBox::currentIndexChanged, [=] {nhifChanged();});
+	connect(ui.specCombo, QtComboIndexChanged, [=] {nhifChanged();});
 	connect(ui.unfavCheck, &QCheckBox::stateChanged, [=] { nhifChanged(); });
 	connect(ui.editProcedure, &QPushButton::clicked, [=] { if (presenter) presenter->editProcedure(ui.procedureTable->selectedRow()); });
 	connect(ui.invoiceButton, &QPushButton::clicked, [=] { if (presenter) presenter->createInvoice(); });

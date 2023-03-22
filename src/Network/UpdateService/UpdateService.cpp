@@ -5,7 +5,7 @@
 #include <QEventLoop>
 #include <QDebug>
 #include <JsonCpp/json.h>
-#include "View/Widgets/UpdateDownloader.h";
+#include "View/Widgets/UpdateDownloader.h"
 #include "Version.h"
 
 bool UpdateService::restartForUpdate()

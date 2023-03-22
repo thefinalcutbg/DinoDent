@@ -2,6 +2,7 @@
 #include "Presenter/DosagePresenter.h"
 #include "View/uiComponents/LineEdit.h"
 #include "Model/Prescription/Dosage.h"
+#include "QtVersion.h"
 
 DosageDialog::DosageDialog(DosagePresenter* p, QWidget* parent) :
 	presenter(p), QDialog(parent)
@@ -33,18 +34,18 @@ DosageDialog::DosageDialog(DosagePresenter* p, QWidget* parent) :
 		});
 
 
-	connect(ui.doseSpin, &QDoubleSpinBox::valueChanged, [=](double value) {
+	connect(ui.doseSpin, QtDoubleSpinValueChanged, [=](double value) {
 			presenter->doseQuantityValueChanged(value);
 		});
 
-	connect(ui.offsetSpin, &QSpinBox::valueChanged, [=](int value) {
+	connect(ui.offsetSpin, QtSpinValueChanged, [=](int value) {
 			presenter->offsetChanged(value);
 
 		});
 
-	connect(ui.periodSpin, &QDoubleSpinBox::valueChanged, [=](double value) { presenter->periodValueChanged(value); });
-	connect(ui.boundsSpin, &QDoubleSpinBox::valueChanged, [=](double value) { presenter->boundsValueChanged(value); });
-	connect(ui.frequencySpin, &QSpinBox::valueChanged, [=](int value) { 
+	connect(ui.periodSpin, QtDoubleSpinValueChanged, [=](double value) { presenter->periodValueChanged(value); });
+	connect(ui.boundsSpin, QtDoubleSpinValueChanged, [=](double value) { presenter->boundsValueChanged(value); });
+	connect(ui.frequencySpin, QtSpinValueChanged, [=](int value) {
 		presenter->frequencyChanged(value); 
 
 		/*
@@ -58,8 +59,8 @@ DosageDialog::DosageDialog(DosagePresenter* p, QWidget* parent) :
 		
 	});
 
-	connect(ui.periodCombo, &QComboBox::currentIndexChanged, [=](int idx) { presenter->periodUnitChanged(idx);});
-	connect(ui.boundsCombo, &QComboBox::currentIndexChanged, [=](int idx) { presenter->boundsUnitChanged(idx);});
+	connect(ui.periodCombo, QtComboIndexChanged, [=](int idx) { presenter->periodUnitChanged(idx);});
+	connect(ui.boundsCombo, QtComboIndexChanged, [=](int idx) { presenter->boundsUnitChanged(idx);});
 
 	connect(ui.okButton, &QPushButton::clicked, [=] { presenter->okPressed();});
 

@@ -300,12 +300,6 @@ std::string Parser::write(const ToothContainer& status)
 		}
 	}
 
-	json["TimeStamps"] = Json::Value(Json::arrayValue);
-
-	for (auto& tooth : status) {
-		json["TimeStamps"].append(tooth.last_update);
-	}
-
 	Json::FastWriter writer;
 
 	return writer.write(json);
@@ -836,13 +830,6 @@ void Parser::parse(const std::string& jsonString, ToothContainer& status)
 		Tooth& tooth = status[denture[i]["idx"].asInt()];
 		tooth.denture.LPK = denture[i]["LPK"].asString();
 		tooth.denture.set(true);
-	}
-
-	const Json::Value& timeStamps = json["TimeStamps"];
-
-	for (int i = 0; i < teethCount; i++)
-	{
-		status[i].last_update = timeStamps[i].asString();
 	}
 
 }

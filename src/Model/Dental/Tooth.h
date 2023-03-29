@@ -21,8 +21,6 @@ public:
 
 	ToothType type;
 
-	std::string last_update{ FreeFn::getTimeStamp() };
-
 	SurfaceStatus<SurfaceChild<DentistMade> > obturation;
 	SurfaceStatus<SurfaceChild<Status> > caries;
 

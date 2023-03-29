@@ -258,7 +258,7 @@ std::string HisService::getProcedures(const ProcedureContainer& procedures, cons
 		{
 			p.applyProcedure(teethChanged);
 
-			result += getToothStatus(teethChanged.at(p.tooth), false);
+			result += getToothStatus(teethChanged.at(p.tooth));
 		}
 
 		if (p.isRangeSpecific())
@@ -271,7 +271,7 @@ std::string HisService::getProcedures(const ProcedureContainer& procedures, cons
 
 			for (int i = begin; i <= end; i++)
 			{
-				result += getToothStatus(teethChanged.at(i), false);
+				result += getToothStatus(teethChanged.at(i));
 			}
 		}
 
@@ -289,7 +289,7 @@ std::string HisService::getProcedures(const ProcedureContainer& procedures, cons
 	return result;
 }
 
-std::string HisService::getToothStatus(const Tooth& tooth, bool includeTimestamp)
+std::string HisService::getToothStatus(const Tooth& tooth)
 {
 	std::string result;
 
@@ -305,10 +305,6 @@ std::string HisService::getToothStatus(const Tooth& tooth, bool includeTimestamp
 
 	result += "<nhis:tooth>";
 	result += bind("toothIndex", ToothUtils::getToothNumber(tooth.index, tooth.temporary));
-
-	if (includeTimestamp) {
-		result += bind("dentalStatusDate", tooth.last_update);
-	}
 
 	for (auto& s : statuses)
 	{

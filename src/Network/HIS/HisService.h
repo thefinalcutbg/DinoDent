@@ -28,7 +28,7 @@ protected:
 	std::string performer();
 	std::string getStatus(const ToothContainer& teeth);
 	std::string getProcedures(const ProcedureContainer& procedures, const ToothContainer& teeth);
-	std::string getToothStatus(const Tooth& tooth, bool includeTimestamp = true);
+	std::string getToothStatus(const Tooth& tooth);
 
 	std::string bind(const std::string& name, const std::string& value, bool isUserInput = false);
 	std::string bind(const std::string& name, int value, bool ommitZero = true);

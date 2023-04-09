@@ -26,7 +26,6 @@ protected:
 	std::string subject(const Patient& p);
 	std::string requester(bool includeNhifCode = false);
 	std::string performer();
-	std::string getStatus(const ToothContainer& teeth);
 	std::string getProcedures(const ProcedureContainer& procedures, const ToothContainer& teeth);
 	std::string getToothStatus(const Tooth& tooth);
 

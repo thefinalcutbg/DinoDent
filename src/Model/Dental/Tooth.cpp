@@ -63,7 +63,8 @@ std::array<bool, statusCount> Tooth::getBoolStatus() const
 		implant.exists(),
 		hyperdontic.exists(),
 		impacted.exists(),
-		denture.exists()
+		denture.exists(),
+		calculus.exists()
 	};
 }
 
@@ -100,7 +101,7 @@ std::vector<std::string> Tooth::getSimpleStatuses() const
 	std::array<std::string, statusCount> statusLegend //each letter corresponds to bool status
 	{
 		"", "T", "O", "C", "P", "G", "", "", "R", "F", "E",
-		"Pa", "I", "K", "K", "X", "Impl.", "Dsn", "", "X"
+		"Pa", "I", "K", "K", "X", "Impl.", "Dsn", "", "X", ""
 	};			  //     ^                        ^
 				  //  bridge	                splint
 
@@ -186,7 +187,7 @@ void Tooth::addStatus(int statusCode)
 		case StatusCode::Extraction:
 //			if (temporary.exists()){ removeStatus(); temporary.set(false); break; }
 			set(true, extraction);
-			set(false, healthy, obturation, caries, implant, pulpitis, endo, fracture, root, lesion, periodontitis, crown, post, mobility, denture); 
+			set(false, healthy, obturation, caries, implant, pulpitis, endo, fracture, root, lesion, periodontitis, crown, post, mobility, denture, calculus);
 			break;
 
 		case StatusCode::Obturation: 
@@ -218,12 +219,12 @@ void Tooth::addStatus(int statusCode)
 
 		case StatusCode::Root: 
 			set(true, root); 
-			set(false, healthy, caries, obturation, crown, extraction, implant);
+			set(false, healthy, caries, obturation, crown, extraction, implant, calculus);
 			break;
 
 		case StatusCode::Implant: 
 			set(true, implant); 
-			set(false, temporary, healthy, extraction, obturation, caries, pulpitis, endo, fracture, root, post, mobility, splint, impacted);
+			set(false, temporary, healthy, extraction, obturation, caries, pulpitis, endo, fracture, root, post, mobility, splint, impacted, calculus);
 			break;
 
 		case StatusCode::ApicalLesion: 
@@ -273,7 +274,7 @@ void Tooth::addStatus(int statusCode)
 
 		case StatusCode::Impacted: 
 			set(true, impacted); 
-			set(false, healthy, obturation, caries, extraction, periodontitis, lesion, implant, crown, post, endo, mobility, fracture);
+			set(false, healthy, obturation, caries, extraction, periodontitis, lesion, implant, crown, post, endo, mobility, fracture, calculus);
 			break;
 
 		case StatusCode::Denture: 
@@ -282,6 +283,11 @@ void Tooth::addStatus(int statusCode)
 			if (!root) {
 				set(false, endo, lesion, pulpitis, periodontitis);
 			}
+			break;
+
+		case StatusCode::Calculus:
+			set(true, calculus);
+			set(false, healthy, root, extraction, implant, impacted);
 			break;
 
 		default: break;
@@ -312,6 +318,7 @@ void Tooth::removeStatus(int statusCode)
 		case StatusCode::Dsn: hyperdontic.set(false); break;
 		case StatusCode::Impacted: impacted.set(false); if (denture || !root) denture.set(false); break;
 		case StatusCode::Denture: denture.set(false); break;
+		case StatusCode::Calculus: calculus.set(false); break;
 		default: return;
 	}
 

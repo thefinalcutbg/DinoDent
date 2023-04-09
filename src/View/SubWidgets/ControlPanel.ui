@@ -390,6 +390,19 @@
         </widget>
        </item>
        <item>
+        <widget class="StatusButton" name="Calculus">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Зъбен камък</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="StatusButton" name="Periodontitis">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">

@@ -1,18 +1,20 @@
 ﻿#include "ProcedureInput.h"
 #include "Presenter/ProcedureCreator.h"
-
+#include "QtVersion.h"
 ProcedureInput::ProcedureInput(QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
 
-	
+	for (auto& name : Diagnosis::getNames())
+	{
+		ui.diagCombo->addItem(name.c_str());
+	}
 
-
-	connect(ui.diagnosisEdit, &QLineEdit::textChanged,
-		[=](const QString& text) { 
-				if(presenter) 
-					presenter->diagnosisTextChanged(text.toStdString()); 
+	connect(ui.diagCombo, QtComboIndexChanged,
+		[=](int idx) { 
+			if (presenter)
+				presenter->diagnosisChanged(idx);
 			});
 
 
@@ -25,14 +27,13 @@ ProcedureInput::ProcedureInput(QWidget *parent)
 
 
 	ui.dateEdit->setErrorLabel(ui.errorLabel);
-	ui.diagnosisEdit->setErrorLabel(ui.errorLabel);
 	ui.rangeWidget->setErrorLabel(ui.errorLabel);
 	ui.surfaceWidget->setErrorLabel(ui.errorLabel);
 }
 
 AbstractLineEdit* ProcedureInput::diagnosisEdit()
 {
-	return ui.diagnosisEdit;
+	return ui.diagEdit;
 }
 
 AbstractDateEdit* ProcedureInput::dateEdit()
@@ -61,11 +62,18 @@ AbstractSurfaceSelector* ProcedureInput::surfaceSelector()
 	return ui.surfaceWidget;
 }
 
+AbstractComboBox* ProcedureInput::diagnosisCombo()
+{
+	return ui.diagCombo;
+}
+
 
 void ProcedureInput::setErrorMsg(const std::string& error)
 {
+	ui.addDiagLabel->setHidden(true);
 	ui.label_2->setHidden(true);
-	ui.diagnosisEdit->setHidden(true);
+	ui.diagEdit->setHidden(true);
+	ui.diagCombo->setHidden(true);
 	ui.rangeWidget->setHidden(true);
 	ui.surfaceWidget->setHidden(true);
 	ui.notesEdit->setHidden(true);
@@ -77,36 +85,37 @@ void ProcedureInput::setErrorMsg(const std::string& error)
 
 void ProcedureInput::setLayout(WidgetLayout layout)
 {
+	ui.addDiagLabel->setHidden(false);
 	ui.label_2->setHidden(false);
-	ui.diagnosisEdit->setHidden(false);
+	ui.diagEdit->setHidden(false);
+	ui.diagCombo->setHidden(false);
 	ui.notesEdit->setHidden(false);
 	ui.errorLabel->setText("");
 	ui.notesLabel->setHidden(false);
 
 	switch (layout)
 	{
-	case WidgetLayout::General:
-		//specific
-		ui.rangeWidget->setHidden(true);
-		ui.surfaceWidget->setHidden(true);
-		ui.hyperdonticCheckBox->setHidden(true);
-		break;
-	case WidgetLayout::Range:
-		ui.rangeWidget->disable(false);
-		ui.rangeWidget->setHidden(false);
-		ui.surfaceWidget->setHidden(true);
-		ui.hyperdonticCheckBox->setHidden(true);
-		break;
-	case WidgetLayout::Restoration:
-		ui.rangeWidget->setHidden(true);
-		ui.surfaceWidget->setHidden(false);
-		ui.hyperdonticCheckBox->setHidden(false);
-		break;
-	case WidgetLayout::ToothSpecific:
-		ui.rangeWidget->setHidden(true);
-		ui.surfaceWidget->setHidden(true);
-		ui.hyperdonticCheckBox->setHidden(false);
-		break;
+		case WidgetLayout::General:
+			ui.rangeWidget->setHidden(true);
+			ui.surfaceWidget->setHidden(true);
+			ui.hyperdonticCheckBox->setHidden(true);
+			break;
+		case WidgetLayout::Range:
+			ui.rangeWidget->disable(false);
+			ui.rangeWidget->setHidden(false);
+			ui.surfaceWidget->setHidden(true);
+			ui.hyperdonticCheckBox->setHidden(true);
+			break;
+		case WidgetLayout::Restoration:
+			ui.rangeWidget->setHidden(true);
+			ui.surfaceWidget->setHidden(false);
+			ui.hyperdonticCheckBox->setHidden(false);
+			break;
+		case WidgetLayout::ToothSpecific:
+			ui.rangeWidget->setHidden(true);
+			ui.surfaceWidget->setHidden(true);
+			ui.hyperdonticCheckBox->setHidden(false);
+			break;
 	}
 }
 
@@ -142,7 +151,6 @@ bool ProcedureInput::onHyperdontic()
 {
 	return !ui.hyperdonticCheckBox->isHidden() && ui.hyperdonticCheckBox->isChecked();
 }
-
 
 FinancingSource ProcedureInput::getFinancingSource()
 {

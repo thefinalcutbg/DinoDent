@@ -78,7 +78,7 @@ void DentalActivitiesService::parseReply(const std::string& reply)
 		procedures.emplace_back(Procedure(std::stoi(row.Child(2).ToElement()->GetText())));
 
 		procedures.back().date = Date(row.Child(0).ToElement()->GetText());
-		procedures.back().diagnosis = row.Child(4).ToElement()->GetText(); //diagnosis
+		procedures.back().diagDescription = row.Child(4).ToElement()->GetText(); //diagnosis
 		procedures.back().tooth = toothProp.tooth;
 		procedures.back().temp = toothProp.temporary;
 		procedures.back().hyperdontic = toothProp.hyperdontic;

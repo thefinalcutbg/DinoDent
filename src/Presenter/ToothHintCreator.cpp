@@ -37,6 +37,7 @@ ToothPaintHint ToothHintCreator::getToothHint(const Tooth& tooth, const std::str
         return hint;
     }
 
+    hint.calculus = tooth.calculus.exists();
     hint.dns = tooth.hyperdontic.exists();
     hint.frac = tooth.fracture.exists();
     hint.perio = tooth.periodontitis.exists();

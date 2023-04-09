@@ -30,6 +30,7 @@ public:
 	// Inherited via IProcedureInput
 	virtual AbstractRangeEdit* rangeWidget() override;
 	virtual AbstractSurfaceSelector* surfaceSelector() override;
+	virtual AbstractComboBox* diagnosisCombo() override;
 	virtual void setErrorMsg(const std::string& error) override;
 	virtual void setLayout(WidgetLayout layout) override;
 	virtual void setNotes(const std::string& notes) override;

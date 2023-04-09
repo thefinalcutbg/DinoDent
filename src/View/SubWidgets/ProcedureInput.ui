@@ -93,7 +93,24 @@
     </widget>
    </item>
    <item>
-    <widget class="LineEdit" name="diagnosisEdit"/>
+    <widget class="ComboBox" name="diagCombo"/>
+   </item>
+   <item>
+    <widget class="QLabel" name="addDiagLabel">
+     <property name="text">
+      <string>Допълнителни уточнения към диагнозата:</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="LineEdit" name="diagEdit">
+     <property name="maxLength">
+      <number>1000</number>
+     </property>
+     <property name="placeholderText">
+      <string/>
+     </property>
+    </widget>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2"/>
@@ -195,6 +212,11 @@
    <class>LineEdit</class>
    <extends>QLineEdit</extends>
    <header>View/uiComponents/LineEdit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>ComboBox</class>
+   <extends>QComboBox</extends>
+   <header>View/uiComponents/combobox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

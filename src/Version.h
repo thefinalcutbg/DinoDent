@@ -48,9 +48,7 @@ struct Version {
 	}
 
 	bool isLessThan(const Version& other) const
-	{
-		//return std::tie(MAJOR, MINOR, REVISION) < std::tie(other.MAJOR, other.MAJOR, other.REVISION);
-		
+	{	
 		if (MAJOR < other.MAJOR ) return true;
 		if (MAJOR == other.MAJOR && MINOR < other.MINOR ) return true;
 		if (MAJOR == other.MAJOR && MINOR == other.MINOR && REVISION < other.REVISION) return true;

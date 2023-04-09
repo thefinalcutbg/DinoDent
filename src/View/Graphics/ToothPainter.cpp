@@ -267,6 +267,11 @@ inline QPixmap getTooth(const ToothPaintHint& tooth) {
         }
     }
 
+    if (tooth.calculus)
+    {
+        painter.drawPixmap(coords.crownRect, *texturePack.calculus);
+    }
+
     auto& container = SpriteSheets::container();
 
     //drawing the tooth:

@@ -86,24 +86,25 @@ const std::vector<const KSMP*>& KSMP::getByType(ProcedureType type)
 
 }
 
-
+/*
 const std::vector<const KSMP*>& KSMP::getByType(ProcedureTemplateType type)
 {
     //fixing the offset
     constexpr static ProcedureType templToProcedureType[11]{
         ProcedureType::general,
-        ProcedureType::any,
+       // ProcedureType::any,
         ProcedureType::obturation,
         ProcedureType::extraction,
         ProcedureType::endo,
         ProcedureType::crown,
         ProcedureType::implant,
         ProcedureType::fibersplint,
-        ProcedureType::removecrown,
-        ProcedureType::removepost,
-        ProcedureType::removebridgeOrSplint
+        //ProcedureType::removecrown,
+        //ProcedureType::removepost,
+        //ProcedureType::removebridgeOrSplint
     };
 
     return getByType(templToProcedureType[static_cast<int>(type)]);
 
 }
+*/

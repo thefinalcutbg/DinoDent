@@ -20,6 +20,7 @@ ProcedureEditorPresenter::ProcedureEditorPresenter(const Procedure& p, const Dat
 	result->result = p.result;
 	result->financingSource = p.financingSource;
 	result->notes = p.notes;
+	result->diagDescription = p.diagDescription;
 
 	_dateValidator.setProcedure(result->code.nhifCode());
 }
@@ -40,7 +41,8 @@ void ProcedureEditorPresenter::setView(IProcedureEditDialog* view)
 	view->procedureInput()->setHyperdonticState(result->hyperdontic);
 	view->procedureInput()->dateEdit()->setInputValidator(&_dateValidator);
 	view->procedureInput()->setNotes(result->notes);
-	view->procedureInput()->diagnosisEdit()->set_Text(result->diagnosis);
+	view->procedureInput()->diagnosisEdit()->set_Text(result->diagDescription);
+	view->procedureInput()->diagnosisCombo()->setIndex(result->diagnosis.index());
 
 	switch (result->code.type())
 	{
@@ -54,6 +56,7 @@ void ProcedureEditorPresenter::setView(IProcedureEditDialog* view)
 			break;
 		case ProcedureType::bridge:
 		case ProcedureType::fibersplint:
+		case ProcedureType::denture:
 		{
 			view->procedureInput()->rangeWidget()->setInputValidator(&range_validator);
 			view->procedureInput()->setLayout(IProcedureInput::Range);
@@ -61,12 +64,14 @@ void ProcedureEditorPresenter::setView(IProcedureEditDialog* view)
 			view->procedureInput()->rangeWidget()->setBridgeRange(begin, end);
 		}
 			break;
+			/*
 		case ProcedureType::removebridgeOrSplint:
 		{
 			view->procedureInput()->setLayout(IProcedureInput::Range);
 			auto [begin, end] = std::get<ConstructionRange>(result->result);
 			view->procedureInput()->rangeWidget()->setBridgeRange(begin, end);
 		}
+		*/
 			break;
 		default:
 			view->procedureInput()->setLayout(IProcedureInput::ToothSpecific);
@@ -80,10 +85,15 @@ void ProcedureEditorPresenter::setView(IProcedureEditDialog* view)
 
 void ProcedureEditorPresenter::okPressed()
 {
+	if (!view->procedureInput()->diagnosisCombo()->getIndex())
+	{
+		view->procedureInput()->diagnosisCombo()->setFocus();
+		return;
+	}
+
 	//validation:
 	std::vector<AbstractUIElement*> validatable{
 		view->procedureInput()->dateEdit(),
-		view->procedureInput()->diagnosisEdit(),
 		view->procedureInput()->surfaceSelector(),
 		view->procedureInput()->rangeWidget()
 	};
@@ -105,7 +115,8 @@ void ProcedureEditorPresenter::okPressed()
 	result->code = m_code;
 	result->notes = view->procedureInput()->getNotes();
 	result->date = view->procedureInput()->dateEdit()->getDate();
-	result->diagnosis = view->procedureInput()->diagnosisEdit()->getText();
+	result->diagnosis = view->procedureInput()->diagnosisCombo()->getIndex();
+	result->diagDescription = view->procedureInput()->diagnosisEdit()->getText();
 	result->financingSource = view->procedureInput()->getFinancingSource();
 	result->hyperdontic = view->procedureInput()->onHyperdontic();
 	result->tooth = m_tooth;
@@ -117,7 +128,8 @@ void ProcedureEditorPresenter::okPressed()
 			break;
 		case ProcedureType::bridge:
 		case ProcedureType::fibersplint:
-		case ProcedureType::removebridgeOrSplint:
+		//case ProcedureType::removebridgeOrSplint:
+		case ProcedureType::denture:
 		{
 			auto [begin, end] = view->procedureInput()->rangeWidget()->getRange();
 			result->result = ConstructionRange{ begin, end };

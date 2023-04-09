@@ -42,7 +42,7 @@ struct SpriteMaster
 	QPixmap fiberBridge{ ":/tooth/tooth_fiberBridge.png" };
 	QPixmap perio{ ":/tooth/tooth_perio.png" };
 	QPixmap post{ ":/tooth/tooth_post.png" };
-
+	QPixmap calculus{ ":/tooth/tooth_calculus.png" };
 	QPixmap occlusal{ ":/tooth/tooth_occlusal.png" };
 	QPixmap approximal{ ":/tooth/tooth_approximal.png" };
 	QPixmap buccal{ ":/tooth/tooth_buccal.png" };
@@ -70,7 +70,7 @@ void initializePack(TexturePack& tx, const SpriteMaster master, int xPos, int wi
 	tx.lesion = new QPixmap(master.lesion.copy(commonRect));
 	tx.root = new QPixmap(master.roots.copy(commonRect));
 	tx.perio = new QPixmap(master.perio.copy(commonRect));
-
+	tx.calculus = new QPixmap(master.calculus.copy(crownRect));
 	tx.post = new QPixmap(master.post.copy(crownRect));
 	tx.crown = new QPixmap(master.crown.copy(crownRect));
 	tx.fiberOptic = new QPixmap(master.fiberBridge.copy(crownRect));

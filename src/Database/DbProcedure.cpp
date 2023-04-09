@@ -22,7 +22,8 @@ std::vector<Procedure> DbProcedure::getProcedures(long long amblist_rowid, Db& d
 								"procedure.diagnosis, "				//7
 								"procedure.notes, "					//8
 								"procedure.hyperdontic, "			//9
-								"procedure.his_index "				//10
+								"procedure.his_index, "				//10
+								"procedure.additional_diagnosis "	//11
 						"FROM procedure LEFT JOIN amblist ON procedure.amblist_rowid = amblist.rowid "
 						"WHERE amblist.rowid = " + std::to_string(amblist_rowid)
 						+ condition +
@@ -42,10 +43,11 @@ std::vector<Procedure> DbProcedure::getProcedures(long long amblist_rowid, Db& d
 		Parser::parse(db.asString(4), p);
 		p.temp = db.asInt(5);
 		p.LPK = db.asString(6);
-		p.diagnosis = db.asString(7);
+		p.diagnosis = db.asInt(7);
 		p.notes = db.asString(8);
 		p.hyperdontic = db.asBool(9);
 		p.his_index = db.asInt(10);
+		p.diagDescription = db.asString(11);
 	}
 
 	return mList;
@@ -64,8 +66,8 @@ void DbProcedure::saveProcedures(long long amblist_rowid, const std::vector<Proc
 
 		db.newStatement(
 			"INSERT INTO procedure "
-			"(date, financing_source, code, tooth, deciduous, data, amblist_rowid, diagnosis, notes, hyperdontic, his_index) "
-			"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+			"(date, financing_source, code, tooth, deciduous, data, amblist_rowid, diagnosis, notes, hyperdontic, his_index, additional_diagnosis) "
+			"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
 		db.bind(1, p.date.to8601());
 		db.bind(2, static_cast<int>(p.financingSource));
@@ -74,10 +76,11 @@ void DbProcedure::saveProcedures(long long amblist_rowid, const std::vector<Proc
 		db.bind(5, p.temp);
 		db.bind(6, Parser::write(p));
 		db.bind(7, amblist_rowid);
-		db.bind(8, p.diagnosis);
+		db.bind(8, p.diagnosis.index());
 		db.bind(9, p.notes);
 		db.bind(10, p.hyperdontic);
 		db.bind(11, p.his_index);
+		db.bind(12, p.diagDescription);
 		db.execute();
 		
 	}
@@ -121,7 +124,18 @@ std::vector<ProcedureSummary> DbProcedure::getNhifSummary(long long patientRowId
 std::vector<Procedure> DbProcedure::getToothProcedures(long long patientRowId, int tooth)
 {
 		std::string query =
-		"SELECT  procedure.date, procedure.code, procedure.financing_source, procedure.data, amblist.lpk, procedure.deciduous, procedure.diagnosis, procedure.notes, procedure.hyperdontic FROM "
+		"SELECT  "
+			"procedure.date, "
+			"procedure.code, "
+			"procedure.financing_source, "
+			"procedure.data, "
+			"amblist.lpk, "
+			"procedure.deciduous, "
+			"procedure.diagnosis, "
+			"procedure.notes, "
+			"procedure.hyperdontic, "
+			"procedure.additional_diagnosis "
+			"FROM "
 		"procedure LEFT JOIN amblist ON procedure.amblist_rowid = amblist.rowid "
 		"WHERE tooth = " + std::to_string(tooth) + " "
 		"AND patient_rowid = " + std::to_string(patientRowId) + " "
@@ -143,9 +157,10 @@ std::vector<Procedure> DbProcedure::getToothProcedures(long long patientRowId, i
 		p.LPK = db.asString(3);
 		p.temp = db.asInt(4);
 		p.tooth = tooth;
-		p.diagnosis = db.asString(5);
+		p.diagnosis = db.asInt(5);
 		p.notes = db.asString(6);
 		p.hyperdontic = db.asBool(7);
+		p.diagDescription = db.asString(8);
 	}
 	
 	

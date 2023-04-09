@@ -7,21 +7,6 @@
 #include "Model/TableStructs.h"
 #include "Model/Financial/BusinessOperation.h"
 
-Json::Value writeStatus(int index, const Status& status)
-{
-	Json::Value parameters;
-	parameters["idx"] = index;
-	return parameters;
-}
-
-Json::Value writeDentistMade(int index, const DentistMade& procedure)
-{
-	Json::Value parameters;
-	parameters["LPK"] = procedure.LPK;
-	parameters["idx"] = index;
-	return parameters;
-}
-
 std::string Parser::write(const PerioStatus& status)
 {
 	Json::Value json;
@@ -71,6 +56,21 @@ std::string Parser::write(const PerioStatus& status)
 std::string Parser::write(const ToothContainer& status)
 {
 	Json::Value json;
+
+	auto writeStatus = [](int index, const Status& status)
+	{
+		Json::Value parameters;
+		parameters["idx"] = index;
+		return parameters;
+	};
+
+	auto writeDentistMade = [](int index, const DentistMade& procedure)
+	{
+		Json::Value parameters;
+		parameters["LPK"] = procedure.LPK;
+		parameters["idx"] = index;
+		return parameters;
+	};
 
 	for (int i = 0; i < 32; i++)
 	{
@@ -136,6 +136,16 @@ std::string Parser::write(const ToothContainer& status)
 			}
 
 			json["Periodontitis"].append(writeStatus(i, tooth.periodontitis));
+		}
+
+		if (tooth.calculus.exists())
+		{
+			if (!json.isMember("Calculus"))
+			{
+				json["Calculus"] = Json::Value(Json::arrayValue);
+			}
+
+			json["Calculus"].append(writeStatus(i, tooth.denture));
 		}
 
 		if (tooth.obturation.exists())
@@ -330,7 +340,8 @@ std::string Parser::write(const Procedure& procedure)
 
 	case ProcedureType::bridge:
 	case ProcedureType::fibersplint:
-	case ProcedureType::removebridgeOrSplint:
+	case ProcedureType::denture:
+	//case ProcedureType::removebridgeOrSplint:
 	{
 		auto& r = std::get<ConstructionRange>(procedure.result);
 		json["begin"] = r.tooth_begin;
@@ -561,7 +572,8 @@ void Parser::parse(const std::string& jsonString, Procedure& procedure)
 
 	case ProcedureType::bridge:
 	case ProcedureType::fibersplint:
-	case ProcedureType::removebridgeOrSplint:
+	case ProcedureType::denture:
+	//case ProcedureType::removebridgeOrSplint:
 		procedure.result = ConstructionRange{
 			.tooth_begin = json["begin"].asInt(),
 			.tooth_end = json["end"].asInt(),
@@ -701,6 +713,14 @@ void Parser::parse(const std::string& jsonString, ToothContainer& status)
 	{
 		Tooth& tooth = status[periodontitis[i]["idx"].asInt()];
 		tooth.periodontitis.set(true);
+	}
+
+	const Json::Value& calculus = json["Calculus"];
+
+	for (int i = 0; i < calculus.size(); i++)
+	{
+		Tooth& tooth = status[calculus[i]["idx"].asInt()];
+		tooth.calculus.set(true);
 	}
 
 

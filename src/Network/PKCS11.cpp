@@ -61,7 +61,8 @@ std::vector<std::string> PKCS11::getModulesList()
 	"C:\\Windows\\System32\\cvP11.dll",
 	"C:\\Windows\\System32\\siecap11.dll",
 	"C:\\Windows\\System32\\cmP1164.dll"
-		}
+	};
+
 	bool newBTrustDriver{ false };
 
 	std::vector<std::string> result;

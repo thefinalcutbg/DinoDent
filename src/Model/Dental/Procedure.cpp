@@ -122,7 +122,32 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 
 			}
 			break;
+			case ProcedureType::denture:
+			{
+				auto& result = std::get<ConstructionRange>(this->result);
 
+				std::vector<int> indexes;
+				indexes.reserve(result.tooth_end - result.tooth_begin + 1);
+
+				for (int i = result.tooth_begin; i <= result.tooth_end; i++) {
+					
+					if (
+						teeth[i].extraction ||
+						teeth[i].root ||
+						teeth[i].implant ||
+						teeth[i].impacted
+					) 
+					{
+						indexes.push_back(i);
+					}
+				}
+
+				//teeth.removeBridgeOrSplint(indexes);
+				teeth.setStatus(indexes, StatusCode::Denture, true);
+
+				for (int i : indexes) teeth[i].splint.LPK = LPK;
+			}
+			/*
 			case ProcedureType::removecrown:
 			{
 				if (hyperdontic) return;
@@ -148,7 +173,7 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 				teeth.removeBridgeOrSplint(begin, end);
 			}
 			break;
-
+			*/
 		default:
 			break;
 		}
@@ -204,7 +229,7 @@ bool Procedure::isToothSpecific() const
 	return
 		type != ProcedureType::general &&
 		type != ProcedureType::bridge &&
-		type != ProcedureType::fibersplint &&
-		type != ProcedureType::removebridgeOrSplint
+		type != ProcedureType::fibersplint
+		// && type != ProcedureType::removebridgeOrSplint
 	;
 }

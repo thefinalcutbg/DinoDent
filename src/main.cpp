@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
 #include "Model/Specialty.h"
 #include "Model/Dental/NhifProcedures.h"
 #include "Model/Dental/ProcedureCode.h"
-#include "Model/Dental/DiagnosisContainer.h"
+#include "Model/Dental/Diagnosis.h"
 #include "Model/Dental/KSMP.h"
 #include "Model/Prescription/Medication.h"
 #include "Model/Prescription/DoseQuantity.h"
@@ -71,7 +71,7 @@ bool initFunction() {
     SpriteSheets::container().initialize(); //loading textures, otherwise program will crash;
     Zodiac::initialize();
     ProcedureCode::initialize();
-    DiagnosisContainer::initialize();
+    Diagnosis::initialize();
     NhifProcedures::initialize(); //parsing json of nhif data
     Medication::initialize();
     KSMP::initialize();

@@ -142,18 +142,18 @@
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
-    <QtInstall>6.4</QtInstall>
+    <QtInstall>6.3.1_msvc2019_64</QtInstall>
     <QtModules>core;network;gui;svg;widgets;qml;printsupport;core5compat</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|Win32'" Label="QtSettings">
     <QtInstall>5.15</QtInstall>
-    <QtModules>core;network;gui;svg;widgets;qml;printsupport;</QtModules>
+    <QtModules>core;network;gui;svg;widgets;qml;printsupport</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|Win32'" Label="QtSettings">
     <QtInstall>5.15</QtInstall>
-    <QtModules>core;network;gui;svg;widgets;qml;printsupport;</QtModules>
+    <QtModules>core;network;gui;svg;widgets;qml;printsupport</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
   </PropertyGroup>
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.props')">
@@ -270,7 +270,7 @@
     <ClCompile Include="src\Database\DbProcedure.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Model\Date.cpp" />
-    <ClCompile Include="src\Model\Dental\DiagnosisContainer.cpp" />
+    <ClCompile Include="src\Model\Dental\Diagnosis.cpp" />
     <ClCompile Include="src\Model\Dental\KSMP.cpp" />
     <ClCompile Include="src\Model\Dental\MKB.cpp" />
     <ClCompile Include="src\Model\Dental\NhifProcedures.cpp" />
@@ -551,7 +551,7 @@
     <ClInclude Include="src\Model\Date.h" />
     <ClInclude Include="src\Model\Dental\AmbList.h" />
     <ClInclude Include="src\Model\Dental\BridgeAlgorithms.h" />
-    <ClInclude Include="src\Model\Dental\DiagnosisContainer.h" />
+    <ClInclude Include="src\Model\Dental\Diagnosis.h" />
     <ClInclude Include="src\Model\Dental\Enums.h" />
     <ClInclude Include="src\Model\Dental\KSMP.h" />
     <ClInclude Include="src\Model\Dental\MKB.h" />

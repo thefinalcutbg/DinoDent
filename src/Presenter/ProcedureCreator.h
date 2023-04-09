@@ -16,7 +16,7 @@ class ProcedureCreator
 	IProcedureInput* view{ nullptr };
 
 	ProcedureCode m_code;
-	std::map<ProcedureType, std::string> diag_map;
+	std::map<ProcedureType, int> diag_map;
 
 	const std::vector<const Tooth*> m_selectedTeeth;
 
@@ -24,11 +24,11 @@ class ProcedureCreator
 	SurfaceValidator surface_validator;
 	BridgeRangeValidator range_validator;
 
-	std::string restorationDiagnosis(const Tooth& tooth);
-	std::string extractionDiagnosis(const Tooth& tooth);
-	std::string endodonticDiagnosis(const Tooth& tooth);
-	std::string crownDiagnosis(const Tooth& tooth);
-	std::string implantDiagnosis(const Tooth& tooth);
+	int restorationDiagnosis(const Tooth& tooth);
+	int extractionDiagnosis(const Tooth& tooth);
+	int endodonticDiagnosis(const Tooth& tooth);
+	int crownDiagnosis(const Tooth& tooth);
+	int implantDiagnosis(const Tooth& tooth);
 	std::array<bool, 6> autoSurfaces(const Tooth& tooth);
 	ConstructionRange getBridgeRange(const std::vector<const Tooth*> m_selectedTeeth);
 	std::string bridgeOrFiberDiagnosis(const std::vector<const Tooth*> selectedTeeth, const ConstructionRange& range);
@@ -41,7 +41,7 @@ public:
 
 	void setView(IProcedureInput* view);
 
-	void diagnosisTextChanged(std::string text) { diag_map[m_code.type()] = text; };
+	void diagnosisChanged(int idx) { diag_map[m_code.type()] = idx; };
 
 	void setProcedureCode(const ProcedureCode& m);
 

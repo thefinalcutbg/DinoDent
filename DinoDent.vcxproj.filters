@@ -57,7 +57,7 @@
     <ClCompile Include="src\Database\DbProcedure.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Model\Dental\DiagnosisContainer.cpp">
+    <ClCompile Include="src\Model\Dental\Diagnosis.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Model\Dental\KSMP.cpp">
@@ -887,7 +887,7 @@
     <ClInclude Include="src\Model\Dental\BridgeAlgorithms.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model\Dental\DiagnosisContainer.h">
+    <ClInclude Include="src\Model\Dental\Diagnosis.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\Dental\Enums.h">

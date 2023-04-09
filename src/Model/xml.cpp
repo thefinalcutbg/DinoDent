@@ -160,7 +160,7 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
             TiXmlElement* service = new TiXmlElement("service");
 
             service->SetAttribute("date", procedure.date.to8601());
-            service->SetAttribute("diagnosis", procedure.diagnosis);
+            service->SetAttribute("diagnosis", procedure.getFullDiagnosis());
             service->SetAttribute("toothCode", ToothUtils::getNhifNumber(procedure.tooth, procedure.temp, procedure.hyperdontic));
             service->SetAttribute("activityCode", procedure.code.nhifCode());
 

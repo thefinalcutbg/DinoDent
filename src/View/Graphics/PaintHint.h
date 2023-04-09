@@ -27,6 +27,7 @@ struct ToothPaintHint
 	ProsthoHint prostho{ 0 };
 	BridgeTerminal bridgePos{ 0 };
 
+	bool calculus{ false };
 	bool lesion{ false };
 	bool dns{ false };
 	bool dnsToothImplacted{ false };

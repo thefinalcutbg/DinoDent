@@ -3,7 +3,6 @@
 #include "SurfStatus.h"
 #include <string>
 #include <array>
-#include "DiagnosisContainer.h"
 #include "Model/FreeFunctions.h"
 
 enum class StatusType{general, obturation, caries, mobility};
@@ -29,7 +28,7 @@ public:
 	Status hyperdontic;
 	Status periodontitis;
 	Status impacted;
-	
+	Status calculus;
 	DentistMade endo;
 	
 	DentistMade extraction;

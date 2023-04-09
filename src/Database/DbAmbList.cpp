@@ -221,6 +221,7 @@ bool DbAmbList::suchNumberExists(int year, int ambNum, long long ambRowid)
         "lpk = '" + User::doctor().LPK + "' "
         "AND rzi ='" + User::practice().rziCode + "' "
         "AND strftime('%Y',date)='" + std::to_string(year) + "' "
+        "AND nrn IS NULL OR nrn = ''"
         "AND num =" + std::to_string(ambNum) + " "
         "AND rowid !=" + std::to_string(ambRowid)
         ;
@@ -243,7 +244,7 @@ int DbAmbList::getNewNumber(Date ambDate, bool nhif)
         "strftime('%Y',date)=? "
         "AND lpk=? "
         "AND rzi=? "
-        "AND nrn IS NULL "
+        "AND nrn IS NULL OR nrn = '' "
         "ORDER BY num DESC LIMIT 1";
 
     Db db(query);

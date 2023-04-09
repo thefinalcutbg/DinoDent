@@ -11,8 +11,9 @@ ProcedureCreator::ProcedureCreator(const std::vector<const Tooth*>& selectedTeet
 }
 
 
-std::string ProcedureCreator::restorationDiagnosis(const Tooth& tooth)
+int ProcedureCreator::restorationDiagnosis(const Tooth& tooth)
 {
+
 	bool secondaryCaries = false;
 
 	for (int i = 0; i < 6; i++)		//checking if somewhere obturation is present also, returning secondary caries
@@ -23,44 +24,40 @@ std::string ProcedureCreator::restorationDiagnosis(const Tooth& tooth)
 		}
 	}
 
-	std::array<bool, 7> existing
+	std::array<bool, 6> existing
 	{
 			tooth.fracture.exists(),
-			secondaryCaries,
 			tooth.caries.exists(),
 			tooth.endo.exists(),
-			tooth.pulpitis.exists() && tooth.lesion.exists(),
+			tooth.pulpitis.exists(),
+			tooth.lesion.exists(),
 			tooth.root.exists(),
-			tooth.obturation.exists()
 	};
 
-	std::array<std::string, 7> diagnosis
+	std::array<int, 7> diagnosis
 	{
-		"Фрактура",
-		"Вторичен кариес",
-		"Кариес",
-		"Status post devital.",
-		"Преендодонтско изграждане",
-		"Изграждане на корен за корона",
-		"Дефектна обтурация"
+		4,
+		1,
+		8,
+		2,
+		3,
+		4, //should be root
 	};
 
-	for (int i = 0; i < 7; i++)
+	for (int i = 0; i < 6; i++)
 	{
 		if (existing[i]) {
 			return diagnosis[i];
 		}
 	}
 
-	return std::string{};
+	return 0;
 }
 
-std::string ProcedureCreator::extractionDiagnosis(const Tooth& tooth)
+int ProcedureCreator::extractionDiagnosis(const Tooth& tooth)
 {
-	std::array<bool, 9> existing
+	std::array<bool, 7> existing
 	{
-		tooth.hyperdontic.exists(),
-		tooth.implant.exists(),
 		tooth.lesion.exists(),
 		tooth.temporary.exists(),
 		tooth.root.exists(),
@@ -70,30 +67,28 @@ std::string ProcedureCreator::extractionDiagnosis(const Tooth& tooth)
 		tooth.pulpitis.exists()
 	};
 
-	std::array<std::string, 9> diagnosis
+	std::array<int, 7> diagnosis
 	{
-		"Свръхброен зъб",
-		"Периимплантит",
-		"Periodontitis chronica granulomatosa localisata",
-		"Разклатен млечен зъб",
-		"Radix relicva",
-		"Пародонтозен зъб",
-		"Подвижен зъб",
-		"Фрактура",
-		"Pulpitis chronica ulcerosa"
+		3,
+		7,	//should be deciduous
+		4,	//should be root
+		7,
+		7,
+		4,
+		2
 	};
 
-	for (int i = 0; i < 9; i++)
+	for (int i = 0; i < 7; i++)
 	{
 		if (existing[i]) {
 			return diagnosis[i];
 		}
 	}
 
-	return std::string{};
+	return 0;
 }
 
-std::string ProcedureCreator::endodonticDiagnosis(const Tooth& tooth)
+int ProcedureCreator::endodonticDiagnosis(const Tooth& tooth)
 {
 	std::array<bool, 4> existing
 	{
@@ -103,12 +98,12 @@ std::string ProcedureCreator::endodonticDiagnosis(const Tooth& tooth)
 		tooth.fracture.exists()
 	};
 
-	std::array<std::string, 4> diagnosis
+	std::array<int, 4> diagnosis
 	{
-		"Pulpitis chronica ulcerosa",
-		"Periodontitis chronica granulomatosa localisata",
-		"Инфектиран коренов пълнеж",
-		"Фрактура"
+		2,
+		3,
+		8,
+		4
 	};
 
 	for (int i = 0; i < 4; i++)
@@ -118,10 +113,10 @@ std::string ProcedureCreator::endodonticDiagnosis(const Tooth& tooth)
 		}
 	}
 
-	return std::string();
+	return 0;
 }
 
-std::string ProcedureCreator::crownDiagnosis(const Tooth& tooth)
+int ProcedureCreator::crownDiagnosis(const Tooth& tooth)
 {
 	std::array<bool, 4> existing
 	{
@@ -131,12 +126,12 @@ std::string ProcedureCreator::crownDiagnosis(const Tooth& tooth)
 		tooth.implant.exists()
 	};
 
-	std::array<std::string, 4> diagnosis
+	std::array<int, 4> diagnosis
 	{
-		"Status post devitalisationem",
-		"Фрактура",
-		"Екстензивна ресторация",
-		"Протезиране върху имплант"
+		8,
+		4,
+		1, //should be extensive restoration
+		5
 	};
 
 	for (int i = 0; i < 4; i++)
@@ -146,14 +141,14 @@ std::string ProcedureCreator::crownDiagnosis(const Tooth& tooth)
 		}
 	}
 
-	return std::string{};
+	return 0;
 }
 
-std::string ProcedureCreator::implantDiagnosis(const Tooth& tooth)
+int ProcedureCreator::implantDiagnosis(const Tooth& tooth)
 {
-		if (tooth.extraction) return "Andontia partialis";
+	if (tooth.extraction) return 5;
 
-		return std::string{};
+		return 0;
 }
 
 std::array<bool, 6> ProcedureCreator::autoSurfaces(const Tooth& tooth)
@@ -263,7 +258,9 @@ void ProcedureCreator::setView(IProcedureInput* view)
 		diag_map[ProcedureType::extraction] = extractionDiagnosis(*t);
 		diag_map[ProcedureType::crown] = crownDiagnosis(*t);
 		diag_map[ProcedureType::implant] = implantDiagnosis(*t);
-
+		diag_map[ProcedureType::bridge] = 5;
+		diag_map[ProcedureType::fibersplint] = 7;
+		diag_map[ProcedureType::denture] = 6;
 	}
 
 	auto [begin, end] = getBridgeRange(m_selectedTeeth);
@@ -281,9 +278,7 @@ void ProcedureCreator::setProcedureCode(const ProcedureCode& m)
 
 	m_code = m;
 
-	view->diagnosisEdit()->set_Text(diag_map[m.type()]);
-
-	view->diagnosisEdit()->setInputValidator(&notEmpty_validator);
+	view->diagnosisCombo()->setIndex(diag_map[m.type()]);
 
 	view->setNhifLayout(m.nhifCode() != 0);
 
@@ -302,15 +297,18 @@ void ProcedureCreator::setProcedureCode(const ProcedureCode& m)
 			break;
 		case ProcedureType::bridge:
 		case ProcedureType::fibersplint:
+		case ProcedureType::denture:
 			view->setLayout(IProcedureInput::Range);
 			view->surfaceSelector()->setInputValidator(nullptr);
 			view->rangeWidget()->setInputValidator(&range_validator);
 			break;
+			/*
 		case ProcedureType::removebridgeOrSplint:
 			view->setLayout(IProcedureInput::Range);
 			view->surfaceSelector()->setInputValidator(nullptr);
 			view->rangeWidget()->setInputValidator(nullptr);
 			break;
+			*/
 		case ProcedureType::general:
 			view->setLayout(IProcedureInput::General);
 			view->surfaceSelector()->setInputValidator(nullptr);
@@ -332,9 +330,13 @@ void ProcedureCreator::setProcedureCode(const ProcedureCode& m)
 bool ProcedureCreator::isValid()
 {
 
+	if (!view->diagnosisCombo()->getIndex()) {
+		view->diagnosisCombo()->setFocus();
+		return false;
+	}
+
 	std::vector<AbstractUIElement*> validatable{
 		view->dateEdit(),
-		view->diagnosisEdit(),
 		view->surfaceSelector(),
 		view->rangeWidget()
 	};
@@ -363,9 +365,10 @@ std::vector<Procedure> ProcedureCreator::getProcedures()
 	procedure.financingSource = view->getFinancingSource();
 	procedure.LPK = User::doctor().LPK;
 	procedure.date = view->dateEdit()->getDate();
-	procedure.diagnosis = view->diagnosisEdit()->getText();
+	procedure.diagDescription = view->diagnosisEdit()->getText();
 	procedure.notes = view->getNotes();
 	procedure.hyperdontic = view->onHyperdontic();
+	procedure.diagnosis = view->diagnosisCombo()->getIndex();
 
 	procedure.tooth = -1;
 
@@ -385,7 +388,8 @@ std::vector<Procedure> ProcedureCreator::getProcedures()
 		break;
 	case ProcedureType::bridge:
 	case ProcedureType::fibersplint:
-	case ProcedureType::removebridgeOrSplint:
+	case ProcedureType::denture:
+	//case ProcedureType::removebridgeOrSplint:
 	{
 		auto [begin, end] = view->rangeWidget()->getRange();
 		procedure.result = ConstructionRange{ begin, end };

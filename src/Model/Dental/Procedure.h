@@ -8,6 +8,7 @@
 #include "Model/Date.h"
 #include "StatusData.h"
 #include "ProcedureCode.h"
+#include "Diagnosis.h"
 
 class ToothContainer;
 
@@ -42,7 +43,8 @@ struct Procedure
 
     FinancingSource financingSource{ FinancingSource::Patient };
 
-    std::string diagnosis;
+    Diagnosis diagnosis;
+    std::string diagDescription;
 
     int tooth{ -1 };        //-1 for general/several teeth, any in range 0-31 for specific tooth
     bool temp{ false };
@@ -61,10 +63,32 @@ struct Procedure
 
     bool isToothSpecific() const;
     bool isRangeSpecific() const {
-        return code.type() == ProcedureType::bridge || code.type() == ProcedureType::fibersplint;
+        return 
+            code.type() == ProcedureType::bridge || 
+            code.type() == ProcedureType::fibersplint ||
+            code.type() == ProcedureType::denture;
     }
     bool isNhif() const {
         return financingSource == FinancingSource::NHIF;
+    }
+
+    std::string getFullDiagnosis() const {
+        
+        std::string result;
+        result += diagnosis.name();
+
+        if (diagDescription.size()) {
+            
+            bool placeInBrackets = diagnosis.isValid();
+
+            if (placeInBrackets) { result += " ("; }
+
+            result += diagDescription;
+
+            if (placeInBrackets) { result += ")"; }
+        }
+
+        return result;
     }
 };
 

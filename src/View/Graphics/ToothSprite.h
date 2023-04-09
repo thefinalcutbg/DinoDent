@@ -13,6 +13,7 @@ struct TexturePack
 	QPixmap* lesion;
 	QPixmap* perio;
 	QPixmap* implant;
+	QPixmap* calculus;
 	QPixmap* lesionImplant;
 	QPixmap* perioImplant;
 	QPixmap* bridgeConnected;
@@ -32,6 +33,7 @@ struct TexturePack
 		delete endo;
 		delete fiberOptic;
 		delete crown;
+		delete calculus;
 		delete lesion;
 		delete perio;
 		delete bridgeConnected;

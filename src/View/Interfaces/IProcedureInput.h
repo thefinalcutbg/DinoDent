@@ -5,6 +5,7 @@
 #include "Model/Dental/Procedure.h"
 #include "View/Interfaces/AbstractSurfaceSelector.h"
 #include "View/Interfaces/AbstractRangeEdit.h"
+#include "View/Interfaces/AbstractComboBox.h"
 
 class ProcedureCreator;
 
@@ -32,4 +33,5 @@ public:
 	virtual FinancingSource getFinancingSource() = 0;
 	virtual void setHyperdonticState(bool checked) = 0;
 	virtual bool onHyperdontic() = 0;
+	virtual AbstractComboBox* diagnosisCombo() = 0;
 };

@@ -9,9 +9,11 @@ ControlPanel::ControlPanel(QWidget* parent)
 {
 	ui.setupUi(this);
 
+	ui.Dsn->hide();
+
 	StatusButton* pathologies[]
 	{
-		ui.Caries, ui.Pulpitis, ui.Extraction, ui.ApicalLesion, ui.Fracture, ui.Periodontitis, ui.Dsn, ui.Impacted, ui.Root
+		ui.Caries, ui.Pulpitis, ui.Extraction, ui.ApicalLesion, ui.Fracture, ui.Periodontitis, ui.Dsn, ui.Impacted, ui.Root, ui.Calculus
 	};
 
 	for (auto& p : pathologies) p->pathology = true;
@@ -39,6 +41,7 @@ ControlPanel::ControlPanel(QWidget* parent)
 	lambdaConnect(ui.Fiber, StatusCode::FiberSplint);
 	lambdaConnect(ui.Fracture, StatusCode::Fracture);
 	lambdaConnect(ui.Implant, StatusCode::Implant);
+	lambdaConnect(ui.Calculus, StatusCode::Calculus);
 	lambdaConnect(ui.Impacted, StatusCode::Impacted);
 	lambdaConnect(ui.Obturation, StatusCode::Obturation);
 	lambdaConnect(ui.Periodontitis, StatusCode::Periodontitis);
@@ -107,6 +110,7 @@ void ControlPanel::setModel(const CheckModel& checkModel)
 	setCheck(ui.Root, StatusCode::Root);
 	setCheck(ui.Temporary, StatusCode::Temporary);
 	setCheck(ui.falseTooth, StatusCode::Denture);
+	setCheck(ui.Calculus, StatusCode::Calculus);
 
 	if (checkModel.mobilityStatus[0] == CheckState::checked) {
 		ui.Mobility->setCurrentState(1); return;

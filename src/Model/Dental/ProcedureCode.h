@@ -7,17 +7,14 @@ enum class ProcedureType
 {
     none = 0,
     general = 1,
-    any = 2,
-    obturation = 3,
+    obturation = 2,
+    endo = 3,
     extraction = 4,
-    endo = 5,
-    crown = 6,
-    implant = 7,
-    bridge = 8,
-    fibersplint = 9,
-    removecrown = 10,
-    removepost = 11,
-    removebridgeOrSplint = 12
+    crown = 5,
+    implant = 6,
+    bridge = 7,
+    fibersplint = 8,
+    denture = 9
 };
 
 

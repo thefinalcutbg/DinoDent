@@ -254,19 +254,31 @@ AllergiesTile::AllergiesTile(QWidget* parent) :
 
 void AllergiesTile::setData(const Patient& patient)
 {
-	if (!patient.allergies.size())
-		allergies = noInfo;
-	else
-		allergies = elide(QString::fromStdString(patient.allergies), 40);
 
-	if (!patient.currentDiseases.size())
-		currentDiseases = noInfo;
-	else currentDiseases = elide(QString::fromStdString(patient.currentDiseases), 40);
+	auto lambda = [&](const std::vector<MedicalStatus>& s)->QString {
 
-	if (!patient.pastDiseases.size())
-		pastDiseases = noInfo;
-	else
-		pastDiseases = elide(QString::fromStdString(patient.pastDiseases), 40);
+		QString result;
+
+		if (s.empty()) return "Не съобщава";
+
+		for (int i = 0; i < s.size(); i++)
+		{
+			result += s[i].data.c_str();
+
+			if (i != s.size() - 1) {
+				result.append(", ");
+			}
+		}
+
+		result = elide(result, 40);
+
+		return result;
+
+	};
+
+	allergies = lambda(patient.medStats.allergies);
+	currentDiseases = lambda(patient.medStats.condition);
+	pastDiseases = lambda(patient.medStats.history);
 
 	update();
 }

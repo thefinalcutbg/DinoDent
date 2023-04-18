@@ -84,28 +84,20 @@ void PatientInfoPresenter::patientTileClicked()
 
     view->setPatient(*patient, patientAge);
 }
-
+#include <qdebug.h>
 void PatientInfoPresenter::allergiesTileClicked()
 {
-    auto result = ModalDialogBuilder::openMedicalStatusDialog({});
+    auto result = ModalDialogBuilder::openMedicalStatusDialog(patient->medStats);
 
-    return;
+    if (!result) {
+        return;
+    }
 
-    AllergiesDialogPresenter p(*patient.get());
+    patient->medStats = result.value();
 
-    auto data = p.openDialog();
+//    auto success = DbPatient::updateAllergies(patient->rowid, d.allergies, d.current, d.past);
 
-    if (!data.has_value()) return;
-
-    auto& d = data.value();
-
-    auto success = DbPatient::updateAllergies(patient->rowid, d.allergies, d.current, d.past);
-
-    if (!success) return;
-
-    patient->allergies = d.allergies;
-    patient->currentDiseases = d.current;
-    patient->pastDiseases = d.past;
+ //   if (!success) return;
 
     view->setPatient(*patient, patientAge);
 }

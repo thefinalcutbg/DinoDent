@@ -5,11 +5,17 @@ MedicalStatusDialog::MedicalStatusDialog(const MedicalStatuses& s, QWidget *pare
 {
 	ui.setupUi(this);
 
+	setWindowTitle("Медицински статус");
+
 	ui.allergiesWidget->setName("Алергии");
 	ui.currentWidget->setName("Настоящи заболявания");
 	ui.pastWidget->setName("Минали заболявания");
 
-	connect(ui.okButton, &QPushButton::clicked, [this] { accept(); });
+	ui.allergiesWidget->setMedicalStatus(s.allergies);
+	ui.currentWidget->setMedicalStatus(s.condition);
+	ui.pastWidget->setMedicalStatus(s.history);
+
+	connect(ui.okButton, &QPushButton::clicked, [&] { accept(); });
 }
 
 MedicalStatuses MedicalStatusDialog::getResult()

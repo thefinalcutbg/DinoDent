@@ -11,6 +11,6 @@ struct MedicalStatus
 struct MedicalStatuses	
 {
 	std::vector<MedicalStatus> allergies;
-	std::vector<MedicalStatus> history;
 	std::vector<MedicalStatus> condition;
+	std::vector<MedicalStatus> history;
 };

@@ -42,6 +42,7 @@ std::vector<MedicalStatus> MedicalStatusWidget::getMedicalStatus()
 
 	for (int i = 0; i < ui.statusList->count(); i++)
 	{
+
 		result.push_back(
 			{ 
 				.nrn = {}, 

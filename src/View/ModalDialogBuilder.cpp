@@ -350,10 +350,9 @@ std::optional<MedicalStatuses> ModalDialogBuilder::openMedicalStatusDialog(const
 {
 	MedicalStatusDialog d(s);
 
-	if (d.exec() == QDialog::Accepted)
-	{
-		return d.getResult();
-	}
+	d.exec();
+
+	if(d.result() == QDialog::Accepted) return d.getResult();
 
 	return std::optional<MedicalStatuses>();
 }

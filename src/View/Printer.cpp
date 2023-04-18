@@ -97,24 +97,15 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
     const char* defaultStatus{ "Не съобщава" };
 
     report.dataManager()->setReportVariable("allergies",
-        patient.allergies.empty() ?
-        defaultStatus
-        :
-        QString::fromStdString(patient.allergies)
+        MedicalStatuses::getAsString(patient.medStats.allergies).c_str()
     );
 
     report.dataManager()->setReportVariable("currentDiseases",
-                                            patient.currentDiseases.empty() ?
-                                            defaultStatus
-                                            :
-                                            QString::fromStdString(patient.currentDiseases)
+        MedicalStatuses::getAsString(patient.medStats.condition).c_str()
     );
 
     report.dataManager()->setReportVariable("pastDiseases",
-        patient.pastDiseases.empty() ?
-        defaultStatus
-        :
-        QString::fromStdString(patient.pastDiseases)
+        MedicalStatuses::getAsString(patient.medStats.history).c_str()
     );
 
 

@@ -8,7 +8,6 @@
 #include "Database/DbPatientSummary.h"
 #include "Database/DbPerio.h"
 #include "Presenter/PatientDialogPresenter.h"
-#include "Presenter/AllergiesDialogPresenter.h"
 #include "Model/Dental/PerioStatistic.h"
 #include "Presenter/TabPresenter.h"
 #include "Model/TableRows.h"
@@ -16,6 +15,7 @@
 #include "Model/FreeFunctions.h"
 #include "Model/Dental/NhifProcedures.h"
 #include "qdebug.h"
+
 TimeFrame* PatientSummaryPresenter::currentFrame()
 {
     if (state.currentIdx < 0 ||

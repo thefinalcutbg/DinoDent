@@ -34,10 +34,6 @@ struct Patient
 
 	MedicalStatuses medStats;
 
-	std::string allergies;
-	std::string currentDiseases;
-	std::string pastDiseases;
-
 	TeethNotes teethNotes;
 
 	std::optional<std::vector<Procedure>> PISHistory;

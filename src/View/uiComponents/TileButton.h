@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <QAbstractButton>
 #include <QWidget>
@@ -73,12 +73,12 @@ private:
 class AllergiesTile : public TileButton
 {
     
-    QString allergiesLabel;
-    QString currentDLabel;
-    QString pastDLabel;
-    QString noInfo;
+    static inline const QString 
+        allergiesLabel{ "Алергии:" }, 
+        currentDLabel{ "Настоящи заболявания:" },
+        pastDLabel{ "Минали заболявания:" };
     
-    QString allergies;
+    QString allergies; 
     QString currentDiseases;
     QString pastDiseases;
 

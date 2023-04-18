@@ -9,7 +9,6 @@
 #include "Model/Validators/AmbListValidator.h"
 
 #include "Presenter/PatientDialogPresenter.h"
-#include "Presenter/AllergiesDialogPresenter.h"
 #include "Presenter/ProcedureDialogPresenter.h"
 #include "Presenter/ProcedureEditorPresenter.h"
 #include "Presenter/ReferralPresenter.h"

@@ -114,9 +114,7 @@ void PatientDialogPresenter::searchDbForPatient(int type)
 
 	Patient patient = DbPatient::get(patientId, type);
 
-	allergies = patient.allergies;
-	pastDiseases = patient.pastDiseases;
-	currentDiseases = patient.currentDiseases;
+	medStats = patient.medStats;
 
 	if (patient.rowid == 0)
 	{
@@ -148,9 +146,8 @@ void PatientDialogPresenter::setPatientToView(const Patient& patient)
 	
 	view->lineEdit(id)->validateInput();
 
-	allergies = patient.allergies;
-	currentDiseases = patient.currentDiseases;
-	pastDiseases = patient.pastDiseases;
+	medStats = patient.medStats;
+
 }
 
 bool PatientDialogPresenter::viewIsValid()
@@ -191,9 +188,7 @@ Patient PatientDialogPresenter::getPatientFromView()
 {
 	Patient patient = view->getPatient();
 
-	patient.allergies = allergies;
-	patient.currentDiseases = currentDiseases;
-	patient.pastDiseases = pastDiseases;
+	patient.medStats = medStats;
 	patient.rowid = rowid;
 
 	return patient;

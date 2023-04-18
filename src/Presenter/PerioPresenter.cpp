@@ -7,7 +7,6 @@
 #include "View/ModalDialogBuilder.h"
 #include "Database/DbPerio.h"
 #include "Presenter/PatientDialogPresenter.h"
-#include "Presenter/AllergiesDialogPresenter.h"
 
 PerioPresenter::PerioPresenter(ITabView* view, std::shared_ptr<Patient> patient) :
     TabInstance(view, TabType::PerioList, patient),

@@ -7,8 +7,8 @@ long long DbPatient::insert(const Patient& patient)
     Db db(
         "INSERT INTO patient "
         "(type, id, birth, sex, fname, mname, lname, "
-        "ekatte, address, hirbno, phone , allergies, pastDiseases, currentDiseases) "
-        "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+        "ekatte, address, hirbno, phone) "
+        "VALUES (?,?,?,?,?,?,?,?,?,?,?)"
     );
 
     db.bind(1, patient.type);
@@ -22,9 +22,6 @@ long long DbPatient::insert(const Patient& patient)
     db.bind(9, patient.address);
     db.bind(10, patient.HIRBNo);
     db.bind(11, patient.phone);
-    db.bind(12, patient.allergies);
-    db.bind(13, patient.pastDiseases);
-    db.bind(14, patient.currentDiseases);
 
     if (db.execute()) return db.lastInsertedRowID();
 
@@ -47,9 +44,6 @@ bool DbPatient::update(const Patient& patient)
         "address=?,"
         "hirbno=?,"
         "phone=?,"
-        "allergies=?,"
-        "currentDiseases=?,"
-        "pastDiseases=? "
         "WHERE rowid=?"
     );
 
@@ -63,10 +57,7 @@ bool DbPatient::update(const Patient& patient)
     db.bind(8, patient.address);
     db.bind(9, patient.HIRBNo);
     db.bind(10, patient.phone);
-    db.bind(11, patient.allergies);
-    db.bind(12, patient.pastDiseases);
-    db.bind(13, patient.currentDiseases);
-    db.bind(14, patient.rowid);
+    db.bind(11, patient.rowid);
 
     return db.execute();
 
@@ -78,9 +69,11 @@ Patient DbPatient::get(std::string patientID, int type)
         "FROM patient WHERE id = '" + patientID + "' "
         "AND type = " + std::to_string(type);
 
+    Db db(query);
+
     Patient patient;
 
-    for (Db db(query); db.hasRows();)
+    while (db.hasRows())
     {
         patient.rowid = db.asRowId(0),
         patient.type = db.asInt(1);
@@ -94,24 +87,23 @@ Patient DbPatient::get(std::string patientID, int type)
         patient.address = db.asString(9);
         patient.HIRBNo = db.asString(10);
         patient.phone = db.asString(11);
-        patient.allergies = db.asString(12);
-        patient.currentDiseases = db.asString(13);
-        patient.pastDiseases = db.asString(14);
     }
 
     patient.teethNotes = getPresentNotes(patient.rowid);
+    patient.medStats = getMedicalStatuses(patient.rowid, db);
 
     return patient;
 }
 
 Patient DbPatient::get(long long rowid)
 {
-    std::string query = "SELECT * "
-        "FROM patient WHERE rowid = " + std::to_string(rowid);
+    Db db("SELECT * "
+        "FROM patient WHERE rowid = " + std::to_string(rowid)
+    );
 
     Patient patient;
 
-    for (Db db(query); db.hasRows();)
+    while (db.hasRows())
     {
         patient.rowid = db.asRowId(0),
         patient.type = db.asInt(1);
@@ -125,32 +117,131 @@ Patient DbPatient::get(long long rowid)
         patient.address = db.asString(9);
         patient.HIRBNo = db.asString(10);
         patient.phone = db.asString(11);
-        patient.allergies = db.asString(12);
-        patient.currentDiseases = db.asString(13);
-        patient.pastDiseases = db.asString(14);
     }
 
     patient.teethNotes = getPresentNotes(patient.rowid);
+    patient.medStats = getMedicalStatuses(rowid, db);
 
     return patient;
 }
 
-bool DbPatient::updateAllergies(long long patientRowId, const std::string& allergies, const std::string& current, const std::string& past)
-{
-    std::string query =
-        "UPDATE patient SET "
-        "allergies=?,"
-        "currentDiseases=?,"
-        "pastDiseases=? "
-        "WHERE rowid=?"
-        ;
-     Db db(query);
-     db.bind(1, allergies); 
-     db.bind(2, current); 
-     db.bind(3, past); 
-     db.bind(4, patientRowId);
 
-     return db.execute();
+enum MedStatusType { Allergy, CurrentDiseases, PastDiseases };
+
+bool DbPatient::updateMedStats(long long patientRowId, const MedicalStatuses& s)
+{
+
+    Db db("DELETE FROM medical_status WHERE patient_rowid=?");
+
+    db.bind(1, patientRowId);
+
+    db.execute();
+
+    auto lambda = [&](const std::vector<MedicalStatus>& list, MedStatusType t) {
+
+        for (auto& status : list)
+        {
+
+            db.newStatement("INSERT INTO medical_status (patient_rowid, nrn, data, type) VALUES (?,?,?,?)");
+
+            db.bind(1, patientRowId);
+            db.bind(2, status.nrn);
+            db.bind(3, status.data);
+            db.bind(4, t);
+
+            db.execute();
+        }
+    };
+
+    lambda(s.allergies, Allergy);
+    lambda(s.condition, CurrentDiseases);
+    lambda(s.history, PastDiseases);
+
+    return true;
+
+}
+
+
+bool DbPatient::updateMedStatus(long long patientRowId, const MedicalStatuses& s, Db& db)
+{
+    db.newStatement("DELETE FROM medical_status WHERE patient_rowid=?");
+
+    db.bind(1, patientRowId);
+
+    db.execute();
+
+    auto lambda = [&](const std::vector<MedicalStatus>& list, MedStatusType t) {
+
+        for (auto& status : list)
+        {
+
+            db.newStatement("INSERT INTO medical_status (patient_rowid, nrn, data, type) VALUES (?,?,?,?)");
+
+            db.bind(1, patientRowId);
+            db.bind(2, status.nrn);
+            db.bind(3, status.data);
+            db.bind(4, t);
+
+            db.execute();
+        }
+    };
+
+    lambda(s.allergies, Allergy);
+    lambda(s.condition, CurrentDiseases);
+    lambda(s.history, PastDiseases);
+
+    return true;
+}
+
+MedicalStatuses DbPatient::getMedicalStatuses(long long patientRowId)
+{
+    MedicalStatuses result;
+
+    Db db("SELECT type, nrn, data FROM medical_status WHERE patient_rowid=?");
+    db.bind(1, patientRowId);
+
+    while (db.hasRows())
+    {
+        std::vector<MedicalStatus>* stat;
+
+        switch (db.asInt(0))
+        {
+            case Allergy: stat = &result.allergies; break;
+            case CurrentDiseases: stat = &result.condition; break;
+            case PastDiseases: stat = &result.history; break;
+            default: continue;
+        }
+
+        stat->push_back(MedicalStatus{ .nrn = db.asString(1), .data = db.asString(2) });
+    }
+
+    return result;
+
+}
+
+MedicalStatuses DbPatient::getMedicalStatuses(long long patientRowId, Db& db)
+{
+    MedicalStatuses result;
+
+    db.newStatement("SELECT type, nrn, data FROM medical_status WHERE patient_rowid=?");
+    db.bind(1, patientRowId);
+
+    while (db.hasRows())
+    {
+        std::vector<MedicalStatus>* stat;
+
+        switch (db.asInt(0))
+        {
+            case Allergy: stat = &result.allergies; break;
+            case CurrentDiseases: stat = &result.condition; break;
+            case PastDiseases: stat = &result.history; break;
+            default: continue;
+        }
+
+        stat->push_back(MedicalStatus{ .nrn = db.asString(1), .data = db.asString(2) });
+    }
+
+    return result;
 }
 
 TeethNotes DbPatient::getPresentNotes(long long patientRowId)

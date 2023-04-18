@@ -237,9 +237,6 @@
     <ClCompile Include="src\Presenter\PracticeDialogPresenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Presenter\AllergiesDialogPresenter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Presenter\ButtonSurfaceMatrix.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -505,9 +502,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\Widgets\PracticeDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\View\Widgets\AllergiesDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\Widgets\AmbListSelector.cpp">
@@ -1109,9 +1103,6 @@
     <ClInclude Include="src\Presenter\PracticeDialogPresenter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Presenter\AllergiesDialogPresenter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Presenter\ButtonSurfaceMatrix.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1696,9 +1687,6 @@
     <QtMoc Include="src\View\Widgets\PracticeDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\Widgets\AllergiesDialog.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="src\View\Widgets\AmbListSelector.h">
       <Filter>Header Files</Filter>
     </QtMoc>
@@ -1882,9 +1870,6 @@
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\View\Widgets\PracticeDialog.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="src\View\Widgets\AllergiesDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\Widgets\AmbListSelector.ui">

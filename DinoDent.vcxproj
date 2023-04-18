@@ -329,7 +329,6 @@
     <ClCompile Include="src\Network\XmlSigner.cpp" />
     <ClCompile Include="src\Presenter\ProcedureCreator.cpp" />
     <ClCompile Include="src\Presenter\PracticeDialogPresenter.cpp" />
-    <ClCompile Include="src\Presenter\AllergiesDialogPresenter.cpp" />
     <ClCompile Include="src\Presenter\ButtonSurfaceMatrix.cpp" />
     <ClCompile Include="src\Presenter\CheckState.cpp" />
     <ClCompile Include="src\Presenter\DetailedStatusPresenter.cpp" />
@@ -447,7 +446,6 @@
     <ClCompile Include="src\View\Widgets\ButtonDialog.cpp" />
     <ClCompile Include="src\View\Widgets\MedicalStatusDialog.cpp" />
     <ClCompile Include="src\View\Widgets\PracticeDialog.cpp" />
-    <ClCompile Include="src\View\Widgets\AllergiesDialog.cpp" />
     <ClCompile Include="src\View\Widgets\AmbListSelector.cpp" />
     <ClCompile Include="src\View\Widgets\BusinessOpAddDialog.cpp" />
     <ClCompile Include="src\View\Widgets\BusinessOpEditDialog.cpp" />
@@ -625,7 +623,6 @@
     <ClInclude Include="src\Network\XmlSigner.h" />
     <ClInclude Include="src\Presenter\ProcedureCreator.h" />
     <ClInclude Include="src\Presenter\PracticeDialogPresenter.h" />
-    <ClInclude Include="src\Presenter\AllergiesDialogPresenter.h" />
     <ClInclude Include="src\Presenter\ButtonSurfaceMatrix.h" />
     <ClInclude Include="src\Presenter\CheckState.h" />
     <ClInclude Include="src\Presenter\DetailedStatusPresenter.h" />
@@ -790,7 +787,6 @@
     <QtMoc Include="src\View\Widgets\BusinessOpEditDialog.h" />
     <QtMoc Include="src\View\Widgets\BusinessOpAddDialog.h" />
     <QtMoc Include="src\View\Widgets\AmbListSelector.h" />
-    <QtMoc Include="src\View\Widgets\AllergiesDialog.h" />
     <QtMoc Include="src\View\Widgets\PracticeDialog.h" />
     <QtMoc Include="src\View\uiComponents\UserButton.h" />
     <QtMoc Include="src\View\uiComponents\ToothButton.h" />
@@ -851,7 +847,6 @@
     <QtUic Include="src\View\Widgets\ButtonDialog.ui" />
     <QtUic Include="src\View\Widgets\MedicalStatusDialog.ui" />
     <QtUic Include="src\View\Widgets\PracticeDialog.ui" />
-    <QtUic Include="src\View\Widgets\AllergiesDialog.ui" />
     <QtUic Include="src\View\Widgets\AmbListSelector.ui" />
     <QtUic Include="src\View\Widgets\BusinessOpAddDialog.ui" />
     <QtUic Include="src\View\Widgets\BusinessOpEditDialog.ui" />

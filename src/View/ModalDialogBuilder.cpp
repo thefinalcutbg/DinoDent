@@ -24,14 +24,6 @@ void ModalDialogBuilder::openDialog(ProcedureEditorPresenter* p)
 	d.exec();
 }
 
-#include "View/Widgets/AllergiesDialog.h"
-
-void ModalDialogBuilder::openDialog(AllergiesDialogPresenter* p)
-{
-	AllergiesDialog d(p);
-	d.exec();
-}
-
 #include "View/Widgets/AmbListSelector.h"
 
 void ModalDialogBuilder::openDialog(ListSelectorPresenter* p)

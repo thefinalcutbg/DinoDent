@@ -234,11 +234,7 @@ void PatientTile::setData(const Patient& patient, int age)
 
 
 AllergiesTile::AllergiesTile(QWidget* parent) :
-	TileButton(parent),
-	allergiesLabel("Алергии:"),
-	currentDLabel("Настоящи заболявания:"),
-	pastDLabel("Минали заболявания:"),
-	noInfo("Пациентът не съобщава")
+	TileButton(parent)
 {
 	reverse();
 	header.setPointSizeF(10);

@@ -16,5 +16,5 @@ public:
 	int getIndex();
 	void setIndex(int index);
 	void disable(bool disable);
-	void setFocus() override { QWidget::setFocus(); showPopup(); }
+	void setFocus() override { QWidget::setFocus(); if(isVisible()) showPopup(); }
 };

@@ -65,7 +65,13 @@ void ProcedureContainer::removeProcedure(int idx)
 {
     if (idx < 0 || idx >= m_proc.size()) return;
 
+    if (m_proc[idx].his_index) {
+        m_removed.push_back(m_proc[idx]);
+    }
+
     m_proc.erase(m_proc.begin() + idx);
+
+    
 }
 
 void ProcedureContainer::replaceProcedure(const Procedure& p, int idx)

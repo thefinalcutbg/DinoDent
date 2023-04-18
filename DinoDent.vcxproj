@@ -384,6 +384,7 @@
     <ClCompile Include="src\View\Interfaces\AbstractUIElement.cpp" />
     <ClCompile Include="src\View\Interfaces\ITabView.cpp" />
     <ClCompile Include="src\View\ModalDialogBuilder.cpp" />
+    <ClCompile Include="src\View\SubWidgets\MedicalStatusWidget.cpp" />
     <ClCompile Include="src\View\TableModels\AmbListTableModel.cpp" />
     <ClCompile Include="src\View\TableModels\BusinessOperationModel.cpp" />
     <ClCompile Include="src\View\TableModels\FinancialTableModel.cpp" />
@@ -444,6 +445,7 @@
     <ClCompile Include="src\View\uiComponents\ToothButton.cpp" />
     <ClCompile Include="src\View\uiComponents\UserButton.cpp" />
     <ClCompile Include="src\View\Widgets\ButtonDialog.cpp" />
+    <ClCompile Include="src\View\Widgets\MedicalStatusDialog.cpp" />
     <ClCompile Include="src\View\Widgets\PracticeDialog.cpp" />
     <ClCompile Include="src\View\Widgets\AllergiesDialog.cpp" />
     <ClCompile Include="src\View\Widgets\AmbListSelector.cpp" />
@@ -500,6 +502,7 @@
     <ClInclude Include="src\Model\Dental\DentalNum.h" />
     <ClInclude Include="src\Model\Dental\DentalStatistics.h" />
     <ClInclude Include="src\Model\Dental\ProcedureCode.h" />
+    <ClInclude Include="src\Model\MedicalStatuses.h" />
     <ClInclude Include="src\Model\Referrals\NumberVariant.h" />
     <ClInclude Include="src\Model\Referrals\Referral.h" />
     <ClInclude Include="src\Model\NumenclatureTemplate.h" />
@@ -716,6 +719,7 @@
     <ClInclude Include="src\View\Interfaces\ITabView.h" />
     <ClInclude Include="src\View\Interfaces\IStatisticDialogView.h" />
     <ClInclude Include="src\View\ModalDialogBuilder.h" />
+    <QtMoc Include="src\View\SubWidgets\MedicalStatusWidget.h" />
     <ClInclude Include="src\View\TableModels\BusinessOperationModel.h" />
     <ClInclude Include="src\View\TableModels\MedicationTableModel.h" />
     <QtMoc Include="src\View\Widgets\UpdatePromptDialog.h" />
@@ -748,6 +752,7 @@
     <QtMoc Include="src\View\Widgets\PracticeSelectorView.h" />
     <QtMoc Include="src\View\Widgets\ReferralDialog.h" />
     <QtMoc Include="src\View\Widgets\ButtonDialog.h" />
+    <QtMoc Include="src\View\Widgets\MedicalStatusDialog.h" />
     <ClInclude Include="src\View\Widgets\ReportDialogResult.h" />
     <QtMoc Include="src\View\Widgets\ReportFilesView.h" />
     <QtMoc Include="src\View\Widgets\StatisticView.h" />
@@ -832,6 +837,7 @@
     <QtMoc Include="src\View\Graphics\ContextMenu.h" />
   </ItemGroup>
   <ItemGroup>
+    <QtUic Include="src\View\SubWidgets\MedicalStatusWidget.ui" />
     <QtUic Include="src\View\SubWidgets\ProcedureInput.ui" />
     <QtUic Include="src\View\SubWidgets\ControlPanel.ui" />
     <QtUic Include="src\View\SubWidgets\PatientTileInfo.ui" />
@@ -843,6 +849,7 @@
     <QtUic Include="src\View\SubWidgets\TabTitle.ui" />
     <QtUic Include="src\View\SubWidgets\VitaWidget.ui" />
     <QtUic Include="src\View\Widgets\ButtonDialog.ui" />
+    <QtUic Include="src\View\Widgets\MedicalStatusDialog.ui" />
     <QtUic Include="src\View\Widgets\PracticeDialog.ui" />
     <QtUic Include="src\View\Widgets\AllergiesDialog.ui" />
     <QtUic Include="src\View\Widgets\AmbListSelector.ui" />

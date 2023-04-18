@@ -344,6 +344,20 @@ std::optional<std::string> ModalDialogBuilder::openFile()
 	return result.toStdString();
 }
 
+#include "View/Widgets/MedicalStatusDialog.h"
+
+std::optional<MedicalStatuses> ModalDialogBuilder::openMedicalStatusDialog(const MedicalStatuses& s)
+{
+	MedicalStatusDialog d(s);
+
+	if (d.exec() == QDialog::Accepted)
+	{
+		return d.getResult();
+	}
+
+	return std::optional<MedicalStatuses>();
+}
+
 
 
 #include <QProcess>

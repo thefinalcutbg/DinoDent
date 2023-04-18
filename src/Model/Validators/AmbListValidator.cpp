@@ -30,6 +30,10 @@ AmbListValidator::AmbListValidator(const AmbList& list, const Patient& patient)
 
 bool AmbListValidator::ambListIsValid()
 {
+    if (ambList.nrn.size() && !ambList.his_updated) {
+        _error = "Амбулаторният лист е редактиран, но промените не са отразени в НЗИС";
+        return false;
+    }
 
     for (auto& p : m_procedures)
     {

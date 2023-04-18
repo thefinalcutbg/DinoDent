@@ -349,23 +349,15 @@ void ListView::setReferrals(const std::vector<Referral>& referrals)
 
 }
 
-void ListView::setNrn(const std::string& nrn)
+
+
+
+void ListView::setHisButtonText(HisButtonProperties prop)
 {
-
-	ui.ambNumSpin->setHidden(nrn.size());
-
-	if (nrn.empty()) {
-
-		ui.nrnButton->setText("Изпрати към НЗИС");
-		ui.nrnButton->setHoverText("Изпрати към НЗИС");
-		ui.label->setText("Амб лист №:");
-		
-		return;
-	}
-
-	ui.label->setText("НРН:");
-	ui.nrnButton->setText(nrn.c_str());
-	ui.nrnButton->setHoverText("Анулирай");
+	ui.ambNumSpin->setHidden(prop.hideSpinBox);
+	ui.label->setText(prop.labelText.c_str());
+	ui.nrnButton->setText(prop.buttonText.c_str());
+	ui.nrnButton->setHoverText(prop.hoverText.c_str());
 }
 
 

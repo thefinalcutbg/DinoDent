@@ -83,12 +83,48 @@ void ListPresenter::refreshPrices()
     view->refreshPriceLabel(nzokPrice);
 }
 
+void ListPresenter::setHisButtonToView()
+{
+    if (m_ambList.nrn.empty()) {
+        
+        view->setHisButtonText(
+            IListView::HisButtonProperties
+            {
+                .hideSpinBox = false,
+                .labelText = "Амб лист № :",
+                .buttonText = "Изпрати към НЗИС",
+                .hoverText = "Изпрати към НЗИС"
+            }
+        );
+
+        return;
+    }
+
+    if (m_ambList.nrn.size())
+    {
+        view->setHisButtonText(
+            IListView::HisButtonProperties
+            {
+                .hideSpinBox = true,
+                .labelText = "НРН :",
+                .buttonText = m_ambList.his_updated ? m_ambList.nrn : "Изпрати за корекция",
+                .hoverText = m_ambList.his_updated ? "Анулирай" : "Изпрати за корекция"
+            }
+        );
+
+        return;
+    }
+
+
+}
+
 void ListPresenter::makeEdited()
 {
     TabInstance::makeEdited();
 
     if (m_ambList.nrn.size()) {
         m_ambList.his_updated = false;
+        setHisButtonToView();
     }
 }
 
@@ -255,7 +291,7 @@ void ListPresenter::setDataToView()
 
     view->setAmbListNum(m_ambList.number);
 
-    view->setNrn(m_ambList.nrn);
+    setHisButtonToView();
 
     view->setDateTime(m_ambList.date);
 
@@ -807,7 +843,7 @@ void ListPresenter::hisButtonPressed()
         eDentalOpenService.sendRequest(
             m_ambList,
             *patient,
-            [this](const std::string& nrn, const std::vector<int>& procedureIndex) {
+            [this](auto& nrn, auto& procedureIndex) {
                 if (nrn.empty()) {
                     return;
                 }
@@ -824,10 +860,40 @@ void ListPresenter::hisButtonPressed()
 
                 if (isCurrent())
                 {
-                    view->setNrn(m_ambList.nrn);
+                    setHisButtonToView();
                 }
 
 
+            }
+        );
+
+        return;
+    }
+
+    if (!m_ambList.his_updated)
+    {
+        eDentalAugmentService.sendRequest(m_ambList, *patient,
+            [this](auto& procedureIdx)
+            {
+                m_ambList.his_updated = true;
+
+                m_ambList.procedures.clearRemovedProcedures();
+
+                for (auto& [sequence, hisIdx] : procedureIdx)
+                {
+                    m_ambList.procedures[sequence].his_index = hisIdx;
+                }
+
+                DbAmbList::update(m_ambList);
+
+                refreshTabName();
+
+                ModalDialogBuilder::showMessage("Денталният преглед е коригиран успешно");
+
+                if (isCurrent())
+                {
+                    setHisButtonToView();
+                }
             }
         );
 
@@ -842,6 +908,8 @@ void ListPresenter::hisButtonPressed()
 
                 m_ambList.nrn.clear();
 
+                m_ambList.procedures.clearRemovedProcedures();
+
                 for (auto& p : m_ambList.procedures) p.his_index = 0;
 
                 DbAmbList::update(m_ambList);
@@ -850,15 +918,13 @@ void ListPresenter::hisButtonPressed()
 
                 ModalDialogBuilder::showMessage("Денталният преглед е анулиран успешно");
 
-                if (isCurrent()) {
-                    view->setNrn("");
+                if (isCurrent())
+                {
+                    setHisButtonToView();
                 }
         });
-    }
 
-    if (!m_ambList.his_updated)
-    {
-
+        return;
     }
 
 
@@ -868,7 +934,16 @@ void ListPresenter::getStatusPressed()
 {
     eDentalGetService.sendRequest(
         *patient.get(),
-        [](const ToothContainer& c, const ProcedureContainer& p) {}
+        [this](const ToothContainer& teeth, const ProcedureContainer& p) {
+            m_ambList.teeth = teeth;
+            makeEdited();
+            if (isCurrent()) {
+                for (int i = 0; i < 32; i++)
+                {
+                    view->repaintTooth(ToothHintCreator::getToothHint(m_ambList.teeth[i], patient->teethNotes[i]));
+                }
+            }
+        }
     );
 }
 

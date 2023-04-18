@@ -87,6 +87,10 @@ void PatientInfoPresenter::patientTileClicked()
 
 void PatientInfoPresenter::allergiesTileClicked()
 {
+    auto result = ModalDialogBuilder::openMedicalStatusDialog({});
+
+    return;
+
     AllergiesDialogPresenter p(*patient.get());
 
     auto data = p.openDialog();

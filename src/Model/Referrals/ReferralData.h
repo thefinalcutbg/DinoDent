@@ -23,15 +23,15 @@ public:
 
 struct R3Data
 {
-	static constexpr int specialty = 18; //Психиатрия
-	static constexpr int hisSpecialty = 1050;
+	static constexpr const char* specialty = "18"; //Психиатрия
+	static constexpr const char* hisSpecialty = "1050";
 
 };
 
 struct R3AData
 {
-	static constexpr int nhifSpecialty = 26; //Анестезиология и интензивно лечение
-	static constexpr int hisSpecialty = 1003; //според НЗИС
+	static constexpr const char* nhifSpecialty = "26"; //Анестезиология и интензивно лечение
+	static constexpr const char* hisSpecialty = "1003"; //според НЗИС
 	static constexpr const char* highlySpecializedActivity{ "89.07" };
 	static constexpr const char* ksmp{ "92500-00" };
 

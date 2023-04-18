@@ -5,7 +5,7 @@
 #include "Model/User.h"
 #include "Database.h"
 
-std::vector<Procedure> DbProcedure::getProcedures(long long amblist_rowid, Db& db, bool nhifOnly)
+std::vector<Procedure> DbProcedure::getProcedures(long long amblist_rowid, Db& db, bool nhifOnly, bool removed)
 {
 	std::vector<Procedure> mList;
 
@@ -25,11 +25,15 @@ std::vector<Procedure> DbProcedure::getProcedures(long long amblist_rowid, Db& d
 								"procedure.his_index, "				//10
 								"procedure.additional_diagnosis "	//11
 						"FROM procedure LEFT JOIN amblist ON procedure.amblist_rowid = amblist.rowid "
-						"WHERE amblist.rowid = " + std::to_string(amblist_rowid)
+						"WHERE amblist.rowid=? "
+						"AND procedure.removed=? "
 						+ condition +
 						" ORDER BY procedure.rowid";
 
 	db.newStatement(query);
+
+	db.bind(1, amblist_rowid);
+	db.bind(2, removed);
 
 	while(db.hasRows())
 	{
@@ -54,20 +58,39 @@ std::vector<Procedure> DbProcedure::getProcedures(long long amblist_rowid, Db& d
 
 }
 
-void DbProcedure::saveProcedures(long long amblist_rowid, const std::vector<Procedure>& mList, Db& db)
+void DbProcedure::saveProcedures(long long amblist_rowid, const std::vector<Procedure>& pList, const std::vector<Procedure> removedList, Db& db)
 {
 	std::string query = "DELETE FROM procedure WHERE amblist_rowid = " + std::to_string(amblist_rowid);
 
 	db.execute(query);
 
-	for (int i = 0; i < mList.size(); i++)
+	struct ProcedurePointer {
+		const Procedure* const p;
+		const bool removed;
+	};
+
+	std::vector<ProcedurePointer> toInsert;
+	toInsert.reserve(pList.size() + removedList.size());
+
+	for (auto& procedures : pList) {
+		toInsert.push_back(ProcedurePointer{ &procedures, false });
+	}
+
+	for (auto& removed : removedList) {
+
+		if (!removed.isSentToHis()) continue;
+
+		toInsert.push_back(ProcedurePointer{ &removed, true });
+	}
+
+	for (int i = 0; i < toInsert.size(); i++)
 	{
-		auto& p = mList[i];
+		auto& p = *toInsert[i].p;
 
 		db.newStatement(
 			"INSERT INTO procedure "
-			"(date, financing_source, code, tooth, deciduous, data, amblist_rowid, diagnosis, notes, hyperdontic, his_index, additional_diagnosis) "
-			"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+			"(date, financing_source, code, tooth, deciduous, data, amblist_rowid, diagnosis, notes, hyperdontic, his_index, additional_diagnosis, removed) "
+			"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
 		db.bind(1, p.date.to8601());
 		db.bind(2, static_cast<int>(p.financingSource));
@@ -81,6 +104,7 @@ void DbProcedure::saveProcedures(long long amblist_rowid, const std::vector<Proc
 		db.bind(10, p.hyperdontic);
 		db.bind(11, p.his_index);
 		db.bind(12, p.diagDescription);
+		db.bind(13, toInsert[i].removed);
 		db.execute();
 		
 	}
@@ -94,6 +118,7 @@ std::vector<ProcedureSummary> DbProcedure::getNhifSummary(long long patientRowId
 		"SELECT procedure.date, procedure.code, procedure.tooth, procedure.deciduous, procedure.hyperdontic, "
 		"FROM procedure LEFT JOIN amblist ON procedure.amblist_rowid = amblist.rowid "
 		"WHERE financing_source=" + std::to_string(static_cast<int>(FinancingSource::NHIF)) + " "
+		"AND procedure.removed = 0 "
 		"AND amblist.patient_rowid = " + std::to_string(patientRowId) + " "
 		"AND amblist.rowid != " + std::to_string(excludeAmbRowId) + " "
 		"AND amblist.date BETWEEN  ('" + from.to8601() + "') AND ('" + to.to8601() + "')"
@@ -139,6 +164,7 @@ std::vector<Procedure> DbProcedure::getToothProcedures(long long patientRowId, i
 		"procedure LEFT JOIN amblist ON procedure.amblist_rowid = amblist.rowid "
 		"WHERE tooth = " + std::to_string(tooth) + " "
 		"AND patient_rowid = " + std::to_string(patientRowId) + " "
+		"AND procedure.removed = 0 "
 		"ORDER BY procedure.date ASC, procedure.code ASC, procedure.rowid ASC";
 
 	std::vector<Procedure> procedures;
@@ -153,14 +179,14 @@ std::vector<Procedure> DbProcedure::getToothProcedures(long long patientRowId, i
 
 		p.code = db.asString(1);
 		p.financingSource = static_cast<FinancingSource>(db.asInt(2));
-		Parser::parse(db.asString(2), p);
-		p.LPK = db.asString(3);
-		p.temp = db.asInt(4);
+		Parser::parse(db.asString(3), p);
+		p.LPK = db.asString(4);
+		p.temp = db.asInt(5);
 		p.tooth = tooth;
-		p.diagnosis = db.asInt(5);
-		p.notes = db.asString(6);
-		p.hyperdontic = db.asBool(7);
-		p.diagDescription = db.asString(8);
+		p.diagnosis = db.asInt(6);
+		p.notes = db.asString(7);
+		p.hyperdontic = db.asBool(8);
+		p.diagDescription = db.asString(9);
 	}
 	
 	

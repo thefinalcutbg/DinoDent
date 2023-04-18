@@ -19,6 +19,14 @@ class Time;
 class IListView
 {
 public:
+
+	struct HisButtonProperties {
+		bool hideSpinBox{ false };
+		const std::string& labelText;
+		const std::string& buttonText;
+		const std::string& hoverText;
+	};
+
 	virtual void setPresenter(ListPresenter* presenter) = 0;
 	virtual void setAmbListNum(int number) = 0;
 	virtual void setCheckModel(const CheckModel& checkModel) = 0;
@@ -35,6 +43,6 @@ public:
 	virtual void setNotes(const std::array<std::string, 32>& notes) = 0;
 	virtual void setReferrals(const std::vector<Referral>& referrals) = 0;
 	virtual void setProcedures(const std::vector<Procedure>& m) = 0;
-	virtual void setNrn(const std::string& nrn) = 0;
+	virtual void setHisButtonText(HisButtonProperties) = 0;
 
 };

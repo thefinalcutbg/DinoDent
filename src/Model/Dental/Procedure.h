@@ -90,6 +90,8 @@ struct Procedure
 
         return result;
     }
+
+    bool isSentToHis() const { return his_index != 0; };
 };
 
 

@@ -26,7 +26,6 @@ protected:
 	std::string subject(const Patient& p);
 	std::string requester(bool includeNhifCode = false);
 	std::string performer();
-	std::string getProcedures(const ProcedureContainer& procedures, const ToothContainer& teeth);
 	std::string getToothStatus(const Tooth& tooth);
 
 	std::string bind(const std::string& name, const std::string& value, bool isUserInput = false);

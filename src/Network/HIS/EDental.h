@@ -9,7 +9,9 @@ namespace EDental {
 
 	class Open : private HisService
 	{
-		std::function<void(const std::string&, const std::vector<int>&)> m_callback;
+		std::function<void(const std::string& nrn, const std::vector<int>& procedureIndex)> m_callback;
+
+		std::string getProcedures(const ProcedureContainer& procedures, const ToothContainer& teeth);
 
 	protected:
 		void parseReply(const std::string& reply) override;
@@ -21,14 +23,16 @@ namespace EDental {
 		bool sendRequest(
 			const AmbList& ambSheet,
 			const Patient& patient,
-			std::function<void(const std::string&, const std::vector<int>&)> nrnCallback
+			std::function<void(const std::string& nrn, const std::vector<int>& procedureIndex)> nrnCallback
 		);
 
 	};
 
 	class Augment : private HisService
 	{
-		std::function<void(bool)> m_callback;
+		std::function<void(const std::map<int, int>& procedureIndexes)> m_callback;
+
+		std::string getProcedures(const ProcedureContainer& procedures, const ToothContainer& teeth);
 
 	protected:
 		void parseReply(const std::string& reply) override;
@@ -40,7 +44,7 @@ namespace EDental {
 		bool sendRequest(
 			const AmbList& ambSheet,
 			const Patient& patient,
-			std::function<void(bool)> success
+			std::function<void(const std::map<int, int>& procedureIndexes)> callback
 		);
 	};
 
@@ -62,7 +66,7 @@ namespace EDental {
 	class GetStatus : private HisService
 	{
 
-		std::function<void(const ToothContainer&, const ProcedureContainer&)> m_callback;
+		std::function<void(const ToothContainer& teeth, const ProcedureContainer& procedures)> m_callback;
 
 	protected:
 		void parseReply(const std::string& reply) override;

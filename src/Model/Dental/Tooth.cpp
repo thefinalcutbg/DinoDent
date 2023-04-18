@@ -322,7 +322,7 @@ void Tooth::removeStatus(int statusCode)
 		default: return;
 	}
 
-	if (statusCode != StatusCode::Healthy && !noData()) healthy.set(true);
+	if (statusCode != StatusCode::Healthy && noData()) healthy.set(true);
 }
 
 void Tooth::removeStatus() {

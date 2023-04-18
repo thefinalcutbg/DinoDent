@@ -191,9 +191,7 @@ std::string HisService::performer()
 		"";
 
 	std::string qualification =
-		"<nhis:qualification value=\"" 
-			+ std::to_string(User::doctor().hisSpecialty.getIdx())
-			+ "\"" + nhifCode + "/>";
+		"<nhis:qualification value=\"" + std::to_string(User::doctor().hisSpecialty.getIdx()) + "\"" + nhifCode + "/>";
 
 
 	std::string performer;
@@ -207,75 +205,6 @@ std::string HisService::performer()
 	performer += "</nhis:performer>";
 		
 	return performer;
-}
-
-std::string HisService::getProcedures(const ProcedureContainer& procedures, const ToothContainer& teeth)
-{
-	std::string result;
-
-	result.reserve(1000);
-
-	int sequence = 0;
-
-	ToothContainer teethChanged = teeth;
-
-	for (auto& p : procedures)
-	{
-		sequence++;
-
-		result += "<nhis:dentalProcedure>";
-
-
-		result += bind("sequence", sequence);
-
-		result += bind("code", p.code.code());
-		result += bind("type", static_cast<int>(p.code.type()));
-
-
-		result += bind("datePerformed", p.date.to8601());
-
-		result += bind("financingSource", static_cast<int>(p.financingSource));
-	
-		if (p.isToothSpecific())
-		{
-			p.applyProcedure(teethChanged);
-
-			result += getToothStatus(teethChanged.at(p.tooth));
-		}
-
-		if (p.isRangeSpecific())
-		{
-			auto [begin, end] = std::get<ConstructionRange>(p.result);
-
-			p.applyProcedure(teethChanged);
-
-			for (int i = begin; i <= end; i++)
-			{
-				result += getToothStatus(teethChanged.at(i));
-			}
-		}
-
-		if (p.code.nhifCode() == 101)
-		{
-			for (auto& tooth : teeth)
-			{
-				result += getToothStatus(tooth);
-			}
-
-		}
-
-		result += bind("note", p.notes);
-
-		result += "<nhis:diagnosis>";
-		result += bind("code", p.diagnosis.index());
-		result += bind("note", p.diagDescription, true);
-		result += "</nhis:diagnosis>";
-
-		result += "</nhis:dentalProcedure>";
-
-	}
-
-	return result;
 }
 
 std::string HisService::getToothStatus(const Tooth& tooth)

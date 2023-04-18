@@ -50,7 +50,7 @@ public:
     void hideNhifSheetData() override;
     void setNhifData(const NhifSheetData& data, bool showUnfav) override;
     void setReferrals(const std::vector<Referral>& referrals) override;
-    void setNrn(const std::string& nrn) override;
+    void setHisButtonText(HisButtonProperties prop) override;
     
     ~ListView();
 

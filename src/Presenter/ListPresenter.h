@@ -44,6 +44,7 @@ class ListPresenter : public TabInstance
     EDental::Open eDentalOpenService;
     EDental::Cancel eDentalCancelService;
     EDental::GetStatus eDentalGetService;
+    EDental::Augment eDentalAugmentService;
     EReferral::Issue eReferralIssueService;
     EReferral::Cancel eReferralCancelService;
 
@@ -57,7 +58,7 @@ class ListPresenter : public TabInstance
     void refreshProcedureView();
     void statusChanged();
     void refreshPrices();
-
+    void setHisButtonToView();
     void makeEdited() override;
 
     //call when adding or removing procedures and referrals

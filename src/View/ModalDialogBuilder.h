@@ -11,6 +11,8 @@
 #include "Model/Financial/MonthNotifRow.h"
 #include "Model/Financial/Recipient.h"
 
+#include "Model/MedicalStatuses.h"
+
 
 enum class SelectionPref {All, OnlyNZOK, OnlyPaid};
 enum class MonthNotifLoad {FromPIS, FromFile, Rejected};
@@ -80,5 +82,6 @@ namespace ModalDialogBuilder
 	std::string inputDialog(const std::string& text, const std::string& title, bool asPassword = false);
 	void saveFile(const std::string& data, const std::string& filename);
 	std::optional<std::string> openFile();
+	std::optional<MedicalStatuses> openMedicalStatusDialog(const MedicalStatuses& s);
 };
 

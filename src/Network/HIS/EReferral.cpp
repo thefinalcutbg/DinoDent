@@ -24,7 +24,7 @@ bool EReferral::Issue::sendRequest(const std::string& examNrn, const Patient& pa
 	};
 		
 
-	contents += "<referral>";
+	contents += "<nhis:referral>";
 	contents += bind("lnr", ref.lrn);
 	contents += bind("date", ref.date.to8601());
 	contents += bind("type", getNhifRefType());
@@ -36,57 +36,57 @@ bool EReferral::Issue::sendRequest(const std::string& examNrn, const Patient& pa
 	{
 		case ReferralType::MDD4:
 		{
-			contents += "<laboratory>";
+			contents += "<nhis:laboratory>";
 			auto ref4Data = std::get<MDD4Data>(ref.data);
 			contents += bind("code", ref4Data.getKSMP());
-			contents += "</laboratory>";
+			contents += "</nhis:laboratory>";
 		}
 			break;
 		case ReferralType::Form3:
 		{
 			auto r3data = std::get<R3Data>(ref.data);
-			contents += "<consultation><qualification value=\"";
+			contents += "<nhis:consultation><qualification value=\"";
 			contents += r3data.hisSpecialty;
 			contents += "\"  nhifCode = \"";
 			contents += r3data.specialty;
-			contents += "\"/></consultation>"
+			contents += "\"/></nhis:consultation>"
 				;
 		}
 			break;
 		case ReferralType::Form3A:
 		{
 			auto r3Adata = std::get<R3AData>(ref.data);
-			contents += "<specializedActivities><qualification value=\"";
+			contents += "<nhis:specializedActivities><qualification value=\"";
 			contents += r3Adata.hisSpecialty;
 			contents += "\"  nhifCode = \"";
 			contents += r3Adata.nhifSpecialty;
 			contents += "\"/><code=\"";
 			contents += r3Adata.highlySpecializedActivity;
-			contents += "\"/></specializedActivities>"
+			contents += "\"/></nhis:specializedActivities>"
 				;
 		}
 			break;
 	}
 
 
-	contents += "<diagnosis>";
+	contents += "<nhis:diagnosis>";
 	contents += bind("code", ref.diagnosis.main.code());
 	contents += bind("additionalCode", ref.diagnosis.additional.code());
 	contents += bind("use", 3);
 	contents += bind("rank", 1);
-	contents += "<diagnosis/>";
+	contents += "</nhis:diagnosis>";
 
 	if (ref.comorbidity.main.isValid())
 	{
-		contents += "<comorbidity>";
+		contents += "<nhis:comorbidity>";
 		contents += bind("code", ref.comorbidity.main.code());
 		contents += bind("additionalCode", ref.comorbidity.additional.code());
 		contents += bind("use", 4);
 		contents += bind("rank", 1);
-		contents += "<comorbidity/>";
+		contents += "</nhis:comorbidity>";
 	}
 
-	contents += "</referral>";
+	contents += "</nhis:referral>";
 
 	contents += subject(patient);
 	contents += requester(true);
@@ -102,6 +102,8 @@ void EReferral::Issue::parseReply(const std::string& reply)
 		ModalDialogBuilder::showError(errors);
 		return;
 	}
+
+	ModalDialogBuilder::showMultilineDialog(reply);
 
 	TiXmlDocument doc;
 

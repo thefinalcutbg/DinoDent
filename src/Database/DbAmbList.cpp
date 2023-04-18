@@ -37,7 +37,7 @@ long long DbAmbList::insert(const AmbList& sheet, long long patientRowId)
 
     auto rowID = db.lastInsertedRowID();
 
-    DbProcedure::saveProcedures(rowID, sheet.procedures.list(), db);
+    DbProcedure::saveProcedures(rowID, sheet.procedures.list(), sheet.procedures.removedProcedures(), db);
 
     DbReferral::saveReferrals(sheet.referrals, rowID, db);
 
@@ -72,8 +72,7 @@ void DbAmbList::update(const AmbList& sheet)
 
     db.execute();
 
-    DbProcedure::saveProcedures(sheet.rowid, sheet.procedures.list(), db);
-
+    DbProcedure::saveProcedures(sheet.rowid, sheet.procedures.list(), sheet.procedures.removedProcedures(), db);
     DbReferral::saveReferrals(sheet.referrals, sheet.rowid, db);
 
 }
@@ -149,6 +148,7 @@ AmbList DbAmbList::getNewAmbSheet(long long patientRowId)
 
     Parser::parse(status, ambList.teeth);
     ambList.procedures.addProcedures(DbProcedure::getProcedures(ambList.rowid, db));
+    ambList.procedures.setRemovedProcedures(DbProcedure::getProcedures(ambList.rowid, db, false, true));
     ambList.referrals = DbReferral::getReferrals(ambList.rowid, db);
 
 
@@ -184,7 +184,7 @@ AmbList DbAmbList::getListData(long long rowId)
 
     Parser::parse(status, ambList.teeth);
     ambList.procedures.addProcedures(DbProcedure::getProcedures(ambList.rowid, db));
-
+    ambList.procedures.setRemovedProcedures(DbProcedure::getProcedures(ambList.rowid, db, false, true));
     ambList.referrals = DbReferral::getReferrals(ambList.rowid, db);
 
 
@@ -323,6 +323,7 @@ std::vector<AmbList> DbAmbList::getMonthlyNhifSheets(int month, int year)
         "WHERE "
         "procedure.financing_source=" + std::to_string(static_cast<int>(FinancingSource::NHIF)) + " "
         "AND amblist.nhif_spec IS NOT NULL "
+        "AND procedure.removed = 0 "
         "AND amblist.lpk = '" + User::doctor().LPK + "' "
         "AND amblist.rzi = '" + User::practice().rziCode + "' "
         "AND strftime('%m', amblist.date)='" + FreeFn::leadZeroes(month, 2) + "' "

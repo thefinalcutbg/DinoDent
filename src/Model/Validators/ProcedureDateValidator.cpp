@@ -6,7 +6,7 @@ ProcedureDateValidator::ProcedureDateValidator (Date patientTurns18) :
 {
 	_validator.setMinDate(Date(patientTurns18.day, patientTurns18.month, patientTurns18.year-18));
     _validator.setMinErrorMsg("Дата на манипулацията не може да е преди раждането на пациента!");
-	setProcedure(0);
+	setProcedure(0, 0);
 }
 
 
@@ -20,14 +20,14 @@ bool ProcedureDateValidator::validateInput(const Date& date)
 
 #include "Model/Dental/NhifProcedures.h"
 
-void ProcedureDateValidator::setProcedure(int nhifCode)
+void ProcedureDateValidator::setProcedure(int oldCode, bool nhif)
 {
 
 	if (
 		_dayBefore18 < _validator.getMax() &&
 		_dayBefore18 > _validator.getMin() &&
-		nhifCode != 0 &&
-		NhifProcedures::isMinorOnly(nhifCode))
+		nhif &&
+		NhifProcedures::isMinorOnly(oldCode))
 	{
 		_validator.setMaxDate(_dayBefore18);
 		_validator.setMaxErrorMsg("Тази манипулация е възможна само за лица под 18 годишна възраст");

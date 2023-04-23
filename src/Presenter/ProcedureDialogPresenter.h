@@ -4,6 +4,7 @@
 #include "Model/Validators/ProcedureDateValidator.h"
 #include "ProcedureCreator.h"
 #include "View/Interfaces/IProcedureDialog.h"
+#include "Model/Dental/ProcedureListElement.h"
 
 struct AmbList;
 
@@ -24,7 +25,7 @@ class ProcedureDialogPresenter
 
 	std::vector<Procedure> procedures;
 
-	std::vector<ProcedureCode> procedureList;
+	std::vector<ProcedureListElement> procedureList;
 
 	ProcedureDateValidator date_validator;
 

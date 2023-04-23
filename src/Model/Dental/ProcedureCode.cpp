@@ -2,6 +2,7 @@
 #include "Resources.h"
 #include <JsonCpp/json.h>
 #include <algorithm>
+
 void ProcedureCode::initialize()
 {
 	Json::Reader reader;
@@ -16,12 +17,12 @@ void ProcedureCode::initialize()
 			ProcedureCode::Numenclature{
 				.type = static_cast<ProcedureType>(j["type"].asInt()),
 				.name = j["name"].asString(),
-				.ksmp = j["ksmp"].asString(),
-				.nhifCode = j.isMember("nhif") ? j["nhif"].asInt() : 0
+				.ksmp = j.isMember("ksmp") ? j["ksmp"].asString() : "",
+				.oldCode = j["oldCode"].asInt()
 		};
 
-		if (j.isMember("nhif")) {
-			nhif_procedures[j["nhif"].asInt()] = j["code"].asString();
+		if (j.isMember("ksmp")) {
+			nhif_procedures[j["oldCode"].asInt()] = j["code"].asString();
 		}
 	}
 
@@ -33,7 +34,6 @@ std::vector<ProcedureCode> ProcedureCode::getNonNhifProcedures()
 
 	for (auto& kv : s_mapping)
 	{
-		if (kv.second.nhifCode == 0)
 			result.push_back(kv.first);
 	}
 
@@ -45,7 +45,7 @@ std::vector<ProcedureCode> ProcedureCode::getNonNhifProcedures()
 ProcedureCode::ProcedureCode(const std::string& code) : m_code(code)
 {}
 
-ProcedureCode::ProcedureCode(int nhifCode) : m_code(nhif_procedures[nhifCode])
+ProcedureCode::ProcedureCode(int oldCode) : m_code(nhif_procedures[oldCode])
 {}
 
 ProcedureType ProcedureCode::type() const
@@ -53,9 +53,9 @@ ProcedureType ProcedureCode::type() const
 	return isValid() ? s_mapping[m_code].type : ProcedureType::none;
 }
 
-int ProcedureCode::nhifCode() const
+int ProcedureCode::oldCode() const
 {
-	return isValid() ? s_mapping[m_code].nhifCode : 0;
+	return isValid() ? s_mapping[m_code].oldCode : 0;
 }
 
 const std::string& ProcedureCode::ksmp() const

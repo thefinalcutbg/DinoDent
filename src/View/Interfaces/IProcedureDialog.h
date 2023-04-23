@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include <array>
-#include "Model/Dental/Procedure.h"
+#include "Model/Dental/ProcedureListElement.h"
 
 class AbstractSurfaceSelector;
 class AbstractRangeEdit;
@@ -13,7 +13,7 @@ class IProcedureDialog
 
 public:
 
-    virtual void setProcedureTemplates(std::vector<ProcedureCode> procedureList) = 0;
+    virtual void setProcedureTemplates(std::vector<ProcedureListElement> procedureList) = 0;
 
     virtual void close() = 0;
 

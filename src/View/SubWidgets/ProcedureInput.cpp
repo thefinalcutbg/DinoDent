@@ -1,6 +1,8 @@
 ﻿#include "ProcedureInput.h"
 #include "Presenter/ProcedureCreator.h"
 #include "QtVersion.h"
+#include <QDebug>
+
 ProcedureInput::ProcedureInput(QWidget *parent)
 	: QWidget(parent)
 {
@@ -13,8 +15,11 @@ ProcedureInput::ProcedureInput(QWidget *parent)
 
 	connect(ui.diagCombo, QtComboIndexChanged,
 		[=](int idx) { 
-			if (presenter)
+
+			if (presenter) {
 				presenter->diagnosisChanged(idx);
+			}
+
 			});
 
 

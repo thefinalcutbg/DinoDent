@@ -29,3 +29,11 @@ MedicalStatuses MedicalStatusDialog::getResult()
 
 MedicalStatusDialog::~MedicalStatusDialog()
 {}
+
+#include <QPainter>
+
+void MedicalStatusDialog::paintEvent(QPaintEvent * event)
+{
+	QPainter p(this);
+	p.fillRect(rect(), Qt::white);
+}

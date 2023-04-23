@@ -7,7 +7,7 @@ BusinessOpAddDialog::BusinessOpAddDialog(const std::vector<ProcedureCode>& price
 
 	setWindowTitle("Добавяне на услуга");
 
-	m_priceList.setProcedures(priceList);
+	//m_priceList.setProcedures(priceList);
 
 	proxyModel.setSourceModel(&m_priceList);
 	proxyModel.setFilterKeyColumn(2);

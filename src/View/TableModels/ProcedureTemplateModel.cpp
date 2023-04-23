@@ -9,7 +9,7 @@ ProcedureTemplateModel::ProcedureTemplateModel(QObject *parent)
 
 #include "View/GlobalFunctions.h"
 
-void ProcedureTemplateModel::setProcedures(std::vector<ProcedureCode> procedures)
+void ProcedureTemplateModel::setProcedures(std::vector<ProcedureListElement> procedures)
 {
     beginResetModel();
 
@@ -23,9 +23,9 @@ void ProcedureTemplateModel::setProcedures(std::vector<ProcedureCode> procedures
         this->procedures.emplace_back
         (
             ProcedureRow{ 
-            .code = m.code().c_str(),
-            .name = m.name().c_str(),
-            .nhif = m.nhifCode() != 0 
+            .code = QString::number(m.code.oldCode()),
+            .name = m.code.name().c_str(),
+            .nhif = m.nhif 
             }
         );
     }

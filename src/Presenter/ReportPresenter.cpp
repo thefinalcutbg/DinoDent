@@ -307,14 +307,14 @@ void ReportPresenter::finish()
 
 			expectedPrice += NhifProcedures::getNZOKPrice
 			(
-				procedure.code.nhifCode(),
+				procedure.code.oldCode(),
 				procedure.date,
 				User::doctor().specialty,
 				patients[list.patient_rowid].isAdult(procedure.date),
 				list.nhifData.specification
 			);
 
-			sumMinutes += NhifProcedures::getDuration(procedure.code.nhifCode());
+			sumMinutes += NhifProcedures::getDuration(procedure.code.oldCode());
 		}
 	}
 

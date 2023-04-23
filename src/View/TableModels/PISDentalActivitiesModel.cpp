@@ -22,18 +22,12 @@ void PisDentalActivitiesModel::setProcedures(
 
         m_procedures.emplace_back();
         auto& p = m_procedures.back();
-        p.code = QString::number(rows[i].code.nhifCode());
+        p.code = QString::number(rows[i].code.oldCode());
         p.tooth = ToothUtils::getToothNumber(rows[i].tooth, rows[i].temp);
         p.date = QString(rows[i].date.toBgStandard().c_str());
         p.name = QString(rows[i].code.name().c_str());
+        p.diagnosis += rows[i].diagnosis.additionalDescription.c_str();
 
-        p.diagnosis += rows[i].diagnosis.name().c_str();
-        if (rows[i].diagDescription.size())
-        {
-            if (p.diagnosis.size()) { p.diagnosis += " "; };
-
-            p.diagnosis += rows[i].diagDescription.c_str();
-        }
         p.payment = payment[i].c_str();
 
     }

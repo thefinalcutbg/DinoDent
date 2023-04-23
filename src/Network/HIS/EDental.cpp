@@ -90,7 +90,7 @@ std::string EDental::Open::getProcedures(const ProcedureContainer& procedures, c
 			}
 		}
 
-		if (p.code.nhifCode() == 101)
+		if (p.code.oldCode() == 101)
 		{
 			for (auto& tooth : teeth)
 			{
@@ -101,10 +101,14 @@ std::string EDental::Open::getProcedures(const ProcedureContainer& procedures, c
 
 		result += bind("note", p.notes);
 
-		result += "<nhis:diagnosis>";
-		result += bind("code", p.diagnosis.index());
-		result += bind("note", p.diagDescription, true);
-		result += "</nhis:diagnosis>";
+		if (p.diagnosis.index() != 0) {
+
+			result += "<nhis:diagnosis>";
+			result += bind("code", p.diagnosis.index());
+			result += bind("note", p.diagnosis.additionalDescription, true);
+			result += "</nhis:diagnosis>";
+
+		}
 
 		result += "</nhis:dentalProcedure>";
 
@@ -250,7 +254,7 @@ std::string EDental::Augment::getProcedures(const ProcedureContainer& procedures
 			}
 		}
 
-		if (p.code.nhifCode() == 101)
+		if (p.code.oldCode() == 101)
 		{
 			for (auto& tooth : teeth)
 			{
@@ -261,10 +265,14 @@ std::string EDental::Augment::getProcedures(const ProcedureContainer& procedures
 
 		result += bind("note", p.notes, true);
 
-		result += "<nhis:diagnosis>";
-		result += bind("code", p.diagnosis.index());
-		result += bind("note", p.diagDescription, true);
-		result += "</nhis:diagnosis>";
+		if (p.diagnosis.index() != 0) {
+
+			result += "<nhis:diagnosis>";
+			result += bind("code", p.diagnosis.index());
+			result += bind("note", p.diagnosis.additionalDescription, true);
+			result += "</nhis:diagnosis>";
+
+		}
 
 		result += "</nhis:dentalProcedure>";
 
@@ -332,7 +340,7 @@ void EDental::Augment::parseReply(const std::string& reply)
 		//index
 		auto hisIdx = std::stoi(contents.Child(i).Child(1).ToElement()->Attribute("value"));
 
-		if (hisIdx == 999) continue;
+		if (sequence == 999) continue;
 
 		procedureIndex[sequence-1] = hisIdx;
 	}
@@ -437,9 +445,9 @@ void EDental::GetStatus::parseReply(const std::string& reply)
 
 	static std::map<std::string, std::function<void(int idx)>> lambdaMap
 	{
-		{"Е",	[&teeth](int idx) mutable { teeth[idx].extraction.set(true); }},
-		{"Т",	[&teeth](int idx) mutable { teeth[idx].calculus.set(true); }},
-		{"К",	[&teeth](int idx) mutable { teeth[idx].crown.set(true); }},
+		{"E",	[&teeth](int idx) mutable { teeth[idx].extraction.set(true); }},
+		{"T",	[&teeth](int idx) mutable { teeth[idx].calculus.set(true); }},
+		{"K",	[&teeth](int idx) mutable { teeth[idx].crown.set(true); }},
 		{"B",	[&teeth](int idx) mutable { teeth[idx].bridge.set(true); teeth[idx].bridge.position = BridgePos::Middle; teeth[idx].extraction.set(true); }},
 		{"O",	[&teeth](int idx) mutable { teeth[idx].obturation.set(true); }},
 		{"C",	[&teeth](int idx) mutable { teeth[idx].caries.set(true); }},

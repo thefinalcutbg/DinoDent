@@ -1,5 +1,5 @@
 #pragma once
-#include "Model/Dental/ProcedureCode.h"
+#include "Model/Dental/ProcedureListElement.h"
 #include <QAbstractTableModel>
 
 #include <vector>
@@ -30,7 +30,7 @@ class ProcedureTemplateModel : public QAbstractTableModel
 public:
 	ProcedureTemplateModel(QObject *parent = nullptr);
 
-	void setProcedures(std::vector<ProcedureCode> procedures);
+	void setProcedures(std::vector<ProcedureListElement> procedures);
 	const ProcedureRow& getProcedureRow(int index) const;
 	~ProcedureTemplateModel();
 

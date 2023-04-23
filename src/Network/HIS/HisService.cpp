@@ -222,9 +222,9 @@ std::string HisService::getToothStatus(const Tooth& tooth)
 	status[StatusCode::Pulpitis] = "P";
 	status[StatusCode::ApicalLesion] = "G";
 	status[StatusCode::Root] = "R";
-	status[StatusCode::Extraction] = "Е";
-	status[StatusCode::Crown] = "К";
-	status[StatusCode::Bridge] = tooth.canHaveACrown() ? "К" : "B";
+	status[StatusCode::Extraction] = "E";
+	status[StatusCode::Crown] = "K";
+	status[StatusCode::Bridge] = tooth.canHaveACrown() ? "K" : "B";
 	status[StatusCode::Denture] = "X";
 	status[StatusCode::Periodontitis] = "Pa";
 	if (tooth.mobility) {
@@ -237,7 +237,7 @@ std::string HisService::getToothStatus(const Tooth& tooth)
 	status[StatusCode::EndoTreatment] = "Rc";
 	status[StatusCode::Post] = "Rp";
 	status[StatusCode::FiberSplint] = "S";
-	status[StatusCode::Calculus] = "Т";
+	status[StatusCode::Calculus] = "T";
 
 	auto boolStatus = tooth.getBoolStatus();
 

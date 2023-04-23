@@ -44,7 +44,6 @@ struct Procedure
     FinancingSource financingSource{ FinancingSource::Patient };
 
     Diagnosis diagnosis;
-    std::string diagDescription;
 
     int tooth{ -1 };        //-1 for general/several teeth, any in range 0-31 for specific tooth
     bool temp{ false };
@@ -72,28 +71,13 @@ struct Procedure
         return financingSource == FinancingSource::NHIF;
     }
 
-    std::string getFullDiagnosis() const {
-        
-        std::string result;
-        result += diagnosis.name();
-
-        if (diagDescription.size()) {
-            
-            bool placeInBrackets = diagnosis.isValid();
-
-            if (placeInBrackets) { result += " ("; }
-
-            result += diagDescription;
-
-            if (placeInBrackets) { result += ")"; }
-        }
-
-        return result;
-    }
-
     bool isSentToHis() const { return his_index != 0; };
 };
 
+struct ProcedureTemplate {
+    ProcedureCode code;
+    bool nhif;
+};
 
 
 

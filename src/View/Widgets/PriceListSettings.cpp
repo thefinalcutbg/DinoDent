@@ -47,7 +47,7 @@ void PriceListSettings::setPresenter(PriceListSettingsPresenter* presenter)
 
 void PriceListSettings::setTemplates(const std::vector<ProcedureCode>& templates)
 {
-	m_model.setProcedures(templates);
+	//m_model.setProcedures(templates);
 }
 
 void PriceListSettings::setCurrentIndex(int idx)

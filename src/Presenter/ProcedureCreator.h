@@ -41,9 +41,9 @@ public:
 
 	void setView(IProcedureInput* view);
 
-	void diagnosisChanged(int idx) { diag_map[m_code.type()] = idx; };
+	void diagnosisChanged(int idx);
 
-	void setProcedureCode(const ProcedureCode& m);
+	void setProcedureCode(const ProcedureCode& m, bool nhif);
 
 	bool isValid();
 

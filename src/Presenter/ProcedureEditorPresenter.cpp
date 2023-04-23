@@ -20,9 +20,9 @@ ProcedureEditorPresenter::ProcedureEditorPresenter(const Procedure& p, const Dat
 	result->result = p.result;
 	result->financingSource = p.financingSource;
 	result->notes = p.notes;
-	result->diagDescription = p.diagDescription;
+	result->diagnosis.additionalDescription = p.diagnosis.additionalDescription;
 
-	_dateValidator.setProcedure(result->code.nhifCode());
+	_dateValidator.setProcedure(result->code.oldCode(), result->financingSource == FinancingSource::NHIF);
 }
 
 std::optional<Procedure> ProcedureEditorPresenter::openDialog()
@@ -41,7 +41,7 @@ void ProcedureEditorPresenter::setView(IProcedureEditDialog* view)
 	view->procedureInput()->setHyperdonticState(result->hyperdontic);
 	view->procedureInput()->dateEdit()->setInputValidator(&_dateValidator);
 	view->procedureInput()->setNotes(result->notes);
-	view->procedureInput()->diagnosisEdit()->set_Text(result->diagDescription);
+	view->procedureInput()->diagnosisEdit()->set_Text(result->diagnosis.additionalDescription);
 	view->procedureInput()->diagnosisCombo()->setIndex(result->diagnosis.index());
 
 	switch (result->code.type())
@@ -85,17 +85,17 @@ void ProcedureEditorPresenter::setView(IProcedureEditDialog* view)
 
 void ProcedureEditorPresenter::okPressed()
 {
-	if (!view->procedureInput()->diagnosisCombo()->getIndex())
-	{
-		view->procedureInput()->diagnosisCombo()->setFocus();
-		return;
-	}
+	bool validIdx = view->procedureInput()->diagnosisCombo()->getIndex();
+	
+	view->procedureInput()->diagnosisEdit()->setInputValidator(validIdx ? nullptr : &not_emptyValidator);
+
 
 	//validation:
 	std::vector<AbstractUIElement*> validatable{
 		view->procedureInput()->dateEdit(),
 		view->procedureInput()->surfaceSelector(),
-		view->procedureInput()->rangeWidget()
+		view->procedureInput()->rangeWidget(),
+		view->procedureInput()->diagnosisEdit()
 	};
 
 
@@ -116,7 +116,7 @@ void ProcedureEditorPresenter::okPressed()
 	result->notes = view->procedureInput()->getNotes();
 	result->date = view->procedureInput()->dateEdit()->getDate();
 	result->diagnosis = view->procedureInput()->diagnosisCombo()->getIndex();
-	result->diagDescription = view->procedureInput()->diagnosisEdit()->getText();
+	result->diagnosis.additionalDescription = view->procedureInput()->diagnosisEdit()->getText();
 	result->financingSource = view->procedureInput()->getFinancingSource();
 	result->hyperdontic = view->procedureInput()->onHyperdontic();
 	result->tooth = m_tooth;

@@ -14,13 +14,17 @@ public:
 
 	Diagnosis() {};
 	Diagnosis(const std::string& name);
-	Diagnosis(int key);
+	Diagnosis(int key, const std::string& description = {});
 
 	int index() const { return m_idx; }
 
-	bool isValid() const { return m_idx != 0 && m_idx < s_names.size(); }
+	bool isValid() const;
 
 	const std::string& name() const { return s_names[m_idx]; }
+
+	const std::string& getFullDiagnosis() const;
+
+	std::string additionalDescription;
 
 	static const std::vector<std::string>& getNames() { return s_names; }
 };

@@ -51,7 +51,7 @@ std::vector<Procedure> DbProcedure::getProcedures(long long amblist_rowid, Db& d
 		p.notes = db.asString(8);
 		p.hyperdontic = db.asBool(9);
 		p.his_index = db.asInt(10);
-		p.diagDescription = db.asString(11);
+		p.diagnosis.additionalDescription = db.asString(11);
 	}
 
 	return mList;
@@ -103,7 +103,7 @@ void DbProcedure::saveProcedures(long long amblist_rowid, const std::vector<Proc
 		db.bind(9, p.notes);
 		db.bind(10, p.hyperdontic);
 		db.bind(11, p.his_index);
-		db.bind(12, p.diagDescription);
+		db.bind(12, p.diagnosis.additionalDescription);
 		db.bind(13, toInsert[i].removed);
 		db.execute();
 		
@@ -134,7 +134,7 @@ std::vector<ProcedureSummary> DbProcedure::getNhifSummary(long long patientRowId
 		 summary.push_back(
 			 {
 				Date{ db.asString(0) },
-				code.nhifCode(),
+				code.oldCode(),
 				db.asInt(2),
 				db.asBool(3),
 				code.type() == ProcedureType::extraction,
@@ -186,7 +186,7 @@ std::vector<Procedure> DbProcedure::getToothProcedures(long long patientRowId, i
 		p.diagnosis = db.asInt(6);
 		p.notes = db.asString(7);
 		p.hyperdontic = db.asBool(8);
-		p.diagDescription = db.asString(9);
+		p.diagnosis.additionalDescription = db.asString(9);
 	}
 	
 	

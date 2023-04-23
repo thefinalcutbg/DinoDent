@@ -17,5 +17,8 @@ public:
 	~MedicalStatusDialog();
 
 private:
+
+	void paintEvent(QPaintEvent* event) override;
+
 	Ui::MedicalStatusDialogClass ui;
 };

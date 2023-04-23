@@ -267,20 +267,35 @@ void ProcedureCreator::setView(IProcedureInput* view)
 
 	view->rangeWidget()->setBridgeRange(begin, end);
 
+	view->setCurrentPresenter(this);
+
+	view->diagnosisEdit()->setInputValidator(&notEmpty_validator);
+
 	//diag_map[ProcedureType::bridge] = bridgeOrFiberDiagnosis(m_selectedTeeth, ConstructionRange{ begin, end });
 	//diag_map[ProcedureType::fibersplint] = bridgeOrFiberDiagnosis(m_selectedTeeth, ConstructionRange{ begin, end });
 
 }
 
-void ProcedureCreator::setProcedureCode(const ProcedureCode& m)
+void ProcedureCreator::diagnosisChanged(int idx)
+{
+	diag_map[m_code.type()] = idx;
+
+	view->diagnosisEdit()->setInputValidator(idx ? nullptr : &notEmpty_validator);
+
+	view->diagnosisEdit()->validateInput();
+
+}
+
+void ProcedureCreator::setProcedureCode(const ProcedureCode& m, bool nhif)
 {
 	view->setCurrentPresenter(this);
 
 	m_code = m;
 
 	view->diagnosisCombo()->setIndex(diag_map[m.type()]);
+	diagnosisChanged(diag_map[m.type()]);
 
-	view->setNhifLayout(m.nhifCode() != 0);
+	view->setNhifLayout(nhif);
 
 	
 
@@ -330,15 +345,11 @@ void ProcedureCreator::setProcedureCode(const ProcedureCode& m)
 bool ProcedureCreator::isValid()
 {
 
-	if (!view->diagnosisCombo()->getIndex()) {
-		view->diagnosisCombo()->setFocus();
-		return false;
-	}
-
 	std::vector<AbstractUIElement*> validatable{
 		view->dateEdit(),
 		view->surfaceSelector(),
-		view->rangeWidget()
+		view->rangeWidget(),
+		view->diagnosisEdit()
 	};
 
 
@@ -365,7 +376,7 @@ std::vector<Procedure> ProcedureCreator::getProcedures()
 	procedure.financingSource = view->getFinancingSource();
 	procedure.LPK = User::doctor().LPK;
 	procedure.date = view->dateEdit()->getDate();
-	procedure.diagDescription = view->diagnosisEdit()->getText();
+	procedure.diagnosis.additionalDescription = view->diagnosisEdit()->getText();
 	procedure.notes = view->getNotes();
 	procedure.hyperdontic = view->onHyperdontic();
 	procedure.diagnosis = view->diagnosisCombo()->getIndex();

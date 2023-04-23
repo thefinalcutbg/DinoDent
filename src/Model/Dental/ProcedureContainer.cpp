@@ -127,7 +127,7 @@ const Procedure& ProcedureContainer::at(int index) const
 bool ProcedureContainer::hasPregnancy() const
 {
     for (auto& p : m_proc) {
-        if (p.isNhif() && p.code.nhifCode() == 103 && p.code.ksmp() == "97017-01") return true;
+        if (p.isNhif() && p.code.oldCode() == 103 && p.code.ksmp() == "97017-01") return true;
     }
 
     return false;

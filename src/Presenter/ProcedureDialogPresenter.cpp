@@ -60,22 +60,28 @@ void ProcedureDialogPresenter::procedureDateChanged(const Date& date)
 
 	if (User::hasNzokContract())
 	{
-		//getting NZOK procedures:
-		procedureList = NhifProcedures::getNhifProcedures
-		(
+		auto nhifProcedures = NhifProcedures::getNhifProcedures(
 			date,
 			User::doctor().specialty,
 			date >= patientTurns18,
 			pregnancyAllowed,
 			ambList.nhifData.specification
 		);
+		
+		for (auto& p : nhifProcedures)
+		{
+			procedureList.push_back({ p, true });
+		}
 	}
 
 
 	//getting custom procedures:
-	auto customProcedures = User::practice().priceList;
+	auto customProcedures = ProcedureCode::getNonNhifProcedures();
 
-	procedureList.insert(procedureList.end(), customProcedures.begin(), customProcedures.end());
+	for (auto& p : customProcedures)
+	{
+		procedureList.push_back({ p, false });
+	}
 
 	view->setProcedureTemplates(procedureList);
 	
@@ -98,12 +104,12 @@ void ProcedureDialogPresenter::indexChanged(int index)
 
 	noProcedureSelected = false;
 
-	date_validator.setProcedure(procedureList[index].nhifCode());
+	date_validator.setProcedure(procedureList[index].code.oldCode(), procedureList[index].nhif);
 	view->procedureInput()->dateEdit()->validateInput();
 
 
 	
-	procedure_creator.setProcedureCode(procedureCode);
+	procedure_creator.setProcedureCode(procedureCode.code, procedureCode.nhif);
 	
 
 }

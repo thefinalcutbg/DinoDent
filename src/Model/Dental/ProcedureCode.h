@@ -23,8 +23,8 @@ class ProcedureCode
     struct Numenclature {
         ProcedureType type;
         std::string name;
-        std::string ksmp;
-        int nhifCode;
+        std::string ksmp; //empty if not covered by NHIF
+        int oldCode;
     };
 
     inline static const std::string dummy;
@@ -38,7 +38,7 @@ public:
 
     ProcedureCode() {}
     ProcedureCode(const std::string& code);
-    ProcedureCode(int nhifCode);
+    ProcedureCode(int oldCode);
 
     static void initialize();
     static const std::map<int, std::string>& procedureByNhifCode() {
@@ -51,7 +51,7 @@ public:
         return s_mapping.count(m_code);
     }
 
-    int nhifCode() const;
+    int oldCode() const;
     const std::string& ksmp() const;
     const std::string& name() const;
     const std::string& code() const { return m_code; }

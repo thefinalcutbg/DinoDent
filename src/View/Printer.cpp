@@ -133,10 +133,10 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
         QString idx = QString::number(i);
 
         report.dataManager()->setReportVariable("pDate" + idx , p.date.toBgStandard().c_str());
-        report.dataManager()->setReportVariable("pDiag" + idx, p.getFullDiagnosis().c_str());
+        report.dataManager()->setReportVariable("pDiag" + idx, p.diagnosis.getFullDiagnosis().c_str());
         report.dataManager()->setReportVariable("pTooth" + idx, ToothUtils::getNomenclature(p.tooth, p.temp).c_str());
         report.dataManager()->setReportVariable("pName" + idx, p.code.name().c_str());
-        report.dataManager()->setReportVariable("pNhif" + idx, QString::number(p.code.nhifCode()));
+        report.dataManager()->setReportVariable("pNhif" + idx, QString::number(p.code.oldCode()));
         report.dataManager()->setReportVariable("pKsmp" + idx, p.code.ksmp().c_str());
 
     }

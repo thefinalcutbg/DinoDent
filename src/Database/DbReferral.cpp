@@ -65,7 +65,7 @@ std::vector<Referral> DbReferral::getReferrals(long long ambListId, Db& db)
     db.newStatement(
         "SELECT referral.type, referral.number, referral.date, referral.reason,"
         "referral.diag_main, referral.diag_add, comorb_main, comorb_add, referral.tooth, "
-        "referral.spec_119, referral.reason_119, referral.motives_119 "
+        "referral.spec_119, referral.reason_119, referral.motives_119, referral.lrn, referral.nrn "
         "FROM referral LEFT JOIN amblist ON referral.amblist_rowid=amblist.rowid "
         "WHERE amblist.rowid = ?"
     );
@@ -99,10 +99,15 @@ std::vector<Referral> DbReferral::getReferrals(long long ambListId, Db& db)
             };
         }
 
+        ref.lrn = db.asString(12);
+        ref.nrn = db.asString(13);
+
     }
 
     return referrals;
 }
+
+
 
 void DbReferral::saveReferrals(const std::vector<Referral>& ref, long long ambListRowid, Db& db)
 {
@@ -153,4 +158,10 @@ void DbReferral::saveReferrals(const std::vector<Referral>& ref, long long ambLi
 
         db.execute();
     }
+}
+
+void DbReferral::saveReferrals(const std::vector<Referral>& ref, long long ambListId)
+{
+    Db db;
+    saveReferrals(ref, ambListId, db);
 }

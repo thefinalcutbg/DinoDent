@@ -6,11 +6,13 @@ struct MDD4Data
 	
 private:
 
-	static inline std::string 
-		opgNhif = "10.62", 
+	static inline std::string
+		opgNhif = "10.62",
 		opgKsmp = "57960-00",
+		opgHis = "0C-010",
 		segmentNhif = "06.01",
-		segmentKsmp = "57930-00";
+		segmentKsmp = "57930-00",
+		segmentHis = "0C-00E";
 
 public:
 	
@@ -18,7 +20,7 @@ public:
 	inline bool isOPG() const { return tooth_idx == -1; }
 	inline const std::string& getCode() const { return isOPG() ? opgNhif : segmentNhif; };
 	inline const std::string& getKSMP() const { return isOPG() ? opgKsmp : segmentKsmp; };
-
+	inline const std::string& getHisCode() const{ return isOPG() ? opgHis : segmentHis; };
 };
 
 struct R3Data

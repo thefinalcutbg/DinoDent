@@ -171,7 +171,8 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
         dentalCareService->LinkEndChild(services);
 
         //no such features yet
-        dentalCareService->LinkEndChild(new TiXmlElement("medicalReferrals"));
+ 
+        auto medReferrals = new TiXmlElement("medicalReferrals");
 
         auto MDAReferrals = new TiXmlElement("MDAReferrals");
 
@@ -183,15 +184,51 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
             {
                 case(ReferralType::MDD4):
                 {
+
+                    if (r.nrn.empty()) continue;
+
                     auto mdaRef = new TiXmlElement("MDAReferral");
-                        mdaRef->SetAttribute("pathwayNo", FreeFn::leadZeroes(r.number, 6));
+                        mdaRef->SetAttribute("pathwayNo", r.nrn);
                         mdaRef->SetAttribute("date", r.date.to8601());
                              auto codes = new TiXmlElement("codes");
                              auto code = new TiXmlElement("code");
                              code->SetAttribute("name", std::get<MDD4Data>(r.data).getCode());
                              codes->LinkEndChild(code);
                         mdaRef->LinkEndChild(codes);
+
                     MDAReferrals->LinkEndChild(mdaRef);
+
+                    break;
+                }
+                case(ReferralType::Form3):
+                {
+                    if (r.nrn.empty()) continue;
+
+                    auto medRef = new TiXmlElement("medicalReferral");
+                     medRef->SetAttribute("pathwayNo", r.nrn);
+                     medRef->SetAttribute("date", r.date.to8601());
+                     medRef->SetAttribute("MRType", "1");
+                     medRef->SetAttribute("specCode", R3Data::specialty);
+                     medRef->SetAttribute("ICDCode", r.diagnosis.main.code());
+
+                     medReferrals->LinkEndChild(medRef);
+
+                     break;
+                }
+                case(ReferralType::Form3A):
+                {
+                    if (r.nrn.empty()) continue;
+
+                    auto medRef = new TiXmlElement("medicalReferral");
+                    medRef->SetAttribute("pathwayNo", r.nrn);
+                    medRef->SetAttribute("date", r.date.to8601());
+                    medRef->SetAttribute("MRType", "2");
+                    medRef->SetAttribute("specCode", R3AData::nhifSpecialty);
+                    medRef->SetAttribute("HSACode", R3AData::highlySpecializedActivity);
+                    medRef->SetAttribute("ICDCode", r.diagnosis.main.code());
+
+                    medReferrals->LinkEndChild(medRef);
+
                     break;
                 }
                 case(ReferralType::MH119):
@@ -208,6 +245,8 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
 
 
         }
+
+        dentalCareService->LinkEndChild(medReferrals);
 
         dentalCareService->LinkEndChild(MDAReferrals);
         

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1443</width>
+    <width>1451</width>
     <height>1171</height>
    </rect>
   </property>
@@ -156,9 +156,15 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="getStatusButton">
+        <widget class="HoverButton" name="getStatusButton">
+         <property name="minimumSize">
+          <size>
+           <width>140</width>
+           <height>0</height>
+          </size>
+         </property>
          <property name="text">
-          <string>Актуален Статус</string>
+          <string>Свали актуален статус</string>
          </property>
         </widget>
        </item>

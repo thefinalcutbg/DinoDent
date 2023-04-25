@@ -376,10 +376,11 @@ std::vector<Procedure> ProcedureCreator::getProcedures()
 	procedure.financingSource = view->getFinancingSource();
 	procedure.LPK = User::doctor().LPK;
 	procedure.date = view->dateEdit()->getDate();
+	procedure.diagnosis = view->diagnosisCombo()->getIndex();
 	procedure.diagnosis.additionalDescription = view->diagnosisEdit()->getText();
 	procedure.notes = view->getNotes();
 	procedure.hyperdontic = view->onHyperdontic();
-	procedure.diagnosis = view->diagnosisCombo()->getIndex();
+
 
 	procedure.tooth = -1;
 
@@ -419,7 +420,6 @@ std::vector<Procedure> ProcedureCreator::getProcedures()
 		break;
 		
 	}
-
 
 	return result;
 }

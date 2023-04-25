@@ -68,7 +68,7 @@ public:
 		return type != ReferralType::MH119;
 	}
 
-	inline bool isSentToHIS(){
+	inline bool isSentToHIS() const {
 		return nrn.size();
 	}
 };

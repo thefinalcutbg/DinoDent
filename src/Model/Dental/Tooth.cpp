@@ -180,7 +180,7 @@ void Tooth::addStatus(int statusCode)
 		case StatusCode::Temporary: 
 			if (type == ToothType::Molar) break;
 			set(true, temporary);  
-			set(false, post);  
+			set(false, post); 
 			healthy.set(isHealthyCheck());
 			break;
 
@@ -279,7 +279,7 @@ void Tooth::addStatus(int statusCode)
 
 		case StatusCode::Denture: 
 			set(true, denture); 
-			set(false, healthy, obturation, caries, extraction, crown, bridge, splint, post);
+			set(false, healthy, obturation, caries, extraction, crown, bridge, splint, post, calculus);
 			if (!root) {
 				set(false, endo, lesion, pulpitis, periodontitis);
 			}
@@ -287,7 +287,7 @@ void Tooth::addStatus(int statusCode)
 
 		case StatusCode::Calculus:
 			set(true, calculus);
-			set(false, healthy, root, extraction, implant, impacted);
+			set(false, healthy, root, extraction, implant, impacted, denture);
 			break;
 
 		default: break;
@@ -299,7 +299,7 @@ void Tooth::removeStatus(int statusCode)
 {
 	switch (statusCode){
 		case StatusCode::Healthy: healthy.set(false); if (isHealthyCheck()) temporary.set(false); break;
-		case StatusCode::Temporary: temporary.set(false); healthy.set(!isHealthyCheck()); break;
+		case StatusCode::Temporary: temporary.set(false); extraction.set(false); healthy.set(!isHealthyCheck()); break;
 		case StatusCode::Obturation: obturation.set(false); break;
 		case StatusCode::Caries: caries.set(false); break;
 		case StatusCode::Pulpitis: pulpitis.set(false); break;

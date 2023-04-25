@@ -282,6 +282,8 @@ std::string EDental::Augment::getProcedures(const ProcedureContainer& procedures
 
 	for (auto& p : procedures.removedProcedures()) {
 
+		sequence++;
+
 		result += "<nhis:dentalProcedure>";
 
 		result += bind("sequence", sequence);
@@ -340,7 +342,7 @@ void EDental::Augment::parseReply(const std::string& reply)
 		//index
 		auto hisIdx = std::stoi(contents.Child(i).Child(1).ToElement()->Attribute("value"));
 
-		if (sequence == 999) continue;
+		if (sequence >= 999) continue;
 
 		procedureIndex[sequence-1] = hisIdx;
 	}

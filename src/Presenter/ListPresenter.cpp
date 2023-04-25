@@ -667,18 +667,18 @@ void ListPresenter::addReferral(ReferralType type)
         return;
     }
 
-    if (type != ReferralType::MDD4) {
+    if (type == ReferralType::Form3 || type == ReferralType::Form3A) {
         for (auto& r : m_ambList.referrals)
         {
-            if (r.type == type) {
+            if (r.type == ReferralType::Form3 || type == ReferralType::Form3A) {
                 ModalDialogBuilder::showMessage(
-                    "Позволено е максимум по едно направление от тип бл.3, бл.3А и 119 МЗ"
+                    "Позволено е максимум едно направление от тип бл.3 или бл.3А"
                 );
                 return;
             }
         }
     }
-    else
+    else if(type == ReferralType::MDD4)
     {
         int mddCounter = 0;
 
@@ -694,6 +694,20 @@ void ListPresenter::addReferral(ReferralType type)
             return;
         }
     }
+    else
+    {
+        for (auto& r : m_ambList.referrals)
+        {
+            if (r.type == ReferralType::MH119) {
+
+                ModalDialogBuilder::showMessage(
+                    "Позволено е максимум по едно направление от тип 119 МЗ"
+                );
+                return;
+            }
+        }
+
+    }
 
     ReferralPresenter p(m_ambList, type);
 
@@ -706,13 +720,22 @@ void ListPresenter::addReferral(ReferralType type)
     view->setReferrals(m_ambList.referrals);
 
     dynamicNhifConversion();
-
-    makeEdited();
+   
+    if (!m_ambList.isNew()) {
+        DbReferral::saveReferrals(m_ambList.referrals, m_ambList.rowid);
+    }
 
 }
 
 void ListPresenter::editReferral(int index)
 {
+
+    if (m_ambList.referrals[index].isSentToHIS())
+    {
+        ModalDialogBuilder::showMessage("Не можете да коригирате вече изпратено към НЗИС направление");
+        return;
+    }
+
     ReferralPresenter p(m_ambList.referrals[index]);
 
     auto result = p.openDialog();
@@ -726,28 +749,6 @@ void ListPresenter::editReferral(int index)
     makeEdited();
 }
 
-void ListPresenter::removeReferral(int index)
-{
-    auto& r = m_ambList.referrals[index];
-
-    if (!r.isNrnType() || !r.isSentToHIS())
-    {
-        auto& rList = m_ambList.referrals;
-
-        rList.erase(rList.begin() + index);
-
-        view->setReferrals(rList);
-
-        dynamicNhifConversion();
-
-        makeEdited();
-
-        return;
-    }
-    
-    //query for his invalidation, then removal!
-
-}
 
 void ListPresenter::printReferral(int index)
 {
@@ -776,7 +777,9 @@ void ListPresenter::sendReferralToHis(int index)
             [=](const std::string& nrn) {
 
                 m_ambList.referrals[index].nrn = nrn;
-                DbAmbList::update(m_ambList);
+
+                DbReferral::saveReferrals(m_ambList.referrals, m_ambList.rowid);
+
                 if (isCurrent()) {
                     view->setReferrals(m_ambList.referrals);
                 }
@@ -786,20 +789,55 @@ void ListPresenter::sendReferralToHis(int index)
 
         return;
     }
+}
 
-    eReferralCancelService.sendRequest(
-        ref.nrn,
-        [=](bool success) {
-            if (!success) return;
 
-            m_ambList.referrals[index].nrn.clear();
-            DbAmbList::update(m_ambList);
-            if (isCurrent()) {
-                view->setReferrals(m_ambList.referrals);
+void ListPresenter::removeReferral(int index)
+{
+    auto& r = m_ambList.referrals[index];
+
+    if (!r.isNrnType() || !r.isSentToHIS())
+    {
+        auto& rList = m_ambList.referrals;
+
+        rList.erase(rList.begin() + index);
+
+        if(isCurrent()) view->setReferrals(rList);
+
+        dynamicNhifConversion();
+
+        refreshTabName();
+
+        TabInstance::makeEdited(); //no need for his augmentation
+
+        return;
+    }
+
+
+    if (r.isSentToHIS()) {
+
+        eReferralCancelService.sendRequest(r.nrn,
+            [=](bool success) {
+
+                if (!success) return;
+
+                m_ambList.referrals.erase(m_ambList.referrals.begin() + index);
+
+                DbReferral::saveReferrals(m_ambList.referrals, m_ambList.rowid);
+
+                ModalDialogBuilder::showMessage("Направлението е анулирано успешно!");
+
+                dynamicNhifConversion();
+
+                if(isCurrent()) view->setReferrals(m_ambList.referrals);
+
+                refreshTabName();
+
+               
             }
-        }
-    );
+        );
 
+    }
 
 }
 
@@ -834,7 +872,6 @@ void ListPresenter::createPrescription()
 void ListPresenter::hisButtonPressed()
 {
 
-
     if (m_ambList.nrn.empty()) {
 
         if (!save()) return;
@@ -861,6 +898,8 @@ void ListPresenter::hisButtonPressed()
                 {
                     setHisButtonToView();
                 }
+
+                ModalDialogBuilder::showMessage("Денталният преглед е изпратен към НЗИС успешно");
 
 
             }

@@ -11,7 +11,7 @@ bool EReferral::Issue::sendRequest(const std::string& examNrn, const Patient& pa
 
 	std::string contents;
 
-	auto getNhifRefType = [&]() {
+	auto getNhifCategory = [&]() {
 
 		switch (ref.type)
 		{
@@ -25,9 +25,10 @@ bool EReferral::Issue::sendRequest(const std::string& examNrn, const Patient& pa
 		
 
 	contents += "<nhis:referral>";
-	contents += bind("lnr", ref.lrn);
-	contents += bind("date", ref.date.to8601());
-	contents += bind("type", getNhifRefType());
+	contents += bind("lrn", ref.lrn);
+	contents += bind("authoredOn", ref.date.to8601());
+	contents += bind("category", getNhifCategory());
+	contents += bind("type", ref.reason.getIndex());
 	contents += bind("rhifAreaNumber", patient.city.getRhif() + patient.city.getHealthRegion());
 	contents += bind("basedOn", examNrn);
 	contents += bind("financingSource", 2);
@@ -38,14 +39,14 @@ bool EReferral::Issue::sendRequest(const std::string& examNrn, const Patient& pa
 		{
 			contents += "<nhis:laboratory>";
 			auto ref4Data = std::get<MDD4Data>(ref.data);
-			contents += bind("code", ref4Data.getKSMP());
+			contents += bind("code", ref4Data.getHisCode());
 			contents += "</nhis:laboratory>";
 		}
 			break;
 		case ReferralType::Form3:
 		{
 			auto r3data = std::get<R3Data>(ref.data);
-			contents += "<nhis:consultation><qualification value=\"";
+			contents += "<nhis:consultation><nhis:qualification value=\"";
 			contents += r3data.hisSpecialty;
 			contents += "\"  nhifCode = \"";
 			contents += r3data.specialty;
@@ -56,11 +57,11 @@ bool EReferral::Issue::sendRequest(const std::string& examNrn, const Patient& pa
 		case ReferralType::Form3A:
 		{
 			auto r3Adata = std::get<R3AData>(ref.data);
-			contents += "<nhis:specializedActivities><qualification value=\"";
+			contents += "<nhis:specializedActivities><nhis:qualification value=\"";
 			contents += r3Adata.hisSpecialty;
-			contents += "\"  nhifCode = \"";
+			contents += "\" nhifCode=\"";
 			contents += r3Adata.nhifSpecialty;
-			contents += "\"/><code=\"";
+			contents += "\"/><nhis:code value=\"";
 			contents += r3Adata.highlySpecializedActivity;
 			contents += "\"/></nhis:specializedActivities>"
 				;
@@ -68,12 +69,23 @@ bool EReferral::Issue::sendRequest(const std::string& examNrn, const Patient& pa
 			break;
 	}
 
-
+	
 	contents += "<nhis:diagnosis>";
 	contents += bind("code", ref.diagnosis.main.code());
 	contents += bind("additionalCode", ref.diagnosis.additional.code());
 	contents += bind("use", 3);
 	contents += bind("rank", 1);
+
+	if (ref.type == ReferralType::MDD4)
+	{
+		auto& data = std::get<MDD4Data>(ref.data);
+
+		if (!data.isOPG())
+		{
+			contents += bind("note", "Зъб " + ToothUtils::getToothNumber(data.tooth_idx, false));
+		}
+	}
+
 	contents += "</nhis:diagnosis>";
 
 	if (ref.comorbidity.main.isValid())
@@ -152,6 +164,8 @@ void EReferral::Cancel::parseReply(const std::string& reply)
 		return;
 	}
 
+	ModalDialogBuilder::showMultilineDialog(reply);
+
 	TiXmlDocument doc;
 
 	doc.Parse(reply.data(), 0, TIXML_ENCODING_UTF8);
@@ -165,7 +179,7 @@ void EReferral::Cancel::parseReply(const std::string& reply)
 
 	if (
 		status &&
-		status->FirstAttribute()->IntValue() == 5
+		status->FirstAttribute()->ValueStr() == "4"
 		)
 	{
 		m_callback(true); return;

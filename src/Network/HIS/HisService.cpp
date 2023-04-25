@@ -169,11 +169,22 @@ std::string HisService::requester(bool nhif)
 	std::string qualification =
 		"<nhis:qualification value=\"" + std::to_string(User::doctor().hisSpecialty.getIdx()) + "\"" + nhifCode + "/>";
 
+
+	std::string rhifAreaNumber;
+	
+	//implement EKATTE for practice!
+	if (nhif) {
+		rhifAreaNumber = "<nhis:rhifAreaNumber value = \"2201\"/>";
+	}
+
+
 	std::string requester =
 		"<nhis:requester>"
 			"<nhis:pmi value=\"" + User::doctor().LPK + "\"/>"
 			+ qualification +
+			"<nhis:role value=\"1\"/>"
 			"<nhis:practiceNumber value=\"" + User::practice().rziCode + "\"/>"
+			+ rhifAreaNumber + 
 			"<nhis:nhifNumber value=\"" + User::practice().RHIF() + "\"/>"
 			"<nhis:phone value=\"" + User::doctor().phone + "\"/>"
 		"</nhis:requester>"
@@ -192,7 +203,6 @@ std::string HisService::performer()
 
 	std::string qualification =
 		"<nhis:qualification value=\"" + std::to_string(User::doctor().hisSpecialty.getIdx()) + "\"" + nhifCode + "/>";
-
 
 	std::string performer;
 	performer += "<nhis:performer>";

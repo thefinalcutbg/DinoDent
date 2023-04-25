@@ -47,7 +47,7 @@ public:
 
 	bool isValid();
 
-	virtual std::vector<Procedure> getProcedures();
+	std::vector<Procedure> getProcedures();
 	
 };
 

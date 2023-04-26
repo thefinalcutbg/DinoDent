@@ -30,10 +30,6 @@ AmbListValidator::AmbListValidator(const AmbList& list, const Patient& patient)
 
 bool AmbListValidator::ambListIsValid()
 {
-    if (ambList.nrn.size() && !ambList.his_updated) {
-        _error = "Амбулаторният лист е редактиран, но промените не са отразени в НЗИС";
-        return false;
-    }
 
     for (auto& p : m_procedures)
     {
@@ -99,9 +95,25 @@ bool AmbListValidator::ambListIsValid()
             _error = std::string(ref.getTypeAsString()) + " №" + std::to_string(ref.number) + " не може да бъде издадено в почивен ден";
             return false;
         }
+
+        if (ref.type != ReferralType::MH119 && !ref.isSentToHIS()) {
+            _error = "Амбулаторният лист съдържа направления, които не са изпратени към НЗИС";
+            return false;
+        }
+
     }
 
     if (!isValidAccordingToDb()) return false;
+
+    if (ambList.nrn.empty()) {
+        _error = "Амбулаторният лист не е изпратен към НЗИС";
+        return false;
+    }
+
+    if (ambList.nrn.size() && ambList.his_updated == false) {
+        _error = "Амбулаторният лист е редактиран, но промените не са отразени в НЗИС";
+        return false;
+    }
 
     _error = "";
     return true;

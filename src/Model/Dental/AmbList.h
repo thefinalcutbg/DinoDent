@@ -37,7 +37,6 @@ struct AmbList
 
 	std::vector<Referral> referrals;
 
-
 	bool isNhifSheet() const
 	{
 		return (referrals.size() || procedures.hasNhifProcedure());
@@ -71,6 +70,11 @@ struct AmbList
 
 	bool isNew() { return rowid == 0; }
 
+	std::string getNumber() const {
+		if (nrn.size()) return nrn;
+
+		return FreeFn::leadZeroes(number, 6);
+	}
 
 	~AmbList() {  }
 

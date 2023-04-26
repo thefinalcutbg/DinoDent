@@ -8,43 +8,6 @@
 #include "Model/Dental/NhifProcedures.h"
 #include "View/ModalDialogBuilder.h"
 
-//returns empty string if valid
-std::string consecutionCheck(const std::vector<AmbList>& lists) {
-
-	std::unordered_set<int> uniqueSheetNumbers;
-
-	std::string errors;
-
-	for (int i = 0; i < lists.size(); i++)
-	{
-		//check list num uniqeness
-		if (uniqueSheetNumbers.count(lists[i].number))
-		{
-			errors +=
-				"Дублирана номерация на амбулаторен лист "
-				+ std::to_string(lists[i].number) + "\n";
-
-			uniqueSheetNumbers.insert(lists[i].number);
-
-			continue;
-		}
-
-		uniqueSheetNumbers.insert(lists[i].number);
-
-		if (i && lists[i].getDate() < lists[i - 1].getDate()) {
-
-			errors +=
-				"Несъответствие на датите и поредните номера между амбулаторни листи "
-				+ std::to_string(lists[i - 1].number) +
-				" и " + std::to_string(lists[i].number) + "\n";
-		}
-
-	}
-
-	return errors;
-
-}
-
 void ReportPresenter::updateProgressBar()
 {
 	double percent = (static_cast<double>(m_currentIndex) / lists.size()) * 100;
@@ -65,7 +28,7 @@ void ReportPresenter::checkAmbList(const AmbList& list, const Patient& patient)
 		view->appendText(
 
 			"Амбулаторен лист №"
-			+ std::to_string(list.number) + ": "
+			+ list.getNumber() + ": "
 			+ v.getErrorMsg()
 			
 		);
@@ -292,9 +255,8 @@ void ReportPresenter::generateReport(bool checkPis, bool checkNra)
 
 void ReportPresenter::finish()
 {
-	//checking list number and date sequence - this will probably become obsolete with HIS
 
-	auto errors = consecutionCheck(lists);
+	std::string errors;
 
 	//checking max minutes allowed from NHIF
 

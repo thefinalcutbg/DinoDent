@@ -278,7 +278,8 @@ std::vector<AmbList> DbAmbList::getMonthlyNhifSheets(int month, int year)
         "nhif_spec,"
         "nhif_unfav,"
         "status,"
-        "LPK "
+        "LPK, "
+        "his_updated "
         "FROM amblist "
         "WHERE amblist.nhif_spec IS NOT NULL "
         "AND lpk = '" + User::doctor().LPK + "' "
@@ -303,6 +304,7 @@ std::vector<AmbList> DbAmbList::getMonthlyNhifSheets(int month, int year)
         sheet.nhifData.isUnfavourable = db.asInt(5);
         Parser::parse(db.asString(6), sheet.teeth);
         sheet.LPK = db.asString(7);
+        sheet.his_updated = db.asBool(8);
 
         sheetRowIdMap[sheet.rowid] = result.size() - 1;
      }

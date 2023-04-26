@@ -92,7 +92,7 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
 
     fillCommonData(report, patient, doctor, practice);
 
-    report.dataManager()->setReportVariable("ambNum", QString::fromStdString(FreeFn::leadZeroes(amb.number, 12)));
+    report.dataManager()->setReportVariable("ambNum", QString::fromStdString(amb.nrn));
 
     const char* defaultStatus{ "Не съобщава" };
 
@@ -159,9 +159,6 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
             case ReferralType::MDD4: mdd4_1 ? mdd4_2 = &ref : mdd4_1 = &ref; break;
         }
     }
-
-
-
 
     if (mdd4_1)
     {

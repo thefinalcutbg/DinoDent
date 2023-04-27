@@ -105,11 +105,6 @@ bool AmbListValidator::ambListIsValid()
 
     if (!isValidAccordingToDb()) return false;
 
-    if (ambList.nrn.empty()) {
-        _error = "Амбулаторният лист не е изпратен към НЗИС";
-        return false;
-    }
-
     if (ambList.nrn.size() && ambList.his_updated == false) {
         _error = "Амбулаторният лист е редактиран, но промените не са отразени в НЗИС";
         return false;
@@ -262,17 +257,19 @@ bool AmbListValidator::examIsFirst()
     constexpr int examCode = 101;
 
     auto it = std::find_if(procedures.begin(), procedures.end(),
-        [&examCode](const Procedure& p){
+        [&](const Procedure& p){
             return p.isNhif() && p.code.oldCode() == examCode;
         });
 
+    Date examDate;
+
     if (it != procedures.end()){
-        ambListDate = it->date;
+        examDate = it->date;
     }
 
     for (auto& p : procedures)
     {
-        if (p.isNhif() && p.code.oldCode() != examCode && p.date < ambListDate)
+        if (p.isNhif() && p.code.oldCode() != examCode && p.date < examDate)
         {
             _error = "Датата на манипулация " + std::to_string(p.code.oldCode()) + " е по-малка от датата на прегледа!";
             return false;

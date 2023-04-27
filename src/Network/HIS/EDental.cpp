@@ -53,6 +53,7 @@ std::string EDental::Open::getProcedures(const ProcedureContainer& procedures, c
 	int sequence = 0;
 
 	ToothContainer teethChanged = teeth;
+	Date lastProcedureDate(Date::currentDate());
 
 	for (auto& p : procedures)
 	{
@@ -112,7 +113,12 @@ std::string EDental::Open::getProcedures(const ProcedureContainer& procedures, c
 
 		result += "</nhis:dentalProcedure>";
 
+		lastProcedureDate = p.date;
+
 	}
+
+	//to implement this, his_idx needs to be stored somewhere
+	//result += HisService::getResultingStatusAsProcedure(teethChanged, lastProcedureDate);
 
 	return result;
 
@@ -127,8 +133,6 @@ void EDental::Open::parseReply(const std::string& reply)
 		m_callback = nullptr;
 		return;
 	}
-
-	ModalDialogBuilder::showMultilineDialog(reply);
 
 	TiXmlDocument doc;
 
@@ -320,8 +324,6 @@ void EDental::Augment::parseReply(const std::string& reply)
 		return;
 	}
 
-	ModalDialogBuilder::showMultilineDialog(reply);
-
 	TiXmlDocument doc;
 
 	doc.Parse(reply.data(), 0, TIXML_ENCODING_UTF8);
@@ -426,7 +428,6 @@ void EDental::GetStatus::parseReply(const std::string& reply)
 		return;
 	}
 
-	ModalDialogBuilder::showMultilineDialog(reply);
 
 	TiXmlDocument doc;
 

@@ -13,7 +13,7 @@ long long DbAmbList::insert(const AmbList& sheet, long long patientRowId)
 {
 
     Db db("INSERT INTO amblist "
-        "(date, nrn, lrn, his_updated, basedOnNrn, num, nhif_spec, nhif_unfav, status, patient_rowid, lpk, rzi) "
+        "(date, nrn, lrn, his_updated, based_on, num, nhif_spec, nhif_unfav, status, patient_rowid, lpk, rzi) "
         "VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
 
     bool sheetIsNhif = sheet.isNhifSheet();
@@ -87,7 +87,7 @@ AmbList DbAmbList::getNewAmbSheet(long long patientRowId)
     Db db;
     std::string query(
     
-        "SELECT rowid, nrn, lrn, his_updated, basedOnNrn, num, nhif_spec, status FROM amblist WHERE "
+        "SELECT rowid, nrn, lrn, his_updated, based_on, num, nhif_spec, status FROM amblist WHERE "
         "patient_rowid = " + std::to_string(patientRowId) + " AND "
         "lpk = '" + User::doctor().LPK + "' AND "
         "rzi = '" + User::practice().rziCode + "' AND "
@@ -162,7 +162,7 @@ AmbList DbAmbList::getListData(long long rowId)
     AmbList ambList;
 
     Db db(
-        "SELECT rowid, nrn, lrn, his_updated, basedOnNrn, num, nhif_spec, nhif_unfav, status, patient_rowid, date FROM amblist WHERE "
+        "SELECT rowid, nrn, lrn, his_updated, based_on, num, nhif_spec, nhif_unfav, status, patient_rowid, date FROM amblist WHERE "
         "rowid = " + std::to_string(rowId)
     );
 
@@ -212,7 +212,7 @@ std::unordered_set<int> DbAmbList::getExistingNumbers(int currentYear)
 
     return existingNumbers;
 }
-
+#include <qdebug.h>
 bool DbAmbList::suchNumberExists(int year, int ambNum, long long ambRowid)
 {
     auto query =
@@ -221,11 +221,13 @@ bool DbAmbList::suchNumberExists(int year, int ambNum, long long ambRowid)
         "lpk = '" + User::doctor().LPK + "' "
         "AND rzi ='" + User::practice().rziCode + "' "
         "AND strftime('%Y',date)='" + std::to_string(year) + "' "
-        "AND nrn IS NULL OR nrn = ''"
+        "AND COALESCE(nrn, '')=''"
         "AND num =" + std::to_string(ambNum) + " "
         "AND rowid !=" + std::to_string(ambRowid)
         ;
     
+    qDebug() << query.c_str();
+
     Db db {query};
 
     for (;db.hasRows();) {

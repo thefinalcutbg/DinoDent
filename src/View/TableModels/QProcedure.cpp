@@ -10,8 +10,9 @@ QProcedure::QProcedure(const Procedure& p) :
 	diagnosis(QString::fromStdString(p.diagnosis.getFullDiagnosis())),
 	tooth(ToothUtils::getNhifNumber(p.tooth, p.temp, p.hyperdontic).c_str()),
 	procedureName(QString::fromStdString(p.code.name())),
-	code(p.code.oldCode()), fsource(p.financingSource),
-	ksmp(QString::fromStdString(p.code.ksmp())),
+	code(p.code.oldCode()),
+	fsource(p.financingSource),
+	ksmp(QString::fromStdString(p.financingSource == FinancingSource::NHIF ? p.code.ksmp() : "")),
 	doctor(QString::fromStdString(User::getNameFromLPK(p.LPK))),
 	notes(QString::fromStdString(p.notes))
 {

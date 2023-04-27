@@ -115,7 +115,6 @@ void EReferral::Issue::parseReply(const std::string& reply)
 		return;
 	}
 
-	ModalDialogBuilder::showMultilineDialog(reply);
 
 	TiXmlDocument doc;
 
@@ -164,7 +163,6 @@ void EReferral::Cancel::parseReply(const std::string& reply)
 		return;
 	}
 
-	ModalDialogBuilder::showMultilineDialog(reply);
 
 	TiXmlDocument doc;
 

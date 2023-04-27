@@ -137,6 +137,18 @@ void ListSelectorPresenter::deleteCurrentSelection()
 {
 	if (m_selectedInstances.empty()) return;
 
+	if (m_selectedInstances[0]->type == TabType::AmbList)
+	{
+		for (auto& ptr : m_selectedInstances)
+		{
+			if (static_cast<AmbRow*>(ptr)->his)
+			{
+				ModalDialogBuilder::showMessage("Някои от избраните амбулаторни листи не са анулирани в НЗИС и не могат да бъдат изтрити");
+				return;
+			}
+		}
+	}
+
 	std::string warningMsg = "Сигурни ли сте, че искате да изтриете избраният/избраните ";
 
 	static constexpr const char* endString[5]{

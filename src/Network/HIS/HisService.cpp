@@ -21,7 +21,6 @@ std::string timeNow() {
 bool HisService::sendRequestToHis(const std::string& query)
 {
 	if (awaiting_reply) return false;
-	//ModalDialogBuilder::showMultilineDialog(buildMessage(query));// return true;
 
 	if (HisToken::getToken().empty()) {
 		return HisToken::requestToken(this, query);
@@ -113,10 +112,6 @@ const std::string HisService::buildMessage(const std::string& query)
 	"</nhis:message>"
 	
 	;
-
-
-	ModalDialogBuilder::showMultilineDialog(result);
-
 
 	return result;
 	
@@ -293,6 +288,28 @@ std::string HisService::bind(const std::string& name, const char* value, bool is
 	if (value == "") return "";
 
 	return bind(name, std::string{ value }, isUserInput);
+}
+
+std::string HisService::getResultingStatusAsProcedure(const ToothContainer& teeth, const Date& lastProcedureDate)
+{
+
+	std::string result;
+
+	result += "<nhis:dentalProcedure>";
+
+	result += ("sequence", 101);
+
+	result += bind("code", "D-01-001");
+	result += bind("type", 1);
+	result += bind("datePerformed",lastProcedureDate.to8601());
+	result += bind("financingSource", 4);
+
+	for (auto& tooth : teeth)
+	{
+		result += getToothStatus(tooth);
+	}
+
+	result += "</nhis:dentalProcedure>";
 }
 
 std::string HisService::bind(const std::string& name, const std::string& value, bool isUserInput)

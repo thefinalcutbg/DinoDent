@@ -1,8 +1,6 @@
 #include "Procedure.h"
 #include "Model/Dental/ToothContainer.h"
-
-
-
+#include <qdebug.h>
 void Procedure::applyProcedure(ToothContainer& teeth) const
 {
 		switch (code.type())
@@ -35,6 +33,15 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 			}
 			break;
 
+			case::ProcedureType::endo:
+			{
+				if (hyperdontic) return;
+				teeth.setStatus({ this->tooth }, StatusCode::EndoTreatment, true);
+				teeth[this->tooth].endo.LPK = LPK;
+
+			}
+			break;
+
 			case::ProcedureType::extraction:
 			{
 				auto& tooth = teeth[this->tooth];
@@ -49,15 +56,6 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 				{
 					tooth.extraction.LPK = LPK;
 				}
-			}
-			break;
-
-			case::ProcedureType::endo:
-			{
-				if (hyperdontic) return;
-				teeth.setStatus({ this->tooth }, StatusCode::Extraction, true);
-				teeth[this->tooth].endo.LPK = LPK;
-
 			}
 			break;
 
@@ -147,6 +145,7 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 
 				for (int i : indexes) teeth[i].splint.LPK = LPK;
 			}
+			break;
 			/*
 			case ProcedureType::removecrown:
 			{
@@ -229,7 +228,8 @@ bool Procedure::isToothSpecific() const
 	return
 		type != ProcedureType::general &&
 		type != ProcedureType::bridge &&
-		type != ProcedureType::fibersplint
+		type != ProcedureType::fibersplint &&
+		type != ProcedureType::denture
 		// && type != ProcedureType::removebridgeOrSplint
 	;
 }

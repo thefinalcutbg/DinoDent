@@ -16,7 +16,7 @@ class Db
     sqlite3_stmt* stmt;
 
     static inline bool s_showError{ false };
-    static inline std::string dbLocation{ "database.db" };
+    static inline std::string dbLocation{ "TorqueDB - Copy.db" };
 
     void finalizeStatement();
 

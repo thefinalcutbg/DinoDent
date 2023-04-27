@@ -66,6 +66,16 @@ std::vector<const Tooth*> ToothContainer::getSelectedTeethPtr(std::vector<int> s
 	return selectedPtr;
 }
 
+void ToothContainer::copyFromOther(const ToothContainer& other)
+{
+	for (int i = 0; i < teethCount; i++)
+	{
+		if (other[i].noData()) continue;
+
+		teeth[i] = other[i];
+	}
+}
+
 bool ToothContainer::canResultInNonRetainedConstruction(int status)
 {
 	return	

@@ -13,7 +13,7 @@ namespace DbPractice
 	void setDoctorsPracticeList(std::vector<PracticeDoctor> doctors, const std::string& practiceRZI);
 	std::vector<PracticeDoctor> getDoctors(const std::string& practiceRZI);
 
-	void updatePriceList(const std::vector<ProcedureCode>& priceList, const std::string& rziCode);
+	//void updatePriceList(const std::vector<ProcedureCode>& priceList, const std::string& rziCode);
 
 	bool practiceExists(const std::string& rzi);
 	bool noPractices();

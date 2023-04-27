@@ -890,6 +890,8 @@ void ListPresenter::hisButtonPressed()
                     m_ambList.procedures[i].his_index = procedureIndex[i];
                 }
 
+                m_ambList.his_updated = true;
+
                 DbAmbList::update(m_ambList);
                 
                 refreshTabName();
@@ -975,7 +977,10 @@ void ListPresenter::getStatusPressed()
     eDentalGetService.sendRequest(
         *patient.get(),
         [this](const ToothContainer& teeth, const ProcedureContainer& p) {
-            m_ambList.teeth = teeth;
+
+            if (!ModalDialogBuilder::applyToStatusDialog(teeth)) return;
+
+            m_ambList.teeth.copyFromOther(teeth);
             makeEdited();
             if (isCurrent()) {
                 for (int i = 0; i < 32; i++)

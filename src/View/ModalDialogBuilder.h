@@ -82,5 +82,6 @@ namespace ModalDialogBuilder
 	void saveFile(const std::string& data, const std::string& filename);
 	std::optional<std::string> openFile();
 	std::optional<MedicalStatuses> openMedicalStatusDialog(const MedicalStatuses& s);
+	bool applyToStatusDialog(const ToothContainer& t);
 };
 

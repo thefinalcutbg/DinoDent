@@ -349,6 +349,15 @@ std::optional<MedicalStatuses> ModalDialogBuilder::openMedicalStatusDialog(const
 	return std::optional<MedicalStatuses>();
 }
 
+#include "View/Widgets/CurrentStatusDialog.h"
+
+bool ModalDialogBuilder::applyToStatusDialog(const ToothContainer& t)
+{
+	CurrentStatusDialog d(t);
+
+	return d.exec() == QDialog::Accepted;
+}
+
 
 
 #include <QProcess>

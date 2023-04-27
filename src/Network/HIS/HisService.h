@@ -34,6 +34,8 @@ protected:
 	std::string bind(const std::string& name, double value);
 	std::string bind(const std::string& name, const char* value, bool isUserInput = false);
 
+	std::string getResultingStatusAsProcedure(const ToothContainer& teeth, const Date& lastProcedureDate);
+
 	std::string getErrors(const std::string& reply);
 
 	HisService(const std::string& messageType, const std::string& servPath)

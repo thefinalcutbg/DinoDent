@@ -113,7 +113,7 @@ int ProcedureCreator::endodonticDiagnosis(const Tooth& tooth)
 		}
 	}
 
-	return 0;
+	return 9;
 }
 
 int ProcedureCreator::crownDiagnosis(const Tooth& tooth)
@@ -256,6 +256,7 @@ void ProcedureCreator::setView(IProcedureInput* view)
 		view->surfaceSelector()->setData(ProcedureObtData{ autoSurfaces(*t), false });
 		diag_map[ProcedureType::obturation] = restorationDiagnosis(*t);
 		diag_map[ProcedureType::extraction] = extractionDiagnosis(*t);
+		diag_map[ProcedureType::endo] = endodonticDiagnosis(*t);
 		diag_map[ProcedureType::crown] = crownDiagnosis(*t);
 		diag_map[ProcedureType::implant] = implantDiagnosis(*t);
 		diag_map[ProcedureType::bridge] = 5;
@@ -292,10 +293,21 @@ void ProcedureCreator::setProcedureCode(const ProcedureCode& m, bool nhif)
 
 	m_code = m;
 
+	auto diagIdx = diag_map[m.type()];
+
 	view->diagnosisCombo()->setIndex(diag_map[m.type()]);
-	diagnosisChanged(diag_map[m.type()]);
+	view->diagnosisEdit()->setInputValidator(diagIdx ? nullptr : &notEmpty_validator);
 
 	view->setNhifLayout(nhif);
+
+	if (!diagIdx && m.oldCode() == 101) {
+		view->diagnosisEdit()->set_Text("Преглед");
+	}
+	else
+	{
+		view->diagnosisEdit()->set_Text("");
+	}
+	
 
 	
 

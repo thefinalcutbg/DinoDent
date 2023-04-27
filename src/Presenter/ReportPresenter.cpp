@@ -35,6 +35,12 @@ void ReportPresenter::checkAmbList(const AmbList& list, const Patient& patient)
 
 	}
 
+	if (list.nrn.empty()) {
+		m_hasErrors = true;
+		view->appendText("Амбулаторен лист №" + list.getNumber() + " не е изпратен към НЗИС");
+	}
+
+
 	if (!nraCheck) return;
 
 	switch (patient.insuranceStatus->status) {
@@ -53,6 +59,7 @@ void ReportPresenter::checkAmbList(const AmbList& list, const Patient& patient)
 		m_hasErrors = true;
 		break;
 	}
+
 
 
 }

@@ -894,26 +894,6 @@ void Parser::parse(const std::string& jsonString, Invoice& invoice)
 
 }
 
-
-std::vector<ProcedureCode> Parser::getPriceList(const std::string& priceList)
-{
-	
-	Json::Reader reader;
-	Json::Value procedureTemplate = Json::arrayValue;
-
-	reader.parse(priceList, procedureTemplate);
-
-	std::vector<ProcedureCode> procedureTemplateList;
-	procedureTemplateList.reserve(procedureTemplate.size());
-
-	for (int i = 0; i < procedureTemplate.size(); i++)
-	{
-		procedureTemplateList.emplace_back(procedureTemplate[i]["code"].asString());
-	}
-
-	return procedureTemplateList;
-}
-
 std::string Parser::parseDiagnosis(const std::string& jsonProcedureString)
 {
 	Json::Value json;

@@ -10,7 +10,7 @@
 
 class Status
 {
-    std::string timeStamp;
+
 protected:
     bool m_exists{ 0 };
     virtual std::string getInfo() const { return {}; }

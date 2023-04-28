@@ -58,5 +58,5 @@ Always in progress.
 Created by [@TheFinalCut](https://github.com/thefinalcutbg) - feel free to contact me!
 
 ## License
-This project is not yet open source and available under the... I have to read more about licensing, lol
+This project is not yet open source and available under the MIT license
 

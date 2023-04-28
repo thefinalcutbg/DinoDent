@@ -192,10 +192,39 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
         report.dataManager()->setReportVariable("mh119Date", ref.date.toBgStandard().c_str());
     }
 
-    
+    if (form3)
+    {
 
-    //implement the other referrals here:
-    report.dataManager()->setReportVariable("refType", QString{ "" });
+        report.dataManager()->setReportVariable("ref3x", "X");
+
+        auto& ref = *form3;
+
+        auto& refData = std::get<R3Data>(ref.data);
+
+        report.dataManager()->setReportVariable("refNum", ref.nrn.c_str());
+        report.dataManager()->setReportVariable("refDate", ref.date.toBgStandard().c_str());
+        report.dataManager()->setReportVariable("refSpecCode", refData.specialty);
+        report.dataManager()->setReportVariable("refMkb", ref.diagnosis.main.code().c_str());
+    }
+    
+    if (form3a)
+    {
+
+
+        report.dataManager()->setReportVariable("ref3Ax", "X");
+
+        auto& ref = *form3a;
+
+        auto& refData = std::get<R3AData>(ref.data);
+
+        report.dataManager()->setReportVariable("refNum", ref.nrn.c_str());
+        report.dataManager()->setReportVariable("refDate", ref.date.toBgStandard().c_str());
+        report.dataManager()->setReportVariable("refSpecCode", refData.nhifSpecialty);
+        report.dataManager()->setReportVariable("refMkb", ref.diagnosis.main.code().c_str());
+        report.dataManager()->setReportVariable("refKSMP", refData.ksmp);
+        report.dataManager()->setReportVariable("refHSA", refData.highlySpecializedActivity);
+    }
+
 
     QApplication::restoreOverrideCursor();
 

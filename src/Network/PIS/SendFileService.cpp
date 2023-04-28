@@ -36,13 +36,13 @@ void SendFileService::sendInvoice(const Invoice& invoice, const std::string& rzi
 	PisService::sendRequest(query, SOAPAction::Files);
 }
 
-void SendFileService::sendAmbReport(const std::string& data, const std::string& doctorEgn)
+void SendFileService::sendAmbReport(const std::string& data, const std::string& doctorLPK)
 {
 	auto query = 
 		"<ns1:userFile xmlns:ns1=\"http://pis.technologica.com/ws/\" "
 		"xmlns:ns2=\"http://pis.technologica.com/files/\">"
 
-			"<ns1:user><ns1:egn>" + doctorEgn + "</ns1:egn></ns1:user>"
+			"<ns1:user><ns1:uin>" + doctorLPK + "</ns1:uin></ns1:user>"
 
 			"<ns1:file>"
 				"<ns2:base64>" + Base64Convert::encode(data.data(), data.size()) + "</ns2:base64>"

@@ -92,7 +92,7 @@ void ReportPresenter::sendToPis()
 
 	sendFileService.sendAmbReport(
 		m_report.value(),
-		User::doctor().egn
+		User::doctor().LPK
 	);
 
 

@@ -9,6 +9,6 @@ class SendFileService final : private PisService
 
 public:
 	void sendInvoice(const Invoice& invoice, const std::string& rziCode);
-	void sendAmbReport(const std::string& data, const std::string& doctorEgn);
+	void sendAmbReport(const std::string& data, const std::string& doctorLPK);
 };
 

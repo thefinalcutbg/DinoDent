@@ -172,9 +172,14 @@ bool ListPresenter::isValid()
 
     for (auto& p : m_ambList.procedures)
     {
+        if (p.date < date) {
+            ModalDialogBuilder::showError("Датата на манипулациите не трябва да е по-малка от тази на амбулаторния лист");
+            return false;
+        }
+
         if (p.date.month != date.month || p.date.year != date.year)
         {
-            ModalDialogBuilder::showError("Манипулациите трябва да са от един и същи месец!");
+            ModalDialogBuilder::showError("Манипулациите и амбулаторният лист трябва да са от един и същи месец!");
             return false;
         }
 

@@ -279,9 +279,6 @@
     <ClCompile Include="src\Presenter\PracticeSettingsPresenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Presenter\PriceListSettingsPresenter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Presenter\ProcedureDialogPresenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -564,9 +561,6 @@
     <ClCompile Include="src\View\Widgets\PracticeSettings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\Widgets\PriceListSettings.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\View\Widgets\ProcedureDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -844,6 +838,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\SubWidgets\MedicalStatusWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DbUpdates\Update8.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\Widgets\CurrentStatusDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1148,9 +1148,6 @@
     <ClInclude Include="src\Presenter\PracticeSettingsPresenter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Presenter\PriceListSettingsPresenter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Presenter\ProcedureDialogPresenter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1302,9 +1299,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\Interfaces\IPracticeDoctorSettings.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\View\Interfaces\IPriceListSettings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\Interfaces\IProcedureDialog.h">
@@ -1750,9 +1744,6 @@
     <QtMoc Include="src\View\Widgets\PracticeSettings.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\Widgets\PriceListSettings.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="src\View\Widgets\ProcedureDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
@@ -1870,6 +1861,9 @@
     <QtMoc Include="src\View\SubWidgets\MedicalStatusWidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\View\Widgets\CurrentStatusDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\View\Widgets\PracticeDialog.ui">
@@ -1933,9 +1927,6 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\Widgets\PracticeSettings.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="src\View\Widgets\PriceListSettings.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\Widgets\ProcedureDialog.ui">
@@ -2041,6 +2032,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\SubWidgets\MedicalStatusWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\Widgets\CurrentStatusDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

@@ -16,8 +16,6 @@ void SettingsMainPresenter::setView(ISettingsDialog* view)
 	this->view = view;
 
 	m_practicePresenter.setView(view->practiceView());
-	m_priceListPresenter.setView(view->priceListView());
-	m_priceListPresenter.setPriceList(User::practice().priceList);
 
 	view->setSettings(User::practice().settings);
 	setUpdateLabels();
@@ -70,7 +68,6 @@ bool SettingsMainPresenter::applyChanges()
 	}
 
 	auto doctorsList = m_practicePresenter.getDoctorsList();
-	practice.priceList = m_priceListPresenter.priceList();
 	practice.settings = view->getSettings();
 
 	

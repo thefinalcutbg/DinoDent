@@ -8,7 +8,7 @@
 long long DbInvoice::insertInvoice(const Invoice& invoice)
 {
 
-    bool nhif = invoice.nzokData.has_value();
+    bool nhif = invoice.nhifData.has_value();
    
 
     std::string query;
@@ -21,9 +21,9 @@ long long DbInvoice::insertInvoice(const Invoice& invoice)
             + std::to_string(invoice.number) + ","
             + std::to_string(static_cast<int>(invoice.type)) + ",'"
             + invoice.date.to8601() + "',"
-            + std::to_string(invoice.nzokData->fin_document_month_no) + ","
+            + std::to_string(invoice.nhifData->fin_document_month_no) + ","
             "'" + invoice.recipient.bulstat + "', "
-            "'" + invoice.nzokData->monthNotifData + "'"
+            "'" + invoice.nhifData->monthNotifData + "'"
             ")";
     }
     else
@@ -69,7 +69,7 @@ void DbInvoice::updateInvoice(const Invoice& invoice)
 
         ;
  
-    if (!invoice.nzokData.has_value()) {
+    if (!invoice.nhifData.has_value()) {
 
 
         query += ","

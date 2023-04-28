@@ -73,8 +73,8 @@ NZOKInvoiceData::NZOKInvoiceData(const TiXmlDocument& monthNotif, const Practice
 	:
     rhi_nhif_no(practice.rziCode),
     fin_document_type_code(getText1(monthNotif.RootElement()->FirstChildElement("inv_type_code"))),
-    contract_date(practice.nzok_contract.value().date),
-    contract_no(practice.nzok_contract.value().contract_no),
+    contract_date(practice.nhif_contract.value().date),
+    contract_no(practice.nhif_contract.value().contract_no),
 	NzokRecipientCode(practice.RHIF()),
 	activityTypeCode(std::stoi(getText1(monthNotif.RootElement()->FirstChildElement("nhif_type_code")))),
     health_insurance_fund_type_code (insuranceFunds[activityTypeCode-1]),

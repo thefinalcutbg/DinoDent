@@ -4,7 +4,7 @@
 
 Practice DbPractice::getPractice(const std::string rziCode)
 {
-    std::string query = "SELECT rzi, name, bulstat, firm_address, practice_address, legal_entity, pass, vat, nzok_contract, settings "
+    std::string query = "SELECT rzi, name, bulstat, firm_address, practice_address, legal_entity, pass, vat, nhif_contract, settings "
         "FROM practice WHERE rzi = '" + rziCode + "'";
 
     Practice practice;
@@ -19,7 +19,7 @@ Practice DbPractice::getPractice(const std::string rziCode)
         practice.legal_entity = db.asInt(5);
         practice.pass = db.asString(6);
         practice.vat = db.asString(7);
-        practice.nzok_contract = Parser::parseContract(db.asString(8));
+        practice.nhif_contract = Parser::parseContract(db.asString(8));
         practice.settings = Parser::parseSettings(db.asString(9));
 
     }
@@ -41,7 +41,7 @@ void DbPractice::updatePractice(const Practice& practice, const std::string& cur
         "legal_entity = '" + std::to_string(practice.legal_entity) + "', "
         "vat = '" + practice.vat + "', "
         "pass = '" + practice.pass + "', "
-        "nzok_contract = '" + Parser::write(practice.nzok_contract) + "', "
+        "nhif_contract = '" + Parser::write(practice.nhif_contract) + "', "
         "settings = '" + Parser::write(practice.settings) + "' "
         "WHERE rzi = '" + currentRZI + "' "
 
@@ -56,7 +56,7 @@ void DbPractice::insertPractice(const Practice& practice)
     Db::crudQuery(
 
         "INSERT INTO practice "
-        "(rzi, name, bulstat, firm_address, practice_address, pass, legal_entity, vat, nzok_contract, priceList, settings) "
+        "(rzi, name, bulstat, firm_address, practice_address, pass, legal_entity, vat, nhif_contract, priceList, settings) "
         "VALUES("
         "'" + practice.rziCode + "', "
         "'" + practice.name + "', "
@@ -66,7 +66,7 @@ void DbPractice::insertPractice(const Practice& practice)
         "'" + practice.pass + "', "
         "'" + std::to_string(practice.legal_entity) + "', "
         "'" + practice.vat + "', "
-        "'" + Parser::write(practice.nzok_contract) + "', "
+        "'" + Parser::write(practice.nhif_contract) + "', "
         "'" + Resources::defaultPriceListJson() + "', "
         "'" + Parser::write(practice.settings) + "' "
         ")"

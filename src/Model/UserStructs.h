@@ -58,7 +58,7 @@ struct Doctor
 
 };
 
-struct NzokContract
+struct NhifContract
 {
 	std::string contract_no;
 	Date date;
@@ -94,7 +94,7 @@ struct Practice
 
 	Settings settings;
 
-	std::optional<NzokContract> nzok_contract;
+	std::optional<NhifContract> nhif_contract;
 
 	std::vector<ProcedureCode> priceList;
 
@@ -103,12 +103,12 @@ struct Practice
 	}
 
 	bool hasNraAccess() const {
-		return nzok_contract.has_value() && !
-			nzok_contract->nra_pass.empty();
+		return nhif_contract.has_value() && !
+			nhif_contract->nra_pass.empty();
 	}
 
 	bool isUnfavourable() const {
-		return nzok_contract && nzok_contract->unfavourable;
+		return nhif_contract && nhif_contract->unfavourable;
 	}
 
 };

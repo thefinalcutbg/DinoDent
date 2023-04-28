@@ -27,10 +27,10 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
 
 
 
-    report->SetAttribute("practiceName", practice.nzok_contract.value().name_short);
+    report->SetAttribute("practiceName", practice.nhif_contract.value().name_short);
     report->SetAttribute("bulstat", practice.bulstat);
     report->SetAttribute("RCZCode", practice.rziCode);
-    report->SetAttribute("contractNo", practice.nzok_contract.value().contract_no);
+    report->SetAttribute("contractNo", practice.nhif_contract.value().contract_no);
     report->SetAttribute("dentistName", doctor.getFullName(false));
     report->SetAttribute("dentistSpec", doctor.specialtyAsInt());
     report->SetAttribute("dentistPersonalCode", doctor.LPK);
@@ -289,9 +289,9 @@ std::string XML::getInvoice(const Invoice& invoice)
         parent->LinkEndChild(element);
     };
 
-    addElementWithText(el_invoice, "fin_document_type_code", invoice.nzokData->fin_document_type_code);
+    addElementWithText(el_invoice, "fin_document_type_code", invoice.nhifData->fin_document_type_code);
     addElementWithText(el_invoice, "fin_document_no", invoice.getInvoiceNumber());
-    addElementWithText(el_invoice, "fin_document_month_no", FreeFn::leadZeroes(invoice.nzokData->fin_document_month_no, 10));
+    addElementWithText(el_invoice, "fin_document_month_no", FreeFn::leadZeroes(invoice.nhifData->fin_document_month_no, 10));
     addElementWithText(el_invoice, "fin_document_date", invoice.date.to8601());
 
     auto mainDoc = invoice.mainDocument();
@@ -355,17 +355,17 @@ std::string XML::getInvoice(const Invoice& invoice)
     if (invoice.issuer.registration_by_VAT.has_value()) {
         addElementWithText(issuer, "issuer_bulstat_no_vat", invoice.issuer.registration_by_VAT.value());
     }
-    addElementWithText(issuer, "contract_no", invoice.nzokData->contract_no);
-    addElementWithText(issuer, "contract_date", invoice.nzokData->contract_date.to8601());
-    addElementWithText(issuer, "rhi_nhif_no", invoice.nzokData->rhi_nhif_no);
+    addElementWithText(issuer, "contract_no", invoice.nhifData->contract_no);
+    addElementWithText(issuer, "contract_date", invoice.nhifData->contract_date.to8601());
+    addElementWithText(issuer, "rhi_nhif_no", invoice.nhifData->rhi_nhif_no);
 
     el_invoice->LinkEndChild(issuer);
 
 
-    addElementWithText(el_invoice, "health_insurance_fund_type_code", invoice.nzokData->health_insurance_fund_type_code);
-    addElementWithText(el_invoice, "activity_type_code", std::to_string(invoice.nzokData->activityTypeCode));
-    addElementWithText(el_invoice, "date_from", invoice.nzokData->date_from.to8601());
-    addElementWithText(el_invoice, "date_to", invoice.nzokData->date_to.to8601());
+    addElementWithText(el_invoice, "health_insurance_fund_type_code", invoice.nhifData->health_insurance_fund_type_code);
+    addElementWithText(el_invoice, "activity_type_code", std::to_string(invoice.nhifData->activityTypeCode));
+    addElementWithText(el_invoice, "date_from", invoice.nhifData->date_from.to8601());
+    addElementWithText(el_invoice, "date_to", invoice.nhifData->date_to.to8601());
 
     for (auto& operation : invoice.businessOperations)
     {

@@ -146,7 +146,7 @@ void TabPresenter::openInvoice(const std::string& monthNotif)
     try {
         auto presenter = new FinancialPresenter(view, monthNotif);
 
-        if (monthNotiAlreadyOpened(presenter->m_invoice.nzokData->fin_document_month_no)) {
+        if (monthNotiAlreadyOpened(presenter->m_invoice.nhifData->fin_document_month_no)) {
             delete presenter;
             return;
         }
@@ -237,8 +237,8 @@ bool TabPresenter::monthNotiAlreadyOpened(int monthNotifNum)
 
         auto finPresenter = static_cast<FinancialPresenter*>(tabInstance);
 
-        if (finPresenter->m_invoice.nzokData.has_value() &&
-            finPresenter->m_invoice.nzokData->fin_document_month_no == monthNotifNum) {
+        if (finPresenter->m_invoice.nhifData.has_value() &&
+            finPresenter->m_invoice.nhifData->fin_document_month_no == monthNotifNum) {
 
             view->focusTab(index);
             return true;

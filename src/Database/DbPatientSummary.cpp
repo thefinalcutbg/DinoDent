@@ -24,7 +24,7 @@ std::vector<TimeFrame> DbPatientSummary::getFrames(long long patientRowId)
         "procedure.diagnosis, "
         "procedure.notes, "
         "procedure.hyperdontic, "
-        "procedure.additional_diagnosis "
+        "procedure.additional_description "
         "FROM amblist LEFT JOIN procedure ON "
         "amblist.rowid = procedure.amblist_rowid "
         "WHERE amblist.patient_rowid = " + std::to_string(patientRowId) + " "

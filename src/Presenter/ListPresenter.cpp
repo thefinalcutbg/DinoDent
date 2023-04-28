@@ -133,8 +133,8 @@ void ListPresenter::dynamicNhifConversion()
     if (m_ambList.isNhifSheet()) {
 
         bool practiceIsUnfav =
-            User::practice().nzok_contract &&
-            User::practice().nzok_contract->unfavourable
+            User::practice().nhif_contract &&
+            User::practice().nhif_contract->unfavourable
             ;
 
         view->setNhifData(m_ambList.nhifData, practiceIsUnfav);

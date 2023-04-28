@@ -12,7 +12,7 @@ class AmbListValidator
 	const AmbList& ambList;
 	const Patient& patient;
 	Date ambListDate;
-	std::vector<Procedure> m_procedures; //only NZOK procedures
+	std::vector<Procedure> m_procedures; //only NHIF procedures
 	
 	bool noDuplicates();
 	bool validateTypeToStatus(const Tooth& tooth, const Procedure& p);

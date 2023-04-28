@@ -29,11 +29,6 @@
        <string>Практика</string>
       </attribute>
      </widget>
-     <widget class="PriceListSettings" name="priceSettings">
-      <attribute name="title">
-       <string>Манипулации</string>
-      </attribute>
-     </widget>
     </widget>
    </item>
    <item>
@@ -75,12 +70,6 @@
    <class>PracticeSettings</class>
    <extends>QWidget</extends>
    <header>View/Widgets/PracticeSettings.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>PriceListSettings</class>
-   <extends>QWidget</extends>
-   <header>View/Widgets/pricelistsettings.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>

@@ -277,12 +277,12 @@ void Print::invoice(const Invoice& inv)
 
     report.dataManager()->setReportVariable("total", formatDoubleWithDecimal(inv.aggragated_amounts.total_amount));
 
-    if (inv.nzokData.has_value())
+    if (inv.nhifData.has_value())
     {
-        report.dataManager()->setReportVariable("practice_rzi", QString::fromStdString(inv.nzokData->rhi_nhif_no));
-        report.dataManager()->setReportVariable("contract", QString::fromStdString(inv.nzokData->contract_no + " / " + inv.nzokData->contract_date.toBgStandard()) + " г.");
-        report.dataManager()->setReportVariable("mon_notif_number", QString::number(inv.nzokData->fin_document_month_no));
-        report.dataManager()->setReportVariable("period", QString::fromStdString("от " + inv.nzokData->date_from.toBgStandard() + " до " + inv.nzokData->date_to.toBgStandard()));
+        report.dataManager()->setReportVariable("practice_rzi", QString::fromStdString(inv.nhifData->rhi_nhif_no));
+        report.dataManager()->setReportVariable("contract", QString::fromStdString(inv.nhifData->contract_no + " / " + inv.nhifData->contract_date.toBgStandard()) + " г.");
+        report.dataManager()->setReportVariable("mon_notif_number", QString::number(inv.nhifData->fin_document_month_no));
+        report.dataManager()->setReportVariable("period", QString::fromStdString("от " + inv.nhifData->date_from.toBgStandard() + " до " + inv.nhifData->date_to.toBgStandard()));
 
     }
 

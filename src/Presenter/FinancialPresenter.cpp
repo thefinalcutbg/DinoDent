@@ -19,7 +19,7 @@ Invoice getInvoiceFromMonthNotif(const std::string& xmlstring)
     Invoice i(doc, User::practice(), User::doctor());
     i.date = Date::currentDate();
     i.number = DbInvoice::getNewInvoiceNumber();
-    auto existingRowid = DbInvoice::invoiceAlreadyExists(i.nzokData->fin_document_month_no);
+    auto existingRowid = DbInvoice::invoiceAlreadyExists(i.nhifData->fin_document_month_no);
 
     if (!existingRowid) {
         return i;
@@ -86,7 +86,7 @@ FinancialPresenter::FinancialPresenter(ITabView* tabView, long long rowId) :
 void FinancialPresenter::editOperation(int idx)
 {
 
-    if (m_invoice.nzokData.has_value()) return;
+    if (m_invoice.nhifData.has_value()) return;
 
     if (idx < 0 || idx >= m_invoice.businessOperations.size()) return;;
 
@@ -101,7 +101,7 @@ void FinancialPresenter::editOperation(int idx)
 
 void FinancialPresenter::addOperation()
 {
-    if (m_invoice.nzokData.has_value()) return;
+    if (m_invoice.nhifData.has_value()) return;
 
     auto newOp = ModalDialogBuilder::addBusinessOperation(User::practice().priceList);
 
@@ -116,7 +116,7 @@ void FinancialPresenter::addOperation()
 
 void FinancialPresenter::removeOperation(int idx)
 {
-    if (m_invoice.nzokData.has_value()) return;
+    if (m_invoice.nhifData.has_value()) return;
 
     if (idx < 0 || idx >= m_invoice.businessOperations.size()) return;
 
@@ -218,7 +218,7 @@ void FinancialPresenter::mainDocumentChanged(long long num, Date date)
 
 void FinancialPresenter::editRecipient()
 {
-    if (m_invoice.nzokData) {
+    if (m_invoice.nhifData) {
 
         ModalDialogBuilder::showMessage("Не можете да редактирате тези данни");
         return;
@@ -293,7 +293,7 @@ void FinancialPresenter::setDataToView()
     
     view->setPresenter(this);
 
-    if (!m_invoice.nzokData && patient != nullptr) {
+    if (!m_invoice.nhifData && patient != nullptr) {
         m_invoice.recipient = Recipient{ *patient.get() }; //refreshing the patient incase it's changed
     }
 
@@ -315,11 +315,11 @@ TabName FinancialPresenter::getTabName()
 
         static const std::string newName[3]{ "Новa фактура", "Ново дебитно известие", "Ново кредитно известие" };
 
-        return { newName[nameIdx], "", m_invoice.nzokData.has_value()};
+        return { newName[nameIdx], "", m_invoice.nhifData.has_value()};
     }
 
     static const std::string docTypeName[3]{ "Фактура", "Дебитно известие", "Кредитно известие" };
 
-    return { docTypeName[nameIdx], "№" + m_invoice.getInvoiceNumber(), m_invoice.nzokData.has_value()};
+    return { docTypeName[nameIdx], "№" + m_invoice.getInvoiceNumber(), m_invoice.nhifData.has_value()};
    
 }

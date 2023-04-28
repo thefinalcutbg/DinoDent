@@ -211,7 +211,7 @@ void ReportPresenter::setDate(int month, int year)
 void ReportPresenter::generateReport(bool checkPis, bool checkNra)
 {
 
-	if (!User::practice().nzok_contract) {
+	if (!User::practice().nhif_contract) {
 		ModalDialogBuilder::showError("Моля попълнете даннит от договора с НЗОК от настройки"); return;
 	}
 

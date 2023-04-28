@@ -83,7 +83,7 @@ bool PracticeSettingsPresenter::isValid()
 	//lame, the state of the practice has to be kept in the presenter
 	if (m_doctorsList.size() && 
 		m_doctorsList[0].specialty == NhifSpecialty::None && 
-		view->getPractice().nzok_contract
+		view->getPractice().nhif_contract
 	)
 	{
 

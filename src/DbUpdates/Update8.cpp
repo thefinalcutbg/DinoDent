@@ -232,7 +232,7 @@ void DbUpdates::update8(UpdateDialog& progressDialog)
 	{
 		db.newStatement(
 			"INSERT INTO procedure "
-			"(date, financing_source, code, tooth, deciduous, data, amblist_rowid, diagnosis, notes, hyperdontic, his_index, additional_diagnosis, removed, rowid) "
+			"(date, financing_source, code, tooth, deciduous, data, amblist_rowid, diagnosis, notes, hyperdontic, his_index, additional_description, removed, rowid) "
 			"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
 		db.bind(1, p.date);

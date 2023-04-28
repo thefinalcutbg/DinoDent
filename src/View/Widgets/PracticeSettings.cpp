@@ -93,13 +93,13 @@ void PracticeSettings::setPractice(const Practice& practice)
 	ui.vatEdit->setText(QString::fromStdString(practice.vat));
 	ui.passEdit->setText(QString::fromStdString(practice.pass));
 	
-	ui.nzokGroup->setChecked(practice.nzok_contract.has_value());
-	if (practice.nzok_contract) {
-		ui.contractEdit->setText(QString::fromStdString(practice.nzok_contract.value().contract_no));
-		ui.contractDateEdit->set_Date(practice.nzok_contract.value().date);
-		ui.practiceNameNZOK->setText(QString::fromStdString(practice.nzok_contract.value().name_short));
-		ui.nraPass->setText(practice.nzok_contract->nra_pass.data());
-		ui.unfavCheck->setChecked(practice.nzok_contract->unfavourable);
+	ui.nzokGroup->setChecked(practice.nhif_contract.has_value());
+	if (practice.nhif_contract) {
+		ui.contractEdit->setText(QString::fromStdString(practice.nhif_contract.value().contract_no));
+		ui.contractDateEdit->set_Date(practice.nhif_contract.value().date);
+		ui.practiceNameNZOK->setText(QString::fromStdString(practice.nhif_contract.value().name_short));
+		ui.nraPass->setText(practice.nhif_contract->nra_pass.data());
+		ui.unfavCheck->setChecked(practice.nhif_contract->unfavourable);
 	}
 }
 
@@ -117,13 +117,13 @@ Practice PracticeSettings::getPractice()
 
 	if (ui.nzokGroup->isChecked())
 	{
-		NzokContract c;
+		NhifContract c;
 		c.date = ui.contractDateEdit->getDate();
 		c.contract_no = ui.contractEdit->getText();
 		c.name_short = ui.practiceNameNZOK->getText();
 		c.nra_pass = ui.nraPass->getText();
 		c.unfavourable = ui.unfavCheck->isChecked();
-		p.nzok_contract.emplace(c);
+		p.nhif_contract.emplace(c);
 	}
 
 	if (ui.vatGroup->isChecked())

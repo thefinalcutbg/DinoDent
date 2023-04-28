@@ -128,8 +128,8 @@ QVariant AmbListTableModel::data(const QModelIndex& index, int role) const
         default: return QVariant();
         }
     case Qt::TextAlignmentRole:
-        if (column == 5 || column == 6 || column == 2) return int(Qt::AlignLeft);
-        else return int(Qt::AlignCenter);
+        if (column == 5 || column == 6 || column == 2) return int(Qt::AlignLeft | Qt::AlignVCenter);
+        else return int(Qt::AlignVCenter | Qt::AlignHCenter);
     }
 
     return QVariant();

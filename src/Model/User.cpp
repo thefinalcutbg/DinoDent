@@ -86,5 +86,5 @@ double User::getPrice(int procedureCode)
 */
 bool User::hasNzokContract()
 {
-    return s_practice.nzok_contract && s_doctor.specialty != NhifSpecialty::None;
+    return s_practice.nhif_contract && s_doctor.specialty != NhifSpecialty::None;
 }

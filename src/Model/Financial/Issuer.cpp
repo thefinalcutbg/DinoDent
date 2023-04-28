@@ -32,8 +32,8 @@ Issuer::Issuer() : Issuer(User::practice(), User::doctor())
 Issuer::Issuer(const Practice& practice, const Doctor& doctor) :
     type{ getIssuerType(practice.legal_entity, doctor) },
     company_name{ 
-        practice.nzok_contract.has_value() ?
-        practice.nzok_contract.value().name_short 
+        practice.nhif_contract.has_value() ?
+        practice.nhif_contract.value().name_short 
         :
         practice.name
 

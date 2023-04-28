@@ -156,7 +156,7 @@ std::string HisService::subject(const Patient& p)
 std::string HisService::requester(bool nhif)
 {
 
-	std::string nhifCode = User::practice().nzok_contract && nhif ?
+	std::string nhifCode = User::practice().nhif_contract && nhif ?
 		" nhifCode=\"" + std::to_string(User::doctor().specialtyAsInt()) + "\""
 		:
 		"";

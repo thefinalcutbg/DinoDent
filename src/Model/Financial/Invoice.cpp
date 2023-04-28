@@ -60,7 +60,7 @@ Invoice::Invoice(const TiXmlDocument& monthNotif, const Practice& practice, cons
         }
     },
 
-	nzokData{ NZOKInvoiceData(monthNotif, practice)},
+	nhifData{ NZOKInvoiceData(monthNotif, practice)},
 	recipient						{std::stoi(practice.RHIF())},
 	issuer							{practice, doctor}
 {
@@ -86,7 +86,7 @@ Invoice::Invoice(const TiXmlDocument& monthNotif, const Practice& practice, cons
 
 	aggragated_amounts.calculate(businessOperations);
 	aggragated_amounts.paymentType = PaymentType::Bank;
-    aggragated_amounts.taxEventDate = nzokData.value().date_to;
+    aggragated_amounts.taxEventDate = nhifData.value().date_to;
 
 
 }
@@ -137,15 +137,15 @@ void Invoice::editOperation(const BusinessOperation& op, int idx)
 
 std::string Invoice::getFileName() //only nhif data files can be exported as xml
 {
-	if (!nzokData.has_value()) return std::string{};
+	if (!nhifData.has_value()) return std::string{};
 
 	return
 		//"FILE_SUBM_FDOC_" +
-		nzokData->fin_document_type_code + "_" +
+		nhifData->fin_document_type_code + "_" +
 		User::practice().rziCode + "_" +
-		std::to_string(nzokData->activityTypeCode) + "_" +
+		std::to_string(nhifData->activityTypeCode) + "_" +
 		aggragated_amounts.taxEventDate.toXMLInvoiceFileName() + "_" +
-		FreeFn::leadZeroes(nzokData->fin_document_month_no, 10)
+		FreeFn::leadZeroes(nhifData->fin_document_month_no, 10)
 		+ ".xml";
 
 }

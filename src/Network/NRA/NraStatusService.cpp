@@ -77,8 +77,8 @@ bool NraStatusService::sendRequest(const Patient& p, std::function<void(const st
 
 	auto& practice = User::practice();
 
-	if (!practice.nzok_contract.has_value() ||
-		practice.nzok_contract->nra_pass.empty()
+	if (!practice.nhif_contract.has_value() ||
+		practice.nhif_contract->nra_pass.empty()
 		)
 	{
 		ModalDialogBuilder::showMessage("Не е въведена парола за достъп към НАП");
@@ -99,7 +99,7 @@ bool NraStatusService::sendRequest(const Patient& p, std::function<void(const st
 						 "RespType = \"0\" "
 						 "RCZNo=\"" + practice.rziCode + "\" "
 						 "RCZEik = \"" + practice.bulstat + "\" "
-						 "RCZPassword=\"" + practice.nzok_contract->nra_pass + "\">"
+						 "RCZPassword=\"" + practice.nhif_contract->nra_pass + "\">"
 			 "<Patient>"
 			  "<PIN>" + p.id + "</PIN>"
 			  "<PINType>" + std::to_string(p.type - 1) + "</PINType>"

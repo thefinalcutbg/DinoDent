@@ -357,7 +357,7 @@ std::string Parser::write(const Procedure& procedure)
 	return writer.write(json);
 }
 
-std::string Parser::write(const std::optional<NzokContract>& contract)
+std::string Parser::write(const std::optional<NhifContract>& contract)
 {
 	if (!contract.has_value())
 		return std::string{};
@@ -380,29 +380,12 @@ std::string Parser::write(const std::optional<NzokContract>& contract)
 	return writer.write(json);
 }
 
-std::string Parser::write(const std::vector<ProcedureCode>& priceList)
-{
-	Json::Value priceJson = Json::Value(Json::arrayValue);
-
-	for (auto& p : priceList)
-	{
-		Json::Value pTemplate;
-
-		pTemplate["code"] = p.code();
-
-		priceJson.append(pTemplate);
-	}
-
-	Json::FastWriter writer;
-	return writer.write(priceJson);
-}
-
 #include "Model/Financial/Invoice.h"
 
 std::string Parser::write(const Invoice& inv)
 {
-	if (inv.nzokData.has_value())
-		return inv.nzokData->monthNotifData;
+	if (inv.nhifData.has_value())
+		return inv.nhifData->monthNotifData;
 
 	Json::Value json;
 
@@ -908,17 +891,17 @@ std::string Parser::parseDiagnosis(const std::string& jsonProcedureString)
 	return json["diagnosis"].asString();
 }
 
-std::optional<NzokContract> Parser::parseContract(const std::string& jsonString)
+std::optional<NhifContract> Parser::parseContract(const std::string& jsonString)
 {
 	if (jsonString.empty())
-		return std::optional<NzokContract>{};
+		return std::optional<NhifContract>{};
 
 	Json::Value json;
 	Json::Reader reader;
 
 	bool parsingSuccessful = reader.parse(jsonString, json);
 
-	NzokContract contract;
+	NhifContract contract;
 	contract.name_short = json["name_short"].asString();
 	contract.date = Date{ json["date"].asString() };
 	contract.contract_no = json["contract_no"].asString();

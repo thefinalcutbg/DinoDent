@@ -47,7 +47,7 @@ struct Invoice
 	FinancialDocType type {FinancialDocType::Invoice};
 	std::string name{ "Фактура" }; //the title of the pdf invoice
 	Date date; //input by user !!!!!!!!!!!!!!!
-	std::optional<NZOKInvoiceData> nzokData; //from monthNotif
+	std::optional<NZOKInvoiceData> nhifData; //from monthNotif
 	Recipient recipient;
 	Issuer issuer;
 	BusinessOperations businessOperations;

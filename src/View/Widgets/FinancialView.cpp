@@ -132,7 +132,7 @@ void FinancialView::setInvoice(const Invoice& inv)
 
 	ui.paymentTypeCombo->setCurrentIndex(static_cast<int>(inv.aggragated_amounts.paymentType));
 
-	bool nzokForm = inv.nzokData.has_value();
+	bool nzokForm = inv.nhifData.has_value();
 
 	ui.docTypeCombo->setCurrentIndex(static_cast<int>(inv.type));
 

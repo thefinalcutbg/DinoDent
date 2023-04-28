@@ -206,7 +206,7 @@ void DbUpdates::update6(UpdateDialog& dialogProgress)
 		std::string contractStr;
 	};
 
-	db.newStatement("SELECT rzi, nzok_contract FROM practice");
+	db.newStatement("SELECT rzi, nhif_contract FROM practice");
 
 	std::vector<NHIFContractPair> contracts;
 
@@ -291,7 +291,7 @@ void DbUpdates::update6(UpdateDialog& dialogProgress)
 
 	for (auto& c : contracts)
 	{
-		db.newStatement("UPDATE practice SET nzok_contract = ? WHERE rzi=?");
+		db.newStatement("UPDATE practice SET nhif_contract = ? WHERE rzi=?");
 		db.bind(1, c.contractStr);
 		db.bind(2, c.rzi);
 

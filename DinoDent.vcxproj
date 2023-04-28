@@ -344,7 +344,6 @@
     <ClCompile Include="src\Presenter\PatientSummaryPresenter.cpp" />
     <ClCompile Include="src\Presenter\PerioPresenter.cpp" />
     <ClCompile Include="src\Presenter\PracticeSettingsPresenter.cpp" />
-    <ClCompile Include="src\Presenter\PriceListSettingsPresenter.cpp" />
     <ClCompile Include="src\Presenter\ProcedureDialogPresenter.cpp" />
     <ClCompile Include="src\Presenter\ProcedureEditorPresenter.cpp" />
     <ClCompile Include="src\Presenter\ReferralPresenter.cpp" />
@@ -476,7 +475,6 @@
     <ClCompile Include="src\View\Widgets\PISHistoryDialog.cpp" />
     <ClCompile Include="src\View\Widgets\PracticeListDialog.cpp" />
     <ClCompile Include="src\View\Widgets\PracticeSettings.cpp" />
-    <ClCompile Include="src\View\Widgets\PriceListSettings.cpp" />
     <ClCompile Include="src\View\Widgets\ProcedureDialog.cpp" />
     <ClCompile Include="src\View\Widgets\ProcedureEditDialog.cpp" />
     <ClCompile Include="src\View\Widgets\ProcedurePrintSelectDialog.cpp" />
@@ -641,7 +639,6 @@
     <ClInclude Include="src\Presenter\PatientSummaryPresenter.h" />
     <ClInclude Include="src\Presenter\PerioPresenter.h" />
     <ClInclude Include="src\Presenter\PracticeSettingsPresenter.h" />
-    <ClInclude Include="src\Presenter\PriceListSettingsPresenter.h" />
     <ClInclude Include="src\Presenter\ProcedureDialogPresenter.h" />
     <ClInclude Include="src\Presenter\ProcedureEditorPresenter.h" />
     <ClInclude Include="src\Presenter\ReferralPresenter.h" />
@@ -707,7 +704,6 @@
     <ClInclude Include="src\View\Interfaces\IPracticeSelectorView.h" />
     <ClInclude Include="src\View\Interfaces\IPrescriptionView.h" />
     <ClInclude Include="src\View\Interfaces\IPracticeDoctorSettings.h" />
-    <ClInclude Include="src\View\Interfaces\IPriceListSettings.h" />
     <ClInclude Include="src\View\Interfaces\IProcedureDialog.h" />
     <ClInclude Include="src\View\Interfaces\IProcedureEditDialog.h" />
     <ClInclude Include="src\View\Interfaces\IReferralDialog.h" />
@@ -770,7 +766,6 @@
     <QtMoc Include="src\View\Widgets\ProcedurePrintSelectDialog.h" />
     <QtMoc Include="src\View\Widgets\ProcedureEditDialog.h" />
     <QtMoc Include="src\View\Widgets\ProcedureDialog.h" />
-    <QtMoc Include="src\View\Widgets\PriceListSettings.h" />
     <QtMoc Include="src\View\Widgets\PracticeSettings.h" />
     <QtMoc Include="src\View\Widgets\PracticeListDialog.h" />
     <QtMoc Include="src\View\Widgets\PISHistoryDialog.h" />
@@ -880,7 +875,6 @@
     <QtUic Include="src\View\Widgets\PISHistoryDialog.ui" />
     <QtUic Include="src\View\Widgets\PracticeListDialog.ui" />
     <QtUic Include="src\View\Widgets\PracticeSettings.ui" />
-    <QtUic Include="src\View\Widgets\PriceListSettings.ui" />
     <QtUic Include="src\View\Widgets\ProcedureDialog.ui" />
     <QtUic Include="src\View\Widgets\ProcedureEditDialog.ui" />
     <QtUic Include="src\View\Widgets\ProcedurePrintSelectDialog.ui" />

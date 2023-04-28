@@ -17,7 +17,6 @@ public:
 	void focusTab(SettingsTab tab) { ui.tabWidget->setCurrentIndex(static_cast<int>(tab)); };
 	void closeDialog() override { this->close(); };
 	IPracticeSettings* practiceView() override { return ui.practiceSettings; };
-	IPriceListSettings* priceListView() override { return ui.priceSettings; };
 	void setSettings(const Settings& settings) override;
 	Settings getSettings() override;
 	void setUpdateDate(DynamicNum num, const Date& date) override;

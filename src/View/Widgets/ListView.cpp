@@ -5,7 +5,7 @@
 #include "Model/Dental/NhifSheetData.h"
 #include "View/uiComponents/MouseWheelGuard.h"
 #include "View/SubWidgets/ReferralTile.h"
-
+#include "QtVersion.h"
 ListView::ListView(QWidget* parent)
 	: QWidget(parent), presenter(nullptr)
 {
@@ -17,7 +17,7 @@ ListView::ListView(QWidget* parent)
 
 	ui.ambNumSpin->setTotalLength(6);
 	ui.ambNumSpin->installEventFilter(new MouseWheelGuard(ui.ambNumSpin));
-
+	ui.dateTimeEdit->installEventFilter(new MouseWheelGuard(ui.dateTimeEdit));
 	ui.specCombo->installEventFilter(new MouseWheelGuard(ui.specCombo));
 
 	ui.teethView->setScene(teethViewScene);
@@ -32,7 +32,7 @@ ListView::ListView(QWidget* parent)
 	ui.addProcedure->setIcon(QIcon(":/icons/icon_add.png"));
 	ui.deleteProcedure->setIcon(QIcon(":/icons/icon_remove.png"));
 	ui.editProcedure->setIcon(QIcon(":/icons/icon_edit.png"));
-	ui.nzokActivities->setIcon(QIcon(":/icons/icon_nzok.png"));
+	ui.nzokActivities->setIcon(QIcon(":/icons/icon_nhif.png"));
 
 
 	ui.perioButton->setHoverColor(Theme::mainBackgroundColor);
@@ -66,10 +66,10 @@ ListView::ListView(QWidget* parent)
 	setStyleSheet(Theme::getFancyStylesheet());
 
 	//hiding the date and time for now
-	ui.label_4->setHidden(true);
-	ui.label_3->setHidden(true);
-	ui.dateEdit->setHidden(true);
-	ui.timeEdit->setHidden(true);
+	//ui.label_4->setHidden(true);
+	//ui.label_3->setHidden(true);
+	//ui.dateEdit->setHidden(true);
+//	ui.timeEdit->setHidden(true);
 
 	ui.procedureLabel->setStyleSheet(
 		"color : " + Theme::colorToString(Theme::fontTurquoise) + "; "
@@ -81,14 +81,14 @@ ListView::ListView(QWidget* parent)
 		"font-weight: bold; font-size: 12px;"
 	);
 	*/
-	ui.openHisButton->hide();
 
-	connect(ui.openHisButton, &QPushButton::clicked, [=] { if (presenter) presenter->openHisExam();});
+	connect(ui.nrnButton, &QPushButton::clicked, [=] { if (presenter) presenter->hisButtonPressed();});
+	connect(ui.getStatusButton, &QPushButton::clicked, [=] {if (presenter) presenter->getStatusPressed(); });
 	connect(ui.ambNumSpin, &LeadingZeroSpinBox::valueChanged, [=](long long value) {if(presenter)presenter->ambNumChanged(value);});
+	connect(ui.dateTimeEdit, &QDateTimeEdit::dateTimeChanged, [=](const QDateTime& t) {if (presenter)presenter->setAmbDateTime(t.toString(Qt::ISODate).toStdString());});
 	connect(ui.nzokActivities, &QPushButton::clicked, [=] { if (presenter) presenter->openPisHistory(); });
 	connect(ui.addProcedure, &QAbstractButton::clicked, [=] { if (presenter) presenter->addProcedure(); });
-	//connect(ui.taxCombo, &QComboBox::currentIndexChanged, [=] {nhifChanged();});
-	connect(ui.specCombo, &QComboBox::currentIndexChanged, [=] {nhifChanged();});
+	connect(ui.specCombo, QtComboIndexChanged, [=] {nhifChanged();});
 	connect(ui.unfavCheck, &QCheckBox::stateChanged, [=] { nhifChanged(); });
 	connect(ui.editProcedure, &QPushButton::clicked, [=] { if (presenter) presenter->editProcedure(ui.procedureTable->selectedRow()); });
 	connect(ui.invoiceButton, &QPushButton::clicked, [=] { if (presenter) presenter->createInvoice(); });
@@ -114,8 +114,8 @@ ListView::ListView(QWidget* parent)
 		});
 
 	connect(ui.procedureTable, &QTableView::doubleClicked, [=] { ui.editProcedure->click(); });
-	connect(ui.procedureTable, &ProcedureTable::deletePressed, [=] { if (presenter) ui.deleteProcedure->click(); });
-
+	connect(ui.procedureTable, &TableView::deletePressed, [=] { if (presenter) ui.deleteProcedure->click(); });
+	connect(ui.procedureTable, &TableView::rowDragged, [=] { if(presenter) presenter->moveProcedure(ui.procedureTable->selectedRow(), model.lastDroppedRowIndex()); });
 
 
 	ui.controlPanel->hide();
@@ -220,18 +220,12 @@ void ListView::setAmbListNum(int number)
 	ui.ambNumSpin->setValue(number);
 }
 
-void ListView::setDateTime(const Date& d, const Time& t)
+void ListView::setDateTime(const std::string& time8601)
 {
-	ui.timeEdit->setTime(QTime(t.hour, t.minutes, t.sec));
-	ui.dateEdit->setDate(QDate(d.year, d.month, d.day));
+	QSignalBlocker b(ui.dateTimeEdit);
+	ui.dateTimeEdit->setDateTime(QDateTime::fromString(time8601.c_str(), Qt::ISODate));
 }
 
-void ListView::showSheetNumber(bool show)
-{
-	ui.label->setHidden(!show);
-	ui.ambNumSpin->setHidden(!show);
-
-}
 
 void ListView::setCheckModel(const CheckModel& checkModel)
 {
@@ -353,6 +347,17 @@ void ListView::setReferrals(const std::vector<Referral>& referrals)
 		
 	}
 
+}
+
+
+
+
+void ListView::setHisButtonText(HisButtonProperties prop)
+{
+	ui.ambNumSpin->setHidden(prop.hideSpinBox);
+	ui.label->setText(prop.labelText.c_str());
+	ui.nrnButton->setText(prop.buttonText.c_str());
+	ui.nrnButton->setHoverText(prop.hoverText.c_str());
 }
 
 

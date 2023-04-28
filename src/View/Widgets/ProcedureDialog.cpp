@@ -13,7 +13,7 @@ ProcedureDialog::ProcedureDialog(ProcedureDialogPresenter* presenter, QWidget *p
 
 	auto table = ui.tableView;
 
-	//ui.commonFields->setExternalDateEdit(ui.dateEdit);
+	//ui.procedureInput->setExternalDateEdit(ui.dateEdit);
 	//ui.dateEdit->setErrorLabel(ui.errorLabel);
 
 	proxyModel.setSourceModel(&model);
@@ -57,9 +57,9 @@ ProcedureDialog::ProcedureDialog(ProcedureDialogPresenter* presenter, QWidget *p
 
 	connect(ui.tableView, &QTableView::doubleClicked, [=] { presenter->formAccepted(); });
 
-	connect(ui.commonFields->qDateEdit(), &QDateEdit::dateChanged, [=] {
+	connect(ui.procedureInput->qDateEdit(), &QDateEdit::dateChanged, [=] {
 
-		auto date = ui.commonFields->qDateEdit()->date();
+		auto date = ui.procedureInput->qDateEdit()->date();
 		presenter->procedureDateChanged(Date{ date.day(), date.month(), date.year() });
 		presenter->indexChanged(-1);
 		});
@@ -82,7 +82,7 @@ ProcedureDialog::~ProcedureDialog()
 }
 
 
-void ProcedureDialog::setProcedureTemplates(std::vector<ProcedureTemplate> procedureList)
+void ProcedureDialog::setProcedureTemplates(std::vector<ProcedureListElement> procedureList)
 {
 	model.setProcedures(procedureList);
 }
@@ -112,9 +112,9 @@ void ProcedureDialog::setSelectionLabel(const std::vector<int>& selectedTeethNum
 	ui.statusLabel->setText(selectedTeeth);
 }
 
-ICommonFields* ProcedureDialog::commonFields()
+IProcedureInput* ProcedureDialog::procedureInput()
 {
-	return ui.commonFields;
+	return ui.procedureInput;
 }
 
 

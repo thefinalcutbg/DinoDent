@@ -6,7 +6,7 @@
 #include "ui_ProcedureDialog.h"
 
 #include "View/Interfaces/IProcedureDialog.h"
-#include "View/Models/ProcedureTemplateModel.h"
+#include "View/TableModels/ProcedureTemplateModel.h"
 
 class ProcedureDialogPresenter;
 
@@ -27,13 +27,13 @@ public:
 	 ~ProcedureDialog();
 
 
-	void setProcedureTemplates(std::vector<ProcedureTemplate> manipulationList) override;
+	void setProcedureTemplates(std::vector<ProcedureListElement> procedureList) override;
 	
 
     void close() override;
 	void setSelectionLabel(const std::vector<int>& selectedTeethNum) override;
 
-	ICommonFields* commonFields() override;
+	IProcedureInput* procedureInput() override;
 
 
 private:

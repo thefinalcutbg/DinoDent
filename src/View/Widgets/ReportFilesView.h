@@ -3,7 +3,7 @@
 #include <QWidget>
 #include "ui_ReportFilesView.h"
 #include "Presenter/ReportFilesPresenter.h"
-#include "View/Models/ReportFilesModel.h"
+#include "View/TableModels/ReportFilesModel.h"
 #include "View/Interfaces/IReportFilesView.h"
 
 

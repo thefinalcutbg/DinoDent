@@ -7,9 +7,9 @@
 #include <vector>
 #include <optional>
 
-#include "Model/Dental/ProcedureTemplate.h"
+#include "Model/Dental/ProcedureCode.h"
 #include "Model/Financial/BusinessOperation.h"
-#include "View/Models/ProcedureTemplateModel.h"
+#include "View/TableModels/ProcedureTemplateModel.h"
 
 class BusinessOpAddDialog : public QDialog
 {
@@ -27,7 +27,7 @@ class BusinessOpAddDialog : public QDialog
 	void okPressed();
 
 public:
-	BusinessOpAddDialog(const std::vector<ProcedureTemplate>& priceList, QWidget *parent = Q_NULLPTR);
+	BusinessOpAddDialog(const std::vector<ProcedureCode>& priceList, QWidget *parent = Q_NULLPTR);
 	auto getResult() const { return m_result; }
 	~BusinessOpAddDialog();
 

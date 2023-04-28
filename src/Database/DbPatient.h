@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Model/Patient.h"
+class Db;
 
 namespace DbPatient
 {
@@ -8,7 +9,10 @@ namespace DbPatient
     bool update(const Patient& patient);
     Patient get(std::string patientID, int type);
     Patient get(long long rowid);
-    bool updateAllergies(long long patientRowId, const std::string& allergies, const std::string& current, const std::string& past);
+    bool updateMedStats(long long patientRowId, const MedicalStatuses& s);
+    bool updateMedStatus(long long patientRowId, const MedicalStatuses& s, Db& db);
+    MedicalStatuses getMedicalStatuses(long long patientRowId);
+    MedicalStatuses getMedicalStatuses(long long patientRowId, Db& db);
     TeethNotes getPresentNotes(long long patientRowId);
 };
 

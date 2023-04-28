@@ -33,7 +33,7 @@ void User::setCurrentDoctor(const Doctor& doctor)
     s_doctor = doctor;
 }
 
-void User::setPriceList(const std::vector<ProcedureTemplate>& priceList)
+void User::setPriceList(const std::vector<ProcedureCode>& priceList)
 {
     s_practice.priceList = priceList;
 }
@@ -72,7 +72,7 @@ std::string User::getNameFromLPK(const std::string& LPK)
     return LPK;
 
 }
-
+/*
 double User::getPrice(int procedureCode)
 {
     for (auto& item : s_practice.priceList)
@@ -83,7 +83,7 @@ double User::getPrice(int procedureCode)
 
     return 0;
 }
-
+*/
 bool User::hasNzokContract()
 {
     return s_practice.nzok_contract && s_doctor.specialty != NhifSpecialty::None;

@@ -8,6 +8,7 @@
 #include <optional>
 #include <vector>
 #include "Model/Ekatte.h"
+#include "Model/MedicalStatuses.h"
 typedef std::array<std::string, 32>TeethNotes;
 
 
@@ -30,9 +31,8 @@ struct Patient
 	std::string address;
 	std::string HIRBNo;
 	std::string phone;
-	std::string allergies;
-	std::string currentDiseases;
-	std::string pastDiseases;
+
+	MedicalStatuses medStats;
 
 	TeethNotes teethNotes;
 

@@ -42,7 +42,7 @@ struct SpriteMaster
 	QPixmap fiberBridge{ ":/tooth/tooth_fiberBridge.png" };
 	QPixmap perio{ ":/tooth/tooth_perio.png" };
 	QPixmap post{ ":/tooth/tooth_post.png" };
-
+	QPixmap calculus{ ":/tooth/tooth_calculus.png" };
 	QPixmap occlusal{ ":/tooth/tooth_occlusal.png" };
 	QPixmap approximal{ ":/tooth/tooth_approximal.png" };
 	QPixmap buccal{ ":/tooth/tooth_buccal.png" };
@@ -51,6 +51,8 @@ struct SpriteMaster
 
 	QPixmap bridgeCon{ ":/tooth/tooth_bridgeCon.png" };
 	QPixmap bridgeSep{ ":/tooth/tooth_bridgeSep.png" };
+
+	QPixmap falseTooth{ ":/tooth/tooth_false.png" };
 
 };
 
@@ -68,12 +70,13 @@ void initializePack(TexturePack& tx, const SpriteMaster master, int xPos, int wi
 	tx.lesion = new QPixmap(master.lesion.copy(commonRect));
 	tx.root = new QPixmap(master.roots.copy(commonRect));
 	tx.perio = new QPixmap(master.perio.copy(commonRect));
-
+	tx.calculus = new QPixmap(master.calculus.copy(crownRect));
 	tx.post = new QPixmap(master.post.copy(crownRect));
 	tx.crown = new QPixmap(master.crown.copy(crownRect));
 	tx.fiberOptic = new QPixmap(master.fiberBridge.copy(crownRect));
 	tx.bridgeConnected = new QPixmap(master.bridgeCon.copy(crownRect));
 	tx.bridgeSeparated = new QPixmap(master.bridgeSep.copy(crownRect));
+	tx.falseTooth = new QPixmap(master.falseTooth.copy(crownRect));
 
 	tx.surfaces[Surface::Occlusal] = new QPixmap(master.occlusal.copy(crownRect));
 	tx.surfaces[Surface::Medial] = new QPixmap(master.approximal.copy(xPos + width / 2, 0, width / 2, 440));
@@ -96,17 +99,22 @@ void SpriteSheets::initialize()
 	implant = new QPixmap(commonTexture.copy(QRect(0, 0, 120, 860)));
 	lesionImplant = new QPixmap(commonTexture.copy(QRect(120, 0, 120, 860)));
 	perioImplant = new QPixmap(commonTexture.copy(QRect(240, 0, 120, 860)));
+	dentureFront = new QPixmap(commonTexture.copy(QRect(360, 0, 120, 860)));
+	dentureMolar = new QPixmap(commonTexture.copy(QRect(480, 0, 180, 860)));
 
 	int xPos = 0;
 
 	for (int i = 0; i < 26; i++)
 	{
-		int width = molarTextureSet.count(i) ? molarWidth : commonWidth;
+		bool isMolar = molarTextureSet.count(i);
+
+		int width = isMolar ? molarWidth : commonWidth;
 
 		initializePack(textures[i], masterSprites, xPos, width);
 		textures[i].implant = implant;
 		textures[i].lesionImplant = lesionImplant;
 		textures[i].perioImplant = perioImplant;
+		textures[i].denture = isMolar ? dentureMolar : dentureFront;
 
 		xPos += width;
 	}

@@ -57,7 +57,7 @@
     <ClCompile Include="src\Database\DbProcedure.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Model\Dental\DiagnosisContainer.cpp">
+    <ClCompile Include="src\Model\Dental\Diagnosis.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Model\Dental\KSMP.cpp">
@@ -231,13 +231,10 @@
     <ClCompile Include="src\Network\XmlSigner.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Presenter\AbstractSubPresenter.cpp">
+    <ClCompile Include="src\Presenter\ProcedureCreator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Presenter\PracticeDialogPresenter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Presenter\AllergiesDialogPresenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Presenter\ButtonSurfaceMatrix.cpp">
@@ -246,16 +243,10 @@
     <ClCompile Include="src\Presenter\CheckState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Presenter\CrownPresenter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Presenter\DetailedStatusPresenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Presenter\DoctorDialogPresenter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Presenter\EditorPresenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Presenter\FinancialPresenter.cpp">
@@ -274,9 +265,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Presenter\MonthNotifPresenter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Presenter\ObturationPresenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Presenter\PatientDialogPresenter.cpp">
@@ -313,9 +301,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Presenter\ToothHintCreator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Presenter\ToothProcedurePresenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\DbUpdates\DbUpdates.cpp">
@@ -387,40 +372,40 @@
     <ClCompile Include="src\View\Interfaces\ITabView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\Models\AmbListTableModel.cpp">
+    <ClCompile Include="src\View\TableModels\AmbListTableModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\Models\BusinessOperationModel.cpp">
+    <ClCompile Include="src\View\TableModels\BusinessOperationModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\Models\FinancialTableModel.cpp">
+    <ClCompile Include="src\View\TableModels\FinancialTableModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\Models\KSMPModel.cpp">
+    <ClCompile Include="src\View\TableModels\KSMPModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\Models\MonthNotifTableModel.cpp">
+    <ClCompile Include="src\View\TableModels\MonthNotifTableModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\Models\PatientTableModel.cpp">
+    <ClCompile Include="src\View\TableModels\PatientTableModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\Models\PerioTableModel.cpp">
+    <ClCompile Include="src\View\TableModels\PerioTableModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\Models\ProcedureSelectModel.cpp">
+    <ClCompile Include="src\View\TableModels\ProcedureSelectModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\Models\ProcedureTableModel.cpp">
+    <ClCompile Include="src\View\TableModels\ProcedureTableModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\Models\ProcedureTemplateModel.cpp">
+    <ClCompile Include="src\View\TableModels\ProcedureTemplateModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\Models\QProcedure.cpp">
+    <ClCompile Include="src\View\TableModels\QProcedure.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\SubWidgets\CommonFields.cpp">
+    <ClCompile Include="src\View\SubWidgets\ProcedureInput.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\SubWidgets\ControlPanel.cpp">
@@ -450,7 +435,7 @@
     <ClCompile Include="src\View\uiComponents\ComboBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\uiComponents\customdateedit.cpp">
+    <ClCompile Include="src\View\uiComponents\CustomDateEdit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\uiComponents\DateEdit.cpp">
@@ -495,7 +480,7 @@
     <ClCompile Include="src\View\uiComponents\PixmapLabel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\uiComponents\ProcedureTable.cpp">
+    <ClCompile Include="src\View\uiComponents\TableView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\uiComponents\SpinBox.cpp">
@@ -517,9 +502,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\Widgets\PracticeDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\View\Widgets\AllergiesDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\Widgets\AmbListSelector.cpp">
@@ -592,9 +574,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\Widgets\ProcedurePrintSelectDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\View\Widgets\ProcedureTemplateDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\Widgets\RecipientEditView.cpp">
@@ -705,13 +684,13 @@
     <ClCompile Include="src\Model\Prescription\WhenToTake.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\Models\MedicationTableModel.cpp">
+    <ClCompile Include="src\View\TableModels\MedicationTableModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Database\DbPrescription.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\Models\PrescriptionTableModel.cpp">
+    <ClCompile Include="src\View\TableModels\PrescriptionTableModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Model\FreeFunctions.cpp">
@@ -747,7 +726,7 @@
     <ClCompile Include="src\View\Widgets\ReportFilesView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\Models\ReportFilesModel.cpp">
+    <ClCompile Include="src\View\TableModels\ReportFilesModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Presenter\ReportFilesPresenter.cpp">
@@ -756,7 +735,7 @@
     <ClCompile Include="src\View\Widgets\InvoicePrintDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\Models\PISDentalActivitiesModel.cpp">
+    <ClCompile Include="src\View\TableModels\PISDentalActivitiesModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\Widgets\PracticeSelectorView.cpp">
@@ -789,7 +768,7 @@
     <ClCompile Include="src\Presenter\ReferralPresenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\Models\MKBModel.cpp">
+    <ClCompile Include="src\View\TableModels\MKBModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Database\DbReferral.cpp">
@@ -822,10 +801,7 @@
     <ClCompile Include="src\Presenter\StatisticDialogPresenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\Models\StatisticTableModel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Presenter\ProcedureRangePresenter.cpp">
+    <ClCompile Include="src\View\TableModels\StatisticTableModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\DbUpdates\Update5.cpp">
@@ -843,10 +819,31 @@
     <ClCompile Include="src\Model\Specialty.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\Models\SpecialtyTableModel.cpp">
+    <ClCompile Include="src\View\TableModels\SpecialtyTableModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Network\HIS\EDental.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\uiComponents\CustomDateTimeEdit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Model\Dental\ProcedureCode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\TableModels\ProcedureCodeModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Network\HIS\EReferral.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\Widgets\UpdatePromptDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\Widgets\MedicalStatusDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\SubWidgets\MedicalStatusWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -890,7 +887,7 @@
     <ClInclude Include="src\Model\Dental\BridgeAlgorithms.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model\Dental\DiagnosisContainer.h">
+    <ClInclude Include="src\Model\Dental\Diagnosis.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\Dental\Enums.h">
@@ -930,9 +927,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\Dental\ProcedureContainer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Model\Dental\ProcedureTemplate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\Dental\Status.h">
@@ -1103,13 +1097,10 @@
     <ClInclude Include="src\Network\XmlSigner.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Presenter\AbstractSubPresenter.h">
+    <ClInclude Include="src\Presenter\ProcedureCreator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Presenter\PracticeDialogPresenter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Presenter\AllergiesDialogPresenter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Presenter\ButtonSurfaceMatrix.h">
@@ -1118,22 +1109,13 @@
     <ClInclude Include="src\Presenter\CheckState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Presenter\CrownPresenter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Presenter\DetailedStatusPresenter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Presenter\DoctorDialogPresenter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Presenter\EditorPresenter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Presenter\FinancialPresenter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Presenter\GeneralProcedurePresenter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Presenter\InputEnums.h">
@@ -1152,9 +1134,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Presenter\MonthNotifPresenter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Presenter\ObturationPresenter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Presenter\PatientDialogPresenter.h">
@@ -1194,9 +1173,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Presenter\ToothHintCreator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Presenter\ToothProcedurePresenter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\DbUpdates\DbUpdates.h">
@@ -1277,7 +1253,7 @@
     <ClInclude Include="src\View\Interfaces\IAllergiesDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\View\Interfaces\ICommonFields.h">
+    <ClInclude Include="src\View\Interfaces\IProcedureInput.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\Interfaces\ICrownView.h">
@@ -1349,10 +1325,10 @@
     <ClInclude Include="src\View\Interfaces\ITabView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\View\Models\BusinessOperationModel.h">
+    <ClInclude Include="src\View\TableModels\BusinessOperationModel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\View\Models\QProcedure.h">
+    <ClInclude Include="src\View\TableModels\QProcedure.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\uiComponents\AutoCompleteLineEdit.h">
@@ -1448,7 +1424,7 @@
     <ClInclude Include="src\Model\Prescription\WhenToTake.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\View\Models\MedicationTableModel.h">
+    <ClInclude Include="src\View\TableModels\MedicationTableModel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\Prescription\Dispensation.h">
@@ -1556,16 +1532,28 @@
     <ClInclude Include="src\View\Interfaces\IStatisticDialogView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Presenter\ProcedureRangePresenter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GlobalConst.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Model\Specialty.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Network\HIS\EDental.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\Dental\ProcedureCode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Network\HIS\EReferral.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\QtVersion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\MedicalStatuses.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\Dental\ProcedureListElement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1585,34 +1573,34 @@
     <QtMoc Include="src\View\Graphics\TeethViewScene.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\Models\AmbListTableModel.h">
+    <QtMoc Include="src\View\TableModels\AmbListTableModel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\Models\FinancialTableModel.h">
+    <QtMoc Include="src\View\TableModels\FinancialTableModel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\Models\KSMPModel.h">
+    <QtMoc Include="src\View\TableModels\KSMPModel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\Models\MonthNotifTableModel.h">
+    <QtMoc Include="src\View\TableModels\MonthNotifTableModel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\Models\PatientTableModel.h">
+    <QtMoc Include="src\View\TableModels\PatientTableModel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\Models\PerioTableModel.h">
+    <QtMoc Include="src\View\TableModels\PerioTableModel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\Models\ProcedureSelectModel.h">
+    <QtMoc Include="src\View\TableModels\ProcedureSelectModel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\Models\ProcedureTableModel.h">
+    <QtMoc Include="src\View\TableModels\ProcedureTableModel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\Models\ProcedureTemplateModel.h">
+    <QtMoc Include="src\View\TableModels\ProcedureTemplateModel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\SubWidgets\CommonFields.h">
+    <QtMoc Include="src\View\SubWidgets\ProcedureInput.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\SubWidgets\ControlPanel.h">
@@ -1639,7 +1627,7 @@
     <QtMoc Include="src\View\uiComponents\ComboBox.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\uiComponents\customdateedit.h">
+    <QtMoc Include="src\View\uiComponents\CustomDateEdit.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\uiComponents\DateEdit.h">
@@ -1681,7 +1669,7 @@
     <QtMoc Include="src\View\uiComponents\PixmapLabel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\uiComponents\ProcedureTable.h">
+    <QtMoc Include="src\View\uiComponents\TableView.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\uiComponents\SpinBox.h">
@@ -1700,9 +1688,6 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\Widgets\PracticeDialog.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="src\View\Widgets\AllergiesDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\Widgets\AmbListSelector.h">
@@ -1777,9 +1762,6 @@
     <QtMoc Include="src\View\Widgets\ProcedurePrintSelectDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\Widgets\ProcedureTemplateDialog.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="src\View\Widgets\RecipientEditView.h">
       <Filter>Header Files</Filter>
     </QtMoc>
@@ -1813,7 +1795,7 @@
     <QtMoc Include="src\View\Widgets\DosageDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\Models\PrescriptionTableModel.h">
+    <QtMoc Include="src\View\TableModels\PrescriptionTableModel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\Widgets\InputDialog.h">
@@ -1828,13 +1810,13 @@
     <QtMoc Include="src\View\Widgets\ReportFilesView.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\Models\ReportFilesModel.h">
+    <QtMoc Include="src\View\TableModels\ReportFilesModel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\Widgets\InvoicePrintDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\Models\PISDentalActivitiesModel.h">
+    <QtMoc Include="src\View\TableModels\PISDentalActivitiesModel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\Widgets\PracticeSelectorView.h">
@@ -1846,7 +1828,7 @@
     <QtMoc Include="src\View\Widgets\ReferralDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\Models\MKBModel.h">
+    <QtMoc Include="src\View\TableModels\MKBModel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\SubWidgets\ReferralTile.h">
@@ -1864,21 +1846,33 @@
     <QtMoc Include="src\View\Widgets\StatisticDialogView.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\Models\StatisticTableModel.h">
+    <QtMoc Include="src\View\TableModels\StatisticTableModel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\uiComponents\StatusMultiButton.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\Models\SpecialtyTableModel.h">
+    <QtMoc Include="src\View\TableModels\SpecialtyTableModel.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\uiComponents\CustomDateTimeEdit.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\TableModels\ProcedureCodeModel.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\Widgets\UpdatePromptDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\Widgets\MedicalStatusDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\SubWidgets\MedicalStatusWidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\View\Widgets\PracticeDialog.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="src\View\Widgets\AllergiesDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\Widgets\AmbListSelector.ui">
@@ -1953,9 +1947,6 @@
     <QtUic Include="src\View\Widgets\ProcedurePrintSelectDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="src\View\Widgets\ProcedureTemplateDialog.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
     <QtUic Include="src\View\Widgets\RecipientEditView.ui">
       <Filter>Form Files</Filter>
     </QtUic>
@@ -1977,7 +1968,7 @@
     <QtUic Include="src\View\Widgets\UpdateDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="src\View\SubWidgets\CommonFields.ui">
+    <QtUic Include="src\View\SubWidgets\ProcedureInput.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\SubWidgets\ControlPanel.ui">
@@ -2041,6 +2032,15 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\Widgets\StatisticDialogView.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\Widgets\UpdatePromptDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\Widgets\MedicalStatusDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\SubWidgets\MedicalStatusWidget.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

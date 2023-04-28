@@ -123,6 +123,23 @@ QPixmap getSplintRect(const ToothPaintHint& tooth)
     return result;
 }
 
+inline QPixmap getDenture(const ToothPaintHint& tooth) {
+
+    if (tooth.prostho != ProsthoHint::denture) return {};
+    
+    auto& coords = SpriteSheets::container().getCoordinates(tooth.idx, tooth.temp);
+    auto& texturePack = SpriteSheets::container().getTexturePack(tooth.idx, tooth.temp);
+    
+    QPixmap denture(coords.toothRect.width(), coords.toothRect.height());
+    denture.fill(Qt::transparent);
+    
+    QPainter painter(&denture);
+    painter.drawPixmap(coords.toothRect, *texturePack.denture);
+    painter.drawPixmap(coords.crownRect, *texturePack.falseTooth);
+    
+    return denture;
+}
+
 inline QPixmap getSurfaceTexture(const ToothPaintHint& tooth)
 {
     auto& coords = SpriteSheets::container().getCoordinates(tooth.idx, tooth.temp);
@@ -250,6 +267,11 @@ inline QPixmap getTooth(const ToothPaintHint& tooth) {
         }
     }
 
+    if (tooth.calculus)
+    {
+        painter.drawPixmap(coords.crownRect, *texturePack.calculus);
+    }
+
     auto& container = SpriteSheets::container();
 
     //drawing the tooth:
@@ -264,13 +286,18 @@ inline QPixmap getTooth(const ToothPaintHint& tooth) {
     case ToothTextureHint::normal:
             painter.drawPixmap(0, 0, *texturePack.tooth);
         break;
+    case ToothTextureHint::unknown:
+        painter.setOpacity(0.6);
+        painter.drawPixmap(0, 0, *texturePack.tooth);
+        painter.setOpacity(1);
+        break;
     case ToothTextureHint::extr:
-        painter.setOpacity(0.2);
+        painter.setOpacity(0.1);
         painter.drawPixmap(0, 0, *texturePack.tooth);
         painter.setOpacity(1);
         break;
     case ToothTextureHint::extr_m:
-        painter.setOpacity(0.2);
+        painter.setOpacity(0.1);
         painter.drawPixmap(0, 0, *texturePack.tooth);
         painter.drawPixmap(0, 0, textureFormat(*texturePack.tooth, Qt::green, 0.3));
         painter.setOpacity(1);
@@ -433,6 +460,11 @@ inline QPixmap getToothPixmap(const ToothPaintHint& tooth)
         painter.setOpacity(0.3);
         painter.drawPixmap(coords.lingualSplintPaint, getSplintRect(tooth));
         break;
+    case ProsthoHint::denture:
+        painter.setOpacity(0.6);
+        painter.drawPixmap(coords.toothRect, getDenture(tooth));
+        break;
+
     }
 
     painter.setOpacity(1);
@@ -483,6 +515,28 @@ inline void drawFractureLabel(const ToothPaintHint& tooth, QPixmap& pixmap)
 	painter.setFont(font);
 	painter.drawText(rect, Qt::AlignCenter, "F");
 
+}
+
+inline void drawQuestionMark(const ToothPaintHint& tooth, QPixmap& pixmap)
+{
+    if (tooth.tooth != ToothTextureHint::unknown) return;
+
+    int yPos = tooth.idx > 15 ? 280 : pixmap.height() - 420;
+
+    QPainter painter(&pixmap);
+    
+    QRect rect(0, yPos, pixmap.width(), 150);
+
+    QPen pen(Qt::lightGray);
+    pen.setWidth(20);
+    painter.setPen(pen);
+
+    painter.setRenderHint(QPainter::Antialiasing);
+
+    QFont font{ "Arial", 80 };
+    font.setBold(1);
+    painter.setFont(font);
+    painter.drawText(rect, Qt::AlignCenter, "?");
 }
 
 inline void drawToothNumberLabel(const ToothPaintHint& tooth, QPixmap& pixmap)
@@ -548,6 +602,7 @@ QPixmap ToothPainter::getBuccalOcclusal(const ToothPaintHint& tooth)
 	pixmap.fill(Qt::transparent);
 
 
+
 	drawMobilityLabel(tooth, pixmap);
 	drawFractureLabel(tooth, pixmap);
 	drawToothNumberLabel(tooth, pixmap);
@@ -562,6 +617,9 @@ QPixmap ToothPainter::getBuccalOcclusal(const ToothPaintHint& tooth)
          coords.toothRect.width(), 640),
          getToothPixmap(tooth), coords.BuccalOcclusalCrop);
 
+    painter.end();
+
+    drawQuestionMark(tooth, pixmap);
 
     return pixmap;
 }
@@ -647,6 +705,7 @@ QPixmap ToothPainter::getLingualOcclusal(const ToothPaintHint& tooth)
     QPixmap pixmap(coords.toothRect.width(), pixmapHeight);
     pixmap.fill(Qt::transparent);
 
+
     drawMobilityLabel(tooth, pixmap);
     drawFractureLabel(tooth, pixmap);
     drawToothNumberLabel(tooth, pixmap);
@@ -663,8 +722,9 @@ QPixmap ToothPainter::getLingualOcclusal(const ToothPaintHint& tooth)
         coords.lingualOcclusalCrop
     );
 
+    painter.end();
 
-
+    drawQuestionMark(tooth, pixmap);
 
     return pixmap;
 }

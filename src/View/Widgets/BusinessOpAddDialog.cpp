@@ -1,13 +1,13 @@
 ﻿#include "BusinessOpAddDialog.h"
 
-BusinessOpAddDialog::BusinessOpAddDialog(const std::vector<ProcedureTemplate>& priceList, QWidget* parent)
+BusinessOpAddDialog::BusinessOpAddDialog(const std::vector<ProcedureCode>& priceList, QWidget* parent)
 	: QDialog(parent)
 {
 	ui.setupUi(this);
 
 	setWindowTitle("Добавяне на услуга");
 
-	m_priceList.setProcedures(priceList);
+	//m_priceList.setProcedures(priceList);
 
 	proxyModel.setSourceModel(&m_priceList);
 	proxyModel.setFilterKeyColumn(2);
@@ -55,7 +55,7 @@ void BusinessOpAddDialog::okPressed()
 
 	auto& row = m_priceList.getProcedureRow(index);
 
-	m_result.emplace(std::to_string(row.code), row.name.toStdString(), row.price, ui.quantitySpinBox->value());
+	m_result.emplace(row.code.toStdString(), row.name.toStdString(), 0, ui.quantitySpinBox->value());
 
 	accept();
 }

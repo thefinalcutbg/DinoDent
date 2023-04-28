@@ -10,10 +10,8 @@ PriceListSettings::PriceListSettings(QWidget *parent)
 	table->setModel(&m_model);
 
 	table->hideColumn(0);
-	table->setColumnWidth(0, 20);
-	table->setColumnWidth(1, 70);
+	table->setColumnWidth(1, 100);
 	table->setColumnWidth(2, 370);
-	table->setColumnWidth(3, 70);
 	table->setSelectionBehavior(QAbstractItemView::SelectRows);
 	table->setSelectionMode(QAbstractItemView::SingleSelection);
 	table->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
@@ -36,9 +34,9 @@ PriceListSettings::PriceListSettings(QWidget *parent)
 		});
 
 	connect(ui.addButton, &QPushButton::clicked, this, [=] { if(presenter)presenter->addTemplate(); });
-	connect(ui.editButton, &QPushButton::clicked, this, [=] { if (presenter)presenter->editTemplate(); });
+	//connect(ui.editButton, &QPushButton::clicked, this, [=] { if (presenter)presenter->editTemplate(); });
 	connect(ui.deleteButton, &QPushButton::clicked, this, [=] { if (presenter)presenter->deleteTemplate(); });
-	connect(ui.tableView, &QTableView::doubleClicked, [=] { if (presenter)presenter->editTemplate(); });
+	//connect(ui.tableView, &QTableView::doubleClicked, [=] { if (presenter)presenter->editTemplate(); });
 
 }
 
@@ -47,9 +45,9 @@ void PriceListSettings::setPresenter(PriceListSettingsPresenter* presenter)
 	this->presenter = presenter;
 }
 
-void PriceListSettings::setTemplates(const std::vector<ProcedureTemplate>& templates)
+void PriceListSettings::setTemplates(const std::vector<ProcedureCode>& templates)
 {
-	m_model.setProcedures(templates);
+	//m_model.setProcedures(templates);
 }
 
 void PriceListSettings::setCurrentIndex(int idx)

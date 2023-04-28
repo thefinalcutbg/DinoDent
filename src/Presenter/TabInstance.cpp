@@ -2,7 +2,7 @@
 
 void TabInstance::makeEdited()
 {
-	if (edited) return;
+	//if (edited) return;
 
 	edited = true;
 	auto tabName = getTabName();

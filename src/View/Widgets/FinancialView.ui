@@ -434,7 +434,7 @@
       </layout>
      </item>
      <item>
-      <widget class="ProcedureTable" name="operationsTable">
+      <widget class="TableView" name="operationsTable">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
          <horstretch>0</horstretch>
@@ -703,9 +703,9 @@
    <header>View/uiComponents/FinancialTileButton.h</header>
   </customwidget>
   <customwidget>
-   <class>ProcedureTable</class>
+   <class>TableView</class>
    <extends>QTableView</extends>
-   <header>View/uiComponents/ProcedureTable.h</header>
+   <header>View/uiComponents/TableView.h</header>
   </customwidget>
   <customwidget>
    <class>LeadingZeroSpinBox</class>

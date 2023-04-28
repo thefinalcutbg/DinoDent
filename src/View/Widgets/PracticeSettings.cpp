@@ -1,12 +1,14 @@
-﻿#include "PracticeSettings.h"
+﻿#include <QPainter>
+
+#include "PracticeSettings.h"
 #include "Model/UserStructs.h"
-#include <QPainter>
-#include <qdebug.h>
+#include "QtVersion.h"
+
 constexpr int specIdxSize = 5;
+
 constexpr const char* specialties[specIdxSize]{
 	"Няма", "64", "61", "62", "68"
 };
-
 
 void PracticeSettings::paintEvent(QPaintEvent* event)
 {
@@ -68,7 +70,7 @@ PracticeSettings::PracticeSettings(QWidget *parent)
 		
 		});
 	connect(ui.adminCheck, &QCheckBox::stateChanged, [=](int state) { presenter->setAdminPrivilege(state);});
-	connect(ui.specialtyCombo, &QComboBox::currentIndexChanged, [=](int index) {
+	connect(ui.specialtyCombo, QtComboIndexChanged, [=](int index) {
 		presenter->setDoctorNhifSpecialty(static_cast<NhifSpecialty>(index));
 		}
 	);

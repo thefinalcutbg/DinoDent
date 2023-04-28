@@ -35,7 +35,7 @@ public:
 		"Направление за рентгенография (бл.4)",
 		"Направление за психиатър (бл.3)",
 		"Направление за анестезиолог (бл.3А)",
-		"Направление за орален хирург (бл.119МЗ)"
+		"Направление за СИДП (бл.119МЗ)"
 	};
 
 	long long rowid{ 0 };
@@ -65,10 +65,10 @@ public:
 	
 
 	inline bool isNrnType() const { 
-		return type == ReferralType::Form3 || type == ReferralType::Form3A; 
+		return type != ReferralType::MH119;
 	}
 
-	inline bool isSentToHIS(){
+	inline bool isSentToHIS() const {
 		return nrn.size();
 	}
 };

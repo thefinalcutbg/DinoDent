@@ -1,11 +1,11 @@
 #pragma once
 #include <vector>
 #include <array>
-#include "Model/Dental/Procedure.h"
+#include "Model/Dental/ProcedureListElement.h"
 
 class AbstractSurfaceSelector;
 class AbstractRangeEdit;
-class ICommonFields;
+class IProcedureInput;
 class ICrownView;
 
 class IProcedureDialog
@@ -13,13 +13,13 @@ class IProcedureDialog
 
 public:
 
-    virtual void setProcedureTemplates(std::vector<ProcedureTemplate> manipulationList) = 0;
+    virtual void setProcedureTemplates(std::vector<ProcedureListElement> procedureList) = 0;
 
     virtual void close() = 0;
 
     virtual void setSelectionLabel(const std::vector<int>& selectedTeethNum) = 0;
 
-    virtual ICommonFields* commonFields() = 0;
+    virtual IProcedureInput* procedureInput() = 0;
 
 
 };

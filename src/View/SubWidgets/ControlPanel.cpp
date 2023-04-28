@@ -9,15 +9,14 @@ ControlPanel::ControlPanel(QWidget* parent)
 {
 	ui.setupUi(this);
 
+	ui.Dsn->hide();
+
 	StatusButton* pathologies[]
 	{
-		ui.Caries, ui.Pulpitis, ui.Extraction, ui.ApicalLesion, ui.Fracture, ui.Periodontitis, ui.Dsn, ui.Impacted, ui.Root
+		ui.Caries, ui.Pulpitis, ui.Extraction, ui.ApicalLesion, ui.Fracture, ui.Periodontitis, ui.Dsn, ui.Impacted, ui.Root, ui.Calculus
 	};
 
-	for (auto& p : pathologies)
-	{
-		p->pathology = true;
-	}
+	for (auto& p : pathologies) p->pathology = true;
 
 	ui.Mobility->pathology = true;
 
@@ -27,10 +26,11 @@ ControlPanel::ControlPanel(QWidget* parent)
 		this->connect(button, &QPushButton::clicked, this, [=] {
 
 			if (presenter == NULL) return;
-		presenter->setMainStatus(code);
+				presenter->setMainStatus(code);
 			});
 	};
 
+	lambdaConnect(ui.healthyTooth, StatusCode::Healthy);
 	lambdaConnect(ui.ApicalLesion, StatusCode::ApicalLesion);
 	lambdaConnect(ui.Bridge, StatusCode::Bridge);
 	lambdaConnect(ui.Caries, StatusCode::Caries);
@@ -41,6 +41,7 @@ ControlPanel::ControlPanel(QWidget* parent)
 	lambdaConnect(ui.Fiber, StatusCode::FiberSplint);
 	lambdaConnect(ui.Fracture, StatusCode::Fracture);
 	lambdaConnect(ui.Implant, StatusCode::Implant);
+	lambdaConnect(ui.Calculus, StatusCode::Calculus);
 	lambdaConnect(ui.Impacted, StatusCode::Impacted);
 	lambdaConnect(ui.Obturation, StatusCode::Obturation);
 	lambdaConnect(ui.Periodontitis, StatusCode::Periodontitis);
@@ -48,6 +49,8 @@ ControlPanel::ControlPanel(QWidget* parent)
 	lambdaConnect(ui.Pulpitis, StatusCode::Pulpitis);
 	lambdaConnect(ui.Root, StatusCode::Root);
 	lambdaConnect(ui.Temporary, StatusCode::Temporary);
+	lambdaConnect(ui.falseTooth, StatusCode::Denture);
+	
 
 	ui.Mobility->setStateNames({ "Подвижност", "Подвижност I", "Подвижност II", "Подвижност III" });
 
@@ -80,7 +83,7 @@ void ControlPanel::hideCommonButtons(bool hidden)
 	ui.Obturation->setHidden(hidden);
 	ui.Caries->setHidden(hidden);
 }
-#include <qdebug.h> 
+
 void ControlPanel::setModel(const CheckModel& checkModel)
 {
 
@@ -88,6 +91,7 @@ void ControlPanel::setModel(const CheckModel& checkModel)
 		b->setCheckState(checkModel.generalStatus[s]);
 	};
 
+	setCheck(ui.healthyTooth, StatusCode::Healthy);
 	setCheck(ui.ApicalLesion, StatusCode::ApicalLesion);
 	setCheck(ui.Bridge, StatusCode::Bridge);
 	setCheck(ui.Caries, StatusCode::Caries);
@@ -105,7 +109,8 @@ void ControlPanel::setModel(const CheckModel& checkModel)
 	setCheck(ui.Pulpitis, StatusCode::Pulpitis);
 	setCheck(ui.Root, StatusCode::Root);
 	setCheck(ui.Temporary, StatusCode::Temporary);
-
+	setCheck(ui.falseTooth, StatusCode::Denture);
+	setCheck(ui.Calculus, StatusCode::Calculus);
 
 	if (checkModel.mobilityStatus[0] == CheckState::checked) {
 		ui.Mobility->setCurrentState(1); return;

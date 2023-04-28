@@ -66,11 +66,25 @@ std::vector<const Tooth*> ToothContainer::getSelectedTeethPtr(std::vector<int> s
 	return selectedPtr;
 }
 
+void ToothContainer::copyFromOther(const ToothContainer& other)
+{
+	for (int i = 0; i < teethCount; i++)
+	{
+		if (other[i].noData()) continue;
+
+		teeth[i] = other[i];
+	}
+}
+
 bool ToothContainer::canResultInNonRetainedConstruction(int status)
 {
-	return	status == StatusCode::Extraction ||
+	return	
+		status == StatusCode::Healthy ||
+		status == StatusCode::Extraction ||
 		status == StatusCode::Impacted ||
-		status == StatusCode::Root
+		status == StatusCode::Root ||
+		status == StatusCode::Bridge ||
+		status == StatusCode::FiberSplint
 		;
 }
 
@@ -80,12 +94,22 @@ bool ToothContainer::needsBridgeFormatting(int status)
 	return
 		status == StatusCode::Bridge ||
 		status == StatusCode::Crown ||
-		status == StatusCode::FiberSplint
+		status == StatusCode::FiberSplint ||
+		status == StatusCode::Denture ||
+		status == StatusCode::Healthy
 		;
 }
 
 void ToothContainer::setStatus(const std::vector<int>& selectedTeethIdx, StatusCode::StatusCode code, bool state)
 {
+	if (state &&
+		selectedTeethIdx.size() == 1 &&
+		(code == StatusCode::Bridge || code == StatusCode::FiberSplint)
+	)
+	{
+		return;
+	}
+
 	for (auto& idx : selectedTeethIdx)
 	{
 		teeth[idx].setStatus(StatusType::general, code, state);
@@ -118,8 +142,9 @@ void ToothContainer::formatBridges(const std::vector<int>& indexes)
 
     for (auto& selection : selections)
 	{
-        formatSelection<&Tooth::bridge>(selection, teeth);
-		formatSelection<&Tooth::splint>(selection, teeth);
+       formatSelection<&Tooth::bridge>(selection, teeth);
+	   formatSelection<&Tooth::splint>(selection, teeth);
+
     }
 
 	removeNonRetainedConstruction();
@@ -172,14 +197,14 @@ void ToothContainer::removeBridgeOrSplint(const std::vector<int>& selectedIndexe
 		auto [bridgeBegin, bridgeEnd] = getConstructionRange<&Tooth::bridge>(teeth, index);
 
 		for (int i = bridgeBegin; i <= bridgeEnd; i++)
-			teeth.at(i).bridge.set(false);
+			teeth.at(i).setStatus(StatusCode::Bridge, false);
 	}
 
 	for (auto index : selectedIndexes) {
 		auto [bridgeBegin, bridgeEnd] = getConstructionRange<&Tooth::splint>(teeth, index);
 
 		for (int i = bridgeBegin; i <= bridgeEnd; i++)
-			teeth.at(i).splint.set(false);
+			teeth.at(i).setStatus(StatusCode::FiberSplint, false);
 	}
 
 	formatBridges(selectedIndexes);
@@ -215,7 +240,7 @@ void ToothContainer::removeBridgeOrSplint(int begin, int end)
 			nextTooth.canHaveACrown()
 			;
 
-		if (shouldBeCrown) nextTooth.crown.set(true);
+		if (shouldBeCrown) nextTooth.setStatus(StatusCode::Crown, true);
 	}
 
 	std::vector<int> selection;

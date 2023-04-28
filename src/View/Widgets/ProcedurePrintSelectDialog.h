@@ -6,7 +6,7 @@
 #include <optional>
 #include "Model/Dental/Procedure.h"
 #include "Model/Referrals/Referral.h"
-#include "View/Models/ProcedureSelectModel.h"
+#include "View/TableModels/ProcedureSelectModel.h"
 #include <QRadioButton>
 class ProcedurePrintSelectDialog : public QDialog
 {

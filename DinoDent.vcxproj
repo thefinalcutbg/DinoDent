@@ -23,8 +23,8 @@
     <Keyword>QtVS_v304</Keyword>
     <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">10.0</WindowsTargetPlatformVersion>
     <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">10.0</WindowsTargetPlatformVersion>
-    <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Debug|Win32'">10.0.18362.0</WindowsTargetPlatformVersion>
-    <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Release|Win32'">10.0.18362.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Debug|Win32'">10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Release|Win32'">10.0</WindowsTargetPlatformVersion>
     <QtMsBuild Condition="'$(QtMsBuild)'=='' OR !Exists('$(QtMsBuild)\qt.targets')">$(MSBuildProjectDirectory)\QtMsBuild</QtMsBuild>
     <ProjectName>DinoDent</ProjectName>
   </PropertyGroup>
@@ -39,11 +39,11 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
@@ -85,26 +85,28 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>GeneratedFiles\$(ConfigurationName);GeneratedFiles;$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);src/;Dependencies/LimeReport/include;.\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\include;GeneratedFiles\$(ConfigurationName);GeneratedFiles;$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);$(SolutionDir)/src/</AdditionalIncludeDirectories>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>$(SolutionDir)jsoncpp\jsoncpp-src-0.5.0\build\vs71\debug\lib_json;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>$(Qt_LIBS_);%(AdditionalDependencies);$(ProjectDir)dependencies/LimeReport/$(Platform)/$(Configuration)/lib/limereportd.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\dev\DinoDependencies\x32\lib;$(Qt_LIBPATH_);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>limereportd.lib;libcrypto.lib;libssl.lib;libxml2.lib;libxmlsec.lib;libxmlsec-openssl.lib;pkcs11.lib;libp11.lib;$(Qt_LIBS_);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>GeneratedFiles\$(ConfigurationName);GeneratedFiles;$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);src/;Dependencies/LimeReport/include;.\</AdditionalIncludeDirectories>
-      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)\include;GeneratedFiles\$(ConfigurationName);GeneratedFiles;$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);$(SolutionDir)/src/</AdditionalIncludeDirectories>
+      <AdditionalOptions>/utf-8  /std:c++20 %(AdditionalOptions)</AdditionalOptions>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>$(Qt_LIBPATH_);%(AdditionalLibraryDirectories);$(SolutionDir)jsoncpp\jsoncpp-src-0.5.0\build\vs71\release\lib_json;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>$(Qt_LIBS_);%(AdditionalDependencies);$(ProjectDir)dependencies/LimeReport/$(Platform)/$(Configuration)/lib/limereport.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\dev\DinoDependencies\x32\lib;$(Qt_LIBPATH_);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>limereport.lib;libcrypto.lib;libssl.lib;libxml2.lib;libxmlsec.lib;libxmlsec-openssl.lib;pkcs11.lib;libp11.lib;$(Qt_LIBS_);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -145,13 +147,13 @@
     <QtBuildConfig>release</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|Win32'" Label="QtSettings">
-    <QtInstall>6.2.2_msvc2019_64</QtInstall>
-    <QtModules>core;gui;widgets;printsupport;qml</QtModules>
+    <QtInstall>5.15</QtInstall>
+    <QtModules>core;network;gui;svg;widgets;qml;printsupport</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|Win32'" Label="QtSettings">
-    <QtInstall>6.2.2_msvc2019_64</QtInstall>
-    <QtModules>core;gui;widgets;printsupport;qml</QtModules>
+    <QtInstall>5.15</QtInstall>
+    <QtModules>core;network;gui;svg;widgets;qml;printsupport</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
   </PropertyGroup>
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.props')">
@@ -221,7 +223,9 @@
     <ClCompile Include="src\DbUpdates\Update5.cpp" />
     <ClCompile Include="src\DbUpdates\Update6.cpp" />
     <ClCompile Include="src\DbUpdates\Update7.cpp" />
+    <ClCompile Include="src\DbUpdates\Update8.cpp" />
     <ClCompile Include="src\Model\Dental\DentalNum.cpp" />
+    <ClCompile Include="src\Model\Dental\ProcedureCode.cpp" />
     <ClCompile Include="src\Model\Referrals\Referral.cpp" />
     <ClCompile Include="src\Model\FreeFunctions.cpp" />
     <ClCompile Include="src\Model\Prescription\Route.cpp" />
@@ -233,6 +237,7 @@
     <ClCompile Include="src\Model\Validators\PrescriptionValidators.cpp" />
     <ClCompile Include="src\Network\HIS\EDental.cpp" />
     <ClCompile Include="src\Network\HIS\EPrescription.cpp" />
+    <ClCompile Include="src\Network\HIS\EReferral.cpp" />
     <ClCompile Include="src\Network\HIS\UpdateMkb.cpp" />
     <ClCompile Include="src\Network\PIS\ReportFilesService.cpp" />
     <ClCompile Include="src\Network\UpdateService\UpdateService.cpp" />
@@ -266,7 +271,7 @@
     <ClCompile Include="src\Database\DbProcedure.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Model\Date.cpp" />
-    <ClCompile Include="src\Model\Dental\DiagnosisContainer.cpp" />
+    <ClCompile Include="src\Model\Dental\Diagnosis.cpp" />
     <ClCompile Include="src\Model\Dental\KSMP.cpp" />
     <ClCompile Include="src\Model\Dental\MKB.cpp" />
     <ClCompile Include="src\Model\Dental\NhifProcedures.cpp" />
@@ -323,22 +328,18 @@
     <ClCompile Include="src\Network\PIS\SendFileService.cpp" />
     <ClCompile Include="src\Network\PKCS11.cpp" />
     <ClCompile Include="src\Network\XmlSigner.cpp" />
-    <ClCompile Include="src\Presenter\AbstractSubPresenter.cpp" />
+    <ClCompile Include="src\Presenter\ProcedureCreator.cpp" />
     <ClCompile Include="src\Presenter\PracticeDialogPresenter.cpp" />
-    <ClCompile Include="src\Presenter\AllergiesDialogPresenter.cpp" />
     <ClCompile Include="src\Presenter\ButtonSurfaceMatrix.cpp" />
     <ClCompile Include="src\Presenter\CheckState.cpp" />
-    <ClCompile Include="src\Presenter\CrownPresenter.cpp" />
     <ClCompile Include="src\Presenter\DetailedStatusPresenter.cpp" />
     <ClCompile Include="src\Presenter\DoctorDialogPresenter.cpp" />
-    <ClCompile Include="src\Presenter\EditorPresenter.cpp" />
     <ClCompile Include="src\Presenter\FinancialPresenter.cpp" />
     <ClCompile Include="src\Presenter\ListPresenter.cpp" />
     <ClCompile Include="src\Presenter\ListSelectorPresenter.cpp" />
     <ClCompile Include="src\Presenter\LoginPresenter.cpp" />
     <ClCompile Include="src\Presenter\MainPresenter.cpp" />
     <ClCompile Include="src\Presenter\MonthNotifPresenter.cpp" />
-    <ClCompile Include="src\Presenter\ObturationPresenter.cpp" />
     <ClCompile Include="src\Presenter\PatientDialogPresenter.cpp" />
     <ClCompile Include="src\Presenter\PatientSummaryPresenter.cpp" />
     <ClCompile Include="src\Presenter\PerioPresenter.cpp" />
@@ -346,7 +347,6 @@
     <ClCompile Include="src\Presenter\PriceListSettingsPresenter.cpp" />
     <ClCompile Include="src\Presenter\ProcedureDialogPresenter.cpp" />
     <ClCompile Include="src\Presenter\ProcedureEditorPresenter.cpp" />
-    <ClCompile Include="src\Presenter\ProcedureRangePresenter.cpp" />
     <ClCompile Include="src\Presenter\ReferralPresenter.cpp" />
     <ClCompile Include="src\Presenter\ReportFilesPresenter.cpp" />
     <ClCompile Include="src\Presenter\ReportPresenter.cpp" />
@@ -357,7 +357,6 @@
     <ClCompile Include="src\Presenter\TabInstance.cpp" />
     <ClCompile Include="src\Presenter\TabPresenter.cpp" />
     <ClCompile Include="src\Presenter\ToothHintCreator.cpp" />
-    <ClCompile Include="src\Presenter\ToothProcedurePresenter.cpp" />
     <ClCompile Include="src\Resources.cpp" />
     <ClCompile Include="src\DbUpdates\DbUpdates.cpp" />
     <ClCompile Include="src\DbUpdates\Updater.cpp" />
@@ -385,26 +384,28 @@
     <ClCompile Include="src\View\Interfaces\AbstractUIElement.cpp" />
     <ClCompile Include="src\View\Interfaces\ITabView.cpp" />
     <ClCompile Include="src\View\ModalDialogBuilder.cpp" />
-    <ClCompile Include="src\View\Models\AmbListTableModel.cpp" />
-    <ClCompile Include="src\View\Models\BusinessOperationModel.cpp" />
-    <ClCompile Include="src\View\Models\FinancialTableModel.cpp" />
-    <ClCompile Include="src\View\Models\KSMPModel.cpp" />
-    <ClCompile Include="src\View\Models\MedicationTableModel.cpp" />
-    <ClCompile Include="src\View\Models\MKBModel.cpp" />
-    <ClCompile Include="src\View\Models\MonthNotifTableModel.cpp" />
-    <ClCompile Include="src\View\Models\PatientTableModel.cpp" />
-    <ClCompile Include="src\View\Models\PerioTableModel.cpp" />
-    <ClCompile Include="src\View\Models\PISDentalActivitiesModel.cpp" />
-    <ClCompile Include="src\View\Models\PrescriptionTableModel.cpp" />
-    <ClCompile Include="src\View\Models\ProcedureSelectModel.cpp" />
-    <ClCompile Include="src\View\Models\ProcedureTableModel.cpp" />
-    <ClCompile Include="src\View\Models\ProcedureTemplateModel.cpp" />
-    <ClCompile Include="src\View\Models\QProcedure.cpp" />
-    <ClCompile Include="src\View\Models\ReportFilesModel.cpp" />
-    <ClCompile Include="src\View\Models\SpecialtyTableModel.cpp" />
-    <ClCompile Include="src\View\Models\StatisticTableModel.cpp" />
+    <ClCompile Include="src\View\SubWidgets\MedicalStatusWidget.cpp" />
+    <ClCompile Include="src\View\TableModels\AmbListTableModel.cpp" />
+    <ClCompile Include="src\View\TableModels\BusinessOperationModel.cpp" />
+    <ClCompile Include="src\View\TableModels\FinancialTableModel.cpp" />
+    <ClCompile Include="src\View\TableModels\KSMPModel.cpp" />
+    <ClCompile Include="src\View\TableModels\MedicationTableModel.cpp" />
+    <ClCompile Include="src\View\TableModels\MKBModel.cpp" />
+    <ClCompile Include="src\View\TableModels\MonthNotifTableModel.cpp" />
+    <ClCompile Include="src\View\TableModels\PatientTableModel.cpp" />
+    <ClCompile Include="src\View\TableModels\PerioTableModel.cpp" />
+    <ClCompile Include="src\View\TableModels\PISDentalActivitiesModel.cpp" />
+    <ClCompile Include="src\View\TableModels\PrescriptionTableModel.cpp" />
+    <ClCompile Include="src\View\TableModels\ProcedureCodeModel.cpp" />
+    <ClCompile Include="src\View\TableModels\ProcedureSelectModel.cpp" />
+    <ClCompile Include="src\View\TableModels\ProcedureTableModel.cpp" />
+    <ClCompile Include="src\View\TableModels\ProcedureTemplateModel.cpp" />
+    <ClCompile Include="src\View\TableModels\QProcedure.cpp" />
+    <ClCompile Include="src\View\TableModels\ReportFilesModel.cpp" />
+    <ClCompile Include="src\View\TableModels\SpecialtyTableModel.cpp" />
+    <ClCompile Include="src\View\TableModels\StatisticTableModel.cpp" />
     <ClCompile Include="src\View\Printer.cpp" />
-    <ClCompile Include="src\View\SubWidgets\CommonFields.cpp" />
+    <ClCompile Include="src\View\SubWidgets\ProcedureInput.cpp" />
     <ClCompile Include="src\View\SubWidgets\ControlPanel.cpp" />
     <ClCompile Include="src\View\SubWidgets\PatientTileInfo.cpp" />
     <ClCompile Include="src\View\SubWidgets\PerioStatisticView.cpp" />
@@ -417,7 +418,8 @@
     <ClCompile Include="src\View\Theme.cpp" />
     <ClCompile Include="src\View\uiComponents\AutoCompleteLineEdit.cpp" />
     <ClCompile Include="src\View\uiComponents\ComboBox.cpp" />
-    <ClCompile Include="src\View\uiComponents\customdateedit.cpp" />
+    <ClCompile Include="src\View\uiComponents\CustomDateEdit.cpp" />
+    <ClCompile Include="src\View\uiComponents\CustomDateTimeEdit.cpp" />
     <ClCompile Include="src\View\uiComponents\DateEdit.cpp" />
     <ClCompile Include="src\View\uiComponents\FinancialTileButton.cpp" />
     <ClCompile Include="src\View\uiComponents\FurcationWidget.cpp" />
@@ -433,7 +435,7 @@
     <ClCompile Include="src\View\uiComponents\PerioStateButton.cpp" />
     <ClCompile Include="src\View\uiComponents\PerioTable.cpp" />
     <ClCompile Include="src\View\uiComponents\PixmapLabel.cpp" />
-    <ClCompile Include="src\View\uiComponents\ProcedureTable.cpp" />
+    <ClCompile Include="src\View\uiComponents\TableView.cpp" />
     <ClCompile Include="src\View\uiComponents\RightClickButton.cpp" />
     <ClCompile Include="src\View\uiComponents\SpinBox.cpp" />
     <ClCompile Include="src\View\uiComponents\StatusButton.cpp" />
@@ -443,8 +445,9 @@
     <ClCompile Include="src\View\uiComponents\ToothButton.cpp" />
     <ClCompile Include="src\View\uiComponents\UserButton.cpp" />
     <ClCompile Include="src\View\Widgets\ButtonDialog.cpp" />
+    <ClCompile Include="src\View\Widgets\CurrentStatusDialog.cpp" />
+    <ClCompile Include="src\View\Widgets\MedicalStatusDialog.cpp" />
     <ClCompile Include="src\View\Widgets\PracticeDialog.cpp" />
-    <ClCompile Include="src\View\Widgets\AllergiesDialog.cpp" />
     <ClCompile Include="src\View\Widgets\AmbListSelector.cpp" />
     <ClCompile Include="src\View\Widgets\BusinessOpAddDialog.cpp" />
     <ClCompile Include="src\View\Widgets\BusinessOpEditDialog.cpp" />
@@ -477,7 +480,6 @@
     <ClCompile Include="src\View\Widgets\ProcedureDialog.cpp" />
     <ClCompile Include="src\View\Widgets\ProcedureEditDialog.cpp" />
     <ClCompile Include="src\View\Widgets\ProcedurePrintSelectDialog.cpp" />
-    <ClCompile Include="src\View\Widgets\ProcedureTemplateDialog.cpp" />
     <ClCompile Include="src\View\Widgets\RecipientEditView.cpp" />
     <ClCompile Include="src\View\Widgets\ReferralDialog.cpp" />
     <ClCompile Include="src\View\Widgets\ReportErrorDialog.cpp" />
@@ -489,6 +491,7 @@
     <ClCompile Include="src\View\Widgets\DinoDent.cpp" />
     <ClCompile Include="src\View\Widgets\UpdateDialog.cpp" />
     <ClCompile Include="src\View\Widgets\UpdateDownloader.cpp" />
+    <ClCompile Include="src\View\Widgets\UpdatePromptDialog.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
@@ -496,9 +499,11 @@
     <ClInclude Include="src\Database\DbReferral.h" />
     <ClInclude Include="src\Database\DbStatistics.h" />
     <ClInclude Include="src\Database\DbUpdateStatus.h" />
-    <ClInclude Include="src\GlobalConst.h" />
     <ClInclude Include="src\Model\Dental\DentalNum.h" />
     <ClInclude Include="src\Model\Dental\DentalStatistics.h" />
+    <ClInclude Include="src\Model\Dental\ProcedureCode.h" />
+    <ClInclude Include="src\Model\Dental\ProcedureListElement.h" />
+    <ClInclude Include="src\Model\MedicalStatuses.h" />
     <ClInclude Include="src\Model\Referrals\NumberVariant.h" />
     <ClInclude Include="src\Model\Referrals\Referral.h" />
     <ClInclude Include="src\Model\NumenclatureTemplate.h" />
@@ -506,6 +511,7 @@
     <ClInclude Include="src\Model\Referrals\RefNum.h" />
     <ClInclude Include="src\Model\Specialty.h" />
     <ClInclude Include="src\Network\HIS\EDental.h" />
+    <ClInclude Include="src\Network\HIS\EReferral.h" />
     <ClInclude Include="src\Network\UpdateService\UpdateService.h" />
     <ClInclude Include="src\Path.h" />
     <ClInclude Include="src\Model\Dental\ReportFile.h" />
@@ -549,7 +555,7 @@
     <ClInclude Include="src\Model\Date.h" />
     <ClInclude Include="src\Model\Dental\AmbList.h" />
     <ClInclude Include="src\Model\Dental\BridgeAlgorithms.h" />
-    <ClInclude Include="src\Model\Dental\DiagnosisContainer.h" />
+    <ClInclude Include="src\Model\Dental\Diagnosis.h" />
     <ClInclude Include="src\Model\Dental\Enums.h" />
     <ClInclude Include="src\Model\Dental\KSMP.h" />
     <ClInclude Include="src\Model\Dental\MKB.h" />
@@ -563,7 +569,6 @@
     <ClInclude Include="src\Model\Dental\PerioToothData.h" />
     <ClInclude Include="src\Model\Dental\Procedure.h" />
     <ClInclude Include="src\Model\Dental\ProcedureContainer.h" />
-    <ClInclude Include="src\Model\Dental\ProcedureTemplate.h" />
     <ClInclude Include="src\Model\Dental\Status.h" />
     <ClInclude Include="src\Model\Dental\StatusData.h" />
     <ClInclude Include="src\Model\Dental\SurfStatus.h" />
@@ -619,24 +624,19 @@
     <ClInclude Include="src\Network\PIS\SendFileService.h" />
     <ClInclude Include="src\Network\PKCS11.h" />
     <ClInclude Include="src\Network\XmlSigner.h" />
-    <ClInclude Include="src\Presenter\AbstractSubPresenter.h" />
+    <ClInclude Include="src\Presenter\ProcedureCreator.h" />
     <ClInclude Include="src\Presenter\PracticeDialogPresenter.h" />
-    <ClInclude Include="src\Presenter\AllergiesDialogPresenter.h" />
     <ClInclude Include="src\Presenter\ButtonSurfaceMatrix.h" />
     <ClInclude Include="src\Presenter\CheckState.h" />
-    <ClInclude Include="src\Presenter\CrownPresenter.h" />
     <ClInclude Include="src\Presenter\DetailedStatusPresenter.h" />
     <ClInclude Include="src\Presenter\DoctorDialogPresenter.h" />
-    <ClInclude Include="src\Presenter\EditorPresenter.h" />
     <ClInclude Include="src\Presenter\FinancialPresenter.h" />
-    <ClInclude Include="src\Presenter\GeneralProcedurePresenter.h" />
     <ClInclude Include="src\Presenter\InputEnums.h" />
     <ClInclude Include="src\Presenter\ListPresenter.h" />
     <ClInclude Include="src\Presenter\ListSelectorPresenter.h" />
     <ClInclude Include="src\Presenter\LoginPresenter.h" />
     <ClInclude Include="src\Presenter\MainPresenter.h" />
     <ClInclude Include="src\Presenter\MonthNotifPresenter.h" />
-    <ClInclude Include="src\Presenter\ObturationPresenter.h" />
     <ClInclude Include="src\Presenter\PatientDialogPresenter.h" />
     <ClInclude Include="src\Presenter\PatientSummaryPresenter.h" />
     <ClInclude Include="src\Presenter\PerioPresenter.h" />
@@ -644,7 +644,6 @@
     <ClInclude Include="src\Presenter\PriceListSettingsPresenter.h" />
     <ClInclude Include="src\Presenter\ProcedureDialogPresenter.h" />
     <ClInclude Include="src\Presenter\ProcedureEditorPresenter.h" />
-    <ClInclude Include="src\Presenter\ProcedureRangePresenter.h" />
     <ClInclude Include="src\Presenter\ReferralPresenter.h" />
     <ClInclude Include="src\Presenter\ReportFilesPresenter.h" />
     <ClInclude Include="src\Presenter\ReportPresenter.h" />
@@ -655,10 +654,11 @@
     <ClInclude Include="src\Presenter\TabInstance.h" />
     <ClInclude Include="src\Presenter\TabPresenter.h" />
     <ClInclude Include="src\Presenter\ToothHintCreator.h" />
-    <ClInclude Include="src\Presenter\ToothProcedurePresenter.h" />
+    <ClInclude Include="src\QtVersion.h" />
     <ClInclude Include="src\Resources.h" />
     <ClInclude Include="src\DbUpdates\DbUpdates.h" />
     <ClInclude Include="src\DbUpdates\Updater.h" />
+    <ClInclude Include="src\Version.h" />
     <ClInclude Include="src\View\GlobalFunctions.h" />
     <ClInclude Include="src\View\Graphics\ControlPanelPolygon.h" />
     <ClInclude Include="src\View\Graphics\CPTooth.h" />
@@ -685,7 +685,7 @@
     <ClInclude Include="src\View\Interfaces\AbstractUIElement.h" />
     <ClInclude Include="src\View\Interfaces\IPracticeDialog.h" />
     <ClInclude Include="src\View\Interfaces\IAllergiesDialog.h" />
-    <ClInclude Include="src\View\Interfaces\ICommonFields.h" />
+    <ClInclude Include="src\View\Interfaces\IProcedureInput.h" />
     <ClInclude Include="src\View\Interfaces\ICrownView.h" />
     <ClInclude Include="src\View\Interfaces\IDetailedStatusView.h" />
     <ClInclude Include="src\View\Interfaces\IDoctorSettingsDialog.h" />
@@ -719,21 +719,25 @@
     <ClInclude Include="src\View\Interfaces\ITabView.h" />
     <ClInclude Include="src\View\Interfaces\IStatisticDialogView.h" />
     <ClInclude Include="src\View\ModalDialogBuilder.h" />
-    <ClInclude Include="src\View\Models\BusinessOperationModel.h" />
-    <ClInclude Include="src\View\Models\MedicationTableModel.h" />
+    <QtMoc Include="src\View\SubWidgets\MedicalStatusWidget.h" />
+    <ClInclude Include="src\View\TableModels\BusinessOperationModel.h" />
+    <ClInclude Include="src\View\TableModels\MedicationTableModel.h" />
+    <QtMoc Include="src\View\Widgets\UpdatePromptDialog.h" />
     <QtMoc Include="src\View\Widgets\UpdateDownloader.h" />
-    <QtMoc Include="src\View\Models\PrescriptionTableModel.h" />
-    <QtMoc Include="src\View\Models\PISDentalActivitiesModel.h" />
-    <QtMoc Include="src\View\Models\MKBModel.h" />
-    <ClInclude Include="src\View\Models\QProcedure.h" />
-    <QtMoc Include="src\View\Models\ReportFilesModel.h" />
-    <QtMoc Include="src\View\Models\StatisticTableModel.h" />
-    <QtMoc Include="src\View\Models\SpecialtyTableModel.h" />
+    <QtMoc Include="src\View\TableModels\PrescriptionTableModel.h" />
+    <QtMoc Include="src\View\TableModels\PISDentalActivitiesModel.h" />
+    <QtMoc Include="src\View\TableModels\MKBModel.h" />
+    <QtMoc Include="src\View\TableModels\ProcedureCodeModel.h" />
+    <ClInclude Include="src\View\TableModels\QProcedure.h" />
+    <QtMoc Include="src\View\TableModels\ReportFilesModel.h" />
+    <QtMoc Include="src\View\TableModels\StatisticTableModel.h" />
+    <QtMoc Include="src\View\TableModels\SpecialtyTableModel.h" />
     <ClInclude Include="src\View\Printer.h" />
     <QtMoc Include="src\View\SubWidgets\PatientTileInfo.h" />
     <QtMoc Include="src\View\SubWidgets\ReferralTile.h" />
     <ClInclude Include="src\View\Theme.h" />
     <ClInclude Include="src\View\uiComponents\AutoCompleteLineEdit.h" />
+    <QtMoc Include="src\View\uiComponents\CustomDateTimeEdit.h" />
     <ClInclude Include="src\View\uiComponents\FinancialTileButton.h" />
     <QtMoc Include="src\View\uiComponents\HoverButton.h" />
     <ClInclude Include="src\View\uiComponents\MouseWheelGuard.h" />
@@ -748,6 +752,8 @@
     <QtMoc Include="src\View\Widgets\PracticeSelectorView.h" />
     <QtMoc Include="src\View\Widgets\ReferralDialog.h" />
     <QtMoc Include="src\View\Widgets\ButtonDialog.h" />
+    <QtMoc Include="src\View\Widgets\MedicalStatusDialog.h" />
+    <QtMoc Include="src\View\Widgets\CurrentStatusDialog.h" />
     <ClInclude Include="src\View\Widgets\ReportDialogResult.h" />
     <QtMoc Include="src\View\Widgets\ReportFilesView.h" />
     <QtMoc Include="src\View\Widgets\StatisticView.h" />
@@ -761,7 +767,6 @@
     <QtMoc Include="src\View\Widgets\ReportView.h" />
     <QtMoc Include="src\View\Widgets\ReportErrorDialog.h" />
     <QtMoc Include="src\View\Widgets\RecipientEditView.h" />
-    <QtMoc Include="src\View\Widgets\ProcedureTemplateDialog.h" />
     <QtMoc Include="src\View\Widgets\ProcedurePrintSelectDialog.h" />
     <QtMoc Include="src\View\Widgets\ProcedureEditDialog.h" />
     <QtMoc Include="src\View\Widgets\ProcedureDialog.h" />
@@ -786,14 +791,13 @@
     <QtMoc Include="src\View\Widgets\BusinessOpEditDialog.h" />
     <QtMoc Include="src\View\Widgets\BusinessOpAddDialog.h" />
     <QtMoc Include="src\View\Widgets\AmbListSelector.h" />
-    <QtMoc Include="src\View\Widgets\AllergiesDialog.h" />
     <QtMoc Include="src\View\Widgets\PracticeDialog.h" />
     <QtMoc Include="src\View\uiComponents\UserButton.h" />
     <QtMoc Include="src\View\uiComponents\ToothButton.h" />
     <QtMoc Include="src\View\uiComponents\TextEdit.h" />
     <QtMoc Include="src\View\uiComponents\StatusButton.h" />
     <QtMoc Include="src\View\uiComponents\SpinBox.h" />
-    <QtMoc Include="src\View\uiComponents\ProcedureTable.h" />
+    <QtMoc Include="src\View\uiComponents\TableView.h" />
     <QtMoc Include="src\View\uiComponents\PixmapLabel.h" />
     <QtMoc Include="src\View\uiComponents\PerioTable.h" />
     <QtMoc Include="src\View\uiComponents\PerioStateButton.h" />
@@ -807,7 +811,7 @@
     <QtMoc Include="src\View\uiComponents\HalfRoundedButton.h" />
     <QtMoc Include="src\View\uiComponents\FurcationWidget.h" />
     <QtMoc Include="src\View\uiComponents\DateEdit.h" />
-    <QtMoc Include="src\View\uiComponents\customdateedit.h" />
+    <QtMoc Include="src\View\uiComponents\CustomDateEdit.h" />
     <QtMoc Include="src\View\uiComponents\ComboBox.h" />
     <QtMoc Include="src\View\SubWidgets\VitaWidget.h" />
     <QtMoc Include="src\View\SubWidgets\TabTitle.h" />
@@ -816,16 +820,16 @@
     <QtMoc Include="src\View\SubWidgets\RangeWidget.h" />
     <QtMoc Include="src\View\SubWidgets\PerioStatisticView.h" />
     <QtMoc Include="src\View\SubWidgets\ControlPanel.h" />
-    <QtMoc Include="src\View\SubWidgets\CommonFields.h" />
-    <QtMoc Include="src\View\Models\ProcedureTemplateModel.h" />
-    <QtMoc Include="src\View\Models\ProcedureTableModel.h" />
-    <QtMoc Include="src\View\Models\ProcedureSelectModel.h" />
-    <QtMoc Include="src\View\Models\PerioTableModel.h" />
-    <QtMoc Include="src\View\Models\PatientTableModel.h" />
-    <QtMoc Include="src\View\Models\MonthNotifTableModel.h" />
-    <QtMoc Include="src\View\Models\KSMPModel.h" />
-    <QtMoc Include="src\View\Models\FinancialTableModel.h" />
-    <QtMoc Include="src\View\Models\AmbListTableModel.h" />
+    <QtMoc Include="src\View\SubWidgets\ProcedureInput.h" />
+    <QtMoc Include="src\View\TableModels\ProcedureTemplateModel.h" />
+    <QtMoc Include="src\View\TableModels\ProcedureTableModel.h" />
+    <QtMoc Include="src\View\TableModels\ProcedureSelectModel.h" />
+    <QtMoc Include="src\View\TableModels\PerioTableModel.h" />
+    <QtMoc Include="src\View\TableModels\PatientTableModel.h" />
+    <QtMoc Include="src\View\TableModels\MonthNotifTableModel.h" />
+    <QtMoc Include="src\View\TableModels\KSMPModel.h" />
+    <QtMoc Include="src\View\TableModels\FinancialTableModel.h" />
+    <QtMoc Include="src\View\TableModels\AmbListTableModel.h" />
     <QtMoc Include="src\View\Graphics\TeethViewScene.h" />
     <QtMoc Include="src\View\Graphics\TeethLingualScene.h" />
     <QtMoc Include="src\View\Graphics\TeethBuccalScene.h" />
@@ -833,7 +837,8 @@
     <QtMoc Include="src\View\Graphics\ContextMenu.h" />
   </ItemGroup>
   <ItemGroup>
-    <QtUic Include="src\View\SubWidgets\CommonFields.ui" />
+    <QtUic Include="src\View\SubWidgets\MedicalStatusWidget.ui" />
+    <QtUic Include="src\View\SubWidgets\ProcedureInput.ui" />
     <QtUic Include="src\View\SubWidgets\ControlPanel.ui" />
     <QtUic Include="src\View\SubWidgets\PatientTileInfo.ui" />
     <QtUic Include="src\View\SubWidgets\PerioStatisticView.ui" />
@@ -844,8 +849,9 @@
     <QtUic Include="src\View\SubWidgets\TabTitle.ui" />
     <QtUic Include="src\View\SubWidgets\VitaWidget.ui" />
     <QtUic Include="src\View\Widgets\ButtonDialog.ui" />
+    <QtUic Include="src\View\Widgets\CurrentStatusDialog.ui" />
+    <QtUic Include="src\View\Widgets\MedicalStatusDialog.ui" />
     <QtUic Include="src\View\Widgets\PracticeDialog.ui" />
-    <QtUic Include="src\View\Widgets\AllergiesDialog.ui" />
     <QtUic Include="src\View\Widgets\AmbListSelector.ui" />
     <QtUic Include="src\View\Widgets\BusinessOpAddDialog.ui" />
     <QtUic Include="src\View\Widgets\BusinessOpEditDialog.ui" />
@@ -878,7 +884,6 @@
     <QtUic Include="src\View\Widgets\ProcedureDialog.ui" />
     <QtUic Include="src\View\Widgets\ProcedureEditDialog.ui" />
     <QtUic Include="src\View\Widgets\ProcedurePrintSelectDialog.ui" />
-    <QtUic Include="src\View\Widgets\ProcedureTemplateDialog.ui" />
     <QtUic Include="src\View\Widgets\RecipientEditView.ui" />
     <QtUic Include="src\View\Widgets\ReferralDialog.ui" />
     <QtUic Include="src\View\Widgets\ReportErrorDialog.ui" />
@@ -889,6 +894,7 @@
     <QtUic Include="src\View\Widgets\DinoDent.ui" />
     <QtUic Include="src\View\Widgets\UpdateDialog.ui" />
     <QtUic Include="src\View\Widgets\UpdateDownloader.ui" />
+    <QtUic Include="src\View\Widgets\UpdatePromptDialog.ui" />
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="resources\Resource.qrc" />

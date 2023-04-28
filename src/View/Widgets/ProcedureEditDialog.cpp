@@ -1,7 +1,5 @@
 ﻿#include "ProcedureEditDialog.h"
 #include "Presenter/ProcedureEditorPresenter.h"
-#include "Presenter/ObturationPresenter.h"
-#include "Presenter/CrownPresenter.h"
 
 
 
@@ -27,9 +25,9 @@ ProcedureEditDialog::~ProcedureEditDialog()
 
 
 
-ICommonFields* ProcedureEditDialog::commonFields()
+IProcedureInput* ProcedureEditDialog::procedureInput()
 {
-	return ui.commonWidget;
+	return ui.procedureInput;
 }
 
 

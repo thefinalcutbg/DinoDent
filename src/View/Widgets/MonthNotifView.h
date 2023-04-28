@@ -2,7 +2,7 @@
 
 #include "ui_MonthNotifView.h"
 #include "View/Interfaces/IMonthNotifView.h"
-#include "View/Models/MonthNotifTableModel.h"
+#include "View/TableModels/MonthNotifTableModel.h"
 
 class MonthNotifPresenter;
 

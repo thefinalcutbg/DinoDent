@@ -4,7 +4,7 @@
 #include <string>
 #include <unordered_map>
 #include "UserStructs.h"
-
+#include "Model/Dental/ProcedureCode.h"
 /*
 struct Practice;
 struct Doctor;
@@ -21,14 +21,14 @@ namespace User
 	const Doctor& doctor();
 
 	void setCurrentDoctor(const Doctor& doctor);
-	void setPriceList(const std::vector<ProcedureTemplate>& priceList);
+	void setPriceList(const std::vector<ProcedureCode>& priceList);
 	void setCurrentPractice(const Practice& practice);
 	void resetUser();
 	const bool isCurrentUser(const std::string& LPK);
 	bool isAdmin();
 	void refereshPracticeDoctor();
 	std::string getNameFromLPK(const std::string& LPK);
-	double getPrice(int procedureCode);
+//	double getPrice(int procedureCode);
 	bool hasNzokContract();
 };
 

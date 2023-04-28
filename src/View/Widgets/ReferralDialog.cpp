@@ -28,6 +28,12 @@ ReferralDialog::ReferralDialog(ReferralPresenter* p, QWidget *parent)
 		ui.mh119combo->addItem(r);
 	}
 
+	for (auto& s : MH119Spec::getNames())
+	{
+		ui.mh119specCombo->addItem(s);
+	}
+
+
 	ui.toothCombo->setDisabled(true);
 
 	connect(ui.toothRadio, &QRadioButton::toggled,
@@ -47,7 +53,7 @@ ReferralDialog::ReferralDialog(ReferralPresenter* p, QWidget *parent)
 
 	for (auto& b : mkbButtons)
 	{
-		connect(b, &RightClickButton::rightClicked, [=]{ b->setText("Изберете"); });
+		connect(b, &RightClickButton::rightClicked, [=]{ b->setText("Няма"); });
 	}
 
 
@@ -130,7 +136,7 @@ void ReferralDialog::setReferral(const Referral & r)
 
 		mkbButton->setText(
 			mkb.isValid() ? mkb.code().c_str()
-			: "Изберете"
+			: "Няма"
 		);
 
 	};
@@ -159,6 +165,7 @@ void ReferralDialog::setReferral(const Referral & r)
 	if (r.type == ReferralType::MH119)
 	{
 		auto& mh119 = std::get<MH119Data>(r.data);
+		ui.mh119specCombo->setCurrentIndex(mh119.specCode.getIndex());
 		ui.mh119combo->setCurrentIndex(mh119.reason.getIndex());
 		ui.mh119text->setPlainText(mh119.description.c_str());
 	}
@@ -192,8 +199,10 @@ MDD4Data ReferralDialog::MDD4data()
 MH119Data ReferralDialog::MH119data()
 {
 	return MH119Data{
+		.specCode = ui.mh119specCombo->currentIndex(),
 		.reason = ui.mh119combo->currentIndex(),
 		.description = ui.mh119text->toPlainText().toStdString()
+
 	};
 }
 
@@ -216,42 +225,33 @@ void ReferralDialog::paintEvent(QPaintEvent* event)
 
 void ReferralDialog::setRefTypeView(ReferralType t)
 {
-	ui.reasonCombo->hide();
-	ui.label->hide();
-	ui.refNumSpin->hide();
-	ui.mh119combo->hide();
+
 	ui.mdd4group->hide();
-	ui.mh119Group->hide();
+	ui.group119->hide();
 	ui.comorbidityGroup->hide();
-	ui.reason119Label->hide();
-	ui.reasonLabel->hide();
+	ui.reasonGroup->hide();
+	ui.motives119->hide();
 
 	switch (t)
 	{
 		case ReferralType::MDD4: 
 		{
-			ui.label->show();
-			ui.refNumSpin->show();
-			ui.reasonCombo->show();
+			ui.reasonGroup->show();
 			ui.mdd4group->show();
-			ui.reasonLabel->show();
+			
 			break;
 		}
 
 		case ReferralType::MH119:
 		{
-			ui.label->show();
-			ui.refNumSpin->show();
-			ui.mh119combo->show();
-			ui.mh119Group->show();
+			ui.group119->show();
+			ui.motives119->show();
 			ui.comorbidityGroup->show();
-			ui.reason119Label->show();
 			break;
 		}
 
 		default:
-			ui.reasonLabel->show();
-			ui.reasonCombo->show();
+			ui.reasonGroup->show();
 			ui.comorbidityGroup->show();
 
 	}

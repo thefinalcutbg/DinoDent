@@ -31,7 +31,7 @@
      </widget>
      <widget class="PriceListSettings" name="priceSettings">
       <attribute name="title">
-       <string>Ценоразпис</string>
+       <string>Манипулации</string>
       </attribute>
      </widget>
     </widget>

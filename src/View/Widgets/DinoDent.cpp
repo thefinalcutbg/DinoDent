@@ -14,7 +14,6 @@ DinoDent::DinoDent(QWidget* parent)
     : QMainWindow(parent)
 {
     ui.setupUi(this);
-   // showMaximized();
 
     ui.newButton->setIcon(QIcon(":/icons/icon_sheet.png"));
     ui.perioButton->setIcon(QIcon(":/icons/icon_periosheet.png"));
@@ -22,7 +21,7 @@ DinoDent::DinoDent(QWidget* parent)
     ui.saveButton->setIcon(QIcon(":/icons/icon_save.png"));
     ui.listSelectButton->setIcon(QIcon(":/icons/icon_open.png"));
     ui.printButton->setIcon(QIcon(":/icons/icon_print.png"));
-    ui.pisButton->setIcon(QIcon(":/icons/icon_nzok.png"));
+    ui.pisButton->setIcon(QIcon(":/icons/icon_nhif.png"));
     ui.settingsButton->setIcon(QIcon(":/icons/icon_settings.png"));
     ui.statisticButton->setIcon(QIcon(":/icons/icon_statistic.png"));
 

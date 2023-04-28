@@ -2,10 +2,42 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <JsonCpp/json.h>
-
+#include <array>
 #include "Resources.h"
 
 struct EkatteData { std::string name; bool isCity{ 0 }; int rhif{ 0 }; int healthRegion{ 0 }; };
+
+const std::array<std::string, 29> regionCode{
+    "",
+    "BLG",
+    "BGS",
+    "VAR",
+    "VTR",
+    "VID",
+    "VRC",
+    "GAB",
+    "DOB",
+    "KRZ",
+    "KNL",
+    "LOV",
+    "MON",
+    "PAZ",
+    "PER",
+    "PVN",
+    "PDV",
+    "RAZ",
+    "RSE",
+    "SLS",
+    "SLV",
+    "SML",
+    "SOF",
+    "SFO",
+    "SZR",
+    "TGV",
+    "HKV",
+    "SHU",
+    "JAM"
+};
 
 std::unordered_map<int, EkatteData> s_idxToData;
 std::unordered_map<std::string, int> s_stringToIdx;
@@ -92,6 +124,13 @@ std::string Ekatte::ekatte() const
 bool Ekatte::isUnfav() const
 {
     return s_nhifUnfav.count(ekatteIdx);
+}
+
+const std::string& Ekatte::getRegionCode() const
+{
+    if (!ekatteIdx) return regionCode[0];
+
+    return regionCode[rhif];
 }
 
 const std::unordered_map<std::string, int>& Ekatte::cityNameToIdx() { return s_stringToIdx; }

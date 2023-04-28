@@ -17,17 +17,14 @@ std::vector<TimeFrame> DbPatientSummary::getFrames(long long patientRowId)
         "amblist.status,"
         "procedure.date,"
         "procedure.financing_source,"  	
-        "procedure.type,"  	
         "procedure.code,"  	
-        "procedure.tooth," 	
-     //   "procedure.price,"	    
+        "procedure.tooth," 		    
         "procedure.data,"	    
         "procedure.deciduous, "
-        "procedure.name, "
         "procedure.diagnosis, "
-        "procedure.ksmp, "
         "procedure.notes, "
-        "procedure.hyperdontic "
+        "procedure.hyperdontic, "
+        "procedure.additional_diagnosis "
         "FROM amblist LEFT JOIN procedure ON "
         "amblist.rowid = procedure.amblist_rowid "
         "WHERE amblist.patient_rowid = " + std::to_string(patientRowId) + " "
@@ -71,18 +68,15 @@ std::vector<TimeFrame> DbPatientSummary::getFrames(long long patientRowId)
         Procedure p;
         p.date = procedureDate;
         p.financingSource = static_cast<FinancingSource>(db.asInt(6));
-        p.type = static_cast<ProcedureType>(db.asInt(7));
-        p.code = db.asInt(8);
-        p.tooth = db.asInt(9);
-   //     p.price = db.asDouble(10);
-        Parser::parse(db.asString(10), p);
-        p.temp = db.asInt(11);
+        p.code = db.asString(7);
+        p.tooth = db.asInt(8);
+        Parser::parse(db.asString(9), p);
+        p.temp = db.asInt(10);
         p.LPK = db.asString(2);
-        p.name = db.asString(12);
-        p.diagnosis = db.asString(13);
-        p.ksmp = db.asString(14);
-        p.notes = db.asString(15);
-        p.hyperdontic = db.asBool(16);
+        p.diagnosis = db.asString(11);
+        p.notes = db.asString(12);
+        p.hyperdontic = db.asBool(13);
+        p.diagnosis.additionalDescription = db.asString(14);
         result.back().procedures.push_back(p);
         p.applyProcedure(result.back().teeth);
         

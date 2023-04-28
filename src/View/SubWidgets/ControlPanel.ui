@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>209</width>
-    <height>426</height>
+    <height>427</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -60,31 +60,6 @@
         </widget>
        </item>
        <item>
-        <widget class="StatusButton" name="Pulpitis">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>30</height>
-          </size>
-         </property>
-         <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Бърз клавиш: P&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="styleSheet">
-          <string/>
-         </property>
-         <property name="text">
-          <string>Пулпит</string>
-         </property>
-        </widget>
-       </item>
-       <item>
         <widget class="StatusButton" name="EndoTreatment">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -124,7 +99,7 @@
           </size>
          </property>
          <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Бърз клавиш: S&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Бърз клавиш: Q&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="styleSheet">
           <string notr="true"/>
@@ -135,7 +110,7 @@
         </widget>
        </item>
        <item>
-        <widget class="StatusButton" name="Root">
+        <widget class="StatusButton" name="Crown">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -149,18 +124,21 @@
           </size>
          </property>
          <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Бърз клавиш: R&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Бърз клавиш: K&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="styleSheet">
-          <string/>
+          <string notr="true"/>
          </property>
          <property name="text">
-          <string>Корен</string>
+          <string>Корона</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="StatusButton" name="Extraction">
+        <widget class="StatusButton" name="Bridge">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -174,18 +152,18 @@
           </size>
          </property>
          <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Бърз клавиш: E&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Бърз клавиш: B&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="styleSheet">
-          <string/>
+          <string notr="true"/>
          </property>
          <property name="text">
-          <string>Екстракция</string>
+          <string>Мост/Блок к.</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="StatusButton" name="Periodontitis">
+        <widget class="StatusButton" name="Implant">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -199,24 +177,18 @@
           </size>
          </property>
          <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Бърз клавиш: L&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Бърз клавиш: I&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="styleSheet">
-          <string/>
+          <string notr="true"/>
          </property>
          <property name="text">
-          <string>Пародонтит</string>
+          <string>Имплант</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="StatusMultiButton" name="Mobility">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
+        <widget class="StatusButton" name="falseTooth">
          <property name="minimumSize">
           <size>
            <width>0</width>
@@ -224,18 +196,18 @@
           </size>
          </property>
          <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Бърз клавиш: 1&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="styleSheet">
-          <string/>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Бърз клавиш: X&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="text">
-          <string>Подвижност</string>
+          <string>Протеза</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="StatusButton" name="Impacted">
+        <widget class="StatusButton" name="Fiber">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -249,13 +221,54 @@
           </size>
          </property>
          <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Бърз клавиш: M&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Бърз клавиш: S&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="styleSheet">
-          <string/>
+          <string notr="true"/>
          </property>
          <property name="text">
-          <string>Ретениран</string>
+          <string>Шиниране</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="StatusButton" name="healthyTooth">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Бърз клавиш: H&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="text">
+          <string>Интактен зъб</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="StatusButton" name="Temporary">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Бърз клавиш: T&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>Временен зъб</string>
          </property>
         </widget>
        </item>
@@ -298,6 +311,31 @@
          </property>
          <property name="text">
           <string>Кариес</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="StatusButton" name="Pulpitis">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Бърз клавиш: P&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="styleSheet">
+          <string/>
+         </property>
+         <property name="text">
+          <string>Пулпит</string>
          </property>
         </widget>
        </item>
@@ -352,32 +390,20 @@
         </widget>
        </item>
        <item>
-        <widget class="StatusButton" name="Implant">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
+        <widget class="StatusButton" name="Calculus">
          <property name="minimumSize">
           <size>
            <width>0</width>
            <height>30</height>
           </size>
          </property>
-         <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Бърз клавиш: I&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="styleSheet">
-          <string notr="true"/>
-         </property>
          <property name="text">
-          <string>Имплант</string>
+          <string>Зъбен камък</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="StatusButton" name="Crown">
+        <widget class="StatusButton" name="Periodontitis">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -391,21 +417,18 @@
           </size>
          </property>
          <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Бърз клавиш: K&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Бърз клавиш: L&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="styleSheet">
-          <string notr="true"/>
+          <string/>
          </property>
          <property name="text">
-          <string>Корона</string>
+          <string>Пародонтит</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="StatusButton" name="Bridge">
-         <property name="enabled">
-          <bool>true</bool>
-         </property>
+        <widget class="StatusMultiButton" name="Mobility">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -419,21 +442,18 @@
           </size>
          </property>
          <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Бърз клавиш: B&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Бърз клавиш: 1&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="styleSheet">
-          <string notr="true"/>
+          <string/>
          </property>
          <property name="text">
-          <string>Мост</string>
+          <string>Подвижност</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="StatusButton" name="Fiber">
-         <property name="enabled">
-          <bool>true</bool>
-         </property>
+        <widget class="StatusButton" name="Root">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -447,18 +467,18 @@
           </size>
          </property>
          <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Бърз клавиш: N&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Бърз клавиш: R&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="styleSheet">
-          <string notr="true"/>
+          <string/>
          </property>
          <property name="text">
-          <string>Фибровлакно</string>
+          <string>Корен</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="StatusButton" name="Temporary">
+        <widget class="StatusButton" name="Extraction">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -472,13 +492,38 @@
           </size>
          </property>
          <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Бърз клавиш: T&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Бърз клавиш: E&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="styleSheet">
-          <string notr="true"/>
+          <string/>
          </property>
          <property name="text">
-          <string>Временен зъб</string>
+          <string>Липсващ зъб</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="StatusButton" name="Impacted">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Бърз клавиш: M&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="styleSheet">
+          <string/>
+         </property>
+         <property name="text">
+          <string>Ретениран</string>
          </property>
         </widget>
        </item>
@@ -497,7 +542,7 @@
           </size>
          </property>
          <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Бърз клавиш: H&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Бърз клавиш: U&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="styleSheet">
           <string/>

@@ -14,6 +14,7 @@
 #include "Network/NRA/NraStatusService.h"
 #include "Network/PIS/DiagnosisService.h"
 #include "Network/HIS/EDental.h"
+#include "Network/HIS/EReferral.h"
 #include "Presenter/PatientInfoPresenter.h"
 
 typedef std::vector<int> SelectedTeethIdx;
@@ -41,6 +42,11 @@ class ListPresenter : public TabInstance
     NraStatusService nraStatusServ;
     DiagnosisService nhifDiagnosisServ;
     EDental::Open eDentalOpenService;
+    EDental::Cancel eDentalCancelService;
+    EDental::GetStatus eDentalGetService;
+    EDental::Augment eDentalAugmentService;
+    EReferral::Issue eReferralIssueService;
+    EReferral::Cancel eReferralCancelService;
 
     void prepareDerivedForSwitch() override {
         patient_info.setCurrent(false);
@@ -52,6 +58,8 @@ class ListPresenter : public TabInstance
     void refreshProcedureView();
     void statusChanged();
     void refreshPrices();
+    void setHisButtonToView();
+    void makeEdited() override;
 
     //call when adding or removing procedures and referrals
     void dynamicNhifConversion();
@@ -71,6 +79,7 @@ public:
     TabName getTabName() override;
     void setDataToView() override;
 
+    void setAmbDateTime(const std::string& datetime);
     void ambNumChanged(long long value);
     void setCaries(int surface);
     void setObturation(int surface);
@@ -93,6 +102,7 @@ public:
     void addProcedure();
     void editProcedure(int index);
     void deleteProcedure(int index);
+    void moveProcedure(int from, int to);
 
     void addReferral(ReferralType type);
     void editReferral(int index);
@@ -106,7 +116,8 @@ public:
     void createPerioMeasurment();
     void createPrescription();
     
-    void openHisExam();
+    void hisButtonPressed();
+    void getStatusPressed();
 
     ~ListPresenter();
 };

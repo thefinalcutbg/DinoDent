@@ -9,7 +9,6 @@
 #include "Model/Validators/AmbListValidator.h"
 
 #include "Presenter/PatientDialogPresenter.h"
-#include "Presenter/AllergiesDialogPresenter.h"
 #include "Presenter/ProcedureDialogPresenter.h"
 #include "Presenter/ProcedureEditorPresenter.h"
 #include "Presenter/ReferralPresenter.h"
@@ -32,15 +31,15 @@ ListPresenter::ListPresenter(ITabView* tabView, TabPresenter* tabPresenter, std:
 
     auto ambSheetDate = m_ambList.getDate();
 
-    //the list is not new
     if (m_ambList.rowid) return;
 
+    //the list is NEW:
     if (User::practice().isUnfavourable() && patient->city.isUnfav()) {
         m_ambList.nhifData.isUnfavourable = true;
     }
 
     m_ambList.number = DbAmbList::getNewNumber(m_ambList.getDate(), m_ambList.isNhifSheet());
-
+    m_ambList.lrn = FreeFn::getUuid();
 
 }
 
@@ -74,7 +73,7 @@ void ListPresenter::refreshPrices()
 
         if (m.isNhif())
         {
-            auto [p, nhif] = NhifProcedures::getPrices(m.code, m_ambList.getDate(), patient->isAdult(m.date), User::doctor().specialty, m_ambList.nhifData.specification);
+            auto [p, nhif] = NhifProcedures::getPrices(m.code.oldCode(), m_ambList.getDate(), patient->isAdult(m.date), User::doctor().specialty, m_ambList.nhifData.specification);
             nzokPrice = nzokPrice + nhif;
         }
 
@@ -83,23 +82,54 @@ void ListPresenter::refreshPrices()
     view->refreshPriceLabel(nzokPrice);
 }
 
+void ListPresenter::setHisButtonToView()
+{
+    if (m_ambList.nrn.empty()) {
+        
+        view->setHisButtonText(
+            IListView::HisButtonProperties
+            {
+                .hideSpinBox = false,
+                .labelText = "Амб лист № :",
+                .buttonText = "Изпрати към НЗИС",
+                .hoverText = "Изпрати към НЗИС"
+            }
+        );
+
+        return;
+    }
+
+    if (m_ambList.nrn.size())
+    {
+        view->setHisButtonText(
+            IListView::HisButtonProperties
+            {
+                .hideSpinBox = true,
+                .labelText = "НРН :",
+                .buttonText = m_ambList.his_updated ? m_ambList.nrn : "Изпрати за корекция",
+                .hoverText = m_ambList.his_updated ? "Анулирай" : "Изпрати за корекция"
+            }
+        );
+
+        return;
+    }
+
+
+}
+
+void ListPresenter::makeEdited()
+{
+    TabInstance::makeEdited();
+
+    if (m_ambList.nrn.size()) {
+        m_ambList.his_updated = false;
+        setHisButtonToView();
+    }
+}
+
 
 void ListPresenter::dynamicNhifConversion()
 {
-    bool numberDeducable = m_ambList.procedures.size() || m_ambList.referrals.size();
-
-    view->showSheetNumber(numberDeducable);
-
-    bool isNhif = m_ambList.isNhifSheet();
-
-    if (m_ambList.hasNumberInconsistency())
-    {
-        m_ambList.number = DbAmbList::getNewNumber(m_ambList.getDate(), isNhif);
-        view->setAmbListNum(m_ambList.number);
-        edited = false;
-        makeEdited();
-    }
-
     if (m_ambList.isNhifSheet()) {
 
         bool practiceIsUnfav =
@@ -114,17 +144,17 @@ void ListPresenter::dynamicNhifConversion()
         view->hideNhifSheetData();
     }
 
-
 }
 
 bool ListPresenter::isValid()
 {
+    /*
     //check date inconsistencies
     if (m_ambList.procedures.empty() && m_ambList.referrals.empty()) {
         ModalDialogBuilder::showError("Листът трябва да съдържа поне една манипулация или направление!");
         return false;
     }
-
+    */
     //check procedures and hyperdontic:
 
     for (auto& p : m_ambList.procedures)
@@ -184,7 +214,12 @@ TabName ListPresenter::getTabName()
 
 
     n.header += m_ambList.isNew() ? "Нов амб.лист" :
-        "Амб.лист №" + std::to_string(m_ambList.number);
+        "Амб.лист ";
+    
+    n.header += m_ambList.nrn.size() ?
+            m_ambList.nrn
+            : 
+            "№" + std::to_string(m_ambList.number);
 
    
     n.footer = patient->FirstName;
@@ -192,7 +227,7 @@ TabName ListPresenter::getTabName()
     n.footer += patient->LastName;
 
     n.nhif = m_ambList.isNhifSheet() || m_ambList.referrals.size();
-
+    n.his = m_ambList.nrn.size();
     return n;
 }
 
@@ -204,8 +239,6 @@ long long ListPresenter::rowID() const
 bool ListPresenter::save()
 {
     if (!requiresSaving()) return true;
-
-
 
     if (!isValid()) return false;
 
@@ -257,6 +290,10 @@ void ListPresenter::setDataToView()
 
     view->setAmbListNum(m_ambList.number);
 
+    setHisButtonToView();
+
+    view->setDateTime(m_ambList.date);
+
     surf_presenter.setStatusControl(this);
     surf_presenter.setView(view->surfacePanel());
     view->surfacePanel()->setPresenter(&surf_presenter);
@@ -285,6 +322,11 @@ void ListPresenter::setDataToView()
    
 }
 
+
+void ListPresenter::setAmbDateTime(const std::string& datetime)
+{
+    m_ambList.date = datetime;
+}
 
 void ListPresenter::ambNumChanged(long long value)
 {
@@ -421,7 +463,7 @@ int ListPresenter::generateAmbListNumber()
 
     auto ambSheetDate = m_ambList.getDate();
 
-    if (m_ambList.isNew() || m_ambList.hasNumberInconsistency()) {
+    if (m_ambList.isNew()) {
         newNumber = DbAmbList::getNewNumber(ambSheetDate, m_ambList.isNhifSheet());
     }
 
@@ -534,7 +576,7 @@ void ListPresenter::refreshProcedureView()
     auto& mList = m_ambList.procedures;
 
     m_ambList.procedures.refreshTeethTemporary(m_ambList.teeth);
-    view->setDateTime(m_ambList.getDate(), m_ambList.time);
+
     view->setProcedures(m_ambList.procedures.list());
 }
 
@@ -604,6 +646,15 @@ void ListPresenter::deleteProcedure(int index)
     makeEdited();
 }
 
+void ListPresenter::moveProcedure(int from, int to)
+{
+    if(!m_ambList.procedures.moveProcedure(from, to)) return;
+
+    makeEdited();
+
+    view->setProcedures(m_ambList.procedures.list());
+}
+
 void ListPresenter::addReferral(ReferralType type)
 {
 
@@ -616,18 +667,18 @@ void ListPresenter::addReferral(ReferralType type)
         return;
     }
 
-    if (type != ReferralType::MDD4) {
+    if (type == ReferralType::Form3 || type == ReferralType::Form3A) {
         for (auto& r : m_ambList.referrals)
         {
-            if (r.type == type) {
+            if (r.type == ReferralType::Form3 || type == ReferralType::Form3A) {
                 ModalDialogBuilder::showMessage(
-                    "Позволено е максимум по едно направление от тип бл.3, бл.3А и 119 МЗ"
+                    "Позволено е максимум едно направление от тип бл.3 или бл.3А"
                 );
                 return;
             }
         }
     }
-    else
+    else if(type == ReferralType::MDD4)
     {
         int mddCounter = 0;
 
@@ -643,6 +694,20 @@ void ListPresenter::addReferral(ReferralType type)
             return;
         }
     }
+    else
+    {
+        for (auto& r : m_ambList.referrals)
+        {
+            if (r.type == ReferralType::MH119) {
+
+                ModalDialogBuilder::showMessage(
+                    "Позволено е максимум по едно направление от тип 119 МЗ"
+                );
+                return;
+            }
+        }
+
+    }
 
     ReferralPresenter p(m_ambList, type);
 
@@ -655,13 +720,22 @@ void ListPresenter::addReferral(ReferralType type)
     view->setReferrals(m_ambList.referrals);
 
     dynamicNhifConversion();
-
-    makeEdited();
+   
+    if (!m_ambList.isNew()) {
+        DbReferral::saveReferrals(m_ambList.referrals, m_ambList.rowid);
+    }
 
 }
 
 void ListPresenter::editReferral(int index)
 {
+
+    if (m_ambList.referrals[index].isSentToHIS())
+    {
+        ModalDialogBuilder::showMessage("Не можете да коригирате вече изпратено към НЗИС направление");
+        return;
+    }
+
     ReferralPresenter p(m_ambList.referrals[index]);
 
     auto result = p.openDialog();
@@ -675,28 +749,6 @@ void ListPresenter::editReferral(int index)
     makeEdited();
 }
 
-void ListPresenter::removeReferral(int index)
-{
-    auto& r = m_ambList.referrals[index];
-
-    if (!r.isNrnType() || !r.isSentToHIS())
-    {
-        auto& rList = m_ambList.referrals;
-
-        rList.erase(rList.begin() + index);
-
-        view->setReferrals(rList);
-
-        dynamicNhifConversion();
-
-        makeEdited();
-
-        return;
-    }
-    
-    //query for his invalidation, then removal!
-
-}
 
 void ListPresenter::printReferral(int index)
 {
@@ -707,9 +759,86 @@ void ListPresenter::printReferral(int index)
 
 void ListPresenter::sendReferralToHis(int index)
 {
-    if (!m_ambList.referrals[index].isNrnType()) return;
+    auto& ref = m_ambList.referrals[index];
 
-    ModalDialogBuilder::showMessage("Все още няма възможност за изпращане на направления към НЗИС");
+    if (!ref.isNrnType()) return;
+
+    if (m_ambList.nrn.empty()) {
+        ModalDialogBuilder::showMessage("За да издадете направление, първо изпратете амбулаторния лист в НЗИС");
+        return;
+    }
+
+    if (ref.nrn.empty())
+    {
+        eReferralIssueService.sendRequest(
+            m_ambList.nrn,
+            *patient.get(),
+            m_ambList.referrals[index],
+            [=](const std::string& nrn) {
+
+                m_ambList.referrals[index].nrn = nrn;
+
+                DbReferral::saveReferrals(m_ambList.referrals, m_ambList.rowid);
+
+                if (isCurrent()) {
+                    view->setReferrals(m_ambList.referrals);
+                }
+
+            }
+        );
+
+        return;
+    }
+}
+
+
+void ListPresenter::removeReferral(int index)
+{
+    auto& r = m_ambList.referrals[index];
+
+    if (!r.isNrnType() || !r.isSentToHIS())
+    {
+        auto& rList = m_ambList.referrals;
+
+        rList.erase(rList.begin() + index);
+
+        if(isCurrent()) view->setReferrals(rList);
+
+        dynamicNhifConversion();
+
+        refreshTabName();
+
+        TabInstance::makeEdited(); //no need for his augmentation
+
+        return;
+    }
+
+
+    if (r.isSentToHIS()) {
+
+        eReferralCancelService.sendRequest(r.nrn,
+            [=](bool success) {
+
+                if (!success) return;
+
+                m_ambList.referrals.erase(m_ambList.referrals.begin() + index);
+
+                DbReferral::saveReferrals(m_ambList.referrals, m_ambList.rowid);
+
+                ModalDialogBuilder::showMessage("Направлението е анулирано успешно!");
+
+                dynamicNhifConversion();
+
+                if(isCurrent()) view->setReferrals(m_ambList.referrals);
+
+                refreshTabName();
+
+               
+            }
+        );
+
+    }
+
 }
 
 void ListPresenter::setNhifData(const NhifSheetData& data)
@@ -740,13 +869,125 @@ void ListPresenter::createPrescription()
     tabPresenter->openPerscription(*this->patient.get());
 }
 
-void ListPresenter::openHisExam()
+void ListPresenter::hisButtonPressed()
 {
-    eDentalOpenService.sendRequest(
-        m_ambList,
-        *patient,
-        [&](const std::string& nrn) {
-            ModalDialogBuilder::showMultilineDialog(nrn);
+
+    if (m_ambList.nrn.empty()) {
+
+        if (!save()) return;
+
+        eDentalOpenService.sendRequest(
+            m_ambList,
+            *patient,
+            [this](auto& nrn, auto& procedureIndex) {
+                if (nrn.empty()) {
+                    return;
+                }
+                
+                m_ambList.nrn = nrn;
+
+                for (int i = 0; i < procedureIndex.size(); i++) {
+                    m_ambList.procedures[i].his_index = procedureIndex[i];
+                }
+
+                m_ambList.his_updated = true;
+
+                DbAmbList::update(m_ambList);
+                
+                refreshTabName();
+
+                if (isCurrent())
+                {
+                    setHisButtonToView();
+                }
+
+                ModalDialogBuilder::showMessage("Денталният преглед е изпратен към НЗИС успешно");
+
+
+            }
+        );
+
+        return;
+    }
+
+    if (!m_ambList.his_updated)
+    {
+        eDentalAugmentService.sendRequest(m_ambList, *patient,
+            [this](auto& procedureIdx)
+            {
+                m_ambList.his_updated = true;
+
+                m_ambList.procedures.clearRemovedProcedures();
+
+                for (auto& [sequence, hisIdx] : procedureIdx)
+                {
+                    m_ambList.procedures[sequence].his_index = hisIdx;
+                }
+
+                DbAmbList::update(m_ambList);
+
+                refreshTabName();
+
+                if (isCurrent())
+                {
+                    setHisButtonToView();
+                }
+
+                ModalDialogBuilder::showMessage("Денталният преглед е коригиран успешно");
+
+
+            }
+        );
+
+        return;
+    }
+
+    if (m_ambList.nrn.size()) {
+        eDentalCancelService.sendRequest(m_ambList.nrn,
+            [this](bool success) {
+
+                if (!success) return;
+
+                m_ambList.nrn.clear();
+
+                m_ambList.procedures.clearRemovedProcedures();
+
+                for (auto& p : m_ambList.procedures) p.his_index = 0;
+
+                DbAmbList::update(m_ambList);
+                
+                refreshTabName();
+
+                ModalDialogBuilder::showMessage("Денталният преглед е анулиран успешно");
+
+                if (isCurrent())
+                {
+                    setHisButtonToView();
+                }
+        });
+
+        return;
+    }
+
+
+}
+
+void ListPresenter::getStatusPressed()
+{
+    eDentalGetService.sendRequest(
+        *patient.get(),
+        [this](const ToothContainer& teeth, const ProcedureContainer& p) {
+
+            if (!ModalDialogBuilder::applyToStatusDialog(teeth)) return;
+
+            m_ambList.teeth.copyFromOther(teeth);
+            makeEdited();
+            if (isCurrent()) {
+                for (int i = 0; i < 32; i++)
+                {
+                    view->repaintTooth(ToothHintCreator::getToothHint(m_ambList.teeth[i], patient->teethNotes[i]));
+                }
+            }
         }
     );
 }

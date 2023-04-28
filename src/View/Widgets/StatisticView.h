@@ -4,7 +4,7 @@
 #include "ui_StatisticView.h"
 #include "View/Interfaces/IStatisticView.h"
 #include "Presenter/StatisticPresenter.h"
-#include "View/Models/StatisticTableModel.h"
+#include "View/TableModels/StatisticTableModel.h"
 
 class StatisticView : public QWidget, public IStatisticView
 {

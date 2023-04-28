@@ -10,8 +10,6 @@
 #include "Model/User.h"
 #include "Model/Financial/Invoice.h"
 
-
-
 std::string XML::getReport(const std::vector<AmbList>& lists, const std::unordered_map<long long, Patient>& patients)
 {
 
@@ -53,7 +51,6 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
 
     //this is where we serialize the ambLists:
 
-
     for (auto& list : lists)
     {
         
@@ -78,47 +75,53 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
 
         dentalCareService->SetAttribute("personLastName", patient.LastName);
         dentalCareService->SetAttribute("specificationType", list.nhifData.getSpecString(doctor.specialty));
-        dentalCareService->SetAttribute("ambulatorySheetNo", FreeFn::leadZeroes(list.number, 6));
+        dentalCareService->SetAttribute("ambulatorySheetNo", 
+            list.nrn.size() ? list.nrn :
+            FreeFn::leadZeroes(list.number, 6)
+        );
         dentalCareService->SetAttribute("HIRBNo", patient.HIRBNo); //throw if HIRBNo empty?
         dentalCareService->SetAttribute("unfavorableCondition", practice.isUnfavourable() && list.nhifData.isUnfavourable);
         dentalCareService->SetAttribute("substitute", 0);
         dentalCareService->SetAttribute("Sign", 1);
 
+        //allergies
+        TiXmlElement* allergies = new TiXmlElement("allergies");
 
-        auto getAllergiesAndStuff = [](const std::string& str) {
-            if (!str.size())
-                return std::string("Не съобщава");
-            return str;
-        };
-
+        for (auto& a : patient.medStats.allergies)
         {
-            TiXmlElement* allergies = new TiXmlElement("allergies");
             TiXmlElement* allergy = new TiXmlElement("allergy");
-            allergy->SetAttribute("allergyName", getAllergiesAndStuff(patient.allergies));
+            allergy->SetAttribute("allergyName", a.data);
             allergies->LinkEndChild(allergy);
-
-            dentalCareService->LinkEndChild(allergies);
         }
+   
+        dentalCareService->LinkEndChild(allergies);
+    
+        //past diseases
+        TiXmlElement* pastDiseases = new TiXmlElement("pastDiseases");
 
+        for (auto& p : patient.medStats.history)
         {
-            TiXmlElement* pastDiseases = new TiXmlElement("pastDiseases");
-
             TiXmlElement* pastDisease = new TiXmlElement("pastDisease");
-            pastDisease->SetAttribute("name", getAllergiesAndStuff(patient.pastDiseases));
+            pastDisease->SetAttribute("name", p.data);
             pastDiseases->LinkEndChild(pastDisease);
-
-            dentalCareService->LinkEndChild(pastDiseases);
         }
 
+        dentalCareService->LinkEndChild(pastDiseases);
+
+        //current diseases
+        
+        TiXmlElement* currentDiseases = new TiXmlElement("currentDiseases");
+
+        for (auto& c : patient.medStats.condition)
         {
-            TiXmlElement* currentDiseases = new TiXmlElement("currentDiseases");
-
             TiXmlElement* currentDisease = new TiXmlElement("currentDisease");
-            currentDisease->SetAttribute("name", getAllergiesAndStuff(patient.currentDiseases));
+            currentDisease->SetAttribute("name", c.data);
             currentDiseases->LinkEndChild(currentDisease);
-
-            dentalCareService->LinkEndChild(currentDiseases);
         }
+
+        dentalCareService->LinkEndChild(currentDiseases);
+        
+        //teeth
 
         TiXmlElement* teeth = new TiXmlElement("teeth");
 
@@ -157,9 +160,9 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
             TiXmlElement* service = new TiXmlElement("service");
 
             service->SetAttribute("date", procedure.date.to8601());
-            service->SetAttribute("diagnosis", procedure.diagnosis);
+            service->SetAttribute("diagnosis", procedure.diagnosis.getFullDiagnosis());
             service->SetAttribute("toothCode", ToothUtils::getNhifNumber(procedure.tooth, procedure.temp, procedure.hyperdontic));
-            service->SetAttribute("activityCode", procedure.code);
+            service->SetAttribute("activityCode", procedure.code.oldCode());
 
             services->LinkEndChild(service);
 
@@ -168,7 +171,8 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
         dentalCareService->LinkEndChild(services);
 
         //no such features yet
-        dentalCareService->LinkEndChild(new TiXmlElement("medicalReferrals"));
+ 
+        auto medReferrals = new TiXmlElement("medicalReferrals");
 
         auto MDAReferrals = new TiXmlElement("MDAReferrals");
 
@@ -180,22 +184,58 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
             {
                 case(ReferralType::MDD4):
                 {
+
+                    if (r.nrn.empty()) continue;
+
                     auto mdaRef = new TiXmlElement("MDAReferral");
-                        mdaRef->SetAttribute("pathwayNo", FreeFn::leadZeroes(r.number, 6));
+                        mdaRef->SetAttribute("pathwayNo", r.nrn);
                         mdaRef->SetAttribute("date", r.date.to8601());
                              auto codes = new TiXmlElement("codes");
                              auto code = new TiXmlElement("code");
                              code->SetAttribute("name", std::get<MDD4Data>(r.data).getCode());
                              codes->LinkEndChild(code);
                         mdaRef->LinkEndChild(codes);
+
                     MDAReferrals->LinkEndChild(mdaRef);
+
+                    break;
+                }
+                case(ReferralType::Form3):
+                {
+                    if (r.nrn.empty()) continue;
+
+                    auto medRef = new TiXmlElement("medicalReferral");
+                     medRef->SetAttribute("pathwayNo", r.nrn);
+                     medRef->SetAttribute("date", r.date.to8601());
+                     medRef->SetAttribute("MRType", "1");
+                     medRef->SetAttribute("specCode", R3Data::specialty);
+                     medRef->SetAttribute("ICDCode", r.diagnosis.main.code());
+
+                     medReferrals->LinkEndChild(medRef);
+
+                     break;
+                }
+                case(ReferralType::Form3A):
+                {
+                    if (r.nrn.empty()) continue;
+
+                    auto medRef = new TiXmlElement("medicalReferral");
+                    medRef->SetAttribute("pathwayNo", r.nrn);
+                    medRef->SetAttribute("date", r.date.to8601());
+                    medRef->SetAttribute("MRType", "2");
+                    medRef->SetAttribute("specCode", R3AData::nhifSpecialty);
+                    medRef->SetAttribute("HSACode", R3AData::highlySpecializedActivity);
+                    medRef->SetAttribute("ICDCode", r.diagnosis.main.code());
+
+                    medReferrals->LinkEndChild(medRef);
+
                     break;
                 }
                 case(ReferralType::MH119):
                 {
                     auto prescrSpec = new TiXmlElement("prescSpecialist");
 
-                        prescrSpec->SetAttribute("SODPCode", MH119Data::specCode);
+                        prescrSpec->SetAttribute("SODPCode", std::get<MH119Data>(r.data).getSpecCode());
                         prescrSpec->SetAttribute("date", r.date.to8601());
 
                     prescSpecialists->LinkEndChild(prescrSpec);
@@ -205,6 +245,8 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
 
 
         }
+
+        dentalCareService->LinkEndChild(medReferrals);
 
         dentalCareService->LinkEndChild(MDAReferrals);
         

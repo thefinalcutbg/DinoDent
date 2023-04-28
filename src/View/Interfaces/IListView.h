@@ -19,12 +19,20 @@ class Time;
 class IListView
 {
 public:
+
+	struct HisButtonProperties {
+		bool hideSpinBox{ false };
+		const std::string& labelText;
+		const std::string& buttonText;
+		const std::string& hoverText;
+	};
+
 	virtual void setPresenter(ListPresenter* presenter) = 0;
 	virtual void setAmbListNum(int number) = 0;
 	virtual void setCheckModel(const CheckModel& checkModel) = 0;
 	virtual void setSelectedTeeth(std::vector<int> selectedTeeth) = 0;
 	virtual void refreshPriceLabel(/*double patientPrice,*/ double nzokPrice) = 0;
-	virtual void setDateTime(const Date& date, const Time& time) = 0;
+	virtual void setDateTime(const std::string& time8601) = 0;
 	virtual void hideSurfacePanel(bool hidden) = 0;
 	virtual void hideControlPanel(bool hidden) = 0;
 	virtual void hideNhifSheetData() = 0;
@@ -35,6 +43,6 @@ public:
 	virtual void setNotes(const std::array<std::string, 32>& notes) = 0;
 	virtual void setReferrals(const std::vector<Referral>& referrals) = 0;
 	virtual void setProcedures(const std::vector<Procedure>& m) = 0;
-	virtual void showSheetNumber(bool show) = 0;
+	virtual void setHisButtonText(HisButtonProperties) = 0;
 
 };

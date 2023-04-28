@@ -31,7 +31,7 @@ protected:
 
 	bool edited{ false };
 
-	void makeEdited();
+	virtual void makeEdited();
 
 	void refreshTabName();
 

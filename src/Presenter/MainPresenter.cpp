@@ -34,7 +34,6 @@ void MainPresenter::setView(IMainView* view)
         {
             DbPractice::insertPractice(result.value().practice);
             DbPractice::setDoctorsPracticeList(result.value().doctorsList, result.value().practice.rziCode);
-            ModalDialogBuilder::showMessage("Зареден е ценоразпис с нулеви цени. Можете да го редактирате от Настройки");
         }
         /*
         else

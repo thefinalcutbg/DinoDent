@@ -38,9 +38,7 @@ class PatientDialogPresenter
 
 	//data not present in view:
 	long long rowid{ 0 };
-	std::string allergies;
-	std::string pastDiseases;
-	std::string currentDiseases;
+	MedicalStatuses medStats;
 
 	Patient getPatientFromView();
 	void setPatientToView(const Patient& patient);

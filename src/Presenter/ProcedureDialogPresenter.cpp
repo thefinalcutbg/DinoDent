@@ -17,44 +17,15 @@ ProcedureDialogPresenter::ProcedureDialogPresenter
 	:
 
 	view(nullptr),
-	current_m_presenter(nullptr),
+
 	ambList(ambSheet),
 	selectedTeeth(selectedTeeth),
 	patientTurns18(patientTurns18),
 	date_validator(patientTurns18),
 	pregnancyAllowed(pregnancyAllowed),
 	noProcedureSelected(true),
-
-	toothNonSpecific_presenter(this->selectedTeeth),
-	obt_presenter(this->selectedTeeth),
-	extr_presenter(this->selectedTeeth),
-	endo_presenter(this->selectedTeeth),
-	crown_presenter(this->selectedTeeth, ambList.teeth),
-	impl_presenter(this->selectedTeeth),
-	fiber_presenter(this->selectedTeeth, ProcedureType::fibersplint),
-	crownRemove_presenter(this->selectedTeeth, ProcedureType::removecrown),
-	postRemove_presenter(this->selectedTeeth, ProcedureType::removepost),
-	bridgeSplintRemove_presenter(this->selectedTeeth, ProcedureType::removebridgeOrSplint),
-	
-	presenters_ptr
-	{
-		&general_presenter,
-		&toothNonSpecific_presenter,
-		&obt_presenter,
-		&extr_presenter,
-		&endo_presenter,
-		&crown_presenter,
-		&impl_presenter,
-		&fiber_presenter,
-		&crownRemove_presenter,
-		&postRemove_presenter,
-		&bridgeSplintRemove_presenter,
-		&anesthesia_presenter
-	}
-{
-
-
-}
+	procedure_creator(selectedTeeth)
+{}
 
 
 void ProcedureDialogPresenter::setView(IProcedureDialog* view)
@@ -63,13 +34,13 @@ void ProcedureDialogPresenter::setView(IProcedureDialog* view)
 
 	view->setProcedureTemplates(procedureList);
 
-	view->commonFields()->dateEdit()->setInputValidator(&date_validator);
+	view->procedureInput()->dateEdit()->setInputValidator(&date_validator);
 
-	view->commonFields()->dateEdit()->set_Date(ambList.newProcedureDate());
+	view->procedureInput()->dateEdit()->set_Date(ambList.newProcedureDate());
 
 	this->procedureDateChanged(ambList.newProcedureDate());
 	
-	for (auto& p : presenters_ptr) p->setView(view->commonFields());
+	procedure_creator.setView(view->procedureInput());
 
 	//setting the label
 	std::vector<int> selectedTeethNum;
@@ -89,22 +60,28 @@ void ProcedureDialogPresenter::procedureDateChanged(const Date& date)
 
 	if (User::hasNzokContract())
 	{
-		//getting NZOK procedures:
-		procedureList = NhifProcedures::getM_Templates
-		(
+		auto nhifProcedures = NhifProcedures::getNhifProcedures(
 			date,
 			User::doctor().specialty,
 			date >= patientTurns18,
 			pregnancyAllowed,
 			ambList.nhifData.specification
 		);
+		
+		for (auto& p : nhifProcedures)
+		{
+			procedureList.push_back({ p, true });
+		}
 	}
 
 
 	//getting custom procedures:
-	auto customProcedures = User::practice().priceList;
+	auto customProcedures = ProcedureCode::getNonNhifProcedures();
 
-	procedureList.insert(procedureList.end(), customProcedures.begin(), customProcedures.end());
+	for (auto& p : customProcedures)
+	{
+		procedureList.push_back({ p, false });
+	}
 
 	view->setProcedureTemplates(procedureList);
 	
@@ -119,20 +96,20 @@ void ProcedureDialogPresenter::indexChanged(int index)
 
 	if (currentIndex == -1)
 	{
-		view->commonFields()->setErrorMsg("Изберете манипулация");
+		view->procedureInput()->setErrorMsg("Изберете манипулация");
 		return;
 	}
 
-	auto& procedureTemplate = procedureList[currentIndex];
+	auto& procedureCode = procedureList[currentIndex];
 
 	noProcedureSelected = false;
 
-	date_validator.setProcedure(procedureList[index].code, procedureList[index].nhif);
-	view->commonFields()->dateEdit()->validateInput();
+	date_validator.setProcedure(procedureList[index].code.oldCode(), procedureList[index].nhif);
+	view->procedureInput()->dateEdit()->validateInput();
 
-	current_m_presenter = presenters_ptr[static_cast<int>(procedureTemplate.type)];
+
 	
-	current_m_presenter->setProcedureTemplate(procedureTemplate);
+	procedure_creator.setProcedureCode(procedureCode.code, procedureCode.nhif);
 	
 
 }
@@ -140,9 +117,9 @@ void ProcedureDialogPresenter::indexChanged(int index)
 
 void ProcedureDialogPresenter::formAccepted()
 {
-	if (noProcedureSelected || !current_m_presenter->isValid()) return;
+	if (noProcedureSelected || !procedure_creator.isValid()) return;
 
-	procedures = current_m_presenter->getProcedures();
+	procedures = procedure_creator.getProcedures();
 
 	view->close();
 }

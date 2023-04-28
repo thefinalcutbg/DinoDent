@@ -16,29 +16,6 @@ void PriceListSettingsPresenter::setView(IPriceListSettings* view)
 	view->setTemplates(m_priceList);
 }
 
-void PriceListSettingsPresenter::editTemplate()
-{
-	if (m_currentIndex == -1)
-		return;
-	
-	auto result = ModalDialogBuilder::openProcedureTemplateDialog(&m_priceList[m_currentIndex]);
-	
-	if (result.has_value())
-	{
-		m_priceList[m_currentIndex] = result.value();
-
-		std::sort(m_priceList.begin(), m_priceList.end(),
-			[](const ProcedureTemplate& i, const ProcedureTemplate& j)
-			{
-				return i.code < j.code;
-			});
-
-		view->setTemplates(m_priceList);
-	}
-
-
-}
-
 void PriceListSettingsPresenter::deleteTemplate()
 {
 	if (m_currentIndex == -1)
@@ -54,16 +31,16 @@ void PriceListSettingsPresenter::deleteTemplate()
 
 void PriceListSettingsPresenter::addTemplate()
 {
-	auto result = ModalDialogBuilder::openProcedureTemplateDialog(nullptr, m_priceList.back().code + 1);
+	auto result = ModalDialogBuilder::procedureCodeDialog();
 
 	if (result.has_value())
 	{
 		m_priceList.push_back(result.value());
 
 		std::sort(m_priceList.begin(), m_priceList.end(),
-			[](const ProcedureTemplate& i, const ProcedureTemplate& j)
+			[](const auto& left, const auto& right)
 			{
-				return i.code < j.code;
+				return left.code() < right.code();
 			});
 
 		view->setTemplates(m_priceList);

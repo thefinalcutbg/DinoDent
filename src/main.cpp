@@ -3,10 +3,10 @@
 #include "Network/UpdateService/UpdateService.h"
 #include <QTextCodec>
 #include "Model/FreeFunctions.h"
+
 bool initFunction();
 
 void testFn();
-
 
 int main(int argc, char *argv[])
 {
@@ -43,7 +43,8 @@ int main(int argc, char *argv[])
 #include "View/Graphics/Zodiac.h"
 #include "Model/Specialty.h"
 #include "Model/Dental/NhifProcedures.h"
-#include "Model/Dental/DiagnosisContainer.h"
+#include "Model/Dental/ProcedureCode.h"
+#include "Model/Dental/Diagnosis.h"
 #include "Model/Dental/KSMP.h"
 #include "Model/Prescription/Medication.h"
 #include "Model/Prescription/DoseQuantity.h"
@@ -55,7 +56,7 @@ int main(int argc, char *argv[])
 
 bool initFunction() {
 
-    Db::setFilePath(Path::getDbPath());
+    //Db::setFilePath(Path::getDbPath());
 
     if (!Db::createIfNotExist()) {
 
@@ -69,7 +70,8 @@ bool initFunction() {
     //Intializing static data
     SpriteSheets::container().initialize(); //loading textures, otherwise program will crash;
     Zodiac::initialize();
-    DiagnosisContainer::initialize();
+    ProcedureCode::initialize();
+    Diagnosis::initialize();
     NhifProcedures::initialize(); //parsing json of nhif data
     Medication::initialize();
     KSMP::initialize();

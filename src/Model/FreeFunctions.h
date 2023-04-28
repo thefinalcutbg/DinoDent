@@ -11,5 +11,6 @@ namespace FreeFn {
     std::string removeTrailing(double a);
     std::string getUuid();
     std::string getTimeStamp();
+    std::string escapeXml(const std::string& data);
 
 };

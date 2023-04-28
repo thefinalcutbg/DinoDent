@@ -1,25 +1,26 @@
-﻿#include "HisService.h"
+﻿#include <TinyXML/tinyxml.h>
+#include <QDateTime>
+
+#include "HisService.h"
 #include "Network/XmlSigner.h"
 #include "Network/PKCS11.h"
 #include "Network/NetworkManager.h"
 #include "HisToken.h"
 #include "View/ModalDialogBuilder.h"
 #include "Model/User.h"
-#include "View/ModalDialogBuilder.h"
 #include "Model/FreeFunctions.h"
 #include "Model/Patient.h"
-#include <QDateTime>
+#include "Model/Dental/AmbList.h"
+#include "Model/FreeFunctions.h"
 
 std::string timeNow() {
 	auto t = QDateTime::currentDateTime();
 	return t.toString(Qt::DateFormat::ISODate).toStdString();
 }
 
-
 bool HisService::sendRequestToHis(const std::string& query)
 {
 	if (awaiting_reply) return false;
-	//ModalDialogBuilder::showMultilineDialog(buildMessage(query));// return true;
 
 	if (HisToken::getToken().empty()) {
 		return HisToken::requestToken(this, query);
@@ -78,9 +79,6 @@ const std::string HisService::signMessage(const std::string& message)
 	return XmlSigner::signNhifMessage(message, signer.takePrivateKey(), signer.pem_x509cert());
 }
 
-
-
-
 const std::string HisService::buildMessage(const std::string& query)
 {
 
@@ -126,26 +124,28 @@ std::string HisService::subject(const Patient& p)
 
 	std::string subject =
 	"<nhis:subject>"
-		"<nhis:identifierType value=\"" + std::to_string(p.type) + "\"/>"
-		"<nhis:identifier value=\"" + p.id + "\"/>"
-		"<nhis:birthDate value=\"" + p.birth.to8601() + "\"/>"
-		"<nhis:gender value=\"" + std::to_string(static_cast<int>(p.sex) + 1) + "\"/>"
-		"<nhis:name>"
-			"<nhis:given value=\"" + p.FirstName + "\"/>"
-			+ middleNameTag + //because it is optional
-			"<nhis:family value=\"" + p.LastName + "\"/>"
-		"</nhis:name>"
-		"<nhis:address>"
-			"<nhis:country value=\"BG\"/>"
-			//<!-- Optional: -->
-			"<nhis:ekatte value=\"" + p.city.ekatte() + "\"/>"
-			"<nhis:city value=\"" + p.city.getString() + "\"/>"
-		"</nhis:address>"
-		"<nhis:phone value=\""+p.phone+"\"/>"
+		+ bind("identifierType", std::to_string(p.type))
+		+ bind("identifier", p.id)
+		+ bind("nhifInsuranceNumber", p.HIRBNo)
+		+ bind("birthDate", p.birth.to8601())
+		+ bind("gender", p.sex + 1)
+		+"<nhis:name>"
+			+ bind("given", p.FirstName)
+			+ bind("middle", p.MiddleName)
+			+ bind("family", p.LastName)
+		+"</nhis:name>"
+		 "<nhis:address>"
+			+ bind("country", "BG")
+			+ bind("county", p.city.getRegionCode())
+			+ bind("ekatte", p.city.ekatte())
+			+ bind("city", p.city.getString())
+			+ bind("line", FreeFn::escapeXml(p.getFullAddress()))
+		+"</nhis:address>"
+		+bind("phone", p.phone)
 		//<nhis:email value="[string]"/>
-		"<nhis:various>"
-			+bind("age", p.getAge())+
-		"</nhis:various>"
+		+"<nhis:various>"
+			+bind("age", p.getAge())
+		+ "</nhis:various>"
 	"</nhis:subject>"
 	;
 
@@ -155,19 +155,6 @@ std::string HisService::subject(const Patient& p)
 
 std::string HisService::requester(bool nhif)
 {
-	//cl008 numenclature
-	auto lambda = []()->std::string{
-
-		switch (User::doctor().specialty)
-		{
-			case NhifSpecialty::Pediatric: return "2079";
-			case NhifSpecialty::General: return "2081";
-			case NhifSpecialty::OralSurgeon: return "2083";
-			case NhifSpecialty::Maxillofacial: return "3088";
-			default: return "2081";
-		}
-
-	};
 
 	std::string nhifCode = User::practice().nzok_contract && nhif ?
 		" nhifCode=\"" + std::to_string(User::doctor().specialtyAsInt()) + "\""
@@ -175,13 +162,24 @@ std::string HisService::requester(bool nhif)
 		"";
 
 	std::string qualification =
-		"<nhis:qualification value=\"" + lambda() + "\"" + nhifCode + "/>";
+		"<nhis:qualification value=\"" + std::to_string(User::doctor().hisSpecialty.getIdx()) + "\"" + nhifCode + "/>";
+
+
+	std::string rhifAreaNumber;
+	
+	//implement EKATTE for practice!
+	if (nhif) {
+		rhifAreaNumber = "<nhis:rhifAreaNumber value = \"2201\"/>";
+	}
+
 
 	std::string requester =
 		"<nhis:requester>"
 			"<nhis:pmi value=\"" + User::doctor().LPK + "\"/>"
 			+ qualification +
+			"<nhis:role value=\"1\"/>"
 			"<nhis:practiceNumber value=\"" + User::practice().rziCode + "\"/>"
+			+ rhifAreaNumber + 
 			"<nhis:nhifNumber value=\"" + User::practice().RHIF() + "\"/>"
 			"<nhis:phone value=\"" + User::doctor().phone + "\"/>"
 		"</nhis:requester>"
@@ -193,29 +191,91 @@ std::string HisService::requester(bool nhif)
 std::string HisService::performer()
 {
 
-
 	std::string nhifCode = User::hasNzokContract() ?
 		" nhifCode=\"" + std::to_string(User::doctor().specialtyAsInt()) + "\""
 		:
 		"";
 
 	std::string qualification =
-		"<nhis:qualification value=\"" 
-			+ std::to_string(User::doctor().hisSpecialty.getIdx())
-			+ "\"" + nhifCode + "/>";
+		"<nhis:qualification value=\"" + std::to_string(User::doctor().hisSpecialty.getIdx()) + "\"" + nhifCode + "/>";
 
-	std::string performer =
-		"<nhis:performer>"
-			"<nhis:pmi value=\"" + User::doctor().LPK + "\"/>"
-			+ qualification +
-			"<nhis:role value = \"1\"/>"
-			"<nhis:practiceNumber value=\"" + User::practice().rziCode + "\"/>"
-			"<nhis:nhifNumber value=\"" + User::practice().RHIF() + "\"/>"
-			"<nhis:phone value=\"" + User::doctor().phone + "\"/>"
-		"</nhis:performer>"
-		;
-
+	std::string performer;
+	performer += "<nhis:performer>";
+	performer += bind("pmi", User::doctor().LPK);
+	performer += qualification;
+	performer += bind("role", 1);
+	performer += bind("practiceNumber", User::practice().rziCode);
+	performer += bind("nhifNumber", User::practice().RHIF());
+	performer += bind("phone", User::doctor().phone);
+	performer += "</nhis:performer>";
+		
 	return performer;
+}
+
+std::string HisService::getToothStatus(const Tooth& tooth)
+{
+	std::string result;
+
+	std::vector<std::string> statuses;
+
+	std::array<const char*, 6> caries{ "Co", "Cm", "Cd", "Cb", "Cl" , "Cc" };
+	std::array<const char*, 6> obturation{ "Oo", "Om", "Od", "Ob", "Ol", "Oc" };
+	std::array<const char*, 3> mobility{ "M1", "M2", "M3" };
+	std::array<const char*, statusCount> status;
+
+	status[StatusCode::Healthy] = "H";
+	status[StatusCode::Pulpitis] = "P";
+	status[StatusCode::ApicalLesion] = "G";
+	status[StatusCode::Root] = "R";
+	status[StatusCode::Extraction] = "E";
+	status[StatusCode::Crown] = "K";
+	status[StatusCode::Bridge] = tooth.canHaveACrown() ? "K" : "B";
+	status[StatusCode::Denture] = "X";
+	status[StatusCode::Periodontitis] = "Pa";
+	if (tooth.mobility) {
+		status[StatusCode::Mobility] = mobility[static_cast<int>(tooth.mobility.degree)];
+	}
+	status[StatusCode::Fracture] = "F";
+	status[StatusCode::Implant] = "I";
+	status[StatusCode::Dsn] = "D";
+	status[StatusCode::Impacted] = "Re";
+	status[StatusCode::EndoTreatment] = "Rc";
+	status[StatusCode::Post] = "Rp";
+	status[StatusCode::FiberSplint] = "S";
+	status[StatusCode::Calculus] = "T";
+
+	auto boolStatus = tooth.getBoolStatus();
+
+	for (int i = 0; i < surfaceCount; i++) {
+
+		if (tooth.caries.exists(i)) statuses.push_back(caries[i]);
+		if (tooth.obturation.exists(i)) statuses.push_back(obturation[i]);
+
+	}
+
+	for (int i = 0; i < statusCount; i++) {
+		if (i == StatusCode::Caries || i == StatusCode::Obturation || i == StatusCode::Temporary) continue;
+		if (boolStatus[i]) statuses.push_back(status[i]);
+	}
+
+
+	if (statuses.empty()) return result;
+
+	result += "<nhis:tooth>";
+	result += bind("toothIndex", ToothUtils::getToothNumber(tooth.index, tooth.temporary));
+	
+	for (auto& s : statuses)
+	{
+		result += "<nhis:condition>";
+
+		result += bind("code", s);
+
+		result += "</nhis:condition>";
+	}
+
+	result += "</nhis:tooth>";
+
+	return result;
 }
 
 std::string HisService::bind(const std::string& name, double value)
@@ -223,18 +283,46 @@ std::string HisService::bind(const std::string& name, double value)
 	return value ? bind(name, FreeFn::formatDouble(value)) : "";
 }
 
-std::string HisService::bind(const std::string& name, const char* value)
+std::string HisService::bind(const std::string& name, const char* value, bool isUserInput)
 {
 	if (value == "") return "";
 
-	return "<nhis:" + name + " value=\"" + value + "\" />";
+	return bind(name, std::string{ value }, isUserInput);
 }
 
-std::string HisService::bind(const std::string& name, std::string value)
+std::string HisService::getResultingStatusAsProcedure(const ToothContainer& teeth, const Date& lastProcedureDate)
+{
+
+	std::string result;
+
+	result += "<nhis:dentalProcedure>";
+
+	result += ("sequence", 101);
+
+	result += bind("code", "D-01-001");
+	result += bind("type", 1);
+	result += bind("datePerformed",lastProcedureDate.to8601());
+	result += bind("financingSource", 4);
+
+	for (auto& tooth : teeth)
+	{
+		result += getToothStatus(tooth);
+	}
+
+	result += "</nhis:dentalProcedure>";
+}
+
+std::string HisService::bind(const std::string& name, const std::string& value, bool isUserInput)
 {
 	if (value.empty()) return "";
 
-	return "<nhis:" + name + " value=\"" + value + "\" />";
+	auto result = "<nhis:" + name + " value=\"";
+
+	result += isUserInput ? FreeFn::escapeXml(value) : value;
+
+	result += "\" />";
+
+	return result;
 }
 
 std::string HisService::bind(const std::string& name, int value, bool ommitZero)

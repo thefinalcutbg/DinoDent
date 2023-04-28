@@ -27,6 +27,8 @@ public:
 
 	std::vector<const Tooth*> getSelectedTeethPtr(std::vector<int> selectedIndexes) const;
 
+	void copyFromOther(const ToothContainer& other);
+
 	//takes in consideration
 	void setToothDetails(const Tooth& tooth);
 	void removeBridgeOrSplint(const std::vector<int>& selectedIndexes);

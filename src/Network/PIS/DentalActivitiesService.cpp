@@ -75,14 +75,13 @@ void DentalActivitiesService::parseReply(const std::string& reply)
 
 		auto toothProp = ToothUtils::getToothFromNhifNum(row.Child(5).ToElement()->GetText());
 
-		procedures.emplace_back(
-			NhifProcedures::getTemplateByCode(std::stoi(row.Child(2).ToElement()->GetText())),
-			Date(row.Child(0).ToElement()->GetText()),
-			row.Child(4).ToElement()->GetText(), //diagnosis
-			toothProp.tooth,
-			toothProp.temporary,
-			toothProp.hyperdontic
-		);
+		procedures.emplace_back(Procedure(std::stoi(row.Child(2).ToElement()->GetText())));
+
+		procedures.back().date = Date(row.Child(0).ToElement()->GetText());
+		procedures.back().diagnosis.additionalDescription = row.Child(4).ToElement()->GetText(); //diagnosis
+		procedures.back().tooth = toothProp.tooth;
+		procedures.back().temp = toothProp.temporary;
+		procedures.back().hyperdontic = toothProp.hyperdontic;
 
 		payment_status.emplace_back(row.Child(1).ToElement()->GetText());
 

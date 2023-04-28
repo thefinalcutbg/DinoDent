@@ -32,6 +32,22 @@ ToothPaintHint ToothHintCreator::getToothHint(const Tooth& tooth, const std::str
     hint.num = ToothUtils::getToothNumber(tooth.index, hint.temp);
 
     //the tooth hint:
+    if (tooth.noData()) {
+        hint.tooth = ToothTextureHint::unknown;
+        return hint;
+    }
+
+    hint.calculus = tooth.calculus.exists();
+    hint.dns = tooth.hyperdontic.exists();
+    hint.frac = tooth.fracture.exists();
+    hint.perio = tooth.periodontitis.exists();
+    hint.lesion = tooth.lesion.exists();
+    hint.impacted = tooth.impacted.exists();
+    hint.mobility = 0;
+
+    if (tooth.mobility.exists())
+        hint.mobility = static_cast<int>(tooth.mobility.degree) + 1;
+
     hint.tooth = ToothTextureHint::normal;
 
     if (tooth.extraction.exists())
@@ -124,6 +140,18 @@ ToothPaintHint ToothHintCreator::getToothHint(const Tooth& tooth, const std::str
         hint.bridgePos = getPosition(tooth.index, tooth.splint.position);
 
     }
+
+    else if (tooth.denture.exists())
+    {
+        hint.prostho = ProsthoHint::denture;
+        
+        if(  !hint.impacted &&
+             hint.tooth != ToothTextureHint::root && 
+             hint.tooth != ToothTextureHint::impl &&
+             hint.tooth != ToothTextureHint::impl_m
+        ) hint.tooth = ToothTextureHint::none;
+        
+    }
     
     hint.post = PostHint::none;
 
@@ -135,16 +163,7 @@ ToothPaintHint ToothHintCreator::getToothHint(const Tooth& tooth, const std::str
             hint.post = PostHint::blue;
     }
 
-    hint.dns = tooth.hyperdontic.exists();
-    hint.frac = tooth.fracture.exists();
-    hint.perio = tooth.periodontitis.exists();
-    hint.lesion = tooth.lesion.exists();
-    hint.impacted = tooth.impacted.exists();
 
-    hint.mobility = 0;
-
-    if (tooth.mobility.exists())
-        hint.mobility = static_cast<int>(tooth.mobility.degree) + 1;
 
     hint.toolTip = "<b>" +  tooth.toothName() + "</b><br>" + tooth.getToothInfo();
 

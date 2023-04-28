@@ -1,14 +1,28 @@
 #include "ProcedureEditorPresenter.h"
-#include "View/Interfaces/ICommonFields.h"
+#include "View/Interfaces/IProcedureInput.h"
 #include "Model/Dental/KSMP.h"
-ProcedureEditorPresenter::ProcedureEditorPresenter(const Procedure& m, const Date& patientTurns18)
-	: 
-	m_procedure(m),
+ProcedureEditorPresenter::ProcedureEditorPresenter(const Procedure& p, const Date& patientTurns18)
+	:
 	view(nullptr),
-	_dateValidator(patientTurns18),
-	commonEditorPresenter(m)
+	_dateValidator(patientTurns18)
 {
-	_dateValidator.setProcedure(m.code, m.isNhif());
+
+	result.emplace(Procedure());
+	
+	m_code = p.code;
+	m_temp = p.temp;
+	m_tooth = p.tooth;
+
+	result->code = p.code;
+	result->date = p.date;
+	result->hyperdontic = p.hyperdontic;
+	result->diagnosis = p.diagnosis;
+	result->result = p.result;
+	result->financingSource = p.financingSource;
+	result->notes = p.notes;
+	result->diagnosis.additionalDescription = p.diagnosis.additionalDescription;
+
+	_dateValidator.setProcedure(result->code.oldCode(), result->financingSource == FinancingSource::NHIF);
 }
 
 std::optional<Procedure> ProcedureEditorPresenter::openDialog()
@@ -22,66 +36,104 @@ void ProcedureEditorPresenter::setView(IProcedureEditDialog* view)
 {
 	this->view = view;
 
-	commonEditorPresenter.setView(view->commonFields());
-	view->commonFields()->setCurrentPresenter(&commonEditorPresenter);
-	commonEditorPresenter.setAdditionalTemplateParameters();
+	view->procedureInput()->dateEdit()->set_Date(result->date);
+	view->procedureInput()->setFinancingSource(result->financingSource);
+	view->procedureInput()->setHyperdonticState(result->hyperdontic);
+	view->procedureInput()->dateEdit()->setInputValidator(&_dateValidator);
+	view->procedureInput()->setNotes(result->notes);
+	view->procedureInput()->diagnosisEdit()->set_Text(result->diagnosis.additionalDescription);
+	view->procedureInput()->diagnosisCombo()->setIndex(result->diagnosis.index());
 
-	view->commonFields()->setFinancingSource(m_procedure.financingSource);
-	view->commonFields()->setHyperdonticState(m_procedure.hyperdontic);
-	view->commonFields()->dateEdit()->setInputValidator(&_dateValidator);
-	view->commonFields()->setNotes(m_procedure.notes);
-
-	switch (m_procedure.type)
+	switch (result->code.type())
 	{
+		case ProcedureType::general:
+			view->procedureInput()->setLayout(IProcedureInput::General);
+			break;
 		case ProcedureType::obturation:
-			view->commonFields()->surfaceSelector()->setData(std::get<ProcedureObtData>(m_procedure.result));
+			view->procedureInput()->setLayout(IProcedureInput::Restoration);
+			view->procedureInput()->surfaceSelector()->setData(std::get<ProcedureObtData>(result->result));
+			view->procedureInput()->surfaceSelector()->setInputValidator(&surface_validator);
 			break;
 		case ProcedureType::bridge:
 		case ProcedureType::fibersplint:
-		case ProcedureType::removebridgeOrSplint:
+		case ProcedureType::denture:
 		{
-			auto [begin, end] = std::get<ConstructionRange>(m_procedure.result);
-			view->commonFields()->rangeWidget()->setBridgeRange(begin, end);
+			view->procedureInput()->rangeWidget()->setInputValidator(&range_validator);
+			view->procedureInput()->setLayout(IProcedureInput::Range);
+			auto [begin, end] = std::get<ConstructionRange>(result->result);
+			view->procedureInput()->rangeWidget()->setBridgeRange(begin, end);
 		}
 			break;
-		case ProcedureType::nhif_anesthesia:
-			auto [minutes] = std::get<Anesthesia>(m_procedure.result);
-			view->commonFields()->setMinutes(minutes);
+			/*
+		case ProcedureType::removebridgeOrSplint:
+		{
+			view->procedureInput()->setLayout(IProcedureInput::Range);
+			auto [begin, end] = std::get<ConstructionRange>(result->result);
+			view->procedureInput()->rangeWidget()->setBridgeRange(begin, end);
+		}
+		*/
+			break;
+		default:
+			view->procedureInput()->setLayout(IProcedureInput::ToothSpecific);
+			break;
 	}
 
-	view->commonFields()->dateEdit()->validateInput();
+	view->procedureInput()->dateEdit()->validateInput();
+
+	result.reset();
 }
 
 void ProcedureEditorPresenter::okPressed()
 {
-	//validation:
+	bool validIdx = view->procedureInput()->diagnosisCombo()->getIndex();
 	
-	if (!commonEditorPresenter.isValid()) {
-		return;
-	}
+	view->procedureInput()->diagnosisEdit()->setInputValidator(validIdx ? nullptr : &not_emptyValidator);
 
+
+	//validation:
+	std::vector<AbstractUIElement*> validatable{
+		view->procedureInput()->dateEdit(),
+		view->procedureInput()->surfaceSelector(),
+		view->procedureInput()->rangeWidget(),
+		view->procedureInput()->diagnosisEdit()
+	};
+
+
+	for (AbstractUIElement* e : validatable)
+	{
+		e->validateInput();
+		if (!e->isValid())
+		{
+			e->setFocus();
+			return;
+		}
+	}
 
 	//procedure creator:
 
-	result = commonEditorPresenter.getProcedures().at(0);
+	result.emplace(Procedure{});
+	result->code = m_code;
+	result->notes = view->procedureInput()->getNotes();
+	result->date = view->procedureInput()->dateEdit()->getDate();
+	result->diagnosis = view->procedureInput()->diagnosisCombo()->getIndex();
+	result->diagnosis.additionalDescription = view->procedureInput()->diagnosisEdit()->getText();
+	result->financingSource = view->procedureInput()->getFinancingSource();
+	result->hyperdontic = view->procedureInput()->onHyperdontic();
+	result->tooth = m_tooth;
 
-	result->notes = view->commonFields()->getNotes();
-
-	switch (result->type)
+	switch (result->code.type())
 	{
 		case ProcedureType::obturation:
-			result->result = view->commonFields()->surfaceSelector()->getData();
+			result->result = view->procedureInput()->surfaceSelector()->getData();
 			break;
 		case ProcedureType::bridge:
 		case ProcedureType::fibersplint:
-		case ProcedureType::removebridgeOrSplint:
+		//case ProcedureType::removebridgeOrSplint:
+		case ProcedureType::denture:
 		{
-			auto [begin, end] = view->commonFields()->rangeWidget()->getRange();
+			auto [begin, end] = view->procedureInput()->rangeWidget()->getRange();
 			result->result = ConstructionRange{ begin, end };
 		}
-			break;
-		case ProcedureType::nhif_anesthesia:
-			result->result = Anesthesia{ view->commonFields()->getMinutes() };
 			break;
 		default:
 			result->result = NoData{};

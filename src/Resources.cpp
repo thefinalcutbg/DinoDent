@@ -1,12 +1,18 @@
 #include "Resources.h"
 #include <QFile>
 #include <QTextStream>
+#include <QTextCodec>
+#include "QtVersion.h"
 
 std::string Resources::fromPath(const char* path)
 {
 	QFile file(path);
-	file.open(QIODeviceBase::ReadOnly);
+	file.open(QIODevice::ReadOnly | QIODevice::Text);
 	QTextStream in(&file);
+
+#ifndef QT6
+	in.setCodec("UTF-8");
+#endif
 
 	QString result = in.readAll();
 
@@ -25,7 +31,7 @@ std::vector<std::string> Resources::dbSchema() {
 	std::vector<std::string> result;
 
 	QFile inputFile(":/db/dbSchema.txt");
-	if (inputFile.open(QIODevice::ReadOnly))
+	if (inputFile.open(QtIODevice::ReadOnly))
 	{
 		QTextStream in(&inputFile);
 		while (!in.atEnd())

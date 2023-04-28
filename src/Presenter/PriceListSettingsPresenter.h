@@ -1,12 +1,12 @@
 #pragma once
-#include "Model/Dental/ProcedureTemplate.h"
+#include "Model/Dental/ProcedureCode.h"
 #include <vector>
 
 class IPriceListSettings;
 
 class PriceListSettingsPresenter
 {
-	std::vector<ProcedureTemplate> m_priceList;
+	std::vector<ProcedureCode> m_priceList;
 
 	int m_currentIndex{ -1 };
 
@@ -14,10 +14,9 @@ class PriceListSettingsPresenter
 
 public:
 	PriceListSettingsPresenter();
-	void setPriceList(const std::vector<ProcedureTemplate>& priceList) { m_priceList = priceList; }
-	const std::vector<ProcedureTemplate>& priceList() { return m_priceList; }
+	void setPriceList(const std::vector<ProcedureCode>& priceList) { m_priceList = priceList; }
+	const std::vector<ProcedureCode>& priceList() { return m_priceList; }
 	void setView(IPriceListSettings* view);
-	void editTemplate();
 	void deleteTemplate();
 	void addTemplate();
 	void setCurrentIndex(int index);

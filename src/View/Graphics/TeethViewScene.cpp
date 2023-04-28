@@ -215,54 +215,54 @@ void TeethViewScene::keyPressEvent(QKeyEvent* event)
 
     switch (event->key())
     {
-    case Qt::Key_Right:
-        if (event->modifiers() & Qt::ShiftModifier)
-        {
+        case Qt::Key_Right:
+            if (event->modifiers() & Qt::ShiftModifier)
+            {
+                if (lastSelected < 15) selectionBox[lastSelected + 1]->setSelected(1);
+                else if (lastSelected == 15 || firstSelected == 16) selectionBox[lastSelected]->setSelected(1);
+                else if (lastSelected > 15 && firstSelected > 15) selectionBox[firstSelected - 1]->setSelected(1);
+                else selectionBox[std::max(lastSelected - 1, 0)]->setSelected(1);
+                break;
+            }
+            clearSelection();
             if (lastSelected < 15) selectionBox[lastSelected + 1]->setSelected(1);
             else if (lastSelected == 15 || firstSelected == 16) selectionBox[lastSelected]->setSelected(1);
             else if (lastSelected > 15 && firstSelected > 15) selectionBox[firstSelected - 1]->setSelected(1);
             else selectionBox[std::max(lastSelected - 1, 0)]->setSelected(1);
             break;
-        }
-        clearSelection();
-        if (lastSelected < 15) selectionBox[lastSelected + 1]->setSelected(1);
-        else if (lastSelected == 15 || firstSelected == 16) selectionBox[lastSelected]->setSelected(1);
-        else if (lastSelected > 15 && firstSelected > 15) selectionBox[firstSelected - 1]->setSelected(1);
-        else selectionBox[std::max(lastSelected - 1, 0)]->setSelected(1);
-        break;
 
-    case Qt::Key_Left:
-        if (event->modifiers() & Qt::ShiftModifier)
-        {
+        case Qt::Key_Left:
+            if (event->modifiers() & Qt::ShiftModifier)
+            {
+                if (lastSelected < 16) selectionBox[std::max(firstSelected - 1, 0)]->setSelected(1);
+                else selectionBox[std::min(lastSelected + 1, 31)]->setSelected(1);
+                break;
+            }
+            clearSelection();
             if (lastSelected < 16) selectionBox[std::max(firstSelected - 1, 0)]->setSelected(1);
             else selectionBox[std::min(lastSelected + 1, 31)]->setSelected(1);
             break;
+
+        case Qt::Key_Down:
+            clearSelection();
+            if (lastSelected < 16) selectionBox[31 - lastSelected]->setSelected(1);
+            else selectionBox[lastSelected]->setSelected(1);
+            break;
+        case Qt::Key_Up:
+            clearSelection();;
+            if (lastSelected > 15) selectionBox[31 - lastSelected]->setSelected(1);
+            else selectionBox[lastSelected]->setSelected(1);
+            break;
+        case Qt::Key_Space:
+        {
+            clearSelection();
+            if (selection_length == 0) selectionBox[0]->setSelected(1);
+            else if (lastSelected < 31) selectionBox[lastSelected + 1]->setSelected(1);
+            else selectionBox[0]->setSelected(1);
+            break;
         }
-        clearSelection();
-        if (lastSelected < 16) selectionBox[std::max(firstSelected - 1, 0)]->setSelected(1);
-        else selectionBox[std::min(lastSelected + 1, 31)]->setSelected(1);
-        break;
 
-    case Qt::Key_Down:
-        clearSelection();
-        if (lastSelected < 16) selectionBox[31 - lastSelected]->setSelected(1);
-        else selectionBox[lastSelected]->setSelected(1);
-        break;
-    case Qt::Key_Up:
-        clearSelection();;
-        if (lastSelected > 15) selectionBox[31 - lastSelected]->setSelected(1);
-        else selectionBox[lastSelected]->setSelected(1);
-        break;
-    case Qt::Key_Space:
-    {
-        clearSelection();
-        if (selection_length == 0) selectionBox[0]->setSelected(1);
-        else if (lastSelected < 31) selectionBox[lastSelected + 1]->setSelected(1);
-        else selectionBox[0]->setSelected(1);
-        break;
-    }
-
-    case Qt::Key_Delete: presenter->setOther(OtherInputs::removeAll);; break;
+        case Qt::Key_Delete: presenter->setOther(OtherInputs::removeAll);; break;
     }
 
       switch (event->nativeVirtualKey()) //shortcut keys for input diagnosis
@@ -272,7 +272,7 @@ void TeethViewScene::keyPressEvent(QKeyEvent* event)
       case Qt::Key_C :presenter->setMainStatus(StatusCode::Caries); break;
       case Qt::Key_R :presenter->setMainStatus(StatusCode::Root); break;
       case Qt::Key_E :presenter->setMainStatus(StatusCode::Extraction); break;
-      case Qt::Key_S: presenter->setMainStatus(StatusCode::Post); break;
+      case Qt::Key_Q: presenter->setMainStatus(StatusCode::Post); break;
       case Qt::Key_P :presenter->setMainStatus(StatusCode::Pulpitis); break;
       case Qt::Key_D :presenter->setMainStatus(StatusCode::EndoTreatment); break;
       case Qt::Key_F: presenter->setMainStatus(StatusCode::Fracture); break;
@@ -286,8 +286,10 @@ void TeethViewScene::keyPressEvent(QKeyEvent* event)
       case Qt::Key_G :presenter->setMainStatus(StatusCode::ApicalLesion); break;
       case Qt::Key_B :presenter->setMainStatus(StatusCode::Bridge); break;
       case Qt::Key_M: presenter->setMainStatus(StatusCode::Impacted); break;
-      case Qt::Key_N: presenter->setMainStatus(StatusCode::FiberSplint); break;
-      case Qt::Key_H: presenter->setMainStatus(StatusCode::Dsn); break;
+      case Qt::Key_S: presenter->setMainStatus(StatusCode::FiberSplint); break;
+      case Qt::Key_U: presenter->setMainStatus(StatusCode::Dsn); break;
+      case Qt::Key_X: presenter->setMainStatus(StatusCode::Denture); break;
+      case Qt::Key_H: presenter->setMainStatus(StatusCode::Healthy); break;
       case Qt::Key_A:
           if (event->modifiers() & Qt::ControlModifier)
               for (int i = 0; i < 32; i++) selectionBox[i]->setSelected(1);

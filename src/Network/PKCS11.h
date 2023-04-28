@@ -7,7 +7,7 @@ struct PKCS11_cert_st;
 
 class PKCS11
 {
-	unsigned int nslots, ncerts{ 0 };
+	unsigned int nslots{0}, ncerts{0};
 	PKCS11_slot_st* m_slots{ nullptr };
 	PKCS11_cert_st* certs{ nullptr };
 

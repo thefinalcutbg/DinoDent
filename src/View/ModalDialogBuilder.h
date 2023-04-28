@@ -3,13 +3,15 @@
 #include <string>
 #include <vector>
 
-#include "Model/Dental/ProcedureTemplate.h"
+#include "Model/Dental/ProcedureCode.h"
 #include "Model/Dental/AmbList.h"
 #include "Model/Dental/KSMP.h"
 
 #include "Model/Financial/BusinessOperation.h"
 #include "Model/Financial/MonthNotifRow.h"
 #include "Model/Financial/Recipient.h"
+
+#include "Model/MedicalStatuses.h"
 
 
 enum class SelectionPref {All, OnlyNZOK, OnlyPaid};
@@ -41,7 +43,6 @@ namespace ModalDialogBuilder
 	void openDialog(ProcedureDialogPresenter* p);
 	void openDialog(PatientDialogPresenter* p);
 	void openDialog(ProcedureEditorPresenter* p);
-	void openDialog(AllergiesDialogPresenter* p);
 	void openDialog(ListSelectorPresenter* p);
 	void openDialog(DetailedStatusPresenter* p);
 	void openDialog(LoginPresenter* p);
@@ -53,16 +54,16 @@ namespace ModalDialogBuilder
 	void openDialog(ReferralPresenter* p);
 	void openDialog(StatisticDialogPresenter& p);
 
-	std::optional<ProcedureTemplate> openProcedureTemplateDialog(const ProcedureTemplate* pTemp = nullptr, int code = 0);
 	DialogAnswer openSaveDialog(const std::string& text);
 	//std::optional<std::string> getMonthNotifFromFile();
 	std::optional<std::vector<Procedure>> selectProcedures(const std::vector<Procedure>& procedures, SelectionPref s = SelectionPref::All);
 	//returns true if user wants to apply the procedures to the status
 	bool pisHistoryDialog(const std::vector<Procedure>& procedures, const std::vector<std::string>& payment_status);
 	std::optional<BusinessOperation> editBusinessOperation(const BusinessOperation& op);
-	std::optional<BusinessOperation> addBusinessOperation(const std::vector<ProcedureTemplate>& priceList);
+	std::optional<BusinessOperation> addBusinessOperation(const std::vector<ProcedureCode>& priceList);
 	std::optional<Recipient> editRecipient(const Recipient& r);
 	bool askDialog(const std::string& questionText);
+	bool updatePrompt(const std::string& changeLog);
 	void showError(const std::string& error);
 	void showMultilineDialog(const std::string& errors);
 	void showMessage(const std::string& message);
@@ -73,11 +74,14 @@ namespace ModalDialogBuilder
 	std::optional<std::string> getStringInput(const std::string& dialogName, const std::string& fieldName);
 	//returns empty string if canceled
 	std::string pinPromptDialog(const std::string& pem);
+	std::optional<ProcedureCode> procedureCodeDialog();
 	//returns empty string if canceled
 	std::string ksmpDialog(KsmpList& list, const std::string& preSelectCode = {});
 	void pisDialog(MonthNotifPresenter* presenter);
 	std::string inputDialog(const std::string& text, const std::string& title, bool asPassword = false);
 	void saveFile(const std::string& data, const std::string& filename);
 	std::optional<std::string> openFile();
+	std::optional<MedicalStatuses> openMedicalStatusDialog(const MedicalStatuses& s);
+	bool applyToStatusDialog(const ToothContainer& t);
 };
 

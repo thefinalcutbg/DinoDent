@@ -4,7 +4,7 @@
 #include "ui_ReferralDialog.h"
 #include "Model/Referrals/ReferralData.h"
 #include "View/Interfaces/IReferralDialog.h"
-#include "View/Models/MKBModel.h"
+#include "View/TableModels/MKBModel.h"
 class ReferralPresenter;
 
 

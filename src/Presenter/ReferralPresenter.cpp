@@ -71,6 +71,14 @@ void ReferralPresenter::okPressed()
 		return;
 	}
 
+	if (MKB::getNameFromMKBCode(common.mkbComorbMain).empty() && 
+		MKB::getNameFromMKBCode(common.mkbComorbAdd).size())
+	{
+		view->setErrorLabel("Моля, изберете основен код на придружаващото заболяване!");
+		m_result.reset();
+		return;
+	}
+
 	m_result.emplace(m_type);
 
 	m_result->rowid = ref_rowid;

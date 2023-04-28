@@ -24,14 +24,6 @@ void ModalDialogBuilder::openDialog(ProcedureEditorPresenter* p)
 	d.exec();
 }
 
-#include "View/Widgets/AllergiesDialog.h"
-
-void ModalDialogBuilder::openDialog(AllergiesDialogPresenter* p)
-{
-	AllergiesDialog d(p);
-	d.exec();
-}
-
 #include "View/Widgets/AmbListSelector.h"
 
 void ModalDialogBuilder::openDialog(ListSelectorPresenter* p)
@@ -114,15 +106,6 @@ void ModalDialogBuilder::openDialog(StatisticDialogPresenter& p)
 {
 	StatisticDialogView d(p);
 	d.exec();
-}
-
-#include "View/Widgets/ProcedureTemplateDialog.h"
-
-std::optional<ProcedureTemplate> ModalDialogBuilder::openProcedureTemplateDialog(const ProcedureTemplate* pTemp, int code)
-{
-	ProcedureTemplateDialog d(pTemp, code);
-	d.exec();
-	return d.getProcedureTemplate();
 }
 
 
@@ -210,7 +193,7 @@ std::optional<BusinessOperation> ModalDialogBuilder::editBusinessOperation(const
 
 #include "View/Widgets/BusinessOpAddDialog.h"
 
-std::optional<BusinessOperation> ModalDialogBuilder::addBusinessOperation(const std::vector<ProcedureTemplate>& priceList)
+std::optional<BusinessOperation> ModalDialogBuilder::addBusinessOperation(const std::vector<ProcedureCode>& priceList)
 {
 	BusinessOpAddDialog d(priceList);
 	d.exec();
@@ -240,6 +223,13 @@ bool ModalDialogBuilder::askDialog(const std::string& questionText)
 	msg.setIcon(QMessageBox::Question);
 
 	return msg.exec() == QMessageBox::Yes;
+}
+
+#include "View/Widgets/UpdatePromptDialog.h"
+
+bool ModalDialogBuilder::updatePrompt(const std::string& changeLog)
+{
+	return UpdatePromptDialog(changeLog).exec() == QDialog::Accepted;
 }
 
 void ModalDialogBuilder::showError(const std::string& error)
@@ -346,6 +336,28 @@ std::optional<std::string> ModalDialogBuilder::openFile()
 	return result.toStdString();
 }
 
+#include "View/Widgets/MedicalStatusDialog.h"
+
+std::optional<MedicalStatuses> ModalDialogBuilder::openMedicalStatusDialog(const MedicalStatuses& s)
+{
+	MedicalStatusDialog d(s);
+
+	d.exec();
+
+	if(d.result() == QDialog::Accepted) return d.getResult();
+
+	return std::optional<MedicalStatuses>();
+}
+
+#include "View/Widgets/CurrentStatusDialog.h"
+
+bool ModalDialogBuilder::applyToStatusDialog(const ToothContainer& t)
+{
+	CurrentStatusDialog d(t);
+
+	return d.exec() == QDialog::Accepted;
+}
+
 
 
 #include <QProcess>
@@ -387,7 +399,22 @@ std::string ModalDialogBuilder::pinPromptDialog(const std::string& pem)
 }
 
 #include "View/Widgets/TableViewDialog.h"
-#include "View/Models/KSMPModel.h"
+#include "View/TableModels/ProcedureCodeModel.h"
+
+std::optional<ProcedureCode> ModalDialogBuilder::procedureCodeDialog()
+{
+	ProcedureCodeModel model;
+	TableViewDialog d(model, 0);
+	d.setWindowTitle("Класификация на Денталните Процедури");
+	d.exec();
+
+	auto result = d.getResult();
+
+	return result.empty() ? std::optional<ProcedureCode>{} : result;
+}
+
+
+#include "View/TableModels/KSMPModel.h"
 std::string ModalDialogBuilder::ksmpDialog(KsmpList& list, const std::string& preSelectCode)
 {
 	KSMPModel model{ list };

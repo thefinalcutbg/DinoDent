@@ -124,6 +124,23 @@ QString Theme::getFancyStylesheet()
 			"QDateEdit::down-arrow::disabled {"
 			"image: none"
 			"}"
+
+			"QDateTimeEdit::down-arrow {"
+			"image: url(:/icons/icon_downArrow.png);"
+			"width: 10px;"
+			"height: 10px;"
+			"}"
+
+			"QDateTimeEdit::drop-down:button{"
+			"background-color: transparent; "
+			"}"
+
+
+			"QDateTimeEdit::down-arrow::disabled {"
+			"image: none"
+			"}"
+
+
 	);
 }
 

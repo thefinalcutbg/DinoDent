@@ -3,6 +3,7 @@
 #include "View/ModalDialogBuilder.h"
 #include "Model/FreeFunctions.h"
 #include "TinyXML/tinyxml.h"
+#include "EReferral.h"
 
 bool EPrescription::Issue::sendRequest(const Prescription& perscr, const Patient& patient, std::function<void(const std::string&)> nrnCallback)
 {
@@ -21,7 +22,7 @@ bool EPrescription::Issue::sendRequest(const Prescription& perscr, const Patient
 			+ bind("financingSource", "4")
 			+ bind("dispensationType", perscr.dispensation.getNhisDispensation())
 			+ bind("allowedRepeatsNumber", perscr.dispensation.getNhisRepeats())
-			+ bind("supplements", perscr.supplements)
+			+ bind("supplements", perscr.supplements, true)
 			+ "<nhis:group>"
 	;
 
@@ -67,7 +68,7 @@ bool EPrescription::Issue::sendRequest(const Prescription& perscr, const Patient
 
 							if (d.when.getTagIdx().size()) contents += bind("offset", d.when.getOffset());
 
-							contents += bind("text", d.additionalInstructions);
+							contents += bind("text", d.additionalInstructions, true);
 							contents += bind("interpretation", d.parse());
 
 					contents+= "</nhis:dosageInstruction>";
@@ -114,8 +115,6 @@ void EPrescription::Issue::parseReply(const std::string& reply)
 		m_callback(std::string());
 	}
 }
-
-
 
 bool EPrescription::Cancel::sendRequest(const std::string& nrn, std::function<void(bool)> success)
 {

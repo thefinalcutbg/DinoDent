@@ -3,10 +3,14 @@
 
 #include <string_view>
 
+class ProcedureContainer;
+class ToothContainer;
 struct Patient;
+class Tooth;
+class Date;
 
-constexpr const char* hisUrl = "https://api.his.bg/";
-//constexpr const char* hisUrl = "https://ptest-api.his.bg/";
+//constexpr const char* hisUrl = "https://api.his.bg/";
+constexpr const char* hisUrl = "https://ptest-api.his.bg/";
 
 class HisService : protected AbstractReplyHandler
 {
@@ -24,12 +28,15 @@ protected:
 	std::string subject(const Patient& p);
 	std::string requester(bool includeNhifCode = false);
 	std::string performer();
+	std::string getToothStatus(const Tooth& tooth);
 
-	std::string bind(const std::string& name, std::string value);
+	std::string bind(const std::string& name, const std::string& value, bool isUserInput = false);
 	std::string bind(const std::string& name, int value, bool ommitZero = true);
 	std::string bind(const std::string& name, bool value);
 	std::string bind(const std::string& name, double value);
-	std::string bind(const std::string& name, const char* value);
+	std::string bind(const std::string& name, const char* value, bool isUserInput = false);
+
+	std::string getResultingStatusAsProcedure(const ToothContainer& teeth, const Date& lastProcedureDate);
 
 	std::string getErrors(const std::string& reply);
 

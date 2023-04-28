@@ -23,7 +23,6 @@ std::vector<std::vector<int> > selectionCutter(const std::vector<int>& indexes)
 	return selections;
 }
 
-
 template <auto ptr>
 void formatSelection(const std::vector<int>& selection, std::vector<Tooth>& teeth)
 {
@@ -32,6 +31,7 @@ void formatSelection(const std::vector<int>& selection, std::vector<Tooth>& teet
 	{
 		auto& singleTooth = teeth[selection[0]].*ptr;
 		singleTooth.set(false);
+
 	}
 
 	for (int i = 0; i < selection.size(); i++)
@@ -48,23 +48,38 @@ void formatSelection(const std::vector<int>& selection, std::vector<Tooth>& teet
 	}
 
 	if (selection[0] != 0 && selection[0] != 16)
-	{
+	{;
+		bool noData = teeth[selection[0] - 1].noData();
+
 		auto& prev_tooth = teeth[selection[0] - 1].*ptr;
 
 		if (prev_tooth.position == BridgePos::Begin) {
+
 			prev_tooth.set(false);
+
+			if (!noData && teeth[selection[0] - 1].noData()) {
+				teeth[selection[0] - 1].setStatus(StatusCode::Healthy);
+			}
 		}
 		else if (prev_tooth.position == BridgePos::Middle) {
 			prev_tooth.position = BridgePos::End;
 		}
+		
 	}
 
 	if (selection.back() != 15 && selection.back() != 31)
 	{
+		bool noData = teeth[selection.back() + 1].noData();
+
 		auto& next_tooth = teeth[selection.back() + 1].*ptr;
 
 		if (next_tooth.position == BridgePos::End) {
+
 			next_tooth.set(false);
+
+			if (!noData && teeth[selection.back() + 1].noData()) {
+				teeth[selection.back() + 1].setStatus(StatusCode::Healthy);
+			}
 		}
 		else if (next_tooth.position == BridgePos::Middle) {
 			next_tooth.position = BridgePos::Begin;

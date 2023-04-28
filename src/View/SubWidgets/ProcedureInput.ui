@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ProcedureInput</class>
+ <widget class="QWidget" name="ProcedureInput">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>401</width>
+    <height>497</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>0</width>
+    <height>0</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>ProcedureInput</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="dateLabel">
+       <property name="text">
+        <string>Дата:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="DateEdit" name="dateEdit">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>90</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="wrapping">
+        <bool>false</bool>
+       </property>
+       <property name="frame">
+        <bool>true</bool>
+       </property>
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+       <property name="minimumDate">
+        <date>
+         <year>2018</year>
+         <month>1</month>
+         <day>1</day>
+        </date>
+       </property>
+       <property name="currentSectionIndex">
+        <number>0</number>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_6">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>0</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>Диагноза:</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="ComboBox" name="diagCombo"/>
+   </item>
+   <item>
+    <widget class="QLabel" name="addDiagLabel">
+     <property name="text">
+      <string>Допълнителни уточнения към диагнозата:</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="LineEdit" name="diagEdit">
+     <property name="maxLength">
+      <number>1000</number>
+     </property>
+     <property name="placeholderText">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_2"/>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_3"/>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="hyperdonticCheckBox">
+     <property name="text">
+      <string>На свръхброен зъб</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="RangeWidget" name="rangeWidget" native="true"/>
+   </item>
+   <item>
+    <widget class="SurfaceSelector" name="surfaceWidget" native="true"/>
+   </item>
+   <item>
+    <widget class="QLabel" name="notesLabel">
+     <property name="text">
+      <string>Допълнителни бележки (изпращат се към НЗИС):</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLineEdit" name="notesEdit"/>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="PHIFcheckbox">
+     <property name="text">
+      <string>Фонд допълнително здравно осигуряване</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>0</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <widget class="QLabel" name="errorLabel">
+     <property name="styleSheet">
+      <string notr="true">color: red</string>
+     </property>
+     <property name="text">
+      <string>ErrorLabel</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>DateEdit</class>
+   <extends>QDateEdit</extends>
+   <header>View/uiComponents/DateEdit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SurfaceSelector</class>
+   <extends>QWidget</extends>
+   <header>View/SubWIdgets/SurfaceSelector.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>RangeWidget</class>
+   <extends>QWidget</extends>
+   <header>View/SubWidgets/RangeWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>LineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>View/uiComponents/LineEdit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>ComboBox</class>
+   <extends>QComboBox</extends>
+   <header>View/uiComponents/combobox.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

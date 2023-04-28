@@ -1,5 +1,4 @@
-#ifndef CUSTOMDATEEDIT_H
-#define CUSTOMDATEEDIT_H
+#pragma once
 
 #include <QDateEdit>
 #include <QMenu>
@@ -50,4 +49,3 @@ protected:
     bool eventFilter(QObject * widget, QEvent * event); // 鼠标滚轮的过滤事件
 };
 
-#endif // CUSTOMDATEEDIT_H

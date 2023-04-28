@@ -18,11 +18,13 @@ struct AmbList
 
 	long long rowid{ 0 };
 	long long patient_rowid{ 0 };
-	//Date date{ Date::currentDate() };
-	Time time{ Time::currentTime() };
-
-	std::string LNR;
+	
+	std::string date{ FreeFn::getTimeStamp() };
+	std::string lrn;
+	std::string nrn;
 	std::string basedOn;
+
+	bool his_updated{ false };
 
 	int number{ 0 };
 	std::string LPK;
@@ -35,41 +37,19 @@ struct AmbList
 
 	std::vector<Referral> referrals;
 
-
 	bool isNhifSheet() const
 	{
 		return (referrals.size() || procedures.hasNhifProcedure());
 	}
 
-	bool hasNumberInconsistency() const
-	{
-		return isNhifSheet() != number < 100000;
-	}
-
 	Date getDate() const //works only if procedures are sorted by date!
 	{
-
-		if (procedures.empty() && referrals.empty()) return Date::currentDate();
-
-		if (isNhifSheet()) {
-
-			Date date(1, 1, 2200);
-
-			for (auto& p : procedures) if (p.isNhif()) date = std::min(date, p.date);
-
-			for (auto& r : referrals) date = std::min(date, r.date);
-
-			return date;
-
-		}
-
-		return procedures[0].date;
+		return Date(date);
 	}
 
 	Date getAmbSheetDateMin() const //returns the first day of the ambSheet month
-	{
-		auto date = getDate();
-
+	{ 
+		auto date = Date(this->date);
 		return Date(1, date.month, date.year);
 
 	}
@@ -90,6 +70,11 @@ struct AmbList
 
 	bool isNew() { return rowid == 0; }
 
+	std::string getNumber() const {
+		if (nrn.size()) return nrn;
+
+		return FreeFn::leadZeroes(number, 6);
+	}
 
 	~AmbList() {  }
 

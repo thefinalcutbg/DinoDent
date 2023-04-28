@@ -36,7 +36,11 @@ std::vector<AmbRow> DbListOpener::getAmbRows(const Date& from, const Date& to)
     rows.reserve(50);
 
     std::string query =
-        "SELECT amblist.rowid, amblist.num, amblist.nhif_spec IS NOT NULL, " 
+        "SELECT "
+        "amblist.rowid, "
+        "amblist.nrn IS NOT NULL AND amblist.nrn != '', "
+        "amblist.nhif_spec IS NOT NULL AND amblist.nhif_spec != '', "
+        "amblist.nrn, amblist.num, " 
         "amblist.date, "
         "patient.rowid, patient.id, patient.fname, patient.mname, patient.lname, patient.phone "
 
@@ -55,19 +59,19 @@ std::vector<AmbRow> DbListOpener::getAmbRows(const Date& from, const Date& to)
         auto& row = rows.back();
         
         row.rowID = db.asRowId(0);
-        row.ambNumber = db.asInt(1);
+        row.his = db.asBool(1);
+        row.nhif = db.asBool(2);
+        row.number = row.his ? db.asString(3) : FreeFn::leadZeroes(db.asInt(4), 6);
+        row.date = db.asString(5);
         
-        row.nhif = bool(db.asInt(2));
-        row.date = db.asString(3);
-        
-        row.patientRowId = db.asRowId(4);
+        row.patientRowId = db.asRowId(6);
 
-        row.patientId = db.asString(5);
-        row.patientName = db.asString(6) + " " +
-                          db.asString(7) + " " +
-                          db.asString(8);
+        row.patientId = db.asString(7);
+        row.patientName = db.asString(8) + " " +
+                          db.asString(9) + " " +
+                          db.asString(10);
 
-        row.patientPhone = db.asString(9);
+        row.patientPhone = db.asString(11);
     }
         
 

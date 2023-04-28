@@ -3,12 +3,14 @@
 #include "SurfStatus.h"
 #include <string>
 #include <array>
-#include "DiagnosisContainer.h"
+#include "Model/FreeFunctions.h"
 
 enum class StatusType{general, obturation, caries, mobility};
 
 class Tooth
 {
+
+	bool isHealthyCheck();
 
 public:
 	Tooth();
@@ -19,26 +21,28 @@ public:
 	ToothType type;
 
 	SurfaceStatus<SurfaceChild<DentistMade> > obturation;
-	SurfaceStatus<SurfaceChild<Pathology> > caries;
+	SurfaceStatus<SurfaceChild<Status> > caries;
 
+	Status healthy;
 	Status temporary;
 	Status hyperdontic;
 	Status periodontitis;
 	Status impacted;
-	
+	Status calculus;
 	DentistMade endo;
 	
 	DentistMade extraction;
 	
 	DentistMade implant;
 	DentistMade crown;
+	DentistMade denture;
 	Construction bridge;
 	Construction splint;
 
-	Pathology pulpitis;
-	Pathology lesion;
-	Pathology fracture;
-	Pathology root;
+	Status pulpitis;
+	Status lesion;
+	Status fracture;
+	Status root;
 	DentistMade post;
 
 	Mobility mobility;
@@ -60,6 +64,5 @@ public:
 	std::string getStringStatus() const;
 	//for xml report generation
 	std::vector<std::string> getSimpleStatuses() const;
-
-
+	bool noData() const;
 };

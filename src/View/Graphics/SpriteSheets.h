@@ -25,6 +25,8 @@ class SpriteSheets
 	QPixmap* implant;
 	QPixmap* lesionImplant;
 	QPixmap* perioImplant;
+	QPixmap* dentureFront;
+	QPixmap* dentureMolar;
 
 	TexturePack textures[26];
 

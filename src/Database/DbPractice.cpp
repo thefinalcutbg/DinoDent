@@ -4,7 +4,7 @@
 
 Practice DbPractice::getPractice(const std::string rziCode)
 {
-    std::string query = "SELECT rzi, name, bulstat, firm_address, practice_address, legal_entity, pass, vat, nzok_contract, priceList, settings "
+    std::string query = "SELECT rzi, name, bulstat, firm_address, practice_address, legal_entity, pass, vat, nzok_contract, settings "
         "FROM practice WHERE rzi = '" + rziCode + "'";
 
     Practice practice;
@@ -20,8 +20,7 @@ Practice DbPractice::getPractice(const std::string rziCode)
         practice.pass = db.asString(6);
         practice.vat = db.asString(7);
         practice.nzok_contract = Parser::parseContract(db.asString(8));
-        practice.priceList = Parser::getPriceList(db.asString(9));
-        practice.settings = Parser::parseSettings(db.asString(10));
+        practice.settings = Parser::parseSettings(db.asString(9));
 
     }
 
@@ -160,14 +159,6 @@ std::vector<PracticeDoctor> DbPractice::getDoctors(const std::string& practiceRZ
     return result;
 }
 
-void DbPractice::updatePriceList(const std::vector<ProcedureTemplate>& priceList, const std::string& rziCode)
-{
-    Db::crudQuery(
-        "UPDATE practice SET "
-        "priceList = '" + Parser::write(priceList) + "' "
-        "WHERE rzi = '" + rziCode + "'"
-    );
-}
 
 bool DbPractice::practiceExists(const std::string& rzi)
 {

@@ -1,6 +1,6 @@
 ﻿#include "PatientInfoPresenter.h"
 #include "Presenter/PatientDialogPresenter.h"
-#include "Presenter/AllergiesDialogPresenter.h"
+
 #include "Database/DbPatient.h"
 #include "View/ModalDialogBuilder.h"
 #include "View/Printer.h"
@@ -42,7 +42,7 @@ void PatientInfoPresenter::diagnosisClicked()
         patient->id,
 
 
-        [=](const std::string& currentDiseases) {
+        [=](const std::vector<MedicalStatus>& currentDiseases) {
 
             if (currentDiseases.empty()) {
                 ModalDialogBuilder::showMessage("Няма данни в рецептурната книжка");
@@ -50,14 +50,13 @@ void PatientInfoPresenter::diagnosisClicked()
             }
 
             Patient patient = *this->patient;
-            patient.currentDiseases = currentDiseases;
-
-            AllergiesDialogPresenter p(patient);
-            auto result = p.openDialog();
+            patient.medStats.condition = currentDiseases;
+            
+            auto result = ModalDialogBuilder::openMedicalStatusDialog(patient.medStats);
 
             if (!result) return;
 
-            auto success = DbPatient::updateAllergies(patient.rowid, patient.allergies, patient.currentDiseases, patient.pastDiseases);
+            auto success = DbPatient::updateMedStats(patient.rowid, patient.medStats);
 
             if (!success) return;
 
@@ -87,21 +86,17 @@ void PatientInfoPresenter::patientTileClicked()
 
 void PatientInfoPresenter::allergiesTileClicked()
 {
-    AllergiesDialogPresenter p(*patient.get());
+    auto result = ModalDialogBuilder::openMedicalStatusDialog(patient->medStats);
 
-    auto data = p.openDialog();
+    if (!result) {
+        return;
+    }
 
-    if (!data.has_value()) return;
+    patient->medStats = result.value();
 
-    auto& d = data.value();
-
-    auto success = DbPatient::updateAllergies(patient->rowid, d.allergies, d.current, d.past);
+    auto success = DbPatient::updateMedStats(patient->rowid, patient->medStats);
 
     if (!success) return;
-
-    patient->allergies = d.allergies;
-    patient->currentDiseases = d.current;
-    patient->pastDiseases = d.past;
 
     view->setPatient(*patient, patientAge);
 }
@@ -183,6 +178,7 @@ void PatientInfoPresenter::setCurrent(bool isCurrent)
 
     if (
         !patient->insuranceStatus &&
+        User::hasNzokContract() &&
         User::practice().nzok_contract->nra_pass.size() &&
         User::settings().getNraStatusAuto
     )

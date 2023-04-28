@@ -1,6 +1,6 @@
 ﻿#include "MedicationDialog.h"
 #include "Model/Prescription/Medication.h"
-
+#include "QtVersion.h"
 
 MedicationDialog::MedicationDialog(MedicationPresenter* p, QWidget* parent)
 	: presenter(p), QDialog(parent)
@@ -12,10 +12,10 @@ MedicationDialog::MedicationDialog(MedicationPresenter* p, QWidget* parent)
 	ui.medicationEdit->setCompletions(Medication::names());
 	ui.medicationEdit->setInputValidator(&nameValidator);
 
-	connect(ui.quantity, &QSpinBox::valueChanged, [&] { commonDataChanged(); });
-	connect(ui.quantityValue, &QComboBox::currentIndexChanged, [&] { commonDataChanged(); });
+	connect(ui.quantity, QtSpinValueChanged, [&] { commonDataChanged(); });
+	connect(ui.quantityValue, QtComboIndexChanged, [&] { commonDataChanged(); });
 	connect(ui.substitutionCheck, &QCheckBox::stateChanged, [&](bool state) { commonDataChanged(); });
-	connect(ui.priorityCombo, &QComboBox::currentIndexChanged, [=](int index) { presenter->priorityChanged(index); });
+	connect(ui.priorityCombo, QtComboIndexChanged, [=](int index) { presenter->priorityChanged(index); });
 	connect(ui.notesEdit, &QLineEdit::textChanged, [=](const QString& text) { presenter->noteChanged(text.toStdString());});
 
 	connect(ui.medicationEdit, &QLineEdit::textChanged, [=](const QString& text) { 

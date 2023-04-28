@@ -3,12 +3,12 @@
 #include <QString>
 #include <QApplication>
 #include "View/Widgets/ProcedurePrintSelectDialog.h"
-#include "View/Models/ProcedureTableModel.h"
+#include "View/TableModels/ProcedureTableModel.h"
 #include "Model/FreeFunctions.h"
 #include "Model/Patient.h"
 #include "Model/Dental/AmbList.h"
 #include "Model/Financial/Invoice.h"
-#include "View/Models/BusinessOperationModel.h"
+#include "View/TableModels/BusinessOperationModel.h"
 #include "View/GlobalFunctions.h"
 #include "qitemselectionmodel.h"
 #include "Model/User.h"
@@ -92,29 +92,20 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
 
     fillCommonData(report, patient, doctor, practice);
 
-    report.dataManager()->setReportVariable("ambNum", QString::fromStdString(FreeFn::leadZeroes(amb.number, 12)));
+    report.dataManager()->setReportVariable("ambNum", QString::fromStdString(amb.nrn));
 
     const char* defaultStatus{ "Не съобщава" };
 
     report.dataManager()->setReportVariable("allergies",
-        patient.allergies.empty() ?
-        defaultStatus
-        :
-        QString::fromStdString(patient.allergies)
+        MedicalStatuses::getAsString(patient.medStats.allergies).c_str()
     );
 
     report.dataManager()->setReportVariable("currentDiseases",
-                                            patient.currentDiseases.empty() ?
-                                            defaultStatus
-                                            :
-                                            QString::fromStdString(patient.currentDiseases)
+        MedicalStatuses::getAsString(patient.medStats.condition).c_str()
     );
 
     report.dataManager()->setReportVariable("pastDiseases",
-        patient.pastDiseases.empty() ?
-        defaultStatus
-        :
-        QString::fromStdString(patient.pastDiseases)
+        MedicalStatuses::getAsString(patient.medStats.history).c_str()
     );
 
 
@@ -142,15 +133,12 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
         QString idx = QString::number(i);
 
         report.dataManager()->setReportVariable("pDate" + idx , p.date.toBgStandard().c_str());
-        report.dataManager()->setReportVariable("pDiag" + idx, p.diagnosis.c_str());
+        report.dataManager()->setReportVariable("pDiag" + idx, p.diagnosis.getFullDiagnosis().c_str());
         report.dataManager()->setReportVariable("pTooth" + idx, ToothUtils::getNomenclature(p.tooth, p.temp).c_str());
-        report.dataManager()->setReportVariable("pName" + idx, p.name.c_str());
-        report.dataManager()->setReportVariable("pNhif" + idx, QString::number(p.code));
-        report.dataManager()->setReportVariable("pKsmp" + idx, p.ksmp.c_str());
-        if (p.type == ProcedureType::nhif_anesthesia)
-        {
-            report.dataManager()->setReportVariable("pMin" + idx, std::get<Anesthesia>(p.result).minutes);
-        }
+        report.dataManager()->setReportVariable("pName" + idx, p.code.name().c_str());
+        report.dataManager()->setReportVariable("pNhif" + idx, QString::number(p.code.oldCode()));
+        report.dataManager()->setReportVariable("pKsmp" + idx, p.code.ksmp().c_str());
+
     }
 
     const Referral *form3{ nullptr },
@@ -172,15 +160,12 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
         }
     }
 
-
-
-
     if (mdd4_1)
     {
         auto& ref = *mdd4_1;
         auto& mddData = std::get<MDD4Data>(ref.data);
 
-        report.dataManager()->setReportVariable("mdd4Num", FreeFn::leadZeroes(ref.number, 12).c_str());
+        report.dataManager()->setReportVariable("mdd4Num", ref.nrn.c_str());
         report.dataManager()->setReportVariable("mdd4Date", ref.date.toBgStandard().c_str());
         report.dataManager()->setReportVariable("mdd4Ksmp1", mddData.getKSMP().c_str());
         report.dataManager()->setReportVariable("mdd4Nhif1", mddData.getCode().c_str());
@@ -191,7 +176,7 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
         auto& ref = *mdd4_2;
         auto& mddData = std::get<MDD4Data>(ref.data);
 
-        report.dataManager()->setReportVariable("mdd4Num", FreeFn::leadZeroes(ref.number, 12).c_str());
+        report.dataManager()->setReportVariable("mdd4Num", ref.nrn.c_str());
         report.dataManager()->setReportVariable("mdd4Date", ref.date.toBgStandard().c_str());
         report.dataManager()->setReportVariable("mdd4Ksmp2", mddData.getKSMP().c_str());
         report.dataManager()->setReportVariable("mdd4Nhif2", mddData.getCode().c_str());
@@ -203,14 +188,43 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
         auto& ref = *mh119;
         auto& data = std::get<MH119Data>(ref.data);
 
-        report.dataManager()->setReportVariable("mh119SpecCode", QString::number(data.specCode));
+        report.dataManager()->setReportVariable("mh119SpecCode", data.getSpecCode());
         report.dataManager()->setReportVariable("mh119Date", ref.date.toBgStandard().c_str());
     }
 
-    
+    if (form3)
+    {
 
-    //implement the other referrals here:
-    report.dataManager()->setReportVariable("refType", QString{ "" });
+        report.dataManager()->setReportVariable("ref3x", "X");
+
+        auto& ref = *form3;
+
+        auto& refData = std::get<R3Data>(ref.data);
+
+        report.dataManager()->setReportVariable("refNum", ref.nrn.c_str());
+        report.dataManager()->setReportVariable("refDate", ref.date.toBgStandard().c_str());
+        report.dataManager()->setReportVariable("refSpecCode", refData.specialty);
+        report.dataManager()->setReportVariable("refMkb", ref.diagnosis.main.code().c_str());
+    }
+    
+    if (form3a)
+    {
+
+
+        report.dataManager()->setReportVariable("ref3Ax", "X");
+
+        auto& ref = *form3a;
+
+        auto& refData = std::get<R3AData>(ref.data);
+
+        report.dataManager()->setReportVariable("refNum", ref.nrn.c_str());
+        report.dataManager()->setReportVariable("refDate", ref.date.toBgStandard().c_str());
+        report.dataManager()->setReportVariable("refSpecCode", refData.nhifSpecialty);
+        report.dataManager()->setReportVariable("refMkb", ref.diagnosis.main.code().c_str());
+        report.dataManager()->setReportVariable("refKSMP", refData.ksmp);
+        report.dataManager()->setReportVariable("refHSA", refData.highlySpecializedActivity);
+    }
+
 
     QApplication::restoreOverrideCursor();
 
@@ -500,7 +514,7 @@ void Print::referral(const Referral& ref, const Patient& patient, int ambSheetNu
         report.dataManager()->setReportVariable("doctorPhone", User::doctor().phone.c_str());
         report.dataManager()->setReportVariable("diagnosis", ref.diagnosis.getText().c_str());
         report.dataManager()->setReportVariable("comorbidity", ref.comorbidity.getText().c_str());
-        report.dataManager()->setReportVariable("specCode", data.specCode);
+        report.dataManager()->setReportVariable("specCode", data.getSpecCode());
         report.dataManager()->setReportVariable("practiceName", User::practice().name.c_str());
         
         int typeYpos[4] = { 440, 480, 525, 570 };

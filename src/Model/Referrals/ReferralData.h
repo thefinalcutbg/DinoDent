@@ -6,11 +6,13 @@ struct MDD4Data
 	
 private:
 
-	static inline std::string 
-		opgNhif = "10.62", 
+	static inline std::string
+		opgNhif = "10.62",
 		opgKsmp = "57960-00",
+		opgHis = "0C-010",
 		segmentNhif = "06.01",
-		segmentKsmp = "57930-00";
+		segmentKsmp = "57930-00",
+		segmentHis = "0C-00E";
 
 public:
 	
@@ -18,20 +20,20 @@ public:
 	inline bool isOPG() const { return tooth_idx == -1; }
 	inline const std::string& getCode() const { return isOPG() ? opgNhif : segmentNhif; };
 	inline const std::string& getKSMP() const { return isOPG() ? opgKsmp : segmentKsmp; };
-
+	inline const std::string& getHisCode() const{ return isOPG() ? opgHis : segmentHis; };
 };
 
 struct R3Data
 {
-	static constexpr int specialty = 18; //Психиатрия
-	static constexpr int hisSpecialty = 1050;
+	static constexpr const char* specialty = "18"; //Психиатрия
+	static constexpr const char* hisSpecialty = "1050";
 
 };
 
 struct R3AData
 {
-	static constexpr int nhifSpecialty = 26; //Анестезиология и интензивно лечение
-	static constexpr int hisSpecialty = 1003; //според НЗИС
+	static constexpr const char* nhifSpecialty = "26"; //Анестезиология и интензивно лечение
+	static constexpr const char* hisSpecialty = "1003"; //според НЗИС
 	static constexpr const char* highlySpecializedActivity{ "89.07" };
 	static constexpr const char* ksmp{ "92500-00" };
 
@@ -40,7 +42,12 @@ struct R3AData
 
 struct MH119Data
 {
-	static constexpr int specCode = 62; //Орална хирургия
+	MH119Spec specCode{ 0 };
 	MH119Reason reason{ 0 };
 	std::string description;
+
+	int getSpecCode() const {
+		static constexpr int codes[3]{ 61, 62, 64 };
+		return codes[specCode.getIndex()];
+	}
 };

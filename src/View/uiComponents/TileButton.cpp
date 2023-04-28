@@ -28,7 +28,7 @@ void TileButton::paintEvent(QPaintEvent* e)
 	//if(hover) color.setRgb(242, 242, 242);
 
 	QPainter painter(this);
-	painter.setRenderHint(QPainter::Antialiasing);
+	painter.setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
 
 	//getting the half-rounded button path:
 
@@ -159,11 +159,7 @@ void PatientTile::paintInfo(QPainter* painter)
 	painter->setPen(hover && !clicked ? QPen(Theme::fontRedClicked) : QPen(QColor(Theme::fontRed)));
 	painter->drawText(nraButton->x() + nraSize + 5, 27, name);
 
-	//QFontMetrics titleMetric(header);
-
-	//int xZodiac = (nraButton->x() + nraSize + 5 + titleMetric.horizontalAdvance(name) + 5);
-
-	if (zodiac) painter->drawPixmap(width()-30, height()-30, 25, 25, *zodiac);
+	//if (zodiac) painter->drawPixmap(width()-30, height()-30, 25, 25, *zodiac);
 	
 }
 
@@ -238,17 +234,13 @@ void PatientTile::setData(const Patient& patient, int age)
 
 
 AllergiesTile::AllergiesTile(QWidget* parent) :
-	TileButton(parent),
-	allergiesLabel("Алергии:"),
-	currentDLabel("Настоящи заболявания:"),
-	pastDLabel("Минали заболявания:"),
-	noInfo("Пациентът не съобщава")
+	TileButton(parent)
 {
 	reverse();
 	header.setPointSizeF(10);
 
 	nhifButton = new IconButton(this);
-	nhifButton->setIcon(QIcon(":/icons/icon_nzok.png"));
+	nhifButton->setIcon(QIcon(":/icons/icon_nhif.png"));
 	nhifButton->setFixedSize(nzokSize, nzokSize);
 	nhifButton->move(width() - nzokSize, 5);
 	nhifButton->setToolTip("Проверка на диагнози в рецептурната книжка");
@@ -258,19 +250,31 @@ AllergiesTile::AllergiesTile(QWidget* parent) :
 
 void AllergiesTile::setData(const Patient& patient)
 {
-	if (!patient.allergies.size())
-		allergies = noInfo;
-	else
-		allergies = elide(QString::fromStdString(patient.allergies), 40);
 
-	if (!patient.currentDiseases.size())
-		currentDiseases = noInfo;
-	else currentDiseases = elide(QString::fromStdString(patient.currentDiseases), 40);
+	auto lambda = [&](const std::vector<MedicalStatus>& s)->QString {
 
-	if (!patient.pastDiseases.size())
-		pastDiseases = noInfo;
-	else
-		pastDiseases = elide(QString::fromStdString(patient.pastDiseases), 40);
+		QString result;
+
+		if (s.empty()) return "Не съобщава";
+
+		for (int i = 0; i < s.size(); i++)
+		{
+			result += s[i].data.c_str();
+
+			if (i != s.size() - 1) {
+				result.append(", ");
+			}
+		}
+
+		result = elide(result, 40);
+
+		return result;
+
+	};
+
+	allergies = lambda(patient.medStats.allergies);
+	currentDiseases = lambda(patient.medStats.condition);
+	pastDiseases = lambda(patient.medStats.history);
 
 	update();
 }

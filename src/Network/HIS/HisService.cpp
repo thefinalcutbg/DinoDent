@@ -310,6 +310,8 @@ std::string HisService::getResultingStatusAsProcedure(const ToothContainer& teet
 	}
 
 	result += "</nhis:dentalProcedure>";
+
+	return result;
 }
 
 std::string HisService::bind(const std::string& name, const std::string& value, bool isUserInput)

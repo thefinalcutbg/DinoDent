@@ -38,6 +38,7 @@ DinoDent is a not-yet-opensource dental practice management software written in 
 - Integration with electronic signatures using the PKCS11 standard
 - Full NHIF API integration
 - Multiple practices and user accounts
+- NHIS integration
 
 <!-- ## Screenshots -->
 <!-- [Example screenshot](./img/screenshot.png) -->

@@ -139,6 +139,11 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
         report.dataManager()->setReportVariable("pNhif" + idx, QString::number(p.code.oldCode()));
         report.dataManager()->setReportVariable("pKsmp" + idx, p.code.ksmp().c_str());
 
+        if(p.code.type() == ProcedureType::anesthesia)
+        {
+            report.dataManager()->setReportVariable("pMin" + idx, std::get<AnesthesiaMinutes>(p.result).minutes);
+        }
+
     }
 
     const Referral *form3{ nullptr },

@@ -148,14 +148,6 @@ void ListPresenter::dynamicNhifConversion()
 
 bool ListPresenter::isValid()
 {
-    /*
-    //check date inconsistencies
-    if (m_ambList.procedures.empty() && m_ambList.referrals.empty()) {
-        ModalDialogBuilder::showError("Листът трябва да съдържа поне една манипулация или направление!");
-        return false;
-    }
-    */
-    //check procedures and hyperdontic:
 
     for (auto& p : m_ambList.procedures)
     {
@@ -331,6 +323,7 @@ void ListPresenter::setDataToView()
 void ListPresenter::setAmbDateTime(const std::string& datetime)
 {
     m_ambList.date = datetime;
+    makeEdited();
 }
 
 void ListPresenter::ambNumChanged(long long value)
@@ -917,6 +910,8 @@ void ListPresenter::hisButtonPressed()
 
     if (!m_ambList.his_updated)
     {
+        if (!isValid()) return;
+
         eDentalAugmentService.sendRequest(m_ambList, *patient,
             [this](auto& procedureIdx)
             {

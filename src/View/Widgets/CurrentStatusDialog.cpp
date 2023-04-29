@@ -1,4 +1,4 @@
-#include "CurrentStatusDialog.h"
+﻿#include "CurrentStatusDialog.h"
 
 #include <QPainter>
 
@@ -11,6 +11,8 @@ CurrentStatusDialog::CurrentStatusDialog(const ToothContainer& t, QWidget *paren
 	: QDialog(parent)
 {
 	ui.setupUi(this);
+
+	setWindowTitle("Текущ статус на пациента");
 
 	auto hints = ToothHintCreator::getTeethHint(t);
 

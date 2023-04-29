@@ -105,11 +105,6 @@ bool AmbListValidator::ambListIsValid()
 
     if (!isValidAccordingToDb()) return false;
 
-    if (ambList.nrn.size() && ambList.his_updated == false) {
-        _error = "Амбулаторният лист е редактиран, но промените не са отразени в НЗИС";
-        return false;
-    }
-
     _error = "";
     return true;
 }

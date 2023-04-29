@@ -10,7 +10,7 @@ namespace EDental {
 	{
 		std::function<void(const std::string& nrn, const std::vector<int>& procedureIndex)> m_callback;
 
-		std::string getProcedures(const ProcedureContainer& procedures, const ToothContainer& teeth);
+		std::string getProcedures(const ProcedureContainer& procedures, const ToothContainer& teeth, const Date& treatmentStartDate);
 
 	protected:
 		void parseReply(const std::string& reply) override;
@@ -31,7 +31,7 @@ namespace EDental {
 	{
 		std::function<void(const std::map<int, int>& procedureIndexes)> m_callback;
 
-		std::string getProcedures(const ProcedureContainer& procedures, const ToothContainer& teeth);
+		std::string getProcedures(const ProcedureContainer& procedures, const ToothContainer& teeth, const Date& treatmentStartDate);
 
 	protected:
 		void parseReply(const std::string& reply) override;

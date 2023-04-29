@@ -34,7 +34,7 @@ bool EDental::Open::sendRequest(
 			+ bind("adverseConditions", adverseConditions)
 			+ bind("rhifAreaNumber", patient.city.getRhif() + patient.city.getHealthRegion())
 			+ "<nhis:medicalStatus />" //TO IMPLEMENT!!!
-			+ getProcedures(ambSheet.procedures, ambSheet.teeth)
+			+ getProcedures(ambSheet.procedures, ambSheet.teeth, ambSheet.date)
 		+"</nhis:dentalTreatment>"
 		+ HisService::subject(patient)
 		+ HisService::performer()
@@ -43,17 +43,17 @@ bool EDental::Open::sendRequest(
 	return HisService::sendRequestToHis(contents);
 }
 
-std::string EDental::Open::getProcedures(const ProcedureContainer& procedures, const ToothContainer& teeth)
+std::string EDental::Open::getProcedures(const ProcedureContainer& procedures, const ToothContainer& teeth, const Date& treatmentStartDate)
 {
 
 	std::string result;
 
 	result.reserve(1000);
 
-	int sequence = 0;
-
 	ToothContainer teethChanged = teeth;
-	Date lastProcedureDate(Date::currentDate());
+
+	result += HisService::initialStatusAsProcedure(teeth, treatmentStartDate);
+	int sequence = 1;
 
 	for (auto& p : procedures)
 	{
@@ -128,9 +128,6 @@ std::string EDental::Open::getProcedures(const ProcedureContainer& procedures, c
 		}
 
 		result += "</nhis:dentalProcedure>";
-
-		lastProcedureDate = p.date;
-
 	}
 
 	//to implement this, his_idx needs to be stored somewhere
@@ -177,8 +174,13 @@ void EDental::Open::parseReply(const std::string& reply)
 	//dentalProcedures
 	for (int i = 3; contents.Child(i).ToElement(); i++)
 	{
+		auto index = std::stoi(contents.Child(i).Child(1).ToElement()->Attribute("value"));
+		auto sequence = std::stoi(contents.Child(i).Child(0).ToElement()->Attribute("value"));
+
+		if (sequence == 1) continue; //the first procedure is always the initial status
+		
 		//index
-		procedureIndex.push_back(std::stoi(contents.Child(i).Child(1).ToElement()->Attribute("value")));
+		procedureIndex.push_back(index);
 	}
 
 	m_callback(nrnStr, procedureIndex);
@@ -215,7 +217,7 @@ bool EDental::Augment::sendRequest(const AmbList& ambSheet, const Patient& patie
 		+ bind("rhifAreaNumber", patient.city.getRhif() + patient.city.getHealthRegion())
 		+ "<nhis:medicalStatus />" //TO IMPLEMENT!!!
 		+ resultingDocuments
-		+ getProcedures(ambSheet.procedures, ambSheet.teeth)
+		+ getProcedures(ambSheet.procedures, ambSheet.teeth, ambSheet.date)
 		+ "</nhis:dentalTreatment>"
 		+ HisService::subject(patient)
 		+ HisService::performer()
@@ -224,14 +226,16 @@ bool EDental::Augment::sendRequest(const AmbList& ambSheet, const Patient& patie
 	return HisService::sendRequestToHis(contents);
 }
 
-std::string EDental::Augment::getProcedures(const ProcedureContainer& procedures, const ToothContainer& teeth)
+std::string EDental::Augment::getProcedures(const ProcedureContainer& procedures, const ToothContainer& teeth, const Date& treatmentStartDate)
 {
 	
 	std::string result;
 
 	result.reserve(1000);
 
-	int sequence = 0;
+	result += HisService::initialStatusAsProcedure(teeth, treatmentStartDate, true);
+
+	int sequence = 1;
 
 	ToothContainer teethChanged = teeth;
 
@@ -278,7 +282,7 @@ std::string EDental::Augment::getProcedures(const ProcedureContainer& procedures
 			}
 		}
 
-		if (p.code.oldCode() == 101)
+		if (p.code.oldCode() == 101 || p.code.oldCode() == 103)
 		{
 			for (auto& tooth : teeth)
 			{
@@ -318,7 +322,7 @@ std::string EDental::Augment::getProcedures(const ProcedureContainer& procedures
 
 		result += bind("status", 7);
 
-		result += bind("type", static_cast<int>(p.code.type()));
+		result += bind("type", p.code.hisType());
 
 		result += bind("datePerformed", p.date.to8601());
 
@@ -328,7 +332,7 @@ std::string EDental::Augment::getProcedures(const ProcedureContainer& procedures
 
 	}
 	
-
+	
 
 	return result;
 	
@@ -364,9 +368,11 @@ void EDental::Augment::parseReply(const std::string& reply)
 		//index
 		auto hisIdx = std::stoi(contents.Child(i).Child(1).ToElement()->Attribute("value"));
 
+		if (hisIdx == 1) continue;
+
 		if (sequence >= 999) continue;
 
-		procedureIndex[sequence-1] = hisIdx;
+		procedureIndex[sequence-2] = hisIdx;
 	}
 
 	m_callback(procedureIndex);

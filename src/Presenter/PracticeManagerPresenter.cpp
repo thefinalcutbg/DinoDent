@@ -55,6 +55,7 @@ void PracticeManagerPresenter::removeClicked(int idx)
 	auto passGuess = ModalDialogBuilder::inputDialog(
 		"Въведете парола на практиката",
 		"Премахване на практика",
+		"",
 		true
 	);
 
@@ -83,6 +84,7 @@ void PracticeManagerPresenter::editClicked(int idx)
 	auto passGuess = ModalDialogBuilder::inputDialog(
 		"Въведете парола на практиката",
 		"Редактиране на практика",
+		"",
 		true
 	);
 

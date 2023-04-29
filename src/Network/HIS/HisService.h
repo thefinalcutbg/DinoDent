@@ -36,7 +36,7 @@ protected:
 	std::string bind(const std::string& name, double value);
 	std::string bind(const std::string& name, const char* value, bool isUserInput = false);
 
-	std::string getResultingStatusAsProcedure(const ToothContainer& teeth, const Date& lastProcedureDate);
+	std::string initialStatusAsProcedure(const ToothContainer& teeth, const Date& lastProcedureDate, bool augmentation = false);
 
 	std::string getErrors(const std::string& reply);
 

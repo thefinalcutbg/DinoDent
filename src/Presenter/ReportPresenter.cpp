@@ -40,6 +40,11 @@ void ReportPresenter::checkAmbList(const AmbList& list, const Patient& patient)
 		view->appendText("Амбулаторен лист №" + list.getNumber() + " не е изпратен към НЗИС");
 	}
 
+	if (list.nrn.size() && !list.his_updated) {
+		m_hasErrors = true;
+		view->appendText("Корекциите по амбулаторен лист №" + list.getNumber() + " не са отразени в НЗИС");
+	}
+
 
 	if (!nraCheck) return;
 

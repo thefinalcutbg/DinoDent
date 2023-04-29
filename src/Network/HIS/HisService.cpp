@@ -27,7 +27,7 @@ bool HisService::sendRequestToHis(const std::string& query)
 	}
 
 	auto signedMsg = signMessage(buildMessage(query));
-
+	ModalDialogBuilder::showMultilineDialog(signedMsg);
 	if (signedMsg.empty()) return false;
 
 	awaiting_reply = true;
@@ -290,14 +290,18 @@ std::string HisService::bind(const std::string& name, const char* value, bool is
 	return bind(name, std::string{ value }, isUserInput);
 }
 
-std::string HisService::getResultingStatusAsProcedure(const ToothContainer& teeth, const Date& lastProcedureDate)
+std::string HisService::initialStatusAsProcedure(const ToothContainer& teeth, const Date& lastProcedureDate, bool augmentation)
 {
 
 	std::string result;
 
 	result += "<nhis:dentalProcedure>";
 
-	result += ("sequence", 101);
+	result += bind("sequence", 1);
+
+	if (augmentation) {
+		result += bind("index", 1);
+	}
 
 	result += bind("code", "D-01-001");
 	result += bind("type", 1);

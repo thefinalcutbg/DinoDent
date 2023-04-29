@@ -11,6 +11,11 @@ void InputDialog::setTitle(const std::string& title)
 	setWindowTitle(title.c_str());
 }
 
+void InputDialog::setInput(const std::string& input)
+{
+	ui.lineEdit->setText(input.c_str());
+}
+
 InputDialog::InputDialog(bool password, QWidget *parent) : QDialog(parent)
 {
 	ui.setupUi(this);

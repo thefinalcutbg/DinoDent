@@ -48,6 +48,13 @@
          </widget>
         </item>
         <item>
+         <widget class="QPushButton" name="editButton">
+          <property name="text">
+           <string>Редактирай</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QPushButton" name="removeButton">
           <property name="text">
            <string>Изтрий</string>

@@ -25,7 +25,23 @@ MedicalStatusWidget::MedicalStatusWidget(QWidget *parent)
 			delete ui.statusList->takeItem(index.row());
 		}
 	);
+	
+	connect(ui.editButton, &QPushButton::clicked, [=] {
 
+		auto index = ui.statusList->selectionModel()->currentIndex().row();
+
+		if (index == -1) return;
+
+		auto result = ModalDialogBuilder::inputDialog("", "Редакция", ui.statusList->item(index)->text().toStdString());
+
+		if (result.size()) {
+			ui.statusList->item(index)->setText(result.c_str());
+		
+		}
+	});
+
+	connect(ui.statusList, &QListWidget::doubleClicked, [=] { ui.editButton->click(); });
+	
 }
 
 void MedicalStatusWidget::setMedicalStatus(const std::vector<MedicalStatus>& s)
@@ -33,6 +49,10 @@ void MedicalStatusWidget::setMedicalStatus(const std::vector<MedicalStatus>& s)
 	for (auto& status : s)
 	{
 		ui.statusList->addItem(status.data.c_str());
+
+		//auto item = ui.statusList->item(ui.statusList->count() - 1);
+
+		//item->setFlags(item->flags() | Qt::ItemIsEditable);
 	}
 }
 

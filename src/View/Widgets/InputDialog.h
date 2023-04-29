@@ -18,6 +18,7 @@ public:
 
 	void setLabel(const std::string& label);
 	void setTitle(const std::string& title);
+	void setInput(const std::string& input);
 
 	//returns empty string if canceled
 	std::string result();

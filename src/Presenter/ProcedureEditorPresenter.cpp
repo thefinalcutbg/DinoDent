@@ -44,6 +44,10 @@ void ProcedureEditorPresenter::setView(IProcedureEditDialog* view)
 	view->procedureInput()->diagnosisEdit()->set_Text(result->diagnosis.additionalDescription);
 	view->procedureInput()->diagnosisCombo()->setIndex(result->diagnosis.index());
 
+	if (result->diagnosis.index()) {
+		view->procedureInput()->diagnosisEdit()->setInputValidator(nullptr);
+	}
+
 	switch (result->code.type())
 	{
 		case ProcedureType::general:

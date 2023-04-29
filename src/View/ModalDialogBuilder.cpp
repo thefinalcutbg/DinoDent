@@ -398,6 +398,7 @@ std::string ModalDialogBuilder::pinPromptDialog(const std::string& pem)
 	return d.getResult().toStdString();
 }
 
+
 #include "View/Widgets/TableViewDialog.h"
 #include "View/TableModels/ProcedureCodeModel.h"
 
@@ -437,11 +438,12 @@ void ModalDialogBuilder::pisDialog(MonthNotifPresenter* presenter)
 
 #include "View/Widgets/InputDialog.h"
 
-std::string ModalDialogBuilder::inputDialog(const std::string& text, const std::string& title, bool asPassword)
+std::string ModalDialogBuilder::inputDialog(const std::string& text, const std::string& title, const std::string& input, bool asPassword)
 {
 	InputDialog d(asPassword);
 	d.setLabel(text);
 	d.setTitle(title);
+	d.setInput(input);
 	d.exec();
 	return d.result();
 }

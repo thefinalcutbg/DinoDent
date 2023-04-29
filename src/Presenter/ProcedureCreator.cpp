@@ -259,10 +259,12 @@ void ProcedureCreator::setView(IProcedureInput* view)
 		diag_map[ProcedureType::endo] = endodonticDiagnosis(*t);
 		diag_map[ProcedureType::crown] = crownDiagnosis(*t);
 		diag_map[ProcedureType::implant] = implantDiagnosis(*t);
-		diag_map[ProcedureType::bridge] = 5;
-		diag_map[ProcedureType::fibersplint] = 7;
-		diag_map[ProcedureType::denture] = 6;
 	}
+
+	diag_map[ProcedureType::bridge] = 5;
+	diag_map[ProcedureType::fibersplint] = 7;
+	diag_map[ProcedureType::denture] = 6;
+	diag_map[ProcedureType::deputatio] = 10;
 
 	auto [begin, end] = getBridgeRange(m_selectedTeeth);
 
@@ -270,7 +272,7 @@ void ProcedureCreator::setView(IProcedureInput* view)
 
 	view->setCurrentPresenter(this);
 
-	//view->diagnosisEdit()->setInputValidator(&notEmpty_validator);
+
 
 	//diag_map[ProcedureType::bridge] = bridgeOrFiberDiagnosis(m_selectedTeeth, ConstructionRange{ begin, end });
 	//diag_map[ProcedureType::fibersplint] = bridgeOrFiberDiagnosis(m_selectedTeeth, ConstructionRange{ begin, end });
@@ -293,19 +295,19 @@ void ProcedureCreator::setProcedureCode(const ProcedureCode& m, bool nhif)
 
 	view->diagnosisCombo()->setIndex(diag_map[m.type()]);
 
+	view->diagnosisEdit()->setInputValidator(diagIdx ? nullptr : &notEmpty_validator);
+
 	view->setNhifLayout(nhif);
 
 	if (!diagIdx && m.oldCode() == 101) {
 		view->diagnosisEdit()->set_Text("Преглед");
-		view->diagnosisEdit()->validateInput();
 	}
 	else
 	{
 		view->diagnosisEdit()->set_Text("");
 	}
 	
-
-	
+	view->diagnosisEdit()->validateInput();
 
 	switch (m.type())
 	{
@@ -400,6 +402,7 @@ std::vector<Procedure> ProcedureCreator::getProcedures()
 
 	switch (procedure.code.type())
 	{
+	case ProcedureType::deputatio:
 	case ProcedureType::general:
 		procedure.result = NoData{};
 		result.push_back(procedure);

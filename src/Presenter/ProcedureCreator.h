@@ -20,7 +20,7 @@ class ProcedureCreator
 
 	const std::vector<const Tooth*> m_selectedTeeth;
 
-	//NotEmptyValidator notEmpty_validator;
+	NotEmptyValidator notEmpty_validator;
 	SurfaceValidator surface_validator;
 	BridgeRangeValidator range_validator;
 

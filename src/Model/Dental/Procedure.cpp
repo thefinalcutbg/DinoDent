@@ -238,7 +238,8 @@ bool Procedure::isToothSpecific() const
 		type != ProcedureType::general &&
 		type != ProcedureType::bridge &&
 		type != ProcedureType::fibersplint &&
-		type != ProcedureType::denture
+		type != ProcedureType::denture &&
+		type != ProcedureType::deputatio
 		// && type != ProcedureType::removebridgeOrSplint
 	;
 }

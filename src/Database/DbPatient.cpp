@@ -43,7 +43,7 @@ bool DbPatient::update(const Patient& patient)
         "ekatte=?,"
         "address=?,"
         "hirbno=?,"
-        "phone=?,"
+        "phone=?"
         "WHERE rowid=?"
     );
 

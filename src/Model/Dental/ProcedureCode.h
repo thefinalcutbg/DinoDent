@@ -14,7 +14,11 @@ enum class ProcedureType
     implant = 6,
     bridge = 7,
     fibersplint = 8,
-    denture = 9
+    denture = 9,
+    removePost = 10,
+    removeCrown = 11,
+    deputatio = 12,
+    anesthesia = 13 
 };
 
 
@@ -25,6 +29,7 @@ class ProcedureCode
         std::string name;
         std::string ksmp; //empty if not covered by NHIF
         int oldCode;
+        int hisType;
     };
 
     inline static const std::string dummy;
@@ -55,6 +60,7 @@ public:
     const std::string& ksmp() const;
     const std::string& name() const;
     const std::string& code() const { return m_code; }
+    int hisType() const;
     ProcedureType type() const;
 
 };

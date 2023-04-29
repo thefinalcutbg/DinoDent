@@ -65,8 +65,12 @@ std::string EDental::Open::getProcedures(const ProcedureContainer& procedures, c
 		result += bind("sequence", sequence);
 
 		result += bind("code", p.code.code());
-		result += bind("type", static_cast<int>(p.code.type()));
+		result += bind("type", static_cast<int>(p.code.hisType()));
 
+		if (p.code.type() == ProcedureType::anesthesia)
+		{
+			result += bind("duration", std::get<AnesthesiaMinutes>(p.result).minutes);
+		}
 
 		result += bind("datePerformed", p.date.to8601());
 
@@ -88,6 +92,18 @@ std::string EDental::Open::getProcedures(const ProcedureContainer& procedures, c
 			for (int i = begin; i <= end; i++)
 			{
 				result += getToothStatus(teethChanged.at(i));
+			}
+		}
+
+		if (p.code.type() == ProcedureType::deputatio)
+		{
+			for (auto& t : teethChanged)
+			{
+				if (t.calculus)
+				{
+					t.calculus.set(false);
+					result += getToothStatus(t);
+				}
 			}
 		}
 
@@ -232,8 +248,12 @@ std::string EDental::Augment::getProcedures(const ProcedureContainer& procedures
 		}
 
 		result += bind("code", p.code.code());
-		result += bind("type", static_cast<int>(p.code.type()));
+		result += bind("type", p.code.hisType());
 
+		if (p.code.type() == ProcedureType::anesthesia)
+		{
+			result += bind("duration", std::get<AnesthesiaMinutes>(p.result).minutes);
+		}
 
 		result += bind("datePerformed", p.date.to8601());
 

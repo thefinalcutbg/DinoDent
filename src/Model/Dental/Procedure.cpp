@@ -50,8 +50,9 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 					return;
 				}
 				
+				teeth.setStatus({ this->tooth }, StatusCode::Implant, false);
 				teeth.setStatus({this->tooth}, StatusCode::Extraction, true);
-
+				
 				if (tooth.extraction) //if the tooth was temporary or hyperdontic, the status won't be present
 				{
 					tooth.extraction.LPK = LPK;
@@ -146,8 +147,7 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 				for (int i : indexes) teeth[i].splint.LPK = LPK;
 			}
 			break;
-			/*
-			case ProcedureType::removecrown:
+			case ProcedureType::removeCrown:
 			{
 				if (hyperdontic) return;
 
@@ -156,7 +156,7 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 			}
 			break;
 
-			case ProcedureType::removepost:
+			case ProcedureType::removePost:
 			{
 				if (hyperdontic) return;
 
@@ -165,6 +165,15 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 			}
 			break;
 
+			case ProcedureType::deputatio:
+			{
+				for (auto& t : teeth)
+				{
+					t.calculus.set(false);
+				}
+			}
+
+/*
 			case ProcedureType::removebridgeOrSplint:
 			{
 				auto [begin, end] = std::get<ConstructionRange>(result);

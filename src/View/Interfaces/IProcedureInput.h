@@ -17,10 +17,12 @@ public:
 
 	enum BridgeCheckState { Checked, Unchecked, Hidden };
 
-	enum WidgetLayout { General, ToothSpecific, Restoration, Range };
+	enum WidgetLayout { General, ToothSpecific, Restoration, Range, Anesthesia };
 
 	virtual AbstractLineEdit* diagnosisEdit() = 0;
 	virtual AbstractDateEdit* dateEdit() = 0;
+	virtual int minutes() = 0;
+	virtual void setMinutes(int min) = 0;
 	virtual std::string getNotes() = 0;
 	virtual void setCurrentPresenter(ProcedureCreator* presenter) { this->presenter = presenter; }
 	virtual AbstractRangeEdit* rangeWidget() = 0;

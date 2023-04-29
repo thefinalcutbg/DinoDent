@@ -54,6 +54,10 @@ void ProcedureEditorPresenter::setView(IProcedureEditDialog* view)
 			view->procedureInput()->surfaceSelector()->setData(std::get<ProcedureObtData>(result->result));
 			view->procedureInput()->surfaceSelector()->setInputValidator(&surface_validator);
 			break;
+		case ProcedureType::anesthesia:
+			view->procedureInput()->setLayout(IProcedureInput::Anesthesia);
+			view->procedureInput()->setMinutes(std::get<AnesthesiaMinutes>(result->result).minutes);
+			break;
 		case ProcedureType::bridge:
 		case ProcedureType::fibersplint:
 		case ProcedureType::denture:
@@ -85,9 +89,9 @@ void ProcedureEditorPresenter::setView(IProcedureEditDialog* view)
 
 void ProcedureEditorPresenter::okPressed()
 {
-	bool validIdx = view->procedureInput()->diagnosisCombo()->getIndex();
+	//bool validIdx = view->procedureInput()->diagnosisCombo()->getIndex();
 	
-	view->procedureInput()->diagnosisEdit()->setInputValidator(validIdx ? nullptr : &not_emptyValidator);
+	//view->procedureInput()->diagnosisEdit()->setInputValidator(validIdx ? nullptr : &not_emptyValidator);
 
 
 	//validation:
@@ -125,6 +129,9 @@ void ProcedureEditorPresenter::okPressed()
 	{
 		case ProcedureType::obturation:
 			result->result = view->procedureInput()->surfaceSelector()->getData();
+			break;
+		case ProcedureType::anesthesia:
+			result->result = AnesthesiaMinutes{ view->procedureInput()->minutes() };
 			break;
 		case ProcedureType::bridge:
 		case ProcedureType::fibersplint:

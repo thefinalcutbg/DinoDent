@@ -348,6 +348,11 @@ std::string Parser::write(const Procedure& procedure)
 		json["end"] = r.tooth_end;
 		break;
 	}
+	case ProcedureType::anesthesia:
+	{
+		json["minutes"] = std::get<AnesthesiaMinutes>(procedure.result).minutes;
+		break;
+	}
 	default:
 		break;
 	}
@@ -563,7 +568,11 @@ void Parser::parse(const std::string& jsonString, Procedure& procedure)
 		};
 
 		break;
-
+	case ProcedureType::anesthesia:
+	{
+		procedure.result = AnesthesiaMinutes{ json["minutes"].asInt() };
+	}
+	break;
 	default:
 		procedure.result = NoData{};
 	}

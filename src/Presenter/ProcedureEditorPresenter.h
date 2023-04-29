@@ -15,7 +15,7 @@ class ProcedureEditorPresenter
 
 	SurfaceValidator surface_validator;
 	BridgeRangeValidator range_validator;
-	NotEmptyValidator not_emptyValidator;
+	//NotEmptyValidator not_emptyValidator;
 	IProcedureEditDialog* view;
 	std::optional<Procedure> result;
 

@@ -270,7 +270,7 @@ void ProcedureCreator::setView(IProcedureInput* view)
 
 	view->setCurrentPresenter(this);
 
-	view->diagnosisEdit()->setInputValidator(&notEmpty_validator);
+	//view->diagnosisEdit()->setInputValidator(&notEmpty_validator);
 
 	//diag_map[ProcedureType::bridge] = bridgeOrFiberDiagnosis(m_selectedTeeth, ConstructionRange{ begin, end });
 	//diag_map[ProcedureType::fibersplint] = bridgeOrFiberDiagnosis(m_selectedTeeth, ConstructionRange{ begin, end });
@@ -280,10 +280,6 @@ void ProcedureCreator::setView(IProcedureInput* view)
 void ProcedureCreator::diagnosisChanged(int idx)
 {
 	diag_map[m_code.type()] = idx;
-
-	view->diagnosisEdit()->setInputValidator(idx ? nullptr : &notEmpty_validator);
-
-	view->diagnosisEdit()->validateInput();
 
 }
 
@@ -296,12 +292,12 @@ void ProcedureCreator::setProcedureCode(const ProcedureCode& m, bool nhif)
 	auto diagIdx = diag_map[m.type()];
 
 	view->diagnosisCombo()->setIndex(diag_map[m.type()]);
-	view->diagnosisEdit()->setInputValidator(diagIdx ? nullptr : &notEmpty_validator);
 
 	view->setNhifLayout(nhif);
 
 	if (!diagIdx && m.oldCode() == 101) {
 		view->diagnosisEdit()->set_Text("Преглед");
+		view->diagnosisEdit()->validateInput();
 	}
 	else
 	{
@@ -336,8 +332,14 @@ void ProcedureCreator::setProcedureCode(const ProcedureCode& m, bool nhif)
 			view->rangeWidget()->setInputValidator(nullptr);
 			break;
 			*/
+		case ProcedureType::deputatio:
 		case ProcedureType::general:
 			view->setLayout(IProcedureInput::General);
+			view->surfaceSelector()->setInputValidator(nullptr);
+			view->rangeWidget()->setInputValidator(nullptr);
+			break;
+		case ProcedureType::anesthesia:
+			view->setLayout(IProcedureInput::Anesthesia);
 			view->surfaceSelector()->setInputValidator(nullptr);
 			view->rangeWidget()->setInputValidator(nullptr);
 			break;
@@ -420,6 +422,12 @@ std::vector<Procedure> ProcedureCreator::getProcedures()
 		result.push_back(procedure);
 	}
 		break;
+	case ProcedureType::anesthesia:
+	{
+		procedure.result = AnesthesiaMinutes{ view->minutes() };
+		result.push_back(procedure);
+		break;
+	}
 	default:
 	{
 		procedure.result = NoData{};

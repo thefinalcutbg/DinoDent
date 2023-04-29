@@ -26,10 +26,15 @@ struct ProcedureObtData
     bool post;
 };
 
+struct AnesthesiaMinutes {
+    int minutes{ 0 };
+};
+
 typedef std::variant<
             NoData, 
             ProcedureObtData, 
-            ConstructionRange
+            ConstructionRange,
+            AnesthesiaMinutes
         > Result;
 
 enum class FinancingSource { NHIF = 2, PHIF = 3, Patient = 4 };

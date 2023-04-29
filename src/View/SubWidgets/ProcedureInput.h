@@ -2,7 +2,7 @@
 
 #include <QWidget>
 #include "ui_ProcedureInput.h"
-
+#include "Model/Validators/CommonValidators.h"
 #include "View/Interfaces/IProcedureInput.h"
 
 class DateEdit;
@@ -12,6 +12,7 @@ class ProcedureInput : public QWidget, public IProcedureInput
 {
 	Q_OBJECT
 
+	NotEmptyValidator notEmpty_validator;
 
 public:
 	ProcedureInput(QWidget *parent = Q_NULLPTR);
@@ -28,12 +29,14 @@ public:
 	Ui::ProcedureInput ui;
 
 	// Inherited via IProcedureInput
-	virtual AbstractRangeEdit* rangeWidget() override;
-	virtual AbstractSurfaceSelector* surfaceSelector() override;
-	virtual AbstractComboBox* diagnosisCombo() override;
-	virtual void setErrorMsg(const std::string& error) override;
-	virtual void setLayout(WidgetLayout layout) override;
-	virtual void setNotes(const std::string& notes) override;
+	AbstractRangeEdit* rangeWidget() override;
+	AbstractSurfaceSelector* surfaceSelector() override;
+	AbstractComboBox* diagnosisCombo() override;
+	int minutes() override;
+	void setMinutes(int min) override;
+	void setErrorMsg(const std::string& error) override;
+	void setLayout(WidgetLayout layout) override;
+	void setNotes(const std::string& notes) override;
 	void setNhifLayout(bool nhif) override;
 	FinancingSource getFinancingSource() override;
 	void setFinancingSource(FinancingSource s) override;

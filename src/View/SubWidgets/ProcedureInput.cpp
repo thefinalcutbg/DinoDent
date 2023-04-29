@@ -13,8 +13,14 @@ ProcedureInput::ProcedureInput(QWidget *parent)
 		ui.diagCombo->addItem(name.c_str());
 	}
 
+	ui.diagEdit->setInputValidator(&notEmpty_validator);
+
 	connect(ui.diagCombo, QtComboIndexChanged,
 		[=](int idx) { 
+
+			ui.diagEdit->setInputValidator(idx ? nullptr : &notEmpty_validator);
+
+			ui.diagEdit->validateInput();
 
 			if (presenter) {
 				presenter->diagnosisChanged(idx);
@@ -34,6 +40,7 @@ ProcedureInput::ProcedureInput(QWidget *parent)
 	ui.dateEdit->setErrorLabel(ui.errorLabel);
 	ui.rangeWidget->setErrorLabel(ui.errorLabel);
 	ui.surfaceWidget->setErrorLabel(ui.errorLabel);
+	ui.diagEdit->setErrorLabel(ui.errorLabel);
 }
 
 AbstractLineEdit* ProcedureInput::diagnosisEdit()
@@ -72,6 +79,16 @@ AbstractComboBox* ProcedureInput::diagnosisCombo()
 	return ui.diagCombo;
 }
 
+int ProcedureInput::minutes()
+{
+	return ui.anesthesiaSpin->value();
+}
+
+void ProcedureInput::setMinutes(int min)
+{
+	ui.anesthesiaSpin->setValue(min);
+}
+
 
 void ProcedureInput::setErrorMsg(const std::string& error)
 {
@@ -85,8 +102,15 @@ void ProcedureInput::setErrorMsg(const std::string& error)
 	ui.PHIFcheckbox->setHidden(true);
 	ui.notesLabel->setHidden(true);
 	ui.hyperdonticCheckBox->setHidden(true);
+	ui.anesthesiaGroup->setHidden(true);
 	ui.errorLabel->setText(error.c_str());
+	ui.dateEdit->setErrorLabel(nullptr);
+	ui.rangeWidget->setErrorLabel(nullptr);
+	ui.surfaceWidget->setErrorLabel(nullptr);
+	ui.diagEdit->setErrorLabel(nullptr);
+
 }
+
 
 void ProcedureInput::setLayout(WidgetLayout layout)
 {
@@ -95,6 +119,12 @@ void ProcedureInput::setLayout(WidgetLayout layout)
 	ui.diagEdit->setHidden(false);
 	ui.diagCombo->setHidden(false);
 	ui.notesEdit->setHidden(false);
+
+	ui.dateEdit->setErrorLabel(ui.errorLabel);
+	ui.rangeWidget->setErrorLabel(ui.errorLabel);
+	ui.surfaceWidget->setErrorLabel(ui.errorLabel);
+	ui.diagEdit->setErrorLabel(ui.errorLabel);
+
 	ui.errorLabel->setText("");
 	ui.notesLabel->setHidden(false);
 
@@ -104,23 +134,32 @@ void ProcedureInput::setLayout(WidgetLayout layout)
 			ui.rangeWidget->setHidden(true);
 			ui.surfaceWidget->setHidden(true);
 			ui.hyperdonticCheckBox->setHidden(true);
+			ui.anesthesiaGroup->setHidden(true);
 			break;
 		case WidgetLayout::Range:
 			ui.rangeWidget->disable(false);
 			ui.rangeWidget->setHidden(false);
 			ui.surfaceWidget->setHidden(true);
 			ui.hyperdonticCheckBox->setHidden(true);
+			ui.anesthesiaGroup->setHidden(true);
 			break;
 		case WidgetLayout::Restoration:
 			ui.rangeWidget->setHidden(true);
 			ui.surfaceWidget->setHidden(false);
 			ui.hyperdonticCheckBox->setHidden(false);
+			ui.anesthesiaGroup->setHidden(true);
 			break;
 		case WidgetLayout::ToothSpecific:
 			ui.rangeWidget->setHidden(true);
 			ui.surfaceWidget->setHidden(true);
 			ui.hyperdonticCheckBox->setHidden(false);
+			ui.anesthesiaGroup->setHidden(true);
 			break;
+		case WidgetLayout::Anesthesia:
+			ui.rangeWidget->setHidden(true);
+			ui.surfaceWidget->setHidden(true);
+			ui.hyperdonticCheckBox->setHidden(true);
+			ui.anesthesiaGroup->setHidden(false);
 	}
 }
 

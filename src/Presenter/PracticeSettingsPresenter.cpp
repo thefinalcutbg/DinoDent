@@ -27,10 +27,15 @@ void PracticeSettingsPresenter::setView(IPracticeSettings* view)
 	view->setPresenter(this);
 
 	if (initialRzi.size())(view->hidePassword());
-	view->setPractice(DbPractice::getPractice(initialRzi));
+
+	auto practice = DbPractice::getPractice(initialRzi);
+
+	view->setPractice(practice);
 	view->setDoctorList(m_doctorsList);
 
-	view->setDoctorList(m_doctorsList);
+	nzokContractEnabled(practice.nhif_contract.has_value());
+	
+
 }
 
 

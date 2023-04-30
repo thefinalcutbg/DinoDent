@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>709</width>
-    <height>542</height>
+    <width>738</width>
+    <height>558</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -30,7 +30,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>80</y>
+     <y>50</y>
      <width>121</width>
      <height>21</height>
     </rect>
@@ -38,59 +38,6 @@
    <property name="text">
     <string>Регистрационен №</string>
    </property>
-  </widget>
-  <widget class="QLabel" name="label_3">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>110</y>
-     <width>49</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Булстат:</string>
-   </property>
-  </widget>
-  <widget class="QComboBox" name="comboBox">
-   <property name="geometry">
-    <rect>
-     <x>150</x>
-     <y>50</y>
-     <width>151</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <item>
-    <property name="text">
-     <string>Свободна професия</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>ЕТ</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>ЕООД</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>ООД</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>ЕАД</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>АД</string>
-    </property>
-   </item>
   </widget>
   <widget class="LineEdit" name="practiceNameEdit">
    <property name="geometry">
@@ -115,7 +62,7 @@
    <property name="geometry">
     <rect>
      <x>150</x>
-     <y>80</y>
+     <y>50</y>
      <width>101</width>
      <height>21</height>
     </rect>
@@ -124,81 +71,17 @@
     <number>10</number>
    </property>
   </widget>
-  <widget class="LineEdit" name="bulstatEdit">
-   <property name="geometry">
-    <rect>
-     <x>150</x>
-     <y>110</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="maxLength">
-    <number>13</number>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_4">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>140</y>
-     <width>81</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Седалище:</string>
-   </property>
-  </widget>
-  <widget class="LineEdit" name="addressEdit">
-   <property name="geometry">
-    <rect>
-     <x>150</x>
-     <y>140</y>
-     <width>151</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="sizePolicy">
-    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-     <horstretch>0</horstretch>
-     <verstretch>0</verstretch>
-    </sizepolicy>
-   </property>
-   <property name="maxLength">
-    <number>100</number>
-   </property>
-  </widget>
   <widget class="QLabel" name="label_8">
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>170</y>
+     <y>80</y>
      <width>111</width>
      <height>21</height>
     </rect>
    </property>
    <property name="text">
-    <string>Адрес по дейност:</string>
-   </property>
-  </widget>
-  <widget class="LineEdit" name="activityAddressEdit">
-   <property name="geometry">
-    <rect>
-     <x>150</x>
-     <y>170</y>
-     <width>151</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="sizePolicy">
-    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-     <horstretch>0</horstretch>
-     <verstretch>0</verstretch>
-    </sizepolicy>
-   </property>
-   <property name="maxLength">
-    <number>100</number>
+    <string>Населено място:</string>
    </property>
   </widget>
   <widget class="QGroupBox" name="nzokGroup">
@@ -207,7 +90,7 @@
      <x>10</x>
      <y>300</y>
      <width>291</width>
-     <height>211</height>
+     <height>221</height>
     </rect>
    </property>
    <property name="title">
@@ -223,7 +106,7 @@
     <property name="geometry">
      <rect>
       <x>140</x>
-      <y>20</y>
+      <y>30</y>
       <width>81</width>
       <height>21</height>
      </rect>
@@ -236,7 +119,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>20</y>
+      <y>30</y>
       <width>121</width>
       <height>21</height>
      </rect>
@@ -249,7 +132,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>50</y>
+      <y>60</y>
       <width>121</width>
       <height>21</height>
      </rect>
@@ -262,7 +145,7 @@
     <property name="geometry">
      <rect>
       <x>140</x>
-      <y>50</y>
+      <y>60</y>
       <width>91</width>
       <height>22</height>
      </rect>
@@ -305,7 +188,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>80</y>
+      <y>90</y>
       <width>281</width>
       <height>21</height>
      </rect>
@@ -318,7 +201,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>110</y>
+      <y>120</y>
       <width>271</width>
       <height>21</height>
      </rect>
@@ -331,7 +214,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>170</y>
+      <y>180</y>
       <width>101</width>
       <height>21</height>
      </rect>
@@ -344,7 +227,7 @@
     <property name="geometry">
      <rect>
       <x>140</x>
-      <y>170</y>
+      <y>180</y>
       <width>141</width>
       <height>21</height>
      </rect>
@@ -354,7 +237,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>140</y>
+      <y>150</y>
       <width>231</width>
       <height>20</height>
      </rect>
@@ -364,66 +247,11 @@
     </property>
    </widget>
   </widget>
-  <widget class="QGroupBox" name="vatGroup">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>230</y>
-     <width>291</width>
-     <height>61</height>
-    </rect>
-   </property>
-   <property name="title">
-    <string>Регистрация по ДДС</string>
-   </property>
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="checked">
-    <bool>false</bool>
-   </property>
-   <widget class="QLabel" name="label_6">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>30</y>
-      <width>81</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>ДДС номер:</string>
-    </property>
-   </widget>
-   <widget class="LineEdit" name="vatEdit">
-    <property name="geometry">
-     <rect>
-      <x>140</x>
-      <y>30</y>
-      <width>141</width>
-      <height>21</height>
-     </rect>
-    </property>
-   </widget>
-  </widget>
-  <widget class="QLabel" name="label_5">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>50</y>
-     <width>91</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Форма:</string>
-   </property>
-  </widget>
   <widget class="QLabel" name="errorLabel">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>520</y>
+     <y>530</y>
      <width>391</width>
      <height>21</height>
     </rect>
@@ -451,7 +279,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>200</y>
+     <y>110</y>
      <width>111</width>
      <height>21</height>
     </rect>
@@ -460,29 +288,13 @@
     <string>Парола:</string>
    </property>
   </widget>
-  <widget class="LineEdit" name="passEdit">
-   <property name="geometry">
-    <rect>
-     <x>150</x>
-     <y>200</y>
-     <width>151</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="maxLength">
-    <number>20</number>
-   </property>
-   <property name="echoMode">
-    <enum>QLineEdit::Normal</enum>
-   </property>
-  </widget>
   <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
     <rect>
-     <x>310</x>
-     <y>300</y>
+     <x>330</x>
+     <y>290</y>
      <width>394</width>
-     <height>211</height>
+     <height>231</height>
     </rect>
    </property>
    <property name="title">
@@ -549,6 +361,194 @@
     </item>
    </layout>
   </widget>
+  <widget class="QGroupBox" name="groupBox_2">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>140</y>
+     <width>381</width>
+     <height>141</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Данни за фирмата</string>
+   </property>
+   <widget class="QComboBox" name="comboBox">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>20</y>
+      <width>151</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>Свободна професия</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>ЕТ</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>ЕООД</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>ООД</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>ЕАД</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>АД</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="LineEdit" name="firmAddressEdit">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>50</y>
+      <width>231</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="maxLength">
+     <number>100</number>
+    </property>
+   </widget>
+   <widget class="LineEdit" name="vatEdit">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>110</y>
+      <width>141</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="LineEdit" name="bulstatEdit">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>80</y>
+      <width>101</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="maxLength">
+     <number>13</number>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_5">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>91</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Форма:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>50</y>
+      <width>81</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Седалище:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_6">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>110</y>
+      <width>81</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>ДДС номер:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>80</y>
+      <width>49</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Булстат:</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="LineEdit" name="passEdit">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>110</y>
+     <width>151</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="maxLength">
+    <number>100</number>
+   </property>
+   <property name="echoMode">
+    <enum>QLineEdit::Normal</enum>
+   </property>
+  </widget>
+  <widget class="AutoCompleteLineEdit" name="activityAddressEdit">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>80</y>
+     <width>241</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="maxLength">
+    <number>68</number>
+   </property>
+  </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
@@ -562,16 +562,19 @@
    <extends>QDateEdit</extends>
    <header>View/uiComponents/DateEdit.h</header>
   </customwidget>
+  <customwidget>
+   <class>AutoCompleteLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>View/uiComponents/AutoCompleteLineEdit.h</header>
+  </customwidget>
  </customwidgets>
  <tabstops>
   <tabstop>practiceNameEdit</tabstop>
   <tabstop>comboBox</tabstop>
   <tabstop>rziEdit</tabstop>
   <tabstop>bulstatEdit</tabstop>
-  <tabstop>addressEdit</tabstop>
-  <tabstop>activityAddressEdit</tabstop>
+  <tabstop>firmAddressEdit</tabstop>
   <tabstop>passEdit</tabstop>
-  <tabstop>vatGroup</tabstop>
   <tabstop>vatEdit</tabstop>
   <tabstop>nzokGroup</tabstop>
   <tabstop>contractEdit</tabstop>

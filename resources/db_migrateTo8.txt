@@ -1,9 +1,9 @@
 PRAGMA foreign_keys = 0;
-
 CREATE TABLE sqlitestudio_temp_table AS SELECT * FROM practice;
 DROP TABLE practice;
-CREATE TABLE practice (rzi VARCHAR NOT NULL PRIMARY KEY, name VARCHAR NOT NULL, bulstat VARCHAR NOT NULL, firm_address VARCHAR, practice_address VARCHAR, pass VARCHAR NOT NULL, legal_entity INT, vat VARCHAR, nhif_contract VARCHAR, settings VARCHAR);
-INSERT INTO practice (rzi,name,bulstat,firm_address,practice_address,pass,legal_entity,vat,nhif_contract,settings) SELECT rzi, name, bulstat, firm_address, practice_address, pass, legal_entity, vat, nzok_contract, settings FROM sqlitestudio_temp_table;
+CREATE TABLE practice (rzi VARCHAR NOT NULL PRIMARY KEY, name VARCHAR NOT NULL, bulstat VARCHAR NOT NULL, firm_address VARCHAR, practice_address INTEGER, pass VARCHAR NOT NULL, legal_entity INT, vat VARCHAR, nhif_contract VARCHAR, settings VARCHAR);
+INSERT INTO practice (rzi, name, bulstat, firm_address, pass, legal_entity, vat, nhif_contract, settings) SELECT rzi, name, bulstat, firm_address, pass, legal_entity, vat, nzok_contract, settings FROM sqlitestudio_temp_table;
+UPDATE practice SET practice_address = 68134;
 DROP TABLE sqlitestudio_temp_table;
 CREATE TABLE sqlitestudio_temp_table AS SELECT * FROM patient;
 DROP TABLE patient;

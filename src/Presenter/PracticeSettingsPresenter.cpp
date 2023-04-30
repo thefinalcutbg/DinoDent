@@ -21,8 +21,8 @@ void PracticeSettingsPresenter::setView(IPracticeSettings* view)
 	view->lineEdit(PracticeTextFields::Bulstat)->setInputValidator(&m_bulstatValidator);
 	view->lineEdit(PracticeTextFields::RZI)->setInputValidator(&m_rziValidator);
 	view->lineEdit(PracticeTextFields::Password)->setInputValidator(&m_notEmptyValidator);
-	view->lineEdit(PracticeTextFields::ActivityAddress)->setInputValidator(&m_notEmptyValidator);
-	view->lineEdit(PracticeTextFields::Address)->setInputValidator(&m_notEmptyValidator);
+	view->lineEdit(PracticeTextFields::ActivityAddress)->setInputValidator(&m_cityValidator);
+	view->lineEdit(PracticeTextFields::FirmAddress)->setInputValidator(&m_notEmptyValidator);
 
 	view->setPresenter(this);
 
@@ -47,15 +47,14 @@ Practice PracticeSettingsPresenter::getPractice()
 bool PracticeSettingsPresenter::isValid()
 {
 
-	AbstractUIElement* uiFields[10]
+	AbstractUIElement* uiFields[9]
 	{
 		view->lineEdit(PracticeTextFields::Name),
 		view->lineEdit(PracticeTextFields::RZI),
-		view->lineEdit(PracticeTextFields::Bulstat),
-		view->lineEdit(PracticeTextFields::Address),
 		view->lineEdit(PracticeTextFields::ActivityAddress),
 		view->lineEdit(PracticeTextFields::Password),
-		view->lineEdit(PracticeTextFields::VAT),
+		view->lineEdit(PracticeTextFields::Bulstat),
+		view->lineEdit(PracticeTextFields::FirmAddress),
 		view->lineEdit(PracticeTextFields::NZOKContract),
 		view->lineEdit(PracticeTextFields::NZOKShortName),
 		view->dateEdit()
@@ -85,10 +84,24 @@ bool PracticeSettingsPresenter::isValid()
 		}
 	}
 
+	auto practice = view->getPractice();
+
+	if (practice.nhif_contract &&
+		practice.nhif_contract->unfavourable &&
+		!practice.practice_address.isUnfav() &&
+		!ModalDialogBuilder::askDialog(
+			"Маркирали сте неблагоприятни условия, но адресът на дейността " 
+			"не е в списъка с такива. Сигурни ли сте, че искате да продължите?"
+		)
+		)
+	{
+			return false;
+	}
+
 	//lame, the state of the practice has to be kept in the presenter
 	if (m_doctorsList.size() && 
 		m_doctorsList[0].specialty == NhifSpecialty::None && 
-		view->getPractice().nhif_contract
+		practice.nhif_contract
 	)
 	{
 

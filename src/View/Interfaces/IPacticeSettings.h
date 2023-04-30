@@ -12,7 +12,7 @@ struct Practice;
 
 namespace PracticeTextFields
 {
-	enum Field{Name, RZI, Bulstat, Address, ActivityAddress, Password, VAT, NZOKContract, NZOKShortName, NraPass  };
+	enum Field{Name, RZI, Bulstat, FirmAddress, ActivityAddress, Password, VAT, NZOKContract, NZOKShortName, NraPass  };
 };
 
 class IPracticeSettings

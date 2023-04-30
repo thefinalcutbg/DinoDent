@@ -7,6 +7,7 @@
 #include "Model/Settings.h"
 #include "Model/Dental/ProcedureCode.h"
 #include "Model/Specialty.h"
+#include "Model/Ekatte.h"
 
 constexpr const char* doctorPrefix = "д-р ";
 
@@ -87,7 +88,7 @@ struct Practice
 	std::string name;
 	std::string bulstat;
 	std::string firm_address;
-	std::string practice_address;
+	Ekatte practice_address;
 	std::string vat;
 	std::string pass;
 	int legal_entity{ 0 };

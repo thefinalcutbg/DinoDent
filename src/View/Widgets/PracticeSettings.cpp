@@ -23,7 +23,7 @@ PracticeSettings::PracticeSettings(QWidget *parent)
 
 	lineEdits[PracticeTextFields::Name] = ui.practiceNameEdit;
 	lineEdits[PracticeTextFields::RZI] = ui.rziEdit;
-	lineEdits[PracticeTextFields::Address] = ui.activityAddressEdit;
+	lineEdits[PracticeTextFields::FirmAddress] = ui.firmAddressEdit;
 	lineEdits[PracticeTextFields::ActivityAddress] = ui.activityAddressEdit;
 	lineEdits[PracticeTextFields::Bulstat] = ui.bulstatEdit;
 	lineEdits[PracticeTextFields::Password] = ui.passEdit;
@@ -31,6 +31,7 @@ PracticeSettings::PracticeSettings(QWidget *parent)
 	lineEdits[PracticeTextFields::NZOKContract] = ui.contractEdit;
 	lineEdits[PracticeTextFields::NZOKShortName] = ui.practiceNameNZOK;
 	lineEdits[PracticeTextFields::NraPass] = ui.nraPass;
+
 
 	for (auto lineEdit : lineEdits)
 	{
@@ -44,7 +45,6 @@ PracticeSettings::PracticeSettings(QWidget *parent)
 	ui.contractDateEdit->setErrorLabel(ui.errorLabel);
 
 	connect(ui.nzokGroup, &QGroupBox::clicked, [=]{presenter->nzokContractEnabled(ui.nzokGroup->isChecked());});
-	connect(ui.vatGroup, &QGroupBox::clicked, [=]{presenter->vatEnabled(ui.vatGroup->isChecked());});
 	
 	for (auto& specialty : specialties)
 	{
@@ -75,6 +75,8 @@ PracticeSettings::PracticeSettings(QWidget *parent)
 		}
 	);
 
+	ui.activityAddressEdit->setCompletions(Ekatte::cityNameToIdx());
+
 }
 
 PracticeSettings::~PracticeSettings()
@@ -87,9 +89,8 @@ void PracticeSettings::setPractice(const Practice& practice)
 	ui.rziEdit->setText(QString::fromStdString(practice.rziCode));
 	ui.bulstatEdit->setText(QString::fromStdString(practice.bulstat));
 	ui.comboBox->setCurrentIndex(practice.legal_entity);
-	ui.addressEdit->setText(QString::fromStdString(practice.firm_address));
-	ui.activityAddressEdit->setText(QString::fromStdString(practice.practice_address));
-	ui.vatGroup->setChecked(!practice.vat.empty());
+	ui.firmAddressEdit->setText(QString::fromStdString(practice.firm_address));
+	ui.activityAddressEdit->setText(practice.practice_address.getString(false).c_str());
 	ui.vatEdit->setText(QString::fromStdString(practice.vat));
 	ui.passEdit->setText(QString::fromStdString(practice.pass));
 	
@@ -109,11 +110,12 @@ Practice PracticeSettings::getPractice()
 
 	p.rziCode = ui.rziEdit->getText();
 	p.bulstat = ui.bulstatEdit->getText();
-	p.firm_address = ui.addressEdit->getText();
+	p.firm_address = ui.firmAddressEdit->getText();
 	p.practice_address = ui.activityAddressEdit->getText();
 	p.legal_entity = ui.comboBox->currentIndex();
 	p.name = ui.practiceNameEdit->getText();
 	p.pass = ui.passEdit->getText();
+	p.vat = ui.vatEdit->getText();
 
 	if (ui.nzokGroup->isChecked())
 	{
@@ -124,11 +126,6 @@ Practice PracticeSettings::getPractice()
 		c.nra_pass = ui.nraPass->getText();
 		c.unfavourable = ui.unfavCheck->isChecked();
 		p.nhif_contract.emplace(c);
-	}
-
-	if (ui.vatGroup->isChecked())
-	{
-		p.vat = ui.vatEdit->getText();
 	}
 
 	return p;

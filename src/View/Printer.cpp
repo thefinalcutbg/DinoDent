@@ -327,10 +327,8 @@ void Print::consent(const Patient& patient)
 
 
     report.dataManager()->setReportVariable("practice_name", QString::fromStdString(practice.name));
-    report.dataManager()->setReportVariable("practice_address", QString::fromStdString(practice.practice_address));
+    report.dataManager()->setReportVariable("practice_address", QString::fromStdString(practice.practice_address.getString()));
     report.dataManager()->setReportVariable("doctor", QString::fromStdString(doctor.getFullName()));
-
-    report.dataManager()->setReportVariable("practice_address", QString::fromStdString(practice.practice_address));
     report.dataManager()->setReportVariable("declarator", patient.sex ? "Долуподписаната" : "Долуподписаният");
     report.dataManager()->setReportVariable("type", patient.type == 1 ? "ЕГН" : "ЛНЧ");
     report.dataManager()->setReportVariable("name", QString::fromStdString(patient.fullName()));
@@ -355,7 +353,7 @@ void Print::gdpr(const Patient& patient)
     report.loadFromFile(":/reports/report_gdpr.lrxml");
 
     report.dataManager()->setReportVariable("practice_name", QString::fromStdString(practice.name));
-    report.dataManager()->setReportVariable("practice_address", QString::fromStdString(practice.practice_address));
+    report.dataManager()->setReportVariable("practice_address", QString::fromStdString(practice.practice_address.getString()));
     report.dataManager()->setReportVariable("declarator", patient.sex ? "Долуподписаната" : "Долуподписаният");
     report.dataManager()->setReportVariable("type", patient.type == 1 ? "ЕГН" : "ЛНЧ");
     report.dataManager()->setReportVariable("name", QString::fromStdString(patient.fullName()));

@@ -5,6 +5,8 @@
 #include "Model/Validators/NzokContractValidator.h"
 #include "Model/Validators/DateValidator.h"
 #include "Model/Validators/BulstatValidator.h"
+#include "Model/Validators/PatientValidators.h"
+
 class PracticeSettingsPresenter
 {
 	IPracticeSettings* view {nullptr};
@@ -13,6 +15,7 @@ class PracticeSettingsPresenter
 	DateValidator m_dateValidator;
 	NzokContractValidator m_contractValidator;
 	BulstatValidator m_bulstatValidator;
+	CityValidator m_cityValidator;
 
 	std::string initialRzi;
 

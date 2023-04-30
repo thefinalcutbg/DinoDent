@@ -15,7 +15,7 @@ Practice DbPractice::getPractice(const std::string rziCode)
         practice.name = db.asString(1);
         practice.bulstat = db.asString(2);
         practice.firm_address = db.asString(3);
-        practice.practice_address = db.asString(4);
+        practice.practice_address = db.asInt(4);
         practice.legal_entity = db.asInt(5);
         practice.pass = db.asString(6);
         practice.vat = db.asString(7);
@@ -37,7 +37,7 @@ void DbPractice::updatePractice(const Practice& practice, const std::string& cur
         "name = '" + practice.name + "', "
         "bulstat = '" + practice.bulstat + "', "
         "firm_address = '" + practice.firm_address + "', "
-        "practice_address = '" + practice.practice_address + "', "
+        "practice_address = '" + practice.practice_address.ekatte() + "', "
         "legal_entity = '" + std::to_string(practice.legal_entity) + "', "
         "vat = '" + practice.vat + "', "
         "pass = '" + practice.pass + "', "
@@ -62,7 +62,7 @@ void DbPractice::insertPractice(const Practice& practice)
         "'" + practice.name + "', "
         "'" + practice.bulstat + "', "
         "'" + practice.firm_address + "', "
-        "'" + practice.practice_address + "', "
+        "'" + practice.practice_address.ekatte() + "', "
         "'" + practice.pass + "', "
         "'" + std::to_string(practice.legal_entity) + "', "
         "'" + practice.vat + "', "

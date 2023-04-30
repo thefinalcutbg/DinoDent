@@ -169,7 +169,7 @@ std::string HisService::requester(bool nhif)
 	
 	//implement EKATTE for practice!
 	if (nhif) {
-		rhifAreaNumber = "<nhis:rhifAreaNumber value = \"2201\"/>";
+		rhifAreaNumber = bind("rhifAreaNumber", User::practice().practice_address.getRhif() + User::practice().practice_address.getHealthRegion());
 	}
 
 

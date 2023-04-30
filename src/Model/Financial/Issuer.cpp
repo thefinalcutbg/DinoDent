@@ -39,7 +39,7 @@ Issuer::Issuer(const Practice& practice, const Doctor& doctor) :
 
     },
     address_by_contract{ practice.firm_address },
-    address_by_activity{ practice.practice_address },
+    address_by_activity{ practice.practice_address.getString() },
 
     registration_by_VAT{
 

@@ -88,6 +88,16 @@ void DbUpdates::update7(UpdateDialog& progressDialog)
 			{
 				p.notes += jsonToNotesConversionU7<RestorationMaterial>(jsonData, "material");
 				p.notes += jsonToNotesConversionU7<VitaColor>(jsonData, "color");
+
+				if (jsonData.isMember("post"))
+				{
+					jsonData["post"] = true;
+				}
+				else
+				{
+					jsonData["post"] = false;
+				}
+
 				p.data = jWriter.write(jsonData);
 			}
 			break;
@@ -97,6 +107,7 @@ void DbUpdates::update7(UpdateDialog& progressDialog)
 				p.notes += jsonToNotesConversionU7<CrownMaterial>(jsonData, "material");
 				p.notes += jsonToNotesConversionU7<CrownPreparation>(jsonData, "prep");
 				p.notes += jsonToNotesConversionU7<VitaColor>(jsonData, "color_idx");
+				jsonData.removeMember("3dMaster");
 				p.data = jWriter.write(jsonData);
 			}
 			break;
@@ -106,6 +117,7 @@ void DbUpdates::update7(UpdateDialog& progressDialog)
 				p.notes += jsonToNotesConversionU7<CrownMaterial>(jsonData, "material");
 				p.notes += jsonToNotesConversionU7<CrownPreparation>(jsonData, "prep");
 				p.notes += jsonToNotesConversionU7<VitaColor>(jsonData, "color_idx");
+				jsonData.removeMember("3dMaster");
 				p.data = jWriter.write(jsonData);
 			}
 			break;

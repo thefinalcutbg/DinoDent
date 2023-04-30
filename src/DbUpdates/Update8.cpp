@@ -17,8 +17,6 @@ void DbUpdates::update8(UpdateDialog& progressDialog)
 
 	Db db;
 
-	//db.execute("BEGIN TRANSACTION");
-
 	for (auto& query : script) { db.execute(query); };
 
 	struct Amb {
@@ -82,36 +80,7 @@ void DbUpdates::update8(UpdateDialog& progressDialog)
 
 	}
 
-	progressDialog.setRange(newAmb.size());
 
-	for (auto& a : newAmb)
-	{
-		progressDialog.increment();
-
-		db.newStatement("INSERT INTO amblist "
-			"(date, nrn, lrn, his_updated, based_on, num, nhif_spec, nhif_unfav, status, patient_rowid, lpk, rzi, rowid) "
-			"VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");
-
-		
-
-		db.bind(1, a.date);
-		db.bind(2, a.nrn);
-		db.bind(3, a.lrn);
-		db.bind(4, a.his_updated);
-		db.bind(5, a.based_on);
-		db.bind(6, a.num);
-		a.isNhif ? db.bind(7, a.nhif_spec) : db.bindNull(7);
-		a.isNhif ? db.bind(8, a.nhif_unfav) : db.bindNull(8);
-		db.bind(9, a.status);
-		db.bind(10, a.patient_rowid);
-		db.bind(11, a.lpk);
-		db.bind(12, a.rzi);
-		db.bind(13, a.rowid);
-
-		db.execute();
-	}
-
-	db.execute("DROP TABLE temp_amb");
 
 	struct Proc {
 		long long rowid;
@@ -209,7 +178,7 @@ void DbUpdates::update8(UpdateDialog& progressDialog)
 				p.data = "{\"begin\":1,\"end\":14}";
 
 			}
-			else if (int code = 833)
+			else if (intCode == 833)
 			{
 				p.data = "{\"begin\":17,\"end\":30}";
 			}
@@ -225,6 +194,39 @@ void DbUpdates::update8(UpdateDialog& progressDialog)
 		
 
 	}
+
+	progressDialog.setRange(newAmb.size());
+
+	db.execute("BEGIN TRANSACTION");
+
+	for (auto& a : newAmb)
+	{
+		progressDialog.increment();
+
+		db.newStatement("INSERT INTO amblist "
+			"(date, nrn, lrn, his_updated, based_on, num, nhif_spec, nhif_unfav, status, patient_rowid, lpk, rzi, rowid) "
+			"VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");
+
+
+
+		db.bind(1, a.date);
+		db.bind(2, a.nrn);
+		db.bind(3, a.lrn);
+		db.bind(4, a.his_updated);
+		db.bind(5, a.based_on);
+		db.bind(6, a.num);
+		a.isNhif ? db.bind(7, a.nhif_spec) : db.bindNull(7);
+		a.isNhif ? db.bind(8, a.nhif_unfav) : db.bindNull(8);
+		db.bind(9, a.status);
+		db.bind(10, a.patient_rowid);
+		db.bind(11, a.lpk);
+		db.bind(12, a.rzi);
+		db.bind(13, a.rowid);
+
+		db.execute();
+	}
+
+	
 
 	progressDialog.setRange(newProc.size());
 
@@ -257,10 +259,10 @@ void DbUpdates::update8(UpdateDialog& progressDialog)
 	}
 
 	db.execute("DROP TABLE temp_proc");
-
+	db.execute("DROP TABLE temp_amb");
 
 	db.execute("PRAGMA foreign_keys = 1");
 
-	//db.execute("COMMIT TRANSACTION");
+	db.execute("COMMIT TRANSACTION");
 
 }

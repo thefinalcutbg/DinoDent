@@ -6,7 +6,7 @@
 
 ReferralPresenter::ReferralPresenter(const AmbList& sheet, ReferralType t) : 
 	m_type(t),
-	lrn{ FreeFn::getUuid() }
+	lrn(FreeFn::getUuid())
 {
 	m_result.emplace(t);
 
@@ -55,13 +55,21 @@ void ReferralPresenter::setView(IReferralDialog* view)
 
 
 ReferralPresenter::ReferralPresenter(const Referral& r) :
-	m_type(r.type), m_result(r), ref_rowid{ r.rowid }, lrn(r.lrn)
+	m_type(r.type), m_result(r), ref_rowid{ r.rowid }, lrn(r.lrn), sentToHis(r.isSentToHIS())
 {
 	
 }
 
 void ReferralPresenter::okPressed()
 {
+
+	if (sentToHis) {
+		ModalDialogBuilder::showMessage("Направлението вече е изпратено в НЗИС. Промените няма да бъдат запазени");
+		m_result.reset();
+		view->closeDialog();
+		return;
+	}
+
 	auto common = view->getCommon();
 
 	if (MKB::getNameFromMKBCode(common.mkbMain).empty()) {

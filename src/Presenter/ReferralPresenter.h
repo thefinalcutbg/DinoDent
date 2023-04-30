@@ -18,7 +18,7 @@ class ReferralPresenter
 	long long ref_rowid{ 0 };
 	std::string lrn;
 	ReferralType m_type;
-
+	bool sentToHis{ false };
 
 	
 public:

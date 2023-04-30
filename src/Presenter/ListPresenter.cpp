@@ -728,11 +728,6 @@ void ListPresenter::addReferral(ReferralType type)
 void ListPresenter::editReferral(int index)
 {
 
-    if (m_ambList.referrals[index].isSentToHIS())
-    {
-        ModalDialogBuilder::showMessage("Не можете да коригирате вече изпратено към НЗИС направление");
-        return;
-    }
 
     ReferralPresenter p(m_ambList.referrals[index]);
 

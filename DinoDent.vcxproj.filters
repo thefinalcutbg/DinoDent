@@ -846,9 +846,6 @@
     <ClCompile Include="src\View\Widgets\CurrentStatusDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Model\Identifier.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Database\Database.h">
@@ -1551,9 +1548,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\Dental\ProcedureListElement.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Model\Identifier.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -260,7 +260,7 @@ void DbUpdates::update8(UpdateDialog& progressDialog)
 
 	db.execute("DROP TABLE temp_proc");
 	db.execute("DROP TABLE temp_amb");
-
+	db.execute("UPDATE amblist SET num=(num-100000) WHERE num >= 100000");
 	db.execute("PRAGMA foreign_keys = 1");
 
 	db.execute("COMMIT TRANSACTION");

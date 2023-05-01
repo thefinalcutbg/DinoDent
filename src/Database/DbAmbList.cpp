@@ -246,7 +246,7 @@ int DbAmbList::getNewNumber(Date ambDate, bool nhif)
         "strftime('%Y',date)=? "
         "AND lpk=? "
         "AND rzi=? "
-        "AND nrn IS NULL OR nrn = '' "
+        "AND COALESCE(nrn, '')='' "
         "ORDER BY num DESC LIMIT 1";
 
     Db db(query);

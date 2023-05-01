@@ -11,8 +11,7 @@ ToothContainer::ToothContainer(){
 	teeth.reserve(teethCount);
 	for (int i = 0; i < teethCount; i++)
 	{
-		teeth.emplace_back();
-		teeth.back().setIndex(i);
+		teeth.emplace_back(i);
 		teeth.back().caries.setDefaultSurface(defaultSurfaces[i]);
 		teeth.back().obturation.setDefaultSurface(defaultSurfaces[i]);
 	}

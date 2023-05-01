@@ -16,27 +16,61 @@ bool Tooth::isHealthyCheck()
 
 }
 
-Tooth::Tooth() :
-	index{ -1 }
-{
-	/*
-	for (int i = 0; i < surfaceCount; i++)
-	{
-		caries[i].data.setDiagnosisList(diagnosis(DiagnosisContainer::DiagnosisType::Caries));
-	}
+Tooth::Tooth(int index) : index(index), type(ToothUtils::getToothType(index)){}
 
-	pulpitis.data.setDiagnosisList(diagnosis(DiagnosisContainer::DiagnosisType::Pulpitis));
-	lesion.data.setDiagnosisList(diagnosis(DiagnosisContainer::DiagnosisType::Lesion));
-	fracture.data.setDiagnosisList(diagnosis(DiagnosisContainer::DiagnosisType::Fracture));
-	root.data.setDiagnosisList(diagnosis(DiagnosisContainer::DiagnosisType::Root));
-	*/
+Tooth::Tooth(const Tooth& other) : 
+	index(other.index), 
+	type(other.type),
+	healthy(other.healthy),
+	temporary(other.temporary),
+	obturation(other.obturation),
+	caries(other.caries),
+	pulpitis(other.pulpitis),
+	lesion(other.lesion),
+	endo(other.endo),
+	post(other.post),
+	root(other.root),
+	fracture(other.fracture),
+	extraction(other.extraction),
+	periodontitis(other.periodontitis),
+	mobility(other.mobility),
+	crown(other.crown),
+	bridge(other.bridge),
+	splint(other.splint),
+	implant(other.implant),
+	hyperdontic(other.hyperdontic),
+	impacted(other.impacted),
+	denture(other.denture),
+	calculus(other.calculus)
+{
+
 }
 
-void Tooth::setIndex(int index)
+Tooth& Tooth::operator=(const Tooth& other)
 {
-	this->type = ToothUtils::getToothType(index);
-	this->index = index;
+	healthy = other.healthy;
+	temporary = other.temporary;
+	obturation = other.obturation;
+	caries = other.caries;
+	pulpitis = other.pulpitis;
+	lesion = other.lesion;
+	endo = other.endo;
+	post = other.post;
+	root = other.root;
+	fracture = other.fracture;
+	extraction = other.extraction;
+	periodontitis = other.periodontitis;
+	mobility = other.mobility;
+	crown = other.crown;
+	bridge = other.bridge;
+	splint = other.splint;
+	implant = other.implant;
+	hyperdontic = other.hyperdontic;
+	impacted = other.impacted;
+	denture = other.denture;
+	calculus = other.calculus;
 
+	return *this;
 }
 
 

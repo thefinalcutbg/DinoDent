@@ -499,6 +499,7 @@
     <ClInclude Include="src\Database\DbUpdateStatus.h" />
     <ClInclude Include="src\Model\Dental\DentalNum.h" />
     <ClInclude Include="src\Model\Dental\DentalStatistics.h" />
+    <ClInclude Include="src\Model\Dental\Hyperdontic.h" />
     <ClInclude Include="src\Model\Dental\ProcedureCode.h" />
     <ClInclude Include="src\Model\Dental\ProcedureListElement.h" />
     <ClInclude Include="src\Model\MedicalStatuses.h" />
@@ -739,6 +740,7 @@
     <ClInclude Include="src\View\uiComponents\MouseWheelGuard.h" />
     <QtMoc Include="src\View\uiComponents\RightClickButton.h" />
     <QtMoc Include="src\View\uiComponents\StatusMultiButton.h" />
+    <QtMoc Include="src\View\uiComponents\StatusButton.h" />
     <ClInclude Include="src\View\uiComponents\TileButton.h" />
     <QtMoc Include="src\View\Widgets\PrescriptionView.h" />
     <QtMoc Include="src\View\Widgets\MedicationDialog.h" />
@@ -790,7 +792,6 @@
     <QtMoc Include="src\View\uiComponents\UserButton.h" />
     <QtMoc Include="src\View\uiComponents\ToothButton.h" />
     <QtMoc Include="src\View\uiComponents\TextEdit.h" />
-    <QtMoc Include="src\View\uiComponents\StatusButton.h" />
     <QtMoc Include="src\View\uiComponents\SpinBox.h" />
     <QtMoc Include="src\View\uiComponents\TableView.h" />
     <QtMoc Include="src\View\uiComponents\PixmapLabel.h" />

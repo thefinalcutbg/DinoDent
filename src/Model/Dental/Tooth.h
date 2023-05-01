@@ -4,6 +4,7 @@
 #include <string>
 #include <array>
 #include "Model/FreeFunctions.h"
+#include "Hyperdontic.h"
 
 enum class StatusType{general, obturation, caries, mobility};
 
@@ -47,6 +48,7 @@ public:
 
 	Mobility mobility;
 
+	//Hyperdontic dsnTooth;
 
 public:
 

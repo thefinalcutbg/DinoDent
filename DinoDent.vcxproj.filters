@@ -1550,6 +1550,9 @@
     <ClInclude Include="src\Model\Dental\ProcedureListElement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Model\Dental\Hyperdontic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Graphics\ContextMenu.h">
@@ -1667,9 +1670,6 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\uiComponents\SpinBox.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="src\View\uiComponents\StatusButton.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\uiComponents\TextEdit.h">
@@ -1862,6 +1862,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\Widgets\CurrentStatusDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\uiComponents\StatusButton.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

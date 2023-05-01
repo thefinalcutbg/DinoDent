@@ -14,6 +14,8 @@ class StatusButton : public QPushButton
 
 	bool eventFilter(QObject* obj, QEvent* e) override;
 
+	void mousePressEvent(QMouseEvent* e) override;
+
 public:
 
 	StatusButton(QWidget* parent = 0);

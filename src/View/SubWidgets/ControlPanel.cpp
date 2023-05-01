@@ -1,7 +1,7 @@
 ﻿#include "ControlPanel.h"
 
 #include "Presenter/ListPresenter.h"
-
+#include <QMenu>
 
 
 ControlPanel::ControlPanel(QWidget* parent)
@@ -70,6 +70,12 @@ ControlPanel::ControlPanel(QWidget* parent)
 		if (presenter)
 			presenter->setOther(OtherInputs::removeAll);
 	});
+	/*
+	QMenu* menu = new QMenu();
+	menu->addAction(new QAction("haha"));
+	menu->addAction(new QAction("blabla"));
+	ui.Dsn->setMenu(menu);
+	*/
 }
 
 ControlPanel::~ControlPanel()

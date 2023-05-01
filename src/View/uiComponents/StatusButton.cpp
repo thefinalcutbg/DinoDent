@@ -1,7 +1,9 @@
 #include "StatusButton.h"
 #include "View/Theme.h"
-#include "QPainter"
-#include "QEvent"
+#include <QPainter>
+#include <QEvent>
+#include <QMouseEvent>
+
 StatusButton::StatusButton(QWidget* parent) : QPushButton(parent), checkState(CheckState::unchecked)
 {
 	setCheckable(true);
@@ -87,4 +89,21 @@ bool StatusButton::eventFilter(QObject* obj, QEvent* e)
 	}
 
 	return false;
+}
+
+void StatusButton::mousePressEvent(QMouseEvent* e)
+{
+	if (e->button() == Qt::RightButton) {
+		
+		if (menu() && isChecked()) showMenu();
+
+		return;
+	}
+
+	if (e->button() == Qt::LeftButton) {
+		emit clicked();
+		return;
+	}
+
+	QPushButton::mousePressEvent(e);
 }

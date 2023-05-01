@@ -1,12 +1,14 @@
 ﻿#pragma once
 #include <string>
 #include <array>
+#include <memory>
 #include "Model/Date.h"
 #include "StatusData.h"
 #include "Enums.h"
 #include "Model/User.h"
 #include "Model/Dental/DentalNum.h"
 #include "Model/FreeFunctions.h"
+
 
 class Status
 {

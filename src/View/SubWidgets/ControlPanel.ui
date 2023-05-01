@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>ControlPanel</string>
   </property>
+  <property name="toolTip">
+   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Бърз клавиш: Del&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
@@ -45,7 +48,7 @@
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>30</height>
+           <height>27</height>
           </size>
          </property>
          <property name="toolTip">
@@ -70,7 +73,7 @@
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>30</height>
+           <height>27</height>
           </size>
          </property>
          <property name="toolTip">
@@ -95,7 +98,7 @@
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>30</height>
+           <height>27</height>
           </size>
          </property>
          <property name="toolTip">
@@ -120,7 +123,7 @@
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>30</height>
+           <height>27</height>
           </size>
          </property>
          <property name="toolTip">
@@ -148,7 +151,7 @@
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>30</height>
+           <height>27</height>
           </size>
          </property>
          <property name="toolTip">
@@ -173,7 +176,7 @@
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>30</height>
+           <height>27</height>
           </size>
          </property>
          <property name="toolTip">
@@ -192,7 +195,7 @@
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>30</height>
+           <height>27</height>
           </size>
          </property>
          <property name="toolTip">
@@ -217,7 +220,7 @@
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>30</height>
+           <height>27</height>
           </size>
          </property>
          <property name="toolTip">
@@ -236,7 +239,7 @@
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>30</height>
+           <height>27</height>
           </size>
          </property>
          <property name="toolTip">
@@ -258,7 +261,7 @@
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>30</height>
+           <height>27</height>
           </size>
          </property>
          <property name="toolTip">
@@ -269,6 +272,19 @@
          </property>
          <property name="text">
           <string>Временен зъб</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="StatusButton" name="unknown">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>27</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Неизвестен</string>
          </property>
         </widget>
        </item>
@@ -300,7 +316,7 @@
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>30</height>
+           <height>27</height>
           </size>
          </property>
          <property name="toolTip">
@@ -325,7 +341,7 @@
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>30</height>
+           <height>27</height>
           </size>
          </property>
          <property name="toolTip">
@@ -350,7 +366,7 @@
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>30</height>
+           <height>27</height>
           </size>
          </property>
          <property name="toolTip">
@@ -375,7 +391,7 @@
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>30</height>
+           <height>27</height>
           </size>
          </property>
          <property name="toolTip">
@@ -394,8 +410,11 @@
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>30</height>
+           <height>27</height>
           </size>
+         </property>
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;lt;html&amp;gt;&amp;lt;head/&amp;gt;&amp;lt;body&amp;gt;&amp;lt;p&amp;gt;Бърз клавиш: V&amp;lt;/p&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="text">
           <string>Зъбен камък</string>
@@ -413,7 +432,7 @@
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>30</height>
+           <height>27</height>
           </size>
          </property>
          <property name="toolTip">
@@ -438,11 +457,11 @@
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>30</height>
+           <height>27</height>
           </size>
          </property>
          <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Бърз клавиш: 1&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Бърз клавиш: 1-3&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="styleSheet">
           <string/>
@@ -463,7 +482,7 @@
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>30</height>
+           <height>27</height>
           </size>
          </property>
          <property name="toolTip">
@@ -488,7 +507,7 @@
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>30</height>
+           <height>27</height>
           </size>
          </property>
          <property name="toolTip">
@@ -513,7 +532,7 @@
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>30</height>
+           <height>27</height>
           </size>
          </property>
          <property name="toolTip">
@@ -538,7 +557,7 @@
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>30</height>
+           <height>27</height>
           </size>
          </property>
          <property name="toolTip">

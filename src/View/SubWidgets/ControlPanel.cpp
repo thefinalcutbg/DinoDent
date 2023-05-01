@@ -9,8 +9,6 @@ ControlPanel::ControlPanel(QWidget* parent)
 {
 	ui.setupUi(this);
 
-	ui.Dsn->hide();
-
 	StatusButton* pathologies[]
 	{
 		ui.Caries, ui.Pulpitis, ui.Extraction, ui.ApicalLesion, ui.Fracture, ui.Periodontitis, ui.Dsn, ui.Impacted, ui.Root, ui.Calculus
@@ -67,6 +65,11 @@ ControlPanel::ControlPanel(QWidget* parent)
 			}
 		}
 	);
+
+	connect(ui.unknown, &QPushButton::clicked, this, [=] {
+		if (presenter)
+			presenter->setOther(OtherInputs::removeAll);
+	});
 }
 
 ControlPanel::~ControlPanel()
@@ -111,6 +114,8 @@ void ControlPanel::setModel(const CheckModel& checkModel)
 	setCheck(ui.Temporary, StatusCode::Temporary);
 	setCheck(ui.falseTooth, StatusCode::Denture);
 	setCheck(ui.Calculus, StatusCode::Calculus);
+	
+	ui.unknown->setCheckState(checkModel.no_data ? CheckState::checked : CheckState::unchecked);
 
 	if (checkModel.mobilityStatus[0] == CheckState::checked) {
 		ui.Mobility->setCurrentState(1); return;

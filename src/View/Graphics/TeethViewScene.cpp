@@ -290,6 +290,7 @@ void TeethViewScene::keyPressEvent(QKeyEvent* event)
       case Qt::Key_U: presenter->setMainStatus(StatusCode::Dsn); break;
       case Qt::Key_X: presenter->setMainStatus(StatusCode::Denture); break;
       case Qt::Key_H: presenter->setMainStatus(StatusCode::Healthy); break;
+      case Qt::Key_V: presenter->setMainStatus(StatusCode::Calculus); break;
       case Qt::Key_A:
           if (event->modifiers() & Qt::ControlModifier)
               for (int i = 0; i < 32; i++) selectionBox[i]->setSelected(1);

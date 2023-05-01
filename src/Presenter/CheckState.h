@@ -22,4 +22,5 @@ struct CheckModel
     std::array<CheckState, surfaceCount> obturationStatus{ CheckState::unchecked };
     std::array<CheckState, surfaceCount> cariesStatus{ CheckState::unchecked };
     std::array<CheckState, mobilityCount> mobilityStatus{ CheckState::unchecked };
+    bool no_data{ true };
 };

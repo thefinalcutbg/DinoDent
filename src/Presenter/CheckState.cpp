@@ -38,8 +38,6 @@ CheckModel::CheckModel(const std::vector<const Tooth*>& selectedTeeth)
 	firstIteration(obturationStatus, selectedTeeth[0]->obturation.getBoolStatus());
 	firstIteration(mobilityStatus, selectedTeeth[0]->mobility.getBoolStatus());
 
-	//if (selectedTeeth.size() == 1) return;
-
 	for (int i = 1; i < selectedTeeth.size(); i++)
 	{
 		furtherIterations(generalStatus, selectedTeeth[i]->getBoolStatus());
@@ -61,6 +59,10 @@ CheckModel::CheckModel(const std::vector<const Tooth*>& selectedTeeth)
 		 selectedTeeth.back()->bridge.position != BridgePos::End))
 		bridge = CheckState::partially_checked;
 
+	for (auto& state : generalStatus)
+	{
+		if (state != CheckState::unchecked) no_data = false;
+	}
 
 }
 
@@ -71,10 +73,9 @@ CheckModel::CheckModel(const Tooth& tooth)
 	firstIteration(obturationStatus, tooth.obturation.getBoolStatus());
 	firstIteration(mobilityStatus, tooth.mobility.getBoolStatus());
 
-	for (int i = 1; i < generalStatus.size(); i++) {
-		if (generalStatus[i] != CheckState::unchecked) {
-			break;
-		}
+	for (auto& state : generalStatus)
+	{
+		if (state != CheckState::unchecked) no_data = false;
 	}
 
 }

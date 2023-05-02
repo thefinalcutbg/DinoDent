@@ -33,7 +33,7 @@ public:
 	void setCheckModel(const CheckModel& checkModel) override;
 	void disableItem(int index, bool disabled) override;
 	void paintTooth(const ToothPaintHint& hint) override;
-	 
+	void setNotes(const std::string& notes) override;
 	void setData(const std::string& notesData) override;
 
 	std::string getNotes() override;

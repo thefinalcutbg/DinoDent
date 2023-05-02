@@ -49,20 +49,18 @@ void PatientInfoPresenter::diagnosisClicked()
                 return;
             }
 
-            Patient patient = *this->patient;
-            patient.medStats.condition = currentDiseases;
+            MedicalStatuses medStats = this->patient->medStats;
+            medStats.condition = currentDiseases;
             
-            auto result = ModalDialogBuilder::openMedicalStatusDialog(patient.medStats);
+            auto result = ModalDialogBuilder::openMedicalStatusDialog(medStats);
 
-            if (!result) return;
+            if (!result.has_value()) { return; }
 
-            auto success = DbPatient::updateMedStats(patient.rowid, patient.medStats);
+            DbPatient::updateMedStats(patient->rowid, result.value());
 
-            if (!success) return;
+            patient->medStats = result.value();
 
-            *this->patient = patient;
-
-            view->setPatient(patient, patientAge);
+            view->setPatient(*patient, patientAge);
         }
     );
 }

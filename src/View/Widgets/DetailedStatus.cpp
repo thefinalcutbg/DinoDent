@@ -177,6 +177,11 @@ void DetailedStatus::paintTooth(const ToothPaintHint& hint)
 	ui.imageLabel->setPixmap(tooth);
 }
 
+void DetailedStatus::setNotes(const std::string& notes)
+{
+	ui.notesEdit->setText(notes.c_str());
+}
+
 
 void DetailedStatus::setData(const std::string& notesData)
 {

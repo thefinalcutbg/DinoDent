@@ -295,10 +295,9 @@ void ListPresenter::setDataToView()
     surf_presenter.setView(view->surfacePanel());
     view->surfacePanel()->setPresenter(&surf_presenter);
 
-    auto hints = ToothHintCreator::getTeethHint(m_ambList.teeth);
-    for (auto& hint : hints)
+    for (int i = 0; i < 32; i++)
     {
-        view->repaintTooth(hint);
+        view->repaintTooth(ToothHintCreator::getToothHint(m_ambList.teeth[i], patient->teethNotes[i]));
     }
 
     view->setNotes(patient->teethNotes);
@@ -554,8 +553,6 @@ void ListPresenter::openDetails(int toothIdx)
     {
         view->repaintTooth(ToothHintCreator::getToothHint(m_ambList.teeth[i], patient->teethNotes[i]));
     }
-
-    
 
     statusChanged();
 }

@@ -12,7 +12,7 @@ CurrentStatusDialog::CurrentStatusDialog(const ToothContainer& t, QWidget *paren
 {
 	ui.setupUi(this);
 
-	setWindowTitle("Текущ статус на пациента");
+	setWindowTitle("Актуален статус на пациента");
 
 	auto hints = ToothHintCreator::getTeethHint(t);
 

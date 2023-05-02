@@ -36,6 +36,8 @@ class PatientDialogPresenter
 
 	GetHirbnoService hirbnoHandler;
 
+	std::optional<InsuranceStatus> insurance_status;
+
 	//data not present in view:
 	long long rowid{ 0 };
 	MedicalStatuses medStats;

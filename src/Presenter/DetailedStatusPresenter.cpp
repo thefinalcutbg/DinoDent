@@ -16,7 +16,6 @@ void DetailedStatusPresenter::setView(IDetailedStatusView* view)
 {
 	this->view = view; 
 
-
 	view->setHistoryData(DbProcedure::getToothProcedures(patientRowId, m_tooth.index));
 	
 	view->disableItem(StatusCode::Bridge, !m_tooth.bridge.exists());
@@ -25,6 +24,8 @@ void DetailedStatusPresenter::setView(IDetailedStatusView* view)
 
 	view->setCheckModel(m_checkModel);
 	view->paintTooth(ToothHintCreator::getToothHint(m_tooth));
+
+	view->setNotes(m_notes);
 }
 
 
@@ -55,6 +56,8 @@ void DetailedStatusPresenter::okPressed()
 	stateChanged();
 	
 	_result = m_tooth;
+	
+	m_notes = view->getNotes();
 
 	DbNotes::saveNote(m_notes, patientRowId, m_tooth.index);
 }

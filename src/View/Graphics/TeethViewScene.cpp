@@ -331,6 +331,7 @@ void TeethViewScene::setNotes(const std::array<std::string, 32>& notes)
     {
         toothGraphic[i]->setNote(!notes[i].empty());
     }
+    
 }
 
 TeethViewScene::~TeethViewScene()

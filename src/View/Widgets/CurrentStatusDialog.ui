@@ -39,7 +39,7 @@
      <item>
       <widget class="QPushButton" name="pushButton">
        <property name="text">
-        <string>Приложи към текущия статус</string>
+        <string>Приложи към статуса на амбулаторния лист</string>
        </property>
       </widget>
      </item>

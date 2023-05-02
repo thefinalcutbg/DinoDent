@@ -159,7 +159,7 @@ void PatientTile::paintInfo(QPainter* painter)
 	painter->setPen(hover && !clicked ? QPen(Theme::fontRedClicked) : QPen(QColor(Theme::fontRed)));
 	painter->drawText(nraButton->x() + nraSize + 5, 27, name);
 
-	//if (zodiac) painter->drawPixmap(width()-30, height()-30, 25, 25, *zodiac);
+	if (zodiac) painter->drawPixmap(width()-30, height()-30, 25, 25, *zodiac);
 	
 }
 

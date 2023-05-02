@@ -27,7 +27,7 @@ bool HisService::sendRequestToHis(const std::string& query)
 	}
 
 	auto signedMsg = signMessage(buildMessage(query));
-	ModalDialogBuilder::showMultilineDialog(signedMsg);
+	//ModalDialogBuilder::showMultilineDialog(signedMsg);
 	if (signedMsg.empty()) return false;
 
 	awaiting_reply = true;

@@ -2,7 +2,7 @@
 #include "View/ModalDialogBuilder.h"
 #include "Database/DbPatient.h"
 #include "View/Printer.h"
-
+#include "Database/DbNotes.h"
 PatientDialogPresenter::PatientDialogPresenter() :
 	view(nullptr)
 {}
@@ -10,7 +10,8 @@ PatientDialogPresenter::PatientDialogPresenter() :
 PatientDialogPresenter::PatientDialogPresenter(const Patient& patient) :
 	m_patient(patient),
 	rowid(patient.rowid),
-	view(nullptr)
+	view(nullptr),
+	insurance_status(patient.insuranceStatus)
 {}
 
 std::optional<Patient> PatientDialogPresenter::open()
@@ -190,6 +191,6 @@ Patient PatientDialogPresenter::getPatientFromView()
 
 	patient.medStats = medStats;
 	patient.rowid = rowid;
-
+	patient.insuranceStatus = insurance_status;
 	return patient;
 }

@@ -23,7 +23,7 @@ public:
 	virtual void setCheckModel(const CheckModel& model) = 0;
 	virtual void disableItem(int index, bool disabled) = 0;
 	virtual void paintTooth(const ToothPaintHint& hint) = 0;
-
+	virtual void setNotes(const std::string& notes) = 0;
 	virtual void setData(const std::string& notesData) = 0;
 
 	virtual std::string getNotes() = 0;

@@ -437,6 +437,8 @@ bool EDental::GetStatus::sendRequest(const Patient& patient, std::function<void(
 	std::string contents =
 		bind("identifierType", patient.type) +
 		bind("identifier", patient.id) +
+		bind("fromDate", "2023-05-01") +
+		bind("toDate", Date::currentDate().to8601()) +
 		bind("practiceNumber", User::practice().rziCode)
 		;
 
@@ -453,7 +455,7 @@ void EDental::GetStatus::parseReply(const std::string& reply)
 		m_callback = nullptr;
 		return;
 	}
-
+	//ModalDialogBuilder::showMultilineDialog(reply);
 
 	TiXmlDocument doc;
 

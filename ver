@@ -1,11 +1,10 @@
 {
 	"win64": {
-		"ver": "0.2.1",
-		"dl": "https://github.com/thefinalcutbg/DinoDent/releases/download/v0.2/DinoDentSetup.exe",
+		"ver": "1.0.0",
+		"dl": "https://github.com/thefinalcutbg/DinoDent/releases/download/v1.0.0/DinoDentSetup.exe",
     		"changeLog": [
-			"Възможност за издаване на направления", 
-			"Функционалност за неблагоприятни условия", 
-			"Свойствата на денталните процедури са изнесени в отделни номенклатури"
+			"Интеграция с Е-Дентално лечение на НЗИС", 
+			"Интеграция с Е-Направление на НЗИС"
 		]
 	}
 }

@@ -312,9 +312,10 @@
   <tabstop>mNameEdit</tabstop>
   <tabstop>lNameEdit</tabstop>
   <tabstop>phoneEdit</tabstop>
+  <tabstop>specialtyButton</tabstop>
   <tabstop>passEdit</tabstop>
-  <tabstop>okButton</tabstop>
   <tabstop>severalRHIFcheck</tabstop>
+  <tabstop>okButton</tabstop>
  </tabstops>
  <resources/>
  <connections/>

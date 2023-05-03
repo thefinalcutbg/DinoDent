@@ -65,7 +65,7 @@ bool DbPatient::update(const Patient& patient)
 
 Patient DbPatient::get(std::string patientID, int type)
 {
-    std::string query = "SELECT * "
+    std::string query = "SELECT rowid, type, id, birth, sex, fname, mname, lname, ekatte, address, hirbno, phone "
         "FROM patient WHERE id = '" + patientID + "' "
         "AND type = " + std::to_string(type);
 
@@ -97,7 +97,7 @@ Patient DbPatient::get(std::string patientID, int type)
 
 Patient DbPatient::get(long long rowid)
 {
-    Db db("SELECT * "
+    Db db("SELECT rowid, type, id, birth, sex, fname, mname, lname, ekatte, address, hirbno, phone "
         "FROM patient WHERE rowid = " + std::to_string(rowid)
     );
 

@@ -30,22 +30,36 @@ Practice DbPractice::getPractice(const std::string rziCode)
 
 void DbPractice::updatePractice(const Practice& practice, const std::string& currentRZI)
 {
-    Db::crudQuery(
 
+    Db db(
         "UPDATE practice SET "
-        "rzi = '" + practice.rziCode + "', "
-        "name = '" + practice.name + "', "
-        "bulstat = '" + practice.bulstat + "', "
-        "firm_address = '" + practice.firm_address + "', "
-        "practice_address = '" + practice.practice_address.ekatte() + "', "
-        "legal_entity = '" + std::to_string(practice.legal_entity) + "', "
-        "vat = '" + practice.vat + "', "
-        "pass = '" + practice.pass + "', "
-        "nhif_contract = '" + Parser::write(practice.nhif_contract) + "', "
-        "settings = '" + Parser::write(practice.settings) + "' "
-        "WHERE rzi = '" + currentRZI + "' "
-
+        "rzi=?,"
+        "name=?,"
+        "bulstat=?,"
+        "firm_address=?,"
+        "practice_address=?,"
+        "legal_entity=?,"
+        "vat=?,"
+        "pass=?,"
+        "nhif_contract=?,"
+        "settings=? "
+        "WHERE rzi=?"
     );
+
+    db.bind(1, practice.rziCode);
+    db.bind(2, practice.name);
+    db.bind(3, practice.bulstat);
+    db.bind(4, practice.firm_address);
+    db.bind(5, practice.practice_address.getIdxAsInt());
+    db.bind(6, practice.legal_entity);
+    db.bind(7, practice.vat);
+    db.bind(8, practice.pass);
+    db.bind(9, Parser::write(practice.nhif_contract));
+    db.bind(10, Parser::write(practice.settings));
+    db.bind(11, currentRZI);
+
+    db.execute();
+
 }
 
 #include "Resources.h"
@@ -53,25 +67,25 @@ void DbPractice::updatePractice(const Practice& practice, const std::string& cur
 void DbPractice::insertPractice(const Practice& practice)
 {
 
-    Db::crudQuery(
-
+    Db db(
         "INSERT INTO practice "
-        "(rzi, name, bulstat, firm_address, practice_address, pass, legal_entity, vat, nhif_contract, priceList, settings) "
-        "VALUES("
-        "'" + practice.rziCode + "', "
-        "'" + practice.name + "', "
-        "'" + practice.bulstat + "', "
-        "'" + practice.firm_address + "', "
-        "'" + practice.practice_address.ekatte() + "', "
-        "'" + practice.pass + "', "
-        "'" + std::to_string(practice.legal_entity) + "', "
-        "'" + practice.vat + "', "
-        "'" + Parser::write(practice.nhif_contract) + "', "
-        "'" + Resources::defaultPriceListJson() + "', "
-        "'" + Parser::write(practice.settings) + "' "
-        ")"
-
+        "(rzi, name, bulstat, firm_address, practice_address, pass, legal_entity, vat, nhif_contract, settings) "
+        "VALUES(?,?,?,?,?,?,?,?,?,?)"
     );
+
+    db.bind(1, practice.rziCode);
+    db.bind(2, practice.name);
+    db.bind(3, practice.bulstat);
+    db.bind(4, practice.firm_address);
+    db.bind(5, practice.practice_address.getIdxAsInt());
+    db.bind(6, practice.pass);
+    db.bind(7, std::to_string(practice.legal_entity));
+    db.bind(8, practice.vat);
+    db.bind(9, Parser::write(practice.nhif_contract));
+    db.bind(10, Parser::write(practice.settings));
+
+    db.execute();
+
 }
 
 bool DbPractice::deletePractice(const std::string& rziCode)

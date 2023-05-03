@@ -570,16 +570,24 @@
  </customwidgets>
  <tabstops>
   <tabstop>practiceNameEdit</tabstop>
-  <tabstop>comboBox</tabstop>
   <tabstop>rziEdit</tabstop>
-  <tabstop>bulstatEdit</tabstop>
-  <tabstop>firmAddressEdit</tabstop>
+  <tabstop>activityAddressEdit</tabstop>
   <tabstop>passEdit</tabstop>
+  <tabstop>comboBox</tabstop>
+  <tabstop>firmAddressEdit</tabstop>
+  <tabstop>bulstatEdit</tabstop>
   <tabstop>vatEdit</tabstop>
   <tabstop>nzokGroup</tabstop>
   <tabstop>contractEdit</tabstop>
   <tabstop>contractDateEdit</tabstop>
   <tabstop>practiceNameNZOK</tabstop>
+  <tabstop>unfavCheck</tabstop>
+  <tabstop>nraPass</tabstop>
+  <tabstop>doctorList</tabstop>
+  <tabstop>addDoctor</tabstop>
+  <tabstop>removeDoctor</tabstop>
+  <tabstop>adminCheck</tabstop>
+  <tabstop>specialtyCombo</tabstop>
  </tabstops>
  <resources/>
  <connections/>

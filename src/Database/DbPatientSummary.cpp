@@ -73,7 +73,7 @@ std::vector<TimeFrame> DbPatientSummary::getFrames(long long patientRowId)
         Parser::parse(db.asString(9), p);
         p.temp = db.asInt(10);
         p.LPK = db.asString(2);
-        p.diagnosis = db.asString(11);
+        p.diagnosis = db.asInt(11);
         p.notes = db.asString(12);
         p.hyperdontic = db.asBool(13);
         p.diagnosis.additionalDescription = db.asString(14);

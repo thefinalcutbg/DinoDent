@@ -34,8 +34,14 @@ Diagnosis::Diagnosis(const std::string& name)
 {
 	for (int i = 0; i < s_names.size(); i++)
 	{
-		if (name == s_names[i]) m_idx = i;
+		if (name == s_names[i]) {
+			m_idx = i;
+			return;
+		}
 	}
+
+	additionalDescription = name;
+	
 }
 
 Diagnosis::Diagnosis(int key, const std::string& description) : m_idx{ key }, additionalDescription(description)

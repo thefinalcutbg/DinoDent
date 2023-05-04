@@ -221,7 +221,7 @@ void Tooth::addStatus(int statusCode)
 		case StatusCode::Extraction:
 //			if (temporary.exists()){ removeStatus(); temporary.set(false); break; }
 			set(true, extraction);
-			set(false, healthy, obturation, caries, implant, pulpitis, endo, fracture, root, lesion, periodontitis, crown, post, mobility, denture, calculus);
+			set(false, healthy, obturation, caries, implant, pulpitis, endo, fracture, root, lesion, periodontitis, crown, post, mobility, denture, calculus, impacted);
 			break;
 
 		case StatusCode::Obturation: 

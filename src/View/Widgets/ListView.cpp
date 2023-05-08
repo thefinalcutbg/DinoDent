@@ -42,6 +42,7 @@ ListView::ListView(QWidget* parent)
 	ui.deleteProcedure->setHoverColor(Theme::mainBackgroundColor);
 	ui.editProcedure->setHoverColor(Theme::mainBackgroundColor);
 	ui.nzokActivities->setHoverColor(Theme::mainBackgroundColor);
+	ui.hisProceduresButton->setHoverColor(Theme::mainBackgroundColor);
 
 	QMenu* menu = new QMenu(ui.addRefButton);
 

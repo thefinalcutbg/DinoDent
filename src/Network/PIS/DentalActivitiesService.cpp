@@ -10,9 +10,7 @@
 bool DentalActivitiesService::sendRequest(
 	int personType, 
 	const std::string& patientId, 
-	std::function<void(
-		const std::optional<std::vector<Procedure>>&, const std::vector<std::string>& payment_status
-	)> callback,
+	std::function<void(const std::optional<std::vector<Procedure>>&)> callback,
 	bool showDialogs
 	)
 {
@@ -45,7 +43,7 @@ bool DentalActivitiesService::sendRequest(
 void DentalActivitiesService::parseReply(const std::string& reply)
 {
 	if (reply.empty()) {
-		m_callback({}, {});
+		m_callback({});
 	}
 
 	TiXmlDocument doc;
@@ -63,7 +61,6 @@ void DentalActivitiesService::parseReply(const std::string& reply)
 		.FirstChildElement();			  //table
 
 	std::vector<Procedure> procedures;
-	std::vector<std::string> payment_status;
 	//i is 1, since 0 is the table header (td)
 	for (int i = 1; ; i++)
 	{
@@ -82,11 +79,10 @@ void DentalActivitiesService::parseReply(const std::string& reply)
 		procedures.back().tooth = toothProp.tooth;
 		procedures.back().temp = toothProp.temporary;
 		procedures.back().hyperdontic = toothProp.hyperdontic;
-
-		payment_status.emplace_back(row.Child(1).ToElement()->GetText());
-
+		procedures.back().notes = row.Child(1).ToElement()->GetText();
+		procedures.back().financingSource = FinancingSource::NHIF;
 	}
 
-	m_callback(procedures, payment_status);
+	m_callback(procedures);
 
 }

@@ -90,10 +90,7 @@ public:
     void setSelectedTeeth(const std::vector<int>& SelectedIndexes);
 
 
-    void setPISActivities(
-        const std::optional<std::vector<Procedure>>& pisProcedures,
-        const std::vector<std::string>& payment_status
-    );
+    void setPISActivities(const std::optional<std::vector<Procedure>>& pisProcedures);
 
     void openPisHistory();
     void openDetails(int toothIdx);

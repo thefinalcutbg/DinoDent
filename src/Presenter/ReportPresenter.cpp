@@ -122,7 +122,7 @@ void ReportPresenter::checkNext()
 		bool success =
 		activitiesService.sendRequest(
 			patient.type, patient.id,
-			[=](auto& result, const std::vector<std::string>&) {if (this)this->setPISActivities(result);}
+			[=](auto& result) {if (this)this->setPISActivities(result);}
 
 		);
 

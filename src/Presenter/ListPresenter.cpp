@@ -472,18 +472,15 @@ void ListPresenter::requestPisActivities()
     dentalActService.sendRequest(
         patient->type, 
         patient->id,
-        [&](auto procedures, auto payment) { 
-            setPISActivities(procedures, payment);
+        [&](auto procedures) { 
+            setPISActivities(procedures);
         },
         m_openHistoryDialogOnReply
     );
 
 }
 
-void ListPresenter::setPISActivities(
-    const std::optional<std::vector<Procedure>>& pisProcedures,
-    const std::vector<std::string>& payment_status
-)
+void ListPresenter::setPISActivities(const std::optional<std::vector<Procedure>>& pisProcedures)
 {
 
     if (!pisProcedures.has_value()) {
@@ -492,7 +489,6 @@ void ListPresenter::setPISActivities(
     }
 
     patient->PISHistory = pisProcedures;
-    patient->pis_paymentStatus = payment_status;
 
     if (m_openHistoryDialogOnReply) openPisHistory();
 }
@@ -518,7 +514,7 @@ void ListPresenter::openPisHistory()
         return;
     }
 
-    bool applyToStatus = ModalDialogBuilder::pisHistoryDialog(history, patient->pis_paymentStatus);
+    bool applyToStatus = ModalDialogBuilder::pisHistoryDialog(history);
 
     if (!applyToStatus) return;
     

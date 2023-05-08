@@ -8,20 +8,16 @@
 class DentalActivitiesService final: private PisService
 {
 	
-	std::function<
-		void(
-			const std::optional<std::vector<Procedure>>&, 
-			const std::vector<std::string>& payment_status
-			)
-	> m_callback;
+	std::function<void(const std::optional<std::vector<Procedure>>&)> m_callback;
 
 	void parseReply(const std::string& reply) override;
 public:
 
+	//returns procedures with payment status as a note
 	bool sendRequest(
 		int personType,
 		const std::string& patientId,
-		std::function<void(const std::optional<std::vector<Procedure>>&, const std::vector<std::string>& payment_status)> callback,
+		std::function<void(const std::optional<std::vector<Procedure>>&)> callback,
 		bool showDialogs = true
 	);
 

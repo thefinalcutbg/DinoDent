@@ -1,28 +1,34 @@
 ﻿#include "PISHistoryDialog.h"
 
-PISHistoryDialog::PISHistoryDialog(const std::vector<Procedure> procedures, const std::vector<std::string>& payment_status, QWidget *parent)
+PISHistoryDialog::PISHistoryDialog(const std::vector<Procedure> procedures, QWidget *parent)
 	: QDialog(parent)
 {
 	ui.setupUi(this);
 
 	setWindowTitle("Отчетени манипулации по НЗОК");
 
-	model.setProcedures(procedures, payment_status);
+	model.setProcedures(procedures);
 
 
 	ui.tableView->setModel(&this->model);
 	
     ui.tableView->setSelectionMode(QAbstractItemView::SelectionMode::NoSelection);
-    ui.tableView->setColumnWidth(0, 69);
-    ui.tableView->setColumnWidth(1, 200);
-    ui.tableView->setColumnWidth(2, 25);
-    ui.tableView->setColumnWidth(3, 200);
-    ui.tableView->setColumnWidth(4, 49);
-    ui.tableView->setColumnWidth(5, 200);
+
+    ui.tableView->hideColumn(0);
+    ui.tableView->hideColumn(6);
+    ui.tableView->hideColumn(7);
+
+    ui.tableView->setColumnWidth(1, 69);
+    ui.tableView->setColumnWidth(2, 200);
+    ui.tableView->setColumnWidth(3, 25);
+    ui.tableView->setColumnWidth(4, 200);
+    ui.tableView->setColumnWidth(5, 49);
+    ui.tableView->setColumnWidth(8, 200);
+
     ui.tableView->verticalHeader()->setDefaultSectionSize(20);
     ui.tableView->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     ui.tableView->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-    ui.tableView->horizontalHeader()->setSectionResizeMode(5, QHeaderView::Stretch);
+    ui.tableView->horizontalHeader()->setSectionResizeMode(8, QHeaderView::Stretch);
 
     connect(ui.applyButton, &QPushButton::clicked, this, [&]{applyProcedures = true; close();});
 

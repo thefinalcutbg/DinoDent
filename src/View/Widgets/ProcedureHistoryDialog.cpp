@@ -1,6 +1,6 @@
-﻿#include "PISHistoryDialog.h"
+﻿#include "ProcedureHistoryDialog.h"
 
-PISHistoryDialog::PISHistoryDialog(const std::vector<Procedure> procedures, const std::string& title, QWidget *parent)
+ProcedureHistoryDialog::ProcedureHistoryDialog(const std::vector<Procedure> procedures, const std::string& title, QWidget *parent)
 	: QDialog(parent)
 {
 	ui.setupUi(this);
@@ -34,6 +34,6 @@ PISHistoryDialog::PISHistoryDialog(const std::vector<Procedure> procedures, cons
 
 }
 
-PISHistoryDialog::~PISHistoryDialog()
+ProcedureHistoryDialog::~ProcedureHistoryDialog()
 {
 }

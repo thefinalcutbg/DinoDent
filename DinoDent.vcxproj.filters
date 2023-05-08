@@ -552,7 +552,7 @@
     <ClCompile Include="src\View\Widgets\PisDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\Widgets\PISHistoryDialog.cpp">
+    <ClCompile Include="src\View\Widgets\ProcedureHistoryDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\Widgets\PracticeListDialog.cpp">
@@ -1729,7 +1729,7 @@
     <QtMoc Include="src\View\Widgets\PisDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\Widgets\PISHistoryDialog.h">
+    <QtMoc Include="src\View\Widgets\ProcedureHistoryDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\Widgets\PracticeListDialog.h">
@@ -1914,7 +1914,7 @@
     <QtUic Include="src\View\Widgets\PisDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="src\View\Widgets\PISHistoryDialog.ui">
+    <QtUic Include="src\View\Widgets\ProcedureHistoryDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\Widgets\PracticeListDialog.ui">

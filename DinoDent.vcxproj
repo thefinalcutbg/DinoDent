@@ -471,7 +471,7 @@
     <ClCompile Include="src\View\Widgets\PrescriptionView.cpp" />
     <ClCompile Include="src\View\Widgets\PinPromptDialog.cpp" />
     <ClCompile Include="src\View\Widgets\PisDialog.cpp" />
-    <ClCompile Include="src\View\Widgets\PISHistoryDialog.cpp" />
+    <ClCompile Include="src\View\Widgets\ProcedureHistoryDialog.cpp" />
     <ClCompile Include="src\View\Widgets\PracticeListDialog.cpp" />
     <ClCompile Include="src\View\Widgets\PracticeSettings.cpp" />
     <ClCompile Include="src\View\Widgets\ProcedureDialog.cpp" />
@@ -767,7 +767,7 @@
     <QtMoc Include="src\View\Widgets\ProcedureDialog.h" />
     <QtMoc Include="src\View\Widgets\PracticeSettings.h" />
     <QtMoc Include="src\View\Widgets\PracticeListDialog.h" />
-    <QtMoc Include="src\View\Widgets\PISHistoryDialog.h" />
+    <QtMoc Include="src\View\Widgets\ProcedureHistoryDialog.h" />
     <QtMoc Include="src\View\Widgets\PisDialog.h" />
     <QtMoc Include="src\View\Widgets\PinPromptDialog.h" />
     <QtMoc Include="src\View\Widgets\PerioView.h" />
@@ -870,7 +870,7 @@
     <QtUic Include="src\View\Widgets\PrescriptionView.ui" />
     <QtUic Include="src\View\Widgets\PinPromptDialog.ui" />
     <QtUic Include="src\View\Widgets\PisDialog.ui" />
-    <QtUic Include="src\View\Widgets\PISHistoryDialog.ui" />
+    <QtUic Include="src\View\Widgets\ProcedureHistoryDialog.ui" />
     <QtUic Include="src\View\Widgets\PracticeListDialog.ui" />
     <QtUic Include="src\View\Widgets\PracticeSettings.ui" />
     <QtUic Include="src\View\Widgets\ProcedureDialog.ui" />

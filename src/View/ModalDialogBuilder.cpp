@@ -169,11 +169,11 @@ std::optional<std::vector<Procedure>> ModalDialogBuilder::selectProcedures(const
 	return result;
 }
 
-#include "View/Widgets/PISHistoryDialog.h"
+#include "View/Widgets/ProcedureHistoryDialog.h"
 
 bool ModalDialogBuilder::procedureHistoryDialog(const std::vector<Procedure>& procedures, const std::string& title)
 {
-	PISHistoryDialog d(procedures, title);
+	ProcedureHistoryDialog d(procedures, title);
 	d.exec();
 
 	return d.applyProcedures;

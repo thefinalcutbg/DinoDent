@@ -55,7 +55,7 @@
     </sizepolicy>
    </property>
    <property name="maxLength">
-    <number>100</number>
+    <number>70</number>
    </property>
   </widget>
   <widget class="LineEdit" name="rziEdit">

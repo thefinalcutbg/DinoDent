@@ -393,7 +393,6 @@
     <ClCompile Include="src\View\TableModels\MonthNotifTableModel.cpp" />
     <ClCompile Include="src\View\TableModels\PatientTableModel.cpp" />
     <ClCompile Include="src\View\TableModels\PerioTableModel.cpp" />
-    <ClCompile Include="src\View\TableModels\PISDentalActivitiesModel.cpp" />
     <ClCompile Include="src\View\TableModels\PrescriptionTableModel.cpp" />
     <ClCompile Include="src\View\TableModels\ProcedureCodeModel.cpp" />
     <ClCompile Include="src\View\TableModels\ProcedureSelectModel.cpp" />
@@ -721,7 +720,6 @@
     <QtMoc Include="src\View\Widgets\UpdatePromptDialog.h" />
     <QtMoc Include="src\View\Widgets\UpdateDownloader.h" />
     <QtMoc Include="src\View\TableModels\PrescriptionTableModel.h" />
-    <QtMoc Include="src\View\TableModels\PISDentalActivitiesModel.h" />
     <QtMoc Include="src\View\TableModels\MKBModel.h" />
     <QtMoc Include="src\View\TableModels\ProcedureCodeModel.h" />
     <ClInclude Include="src\View\TableModels\QProcedure.h" />

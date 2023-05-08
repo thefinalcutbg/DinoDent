@@ -11,6 +11,7 @@ class CurrentStatusDialog : public QDialog
 
 	void paintEvent(QPaintEvent* e) override;
 
+
 public:
 	CurrentStatusDialog(const ToothContainer& t, QWidget *parent = nullptr);
 	~CurrentStatusDialog();

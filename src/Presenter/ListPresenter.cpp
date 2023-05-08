@@ -480,6 +480,39 @@ void ListPresenter::requestPisActivities()
 
 }
 
+void ListPresenter::requestHisActivities()
+{
+    eDentalGetProcedures.sendRequest(
+        *patient,
+        [&](auto procedures) {
+
+            if (procedures.empty()) {
+                ModalDialogBuilder::showMessage("Не са намерени манипулации в НЗИС");
+                return;
+            }
+
+            patient->HISHistory = procedures;
+
+            bool applyToStatus = ModalDialogBuilder::procedureHistoryDialog(procedures, "Отчетени манипулации в НЗИС");
+
+            if (!applyToStatus) return;
+
+            for (auto it = procedures.rbegin(); it != procedures.rend(); ++it)
+                it->applyPISProcedure(m_ambList.teeth);
+
+            if (isCurrent()) {
+
+                for (auto& t : m_ambList.teeth)
+                    view->repaintTooth(ToothHintCreator::getToothHint(t, patient->teethNotes[t.index]));
+            }
+
+
+            makeEdited();
+        }
+        );
+
+}
+
 void ListPresenter::setPISActivities(const std::optional<std::vector<Procedure>>& pisProcedures)
 {
 
@@ -514,7 +547,7 @@ void ListPresenter::openPisHistory()
         return;
     }
 
-    bool applyToStatus = ModalDialogBuilder::pisHistoryDialog(history);
+    bool applyToStatus = ModalDialogBuilder::procedureHistoryDialog(history, "Отчетени манипулации в ПИС");
 
     if (!applyToStatus) return;
     
@@ -962,9 +995,9 @@ void ListPresenter::hisButtonPressed()
 
 void ListPresenter::getStatusPressed()
 {
-    eDentalGetService.sendRequest(
+    eDentalGetStatus.sendRequest(
         *patient.get(),
-        [this](const ToothContainer& teeth, const ProcedureContainer& p) {
+        [this](const ToothContainer& teeth) {
 
             if (!ModalDialogBuilder::applyToStatusDialog(teeth)) return;
 

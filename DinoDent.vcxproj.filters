@@ -729,9 +729,6 @@
     <ClCompile Include="src\View\Widgets\InvoicePrintDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\TableModels\PISDentalActivitiesModel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\View\Widgets\PracticeSelectorView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -1550,9 +1547,6 @@
     <ClInclude Include="src\Model\Dental\ProcedureListElement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model\Dental\Hyperdontic.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\Graphics\ContextMenu.h">
@@ -1805,9 +1799,6 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\Widgets\InvoicePrintDialog.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="src\View\TableModels\PISDentalActivitiesModel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\Widgets\PracticeSelectorView.h">

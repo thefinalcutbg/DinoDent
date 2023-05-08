@@ -130,9 +130,6 @@ std::string EDental::Open::getProcedures(const ProcedureContainer& procedures, c
 		result += "</nhis:dentalProcedure>";
 	}
 
-	//to implement this, his_idx needs to be stored somewhere
-	//result += HisService::getResultingStatusAsProcedure(teethChanged, lastProcedureDate);
-
 	return result;
 
 }
@@ -332,8 +329,6 @@ std::string EDental::Augment::getProcedures(const ProcedureContainer& procedures
 
 	}
 	
-	
-
 	return result;
 	
 }
@@ -430,21 +425,20 @@ void EDental::Cancel::parseReply(const std::string& reply)
 }
 
 
-bool EDental::GetStatus::sendRequest(const Patient& patient, std::function<void(const ToothContainer&, const ProcedureContainer&)> callback)
+bool EDental::GetStatus::sendRequest(const Patient& patient, std::function<void(const ToothContainer&)> callback)
 {
 	m_callback = callback;
 
 	std::string contents =
 		bind("identifierType", patient.type) +
 		bind("identifier", patient.id) +
-		bind("fromDate", "2023-05-01") +
+		bind("fromDate", Date::currentDate().to8601()) +
 		bind("toDate", Date::currentDate().to8601()) +
 		bind("practiceNumber", User::practice().rziCode)
 		;
 
 	return HisService::sendRequestToHis(contents);
 }
-
 
 void EDental::GetStatus::parseReply(const std::string& reply)
 {
@@ -455,7 +449,6 @@ void EDental::GetStatus::parseReply(const std::string& reply)
 		m_callback = nullptr;
 		return;
 	}
-	//ModalDialogBuilder::showMultilineDialog(reply);
 
 	TiXmlDocument doc;
 
@@ -463,10 +456,10 @@ void EDental::GetStatus::parseReply(const std::string& reply)
 
 	TiXmlHandle docHandle(&doc);
 
-	auto status = docHandle.
+	auto contents = docHandle.
 		FirstChild(). //message
-		Child(1).	  //contents
-		Child(0);     //dentalStatus
+		Child(1);	  //contents
+
 
 	//getting most recent status
 
@@ -508,11 +501,14 @@ void EDental::GetStatus::parseReply(const std::string& reply)
 		{"P",	[&teeth](int idx) mutable { teeth[idx].pulpitis.set(true); }},
 		{"F",	[&teeth](int idx) mutable { teeth[idx].fracture.set(true); }},
 		{"Pa",	[&teeth](int idx) mutable { teeth[idx].periodontitis.set(true); }},
+		{"D",	[&teeth](int idx) mutable { teeth[idx].hyperdontic.set(true); }},
 		{"S",	[&splints](int idx) mutable { splints.push_back(idx); }}
 	};
 
 
+	auto status = contents.Child(0);
 
+	//parsing the status
 	for (int i = 0; status.Child(i).ToElement() != nullptr; i++) //tooth
 	{
 
@@ -525,7 +521,8 @@ void EDental::GetStatus::parseReply(const std::string& reply)
 			auto condition = status.Child(i).Child(y).ToElement();
 
 			if (condition->ValueStr() != "nhis:condition") {
-				dsn = true;
+				teeth[index].hyperdontic.set(true);
+				//the status of the hyperdontic tooth should be parsed
 				continue;
 			}
 
@@ -539,8 +536,127 @@ void EDental::GetStatus::parseReply(const std::string& reply)
 
 	teeth.setStatus(splints, StatusCode::FiberSplint, true);
 
-	m_callback(teeth, {});
+	m_callback(teeth);
 
 	m_callback = nullptr;
 
+}
+
+void EDental::GetProcedures::parseReply(const std::string& reply)
+{
+	auto errors = getErrors(reply);
+
+	if (errors.size()) {
+		ModalDialogBuilder::showError(errors);
+		m_callback = nullptr;
+		return;
+	}
+
+	TiXmlDocument doc;
+
+	doc.Parse(reply.data(), 0, TIXML_ENCODING_UTF8);
+
+	TiXmlHandle docHandle(&doc);
+
+	auto contents = docHandle.
+		FirstChild(). //message
+		Child(1);	  //contents
+	//parsing procedures
+	std::vector<Procedure> procedures;
+
+	std::vector<ToothUtils::ToothProcedureCode> teethIndexes;
+
+	for (int i = 1; contents.Child(i).ToElement() != nullptr; i++)
+	{
+		auto pXml = contents.Child(i);
+	//	if (std::string(pXml.Child(3).ToElement()->Attribute("value")) == "7") continue;
+
+		procedures.emplace_back();
+
+		auto& p = procedures.back();
+
+		p.date = Date(pXml.Child(5).ToElement()->Attribute("value"));
+		p.code = ProcedureCode(pXml.Child(2).ToElement()->Attribute("value"));
+		p.financingSource = static_cast<FinancingSource>(std::stoi(pXml.Child(6).ToElement()->Attribute("value")));
+
+		int y = 7;
+
+		//
+		while (true)
+		{
+
+			if (pXml.Child(y).ToElement() == nullptr) break;
+
+			auto elementName = pXml.Child(y).ToElement()->ValueStr();
+
+			//parsing teeth indexes:
+			if (elementName == "nhis:tooth" && p.code.type() != ProcedureType::general)
+			{
+				auto index = ToothUtils::getToothFromNhifNum(pXml.Child(y).Child(0).ToElement()->Attribute("value"));
+
+				index.hyperdontic = pXml.Child(y).Child(1).ToElement()->ValueStr() == "nhis:supernumeralIndex";
+
+				teethIndexes.push_back(index);
+
+			}
+
+			//parsing notes
+			if (elementName == "nhis:note")
+			{
+				p.notes = pXml.Child(y).ToElement()->Attribute("value");
+			}
+
+			//parsing diagnosis
+			if (elementName == "nhis:diagnosis")
+			{
+				auto diagHandle = pXml.Child(y);
+				p.diagnosis = std::stoi(diagHandle.Child(0).ToElement()->Attribute("value"));
+
+				if (diagHandle.Child(1).ToElement() != nullptr)
+				{
+					p.diagnosis.additionalDescription = diagHandle.Child(1).ToElement()->Attribute("value");
+				}
+
+
+			}
+
+			y++;
+		}
+
+
+		//separating procedures according to teeth affected
+		for (int j = 0; j < teethIndexes.size(); j++)
+		{
+			if (j != 0) { procedures.push_back(procedures.back()); };
+
+			auto& idx = teethIndexes[j];
+
+			procedures.back().hyperdontic = idx.hyperdontic;
+			procedures.back().temp = idx.temporary;
+			procedures.back().tooth = idx.tooth;
+		}
+
+		teethIndexes.clear();
+	}
+
+	m_callback(procedures);
+
+	m_callback = nullptr;
+
+}
+
+bool EDental::GetProcedures::sendRequest(const Patient& patient, std::function<void(const std::vector<Procedure>&)> callback)
+{
+
+	m_callback = callback;
+
+	std::string contents =
+		bind("identifierType", patient.type) +
+		bind("identifier", patient.id) +
+		bind("fromDate", "2023-05-01") +
+		bind("toDate", Date::currentDate().to8601()) +
+		bind("practiceNumber", User::practice().rziCode)
+		;
+
+	return HisService::sendRequestToHis(contents);
 }

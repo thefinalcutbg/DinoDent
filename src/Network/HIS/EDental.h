@@ -65,7 +65,7 @@ namespace EDental {
 	class GetStatus : private HisService
 	{
 
-		std::function<void(const ToothContainer& teeth, const ProcedureContainer& procedures)> m_callback;
+		std::function<void(const ToothContainer& teeth)> m_callback;
 
 	protected:
 		void parseReply(const std::string& reply) override;
@@ -74,6 +74,21 @@ namespace EDental {
 		GetStatus() :
 			HisService("D009", "/v1/edental/status/get") {}
 
-		bool sendRequest(const Patient& patient, std::function<void(const ToothContainer&, const ProcedureContainer&)> callback);
+		bool sendRequest(const Patient& patient, std::function<void(const ToothContainer&)> callback);
+	};
+
+	class GetProcedures : private HisService
+	{
+
+		std::function<void(const std::vector<Procedure>& procedures)> m_callback;
+
+	protected:
+		void parseReply(const std::string& reply) override;
+
+	public:
+		GetProcedures() :
+			HisService("D009", "/v1/edental/status/get") {}
+
+		bool sendRequest(const Patient& patient, std::function<void(const std::vector<Procedure>&)> callback);
 	};
 }

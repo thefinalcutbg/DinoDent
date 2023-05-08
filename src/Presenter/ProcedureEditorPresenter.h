@@ -24,6 +24,7 @@ class ProcedureEditorPresenter
 	ProcedureCode m_code;
 	bool m_temp;
 	int m_tooth;
+	int m_hisIndex;
 
 public:
 	ProcedureEditorPresenter(const Procedure& m, const Date& patientBirth);

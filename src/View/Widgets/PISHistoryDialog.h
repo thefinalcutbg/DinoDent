@@ -14,7 +14,7 @@ class PISHistoryDialog : public QDialog
 
 public:
 	bool applyProcedures{ false };
-	PISHistoryDialog(const std::vector<Procedure> procedures, QWidget *parent = Q_NULLPTR);
+	PISHistoryDialog(const std::vector<Procedure> procedures, const std::string& title, QWidget *parent = Q_NULLPTR);
 	~PISHistoryDialog();
 
 private:

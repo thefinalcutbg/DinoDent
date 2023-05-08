@@ -239,6 +239,16 @@ std::string ToothUtils::getName(int idx, bool temp)
 
 }
 
+ToothUtils::ToothProcedureCode ToothUtils::getToothFromHisNum(const std::string& toothNum, bool hyperdontic)
+{
+    auto result = getToothFromNhifNum(toothNum);
+
+    result.hyperdontic = hyperdontic;
+
+    return result;
+    
+}
+
 const std::array<int, 32>& ToothUtils::FDINumbers()
 {
     return s_tooth_FDI;

@@ -24,6 +24,7 @@ namespace ToothUtils
 	Quadrant getQuadrant(int index);
 	std::array<std::string, 6> getSurfaceNames(int index);
 	ToothProcedureCode getToothFromNhifNum(const std::string& toothNum);
+	ToothProcedureCode getToothFromHisNum(const std::string& toothNum, bool hyperdontic);
 	std::string getName(int idx, bool temp);
 	const std::array<int, 32>& FDINumbers();
 };

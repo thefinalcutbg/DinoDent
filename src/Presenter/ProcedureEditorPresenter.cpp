@@ -12,6 +12,7 @@ ProcedureEditorPresenter::ProcedureEditorPresenter(const Procedure& p, const Dat
 	m_code = p.code;
 	m_temp = p.temp;
 	m_tooth = p.tooth;
+	m_hisIndex = p.his_index;
 
 	result->code = p.code;
 	result->date = p.date;
@@ -128,6 +129,7 @@ void ProcedureEditorPresenter::okPressed()
 	result->financingSource = view->procedureInput()->getFinancingSource();
 	result->hyperdontic = view->procedureInput()->onHyperdontic();
 	result->tooth = m_tooth;
+	result->his_index = m_hisIndex;
 
 	switch (result->code.type())
 	{

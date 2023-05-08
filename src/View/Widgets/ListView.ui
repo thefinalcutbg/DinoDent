@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1451</width>
+    <width>1493</width>
     <height>1171</height>
    </rect>
   </property>
@@ -542,6 +542,25 @@
              </property>
              <property name="checkable">
               <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="IconButton" name="hisProceduresButton">
+             <property name="minimumSize">
+              <size>
+               <width>35</width>
+               <height>35</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>35</width>
+               <height>35</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>HIS</string>
              </property>
             </widget>
            </item>

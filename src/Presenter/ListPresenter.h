@@ -43,8 +43,9 @@ class ListPresenter : public TabInstance
     DiagnosisService nhifDiagnosisServ;
     EDental::Open eDentalOpenService;
     EDental::Cancel eDentalCancelService;
-    EDental::GetStatus eDentalGetService;
+    EDental::GetStatus eDentalGetStatus;
     EDental::Augment eDentalAugmentService;
+    EDental::GetProcedures eDentalGetProcedures;
     EReferral::Issue eReferralIssueService;
     EReferral::Cancel eReferralCancelService;
 
@@ -54,6 +55,7 @@ class ListPresenter : public TabInstance
 
     int generateAmbListNumber();
     void requestPisActivities();
+    
     bool isValid();
     void refreshProcedureView();
     void statusChanged();
@@ -92,6 +94,7 @@ public:
 
     void setPISActivities(const std::optional<std::vector<Procedure>>& pisProcedures);
 
+    void requestHisActivities();
     void openPisHistory();
     void openDetails(int toothIdx);
     void openDetails();

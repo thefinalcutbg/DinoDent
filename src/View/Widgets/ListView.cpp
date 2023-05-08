@@ -33,7 +33,7 @@ ListView::ListView(QWidget* parent)
 	ui.deleteProcedure->setIcon(QIcon(":/icons/icon_remove.png"));
 	ui.editProcedure->setIcon(QIcon(":/icons/icon_edit.png"));
 	ui.nzokActivities->setIcon(QIcon(":/icons/icon_nhif.png"));
-
+	ui.hisProceduresButton->setIcon(QIcon(":/icons/icon_his.png"));
 
 	ui.perioButton->setHoverColor(Theme::mainBackgroundColor);
 	ui.invoiceButton->setHoverColor(Theme::mainBackgroundColor);
@@ -87,6 +87,7 @@ ListView::ListView(QWidget* parent)
 	connect(ui.ambNumSpin, &LeadingZeroSpinBox::valueChanged, [=](long long value) {if(presenter)presenter->ambNumChanged(value);});
 	connect(ui.dateTimeEdit, &QDateTimeEdit::dateTimeChanged, [=](const QDateTime& t) {if (presenter)presenter->setAmbDateTime(t.toString(Qt::ISODate).toStdString());});
 	connect(ui.nzokActivities, &QPushButton::clicked, [=] { if (presenter) presenter->openPisHistory(); });
+	connect(ui.hisProceduresButton, &QPushButton::clicked, [=] { if (presenter) presenter->requestHisActivities(); });
 	connect(ui.addProcedure, &QAbstractButton::clicked, [=] { if (presenter) presenter->addProcedure(); });
 	connect(ui.specCombo, QtComboIndexChanged, [=] {nhifChanged();});
 	connect(ui.unfavCheck, &QCheckBox::stateChanged, [=] { nhifChanged(); });

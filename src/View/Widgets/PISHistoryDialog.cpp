@@ -1,11 +1,11 @@
 ﻿#include "PISHistoryDialog.h"
 
-PISHistoryDialog::PISHistoryDialog(const std::vector<Procedure> procedures, QWidget *parent)
+PISHistoryDialog::PISHistoryDialog(const std::vector<Procedure> procedures, const std::string& title, QWidget *parent)
 	: QDialog(parent)
 {
 	ui.setupUi(this);
 
-	setWindowTitle("Отчетени манипулации по НЗОК");
+	setWindowTitle(title.c_str());
 
 	model.setProcedures(procedures);
 

@@ -87,10 +87,14 @@ std::string EDental::Open::getProcedures(const ProcedureContainer& procedures, c
 		{
 			auto [begin, end] = std::get<ConstructionRange>(p.result);
 
+			bool isDenture = p.code.type() == ProcedureType::denture;
+
 			p.applyProcedure(teethChanged);
 
 			for (int i = begin; i <= end; i++)
 			{
+				if (isDenture && !teethChanged.at(i).denture) continue;
+
 				result += getToothStatus(teethChanged.at(i));
 			}
 		}

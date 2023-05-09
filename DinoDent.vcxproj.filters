@@ -306,7 +306,7 @@
     <ClCompile Include="src\DbUpdates\Updater.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\Graphics\ContextMenu.cpp">
+    <ClCompile Include="src\View\SubWidgets\ContextMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\Graphics\ControlPanelPolygon.cpp">
@@ -1549,7 +1549,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="src\View\Graphics\ContextMenu.h">
+    <QtMoc Include="src\View\SubWidgets\ContextMenu.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\Graphics\GraphicsView.h">

@@ -85,10 +85,11 @@ ContextMenu::ContextMenu()
     SurgeryMenu->addAction(menuAction[StatusCode::Impacted]);
 
     addAction(menuAction[StatusCode::Periodontitis]);
-
+    addAction(menuAction[StatusCode::Calculus]);
     addSeparator();
     addAction(menuAction[StatusCode::Crown]);
     addAction(menuAction[StatusCode::Bridge]);
+    addAction(menuAction[StatusCode::Denture]);
     addAction(menuAction[StatusCode::FiberSplint]);
     addSeparator();
 

@@ -206,9 +206,11 @@ void Tooth::addStatus(int statusCode)
 		case StatusCode::Healthy:
 		{
 			bool temp = temporary.exists();
+			bool dsn = hyperdontic.exists();
 			removeStatus();
 			healthy.set(true);
 			temporary.set(temp);
+			hyperdontic.set(dsn);
 			break;
 		}
 		case StatusCode::Temporary: 

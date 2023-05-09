@@ -360,7 +360,7 @@
     <ClCompile Include="src\DbUpdates\DbUpdates.cpp" />
     <ClCompile Include="src\DbUpdates\Updater.cpp" />
     <ClCompile Include="src\View\GlobalFunctions.cpp" />
-    <ClCompile Include="src\View\Graphics\ContextMenu.cpp" />
+    <ClCompile Include="src\View\SubWidgets\ContextMenu.cpp" />
     <ClCompile Include="src\View\Graphics\ControlPanelPolygon.cpp" />
     <ClCompile Include="src\View\Graphics\CPTooth.cpp" />
     <ClCompile Include="src\View\Graphics\DsnToothGraphicsItem.cpp" />
@@ -656,7 +656,7 @@
     <ClInclude Include="src\DbUpdates\Updater.h" />
     <ClInclude Include="src\Version.h" />
     <ClInclude Include="src\View\GlobalFunctions.h" />
-    <QtMoc Include="src\View\Graphics\ContextMenu.h" />
+    <QtMoc Include="src\View\SubWidgets\ContextMenu.h" />
     <ClInclude Include="src\View\Graphics\ControlPanelPolygon.h" />
     <ClInclude Include="src\View\Graphics\CPTooth.h" />
     <ClInclude Include="src\View\Graphics\DsnToothGraphicsItem.h" />

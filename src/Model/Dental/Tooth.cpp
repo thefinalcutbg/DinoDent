@@ -303,7 +303,8 @@ void Tooth::addStatus(int statusCode)
 			break;
 
 		case StatusCode::Dsn: 
-			set(true, healthy, hyperdontic);
+			if (noData()) { set(true, healthy); }
+			set(true, hyperdontic);
 			break;
 
 		case StatusCode::Impacted: 

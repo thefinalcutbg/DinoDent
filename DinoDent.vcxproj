@@ -656,6 +656,7 @@
     <ClInclude Include="src\DbUpdates\Updater.h" />
     <ClInclude Include="src\Version.h" />
     <ClInclude Include="src\View\GlobalFunctions.h" />
+    <QtMoc Include="src\View\Graphics\ContextMenu.h" />
     <ClInclude Include="src\View\Graphics\ControlPanelPolygon.h" />
     <ClInclude Include="src\View\Graphics\CPTooth.h" />
     <ClInclude Include="src\View\Graphics\DsnToothGraphicsItem.h" />
@@ -827,7 +828,6 @@
     <QtMoc Include="src\View\Graphics\TeethLingualScene.h" />
     <QtMoc Include="src\View\Graphics\TeethBuccalScene.h" />
     <QtMoc Include="src\View\Graphics\GraphicsView.h" />
-    <QtMoc Include="src\View\Graphics\ContextMenu.h" />
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\View\SubWidgets\MedicalStatusWidget.ui" />

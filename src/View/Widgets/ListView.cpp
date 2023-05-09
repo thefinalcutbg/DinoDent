@@ -67,22 +67,11 @@ ListView::ListView(QWidget* parent)
 
 	setStyleSheet(Theme::getFancyStylesheet());
 
-	//hiding the date and time for now
-	//ui.label_4->setHidden(true);
-	//ui.label_3->setHidden(true);
-	//ui.dateEdit->setHidden(true);
-//	ui.timeEdit->setHidden(true);
 
 	ui.procedureLabel->setStyleSheet(
 		"color : " + Theme::colorToString(Theme::fontTurquoise) + "; "
 		"font-weight: bold; font-size: 12px;"
 	);
-	/*
-	ui.refLabel->setStyleSheet(
-		"color : " + Theme::colorToString(Theme::fontTurquoise) + "; "
-		"font-weight: bold; font-size: 12px;"
-	);
-	*/
 
 	connect(ui.nrnButton, &QPushButton::clicked, [=] { if (presenter) presenter->hisButtonPressed();});
 	connect(ui.getStatusButton, &QPushButton::clicked, [=] {if (presenter) presenter->getStatusPressed(); });

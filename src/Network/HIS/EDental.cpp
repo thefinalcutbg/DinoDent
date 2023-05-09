@@ -524,7 +524,7 @@ void EDental::GetStatus::parseReply(const std::string& reply)
 		{
 			auto condition = status.Child(i).Child(y).ToElement();
 
-			if (condition->ValueStr() != "nhis:condition") {
+			if (condition->ValueStr() == "nhis:supernumeralIndex") {
 				teeth[index].hyperdontic.set(true);
 				//the status of the hyperdontic tooth should be parsed
 				continue;

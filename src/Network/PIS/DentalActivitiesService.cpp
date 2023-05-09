@@ -8,10 +8,10 @@
 #include "Model/Dental/NhifProcedures.h"
 
 bool DentalActivitiesService::sendRequest(
-	int personType, 
-	const std::string& patientId, 
-	std::function<void(const std::optional<std::vector<Procedure>>&)> callback,
-	bool showDialogs
+		int personType, 
+		const std::string& patientId, 
+		bool showDialogs,
+		decltype(m_callback) callback
 	)
 {
 	this->show_dialogs = showDialogs;
@@ -42,9 +42,7 @@ bool DentalActivitiesService::sendRequest(
 
 void DentalActivitiesService::parseReply(const std::string& reply)
 {
-	if (reply.empty()) {
-		m_callback({});
-	}
+	if (reply.empty()) { m_callback({}, show_dialogs);  return; }
 
 	TiXmlDocument doc;
 
@@ -83,6 +81,6 @@ void DentalActivitiesService::parseReply(const std::string& reply)
 		procedures.back().financingSource = FinancingSource::NHIF;
 	}
 
-	m_callback(procedures);
+	m_callback(procedures, show_dialogs);
 
 }

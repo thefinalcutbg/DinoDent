@@ -28,13 +28,12 @@ class ListPresenter : public TabInstance
     PatientInfoPresenter patient_info;
 
     SelectedTeethIdx m_selectedIndexes;
-    //SelectedTeeth m_selectedTeeth;
 
     CheckModel m_checkModel;
 
     IListView* view;
 
-    bool m_openHistoryDialogOnReply { false };
+    bool firstFocus{ true };
 
     TabPresenter* tabPresenter;
 
@@ -49,12 +48,13 @@ class ListPresenter : public TabInstance
     EReferral::Issue eReferralIssueService;
     EReferral::Cancel eReferralCancelService;
 
+    std::vector<Procedure> getToothHistory(int toothIdx);
+
     void prepareDerivedForSwitch() override {
         patient_info.setCurrent(false);
     }
 
     int generateAmbListNumber();
-    void requestPisActivities();
     
     bool isValid();
     void refreshProcedureView();
@@ -90,12 +90,10 @@ public:
     void setOther(int code);
     
     void setSelectedTeeth(const std::vector<int>& SelectedIndexes);
+    
+    void requestPisActivities(bool clickedByUser);
+    void requestHisActivities(bool clickedByUser);
 
-
-    void setPISActivities(const std::optional<std::vector<Procedure>>& pisProcedures);
-
-    void requestHisActivities();
-    void openPisHistory();
     void openDetails(int toothIdx);
     void openDetails();
 

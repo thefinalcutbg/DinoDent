@@ -87,8 +87,8 @@ ListView::ListView(QWidget* parent)
 	connect(ui.getStatusButton, &QPushButton::clicked, [=] {if (presenter) presenter->getStatusPressed(); });
 	connect(ui.ambNumSpin, &LeadingZeroSpinBox::valueChanged, [=](long long value) {if(presenter)presenter->ambNumChanged(value);});
 	connect(ui.dateTimeEdit, &QDateTimeEdit::dateTimeChanged, [=](const QDateTime& t) {if (presenter)presenter->setAmbDateTime(t.toString(Qt::ISODate).toStdString());});
-	connect(ui.nzokActivities, &QPushButton::clicked, [=] { if (presenter) presenter->openPisHistory(); });
-	connect(ui.hisProceduresButton, &QPushButton::clicked, [=] { if (presenter) presenter->requestHisActivities(); });
+	connect(ui.nzokActivities, &QPushButton::clicked, [=] { if (presenter) presenter->requestPisActivities(true); });
+	connect(ui.hisProceduresButton, &QPushButton::clicked, [=] { if (presenter) presenter->requestHisActivities(true); });
 	connect(ui.addProcedure, &QAbstractButton::clicked, [=] { if (presenter) presenter->addProcedure(); });
 	connect(ui.specCombo, QtComboIndexChanged, [=] {nhifChanged();});
 	connect(ui.unfavCheck, &QCheckBox::stateChanged, [=] { nhifChanged(); });

@@ -8,7 +8,7 @@
 class DentalActivitiesService final: private PisService
 {
 	
-	std::function<void(const std::optional<std::vector<Procedure>>&)> m_callback;
+	std::function<void(const std::optional<std::vector<Procedure>>&, bool showDialog)> m_callback;
 
 	void parseReply(const std::string& reply) override;
 public:
@@ -17,8 +17,8 @@ public:
 	bool sendRequest(
 		int personType,
 		const std::string& patientId,
-		std::function<void(const std::optional<std::vector<Procedure>>&)> callback,
-		bool showDialogs = true
+		bool showDialogs,
+		decltype(m_callback) callback
 	);
 
 };

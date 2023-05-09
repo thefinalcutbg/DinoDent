@@ -3,7 +3,7 @@
 #include "Database/DbPatient.h"
 #include "Database/DbReferral.h"
 #include "Database/DbAmbList.h"
-
+#include "Database/DbProcedure.h"
 #include "Model/Dental/NhifProcedures.h"
 #include "Model/User.h"
 #include "Model/Validators/AmbListValidator.h"
@@ -17,6 +17,10 @@
 #include "View/ModalDialogBuilder.h"
 #include "View/ModalDialogBuilder.h"
 #include "View/Printer.h"
+#include "Network/PKCS11.h"
+
+#include <thread>
+#include <chrono>
 
 ListPresenter::ListPresenter(ITabView* tabView, TabPresenter* tabPresenter, std::shared_ptr<Patient> patient, long long rowId)
     :
@@ -310,12 +314,18 @@ void ListPresenter::setDataToView()
 
     view->setSelectedTeeth(m_selectedIndexes);
 
-    if (User::settings().getPisHistoryAuto &&
-        User::hasNzokContract() &&
-        !patient->PISHistory.has_value()) {
-        requestPisActivities();
+    if (firstFocus)
+    {
+        if (User::settings().getPisHistoryAuto && User::hasNzokContract()) {
+            requestPisActivities(false);
+        }
+
+        if (User::settings().getHisHistoryAuto) {
+            requestHisActivities(false);
+        }
+
+        firstFocus = false;
     }
-   
 }
 
 
@@ -454,6 +464,58 @@ void ListPresenter::setSelectedTeeth(const std::vector<int>& SelectedIndexes)
 }
 
 
+std::vector<Procedure> ListPresenter::getToothHistory(int toothIdx)
+{
+    std::vector<Procedure> result = DbProcedure::getToothProcedures(patient->rowid, toothIdx);
+
+    if (patient->HISHistory) {
+        for (auto& p : patient->HISHistory.value())
+        {
+            if (p.tooth == toothIdx) result.push_back(p);
+        }
+    }
+
+    if (patient->PISHistory)
+    {
+        for (auto& p : patient->PISHistory.value())
+        {
+            if (p.tooth == toothIdx) result.push_back(p);
+        }
+    }
+
+    std::sort(result.begin(), result.end(), [](const Procedure& a, const Procedure& b) -> bool
+        {
+           return a.date > b.date;
+        }
+    );
+
+    std::vector<int> idxToRemove;
+
+    for (int i = 0; i < result.size(); i++)
+    {
+        if (i == 0) continue;
+
+        auto& current = result[i];
+        auto& prev = result[i - 1];
+
+        if (current.date == prev.date &&
+            current.financingSource == prev.financingSource &&
+            current.code.oldCode() == prev.code.oldCode()
+            )
+        {
+            idxToRemove.push_back(i);
+        }
+    }
+
+    for (auto idx : idxToRemove)
+    {
+        result.erase(result.begin() + idx);
+    }
+
+    return result;
+    
+}
+
 int ListPresenter::generateAmbListNumber()
 {
     int newNumber = m_ambList.number;
@@ -467,106 +529,99 @@ int ListPresenter::generateAmbListNumber()
     return newNumber;
 }
 
-void ListPresenter::requestPisActivities()
+void ListPresenter::requestPisActivities(bool clickedByUser)
 {
-    dentalActService.sendRequest(
-        patient->type, 
-        patient->id,
-        [&](auto procedures) { 
-            setPISActivities(procedures);
-        },
-        m_openHistoryDialogOnReply
-    );
+    auto callback = [&](const std::optional<std::vector<Procedure>>& result, bool showDialog) {
 
-}
+        if (!result) return;
 
-void ListPresenter::requestHisActivities()
-{
-    eDentalGetProcedures.sendRequest(
-        *patient,
-        [&](auto procedures) {
+        auto& procedures = result.value();
 
-            if (procedures.empty()) {
-                ModalDialogBuilder::showMessage("Не са намерени манипулации в НЗИС");
-                return;
-            }
+        patient->PISHistory = procedures;
 
-            patient->HISHistory = procedures;
+        if (!showDialog) return;
 
-            bool applyToStatus = ModalDialogBuilder::procedureHistoryDialog(procedures, "Отчетени манипулации в НЗИС");
-
-            if (!applyToStatus) return;
-
-            for (auto it = procedures.rbegin(); it != procedures.rend(); ++it)
-                it->applyPISProcedure(m_ambList.teeth);
-
-            if (isCurrent()) {
-
-                for (auto& t : m_ambList.teeth)
-                    view->repaintTooth(ToothHintCreator::getToothHint(t, patient->teethNotes[t.index]));
-            }
-
-
-            makeEdited();
+        if (procedures.empty()) {
+            ModalDialogBuilder::showMessage("В ПИС не са намерени манипулации за този пациент");
+            return;
         }
-        );
 
-}
+        bool applyToStatus = ModalDialogBuilder::procedureHistoryDialog(procedures, "Отчетени манипулации в ПИС");
 
-void ListPresenter::setPISActivities(const std::optional<std::vector<Procedure>>& pisProcedures)
-{
+        if (!applyToStatus) return;
 
-    if (!pisProcedures.has_value()) {
-        m_openHistoryDialogOnReply = false;
+        for (auto it = procedures.rbegin(); it != procedures.rend(); ++it)
+            it->applyPISProcedure(m_ambList.teeth);
+
+        if (isCurrent()) {
+
+            for (auto& t : m_ambList.teeth)
+                view->repaintTooth(ToothHintCreator::getToothHint(t, patient->teethNotes[t.index]));
+        }
+        makeEdited();
+    };
+
+    if (clickedByUser && patient->PISHistory)
+    {
+        callback(patient->PISHistory.value(), true);
         return;
     }
 
-    patient->PISHistory = pisProcedures;
+    dentalActService.sendRequest(patient->type, patient->id, clickedByUser, callback);
 
-    if (m_openHistoryDialogOnReply) openPisHistory();
 }
+
+void ListPresenter::requestHisActivities(bool clickedByUser)
+{
+    auto callback = [&](const std::optional<std::vector<Procedure>>& result, auto showDialog) {
+
+        if (!result) return;
+
+        auto& procedures = result.value();
+
+        patient->HISHistory = procedures;
+
+        if (!showDialog) return;
+
+        if (procedures.empty()) {
+            ModalDialogBuilder::showMessage("В НЗИС не са намерени манипулации за този пациент");
+            return;
+        }
+
+        if (!showDialog) return;
+
+        bool applyToStatus = ModalDialogBuilder::procedureHistoryDialog(procedures, "Отчетени манипулации в НЗИС");
+
+        if (!applyToStatus) return;
+
+        for (auto it = procedures.rbegin(); it != procedures.rend(); ++it)
+            it->applyPISProcedure(m_ambList.teeth);
+
+        if (isCurrent()) {
+
+            for (auto& t : m_ambList.teeth)
+                view->repaintTooth(ToothHintCreator::getToothHint(t, patient->teethNotes[t.index]));
+        }
+
+        makeEdited();
+    };
+
+    if (clickedByUser && patient->HISHistory)
+    {
+        callback(patient->HISHistory.value(), true);
+        return;
+    }
+
+    eDentalGetProcedures.sendRequest(*patient, clickedByUser, callback);
+
+}
+
 
 #include "Presenter/DetailedStatusPresenter.h"
 
-void ListPresenter::openPisHistory()
-{
-
-    if (!patient->PISHistory.has_value())
-    {
-        m_openHistoryDialogOnReply = true;
-        requestPisActivities();
-        return;
-    }
-
-    m_openHistoryDialogOnReply = false;
-
-    auto& history = patient->PISHistory.value();
-
-    if (history.empty()) {
-        ModalDialogBuilder::showMessage("В ПИС не са намерени данни за този пациент");
-        return;
-    }
-
-    bool applyToStatus = ModalDialogBuilder::procedureHistoryDialog(history, "Отчетени манипулации в ПИС");
-
-    if (!applyToStatus) return;
-    
-    for (auto it = history.rbegin(); it != history.rend(); ++it)
-    it->applyPISProcedure(m_ambList.teeth);
-
-    if (isCurrent()) {
-
-        for (auto& t : m_ambList.teeth)
-            view->repaintTooth(ToothHintCreator::getToothHint(t, patient->teethNotes[t.index]));
-    }
-   
-
-    makeEdited();
-}
-
 void ListPresenter::openDetails(int toothIdx)
 {
-    DetailedStatusPresenter d(m_ambList.teeth[toothIdx], patient->rowid);
+    DetailedStatusPresenter d(m_ambList.teeth[toothIdx], patient->rowid, getToothHistory(toothIdx));
 
     auto result = d.open();
 
@@ -913,6 +968,8 @@ void ListPresenter::hisButtonPressed()
 
                 DbAmbList::update(m_ambList);
                 
+                requestHisActivities(false);
+
                 refreshTabName();
 
                 if (isCurrent())
@@ -947,6 +1004,8 @@ void ListPresenter::hisButtonPressed()
 
                 DbAmbList::update(m_ambList);
 
+                requestHisActivities(false);
+
                 refreshTabName();
 
                 if (isCurrent())
@@ -977,6 +1036,8 @@ void ListPresenter::hisButtonPressed()
 
                 DbAmbList::update(m_ambList);
                 
+                requestHisActivities(false);
+
                 refreshTabName();
 
                 ModalDialogBuilder::showMessage("Денталният преглед е анулиран успешно");

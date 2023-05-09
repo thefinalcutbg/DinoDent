@@ -12,7 +12,7 @@
 bool EDental::Open::sendRequest(
     const AmbList& ambSheet, 
     const Patient& patient, 
-    std::function<void(const std::string&, const std::vector<int>&)> nrnCallback
+	decltype(m_callback) nrnCallback
 )
 {
 	m_callback = nrnCallback;
@@ -548,10 +548,17 @@ void EDental::GetStatus::parseReply(const std::string& reply)
 
 void EDental::GetProcedures::parseReply(const std::string& reply)
 {
+	if (reply.empty()) {
+		m_callback({}, show_dialogs);
+		return;
+	}
+
 	auto errors = getErrors(reply);
 
 	if (errors.size()) {
-		ModalDialogBuilder::showError(errors);
+		if (show_dialogs) {
+			ModalDialogBuilder::showError(errors);
+		}
 		m_callback = nullptr;
 		return;
 	}
@@ -643,14 +650,16 @@ void EDental::GetProcedures::parseReply(const std::string& reply)
 		teethIndexes.clear();
 	}
 
-	m_callback(procedures);
+	m_callback(procedures, this->show_dialogs);
 
 	m_callback = nullptr;
 
 }
 
-bool EDental::GetProcedures::sendRequest(const Patient& patient, std::function<void(const std::vector<Procedure>&)> callback)
+bool EDental::GetProcedures::sendRequest(const Patient& patient, bool showDialogs, decltype(m_callback) callback)
 {
+
+	this->show_dialogs = showDialogs;
 
 	m_callback = callback;
 

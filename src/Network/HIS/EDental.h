@@ -22,7 +22,7 @@ namespace EDental {
 		bool sendRequest(
 			const AmbList& ambSheet,
 			const Patient& patient,
-			std::function<void(const std::string& nrn, const std::vector<int>& procedureIndex)> nrnCallback
+			decltype(m_callback) nrnCallback
 		);
 
 	};
@@ -80,7 +80,7 @@ namespace EDental {
 	class GetProcedures : private HisService
 	{
 
-		std::function<void(const std::vector<Procedure>& procedures)> m_callback;
+		std::function<void(const std::optional<std::vector<Procedure>>& procedures, bool showDialogs)> m_callback;
 
 	protected:
 		void parseReply(const std::string& reply) override;
@@ -89,6 +89,6 @@ namespace EDental {
 		GetProcedures() :
 			HisService("D009", "/v1/edental/status/get") {}
 
-		bool sendRequest(const Patient& patient, std::function<void(const std::vector<Procedure>&)> callback);
+		bool sendRequest(const Patient& patient, bool showDialog, decltype(m_callback) callback);
 	};
 }

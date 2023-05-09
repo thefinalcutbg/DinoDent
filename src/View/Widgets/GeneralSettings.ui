@@ -23,6 +23,13 @@
        </property>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
+         <widget class="QCheckBox" name="autoHisCheck">
+          <property name="text">
+           <string>Автоматично извличане на данни от НЗИС</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QCheckBox" name="autoPisCheck">
           <property name="text">
            <string>Автоматично извличане на данни от ПИС</string>

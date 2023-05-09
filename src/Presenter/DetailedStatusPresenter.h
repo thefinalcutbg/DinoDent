@@ -16,6 +16,8 @@ class DetailedStatusPresenter
 	StatusType m_category{ StatusType::general };
 	int m_code{ -1 };
 
+	std::vector<Procedure> m_procedures;
+
 	CheckModel m_checkModel;
 
 	long long patientRowId;
@@ -26,7 +28,7 @@ class DetailedStatusPresenter
 	std::optional<Tooth> _result{};
 
 public:
-	DetailedStatusPresenter(const Tooth& tooth, long long patientRowId);
+	DetailedStatusPresenter(const Tooth& tooth, long long patientRowId, const std::vector<Procedure>& toothProcedures);
 
 	void setView(IDetailedStatusView* view);
 	void checkStateChanged(bool checked);

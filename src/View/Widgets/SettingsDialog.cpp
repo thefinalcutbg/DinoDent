@@ -20,6 +20,7 @@ SettingsDialog::SettingsDialog(QDialog*parent)
 
 void SettingsDialog::setSettings(const Settings& settings)
 {
+	ui.generalSettings->ui.autoHisCheck->setChecked(settings.getHisHistoryAuto);
 	ui.generalSettings->ui.autoNraCheck->setChecked(settings.getNraStatusAuto);
 	ui.generalSettings->ui.autoPisCheck->setChecked(settings.getPisHistoryAuto);
 }
@@ -27,8 +28,9 @@ void SettingsDialog::setSettings(const Settings& settings)
 Settings SettingsDialog::getSettings()
 {
 	return Settings{
-		ui.generalSettings->ui.autoPisCheck->isChecked(),
-		ui.generalSettings->ui.autoNraCheck->isChecked()
+		.getHisHistoryAuto = ui.generalSettings->ui.autoHisCheck->isChecked(),
+		.getPisHistoryAuto = ui.generalSettings->ui.autoPisCheck->isChecked(),
+		.getNraStatusAuto = ui.generalSettings->ui.autoNraCheck->isChecked()
 	};
 }
 

@@ -6,8 +6,8 @@
 #include "Database/DbProcedure.h"
 #include "Database/DbNotes.h"
 
-DetailedStatusPresenter::DetailedStatusPresenter(const Tooth& tooth, long long patientRowId)
-	: m_tooth(tooth), m_checkModel(tooth), patientRowId(patientRowId), view(nullptr)
+DetailedStatusPresenter::DetailedStatusPresenter(const Tooth& tooth, long long patientRowId, const std::vector<Procedure>& toothProcedures)
+	: m_tooth(tooth), m_procedures(toothProcedures), m_checkModel(tooth), patientRowId(patientRowId), view(nullptr)
 {
 	m_notes = DbNotes::getNote(patientRowId, tooth.index);
 }
@@ -16,7 +16,7 @@ void DetailedStatusPresenter::setView(IDetailedStatusView* view)
 {
 	this->view = view; 
 
-	view->setHistoryData(DbProcedure::getToothProcedures(patientRowId, m_tooth.index));
+	view->setHistoryData(m_procedures);
 	
 	view->disableItem(StatusCode::Bridge, !m_tooth.bridge.exists());
 	view->disableItem(StatusCode::FiberSplint, !m_tooth.splint.exists());

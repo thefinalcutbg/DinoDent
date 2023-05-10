@@ -561,12 +561,6 @@ void ListPresenter::requestPisActivities(bool clickedByUser)
         makeEdited();
     };
 
-    if (clickedByUser && patient->PISHistory)
-    {
-        callback(patient->PISHistory.value(), true);
-        return;
-    }
-
     dentalActService.sendRequest(patient->type, patient->id, clickedByUser, callback);
 
 }
@@ -605,12 +599,6 @@ void ListPresenter::requestHisActivities(bool clickedByUser)
 
         makeEdited();
     };
-
-    if (clickedByUser && patient->HISHistory)
-    {
-        callback(patient->HISHistory.value(), true);
-        return;
-    }
 
     eDentalGetProcedures.sendRequest(*patient, clickedByUser, callback);
 

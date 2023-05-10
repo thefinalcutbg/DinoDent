@@ -562,7 +562,7 @@ void EDental::GetProcedures::parseReply(const std::string& reply)
 		m_callback = nullptr;
 		return;
 	}
-	ModalDialogBuilder::showMultilineDialog(reply);
+
 	TiXmlDocument doc;
 
 	doc.Parse(reply.data(), 0, TIXML_ENCODING_UTF8);

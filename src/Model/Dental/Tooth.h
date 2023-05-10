@@ -16,6 +16,8 @@ public:
 	Tooth(int index);
 	Tooth(const Tooth& other);
 	Tooth& operator=(const Tooth& t);
+	//call if the tooth can have supernumeral twin
+	void DsnInit();
 
 	std::array<bool, statusCount> getBoolStatus() const;
 	void addStatus(int statusCode);
@@ -63,6 +65,6 @@ public:
 
 	Mobility mobility;
 
-
+	std::unique_ptr<Tooth> dsn;
 
 };

@@ -3,7 +3,7 @@
 #include "PatientSummaryPresenter.h"
 #include "View/Interfaces/ITabView.h"
 #include "View/Interfaces/IPatientSummaryView.h"
-#include "Presenter/ToothHintCreator.h"
+#include "ToothHintCreator.h"
 #include "Model/Patient.h"
 #include "Database/DbPatientSummary.h"
 #include "Database/DbPerio.h"

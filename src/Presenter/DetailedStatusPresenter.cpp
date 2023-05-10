@@ -1,10 +1,10 @@
 #include "DetailedStatusPresenter.h"
 #include "Presenter/CheckState.h"
-#include "Presenter/ToothHintCreator.h"
 #include "View/ModalDialogBuilder.h"
 
 #include "Database/DbProcedure.h"
 #include "Database/DbNotes.h"
+#include "View/Graphics/PaintHint.h"
 
 DetailedStatusPresenter::DetailedStatusPresenter(const Tooth& tooth, long long patientRowId, const std::vector<Procedure>& toothProcedures)
 	: m_tooth(tooth), m_procedures(toothProcedures), m_checkModel(tooth), patientRowId(patientRowId), view(nullptr)
@@ -23,7 +23,7 @@ void DetailedStatusPresenter::setView(IDetailedStatusView* view)
 	view->disableItem(StatusCode::Temporary, m_tooth.type == ToothType::Molar);
 
 	view->setCheckModel(m_checkModel);
-	view->paintTooth(ToothHintCreator::getToothHint(m_tooth));
+	view->paintTooth(ToothPaintHint(m_tooth));
 
 	view->setNotes(m_notes);
 }
@@ -31,7 +31,7 @@ void DetailedStatusPresenter::setView(IDetailedStatusView* view)
 
 void DetailedStatusPresenter::stateChanged()
 {
-	view->paintTooth(ToothHintCreator::getToothHint(m_tooth));
+	view->paintTooth(ToothPaintHint(m_tooth));
 }
 
 void DetailedStatusPresenter::checkStateChanged(bool checked)
@@ -40,7 +40,7 @@ void DetailedStatusPresenter::checkStateChanged(bool checked)
 	m_checkModel = CheckModel(m_tooth);
 
 	view->setCheckModel(m_checkModel);
-	view->paintTooth(ToothHintCreator::getToothHint(m_tooth));
+	view->paintTooth(ToothPaintHint(m_tooth));
 }
 
 

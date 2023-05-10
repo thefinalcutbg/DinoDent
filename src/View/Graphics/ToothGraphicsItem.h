@@ -33,6 +33,6 @@ public:
 
     //not working:
     void setToothPixmap(const QPixmap& px);
-   
+    void drawEmpty();
 
 };

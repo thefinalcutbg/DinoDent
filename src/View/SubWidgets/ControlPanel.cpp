@@ -2,7 +2,7 @@
 
 #include "Presenter/ListPresenter.h"
 #include <QMenu>
-
+#include "DsnMenu.h"
 
 ControlPanel::ControlPanel(QWidget* parent)
 	: QWidget(parent), presenter(nullptr)
@@ -24,7 +24,7 @@ ControlPanel::ControlPanel(QWidget* parent)
 		this->connect(button, &QPushButton::clicked, this, [=] {
 
 			if (presenter == NULL) return;
-				presenter->setMainStatus(code);
+				presenter->setToothStatus(StatusType::general, code);
 			});
 	};
 
@@ -58,10 +58,10 @@ ControlPanel::ControlPanel(QWidget* parent)
 			
 			switch (state)
 			{
-				case 0:presenter->setMainStatus(StatusCode::Mobility); break;
-				case 1:presenter->setMobility(0); break;
-				case 2:presenter->setMobility(1); break;
-				case 3:presenter->setMobility(2); break;
+				case 0:presenter->setToothStatus(StatusType::general, StatusCode::Mobility); break;
+				case 1:presenter->setToothStatus(StatusType::mobility, 0); break;
+				case 2:presenter->setToothStatus(StatusType::mobility, 1); break;
+				case 3:presenter->setToothStatus(StatusType::mobility, 2); break;
 			}
 		}
 	);
@@ -70,21 +70,21 @@ ControlPanel::ControlPanel(QWidget* parent)
 		if (presenter)
 			presenter->setOther(OtherInputs::removeAll);
 	});
-	/*
-	QMenu* menu = new QMenu();
-	menu->addAction(new QAction("haha"));
-	menu->addAction(new QAction("blabla"));
+	
+	menu = new DsnMenu();
 	ui.Dsn->setMenu(menu);
-	*/
+
 }
 
 ControlPanel::~ControlPanel()
 {
+	delete menu;
 }
 
 void ControlPanel::setPresenter(ListPresenter* presenter)
 {
 	this->presenter = presenter;
+	menu->setPresenter(presenter);
 }
 
 void ControlPanel::hideCommonButtons(bool hidden)
@@ -93,7 +93,7 @@ void ControlPanel::hideCommonButtons(bool hidden)
 	ui.Caries->setHidden(hidden);
 }
 
-void ControlPanel::setModel(const CheckModel& checkModel)
+void ControlPanel::setModel(const CheckModel& checkModel, const CheckModel& dsn)
 {
 
 	auto setCheck = [&](StatusButton* b, StatusCode::StatusCode s) {
@@ -137,4 +137,5 @@ void ControlPanel::setModel(const CheckModel& checkModel)
 
 	ui.Mobility->setCurrentState(0);
 	
+	menu->setModel(dsn);
 }

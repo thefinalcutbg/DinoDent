@@ -19,6 +19,8 @@
 #include "View/Printer.h"
 #include "Network/PKCS11.h"
 
+#include "View/Graphics/PaintHint.h"
+
 #include <thread>
 #include <chrono>
 
@@ -50,13 +52,14 @@ ListPresenter::ListPresenter(ITabView* tabView, TabPresenter* tabPresenter, std:
 void ListPresenter::statusChanged()
 {
     m_checkModel = CheckModel(m_ambList.teeth.getSelectedTeethPtr(m_selectedIndexes));
+    m_dsnCheckModel = CheckModel(m_ambList.teeth.getSelectedDsnPtr(m_selectedIndexes));
 
-    view->setCheckModel(m_checkModel);;
-    
+    view->setCheckModel(m_checkModel, m_dsnCheckModel);
+
     for (auto& idx : m_selectedIndexes)
     {
         view->repaintTooth(
-            ToothHintCreator::getToothHint(m_ambList.teeth[idx], patient->teethNotes[idx])
+            ToothPaintHint(m_ambList.teeth[idx], patient->teethNotes[idx])
         );
     }
 
@@ -301,7 +304,7 @@ void ListPresenter::setDataToView()
 
     for (int i = 0; i < 32; i++)
     {
-        view->repaintTooth(ToothHintCreator::getToothHint(m_ambList.teeth[i], patient->teethNotes[i]));
+        view->repaintTooth(ToothPaintHint(m_ambList.teeth[i], patient->teethNotes[i]));
     }
 
     view->setNotes(patient->teethNotes);
@@ -342,51 +345,6 @@ void ListPresenter::ambNumChanged(long long value)
     makeEdited();
 }
 
-void ListPresenter::setCaries(int surface)
-{
-    bool state = m_checkModel.cariesStatus[surface] != CheckState::checked;
-
-    for (auto idx : m_selectedIndexes) m_ambList.teeth[idx].setStatus(StatusType::caries, surface, state);
-
-    statusChanged();
-}
-
-void ListPresenter::setObturation(int surface)
-{
-    bool state = m_checkModel.obturationStatus[surface] != CheckState::checked;
-
-    for (auto idx : m_selectedIndexes) m_ambList.teeth[idx].setStatus(StatusType::obturation, surface, state);
-
-    statusChanged();
-}
-
-void ListPresenter::setMainStatus(int code)
-{
-    bool state = m_checkModel.generalStatus[code] != CheckState::checked;
-
-    m_ambList.teeth.setStatus(m_selectedIndexes, static_cast<StatusCode::StatusCode>(code), state);
-
-    if (code == StatusCode::Temporary) {
-        refreshPrices();
-        refreshProcedureView(); //updates the teeth num
-    }
-
-    for (int i = 0; i < 32; i++){
-        view->repaintTooth(ToothHintCreator::getToothHint(m_ambList.teeth[i], patient->teethNotes[i]));
-    }
-
-    statusChanged();
-}
-
-void ListPresenter::setMobility(int degree)
-{
-    bool state = m_checkModel.mobilityStatus[degree] != CheckState::checked;
-
-    for (auto idx : m_selectedIndexes) m_ambList.teeth[idx].setStatus(StatusType::mobility, degree, state);
-
-    statusChanged();
-
-}
 
 void ListPresenter::setOther(int code)
 {
@@ -436,7 +394,59 @@ void ListPresenter::setOther(int code)
 
     for (int i = 0; i < 32; i++)
     {
-        view->repaintTooth(ToothHintCreator::getToothHint(m_ambList.teeth[i], patient->teethNotes[i]));
+        view->repaintTooth(ToothPaintHint{ m_ambList.teeth[i], patient->teethNotes[i] });
+    }
+
+    statusChanged();
+}
+
+void ListPresenter::setToothStatus(StatusType t, int code)
+{
+    bool state{ false };
+
+    switch (t)
+    {
+        case StatusType::general: state = m_checkModel.generalStatus[code] != CheckState::checked; break;
+        case StatusType::obturation: state = m_checkModel.obturationStatus[code] != CheckState::checked; break;
+        case StatusType::caries: state = m_checkModel.cariesStatus[code] != CheckState::checked; break;
+        case StatusType::mobility: state = m_checkModel.mobilityStatus[code] != CheckState::checked; break;
+    }
+
+    for (auto& idx : m_selectedIndexes)
+    {
+        m_ambList.teeth[idx].setStatus(t, code, state);
+    }
+
+    if (t == StatusType::general)
+    {
+        if (code == StatusCode::Temporary) {
+            refreshProcedureView(); //updates the teeth num
+        }
+
+        for (int i = 0; i < 32; i++) {
+            view->repaintTooth(ToothPaintHint(m_ambList.teeth[i], patient->teethNotes[i]));
+        }
+    }
+
+    statusChanged();
+}
+
+void ListPresenter::setDsnStatus(StatusType t, int code)
+{
+
+    bool state{ false };
+
+    switch (t)
+    {
+        case StatusType::general: state = m_dsnCheckModel.generalStatus[code] != CheckState::checked; break;
+        case StatusType::obturation: state = m_dsnCheckModel.obturationStatus[code] != CheckState::checked; break;
+        case StatusType::caries: state = m_dsnCheckModel.cariesStatus[code] != CheckState::checked; break;
+        case StatusType::mobility: state = m_dsnCheckModel.mobilityStatus[code] != CheckState::checked; break;
+    }
+
+    for (auto& idx : m_selectedIndexes)
+    {
+        m_ambList.teeth[idx].dsn->setStatus(t, code, state);
     }
 
     statusChanged();
@@ -448,8 +458,9 @@ void ListPresenter::setSelectedTeeth(const std::vector<int>& SelectedIndexes)
     m_selectedIndexes = SelectedIndexes;
 
     m_checkModel = CheckModel(m_ambList.teeth.getSelectedTeethPtr(SelectedIndexes));
+    m_dsnCheckModel = CheckModel(m_ambList.teeth.getSelectedDsnPtr(SelectedIndexes));
 
-    view->setCheckModel(m_checkModel);
+    view->setCheckModel(m_checkModel, m_dsnCheckModel);
 
     if(m_selectedIndexes.size() == 1){
         surf_presenter.setTooth(m_ambList.teeth[m_selectedIndexes[0]]);
@@ -556,7 +567,7 @@ void ListPresenter::requestPisActivities(bool clickedByUser)
         if (isCurrent()) {
 
             for (auto& t : m_ambList.teeth)
-                view->repaintTooth(ToothHintCreator::getToothHint(t, patient->teethNotes[t.index]));
+                view->repaintTooth(ToothPaintHint(t, patient->teethNotes[t.index]));
         }
         makeEdited();
     };
@@ -600,7 +611,7 @@ void ListPresenter::requestHisActivities(bool clickedByUser)
         if (isCurrent()) {
 
             for (auto& t : m_ambList.teeth)
-                view->repaintTooth(ToothHintCreator::getToothHint(t, patient->teethNotes[t.index]));
+                view->repaintTooth(ToothPaintHint(t, patient->teethNotes[t.index]));
         }
 
         makeEdited();
@@ -635,7 +646,7 @@ void ListPresenter::openDetails(int toothIdx)
    
     for (int i = 0; i < 32; i++)
     {
-        view->repaintTooth(ToothHintCreator::getToothHint(m_ambList.teeth[i], patient->teethNotes[i]));
+        view->repaintTooth(ToothPaintHint(m_ambList.teeth[i], patient->teethNotes[i]));
     }
 
     statusChanged();
@@ -1067,7 +1078,7 @@ void ListPresenter::getStatusPressed()
             if (isCurrent()) {
                 for (int i = 0; i < 32; i++)
                 {
-                    view->repaintTooth(ToothHintCreator::getToothHint(m_ambList.teeth[i], patient->teethNotes[i]));
+                    view->repaintTooth(ToothPaintHint(m_ambList.teeth[i], patient->teethNotes[i]));
                 }
             }
         }

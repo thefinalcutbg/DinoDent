@@ -360,6 +360,7 @@
     <ClCompile Include="src\DbUpdates\DbUpdates.cpp" />
     <ClCompile Include="src\DbUpdates\Updater.cpp" />
     <ClCompile Include="src\View\GlobalFunctions.cpp" />
+    <ClCompile Include="src\View\Graphics\PaintHint.cpp" />
     <ClCompile Include="src\View\SubWidgets\ContextMenu.cpp" />
     <ClCompile Include="src\View\Graphics\ControlPanelPolygon.cpp" />
     <ClCompile Include="src\View\Graphics\CPTooth.cpp" />
@@ -383,6 +384,7 @@
     <ClCompile Include="src\View\Interfaces\AbstractUIElement.cpp" />
     <ClCompile Include="src\View\Interfaces\ITabView.cpp" />
     <ClCompile Include="src\View\ModalDialogBuilder.cpp" />
+    <ClCompile Include="src\View\SubWidgets\DsnMenu.cpp" />
     <ClCompile Include="src\View\SubWidgets\MedicalStatusWidget.cpp" />
     <ClCompile Include="src\View\TableModels\AmbListTableModel.cpp" />
     <ClCompile Include="src\View\TableModels\BusinessOperationModel.cpp" />
@@ -716,6 +718,7 @@
     <ClInclude Include="src\View\Interfaces\IStatisticDialogView.h" />
     <ClInclude Include="src\View\ModalDialogBuilder.h" />
     <QtMoc Include="src\View\SubWidgets\MedicalStatusWidget.h" />
+    <QtMoc Include="src\View\SubWidgets\DsnMenu.h" />
     <ClInclude Include="src\View\TableModels\BusinessOperationModel.h" />
     <ClInclude Include="src\View\TableModels\MedicationTableModel.h" />
     <QtMoc Include="src\View\Widgets\UpdatePromptDialog.h" />

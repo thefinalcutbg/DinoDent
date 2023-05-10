@@ -26,6 +26,7 @@ public:
 	constexpr size_t size() const { return teethCount; }
 
 	std::vector<const Tooth*> getSelectedTeethPtr(std::vector<int> selectedIndexes) const;
+	std::vector<const Tooth*> getSelectedDsnPtr(std::vector<int> selectedIndexes) const;
 
 	void copyFromOther(const ToothContainer& other);
 

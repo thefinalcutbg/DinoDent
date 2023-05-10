@@ -4,7 +4,8 @@
 
 #include "InputEnums.h"
 #include "ButtonSurfaceMatrix.h"
-#include "Presenter/ToothHintCreator.h"
+
+class Tooth;
 
 enum class SurfaceClick {rightClick, leftClick};
 enum class SurfaceState { none, obturation, caries, secondary };

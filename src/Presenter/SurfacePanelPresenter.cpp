@@ -1,6 +1,7 @@
 ﻿#include "SurfacePanelPresenter.h"
 #include "Model/Dental/ToothUtils.h"
 #include "Presenter/ListPresenter.h"
+#include "View/Graphics/PaintHint.h"
 
 SurfacePanelPresenter::SurfacePanelPresenter() : statusControl(nullptr), view(nullptr), currentIndex(-1)
 {
@@ -25,31 +26,31 @@ void SurfacePanelPresenter::buttonClicked(ButtonPos position, SurfaceClick click
 		switch (state)
 		{
 		case SurfaceState::none:
-			statusControl->setObturation(surface);
+			statusControl->setToothStatus(StatusType::obturation, surface);
 			break;
 		case SurfaceState::obturation:
-			statusControl->setCaries(surface);
-			statusControl->setObturation(surface);
+			statusControl->setToothStatus(StatusType::caries, surface);
+			statusControl->setToothStatus(StatusType::obturation, surface);
 			break;
 		case SurfaceState::caries:
-			statusControl->setObturation(surface);
+			statusControl->setToothStatus(StatusType::obturation, surface);
 			break;
 		case SurfaceState::secondary:
-			statusControl->setCaries(surface);
+			statusControl->setToothStatus(StatusType::caries, surface);
 			break;
 		}
 	else
 		switch (state)
 		{ 
 		case::SurfaceState::obturation:
-			statusControl->setObturation(surface);
+			statusControl->setToothStatus(StatusType::obturation, surface);
 			break;
 		case::SurfaceState::caries:
-			statusControl->setCaries(surface);
+			statusControl->setToothStatus(StatusType::caries, surface);
 			break;
 		case::SurfaceState::secondary:
-			statusControl->setObturation(surface);
-			statusControl->setCaries(surface);
+			statusControl->setToothStatus(StatusType::obturation, surface);
+			statusControl->setToothStatus(StatusType::caries, surface);
 			break;
 		case SurfaceState::none:
 			break;
@@ -58,18 +59,18 @@ void SurfacePanelPresenter::buttonClicked(ButtonPos position, SurfaceClick click
 }
 
 void SurfacePanelPresenter::sideCariesClicked() {	
-statusControl->setCaries(matrix.getSurface(currentIndex, ButtonPos::side));
+statusControl->setToothStatus(StatusType::caries, (matrix.getSurface(currentIndex, ButtonPos::side)));
 }
 
 void SurfacePanelPresenter::sideObturationClicked(){
-statusControl->setObturation(matrix.getSurface(currentIndex, ButtonPos::side));
+statusControl->setToothStatus(StatusType::obturation, (matrix.getSurface(currentIndex, ButtonPos::side)));
 }
 
 void SurfacePanelPresenter::setTooth(const Tooth& tooth)
 {
 	currentIndex = tooth.index;
 
-	view->paintTooth(ToothHintCreator::getToothHint(tooth));
+	view->paintTooth(ToothPaintHint(tooth));
 	auto surface = matrix.getSurface(currentIndex, ButtonPos::side);
 
 	view->setSideButtonsClicked(

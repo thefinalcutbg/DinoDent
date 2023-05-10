@@ -219,9 +219,9 @@ void ListView::setDateTime(const std::string& time8601)
 }
 
 
-void ListView::setCheckModel(const CheckModel& checkModel)
+void ListView::setCheckModel(const CheckModel& checkModel, const CheckModel& dsnCheckModel)
 {
-	ui.controlPanel->setModel(checkModel);
+	ui.controlPanel->setModel(checkModel, dsnCheckModel);
 	contextMenu->setModel(checkModel);
 }
 

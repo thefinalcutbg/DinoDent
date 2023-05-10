@@ -1,5 +1,5 @@
 #include "PerioPresenter.h"
-#include "Presenter/ToothHintCreator.h"
+#include "View/Graphics/PaintHint.h"
 #include <algorithm>
 #include "Model/Dental/PerioToothData.h"
 #include "Model/Dental/PerioStatistic.h"
@@ -297,7 +297,7 @@ void PerioPresenter::setDataToView()
     view->setDate(m_perioStatus.date);
 
     for (int i = 0; i < 32; i++){
-        view->setToothHint(ToothHintCreator::getToothHint(m_toothStatus[i]));
+        view->setToothHint(ToothPaintHint(m_toothStatus[i]));
     }
        
     

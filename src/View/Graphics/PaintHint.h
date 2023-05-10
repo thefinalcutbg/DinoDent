@@ -1,6 +1,7 @@
 #pragma once
 #include <array>
-
+#include <string>
+#include <memory>
 enum class ToothTextureHint {none, normal, root, extr, extr_m, impl, impl_m, unknown};
 enum class SurfaceColor {none, red, blue, green};
 enum class EndoHint {none, red, darkred, blue, green};
@@ -14,8 +15,16 @@ struct SurfaceHint
 	bool outline{ false };
 };
 
+class Tooth;
+
 struct ToothPaintHint
 {
+	ToothPaintHint() {};
+	ToothPaintHint(const Tooth& tooth, const std::string& note = std::string{});
+
+	bool isHyperdontic{ false };
+	std::unique_ptr<ToothPaintHint> dsn;
+
 	int idx{ -1 };
 	bool temp{ false };
 	int num{ -1 };
@@ -40,4 +49,6 @@ struct ToothPaintHint
 
 	std::string toolTip;
 	 
+	
+
 };

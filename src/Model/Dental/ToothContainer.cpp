@@ -14,6 +14,7 @@ ToothContainer::ToothContainer(){
 		teeth.emplace_back(i);
 		teeth.back().caries.setDefaultSurface(defaultSurfaces[i]);
 		teeth.back().obturation.setDefaultSurface(defaultSurfaces[i]);
+		teeth.back().DsnInit();
 	}
 }
 
@@ -62,6 +63,20 @@ std::vector<const Tooth*> ToothContainer::getSelectedTeethPtr(std::vector<int> s
 	selectedPtr.reserve(selectedIndexes.size());
 	for (auto i : selectedIndexes)
 		selectedPtr.push_back(&teeth.at(i));
+	return selectedPtr;
+}
+
+std::vector<const Tooth*> ToothContainer::getSelectedDsnPtr(std::vector<int> selectedIndexes) const
+{
+	std::vector<const Tooth*> selectedPtr;
+
+	selectedPtr.reserve(selectedIndexes.size());
+
+	for (auto i : selectedIndexes)
+	{
+		selectedPtr.push_back(teeth.at(i).dsn.get());
+	}
+
 	return selectedPtr;
 }
 

@@ -24,7 +24,7 @@ ContextMenu::ContextMenu()
     for (int i = 0; i < statusCount; i++) //too lazy to initialize all the actions;
     {
         menuAction[i] = new QAction(statusNames[i].data());
-        connect(menuAction[i], &QAction::triggered, [this, i]() { this->presenter->setMainStatus(i); });
+        connect(menuAction[i], &QAction::triggered, [this, i]() { this->presenter->setToothStatus(StatusType::general, i); });
     }
 
     for (int i = 0; i < otherInputsCount; i++) //too lazy to initialize all the actions;
@@ -47,17 +47,17 @@ ContextMenu::ContextMenu()
     for (int i = 0; i < surfaceCount; i++)
     {
         surfObt[i] = ObturMenu->addAction(surfName[i]);
-        connect(surfObt[i], &QAction::triggered, [this, i]() {this->presenter->setObturation(i); });
+        connect(surfObt[i], &QAction::triggered, [this, i]() {this->presenter->setToothStatus(StatusType::obturation, i); });
 
         surfCar[i] = CariesMenu->addAction(surfName[i]);
-        connect(surfCar[i], &QAction::triggered, [this, i]() {this->presenter->setCaries(i); });
+        connect(surfCar[i], &QAction::triggered, [this, i]() {this->presenter->setToothStatus(StatusType::caries, i); });
     }
 
     for (int i = 0; i < mobilityCount; i++)
     {
         mobilityDegree[i] = MobilityMenu->addAction(mobilityNames[i].data());
         connect(mobilityDegree[i], &QAction::triggered, [this, i]() {
-            this->presenter->setMobility(i); });
+            this->presenter->setToothStatus(StatusType::mobility, i);; });
 
     }
 

@@ -18,7 +18,7 @@ class TeethViewScene : public QGraphicsScene
 
 
 	ToothGraphicsItem* toothGraphic[32];
-	DsnToothGraphicsItem* dsnToothGraphic[32];
+	ToothGraphicsItem* dsnToothGraphic[32];
 	SelectionBox* selectionBox[32];
 
 	ListPresenter* presenter;

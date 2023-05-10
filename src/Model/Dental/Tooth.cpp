@@ -43,7 +43,9 @@ Tooth::Tooth(const Tooth& other) :
 	denture(other.denture),
 	calculus(other.calculus)
 {
-
+	if (other.dsn) {
+		dsn = std::make_unique<Tooth>(*other.dsn);
+	}
 }
 
 Tooth& Tooth::operator=(const Tooth& other)
@@ -70,7 +72,14 @@ Tooth& Tooth::operator=(const Tooth& other)
 	denture = other.denture;
 	calculus = other.calculus;
 
+	*dsn = *other.dsn;
+
 	return *this;
+}
+
+void Tooth::DsnInit()
+{
+	dsn = std::make_unique<Tooth>(index);
 }
 
 

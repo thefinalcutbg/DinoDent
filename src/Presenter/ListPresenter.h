@@ -30,6 +30,7 @@ class ListPresenter : public TabInstance
     SelectedTeethIdx m_selectedIndexes;
 
     CheckModel m_checkModel;
+    CheckModel m_dsnCheckModel;
 
     IListView* view;
 
@@ -83,11 +84,10 @@ public:
 
     void setAmbDateTime(const std::string& datetime);
     void ambNumChanged(long long value);
-    void setCaries(int surface);
-    void setObturation(int surface);
-    void setMainStatus(int code);
-    void setMobility(int degree);
     void setOther(int code);
+
+    void setToothStatus(StatusType t, int code);
+    void setDsnStatus(StatusType t, int code);
     
     void setSelectedTeeth(const std::vector<int>& SelectedIndexes);
     

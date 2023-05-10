@@ -163,7 +163,11 @@ ToothPaintHint ToothHintCreator::getToothHint(const Tooth& tooth, const std::str
             hint.post = PostHint::blue;
     }
 
-
+    if (tooth.hyperdontic)
+    {
+        hint.dsn = std::make_unique<ToothPaintHint>(*tooth.dsn);
+        hint.dsn->isHyperdontic = true;
+    }
 
     hint.toolTip = "<b>" +  tooth.toothName() + "</b><br>";
 

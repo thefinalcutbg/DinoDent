@@ -59,7 +59,7 @@ TeethViewScene::TeethViewScene(QObject *parent)
         addItem(toothGraphic[i]);
 
         {
-            dsnToothGraphic[i] = new DsnToothGraphicsItem(i);
+            dsnToothGraphic[i] = new ToothGraphicsItem(i);
             dsnToothGraphic[i]->setZValue(0);
 
         
@@ -267,30 +267,30 @@ void TeethViewScene::keyPressEvent(QKeyEvent* event)
 
       switch (event->nativeVirtualKey()) //shortcut keys for input diagnosis
    {
-      case Qt::Key_T :presenter->setMainStatus(StatusCode::Temporary); break;
-      case Qt::Key_O :presenter->setMainStatus(StatusCode::Obturation); break;
-      case Qt::Key_C :presenter->setMainStatus(StatusCode::Caries); break;
-      case Qt::Key_R :presenter->setMainStatus(StatusCode::Root); break;
-      case Qt::Key_E :presenter->setMainStatus(StatusCode::Extraction); break;
-      case Qt::Key_Q: presenter->setMainStatus(StatusCode::Post); break;
-      case Qt::Key_P :presenter->setMainStatus(StatusCode::Pulpitis); break;
-      case Qt::Key_D :presenter->setMainStatus(StatusCode::EndoTreatment); break;
-      case Qt::Key_F: presenter->setMainStatus(StatusCode::Fracture); break;
-      case Qt::Key_I :presenter->setMainStatus(StatusCode::Implant); break;
-      case Qt::Key_L :presenter->setMainStatus(StatusCode::Periodontitis); break;
-      case Qt::Key_0: presenter->setMainStatus(StatusCode::Mobility); break;
-      case Qt::Key_1 :presenter->setMobility(0); break;
-      case Qt::Key_2 :presenter->setMobility(1); break;
-      case Qt::Key_3 :presenter->setMobility(2); break;
-      case Qt::Key_K :presenter->setMainStatus(StatusCode::Crown); break;
-      case Qt::Key_G :presenter->setMainStatus(StatusCode::ApicalLesion); break;
-      case Qt::Key_B :presenter->setMainStatus(StatusCode::Bridge); break;
-      case Qt::Key_M: presenter->setMainStatus(StatusCode::Impacted); break;
-      case Qt::Key_S: presenter->setMainStatus(StatusCode::FiberSplint); break;
-      case Qt::Key_U: presenter->setMainStatus(StatusCode::Dsn); break;
-      case Qt::Key_X: presenter->setMainStatus(StatusCode::Denture); break;
-      case Qt::Key_H: presenter->setMainStatus(StatusCode::Healthy); break;
-      case Qt::Key_V: presenter->setMainStatus(StatusCode::Calculus); break;
+      case Qt::Key_T :presenter->setToothStatus(StatusType::general, StatusCode::Temporary); break;
+      case Qt::Key_O :presenter->setToothStatus(StatusType::general, StatusCode::Obturation); break;
+      case Qt::Key_C :presenter->setToothStatus(StatusType::general, StatusCode::Caries); break;
+      case Qt::Key_R :presenter->setToothStatus(StatusType::general, StatusCode::Root); break;
+      case Qt::Key_E :presenter->setToothStatus(StatusType::general, StatusCode::Extraction); break;
+      case Qt::Key_Q: presenter->setToothStatus(StatusType::general, StatusCode::Post); break;
+      case Qt::Key_P :presenter->setToothStatus(StatusType::general, StatusCode::Pulpitis); break;
+      case Qt::Key_D :presenter->setToothStatus(StatusType::general, StatusCode::EndoTreatment); break;
+      case Qt::Key_F: presenter->setToothStatus(StatusType::general, StatusCode::Fracture); break;
+      case Qt::Key_I :presenter->setToothStatus(StatusType::general, StatusCode::Implant); break;
+      case Qt::Key_L :presenter->setToothStatus(StatusType::general, StatusCode::Periodontitis); break;
+      case Qt::Key_0: presenter->setToothStatus(StatusType::general, StatusCode::Mobility); break;
+      case Qt::Key_1 :presenter->setToothStatus(StatusType::mobility, 0); break;
+      case Qt::Key_2 :presenter->setToothStatus(StatusType::mobility, 1); break;
+      case Qt::Key_3 :presenter->setToothStatus(StatusType::mobility, 2); break;
+      case Qt::Key_K :presenter->setToothStatus(StatusType::general, StatusCode::Crown); break;
+      case Qt::Key_G :presenter->setToothStatus(StatusType::general, StatusCode::ApicalLesion); break;
+      case Qt::Key_B :presenter->setToothStatus(StatusType::general, StatusCode::Bridge); break;
+      case Qt::Key_M: presenter->setToothStatus(StatusType::general, StatusCode::Impacted); break;
+      case Qt::Key_S: presenter->setToothStatus(StatusType::general, StatusCode::FiberSplint); break;
+      case Qt::Key_U: presenter->setToothStatus(StatusType::general, StatusCode::Dsn); break;
+      case Qt::Key_X: presenter->setToothStatus(StatusType::general, StatusCode::Denture); break;
+      case Qt::Key_H: presenter->setToothStatus(StatusType::general, StatusCode::Healthy); break;
+      case Qt::Key_V: presenter->setToothStatus(StatusType::general, StatusCode::Calculus); break;
       case Qt::Key_A:
           if (event->modifiers() & Qt::ControlModifier)
               for (int i = 0; i < 32; i++) selectionBox[i]->setSelected(1);
@@ -301,7 +301,16 @@ void TeethViewScene::keyPressEvent(QKeyEvent* event)
 void TeethViewScene::display(const ToothPaintHint& tooth)
 {
     toothGraphic[tooth.idx]->setToothPixmap(ToothPainter::getBuccalOcclusal(tooth));
-    dsnToothGraphic[tooth.idx]->setToothPixmap(ToothPainter::getDnsBuccal(tooth));
+    
+    if (tooth.dsn)
+    {
+        dsnToothGraphic[tooth.idx]->setToothPixmap(ToothPainter::getBuccalOcclusal(*tooth.dsn));
+    }
+    else
+    {
+        dsnToothGraphic[tooth.idx]->drawEmpty();
+    }
+
     selectionBox[tooth.idx]->setToolTip(tooth.toolTip.c_str());
 }
 

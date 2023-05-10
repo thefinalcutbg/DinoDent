@@ -111,3 +111,15 @@ void ToothGraphicsItem::setToothPixmap(const QPixmap& px)
     m_tooth = px;
     update();
 }
+
+void ToothGraphicsItem::drawEmpty()
+{
+    QPixmap pixmap(bounds.width(), bounds.height());
+    pixmap.fill(Qt::transparent);
+    QPainter painter(&pixmap);
+    painter.fillRect(pixmap.rect(), Qt::white);
+    painter.end();
+
+    m_tooth = pixmap;
+    update();
+}

@@ -605,7 +605,11 @@ QPixmap ToothPainter::getBuccalOcclusal(const ToothPaintHint& tooth)
 
 	drawMobilityLabel(tooth, pixmap);
 	drawFractureLabel(tooth, pixmap);
-	drawToothNumberLabel(tooth, pixmap);
+
+    if (!tooth.isHyperdontic) {
+
+        drawToothNumberLabel(tooth, pixmap);
+    }
 
 	QPainter painter(&pixmap);
 
@@ -708,7 +712,12 @@ QPixmap ToothPainter::getLingualOcclusal(const ToothPaintHint& tooth)
 
     drawMobilityLabel(tooth, pixmap);
     drawFractureLabel(tooth, pixmap);
-    drawToothNumberLabel(tooth, pixmap);
+
+    if (!tooth.isHyperdontic) {
+
+        drawToothNumberLabel(tooth, pixmap);
+    }
+
 
     QPainter painter(&pixmap);
 

@@ -11,7 +11,9 @@ PatientDialogPresenter::PatientDialogPresenter(const Patient& patient) :
 	m_patient(patient),
 	rowid(patient.rowid),
 	view(nullptr),
-	insurance_status(patient.insuranceStatus)
+	insurance_status(patient.insuranceStatus),
+	PISHistory(patient.PISHistory),
+	HISHistory(patient.HISHistory)
 {}
 
 std::optional<Patient> PatientDialogPresenter::open()
@@ -192,5 +194,7 @@ Patient PatientDialogPresenter::getPatientFromView()
 	patient.medStats = medStats;
 	patient.rowid = rowid;
 	patient.insuranceStatus = insurance_status;
+	patient.PISHistory = PISHistory;
+	patient.HISHistory = HISHistory;
 	return patient;
 }

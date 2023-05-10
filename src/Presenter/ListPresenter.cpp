@@ -33,7 +33,7 @@ ListPresenter::ListPresenter(ITabView* tabView, TabPresenter* tabPresenter, std:
 
     surf_presenter.setStatusControl(this);
 
-    auto ambSheetDate = m_ambList.getDate();
+    
 
     if (m_ambList.rowid) return;
 
@@ -967,7 +967,7 @@ void ListPresenter::hisButtonPressed()
                 m_ambList.his_updated = true;
 
                 DbAmbList::update(m_ambList);
-                
+
                 requestHisActivities(false);
 
                 refreshTabName();
@@ -1003,6 +1003,8 @@ void ListPresenter::hisButtonPressed()
                 }
 
                 DbAmbList::update(m_ambList);
+
+                edited = false;
 
                 requestHisActivities(false);
 

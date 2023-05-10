@@ -35,7 +35,7 @@ ListPresenter::ListPresenter(ITabView* tabView, TabPresenter* tabPresenter, std:
 
     surf_presenter.setStatusControl(this);
 
-    auto ambSheetDate = m_ambList.getDate();
+    
 
     if (m_ambList.rowid) return;
 
@@ -572,12 +572,6 @@ void ListPresenter::requestPisActivities(bool clickedByUser)
         makeEdited();
     };
 
-    if (clickedByUser && patient->PISHistory)
-    {
-        callback(patient->PISHistory.value(), true);
-        return;
-    }
-
     dentalActService.sendRequest(patient->type, patient->id, clickedByUser, callback);
 
 }
@@ -616,12 +610,6 @@ void ListPresenter::requestHisActivities(bool clickedByUser)
 
         makeEdited();
     };
-
-    if (clickedByUser && patient->HISHistory)
-    {
-        callback(patient->HISHistory.value(), true);
-        return;
-    }
 
     eDentalGetProcedures.sendRequest(*patient, clickedByUser, callback);
 
@@ -978,7 +966,7 @@ void ListPresenter::hisButtonPressed()
                 m_ambList.his_updated = true;
 
                 DbAmbList::update(m_ambList);
-                
+
                 requestHisActivities(false);
 
                 refreshTabName();
@@ -1014,6 +1002,8 @@ void ListPresenter::hisButtonPressed()
                 }
 
                 DbAmbList::update(m_ambList);
+
+                edited = false;
 
                 requestHisActivities(false);
 

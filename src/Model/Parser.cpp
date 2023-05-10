@@ -325,10 +325,7 @@ std::string Parser::write(const Procedure& procedure)
 	{
 		auto& r = std::get<ProcedureObtData>(procedure.result);
 
-		if (r.post)
-		{
-			json["post"] = r.post;
-		}
+		json["post"] = r.post;
 	
 		json["surfaces"] = Json::Value(Json::arrayValue);
 
@@ -545,7 +542,7 @@ void Parser::parse(const std::string& jsonString, Procedure& procedure)
 		{
 			.surfaces = {false},
 
-			.post = json.isMember("post")
+			.post = (json.isMember("post") && json["post"].asBool() == true)
 		};
 
 		const Json::Value& surfaces = json["surfaces"];

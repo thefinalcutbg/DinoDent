@@ -580,7 +580,7 @@ void EDental::GetProcedures::parseReply(const std::string& reply)
 	for (int i = 1; contents.Child(i).ToElement() != nullptr; i++)
 	{
 		auto pXml = contents.Child(i);
-	//	if (std::string(pXml.Child(3).ToElement()->Attribute("value")) == "7") continue;
+
 
 		procedures.emplace_back();
 
@@ -591,7 +591,7 @@ void EDental::GetProcedures::parseReply(const std::string& reply)
 		p.financingSource = static_cast<FinancingSource>(std::stoi(pXml.Child(6).ToElement()->Attribute("value")));
 
 		int y = 7;
-
+		qDebug() << pXml.Child(3).ToElement()->Attribute("value");
 		//
 		while (true)
 		{
@@ -616,6 +616,8 @@ void EDental::GetProcedures::parseReply(const std::string& reply)
 			{
 				p.notes = pXml.Child(y).ToElement()->Attribute("value");
 			}
+			
+	
 
 			//parsing diagnosis
 			if (elementName == "nhis:diagnosis")
@@ -634,6 +636,10 @@ void EDental::GetProcedures::parseReply(const std::string& reply)
 			y++;
 		}
 
+		if (std::string(pXml.Child(3).ToElement()->Attribute("value")) == "7") {
+
+			p.notes = "АНУЛИРАНА";
+		}
 
 		//separating procedures according to teeth affected
 		for (int j = 0; j < teethIndexes.size(); j++)

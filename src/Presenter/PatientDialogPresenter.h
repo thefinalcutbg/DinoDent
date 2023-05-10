@@ -35,10 +35,11 @@ class PatientDialogPresenter
 	CyrillicValidator cyrillic_validator;
 
 	GetHirbnoService hirbnoHandler;
+	//data not present in view:
 
 	std::optional<InsuranceStatus> insurance_status;
-
-	//data not present in view:
+	std::optional<std::vector<Procedure>> PISHistory;
+	std::optional<std::vector<Procedure>> HISHistory;
 	long long rowid{ 0 };
 	MedicalStatuses medStats;
 

@@ -87,7 +87,7 @@ AmbList DbAmbList::getNewAmbSheet(long long patientRowId)
     Db db;
     std::string query(
     
-        "SELECT rowid, nrn, lrn, his_updated, based_on, num, nhif_spec, status FROM amblist WHERE "
+        "SELECT rowid, nrn, lrn, his_updated, based_on, num, nhif_spec, status, date FROM amblist WHERE "
         "patient_rowid = " + std::to_string(patientRowId) + " AND "
         "lpk = '" + User::doctor().LPK + "' AND "
         "rzi = '" + User::practice().rziCode + "' AND "
@@ -108,6 +108,7 @@ AmbList DbAmbList::getNewAmbSheet(long long patientRowId)
         ambList.number = db.asInt(5);
         ambList.nhifData.specification = static_cast<NhifSpecification>(db.asInt(6));
         status = db.asString(7);
+        ambList.date = db.asString(8);
     }
 
     if (ambList.isNew())
@@ -281,7 +282,8 @@ std::vector<AmbList> DbAmbList::getMonthlyNhifSheets(int month, int year)
         "nhif_unfav,"
         "status,"
         "LPK, "
-        "his_updated "
+        "his_updated, "
+        "date "
         "FROM amblist "
         "WHERE amblist.nhif_spec IS NOT NULL "
         "AND lpk = '" + User::doctor().LPK + "' "
@@ -307,7 +309,7 @@ std::vector<AmbList> DbAmbList::getMonthlyNhifSheets(int month, int year)
         Parser::parse(db.asString(6), sheet.teeth);
         sheet.LPK = db.asString(7);
         sheet.his_updated = db.asBool(8);
-
+        sheet.date = db.asString(9);
         sheetRowIdMap[sheet.rowid] = result.size() - 1;
      }
 

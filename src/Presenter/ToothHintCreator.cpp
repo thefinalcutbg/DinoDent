@@ -38,7 +38,7 @@ ToothPaintHint ToothHintCreator::getToothHint(const Tooth& tooth, const std::str
     }
 
     hint.calculus = tooth.calculus.exists();
-    hint.dns = tooth.hyperdontic.exists();
+    hint.dns = tooth.dsn.exists();
     hint.frac = tooth.fracture.exists();
     hint.perio = tooth.periodontitis.exists();
     hint.lesion = tooth.lesion.exists();
@@ -163,9 +163,9 @@ ToothPaintHint ToothHintCreator::getToothHint(const Tooth& tooth, const std::str
             hint.post = PostHint::blue;
     }
 
-    if (tooth.hyperdontic)
+    if (tooth.dsn)
     {
-        hint.dsn = std::make_unique<ToothPaintHint>(*tooth.dsn);
+        hint.dsn = std::make_unique<ToothPaintHint>(tooth.dsn.tooth());
         hint.dsn->isHyperdontic = true;
     }
 

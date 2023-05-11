@@ -14,7 +14,7 @@ ToothContainer::ToothContainer(){
 		teeth.emplace_back(i);
 		teeth.back().caries.setDefaultSurface(defaultSurfaces[i]);
 		teeth.back().obturation.setDefaultSurface(defaultSurfaces[i]);
-		teeth.back().DsnInit();
+		teeth.back().dsn.init(i);
 	}
 }
 
@@ -74,7 +74,7 @@ std::vector<const Tooth*> ToothContainer::getSelectedDsnPtr(std::vector<int> sel
 
 	for (auto i : selectedIndexes)
 	{
-		selectedPtr.push_back(teeth.at(i).dsn.get());
+		selectedPtr.push_back(&teeth.at(i).dsn.tooth());
 	}
 
 	return selectedPtr;
@@ -121,8 +121,8 @@ void ToothContainer::setStatus(const std::vector<int>& selectedIndexes, StatusTy
 	{
 		for (auto idx : selectedIndexes)
 		{
-			teeth[idx].dsn->setStatus(t, code, state);
-			teeth[idx].setStatus(StatusCode::Dsn, !teeth[idx].dsn->noData());
+			teeth[idx].dsn.tooth().setStatus(t, code, state);
+			teeth[idx].setStatus(StatusCode::Dsn, !teeth[idx].dsn.tooth().noData());
 		}
 
 		return;
@@ -154,12 +154,12 @@ void ToothContainer::setStatus(const std::vector<int>& selectedIndexes, StatusTy
 
 		if (code == StatusCode::Dsn) {
 
-			if (state && teeth[idx].dsn->noData()) {
-				teeth[idx].dsn->setStatus(StatusCode::Healthy);
+			if (state && teeth[idx].dsn.tooth().noData()) {
+				teeth[idx].dsn.tooth().setStatus(StatusCode::Healthy);
 			}
 			else if (!state)
 			{
-				teeth[idx].dsn->removeStatus();
+				teeth[idx].dsn.tooth().removeStatus();
 			}
 		}
 	}

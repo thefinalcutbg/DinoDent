@@ -505,7 +505,7 @@ void EDental::GetStatus::parseReply(const std::string& reply)
 		{"P",	[&teeth](int idx) mutable { teeth[idx].pulpitis.set(true); }},
 		{"F",	[&teeth](int idx) mutable { teeth[idx].fracture.set(true); }},
 		{"Pa",	[&teeth](int idx) mutable { teeth[idx].periodontitis.set(true); }},
-		{"D",	[&teeth](int idx) mutable { teeth[idx].hyperdontic.set(true); }},
+		{"D",	[&teeth](int idx) mutable { teeth[idx].dsn.set(true); }},
 		{"S",	[&splints](int idx) mutable { splints.push_back(idx); }}
 	};
 
@@ -525,7 +525,7 @@ void EDental::GetStatus::parseReply(const std::string& reply)
 			auto condition = status.Child(i).Child(y).ToElement();
 
 			if (condition->ValueStr() == "nhis:supernumeralIndex") {
-				teeth[index].hyperdontic.set(true);
+				teeth[index].dsn.set(true);
 				//the status of the hyperdontic tooth should be parsed
 				continue;
 			}

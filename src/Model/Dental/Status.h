@@ -9,7 +9,6 @@
 #include "Model/Dental/DentalNum.h"
 #include "Model/FreeFunctions.h"
 
-
 class Status
 {
 
@@ -44,4 +43,24 @@ struct Mobility : public Status
         if(m_exists) result[static_cast<int>(degree)] = true;
         return result;
     }
+};
+
+class Tooth;
+
+struct Dsn : public Status
+{
+private:
+    std::unique_ptr<Tooth> dsn_tooth;
+public:
+    //call if the tooth can have supernumeral twin
+    void init(int idx);
+
+    Dsn() {};
+
+    Dsn(const Dsn& other);
+
+    Dsn& operator= (const Dsn& other);
+
+    const Tooth& tooth() const { return *dsn_tooth; }
+    Tooth& tooth() { return *dsn_tooth; }
 };

@@ -17,7 +17,6 @@ public:
 	Tooth(const Tooth& other);
 	Tooth& operator=(const Tooth& t);
 	//call if the tooth can have supernumeral twin
-	void DsnInit();
 
 	std::array<bool, statusCount> getBoolStatus() const;
 	void addStatus(int statusCode);
@@ -43,7 +42,7 @@ public:
 
 	Status healthy;
 	Status temporary;
-	Status hyperdontic;
+	Dsn dsn;
 	Status periodontitis;
 	Status impacted;
 	Status calculus;
@@ -64,7 +63,5 @@ public:
 	DentistMade post;
 
 	Mobility mobility;
-
-	std::unique_ptr<Tooth> dsn;
 
 };

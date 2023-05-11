@@ -33,7 +33,7 @@ bool AmbListValidator::ambListIsValid()
 
     for (auto& p : m_procedures)
     {
-        if (p.hyperdontic && !ambList.teeth[p.tooth].hyperdontic)
+        if (p.hyperdontic && !ambList.teeth[p.tooth].dsn)
         {
             _error = "Съществува процедура на срвъхброен зъб, който не е добавен в статуса";
             return false;
@@ -370,7 +370,7 @@ bool AmbListValidator::validateTypeToStatus(const Tooth& t, const Procedure& p)
                 !t.pulpitis.exists() &&
                 !t.periodontitis.exists() &&
                 !t.fracture.exists() &&
-                !t.hyperdontic.exists() &&
+                !t.dsn.exists() &&
                 !t.implant.exists() &&
                 !t.temporary.exists() &&
                 !t.lesion.exists() &&

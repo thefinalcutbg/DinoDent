@@ -38,14 +38,12 @@ Tooth::Tooth(const Tooth& other) :
 	bridge(other.bridge),
 	splint(other.splint),
 	implant(other.implant),
-	hyperdontic(other.hyperdontic),
+	dsn(other.dsn),
 	impacted(other.impacted),
 	denture(other.denture),
 	calculus(other.calculus)
 {
-	if (other.dsn) {
-		dsn = std::make_unique<Tooth>(*other.dsn);
-	}
+
 }
 
 Tooth& Tooth::operator=(const Tooth& other)
@@ -67,23 +65,13 @@ Tooth& Tooth::operator=(const Tooth& other)
 	bridge = other.bridge;
 	splint = other.splint;
 	implant = other.implant;
-	hyperdontic = other.hyperdontic;
+	dsn = other.dsn;
 	impacted = other.impacted;
 	denture = other.denture;
 	calculus = other.calculus;
 
-	if (dsn && other.dsn) {
-		*dsn = *other.dsn;
-	}
-
 	return *this;
 }
-
-void Tooth::DsnInit()
-{
-	dsn = std::make_unique<Tooth>(index);
-}
-
 
 std::array<bool, statusCount> Tooth::getBoolStatus() const
 {
@@ -106,7 +94,7 @@ std::array<bool, statusCount> Tooth::getBoolStatus() const
 		bridge.exists(),
 		splint.exists(),
 		implant.exists(),
-		hyperdontic.exists(),
+		dsn.exists(),
 		impacted.exists(),
 		denture.exists(),
 		calculus.exists()
@@ -217,11 +205,11 @@ void Tooth::addStatus(int statusCode)
 		case StatusCode::Healthy:
 		{
 			bool temp = temporary.exists();
-			bool dsn = hyperdontic.exists();
+			bool isDsn = dsn.exists();
 			removeStatus();
 			healthy.set(true);
 			temporary.set(temp);
-			hyperdontic.set(dsn);
+			dsn.set(isDsn);
 			break;
 		}
 		case StatusCode::Temporary: 
@@ -317,7 +305,7 @@ void Tooth::addStatus(int statusCode)
 
 		case StatusCode::Dsn: 
 			if (noData()) { set(true, healthy); }
-			set(true, hyperdontic);
+			set(true, dsn);
 			break;
 
 		case StatusCode::Impacted: 
@@ -363,7 +351,7 @@ void Tooth::removeStatus(int statusCode)
 		case StatusCode::Bridge: bridge.set(false); break;
 		case StatusCode::FiberSplint: splint.set(false); break;
 		case StatusCode::Periodontitis: periodontitis.set(false); break;
-		case StatusCode::Dsn: hyperdontic.set(false); break;
+		case StatusCode::Dsn: dsn.set(false); break;
 		case StatusCode::Impacted: impacted.set(false); if (denture || !root) denture.set(false); break;
 		case StatusCode::Denture: denture.set(false); break;
 		case StatusCode::Calculus: calculus.set(false); break;
@@ -451,7 +439,7 @@ std::string Tooth::getToothInfo() const
 
 	std::string result;
 
-	if (hyperdontic) result.append("<br><b>Свръхброен</b><br>");
+	if (dsn) result.append("<br><b>Свръхброен</b><br>");
 	if (impacted) result.append("<br><b>Ретениран/в пробив</b><br>");
 	
 

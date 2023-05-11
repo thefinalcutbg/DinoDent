@@ -158,7 +158,7 @@ bool ListPresenter::isValid()
 
     for (auto& p : m_ambList.procedures)
     {
-        if (p.hyperdontic && !m_ambList.teeth[p.tooth].hyperdontic)
+        if (p.hyperdontic && !m_ambList.teeth[p.tooth].dsn)
         {
             ModalDialogBuilder::showError(
             "За да запишете манипулация на свръхброен зъб, отбележете го като такъв в статуса!"

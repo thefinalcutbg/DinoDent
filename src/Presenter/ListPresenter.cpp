@@ -389,6 +389,9 @@ void ListPresenter::setOther(int code)
             case OtherInputs::removeAll:
                 teeth.removeEveryStatus(m_selectedIndexes);
                 break;
+            case OtherInputs::removeDsn:
+                teeth.setStatus(m_selectedIndexes, StatusType::general, StatusCode::Dsn, false, false);
+                break;
         }
     }
 
@@ -412,10 +415,7 @@ void ListPresenter::setToothStatus(StatusType t, int code)
         case StatusType::mobility: state = m_checkModel.mobilityStatus[code] != CheckState::checked; break;
     }
 
-    for (auto& idx : m_selectedIndexes)
-    {
-        m_ambList.teeth[idx].setStatus(t, code, state);
-    }
+    m_ambList.teeth.setStatus(m_selectedIndexes, t, static_cast<StatusCode::StatusCode>(code), state, false);
 
     if (t == StatusType::general)
     {
@@ -444,10 +444,7 @@ void ListPresenter::setDsnStatus(StatusType t, int code)
         case StatusType::mobility: state = m_dsnCheckModel.mobilityStatus[code] != CheckState::checked; break;
     }
 
-    for (auto& idx : m_selectedIndexes)
-    {
-        m_ambList.teeth[idx].dsn->setStatus(t, code, state);
-    }
+    m_ambList.teeth.setStatus(m_selectedIndexes, t, static_cast<StatusCode::StatusCode>(code), state, true);
 
     statusChanged();
 }

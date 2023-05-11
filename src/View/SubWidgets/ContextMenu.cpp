@@ -1,5 +1,6 @@
 ﻿#include "ContextMenu.h"
 #include "Presenter/ListPresenter.h"
+#include "DsnMenu.h"
 #include <QDebug>
 ContextMenu::ContextMenu()
 {
@@ -35,54 +36,61 @@ ContextMenu::ContextMenu()
 
     addAction(menuAction[StatusCode::Healthy]);
     addAction(menuAction[StatusCode::Temporary]);
+
+  //  addAction(menuAction[StatusCode::Dsn]);
+
     
-    QMenu* ObturMenu = addMenu("&Обтурация");
-    QMenu* CariesMenu = addMenu("&Кариес");
-    QMenu* EndoMenu = addMenu("&Ендодонтия");
-    QMenu* SurgeryMenu = addMenu("&Хирургия");
-    QMenu* MobilityMenu = addMenu("&Подвижност");
+    QMenu* obturMenu = addMenu("&Обтурация");
+    QMenu* cariesMenu = addMenu("&Кариес");
+    QMenu* endoMenu = addMenu("&Ендодонтия");
+    QMenu* surgeryMenu = addMenu("&Хирургия");
+    QMenu* mobilityMenu = addMenu("&Подвижност");
+
+    dsn_menu = new DsnMenu();
+    auto dsnMenuAction = addMenu(dsn_menu);
+    dsnMenuAction->setText("Свръхброен зъб");
 
     QString surfName[surfaceCount] = { "Оклузално", "Медиално", "Дистално", "Букално", "Лингвално", "Цервикално" };
 
     for (int i = 0; i < surfaceCount; i++)
     {
-        surfObt[i] = ObturMenu->addAction(surfName[i]);
+        surfObt[i] = obturMenu->addAction(surfName[i]);
         connect(surfObt[i], &QAction::triggered, [this, i]() {this->presenter->setToothStatus(StatusType::obturation, i); });
 
-        surfCar[i] = CariesMenu->addAction(surfName[i]);
+        surfCar[i] = cariesMenu->addAction(surfName[i]);
         connect(surfCar[i], &QAction::triggered, [this, i]() {this->presenter->setToothStatus(StatusType::caries, i); });
     }
 
     for (int i = 0; i < mobilityCount; i++)
     {
-        mobilityDegree[i] = MobilityMenu->addAction(mobilityNames[i].data());
+        mobilityDegree[i] = mobilityMenu->addAction(mobilityNames[i].data());
         connect(mobilityDegree[i], &QAction::triggered, [this, i]() {
             this->presenter->setToothStatus(StatusType::mobility, i);; });
 
     }
 
 
-    ObturMenu->addSeparator();
-    ObturMenu->addAction(otherActions[OtherInputs::MO]);
-    ObturMenu->addAction(otherActions[OtherInputs::DO]);
-    ObturMenu->addAction(otherActions[OtherInputs::MOD]);
-    ObturMenu->addSeparator();
-    ObturMenu->addAction(otherActions[OtherInputs::removeO]);
+    obturMenu->addSeparator();
+    obturMenu->addAction(otherActions[OtherInputs::MO]);
+    obturMenu->addAction(otherActions[OtherInputs::DO]);
+    obturMenu->addAction(otherActions[OtherInputs::MOD]);
+    obturMenu->addSeparator();
+    obturMenu->addAction(otherActions[OtherInputs::removeO]);
 
-    CariesMenu->addSeparator();
-    CariesMenu->addAction(otherActions[OtherInputs::removeC]);
+    cariesMenu->addSeparator();
+    cariesMenu->addAction(otherActions[OtherInputs::removeC]);
 
-    EndoMenu->addAction(menuAction[StatusCode::Pulpitis]);
-    EndoMenu->addAction(menuAction[StatusCode::ApicalLesion]);
-    EndoMenu->addAction(menuAction[StatusCode::EndoTreatment]);
-    EndoMenu->addAction(menuAction[StatusCode::Post]);
+    endoMenu->addAction(menuAction[StatusCode::Pulpitis]);
+    endoMenu->addAction(menuAction[StatusCode::ApicalLesion]);
+    endoMenu->addAction(menuAction[StatusCode::EndoTreatment]);
+    endoMenu->addAction(menuAction[StatusCode::Post]);
 
-    SurgeryMenu->addAction(menuAction[StatusCode::Extraction]);
-    SurgeryMenu->addAction(menuAction[StatusCode::Root]);
-    SurgeryMenu->addAction(menuAction[StatusCode::Implant]);
-    SurgeryMenu->addAction(menuAction[StatusCode::Fracture]);
-    SurgeryMenu->addAction(menuAction[StatusCode::Dsn]);
-    SurgeryMenu->addAction(menuAction[StatusCode::Impacted]);
+    surgeryMenu->addAction(menuAction[StatusCode::Extraction]);
+    surgeryMenu->addAction(menuAction[StatusCode::Root]);
+    surgeryMenu->addAction(menuAction[StatusCode::Implant]);
+    surgeryMenu->addAction(menuAction[StatusCode::Fracture]);
+    surgeryMenu->addAction(menuAction[StatusCode::Dsn]);
+    surgeryMenu->addAction(menuAction[StatusCode::Impacted]);
 
     addAction(menuAction[StatusCode::Periodontitis]);
     addAction(menuAction[StatusCode::Calculus]);
@@ -91,8 +99,8 @@ ContextMenu::ContextMenu()
     addAction(menuAction[StatusCode::Bridge]);
     addAction(menuAction[StatusCode::Denture]);
     addAction(menuAction[StatusCode::FiberSplint]);
-    addSeparator();
 
+    addSeparator();
     addAction(otherActions[OtherInputs::removeAll]);
 
     addSeparator();
@@ -102,16 +110,20 @@ ContextMenu::ContextMenu()
 
 void ContextMenu::setSelection(bool single) { details->setEnabled(single); }
 
-void ContextMenu::setModel(const CheckModel& checkModel)
+void ContextMenu::setModel(const CheckModel& checkModel, const CheckModel& dsnModel)
 {
     this->setModel(checkModel.generalStatus, menuAction);
     this->setModel(checkModel.obturationStatus, surfObt);
     this->setModel(checkModel.cariesStatus, surfCar);
     this->setModel(checkModel.mobilityStatus, mobilityDegree);
+    dsn_menu->setModel(dsnModel);
 }
 
 
 
-void ContextMenu::setPresenter(ListPresenter* presenter) { this->presenter = presenter; }
+void ContextMenu::setPresenter(ListPresenter* presenter) { 
+    this->presenter = presenter; 
+    dsn_menu->setPresenter(presenter);
+}
 
 ContextMenu::~ContextMenu() {}

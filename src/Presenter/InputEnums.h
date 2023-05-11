@@ -2,7 +2,7 @@
 
 enum class ButtonPos { left, up, right, down, center, side };
 
-constexpr int otherInputsCount = 7;
+constexpr int otherInputsCount = 8;
 
 namespace OtherInputs
 { 
@@ -15,6 +15,7 @@ enum OtherInputs
 	removeC,
 	removeAll,
 	removeBridge,
+	removeDsn
 };
  
 }

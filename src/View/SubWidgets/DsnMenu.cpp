@@ -61,6 +61,9 @@ DsnMenu::DsnMenu()
     addAction(menuAction[StatusCode::Periodontitis]);
     addAction(menuAction[StatusCode::Calculus]);
     addAction(menuAction[StatusCode::Crown]);
+    
+    auto removeDsn = addAction("Премахни");
+    connect(removeDsn, &QAction::triggered, [this]() {this->presenter->setOther(OtherInputs::removeDsn); });
 
 }
 

@@ -114,29 +114,63 @@ bool ToothContainer::needsBridgeFormatting(int status)
 		;
 }
 
-void ToothContainer::setStatus(const std::vector<int>& selectedTeethIdx, StatusCode::StatusCode code, bool state)
+void ToothContainer::setStatus(const std::vector<int>& selectedIndexes, StatusType t, StatusCode::StatusCode code, bool state, bool dsn)
 {
+	//hyperdontic
+	if (dsn)
+	{
+		for (auto idx : selectedIndexes)
+		{
+			teeth[idx].dsn->setStatus(t, code, state);
+			teeth[idx].setStatus(StatusCode::Dsn, !teeth[idx].dsn->noData());
+		}
+
+		return;
+	}
+
+	//not general status
+	if (t != StatusType::general)
+	{
+		for (auto idx : selectedIndexes)
+		{
+			teeth[idx].setStatus(t, code, state);
+		}
+
+		return;
+	}
+
+	//general status:
 	if (state &&
-		selectedTeethIdx.size() == 1 &&
+		selectedIndexes.size() == 1 &&
 		(code == StatusCode::Bridge || code == StatusCode::FiberSplint)
-	)
+		)
 	{
 		return;
 	}
 
-	for (auto& idx : selectedTeethIdx)
+	for (auto& idx : selectedIndexes)
 	{
 		teeth[idx].setStatus(StatusType::general, code, state);
+
+		if (code == StatusCode::Dsn) {
+
+			if (state && teeth[idx].dsn->noData()) {
+				teeth[idx].dsn->setStatus(StatusCode::Healthy);
+			}
+			else if (!state)
+			{
+				teeth[idx].dsn->removeStatus();
+			}
+		}
 	}
 
 	if (needsBridgeFormatting(code)) {
-		formatBridges(selectedTeethIdx);
+		formatBridges(selectedIndexes);
 	}
 	else if (canResultInNonRetainedConstruction(code))
 	{
 		removeNonRetainedConstruction();
 	}
-
 }
 
 void ToothContainer::removeEveryStatus(const std::vector<int>& selectedTeethidx)

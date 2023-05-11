@@ -34,9 +34,10 @@ public:
 	void setToothDetails(const Tooth& tooth);
 	void removeBridgeOrSplint(const std::vector<int>& selectedIndexes);
 	void removeBridgeOrSplint(int tooth_begin, int tooth_end);
-	void setStatus(const std::vector<int>& selectedTeethIdx, StatusCode::StatusCode code, bool state);
+	//void setStatus(const std::vector<int>& selectedTeethIdx, StatusCode::StatusCode code, bool state);
+	void setStatus(const std::vector<int>& selectedIndexes, StatusType t, StatusCode::StatusCode code, bool state, bool dsn = false);
 	void removeEveryStatus(const std::vector<int>& selectedTeethidx);
-
+	
 	Tooth& at(int index) { return (*this)[index]; }
 	const Tooth& at(int index) const { return(*this)[index]; }
 

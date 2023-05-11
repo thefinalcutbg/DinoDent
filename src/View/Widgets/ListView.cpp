@@ -222,7 +222,7 @@ void ListView::setDateTime(const std::string& time8601)
 void ListView::setCheckModel(const CheckModel& checkModel, const CheckModel& dsnCheckModel)
 {
 	ui.controlPanel->setModel(checkModel, dsnCheckModel);
-	contextMenu->setModel(checkModel);
+	contextMenu->setModel(checkModel, dsnCheckModel);
 }
 
 void ListView::hideSurfacePanel(bool hidden)

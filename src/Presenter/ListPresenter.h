@@ -84,11 +84,12 @@ public:
 
     void setAmbDateTime(const std::string& datetime);
     void ambNumChanged(long long value);
-    void setOther(int code);
+
 
     void setToothStatus(StatusType t, int code);
     void setDsnStatus(StatusType t, int code);
-    
+    void setOther(int code);
+
     void setSelectedTeeth(const std::vector<int>& SelectedIndexes);
     
     void requestPisActivities(bool clickedByUser);

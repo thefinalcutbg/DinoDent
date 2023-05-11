@@ -538,7 +538,7 @@ void EDental::GetStatus::parseReply(const std::string& reply)
 
 	}
 
-	teeth.setStatus(splints, StatusCode::FiberSplint, true);
+	teeth.setStatus(splints, StatusType::general, StatusCode::FiberSplint, true, false);
 
 	m_callback(teeth);
 

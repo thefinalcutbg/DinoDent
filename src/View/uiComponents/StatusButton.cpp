@@ -93,14 +93,15 @@ bool StatusButton::eventFilter(QObject* obj, QEvent* e)
 
 void StatusButton::mousePressEvent(QMouseEvent* e)
 {
-	if (e->button() == Qt::RightButton) {
-		
-		if (menu() && isChecked()) showMenu();
-
-		return;
-	}
-
 	if (e->button() == Qt::LeftButton) {
+
+		if (menu()) {
+			showMenu();
+			m_hover = false;
+			update();
+			return;
+		}
+
 		emit clicked();
 		return;
 	}

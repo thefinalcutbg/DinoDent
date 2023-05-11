@@ -9,6 +9,7 @@
 #include "Model/Dental/Enums.h"
 #include "Presenter/CheckState.h"
 
+class DsnMenu;
 class ListPresenter;
 class CheckModel;
 
@@ -17,6 +18,7 @@ class ContextMenu : public QMenu
     Q_OBJECT
 
     ListPresenter* presenter{ nullptr };
+    DsnMenu* dsn_menu;
 
     QAction* addProcedure;
     QAction* details;
@@ -33,7 +35,7 @@ class ContextMenu : public QMenu
 public:
     ContextMenu();
     void setSelection(bool single);
-    void setModel(const CheckModel& checkModel);
+    void setModel(const CheckModel& checkModel, const CheckModel& dsnModel);
     void setPresenter(ListPresenter* presenter);
 
     ~ContextMenu();

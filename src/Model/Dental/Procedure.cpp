@@ -36,7 +36,7 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 			case::ProcedureType::endo:
 			{
 				if (hyperdontic) return;
-				teeth.setStatus({ this->tooth }, StatusCode::EndoTreatment, true);
+				teeth.setStatus({ this->tooth }, StatusType::general, StatusCode::EndoTreatment, true);
 				teeth[this->tooth].endo.LPK = LPK;
 
 			}
@@ -50,8 +50,8 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 					return;
 				}
 				
-				teeth.setStatus({ this->tooth }, StatusCode::Implant, false);
-				teeth.setStatus({this->tooth}, StatusCode::Extraction, true);
+				teeth.setStatus({ this->tooth }, StatusType::general, StatusCode::Implant, false);
+				teeth.setStatus({this->tooth}, StatusType::general, StatusCode::Extraction, true);
 				
 				if (tooth.extraction) //if the tooth was temporary or hyperdontic, the status won't be present
 				{
@@ -98,7 +98,7 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 				for (int i = result.tooth_begin; i <= result.tooth_end; i++)indexes.push_back(i);
 
 				//teeth.removeBridgeOrSplint(indexes);
-				teeth.setStatus(indexes, StatusCode::Bridge, true);
+				teeth.setStatus(indexes, StatusType::general, StatusCode::Bridge, true);
 
 				for (int i : indexes) teeth[i].bridge.LPK = LPK;
 
@@ -115,7 +115,7 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 				for (int i = result.tooth_begin; i <= result.tooth_end; i++) indexes.push_back(i);
 
 				//teeth.removeBridgeOrSplint(indexes);
-				teeth.setStatus(indexes, StatusCode::FiberSplint, true);
+				teeth.setStatus(indexes, StatusType::general, StatusCode::FiberSplint, true);
 
 				for (int i : indexes) teeth[i].splint.LPK = LPK;
 
@@ -142,7 +142,7 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 				}
 
 				//teeth.removeBridgeOrSplint(indexes);
-				teeth.setStatus(indexes, StatusCode::Denture, true);
+				teeth.setStatus(indexes, StatusType::general, StatusCode::Denture, true);
 
 				for (int i : indexes) teeth[i].splint.LPK = LPK;
 			}

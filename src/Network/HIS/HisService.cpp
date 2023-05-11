@@ -23,7 +23,7 @@ bool HisService::sendRequestToHis(const std::string& query)
 	if (awaiting_reply) return false;
 
 	if (HisToken::getToken().empty()) {
-		return HisToken::requestToken(this, query);
+		return HisToken::requestToken(this, query, !show_dialogs);
 	}
 
 	auto signedMsg = signMessage(buildMessage(query));

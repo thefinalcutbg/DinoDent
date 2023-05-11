@@ -14,11 +14,15 @@ namespace sToken {
 	std::string token{};
 	unsigned long long ms_expire{ 0 };
 	QElapsedTimer timer;
+
+	bool silent{ false };
 }
 
 void abort(const std::string& uiMessage) {
 
 	sToken::current_service = nullptr;
+
+	if (sToken::silent) return;
 
 	ModalDialogBuilder::showMessage(uiMessage);
 }
@@ -73,13 +77,13 @@ void HisToken::nullifyToken()
 	sToken::token.clear();
 }
 
-bool HisToken::requestToken(HisService* requester, const std::string& query)
+bool HisToken::requestToken(HisService* requester, const std::string& query, bool silent)
 {
 	if (sToken::current_service) return false;
 
 	sToken::current_service = requester;
 	sToken::query_temp = query;
-
+	sToken::silent = silent;
 
 	NetworkManager::requestChallenge();
 

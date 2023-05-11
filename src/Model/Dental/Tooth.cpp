@@ -72,7 +72,9 @@ Tooth& Tooth::operator=(const Tooth& other)
 	denture = other.denture;
 	calculus = other.calculus;
 
-	*dsn = *other.dsn;
+	if (dsn && other.dsn) {
+		*dsn = *other.dsn;
+	}
 
 	return *this;
 }
@@ -286,7 +288,7 @@ void Tooth::addStatus(int statusCode)
 
 		case StatusCode::Periodontitis: 
 			set(true, periodontitis); 
-			set(false, healthy, extraction, impacted);
+			set(false, healthy, extraction, impacted, denture);
 			if (denture && !root) denture.set(false);  
 			break;
 

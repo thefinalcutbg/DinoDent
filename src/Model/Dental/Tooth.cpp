@@ -271,7 +271,7 @@ void Tooth::addStatus(int statusCode)
 
 		case StatusCode::Fracture: 
 			set(true, fracture); 
-			set(false, healthy, extraction, implant, impacted);
+			set(false, healthy, extraction, implant, impacted, crown);
 			if (denture && !root) denture.set(false);
 			break;
 
@@ -290,7 +290,7 @@ void Tooth::addStatus(int statusCode)
 
 		case StatusCode::Crown: 
 			set(true, crown); 
-			set(false, healthy, bridge, extraction, root, splint, impacted, denture);
+			set(false, healthy, bridge, extraction, root, splint, impacted, denture, fracture);
 			break;
 
 		case StatusCode::Bridge: 

@@ -208,7 +208,7 @@ void DetailedStatus::setHistoryData(const std::vector<Procedure>& history)
 	ui.tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
 
 	ui.tableView->hideColumn(0);
-	ui.tableView->setColumnWidth(1, 69);
+	ui.tableView->setColumnWidth(1, 90);
 	ui.tableView->setColumnWidth(2, 150);
 	ui.tableView->setColumnWidth(3, 25);
 	ui.tableView->setColumnWidth(4, 150);

@@ -224,6 +224,7 @@
     <ClCompile Include="src\DbUpdates\Update6.cpp" />
     <ClCompile Include="src\DbUpdates\Update7.cpp" />
     <ClCompile Include="src\DbUpdates\Update8.cpp" />
+    <ClCompile Include="src\DbUpdates\Update9.cpp" />
     <ClCompile Include="src\Model\Dental\DentalNum.cpp" />
     <ClCompile Include="src\Model\Dental\ProcedureCode.cpp" />
     <ClCompile Include="src\Model\Referrals\Referral.cpp" />
@@ -364,7 +365,6 @@
     <ClCompile Include="src\View\SubWidgets\ContextMenu.cpp" />
     <ClCompile Include="src\View\Graphics\ControlPanelPolygon.cpp" />
     <ClCompile Include="src\View\Graphics\CPTooth.cpp" />
-    <ClCompile Include="src\View\Graphics\DsnToothGraphicsItem.cpp" />
     <ClCompile Include="src\View\Graphics\GraphicsView.cpp" />
     <ClCompile Include="src\View\Graphics\HexagonGraphicsItem.cpp" />
     <ClCompile Include="src\View\Graphics\PerioChartItem.cpp" />
@@ -661,7 +661,6 @@
     <QtMoc Include="src\View\SubWidgets\ContextMenu.h" />
     <ClInclude Include="src\View\Graphics\ControlPanelPolygon.h" />
     <ClInclude Include="src\View\Graphics\CPTooth.h" />
-    <ClInclude Include="src\View\Graphics\DsnToothGraphicsItem.h" />
     <ClInclude Include="src\View\Graphics\HexagonGraphicsItem.h" />
     <ClInclude Include="src\View\Graphics\PaintHint.h" />
     <ClInclude Include="src\View\Graphics\PerioChartItem.h" />

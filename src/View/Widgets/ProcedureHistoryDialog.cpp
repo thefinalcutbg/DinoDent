@@ -18,12 +18,13 @@ ProcedureHistoryDialog::ProcedureHistoryDialog(const std::vector<Procedure> proc
     ui.tableView->hideColumn(6);
     ui.tableView->hideColumn(7);
 
-    ui.tableView->setColumnWidth(1, 69);
+    ui.tableView->setColumnWidth(1, 90);
     ui.tableView->setColumnWidth(2, 200);
     ui.tableView->setColumnWidth(3, 25);
     ui.tableView->setColumnWidth(4, 200);
     ui.tableView->setColumnWidth(5, 49);
     ui.tableView->setColumnWidth(8, 200);
+
 
     ui.tableView->verticalHeader()->setDefaultSectionSize(20);
     ui.tableView->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);

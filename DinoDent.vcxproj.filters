@@ -312,9 +312,6 @@
     <ClCompile Include="src\View\Graphics\CPTooth.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\Graphics\DsnToothGraphicsItem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\View\Graphics\GraphicsView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -849,6 +846,9 @@
     <ClCompile Include="src\Presenter\ToothHintCreator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\DbUpdates\Update9.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Database\Database.h">
@@ -1182,9 +1182,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\Graphics\CPTooth.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\View\Graphics\DsnToothGraphicsItem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\Graphics\HexagonGraphicsItem.h">

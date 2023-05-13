@@ -8,7 +8,13 @@ bool Tooth::isHealthyCheck()
 {
 	auto status = getBoolStatus();
 	
-	for (int i = 2; i < status.size(); i++) {
+	for (int i = 0; i < status.size(); i++) {
+
+		if (i == StatusCode::Dsn ||
+			i == StatusCode::Healthy ||
+			i == StatusCode::Temporary
+		) continue;
+
 		if(status[i]) return false;
 	}
 
@@ -358,7 +364,7 @@ void Tooth::removeStatus(int statusCode)
 		default: return;
 	}
 
-	if (statusCode != StatusCode::Healthy && noData()) healthy.set(true);
+	if (statusCode != StatusCode::Healthy && isHealthyCheck()) healthy.set(true);
 }
 
 void Tooth::removeStatus() {
@@ -405,7 +411,7 @@ void Tooth::setStatus(StatusType type, int code, bool state)
 		break;
 	}
 
-	if (code != StatusCode::Healthy && noData()) healthy.set(true);
+	if (code != StatusCode::Healthy && isHealthyCheck()) healthy.set(true);
 }
 
 void Tooth::setStatus(int code, bool state){

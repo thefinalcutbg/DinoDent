@@ -1,23 +1,22 @@
 #include "Procedure.h"
 #include "Model/Dental/ToothContainer.h"
-#include <qdebug.h>
+
 void Procedure::applyProcedure(ToothContainer& teeth) const
 {
 		switch (code.type())
 		{
 			case::ProcedureType::obturation:
 			{
-				if (hyperdontic) return;
-
-				auto& tooth = teeth[this->tooth];
+				
+				auto& tooth = hyperdontic ? teeth[this->tooth].dsn.tooth() : teeth[this->tooth];
 				auto& result = std::get<ProcedureObtData>(this->result);
 
 				for (int i = 0; i < result.surfaces.size(); i++)
 				{
 					if (!result.surfaces[i]) continue;
 
-					tooth.setStatus(StatusType::obturation, i, true);
-					tooth.setStatus(StatusType::caries, i, false);
+					teeth.setStatus({ this->tooth }, StatusType::obturation, i, true, hyperdontic);
+					teeth.setStatus({ this->tooth }, StatusType::caries, i, false, hyperdontic);
 					
 					//tooth.obturation[i].data = result.data;
 					tooth.obturation[i].LPK = LPK;
@@ -26,8 +25,7 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 				}
 
 				if (result.post) {
-					tooth.addStatus(StatusCode::Post);
-					//tooth.post.data.type = result.post.value().type;
+					teeth.setStatus({ this->tooth }, StatusType::general, StatusCode::Post, true, hyperdontic);
 					tooth.post.LPK = LPK;
 				}
 			}
@@ -35,8 +33,9 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 
 			case::ProcedureType::endo:
 			{
-				if (hyperdontic) return;
-				teeth.setStatus({ this->tooth }, StatusType::general, StatusCode::EndoTreatment, true);
+				auto& tooth = hyperdontic ? teeth[this->tooth].dsn.tooth() : teeth[this->tooth];
+
+				tooth.setStatus(StatusCode::EndoTreatment);
 				teeth[this->tooth].endo.LPK = LPK;
 
 			}
@@ -44,32 +43,20 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 
 			case::ProcedureType::extraction:
 			{
-				auto& tooth = teeth[this->tooth];
-				if (hyperdontic) {
-					tooth.removeStatus(StatusCode::Dsn);
-					return;
-				}
+				teeth.setStatus({ this->tooth }, StatusType::general, StatusCode::Crown, true, hyperdontic);
+
+				auto& tooth = hyperdontic ? teeth[this->tooth].dsn.tooth() : teeth[this->tooth];
 				
-				teeth.setStatus({ this->tooth }, StatusType::general, StatusCode::Implant, false);
-				teeth.setStatus({this->tooth}, StatusType::general, StatusCode::Extraction, true);
-				
-				if (tooth.extraction) //if the tooth was temporary or hyperdontic, the status won't be present
-				{
-					tooth.extraction.LPK = LPK;
-				}
+				tooth.extraction.LPK = LPK;
+
 			}
 			break;
 
 			case::ProcedureType::crown:
 			{
-				if (hyperdontic) return;
-
-				auto& tooth = teeth[this->tooth];
-				//auto& result = std::get<CrownData>(this->result);
-
-				tooth.setStatus(StatusType::general, StatusCode::Crown);
-
-				//tooth.crown.data = result;
+				teeth.setStatus({this->tooth}, StatusType::general, StatusCode::Crown, true, hyperdontic);
+				
+				auto& tooth = hyperdontic ? teeth[this->tooth].dsn.tooth() : teeth[this->tooth];
 				tooth.crown.LPK = LPK;
 
 			}
@@ -77,11 +64,9 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 
 			case::ProcedureType::implant:
 			{
-				if (hyperdontic) return;
+				auto& tooth = hyperdontic ? teeth[this->tooth].dsn.tooth() : teeth[this->tooth];
 
-				auto& tooth = teeth[this->tooth];
-
-				tooth.addStatus(StatusCode::Implant);
+				tooth.setStatus(StatusCode::Implant);
 
 				tooth.implant.LPK = LPK;
 
@@ -147,20 +132,17 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 				for (int i : indexes) teeth[i].splint.LPK = LPK;
 			}
 			break;
+
 			case ProcedureType::removeCrown:
 			{
-				if (hyperdontic) return;
-
-				auto& tooth = teeth[this->tooth];
+				auto& tooth = hyperdontic ? teeth[this->tooth].dsn.tooth() : teeth[this->tooth];
 				tooth.removeStatus(StatusCode::Crown);
 			}
 			break;
 
 			case ProcedureType::removePost:
 			{
-				if (hyperdontic) return;
-
-				auto& tooth = teeth[this->tooth];
+				auto& tooth = hyperdontic ? teeth[this->tooth].dsn.tooth() : teeth[this->tooth];
 				tooth.removeStatus(StatusCode::Post);
 			}
 			break;
@@ -169,7 +151,8 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 			{
 				for (auto& t : teeth)
 				{
-					t.calculus.set(false);
+					t.setStatus(StatusCode::Calculus, false);
+					if (t.dsn) t.dsn.tooth().setStatus(StatusCode::Calculus, false);
 				}
 			}
 
@@ -187,7 +170,7 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 		}
 	
 }
-
+#include <qdebug.h>
 void Procedure::applyPISProcedure(ToothContainer& teeth) const
 {
 	/*
@@ -203,7 +186,7 @@ void Procedure::applyPISProcedure(ToothContainer& teeth) const
 		return;
 	}
 
-	auto& tooth = teeth[idx];
+	auto& tooth = hyperdontic ? teeth.at(idx).dsn.tooth() : teeth[idx];
 
 	if (temp) {
 		tooth.setStatus(StatusCode::Temporary);
@@ -215,16 +198,16 @@ void Procedure::applyPISProcedure(ToothContainer& teeth) const
 
 	switch (code.type())
 	{
-	case ProcedureType::obturation:
-		tooth.setStatus(StatusCode::Obturation); break;
-	case ProcedureType::endo:
-		tooth.setStatus(StatusCode::EndoTreatment); break;
-	case ProcedureType::extraction:
-		tooth.setStatus(StatusCode::Extraction); break;
-	case ProcedureType::crown:
-		tooth.setStatus(StatusCode::Crown); break;
-	case ProcedureType::implant:
-		tooth.setStatus(StatusCode::Implant); break;
+		case ProcedureType::obturation:
+			teeth.setStatus({ this->tooth }, StatusType::general, StatusCode::Obturation, true, hyperdontic); break;
+		case ProcedureType::endo:
+			teeth.setStatus({ this->tooth }, StatusType::general, StatusCode::EndoTreatment, true, hyperdontic); break;
+		case ProcedureType::extraction:
+			teeth.setStatus({ this->tooth }, StatusType::general, StatusCode::Extraction, true, hyperdontic); break;
+		case ProcedureType::crown:
+			teeth.setStatus({ this->tooth }, StatusType::general, StatusCode::Crown, true, hyperdontic); break;
+		case ProcedureType::implant:
+			teeth.setStatus({ this->tooth }, StatusType::general, StatusCode::Implant, true, hyperdontic); break;
 	}
 
 	

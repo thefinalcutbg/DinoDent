@@ -38,8 +38,6 @@ struct ToothPaintHint
 
 	bool calculus{ false };
 	bool lesion{ false };
-	bool dns{ false };
-	bool dnsToothImplacted{ false };
 	bool perio{ false };
 	bool frac{ false };
 	bool impacted{ false };

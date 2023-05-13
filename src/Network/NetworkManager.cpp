@@ -77,7 +77,8 @@ void NetworkManager::sendRequestToPis(
 
             //the html error reply from PIS begins with <!DOCTYPE ...
             //otherwise it begins with <?xml ....
-            if (replyString[1] == '!') {
+            
+            if (replyString.size() && replyString[1] == '!') {
                 replyString.clear(); 
             }
             

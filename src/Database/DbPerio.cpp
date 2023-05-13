@@ -2,7 +2,6 @@
 #include "Model/Parser.h"
 #include "Model/Dental/Procedure.h"
 #include "Database.h"
-#include <QDebug>
 
 ToothContainer DbPerio::getStatus(long long patientRowId, const Date& date)
 {
@@ -11,25 +10,18 @@ ToothContainer DbPerio::getStatus(long long patientRowId, const Date& date)
     long long amblistId{0};
     std::string LPK;
 
-    std::string query = " SELECT amblist.status, amblist.rowid, amblist.LPK, procedure.rowid "
-                        "FROM amblist LEFT JOIN procedure ON amblist.rowid = procedure.amblist_rowid WHERE "
-                        "amblist.patient_rowid = " + std::to_string(patientRowId) + " "
-                        "AND procedure.date <= '" + date.to8601() + "' "
-                        "ORDER BY procedure.date DESC, procedure.rowid DESC " 
-                        "LIMIT 1";
+    std::string query = "SELECT amblist.status, amblist.rowid, amblist.LPK FROM amblist WHERE amblist.patient_rowid = ? AND amblist.date <= ? ORDER BY amblist.date DESC LIMIT 1";
 
     Db db(query);
 
-    qDebug() << QString::fromStdString(query);
-
-    long long procedureRowId{0};
+    db.bind(1, patientRowId);
+    db.bind(2, date.to8601());
 
     while (db.hasRows())
     {
         jsonStatus = db.asString(0);
         amblistId = db.asRowId(1);
         LPK = db.asString(2);
-        procedureRowId = db.asRowId(3);
     }
 
     if (jsonStatus.empty())
@@ -44,16 +36,20 @@ ToothContainer DbPerio::getStatus(long long patientRowId, const Date& date)
 
     db.newStatement(
 
-        "SELECT type, tooth, deciduous, hyperdontic, data FROM procedure WHERE"
-        " amblist_rowid = " + std::to_string(amblistId) +
-        " AND rowid <= " + std::to_string(procedureRowId) +
-        " ORDER BY rowid"
-
+        "SELECT code, tooth, deciduous, hyperdontic, data FROM procedure WHERE "
+        "amblist_rowid=? " + std::to_string(amblistId) +
+        "AND date<=? "
+        "AND removed=0 "
+        "ORDER BY rowid "
     );
+
+    db.bind(1, amblistId);
+    db.bind(2, date.to8601());
 
     while (db.hasRows())
     {
-        Procedure p(db.asString(0));
+        Procedure p;
+        p.code = db.asString(0);
         p.LPK = LPK;
         p.tooth = db.asInt(1);
         p.temp = db.asBool(2);

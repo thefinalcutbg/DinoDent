@@ -64,7 +64,7 @@ void TableView::setAmbListLayout()
 {
     connect(model(), &QAbstractTableModel::dataChanged, [=] { fitToModel();});
     hideColumn(0);
-    setColumnWidth(1, 69);
+    setColumnWidth(1, 90);
     setColumnWidth(2, 260);
     setColumnWidth(3, 45);
     setColumnWidth(4, 300);
@@ -83,8 +83,7 @@ void TableView::setProcedureHistoryLayout()
     connect(model(), &QAbstractTableModel::dataChanged, [=] { fitToModel();});
 
     hideColumn(0);
-   
-    setColumnWidth(1, 69);
+    setColumnWidth(1, 90);
     setColumnWidth(2, 200);
     setColumnWidth(3, 25);
     setColumnWidth(4, 300);

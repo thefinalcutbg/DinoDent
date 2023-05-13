@@ -47,15 +47,12 @@ public:
 	Status impacted;
 	Status calculus;
 	DentistMade endo;
-	
 	DentistMade extraction;
-	
 	DentistMade implant;
 	DentistMade crown;
 	DentistMade denture;
 	Construction bridge;
 	Construction splint;
-
 	Status pulpitis;
 	Status lesion;
 	Status fracture;

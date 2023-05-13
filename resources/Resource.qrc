@@ -32,6 +32,7 @@
         <file>icon_statistic.png</file>
         <file>icon_phif.png</file>
         <file>icon_nhif.png</file>
+        <file>icon_db.png</file>
     </qresource>
     <qresource prefix="/tooth">
         <file>tooth_approximal.png</file>

@@ -37,7 +37,6 @@ ToothPaintHint::ToothPaintHint(const Tooth& tooth, const std::string& notes)
     }
 
     calculus = tooth.calculus.exists();
-    dns = tooth.dsn.exists();
     frac = tooth.fracture.exists();
     perio = tooth.periodontitis.exists();
     lesion = tooth.lesion.exists();

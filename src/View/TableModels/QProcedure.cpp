@@ -14,9 +14,12 @@ QProcedure::QProcedure(const Procedure& p) :
 	fsource(p.financingSource),
 	ksmp(QString::fromStdString(p.financingSource == FinancingSource::NHIF ? p.code.ksmp() : "")),
 	doctor(QString::fromStdString(User::getNameFromLPK(p.LPK))),
-	notes(QString::fromStdString(p.notes))
+	notes(QString::fromStdString(p.notes)),
+	db_source(p.db_source)
 {
 	if (tooth == "99") tooth.clear();
+
+	if (p.his_index) db_source = Procedure::HIS;
 
 	if (std::holds_alternative<ConstructionRange>(p.result)) {
 		auto& range = std::get<ConstructionRange>(p.result);

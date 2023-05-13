@@ -4,13 +4,14 @@
 #include <QKeyEvent>
 #include "View/SubWidgets/ContextMenu.h"
 #include "ToothGraphicsItem.h"
-#include "DsnToothGraphicsItem.h"
 #include "SelectionBox.h"
 #include "Presenter/ListPresenter.h"
 #include <QGuiApplication>
 #include "View/Graphics/ToothPainter.h"
 #include <View/Theme.h>
 #include <qapplication.h>
+#include <qdebug.h>
+
 TeethViewScene::TeethViewScene(QObject *parent)
     : QGraphicsScene(parent), contextMenu(nullptr), presenter(nullptr)
 {
@@ -301,7 +302,7 @@ void TeethViewScene::keyPressEvent(QKeyEvent* event)
 void TeethViewScene::display(const ToothPaintHint& tooth)
 {
     toothGraphic[tooth.idx]->setToothPixmap(ToothPainter::getBuccalOcclusal(tooth));
-    
+
     if (tooth.dsn)
     {
         dsnToothGraphic[tooth.idx]->setToothPixmap(ToothPainter::getBuccalOcclusal(*tooth.dsn));

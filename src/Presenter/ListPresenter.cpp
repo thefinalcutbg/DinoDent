@@ -23,7 +23,7 @@
 
 #include <thread>
 #include <chrono>
-
+#include <qdebug.h>
 ListPresenter::ListPresenter(ITabView* tabView, TabPresenter* tabPresenter, std::shared_ptr<Patient> patient, long long rowId)
     :
     TabInstance(tabView, TabType::AmbList, patient),
@@ -32,10 +32,7 @@ ListPresenter::ListPresenter(ITabView* tabView, TabPresenter* tabPresenter, std:
     m_ambList(rowId ? DbAmbList::getListData(rowId) : DbAmbList::getNewAmbSheet(patient->rowid)),
     patient_info(tabView->listView()->tileInfo(), patient)
 {
-
     surf_presenter.setStatusControl(this);
-
-    
 
     if (m_ambList.rowid) return;
 
@@ -449,7 +446,6 @@ void ListPresenter::setDsnStatus(StatusType t, int code)
     statusChanged();
 }
 
-
 void ListPresenter::setSelectedTeeth(const std::vector<int>& SelectedIndexes)
 {
     m_selectedIndexes = SelectedIndexes;
@@ -493,32 +489,9 @@ std::vector<Procedure> ListPresenter::getToothHistory(int toothIdx)
 
     std::sort(result.begin(), result.end(), [](const Procedure& a, const Procedure& b) -> bool
         {
-           return a.date > b.date;
+            return a.date > b.date;
         }
     );
-
-    std::vector<int> idxToRemove;
-
-    for (int i = 0; i < result.size(); i++)
-    {
-        if (i == 0) continue;
-
-        auto& current = result[i];
-        auto& prev = result[i - 1];
-
-        if (current.date == prev.date &&
-            current.financingSource == prev.financingSource &&
-            current.code.oldCode() == prev.code.oldCode()
-            )
-        {
-            idxToRemove.push_back(i);
-        }
-    }
-
-    for (auto idx : idxToRemove)
-    {
-        result.erase(result.begin() + idx);
-    }
 
     return result;
     
@@ -971,6 +944,7 @@ void ListPresenter::hisButtonPressed()
                 if (isCurrent())
                 {
                     setHisButtonToView();
+                    view->setProcedures(m_ambList.procedures.list());
                 }
 
                 ModalDialogBuilder::showMessage("Денталният преглед е изпратен към НЗИС успешно");
@@ -1009,6 +983,7 @@ void ListPresenter::hisButtonPressed()
                 if (isCurrent())
                 {
                     setHisButtonToView();
+                    view->setProcedures(m_ambList.procedures.list());
                 }
 
                 ModalDialogBuilder::showMessage("Денталният преглед е коригиран успешно");
@@ -1043,6 +1018,7 @@ void ListPresenter::hisButtonPressed()
                 if (isCurrent())
                 {
                     setHisButtonToView();
+                    view->setProcedures(m_ambList.procedures.list());
                 }
         });
 

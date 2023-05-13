@@ -48,7 +48,6 @@ ControlPanel::ControlPanel(QWidget* parent)
 	lambdaConnect(ui.Root, StatusCode::Root);
 	lambdaConnect(ui.Temporary, StatusCode::Temporary);
 	lambdaConnect(ui.falseTooth, StatusCode::Denture);
-	
 
 	ui.Mobility->setStateNames({ "Подвижност", "Подвижност I", "Подвижност II", "Подвижност III" });
 
@@ -92,7 +91,7 @@ void ControlPanel::hideCommonButtons(bool hidden)
 	ui.Obturation->setHidden(hidden);
 	ui.Caries->setHidden(hidden);
 }
-
+#include <qdebug.h>
 void ControlPanel::setModel(const CheckModel& checkModel, const CheckModel& dsn)
 {
 
@@ -120,7 +119,9 @@ void ControlPanel::setModel(const CheckModel& checkModel, const CheckModel& dsn)
 	setCheck(ui.Temporary, StatusCode::Temporary);
 	setCheck(ui.falseTooth, StatusCode::Denture);
 	setCheck(ui.Calculus, StatusCode::Calculus);
-	
+
+	qDebug() << "DSN STATUS: " <<(checkModel.generalStatus[StatusCode::Dsn] == CheckState::checked);
+
 	ui.unknown->setCheckState(checkModel.no_data ? CheckState::checked : CheckState::unchecked);
 
 	if (checkModel.mobilityStatus[0] == CheckState::checked) {

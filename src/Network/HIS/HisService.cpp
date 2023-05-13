@@ -212,7 +212,7 @@ std::string HisService::performer()
 	return performer;
 }
 
-std::string HisService::getToothStatus(const Tooth& tooth)
+std::string HisService::getToothStatus(const Tooth& tooth, bool hyperdontic)
 {
 	std::string result;
 
@@ -264,6 +264,10 @@ std::string HisService::getToothStatus(const Tooth& tooth)
 	result += "<nhis:tooth>";
 	result += bind("toothIndex", ToothUtils::getToothNumber(tooth.index, tooth.temporary));
 	
+	if (hyperdontic) {
+		result += bind("supernumeralIndex", 1);
+	}
+
 	for (auto& s : statuses)
 	{
 		result += "<nhis:condition>";
@@ -274,6 +278,81 @@ std::string HisService::getToothStatus(const Tooth& tooth)
 	}
 
 	result += "</nhis:tooth>";
+
+	return result;
+}
+
+std::string HisService::getProcedure(const Procedure& p, const ToothContainer& teeth, ToothContainer& teethChanged, int sequence)
+{
+	std::string result;
+	result.reserve(200);
+
+	result += "<nhis:dentalProcedure>";
+
+	result += bind("sequence", sequence);
+
+	if (p.his_index) {
+		result += bind("index", p.his_index);
+	}
+
+	result += bind("code", p.code.code());
+	result += bind("type", p.code.hisType());
+
+	if (p.code.type() == ProcedureType::anesthesia)
+	{
+		result += bind("duration", std::get<AnesthesiaMinutes>(p.result).minutes);
+	}
+
+	result += bind("datePerformed", p.date.to8601());
+
+	result += bind("financingSource", static_cast<int>(p.financingSource));
+
+	if (p.isToothSpecific())
+	{
+		if (p.isToothSpecific())
+		{
+			p.applyProcedure(teethChanged);
+
+			auto& tooth = p.hyperdontic ? teethChanged[p.tooth].dsn.tooth() : teethChanged[p.tooth];
+
+			result += getToothStatus(tooth, p.hyperdontic);
+		}
+	}
+
+	if (p.isRangeSpecific())
+	{
+		auto [begin, end] = std::get<ConstructionRange>(p.result);
+
+		p.applyProcedure(teethChanged);
+
+		for (int i = begin; i <= end; i++)
+		{
+			result += getToothStatus(teethChanged.at(i), false);
+		}
+	}
+
+	if (p.code.oldCode() == 101 || p.code.oldCode() == 103)
+	{
+		for (auto& tooth : teeth)
+		{
+			result += getToothStatus(tooth, true);
+			result += getToothStatus(tooth, false);
+		}
+
+	}
+
+	result += bind("note", p.notes, true);
+
+	if (p.diagnosis.index() != 0) {
+
+		result += "<nhis:diagnosis>";
+		result += bind("code", p.diagnosis.index());
+		result += bind("note", p.diagnosis.additionalDescription, true);
+		result += "</nhis:diagnosis>";
+
+	}
+
+	result += "</nhis:dentalProcedure>";
 
 	return result;
 }
@@ -310,7 +389,9 @@ std::string HisService::initialStatusAsProcedure(const ToothContainer& teeth, co
 
 	for (auto& tooth : teeth)
 	{
-		result += getToothStatus(tooth);
+		result += getToothStatus(tooth, false);
+
+		if (tooth.dsn) result += getToothStatus(tooth.dsn.tooth(), true);
 	}
 
 	result += "</nhis:dentalProcedure>";

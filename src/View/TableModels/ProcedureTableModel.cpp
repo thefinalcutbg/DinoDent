@@ -107,6 +107,15 @@ QVariant ProcedureTableModel::data(const QModelIndex& index, int role) const
                     return QIcon(":/icons/icon_nhif.png");
                 if (m_procedures[row].fsource == FinancingSource::PHIF)
                     return QIcon(":/icons/icon_phif.png");
+                break;
+            case 1:
+                switch (m_procedures[row].db_source)
+                {
+                    case Procedure::Local: return QIcon(":/icons/icon_db.png");
+                    case Procedure::PIS: return QIcon(":/icons/icon_nhif.png");
+                    case Procedure::HIS:  return QIcon(":/icons/icon_his.png");
+                }
+                break;
             default:
                 return QVariant();
             }

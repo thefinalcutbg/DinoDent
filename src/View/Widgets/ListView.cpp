@@ -218,7 +218,7 @@ void ListView::setDateTime(const std::string& time8601)
 	ui.dateTimeEdit->setDateTime(QDateTime::fromString(time8601.c_str(), Qt::ISODate));
 }
 
-
+#include <qdebug.h>
 void ListView::setCheckModel(const CheckModel& checkModel, const CheckModel& dsnCheckModel)
 {
 	ui.controlPanel->setModel(checkModel, dsnCheckModel);

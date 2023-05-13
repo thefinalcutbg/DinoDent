@@ -10,7 +10,6 @@ class SelectionBox;
 class BridgeItem;
 class ToothGraphicsItem;
 class ListPresenter;
-class DsnToothGraphicsItem;
 
 class TeethViewScene : public QGraphicsScene
 {

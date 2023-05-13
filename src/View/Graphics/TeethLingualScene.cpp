@@ -3,7 +3,6 @@
 #include "View/Graphics/ToothGraphicsItem.h"
 #include "View/Graphics/ToothPainter.h"
 #include "View/Graphics/PerioChartItem.h"
-#include "View/Graphics/DsnToothGraphicsItem.h"
 #include "View/Graphics/SelectionBox.h"
 #include <QGraphicsSceneMouseEvent>
 
@@ -31,7 +30,7 @@ TeethLingualScene::TeethLingualScene()
         selectionBox[i]->setPos(posX, selectionBox_posY);
         addItem(selectionBox[i]);
 
-        dsnToothGraphic[i] = new DsnToothGraphicsItem(i);
+        dsnToothGraphic[i] = new ToothGraphicsItem(i);
         dsnToothGraphic[i]->setZValue(0);
 
         int dnsPos = (i < 8 || i > 23) ?
@@ -68,8 +67,18 @@ TeethLingualScene::TeethLingualScene()
 
 void TeethLingualScene::display(const ToothPaintHint& tooth)
 {
+
     toothGraphic[tooth.idx]->setToothPixmap(ToothPainter::getLingualOcclusal(tooth));
-    dsnToothGraphic[tooth.idx]->setToothPixmap(ToothPainter::getDnsLingual(tooth));
+
+    if (tooth.dsn)
+    {
+        dsnToothGraphic[tooth.idx]->setToothPixmap(ToothPainter::getLingualOcclusal(*tooth.dsn));
+    }
+    else
+    {
+        dsnToothGraphic[tooth.idx]->drawEmpty();
+    }
+
 }
 
 void TeethLingualScene::setProcedures(std::vector<int> teeth_procedures)

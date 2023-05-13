@@ -79,6 +79,7 @@ void DentalActivitiesService::parseReply(const std::string& reply)
 		procedures.back().hyperdontic = toothProp.hyperdontic;
 		procedures.back().notes = row.Child(1).ToElement()->GetText();
 		procedures.back().financingSource = FinancingSource::NHIF;
+		procedures.back().db_source = Procedure::DatabaseSource::PIS;
 	}
 
 	m_callback(procedures, show_dialogs);

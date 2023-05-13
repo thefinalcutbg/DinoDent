@@ -16,5 +16,6 @@ struct QProcedure
 	//QString price;
 	QString doctor;
 	QString notes;
+	Procedure::DatabaseSource db_source;
 };
 

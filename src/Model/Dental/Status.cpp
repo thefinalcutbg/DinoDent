@@ -8,6 +8,8 @@ void Dsn::init(int idx)
 
 Dsn::Dsn(const Dsn& other)
 {
+	m_exists = other.m_exists;
+	
 	if (other.dsn_tooth)
 	{
 		dsn_tooth = std::make_unique<Tooth>(other.dsn_tooth->index);
@@ -17,6 +19,8 @@ Dsn::Dsn(const Dsn& other)
 
 Dsn& Dsn::operator=(const Dsn& other)
 {
+	m_exists = other.m_exists;
+
 	if (!other.dsn_tooth) return *this;
 
 	dsn_tooth = std::make_unique<Tooth>(other.dsn_tooth->index);

@@ -5,7 +5,6 @@
 
 #include "Model/User.h"
 #include <TinyXML/tinyxml.h>
-#include <qdebug.h>
 #include "View/ModalDialogBuilder.h"
 #include "Model/Dental/ToothContainer.h"
 
@@ -58,80 +57,7 @@ std::string EDental::Open::getProcedures(const ProcedureContainer& procedures, c
 	for (auto& p : procedures)
 	{
 		sequence++;
-
-		result += "<nhis:dentalProcedure>";
-
-
-		result += bind("sequence", sequence);
-
-		result += bind("code", p.code.code());
-		result += bind("type", static_cast<int>(p.code.hisType()));
-
-		if (p.code.type() == ProcedureType::anesthesia)
-		{
-			result += bind("duration", std::get<AnesthesiaMinutes>(p.result).minutes);
-		}
-
-		result += bind("datePerformed", p.date.to8601());
-
-		result += bind("financingSource", static_cast<int>(p.financingSource));
-
-		if (p.isToothSpecific())
-		{
-			p.applyProcedure(teethChanged);
-
-			result += getToothStatus(teethChanged.at(p.tooth));
-		}
-
-		if (p.isRangeSpecific())
-		{
-			auto [begin, end] = std::get<ConstructionRange>(p.result);
-
-			bool isDenture = p.code.type() == ProcedureType::denture;
-
-			p.applyProcedure(teethChanged);
-
-			for (int i = begin; i <= end; i++)
-			{
-				if (isDenture && !teethChanged.at(i).denture) continue;
-
-				result += getToothStatus(teethChanged.at(i));
-			}
-		}
-
-		if (p.code.type() == ProcedureType::deputatio)
-		{
-			for (auto& t : teethChanged)
-			{
-				if (t.calculus)
-				{
-					t.calculus.set(false);
-					result += getToothStatus(t);
-				}
-			}
-		}
-
-		if (p.code.oldCode() == 101)
-		{
-			for (auto& tooth : teeth)
-			{
-				result += getToothStatus(tooth);
-			}
-
-		}
-
-		result += bind("note", p.notes);
-
-		if (p.diagnosis.index() != 0) {
-
-			result += "<nhis:diagnosis>";
-			result += bind("code", p.diagnosis.index());
-			result += bind("note", p.diagnosis.additionalDescription, true);
-			result += "</nhis:diagnosis>";
-
-		}
-
-		result += "</nhis:dentalProcedure>";
+		result += HisService::getProcedure(p, teeth, teethChanged, sequence);
 	}
 
 	return result;
@@ -244,66 +170,7 @@ std::string EDental::Augment::getProcedures(const ProcedureContainer& procedures
 	{
 		sequence++;
 
-		result += "<nhis:dentalProcedure>";
-
-		result += bind("sequence", sequence);
-
-		if (p.his_index) {
-			result += bind("index", p.his_index);
-		}
-
-		result += bind("code", p.code.code());
-		result += bind("type", p.code.hisType());
-
-		if (p.code.type() == ProcedureType::anesthesia)
-		{
-			result += bind("duration", std::get<AnesthesiaMinutes>(p.result).minutes);
-		}
-
-		result += bind("datePerformed", p.date.to8601());
-
-		result += bind("financingSource", static_cast<int>(p.financingSource));
-
-		if (p.isToothSpecific())
-		{
-			p.applyProcedure(teethChanged);
-
-			result += getToothStatus(teethChanged.at(p.tooth));
-		}
-
-		if (p.isRangeSpecific())
-		{
-			auto [begin, end] = std::get<ConstructionRange>(p.result);
-
-			p.applyProcedure(teethChanged);
-
-			for (int i = begin; i <= end; i++)
-			{
-				result += getToothStatus(teethChanged.at(i));
-			}
-		}
-
-		if (p.code.oldCode() == 101 || p.code.oldCode() == 103)
-		{
-			for (auto& tooth : teeth)
-			{
-				result += getToothStatus(tooth);
-			}
-
-		}
-
-		result += bind("note", p.notes, true);
-
-		if (p.diagnosis.index() != 0) {
-
-			result += "<nhis:diagnosis>";
-			result += bind("code", p.diagnosis.index());
-			result += bind("note", p.diagnosis.additionalDescription, true);
-			result += "</nhis:diagnosis>";
-
-		}
-
-		result += "</nhis:dentalProcedure>";
+		result += HisService::getProcedure(p, teeth, teethChanged, sequence);
 
 	}
 
@@ -454,6 +321,8 @@ void EDental::GetStatus::parseReply(const std::string& reply)
 		return;
 	}
 
+	//ModalDialogBuilder::showMultilineDialog(reply);
+
 	TiXmlDocument doc;
 
 	doc.Parse(reply.data(), 0, TIXML_ENCODING_UTF8);
@@ -471,42 +340,42 @@ void EDental::GetStatus::parseReply(const std::string& reply)
 
 	std::vector<int> splints;
 
-	static std::map<std::string, std::function<void(int idx)>> lambdaMap
+	static std::map<std::string, std::function<void(int idx, Tooth& tooth)>> lambdaMap
 	{
-		{"E",	[&teeth](int idx) mutable { teeth[idx].extraction.set(true); }},
-		{"T",	[&teeth](int idx) mutable { teeth[idx].calculus.set(true); }},
-		{"K",	[&teeth](int idx) mutable { teeth[idx].crown.set(true); }},
-		{"B",	[&teeth](int idx) mutable { teeth[idx].bridge.set(true); teeth[idx].bridge.position = BridgePos::Middle; teeth[idx].extraction.set(true); }},
-		{"O",	[&teeth](int idx) mutable { teeth[idx].obturation.set(true); }},
-		{"C",	[&teeth](int idx) mutable { teeth[idx].caries.set(true); }},
-		{"Oo",	[&teeth](int idx) mutable { teeth[idx].obturation.set(true, Surface::Occlusal); }},
-		{"Om",	[&teeth](int idx) mutable { teeth[idx].obturation.set(true, Surface::Medial);  }},
-		{"Od",	[&teeth](int idx) mutable { teeth[idx].obturation.set(true, Surface::Distal);  }},
-		{"Ob",	[&teeth](int idx) mutable { teeth[idx].obturation.set(true, Surface::Buccal); }},
-		{"Ol",	[&teeth](int idx) mutable { teeth[idx].obturation.set(true, Surface::Lingual);  }},
-		{"Oc",	[&teeth](int idx) mutable { teeth[idx].obturation.set(true, Surface::Cervical);  }},
-		{"Co",	[&teeth](int idx) mutable { teeth[idx].caries.set(true, Surface::Occlusal); }},
-		{"Cm",	[&teeth](int idx) mutable { teeth[idx].caries.set(true, Surface::Medial);  }},
-		{"Cd",	[&teeth](int idx) mutable { teeth[idx].caries.set(true, Surface::Distal);  }},
-		{"Cb",	[&teeth](int idx) mutable { teeth[idx].caries.set(true, Surface::Buccal); }},
-		{"Cl",	[&teeth](int idx) mutable { teeth[idx].caries.set(true, Surface::Lingual);  }},
-		{"Cc",	[&teeth](int idx) mutable { teeth[idx].caries.set(true, Surface::Cervical);  }},
-		{"M1",	[&teeth](int idx) mutable { teeth[idx].mobility.set(true); teeth[idx].mobility.degree = Degree::First; }},
-		{"M2",	[&teeth](int idx) mutable { teeth[idx].mobility.set(true); teeth[idx].mobility.degree = Degree::Second; }},
-		{"M3",	[&teeth](int idx) mutable { teeth[idx].mobility.set(true); teeth[idx].mobility.degree = Degree::Third; }},
-		{"X",	[&teeth](int idx) mutable { teeth[idx].denture.set(true); }},
-		{"R",	[&teeth](int idx) mutable { teeth[idx].root.set(true); }},
-		{"Rc",	[&teeth](int idx) mutable { teeth[idx].endo.set(true); }},
-		{"Rp",	[&teeth](int idx) mutable { teeth[idx].post.set(true); }},
-		{"H",	[&teeth](int idx) mutable { teeth[idx].healthy.set(true); }},
-		{"I",	[&teeth](int idx) mutable { teeth[idx].implant.set(true); }},
-		{"Re",	[&teeth](int idx) mutable { teeth[idx].impacted.set(true); }},
-		{"G",	[&teeth](int idx) mutable { teeth[idx].lesion.set(true); }},
-		{"P",	[&teeth](int idx) mutable { teeth[idx].pulpitis.set(true); }},
-		{"F",	[&teeth](int idx) mutable { teeth[idx].fracture.set(true); }},
-		{"Pa",	[&teeth](int idx) mutable { teeth[idx].periodontitis.set(true); }},
-		{"D",	[&teeth](int idx) mutable { teeth[idx].dsn.set(true); }},
-		{"S",	[&splints](int idx) mutable { splints.push_back(idx); }}
+		{"E",	[&teeth](int idx, Tooth& tooth) mutable { tooth.extraction.set(true); }},
+		{"T",	[&teeth](int idx, Tooth& tooth) mutable { tooth.calculus.set(true); }},
+		{"K",	[&teeth](int idx, Tooth& tooth) mutable { tooth.crown.set(true); }},
+		{"B",	[&teeth](int idx, Tooth& tooth) mutable { tooth.bridge.set(true); tooth.bridge.position = BridgePos::Middle; teeth[idx].extraction.set(true); }},
+		{"O",	[&teeth](int idx, Tooth& tooth) mutable { tooth.obturation.set(true); }},
+		{"C",	[&teeth](int idx, Tooth& tooth) mutable { tooth.caries.set(true); }},
+		{"Oo",	[&teeth](int idx, Tooth& tooth) mutable { tooth.obturation.set(true, Surface::Occlusal); }},
+		{"Om",	[&teeth](int idx, Tooth& tooth) mutable { tooth.obturation.set(true, Surface::Medial);  }},
+		{"Od",	[&teeth](int idx, Tooth& tooth) mutable { tooth.obturation.set(true, Surface::Distal);  }},
+		{"Ob",	[&teeth](int idx, Tooth& tooth) mutable { tooth.obturation.set(true, Surface::Buccal); }},
+		{"Ol",	[&teeth](int idx, Tooth& tooth) mutable { tooth.obturation.set(true, Surface::Lingual);  }},
+		{"Oc",	[&teeth](int idx, Tooth& tooth) mutable { tooth.obturation.set(true, Surface::Cervical);  }},
+		{"Co",	[&teeth](int idx, Tooth& tooth) mutable { tooth.caries.set(true, Surface::Occlusal); }},
+		{"Cm",	[&teeth](int idx, Tooth& tooth) mutable { tooth.caries.set(true, Surface::Medial);  }},
+		{"Cd",	[&teeth](int idx, Tooth& tooth) mutable { tooth.caries.set(true, Surface::Distal);  }},
+		{"Cb",	[&teeth](int idx, Tooth& tooth) mutable { tooth.caries.set(true, Surface::Buccal); }},
+		{"Cl",	[&teeth](int idx, Tooth& tooth) mutable { tooth.caries.set(true, Surface::Lingual);  }},
+		{"Cc",	[&teeth](int idx, Tooth& tooth) mutable { tooth.caries.set(true, Surface::Cervical);  }},
+		{"M1",	[&teeth](int idx, Tooth& tooth) mutable { tooth.mobility.set(true); teeth[idx].mobility.degree = Degree::First; }},
+		{"M2",	[&teeth](int idx, Tooth& tooth) mutable { tooth.mobility.set(true); teeth[idx].mobility.degree = Degree::Second; }},
+		{"M3",	[&teeth](int idx, Tooth& tooth) mutable { tooth.mobility.set(true); teeth[idx].mobility.degree = Degree::Third; }},
+		{"X",	[&teeth](int idx, Tooth& tooth) mutable { tooth.denture.set(true); }},
+		{"R",	[&teeth](int idx, Tooth& tooth) mutable { tooth.root.set(true); }},
+		{"Rc",	[&teeth](int idx, Tooth& tooth) mutable { tooth.endo.set(true); }},
+		{"Rp",	[&teeth](int idx, Tooth& tooth) mutable { tooth.post.set(true); }},
+		{"H",	[&teeth](int idx, Tooth& tooth) mutable { tooth.healthy.set(true); }},
+		{"I",	[&teeth](int idx, Tooth& tooth) mutable { tooth.implant.set(true); }},
+		{"Re",	[&teeth](int idx, Tooth& tooth) mutable { tooth.impacted.set(true); }},
+		{"G",	[&teeth](int idx, Tooth& tooth) mutable { tooth.lesion.set(true); }},
+		{"P",	[&teeth](int idx, Tooth& tooth) mutable { tooth.pulpitis.set(true); }},
+		{"F",	[&teeth](int idx, Tooth& tooth) mutable { tooth.fracture.set(true); }},
+		{"Pa",	[&teeth](int idx, Tooth& tooth) mutable { tooth.periodontitis.set(true); }},
+		{"D",	[&teeth](int idx, Tooth& tooth) mutable { tooth.dsn.set(true); }},
+		{"S",	[&splints](int idx, Tooth& tooth) mutable { splints.push_back(idx); }}
 	};
 
 
@@ -524,15 +393,19 @@ void EDental::GetStatus::parseReply(const std::string& reply)
 		{
 			auto condition = status.Child(i).Child(y).ToElement();
 
-			if (condition->ValueStr() == "nhis:supernumeralIndex") {
-				teeth[index].dsn.set(true);
-				//the status of the hyperdontic tooth should be parsed
+			if (condition->ValueStr() == "nhis:supernumeralIndex")  //supernumeralIndex
+			{
+				teeth[index].setStatus(StatusCode::Dsn, true);
+				teeth[index].dsn.tooth().setStatus(StatusCode::Healthy, true); //only temporary, until NHIS starts returning the supernumeral tooth status 
+				dsn = true;
 				continue;
 			}
+			
+			auto code = condition->FirstChildElement()->Attribute("value"); //condition
 
-			auto code = condition->FirstChildElement()->Attribute("value");
+			auto& tooth = dsn ? teeth[index].dsn.tooth() : teeth[index];
 
-			lambdaMap[code](index);
+			lambdaMap[code](index, tooth);
 
 		}
 
@@ -589,10 +462,10 @@ void EDental::GetProcedures::parseReply(const std::string& reply)
 		p.date = Date(pXml.Child(5).ToElement()->Attribute("value"));
 		p.code = ProcedureCode(pXml.Child(2).ToElement()->Attribute("value"));
 		p.financingSource = static_cast<FinancingSource>(std::stoi(pXml.Child(6).ToElement()->Attribute("value")));
+		p.db_source = Procedure::DatabaseSource::HIS;
 
 		int y = 7;
-		qDebug() << pXml.Child(3).ToElement()->Attribute("value");
-		//
+
 		while (true)
 		{
 

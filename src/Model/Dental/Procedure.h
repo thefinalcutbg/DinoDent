@@ -42,6 +42,8 @@ enum class FinancingSource { NHIF = 2, PHIF = 3, Patient = 4 };
 
 struct Procedure
 {
+
+
     ProcedureCode code;
 
     Date date;
@@ -60,6 +62,9 @@ struct Procedure
     std::string notes;
 
     int his_index{ 0 };
+
+    enum DatabaseSource { Local, PIS, HIS };
+    DatabaseSource db_source{ Local };
 
     void applyProcedure(ToothContainer& teeth) const;
     //applies the procedures, not taking data into account

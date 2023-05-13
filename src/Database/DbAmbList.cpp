@@ -9,6 +9,7 @@
 #include "Model/FreeFunctions.h"
 #include "Database//DbReferral.h"
 
+
 long long DbAmbList::insert(const AmbList& sheet, long long patientRowId)
 {
 
@@ -188,7 +189,6 @@ AmbList DbAmbList::getListData(long long rowId)
     ambList.procedures.setRemovedProcedures(DbProcedure::getProcedures(ambList.rowid, db, false, true));
     ambList.referrals = DbReferral::getReferrals(ambList.rowid, db);
 
-
     return ambList;
 
 }
@@ -226,8 +226,6 @@ bool DbAmbList::suchNumberExists(int year, int ambNum, long long ambRowid)
         "AND num =" + std::to_string(ambNum) + " "
         "AND rowid !=" + std::to_string(ambRowid)
         ;
-    
-    qDebug() << query.c_str();
 
     Db db {query};
 

@@ -169,8 +169,6 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
         }
 
         dentalCareService->LinkEndChild(services);
-
-        //no such features yet
  
         auto medReferrals = new TiXmlElement("medicalReferrals");
 

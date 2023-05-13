@@ -114,7 +114,7 @@ bool ToothContainer::needsBridgeFormatting(int status)
 		;
 }
 
-void ToothContainer::setStatus(const std::vector<int>& selectedIndexes, StatusType t, StatusCode::StatusCode code, bool state, bool dsn)
+void ToothContainer::setStatus(const std::vector<int>& selectedIndexes, StatusType t, int code, bool state, bool dsn)
 {
 	//hyperdontic
 	if (dsn)

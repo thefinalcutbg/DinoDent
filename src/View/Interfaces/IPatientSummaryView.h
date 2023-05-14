@@ -29,8 +29,6 @@ struct SummaryState
 {
 	int frameCount{ 0 };
 	int currentIdx{ -1 };
-	Date from{ 1,1,2020 };
-	Date to{ Date::currentDate() };
 	bool buccalSelected{true};
 	bool showPerioGraph{false};
 	int selectedTooth{ -1 };

@@ -87,7 +87,7 @@
           </size>
          </property>
          <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Нов амбулаторен лист&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>Нов амбулаторен лист</string>
          </property>
          <property name="text">
           <string>Отвори</string>
@@ -115,7 +115,7 @@
           </size>
          </property>
          <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Ново пародонтално измерване&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>Ново пародонтално измерване</string>
          </property>
          <property name="text">
           <string>Отвори</string>
@@ -137,7 +137,7 @@
           </size>
          </property>
          <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Нова рецепта&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>Нова рецепта</string>
          </property>
          <property name="text">
           <string>PushButton</string>
@@ -165,7 +165,7 @@
           </size>
          </property>
          <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Нова фактура&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>Нова фактура</string>
          </property>
          <property name="text">
           <string>Отвори</string>
@@ -536,7 +536,7 @@
             </size>
            </property>
            <property name="toolTip">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Отвори документа&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            <string>Отвори документа</string>
            </property>
            <property name="text">
             <string>Отвори</string>

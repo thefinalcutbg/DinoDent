@@ -7,6 +7,8 @@
 #include <QFontDatabase>
 #include "View/Theme.h"
 #include "View/Widgets/SettingsDialog.h"
+#include <QStatusBar>
+#include "View/Widgets/GlobalWidgets.h"
 
 QColor blue(133, 207, 234);
 
@@ -24,6 +26,10 @@ DinoDent::DinoDent(QWidget* parent)
     ui.pisButton->setIcon(QIcon(":/icons/icon_nhif.png"));
     ui.settingsButton->setIcon(QIcon(":/icons/icon_settings.png"));
     ui.statisticButton->setIcon(QIcon(":/icons/icon_statistic.png"));
+
+    GlobalWidgets::statusBar = statusBar();
+
+    statusBar()->setStyleSheet("font-weight: bold; color:" + Theme::colorToString(Theme::practiceLabel));
 
 
     QAction* settingsAction = new QAction("Настройки");
@@ -107,6 +113,13 @@ void DinoDent::setUserLabel(const std::string& doctorName, const std::string& pr
 {
     ui.userButton->setText(QString::fromStdString("  " + doctorName));
     ui.practiceLabel->setText(QString::fromStdString(practiceName));
+
+    QString title = practiceName.size() ?
+        QString("DinoDent - ") + practiceName.c_str()
+        :
+        "DinoDent";
+
+    setWindowTitle(title);
 }
 
 void DinoDent::exitProgram()
@@ -124,6 +137,7 @@ void DinoDent::paintEvent(QPaintEvent* event)
     QPainter painter;
     painter.begin(this);
     painter.fillRect(rect(), Theme::mainBackgroundColor);
+    painter.fillRect(0, height() - 21, width(), 21, QColor(240, 240, 240));
     painter.end();
 }
 

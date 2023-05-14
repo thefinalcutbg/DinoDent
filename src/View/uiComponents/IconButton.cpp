@@ -5,6 +5,8 @@
 #include <QPainterPath>
 #include "View/Theme.h"
 #include <QApplication>
+#include "View/Widgets/GlobalWidgets.h"
+#include <QStatusBar>
 IconButton::IconButton(QWidget *parent)
 	: 
 	QPushButton(parent), 
@@ -43,12 +45,14 @@ bool IconButton::eventFilter(QObject* obj, QEvent* e)
 {
 	if (e->type() == QEvent::HoverEnter) {
 		m_hover = true;
+		GlobalWidgets::statusBar->showMessage(this->toolTip());
 		QApplication::setOverrideCursor(Qt::PointingHandCursor);
 		update();
 	}
 
 	if (e->type() == QEvent::HoverLeave) {
 		m_hover = false;
+		GlobalWidgets::statusBar->clearMessage();
 		QApplication::restoreOverrideCursor();
 		update();
 	}

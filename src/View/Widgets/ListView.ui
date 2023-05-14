@@ -451,7 +451,7 @@
               </size>
              </property>
              <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Добави манипулация&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>Добави манипулация</string>
              </property>
              <property name="text">
               <string>Добави</string>
@@ -479,7 +479,7 @@
               </size>
              </property>
              <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Редактирай манипулация&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>Редактирай манипулация</string>
              </property>
              <property name="text">
               <string>Редактирай</string>
@@ -507,7 +507,7 @@
               </size>
              </property>
              <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Изтрий манипулация&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>Изтрий манипулация</string>
              </property>
              <property name="text">
               <string>Изтрий</string>
@@ -535,7 +535,7 @@
               </size>
              </property>
              <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Зареди манипулации от ПИС&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>Зареди манипулации от ПИС</string>
              </property>
              <property name="text">
               <string>PIS</string>
@@ -560,7 +560,7 @@
               </size>
              </property>
              <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Зареди манипулации от НЗИС&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>Зареди манипулации от НЗИС</string>
              </property>
              <property name="text">
               <string>HIS</string>
@@ -604,7 +604,7 @@
               </size>
              </property>
              <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Изпиши рецепта&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>Изпиши рецепта</string>
              </property>
              <property name="text">
               <string/>
@@ -632,7 +632,7 @@
               </size>
              </property>
              <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Издай фактура&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>Издай фактура</string>
              </property>
              <property name="text">
               <string/>
@@ -660,7 +660,7 @@
               </size>
              </property>
              <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Нов пародонтален статус&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>Нов пародонтален статус</string>
              </property>
              <property name="text">
               <string/>

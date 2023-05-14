@@ -852,6 +852,9 @@
     <ClCompile Include="src\Model\Dental\ToothIndex.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\uiComponents\CustomButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Database\Database.h">
@@ -1556,6 +1559,9 @@
     <ClInclude Include="src\Model\Dental\ToothIndex.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\View\Widgets\GlobalWidgets.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\SubWidgets\ContextMenu.h">
@@ -1868,6 +1874,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\SubWidgets\DsnMenu.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\uiComponents\CustomButton.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

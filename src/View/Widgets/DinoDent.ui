@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>756</width>
-    <height>557</height>
+    <width>750</width>
+    <height>560</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -78,7 +78,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Нов амбулаторен лист&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>Нов амбулаторен лист</string>
         </property>
         <property name="text">
          <string>Нов лист</string>
@@ -112,7 +112,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Ново пародонтално измерване&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>Ново пародонтално измерване</string>
         </property>
         <property name="text">
          <string>Ново пар. изм.</string>
@@ -134,7 +134,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Нова рецепта&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>Нова рецепта</string>
         </property>
         <property name="text">
          <string>Perscr</string>
@@ -162,7 +162,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Статистики&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>Статистики</string>
         </property>
         <property name="text">
          <string>PushButton</string>
@@ -190,7 +190,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Отвори документи&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>Отвори документи</string>
         </property>
         <property name="text">
          <string>Open</string>
@@ -218,7 +218,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Запази текущия документ&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>Запази текущия документ</string>
         </property>
         <property name="text">
          <string>Save</string>
@@ -246,7 +246,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Принтирай текущия документ&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>Принтирай текущия документ</string>
         </property>
         <property name="text">
          <string>Print</string>
@@ -268,7 +268,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Месечни отчети и известия&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>Месечни отчети и известия</string>
         </property>
         <property name="text">
          <string> Pis</string>
@@ -290,7 +290,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Настройки&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>Настройки</string>
         </property>
         <property name="text">
          <string>Настройки</string>
@@ -382,6 +382,7 @@
     </item>
    </layout>
   </widget>
+  <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>

@@ -7,6 +7,8 @@ class GeneralSettings : public QWidget
 {
 	Q_OBJECT
 
+	void paintEvent(QPaintEvent* event) override;
+
 public:
 	GeneralSettings(QWidget *parent = nullptr);
 	

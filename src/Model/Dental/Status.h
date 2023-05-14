@@ -57,6 +57,10 @@ public:
 
     Dsn() {};
 
+    bool toothNotNull() const {
+        return dsn_tooth != nullptr;
+    }
+
     Dsn(const Dsn& other);
 
     Dsn& operator= (const Dsn& other);

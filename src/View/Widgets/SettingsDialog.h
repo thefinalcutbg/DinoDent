@@ -10,6 +10,7 @@ class SettingsDialog : public QDialog, public ISettingsDialog
 	Q_OBJECT
 
 	SettingsMainPresenter presenter;
+	void paintEvent(QPaintEvent* event) override;
 
 public:
 	SettingsDialog(QDialog *parent = Q_NULLPTR);

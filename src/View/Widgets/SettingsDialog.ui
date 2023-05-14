@@ -6,20 +6,32 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>860</width>
-    <height>720</height>
+    <width>818</width>
+    <height>650</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>SettingsDialog</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>6</number>
+   </property>
+   <property name="leftMargin">
+    <number>9</number>
+   </property>
+   <property name="topMargin">
+    <number>9</number>
+   </property>
+   <property name="rightMargin">
+    <number>9</number>
+   </property>
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="minimumSize">
       <size>
-       <width>842</width>
-       <height>670</height>
+       <width>800</width>
+       <height>600</height>
       </size>
      </property>
      <property name="currentIndex">

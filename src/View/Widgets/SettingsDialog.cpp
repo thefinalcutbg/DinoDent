@@ -1,4 +1,5 @@
 ﻿#include "SettingsDialog.h"
+#include <QPainter>
 
 
 SettingsDialog::SettingsDialog(QDialog*parent)
@@ -44,6 +45,12 @@ void SettingsDialog::setUpdateDate(DynamicNum num, const Date& date)
 		ui.generalSettings->ui.medUpdateLabel->setText(dateStr);
 		break;
 	}
+}
+
+void SettingsDialog::paintEvent(QPaintEvent* event)
+{
+	QPainter painter(this);
+	painter.fillRect(rect(), Qt::white);
 }
 
 SettingsDialog::~SettingsDialog()

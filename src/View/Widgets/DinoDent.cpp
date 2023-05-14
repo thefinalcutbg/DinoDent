@@ -29,7 +29,8 @@ DinoDent::DinoDent(QWidget* parent)
 
     GlobalWidgets::statusBar = statusBar();
 
-    statusBar()->setStyleSheet("font-weight: bold; color:" + Theme::colorToString(Theme::practiceLabel));
+    statusBar()->setStyleSheet("font-weight: bold; color:" + Theme::colorToString(Theme::fontTurquoiseClicked));
+   // statusBar()->setStyleSheet("color:" + Theme::colorToString(Theme::fontTurquoiseClicked));
 
 
     QAction* settingsAction = new QAction("Настройки");

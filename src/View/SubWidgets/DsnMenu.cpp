@@ -1,8 +1,10 @@
 ﻿#include "DsnMenu.h"
 #include "Presenter/ListPresenter.h"
-
+#include "View/Theme.h"
 DsnMenu::DsnMenu()
 {
+
+    setStyleSheet(Theme::getPopupMenuStylesheet());
 
     for (int i = 0; i < statusCount; i++)
     {

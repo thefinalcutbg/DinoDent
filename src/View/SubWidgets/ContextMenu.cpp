@@ -2,9 +2,11 @@
 #include "Presenter/ListPresenter.h"
 #include "DsnMenu.h"
 #include <QDebug>
+#include "View/Theme.h"
+
 ContextMenu::ContextMenu()
 {
-
+    setStyleSheet(Theme::getPopupMenuStylesheet());
     addProcedure = new QAction("Добави манипулация");
     addAction(addProcedure);
     connect(addProcedure, &QAction::triggered, [&] {if(presenter)presenter->addProcedure(); });

@@ -229,10 +229,10 @@ bool Procedure::isToothSpecific() const
 
 std::string Procedure::getToothString() const
 {
-	if (isToothSpecific()) 
+	if (tooth_idx.isValid()) 
 		return tooth_idx.getNhifNumenclature();
 
-	if (isRangeSpecific()) {
+	if (std::holds_alternative<ConstructionRange>(result)) {
 		auto& [from, to] = std::get<ConstructionRange>(result);
 		return ToothUtils::getNomenclature(from, false) + "-" + ToothUtils::getNomenclature(to, false);
 	}

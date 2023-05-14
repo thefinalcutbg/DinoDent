@@ -3,24 +3,16 @@
 #include "Model/Parser.h"
 #include "Database/DbProcedure.h"
 #include "Database/Database.h"
-
+#include <qdebug.h>
 std::vector<TimeFrame> DbPatientSummary::getFrames(long long patientRowId)
 {
     std::vector<TimeFrame> initialFrames;
 
-    std::string query =
-        "SELECT "
-        "amblist.rowid,"
-        "amblist.num,"
-        "amblist.lpk,"
-        "amblist.date,"
-        "amblist.status,"
-        "WHERE amblist.patient_rowid = " + std::to_string(patientRowId) + " "
-        "ORDER BY ASC";
+    Db db(
+        "SELECT rowid, num, nrn, lpk, date, status FROM amblist WHERE patient_rowid=? ORDER BY date ASC"
+    );
 
-    Db db(query);
-
-    long long lastRowid{ 0 };
+    db.bind(1, patientRowId);
 
     while (db.hasRows())
     {
@@ -31,9 +23,13 @@ std::vector<TimeFrame> DbPatientSummary::getFrames(long long patientRowId)
         frame.type = TimeFrameType::InitialAmb;
         frame.rowid = db.asRowId(0);
         frame.number = db.asString(1);
-        frame.LPK = db.asString(2);
-        frame.date = db.asString(3);
-        Parser::parse(db.asString(4), frame.teeth);
+
+        auto nrn = db.asString(2);
+        if (nrn.size()) frame.number = db.asString(2);
+
+        frame.LPK = db.asString(3);
+        frame.date = db.asString(4);
+        Parser::parse(db.asString(5), frame.teeth);
 
     }
 
@@ -53,6 +49,7 @@ std::vector<TimeFrame> DbPatientSummary::getFrames(long long patientRowId)
                 procedures[i].date != procedures[i-1].date    
             ) {
                 result.push_back(result.back());
+                result.back().procedures.clear();
                 result.back().type = TimeFrameType::Procedures;
             }
 

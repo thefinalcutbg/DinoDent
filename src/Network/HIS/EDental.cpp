@@ -448,7 +448,7 @@ void EDental::GetProcedures::parseReply(const std::string& reply)
 	//parsing procedures
 	std::vector<Procedure> procedures;
 
-	std::vector<ToothUtils::ToothProcedureCode> teethIndexes;
+	std::vector<ToothIndex> teethIndexes;
 
 	for (int i = 1; contents.Child(i).ToElement() != nullptr; i++)
 	{
@@ -478,7 +478,7 @@ void EDental::GetProcedures::parseReply(const std::string& reply)
 			{
 				auto index = ToothUtils::getToothFromNhifNum(pXml.Child(y).Child(0).ToElement()->Attribute("value"));
 
-				index.hyperdontic = pXml.Child(y).Child(1).ToElement()->ValueStr() == "nhis:supernumeralIndex";
+				index.supernumeral = pXml.Child(y).Child(1).ToElement()->ValueStr() == "nhis:supernumeralIndex";
 
 				teethIndexes.push_back(index);
 
@@ -500,7 +500,7 @@ void EDental::GetProcedures::parseReply(const std::string& reply)
 
 				if (diagHandle.Child(1).ToElement() != nullptr)
 				{
-					p.diagnosis.additionalDescription = diagHandle.Child(1).ToElement()->Attribute("value");
+					p.diagnosis.description = diagHandle.Child(1).ToElement()->Attribute("value");
 				}
 
 
@@ -521,9 +521,8 @@ void EDental::GetProcedures::parseReply(const std::string& reply)
 
 			auto& idx = teethIndexes[j];
 
-			procedures.back().hyperdontic = idx.hyperdontic;
-			procedures.back().temp = idx.temporary;
-			procedures.back().tooth = idx.tooth;
+			procedures.back().tooth_idx = idx;
+
 		}
 
 		teethIndexes.clear();

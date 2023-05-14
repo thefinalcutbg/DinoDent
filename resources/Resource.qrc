@@ -112,5 +112,6 @@
     <qresource prefix="/migrations">
         <file>db_migrateTo7.txt</file>
         <file>db_migrateTo8.txt</file>
+        <file>db_migrateTo9.txt</file>
     </qresource>
 </RCC>

@@ -317,12 +317,12 @@ std::vector<AmbList> DbAmbList::getMonthlyNhifSheets(int month, int year)
     db.newStatement(
         "SELECT "
         "procedure.code,"
-        "procedure.tooth,"
+        "procedure.at_tooth_index,"
         "procedure.date,"
-        "procedure.deciduous,"
+        "procedure.temporary,"
         "procedure.diagnosis,"
-        "procedure.additional_description,"
-        "procedure.hyperdontic,"
+        "procedure.diagnosis_description,"
+        "procedure.supernumeral,"
         "amblist.rowid "
         "FROM procedure LEFT JOIN amblist ON procedure.amblist_rowid = amblist.rowid "
         "WHERE "
@@ -331,7 +331,6 @@ std::vector<AmbList> DbAmbList::getMonthlyNhifSheets(int month, int year)
         "AND procedure.removed = 0 "
         "AND amblist.lpk = '" + User::doctor().LPK + "' "
         "AND amblist.rzi = '" + User::practice().rziCode + "' "
-        "AND procedure.removed = 0 "
         "AND strftime('%m', amblist.date)='" + FreeFn::leadZeroes(month, 2) + "' "
         "AND strftime('%Y', amblist.date)='" + std::to_string(year) + "' "
         "ORDER BY amblist.num ASC"
@@ -349,12 +348,16 @@ std::vector<AmbList> DbAmbList::getMonthlyNhifSheets(int month, int year)
         p.financingSource = FinancingSource::NHIF;
         p.LPK = sheet.LPK;
         p.code = db.asString(0);
-        p.tooth = db.asInt(1);
+
+        p.tooth_idx = {
+            .index = db.asInt(1),
+            .temp = db.asBool(3),
+            .supernumeral = db.asBool(6)
+        };
+
         p.date = db.asString(2);
-        p.temp = db.asBool(3);
         p.diagnosis = db.asString(4);
-        p.diagnosis.additionalDescription = db.asString(5);
-        p.hyperdontic = db.asBool(6);
+        p.diagnosis.description = db.asString(5);
 
         sheet.procedures.addProcedure(p);
     }

@@ -40,11 +40,11 @@ Diagnosis::Diagnosis(const std::string& name)
 		}
 	}
 
-	additionalDescription = name;
+	description = name;
 	
 }
 
-Diagnosis::Diagnosis(int key, const std::string& description) : m_idx{ key }, additionalDescription(description)
+Diagnosis::Diagnosis(int key, const std::string& description) : m_idx{ key }, description(description)
 {
 	if (!isValid()) m_idx = 0;
 }
@@ -52,7 +52,7 @@ Diagnosis::Diagnosis(int key, const std::string& description) : m_idx{ key }, ad
 bool Diagnosis::isValid() const
 {
 	if (!m_idx) {
-		return additionalDescription.size() ? true : false;
+		return description.size() ? true : false;
 	}
 
 	return m_idx < s_names.size();
@@ -60,7 +60,7 @@ bool Diagnosis::isValid() const
 
 const std::string& Diagnosis::getFullDiagnosis() const
 {
-	if (additionalDescription.size()) return additionalDescription;
+	if (description.size()) return description;
 
 	return s_names[m_idx];
 

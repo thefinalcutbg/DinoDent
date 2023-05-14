@@ -22,8 +22,8 @@ public:
 	virtual void setFocus() override;
 	virtual void disable(bool disable) override;
 	virtual void setValidAppearence(bool valid) override;
-	virtual ProcedureObtData getData();
-	virtual void setData(const ProcedureObtData& data);
+	virtual RestorationData getData();
+	virtual void setData(const RestorationData& data);
 	virtual void set_hidden(bool hidden) override { setHidden(hidden); }
 
 private:

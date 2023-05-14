@@ -24,7 +24,7 @@ public:
 
 	const std::string& getFullDiagnosis() const;
 
-	std::string additionalDescription;
+	std::string description;
 
 	static const std::vector<std::string>& getNames() { return s_names; }
 };

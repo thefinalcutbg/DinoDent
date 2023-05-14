@@ -227,6 +227,7 @@
     <ClCompile Include="src\DbUpdates\Update9.cpp" />
     <ClCompile Include="src\Model\Dental\DentalNum.cpp" />
     <ClCompile Include="src\Model\Dental\ProcedureCode.cpp" />
+    <ClCompile Include="src\Model\Dental\ToothIndex.cpp" />
     <ClCompile Include="src\Model\Referrals\Referral.cpp" />
     <ClCompile Include="src\Model\FreeFunctions.cpp" />
     <ClCompile Include="src\Model\Prescription\Route.cpp" />
@@ -502,6 +503,7 @@
     <ClInclude Include="src\Model\Dental\DentalStatistics.h" />
     <ClInclude Include="src\Model\Dental\ProcedureCode.h" />
     <ClInclude Include="src\Model\Dental\ProcedureListElement.h" />
+    <ClInclude Include="src\Model\Dental\ToothIndex.h" />
     <ClInclude Include="src\Model\MedicalStatuses.h" />
     <ClInclude Include="src\Model\Referrals\NumberVariant.h" />
     <ClInclude Include="src\Model\Referrals\Referral.h" />

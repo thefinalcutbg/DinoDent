@@ -10,18 +10,15 @@ ProcedureEditorPresenter::ProcedureEditorPresenter(const Procedure& p, const Dat
 	result.emplace(Procedure());
 	
 	m_code = p.code;
-	m_temp = p.temp;
-	m_tooth = p.tooth;
+	m_tooth_idx = p.tooth_idx;
 	m_hisIndex = p.his_index;
-
 	result->code = p.code;
 	result->date = p.date;
-	result->hyperdontic = p.hyperdontic;
 	result->diagnosis = p.diagnosis;
 	result->result = p.result;
 	result->financingSource = p.financingSource;
 	result->notes = p.notes;
-	result->diagnosis.additionalDescription = p.diagnosis.additionalDescription;
+	result->diagnosis.description = p.diagnosis.description;
 
 	_dateValidator.setProcedure(result->code.oldCode(), result->financingSource == FinancingSource::NHIF);
 }
@@ -39,10 +36,10 @@ void ProcedureEditorPresenter::setView(IProcedureEditDialog* view)
 
 	view->procedureInput()->dateEdit()->set_Date(result->date);
 	view->procedureInput()->setFinancingSource(result->financingSource);
-	view->procedureInput()->setHyperdonticState(result->hyperdontic);
+	view->procedureInput()->setHyperdonticState(result->tooth_idx.supernumeral);
 	view->procedureInput()->dateEdit()->setInputValidator(&_dateValidator);
 	view->procedureInput()->setNotes(result->notes);
-	view->procedureInput()->diagnosisEdit()->set_Text(result->diagnosis.additionalDescription);
+	view->procedureInput()->diagnosisEdit()->set_Text(result->diagnosis.description);
 	view->procedureInput()->diagnosisCombo()->setIndex(result->diagnosis.index());
 
 	if (result->diagnosis.index()) {
@@ -56,7 +53,7 @@ void ProcedureEditorPresenter::setView(IProcedureEditDialog* view)
 			break;
 		case ProcedureType::obturation:
 			view->procedureInput()->setLayout(IProcedureInput::Restoration);
-			view->procedureInput()->surfaceSelector()->setData(std::get<ProcedureObtData>(result->result));
+			view->procedureInput()->surfaceSelector()->setData(std::get<RestorationData>(result->result));
 			view->procedureInput()->surfaceSelector()->setInputValidator(&surface_validator);
 			break;
 		case ProcedureType::anesthesia:
@@ -120,15 +117,16 @@ void ProcedureEditorPresenter::okPressed()
 
 	//procedure creator:
 
+	m_tooth_idx.supernumeral = view->procedureInput()->onHyperdontic();
+
 	result.emplace(Procedure{});
 	result->code = m_code;
 	result->notes = view->procedureInput()->getNotes();
 	result->date = view->procedureInput()->dateEdit()->getDate();
 	result->diagnosis = view->procedureInput()->diagnosisCombo()->getIndex();
-	result->diagnosis.additionalDescription = view->procedureInput()->diagnosisEdit()->getText();
+	result->diagnosis.description = view->procedureInput()->diagnosisEdit()->getText();
 	result->financingSource = view->procedureInput()->getFinancingSource();
-	result->hyperdontic = view->procedureInput()->onHyperdontic();
-	result->tooth = m_tooth;
+	result->tooth_idx = m_tooth_idx;
 	result->his_index = m_hisIndex;
 
 	switch (result->code.type())
@@ -149,7 +147,7 @@ void ProcedureEditorPresenter::okPressed()
 		}
 			break;
 		default:
-			result->result = NoData{};
+			result->result = std::monostate{};
 	}
 
 	view->closeDialog();

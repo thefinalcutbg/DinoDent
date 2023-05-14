@@ -5,17 +5,12 @@
 #include <array>
 #include <string>
 #include <utility>
+#include "ToothIndex.h"
 
 class Tooth;
 
 namespace ToothUtils
 {
-	struct ToothProcedureCode {
-		int tooth;
-		bool temporary;
-		bool hyperdontic;
-	};
-
 	ToothType getToothType(int index);
 	int getToothNumber(int index, bool temporary);
 	std::string getNomenclature(int index, bool temporary = false);
@@ -23,8 +18,8 @@ namespace ToothUtils
 	std::string getNhifNumber(int index, bool temporary = false, bool hyperdontic = false);
 	Quadrant getQuadrant(int index);
 	std::array<std::string, 6> getSurfaceNames(int index);
-	ToothProcedureCode getToothFromNhifNum(const std::string& toothNum);
-	ToothProcedureCode getToothFromHisNum(const std::string& toothNum, bool hyperdontic);
+	ToothIndex getToothFromNhifNum(const std::string& toothNum);
+	ToothIndex getToothFromHisNum(const std::string& toothNum, bool hyperdontic);
 	std::string getName(int idx, bool temp);
 	const std::array<int, 32>& FDINumbers();
 };

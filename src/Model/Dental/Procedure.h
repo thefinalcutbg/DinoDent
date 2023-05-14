@@ -9,21 +9,20 @@
 #include "StatusData.h"
 #include "ProcedureCode.h"
 #include "Diagnosis.h"
+#include "ToothIndex.h"
 
 class ToothContainer;
 
-struct NoData {};
-
 struct ConstructionRange {
 
-    int tooth_begin{ 0 };
-    int tooth_end{ 0 };
+    int tooth_begin{ -1 };
+    int tooth_end{ -1 };
 };
 
-struct ProcedureObtData
+struct RestorationData
 {
     std::array<bool, 6>surfaces{ 0,0,0,0,0,0 };
-    bool post;
+    bool post{ false };
 };
 
 struct AnesthesiaMinutes {
@@ -31,8 +30,8 @@ struct AnesthesiaMinutes {
 };
 
 typedef std::variant<
-            NoData, 
-            ProcedureObtData, 
+            std::monostate, 
+            RestorationData, 
             ConstructionRange,
             AnesthesiaMinutes
         > Result;
@@ -42,8 +41,6 @@ enum class FinancingSource { NHIF = 2, PHIF = 3, Patient = 4 };
 
 struct Procedure
 {
-
-
     ProcedureCode code;
 
     Date date;
@@ -52,11 +49,9 @@ struct Procedure
 
     Diagnosis diagnosis;
 
-    int tooth{ -1 };        //-1 for general/several teeth, any in range 0-31 for specific tooth
-    bool temp{ false };
-    bool hyperdontic{ false };
+    ToothIndex tooth_idx;
 
-    Result result{ NoData{} };
+    Result result{ std::monostate{} };
 
     std::string LPK;
     std::string notes;
@@ -71,17 +66,26 @@ struct Procedure
     void applyPISProcedure(ToothContainer& teeth) const;
 
     bool isToothSpecific() const;
+    bool isRestoration() const {
+        return code.type() == ProcedureType::obturation;
+    }
     bool isRangeSpecific() const {
         return 
             code.type() == ProcedureType::bridge || 
             code.type() == ProcedureType::fibersplint ||
             code.type() == ProcedureType::denture;
     }
+    bool isAnesthesia() const {
+        return code.type() == ProcedureType::anesthesia;
+    }
+
     bool isNhif() const {
         return financingSource == FinancingSource::NHIF;
     }
 
     bool isSentToHis() const { return his_index != 0; };
+
+    std::string getToothString() const;
 };
 
 struct ProcedureTemplate {

@@ -253,7 +253,7 @@ void ProcedureCreator::setView(IProcedureInput* view)
 
 		auto t = m_selectedTeeth[0];
 
-		view->surfaceSelector()->setData(ProcedureObtData{ autoSurfaces(*t), false });
+		view->surfaceSelector()->setData(RestorationData{ autoSurfaces(*t), false });
 		diag_map[ProcedureType::obturation] = restorationDiagnosis(*t);
 		diag_map[ProcedureType::extraction] = extractionDiagnosis(*t);
 		diag_map[ProcedureType::endo] = endodonticDiagnosis(*t);
@@ -393,18 +393,15 @@ std::vector<Procedure> ProcedureCreator::getProcedures()
 	procedure.LPK = User::doctor().LPK;
 	procedure.date = view->dateEdit()->getDate();
 	procedure.diagnosis = view->diagnosisCombo()->getIndex();
-	procedure.diagnosis.additionalDescription = view->diagnosisEdit()->getText();
+	procedure.diagnosis.description = view->diagnosisEdit()->getText();
 	procedure.notes = view->getNotes();
-	procedure.hyperdontic = view->onHyperdontic();
+	procedure.tooth_idx.supernumeral = view->onHyperdontic();
 
-
-	procedure.tooth = -1;
 
 	switch (procedure.code.type())
 	{
 	case ProcedureType::deputatio:
 	case ProcedureType::general:
-		procedure.result = NoData{};
 		result.push_back(procedure);
 		break;
 	case ProcedureType::obturation:
@@ -412,7 +409,7 @@ std::vector<Procedure> ProcedureCreator::getProcedures()
 		for (auto t : m_selectedTeeth)
 		{
 			result.push_back(procedure);
-			result.back().tooth = t->index;
+			result.back().tooth_idx.index = t->index;
 		}
 		break;
 	case ProcedureType::bridge:
@@ -433,11 +430,12 @@ std::vector<Procedure> ProcedureCreator::getProcedures()
 	}
 	default:
 	{
-		procedure.result = NoData{};
+		procedure.result = std::monostate{};
+
 		for (auto t : m_selectedTeeth)
 		{
 			result.push_back(procedure);
-			result.back().tooth = t->index;
+			result.back().tooth_idx.index = t->index;
 		}
 	}
 		break;

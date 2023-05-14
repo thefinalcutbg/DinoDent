@@ -155,7 +155,7 @@ bool ListPresenter::isValid()
 
     for (auto& p : m_ambList.procedures)
     {
-        if (p.hyperdontic && !m_ambList.teeth[p.tooth].dsn)
+        if (p.tooth_idx.supernumeral && !m_ambList.teeth[p.tooth_idx.index].dsn)
         {
             ModalDialogBuilder::showError(
             "За да запишете манипулация на свръхброен зъб, отбележете го като такъв в статуса!"
@@ -475,7 +475,7 @@ std::vector<Procedure> ListPresenter::getToothHistory(int toothIdx)
     if (patient->HISHistory) {
         for (auto& p : patient->HISHistory.value())
         {
-            if (p.tooth == toothIdx) result.push_back(p);
+            if (p.tooth_idx.index == toothIdx) result.push_back(p);
         }
     }
 
@@ -483,7 +483,7 @@ std::vector<Procedure> ListPresenter::getToothHistory(int toothIdx)
     {
         for (auto& p : patient->PISHistory.value())
         {
-            if (p.tooth == toothIdx) result.push_back(p);
+            if (p.tooth_idx.index == toothIdx) result.push_back(p);
         }
     }
 

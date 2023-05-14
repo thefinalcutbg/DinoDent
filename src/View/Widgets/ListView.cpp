@@ -293,7 +293,7 @@ void ListView::setProcedures(const std::vector<Procedure>& m)
 	std::vector<int> proc_teeth;
 	proc_teeth.reserve(m.size());
 
-	for (auto t : m) proc_teeth.push_back(t.tooth);
+	for (auto t : m) proc_teeth.push_back(t.tooth_idx.index);
 
 	teethViewScene->setProcedures(proc_teeth);
 }

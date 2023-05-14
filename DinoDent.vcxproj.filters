@@ -849,6 +849,9 @@
     <ClCompile Include="src\DbUpdates\Update9.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Model\Dental\ToothIndex.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Database\Database.h">
@@ -1548,6 +1551,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Presenter\ToothHintCreator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\Dental\ToothIndex.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

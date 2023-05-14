@@ -8,15 +8,15 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 			case::ProcedureType::obturation:
 			{
 				
-				auto& tooth = hyperdontic ? teeth[this->tooth].dsn.tooth() : teeth[this->tooth];
-				auto& result = std::get<ProcedureObtData>(this->result);
+				auto& tooth = tooth_idx.supernumeral ? teeth[tooth_idx.index].dsn.tooth() : teeth[tooth_idx.index];
+				auto& result = std::get<RestorationData>(this->result);
 
 				for (int i = 0; i < result.surfaces.size(); i++)
 				{
 					if (!result.surfaces[i]) continue;
 
-					teeth.setStatus({ this->tooth }, StatusType::obturation, i, true, hyperdontic);
-					teeth.setStatus({ this->tooth }, StatusType::caries, i, false, hyperdontic);
+					teeth.setStatus({ tooth_idx.index }, StatusType::obturation, i, true, tooth_idx.supernumeral);
+					teeth.setStatus({ tooth_idx.index }, StatusType::caries, i, false, tooth_idx.supernumeral);
 					
 					//tooth.obturation[i].data = result.data;
 					tooth.obturation[i].LPK = LPK;
@@ -25,7 +25,7 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 				}
 
 				if (result.post) {
-					teeth.setStatus({ this->tooth }, StatusType::general, StatusCode::Post, true, hyperdontic);
+					teeth.setStatus({ tooth_idx.index }, StatusType::general, StatusCode::Post, true, tooth_idx.supernumeral);
 					tooth.post.LPK = LPK;
 				}
 			}
@@ -33,19 +33,19 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 
 			case::ProcedureType::endo:
 			{
-				auto& tooth = hyperdontic ? teeth[this->tooth].dsn.tooth() : teeth[this->tooth];
+				auto& tooth = tooth_idx.supernumeral ? teeth[tooth_idx.index].dsn.tooth() : teeth[tooth_idx.index];
 
 				tooth.setStatus(StatusCode::EndoTreatment);
-				teeth[this->tooth].endo.LPK = LPK;
+				teeth[tooth_idx.index].endo.LPK = LPK;
 
 			}
 			break;
 
 			case::ProcedureType::extraction:
 			{
-				teeth.setStatus({ this->tooth }, StatusType::general, StatusCode::Crown, true, hyperdontic);
+				teeth.setStatus({ tooth_idx.index }, StatusType::general, StatusCode::Extraction, true, tooth_idx.supernumeral);
 
-				auto& tooth = hyperdontic ? teeth[this->tooth].dsn.tooth() : teeth[this->tooth];
+				auto& tooth = tooth_idx.supernumeral ? teeth[tooth_idx.index].dsn.tooth() : teeth[tooth_idx.index];
 				
 				tooth.extraction.LPK = LPK;
 
@@ -54,9 +54,9 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 
 			case::ProcedureType::crown:
 			{
-				teeth.setStatus({this->tooth}, StatusType::general, StatusCode::Crown, true, hyperdontic);
+				teeth.setStatus({ tooth_idx.index }, StatusType::general, StatusCode::Crown, true, tooth_idx.supernumeral);
 				
-				auto& tooth = hyperdontic ? teeth[this->tooth].dsn.tooth() : teeth[this->tooth];
+				auto& tooth = tooth_idx.supernumeral ? teeth[tooth_idx.index].dsn.tooth() : teeth[tooth_idx.index];
 				tooth.crown.LPK = LPK;
 
 			}
@@ -64,7 +64,7 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 
 			case::ProcedureType::implant:
 			{
-				auto& tooth = hyperdontic ? teeth[this->tooth].dsn.tooth() : teeth[this->tooth];
+				auto& tooth = tooth_idx.supernumeral ? teeth[tooth_idx.index].dsn.tooth() : teeth[tooth_idx.index];
 
 				tooth.setStatus(StatusCode::Implant);
 
@@ -135,14 +135,14 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 
 			case ProcedureType::removeCrown:
 			{
-				auto& tooth = hyperdontic ? teeth[this->tooth].dsn.tooth() : teeth[this->tooth];
+				auto& tooth = tooth_idx.supernumeral ? teeth[tooth_idx.index].dsn.tooth() : teeth[tooth_idx.index];
 				tooth.removeStatus(StatusCode::Crown);
 			}
 			break;
 
 			case ProcedureType::removePost:
 			{
-				auto& tooth = hyperdontic ? teeth[this->tooth].dsn.tooth() : teeth[this->tooth];
+				auto& tooth = tooth_idx.supernumeral ? teeth[tooth_idx.index].dsn.tooth() : teeth[tooth_idx.index];
 				tooth.removeStatus(StatusCode::Post);
 			}
 			break;
@@ -180,15 +180,15 @@ void Procedure::applyPISProcedure(ToothContainer& teeth) const
 	
 	*/
 
-	auto idx = this->tooth;
+	auto idx = tooth_idx.index;
 
 	if (idx == -1){
 		return;
 	}
 
-	auto& tooth = hyperdontic ? teeth.at(idx).dsn.tooth() : teeth[idx];
+	auto& tooth = tooth_idx.supernumeral ? teeth.at(idx).dsn.tooth() : teeth[idx];
 
-	if (temp) {
+	if (tooth_idx.temp) {
 		tooth.setStatus(StatusCode::Temporary);
 	}
 	else if (tooth.temporary.exists())
@@ -199,15 +199,15 @@ void Procedure::applyPISProcedure(ToothContainer& teeth) const
 	switch (code.type())
 	{
 		case ProcedureType::obturation:
-			teeth.setStatus({ this->tooth }, StatusType::general, StatusCode::Obturation, true, hyperdontic); break;
+			teeth.setStatus({ tooth_idx.index }, StatusType::general, StatusCode::Obturation, true, tooth_idx.supernumeral); break;
 		case ProcedureType::endo:
-			teeth.setStatus({ this->tooth }, StatusType::general, StatusCode::EndoTreatment, true, hyperdontic); break;
+			teeth.setStatus({ tooth_idx.index }, StatusType::general, StatusCode::EndoTreatment, true, tooth_idx.supernumeral); break;
 		case ProcedureType::extraction:
-			teeth.setStatus({ this->tooth }, StatusType::general, StatusCode::Extraction, true, hyperdontic); break;
+			teeth.setStatus({ tooth_idx.index }, StatusType::general, StatusCode::Extraction, true, tooth_idx.supernumeral); break;
 		case ProcedureType::crown:
-			teeth.setStatus({ this->tooth }, StatusType::general, StatusCode::Crown, true, hyperdontic); break;
+			teeth.setStatus({ tooth_idx.index }, StatusType::general, StatusCode::Crown, true, tooth_idx.supernumeral); break;
 		case ProcedureType::implant:
-			teeth.setStatus({ this->tooth }, StatusType::general, StatusCode::Implant, true, hyperdontic); break;
+			teeth.setStatus({ tooth_idx.index }, StatusType::general, StatusCode::Implant, true, tooth_idx.supernumeral); break;
 	}
 
 	
@@ -225,4 +225,17 @@ bool Procedure::isToothSpecific() const
 		type != ProcedureType::deputatio
 		// && type != ProcedureType::removebridgeOrSplint
 	;
+}
+
+std::string Procedure::getToothString() const
+{
+	if (isToothSpecific()) 
+		return tooth_idx.getNhifNumenclature();
+
+	if (isRangeSpecific()) {
+		auto& [from, to] = std::get<ConstructionRange>(result);
+		return ToothUtils::getNomenclature(from, false) + "-" + ToothUtils::getNomenclature(to, false);
+	}
+
+	return std::string{};
 }

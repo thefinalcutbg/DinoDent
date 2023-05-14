@@ -313,9 +313,9 @@ std::string HisService::getProcedure(const Procedure& p, const ToothContainer& t
 		{
 			p.applyProcedure(teethChanged);
 
-			auto& tooth = p.hyperdontic ? teethChanged[p.tooth].dsn.tooth() : teethChanged[p.tooth];
+			auto& tooth = p.tooth_idx.supernumeral ? teethChanged[p.tooth_idx.index].dsn.tooth() : teethChanged[p.tooth_idx.index];
 
-			result += getToothStatus(tooth, p.hyperdontic);
+			result += getToothStatus(tooth, p.tooth_idx.supernumeral);
 		}
 	}
 
@@ -347,7 +347,7 @@ std::string HisService::getProcedure(const Procedure& p, const ToothContainer& t
 
 		result += "<nhis:diagnosis>";
 		result += bind("code", p.diagnosis.index());
-		result += bind("note", p.diagnosis.additionalDescription, true);
+		result += bind("note", p.diagnosis.description, true);
 		result += "</nhis:diagnosis>";
 
 	}

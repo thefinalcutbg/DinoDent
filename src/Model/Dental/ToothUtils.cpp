@@ -116,7 +116,7 @@ std::array<std::string, 6> ToothUtils::getSurfaceNames(int index)
     
 }
 
-ToothUtils::ToothProcedureCode ToothUtils::getToothFromNhifNum(const std::string& toothNhif)
+ToothIndex ToothUtils::getToothFromNhifNum(const std::string& toothNhif)
 {
     if (toothNhif.length() != 2) return { -1, false, false };
 
@@ -239,11 +239,11 @@ std::string ToothUtils::getName(int idx, bool temp)
 
 }
 
-ToothUtils::ToothProcedureCode ToothUtils::getToothFromHisNum(const std::string& toothNum, bool hyperdontic)
+ToothIndex ToothUtils::getToothFromHisNum(const std::string& toothNum, bool hyperdontic)
 {
     auto result = getToothFromNhifNum(toothNum);
 
-    result.hyperdontic = hyperdontic;
+    result.supernumeral = hyperdontic;
 
     return result;
     

@@ -12,8 +12,8 @@ class AbstractSurfaceSelector : public AbstractUIElement
 
 public:
 
-	virtual ProcedureObtData getData() = 0;
-	virtual void setData(const ProcedureObtData& data) = 0;
+	virtual RestorationData getData() = 0;
+	virtual void setData(const RestorationData& data) = 0;
 	virtual void set_hidden(bool hidden) = 0;
 };
 

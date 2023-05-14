@@ -4,8 +4,61 @@
 #include "Model/Dental/ToothContainer.h"
 #include "Model/Parser.h"
 #include "View/Widgets/UpdateDialog.h"
+#include "Model/Dental/Procedure.h"
+#include "Resources.h"
 
 namespace Update8fn {
+
+	Result parse(const std::string& jsonString, const ProcedureCode& code)
+	{
+		Json::Value json;
+		Json::Reader reader;
+
+		bool parsingSuccessful = reader.parse(jsonString, json);
+
+		if (!parsingSuccessful) {
+			return{};
+		}
+
+		Result result;
+
+		//parsing additional data, where present:
+		switch (code.type())
+		{
+		case ProcedureType::obturation:
+		{
+			return RestorationData
+			{
+				.surfaces = {
+					json["surfaces"][0].asBool(),
+					json["surfaces"][1].asBool(),
+					json["surfaces"][2].asBool(),
+					json["surfaces"][3].asBool(),
+					json["surfaces"][4].asBool(),
+					json["surfaces"][5].asBool()
+				},
+
+				.post = (json.isMember("post") && json["post"].asBool() == true)
+			};
+		}
+		case ProcedureType::bridge:
+		case ProcedureType::fibersplint:
+		case ProcedureType::denture:
+
+			return ConstructionRange{
+				.tooth_begin = json["begin"].asInt(),
+				.tooth_end = json["end"].asInt(),
+
+			};
+
+		case ProcedureType::anesthesia:
+		{
+			return AnesthesiaMinutes{ json["minutes"].asInt() };
+		}
+		default:
+			return std::monostate{};
+		}
+	}
 
 	void parse(const std::string& jsonString, ToothContainer& status)
 	{
@@ -214,12 +267,20 @@ void DbUpdates::update9(UpdateDialog& progressDialog)
 
 	if (Db::version() != 8) return;
 
+	auto script = Resources::getMigrationScript(9);
+
+	if (script.empty()) return;
+
 	Db db;
+
+	for (auto& query : script) { 
+		db.execute(query); 
+	};
 
 	db.execute("PRAGMA foreign_keys = 0");
 
 	db.newStatement("SELECT rowid, status FROM amblist");
-
+//getting amblist
 	std::vector<std::pair<long long, ToothContainer>> rowid_status;
 
 	while (db.hasRows())
@@ -230,10 +291,30 @@ void DbUpdates::update9(UpdateDialog& progressDialog)
 		rowid_status.push_back(std::make_pair(db.asRowId(0), teeth));
 	}
 
-	progressDialog.setRange(rowid_status.size());
+//getting procedure results:
+
+	std::vector<std::pair<long long, Result>> rowid_pResult;
+
+	db.newStatement("SELECT rowid, data, code FROM sqlitestudio_temp_table");
+
+	while (db.hasRows())
+	{
+		rowid_pResult.push_back(
+			std::make_pair(
+				db.asRowId(0), 
+				Update8fn::parse(
+					db.asString(1), 
+					ProcedureCode{ db.asString(2) }
+				)
+			)
+		);
+	}
+
 
 	db.execute("BEGIN TRANSACTION");
 	
+	progressDialog.setRange(rowid_status.size());
+
 	for (auto& pair : rowid_status)
 	{
 		db.newStatement("UPDATE amblist SET status = ? WHERE rowid = ?");
@@ -246,7 +327,56 @@ void DbUpdates::update9(UpdateDialog& progressDialog)
 		progressDialog.increment();
 	}
 
+	progressDialog.setRange(rowid_pResult.size());
+
+	for (auto& pair : rowid_pResult)
+	{
+		db.newStatement(
+			"UPDATE procedure SET "
+			"surface_o=?,"
+			"surface_m=?,"
+			"surface_d=?,"
+			"surface_b=?,"
+			"surface_l=?,"
+			"surface_c=?,"
+			"post=?,"
+			"from_tooth_index=?,"
+			"to_tooth_index=?,"
+			"minutes=?"
+			"WHERE rowid = ?"
+		);
+
+		if (std::holds_alternative<RestorationData>(pair.second))
+		{
+			auto&[surfaces, post] = std::get<RestorationData>(pair.second);
+
+			for (int i = 0; i < 6; i++)
+			{
+				db.bind(1 + i, surfaces[i]);
+				db.bind(7, post);
+			}
+		}
+		else if (std::holds_alternative<ConstructionRange>(pair.second))
+		{
+			auto&[from, to] = std::get<ConstructionRange>(pair.second);
+
+			db.bind(8, from);
+			db.bind(9, to);
+		}
+		else if (std::holds_alternative<AnesthesiaMinutes>(pair.second))
+		{
+			db.bind(10, std::get<AnesthesiaMinutes>(pair.second).minutes);
+		}
+
+		db.bind(11, pair.first);
+
+		db.execute();
+
+		progressDialog.increment();
+	}
+
 	db.execute("COMMIT TRANSACTION");
+	db.execute("DROP TABLE sqlitestudio_temp_table");
 	db.execute("PRAGMA foreign_keys = 1");
 	db.execute("PRAGMA user_version = 9");
 

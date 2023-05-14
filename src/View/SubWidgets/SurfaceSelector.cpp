@@ -45,7 +45,7 @@ void SurfaceSelector::setValidAppearence(bool valid)
 		
 }
 
-ProcedureObtData SurfaceSelector::getData()
+RestorationData SurfaceSelector::getData()
 {
 	return
 	{
@@ -60,7 +60,7 @@ ProcedureObtData SurfaceSelector::getData()
 }
 
 
-void SurfaceSelector::setData(const ProcedureObtData& data)
+void SurfaceSelector::setData(const RestorationData& data)
 {
 	ui.o_check->setChecked(data.surfaces[0]);
 	ui.m_check->setChecked(data.surfaces[1]);

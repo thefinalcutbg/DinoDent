@@ -22,8 +22,7 @@ class ProcedureEditorPresenter
 	ProcedureDateValidator _dateValidator;
 	//not present in the view, so state should be saved:
 	ProcedureCode m_code;
-	bool m_temp;
-	int m_tooth;
+	ToothIndex m_tooth_idx;
 	int m_hisIndex;
 
 public:

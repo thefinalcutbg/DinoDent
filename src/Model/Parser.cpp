@@ -245,50 +245,6 @@ void Parser::parse(const std::string& jsonString, ToothContainer& status)
 }
 	
 
-std::string Parser::write(const Procedure& procedure)
-{
-	Json::Value json;
-
-	switch (procedure.code.type())
-	{
-	case ProcedureType::obturation:
-	{
-		auto& r = std::get<ProcedureObtData>(procedure.result);
-
-		json["post"] = r.post;
-	
-		json["surfaces"] = Json::Value(Json::arrayValue);
-
-		for (int i = 0; i < r.surfaces.size(); i++)
-			if (r.surfaces[i]) json["surfaces"].append(i);
-
-		break;
-	}
-
-	case ProcedureType::bridge:
-	case ProcedureType::fibersplint:
-	case ProcedureType::denture:
-	//case ProcedureType::removebridgeOrSplint:
-	{
-		auto& r = std::get<ConstructionRange>(procedure.result);
-		json["begin"] = r.tooth_begin;
-		json["end"] = r.tooth_end;
-		break;
-	}
-	case ProcedureType::anesthesia:
-	{
-		json["minutes"] = std::get<AnesthesiaMinutes>(procedure.result).minutes;
-		break;
-	}
-	default:
-		break;
-	}
-
-	Json::FastWriter writer;
-
-	return writer.write(json);
-}
-
 std::string Parser::write(const std::optional<NhifContract>& contract)
 {
 	if (!contract.has_value())
@@ -451,60 +407,6 @@ std::vector<Dosage> Parser::parseDosage(const std::string& str)
 	return result;
 }
 
-
-void Parser::parse(const std::string& jsonString, Procedure& procedure)
-{
-	Json::Value json;
-	Json::Reader reader;
-
-	bool parsingSuccessful = reader.parse(jsonString, json);
-
-	if (!parsingSuccessful) {
-		return;
-	}
-
-	//parsing additional data, where present:
-	switch (procedure.code.type())
-	{
-	case ProcedureType::obturation:
-	{
-		procedure.result = ProcedureObtData
-		{
-			.surfaces = {false},
-
-			.post = (json.isMember("post") && json["post"].asBool() == true)
-		};
-
-		const Json::Value& surfaces = json["surfaces"];
-
-		for (int i = 0; i < surfaces.size(); i++)
-			std::get<ProcedureObtData>(procedure.result).surfaces[surfaces[i].asInt()] = true;
-
-
-		break;
-	}
-
-
-
-	case ProcedureType::bridge:
-	case ProcedureType::fibersplint:
-	case ProcedureType::denture:
-	//case ProcedureType::removebridgeOrSplint:
-		procedure.result = ConstructionRange{
-			.tooth_begin = json["begin"].asInt(),
-			.tooth_end = json["end"].asInt(),
-		};
-
-		break;
-	case ProcedureType::anesthesia:
-	{
-		procedure.result = AnesthesiaMinutes{ json["minutes"].asInt() };
-	}
-	break;
-	default:
-		procedure.result = NoData{};
-	}
-}
 
 void Parser::parse(const std::string& jsonString, DetailsSummary& summary)
 {

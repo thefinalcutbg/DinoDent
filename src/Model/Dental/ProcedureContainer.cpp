@@ -56,8 +56,9 @@ bool ProcedureContainer::hasNhifProcedure() const
 void ProcedureContainer::refreshTeethTemporary(const ToothContainer& teeth)
 {
     for (auto& procedure : m_proc) {
-        if (procedure.tooth < 0 || procedure.tooth > 31) continue;
-        procedure.temp = teeth.at(procedure.tooth).temporary.exists();
+        if (!procedure.tooth_idx.isValid()) continue;
+
+        procedure.tooth_idx.temp = teeth.at(procedure.tooth_idx.index).temporary.exists();
     }
 }
 

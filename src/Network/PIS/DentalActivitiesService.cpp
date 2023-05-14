@@ -68,15 +68,13 @@ void DentalActivitiesService::parseReply(const std::string& reply)
 			break;
 		}
 
-		auto toothProp = ToothUtils::getToothFromNhifNum(row.Child(5).ToElement()->GetText());
+		auto toothProp = 
 
 		procedures.emplace_back(Procedure(std::stoi(row.Child(2).ToElement()->GetText())));
 
 		procedures.back().date = Date(row.Child(0).ToElement()->GetText());
-		procedures.back().diagnosis.additionalDescription = row.Child(4).ToElement()->GetText(); //diagnosis
-		procedures.back().tooth = toothProp.tooth;
-		procedures.back().temp = toothProp.temporary;
-		procedures.back().hyperdontic = toothProp.hyperdontic;
+		procedures.back().diagnosis.description = row.Child(4).ToElement()->GetText(); //diagnosis
+		procedures.back().tooth_idx = ToothUtils::getToothFromNhifNum(row.Child(5).ToElement()->GetText());
 		procedures.back().notes = row.Child(1).ToElement()->GetText();
 		procedures.back().financingSource = FinancingSource::NHIF;
 		procedures.back().db_source = Procedure::DatabaseSource::PIS;

@@ -2,6 +2,7 @@
 #include "Model/Parser.h"
 #include "Model/Dental/Procedure.h"
 #include "Database.h"
+#include "DbProcedure.h"
 
 ToothContainer DbPerio::getStatus(long long patientRowId, const Date& date)
 {
@@ -34,28 +35,11 @@ ToothContainer DbPerio::getStatus(long long patientRowId, const Date& date)
     Parser::parse(jsonStatus, toothStatus);
 
 
-    db.newStatement(
-
-        "SELECT code, tooth, deciduous, hyperdontic, data FROM procedure WHERE "
-        "amblist_rowid=? " + std::to_string(amblistId) +
-        "AND date<=? "
-        "AND removed=0 "
-        "ORDER BY rowid "
-    );
-
-    db.bind(1, amblistId);
-    db.bind(2, date.to8601());
-
-    while (db.hasRows())
+    for (auto& p : DbProcedure::getProcedures(amblistId, db))
     {
-        Procedure p;
-        p.code = db.asString(0);
-        p.LPK = LPK;
-        p.tooth = db.asInt(1);
-        p.temp = db.asBool(2);
-        p.hyperdontic = db.asBool(3);
-        Parser::parse(db.asString(4), p);
-        p.applyProcedure(toothStatus);
+        if (p.date <= date.to8601()){
+            p.applyProcedure(toothStatus);
+        }
     }
 
     return toothStatus;

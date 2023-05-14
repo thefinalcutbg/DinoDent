@@ -195,8 +195,8 @@ void PatientSummary::setProcedures(const std::vector<Procedure>& p)
 	std::vector<int> treatedTeeth;
 
 	for (auto& procedure : p)
-		if (procedure.tooth != -1)
-			treatedTeeth.push_back(procedure.tooth);
+		if (procedure.tooth_idx.isValid())
+			treatedTeeth.push_back(procedure.tooth_idx.index);
 
 
 	buccalScene->setProcedures(treatedTeeth);

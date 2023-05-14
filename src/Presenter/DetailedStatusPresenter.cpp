@@ -9,6 +9,7 @@
 DetailedStatusPresenter::DetailedStatusPresenter(const Tooth& tooth, long long patientRowId, const std::vector<Procedure>& toothProcedures)
 	: m_tooth(tooth), m_procedures(toothProcedures), m_checkModel(tooth), patientRowId(patientRowId), view(nullptr)
 {
+	m_tooth.dsn.init(m_tooth.index);
 	m_notes = DbNotes::getNote(patientRowId, tooth.index);
 }
 

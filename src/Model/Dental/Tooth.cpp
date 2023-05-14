@@ -311,6 +311,7 @@ void Tooth::addStatus(int statusCode)
 
 		case StatusCode::Dsn: 
 			if (noData()) { set(true, healthy); }
+			if (dsn.tooth().noData()) dsn.tooth().healthy.set(true);
 			set(true, dsn);
 			break;
 
@@ -357,7 +358,7 @@ void Tooth::removeStatus(int statusCode)
 		case StatusCode::Bridge: bridge.set(false); break;
 		case StatusCode::FiberSplint: splint.set(false); break;
 		case StatusCode::Periodontitis: periodontitis.set(false); break;
-		case StatusCode::Dsn: dsn.set(false); break;
+		case StatusCode::Dsn: dsn.set(false); dsn.tooth().removeStatus(); break;
 		case StatusCode::Impacted: impacted.set(false); if (denture || !root) denture.set(false); break;
 		case StatusCode::Denture: denture.set(false); break;
 		case StatusCode::Calculus: calculus.set(false); break;

@@ -245,10 +245,14 @@ bool ListPresenter::save()
 
     auto d = m_ambList.getDate();
 
-    if (DbAmbList::suchNumberExists(d.year, m_ambList.number, m_ambList.rowid) &&
-        !ModalDialogBuilder::askDialog(
+    if (
+        m_ambList.nrn.empty() && 
+        DbAmbList::suchNumberExists(d.year, m_ambList.number, m_ambList.rowid) &&
+       !ModalDialogBuilder::askDialog(
             "Амбулаторен лист с такъв номер вече съществува. "
-            "Сигурни ли сте че искате да дублирате номерацията?"))
+            "Сигурни ли сте че искате да дублирате номерацията?"
+        )
+    )
     {
         return false;
     }

@@ -160,7 +160,7 @@ void PerioView::setToothHint(const ToothPaintHint& hint)
 	else perioScene[1]->display(hint);
 
 	//m_furcation[hint.idx]->setIndex(hint.idx);
-	m_tooth[hint.idx]->setText(QString::number(hint.num));
+	m_tooth[hint.idx]->setText(hint.num.c_str());
 }
 
 void PerioView::setAdditional(int smoker, int boneLoss, bool systemic, bool restore)

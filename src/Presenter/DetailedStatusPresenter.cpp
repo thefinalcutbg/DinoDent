@@ -7,7 +7,7 @@
 #include "View/Graphics/PaintHint.h"
 
 DetailedStatusPresenter::DetailedStatusPresenter(const Tooth& tooth, long long patientRowId, const std::vector<Procedure>& toothProcedures)
-	: m_tooth(tooth), m_procedures(toothProcedures), m_checkModel(tooth), patientRowId(patientRowId), view(nullptr)
+	: m_tooth(tooth), m_procedures(toothProcedures), m_checkModel(tooth), m_dsnCheckModel(tooth.dsn.tooth()), patientRowId(patientRowId), view(nullptr)
 {
 	m_tooth.dsn.init(m_tooth.index);
 	m_notes = DbNotes::getNote(patientRowId, tooth.index);
@@ -23,7 +23,7 @@ void DetailedStatusPresenter::setView(IDetailedStatusView* view)
 	view->disableItem(StatusCode::FiberSplint, !m_tooth.splint.exists());
 	view->disableItem(StatusCode::Temporary, m_tooth.type == ToothType::Molar);
 
-	view->setCheckModel(m_checkModel);
+	view->setCheckModel(m_checkModel, m_dsnCheckModel);
 	view->paintTooth(ToothPaintHint(m_tooth));
 
 	view->setNotes(m_notes);
@@ -37,17 +37,20 @@ void DetailedStatusPresenter::stateChanged()
 
 void DetailedStatusPresenter::checkStateChanged(bool checked)
 {
-	m_tooth.setStatus(m_category, m_code, checked);
-	m_checkModel = CheckModel(m_tooth);
+	auto& tooth = m_supernumeral ? m_tooth.dsn.tooth() : m_tooth;
+	tooth.setStatus(m_category, m_code, checked);
 
-	view->setCheckModel(m_checkModel);
+	m_checkModel = CheckModel(m_tooth);
+	m_dsnCheckModel = CheckModel(m_tooth.dsn.tooth());
+
+	view->setCheckModel(m_checkModel, m_dsnCheckModel);
 	view->paintTooth(ToothPaintHint(m_tooth));
 }
 
 
-void DetailedStatusPresenter::statusSelected(int category, int code)
+void DetailedStatusPresenter::statusSelected(int category, int code, bool on_supernumeral)
 {
-
+	this->m_supernumeral = on_supernumeral;
 	m_code = code;
 	m_category = static_cast<StatusType>(category);
 }

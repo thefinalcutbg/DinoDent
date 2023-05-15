@@ -20,7 +20,7 @@ void DetailedStatus::paintEvent(QPaintEvent* event)
 DetailedStatus::DetailedStatus(DetailedStatusPresenter* presenter) : presenter(presenter)
 {
 
-	enum TreeWidgetEnumType{ general, obturation, caries, mobility };
+	enum TreeWidgetEnumType { general, obturation, caries, mobility, dsn_general, dsn_obturation, dsn_caries, dsn_mobility };
 
 	ui.setupUi(this);
 	setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
@@ -28,9 +28,10 @@ DetailedStatus::DetailedStatus(DetailedStatusPresenter* presenter) : presenter(p
 	setWindowTitle("Детайли");
 
 
-	ui.imageLabel->setStyleSheet("border: 1px solid lightgray");
+	ui.toothLabel->setStyleSheet("border: 1px solid lightgray");
+	ui.dsnLabel->setStyleSheet("border: 1px solid lightgray");
 
-
+	//tooth status
 	for (int i = 0; i < statusCount; i++)
 	{
 		QTreeWidgetItem* item = new QTreeWidgetItem();
@@ -41,7 +42,7 @@ DetailedStatus::DetailedStatus(DetailedStatusPresenter* presenter) : presenter(p
 		
 	}
 
-
+	//surfaces status
 	for(auto& name : surfName)
 	{
 		QTreeWidgetItem* obtSurf{ new QTreeWidgetItem() }, * carSurf{ new QTreeWidgetItem() };
@@ -57,6 +58,7 @@ DetailedStatus::DetailedStatus(DetailedStatusPresenter* presenter) : presenter(p
 		ui.treeWidget->topLevelItem(StatusCode::Caries)->addChild(carSurf);
 	}
 
+	//mobility status
 	for (auto& name : mobilityNames)
 	{
 		QTreeWidgetItem* degree{ new QTreeWidgetItem() };
@@ -66,6 +68,54 @@ DetailedStatus::DetailedStatus(DetailedStatusPresenter* presenter) : presenter(p
 		ui.treeWidget->topLevelItem(StatusCode::Mobility)->addChild(degree);
 
 	}
+
+	//dsn status
+	for (int i = 0; i < statusCount; i++)
+	{
+		QTreeWidgetItem* item = new QTreeWidgetItem();
+		item->setData(0, Qt::UserRole, dsn_general);
+		item->setText(0, statusNames[i].data());
+		item->setCheckState(0, Qt::Unchecked);
+		ui.treeWidget->topLevelItem(StatusCode::Dsn)->addChild(item);
+
+		if (
+			i == StatusCode::Bridge ||
+			i == StatusCode::Denture ||
+			i == StatusCode::Dsn ||
+			i == StatusCode::FiberSplint ||
+			i == StatusCode::Implant
+			)
+			item->setDisabled(true);
+
+	}
+
+	//dsn surfaces
+	for (auto& name : surfName)
+	{
+		QTreeWidgetItem* obtSurf{ new QTreeWidgetItem() }, * carSurf{ new QTreeWidgetItem() };
+
+		obtSurf->setText(0, name);
+		carSurf->setText(0, name);
+		carSurf->setData(0, Qt::UserRole, dsn_caries);
+		obtSurf->setData(0, Qt::UserRole, dsn_obturation);
+		obtSurf->setCheckState(0, Qt::Unchecked);
+		carSurf->setCheckState(0, Qt::Unchecked);
+
+		ui.treeWidget->topLevelItem(StatusCode::Dsn)->child(StatusCode::Obturation)->addChild(obtSurf);
+		ui.treeWidget->topLevelItem(StatusCode::Dsn)->child(StatusCode::Caries)->addChild(carSurf);
+	}
+
+	//dsn mobility
+	for (auto& name : mobilityNames)
+	{
+		QTreeWidgetItem* degree{ new QTreeWidgetItem() };
+		degree->setText(0, name.data());
+		degree->setData(0, Qt::UserRole, dsn_mobility);
+		degree->setCheckState(0, Qt::Unchecked);
+		ui.treeWidget->topLevelItem(StatusCode::Dsn)->child(StatusCode::Mobility)->addChild(degree);
+
+	}
+
 	
 	connect(ui.treeWidget, &QTreeWidget::itemChanged, this, [=](QTreeWidgetItem* item, int column) 
 		{ 
@@ -100,10 +150,14 @@ DetailedStatus::DetailedStatus(DetailedStatusPresenter* presenter) : presenter(p
 			
 			switch (item->data(0, Qt::UserRole).toInt())
 			{
-				case general: presenter->statusSelected(0, code); break;
-				case obturation: presenter->statusSelected(1, code); break;
-				case caries: presenter->statusSelected(2, code); break;
-				case mobility: presenter->statusSelected(3, code); break;
+				case general: presenter->statusSelected(0, code, false); break;
+				case obturation: presenter->statusSelected(1, code, false); break;
+				case caries: presenter->statusSelected(2, code, false); break;
+				case mobility: presenter->statusSelected(3, code, false); break;
+				case dsn_general: presenter->statusSelected(0, code, true); break;
+				case dsn_obturation: presenter->statusSelected(1, code, true); break;
+				case dsn_caries: presenter->statusSelected(2, code, true); break;
+				case dsn_mobility: presenter->statusSelected(3, code, true); break;
 			}
 		}
 
@@ -121,40 +175,76 @@ DetailedStatus::DetailedStatus(DetailedStatusPresenter* presenter) : presenter(p
 }
 
 
-void DetailedStatus::setCheckModel(const CheckModel& checkModel)
+void DetailedStatus::setCheckModel(const CheckModel& tooth, const CheckModel& dsn)
 {
 	QSignalBlocker blocker(ui.treeWidget);
 
-	for (int i = 0; i < checkModel.generalStatus.size(); i++)
+	//tooth
+
+	for (int i = 0; i < tooth.generalStatus.size(); i++)
 	{
-		checkModel.generalStatus[i] == CheckState::checked ?
+		tooth.generalStatus[i] == CheckState::checked ?
 			ui.treeWidget->topLevelItem(i)->setCheckState(0, Qt::CheckState::Checked)
 			:
 			ui.treeWidget->topLevelItem(i)->setCheckState(0, Qt::CheckState::Unchecked);
 	}
 
-	for (int i = 0; i < checkModel.obturationStatus.size(); i++)
+	for (int i = 0; i < tooth.obturationStatus.size(); i++)
 	{
-		checkModel.obturationStatus[i] == CheckState::checked ?
+		tooth.obturationStatus[i] == CheckState::checked ?
 			ui.treeWidget->topLevelItem(StatusCode::Obturation)->child(i)->setCheckState(0, Qt::CheckState::Checked)
 			:
 			ui.treeWidget->topLevelItem(StatusCode::Obturation)->child(i)->setCheckState(0, Qt::CheckState::Unchecked);
 	}
 
-	for (int i = 0; i < checkModel.cariesStatus.size(); i++)
+	for (int i = 0; i < tooth.cariesStatus.size(); i++)
 	{
-		checkModel.cariesStatus[i] == CheckState::checked ?
+		tooth.cariesStatus[i] == CheckState::checked ?
 			ui.treeWidget->topLevelItem(StatusCode::Caries)->child(i)->setCheckState(0, Qt::CheckState::Checked)
 			:
 			ui.treeWidget->topLevelItem(StatusCode::Caries)->child(i)->setCheckState(0, Qt::CheckState::Unchecked);
 	}
 
-	for (int i = 0; i < checkModel.mobilityStatus.size(); i++)
+	for (int i = 0; i < tooth.mobilityStatus.size(); i++)
 	{
-		checkModel.mobilityStatus[i] == CheckState::checked ?
+		tooth.mobilityStatus[i] == CheckState::checked ?
 			ui.treeWidget->topLevelItem(StatusCode::Mobility)->child(i)->setCheckState(0, Qt::CheckState::Checked)
 			:
 			ui.treeWidget->topLevelItem(StatusCode::Mobility)->child(i)->setCheckState(0, Qt::CheckState::Unchecked);
+	}
+
+	//dsn:
+
+	for (int i = 0; i < dsn.generalStatus.size(); i++)
+	{
+		dsn.generalStatus[i] == CheckState::checked ?
+			ui.treeWidget->topLevelItem(StatusCode::Dsn)->child(i)->setCheckState(0, Qt::CheckState::Checked)
+			:
+			ui.treeWidget->topLevelItem(StatusCode::Dsn)->child(i)->setCheckState(0, Qt::CheckState::Unchecked);
+	}
+
+	for (int i = 0; i < dsn.obturationStatus.size(); i++)
+	{
+		dsn.obturationStatus[i] == CheckState::checked ?
+			ui.treeWidget->topLevelItem(StatusCode::Dsn)->child(StatusCode::Obturation)->child(i)->setCheckState(0, Qt::CheckState::Checked)
+			:
+			ui.treeWidget->topLevelItem(StatusCode::Dsn)->child(StatusCode::Obturation)->child(i)->setCheckState(0, Qt::CheckState::Unchecked);
+	}
+
+	for (int i = 0; i < dsn.cariesStatus.size(); i++)
+	{
+		dsn.cariesStatus[i] == CheckState::checked ?
+			ui.treeWidget->topLevelItem(StatusCode::Dsn)->child(StatusCode::Caries)->child(i)->setCheckState(0, Qt::CheckState::Checked)
+			:
+			ui.treeWidget->topLevelItem(StatusCode::Dsn)->child(StatusCode::Caries)->child(i)->setCheckState(0, Qt::CheckState::Unchecked);
+	}
+
+	for (int i = 0; i < dsn.mobilityStatus.size(); i++)
+	{
+		dsn.mobilityStatus[i] == CheckState::checked ?
+			ui.treeWidget->topLevelItem(StatusCode::Dsn)->child(StatusCode::Mobility)->child(i)->setCheckState(0, Qt::CheckState::Checked)
+			:
+			ui.treeWidget->topLevelItem(StatusCode::Dsn)->child(StatusCode::Mobility)->child(i)->setCheckState(0, Qt::CheckState::Unchecked);
 	}
 }
 
@@ -174,7 +264,17 @@ void DetailedStatus::disableItem(int index, bool disabled)
 void DetailedStatus::paintTooth(const ToothPaintHint& hint)
 {
 	auto tooth = ToothPainter::getBuccalOcclusal(hint);
-	ui.imageLabel->setPixmap(tooth);
+	ui.toothLabel->setPixmap(tooth);
+
+	if (hint.dsn) {
+		auto dsn = ToothPainter::getBuccalOcclusal(*hint.dsn);
+		ui.dsnLabel->setPixmap(dsn);
+	}
+	else
+	{
+		ui.dsnLabel->setPixmap(QPixmap());
+	}
+
 }
 
 void DetailedStatus::setNotes(const std::string& notes)

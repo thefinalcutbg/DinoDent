@@ -15,10 +15,12 @@ class DetailedStatusPresenter
 
 	StatusType m_category{ StatusType::general };
 	int m_code{ -1 };
+	bool m_supernumeral;
 
 	std::vector<Procedure> m_procedures;
 
 	CheckModel m_checkModel;
+	CheckModel m_dsnCheckModel;
 
 	long long patientRowId;
 
@@ -33,7 +35,7 @@ public:
 	void setView(IDetailedStatusView* view);
 	void checkStateChanged(bool checked);
 	void stateChanged();
-	void statusSelected(int category, int code);
+	void statusSelected(int category, int code, bool on_supernumeral);
 	const std::string& getNote() const { return m_notes; }
 
 	void okPressed();

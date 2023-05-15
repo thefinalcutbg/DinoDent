@@ -311,8 +311,8 @@ void Tooth::addStatus(int statusCode)
 
 		case StatusCode::Dsn: 
 			if (noData()) { set(true, healthy); }
-			if (dsn.tooth().noData()) dsn.tooth().healthy.set(true);
 			set(true, dsn);
+			if (dsn.toothNotNull() && dsn.tooth().noData()) dsn.tooth().healthy.set(true);
 			break;
 
 		case StatusCode::Impacted: 
@@ -342,7 +342,7 @@ void Tooth::removeStatus(int statusCode)
 {
 	switch (statusCode){
 		case StatusCode::Healthy: healthy.set(false); if (isHealthyCheck()) temporary.set(false); break;
-		case StatusCode::Temporary: temporary.set(false); extraction.set(false); healthy.set(!isHealthyCheck()); break;
+		case StatusCode::Temporary: temporary.set(false); extraction.set(false); healthy.set(isHealthyCheck()); break;
 		case StatusCode::Obturation: obturation.set(false); break;
 		case StatusCode::Caries: caries.set(false); break;
 		case StatusCode::Pulpitis: pulpitis.set(false); break;

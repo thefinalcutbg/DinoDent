@@ -550,7 +550,7 @@ inline void drawToothNumberLabel(const ToothPaintHint& tooth, QPixmap& pixmap)
 	painter.setPen(Qt::gray);
 	painter.setFont(font);
 
-	painter.drawText(QRect{ 0,yPos,pixmap.width(), 50 }, Qt::AlignCenter, QString::number(tooth.num));
+	painter.drawText(QRect{ 0,yPos,pixmap.width(), 50 }, Qt::AlignCenter, tooth.num.c_str());
 }
 
 
@@ -606,10 +606,9 @@ QPixmap ToothPainter::getBuccalOcclusal(const ToothPaintHint& tooth)
 	drawMobilityLabel(tooth, pixmap);
 	drawFractureLabel(tooth, pixmap);
 
-    if (!tooth.isHyperdontic) {
 
-        drawToothNumberLabel(tooth, pixmap);
-    }
+    drawToothNumberLabel(tooth, pixmap);
+
 
 	QPainter painter(&pixmap);
 
@@ -713,10 +712,9 @@ QPixmap ToothPainter::getLingualOcclusal(const ToothPaintHint& tooth)
     drawMobilityLabel(tooth, pixmap);
     drawFractureLabel(tooth, pixmap);
 
-    if (!tooth.isHyperdontic) {
 
-        drawToothNumberLabel(tooth, pixmap);
-    }
+    drawToothNumberLabel(tooth, pixmap);
+
 
 
     QPainter painter(&pixmap);

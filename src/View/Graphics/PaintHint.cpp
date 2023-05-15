@@ -28,7 +28,7 @@ ToothPaintHint::ToothPaintHint(const Tooth& tooth, const std::string& notes)
 {
     idx = tooth.index;
     temp = tooth.temporary.exists();
-    num = ToothUtils::getToothNumber(tooth.index, temp);
+    num = ToothUtils::getNhifNumber(tooth.index, temp, false);
 
     //the tooth hint:
     if (tooth.noData()) {
@@ -165,6 +165,7 @@ ToothPaintHint::ToothPaintHint(const Tooth& tooth, const std::string& notes)
     {
         dsn = std::make_unique<ToothPaintHint>(tooth.dsn.tooth());
         dsn->isHyperdontic = true;
+        dsn->num = ToothUtils::getNhifNumber(dsn->idx, dsn->temp, true);
     }
 
     toolTip = "<b>" + tooth.toothName() + "</b><br>";

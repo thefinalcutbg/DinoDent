@@ -1,7 +1,6 @@
 ﻿#include "ContextMenu.h"
 #include "Presenter/ListPresenter.h"
 #include "DsnMenu.h"
-#include <QDebug>
 #include "View/Theme.h"
 
 ContextMenu::ContextMenu()

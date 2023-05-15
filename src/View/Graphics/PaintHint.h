@@ -22,12 +22,13 @@ struct ToothPaintHint
 	ToothPaintHint() {};
 	ToothPaintHint(const Tooth& tooth, const std::string& note = std::string{});
 
-	bool isHyperdontic{ false };
+
 	std::unique_ptr<ToothPaintHint> dsn;
 
 	int idx{ -1 };
 	bool temp{ false };
-	int num{ -1 };
+	bool isHyperdontic{ false };
+	std::string num{ -1 };
 
 	ToothTextureHint tooth{ 0 };
 	std::array<SurfaceHint, 6> surfaces;

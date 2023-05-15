@@ -30,14 +30,6 @@ void LoginPresenter::practiceListPressed()
 void LoginPresenter::setView(ILoginView* view)
 {
     this->view = view;
-
- //   std::vector<std::string> practiceNames;
-
-   // for (auto& p : practiceList)
-   //     practiceNames.push_back(p.practice_name);
-
- //   view->setPracticeNames(practiceNames);
-       
 }
 
 

@@ -11,7 +11,7 @@ ToothContainer DbPerio::getStatus(long long patientRowId, const Date& date)
     long long amblistId{0};
     std::string LPK;
 
-    std::string query = "SELECT amblist.status, amblist.rowid, amblist.LPK FROM amblist WHERE amblist.patient_rowid = ? AND amblist.date <= ? ORDER BY amblist.date DESC LIMIT 1";
+    std::string query = "SELECT amblist.status, amblist.rowid, amblist.LPK FROM amblist WHERE amblist.patient_rowid = ? AND strftime('%Y %m %d',amblist.date) <= ? ORDER BY amblist.date DESC LIMIT 1";
 
     Db db(query);
 

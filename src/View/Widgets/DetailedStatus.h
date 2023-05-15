@@ -30,7 +30,7 @@ class DetailedStatus final: public QDialog, public IDetailedStatusView
 public:
 	DetailedStatus(DetailedStatusPresenter* presenter);
 
-	void setCheckModel(const CheckModel& checkModel) override;
+	void setCheckModel(const CheckModel& checkModel, const CheckModel& dsn) override;
 	void disableItem(int index, bool disabled) override;
 	void paintTooth(const ToothPaintHint& hint) override;
 	void setNotes(const std::string& notes) override;

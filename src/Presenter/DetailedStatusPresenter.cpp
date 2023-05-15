@@ -10,6 +10,7 @@ DetailedStatusPresenter::DetailedStatusPresenter(const Tooth& tooth, long long p
 	: m_tooth(tooth), m_procedures(toothProcedures), m_checkModel(tooth), m_dsnCheckModel(tooth.dsn.tooth()), patientRowId(patientRowId), view(nullptr)
 {
 	m_tooth.dsn.init(m_tooth.index);
+	m_tooth.dsn = tooth.dsn;
 	m_notes = DbNotes::getNote(patientRowId, tooth.index);
 }
 
@@ -25,7 +26,6 @@ void DetailedStatusPresenter::setView(IDetailedStatusView* view)
 
 	view->setCheckModel(m_checkModel, m_dsnCheckModel);
 	view->paintTooth(ToothPaintHint(m_tooth));
-
 	view->setNotes(m_notes);
 }
 

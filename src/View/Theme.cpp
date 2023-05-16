@@ -71,7 +71,7 @@ QString Theme::getFancyStylesheet()
 			"border: 1px solid; "
 			"border-color: " + Theme::colorToString(Theme::buttonFrame) + "; "
 			"border-radius: 10px; "
-			"padding: 3px 0px 3px 10px;"
+			"padding: 3px 0px 3px 3px;"
 			"}"
 
 			"QComboBox::hover{"

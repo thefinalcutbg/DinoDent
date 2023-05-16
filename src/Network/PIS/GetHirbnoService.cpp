@@ -23,6 +23,11 @@ void GetHirbnoService::sendRequest(int personType, const std::string& id, std::f
 
 void GetHirbnoService::parseReply(const std::string& reply)
 {
+	if (reply.empty()) {
+		m_callback = nullptr;
+		return;
+	}
+
 	TiXmlDocument doc;
 
 	doc.Parse(reply.data(), 0, TIXML_ENCODING_UTF8);

@@ -22,8 +22,7 @@ private:
 	QSortFilterProxyModel idFilter;
 	QSortFilterProxyModel nameFilter;
 	QSortFilterProxyModel phoneFilter;
-	QMenu* main_menu;
-	QMenu* sub_menu;
+	QMenu* main_menu{ nullptr };
 	AmbListTableModel amb_model;
 	PatientTableModel patient_model;
 	PerioTableModel perio_model;

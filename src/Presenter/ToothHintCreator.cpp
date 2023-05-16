@@ -29,7 +29,7 @@ ToothPaintHint ToothHintCreator::getToothHint(const Tooth& tooth, const std::str
 
     hint.idx = tooth.index;
     hint.temp = tooth.temporary.exists();
-    hint.num = ToothUtils::getToothNumber(tooth.index, hint.temp);
+    hint.num = ToothUtils::getNhifNumber(tooth.index, hint.temp, !tooth.dsn.toothNotNull());
 
     //the tooth hint:
     if (tooth.noData()) {

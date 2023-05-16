@@ -28,7 +28,8 @@ void TileButton::paintEvent(QPaintEvent* e)
 	//if(hover) color.setRgb(242, 242, 242);
 
 	QPainter painter(this);
-	painter.setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
+	//painter.setRenderHint(QPainter::Antialiasing);
+	painter.setRenderHint(QPainter::SmoothPixmapTransform);
 
 	//getting the half-rounded button path:
 
@@ -159,7 +160,11 @@ void PatientTile::paintInfo(QPainter* painter)
 	painter->setPen(hover && !clicked ? QPen(Theme::fontRedClicked) : QPen(QColor(Theme::fontRed)));
 	painter->drawText(nraButton->x() + nraSize + 5, 27, name);
 
-	if (zodiac) painter->drawPixmap(width()-30, height()-30, 25, 25, *zodiac);
+	if(zodiac) painter->drawPixmap(width()-30, height()-30, 25, 25, *zodiac);
+
+	static QPixmap bdayPx{ ":/icons/icon_bday.png" };
+
+	if (birthday) painter->drawPixmap(170, 86, 15, 15, bdayPx);
 	
 }
 
@@ -226,6 +231,8 @@ void PatientTile::setData(const Patient& patient, int age)
 		nraButton->setToolTip("Проверка на здравноосигурителен статус");
 
 	}
+
+	birthday = patient.birth.isSameDayInTheYear();
 
 	zodiac = Zodiac::getPixmap(patient.birth.day, patient.birth.month);
 

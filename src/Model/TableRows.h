@@ -9,7 +9,7 @@ struct RowInstance
 	const TabType type;
 	long long rowID{0};
 	long long patientRowId{0};
-
+	bool bday{ false };
 	RowInstance(TabType t) : type(t) {}
 };
 

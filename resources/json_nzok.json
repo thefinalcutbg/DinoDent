@@ -28,10 +28,10 @@
 		"packages":
 		[
 			{"codes":[101], "adult":1, "minor":1, "pregnant":2},
-			{"codes":[102], "adult":1, "minor":1},
+			{"codes":[103], "adult":1, "minor":1},
 			{"codes":[301, 508, 509, 332, 333], "adult":3, "minor":4},
-			{"codes":[332, 333], "minor":2, "adult":2},
-			{"codes":[502, 510, 544], "adult":32, "minor":52}
+			{"codes":[333], "minor":2, "adult":2},
+			{"codes":[502, 510, 544], "adult":64, "minor":84}
 
 		],
 		

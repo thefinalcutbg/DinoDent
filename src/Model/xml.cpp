@@ -133,7 +133,7 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
             if (status.empty()) continue;
 
             TiXmlElement* tooth = new TiXmlElement("tooth");
-            tooth->SetAttribute("toothCode", ToothUtils::getNomenclature(t));
+            tooth->SetAttribute("toothCode", ToothUtils::getNhifNumber(t.index, t.temporary, false));
 
             TiXmlElement* toothStatuses = new TiXmlElement("toothStatuses");
 
@@ -147,7 +147,37 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
             tooth->LinkEndChild(toothStatuses);
 
             teeth->LinkEndChild(tooth);
+
         }
+
+        //parsing supernumerals:
+
+        for (auto& t : list.teeth)
+        {
+            if (!t.dsn) continue;
+            if (!t.dsn.toothNotNull()) continue;
+
+            auto status = t.dsn.tooth().getSimpleStatuses();
+            if (status.empty()) continue;
+
+            TiXmlElement* tooth = new TiXmlElement("tooth");
+            tooth->SetAttribute("toothCode", ToothUtils::getNhifNumber(t.index, t.temporary, true));
+
+            TiXmlElement* toothStatuses = new TiXmlElement("toothStatuses");
+
+            for (auto& s : status)
+            {
+                TiXmlElement* toothStatus = new TiXmlElement("toothStatus");
+                toothStatus->SetAttribute("toothStatusCode", s);
+                toothStatuses->LinkEndChild(toothStatus);
+            }
+
+            tooth->LinkEndChild(toothStatuses);
+
+            teeth->LinkEndChild(tooth);
+
+        }
+ 
 
         //parsing procedures
 

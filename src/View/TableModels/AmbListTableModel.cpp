@@ -23,7 +23,8 @@ void AmbListTableModel::setRows(std::vector<AmbRow> rows)
                 QString::fromStdString(r.date.toBgStandard()),
                 QString::fromStdString(r.patientId),
                 QString::fromStdString(r.patientName),
-                QString::fromStdString(r.patientPhone)
+                QString::fromStdString(r.patientPhone),
+                r.bday
             }
         );
     }
@@ -108,10 +109,11 @@ QVariant AmbListTableModel::data(const QModelIndex& index, int role) const
         switch (column)
         {
         case 1:
-            if (rows[row].nhif) return QIcon(":/icons/icon_nhif.png");
-            break;
+            return rows[row].nhif ? QIcon(":/icons/icon_nhif.png") : QVariant();
         case 2:
-            if (rows[row].his) return QIcon(":/icons/icon_his.png");
+            return rows[row].his ? QIcon(":/icons/icon_his.png") : QVariant();
+        case 5:
+            return rows[row].bday ? QIcon(":/icons/icon_bday.png") : QVariant();
         default:
             return QVariant();
         }

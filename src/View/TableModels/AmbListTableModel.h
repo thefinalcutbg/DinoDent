@@ -14,6 +14,7 @@ struct QAmbListRow
 	QString patientID;
 	QString patientName;
 	QString patientPhone;
+	bool bday;
 
 };
 

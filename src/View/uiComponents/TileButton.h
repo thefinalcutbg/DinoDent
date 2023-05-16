@@ -58,6 +58,7 @@ private:
     QString address;
     QString phone;
     QPixmap* zodiac{ nullptr };
+    bool birthday{ false };
 
     static constexpr int nraSize = 30;
 

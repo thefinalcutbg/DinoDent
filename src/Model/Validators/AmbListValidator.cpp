@@ -78,7 +78,7 @@ bool AmbListValidator::ambListIsValid()
                 return false;
         }
 
-        if (p.tooth_idx.index != -1) //out of range guard
+        if (p.tooth_idx.isValid()) //out of range guard
         {
             //checking temporary/permanent tooth requirement of the procedure
             if (!validatePermaTemp(teeth[p.tooth_idx.index], p)) return false;
@@ -305,6 +305,7 @@ bool AmbListValidator::noDuplicates()
 
 bool AmbListValidator::validateTypeToStatus(const Tooth& t, const Procedure& p)
 {
+    if (p.tooth_idx.supernumeral) return true;
 
     std::string toothNum = ToothUtils::getNomenclature(t);
     std::string code = std::to_string(p.code.oldCode());
@@ -397,6 +398,7 @@ bool AmbListValidator::validateTypeToStatus(const Tooth& t, const Procedure& p)
 
 bool AmbListValidator::validatePermaTemp(const Tooth& tooth, const Procedure& p)
 {
+    if (p.tooth_idx.supernumeral) return true;
 
     bool temp = tooth.temporary.exists();
 

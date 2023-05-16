@@ -1,4 +1,5 @@
 ﻿#include "PerioTableModel.h"
+#include <QIcon>
 
 PerioTableModel::PerioTableModel(QObject* parent)
 	: QAbstractTableModel(parent)
@@ -21,6 +22,7 @@ void PerioTableModel::setRows(std::vector<PerioRow> rows)
                 QString::fromStdString(r.patientId),
                 QString::fromStdString(r.patientName),
                 QString::fromStdString(r.patientPhone),
+                r.bday
             });
     }
 
@@ -50,6 +52,7 @@ bool PerioTableModel::removeRows(int row, int count, const QModelIndex& parent)
 QVariant PerioTableModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (role == Qt::DisplayRole && orientation == Qt::Horizontal)
+
             switch (section)
             {
                 case 0: return "ID";
@@ -96,7 +99,14 @@ QVariant PerioTableModel::data(const QModelIndex& index, int role) const
 
     switch (role)
     {
-
+    case Qt::DecorationRole:
+        switch (column)
+        {
+        case 3:
+            return rows[row].bday ? QIcon(":/icons/icon_bday.png") : QVariant();
+        default:
+            return QVariant();
+        }
     case Qt::DisplayRole:
         switch (column){
             case 0: return index.row();

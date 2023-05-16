@@ -44,7 +44,8 @@ public:
     Date getMaxDateOfMonth() const;
 
     bool isTheSameMonthAs(const Date& date) const;
-
+    bool isToday() const;
+    bool isSameDayInTheYear(const Date& current = Date::currentDate()) const;
     int getAge(const Date& currentDate = Date::currentDate());
 
     bool operator < (const Date& other) const;

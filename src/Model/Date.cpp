@@ -219,6 +219,16 @@ bool Date::operator!=(const Date& other) const
 Date Date::getMaxDateOfMonth() const { return Date{ getMaxDayOfMonth(), month, year }; }
 bool Date::isTheSameMonthAs(const Date& date) const { return this->year == date.year && this->month == date.month; }
 
+bool Date::isToday() const
+{
+    return *this == Date::currentDate();
+}
+
+bool Date::isSameDayInTheYear(const Date& current) const
+{
+    return current.month == month && current.day == day;
+}
+
 int Date::getAge(const Date& currentDate)
 {
     int age = currentDate.year - year;

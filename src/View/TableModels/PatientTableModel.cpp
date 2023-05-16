@@ -1,5 +1,5 @@
 ﻿#include "PatientTableModel.h"
-
+#include <QIcon>
 PatientTableModel::PatientTableModel(QObject* parent)
 	: QAbstractTableModel(parent)
 {
@@ -19,7 +19,8 @@ void PatientTableModel::setRows(const std::vector<PatientRow>& rows)
             QPatientRow{
                 QString::fromStdString(r.patientId),
                 QString::fromStdString(r.name),
-                QString::fromStdString(r.phone)
+                QString::fromStdString(r.phone),
+                r.bday
             }
         );
     }
@@ -92,6 +93,14 @@ QVariant PatientTableModel::data(const QModelIndex& index, int role) const
 
     switch (role)
     {
+    case Qt::DecorationRole:
+    switch (column)
+    {
+    case 2:
+        return rows[row].bday ? QIcon(":/icons/icon_bday.png") : QVariant();
+    default:
+        return QVariant();
+    }
 
     case Qt::DisplayRole:
         switch (column)

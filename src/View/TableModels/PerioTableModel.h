@@ -11,6 +11,7 @@ struct QPerioListRow
 	QString patientID;
 	QString patientName;
 	QString patientPhone;
+	bool bday;
 };
 
 class PerioTableModel : public QAbstractTableModel

@@ -18,6 +18,7 @@ class PrescriptionTableModel : public QAbstractTableModel
 		QString patientID;
 		QString patientName;
 		QString patientPhone;
+		bool bday;
 
 	};
 

@@ -8,7 +8,7 @@ std::vector<PatientRow> DbListOpener::getPatientRows()
     rows.reserve(50);
 
     std::string query =
-        "SELECT rowid, id, fname, mname, lname , phone FROM patient ORDER BY id ASC";
+        "SELECT rowid, id, fname, mname, lname , phone,  (strftime('%m-%d', patient.birth) = strftime('%m-%d',date('now', 'localtime'))) AS bday FROM patient ORDER BY bday DESC, id ASC";
 
     for (Db db(query);db.hasRows();)
     {
@@ -24,6 +24,8 @@ std::vector<PatientRow> DbListOpener::getPatientRows()
                           db.asString(4);
 
        rows.back().phone = db.asString(5);
+
+       rows.back().bday = db.asBool(6);
     }
 
     return rows;
@@ -42,7 +44,8 @@ std::vector<AmbRow> DbListOpener::getAmbRows(const Date& from, const Date& to)
         "amblist.nhif_spec IS NOT NULL AND amblist.nhif_spec != '', "
         "amblist.nrn, amblist.num, " 
         "amblist.date, "
-        "patient.rowid, patient.id, patient.fname, patient.mname, patient.lname, patient.phone "
+        "patient.rowid, patient.id, patient.fname, patient.mname, patient.lname, patient.phone, "
+        "(strftime('%m-%d', patient.birth) = strftime('%m-%d',date('now', 'localtime'))) AS bday "
 
         "FROM amblist JOIN patient ON amblist.patient_rowid = patient.rowid "
         "WHERE strftime('%Y-%m-%d', amblist.date) BETWEEN '" + from.to8601() + "' AND '" + to.to8601() + "' "
@@ -72,6 +75,8 @@ std::vector<AmbRow> DbListOpener::getAmbRows(const Date& from, const Date& to)
                           db.asString(10);
 
         row.patientPhone = db.asString(11);
+
+        row.bday = db.asBool(12);
     }
         
 
@@ -84,8 +89,10 @@ std::vector<PerioRow> DbListOpener::getPerioRows(const Date& from, const Date& t
     rows.reserve(50);
 
     std::string query =
-        "SELECT periostatus.rowid, periostatus.date, patient.rowid, patient.id, patient.fname, patient.mname, patient.lname, patient.phone "
+        "SELECT periostatus.rowid, periostatus.date, patient.rowid, patient.id, patient.fname, patient.mname, patient.lname, patient.phone, "
+        "(strftime('%m-%d', patient.birth) = strftime('%m-%d',date('now', 'localtime'))) AS bday "
         "FROM periostatus INNER JOIN patient ON periostatus.patient_rowid = patient.rowid "
+
         "WHERE "
         "periostatus.date BETWEEN '" + from.to8601() + "' AND '" + to.to8601() + "' "
         "AND lpk = '" + User::doctor().LPK + "' "
@@ -105,7 +112,7 @@ std::vector<PerioRow> DbListOpener::getPerioRows(const Date& from, const Date& t
         row.patientId = db.asString(3);
         row.patientName = db.asString(4)+ " " + db.asString(5) + " " + db.asString(6);
         row.patientPhone = db.asString(7);
-
+        row.bday = db.asBool(8);
     }
 
     return rows;
@@ -178,7 +185,8 @@ std::vector<PrescriptionRow> DbListOpener::getPrescriptionRows(const Date& from,
         "patient.fname, "
         "patient.mname, "
         "patient.lname, "
-        "patient.phone "
+        "patient.phone, "
+        "(strftime('%m-%d', patient.birth) = strftime('%m-%d',date('now', 'localtime'))) AS bday "
         "FROM prescription INNER JOIN patient ON prescription.patient_rowid = patient.rowid "
         "WHERE "
         "prescription.date BETWEEN '" + from.to8601() + "' AND '" + to.to8601() + "' "
@@ -201,6 +209,7 @@ std::vector<PrescriptionRow> DbListOpener::getPrescriptionRows(const Date& from,
        p.patientId = db.asString(4);
        p.patientName = db.asString(5) + " " + db.asString(6) + " " + db.asString(7);
        p.patientPhone = db.asString(8);
+       p.bday = db.asBool(9);
     }
 
     return rows;

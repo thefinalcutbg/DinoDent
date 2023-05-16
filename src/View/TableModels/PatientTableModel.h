@@ -10,6 +10,7 @@ struct QPatientRow
 	QString patientID;
 	QString patientName;
 	QString patientPhone;
+	bool bday;
 };
 
 class PatientTableModel : public QAbstractTableModel

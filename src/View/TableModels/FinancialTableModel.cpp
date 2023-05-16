@@ -107,9 +107,7 @@ QVariant FinancialTableModel::data(const QModelIndex& index, int role) const
         switch (column)
         {
         case 1:
-            if (rows[row].nhif)
-                return QIcon(":/icons/icon_nhif.png");
-            break;
+            return rows[row].nhif ? QIcon(":/icons/icon_nhif.png") : QVariant();
         default:
             return QVariant();
         }

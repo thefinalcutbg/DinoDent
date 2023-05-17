@@ -405,8 +405,10 @@ void EDental::GetStatus::parseReply(const std::string& reply)
 
 			auto& tooth = dsn ? teeth[index].dsn.tooth() : teeth[index];
 
-			lambdaMap[code](index, tooth);
-
+			if (lambdaMap.count(code))
+			{
+				lambdaMap[code](index, tooth);
+			}
 		}
 
 	}

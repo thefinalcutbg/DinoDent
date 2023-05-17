@@ -2,7 +2,7 @@
 #include <QPainter>
 #include <QEvent>
 #include "Model/Dental/ToothUtils.h"
-#include <QDebug>
+#include "View/Theme.h"
 
 PerioSpinBox::PerioSpinBox(QWidget*parent)
 	: QSpinBox(parent)
@@ -118,8 +118,8 @@ void PerioSpinBox::colorCodeChange()
 
 		setStyleSheet(
 			"font-weight: normal; "
-			"color: black;"
-			"selection-color: black;"
+			"color: "+ Theme::colorToString(Theme::fontTurquoise) + ";"
+			"selection-color: " + Theme::colorToString(Theme::fontTurquoise) + ";"
 			"selection-background-color: white;"
 			"background-color: white;"
 		);

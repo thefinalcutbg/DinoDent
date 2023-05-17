@@ -3,5 +3,6 @@
 
 std::string ToothIndex::getNhifNumenclature() const
 {
+    if (!isValid()) return "";
     return ToothUtils::getNhifNumber(index, temp, supernumeral);
 }

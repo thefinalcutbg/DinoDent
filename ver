@@ -1,6 +1,6 @@
 {
 	"win64": {
-		"ver": "1.2.0",
+		"ver": "1.1.0",
 		"dl": "https://github.com/thefinalcutbg/DinoDent/releases/download/v1.2.0/DinoDentSetup.exe",
 		"changeLog": [
 			"Добавена възможност за въвеждане на статуси на свръхброен зъб",

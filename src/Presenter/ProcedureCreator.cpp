@@ -264,7 +264,7 @@ void ProcedureCreator::setView(IProcedureInput* view)
 	diag_map[ProcedureType::bridge] = 5;
 	diag_map[ProcedureType::fibersplint] = 7;
 	diag_map[ProcedureType::denture] = 6;
-	diag_map[ProcedureType::deputatio] = 10;
+	diag_map[ProcedureType::depuratio] = 10;
 
 	auto [begin, end] = getBridgeRange(m_selectedTeeth);
 
@@ -334,7 +334,7 @@ void ProcedureCreator::setProcedureCode(const ProcedureCode& m, bool nhif)
 			view->rangeWidget()->setInputValidator(nullptr);
 			break;
 			*/
-		case ProcedureType::deputatio:
+		case ProcedureType::depuratio:
 		case ProcedureType::general:
 			view->setLayout(IProcedureInput::General);
 			view->surfaceSelector()->setInputValidator(nullptr);
@@ -400,7 +400,7 @@ std::vector<Procedure> ProcedureCreator::getProcedures()
 
 	switch (procedure.code.type())
 	{
-	case ProcedureType::deputatio:
+	case ProcedureType::depuratio:
 	case ProcedureType::general:
 		result.push_back(procedure);
 		break;

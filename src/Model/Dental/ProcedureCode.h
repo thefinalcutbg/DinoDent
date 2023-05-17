@@ -17,7 +17,7 @@ enum class ProcedureType
     denture = 9,
     removePost = 10,
     removeCrown = 11,
-    deputatio = 12,
+    depuratio = 12,
     anesthesia = 13 
 };
 
@@ -62,5 +62,7 @@ public:
     const std::string& code() const { return m_code; }
     int hisType() const;
     ProcedureType type() const;
+
+    static decltype(s_mapping) getMap() { return s_mapping; }
 
 };

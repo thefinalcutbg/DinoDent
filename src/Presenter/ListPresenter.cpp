@@ -127,7 +127,7 @@ void ListPresenter::makeEdited()
 
     if (m_ambList.nrn.size()) {
         m_ambList.his_updated = false;
-        setHisButtonToView();
+        if(isCurrent()) setHisButtonToView();
     }
 }
 
@@ -864,7 +864,7 @@ void ListPresenter::removeReferral(int index)
     if (r.isSentToHIS()) {
 
         eReferralCancelService.sendRequest(r.nrn,
-            [=](bool success) {
+            [&](bool success) {
 
                 if (!success) return;
 
@@ -926,7 +926,7 @@ void ListPresenter::hisButtonPressed()
         eDentalOpenService.sendRequest(
             m_ambList,
             *patient,
-            [this](auto& nrn, auto& procedureIndex) {
+            [&](auto& nrn, auto& procedureIndex) {
                 if (nrn.empty()) {
                     return;
                 }
@@ -965,7 +965,7 @@ void ListPresenter::hisButtonPressed()
         if (!isValid()) return;
 
         eDentalAugmentService.sendRequest(m_ambList, *patient,
-            [this](auto& procedureIdx)
+            [&](auto& procedureIdx)
             {
                 m_ambList.his_updated = true;
 
@@ -1001,7 +1001,7 @@ void ListPresenter::hisButtonPressed()
 
     if (m_ambList.nrn.size()) {
         eDentalCancelService.sendRequest(m_ambList.nrn,
-            [this](bool success) {
+            [&](bool success) {
 
                 if (!success) return;
 
@@ -1036,11 +1036,12 @@ void ListPresenter::getStatusPressed()
 {
     eDentalGetStatus.sendRequest(
         *patient.get(),
-        [this](const ToothContainer& teeth) {
+        [&](const ToothContainer& teeth) {
 
             if (!ModalDialogBuilder::applyToStatusDialog(teeth)) return;
 
             m_ambList.teeth.copyFromOther(teeth);
+  
             makeEdited();
             if (isCurrent()) {
                 for (int i = 0; i < 32; i++)

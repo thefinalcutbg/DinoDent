@@ -147,7 +147,7 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 			}
 			break;
 
-			case ProcedureType::deputatio:
+			case ProcedureType::depuratio:
 			{
 				for (auto& t : teeth)
 				{
@@ -222,7 +222,7 @@ bool Procedure::isToothSpecific() const
 		type != ProcedureType::bridge &&
 		type != ProcedureType::fibersplint &&
 		type != ProcedureType::denture &&
-		type != ProcedureType::deputatio
+		type != ProcedureType::depuratio
 		// && type != ProcedureType::removebridgeOrSplint
 	;
 }

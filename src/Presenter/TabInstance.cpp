@@ -59,6 +59,6 @@ void TabInstance::setCurrent()
 void TabInstance::prepareSwitch()
 {
 	m_scrollPos = _tabView->getScrollPos();
-	bool is_current = false;
+	is_current = false;
 	prepareDerivedForSwitch();
 }

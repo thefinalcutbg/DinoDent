@@ -9,6 +9,7 @@
 #include "View/Widgets/SettingsDialog.h"
 #include <QStatusBar>
 #include "View/Widgets/GlobalWidgets.h"
+#include "View/Widgets/AboutDialog.h"
 
 QColor blue(133, 207, 234);
 
@@ -26,6 +27,7 @@ DinoDent::DinoDent(QWidget* parent)
     ui.pisButton->setIcon(QIcon(":/icons/icon_nhif.png"));
     ui.settingsButton->setIcon(QIcon(":/icons/icon_settings.png"));
     ui.statisticButton->setIcon(QIcon(":/icons/icon_statistic.png"));
+    ui.aboutButton->setIcon(QIcon(":/icons/icon_question.png"));
 
     GlobalWidgets::statusBar = statusBar();
 
@@ -52,6 +54,7 @@ DinoDent::DinoDent(QWidget* parent)
     connect(settingsAction, &QAction::triggered, [&] {presenter.userSettingsPressed();});
     connect(ui.pisButton, &QPushButton::clicked, [&] { presenter.pisDialog();});
     connect(ui.settingsButton, &QPushButton::clicked, [&] { presenter.settingsPressed();});
+    connect(ui.aboutButton, &QPushButton::clicked, [&] { AboutDialog d; d.exec(); });
 
     connect(exitAction, &QAction::triggered, [&] { presenter.logOut(); });
 

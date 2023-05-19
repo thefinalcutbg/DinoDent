@@ -445,6 +445,7 @@
     <ClCompile Include="src\View\uiComponents\TileButton.cpp" />
     <ClCompile Include="src\View\uiComponents\ToothButton.cpp" />
     <ClCompile Include="src\View\uiComponents\UserButton.cpp" />
+    <ClCompile Include="src\View\Widgets\AboutDialog.cpp" />
     <ClCompile Include="src\View\Widgets\ButtonDialog.cpp" />
     <ClCompile Include="src\View\Widgets\CurrentStatusDialog.cpp" />
     <ClCompile Include="src\View\Widgets\MedicalStatusDialog.cpp" />
@@ -752,6 +753,7 @@
     <QtMoc Include="src\View\Widgets\ButtonDialog.h" />
     <QtMoc Include="src\View\Widgets\MedicalStatusDialog.h" />
     <QtMoc Include="src\View\Widgets\CurrentStatusDialog.h" />
+    <QtMoc Include="src\View\Widgets\AboutDialog.h" />
     <ClInclude Include="src\View\Widgets\GlobalWidgets.h" />
     <ClInclude Include="src\View\Widgets\ReportDialogResult.h" />
     <QtMoc Include="src\View\Widgets\ReportFilesView.h" />
@@ -843,6 +845,7 @@
     <QtUic Include="src\View\SubWidgets\SurfaceSelector.ui" />
     <QtUic Include="src\View\SubWidgets\TabTitle.ui" />
     <QtUic Include="src\View\SubWidgets\VitaWidget.ui" />
+    <QtUic Include="src\View\Widgets\AboutDialog.ui" />
     <QtUic Include="src\View\Widgets\ButtonDialog.ui" />
     <QtUic Include="src\View\Widgets\CurrentStatusDialog.ui" />
     <QtUic Include="src\View\Widgets\MedicalStatusDialog.ui" />

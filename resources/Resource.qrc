@@ -34,6 +34,7 @@
         <file>icon_nhif.png</file>
         <file>icon_db.png</file>
         <file>icon_bday.png</file>
+        <file>icon_question.png</file>
     </qresource>
     <qresource prefix="/tooth">
         <file>tooth_approximal.png</file>

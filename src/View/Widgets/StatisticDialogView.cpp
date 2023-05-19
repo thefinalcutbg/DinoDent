@@ -32,6 +32,8 @@ StatisticDialogView::StatisticDialogView(StatisticDialogPresenter& p, QWidget *p
 
 	presenter.setView(this);
 
+	ui.procedureCombo->setCurrentIndex(2);
+
 	connect(ui.yearSpinBox, &QSpinBox::valueChanged, [&] { presenter.parameterChanged(); });
 	connect(ui.ageCombo, QtComboIndexChanged, [&]{ presenter.parameterChanged(); });
 	connect(ui.toothCombo, QtComboIndexChanged, [&] { presenter.parameterChanged(); });

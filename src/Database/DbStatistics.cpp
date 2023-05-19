@@ -16,20 +16,29 @@ namespace DbStatPrv {
     {
         switch (filter)
         {
-            case DentalStatistic::None: return {};
-            case DentalStatistic::Minor: return
-                "AND strftime('%Y/%m/%d', patient.birth, '18 Years') > strftime('%Y/%m/%d', procedure.date) ";
-            case DentalStatistic::Adult: return
-                "AND strftime('%Y/%m/%d', patient.birth, '18 Years') < strftime('%Y/%m/%d', procedure.date) ";
+            case DentalStatistic::AgeFilter::None: 
+                return {};
+            case DentalStatistic::AgeFilter::Minor: 
+                return "AND strftime('%Y/%m/%d', patient.birth, '18 Years') > strftime('%Y/%m/%d', procedure.date) ";
+            case DentalStatistic::AgeFilter::Adult: 
+                return "AND strftime('%Y/%m/%d', patient.birth, '18 Years') < strftime('%Y/%m/%d', procedure.date) ";
             default: return{};
         }
     }
 
-    std::string nhifToClause(bool nhifOnly) {
+    std::string nhifToClause(DentalStatistic::FinancingFilter filter) {
 
-        if (!nhifOnly) return {};
+        switch (filter)
+        {
+            case DentalStatistic::FinancingFilter::All: 
+                return {};
+            case DentalStatistic::FinancingFilter::Nhif: 
+                return "AND procedure.financing_source=" + std::to_string(static_cast<int>(FinancingSource::NHIF)) + " ";
+            case DentalStatistic::FinancingFilter::Cash:
+                return "AND procedure.financing_source!=" + std::to_string(static_cast<int>(FinancingSource::NHIF)) + " ";
+            default: return {};
+        }
 
-        return "AND procedure.financing_source=" + std::to_string(static_cast<int>(FinancingSource::NHIF)) + " ";
     }
 
     std::string includeRowValues(const char* tableColumn, const std::vector<std::string>& tableValue)
@@ -49,15 +58,33 @@ namespace DbStatPrv {
         return result;
     }
 
+    std::string includeRowValues(const char* tableColumn, const std::vector<int>& tableValue)
+    {
+        if (tableValue.empty()) return "";
+
+        std::string result = "AND (";
+
+        for (int i = 0; i < tableValue.size(); i++)
+        {
+            result += tableColumn;
+            result += "='" + std::to_string(tableValue[i]) + "' ";
+
+            i != tableValue.size() - 1 ? result += "OR " : result += ") ";
+        }
+
+        return result;
+    }
+
     std::string toothFilterToClause(DentalStatistic::ToothFilter filter)
     {
         switch (filter)
         {
-            case DentalStatistic::ToothFilter::All: return {};
+            case DentalStatistic::ToothFilter::All: 
+                return {};
             case DentalStatistic::ToothFilter::Temporary: 
-                return "AND procedure.deciduous = 1 ";
+                return "AND procedure.temporary = 1 ";
             case DentalStatistic::ToothFilter::Permanent: return 
-                "AND procedure.deciduous = 0 ";
+                "AND procedure.temporary = 0 ";
             default: return {};
         }
     }
@@ -65,73 +92,28 @@ namespace DbStatPrv {
 }
 
 
-const std::vector<std::string> DbStat::getProcedureNames(int procedureType)
-{
-    std::vector<std::string> result;
-
-    Db db(
-        "SELECT DISTINCT procedure.name "
-        "FROM procedure "
-        "WHERE procedure.type=? "
-        "ORDER BY procedure.name ASC"
-    );
-
-    db.bind(1, procedureType);
-
-    while (db.hasRows())
-    {
-        result.push_back(db.asString(0));
-    }
-
-    return result;
-}
-
-const std::vector<std::string> DbStat::getDiagnosis(int procedureType)
-{
-    std::vector<std::string> result;
-
-    Db db(
-        "SELECT DISTINCT procedure.diagnosis "
-        "FROM procedure "
-        "WHERE procedure.type = ? "
-        "ORDER BY procedure.diagnosis ASC"
-    );
-
-    db.bind(1, procedureType);
-
-    while (db.hasRows())
-    {
-        result.push_back(db.asString(0));
-    }
-
-    return result;
-}
-
 #include "View/ModalDialogBuilder.h"
 
-int DbStat::count(const DentalStatistic& stat, int year)
+int DbStat::count(const DentalStatistic& stat)
 {
     Db db;
 
-    if (stat.procedureType == 0 || 
-        stat.procedureType == 7 ||
-        stat.procedureType == 8
-    )
+    if (stat.nonTooth_specific)
     {
         std::string query =
             "SELECT COUNT(*) FROM procedure "
             "LEFT JOIN amblist ON procedure.amblist_rowid = amblist.rowid "
             "LEFT JOIN patient ON amblist.patient_rowid = patient.rowid "
-            "WHERE procedure.type = " + std::to_string(stat.procedureType) + " "
-            "AND amblist.lpk = '" + User::doctor().LPK + "' "
+            "WHERE amblist.lpk = '" + User::doctor().LPK + "' "
             "AND amblist.rzi = '" + User::practice().rziCode + "' "
-            "AND strftime('%Y', amblist.date)='" + std::to_string(year) + "' " 
+            "AND strftime('%Y', amblist.date)='" + std::to_string(stat.year) + "' " 
             ;
        
         query += DbStatPrv::ageToClause(stat.age);
-        query += DbStatPrv::nhifToClause(stat.nhifOnly);
+        query += DbStatPrv::nhifToClause(stat.financing);
+
         query += DbStatPrv::includeRowValues("procedure.diagnosis", stat.diagnosisFilter);
-        query += DbStatPrv::includeRowValues("procedure.name", stat.procedureNameFilter);
+        query += DbStatPrv::includeRowValues("procedure.code", stat.procedureCodeFilter);
 
         db.newStatement(query);
 
@@ -141,21 +123,20 @@ int DbStat::count(const DentalStatistic& stat, int year)
     }
 
     std::string query = 
-        "SELECT COUNT(tooth) FROM("
-            "SELECT DISTINCT procedure.tooth, amblist.patient_rowid "
+        "SELECT COUNT(at_tooth_index) FROM("
+            "SELECT DISTINCT procedure.at_tooth_index, amblist.patient_rowid "
             "FROM procedure LEFT JOIN amblist on procedure.amblist_rowid = amblist.rowid  "
             "LEFT JOIN patient on amblist.patient_rowid =  patient.rowid "
-            "WHERE procedure.type = " + std::to_string(stat.procedureType) + " " 
-            "AND amblist.lpk = '" + User::doctor().LPK + "' "
+            "WHERE amblist.lpk = '" + User::doctor().LPK + "' "
             "AND amblist.rzi = '" + User::practice().rziCode + "' "
-            "AND strftime('%Y', amblist.date)='" + std::to_string(year) + "' "
+            "AND strftime('%Y', amblist.date)='" + std::to_string(stat.year) + "' "
     ;     
 
     query += DbStatPrv::ageToClause(stat.age);
     query += DbStatPrv::toothFilterToClause(stat.tooth);
-    query += DbStatPrv::nhifToClause(stat.nhifOnly);
+    query += DbStatPrv::nhifToClause(stat.financing);
     query += DbStatPrv::includeRowValues("procedure.diagnosis", stat.diagnosisFilter);
-    query += DbStatPrv::includeRowValues("procedure.name", stat.procedureNameFilter);
+    query += DbStatPrv::includeRowValues("procedure.code", stat.procedureCodeFilter);
 
     query += ")";
 

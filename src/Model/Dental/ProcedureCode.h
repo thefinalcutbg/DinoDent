@@ -5,8 +5,8 @@
 
 enum class ProcedureType
 {
-    none = 0,
-    general = 1,
+    general = 0,
+    full_exam = 1,
     obturation = 2,
     endo = 3,
     extraction = 4,
@@ -18,7 +18,7 @@ enum class ProcedureType
     removePost = 10,
     removeCrown = 11,
     depuratio = 12,
-    anesthesia = 13 
+    anesthesia = 13
 };
 
 
@@ -50,7 +50,7 @@ public:
         return nhif_procedures;
     };
     static std::vector<ProcedureCode> getNonNhifProcedures();
-    
+    static std::vector<ProcedureCode> getByType(ProcedureType t);
 
     bool isValid() const {
         return s_mapping.count(m_code);

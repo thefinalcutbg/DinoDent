@@ -8,7 +8,6 @@
 #include "View/Widgets/PatientSummary.h"
 #include "View/Widgets/FinancialView.h"
 #include "View/Widgets/PrescriptionView.h"
-#include "View/Widgets/StatisticView.h"
 #include "View/uiComponents/PixmapLabel.h"
 
 #include "View/Interfaces/ITabView.h"
@@ -27,7 +26,6 @@ class TabView : public QWidget, public ITabView
 	PatientSummary m_summaryView;
 	FinancialView m_financialView;
 	PrescriptionView m_perscriptionView;
-	StatisticView m_statisticView;
 
 	PixmapLabel* noTabs;
 
@@ -62,14 +60,12 @@ public:
 	void showFinancialView() override;
 	void showPerscriptionView() override;
 	void showDinosaur() override;
-	void showStatistcView() override;
 
 	IListView* listView() override { return &m_listView; }
 	IPerioView* perioView() override { return &m_perioView; }
 	IPatientSummaryView* summaryView() override { return &m_summaryView; }
 	IFinancialView* financialView() override { return &m_financialView; }
 	IPrescriptionView* perscriptionView() override { return &m_perscriptionView; }
-	IStatisticView* statisticView() override { return &m_statisticView; }
 
 signals:
 	void closeRequested(int mapIndex);

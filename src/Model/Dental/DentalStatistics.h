@@ -2,23 +2,24 @@
 #include <vector>
 #include <string>
 #include "Model/Date.h"
+#include "Model/Dental/ProcedureCode.h"
 
 struct DentalStatistic
 {
+	int year{ 0 };
 
-	enum AgeFilter { None, Minor, Adult };
-	enum ToothFilter { All, Permanent, Temporary };
+	enum class AgeFilter{ None, Minor, Adult };
+	enum class ToothFilter { All, Permanent, Temporary };
+	enum class FinancingFilter { All, Nhif, Cash };
 
-	std::string name;
+	AgeFilter age{ AgeFilter::None };
+	ToothFilter tooth{ ToothFilter::All };
+	FinancingFilter financing{ FinancingFilter::All };
 
-	int procedureType{ 0 };
+	bool nonTooth_specific{ false };
 
-	AgeFilter age{ None };
-	ToothFilter tooth{ All };
-	bool nhifOnly{ false };
-
-	std::vector<std::string> diagnosisFilter;
-	std::vector<std::string> procedureNameFilter;
+	std::vector<int> diagnosisFilter;
+	std::vector<std::string> procedureCodeFilter;
 
 	int count{ 0 };
 };

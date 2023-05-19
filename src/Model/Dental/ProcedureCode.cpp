@@ -2,6 +2,7 @@
 #include "Resources.h"
 #include <JsonCpp/json.h>
 #include <algorithm>
+#include <type_traits>
 
 void ProcedureCode::initialize()
 {
@@ -45,6 +46,19 @@ std::vector<ProcedureCode> ProcedureCode::getNonNhifProcedures()
 	return result;
 }
 
+std::vector<ProcedureCode> ProcedureCode::getByType(ProcedureType t)
+{
+	std::vector<ProcedureCode> result;
+
+	for (auto& code : s_mapping)
+	{
+		if (code.second.type == t)
+			result.push_back(code.first);
+	}
+
+	return result;
+}
+
 ProcedureCode::ProcedureCode(const std::string& code) : m_code(code)
 {}
 
@@ -58,7 +72,7 @@ int ProcedureCode::hisType() const
 
 ProcedureType ProcedureCode::type() const
 {
-	return isValid() ? s_mapping[m_code].type : ProcedureType::none;
+	return isValid() ? s_mapping[m_code].type : ProcedureType::general;
 }
 
 int ProcedureCode::oldCode() const

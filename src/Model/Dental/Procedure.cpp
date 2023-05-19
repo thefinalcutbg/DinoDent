@@ -219,6 +219,7 @@ bool Procedure::isToothSpecific() const
 
 	return
 		type != ProcedureType::general &&
+		type != ProcedureType::full_exam &&
 		type != ProcedureType::bridge &&
 		type != ProcedureType::fibersplint &&
 		type != ProcedureType::denture &&

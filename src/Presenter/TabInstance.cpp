@@ -50,7 +50,6 @@ void TabInstance::setCurrent()
 		case TabType::PatientSummary: _tabView->showSummaryView(); break;
 		case TabType::Financial:_tabView->showFinancialView(); break;
 		case TabType::Prescription:_tabView->showPerscriptionView(); break;
-		case TabType::Statistic:_tabView->showStatistcView(); break;
 	}
 
 	setScrollPosition();

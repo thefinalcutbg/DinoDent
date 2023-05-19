@@ -1,4 +1,4 @@
-#include "StatisticDialogPresenter.h"
+﻿#include "StatisticDialogPresenter.h"
 #include "View/ModalDialogBuilder.h"
 #include "Database/DbStatistics.h"
 #include "Model/Dental/Procedure.h"
@@ -8,49 +8,41 @@ StatisticDialogPresenter::StatisticDialogPresenter()
 
 }
 
-
-
-std::optional<DentalStatistic> StatisticDialogPresenter::openDialog()
+void StatisticDialogPresenter::openDialog()
 {
 	ModalDialogBuilder::openDialog(*this);
-
-	return m_statistic;
 }
 
 void StatisticDialogPresenter::setProcedureType(int type)
 {
 
-	view->setDiagnosisFilterList(DbStat::getDiagnosis(type));
-	view->setNameFilterList(DbStat::getProcedureNames(type));
-
 	auto procedureType = static_cast<ProcedureType>(type);
 
-	bool hideToothFilter = 
-			procedureType == ProcedureType::general ||
-			procedureType == ProcedureType::bridge 	||
-			procedureType == ProcedureType::fibersplint;
+	bool hideToothFilter =
+		procedureType == ProcedureType::general ||
+		procedureType == ProcedureType::bridge ||
+		procedureType == ProcedureType::fibersplint ||
+		procedureType == ProcedureType::full_exam ||
+		procedureType == ProcedureType::denture ||
+		procedureType == ProcedureType::anesthesia ||
+		procedureType == ProcedureType::depuratio
+		;
 
 	view->hideToothFilter(hideToothFilter);
+
+	view->setProcedureFilter(ProcedureCode::getByType(procedureType));
 }
 
 void StatisticDialogPresenter::setView(IStatisticDialogView* view)
 {
 	this->view = view;
 
-	if (m_statistic) {
-		view->setStatistic(m_statistic.value());
-		return;
-	}
-
-
-	view->setDiagnosisFilterList(DbStat::getDiagnosis(0));
-	view->setNameFilterList(DbStat::getProcedureNames(0));
+	view->setProcedureFilter(ProcedureCode::getByType(ProcedureType::general));
 	view->hideToothFilter(true);
 }
 
-void StatisticDialogPresenter::okPressed()
+void StatisticDialogPresenter::parameterChanged()
 {
-	m_statistic = view->getStatistic();
-
-	view->closeDialog();
+	std::string totalCount = "Намерени резултати: ";
+	view->setResult(DbStat::count(view->getStatistic()));
 }

@@ -336,6 +336,7 @@ void ProcedureCreator::setProcedureCode(const ProcedureCode& m, bool nhif)
 			*/
 		case ProcedureType::depuratio:
 		case ProcedureType::general:
+		case ProcedureType::full_exam:
 			view->setLayout(IProcedureInput::General);
 			view->surfaceSelector()->setInputValidator(nullptr);
 			view->rangeWidget()->setInputValidator(nullptr);

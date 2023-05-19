@@ -8,21 +8,18 @@
 class StatisticDialogPresenter
 {
 
-	std::optional<DentalStatistic> m_statistic;
-
 	IStatisticDialogView* view{nullptr};
 
 public:
-	StatisticDialogPresenter(const DentalStatistic& s);
 	StatisticDialogPresenter();
 
 	void setProcedureType(int type);
 
 	void setView(IStatisticDialogView* view);
 
-	void okPressed();
+	void parameterChanged();
 
-	std::optional<DentalStatistic> openDialog();
+	void openDialog();
 
 
 

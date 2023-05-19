@@ -49,6 +49,7 @@ void ProcedureEditorPresenter::setView(IProcedureEditDialog* view)
 	switch (result->code.type())
 	{
 		case ProcedureType::general:
+		case ProcedureType::full_exam:
 			view->procedureInput()->setLayout(IProcedureInput::General);
 			break;
 		case ProcedureType::obturation:

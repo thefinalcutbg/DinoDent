@@ -298,6 +298,28 @@
        </widget>
       </item>
       <item>
+       <widget class="IconButton" name="aboutButton">
+        <property name="minimumSize">
+         <size>
+          <width>35</width>
+          <height>35</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>35</width>
+          <height>35</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>За DinoDent</string>
+        </property>
+        <property name="text">
+         <string>about</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QLabel" name="practiceLabel">
         <property name="font">
          <font>
@@ -344,28 +366,6 @@
         </property>
         <property name="arrowType">
          <enum>Qt::NoArrow</enum>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="IconButton" name="aboutButton">
-        <property name="minimumSize">
-         <size>
-          <width>35</width>
-          <height>35</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>35</width>
-          <height>35</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>За DinoDent</string>
-        </property>
-        <property name="text">
-         <string>about</string>
         </property>
        </widget>
       </item>

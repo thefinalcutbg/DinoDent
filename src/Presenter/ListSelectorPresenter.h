@@ -11,7 +11,7 @@ class ListSelectorPresenter
 	TabPresenter* tab_presenter{ nullptr };
 	IListSelectorView* view{ nullptr };
 
-	TabType m_currentModelType { TabType::AmbList};
+	TabType m_currentModelType { TabType::PatientSummary};
 
 	Date m_from{ 1, Date::currentMonth(), Date::currentYear() };
 	Date m_to{ Date::currentDate().getMaxDateOfMonth() };

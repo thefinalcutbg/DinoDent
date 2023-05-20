@@ -68,7 +68,7 @@ AmbListSelector::AmbListSelector(ListSelectorPresenter* presenter) :
 
 	presenter->setView(this);
 
-	ui.dataTypeCombo->setCurrentIndex(2);
+	//ui.dataTypeCombo->setCurrentIndex(2);
 
 }
 

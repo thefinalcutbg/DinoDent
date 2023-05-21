@@ -56,7 +56,7 @@ int main(int argc, char *argv[])
 
 bool initFunction() {
 
-   // Db::setFilePath(Path::getDbPath());
+    Db::setFilePath(Path::getDbPath());
 
     if (!Db::createIfNotExist()) {
 

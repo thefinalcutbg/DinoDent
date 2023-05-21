@@ -101,6 +101,7 @@ src\Database\DbUpdateStatus.cpp
 src\Database\DbUpdateStatus.h
 src\DbUpdates\DbUpdates.cpp
 src\DbUpdates\DbUpdates.h
+src\DbUpdates\Update10.cpp
 src\DbUpdates\Update5.cpp
 src\DbUpdates\Update6.cpp
 src\DbUpdates\Update7.cpp
@@ -348,8 +349,6 @@ src\Presenter\SettingsMainPresenter.cpp
 src\Presenter\SettingsMainPresenter.h
 src\Presenter\StatisticDialogPresenter.cpp
 src\Presenter\StatisticDialogPresenter.h
-src\Presenter\StatisticPresenter.cpp
-src\Presenter\StatisticPresenter.h
 src\Presenter\SurfacePanelPresenter.cpp
 src\Presenter\SurfacePanelPresenter.h
 src\Presenter\TabInstance.cpp
@@ -443,7 +442,6 @@ src\View\Interfaces\IReportFilesView.h
 src\View\Interfaces\IReportView.h
 src\View\Interfaces\ISettingsDialog.h
 src\View\Interfaces\IStatisticDialogView.h
-src\View\Interfaces\IStatisticView.h
 src\View\Interfaces\ISurfacePanel.h
 src\View\Interfaces\ITabView.cpp
 src\View\Interfaces\ITabView.h
@@ -579,6 +577,9 @@ src\View\uiComponents\ToothButton.cpp
 src\View\uiComponents\ToothButton.h
 src\View\uiComponents\UserButton.cpp
 src\View\uiComponents\UserButton.h
+src\View\Widgets\AboutDialog.cpp
+src\View\Widgets\AboutDialog.h
+src\View\Widgets\AboutDialog.ui
 src\View\Widgets\AmbListSelector.cpp
 src\View\Widgets\AmbListSelector.h
 src\View\Widgets\AmbListSelector.ui
@@ -703,9 +704,6 @@ src\View\Widgets\SettingsDialog.ui
 src\View\Widgets\StatisticDialogView.cpp
 src\View\Widgets\StatisticDialogView.h
 src\View\Widgets\StatisticDialogView.ui
-src\View\Widgets\StatisticView.cpp
-src\View\Widgets\StatisticView.h
-src\View\Widgets\StatisticView.ui
 src\View\Widgets\TableViewDialog.cpp
 src\View\Widgets\TableViewDialog.h
 src\View\Widgets\TableViewDialog.ui

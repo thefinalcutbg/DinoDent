@@ -1,10 +1,16 @@
 #pragma once
 #include "Dosage.h"
 #include "Model/Date.h"
-
+#include <optional>
 #include <string>
 #include <unordered_map>
 #include <vector>
+
+struct DosePeriod
+{
+	Date from = Date::currentDate();
+	Date to = Date::currentDate();
+};
 
 struct Medication
 {
@@ -31,6 +37,8 @@ public:
 	bool substitution{ false };
 
 	std::vector<Dosage> dosage;
+
+	std::optional<DosePeriod> dosePeriod;
 
 	std::string note;
 

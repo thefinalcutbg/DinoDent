@@ -1,0 +1,5 @@
+PRAGMA foreign_keys = 0;
+ALTER TABLE medication ADD from_date TEXT;
+ALTER TABLE medication ADD to_date TEXT;
+PRAGMA user_version = 10;
+PRAGMA foreign_keys = 1;

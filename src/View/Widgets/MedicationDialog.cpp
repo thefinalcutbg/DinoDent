@@ -22,6 +22,27 @@ MedicationDialog::MedicationDialog(MedicationPresenter* p, QWidget* parent)
 			presenter->medicationChanged(text.toStdString());
 		});
 
+	auto dosePeriodGetter = [=] {
+
+		auto checked = ui.periodGroup->isChecked();
+
+		if (!checked) {
+			presenter->dosePeriodChanged({});
+			return;
+		};
+
+		presenter->dosePeriodChanged(
+			DosePeriod{
+				.from = ui.fromDate->getDate(),
+				.to = ui.toDate->getDate(),
+			}
+		);
+	};
+
+	connect(ui.periodGroup, &QGroupBox::clicked, [=]{ dosePeriodGetter(); });
+	connect(ui.fromDate, &QDateEdit::dateChanged, [=] { dosePeriodGetter(); });
+	connect(ui.toDate, &QDateEdit::dateChanged, [=] { dosePeriodGetter(); });
+
 	connect(ui.addButton, &QPushButton::clicked, [=] {presenter->addDosage();});
 	connect(ui.editButton, &QPushButton::clicked, [=] {presenter->editDosage(ui.dosageList->currentRow());});
 	connect(ui.dosageList, &QListWidget::doubleClicked, [=] {ui.editButton->click();});
@@ -88,18 +109,28 @@ void MedicationDialog::setMedication(const Medication & m)
 
 	ui.medicationEdit->setValidAppearence(true);
 
-	QSignalBlocker b[3]{ 
+	QSignalBlocker b[6]{ 
 		QSignalBlocker{ui.substitutionCheck}, 
 		QSignalBlocker{ui.quantity},
-		QSignalBlocker{ui.priorityCombo}
+		QSignalBlocker{ui.priorityCombo},
+		QSignalBlocker{ui.periodGroup},
+		QSignalBlocker{ui.fromDate},
+		QSignalBlocker{ui.toDate}
 	};
 
 	ui.priorityCombo->setCurrentIndex(m.priority);
 	ui.substitutionCheck->setChecked(m.substitution);
 	ui.quantity->setValue(m.quantity);
 	ui.quantityValue->setCurrentIndex(static_cast<int>(m.byForm));
-
 	ui.notesEdit->setText(m.note.c_str());
+
+	ui.periodGroup->setChecked(m.dosePeriod.has_value());
+
+	if (m.dosePeriod)
+	{
+		ui.fromDate->set_Date(m.dosePeriod->from);
+		ui.toDate->set_Date(m.dosePeriod->to);
+	}
 }
 
 

@@ -43,8 +43,8 @@ long long DbPrescription::insert(const Prescription& p)
 
             "INSERT INTO medication ("
             "prescription_rowid, numMed_rowid, is_form, quantity, "
-            "priority, substitution, notes, dosage) "
-            "VALUES (?,?,?,?,?,?,?,?)"
+            "priority, substitution, notes, dosage, from_date, to_date) "
+            "VALUES (?,?,?,?,?,?,?,?,?,?)"
         );
 
         db.bind(1, rowid);
@@ -55,6 +55,17 @@ long long DbPrescription::insert(const Prescription& p)
         db.bind(6, m.substitution);
         db.bind(7, m.note);
         db.bind(8, Parser::write(m.dosage));
+
+        if (m.dosePeriod)
+        {
+            db.bind(9, m.dosePeriod->from.to8601());
+            db.bind(10, m.dosePeriod->to.to8601());
+        }
+        else
+        {
+            db.bindNull(9);
+            db.bindNull(10);
+        }
 
         db.execute();
     }
@@ -81,7 +92,9 @@ Prescription DbPrescription::get(long long rowid)
         "medication.priority,"
         "medication.substitution,"
         "medication.notes,"
-        "medication.dosage "
+        "medication.dosage, "
+        "medication.from_date, "
+        "medication.to_date "
 
         "FROM medication LEFT JOIN prescription ON "
         "medication.prescription_rowid = prescription.rowid "
@@ -118,6 +131,15 @@ Prescription DbPrescription::get(long long rowid)
          m.substitution = db.asBool(12);
          m.note = db.asString(13);
          m.dosage = Parser::parseDosage(db.asString(14));
+         
+         std::string fromDate = db.asString(15);
+         if (fromDate.size())
+         {
+             m.dosePeriod = DosePeriod{
+                 .from = fromDate,
+                 .to = db.asString(16),
+             };
+         }
      }
 
      return p;
@@ -154,8 +176,8 @@ bool DbPrescription::update(const Prescription& p)
 
             "INSERT INTO medication ("
             "prescription_rowid, numMed_rowid, is_form, quantity, "
-            "priority, substitution, notes, dosage) "
-            "VALUES (?,?,?,?,?,?,?,?)"
+            "priority, substitution, notes, dosage, from_date, to_date) "
+            "VALUES (?,?,?,?,?,?,?,?,?,?)"
         );
 
         db.bind(1, p.rowid);
@@ -166,6 +188,17 @@ bool DbPrescription::update(const Prescription& p)
         db.bind(6, m.substitution);
         db.bind(7, m.note);
         db.bind(8, Parser::write(m.dosage));
+
+        if (m.dosePeriod)
+        {
+            db.bind(9, m.dosePeriod->from.to8601());
+            db.bind(10, m.dosePeriod->to.to8601());
+        }
+        else
+        {
+            db.bindNull(9);
+            db.bindNull(10);
+        }
 
         success = db.execute();
 

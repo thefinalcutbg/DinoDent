@@ -33,6 +33,11 @@ void MedicationPresenter::medicationChanged(const std::string& mediName)
 
 }
 
+void MedicationPresenter::dosePeriodChanged(const std::optional<DosePeriod>& p)
+{
+	m_medication.dosePeriod = p;
+}
+
 void MedicationPresenter::noteChanged(const std::string& note)
 {
 	m_medication.note = note;

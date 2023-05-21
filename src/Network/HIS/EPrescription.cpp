@@ -45,6 +45,17 @@ bool EPrescription::Issue::sendRequest(const Prescription& perscr, const Patient
 					+ bind("isQuantityByForm", m.byForm)
 					+ bind("isSubstitutionAllowed", m.substitution)
 			;
+
+				//Effective Dose Period:
+
+				if (m.dosePeriod)
+				{
+					contents += "<nhis:effectiveDosePeriod>";
+					contents += bind("start", m.dosePeriod->from.to8601());
+					contents += bind("end", m.dosePeriod->to.to8601());
+					contents += "</nhis:effectiveDosePeriod>";
+				}
+
 				//Dosages:
 				for (int y = 0; y < m.dosage.size(); y++)
 				{

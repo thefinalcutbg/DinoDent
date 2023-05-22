@@ -828,9 +828,6 @@
     <ClCompile Include="src\DbUpdates\Update8.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\Widgets\CurrentStatusDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\View\SubWidgets\DsnMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -853,6 +850,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\DbUpdates\Update10.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Presenter\ProcedureHistoryPresenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1556,6 +1556,12 @@
     <ClInclude Include="src\View\Widgets\GlobalWidgets.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Presenter\ProcedureHistoryPresenter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\View\Interfaces\IProcedureHistoryDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\SubWidgets\ContextMenu.h">
@@ -1858,9 +1864,6 @@
     <QtMoc Include="src\View\SubWidgets\MedicalStatusWidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\Widgets\CurrentStatusDialog.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="src\View\uiComponents\StatusButton.h">
       <Filter>Header Files</Filter>
     </QtMoc>
@@ -2038,9 +2041,6 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\SubWidgets\MedicalStatusWidget.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="src\View\Widgets\CurrentStatusDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\Widgets\AboutDialog.ui">

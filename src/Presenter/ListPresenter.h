@@ -43,7 +43,6 @@ class ListPresenter : public TabInstance
     DiagnosisService nhifDiagnosisServ;
     EDental::Open eDentalOpenService;
     EDental::Cancel eDentalCancelService;
-    EDental::GetStatus eDentalGetStatus;
     EDental::Augment eDentalAugmentService;
     EDental::GetProcedures eDentalGetProcedures;
     EReferral::Issue eReferralIssueService;
@@ -92,8 +91,7 @@ public:
 
     void setSelectedTeeth(const std::vector<int>& SelectedIndexes);
     
-    void requestPisActivities(bool clickedByUser);
-    void requestHisActivities(bool clickedByUser);
+    void historyRequested();
 
     void openDetails(int toothIdx);
     void openDetails();
@@ -116,7 +114,6 @@ public:
     void createPrescription();
     
     void hisButtonPressed();
-    void getStatusPressed();
 
     ~ListPresenter();
 };

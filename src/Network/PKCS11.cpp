@@ -279,7 +279,6 @@ std::string PKCS11::sha1Digest(const std::string& data)
 }
 
 
-
 void PKCS11::unloadModule()
 {
 	if (ctx)

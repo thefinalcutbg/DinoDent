@@ -156,19 +156,6 @@
         </widget>
        </item>
        <item>
-        <widget class="HoverButton" name="getStatusButton">
-         <property name="minimumSize">
-          <size>
-           <width>140</width>
-           <height>0</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>Свали актуален статус</string>
-         </property>
-        </widget>
-       </item>
-       <item>
         <spacer name="horizontalSpacer_5">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -515,13 +502,7 @@
             </widget>
            </item>
            <item>
-            <widget class="IconButton" name="nzokActivities">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
+            <widget class="IconButton" name="historyButton">
              <property name="minimumSize">
               <size>
                <width>35</width>
@@ -535,35 +516,10 @@
               </size>
              </property>
              <property name="toolTip">
-              <string>Зареди манипулации от ПИС</string>
+              <string>Онлайн пациентско досие</string>
              </property>
              <property name="text">
-              <string>PIS</string>
-             </property>
-             <property name="checkable">
-              <bool>false</bool>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="IconButton" name="hisProceduresButton">
-             <property name="minimumSize">
-              <size>
-               <width>35</width>
-               <height>35</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>35</width>
-               <height>35</height>
-              </size>
-             </property>
-             <property name="toolTip">
-              <string>Зареди манипулации от НЗИС</string>
-             </property>
-             <property name="text">
-              <string>HIS</string>
+              <string>Онлайн пациентско досие</string>
              </property>
             </widget>
            </item>

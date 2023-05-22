@@ -339,6 +339,8 @@ src\Presenter\ProcedureDialogPresenter.cpp
 src\Presenter\ProcedureDialogPresenter.h
 src\Presenter\ProcedureEditorPresenter.cpp
 src\Presenter\ProcedureEditorPresenter.h
+src\Presenter\ProcedureHistoryPresenter.cpp
+src\Presenter\ProcedureHistoryPresenter.h
 src\Presenter\ReferralPresenter.cpp
 src\Presenter\ReferralPresenter.h
 src\Presenter\ReportFilesPresenter.cpp
@@ -436,6 +438,7 @@ src\View\Interfaces\IPracticeSelectorView.h
 src\View\Interfaces\IPrescriptionView.h
 src\View\Interfaces\IProcedureDialog.h
 src\View\Interfaces\IProcedureEditDialog.h
+src\View\Interfaces\IProcedureHistoryDialog.h
 src\View\Interfaces\IProcedureInput.h
 src\View\Interfaces\IReferralDialog.h
 src\View\Interfaces\IReportFilesView.h
@@ -592,9 +595,6 @@ src\View\Widgets\BusinessOpEditDialog.ui
 src\View\Widgets\ButtonDialog.cpp
 src\View\Widgets\ButtonDialog.h
 src\View\Widgets\ButtonDialog.ui
-src\View\Widgets\CurrentStatusDialog.cpp
-src\View\Widgets\CurrentStatusDialog.h
-src\View\Widgets\CurrentStatusDialog.ui
 src\View\Widgets\DetailedStatus.cpp
 src\View\Widgets\DetailedStatus.h
 src\View\Widgets\DetailedStatus.ui

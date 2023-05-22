@@ -403,6 +403,7 @@ std::vector<Procedure> ProcedureCreator::getProcedures()
 	{
 	case ProcedureType::depuratio:
 	case ProcedureType::general:
+	case ProcedureType::full_exam:
 		result.push_back(procedure);
 		break;
 	case ProcedureType::obturation:

@@ -331,12 +331,14 @@ std::string HisService::getProcedure(const Procedure& p, const ToothContainer& t
 		}
 	}
 
-	if (p.code.oldCode() == 101 || p.code.oldCode() == 103)
+	if (p.code.type() == ProcedureType::full_exam)
 	{
 		for (auto& tooth : teeth)
 		{
-			result += getToothStatus(tooth, true);
 			result += getToothStatus(tooth, false);
+			if (tooth.dsn) {
+				result += getToothStatus(tooth.dsn.tooth(), true);
+			}
 		}
 
 	}

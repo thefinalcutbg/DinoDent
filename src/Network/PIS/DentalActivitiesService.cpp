@@ -42,7 +42,7 @@ bool DentalActivitiesService::sendRequest(
 
 void DentalActivitiesService::parseReply(const std::string& reply)
 {
-	if (reply.empty()) { m_callback({}, show_dialogs);  return; }
+	if (reply.empty()) { m_callback({});  return; }
 
 	TiXmlDocument doc;
 
@@ -80,6 +80,6 @@ void DentalActivitiesService::parseReply(const std::string& reply)
 		procedures.back().db_source = Procedure::DatabaseSource::PIS;
 	}
 
-	m_callback(procedures, show_dialogs);
+	m_callback(procedures);
 
 }

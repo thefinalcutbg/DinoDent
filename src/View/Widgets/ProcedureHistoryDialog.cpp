@@ -1,40 +1,88 @@
 ﻿#include "ProcedureHistoryDialog.h"
 
-ProcedureHistoryDialog::ProcedureHistoryDialog(const std::vector<Procedure> procedures, const std::string& title, QWidget *parent)
-	: QDialog(parent)
+#include "Presenter/ToothHintCreator.h"
+#include "View/Graphics/TeethViewScene.h"
+
+ProcedureHistoryDialog::ProcedureHistoryDialog(ProcedureHistoryPresenter& p)
+    : QDialog(Q_NULLPTR), presenter(p)
 {
-	ui.setupUi(this);
+    ui.setupUi(this);
 
-	setWindowTitle(title.c_str());
+    setWindowTitle("Онлайн пациентско досие");
 
-	model.setProcedures(procedures);
+    ui.graphicsView->setDisabled(true);
+
+    auto initTable = [](QTableView* table, QAbstractTableModel* model) {
+
+        table->setModel(model);
+
+        table->setSelectionMode(QAbstractItemView::SelectionMode::NoSelection);
+
+        table->hideColumn(0);
+        table->hideColumn(6);
+        table->hideColumn(7);
+
+        table->setColumnWidth(1, 90);
+        table->setColumnWidth(2, 200);
+        table->setColumnWidth(3, 25);
+        table->setColumnWidth(4, 200);
+        table->setColumnWidth(5, 49);
+        table->setColumnWidth(8, 200);
 
 
-	ui.tableView->setModel(&this->model);
-	
-    ui.tableView->setSelectionMode(QAbstractItemView::SelectionMode::NoSelection);
+        table->verticalHeader()->setDefaultSectionSize(20);
+        table->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+        table->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+        table->horizontalHeader()->setSectionResizeMode(8, QHeaderView::Stretch);
+    };
 
-    ui.tableView->hideColumn(0);
-    ui.tableView->hideColumn(6);
-    ui.tableView->hideColumn(7);
+    initTable(ui.pisTable, &pis_model);
+    initTable(ui.hisTable, &his_model);
 
-    ui.tableView->setColumnWidth(1, 90);
-    ui.tableView->setColumnWidth(2, 200);
-    ui.tableView->setColumnWidth(3, 25);
-    ui.tableView->setColumnWidth(4, 200);
-    ui.tableView->setColumnWidth(5, 49);
-    ui.tableView->setColumnWidth(8, 200);
+    ui.tabWidget->setTabIcon(0, QIcon(":/icons/icon_nhif.png"));
+    ui.tabWidget->setTabIcon(1, QIcon(":/icons/icon_his.png"));
+    ui.tabWidget->setTabIcon(2, QIcon(":/icons/icon_his.png"));
 
+    ui.frame->setStyleSheet("background-color:white;");
 
-    ui.tableView->verticalHeader()->setDefaultSectionSize(20);
-    ui.tableView->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-    ui.tableView->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-    ui.tableView->horizontalHeader()->setSectionResizeMode(8, QHeaderView::Stretch);
+    connect(ui.applyButton, &QPushButton::clicked, this, [&] { presenter.pisApplyClicked(); });
+    connect(ui.refreshPis, &QPushButton::clicked, [&] { presenter.refreshPIS(); });
+    connect(ui.refreshHis, &QPushButton::clicked, [&] { presenter.refreshHIS(); });
+    connect(ui.applyCurrentStatus, &QPushButton::clicked, [&]{ presenter.statusApplyClicked(); });
 
-    connect(ui.applyButton, &QPushButton::clicked, this, [&]{applyProcedures = true; close();});
-
+    presenter.setView(this);
 }
 
 ProcedureHistoryDialog::~ProcedureHistoryDialog()
 {
+}
+
+void ProcedureHistoryDialog::setPis(const std::vector<Procedure>& p)
+{
+    pis_model.setProcedures(p);
+}
+
+void ProcedureHistoryDialog::setHis(const std::vector<Procedure>& h)
+{
+    his_model.setProcedures(h);
+}
+
+void ProcedureHistoryDialog::setCurrentStatus(const ToothContainer& teeth)
+{
+    TeethViewScene* s = new TeethViewScene();
+
+    auto hints = ToothHintCreator::getTeethHint(teeth);
+
+    ui.graphicsView->setScene(s);
+
+    for (auto& hint : hints)
+    {
+        s->display(hint);
+    }
+
+}
+
+void ProcedureHistoryDialog::closeDialog()
+{
+    close();
 }

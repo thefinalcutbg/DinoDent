@@ -122,8 +122,7 @@ void ReportPresenter::checkNext()
 		bool success =
 		activitiesService.sendRequest(
 			patient.type, patient.id, true,
-			[=](auto& result, bool showDialog) {if (this)this->setPISActivities(result);}
-
+			[=](auto& result) {if (this)this->setPISActivities(result);}
 		);
 
 		if (!success) { reset();}

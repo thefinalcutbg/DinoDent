@@ -80,7 +80,7 @@ namespace EDental {
 	class GetProcedures : private HisService
 	{
 
-		std::function<void(const std::optional<std::vector<Procedure>>& procedures, bool showDialogs)> m_callback;
+		std::function<void(const std::optional<std::vector<Procedure>>& procedures)> m_callback;
 
 	protected:
 		void parseReply(const std::string& reply) override;

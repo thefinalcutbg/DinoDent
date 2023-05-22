@@ -424,7 +424,7 @@ void EDental::GetStatus::parseReply(const std::string& reply)
 void EDental::GetProcedures::parseReply(const std::string& reply)
 {
 	if (reply.empty()) {
-		m_callback({}, show_dialogs);
+		m_callback({});
 		return;
 	}
 
@@ -476,7 +476,7 @@ void EDental::GetProcedures::parseReply(const std::string& reply)
 			auto elementName = pXml.Child(y).ToElement()->ValueStr();
 
 			//parsing teeth indexes:
-			if (elementName == "nhis:tooth" && p.code.type() != ProcedureType::general)
+			if (elementName == "nhis:tooth" && p.code.type() != ProcedureType::full_exam)
 			{
 				auto index = ToothUtils::getToothFromNhifNum(pXml.Child(y).Child(0).ToElement()->Attribute("value"));
 
@@ -530,7 +530,7 @@ void EDental::GetProcedures::parseReply(const std::string& reply)
 		teethIndexes.clear();
 	}
 
-	m_callback(procedures, this->show_dialogs);
+	m_callback(procedures);
 
 	m_callback = nullptr;
 

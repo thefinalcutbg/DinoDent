@@ -13,6 +13,7 @@
 #include "Presenter/ProcedureEditorPresenter.h"
 #include "Presenter/ReferralPresenter.h"
 #include "Presenter/TabPresenter.h"
+#include "Presenter/ProcedureHistoryPresenter.h"
 
 #include "View/ModalDialogBuilder.h"
 #include "View/ModalDialogBuilder.h"
@@ -321,11 +322,32 @@ void ListPresenter::setDataToView()
     if (firstFocus)
     {
         if (User::settings().getPisHistoryAuto && User::hasNzokContract()) {
-            requestPisActivities(false);
+
+            auto callback = [&](const std::optional<std::vector<Procedure>>& result) {
+
+                if (!result) return;
+
+                auto& procedures = result.value();
+
+                patient->PISHistory = procedures;
+            };
+
+            dentalActService.sendRequest(patient->type, patient->id, false, callback);
         }
 
         if (User::settings().getHisHistoryAuto) {
-            requestHisActivities(false);
+            
+            auto callback = [&](const std::optional<std::vector<Procedure>>& result) {
+
+                if (!result) return;
+
+                auto& procedures = result.value();
+
+                patient->HISHistory = procedures;
+            };
+
+            eDentalGetProcedures.sendRequest(*patient, false, callback);
+
         }
 
         firstFocus = false;
@@ -471,6 +493,36 @@ void ListPresenter::setSelectedTeeth(const std::vector<int>& SelectedIndexes)
 
 }
 
+void ListPresenter::historyRequested()
+{
+    ProcedureHistoryPresenter p(*patient.get());
+
+    p.openDialog();
+
+    auto result = p.result();;
+
+    if (result.pis_history) patient->PISHistory = result.pis_history;
+    if (result.his_history) patient->HISHistory = result.his_history;
+
+    if (result.applyPis) {
+        for (auto& p : *result.pis_history)
+        {
+            p.applyPISProcedure(m_ambList.teeth);
+        }
+    }
+
+    if (result.applyCurrentStatus) {
+
+        m_ambList.teeth.copyFromOther(result.current_status.value());
+
+        for (int i = 0; i < 32; i++) {
+            view->repaintTooth(ToothPaintHint(m_ambList.teeth[i], patient->teethNotes[i]));
+        }
+
+        statusChanged();
+    }
+}
+
 
 std::vector<Procedure> ListPresenter::getToothHistory(int toothIdx)
 {
@@ -514,80 +566,6 @@ int ListPresenter::generateAmbListNumber()
     return newNumber;
 }
 
-void ListPresenter::requestPisActivities(bool clickedByUser)
-{
-    auto callback = [&](const std::optional<std::vector<Procedure>>& result, bool showDialog) {
-
-        if (!result) return;
-
-        auto& procedures = result.value();
-
-        patient->PISHistory = procedures;
-
-        if (!showDialog) return;
-
-        if (procedures.empty()) {
-            ModalDialogBuilder::showMessage("В ПИС не са намерени манипулации за този пациент");
-            return;
-        }
-
-        bool applyToStatus = ModalDialogBuilder::procedureHistoryDialog(procedures, "Отчетени манипулации в ПИС");
-
-        if (!applyToStatus) return;
-
-        for (auto it = procedures.rbegin(); it != procedures.rend(); ++it)
-            it->applyPISProcedure(m_ambList.teeth);
-
-        if (isCurrent()) {
-
-            for (auto& t : m_ambList.teeth)
-                view->repaintTooth(ToothPaintHint(t, patient->teethNotes[t.index]));
-        }
-        makeEdited();
-    };
-
-    dentalActService.sendRequest(patient->type, patient->id, clickedByUser, callback);
-
-}
-
-void ListPresenter::requestHisActivities(bool clickedByUser)
-{
-    auto callback = [&](const std::optional<std::vector<Procedure>>& result, auto showDialog) {
-
-        if (!result) return;
-
-        auto& procedures = result.value();
-
-        patient->HISHistory = procedures;
-
-        if (!showDialog) return;
-
-        if (procedures.empty()) {
-            ModalDialogBuilder::showMessage("В НЗИС не са намерени манипулации за този пациент");
-            return;
-        }
-
-        if (!showDialog) return;
-
-        bool applyToStatus = ModalDialogBuilder::procedureHistoryDialog(procedures, "Отчетени манипулации в НЗИС");
-
-        if (!applyToStatus) return;
-
-        for (auto it = procedures.rbegin(); it != procedures.rend(); ++it)
-            it->applyPISProcedure(m_ambList.teeth);
-
-        if (isCurrent()) {
-
-            for (auto& t : m_ambList.teeth)
-                view->repaintTooth(ToothPaintHint(t, patient->teethNotes[t.index]));
-        }
-
-        makeEdited();
-    };
-
-    eDentalGetProcedures.sendRequest(*patient, clickedByUser, callback);
-
-}
 
 
 #include "Presenter/DetailedStatusPresenter.h"
@@ -941,8 +919,6 @@ void ListPresenter::hisButtonPressed()
 
                 DbAmbList::update(m_ambList);
 
-                requestHisActivities(false);
-
                 refreshTabName();
 
                 if (isCurrent())
@@ -980,8 +956,6 @@ void ListPresenter::hisButtonPressed()
 
                 edited = false;
 
-                requestHisActivities(false);
-
                 refreshTabName();
 
                 if (isCurrent())
@@ -1012,8 +986,6 @@ void ListPresenter::hisButtonPressed()
                 for (auto& p : m_ambList.procedures) p.his_index = 0;
 
                 DbAmbList::update(m_ambList);
-                
-                requestHisActivities(false);
 
                 refreshTabName();
 
@@ -1030,27 +1002,6 @@ void ListPresenter::hisButtonPressed()
     }
 
 
-}
-
-void ListPresenter::getStatusPressed()
-{
-    eDentalGetStatus.sendRequest(
-        *patient.get(),
-        [&](const ToothContainer& teeth) {
-
-            if (!ModalDialogBuilder::applyToStatusDialog(teeth)) return;
-
-            m_ambList.teeth.copyFromOther(teeth);
-  
-            makeEdited();
-            if (isCurrent()) {
-                for (int i = 0; i < 32; i++)
-                {
-                    view->repaintTooth(ToothPaintHint(m_ambList.teeth[i], patient->teethNotes[i]));
-                }
-            }
-        }
-    );
 }
 
 

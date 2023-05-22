@@ -247,6 +247,7 @@
     <ClCompile Include="src\Path.cpp" />
     <ClCompile Include="src\Presenter\DosagePresenter.cpp" />
     <ClCompile Include="src\Presenter\MedicationPresenter.cpp" />
+    <ClCompile Include="src\Presenter\ProcedureHistoryPresenter.cpp" />
     <ClCompile Include="src\Presenter\PatientInfoPresenter.cpp" />
     <ClCompile Include="src\Presenter\PracticeManagerPresenter.cpp" />
     <ClCompile Include="src\Presenter\PrescriptionPresenter.cpp" />
@@ -448,7 +449,6 @@
     <ClCompile Include="src\View\uiComponents\UserButton.cpp" />
     <ClCompile Include="src\View\Widgets\AboutDialog.cpp" />
     <ClCompile Include="src\View\Widgets\ButtonDialog.cpp" />
-    <ClCompile Include="src\View\Widgets\CurrentStatusDialog.cpp" />
     <ClCompile Include="src\View\Widgets\MedicalStatusDialog.cpp" />
     <ClCompile Include="src\View\Widgets\PracticeDialog.cpp" />
     <ClCompile Include="src\View\Widgets\AmbListSelector.cpp" />
@@ -530,6 +530,7 @@
     <ClInclude Include="src\Network\PIS\ReportFilesService.h" />
     <ClInclude Include="src\Presenter\DosagePresenter.h" />
     <ClInclude Include="src\Presenter\MedicationPresenter.h" />
+    <ClInclude Include="src\Presenter\ProcedureHistoryPresenter.h" />
     <ClInclude Include="src\Presenter\PatientInfoPresenter.h" />
     <ClInclude Include="src\Presenter\PracticeManagerPresenter.h" />
     <ClInclude Include="src\Presenter\PrescriptionPresenter.h" />
@@ -685,6 +686,7 @@
     <ClInclude Include="src\View\Interfaces\AbstractUIElement.h" />
     <ClInclude Include="src\View\Interfaces\IPracticeDialog.h" />
     <ClInclude Include="src\View\Interfaces\IAllergiesDialog.h" />
+    <ClInclude Include="src\View\Interfaces\IProcedureHistoryDialog.h" />
     <ClInclude Include="src\View\Interfaces\IProcedureInput.h" />
     <ClInclude Include="src\View\Interfaces\ICrownView.h" />
     <ClInclude Include="src\View\Interfaces\IDetailedStatusView.h" />
@@ -753,7 +755,6 @@
     <QtMoc Include="src\View\Widgets\ReferralDialog.h" />
     <QtMoc Include="src\View\Widgets\ButtonDialog.h" />
     <QtMoc Include="src\View\Widgets\MedicalStatusDialog.h" />
-    <QtMoc Include="src\View\Widgets\CurrentStatusDialog.h" />
     <QtMoc Include="src\View\Widgets\AboutDialog.h" />
     <ClInclude Include="src\View\Widgets\GlobalWidgets.h" />
     <ClInclude Include="src\View\Widgets\ReportDialogResult.h" />
@@ -848,7 +849,6 @@
     <QtUic Include="src\View\SubWidgets\VitaWidget.ui" />
     <QtUic Include="src\View\Widgets\AboutDialog.ui" />
     <QtUic Include="src\View\Widgets\ButtonDialog.ui" />
-    <QtUic Include="src\View\Widgets\CurrentStatusDialog.ui" />
     <QtUic Include="src\View\Widgets\MedicalStatusDialog.ui" />
     <QtUic Include="src\View\Widgets\PracticeDialog.ui" />
     <QtUic Include="src\View\Widgets\AmbListSelector.ui" />

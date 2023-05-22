@@ -33,10 +33,11 @@ class DosagePresenter;
 class PracticeManagerPresenter;
 class ReferralPresenter;
 class StatisticDialogPresenter;
+class ProcedureHistoryPresenter;
+
 enum class DialogAnswer { Yes, No, Cancel };
 
 enum class NotificationType {NoData, Xml, PisHash };
-
 
 namespace ModalDialogBuilder
 {
@@ -53,11 +54,11 @@ namespace ModalDialogBuilder
 	void openDialog(PracticeManagerPresenter* p);
 	void openDialog(ReferralPresenter* p);
 	void openDialog(StatisticDialogPresenter& p);
+	void openDialog(ProcedureHistoryPresenter& p);
 
 	DialogAnswer openSaveDialog(const std::string& text);
 	std::optional<std::vector<Procedure>> selectProcedures(const std::vector<Procedure>& procedures, SelectionPref s = SelectionPref::All);
 	//returns true if user wants to apply the procedures to the status
-	bool procedureHistoryDialog(const std::vector<Procedure>& procedures, const std::string& title);
 	std::optional<BusinessOperation> editBusinessOperation(const BusinessOperation& op);
 	std::optional<BusinessOperation> addBusinessOperation(const std::vector<ProcedureCode>& priceList);
 	std::optional<Recipient> editRecipient(const Recipient& r);
@@ -81,6 +82,5 @@ namespace ModalDialogBuilder
 	void saveFile(const std::string& data, const std::string& filename);
 	std::optional<std::string> openFile();
 	std::optional<MedicalStatuses> openMedicalStatusDialog(const MedicalStatuses& s);
-	bool applyToStatusDialog(const ToothContainer& t);
 };
 

@@ -108,6 +108,14 @@ void ModalDialogBuilder::openDialog(StatisticDialogPresenter& p)
 	d.exec();
 }
 
+#include "View/Widgets/ProcedureHistoryDialog.h"
+
+void ModalDialogBuilder::openDialog(ProcedureHistoryPresenter& p)
+{
+	ProcedureHistoryDialog d(p);
+	d.exec();
+}
+
 
 #include "View/Widgets/SaveDialog.h"
 
@@ -167,16 +175,6 @@ std::optional<std::vector<Procedure>> ModalDialogBuilder::selectProcedures(const
 	}
 
 	return result;
-}
-
-#include "View/Widgets/ProcedureHistoryDialog.h"
-
-bool ModalDialogBuilder::procedureHistoryDialog(const std::vector<Procedure>& procedures, const std::string& title)
-{
-	ProcedureHistoryDialog d(procedures, title);
-	d.exec();
-
-	return d.applyProcedures;
 }
 
 #include "View/Widgets/BusinessOpEditDialog.h"
@@ -345,17 +343,6 @@ std::optional<MedicalStatuses> ModalDialogBuilder::openMedicalStatusDialog(const
 
 	return std::optional<MedicalStatuses>();
 }
-
-#include "View/Widgets/CurrentStatusDialog.h"
-
-bool ModalDialogBuilder::applyToStatusDialog(const ToothContainer& t)
-{
-	CurrentStatusDialog d(t);
-
-	return d.exec() == QDialog::Accepted;
-}
-
-
 
 #include <QProcess>
 void ModalDialogBuilder::openExplorer(const std::string& path)

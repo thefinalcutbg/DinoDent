@@ -33,8 +33,8 @@ ListView::ListView(QWidget* parent)
 	ui.addProcedure->setIcon(QIcon(":/icons/icon_add.png"));
 	ui.deleteProcedure->setIcon(QIcon(":/icons/icon_remove.png"));
 	ui.editProcedure->setIcon(QIcon(":/icons/icon_edit.png"));
-	ui.nzokActivities->setIcon(QIcon(":/icons/icon_nhif.png"));
-	ui.hisProceduresButton->setIcon(QIcon(":/icons/icon_his.png"));
+	ui.historyButton->setIcon(QIcon(":/icons/icon_history.png"));
+
 
 	ui.perioButton->setHoverColor(Theme::mainBackgroundColor);
 	ui.invoiceButton->setHoverColor(Theme::mainBackgroundColor);
@@ -42,8 +42,7 @@ ListView::ListView(QWidget* parent)
 	ui.addProcedure->setHoverColor(Theme::mainBackgroundColor);
 	ui.deleteProcedure->setHoverColor(Theme::mainBackgroundColor);
 	ui.editProcedure->setHoverColor(Theme::mainBackgroundColor);
-	ui.nzokActivities->setHoverColor(Theme::mainBackgroundColor);
-	ui.hisProceduresButton->setHoverColor(Theme::mainBackgroundColor);
+	ui.historyButton->setHoverColor(Theme::mainBackgroundColor);
 
 	QMenu* menu = new QMenu(ui.addRefButton);
 
@@ -74,11 +73,9 @@ ListView::ListView(QWidget* parent)
 	);
 
 	connect(ui.nrnButton, &QPushButton::clicked, [=] { if (presenter) presenter->hisButtonPressed();});
-	connect(ui.getStatusButton, &QPushButton::clicked, [=] {if (presenter) presenter->getStatusPressed(); });
 	connect(ui.ambNumSpin, &LeadingZeroSpinBox::valueChanged, [=](long long value) {if(presenter)presenter->ambNumChanged(value);});
 	connect(ui.dateTimeEdit, &QDateTimeEdit::dateTimeChanged, [=](const QDateTime& t) {if (presenter)presenter->setAmbDateTime(t.toString(Qt::ISODate).toStdString());});
-	connect(ui.nzokActivities, &QPushButton::clicked, [=] { if (presenter) presenter->requestPisActivities(true); });
-	connect(ui.hisProceduresButton, &QPushButton::clicked, [=] { if (presenter) presenter->requestHisActivities(true); });
+	connect(ui.historyButton, &QPushButton::clicked, [=] { if (presenter) presenter->historyRequested(); });
 	connect(ui.addProcedure, &QAbstractButton::clicked, [=] { if (presenter) presenter->addProcedure(); });
 	connect(ui.specCombo, QtComboIndexChanged, [=] {nhifChanged();});
 	connect(ui.unfavCheck, &QCheckBox::stateChanged, [=] { nhifChanged(); });

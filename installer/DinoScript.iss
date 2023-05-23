@@ -4,7 +4,7 @@
 #define MyAppName "DinoDent"
 #define MyAppVersion "1.3.1"
 #define MyAppPublisher "SalveoDent"
-#define MyAppURL "https://thefinalcutbg.github.io/DinoDentWeb/"
+#define MyAppURL "https://dinodent.bg"
 #define MyAppExeName "DinoDent.exe"
 
 [Setup]

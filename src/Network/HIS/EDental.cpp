@@ -339,13 +339,16 @@ void EDental::GetStatus::parseReply(const std::string& reply)
 	ToothContainer teeth;
 
 	std::vector<int> splints;
+	std::vector<int> bridges;
+	std::vector<int> pontics;
 
 	static std::map<std::string, std::function<void(int idx, Tooth& tooth)>> lambdaMap
 	{
 		{"E",	[&teeth](int idx, Tooth& tooth) mutable { tooth.extraction.set(true); }},
 		{"T",	[&teeth](int idx, Tooth& tooth) mutable { tooth.calculus.set(true); }},
 		{"K",	[&teeth](int idx, Tooth& tooth) mutable { tooth.crown.set(true); }},
-		{"B",	[&teeth](int idx, Tooth& tooth) mutable { tooth.bridge.set(true); tooth.bridge.position = BridgePos::Middle; teeth[idx].extraction.set(true); }},
+		{"B",	[&bridges, &pontics](int idx, Tooth& tooth) mutable { bridges.push_back(idx); pontics.push_back(idx); }},
+		{"Kb",	[&bridges](int idx, Tooth& tooth) mutable { bridges.push_back(idx); }},
 		{"O",	[&teeth](int idx, Tooth& tooth) mutable { tooth.obturation.set(true); }},
 		{"C",	[&teeth](int idx, Tooth& tooth) mutable { tooth.caries.set(true); }},
 		{"Oo",	[&teeth](int idx, Tooth& tooth) mutable { tooth.obturation.set(true, Surface::Occlusal); }},
@@ -414,6 +417,11 @@ void EDental::GetStatus::parseReply(const std::string& reply)
 	}
 
 	teeth.setStatus(splints, StatusType::general, StatusCode::FiberSplint, true, false);
+	teeth.setStatus(bridges, StatusType::general, StatusCode::Bridge, true, false);
+
+	//in case extraction is not set on pontics:
+	for (auto idx : pontics) if (teeth[idx].canHaveACrown()) teeth[idx].extraction.set(false);
+	
 
 	m_callback(teeth);
 

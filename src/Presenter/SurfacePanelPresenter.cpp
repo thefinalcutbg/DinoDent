@@ -23,6 +23,7 @@ void SurfacePanelPresenter::buttonClicked(ButtonPos position, SurfaceClick click
 	auto [surface, state] = surfaceState[static_cast<int>(position)];
 
 	if (click == SurfaceClick::leftClick)
+	{
 		switch (state)
 		{
 		case SurfaceState::none:
@@ -39,9 +40,11 @@ void SurfacePanelPresenter::buttonClicked(ButtonPos position, SurfaceClick click
 			statusControl->setToothStatus(StatusType::caries, surface);
 			break;
 		}
+	}
 	else
+	{
 		switch (state)
-		{ 
+		{
 		case::SurfaceState::obturation:
 			statusControl->setToothStatus(StatusType::obturation, surface);
 			break;
@@ -55,6 +58,7 @@ void SurfacePanelPresenter::buttonClicked(ButtonPos position, SurfaceClick click
 		case SurfaceState::none:
 			break;
 		};
+	}
 
 }
 

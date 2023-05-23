@@ -383,7 +383,11 @@ void Tooth::removeStatus() {
 void Tooth::setStatus(StatusType type, int code, bool state)
 {
 	switch (type) {
-		case StatusType::general: state ? addStatus(code) : removeStatus(code);  break;
+		case StatusType::general: 
+			state ? 
+				addStatus(code) 
+				: 
+				removeStatus(code);  break;
 		case StatusType::obturation: 
 			state ? 
 				addSurface(obturation, code, *this) 

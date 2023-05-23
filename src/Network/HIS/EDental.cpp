@@ -342,43 +342,43 @@ void EDental::GetStatus::parseReply(const std::string& reply)
 	std::vector<int> bridges;
 	std::vector<int> pontics;
 
-	static std::map<std::string, std::function<void(int idx, Tooth& tooth)>> lambdaMap
+	static std::map<std::string, std::function<void(Tooth& tooth)>> lambdaMap
 	{
-		{"E",	[&teeth](int idx, Tooth& tooth) mutable { tooth.extraction.set(true); }},
-		{"T",	[&teeth](int idx, Tooth& tooth) mutable { tooth.calculus.set(true); }},
-		{"K",	[&teeth](int idx, Tooth& tooth) mutable { tooth.crown.set(true); }},
-		{"B",	[&bridges, &pontics](int idx, Tooth& tooth) mutable { bridges.push_back(idx); pontics.push_back(idx); }},
-		{"Kb",	[&bridges](int idx, Tooth& tooth) mutable { bridges.push_back(idx); }},
-		{"O",	[&teeth](int idx, Tooth& tooth) mutable { tooth.obturation.set(true); }},
-		{"C",	[&teeth](int idx, Tooth& tooth) mutable { tooth.caries.set(true); }},
-		{"Oo",	[&teeth](int idx, Tooth& tooth) mutable { tooth.obturation.set(true, Surface::Occlusal); }},
-		{"Om",	[&teeth](int idx, Tooth& tooth) mutable { tooth.obturation.set(true, Surface::Medial);  }},
-		{"Od",	[&teeth](int idx, Tooth& tooth) mutable { tooth.obturation.set(true, Surface::Distal);  }},
-		{"Ob",	[&teeth](int idx, Tooth& tooth) mutable { tooth.obturation.set(true, Surface::Buccal); }},
-		{"Ol",	[&teeth](int idx, Tooth& tooth) mutable { tooth.obturation.set(true, Surface::Lingual);  }},
-		{"Oc",	[&teeth](int idx, Tooth& tooth) mutable { tooth.obturation.set(true, Surface::Cervical);  }},
-		{"Co",	[&teeth](int idx, Tooth& tooth) mutable { tooth.caries.set(true, Surface::Occlusal); }},
-		{"Cm",	[&teeth](int idx, Tooth& tooth) mutable { tooth.caries.set(true, Surface::Medial);  }},
-		{"Cd",	[&teeth](int idx, Tooth& tooth) mutable { tooth.caries.set(true, Surface::Distal);  }},
-		{"Cb",	[&teeth](int idx, Tooth& tooth) mutable { tooth.caries.set(true, Surface::Buccal); }},
-		{"Cl",	[&teeth](int idx, Tooth& tooth) mutable { tooth.caries.set(true, Surface::Lingual);  }},
-		{"Cc",	[&teeth](int idx, Tooth& tooth) mutable { tooth.caries.set(true, Surface::Cervical);  }},
-		{"M1",	[&teeth](int idx, Tooth& tooth) mutable { tooth.mobility.set(true); teeth[idx].mobility.degree = Degree::First; }},
-		{"M2",	[&teeth](int idx, Tooth& tooth) mutable { tooth.mobility.set(true); teeth[idx].mobility.degree = Degree::Second; }},
-		{"M3",	[&teeth](int idx, Tooth& tooth) mutable { tooth.mobility.set(true); teeth[idx].mobility.degree = Degree::Third; }},
-		{"X",	[&teeth](int idx, Tooth& tooth) mutable { tooth.denture.set(true); }},
-		{"R",	[&teeth](int idx, Tooth& tooth) mutable { tooth.root.set(true); }},
-		{"Rc",	[&teeth](int idx, Tooth& tooth) mutable { tooth.endo.set(true); }},
-		{"Rp",	[&teeth](int idx, Tooth& tooth) mutable { tooth.post.set(true); }},
-		{"H",	[&teeth](int idx, Tooth& tooth) mutable { tooth.healthy.set(true); }},
-		{"I",	[&teeth](int idx, Tooth& tooth) mutable { tooth.implant.set(true); }},
-		{"Re",	[&teeth](int idx, Tooth& tooth) mutable { tooth.impacted.set(true); }},
-		{"G",	[&teeth](int idx, Tooth& tooth) mutable { tooth.lesion.set(true); }},
-		{"P",	[&teeth](int idx, Tooth& tooth) mutable { tooth.pulpitis.set(true); }},
-		{"F",	[&teeth](int idx, Tooth& tooth) mutable { tooth.fracture.set(true); }},
-		{"Pa",	[&teeth](int idx, Tooth& tooth) mutable { tooth.periodontitis.set(true); }},
-		{"D",	[&teeth](int idx, Tooth& tooth) mutable { tooth.dsn.set(true); }},
-		{"S",	[&splints](int idx, Tooth& tooth) mutable { splints.push_back(idx); }}
+		{"E",	[](Tooth& tooth) mutable { tooth.extraction.set(true); }},
+		{"T",	[](Tooth& tooth) mutable { tooth.calculus.set(true); }},
+		{"K",	[](Tooth& tooth) mutable { tooth.crown.set(true); }},
+		{"B",	[&bridges, &pontics](Tooth& tooth) mutable { bridges.push_back(tooth.index); pontics.push_back(tooth.index); }},
+		{"Kb",	[&bridges](Tooth& tooth) mutable { bridges.push_back(tooth.index); }},
+		{"O",	[](Tooth& tooth) mutable { tooth.obturation.set(true); }},
+		{"C",	[](Tooth& tooth) mutable { tooth.caries.set(true); }},
+		{"Oo",	[](Tooth& tooth) mutable { tooth.obturation.set(true, Surface::Occlusal); }},
+		{"Om",	[](Tooth& tooth) mutable { tooth.obturation.set(true, Surface::Medial);  }},
+		{"Od",	[](Tooth& tooth) mutable { tooth.obturation.set(true, Surface::Distal);  }},
+		{"Ob",	[](Tooth& tooth) mutable { tooth.obturation.set(true, Surface::Buccal); }},
+		{"Ol",	[](Tooth& tooth) mutable { tooth.obturation.set(true, Surface::Lingual);  }},
+		{"Oc",	[](Tooth& tooth) mutable { tooth.obturation.set(true, Surface::Cervical);  }},
+		{"Co",	[](Tooth& tooth) mutable { tooth.caries.set(true, Surface::Occlusal); }},
+		{"Cm",	[](Tooth& tooth) mutable { tooth.caries.set(true, Surface::Medial);  }},
+		{"Cd",	[](Tooth& tooth) mutable { tooth.caries.set(true, Surface::Distal);  }},
+		{"Cb",	[](Tooth& tooth) mutable { tooth.caries.set(true, Surface::Buccal); }},
+		{"Cl",	[](Tooth& tooth) mutable { tooth.caries.set(true, Surface::Lingual);  }},
+		{"Cc",	[](Tooth& tooth) mutable { tooth.caries.set(true, Surface::Cervical);  }},
+		{"M1",	[](Tooth& tooth) mutable { tooth.mobility.set(true); tooth.mobility.degree = Degree::First; }},
+		{"M2",	[](Tooth& tooth) mutable { tooth.mobility.set(true); tooth.mobility.degree = Degree::Second; }},
+		{"M3",	[](Tooth& tooth) mutable { tooth.mobility.set(true); tooth.mobility.degree = Degree::Third; }},
+		{"X",	[](Tooth& tooth) mutable { tooth.denture.set(true); }},
+		{"R",	[](Tooth& tooth) mutable { tooth.root.set(true); }},
+		{"Rc",	[](Tooth& tooth) mutable { tooth.endo.set(true); }},
+		{"Rp",	[](Tooth& tooth) mutable { tooth.post.set(true); }},
+		{"H",	[](Tooth& tooth) mutable { tooth.healthy.set(true); }},
+		{"I",	[](Tooth& tooth) mutable { tooth.implant.set(true); }},
+		{"Re",	[](Tooth& tooth) mutable { tooth.impacted.set(true); }},
+		{"G",	[](Tooth& tooth) mutable { tooth.lesion.set(true); }},
+		{"P",	[](Tooth& tooth) mutable { tooth.pulpitis.set(true); }},
+		{"F",	[](Tooth& tooth) mutable { tooth.fracture.set(true); }},
+		{"Pa",	[](Tooth& tooth) mutable { tooth.periodontitis.set(true); }},
+		{"D",	[](Tooth& tooth) mutable { tooth.dsn.set(true); }},
+		{"S",	[&splints](Tooth& tooth) mutable { splints.push_back(tooth.index); }}
 	};
 
 
@@ -410,7 +410,7 @@ void EDental::GetStatus::parseReply(const std::string& reply)
 
 			if (lambdaMap.count(code))
 			{
-				lambdaMap[code](index, tooth);
+				lambdaMap[code](tooth);
 			}
 		}
 

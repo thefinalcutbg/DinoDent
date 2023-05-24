@@ -9,7 +9,6 @@ class UpdateDialog : public QDialog
 
 public:
 	UpdateDialog(QWidget *parent = nullptr);
-	void execute();
 	void setRange(int range);
 	void increment();
 	~UpdateDialog();

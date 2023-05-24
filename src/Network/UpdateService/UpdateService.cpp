@@ -11,7 +11,7 @@
 bool UpdateService::restartForUpdate()
 {
 	auto m_reply = NetworkManager::simpleRequest(
-        "https://raw.githubusercontent.com/thefinalcutbg/DinoDent/main/ver"
+        "https://raw.githubusercontent.com/thefinalcutbg/DinoDent/main/verrr"
     );
 
     QEventLoop loop;
@@ -28,7 +28,7 @@ bool UpdateService::restartForUpdate()
 
     bool parsingSuccessful = Json::Reader().parse(result, updateInfo);
 
-    if (!parsingSuccessful) {
+    if (!parsingSuccessful || !updateInfo.isObject()) {
         return  false;
     }
 

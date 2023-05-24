@@ -342,7 +342,7 @@
     <ClCompile Include="src\Presenter\DoctorDialogPresenter.cpp" />
     <ClCompile Include="src\Presenter\FinancialPresenter.cpp" />
     <ClCompile Include="src\Presenter\ListPresenter.cpp" />
-    <ClCompile Include="src\Presenter\ListSelectorPresenter.cpp" />
+    <ClCompile Include="src\Presenter\BrowserPresenter.cpp" />
     <ClCompile Include="src\Presenter\LoginPresenter.cpp" />
     <ClCompile Include="src\Presenter\MainPresenter.cpp" />
     <ClCompile Include="src\Presenter\MonthNotifPresenter.cpp" />
@@ -453,7 +453,7 @@
     <ClCompile Include="src\View\Widgets\ButtonDialog.cpp" />
     <ClCompile Include="src\View\Widgets\MedicalStatusDialog.cpp" />
     <ClCompile Include="src\View\Widgets\PracticeDialog.cpp" />
-    <ClCompile Include="src\View\Widgets\AmbListSelector.cpp" />
+    <ClCompile Include="src\View\Widgets\BrowserDialog.cpp" />
     <ClCompile Include="src\View\Widgets\BusinessOpAddDialog.cpp" />
     <ClCompile Include="src\View\Widgets\BusinessOpEditDialog.cpp" />
     <ClCompile Include="src\View\Widgets\DetailedStatus.cpp" />
@@ -640,7 +640,7 @@
     <ClInclude Include="src\Presenter\FinancialPresenter.h" />
     <ClInclude Include="src\Presenter\InputEnums.h" />
     <ClInclude Include="src\Presenter\ListPresenter.h" />
-    <ClInclude Include="src\Presenter\ListSelectorPresenter.h" />
+    <ClInclude Include="src\Presenter\BrowserPresenter.h" />
     <ClInclude Include="src\Presenter\LoginPresenter.h" />
     <ClInclude Include="src\Presenter\MainPresenter.h" />
     <ClInclude Include="src\Presenter\MonthNotifPresenter.h" />
@@ -698,7 +698,7 @@
     <ClInclude Include="src\View\Interfaces\IDosageDialog.h" />
     <ClInclude Include="src\View\Interfaces\IFinancialView.h" />
     <ClInclude Include="src\View\Interfaces\IImplantView.h" />
-    <ClInclude Include="src\View\Interfaces\IListSelectorView.h" />
+    <ClInclude Include="src\View\Interfaces\IBrowserDialog.h" />
     <ClInclude Include="src\View\Interfaces\IListView.h" />
     <ClInclude Include="src\View\Interfaces\ILoginView.h" />
     <ClInclude Include="src\View\Interfaces\IMainView.h" />
@@ -795,7 +795,7 @@
     <QtMoc Include="src\View\Widgets\DetailedStatus.h" />
     <QtMoc Include="src\View\Widgets\BusinessOpEditDialog.h" />
     <QtMoc Include="src\View\Widgets\BusinessOpAddDialog.h" />
-    <QtMoc Include="src\View\Widgets\AmbListSelector.h" />
+    <QtMoc Include="src\View\Widgets\BrowserDialog.h" />
     <QtMoc Include="src\View\Widgets\PracticeDialog.h" />
     <QtMoc Include="src\View\uiComponents\UserButton.h" />
     <QtMoc Include="src\View\uiComponents\ToothButton.h" />
@@ -855,7 +855,7 @@
     <QtUic Include="src\View\Widgets\ButtonDialog.ui" />
     <QtUic Include="src\View\Widgets\MedicalStatusDialog.ui" />
     <QtUic Include="src\View\Widgets\PracticeDialog.ui" />
-    <QtUic Include="src\View\Widgets\AmbListSelector.ui" />
+    <QtUic Include="src\View\Widgets\BrowserDialog.ui" />
     <QtUic Include="src\View\Widgets\BusinessOpAddDialog.ui" />
     <QtUic Include="src\View\Widgets\BusinessOpEditDialog.ui" />
     <QtUic Include="src\View\Widgets\DetailedStatus.ui" />

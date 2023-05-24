@@ -255,7 +255,7 @@
     <ClCompile Include="src\Presenter\ListPresenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Presenter\ListSelectorPresenter.cpp">
+    <ClCompile Include="src\Presenter\BrowserPresenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Presenter\LoginPresenter.cpp">
@@ -495,7 +495,7 @@
     <ClCompile Include="src\View\Widgets\PracticeDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\Widgets\AmbListSelector.cpp">
+    <ClCompile Include="src\View\Widgets\BrowserDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\Widgets\BusinessOpAddDialog.cpp">
@@ -1139,7 +1139,7 @@
     <ClInclude Include="src\Presenter\ListPresenter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Presenter\ListSelectorPresenter.h">
+    <ClInclude Include="src\Presenter\BrowserPresenter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Presenter\LoginPresenter.h">
@@ -1277,7 +1277,7 @@
     <ClInclude Include="src\View\Interfaces\IImplantView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\View\Interfaces\IListSelectorView.h">
+    <ClInclude Include="src\View\Interfaces\IBrowserDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\Interfaces\IListView.h">
@@ -1705,7 +1705,7 @@
     <QtMoc Include="src\View\Widgets\PracticeDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\Widgets\AmbListSelector.h">
+    <QtMoc Include="src\View\Widgets\BrowserDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\Widgets\BusinessOpAddDialog.h">
@@ -1893,7 +1893,7 @@
     <QtUic Include="src\View\Widgets\PracticeDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="src\View\Widgets\AmbListSelector.ui">
+    <QtUic Include="src\View\Widgets\BrowserDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\Widgets\BusinessOpAddDialog.ui">

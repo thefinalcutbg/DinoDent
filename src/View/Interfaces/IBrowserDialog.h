@@ -4,7 +4,7 @@
 
 #include "Model/TableRows.h"
 
-class IListSelectorView
+class IBrowserDialog
 {
 public:
 	virtual void setDates(const Date& from, const Date& to) = 0;

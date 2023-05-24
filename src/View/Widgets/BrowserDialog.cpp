@@ -1,11 +1,11 @@
-﻿#include "AmbListSelector.h"
-#include "Presenter/ListSelectorPresenter.h"
+﻿#include "BrowserDialog.h"
+#include "Presenter/BrowserPresenter.h"
 #include <QMessageBox>
 #include  <QRegularExpression>
 #include <QApplication>
 #include "View/Theme.h"
 #include "QtVersion.h"
-AmbListSelector::AmbListSelector(ListSelectorPresenter* presenter) :
+BrowserDialog::BrowserDialog(BrowserPresenter* presenter) :
 	presenter(presenter)
 {
 	ui.setupUi(this);
@@ -72,7 +72,7 @@ AmbListSelector::AmbListSelector(ListSelectorPresenter* presenter) :
 
 }
 
-AmbListSelector::~AmbListSelector()
+BrowserDialog::~BrowserDialog()
 {
 	ui.fromDateEdit->blockSignals(true);
 	ui.toDateEdit->blockSignals(true);
@@ -81,7 +81,7 @@ AmbListSelector::~AmbListSelector()
 }
 
 
-void AmbListSelector::setDates(const Date& from, const Date& to)
+void BrowserDialog::setDates(const Date& from, const Date& to)
 {
 	QSignalBlocker f(ui.fromDateEdit);
 	QSignalBlocker t(ui.toDateEdit);
@@ -89,7 +89,7 @@ void AmbListSelector::setDates(const Date& from, const Date& to)
 	ui.toDateEdit->setDate(QDate(to.year, to.month, to.day));
 }
 
-void AmbListSelector::setRows(const std::vector<AmbRow>& rows)
+void BrowserDialog::setRows(const std::vector<AmbRow>& rows)
 {
 	amb_model.setRows(rows);
 
@@ -134,7 +134,7 @@ void AmbListSelector::setRows(const std::vector<AmbRow>& rows)
 }
 
 
-void AmbListSelector::setRows(const std::vector<PerioRow>& rows)
+void BrowserDialog::setRows(const std::vector<PerioRow>& rows)
 {
 	perio_model.setRows(rows);
 
@@ -182,7 +182,7 @@ void AmbListSelector::setRows(const std::vector<PerioRow>& rows)
 }
 
 
-void AmbListSelector::setRows(const std::vector<PatientRow>& rows)
+void BrowserDialog::setRows(const std::vector<PatientRow>& rows)
 {
 	patient_model.setRows(rows);
 
@@ -227,7 +227,7 @@ void AmbListSelector::setRows(const std::vector<PatientRow>& rows)
 	);
 }
 
-void AmbListSelector::setRows(const std::vector<FinancialRow>& rows)
+void BrowserDialog::setRows(const std::vector<FinancialRow>& rows)
 {
 	financial_model.setRows(rows);
 
@@ -270,7 +270,7 @@ void AmbListSelector::setRows(const std::vector<FinancialRow>& rows)
 	);
 }
 
-void AmbListSelector::setRows(const std::vector<PrescriptionRow>& rows)
+void BrowserDialog::setRows(const std::vector<PrescriptionRow>& rows)
 {
 	perscription_model.setRows(rows);
 
@@ -313,7 +313,7 @@ void AmbListSelector::setRows(const std::vector<PrescriptionRow>& rows)
 }
 
 
-void AmbListSelector::contextMenuRequested(const QPoint& p)
+void BrowserDialog::contextMenuRequested(const QPoint& p)
 {
 	if (ui.tableView->selectionModel()->currentIndex().row() == -1) return;
 
@@ -364,12 +364,12 @@ void AmbListSelector::contextMenuRequested(const QPoint& p)
 	main_menu->popup(ui.tableView->viewport()->mapToGlobal(p));
 }
 
-void AmbListSelector::focus()
+void BrowserDialog::focus()
 {
 	activateWindow();
 }
 
-void AmbListSelector::close()
+void BrowserDialog::close()
 {
 	QDialog::accept();
 }

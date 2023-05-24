@@ -1,14 +1,14 @@
-﻿#include "ListSelectorPresenter.h"
-#include "View/Interfaces/IListSelectorView.h"
+﻿#include "BrowserPresenter.h"
+#include "View/Interfaces/IBrowserDialog.h"
 #include "View/ModalDialogBuilder.h"
 #include "Database/DbPatient.h"
 
-ListSelectorPresenter::ListSelectorPresenter()
+BrowserPresenter::BrowserPresenter()
 {
 
 }
 
-void ListSelectorPresenter::openDialog()
+void BrowserPresenter::openDialog()
 {
 	if (!view) {
 		m_selectedInstances.clear();
@@ -17,7 +17,7 @@ void ListSelectorPresenter::openDialog()
 	else view->focus();
 }
 
-void ListSelectorPresenter::setView(IListSelectorView* view)
+void BrowserPresenter::setView(IBrowserDialog* view)
 {
 	this->view = view;
 
@@ -31,7 +31,7 @@ void ListSelectorPresenter::setView(IListSelectorView* view)
 	
 }
 
-void ListSelectorPresenter::setDates(const Date& from, const Date& to)
+void BrowserPresenter::setDates(const Date& from, const Date& to)
 {
 	m_from = from;
 	m_to = to;
@@ -40,7 +40,7 @@ void ListSelectorPresenter::setDates(const Date& from, const Date& to)
 
 
 
-void ListSelectorPresenter::refreshModel()
+void BrowserPresenter::refreshModel()
 {
 	
 	m_ambRows = DbListOpener::getAmbRows(m_from, m_to);
@@ -57,7 +57,7 @@ void ListSelectorPresenter::refreshModel()
 		
 }
 
-void ListSelectorPresenter::setListType(TabType type)
+void BrowserPresenter::setListType(TabType type)
 {
 	m_currentModelType = type;
 	m_selectedInstances.clear();
@@ -72,7 +72,7 @@ void ListSelectorPresenter::setListType(TabType type)
 	}
 }
 
-void ListSelectorPresenter::selectionChanged(std::set<int> selectedIndexes)
+void BrowserPresenter::selectionChanged(std::set<int> selectedIndexes)
 { 
 
 	m_selectedInstances.clear();
@@ -88,14 +88,14 @@ void ListSelectorPresenter::selectionChanged(std::set<int> selectedIndexes)
 
 #include "Presenter/TabPresenter.h"
 
-void ListSelectorPresenter::setTabPresenter(TabPresenter* tabPresenter)
+void BrowserPresenter::setTabPresenter(TabPresenter* tabPresenter)
 {
 	this->tab_presenter = tabPresenter;
 }
 
 
 
-void ListSelectorPresenter::openNewDocument(TabType type)
+void BrowserPresenter::openNewDocument(TabType type)
 {
 	if (m_currentModelType == TabType::Financial) return;
 
@@ -114,7 +114,7 @@ void ListSelectorPresenter::openNewDocument(TabType type)
 }
 
 
-void ListSelectorPresenter::openCurrentSelection()
+void BrowserPresenter::openCurrentSelection()
 {
 	if (!m_selectedInstances.size()) return;
 
@@ -133,7 +133,7 @@ void ListSelectorPresenter::openCurrentSelection()
 
 
 
-void ListSelectorPresenter::deleteCurrentSelection()
+void BrowserPresenter::deleteCurrentSelection()
 {
 	if (m_selectedInstances.empty()) return;
 
@@ -183,7 +183,7 @@ void ListSelectorPresenter::deleteCurrentSelection()
 	
 }
 
-ListSelectorPresenter::~ListSelectorPresenter()
+BrowserPresenter::~BrowserPresenter()
 {
 }
 

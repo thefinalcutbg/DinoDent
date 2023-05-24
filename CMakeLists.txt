@@ -102,6 +102,7 @@ src\Database\DbUpdateStatus.h
 src\DbUpdates\DbUpdates.cpp
 src\DbUpdates\DbUpdates.h
 src\DbUpdates\Update10.cpp
+src\DbUpdates\Update11.cpp
 src\DbUpdates\Update5.cpp
 src\DbUpdates\Update6.cpp
 src\DbUpdates\Update7.cpp
@@ -124,6 +125,7 @@ src\Model\Parser.cpp
 src\Model\Parser.h
 src\Model\Patient.cpp
 src\Model\Patient.h
+src\Model\Pention.h
 src\Model\Settings.h
 src\Model\Specialty.cpp
 src\Model\Specialty.h
@@ -274,6 +276,8 @@ src\Network\HIS\UpdateMkb.cpp
 src\Network\HIS\UpdateMkb.h
 src\Network\NRA\NraStatusService.cpp
 src\Network\NRA\NraStatusService.h
+src\Network\NRA\NssiPentionService.cpp
+src\Network\NRA\NssiPentionService.h
 src\Network\PIS\DentalActivitiesService.cpp
 src\Network\PIS\DentalActivitiesService.h
 src\Network\PIS\DiagnosisService.cpp
@@ -292,6 +296,8 @@ src\Network\PIS\SendFileService.cpp
 src\Network\PIS\SendFileService.h
 src\Network\UpdateService\UpdateService.cpp
 src\Network\UpdateService\UpdateService.h
+src\Presenter\BrowserPresenter.cpp
+src\Presenter\BrowserPresenter.h
 src\Presenter\ButtonSurfaceMatrix.cpp
 src\Presenter\ButtonSurfaceMatrix.h
 src\Presenter\CheckState.cpp
@@ -307,8 +313,6 @@ src\Presenter\FinancialPresenter.h
 src\Presenter\InputEnums.h
 src\Presenter\ListPresenter.cpp
 src\Presenter\ListPresenter.h
-src\Presenter\ListSelectorPresenter.cpp
-src\Presenter\ListSelectorPresenter.h
 src\Presenter\LoginPresenter.cpp
 src\Presenter\LoginPresenter.h
 src\Presenter\MainPresenter.cpp
@@ -414,13 +418,13 @@ src\View\Interfaces\AbstractSurfaceSelector.h
 src\View\Interfaces\AbstractUIElement.cpp
 src\View\Interfaces\AbstractUIElement.h
 src\View\Interfaces\IAllergiesDialog.h
+src\View\Interfaces\IBrowserDialog.h
 src\View\Interfaces\ICrownView.h
 src\View\Interfaces\IDetailedStatusView.h
 src\View\Interfaces\IDoctorSettingsDialog.h
 src\View\Interfaces\IDosageDialog.h
 src\View\Interfaces\IFinancialView.h
 src\View\Interfaces\IImplantView.h
-src\View\Interfaces\IListSelectorView.h
 src\View\Interfaces\IListView.h
 src\View\Interfaces\ILoginView.h
 src\View\Interfaces\IMainView.h
@@ -583,9 +587,9 @@ src\View\uiComponents\UserButton.h
 src\View\Widgets\AboutDialog.cpp
 src\View\Widgets\AboutDialog.h
 src\View\Widgets\AboutDialog.ui
-src\View\Widgets\AmbListSelector.cpp
-src\View\Widgets\AmbListSelector.h
-src\View\Widgets\AmbListSelector.ui
+src\View\Widgets\BrowserDialog.cpp
+src\View\Widgets\BrowserDialog.h
+src\View\Widgets\BrowserDialog.ui
 src\View\Widgets\BusinessOpAddDialog.cpp
 src\View\Widgets\BusinessOpAddDialog.h
 src\View\Widgets\BusinessOpAddDialog.ui

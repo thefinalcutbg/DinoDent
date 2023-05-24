@@ -3,13 +3,13 @@
 #include <vector>
 #include "View/Interfaces/IMainView.h"
 #include "TabPresenter.h"
-#include "ListSelectorPresenter.h"
+#include "BrowserPresenter.h"
 #include "MonthNotifPresenter.h"
 
 class MainPresenter
 {
 	TabPresenter m_tabPresenter;
-	ListSelectorPresenter m_listSelector;
+	BrowserPresenter m_browserPresenter;
 	MonthNotifPresenter m_notifPresenter{ &m_tabPresenter };
 	IMainView* view{nullptr};
 

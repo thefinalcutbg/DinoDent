@@ -21,7 +21,7 @@ class ProcedureDialogPresenter;
 class PatientDialogPresenter;
 class ProcedureEditorPresenter;
 class AllergiesDialogPresenter;
-class ListSelectorPresenter;
+class BrowserPresenter;
 class DetailedStatusPresenter;
 class LoginPresenter;
 class DoctorDialogPresenter;
@@ -44,7 +44,7 @@ namespace ModalDialogBuilder
 	void openDialog(ProcedureDialogPresenter* p);
 	void openDialog(PatientDialogPresenter* p);
 	void openDialog(ProcedureEditorPresenter* p);
-	void openDialog(ListSelectorPresenter* p);
+	void openDialog(BrowserPresenter* p);
 	void openDialog(DetailedStatusPresenter* p);
 	void openDialog(LoginPresenter* p);
 	void openDialog(PracticeDialogPresenter* p);

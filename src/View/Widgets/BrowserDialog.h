@@ -1,8 +1,8 @@
 #pragma once
 
 #include <QDialog>
-#include "ui_AmbListSelector.h"
-#include "View/Interfaces/IListSelectorView.h"
+#include "ui_BrowserDialog.h"
+#include "View/Interfaces/IBrowserdialog.h"
 #include "View/TableModels/AmbListTableModel.h"
 #include "View/TableModels/PatientTableModel.h"
 #include "View/TableModels/PerioTableModel.h"
@@ -10,14 +10,14 @@
 #include "View/TableModels/PrescriptionTableModel.h"
 #include <QSortFilterProxyModel>
 
-class ListSelectorPresenter;
+class BrowserPresenter;
 
-class AmbListSelector : public QDialog, public IListSelectorView
+class BrowserDialog : public QDialog, public IBrowserDialog
 {
 	Q_OBJECT
 private:
 
-	ListSelectorPresenter* presenter;
+	BrowserPresenter* presenter;
 
 	QSortFilterProxyModel idFilter;
 	QSortFilterProxyModel nameFilter;
@@ -31,7 +31,7 @@ private:
 
 
 public:
-	AmbListSelector(ListSelectorPresenter *p);
+	BrowserDialog(BrowserPresenter *p);
 
 	void setDates(const Date& from, const Date& to) override;
 
@@ -40,10 +40,10 @@ public:
 	void setRows(const std::vector<PerioRow>& rows) override;
 	void setRows(const std::vector<FinancialRow>& rows) override;
 	void setRows(const std::vector<PrescriptionRow>& rows) override;
-	~AmbListSelector();
+	~BrowserDialog();
 
 private:
-	Ui::AmbListSelector ui;
+	Ui::BrowserDialog ui;
 
 	//shows the additional buttons and changes selectionMode
 

@@ -21,7 +21,7 @@ void MainPresenter::setView(IMainView* view)
     this->view = view;
 
     m_tabPresenter.setView(view->tabView());
-    m_listSelector.setTabPresenter(&m_tabPresenter);
+    m_browserPresenter.setTabPresenter(&m_tabPresenter);
 
     if (DbPractice::noPractices())
     {
@@ -109,7 +109,7 @@ void MainPresenter::newPerscriptionPressed()
 
 void MainPresenter::showListSelector()
 {
-    m_listSelector.openDialog();
+    m_browserPresenter.openDialog();
 }
 
 

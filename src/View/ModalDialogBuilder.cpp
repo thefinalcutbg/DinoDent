@@ -24,11 +24,11 @@ void ModalDialogBuilder::openDialog(ProcedureEditorPresenter* p)
 	d.exec();
 }
 
-#include "View/Widgets/AmbListSelector.h"
+#include "View/Widgets/BrowserDialog.h"
 
-void ModalDialogBuilder::openDialog(ListSelectorPresenter* p)
+void ModalDialogBuilder::openDialog(BrowserPresenter* p)
 {
-	AmbListSelector* d = new AmbListSelector(p);
+	BrowserDialog* d = new BrowserDialog(p);
 	d->setAttribute(Qt::WA_DeleteOnClose);
 	d->show();
 }

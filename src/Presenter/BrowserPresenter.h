@@ -4,12 +4,12 @@
 #include "Database/DbListOpener.h"
 #include <set>
 class TabPresenter;
-class IListSelectorView;
+class IBrowserDialog;
 
-class ListSelectorPresenter
+class BrowserPresenter
 {
 	TabPresenter* tab_presenter{ nullptr };
-	IListSelectorView* view{ nullptr };
+	IBrowserDialog* view{ nullptr };
 
 	TabType m_currentModelType { TabType::PatientSummary};
 
@@ -25,13 +25,13 @@ class ListSelectorPresenter
 	std::vector<RowInstance*> m_selectedInstances;
 
 public:
-	ListSelectorPresenter();
+	BrowserPresenter();
 	
 	void setTabPresenter(TabPresenter* tabPresenter);
 
 	void openDialog();
 
-	void setView(IListSelectorView* view);
+	void setView(IBrowserDialog* view);
 
 	void setDates(const Date& from, const Date& to);
 
@@ -43,7 +43,7 @@ public:
 	void openNewDocument(TabType type);
 	void openCurrentSelection();
 	void deleteCurrentSelection();
-	~ListSelectorPresenter();
+	~BrowserPresenter();
 
 };
 

@@ -13,7 +13,7 @@ IssuerType getIssuerType(int legalEntity, const Doctor& doctor)
         return SelfInsured{
             "Декларация по чл.43,ал.5 от ЗДДФЛ, че съм самоосигуряващо се лице по смисъла на КСО",
             PersonInfo{
-                doctor.egn,
+                User::practice().selfInsuredId,
                 doctor.fname,
                 doctor.mname,
                 doctor.lname

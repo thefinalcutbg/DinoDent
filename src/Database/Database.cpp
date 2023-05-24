@@ -27,7 +27,7 @@ Db::Db(Db* existingConnection)
          throw;
     }
 
-  //  execute("PRAGMA foreign_keys = ON");
+    execute("PRAGMA foreign_keys = ON");
     
 }
 
@@ -232,7 +232,7 @@ bool Db::crudQuery(const std::string& query)
         return false;
     }
 
-   // sqlite3_exec(db, "PRAGMA foreign_keys = ON", NULL, NULL, &err);
+    sqlite3_exec(db, "PRAGMA foreign_keys = ON", NULL, NULL, &err);
 
     i = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
 

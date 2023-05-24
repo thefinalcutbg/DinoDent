@@ -1,0 +1,6 @@
+PRAGMA foreign_keys = 0;
+ALTER TABLE doctor DROP egn;
+ALTER TABLE practice ADD self_insured_id TEXT;
+PRAGMA user_version = 11;
+PRAGMA foreign_keys = 1;
+

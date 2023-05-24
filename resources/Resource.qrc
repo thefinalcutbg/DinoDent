@@ -36,6 +36,7 @@
         <file>icon_bday.png</file>
         <file>icon_question.png</file>
         <file>icon_history.png</file>
+        <file>icon_nssi.png</file>
     </qresource>
     <qresource prefix="/tooth">
         <file>tooth_approximal.png</file>
@@ -117,5 +118,6 @@
         <file>db_migrateTo8.txt</file>
         <file>db_migrateTo9.txt</file>
         <file>db_migrateTo10.txt</file>
+        <file>db_migrateTo11.txt</file>
     </qresource>
 </RCC>

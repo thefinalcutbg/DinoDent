@@ -4,6 +4,7 @@
 #include "ui_PracticeSettings.h"
 #include "View/Interfaces/IPacticeSettings.h"
 #include "Presenter/PracticeSettingsPresenter.h"
+#include "Model/Validators/PatientValidators.h"
 
 class PracticeSettings : public QWidget, public IPracticeSettings
 {
@@ -11,8 +12,10 @@ class PracticeSettings : public QWidget, public IPracticeSettings
 
 	PracticeSettingsPresenter* presenter{nullptr};
 
-	static constexpr int lineEditCount = 10;
+	static constexpr int lineEditCount = 11;
 	std::array<AbstractLineEdit*, lineEditCount> lineEdits;
+
+	EgnValidator id_validator;
 
 	void paintEvent(QPaintEvent* event) override;
 

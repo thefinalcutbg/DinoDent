@@ -34,7 +34,7 @@ ListView::ListView(QWidget* parent)
 	ui.deleteProcedure->setIcon(QIcon(":/icons/icon_remove.png"));
 	ui.editProcedure->setIcon(QIcon(":/icons/icon_edit.png"));
 	ui.historyButton->setIcon(QIcon(":/icons/icon_history.png"));
-
+	ui.nssiButton->setIcon(QIcon(":/icons/icon_nssi.png"));
 
 	ui.perioButton->setHoverColor(Theme::mainBackgroundColor);
 	ui.invoiceButton->setHoverColor(Theme::mainBackgroundColor);
@@ -301,6 +301,7 @@ void ListView::hideNhifSheetData()
 	ui.spec_label->hide();
 	ui.specCombo->hide();
 	ui.unfavCheck->hide();
+	ui.nssiButton->hide();
 
 }
 
@@ -308,6 +309,7 @@ void ListView::setNhifData(const NhifSheetData& data, bool showUnfav)
 {
 	ui.spec_label->show();
 	ui.specCombo->show();
+	ui.nssiButton->show();
 
 	QSignalBlocker b(ui.specCombo);
 	ui.specCombo->setCurrentIndex(static_cast<int>(data.specification));

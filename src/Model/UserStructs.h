@@ -35,7 +35,6 @@ struct Doctor
 	std::string fname;
 	std::string mname;
 	std::string lname;
-	std::string egn;
 	NhifSpecialty specialty{ NhifSpecialty::None };
 	std::string pass;
 	std::string phone;
@@ -93,6 +92,7 @@ struct Practice
 	std::string vat;
 	std::string pass;
 	int legal_entity{ 0 };
+	std::string selfInsuredId;
 
 	Settings settings;
 

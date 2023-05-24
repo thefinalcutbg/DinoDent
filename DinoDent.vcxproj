@@ -221,6 +221,7 @@
     <ClCompile Include="src\Database\DbStatistics.cpp" />
     <ClCompile Include="src\Database\DbUpdateStatus.cpp" />
     <ClCompile Include="src\DbUpdates\Update10.cpp" />
+    <ClCompile Include="src\DbUpdates\Update11.cpp" />
     <ClCompile Include="src\DbUpdates\Update5.cpp" />
     <ClCompile Include="src\DbUpdates\Update6.cpp" />
     <ClCompile Include="src\DbUpdates\Update7.cpp" />

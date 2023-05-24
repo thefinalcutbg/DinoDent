@@ -31,7 +31,7 @@ PracticeSettings::PracticeSettings(QWidget *parent)
 	lineEdits[PracticeTextFields::NZOKContract] = ui.contractEdit;
 	lineEdits[PracticeTextFields::NZOKShortName] = ui.practiceNameNZOK;
 	lineEdits[PracticeTextFields::NraPass] = ui.nraPass;
-
+	lineEdits[PracticeTextFields::SelfInsuredId] = ui.selfInsuredId;
 
 	for (auto lineEdit : lineEdits)
 	{
@@ -75,6 +75,26 @@ PracticeSettings::PracticeSettings(QWidget *parent)
 		}
 	);
 
+	connect(ui.legalEntityCombo, QtComboIndexChanged, [=](int index) {
+
+			bool notSelfInsured = index;
+
+			ui.selfInsuredId->setHidden(notSelfInsured);
+			ui.selfInsuredLabel->setHidden(notSelfInsured);
+
+			ui.selfInsuredId->setInputValidator(
+				notSelfInsured ?
+				nullptr
+				:
+				&id_validator
+			);
+
+		}
+	);
+
+
+	ui.legalEntityCombo->setCurrentIndex(2);
+
 	ui.activityAddressEdit->setCompletions(Ekatte::cityNameToIdx());
 
 }
@@ -88,11 +108,12 @@ void PracticeSettings::setPractice(const Practice& practice)
 	ui.practiceNameEdit->setText(QString::fromStdString(practice.name));
 	ui.rziEdit->setText(QString::fromStdString(practice.rziCode));
 	ui.bulstatEdit->setText(QString::fromStdString(practice.bulstat));
-	ui.comboBox->setCurrentIndex(practice.legal_entity);
+	ui.legalEntityCombo->setCurrentIndex(practice.legal_entity);
 	ui.firmAddressEdit->setText(QString::fromStdString(practice.firm_address));
 	ui.activityAddressEdit->setText(practice.practice_address.getString(false).c_str());
 	ui.vatEdit->setText(QString::fromStdString(practice.vat));
 	ui.passEdit->setText(QString::fromStdString(practice.pass));
+	ui.selfInsuredId->setText(QString::fromStdString(practice.selfInsuredId));
 	
 	ui.nzokGroup->setChecked(practice.nhif_contract.has_value());
 	if (practice.nhif_contract) {
@@ -112,10 +133,11 @@ Practice PracticeSettings::getPractice()
 	p.bulstat = ui.bulstatEdit->getText();
 	p.firm_address = ui.firmAddressEdit->getText();
 	p.practice_address = ui.activityAddressEdit->getText();
-	p.legal_entity = ui.comboBox->currentIndex();
+	p.legal_entity = ui.legalEntityCombo->currentIndex();
 	p.name = ui.practiceNameEdit->getText();
 	p.pass = ui.passEdit->getText();
 	p.vat = ui.vatEdit->getText();
+	p.selfInsuredId = ui.selfInsuredId->getText();
 
 	if (ui.nzokGroup->isChecked())
 	{
@@ -144,7 +166,7 @@ AbstractDateEdit* PracticeSettings::dateEdit()
 
 int PracticeSettings::legalForm()
 {
-	return ui.comboBox->currentIndex();
+	return ui.legalEntityCombo->currentIndex();
 }
 
 void PracticeSettings::setPresenter(PracticeSettingsPresenter* presenter)

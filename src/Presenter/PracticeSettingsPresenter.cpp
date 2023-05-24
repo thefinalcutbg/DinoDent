@@ -47,7 +47,7 @@ Practice PracticeSettingsPresenter::getPractice()
 bool PracticeSettingsPresenter::isValid()
 {
 
-	AbstractUIElement* uiFields[9]
+	AbstractUIElement* uiFields[10]
 	{
 		view->lineEdit(PracticeTextFields::Name),
 		view->lineEdit(PracticeTextFields::RZI),
@@ -57,6 +57,7 @@ bool PracticeSettingsPresenter::isValid()
 		view->lineEdit(PracticeTextFields::FirmAddress),
 		view->lineEdit(PracticeTextFields::NZOKContract),
 		view->lineEdit(PracticeTextFields::NZOKShortName),
+		view->lineEdit(PracticeTextFields::SelfInsuredId),
 		view->dateEdit()
 	};
 

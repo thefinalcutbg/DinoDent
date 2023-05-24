@@ -4,7 +4,7 @@
 
 Practice DbPractice::getPractice(const std::string rziCode)
 {
-    std::string query = "SELECT rzi, name, bulstat, firm_address, practice_address, legal_entity, pass, vat, nhif_contract, settings "
+    std::string query = "SELECT rzi, name, bulstat, firm_address, practice_address, legal_entity, pass, vat, nhif_contract, settings, self_insured_id "
         "FROM practice WHERE rzi = '" + rziCode + "'";
 
     Practice practice;
@@ -21,6 +21,7 @@ Practice DbPractice::getPractice(const std::string rziCode)
         practice.vat = db.asString(7);
         practice.nhif_contract = Parser::parseContract(db.asString(8));
         practice.settings = Parser::parseSettings(db.asString(9));
+        practice.selfInsuredId = db.asString(10);
 
     }
 
@@ -42,7 +43,8 @@ void DbPractice::updatePractice(const Practice& practice, const std::string& cur
         "vat=?,"
         "pass=?,"
         "nhif_contract=?,"
-        "settings=? "
+        "settings=?, "
+        "self_insured_id=? "
         "WHERE rzi=?"
     );
 
@@ -56,7 +58,8 @@ void DbPractice::updatePractice(const Practice& practice, const std::string& cur
     db.bind(8, practice.pass);
     db.bind(9, Parser::write(practice.nhif_contract));
     db.bind(10, Parser::write(practice.settings));
-    db.bind(11, currentRZI);
+    db.bind(11, practice.selfInsuredId);
+    db.bind(12, currentRZI);
 
     db.execute();
 
@@ -69,8 +72,8 @@ void DbPractice::insertPractice(const Practice& practice)
 
     Db db(
         "INSERT INTO practice "
-        "(rzi, name, bulstat, firm_address, practice_address, pass, legal_entity, vat, nhif_contract, settings) "
-        "VALUES(?,?,?,?,?,?,?,?,?,?)"
+        "(rzi, name, bulstat, firm_address, practice_address, pass, legal_entity, vat, nhif_contract, settings, self_insured_id) "
+        "VALUES(?,?,?,?,?,?,?,?,?,?,?)"
     );
 
     db.bind(1, practice.rziCode);
@@ -83,6 +86,7 @@ void DbPractice::insertPractice(const Practice& practice)
     db.bind(8, practice.vat);
     db.bind(9, Parser::write(practice.nhif_contract));
     db.bind(10, Parser::write(practice.settings));
+    db.bind(11, practice.selfInsuredId);
 
     db.execute();
 

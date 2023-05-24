@@ -24,6 +24,7 @@ void UpdateDialog::execute()
 	DbUpdates::update8(*this);
 	DbUpdates::update9(*this);
 	DbUpdates::update10(*this);
+	DbUpdates::update11();
 	close();
 }
 

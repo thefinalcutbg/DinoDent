@@ -18,7 +18,6 @@ DoctorSettingsDialog::DoctorSettingsDialog(DoctorDialogPresenter* presenter, QWi
 	setWindowTitle("Доктор");
 	setWindowIcon(QIcon{ ":/icons/icon_user.png" });
 
-	lineEdits[DoctorFields::EGN] = ui.egnLineEdit;
 	lineEdits[DoctorFields::FirstName] = ui.fNameEdit;
 	lineEdits[DoctorFields::MiddleName] = ui.mNameEdit;
 	lineEdits[DoctorFields::LastName] = ui.lNameEdit;
@@ -63,7 +62,6 @@ void DoctorSettingsDialog::setDoctor(const Doctor& doctor)
 {
 	ui.passEdit->setEchoMode(QLineEdit::EchoMode::Password);
 
-	ui.egnLineEdit->set_Text(doctor.egn);
 	ui.lpkEdit->set_Text(doctor.LPK);
 	ui.fNameEdit->set_Text(doctor.fname);
 	ui.mNameEdit->set_Text(doctor.mname);
@@ -85,7 +83,6 @@ void DoctorSettingsDialog::setDoctor(const Doctor& doctor)
 Doctor DoctorSettingsDialog::getDoctor()
 {
 	Doctor doctor;
-	doctor.egn = ui.egnLineEdit->getText();
 	doctor.LPK = ui.lpkEdit->getText();
 	doctor.fname = ui.fNameEdit->getText();
 	doctor.mname = ui.mNameEdit->getText();

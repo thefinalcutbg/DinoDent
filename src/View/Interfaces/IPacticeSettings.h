@@ -5,14 +5,14 @@
 #include "View/Interfaces/AbstractDateEdit.h"
 #include "Model/UserStructs.h"
 
-constexpr int practiceTextFieldCount = 9;
+constexpr int practiceTextFieldCount = 11;
 
 class PracticeSettingsPresenter;
 struct Practice;
 
 namespace PracticeTextFields
 {
-	enum Field{Name, RZI, Bulstat, FirmAddress, ActivityAddress, Password, VAT, NZOKContract, NZOKShortName, NraPass  };
+	enum Field{Name, RZI, Bulstat, FirmAddress, ActivityAddress, Password, VAT, NZOKContract, NZOKShortName, NraPass, SelfInsuredId  };
 };
 
 class IPracticeSettings

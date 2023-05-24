@@ -53,6 +53,8 @@ void ProcedureHistoryPresenter::refreshHIS()
 
 void ProcedureHistoryPresenter::setView(IProcedureHistoryDialog* view)
 {
+	if (view == nullptr) return;
+
 	this->view = view;
 
 	if (pis_history) 

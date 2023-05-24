@@ -10,4 +10,5 @@ public:
 	virtual void setHis(const std::vector<Procedure>& h) = 0;
 	virtual void closeDialog() = 0;
 	virtual void setCurrentStatus(const ToothContainer& teeth) = 0;
+	virtual void focusHisTab() = 0;
 };

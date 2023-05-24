@@ -7,15 +7,6 @@ ProcedureHistoryPresenter::ProcedureHistoryPresenter(const Patient& p) :
 	his_history(p.HISHistory),
 	ref_patient(p)
 {
-	if (!pis_history.has_value() && User::hasNzokContract()) { refreshPIS(); }
-	if (!his_history.has_value()) { refreshHIS(); }
-
-	status_service.sendRequest(p,
-		[&](const ToothContainer& teeth) {
-			current_status = teeth;
-			view->setCurrentStatus(teeth);
-		}
-	);
 }
 
 void ProcedureHistoryPresenter::refreshPIS()
@@ -64,8 +55,37 @@ void ProcedureHistoryPresenter::setView(IProcedureHistoryDialog* view)
 {
 	this->view = view;
 
-	if (pis_history) view->setPis(pis_history.value());
-	if (his_history) view->setHis(his_history.value());
+	if (pis_history) 
+	{
+		view->setPis(pis_history.value());
+	}
+	else
+	{
+		if(User::hasNzokContract())
+		{ 
+			refreshPIS(); 
+		}
+		else 
+		{
+			view->focusHisTab();
+		}
+	}
+
+
+	if (his_history) {
+		view->setHis(his_history.value());
+	}
+	else
+	{
+		refreshHIS();
+	}
+
+	status_service.sendRequest(ref_patient,
+		[&](const ToothContainer& teeth) {
+			current_status = teeth;
+			view->setCurrentStatus(teeth);
+		}
+	);
 }
 
 void ProcedureHistoryPresenter::openDialog()

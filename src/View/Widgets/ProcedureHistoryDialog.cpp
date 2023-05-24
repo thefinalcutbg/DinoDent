@@ -82,6 +82,11 @@ void ProcedureHistoryDialog::setCurrentStatus(const ToothContainer& teeth)
 
 }
 
+void ProcedureHistoryDialog::focusHisTab()
+{
+    ui.tabWidget->setCurrentIndex(1);
+}
+
 void ProcedureHistoryDialog::closeDialog()
 {
     close();

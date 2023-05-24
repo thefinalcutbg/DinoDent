@@ -90,5 +90,7 @@ namespace EDental {
 			HisService("D009", "/v1/edental/status/get") {}
 
 		bool sendRequest(const Patient& patient, bool showDialog, decltype(m_callback) callback);
+
+		bool awaitingReply() { return awaiting_reply; }
 	};
 }

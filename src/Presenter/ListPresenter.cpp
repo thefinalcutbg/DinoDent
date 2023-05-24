@@ -495,6 +495,13 @@ void ListPresenter::setSelectedTeeth(const std::vector<int>& SelectedIndexes)
 
 void ListPresenter::historyRequested()
 {
+    if (dentalActService.awaitingReply() ||
+        eDentalGetProcedures.awaitingReply())
+    {
+        ModalDialogBuilder::showMessage("Моля изчакайте, очаква се отговор от сървъра");
+        return;
+    }
+
     ProcedureHistoryPresenter p(*patient.get());
 
     p.openDialog();

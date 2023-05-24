@@ -11,7 +11,7 @@
 bool UpdateService::restartForUpdate()
 {
 	auto m_reply = NetworkManager::simpleRequest(
-        "https://raw.githubusercontent.com/thefinalcutbg/DinoDent/main/verrr"
+        "https://raw.githubusercontent.com/thefinalcutbg/DinoDent/main/ver"
     );
 
     QEventLoop loop;

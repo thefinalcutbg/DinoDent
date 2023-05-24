@@ -66,6 +66,7 @@ struct NhifContract
 	std::string name_short;
 	bool unfavourable{ false };
 	std::string nra_pass;
+	std::string nssi_pass;
 	std::string bank;
 	std::string bic;
 	std::string iban;
@@ -104,12 +105,21 @@ struct Practice
 	}
 
 	bool hasNraAccess() const {
-		return nhif_contract.has_value() && !
-			nhif_contract->nra_pass.empty();
+		return 
+			nhif_contract.has_value() &&
+			nhif_contract->nra_pass.size();
+	}
+
+	bool hasNssiAccess() const {
+		return 
+			nhif_contract.has_value() &&
+			nhif_contract->nssi_pass.size();
 	}
 
 	bool isUnfavourable() const {
-		return nhif_contract && nhif_contract->unfavourable;
+		return 
+			nhif_contract && 
+			nhif_contract->unfavourable;
 	}
 
 };

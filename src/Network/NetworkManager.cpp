@@ -241,6 +241,60 @@ void NetworkManager::sendRequestToNra(const std::string xmlRequest, AbstractRepl
 
 }
 
+void NetworkManager::sendRequestToNssi(const std::string xmlRequest, AbstractReplyHandler* handler)
+{
+    auto manager = getManager();
+
+    handlers.insert(handler);
+
+    QNetworkRequest request(QUrl("https://wsgp.nssi.bg"));
+    request.setSslConfiguration(QSslConfiguration::defaultConfiguration());
+    request.setHeader(QNetworkRequest::KnownHeaders::ContentTypeHeader, "text/xml;charset=\"utf-8\"");
+    request.setHeader(QNetworkRequest::ContentLengthHeader, "length");
+    request.setRawHeader("SOAPAction", "\"http://tempuri.org/GetNSSIPensionsData\"");
+
+    auto reply = manager->post(request, xmlRequest.data());
+
+
+    QApplication::setOverrideCursor(Qt::BusyCursor);
+
+    QObject::connect(reply, &QNetworkReply::errorOccurred,
+        [=](QNetworkReply::NetworkError code)
+        {
+            qDebug() << "ReplyError: " << code;
+        }
+    );
+
+    QObject::connect(reply, &QNetworkReply::finished,
+        [=] {
+
+            QApplication::restoreOverrideCursor();
+
+            if (handlers.count(handler) == 0) return;
+            unsubscribeHandler(handler);
+
+            std::string replyString = reply->readAll().toStdString();
+
+            handler->getReply(replyString);
+
+            reply->deleteLater();
+
+        });
+
+    QObject::connect(reply, &QNetworkReply::sslErrors, [=] {
+
+        QApplication::restoreOverrideCursor();
+
+        ModalDialogBuilder::showError("Неуспешна автентификация");
+        handler->getReply("");
+        NetworkManager::unsubscribeHandler(handler);
+        reply->deleteLater();
+
+        });
+
+
+}
+
 void NetworkManager::requestChallenge()
 {
 

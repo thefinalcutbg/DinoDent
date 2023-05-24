@@ -15,6 +15,7 @@
 #include "Network/PIS/DiagnosisService.h"
 #include "Network/HIS/EDental.h"
 #include "Network/HIS/EReferral.h"
+#include "Network/NRA/NssiPentionService.h"
 #include "Presenter/PatientInfoPresenter.h"
 
 typedef std::vector<int> SelectedTeethIdx;
@@ -40,6 +41,7 @@ class ListPresenter : public TabInstance
 
     DentalActivitiesService dentalActService;
     NraStatusService nraStatusServ;
+    NssiPentionService nssiService;
     DiagnosisService nhifDiagnosisServ;
     EDental::Open eDentalOpenService;
     EDental::Cancel eDentalCancelService;
@@ -84,6 +86,7 @@ public:
     void setAmbDateTime(const std::string& datetime);
     void ambNumChanged(long long value);
 
+    void checkPention();
 
     void setToothStatus(StatusType t, int code);
     void setDsnStatus(StatusType t, int code);
@@ -108,7 +111,7 @@ public:
     void sendReferralToHis(int index);
 
     void setNhifData(const NhifSheetData& data);
-
+    
     void createInvoice();
     void createPerioMeasurment();
     void createPrescription();

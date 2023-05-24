@@ -33,6 +33,11 @@ namespace NetworkManager
 		AbstractReplyHandler* handler
 	);
 
+	void sendRequestToNssi(
+		const std::string xmlRequest,
+		AbstractReplyHandler* handler
+	);
+
 	void requestChallenge();
 	void requestToken(const std::string& signedChallenge);
 

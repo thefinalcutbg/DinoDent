@@ -123,8 +123,9 @@ Practice PracticeSettings::getPractice()
 		c.date = ui.contractDateEdit->getDate();
 		c.contract_no = ui.contractEdit->getText();
 		c.name_short = ui.practiceNameNZOK->getText();
-		c.nra_pass = ui.nraPass->getText();
 		c.unfavourable = ui.unfavCheck->isChecked();
+		c.nra_pass = ui.nraPass->getText();
+		c.nssi_pass = ui.nssiPass->getText();
 		p.nhif_contract.emplace(c);
 	}
 

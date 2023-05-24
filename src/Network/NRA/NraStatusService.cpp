@@ -77,11 +77,11 @@ bool NraStatusService::sendRequest(const Patient& p, std::function<void(const st
 
 	auto& practice = User::practice();
 
-	if (!practice.nhif_contract.has_value() ||
-		practice.nhif_contract->nra_pass.empty()
-		)
+	if (!practice.hasNraAccess())
 	{
-		ModalDialogBuilder::showMessage("Не е въведена парола за достъп към НАП");
+		if (showDialogs) {
+			ModalDialogBuilder::showMessage("Не е въведена парола за достъп към НАП");
+		}
 		return false;
 	}
 

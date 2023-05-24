@@ -855,6 +855,9 @@
     <ClCompile Include="src\Presenter\ProcedureHistoryPresenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Network\NRA\NssiPentionService.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Database\Database.h">
@@ -1560,6 +1563,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\Interfaces\IProcedureHistoryDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Network\NRA\NssiPentionService.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\Pention.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

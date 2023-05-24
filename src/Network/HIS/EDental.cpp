@@ -416,8 +416,8 @@ void EDental::GetStatus::parseReply(const std::string& reply)
 
 	}
 
-	teeth.setStatus(splints, StatusType::general, StatusCode::FiberSplint, true, false);
-	teeth.setStatus(bridges, StatusType::general, StatusCode::Bridge, true, false);
+	teeth.setStatus(splints, StatusType::general, StatusCode::FiberSplint, true);
+	teeth.setStatus(bridges, StatusType::general, StatusCode::Bridge, true);
 
 	//in case extraction is not set on pontics:
 	for (auto idx : pontics) if (teeth[idx].canHaveACrown()) teeth[idx].extraction.set(false);

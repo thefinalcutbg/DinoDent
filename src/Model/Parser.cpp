@@ -261,6 +261,7 @@ std::string Parser::write(const std::optional<NhifContract>& contract)
 	json["iban"] = c.iban;
 	json["bic"] = c.bic;
 	json["nra"] = c.nra_pass;
+	json["nssi"] = c.nssi_pass;
 	json["unfav"] = c.unfavourable;
 
 	Json::FastWriter writer;
@@ -549,6 +550,7 @@ std::optional<NhifContract> Parser::parseContract(const std::string& jsonString)
 	contract.iban = json["iban"].asString();
 	contract.bic = json["bic"].asString();
 	contract.nra_pass = json["nra"].asString();
+	contract.nssi_pass = json["nssi"].asString();
 	contract.unfavourable = json["unfav"].asBool();
 
 	return contract;

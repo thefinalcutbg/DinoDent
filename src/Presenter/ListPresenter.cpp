@@ -368,6 +368,11 @@ void ListPresenter::ambNumChanged(long long value)
     makeEdited();
 }
 
+void ListPresenter::checkPention()
+{
+    nssiService.sendRequest(*patient, [](const std::optional<Pention>& p) {}, true);
+}
+
 
 void ListPresenter::setOther(int code)
 {

@@ -79,6 +79,7 @@ ListView::ListView(QWidget* parent)
 	connect(ui.addProcedure, &QAbstractButton::clicked, [=] { if (presenter) presenter->addProcedure(); });
 	connect(ui.specCombo, QtComboIndexChanged, [=] {nhifChanged();});
 	connect(ui.unfavCheck, &QCheckBox::stateChanged, [=] { nhifChanged(); });
+	connect(ui.nssiButton, &QPushButton::clicked, [=] { if (presenter) presenter->checkPention(); });
 	connect(ui.editProcedure, &QPushButton::clicked, [=] { if (presenter) presenter->editProcedure(ui.procedureTable->selectedRow()); });
 	connect(ui.invoiceButton, &QPushButton::clicked, [=] { if (presenter) presenter->createInvoice(); });
 	connect(ui.perioButton, &QPushButton::clicked, [=] { if (presenter) presenter->createPerioMeasurment(); });

@@ -10,6 +10,7 @@
 #include <QStatusBar>
 #include "View/Widgets/GlobalWidgets.h"
 #include "View/Widgets/AboutDialog.h"
+#include "Version.h"
 
 QColor blue(133, 207, 234);
 
@@ -118,10 +119,10 @@ void DinoDent::setUserLabel(const std::string& doctorName, const std::string& pr
     ui.userButton->setText(QString::fromStdString("  " + doctorName));
     ui.practiceLabel->setText(QString::fromStdString(practiceName));
 
-    QString title = practiceName.size() ?
-        QString("DinoDent - ") + practiceName.c_str()
-        :
-        "DinoDent";
+    QString title = "DinoDent v";
+    title += Version::current().getAsString().c_str();
+    title += " ";
+    title += practiceName.c_str();
 
     setWindowTitle(title);
 }

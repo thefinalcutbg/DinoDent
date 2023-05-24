@@ -184,6 +184,11 @@ void MainPresenter::userSettingsPressed()
 
     if (doctor.has_value())
         User::setCurrentDoctor(doctor.value());
+
+    view->setUserLabel(
+        User::doctor().getFullName(),
+        User::practice().name
+    );
 }
 
 bool MainPresenter::closeAllTabs()

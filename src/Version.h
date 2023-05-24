@@ -56,4 +56,12 @@ struct Version {
 		
 	}
 
+	std::string getAsString() const {
+
+		return
+			std::to_string(MAJOR) + "." +
+			std::to_string(MINOR) + "." +
+			std::to_string(REVISION);
+	}
+
 };

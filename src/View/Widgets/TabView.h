@@ -9,6 +9,7 @@
 #include "View/Widgets/FinancialView.h"
 #include "View/Widgets/PrescriptionView.h"
 #include "View/uiComponents/PixmapLabel.h"
+#include "View/Widgets/WelcomeWidget.h"
 
 #include "View/Interfaces/ITabView.h"
 #include "ui_TabView.h"
@@ -27,7 +28,7 @@ class TabView : public QWidget, public ITabView
 	FinancialView m_financialView;
 	PrescriptionView m_perscriptionView;
 
-	PixmapLabel* noTabs;
+	WelcomeWidget* noTabs;
 
 	void showTabWidget(QWidget* w);
 

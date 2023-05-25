@@ -53,10 +53,10 @@ TabView::TabView(QWidget *parent)
 
     ui.scrollArea->setAlignment(Qt::AlignHCenter);
  
-    noTabs = new PixmapLabel(this);
-    noTabs->setPixmap(QPixmap(":/icons/dino.png"));
-    noTabs->setAlignment(Qt::AlignCenter);
-    noTabs->setStyleSheet("background-color:"+ Theme::colorToString(Theme::background));
+    noTabs = new WelcomeWidget(this);
+//  noTabs->setPixmap(QPixmap(":/icons/dino.png"));
+//  noTabs->setAlignment(Qt::AlignCenter);
+//  noTabs->setStyleSheet("background-color:"+ Theme::colorToString(Theme::background));
 
     ui.scrollArea->setObjectName("ScrollArea");
     setStyleSheet("#ScrollArea{background-color:"+ Theme::colorToString(Theme::background) + "}");

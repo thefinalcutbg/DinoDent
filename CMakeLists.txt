@@ -724,6 +724,9 @@ src\View\Widgets\UpdateDownloader.ui
 src\View\Widgets\UpdatePromptDialog.cpp
 src\View\Widgets\UpdatePromptDialog.h
 src\View\Widgets\UpdatePromptDialog.ui
+src\View\Widgets\WelcomeWidget.cpp
+src\View\Widgets\WelcomeWidget.h
+src\View\Widgets\WelcomeWidget.ui
 )
 
 include_directories(${CMAKE_SOURCE_DIR}/include)

@@ -494,6 +494,7 @@
     <ClCompile Include="src\View\Widgets\UpdateDialog.cpp" />
     <ClCompile Include="src\View\Widgets\UpdateDownloader.cpp" />
     <ClCompile Include="src\View\Widgets\UpdatePromptDialog.cpp" />
+    <ClCompile Include="src\View\Widgets\WelcomeWidget.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
@@ -664,6 +665,7 @@
     <ClInclude Include="src\DbUpdates\Updater.h" />
     <ClInclude Include="src\Version.h" />
     <ClInclude Include="src\View\GlobalFunctions.h" />
+    <QtMoc Include="src\View\Widgets\WelcomeWidget.h" />
     <QtMoc Include="src\View\SubWidgets\ContextMenu.h" />
     <ClInclude Include="src\View\Graphics\ControlPanelPolygon.h" />
     <ClInclude Include="src\View\Graphics\CPTooth.h" />
@@ -893,6 +895,7 @@
     <QtUic Include="src\View\Widgets\UpdateDialog.ui" />
     <QtUic Include="src\View\Widgets\UpdateDownloader.ui" />
     <QtUic Include="src\View\Widgets\UpdatePromptDialog.ui" />
+    <QtUic Include="src\View\Widgets\WelcomeWidget.ui" />
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="resources\Resource.qrc" />

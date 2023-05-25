@@ -37,6 +37,8 @@
         <file>icon_question.png</file>
         <file>icon_history.png</file>
         <file>icon_nssi.png</file>
+        <file>dinoSmall.png</file>
+        <file>welcome.png</file>
     </qresource>
     <qresource prefix="/tooth">
         <file>tooth_approximal.png</file>

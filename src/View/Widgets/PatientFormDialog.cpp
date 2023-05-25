@@ -67,12 +67,6 @@ void PatientFormDialog::setEditMode(bool editMode)
     ui.idLineEdit->setFocus();
     ui.idLineEdit->selectAll();
 
-    editMode ?
-        setWindowTitle("Редактиране на данните на пациента")
-        :
-        setWindowTitle("Нов документ");
-
-
 }
 
 void PatientFormDialog::close()

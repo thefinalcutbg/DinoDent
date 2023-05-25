@@ -3,8 +3,8 @@
 #include "Database/DbPatient.h"
 #include "View/Printer.h"
 #include "Database/DbNotes.h"
-PatientDialogPresenter::PatientDialogPresenter() :
-	view(nullptr)
+PatientDialogPresenter::PatientDialogPresenter(std::string dialogTitle) :
+	view(nullptr), dialogTitle(dialogTitle)
 {}
 
 PatientDialogPresenter::PatientDialogPresenter(const Patient& patient) :
@@ -13,7 +13,8 @@ PatientDialogPresenter::PatientDialogPresenter(const Patient& patient) :
 	view(nullptr),
 	insurance_status(patient.insuranceStatus),
 	PISHistory(patient.PISHistory),
-	HISHistory(patient.HISHistory)
+	HISHistory(patient.HISHistory),
+	dialogTitle("Редактиране на данни на пациента")
 {}
 
 std::optional<Patient> PatientDialogPresenter::open()
@@ -25,6 +26,8 @@ std::optional<Patient> PatientDialogPresenter::open()
 void PatientDialogPresenter::setView(IPatientDialog* view)
 {
 	this->view = view;
+
+	view->setTitle(dialogTitle);
 
 	birth_validator.setMaxDate(Date::currentDate());
 	birth_validator.setMaxErrorMsg("Невалидна рожденна дата");

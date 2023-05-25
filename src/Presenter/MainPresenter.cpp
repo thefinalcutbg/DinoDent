@@ -90,7 +90,7 @@ void MainPresenter::printPressed()
 
 void MainPresenter::newAmbPressed()
 {
-    PatientDialogPresenter p;
+    PatientDialogPresenter p("Нов амбулаторен лист");
 
     auto patient = p.open();
 
@@ -100,7 +100,7 @@ void MainPresenter::newAmbPressed()
 
 void MainPresenter::newPerioPressed()
 {
-    PatientDialogPresenter p;
+    PatientDialogPresenter p("Ново пародонтално измерване");
 
     auto patient = p.open();
 
@@ -110,7 +110,7 @@ void MainPresenter::newPerioPressed()
 
 void MainPresenter::newPerscriptionPressed()
 {
-    PatientDialogPresenter p;
+    PatientDialogPresenter p("Нова рецепта");
 
     auto patient = p.open();
 

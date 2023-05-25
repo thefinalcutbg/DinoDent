@@ -43,12 +43,14 @@ class PatientDialogPresenter
 	long long rowid{ 0 };
 	MedicalStatuses medStats;
 
+	std::string dialogTitle;
+
 	Patient getPatientFromView();
 	void setPatientToView(const Patient& patient);
 	bool viewIsValid();
 
 public:
-	PatientDialogPresenter();
+	PatientDialogPresenter(std::string dialogTitle);
 	PatientDialogPresenter(const Patient& patient);
 	std::optional<Patient> open();
 

@@ -4,7 +4,7 @@
 #include <QIcon>
 #include <QPainter>
 
-#include "Presenter/CheckState.h"
+#include "Presenter/CheckModel.h"
 #include "View/Graphics/ToothPainter.h"
 #include "Presenter/DetailedStatusPresenter.h"
 #include "Model/Dental/Enums.h"

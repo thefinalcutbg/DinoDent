@@ -395,7 +395,7 @@ std::string HisService::initialStatusAsProcedure(const ToothContainer& teeth, co
 
 		if (tooth.dsn) result += getToothStatus(tooth.dsn.tooth(), true);
 	}
-
+	result += bind("note", "ИЗХОДЯЩ СТАТУС (автоматично генерирана)");
 	result += "</nhis:dentalProcedure>";
 
 	return result;

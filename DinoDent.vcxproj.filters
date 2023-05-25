@@ -240,7 +240,7 @@
     <ClCompile Include="src\Presenter\ButtonSurfaceMatrix.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Presenter\CheckState.cpp">
+    <ClCompile Include="src\Presenter\CheckModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Presenter\DetailedStatusPresenter.cpp">
@@ -511,9 +511,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\Widgets\FinancialView.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\View\Widgets\GeneralSettings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\Widgets\TableViewDialog.cpp">
@@ -1121,7 +1118,7 @@
     <ClInclude Include="src\Presenter\ButtonSurfaceMatrix.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Presenter\CheckState.h">
+    <ClInclude Include="src\Presenter\CheckModel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Presenter\DetailedStatusPresenter.h">
@@ -1723,9 +1720,6 @@
     <QtMoc Include="src\View\Widgets\FinancialView.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\Widgets\GeneralSettings.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="src\View\Widgets\TableViewDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
@@ -1909,9 +1903,6 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\Widgets\FinancialView.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="src\View\Widgets\GeneralSettings.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\Widgets\TableViewDialog.ui">

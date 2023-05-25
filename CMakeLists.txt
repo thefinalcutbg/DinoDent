@@ -300,8 +300,8 @@ src\Presenter\BrowserPresenter.cpp
 src\Presenter\BrowserPresenter.h
 src\Presenter\ButtonSurfaceMatrix.cpp
 src\Presenter\ButtonSurfaceMatrix.h
-src\Presenter\CheckState.cpp
-src\Presenter\CheckState.h
+src\Presenter\CheckModel.cpp
+src\Presenter\CheckModel.h
 src\Presenter\DetailedStatusPresenter.cpp
 src\Presenter\DetailedStatusPresenter.h
 src\Presenter\DoctorDialogPresenter.cpp

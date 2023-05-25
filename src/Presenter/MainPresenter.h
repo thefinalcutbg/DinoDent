@@ -5,6 +5,7 @@
 #include "TabPresenter.h"
 #include "BrowserPresenter.h"
 #include "MonthNotifPresenter.h"
+#include "Network/HIS/UpdateMedications.h"
 
 class MainPresenter
 {
@@ -12,6 +13,8 @@ class MainPresenter
 	BrowserPresenter m_browserPresenter;
 	MonthNotifPresenter m_notifPresenter{ &m_tabPresenter };
 	IMainView* view{nullptr};
+
+	UpdateMedications med_update_service;
 
 public:
 	MainPresenter();

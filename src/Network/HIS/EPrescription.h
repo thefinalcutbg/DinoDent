@@ -17,7 +17,7 @@ namespace EPrescription {
 
 	public:
 		Issue() :
-			HisService("P001", "/v2/eprescription/doctor/issue") {}
+			HisService("P001", "/v3/eprescription/doctor/issue") {}
 
 		bool sendRequest(
 			const Prescription& perscr, 
@@ -37,7 +37,7 @@ namespace EPrescription {
 
 	public:
 		Cancel() :
-			HisService("P007", "/v2/eprescription/doctor/cancel") {}
+			HisService("P007", "/v3/eprescription/doctor/cancel") {}
 
 		bool sendRequest(const std::string& nrn, std::function<void(bool)> success);
 	};

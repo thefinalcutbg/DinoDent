@@ -4,7 +4,7 @@
 #include "Model/User.h"
 #include "View/ModalDialogBuilder.h"
 #include "Database/DbUpdateStatus.h"
-
+#include "Network/NetworkManager.h"
 SettingsMainPresenter::SettingsMainPresenter() :
 	m_practicePresenter(User::practice().rziCode)
 {
@@ -70,15 +70,13 @@ bool SettingsMainPresenter::applyChanges()
 	auto doctorsList = m_practicePresenter.getDoctorsList();
 	practice.settings = view->getSettings();
 
-	
-	
 	DbPractice::updatePractice(practice, User::practice().rziCode);
-	//DbPractice::updatePriceList(practice.priceList, practice.rziCode);
 	DbPractice::setDoctorsPracticeList(doctorsList, practice.rziCode);
 
 	//the specialty could be changed!
 	User::refereshPracticeDoctor();
 	User::setCurrentPractice(practice);
+	NetworkManager::setTimeout(practice.settings.timeout);
 
 	return true;
 }

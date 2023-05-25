@@ -1,32 +1,39 @@
 ﻿#include "NetworkManager.h"
+
+#include <set>
+
+#include <QApplication>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include <QSslKey>
+
 #include "PKCS11.h"
 #include "AbstractReplyHandler.h"
 #include "Network/HIS/HisToken.h"
-#include <set>
 #include "View/ModalDialogBuilder.h"
-#include <QApplication>
+
+
+QNetworkAccessManager* s_manager{ nullptr };
+std::set<AbstractReplyHandler*> s_handlers;
+int s_timeout = 15000;
 
 QNetworkAccessManager* getManager() {
 
-    static QNetworkAccessManager* s_manager{ nullptr };
-
     if (!s_manager) {
         s_manager = new QNetworkAccessManager();
-        s_manager->setTransferTimeout(15000);
-        // s_manager->setAutoDeleteReplies(true); //produces crashes sometimes lol
-        QObject::connect(s_manager, &QNetworkAccessManager::sslErrors, [=] {
-            qDebug() << "ERRORRRR";
-            });
+        s_manager->setTransferTimeout(s_timeout);
+
+      /*
+            QObject::connect(s_manager, &QNetworkAccessManager::sslErrors, [=] {
+                qDebug() << "ERRORRRR";
+           });
+       */
     }
 
     return s_manager;
 }
 
-std::set<AbstractReplyHandler*> handlers;
 
 
 void NetworkManager::sendRequestToPis(
@@ -39,7 +46,7 @@ void NetworkManager::sendRequestToPis(
 
     auto manager = getManager();
 
-    handlers.insert(handler);
+    s_handlers.insert(handler);
 
     QSslConfiguration config = QSslConfiguration::defaultConfiguration();
     //config = QSslConfiguration::defaultConfiguration();
@@ -71,7 +78,7 @@ void NetworkManager::sendRequestToPis(
             
             QApplication::restoreOverrideCursor();
 
-            if (handlers.count(handler) == 0) return;
+            if (s_handlers.count(handler) == 0) return;
 
             std::string replyString = reply->readAll().toStdString();
 
@@ -114,7 +121,7 @@ void NetworkManager::sendRequestToHis(
 
     QApplication::setOverrideCursor(Qt::BusyCursor);
 
-    handlers.insert(handler);
+    s_handlers.insert(handler);
 
     QUrl url(urlAndServicePath.c_str());
 
@@ -135,9 +142,7 @@ void NetworkManager::sendRequestToHis(
     QObject::connect(reply, &QNetworkReply::finished,
         [=]() {
 
-            QApplication::restoreOverrideCursor();
-
-            if (handlers.count(handler) == 0) return;
+            if (s_handlers.count(handler) == 0) return;
 
             handler->getReply(reply->readAll().toStdString());
 
@@ -149,12 +154,12 @@ void NetworkManager::sendRequestToHis(
 
 void NetworkManager::sendRequestToHisNoAuth(AbstractReplyHandler* handler, const std::string& nhifMessage, const std::string& urlAndServicePath)
 {
-
+    
     auto manager = getManager();
 
     QApplication::setOverrideCursor(Qt::BusyCursor);
 
-    handlers.insert(handler);
+    s_handlers.insert(handler);
 
     QUrl url(urlAndServicePath.c_str());
 
@@ -171,9 +176,7 @@ void NetworkManager::sendRequestToHisNoAuth(AbstractReplyHandler* handler, const
     QObject::connect(reply, &QNetworkReply::finished,
         [=]() {
 
-            QApplication::restoreOverrideCursor();
-
-            if (handlers.count(handler) == 0) return;
+            if (s_handlers.count(handler) == 0) return;
 
             handler->getReply(reply->readAll().toStdString());
 
@@ -187,7 +190,7 @@ void NetworkManager::sendRequestToNra(const std::string xmlRequest, AbstractRepl
 {
     auto manager = getManager();
 
-    handlers.insert(handler);
+    s_handlers.insert(handler);
 
     QNetworkRequest request(QUrl("https://nraapp03.nra.bg:4445/nhifrcz/NhifStatus5Port"));
     request.setSslConfiguration(QSslConfiguration::defaultConfiguration());
@@ -209,12 +212,10 @@ void NetworkManager::sendRequestToNra(const std::string xmlRequest, AbstractRepl
     QObject::connect(reply, &QNetworkReply::finished,
         [=] {
 
-            QApplication::restoreOverrideCursor();
+            if (s_handlers.count(handler) == 0) return;
 
-            if (handlers.count(handler) == 0) return;
             unsubscribeHandler(handler);
             
-
             std::string replyString = reply->readAll().toStdString();
 
             if (replyString.empty() || replyString[1] == '!') {
@@ -228,8 +229,6 @@ void NetworkManager::sendRequestToNra(const std::string xmlRequest, AbstractRepl
         });
 
     QObject::connect(reply, &QNetworkReply::sslErrors, [=] {
-
-            QApplication::restoreOverrideCursor();
 
             ModalDialogBuilder::showError("Неуспешна автентификация");
             handler->getReply("");
@@ -245,7 +244,7 @@ void NetworkManager::sendRequestToNssi(const std::string xmlRequest, AbstractRep
 {
     auto manager = getManager();
 
-    handlers.insert(handler);
+    s_handlers.insert(handler);
 
     QNetworkRequest request(QUrl("https://wsgp.nssi.bg"));
     request.setSslConfiguration(QSslConfiguration::defaultConfiguration());
@@ -268,9 +267,7 @@ void NetworkManager::sendRequestToNssi(const std::string xmlRequest, AbstractRep
     QObject::connect(reply, &QNetworkReply::finished,
         [=] {
 
-            QApplication::restoreOverrideCursor();
-
-            if (handlers.count(handler) == 0) return;
+            if (s_handlers.count(handler) == 0) return;
             unsubscribeHandler(handler);
 
             std::string replyString = reply->readAll().toStdString();
@@ -281,14 +278,12 @@ void NetworkManager::sendRequestToNssi(const std::string xmlRequest, AbstractRep
 
         });
 
-    QObject::connect(reply, &QNetworkReply::sslErrors, [=] {
+        QObject::connect(reply, &QNetworkReply::sslErrors, [=] {
 
-        QApplication::restoreOverrideCursor();
-
-        ModalDialogBuilder::showError("Неуспешна автентификация");
-        handler->getReply("");
-        NetworkManager::unsubscribeHandler(handler);
-        reply->deleteLater();
+            ModalDialogBuilder::showError("Неуспешна автентификация");
+            handler->getReply("");
+            NetworkManager::unsubscribeHandler(handler);
+            reply->deleteLater();
 
         });
 
@@ -305,17 +300,11 @@ void NetworkManager::requestChallenge()
     QNetworkRequest request(url);
     QNetworkReply* reply = manager->get(request);
 
-    QApplication::setOverrideCursor(Qt::BusyCursor);
-
     QObject::connect(reply, &QNetworkReply::finished,
         [=] {
-
-            QApplication::restoreOverrideCursor();
-
             HisToken::setChallengeMessage(reply->readAll().toStdString());
 
             reply->deleteLater();
-
         });
 }
 
@@ -335,8 +324,6 @@ void NetworkManager::requestToken(const std::string& signedChallenge)
     QObject::connect(reply, &QNetworkReply::finished,
         [=] {
 
-            QApplication::restoreOverrideCursor();
-
             HisToken::setAuthRepy(reply->readAll().toStdString());
 
             reply->deleteLater();
@@ -352,8 +339,12 @@ void NetworkManager::clearAccessCache()
 
 void NetworkManager::unsubscribeHandler(AbstractReplyHandler* handler)
 {
-    if (handlers.count(handler)) {
-        handlers.erase(handler);
+    if (s_handlers.count(handler)) {
+        s_handlers.erase(handler);
+    }
+
+    if (s_handlers.empty()) {
+        QApplication::restoreOverrideCursor();
     }
 }
 
@@ -363,4 +354,13 @@ QNetworkReply* NetworkManager::simpleRequest(const char* url)
     QNetworkRequest request(QUrl{url});
     
     return getManager()->get(request);
+}
+
+void NetworkManager::setTimeout(int seconds)
+{
+    s_timeout = seconds ? seconds * 1000 : 15000;
+    
+    if (s_manager) {
+        s_manager->setTransferTimeout(s_timeout);
+    }
 }

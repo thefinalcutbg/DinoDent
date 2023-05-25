@@ -8,7 +8,7 @@
 
 #include "Presenter/TabInstance.h"
 #include "SurfacePanelPresenter.h"
-#include "CheckState.h"
+#include "CheckModel.h"
 
 #include "Network/PIS/DentalActivitiesService.h"
 #include "Network/NRA/NraStatusService.h"

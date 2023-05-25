@@ -312,6 +312,7 @@ std::string Parser::write(const Settings& settings)
 	json["pisCheck"] = settings.getPisHistoryAuto;
 	json["nraCheck"] = settings.getNraStatusAuto;
 	json["hisCheck"] = settings.getHisHistoryAuto;
+	json["timeout"] = settings.timeout;
 
 	Json::FastWriter writer;
 	return writer.write(json);
@@ -555,8 +556,6 @@ std::optional<NhifContract> Parser::parseContract(const std::string& jsonString)
 
 	return contract;
 
-
-
 }
 
 Settings Parser::parseSettings(const std::string& settingsString)
@@ -571,7 +570,8 @@ Settings Parser::parseSettings(const std::string& settingsString)
 	return Settings{
 		.getHisHistoryAuto = json["hisCheck"].asBool(),
 		.getPisHistoryAuto = json["pisCheck"].asBool(),
-		.getNraStatusAuto = json["nraCheck"].asBool()
+		.getNraStatusAuto = json["nraCheck"].asBool(),
+		.timeout = json["timeout"].asInt()
 	};
 }
 

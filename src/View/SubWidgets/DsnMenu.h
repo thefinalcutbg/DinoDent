@@ -7,7 +7,7 @@
 
 #include "Presenter/InputEnums.h"
 #include "Model/Dental/Enums.h"
-#include "Presenter/CheckState.h"
+#include "Presenter/CheckModel.h"
 
 class ListPresenter;
 class CheckModel;

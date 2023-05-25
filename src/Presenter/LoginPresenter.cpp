@@ -6,6 +6,7 @@
 #include "Model/User.h"
 #include "Presenter/PracticeManagerPresenter.h"
 #include "View/ModalDialogBuilder.h"
+#include "Network/NetworkManager.h"
 
 bool LoginPresenter::successful()
 {
@@ -75,7 +76,8 @@ void LoginPresenter::okPressed(const std::string& lpk, const std::string& pass, 
     doctor->specialty = static_cast<NhifSpecialty>(std::get<1>(DbDoctor::getAdminAndSpecialty(doctor->LPK, practiceList[practiceIdx].rzi)));
     User::setCurrentPractice(DbPractice::getPractice(practiceList[practiceIdx].rzi));
     User::setCurrentDoctor(doctor.value());
-    
+    NetworkManager::setTimeout(User::practice().settings.timeout);
+
     if (remember)DbDoctor::setAutoLogin(lpk, true);
 
     loginSuccessful = true;

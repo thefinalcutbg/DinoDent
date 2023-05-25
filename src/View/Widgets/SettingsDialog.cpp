@@ -12,7 +12,7 @@ SettingsDialog::SettingsDialog(QDialog*parent)
 	
 	connect(ui.cancelButton, &QPushButton::clicked, [&] {close();});
 	connect(ui.okButton, &QPushButton::clicked, [&] {presenter.okPressed();});
-	connect(ui.generalSettings->ui.updateMedButton, &QPushButton::clicked, [&] {presenter.updateMedications();});
+	connect(ui.updateMedButton, &QPushButton::clicked, [&] {presenter.updateMedications();});
 	ui.practiceSettings->hidePassword();
 
 	presenter.setView(this);
@@ -21,17 +21,19 @@ SettingsDialog::SettingsDialog(QDialog*parent)
 
 void SettingsDialog::setSettings(const Settings& settings)
 {
-	ui.generalSettings->ui.autoHisCheck->setChecked(settings.getHisHistoryAuto);
-	ui.generalSettings->ui.autoNraCheck->setChecked(settings.getNraStatusAuto);
-	ui.generalSettings->ui.autoPisCheck->setChecked(settings.getPisHistoryAuto);
+	ui.autoHisCheck->setChecked(settings.getHisHistoryAuto);
+	ui.autoNraCheck->setChecked(settings.getNraStatusAuto);
+	ui.autoPisCheck->setChecked(settings.getPisHistoryAuto);
+	ui.timeoutSpin->setValue(settings.timeout);
 }
 
 Settings SettingsDialog::getSettings()
 {
 	return Settings{
-		.getHisHistoryAuto = ui.generalSettings->ui.autoHisCheck->isChecked(),
-		.getPisHistoryAuto = ui.generalSettings->ui.autoPisCheck->isChecked(),
-		.getNraStatusAuto = ui.generalSettings->ui.autoNraCheck->isChecked()
+		.getHisHistoryAuto = ui.autoHisCheck->isChecked(),
+		.getPisHistoryAuto = ui.autoPisCheck->isChecked(),
+		.getNraStatusAuto = ui.autoNraCheck->isChecked(),
+		.timeout = ui.timeoutSpin->value()
 	};
 }
 
@@ -42,7 +44,7 @@ void SettingsDialog::setUpdateDate(DynamicNum num, const Date& date)
 	switch (num)
 	{
 	case DynamicNum::Medication:
-		ui.generalSettings->ui.medUpdateLabel->setText(dateStr);
+		ui.medUpdateLabel->setText(dateStr);
 		break;
 	}
 }

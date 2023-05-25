@@ -229,7 +229,7 @@ std::string HisService::getToothStatus(const Tooth& tooth, bool hyperdontic)
 	status[StatusCode::Root] = "R";
 	status[StatusCode::Extraction] = "E";
 	status[StatusCode::Crown] = "K";
-	status[StatusCode::Bridge] = tooth.canHaveACrown() ? "Kb" : "B";
+	status[StatusCode::Bridge] = tooth.canHaveACrown() ? "K" : "B"; //tooth.canHaveACrown() ? "Kb" : "B";
 	status[StatusCode::Denture] = "X";
 	status[StatusCode::Periodontitis] = "Pa";
 	if (tooth.mobility) {

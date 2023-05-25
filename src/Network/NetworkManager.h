@@ -45,5 +45,7 @@ namespace NetworkManager
 	void unsubscribeHandler(AbstractReplyHandler* handler);
 
 	QNetworkReply* simpleRequest(const char* url);
+
+	void setTimeout(int seconds);
 };
 

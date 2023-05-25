@@ -82,11 +82,26 @@ std::vector<const Tooth*> ToothContainer::getSelectedDsnPtr(std::vector<int> sel
 
 void ToothContainer::copyFromOther(const ToothContainer& other)
 {
+
+	std::optional<BridgePos> position;
+
 	for (int i = 0; i < teethCount; i++)
 	{
 		if (other[i].noData()) continue;
 
+		if (teeth[i].bridge && other[i].bridge) {
+
+			position = teeth[i].bridge.position;
+		}
+		else {
+			position.reset();
+		}
+
 		teeth[i] = other[i];
+
+		if (position) {
+			teeth[i].bridge.position = position.value();
+		}
 	}
 }
 

@@ -1,5 +1,5 @@
 #include "DetailedStatusPresenter.h"
-#include "Presenter/CheckState.h"
+#include "Presenter/CheckModel.h"
 #include "View/ModalDialogBuilder.h"
 
 #include "Database/DbProcedure.h"

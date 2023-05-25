@@ -11,8 +11,9 @@
 #include "Presenter/PracticeDialogPresenter.h"
 #include "Database/DbPractice.h"
 #include "Database/DbDoctor.h"
+#include "Database/DbUpdateStatus.h"
 #include "View/Printer.h"
-
+#include <qdebug.h>
 MainPresenter::MainPresenter()
 {}
 
@@ -62,7 +63,17 @@ void MainPresenter::setView(IMainView* view)
         User::practice().name
     );
 
+    if (view->m_loggedIn)
+    {
+        //medications update
+        if (DbUpdateStatus::lastUpdated(DynamicNum::Medication).isFromPreviousMonths(Date::currentDate()))
+        {
+            med_update_service.update();
+        }
+    }
+
 }
+
 
 void MainPresenter::printPressed()
 {

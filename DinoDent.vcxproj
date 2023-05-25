@@ -337,7 +337,7 @@
     <ClCompile Include="src\Presenter\ProcedureCreator.cpp" />
     <ClCompile Include="src\Presenter\PracticeDialogPresenter.cpp" />
     <ClCompile Include="src\Presenter\ButtonSurfaceMatrix.cpp" />
-    <ClCompile Include="src\Presenter\CheckState.cpp" />
+    <ClCompile Include="src\Presenter\CheckModel.cpp" />
     <ClCompile Include="src\Presenter\DetailedStatusPresenter.cpp" />
     <ClCompile Include="src\Presenter\DoctorDialogPresenter.cpp" />
     <ClCompile Include="src\Presenter\FinancialPresenter.cpp" />
@@ -460,7 +460,6 @@
     <ClCompile Include="src\View\Widgets\DoctorSettingsDialog.cpp" />
     <ClCompile Include="src\View\Widgets\DosageDialog.cpp" />
     <ClCompile Include="src\View\Widgets\FinancialView.cpp" />
-    <ClCompile Include="src\View\Widgets\GeneralSettings.cpp" />
     <ClCompile Include="src\View\Widgets\InputDialog.cpp" />
     <ClCompile Include="src\View\Widgets\InvoicePrintDialog.cpp" />
     <ClCompile Include="src\View\Widgets\StatisticDialogView.cpp" />
@@ -634,7 +633,7 @@
     <ClInclude Include="src\Presenter\ProcedureCreator.h" />
     <ClInclude Include="src\Presenter\PracticeDialogPresenter.h" />
     <ClInclude Include="src\Presenter\ButtonSurfaceMatrix.h" />
-    <ClInclude Include="src\Presenter\CheckState.h" />
+    <ClInclude Include="src\Presenter\CheckModel.h" />
     <ClInclude Include="src\Presenter\DetailedStatusPresenter.h" />
     <ClInclude Include="src\Presenter\DoctorDialogPresenter.h" />
     <ClInclude Include="src\Presenter\FinancialPresenter.h" />
@@ -789,7 +788,6 @@
     <QtMoc Include="src\View\Widgets\LoginView.h" />
     <QtMoc Include="src\View\Widgets\ListView.h" />
     <QtMoc Include="src\View\Widgets\TableViewDialog.h" />
-    <QtMoc Include="src\View\Widgets\GeneralSettings.h" />
     <QtMoc Include="src\View\Widgets\FinancialView.h" />
     <QtMoc Include="src\View\Widgets\DoctorSettingsDialog.h" />
     <QtMoc Include="src\View\Widgets\DetailedStatus.h" />
@@ -862,7 +860,6 @@
     <QtUic Include="src\View\Widgets\DoctorSettingsDialog.ui" />
     <QtUic Include="src\View\Widgets\DosageDialog.ui" />
     <QtUic Include="src\View\Widgets\FinancialView.ui" />
-    <QtUic Include="src\View\Widgets\GeneralSettings.ui" />
     <QtUic Include="src\View\Widgets\InputDialog.ui" />
     <QtUic Include="src\View\Widgets\InvoicePrintDialog.ui" />
     <QtUic Include="src\View\Widgets\StatisticDialogView.ui" />

@@ -1,11 +1,12 @@
 ﻿#include "UpdateMedications.h"
-#include "Database/Database.h"
+
 #include <TinyXML/tinyxml.h>
-#include <qdebug.h>
+
 #include "Database/Database.h"
+#include "Database/Database.h"
+#include "Database/DbUpdateStatus.h"
 #include "Model/Prescription/Medication.h"
 #include "View/ModalDialogBuilder.h"
-#include "Database/DbUpdateStatus.h"
 
 void UpdateMedications::update()
 {
@@ -14,7 +15,8 @@ void UpdateMedications::update()
 
 bool UpdateMedications::parseNumenclature(const std::string& reply)
 {
-	//ModalDialogBuilder::showMultilineDialog(reply);
+
+	if (reply.empty()) return false;
 
 	TiXmlDocument doc;
 

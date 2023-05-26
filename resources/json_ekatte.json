@@ -4347,7 +4347,7 @@
     "ekatte": 11702,
     "city": false,
     "string": "Бяла, общ. Бяла, обл. Варна",
-    "hregion": 2,
+    "hregion": 4,
     "rhif": 3,
     "unfav": 0
   },
@@ -4379,7 +4379,7 @@
     "ekatte": 21988,
     "city": false,
     "string": "Горица , общ. Бяла, обл. Варна",
-    "hregion": 2,
+    "hregion": 4,
     "rhif": 3,
     "unfav": 0
   },
@@ -4387,7 +4387,7 @@
     "ekatte": 30363,
     "city": false,
     "string": "Господиново , общ. Бяла, обл. Варна",
-    "hregion": 2,
+    "hregion": 4,
     "rhif": 3,
     "unfav": 0
   },
@@ -4411,7 +4411,7 @@
     "ekatte": 32490,
     "city": false,
     "string": "Дюлино , общ. Бяла, обл. Варна",
-    "hregion": 2,
+    "hregion": 4,
     "rhif": 3,
     "unfav": 0
   },
@@ -4515,7 +4515,7 @@
     "ekatte": 3719,
     "city": true,
     "string": "Попович , общ. Бяла, обл. Варна",
-    "hregion": 2,
+    "hregion": 4,
     "rhif": 3,
     "unfav": 0
   },
@@ -4539,7 +4539,7 @@
     "ekatte": 69763,
     "city": false,
     "string": "Самотино , общ. Бяла, обл. Варна",
-    "hregion": 2,
+    "hregion": 4,
     "rhif": 3,
     "unfav": 0
   },

@@ -593,9 +593,9 @@ src\View\Widgets\BrowserDialog.ui
 src\View\Widgets\BusinessOpAddDialog.cpp
 src\View\Widgets\BusinessOpAddDialog.h
 src\View\Widgets\BusinessOpAddDialog.ui
-src\View\Widgets\BusinessOpEditDialog.cpp
-src\View\Widgets\BusinessOpEditDialog.h
-src\View\Widgets\BusinessOpEditDialog.ui
+src\View\Widgets\BusinessOperationDialog.cpp
+src\View\Widgets\BusinessOperationDialog.h
+src\View\Widgets\BusinessOperationDialog.ui
 src\View\Widgets\ButtonDialog.cpp
 src\View\Widgets\ButtonDialog.h
 src\View\Widgets\ButtonDialog.ui

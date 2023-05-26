@@ -21,7 +21,6 @@ namespace User
 	const Doctor& doctor();
 
 	void setCurrentDoctor(const Doctor& doctor);
-	void setPriceList(const std::vector<ProcedureCode>& priceList);
 	void setCurrentPractice(const Practice& practice);
 	void resetUser();
 	const bool isCurrentUser(const std::string& LPK);

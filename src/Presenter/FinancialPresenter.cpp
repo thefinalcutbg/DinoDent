@@ -103,7 +103,7 @@ void FinancialPresenter::addOperation()
 {
     if (m_invoice.nhifData.has_value()) return;
 
-    auto newOp = ModalDialogBuilder::addBusinessOperation(User::practice().priceList);
+    auto newOp = ModalDialogBuilder::addBusinessOperation();
 
     if (newOp.has_value())
         m_invoice.addOperation(newOp.value());

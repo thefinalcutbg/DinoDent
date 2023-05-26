@@ -98,8 +98,6 @@ struct Practice
 
 	std::optional<NhifContract> nhif_contract;
 
-	std::vector<ProcedureCode> priceList;
-
 	std::string RHIF() const {
 		return rziCode.substr(0, 2);
 	}

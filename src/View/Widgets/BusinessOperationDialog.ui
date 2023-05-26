@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>BusinessOpEditDialog</class>
- <widget class="QDialog" name="BusinessOpEditDialog">
+ <class>BusinessOperationDialog</class>
+ <widget class="QDialog" name="BusinessOperationDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -17,7 +17,7 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>BusinessOpEditDialog</string>
+   <string>BusinessOperationDialog</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
@@ -87,7 +87,7 @@
         </layout>
        </item>
        <item>
-        <widget class="QLineEdit" name="nameEdit"/>
+        <widget class="LineEdit" name="nameEdit"/>
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -203,6 +203,13 @@
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>LineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>View/uiComponents/lineedit.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

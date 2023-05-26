@@ -33,11 +33,6 @@ void User::setCurrentDoctor(const Doctor& doctor)
     s_doctor = doctor;
 }
 
-void User::setPriceList(const std::vector<ProcedureCode>& priceList)
-{
-    s_practice.priceList = priceList;
-}
-
 void User::setCurrentPractice(const Practice& practice)
 {
     s_practice = practice;

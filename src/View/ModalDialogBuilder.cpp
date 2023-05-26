@@ -177,20 +177,18 @@ std::optional<std::vector<Procedure>> ModalDialogBuilder::selectProcedures(const
 	return result;
 }
 
-#include "View/Widgets/BusinessOpEditDialog.h"
+#include "View/Widgets/BusinessOperationDialog.h"
 
 std::optional<BusinessOperation> ModalDialogBuilder::editBusinessOperation(const BusinessOperation& op)
 {
-	BusinessOpEditDialog d(op);
+	BuisnessOperationDialog d(op);
 	d.exec();
 	return d.getResult();
 }
 
-#include "View/Widgets/BusinessOpAddDialog.h"
-
-std::optional<BusinessOperation> ModalDialogBuilder::addBusinessOperation(const std::vector<ProcedureCode>& priceList)
+std::optional<BusinessOperation> ModalDialogBuilder::addBusinessOperation()
 {
-	BusinessOpAddDialog d(priceList);
+	BuisnessOperationDialog d;
 	d.exec();
 
 	return d.getResult();

@@ -498,10 +498,7 @@
     <ClCompile Include="src\View\Widgets\BrowserDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\Widgets\BusinessOpAddDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\View\Widgets\BusinessOpEditDialog.cpp">
+    <ClCompile Include="src\View\Widgets\BusinessOperationDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\Widgets\DetailedStatus.cpp">
@@ -1708,10 +1705,7 @@
     <QtMoc Include="src\View\Widgets\BrowserDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\Widgets\BusinessOpAddDialog.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="src\View\Widgets\BusinessOpEditDialog.h">
+    <QtMoc Include="src\View\Widgets\BusinessOperationDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\Widgets\DetailedStatus.h">
@@ -1896,10 +1890,7 @@
     <QtUic Include="src\View\Widgets\BrowserDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="src\View\Widgets\BusinessOpAddDialog.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="src\View\Widgets\BusinessOpEditDialog.ui">
+    <QtUic Include="src\View\Widgets\BusinessOperationDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\Widgets\DetailedStatus.ui">

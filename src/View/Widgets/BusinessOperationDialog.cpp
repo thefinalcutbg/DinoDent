@@ -1,5 +1,6 @@
 ﻿#include "BusinessOperationDialog.h"
 #include <QPainter>
+
 BuisnessOperationDialog::BuisnessOperationDialog(const BusinessOperation& op)
 	: QDialog(nullptr)
 {

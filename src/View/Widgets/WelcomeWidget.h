@@ -3,12 +3,14 @@
 #include <QWidget>
 #include "ui_WelcomeWidget.h"
 
+class MainPresenter;
+
 class WelcomeWidget : public QWidget
 {
 	Q_OBJECT
 
 public:
-	WelcomeWidget(QWidget *parent = nullptr);
+	WelcomeWidget(MainPresenter& p, QWidget *parent = nullptr);
 	~WelcomeWidget();
 
 private:

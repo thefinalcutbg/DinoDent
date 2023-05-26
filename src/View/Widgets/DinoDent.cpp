@@ -106,6 +106,8 @@ DinoDent::DinoDent(QWidget* parent)
         "    }"
     );
  */
+    ui.tabView->setWelcomeScreen(new WelcomeWidget(presenter));
+
     presenter.setView(this);
 }
 

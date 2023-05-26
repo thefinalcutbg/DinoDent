@@ -28,7 +28,7 @@ class TabView : public QWidget, public ITabView
 	FinancialView m_financialView;
 	PrescriptionView m_perscriptionView;
 
-	WelcomeWidget* noTabs;
+	QWidget* welcomeScreen{ nullptr };
 
 	void showTabWidget(QWidget* w);
 
@@ -39,6 +39,9 @@ class TabView : public QWidget, public ITabView
 public:
 	TabView(QWidget *parent = Q_NULLPTR);
 	~TabView();
+
+	//takes ownership
+	void setWelcomeScreen(QWidget* welcomeScreen);
 
 	void requestClose(int tabId);
 
@@ -60,7 +63,7 @@ public:
 	void showSummaryView() override;
 	void showFinancialView() override;
 	void showPerscriptionView() override;
-	void showDinosaur() override;
+	void showWelcomeScreen() override;
 
 	IListView* listView() override { return &m_listView; }
 	IPerioView* perioView() override { return &m_perioView; }

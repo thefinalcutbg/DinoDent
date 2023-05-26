@@ -53,20 +53,11 @@ TabView::TabView(QWidget *parent)
 
     ui.scrollArea->setAlignment(Qt::AlignHCenter);
  
-    noTabs = new WelcomeWidget(this);
-//  noTabs->setPixmap(QPixmap(":/icons/dino.png"));
-//  noTabs->setAlignment(Qt::AlignCenter);
-//  noTabs->setStyleSheet("background-color:"+ Theme::colorToString(Theme::background));
+   
 
     ui.scrollArea->setObjectName("ScrollArea");
     setStyleSheet("#ScrollArea{background-color:"+ Theme::colorToString(Theme::background) + "}");
 
-
-  //  ui.stackedWidget->addWidget(noTabs);
-   // ui.stackedWidget->addWidget(&m_listView);
-   // ui.stackedWidget->addWidget(&m_perioView);
-
-    showDinosaur();
     
 }
 
@@ -284,9 +275,9 @@ void TabView::showPerscriptionView()
     m_financialView.setPresenter(nullptr);
 }
 
-void TabView::showDinosaur()
+void TabView::showWelcomeScreen()
 {
-    showTabWidget(noTabs);
+    showTabWidget(welcomeScreen);
     m_listView.setPresenter(nullptr);
     m_perioView.setPresenter(nullptr);
     m_summaryView.setPresenter(nullptr);
@@ -296,6 +287,15 @@ void TabView::showDinosaur()
 
 TabView::~TabView()
 {
+    ui.scrollArea->takeWidget();
+
+    delete welcomeScreen;
+}
+
+void TabView::setWelcomeScreen(QWidget* welcomeScreen)
+{
+    this->welcomeScreen = welcomeScreen;
+    showWelcomeScreen();
 }
 
 

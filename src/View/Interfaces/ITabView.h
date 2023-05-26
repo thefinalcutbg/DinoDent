@@ -30,7 +30,7 @@ public:
 	virtual void showSummaryView() = 0;
 	virtual void showFinancialView() = 0;
 	virtual void showPerscriptionView() = 0;
-	virtual void showDinosaur() = 0;
+	virtual void showWelcomeScreen() = 0;
 
 	virtual IListView* listView() = 0;
 	virtual IPerioView* perioView() = 0;

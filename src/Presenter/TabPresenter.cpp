@@ -59,7 +59,7 @@ void TabPresenter::setCurrentTab(int index)
             m_indexCounter = -1;
         }
 
-        view->showDinosaur();
+        view->showWelcomeScreen();
         return;
     }
 

@@ -1,6 +1,5 @@
 <RCC>
     <qresource prefix="/icons">
-        <file>dino.png</file>
         <file>icon_BOP.png</file>
         <file>icon_checked.png</file>
         <file>icon_note.png</file>
@@ -38,7 +37,7 @@
         <file>icon_history.png</file>
         <file>icon_nssi.png</file>
         <file>dinoSmall.png</file>
-        <file>welcome.png</file>
+        <file>dinoChristmas.png</file>
     </qresource>
     <qresource prefix="/tooth">
         <file>tooth_approximal.png</file>

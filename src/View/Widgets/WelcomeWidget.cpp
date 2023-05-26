@@ -2,13 +2,19 @@
 #include "View/Theme.h"
 #include "Presenter/MainPresenter.h"
 #include "View/Widgets/AboutDialog.h"
-
+#include <QDate>
 WelcomeWidget::WelcomeWidget(MainPresenter& p, QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
 
-	ui.cornerLabel->setPixmap(QPixmap(":/icons/dinoSmall.png"));
+    ui.cornerLabel->setPixmap(
+        QDate::currentDate().month() == 12 ?
+        QPixmap(":/icons/dinoChristmas.png")
+        :
+        QPixmap(":/icons/dinoSmall.png")
+    );
+
 	setStyleSheet("background-color:" + Theme::colorToString(Theme::background));
 
     ui.ambButton->setIcon(QIcon(":/icons/icon_sheet.png"));

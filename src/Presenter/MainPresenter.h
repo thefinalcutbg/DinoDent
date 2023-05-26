@@ -12,6 +12,7 @@ class MainPresenter
 	TabPresenter m_tabPresenter;
 	BrowserPresenter m_browserPresenter;
 	MonthNotifPresenter m_notifPresenter{ &m_tabPresenter };
+
 	IMainView* view{nullptr};
 
 	UpdateMedications med_update_service;

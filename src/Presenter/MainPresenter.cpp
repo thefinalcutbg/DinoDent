@@ -5,6 +5,7 @@
 #include "View/Printer.h"
 #include "Presenter/LoginPresenter.h"
 #include "Presenter/DoctorDialogPresenter.h"
+#include "Presenter/StatisticDialogPresenter.h"
 #include "Network/PKCS11.h"
 #include "Model/User.h"
 #include "Model/xml.h"
@@ -13,7 +14,7 @@
 #include "Database/DbDoctor.h"
 #include "Database/DbUpdateStatus.h"
 #include "View/Printer.h"
-#include <qdebug.h>
+
 MainPresenter::MainPresenter()
 {}
 
@@ -133,7 +134,8 @@ void MainPresenter::pisDialog()
 
 void MainPresenter::statisticPressed()
 {
-    m_tabPresenter.openStatistic();
+    StatisticDialogPresenter p;
+    p.openDialog();
 }
 
 void MainPresenter::settingsPressed()

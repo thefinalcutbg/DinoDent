@@ -48,7 +48,6 @@ public:
 	void openPerscription(const Patient& patient);
 	void openInvoice(const std::string& monthNotif);
 	void openInvoice(long long patientRowId, const std::vector<Procedure>& procedures = {});
-	void openStatistic();
 
 	bool documentTabOpened(TabType type, long long rowID) const;
 	bool patientTabOpened(long long patientRowid) const;

@@ -174,12 +174,6 @@ void TabPresenter::openInvoice(long long patientRowId, const std::vector<Procedu
     );
 }
 
-void TabPresenter::openStatistic()
-{
-    //createNewTab(new StatisticPresenter(view, 0));
-    StatisticDialogPresenter p;
-    ModalDialogBuilder::openDialog(p);
-}
 
 void TabPresenter::open(const RowInstance& row, bool setFocus)
 {

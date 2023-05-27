@@ -234,7 +234,7 @@ void TabView::showListView()
     showTabWidget(&m_listView);
     m_perioView.setPresenter(nullptr);
     m_summaryView.setPresenter(nullptr);
-    m_perscriptionView.setPresenter(nullptr);
+    m_prescriptionView.setPresenter(nullptr);
     m_financialView.setPresenter(nullptr);
 }
 
@@ -243,7 +243,7 @@ void TabView::showPerioView()
     showTabWidget(&m_perioView);
     m_listView.setPresenter(nullptr);
     m_summaryView.setPresenter(nullptr);
-    m_perscriptionView.setPresenter(nullptr);
+    m_prescriptionView.setPresenter(nullptr);
     m_financialView.setPresenter(nullptr);
 
 }
@@ -254,7 +254,7 @@ void TabView::showSummaryView()
     m_listView.setPresenter(nullptr);
     m_perioView.setPresenter(nullptr);
     m_financialView.setPresenter(nullptr);
-    m_perscriptionView.setPresenter(nullptr);
+    m_prescriptionView.setPresenter(nullptr);
 }
 
 void TabView::showFinancialView()
@@ -263,12 +263,12 @@ void TabView::showFinancialView()
     m_listView.setPresenter(nullptr);
     m_perioView.setPresenter(nullptr);
     m_summaryView.setPresenter(nullptr);
-    m_perscriptionView.setPresenter(nullptr);
+    m_prescriptionView.setPresenter(nullptr);
 }
 
 void TabView::showPerscriptionView()
 {
-    showTabWidget(&m_perscriptionView);
+    showTabWidget(&m_prescriptionView);
     m_listView.setPresenter(nullptr);
     m_perioView.setPresenter(nullptr);
     m_summaryView.setPresenter(nullptr);
@@ -282,7 +282,7 @@ void TabView::showWelcomeScreen()
     m_perioView.setPresenter(nullptr);
     m_summaryView.setPresenter(nullptr);
     m_financialView.setPresenter(nullptr);
-    m_perscriptionView.setPresenter(nullptr);
+    m_prescriptionView.setPresenter(nullptr);
 }
 
 TabView::~TabView()

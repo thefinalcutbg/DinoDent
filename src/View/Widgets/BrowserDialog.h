@@ -27,7 +27,7 @@ private:
 	PatientTableModel patient_model;
 	PerioTableModel perio_model;
 	FinancialTableModel financial_model;
-	PrescriptionTableModel perscription_model;
+	PrescriptionTableModel prescription_model;
 
 
 public:

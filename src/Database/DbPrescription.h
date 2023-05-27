@@ -2,8 +2,8 @@
 
 namespace DbPrescription
 {
-	long long insert(const Prescription& perscription);
+	long long insert(const Prescription& prescription);
 	Prescription get(long long rowid);
-	bool update(const Prescription& perscription);
+	bool update(const Prescription& prescription);
 
 }

@@ -47,7 +47,7 @@ void BrowserPresenter::refreshModel()
 	m_perioRows = DbListOpener::getPerioRows(m_from, m_to);
 	m_patientRows = DbListOpener::getPatientRows();
 	m_financialRows = DbListOpener::getFinancialRows(m_from, m_to);
-	m_perscriptionRows = DbListOpener::getPrescriptionRows(m_from, m_to);
+	m_prescriptionRows = DbListOpener::getPrescriptionRows(m_from, m_to);
 	
 	if (view != nullptr)
 	{
@@ -68,7 +68,7 @@ void BrowserPresenter::setListType(TabType type)
 		case::TabType::PerioList: view->setRows(m_perioRows); break;
 		case::TabType::PatientSummary: view->setRows(m_patientRows); break;
 		case::TabType::Financial : view->setRows(m_financialRows); break;
-		case::TabType::Prescription: view->setRows(m_perscriptionRows); break;
+		case::TabType::Prescription: view->setRows(m_prescriptionRows); break;
 	}
 }
 
@@ -82,7 +82,7 @@ void BrowserPresenter::selectionChanged(std::set<int> selectedIndexes)
 		case::TabType::PerioList: for (auto idx : selectedIndexes) m_selectedInstances.push_back(&m_perioRows[idx]); break;
 		case::TabType::PatientSummary: for (auto idx : selectedIndexes) m_selectedInstances.push_back(&m_patientRows[idx]); break;
 		case::TabType::Financial: for (auto idx : selectedIndexes) m_selectedInstances.push_back(&m_financialRows[idx]); break;
-		case::TabType::Prescription: for (auto idx : selectedIndexes) m_selectedInstances.push_back(&m_perscriptionRows[idx]); break;
+		case::TabType::Prescription: for (auto idx : selectedIndexes) m_selectedInstances.push_back(&m_prescriptionRows[idx]); break;
 	}
 }
 

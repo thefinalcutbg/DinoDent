@@ -19,7 +19,7 @@ WelcomeWidget::WelcomeWidget(MainPresenter& p, QWidget *parent)
 
     ui.ambButton->setIcon(QIcon(":/icons/icon_sheet.png"));
     ui.perioButton->setIcon(QIcon(":/icons/icon_periosheet.png"));
-    ui.perscrButton->setIcon(QIcon(":/icons/icon_prescr.png"));
+    ui.prescrButton->setIcon(QIcon(":/icons/icon_prescr.png"));
     ui.browser->setIcon(QIcon(":/icons/icon_open.png"));
     ui.nhifButton->setIcon(QIcon(":/icons/icon_nhif.png"));
     ui.settingsButton->setIcon(QIcon(":/icons/icon_settings.png"));
@@ -28,7 +28,7 @@ WelcomeWidget::WelcomeWidget(MainPresenter& p, QWidget *parent)
 
     connect(ui.ambButton, &QPushButton::clicked, [&] { p.newAmbPressed(); });
     connect(ui.perioButton, &QPushButton::clicked, [&] { p.newPerioPressed(); });
-    connect(ui.perscrButton, &QPushButton::clicked, [&] { p.newPerscriptionPressed(); });
+    connect(ui.prescrButton, &QPushButton::clicked, [&] { p.newPerscriptionPressed(); });
     connect(ui.browser, &QPushButton::clicked, [&] { p.showListSelector(); });
     connect(ui.nhifButton, &QPushButton::clicked, [&] { p.pisDialog(); });
     connect(ui.settingsButton, &QPushButton::clicked, [&] { p.settingsPressed(); });

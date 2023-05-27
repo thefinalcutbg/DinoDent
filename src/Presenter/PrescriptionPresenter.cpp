@@ -5,7 +5,7 @@
 
 PrescriptionPresenter::PrescriptionPresenter(ITabView* tabView, TabPresenter* tabPresenter, std::shared_ptr<Patient> patient, long long rowId) :
 	TabInstance(tabView, TabType::Prescription, patient), 
-	view(tabView->perscriptionView()),
+	view(tabView->prescriptionView()),
 	m_prescription(DbPrescription::get(rowId)),
 	patient_info(view->patientTile(), patient)
 {

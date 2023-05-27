@@ -102,7 +102,7 @@
       </widget>
      </item>
      <item>
-      <widget class="ShortcutTile" name="perscrButton">
+      <widget class="ShortcutTile" name="prescrButton">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>

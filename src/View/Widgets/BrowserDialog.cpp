@@ -272,12 +272,12 @@ void BrowserDialog::setRows(const std::vector<FinancialRow>& rows)
 
 void BrowserDialog::setRows(const std::vector<PrescriptionRow>& rows)
 {
-	perscription_model.setRows(rows);
+	prescription_model.setRows(rows);
 
 	QSignalBlocker block(ui.dataTypeCombo);
 	ui.dataTypeCombo->setCurrentIndex(4);
 
-	idFilter.setSourceModel(&perscription_model);
+	idFilter.setSourceModel(&prescription_model);
 	idFilter.setFilterKeyColumn(3);
 	nameFilter.setSourceModel(&idFilter);
 	nameFilter.setFilterKeyColumn(4);

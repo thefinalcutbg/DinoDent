@@ -26,7 +26,7 @@ class TabView : public QWidget, public ITabView
 	ListView m_listView;
 	PatientSummary m_summaryView;
 	FinancialView m_financialView;
-	PrescriptionView m_perscriptionView;
+	PrescriptionView m_prescriptionView;
 
 	QWidget* welcomeScreen{ nullptr };
 
@@ -69,7 +69,7 @@ public:
 	IPerioView* perioView() override { return &m_perioView; }
 	IPatientSummaryView* summaryView() override { return &m_summaryView; }
 	IFinancialView* financialView() override { return &m_financialView; }
-	IPrescriptionView* perscriptionView() override { return &m_perscriptionView; }
+	IPrescriptionView* prescriptionView() override { return &m_prescriptionView; }
 
 signals:
 	void closeRequested(int mapIndex);

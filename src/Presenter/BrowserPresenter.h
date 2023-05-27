@@ -20,7 +20,7 @@ class BrowserPresenter
 	std::vector<PatientRow> m_patientRows;
 	std::vector<PerioRow> m_perioRows;
 	std::vector<FinancialRow> m_financialRows;
-	std::vector<PrescriptionRow> m_perscriptionRows;
+	std::vector<PrescriptionRow> m_prescriptionRows;
 
 	std::vector<RowInstance*> m_selectedInstances;
 

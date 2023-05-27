@@ -94,6 +94,12 @@ void ReportPresenter::sendToPis()
 	{
 		return;
 	}
+	else
+	{
+		if(!ModalDialogBuilder::askDialog(
+			"Желаете ли да изпратите отчета към ПИС?")
+		) return;
+	}
 
 	sendFileService.sendAmbReport(
 		m_report.value(),

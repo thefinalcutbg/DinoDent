@@ -1,7 +1,14 @@
 ﻿#include "ProcedureInput.h"
+
+#include <QCompleter>
+#include <QAbstractItemView>
+
+#include <JsonCpp/json.h>
+
 #include "Presenter/ProcedureCreator.h"
 #include "QtVersion.h"
-#include <QDebug>
+#include "Resources.h"
+
 
 ProcedureInput::ProcedureInput(QWidget *parent)
 	: QWidget(parent)
@@ -41,6 +48,31 @@ ProcedureInput::ProcedureInput(QWidget *parent)
 	ui.rangeWidget->setErrorLabel(ui.errorLabel);
 	ui.surfaceWidget->setErrorLabel(ui.errorLabel);
 	ui.diagEdit->setErrorLabel(ui.errorLabel);
+
+	//setting autocomplete diagnosis
+	Json::Value diagnosisList;
+
+	Json::Reader().parse(Resources::fromPath(":/json/json_diagnosisText.json"), diagnosisList);
+
+	QStringList completionList;
+	completionList.reserve(diagnosisList.size());
+
+	for (auto& d : diagnosisList) completionList.append(d.asCString());
+
+	QCompleter* completer = new QCompleter(completionList);
+
+	completer->setCaseSensitivity(Qt::CaseInsensitive);
+	completer->setCompletionMode(QCompleter::PopupCompletion);
+
+
+	QFont f("Segoe UI");
+	f.setPixelSize(12);
+	completer->popup()->setFont(f);
+	completer->setMaxVisibleItems(10);
+	completer->setModelSorting(QCompleter::UnsortedModel);
+	ui.diagEdit->setCompleter(completer);
+
+	
 }
 
 AbstractLineEdit* ProcedureInput::diagnosisEdit()

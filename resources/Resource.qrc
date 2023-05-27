@@ -76,7 +76,6 @@
         <file>font_RobotoCondensedRegular.ttf</file>
     </qresource>
     <qresource prefix="/json">
-        <file>json_defaultPriceList.json</file>
         <file>json_diagnosis.json</file>
         <file>json_ksmp.json</file>
         <file>json_nzok.json</file>
@@ -89,6 +88,7 @@
         <file>json_holidays.json</file>
         <file>json_specialty.json</file>
         <file>json_procedures.json</file>
+        <file>json_diagnosisText.json</file>
     </qresource>
     <qresource prefix="/style">
         <file>dateEditStyle.qss</file>

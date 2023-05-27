@@ -51,6 +51,16 @@ void ProcedureHistoryPresenter::refreshHIS()
 	);
 }
 
+void ProcedureHistoryPresenter::refreshStatus()
+{
+	status_service.sendRequest(ref_patient,
+		[&](const ToothContainer& teeth) {
+			current_status = teeth;
+			view->setCurrentStatus(teeth);
+		}
+	);
+}
+
 void ProcedureHistoryPresenter::setView(IProcedureHistoryDialog* v)
 {
 	if (v == nullptr) return;

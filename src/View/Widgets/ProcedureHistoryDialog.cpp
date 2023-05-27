@@ -48,6 +48,7 @@ ProcedureHistoryDialog::ProcedureHistoryDialog(ProcedureHistoryPresenter& p)
     connect(ui.applyButton, &QPushButton::clicked, this, [&] { presenter.pisApplyClicked(); });
     connect(ui.refreshPis, &QPushButton::clicked, [&] { presenter.refreshPIS(); });
     connect(ui.refreshHis, &QPushButton::clicked, [&] { presenter.refreshHIS(); });
+    connect(ui.refreshStatus, &QPushButton::clicked, [&] { presenter.refreshStatus(); });
     connect(ui.applyCurrentStatus, &QPushButton::clicked, [&]{ presenter.statusApplyClicked(); });
 
     presenter.setView(this);

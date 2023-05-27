@@ -38,6 +38,7 @@ public:
 
 	void refreshPIS();
 	void refreshHIS();
+	void refreshStatus();
 	void setView(IProcedureHistoryDialog* view);
 	void openDialog();
 	void pisApplyClicked();

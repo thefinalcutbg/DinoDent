@@ -65,20 +65,6 @@ struct Procedure
     //applies the procedures, not taking data into account
     void applyPISProcedure(ToothContainer& teeth) const;
 
-    bool isToothSpecific() const;
-    bool isRestoration() const {
-        return code.type() == ProcedureType::obturation;
-    }
-    bool isRangeSpecific() const {
-        return 
-            code.type() == ProcedureType::bridge || 
-            code.type() == ProcedureType::fibersplint ||
-            code.type() == ProcedureType::denture;
-    }
-    bool isAnesthesia() const {
-        return code.type() == ProcedureType::anesthesia;
-    }
-
     bool isNhif() const {
         return financingSource == FinancingSource::NHIF;
     }

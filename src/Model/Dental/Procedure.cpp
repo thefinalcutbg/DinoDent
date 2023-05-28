@@ -213,21 +213,6 @@ void Procedure::applyPISProcedure(ToothContainer& teeth) const
 	
 }
 
-bool Procedure::isToothSpecific() const
-{
-	auto type = this->code.type();
-
-	return
-		type != ProcedureType::general &&
-		type != ProcedureType::full_exam &&
-		type != ProcedureType::bridge &&
-		type != ProcedureType::fibersplint &&
-		type != ProcedureType::denture &&
-		type != ProcedureType::depuratio
-		// && type != ProcedureType::removebridgeOrSplint
-	;
-}
-
 std::string Procedure::getToothString() const
 {
 	if (tooth_idx.isValid()) 

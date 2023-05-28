@@ -52,7 +52,7 @@ std::vector<Procedure> DbProcedure::getProcedures(long long amblist_rowid, Db& d
 		p.financingSource = static_cast<FinancingSource>(db.asInt(1));
 		p.code = db.asString(2);
 
-		if (p.isToothSpecific()) {
+		if (p.code.isToothSpecific()) {
 
 			p.tooth_idx = ToothIndex{
 				.index = db.asInt(3),
@@ -67,7 +67,7 @@ std::vector<Procedure> DbProcedure::getProcedures(long long amblist_rowid, Db& d
 		p.notes = db.asString(9);
 		p.his_index = db.asInt(10);
 
-		if (p.isRestoration())
+		if (p.code.isRestoration())
 		{
 			p.result = RestorationData{
 				.surfaces = {
@@ -83,7 +83,7 @@ std::vector<Procedure> DbProcedure::getProcedures(long long amblist_rowid, Db& d
 			};
 		}
 
-		if (p.isRangeSpecific())
+		if (p.code.isRangeSpecific())
 		{
 			p.result = ConstructionRange{
 				db.asInt(18),
@@ -91,7 +91,7 @@ std::vector<Procedure> DbProcedure::getProcedures(long long amblist_rowid, Db& d
 			};
 		}
 
-		if (p.isAnesthesia())
+		if (p.code.isAnesthesia())
 		{
 			p.result = AnesthesiaMinutes{ db.asInt(20) };
 		}
@@ -141,11 +141,15 @@ void DbProcedure::saveProcedures(long long amblist_rowid, const std::vector<Proc
 		db.bind(2, p.code.code());
 		db.bind(3, static_cast<int>(p.financingSource));
 
-		if (p.isToothSpecific())
+		if (p.code.isToothSpecific())
 		{
 			db.bind(4, p.tooth_idx.index);
 			db.bind(5, p.tooth_idx.temp);
 			db.bind(6, p.tooth_idx.supernumeral);
+		}
+		else
+		{
+			db.bind(4, -1);
 		}
 
 		db.bind(7, amblist_rowid);
@@ -155,7 +159,7 @@ void DbProcedure::saveProcedures(long long amblist_rowid, const std::vector<Proc
 		db.bind(11, p.his_index);
 		db.bind(12, toInsert[i].removed);
 
-		if (p.isRestoration())
+		if (p.code.isRestoration())
 		{
 			auto& [surfaces, post] = std::get<RestorationData>(p.result);
 
@@ -166,7 +170,7 @@ void DbProcedure::saveProcedures(long long amblist_rowid, const std::vector<Proc
 			db.bind(19, post);
 		}
 
-		if (p.isRangeSpecific())
+		if (p.code.isRangeSpecific())
 		{
 			auto& [from, to] = std::get<ConstructionRange>(p.result);
 
@@ -174,7 +178,7 @@ void DbProcedure::saveProcedures(long long amblist_rowid, const std::vector<Proc
 			db.bind(21, to);
 		}
 
-		if (p.isAnesthesia())
+		if (p.code.isAnesthesia())
 		{
 			db.bind(22, std::get<AnesthesiaMinutes>(p.result).minutes);
 		}
@@ -219,7 +223,7 @@ std::vector<ProcedureSummary> DbProcedure::getNhifSummary(long long patientRowId
 	 return summary;
 
 }
-#include <qdebug.h>
+
 std::vector<Procedure> DbProcedure::getToothProcedures(long long patientRowId, int tooth)
 {
 		std::string query =
@@ -241,8 +245,6 @@ std::vector<Procedure> DbProcedure::getToothProcedures(long long patientRowId, i
 		"ORDER BY procedure.date ASC, procedure.code ASC, procedure.rowid ASC";
 
 	std::vector<Procedure> procedures;
-
-	qDebug() << query.c_str();
 
 	for (Db db(query); db.hasRows();)
 	{

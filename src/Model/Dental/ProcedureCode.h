@@ -63,6 +63,34 @@ public:
     int hisType() const;
     ProcedureType type() const;
 
+    bool isToothSpecific()const {
+
+        auto type = this->type();
+
+        return
+            type != ProcedureType::general &&
+            type != ProcedureType::full_exam &&
+            type != ProcedureType::bridge &&
+            type != ProcedureType::fibersplint &&
+            type != ProcedureType::denture &&
+            type != ProcedureType::depuratio
+            // && type != ProcedureType::removebridgeOrSplint
+            ;
+    }
+    bool isRestoration() const {
+        return type() == ProcedureType::obturation;
+    }
+    bool isRangeSpecific() const {
+
+        return
+            type() == ProcedureType::bridge ||
+            type() == ProcedureType::fibersplint ||
+            type() == ProcedureType::denture;
+    }
+    bool isAnesthesia() const {
+        return type() == ProcedureType::anesthesia;
+    }
+
     static decltype(s_mapping) getMap() { return s_mapping; }
 
 };

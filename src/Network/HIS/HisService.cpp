@@ -307,19 +307,18 @@ std::string HisService::getProcedure(const Procedure& p, const ToothContainer& t
 
 	result += bind("financingSource", static_cast<int>(p.financingSource));
 
-	if (p.isToothSpecific())
+	if (p.code.isToothSpecific())
 	{
-		if (p.isToothSpecific())
-		{
-			p.applyProcedure(teethChanged);
 
-			auto& tooth = p.tooth_idx.supernumeral ? teethChanged[p.tooth_idx.index].dsn.tooth() : teethChanged[p.tooth_idx.index];
+		p.applyProcedure(teethChanged);
 
-			result += getToothStatus(tooth, p.tooth_idx.supernumeral);
-		}
+		auto& tooth = p.tooth_idx.supernumeral ? teethChanged[p.tooth_idx.index].dsn.tooth() : teethChanged[p.tooth_idx.index];
+
+		result += getToothStatus(tooth, p.tooth_idx.supernumeral);
+	
 	}
 
-	if (p.isRangeSpecific())
+	if (p.code.isRangeSpecific())
 	{
 		auto [begin, end] = std::get<ConstructionRange>(p.result);
 

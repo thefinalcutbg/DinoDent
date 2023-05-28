@@ -357,7 +357,7 @@ std::vector<AmbList> DbAmbList::getMonthlyNhifSheets(int month, int year)
             };
         }
         p.date = db.asString(2);
-        p.diagnosis = db.asString(4);
+        p.diagnosis = db.asInt(4);
         p.diagnosis.description = db.asString(5);
 
         sheet.procedures.addProcedure(p);

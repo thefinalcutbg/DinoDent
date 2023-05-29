@@ -47,7 +47,7 @@ DinoDent::DinoDent(QWidget* parent)
 
     connect(ui.newButton, &QPushButton::clicked, [&] { MainPresenter::get().newAmbPressed(); });
     connect(ui.saveButton, &QPushButton::clicked, [&] { MainPresenter::get().save(); });
-    connect(ui.listSelectButton, &QPushButton::clicked, [&] { MainPresenter::get().showListSelector(); });
+    connect(ui.listSelectButton, &QPushButton::clicked, [&] { MainPresenter::get().showBrowser(); });
     connect(ui.perscrButton, &QPushButton::clicked, [&] { MainPresenter::get().newPerscriptionPressed(); });
     connect(ui.printButton, &QPushButton::clicked, [&] { MainPresenter::get().printPressed(); });
     connect(ui.perioButton, &QPushButton::clicked, [&] { MainPresenter::get().newPerioPressed(); });

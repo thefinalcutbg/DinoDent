@@ -568,6 +568,8 @@ src\View\uiComponents\PixmapLabel.cpp
 src\View\uiComponents\PixmapLabel.h
 src\View\uiComponents\RightClickButton.cpp
 src\View\uiComponents\RightClickButton.h
+src\View\uiComponents\ShortcutTile.cpp
+src\View\uiComponents\ShortcutTile.h
 src\View\uiComponents\SpinBox.cpp
 src\View\uiComponents\SpinBox.h
 src\View\uiComponents\StatusButton.cpp
@@ -576,6 +578,8 @@ src\View\uiComponents\StatusMultiButton.cpp
 src\View\uiComponents\StatusMultiButton.h
 src\View\uiComponents\TableView.cpp
 src\View\uiComponents\TableView.h
+src\View\uiComponents\TextBrowser.cpp
+src\View\uiComponents\TextBrowser.h
 src\View\uiComponents\TextEdit.cpp
 src\View\uiComponents\TextEdit.h
 src\View\uiComponents\TileButton.cpp
@@ -590,9 +594,6 @@ src\View\Widgets\AboutDialog.ui
 src\View\Widgets\BrowserDialog.cpp
 src\View\Widgets\BrowserDialog.h
 src\View\Widgets\BrowserDialog.ui
-src\View\Widgets\BusinessOpAddDialog.cpp
-src\View\Widgets\BusinessOpAddDialog.h
-src\View\Widgets\BusinessOpAddDialog.ui
 src\View\Widgets\BusinessOperationDialog.cpp
 src\View\Widgets\BusinessOperationDialog.h
 src\View\Widgets\BusinessOperationDialog.ui
@@ -614,9 +615,6 @@ src\View\Widgets\DosageDialog.ui
 src\View\Widgets\FinancialView.cpp
 src\View\Widgets\FinancialView.h
 src\View\Widgets\FinancialView.ui
-src\View\Widgets\GeneralSettings.cpp
-src\View\Widgets\GeneralSettings.h
-src\View\Widgets\GeneralSettings.ui
 src\View\Widgets\GlobalWidgets.h
 src\View\Widgets\InputDialog.cpp
 src\View\Widgets\InputDialog.h

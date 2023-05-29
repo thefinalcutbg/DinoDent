@@ -30,7 +30,7 @@ WelcomeWidget::WelcomeWidget(QWidget *parent)
     connect(ui.ambButton, &QPushButton::clicked, [&] { MainPresenter::get().newAmbPressed(); });
     connect(ui.perioButton, &QPushButton::clicked, [&] { MainPresenter::get().newPerioPressed(); });
     connect(ui.prescrButton, &QPushButton::clicked, [&] { MainPresenter::get().newPerscriptionPressed(); });
-    connect(ui.browser, &QPushButton::clicked, [&] { MainPresenter::get().showListSelector(); });
+    connect(ui.browser, &QPushButton::clicked, [&] { MainPresenter::get().showBrowser(); });
     connect(ui.nhifButton, &QPushButton::clicked, [&] { MainPresenter::get().pisDialog(); });
     connect(ui.settingsButton, &QPushButton::clicked, [&] { MainPresenter::get().settingsPressed(); });
     connect(ui.statisticButton, &QPushButton::clicked, [&] { MainPresenter::get().statisticPressed(); });

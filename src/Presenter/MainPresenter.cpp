@@ -117,7 +117,7 @@ void MainPresenter::newPerscriptionPressed()
         TabPresenter::get().openPerscription(patient.value());
 }
 
-void MainPresenter::showListSelector()
+void MainPresenter::showBrowser()
 {
     ModalDialogBuilder::openBrowserDialog();
 }

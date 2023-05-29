@@ -32,6 +32,9 @@ ReportView::ReportView(QWidget* parent)
 	for (int i = 0; i < 12; i++)
 		ui.monthCombo->addItem(monthNames[i]);
 
+	ui.textBrowser->setReadOnly(true);
+	ui.textBrowser->setOpenLinks(false);
+
 	connect(ui.generateButton, &QPushButton::clicked, [&] {
 
 		m_stop ?
@@ -55,7 +58,7 @@ ReportView::ReportView(QWidget* parent)
 	connect(ui.pisButton, &QPushButton::clicked, [&] { presenter.sendToPis(); });
 	connect(ui.xmlButton, &QPushButton::clicked, [&] { presenter.saveToXML(); });
 
-	connect(ui.openErrorsButton, &QPushButton::clicked, [&] { presenter.openErrors(); });
+	connect(ui.textBrowser, &TextBrowser::linkPressed, [&](const QString& str) { presenter.linkClicked(str.toStdString()); });
 
 	//CHANGE THIS LATER
 	presenter.setView(this);
@@ -63,7 +66,8 @@ ReportView::ReportView(QWidget* parent)
 	ui.monthCombo->setCurrentIndex(Date::currentMonth() - 1); // index 0 == january;
 	ui.yearSpin->setValue(Date::currentYear());
 
-	
+	//ui.textEdit->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
+
 }
 
 
@@ -78,14 +82,26 @@ ReportView::~ReportView()
 {
 }
 
+void ReportView::appendSheet(const std::string& numberLink, const std::string& description)
+{
+	QString line = "Амбулаторен лист № <a href=\"";
+	line += numberLink.c_str();
+	line += "\">";
+	line += numberLink.c_str();
+	line += "</a>: ";
+	line += description.c_str();
+
+	ui.textBrowser->append(line);
+}
+
 void ReportView::appendText(const std::string& text)
 {
-	ui.textEdit->append(text.data());
+	ui.textBrowser->append(text.data());
 }
 
 void ReportView::clearText()
 {
-	ui.textEdit->clear();
+	ui.textBrowser->clear();
 }
 
 void ReportView::setPercent(int percent)
@@ -113,11 +129,6 @@ void ReportView::showStopButton(bool yes)
 		ui.pisCheck->setDisabled(yes);
 		ui.monthCombo->setDisabled(yes);
 		ui.yearSpin->setDisabled(yes);
-}
-
-void ReportView::showOpenErrorLists(bool show)
-{
-	ui.openErrorsButton->setHidden(!show);
 }
 
 void ReportView::closeDialog()

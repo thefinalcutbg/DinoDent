@@ -28,9 +28,8 @@ void ModalDialogBuilder::openDialog(ProcedureEditorPresenter* p)
 
 void ModalDialogBuilder::openBrowserDialog()
 {
-	BrowserDialog* d = new BrowserDialog();
-	d->setAttribute(Qt::WA_DeleteOnClose);
-	d->show();
+	BrowserDialog d;
+	d.exec();
 }
 
 #include "View/Widgets/DetailedStatus.h"

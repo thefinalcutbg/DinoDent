@@ -25,11 +25,11 @@ private:
 	Ui::ReportViewClass ui;
 
 	// Inherited via IReportDialog
+	void appendSheet(const std::string& numberLink, const std::string& description);
 	void appendText(const std::string& text) override;
 	void clearText() override;
 	void setPercent(int percent) override;
 	void enableReportButtons(bool enabled) override;
 	void showStopButton(bool yes) override;
-	void showOpenErrorLists(bool show) override;
 	void closeDialog() override;
 };

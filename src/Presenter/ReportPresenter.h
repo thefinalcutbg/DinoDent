@@ -18,7 +18,7 @@ class ReportPresenter
 
 	//stores the amblists
 	std::vector<AmbList> lists;
-	std::vector<RowInstance> lists_with_errors;
+	std::map<std::string, RowInstance> errorSheets;
 
 	int m_currentIndex{ -1 };
 	bool m_hasErrors{ false };
@@ -53,7 +53,7 @@ public:
 	void setInsuranceStatus(const std::optional<InsuranceStatus>& insuranceStatus);
 	void setDate(int month, int year);
 	void generateReport(bool checkPis, bool checkNra);
-	void openErrors();
 	void setView(IReportView* view);
+	void linkClicked(const std::string& sheetNumber);
 };
 

@@ -72,13 +72,6 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="openErrorsButton">
-       <property name="text">
-        <string>Отвори листите с намерени грешки</string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QPushButton" name="generateButton">
        <property name="text">
         <string>Генерирай отчет</string>
@@ -106,7 +99,7 @@
     </layout>
    </item>
    <item>
-    <widget class="QTextEdit" name="textEdit">
+    <widget class="TextBrowser" name="textBrowser">
      <property name="readOnly">
       <bool>true</bool>
      </property>
@@ -182,6 +175,13 @@ hr { height: 1px; border-width: 0; }
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>TextBrowser</class>
+   <extends>QTextBrowser</extends>
+   <header>View/uiComponents/TextBrowser.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

@@ -10,7 +10,6 @@
 #include "View/TableModels/PrescriptionTableModel.h"
 #include <QSortFilterProxyModel>
 #include "Presenter/BrowserPresenter.h"
-class BrowserPresenter;
 
 class BrowserDialog : public QDialog, public IBrowserDialog
 {

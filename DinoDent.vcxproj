@@ -446,6 +446,7 @@
     <ClCompile Include="src\View\uiComponents\SpinBox.cpp" />
     <ClCompile Include="src\View\uiComponents\StatusButton.cpp" />
     <ClCompile Include="src\View\uiComponents\StatusMultiButton.cpp" />
+    <ClCompile Include="src\View\uiComponents\TextBrowser.cpp" />
     <ClCompile Include="src\View\uiComponents\TextEdit.cpp" />
     <ClCompile Include="src\View\uiComponents\TileButton.cpp" />
     <ClCompile Include="src\View\uiComponents\ToothButton.cpp" />
@@ -751,6 +752,7 @@
     <QtMoc Include="src\View\uiComponents\StatusMultiButton.h" />
     <QtMoc Include="src\View\uiComponents\StatusButton.h" />
     <ClInclude Include="src\View\uiComponents\ShortcutTile.h" />
+    <QtMoc Include="src\View\uiComponents\TextBrowser.h" />
     <ClInclude Include="src\View\uiComponents\TileButton.h" />
     <QtMoc Include="src\View\Widgets\PrescriptionView.h" />
     <QtMoc Include="src\View\Widgets\MedicationDialog.h" />

@@ -193,7 +193,7 @@ std::vector<ProcedureSummary> DbProcedure::getNhifSummary(long long patientRowId
 {
 	std::string query
 	{
-		"SELECT procedure.date, procedure.code, procedure.at_tooth_index, procedure.temporary, procedure.supernumeral, "
+		"SELECT procedure.date, procedure.code, procedure.at_tooth_index, procedure.temporary, procedure.supernumeral "
 		"FROM procedure LEFT JOIN amblist ON procedure.amblist_rowid = amblist.rowid "
 		"WHERE financing_source=" + std::to_string(static_cast<int>(FinancingSource::NHIF)) + " "
 		"AND procedure.removed = 0 "

@@ -131,7 +131,7 @@ std::vector<ProcedureSummary> getSummaryFromPisHistory(const std::vector<Procedu
 
     return result;
 }
-
+#include "View/ModalDialogBuilder.h"
 bool AmbListValidator::isValidAccordingToDb()
 {
     std::vector<ProcedureSummary> summary;

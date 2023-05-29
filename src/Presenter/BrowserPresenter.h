@@ -3,18 +3,17 @@
 #include "Model/TableRows.h"
 #include "Database/DbListOpener.h"
 #include <set>
-class TabPresenter;
+
 class IBrowserDialog;
 
 class BrowserPresenter
 {
-	TabPresenter* tab_presenter{ nullptr };
 	IBrowserDialog* view{ nullptr };
 
-	TabType m_currentModelType { TabType::PatientSummary};
+	static inline TabType m_currentModelType { TabType::PatientSummary};
 
-	Date m_from{ 1, Date::currentMonth(), Date::currentYear() };
-	Date m_to{ Date::currentDate().getMaxDateOfMonth() };
+	static inline Date m_from{ 1, Date::currentMonth(), Date::currentYear() };
+	static inline Date m_to{ Date::currentDate().getMaxDateOfMonth() };
 	
 	std::vector<AmbRow> m_ambRows;
 	std::vector<PatientRow> m_patientRows;
@@ -25,11 +24,6 @@ class BrowserPresenter
 	std::vector<RowInstance*> m_selectedInstances;
 
 public:
-	BrowserPresenter();
-	
-	void setTabPresenter(TabPresenter* tabPresenter);
-
-	void openDialog();
 
 	void setView(IBrowserDialog* view);
 
@@ -43,7 +37,7 @@ public:
 	void openNewDocument(TabType type);
 	void openCurrentSelection();
 	void deleteCurrentSelection();
-	~BrowserPresenter();
+
 
 };
 

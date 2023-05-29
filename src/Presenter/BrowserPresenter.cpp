@@ -2,30 +2,14 @@
 #include "View/Interfaces/IBrowserDialog.h"
 #include "View/ModalDialogBuilder.h"
 #include "Database/DbPatient.h"
-
-BrowserPresenter::BrowserPresenter()
-{
-
-}
-
-void BrowserPresenter::openDialog()
-{
-	if (!view) {
-		m_selectedInstances.clear();
-		ModalDialogBuilder::openDialog(this);
-	}
-	else view->focus();
-}
+#include "Presenter/TabPresenter.h"
+#include "qdebug.h"
 
 void BrowserPresenter::setView(IBrowserDialog* view)
 {
 	this->view = view;
 
 	if (!view) return;
-
-
-	view->setDates(m_from, m_to);
-	view->setRows(m_ambRows);
 
 	refreshModel();
 	
@@ -36,9 +20,8 @@ void BrowserPresenter::setDates(const Date& from, const Date& to)
 	m_from = from;
 	m_to = to;
 	refreshModel();
+
 }
-
-
 
 void BrowserPresenter::refreshModel()
 {
@@ -54,7 +37,7 @@ void BrowserPresenter::refreshModel()
 		setListType(m_currentModelType);
 		view->setDates(m_from, m_to);
 	}
-		
+
 }
 
 void BrowserPresenter::setListType(TabType type)
@@ -86,12 +69,6 @@ void BrowserPresenter::selectionChanged(std::set<int> selectedIndexes)
 	}
 }
 
-#include "Presenter/TabPresenter.h"
-
-void BrowserPresenter::setTabPresenter(TabPresenter* tabPresenter)
-{
-	this->tab_presenter = tabPresenter;
-}
 
 
 
@@ -107,7 +84,7 @@ void BrowserPresenter::openNewDocument(TabType type)
 		row.rowID = 0;
 		row.patientRowId = m_selectedInstances[i]->patientRowId;
 
-		tab_presenter->open(row, i == m_selectedInstances.size() - 1);
+		TabPresenter::get().open(row, i == m_selectedInstances.size() - 1);
 	}
 
 	view->close();
@@ -124,7 +101,7 @@ void BrowserPresenter::openCurrentSelection()
 
 		bool isLastTab = ++counter == m_selectedInstances.size();
 
-		tab_presenter->open(*row, isLastTab);
+		TabPresenter::get().open(*row, isLastTab);
 	}
 
 	if (view) view->close();
@@ -166,7 +143,7 @@ void BrowserPresenter::deleteCurrentSelection()
 
 	for (auto& row : m_selectedInstances)
 	{
-		if (tab_presenter->documentTabOpened(row->type, row->rowID))
+		if (TabPresenter::get().documentTabOpened(row->type, row->rowID))
 		{
 			ModalDialogBuilder::showMessage
 			("Първо затворете всички избрани за изтриване документи!");
@@ -182,8 +159,3 @@ void BrowserPresenter::deleteCurrentSelection()
 	refreshModel();
 	
 }
-
-BrowserPresenter::~BrowserPresenter()
-{
-}
-

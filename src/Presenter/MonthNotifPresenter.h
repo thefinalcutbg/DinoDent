@@ -16,7 +16,7 @@ class MonthNotifPresenter
 
 	IMonthNotifView* view{ nullptr };
 	
-	std::vector<MonthNotifRow> m_notifRows;
+	static inline std::vector<MonthNotifRow> m_notifRows;
 
 public:
 	MonthNotifPresenter();

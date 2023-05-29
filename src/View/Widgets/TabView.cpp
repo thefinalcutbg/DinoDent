@@ -60,6 +60,8 @@ TabView::TabView(QWidget *parent)
     setStyleSheet("#ScrollArea{background-color:"+ Theme::colorToString(Theme::background) + "}");
 
     TabPresenter::get().setView(this);
+
+    showWelcomeScreen();
 }
 
 
@@ -259,7 +261,7 @@ void TabView::showPerscriptionView()
 
 void TabView::showWelcomeScreen()
 {
-    showTabWidget(welcomeScreen);
+    showTabWidget(&welcomeScreen);
     m_listView.setPresenter(nullptr);
     m_perioView.setPresenter(nullptr);
     m_summaryView.setPresenter(nullptr);
@@ -271,13 +273,6 @@ TabView::~TabView()
 {
     ui.scrollArea->takeWidget();
 
-    delete welcomeScreen;
-}
-
-void TabView::setWelcomeScreen(QWidget* welcomeScreen)
-{
-    this->welcomeScreen = welcomeScreen;
-    showWelcomeScreen();
 }
 
 

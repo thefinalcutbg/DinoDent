@@ -9,7 +9,7 @@
 #include "View/TableModels/FinancialTableModel.h"
 #include "View/TableModels/PrescriptionTableModel.h"
 #include <QSortFilterProxyModel>
-
+#include "Presenter/BrowserPresenter.h"
 class BrowserPresenter;
 
 class BrowserDialog : public QDialog, public IBrowserDialog
@@ -17,7 +17,7 @@ class BrowserDialog : public QDialog, public IBrowserDialog
 	Q_OBJECT
 private:
 
-	BrowserPresenter* presenter;
+	BrowserPresenter presenter;
 
 	QSortFilterProxyModel idFilter;
 	QSortFilterProxyModel nameFilter;
@@ -31,7 +31,7 @@ private:
 
 
 public:
-	BrowserDialog(BrowserPresenter *p);
+	BrowserDialog();
 
 	void setDates(const Date& from, const Date& to) override;
 

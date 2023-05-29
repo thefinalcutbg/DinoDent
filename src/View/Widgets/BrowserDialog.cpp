@@ -5,8 +5,8 @@
 #include <QApplication>
 #include "View/Theme.h"
 #include "QtVersion.h"
-BrowserDialog::BrowserDialog(BrowserPresenter* presenter) :
-	presenter(presenter)
+
+BrowserDialog::BrowserDialog()
 {
 	ui.setupUi(this);
 
@@ -14,23 +14,23 @@ BrowserDialog::BrowserDialog(BrowserPresenter* presenter) :
 	setWindowTitle("Документи");
 	setWindowIcon(QIcon(":/icons/icon_open.png"));
 
-	auto lambda = [=](QDate date) { return Date{ date.day(), date.month(), date.year() };};
+	auto lambda = [](const QDate& date) { return Date{ date.day(), date.month(), date.year() };};
 
 	connect(ui.fromDateEdit, &QDateEdit::dateChanged,
-		[=]() {presenter->setDates(lambda(ui.fromDateEdit->date()), lambda(ui.toDateEdit->date())); });
+		[&]() {presenter.setDates(lambda(ui.fromDateEdit->date()), lambda(ui.toDateEdit->date())); });
 	connect(ui.toDateEdit, &QDateEdit::dateChanged,
-		[=]() {presenter->setDates(lambda(ui.fromDateEdit->date()), lambda(ui.toDateEdit->date())); });
+		[=]() {presenter.setDates(lambda(ui.fromDateEdit->date()), lambda(ui.toDateEdit->date())); });
 
 	connect(ui.openButton, &QPushButton::clicked, [=] {
 		
 		QApplication::setOverrideCursor(QCursor(Qt::CursorShape::WaitCursor));
-		presenter->openCurrentSelection(); 
+		presenter.openCurrentSelection(); 
 		QApplication::restoreOverrideCursor();
 		
 		});
 
 	connect(ui.dataTypeCombo, QtComboIndexChanged, 
-		[=](int idx) {presenter->setListType(static_cast<TabType>(idx)); });
+		[&](int idx) {presenter.setListType(static_cast<TabType>(idx)); });
 
 	connect(ui.idSearchEdit, &QLineEdit::textChanged, [=]
 		{
@@ -52,7 +52,7 @@ BrowserDialog::BrowserDialog(BrowserPresenter* presenter) :
 
 
 
-	connect(ui.tableView, &QTableView::doubleClicked, this, [=] { presenter->openCurrentSelection(); });
+	connect(ui.tableView, &QTableView::doubleClicked, this, [&] { presenter.openCurrentSelection(); });
 
 	connect(ui.tableView, &ListTable::deletePressed, this, [=] { ui.deleteButton->click(); });
 
@@ -63,10 +63,10 @@ BrowserDialog::BrowserDialog(BrowserPresenter* presenter) :
 	connect(ui.deleteButton, &QPushButton::clicked, 
 		[=] 
 		{
-				presenter->deleteCurrentSelection();
+				presenter.deleteCurrentSelection();
 		});
 
-	presenter->setView(this);
+	presenter.setView(this);
 
 	//ui.dataTypeCombo->setCurrentIndex(2);
 
@@ -74,10 +74,6 @@ BrowserDialog::BrowserDialog(BrowserPresenter* presenter) :
 
 BrowserDialog::~BrowserDialog()
 {
-	ui.fromDateEdit->blockSignals(true);
-	ui.toDateEdit->blockSignals(true);
-	presenter->setView(nullptr);
-
 }
 
 
@@ -126,7 +122,7 @@ void BrowserDialog::setRows(const std::vector<AmbRow>& rows)
 			selectedIndexes.insert(phoneFilter.index(idx.row(), 0).data().toInt());
 		}
 
-		this->presenter->selectionChanged(selectedIndexes);
+			presenter.selectionChanged(selectedIndexes);
 
 		}
 
@@ -172,7 +168,7 @@ void BrowserDialog::setRows(const std::vector<PerioRow>& rows)
 			selectedIndexes.insert(phoneFilter.index(idx.row(), 0).data().toInt());
 		}
 
-		this->presenter->selectionChanged(selectedIndexes);
+		presenter.selectionChanged(selectedIndexes);
 
 		
 
@@ -219,7 +215,7 @@ void BrowserDialog::setRows(const std::vector<PatientRow>& rows)
 			selectedIndexes.insert(phoneFilter.index(idx.row(), 0).data().toInt());
 		}
 
-		this->presenter->selectionChanged(selectedIndexes);
+		presenter.selectionChanged(selectedIndexes);
 
 
 		}
@@ -263,7 +259,7 @@ void BrowserDialog::setRows(const std::vector<FinancialRow>& rows)
 			selectedIndexes.insert(phoneFilter.index(idx.row(), 0).data().toInt());
 		}
 
-		this->presenter->selectionChanged(selectedIndexes);
+			presenter.selectionChanged(selectedIndexes);
 
 		}
 
@@ -305,7 +301,7 @@ void BrowserDialog::setRows(const std::vector<PrescriptionRow>& rows)
 			selectedIndexes.insert(phoneFilter.index(idx.row(), 0).data().toInt());
 		}
 
-		this->presenter->selectionChanged(selectedIndexes);
+			presenter.selectionChanged(selectedIndexes);
 
 		}
 
@@ -326,35 +322,35 @@ void BrowserDialog::contextMenuRequested(const QPoint& p)
 	QAction* action;
 
 	action = (new QAction("Отвори", main_menu));
-	connect(action, &QAction::triggered, [=] { presenter->openCurrentSelection(); });
+	connect(action, &QAction::triggered, [=] { presenter.openCurrentSelection(); });
 	action->setIcon(QIcon(":/icons/icon_open.png"));
 	main_menu->addAction(action);
 
 
 	if (ui.dataTypeCombo->currentIndex() != 3) {
 		action = (new QAction("Нов амбулаторен лист", main_menu));
-		connect(action, &QAction::triggered, [=] { presenter->openNewDocument(TabType::AmbList); });
+		connect(action, &QAction::triggered, [=] { presenter.openNewDocument(TabType::AmbList); });
 		action->setIcon(QIcon(":/icons/icon_sheet.png"));
 		main_menu->addAction(action);
 
 		action = (new QAction("Ново пародонтално измерване", main_menu));
-		connect(action, &QAction::triggered, [=] { presenter->openNewDocument(TabType::PerioList); });
+		connect(action, &QAction::triggered, [=] { presenter.openNewDocument(TabType::PerioList); });
 		action->setIcon(QIcon(":/icons/icon_periosheet.png"));
 		main_menu->addAction(action);
 
 		action = (new QAction("Нова рецепта", main_menu));
-		connect(action, &QAction::triggered, [=] { presenter->openNewDocument(TabType::Prescription); });
+		connect(action, &QAction::triggered, [=] { presenter.openNewDocument(TabType::Prescription); });
 		action->setIcon(QIcon(":/icons/icon_prescr.png"));
 		main_menu->addAction(action);
 
 		action = (new QAction("Нова фактура", main_menu));
-		connect(action, &QAction::triggered, [=] { presenter->openNewDocument(TabType::Financial); });
+		connect(action, &QAction::triggered, [=] { presenter.openNewDocument(TabType::Financial); });
 		action->setIcon(QIcon(":/icons/icon_invoice.png"));
 		main_menu->addAction(action);
 	}
 
 	action = (new QAction("Изтрий", main_menu));
-	connect(action, &QAction::triggered, [=] { presenter->deleteCurrentSelection(); });
+	connect(action, &QAction::triggered, [=] { presenter.deleteCurrentSelection(); });
 	action->setIcon(QIcon(":/icons/icon_remove.png"));
 	main_menu->addAction(action);
 

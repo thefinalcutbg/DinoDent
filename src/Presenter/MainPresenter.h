@@ -4,14 +4,10 @@
 #include "View/Interfaces/IMainView.h"
 #include "TabPresenter.h"
 #include "BrowserPresenter.h"
-#include "MonthNotifPresenter.h"
 #include "Network/HIS/UpdateMedications.h"
 
 class MainPresenter
 {
-	BrowserPresenter m_browserPresenter;
-	MonthNotifPresenter m_notifPresenter;
-
 	IMainView* view{nullptr};
 
 	UpdateMedications med_update_service;
@@ -22,7 +18,7 @@ class MainPresenter
 
 public:
 
-	static MainPresenter get() { return s_singleton; }
+	static MainPresenter& get() { return s_singleton; }
 
 	void setView(IMainView* view);
 	void printPressed();

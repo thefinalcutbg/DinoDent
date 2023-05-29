@@ -5,7 +5,7 @@
 class ReportFilesPresenter
 {
 	ReportFilesService service;
-	std::vector<ReportFile> reportFiles;
+	static inline std::vector<ReportFile> reportFiles;
 	IReportFilesView* view{ nullptr };
 
 public:

@@ -14,6 +14,7 @@
 #include "Database/DbDoctor.h"
 #include "Database/DbUpdateStatus.h"
 #include "View/Printer.h"
+#include "Presenter/MonthNotifPresenter.h"
 
 MainPresenter MainPresenter::s_singleton;
 
@@ -118,14 +119,14 @@ void MainPresenter::newPerscriptionPressed()
 
 void MainPresenter::showListSelector()
 {
-    m_browserPresenter.openDialog();
+    ModalDialogBuilder::openBrowserDialog();
 }
 
 
 void MainPresenter::pisDialog()
 {
-
-    ModalDialogBuilder::pisDialog(&m_notifPresenter);
+    MonthNotifPresenter p;
+    ModalDialogBuilder::pisDialog(&p);
 
 }
 

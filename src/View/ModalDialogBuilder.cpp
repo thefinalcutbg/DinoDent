@@ -26,9 +26,9 @@ void ModalDialogBuilder::openDialog(ProcedureEditorPresenter* p)
 
 #include "View/Widgets/BrowserDialog.h"
 
-void ModalDialogBuilder::openDialog(BrowserPresenter* p)
+void ModalDialogBuilder::openBrowserDialog()
 {
-	BrowserDialog* d = new BrowserDialog(p);
+	BrowserDialog* d = new BrowserDialog();
 	d->setAttribute(Qt::WA_DeleteOnClose);
 	d->show();
 }
@@ -115,7 +115,6 @@ void ModalDialogBuilder::openDialog(ProcedureHistoryPresenter& p)
 	ProcedureHistoryDialog d(p);
 	d.exec();
 }
-
 
 #include "View/Widgets/SaveDialog.h"
 

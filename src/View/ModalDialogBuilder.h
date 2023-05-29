@@ -44,7 +44,6 @@ namespace ModalDialogBuilder
 	void openDialog(ProcedureDialogPresenter* p);
 	void openDialog(PatientDialogPresenter* p);
 	void openDialog(ProcedureEditorPresenter* p);
-	void openDialog(BrowserPresenter* p);
 	void openDialog(DetailedStatusPresenter* p);
 	void openDialog(LoginPresenter* p);
 	void openDialog(PracticeDialogPresenter* p);
@@ -55,6 +54,8 @@ namespace ModalDialogBuilder
 	void openDialog(ReferralPresenter* p);
 	void openDialog(StatisticDialogPresenter& p);
 	void openDialog(ProcedureHistoryPresenter& p);
+
+	void openBrowserDialog();
 
 	DialogAnswer openSaveDialog(const std::string& text);
 	std::optional<std::vector<Procedure>> selectProcedures(const std::vector<Procedure>& procedures, SelectionPref s = SelectionPref::All);

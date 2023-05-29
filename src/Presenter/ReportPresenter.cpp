@@ -7,6 +7,7 @@
 #include "Model/FreeFunctions.h"
 #include "Model/Dental/NhifProcedures.h"
 #include "View/ModalDialogBuilder.h"
+#include "Presenter/TabPresenter.h"
 
 void ReportPresenter::updateProgressBar()
 {
@@ -36,36 +37,44 @@ void ReportPresenter::checkAmbList(const AmbList& list, const Patient& patient)
 	}
 
 	if (list.nrn.empty()) {
+		result = false;
 		m_hasErrors = true;
 		view->appendText("Амбулаторен лист №" + list.getNumber() + " не е изпратен към НЗИС");
 	}
 
 	if (list.nrn.size() && !list.his_updated) {
+		result = false;
 		m_hasErrors = true;
 		view->appendText("Корекциите по амбулаторен лист №" + list.getNumber() + " не са отразени в НЗИС");
 	}
 
 
-	if (!nraCheck) return;
+	if (nraCheck) {
 
-	switch (patient.insuranceStatus->status) {
-	case Insured::Yes: break;
+		switch (patient.insuranceStatus->status) {
+		case Insured::Yes: break;
 
-	case Insured::NoData: view->appendText(
-		"За пациент с ЕГН/ЛНЧ "
-		+ patient.id +
-		" не са открити данни в НАП");
-		result = false;
-		m_hasErrors = true;
-		break;
+		case Insured::NoData: view->appendText(
+			"За пациент с ЕГН/ЛНЧ "
+			+ patient.id +
+			" не са открити данни в НАП");
+			result = false;
+			m_hasErrors = true;
+			break;
 
-	case Insured::No:
-		view->appendText("Пациент с ЕГН/ЛНЧ " + patient.id + " е неосигурен");
-		m_hasErrors = true;
-		break;
+		case Insured::No:
+			view->appendText("Пациент с ЕГН/ЛНЧ " + patient.id + " е неосигурен");
+			result = false;
+			m_hasErrors = true;
+			break;
+		}
 	}
 
-
+	if (!result) {
+		lists_with_errors.emplace_back(TabType::AmbList);
+		lists_with_errors.back().patientRowId = patient.rowid;
+		lists_with_errors.back().rowID = list.rowid;
+	}
 
 }
 
@@ -77,9 +86,11 @@ void ReportPresenter::reset()
 	m_report.reset();
 	m_hasErrors = false;
 	m_currentIndex = -1;
+	lists_with_errors.clear();
 	view->setPercent(0);
 	view->enableReportButtons(false);
 	view->showStopButton(false);
+	view->showOpenErrorLists(false);
 	view->clearText();
 
 }
@@ -234,7 +245,9 @@ void ReportPresenter::generateReport(bool checkPis, bool checkNra)
 	pisCheck = checkPis;
 	nraCheck = checkNra;
 
+	lists_with_errors.clear();
 	view->clearText();
+	view->showOpenErrorLists(false);
 	view->enableReportButtons(false);
 	view->setPercent(0);
 
@@ -268,6 +281,22 @@ void ReportPresenter::generateReport(bool checkPis, bool checkNra)
 
 	
 
+}
+
+void ReportPresenter::openErrors()
+{
+	if (!lists_with_errors.size()) return;
+
+	int counter{ 0 };
+
+	for (auto& row : lists_with_errors) {
+
+		bool isLastTab = ++counter == lists_with_errors.size();
+
+		TabPresenter::get().open(row, isLastTab);
+	}
+
+	if (view) view->closeDialog();
 }
 
 void ReportPresenter::finish()
@@ -327,6 +356,7 @@ void ReportPresenter::finish()
 	patients.clear();
 	view->showStopButton(false);
 	view->enableReportButtons(true);
+	view->showOpenErrorLists(lists_with_errors.size());
 	
 }
 

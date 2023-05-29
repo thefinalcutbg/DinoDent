@@ -15,16 +15,13 @@
 #include "Database/DbUpdateStatus.h"
 #include "View/Printer.h"
 
-MainPresenter::MainPresenter()
-{}
+MainPresenter MainPresenter::s_singleton;
 
 void MainPresenter::setView(IMainView* view)
 {
     this->view = view;
 
-    m_tabPresenter.setView(view->tabView());
-    m_browserPresenter.setTabPresenter(&m_tabPresenter);
-
+  
     if (DbPractice::noPractices())
     {
         ModalDialogBuilder::showMessage("Стартирате програмата за първи път. Моля добавете практика.");
@@ -78,7 +75,7 @@ void MainPresenter::setView(IMainView* view)
 
 void MainPresenter::printPressed()
 {
-    auto tab = m_tabPresenter.currentTab();
+    auto tab = TabPresenter::get().currentTab();
 
     if (tab != nullptr) {
         tab->print();
@@ -96,7 +93,7 @@ void MainPresenter::newAmbPressed()
     auto patient = p.open();
 
     if (patient.has_value())
-        m_tabPresenter.openList(patient.value());
+        TabPresenter::get().openList(patient.value());
 }
 
 void MainPresenter::newPerioPressed()
@@ -106,7 +103,7 @@ void MainPresenter::newPerioPressed()
     auto patient = p.open();
 
     if (patient.has_value())
-        m_tabPresenter.openPerio(patient.value());
+        TabPresenter::get().openPerio(patient.value());
 }
 
 void MainPresenter::newPerscriptionPressed()
@@ -116,7 +113,7 @@ void MainPresenter::newPerscriptionPressed()
     auto patient = p.open();
 
     if (patient.has_value())
-        m_tabPresenter.openPerscription(patient.value());
+        TabPresenter::get().openPerscription(patient.value());
 }
 
 void MainPresenter::showListSelector()
@@ -156,8 +153,8 @@ void MainPresenter::settingsPressed()
 
 bool MainPresenter::save() 
 {
-    if(m_tabPresenter.currentTab())
-        return m_tabPresenter.currentTab()->save();
+    if(TabPresenter::get().currentTab())
+        return TabPresenter::get().currentTab()->save();
 
     return true;
 }
@@ -206,6 +203,6 @@ void MainPresenter::userSettingsPressed()
 
 bool MainPresenter::closeAllTabs()
 {
-    return m_tabPresenter.permissionToLogOut();
+    return TabPresenter::get().permissionToLogOut();
 }
 

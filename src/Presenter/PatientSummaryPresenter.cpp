@@ -27,10 +27,9 @@ TimeFrame* PatientSummaryPresenter::currentFrame()
     return &statusTimeFrame[state.currentIdx];
 }
 
-PatientSummaryPresenter::PatientSummaryPresenter(ITabView* view, TabPresenter* tabPresenter, std::shared_ptr<Patient> patient)
+PatientSummaryPresenter::PatientSummaryPresenter(ITabView* view, std::shared_ptr<Patient> patient)
     :   TabInstance(view, TabType::PatientSummary, patient), 
         view(view->summaryView()),
-        tab_presenter(tabPresenter),
         statusTimeFrame(DbPatientSummary::getFrames(patient->rowid)),
         patient_presenter(view->summaryView()->patientTile(), patient)
 {
@@ -51,7 +50,7 @@ void PatientSummaryPresenter::openCurrentDocument()
 {
     auto frame = currentFrame();
 
-    if (!tab_presenter || !frame) return;
+    if (!frame) return;
 
     if (frame->LPK != User::doctor().LPK)
     {
@@ -67,7 +66,7 @@ void PatientSummaryPresenter::openCurrentDocument()
             auto row = RowInstance(TabType::PerioList);
             row.rowID = frame->rowid;
             row.patientRowId = patient->rowid;
-            tab_presenter->open(row, true);
+            TabPresenter::get().open(row, true);
             break;
         }
         default:
@@ -75,7 +74,7 @@ void PatientSummaryPresenter::openCurrentDocument()
             auto row = RowInstance(TabType::AmbList);
             row.rowID = frame->rowid;
             row.patientRowId = patient->rowid;
-            tab_presenter->open(row, true);
+            TabPresenter::get().open(row, true);
             break;
         }
     }
@@ -145,22 +144,22 @@ void PatientSummaryPresenter::setDataToView()
 
 void PatientSummaryPresenter::newAmbSheet()
 {
-    tab_presenter->openList(*patient);
+    TabPresenter::get().openList(*patient);
 }
 
 void PatientSummaryPresenter::newPerio()
 {
-    tab_presenter->openPerio(*patient);
+    TabPresenter::get().openPerio(*patient);
 }
 
 void PatientSummaryPresenter::newPrescription()
 {
-    tab_presenter->openPerscription(*patient);
+    TabPresenter::get().openPerscription(*patient);
 }
 
 void PatientSummaryPresenter::newInvoice()
 {
-    tab_presenter->openInvoice(patient->rowid);
+    TabPresenter::get().openInvoice(patient->rowid);
 }
 
 void PatientSummaryPresenter::toothSelected(int toothIdx)

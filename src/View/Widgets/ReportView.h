@@ -30,4 +30,6 @@ private:
 	void setPercent(int percent) override;
 	void enableReportButtons(bool enabled) override;
 	void showStopButton(bool yes) override;
+	void showOpenErrorLists(bool show) override;
+	void closeDialog() override;
 };

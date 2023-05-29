@@ -1,7 +1,6 @@
 #pragma once
 #include <string>
 
-class TabPresenter;
 class IListView;
 class IPerioView;
 class IPatientSummaryView;
@@ -19,7 +18,7 @@ public:
 	virtual void removeTab(int vecPos) = 0;
 //	virtual void changeTabName(const TabName& tabName) = 0;
 	virtual void changeTabName(const TabName& tabName, int presenterIdx) = 0;
-	virtual void setTabPresenter(TabPresenter* presenter) = 0;
+
 	virtual void removeAllTabs() = 0;
 
 	virtual ScrollPos getScrollPos() = 0;

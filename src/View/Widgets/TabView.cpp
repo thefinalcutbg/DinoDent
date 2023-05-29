@@ -3,9 +3,10 @@
 #include <QScrollBar>
 #include "View/Theme.h"
 #include "View/SubWidgets/TabTitle.h"
+#include "Presenter/TabPresenter.h"
 
 TabView::TabView(QWidget *parent)
-	: QWidget(parent), tabPresenter(nullptr)
+	: QWidget(parent)
 {
 	ui.setupUi(this);
 
@@ -39,7 +40,7 @@ TabView::TabView(QWidget *parent)
         {
             if (index == -1)
             {
-                tabPresenter->setCurrentTab(index);
+                TabPresenter::get().setCurrentTab(index);
                 return;
             }
 
@@ -47,7 +48,7 @@ TabView::TabView(QWidget *parent)
                 (ui.tabBar->tabButton(index, QTabBar::ButtonPosition::RightSide))
                     ->getTabId();
 
-            tabPresenter->setCurrentTab(tabId);
+            TabPresenter::get().setCurrentTab(tabId);
         });
 
 
@@ -58,13 +59,13 @@ TabView::TabView(QWidget *parent)
     ui.scrollArea->setObjectName("ScrollArea");
     setStyleSheet("#ScrollArea{background-color:"+ Theme::colorToString(Theme::background) + "}");
 
-    
+    TabPresenter::get().setView(this);
 }
 
 
 void TabView::requestClose(int tabId)
 {
-    tabPresenter->closeTabRequested(tabId);
+    TabPresenter::get().closeTabRequested(tabId);
 }
 
 TabTitle* TabView::getTabTitle(int tabId)
@@ -165,20 +166,7 @@ void TabView::removeTab(int tabId)
 {
     ui.tabBar->removeTab(getTabIndex(tabId));
 }
-/*
-void TabView::changeTabName(const TabName& tabName)
-{
-    auto tab = static_cast<TabTitle*>
-        (ui.tabBar->tabButton(ui.tabBar->currentIndex(), QTabBar::ButtonPosition::RightSide));
 
-    setTabIcon(ui.tabBar->currentIndex(), tabName.nhif, tabName.his);
-    tab->setText(QString::fromStdString(tabName.header), QString::fromStdString(tabName.footer));
-
-    //re-setting the tab into the tabbar, to change the layout
-    ui.tabBar->setTabButton(ui.tabBar->currentIndex(), QTabBar::ButtonPosition::RightSide, nullptr);
-    ui.tabBar->setTabButton(ui.tabBar->currentIndex(), QTabBar::ButtonPosition::RightSide, tab);
-}
-*/
 void TabView::changeTabName(const TabName& tabName, int tabId)
 {
     int tabIndex = getTabIndex(tabId);
@@ -204,12 +192,6 @@ void TabView::changeTabName(const TabName& tabName, int tabId)
     ui.tabBar->setTabButton(tabIndex, QTabBar::ButtonPosition::RightSide, nullptr);
     ui.tabBar->setTabButton(tabIndex, QTabBar::ButtonPosition::RightSide, tab);
 }
-
-void TabView::setTabPresenter(TabPresenter* presenter)
-{
-    this->tabPresenter = presenter;
-}
-
 
 
 #include <QScrollBar>

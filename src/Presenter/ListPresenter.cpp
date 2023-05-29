@@ -25,11 +25,10 @@
 #include <thread>
 #include <chrono>
 #include <qdebug.h>
-ListPresenter::ListPresenter(ITabView* tabView, TabPresenter* tabPresenter, std::shared_ptr<Patient> patient, long long rowId)
+ListPresenter::ListPresenter(ITabView* tabView, std::shared_ptr<Patient> patient, long long rowId)
     :
     TabInstance(tabView, TabType::AmbList, patient),
     view(tabView->listView()),
-    tabPresenter(tabPresenter),
     m_ambList(rowId ? DbAmbList::getListData(rowId) : DbAmbList::getNewAmbSheet(patient->rowid)),
     patient_info(tabView->listView()->tileInfo(), patient)
 {
@@ -895,17 +894,17 @@ void ListPresenter::createInvoice()
         return;
     }
 
-    tabPresenter->openInvoice(patient->rowid, selectedProcedures.value());
+    TabPresenter::get().openInvoice(patient->rowid, selectedProcedures.value());
 }
 
 void ListPresenter::createPerioMeasurment()
 {
-    tabPresenter->openPerio(*this->patient.get());
+    TabPresenter::get().openPerio(*this->patient.get());
 }
 
 void ListPresenter::createPrescription()
 {
-    tabPresenter->openPerscription(*this->patient.get());
+    TabPresenter::get().openPerscription(*this->patient.get());
 }
 
 void ListPresenter::hisButtonPressed()

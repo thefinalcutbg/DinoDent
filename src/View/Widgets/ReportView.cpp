@@ -2,13 +2,13 @@
 #include <QFileDialog>
 #include <QPainter>
 #include "QtVersion.h"
-
-ReportView::ReportView( QWidget *parent)
+#include <QDialog>
+ReportView::ReportView(QWidget* parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
 
-	
+
 
 	setWindowTitle("Генериране на отчет");
 	setWindowIcon(QIcon(":/icons/icon_reports.png"));
@@ -33,16 +33,16 @@ ReportView::ReportView( QWidget *parent)
 		ui.monthCombo->addItem(monthNames[i]);
 
 	connect(ui.generateButton, &QPushButton::clicked, [&] {
-		
-		m_stop? 
-		presenter.reset()
-		:
-		presenter.generateReport(
-			ui.pisCheck->isChecked(),
-			ui.nraCheck->isChecked()
+
+		m_stop ?
+			presenter.reset()
+			:
+			presenter.generateReport(
+				ui.pisCheck->isChecked(),
+				ui.nraCheck->isChecked()
 			);
 
-	});
+		});
 
 	connect(ui.monthCombo, QtComboIndexChanged, [&](int idx) {
 		presenter.setDate(ui.monthCombo->currentIndex() + 1, ui.yearSpin->value());
@@ -54,6 +54,8 @@ ReportView::ReportView( QWidget *parent)
 
 	connect(ui.pisButton, &QPushButton::clicked, [&] { presenter.sendToPis(); });
 	connect(ui.xmlButton, &QPushButton::clicked, [&] { presenter.saveToXML(); });
+
+	connect(ui.openErrorsButton, &QPushButton::clicked, [&] { presenter.openErrors(); });
 
 	//CHANGE THIS LATER
 	presenter.setView(this);
@@ -111,4 +113,14 @@ void ReportView::showStopButton(bool yes)
 		ui.pisCheck->setDisabled(yes);
 		ui.monthCombo->setDisabled(yes);
 		ui.yearSpin->setDisabled(yes);
+}
+
+void ReportView::showOpenErrorLists(bool show)
+{
+	ui.openErrorsButton->setHidden(!show);
+}
+
+void ReportView::closeDialog()
+{
+	static_cast<QDialog*>(parent()->parent()->parent())->close(); //laaaaaaaame
 }

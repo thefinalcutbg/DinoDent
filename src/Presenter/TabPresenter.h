@@ -15,11 +15,11 @@ class TabPresenter
 
 	std::unordered_map<int, TabInstance*> m_tabs;
 
-	int m_indexCounter;
-	int m_currentIndex;
+	int m_indexCounter{ -1 };
+	int m_currentIndex{ -1 };
 
 
-	ITabView* view;
+	ITabView* view{ nullptr };
 
 	bool newListExists(const Patient& patient);
 //	bool permissionToClose(int tabId);
@@ -30,10 +30,10 @@ class TabPresenter
 
 	std::shared_ptr<Patient> getPatient_ptr(const Patient& patient);
 
-	//void removeTabInstance(int tabId);
+	static TabPresenter s_singleton;
+
+	TabPresenter() {};
 public:
-	
-	TabPresenter();
 
 	void setView(ITabView* view);
 
@@ -57,5 +57,7 @@ public:
 
 	//returns false if not all of the tabs are removed(a.k.a. user breaks the operation)
 	bool permissionToLogOut();
+
+	static TabPresenter& get() { return s_singleton; }
 };
 

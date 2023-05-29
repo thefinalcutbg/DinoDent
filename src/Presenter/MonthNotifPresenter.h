@@ -6,7 +6,6 @@
 #include <vector>
 #include <optional>
 
-class TabPresenter;
 class IMonthNotifView;
 
 class MonthNotifPresenter
@@ -15,13 +14,12 @@ class MonthNotifPresenter
 	GetMonthNotifListService m_listHandler;
 	GetMonthNotifService m_notifHandler;
 
-	TabPresenter* tab_presenter;
 	IMonthNotifView* view{ nullptr };
 	
 	std::vector<MonthNotifRow> m_notifRows;
 
 public:
-	MonthNotifPresenter(TabPresenter* presenter);
+	MonthNotifPresenter();
 	
 	void setView(IMonthNotifView* view);
 	void loadFromXml();

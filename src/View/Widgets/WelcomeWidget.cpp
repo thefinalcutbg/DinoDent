@@ -3,7 +3,8 @@
 #include "Presenter/MainPresenter.h"
 #include "View/Widgets/AboutDialog.h"
 #include <QDate>
-WelcomeWidget::WelcomeWidget(MainPresenter& p, QWidget *parent)
+
+WelcomeWidget::WelcomeWidget(QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
@@ -26,13 +27,13 @@ WelcomeWidget::WelcomeWidget(MainPresenter& p, QWidget *parent)
     ui.statisticButton->setIcon(QIcon(":/icons/icon_statistic.png"));
     ui.aboutButton->setIcon(QIcon(":/icons/icon_question.png"));
 
-    connect(ui.ambButton, &QPushButton::clicked, [&] { p.newAmbPressed(); });
-    connect(ui.perioButton, &QPushButton::clicked, [&] { p.newPerioPressed(); });
-    connect(ui.prescrButton, &QPushButton::clicked, [&] { p.newPerscriptionPressed(); });
-    connect(ui.browser, &QPushButton::clicked, [&] { p.showListSelector(); });
-    connect(ui.nhifButton, &QPushButton::clicked, [&] { p.pisDialog(); });
-    connect(ui.settingsButton, &QPushButton::clicked, [&] { p.settingsPressed(); });
-    connect(ui.statisticButton, &QPushButton::clicked, [&] { p.statisticPressed(); });
+    connect(ui.ambButton, &QPushButton::clicked, [&] { MainPresenter::get().newAmbPressed(); });
+    connect(ui.perioButton, &QPushButton::clicked, [&] { MainPresenter::get().newPerioPressed(); });
+    connect(ui.prescrButton, &QPushButton::clicked, [&] { MainPresenter::get().newPerscriptionPressed(); });
+    connect(ui.browser, &QPushButton::clicked, [&] { MainPresenter::get().showListSelector(); });
+    connect(ui.nhifButton, &QPushButton::clicked, [&] { MainPresenter::get().pisDialog(); });
+    connect(ui.settingsButton, &QPushButton::clicked, [&] { MainPresenter::get().settingsPressed(); });
+    connect(ui.statisticButton, &QPushButton::clicked, [&] { MainPresenter::get().statisticPressed(); });
     connect(ui.aboutButton, &QPushButton::clicked, [&] { AboutDialog d; d.exec(); });
     
 }

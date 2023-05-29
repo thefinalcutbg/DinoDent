@@ -21,7 +21,6 @@
 typedef std::vector<int> SelectedTeethIdx;
 //typedef std::vector<Tooth*> SelectedTeeth;
 
-class TabPresenter;
 
 class ListPresenter : public TabInstance
 {
@@ -36,8 +35,6 @@ class ListPresenter : public TabInstance
     IListView* view;
 
     bool firstFocus{ true };
-
-    TabPresenter* tabPresenter;
 
     DentalActivitiesService dentalActService;
     NraStatusService nraStatusServ;
@@ -72,7 +69,7 @@ public:
 
     AmbList m_ambList;
 
-    ListPresenter(ITabView* tabView, TabPresenter* tabPresenter, std::shared_ptr<Patient> patient, long long rowId = 0);
+    ListPresenter(ITabView* tabView, std::shared_ptr<Patient> patient, long long rowId = 0);
 
     void chargeChanged(int index);
 

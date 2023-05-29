@@ -5,9 +5,7 @@
 #include <fstream>
 #include <streambuf>
 
-MonthNotifPresenter::MonthNotifPresenter(TabPresenter* presenter) :
-    tab_presenter{presenter}, view{nullptr}
-{}
+MonthNotifPresenter::MonthNotifPresenter(){}
 
 
 void MonthNotifPresenter::setView(IMonthNotifView* view)
@@ -28,7 +26,7 @@ void MonthNotifPresenter::loadFromXml()
 
     if (!fileData.has_value()) return;
 
-    tab_presenter->openInvoice(fileData.value());
+    TabPresenter::get().openInvoice(fileData.value());
 
     return;
 }
@@ -49,7 +47,7 @@ void MonthNotifPresenter::okPressed(int currentIdx)
     
     m_notifHandler.sendRequest(User::practice().rziCode, m_notifRows[currentIdx].hash,
             [=](const std::string& result) { 
-            tab_presenter->openInvoice(result);
+            TabPresenter::get().openInvoice(result);
         });
 
 }

@@ -10,4 +10,6 @@ public:
 	virtual void setPercent(int percent) = 0;
 	virtual void enableReportButtons(bool enabled) = 0;
 	virtual void showStopButton(bool yes) = 0;
+	virtual void showOpenErrorLists(bool show) = 0;
+	virtual void closeDialog() = 0;
 };

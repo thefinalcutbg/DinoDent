@@ -9,16 +9,20 @@
 
 class MainPresenter
 {
-	TabPresenter m_tabPresenter;
 	BrowserPresenter m_browserPresenter;
-	MonthNotifPresenter m_notifPresenter{ &m_tabPresenter };
+	MonthNotifPresenter m_notifPresenter;
 
 	IMainView* view{nullptr};
 
 	UpdateMedications med_update_service;
 
+	static MainPresenter s_singleton;
+
+	MainPresenter(){}
+
 public:
-	MainPresenter();
+
+	static MainPresenter get() { return s_singleton; }
 
 	void setView(IMainView* view);
 	void printPressed();
@@ -34,5 +38,7 @@ public:
 	void userSettingsPressed();
 	//returns false when user selects cancel, otherwise returns true
 	bool closeAllTabs();
+
+
 };
 

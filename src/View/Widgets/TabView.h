@@ -2,7 +2,6 @@
 
 #include <QWidget>
 
-#include "Presenter/TabPresenter.h"
 #include "View/Widgets/ListView.h"
 #include "View/Widgets/PerioView.h"
 #include "View/Widgets/PatientSummary.h"
@@ -20,8 +19,6 @@ class TabView : public QWidget, public ITabView
 {
 	Q_OBJECT
 
-	TabPresenter* tabPresenter;
-	
 	PerioView m_perioView;
 	ListView m_listView;
 	PatientSummary m_summaryView;
@@ -52,7 +49,7 @@ public:
 	void removeCurrentTab() override;
 	//void changeTabName(const TabName& tabName) override;
 	void changeTabName(const TabName& tabName, int tabId) override;
-	void setTabPresenter(TabPresenter* presenter) override;
+
 	void removeTab(int tabId) override;
 
 	ScrollPos getScrollPos();

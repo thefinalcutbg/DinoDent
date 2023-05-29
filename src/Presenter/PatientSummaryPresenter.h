@@ -15,7 +15,6 @@ class PatientSummaryPresenter : public TabInstance
 	IPatientSummaryView* view;
 	SummaryState state;
 	PatientInfoPresenter patient_presenter;
-	TabPresenter* tab_presenter;
 
 	std::vector<TimeFrame> statusTimeFrame;
 
@@ -29,7 +28,7 @@ class PatientSummaryPresenter : public TabInstance
 public:
 
 	
-	PatientSummaryPresenter(ITabView* view, TabPresenter* tabPresenter, std::shared_ptr<Patient> patient);
+	PatientSummaryPresenter(ITabView* view, std::shared_ptr<Patient> patient);
 
 	bool noData() { return statusTimeFrame.empty(); }
 

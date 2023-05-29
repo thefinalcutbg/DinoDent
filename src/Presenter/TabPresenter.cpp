@@ -11,13 +11,11 @@
 #include "StatisticDialogPresenter.h"
 #include <TinyXML/tinyxml.h>
 
-TabPresenter::TabPresenter() : m_indexCounter(-1), m_currentIndex(-1), view(nullptr)
-{}
+TabPresenter TabPresenter::s_singleton;
 
 void TabPresenter::setView(ITabView* view)
 {
     this->view = view;
-    view->setTabPresenter(this);
 }
 
 TabInstance* TabPresenter::currentTab()
@@ -127,7 +125,7 @@ void TabPresenter::openList(const Patient& patient)
 {
     if (newListExists(patient)) return;
 
-    createNewTab(new ListPresenter(view, this, getPatient_ptr(patient)));
+    createNewTab(new ListPresenter(view, getPatient_ptr(patient)));
     
 }
 
@@ -138,7 +136,7 @@ void TabPresenter::openPerio(const Patient& patient)
 
 void TabPresenter::openPerscription(const Patient& patient)
 {
-    createNewTab(new PrescriptionPresenter(view, this, getPatient_ptr(patient)));
+    createNewTab(new PrescriptionPresenter(view, getPatient_ptr(patient)));
 }
 
 void TabPresenter::openInvoice(const std::string& monthNotif)
@@ -184,13 +182,13 @@ void TabPresenter::open(const RowInstance& row, bool setFocus)
     switch (row.type)
     {
     case TabType::AmbList:
-        newTab = new ListPresenter(view, this, getPatient_ptr(DbPatient::get(row.patientRowId)), row.rowID);
+        newTab = new ListPresenter(view, getPatient_ptr(DbPatient::get(row.patientRowId)), row.rowID);
         break;
     case TabType::PerioList:
         newTab = new PerioPresenter(view, getPatient_ptr(DbPatient::get(row.patientRowId)), row.rowID);
         break;
     case TabType::PatientSummary:
-        newTab = new PatientSummaryPresenter(view, this, getPatient_ptr(DbPatient::get(row.patientRowId)));
+        newTab = new PatientSummaryPresenter(view, getPatient_ptr(DbPatient::get(row.patientRowId)));
         break;
     case TabType::Financial:
         newTab = row.rowID ? 
@@ -199,7 +197,7 @@ void TabPresenter::open(const RowInstance& row, bool setFocus)
             new FinancialPresenter(view, getPatient_ptr(DbPatient::get(row.patientRowId)));
         break;
     case TabType::Prescription:
-        newTab = new PrescriptionPresenter(view, this, getPatient_ptr(DbPatient::get(row.patientRowId)), row.rowID);
+        newTab = new PrescriptionPresenter(view, getPatient_ptr(DbPatient::get(row.patientRowId)), row.rowID);
         break;
     }
 

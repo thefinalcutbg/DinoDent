@@ -14,8 +14,6 @@ class DinoDent : public QMainWindow, public IMainView
 {
     Q_OBJECT
 
-    MainPresenter presenter;
-
     void paintEvent(QPaintEvent* event);
     void closeEvent(QCloseEvent* event);
 

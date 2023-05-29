@@ -23,7 +23,7 @@ class PrescriptionPresenter : public TabInstance
 	}
 
 public:
-	PrescriptionPresenter(ITabView* tabView, TabPresenter* tabPresenter, std::shared_ptr<Patient> patient, long long rowId = 0);
+	PrescriptionPresenter(ITabView* tabView, std::shared_ptr<Patient> patient, long long rowId = 0);
 
 	void nrnButtonClicked();
 

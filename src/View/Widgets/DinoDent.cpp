@@ -45,19 +45,19 @@ DinoDent::DinoDent(QWidget* parent)
     userMenu->addAction(exitAction);
     userMenu->setStyleSheet(Theme::getPopupMenuStylesheet());
 
-    connect(ui.newButton, &QPushButton::clicked, [&] { presenter.newAmbPressed(); });
-    connect(ui.saveButton, &QPushButton::clicked, [&] { presenter.save(); });
-    connect(ui.listSelectButton, &QPushButton::clicked, [&] {presenter.showListSelector(); });
-    connect(ui.perscrButton, &QPushButton::clicked, [&] { presenter.newPerscriptionPressed(); });
-    connect(ui.printButton, &QPushButton::clicked, [&] {presenter.printPressed(); });
-    connect(ui.perioButton, &QPushButton::clicked, [&] {presenter.newPerioPressed(); });
-    connect(ui.statisticButton, &QPushButton::clicked, [&] {presenter.statisticPressed(); });
-    connect(settingsAction, &QAction::triggered, [&] {presenter.userSettingsPressed();});
-    connect(ui.pisButton, &QPushButton::clicked, [&] { presenter.pisDialog();});
-    connect(ui.settingsButton, &QPushButton::clicked, [&] { presenter.settingsPressed();});
+    connect(ui.newButton, &QPushButton::clicked, [&] { MainPresenter::get().newAmbPressed(); });
+    connect(ui.saveButton, &QPushButton::clicked, [&] { MainPresenter::get().save(); });
+    connect(ui.listSelectButton, &QPushButton::clicked, [&] { MainPresenter::get().showListSelector(); });
+    connect(ui.perscrButton, &QPushButton::clicked, [&] { MainPresenter::get().newPerscriptionPressed(); });
+    connect(ui.printButton, &QPushButton::clicked, [&] { MainPresenter::get().printPressed(); });
+    connect(ui.perioButton, &QPushButton::clicked, [&] { MainPresenter::get().newPerioPressed(); });
+    connect(ui.statisticButton, &QPushButton::clicked, [&] { MainPresenter::get().statisticPressed(); });
+    connect(settingsAction, &QAction::triggered, [&] { MainPresenter::get().userSettingsPressed();});
+    connect(ui.pisButton, &QPushButton::clicked, [&] { MainPresenter::get().pisDialog();});
+    connect(ui.settingsButton, &QPushButton::clicked, [&] { MainPresenter::get().settingsPressed();});
     connect(ui.aboutButton, &QPushButton::clicked, [&] { AboutDialog d; d.exec(); });
 
-    connect(exitAction, &QAction::triggered, [&] { presenter.logOut(); });
+    connect(exitAction, &QAction::triggered, [&] { MainPresenter::get().logOut(); });
 
    // ui.statisticButton->hide();
 
@@ -106,9 +106,9 @@ DinoDent::DinoDent(QWidget* parent)
         "    }"
     );
  */
-    ui.tabView->setWelcomeScreen(new WelcomeWidget(presenter));
+    ui.tabView->setWelcomeScreen(new WelcomeWidget());
 
-    presenter.setView(this);
+    MainPresenter::get().setView(this);
 }
 
 ITabView* DinoDent::tabView()
@@ -150,7 +150,7 @@ void DinoDent::paintEvent(QPaintEvent* event)
 
 void DinoDent::closeEvent(QCloseEvent* event)
 {
-    if (!presenter.closeAllTabs())
+    if (!MainPresenter::get().closeAllTabs())
         event->ignore();
 
     foreach(QWidget * widget, QApplication::topLevelWidgets()) 

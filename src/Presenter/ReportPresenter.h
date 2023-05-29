@@ -1,6 +1,7 @@
 #pragma once
 #include "View/Interfaces/IReportView.h"
 
+#include "Model/TableRows.h"
 #include <vector>
 #include <unordered_map>
 #include "Model/Dental/AmbList.h"
@@ -13,10 +14,11 @@
 
 class ReportPresenter
 {
-	IReportView* view;
+	IReportView* view{ nullptr };
 
 	//stores the amblists
 	std::vector<AmbList> lists;
+	std::vector<RowInstance> lists_with_errors;
 
 	int m_currentIndex{ -1 };
 	bool m_hasErrors{ false };
@@ -43,6 +45,7 @@ class ReportPresenter
 	void checkNext();
 
 public:
+	
 	void reset();
 	void sendToPis();
 	void saveToXML();
@@ -50,6 +53,7 @@ public:
 	void setInsuranceStatus(const std::optional<InsuranceStatus>& insuranceStatus);
 	void setDate(int month, int year);
 	void generateReport(bool checkPis, bool checkNra);
+	void openErrors();
 	void setView(IReportView* view);
 };
 

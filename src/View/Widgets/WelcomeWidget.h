@@ -10,7 +10,7 @@ class WelcomeWidget : public QWidget
 	Q_OBJECT
 
 public:
-	WelcomeWidget(MainPresenter& p, QWidget *parent = nullptr);
+	WelcomeWidget(QWidget *parent = nullptr);
 	~WelcomeWidget();
 
 private:

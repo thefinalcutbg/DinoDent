@@ -329,7 +329,6 @@ std::vector<AmbList> DbAmbList::getMonthlyNhifSheets(int month, int year)
         "FROM procedure LEFT JOIN amblist ON procedure.amblist_rowid = amblist.rowid "
         "WHERE "
         "procedure.financing_source=" + std::to_string(static_cast<int>(FinancingSource::NHIF)) + " "
-        "AND amblist.nhif_spec IS NOT NULL "
         "AND procedure.removed = 0 "
         "AND amblist.lpk = '" + User::doctor().LPK + "' "
         "AND amblist.rzi = '" + User::practice().rziCode + "' "

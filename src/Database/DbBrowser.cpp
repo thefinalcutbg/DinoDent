@@ -30,7 +30,7 @@ std::vector<PatientRow> DbBrowser::getPatientRows()
 
     return rows;
 }
-#include "qdebug.h"
+
 std::vector<AmbRow> DbBrowser::getAmbRows(const Date& from, const Date& to)
 {
 
@@ -55,8 +55,6 @@ std::vector<AmbRow> DbBrowser::getAmbRows(const Date& from, const Date& to)
         "AND amblist.rzi = '" + User::practice().rziCode + "' "
         "GROUP BY amblist.rowid "
         "ORDER BY strftime('%Y %m %d', amblist.date) ASC, amblist.num ASC ";
-
-    qDebug() << query.c_str();
 
     Db db(query);
 

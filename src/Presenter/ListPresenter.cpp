@@ -764,6 +764,8 @@ void ListPresenter::addReferral(ReferralType type)
 
     dynamicNhifConversion();
    
+    refreshTabName();
+
     if (!m_ambList.isNew()) {
         DbReferral::saveReferrals(m_ambList.referrals, m_ambList.rowid);
     }
@@ -818,6 +820,8 @@ void ListPresenter::sendReferralToHis(int index)
 
                 DbReferral::saveReferrals(m_ambList.referrals, m_ambList.rowid);
 
+                refreshTabName();
+
                 if (isCurrent()) {
                     view->setReferrals(m_ambList.referrals);
                 }
@@ -851,11 +855,10 @@ void ListPresenter::removeReferral(int index)
         return;
     }
 
-
     if (r.isSentToHIS()) {
 
         eReferralCancelService.sendRequest(r.nrn,
-            [&](bool success) {
+            [=](bool success) {
 
                 if (!success) return;
 
@@ -864,11 +867,11 @@ void ListPresenter::removeReferral(int index)
                 DbReferral::saveReferrals(m_ambList.referrals, m_ambList.rowid);
 
                 ModalDialogBuilder::showMessage("Направлението е анулирано успешно!");
-
+                qDebug() << 868;
                 dynamicNhifConversion();
-
+                qDebug() << 870;
                 if(isCurrent()) view->setReferrals(m_ambList.referrals);
-
+                qDebug() << 872;
                 refreshTabName();
 
                

@@ -77,8 +77,8 @@ src\Database\DbDoctor.cpp
 src\Database\DbDoctor.h
 src\Database\DbInvoice.cpp
 src\Database\DbInvoice.h
-src\Database\DbListOpener.cpp
-src\Database\DbListOpener.h
+src\Database\DbBrowser.cpp
+src\Database\DbBrowser.h
 src\Database\DbNotes.cpp
 src\Database\DbNotes.h
 src\Database\DbPatient.cpp

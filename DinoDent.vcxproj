@@ -268,7 +268,7 @@
     <ClCompile Include="src\Database\DbAmbList.cpp" />
     <ClCompile Include="src\Database\DbDoctor.cpp" />
     <ClCompile Include="src\Database\DbInvoice.cpp" />
-    <ClCompile Include="src\Database\DbListOpener.cpp" />
+    <ClCompile Include="src\Database\DbBrowser.cpp" />
     <ClCompile Include="src\Database\DbNotes.cpp" />
     <ClCompile Include="src\Database\DbPatient.cpp" />
     <ClCompile Include="src\Database\DbPatientSummary.cpp" />
@@ -553,7 +553,7 @@
     <ClInclude Include="src\Database\DbAmbList.h" />
     <ClInclude Include="src\Database\DbDoctor.h" />
     <ClInclude Include="src\Database\DbInvoice.h" />
-    <ClInclude Include="src\Database\DbListOpener.h" />
+    <ClInclude Include="src\Database\DbBrowser.h" />
     <ClInclude Include="src\Database\DbNotes.h" />
     <ClInclude Include="src\Database\DbPatient.h" />
     <ClInclude Include="src\Database\DbPatientSummary.h" />

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Model/TableRows.h"
-#include "Database/DbListOpener.h"
+#include "Database/DbBrowser.h"
 #include <set>
 
 class IBrowserDialog;

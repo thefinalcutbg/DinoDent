@@ -1,8 +1,8 @@
-#include "DbListOpener.h"
+#include "DbBrowser.h"
 #include "Model/User.h"
 #include "Database.h"
 
-std::vector<PatientRow> DbListOpener::getPatientRows()
+std::vector<PatientRow> DbBrowser::getPatientRows()
 {
     std::vector<PatientRow> rows;
     rows.reserve(50);
@@ -31,7 +31,7 @@ std::vector<PatientRow> DbListOpener::getPatientRows()
     return rows;
 }
 #include "qdebug.h"
-std::vector<AmbRow> DbListOpener::getAmbRows(const Date& from, const Date& to)
+std::vector<AmbRow> DbBrowser::getAmbRows(const Date& from, const Date& to)
 {
 
     std::vector<AmbRow> rows;
@@ -40,7 +40,7 @@ std::vector<AmbRow> DbListOpener::getAmbRows(const Date& from, const Date& to)
     std::string query =
         "SELECT "
         "amblist.rowid, "
-        "(amblist.nrn IS NOT NULL OR amblist.nrn != '') AS nhis, "
+        "(amblist.nrn != '' AND amblist.nrn IS NOT NULL) AS nhis, "
         "(procedure.financing_source = 2 OR referral.rowid NOT NULL) as nhif, "
         "amblist.nrn, amblist.num, " 
         "amblist.date, "
@@ -88,7 +88,7 @@ std::vector<AmbRow> DbListOpener::getAmbRows(const Date& from, const Date& to)
     return rows;
 }
 
-std::vector<PerioRow> DbListOpener::getPerioRows(const Date& from, const Date& to)
+std::vector<PerioRow> DbBrowser::getPerioRows(const Date& from, const Date& to)
 {
     std::vector<PerioRow> rows;
     rows.reserve(50);
@@ -126,7 +126,7 @@ std::vector<PerioRow> DbListOpener::getPerioRows(const Date& from, const Date& t
 #include "Model/Financial/Recipient.h"
 
 
-std::vector<FinancialRow> DbListOpener::getFinancialRows(const Date& from, const Date& to)
+std::vector<FinancialRow> DbBrowser::getFinancialRows(const Date& from, const Date& to)
 {
     std::vector<FinancialRow> rows;
 
@@ -175,7 +175,7 @@ std::vector<FinancialRow> DbListOpener::getFinancialRows(const Date& from, const
 
 }
 
-std::vector<PrescriptionRow> DbListOpener::getPrescriptionRows(const Date& from, const Date& to)
+std::vector<PrescriptionRow> DbBrowser::getPrescriptionRows(const Date& from, const Date& to)
 {
     std::vector<PrescriptionRow> rows;
     rows.reserve(50);
@@ -221,7 +221,7 @@ std::vector<PrescriptionRow> DbListOpener::getPrescriptionRows(const Date& from,
 }
 
 
-void DbListOpener::deleteRecord(TabType type, long long rowid)
+void DbBrowser::deleteRecord(TabType type, long long rowid)
 {
     static constexpr const char* tableNames[5]{ "amblist", "periostatus", "patient", "financial", "prescription" };
 

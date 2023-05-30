@@ -26,11 +26,11 @@ void BrowserPresenter::setDates(const Date& from, const Date& to)
 void BrowserPresenter::refreshModel()
 {
 	
-	m_ambRows = DbListOpener::getAmbRows(m_from, m_to);
-	m_perioRows = DbListOpener::getPerioRows(m_from, m_to);
-	m_patientRows = DbListOpener::getPatientRows();
-	m_financialRows = DbListOpener::getFinancialRows(m_from, m_to);
-	m_prescriptionRows = DbListOpener::getPrescriptionRows(m_from, m_to);
+	m_ambRows = DbBrowser::getAmbRows(m_from, m_to);
+	m_perioRows = DbBrowser::getPerioRows(m_from, m_to);
+	m_patientRows = DbBrowser::getPatientRows();
+	m_financialRows = DbBrowser::getFinancialRows(m_from, m_to);
+	m_prescriptionRows = DbBrowser::getPrescriptionRows(m_from, m_to);
 	
 	if (view != nullptr)
 	{
@@ -152,7 +152,7 @@ void BrowserPresenter::deleteCurrentSelection()
 	}
 
 	for (auto& row : m_selectedInstances) {
-		DbListOpener::deleteRecord(row->type, row->rowID);
+		DbBrowser::deleteRecord(row->type, row->rowID);
 	}
 
 

@@ -36,7 +36,7 @@
     <ClCompile Include="src\Database\DbInvoice.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Database\DbListOpener.cpp">
+    <ClCompile Include="src\Database\DbBrowser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Database\DbNotes.cpp">
@@ -878,7 +878,7 @@
     <ClInclude Include="src\Database\DbInvoice.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Database\DbListOpener.h">
+    <ClInclude Include="src\Database\DbBrowser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Database\DbNotes.h">

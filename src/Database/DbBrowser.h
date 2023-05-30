@@ -3,7 +3,7 @@
 #include "Model/TableRows.h"
 #include "Model/Patient.h"
 
-namespace DbListOpener
+namespace DbBrowser
 {
 
 	std::vector<PatientRow> getPatientRows();

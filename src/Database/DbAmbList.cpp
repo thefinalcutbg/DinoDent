@@ -213,7 +213,7 @@ std::unordered_set<int> DbAmbList::getExistingNumbers(int currentYear)
 
     return existingNumbers;
 }
-#include <qdebug.h>
+
 bool DbAmbList::suchNumberExists(int year, int ambNum, long long ambRowid)
 {
     auto query =
@@ -272,27 +272,29 @@ std::vector<AmbList> DbAmbList::getMonthlyNhifSheets(int month, int year)
 
      std::string query = 
         "SELECT "
-        "rowid," 
-        "patient_rowid,"
-        "num,"
-        "nrn,"
-        "nhif_spec,"
-        "nhif_unfav,"
-        "status,"
-        "LPK, "
-        "his_updated, "
-        "date "
+        "amblist.rowid," 
+        "amblist.patient_rowid,"
+        "amblist.num,"
+        "amblist.nrn,"
+        "amblist.nhif_spec,"
+        "amblist.nhif_unfav,"
+        "amblist.status,"
+        "amblist.LPK, "
+        "amblist.his_updated, "
+        "amblist.date "
         "FROM amblist "
-        "WHERE amblist.nhif_spec IS NOT NULL "
-        "AND lpk = '" + User::doctor().LPK + "' "
-        "AND rzi = '" + User::practice().rziCode + "' "
+        "LEFT JOIN procedure ON amblist.rowid = procedure.amblist_rowid "
+        "LEFT JOIN referral ON amblist.rowid = referral.amblist_rowid "
+        "WHERE "
+        "amblist.lpk = '" + User::doctor().LPK + "' "
+        "AND amblist.rzi = '" + User::practice().rziCode + "' "
         "AND strftime('%m', amblist.date)='" + FreeFn::leadZeroes(month, 2) + "' "
         "AND strftime('%Y', amblist.date)='" + std::to_string(year) + "' "
-        "ORDER BY num ASC";
+        "AND (procedure.financing_source = 2 OR referral.rowid NOT NULL) "
+        "GROUP BY amblist.rowid "
+        "ORDER BY amblist.date ASC ";
 
      Db db(query);
-
-
 
      while(db.hasRows())
      {

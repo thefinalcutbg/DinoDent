@@ -30,7 +30,7 @@ std::vector<PatientRow> DbListOpener::getPatientRows()
 
     return rows;
 }
-
+#include "qdebug.h"
 std::vector<AmbRow> DbListOpener::getAmbRows(const Date& from, const Date& to)
 {
 
@@ -40,18 +40,23 @@ std::vector<AmbRow> DbListOpener::getAmbRows(const Date& from, const Date& to)
     std::string query =
         "SELECT "
         "amblist.rowid, "
-        "amblist.nrn IS NOT NULL AND amblist.nrn != '', "
-        "amblist.nhif_spec IS NOT NULL AND amblist.nhif_spec != '', "
+        "(amblist.nrn IS NOT NULL OR amblist.nrn != '') AS nhis, "
+        "(procedure.financing_source = 2 OR referral.rowid NOT NULL) as nhif, "
         "amblist.nrn, amblist.num, " 
         "amblist.date, "
         "patient.rowid, patient.id, patient.fname, patient.mname, patient.lname, patient.phone, "
         "(strftime('%m-%d', patient.birth) = strftime('%m-%d',date('now', 'localtime'))) AS bday "
-
-        "FROM amblist JOIN patient ON amblist.patient_rowid = patient.rowid "
+        "FROM amblist "
+        "JOIN patient ON amblist.patient_rowid = patient.rowid "
+        "LEFT JOIN procedure ON amblist.rowid = procedure.amblist_rowid "
+        "LEFT JOIN referral ON amblist.rowid = referral.amblist_rowid "
         "WHERE strftime('%Y-%m-%d', amblist.date) BETWEEN '" + from.to8601() + "' AND '" + to.to8601() + "' "
         "AND amblist.lpk = '" + User::doctor().LPK + "' "
         "AND amblist.rzi = '" + User::practice().rziCode + "' "
+        "GROUP BY amblist.rowid "
         "ORDER BY strftime('%Y %m %d', amblist.date) ASC, amblist.num ASC ";
+
+    qDebug() << query.c_str();
 
     Db db(query);
 

@@ -5,5 +5,5 @@ struct Settings
 	bool getHisHistoryAuto{ false };
 	bool getPisHistoryAuto{ false };
 	bool getNraStatusAuto{ false };
-	int timeout{ 15000 };
+	int timeout{ 15 }; //in seconds!
 };

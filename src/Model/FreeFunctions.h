@@ -12,5 +12,6 @@ namespace FreeFn {
     std::string getUuid();
     std::string getTimeStamp();
     std::string escapeXml(const std::string& data);
+    bool contains(const std::string& parent, const std::string& child);
 
 };

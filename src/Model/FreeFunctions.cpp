@@ -103,3 +103,8 @@ std::string FreeFn::escapeXml(const std::string& data)
     
     return result;
 }
+
+bool FreeFn::contains(const std::string& parent, const std::string& child)
+{
+    return QString(parent.c_str()).contains(child.c_str());
+}

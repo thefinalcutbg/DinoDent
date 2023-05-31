@@ -8,7 +8,7 @@ namespace EDental {
 
 	class Open : private HisService
 	{
-		std::function<void(const std::string& nrn, const std::vector<int>& procedureIndex)> m_callback;
+		std::function<void(const std::string& nrn, const std::vector<int>& procedureIndex, bool error)> m_callback;
 
 		std::string getProcedures(const ProcedureContainer& procedures, const ToothContainer& teeth, const Date& treatmentStartDate);
 

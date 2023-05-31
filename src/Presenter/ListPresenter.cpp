@@ -14,17 +14,12 @@
 #include "Presenter/ReferralPresenter.h"
 #include "Presenter/TabPresenter.h"
 #include "Presenter/ProcedureHistoryPresenter.h"
+#include "Presenter/DetailedStatusPresenter.h"
 
-#include "View/ModalDialogBuilder.h"
 #include "View/ModalDialogBuilder.h"
 #include "View/Printer.h"
-#include "Network/PKCS11.h"
-
 #include "View/Graphics/PaintHint.h"
 
-#include <thread>
-#include <chrono>
-#include <qdebug.h>
 ListPresenter::ListPresenter(ITabView* tabView, std::shared_ptr<Patient> patient, long long rowId)
     :
     TabInstance(tabView, TabType::AmbList, patient),
@@ -579,10 +574,6 @@ int ListPresenter::generateAmbListNumber()
     return newNumber;
 }
 
-
-
-#include "Presenter/DetailedStatusPresenter.h"
-
 void ListPresenter::openDetails(int toothIdx)
 {
     DetailedStatusPresenter d(m_ambList.teeth[toothIdx], patient->rowid, getToothHistory(toothIdx));
@@ -867,11 +858,11 @@ void ListPresenter::removeReferral(int index)
                 DbReferral::saveReferrals(m_ambList.referrals, m_ambList.rowid);
 
                 ModalDialogBuilder::showMessage("Направлението е анулирано успешно!");
-                qDebug() << 868;
+    
                 dynamicNhifConversion();
-                qDebug() << 870;
+
                 if(isCurrent()) view->setReferrals(m_ambList.referrals);
-                qDebug() << 872;
+
                 refreshTabName();
 
                
@@ -920,7 +911,7 @@ void ListPresenter::hisButtonPressed()
         eDentalOpenService.sendRequest(
             m_ambList,
             *patient,
-            [&](auto& nrn, auto& procedureIndex) {
+            [&](auto& nrn, auto& procedureIndex, bool error) {
                 if (nrn.empty()) {
                     return;
                 }
@@ -943,9 +934,10 @@ void ListPresenter::hisButtonPressed()
                     view->setProcedures(m_ambList.procedures.list());
                 }
 
-                ModalDialogBuilder::showMessage("Денталният преглед е изпратен към НЗИС успешно");
-
-
+                error ?
+                    ModalDialogBuilder::showError("Амбулаторният лист не е синхронизиран с НЗИС! Моля анулирайте и го изпратете отново.")
+                    :
+                    ModalDialogBuilder::showMessage("Денталният преглед е изпратен към НЗИС успешно");
             }
         );
 

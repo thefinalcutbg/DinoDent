@@ -334,7 +334,7 @@ std::vector<AmbList> DbAmbList::getMonthlyNhifSheets(int month, int year)
         "AND amblist.rzi = '" + User::practice().rziCode + "' "
         "AND strftime('%m', amblist.date)='" + FreeFn::leadZeroes(month, 2) + "' "
         "AND strftime('%Y', amblist.date)='" + std::to_string(year) + "' "
-        "ORDER BY amblist.num ASC"
+        "ORDER BY amblist.date ASC"
     );
 
 

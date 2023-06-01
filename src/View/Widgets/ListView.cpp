@@ -255,26 +255,6 @@ void ListView::setNotes(const std::array<std::string, 32>& notes)
 	teethViewScene->setNotes(notes);
 }
 
-#include "View/GlobalFunctions.h"
-void ListView::refreshPriceLabel(/*double patientPrice,*/ double nzokPrice)
-{
-/*
-	if (nzokPrice == 0) {
-		ui.priceLabel->setText({});
-		return;
-	}
-
-	QString result;
-	
-	result.append("Сума по НЗОК: " + priceToString(nzokPrice) + " ");
-
-	//result.append("Сума за плащане: " + priceToString(patientPrice));
-
-	ui.priceLabel->setText(result);
-	*/
-}
-
-
 void ListView::setSelectedTeeth(std::vector<int> selectedIndexes)
 {
 	teethViewScene->setSelectedTeeth(selectedIndexes);

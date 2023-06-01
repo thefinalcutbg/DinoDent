@@ -61,26 +61,6 @@ void ListPresenter::statusChanged()
     makeEdited();
 }
 
-void ListPresenter::refreshPrices()
-{
-  //  double patientPrice(0);
-    double nzokPrice(0);
-
-    for (auto& m : m_ambList.procedures.list())
-    {
-      //  patientPrice = patientPrice + m.price;
-
-        if (m.isNhif())
-        {
-            auto [p, nhif] = NhifProcedures::getPrices(m.code.oldCode(), m_ambList.getDate(), patient->isAdult(m.date), User::doctor().specialty, m_ambList.nhifData.specification);
-            nzokPrice = nzokPrice + nhif;
-        }
-
-    }
-
-    view->refreshPriceLabel(nzokPrice);
-}
-
 void ListPresenter::setHisButtonToView()
 {
     if (m_ambList.nrn.empty()) {
@@ -307,7 +287,6 @@ void ListPresenter::setDataToView()
     
     view->setReferrals(m_ambList.referrals);
 
-    refreshPrices();
     refreshProcedureView();
     dynamicNhifConversion();
 
@@ -636,7 +615,6 @@ void ListPresenter::addProcedure()
 
     dynamicNhifConversion();
 
-    refreshPrices();
     refreshProcedureView();
 
     makeEdited();
@@ -660,7 +638,6 @@ void ListPresenter::editProcedure(int index)
     m_ambList.procedures.replaceProcedure(m, index);
 
     patient_info.setDate(m_ambList.getDate());
-    refreshPrices();
     refreshProcedureView();
     makeEdited();
 
@@ -671,7 +648,6 @@ void ListPresenter::deleteProcedure(int index)
     m_ambList.procedures.removeProcedure(index);
 
     patient_info.setDate(m_ambList.getDate());
-    refreshPrices();
     refreshProcedureView();
 
     dynamicNhifConversion();
@@ -876,7 +852,6 @@ void ListPresenter::removeReferral(int index)
 void ListPresenter::setNhifData(const NhifSheetData& data)
 {
     m_ambList.nhifData = data;
-    refreshPrices();
     makeEdited();
 }
 

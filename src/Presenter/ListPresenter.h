@@ -58,7 +58,6 @@ class ListPresenter : public TabInstance
     bool isValid();
     void refreshProcedureView();
     void statusChanged();
-    void refreshPrices();
     void setHisButtonToView();
     void makeEdited() override;
 

@@ -249,7 +249,7 @@ void Tooth::addStatus(int statusCode)
 
 		case StatusCode::EndoTreatment: 
 			set(true, endo); 
-			set(false, extraction, implant, pulpitis, impacted);
+			set(false, extraction, implant, pulpitis, impacted, healthy);
 			if (denture && !root) denture.set(false); 
 			break;
 

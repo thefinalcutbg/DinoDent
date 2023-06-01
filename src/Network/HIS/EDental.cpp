@@ -82,10 +82,11 @@ void EDental::Open::parseReply(const std::string& reply)
 			return;
 		}
 
+		ModalDialogBuilder::showError(errors);
 		m_callback = nullptr;
 		return;
 
-		ModalDialogBuilder::showError(errors);
+
 	}
 
 	TiXmlDocument doc;

@@ -1,6 +1,5 @@
 # DinoDent
-From dentists for dentists 
-* [Visit website]("https://www.dinodent.bg/")
+From dentists for dentists - [visit website](https://www.dinodent.bg/)
 
 ## Table of Contents
 * [General Info](#general-information)

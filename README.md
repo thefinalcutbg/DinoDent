@@ -41,9 +41,12 @@ DinoDent is an opensource dental practice management software written in C++. Ma
 - Multiple practices and user accounts
 - NHIS integration
 
-<!-- ## Screenshots -->
+## Screenshots
+
 ![Alt text](/screenshots/scr1.png?raw=true)
+
 ![Alt text](/screenshots/scr2.png?raw=true)
+
 ![Alt text](/screenshots/scr3.png?raw=true)
 
 ## Setup

@@ -72,6 +72,11 @@ std::string EDental::Open::getProcedures(const ProcedureContainer& procedures, c
 
 void EDental::Open::parseReply(const std::string& reply)
 {
+	if (reply.empty()) {
+		m_callback = nullptr;
+		return;
+	}
+
 	auto errors = getErrors(reply);
 
 	if (errors.size()) {
@@ -225,6 +230,11 @@ std::string EDental::Augment::getProcedures(const ProcedureContainer& procedures
 
 void EDental::Augment::parseReply(const std::string& reply)
 {
+	if (reply.empty()) {
+		m_callback = nullptr;
+		return;
+	}
+
 	auto errors = getErrors(reply);
 
 	if (errors.size()) {
@@ -334,6 +344,11 @@ bool EDental::GetStatus::sendRequest(const Patient& patient, std::function<void(
 
 void EDental::GetStatus::parseReply(const std::string& reply)
 {
+	if (reply.empty()) {
+		m_callback = nullptr;
+		return;
+	}
+
 	auto errors = getErrors(reply);
 
 	if (errors.size()) {
@@ -456,6 +471,11 @@ void EDental::GetStatus::parseReply(const std::string& reply)
 
 void EDental::GetProcedures::parseReply(const std::string& reply)
 {
+	if (reply.empty()) {
+		m_callback = nullptr;
+		return;
+	}
+
 	if (reply.empty()) {
 		m_callback({});
 		return;

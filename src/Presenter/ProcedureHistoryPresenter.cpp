@@ -9,14 +9,14 @@ ProcedureHistoryPresenter::ProcedureHistoryPresenter(const Patient& p) :
 {
 }
 
-void ProcedureHistoryPresenter::refreshPIS()
+bool ProcedureHistoryPresenter::refreshPIS()
 {
 	if (!User::hasNzokContract()) {
 		ModalDialogBuilder::showMessage("Този доктор няма договор със здравната каса!");
-		return;
+		return true;
 	}
 
-	pis_service.sendRequest(ref_patient.type, ref_patient.id, true,
+	return pis_service.sendRequest(ref_patient.type, ref_patient.id, true,
 		[&](const std::optional<std::vector<Procedure>> pis_data)
 		{
 			if (!pis_data.has_value()) return;
@@ -32,10 +32,10 @@ void ProcedureHistoryPresenter::refreshPIS()
 	
 }
 
-void ProcedureHistoryPresenter::refreshHIS()
+bool ProcedureHistoryPresenter::refreshHIS()
 {
 	
-	his_service.sendRequest(ref_patient, true,
+	return his_service.sendRequest(ref_patient, true,
 		[&](const std::optional<std::vector<Procedure>> his_data)
 		{
 			if (!his_data.has_value()) return;
@@ -51,9 +51,9 @@ void ProcedureHistoryPresenter::refreshHIS()
 	);
 }
 
-void ProcedureHistoryPresenter::refreshStatus()
+bool ProcedureHistoryPresenter::refreshStatus()
 {
-	status_service.sendRequest(ref_patient,
+	return status_service.sendRequest(ref_patient,
 		[&](const ToothContainer& teeth) {
 			current_status = teeth;
 			view->setCurrentStatus(teeth);
@@ -67,6 +67,8 @@ void ProcedureHistoryPresenter::setView(IProcedureHistoryDialog* v)
 
 	view = v;
 
+	bool querySent = true; //prevents multiple PKCS11 prompts
+
 	if (pis_history) 
 	{
 		view->setPis(pis_history.value());
@@ -75,7 +77,7 @@ void ProcedureHistoryPresenter::setView(IProcedureHistoryDialog* v)
 	{
 		if(User::hasNzokContract())
 		{ 
-			refreshPIS(); 
+			querySent = refreshPIS(); 
 		}
 		else 
 		{
@@ -83,14 +85,17 @@ void ProcedureHistoryPresenter::setView(IProcedureHistoryDialog* v)
 		}
 	}
 
+	if (!querySent) return;
 
 	if (his_history) {
 		view->setHis(his_history.value());
 	}
 	else
 	{
-		refreshHIS();
+		querySent = refreshHIS();
 	}
+
+	if (!querySent) return;
 
 	status_service.sendRequest(ref_patient,
 		[&](const ToothContainer& teeth) {

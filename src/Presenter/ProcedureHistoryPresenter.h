@@ -36,9 +36,9 @@ public:
 
 	ProcedureHistoryPresenter(const Patient& p);
 
-	void refreshPIS();
-	void refreshHIS();
-	void refreshStatus();
+	bool refreshPIS();
+	bool refreshHIS();
+	bool refreshStatus();
 	void setView(IProcedureHistoryDialog* view);
 	void openDialog();
 	void pisApplyClicked();

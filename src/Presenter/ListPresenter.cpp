@@ -294,6 +294,8 @@ void ListPresenter::setDataToView()
 
     if (firstFocus)
     {
+        bool querySent = true; //prevents multiple PKCS11 prompts
+
         if (User::settings().getPisHistoryAuto && User::hasNzokContract()) {
 
             auto callback = [&](const std::optional<std::vector<Procedure>>& result) {
@@ -305,7 +307,12 @@ void ListPresenter::setDataToView()
                 patient->PISHistory = procedures;
             };
 
-            dentalActService.sendRequest(patient->type, patient->id, false, callback);
+            querySent = dentalActService.sendRequest(patient->type, patient->id, false, callback);
+        }
+
+        if (!querySent) {
+            firstFocus = false;
+            return;
         }
 
         if (User::settings().getHisHistoryAuto) {

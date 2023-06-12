@@ -326,6 +326,11 @@ std::string HisService::getProcedure(const Procedure& p, const ToothContainer& t
 
 		for (int i = begin; i <= end; i++)
 		{
+			if (p.code.type() == ProcedureType::denture &&
+				teethChanged.at(i).canHaveACrown()){ 
+				continue; 
+			}
+
 			result += getToothStatus(teethChanged.at(i), false);
 		}
 	}

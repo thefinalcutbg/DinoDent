@@ -196,37 +196,15 @@ std::array<bool, 6> ProcedureCreator::autoSurfaces(const Tooth& tooth)
 
 ConstructionRange ProcedureCreator::getBridgeRange(const std::vector<const Tooth*> selectedTeeth)
 {
-	int begin;
-	int end;
-
-	if (!selectedTeeth.size())
+	if (!selectedTeeth.size()) return { 0, 0 };
+	
+	if (selectedTeeth.size() == 1)
 	{
-		begin = 0;
-		end = 1;
-		return { begin, end };
+		return { selectedTeeth[0]->index, selectedTeeth[0]->index };
 	}
 
-	begin = 0;
-	end = 0;
-
-	if (selectedTeeth.size() == 1) //if only 1 tooth is selected, the bridge length is 2
-	{
-		begin = selectedTeeth[0]->index;
-
-		if (begin != 15 && begin != 31)
-		{
-			end = begin + 1;
-		}
-		else
-		{
-			end = begin - 1;
-			std::swap(end, begin);
-		}
-		return { begin, end };
-	}
-
-	begin = selectedTeeth[0]->index; //if multiple teeth are selected, the range is calculated to be valid
-	end = selectedTeeth.back()->index; //doesn't matter if the first and last teeth are on different jaws
+	int begin = selectedTeeth[0]->index; //if multiple teeth are selected, the range is calculated to be valid
+	int end = selectedTeeth.back()->index; //doesn't matter if the first and last teeth are on different jaws
 
 	if (begin < 16 && end > 15) { end = 15; }
 
@@ -282,7 +260,6 @@ void ProcedureCreator::setView(IProcedureInput* view)
 void ProcedureCreator::diagnosisChanged(int idx)
 {
 	diag_map[m_code.type()] = idx;
-
 }
 
 void ProcedureCreator::setProcedureCode(const ProcedureCode& m, bool nhif)
@@ -322,10 +299,31 @@ void ProcedureCreator::setProcedureCode(const ProcedureCode& m, bool nhif)
 			break;
 		case ProcedureType::bridge:
 		case ProcedureType::fibersplint:
-		case ProcedureType::denture:
 			view->setLayout(IProcedureInput::Range);
 			view->surfaceSelector()->setInputValidator(nullptr);
 			view->rangeWidget()->setInputValidator(&range_validator);
+			break;
+		case ProcedureType::denture:
+		{
+			view->setLayout(IProcedureInput::Range);
+			view->surfaceSelector()->setInputValidator(nullptr);
+			view->rangeWidget()->setInputValidator(&range_validator);
+			
+			if(m.oldCode() == 832)
+			{
+				view->rangeWidget()->setBridgeRange(1, 14);
+			}
+			else if (m.oldCode() == 833)
+			{
+				view->rangeWidget()->setBridgeRange(17, 30);
+			}
+			else
+			{
+				auto [begin, end] = getBridgeRange(m_selectedTeeth);
+				view->rangeWidget()->setBridgeRange(begin, end);
+			}
+
+		}
 			break;
 			/*
 		case ProcedureType::removebridgeOrSplint:

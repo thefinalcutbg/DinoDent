@@ -5,6 +5,7 @@ From dentists for dentists - [visit website](https://www.dinodent.bg/)
 * [General Info](#general-information)
 * [Frameworks and Libraries Used](#frameworks-and-libraries-used)
 * [Features](#features)
+* [Screenshots](#screenshots)
 * [Setup](#setup)
 * [Project Status](#project-status)
 * [Acknowledgements](#acknowledgements)
@@ -40,8 +41,13 @@ DinoDent is an opensource dental practice management software written in C++. Ma
 - Multiple practices and user accounts
 - NHIS integration
 
-<!-- ## Screenshots -->
-<!-- [Example screenshot](./img/screenshot.png) -->
+## Screenshots
+
+![Alt text](/screenshots/scr1.png?raw=true)
+
+![Alt text](/screenshots/scr2.png?raw=true)
+
+![Alt text](/screenshots/scr3.png?raw=true)
 
 ## Setup
 See the [INSTALL](INSTALL.md) file

@@ -140,11 +140,13 @@
     <QtInstall>6.3.1_msvc2019_64</QtInstall>
     <QtModules>core;network;gui;widgets;qml;printsupport;core5compat</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
+    <QtPlugin>true</QtPlugin>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
     <QtInstall>6.3.1_msvc2019_64</QtInstall>
     <QtModules>core;network;gui;svg;widgets;qml;printsupport;core5compat</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
+    <QtPlugin>true</QtPlugin>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|Win32'" Label="QtSettings">
     <QtInstall>5.15</QtInstall>
@@ -216,12 +218,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Database\DbFiscalReceipt.cpp" />
     <ClCompile Include="src\Database\DbPrescription.cpp" />
     <ClCompile Include="src\Database\DbReferral.cpp" />
     <ClCompile Include="src\Database\DbStatistics.cpp" />
     <ClCompile Include="src\Database\DbUpdateStatus.cpp" />
     <ClCompile Include="src\DbUpdates\Update10.cpp" />
     <ClCompile Include="src\DbUpdates\Update11.cpp" />
+    <ClCompile Include="src\DbUpdates\Update12.cpp" />
     <ClCompile Include="src\DbUpdates\Update5.cpp" />
     <ClCompile Include="src\DbUpdates\Update6.cpp" />
     <ClCompile Include="src\DbUpdates\Update7.cpp" />
@@ -248,6 +252,8 @@
     <ClCompile Include="src\Network\UpdateService\UpdateService.cpp" />
     <ClCompile Include="src\Path.cpp" />
     <ClCompile Include="src\Presenter\DosagePresenter.cpp" />
+    <ClCompile Include="src\Presenter\FiscalReceiptPresenter.cpp" />
+    <ClCompile Include="src\Presenter\FiscalReportPresenter.cpp" />
     <ClCompile Include="src\Presenter\MedicationPresenter.cpp" />
     <ClCompile Include="src\Presenter\ProcedureHistoryPresenter.cpp" />
     <ClCompile Include="src\Presenter\PatientInfoPresenter.cpp" />
@@ -393,6 +399,7 @@
     <ClCompile Include="src\View\TableModels\AmbListTableModel.cpp" />
     <ClCompile Include="src\View\TableModels\BusinessOperationModel.cpp" />
     <ClCompile Include="src\View\TableModels\FinancialTableModel.cpp" />
+    <ClCompile Include="src\View\TableModels\FiscalReceiptTableModel.cpp" />
     <ClCompile Include="src\View\TableModels\KSMPModel.cpp" />
     <ClCompile Include="src\View\TableModels\MedicationTableModel.cpp" />
     <ClCompile Include="src\View\TableModels\MKBModel.cpp" />
@@ -452,8 +459,9 @@
     <ClCompile Include="src\View\uiComponents\ToothButton.cpp" />
     <ClCompile Include="src\View\uiComponents\UserButton.cpp" />
     <ClCompile Include="src\View\Widgets\AboutDialog.cpp" />
-    <ClCompile Include="src\View\Widgets\AddTaxDialog.cpp" />
+    <ClCompile Include="src\View\Widgets\FiscalReceiptDialog.cpp" />
     <ClCompile Include="src\View\Widgets\ButtonDialog.cpp" />
+    <ClCompile Include="src\View\Widgets\FiscalReportView.cpp" />
     <ClCompile Include="src\View\Widgets\MedicalStatusDialog.cpp" />
     <ClCompile Include="src\View\Widgets\PracticeDialog.cpp" />
     <ClCompile Include="src\View\Widgets\BrowserDialog.cpp" />
@@ -501,6 +509,7 @@
   <ItemGroup>
     <ClInclude Include="resource.h" />
     <ClInclude Include="src\Database\DbPrescription.h" />
+    <ClInclude Include="src\Database\DbFiscalReceipt.h" />
     <ClInclude Include="src\Database\DbReferral.h" />
     <ClInclude Include="src\Database\DbStatistics.h" />
     <ClInclude Include="src\Database\DbUpdateStatus.h" />
@@ -509,6 +518,7 @@
     <ClInclude Include="src\Model\Dental\ProcedureCode.h" />
     <ClInclude Include="src\Model\Dental\ProcedureListElement.h" />
     <ClInclude Include="src\Model\Dental\ToothIndex.h" />
+    <ClInclude Include="src\Model\Financial\FiscalReceipt.h" />
     <ClInclude Include="src\Model\MedicalStatuses.h" />
     <ClInclude Include="src\Model\Patient.h" />
     <ClInclude Include="src\Model\Referrals\NumberVariant.h" />
@@ -535,6 +545,7 @@
     <ClInclude Include="src\Network\HIS\UpdateMkb.h" />
     <ClInclude Include="src\Network\PIS\ReportFilesService.h" />
     <ClInclude Include="src\Presenter\DosagePresenter.h" />
+    <ClInclude Include="src\Presenter\FiscalReceiptPresenter.h" />
     <ClInclude Include="src\Presenter\MedicationPresenter.h" />
     <ClInclude Include="src\Presenter\ProcedureHistoryPresenter.h" />
     <ClInclude Include="src\Presenter\PatientInfoPresenter.h" />
@@ -690,6 +701,7 @@
     <ClInclude Include="src\View\Interfaces\AbstractSpinBox.h" />
     <ClInclude Include="src\View\Interfaces\AbstractSurfaceSelector.h" />
     <ClInclude Include="src\View\Interfaces\AbstractUIElement.h" />
+    <ClInclude Include="src\View\Interfaces\IFiscalReceiptDialog.h" />
     <ClInclude Include="src\View\Interfaces\IPracticeDialog.h" />
     <ClInclude Include="src\View\Interfaces\IAllergiesDialog.h" />
     <ClInclude Include="src\View\Interfaces\IProcedureHistoryDialog.h" />
@@ -728,6 +740,8 @@
     <QtMoc Include="src\View\SubWidgets\MedicalStatusWidget.h" />
     <QtMoc Include="src\View\SubWidgets\DsnMenu.h" />
     <ClInclude Include="src\View\TableModels\BusinessOperationModel.h" />
+    <ClInclude Include="src\View\Interfaces\IFiscalReportView.h" />
+    <QtMoc Include="src\View\TableModels\FiscalReceiptTableModel.h" />
     <ClInclude Include="src\View\TableModels\MedicationTableModel.h" />
     <QtMoc Include="src\View\Widgets\UpdatePromptDialog.h" />
     <QtMoc Include="src\View\Widgets\UpdateDownloader.h" />
@@ -764,8 +778,11 @@
     <QtMoc Include="src\View\Widgets\ButtonDialog.h" />
     <QtMoc Include="src\View\Widgets\MedicalStatusDialog.h" />
     <QtMoc Include="src\View\Widgets\AboutDialog.h" />
-    <QtMoc Include="src\View\Widgets\AddTaxDialog.h" />
+    <QtMoc Include="src\View\Widgets\FiscalReceiptDialog.h" />
+    <ClInclude Include="src\Presenter\FiscalReportPresenter.h" />
+    <QtMoc Include="src\View\Widgets\FiscalReportView.h" />
     <ClInclude Include="src\View\Widgets\GlobalWidgets.h" />
+    <QtMoc Include="src\View\Widgets\PisDialog.h" />
     <ClInclude Include="src\View\Widgets\ReportDialogResult.h" />
     <QtMoc Include="src\View\Widgets\ReportFilesView.h" />
     <QtMoc Include="src\View\Widgets\StatisticDialogView.h" />
@@ -784,7 +801,6 @@
     <QtMoc Include="src\View\Widgets\PracticeSettings.h" />
     <QtMoc Include="src\View\Widgets\PracticeListDialog.h" />
     <QtMoc Include="src\View\Widgets\ProcedureHistoryDialog.h" />
-    <QtMoc Include="src\View\Widgets\PisDialog.h" />
     <QtMoc Include="src\View\Widgets\PinPromptDialog.h" />
     <QtMoc Include="src\View\Widgets\PerioView.h" />
     <QtMoc Include="src\View\Widgets\PerioStatusView.h" />
@@ -855,8 +871,9 @@
     <QtUic Include="src\View\SubWidgets\TabTitle.ui" />
     <QtUic Include="src\View\SubWidgets\VitaWidget.ui" />
     <QtUic Include="src\View\Widgets\AboutDialog.ui" />
-    <QtUic Include="src\View\Widgets\AddTaxDialog.ui" />
+    <QtUic Include="src\View\Widgets\FiscalReceiptDialog.ui" />
     <QtUic Include="src\View\Widgets\ButtonDialog.ui" />
+    <QtUic Include="src\View\Widgets\FiscalReportView.ui" />
     <QtUic Include="src\View\Widgets\MedicalStatusDialog.ui" />
     <QtUic Include="src\View\Widgets\PracticeDialog.ui" />
     <QtUic Include="src\View\Widgets\BrowserDialog.ui" />

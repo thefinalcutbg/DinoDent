@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1478</width>
+    <width>1518</width>
     <height>1171</height>
    </rect>
   </property>
@@ -56,6 +56,22 @@
      </item>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <spacer name="horizontalSpacer_5">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>100</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
        <item>
         <widget class="QLabel" name="label">
          <property name="text">
@@ -198,12 +214,15 @@
         <widget class="HoverButton" name="pentionTaxButton">
          <property name="minimumSize">
           <size>
-           <width>190</width>
+           <width>130</width>
            <height>26</height>
           </size>
          </property>
+         <property name="toolTip">
+          <string>Само за потребителска такса - пенсионери!</string>
+         </property>
          <property name="text">
-          <string>Добави такса за пенсионери</string>
+          <string>Опис на касов бон</string>
          </property>
         </widget>
        </item>
@@ -231,19 +250,6 @@
        </item>
        <item>
         <spacer name="horizontalSpacer_8">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>0</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <spacer name="horizontalSpacer_5">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>

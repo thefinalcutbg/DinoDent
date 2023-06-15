@@ -1,45 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>AddTaxDialogClass</class>
- <widget class="QDialog" name="AddTaxDialogClass">
+ <class>FiscalReceiptDialogClass</class>
+ <widget class="QDialog" name="FiscalReceiptDialogClass">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>254</width>
-    <height>220</height>
+    <width>264</width>
+    <height>200</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>254</width>
-    <height>220</height>
+    <width>264</width>
+    <height>200</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>254</width>
-    <height>220</height>
+    <width>264</width>
+    <height>200</height>
    </size>
   </property>
   <property name="windowTitle">
-   <string>AddTaxDialog</string>
+   <string>FiscalReceiptDialog</string>
   </property>
-  <widget class="QLineEdit" name="taxNum">
+  <widget class="LineEdit" name="taxNum">
    <property name="geometry">
     <rect>
-     <x>130</x>
-     <y>20</y>
+     <x>140</x>
+     <y>30</y>
      <width>101</width>
      <height>22</height>
     </rect>
    </property>
   </widget>
-  <widget class="QLineEdit" name="deviceNum">
+  <widget class="LineEdit" name="deviceNum">
    <property name="geometry">
     <rect>
-     <x>130</x>
-     <y>60</y>
+     <x>140</x>
+     <y>70</y>
      <width>101</width>
      <height>22</height>
     </rect>
@@ -48,8 +48,8 @@
   <widget class="QDateTimeEdit" name="dateTimeEdit">
    <property name="geometry">
     <rect>
-     <x>130</x>
-     <y>140</y>
+     <x>140</x>
+     <y>110</y>
      <width>101</width>
      <height>22</height>
     </rect>
@@ -58,21 +58,11 @@
     <enum>QAbstractSpinBox::NoButtons</enum>
    </property>
   </widget>
-  <widget class="QLineEdit" name="idEdit">
-   <property name="geometry">
-    <rect>
-     <x>130</x>
-     <y>100</y>
-     <width>101</width>
-     <height>22</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>20</y>
+     <x>20</x>
+     <y>30</y>
      <width>81</width>
      <height>20</height>
     </rect>
@@ -84,8 +74,8 @@
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>60</y>
+     <x>20</x>
+     <y>70</y>
      <width>121</width>
      <height>20</height>
     </rect>
@@ -94,25 +84,12 @@
     <string>Фискална памет №</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_3">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>100</y>
-     <width>121</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>ЕГН/ЛНЧ:</string>
-   </property>
-  </widget>
   <widget class="QLabel" name="label_4">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>140</y>
-     <width>121</width>
+     <x>20</x>
+     <y>110</y>
+     <width>111</width>
      <height>20</height>
     </rect>
    </property>
@@ -123,8 +100,8 @@
   <widget class="QPushButton" name="okButton">
    <property name="geometry">
     <rect>
-     <x>80</x>
-     <y>180</y>
+     <x>90</x>
+     <y>160</y>
      <width>75</width>
      <height>24</height>
     </rect>
@@ -135,6 +112,13 @@
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>LineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>View/uiComponents/LineEdit.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

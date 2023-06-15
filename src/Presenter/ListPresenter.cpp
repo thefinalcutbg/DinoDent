@@ -15,6 +15,7 @@
 #include "Presenter/TabPresenter.h"
 #include "Presenter/ProcedureHistoryPresenter.h"
 #include "Presenter/DetailedStatusPresenter.h"
+#include "Presenter/FiscalReceiptPresenter.h"
 
 #include "View/ModalDialogBuilder.h"
 #include "View/Printer.h"
@@ -346,8 +347,17 @@ void ListPresenter::checkPention()
     nssiService.sendRequest(*patient);
 }
 
-void ListPresenter::addPentionTax()
+void ListPresenter::addFinancialReceipt()
 {
+    if (isNew()) {
+        ModalDialogBuilder::showMessage(
+            "Запазете амбулаторния лист преди да пуснете опис на касов бон" 
+        );
+        return;
+    }
+
+    FiscalReceiptPresenter p(rowID());
+    p.openDialog();
 }
 
 

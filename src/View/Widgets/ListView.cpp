@@ -73,7 +73,7 @@ ListView::ListView(QWidget* parent)
 		"font-weight: bold; font-size: 12px;"
 	);
 
-	connect(ui.pentionTaxButton, &QPushButton::clicked, [=] { if (presenter) presenter->addPentionTax(); });
+	connect(ui.pentionTaxButton, &QPushButton::clicked, [=] { if (presenter) presenter->addFinancialReceipt(); });
 	connect(ui.nrnButton, &QPushButton::clicked, [=] { if (presenter) presenter->hisButtonPressed();});
 	connect(ui.ambNumSpin, &LeadingZeroSpinBox::valueChanged, [=](long long value) {if(presenter)presenter->ambNumChanged(value);});
 	connect(ui.dateTimeEdit, &QDateTimeEdit::dateTimeChanged, [=](const QDateTime& t) {if (presenter)presenter->setAmbDateTime(t.toString(Qt::ISODate).toStdString());});

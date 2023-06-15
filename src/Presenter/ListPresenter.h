@@ -81,7 +81,7 @@ public:
     void ambNumChanged(long long value);
 
     void checkPention();
-    void addPentionTax();
+    void addFinancialReceipt();
 
     void setToothStatus(StatusType t, int code);
     void setDsnStatus(StatusType t, int code);

@@ -115,6 +115,14 @@ void ModalDialogBuilder::openDialog(ProcedureHistoryPresenter& p)
 	d.exec();
 }
 
+#include "View/Widgets/FiscalReceiptDialog.h"
+
+void ModalDialogBuilder::openDialog(FiscalReceiptPresenter& p)
+{
+	FiscalReceiptDialog d(p);
+	d.exec();
+}
+
 #include "View/Widgets/SaveDialog.h"
 
 DialogAnswer ModalDialogBuilder::openSaveDialog(const std::string& title)

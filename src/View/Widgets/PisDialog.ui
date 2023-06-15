@@ -48,6 +48,11 @@
        <string>Подадени файлове</string>
       </attribute>
      </widget>
+     <widget class="FiscalReportView" name="tab">
+      <attribute name="title">
+       <string>Потребителски такси - пенсионери</string>
+      </attribute>
+     </widget>
     </widget>
    </item>
   </layout>
@@ -70,6 +75,12 @@
    <class>ReportFilesView</class>
    <extends>QWidget</extends>
    <header>View/Widgets/reportfilesview.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>FiscalReportView</class>
+   <extends>QWidget</extends>
+   <header>View/Widgets/FiscalReportView.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

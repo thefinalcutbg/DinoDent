@@ -1,0 +1,2 @@
+CREATE TABLE fiscal_receipt (date TEXT, amblist_rowid TEXT REFERENCES amblist (rowid) ON DELETE CASCADE ON UPDATE CASCADE, fiscal_memory TEXT, receipt_num TEXT);
+PRAGMA user_version = 12;

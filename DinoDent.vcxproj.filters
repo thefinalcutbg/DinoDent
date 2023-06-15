@@ -864,7 +864,25 @@
     <ClCompile Include="src\View\uiComponents\TextBrowser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\Widgets\AddTaxDialog.cpp">
+    <ClCompile Include="src\View\Widgets\FiscalReceiptDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Database\DbFiscalReceipt.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Presenter\FiscalReceiptPresenter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\Widgets\FiscalReportView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Presenter\FiscalReportPresenter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\TableModels\FiscalReceiptTableModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DbUpdates\Update12.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1580,6 +1598,24 @@
     <ClInclude Include="src\Model\Patient.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Model\Financial\FiscalReceipt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Database\DbFiscalReceipt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Presenter\FiscalReceiptPresenter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\View\Interfaces\IFiscalReceiptDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Presenter\FiscalReportPresenter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\View\Interfaces\IFiscalReportView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\SubWidgets\ContextMenu.h">
@@ -1753,9 +1789,6 @@
     <QtMoc Include="src\View\Widgets\PinPromptDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\Widgets\PisDialog.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="src\View\Widgets\ProcedureHistoryDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
@@ -1894,7 +1927,16 @@
     <QtMoc Include="src\View\uiComponents\TextBrowser.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\Widgets\AddTaxDialog.h">
+    <QtMoc Include="src\View\Widgets\FiscalReceiptDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\Widgets\FiscalReportView.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\Widgets\PisDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\TableModels\FiscalReceiptTableModel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -2064,7 +2106,10 @@
     <QtUic Include="src\View\Widgets\WelcomeWidget.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="src\View\Widgets\AddTaxDialog.ui">
+    <QtUic Include="src\View\Widgets\FiscalReceiptDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\Widgets\FiscalReportView.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

@@ -18,6 +18,7 @@ class ProcedureHistoryPresenter
 	bool m_applyPis{ false };
 	bool m_applyStatus{ false };
 
+	//query to HIS or PIS is sent only when the tab is focused for first time
 	bool tabIdxFirstFocus[3] = { true, true, true };
 
 	bool hasHSM = true;

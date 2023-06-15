@@ -34,6 +34,7 @@ class PracticeManagerPresenter;
 class ReferralPresenter;
 class StatisticDialogPresenter;
 class ProcedureHistoryPresenter;
+class FiscalReceiptPresenter;
 
 enum class DialogAnswer { Yes, No, Cancel };
 
@@ -54,6 +55,7 @@ namespace ModalDialogBuilder
 	void openDialog(ReferralPresenter* p);
 	void openDialog(StatisticDialogPresenter& p);
 	void openDialog(ProcedureHistoryPresenter& p);
+	void openDialog(FiscalReceiptPresenter& p);
 
 	void openBrowserDialog();
 

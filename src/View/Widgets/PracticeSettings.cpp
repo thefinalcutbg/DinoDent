@@ -122,6 +122,7 @@ void PracticeSettings::setPractice(const Practice& practice)
 		ui.practiceNameNZOK->setText(QString::fromStdString(practice.nhif_contract.value().name_short));
 		ui.nraPass->setText(practice.nhif_contract->nra_pass.data());
 		ui.unfavCheck->setChecked(practice.nhif_contract->unfavourable);
+		ui.nssiPass->setText(practice.nhif_contract->nssi_pass.c_str());
 	}
 }
 

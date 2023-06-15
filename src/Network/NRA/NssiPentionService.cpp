@@ -2,25 +2,54 @@
 #include "Model/User.h"
 #include "View/ModalDialogBuilder.h"
 #include "Network/NetworkManager.h"
+#include "TinyXML/tinyxml.h"
 
 void NssiPentionService::parseReply(const std::string& reply)
 {
-	ModalDialogBuilder::showMultilineDialog(reply);
+	if (reply.empty()) {
+		return;
+	}
+
+	TiXmlDocument doc;
+
+	doc.Parse(reply.data(), 0, TIXML_ENCODING_UTF8);
+
+	if (!doc.RootElement()) return;
+
+	TiXmlHandle response(&doc);
+
+	auto report =
+		response
+		.FirstChildElement()			//envelope
+		.FirstChildElement()			//body
+		.FirstChildElement()			//GetNSSIPensionDataResponse
+		.FirstChildElement()			//GetNSSIPensionDataResult
+		.FirstChildElement()			//start
+		.FirstChildElement();			//Pensioner
+
+	auto responseString = report.ChildElement(2);
+	auto responseCode = report.ChildElement(3);
+	
+	if (responseString.ToElement() == nullptr)
+	{
+		ModalDialogBuilder::showMessage("Некоректни данни за проверка");
+		return;
+	}
+
+	ModalDialogBuilder::showMessage(responseString.ToElement()->GetText());
+
+	
+	return;
 }
 
-bool NssiPentionService::sendRequest(const Patient& p, std::function<void(const std::optional<Pention>&)> callback, bool showDialogs)
+bool NssiPentionService::sendRequest(const Patient& p)
 {
-	m_callback = callback;
-
-	this->show_dialogs = showDialogs;
 
 	auto& practice = User::practice();
 
 	if (!practice.hasNssiAccess())
 	{
-		if (showDialogs) {
-			ModalDialogBuilder::showMessage("Не е въведена парола за достъп към НОИ");
-		}
+		ModalDialogBuilder::showMessage("Не е въведена парола за достъп към НОИ");
 		return false;
 	}
 

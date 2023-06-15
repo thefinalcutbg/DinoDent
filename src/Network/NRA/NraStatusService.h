@@ -5,8 +5,8 @@
 #include <functional>
 #include <optional>
 #include "Model/Date.h"
-struct Patient;
 
+struct Patient;
 
 class NraStatusService final : protected AbstractReplyHandler
 {

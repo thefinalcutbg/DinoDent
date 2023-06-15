@@ -18,7 +18,9 @@ class ProcedureHistoryPresenter
 	bool m_applyPis{ false };
 	bool m_applyStatus{ false };
 
-	
+	bool tabIdxFirstFocus[3] = { true, true, true };
+
+	bool hasHSM = true;
 
 	IProcedureHistoryDialog* view{ nullptr };
 
@@ -43,6 +45,7 @@ public:
 	void openDialog();
 	void pisApplyClicked();
 	void statusApplyClicked();
+	void tabFocused(int idx);
 
 	ProcedureHistoryPresenter::Result result();
 };

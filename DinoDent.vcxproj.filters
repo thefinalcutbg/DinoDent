@@ -864,6 +864,9 @@
     <ClCompile Include="src\View\uiComponents\TextBrowser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\Widgets\AddTaxDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Database\Database.h">
@@ -1041,9 +1044,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\Parser.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Model\Patient.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\Settings.h">
@@ -1574,10 +1574,10 @@
     <ClInclude Include="src\Network\NRA\NssiPentionService.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model\Pention.h">
+    <ClInclude Include="src\View\uiComponents\ShortcutTile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\View\uiComponents\ShortcutTile.h">
+    <ClInclude Include="src\Model\Patient.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1894,6 +1894,9 @@
     <QtMoc Include="src\View\uiComponents\TextBrowser.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\View\Widgets\AddTaxDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\View\Widgets\PracticeDialog.ui">
@@ -2059,6 +2062,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\Widgets\WelcomeWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\Widgets\AddTaxDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

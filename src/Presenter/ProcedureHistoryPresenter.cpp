@@ -67,42 +67,12 @@ void ProcedureHistoryPresenter::setView(IProcedureHistoryDialog* v)
 
 	view = v;
 
-	bool querySent = true; //prevents multiple PKCS11 prompts
+	if (pis_history) view->setPis(pis_history.value());
 
-	if (pis_history) 
-	{
-		view->setPis(pis_history.value());
-	}
-	else
-	{
-		if(User::hasNzokContract())
-		{ 
-			querySent = refreshPIS(); 
-		}
-		else 
-		{
-			view->focusHisTab();
-		}
-	}
+	if (his_history) view->setHis(his_history.value());
 
-	if (!querySent) return;
-
-	if (his_history) {
-		view->setHis(his_history.value());
-	}
-	else
-	{
-		querySent = refreshHIS();
-	}
-
-	if (!querySent) return;
-
-	status_service.sendRequest(ref_patient,
-		[&](const ToothContainer& teeth) {
-			current_status = teeth;
-			view->setCurrentStatus(teeth);
-		}
-	);
+	view->focusTab(User::hasNzokContract() ? 0 : 1);
+	
 }
 
 void ProcedureHistoryPresenter::openDialog()
@@ -127,6 +97,35 @@ void ProcedureHistoryPresenter::statusApplyClicked()
 
 	view->closeDialog();
 }
+
+void ProcedureHistoryPresenter::tabFocused(int idx)
+{
+	if (!hasHSM) return;
+
+	if (tabIdxFirstFocus[idx] == false) return;
+
+	tabIdxFirstFocus[idx] = false;
+
+	switch (idx) 
+	{
+		case 0:
+			if (User::hasNzokContract() && !pis_history.has_value()) {
+				hasHSM = refreshPIS();
+			}
+			break;
+		case 1:
+			if (!his_history.has_value()) {
+				hasHSM = refreshHIS();
+			}
+			break;
+		case 2:
+			if (!current_status.has_value()) {
+				hasHSM = refreshStatus();
+			}
+			break;
+	}
+}
+
 
 ProcedureHistoryPresenter::Result ProcedureHistoryPresenter::result()
 {

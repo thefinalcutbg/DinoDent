@@ -27,6 +27,6 @@ private:
 	void setPis(const std::vector<Procedure>& p) override;
 	void setHis(const std::vector<Procedure>& h) override;
 	void setCurrentStatus(const ToothContainer& teeth) override;
-	void focusHisTab() override;
+	void focusTab(int idx) override;
 	void closeDialog() override;
 };

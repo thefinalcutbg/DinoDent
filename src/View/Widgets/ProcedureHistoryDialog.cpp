@@ -50,7 +50,7 @@ ProcedureHistoryDialog::ProcedureHistoryDialog(ProcedureHistoryPresenter& p)
     connect(ui.refreshHis, &QPushButton::clicked, [&] { presenter.refreshHIS(); });
     connect(ui.refreshStatus, &QPushButton::clicked, [&] { presenter.refreshStatus(); });
     connect(ui.applyCurrentStatus, &QPushButton::clicked, [&]{ presenter.statusApplyClicked(); });
-
+    connect(ui.tabWidget, &QTabWidget::currentChanged, [&](int idx) { presenter.tabFocused(idx); });
     presenter.setView(this);
 }
 
@@ -83,10 +83,11 @@ void ProcedureHistoryDialog::setCurrentStatus(const ToothContainer& teeth)
 
 }
 
-void ProcedureHistoryDialog::focusHisTab()
+void ProcedureHistoryDialog::focusTab(int idx)
 {
-    ui.tabWidget->setCurrentIndex(1);
+    ui.tabWidget->setCurrentIndex(idx);
 }
+
 
 void ProcedureHistoryDialog::closeDialog()
 {

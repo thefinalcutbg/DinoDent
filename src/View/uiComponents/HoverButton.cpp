@@ -19,7 +19,7 @@ void HoverButton::paintEvent(QPaintEvent* event)
 	painter.setRenderHint(QPainter::RenderHint::Antialiasing);
 
 	QPainterPath outline;
-	outline.addRoundedRect(1, 1, rect().width()-2, rect().height()-2, 7, 7);
+	outline.addRoundedRect(1, 1, rect().width()-2, rect().height()-2, 10, 10);
 	painter.fillPath(outline, m_hover ? Theme::background : Theme::sectionBackground);
 
 	QString paintText = m_hover && m_hoverText.size() ? m_hoverText : text();
@@ -29,6 +29,7 @@ void HoverButton::paintEvent(QPaintEvent* event)
 
 	QPen pen;
 	pen.setColor(Theme::buttonFrame);
+	pen.setCosmetic(true);
 	painter.setPen(pen);
 	painter.drawPath(outline);
 

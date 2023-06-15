@@ -70,8 +70,6 @@ public:
 
     ListPresenter(ITabView* tabView, std::shared_ptr<Patient> patient, long long rowId = 0);
 
-    void chargeChanged(int index);
-
     long long rowID() const override;
     bool save() override;
     bool isNew() override;
@@ -83,6 +81,7 @@ public:
     void ambNumChanged(long long value);
 
     void checkPention();
+    void addPentionTax();
 
     void setToothStatus(StatusType t, int code);
     void setDsnStatus(StatusType t, int code);

@@ -177,13 +177,6 @@ bool ListPresenter::isValid()
 }
 
 
-
-void ListPresenter::chargeChanged(int index)
-{
-    m_ambList.nhifData.charge = static_cast<NhifCharge>(index);
-    makeEdited();
-}
-
 TabName ListPresenter::getTabName()
 {
     TabName n;
@@ -350,7 +343,11 @@ void ListPresenter::ambNumChanged(long long value)
 
 void ListPresenter::checkPention()
 {
-    nssiService.sendRequest(*patient, [](const std::optional<Pention>& p) {}, true);
+    nssiService.sendRequest(*patient);
+}
+
+void ListPresenter::addPentionTax()
+{
 }
 
 

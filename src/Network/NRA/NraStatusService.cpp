@@ -1,6 +1,7 @@
 ﻿#include "NraStatusService.h"
 #include "View/ModalDialogBuilder.h"
 #include "Network/NetworkManager.h"
+#include "Model/Patient.h"
 
 void NraStatusService::parseReply(const std::string& reply)
 {

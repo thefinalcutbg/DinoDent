@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1493</width>
+    <width>1478</width>
     <height>1171</height>
    </rect>
   </property>
@@ -57,22 +57,6 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
-        <spacer name="horizontalSpacer_7">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Fixed</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>60</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
         <widget class="QLabel" name="label">
          <property name="text">
           <string>Номер на амб. лист:</string>
@@ -117,8 +101,8 @@
          </property>
          <property name="minimumSize">
           <size>
-           <width>120</width>
-           <height>0</height>
+           <width>140</width>
+           <height>26</height>
           </size>
          </property>
          <property name="text">
@@ -156,27 +140,7 @@
         </widget>
        </item>
        <item>
-        <spacer name="horizontalSpacer_5">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_7">
-       <property name="bottomMargin">
-        <number>0</number>
-       </property>
-       <item>
-        <spacer name="horizontalSpacer_8">
+        <spacer name="horizontalSpacer_7">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
@@ -185,7 +149,7 @@
          </property>
          <property name="sizeHint" stdset="0">
           <size>
-           <width>60</width>
+           <width>40</width>
            <height>20</height>
           </size>
          </property>
@@ -224,25 +188,22 @@
         </widget>
        </item>
        <item>
-        <spacer name="horizontalSpacer_16">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Fixed</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
         <widget class="QCheckBox" name="unfavCheck">
          <property name="text">
           <string>Неблагоприятни условия</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="HoverButton" name="pentionTaxButton">
+         <property name="minimumSize">
+          <size>
+           <width>190</width>
+           <height>26</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Добави такса за пенсионери</string>
          </property>
         </widget>
        </item>
@@ -269,13 +230,26 @@
         </widget>
        </item>
        <item>
-        <spacer name="horizontalSpacer_17">
+        <spacer name="horizontalSpacer_8">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
          <property name="sizeHint" stdset="0">
           <size>
-           <width>40</width>
+           <width>0</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_5">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>0</width>
            <height>20</height>
           </size>
          </property>

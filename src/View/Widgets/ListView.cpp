@@ -43,6 +43,7 @@ ListView::ListView(QWidget* parent)
 	ui.deleteProcedure->setHoverColor(Theme::mainBackgroundColor);
 	ui.editProcedure->setHoverColor(Theme::mainBackgroundColor);
 	ui.historyButton->setHoverColor(Theme::mainBackgroundColor);
+	ui.nssiButton->setHoverColor(Theme::mainBackgroundColor);
 
 	QMenu* menu = new QMenu(ui.addRefButton);
 
@@ -72,6 +73,7 @@ ListView::ListView(QWidget* parent)
 		"font-weight: bold; font-size: 12px;"
 	);
 
+	connect(ui.pentionTaxButton, &QPushButton::clicked, [=] { if (presenter) presenter->addPentionTax(); });
 	connect(ui.nrnButton, &QPushButton::clicked, [=] { if (presenter) presenter->hisButtonPressed();});
 	connect(ui.ambNumSpin, &LeadingZeroSpinBox::valueChanged, [=](long long value) {if(presenter)presenter->ambNumChanged(value);});
 	connect(ui.dateTimeEdit, &QDateTimeEdit::dateTimeChanged, [=](const QDateTime& t) {if (presenter)presenter->setAmbDateTime(t.toString(Qt::ISODate).toStdString());});
@@ -216,7 +218,6 @@ void ListView::setDateTime(const std::string& time8601)
 	ui.dateTimeEdit->setDateTime(QDateTime::fromString(time8601.c_str(), Qt::ISODate));
 }
 
-#include <qdebug.h>
 void ListView::setCheckModel(const CheckModel& checkModel, const CheckModel& dsnCheckModel)
 {
 	ui.controlPanel->setModel(checkModel, dsnCheckModel);
@@ -282,6 +283,7 @@ void ListView::hideNhifSheetData()
 	ui.specCombo->hide();
 	ui.unfavCheck->hide();
 	ui.nssiButton->hide();
+	ui.pentionTaxButton->hide();
 
 }
 
@@ -290,6 +292,7 @@ void ListView::setNhifData(const NhifSheetData& data, bool showUnfav)
 	ui.spec_label->show();
 	ui.specCombo->show();
 	ui.nssiButton->show();
+	ui.pentionTaxButton->show();
 
 	QSignalBlocker b(ui.specCombo);
 	ui.specCombo->setCurrentIndex(static_cast<int>(data.specification));

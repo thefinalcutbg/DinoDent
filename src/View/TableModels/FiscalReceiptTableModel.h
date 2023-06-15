@@ -8,6 +8,7 @@ struct QFiscalReceipt
 	QString fiscal_mem;
 	QString receipt_num;
 	QString amblistNum;
+	QString patientId;
 
 };
 
@@ -20,6 +21,9 @@ public:
 
 	void setRows(std::vector<FiscalReceipt> rows);
 
+	int rowCount(const QModelIndex& parent = QModelIndex()) const override;
+	int columnCount(const QModelIndex& parent = QModelIndex()) const override;
+
 	~FiscalReceiptTableModel();
 
 private:
@@ -29,8 +33,7 @@ private:
 	bool insertRows(int position, int rows, const QModelIndex& index = QModelIndex());
 	bool removeRows(int row, int count, const QModelIndex& parent = QModelIndex());
 	QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
-	int rowCount(const QModelIndex& parent = QModelIndex()) const override;
-	int columnCount(const QModelIndex& parent = QModelIndex()) const override;
+
 	QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
 
 

@@ -1,6 +1,7 @@
 #include "FiscalReportView.h"
 #include "QtVersion.h"
 #include "Model/Date.h"
+#include <QPainter>
 
 FiscalReportView::FiscalReportView(QWidget *parent)
 	: QWidget(parent)
@@ -22,13 +23,13 @@ FiscalReportView::FiscalReportView(QWidget *parent)
 
 	ui.tableView->setColumnWidth(0, 150);
 	ui.tableView->setColumnWidth(1, 100);
-	ui.tableView->setColumnWidth(2, 200);
-	//ui.tableView->setColumnWidth(3, 100);
+	ui.tableView->setColumnWidth(2, 100);
+	ui.tableView->setColumnWidth(3, 200);
 
 	ui.tableView->verticalHeader()->setDefaultSectionSize(20);
 	ui.tableView->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 	ui.tableView->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-	ui.tableView->horizontalHeader()->setSectionResizeMode(3, QHeaderView::Stretch);
+	ui.tableView->horizontalHeader()->setSectionResizeMode(4, QHeaderView::Stretch);
 
 	connect(ui.monthCombo, QtComboIndexChanged, [&](int index) {presenter.dateChanged(index + 1, ui.yearSpin->value()); });
 	connect(ui.yearSpin, QtSpinValueChanged, [&](int value) { presenter.dateChanged(ui.monthCombo->currentIndex() + 1, value); });
@@ -60,3 +61,9 @@ int FiscalReportView::getCurrentIndex()
 
 FiscalReportView::~FiscalReportView()
 {}
+
+void FiscalReportView::paintEvent(QPaintEvent * e)
+{
+	QPainter p(this);
+	p.fillRect(rect(), Qt::white);
+}

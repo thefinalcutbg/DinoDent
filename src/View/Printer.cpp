@@ -14,6 +14,7 @@
 #include "Model/User.h"
 #include "View/Widgets/InvoicePrintDialog.h"
 #include "Model/Referrals/Referral.h"
+#include "View/TableModels/FiscalReceiptTableModel.h"
 
 void fillCommonData(LimeReport::ReportEngine& report, const Patient& patient, const Doctor& doctor, const Practice& practice)
 {
@@ -543,5 +544,26 @@ void Print::referral(const Referral& ref, const Patient& patient, int ambSheetNu
     QApplication::restoreOverrideCursor();
     report.printReport();
 
+
+}
+
+void Print::fiscalReport(const FiscalReport& r)
+{
+    QApplication::setOverrideCursor(Qt::BusyCursor);
+
+    auto report = LimeReport::ReportEngine();
+
+    report.loadFromFile(":/reports/report_fiscalDescr.lrxml");
+
+    FiscalReceiptTableModel model;
+    model.setRows(r.receipts);
+
+    report.dataManager()->setReportVariable("dateFrom", r.dateFrom.c_str());
+    report.dataManager()->setReportVariable("dateTo", r.dateTo.c_str());
+    report.dataManager()->addModel("receipts", &model, false);
+
+    report.setShowProgressDialog(true);
+    QApplication::restoreOverrideCursor();
+    report.printReport();
 
 }

@@ -22,6 +22,7 @@ void FiscalReceiptTableModel::setRows(std::vector<FiscalReceipt> rows)
                 .fiscal_mem = r.fiscal_memory.c_str(),
                 .receipt_num = r.receipt_num.c_str(),
                 .amblistNum = r.amblistNumber.c_str(),
+                .patientId = r.patientId.c_str()
             }
         );
 
@@ -55,8 +56,9 @@ QVariant FiscalReceiptTableModel::headerData(int section, Qt::Orientation orient
         {
             case 0: return "Дата";
             case 1: return "Амб.№";
-            case 2: return "Фискална памет №";
-            case 3: return "Касов бон №";
+            case 2: return "ЕГН/ЛНЧ";
+            case 3: return "Фискална памет №";
+            case 4: return "Касов бон №";
         }
 
     if (role == Qt::TextAlignmentRole && orientation == Qt::Horizontal)
@@ -66,10 +68,8 @@ QVariant FiscalReceiptTableModel::headerData(int section, Qt::Orientation orient
         else
             return int(Qt::AlignCenter);
     }
-
-
-
-    return QVariant();
+    
+    return QAbstractItemModel::headerData(section, orientation, role);
 }
 
 
@@ -80,7 +80,7 @@ int FiscalReceiptTableModel::rowCount(const QModelIndex& parent) const
 
 int FiscalReceiptTableModel::columnCount(const QModelIndex& parent) const
 {
-    return 4;
+    return 5;
 }
 
 QVariant FiscalReceiptTableModel::data(const QModelIndex& index, int role) const
@@ -101,8 +101,9 @@ QVariant FiscalReceiptTableModel::data(const QModelIndex& index, int role) const
         {
             case 0: return rows[row].date;
             case 1: return rows[row].amblistNum;
-            case 2: return rows[row].fiscal_mem;
-            case 3: return rows[row].receipt_num;
+            case 2: return rows[row].patientId;
+            case 3: return rows[row].fiscal_mem;
+            case 4: return rows[row].receipt_num;
             default: return QVariant();
         }
     case Qt::TextAlignmentRole:

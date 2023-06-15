@@ -1,11 +1,26 @@
-#include "FiscalReportPresenter.h"
+﻿#include "FiscalReportPresenter.h"
 #include "Database/DbFiscalReceipt.h"
+#include "View/ModalDialogBuilder.h"
+#include "View/Printer.h"
 
 FiscalReportPresenter::FiscalReportPresenter()
 {}
 
 void FiscalReportPresenter::generateDescription()
 {
+	if (m_data.empty()) {
+		ModalDialogBuilder::showMessage("Няма описани касови бонове за избрания период");
+	}
+
+	FiscalReport r;
+	
+	auto dateFrom = Date{ 1, m_month, m_year };
+
+	r.dateFrom = dateFrom.toBgStandard();
+	r.dateTo = dateFrom.getMaxDateOfMonth().toBgStandard();
+	r.receipts = m_data;
+
+	Print::fiscalReport(r);
 }
 
 void FiscalReportPresenter::generateInvoice()

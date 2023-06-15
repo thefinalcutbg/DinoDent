@@ -3,6 +3,7 @@ struct Patient;
 struct AmbList;
 struct Invoice;
 class Referral;
+struct FiscalReport;
 
 namespace Print
 {
@@ -16,6 +17,7 @@ namespace Print
 	void printDentureDeclaration(const Patient& patient, DeclaratorType type);
 	void printHirbNoDeclaration(const Patient& patient, DeclaratorType type);
 	void referral(const Referral& ref, const Patient& patient, int ambSheetNumber);
+	void fiscalReport(const FiscalReport& report);
 	
 }
 

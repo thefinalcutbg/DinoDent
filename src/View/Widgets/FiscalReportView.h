@@ -16,6 +16,9 @@ public:
 	~FiscalReportView();
 
 private:
+
+	void paintEvent(QPaintEvent* e) override;
+
 	Ui::FiscalReportView ui;
 
 	void setFiscalData(const std::vector<FiscalReceipt>& data) final;

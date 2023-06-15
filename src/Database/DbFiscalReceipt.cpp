@@ -27,8 +27,10 @@ std::vector<FiscalReceipt> DbFiscalReceipt::getReceipts(int month, int year)
         "fiscal_receipt.fiscal_memory, "
         "fiscal_receipt.receipt_num, "
         "amblist.num, "
-        "amblist.nrn "
+        "amblist.nrn, "
+        "patient.id "
         "FROM fiscal_receipt LEFT JOIN amblist ON fiscal_receipt.amblist_rowid = amblist.rowid "
+        "LEFT JOIN patient ON amblist.patient_rowid = patient.rowid "
         "WHERE "
         "strftime('%m', fiscal_receipt.date)='" + FreeFn::leadZeroes(month, 2) + "' "
         "AND strftime('%Y', fiscal_receipt.date)='" + std::to_string(year) + "' "
@@ -47,6 +49,8 @@ std::vector<FiscalReceipt> DbFiscalReceipt::getReceipts(int month, int year)
         auto nrn = db.asString(5);
 
         if (nrn.size()) f.amblistNumber = nrn;
+
+        f.patientId = db.asString(6);
     }
 
     return result;

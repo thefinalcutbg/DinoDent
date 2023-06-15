@@ -71,6 +71,7 @@
         <file>report_nhifCustody.lrxml</file>
         <file>report_nhifInsured.lrxml</file>
         <file>report_mdd4tooth.lrxml</file>
+        <file>report_fiscalDescr.lrxml</file>
     </qresource>
     <qresource prefix="/fonts">
         <file>font_RobotoCondensedRegular.ttf</file>

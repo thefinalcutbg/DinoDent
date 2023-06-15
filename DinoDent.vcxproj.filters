@@ -117,7 +117,7 @@
     <ClCompile Include="src\Model\Financial\Issuer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Model\Financial\NzokInvoiceData.cpp">
+    <ClCompile Include="src\Model\Financial\NhifInvoiceData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Model\Financial\Recipient.cpp">
@@ -1007,7 +1007,7 @@
     <ClInclude Include="src\Model\Financial\MonthNotifRow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model\Financial\NzokInvoiceData.h">
+    <ClInclude Include="src\Model\Financial\NhifInvoiceData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\Financial\Recipient.h">

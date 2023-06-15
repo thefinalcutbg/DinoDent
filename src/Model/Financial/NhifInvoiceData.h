@@ -5,9 +5,9 @@
 class TiXmlDocument;
 struct Practice;
 
-struct NZOKInvoiceData {
+struct NhifInvoiceData {
 	
-	NZOKInvoiceData(const TiXmlDocument& monthNotif, const Practice& practice);
+	NhifInvoiceData(const TiXmlDocument& monthNotif, const Practice& practice);
 
 	std::string NzokRecipientCode; //nhif rhif
 	const std::string fin_document_type_code; //INVOICE, CT_NOTIF, DT_NOTIF

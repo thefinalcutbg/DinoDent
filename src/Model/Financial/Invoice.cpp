@@ -60,7 +60,7 @@ Invoice::Invoice(const TiXmlDocument& monthNotif, const Practice& practice, cons
         }
     },
 
-	nhifData{ NZOKInvoiceData(monthNotif, practice)},
+	nhifData{ NhifInvoiceData(monthNotif, practice)},
 	recipient						{std::stoi(practice.RHIF())},
 	issuer							{practice, doctor}
 {

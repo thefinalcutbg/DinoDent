@@ -1,4 +1,4 @@
-#include "NzokInvoiceData.h"
+#include "NhifInvoiceData.h"
 #include <TinyXML/tinyxml.h>
 #include "Model/UserStructs.h"
 
@@ -69,7 +69,7 @@ std::string getMonthNotifData(const TiXmlDocument& monthNotif)
     return printer.Str();
 }
 
-NZOKInvoiceData::NZOKInvoiceData(const TiXmlDocument& monthNotif, const Practice& practice)
+NhifInvoiceData::NhifInvoiceData(const TiXmlDocument& monthNotif, const Practice& practice)
 	:
     rhi_nhif_no(practice.rziCode),
     fin_document_type_code(getText1(monthNotif.RootElement()->FirstChildElement("inv_type_code"))),

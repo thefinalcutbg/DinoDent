@@ -2,7 +2,7 @@
 #include <vector>
 
 #include "Recipient.h"
-#include "NzokInvoiceData.h"
+#include "NhifInvoiceData.h"
 #include "Issuer.h"
 #include "BusinessOperation.h"
 #include "FinancialEnums.h"
@@ -47,7 +47,7 @@ struct Invoice
 	FinancialDocType type {FinancialDocType::Invoice};
 	std::string name{ "Фактура" }; //the title of the pdf invoice
 	Date date; //input by user !!!!!!!!!!!!!!!
-	std::optional<NZOKInvoiceData> nhifData; //from monthNotif
+	std::optional<NhifInvoiceData> nhifData; //from monthNotif
 	Recipient recipient;
 	Issuer issuer;
 	BusinessOperations businessOperations;

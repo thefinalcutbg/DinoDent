@@ -304,7 +304,7 @@
     <ClCompile Include="src\Model\Financial\BusinessOperation.cpp" />
     <ClCompile Include="src\Model\Financial\Invoice.cpp" />
     <ClCompile Include="src\Model\Financial\Issuer.cpp" />
-    <ClCompile Include="src\Model\Financial\NzokInvoiceData.cpp" />
+    <ClCompile Include="src\Model\Financial\NhifInvoiceData.cpp" />
     <ClCompile Include="src\Model\Financial\Recipient.cpp" />
     <ClCompile Include="src\Model\InsuranceStatus.cpp" />
     <ClCompile Include="src\Model\Parser.cpp" />
@@ -603,7 +603,7 @@
     <ClInclude Include="src\Model\Financial\Invoice.h" />
     <ClInclude Include="src\Model\Financial\Issuer.h" />
     <ClInclude Include="src\Model\Financial\MonthNotifRow.h" />
-    <ClInclude Include="src\Model\Financial\NzokInvoiceData.h" />
+    <ClInclude Include="src\Model\Financial\NhifInvoiceData.h" />
     <ClInclude Include="src\Model\Financial\Recipient.h" />
     <ClInclude Include="src\Model\FreeFunctions.h" />
     <ClInclude Include="src\Model\InsuranceStatus.h" />

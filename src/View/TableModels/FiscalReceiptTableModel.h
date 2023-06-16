@@ -4,7 +4,7 @@
 
 struct QFiscalReceipt
 {
-	QString date;
+	QString timestamp;
 	QString fiscal_mem;
 	QString receipt_num;
 	QString amblistNum;

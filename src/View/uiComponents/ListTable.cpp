@@ -29,7 +29,7 @@ ListTable::ListTable(QWidget* parent)
 
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-    horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeMode::Fixed);
+    //horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeMode::Fixed);
 
 }
 

@@ -106,7 +106,7 @@ void BrowserDialog::setRows(const std::vector<AmbRow>& rows)
 	ui.tableView->setColumnWidth(2, 120);
 	ui.tableView->setColumnWidth(3, 80);
 	ui.tableView->setColumnWidth(4, 80);
-	ui.tableView->setColumnWidth(5, 250);
+	ui.tableView->setColumnWidth(5, 240);
 	ui.tableView->setColumnWidth(6, 120);
 
 	ui.fromDateEdit->setDisabled(false);

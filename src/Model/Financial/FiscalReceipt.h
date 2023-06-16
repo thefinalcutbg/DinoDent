@@ -4,7 +4,7 @@
 
 struct FiscalReceipt
 {
-	std::string datetime;
+	std::string timestamp;
 	long long amblistRowid;
 	std::string fiscal_memory;
 	std::string receipt_num;

@@ -42,7 +42,7 @@ std::vector<FiscalReceipt> DbFiscalReceipt::getReceipts(int month, int year)
         result.push_back(FiscalReceipt());
         auto& f = result.back();
         f.amblistRowid = db.asRowId(0);
-        f.datetime = db.asString(1);
+        f.timestamp = db.asString(1);
         f.fiscal_memory = db.asString(2);
         f.receipt_num = db.asString(3);
         f.amblistNumber = db.asString(4);
@@ -81,7 +81,7 @@ void DbFiscalReceipt::saveReceipt(const FiscalReceipt& r)
         "INSERT INTO fiscal_receipt (date, amblist_rowid, fiscal_memory, receipt_num) VALUES (?,?,?,?)"
     );
 
-    db.bind(1, r.datetime);
+    db.bind(1, r.timestamp);
     db.bind(2, r.amblistRowid);
     db.bind(3, r.fiscal_memory);
     db.bind(4, r.receipt_num);
@@ -89,13 +89,13 @@ void DbFiscalReceipt::saveReceipt(const FiscalReceipt& r)
     db.execute();
 }
 
-void DbFiscalReceipt::deleteReceipt(long long ambRowid, const std::string& date)
+void DbFiscalReceipt::deleteReceipt(long long ambRowid, const std::string& timestamp)
 {
     Db db(
         "DELETE FROM fiscal_receipt WHERE amblist_rowid=? AND date=?"
     );
 
     db.bind(1, ambRowid);
-    db.bind(2, date);
+    db.bind(2, timestamp);
     db.execute();
 }

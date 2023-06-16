@@ -11,5 +11,5 @@ namespace DbFiscalReceipt {
 	bool alreadyExists(long long ambRowid, const std::string& date);
 
 	void saveReceipt(const FiscalReceipt& r);
-	void deleteReceipt(long long ambRowid, const std::string& receipt_date);
+	void deleteReceipt(long long ambRowid, const std::string& receipt_timestamp);
 }

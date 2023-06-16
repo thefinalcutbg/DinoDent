@@ -53,7 +53,7 @@ void FiscalReportPresenter::deleteReceipt(int idx)
 {
 	if (idx < 0 || idx >= m_data.size()) return;
 
-	DbFiscalReceipt::deleteReceipt(m_data[idx].amblistRowid, m_data[idx].datetime);
+	DbFiscalReceipt::deleteReceipt(m_data[idx].amblistRowid, m_data[idx].timestamp);
 
 	m_data = DbFiscalReceipt::getReceipts(m_month, m_year);
 

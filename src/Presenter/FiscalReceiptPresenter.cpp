@@ -13,7 +13,7 @@ void FiscalReceiptPresenter::okPressed()
 	auto receipt = view->getReceipt();
 	receipt.amblistRowid = amblist_rowid;
 
-	if (DbFiscalReceipt::alreadyExists(amblist_rowid, receipt.datetime))
+	if (DbFiscalReceipt::alreadyExists(amblist_rowid, receipt.timestamp))
 	{
 		ModalDialogBuilder::showMessage(
 			"За този пациент вече съществува опис на касов бон за съответния ден"
@@ -33,7 +33,7 @@ void FiscalReceiptPresenter::setView(IFiscalReceiptDialog* v)
 
 	view->setReceipt(
 		FiscalReceipt{
-			.datetime = FreeFn::getTimeStamp(),
+			.timestamp = FreeFn::getTimeStamp(),
 			.fiscal_memory = DbFiscalReceipt::getFiscalMemory()
 		}
 	);

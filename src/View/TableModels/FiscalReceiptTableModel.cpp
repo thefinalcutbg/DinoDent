@@ -18,7 +18,7 @@ void FiscalReceiptTableModel::setRows(std::vector<FiscalReceipt> rows)
         this->rows.push_back(
 
             QFiscalReceipt{
-                .date = r.datetime.c_str(),
+                .timestamp = r.timestamp.c_str(),
                 .fiscal_mem = r.fiscal_memory.c_str(),
                 .receipt_num = r.receipt_num.c_str(),
                 .amblistNum = r.amblistNumber.c_str(),
@@ -26,7 +26,7 @@ void FiscalReceiptTableModel::setRows(std::vector<FiscalReceipt> rows)
             }
         );
 
-        this->rows.back().date[10] = ' ';
+        this->rows.back().timestamp[10] = ' ';
     }
 
     endResetModel();
@@ -99,7 +99,7 @@ QVariant FiscalReceiptTableModel::data(const QModelIndex& index, int role) const
     case Qt::DisplayRole:
         switch (column)
         {
-            case 0: return rows[row].date;
+            case 0: return rows[row].timestamp;
             case 1: return rows[row].amblistNum;
             case 2: return rows[row].patientId;
             case 3: return rows[row].fiscal_mem;

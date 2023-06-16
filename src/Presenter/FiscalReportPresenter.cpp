@@ -2,6 +2,18 @@
 #include "Database/DbFiscalReceipt.h"
 #include "View/ModalDialogBuilder.h"
 #include "View/Printer.h"
+#include "Model/Financial/Invoice.h"
+#include "Model/User.h"
+
+std::string FiscalReportPresenter::getFilename()
+{
+	std::string filename = "DENT_";
+	filename += User::practice().rziCode;
+	filename += "_";
+	filename += FreeFn::leadZeroes(m_month, 2);
+	filename += std::to_string(m_year);
+	return filename;
+}
 
 FiscalReportPresenter::FiscalReportPresenter()
 {}
@@ -11,6 +23,11 @@ void FiscalReportPresenter::generateDescription()
 	if (m_data.empty()) {
 		ModalDialogBuilder::showMessage("Няма описани касови бонове за избрания период");
 	}
+
+	ModalDialogBuilder::showMessage(
+		"Запазете документа в PDF формат, като го кръстите с генериранто име ("
+		+ getFilename() +".pdf), подпишете го електронно и го изпратете от сайта на ПИС"
+	);
 
 	FiscalReport r;
 	
@@ -25,6 +42,7 @@ void FiscalReportPresenter::generateDescription()
 
 void FiscalReportPresenter::generateInvoice()
 {
+	
 }
 
 void FiscalReportPresenter::deleteReceipt(int idx)
@@ -48,6 +66,7 @@ void FiscalReportPresenter::setView(IFiscalReportView* v)
 	this->view = v;
 
 	view->setFiscalData(m_data);
+	view->setFilename(getFilename());
 }
 
 void FiscalReportPresenter::dateChanged(int month, int year)
@@ -56,5 +75,8 @@ void FiscalReportPresenter::dateChanged(int month, int year)
 	m_year = year;
 	m_data = DbFiscalReceipt::getReceipts(month, year);
 
-	if(view) view->setFiscalData(m_data);
+	if (view == nullptr) return;
+	
+	view->setFiscalData(m_data);
+	view->setFilename(getFilename());
 }

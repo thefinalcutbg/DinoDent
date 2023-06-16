@@ -13,7 +13,7 @@ FiscalReceiptDialog::FiscalReceiptDialog(FiscalReceiptPresenter& p, QWidget *par
 	connect(ui.okButton, &QPushButton::clicked, [&] { 
 	
 		if (!ui.taxNum->validateInput()) {
-			ui.deviceNum->setFocus();
+			ui.taxNum->setFocus();
 			return;
 		}
 

@@ -13,6 +13,8 @@ class FiscalReportPresenter
 	int m_month{ 1 };
 	int m_year{ 2000 };
 
+	std::string getFilename();
+
 public:
 
 	FiscalReportPresenter();

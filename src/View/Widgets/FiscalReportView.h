@@ -11,21 +11,27 @@ class FiscalReportView : public QWidget, public IFiscalReportView
 {
 	Q_OBJECT
 
-public:
-	FiscalReportView(QWidget *parent = nullptr);
-	~FiscalReportView();
-
-private:
-
-	void paintEvent(QPaintEvent* e) override;
-
-	Ui::FiscalReportView ui;
-
-	void setFiscalData(const std::vector<FiscalReceipt>& data) final;
-
 	FiscalReportPresenter presenter;
 
 	FiscalReceiptTableModel data_model;
 
+	void paintEvent(QPaintEvent* e) override;
+
 	int getCurrentIndex();
+
+public:
+	FiscalReportView(QWidget *parent = nullptr);
+	~FiscalReportView();
+
+	void setFiscalData(const std::vector<FiscalReceipt>& data) final;
+	void setFilename(const std::string& filename) final;
+
+
+private:
+
+
+	Ui::FiscalReportView ui;
+
+
+
 };

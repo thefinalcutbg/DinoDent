@@ -36,7 +36,7 @@ FiscalReportView::FiscalReportView(QWidget *parent)
 
 	connect(ui.deleteReceipt, &QPushButton::clicked, [&] { presenter.deleteReceipt(getCurrentIndex()); });
 	connect(ui.generateFiscalDescr, &QPushButton::clicked, [&] { presenter.generateDescription(); });
-	connect(ui.generateInvoice, &QPushButton::clicked, [&] { presenter.generateInvoice(); });
+	//connect(ui.generateInvoice, &QPushButton::clicked, [&] { presenter.generateInvoice(); });
 	connect(ui.tableView, &QTableView::doubleClicked, [&] { presenter.editReceipt(getCurrentIndex()); });
 
 
@@ -56,6 +56,11 @@ int FiscalReportView::getCurrentIndex()
 	void FiscalReportView::setFiscalData(const std::vector<FiscalReceipt>&data)
 {
 	data_model.setRows(data);
+}
+
+void FiscalReportView::setFilename(const std::string& filename)
+{
+	ui.filenameEdit->setText(filename.c_str());
 }
 
 

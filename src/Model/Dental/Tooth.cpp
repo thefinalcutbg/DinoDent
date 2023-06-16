@@ -441,7 +441,7 @@ std::string Tooth::toothName() const
 
 bool Tooth::canHaveACrown() const
 {
-	return !extraction && !root && !impacted;
+	return !extraction && !root && !impacted && !denture;
 }
 
 

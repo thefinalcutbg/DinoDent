@@ -773,9 +773,11 @@ void ListPresenter::editReferral(int index)
 
 void ListPresenter::printReferral(int index)
 {
-    if (m_ambList.referrals[index].isNrnType()) return;
+    auto& ref = m_ambList.referrals[index];
 
-    Print::referral(m_ambList.referrals[index], *patient.get(), m_ambList.number);
+    if (ref.isNrnType() && ref.type != ReferralType::MDD4) return;
+
+    Print::referral(m_ambList.referrals[index], *patient.get(), m_ambList.getNumber());
 }
 
 void ListPresenter::sendReferralToHis(int index)

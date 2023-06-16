@@ -1,4 +1,6 @@
 #pragma once
+#include <string>
+
 struct Patient;
 struct AmbList;
 struct Invoice;
@@ -16,8 +18,8 @@ namespace Print
 	void ambList();
 	void printDentureDeclaration(const Patient& patient, DeclaratorType type);
 	void printHirbNoDeclaration(const Patient& patient, DeclaratorType type);
-	void referral(const Referral& ref, const Patient& patient, int ambSheetNumber);
-	void fiscalReport(const FiscalReport& report);
+	void referral(const Referral& ref, const Patient& patient, const std::string& ambSheetNumber);
+	void saveFsicalReportToPDF(const FiscalReport& report);
 	
 }
 

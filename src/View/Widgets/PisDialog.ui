@@ -50,7 +50,7 @@
      </widget>
      <widget class="FiscalReportView" name="tab">
       <attribute name="title">
-       <string>Потребителски такси - пенсионери</string>
+       <string>Потребителскa таксa - пенсионери</string>
       </attribute>
      </widget>
     </widget>

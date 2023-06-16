@@ -71,4 +71,6 @@ public:
 	inline bool isSentToHIS() const {
 		return nrn.size();
 	}
+
+	std::string getNumber() const;
 };

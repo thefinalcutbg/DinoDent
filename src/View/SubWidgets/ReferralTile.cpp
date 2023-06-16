@@ -19,10 +19,13 @@ ReferralTile::ReferralTile(const Referral& ref, int index, QWidget* parent)
 	ui.printButton->setHoverColor(Theme::mainBackgroundColor);
 	ui.deleteButton->setHoverColor(Theme::mainBackgroundColor);
 
-	if (ref.isNrnType())
+	if (ref.type != ReferralType::MH119 && ref.type != ReferralType::MDD4)
 	{
 		ui.printButton->hide();
-		
+	}
+
+	if (ref.isNrnType())
+	{	
 		bool hasNrn = ref.nrn.size();
 
 		if (hasNrn) ui.hisButton->hide();

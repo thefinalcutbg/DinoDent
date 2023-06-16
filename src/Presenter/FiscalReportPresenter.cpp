@@ -41,7 +41,7 @@ void FiscalReportPresenter::generateDescription()
 	r.dateTo = dateFrom.getMaxDateOfMonth().toBgStandard();
 	r.receipts = m_data;
 
-	Print::fiscalReport(r);
+	Print::saveFsicalReportToPDF(r);
 }
 
 void FiscalReportPresenter::generateInvoice()

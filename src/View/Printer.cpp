@@ -453,16 +453,16 @@ void Print::printHirbNoDeclaration(const Patient& patient, DeclaratorType type)
 
 }
 
-void Print::referral(const Referral& ref, const Patient& patient, int ambSheetNumber)
+void Print::referral(const Referral& ref, const Patient& patient, const std::string& ambSheetNumber)
 {
 
     QApplication::setOverrideCursor(Qt::BusyCursor);
 
     auto report = LimeReport::ReportEngine();
-
+    
     auto refCommonFill = [&] {
-        report.dataManager()->setReportVariable("ambNum", QString::fromStdString(FreeFn::leadZeroes(ambSheetNumber, 12)));
-        report.dataManager()->setReportVariable("refNum", QString::fromStdString(FreeFn::leadZeroes(ref.number, 11)));
+        report.dataManager()->setReportVariable("ambNum", ambSheetNumber.c_str());
+        report.dataManager()->setReportVariable("refNum", ref.getNumber().c_str());
         report.dataManager()->setReportVariable("diagnosis_main", ref.diagnosis.main.code().c_str());
         report.dataManager()->setReportVariable("diagnosis_additional", ref.diagnosis.additional.code().c_str());
         report.dataManager()->setReportVariable("reason", FreeFn::leadZeroes(ref.reason.getIndex() + 1, 2).c_str());
@@ -547,7 +547,7 @@ void Print::referral(const Referral& ref, const Patient& patient, int ambSheetNu
 
 }
 
-void Print::fiscalReport(const FiscalReport& r)
+void Print::saveFsicalReportToPDF(const FiscalReport& r)
 {
     QApplication::setOverrideCursor(Qt::BusyCursor);
 

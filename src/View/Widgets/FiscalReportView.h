@@ -24,7 +24,6 @@ public:
 	~FiscalReportView();
 
 	void setFiscalData(const std::vector<FiscalReceipt>& data) final;
-	void setFilename(const std::string& filename) final;
 
 
 private:

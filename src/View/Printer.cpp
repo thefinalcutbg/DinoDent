@@ -564,6 +564,7 @@ void Print::fiscalReport(const FiscalReport& r)
 
     report.setShowProgressDialog(true);
     QApplication::restoreOverrideCursor();
-    report.printReport();
+    report.printToPDF(r.filename.c_str());
+   
 
 }

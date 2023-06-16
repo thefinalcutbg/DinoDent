@@ -335,6 +335,17 @@ std::optional<std::string> ModalDialogBuilder::openFile()
 	return result.toStdString();
 }
 
+std::optional<std::string> ModalDialogBuilder::getFilePath(const std::string& filename)
+{
+	QString dirPath = QFileDialog::getSaveFileName(nullptr, "Запазване на фискалния опис",
+		QString::fromStdString(filename),
+		"PDF (*pdf)");
+
+	if (dirPath.isEmpty()) return{};
+
+	return dirPath.toStdString();
+}
+
 #include "View/Widgets/MedicalStatusDialog.h"
 
 std::optional<MedicalStatuses> ModalDialogBuilder::openMedicalStatusDialog(const MedicalStatuses& s)

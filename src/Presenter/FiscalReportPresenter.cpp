@@ -22,17 +22,21 @@ void FiscalReportPresenter::generateDescription()
 {
 	if (m_data.empty()) {
 		ModalDialogBuilder::showMessage("Няма описани касови бонове за избрания период");
+		return;
 	}
 
 	ModalDialogBuilder::showMessage(
-		"Запазете документа в PDF формат, като го кръстите с генериранто име ("
-		+ getFilename() +".pdf), подпишете го електронно и го изпратете от сайта на ПИС"
+		"Запазете документа в PDF формат, подпишете го електронно и го изпратете от сайта на ПИС"
 	);
+
+	auto filepath = ModalDialogBuilder::getFilePath(getFilename());
+	if (!filepath) return;
 
 	FiscalReport r;
 	
 	auto dateFrom = Date{ 1, m_month, m_year };
 
+	r.filename = filepath.value();
 	r.dateFrom = dateFrom.toBgStandard();
 	r.dateTo = dateFrom.getMaxDateOfMonth().toBgStandard();
 	r.receipts = m_data;
@@ -66,7 +70,6 @@ void FiscalReportPresenter::setView(IFiscalReportView* v)
 	this->view = v;
 
 	view->setFiscalData(m_data);
-	view->setFilename(getFilename());
 }
 
 void FiscalReportPresenter::dateChanged(int month, int year)
@@ -78,5 +81,4 @@ void FiscalReportPresenter::dateChanged(int month, int year)
 	if (view == nullptr) return;
 	
 	view->setFiscalData(m_data);
-	view->setFilename(getFilename());
 }

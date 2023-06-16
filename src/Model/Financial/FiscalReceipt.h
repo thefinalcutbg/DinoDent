@@ -15,6 +15,7 @@ struct FiscalReceipt
 
 struct FiscalReport
 {
+	std::string filename;
 	std::string dateFrom;
 	std::string dateTo;
 	std::vector<FiscalReceipt> receipts;

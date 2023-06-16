@@ -58,11 +58,6 @@ int FiscalReportView::getCurrentIndex()
 	data_model.setRows(data);
 }
 
-void FiscalReportView::setFilename(const std::string& filename)
-{
-	ui.filenameEdit->setText(filename.c_str());
-}
-
 
 FiscalReportView::~FiscalReportView()
 {}

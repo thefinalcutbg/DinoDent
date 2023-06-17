@@ -9,13 +9,17 @@ SettingsDialog::SettingsDialog(QDialog*parent)
 
 	setWindowTitle("Настройки");
 	setWindowIcon(QIcon(":/icons/icon_settings.png"));
-	
+	ui.generalSettings->setStyleSheet("QWidget#generalSettings{background-color: white;}");
+	//ui.tabWidget->tabBar()->setStyleSheet("QTabBar::tab:selected{background-color: white;}");
+
 	connect(ui.cancelButton, &QPushButton::clicked, [&] {close();});
 	connect(ui.okButton, &QPushButton::clicked, [&] {presenter.okPressed();});
 	connect(ui.updateMedButton, &QPushButton::clicked, [&] {presenter.updateMedications();});
 	ui.practiceSettings->hidePassword();
 
 	presenter.setView(this);
+
+	
 }
 
 

@@ -28,7 +28,7 @@ StatisticDialogView::StatisticDialogView(StatisticDialogPresenter& p, QWidget *p
 		ui.diagnosisFilterList->addItem(item);
 	}
 
-	ui.yearSpinBox->setValue(Date::currentDate().year - 1);
+	ui.yearSpinBox->setValue(Date::currentDate().year);
 
 	presenter.setView(this);
 

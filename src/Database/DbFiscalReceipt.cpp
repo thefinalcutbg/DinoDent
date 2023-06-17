@@ -6,7 +6,11 @@
 std::string DbFiscalReceipt::getFiscalMemory()
 {
     std::string query =
-        "SELECT fiscal_memory FROM fiscal_receipt WHERE fiscal_receipt.practice_rzi = ? ORDER BY fiscal_receipt.timestamp DESC LIMIT 1";
+        "SELECT fiscal_memory "
+        "FROM fiscal_receipt LEFT JOIN amblist "
+        "ON fiscal_receipt.amblist_rowid = amblist.rowid "
+        "WHERE amblist.rzi=? "
+        "ORDER BY fiscal_receipt.timestamp DESC LIMIT 1";
 
     Db db(query);
 
@@ -37,7 +41,7 @@ std::vector<FiscalReceipt> DbFiscalReceipt::getReceipts(int month, int year)
         "WHERE "
         "strftime('%m', fiscal_receipt.timestamp)='" + FreeFn::leadZeroes(month, 2) + "' "
         "AND strftime('%Y', fiscal_receipt.timestamp)='" + std::to_string(year) + "' "
-        "AND fiscal_receipt.practice_rzi = ? "
+        "AND amblist.rzi=? "
         "ORDER BY fiscal_receipt.timestamp ASC"
     );
 
@@ -84,14 +88,13 @@ bool DbFiscalReceipt::alreadyExists(long long ambRowid, const std::string& times
 void DbFiscalReceipt::saveReceipt(const FiscalReceipt& r)
 {
     Db db(
-        "INSERT INTO fiscal_receipt (timestamp, amblist_rowid, fiscal_memory, receipt_num, practice_rzi) VALUES (?,?,?,?,?)"
+        "INSERT INTO fiscal_receipt (timestamp, amblist_rowid, fiscal_memory, receipt_num) VALUES (?,?,?,?)"
     );
 
     db.bind(1, r.timestamp);
     db.bind(2, r.amblistRowid);
     db.bind(3, r.fiscal_memory);
     db.bind(4, r.receipt_num);
-    db.bind(5, User::practice().rziCode);
 
     db.execute();
 }

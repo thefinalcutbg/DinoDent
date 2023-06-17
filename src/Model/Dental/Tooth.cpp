@@ -416,7 +416,8 @@ void Tooth::setStatus(StatusType type, int code, bool state)
 		break;
 	}
 
-	if (code != StatusCode::Healthy && isHealthyCheck()) healthy.set(true);
+	if (isHealthyCheck()) healthy.set(true);
+
 }
 
 void Tooth::setStatus(int code, bool state){

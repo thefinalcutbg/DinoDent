@@ -90,7 +90,7 @@ void BrowserDialog::setRows(const std::vector<AmbRow>& rows)
 	amb_model.setRows(rows);
 
 	QSignalBlocker block(ui.dataTypeCombo);
-	ui.dataTypeCombo->setCurrentIndex(0);
+	ui.dataTypeCombo->setCurrentIndex(static_cast<int>(TabType::AmbList));
 
 	idFilter.setSourceModel(&amb_model);
 	idFilter.setFilterKeyColumn(4);
@@ -135,7 +135,7 @@ void BrowserDialog::setRows(const std::vector<PerioRow>& rows)
 	perio_model.setRows(rows);
 
 	QSignalBlocker block(ui.dataTypeCombo);
-	ui.dataTypeCombo->setCurrentIndex(1);
+	ui.dataTypeCombo->setCurrentIndex(static_cast<int>(TabType::PerioStatus));
 	
 	idFilter.setSourceModel(&perio_model);
 	idFilter.setFilterKeyColumn(2);
@@ -183,7 +183,7 @@ void BrowserDialog::setRows(const std::vector<PatientRow>& rows)
 	patient_model.setRows(rows);
 
 	QSignalBlocker block(ui.dataTypeCombo);
-	ui.dataTypeCombo->setCurrentIndex(2);
+	ui.dataTypeCombo->setCurrentIndex(static_cast<int>(TabType::PatientSummary));
 
 	idFilter.setSourceModel(&patient_model);
 	idFilter.setFilterKeyColumn(1);
@@ -228,7 +228,7 @@ void BrowserDialog::setRows(const std::vector<FinancialRow>& rows)
 	financial_model.setRows(rows);
 
 	QSignalBlocker block(ui.dataTypeCombo);
-	ui.dataTypeCombo->setCurrentIndex(3);
+	ui.dataTypeCombo->setCurrentIndex(static_cast<int>(TabType::Financial));
 
 	idFilter.setSourceModel(&financial_model);
 	idFilter.setFilterKeyColumn(3);
@@ -271,7 +271,7 @@ void BrowserDialog::setRows(const std::vector<PrescriptionRow>& rows)
 	prescription_model.setRows(rows);
 
 	QSignalBlocker block(ui.dataTypeCombo);
-	ui.dataTypeCombo->setCurrentIndex(4);
+	ui.dataTypeCombo->setCurrentIndex(static_cast<int>(TabType::Prescription));
 
 	idFilter.setSourceModel(&prescription_model);
 	idFilter.setFilterKeyColumn(3);
@@ -334,7 +334,7 @@ void BrowserDialog::contextMenuRequested(const QPoint& p)
 		main_menu->addAction(action);
 
 		action = (new QAction("Ново пародонтално измерване", main_menu));
-		connect(action, &QAction::triggered, [=] { presenter.openNewDocument(TabType::PerioList); });
+		connect(action, &QAction::triggered, [=] { presenter.openNewDocument(TabType::PerioStatus); });
 		action->setIcon(QIcon(":/icons/icon_periosheet.png"));
 		main_menu->addAction(action);
 

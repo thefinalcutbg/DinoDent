@@ -184,7 +184,7 @@ void TabPresenter::open(const RowInstance& row, bool setFocus)
     case TabType::AmbList:
         newTab = new ListPresenter(view, getPatient_ptr(DbPatient::get(row.patientRowId)), row.rowID);
         break;
-    case TabType::PerioList:
+    case TabType::PerioStatus:
         newTab = new PerioPresenter(view, getPatient_ptr(DbPatient::get(row.patientRowId)), row.rowID);
         break;
     case TabType::PatientSummary:

@@ -63,7 +63,7 @@ void PatientSummaryPresenter::openCurrentDocument()
     switch (frame->type) {
         case TimeFrameType::Perio:
         {
-            auto row = RowInstance(TabType::PerioList);
+            auto row = RowInstance(TabType::PerioStatus);
             row.rowID = frame->rowid;
             row.patientRowId = patient->rowid;
             TabPresenter::get().open(row, true);

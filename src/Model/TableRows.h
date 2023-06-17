@@ -38,7 +38,7 @@ struct PatientRow : public RowInstance
 
 struct PerioRow : public RowInstance
 {
-	PerioRow() : RowInstance{ TabType::PerioList } {};
+	PerioRow() : RowInstance{ TabType::PerioStatus } {};
 
 	Date date;
 	std::string patientId;

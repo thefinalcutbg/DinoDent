@@ -46,7 +46,7 @@ void TabInstance::setCurrent()
 	switch (type)
 	{
 		case TabType::AmbList: _tabView->showListView(); break;
-		case TabType::PerioList: _tabView->showPerioView(); break;
+		case TabType::PerioStatus: _tabView->showPerioView(); break;
 		case TabType::PatientSummary: _tabView->showSummaryView(); break;
 		case TabType::Financial:_tabView->showFinancialView(); break;
 		case TabType::Prescription:_tabView->showPerscriptionView(); break;

@@ -45,7 +45,17 @@
         </property>
         <item>
          <property name="text">
+          <string>Пациенти</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
           <string>Амбулаторни листи</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Рецепти</string>
          </property>
         </item>
         <item>
@@ -55,17 +65,7 @@
         </item>
         <item>
          <property name="text">
-          <string>Пациенти</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
           <string>Финансови документи</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Рецепти</string>
          </property>
         </item>
        </widget>

@@ -48,7 +48,7 @@ void BrowserPresenter::setListType(TabType type)
 	switch (type)
 	{
 		case::TabType::AmbList: view->setRows(m_ambRows); break;
-		case::TabType::PerioList: view->setRows(m_perioRows); break;
+		case::TabType::PerioStatus: view->setRows(m_perioRows); break;
 		case::TabType::PatientSummary: view->setRows(m_patientRows); break;
 		case::TabType::Financial : view->setRows(m_financialRows); break;
 		case::TabType::Prescription: view->setRows(m_prescriptionRows); break;
@@ -62,7 +62,7 @@ void BrowserPresenter::selectionChanged(std::set<int> selectedIndexes)
 
 	switch (m_currentModelType) {
 		case::TabType::AmbList: for (auto idx : selectedIndexes) m_selectedInstances.push_back(&m_ambRows[idx]); break;
-		case::TabType::PerioList: for (auto idx : selectedIndexes) m_selectedInstances.push_back(&m_perioRows[idx]); break;
+		case::TabType::PerioStatus: for (auto idx : selectedIndexes) m_selectedInstances.push_back(&m_perioRows[idx]); break;
 		case::TabType::PatientSummary: for (auto idx : selectedIndexes) m_selectedInstances.push_back(&m_patientRows[idx]); break;
 		case::TabType::Financial: for (auto idx : selectedIndexes) m_selectedInstances.push_back(&m_financialRows[idx]); break;
 		case::TabType::Prescription: for (auto idx : selectedIndexes) m_selectedInstances.push_back(&m_prescriptionRows[idx]); break;

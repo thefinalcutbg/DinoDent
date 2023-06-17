@@ -5,7 +5,7 @@
 #include "Model/Patient.h"
 #include <memory>
 
-enum class TabType {AmbList, PerioList, PatientSummary, Financial, Prescription};
+enum class TabType { PatientSummary, AmbList, Prescription, PerioStatus, Financial};
 
 struct TabName {
 	std::string header;

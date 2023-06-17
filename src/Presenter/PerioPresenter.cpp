@@ -9,7 +9,7 @@
 #include "Presenter/PatientDialogPresenter.h"
 
 PerioPresenter::PerioPresenter(ITabView* view, std::shared_ptr<Patient> patient) :
-    TabInstance(view, TabType::PerioList, patient),
+    TabInstance(view, TabType::PerioStatus, patient),
     view(view->perioView()),
     m_toothStatus(DbPerio::getStatus(patient->rowid, Date::currentDate())),
     m_perioStatus(DbPerio::getPerioStatus(patient->rowid, Date::currentDate())),
@@ -53,7 +53,7 @@ PerioPresenter::PerioPresenter(ITabView* view, std::shared_ptr<Patient> patient)
 }
 
 PerioPresenter::PerioPresenter(ITabView* view, std::shared_ptr<Patient> patient, long long rowId) :
-    TabInstance(view, TabType::PerioList, patient),
+    TabInstance(view, TabType::PerioStatus, patient),
     view(view->perioView()),
     m_perioStatus(DbPerio::getPerioStatus(rowId)),
     m_toothStatus(DbPerio::getStatus(patient->rowid, m_perioStatus.date)),

@@ -1,13 +1,16 @@
 #include "DbFiscalReceipt.h"
 #include "Database/Database.h"
 #include "Model/FreeFunctions.h"
+#include "Model/User.h"
 
 std::string DbFiscalReceipt::getFiscalMemory()
 {
     std::string query =
-        "SELECT fiscal_memory FROM fiscal_receipt ORDER BY fiscal_receipt.date DESC LIMIT 1";
+        "SELECT fiscal_memory FROM fiscal_receipt WHERE fiscal_receipt.practice_rzi = ? ORDER BY fiscal_receipt.timestamp DESC LIMIT 1";
 
     Db db(query);
+
+    db.bind(1, User::practice().rziCode);
 
     while (db.hasRows()) return db.asString(0);
 
@@ -23,7 +26,7 @@ std::vector<FiscalReceipt> DbFiscalReceipt::getReceipts(int month, int year)
     Db db(
         "SELECT "
         "fiscal_receipt.amblist_rowid, "
-        "fiscal_receipt.date, "
+        "fiscal_receipt.timestamp, "
         "fiscal_receipt.fiscal_memory, "
         "fiscal_receipt.receipt_num, "
         "amblist.num, "
@@ -32,10 +35,13 @@ std::vector<FiscalReceipt> DbFiscalReceipt::getReceipts(int month, int year)
         "FROM fiscal_receipt LEFT JOIN amblist ON fiscal_receipt.amblist_rowid = amblist.rowid "
         "LEFT JOIN patient ON amblist.patient_rowid = patient.rowid "
         "WHERE "
-        "strftime('%m', fiscal_receipt.date)='" + FreeFn::leadZeroes(month, 2) + "' "
-        "AND strftime('%Y', fiscal_receipt.date)='" + std::to_string(year) + "' "
-        "ORDER BY fiscal_receipt.date ASC"
+        "strftime('%m', fiscal_receipt.timestamp)='" + FreeFn::leadZeroes(month, 2) + "' "
+        "AND strftime('%Y', fiscal_receipt.timestamp)='" + std::to_string(year) + "' "
+        "AND fiscal_receipt.practice_rzi = ? "
+        "ORDER BY fiscal_receipt.timestamp ASC"
     );
+
+    db.bind(1, User::practice().rziCode);
 
     while (db.hasRows())
     {
@@ -62,7 +68,7 @@ bool DbFiscalReceipt::alreadyExists(long long ambRowid, const std::string& times
     Db db(
         "SELECT COUNT(*) FROM fiscal_receipt WHERE "
         "fiscal_receipt.amblist_rowid=? "
-        "AND strftime('%Y-%m-%d',fiscal_receipt.date)=strftime('%Y-%m-%d',?)"
+        "AND strftime('%Y-%m-%d',fiscal_receipt.timestamp)=strftime('%Y-%m-%d',?)"
     );
 
     db.bind(1, ambRowid);
@@ -78,13 +84,14 @@ bool DbFiscalReceipt::alreadyExists(long long ambRowid, const std::string& times
 void DbFiscalReceipt::saveReceipt(const FiscalReceipt& r)
 {
     Db db(
-        "INSERT INTO fiscal_receipt (date, amblist_rowid, fiscal_memory, receipt_num) VALUES (?,?,?,?)"
+        "INSERT INTO fiscal_receipt (timestamp, amblist_rowid, fiscal_memory, receipt_num, practice_rzi) VALUES (?,?,?,?,?)"
     );
 
     db.bind(1, r.timestamp);
     db.bind(2, r.amblistRowid);
     db.bind(3, r.fiscal_memory);
     db.bind(4, r.receipt_num);
+    db.bind(5, User::practice().rziCode);
 
     db.execute();
 }
@@ -92,7 +99,7 @@ void DbFiscalReceipt::saveReceipt(const FiscalReceipt& r)
 void DbFiscalReceipt::deleteReceipt(long long ambRowid, const std::string& timestamp)
 {
     Db db(
-        "DELETE FROM fiscal_receipt WHERE amblist_rowid=? AND date=?"
+        "DELETE FROM fiscal_receipt WHERE amblist_rowid=? AND timestamp=?"
     );
 
     db.bind(1, ambRowid);

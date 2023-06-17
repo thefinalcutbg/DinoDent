@@ -12,8 +12,8 @@ FiscalReceiptDialog::FiscalReceiptDialog(FiscalReceiptPresenter& p, QWidget *par
 
 	connect(ui.okButton, &QPushButton::clicked, [&] { 
 	
-		if (!ui.taxNum->validateInput()) {
-			ui.taxNum->setFocus();
+		if (!ui.fiscalNum->validateInput()) {
+			ui.fiscalNum->setFocus();
 			return;
 		}
 
@@ -29,7 +29,7 @@ FiscalReceiptDialog::FiscalReceiptDialog(FiscalReceiptPresenter& p, QWidget *par
 	presenter.setView(this);
 
 	ui.deviceNum->setInputValidator(&notEmptyValidator);
-	ui.taxNum->setInputValidator(&notEmptyValidator);
+	ui.fiscalNum->setInputValidator(&notEmptyValidator);
 
 }
 
@@ -43,7 +43,7 @@ void FiscalReceiptDialog::setReceipt(const FiscalReceipt & r)
 {
 	ui.dateTimeEdit->setDateTime(QDateTime::fromString(r.timestamp.c_str(), Qt::ISODate));
 	ui.deviceNum->setText(r.fiscal_memory.c_str());
-	ui.taxNum->setText(r.receipt_num.c_str());
+	ui.fiscalNum->setText(r.receipt_num.c_str());
 }
 
 FiscalReceipt FiscalReceiptDialog::getReceipt()
@@ -51,7 +51,7 @@ FiscalReceipt FiscalReceiptDialog::getReceipt()
 	return FiscalReceipt{
 		.timestamp = ui.dateTimeEdit->dateTime().toString(Qt::ISODate).toStdString(),
 		.fiscal_memory = ui.deviceNum->text().toStdString(),
-		.receipt_num = ui.taxNum->text().toStdString()
+		.receipt_num = ui.fiscalNum->text().toStdString()
 	};
 }
 

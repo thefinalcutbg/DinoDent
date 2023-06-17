@@ -25,7 +25,7 @@
   <property name="windowTitle">
    <string>FiscalReceiptDialog</string>
   </property>
-  <widget class="LineEdit" name="taxNum">
+  <widget class="LineEdit" name="fiscalNum">
    <property name="geometry">
     <rect>
      <x>140</x>

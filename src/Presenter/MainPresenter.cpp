@@ -126,7 +126,7 @@ void MainPresenter::showBrowser()
 void MainPresenter::pisDialog()
 {
     if (!User::hasNzokContract()) {
-        ModalDialogBuilder::showError("Моля, попълнете данните на договора с НЗОК от настройки!");
+        ModalDialogBuilder::showMessage("Моля, попълнете данните на договора с НЗОК от настройки!");
         return;
     }
 
@@ -145,7 +145,7 @@ void MainPresenter::settingsPressed()
 {
     if (!User::isAdmin())
     {
-        ModalDialogBuilder::showError("Нямате администраторски права, за да влезете в настройки");
+        ModalDialogBuilder::showMessage("Нямате администраторски права, за да влезете в настройки");
         return;
     }
 

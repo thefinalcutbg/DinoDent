@@ -3,7 +3,7 @@
 #include "View/ModalDialogBuilder.h"
 #include "Database/DbPatient.h"
 #include "Presenter/TabPresenter.h"
-#include "qdebug.h"
+#include <map>
 
 void BrowserPresenter::setView(IBrowserDialog* view)
 {
@@ -120,7 +120,7 @@ void BrowserPresenter::deleteCurrentSelection()
 		{
 			if (static_cast<AmbRow*>(ptr)->his)
 			{
-				ModalDialogBuilder::showMessage("Някои от избраните амбулаторни листи не са анулирани в НЗИС и не могат да бъдат изтрити");
+				ModalDialogBuilder::showMessage("Не можете да изтриете амбулаторен лист, който е отворен в НЗИС. Първо го анулирайте.");
 				return;
 			}
 		}
@@ -128,15 +128,15 @@ void BrowserPresenter::deleteCurrentSelection()
 
 	std::string warningMsg = "Сигурни ли сте, че искате да изтриете избраният/избраните ";
 
-	static constexpr const char* endString[5]{
-		"амбулаторни листи?",
-		"пародонтални измервания?",
-		"пацинети? Всичките свързани медицински докумнети ще бъдат изтрити!",
-		"финансови документи?",
-		"рецепти?"
+	static const std::map<TabType, const char*> endString = {
+		{TabType::AmbList, "амбулаторни листи?"},
+		{TabType::PerioStatus, "пародонтални измервания?"},
+		{TabType::PatientSummary, "пацинети? Всичките свързани медицински докумнети ще бъдат изтрити!"},
+		{TabType::Financial, "финансови документи?"},
+		{TabType::Prescription, "рецепти?"}
 	};
 
-	warningMsg += endString[static_cast<int>(m_currentModelType)];
+	warningMsg += endString.at(m_currentModelType);
 
 	if (!ModalDialogBuilder::askDialog(warningMsg))
 		return;

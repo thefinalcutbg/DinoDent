@@ -221,14 +221,16 @@ std::vector<PrescriptionRow> DbBrowser::getPrescriptionRows(const Date& from, co
 
 void DbBrowser::deleteRecord(TabType type, long long rowid)
 {
-    std::string tableNames[5];
-    tableNames[static_cast<int>(TabType::AmbList)] = "amblist";
-    tableNames[static_cast<int>(TabType::PerioStatus)] = "periostatus";
-    tableNames[static_cast<int>(TabType::PatientSummary)] = "patient";
-    tableNames[static_cast<int>(TabType::Financial)] = "financial";
-    tableNames[static_cast<int>(TabType::Prescription)] = "prescription";
+    static const std::map<TabType, std::string_view> tableNames = {
+        {TabType::AmbList, "amblist"},
+        {TabType::PerioStatus, "periostatus"},
+        {TabType::PatientSummary, "patient"},
+        {TabType::Financial, "financial"},
+        {TabType::Prescription, "prescription"}
+    };
 
-    std::string tableName{ tableNames[static_cast<int>(type)] };
+
+    std::string tableName{ tableNames.at(type) };
 
     Db::crudQuery("DELETE FROM " + tableName + " WHERE rowid = " + std::to_string(rowid));
 }

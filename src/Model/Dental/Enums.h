@@ -7,12 +7,35 @@ enum class Quadrant { First, Second, Third, Fourth };
 enum class BridgePos { Begin, Middle, End };
 enum class Degree { First, Second, Third };
 
-constexpr int statusCount = 21;
 
 namespace StatusCode
 {
-	enum StatusCode	{ Healthy, Temporary, Obturation,	Caries,	Pulpitis,	ApicalLesion,	EndoTreatment,	Post,	Root,	Fracture,	Extraction,	Periodontitis,	Mobility,	Crown,	Bridge,	FiberSplint,	Implant,	Dsn,	Impacted, Denture, Calculus };
+	enum StatusCode : unsigned char	{ 
+		Healthy,
+		Temporary,
+		Obturation,
+		Caries,
+		Pulpitis,	
+		ApicalLesion,
+		EndoTreatment,
+		Post,
+		Root,
+		Fracture,
+		Extraction,
+		Periodontitis,
+		Mobility,
+		Crown,
+		Bridge,
+		FiberSplint,
+		Implant,
+		Dsn,
+		Impacted,
+		Denture,
+		Calculus,
+		StatusCodeSize
+	};
 }
+constexpr int statusCount = StatusCode::StatusCodeSize;
 
 namespace Surface
 {

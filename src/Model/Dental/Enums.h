@@ -10,7 +10,7 @@ enum class Degree { First, Second, Third };
 
 namespace StatusCode
 {
-	enum StatusCode : unsigned char	{ 
+	enum StatusCode	{ 
 		Healthy,
 		Temporary,
 		Obturation,

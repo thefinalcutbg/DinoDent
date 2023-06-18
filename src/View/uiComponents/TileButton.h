@@ -60,7 +60,7 @@ private:
     QPixmap* zodiac{ nullptr };
     bool birthday{ false };
 
-    static constexpr int nraSize = 30;
+    static constexpr int nraSize = 32;
 
     void paintInfo(QPainter* painter);
 

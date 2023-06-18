@@ -221,7 +221,12 @@ std::vector<PrescriptionRow> DbBrowser::getPrescriptionRows(const Date& from, co
 
 void DbBrowser::deleteRecord(TabType type, long long rowid)
 {
-    static constexpr const char* tableNames[5]{ "amblist", "periostatus", "patient", "financial", "prescription" };
+    std::string tableNames[5];
+    tableNames[static_cast<int>(TabType::AmbList)] = "amblist";
+    tableNames[static_cast<int>(TabType::PerioStatus)] = "periostatus";
+    tableNames[static_cast<int>(TabType::PatientSummary)] = "patient";
+    tableNames[static_cast<int>(TabType::Financial)] = "financial";
+    tableNames[static_cast<int>(TabType::Prescription)] = "prescription";
 
     std::string tableName{ tableNames[static_cast<int>(type)] };
 

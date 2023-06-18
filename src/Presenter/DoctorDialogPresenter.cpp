@@ -80,7 +80,7 @@ void DoctorDialogPresenter::setView(IDoctorSettingsDialog* view)
     view->lineEdit(DoctorFields::LastName)->setInputValidator(&name_validator);
     view->lineEdit(DoctorFields::LPK)->setInputValidator(&lpk_validator);
     view->lineEdit(DoctorFields::Phone)->setInputValidator(&not_emptyValidator);
-    view->lineEdit(DoctorFields::Password)->setInputValidator(&not_emptyValidator);
+   // view->lineEdit(DoctorFields::Password)->setInputValidator(&not_emptyValidator);
     if (result.has_value()) {
         view->setDoctor(result.value());
         result.reset();

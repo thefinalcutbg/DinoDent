@@ -30,6 +30,13 @@ AmbListValidator::AmbListValidator(const AmbList& list, const Patient& patient)
 
 bool AmbListValidator::ambListIsValid()
 {
+    if (!noDuplicates()) return false;
+    
+    if (!isValidAccordingToDb()) return false;
+
+    if (!dateIsValid()) return false;
+
+    if (!examIsFirst()) return false;
 
     for (auto& p : m_procedures)
     {
@@ -61,13 +68,6 @@ bool AmbListValidator::ambListIsValid()
 
     auto& teeth = ambList.teeth;
     auto& procedures = m_procedures;
-
-    if (!noDuplicates()) return false;
-
-    if (!dateIsValid()) return false;
-
-    if (!examIsFirst()) return false;
-
 
     for (auto& p : procedures)
     {
@@ -103,7 +103,6 @@ bool AmbListValidator::ambListIsValid()
 
     }
 
-    if (!isValidAccordingToDb()) return false;
 
     _error = "";
     return true;
@@ -121,19 +120,18 @@ std::vector<ProcedureSummary> getSummaryFromPisHistory(const std::vector<Procedu
         result.push_back(ProcedureSummary{
                 .date = p.date,
                 .code = p.code.oldCode(),
-                .tooth = p.tooth_idx.index,
-                .temp = p.tooth_idx.temp,
-                .extr = p.code.type() == ProcedureType::extraction,
-                .hyperdontic = p.tooth_idx.supernumeral,
+                .tooth_idx = p.tooth_idx
             });
 
     }
 
     return result;
 }
-#include "View/ModalDialogBuilder.h"
+#include <qdebug.h>
 bool AmbListValidator::isValidAccordingToDb()
 {
+    if (ambList.nhifData.specification == NhifSpecification::Anesthesia) return true;
+
     std::vector<ProcedureSummary> summary;
 
     std::vector<ProcedureSummary> nhifHistory;
@@ -162,7 +160,7 @@ bool AmbListValidator::isValidAccordingToDb()
     typedef int Code, Count, Tooth;
     typedef bool Temporary;
     std::unordered_map<Code, Count> currentYear;
-    std::unordered_set<std::pair<Tooth, Temporary>, pair_hash> extractedTeeth;
+    std::unordered_set<ToothIndex> extractedTeeth;
 
     for (auto& p : summary) //getting procedures of the current year;
     {
@@ -170,7 +168,7 @@ bool AmbListValidator::isValidAccordingToDb()
             currentYear[p.code] ++;
 
         //getting the already extracted teeth
-        if (p.extr) extractedTeeth.insert(std::make_pair(p.tooth, p.temp));
+        if (p.extr) extractedTeeth.insert(p.tooth_idx);
     }
 
     PackageCounter packageCounter(NhifProcedures::getPackages(ambListDate)); //creating a package counter
@@ -184,8 +182,7 @@ bool AmbListValidator::isValidAccordingToDb()
         
         packageCounter.insertCode(procedure.code.oldCode());
 
-        if (ambList.nhifData.specification != NhifSpecification::Anesthesia &&
-            !packageCounter.validate(patient.isAdult(procedure.date), ambList.procedures.hasPregnancy())) //validating max allowed per year
+        if (!packageCounter.validate(patient.isAdult(procedure.date))) //validating max allowed per year
         {
             _error = "Надвишен лимит по НЗОК за код " + std::to_string(procedure.code.oldCode()) + "!";
             return false;
@@ -195,13 +192,13 @@ bool AmbListValidator::isValidAccordingToDb()
 
         for (auto& p : summary) //validating max allowed per time period and per tooth
         {
-            if (p.code != procedure.code.oldCode() || p.tooth != procedure.tooth_idx.index) continue;
+            if (p.code != procedure.code.oldCode() || p.tooth_idx != procedure.tooth_idx) continue;
 
             auto yearLimit = NhifProcedures::getYearLimit(procedure.code.oldCode());
-
-            Date date = { p.date.day, p.date.month, p.date.year + yearLimit };
+            qDebug() << "for procedure" << p.code << "year limit is " << yearLimit;
+            Date minimumDate = { p.date.day, p.date.month, p.date.year + yearLimit };
          
-            if (procedure.date < date)
+            if (procedure.date < minimumDate)
             {
                 _error = "В базата данни съществува вече манипулация с код " + std::to_string(p.code) +
                     " от преди по-малко от " + std::to_string(yearLimit) + " г.";
@@ -210,10 +207,10 @@ bool AmbListValidator::isValidAccordingToDb()
         }
 
         if (procedure.tooth_idx.index != -1 && //extraction check
-            extractedTeeth.count
-            (std::make_pair(procedure.tooth_idx.index, ambList.teeth[procedure.tooth_idx.index].temporary.exists())))
+            extractedTeeth.count(procedure.tooth_idx)
+            )
         {
-            _error = "За зъб " + ToothUtils::getNomenclature(ambList.teeth[procedure.tooth_idx.index])
+            _error = "За зъб " + procedure.tooth_idx.getNhifNumenclature() +
                 + " вече съществуват данни за екстракция!";
             return false;
         }
@@ -289,7 +286,7 @@ bool AmbListValidator::noDuplicates()
         if (tooth_set.count(pair))
         {
             p.tooth_idx.index != -1 ?
-            _error = "За зъб " + ToothUtils::getNhifNumber(p.tooth_idx.index, p.tooth_idx.temp, p.tooth_idx.supernumeral) +
+            _error = "За зъб " + p.tooth_idx.getNhifNumenclature() +
                 " манипулация с код " + std::to_string(p.code.oldCode()) + " е добавена повече от веднъж"
             :
             _error = "Направили сте 2 еднакви манипулации с код " + std::to_string(p.code.oldCode());

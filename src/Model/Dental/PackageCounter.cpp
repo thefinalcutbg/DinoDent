@@ -17,17 +17,14 @@ void PackageCounter::insertCode(int code)
 			procedure_count[i]++;
 }
 
-bool PackageCounter::validate(bool adult, bool pregnant)
+bool PackageCounter::validate(bool adult)
 {
-
-	//if (mental && !adult) return true;
 
 	for (int i = 0; i < packages.size(); i++)
 	{
 		const auto& package = packages[i];
 
 		int limit = adult ? package.limit_adult : package.limit_minor;
-		if(pregnant) limit = std::max(package.limit_pregnant, limit);
 
 		if (procedure_count[i] > limit)
 		{

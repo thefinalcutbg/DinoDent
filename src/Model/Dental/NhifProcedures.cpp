@@ -1,7 +1,6 @@
 #include "NhifProcedures.h"
 #include <JsonCpp/json.h>
 #include <tuple>
-
 #include "Resources.h"
 
 std::unordered_map<int, int> code_durations;
@@ -44,8 +43,10 @@ void NhifProcedures::initialize()
 
 	for (auto& timeframe : constraints["timeframe"])
 	{
-		for (auto& codes : timeframe["codes"])
+		for (auto& codes : timeframe["codes"]) {
+
 			_timeframes[codes.asInt()] = timeframe["limit"].asInt();
+		}
 	}
 
 	//3.Getting the actual updates
@@ -76,10 +77,6 @@ void NhifProcedures::initialize()
 					for (auto& code : codes) package.codes.insert(code.asInt());
 					package.limit_adult = package_json["adult"].asInt();
 					package.limit_minor = package_json["minor"].asInt();
-
-					if(!package_json["pregnant"].isNull())
-					package.limit_pregnant = package_json["pregnant"].asInt();
-
 					package.timeframe = package_json["timeframe"].asInt();
 			
 			}
@@ -154,6 +151,10 @@ std::vector<ProcedureCode> NhifProcedures::getNhifProcedures(Date ambDate, NhifS
 		if (m_map.count(kv.first)) {
 			result.push_back(kv.second);
 		}
+	}
+
+	if (pregnancyAllowed) {
+		result.insert(result.begin() + 1, ProcedureCode(103));
 	}
 
 	return result;

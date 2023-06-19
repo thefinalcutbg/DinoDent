@@ -1,5 +1,6 @@
 #pragma once
 #include "Model/Date.h"
+#include "Model/Dental/ToothIndex.h"
 
 struct ProcedureRowData
 {
@@ -29,10 +30,9 @@ struct ProcedureSummary
 {
     Date date;
     int code;
-    int tooth;
-    bool temp;
+    ToothIndex tooth_idx;
     bool extr;
-    bool hyperdontic;
+
 };
 
 

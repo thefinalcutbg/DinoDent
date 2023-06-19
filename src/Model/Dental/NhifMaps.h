@@ -50,7 +50,6 @@ struct ProcedurePackage
 	std::unordered_set<int> codes;
 	int limit_adult{ -1 };
 	int limit_minor{ -1 };
-	int limit_pregnant{ -1 };
 };
 
 

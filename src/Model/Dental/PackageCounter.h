@@ -8,6 +8,6 @@ class PackageCounter
 public:
 	PackageCounter(const std::vector<ProcedurePackage>& packages);
 	void insertCode(int code);
-	bool validate(bool adult, bool pregnant);
+	bool validate(bool adult);
 };
 

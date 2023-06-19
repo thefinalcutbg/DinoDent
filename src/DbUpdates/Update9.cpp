@@ -353,8 +353,8 @@ void DbUpdates::update9(UpdateDialog& progressDialog)
 			for (int i = 0; i < 6; i++)
 			{
 				db.bind(1 + i, surfaces[i]);
-				db.bind(7, post);
 			}
+			db.bind(7, post);
 		}
 		else if (std::holds_alternative<ConstructionRange>(pair.second))
 		{

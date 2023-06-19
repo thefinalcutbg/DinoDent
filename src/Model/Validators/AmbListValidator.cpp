@@ -34,6 +34,21 @@ bool AmbListValidator::ambListIsValid()
     
     if (!isValidAccordingToDb()) return false;
 
+    auto& teeth = ambList.teeth;
+
+    for (auto& p : m_procedures)
+    {
+
+        if (p.tooth_idx.isValid()) //out of range guard
+        {
+            //checking temporary/permanent tooth requirement of the procedure
+            if (!validatePermaTemp(teeth[p.tooth_idx.index], p)) return false;
+
+            //checking if the tooth has appliable status
+            if (!validateTypeToStatus(teeth[p.tooth_idx.index], p)) return false;
+        }
+    }
+
     if (!dateIsValid()) return false;
 
     if (!examIsFirst()) return false;
@@ -43,6 +58,12 @@ bool AmbListValidator::ambListIsValid()
         if (p.tooth_idx.supernumeral && !ambList.teeth[p.tooth_idx.index].dsn)
         {
             _error = "Съществува процедура на срвъхброен зъб, който не е добавен в статуса";
+            return false;
+        }
+
+        if (p.date.isWeekend())
+        {
+            _error = "Манипулация " + std::to_string(p.code.oldCode()) + " не може да бъде извършена в почивен ден";
             return false;
         }
     }
@@ -66,27 +87,7 @@ bool AmbListValidator::ambListIsValid()
     }
 
 
-    auto& teeth = ambList.teeth;
-    auto& procedures = m_procedures;
 
-    for (auto& p : procedures)
-    {
-
-        if (p.date.isWeekend())
-        {
-            _error = "Манипулация " + std::to_string(p.code.oldCode()) + " не може да бъде извършена в почивен ден";
-                return false;
-        }
-
-        if (p.tooth_idx.isValid()) //out of range guard
-        {
-            //checking temporary/permanent tooth requirement of the procedure
-            if (!validatePermaTemp(teeth[p.tooth_idx.index], p)) return false;
-
-            //checking if the tooth has appliable status
-            if (!validateTypeToStatus(teeth[p.tooth_idx.index], p)) return false;
-        }
-    }
 
     for (auto& ref : ambList.referrals)
     {

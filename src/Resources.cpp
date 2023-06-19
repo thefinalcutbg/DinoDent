@@ -20,7 +20,7 @@ std::string Resources::fromPath(const char* path)
 }
 
 std::string Resources::citiesJson() { return fromPath(":/json/json_ekatte.json");}
-std::string Resources::nzokDataJson() { return fromPath(":/json/json_nzok.json"); }
+std::string Resources::nhifDataJson() { return fromPath(":/json/json_nhif.json"); }
 std::string Resources::defaultPriceListJson() { return fromPath(":/json/json_defaultPriceList.json"); }
 std::string Resources::defaultDiagnosisListJson() { return fromPath(":/json/json_diagnosis.json"); }
 std::string Resources::ksmpJson() { return fromPath(":/json/json_ksmp.json"); }

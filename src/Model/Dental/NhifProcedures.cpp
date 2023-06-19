@@ -19,7 +19,7 @@ void NhifProcedures::initialize()
 	Json::Reader reader;
 	Json::Value p;
 
-	reader.parse(Resources::nzokDataJson(), p);
+	reader.parse(Resources::nhifDataJson(), p);
 
 	//1.Getting all NZOK procedures
 

@@ -8,7 +8,7 @@ namespace Resources
 {
 	std::string fromPath(const char* path);
 	std::string citiesJson();
-	std::string nzokDataJson();
+	std::string nhifDataJson();
 	std::string defaultPriceListJson();
 	std::string defaultDiagnosisListJson();
 	std::string ksmpJson();

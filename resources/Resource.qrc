@@ -79,7 +79,6 @@
     <qresource prefix="/json">
         <file>json_diagnosis.json</file>
         <file>json_ksmp.json</file>
-        <file>json_nzok.json</file>
         <file>json_ekatte.json</file>
         <file>json_medicationForms.json</file>
         <file>json_dose.json</file>
@@ -90,6 +89,7 @@
         <file>json_specialty.json</file>
         <file>json_procedures.json</file>
         <file>json_diagnosisText.json</file>
+        <file>json_nhif.json</file>
     </qresource>
     <qresource prefix="/style">
         <file>dateEditStyle.qss</file>

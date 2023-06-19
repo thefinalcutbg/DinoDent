@@ -53,7 +53,7 @@ struct ProcedurePackage
 };
 
 
-struct NZOKUpdates
+struct NRD
 {
 	Date date;
 	std::unordered_map<PriceKey, PriceObj> prices;

@@ -2,10 +2,11 @@
 #include <JsonCpp/json.h>
 #include <tuple>
 #include "Resources.h"
+#include "Model/UserStructs.h"
 
 std::unordered_map<int, int> code_durations;
 std::unordered_map<int, int> _timeframes;
-std::vector<NZOKUpdates> _updates;
+std::vector<NRD> m_NRDlist;
 
 std::unordered_set<int> minor_only;
 std::unordered_set<int> temp_only;
@@ -55,7 +56,7 @@ void NhifProcedures::initialize()
 
 	for (auto& u : updates)
 	{
-		NZOKUpdates c;		
+		NRD c;		
 
 		//3.1 Getting the date of the update
 
@@ -118,7 +119,7 @@ void NhifProcedures::initialize()
 
 		}
 
-		_updates.push_back(c);
+		m_NRDlist.push_back(c);
 
 	}
 
@@ -128,16 +129,16 @@ std::vector<ProcedureCode> NhifProcedures::getNhifProcedures(Date ambDate, NhifS
 {
 	int currentUpdateIdx = -1;
 
-	for (int i = 0; i < _updates.size(); i ++)
+	for (int i = 0; i < m_NRDlist.size(); i ++)
 	{
-		if (ambDate < _updates[i].date) continue;
+		if (ambDate < m_NRDlist[i].date) continue;
 
 		currentUpdateIdx = i; break;
 	}
 
 	if (currentUpdateIdx == -1) return {};
 
-	auto& update = _updates[currentUpdateIdx];
+	auto& update = m_NRDlist[currentUpdateIdx];
 
 	auto& m_map = update.prices[PriceKey{ static_cast<int>(specialty), adult, static_cast<int>(specification) }].priceMap;
 
@@ -153,7 +154,11 @@ std::vector<ProcedureCode> NhifProcedures::getNhifProcedures(Date ambDate, NhifS
 		}
 	}
 
-	if (pregnancyAllowed) {
+	if (pregnancyAllowed && 
+		(specialty != NhifSpecialty::OralSurgeon &&
+			specialty != NhifSpecialty::Maxillofacial) 
+		)
+	{
 		result.insert(result.begin() + 1, ProcedureCode(103));
 	}
 
@@ -165,9 +170,9 @@ std::pair<patientPrice, nzokPrice> NhifProcedures::getPrices
 {
 	int currentUpdateIdx = -1;
 
-	for (int i = 0; i < _updates.size(); i++)
+	for (int i = 0; i < m_NRDlist.size(); i++)
 	{
-		if (date < _updates[i].date) continue;
+		if (date < m_NRDlist[i].date) continue;
 
 		currentUpdateIdx = i; break;
 	}
@@ -175,13 +180,13 @@ std::pair<patientPrice, nzokPrice> NhifProcedures::getPrices
 	//or throw an exception maybe?!
 	if (currentUpdateIdx == -1) return std::make_pair(0,0);
 
-	return _updates[currentUpdateIdx].prices[PriceKey{ static_cast<int>(doctorSpecialty), adult, static_cast<int>(specification) }].
+	return m_NRDlist[currentUpdateIdx].prices[PriceKey{ static_cast<int>(doctorSpecialty), adult, static_cast<int>(specification) }].
 		priceMap[code];
 }
 
 std::vector<ProcedurePackage> NhifProcedures::getPackages(Date ambDate)
 {
-	for (auto& u : _updates) 
+	for (auto& u : m_NRDlist) 
 		if (ambDate > u.date) 
 			return u.packages;
 

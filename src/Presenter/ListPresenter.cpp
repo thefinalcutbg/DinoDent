@@ -756,7 +756,6 @@ void ListPresenter::addReferral(ReferralType type)
 void ListPresenter::editReferral(int index)
 {
 
-
     ReferralPresenter p(m_ambList.referrals[index]);
 
     auto result = p.openDialog();
@@ -767,7 +766,9 @@ void ListPresenter::editReferral(int index)
 
     view->setReferrals(m_ambList.referrals);
 
-    makeEdited();
+    if (!m_ambList.isNew()) {
+        DbReferral::saveReferrals(m_ambList.referrals, m_ambList.rowid);
+    }
 }
 
 
@@ -833,7 +834,9 @@ void ListPresenter::removeReferral(int index)
 
         refreshTabName();
 
-        TabInstance::makeEdited(); //no need for his augmentation
+        if (!m_ambList.isNew()) {
+            DbReferral::saveReferrals(m_ambList.referrals, m_ambList.rowid);
+        }
 
         return;
     }
@@ -847,7 +850,7 @@ void ListPresenter::removeReferral(int index)
 
                 m_ambList.referrals.erase(m_ambList.referrals.begin() + index);
 
-                DbReferral::saveReferrals(m_ambList.referrals, m_ambList.rowid);
+
 
                 ModalDialogBuilder::showMessage("Направлението е анулирано успешно!");
     

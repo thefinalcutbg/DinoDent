@@ -61,11 +61,13 @@ ProcedureHistoryDialog::~ProcedureHistoryDialog()
 void ProcedureHistoryDialog::setPis(const std::vector<Procedure>& p)
 {
     pis_model.setProcedures(p);
+    ui.refreshPis->setText("Опресни");
 }
 
 void ProcedureHistoryDialog::setHis(const std::vector<Procedure>& h)
 {
     his_model.setProcedures(h);
+    ui.refreshHis->setText("Опресни");
 }
 
 void ProcedureHistoryDialog::setCurrentStatus(const ToothContainer& teeth)
@@ -80,6 +82,8 @@ void ProcedureHistoryDialog::setCurrentStatus(const ToothContainer& teeth)
     {
         s->display(hint);
     }
+
+    ui.refreshStatus->setText("Опресни");
 
 }
 

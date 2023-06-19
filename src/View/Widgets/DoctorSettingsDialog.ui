@@ -265,7 +265,7 @@
             </sizepolicy>
            </property>
            <property name="maxLength">
-            <number>10</number>
+            <number>20</number>
            </property>
            <property name="echoMode">
             <enum>QLineEdit::Normal</enum>

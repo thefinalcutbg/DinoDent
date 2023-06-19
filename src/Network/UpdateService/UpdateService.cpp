@@ -32,8 +32,17 @@ bool UpdateService::restartForUpdate()
         return  false;
     }
 
-    updateInfo = updateInfo["win64"];
-
+    switch (Version::branch())
+    {
+        case Version::Win64:
+            updateInfo = updateInfo["win64"];
+            break;
+        case Version::Win64Dev:
+            updateInfo = updateInfo["win64dev"];
+            break;
+        default: return false;
+    }
+    
     auto latestVersion = Version::fromStr(updateInfo["ver"].asString());
 
     if (Version::current().isLessThan(latestVersion))

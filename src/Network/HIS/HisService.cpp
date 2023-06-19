@@ -326,8 +326,8 @@ std::string HisService::getProcedure(const Procedure& p, const ToothContainer& t
 
 		for (int i = begin; i <= end; i++)
 		{
-			if (p.code.type() == ProcedureType::denture &&
-				teethChanged.at(i).canHaveACrown()){ 
+			if (p.code.type() == ProcedureType::denture && 
+				!teethChanged.at(i).denture){ 
 				continue; 
 			}
 
@@ -335,8 +335,24 @@ std::string HisService::getProcedure(const Procedure& p, const ToothContainer& t
 		}
 	}
 
+	if (p.code.type() == ProcedureType::depuratio)
+	{
+		p.applyProcedure(teethChanged);
+
+		for (int i = 0; i < teethCount; i++)
+		{
+			if (teeth[i].calculus) 
+				result += getToothStatus(teethChanged[i], false);
+
+			if (teeth[i].dsn.tooth().calculus)
+				result += getToothStatus(teethChanged[i].dsn.tooth(), true);
+		}
+	}
+
 	if (p.code.type() == ProcedureType::full_exam)
 	{
+		
+
 		for (auto& tooth : teeth)
 		{
 			result += getToothStatus(tooth, false);
@@ -346,6 +362,8 @@ std::string HisService::getProcedure(const Procedure& p, const ToothContainer& t
 		}
 
 	}
+
+
 
 	result += bind("note", p.notes, true);
 

@@ -3,7 +3,11 @@
 
 struct Version {
 
+	enum Branch { Win64, Win64Dev };
+
 	static constexpr unsigned dbVersion() { return 12;}
+
+	static constexpr Branch branch() { return Branch::Win64; };
 
 	static constexpr Version current() {
 

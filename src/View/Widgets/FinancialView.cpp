@@ -87,13 +87,7 @@ FinancialView::FinancialView(QWidget *parent)
 
 	connect(ui.addButton, &QAbstractButton::clicked, [=] { if (presenter) presenter->addOperation(); });
 
-
-	connect(ui.operationsTable, &TableView::deletePressed,[=] { ui.deleteButton->click(); });
-	connect(ui.operationsTable, &QTableView::doubleClicked, [=] { ui.editButton->click(); });
 	connect(ui.docTypeCombo, QtComboIndexChanged, [=](int idx) { presenter->docTypeChanged(idx);});
-	
-	
-	
 	
 	connect(ui.mainDocDateEdit, &QDateEdit::dateChanged, [=] (QDate d) {
 		presenter->mainDocumentChanged(ui.mainDocNumSpin->value(), Date(d.day(), d.month(), d.year()));
@@ -102,6 +96,10 @@ FinancialView::FinancialView(QWidget *parent)
 		auto d = ui.mainDocDateEdit->date();
 		presenter->mainDocumentChanged(value, Date(d.day(), d.month(), d.year()));
 		});
+
+	connect(ui.operationsTable, &TableView::deletePressed, [=](int index) { if (presenter) presenter->removeOperation(index); });
+	connect(ui.operationsTable, &TableView::editPressed, [=](int index) { if (presenter) presenter->editOperation(index); });
+
 }
 
 FinancialView::~FinancialView()
@@ -148,7 +146,7 @@ void FinancialView::setInvoice(const Invoice& inv)
 	ui.editButton->setHidden(nzokForm);
 	ui.saveXMLButton->setHidden(!nzokForm);
 	ui.sendPisButton->setHidden(!nzokForm);
-
+	ui.operationsTable->enableContextMenu(!nzokForm);
 	//centering the label:
 
 	QPushButton* layoutButtons[4]{ ui.addButton, ui.deleteButton, ui.editButton, ui.saveXMLButton };

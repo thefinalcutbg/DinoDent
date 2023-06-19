@@ -122,6 +122,7 @@ void FinancialPresenter::removeOperation(int idx)
 
     m_invoice.removeOperation(idx);
     view->setBusinessOperations(m_invoice.businessOperations, m_invoice.aggragated_amounts);
+    makeEdited();
 }
 
 void FinancialPresenter::dateChanged(Date date)

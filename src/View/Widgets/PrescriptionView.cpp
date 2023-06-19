@@ -131,6 +131,7 @@ void PrescriptionView::setReadOnly(bool readOnly)
 	ui.dispensationCombo->setDisabled(readOnly);
 	ui.repeats->setReadOnly(readOnly);
 	ui.supplementsEdit->setReadOnly(readOnly);
+	ui.medicationTable->enableContextMenu(!readOnly);
 
 }
 

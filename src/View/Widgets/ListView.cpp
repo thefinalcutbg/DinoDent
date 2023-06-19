@@ -105,14 +105,14 @@ ListView::ListView(QWidget* parent)
 			else ui.procedureTable->selectRow(currentIdx);
 		});
 
-	connect(ui.procedureTable, &QTableView::doubleClicked, [=] { ui.editProcedure->click(); });
-	connect(ui.procedureTable, &TableView::deletePressed, [=] { if (presenter) ui.deleteProcedure->click(); });
+	connect(ui.procedureTable, &TableView::deletePressed, [=](int row) {  if (presenter) presenter->deleteProcedure(row); });
+	connect(ui.procedureTable, &TableView::editPressed, [=](int row) { if (presenter) presenter->editProcedure(row); });
 	connect(ui.procedureTable, &TableView::rowDragged, [=] { if(presenter) presenter->moveProcedure(ui.procedureTable->selectedRow(), model.lastDroppedRowIndex()); });
 
 
 	ui.controlPanel->hide();
 	ui.surfacePanel->hide();
-
+	ui.procedureTable->enableContextMenu(true);
 }
 
 void ListView::setPresenter(ListPresenter* presenter)

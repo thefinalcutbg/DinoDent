@@ -6,6 +6,9 @@
 #include <QPainterPath>
 #include <QPainter>
 #include <QStyledItemDelegate>
+#include <QMenu>
+
+#include "qdebug.h"
 
 class NoFocusDelegate : public QStyledItemDelegate
 {
@@ -57,6 +60,32 @@ TableView::TableView(QWidget* parent)
     setDropIndicatorShown(true);
 
     setWordWrap(true);
+
+
+
+    menu = new QMenu(this);
+
+    menu->setStyleSheet(Theme::getPopupMenuStylesheet());
+
+    QAction* action;
+
+    action = (new QAction("Редактирай", menu));
+    connect(action, &QAction::triggered, this, [=] { emit editPressed(selectedRow()); });
+    action->setIcon(QIcon(":/icons/icon_edit.png"));
+    menu->addAction(action);
+    action = (new QAction("Изтрий", menu));
+    connect(action, &QAction::triggered, this, [=] { emit deletePressed(selectedRow()); });
+    action->setIcon(QIcon(":/icons/icon_remove.png"));
+    menu->addAction(action);
+
+    connect(this, &QTableView::doubleClicked, [=] { emit editPressed(selectedRow()); });
+
+    connect(this, &QWidget::customContextMenuRequested, [=](const QPoint& p){
+        if (!isEnabled()) return;
+        if (this->selectedRow() == -1) return;
+        menu->popup(viewport()->mapToGlobal(p));
+
+    });
     
 }
 
@@ -184,13 +213,18 @@ void TableView::fitToModel() //not working correctly yet
 
 }
 
+void TableView::enableContextMenu(bool enabled)
+{
+    setContextMenuPolicy(enabled ? Qt::CustomContextMenu : Qt::NoContextMenu);
+}
+
 void TableView::keyPressEvent(QKeyEvent* event)
 {
 
     switch (event->key())
     {
     case Qt::Key_Delete:
-        emit deletePressed();
+        emit deletePressed(selectedRow());
         break;
     default:
         QTableView::keyPressEvent(event);

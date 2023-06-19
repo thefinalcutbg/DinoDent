@@ -34,6 +34,7 @@ class TableView : public QTableView
 		//setCurrentIndex(QModelIndex());
 	}
 
+	QMenu* menu{ nullptr };
 
 public:
 	TableView(QWidget* parent);
@@ -55,11 +56,11 @@ public:
 
 	void fitToModel();
 
-
+	void enableContextMenu(bool enabled);
 
 signals:
-	void deletePressed();
+	void deletePressed(int row);
 	void rowDragged();
-
+	void editPressed(int row);
 
 };

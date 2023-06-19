@@ -38,8 +38,9 @@ PrescriptionView::PrescriptionView(QWidget* parent)
 
 		});
 
-	connect(ui.medicationTable, &QTableView::doubleClicked, [=] { ui.editButton->click(); });
-	connect(ui.medicationTable, &TableView::deletePressed, [=] { if (presenter) ui.deleteButton->click(); });
+
+	connect(ui.medicationTable, &TableView::deletePressed, [=](int index) { if (presenter) presenter->deletePressed(index); });
+	connect(ui.medicationTable, &TableView::editPressed, [=](int index) { if (presenter) presenter->editPressed(index); });
 	connect(ui.dispensationCombo, QtComboIndexChanged, [&] { dispensationLogic(); });
 	connect(ui.repeats, QtSpinValueChanged, [&] { if (ui.repeats->isHidden()) return; dispensationLogic(); });
 	connect(ui.supplementsEdit, &QLineEdit::textChanged, [=](const QString& text) {if (presenter) presenter->supplementsChanged(text.toStdString());});

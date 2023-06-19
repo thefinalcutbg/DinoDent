@@ -85,7 +85,7 @@ void PrescriptionPresenter::addPressed()
 
 void PrescriptionPresenter::editPressed(int idx)
 {
-	if (idx == -1) return;
+	if (idx == -1 || m_prescription.NRN.size()) return;
 
 	MedicationPresenter p(m_prescription.medicationGroup[idx]);
 
@@ -103,7 +103,7 @@ void PrescriptionPresenter::editPressed(int idx)
 
 void PrescriptionPresenter::deletePressed(int idx)
 {
-	if (idx == -1) return;
+	if (idx == -1 || m_prescription.NRN.size()) return;
 
 	auto& medVec = m_prescription.medicationGroup;
 

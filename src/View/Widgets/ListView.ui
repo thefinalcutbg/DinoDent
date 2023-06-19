@@ -241,7 +241,7 @@
           </size>
          </property>
          <property name="toolTip">
-          <string>Проверка за право на пенсия</string>
+          <string>Проверка за упражнено право на пенсия</string>
          </property>
          <property name="text">
           <string>Пенсия</string>

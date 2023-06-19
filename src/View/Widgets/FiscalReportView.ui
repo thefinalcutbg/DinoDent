@@ -134,7 +134,7 @@
      <item>
       <widget class="QPushButton" name="generateFiscalDescr">
        <property name="text">
-        <string>Генерирай опис</string>
+        <string>Генерирай отчетен документ</string>
        </property>
       </widget>
      </item>
@@ -148,7 +148,7 @@
      <item>
       <widget class="QPushButton" name="deleteReceipt">
        <property name="text">
-        <string>Изтрий фискален бон</string>
+        <string>Изтрий фискален опис</string>
        </property>
       </widget>
      </item>

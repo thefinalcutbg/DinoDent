@@ -129,7 +129,7 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 				//teeth.removeBridgeOrSplint(indexes);
 				teeth.setStatus(indexes, StatusType::general, StatusCode::Denture, true);
 
-				for (int i : indexes) teeth[i].splint.LPK = LPK;
+				for (int i : indexes) teeth[i].denture.LPK = LPK;
 			}
 			break;
 

@@ -6,7 +6,7 @@ enum class ToothTextureHint {none, normal, root, extr, extr_m, impl, impl_m, unk
 enum class SurfaceColor {none, red, blue, green};
 enum class EndoHint {none, red, darkred, blue, green};
 enum class PostHint {none, blue, green};
-enum class ProsthoHint {none, crown, crown_green, bridge, bridge_green, splint, splint_green, denture};
+enum class ProsthoHint {none, crown, crown_green, bridge, bridge_green, splint, splint_green, denture, denture_green};
 enum class BridgeTerminal{Distal, Center, Medial};
 
 struct SurfaceHint

@@ -114,8 +114,9 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 				indexes.reserve(result.tooth_end - result.tooth_begin + 1);
 
 				for (int i = result.tooth_begin; i <= result.tooth_end; i++) {
-					
+
 					if (
+						teeth[i].noData() ||
 						teeth[i].extraction ||
 						teeth[i].root ||
 						teeth[i].implant ||

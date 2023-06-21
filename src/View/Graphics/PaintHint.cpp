@@ -6,7 +6,6 @@
 //I'm a puppet on a string
 bool R_U_Minee(const DentistMade& procedure)
 {
-
     return User::isCurrentUser(procedure.LPK);
 }
 
@@ -141,7 +140,10 @@ ToothPaintHint::ToothPaintHint(const Tooth& tooth, const std::string& notes)
 
     else if (tooth.denture.exists())
     {
-        prostho = ProsthoHint::denture;
+        prostho = R_U_Minee(tooth.denture) ?
+            ProsthoHint::denture_green
+            :
+            ProsthoHint::denture;
 
         if (!impacted &&
             this->tooth != ToothTextureHint::root &&

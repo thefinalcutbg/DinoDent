@@ -828,9 +828,6 @@
     <ClCompile Include="src\View\Graphics\PaintHint.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Presenter\ToothHintCreator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\DbUpdates\Update9.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -1572,9 +1569,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\Dental\ProcedureListElement.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Presenter\ToothHintCreator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\Dental\ToothIndex.h">

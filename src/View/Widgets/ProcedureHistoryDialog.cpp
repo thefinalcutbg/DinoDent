@@ -1,6 +1,6 @@
 ﻿#include "ProcedureHistoryDialog.h"
 
-#include "Presenter/ToothHintCreator.h"
+
 #include "View/Graphics/TeethViewScene.h"
 
 ProcedureHistoryDialog::ProcedureHistoryDialog(ProcedureHistoryPresenter& p)
@@ -73,14 +73,12 @@ void ProcedureHistoryDialog::setHis(const std::vector<Procedure>& h)
 void ProcedureHistoryDialog::setCurrentStatus(const ToothContainer& teeth)
 {
     TeethViewScene* s = new TeethViewScene();
-
-    auto hints = ToothHintCreator::getTeethHint(teeth);
-
+    
     ui.graphicsView->setScene(s);
 
-    for (auto& hint : hints)
+    for (int i = 0; i < 32; i++)
     {
-        s->display(hint);
+        s->display(ToothPaintHint(teeth[i]));
     }
 
     ui.refreshStatus->setText("Опресни");

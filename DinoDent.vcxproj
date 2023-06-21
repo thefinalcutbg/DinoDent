@@ -366,7 +366,6 @@
     <ClCompile Include="src\Presenter\SurfacePanelPresenter.cpp" />
     <ClCompile Include="src\Presenter\TabInstance.cpp" />
     <ClCompile Include="src\Presenter\TabPresenter.cpp" />
-    <ClCompile Include="src\Presenter\ToothHintCreator.cpp" />
     <ClCompile Include="src\Resources.cpp" />
     <ClCompile Include="src\DbUpdates\DbUpdates.cpp" />
     <ClCompile Include="src\DbUpdates\Updater.cpp" />
@@ -670,7 +669,6 @@
     <ClInclude Include="src\Presenter\SurfacePanelPresenter.h" />
     <ClInclude Include="src\Presenter\TabInstance.h" />
     <ClInclude Include="src\Presenter\TabPresenter.h" />
-    <ClInclude Include="src\Presenter\ToothHintCreator.h" />
     <ClInclude Include="src\QtVersion.h" />
     <ClInclude Include="src\Resources.h" />
     <ClInclude Include="src\DbUpdates\DbUpdates.h" />

@@ -1,6 +1,5 @@
 ﻿#include "SurfacePanel.h"
 
-#include "Presenter/ToothHintCreator.h"
 #include "Presenter/SurfacePanelPresenter.h"
 #include "View/Graphics/ToothPainter.h"
 

@@ -3,7 +3,6 @@
 #include "PatientSummaryPresenter.h"
 #include "View/Interfaces/ITabView.h"
 #include "View/Interfaces/IPatientSummaryView.h"
-#include "ToothHintCreator.h"
 #include "Model/Patient.h"
 #include "Database/DbPatientSummary.h"
 #include "Database/DbPerio.h"
@@ -91,7 +90,11 @@ void PatientSummaryPresenter::setCurrentFrame(int index)
 
     toothSelected(state.selectedTooth);
 
-    view->setTeeth(ToothHintCreator::getTeethHint(frame->teeth));
+    std::array<ToothPaintHint, 32> hints;
+
+    for (int i = 0; i < 32; i++) hints[i] = ToothPaintHint(frame->teeth[i]);
+
+    view->setTeeth(hints);
     view->setPerioData(PerioWithDisabled(frame->perioData));
  
     view->setDocumentLabel(

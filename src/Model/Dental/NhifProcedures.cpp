@@ -50,21 +50,21 @@ void NhifProcedures::initialize()
 		}
 	}
 
-	//3.Getting the actual updates
+	//3.Getting the actual jsonNrd
 
-	const Json::Value& updates = p["updates"];
+	const Json::Value& jsonNrd = p["nrd"];
 
-	for (auto& u : updates)
+	for (auto& nrd : jsonNrd)
 	{
 		NRD c;		
 
 		//3.1 Getting the date of the update
 
-			c.date = Date{ u["date"].asString() };
+			c.date = Date{ nrd["date"].asString() };
 
 		//3.2 Getting the maximum allowed packages
 
-			const Json::Value& packages = u["packages"]; 
+			const Json::Value& packages = nrd["packages"]; 
 
 			c.packages.reserve(packages.size());
 
@@ -84,7 +84,7 @@ void NhifProcedures::initialize()
 
 
 		//3.3 Getting the price list
-			const Json::Value& pList = u["price_list"]; 
+			const Json::Value& pList = nrd["price_list"]; 
 
 		for (auto& priceMap : pList)
 		{
@@ -196,7 +196,7 @@ std::vector<ProcedurePackage> NhifProcedures::getPackages(Date ambDate)
 double NhifProcedures::getPatientPrice(int code, Date date, NhifSpecialty specialty, bool adult, NhifSpecification specification)
 { return std::get<0>(getPrices(code, date, adult, specialty, specification)); }
 
-double NhifProcedures::getNZOKPrice(int code, Date date, NhifSpecialty specialty, bool adult, NhifSpecification specification)
+double NhifProcedures::getNhifPrice(int code, Date date, NhifSpecialty specialty, bool adult, NhifSpecification specification)
 { return std::get<1>(getPrices(code, date, adult, specialty, specification)); }
 
 int NhifProcedures::getDuration(int nzokCode) { return code_durations[nzokCode]; }

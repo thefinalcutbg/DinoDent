@@ -107,7 +107,7 @@ std::array<bool, statusCount> Tooth::getBoolStatus() const
 	};
 }
 
-std::string Tooth::getStringStatus() const
+std::string Tooth::getPrintStatus() const
 {
 	auto vec = getSimpleStatuses();
 
@@ -141,8 +141,8 @@ std::vector<std::string> Tooth::getSimpleStatuses() const
 	{
 		"", "T", "O", "C", "P", "G", "", "", "R", "F", "E",
 		"Pa", "I", "K", "K", "X", "Impl.", "Dsn", "", "X", ""
-	};			  //     ^                        ^
-				  //  bridge	                splint
+	};			  //     ^                         ^
+				  //  bridge	                 splint
 
 
 	if (boolStatus[StatusCode::FiberSplint])
@@ -155,6 +155,15 @@ std::vector<std::string> Tooth::getSimpleStatuses() const
 		{
 			boolStatus[StatusCode::Obturation] = true; //obturation WILL be shown
 			statusLegend[StatusCode::FiberSplint] = "O"; //fibersplint WON'T be shown
+		}
+	}
+
+	if (boolStatus[StatusCode::Bridge])
+	{
+		if(boolStatus[StatusCode::Extraction] || boolStatus[StatusCode::Impacted])
+		{
+			statusLegend[StatusCode::Extraction] = "";
+			statusLegend[StatusCode::Bridge] = "X";
 		}
 	}
 

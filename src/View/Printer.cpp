@@ -120,7 +120,7 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
         temp[i] = amb.teeth[i].temporary.exists();
         report.dataManager()->setReportVariable(tempVar, temp[i] ? QString{ tempSymbol } : QString{});
 
-        QString status = QString::fromStdString(amb.teeth[i].getStringStatus());
+        QString status = QString::fromStdString(amb.teeth[i].getPrintStatus());
 
         report.dataManager()->setReportVariable(statusVar, status);
 

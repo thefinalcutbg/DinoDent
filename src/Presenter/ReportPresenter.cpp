@@ -297,7 +297,7 @@ void ReportPresenter::finish()
 		for (auto& procedure : list.procedures)
 		{
 
-			expectedPrice += NhifProcedures::getNZOKPrice
+			expectedPrice += NhifProcedures::getNhifPrice
 			(
 				procedure.code.oldCode(),
 				procedure.date,

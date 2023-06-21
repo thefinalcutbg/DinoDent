@@ -14,7 +14,7 @@ namespace NhifProcedures
 	std::vector<ProcedureCode> getNhifProcedures(Date date, NhifSpecialty specialty, bool adult, bool pregnancyAllowed, NhifSpecification specification);
 	std::pair<patientPrice, nzokPrice> getPrices(int code, Date date, bool adult, NhifSpecialty doctorSpecialty, NhifSpecification specification);
 	double getPatientPrice(int code, Date date, NhifSpecialty specialty, bool adult, NhifSpecification specification);
-	double getNZOKPrice(int code, Date date, NhifSpecialty specialty, bool adult, NhifSpecification specification);
+	double getNhifPrice(int code, Date date, NhifSpecialty specialty, bool adult, NhifSpecification specification);
 
 	std::vector<ProcedurePackage> getPackages(Date ambDate);
 

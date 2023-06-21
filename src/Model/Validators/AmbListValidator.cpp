@@ -6,14 +6,6 @@
 #include "Model/Dental/ToothUtils.h"
 #include "Model/Dental/PackageCounter.h"
 
-struct pair_hash
-{
-    template <class T1, class T2>
-    std::size_t operator() (const std::pair<T1, T2>& pair) const {
-        return std::hash<T1>()(pair.first) ^ std::hash<T2>()(pair.second);
-    }
-};
-
 
 AmbListValidator::AmbListValidator(const AmbList& list, const Patient& patient)
     :
@@ -128,7 +120,10 @@ std::vector<ProcedureSummary> getSummaryFromPisHistory(const std::vector<Procedu
 
     return result;
 }
-#include <qdebug.h>
+
+
+
+
 bool AmbListValidator::isValidAccordingToDb()
 {
     if (ambList.nhifData.specification == NhifSpecification::Anesthesia) return true;
@@ -158,9 +153,9 @@ bool AmbListValidator::isValidAccordingToDb()
     summary.insert(summary.end(), nhifHistory.begin(), nhifHistory.end());
 
 
-    typedef int Code, Count, Tooth;
-    typedef bool Temporary;
-    std::unordered_map<Code, Count> currentYear;
+    typedef int ProcedureCode, Count;
+
+    std::unordered_map<ProcedureCode, Count> currentYear;
     std::unordered_set<ToothIndex> extractedTeeth;
 
     for (auto& p : summary) //getting procedures of the current year;
@@ -196,7 +191,7 @@ bool AmbListValidator::isValidAccordingToDb()
             if (p.code != procedure.code.oldCode() || p.tooth_idx != procedure.tooth_idx) continue;
 
             auto yearLimit = NhifProcedures::getYearLimit(procedure.code.oldCode());
-            qDebug() << "for procedure" << p.code << "year limit is " << yearLimit;
+
             Date minimumDate = { p.date.day, p.date.month, p.date.year + yearLimit };
          
             if (procedure.date < minimumDate)
@@ -272,19 +267,26 @@ bool AmbListValidator::examIsFirst()
     return true;
 }
 
+template<>
+struct std::hash<std::pair<int, int>>
+{
+    template <class T1, class T2>
+    std::size_t operator() (const std::pair<T1, T2>& pair) const noexcept {
+        return std::hash<T1>()(pair.first) ^ std::hash<T2>()(pair.second);
+    }
+};
+
 bool AmbListValidator::noDuplicates()
 {
     typedef int Tooth, Code;
 
-    std::unordered_set<std::pair<Tooth, Code>, pair_hash> tooth_set;
-
+    std::unordered_set<std::pair<Tooth, Code>> toothSet;
+    
     for (auto& p : m_procedures)
     {
-        auto tooth = p.tooth_idx.supernumeral ? p.tooth_idx.index + 80 : p.tooth_idx.index;
+        auto pair = std::make_pair(std::hash<ToothIndex>()(p.tooth_idx), p.code.oldCode());
 
-        auto pair = std::make_pair(tooth, p.code.oldCode());
-
-        if (tooth_set.count(pair))
+        if (toothSet.count(pair))
         {
             p.tooth_idx.index != -1 ?
             _error = "За зъб " + p.tooth_idx.getNhifNumenclature() +
@@ -295,7 +297,7 @@ bool AmbListValidator::noDuplicates()
             return false;
         }
 
-        tooth_set.insert(pair);
+        toothSet.insert(pair);
     }
 
     return true;

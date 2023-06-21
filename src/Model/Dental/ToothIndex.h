@@ -27,7 +27,15 @@ struct std::hash<ToothIndex>
 {
     std::size_t operator()(ToothIndex const& i) const noexcept
     {
-        return i.index ^ (int(i.temp) << 31) ^ (int(i.supernumeral) << 30);
+        if (!i.isValid()) return -1;
+
+        int result = i.index;
+        if (i.temp) result += 40;
+        if (i.supernumeral) result += 100;
+
+        return result;
+
+        //return i.index ^ (int(i.temp) << 31) ^ (int(i.supernumeral) << 30);
     }
 
 };

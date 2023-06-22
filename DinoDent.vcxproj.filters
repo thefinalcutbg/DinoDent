@@ -561,7 +561,7 @@
     <ClCompile Include="src\View\Widgets\RecipientEditView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\Widgets\ReportErrorDialog.cpp">
+    <ClCompile Include="src\View\Widgets\MultilineDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\Widgets\ReportView.cpp">
@@ -1804,7 +1804,7 @@
     <QtMoc Include="src\View\Widgets\RecipientEditView.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\Widgets\ReportErrorDialog.h">
+    <QtMoc Include="src\View\Widgets\MultilineDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\Widgets\ReportView.h">
@@ -2004,7 +2004,7 @@
     <QtUic Include="src\View\Widgets\RecipientEditView.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="src\View\Widgets\ReportErrorDialog.ui">
+    <QtUic Include="src\View\Widgets\MultilineDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\Widgets\ReportView.ui">

@@ -4,7 +4,7 @@
 #include "Model/Dental/Tooth.h"
 
 //I'm a puppet on a string
-bool R_U_Minee(const DentistMade& procedure)
+bool R_U_Mine(const DentistMade& procedure)
 {
     return User::isCurrentUser(procedure.LPK);
 }
@@ -52,7 +52,7 @@ ToothPaintHint::ToothPaintHint(const Tooth& tooth, const std::string& notes)
         if (tooth.bridge.exists() || tooth.splint.exists())
             this->tooth = ToothTextureHint::none;
 
-        else if (R_U_Minee(tooth.extraction))
+        else if (R_U_Mine(tooth.extraction))
             this->tooth = ToothTextureHint::extr_m;
 
         else
@@ -60,7 +60,7 @@ ToothPaintHint::ToothPaintHint(const Tooth& tooth, const std::string& notes)
     }
     else if (tooth.implant.exists())
     {
-        if (R_U_Minee(tooth.implant))
+        if (R_U_Mine(tooth.implant))
             this->tooth = ToothTextureHint::impl_m;
         else
             this->tooth = ToothTextureHint::impl;
@@ -84,7 +84,7 @@ ToothPaintHint::ToothPaintHint(const Tooth& tooth, const std::string& notes)
 
         if (tooth.obturation.exists(i))
         {
-            if (R_U_Minee(tooth.obturation[i]))
+            if (R_U_Mine(tooth.obturation[i]))
                 surfaces[i].color = SurfaceColor::green;
             else
                 surfaces[i].color = SurfaceColor::blue;
@@ -99,7 +99,7 @@ ToothPaintHint::ToothPaintHint(const Tooth& tooth, const std::string& notes)
 
     if (tooth.endo.exists())
     {
-        if (R_U_Minee(tooth.endo)) endo = EndoHint::green;
+        if (R_U_Mine(tooth.endo)) endo = EndoHint::green;
         else endo = EndoHint::blue;
     }
     else if (tooth.pulpitis.exists())
@@ -113,14 +113,14 @@ ToothPaintHint::ToothPaintHint(const Tooth& tooth, const std::string& notes)
 
     if (tooth.crown.exists())
     {
-        R_U_Minee(tooth.crown) ?
+        R_U_Mine(tooth.crown) ?
             prostho = ProsthoHint::crown_green
             :
             prostho = ProsthoHint::crown;
     }
     else if (tooth.bridge.exists())
     {
-        R_U_Minee(tooth.bridge) ?
+        R_U_Mine(tooth.bridge) ?
             prostho = ProsthoHint::bridge_green
             :
             prostho = ProsthoHint::bridge;
@@ -129,7 +129,7 @@ ToothPaintHint::ToothPaintHint(const Tooth& tooth, const std::string& notes)
     }
     else if (tooth.splint.exists())
     {
-        R_U_Minee(tooth.splint) ?
+        R_U_Mine(tooth.splint) ?
             prostho = ProsthoHint::splint_green
             :
             prostho = ProsthoHint::splint;
@@ -140,7 +140,7 @@ ToothPaintHint::ToothPaintHint(const Tooth& tooth, const std::string& notes)
 
     else if (tooth.denture.exists())
     {
-        prostho = R_U_Minee(tooth.denture) ?
+        prostho = R_U_Mine(tooth.denture) ?
             ProsthoHint::denture_green
             :
             ProsthoHint::denture;
@@ -157,7 +157,7 @@ ToothPaintHint::ToothPaintHint(const Tooth& tooth, const std::string& notes)
 
     if (tooth.post.exists())
     {
-        R_U_Minee(tooth.post) ?
+        R_U_Mine(tooth.post) ?
             post = PostHint::green
             :
             post = PostHint::blue;

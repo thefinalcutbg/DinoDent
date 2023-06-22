@@ -493,7 +493,7 @@
     <ClCompile Include="src\View\Widgets\ProcedurePrintSelectDialog.cpp" />
     <ClCompile Include="src\View\Widgets\RecipientEditView.cpp" />
     <ClCompile Include="src\View\Widgets\ReferralDialog.cpp" />
-    <ClCompile Include="src\View\Widgets\ReportErrorDialog.cpp" />
+    <ClCompile Include="src\View\Widgets\MultilineDialog.cpp" />
     <ClCompile Include="src\View\Widgets\ReportFilesView.cpp" />
     <ClCompile Include="src\View\Widgets\ReportView.cpp" />
     <ClCompile Include="src\View\Widgets\SaveDialog.cpp" />
@@ -791,7 +791,7 @@
     <QtMoc Include="src\View\Widgets\SettingsDialog.h" />
     <QtMoc Include="src\View\Widgets\SaveDialog.h" />
     <QtMoc Include="src\View\Widgets\ReportView.h" />
-    <QtMoc Include="src\View\Widgets\ReportErrorDialog.h" />
+    <QtMoc Include="src\View\Widgets\MultilineDialog.h" />
     <QtMoc Include="src\View\Widgets\RecipientEditView.h" />
     <QtMoc Include="src\View\Widgets\ProcedurePrintSelectDialog.h" />
     <QtMoc Include="src\View\Widgets\ProcedureEditDialog.h" />
@@ -904,7 +904,7 @@
     <QtUic Include="src\View\Widgets\ProcedurePrintSelectDialog.ui" />
     <QtUic Include="src\View\Widgets\RecipientEditView.ui" />
     <QtUic Include="src\View\Widgets\ReferralDialog.ui" />
-    <QtUic Include="src\View\Widgets\ReportErrorDialog.ui" />
+    <QtUic Include="src\View\Widgets\MultilineDialog.ui" />
     <QtUic Include="src\View\Widgets\ReportFilesView.ui" />
     <QtUic Include="src\View\Widgets\ReportView.ui" />
     <QtUic Include="src\View\Widgets\SettingsDialog.ui" />

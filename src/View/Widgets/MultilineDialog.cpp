@@ -1,6 +1,6 @@
-﻿#include "ReportErrorDialog.h"
+﻿#include "MultilineDialog.h"
 
-ReportErrorDialog::ReportErrorDialog(const std::string& errors, QWidget *parent)
+MultilineDialog::MultilineDialog(const std::string& errors, QWidget *parent)
 	: QDialog(parent)
 {
 	ui.setupUi(this);
@@ -10,6 +10,6 @@ ReportErrorDialog::ReportErrorDialog(const std::string& errors, QWidget *parent)
 	connect(ui.okButton, &QPushButton::clicked, [=] {close();});
 }
 
-ReportErrorDialog::~ReportErrorDialog()
+MultilineDialog::~MultilineDialog()
 {
 }

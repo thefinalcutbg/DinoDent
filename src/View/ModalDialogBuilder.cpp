@@ -243,11 +243,11 @@ void ModalDialogBuilder::showError(const std::string& error)
 
 }
 
-#include "View/Widgets/ReportErrorDialog.h"
+#include "View/Widgets/MultilineDialog.h"
 
 void ModalDialogBuilder::showMultilineDialog(const std::string& errors)
 {
-	ReportErrorDialog d(errors);
+	MultilineDialog d(errors);
 	d.exec();
 }
 

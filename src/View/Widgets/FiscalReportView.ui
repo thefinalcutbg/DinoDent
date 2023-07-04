@@ -19,7 +19,7 @@
      <item>
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>Месец на описа:</string>
+        <string>Месец на отчета:</string>
        </property>
       </widget>
      </item>

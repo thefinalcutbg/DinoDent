@@ -26,7 +26,7 @@ void FiscalReportPresenter::generateDescription()
 	}
 
 	ModalDialogBuilder::showMessage(
-		"Запазете документа в PDF формат, подпишете го електронно и го изпратете от сайта на ПИС"
+		"Запазете документа, подпишете го електронно и го изпратете от сайта на ПИС"
 	);
 
 	auto filepath = ModalDialogBuilder::getFilePath(getFilename());

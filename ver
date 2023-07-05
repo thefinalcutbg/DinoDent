@@ -1,6 +1,6 @@
 {
 	"win64": {
-		"ver": "1.3.4",
+		"ver": "1.3.5",
 		"dl": "https://github.com/thefinalcutbg/DinoDent/releases/download/v1.3.5/DinoDentSetup.exe",
 		"changeLog": [
 			"Услугата за извличане на актуален статус е изцяло пренаписана, за да компенсира връщането на грешен актуален статус от НЗИС",

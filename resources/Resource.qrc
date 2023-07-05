@@ -122,5 +122,6 @@
         <file>db_migrateTo10.txt</file>
         <file>db_migrateTo11.txt</file>
         <file>db_migrateTo12.txt</file>
+        <file>db_migrateTo13.txt</file>
     </qresource>
 </RCC>

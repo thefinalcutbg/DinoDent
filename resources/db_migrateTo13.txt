@@ -1,0 +1,2 @@
+UPDATE procedure SET surface_o=1 WHERE code='D-02-001' AND surface_o=0 AND surface_m=0 AND surface_d=0 AND surface_b=0 AND surface_l=0 AND surface_c=0;
+PRAGMA user_version = 13;

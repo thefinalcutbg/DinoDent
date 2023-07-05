@@ -13,3 +13,15 @@ void DbUpdates::update12()
 		db.execute(query);
 	}
 }
+
+void DbUpdates::update13()
+{
+	if (Db::version() != 13) return;
+
+	Db db;
+
+	for (auto& query : Resources::getMigrationScript(13))
+	{
+		db.execute(query);
+	}
+}

@@ -16,7 +16,7 @@ void DbUpdates::update12()
 
 void DbUpdates::update13()
 {
-	if (Db::version() != 13) return;
+	if (Db::version() != 12) return;
 
 	Db db;
 

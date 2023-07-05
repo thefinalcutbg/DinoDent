@@ -1610,6 +1610,9 @@
     <ClInclude Include="src\View\Interfaces\IFiscalReportView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\View\TableModels\KSMPModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\SubWidgets\ContextMenu.h">
@@ -1631,9 +1634,6 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\TableModels\FinancialTableModel.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="src\View\TableModels\KSMPModel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\TableModels\MonthNotifTableModel.h">

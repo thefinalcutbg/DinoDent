@@ -79,7 +79,7 @@ namespace ModalDialogBuilder
 	std::string pinPromptDialog(const std::string& pem);
 	std::optional<ProcedureCode> procedureCodeDialog();
 	//returns empty string if canceled
-	std::string ksmpDialog(KsmpList& list, const std::string& preSelectCode = {});
+	//std::string ksmpDialog(KsmpList& list, const std::string& preSelectCode = {});
 	void pisDialog(MonthNotifPresenter* presenter);
 	std::string inputDialog(const std::string& text, const std::string& title, const std::string& input = {}, bool asPassword = false);
 	void saveFile(const std::string& data, const std::string& filename);

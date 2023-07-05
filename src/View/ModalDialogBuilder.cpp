@@ -413,7 +413,7 @@ std::optional<ProcedureCode> ModalDialogBuilder::procedureCodeDialog()
 	return result.empty() ? std::optional<ProcedureCode>{} : result;
 }
 
-
+/*
 #include "View/TableModels/KSMPModel.h"
 std::string ModalDialogBuilder::ksmpDialog(KsmpList& list, const std::string& preSelectCode)
 {
@@ -425,7 +425,7 @@ std::string ModalDialogBuilder::ksmpDialog(KsmpList& list, const std::string& pr
 
 	return d.getResult();
 }
-
+*/
 #include "View/Widgets/PisDialog.h"
 
 void ModalDialogBuilder::pisDialog(MonthNotifPresenter* presenter)

@@ -1,4 +1,5 @@
 #pragma once
+/*
 #include <QAbstractTableModel>
 #include "Model/Dental/KSMP.h"
 
@@ -18,4 +19,4 @@ public:
 	int columnCount(const QModelIndex& parent = QModelIndex()) const override { return 6; }
 	int getRowFromCode(const std::string& code);
 };
-
+*/

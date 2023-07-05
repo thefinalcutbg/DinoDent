@@ -1,4 +1,5 @@
 #pragma once
+/*
 #include <utility>
 #include <string>
 #include <vector>
@@ -27,3 +28,5 @@ struct KSMP
 };
 
 typedef const std::vector<const KSMP*> KsmpList;
+
+*/

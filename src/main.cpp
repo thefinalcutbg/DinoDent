@@ -74,7 +74,7 @@ bool initFunction() {
     Diagnosis::initialize();
     NhifProcedures::initialize(); //parsing json of nhif data
     Medication::initialize();
-    KSMP::initialize();
+   // KSMP::initialize();
     Ekatte::initialize();
     MKB::initialize();
     User::initialize();

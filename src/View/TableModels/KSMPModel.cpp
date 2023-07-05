@@ -1,7 +1,7 @@
 ﻿#include "KSMPModel.h"
 
 
-
+/*
 QVariant KSMPModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (role == Qt::DisplayRole)
@@ -62,3 +62,4 @@ int KSMPModel::getRowFromCode(const std::string& code)
 
     return -1;
 }
+*/

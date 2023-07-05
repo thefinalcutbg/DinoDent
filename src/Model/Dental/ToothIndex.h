@@ -25,7 +25,7 @@ struct ToothIndex {
 template<>
 struct std::hash<ToothIndex>
 {
-    std::size_t operator()(ToothIndex const& i) const noexcept
+    int operator()(ToothIndex const& i) const noexcept
     {
         if (!i.isValid()) return 99;
 

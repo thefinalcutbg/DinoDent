@@ -2,7 +2,7 @@
 #include "Database/DbPractice.h"
 #include "View/ModalDialogBuilder.h"
 #include "Presenter/PracticeDialogPresenter.h"
-#include "Path.h"
+#include "GlobalSettings.h"
 #include "Database/Database.h"
 #include "DbUpdates/Updater.h"
 
@@ -20,7 +20,7 @@ void PracticeManagerPresenter::setView(IPracticeSelectorView* view)
 	for (auto& p : practices) { practiceNames.push_back(p.name); }
 
 	view->setPracticeList(practiceNames);
-	view->setDbPath(Path::getDbPath());
+	view->setDbPath(GlobalSettings::getDbPath());
 }
 
 void PracticeManagerPresenter::addClicked()
@@ -115,7 +115,7 @@ void PracticeManagerPresenter::editClicked(int idx)
 
 void PracticeManagerPresenter::dbChangePath()
 {
-	auto pathResult = Path::setDbPath();
+	auto pathResult = GlobalSettings::setDbPath();
 
 	if (pathResult.empty()) return;
 

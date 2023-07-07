@@ -52,11 +52,13 @@ int main(int argc, char *argv[])
 #include "Model/Dental/MKB.h"
 #include "Model/Ekatte.h"
 #include "DbUpdates/Updater.h"
-#include "Path.h"
+#include "GlobalSettings.h"
 
 bool initFunction() {
 
-    Db::setFilePath(Path::getDbPath());
+    GlobalSettings::createCfgIfNotExists();
+
+    Db::setFilePath(GlobalSettings::getDbPath());
 
     if (!Db::createIfNotExist()) {
 
@@ -74,7 +76,7 @@ bool initFunction() {
     Diagnosis::initialize();
     NhifProcedures::initialize(); //parsing json of nhif data
     Medication::initialize();
-   // KSMP::initialize();
+    //KSMP::initialize();
     Ekatte::initialize();
     MKB::initialize();
     User::initialize();

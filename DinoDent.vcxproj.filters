@@ -723,7 +723,7 @@
     <ClCompile Include="src\Presenter\PracticeManagerPresenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Path.cpp">
+    <ClCompile Include="src\GlobalSettings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Network\UpdateService\UpdateService.cpp">
@@ -1502,7 +1502,7 @@
     <ClInclude Include="src\View\Interfaces\IPracticeSelectorView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Path.h">
+    <ClInclude Include="src\GlobalSettings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Network\UpdateService\UpdateService.h">

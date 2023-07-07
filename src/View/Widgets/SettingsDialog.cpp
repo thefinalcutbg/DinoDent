@@ -1,6 +1,7 @@
 ﻿#include "SettingsDialog.h"
 #include <QPainter>
-
+#include <QFileDialog>
+#include "GlobalSettings.h"
 
 SettingsDialog::SettingsDialog(QDialog*parent)
 	: QDialog(parent)
@@ -15,10 +16,45 @@ SettingsDialog::SettingsDialog(QDialog*parent)
 	connect(ui.cancelButton, &QPushButton::clicked, [&] {close();});
 	connect(ui.okButton, &QPushButton::clicked, [&] {presenter.okPressed();});
 	connect(ui.updateMedButton, &QPushButton::clicked, [&] {presenter.updateMedications();});
+	connect(ui.addPkcs11, &QPushButton::clicked, [&] {
+		
+		auto str = QFileDialog::getOpenFileName(
+			nullptr,
+			"Изберете PKCS11 драйвър",
+			"", " (*.dll)"
+		);
+
+		if (str.isEmpty()) return;
+
+		ui.pkcs11list->addItem(str.toUtf8());
+
+	});
+
+	connect(ui.removePkcs11, &QPushButton::clicked, [&] {
+
+		QList<QListWidgetItem*> items = ui.pkcs11list->selectedItems();
+
+		for(QListWidgetItem* item : items)
+		{
+			delete ui.pkcs11list->takeItem(ui.pkcs11list->row(item));
+		}
+
+	});
+
+	connect(ui.resetDefault, &QPushButton::clicked, [&]{
+
+		ui.pkcs11list->clear();
+
+		auto paths = GlobalSettings::getDefaultPkcs11Paths();
+
+		for (auto& p : paths) ui.pkcs11list->addItem(p.c_str());
+
+	});
+
+
 	ui.practiceSettings->hidePassword();
 
 	presenter.setView(this);
-
 	
 }
 
@@ -51,6 +87,23 @@ void SettingsDialog::setUpdateDate(DynamicNum num, const Date& date)
 		ui.medUpdateLabel->setText(dateStr);
 		break;
 	}
+}
+
+void SettingsDialog::setPkcs11List(const std::vector<std::string>& list)
+{
+	ui.pkcs11list->clear();
+
+	for (auto& path : list) ui.pkcs11list->addItem(path.c_str());
+}
+
+std::vector<std::string> SettingsDialog::getPkcs11List()
+{
+	std::vector<std::string> result;
+
+	for (int i = 0; i < ui.pkcs11list->count(); i++)
+		result.push_back(ui.pkcs11list->item(i)->text().toUtf8().toStdString());
+
+	return result;
 }
 
 void SettingsDialog::paintEvent(QPaintEvent* event)

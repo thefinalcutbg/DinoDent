@@ -21,6 +21,9 @@ public:
 	void setSettings(const Settings& settings) override;
 	Settings getSettings() override;
 	void setUpdateDate(DynamicNum num, const Date& date) override;
+	virtual void setPkcs11List(const std::vector<std::string>& list) override;
+	std::vector<std::string> getPkcs11List() override;
+
 	~SettingsDialog();
 
 private:

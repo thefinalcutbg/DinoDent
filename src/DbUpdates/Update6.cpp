@@ -5,9 +5,9 @@
 #include <QFile>
 #include "View/Widgets/UpdateDialog.h"
 #include "View/ModalDialogBuilder.h"
-#include "Path.h"
 #include "Model/FreeFunctions.h"
 #include "Resources.h"
+
 void DbUpdates::update6(UpdateDialog& dialogProgress)
 {
 	if (Db::version() != 5) return;

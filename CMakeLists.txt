@@ -62,9 +62,9 @@ add_library(
 )
 
 set(SOURCES
+src\GlobalSettings.cpp
+src\GlobalSettings.h
 src\main.cpp
-src\Path.cpp
-src\Path.h
 src\QtVersion.h
 src\Resources.cpp
 src\Resources.h

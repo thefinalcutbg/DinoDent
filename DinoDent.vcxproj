@@ -251,7 +251,7 @@
     <ClCompile Include="src\Network\NRA\NssiPentionService.cpp" />
     <ClCompile Include="src\Network\PIS\ReportFilesService.cpp" />
     <ClCompile Include="src\Network\UpdateService\UpdateService.cpp" />
-    <ClCompile Include="src\Path.cpp" />
+    <ClCompile Include="src\GlobalSettings.cpp" />
     <ClCompile Include="src\Presenter\DosagePresenter.cpp" />
     <ClCompile Include="src\Presenter\FiscalReceiptPresenter.cpp" />
     <ClCompile Include="src\Presenter\FiscalReportPresenter.cpp" />
@@ -532,7 +532,7 @@
     <ClInclude Include="src\Network\HIS\HISHistoryAlgorithms.h" />
     <ClInclude Include="src\Network\NRA\NssiPentionService.h" />
     <ClInclude Include="src\Network\UpdateService\UpdateService.h" />
-    <ClInclude Include="src\Path.h" />
+    <ClInclude Include="src\GlobalSettings.h" />
     <ClInclude Include="src\Model\Dental\ReportFile.h" />
     <ClInclude Include="src\Model\DynamicNum.h" />
     <ClInclude Include="src\Model\Prescription\Dispensation.h" />

@@ -18,5 +18,7 @@ public:
 	virtual void setSettings(const Settings& settings) = 0;
 	virtual Settings getSettings() = 0;
 	virtual void setUpdateDate(DynamicNum num, const Date& date) = 0;
+	virtual void setPkcs11List(const std::vector<std::string>& list) = 0;
+	virtual std::vector<std::string> getPkcs11List() = 0;
 	
 };

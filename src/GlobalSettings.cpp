@@ -42,32 +42,28 @@ void GlobalSettings::createCfgIfNotExists()
     //creating the user data folder
     if (!dataFolder.exists()) dataFolder.mkpath(".");
 
-    std::string dbPath = dataFolder.filePath("database.db").toUtf8().toStdString();
-
-    //getting db from the old cfg and removing it
-    QFile old_cfg(dataFolder.filePath("dinocfg.txt"));
-
-    
-    if (old_cfg.exists()) {
-
-        old_cfg.open(QIODevice::ReadOnly);
-
-        QByteArray path;
-
-        while (!old_cfg.atEnd())
-        {
-            dbPath = old_cfg.readLine().toStdString();
-        }
-
-        old_cfg.close();
-
-        old_cfg.remove();
-    }
 
     QFile cfg(dataFolder.filePath("config.json"));
 
     //creating the config file
     if (!cfg.exists()) {
+
+        std::string dbPath = dataFolder.filePath("database.db").toUtf8().toStdString();
+
+                //getting db from the old cfg
+                QFile old_cfg(dataFolder.filePath("dinocfg.txt"));
+
+                if (old_cfg.exists()) {
+
+                    old_cfg.open(QIODevice::ReadOnly);
+
+                    while (!old_cfg.atEnd())
+                    {
+                        dbPath = old_cfg.readLine().toStdString();
+                    }
+
+                    old_cfg.close();
+                }
 
         Json::Value settings;
         
@@ -98,7 +94,7 @@ std::string GlobalSettings::getDbPath()
     
     Json::Reader().parse(f, settings);
 
-    return dir.absoluteFilePath(settings["db_path"].asCString()).toStdString();
+    return settings["db_path"].asString();
 }
 
 
@@ -125,7 +121,7 @@ std::string GlobalSettings::setDbPath()
     cfg.write(Json::StyledWriter().write(settings).c_str());
     cfg.close();
 
-    return str.toStdString();
+    return str.toUtf8().toStdString();
 }
 
 std::vector<std::string> GlobalSettings::getDefaultPkcs11Paths()

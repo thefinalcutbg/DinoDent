@@ -255,10 +255,18 @@ Db::~Db()
     }
 }
 
-#include <qdebug.h>
+#include <QFileInfo>
+#include <QDir>
+
 bool Db::createIfNotExist()
 {
-    if (std::filesystem::exists(dbLocation)) return true;
+    //if (std::filesystem::exists(dbLocation)) return true;
+    
+    QFileInfo db_path(dbLocation.c_str());
+    if (db_path.exists() && db_path.isFile()) return true;
+
+    QDir d = db_path.absoluteDir();
+    d.mkpath(d.absolutePath());
 
     Db db;
 

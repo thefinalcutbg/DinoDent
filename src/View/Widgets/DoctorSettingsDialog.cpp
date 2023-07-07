@@ -70,6 +70,8 @@ void DoctorSettingsDialog::setDoctor(const Doctor& doctor)
 	ui.passEdit->set_Text(doctor.pass);
 	ui.severalRHIFcheck->setChecked(doctor.severalRHIF);
 
+	if (doctor.pass.empty()) ui.passEdit->setEchoMode(QLineEdit::Normal);
+
 	auto specialtyName = doctor.hisSpecialty.getName();
 
 	ui.specialtyButton->setText(

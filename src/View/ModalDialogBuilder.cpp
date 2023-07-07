@@ -437,12 +437,19 @@ void ModalDialogBuilder::pisDialog(MonthNotifPresenter* presenter)
 
 #include "View/Widgets/InputDialog.h"
 
-std::string ModalDialogBuilder::inputDialog(const std::string& text, const std::string& title, const std::string& input, bool asPassword)
+std::string ModalDialogBuilder::inputDialog(
+	const std::string& text, 
+	const std::string& title, 
+	const std::string& input, 
+	bool asPassword, 
+	bool emptyNotAllowed
+)
 {
 	InputDialog d(asPassword);
 	d.setLabel(text);
 	d.setTitle(title);
 	d.setInput(input);
+	d.enableNotEmptyValidator(emptyNotAllowed);
 	d.exec();
 	return d.result();
 }

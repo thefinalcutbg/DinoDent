@@ -16,13 +16,16 @@ void InputDialog::setInput(const std::string& input)
 	ui.lineEdit->setText(input.c_str());
 }
 
+void InputDialog::enableNotEmptyValidator(bool enable)
+{
+	ui.lineEdit->setInputValidator(enable ? &validator : nullptr);
+}
+
 InputDialog::InputDialog(bool password, QWidget *parent) : QDialog(parent)
 {
 	ui.setupUi(this);
 
 	if (password) ui.lineEdit->setEchoMode(QLineEdit::Password);
-
-	ui.lineEdit->setInputValidator(&validator);
 
 	connect(ui.okButton, &QPushButton::clicked, [&] { 
 

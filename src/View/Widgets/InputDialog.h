@@ -19,6 +19,7 @@ public:
 	void setLabel(const std::string& label);
 	void setTitle(const std::string& title);
 	void setInput(const std::string& input);
+	void enableNotEmptyValidator(bool enable);
 
 	//returns empty string if canceled
 	std::string result();

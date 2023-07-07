@@ -81,7 +81,7 @@ namespace ModalDialogBuilder
 	//returns empty string if canceled
 	//std::string ksmpDialog(KsmpList& list, const std::string& preSelectCode = {});
 	void pisDialog(MonthNotifPresenter* presenter);
-	std::string inputDialog(const std::string& text, const std::string& title, const std::string& input = {}, bool asPassword = false);
+	std::string inputDialog(const std::string& text, const std::string& title, const std::string& input = {}, bool asPassword = false, bool emptyNotAllowed = true);
 	void saveFile(const std::string& data, const std::string& filename);
 	std::optional<std::string> openFile();
 	std::optional<std::string> getFilePath(const std::string& filename);

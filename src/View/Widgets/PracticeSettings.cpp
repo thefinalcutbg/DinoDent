@@ -115,6 +115,8 @@ void PracticeSettings::setPractice(const Practice& practice)
 	ui.passEdit->setText(QString::fromStdString(practice.pass));
 	ui.selfInsuredId->setText(QString::fromStdString(practice.selfInsuredId));
 	
+	if (practice.pass.empty()) ui.passEdit->setEchoMode(QLineEdit::Normal);
+
 	ui.nzokGroup->setChecked(practice.nhif_contract.has_value());
 	if (practice.nhif_contract) {
 		ui.contractEdit->setText(QString::fromStdString(practice.nhif_contract.value().contract_no));

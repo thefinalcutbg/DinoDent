@@ -882,6 +882,9 @@
     <ClCompile Include="src\DbUpdates\Update12and13.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Network\HIS\HISHistoryAlgorithms.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Database\Database.h">
@@ -1611,6 +1614,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\TableModels\KSMPModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Network\HIS\HISHistoryAlgorithms.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -311,16 +311,27 @@ void ListPresenter::setDataToView()
 
         if (User::settings().getHisHistoryAuto) {
             
-            auto callback = [&](const std::optional<std::vector<Procedure>>& result) {
+            auto callback = [&](const std::optional<std::vector<Procedure>>& result, const ToothContainer& teeth) {
 
                 if (!result) return;
 
                 auto& procedures = result.value();
 
                 patient->HISHistory = procedures;
+
+                if (!m_ambList.isNew()) return;
+
+                m_ambList.teeth.copyOnlyOnUnknown(teeth);
+
+                for (int i = 0; i < 32; i++)
+                {
+                    view->repaintTooth(ToothPaintHint{ m_ambList.teeth[i], patient->teethNotes[i] });
+                }
+
+                
             };
 
-            eDentalGetProcedures.sendRequest(*patient, false, callback);
+            eDentalGetStatusAndProceduresService.sendRequest(*patient, false, callback);
 
         }
 
@@ -488,7 +499,7 @@ void ListPresenter::setSelectedTeeth(const std::vector<int>& SelectedIndexes)
 void ListPresenter::historyRequested()
 {
     if (dentalActService.awaitingReply() ||
-        eDentalGetProcedures.awaitingReply())
+        eDentalGetStatusAndProceduresService.awaitingReply())
     {
         ModalDialogBuilder::showMessage("Моля изчакайте, очаква се отговор от сървъра");
         return;

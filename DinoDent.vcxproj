@@ -246,6 +246,7 @@
     <ClCompile Include="src\Network\HIS\EDental.cpp" />
     <ClCompile Include="src\Network\HIS\EPrescription.cpp" />
     <ClCompile Include="src\Network\HIS\EReferral.cpp" />
+    <ClCompile Include="src\Network\HIS\HISHistoryAlgorithms.cpp" />
     <ClCompile Include="src\Network\HIS\UpdateMkb.cpp" />
     <ClCompile Include="src\Network\NRA\NssiPentionService.cpp" />
     <ClCompile Include="src\Network\PIS\ReportFilesService.cpp" />
@@ -528,6 +529,7 @@
     <ClInclude Include="src\Model\Specialty.h" />
     <ClInclude Include="src\Network\HIS\EDental.h" />
     <ClInclude Include="src\Network\HIS\EReferral.h" />
+    <ClInclude Include="src\Network\HIS\HISHistoryAlgorithms.h" />
     <ClInclude Include="src\Network\NRA\NssiPentionService.h" />
     <ClInclude Include="src\Network\UpdateService\UpdateService.h" />
     <ClInclude Include="src\Path.h" />

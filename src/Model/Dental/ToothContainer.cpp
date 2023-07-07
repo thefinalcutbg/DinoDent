@@ -105,6 +105,16 @@ void ToothContainer::copyFromOther(const ToothContainer& other)
 	}
 }
 
+void ToothContainer::copyOnlyOnUnknown(const ToothContainer& other)
+{
+	for (int i = 0; i < teethCount; i++)
+	{
+		if (this->at(i).noData()) {
+			this->at(i) = other.at(i);
+		}
+	}
+}
+
 bool ToothContainer::canResultInNonRetainedConstruction(int status)
 {
 	return	

@@ -43,7 +43,7 @@ class ListPresenter : public TabInstance
     EDental::Open eDentalOpenService;
     EDental::Cancel eDentalCancelService;
     EDental::Augment eDentalAugmentService;
-    EDental::GetProcedures eDentalGetProcedures;
+    EDental::GetStatusAndProcedures eDentalGetStatusAndProceduresService;
     EReferral::Issue eReferralIssueService;
     EReferral::Cancel eReferralCancelService;
 

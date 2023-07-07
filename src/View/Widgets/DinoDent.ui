@@ -142,7 +142,7 @@
        </widget>
       </item>
       <item>
-       <widget class="IconButton" name="listSelectButton">
+       <widget class="IconButton" name="browserButton">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -162,7 +162,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>Отвори документи</string>
+         <string>Документация</string>
         </property>
         <property name="text">
          <string>Open</string>

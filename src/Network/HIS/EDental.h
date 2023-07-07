@@ -93,4 +93,21 @@ namespace EDental {
 
 		bool awaitingReply() { return awaiting_reply; }
 	};
+
+	//returns procedures AND status
+	class GetStatusAndProcedures : private HisService
+	{
+
+		std::function<void(const std::optional<std::vector<Procedure>>& procedures, const ToothContainer& teeth)> m_callback;
+
+		void parseReply(const std::string& reply) override;
+
+	public:
+		GetStatusAndProcedures() :
+			HisService("D009", "/v1/edental/status/get") {}
+
+		bool sendRequest(const Patient& patient, bool showDialogs, decltype(m_callback) callback);
+
+		bool awaitingReply() { return awaiting_reply; }
+	};
 }

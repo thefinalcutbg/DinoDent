@@ -10,7 +10,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
-#Remove the comment below and enter qt directory as shown:
+# Enter your QT directory:
 set(CMAKE_PREFIX_PATH C:/Dev/Qt/6.3.1/msvc2019_64)
 
 # Add a compiler flag
@@ -105,7 +105,7 @@ src\DbUpdates\DbUpdates.cpp
 src\DbUpdates\DbUpdates.h
 src\DbUpdates\Update10.cpp
 src\DbUpdates\Update11.cpp
-src\DbUpdates\Update12.cpp
+src\DbUpdates\Update12and13.cpp
 src\DbUpdates\Update5.cpp
 src\DbUpdates\Update6.cpp
 src\DbUpdates\Update7.cpp
@@ -269,6 +269,8 @@ src\Network\HIS\EReferral.cpp
 src\Network\HIS\EReferral.h
 src\Network\HIS\GetNumenclature.cpp
 src\Network\HIS\GetNumenclature.h
+src\Network\HIS\HISHistoryAlgorithms.cpp
+src\Network\HIS\HISHistoryAlgorithms.h
 src\Network\HIS\HisService.cpp
 src\Network\HIS\HisService.h
 src\Network\HIS\HisToken.cpp

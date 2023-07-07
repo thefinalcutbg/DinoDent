@@ -29,6 +29,7 @@ public:
 	std::vector<const Tooth*> getSelectedDsnPtr(std::vector<int> selectedIndexes) const;
 
 	void copyFromOther(const ToothContainer& other);
+	void copyOnlyOnUnknown(const ToothContainer& other);
 
 	//takes in consideration
 	void setToothDetails(const Tooth& tooth);

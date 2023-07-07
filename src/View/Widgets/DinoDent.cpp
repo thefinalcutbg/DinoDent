@@ -23,7 +23,7 @@ DinoDent::DinoDent(QWidget* parent)
     ui.perioButton->setIcon(QIcon(":/icons/icon_periosheet.png"));
     ui.perscrButton->setIcon(QIcon(":/icons/icon_prescr.png"));
     ui.saveButton->setIcon(QIcon(":/icons/icon_save.png"));
-    ui.listSelectButton->setIcon(QIcon(":/icons/icon_open.png"));
+    ui.browserButton->setIcon(QIcon(":/icons/icon_open.png"));
     ui.printButton->setIcon(QIcon(":/icons/icon_print.png"));
     ui.pisButton->setIcon(QIcon(":/icons/icon_nhif.png"));
     ui.settingsButton->setIcon(QIcon(":/icons/icon_settings.png"));
@@ -47,7 +47,7 @@ DinoDent::DinoDent(QWidget* parent)
 
     connect(ui.newButton, &QPushButton::clicked, [&] { MainPresenter::get().newAmbPressed(); });
     connect(ui.saveButton, &QPushButton::clicked, [&] { MainPresenter::get().save(); });
-    connect(ui.listSelectButton, &QPushButton::clicked, [&] { MainPresenter::get().showBrowser(); });
+    connect(ui.browserButton, &QPushButton::clicked, [&] { MainPresenter::get().showBrowser(); });
     connect(ui.perscrButton, &QPushButton::clicked, [&] { MainPresenter::get().newPerscriptionPressed(); });
     connect(ui.printButton, &QPushButton::clicked, [&] { MainPresenter::get().printPressed(); });
     connect(ui.perioButton, &QPushButton::clicked, [&] { MainPresenter::get().newPerioPressed(); });

@@ -9,7 +9,6 @@
 #include <QPainter>
 
 #include "Network/NetworkManager.h"
-#include "Path.h"
 #include "View/ModalDialogBuilder.h"
 
 UpdateDownloader::UpdateDownloader(const char* url, QWidget* parent)

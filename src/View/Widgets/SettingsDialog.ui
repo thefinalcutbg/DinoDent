@@ -49,7 +49,7 @@
            <item>
             <widget class="QGroupBox" name="groupBox">
              <property name="title">
-              <string>Нов амбулаторен лист</string>
+              <string>При отваряне на амбулаторен лист</string>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_2">
               <item>

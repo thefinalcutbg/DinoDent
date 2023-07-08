@@ -52,18 +52,21 @@ void PracticeManagerPresenter::removeClicked(int idx)
 		)
 	) return;
 
-	auto passGuess = ModalDialogBuilder::inputDialog(
-		"Въведете парола на практиката",
-		"Редактиране на практика",
-		"",
-		true,
-		false
-	);
-
-	if (passGuess != practices[idx].pass)
+	if (practices[idx].pass.size())
 	{
-		ModalDialogBuilder::showError("Грешна парола!");
-		return;
+		auto passGuess = ModalDialogBuilder::inputDialog(
+			"Въведете парола на практиката",
+			"Редактиране на практика",
+			"",
+			true,
+			false
+		);
+
+		if (passGuess != practices[idx].pass)
+		{
+			ModalDialogBuilder::showError("Грешна парола!");
+			return;
+		}
 	}
 
 	DbPractice::deletePractice(practices[idx].rzi);
@@ -79,18 +82,21 @@ void PracticeManagerPresenter::editClicked(int idx)
 {
 	if (idx < 0 && idx >= practices.size()) return;
 
-	auto passGuess = ModalDialogBuilder::inputDialog(
-		"Въведете парола на практиката",
-		"Редактиране на практика",
-		"",
-		true,
-		false
-	);
-
-	if (passGuess != practices[idx].pass)
+	if (practices[idx].pass.size())
 	{
-		ModalDialogBuilder::showError("Грешна парола!");
-		return;
+		auto passGuess = ModalDialogBuilder::inputDialog(
+			"Въведете парола на практиката",
+			"Редактиране на практика",
+			"",
+			true,
+			false
+		);
+
+		if (passGuess != practices[idx].pass)
+		{
+			ModalDialogBuilder::showError("Грешна парола!");
+			return;
+		}
 	}
 
 	view->closeDialog();

@@ -168,6 +168,8 @@ void GlobalSettings::setPkcs11PathList(const std::vector<std::string> list)
 
     Json::Reader().parse(f, settings);
 
+    f.close();
+
     settings["pkcs11_path"].clear();
 
     for (auto& m : list)  settings["pkcs11_path"].append(m);

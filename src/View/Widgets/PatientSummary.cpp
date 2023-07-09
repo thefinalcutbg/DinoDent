@@ -2,6 +2,7 @@
 #include <QPainter>
 #include "Presenter/PatientSummaryPresenter.h"
 #include "View/Theme.h"
+#include "View/uiComponents/MouseWheelGuard.h"
 #include <QButtonGroup>
 
 PatientSummary::PatientSummary(QWidget *parent)
@@ -41,6 +42,7 @@ PatientSummary::PatientSummary(QWidget *parent)
 	ui.procedureTable->setModel(&m_procedureModel);
 	ui.procedureTable->setProcedureHistoryLayout();
 	ui.dateSlider->setTickPosition(QSlider::TickPosition::TicksBelow);
+	ui.dateSlider->installEventFilter(new MouseWheelGuard(ui.dateSlider));
 /*
 	auto getDateFromView = [=] {
 		auto f = ui.dateFrom->date();
@@ -230,7 +232,7 @@ void PatientSummary::setToothInfo(const ToothInfoStr& info)
 
 	if (info.notes.size()) {
 		ui.toothNotes->setText(
-			"<b>Бележки:</b><br>" +
+			"<b><br>Бележки:</b> " +
 			QString::fromStdString(info.notes)
 		);
 	}

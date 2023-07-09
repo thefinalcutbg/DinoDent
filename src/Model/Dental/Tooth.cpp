@@ -184,6 +184,57 @@ std::vector<std::string> Tooth::getSimpleStatuses() const
 	return simpleStatus;
 }
 
+std::vector<std::string> Tooth::getHISStatus() const
+{
+	std::vector<std::string> statuses;
+
+	static constexpr std::array<const char*, surfaceCount> cariesNum{ "Co", "Cm", "Cd", "Cb", "Cl" , "Cc" };
+	static constexpr std::array<const char*, surfaceCount> obturationNum{ "Oo", "Om", "Od", "Ob", "Ol", "Oc" };
+	static constexpr std::array<const char*, mobilityCount> mobilityNum{ "M1", "M2", "M3" };
+	std::array<const char*, statusCount> status;
+
+	status[StatusCode::Healthy] = "H";
+	status[StatusCode::Temporary] = "";
+	status[StatusCode::Obturation] = "";
+	status[StatusCode::Caries] = "";
+	status[StatusCode::Pulpitis] = "P";
+	status[StatusCode::ApicalLesion] = "G";
+	status[StatusCode::Root] = "R";
+	status[StatusCode::Extraction] = "E";
+	status[StatusCode::Crown] = "K";
+	status[StatusCode::Bridge] = canHaveACrown() ? "Kb" : "B";
+	status[StatusCode::Denture] = "X";
+	status[StatusCode::Periodontitis] = "Pa";
+	status[StatusCode::Mobility] = "";
+	if (mobility) {
+		status[StatusCode::Mobility] = mobilityNum[static_cast<int>(mobility.degree)];
+	}
+	status[StatusCode::Fracture] = "F";
+	status[StatusCode::Implant] = "I";
+	status[StatusCode::Dsn] = "D";
+	status[StatusCode::Impacted] = "Re";
+	status[StatusCode::EndoTreatment] = "Rc";
+	status[StatusCode::Post] = "Rp";
+	status[StatusCode::FiberSplint] = "S";
+	status[StatusCode::Calculus] = "T";
+
+	auto boolStatus = getBoolStatus();
+
+	for (int i = 0; i < surfaceCount; i++) {
+
+		if (caries.exists(i)) statuses.push_back(cariesNum[i]);
+		if (obturation.exists(i)) statuses.push_back(obturationNum[i]);
+
+	}
+
+	for (int i = 0; i < statusCount; i++) {
+		if (i == StatusCode::Caries || i == StatusCode::Obturation || i == StatusCode::Temporary) continue;
+		if (boolStatus[i]) statuses.push_back(status[i]);
+	}
+
+	return statuses;
+}
+
 bool Tooth::noData() const
 {
 	for (auto status : getBoolStatus()) {
@@ -454,106 +505,81 @@ bool Tooth::canHaveACrown() const
 	return !extraction && !root && !impacted && !denture;
 }
 
-
 std::string Tooth::getToothInfo() const
 {
+	auto status = getBoolStatus();
 
 	std::string result;
 
-	if (dsn) result.append("<br><b>Свръхброен</b><br>");
-	if (impacted) result.append("<br><b>Ретениран/в пробив</b><br>");
-	
+	result.reserve(200);
 
-	if (endo) result.append("<br><b>Девитализиран</b><br>");
+	for (int i = 0; i < status.size(); i++)
+	{
+		if (status[i] && i != StatusCode::Mobility) {
 
-	if (obturation) {
-		result.append("<br><b>Обтурация</b><br>");
-		result.append(obturation.getInfo(index));
-	}
-
-	if (splint) {
-		extraction ?
-			result.append("<br><b>Възстановен с фибромост</b><br>")
-			:
-			result.append("<br><b>Шиниран с фибровлакно</b><br>");
-
-		//result.append(splint.data.infoStr());
-	}
-
-	if (post) {
-
-		//if (post.data.type.getIndex() == 0) {
-			result.append("<br><b>Радикуларен щифт</b><br>");
-		//}
-		//else
-		//{
-		//	result.append("<br><b>" + post.data.type.getName() + "</b><br>");
-		//}
-
-	}
-	
-
-	if (caries) {
-		result.append("<br><b><font color=\"red\">Кариес</font></b><br>");
-		result.append(caries.getInfo(index));
-	}
-
-	if (crown) {
-		result.append("<br><br><b>Корона</b><br>");
-		//result.append(crown.data.infoStr());
-	}
-
-	if (bridge) {
-		
-		extraction || root || impacted ?
-			result.append("<br><b>Мостово тяло</b><br>")
-			:
-			result.append("<br><b>Мостоносител</b><br>");
-
-		//result.append(bridge.data.infoStr());
-	}
-	else if (extraction) {
-		result.append("<br><b>Екстрахиран</b><br>");
-	}
-
-	if (implant) {
-		result.append("<br><b>Имплант</b><br>");
-	
-	}
-
-	if(pulpitis.exists()) result.append("<br>" + pulpitis.info());
-	if (lesion.exists()) result.append("<br>" + lesion.info());
-	if (fracture.exists()) result.append("<br>" + fracture.info());
-	if (root.exists()) result.append("<br>" + root.info());
-	//FIX PATHOLOGY!!!
-	/*
-	std::array<const Pathology*, 4> pato{
-		&pulpitis, &lesion, &fracture, &root
-	};
-
-	for (auto p : pato) {
-		if (!p->exists()) continue;
-
-		result.append("<br>"+ p->info());
-	}
-	*/
-	if (periodontitis) { result.append("<br><b><font color=\"red\">Пародонтит</font></b><br>");
-}
-	if (mobility) {
-
-		result.append("<br><b><font color = \"red\">");
-
-		switch (mobility.degree) {
-			case Degree::First: result.append("Първа степен подвижност"); break;
-			case Degree::Second: result.append("Втора степен подвижност"); break;
-			case Degree::Third: result.append("Трета степен подвижност"); break;
+			result.append("<br><b>");
+			result.append(statusNames[i]);
+			result.append("</b>");
 		}
 
-		result.append("</font></b><br>");
+		if (i == StatusCode::Obturation && obturation) {
+
+			result.append(":");
+
+			auto surfaces = obturation.getBoolStatus();
+
+			for (int y = 0; y < surfaceCount; y++)
+			{
+				if (!surfaces[y]) continue;
+				result.append("<br>");
+				result.append(surfaceNames[y]);
+			}
+		}
+
+		if (i == StatusCode::Caries && caries) {
+
+			result.append(":");
+
+			auto surfaces = caries.getBoolStatus();
+
+			for (int y = 0; y < surfaceCount; y++)
+			{
+				if (!surfaces[y]) continue;
+				result.append("<br>");
+				result.append(surfaceNames[y]);
+				
+			}
+		}
+
+		if (i == StatusCode::Mobility && mobility) {
+
+			result.append("<br><b>");
+			result.append(mobilityNames[static_cast<int>(mobility.degree)]);
+			result.append("</b>");
+
+		}
+		
 	}
 
-	return result;
+	auto numenclature = getHISStatus();
 
+	if (!numenclature.size()) {
+		result += "<br><b>Статус:</b> Неизвестен";
+		return result;
+	}
+
+	result.append("<br><br><b>Кодове: </b>");
+
+	for (auto& num : getHISStatus())
+	{
+		result.append(num);
+		result.append(", ");
+	}
+
+	result.pop_back();
+	result.pop_back();
+
+	return result;
 
 }
 

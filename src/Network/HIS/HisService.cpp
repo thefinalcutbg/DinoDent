@@ -216,48 +216,7 @@ std::string HisService::getToothStatus(const Tooth& tooth, bool hyperdontic)
 {
 	std::string result;
 
-	std::vector<std::string> statuses;
-
-	std::array<const char*, 6> caries{ "Co", "Cm", "Cd", "Cb", "Cl" , "Cc" };
-	std::array<const char*, 6> obturation{ "Oo", "Om", "Od", "Ob", "Ol", "Oc" };
-	std::array<const char*, 3> mobility{ "M1", "M2", "M3" };
-	std::array<const char*, statusCount> status;
-
-	status[StatusCode::Healthy] = "H";
-	status[StatusCode::Pulpitis] = "P";
-	status[StatusCode::ApicalLesion] = "G";
-	status[StatusCode::Root] = "R";
-	status[StatusCode::Extraction] = "E";
-	status[StatusCode::Crown] = "K";
-	status[StatusCode::Bridge] = tooth.canHaveACrown() ? "Kb" : "B";
-	status[StatusCode::Denture] = "X";
-	status[StatusCode::Periodontitis] = "Pa";
-	if (tooth.mobility) {
-		status[StatusCode::Mobility] = mobility[static_cast<int>(tooth.mobility.degree)];
-	}
-	status[StatusCode::Fracture] = "F";
-	status[StatusCode::Implant] = "I";
-	status[StatusCode::Dsn] = "D";
-	status[StatusCode::Impacted] = "Re";
-	status[StatusCode::EndoTreatment] = "Rc";
-	status[StatusCode::Post] = "Rp";
-	status[StatusCode::FiberSplint] = "S";
-	status[StatusCode::Calculus] = "T";
-	
-	auto boolStatus = tooth.getBoolStatus();
-
-	for (int i = 0; i < surfaceCount; i++) {
-
-		if (tooth.caries.exists(i)) statuses.push_back(caries[i]);
-		if (tooth.obturation.exists(i)) statuses.push_back(obturation[i]);
-
-	}
-
-	for (int i = 0; i < statusCount; i++) {
-		if (i == StatusCode::Caries || i == StatusCode::Obturation || i == StatusCode::Temporary) continue;
-		if (boolStatus[i]) statuses.push_back(status[i]);
-	}
-
+	std::vector<std::string> statuses = tooth.getHISStatus();
 
 	if (statuses.empty()) return result;
 

@@ -57,3 +57,8 @@ constexpr std::string_view mobilityNames[mobilityCount]
 {
 	"Подвижност I", "Подвижност II", "Подвижност III"
 };
+
+constexpr std::string_view surfaceNames[surfaceCount]
+{
+	"Оклузално/Инцизално", "Медиално", "Дистално", "Букално", "Лингвално", "Цервикално"
+};

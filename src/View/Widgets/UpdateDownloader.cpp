@@ -7,7 +7,7 @@
 #include <QProcess>
 #include <QStandardPaths>
 #include <QPainter>
-
+#include "GlobalSettings.h"
 #include "Network/NetworkManager.h"
 #include "View/ModalDialogBuilder.h"
 
@@ -43,6 +43,7 @@ UpdateDownloader::UpdateDownloader(const char* url, QWidget* parent)
 				accept();
 				return;
 			};
+
 
 			auto dataFolder = QDir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation));
 

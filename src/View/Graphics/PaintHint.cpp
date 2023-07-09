@@ -32,6 +32,7 @@ ToothPaintHint::ToothPaintHint(const Tooth& tooth, const std::string& notes)
     //the tooth hint:
     if (tooth.noData()) {
         this->tooth = ToothTextureHint::unknown;
+        goto getToolTip;
         return;
     }
 
@@ -169,10 +170,10 @@ ToothPaintHint::ToothPaintHint(const Tooth& tooth, const std::string& notes)
         dsn->isHyperdontic = true;
         dsn->num = ToothUtils::getNhifNumber(dsn->idx, dsn->temp, true);
     }
-
+getToolTip:
     toolTip = "<b>" + tooth.toothName() + "</b><br>";
-
+    toolTip += tooth.getToothInfo();
     if (notes.size()) {
-        toolTip += "<br><b>Бележки:</b><br>" + notes;
+        toolTip += "<br><br><b>Бележки:</b> " + notes;
     }
 }

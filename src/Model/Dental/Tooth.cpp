@@ -270,12 +270,8 @@ void Tooth::addStatus(int statusCode)
 	{
 		case StatusCode::Healthy:
 		{
-			bool temp = temporary.exists();
-			bool isDsn = dsn.exists();
-			removeStatus();
 			healthy.set(true);
-			temporary.set(temp);
-			dsn.set(isDsn);
+			set(false, obturation, caries, pulpitis, lesion, endo, post, root, fracture, extraction, periodontitis, mobility, crown, bridge, splint, implant, impacted, denture, calculus);
 			break;
 		}
 		case StatusCode::Temporary: 

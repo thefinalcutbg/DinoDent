@@ -7,6 +7,7 @@ namespace DbPractice
 {
 	Practice getPractice(const std::string rziCode);
 	void updatePractice(const Practice& practice, const std::string& currentRZI);
+	void updatePracticeSettings(const Settings& s);
 	void insertPractice(const Practice& practice);
 	bool deletePractice(const std::string& rziCode);
 	std::vector<PracticePair> getPracticeList(const std::string& doctorLPK = {});

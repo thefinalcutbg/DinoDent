@@ -58,8 +58,7 @@ void PracticeManagerPresenter::removeClicked(int idx)
 			"Въведете парола на практиката",
 			"Редактиране на практика",
 			"",
-			true,
-			false
+			true
 		);
 
 		if (passGuess.empty()) return;
@@ -90,8 +89,7 @@ void PracticeManagerPresenter::editClicked(int idx)
 			"Въведете парола на практиката",
 			"Редактиране на практика",
 			"",
-			true,
-			false
+			true
 		);
 
 		if (passGuess.empty()) return;

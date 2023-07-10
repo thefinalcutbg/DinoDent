@@ -1,7 +1,6 @@
 #include "DbPractice.h"
 #include "Database.h"
 #include "Model/Parser.h"
-#include "Model/User.h"
 
 Practice DbPractice::getPractice(const std::string rziCode)
 {
@@ -64,7 +63,7 @@ void DbPractice::updatePractice(const Practice& practice, const std::string& cur
 
 }
 
-void DbPractice::updatePracticeSettings(const Settings& s)
+void DbPractice::updatePracticeSettings(const Settings& s, const std::string& rzi)
 {
     Db db(
         "UPDATE practice SET "
@@ -72,10 +71,9 @@ void DbPractice::updatePracticeSettings(const Settings& s)
         "WHERE rzi=?"
     );
 
-    auto& practice = User::practice();
 
     db.bind(1, Parser::write(s));
-    db.bind(2, practice.rziCode);
+    db.bind(2, rzi);
 
     db.execute();
 }

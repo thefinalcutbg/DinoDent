@@ -62,6 +62,8 @@ void PracticeManagerPresenter::removeClicked(int idx)
 			false
 		);
 
+		if (passGuess.empty()) return;
+
 		if (passGuess != practices[idx].pass)
 		{
 			ModalDialogBuilder::showError("Грешна парола!");
@@ -91,6 +93,8 @@ void PracticeManagerPresenter::editClicked(int idx)
 			true,
 			false
 		);
+
+		if (passGuess.empty()) return;
 
 		if (passGuess != practices[idx].pass)
 		{

@@ -44,7 +44,9 @@ PracticeSettings::PracticeSettings(QWidget *parent)
 
 	ui.contractDateEdit->setErrorLabel(ui.errorLabel);
 
-	connect(ui.nzokGroup, &QGroupBox::clicked, [=]{presenter->nzokContractEnabled(ui.nzokGroup->isChecked());});
+	connect(ui.nzokGroup, &QGroupBox::clicked, [=](bool checked) {
+		presenter->nzokContractEnabled(ui.nzokGroup->isChecked());
+	});
 	
 	for (auto& specialty : specialties)
 	{
@@ -117,7 +119,10 @@ void PracticeSettings::setPractice(const Practice& practice)
 	
 	if (practice.pass.empty()) ui.passEdit->setEchoMode(QLineEdit::Normal);
 
-	ui.nzokGroup->setChecked(practice.nhif_contract.has_value());
+	bool nhif = practice.nhif_contract.has_value();
+
+	ui.label_13->setHidden(!nhif);
+
 	if (practice.nhif_contract) {
 		ui.contractEdit->setText(QString::fromStdString(practice.nhif_contract.value().contract_no));
 		ui.contractDateEdit->set_Date(practice.nhif_contract.value().date);
@@ -197,7 +202,13 @@ void PracticeSettings::setDoctorList(const std::vector<PracticeDoctor>& doctors)
 
 	if (count) {
 		ui.doctorList->setCurrentRow(count - 1);
+		return;
 	}
+
+	//if list is empty
+	ui.adminCheck->setHidden(true);
+	ui.specialtyCombo->setHidden(true);
+	ui.label_13->setHidden(true);
 }
 
 void PracticeSettings::setDoctorProperties(bool admin, NhifSpecialty specialty)

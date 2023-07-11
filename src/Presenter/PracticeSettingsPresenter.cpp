@@ -151,12 +151,6 @@ void PracticeSettingsPresenter::nzokContractEnabled(bool enabled)
 		validatableElements[1]->setInputValidator(&m_notEmptyValidator);
 		validatableElements[2]->setInputValidator(&m_dateValidator);
 
-		if (m_doctorsList.size() == 1 &&
-			m_doctorsList[0].specialty == NhifSpecialty::None) {
-			m_doctorsList[0].specialty = NhifSpecialty::General;
-			view->setDoctorList(m_doctorsList);
-		}
-
 	}
 	else {
 		for (auto& e : validatableElements){
@@ -198,7 +192,7 @@ void PracticeSettingsPresenter::addDoctor()
 
 	if (m_doctorsList.size() == 1) {
 		m_doctorsList[0].admin = true;
-
+		m_doctorsList[0].specialty = NhifSpecialty::General;
 	}
 
 	view->setDoctorList(m_doctorsList);

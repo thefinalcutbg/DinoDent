@@ -9,7 +9,7 @@ class MultilineDialog : public QDialog
 	Q_OBJECT
 
 public:
-	MultilineDialog(const std::string& errors, QWidget *parent = Q_NULLPTR);
+	MultilineDialog(const std::string& text, QWidget *parent = Q_NULLPTR);
 	~MultilineDialog();
 
 private:

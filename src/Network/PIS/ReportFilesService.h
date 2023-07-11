@@ -10,7 +10,7 @@ class ReportFilesService final : private PisService
 {
 
 	std::function<void(const std::vector<ReportFile>&)> m_callback;
-	void parseReply(const std::string& reply) override;
+	void processPISReply(const std::string& reply) override;
 public:
 
 	void sendRequest(

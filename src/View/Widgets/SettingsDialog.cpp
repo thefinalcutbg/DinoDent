@@ -106,6 +106,26 @@ std::vector<std::string> SettingsDialog::getPkcs11List()
 	return result;
 }
 
+void SettingsDialog::setDebug(bool showRequests, bool showReplies)
+{
+
+	QSignalBlocker b1(ui.requestsCheck);
+	QSignalBlocker b2(ui.repliesCheck);
+
+	ui.requestsCheck->setChecked(showRequests);
+	ui.repliesCheck->setChecked(showReplies);
+}
+
+bool SettingsDialog::showRequests()
+{
+	return ui.requestsCheck->isChecked();
+}
+
+bool SettingsDialog::showReplies()
+{
+	return ui.repliesCheck->isChecked();
+}
+
 void SettingsDialog::paintEvent(QPaintEvent* event)
 {
 	QPainter painter(this);

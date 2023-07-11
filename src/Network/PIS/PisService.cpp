@@ -4,6 +4,20 @@
 #include "Network/NetworkManager.h"
 #include "Network/XmlSigner.h"
 
+void PisService::parseReply(const std::string& reply)
+{
+
+	//the html error reply from PIS begins with <!DOCTYPE ...
+	//otherwise it begins with <?xml ....
+
+	if (reply.size() && reply[1] == '!') {
+		processPISReply("");
+		return;
+	}
+
+	processPISReply(reply);
+}
+
 bool PisService::sendRequest(const std::string& query, SOAPAction header)
 {
 	/*

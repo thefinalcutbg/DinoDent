@@ -68,7 +68,7 @@ namespace ModalDialogBuilder
 	bool askDialog(const std::string& questionText);
 	bool updatePrompt(const std::string& changeLog);
 	void showError(const std::string& error);
-	void showMultilineDialog(const std::string& errors);
+	void showMultilineDialog(const std::string& text, const std::string& title = "Debug");
 	void showMessage(const std::string& message);
 	void openSettingsDialog();
 	int openButtonDialog(const std::vector<std::string>& buttonNames, const std::string& title);

@@ -245,9 +245,10 @@ void ModalDialogBuilder::showError(const std::string& error)
 
 #include "View/Widgets/MultilineDialog.h"
 
-void ModalDialogBuilder::showMultilineDialog(const std::string& errors)
+void ModalDialogBuilder::showMultilineDialog(const std::string& text, const std::string& title)
 {
-	MultilineDialog d(errors);
+	MultilineDialog d(text);
+	d.setWindowTitle(title.c_str());
 	d.exec();
 }
 

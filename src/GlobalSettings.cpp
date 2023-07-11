@@ -180,3 +180,23 @@ void GlobalSettings::setPkcs11PathList(const std::vector<std::string> list)
 
     s_pkcs11Paths = list;
 }
+
+
+bool s_showRequests{ false };
+bool s_showReplies{ false };
+
+void GlobalSettings::setDebug(bool showRequests, bool showReplies)
+{
+    s_showRequests = showRequests;
+    s_showReplies = showReplies;
+}
+
+bool GlobalSettings::showRequestsEnabled()
+{
+    return s_showRequests;
+}
+
+bool GlobalSettings::showRepliesEnabled()
+{
+    return s_showReplies;
+}

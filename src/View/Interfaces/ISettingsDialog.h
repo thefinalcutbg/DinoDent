@@ -20,5 +20,7 @@ public:
 	virtual void setUpdateDate(DynamicNum num, const Date& date) = 0;
 	virtual void setPkcs11List(const std::vector<std::string>& list) = 0;
 	virtual std::vector<std::string> getPkcs11List() = 0;
-	
+	virtual void setDebug(bool showRequests, bool showReplies) = 0;
+	virtual bool showRequests() = 0;
+	virtual bool showReplies() = 0;
 };

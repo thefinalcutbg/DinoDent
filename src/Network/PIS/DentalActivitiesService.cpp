@@ -40,7 +40,7 @@ bool DentalActivitiesService::sendRequest(
 
 }
 
-void DentalActivitiesService::parseReply(const std::string& reply)
+void DentalActivitiesService::processPISReply(const std::string& reply)
 {
 	if (reply.empty()) { m_callback({});  return; }
 

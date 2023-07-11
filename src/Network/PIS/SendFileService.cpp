@@ -59,7 +59,7 @@ void SendFileService::sendAmbReport(const std::string& data, const std::string& 
 }
 
 
-void SendFileService::parseReply(const std::string& reply)
+void SendFileService::processPISReply(const std::string& reply)
 {
 
 	TiXmlDocument doc;

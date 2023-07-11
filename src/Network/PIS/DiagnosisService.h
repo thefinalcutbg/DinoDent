@@ -10,7 +10,7 @@
 class DiagnosisService final: private PisService
 {
 	std::function<void(const std::vector<MedicalStatus>&)> m_callback;
-	void parseReply(const std::string& reply) override;
+	void processPISReply(const std::string& reply) override;
 public:
 
 	bool sendRequest(

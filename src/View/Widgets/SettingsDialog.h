@@ -10,20 +10,22 @@ class SettingsDialog : public QDialog, public ISettingsDialog
 	Q_OBJECT
 
 	SettingsMainPresenter presenter;
-	void paintEvent(QPaintEvent* event) override;
+	void paintEvent(QPaintEvent* event) final;
 
 public:
 	SettingsDialog(QDialog *parent = Q_NULLPTR);
 
 	void focusTab(SettingsTab tab) { ui.tabWidget->setCurrentIndex(static_cast<int>(tab)); };
-	void closeDialog() override { this->close(); };
-	IPracticeSettings* practiceView() override { return ui.practiceSettings; };
-	void setSettings(const Settings& settings) override;
-	Settings getSettings() override;
-	void setUpdateDate(DynamicNum num, const Date& date) override;
-	virtual void setPkcs11List(const std::vector<std::string>& list) override;
-	std::vector<std::string> getPkcs11List() override;
-
+	void closeDialog() final { this->close(); };
+	IPracticeSettings* practiceView() final { return ui.practiceSettings; };
+	void setSettings(const Settings& settings) final;
+	Settings getSettings() final;
+	void setUpdateDate(DynamicNum num, const Date& date) final;
+	virtual void setPkcs11List(const std::vector<std::string>& list) final;
+	std::vector<std::string> getPkcs11List() final;
+	void setDebug(bool showRequests, bool showReplies) final;
+	bool showRequests() final;
+	bool showReplies() final;
 	~SettingsDialog();
 
 private:

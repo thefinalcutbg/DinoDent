@@ -2,6 +2,7 @@
 #include <TinyXML/tinyxml.h>
 #include "Model/FreeFunctions.h"
 #include "View/ModalDialogBuilder.h"
+
 void GetHirbnoService::sendRequest(int personType, const std::string& id, std::function<void(const std::string&)> callback)
 {
 	m_callback = callback;
@@ -21,7 +22,7 @@ void GetHirbnoService::sendRequest(int personType, const std::string& id, std::f
 	PisService::sendRequest(query, SOAPAction::View);
 }
 
-void GetHirbnoService::parseReply(const std::string& reply)
+void GetHirbnoService::processPISReply(const std::string& reply)
 {
 	if (reply.empty()) {
 		m_callback = nullptr;

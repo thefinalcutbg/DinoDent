@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>819</width>
+    <width>852</width>
     <height>653</height>
    </rect>
   </property>
@@ -77,55 +77,6 @@
             </widget>
            </item>
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_3">
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <item>
-              <widget class="QLabel" name="label_3">
-               <property name="text">
-                <string>Изчакване на отговор от сървърите:</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QSpinBox" name="timeoutSpin">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="suffix">
-                <string> сек.</string>
-               </property>
-               <property name="minimum">
-                <number>1</number>
-               </property>
-               <property name="maximum">
-                <number>60</number>
-               </property>
-               <property name="value">
-                <number>15</number>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <spacer name="horizontalSpacer_3">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>0</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-            </layout>
-           </item>
-           <item>
             <widget class="QGroupBox" name="groupBox_2">
              <property name="minimumSize">
               <size>
@@ -185,6 +136,97 @@
             </widget>
            </item>
           </layout>
+         </item>
+         <item>
+          <widget class="QGroupBox" name="groupBox_4">
+           <property name="title">
+            <string>Системни настройки</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_10">
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_3">
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <item>
+               <widget class="QLabel" name="label_3">
+                <property name="text">
+                 <string>Изчакване на отговор от сървърите:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QSpinBox" name="timeoutSpin">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>70</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="suffix">
+                 <string> сек.</string>
+                </property>
+                <property name="minimum">
+                 <number>1</number>
+                </property>
+                <property name="maximum">
+                 <number>60</number>
+                </property>
+                <property name="value">
+                 <number>15</number>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_3">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>0</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="requestsCheck">
+              <property name="text">
+               <string>Показвай заявките към сървърите</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="repliesCheck">
+              <property name="text">
+               <string>Показвай отговорите от сървърите</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="verticalSpacer_2">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </widget>
          </item>
          <item>
           <spacer name="horizontalSpacer_2">

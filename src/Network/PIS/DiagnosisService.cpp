@@ -30,7 +30,7 @@ bool DiagnosisService::sendRequest(int personType, const std::string& patientId,
 
 }
 
-void DiagnosisService::parseReply(const std::string& reply)
+void DiagnosisService::processPISReply(const std::string& reply)
 {
 
 	//ModalDialogBuilder::showMultilineDialog(reply);

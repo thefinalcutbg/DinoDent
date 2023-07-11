@@ -20,6 +20,7 @@
 
 bool init{ false };
 
+const char* s_error = "XML Signing error";
 
 bool initialize()
 {
@@ -77,12 +78,12 @@ std::string XmlSigner::signPisQuery(const std::string& bodyContent, evp_pkey_st*
 
 
     if (!init && !initialize()) {
-        return {};//"xmlsec could not be initialized";
+        return "xmlsec could not be initialized";
     }
     init = true;
    
-    if (prvKey == nullptr) return{};
-    if (pem_x509.empty()) return{};
+    if (prvKey == nullptr) return{"No private key"};
+    if (pem_x509.empty()) return{"No x509 certificate"};
 
     xmlChar* signedBuffer{ nullptr };
     int signedLength{ 0 };
@@ -90,7 +91,7 @@ std::string XmlSigner::signPisQuery(const std::string& bodyContent, evp_pkey_st*
     /* load doc file */
     xmlDocPtr doc = xmlParseMemory(result.data(), result.size());
     if ((doc == NULL) || (xmlDocGetRootElement(doc) == NULL)) {
-        return {};//"Error: unable to parse file";
+        return { "Error: unable to parse file" };
     }
 
     xmlAttrPtr attr = xmlDocGetRootElement(doc)->children->next->properties;
@@ -99,13 +100,13 @@ std::string XmlSigner::signPisQuery(const std::string& bodyContent, evp_pkey_st*
 
     xmlNodePtr signNode = xmlSecFindNode(xmlDocGetRootElement(doc), xmlSecNodeSignature, xmlSecDSigNs);
     if (signNode == NULL) {
-        return {};//"Error: start node not found";
+        return { "Error: start node not found" };
     }
 
     /* create signature context */
     xmlSecDSigCtxPtr dsigCtx = xmlSecDSigCtxCreate(NULL);
     if (dsigCtx == NULL) {
-        return {};//"Error: failed to create signature context\n";
+        return { "Error: failed to create signature context" };
     }
 
     //dsigCtx->enabledReferenceUris = xmlSecTransformUriTypeSameDocument;
@@ -123,13 +124,13 @@ std::string XmlSigner::signPisQuery(const std::string& bodyContent, evp_pkey_st*
         )
 
     {
-        return {};//"Failed to load certificate"; }
+        return { "Failed to load certificate" };
     }
 
      /* sign the template */
     if (xmlSecDSigCtxSign(dsigCtx, signNode) < 0) {
         
-        return {};//"Error: signature failed\n";
+        return { "Error: signature failed"};
 
     }
 
@@ -196,18 +197,18 @@ std::string XmlSigner::signNhifMessage(const std::string& document, evp_pkey_st*
         ) {
     };
 
-    if (!insertPosition) return ""; //not an xml (no closing tag)
+    if (!insertPosition) return "not an xml (no closing tag)";
 
 
     result.insert(insertPosition, signatureTemplate);
 
     if (!init && !initialize()) {
-        return {};//"xmlsec could not be initialized";
+        return { "xmlsec could not be initialized" };
     }
     init = true;
 
-    if (prvKey == nullptr) return{};
-    if (pem_x509.empty()) return{};
+    if (prvKey == nullptr) return{ "No private key" };
+    if (pem_x509.empty()) return{ "No x509 certificate" };
 
     xmlChar* signedBuffer{ nullptr };
     int signedLength{ 0 };
@@ -215,7 +216,7 @@ std::string XmlSigner::signNhifMessage(const std::string& document, evp_pkey_st*
     /* load doc file */
     xmlDocPtr doc = xmlParseMemory(result.data(), result.size());
     if ((doc == NULL) || (xmlDocGetRootElement(doc) == NULL)) {
-        return {};//"Error: unable to parse file";
+        return { "Error: unable to parse file" };
     }
 
     xmlAttrPtr attr = xmlDocGetRootElement(doc)->properties;
@@ -224,13 +225,13 @@ std::string XmlSigner::signNhifMessage(const std::string& document, evp_pkey_st*
 
     xmlNodePtr signNode = xmlSecFindNode(xmlDocGetRootElement(doc), xmlSecNodeSignature, xmlSecDSigNs);
     if (signNode == NULL) {
-        return {};//"Error: start node not found";
+        return { "Error: start node not found" };
     }
 
     /* create signature context */
     xmlSecDSigCtxPtr dsigCtx = xmlSecDSigCtxCreate(NULL);
     if (dsigCtx == NULL) {
-        return {};//"Error: failed to create signature context\n";
+        return { "Error: failed to create signature context" };
     }
 
     //dsigCtx->enabledReferenceUris = xmlSecTransformUriTypeSameDocument;
@@ -248,12 +249,12 @@ std::string XmlSigner::signNhifMessage(const std::string& document, evp_pkey_st*
         )
 
     {
-        return {};//"Failed to load certificate"; }
+        return {"Failed to load certificate"};
     }
 
     /* sign the template */
     if (xmlSecDSigCtxSign(dsigCtx, signNode) < 0) {
-        return {};//"Error: signature failed\n";
+        return { "Error: signature failed" };
 
     }
 

@@ -2,7 +2,8 @@
 #include <TinyXML/tinyxml.h>
 #include "View/ModalDialogBuilder.h"
 #include "Model/User.h"
-void ReportFilesService::parseReply(const std::string& reply)
+
+void ReportFilesService::processPISReply(const std::string& reply)
 {
 	TiXmlDocument doc;
 

@@ -1,11 +1,21 @@
 ﻿#include "MultilineDialog.h"
+#include <QClipboard>
+#include <QApplication>
 
-MultilineDialog::MultilineDialog(const std::string& errors, QWidget *parent)
+MultilineDialog::MultilineDialog(const std::string& text, QWidget *parent)
 	: QDialog(parent)
 {
+	setWindowTitle("Конзола");
+
 	ui.setupUi(this);
-	ui.errorTextBox->setReadOnly(true);
-	ui.errorTextBox->setPlainText(QString::fromStdString(errors));
+	ui.textBox->setReadOnly(true);
+	ui.textBox->setPlainText(QString::fromStdString(text));
+
+	connect(ui.copyButton, &QPushButton::clicked, [=] {
+		ui.textBox->selectAll();
+		QClipboard* clipboard = QApplication::clipboard();
+		clipboard->setText(ui.textBox->toPlainText());
+	});
 
 	connect(ui.okButton, &QPushButton::clicked, [=] {close();});
 }

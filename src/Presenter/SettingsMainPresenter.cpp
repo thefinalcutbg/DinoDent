@@ -6,6 +6,7 @@
 #include "Database/DbUpdateStatus.h"
 #include "Network/NetworkManager.h"
 #include "GlobalSettings.h"
+
 SettingsMainPresenter::SettingsMainPresenter() :
 	m_practicePresenter(User::practice().rziCode)
 {
@@ -20,6 +21,7 @@ void SettingsMainPresenter::setView(ISettingsDialog* view)
 
 	view->setSettings(User::practice().settings);
 	view->setPkcs11List(GlobalSettings::pkcs11PathList());
+	view->setDebug(GlobalSettings::showRequestsEnabled(), GlobalSettings::showRepliesEnabled());
 	setUpdateLabels();
 }
 
@@ -80,5 +82,7 @@ bool SettingsMainPresenter::applyChanges()
 	User::setCurrentPractice(practice);
 	NetworkManager::setTimeout(practice.settings.timeout);
 	GlobalSettings::setPkcs11PathList(view->getPkcs11List());
+	GlobalSettings::setDebug(view->showRequests(), view->showReplies());
+
 	return true;
 }

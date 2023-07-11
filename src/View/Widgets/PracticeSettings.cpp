@@ -119,9 +119,7 @@ void PracticeSettings::setPractice(const Practice& practice)
 	
 	if (practice.pass.empty()) ui.passEdit->setEchoMode(QLineEdit::Normal);
 
-	bool nhif = practice.nhif_contract.has_value();
-
-	ui.label_13->setHidden(!nhif);
+	ui.nzokGroup->setChecked(practice.nhif_contract.has_value());
 
 	if (practice.nhif_contract) {
 		ui.contractEdit->setText(QString::fromStdString(practice.nhif_contract.value().contract_no));

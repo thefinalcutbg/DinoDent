@@ -50,7 +50,7 @@ void GetMonthNotifListService::sendRequest(const std::string& rziCode, std::func
 }
 
 
-void GetMonthNotifListService::parseReply(const std::string& reply)
+void GetMonthNotifListService::processPISReply(const std::string& reply)
 {
 
 	TiXmlDocument doc;

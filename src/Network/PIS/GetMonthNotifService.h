@@ -5,7 +5,7 @@
 class GetMonthNotifService final :private PisService
 {
 	std::function<void(const std::string&)> m_callback;
-	void parseReply(const std::string& reply) override;
+	void processPISReply(const std::string& reply) override;
 public:
 	void sendRequest(
 		const std::string& rziCode,

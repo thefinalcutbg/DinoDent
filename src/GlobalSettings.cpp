@@ -130,11 +130,11 @@ std::vector<std::string> GlobalSettings::getDefaultPkcs11Paths()
     {
             "C:/Program Files/SafeNet/Authentication/SAC/x64/IDPrimePKCS1164.dll",
             "C:/Windows/System32/idprimepkcs11.dll",
+            "C:/Windows/System32/cmP1164.dll",
             "C:/Windows/System32/bit4ipki.dll",
             "C:/Windows/System32/cmP11.dll",
             "C:/Windows/System32/cvP11.dll",
-            "C:/Windows/System32/siecap11.dll",
-            "C:/Windows/System32/cmP1164.dll"
+            "C:/Windows/System32/siecap11.dll"
     };
 }
 

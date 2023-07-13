@@ -28,7 +28,7 @@ void ShortcutTile::paintEvent(QPaintEvent* e)
 	QPainterPath path;
 	path.addRoundedRect(rect(), Theme::radius, Theme::radius);
 
-	QColor background = hover && !clicked ?
+	QColor background = hover ?
 		QColor(Theme::inactiveTabBG)
 		:
 		QColor(Theme::sectionBackground);
@@ -41,7 +41,7 @@ void ShortcutTile::paintEvent(QPaintEvent* e)
 	painter.setPen(pen);
 
 
-	constexpr int iconRectSide = 40;
+	int iconRectSide = clicked ? 35 : 40;
 
 	if (!icon().isNull()) {
 		icon().paint(&painter, QRect(width()/2-iconRectSide/2, height()/2-iconRectSide/2-10, iconRectSide, iconRectSide));

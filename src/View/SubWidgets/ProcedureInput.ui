@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>401</width>
+    <width>369</width>
     <height>497</height>
    </rect>
   </property>
@@ -188,7 +188,10 @@
    <item>
     <widget class="QLabel" name="notesLabel">
      <property name="text">
-      <string>Допълнителни бележки (изпращат се към НЗИС):</string>
+      <string>Допълнителни бележки (напр. материал, цвят, работна дължина):</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
      </property>
     </widget>
    </item>

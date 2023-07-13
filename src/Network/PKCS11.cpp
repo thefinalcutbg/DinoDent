@@ -105,7 +105,7 @@ PKCS11::PKCS11()
 		PKCS11_enumerate_slots(ctx, &m_slots, &nslots);
 
 	}
-	qDebug() << "number of slots:" << nslots;
+
 	m_slot = PKCS11_find_token(ctx, m_slots, nslots);
 
 	if (m_slot == nullptr)
@@ -113,14 +113,10 @@ PKCS11::PKCS11()
 
 	PKCS11_enumerate_certs(m_slot->token, &certs, &ncerts);
 
-	m_certificate = &certs[0];
-	qDebug() << "number of certificates" << ncerts;
-	if (!m_certificate || ncerts <= 0) {
-		
-		return;
-	}
+	if (ncerts == 0) return;
 
-	//getting the certificate
+
+	m_certificate = &certs[ncerts-1]; //getting the most recent certificate
 
 	int length = i2d_X509(m_certificate->x509, 0);
 
@@ -136,6 +132,7 @@ PKCS11::PKCS11()
 	if (i2d_X509(m_certificate->x509, dataPu) < 0)
 	{
 		m_509 = std::string();
+		return;
 	}
 
 	m_509 = Base64Convert::encode(vec.data(), vec.size());

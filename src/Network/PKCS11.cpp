@@ -105,7 +105,7 @@ PKCS11::PKCS11()
 		PKCS11_enumerate_slots(ctx, &m_slots, &nslots);
 
 	}
-
+	qDebug() << "number of slots:" << nslots;
 	m_slot = PKCS11_find_token(ctx, m_slots, nslots);
 
 	if (m_slot == nullptr)
@@ -114,7 +114,7 @@ PKCS11::PKCS11()
 	PKCS11_enumerate_certs(m_slot->token, &certs, &ncerts);
 
 	m_certificate = &certs[0];
-
+	qDebug() << "number of certificates" << ncerts;
 	if (!m_certificate || ncerts <= 0) {
 		
 		return;
@@ -177,9 +177,9 @@ bool PKCS11::loginRequired()
 	return !isLoggedIn;
 }
 
-bool PKCS11::login(std::string pass)
+bool PKCS11::login(const std::string& pass)
 {
-	if (!loginRequired()) return false;
+	if (!loginRequired()) return true;
 
 	bool success = PKCS11_login(m_slot, 0, pass.data()) == 0;
 
@@ -205,7 +205,6 @@ std::string PKCS11::pem_x509cert() const
 evp_pkey_st* PKCS11::takePrivateKey()
 {
 	return m_prv_key;
-
 }
 
 std::string PKCS11::sha1Digest(const std::string& data)

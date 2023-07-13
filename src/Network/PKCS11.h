@@ -30,7 +30,7 @@ public:
 	const std::string& subjectName();
 	const std::string& issuer();
 	bool loginRequired();
-	bool login(std::string pass);
+	bool login(const std::string& pass);
 	std::string x509certBase64() const;
 	std::string pem_x509cert() const;
 	std::string getSignedValue64(const std::string& digestValue);

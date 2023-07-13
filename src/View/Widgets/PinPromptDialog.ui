@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>194</width>
-    <height>137</height>
+    <height>165</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -58,6 +58,13 @@
         </widget>
        </item>
        <item>
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Изтича на:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QLabel" name="label">
          <property name="text">
           <string>ПИН:</string>
@@ -91,6 +98,19 @@
          </property>
          <property name="text">
           <string>IssuerLabel</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="expieryLabel">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>21</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>TextLabel</string>
          </property>
         </widget>
        </item>

@@ -188,11 +188,10 @@ void PracticeSettingsPresenter::addDoctor()
 		}
 	}
 
-	m_doctorsList.emplace_back(PracticeDoctor{ doctor.value().LPK, doctor.value().getFullName(), false });
+	m_doctorsList.emplace_back(PracticeDoctor{ doctor.value().LPK, doctor.value().getFullName(), false, NhifSpecialty::None });
 
 	if (m_doctorsList.size() == 1) {
 		m_doctorsList[0].admin = true;
-		m_doctorsList[0].specialty = NhifSpecialty::General;
 	}
 
 	view->setDoctorList(m_doctorsList);

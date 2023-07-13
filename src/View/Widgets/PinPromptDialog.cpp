@@ -14,7 +14,6 @@ PinPromptDialog::PinPromptDialog(const std::string& pem, QWidget *parent)
 	ui.nameLabel->setText(cert.subjectDisplayName());
 	ui.expieryLabel->setText(cert.expiryDate().toString("dd.MM.yyyy") + " г.");
 	ui.lineEdit->setEchoMode(QLineEdit::EchoMode::Password);
-	ui.lineEdit->setMaxLength(10);
 
 	connect(ui.okButton, &QPushButton::clicked,
 		[=] {

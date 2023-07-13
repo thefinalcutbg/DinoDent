@@ -48,7 +48,7 @@ void ShortcutTile::paintEvent(QPaintEvent* e)
 	}
 
 
-	QColor textColor = hover && !clicked ?
+	QColor textColor = hover ?
 		QColor(Theme::fontTurquoise)
 		:
 		QColor(Theme::fontTurquoiseClicked)

@@ -183,7 +183,7 @@ TabName ListPresenter::getTabName()
     TabName n;
 
 
-    n.header += m_ambList.isNew() ? "Нов амб.лист" :
+    n.header += m_ambList.isNew() ? "Нов амб.лист " :
         "Амб.лист ";
     
     n.header += m_ambList.nrn.size() ?

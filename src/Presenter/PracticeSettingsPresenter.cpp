@@ -119,7 +119,7 @@ bool PracticeSettingsPresenter::isValid()
 		if (atLeastOneNhifDoctor == false) {
 
 			bool answer = ModalDialogBuilder::askDialog(
-				"Практиката има договор по НЗОК, но нито един доктор в нея\n"
+				"Практиката има договор с НЗОК, но нито един доктор в нея\n"
 				"няма код специалност по НЗОК. Да продължа ли въпреки това?");
 			if (!answer) return false;
 

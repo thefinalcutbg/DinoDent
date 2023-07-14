@@ -321,7 +321,7 @@ void Tooth::addStatus(int statusCode)
 
 		case StatusCode::Implant: 
 			set(true, implant); 
-			set(false, temporary, healthy, extraction, obturation, caries, pulpitis, endo, fracture, root, post, mobility, splint, impacted, calculus);
+			set(false, temporary, healthy, extraction, obturation, caries, pulpitis, endo, fracture, root, post, mobility, impacted, calculus);
 			break;
 
 		case StatusCode::ApicalLesion: 
@@ -362,7 +362,7 @@ void Tooth::addStatus(int statusCode)
 
 		case StatusCode::FiberSplint:
 			set(true, splint); 
-			set(false, healthy, crown, bridge, implant, denture);
+			set(false, healthy, crown, bridge, denture);
 			break;
 
 		case StatusCode::Dsn: 

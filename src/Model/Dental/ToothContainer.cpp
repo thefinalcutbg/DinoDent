@@ -6,6 +6,7 @@
 constexpr int defaultSurfaces[32] = { 0,0,0,0,0,3,3,3,3,3,3,0,0,0,0,0,0,0,0,0,0,3,3,3,3,3,3,0,0,0,0,0 };
 
 
+
 ToothContainer::ToothContainer(){
 
 	teeth.reserve(teethCount);
@@ -223,46 +224,63 @@ void ToothContainer::formatBridges(const std::vector<int>& indexes)
 	removeNonRetainedConstruction();
 }
 
-
 void ToothContainer::removeNonRetainedConstruction()
 {
-	int bridgeBegin{ -1 };
-	int bridgeLength{ 0 };
-	int noRetainer{ 0 };
+	std::vector<std::pair<int, int>> constructions;
 
+	int constructionBegin = -1;
+
+	//getting bridges
 	for (int i = 0; i < 32; i++)
 	{
-		bool hasBridge = teeth[i].bridge || teeth[i].splint;
+		if (!teeth[i].bridge) continue;
 
-		if (!hasBridge) {
-			bridgeLength = 0;
-			noRetainer = 0;
-			continue;
+		if (teeth[i].bridge.position == BridgePos::Begin) constructionBegin = i;
+		else if (teeth[i].bridge.position == BridgePos::End) {
+			constructions.push_back(std::make_pair(constructionBegin, i));
+			constructionBegin == -1;
 		}
 
-		bridgeLength++;
+	}
 
-		if (teeth[i].root || teeth[i].extraction || teeth[i].impacted) noRetainer++;
+	//getting splints
+	for (int i = 0; i < 32; i++)
+	{
+		if (!teeth[i].splint) continue;
 
-		if (teeth[i].bridge.position == BridgePos::Begin) {
-			bridgeBegin = i;
-			continue;
+		if (teeth[i].splint.position == BridgePos::Begin) constructionBegin = i;
+		else if (teeth[i].splint.position == BridgePos::End) {
+			constructions.push_back(std::make_pair(constructionBegin, i));
+			constructionBegin == -1;
 		}
 
-		if (teeth[i].bridge.position != BridgePos::End) continue;
+	}
 
-		int bridgeEnd = i;
+	//removing those, who doesn't have at least one retainer
+	for (auto& pair : constructions)
+	{
+		bool noRetainers = true;
 
-		if (bridgeLength == noRetainer)
+		if (pair.first = -1) continue;
+
+		for (int i = pair.first; i <= pair.second; i++)
 		{
-			for (int y = bridgeBegin; y <= bridgeEnd; y++)
-			{
-				teeth[y].bridge.set(false);
-				teeth[y].splint.set(false);
+			if (teeth[i].canHaveACrown()) {
+				noRetainers = false;
+				break;
 			}
 		}
+
+		if (noRetainers) {
+			for (int i = pair.first; i <= pair.second; i++) {
+				teeth[i].bridge.set(false);
+				teeth[i].splint.set(false);
+			}
+		}
+
 	}
 }
+
 
 void ToothContainer::removeBridgeOrSplint(const std::vector<int>& selectedIndexes)
 {

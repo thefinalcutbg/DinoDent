@@ -15,6 +15,13 @@ PatientSummary::PatientSummary(QWidget *parent)
 	ui.perioButton->setIcon(QIcon(":/icons/icon_periosheet.png"));
 	ui.prescrButton->setIcon(QIcon(":/icons/icon_prescr.png"));
 	ui.openButton->setIcon(QIcon(":/icons/icon_open.png"));
+
+	ui.sheetButton->setHoverColor(Theme::mainBackgroundColor);
+	ui.invoiceButton->setHoverColor(Theme::mainBackgroundColor);
+	ui.perioButton->setHoverColor(Theme::mainBackgroundColor);
+	ui.prescrButton->setHoverColor(Theme::mainBackgroundColor);
+	ui.openButton->setHoverColor(Theme::mainBackgroundColor);
+
 	setStyleSheet("QLabel { color :" + Theme::colorToString(Theme::fontTurquoise) + ";}");
 
 	connect(ui.openButton, &QAbstractButton::clicked, [=] {if (presenter) presenter->openCurrentDocument();});

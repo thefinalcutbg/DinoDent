@@ -195,7 +195,7 @@ void ToothContainer::setStatus(const std::vector<int>& selectedIndexes, StatusTy
 	}
 	else if (canResultInNonRetainedConstruction(code))
 	{
-		removeNonRetainedConstruction();
+		removeNonRetainedConstructions();
 	}
 }
 
@@ -221,10 +221,10 @@ void ToothContainer::formatBridges(const std::vector<int>& indexes)
 
     }
 
-	removeNonRetainedConstruction();
+	removeNonRetainedConstructions();
 }
 
-void ToothContainer::removeNonRetainedConstruction()
+void ToothContainer::removeNonRetainedConstructions()
 {
 	std::vector<std::pair<int, int>> constructions;
 
@@ -273,8 +273,8 @@ void ToothContainer::removeNonRetainedConstruction()
 
 		if (noRetainers) {
 			for (int i = pair.first; i <= pair.second; i++) {
-				teeth[i].bridge.set(false);
-				teeth[i].splint.set(false);
+				teeth[i].setStatus(StatusCode::Bridge, false);
+				teeth[i].setStatus(StatusCode::FiberSplint, false);
 			}
 		}
 

@@ -12,7 +12,7 @@ class ToothContainer
 	static bool canResultInNonRetainedConstruction(int status);
 	static bool needsBridgeFormatting(int status);
 	void formatBridges(const std::vector<int>& selectedIndexes);
-	void removeNonRetainedConstruction();
+	void removeNonRetainedConstructions();
 
 
 public:

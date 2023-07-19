@@ -21,6 +21,7 @@ public:
 	FinancialPresenter(ITabView* tabView, const std::string& monthNotif);
 	FinancialPresenter(ITabView* tabView, std::shared_ptr<Patient> patient, const std::vector<Procedure>& procedures = {});
 	FinancialPresenter(ITabView* tabView, long long rowId);
+	FinancialPresenter(ITabView* tabView, const Recipient& r);
 
 	void addOperation();
 	void editOperation(int idx);

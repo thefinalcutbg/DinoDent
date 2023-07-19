@@ -79,7 +79,7 @@ double User::getPrice(int procedureCode)
     return 0;
 }
 */
-bool User::hasNzokContract()
+bool User::hasNhifContract()
 {
     return s_practice.nhif_contract && s_doctor.specialty != NhifSpecialty::None;
 }

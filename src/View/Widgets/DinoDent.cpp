@@ -28,6 +28,7 @@ DinoDent::DinoDent(QWidget* parent)
     ui.pisButton->setIcon(QIcon(":/icons/icon_nhif.png"));
     ui.settingsButton->setIcon(QIcon(":/icons/icon_settings.png"));
     ui.statisticButton->setIcon(QIcon(":/icons/icon_statistic.png"));
+    ui.invoiceButton->setIcon(QIcon(":/icons/icon_invoice.png"));
     ui.aboutButton->setIcon(QIcon(":/icons/icon_question.png"));
 
     GlobalWidgets::statusBar = statusBar();
@@ -55,6 +56,7 @@ DinoDent::DinoDent(QWidget* parent)
     connect(settingsAction, &QAction::triggered, [&] { MainPresenter::get().userSettingsPressed();});
     connect(ui.pisButton, &QPushButton::clicked, [&] { MainPresenter::get().pisDialog();});
     connect(ui.settingsButton, &QPushButton::clicked, [&] { MainPresenter::get().settingsPressed();});
+    connect(ui.invoiceButton, &QPushButton::clicked, [&] { MainPresenter::get().newInvoicePressed(); });
     connect(ui.aboutButton, &QPushButton::clicked, [&] { AboutDialog d; d.exec(); });
 
     connect(exitAction, &QAction::triggered, [&] { MainPresenter::get().logOut(); });
@@ -91,7 +93,7 @@ void DinoDent::setUserLabel(const std::string& doctorName, const std::string& pr
     ui.practiceLabel->setText(QString::fromStdString(practiceName));
 
     QString title = "DinoDent v";
-    title += Version::current().getAsString().c_str();
+    title += Version::current().toString().c_str();
     title += " ";
     title += practiceName.c_str();
 

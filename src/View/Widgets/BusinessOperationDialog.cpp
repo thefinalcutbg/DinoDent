@@ -9,7 +9,7 @@ BuisnessOperationDialog::BuisnessOperationDialog(const BusinessOperation& op)
 	setWindowTitle("Редактиране");
 
 	ui.nameEdit->setText(op.activity_name.c_str());
-	ui.codeSpinBox->setValue(std::stoi(op.activity_code));
+	ui.codeEdit->setText(op.activity_code.c_str());
 	ui.priceSpinBox->setValue(op.unit_price);
 	ui.quantitySpinBox->setValue(op.quantity);
 
@@ -27,7 +27,7 @@ BuisnessOperationDialog::BuisnessOperationDialog(const BusinessOperation& op)
 			auto quantity = ui.quantitySpinBox->value();
 
 			m_operation.emplace(
-				std::to_string(ui.codeSpinBox->value()),
+				ui.codeEdit->text().toStdString(),
 				ui.nameEdit->text().toStdString(),
 				price,
 				quantity
@@ -58,7 +58,7 @@ BuisnessOperationDialog::BuisnessOperationDialog() : QDialog(nullptr)
 			auto quantity = ui.quantitySpinBox->value();
 
 			m_operation.emplace(
-				std::to_string(ui.codeSpinBox->value()),
+				ui.codeEdit->text().toStdString(),
 				ui.nameEdit->text().toStdString(),
 				price,
 				quantity

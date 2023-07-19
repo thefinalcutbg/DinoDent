@@ -158,9 +158,13 @@ void TabPresenter::openInvoice(const std::string& monthNotif)
     
 }
 
+void TabPresenter::openInvoice(const Recipient& recipient)
+{
+    createNewTab(new FinancialPresenter(view, recipient));
+}
+
 void TabPresenter::openInvoice(long long patientRowId, const std::vector<Procedure>& procedures)
 {
-    
     
     createNewTab(new FinancialPresenter(
                 view, 

@@ -247,6 +247,8 @@ src\Model\Validators\ProcedureDateValidator.cpp
 src\Model\Validators\ProcedureDateValidator.h
 src\Model\Validators\ProcedureValidators.cpp
 src\Model\Validators\ProcedureValidators.h
+src\Model\Validators\RecipientIdValidator.cpp
+src\Model\Validators\RecipientIdValidator.h
 src\Model\Validators\RziValidaor.cpp
 src\Model\Validators\RziValidaor.h
 src\Model\Validators\RziValidator.cpp
@@ -259,6 +261,8 @@ src\Network\NetworkManager.cpp
 src\Network\NetworkManager.h
 src\Network\PKCS11.cpp
 src\Network\PKCS11.h
+src\Network\Telemetry.cpp
+src\Network\Telemetry.h
 src\Network\XmlSigner.cpp
 src\Network\XmlSigner.h
 src\Network\HIS\EDental.cpp
@@ -354,6 +358,8 @@ src\Presenter\ProcedureEditorPresenter.cpp
 src\Presenter\ProcedureEditorPresenter.h
 src\Presenter\ProcedureHistoryPresenter.cpp
 src\Presenter\ProcedureHistoryPresenter.h
+src\Presenter\RecipientPresenter.cpp
+src\Presenter\RecipientPresenter.h
 src\Presenter\ReferralPresenter.cpp
 src\Presenter\ReferralPresenter.h
 src\Presenter\ReportFilesPresenter.cpp

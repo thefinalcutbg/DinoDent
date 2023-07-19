@@ -158,7 +158,7 @@ std::vector<FinancialRow> DbBrowser::getFinancialRows(const Date& from, const Da
         if (row.nhif) {
             row.recipientId = nzokRecipient.bulstat;
             row.recipientName = nzokRecipient.name;
-            row.recipientPhone = "";
+            row.recipientPhone = nzokRecipient.phone;
 
             continue;
         }

@@ -29,6 +29,7 @@ public:
 	void pisDialog();
 	void statisticPressed();
 	void settingsPressed();
+	void newInvoicePressed();
 	bool save();
 	void logOut();
 	void userSettingsPressed();

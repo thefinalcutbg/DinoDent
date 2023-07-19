@@ -243,6 +243,7 @@
     <ClCompile Include="src\Model\Referrals\RefNum.cpp" />
     <ClCompile Include="src\Model\Specialty.cpp" />
     <ClCompile Include="src\Model\Validators\PrescriptionValidators.cpp" />
+    <ClCompile Include="src\Model\Validators\RecipientIdValidator.cpp" />
     <ClCompile Include="src\Network\HIS\EDental.cpp" />
     <ClCompile Include="src\Network\HIS\EPrescription.cpp" />
     <ClCompile Include="src\Network\HIS\EReferral.cpp" />
@@ -250,6 +251,7 @@
     <ClCompile Include="src\Network\HIS\UpdateMkb.cpp" />
     <ClCompile Include="src\Network\NRA\NssiPentionService.cpp" />
     <ClCompile Include="src\Network\PIS\ReportFilesService.cpp" />
+    <ClCompile Include="src\Network\Telemetry.cpp" />
     <ClCompile Include="src\Network\UpdateService\UpdateService.cpp" />
     <ClCompile Include="src\GlobalSettings.cpp" />
     <ClCompile Include="src\Presenter\DosagePresenter.cpp" />
@@ -359,6 +361,7 @@
     <ClCompile Include="src\Presenter\PracticeSettingsPresenter.cpp" />
     <ClCompile Include="src\Presenter\ProcedureDialogPresenter.cpp" />
     <ClCompile Include="src\Presenter\ProcedureEditorPresenter.cpp" />
+    <ClCompile Include="src\Presenter\RecipientPresenter.cpp" />
     <ClCompile Include="src\Presenter\ReferralPresenter.cpp" />
     <ClCompile Include="src\Presenter\ReportFilesPresenter.cpp" />
     <ClCompile Include="src\Presenter\ReportPresenter.cpp" />
@@ -527,10 +530,12 @@
     <ClInclude Include="src\Model\Referrals\ReferralData.h" />
     <ClInclude Include="src\Model\Referrals\RefNum.h" />
     <ClInclude Include="src\Model\Specialty.h" />
+    <ClInclude Include="src\Model\Validators\RecipientIdValidator.h" />
     <ClInclude Include="src\Network\HIS\EDental.h" />
     <ClInclude Include="src\Network\HIS\EReferral.h" />
     <ClInclude Include="src\Network\HIS\HISHistoryAlgorithms.h" />
     <ClInclude Include="src\Network\NRA\NssiPentionService.h" />
+    <ClInclude Include="src\Network\Telemetry.h" />
     <ClInclude Include="src\Network\UpdateService\UpdateService.h" />
     <ClInclude Include="src\GlobalSettings.h" />
     <ClInclude Include="src\Model\Dental\ReportFile.h" />
@@ -663,6 +668,7 @@
     <ClInclude Include="src\Presenter\PracticeSettingsPresenter.h" />
     <ClInclude Include="src\Presenter\ProcedureDialogPresenter.h" />
     <ClInclude Include="src\Presenter\ProcedureEditorPresenter.h" />
+    <ClInclude Include="src\Presenter\RecipientPresenter.h" />
     <ClInclude Include="src\Presenter\ReferralPresenter.h" />
     <ClInclude Include="src\Presenter\ReportFilesPresenter.h" />
     <ClInclude Include="src\Presenter\ReportPresenter.h" />

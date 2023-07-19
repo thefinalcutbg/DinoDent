@@ -58,7 +58,7 @@ void ProcedureDialogPresenter::procedureDateChanged(const Date& date)
 {
 	procedureList.clear();
 
-	if (User::hasNzokContract())
+	if (User::hasNhifContract())
 	{
 		auto nhifProcedures = NhifProcedures::getNhifProcedures(
 			date,

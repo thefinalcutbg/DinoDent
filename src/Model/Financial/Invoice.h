@@ -35,6 +35,7 @@ struct AggregatedAmounts
 struct Invoice
 {
 	Invoice() {};
+	Invoice(const Recipient& r, const Practice& p, const Doctor& d);
 	Invoice(const TiXmlDocument& monthNotif, const Practice& practice, const Doctor& doctor);
 	Invoice(const Patient& p, const Practice& practice, const Doctor& doctor);
 

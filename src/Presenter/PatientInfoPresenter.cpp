@@ -176,7 +176,7 @@ void PatientInfoPresenter::setCurrent(bool isCurrent)
 
     if (
         !patient->insuranceStatus &&
-        User::hasNzokContract() &&
+        User::hasNhifContract() &&
         User::practice().nhif_contract->nra_pass.size() &&
         User::settings().getNraStatusAuto
     )

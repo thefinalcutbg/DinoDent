@@ -38,6 +38,8 @@ namespace NetworkManager
 		AbstractReplyHandler* handler
 	);
 
+	void sendTelemetry(const std::string& json);
+
 	void requestChallenge();
 	void requestToken(const std::string& signedChallenge);
 

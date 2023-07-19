@@ -61,7 +61,7 @@ bool BulstatValidator::validateInput(const std::string& text)
 
         for (int i = 0; i < 9; i++) digits[i] = int(text[i]) - '0';
 
-        return (int(text[8]) - '0' == calculateDigit9(digits));
+        return (digits[8] == calculateDigit9(digits));
     }
 
     //13 digit bulstat
@@ -70,7 +70,7 @@ bool BulstatValidator::validateInput(const std::string& text)
 
     for (int i = 0; i < 13; i++) digits[i] = int(text[i]) - '0';
 
-    if (int(text[8]) - '0' != calculateDigit9(digits)) return false;
+    if (digits[8] != calculateDigit9(digits)) return false;
 
     auto calculateDigit13 = [&](int digits[12]) {
 
@@ -98,7 +98,7 @@ bool BulstatValidator::validateInput(const std::string& text)
         return 0;
 
     };
-
-    return int(digits[12]) - '0' == calculateDigit13(digits);
+    
+    return digits[12] == calculateDigit13(digits);
 
 }

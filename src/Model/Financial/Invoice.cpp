@@ -43,6 +43,7 @@ FinancialDocType getFinancialType(const std::string& inv_type_code)
 	throw std::exception("Неразпознат inv_type_code");
 }
 
+
 Invoice::Invoice(const TiXmlDocument& monthNotif, const Practice& practice, const Doctor& doctor)
     :
     name                        {getDocumentName(monthNotif.RootElement())},
@@ -96,6 +97,15 @@ Invoice::Invoice(const Patient& p, const Practice& practice, const Doctor& docto
 	type(FinancialDocType::Invoice),
 	recipient(p),
 	issuer{practice, doctor}
+{
+}
+
+
+Invoice::Invoice(const Recipient& r, const Practice& p, const Doctor& d) :
+	name ("Фактура"),
+	type (FinancialDocType::Invoice),
+	recipient(r),
+	issuer{ p, d }
 {
 }
 

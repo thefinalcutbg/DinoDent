@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>373</width>
-    <height>162</height>
+    <width>409</width>
+    <height>216</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -22,16 +22,16 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
-        <widget class="QLabel" name="label">
+        <widget class="QLabel" name="label_2">
          <property name="text">
-          <string>Име:</string>
+          <string>ЕИК/ЕГН/ЛНЧ:</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="label_2">
+        <widget class="QLabel" name="label">
          <property name="text">
-          <string>ЕИК/ЕГН/БУЛСТАТ:</string>
+          <string>Име:</string>
          </property>
         </widget>
        </item>
@@ -54,28 +54,40 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
-        <widget class="QLineEdit" name="nameEdit">
-         <property name="maxLength">
-          <number>400</number>
+        <widget class="LineEdit" name="idEdit">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
          </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="idEdit">
          <property name="maxLength">
           <number>13</number>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="addressEdit">
+        <widget class="LineEdit" name="nameEdit">
          <property name="maxLength">
           <number>400</number>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="phoneEdit">
+        <widget class="LineEdit" name="addressEdit">
+         <property name="maxLength">
+          <number>400</number>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="LineEdit" name="phoneEdit">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="maxLength">
           <number>20</number>
          </property>
@@ -101,17 +113,20 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+      <widget class="QLabel" name="errorLabel">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
+       <property name="styleSheet">
+        <string notr="true">color : red;</string>
        </property>
-      </spacer>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QPushButton" name="okButton">
@@ -125,6 +140,13 @@
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>LineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>View/uiComponents/LineEdit.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

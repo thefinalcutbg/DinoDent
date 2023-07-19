@@ -11,7 +11,7 @@ ProcedureHistoryPresenter::ProcedureHistoryPresenter(const Patient& p) :
 
 bool ProcedureHistoryPresenter::refreshPIS()
 {
-	if (!User::hasNzokContract()) {
+	if (!User::hasNhifContract()) {
 		ModalDialogBuilder::showMessage("Този доктор няма договор със здравната каса!");
 		return true;
 	}
@@ -71,7 +71,7 @@ void ProcedureHistoryPresenter::setView(IProcedureHistoryDialog* v)
 
 	if (his_history) view->setHis(his_history.value());
 
-	view->focusTab(User::hasNzokContract() ? 0 : 1);
+	view->focusTab(User::hasNhifContract() ? 0 : 1);
 	
 }
 
@@ -109,7 +109,7 @@ void ProcedureHistoryPresenter::tabFocused(int idx)
 	switch (idx) 
 	{
 		case 0:
-			if (User::hasNzokContract() && !pis_history.has_value()) {
+			if (User::hasNhifContract() && !pis_history.has_value()) {
 				hasHSM = refreshPIS();
 			}
 			break;

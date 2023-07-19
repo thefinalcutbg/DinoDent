@@ -14,7 +14,7 @@ struct MedicalStatuses
 	std::vector<MedicalStatus> condition;
 	std::vector<MedicalStatus> history;
 
-	static std::string getAsString(const std::vector<MedicalStatus>& list)
+	static std::string toString(const std::vector<MedicalStatus>& list)
 	{
 		if (list.empty()) return "Не съобщава";
 

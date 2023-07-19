@@ -40,8 +40,7 @@ void postRequest(const QNetworkRequest& request, AbstractReplyHandler* handler, 
         ModalDialogBuilder::showMultilineDialog(query, "Заявка");
     }
 
-    auto manager = getManager();
-    auto reply = manager->post(request, query.data());
+    auto reply = getManager()->post(request, query.data());
 
     s_handlers.insert(handler);
 
@@ -175,6 +174,13 @@ void NetworkManager::sendRequestToNssi(const std::string xmlRequest, AbstractRep
 
     postRequest(request, handler, xmlRequest);
 
+}
+
+void NetworkManager::sendTelemetry(const std::string& json)
+{
+    QNetworkRequest request(QUrl(""));
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    getManager()->post(request, json.c_str());
 }
 
 void NetworkManager::requestChallenge()

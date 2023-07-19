@@ -238,7 +238,7 @@ void ToothContainer::removeNonRetainedConstructions()
 		if (teeth[i].bridge.position == BridgePos::Begin) constructionBegin = i;
 		else if (teeth[i].bridge.position == BridgePos::End) {
 			constructions.push_back(std::make_pair(constructionBegin, i));
-			constructionBegin == -1;
+			constructionBegin = -1;
 		}
 
 	}
@@ -251,7 +251,7 @@ void ToothContainer::removeNonRetainedConstructions()
 		if (teeth[i].splint.position == BridgePos::Begin) constructionBegin = i;
 		else if (teeth[i].splint.position == BridgePos::End) {
 			constructions.push_back(std::make_pair(constructionBegin, i));
-			constructionBegin == -1;
+			constructionBegin = -1;
 		}
 
 	}

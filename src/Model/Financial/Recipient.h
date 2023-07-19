@@ -25,4 +25,6 @@ struct Recipient
 	std::string bulstat;
 	std::string phone;
 
+	static bool isNhifBulstat(const std::string& bulstat);
+
 };

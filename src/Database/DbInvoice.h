@@ -20,6 +20,8 @@ namespace DbInvoice
 	bool invoiceAlreadyExists(long long number, long long rowid);
 	std::optional<Date> getMainDocDate(long long invoiceNumber, const std::string& recipientId);
 	std::optional<MainDocument> getMainDocument(const std::string& recipient_id, long long currentRowid);
+	std::optional<Recipient> getRecipient(const std::string& bulstat);
 	Invoice getInvoice(long long rowId);
+	
 	
 }

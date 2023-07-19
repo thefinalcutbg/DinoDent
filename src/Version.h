@@ -14,7 +14,7 @@ struct Version {
 		return {
 			.MAJOR = 1, 
 			.MINOR = 4, 
-			.REVISION = 1
+			.REVISION = 2
 		};
 	}
 
@@ -60,7 +60,7 @@ struct Version {
 		
 	}
 
-	std::string getAsString() const {
+	std::string toString() const {
 
 		return
 			std::to_string(MAJOR) + "." +

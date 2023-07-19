@@ -28,6 +28,6 @@ namespace User
 	void refereshPracticeDoctor();
 	std::string getNameFromLPK(const std::string& LPK);
 //	double getPrice(int procedureCode);
-	bool hasNzokContract();
+	bool hasNhifContract();
 };
 

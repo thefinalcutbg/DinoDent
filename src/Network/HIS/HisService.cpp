@@ -191,7 +191,7 @@ std::string HisService::requester(bool nhif)
 std::string HisService::performer()
 {
 
-	std::string nhifCode = User::hasNzokContract() ?
+	std::string nhifCode = User::hasNhifContract() ?
 		" nhifCode=\"" + std::to_string(User::doctor().specialtyAsInt()) + "\""
 		:
 		"";

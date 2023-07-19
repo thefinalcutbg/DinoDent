@@ -164,6 +164,30 @@ std::optional<MainDocument> DbInvoice::getMainDocument(const std::string& recipi
     return {};
 }
 
+std::optional<Recipient> DbInvoice::getRecipient(const std::string& bulstat)
+{
+    Db db(
+        "SELECT recipient_id, recipient_name, recipient_address, recipient_phone "
+        "FROM financial WHERE recipient_id = ? "
+        "ORDER BY num DESC LIMIT 1"
+    );
+
+    db.bind(1, bulstat);
+
+    std::optional<Recipient> result;
+
+    while (db.hasRows())
+    {
+        result.emplace();
+        result->bulstat = db.asString(0);
+        result->name = db.asString(1);
+        result->address = db.asString(2);
+        result->phone = db.asString(3);
+    }
+
+    return result;
+}
+
 
 
 Invoice DbInvoice::getInvoice(long long rowId)

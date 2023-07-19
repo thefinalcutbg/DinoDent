@@ -290,7 +290,7 @@ void ListPresenter::setDataToView()
     {
         bool querySent = true; //prevents multiple PKCS11 prompts
 
-        if (User::settings().getPisHistoryAuto && User::hasNzokContract()) {
+        if (User::settings().getPisHistoryAuto && User::hasNhifContract()) {
 
             auto callback = [&](const std::optional<std::vector<Procedure>>& result) {
 
@@ -693,7 +693,7 @@ void ListPresenter::moveProcedure(int from, int to)
 void ListPresenter::addReferral(ReferralType type)
 {
 
-    if (!User::hasNzokContract()) {
+    if (!User::hasNhifContract()) {
         ModalDialogBuilder::showMessage(
             "За да създадете направление, трябва да попълните данните" 
             "\nна договора с НЗОК и кодът на специалността от насторйки!"

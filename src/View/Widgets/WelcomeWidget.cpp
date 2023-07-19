@@ -21,6 +21,7 @@ WelcomeWidget::WelcomeWidget(QWidget *parent)
     ui.ambButton->setIcon(QIcon(":/icons/icon_sheet.png"));
     ui.perioButton->setIcon(QIcon(":/icons/icon_periosheet.png"));
     ui.prescrButton->setIcon(QIcon(":/icons/icon_prescr.png"));
+    ui.invoiceButton->setIcon(QIcon(":/icons/icon_invoice.png"));
     ui.browser->setIcon(QIcon(":/icons/icon_open.png"));
     ui.nhifButton->setIcon(QIcon(":/icons/icon_nhif.png"));
     ui.settingsButton->setIcon(QIcon(":/icons/icon_settings.png"));
@@ -30,6 +31,7 @@ WelcomeWidget::WelcomeWidget(QWidget *parent)
     connect(ui.ambButton, &QPushButton::clicked, [&] { MainPresenter::get().newAmbPressed(); });
     connect(ui.perioButton, &QPushButton::clicked, [&] { MainPresenter::get().newPerioPressed(); });
     connect(ui.prescrButton, &QPushButton::clicked, [&] { MainPresenter::get().newPerscriptionPressed(); });
+    connect(ui.invoiceButton, &QPushButton::clicked, [&] { MainPresenter::get().newInvoicePressed(); });
     connect(ui.browser, &QPushButton::clicked, [&] { MainPresenter::get().showBrowser(); });
     connect(ui.nhifButton, &QPushButton::clicked, [&] { MainPresenter::get().pisDialog(); });
     connect(ui.settingsButton, &QPushButton::clicked, [&] { MainPresenter::get().settingsPressed(); });

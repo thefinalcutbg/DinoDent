@@ -6,6 +6,7 @@
 #include "Presenter/LoginPresenter.h"
 #include "Presenter/DoctorDialogPresenter.h"
 #include "Presenter/StatisticDialogPresenter.h"
+#include "Presenter/RecipientPresenter.h"
 #include "Network/PKCS11.h"
 #include "Model/User.h"
 #include "Model/xml.h"
@@ -107,6 +108,19 @@ void MainPresenter::newPerioPressed()
         TabPresenter::get().openPerio(patient.value());
 }
 
+void MainPresenter::newInvoicePressed()
+{
+    RecipientPresenter p;
+
+    auto result = p.openDialog();
+
+    if (!result.has_value()) {
+        return;
+    }
+
+    TabPresenter::get().openInvoice(result.value());
+}
+
 void MainPresenter::newPerscriptionPressed()
 {
     PatientDialogPresenter p("Нова рецепта");
@@ -125,7 +139,7 @@ void MainPresenter::showBrowser()
 
 void MainPresenter::pisDialog()
 {
-    if (!User::hasNzokContract()) {
+    if (!User::hasNhifContract()) {
         ModalDialogBuilder::showMessage("Моля, попълнете данните на договора с НЗОК от настройки!");
         return;
     }

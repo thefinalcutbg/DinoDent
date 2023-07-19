@@ -4,7 +4,7 @@
 #include "Database/DbInvoice.h"
 #include "View/Printer.h"
 #include "Model/User.h"
-
+#include "Presenter/RecipientPresenter.h"
 #include <TinyXML/tinyxml.h>
 #include <FileSystem>
 #include <stdexcept>
@@ -81,6 +81,16 @@ FinancialPresenter::FinancialPresenter(ITabView* tabView, long long rowId) :
     view(tabView->financialView()),
     m_invoice(DbInvoice::getInvoice(rowId))
 {
+}
+
+FinancialPresenter::FinancialPresenter(ITabView* tabView, const Recipient& r) :
+    TabInstance(tabView, TabType::Financial, nullptr),
+    view(tabView->financialView()),
+    m_invoice(r, User::practice(), User::doctor())
+{
+    m_invoice.date = Date::currentDate();
+    m_invoice.number = DbInvoice::getNewInvoiceNumber();
+
 }
 
 void FinancialPresenter::editOperation(int idx)
@@ -224,7 +234,10 @@ void FinancialPresenter::editRecipient()
         ModalDialogBuilder::showMessage("Не можете да редактирате тези данни");
         return;
     }
-    auto result = ModalDialogBuilder::editRecipient(m_invoice.recipient);
+
+    RecipientPresenter p(m_invoice.recipient);
+
+    auto result = p.openDialog();
 
     if (!result) return;
 

@@ -45,7 +45,7 @@ The script forces you to place BOTH the openssl and libxml2 include and lib fold
 ```
 ### Libp11
 
-This library is responsible for the PKCS11 interface. Go to [https://github.com/OpenSC/libp11](https://github.com/OpenSC/libp11) and download the latest release. Build the library following the instructions. After the build process is finished, there will be 2 binaries - libp11 and pkcs11
+This library is responsible for the PKCS11 interface. Go to [https://github.com/OpenSC/libp11](https://github.com/OpenSC/libp11) and download the latest release. Build the library following the instructions, or directly use the provided binaries from earlier releases for your OS. After the build process is finished, there will be 2 binaries - libp11 and pkcs11
 
 
 
@@ -70,4 +70,4 @@ If you have followed everything  as described, you'll have all of the required b
 
 ## Building DinoDent itself
 
-Open the generated CMake project with your IDE and configure the Linker Additional Directories, so they point to the libraries you've just built. The LimeReport debug/release binaries has to be linked according to the current build configuration of the project, so put them in different folders (e.g. Lib/Debug/LimeReport and Lib/Release/LimeReport). Build DinoDent and place the binaries in the folder of the executable. If you want to use the electronic signatures, you have to provide two additional binaries for the smart card modules - IDPrimePKCS1164.dll (for B-Trust) and bit4xpki.dll (for InfoNotary) as well as to install the smart card reader driver on your OS.
+Open the generated CMake project with your IDE and configure the Linker Additional Directories, so they point to the libraries you've just built. The LimeReport debug/release binaries has to be linked according to the current build configuration of the project, so put them in different folders (e.g. Lib/Debug/LimeReport and Lib/Release/LimeReport). Build DinoDent and place the binaries in the folder of the executable.

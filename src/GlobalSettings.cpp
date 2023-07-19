@@ -16,6 +16,15 @@ namespace PrvPath
     }
 }
 
+void rewriteCfg(const Json::Value& settings)
+{
+    QFile cfg(PrvPath::configFilePath().c_str());
+    cfg.open(QIODevice::ReadWrite);
+    cfg.resize(0);
+    cfg.write(Json::StyledWriter().write(settings).c_str());
+    cfg.close();
+}
+
 std::string GlobalSettings::getDbBackupFilepath()
 {
     auto dataFolder = QDir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation));
@@ -116,10 +125,7 @@ std::string GlobalSettings::setDbPath()
 
     settings["db_path"] = str.toUtf8().toStdString();
 
-    QFile cfg(PrvPath::configFilePath().c_str());
-    cfg.open(QIODevice::ReadWrite);
-    cfg.write(Json::StyledWriter().write(settings).c_str());
-    cfg.close();
+    rewriteCfg(settings);
 
     return str.toUtf8().toStdString();
 }
@@ -172,11 +178,9 @@ void GlobalSettings::setPkcs11PathList(const std::vector<std::string> list)
 
     settings["pkcs11_path"].clear();
 
-    for (auto& m : list)  settings["pkcs11_path"].append(m);
+    for (auto& m : list) { settings["pkcs11_path"].append(m); }
 
-    cfg.open(QIODevice::ReadWrite);
-    cfg.write(Json::StyledWriter().write(settings).c_str());
-    cfg.close();
+    rewriteCfg(settings);
 
     s_pkcs11Paths = list;
 }

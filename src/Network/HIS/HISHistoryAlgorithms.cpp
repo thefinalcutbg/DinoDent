@@ -23,7 +23,7 @@ std::vector<Procedure> HISHistoryAlgorithms::getProcedures(TiXmlDocument& doc)
 		procedures.emplace_back();
 
 		auto& p = procedures.back();
-
+		
 		p.date = Date(pXml.Child(5).ToElement()->Attribute("value"));
 		p.code = ProcedureCode(pXml.Child(2).ToElement()->Attribute("value"));
 		p.financingSource = static_cast<FinancingSource>(std::stoi(pXml.Child(6).ToElement()->Attribute("value")));

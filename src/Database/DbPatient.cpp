@@ -76,7 +76,7 @@ Patient DbPatient::get(std::string patientID, int type)
     while (db.hasRows())
     {
         patient.rowid = db.asRowId(0),
-        patient.type = db.asInt(1);
+        patient.type = Patient::Type(db.asInt(1));
         patient.id = db.asString(2);
         patient.birth = Date(db.asString(3));
         patient.sex = Patient::Sex(db.asInt(4));
@@ -106,7 +106,7 @@ Patient DbPatient::get(long long rowid)
     while (db.hasRows())
     {
         patient.rowid = db.asRowId(0),
-        patient.type = db.asInt(1);
+        patient.type = Patient::Type(db.asInt(1));
         patient.id = db.asString(2);
         patient.birth = Date(db.asString(3));
         patient.sex = Patient::Sex(db.asInt(4));

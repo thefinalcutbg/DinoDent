@@ -14,6 +14,8 @@
 #include "View/ModalDialogBuilder.h"
 #include "GlobalSettings.h"
 
+#include <qdebug.h>
+
 QNetworkAccessManager* s_manager{ nullptr };
 std::set<AbstractReplyHandler*> s_handlers;
 int s_timeout = 15000;
@@ -178,6 +180,8 @@ void NetworkManager::sendRequestToNssi(const std::string xmlRequest, AbstractRep
 
 void NetworkManager::sendTelemetry(const std::string& json)
 {
+    return;
+
     QNetworkRequest request(QUrl(""));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     getManager()->post(request, json.c_str());

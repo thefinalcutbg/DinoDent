@@ -11,14 +11,15 @@
 #include "Model/MedicalStatuses.h"
 typedef std::array<std::string, 32>TeethNotes;
 
-
 struct Patient
 {
+	enum Type { EGN = 1, LNCH = 2, SSN = 3 };
+
 	enum Sex { Male = 0, Female = 1 };
 
 	long long rowid{ 0 };
 
-	int type{ 1 };
+	Type type{ Type::EGN };
 	std::string id;
 	Date birth;
 

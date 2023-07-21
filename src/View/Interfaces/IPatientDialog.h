@@ -16,7 +16,7 @@ public:
 
 	virtual void close() = 0;
 	virtual void setHirbno(const std::string& hirbno) = 0;
-	virtual void setLn4View(bool show) = 0;
+	virtual void setType(Patient::Type type) = 0;
 	virtual void setEditMode(bool editMode) = 0;
 	virtual void setPatient(const Patient& patient) = 0;
 	virtual void resetFields() = 0;

@@ -16,6 +16,7 @@
 #include "Database/DbUpdateStatus.h"
 #include "View/Printer.h"
 #include "Presenter/MonthNotifPresenter.h"
+#include "Network/Telemetry.h"
 
 MainPresenter MainPresenter::s_singleton;
 
@@ -36,13 +37,6 @@ void MainPresenter::setView(IMainView* view)
             DbPractice::insertPractice(result.value().practice);
             DbPractice::setDoctorsPracticeList(result.value().doctorsList, result.value().practice.rziCode);
         }
-        /*
-        else
-        {
-            view->m_loggedIn = false;
-            return;
-        }
-        */
     }
 
     LoginPresenter login;
@@ -58,19 +52,21 @@ void MainPresenter::setView(IMainView* view)
         view->m_loggedIn = login.successful();
     }
 
+    if (!view->m_loggedIn) return;
+    
+    Telemetry::sendData();
+
     view->setUserLabel(
         User::doctor().getFullName(),
         User::practice().name
     );
 
-    if (view->m_loggedIn)
+    //medications update
+    if (DbUpdateStatus::lastUpdated(DynamicNum::Medication).isFromPreviousMonths(Date::currentDate()))
     {
-        //medications update
-        if (DbUpdateStatus::lastUpdated(DynamicNum::Medication).isFromPreviousMonths(Date::currentDate()))
-        {
-            med_update_service.update();
-        }
+        med_update_service.update();
     }
+  
 
 }
 
@@ -191,8 +187,6 @@ void MainPresenter::logOut()
 
     DbDoctor::setAutoLogin(User::doctor().LPK, false);
 
-    
-
     LoginPresenter login;
 
     if (login.successful() == false)
@@ -205,6 +199,8 @@ void MainPresenter::logOut()
         User::practice().name
         );
     
+    Telemetry::sendData();
+
 }
 
 void MainPresenter::userSettingsPressed()

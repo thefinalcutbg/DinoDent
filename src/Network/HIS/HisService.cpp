@@ -76,7 +76,7 @@ const std::string HisService::signMessage(const std::string& message)
 		};
 	}
 
-	return XmlSigner::signNhifMessage(message, signer.takePrivateKey(), signer.pem_x509cert());
+	return XmlSigner::signHisMessage(message, signer.takePrivateKey(), signer.pem_x509cert());
 }
 
 const std::string HisService::buildMessage(const std::string& query)

@@ -37,7 +37,15 @@ public:
 	bool validateInput(const std::string& text);
 };
 
-
+class SSNValidator : public Validator
+{
+	NotEmptyValidator notEmpty_validator;
+	DigitsOnlyValidator digits_only_validator;
+	static const std::string invalid;
+public:
+	SSNValidator();
+	bool validateInput(const std::string& text);
+};
 
 class CityValidator : public Validator
 {

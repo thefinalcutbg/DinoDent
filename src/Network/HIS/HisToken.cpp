@@ -60,7 +60,7 @@ void HisToken::setChallengeMessage(const std::string& challenge)
 		};
 	}
 
-	auto signedChallenge = XmlSigner::signNhifMessage(challenge, signer.takePrivateKey(), signer.pem_x509cert());
+	auto signedChallenge = XmlSigner::signHisMessage(challenge, signer.takePrivateKey(), signer.pem_x509cert());
 
 	if (signedChallenge.empty()) {
 		abort("Неуспешна автентификация в НЗИС");

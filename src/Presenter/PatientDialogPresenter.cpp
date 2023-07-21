@@ -54,7 +54,7 @@ void PatientDialogPresenter::changePatientType(int index)
 	switch (index)
 	{
 	case 1:
-		view->setLn4View(false);
+		view->setType(Patient::EGN);
 
 		view->lineEdit(id)->setInputValidator(&egn_validator);
 		view->lineEdit(mname)->setInputValidator(&name_validator);
@@ -62,11 +62,19 @@ void PatientDialogPresenter::changePatientType(int index)
 		view->resetFields();
 		break;
 	case 2:
-		view->setLn4View(true);
+		view->setType(Patient::LNCH);
 
 		view->lineEdit(id)->setInputValidator(&ln4_validator);
 		view->lineEdit(mname)->setInputValidator(&cyrillic_validator);
 		view->lineEdit(id)->validateInput();;
+		view->resetFields();
+		break;
+	case 3:
+		view->setType(Patient::SSN);
+
+		view->lineEdit(id)->setInputValidator(&ssn_validator);
+		view->lineEdit(mname)->setInputValidator(&cyrillic_validator);
+		view->lineEdit(id)->validateInput();
 		view->resetFields();
 		break;
 	default:
@@ -125,7 +133,7 @@ void PatientDialogPresenter::searchDbForPatient(int type)
 	if (patient.rowid == 0)
 	{
 		patient.id = patientId;
-		patient.type = type;
+		patient.type = Patient::Type(type);
 
 		if (patient.type == 1)
 		{

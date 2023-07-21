@@ -148,8 +148,8 @@ void TableView::setBusinessOperationLayout()
 {
     connect(model(), &QAbstractTableModel::dataChanged, [=] { fitToModel();});
     setColumnWidth(0, 50);
-    setColumnWidth(1, 50);
-    setColumnWidth(2, 400);
+    setColumnWidth(1, 100);
+    setColumnWidth(2, 350);
     setColumnWidth(3, 50);
     setColumnWidth(4, 75);
     setColumnWidth(5, 75);

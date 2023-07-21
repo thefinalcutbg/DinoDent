@@ -184,8 +184,13 @@ void PatientTile::setData(const Patient& patient, int age)
 {
 	name = elide(QString::fromStdString(patient.fullName()), 35);
 
-	if (patient.type == 1) idLabel = "ЕГН: ";
-	else idLabel = "ЛНЧ: ";
+	switch (patient.type)
+	{
+	case Patient::EGN: idLabel = "ЕГН: "; break;
+	case Patient::LNCH: idLabel = "ЛНЧ: "; break;
+	case Patient::SSN: idLabel = "SSN: "; break;
+	default: idLabel = "???: "; break;
+	}
 
 	id = QString::fromStdString(patient.id);
 

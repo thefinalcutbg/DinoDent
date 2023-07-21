@@ -48,7 +48,7 @@
        <item>
         <widget class="QLabel" name="label_4">
          <property name="text">
-          <string>Цена:</string>
+          <string>Единична цена:</string>
          </property>
         </widget>
        </item>

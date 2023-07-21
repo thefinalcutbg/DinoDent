@@ -1,6 +1,6 @@
 ﻿#include "PatientValidators.h"
 
-const std::string EgnValidator::invalid{ "Невалидно ЕГН" };
+const std::string EgnValidator::invalid{ "Невалиден ЕГН" };
 
 EgnValidator::EgnValidator()
 {
@@ -56,7 +56,7 @@ bool EgnValidator::validateInput(const std::string& text)
     return true;
 }
 
-const std::string Ln4Validator::invalid{ "Невалидно ЛНЧ" };
+const std::string Ln4Validator::invalid{ "Невалиден ЛНЧ" };
 
 Ln4Validator::Ln4Validator()
 {
@@ -99,6 +99,24 @@ bool Ln4Validator::validateInput(const std::string& text)
     if (ctrlsum < 10 && ctrlsum != id10) return 0;
     return 1;
 }
+
+
+const std::string SSNValidator::invalid{ "Невалиден ССН" };
+
+SSNValidator::SSNValidator()
+{
+    _errorMsg = &invalid;
+}
+
+bool SSNValidator::validateInput(const std::string& text)
+{
+    if (!notEmpty_validator.validateInput(text)) return false;
+
+    if (!digits_only_validator.validateInput(text)) return false;
+
+    return true;
+}
+
 
 const std::string HIRBNoValidator::invalid{ "Невалиден номер на здравна книжка" };
 

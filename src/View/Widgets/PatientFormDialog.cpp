@@ -17,10 +17,12 @@ PatientFormDialog::PatientFormDialog(PatientDialogPresenter* p, QWidget* parent)
     ui.mNameEdit->QLineEdit::setValidator(nameValidator);
     ui.lNameEdit->QLineEdit::setValidator(nameValidator);
 
-    phoneValidator = new QRegularExpressionValidator(QRegularExpression("[0-9-+ a-z A-Z ]+"), this);
+    phoneValidator = new QRegularExpressionValidator(QRegularExpression("[0-9-+]+"), this);
     ui.phoneEdit->QLineEdit::setValidator(phoneValidator);
 
     ui.cityLineEdit->setCompletions(Ekatte::cityNameToIdx());
+
+    setType(Patient::EGN);
 
     connect(ui.typeComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
         [=](int index) { presenter->changePatientType(index + 1); ui.idLineEdit->QLineEdit::setFocus(); });
@@ -36,6 +38,7 @@ PatientFormDialog::PatientFormDialog(PatientDialogPresenter* p, QWidget* parent)
     patientFields[address] = ui.addressEdit;
     patientFields[hirbno] = ui.HIRBNoEdit;
     patientFields[phone] = ui.phoneEdit;
+
 
     for (auto& line : patientFields)
     {
@@ -74,9 +77,21 @@ void PatientFormDialog::close()
     reject();
 }
 
-void PatientFormDialog::setLn4View(bool show)
+void PatientFormDialog::setType(Patient::Type type)
 {
+
     ui.sexCombo->setCurrentIndex(0);
+    ui.sexCombo->setDisabled(type == Patient::EGN);
+    ui.birthEdit->setDisabled(type == Patient::EGN);
+    ui.label_8->setDisabled(type == Patient::EGN);
+    ui.label_7->setDisabled(type == Patient::EGN);
+
+    ui.idLineEdit->setMaxLength(
+        type != Patient::SSN ?
+        10
+        :
+        20
+    );
 
 }
 
@@ -131,18 +146,18 @@ Patient PatientFormDialog::getPatient()
 
     return Patient
     {
-        0,
-        ui.typeComboBox->currentIndex() + 1,
-        ui.idLineEdit->text().toStdString(),
-        Date(birthDate.day(), birthDate.month(), birthDate.year()),
-        Patient::Sex(ui.sexCombo->currentIndex()),
-        ui.fNameEdit->text().toStdString(),
-        ui.mNameEdit->text().toStdString(),
-        ui.lNameEdit->text().toStdString(),
-        ui.cityLineEdit->text().toStdString(),
-        ui.addressEdit->text().toStdString(),
-        ui.HIRBNoEdit->text().toStdString(),
-        ui.phoneEdit->text().toStdString(),
+        .rowid = 0,
+        .type = Patient::Type(ui.typeComboBox->currentIndex() + 1),
+        .id = ui.idLineEdit->text().toStdString(),
+        .birth = Date(birthDate.day(), birthDate.month(), birthDate.year()),
+        .sex = Patient::Sex(ui.sexCombo->currentIndex()),
+        .FirstName = ui.fNameEdit->text().toStdString(),
+        .MiddleName = ui.mNameEdit->text().toStdString(),
+        .LastName = ui.lNameEdit->text().toStdString(),
+        .city = ui.cityLineEdit->text().toStdString(),
+        .address = ui.addressEdit->text().toStdString(),
+        .HIRBNo = ui.HIRBNoEdit->text().toStdString(),
+        .phone = ui.phoneEdit->text().toStdString(),
     };
 }
 

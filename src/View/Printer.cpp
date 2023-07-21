@@ -19,7 +19,7 @@
 void fillCommonData(LimeReport::ReportEngine& report, const Patient& patient, const Doctor& doctor, const Practice& practice)
 {
 
-    report.dataManager()->setReportVariable("id", QString::fromStdString(patient.id));
+    report.dataManager()->setReportVariable(patient.type == Patient::SSN ? "ssn" : "id", QString::fromStdString(patient.id));
     report.dataManager()->setReportVariable("city", QString::fromStdString(patient.city.getString()));
     report.dataManager()->setReportVariable("address", QString::fromStdString(patient.address));
     report.dataManager()->setReportVariable("patientName", QString::fromStdString(patient.fullName()));
@@ -325,13 +325,13 @@ void Print::consent(const Patient& patient)
 
     report.loadFromFile(":/reports/report_consent.lrxml");
 
-
+    const char* idType[5] = { "","ЕГН","ЛНЧ","ССН","" };
 
     report.dataManager()->setReportVariable("practice_name", QString::fromStdString(practice.name));
     report.dataManager()->setReportVariable("practice_address", QString::fromStdString(practice.practice_address.getString()));
     report.dataManager()->setReportVariable("doctor", QString::fromStdString(doctor.getFullName()));
     report.dataManager()->setReportVariable("declarator", patient.sex ? "Долуподписаната" : "Долуподписаният");
-    report.dataManager()->setReportVariable("type", patient.type == 1 ? "ЕГН" : "ЛНЧ");
+    report.dataManager()->setReportVariable("type", idType[patient.type]);
     report.dataManager()->setReportVariable("name", QString::fromStdString(patient.fullName()));
     report.dataManager()->setReportVariable("id", QString::fromStdString(patient.id));
 
@@ -481,7 +481,7 @@ void Print::referral(const Referral& ref, const Patient& patient, const std::str
 
         fillCommonData(report, patient, doctor, practice);
 
-        if (patient.type == 2) {
+        if (patient.type == Patient::LNCH) {
             report.dataManager()->setReportVariable("type", "X");
         }
 

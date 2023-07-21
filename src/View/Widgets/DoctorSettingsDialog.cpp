@@ -25,6 +25,9 @@ DoctorSettingsDialog::DoctorSettingsDialog(DoctorDialogPresenter* presenter, QWi
 	lineEdits[DoctorFields::LPK] = ui.lpkEdit;
 	lineEdits[DoctorFields::Password] = ui.passEdit;
 
+	auto phoneValidator = new QRegularExpressionValidator(QRegularExpression("[0-9-+]+"), this);
+	ui.phoneEdit->QLineEdit::setValidator(phoneValidator);
+
 	for (auto& lineEdit : lineEdits)
 	{
 		lineEdit->setErrorLabel(ui.errorLabel);

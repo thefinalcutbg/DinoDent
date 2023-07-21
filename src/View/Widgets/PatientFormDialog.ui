@@ -72,7 +72,7 @@
     <rect>
      <x>130</x>
      <y>220</y>
-     <width>121</width>
+     <width>131</width>
      <height>20</height>
     </rect>
    </property>
@@ -94,7 +94,7 @@
     <rect>
      <x>130</x>
      <y>300</y>
-     <width>121</width>
+     <width>131</width>
      <height>20</height>
     </rect>
    </property>
@@ -168,7 +168,7 @@
     <rect>
      <x>130</x>
      <y>260</y>
-     <width>81</width>
+     <width>91</width>
      <height>20</height>
     </rect>
    </property>
@@ -184,9 +184,15 @@
     <rect>
      <x>130</x>
      <y>20</y>
-     <width>71</width>
+     <width>81</width>
      <height>20</height>
     </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
    </property>
    <property name="text">
     <string/>
@@ -217,13 +223,18 @@
      <string>ЛНЧ</string>
     </property>
    </item>
+   <item>
+    <property name="text">
+     <string>SSN</string>
+    </property>
+   </item>
   </widget>
   <widget class="NameEdit" name="fNameEdit">
    <property name="geometry">
     <rect>
      <x>130</x>
      <y>60</y>
-     <width>121</width>
+     <width>131</width>
      <height>20</height>
     </rect>
    </property>
@@ -280,7 +291,7 @@
    </property>
    <property name="maximumDateTime">
     <datetime>
-     <hour>17</hour>
+     <hour>11</hour>
      <minute>59</minute>
      <second>59</second>
      <year>9999</year>
@@ -347,7 +358,7 @@
     <rect>
      <x>130</x>
      <y>140</y>
-     <width>121</width>
+     <width>131</width>
      <height>20</height>
     </rect>
    </property>
@@ -379,7 +390,7 @@
     <rect>
      <x>130</x>
      <y>100</y>
-     <width>121</width>
+     <width>131</width>
      <height>20</height>
     </rect>
    </property>
@@ -412,7 +423,7 @@
   <widget class="QPushButton" name="hirbnoButton">
    <property name="geometry">
     <rect>
-     <x>230</x>
+     <x>240</x>
      <y>260</y>
      <width>21</width>
      <height>21</height>

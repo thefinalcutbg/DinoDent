@@ -154,7 +154,7 @@ std::string XmlSigner::signPisQuery(const std::string& bodyContent, evp_pkey_st*
     return result;
 }
 
-std::string XmlSigner::signNhifMessage(const std::string& document, evp_pkey_st* prvKey, const std::string pem_x509)
+std::string XmlSigner::signHisMessage(const std::string& document, evp_pkey_st* prvKey, const std::string pem_x509)
 {
 
 

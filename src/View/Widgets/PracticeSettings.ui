@@ -413,7 +413,7 @@
                <widget class="DateEdit" name="contractDateEdit">
                 <property name="minimumSize">
                  <size>
-                  <width>80</width>
+                  <width>100</width>
                   <height>0</height>
                  </size>
                 </property>

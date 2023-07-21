@@ -12,7 +12,7 @@ protected:
 		"",
 		"egn",
 		"lnch",
-		"",
+		"nra",
 		"",
 	};
 

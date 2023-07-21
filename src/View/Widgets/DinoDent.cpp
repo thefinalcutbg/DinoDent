@@ -5,6 +5,8 @@
 #include <QPixmap>
 #include <QFileDialog>
 #include <QFontDatabase>
+#include <QShortcut>
+
 #include "View/Theme.h"
 #include "View/Widgets/SettingsDialog.h"
 #include <QStatusBar>
@@ -19,6 +21,31 @@ DinoDent::DinoDent(QWidget* parent)
 {
     ui.setupUi(this);
 
+
+
+    GlobalWidgets::statusBar = statusBar();
+
+    statusBar()->setStyleSheet("font-weight: bold; color:" + Theme::colorToString(Theme::fontTurquoiseClicked));
+
+    QAction* settingsAction = new QAction("Настройки");
+    settingsAction->setIcon(QIcon(":/icons/icon_settings.png"));
+    QAction* exitAction = new QAction("Изход");
+    exitAction->setIcon(QIcon(":/icons/icon_remove.png"));
+    QMenu* userMenu = new QMenu(this);
+    userMenu->addAction(settingsAction);
+    userMenu->addAction(exitAction);
+    userMenu->setStyleSheet(Theme::getPopupMenuStylesheet());
+
+    //setting global shortcuts
+    auto shortcut = new QShortcut(QKeySequence(Qt::Key_Save), parent);
+    shortcut->setContext(Qt::ApplicationShortcut);
+    connect(shortcut, &QShortcut::activated, [&] { MainPresenter::get().save(); });
+
+    shortcut = new QShortcut(QKeySequence(Qt::Key_Print), parent);
+    shortcut->setContext(Qt::ApplicationShortcut);
+    connect(shortcut, &QShortcut::activated, [&] { MainPresenter::get().printPressed(); });
+
+    //setting buttons
     ui.newButton->setIcon(QIcon(":/icons/icon_sheet.png"));
     ui.perioButton->setIcon(QIcon(":/icons/icon_periosheet.png"));
     ui.perscrButton->setIcon(QIcon(":/icons/icon_prescr.png"));
@@ -30,21 +57,6 @@ DinoDent::DinoDent(QWidget* parent)
     ui.statisticButton->setIcon(QIcon(":/icons/icon_statistic.png"));
     ui.invoiceButton->setIcon(QIcon(":/icons/icon_invoice.png"));
     ui.aboutButton->setIcon(QIcon(":/icons/icon_question.png"));
-
-    GlobalWidgets::statusBar = statusBar();
-
-    statusBar()->setStyleSheet("font-weight: bold; color:" + Theme::colorToString(Theme::fontTurquoiseClicked));
-   // statusBar()->setStyleSheet("color:" + Theme::colorToString(Theme::fontTurquoiseClicked));
-
-
-    QAction* settingsAction = new QAction("Настройки");
-    settingsAction->setIcon(QIcon(":/icons/icon_settings.png"));
-    QAction* exitAction = new QAction("Изход");
-    exitAction->setIcon(QIcon(":/icons/icon_remove.png"));
-    QMenu* userMenu = new QMenu(this);
-    userMenu->addAction(settingsAction);
-    userMenu->addAction(exitAction);
-    userMenu->setStyleSheet(Theme::getPopupMenuStylesheet());
 
     connect(ui.newButton, &QPushButton::clicked, [&] { MainPresenter::get().newAmbPressed(); });
     connect(ui.saveButton, &QPushButton::clicked, [&] { MainPresenter::get().save(); });

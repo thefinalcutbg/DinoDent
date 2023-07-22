@@ -78,7 +78,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>Нов амбулаторен лист</string>
+         <string>Нов амбулаторен лист (Ctrl+N)</string>
         </property>
         <property name="text">
          <string>Нов лист</string>
@@ -112,7 +112,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>Ново пародонтално измерване</string>
+         <string>Ново пародонтално измерване (Ctrl + M)</string>
         </property>
         <property name="text">
          <string>Ново пар. изм.</string>
@@ -134,7 +134,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>Нова рецепта</string>
+         <string>Нова рецепта (Ctrl+R)</string>
         </property>
         <property name="text">
          <string>Perscr</string>
@@ -150,7 +150,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>Нов финансов документ</string>
+         <string>Нов финансов документ (Ctrl+F)</string>
         </property>
         <property name="text">
          <string>Invoice</string>
@@ -178,7 +178,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>Документация</string>
+         <string>Документация  (Ctrl+O)</string>
         </property>
         <property name="text">
          <string>Open</string>
@@ -206,7 +206,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>Запази текущия документ</string>
+         <string>Запази текущия документ  (Ctrl+S)</string>
         </property>
         <property name="text">
          <string>Save</string>
@@ -234,7 +234,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>Принтирай текущия документ</string>
+         <string>Принтирай текущия документ (Ctrl+P)</string>
         </property>
         <property name="text">
          <string>Print</string>

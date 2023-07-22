@@ -156,10 +156,15 @@ void PatientDialogPresenter::searchDbForPatient(int type)
 		patient.id = patientId;
 		patient.type = Patient::Type(type);
 
-		if (patient.type == 1)
+		if (patient.type == Patient::EGN)
 		{
 			patient.birth = Date::getBirthdateFromEgn(patient.id);
 			patient.sex = Patient::getSexFromEgn(patientId);
+		}
+
+		if (patient.type == Patient::EU) {
+			patient.foreigner.emplace();
+			patient.city = User::practice().practice_address;
 		}
 	}
 	else
@@ -167,7 +172,7 @@ void PatientDialogPresenter::searchDbForPatient(int type)
 		rowid = patient.rowid;
 	}
 	
-
+	
 	setPatientToView(patient);
 	
 }

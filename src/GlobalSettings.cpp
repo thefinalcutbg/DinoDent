@@ -25,6 +25,21 @@ void rewriteCfg(const Json::Value& settings)
     cfg.close();
 }
 
+
+Json::Value getSettingsAsJson()
+{
+    Json::Value settings;
+
+    std::ifstream f(PrvPath::configFilePath());
+
+    QDir dir;
+
+    Json::Reader().parse(f, settings);
+
+    return settings;
+}
+
+
 std::string GlobalSettings::getDbBackupFilepath()
 {
     auto dataFolder = QDir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation));
@@ -88,22 +103,23 @@ void GlobalSettings::createCfgIfNotExists()
         cfg.write(Json::StyledWriter().write(settings).c_str());
         cfg.close();
     }
+
+    //check integrity
+    
+    auto settings = getSettingsAsJson();
+
+    if (!settings.isMember("telemetry_id")) {
+        settings["telemetry_id"] = FreeFn::getUuid();
+    }
+    
+    rewriteCfg(settings);
 }
 
 
 
 std::string GlobalSettings::getDbPath()
 {
-
-    Json::Value settings;
-
-    std::ifstream f(PrvPath::configFilePath());
-
-    QDir dir;
-    
-    Json::Reader().parse(f, settings);
-
-    return settings["db_path"].asString();
+    return getSettingsAsJson()["db_path"].asString();
 }
 
 
@@ -117,11 +133,7 @@ std::string GlobalSettings::setDbPath()
 
     if (str.isEmpty()) return std::string();
 
-    Json::Value settings;
-
-    std::ifstream f(PrvPath::configFilePath());
-
-    Json::Reader().parse(f, settings);
+    Json::Value settings = getSettingsAsJson();
 
     settings["db_path"] = str.toUtf8().toStdString();
 
@@ -144,17 +156,18 @@ std::vector<std::string> GlobalSettings::getDefaultPkcs11Paths()
     };
 }
 
+std::string GlobalSettings::telemetryId()
+{
+    return getSettingsAsJson()["telemetry_id"].asString();
+}
+
 static std::vector<std::string> s_pkcs11Paths;
 
 const std::vector<std::string>& GlobalSettings::pkcs11PathList()
 {
     if (s_pkcs11Paths.size()) return s_pkcs11Paths;
 
-    Json::Value settings;
-
-    std::ifstream f(PrvPath::configFilePath());
-
-    Json::Reader().parse(f, settings);
+    Json::Value settings = getSettingsAsJson();
 
     for (auto& path : settings["pkcs11_path"]) {
         s_pkcs11Paths.push_back(path.asString());
@@ -166,15 +179,8 @@ const std::vector<std::string>& GlobalSettings::pkcs11PathList()
 
 void GlobalSettings::setPkcs11PathList(const std::vector<std::string> list)
 {
-    QFile cfg(PrvPath::configFilePath().c_str());
 
-    Json::Value settings;
-
-    std::ifstream f(PrvPath::configFilePath());
-
-    Json::Reader().parse(f, settings);
-
-    f.close();
+    Json::Value settings = getSettingsAsJson();
 
     settings["pkcs11_path"].clear();
 

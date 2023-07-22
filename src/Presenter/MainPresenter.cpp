@@ -117,7 +117,7 @@ void MainPresenter::newInvoicePressed()
     TabPresenter::get().openInvoice(result.value());
 }
 
-void MainPresenter::newPerscriptionPressed()
+void MainPresenter::newPrescriptionPressed()
 {
     PatientDialogPresenter p("Нова рецепта");
 

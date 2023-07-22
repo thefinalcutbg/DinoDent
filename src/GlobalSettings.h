@@ -13,6 +13,8 @@ namespace GlobalSettings
 
 	std::vector<std::string> getDefaultPkcs11Paths();
 
+	std::string telemetryId();
+
 	const std::vector<std::string>& pkcs11PathList();
 	void setPkcs11PathList(const std::vector<std::string> list);
 

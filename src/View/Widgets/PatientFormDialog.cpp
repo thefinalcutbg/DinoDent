@@ -13,7 +13,7 @@ PatientFormDialog::PatientFormDialog(PatientDialogPresenter* p, QWidget* parent)
 
     numValidator = new QRegularExpressionValidator(QRegularExpression("[0-9]+"), this);
 
-    nameValidator = new QRegularExpressionValidator(QRegularExpression("[А-Я-а-я-a-z-A-Z _]+"), this);
+    nameValidator = new QRegularExpressionValidator(QRegularExpression("[А-Я-а-я-a-z-A-Z ]+"), this);
     ui.fNameEdit->QLineEdit::setValidator(nameValidator);
     ui.mNameEdit->QLineEdit::setValidator(nameValidator);
     ui.lNameEdit->QLineEdit::setValidator(nameValidator);
@@ -29,7 +29,7 @@ PatientFormDialog::PatientFormDialog(PatientDialogPresenter* p, QWidget* parent)
     {
         ui.countryCombo->addItem(country.c_str());
     }
-    ui.countryCombo->setCurrentIndex(21);
+    //ui.countryCombo->setCurrentIndex(21); //BG default
 
     setType(Patient::EGN);
 
@@ -144,7 +144,7 @@ void PatientFormDialog::resetFields()
     ui.institutionNumber->clear();
     ui.ehic_edit->clear();
     ui.sexCombo->setCurrentIndex(0);
-    ui.countryCombo->setCurrentIndex(21);
+    ui.countryCombo->setCurrentIndex(0);
 
 }
 
@@ -176,7 +176,7 @@ void PatientFormDialog::setPatient(const Patient& patient)
     ui.countryCombo->setCurrentIndex(patient.foreigner->country.getIndex());
     ui.institutionNumber->setText(patient.foreigner->institution.c_str());
     ui.validDateEdit->set_Date(patient.foreigner->date_valid);
-
+    ui.ehic_edit->setText(patient.foreigner->ehic.c_str());
 
     patient.foreigner->isEHIC() ?
         ui.ehicRadio->setChecked(true)

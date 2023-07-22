@@ -37,13 +37,29 @@ DinoDent::DinoDent(QWidget* parent)
     userMenu->setStyleSheet(Theme::getPopupMenuStylesheet());
 
     //setting global shortcuts
-    auto shortcut = new QShortcut(QKeySequence(Qt::Key_Save), parent);
-    shortcut->setContext(Qt::ApplicationShortcut);
-    connect(shortcut, &QShortcut::activated, [&] { MainPresenter::get().save(); });
+    auto shortcut = new QShortcut(QKeySequence(Qt::CTRL | Qt::Key_S), this);
+    shortcut->setContext(Qt::WidgetWithChildrenShortcut);
+    QObject::connect(shortcut, &QShortcut::activated, [&] { MainPresenter::get().save(); });
 
-    shortcut = new QShortcut(QKeySequence(Qt::Key_Print), parent);
-    shortcut->setContext(Qt::ApplicationShortcut);
-    connect(shortcut, &QShortcut::activated, [&] { MainPresenter::get().printPressed(); });
+    shortcut = new QShortcut(QKeySequence(Qt::CTRL | Qt::Key_P), this);
+    shortcut->setContext(Qt::WidgetWithChildrenShortcut);
+    QObject::connect(shortcut, &QShortcut::activated, [&] { MainPresenter::get().printPressed(); });
+
+    shortcut = new QShortcut(QKeySequence(Qt::CTRL | Qt::Key_O), this);
+    shortcut->setContext(Qt::WidgetWithChildrenShortcut);
+    QObject::connect(shortcut, &QShortcut::activated, [&] { MainPresenter::get().showBrowser(); });
+
+    shortcut = new QShortcut(QKeySequence(Qt::CTRL | Qt::Key_N), this);
+    shortcut->setContext(Qt::WidgetWithChildrenShortcut);
+    QObject::connect(shortcut, &QShortcut::activated, [&] { MainPresenter::get().newAmbPressed(); });
+
+    shortcut = new QShortcut(QKeySequence(Qt::CTRL | Qt::Key_F), this);
+    shortcut->setContext(Qt::WidgetWithChildrenShortcut);
+    QObject::connect(shortcut, &QShortcut::activated, [&] { MainPresenter::get().newInvoicePressed(); });
+
+    shortcut = new QShortcut(QKeySequence(Qt::CTRL | Qt::Key_R), this);
+    shortcut->setContext(Qt::WidgetWithChildrenShortcut);
+    QObject::connect(shortcut, &QShortcut::activated, [&] { MainPresenter::get().newPrescriptionPressed(); });
 
     //setting buttons
     ui.newButton->setIcon(QIcon(":/icons/icon_sheet.png"));
@@ -61,7 +77,7 @@ DinoDent::DinoDent(QWidget* parent)
     connect(ui.newButton, &QPushButton::clicked, [&] { MainPresenter::get().newAmbPressed(); });
     connect(ui.saveButton, &QPushButton::clicked, [&] { MainPresenter::get().save(); });
     connect(ui.browserButton, &QPushButton::clicked, [&] { MainPresenter::get().showBrowser(); });
-    connect(ui.perscrButton, &QPushButton::clicked, [&] { MainPresenter::get().newPerscriptionPressed(); });
+    connect(ui.perscrButton, &QPushButton::clicked, [&] { MainPresenter::get().newPrescriptionPressed(); });
     connect(ui.printButton, &QPushButton::clicked, [&] { MainPresenter::get().printPressed(); });
     connect(ui.perioButton, &QPushButton::clicked, [&] { MainPresenter::get().newPerioPressed(); });
     connect(ui.statisticButton, &QPushButton::clicked, [&] { MainPresenter::get().statisticPressed(); });

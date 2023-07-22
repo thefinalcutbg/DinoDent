@@ -1,4 +1,5 @@
 ﻿#include "PatientFormDialog.h"
+#include "Model/Country.h"
 
 PatientFormDialog::PatientFormDialog(PatientDialogPresenter* p, QWidget* parent)
     : QDialog(parent),
@@ -20,9 +21,29 @@ PatientFormDialog::PatientFormDialog(PatientDialogPresenter* p, QWidget* parent)
     phoneValidator = new QRegularExpressionValidator(QRegularExpression("[0-9-+]+"), this);
     ui.phoneEdit->QLineEdit::setValidator(phoneValidator);
 
+    ui.validDateEdit->set_Date(Date::currentDate());
+
     ui.cityLineEdit->setCompletions(Ekatte::cityNameToIdx());
 
+    for (auto& country : Country::getCodeCountryPair())
+    {
+        ui.countryCombo->addItem(country.c_str());
+    }
+    ui.countryCombo->setCurrentIndex(21);
+
     setType(Patient::EGN);
+
+    connect(ui.ehicRadio, &QRadioButton::toggled, [=] {
+        ui.validDateLabel->setText("Валиен до:"); 
+        ui.ehicLabel->setDisabled(false); 
+        ui.ehic_edit->setDisabled(false); 
+    });
+
+    connect(ui.otherRadio, &QRadioButton::toggled, [=] { 
+        ui.validDateLabel->setText("Издаден на:"); 
+        ui.ehicLabel->setDisabled(true);
+        ui.ehic_edit->setDisabled(true);
+    });
 
     connect(ui.typeComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
         [=](int index) { presenter->changePatientType(index + 1); ui.idLineEdit->QLineEdit::setFocus(); });
@@ -48,6 +69,8 @@ PatientFormDialog::PatientFormDialog(PatientDialogPresenter* p, QWidget* parent)
     ui.birthEdit->setErrorLabel(ui.errorLabel);
 
     presenter->setView(this);
+
+
 
 }
 
@@ -87,11 +110,14 @@ void PatientFormDialog::setType(Patient::Type type)
     ui.label_7->setDisabled(type == Patient::EGN);
 
     ui.idLineEdit->setMaxLength(
-        type != Patient::SSN ?
+        type < Patient::SSN ?
         10
         :
         20
     );
+
+    bool isForeigner = type == Patient::EU;
+    ui.foreignerGroup->setDisabled(!isForeigner);
 
 }
 
@@ -112,10 +138,13 @@ void PatientFormDialog::resetFields()
     ui.HIRBNoEdit->reset();
     ui.phoneEdit->reset();
     ui.addressEdit->reset();
+    ui.institutionNumber->clear();
+    ui.ehic_edit->clear();
     ui.sexCombo->setCurrentIndex(0);
+    ui.countryCombo->setCurrentIndex(21);
 
 }
-
+#include <qdebug.h>
 void PatientFormDialog::setPatient(const Patient& patient)
 {
     QSignalBlocker b1(ui.idLineEdit);
@@ -138,11 +167,38 @@ void PatientFormDialog::setPatient(const Patient& patient)
     ui.addressEdit->QLineEdit::setText(QString::fromStdString(patient.address));
     ui.HIRBNoEdit->QLineEdit::setText(QString::fromStdString(patient.HIRBNo));
     ui.phoneEdit->QLineEdit::setText(QString::fromStdString(patient.phone));
+
+    if (!patient.foreigner) return;
+    
+    ui.countryCombo->setCurrentIndex(patient.foreigner->country.getIndex());
+    ui.institutionNumber->setText(patient.foreigner->institution.c_str());
+    ui.validDateEdit->set_Date(patient.foreigner->date_valid);
+
+
+    patient.foreigner->isEHIC() ?
+        ui.ehicRadio->setChecked(true)
+        :
+        ui.otherRadio->setChecked(true)
+    ;
 }
 
 Patient PatientFormDialog::getPatient()
 {
     auto birthDate = ui.birthEdit->date();
+    
+    
+
+    std::optional<Foreigner> f = ui.typeComboBox->currentIndex() == 3 ?
+
+            Foreigner{
+                .country = ui.countryCombo->currentIndex(),
+                .institution = ui.institutionNumber->text().toStdString(),
+                .ehic = ui.ehicRadio->isChecked() ? ui.ehic_edit->text().toStdString() : std::string(),
+                .date_valid = ui.validDateEdit->getDate(),
+            }
+            :
+            std::optional<Foreigner>{}
+    ;
 
     return Patient
     {
@@ -158,6 +214,7 @@ Patient PatientFormDialog::getPatient()
         .address = ui.addressEdit->text().toStdString(),
         .HIRBNo = ui.HIRBNoEdit->text().toStdString(),
         .phone = ui.phoneEdit->text().toStdString(),
+        .foreigner = f
     };
 }
 

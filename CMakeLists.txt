@@ -106,6 +106,7 @@ src\DbUpdates\DbUpdates.h
 src\DbUpdates\Update10.cpp
 src\DbUpdates\Update11.cpp
 src\DbUpdates\Update12and13.cpp
+src\DbUpdates\Update14.cpp
 src\DbUpdates\Update5.cpp
 src\DbUpdates\Update6.cpp
 src\DbUpdates\Update7.cpp
@@ -113,11 +114,14 @@ src\DbUpdates\Update8.cpp
 src\DbUpdates\Update9.cpp
 src\DbUpdates\Updater.cpp
 src\DbUpdates\Updater.h
+src\Model\Country.cpp
+src\Model\Country.h
 src\Model\Date.cpp
 src\Model\Date.h
 src\Model\DynamicNum.h
 src\Model\Ekatte.cpp
 src\Model\Ekatte.h
+src\Model\Foreigner.h
 src\Model\FreeFunctions.cpp
 src\Model\FreeFunctions.h
 src\Model\InsuranceStatus.cpp

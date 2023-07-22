@@ -72,6 +72,8 @@ void NraStatusService::parseReply(const std::string& reply)
 
 bool NraStatusService::sendRequest(const Patient& p, std::function<void(const std::optional<InsuranceStatus>&)> callback, bool showDialogs, const Date& date )
 {
+	if (p.type == Patient::EU) return false;
+
 	m_callback = callback;
 
 	this->show_dialogs = showDialogs;

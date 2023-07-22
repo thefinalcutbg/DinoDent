@@ -188,7 +188,8 @@ void PatientTile::setData(const Patient& patient, int age)
 	{
 	case Patient::EGN: idLabel = "ЕГН: "; break;
 	case Patient::LNCH: idLabel = "ЛНЧ: "; break;
-	case Patient::SSN: idLabel = "SSN: "; break;
+	case Patient::SSN: idLabel = "ССН: "; break;
+	case Patient::EU: idLabel = "ID: "; break;
 	default: idLabel = "???: "; break;
 	}
 

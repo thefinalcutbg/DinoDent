@@ -140,8 +140,6 @@ std::optional<Date> DbInvoice::getMainDocDate(long long invoiceNumber, const std
     return {};
 }
 
-#include <qdebug.h>
-
 std::optional<MainDocument> DbInvoice::getMainDocument(const std::string& recipient_id, long long currentRowid)
 {
     std::string query{

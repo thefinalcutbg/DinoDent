@@ -29,6 +29,7 @@ class PatientDialogPresenter
 	EgnValidator egn_validator;
 	Ln4Validator ln4_validator;
 	SSNValidator ssn_validator;
+	NotEmptyValidator notEmpty_validator;
 	DateValidator birth_validator;
 	NameValidator name_validator;
 	HIRBNoValidator hirb_validator;

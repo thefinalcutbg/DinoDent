@@ -5,7 +5,7 @@ struct Version {
 
 	enum Branch { Win64, Win64Dev };
 
-	static constexpr unsigned dbVersion() { return 13;}
+	static constexpr unsigned dbVersion() { return 14;}
 
 	static constexpr Branch branch() { return Branch::Win64; };
 

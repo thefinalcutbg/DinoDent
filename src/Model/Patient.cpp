@@ -53,6 +53,8 @@ std::string Patient::firstLastName() const
 
 std::string Patient::getFullAddress() const
 {
+	if (foreigner) return foreigner->country.getName() + " " + address;
+
 	std::string cityStr = city.getString();
 
 	if (address.empty()) return cityStr;

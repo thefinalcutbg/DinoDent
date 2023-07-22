@@ -262,12 +262,20 @@ int DbAmbList::getNewNumber(Date ambDate, bool nhif)
 
 }
 
-std::vector<AmbList> DbAmbList::getMonthlyNhifSheets(int month, int year)
+std::vector<AmbList> DbAmbList::getMonthlyNhifSheets(int month, int year, bool foreigners)
 {
     std::vector<AmbList> result;
 
     std::map<long long, int> sheetRowIdMap;
 
+//should the foreigners have different report?
+/*
+    std::string foreignerClause = foreigners ?
+        "AND patient.type=4 "
+        :
+        "AND patient.type!=4 "
+    ;
+ */
     //getting amb sheets
 
      std::string query = 
@@ -283,14 +291,16 @@ std::vector<AmbList> DbAmbList::getMonthlyNhifSheets(int month, int year)
         "amblist.his_updated, "
         "amblist.date "
         "FROM amblist "
+        "LEFT JOIN patient ON patient.rowid = amblist.patient_rowid "
         "LEFT JOIN procedure ON amblist.rowid = procedure.amblist_rowid "
         "LEFT JOIN referral ON amblist.rowid = referral.amblist_rowid "
-        "WHERE "
+        "WHERE " 
         "amblist.lpk = '" + User::doctor().LPK + "' "
         "AND amblist.rzi = '" + User::practice().rziCode + "' "
         "AND strftime('%m', amblist.date)='" + FreeFn::leadZeroes(month, 2) + "' "
         "AND strftime('%Y', amblist.date)='" + std::to_string(year) + "' "
         "AND (procedure.financing_source = 2 OR referral.rowid NOT NULL) "
+ //        + foreignerClause +
         "GROUP BY amblist.rowid "
         "ORDER BY amblist.date ASC ";
 

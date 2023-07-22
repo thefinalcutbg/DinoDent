@@ -51,6 +51,7 @@ int main(int argc, char *argv[])
 #include "Model/Prescription/WhenToTake.h"
 #include "Model/Dental/MKB.h"
 #include "Model/Ekatte.h"
+#include "Model/Country.h"
 #include "DbUpdates/Updater.h"
 #include "GlobalSettings.h"
 
@@ -58,7 +59,7 @@ bool initFunction() {
 
     GlobalSettings::createCfgIfNotExists();
 
-    Db::setFilePath(GlobalSettings::getDbPath());
+    //Db::setFilePath(GlobalSettings::getDbPath());
 
     if (!Db::createIfNotExist()) {
 
@@ -78,6 +79,7 @@ bool initFunction() {
     Medication::initialize();
     //KSMP::initialize();
     Ekatte::initialize();
+    Country::initialize();
     MKB::initialize();
     User::initialize();
     DoseQuantity::initialize();

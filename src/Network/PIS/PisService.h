@@ -7,13 +7,14 @@ class PisService : protected AbstractReplyHandler {
 
 protected:
 
-	inline static 	const char* personTypeArr[5]
+	inline static 	const char* personTypeArr[6]
 	{
 		"",
 		"egn",
 		"lnch",
 		"nra",
-		"",
+		"ehc",
+		"con"
 	};
 
 	enum class SOAPAction { View, Files, Diagnosis };

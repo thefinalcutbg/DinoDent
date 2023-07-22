@@ -59,12 +59,12 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
         TiXmlElement* dentalCareService = new TiXmlElement("dentalCareService");
 
         dentalCareService->SetAttribute("personType", patient.type);
-        dentalCareService->SetAttribute("personIdentifier", patient.id);
+        dentalCareService->SetAttribute("personIdentifier", patient.type != Patient::EU ? patient.id : "0000000000");
 
         dentalCareService->SetAttribute("RHIFCode", patient.city.getRhif());
         dentalCareService->SetAttribute("healthRegionCode", patient.city.getHealthRegion());
 
-        if (patient.type != 1) {
+        if (patient.type != Patient::EGN) {
             dentalCareService->SetAttribute("birthDate", patient.birth.to8601());
         }
 
@@ -74,6 +74,24 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
             dentalCareService->SetAttribute("personMiddleName", patient.MiddleName);
 
         dentalCareService->SetAttribute("personLastName", patient.LastName);
+
+        //person type 4
+        if (patient.type == Patient::EU)
+        {
+            bool is_ehic = patient.foreigner->isEHIC();
+
+            dentalCareService->SetAttribute("IICode", patient.foreigner->institution);
+            dentalCareService->SetAttribute("documentType", is_ehic ? "ЕЗОК" : "Друг");
+            dentalCareService->SetAttribute(is_ehic ? "validTo" : "validFrom", patient.foreigner->date_valid.to8601());
+            
+            if (is_ehic) {
+                dentalCareService->SetAttribute("EHICNumber", patient.foreigner->ehic);
+            }
+
+            dentalCareService->SetAttribute("PICode", patient.id);
+            
+        }
+
         dentalCareService->SetAttribute("specificationType", list.nhifData.getSpecString(doctor.specialty));
         dentalCareService->SetAttribute("ambulatorySheetNo", 
             list.nrn.size() ? list.nrn :

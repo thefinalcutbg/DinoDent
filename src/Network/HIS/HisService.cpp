@@ -135,11 +135,11 @@ std::string HisService::subject(const Patient& p)
 			+ bind("family", p.LastName)
 		+"</nhis:name>"
 		 "<nhis:address>"
-			+ bind("country", "BG")
-			+ bind("county", p.city.getRegionCode())
-			+ bind("ekatte", p.city.ekatte())
-			+ bind("city", p.city.getString())
-			+ bind("line", FreeFn::escapeXml(p.getFullAddress()))
+			+ bind("country", p.foreigner ? p.foreigner->country.getCode() : "BG" )
+			+ bind("county", p.foreigner ? "" : p.city.getRegionCode())
+			+ bind("ekatte", p.foreigner ? "" : p.city.ekatte())
+			+ bind("city", p.foreigner ? FreeFn::escapeXml(p.getFullAddress()) : p.city.getString())
+			+ bind("line", p.foreigner ? "" : FreeFn::escapeXml(p.getFullAddress()))
 		+"</nhis:address>"
 		+bind("phone", p.phone)
 		//<nhis:email value="[string]"/>

@@ -90,6 +90,7 @@
         <file>json_procedures.json</file>
         <file>json_diagnosisText.json</file>
         <file>json_nhif.json</file>
+        <file>json_country.json</file>
     </qresource>
     <qresource prefix="/style">
         <file>dateEditStyle.qss</file>
@@ -123,5 +124,6 @@
         <file>db_migrateTo11.txt</file>
         <file>db_migrateTo12.txt</file>
         <file>db_migrateTo13.txt</file>
+        <file>db_migrateTo14.txt</file>
     </qresource>
 </RCC>

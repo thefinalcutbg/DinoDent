@@ -1,0 +1,5 @@
+ALTER TABLE patient ADD country TEXT;
+ALTER TABLE patient ADD institution_num TEXT;
+ALTER TABLE patient ADD ehic_num TEXT;
+ALTER TABLE patient ADD date_valid TEXT;
+PRAGMA user_version = 14;

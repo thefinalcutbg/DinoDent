@@ -101,7 +101,7 @@ bool Ln4Validator::validateInput(const std::string& text)
 }
 
 
-const std::string SSNValidator::invalid{ "Невалиден ССН" };
+const std::string SSNValidator::invalid{ "Невалиден идентификатор" };
 
 SSNValidator::SSNValidator()
 {

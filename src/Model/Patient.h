@@ -8,12 +8,14 @@
 #include <optional>
 #include <vector>
 #include "Model/Ekatte.h"
+#include "Model/Foreigner.h"
 #include "Model/MedicalStatuses.h"
+
 typedef std::array<std::string, 32>TeethNotes;
 
 struct Patient
 {
-	enum Type { EGN = 1, LNCH = 2, SSN = 3 };
+	enum Type { EGN = 1, LNCH = 2, SSN = 3, EU = 4 };
 
 	enum Sex { Male = 0, Female = 1 };
 
@@ -32,6 +34,8 @@ struct Patient
 	std::string address;
 	std::string HIRBNo;
 	std::string phone;
+
+	std::optional<Foreigner> foreigner;
 
 	MedicalStatuses medStats;
 

@@ -36,9 +36,8 @@ void PatientDialogPresenter::setView(IPatientDialog* view)
 
 	view->lineEdit(city)->setInputValidator(&city_validator);
 	view->lineEdit(hirbno)->setInputValidator(&hirb_validator);
-	view->lineEdit(fname)->setInputValidator(&name_validator);
-	view->lineEdit(lname)->setInputValidator(&name_validator);
 	view->dateEdit()->setInputValidator(&birth_validator);
+
 	changePatientType(1);
 
 	if (m_patient.has_value())
@@ -57,15 +56,19 @@ void PatientDialogPresenter::changePatientType(int index)
 		view->setType(Patient::EGN);
 
 		view->lineEdit(id)->setInputValidator(&egn_validator);
+		view->lineEdit(fname)->setInputValidator(&name_validator);
 		view->lineEdit(mname)->setInputValidator(&name_validator);
+		view->lineEdit(lname)->setInputValidator(&name_validator);
 		view->lineEdit(id)->validateInput();
 		view->resetFields();
 		break;
+
 	case 2:
 		view->setType(Patient::LNCH);
-
 		view->lineEdit(id)->setInputValidator(&ln4_validator);
+		view->lineEdit(fname)->setInputValidator(&name_validator);
 		view->lineEdit(mname)->setInputValidator(&cyrillic_validator);
+		view->lineEdit(lname)->setInputValidator(&name_validator);
 		view->lineEdit(id)->validateInput();;
 		view->resetFields();
 		break;
@@ -73,7 +76,19 @@ void PatientDialogPresenter::changePatientType(int index)
 		view->setType(Patient::SSN);
 
 		view->lineEdit(id)->setInputValidator(&ssn_validator);
+		view->lineEdit(fname)->setInputValidator(&name_validator);
 		view->lineEdit(mname)->setInputValidator(&cyrillic_validator);
+		view->lineEdit(lname)->setInputValidator(&name_validator);
+		view->lineEdit(id)->validateInput();
+		view->resetFields();
+		break;
+	case 4:
+		view->setType(Patient::EU);
+
+		view->lineEdit(id)->setInputValidator(&notEmpty_validator);
+		view->lineEdit(mname)->setInputValidator(nullptr);
+		view->lineEdit(fname)->setInputValidator(&notEmpty_validator);
+		view->lineEdit(lname)->setInputValidator(&notEmpty_validator);
 		view->lineEdit(id)->validateInput();
 		view->resetFields();
 		break;

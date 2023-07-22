@@ -18,8 +18,7 @@
 
 void fillCommonData(LimeReport::ReportEngine& report, const Patient& patient, const Doctor& doctor, const Practice& practice)
 {
-
-    report.dataManager()->setReportVariable(patient.type == Patient::SSN ? "ssn" : "id", QString::fromStdString(patient.id));
+    report.dataManager()->setReportVariable(patient.type > Patient::LNCH ? "ssn" : "id", QString::fromStdString(patient.id));
     report.dataManager()->setReportVariable("city", QString::fromStdString(patient.city.getString()));
     report.dataManager()->setReportVariable("address", QString::fromStdString(patient.address));
     report.dataManager()->setReportVariable("patientName", QString::fromStdString(patient.fullName()));
@@ -44,27 +43,28 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
 
     std::vector<Procedure> selectedProcedures;
 
+    if (amb.procedures.size() || amb.referrals.size())
+    {
+        ProcedurePrintSelectDialog dialog(amb.procedures.list(), amb.referrals);
 
-    ProcedurePrintSelectDialog dialog(amb.procedures.list(), amb.referrals);
-        
-    for (auto& p : amb.procedures) {
-        if (p.isNhif()) {
-            dialog.selectNhifOnly(true);
-            break;
+        for (auto& p : amb.procedures) {
+            if (p.isNhif()) {
+                dialog.selectNhifOnly(true);
+                break;
+            }
         }
+
+        if (dialog.exec() == QDialog::Rejected) {
+            return;
+        }
+
+        auto selectedIndexes = dialog.selectedProcedures();
+
+        for (auto idx : selectedIndexes) {
+            selectedProcedures.push_back(amb.procedures.at(idx));
+        }
+
     }
-
-    if (dialog.exec() == QDialog::Rejected) {
-        return;
-    }
-
-    auto selectedIndexes = dialog.selectedProcedures();
-
-    for (auto idx : selectedIndexes) {
-        selectedProcedures.push_back(amb.procedures.at(idx));
-    }
-
-
 
     QApplication::setOverrideCursor(Qt::BusyCursor);
 

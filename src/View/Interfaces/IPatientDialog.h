@@ -3,7 +3,7 @@
 class Patient;
 class Validator;
 enum class Insured;
-enum PatientField { id, fname, mname, lname, city, address, hirbno, phone };
+enum PatientField { id, fname, mname, lname, city, address, hirbno, phone, institution };
 
 #include "View/Interfaces/AbstractLineEdit.h"
 #include "View/Interfaces/AbstractDateEdit.h"

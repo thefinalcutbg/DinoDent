@@ -53,7 +53,7 @@ void postRequest(const QNetworkRequest& request, AbstractReplyHandler* handler, 
         {
             QApplication::restoreOverrideCursor();
 
-            ModalDialogBuilder::showError("Възникна грешка");
+            //ModalDialogBuilder::showError("Възникна грешка");
         }
     );
 

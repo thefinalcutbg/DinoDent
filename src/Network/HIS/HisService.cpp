@@ -122,9 +122,11 @@ std::string HisService::subject(const Patient& p)
 	std::string middleNameTag = p.MiddleName.size()?
 		"<nhis:middle value=\"" + p.MiddleName + "\"/>" : "";
 
+	int patientType = p.type == Patient::EU ? 5 : p.type;
+
 	std::string subject =
 	"<nhis:subject>"
-		+ bind("identifierType", std::to_string(p.type))
+		+ bind("identifierType", patientType)
 		+ bind("identifier", p.id)
 		+ bind("nhifInsuranceNumber", p.HIRBNo)
 		+ bind("birthDate", p.birth.to8601())
@@ -138,7 +140,7 @@ std::string HisService::subject(const Patient& p)
 			+ bind("country", p.foreigner ? p.foreigner->country.getCode() : "BG" )
 			+ bind("county", p.foreigner ? "" : p.city.getRegionCode())
 			+ bind("ekatte", p.foreigner ? "" : p.city.ekatte())
-			+ bind("city", p.foreigner ? FreeFn::escapeXml(p.getFullAddress()) : p.city.getString())
+			+ bind("city", p.foreigner ? FreeFn::escapeXml(p.address) : p.city.getString())
 			+ bind("line", p.foreigner ? "" : FreeFn::escapeXml(p.getFullAddress()))
 		+"</nhis:address>"
 		+bind("phone", p.phone)

@@ -3,6 +3,7 @@
 #include "Database/DbPatient.h"
 #include "View/Printer.h"
 #include "Database/DbNotes.h"
+#include "Model/User.h"
 PatientDialogPresenter::PatientDialogPresenter(std::string dialogTitle) :
 	view(nullptr), dialogTitle(dialogTitle)
 {}
@@ -59,6 +60,7 @@ void PatientDialogPresenter::changePatientType(int index)
 		view->lineEdit(fname)->setInputValidator(&name_validator);
 		view->lineEdit(mname)->setInputValidator(&name_validator);
 		view->lineEdit(lname)->setInputValidator(&name_validator);
+		view->lineEdit(address)->setInputValidator(nullptr);
 		view->lineEdit(id)->validateInput();
 		view->resetFields();
 		break;
@@ -69,6 +71,7 @@ void PatientDialogPresenter::changePatientType(int index)
 		view->lineEdit(fname)->setInputValidator(&name_validator);
 		view->lineEdit(mname)->setInputValidator(&cyrillic_validator);
 		view->lineEdit(lname)->setInputValidator(&name_validator);
+		view->lineEdit(address)->setInputValidator(nullptr);
 		view->lineEdit(id)->validateInput();;
 		view->resetFields();
 		break;
@@ -79,6 +82,7 @@ void PatientDialogPresenter::changePatientType(int index)
 		view->lineEdit(fname)->setInputValidator(&name_validator);
 		view->lineEdit(mname)->setInputValidator(&cyrillic_validator);
 		view->lineEdit(lname)->setInputValidator(&name_validator);
+		view->lineEdit(address)->setInputValidator(nullptr);
 		view->lineEdit(id)->validateInput();
 		view->resetFields();
 		break;
@@ -89,8 +93,10 @@ void PatientDialogPresenter::changePatientType(int index)
 		view->lineEdit(mname)->setInputValidator(nullptr);
 		view->lineEdit(fname)->setInputValidator(&notEmpty_validator);
 		view->lineEdit(lname)->setInputValidator(&notEmpty_validator);
+		view->lineEdit(address)->setInputValidator(&notEmpty_validator);
 		view->lineEdit(id)->validateInput();
 		view->resetFields();
+		view->lineEdit(city)->set_Text(User::practice().practice_address.getString(false));
 		break;
 	default:
 		break;

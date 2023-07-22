@@ -131,12 +131,12 @@
     <string>Име:</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_9">
+  <widget class="QLabel" name="addressLabel">
    <property name="geometry">
     <rect>
      <x>30</x>
      <y>170</y>
-     <width>47</width>
+     <width>101</width>
      <height>21</height>
     </rect>
    </property>
@@ -296,7 +296,7 @@
    </property>
    <property name="maximumDateTime">
     <datetime>
-     <hour>17</hour>
+     <hour>13</hour>
      <minute>59</minute>
      <second>59</second>
      <year>9999</year>
@@ -493,7 +493,7 @@
     </property>
     <property name="maximumDateTime">
      <datetime>
-      <hour>15</hour>
+      <hour>11</hour>
       <minute>59</minute>
       <second>59</second>
       <year>9999</year>

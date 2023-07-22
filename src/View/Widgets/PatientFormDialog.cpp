@@ -108,6 +108,7 @@ void PatientFormDialog::setType(Patient::Type type)
     ui.birthEdit->setDisabled(type == Patient::EGN);
     ui.label_8->setDisabled(type == Patient::EGN);
     ui.label_7->setDisabled(type == Patient::EGN);
+    
 
     ui.idLineEdit->setMaxLength(
         type < Patient::SSN ?
@@ -117,7 +118,9 @@ void PatientFormDialog::setType(Patient::Type type)
     );
 
     bool isForeigner = type == Patient::EU;
-    ui.foreignerGroup->setDisabled(!isForeigner);
+    ui.foreignerGroup->setHidden(!isForeigner);
+    ui.cityLineEdit->setDisabled(isForeigner);
+    ui.addressLabel->setText(isForeigner ? "Град в чужбина:" : "Адрес:");
 
 }
 
@@ -144,7 +147,7 @@ void PatientFormDialog::resetFields()
     ui.countryCombo->setCurrentIndex(21);
 
 }
-#include <qdebug.h>
+
 void PatientFormDialog::setPatient(const Patient& patient)
 {
     QSignalBlocker b1(ui.idLineEdit);

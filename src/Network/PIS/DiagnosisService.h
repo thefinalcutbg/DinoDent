@@ -14,8 +14,7 @@ class DiagnosisService final: private PisService
 public:
 
 	bool sendRequest(
-		int personType,
-		const std::string& patientId,
+		const Patient& p,
 		std::function<void(const std::vector<MedicalStatus>&)> callback
 	);
 

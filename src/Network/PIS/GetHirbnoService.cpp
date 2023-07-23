@@ -2,18 +2,25 @@
 #include <TinyXML/tinyxml.h>
 #include "Model/FreeFunctions.h"
 #include "View/ModalDialogBuilder.h"
+#include "Model/Patient.h"
 
-void GetHirbnoService::sendRequest(int personType, const std::string& id, std::function<void(const std::string&)> callback)
+void GetHirbnoService::sendRequest(const Patient& p, std::function<void(const std::string&)> callback)
 {
 	m_callback = callback;
 
-	std::string tag = personTypeArr[personType];
+	int personType = p.type;
+
+	if (p.foreigner && p.foreigner->isEHIC()) {
+		personType++;
+	};
+
+	std::string tag = getPersonIdTag(p);
 
 	auto query =
 		"<ns3:query xmlns:ns1=\"http://pis.technologica.com/views/\" "
 		"xmlns:ns3=\"http://pis.technologica.com/ws/\">"
 		"<ns3:user>"
-		"<ns3:" + tag + ">" + id + "</ns3:" + tag + ">"
+		"<ns3:" + tag + ">" + p.id + "</ns3:" + tag + ">"
 		"</ns3:user>"
 		"<ns3:from_clause>ACTIVE_HB</ns3:from_clause>"
 		"</ns3:query>"

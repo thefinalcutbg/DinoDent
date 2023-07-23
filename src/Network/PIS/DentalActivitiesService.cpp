@@ -6,10 +6,10 @@
 #include "Model/Dental/ToothUtils.h"
 #include "View/ModalDialogBuilder.h"
 #include "Model/Dental/NhifProcedures.h"
+#include "Model/Patient.h"
 
 bool DentalActivitiesService::sendRequest(
-		int personType, 
-		const std::string& patientId, 
+		const Patient& p,
 		bool showDialogs,
 		decltype(m_callback) callback
 	)
@@ -18,13 +18,19 @@ bool DentalActivitiesService::sendRequest(
 
 	m_callback = callback;
 
-	std::string tag = personTypeArr[personType];
+	int personType = p.type;
+
+	if (p.foreigner && p.foreigner->isEHIC()) {
+		personType++;
+	}
+
+	std::string tag = getPersonIdTag(p);
 
 	auto query =
 		"<ns3:query xmlns:ns1=\"http://pis.technologica.com/views/\" "
 		"xmlns:ns3=\"http://pis.technologica.com/ws/\">"
 			"<ns3:user>"
-				"<ns3:" + tag + ">" + patientId + "</ns3:" + tag + ">"
+				"<ns3:" + tag + ">" + p.id + "</ns3:" + tag + ">"
 			"</ns3:user>"
 
 			"<ns3:from_clause>INYEAR_DENTAL_ACTS</ns3:from_clause>"

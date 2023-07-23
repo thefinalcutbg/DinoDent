@@ -38,8 +38,7 @@ void PatientInfoPresenter::nraClicked(bool showDialog)
 void PatientInfoPresenter::diagnosisClicked()
 {
     nhifDiagnosisServ.sendRequest(
-        patient->type,
-        patient->id,
+        *patient,
 
 
         [=](const std::vector<MedicalStatus>& currentDiseases) {

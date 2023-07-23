@@ -15,8 +15,7 @@ public:
 
 	//returns procedures with payment status as a note
 	bool sendRequest(
-		int personType,
-		const std::string& patientId,
+		const Patient& p,
 		bool showDialogs,
 		decltype(m_callback) callback
 	);

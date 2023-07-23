@@ -7,8 +7,9 @@
 #include "Model/Dental/NhifProcedures.h"
 #include "Model/Date.h"
 #include "Model/Dental/MKB.h"
+#include "Model/Patient.h"
 
-bool DiagnosisService::sendRequest(int personType, const std::string& patientId, std::function<void(const std::vector<MedicalStatus>&)> callback)
+bool DiagnosisService::sendRequest(const Patient& p, std::function<void(const std::vector<MedicalStatus>&)> callback)
 {
 	if (!MKB::isInitialized()) {
 		ModalDialogBuilder::showMessage("Първо заредете МКБ номенклатурите от настройки");
@@ -17,11 +18,11 @@ bool DiagnosisService::sendRequest(int personType, const std::string& patientId,
 
 	m_callback = callback;
 
-	std::string tag = personTypeArr[personType];
+	std::string tag = getPersonIdTag(p);
 
 	auto query =
 		"<ns3:pdDiagnosisIn xmlns:ns3 = \"http://pis.technologica.com/ws/\">"
-			"<ns3:" + tag + ">" + patientId + "</ns3:" + tag + ">"
+			"<ns3:" + tag + ">" + p.id + "</ns3:" + tag + ">"
 			"<ns3:date>" + Date::currentDate().to8601()  +"</ns3:date>"
 		"</ns3:pdDiagnosisIn>"
 	;

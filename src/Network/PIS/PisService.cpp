@@ -3,6 +3,7 @@
 #include "Network/PKCS11.h"
 #include "Network/NetworkManager.h"
 #include "Network/XmlSigner.h"
+#include "Model/Patient.h"
 
 void PisService::parseReply(const std::string& reply)
 {
@@ -16,6 +17,28 @@ void PisService::parseReply(const std::string& reply)
 	}
 
 	processPISReply(reply);
+}
+
+std::string PisService::getPersonIdTag(const Patient& p)
+{
+
+	static const char* personTypeArr[6]
+	{
+		"",
+		"egn",
+		"lnch",
+		"nra",
+		"con",
+		"ehc"
+	};
+
+	int personType = p.type;
+
+	if (p.foreigner && p.foreigner->isEHIC()) {
+		personType++;
+	}
+
+	return personTypeArr[personType];
 }
 
 bool PisService::sendRequest(const std::string& query, SOAPAction header)

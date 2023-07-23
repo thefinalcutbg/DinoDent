@@ -34,13 +34,13 @@ PatientFormDialog::PatientFormDialog(PatientDialogPresenter* p, QWidget* parent)
     setType(Patient::EGN);
 
     connect(ui.ehicRadio, &QRadioButton::toggled, [=] {
-        ui.validDateLabel->setText("Валиен до:"); 
+        ui.validDateLabel->setText("Валиден до:"); 
         ui.ehicLabel->setDisabled(false); 
         ui.ehic_edit->setDisabled(false); 
     });
 
     connect(ui.otherRadio, &QRadioButton::toggled, [=] { 
-        ui.validDateLabel->setText("Издаден на:"); 
+        ui.validDateLabel->setText("Валидност от:"); 
         ui.ehicLabel->setDisabled(true);
         ui.ehic_edit->setDisabled(true);
     });

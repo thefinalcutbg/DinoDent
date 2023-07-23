@@ -108,7 +108,7 @@ void PatientDialogPresenter::checkHirbno()
 {
 	auto p = view->getPatient();
 	
-	hirbnoHandler.sendRequest(p.type, p.id, 
+	hirbnoHandler.sendRequest(p, 
 		[=](auto hirbno) {if (this)this->setHirbno(hirbno);}
 	);
 

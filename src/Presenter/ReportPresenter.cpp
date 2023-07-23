@@ -139,7 +139,7 @@ void ReportPresenter::checkNext()
 	{
 		bool success =
 		activitiesService.sendRequest(
-			patient.type, patient.id, true,
+			patient, true,
 			[=](auto& result) {if (this)this->setPISActivities(result);}
 		);
 

@@ -16,7 +16,7 @@ bool ProcedureHistoryPresenter::refreshPIS()
 		return true;
 	}
 
-	return pis_service.sendRequest(ref_patient.type, ref_patient.id, true,
+	return pis_service.sendRequest(ref_patient, true,
 		[&](const std::optional<std::vector<Procedure>> pis_data)
 		{
 			if (!pis_data.has_value()) return;

@@ -301,7 +301,7 @@ void ListPresenter::setDataToView()
                 patient->PISHistory = procedures;
             };
 
-            querySent = dentalActService.sendRequest(patient->type, patient->id, false, callback);
+            querySent = dentalActService.sendRequest(*patient, false, callback);
         }
 
         if (!querySent) {

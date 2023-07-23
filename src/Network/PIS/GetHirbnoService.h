@@ -9,8 +9,7 @@ class GetHirbnoService final: private PisService
 public:
 
 	void sendRequest(
-		int personType,
-		const std::string& id,
+		const Patient& p,
 		std::function<void(const std::string&)> callback
 	);
 };

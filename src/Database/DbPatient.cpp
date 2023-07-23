@@ -21,17 +21,15 @@ long long DbPatient::insert(const Patient& patient)
     db.bind(8, patient.city.getIdxAsInt());
     db.bind(9, patient.address);
     db.bind(10, patient.HIRBNo);
-    
+    db.bind(11, patient.phone);
 
     if (patient.foreigner)
     {
-        db.bind(11, patient.foreigner->country.getCode());
-        db.bind(12, patient.foreigner->institution);
-        db.bind(13, patient.foreigner->ehic);
-        db.bind(14, patient.foreigner->date_valid.to8601());
+        db.bind(12, patient.foreigner->country.getCode());
+        db.bind(13, patient.foreigner->institution);
+        db.bind(14, patient.foreigner->ehic);
+        db.bind(15, patient.foreigner->date_valid.to8601());
     }
-
-    db.bind(15, patient.phone);
 
     if (db.execute()) return db.lastInsertedRowID();
 

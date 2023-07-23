@@ -206,19 +206,19 @@ Invoice DbInvoice::getInvoice(long long rowId)
 
 
         //if it's from monthly notification, parse the xml data and return the result:
-                    if (monthNotif) {
+        if (monthNotif) {
 
-                        TiXmlDocument doc;
-                        doc.Parse(db.asString(4).c_str(), 0, TIXML_ENCODING_UTF8);
+            TiXmlDocument doc;
+            doc.Parse(db.asString(4).c_str(), 0, TIXML_ENCODING_UTF8);
 
-                        Invoice result(doc, User::practice(), User::doctor());
+            Invoice result(doc, User::practice(), User::doctor());
 
-                        result.rowId = rowId;
-                        result.number = invNumber;
-                        result.date = invDate;
+            result.rowId = rowId;
+            result.number = invNumber;
+            result.date = invDate;
 
-                        return result;
-                    }
+            return result;
+        }
 
         //if not, we continue with recipient data, since they are not null for sure
 

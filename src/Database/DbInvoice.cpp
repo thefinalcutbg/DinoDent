@@ -6,48 +6,45 @@
 #include <TinyXML/tinyxml.h>
 
 long long DbInvoice::insertInvoice(const Invoice& invoice)
-{
+{ 
+    Db db;
 
-    bool nhif = invoice.nhifData.has_value();
-   
+    if(invoice.nhifData.has_value()){
 
-    std::string query;
-
-    if(nhif){
-        query = 
+        db.newStatement(
             "INSERT INTO financial (practice_rzi, num, type, date, month_notif, recipient_id, data) "
-            "VALUES ("
-            "'" + User::practice().rziCode + "',"
-            + std::to_string(invoice.number) + ","
-            + std::to_string(static_cast<int>(invoice.type)) + ",'"
-            + invoice.date.to8601() + "',"
-            + std::to_string(invoice.nhifData->fin_document_month_no) + ","
-            "'" + invoice.recipient.bulstat + "', "
-            "'" + invoice.nhifData->monthNotifData + "'"
-            ")";
+            "VALUES (?,?,?,?,?,?,?)"
+        );
+
+        db.bind(1, User::practice().rziCode);
+        db.bind(2, invoice.number);
+        db.bind(3, static_cast<int>(invoice.type));
+        db.bind(4, invoice.date.to8601());
+        db.bind(5, invoice.nhifData->fin_document_month_no);
+        db.bind(6, invoice.recipient.bulstat);
+        db.bind(7, invoice.nhifData->monthNotifData);
     }
     else
     {
-        query = "INSERT INTO financial (practice_rzi, num, type, date, month_notif, data," 
-                                " recipient_id, recipient_name, recipient_address, recipient_phone) "
-            "VALUES ("
-            "'" + User::practice().rziCode + "',"
-            + std::to_string(invoice.number) + ","
-            + std::to_string(static_cast<int>(invoice.type)) + ",'"
-            + invoice.date.to8601() + "',"
-            + "0" + ","
-            "'" + Parser::write(invoice) + "',"
-            "'" + invoice.recipient.bulstat + "',"
-            "'" + invoice.recipient.name + "',"
-            "'" + invoice.recipient.address + "',"
-            "'" + invoice.recipient.phone + "'"
-            ")";
+        db.newStatement(
+            "INSERT INTO financial (practice_rzi, num, type, date, month_notif, data,"
+            " recipient_id, recipient_name, recipient_address, recipient_phone) "
+            "VALUES (?,?,?,?,?,?,?,?,?,?)"
+        );
+
+        db.bind(1, User::practice().rziCode);
+        db.bind(2, invoice.number);
+        db.bind(3, static_cast<int>(invoice.type));
+        db.bind(4, invoice.date.to8601());
+        db.bind(5, "0");
+        db.bind(6, Parser::write(invoice));
+        db.bind(7, invoice.recipient.bulstat);
+        db.bind(8, invoice.recipient.name);
+        db.bind(9, invoice.recipient.address);
+        db.bind(10, invoice.recipient.phone);
     }
 
-
-    Db db;
-
-    db.execute(query);
+    db.execute();
 
     return db.lastInsertedRowID();
 
@@ -56,38 +53,39 @@ long long DbInvoice::insertInvoice(const Invoice& invoice)
 
 void DbInvoice::updateInvoice(const Invoice& invoice)
 {
+    Db db(
+            "UPDATE financial SET "
+            "num=?,"
+            "type=?,"
+            "date=?,"
+            "data=?,"
+            "recipient_id=?,"
+            "recipient_name=?,"
+            "recipient_phone=?,"
+            "recipient_address=? "
+            "WHERE rowid=?"
+    );
 
-    std::string query =
-
-        "UPDATE financial SET "
-
-        "num = " + std::to_string(invoice.number) + ","
-        "type = " + std::to_string(static_cast<int>(invoice.type)) + ","
-        "date = '" + invoice.date.to8601() + "',"
-        "recipient_id = '" + invoice.recipient.bulstat + "', "
-        "data = '" + Parser::write(invoice) + "' "
-
-        ;
- 
+    db.bind(1, invoice.number);
+    db.bind(2, static_cast<int>(invoice.type));
+    db.bind(3, invoice.date.to8601());
+    db.bind(4, Parser::write(invoice));
+    db.bind(5, invoice.recipient.bulstat);
+        
     if (!invoice.nhifData.has_value()) {
 
-
-        query += ","
-            "recipient_id = '" + invoice.recipient.bulstat + "', "
-            "recipient_name = '" + invoice.recipient.name + "', "
-            "recipient_phone = '" + invoice.recipient.phone + "', "
-            "recipient_address = '" + invoice.recipient.address + "' ";
-
+        db.bind(6, invoice.recipient.name);
+        db.bind(7, invoice.recipient.phone);
+        db.bind(8, invoice.recipient.address);
     }
 
-    query += "WHERE rowid = " + std::to_string(invoice.rowId);
+    db.bind(9, invoice.rowId);
 
-    Db::crudQuery(query);
+    db.execute();
 }
 
 long long DbInvoice::invoiceAlreadyExists(int monthNotifNumber)
 {
-
 
      std::string query =
          "SELECT rowid FROM financial "

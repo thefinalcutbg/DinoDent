@@ -31,6 +31,10 @@ void fillCommonData(LimeReport::ReportEngine& report, const Patient& patient, co
     report.dataManager()->setReportVariable("LPK", QString::fromStdString(doctor.LPK));
     report.dataManager()->setReportVariable("doctorName", QString::fromStdString(doctor.getFullName(true)));
     report.dataManager()->setReportVariable("hirbNo", QString::fromStdString(patient.HIRBNo));
+
+    if (patient.foreigner) {
+        report.dataManager()->setReportVariable("country", patient.foreigner->country.getCode().c_str());
+    }
 }
 
 void Print::ambList(const AmbList& amb, const Patient& patient)

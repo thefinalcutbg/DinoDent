@@ -262,21 +262,11 @@ int DbAmbList::getNewNumber(Date ambDate, bool nhif)
 
 }
 
-std::vector<AmbList> DbAmbList::getMonthlyNhifSheets(int month, int year, bool foreigners)
+std::vector<AmbList> DbAmbList::getMonthlyNhifSheets(int month, int year)
 {
     std::vector<AmbList> result;
 
     std::map<long long, int> sheetRowIdMap;
-
-//should the foreigners have different report?
-/*
-    std::string foreignerClause = foreigners ?
-        "AND patient.type=4 "
-        :
-        "AND patient.type!=4 "
-    ;
- */
-    //getting amb sheets
 
      std::string query = 
         "SELECT "
@@ -300,7 +290,6 @@ std::vector<AmbList> DbAmbList::getMonthlyNhifSheets(int month, int year, bool f
         "AND strftime('%m', amblist.date)='" + FreeFn::leadZeroes(month, 2) + "' "
         "AND strftime('%Y', amblist.date)='" + std::to_string(year) + "' "
         "AND (procedure.financing_source = 2 OR referral.rowid NOT NULL) "
- //        + foreignerClause +
         "GROUP BY amblist.rowid "
         "ORDER BY amblist.date ASC ";
 

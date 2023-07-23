@@ -21,7 +21,7 @@ namespace DbAmbList
 
     bool suchNumberExists(int year, int ambNum, long long ambRowid);
 
-    std::vector<AmbList> getMonthlyNhifSheets(int month, int year, bool foreigners = false);
+    std::vector<AmbList> getMonthlyNhifSheets(int month, int year);
 
     void updateNrn(const std::string& nrn, long long ambRowId);
 

@@ -59,7 +59,7 @@ bool initFunction() {
 
     GlobalSettings::createCfgIfNotExists();
 
-    //Db::setFilePath(GlobalSettings::getDbPath());
+    Db::setFilePath(GlobalSettings::getDbPath());
 
     if (!Db::createIfNotExist()) {
 

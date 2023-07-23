@@ -255,13 +255,13 @@ void ToothContainer::removeNonRetainedConstructions()
 		}
 
 	}
-
+	
 	//removing those, who doesn't have at least one retainer
 	for (auto& pair : constructions)
 	{
 		bool noRetainers = true;
 
-		if (pair.first = -1) continue;
+		if (pair.first == -1) continue;
 
 		for (int i = pair.first; i <= pair.second; i++)
 		{

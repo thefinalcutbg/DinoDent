@@ -53,6 +53,10 @@ DinoDent::DinoDent(QWidget* parent)
     shortcut->setContext(Qt::WidgetWithChildrenShortcut);
     QObject::connect(shortcut, &QShortcut::activated, [&] { MainPresenter::get().newAmbPressed(); });
 
+    shortcut = new QShortcut(QKeySequence(Qt::CTRL | Qt::Key_M), this);
+    shortcut->setContext(Qt::WidgetWithChildrenShortcut);
+    QObject::connect(shortcut, &QShortcut::activated, [&] { MainPresenter::get().newPerioPressed(); });
+
     shortcut = new QShortcut(QKeySequence(Qt::CTRL | Qt::Key_F), this);
     shortcut->setContext(Qt::WidgetWithChildrenShortcut);
     QObject::connect(shortcut, &QShortcut::activated, [&] { MainPresenter::get().newInvoicePressed(); });

@@ -2,7 +2,6 @@
 
 #include <JsonCpp/json.h>
 
-#include "Model/FreeFunctions.h"
 #include "Model/User.h"
 #include "Version.h"
 #include "Network/NetworkManager.h"
@@ -13,7 +12,6 @@ void Telemetry::sendData()
 	Json::Value telemetry;
 
 	telemetry["id"] = GlobalSettings::telemetryId();
-	telemetry["lastLogin"] = FreeFn::getTimeStamp();
 	telemetry["version"] = Version::current().toString();
 	telemetry["isAdmin"] = User::isAdmin();
 	telemetry["hasNhifContract"] = User::hasNhifContract();

@@ -57,7 +57,7 @@ QVariant PerioTableModel::headerData(int section, Qt::Orientation orientation, i
             {
                 case 0: return "ID";
                 case 1: return "Дата";
-                case 2: return "ЕГН/ЛНЧ";
+                case 2: return "ЕГН/ЛНЧ/ИН";
                 case 3: return "Име на пациента";
                 case 4: return "Телефон";
             }

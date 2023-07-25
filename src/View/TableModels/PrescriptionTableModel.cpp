@@ -57,14 +57,14 @@ QVariant PrescriptionTableModel::headerData(int section, Qt::Orientation orienta
         {
         case 0: return "ID";
         case 1: return "Дата";
-        case 2: return "ЕГН/ЛНЧ";
+        case 2: return "ЕГН/ЛНЧ/ИН";
         case 3: return "Име на пациента";
         case 4: return "Телефон";
         }
 
     if (role == Qt::TextAlignmentRole && orientation == Qt::Horizontal)
     {
-        if (section == 4 || section == 5)
+        if (section == 3 || section == 4)
             return int(Qt::AlignLeft);
         else
             return int(Qt::AlignCenter);

@@ -54,7 +54,7 @@ QVariant PatientTableModel::headerData(int section, Qt::Orientation orientation,
             switch (section)
             {
                 case 0: return "ID";
-                case 1: return "ЕГН/ЛНЧ";
+                case 1: return "ЕГН/ЛНЧ/ИН";
                 case 2: return "Име на пациента";
                 case 3: return "Телефон";
             }

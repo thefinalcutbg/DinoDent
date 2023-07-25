@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>995</width>
-    <height>560</height>
+    <width>999</width>
+    <height>715</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -112,7 +112,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>Ново пародонтално измерване (Ctrl + M)</string>
+         <string>Ново пародонтално измерване (Ctrl+M)</string>
         </property>
         <property name="text">
          <string>Ново пар. изм.</string>

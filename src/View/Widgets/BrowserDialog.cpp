@@ -105,7 +105,7 @@ void BrowserDialog::setRows(const std::vector<AmbRow>& rows)
 	ui.tableView->setColumnWidth(1, 50);
 	ui.tableView->setColumnWidth(2, 120);
 	ui.tableView->setColumnWidth(3, 80);
-	ui.tableView->setColumnWidth(4, 80);
+	ui.tableView->setColumnWidth(4, 150);
 	ui.tableView->setColumnWidth(5, 240);
 	ui.tableView->setColumnWidth(6, 120);
 
@@ -150,7 +150,7 @@ void BrowserDialog::setRows(const std::vector<PerioRow>& rows)
 	ui.tableView->hideColumn(0);
 	
 	ui.tableView->setColumnWidth(1, 80);
-	ui.tableView->setColumnWidth(2, 80);
+	ui.tableView->setColumnWidth(2, 150);
 	ui.tableView->setColumnWidth(3, 250);
 	ui.tableView->setColumnWidth(4, 120);
 	
@@ -196,7 +196,7 @@ void BrowserDialog::setRows(const std::vector<PatientRow>& rows)
 
 	ui.tableView->hideColumn(0);
 	
-	ui.tableView->setColumnWidth(1, 80);
+	ui.tableView->setColumnWidth(1, 150);
 	ui.tableView->setColumnWidth(2, 250);
 	ui.tableView->setColumnWidth(3, 120);
 	
@@ -284,7 +284,7 @@ void BrowserDialog::setRows(const std::vector<PrescriptionRow>& rows)
 
 	ui.tableView->hideColumn(0);
 	ui.tableView->setColumnWidth(1, 100);
-	ui.tableView->setColumnWidth(2, 80);
+	ui.tableView->setColumnWidth(2, 150);
 	ui.tableView->setColumnWidth(3, 250);
 	ui.tableView->setColumnWidth(4, 120);
 

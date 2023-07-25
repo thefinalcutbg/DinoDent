@@ -61,7 +61,7 @@ QVariant AmbListTableModel::headerData(int section, Qt::Orientation orientation,
                 case 1: return "НЗОК";
                 case 2: return "Амб.№";
                 case 3: return "Дата";
-                case 4: return "ЕГН/ЛНЧ";
+                case 4: return "ЕГН/ЛНЧ/ИН";
                 case 5: return "Име на пациента";
                 case 6: return "Телефон";
             }

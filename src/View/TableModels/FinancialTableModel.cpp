@@ -124,7 +124,7 @@ QVariant FinancialTableModel::data(const QModelIndex& index, int role) const
         default: return QVariant();
         }
     case Qt::TextAlignmentRole:
-        if (column == 4 || column == 5) return int(Qt::AlignLeft);
+        if (column == 3 || column == 4) return int(Qt::AlignLeft);
         else if (column == 1) return int(Qt::AlignRight);
         else return int(Qt::AlignCenter);
     }

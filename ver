@@ -1,7 +1,7 @@
 {
 	"win64": {
 		"ver": "1.5.0",
-		"dl": "https://github.com/thefinalcutbg/DinoDent/releases/download/v1.4.1/DinoDentSetup.exe",
+		"dl": "https://github.com/thefinalcutbg/DinoDent/releases/download/v1.5.0/DinoDentSetup.exe",
 		"changeLog": [
 				"Възможност за издаване на фактури към юридически лица (напр. към фондове с които практиката има договор)",
 				"Възможност за добавяне на пациенти със ССН идентификатор издаден от НАП",

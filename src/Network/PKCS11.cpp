@@ -9,9 +9,43 @@
 #include <qdebug.h>
 #include "QtVersion.h"
 #include "GlobalSettings.h"
-
+#include <QSSlCertificate>
+#include <QDateTime>
+#include <qdebug.h>
 PKCS11_CTX* ctx{ nullptr };
 
+bool isValidCertificate(PKCS11_cert_st* cert)
+{
+	int length = i2d_X509(cert->x509, 0);
+
+	std::vector<char> vec;
+	vec.resize(length);
+	char* data = vec.data();
+
+	char** dataP = &data;
+	unsigned char** dataPu = (unsigned char**)dataP;
+
+	if (i2d_X509(cert->x509, dataPu) < 0)
+	{
+		return false;
+	}
+
+	std::string certResult = "-----BEGIN CERTIFICATE-----\n";
+
+	certResult.append(Base64Convert::encode(vec.data(), vec.size()));
+
+	certResult.append("\n-----END CERTIFICATE-----");
+
+	QSslCertificate qCert(certResult.data());
+
+	const QDateTime currentTime = QDateTime::currentDateTime();
+	
+	return
+		!qCert.isNull() &&
+		currentTime <= qCert.expiryDate() &&
+		currentTime >= qCert.effectiveDate()
+		;
+}
 
 std::vector<std::string> PKCS11::getModulesList()
 {
@@ -108,19 +142,31 @@ PKCS11::PKCS11()
 
 	m_slot = PKCS11_find_token(ctx, m_slots, nslots);
 
-	if (m_slot == nullptr)
-		return;
+	if (m_slot == nullptr) return;
 
 	PKCS11_enumerate_certs(m_slot->token, &certs, &ncerts);
 
-	if (ncerts == 0) return;
+	if (ncerts == 0) { return; }
+	else if (ncerts == 1)
+	{
+		m_certificate = &certs[0];
+	}
+	else
+	{
+		//if there are multiple certificates, iterrating to find a valid one
+		for (int i = 0; i < ncerts; i++)
+		{
+			if (isValidCertificate(&certs[i]))
+			{
+				m_certificate = &certs[i];
+				break;
+			}
+		}
+	}
 
-
-	m_certificate = &certs[ncerts-1]; //getting the most recent certificate
+	if (m_certificate == nullptr) return;
 
 	int length = i2d_X509(m_certificate->x509, 0);
-
-	std::string result;
 
 	std::vector<char> vec;
 	vec.resize(length);

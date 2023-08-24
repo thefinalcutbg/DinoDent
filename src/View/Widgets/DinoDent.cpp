@@ -21,7 +21,7 @@ DinoDent::DinoDent(QWidget* parent)
 {
     ui.setupUi(this);
 
-
+    setWindowState(Qt::WindowMaximized);
 
     GlobalWidgets::statusBar = statusBar();
 

@@ -3,6 +3,7 @@
 #include "Network/UpdateService/UpdateService.h"
 #include <QTextCodec>
 #include "Model/FreeFunctions.h"
+#include <QSplashScreen>
 
 bool initFunction();
 
@@ -20,16 +21,20 @@ int main(int argc, char *argv[])
    // testFn(); return 0;
 
     a.setWindowIcon(QIcon(":/icons/icon_torque.png"));
-    
+
     if (UpdateService::restartForUpdate()) { return 0; };
+
+    QSplashScreen splash(QPixmap(":/other/splash.png"));
+    splash.show();
+    splash.showMessage("DinoDent зарежда, моля изчакайте...");
+
+    a.processEvents();
 
     if (!initFunction()) { return 0; }
 
     DinoDent w;
-    w.setWindowState(Qt::WindowMaximized);
 
-    if (!w.m_loggedIn)
-        return 0;
+    if (!w.m_loggedIn) return 0;
 
     w.show();
 
@@ -68,6 +73,8 @@ bool initFunction() {
             "\nУверете се, че пътят към файлът е правилен и че"
             "\nимате правомощия за модифицирането му."
         );
+
+        return false;
     };
 
     //Intializing static data

@@ -4,7 +4,7 @@
 #include <QTextCodec>
 #include "Model/FreeFunctions.h"
 #include <QSplashScreen>
-
+#include <qdebug.h>
 bool initFunction();
 
 void testFn();
@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
     QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     QApplication::setFont(QFont ("Segoe UI", 8));    
     QCoreApplication::setApplicationName("DinoDent");
-    
+
     QApplication a(argc, argv);
 
    // testFn(); return 0;

@@ -99,6 +99,8 @@ src\Database\DbReferral.cpp
 src\Database\DbReferral.h
 src\Database\DbStatistics.cpp
 src\Database\DbStatistics.h
+src\Database\DbTelemetry.cpp
+src\Database\DbTelemetry.h
 src\Database\DbUpdateStatus.cpp
 src\Database\DbUpdateStatus.h
 src\DbUpdates\DbUpdates.cpp

@@ -222,6 +222,7 @@
     <ClCompile Include="src\Database\DbPrescription.cpp" />
     <ClCompile Include="src\Database\DbReferral.cpp" />
     <ClCompile Include="src\Database\DbStatistics.cpp" />
+    <ClCompile Include="src\Database\DbTelemetry.cpp" />
     <ClCompile Include="src\Database\DbUpdateStatus.cpp" />
     <ClCompile Include="src\DbUpdates\Update10.cpp" />
     <ClCompile Include="src\DbUpdates\Update11.cpp" />
@@ -517,6 +518,7 @@
     <ClInclude Include="src\Database\DbFiscalReceipt.h" />
     <ClInclude Include="src\Database\DbReferral.h" />
     <ClInclude Include="src\Database\DbStatistics.h" />
+    <ClInclude Include="src\Database\DbTelemetry.h" />
     <ClInclude Include="src\Database\DbUpdateStatus.h" />
     <ClInclude Include="src\Model\Country.h" />
     <ClInclude Include="src\Model\Dental\DentalNum.h" />

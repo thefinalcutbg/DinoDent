@@ -12,6 +12,7 @@
 #include "Model/Financial/Recipient.h"
 
 #include "Model/MedicalStatuses.h"
+#include "Model/MedicalNotice.h"
 
 
 enum class SelectionPref {All, OnlyNZOK, OnlyPaid};
@@ -64,6 +65,7 @@ namespace ModalDialogBuilder
 	//returns true if user wants to apply the procedures to the status
 	std::optional<BusinessOperation> editBusinessOperation(const BusinessOperation& op);
 	std::optional<BusinessOperation> addBusinessOperation();
+	std::optional<MedicalNotice> addMedicalNotice();
 	bool askDialog(const std::string& questionText);
 	bool updatePrompt(const std::string& changeLog);
 	void showError(const std::string& error);

@@ -468,6 +468,7 @@
     <ClCompile Include="src\View\Widgets\FiscalReceiptDialog.cpp" />
     <ClCompile Include="src\View\Widgets\ButtonDialog.cpp" />
     <ClCompile Include="src\View\Widgets\FiscalReportView.cpp" />
+    <ClCompile Include="src\View\Widgets\MedicalNoticeDialog.cpp" />
     <ClCompile Include="src\View\Widgets\MedicalStatusDialog.cpp" />
     <ClCompile Include="src\View\Widgets\PracticeDialog.cpp" />
     <ClCompile Include="src\View\Widgets\BrowserDialog.cpp" />
@@ -528,6 +529,7 @@
     <ClInclude Include="src\Model\Dental\ToothIndex.h" />
     <ClInclude Include="src\Model\Financial\FiscalReceipt.h" />
     <ClInclude Include="src\Model\Foreigner.h" />
+    <ClInclude Include="src\Model\MedicalNotice.h" />
     <ClInclude Include="src\Model\MedicalStatuses.h" />
     <ClInclude Include="src\Model\Patient.h" />
     <ClInclude Include="src\Model\Referrals\NumberVariant.h" />
@@ -795,6 +797,7 @@
     <QtMoc Include="src\View\Widgets\FiscalReportView.h" />
     <ClInclude Include="src\View\Widgets\GlobalWidgets.h" />
     <QtMoc Include="src\View\Widgets\PisDialog.h" />
+    <QtMoc Include="src\View\Widgets\MedicalNoticeDialog.h" />
     <ClInclude Include="src\View\Widgets\ReportDialogResult.h" />
     <QtMoc Include="src\View\Widgets\ReportFilesView.h" />
     <QtMoc Include="src\View\Widgets\StatisticDialogView.h" />
@@ -886,6 +889,7 @@
     <QtUic Include="src\View\Widgets\FiscalReceiptDialog.ui" />
     <QtUic Include="src\View\Widgets\ButtonDialog.ui" />
     <QtUic Include="src\View\Widgets\FiscalReportView.ui" />
+    <QtUic Include="src\View\Widgets\MedicalNoticeDialog.ui" />
     <QtUic Include="src\View\Widgets\MedicalStatusDialog.ui" />
     <QtUic Include="src\View\Widgets\PracticeDialog.ui" />
     <QtUic Include="src\View\Widgets\BrowserDialog.ui" />

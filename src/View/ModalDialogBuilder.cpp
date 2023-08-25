@@ -200,6 +200,14 @@ std::optional<BusinessOperation> ModalDialogBuilder::addBusinessOperation()
 	return d.getResult();
 }
 
+#include "View/Widgets/MedicalNoticeDialog.h"
+std::optional<MedicalNotice> ModalDialogBuilder::addMedicalNotice()
+{
+	MedicalNoticeDialog d;
+	d.exec();
+	return d.getResult();
+}
+
 bool ModalDialogBuilder::askDialog(const std::string& questionText)
 {
 	QMessageBox msg;

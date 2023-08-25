@@ -906,6 +906,9 @@
     <ClCompile Include="src\View\Widgets\MedicalNoticeDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\uiComponents\BigPushButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Database\Database.h">
@@ -1982,6 +1985,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\Widgets\MedicalNoticeDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\uiComponents\BigPushButton.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

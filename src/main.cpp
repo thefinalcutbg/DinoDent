@@ -19,8 +19,14 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
    // testFn(); return 0;
-
+    
     a.setWindowIcon(QIcon(":/icons/icon_torque.png"));
+
+    //showing splash screen
+    QSplashScreen splash(QPixmap(":/other/splash.png"));
+    splash.show();
+    splash.showMessage("DinoDent зарежда, моля изчакайте...", Qt::AlignLeft | Qt::AlignBottom, Qt::darkGray);
+    a.processEvents();
 
     if (UpdateService::restartForUpdate()) { return 0; };
 
@@ -71,12 +77,6 @@ bool initFunction() {
         return false;
     };
 
-    //showing splash screen
-    QSplashScreen splash(QPixmap(":/other/splash.png"));
-    splash.show();
-    splash.showMessage("DinoDent зарежда, моля изчакайте...", Qt::AlignLeft | Qt::AlignBottom, Qt::darkGray);
-    QApplication::instance()->processEvents();
-
     //Intializing static data
     SpriteSheets::container().initialize(); //loading textures, otherwise program will crash;
     Zodiac::initialize();
@@ -94,8 +94,6 @@ bool initFunction() {
     Date::initializeHolidays();
     Specialty::initialize();
     User::initialize();
-
-    splash.hide();
 
     Db::showErrorDialog(true);
     DbUpdater::updateDb();

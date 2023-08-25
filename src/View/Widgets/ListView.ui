@@ -721,10 +721,10 @@
         </spacer>
        </item>
        <item>
-        <widget class="QPushButton" name="medicalNoticeButton">
+        <widget class="BigPushButton" name="medicalNoticeButton">
          <property name="minimumSize">
           <size>
-           <width>200</width>
+           <width>220</width>
            <height>50</height>
           </size>
          </property>
@@ -848,7 +848,7 @@
          </property>
          <property name="minimumSize">
           <size>
-           <width>200</width>
+           <width>220</width>
            <height>50</height>
           </size>
          </property>
@@ -1020,6 +1020,11 @@
    <class>CustomDateTimeEdit</class>
    <extends>QDateTimeEdit</extends>
    <header>View/uiComponents/customdatetimeedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>BigPushButton</class>
+   <extends>QPushButton</extends>
+   <header>View/uiComponents/bigpushbutton.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

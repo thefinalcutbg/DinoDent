@@ -65,8 +65,10 @@ ListView::ListView(QWidget* parent)
 	ui.addRefButton->setIcon(QIcon(":/icons/icon_add.png"));
 	ui.addRefButton->setHoverColor(Theme::mainBackgroundColor);
 
-	setStyleSheet(Theme::getFancyStylesheet());
+	ui.medicalNoticeButton->setIcon(QIcon(":/icons/icon_add.png"));
+	ui.medicalNoticeButton->setHoverColor(Theme::mainBackgroundColor);
 
+	setStyleSheet(Theme::getFancyStylesheet());
 
 	ui.procedureLabel->setStyleSheet(
 		"color : " + Theme::colorToString(Theme::fontTurquoise) + "; "

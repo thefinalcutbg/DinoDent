@@ -46,13 +46,6 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="addressLabel_2">
-          <property name="text">
-           <string>Място на лечението:</string>
-          </property>
-         </widget>
-        </item>
-        <item>
          <widget class="QLabel" name="addressLabel">
           <property name="text">
            <string>Да послужи пред:</string>
@@ -81,7 +74,7 @@
             </property>
             <property name="maximumDateTime">
              <datetime>
-              <hour>21</hour>
+              <hour>19</hour>
               <minute>59</minute>
               <second>59</second>
               <year>9999</year>
@@ -151,48 +144,6 @@
          </layout>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_2">
-          <item>
-           <widget class="ComboBox" name="locationCombo">
-            <property name="styleSheet">
-             <string notr="true"/>
-            </property>
-            <property name="currentIndex">
-             <number>2</number>
-            </property>
-            <item>
-             <property name="text">
-              <string>У дома</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>На стационар</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Друго</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item>
-           <spacer name="horizontalSpacer_4">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-         </layout>
-        </item>
-        <item>
          <widget class="LineEdit" name="institutionEdit">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -248,7 +199,7 @@
         </property>
         <property name="maximumDateTime">
          <datetime>
-          <hour>19</hour>
+          <hour>17</hour>
           <minute>59</minute>
           <second>59</second>
           <year>9999</year>
@@ -298,7 +249,7 @@
         </property>
         <property name="maximumDateTime">
          <datetime>
-          <hour>17</hour>
+          <hour>15</hour>
           <minute>59</minute>
           <second>59</second>
           <year>9999</year>
@@ -410,11 +361,6 @@
    <class>DateEdit</class>
    <extends>QDateEdit</extends>
    <header>View/uiComponents/DateEdit.h</header>
-  </customwidget>
-  <customwidget>
-   <class>ComboBox</class>
-   <extends>QComboBox</extends>
-   <header>View/uiComponents/ComboBox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

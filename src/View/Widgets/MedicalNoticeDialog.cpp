@@ -50,10 +50,6 @@ MedicalNoticeDialog::MedicalNoticeDialog()
 				return;
 			}
 
-			if (ui.locationCombo->currentIndex() == 1) {
-				ModalDialogBuilder::showError("Мястото за лечение не може да е стационар!");
-			}
-
 			//object construction
 
 			m_result.emplace();
@@ -63,8 +59,7 @@ MedicalNoticeDialog::MedicalNoticeDialog()
 			m_result->from_date = ui.fromDateEdit->getDate();
 			m_result->institution = ui.institutionEdit->getText();
 			m_result->note = ui.notes->toPlainText().toStdString();
-			m_result->location = static_cast<MedicalNotice::Location>(ui.locationCombo->currentIndex() + 1);
-			m_result->mkb = ui.mkbButton->text().toStdString();
+			m_result->mkb = diagnosis;
 			m_result->lrn = FreeFn::getUuid();
 
 			accept();

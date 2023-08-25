@@ -24,12 +24,6 @@ int main(int argc, char *argv[])
 
     if (UpdateService::restartForUpdate()) { return 0; };
 
-    QSplashScreen splash(QPixmap(":/other/splash.png"));
-    splash.show();
-    splash.showMessage("DinoDent зарежда, моля изчакайте...");
-
-    a.processEvents();
-
     if (!initFunction()) { return 0; }
 
     DinoDent w;
@@ -77,6 +71,12 @@ bool initFunction() {
         return false;
     };
 
+    //showing splash screen
+    QSplashScreen splash(QPixmap(":/other/splash.png"));
+    splash.show();
+    splash.showMessage("DinoDent зарежда, моля изчакайте...", Qt::AlignLeft | Qt::AlignBottom, Qt::darkGray);
+    QApplication::instance()->processEvents();
+
     //Intializing static data
     SpriteSheets::container().initialize(); //loading textures, otherwise program will crash;
     Zodiac::initialize();
@@ -88,12 +88,15 @@ bool initFunction() {
     Ekatte::initialize();
     Country::initialize();
     MKB::initialize();
-    User::initialize();
     DoseQuantity::initialize();
     Route::initialize();
     WhenToTake::initialize();
     Date::initializeHolidays();
     Specialty::initialize();
+    User::initialize();
+
+    splash.hide();
+
     Db::showErrorDialog(true);
     DbUpdater::updateDb();
 

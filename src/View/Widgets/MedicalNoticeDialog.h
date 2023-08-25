@@ -19,6 +19,8 @@ class MedicalNoticeDialog : public QDialog
 
 	std::optional<MedicalNotice> m_result;
 
+	void paintEvent(QPaintEvent* event) override;
+
 public:
 	MedicalNoticeDialog();
 

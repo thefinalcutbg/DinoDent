@@ -690,6 +690,13 @@ void ListPresenter::moveProcedure(int from, int to)
     view->setProcedures(m_ambList.procedures.list());
 }
 
+void ListPresenter::addMedicalNotice()
+{
+    auto result = ModalDialogBuilder::addMedicalNotice();
+
+    if (!result) return;
+}
+
 void ListPresenter::addReferral(ReferralType type)
 {
 

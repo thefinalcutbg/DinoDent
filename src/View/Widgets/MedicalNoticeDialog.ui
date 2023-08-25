@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>382</width>
+    <width>378</width>
     <height>364</height>
    </rect>
   </property>
@@ -41,7 +41,7 @@
         <item>
          <widget class="QLabel" name="label_2">
           <property name="text">
-           <string>МКБ:</string>
+           <string>Диагноза:</string>
           </property>
          </widget>
         </item>
@@ -67,6 +67,12 @@
          <layout class="QHBoxLayout" name="horizontalLayout_4">
           <item>
            <widget class="DateEdit" name="issueDateEdit">
+            <property name="minimumSize">
+             <size>
+              <width>100</width>
+              <height>0</height>
+             </size>
+            </property>
             <property name="buttonSymbols">
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
@@ -75,12 +81,12 @@
             </property>
             <property name="maximumDateTime">
              <datetime>
-              <hour>7</hour>
+              <hour>21</hour>
               <minute>59</minute>
               <second>59</second>
               <year>9999</year>
               <month>12</month>
-              <day>28</day>
+              <day>27</day>
              </datetime>
             </property>
             <property name="minimumDate">
@@ -89,6 +95,9 @@
               <month>1</month>
               <day>1</day>
              </date>
+            </property>
+            <property name="calendarPopup">
+             <bool>true</bool>
             </property>
             <property name="date">
              <date>
@@ -120,6 +129,9 @@
            <widget class="QPushButton" name="mkbButton">
             <property name="text">
              <string>Изберете</string>
+            </property>
+            <property name="autoDefault">
+             <bool>false</bool>
             </property>
            </widget>
           </item>
@@ -188,11 +200,17 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="inputMask">
+           <string/>
+          </property>
           <property name="text">
            <string/>
           </property>
           <property name="maxLength">
-           <number>50</number>
+           <number>32767</number>
+          </property>
+          <property name="placeholderText">
+           <string>(име на институцията)</string>
           </property>
          </widget>
         </item>
@@ -216,6 +234,12 @@
       </item>
       <item>
        <widget class="DateEdit" name="fromDateEdit">
+        <property name="minimumSize">
+         <size>
+          <width>100</width>
+          <height>0</height>
+         </size>
+        </property>
         <property name="buttonSymbols">
          <enum>QAbstractSpinBox::NoButtons</enum>
         </property>
@@ -224,12 +248,12 @@
         </property>
         <property name="maximumDateTime">
          <datetime>
-          <hour>5</hour>
+          <hour>19</hour>
           <minute>59</minute>
           <second>59</second>
           <year>9999</year>
           <month>12</month>
-          <day>28</day>
+          <day>27</day>
          </datetime>
         </property>
         <property name="minimumDate">
@@ -238,6 +262,9 @@
           <month>1</month>
           <day>1</day>
          </date>
+        </property>
+        <property name="calendarPopup">
+         <bool>true</bool>
         </property>
         <property name="date">
          <date>
@@ -257,6 +284,12 @@
       </item>
       <item>
        <widget class="DateEdit" name="toDateEdit">
+        <property name="minimumSize">
+         <size>
+          <width>100</width>
+          <height>0</height>
+         </size>
+        </property>
         <property name="buttonSymbols">
          <enum>QAbstractSpinBox::NoButtons</enum>
         </property>
@@ -265,12 +298,12 @@
         </property>
         <property name="maximumDateTime">
          <datetime>
-          <hour>3</hour>
+          <hour>17</hour>
           <minute>59</minute>
           <second>59</second>
           <year>9999</year>
           <month>12</month>
-          <day>28</day>
+          <day>27</day>
          </datetime>
         </property>
         <property name="minimumDate">
@@ -279,6 +312,9 @@
           <month>1</month>
           <day>1</day>
          </date>
+        </property>
+        <property name="calendarPopup">
+         <bool>true</bool>
         </property>
         <property name="date">
          <date>
@@ -327,6 +363,16 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_6">
      <item>
+      <widget class="QLabel" name="errorLabel">
+       <property name="styleSheet">
+        <string notr="true">color: red</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="horizontalSpacer_5">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -343,6 +389,9 @@
       <widget class="QPushButton" name="okButton">
        <property name="text">
         <string>OK</string>
+       </property>
+       <property name="default">
+        <bool>true</bool>
        </property>
       </widget>
      </item>

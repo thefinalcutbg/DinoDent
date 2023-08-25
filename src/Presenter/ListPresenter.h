@@ -99,6 +99,8 @@ public:
     void deleteProcedure(int index);
     void moveProcedure(int from, int to);
 
+    void addMedicalNotice();
+
     void addReferral(ReferralType type);
     void editReferral(int index);
     void removeReferral(int index);

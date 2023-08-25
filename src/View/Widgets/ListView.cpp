@@ -73,6 +73,16 @@ ListView::ListView(QWidget* parent)
 		"font-weight: bold; font-size: 12px;"
 	);
 
+	ui.noticeLabel->setStyleSheet(
+		"color : " + Theme::colorToString(Theme::fontTurquoise) + "; "
+		"font-weight: bold; font-size: 12px;"
+	);
+
+	ui.referralLabel->setStyleSheet(
+		"color : " + Theme::colorToString(Theme::fontTurquoise) + "; "
+		"font-weight: bold; font-size: 12px;"
+	);
+
 	connect(ui.pentionTaxButton, &QPushButton::clicked, [=] { if (presenter) presenter->addFinancialReceipt(); });
 	connect(ui.nrnButton, &QPushButton::clicked, [=] { if (presenter) presenter->hisButtonPressed();});
 	connect(ui.ambNumSpin, &LeadingZeroSpinBox::valueChanged, [=](long long value) {if(presenter)presenter->ambNumChanged(value);});
@@ -86,6 +96,7 @@ ListView::ListView(QWidget* parent)
 	connect(ui.invoiceButton, &QPushButton::clicked, [=] { if (presenter) presenter->createInvoice(); });
 	connect(ui.perioButton, &QPushButton::clicked, [=] { if (presenter) presenter->createPerioMeasurment(); });
 	connect(ui.prescrButton, &QPushButton::clicked, [=] { if (presenter) presenter->createPrescription(); });
+	connect(ui.medicalNoticeButton, &QPushButton::clicked, [=] { if (presenter) presenter->addMedicalNotice(); });
 	connect(ui.deleteProcedure, &QAbstractButton::clicked, 
 		[=] {
 

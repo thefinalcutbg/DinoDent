@@ -8,7 +8,7 @@ struct MedicalNotice
 	enum Location { AtHome = 1, Facility, Other };
 
 	long long roiwd{ 0 };
-	std::string lnr;
+	std::string lrn;
 	std::string nrn;
 	
 	static constexpr int reason = 1; //always sick

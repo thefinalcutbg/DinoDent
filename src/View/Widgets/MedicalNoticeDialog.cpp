@@ -1,10 +1,16 @@
 ﻿#include "MedicalNoticeDialog.h"
+
+#include <QPainter>
+
 #include "View/ModalDialogBuilder.h"
 #include "TableViewDialog.h"
+#include "Model/FreeFunctions.h"
 
 MedicalNoticeDialog::MedicalNoticeDialog()
 {
 	ui.setupUi(this);
+
+	setWindowTitle("Медицинска бележка");
 
 	connect(ui.mkbButton, &QPushButton::clicked, [=] {
 
@@ -25,6 +31,7 @@ MedicalNoticeDialog::MedicalNoticeDialog()
 	ui.issueDateEdit->set_Date(Date::currentDate());
 
 	ui.institutionEdit->setInputValidator(&not_emmptyValidator);
+	ui.institutionEdit->setErrorLabel(ui.errorLabel);
 
 	connect(ui.okButton, &QPushButton::clicked, [=] {
 			
@@ -58,12 +65,19 @@ MedicalNoticeDialog::MedicalNoticeDialog()
 			m_result->note = ui.notes->toPlainText().toStdString();
 			m_result->location = static_cast<MedicalNotice::Location>(ui.locationCombo->currentIndex() + 1);
 			m_result->mkb = ui.mkbButton->text().toStdString();
+			m_result->lrn = FreeFn::getUuid();
 
 			accept();
 	
 		}
 	);
 	
+}
+ 
+void MedicalNoticeDialog::paintEvent(QPaintEvent* event)
+{
+	QPainter p(this);
+	p.fillRect(rect(), Qt::white);
 }
 
 MedicalNoticeDialog::~MedicalNoticeDialog()

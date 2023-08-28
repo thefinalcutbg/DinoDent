@@ -65,7 +65,8 @@ namespace ModalDialogBuilder
 	//returns true if user wants to apply the procedures to the status
 	std::optional<BusinessOperation> editBusinessOperation(const BusinessOperation& op);
 	std::optional<BusinessOperation> addBusinessOperation();
-	std::optional<MedicalNotice> addMedicalNotice();
+	//use default constructed for new notice
+	std::optional<MedicalNotice> openDialog(const MedicalNotice& notice);
 	bool askDialog(const std::string& questionText);
 	bool updatePrompt(const std::string& changeLog);
 	void showError(const std::string& error);

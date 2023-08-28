@@ -10,6 +10,7 @@
 #include "ToothContainer.h"
 #include "Model/Dental/ProcedureContainer.h"
 #include "Model/Referrals/Referral.h"
+#include "Model/MedicalNotice.h"
 #include "Model/Dental/NhifSheetData.h"
 
 struct AmbList
@@ -36,6 +37,7 @@ struct AmbList
 	ProcedureContainer procedures;
 
 	std::vector<Referral> referrals;
+	std::vector<MedicalNotice> medical_notices;
 
 	bool isNhifSheet() const
 	{

@@ -5,6 +5,7 @@
 #include "Model/Dental/NhifSheetData.h"
 #include "View/uiComponents/MouseWheelGuard.h"
 #include "View/SubWidgets/ReferralTile.h"
+#include "View/SubWidgets/MedicalNoticeTile.h"
 #include "QtVersion.h"
 
 ListView::ListView(QWidget* parent)
@@ -337,10 +338,24 @@ void ListView::setReferrals(const std::vector<Referral>& referrals)
 
 }
 
+void ListView::setMedicalNotices(const std::vector<MedicalNotice>& notices)
+{
+	while (ui.noticeLayout->count())
+	{
+		ui.noticeLayout->takeAt(0)->widget()->deleteLater();
+	}
 
+	for (int i = 0; i < notices.size(); i++) {
+		auto noticeWidget = new MedicalNoticeTile(notices[i], i, this);
+		connect(noticeWidget, &MedicalNoticeTile::remove, [=](int index) {presenter->removeMedicalNotice(index); });
+		connect(noticeWidget, &MedicalNoticeTile::clicked, [=](int index) {presenter->editMedicalNotice(index); });
+		connect(noticeWidget, &MedicalNoticeTile::sendToHis, [=](int index) {presenter->sendMedicalNoticeToHis(index); });
+		ui.noticeLayout->addWidget(noticeWidget);
 
+	}
+}
 
-void ListView::setHisButtonText(HisButtonProperties prop)
+void ListView::setHisButtonText(const HisButtonProperties& prop)
 {
 	ui.ambNumSpin->setHidden(prop.hideSpinBox);
 	ui.label->setText(prop.labelText.c_str());

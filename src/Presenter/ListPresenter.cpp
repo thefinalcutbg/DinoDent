@@ -81,15 +81,15 @@ void ListPresenter::setHisButtonToView()
 
     if (m_ambList.nrn.size())
     {
-        view->setHisButtonText(
-            IListView::HisButtonProperties
-            {
-                .hideSpinBox = true,
-                .labelText = "НРН :",
-                .buttonText = m_ambList.his_updated ? m_ambList.nrn : "Изпрати за корекция",
-                .hoverText = m_ambList.his_updated ? "Анулирай" : "Изпрати за корекция"
-            }
-        );
+        IListView::HisButtonProperties prop
+        {
+            .hideSpinBox = true,
+            .labelText = "НРН :",
+            .buttonText = m_ambList.his_updated ? m_ambList.nrn : "Изпрати за корекция",
+            .hoverText = m_ambList.his_updated ? "Анулирай" : "Изпрати за корекция"
+        };
+
+        view->setHisButtonText(prop);
 
         return;
     }
@@ -280,6 +280,8 @@ void ListPresenter::setDataToView()
     view->setNotes(patient->teethNotes);
     
     view->setReferrals(m_ambList.referrals);
+
+    view->setMedicalNotices(m_ambList.medical_notices);
 
     refreshProcedureView();
     dynamicNhifConversion();
@@ -692,9 +694,57 @@ void ListPresenter::moveProcedure(int from, int to)
 
 void ListPresenter::addMedicalNotice()
 {
-    auto result = ModalDialogBuilder::addMedicalNotice();
+    auto result = ModalDialogBuilder::openDialog(MedicalNotice());
 
     if (!result) return;
+
+    m_ambList.medical_notices.push_back(*result);
+
+    view->setMedicalNotices(m_ambList.medical_notices);
+
+    //if amblist is saved, save the medical notices
+}
+
+void ListPresenter::editMedicalNotice(int index)
+{
+    auto& nList = m_ambList.medical_notices;
+
+    if (index < 0 || index >= nList.size()) return;
+
+    auto result = ModalDialogBuilder::openDialog(nList[index]);
+
+    if (!result) return;
+
+    nList[index] = *result;
+
+    if (isCurrent()) view->setMedicalNotices(nList);
+}
+
+void ListPresenter::removeMedicalNotice(int index)
+{
+
+    auto& nList = m_ambList.medical_notices;
+
+    if (nList[index].nrn.size()) {
+
+        auto answer = ModalDialogBuilder::askDialog(
+            "Медицинската бележка ще бъде премахната от локалната база данни, но не и от НЗИС. Желаете ли да продължите?"
+        );
+
+        if (!answer) return;
+    }
+
+    nList.erase(nList.begin() + index);
+
+    if (isCurrent()) view->setMedicalNotices(nList);
+
+    //if amblist is saved, save the medical notices
+
+}
+
+void ListPresenter::sendMedicalNoticeToHis(int index)
+{
+
 }
 
 void ListPresenter::addReferral(ReferralType type)

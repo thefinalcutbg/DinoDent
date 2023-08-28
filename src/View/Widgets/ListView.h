@@ -49,7 +49,8 @@ public:
     void hideNhifSheetData() override;
     void setNhifData(const NhifSheetData& data, bool showUnfav) override;
     void setReferrals(const std::vector<Referral>& referrals) override;
-    void setHisButtonText(HisButtonProperties prop) override;
+    void setMedicalNotices(const std::vector<MedicalNotice>& notices) override;
+    void setHisButtonText(const HisButtonProperties& prop) override;
     
     ~ListView();
 

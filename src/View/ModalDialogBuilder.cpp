@@ -201,9 +201,9 @@ std::optional<BusinessOperation> ModalDialogBuilder::addBusinessOperation()
 }
 
 #include "View/Widgets/MedicalNoticeDialog.h"
-std::optional<MedicalNotice> ModalDialogBuilder::addMedicalNotice()
+std::optional<MedicalNotice> ModalDialogBuilder::openDialog(const MedicalNotice& notice)
 {
-	MedicalNoticeDialog d;
+	MedicalNoticeDialog d(notice);
 	d.exec();
 	return d.getResult();
 }

@@ -15,14 +15,17 @@ class MedicalNoticeDialog : public QDialog
 	Q_OBJECT
 
 	MKBModel m_mkbDental{ MKB::getDentalMKBList() };
-	NotEmptyValidator not_emmptyValidator;
+	NotEmptyValidator not_emptyValidator;
 
 	std::optional<MedicalNotice> m_result;
+
+	std::string m_nrn;
+	std::string m_lrn;
 
 	void paintEvent(QPaintEvent* event) override;
 
 public:
-	MedicalNoticeDialog();
+	MedicalNoticeDialog(const MedicalNotice& m);
 
 	std::optional<MedicalNotice> getResult() { return m_result; }
 

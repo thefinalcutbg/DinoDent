@@ -248,6 +248,7 @@
     <ClCompile Include="src\Model\Validators\PrescriptionValidators.cpp" />
     <ClCompile Include="src\Model\Validators\RecipientIdValidator.cpp" />
     <ClCompile Include="src\Network\HIS\EDental.cpp" />
+    <ClCompile Include="src\Network\HIS\EMedicalNotice.cpp" />
     <ClCompile Include="src\Network\HIS\EPrescription.cpp" />
     <ClCompile Include="src\Network\HIS\EReferral.cpp" />
     <ClCompile Include="src\Network\HIS\HISHistoryAlgorithms.cpp" />
@@ -401,6 +402,7 @@
     <ClCompile Include="src\View\Interfaces\ITabView.cpp" />
     <ClCompile Include="src\View\ModalDialogBuilder.cpp" />
     <ClCompile Include="src\View\SubWidgets\DsnMenu.cpp" />
+    <ClCompile Include="src\View\SubWidgets\MedicalNoticeTile.cpp" />
     <ClCompile Include="src\View\SubWidgets\MedicalStatusWidget.cpp" />
     <ClCompile Include="src\View\TableModels\AmbListTableModel.cpp" />
     <ClCompile Include="src\View\TableModels\BusinessOperationModel.cpp" />
@@ -541,6 +543,7 @@
     <ClInclude Include="src\Model\Specialty.h" />
     <ClInclude Include="src\Model\Validators\RecipientIdValidator.h" />
     <ClInclude Include="src\Network\HIS\EDental.h" />
+    <ClInclude Include="src\Network\HIS\EMedicalNotice.h" />
     <ClInclude Include="src\Network\HIS\EReferral.h" />
     <ClInclude Include="src\Network\HIS\HISHistoryAlgorithms.h" />
     <ClInclude Include="src\Network\NRA\NssiPentionService.h" />
@@ -754,6 +757,7 @@
     <ClInclude Include="src\View\ModalDialogBuilder.h" />
     <QtMoc Include="src\View\SubWidgets\MedicalStatusWidget.h" />
     <QtMoc Include="src\View\SubWidgets\DsnMenu.h" />
+    <QtMoc Include="src\View\SubWidgets\MedicalNoticeTile.h" />
     <ClInclude Include="src\View\TableModels\BusinessOperationModel.h" />
     <ClInclude Include="src\View\Interfaces\IFiscalReportView.h" />
     <QtMoc Include="src\View\TableModels\FiscalReceiptTableModel.h" />
@@ -876,6 +880,7 @@
     <QtMoc Include="src\View\Graphics\GraphicsView.h" />
   </ItemGroup>
   <ItemGroup>
+    <QtUic Include="src\View\SubWidgets\MedicalNoticeTile.ui" />
     <QtUic Include="src\View\SubWidgets\MedicalStatusWidget.ui" />
     <QtUic Include="src\View\SubWidgets\ProcedureInput.ui" />
     <QtUic Include="src\View\SubWidgets\ControlPanel.ui" />

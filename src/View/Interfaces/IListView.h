@@ -13,6 +13,7 @@ class ISurfacePanel;
 class ListPresenter;
 class AbstractComboBox;
 struct NhifSheetData;
+struct MedicalNotice;
 class Date;
 class Time;
 
@@ -22,9 +23,9 @@ public:
 
 	struct HisButtonProperties {
 		bool hideSpinBox{ false };
-		const std::string& labelText;
-		const std::string& buttonText;
-		const std::string& hoverText;
+		const std::string labelText;
+		const std::string buttonText;
+		const std::string hoverText;
 	};
 
 	virtual void setPresenter(ListPresenter* presenter) = 0;
@@ -41,7 +42,8 @@ public:
 	virtual void repaintTooth(const ToothPaintHint& tooth) = 0;
 	virtual void setNotes(const std::array<std::string, 32>& notes) = 0;
 	virtual void setReferrals(const std::vector<Referral>& referrals) = 0;
+	virtual void setMedicalNotices(const std::vector<MedicalNotice>& notices) = 0;
 	virtual void setProcedures(const std::vector<Procedure>& m) = 0;
-	virtual void setHisButtonText(HisButtonProperties) = 0;
+	virtual void setHisButtonText(const HisButtonProperties& prop) = 0;
 
 };

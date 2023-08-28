@@ -5,7 +5,6 @@
 
 struct MedicalNotice
 {
-	long long roiwd{ 0 };
 	std::string lrn;
 	std::string nrn;
 	

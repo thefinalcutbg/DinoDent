@@ -6,7 +6,8 @@ class Db;
 
 namespace DbMedicalNotice
 {
+	std::vector<MedicalNotice> get(long long amblistRowid, Db& db);
 	std::vector<MedicalNotice> get(long long amblistRowid);
-	void save (const std::vector<MedicalNotice> notice, long long amblistRowid, Db& db);
-	void save (const std::vector<MedicalNotice> notice, long long amblistRowid);
+	void save (const std::vector<MedicalNotice> notices, long long amblistRowid, Db& db);
+	void save (const std::vector<MedicalNotice> notices, long long amblistRowid);
 }

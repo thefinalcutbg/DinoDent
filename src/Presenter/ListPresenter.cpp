@@ -4,6 +4,7 @@
 #include "Database/DbReferral.h"
 #include "Database/DbAmbList.h"
 #include "Database/DbProcedure.h"
+#include "Database/DbMedicalNotice.h"
 #include "Model/Dental/NhifProcedures.h"
 #include "Model/User.h"
 #include "Model/Validators/AmbListValidator.h"
@@ -702,7 +703,10 @@ void ListPresenter::addMedicalNotice()
 
     view->setMedicalNotices(m_ambList.medical_notices);
 
-    //if amblist is saved, save the medical notices
+    if (!m_ambList.isNew()) {
+        DbMedicalNotice::save(m_ambList.medical_notices, m_ambList.rowid);
+    }
+
 }
 
 void ListPresenter::editMedicalNotice(int index)
@@ -718,6 +722,10 @@ void ListPresenter::editMedicalNotice(int index)
     nList[index] = *result;
 
     if (isCurrent()) view->setMedicalNotices(nList);
+
+    if (!m_ambList.isNew()) {
+        DbMedicalNotice::save(m_ambList.medical_notices, m_ambList.rowid);
+    }
 }
 
 void ListPresenter::removeMedicalNotice(int index)
@@ -738,7 +746,9 @@ void ListPresenter::removeMedicalNotice(int index)
 
     if (isCurrent()) view->setMedicalNotices(nList);
 
-    //if amblist is saved, save the medical notices
+    if (!m_ambList.isNew()) {
+        DbMedicalNotice::save(m_ambList.medical_notices, m_ambList.rowid);
+    }
 
 }
 

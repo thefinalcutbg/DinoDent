@@ -219,6 +219,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Database\DbFiscalReceipt.cpp" />
+    <ClCompile Include="src\Database\DbMedicalNotice.cpp" />
     <ClCompile Include="src\Database\DbPrescription.cpp" />
     <ClCompile Include="src\Database\DbReferral.cpp" />
     <ClCompile Include="src\Database\DbStatistics.cpp" />
@@ -517,6 +518,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
+    <ClInclude Include="src\Database\DbMedicalNotice.h" />
     <ClInclude Include="src\Database\DbPrescription.h" />
     <ClInclude Include="src\Database\DbFiscalReceipt.h" />
     <ClInclude Include="src\Database\DbReferral.h" />

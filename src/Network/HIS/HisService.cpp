@@ -25,7 +25,7 @@ bool HisService::sendRequestToHis(const std::string& query)
 	if (HisToken::getToken().empty()) {
 		return HisToken::requestToken(this, query, !show_dialogs);
 	}
-	ModalDialogBuilder::showMultilineDialog(buildMessage(query));
+
 	auto signedMsg = signMessage(buildMessage(query));
 //	ModalDialogBuilder::showMultilineDialog(signedMsg);
 	if (signedMsg.empty()) return false;

@@ -280,9 +280,7 @@ void ListPresenter::setDataToView()
 
     view->setNotes(patient->teethNotes);
     
-    view->setReferrals(m_ambList.referrals);
-
-    view->setMedicalNotices(m_ambList.medical_notices);
+    view->setAdditionalDocuments(m_ambList.referrals, m_ambList.medical_notices);
 
     refreshProcedureView();
     dynamicNhifConversion();
@@ -701,7 +699,7 @@ void ListPresenter::addMedicalNotice()
 
     m_ambList.medical_notices.push_back(*result);
 
-    view->setMedicalNotices(m_ambList.medical_notices);
+    view->setAdditionalDocuments(m_ambList.referrals, m_ambList.medical_notices);
 
     if (!m_ambList.isNew()) {
         DbMedicalNotice::save(m_ambList.medical_notices, m_ambList.rowid);
@@ -721,7 +719,8 @@ void ListPresenter::editMedicalNotice(int index)
 
     nList[index] = *result;
 
-    if (isCurrent()) view->setMedicalNotices(nList);
+    if (isCurrent()) view->setAdditionalDocuments(m_ambList.referrals, m_ambList.medical_notices);
+
 
     if (!m_ambList.isNew()) {
         DbMedicalNotice::save(m_ambList.medical_notices, m_ambList.rowid);
@@ -744,7 +743,7 @@ void ListPresenter::removeMedicalNotice(int index)
 
     nList.erase(nList.begin() + index);
 
-    if (isCurrent()) view->setMedicalNotices(nList);
+    if (isCurrent()) view->setAdditionalDocuments(m_ambList.referrals, m_ambList.medical_notices);
 
     if (!m_ambList.isNew()) {
         DbMedicalNotice::save(m_ambList.medical_notices, m_ambList.rowid);
@@ -768,7 +767,7 @@ void ListPresenter::sendMedicalNoticeToHis(int index)
             
             DbMedicalNotice::save(m_ambList.medical_notices, m_ambList.rowid);
 
-            if (isCurrent()) view->setMedicalNotices(m_ambList.medical_notices);
+            if (isCurrent()) view->setAdditionalDocuments(m_ambList.referrals, m_ambList.medical_notices);
         }
     );
 }
@@ -835,7 +834,7 @@ void ListPresenter::addReferral(ReferralType type)
 
     m_ambList.referrals.push_back(*result);
 
-    view->setReferrals(m_ambList.referrals);
+    view->setAdditionalDocuments(m_ambList.referrals, m_ambList.medical_notices);
 
     dynamicNhifConversion();
    
@@ -858,7 +857,7 @@ void ListPresenter::editReferral(int index)
 
     m_ambList.referrals[index] = *result;
 
-    view->setReferrals(m_ambList.referrals);
+    view->setAdditionalDocuments(m_ambList.referrals, m_ambList.medical_notices);
 
     if (!m_ambList.isNew()) {
         DbReferral::saveReferrals(m_ambList.referrals, m_ambList.rowid);
@@ -901,7 +900,7 @@ void ListPresenter::sendReferralToHis(int index)
                 refreshTabName();
 
                 if (isCurrent()) {
-                    view->setReferrals(m_ambList.referrals);
+                    view->setAdditionalDocuments(m_ambList.referrals, m_ambList.medical_notices);
                 }
 
             }
@@ -922,7 +921,7 @@ void ListPresenter::removeReferral(int index)
 
         rList.erase(rList.begin() + index);
 
-        if(isCurrent()) view->setReferrals(rList);
+        if(isCurrent()) view->setAdditionalDocuments(m_ambList.referrals, m_ambList.medical_notices);
 
         dynamicNhifConversion();
 
@@ -944,13 +943,11 @@ void ListPresenter::removeReferral(int index)
 
                 m_ambList.referrals.erase(m_ambList.referrals.begin() + index);
 
-
-
                 ModalDialogBuilder::showMessage("Направлението е анулирано успешно!");
     
                 dynamicNhifConversion();
 
-                if(isCurrent()) view->setReferrals(m_ambList.referrals);
+                if(isCurrent()) view->setAdditionalDocuments(m_ambList.referrals, m_ambList.medical_notices);
 
                 refreshTabName();
 

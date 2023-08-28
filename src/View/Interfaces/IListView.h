@@ -41,8 +41,7 @@ public:
 	virtual IPatientTileInfo* tileInfo() = 0;
 	virtual void repaintTooth(const ToothPaintHint& tooth) = 0;
 	virtual void setNotes(const std::array<std::string, 32>& notes) = 0;
-	virtual void setReferrals(const std::vector<Referral>& referrals) = 0;
-	virtual void setMedicalNotices(const std::vector<MedicalNotice>& notices) = 0;
+	virtual void setAdditionalDocuments(const std::vector<Referral>& referrals, const std::vector<MedicalNotice>& notices) = 0;
 	virtual void setProcedures(const std::vector<Procedure>& m) = 0;
 	virtual void setHisButtonText(const HisButtonProperties& prop) = 0;
 

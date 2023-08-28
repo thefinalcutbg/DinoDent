@@ -76,12 +76,7 @@ ListView::ListView(QWidget* parent)
 		"font-weight: bold; font-size: 12px;"
 	);
 
-	ui.noticeLabel->setStyleSheet(
-		"color : " + Theme::colorToString(Theme::fontTurquoise) + "; "
-		"font-weight: bold; font-size: 12px;"
-	);
-
-	ui.referralLabel->setStyleSheet(
+	ui.otherDocsLabel->setStyleSheet(
 		"color : " + Theme::colorToString(Theme::fontTurquoise) + "; "
 		"font-weight: bold; font-size: 12px;"
 	);
@@ -318,31 +313,21 @@ void ListView::setNhifData(const NhifSheetData& data, bool showUnfav)
 
 }
 
-void ListView::setReferrals(const std::vector<Referral>& referrals)
+void ListView::setAdditionalDocuments(const std::vector<Referral>& referrals, const std::vector<MedicalNotice>& notices)
 {
-	while (ui.referralLayout->count())
+	while (ui.docsLayout->count())
 	{
-		ui.referralLayout->takeAt(0)->widget()->deleteLater();
+		ui.docsLayout->takeAt(0)->widget()->deleteLater();
 	}
 
 
 	for (int i = 0; i < referrals.size(); i++) {
 		ReferralTile* refWidget = new ReferralTile(referrals[i], i, this);
-		connect(refWidget, &ReferralTile::remove, [=](int index) {presenter->removeReferral(index);});
-		connect(refWidget, &ReferralTile::clicked, [=](int index) {presenter->editReferral(index);});
-		connect(refWidget, &ReferralTile::print, [=](int index) {presenter->printReferral(index);});
-		connect(refWidget, &ReferralTile::sendToHis, [=](int index) {presenter->sendReferralToHis(index);});
-		ui.referralLayout->addWidget(refWidget);
-		
-	}
-
-}
-
-void ListView::setMedicalNotices(const std::vector<MedicalNotice>& notices)
-{
-	while (ui.noticeLayout->count())
-	{
-		ui.noticeLayout->takeAt(0)->widget()->deleteLater();
+		connect(refWidget, &ReferralTile::remove, [=](int index) {presenter->removeReferral(index); });
+		connect(refWidget, &ReferralTile::clicked, [=](int index) {presenter->editReferral(index); });
+		connect(refWidget, &ReferralTile::print, [=](int index) {presenter->printReferral(index); });
+		connect(refWidget, &ReferralTile::sendToHis, [=](int index) {presenter->sendReferralToHis(index); });
+		ui.docsLayout->addWidget(refWidget);
 	}
 
 	for (int i = 0; i < notices.size(); i++) {
@@ -350,10 +335,11 @@ void ListView::setMedicalNotices(const std::vector<MedicalNotice>& notices)
 		connect(noticeWidget, &MedicalNoticeTile::remove, [=](int index) {presenter->removeMedicalNotice(index); });
 		connect(noticeWidget, &MedicalNoticeTile::clicked, [=](int index) {presenter->editMedicalNotice(index); });
 		connect(noticeWidget, &MedicalNoticeTile::sendToHis, [=](int index) {presenter->sendMedicalNoticeToHis(index); });
-		ui.noticeLayout->addWidget(noticeWidget);
+		ui.docsLayout->addWidget(noticeWidget);
 
 	}
 }
+
 
 void ListView::setHisButtonText(const HisButtonProperties& prop)
 {

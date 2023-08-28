@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1518</width>
-    <height>1354</height>
+    <width>1537</width>
+    <height>1186</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -687,15 +687,15 @@
       </layout>
      </item>
      <item>
-      <widget class="QLabel" name="noticeLabel">
+      <widget class="QLabel" name="otherDocsLabel">
        <property name="minimumSize">
         <size>
          <width>0</width>
-         <height>50</height>
+         <height>30</height>
         </size>
        </property>
        <property name="text">
-        <string>МЕДИЦИНСКИ БЕЛЕЖКИ:</string>
+        <string>ДРУГИ ДОКУМЕНТИ:</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignBottom|Qt::AlignHCenter</set>
@@ -707,126 +707,11 @@
        <property name="topMargin">
         <number>20</number>
        </property>
-       <item>
-        <spacer name="horizontalSpacer_17">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <widget class="BigPushButton" name="medicalNoticeButton">
-         <property name="minimumSize">
-          <size>
-           <width>220</width>
-           <height>50</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>Добави медицинска бележка</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer name="horizontalSpacer_16">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Fixed</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>650</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <spacer name="horizontalSpacer_18">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_8">
-       <property name="topMargin">
-        <number>0</number>
-       </property>
-       <item>
-        <spacer name="horizontalSpacer_20">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="noticeLayout">
-         <property name="leftMargin">
-          <number>20</number>
-         </property>
-        </layout>
-       </item>
-       <item>
-        <spacer name="horizontalSpacer_19">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <widget class="QLabel" name="referralLabel">
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>50</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>НАПРАВЛЕНИЯ:</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignBottom|Qt::AlignHCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_6">
-       <property name="topMargin">
+       <property name="bottomMargin">
         <number>20</number>
        </property>
        <item>
-        <spacer name="horizontalSpacer_6">
+        <spacer name="horizontalSpacer_17">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
@@ -864,23 +749,20 @@
         </widget>
        </item>
        <item>
-        <spacer name="horizontalSpacer_15">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Fixed</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
+        <widget class="BigPushButton" name="medicalNoticeButton">
+         <property name="minimumSize">
           <size>
-           <width>650</width>
-           <height>20</height>
+           <width>220</width>
+           <height>50</height>
           </size>
          </property>
-        </spacer>
+         <property name="text">
+          <string>Добави медицинска бележка</string>
+         </property>
+        </widget>
        </item>
        <item>
-        <spacer name="horizontalSpacer_13">
+        <spacer name="horizontalSpacer_18">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
@@ -895,15 +777,12 @@
       </layout>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="RefLayout">
+      <layout class="QHBoxLayout" name="horizontalLayout_8">
        <property name="topMargin">
         <number>0</number>
        </property>
-       <property name="bottomMargin">
-        <number>10</number>
-       </property>
        <item>
-        <spacer name="horizontalSpacer_14">
+        <spacer name="horizontalSpacer_20">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
@@ -916,10 +795,14 @@
         </spacer>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="referralLayout"/>
+        <layout class="QHBoxLayout" name="docsLayout">
+         <property name="leftMargin">
+          <number>20</number>
+         </property>
+        </layout>
        </item>
        <item>
-        <spacer name="horizontalSpacer_4">
+        <spacer name="horizontalSpacer_19">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>

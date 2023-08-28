@@ -24,6 +24,7 @@ namespace EMedicalNotice {
 		bool sendRequest(
 			const MedicalNotice& notice,
 			const Patient& patient,
+			const std::string examNrn,
 			std::function<void(const std::string&)> nrnCallback
 		);
 	};

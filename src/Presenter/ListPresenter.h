@@ -15,6 +15,7 @@
 #include "Network/PIS/DiagnosisService.h"
 #include "Network/HIS/EDental.h"
 #include "Network/HIS/EReferral.h"
+#include "Network/HIS/EMedicalNotice.h"
 #include "Network/NRA/NssiPentionService.h"
 #include "Presenter/PatientInfoPresenter.h"
 
@@ -46,6 +47,7 @@ class ListPresenter : public TabInstance
     EDental::GetStatusAndProcedures eDentalGetStatusAndProceduresService;
     EReferral::Issue eReferralIssueService;
     EReferral::Cancel eReferralCancelService;
+    EMedicalNotice::Issue eMedicalNoticeService;
 
     std::vector<Procedure> getToothHistory(int toothIdx);
 

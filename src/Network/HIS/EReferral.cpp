@@ -134,6 +134,8 @@ void EReferral::Issue::parseReply(const std::string& reply)
 	{
 		m_callback(std::string());
 	}
+
+	m_callback = nullptr;
 }
 
 bool EReferral::Cancel::sendRequest(const std::string& nrn, std::function<void(bool)> success)

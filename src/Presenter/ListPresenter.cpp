@@ -754,7 +754,23 @@ void ListPresenter::removeMedicalNotice(int index)
 
 void ListPresenter::sendMedicalNoticeToHis(int index)
 {
+    if (m_ambList.nrn.empty()) 
+    {
+        ModalDialogBuilder::showMessage("За да издадете медицинска бележка, първо изпратете амбулаторният лист в НЗИС!");
+        return;
+    }
 
+    auto& notice = m_ambList.medical_notices[index];
+
+    eMedicalNoticeService.sendRequest(notice, *patient, m_ambList.nrn,
+        [=](const std::string& nrn) {
+            m_ambList.medical_notices[index].nrn = nrn;
+            
+            DbMedicalNotice::save(m_ambList.medical_notices, m_ambList.rowid);
+
+            if (isCurrent()) view->setMedicalNotices(m_ambList.medical_notices);
+        }
+    );
 }
 
 void ListPresenter::addReferral(ReferralType type)

@@ -125,6 +125,7 @@
         <file>db_migrateTo12.txt</file>
         <file>db_migrateTo13.txt</file>
         <file>db_migrateTo14.txt</file>
+        <file>db_migrateTo15.txt</file>
     </qresource>
     <qresource prefix="/other">
         <file>splash.png</file>

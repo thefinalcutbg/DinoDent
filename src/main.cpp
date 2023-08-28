@@ -22,15 +22,17 @@ int main(int argc, char *argv[])
     
     a.setWindowIcon(QIcon(":/icons/icon_torque.png"));
 
+    if (UpdateService::restartForUpdate()) { return 0; };
+
     //showing splash screen
     QSplashScreen splash(QPixmap(":/other/splash.png"));
     splash.show();
     splash.showMessage("DinoDent зарежда, моля изчакайте...", Qt::AlignLeft | Qt::AlignBottom, Qt::darkGray);
     a.processEvents();
 
-    if (UpdateService::restartForUpdate()) { return 0; };
-
     if (!initFunction()) { return 0; }
+
+    splash.hide();
 
     DinoDent w;
 
@@ -64,7 +66,7 @@ bool initFunction() {
 
     GlobalSettings::createCfgIfNotExists();
 
-    Db::setFilePath(GlobalSettings::getDbPath());
+    //Db::setFilePath(GlobalSettings::getDbPath());
 
     if (!Db::createIfNotExist()) {
 

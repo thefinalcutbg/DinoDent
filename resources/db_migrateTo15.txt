@@ -1,0 +1,2 @@
+CREATE TABLE medical_notice (amblist_rowid INTEGER REFERENCES amblist (rowid) ON DELETE CASCADE ON UPDATE CASCADE NOT NULL, lrn TEXT NOT NULL, nrn TEXT, issue_date TEXT NOT NULL, diagnosis TEXT NOT NULL, institution TEXT NOT NULL, from_date TEXT NOT NULL, to_date TEXT NOT NULL, note TEXT);
+PRAGMA user_version = 15;

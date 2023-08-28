@@ -699,9 +699,6 @@
     <ClCompile Include="src\Database\DbUpdateStatus.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Network\HIS\UpdateMkb.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Network\PIS\ReportFilesService.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -1500,9 +1497,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Network\DynamicNumenclatures.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Network\HIS\UpdateMkb.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\DynamicNum.h">

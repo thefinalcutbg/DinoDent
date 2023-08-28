@@ -252,7 +252,6 @@
     <ClCompile Include="src\Network\HIS\EPrescription.cpp" />
     <ClCompile Include="src\Network\HIS\EReferral.cpp" />
     <ClCompile Include="src\Network\HIS\HISHistoryAlgorithms.cpp" />
-    <ClCompile Include="src\Network\HIS\UpdateMkb.cpp" />
     <ClCompile Include="src\Network\NRA\NssiPentionService.cpp" />
     <ClCompile Include="src\Network\PIS\ReportFilesService.cpp" />
     <ClCompile Include="src\Network\Telemetry.cpp" />
@@ -561,7 +560,6 @@
     <ClInclude Include="src\Model\Validators\PrescriptionValidators.h" />
     <ClInclude Include="src\Network\DynamicNumenclatures.h" />
     <ClInclude Include="src\Network\HIS\EPrescription.h" />
-    <ClInclude Include="src\Network\HIS\UpdateMkb.h" />
     <ClInclude Include="src\Network\PIS\ReportFilesService.h" />
     <ClInclude Include="src\Presenter\DosagePresenter.h" />
     <ClInclude Include="src\Presenter\FiscalReceiptPresenter.h" />

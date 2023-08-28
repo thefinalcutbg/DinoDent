@@ -202,7 +202,7 @@ std::vector<std::string> Tooth::getHISStatus() const
 	status[StatusCode::Root] = "R";
 	status[StatusCode::Extraction] = "E";
 	status[StatusCode::Crown] = "K";
-	status[StatusCode::Bridge] = canHaveACrown() ? "Kb" : "B";
+	status[StatusCode::Bridge] = isPontic() ? "B" : "Kb";
 	status[StatusCode::Denture] = "X";
 	status[StatusCode::Periodontitis] = "Pa";
 	status[StatusCode::Mobility] = "";
@@ -494,6 +494,13 @@ void Tooth::removeStatus(StatusType type)
 std::string Tooth::toothName() const
 {
 	return ToothUtils::getName(index, temporary.exists());
+}
+
+bool Tooth::isPontic() const
+{
+	if (!bridge) return false;
+
+	return extraction || impacted;
 }
 
 bool Tooth::canHaveACrown() const

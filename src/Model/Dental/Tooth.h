@@ -26,6 +26,7 @@ public:
 	void setStatus(int code, bool state = true);
 	void removeStatus(StatusType type);
 
+	bool isPontic() const;
 	bool canHaveACrown() const;
 	//for printing (T status is omitted)
 	std::string getPrintStatus() const;

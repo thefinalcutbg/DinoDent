@@ -3,13 +3,12 @@
 
 #include "View/Interfaces/ISettingsDialog.h"
 #include "Network/HIS/UpdateMedications.h"
-#include "Network/HIS/UpdateMkb.h"
+
 class SettingsMainPresenter
 {
 	PracticeSettingsPresenter m_practicePresenter;
 
 	UpdateMedications med_update;
-//	UpdateMkb mkb_update;
 
 	ISettingsDialog* view{nullptr};
 

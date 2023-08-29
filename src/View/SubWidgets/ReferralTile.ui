@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>286</width>
-    <height>123</height>
+    <width>281</width>
+    <height>104</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -33,13 +33,13 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
    <property name="spacing">
-    <number>0</number>
+    <number>6</number>
    </property>
    <property name="topMargin">
-    <number>2</number>
+    <number>9</number>
    </property>
    <property name="bottomMargin">
-    <number>14</number>
+    <number>9</number>
    </property>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">

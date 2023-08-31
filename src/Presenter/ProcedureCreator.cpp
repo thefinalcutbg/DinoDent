@@ -1,7 +1,7 @@
 ﻿#include "ProcedureCreator.h"
 #include "Model/Dental/KSMP.h"
 #include "View/ModalDialogBuilder.h"
-
+#include <set>
 
 ProcedureCreator::ProcedureCreator(const std::vector<const Tooth*>& selectedTeeth)
 	: m_selectedTeeth(selectedTeeth)
@@ -276,7 +276,9 @@ void ProcedureCreator::setProcedureCode(const ProcedureCode& m, bool nhif)
 
 	view->setNhifLayout(nhif);
 
-	if (!diagIdx && m.oldCode() == 101) {
+	const std::set<int> exams = {101, 102, 103};
+
+	if (!diagIdx && exams.count(m.oldCode())) {
 		view->diagnosisEdit()->set_Text("Преглед");
 	}
 	else

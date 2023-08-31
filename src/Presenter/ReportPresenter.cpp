@@ -47,25 +47,25 @@ void ReportPresenter::checkAmbList(const AmbList& list, const Patient& patient)
 		view->appendSheet(list.getNumber(), " Корекциите не са отразени в НЗИС");
 	}
 
-
-	if (nraCheck) {
+	if (nraCheck && patient.insuranceStatus.has_value() && !patient.foreigner) {
 
 		switch (patient.insuranceStatus->status) {
-		case Insured::Yes: break;
+	
+			case Insured::Yes: break;
 
-		case Insured::NoData: view->appendText(
-			"За пациент с ЕГН/ЛНЧ "
-			+ patient.id +
-			" не са открити данни в НАП");
-			isValid = false;
-			m_hasErrors = true;
-			break;
+			case Insured::NoData: view->appendText(
+				"За пациент с ЕГН/ЛНЧ "
+				+ patient.id +
+				" не са открити данни в НАП");
+				isValid = false;
+				m_hasErrors = true;
+				break;
 
-		case Insured::No:
-			view->appendText("Пациент с ЕГН/ЛНЧ " + patient.id + " е неосигурен");
-			isValid = false;
-			m_hasErrors = true;
-			break;
+			case Insured::No:
+				view->appendText("Пациент с ЕГН/ЛНЧ " + patient.id + " е неосигурен");
+				isValid = false;
+				m_hasErrors = true;
+				break;
 		}
 	}
 
@@ -133,6 +133,9 @@ void ReportPresenter::checkNext()
 	auto& list = lists[m_currentIndex];
 
 	auto& patient = patients[list.patient_rowid];
+	
+	//no data
+	if (patient.foreigner) { patient.insuranceStatus.emplace(); }
 
 	//sending request to PIS
 	if (pisCheck && !patient.PISHistory.has_value())
@@ -148,7 +151,6 @@ void ReportPresenter::checkNext()
 		return;
 	}
 
-	//sending request to NRA
 	if (nraCheck && !patient.insuranceStatus.has_value())
 	{
 		bool success = 
@@ -234,7 +236,7 @@ void ReportPresenter::generateReport(bool checkPis, bool checkNra)
 {
 
 	if (!User::practice().nhif_contract) {
-		ModalDialogBuilder::showError("Моля попълнете даннит от договора с НЗОК от настройки"); return;
+		ModalDialogBuilder::showError("Моля попълнете данните от договора с НЗОК от настройки"); return;
 	}
 
 	if (User::doctor().specialty == NhifSpecialty::None) {

@@ -13,6 +13,7 @@
 #include "View/Widgets/GlobalWidgets.h"
 #include "View/Widgets/AboutDialog.h"
 #include "Version.h"
+#include "View/Widgets/SplashScreen.h"
 
 QColor blue(133, 207, 234);
 
@@ -110,6 +111,8 @@ DinoDent::DinoDent(QWidget* parent)
     font.setBold(true);
     font.setPointSize(14);
     ui.practiceLabel->setFont(font);
+
+    SplashScreen::hideAndDestroy();
 
     MainPresenter::get().setView(this);
 }

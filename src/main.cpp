@@ -3,8 +3,8 @@
 #include "Network/UpdateService/UpdateService.h"
 #include <QTextCodec>
 #include "Model/FreeFunctions.h"
-#include <QSplashScreen>
-#include <qdebug.h>
+#include "View/Widgets/SplashScreen.h"
+
 bool initFunction();
 
 void testFn();
@@ -24,16 +24,9 @@ int main(int argc, char *argv[])
 
     if (UpdateService::restartForUpdate()) { return 0; };
 
-    //showing splash screen
-    QSplashScreen splash(QPixmap(":/other/splash.png"));
-    splash.show();
-    splash.showMessage("DinoDent зарежда, моля изчакайте...", Qt::AlignLeft | Qt::AlignBottom, Qt::darkGray);
-    a.processEvents();
+    if (!initFunction()) {  return 0;  }
 
-    if (!initFunction()) { return 0; }
-
-    splash.hide();
-
+    //splash screen is destroyed at the end of DinoDent constructor
     DinoDent w;
 
     if (!w.m_loggedIn) return 0;
@@ -64,11 +57,15 @@ int main(int argc, char *argv[])
 
 bool initFunction() {
 
+    SplashScreen::createAndShow();
+
     GlobalSettings::createCfgIfNotExists();
 
     //Db::setFilePath(GlobalSettings::getDbPath());
 
     if (!Db::createIfNotExist()) {
+
+        SplashScreen::hideAndDestroy();
 
         ModalDialogBuilder::showError(
             "Неуспешно създаване на базата данни."
@@ -80,15 +77,19 @@ bool initFunction() {
     };
 
     //Intializing static data
+    SplashScreen::showMessage("Зареждане на текстурите");
     SpriteSheets::container().initialize(); //loading textures, otherwise program will crash;
     Zodiac::initialize();
     ProcedureCode::initialize();
     Diagnosis::initialize();
     NhifProcedures::initialize(); //parsing json of nhif data
+    SplashScreen::showMessage("Зареждане на медикаментите");
     Medication::initialize();
     //KSMP::initialize();
+    SplashScreen::showMessage("Зареждане на населените места");
     Ekatte::initialize();
     Country::initialize();
+    SplashScreen::showMessage("Зареждане на МКБ номенклатурите");
     MKB::initialize();
     DoseQuantity::initialize();
     Route::initialize();
@@ -99,6 +100,8 @@ bool initFunction() {
 
     Db::showErrorDialog(true);
     DbUpdater::updateDb();
+
+    SplashScreen::showMessage("Стартиране на DinoDent...");
 
     return true;
 

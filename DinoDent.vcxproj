@@ -130,6 +130,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <LanguageStandard_C>Default</LanguageStandard_C>
+      <PreprocessorDefinitions>QT_NO_DEBUG_OUTPUT</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)\dependencies\lib\Release;$(SolutionDir)\dependencies\lib;$(Qt_LIBPATH_);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -481,6 +482,7 @@
     <ClCompile Include="src\View\Widgets\FinancialView.cpp" />
     <ClCompile Include="src\View\Widgets\InputDialog.cpp" />
     <ClCompile Include="src\View\Widgets\InvoicePrintDialog.cpp" />
+    <ClCompile Include="src\View\Widgets\SplashScreen.cpp" />
     <ClCompile Include="src\View\Widgets\StatisticDialogView.cpp" />
     <ClCompile Include="src\View\Widgets\TableViewDialog.cpp" />
     <ClCompile Include="src\View\Widgets\ListView.cpp" />
@@ -806,6 +808,7 @@
     <ClInclude Include="src\View\Widgets\ReportDialogResult.h" />
     <QtMoc Include="src\View\Widgets\ReportFilesView.h" />
     <QtMoc Include="src\View\Widgets\StatisticDialogView.h" />
+    <ClInclude Include="src\View\Widgets\SplashScreen.h" />
     <ClInclude Include="src\View\Widgets\ToothUi.h" />
     <QtMoc Include="src\View\Widgets\UpdateDialog.h" />
     <QtMoc Include="src\View\Widgets\DinoDent.h" />

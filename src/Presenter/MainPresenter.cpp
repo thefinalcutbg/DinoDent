@@ -17,6 +17,7 @@
 #include "View/Printer.h"
 #include "Presenter/MonthNotifPresenter.h"
 #include "Network/Telemetry.h"
+#include "View/Widgets/SplashScreen.h"
 
 MainPresenter MainPresenter::s_singleton;
 
@@ -24,7 +25,6 @@ void MainPresenter::setView(IMainView* view)
 {
     this->view = view;
 
-  
     if (DbPractice::noPractices())
     {
         ModalDialogBuilder::showMessage("Стартирате програмата за първи път. Моля добавете практика.");

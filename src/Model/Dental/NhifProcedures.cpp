@@ -149,17 +149,11 @@ std::vector<ProcedureCode> NhifProcedures::getNhifProcedures(Date ambDate, NhifS
 
 	for (auto& kv : ProcedureCode::procedureByNhifCode()) {
 
+		if (!pregnancyAllowed && kv.first == 103) continue;
+
 		if (m_map.count(kv.first)) {
 			result.push_back(kv.second);
 		}
-	}
-
-	if (pregnancyAllowed && 
-		(specialty != NhifSpecialty::OralSurgeon &&
-			specialty != NhifSpecialty::Maxillofacial) 
-		)
-	{
-		result.insert(result.begin() + 1, ProcedureCode(103));
 	}
 
 	return result;

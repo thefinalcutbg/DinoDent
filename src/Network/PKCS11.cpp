@@ -6,12 +6,11 @@
 #include <array>
 #include <exception>
 #include <filesystem>
-#include <qdebug.h>
 #include "QtVersion.h"
 #include "GlobalSettings.h"
 #include <QSSlCertificate>
 #include <QDateTime>
-#include <qdebug.h>
+
 PKCS11_CTX* ctx{ nullptr };
 
 bool isValidCertificate(PKCS11_cert_st* cert)

@@ -755,7 +755,7 @@ void ListPresenter::sendMedicalNoticeToHis(int index)
 {
     if (m_ambList.nrn.empty()) 
     {
-        ModalDialogBuilder::showMessage("За да издадете медицинска бележка, първо изпратете амбулаторният лист в НЗИС!");
+        ModalDialogBuilder::showMessage("За да издадете медицинска бележка, първо изпратете амбулаторния лист в НЗИС");
         return;
     }
 
@@ -778,7 +778,7 @@ void ListPresenter::addReferral(ReferralType type)
     if (!User::hasNhifContract()) {
         ModalDialogBuilder::showMessage(
             "За да създадете направление, трябва да попълните данните" 
-            "\nна договора с НЗОК и кодът на специалността от насторйки!"
+            "\nна договора с НЗОК и кодът на специалността от насторйки"
         );
 
         return;
@@ -943,7 +943,7 @@ void ListPresenter::removeReferral(int index)
 
                 m_ambList.referrals.erase(m_ambList.referrals.begin() + index);
 
-                ModalDialogBuilder::showMessage("Направлението е анулирано успешно!");
+                ModalDialogBuilder::showMessage("Направлението е анулирано успешно");
     
                 dynamicNhifConversion();
 
@@ -997,6 +997,7 @@ void ListPresenter::hisButtonPressed()
             m_ambList,
             *patient,
             [&](auto& nrn, auto& procedureIndex, bool error) {
+
                 if (nrn.empty()) {
                     return;
                 }
@@ -1019,10 +1020,12 @@ void ListPresenter::hisButtonPressed()
                     view->setProcedures(m_ambList.procedures.list());
                 }
 
-                error ?
-                    ModalDialogBuilder::showError("Амбулаторният лист не е синхронизиран с НЗИС! Моля анулирайте и го изпратете отново.")
-                    :
+                if (error) {
+                    ModalDialogBuilder::showError("Амбулаторният лист не е синхронизиран с НЗИС! Моля анулирайте и го изпратете отново.");
+                }
+                else {
                     ModalDialogBuilder::showMessage("Денталният преглед е изпратен към НЗИС успешно");
+                }
             }
         );
 

@@ -134,7 +134,7 @@ void ReportPresenter::checkNext()
 
 	auto& patient = patients[list.patient_rowid];
 	
-	//no data
+	//no data in NRA
 	if (patient.foreigner) { patient.insuranceStatus.emplace(); }
 
 	//sending request to PIS

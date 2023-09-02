@@ -61,17 +61,21 @@ void PatientDialogPresenter::changePatientType(int index)
 		view->lineEdit(mname)->setInputValidator(&name_validator);
 		view->lineEdit(lname)->setInputValidator(&name_validator);
 		view->lineEdit(address)->setInputValidator(nullptr);
+		view->lineEdit(foreign_city)->setInputValidator(nullptr);
 		view->lineEdit(id)->validateInput();
+
 		view->resetFields();
 		break;
 
 	case 2:
 		view->setType(Patient::LNCH);
+
 		view->lineEdit(id)->setInputValidator(&ln4_validator);
 		view->lineEdit(fname)->setInputValidator(&name_validator);
 		view->lineEdit(mname)->setInputValidator(&cyrillic_validator);
 		view->lineEdit(lname)->setInputValidator(&name_validator);
 		view->lineEdit(address)->setInputValidator(nullptr);
+		view->lineEdit(foreign_city)->setInputValidator(nullptr);
 		view->lineEdit(id)->validateInput();;
 		view->resetFields();
 		break;
@@ -83,6 +87,7 @@ void PatientDialogPresenter::changePatientType(int index)
 		view->lineEdit(mname)->setInputValidator(&cyrillic_validator);
 		view->lineEdit(lname)->setInputValidator(&name_validator);
 		view->lineEdit(address)->setInputValidator(nullptr);
+		view->lineEdit(foreign_city)->setInputValidator(nullptr);
 		view->lineEdit(id)->validateInput();
 		view->resetFields();
 		break;
@@ -93,10 +98,11 @@ void PatientDialogPresenter::changePatientType(int index)
 		view->lineEdit(mname)->setInputValidator(nullptr);
 		view->lineEdit(fname)->setInputValidator(&notEmpty_validator);
 		view->lineEdit(lname)->setInputValidator(&notEmpty_validator);
-		view->lineEdit(address)->setInputValidator(&notEmpty_validator);
+		view->lineEdit(address)->setInputValidator(nullptr);
+		view->lineEdit(foreign_city)->setInputValidator(&notEmpty_validator);
 		view->lineEdit(id)->validateInput();
 		view->resetFields();
-		view->lineEdit(city)->set_Text(User::practice().practice_address.getString(false));
+
 		break;
 	default:
 		break;
@@ -132,11 +138,10 @@ void PatientDialogPresenter::accept()
 	}
 	else
 	{
-		if (!DbPatient::update(m_patient.value())) m_patient.reset();
-	}
-
-	if (!m_patient) {
-		ModalDialogBuilder::showError("Неуспешно записване в базата данни");
+		if (!DbPatient::update(m_patient.value())) {
+			m_patient.reset();
+			ModalDialogBuilder::showError("Неуспешно записване в базата данни");
+		}
 	}
 	
 	view->close();
@@ -164,7 +169,6 @@ void PatientDialogPresenter::searchDbForPatient(int type)
 
 		if (patient.type == Patient::EU) {
 			patient.foreigner.emplace();
-			patient.city = User::practice().practice_address;
 		}
 	}
 	else
@@ -203,7 +207,7 @@ bool PatientDialogPresenter::viewIsValid()
 		return true;
 	};
 
-	for (int i = 0; i < 8; i++)
+	for (int i = 0; i < PatientField::size; i++)
 	{
 		if (!inputIsValid(view->lineEdit(static_cast<PatientField>(i)))) return false;
 	}

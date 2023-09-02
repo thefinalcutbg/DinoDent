@@ -61,7 +61,7 @@ bool initFunction() {
 
     GlobalSettings::createCfgIfNotExists();
 
-    //Db::setFilePath(GlobalSettings::getDbPath());
+   // Db::setFilePath(GlobalSettings::getDbPath());
 
     if (!Db::createIfNotExist()) {
 
@@ -99,6 +99,7 @@ bool initFunction() {
     User::initialize();
 
     Db::showErrorDialog(true);
+    SplashScreen::showMessage("Обновяване на база данни");
     DbUpdater::updateDb();
 
     SplashScreen::showMessage("Стартиране на DinoDent...");

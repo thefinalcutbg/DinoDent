@@ -22,15 +22,11 @@ void fillCommonData(LimeReport::ReportEngine& report, const Patient& patient, co
     
     if (patient.foreigner)
     {
-        report.dataManager()->setReportVariable("city", QString::fromStdString(patient.getFullAddress()));
         report.dataManager()->setReportVariable("country", patient.foreigner->country.getCode().c_str());
     }
-    else
-    {
-        report.dataManager()->setReportVariable("city", QString::fromStdString(patient.city.getString()));
-        report.dataManager()->setReportVariable("address", QString::fromStdString(patient.address));
-    }
 
+    report.dataManager()->setReportVariable("city", QString::fromStdString(patient.city.getString()));
+    report.dataManager()->setReportVariable("address", QString::fromStdString(patient.address));
     report.dataManager()->setReportVariable("patientName", QString::fromStdString(patient.fullName()));
     report.dataManager()->setReportVariable("patientPhone", QString::fromStdString(patient.phone));
     report.dataManager()->setReportVariable("RHIFCode", QString::fromStdString(patient.city.getRhif()));

@@ -27,7 +27,7 @@ class PatientFormDialog : public QDialog, public IPatientDialog
 
     PatientDialogPresenter* presenter;
 
-    std::array<LineEdit*, 8> patientFields;
+    std::array<LineEdit*, PatientField::size> patientFields;
 
 public:
     Q_OBJECT

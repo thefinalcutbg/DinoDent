@@ -118,7 +118,6 @@ ListView::ListView(QWidget* parent)
 	connect(ui.procedureTable, &TableView::editPressed, [=](int row) { if (presenter) presenter->editProcedure(row); });
 	connect(ui.procedureTable, &TableView::rowDragged, [=] { if(presenter) presenter->moveProcedure(ui.procedureTable->selectedRow(), model.lastDroppedRowIndex()); });
 
-
 	ui.controlPanel->hide();
 	ui.surfacePanel->hide();
 	ui.procedureTable->enableContextMenu(true);

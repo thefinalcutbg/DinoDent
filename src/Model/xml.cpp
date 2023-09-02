@@ -80,6 +80,7 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
         {
             bool is_ehic = patient.foreigner->isEHIC();
 
+            dentalCareService->SetAttribute("countryCode", patient.foreigner->country.getCode());
             dentalCareService->SetAttribute("IICode", patient.foreigner->institution);
             dentalCareService->SetAttribute("documentType", is_ehic ? "ЕЗОК" : "Друг");
             dentalCareService->SetAttribute(is_ehic ? "validTo" : "validFrom", patient.foreigner->date_valid.to8601());

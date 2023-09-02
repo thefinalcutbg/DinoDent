@@ -2,6 +2,7 @@
 #include "DbUpdates.h"
 #include "Resources.h"
 #include <qdebug.h>
+
 void DbUpdates::update12()
 {
 	if (Db::version() != 11) return;

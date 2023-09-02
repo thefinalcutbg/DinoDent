@@ -51,6 +51,7 @@ PatientFormDialog::PatientFormDialog(PatientDialogPresenter* p, QWidget* parent)
     connect(ui.okButton, &QPushButton::clicked, [=] { presenter->accept(); });
     connect(ui.idLineEdit, &QLineEdit::textEdited, [=]{ if(ui.idLineEdit->isValid()) presenter->searchDbForPatient(ui.typeComboBox->currentIndex()+1); });
     connect(ui.hirbnoButton, &QPushButton::clicked, [=] { presenter->checkHirbno();});
+
     patientFields[id] = ui.idLineEdit;
     patientFields[fname] = ui.fNameEdit;
     patientFields[mname] = ui.mNameEdit;
@@ -59,6 +60,7 @@ PatientFormDialog::PatientFormDialog(PatientDialogPresenter* p, QWidget* parent)
     patientFields[address] = ui.addressEdit;
     patientFields[hirbno] = ui.HIRBNoEdit;
     patientFields[phone] = ui.phoneEdit;
+    patientFields[foreign_city] = ui.foreignCityEdit;
 
 
     for (auto& line : patientFields)
@@ -117,10 +119,7 @@ void PatientFormDialog::setType(Patient::Type type)
         20
     );
 
-    bool isForeigner = type == Patient::EU;
-    ui.foreignerGroup->setHidden(!isForeigner);
-    ui.cityLineEdit->setDisabled(isForeigner);
-    ui.addressLabel->setText(isForeigner ? "Град в чужбина:" : "Адрес:");
+    ui.foreignerGroup->setHidden(type != Patient::EU);
 
 }
 
@@ -141,8 +140,11 @@ void PatientFormDialog::resetFields()
     ui.HIRBNoEdit->reset();
     ui.phoneEdit->reset();
     ui.addressEdit->reset();
+    ui.foreignCityEdit->reset();
+
     ui.institutionNumber->clear();
     ui.ehic_edit->clear();
+
     ui.sexCombo->setCurrentIndex(0);
     ui.countryCombo->setCurrentIndex(0);
 
@@ -177,6 +179,7 @@ void PatientFormDialog::setPatient(const Patient& patient)
     ui.institutionNumber->setText(patient.foreigner->institution.c_str());
     ui.validDateEdit->set_Date(patient.foreigner->date_valid);
     ui.ehic_edit->setText(patient.foreigner->ehic.c_str());
+    ui.foreignCityEdit->setText(patient.foreigner->city.c_str());
 
     patient.foreigner->isEHIC() ?
         ui.ehicRadio->setChecked(true)
@@ -195,6 +198,7 @@ Patient PatientFormDialog::getPatient()
 
             Foreigner{
                 .country = ui.countryCombo->currentIndex(),
+                .city = ui.foreignCityEdit->getText(),
                 .institution = ui.institutionNumber->text().toStdString(),
                 .ehic = ui.ehicRadio->isChecked() ? ui.ehic_edit->text().toStdString() : std::string(),
                 .date_valid = ui.validDateEdit->getDate(),

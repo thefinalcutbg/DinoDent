@@ -132,15 +132,15 @@ std::string HisService::subject(const Patient& p)
 		+ bind("birthDate", p.birth.to8601())
 		+ bind("gender", p.sex + 1)
 		+"<nhis:name>"
-			+ bind("given", p.FirstName)
-			+ bind("middle", p.MiddleName)
-			+ bind("family", p.LastName)
+			+ bind("given", p.FirstName, true)
+			+ bind("middle", p.MiddleName, true)
+			+ bind("family", p.LastName, true)
 		+"</nhis:name>"
 		 "<nhis:address>"
 			+ bind("country", p.foreigner ? p.foreigner->country.getCode() : "BG" )
 			+ bind("county", p.foreigner ? "" : p.city.getRegionCode())
 			+ bind("ekatte", p.foreigner ? "" : p.city.ekatte())
-			+ bind("city", p.foreigner ? FreeFn::escapeXml(p.address) : p.city.getString())
+			+ bind("city", p.foreigner ? p.foreigner->city : p.city.getString(), true)
 			+ bind("line", p.foreigner ? "" : FreeFn::escapeXml(p.getFullAddress()))
 		+"</nhis:address>"
 		+bind("phone", p.phone)

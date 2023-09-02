@@ -7,8 +7,8 @@ long long DbPatient::insert(const Patient& patient)
     Db db(
         "INSERT INTO patient "
         "(type, id, birth, sex, fname, mname, lname, "
-        "ekatte, address, hirbno, phone, country, institution_num, ehic_num, date_valid) "
-        "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+        "ekatte, address, hirbno, phone, country, institution_num, ehic_num, date_valid, foreign_city) "
+        "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
     );
 
     db.bind(1, patient.type);
@@ -29,6 +29,7 @@ long long DbPatient::insert(const Patient& patient)
         db.bind(13, patient.foreigner->institution);
         db.bind(14, patient.foreigner->ehic);
         db.bind(15, patient.foreigner->date_valid.to8601());
+        db.bind(16, patient.foreigner->city);
     }
 
     if (db.execute()) return db.lastInsertedRowID();
@@ -55,7 +56,8 @@ bool DbPatient::update(const Patient& patient)
         "country=?,"
         "institution_num=?,"
         "ehic_num=?,"
-        "date_valid=? "
+        "date_valid=?, "
+        "foreign_city=? "
         "WHERE rowid=?"
     );
 
@@ -77,9 +79,10 @@ bool DbPatient::update(const Patient& patient)
         db.bind(12, patient.foreigner->institution);
         db.bind(13, patient.foreigner->ehic);
         db.bind(14, patient.foreigner->date_valid.to8601());
+        db.bind(15, patient.foreigner->city);
     }
     
-    db.bind(15, patient.rowid);
+    db.bind(16, patient.rowid);
 
     return db.execute();
 
@@ -87,7 +90,7 @@ bool DbPatient::update(const Patient& patient)
 
 Patient DbPatient::get(std::string patientID, int type)
 {
-    std::string query = "SELECT rowid, type, id, birth, sex, fname, mname, lname, ekatte, address, hirbno, phone, country, institution_num, ehic_num, date_valid "
+    std::string query = "SELECT rowid, type, id, birth, sex, fname, mname, lname, ekatte, address, hirbno, phone, country, foreign_city, institution_num, ehic_num, date_valid "
         "FROM patient WHERE id = '" + patientID + "' "
         "AND type = " + std::to_string(type);
 
@@ -114,9 +117,10 @@ Patient DbPatient::get(std::string patientID, int type)
         {
             patient.foreigner = Foreigner{
                 .country = Country{db.asString(12)},
-                .institution = db.asString(13),
-                .ehic = db.asString(14),
-                .date_valid = db.asString(15)
+                .city = db.asString(13),
+                .institution = db.asString(14),
+                .ehic = db.asString(15),
+                .date_valid = db.asString(16)
             };
         }
     }
@@ -129,7 +133,7 @@ Patient DbPatient::get(std::string patientID, int type)
 
 Patient DbPatient::get(long long rowid)
 {
-    Db db("SELECT rowid, type, id, birth, sex, fname, mname, lname, ekatte, address, hirbno, phone, country, institution_num, ehic_num, date_valid "
+    Db db("SELECT rowid, type, id, birth, sex, fname, mname, lname, ekatte, address, hirbno, phone, country, foreign_city, institution_num, ehic_num, date_valid "
         "FROM patient WHERE rowid = " + std::to_string(rowid)
     );
 
@@ -154,9 +158,10 @@ Patient DbPatient::get(long long rowid)
         {
             patient.foreigner = Foreigner{
                 .country = Country{db.asString(12)},
-                .institution = db.asString(13),
-                .ehic = db.asString(14),
-                .date_valid = db.asString(15)
+                .city = db.asString(13),
+                .institution = db.asString(14),
+                .ehic = db.asString(15),
+                .date_valid = db.asString(16)
             };
         }
     }

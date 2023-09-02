@@ -58,7 +58,7 @@ void PatientDialogPresenter::changePatientType(int index)
 
 		view->lineEdit(id)->setInputValidator(&egn_validator);
 		view->lineEdit(fname)->setInputValidator(&name_validator);
-		view->lineEdit(mname)->setInputValidator(&name_validator);
+		view->lineEdit(mname)->setInputValidator(&cyrillic_validator);
 		view->lineEdit(lname)->setInputValidator(&name_validator);
 		view->lineEdit(address)->setInputValidator(nullptr);
 		view->lineEdit(foreign_city)->setInputValidator(nullptr);
@@ -95,9 +95,9 @@ void PatientDialogPresenter::changePatientType(int index)
 		view->setType(Patient::EU);
 
 		view->lineEdit(id)->setInputValidator(&notEmpty_validator);
-		view->lineEdit(mname)->setInputValidator(nullptr);
-		view->lineEdit(fname)->setInputValidator(&notEmpty_validator);
-		view->lineEdit(lname)->setInputValidator(&notEmpty_validator);
+		view->lineEdit(fname)->setInputValidator(&name_validator);
+		view->lineEdit(mname)->setInputValidator(&cyrillic_validator);
+		view->lineEdit(lname)->setInputValidator(&name_validator);
 		view->lineEdit(address)->setInputValidator(nullptr);
 		view->lineEdit(foreign_city)->setInputValidator(&notEmpty_validator);
 		view->lineEdit(id)->validateInput();

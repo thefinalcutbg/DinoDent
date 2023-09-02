@@ -17,6 +17,8 @@ static std::string_view allowed = ("абвгдежзийклмнопрстуфх
 
 bool CyrillicValidator::validateInput(const std::string& text)
 {
+    this->_errorMsg = &mustBeCyrillic;
+
     bool found = false;
 
     for (auto& c : text)

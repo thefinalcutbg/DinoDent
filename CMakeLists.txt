@@ -81,6 +81,8 @@ src\Database\DbFiscalReceipt.cpp
 src\Database\DbFiscalReceipt.h
 src\Database\DbInvoice.cpp
 src\Database\DbInvoice.h
+src\Database\DbMedicalNotice.cpp
+src\Database\DbMedicalNotice.h
 src\Database\DbNotes.cpp
 src\Database\DbNotes.h
 src\Database\DbPatient.cpp
@@ -107,8 +109,7 @@ src\DbUpdates\DbUpdates.cpp
 src\DbUpdates\DbUpdates.h
 src\DbUpdates\Update10.cpp
 src\DbUpdates\Update11.cpp
-src\DbUpdates\Update12and13.cpp
-src\DbUpdates\Update14.cpp
+src\DbUpdates\Update12_15.cpp
 src\DbUpdates\Update5.cpp
 src\DbUpdates\Update6.cpp
 src\DbUpdates\Update7.cpp
@@ -128,6 +129,7 @@ src\Model\FreeFunctions.cpp
 src\Model\FreeFunctions.h
 src\Model\InsuranceStatus.cpp
 src\Model\InsuranceStatus.h
+src\Model\MedicalNotice.h
 src\Model\MedicalStatuses.h
 src\Model\NumenclatureTemplate.h
 src\Model\Parser.cpp
@@ -273,6 +275,8 @@ src\Network\XmlSigner.cpp
 src\Network\XmlSigner.h
 src\Network\HIS\EDental.cpp
 src\Network\HIS\EDental.h
+src\Network\HIS\EMedicalNotice.cpp
+src\Network\HIS\EMedicalNotice.h
 src\Network\HIS\EPrescription.cpp
 src\Network\HIS\EPrescription.h
 src\Network\HIS\EReferral.cpp
@@ -287,8 +291,6 @@ src\Network\HIS\HisToken.cpp
 src\Network\HIS\HisToken.h
 src\Network\HIS\UpdateMedications.cpp
 src\Network\HIS\UpdateMedications.h
-src\Network\HIS\UpdateMkb.cpp
-src\Network\HIS\UpdateMkb.h
 src\Network\NRA\NraStatusService.cpp
 src\Network\NRA\NraStatusService.h
 src\Network\NRA\NssiPentionService.cpp
@@ -480,6 +482,9 @@ src\View\SubWidgets\ControlPanel.h
 src\View\SubWidgets\ControlPanel.ui
 src\View\SubWidgets\DsnMenu.cpp
 src\View\SubWidgets\DsnMenu.h
+src\View\SubWidgets\MedicalNoticeTile.cpp
+src\View\SubWidgets\MedicalNoticeTile.h
+src\View\SubWidgets\MedicalNoticeTile.ui
 src\View\SubWidgets\MedicalStatusWidget.cpp
 src\View\SubWidgets\MedicalStatusWidget.h
 src\View\SubWidgets\MedicalStatusWidget.ui
@@ -550,6 +555,8 @@ src\View\TableModels\StatisticTableModel.cpp
 src\View\TableModels\StatisticTableModel.h
 src\View\uiComponents\AutoCompleteLineEdit.cpp
 src\View\uiComponents\AutoCompleteLineEdit.h
+src\View\uiComponents\BigPushButton.cpp
+src\View\uiComponents\BigPushButton.h
 src\View\uiComponents\ComboBox.cpp
 src\View\uiComponents\ComboBox.h
 src\View\uiComponents\CustomButton.cpp
@@ -657,6 +664,9 @@ src\View\Widgets\ListView.ui
 src\View\Widgets\LoginView.cpp
 src\View\Widgets\LoginView.h
 src\View\Widgets\LoginView.ui
+src\View\Widgets\MedicalNoticeDialog.cpp
+src\View\Widgets\MedicalNoticeDialog.h
+src\View\Widgets\MedicalNoticeDialog.ui
 src\View\Widgets\MedicalStatusDialog.cpp
 src\View\Widgets\MedicalStatusDialog.h
 src\View\Widgets\MedicalStatusDialog.ui
@@ -732,6 +742,8 @@ src\View\Widgets\SaveDialog.h
 src\View\Widgets\SettingsDialog.cpp
 src\View\Widgets\SettingsDialog.h
 src\View\Widgets\SettingsDialog.ui
+src\View\Widgets\SplashScreen.cpp
+src\View\Widgets\SplashScreen.h
 src\View\Widgets\StatisticDialogView.cpp
 src\View\Widgets\StatisticDialogView.h
 src\View\Widgets\StatisticDialogView.ui

@@ -55,7 +55,7 @@ void PatientInfoPresenter::diagnosisClicked()
 
             if (!result.has_value()) { return; }
 
-            DbPatient::updateMedStats(patient->rowid, result.value());
+            DbPatient::updateMedStatus(patient->rowid, result.value());
 
             patient->medStats = result.value();
 
@@ -91,7 +91,7 @@ void PatientInfoPresenter::allergiesTileClicked()
 
     patient->medStats = result.value();
 
-    auto success = DbPatient::updateMedStats(patient->rowid, patient->medStats);
+    auto success = DbPatient::updateMedStatus(patient->rowid, patient->medStats);
 
     if (!success) return;
 

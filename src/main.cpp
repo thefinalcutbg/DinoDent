@@ -17,14 +17,14 @@ int main(int argc, char *argv[])
     QCoreApplication::setApplicationName("DinoDent");
 
     QApplication a(argc, argv);
-
-   // testFn(); return 0;
     
     a.setWindowIcon(QIcon(":/icons/icon_torque.png"));
 
     if (UpdateService::restartForUpdate()) { return 0; };
 
     if (!initFunction()) {  return 0;  }
+
+    //testFn(); return 0;
 
     //splash screen is destroyed at the end of DinoDent constructor
     DinoDent w;
@@ -108,8 +108,9 @@ bool initFunction() {
 
 }
 
+#include "Tests/CrudTest.h"
+
 void testFn()
 {
-   
-    
+    ModalDialogBuilder::showMessage(Test::crudTest());
 }

@@ -73,7 +73,7 @@ std::pair<std::string, std::string> DbDoctor::getLpkAndPassAutoLogin()
     return { lpk, pass };
 }
 
-void DbDoctor::setAutoLogin(const std::string& lpk, bool remember)
+bool DbDoctor::setAutoLogin(const std::string& lpk, bool remember)
 {
     std::string query =
         "UPDATE doctor SET auto_login="
@@ -83,29 +83,41 @@ void DbDoctor::setAutoLogin(const std::string& lpk, bool remember)
     Db db(query);
     db.bind(1, lpk);
     db.bind(2, remember);
-    db.execute();
+    return db.execute();
 
 }
 
-void DbDoctor::updateDoctor(const Doctor& doctor, std::string& currentLPK)
+bool DbDoctor::updateDoctor(const Doctor& doctor, std::string& currentLPK)
 {
-    Db::crudQuery(
+   Db db;
 
-        "UPDATE doctor SET "
-        "lpk = '" + doctor.LPK + "', "
-        "fname = '" + doctor.fname + "', "
-        "mname = '" + doctor.mname + "', "
-        "lname = '" + doctor.lname + "', "
-        "pass = '" + doctor.pass + "', "
-        "phone = '" + doctor.phone + "', "
-        "several_rhif = " + std::to_string(doctor.severalRHIF) + ", "
-        "his_specialty=" + std::to_string(doctor.hisSpecialty.getIdx()) + " "
-        "WHERE lpk = '" + currentLPK + "' "
+   db.newStatement(
+       "UPDATE doctor SET "
+       "lpk=?,"
+       "fname=?,"
+       "mname=?,"
+       "lname=?,"
+       "pass=?,"
+       "phone=?,"
+       "several_rhif=?,"
+       "his_specialty=? "
+       "WHERE lpk=?"
+   );
 
-    );
+   db.bind(1, doctor.LPK);
+   db.bind(2, doctor.fname);
+   db.bind(3, doctor.mname);
+   db.bind(4, doctor.lname);
+   db.bind(5, doctor.pass);
+   db.bind(6, doctor.phone);
+   db.bind(7, doctor.severalRHIF);
+   db.bind(8, doctor.hisSpecialty.getIdx());
+   db.bind(9, currentLPK);
+
+   return db.execute();
 }
 
-void DbDoctor::insertDoctor(const Doctor& doctor)
+bool DbDoctor::insertDoctor(const Doctor& doctor)
 {
     Db db(
         "INSERT INTO doctor (lpk, fname, mname, lname, pass, phone, several_rhif, auto_login, his_specialty ) "
@@ -122,7 +134,7 @@ void DbDoctor::insertDoctor(const Doctor& doctor)
     db.bind(8, false);
     db.bind(9, doctor.hisSpecialty.getIdx());
 
-    db.execute();
+    return db.execute();
 }
 
 std::tuple<bool, int> DbDoctor::getAdminAndSpecialty(const std::string& lpk, const std::string& rzi)

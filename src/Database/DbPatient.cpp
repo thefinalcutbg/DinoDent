@@ -175,7 +175,7 @@ Patient DbPatient::get(long long rowid)
 
 enum MedStatusType { Allergy, CurrentDiseases, PastDiseases };
 
-bool DbPatient::updateMedStats(long long patientRowId, const MedicalStatuses& s)
+bool DbPatient::updateMedStatus(long long patientRowId, const MedicalStatuses& s)
 {
 
     Db db("DELETE FROM medical_status WHERE patient_rowid=?");

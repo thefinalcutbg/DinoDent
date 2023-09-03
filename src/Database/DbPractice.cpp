@@ -29,7 +29,7 @@ Practice DbPractice::getPractice(const std::string rziCode)
     return practice;
 }
 
-void DbPractice::updatePractice(const Practice& practice, const std::string& currentRZI)
+bool DbPractice::updatePractice(const Practice& practice, const std::string& currentRZI)
 {
 
     Db db(
@@ -59,11 +59,11 @@ void DbPractice::updatePractice(const Practice& practice, const std::string& cur
     db.bind(10, practice.selfInsuredId);
     db.bind(11, currentRZI);
 
-    db.execute();
+    return db.execute();
 
 }
 
-void DbPractice::updatePracticeSettings(const Settings& s, const std::string& rzi)
+bool DbPractice::updatePracticeSettings(const Settings& s, const std::string& rzi)
 {
     Db db(
         "UPDATE practice SET "
@@ -75,12 +75,12 @@ void DbPractice::updatePracticeSettings(const Settings& s, const std::string& rz
     db.bind(1, Parser::write(s));
     db.bind(2, rzi);
 
-    db.execute();
+    return db.execute();
 }
 
 #include "Resources.h"
 
-void DbPractice::insertPractice(const Practice& practice)
+bool DbPractice::insertPractice(const Practice& practice)
 {
 
     Db db(
@@ -101,7 +101,7 @@ void DbPractice::insertPractice(const Practice& practice)
     db.bind(10, Parser::write(practice.settings));
     db.bind(11, practice.selfInsuredId);
 
-    db.execute();
+    return db.execute();
 
 }
 
@@ -145,7 +145,7 @@ std::vector<PracticePair> DbPractice::getPracticeList(const std::string& doctorL
     return practiceList;
 }
 
-void DbPractice::setDoctorsPracticeList(std::vector<PracticeDoctor> doctors, const std::string& practiceRZI)
+bool DbPractice::setDoctorsPracticeList(std::vector<PracticeDoctor> doctors, const std::string& practiceRZI)
 {
     std::string query = "DELETE FROM practice_doctor "
         "WHERE practice_rzi = '" + practiceRZI + "'";
@@ -154,9 +154,12 @@ void DbPractice::setDoctorsPracticeList(std::vector<PracticeDoctor> doctors, con
 
     db.execute(query);
 
+    int insertCount{ 0 };
+
     for (auto& doc : doctors)
     {
-        db.execute(
+       insertCount += 
+           db.execute(
             "INSERT INTO practice_doctor "
             "VALUES ('"
             + practiceRZI + "', '"
@@ -165,6 +168,8 @@ void DbPractice::setDoctorsPracticeList(std::vector<PracticeDoctor> doctors, con
             + std::to_string(static_cast<int>(doc.specialty)) + ")"
         );
     }
+
+    return insertCount == doctors.size();
 }
 
 std::vector<PracticeDoctor> DbPractice::getDoctors(const std::string& practiceRZI)

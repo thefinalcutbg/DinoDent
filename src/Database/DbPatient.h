@@ -9,7 +9,7 @@ namespace DbPatient
     bool update(const Patient& patient);
     Patient get(std::string patientID, int type);
     Patient get(long long rowid);
-    bool updateMedStats(long long patientRowId, const MedicalStatuses& s);
+    bool updateMedStatus(long long patientRowId, const MedicalStatuses& s);
     bool updateMedStatus(long long patientRowId, const MedicalStatuses& s, Db& db);
     MedicalStatuses getMedicalStatuses(long long patientRowId);
     MedicalStatuses getMedicalStatuses(long long patientRowId, Db& db);

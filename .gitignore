@@ -377,3 +377,4 @@ dependencies/
 /installer/compiled
 /database - Copy.db
 /include
+/test.db

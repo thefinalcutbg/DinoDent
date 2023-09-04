@@ -16,6 +16,8 @@ class PrescriptionView final : public QWidget, public IPrescriptionView
 
 	void dispensationLogic();
 
+	void paintEvent(QPaintEvent* event);
+
 public:
 	PrescriptionView(QWidget *parent = nullptr);
 	void setPresenter(PrescriptionPresenter* p) override { presenter = p;}

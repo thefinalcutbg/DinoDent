@@ -8,6 +8,10 @@ struct Patient;
 
 namespace EPrescription {
 
+	enum Status { None, Active, PartiallyComplete, Complete, Rejected, Canceled, PartiallyCanceled, Expired, Size };
+
+	std::string getStatusText(EPrescription::Status s);
+
 	class Issue : private HisService
 	{
 		std::function<void(const std::string&)> m_callback;
@@ -40,6 +44,20 @@ namespace EPrescription {
 			HisService("P007", "/v3/eprescription/doctor/cancel") {}
 
 		bool sendRequest(const std::string& nrn, std::function<void(bool)> success);
+	};
+
+	class Fetch : private HisService
+	{
+		std::function<void(EPrescription::Status s)> m_callback;
+
+	protected:
+		void parseReply(const std::string& reply) override;
+
+	public:
+		Fetch() :
+			HisService("P013", "/v3/eprescription/pharmacy/fetchdispense") {}
+
+		bool sendRequest(const std::string& nrn, std::function<void(EPrescription::Status s)> success);
 	};
 
 }

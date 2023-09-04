@@ -37,6 +37,7 @@ std::string Test::crudTest()
 		}
 	);
 
+	if (!success) { return "Error inserting doctor"; };
 
 	auto doctor = DbDoctor::getDoctor("22");
 
@@ -51,8 +52,6 @@ std::string Test::crudTest()
 	doctor = DbDoctor::getDoctor("22");
 
 	if (doctor->fname != "test1") return "Error updating doctor1";
-
-	if (!success) { return "Error inserting doctor"; };
 
 	//DbPractice
 	success = DbPractice::insertPractice(
@@ -154,6 +153,7 @@ std::string Test::crudTest()
 	list.patient_rowid = 1;
 	list.LPK = "22";
 	list.nrn = "test";
+	list.number = 1;
 
 	list.procedures.addProcedure(
 		Procedure{
@@ -215,6 +215,10 @@ std::string Test::crudTest()
 
 	if (DbAmbList::getMonthlyNhifSheets(1, 2023).size()) {
 		return "Error getting monthly sheets that shouldn't be there";
+	}
+
+	if (DbAmbList::getNewNumber(Date(2, 1, 23), false) != 1) {
+		return "Error getting new ambsheet number";
 	}
 
 	return "CRUD test successful";

@@ -2,7 +2,7 @@
 #include "Presenter/PrescriptionPresenter.h"
 #include "View/Theme.h"
 #include "QtVersion.h"
-
+#include <QPainter>
 
 PrescriptionView::PrescriptionView(QWidget* parent)
 	: QWidget(parent)
@@ -46,7 +46,7 @@ PrescriptionView::PrescriptionView(QWidget* parent)
 	connect(ui.supplementsEdit, &QLineEdit::textChanged, [=](const QString& text) {if (presenter) presenter->supplementsChanged(text.toStdString());});
 	connect(ui.nrnButton, &QPushButton::clicked, [=] {if (presenter) presenter->nrnButtonClicked(); });
 	connect(ui.dateEdit, &QDateEdit::dateChanged, [=](QDate d) {if (presenter) presenter->dateChanged(Date{ d.day(),d.month(),d.year() });});
-
+	connect(ui.checkStatusButton, &QPushButton::clicked, [=]{ if (presenter) presenter->checkStatus(); });
 }
 
 IPatientTileInfo* PrescriptionView::patientTile()
@@ -98,6 +98,13 @@ void PrescriptionView::dispensationLogic()
 
 }
 
+void PrescriptionView::paintEvent(QPaintEvent* event)
+{
+	QPainter painter(this);
+
+	painter.fillRect(rect(), Theme::background);
+}
+
 void PrescriptionView::setDispensation(const Dispensation& d)
 {
 	QSignalBlocker b1(ui.repeats);
@@ -140,12 +147,14 @@ void PrescriptionView::setNrn(const std::string& nrn)
 {
 	if (nrn.empty()) {
 
+		ui.checkStatusButton->hide();
 		ui.nrnButton->setText("Изпрати към НЗИС");
 		ui.nrnButton->setHoverText("Изпрати към НЗИС");
 		ui.nrnLabel->setText("");
 		return;
 	}
 
+	ui.checkStatusButton->show();
 	ui.nrnLabel->setText("НРН:");
 	ui.nrnButton->setText(nrn.c_str());
 	ui.nrnButton->setHoverText("Анулирай");

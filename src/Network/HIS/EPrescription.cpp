@@ -165,14 +165,68 @@ void EPrescription::Cancel::parseReply(const std::string& reply)
 		Child(1).	  //contents
 		Child(1).ToElement(); //status
 
-	if (
-		status &&
-		status->FirstAttribute()->IntValue() == 5
-	)
-	{
-		m_callback(true); return;
-	}
-	
-	m_callback(false);
+	bool success = status && status->FirstAttribute()->IntValue() == 5;
 
+	m_callback(success);
+
+	m_callback = nullptr;
+
+}
+
+bool EPrescription::Fetch::sendRequest(const std::string& nrn, std::function<void(EPrescription::Status s)> success)
+{
+	m_callback = success;
+
+	std::string contents = bind("nrnPrescription", nrn);
+
+	return HisService::sendRequestToHis(contents);
+}
+
+void EPrescription::Fetch::parseReply(const std::string& reply)
+{
+	auto errors = getErrors(reply);
+
+	if (errors.size()) {
+		ModalDialogBuilder::showError(errors);
+		return;
+	}
+
+	TiXmlDocument doc;
+
+	doc.Parse(reply.data(), 0, TIXML_ENCODING_UTF8);
+
+	TiXmlHandle docHandle(&doc);
+
+	auto status = docHandle.
+		FirstChild().			//message
+		Child(1).				//contents
+		Child(1).				//results
+		FirstChild().			//prescription
+		Child(2).ToElement();	//status
+
+	if (status)
+	{
+		m_callback(static_cast<EPrescription::Status>(status->FirstAttribute()->IntValue())); 
+	}
+
+	m_callback = nullptr;
+
+}
+
+std::string EPrescription::getStatusText(EPrescription::Status s)
+{
+	static const std::string text[Status::Size] = {
+		"Неизвестен",
+		"Активна",
+		"Частично изпълнена",
+		"Изпълнена",
+		"Отказана",
+		"Анулирана",
+		"Частично анулирана",
+		"Изтекла"
+	};
+
+	if (s < 0 || s >= Status::Size) return text[0];
+
+	return text[s];
 }

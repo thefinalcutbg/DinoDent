@@ -67,6 +67,17 @@ void PrescriptionPresenter::nrnButtonClicked()
 		cancelPrescription();
 }
 
+void PrescriptionPresenter::checkStatus()
+{
+	if (m_prescription.NRN.empty()) return;
+
+	check_status_service.sendRequest(m_prescription.NRN, [&](EPrescription::Status s) {
+
+			ModalDialogBuilder::showMessage("Статус на рецептата: " + EPrescription::getStatusText(s));
+		}
+	);
+}
+
 void PrescriptionPresenter::addPressed()
 {
 

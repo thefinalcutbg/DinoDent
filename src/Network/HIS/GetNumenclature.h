@@ -2,7 +2,7 @@
 #include "HisService.h"
 #include <functional>
 
-class GetNumenclature : private HisService
+class GetNumenclature : protected HisService
 {
 	std::function<void(bool)> m_callable;
 	void parseReply(const std::string& reply) override;

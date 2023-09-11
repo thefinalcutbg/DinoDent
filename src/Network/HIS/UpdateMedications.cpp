@@ -18,6 +18,13 @@ bool UpdateMedications::parseNumenclature(const std::string& reply)
 
 	if (reply.empty()) return false;
 
+	auto error = getErrors(reply);
+
+	if (error.size()) {
+		ModalDialogBuilder::showError(error);
+		return false;
+	}
+
 	TiXmlDocument doc;
 
 	doc.Parse(reply.data(), 0, TIXML_ENCODING_UTF8);

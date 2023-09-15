@@ -153,9 +153,6 @@
     <ClCompile Include="src\Model\Validators\ProcedureValidators.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Model\Validators\RziValidaor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Model\Validators\RziValidator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

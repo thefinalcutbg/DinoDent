@@ -1,6 +1,6 @@
 ﻿#include "RziValidaor.h"
 
-const std::string error("Невалиден РЗИ код");
+const std::string error("Невалиден номер на практиката");
 
 bool RziValidator::validateInput(const std::string& text)
 {

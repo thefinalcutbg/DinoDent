@@ -94,7 +94,7 @@
          </rect>
         </property>
         <property name="text">
-         <string>РЦЗ №</string>
+         <string>РЗИ №</string>
         </property>
        </widget>
        <widget class="QLabel" name="label">

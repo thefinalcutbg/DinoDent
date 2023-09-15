@@ -329,7 +329,6 @@
     <ClCompile Include="src\Model\Validators\PatientValidators.cpp" />
     <ClCompile Include="src\Model\Validators\ProcedureDateValidator.cpp" />
     <ClCompile Include="src\Model\Validators\ProcedureValidators.cpp" />
-    <ClCompile Include="src\Model\Validators\RziValidaor.cpp" />
     <ClCompile Include="src\Model\Validators\RziValidator.cpp" />
     <ClCompile Include="src\Model\xml.cpp" />
     <ClCompile Include="src\Network\AbstractReplyHandler.cpp" />

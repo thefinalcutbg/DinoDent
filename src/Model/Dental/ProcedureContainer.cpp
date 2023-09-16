@@ -77,15 +77,19 @@ void ProcedureContainer::removeProcedure(int idx)
 
 void ProcedureContainer::replaceProcedure(const Procedure& p, int idx)
 {
+    if (idx < 0 || idx >= m_proc.size()) return;
+
     if (m_proc[idx].date == p.date)
     {
         m_proc[idx] = p;
+
+        return;
     }
-    else
-    {
-        removeProcedure(idx);
-        addProcedure(p);
-    }
+
+    m_proc.erase(m_proc.begin() + idx);
+
+    addProcedure(p);
+
 }
 
 bool ProcedureContainer::moveProcedure(int from, int to)

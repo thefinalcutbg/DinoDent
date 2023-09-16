@@ -637,8 +637,6 @@ void ListPresenter::addProcedure()
 
     if (view == nullptr) return;
 
-    patient_info.setDate(m_ambList.getDate());
-
     dynamicNhifConversion();
 
     refreshProcedureView();
@@ -663,7 +661,6 @@ void ListPresenter::editProcedure(int index)
 
     m_ambList.procedures.replaceProcedure(m, index);
 
-    patient_info.setDate(m_ambList.getDate());
     refreshProcedureView();
     makeEdited();
 
@@ -673,7 +670,6 @@ void ListPresenter::deleteProcedure(int index)
 {
     m_ambList.procedures.removeProcedure(index);
 
-    patient_info.setDate(m_ambList.getDate());
     refreshProcedureView();
 
     dynamicNhifConversion();

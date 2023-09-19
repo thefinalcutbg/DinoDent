@@ -10,7 +10,9 @@ namespace FreeFn {
     std::string getFile(const std::string& filepath);
     std::string removeTrailing(double a);
     std::string getUuid();
-    std::string getTimeStamp();
+    std::string getTimeStampLocal();
+    std::string getTimeStampUTC();
+    std::string LocalToUTC(const std::string& timeStamp);
     std::string escapeXml(const std::string& data);
     bool contains(const std::string& parent, const std::string& child);
 

@@ -13,11 +13,6 @@
 #include "Model/Dental/AmbList.h"
 #include "Model/FreeFunctions.h"
 
-std::string timeNow() {
-	auto t = QDateTime::currentDateTime();
-	return t.toString(Qt::DateFormat::ISODate).toStdString();
-}
-
 bool HisService::sendRequestToHis(const std::string& query)
 {
 	if (awaiting_reply) return false;
@@ -103,7 +98,7 @@ const std::string HisService::buildMessage(const std::string& query)
 				"<nhis:recipientId value=\"NHIS\"/>"
 				"<nhis:messageId value=\"" + FreeFn::getUuid() + "\"/>"
 				"<nhis:messageType value=\"" + messageType + "\"/>"
-				"<nhis:createdOn  value=\"" + timeNow() + "\"/>"
+				"<nhis:createdOn  value=\"" + FreeFn::getTimeStampUTC() + "\"/>"
 			"</nhis:header>"
 		
 			"<nhis:contents>"

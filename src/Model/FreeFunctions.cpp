@@ -80,9 +80,22 @@ std::string FreeFn::getUuid()
 
 #include <QDateTime>
 
-std::string FreeFn::getTimeStamp()
+std::string FreeFn::getTimeStampLocal()
 {
     return QDateTime::currentDateTime().toString(Qt::ISODate).toStdString();
+}
+
+std::string FreeFn::getTimeStampUTC()
+{
+    return QDateTime::currentDateTimeUtc().toString(Qt::ISODate).toStdString();
+}
+
+std::string FreeFn::LocalToUTC(const std::string& timeStamp)
+{
+    QDateTime datetime = QDateTime::fromString(timeStamp.c_str(), "yyyy-MM-ddTHH:mm:ss");
+    datetime.setTimeSpec(Qt::TimeSpec::LocalTime);
+
+    return datetime.toUTC().toString(Qt::ISODate).toStdString();
 }
 
 std::string FreeFn::escapeXml(const std::string& data)

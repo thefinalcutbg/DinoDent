@@ -14,7 +14,7 @@ void Telemetry::sendData()
 	Json::Value telemetry;
 
 	telemetry["id"] = GlobalSettings::telemetryId();
-	telemetry["last_login_date"] = FreeFn::getTimeStamp();
+	telemetry["last_login_date"] = FreeFn::getTimeStampLocal();
 	telemetry["version"] = Version::current().toString();
 	telemetry["is_admin"] = User::isAdmin();
 	telemetry["has_nhif_contract"] = User::hasNhifContract();

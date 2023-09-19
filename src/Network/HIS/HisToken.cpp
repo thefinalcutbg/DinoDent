@@ -134,7 +134,7 @@ void HisToken::setAuthRepy(const std::string& reply)
 
 	sToken::ms_expire = seconds_to_expire * 999ULL;
 
-	/* GIVES 2 HOURS BEHIND
+	/* GIVES UTC
 	auto expiresOn = tokenElement->					
 		NextSiblingElement()->					
 		NextSiblingElement()->

@@ -233,7 +233,6 @@ ToothContainer HISHistoryAlgorithms::getToothStatus(TiXmlDocument& doc)
 //if somewhere in the future NHIS fix their API, this implementation will be used
 ToothContainer HISHistoryAlgorithms::getToothStatus(TiXmlDocument& doc)
 {
-	doc.Parse(reply.data(), 0, TIXML_ENCODING_UTF8);
 
 	TiXmlHandle docHandle(&doc);
 
@@ -286,9 +285,7 @@ ToothContainer HISHistoryAlgorithms::getToothStatus(TiXmlDocument& doc)
 	for (auto idx : ranges.pontics) if (teeth[idx].canHaveACrown()) teeth[idx].extraction.set(false);
 
 
-	m_callback(teeth);
-
-	m_callback = nullptr;
+	return teeth;
 
 }
 */

@@ -164,7 +164,7 @@ bool EDental::Augment::sendRequest(const AmbList& ambSheet, const Patient& patie
 		"<nhis:dentalTreatment>"
 		+ bind("nrnDental", ambSheet.nrn)
 		//+ bind("basedOn", ambSheet.basedOn)
-		+ bind("treatmentStart", ambSheet.date)
+		+ bind("treatmentStart", FreeFn::LocalToUTC(ambSheet.date))
 		+ bind("adverseConditions", adverseConditions)
 		+ bind("rhifAreaNumber", patient.city.getRhif() + patient.city.getHealthRegion())
 		+ "<nhis:medicalStatus />" //TO IMPLEMENT!!!

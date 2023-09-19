@@ -723,29 +723,6 @@ void ListPresenter::editMedicalNotice(int index)
     }
 }
 
-void ListPresenter::removeMedicalNotice(int index)
-{
-
-    auto& nList = m_ambList.medical_notices;
-
-    if (nList[index].nrn.size()) {
-
-        auto answer = ModalDialogBuilder::askDialog(
-            "Медицинската бележка ще бъде премахната от локалната база данни, но не и от НЗИС. Желаете ли да продължите?"
-        );
-
-        if (!answer) return;
-    }
-
-    nList.erase(nList.begin() + index);
-
-    if (isCurrent()) view->setAdditionalDocuments(m_ambList.referrals, m_ambList.medical_notices);
-
-    if (!m_ambList.isNew()) {
-        DbMedicalNotice::save(m_ambList.medical_notices, m_ambList.rowid);
-    }
-
-}
 
 void ListPresenter::sendMedicalNoticeToHis(int index)
 {
@@ -757,7 +734,7 @@ void ListPresenter::sendMedicalNoticeToHis(int index)
 
     auto& notice = m_ambList.medical_notices[index];
 
-    eMedicalNoticeService.sendRequest(notice, *patient, m_ambList.nrn,
+    eMedicalNoticeIssue.sendRequest(notice, *patient, m_ambList.nrn,
         [=](const std::string& nrn) {
             m_ambList.medical_notices[index].nrn = nrn;
             
@@ -768,6 +745,38 @@ void ListPresenter::sendMedicalNoticeToHis(int index)
     );
 }
 
+void ListPresenter::removeMedicalNotice(int index)
+{
+
+    auto& nList = m_ambList.medical_notices;
+
+    if (nList[index].nrn.empty()) {
+
+        nList.erase(nList.begin() + index);
+
+        if (!m_ambList.isNew()) {
+            DbMedicalNotice::save(m_ambList.medical_notices, m_ambList.rowid);
+        }
+
+        if (isCurrent()) view->setAdditionalDocuments(m_ambList.referrals, m_ambList.medical_notices);
+
+        return;
+    }
+
+    eMedicalNoticeCancel.sendRequest(nList[index].nrn, [=](bool success)
+        {
+            if (!success) return;
+
+            m_ambList.medical_notices.erase(m_ambList.medical_notices.begin() + index);
+
+            DbMedicalNotice::save(m_ambList.medical_notices, m_ambList.rowid);
+
+            ModalDialogBuilder::showMessage("Медицинската бележка е анулирана успешно!");
+
+            if (isCurrent()) view->setAdditionalDocuments(m_ambList.referrals, m_ambList.medical_notices);
+        }
+    );
+}
 void ListPresenter::addReferral(ReferralType type)
 {
 

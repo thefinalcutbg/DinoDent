@@ -1,4 +1,4 @@
-#include "EMedicalNotice.h"
+﻿#include "EMedicalNotice.h"
 #include "Model/MedicalNotice.h"
 
 #include "View/ModalDialogBuilder.h"
@@ -64,4 +64,57 @@ void EMedicalNotice::Issue::parseReply(const std::string& reply)
 	};
 
 	m_callback = nullptr;
+}
+
+bool EMedicalNotice::Cancel::sendRequest(const std::string nrn,std::function<void(bool)> callback)
+{
+	m_callback = callback;
+
+	auto reason = ModalDialogBuilder::inputDialog(
+		"Основание за анулиране на медицинската бележка:",
+		"Анулиране на медицинска бележка"
+	);
+
+	if (reason.empty()) {
+		m_callback = nullptr;
+		return false;
+	}
+
+	std::string contents =
+		bind("nrnMedicalNotice", nrn)
+		+ bind("cancelReason", reason);
+
+	return HisService::sendRequestToHis(contents);
+
+	return false;
+}
+
+void EMedicalNotice::Cancel::parseReply(const std::string& reply)
+{
+
+	auto errors = getErrors(reply);
+
+	if (errors.size()) {
+		m_callback = nullptr;
+		ModalDialogBuilder::showError(errors);
+		return;
+	}
+
+	TiXmlDocument doc;
+
+	doc.Parse(reply.data(), 0, TIXML_ENCODING_UTF8);
+
+	TiXmlHandle docHandle(&doc);
+
+	auto status = docHandle.
+		FirstChild(). //message
+		Child(1).	  //contents
+		Child(1).ToElement(); //status
+
+	bool success = status && status->FirstAttribute()->ValueStr() == "2";
+
+	m_callback(success);
+
+	m_callback = nullptr;
+
 }

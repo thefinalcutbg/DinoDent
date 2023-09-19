@@ -47,7 +47,8 @@ class ListPresenter : public TabInstance
     EDental::GetStatusAndProcedures eDentalGetStatusAndProceduresService;
     EReferral::Issue eReferralIssueService;
     EReferral::Cancel eReferralCancelService;
-    EMedicalNotice::Issue eMedicalNoticeService;
+    EMedicalNotice::Issue eMedicalNoticeIssue;
+    EMedicalNotice::Cancel eMedicalNoticeCancel;
 
     std::vector<Procedure> getToothHistory(int toothIdx);
 

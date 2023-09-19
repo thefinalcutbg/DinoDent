@@ -122,13 +122,13 @@ void EReferral::Issue::parseReply(const std::string& reply)
 
 	TiXmlHandle docHandle(&doc);
 
-	auto nrnPrescription = docHandle.
+	auto nrnReferral = docHandle.
 		FirstChild(). //message
 		Child(1).	  //contents
-		FirstChildElement().ToElement(); //nrnPrescription
+		FirstChildElement().ToElement(); //nrnReferral
 
-	if (nrnPrescription) {
-		m_callback(nrnPrescription->Attribute("value"));
+	if (nrnReferral) {
+		m_callback(nrnReferral->Attribute("value"));
 	}
 	else
 	{

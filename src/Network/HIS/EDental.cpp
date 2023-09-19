@@ -34,7 +34,7 @@ bool EDental::Open::sendRequest(
 		"<nhis:dentalTreatment>"
 		+ bind("lrn", ambSheet.lrn)
 		//+ bind("basedOn", ambSheet.basedOn) //needs closing functionality
-			+ bind("treatmentStart", FreeFn::LocalToUTC(ambSheet.date));
+			+ bind("treatmentStart", FreeFn::LocalToUTC(ambSheet.date))
 			//+ bind("treatmentEnd", ambSheet.time.to8601(ambSheet.getDate())) //TO IMPLEMENT!!!
 			+ bind("adverseConditions", adverseConditions)
 			+ bind("rhifAreaNumber", patient.city.getRhif() + patient.city.getHealthRegion())

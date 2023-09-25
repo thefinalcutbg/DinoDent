@@ -129,6 +129,26 @@ void ListPresenter::dynamicNhifConversion()
 
 bool ListPresenter::isValid()
 {
+    bool nonExamProcedureFound = false;
+
+    for (auto& p : m_ambList.procedures)
+    {
+
+        bool isFullExam = p.code.type() == ProcedureType::full_exam;
+
+        if (!isFullExam) {
+            nonExamProcedureFound = true;
+        }
+
+        if (nonExamProcedureFound && isFullExam)
+        {
+            ModalDialogBuilder::showError(
+                "Oбстойният преглед трябва да бъде винаги първа манипулация в амбулаторния лист"
+            );
+
+            return false;
+        }
+    }
 
     for (auto& p : m_ambList.procedures)
     {

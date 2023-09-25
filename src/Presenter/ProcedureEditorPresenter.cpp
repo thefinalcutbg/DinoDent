@@ -9,9 +9,12 @@ ProcedureEditorPresenter::ProcedureEditorPresenter(const Procedure& p, const Dat
 
 	result.emplace(Procedure());
 	
+	//parameters not set to view
 	m_code = p.code;
 	m_tooth_idx = p.tooth_idx;
 	m_hisIndex = p.his_index;
+
+	//parameters which are set to view
 	result->code = p.code;
 	result->date = p.date;
 	result->diagnosis = p.diagnosis;
@@ -19,6 +22,7 @@ ProcedureEditorPresenter::ProcedureEditorPresenter(const Procedure& p, const Dat
 	result->financingSource = p.financingSource;
 	result->notes = p.notes;
 	result->diagnosis.description = p.diagnosis.description;
+	result->tooth_idx = p.tooth_idx;
 
 	_dateValidator.setProcedure(result->code.oldCode(), result->financingSource == FinancingSource::NHIF);
 }
@@ -41,7 +45,7 @@ void ProcedureEditorPresenter::setView(IProcedureEditDialog* view)
 	view->procedureInput()->setNotes(result->notes);
 	view->procedureInput()->diagnosisEdit()->set_Text(result->diagnosis.description);
 	view->procedureInput()->diagnosisCombo()->setIndex(result->diagnosis.index());
-
+	
 	if (result->diagnosis.index()) {
 		view->procedureInput()->diagnosisEdit()->setInputValidator(nullptr);
 	}

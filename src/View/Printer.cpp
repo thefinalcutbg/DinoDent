@@ -15,6 +15,7 @@
 #include "View/Widgets/InvoicePrintDialog.h"
 #include "Model/Referrals/Referral.h"
 #include "View/TableModels/FiscalReceiptTableModel.h"
+#include "Model/Dental/SupernumeralPrint.h"
 
 void fillCommonData(LimeReport::ReportEngine& report, const Patient& patient, const Doctor& doctor, const Practice& practice)
 {
@@ -43,8 +44,8 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
 {
 
     //used as coordinates for the x-es in the checkboxes
-    struct coords { int x; int y; };
-    constexpr coords typeCoords[5]{ {0, 0}, { 50, 213 }, { 225, 213 }, {50, 255}, {225, 255} };
+    struct coords { int x{ 0 }; int y{ 0 }; };
+    constexpr coords typeCoords[5]{ {}, { 50, 213 }, { 225, 213 }, {50, 255}, {225, 255} };
     constexpr QChar tempSymbol{ 0x25EF };
 
     std::vector<Procedure> selectedProcedures;
@@ -118,6 +119,7 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
 
     std::array<bool, 32> temp;
 
+    //assigning teeth status
     for (int i = 0; i < 32; i++)
     {
         QString tempVar = "temp" + QString::number(i);
@@ -132,7 +134,20 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
 
     }
 
+    //assigning supernumeral status
+    for (int i = 0; i < 4; i++)
+    {
+        SupernumeralPrint dsn(static_cast<Quadrant>(i), amb.teeth);
+    
+        if (!dsn.isValid()) continue;
 
+        auto idx = QString::number(i);
+
+        report.dataManager()->setReportVariable("dsnPos" + idx, dsn.position);
+        report.dataManager()->setReportVariable("dsnS" + idx, dsn.printStatus.c_str());
+    }
+
+    //procedures
     for (int i = 0; i < 6 && i < selectedProcedures.size(); i++)
     {
         auto& p = selectedProcedures[i];

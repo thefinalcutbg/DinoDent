@@ -10,7 +10,8 @@ enum class StatusType{general, obturation, caries, mobility};
 class Tooth
 {
 
-	bool isHealthyCheck();
+	bool isHealthyCheck() const;
+	bool isSupernumeral() const;
 
 public:
 	Tooth(int index);

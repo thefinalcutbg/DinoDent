@@ -46,7 +46,5 @@ public:
 	const Tooth& operator [](int tooth) const;
 	
 	int getMissingTeethCount(bool countWisdom = false) const;
-
-
 };
 

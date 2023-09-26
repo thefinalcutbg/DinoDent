@@ -56,8 +56,6 @@ int ToothContainer::getMissingTeethCount(bool countWisdom) const
 	return missingTeeth;
 }
 
-
-
 std::vector<const Tooth*> ToothContainer::getSelectedTeethPtr(std::vector<int> selectedIndexes) const
 {
 	std::vector<const Tooth*> selectedPtr;

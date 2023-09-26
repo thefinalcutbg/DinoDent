@@ -212,13 +212,14 @@ ToothContainer HISHistoryAlgorithms::getToothStatus(TiXmlDocument& doc)
 	for (auto idx : ranges.pontics) if (teeth[idx].canHaveACrown()) teeth[idx].setStatus(StatusCode::Extraction, true);
 	
 	//setting supernumeral only if the normal tooth has dsn set to true
-	for (auto const& [index, conditions] : supernumeralStatuses)
+	for (auto const& [toothIndex, conditions] : supernumeralStatuses)
 	{
-		if (!teeth[index.index].dsn) continue;
+		//if (!teeth[toothIndex.index].dsn) continue;
+		teeth[toothIndex.index].dsn.set(true);
 
-		auto& tooth = teeth[index.index].dsn.tooth();
+		auto& tooth = teeth[toothIndex.index].dsn.tooth();
 
-		if (index.temp) tooth.temporary.set(true);
+		if (toothIndex.temp) tooth.temporary.set(true);
 
 		for (auto& code : conditions)
 		{
@@ -327,7 +328,7 @@ void deserializeStatusCode(Tooth& tooth, Ranges& r, const std::string& code)
 		{ "P",	[](Tooth& tooth, Ranges& r) mutable { tooth.pulpitis.set(true); } },
 		{ "F",	[](Tooth& tooth, Ranges& r) mutable { tooth.fracture.set(true); } },
 		{ "Pa",	[](Tooth& tooth, Ranges& r) mutable { tooth.periodontitis.set(true); } },
-		{ "D",	[](Tooth& tooth, Ranges& r) mutable { tooth.dsn.set(true); } },
+		{ "D",	[](Tooth& tooth, Ranges& r) mutable { if(tooth.dsn.toothNotNull()) tooth.dsn.set(true); } },
 		{ "S",	[](Tooth& tooth, Ranges& r) mutable { r.splints.push_back(tooth.index); } }
 	};
 

@@ -4,7 +4,7 @@
 #include "View/Theme.h"
 
 
-bool Tooth::isHealthyCheck()
+bool Tooth::isHealthyCheck() const
 {
 	auto status = getBoolStatus();
 	
@@ -20,6 +20,13 @@ bool Tooth::isHealthyCheck()
 
 	return true;
 
+}
+
+bool Tooth::isSupernumeral() const
+{
+	//if the supernumeral tooth is not null, then this is the parent tooth
+	//else it is the supernumeral child
+	return !dsn.toothNotNull();
 }
 
 Tooth::Tooth(int index) : index(index), type(ToothUtils::getToothType(index)){}
@@ -107,32 +114,6 @@ std::array<bool, statusCount> Tooth::getBoolStatus() const
 	};
 }
 
-std::string Tooth::getPrintStatus() const
-{
-	auto vec = getSimpleStatuses();
-
-	std::string result;
-	result.reserve(vec.size() * 3);
-
-	for (auto s : vec)
-	{
-		if (s == "T") continue;
-
-		result += s;
-		result += " ";
-	}
-
-	if (!result.empty()){
-
-		result.pop_back(); //removing the last interval
-	}
-
-	return result;
-
-}
-
-
-
 std::vector<std::string> Tooth::getSimpleStatuses() const
 {
 	auto boolStatus = getBoolStatus();
@@ -144,6 +125,7 @@ std::vector<std::string> Tooth::getSimpleStatuses() const
 	};			  //     ^                         ^
 				  //  bridge	                 splint
 
+	boolStatus[StatusCode::Dsn] = isSupernumeral();
 
 	if (boolStatus[StatusCode::FiberSplint])
 	{
@@ -220,6 +202,9 @@ std::vector<std::string> Tooth::getHISStatus() const
 
 	auto boolStatus = getBoolStatus();
 
+	//since D and E are incompatible in CL107
+	boolStatus[StatusCode::Dsn] = isSupernumeral() && !boolStatus[StatusCode::Extraction];
+
 	for (int i = 0; i < surfaceCount; i++) {
 
 		if (caries.exists(i)) statuses.push_back(cariesNum[i]);
@@ -233,6 +218,30 @@ std::vector<std::string> Tooth::getHISStatus() const
 	}
 
 	return statuses;
+}
+
+std::string Tooth::getPrintStatus() const
+{
+	auto vec = getSimpleStatuses();
+
+	std::string result;
+	result.reserve(vec.size() * 3);
+
+	for (auto s : vec)
+	{
+		if (s == "T") continue;
+
+		result += s;
+		result += " ";
+	}
+
+	if (!result.empty()) {
+
+		result.pop_back(); //removing the last interval
+	}
+
+	return result;
+
 }
 
 bool Tooth::noData() const

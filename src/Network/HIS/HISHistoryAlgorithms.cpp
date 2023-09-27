@@ -2,6 +2,7 @@
 #include <TinyXML/tinyxml.h>
 #include <algorithm>
 #include <functional>
+#include <set>
 
 std::vector<Procedure> HISHistoryAlgorithms::getProcedures(TiXmlDocument& doc)
 {
@@ -76,7 +77,7 @@ std::vector<Procedure> HISHistoryAlgorithms::getProcedures(TiXmlDocument& doc)
 
 		if (std::string(pXml.Child(3).ToElement()->Attribute("value")) == "7") {
 
-			p.notes = "АНУЛИРАНА";
+			p.notes = "ГРЕШНО ВЪВЕДЕНА";
 		}
 
 		//separating procedures according to teeth affected
@@ -97,14 +98,31 @@ std::vector<Procedure> HISHistoryAlgorithms::getProcedures(TiXmlDocument& doc)
 }
 
 struct Ranges {
+
 	std::vector<int> splints;
 	std::vector<int> bridges;
 	std::vector<int> pontics;
+
+	void removeIdx(int index) {
+		
+		auto exists = [=](int other) {
+			return index == other;
+		};
+
+		std::vector<int>::iterator it;
+
+		it = std::remove_if(splints.begin(), splints.end(), exists);
+		it = std::remove_if(bridges.begin(), bridges.end(), exists);
+		it = std::remove_if(pontics.begin(), pontics.end(), exists);
+
+	}
+
 };
 
 //string to lambda map placed into it's own fn because intellisense has trouble parsing it
 void deserializeStatusCode(Tooth& tooth, Ranges& r, const std::string& code);
-
+/*
+* this is old implementation, which was compensating the HIS most recent status bug
 ToothContainer HISHistoryAlgorithms::getToothStatus(TiXmlDocument& doc)
 {
 	TiXmlHandle docHandle(&doc);
@@ -229,9 +247,8 @@ ToothContainer HISHistoryAlgorithms::getToothStatus(TiXmlDocument& doc)
 
 	return teeth;
 }
+*/
 
-/*
-//if somewhere in the future NHIS fix their API, this implementation will be used
 ToothContainer HISHistoryAlgorithms::getToothStatus(TiXmlDocument& doc)
 {
 
@@ -250,31 +267,52 @@ ToothContainer HISHistoryAlgorithms::getToothStatus(TiXmlDocument& doc)
 
 	auto status = contents.Child(0);
 
+	//0-31 normal; 32-63 supernumeral
+	bool statusSet[64] = {false};
+
 	//parsing the status
 	for (int i = 0; status.Child(i).ToElement() != nullptr; i++) //tooth
 	{
-
+		
 		auto [index, temp, dsn] = ToothUtils::getToothFromNhifNum(status.Child(i).Child(0).ToElement()->Attribute("value")); //toothIndex
 
-		teeth[index].temporary.set(temp);
-
-		for (int y = 2; status.Child(i).Child(y).ToElement() != nullptr; y++)
+		if (status.Child(i).Child(1).ToElement()->ValueStr() == "nhis:supernumeralIndex")  //supernumeralIndex
 		{
-			auto condition = status.Child(i).Child(y).ToElement();
+			dsn = true;
+			teeth[index].setStatus(StatusCode::Dsn, true);
+			teeth[index].dsn.tooth().setStatus(StatusCode::Healthy, true);	
+		}
 
-			if (condition->ValueStr() == "nhis:supernumeralIndex")  //supernumeralIndex
-			{
-				teeth[index].setStatus(StatusCode::Dsn, true);
-				teeth[index].dsn.tooth().setStatus(StatusCode::Healthy, true); //only temporary, until NHIS starts returning the supernumeral tooth status
-				dsn = true;
-				continue;
+		auto &tooth = dsn ? teeth[index].dsn.tooth() : teeth[index];
+
+		//filtering out the temporary-permanent duplication
+		{
+			int statusSetIdx = dsn ? index + 32 : index;
+
+			if (statusSet[statusSetIdx]) {
+				tooth.removeStatus();
+				ranges.removeIdx(index);
 			}
+			else {
+				statusSet[statusSetIdx] = true;
+			}
+		}
 
-			auto code = condition->FirstChildElement()->Attribute("value"); //condition
+		int conditionArrayIdx = dsn ? 3 : 2;
 
-			auto& tooth = dsn ? teeth[index].dsn.tooth() : teeth[index];
+		tooth.setStatus(StatusCode::Temporary, temp);
 
+		while (status.Child(i).Child(conditionArrayIdx).ToElement())
+		{
+			auto code = status						//dentalStatus
+				.Child(i)							//tooth
+				.Child(conditionArrayIdx)			//condition
+				.FirstChildElement()				//code
+				.ToElement()->Attribute("value");	//value
+	
 			deserializeStatusCode(tooth, ranges, code);
+
+			conditionArrayIdx++;
 		}
 
 	}
@@ -289,7 +327,7 @@ ToothContainer HISHistoryAlgorithms::getToothStatus(TiXmlDocument& doc)
 	return teeth;
 
 }
-*/
+
 
 void deserializeStatusCode(Tooth& tooth, Ranges& r, const std::string& code)
 {

@@ -104,7 +104,8 @@ struct Ranges {
 
 //string to lambda map placed into it's own fn because intellisense has trouble parsing it
 void deserializeStatusCode(Tooth& tooth, Ranges& r, const std::string& code);
-
+/*
+* this is old implementation, which was compensating the HIS most recent status bug
 ToothContainer HISHistoryAlgorithms::getToothStatus(TiXmlDocument& doc)
 {
 	TiXmlHandle docHandle(&doc);
@@ -229,9 +230,8 @@ ToothContainer HISHistoryAlgorithms::getToothStatus(TiXmlDocument& doc)
 
 	return teeth;
 }
+*/
 
-/*
-//if somewhere in the future NHIS fix their API, this implementation will be used
 ToothContainer HISHistoryAlgorithms::getToothStatus(TiXmlDocument& doc)
 {
 
@@ -258,22 +258,25 @@ ToothContainer HISHistoryAlgorithms::getToothStatus(TiXmlDocument& doc)
 
 		teeth[index].temporary.set(temp);
 
-		for (int y = 2; status.Child(i).Child(y).ToElement() != nullptr; y++)
+		if (status.Child(i).Child(1).ToElement()->ValueStr() == "nhis:supernumeralIndex")  //supernumeralIndex
 		{
-			auto condition = status.Child(i).Child(y).ToElement();
+			teeth[index].setStatus(StatusCode::Dsn, true);
+			teeth[index].dsn.tooth().setStatus(StatusCode::Healthy, true); //only temporary, until NHIS starts returning the supernumeral tooth status
+			dsn = true;
+		}
 
-			if (condition->ValueStr() == "nhis:supernumeralIndex")  //supernumeralIndex
-			{
-				teeth[index].setStatus(StatusCode::Dsn, true);
-				teeth[index].dsn.tooth().setStatus(StatusCode::Healthy, true); //only temporary, until NHIS starts returning the supernumeral tooth status
-				dsn = true;
-				continue;
-			}
+		int conditionArrayIdx = dsn ? 3 : 2;
 
-			auto code = condition->FirstChildElement()->Attribute("value"); //condition
+		for (; status.Child(i).Child(conditionArrayIdx).ToElement() != nullptr; conditionArrayIdx++)
+		{
+			auto code = status						//dentalStatus
+				.Child(i)							//tooth
+				.Child(conditionArrayIdx)			//condition
+				.FirstChildElement()				//code
+				.ToElement()->Attribute("value");	//value
 
 			auto& tooth = dsn ? teeth[index].dsn.tooth() : teeth[index];
-
+	
 			deserializeStatusCode(tooth, ranges, code);
 		}
 
@@ -289,7 +292,7 @@ ToothContainer HISHistoryAlgorithms::getToothStatus(TiXmlDocument& doc)
 	return teeth;
 
 }
-*/
+
 
 void deserializeStatusCode(Tooth& tooth, Ranges& r, const std::string& code)
 {

@@ -7,12 +7,12 @@ namespace RefNumPrv {
 
 	extern std::array<const char*, 2> reason;
 	extern std::array<const char*, 4> MH119_reason;
-	extern std::array<const char*, 3> MH119_spec;
+	extern std::array<const char*, 4> MH119_spec;
 }
 
 typedef NumStatic<2, RefNumPrv::reason> Reason;
 typedef NumStatic<4, RefNumPrv::MH119_reason> MH119Reason;
-typedef NumStatic<3, RefNumPrv::MH119_spec> MH119Spec;
+typedef NumStatic<4, RefNumPrv::MH119_spec> MH119Spec;
 
 struct RefDiagnosis {
 	MKB main;

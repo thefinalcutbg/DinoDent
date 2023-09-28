@@ -25,10 +25,11 @@ std::array<const char*, 4> RefNumPrv::MH119_reason =
 	"Санаториално лечение"
 };
 
-std::array<const char*, 3> RefNumPrv::MH119_spec =
+std::array<const char*, 4> RefNumPrv::MH119_spec =
 {
 	"61 - Детска дентална медицина",
 	"62 - Орална хирургия",
+	"64 - Общопрактикуващ лекар по дентална медицина",
 	"68 - Лицево-челюстна хирургия"
 };
 

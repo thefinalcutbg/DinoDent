@@ -47,7 +47,7 @@ struct MH119Data
 	std::string description;
 
 	int getSpecCode() const {
-		static constexpr int codes[4]{ 61, 62, 64, 68 };
+		static constexpr int codes[4]{ 61, 62, 68 };
 		return codes[specCode.getIndex()];
 	}
 };

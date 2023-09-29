@@ -874,7 +874,7 @@ void ListPresenter::addReferral(ReferralType type)
 void ListPresenter::editReferral(int index)
 {
 
-    ReferralPresenter p(m_ambList.referrals[index]);
+    ReferralPresenter p(m_ambList, m_ambList.referrals[index]);
 
     auto result = p.openDialog();
 

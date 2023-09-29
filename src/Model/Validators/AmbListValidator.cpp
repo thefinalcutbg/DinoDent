@@ -94,6 +94,16 @@ bool AmbListValidator::ambListIsValid()
             return false;
         }
 
+        if (!ref.date.isTheSameMonthAs(ambListDate)) {
+            _error = "Към амбулаторния лист съществува направление, което е от друг месец";
+            return false;
+        }
+
+        if (ref.date < ambListDate) {
+            _error = "Издаденото направление е с дата по-малка от тази на амбулаторния лист";
+            return false;
+        }
+
     }
 
 

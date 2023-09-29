@@ -4,9 +4,10 @@
 #include "Model/Dental/AmbList.h"
 #include "Model/FreeFunctions.h"
 
-ReferralPresenter::ReferralPresenter(const AmbList& sheet, ReferralType t) : 
+ReferralPresenter::ReferralPresenter(const AmbList& sheet, ReferralType t) :
 	m_type(t),
-	lrn(FreeFn::getUuid())
+	lrn(FreeFn::getUuid()),
+	ambSheetDate(sheet.getDate())
 {
 	m_result.emplace(t);
 
@@ -31,11 +32,9 @@ ReferralPresenter::ReferralPresenter(const AmbList& sheet, ReferralType t) :
 		}
 	}
 
-	//determening the date
-	auto sheetDate = sheet.getDate();
 
-	if (sheetDate.isFromPreviousMonths(Date::currentDate())) {
-		m_result->date = sheetDate;
+	if (ambSheetDate.isFromPreviousMonths(Date::currentDate())) {
+		m_result->date = ambSheetDate;
 	}
 	
 	
@@ -54,8 +53,8 @@ void ReferralPresenter::setView(IReferralDialog* view)
 }
 
 
-ReferralPresenter::ReferralPresenter(const Referral& r) :
-	m_type(r.type), m_result(r), ref_rowid{ r.rowid }, lrn(r.lrn), sentToHis(r.isSentToHIS())
+ReferralPresenter::ReferralPresenter(const AmbList& sheet, const Referral& r) :
+	m_type(r.type), m_result(r), ref_rowid{ r.rowid }, lrn(r.lrn), sentToHis(r.isSentToHIS()), ambSheetDate(sheet.getDate())
 {
 	
 }
@@ -83,6 +82,20 @@ void ReferralPresenter::okPressed()
 		MKB::getNameFromMKBCode(common.mkbComorbAdd).size())
 	{
 		view->setErrorLabel("Моля, изберете основен код на придружаващото заболяване!");
+		m_result.reset();
+		return;
+	}
+
+	if (!common.date.isTheSameMonthAs(ambSheetDate))
+	{
+		ModalDialogBuilder::showMessage("Направлението трябва да е издадено в месеца в който е издаден амбулаторния лист");
+		m_result.reset();
+		return;
+	}
+
+	if (common.date < ambSheetDate)
+	{
+		ModalDialogBuilder::showMessage("Датата на направлението не може да е по-малка от тази на амбулаторния лист");
 		m_result.reset();
 		return;
 	}

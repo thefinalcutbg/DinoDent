@@ -20,12 +20,13 @@ class ReferralPresenter
 	ReferralType m_type;
 	bool sentToHis{ false };
 
+	Date ambSheetDate;
 	
 public:
 
 	ReferralPresenter(const AmbList& sheet, ReferralType t);
 
-	ReferralPresenter(const Referral& r);
+	ReferralPresenter(const AmbList& sheet, const Referral& r);
 
 	void okPressed();
 

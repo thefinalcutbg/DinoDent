@@ -143,7 +143,7 @@ bool ListPresenter::isValid()
         if (nonExamProcedureFound && isFullExam)
         {
             ModalDialogBuilder::showError(
-                "Oбстойният преглед трябва да бъде винаги първа манипулация в амбулаторния лист"
+                "С цел правилна хронология на пациентското досие в НЗИС, обстойният преглед трябва да бъде винаги първа манипулация!"
             );
 
             return false;
@@ -641,12 +641,18 @@ void ListPresenter::refreshProcedureView()
 
 void ListPresenter::addProcedure()
 {
+    //making a copy to apply the procedures before adding a new one
+    AmbList copy = m_ambList;
+    for (auto& p : copy.procedures) {
+        p.applyProcedure(copy.teeth);
+    }
+
     ProcedureDialogPresenter p
     {
-        m_ambList,
-        m_ambList.teeth.getSelectedTeethPtr(m_selectedIndexes),
+        copy,
+        copy.teeth.getSelectedTeethPtr(m_selectedIndexes),
         patient->turns18At(),
-        patient->canBePregnant(m_ambList.getDate())
+        patient->canBePregnant(copy.getDate())
     };
 
     auto procedures = p.openDialog();

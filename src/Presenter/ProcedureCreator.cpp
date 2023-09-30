@@ -268,25 +268,7 @@ void ProcedureCreator::setProcedureCode(const ProcedureCode& m, bool nhif)
 
 	m_code = m;
 
-	auto diagIdx = diag_map[m.type()];
-
-	view->diagnosisCombo()->setIndex(diag_map[m.type()]);
-
-	view->diagnosisEdit()->setInputValidator(diagIdx ? nullptr : &notEmpty_validator);
-
 	view->setNhifLayout(nhif);
-
-	const std::set<int> exams = {101, 102, 103};
-
-	if (!diagIdx && exams.count(m.oldCode())) {
-		view->diagnosisEdit()->set_Text("Преглед");
-	}
-	else
-	{
-		view->diagnosisEdit()->set_Text("");
-	}
-	
-	view->diagnosisEdit()->validateInput();
 
 	switch (m.type())
 	{
@@ -310,7 +292,8 @@ void ProcedureCreator::setProcedureCode(const ProcedureCode& m, bool nhif)
 			view->setLayout(IProcedureInput::Range);
 			view->surfaceSelector()->setInputValidator(nullptr);
 			view->rangeWidget()->setInputValidator(&range_validator);
-			
+			diag_map[ProcedureType::denture] = 6;
+
 			if(m.oldCode() == 832)
 			{
 				view->rangeWidget()->setBridgeRange(1, 14);
@@ -323,6 +306,7 @@ void ProcedureCreator::setProcedureCode(const ProcedureCode& m, bool nhif)
 			{
 				auto [begin, end] = getBridgeRange(m_selectedTeeth);
 				view->rangeWidget()->setBridgeRange(begin, end);
+				diag_map[ProcedureType::denture] = 5;
 			}
 
 		}
@@ -356,6 +340,25 @@ void ProcedureCreator::setProcedureCode(const ProcedureCode& m, bool nhif)
 			}
 			break;
 	}
+
+	auto diagIdx = diag_map[m.type()];
+
+	view->diagnosisCombo()->setIndex(diag_map[m.type()]);
+
+	view->diagnosisEdit()->setInputValidator(diagIdx ? nullptr : &notEmpty_validator);
+
+	const std::set<int> exams = { 101, 102, 103 };
+
+	if (!diagIdx && exams.count(m.oldCode())) {
+		view->diagnosisEdit()->set_Text("Преглед");
+	}
+	else
+	{
+		view->diagnosisEdit()->set_Text("");
+	}
+
+	view->diagnosisEdit()->validateInput();
+
 
 }
 

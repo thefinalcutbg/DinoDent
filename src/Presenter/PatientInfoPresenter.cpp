@@ -1,6 +1,6 @@
 ﻿#include "PatientInfoPresenter.h"
 #include "Presenter/PatientDialogPresenter.h"
-
+#include "Presenter/TabPresenter.h"
 #include "Database/DbPatient.h"
 #include "View/ModalDialogBuilder.h"
 #include "View/Printer.h"
@@ -76,7 +76,7 @@ void PatientInfoPresenter::patientTileClicked()
 
     *this->patient = patient.value();
 
-   // tabPresenter->refreshPatientTabNames(patient->rowid);
+    TabPresenter::get().refreshPatientTabNames(patient->rowid);
 
     view->setPatient(*patient, patientAge);
 }

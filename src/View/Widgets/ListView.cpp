@@ -116,7 +116,16 @@ ListView::ListView(QWidget* parent)
 
 	connect(ui.procedureTable, &TableView::deletePressed, [=](int row) {  if (presenter) presenter->deleteProcedure(row); });
 	connect(ui.procedureTable, &TableView::editPressed, [=](int row) { if (presenter) presenter->editProcedure(row); });
-	connect(ui.procedureTable, &TableView::rowDragged, [=] { if(presenter) presenter->moveProcedure(ui.procedureTable->selectedRow(), model.lastDroppedRowIndex()); });
+	connect(ui.procedureTable, &TableView::rowDragged, [=] { 
+
+		int from = ui.procedureTable->selectedRow();
+		int to = model.lastDroppedRowIndex();
+
+		if (from == to) to--;
+
+		if(presenter) presenter->moveProcedure(from, to);
+	}
+	);
 
 	ui.controlPanel->hide();
 	ui.surfacePanel->hide();

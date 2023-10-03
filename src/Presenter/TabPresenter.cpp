@@ -183,26 +183,33 @@ void TabPresenter::open(const RowInstance& row, bool setFocus)
 
     TabInstance* newTab{nullptr};
 
+    Patient patient = DbPatient::get(row.patientRowId);
+
     switch (row.type)
     {
-    case TabType::AmbList:
-        newTab = new ListPresenter(view, getPatient_ptr(DbPatient::get(row.patientRowId)), row.rowID);
-        break;
-    case TabType::PerioStatus:
-        newTab = new PerioPresenter(view, getPatient_ptr(DbPatient::get(row.patientRowId)), row.rowID);
-        break;
-    case TabType::PatientSummary:
-        newTab = new PatientSummaryPresenter(view, getPatient_ptr(DbPatient::get(row.patientRowId)));
-        break;
-    case TabType::Financial:
-        newTab = row.rowID ? 
-            new FinancialPresenter(view, row.rowID)
-            :
-            new FinancialPresenter(view, getPatient_ptr(DbPatient::get(row.patientRowId)));
-        break;
-    case TabType::Prescription:
-        newTab = new PrescriptionPresenter(view, getPatient_ptr(DbPatient::get(row.patientRowId)), row.rowID);
-        break;
+        case TabType::AmbList:
+            if (newListExists(patient)) return;
+            newTab = new ListPresenter(view, getPatient_ptr(patient), row.rowID);
+            break;
+
+        case TabType::PerioStatus:
+            newTab = new PerioPresenter(view, getPatient_ptr(patient), row.rowID);
+            break;
+
+        case TabType::PatientSummary:
+            newTab = new PatientSummaryPresenter(view, getPatient_ptr(patient));
+            break;
+
+        case TabType::Financial:
+            newTab = row.rowID ? 
+                new FinancialPresenter(view, row.rowID)
+                :
+                new FinancialPresenter(view, getPatient_ptr(patient));
+            break;
+
+        case TabType::Prescription:
+            newTab = new PrescriptionPresenter(view, getPatient_ptr(patient), row.rowID);
+            break;
     }
 
     createNewTab(newTab, setFocus);

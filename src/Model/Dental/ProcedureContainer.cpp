@@ -95,7 +95,9 @@ void ProcedureContainer::replaceProcedure(const Procedure& p, int idx)
 bool ProcedureContainer::moveProcedure(int from, int to)
 {
     if (from == to) return false;
-    
+    if (m_proc.empty()) return false;
+    if (m_proc.size() == 1) return false;
+
     if (to == m_proc.size()) {
         auto temp = m_proc[from];
         m_proc.erase(m_proc.begin() + from);

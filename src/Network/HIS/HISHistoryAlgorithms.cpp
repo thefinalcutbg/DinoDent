@@ -215,7 +215,7 @@ ToothContainer HISHistoryAlgorithms::getToothStatus(TiXmlDocument& doc)
 	{
 		auto& tooth = teeth[index.index];
 
-		if (index.temp) tooth.temporary.set(true);
+		if (index.isTemp) tooth.temporary.set(true);
 
 		for (auto& code : conditions)
 		{
@@ -229,15 +229,15 @@ ToothContainer HISHistoryAlgorithms::getToothStatus(TiXmlDocument& doc)
 	//in case extraction is not set on pontics:
 	for (auto idx : ranges.pontics) if (teeth[idx].canHaveACrown()) teeth[idx].setStatus(StatusCode::Extraction, true);
 	
-	//setting supernumeral only if the normal tooth has dsn set to true
+	//setting supernumeral only if the normal tooth has isDsn set to true
 	for (auto const& [toothIndex, conditions] : supernumeralStatuses)
 	{
-		//if (!teeth[toothIndex.index].dsn) continue;
-		teeth[toothIndex.index].dsn.set(true);
+		//if (!teeth[toothIndex.index].isDsn) continue;
+		teeth[toothIndex.index].isDsn.set(true);
 
-		auto& tooth = teeth[toothIndex.index].dsn.tooth();
+		auto& tooth = teeth[toothIndex.index].isDsn.tooth();
 
-		if (toothIndex.temp) tooth.temporary.set(true);
+		if (toothIndex.isTemp) tooth.temporary.set(true);
 
 		for (auto& code : conditions)
 		{
@@ -274,20 +274,19 @@ ToothContainer HISHistoryAlgorithms::getToothStatus(TiXmlDocument& doc)
 	for (int i = 0; status.Child(i).ToElement() != nullptr; i++) //tooth
 	{
 		
-		auto [index, temp, dsn] = ToothUtils::getToothFromNhifNum(status.Child(i).Child(0).ToElement()->Attribute("value")); //toothIndex
+		auto [index, isTemp, isDsn] = ToothUtils::getToothFromNhifNum(status.Child(i).Child(0).ToElement()->Attribute("value")); //toothIndex
 
 		if (status.Child(i).Child(1).ToElement()->ValueStr() == "nhis:supernumeralIndex")  //supernumeralIndex
 		{
-			dsn = true;
-			teeth[index].setStatus(StatusCode::Dsn, true);
-			teeth[index].dsn.tooth().setStatus(StatusCode::Healthy, true);	
+			isDsn = true;
+			teeth[index].dsn.set(true);	
 		}
 
-		auto &tooth = dsn ? teeth[index].dsn.tooth() : teeth[index];
+		auto &tooth = isDsn ? teeth[index].dsn.tooth() : teeth[index];
 
 		//filtering out the temporary-permanent duplication
 		{
-			int statusSetIdx = dsn ? index + 32 : index;
+			int statusSetIdx = isDsn ? index + 32 : index;
 
 			if (statusSet[statusSetIdx]) {
 				tooth.removeStatus();
@@ -298,9 +297,9 @@ ToothContainer HISHistoryAlgorithms::getToothStatus(TiXmlDocument& doc)
 			}
 		}
 
-		int conditionArrayIdx = dsn ? 3 : 2;
+		int conditionArrayIdx = isDsn ? 3 : 2;
 
-		tooth.setStatus(StatusCode::Temporary, temp);
+		tooth.temporary.set(isTemp);
 
 		while (status.Child(i).Child(conditionArrayIdx).ToElement())
 		{
@@ -322,7 +321,6 @@ ToothContainer HISHistoryAlgorithms::getToothStatus(TiXmlDocument& doc)
 
 	//in case extraction is not set on pontics:
 	for (auto idx : ranges.pontics) if (teeth[idx].canHaveACrown()) teeth[idx].extraction.set(false);
-
 
 	return teeth;
 

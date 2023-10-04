@@ -327,7 +327,7 @@ void BrowserDialog::contextMenuRequested(const QPoint& p)
 	main_menu->addAction(action);
 
 
-	if (ui.dataTypeCombo->currentIndex() != 3) {
+	if (ui.dataTypeCombo->currentIndex() != 4) {
 		action = (new QAction("Нов амбулаторен лист", main_menu));
 		connect(action, &QAction::triggered, [=] { presenter.openNewDocument(TabType::AmbList); });
 		action->setIcon(QIcon(":/icons/icon_sheet.png"));

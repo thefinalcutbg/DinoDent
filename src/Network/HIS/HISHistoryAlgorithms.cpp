@@ -121,8 +121,8 @@ struct Ranges {
 
 //string to lambda map placed into it's own fn because intellisense has trouble parsing it
 void deserializeStatusCode(Tooth& tooth, Ranges& r, const std::string& code);
-/*
-* this is old implementation, which was compensating the HIS most recent status bug
+
+// this is old implementation, which was compensating the HIS most recent status bug
 ToothContainer HISHistoryAlgorithms::getToothStatus(TiXmlDocument& doc)
 {
 	TiXmlHandle docHandle(&doc);
@@ -215,7 +215,7 @@ ToothContainer HISHistoryAlgorithms::getToothStatus(TiXmlDocument& doc)
 	{
 		auto& tooth = teeth[index.index];
 
-		if (index.isTemp) tooth.temporary.set(true);
+		tooth.temporary.set(index.temp);
 
 		for (auto& code : conditions)
 		{
@@ -232,12 +232,11 @@ ToothContainer HISHistoryAlgorithms::getToothStatus(TiXmlDocument& doc)
 	//setting supernumeral only if the normal tooth has isDsn set to true
 	for (auto const& [toothIndex, conditions] : supernumeralStatuses)
 	{
-		//if (!teeth[toothIndex.index].isDsn) continue;
-		teeth[toothIndex.index].isDsn.set(true);
+		teeth[toothIndex.index].dsn.set(true);
 
-		auto& tooth = teeth[toothIndex.index].isDsn.tooth();
+		auto& tooth = teeth[toothIndex.index].dsn.tooth();
 
-		if (toothIndex.isTemp) tooth.temporary.set(true);
+		tooth.temporary.set(toothIndex.temp);
 
 		for (auto& code : conditions)
 		{
@@ -247,8 +246,8 @@ ToothContainer HISHistoryAlgorithms::getToothStatus(TiXmlDocument& doc)
 
 	return teeth;
 }
-*/
 
+/*
 ToothContainer HISHistoryAlgorithms::getToothStatus(TiXmlDocument& doc)
 {
 
@@ -325,7 +324,7 @@ ToothContainer HISHistoryAlgorithms::getToothStatus(TiXmlDocument& doc)
 	return teeth;
 
 }
-
+*/
 
 void deserializeStatusCode(Tooth& tooth, Ranges& r, const std::string& code)
 {

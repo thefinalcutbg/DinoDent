@@ -235,6 +235,7 @@
     <ClCompile Include="src\DbUpdates\Update7.cpp" />
     <ClCompile Include="src\DbUpdates\Update8.cpp" />
     <ClCompile Include="src\DbUpdates\Update9.cpp" />
+    <ClCompile Include="src\Model\Allergy.cpp" />
     <ClCompile Include="src\Model\Country.cpp" />
     <ClCompile Include="src\Model\Dental\DentalNum.cpp" />
     <ClCompile Include="src\Model\Dental\ProcedureCode.cpp" />
@@ -250,6 +251,7 @@
     <ClCompile Include="src\Model\Specialty.cpp" />
     <ClCompile Include="src\Model\Validators\PrescriptionValidators.cpp" />
     <ClCompile Include="src\Model\Validators\RecipientIdValidator.cpp" />
+    <ClCompile Include="src\Network\HIS\EAllergies.cpp" />
     <ClCompile Include="src\Network\HIS\EDental.cpp" />
     <ClCompile Include="src\Network\HIS\EMedicalNotice.cpp" />
     <ClCompile Include="src\Network\HIS\EPrescription.cpp" />
@@ -528,6 +530,7 @@
     <ClInclude Include="src\Database\DbStatistics.h" />
     <ClInclude Include="src\Database\DbTelemetry.h" />
     <ClInclude Include="src\Database\DbUpdateStatus.h" />
+    <ClInclude Include="src\Model\Allergy.h" />
     <ClInclude Include="src\Model\Country.h" />
     <ClInclude Include="src\Model\Dental\DentalNum.h" />
     <ClInclude Include="src\Model\Dental\DentalStatistics.h" />
@@ -547,6 +550,7 @@
     <ClInclude Include="src\Model\Referrals\RefNum.h" />
     <ClInclude Include="src\Model\Specialty.h" />
     <ClInclude Include="src\Model\Validators\RecipientIdValidator.h" />
+    <ClInclude Include="src\Network\HIS\EAllergies.h" />
     <ClInclude Include="src\Network\HIS\EDental.h" />
     <ClInclude Include="src\Network\HIS\EMedicalNotice.h" />
     <ClInclude Include="src\Network\HIS\EReferral.h" />

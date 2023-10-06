@@ -106,10 +106,10 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
         //allergies
         TiXmlElement* allergies = new TiXmlElement("allergies");
 
-        for (auto& a : patient.medStats.allergies)
+        for (auto& a : patient.allergies)
         {
             TiXmlElement* allergy = new TiXmlElement("allergy");
-            allergy->SetAttribute("allergyName", a.data);
+            allergy->SetAttribute("allergyName", a.description);
             allergies->LinkEndChild(allergy);
         }
    

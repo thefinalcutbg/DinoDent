@@ -104,10 +104,9 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
 
     const char* defaultStatus{ "Не съобщава" };
 
-    report.dataManager()->setReportVariable("allergies",
-        MedicalStatuses::toString(patient.medStats.allergies).c_str()
-    );
+    report.dataManager()->setReportVariable("allergies", patient.getAllergiesStr().c_str());
 
+    //getting other med stats:
     report.dataManager()->setReportVariable("currentDiseases",
         MedicalStatuses::toString(patient.medStats.condition).c_str()
     );

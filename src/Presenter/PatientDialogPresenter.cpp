@@ -15,6 +15,8 @@ PatientDialogPresenter::PatientDialogPresenter(const Patient& patient) :
 	insurance_status(patient.insuranceStatus),
 	PISHistory(patient.PISHistory),
 	HISHistory(patient.HISHistory),
+	medStats(patient.medStats),
+	allergies(patient.allergies),
 	dialogTitle("Редактиране на данни на пациента")
 {}
 
@@ -155,6 +157,7 @@ void PatientDialogPresenter::searchDbForPatient(int type)
 	Patient patient = DbPatient::get(patientId, type);
 
 	medStats = patient.medStats;
+	allergies = patient.allergies;
 
 	if (patient.rowid == 0)
 	{
@@ -189,8 +192,6 @@ void PatientDialogPresenter::setPatientToView(const Patient& patient)
 	view->setPatient(patient);
 	
 	view->lineEdit(id)->validateInput();
-
-	medStats = patient.medStats;
 
 }
 

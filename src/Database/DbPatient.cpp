@@ -200,7 +200,7 @@ bool DbPatient::updateMedStatus(long long patientRowId, const MedicalStatuses& s
         }
     };
 
-    lambda(s.allergies, Allergy);
+   // lambda(s.allergies, Allergy);
     lambda(s.condition, CurrentDiseases);
     lambda(s.history, PastDiseases);
 
@@ -233,7 +233,7 @@ bool DbPatient::updateMedStatus(long long patientRowId, const MedicalStatuses& s
         }
     };
 
-    lambda(s.allergies, Allergy);
+   // lambda(s.allergies, Allergy);
     lambda(s.condition, CurrentDiseases);
     lambda(s.history, PastDiseases);
 
@@ -253,7 +253,7 @@ MedicalStatuses DbPatient::getMedicalStatuses(long long patientRowId)
 
         switch (db.asInt(0))
         {
-            case Allergy: stat = &result.allergies; break;
+            //case Allergy: stat = &result.allergies; break;
             case CurrentDiseases: stat = &result.condition; break;
             case PastDiseases: stat = &result.history; break;
             default: continue;
@@ -279,7 +279,7 @@ MedicalStatuses DbPatient::getMedicalStatuses(long long patientRowId, Db& db)
 
         switch (db.asInt(0))
         {
-            case Allergy: stat = &result.allergies; break;
+            //case Allergy: stat = &result.allergies; break;
             case CurrentDiseases: stat = &result.condition; break;
             case PastDiseases: stat = &result.history; break;
             default: continue;

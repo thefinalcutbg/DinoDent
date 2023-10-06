@@ -6,7 +6,7 @@ int Allergy::getHisNumenclatureIndex(NumenclatureType numType) const
 	{
 		case NumenclatureType::type: return type + 1;
 		case NumenclatureType::category: return category + 1;
-		case NumenclatureType::criticality: return category + 1;
+		case NumenclatureType::criticality: return criticality + 1;
 		case NumenclatureType::clinicalStatus:
 			switch (clinicalStatus)
 			{
@@ -27,6 +27,7 @@ int Allergy::getHisNumenclatureIndex(NumenclatureType numType) const
 				case VerificationStatus::Confirmed: return 20;
 				case VerificationStatus::Refuted: return 30;
 				case VerificationStatus::EnteredInError: return 40;
+				default: return 0;
 			}
 		default: return 0;
 	}

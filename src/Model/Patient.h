@@ -10,6 +10,7 @@
 #include "Model/Ekatte.h"
 #include "Model/Foreigner.h"
 #include "Model/MedicalStatuses.h"
+#include "Model/Allergy.h"
 
 typedef std::array<std::string, 32>TeethNotes;
 
@@ -39,6 +40,8 @@ struct Patient
 
 	MedicalStatuses medStats;
 
+	std::vector<Allergy> allergies;
+
 	TeethNotes teethNotes;
 
 	std::optional<std::vector<Procedure>> PISHistory;
@@ -51,6 +54,7 @@ struct Patient
 	std::string fullName() const;
 	std::string firstLastName() const;
 	std::string getFullAddress() const;
+	std::string getAllergiesStr() const;
 	bool canBePregnant(const Date& = Date::currentDate()) const;
 	~Patient();
 };

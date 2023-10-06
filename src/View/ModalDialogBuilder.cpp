@@ -359,6 +359,16 @@ std::optional<MedicalStatuses> ModalDialogBuilder::openMedicalStatusDialog(const
 	return std::optional<MedicalStatuses>();
 }
 
+#include "View/Widgets/AllergyDialog.h"
+
+std::optional<Allergy> ModalDialogBuilder::openAllergyDialog(const Allergy& a)
+{
+	AllergyDialog d(a);
+	d.exec();
+
+	return d.getResult();
+}
+
 #include <QProcess>
 void ModalDialogBuilder::openExplorer(const std::string& path)
 {

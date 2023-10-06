@@ -39,7 +39,7 @@
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
-     <widget class="QRadioButton" name="radioButton">
+     <widget class="QRadioButton" name="allergyRadio">
       <property name="text">
        <string>Алергия</string>
       </property>
@@ -49,7 +49,7 @@
      </widget>
     </item>
     <item>
-     <widget class="QRadioButton" name="radioButton_2">
+     <widget class="QRadioButton" name="intoleranceRadio">
       <property name="text">
        <string>Непоносимост</string>
       </property>
@@ -104,7 +104,7 @@
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QRadioButton" name="radioButton_4">
+     <widget class="QRadioButton" name="lowRiskRadio">
       <property name="text">
        <string>Нисък риск</string>
       </property>
@@ -114,7 +114,7 @@
      </widget>
     </item>
     <item>
-     <widget class="QRadioButton" name="radioButton_3">
+     <widget class="QRadioButton" name="highRiskRadio">
       <property name="text">
        <string>Висок риск</string>
       </property>
@@ -124,7 +124,7 @@
      </widget>
     </item>
     <item>
-     <widget class="QRadioButton" name="radioButton_5">
+     <widget class="QRadioButton" name="undifinedRiskRadio">
       <property name="text">
        <string>Неопределен</string>
       </property>

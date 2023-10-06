@@ -44,6 +44,7 @@ class PatientDialogPresenter
 	std::optional<std::vector<Procedure>> HISHistory;
 	long long rowid{ 0 };
 	MedicalStatuses medStats;
+	std::vector<Allergy> allergies;
 
 	std::string dialogTitle;
 

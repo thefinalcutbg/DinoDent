@@ -138,13 +138,13 @@ std::string Test::crudTest()
 
 	if (patient.FirstName != "test1") return "Error updating patient";
 
-	patient.medStats.allergies.push_back(MedicalStatus{ .data = "test" });
+	patient.medStats.condition.push_back(MedicalStatus{ .data = "test" });
 
 	DbPatient::updateMedStatus(patient.rowid, patient.medStats);
 
 	patient.medStats = DbPatient::getMedicalStatuses(patient.rowid);
 
-	if (patient.medStats.allergies.empty() || patient.medStats.allergies[0].data != "test") return "Medical statuses error";
+	if (patient.medStats.condition.empty() || patient.medStats.condition[0].data != "test") return "Medical statuses error";
 
 	//DbAmbList
 

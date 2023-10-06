@@ -265,6 +265,7 @@
     <ClCompile Include="src\Presenter\DosagePresenter.cpp" />
     <ClCompile Include="src\Presenter\FiscalReceiptPresenter.cpp" />
     <ClCompile Include="src\Presenter\FiscalReportPresenter.cpp" />
+    <ClCompile Include="src\Presenter\MedicalStatusPresenter.cpp" />
     <ClCompile Include="src\Presenter\MedicationPresenter.cpp" />
     <ClCompile Include="src\Presenter\ProcedureHistoryPresenter.cpp" />
     <ClCompile Include="src\Presenter\PatientInfoPresenter.cpp" />
@@ -573,6 +574,7 @@
     <ClInclude Include="src\Network\PIS\ReportFilesService.h" />
     <ClInclude Include="src\Presenter\DosagePresenter.h" />
     <ClInclude Include="src\Presenter\FiscalReceiptPresenter.h" />
+    <ClInclude Include="src\Presenter\MedicalStatusPresenter.h" />
     <ClInclude Include="src\Presenter\MedicationPresenter.h" />
     <ClInclude Include="src\Presenter\ProcedureHistoryPresenter.h" />
     <ClInclude Include="src\Presenter\PatientInfoPresenter.h" />

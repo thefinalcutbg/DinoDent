@@ -35,12 +35,12 @@ struct Allergy
 	std::string description;
 	
 	Type type = Type::allergy;
-	Category category = Category::Food;
+	Category category = Category::Medication;
 	Criticality criticality = Criticality::Low;
 	ClinicalStatus clinicalStatus = ClinicalStatus::Active;
 	VerificationStatus verificationStatus = VerificationStatus::Confirmed;
 
-	std::optional<Date> lastOccurance = Date::currentDate();
+	std::optional<Date> lastOccurance;
 
 	int getHisNumenclatureIndex(NumenclatureType type) const;
 	

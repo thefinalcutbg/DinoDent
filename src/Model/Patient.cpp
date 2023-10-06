@@ -71,6 +71,26 @@ std::string Patient::getFullAddress() const
 	return cityStr;
 }
 
+std::string Patient::getAllergiesStr() const
+{
+	std::string result;
+
+	for (auto& a : allergies) {
+		result += a.description;
+		result += ", ";
+	}
+
+	if (result.size()) {
+		result.pop_back();
+		result.pop_back();
+	}
+	else {
+		result = "Не съобщава";
+	};
+
+	return result;
+}
+
 bool Patient::canBePregnant(const Date& date) const
 {
 	if (sex == Male) return false;

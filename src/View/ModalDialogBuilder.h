@@ -13,7 +13,7 @@
 
 #include "Model/MedicalStatuses.h"
 #include "Model/MedicalNotice.h"
-
+#include "Model/Allergy.h"
 
 enum class SelectionPref {All, OnlyNZOK, OnlyPaid};
 enum class MonthNotifLoad {FromPIS, FromFile, Rejected};
@@ -88,5 +88,6 @@ namespace ModalDialogBuilder
 	std::optional<std::string> openFile();
 	std::optional<std::string> getFilePath(const std::string& filename);
 	std::optional<MedicalStatuses> openMedicalStatusDialog(const MedicalStatuses& s);
+	std::optional<Allergy> openAllergyDialog(const Allergy& a = {});
 };
 

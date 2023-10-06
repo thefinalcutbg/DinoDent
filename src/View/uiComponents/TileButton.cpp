@@ -287,7 +287,7 @@ void AllergiesTile::setData(const Patient& patient)
 
 	};
 
-	allergies = lambda(patient.medStats.allergies);
+	allergies = patient.getAllergiesStr().c_str();
 	currentDiseases = lambda(patient.medStats.condition);
 	pastDiseases = lambda(patient.medStats.history);
 

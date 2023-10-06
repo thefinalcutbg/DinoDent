@@ -2,13 +2,13 @@
 
 #include "HisService.h"
 #include <functional>
-#include "Model/MedicalStatuses.h"
+#include "Model/Allergy.h"
 
 namespace EAllergies
 {
 	class Fetch : private HisService
 	{
-		std::function<void(const std::vector<MedicalStatus>& s)> m_callback;
+		std::function<void(const std::vector<Allergy>& allergies)> m_callback;
 
 	protected:
 		void parseReply(const std::string& reply) override;

@@ -1,5 +1,7 @@
 #pragma once
 #include <string>
+#include <optional>
+#include "Model/Date.h"
 
 struct Allergy
 {
@@ -30,6 +32,7 @@ struct Allergy
 
 	std::string lrn;
 	std::string nrn;
+	std::string description;
 	
 	Type type = Type::allergy;
 	Category category = Category::Food;
@@ -37,8 +40,8 @@ struct Allergy
 	ClinicalStatus clinicalStatus = ClinicalStatus::Active;
 	VerificationStatus verificationStatus = VerificationStatus::Confirmed;
 
-	int getHisNumenclatureIndex(NumenclatureType type) const;
+	std::optional<Date> lastOccurance = Date::currentDate();
 
-	std::string description;
+	int getHisNumenclatureIndex(NumenclatureType type) const;
 	
 };

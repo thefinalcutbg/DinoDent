@@ -472,6 +472,7 @@
     <ClCompile Include="src\View\uiComponents\ToothButton.cpp" />
     <ClCompile Include="src\View\uiComponents\UserButton.cpp" />
     <ClCompile Include="src\View\Widgets\AboutDialog.cpp" />
+    <ClCompile Include="src\View\Widgets\AllergyDialog.cpp" />
     <ClCompile Include="src\View\Widgets\FiscalReceiptDialog.cpp" />
     <ClCompile Include="src\View\Widgets\ButtonDialog.cpp" />
     <ClCompile Include="src\View\Widgets\FiscalReportView.cpp" />
@@ -810,6 +811,7 @@
     <QtMoc Include="src\View\Widgets\FiscalReceiptDialog.h" />
     <ClInclude Include="src\Presenter\FiscalReportPresenter.h" />
     <QtMoc Include="src\View\Widgets\FiscalReportView.h" />
+    <QtMoc Include="src\View\Widgets\AllergyDialog.h" />
     <ClInclude Include="src\View\Widgets\GlobalWidgets.h" />
     <QtMoc Include="src\View\Widgets\PisDialog.h" />
     <QtMoc Include="src\View\Widgets\MedicalNoticeDialog.h" />
@@ -903,6 +905,7 @@
     <QtUic Include="src\View\SubWidgets\TabTitle.ui" />
     <QtUic Include="src\View\SubWidgets\VitaWidget.ui" />
     <QtUic Include="src\View\Widgets\AboutDialog.ui" />
+    <QtUic Include="src\View\Widgets\AllergyDialog.ui" />
     <QtUic Include="src\View\Widgets\FiscalReceiptDialog.ui" />
     <QtUic Include="src\View\Widgets\ButtonDialog.ui" />
     <QtUic Include="src\View\Widgets\FiscalReportView.ui" />

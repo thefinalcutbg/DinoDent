@@ -32,3 +32,34 @@ int Allergy::getHisNumenclatureIndex(NumenclatureType numType) const
 		default: return 0;
 	}
 }
+
+void Allergy::setHisNumenclature(NumenclatureType num_type, int index)
+{
+	switch (num_type) {
+
+		case NumenclatureType::type: type = static_cast<Type>(index-1);
+		case NumenclatureType::category: category = static_cast<Category>(index-1);
+		case NumenclatureType::criticality: criticality = static_cast<Criticality>(index-1);
+		case NumenclatureType::clinicalStatus:
+			switch (index)
+			{
+				case 10: clinicalStatus = ClinicalStatus::Active;
+				case 11: clinicalStatus = ClinicalStatus::Recurrence;
+				case 12: clinicalStatus = ClinicalStatus::Relapse;
+				case 20: clinicalStatus = ClinicalStatus::Inactive;
+				case 21: clinicalStatus = ClinicalStatus::Remission;
+				case 22: clinicalStatus = ClinicalStatus::Resolved;
+			}
+		case NumenclatureType::verificationStatus:
+			switch (index)
+			{
+			case 10: verificationStatus = VerificationStatus::Unconfirmed;
+			case 11: verificationStatus = VerificationStatus::Provisional;
+			case 12: verificationStatus = VerificationStatus::Differential;
+			case 20: verificationStatus = VerificationStatus::Confirmed;
+			case 30: verificationStatus = VerificationStatus::Refuted;
+			case 40: verificationStatus = VerificationStatus::EnteredInError;
+
+			}
+	}
+}

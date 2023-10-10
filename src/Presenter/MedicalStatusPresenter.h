@@ -2,16 +2,17 @@
 
 #include "Model/Patient.h"
 #include "View/Widgets/MedicalStatusDialog.h"
+#include "Network/HIS/EAllergy.h"
 
 class MedicalStatusPresenter {
 
-	MedicalStatusDialog* view;
+	MedicalStatusDialog* view{ nullptr };
 
 	Patient& patient;
 
-	std::vector<Allergy> allergies;
-	MedicalStatuses other_statuses;
-
+	EAllergy::Report report_service;
+	EAllergy::Edit edit_service;
+	EAllergy::Fetch fetch_service;
 
 public:
 	MedicalStatusPresenter(Patient& p);

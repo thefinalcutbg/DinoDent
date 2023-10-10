@@ -36,6 +36,8 @@ protected:
 	std::string bind(const std::string& name, bool value);
 	std::string bind(const std::string& name, double value);
 	std::string bind(const std::string& name, const char* value, bool isUserInput = false);
+	std::string openTag(const std::string& tag);
+	std::string closeTag(const std::string tag);
 
 	std::string initialStatusAsProcedure(const ToothContainer& teeth, const Date& lastProcedureDate, bool augmentation = false);
 

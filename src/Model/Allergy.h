@@ -42,6 +42,9 @@ struct Allergy
 
 	std::optional<Date> lastOccurence;
 
-	int getHisNumenclatureIndex(NumenclatureType type) const;
+	bool edited{ false };
+
+	int getHisNumenclatureIndex(NumenclatureType num_type) const;
+	void setHisNumenclature(NumenclatureType num_type, int index);
 	
 };

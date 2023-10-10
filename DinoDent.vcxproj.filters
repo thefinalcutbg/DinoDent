@@ -918,7 +918,7 @@
     <ClCompile Include="src\Model\Dental\SupernumeralPrint.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Network\HIS\EAllergies.cpp">
+    <ClCompile Include="src\Network\HIS\EAllergy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Model\Allergy.cpp">
@@ -928,9 +928,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Presenter\MedicalStatusPresenter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Database\DbAllergy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1700,16 +1697,13 @@
     <ClInclude Include="src\Model\Dental\SupernumeralPrint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Network\HIS\EAllergies.h">
+    <ClInclude Include="src\Network\HIS\EAllergy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\Allergy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Presenter\MedicalStatusPresenter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Database\DbAllergy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

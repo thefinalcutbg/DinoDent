@@ -47,11 +47,19 @@ void MedicalStatusDialog::setAllergies(const std::vector<Allergy>& allergies)
 
 	for (auto& a : allergies)
 	{
-		ui.allergiesList->addItem(a.description.c_str());
 
-		if (a.nrn.empty()) return;
+		QListWidgetItem* item = new QListWidgetItem;
+		
+		QString description = a.description.c_str();
 
-		ui.allergiesList->item(ui.allergiesList->count()-1)->setIcon(QIcon(":/icons/icon_his.png"));
+		if (a.nrn.size())
+		{
+			item->setIcon(QIcon(":/icons/icon_his.png"));
+			if (a.edited) description += "*";
+		}
+
+		item->setText(description);
+		ui.allergiesList->addItem(item);		
 	}
 }
 

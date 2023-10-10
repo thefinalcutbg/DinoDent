@@ -349,6 +349,16 @@ std::string HisService::bind(const std::string& name, const char* value, bool is
 	return bind(name, std::string{ value }, isUserInput);
 }
 
+std::string HisService::openTag(const std::string& tag)
+{
+	return "<nhis:" + tag + ">";
+}
+
+std::string HisService::closeTag(const std::string tag)
+{
+	return "</nhis:" + tag + ">";
+}
+
 std::string HisService::initialStatusAsProcedure(const ToothContainer& teeth, const Date& lastProcedureDate, bool augmentation)
 {
 

@@ -234,6 +234,7 @@ Patient PatientDialogPresenter::getPatientFromView()
 	Patient patient = view->getPatient();
 
 	patient.medStats = medStats;
+	patient.allergies = allergies;
 	patient.rowid = rowid;
 	patient.insuranceStatus = insurance_status;
 	patient.PISHistory = PISHistory;

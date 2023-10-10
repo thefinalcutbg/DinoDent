@@ -9,10 +9,17 @@ namespace DbPatient
     bool update(const Patient& patient);
     Patient get(std::string patientID, int type);
     Patient get(long long rowid);
+
     bool updateMedStatus(long long patientRowId, const MedicalStatuses& s);
     bool updateMedStatus(long long patientRowId, const MedicalStatuses& s, Db& db);
+
     MedicalStatuses getMedicalStatuses(long long patientRowId);
     MedicalStatuses getMedicalStatuses(long long patientRowId, Db& db);
+
+    std::vector<Allergy> getAllergies(long long patientRowid);
+    std::vector<Allergy> getAllergies(long long patientRowid, Db& db);
+    bool updateAllergies(long long patientRowid, const std::vector<Allergy>& allergies);
+
     TeethNotes getPresentNotes(long long patientRowId);
 };
 

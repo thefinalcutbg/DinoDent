@@ -4,6 +4,7 @@
 #include "Database/DbPatient.h"
 #include "View/ModalDialogBuilder.h"
 #include "View/Printer.h"
+#include "Presenter/MedicalStatusPresenter.h"
 
 PatientInfoPresenter::PatientInfoPresenter(IPatientTileInfo* view, std::shared_ptr<Patient> p) :
     view(view), patient(p), patientAge(patient->getAge(Date::currentDate()))
@@ -51,13 +52,9 @@ void PatientInfoPresenter::diagnosisClicked()
             MedicalStatuses medStats = this->patient->medStats;
             medStats.condition = currentDiseases;
             
-            auto result = ModalDialogBuilder::openMedicalStatusDialog(medStats);
+            MedicalStatusPresenter p(*patient);
 
-            if (!result.has_value()) { return; }
-
-            DbPatient::updateMedStatus(patient->rowid, result.value());
-
-            patient->medStats = result.value();
+            p.openDialog();
 
             view->setPatient(*patient, patientAge);
         }
@@ -83,17 +80,9 @@ void PatientInfoPresenter::patientTileClicked()
 
 void PatientInfoPresenter::allergiesTileClicked()
 {
-    auto result = ModalDialogBuilder::openMedicalStatusDialog(patient->medStats);
+    MedicalStatusPresenter p(*patient);
 
-    if (!result) {
-        return;
-    }
-
-    patient->medStats = result.value();
-
-    auto success = DbPatient::updateMedStatus(patient->rowid, patient->medStats);
-
-    if (!success) return;
+    p.openDialog();
 
     view->setPatient(*patient, patientAge);
 }

@@ -15,9 +15,9 @@ AllergyDialog::AllergyDialog(const Allergy& a) : QDialog(nullptr)
 	ui.categoryCombo->setCurrentIndex(a.category);
 	ui.clinicalCombo->setCurrentIndex(a.clinicalStatus);
 	ui.verificationCombo->setCurrentIndex(a.verificationStatus);
-	ui.dateCheck->setChecked(a.lastOccurance.has_value());
+	ui.dateCheck->setChecked(a.lastOccurence.has_value());
 
-	a.type ? ui.allergyRadio->setChecked(true) : ui.intoleranceRadio->setChecked(true);
+	a.type ? ui.intoleranceRadio->setChecked(true) : ui.allergyRadio->setChecked(true);
 
 	switch (a.criticality)
 	{
@@ -26,7 +26,7 @@ AllergyDialog::AllergyDialog(const Allergy& a) : QDialog(nullptr)
 		case Allergy::UnableToAsses: ui.undifinedRiskRadio->setChecked(true); break;
 	}
 
-	if (a.lastOccurance) ui.dateEdit->setDate(QDate(a.lastOccurance->year, a.lastOccurance->month, a.lastOccurance->day));
+	if (a.lastOccurence) ui.dateEdit->setDate(QDate(a.lastOccurence->year, a.lastOccurence->month, a.lastOccurence->day));
 
 	//getting result
 	connect(ui.okButton, &QPushButton::clicked, this, [&]{
@@ -51,7 +51,7 @@ AllergyDialog::AllergyDialog(const Allergy& a) : QDialog(nullptr)
 			if (ui.dateCheck->isChecked()) {
 				auto d = ui.dateEdit->date();
 
-				m_result->lastOccurance.emplace(Date{ d.day(), d.month(), d.year() });
+				m_result->lastOccurence.emplace(Date{ d.day(), d.month(), d.year() });
 			}
 
 			close();

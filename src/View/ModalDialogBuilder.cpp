@@ -346,19 +346,6 @@ std::optional<std::string> ModalDialogBuilder::getFilePath(const std::string& fi
 	return dirPath.toStdString();
 }
 
-#include "View/Widgets/MedicalStatusDialog.h"
-
-std::optional<MedicalStatuses> ModalDialogBuilder::openMedicalStatusDialog(const MedicalStatuses& s)
-{
-	MedicalStatusDialog d(s);
-
-	d.exec();
-
-	if(d.result() == QDialog::Accepted) return d.getResult();
-
-	return std::optional<MedicalStatuses>();
-}
-
 #include "View/Widgets/AllergyDialog.h"
 
 std::optional<Allergy> ModalDialogBuilder::openAllergyDialog(const Allergy& a)

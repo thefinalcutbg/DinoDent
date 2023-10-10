@@ -40,7 +40,7 @@ struct Allergy
 	ClinicalStatus clinicalStatus = ClinicalStatus::Active;
 	VerificationStatus verificationStatus = VerificationStatus::Confirmed;
 
-	std::optional<Date> lastOccurance;
+	std::optional<Date> lastOccurence;
 
 	int getHisNumenclatureIndex(NumenclatureType type) const;
 	

@@ -1,6 +1,13 @@
 ﻿#include "MedicalStatusDialog.h"
 #include "Presenter/MedicalStatusPresenter.h"
 
+int MedicalStatusDialog::getAllergyIndex()
+{
+	if (!ui.allergiesList->selectedItems().size()) return -1;
+
+	return 	ui.allergiesList->selectionModel()->currentIndex().row();
+}
+
 MedicalStatusDialog::MedicalStatusDialog(MedicalStatusPresenter* p)
 	: presenter(p), QDialog(nullptr)
 {
@@ -12,31 +19,51 @@ MedicalStatusDialog::MedicalStatusDialog(MedicalStatusPresenter* p)
 	ui.currentWidget->setName("Настоящи заболявания");
 	ui.pastWidget->setName("Минали заболявания");
 
+	ui.sendHisButton->setIcon(QIcon(":/icons/icon_his.png"));
+	ui.getHisButton->setIcon(QIcon(":/icons/icon_his.png"));
+
 	connect(ui.addAllergy, &QPushButton::clicked, [&] {presenter->addAllergy(); });
-	connect(ui.removeAllergy, &QPushButton::clicked, [&] {presenter->removeAllergy(ui.allergiesList->currentIndex().row()); });
-	connect(ui.editAllergy, &QPushButton::clicked, [&] {presenter->editAllergy(ui.allergiesList->currentIndex().row()); });
-	connect(ui.sendHisButton, &QPushButton::clicked, [&] {presenter->sendToHis(ui.allergiesList->currentIndex().row()); });
+	connect(ui.removeAllergy, &QPushButton::clicked, [&] {presenter->removeAllergy(getAllergyIndex()); });
+	connect(ui.editAllergy, &QPushButton::clicked, [&] {presenter->editAllergy(getAllergyIndex()); });
+	connect(ui.sendHisButton, &QPushButton::clicked, [&] {presenter->sendToHis(getAllergyIndex()); });
 	connect(ui.getHisButton, &QPushButton::clicked, [&] {presenter->loadAllergiesFromHis(); });
-	connect(ui.okButton, &QPushButton::clicked, [&] { presenter->okPressed(); });
+
+	connect(ui.allergiesList, &QListWidget::itemSelectionChanged, [&] {
+			
+		bool noSelection = !ui.allergiesList->selectedItems().size();
+		ui.editAllergy->setDisabled(noSelection);
+		ui.removeAllergy->setDisabled(noSelection);
+		ui.sendHisButton->setDisabled(noSelection);
+			
+	});
+
+	ui.allergiesList->itemSelectionChanged();
+
+	QPushButton* b = new QPushButton("Диагнози в рецептурна книжка");
+	b->setIcon(QIcon(":/icons/icon_nhif.png"));
+
+	connect(b, &QPushButton::clicked, [&]{ presenter->loadICDFromNHIS(); });
+
+	ui.currentWidget->addSpecialButton(b);
 
 }
 
-void MedicalStatusDialog::setPastDiseases(const std::vector<MedicalStatus>& pd)
+void MedicalStatusDialog::setPastDiseases(const std::vector<std::string>& pd)
 {
 	ui.pastWidget->setMedicalStatus(pd);
 }
 
-std::vector<MedicalStatus> MedicalStatusDialog::getPastDiseases()
+std::vector<std::string> MedicalStatusDialog::getPastDiseases()
 {
 	return ui.pastWidget->getMedicalStatus();
 }
 
-void MedicalStatusDialog::setCurrentDiseases(const std::vector<MedicalStatus>& cd)
+void MedicalStatusDialog::setCurrentDiseases(const std::vector<std::string>& cd)
 {
-	ui.pastWidget->setMedicalStatus(cd);
+	ui.currentWidget->setMedicalStatus(cd);
 }
 
-std::vector<MedicalStatus> MedicalStatusDialog::getCurrentDiseases()
+std::vector<std::string> MedicalStatusDialog::getCurrentDiseases()
 {
 	return ui.currentWidget->getMedicalStatus();
 }

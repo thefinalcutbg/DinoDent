@@ -9,7 +9,7 @@
 #include "Model/Dental/MKB.h"
 #include "Model/Patient.h"
 
-bool DiagnosisService::sendRequest(const Patient& p, std::function<void(const std::vector<MedicalStatus>&)> callback)
+bool DiagnosisService::sendRequest(const Patient& p, std::function<void(const std::vector<std::string>&)> callback)
 {
 	if (!MKB::isInitialized()) {
 		ModalDialogBuilder::showMessage("Първо заредете МКБ номенклатурите от настройки");
@@ -51,7 +51,7 @@ void DiagnosisService::processPISReply(const std::string& reply)
 		.FirstChildElement();			  //diagnosisOut
 
 
-	std::vector<MedicalStatus> result;
+	std::vector<std::string> result;
 
 	//i is 1, since 0 is the egn
 	for (int i = 1; ; i++)
@@ -63,12 +63,7 @@ void DiagnosisService::processPISReply(const std::string& reply)
 			break;
 		}
 
-		result.push_back(
-			MedicalStatus{
-				.nrn = "",
-				.data = MKB::getNameFromMKBCode(mkb.ToElement()->GetText())
-			}
-		);
+		result.push_back(MKB::getNameFromMKBCode(mkb.ToElement()->GetText()));
 	}
 
 	m_callback({result});

@@ -41,14 +41,24 @@ MedicalStatusWidget::MedicalStatusWidget(QWidget *parent)
 	});
 
 	connect(ui.statusList, &QListWidget::doubleClicked, [=] { ui.editButton->click(); });
+
+	connect(ui.statusList, &QListWidget::itemSelectionChanged, [&] {
+			
+		bool noSelection = !ui.statusList->selectedItems().size();
+		ui.editButton->setDisabled(noSelection);
+		ui.removeButton->setDisabled(noSelection);
+	});
 	
+	ui.statusList->itemSelectionChanged();
 }
 
-void MedicalStatusWidget::setMedicalStatus(const std::vector<MedicalStatus>& s)
+void MedicalStatusWidget::setMedicalStatus(const std::vector<std::string>& s)
 {
+	ui.statusList->clear();
+
 	for (auto& status : s)
 	{
-		ui.statusList->addItem(status.data.c_str());
+		ui.statusList->addItem(status.c_str());
 
 		//auto item = ui.statusList->item(ui.statusList->count() - 1);
 
@@ -56,19 +66,14 @@ void MedicalStatusWidget::setMedicalStatus(const std::vector<MedicalStatus>& s)
 	}
 }
 
-std::vector<MedicalStatus> MedicalStatusWidget::getMedicalStatus()
+std::vector<std::string> MedicalStatusWidget::getMedicalStatus()
 {
-	std::vector<MedicalStatus> result;
+	std::vector<std::string> result;
 
 	for (int i = 0; i < ui.statusList->count(); i++)
 	{
 
-		result.push_back(
-			{ 
-				.nrn = {}, 
-				.data =  ui.statusList->item(i)->text().toStdString() 
-			}
-		);
+		result.push_back(ui.statusList->item(i)->text().toStdString());
 	}
 
 	return result;
@@ -77,6 +82,11 @@ std::vector<MedicalStatus> MedicalStatusWidget::getMedicalStatus()
 void MedicalStatusWidget::setName(const QString& name)
 {
 	ui.groupBox->setTitle(name);
+}
+
+void MedicalStatusWidget::addSpecialButton(QPushButton* b)
+{
+	ui.bottomLayout->addWidget(b, 0, Qt::AlignRight);
 }
 
 MedicalStatusWidget::~MedicalStatusWidget()

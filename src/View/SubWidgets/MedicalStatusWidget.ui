@@ -39,7 +39,7 @@
        <widget class="QListWidget" name="statusList"/>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <layout class="QHBoxLayout" name="bottomLayout">
         <item>
          <widget class="QPushButton" name="addButton">
           <property name="text">

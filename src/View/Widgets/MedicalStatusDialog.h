@@ -16,14 +16,16 @@ class MedicalStatusDialog : public QDialog
 
 	MedicalStatusPresenter* presenter;
 
+	int getAllergyIndex();
+
 public:
 	MedicalStatusDialog(MedicalStatusPresenter* p);
 
-	void setPastDiseases(const std::vector<MedicalStatus>& pd);
-	std::vector<MedicalStatus> getPastDiseases();
+	void setPastDiseases(const std::vector<std::string>& pd);
+	std::vector<std::string> getPastDiseases();
 
-	void setCurrentDiseases(const std::vector<MedicalStatus>& cd);
-	std::vector<MedicalStatus> getCurrentDiseases();
+	void setCurrentDiseases(const std::vector<std::string>& cd);
+	std::vector<std::string> getCurrentDiseases();
 
 	void setAllergies(const std::vector<Allergy>& allergies);
 

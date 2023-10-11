@@ -11,6 +11,8 @@ class AllergyDialog : public QDialog
 
 	std::optional<Allergy> m_result;
 
+	void paintEvent(QPaintEvent* event) override;
+
 public:
 	AllergyDialog(const Allergy& a);
 	std::optional<Allergy> getResult() { return m_result; }

@@ -18,6 +18,7 @@ namespace EAllergy
 			HisService("C023", "/v3/commons/doctor/allegies-report") {}
 
 		bool sendRequest(const Patient& patient, const std::string& rzi, const Allergy& allergy, decltype(m_callback) callback);
+		bool awaitingReply() { return awaiting_reply; }
 	};
 
 	class Edit : private HisService
@@ -31,7 +32,8 @@ namespace EAllergy
 		Edit() :
 			HisService("C025", "/v3/commons/doctor/allegies-edit") {}
 
-		bool sendRequest(const Allergy& allergy, decltype(m_callback) callback);
+		bool sendRequest(const Allergy& allergy, decltype(m_callback) callback, bool enteredInError = false);
+		bool awaitingReply() { return awaiting_reply; }
 	};
 
 	class Fetch : private HisService
@@ -46,7 +48,8 @@ namespace EAllergy
 			HisService("C027", "/v3/commons/doctor/allegies-fetch") {}
 
 		bool sendRequest(const Patient& patient, const std::string& rzi, decltype(m_callback) callback);
-	
+		bool awaitingReply() { return awaiting_reply; }
+		
 	};
 
 

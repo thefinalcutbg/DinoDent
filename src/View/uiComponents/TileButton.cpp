@@ -266,7 +266,7 @@ AllergiesTile::AllergiesTile(QWidget* parent) :
 void AllergiesTile::setData(const Patient& patient)
 {
 
-	auto lambda = [&](const std::vector<MedicalStatus>& s)->QString {
+	auto lambda = [&](const std::vector<std::string>& s)->QString {
 
 		QString result;
 
@@ -274,7 +274,7 @@ void AllergiesTile::setData(const Patient& patient)
 
 		for (int i = 0; i < s.size(); i++)
 		{
-			result += s[i].data.c_str();
+			result += s[i].c_str();
 
 			if (i != s.size() - 1) {
 				result.append(", ");

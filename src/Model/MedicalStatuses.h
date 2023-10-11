@@ -2,25 +2,19 @@
 #include <string>
 #include <vector>
 
-struct MedicalStatus 
-{
-	std::string nrn;
-	std::string data;
-};
-
 struct MedicalStatuses	
 {
-	std::vector<MedicalStatus> condition;
-	std::vector<MedicalStatus> history;
+	std::vector<std::string> condition;
+	std::vector<std::string> history;
 
-	static std::string toString(const std::vector<MedicalStatus>& list)
+	static std::string toString(const std::vector<std::string>& list)
 	{
 		if (list.empty()) return "Не съобщава";
 
 		std::string result;
 
 		for (auto status : list) {
-			result +=(status.data);
+			result += status;
 			result += ", ";
 		}
 		result.pop_back();

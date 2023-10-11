@@ -6,312 +6,295 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>385</width>
-    <height>294</height>
+    <width>528</width>
+    <height>310</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>385</width>
-    <height>294</height>
+    <width>0</width>
+    <height>0</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>385</width>
-    <height>294</height>
+    <width>16777215</width>
+    <height>16777215</height>
    </size>
   </property>
   <property name="windowTitle">
    <string>AllergyDialog</string>
   </property>
-  <widget class="QGroupBox" name="typeGroup">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>40</y>
-     <width>208</width>
-     <height>51</height>
-    </rect>
-   </property>
-   <property name="title">
-    <string>Тип</string>
-   </property>
-   <layout class="QHBoxLayout" name="horizontalLayout">
-    <item>
-     <widget class="QRadioButton" name="allergyRadio">
-      <property name="text">
-       <string>Алергия</string>
-      </property>
-      <property name="checked">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QRadioButton" name="intoleranceRadio">
-      <property name="text">
-       <string>Непоносимост</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QComboBox" name="categoryCombo">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>110</y>
-     <width>211</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <property name="currentIndex">
-    <number>1</number>
-   </property>
+  <layout class="QVBoxLayout" name="verticalLayout_5">
    <item>
-    <property name="text">
-     <string>Към храна</string>
-    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Описание:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="descriptionEdit"/>
+     </item>
+    </layout>
    </item>
    <item>
-    <property name="text">
-     <string>Към медикамент</string>
-    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QGroupBox" name="typeGroup">
+         <property name="title">
+          <string>Тип</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_6">
+          <item>
+           <widget class="QRadioButton" name="allergyRadio">
+            <property name="text">
+             <string>Алергия</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="intoleranceRadio">
+            <property name="text">
+             <string>Непоносимост</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="categoryCombo">
+         <property name="currentIndex">
+          <number>1</number>
+         </property>
+         <item>
+          <property name="text">
+           <string>Към храна</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Към медикамент</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Към околна среда</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Към биологичен материал</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="criticalityGroup">
+       <property name="title">
+        <string>Критичност</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <widget class="QRadioButton" name="lowRiskRadio">
+          <property name="text">
+           <string>Нисък риск</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="highRiskRadio">
+          <property name="text">
+           <string>Висок риск</string>
+          </property>
+          <property name="checked">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="undifinedRiskRadio">
+          <property name="text">
+           <string>Неопределен</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
-    <property name="text">
-     <string>Към околна среда</string>
-    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_4">
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Клиничен статус:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Верификационен статус:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="dateCheck">
+         <property name="text">
+          <string>Дата на последно възникване:</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <item>
+        <widget class="QComboBox" name="clinicalCombo">
+         <item>
+          <property name="text">
+           <string>Активен</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Активен (повторно проявяване)</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Активен (в рецидив)</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Неактивен</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Неактивен (в ремисия)</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Неактивен (решен)</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="verificationCombo">
+         <property name="currentIndex">
+          <number>3</number>
+         </property>
+         <item>
+          <property name="text">
+           <string>Непотвърден</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Непотвърден - условно</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Непотвърден - противоречиво</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Потвърден</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Опроверган</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Погрешно въведен</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
+        <widget class="CustomDateEdit" name="dateEdit">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="buttonSymbols">
+          <enum>QAbstractSpinBox::NoButtons</enum>
+         </property>
+         <property name="displayFormat">
+          <string notr="true">d.M.yyyy 'г.'</string>
+         </property>
+         <property name="calendarPopup">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
    </item>
    <item>
-    <property name="text">
-     <string>Към биологичен материал</string>
-    </property>
-   </item>
-  </widget>
-  <widget class="QGroupBox" name="criticalityGroup">
-   <property name="geometry">
-    <rect>
-     <x>240</x>
-     <y>40</y>
-     <width>133</width>
-     <height>91</height>
-    </rect>
-   </property>
-   <property name="title">
-    <string>Критичност</string>
-   </property>
-   <layout class="QVBoxLayout" name="verticalLayout">
-    <item>
-     <widget class="QRadioButton" name="lowRiskRadio">
-      <property name="text">
-       <string>Нисък риск</string>
-      </property>
-      <property name="checked">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QRadioButton" name="highRiskRadio">
-      <property name="text">
-       <string>Висок риск</string>
-      </property>
-      <property name="checked">
-       <bool>false</bool>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QRadioButton" name="undifinedRiskRadio">
-      <property name="text">
-       <string>Неопределен</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QComboBox" name="clinicalCombo">
-   <property name="geometry">
-    <rect>
-     <x>200</x>
-     <y>150</y>
-     <width>171</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <item>
-    <property name="text">
-     <string>Активен</string>
-    </property>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
    </item>
    <item>
-    <property name="text">
-     <string>Активен (повторно проявяване)</string>
-    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_5">
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="okButton">
+       <property name="text">
+        <string>OK</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
-   <item>
-    <property name="text">
-     <string>Активен (в рецидив)</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>Неактивен</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>Неактивен (в ремисия)</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>Неактивен (решен)</string>
-    </property>
-   </item>
-  </widget>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>150</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Клиничен статус:</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_2">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>180</y>
-     <width>151</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Верификационен статус:</string>
-   </property>
-  </widget>
-  <widget class="QComboBox" name="verificationCombo">
-   <property name="geometry">
-    <rect>
-     <x>200</x>
-     <y>180</y>
-     <width>171</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <property name="currentIndex">
-    <number>3</number>
-   </property>
-   <item>
-    <property name="text">
-     <string>Непотвърден</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>Непотвърден - условно</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>Непотвърден - противоречиво</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>Потвърден</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>Опроверган</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>Погрешно въведен</string>
-    </property>
-   </item>
-  </widget>
-  <widget class="QLineEdit" name="descriptionEdit">
-   <property name="geometry">
-    <rect>
-     <x>90</x>
-     <y>10</y>
-     <width>281</width>
-     <height>22</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_3">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>71</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Описание:</string>
-   </property>
-  </widget>
-  <widget class="CustomDateEdit" name="dateEdit">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="geometry">
-    <rect>
-     <x>200</x>
-     <y>210</y>
-     <width>101</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <property name="buttonSymbols">
-    <enum>QAbstractSpinBox::NoButtons</enum>
-   </property>
-   <property name="displayFormat">
-    <string notr="true">d.M.yyyy 'г.'</string>
-   </property>
-   <property name="calendarPopup">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QCheckBox" name="dateCheck">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>210</y>
-     <width>191</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Дата на последно възникване:</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="okButton">
-   <property name="geometry">
-    <rect>
-     <x>300</x>
-     <y>260</y>
-     <width>75</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>OK</string>
-   </property>
-  </widget>
+  </layout>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>

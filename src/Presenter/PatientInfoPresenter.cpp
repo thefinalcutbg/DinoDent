@@ -42,7 +42,7 @@ void PatientInfoPresenter::diagnosisClicked()
         *patient,
 
 
-        [=](const std::vector<MedicalStatus>& currentDiseases) {
+        [=](const std::vector<std::string>& currentDiseases) {
 
             if (currentDiseases.empty()) {
                 ModalDialogBuilder::showMessage("Няма данни в рецептурната книжка");

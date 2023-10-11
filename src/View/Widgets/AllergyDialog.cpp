@@ -1,5 +1,14 @@
 ﻿#include "AllergyDialog.h"
+
+#include <QPainter>
+
 #include "View/ModalDialogBuilder.h"
+
+void AllergyDialog::paintEvent(QPaintEvent* event)
+{
+	QPainter p(this);
+	p.fillRect(rect(), Qt::white);
+}
 
 AllergyDialog::AllergyDialog(const Allergy& a) : QDialog(nullptr)
 {
@@ -15,7 +24,7 @@ AllergyDialog::AllergyDialog(const Allergy& a) : QDialog(nullptr)
 	ui.categoryCombo->setCurrentIndex(a.category);
 	ui.clinicalCombo->setCurrentIndex(a.clinicalStatus);
 	ui.verificationCombo->setCurrentIndex(a.verificationStatus);
-	ui.dateCheck->setChecked(a.lastOccurence.has_value());
+	ui.dateCheck->setChecked(a.lastOccurrence.has_value());
 
 	a.type ? ui.intoleranceRadio->setChecked(true) : ui.allergyRadio->setChecked(true);
 
@@ -26,7 +35,7 @@ AllergyDialog::AllergyDialog(const Allergy& a) : QDialog(nullptr)
 		case Allergy::UnableToAsses: ui.undifinedRiskRadio->setChecked(true); break;
 	}
 
-	if (a.lastOccurence) ui.dateEdit->setDate(QDate(a.lastOccurence->year, a.lastOccurence->month, a.lastOccurence->day));
+	if (a.lastOccurrence) ui.dateEdit->setDate(QDate(a.lastOccurrence->year, a.lastOccurrence->month, a.lastOccurrence->day));
 
 	//getting result
 	connect(ui.okButton, &QPushButton::clicked, this, [&]{
@@ -51,12 +60,15 @@ AllergyDialog::AllergyDialog(const Allergy& a) : QDialog(nullptr)
 			if (ui.dateCheck->isChecked()) {
 				auto d = ui.dateEdit->date();
 
-				m_result->lastOccurence.emplace(Date{ d.day(), d.month(), d.year() });
+				m_result->lastOccurrence.emplace(Date{ d.day(), d.month(), d.year() });
 			}
 
 			close();
 		}
 	);
+
+	ui.descriptionEdit->setFocus();
+	ui.descriptionEdit->selectAll();
 
 }
 

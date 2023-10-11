@@ -37,29 +37,30 @@ void Allergy::setHisNumenclature(NumenclatureType num_type, int index)
 {
 	switch (num_type) {
 
-		case NumenclatureType::type: type = static_cast<Type>(index-1);
-		case NumenclatureType::category: category = static_cast<Category>(index-1);
-		case NumenclatureType::criticality: criticality = static_cast<Criticality>(index-1);
+	case NumenclatureType::type: type = static_cast<Type>(index - 1); break;
+		case NumenclatureType::category: category = static_cast<Category>(index-1); break;
+		case NumenclatureType::criticality: criticality = static_cast<Criticality>(index-1); break;
 		case NumenclatureType::clinicalStatus:
 			switch (index)
 			{
-				case 10: clinicalStatus = ClinicalStatus::Active;
-				case 11: clinicalStatus = ClinicalStatus::Recurrence;
-				case 12: clinicalStatus = ClinicalStatus::Relapse;
-				case 20: clinicalStatus = ClinicalStatus::Inactive;
-				case 21: clinicalStatus = ClinicalStatus::Remission;
-				case 22: clinicalStatus = ClinicalStatus::Resolved;
+				case 10: clinicalStatus = ClinicalStatus::Active; break;
+				case 11: clinicalStatus = ClinicalStatus::Recurrence; break;
+				case 12: clinicalStatus = ClinicalStatus::Relapse; break;
+				case 20: clinicalStatus = ClinicalStatus::Inactive; break;
+				case 21: clinicalStatus = ClinicalStatus::Remission; break;
+				case 22: clinicalStatus = ClinicalStatus::Resolved; break;
 			}
+			break;
 		case NumenclatureType::verificationStatus:
 			switch (index)
 			{
-			case 10: verificationStatus = VerificationStatus::Unconfirmed;
-			case 11: verificationStatus = VerificationStatus::Provisional;
-			case 12: verificationStatus = VerificationStatus::Differential;
-			case 20: verificationStatus = VerificationStatus::Confirmed;
-			case 30: verificationStatus = VerificationStatus::Refuted;
-			case 40: verificationStatus = VerificationStatus::EnteredInError;
-
+			case 10: verificationStatus = VerificationStatus::Unconfirmed; break;
+			case 11: verificationStatus = VerificationStatus::Provisional; break;
+			case 12: verificationStatus = VerificationStatus::Differential; break;
+			case 20: verificationStatus = VerificationStatus::Confirmed; break;
+			case 30: verificationStatus = VerificationStatus::Refuted; break;
+			case 40: verificationStatus = VerificationStatus::EnteredInError; break;
 			}
+			break;
 	}
 }

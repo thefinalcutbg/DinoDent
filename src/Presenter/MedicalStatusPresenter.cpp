@@ -1,8 +1,10 @@
 #include "MedicalStatusPresenter.h"
+
+#include <algorithm>
+
 #include "Database/DbPatient.h"
 #include "View/ModalDialogBuilder.h"
 #include "Model/FreeFunctions.h"
-#include <algorithm>
 
 MedicalStatusPresenter::MedicalStatusPresenter(Patient& p) : patient(p)
 {
@@ -10,37 +12,41 @@ MedicalStatusPresenter::MedicalStatusPresenter(Patient& p) : patient(p)
 	p.medStats = DbPatient::getMedicalStatuses(p.rowid);
 }
 
-void MedicalStatusPresenter::okPressed()
+bool MedicalStatusPresenter::awaitingReply()
 {
-	view->close();
-
-	patient.medStats = { view->getCurrentDiseases(), view->getPastDiseases() };
-
-	DbPatient::updateMedStatus(patient.rowid, patient.medStats);
+	return
+		fetch_service.awaitingReply() ||
+		report_service.awaitingReply() ||
+		edit_service.awaitingReply();
 }
 
 void MedicalStatusPresenter::loadAllergiesFromHis()
 {
+	if (awaitingReply()) return;
+
 	fetch_service.sendRequest(patient, User::practice().rziCode,
+
 		[&](const std::vector<Allergy> allergies) {
 
-			for (auto& new_a : allergies) {
+			std::vector<Allergy>::iterator it;
 
-				bool allergyExists = false;
-
-				for (auto& old_a : patient.allergies)
-				{
-					if (old_a.nrn == new_a.nrn)
-					{
-						allergyExists = true;
-						old_a = new_a;
-					}
+			it = std::remove_if(
+				patient.allergies.begin(),
+				patient.allergies.end(), 
+				[](const Allergy& a) { 
+					return !a.nrn.empty(); 
 				}
+			);
 
-				if(!allergyExists) patient.allergies.push_back(new_a);
+			patient.allergies.erase(it, patient.allergies.end());
+			
+			for (auto& a : allergies) {
 
+				if (a.verificationStatus == Allergy::EnteredInError) continue;
+				
+				patient.allergies.insert(patient.allergies.begin(), a);
 			}
-
+			
 			DbPatient::updateAllergies(patient.rowid, patient.allergies);
 			view->setAllergies(patient.allergies);
 		}
@@ -48,8 +54,16 @@ void MedicalStatusPresenter::loadAllergiesFromHis()
 
 }
 
+void MedicalStatusPresenter::loadICDFromNHIS()
+{
+	
+}
+
 void MedicalStatusPresenter::addAllergy()
 {
+
+	if (awaitingReply()) return;
+
 	auto result = ModalDialogBuilder::openAllergyDialog();
 
 	if (!result) return;
@@ -65,11 +79,37 @@ void MedicalStatusPresenter::addAllergy()
 
 void MedicalStatusPresenter::removeAllergy(int idx)
 {
+	if (awaitingReply()) return;
+
 	if (idx < 0 || idx >= patient.allergies.size()) return;
+
+	if (patient.allergies[idx].nrn.empty()) {
+
+		patient.allergies.erase(patient.allergies.begin() + idx);
+
+		DbPatient::updateAllergies(patient.rowid, patient.allergies);
+
+		view->setAllergies(patient.allergies);
+
+		return;
+	}
+
+	edit_service.sendRequest(patient.allergies[idx],
+		[=](bool success)
+		{
+			if (!success) return;
+
+			loadAllergiesFromHis();
+		},
+		true
+	);
+	
 }
 
 void MedicalStatusPresenter::editAllergy(int idx)
 {
+	if (awaitingReply()) return;
+
 	if (idx < 0 || idx >= patient.allergies.size()) return;
 
 	auto result = ModalDialogBuilder::openAllergyDialog(patient.allergies[idx]);
@@ -91,6 +131,9 @@ void MedicalStatusPresenter::editAllergy(int idx)
 void MedicalStatusPresenter::sendToHis(int idx)
 {
 
+
+	if (idx < 0 || idx >= patient.allergies.size()) return;
+
 	if (!patient.allergies[idx].nrn.size())
 	{
 		report_service.sendRequest(patient, User::practice().rziCode, patient.allergies[idx],
@@ -109,9 +152,7 @@ void MedicalStatusPresenter::sendToHis(int idx)
 			{
 				if (!success) return;
 
-				patient.allergies[idx].edited = false;
-				DbPatient::updateAllergies(patient.rowid, patient.allergies);
-				view->setAllergies(patient.allergies);
+				loadAllergiesFromHis();
 			}
 		);
 
@@ -129,4 +170,11 @@ void MedicalStatusPresenter::openDialog()
 	view->setPastDiseases(patient.medStats.history);
 
 	d.exec();
+
+	patient.medStats = { 
+		.condition = view->getCurrentDiseases(), 
+		.history = view->getPastDiseases() 
+	};
+
+	DbPatient::updateMedStatus(patient.rowid, patient.medStats);
 }

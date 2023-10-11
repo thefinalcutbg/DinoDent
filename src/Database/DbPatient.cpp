@@ -184,17 +184,16 @@ bool DbPatient::updateMedStatus(long long patientRowId, const MedicalStatuses& s
 
     db.execute();
 
-    auto lambda = [&](const std::vector<MedicalStatus>& list, MedStatusType t) {
+    auto lambda = [&](const std::vector<std::string>& list, MedStatusType t) {
 
         for (auto& status : list)
         {
 
-            db.newStatement("INSERT INTO medical_status (patient_rowid, nrn, data, type) VALUES (?,?,?,?)");
+            db.newStatement("INSERT INTO medical_status (patient_rowid, data, type) VALUES (?,?,?)");
 
             db.bind(1, patientRowId);
-            db.bind(2, status.nrn);
-            db.bind(3, status.data);
-            db.bind(4, t);
+            db.bind(2, status);
+            db.bind(3, t);
 
             db.execute();
         }
@@ -217,17 +216,16 @@ bool DbPatient::updateMedStatus(long long patientRowId, const MedicalStatuses& s
 
     db.execute();
 
-    auto lambda = [&](const std::vector<MedicalStatus>& list, MedStatusType t) {
+    auto lambda = [&](const std::vector<std::string>& list, MedStatusType t) {
 
         for (auto& status : list)
         {
 
-            db.newStatement("INSERT INTO medical_status (patient_rowid, nrn, data, type) VALUES (?,?,?,?)");
+            db.newStatement("INSERT INTO medical_status (patient_rowid, data, type) VALUES (?,?,?)");
 
             db.bind(1, patientRowId);
-            db.bind(2, status.nrn);
-            db.bind(3, status.data);
-            db.bind(4, t);
+            db.bind(2, status);
+            db.bind(3, t);
 
             db.execute();
         }
@@ -244,12 +242,12 @@ MedicalStatuses DbPatient::getMedicalStatuses(long long patientRowId)
 {
     MedicalStatuses result;
 
-    Db db("SELECT type, nrn, data FROM medical_status WHERE patient_rowid=?");
+    Db db("SELECT type, data FROM medical_status WHERE patient_rowid=?");
     db.bind(1, patientRowId);
 
     while (db.hasRows())
     {
-        std::vector<MedicalStatus>* stat;
+        std::vector<std::string>* stat;
 
         switch (db.asInt(0))
         {
@@ -259,7 +257,7 @@ MedicalStatuses DbPatient::getMedicalStatuses(long long patientRowId)
             default: continue;
         }
 
-        stat->push_back(MedicalStatus{ .nrn = db.asString(1), .data = db.asString(2) });
+        stat->push_back(db.asString(1));
     }
 
     return result;
@@ -270,12 +268,12 @@ MedicalStatuses DbPatient::getMedicalStatuses(long long patientRowId, Db& db)
 {
     MedicalStatuses result;
 
-    db.newStatement("SELECT type, nrn, data FROM medical_status WHERE patient_rowid=?");
+    db.newStatement("SELECT type, data FROM medical_status WHERE patient_rowid=?");
     db.bind(1, patientRowId);
 
     while (db.hasRows())
     {
-        std::vector<MedicalStatus>* stat;
+        std::vector<std::string>* stat;
 
         switch (db.asInt(0))
         {
@@ -285,7 +283,7 @@ MedicalStatuses DbPatient::getMedicalStatuses(long long patientRowId, Db& db)
             default: continue;
         }
 
-        stat->push_back(MedicalStatus{ .nrn = db.asString(1), .data = db.asString(2) });
+        stat->push_back(db.asString(1));
     }
 
     return result;
@@ -306,7 +304,7 @@ bool DbPatient::updateAllergies(long long patientRowid, const std::vector<Allerg
 
         db.newStatement(
             "INSERT INTO allergy "
-            "(patient_rowid, lrn, nrn, description, type, category, criticality, clinical_status, verification_status, last_occurence, edited) "
+            "(patient_rowid, lrn, nrn, description, type, category, criticality, clinical_status, verification_status, last_occurrence, edited) "
             "VALUES (?,?,?,?,?,?,?,?,?,?,?)"
         );
 
@@ -319,7 +317,7 @@ bool DbPatient::updateAllergies(long long patientRowid, const std::vector<Allerg
         db.bind(7, a.criticality);
         db.bind(8, a.clinicalStatus);
         db.bind(9, a.verificationStatus);
-        db.bind(10, a.lastOccurence ? a.lastOccurence->to8601() : "");
+        db.bind(10, a.lastOccurrence ? a.lastOccurrence->to8601() : "");
         db.bind(11, a.edited);
 
         if (!db.execute()) return false;
@@ -331,7 +329,7 @@ bool DbPatient::updateAllergies(long long patientRowid, const std::vector<Allerg
 std::vector<Allergy> DbPatient::getAllergies(long long patientRowid, Db& db)
 {
     db.newStatement(
-        "SELECT lrn, nrn, description, type, category, criticality, clinical_status, verification_status, last_occurence, edited FROM allergy "
+        "SELECT lrn, nrn, description, type, category, criticality, clinical_status, verification_status, last_occurrence, edited FROM allergy "
         "WHERE patient_rowid=?"
     );
 
@@ -356,7 +354,7 @@ std::vector<Allergy> DbPatient::getAllergies(long long patientRowid, Db& db)
         auto dateStr = db.asString(8);
 
         if (dateStr.size()) {
-            a.lastOccurence = Date{ dateStr };
+            a.lastOccurrence = Date{ dateStr };
         }
 
         a.edited = db.asBool(9);

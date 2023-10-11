@@ -121,7 +121,7 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
         for (auto& p : patient.medStats.history)
         {
             TiXmlElement* pastDisease = new TiXmlElement("pastDisease");
-            pastDisease->SetAttribute("name", p.data);
+            pastDisease->SetAttribute("name", p);
             pastDiseases->LinkEndChild(pastDisease);
         }
 
@@ -134,7 +134,7 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
         for (auto& c : patient.medStats.condition)
         {
             TiXmlElement* currentDisease = new TiXmlElement("currentDisease");
-            currentDisease->SetAttribute("name", c.data);
+            currentDisease->SetAttribute("name", c);
             currentDiseases->LinkEndChild(currentDisease);
         }
 

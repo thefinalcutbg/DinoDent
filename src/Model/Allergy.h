@@ -40,7 +40,7 @@ struct Allergy
 	ClinicalStatus clinicalStatus = ClinicalStatus::Active;
 	VerificationStatus verificationStatus = VerificationStatus::Confirmed;
 
-	std::optional<Date> lastOccurence;
+	std::optional<Date> lastOccurrence;
 
 	bool edited{ false };
 

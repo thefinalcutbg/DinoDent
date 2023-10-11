@@ -2,6 +2,8 @@
 #include <string>
 #include "Model/Referrals/Referral.h"
 
+class DateValidator;
+
 class IReferralDialog 
 {
 public:
@@ -25,5 +27,6 @@ public:
 	virtual CommonData getCommon() = 0;
 	virtual void closeDialog() = 0;
 	virtual void setErrorLabel(const std::string& str) = 0;
+	virtual void setDateValidator(DateValidator* d) = 0;
 	
 };

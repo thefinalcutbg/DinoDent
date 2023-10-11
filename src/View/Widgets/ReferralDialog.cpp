@@ -111,9 +111,16 @@ ReferralDialog::ReferralDialog(ReferralPresenter* p, QWidget *parent)
 	});
 
 	connect(ui.okButton, &QPushButton::clicked, [=] {
+			
+			ui.dateEdit->validateInput();
+			
+			if (!ui.dateEdit->isValid()) return;
+
 			presenter->okPressed();
 		}
 	);
+
+	ui.dateEdit->setErrorLabel(ui.errorLabel);
 
 	ui.errorLabel->setStyleSheet("color:red");
 
@@ -178,7 +185,7 @@ IReferralDialog::CommonData ReferralDialog::getCommon()
 
 
 	return CommonData{
-		.date = Date(d.day(), d.month(), d.year()),
+		.date = ui.dateEdit->getDate(),
 		.number = static_cast<int>(ui.refNumSpin->value()),
 		.mkbMain = ui.mkbMainButton->text().toStdString(),
 		.mkbAdditional = ui.mkbAdditionalButton->text().toStdString(),
@@ -209,6 +216,11 @@ MH119Data ReferralDialog::MH119data()
 void ReferralDialog::setErrorLabel(const std::string& str)
 {
 	ui.errorLabel->setText(str.c_str());
+}
+
+void ReferralDialog::setDateValidator(DateValidator *d)
+{
+	ui.dateEdit->setInputValidator(d);
 }
 
 void ReferralDialog::setTitle(const std::string & str)

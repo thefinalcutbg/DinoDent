@@ -22,6 +22,8 @@ class ReferralPresenter
 
 	Date ambSheetDate;
 	
+	DateValidator date_validator;
+
 public:
 
 	ReferralPresenter(const AmbList& sheet, ReferralType t);

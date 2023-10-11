@@ -37,6 +37,10 @@ ReferralPresenter::ReferralPresenter(const AmbList& sheet, ReferralType t) :
 		m_result->date = ambSheetDate;
 	}
 	
+	date_validator.setMinDate(sheet.getDate());
+	date_validator.setMaxDate(sheet.getDate().getMaxDateOfMonth());
+	date_validator.setMinErrorMsg("Датата на направлението не може да е по-малка от тази на амбулаторния лист");
+	date_validator.setMaxErrorMsg("Датата на направлението не може да е от следващ месец");
 	
 }
 
@@ -46,7 +50,11 @@ void ReferralPresenter::setView(IReferralDialog* view)
 
 	view->setTitle(m_result->getTypeAsString());
 
+	view->setDateValidator(&date_validator);
+
 	view->setReferral(m_result.value());
+
+
 
 	m_result.reset();
 

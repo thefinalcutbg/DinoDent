@@ -60,15 +60,16 @@ PracticeSettings::PracticeSettings(QWidget *parent)
 	connect(ui.addDoctor, &QPushButton::clicked, [=] {presenter->addDoctor();});
 	connect(ui.doctorList, &QListWidget::itemSelectionChanged, [=]() {
 			
-			int row = ui.doctorList->selectionModel()->currentIndex().row();
+			int row = ui.doctorList->selectedItems().empty() ? -1 : ui.doctorList->selectionModel()->currentIndex().row();
 
-			bool hideDetails = row < 0;
+			bool hideDetails = row == -1;
 
 			ui.adminCheck->setHidden(hideDetails);
 			ui.specialtyCombo->setHidden(hideDetails);
 			ui.label_13->setHidden(hideDetails);
+			ui.removeDoctor->setHidden(hideDetails);
 
-			presenter->indexChanged(row);
+			if(presenter)presenter->indexChanged(row);
 		
 		});
 	connect(ui.adminCheck, &QCheckBox::stateChanged, [=](int state) { presenter->setAdminPrivilege(state);});
@@ -98,6 +99,8 @@ PracticeSettings::PracticeSettings(QWidget *parent)
 	ui.legalEntityCombo->setCurrentIndex(2);
 
 	ui.activityAddressEdit->setCompletions(Ekatte::cityNameToIdx());
+
+	ui.doctorList->itemSelectionChanged();
 
 }
 

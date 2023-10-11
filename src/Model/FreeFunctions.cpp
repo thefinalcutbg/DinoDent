@@ -117,6 +117,26 @@ std::string FreeFn::escapeXml(const std::string& data)
     return result;
 }
 
+std::string FreeFn::listToString(const std::vector<std::string>& list, const std::string& emptyList)
+{
+    std::string result;
+
+    for (auto& str : list) {
+        result += str;
+        result += ", ";
+    }
+
+    if (result.size()) {
+        result.pop_back();
+        result.pop_back();
+    }
+    else {
+        result = emptyList;
+    };
+
+    return result;
+}
+
 bool FreeFn::contains(const std::string& parent, const std::string& child)
 {
     return QString(parent.c_str()).contains(child.c_str());

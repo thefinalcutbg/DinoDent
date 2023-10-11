@@ -48,15 +48,60 @@ void PatientInfoPresenter::diagnosisClicked()
                 ModalDialogBuilder::showMessage("Няма данни в рецептурната книжка");
                 return;
             }
-
-            MedicalStatuses medStats = this->patient->medStats;
-            medStats.condition = currentDiseases;
             
+            auto& list = patient->medStats.condition;
+
+            list.insert(list.begin(), currentDiseases.begin(), currentDiseases.end());
+
+            DbPatient::updateMedStatus(patient->rowid, patient->medStats);
+
             MedicalStatusPresenter p(*patient);
 
             p.openDialog();
 
-            view->setPatient(*patient, patientAge);
+            if(m_isCurrent) view->setPatient(*patient, patientAge);
+        }
+    );
+}
+
+void PatientInfoPresenter::allergiesClicked()
+{
+    allergyFetchServ.sendRequest(*patient, User::practice().rziCode,
+
+        [&](const std::vector<Allergy> allergies) {
+
+            if (allergies.empty()) {
+                ModalDialogBuilder::showMessage("Няма данни за алергии в НЗИС");
+                return;
+            }
+
+            std::vector<Allergy>::iterator it;
+
+            it = std::remove_if(
+                patient->allergies.begin(),
+                patient->allergies.end(),
+                [](const Allergy& a) {
+                    return !a.nrn.empty();
+                }
+            );
+
+            patient->allergies.erase(it, patient->allergies.end());
+
+            for (auto& a : allergies) {
+
+                if (a.verificationStatus == Allergy::EnteredInError) continue;
+
+                patient->allergies.insert(patient->allergies.begin(), a);
+            }
+
+            DbPatient::updateAllergies(patient->rowid, patient->allergies);
+
+            MedicalStatusPresenter p(*patient);
+
+            p.openDialog();
+
+            if (m_isCurrent) view->setPatient(*patient, patientAge);
+            
         }
     );
 }
@@ -78,8 +123,14 @@ void PatientInfoPresenter::patientTileClicked()
     view->setPatient(*patient, patientAge);
 }
 
-void PatientInfoPresenter::allergiesTileClicked()
+void PatientInfoPresenter::medStatTileClicked()
 {
+    if (nhifDiagnosisServ.awaitingReply() || allergyFetchServ.awaitingReply())
+    {
+        ModalDialogBuilder::showMessage("Моля изчакайте, очаква се отговор от сървъра");
+        return;
+    }
+
     MedicalStatusPresenter p(*patient);
 
     p.openDialog();

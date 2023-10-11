@@ -18,4 +18,6 @@ public:
 		std::function<void(const std::vector<std::string>&)> callback
 	);
 
+	bool awaitingReply() { return awaiting_reply; }
+
 };

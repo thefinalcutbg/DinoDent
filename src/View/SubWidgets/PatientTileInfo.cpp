@@ -14,12 +14,16 @@ PatientTileInfo::PatientTileInfo(QWidget *parent)
 		if (presenter) presenter->patientTileClicked();
 	});
 
-	connect(ui.allergiesTile, &QPushButton::clicked, [=] {
-		if (presenter) presenter->allergiesTileClicked();
+	connect(ui.medStatTile, &QPushButton::clicked, [=] {
+		if (presenter) presenter->medStatTileClicked();
 	});
 
-	connect(ui.allergiesTile->nhifButton, &QPushButton::clicked, [=] {
+	connect(ui.medStatTile->nhifButton, &QPushButton::clicked, [=] {
 		if (presenter) presenter->diagnosisClicked();
+	});
+
+	connect(ui.medStatTile->hisButton, &QPushButton::clicked, [=] {
+		if (presenter) presenter->allergiesClicked();
 	});
 
 	connect (ui.patientTile->printButton, &QPushButton::clicked, [=] {
@@ -27,12 +31,10 @@ PatientTileInfo::PatientTileInfo(QWidget *parent)
 	});
 }
 
-#include <QDebug>
-
 void PatientTileInfo::setPatient(const Patient& p, int age)
 {
 	ui.patientTile->setData(p, age);
-	ui.allergiesTile->setData(p);
+	ui.medStatTile->setData(p);
 }
 
 PatientTileInfo::~PatientTileInfo()

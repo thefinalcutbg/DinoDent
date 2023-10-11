@@ -1,6 +1,10 @@
 ﻿#include "MedicalStatusDialog.h"
 #include "Presenter/MedicalStatusPresenter.h"
 
+
+#include <QPainter>
+
+
 int MedicalStatusDialog::getAllergyIndex()
 {
 	if (!ui.allergiesList->selectedItems().size()) return -1;
@@ -25,8 +29,10 @@ MedicalStatusDialog::MedicalStatusDialog(MedicalStatusPresenter* p)
 	connect(ui.addAllergy, &QPushButton::clicked, [&] {presenter->addAllergy(); });
 	connect(ui.removeAllergy, &QPushButton::clicked, [&] {presenter->removeAllergy(getAllergyIndex()); });
 	connect(ui.editAllergy, &QPushButton::clicked, [&] {presenter->editAllergy(getAllergyIndex()); });
-	connect(ui.sendHisButton, &QPushButton::clicked, [&] {presenter->sendToHis(getAllergyIndex()); });
+	connect(ui.sendHisButton, &QPushButton::clicked, [&] {presenter->sendAllergyToHis(getAllergyIndex()); });
 	connect(ui.getHisButton, &QPushButton::clicked, [&] {presenter->loadAllergiesFromHis(); });
+
+	connect(ui.allergiesList, &QListWidget::doubleClicked, this, [&]{ presenter->editAllergy(getAllergyIndex()); });
 
 	connect(ui.allergiesList, &QListWidget::itemSelectionChanged, [&] {
 			
@@ -34,7 +40,17 @@ MedicalStatusDialog::MedicalStatusDialog(MedicalStatusPresenter* p)
 		ui.editAllergy->setDisabled(noSelection);
 		ui.removeAllergy->setDisabled(noSelection);
 		ui.sendHisButton->setDisabled(noSelection);
-			
+/*
+		if (noSelection) {
+			ui.removeAllergy->setIcon(QIcon());
+			return;
+		}
+
+		ui.removeAllergy->setIcon(
+			ui.allergiesList->currentItem()->icon().isNull() ?
+			QIcon() : QIcon(":/icons/icon_his.png")
+		);
+*/
 	});
 
 	ui.allergiesList->itemSelectionChanged();
@@ -86,14 +102,14 @@ void MedicalStatusDialog::setAllergies(const std::vector<Allergy>& allergies)
 		}
 
 		item->setText(description);
-		ui.allergiesList->addItem(item);		
+		ui.allergiesList->addItem(item);	
+
+		ui.allergiesList->setCurrentItem(item);
 	}
 }
 
 MedicalStatusDialog::~MedicalStatusDialog()
 {}
-
-#include <QPainter>
 
 void MedicalStatusDialog::paintEvent(QPaintEvent * event)
 {

@@ -1,0 +1,3 @@
+ALTER TABLE medical_status DROP COLUMN nrn;
+CREATE TABLE allergy (patient_rowid INTEGER REFERENCES patient (rowid) ON DELETE CASCADE ON UPDATE CASCADE NOT NULL, lrn TEXT NOT NULL, nrn TEXT, description TEXT NOT NULL, type INTEGER NOT NULL, category INTEGER NOT NULL, criticality INTEGER NOT NULL, clinical_status INTEGER NOT NULL, verification_status INTEGER NOT NULL, last_occurrence TEXT, edited INTEGER);
+PRAGMA user_version = 16;

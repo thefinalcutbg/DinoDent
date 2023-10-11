@@ -71,7 +71,7 @@ private:
 
 };
 
-class AllergiesTile : public TileButton
+class MedStatusTile : public TileButton
 {
     
     static inline const QString 
@@ -83,13 +83,14 @@ class AllergiesTile : public TileButton
     QString currentDiseases;
     QString pastDiseases;
 
-    static constexpr int nzokSize = 30;
+    static constexpr int buttonSize = 30;
 
     void paintInfo(QPainter* painter) override;
     void resizeEvent(QResizeEvent* event) override;
 public:
     IconButton* nhifButton;
-    AllergiesTile(QWidget* parent = 0);
+    IconButton* hisButton;
+    MedStatusTile(QWidget* parent = 0);
     void setData(const Patient& patient);
 
 };

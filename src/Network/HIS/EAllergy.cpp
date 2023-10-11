@@ -56,7 +56,7 @@ void EAllergy::Report::parseReply(const std::string& reply)
 	m_callback = nullptr;
 }
 
-bool EAllergy::Edit::sendRequest(const Allergy& a, decltype(m_callback) callback, bool enteredInError)
+bool EAllergy::Edit::sendRequest(const Allergy& a, decltype(m_callback) callback/*, bool enteredInError*/)
 {
 	m_callback = callback;
 
@@ -68,14 +68,7 @@ bool EAllergy::Edit::sendRequest(const Allergy& a, decltype(m_callback) callback
 		contents += bind("category", a.getHisNumenclatureIndex(Allergy::NumenclatureType::category));
 		contents += bind("criticality", a.getHisNumenclatureIndex(Allergy::NumenclatureType::criticality));
 		contents += bind("clinicalStatus", a.getHisNumenclatureIndex(Allergy::NumenclatureType::clinicalStatus));
-		
-		contents += bind("verificationStatus", 
-			enteredInError ? 
-			40
-			:
-			a.getHisNumenclatureIndex(Allergy::NumenclatureType::verificationStatus)
-		);
-
+		contents += bind("verificationStatus", a.getHisNumenclatureIndex(Allergy::NumenclatureType::verificationStatus));
 		contents += bind("lastOccurrence", a.lastOccurrence.has_value() ? a.lastOccurrence->to8601() : "");
 		contents += bind("note", a.description, true);
 	contents += closeTag("allergy");
@@ -126,7 +119,7 @@ bool EAllergy::Fetch::sendRequest(
 
 	return HisService::sendRequestToHis(contents);
 }
-#include <qdebug.h>
+
 void EAllergy::Fetch::parseReply(const std::string& reply)
 {
 	if (reply.empty()) {
@@ -171,6 +164,10 @@ void EAllergy::Fetch::parseReply(const std::string& reply)
 
 		if (occurence) {
 			a.lastOccurrence.emplace(occurence->FirstAttribute()->ValueStr());
+		}
+
+		if (a.verificationStatus == Allergy::EnteredInError) {
+			result.pop_back();
 		}
 
 		allergyXml = allergyXml->NextSiblingElement("nhis:allergy");

@@ -3,6 +3,7 @@
 #include "View/Theme.h"
 #include <QApplication>
 #include "View/Graphics/Zodiac.h"
+#include "Model/FreeFunctions.h"
 
 TileButton::TileButton(QWidget* parent) : QAbstractButton(parent)
 {
@@ -248,53 +249,38 @@ void PatientTile::setData(const Patient& patient, int age)
 }
 
 
-AllergiesTile::AllergiesTile(QWidget* parent) :
+MedStatusTile::MedStatusTile(QWidget* parent) :
 	TileButton(parent)
 {
 	reverse();
 	header.setPointSizeF(10);
 
+	hisButton = new IconButton(this);
+	hisButton->setIcon(QIcon(":/icons/icon_his.png"));
+	hisButton->setFixedSize(buttonSize, buttonSize);
+	hisButton->move(width() - 5 - buttonSize, 5);
+	hisButton->setToolTip("Извличане на алергии от НЗИС");
+
 	nhifButton = new IconButton(this);
 	nhifButton->setIcon(QIcon(":/icons/icon_nhif.png"));
-	nhifButton->setFixedSize(nzokSize, nzokSize);
-	nhifButton->move(width() - nzokSize, 5);
-	nhifButton->setToolTip("Проверка на диагнози в рецептурната книжка");
+	nhifButton->setFixedSize(buttonSize, buttonSize);
+	nhifButton->move(width() - 5 - buttonSize, 30);
+	nhifButton->setToolTip("Извличане на диагнози от рецептурната книжка");
+
 
 }
 
 
-void AllergiesTile::setData(const Patient& patient)
+void MedStatusTile::setData(const Patient& patient)
 {
-
-	auto lambda = [&](const std::vector<std::string>& s)->QString {
-
-		QString result;
-
-		if (s.empty()) return "Не съобщава";
-
-		for (int i = 0; i < s.size(); i++)
-		{
-			result += s[i].c_str();
-
-			if (i != s.size() - 1) {
-				result.append(", ");
-			}
-		}
-
-		result = elide(result, 40);
-
-		return result;
-
-	};
-
-	allergies = patient.getAllergiesStr().c_str();
-	currentDiseases = lambda(patient.medStats.condition);
-	pastDiseases = lambda(patient.medStats.history);
+	allergies = elide(patient.getAllergiesStr().c_str(), 40);
+	currentDiseases = elide(FreeFn::listToString(patient.medStats.condition, "Не съобщава").c_str(), 40);
+	pastDiseases = elide(FreeFn::listToString(patient.medStats.history, "Не съобщава").c_str(), 40);
 
 	update();
 }
 
-void AllergiesTile::paintInfo(QPainter* painter)
+void MedStatusTile::paintInfo(QPainter* painter)
 {
 	painter->setFont(header);
 	painter->drawText(20, 20, allergiesLabel);
@@ -308,10 +294,12 @@ void AllergiesTile::paintInfo(QPainter* painter)
 
 }
 
-void AllergiesTile::resizeEvent(QResizeEvent* event)
+void MedStatusTile::resizeEvent(QResizeEvent* event)
 {
 	QWidget::resizeEvent(event);
 
-	nhifButton->move(width() - 5 - nzokSize, 5);
+	hisButton->move(width() - 5 - buttonSize, 5);
+	nhifButton->move(width() - 5 - buttonSize, 35);
+
 	update();
 }

@@ -44,11 +44,12 @@ MedicalStatusWidget::MedicalStatusWidget(QWidget *parent)
 
 	connect(ui.statusList, &QListWidget::itemSelectionChanged, [&] {
 			
-		bool noSelection = !ui.statusList->selectedItems().size();
+		bool noSelection = ui.statusList->selectedItems().empty();
 		ui.editButton->setDisabled(noSelection);
 		ui.removeButton->setDisabled(noSelection);
 	});
-	
+
+
 	ui.statusList->itemSelectionChanged();
 }
 

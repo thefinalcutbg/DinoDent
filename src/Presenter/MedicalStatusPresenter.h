@@ -28,7 +28,7 @@ public:
 	void addAllergy();
 	void removeAllergy(int idx);
 	void editAllergy(int idx);
-	void sendToHis(int idx);
+	void sendAllergyToHis(int idx);
 
 	void openDialog();
 

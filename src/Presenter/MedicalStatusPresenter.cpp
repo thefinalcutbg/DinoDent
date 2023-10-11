@@ -1,4 +1,4 @@
-#include "MedicalStatusPresenter.h"
+﻿#include "MedicalStatusPresenter.h"
 
 #include <algorithm>
 
@@ -56,12 +56,26 @@ void MedicalStatusPresenter::loadAllergiesFromHis()
 
 void MedicalStatusPresenter::loadICDFromNHIS()
 {
-	
+	nhis_diag_service.sendRequest(
+		patient,
+		[&](const std::vector<std::string>& diseases) {
+
+			if (diseases.empty()) {
+				ModalDialogBuilder::showMessage("Няма данни в рецептурната книжка");
+				return;
+			}
+
+			auto list = view->getCurrentDiseases();
+
+			list.insert(list.end(), diseases.begin(), diseases.end());
+
+			view->setCurrentDiseases(list);
+		}
+	);
 }
 
 void MedicalStatusPresenter::addAllergy()
 {
-
 	if (awaitingReply()) return;
 
 	auto result = ModalDialogBuilder::openAllergyDialog();
@@ -83,27 +97,24 @@ void MedicalStatusPresenter::removeAllergy(int idx)
 
 	if (idx < 0 || idx >= patient.allergies.size()) return;
 
-	if (patient.allergies[idx].nrn.empty()) {
+	if (!patient.allergies[idx].nrn.empty()) {
 
-		patient.allergies.erase(patient.allergies.begin() + idx);
+		bool answer = ModalDialogBuilder::askDialog(
+			"Алергията ще бъде изтрита само от локалната база данни.\n"
+			"Ако искате да я изтриете от НЗИС, редактирайте верификационния ѝ статус на \"Погрешно въведен\"\n"
+			"Желаете ли да продължите?"
+		);
 
-		DbPatient::updateAllergies(patient.rowid, patient.allergies);
-
-		view->setAllergies(patient.allergies);
-
-		return;
+		if (!answer) return;
 	}
 
-	edit_service.sendRequest(patient.allergies[idx],
-		[=](bool success)
-		{
-			if (!success) return;
+	patient.allergies.erase(patient.allergies.begin() + idx);
 
-			loadAllergiesFromHis();
-		},
-		true
-	);
-	
+	DbPatient::updateAllergies(patient.rowid, patient.allergies);
+
+	view->setAllergies(patient.allergies);
+
+	return;
 }
 
 void MedicalStatusPresenter::editAllergy(int idx)
@@ -128,7 +139,7 @@ void MedicalStatusPresenter::editAllergy(int idx)
 	view->setAllergies(patient.allergies);
 }
 
-void MedicalStatusPresenter::sendToHis(int idx)
+void MedicalStatusPresenter::sendAllergyToHis(int idx)
 {
 
 

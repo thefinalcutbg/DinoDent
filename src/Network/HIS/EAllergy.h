@@ -32,7 +32,7 @@ namespace EAllergy
 		Edit() :
 			HisService("C025", "/v3/commons/doctor/allegies-edit") {}
 
-		bool sendRequest(const Allergy& allergy, decltype(m_callback) callback, bool enteredInError = false);
+		bool sendRequest(const Allergy& allergy, decltype(m_callback) callback);
 		bool awaitingReply() { return awaiting_reply; }
 	};
 
@@ -46,7 +46,7 @@ namespace EAllergy
 	public:
 		Fetch() :
 			HisService("C027", "/v3/commons/doctor/allegies-fetch") {}
-
+		//does not return "Entered in Error"
 		bool sendRequest(const Patient& patient, const std::string& rzi, decltype(m_callback) callback);
 		bool awaitingReply() { return awaiting_reply; }
 		

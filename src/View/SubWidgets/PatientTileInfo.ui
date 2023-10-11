@@ -61,7 +61,7 @@
       </widget>
      </item>
      <item>
-      <widget class="AllergiesTile" name="allergiesTile">
+      <widget class="MedStatusTile" name="medStatTile">
        <property name="minimumSize">
         <size>
          <width>301</width>
@@ -98,7 +98,7 @@
    <header>View/uiComponents/TileButton.h</header>
   </customwidget>
   <customwidget>
-   <class>AllergiesTile</class>
+   <class>MedStatusTile</class>
    <extends>QPushButton</extends>
    <header>View/uiComponents/TileButton.h</header>
   </customwidget>

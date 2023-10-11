@@ -4,6 +4,7 @@
 #include "Model/Patient.h"
 #include "Network/NRA/NraStatusService.h"
 #include "Network/PIS/DiagnosisService.h"
+#include "Network/HIS/EAllergy.h"
 #include "View/Interfaces/IPatientTileInfo.h"
 
 class PatientInfoPresenter
@@ -15,6 +16,7 @@ class PatientInfoPresenter
 
 	NraStatusService nraStatusServ;
 	DiagnosisService nhifDiagnosisServ;
+	EAllergy::Fetch allergyFetchServ;
 
 	bool m_showInsuranceDialog{ false };
 
@@ -27,8 +29,9 @@ public:
 	void setDate(const Date& date);
 	void nraClicked(bool showDialog);
 	void diagnosisClicked();
+	void allergiesClicked();
 	void patientTileClicked();
-	void allergiesTileClicked();
+	void medStatTileClicked();
 	void printDeclarations();
 	void setCurrent(bool current);
 

@@ -238,6 +238,24 @@ std::string HisService::getToothStatus(const Tooth& tooth, bool hyperdontic)
 	return result;
 }
 
+std::string HisService::getMedicalStatus(const Patient& p)
+{
+	std::string result;
+
+	result += openTag("medicalStatus");
+
+	for (auto& allergy : p.allergies)
+	{
+		if (allergy.nrn.empty()) continue;
+
+		result += bind("nrnAllergy", allergy.nrn);
+	}
+
+	result += closeTag("medicalStatus");
+
+	return result;
+}
+
 std::string HisService::getProcedure(const Procedure& p, const ToothContainer& teeth, ToothContainer& teethChanged, int sequence)
 {
 	std::string result;

@@ -30,6 +30,7 @@ protected:
 	std::string requester(bool includeNhifCode = false);
 	std::string performer();
 	std::string getToothStatus(const Tooth& tooth, bool hyperdontic);
+	std::string getMedicalStatus(const Patient& p);
 	std::string getProcedure(const Procedure& p, const ToothContainer& teeth, ToothContainer& teethChanged, int sequence);
 	std::string bind(const std::string& name, const std::string& value, bool isUserInput = false);
 	std::string bind(const std::string& name, int value, bool ommitZero = true);

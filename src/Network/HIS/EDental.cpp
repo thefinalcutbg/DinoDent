@@ -38,7 +38,7 @@ bool EDental::Open::sendRequest(
 			//+ bind("treatmentEnd", ambSheet.time.to8601(ambSheet.getDate())) //TO IMPLEMENT!!!
 			+ bind("adverseConditions", adverseConditions)
 			+ bind("rhifAreaNumber", patient.city.getRhif() + patient.city.getHealthRegion())
-			+ "<nhis:medicalStatus />" //TO IMPLEMENT!!!
+			+ HisService::getMedicalStatus(patient)
 			+ getProcedures(ambSheet.procedures, ambSheet.teeth, ambSheet.date)
 		+"</nhis:dentalTreatment>"
 		+ HisService::subject(patient)
@@ -167,7 +167,7 @@ bool EDental::Augment::sendRequest(const AmbList& ambSheet, const Patient& patie
 		+ bind("treatmentStart", FreeFn::LocalToUTC(ambSheet.date))
 		+ bind("adverseConditions", adverseConditions)
 		+ bind("rhifAreaNumber", patient.city.getRhif() + patient.city.getHealthRegion())
-		+ "<nhis:medicalStatus />" //TO IMPLEMENT!!!
+		+ HisService::getMedicalStatus(patient)
 		+ resultingDocuments
 		+ getProcedures(ambSheet.procedures, ambSheet.teeth, ambSheet.date)
 		+ "</nhis:dentalTreatment>"

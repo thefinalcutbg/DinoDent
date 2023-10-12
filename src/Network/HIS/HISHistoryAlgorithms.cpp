@@ -247,6 +247,123 @@ ToothContainer HISHistoryAlgorithms::getToothStatus(TiXmlDocument& doc)
 	return teeth;
 }
 
+std::vector<std::pair<Date, ToothContainer>> HISHistoryAlgorithms::getDentalHistory(TiXmlDocument& doc)
+{
+	TiXmlHandle docHandle(&doc);
+
+	std::vector<std::pair<Date, ToothContainer>> snapshots;
+
+	struct DataToParse
+	{
+		Date date;
+		Ranges ranges;
+		std::unordered_map<ToothIndex, std::vector<std::string>> statuses;
+	};
+
+	std::vector<DataToParse> tempData;
+
+	//PARSING DATA
+
+	//iterating dental procedures
+	for (
+		auto dentalProcedure = docHandle.FirstChild("nhis:message").FirstChild("nhis:contents").FirstChild("nhis:dentalProcedure").ToElement();
+		dentalProcedure != nullptr;
+		dentalProcedure = dentalProcedure->NextSiblingElement("nhis:dentalProcedure")	
+	)
+	{
+		//continue, if it is entered in error
+		if (dentalProcedure->FirstChildElement("nhis:status")->FirstAttribute()->IntValue() == 7) continue;
+
+		//continue if there are no teeth in the procedure
+		if (dentalProcedure->FirstChildElement("nhis:tooth")) continue;
+
+		//getting the date
+		Date date = dentalProcedure->FirstChildElement("nhis:datePerformed")->FirstAttribute()->ValueStr();
+		
+		if (tempData.empty()) //creating the first snapshot
+		{
+			tempData.emplace_back();
+			tempData[0].date = date;
+		}
+
+		if (tempData.back().date != date) //creating new snapshot
+		{
+			tempData.push_back(tempData.back());
+			tempData.back().date = date;
+		}
+
+		//iterating teeth
+		for (
+			auto toothXml = dentalProcedure->FirstChildElement("nhis:tooth");
+			toothXml != nullptr;
+			toothXml = toothXml->NextSiblingElement("nhis:tooth");
+		)
+		{
+			//getting the tooth index
+			ToothIndex toothIndex = ToothUtils::getToothFromHisNum(
+				toothXml->FirstChildElement("nhis:toothIndex")->FirstAttribute()->ValueStr(),
+				toothXml->FirstChildElement("nhis:supernumeralIndex")
+			);
+
+			//getting conditions
+			std::vector<std::string> conditions;
+
+			for(
+				auto condition = toothXml->FirstChildElement("nhis:condition"); 
+				condition!=nullptr; 
+				condition = condition->NextSiblingElement("nhis:condition")
+			)
+			{
+				conditions.push_back(condition->FirstChildElement("nhis:code")->FirstAttribute()->ValueStr());
+			}
+
+			tempData.back().statuses[toothIndex] = conditions;
+			
+			
+		}
+		
+	}
+
+	//DESERIALIZING:
+	std::vector<std::pair<Date, ToothContainer>> result;
+
+	for (auto& data : tempData)
+	{
+		result.push_back(std::make_pair(data.date, ToothContainer()));
+
+		auto& teeth = result.back().second;
+		auto& ranges = data.ranges;
+
+		for (auto const& [index, conditions] : data.statuses)
+		{
+			teeth[index.index].dsn.set(index.supernumeral);
+
+			auto& tooth = index.supernumeral? teeth[index.index].dsn.tooth() : teeth[index.index];
+
+			tooth.temporary.set(index.temp);
+
+			for (auto& code : conditions)
+			{
+				deserializeStatusCode(tooth, ranges, code);
+			}
+		}
+
+		teeth.setStatus(ranges.splints, StatusType::general, StatusCode::FiberSplint, true);
+		teeth.setStatus(ranges.bridges, StatusType::general, StatusCode::Bridge, true);
+
+		//in case extraction is not set on pontics:
+		for (auto idx : ranges.pontics) if (teeth[idx].canHaveACrown()) teeth[idx].setStatus(StatusCode::Extraction, true);
+
+	}
+
+	//ensuring there is at least one entity
+	if (result.empty()) result.push_back(std::make_pair(Date::currentDate(), ToothContainer()));
+
+	return result;
+}
+
+
+
 /*
 ToothContainer HISHistoryAlgorithms::getToothStatus(TiXmlDocument& doc)
 {

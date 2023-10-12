@@ -381,11 +381,6 @@ void EDental::GetProcedures::parseReply(const std::string& reply)
 		return;
 	}
 
-	if (reply.empty()) {
-		m_callback({});
-		return;
-	}
-
 	auto errors = getErrors(reply);
 
 	if (errors.size()) {
@@ -433,11 +428,6 @@ void EDental::GetStatusAndProcedures::parseReply(const std::string& reply)
 		return;
 	}
 
-	if (reply.empty()) {
-		m_callback({}, {});
-		return;
-	}
-
 	auto errors = getErrors(reply);
 
 	if (errors.size()) {
@@ -472,4 +462,58 @@ bool EDental::GetStatusAndProcedures::sendRequest(const Patient& patient,bool sh
 		;
 
 	return HisService::sendRequestToHis(contents);
+}
+
+
+bool EDental::GetDentalHistory::sendRequest(const Patient& patient, bool showDialogs, decltype(m_callback) callback)
+{
+	m_callback = callback;
+
+	std::string contents =
+		bind("identifierType", patient.type) +
+		bind("identifier", patient.id) +
+		bind("fromDate", Date().to8601()) +
+		bind("toDate", Date::currentDate().to8601()) +
+		bind("practiceNumber", User::practice().rziCode)
+		;
+
+	return HisService::sendRequestToHis(contents);
+}
+
+void EDental::GetDentalHistory::parseReply(const std::string& reply)
+{
+	if (reply.empty()) {
+		m_callback = nullptr;
+		return;
+	}
+
+	auto errors = getErrors(reply);
+
+	if (errors.size()) {
+		ModalDialogBuilder::showError(errors);
+		m_callback = nullptr;
+		return;
+	}
+
+	TiXmlDocument doc;
+
+	doc.Parse(reply.data(), 0, TIXML_ENCODING_UTF8);
+
+	TiXmlHandle docHandle(&doc);
+
+	std::vector<std::tuple<Date, ToothContainer>> snapshots;
+
+	auto dentalProcedure = docHandle.FirstChild("nhis:message").FirstChild("nhis:contents").FirstChild("nhis:dentalProcedure").ToElement();
+
+	while (dentalProcedure)
+	{
+		if (dentalProcedure->FirstChildElement("nhis:status")->FirstAttribute()->IntValue() == 7) continue;
+
+		Date date = dentalProcedure->FirstChildElement("nhis:datePerformed")->FirstAttribute()->ValueStr();
+
+
+
+
+		dentalProcedure = dentalProcedure->NextSiblingElement("nhis:dentalProcedure");
+	}
 }

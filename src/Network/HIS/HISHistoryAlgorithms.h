@@ -9,4 +9,5 @@ namespace HISHistoryAlgorithms
 {
 	std::vector<Procedure> getProcedures(TiXmlDocument& doc);
 	ToothContainer getToothStatus(TiXmlDocument& doc);
+	std::vector<std::pair<Date, ToothContainer>> getDentalHistory(TiXmlDocument& doc);
 };

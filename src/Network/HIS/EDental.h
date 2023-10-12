@@ -110,4 +110,19 @@ namespace EDental {
 
 		bool awaitingReply() { return awaiting_reply; }
 	};
+
+	class GetDentalHistory : private HisService
+	{
+		std::function<void(const std::vector<std::pair<Date, ToothContainer>>& snapshots)> m_callback;
+
+		void parseReply(const std::string& reply) override;
+
+	public:
+		GetDentalHistory() :
+			HisService("D009", "/v1/edental/status/get") {}
+
+		bool sendRequest(const Patient& patient, bool showDialogs, decltype(m_callback) callback);
+
+		bool awaitingReply() { return awaiting_reply; }
+	};
 }

@@ -120,7 +120,8 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 						teeth[i].extraction ||
 						teeth[i].root ||
 						teeth[i].implant ||
-						teeth[i].impacted
+						teeth[i].impacted ||
+						teeth[i].denture
 					) 
 					{
 						indexes.push_back(i);

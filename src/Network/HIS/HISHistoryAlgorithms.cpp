@@ -381,6 +381,8 @@ std::vector<HisSnapshot> HISHistoryAlgorithms::getDentalHistory(TiXmlDocument& d
 	//DESERIALIZING:
 	std::vector<HisSnapshot> result;
 
+	result.reserve(tempData.size());
+
 	for (auto& data : tempData)
 	{
 		result.emplace_back();

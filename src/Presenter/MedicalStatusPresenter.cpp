@@ -165,11 +165,15 @@ void MedicalStatusPresenter::sendAllergyToHis(int idx)
 					
 					if (a.nrn == nrn) {
 						a.edited = false;
+
+						DbPatient::updateAllergies(patient.rowid, patient.allergies);
+						view->setAllergies(patient.allergies);
+
+						return;
 					}
 				}
 
-				DbPatient::updateAllergies(patient.rowid, patient.allergies);
-				view->setAllergies(patient.allergies);
+
 			}
 		);
 

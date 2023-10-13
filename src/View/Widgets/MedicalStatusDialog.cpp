@@ -86,6 +86,8 @@ std::vector<std::string> MedicalStatusDialog::getCurrentDiseases()
 
 void MedicalStatusDialog::setAllergies(const std::vector<Allergy>& allergies)
 {
+	int idx = getAllergyIndex();
+
 	ui.allergiesList->clear();
 
 	for (auto& a : allergies)
@@ -103,9 +105,9 @@ void MedicalStatusDialog::setAllergies(const std::vector<Allergy>& allergies)
 
 		item->setText(description);
 		ui.allergiesList->addItem(item);	
-
-		ui.allergiesList->setCurrentItem(item);
 	}
+
+	ui.allergiesList->setCurrentRow(idx);
 }
 
 MedicalStatusDialog::~MedicalStatusDialog()

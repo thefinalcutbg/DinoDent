@@ -535,7 +535,7 @@ void ListPresenter::historyRequested()
     if (result.pis_history) patient->PISHistory = result.pis_history;
     if (result.his_history) patient->HISHistory = result.his_history;
 
-    if (!result.applyPis && !result.applyCurrentStatus) return;
+    if (!result.applyPis && !result.statusToBeApplied) return;
 
     if (result.applyPis) {
         for (auto& p : *result.pis_history)
@@ -544,9 +544,9 @@ void ListPresenter::historyRequested()
         }
     }
 
-    if (result.applyCurrentStatus) {
+    if (result.statusToBeApplied) {
 
-        m_ambList.teeth.copyFromOther(result.current_status.value());
+        m_ambList.teeth.copyFromOther(*result.statusToBeApplied);
     }
 
     for (int i = 0; i < 32; i++) {

@@ -53,10 +53,19 @@ bool ProcedureHistoryPresenter::refreshHIS()
 
 bool ProcedureHistoryPresenter::refreshStatus()
 {
-	return status_service.sendRequest(ref_patient,
-		[&](const ToothContainer& teeth) {
-			current_status = teeth;
-			view->setCurrentStatus(teeth);
+	return dental_history_service.sendRequest(ref_patient,
+		[&](const std::vector<HisSnapshot>& snapshots) {
+
+			if (snapshots.empty()) {
+				ModalDialogBuilder::showMessage(
+					"За този пациент не са намерени данни в НЗИС"
+				);
+				return;
+			}
+
+			status_snapshots = snapshots;
+			view->setSliderCount(snapshots.size()-1);
+			view->setSliderIndex(snapshots.size()-1);
 		}
 	);
 }
@@ -91,7 +100,17 @@ void ProcedureHistoryPresenter::pisApplyClicked()
 
 void ProcedureHistoryPresenter::statusApplyClicked()
 {
-	if (!current_status) return;
+	if (status_snapshots.empty()) return;
+
+	if (current_snapshot != status_snapshots.size() - 1) {
+
+		bool answer = ModalDialogBuilder::askDialog(
+			"Статусът който сте избрали не е най-актуалния."
+			" Желаете ли да го приложите въпреки това?"
+		);
+
+		if (!answer) return;
+	}
 
 	m_applyStatus = true;
 
@@ -119,21 +138,38 @@ void ProcedureHistoryPresenter::tabFocused(int idx)
 			}
 			break;
 		case 2:
-			if (!current_status.has_value()) {
+			if (status_snapshots.empty()) {
 				hasHSM = refreshStatus();
 			}
 			break;
 	}
 }
 
+void ProcedureHistoryPresenter::sliderPositionChanged(int position)
+{
+	if (position < 0 || position > status_snapshots.size()) return;
+
+	current_snapshot = position;
+
+	view->setSnapshot(status_snapshots[position]);
+}
+
 
 ProcedureHistoryPresenter::Result ProcedureHistoryPresenter::result()
 {
-	return ProcedureHistoryPresenter::Result{
-		.pis_history = pis_history,
-		.his_history = his_history,
-		.current_status = current_status,
-		.applyPis = m_applyPis,
-		.applyCurrentStatus = m_applyStatus
-	};
+	Result result;
+
+	result.pis_history = pis_history;
+	result.his_history = his_history;
+
+	if (m_applyStatus) {
+		result.statusToBeApplied = status_snapshots.size() ?
+			status_snapshots[current_snapshot].teeth
+			:
+			ToothContainer();
+	}
+
+	result.applyPis = m_applyPis;
+
+	return result;
 }

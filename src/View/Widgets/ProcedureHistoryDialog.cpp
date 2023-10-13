@@ -1,6 +1,5 @@
 ﻿#include "ProcedureHistoryDialog.h"
-
-
+#include "Model/Dental/HisSnapshot.h"
 #include "View/Graphics/TeethViewScene.h"
 
 ProcedureHistoryDialog::ProcedureHistoryDialog(ProcedureHistoryPresenter& p)
@@ -43,7 +42,18 @@ ProcedureHistoryDialog::ProcedureHistoryDialog(ProcedureHistoryPresenter& p)
     ui.tabWidget->setTabIcon(1, QIcon(":/icons/icon_his.png"));
     ui.tabWidget->setTabIcon(2, QIcon(":/icons/icon_his.png"));
 
-    ui.frame->setStyleSheet("background-color:white;");
+    ui.frame->setStyleSheet("QFrame{background-color:white;}");
+
+    teeth_scene = new TeethViewScene();
+
+    ui.graphicsView->setScene(teeth_scene);
+
+    ToothContainer empty_container;
+
+    for (int i = 0; i < 32; i++)
+    {
+        teeth_scene->display(ToothPaintHint(empty_container[i]));
+    }
 
     connect(ui.applyButton, &QPushButton::clicked, this, [&] { presenter.pisApplyClicked(); });
     connect(ui.refreshPis, &QPushButton::clicked, [&] { presenter.refreshPIS(); });
@@ -51,11 +61,11 @@ ProcedureHistoryDialog::ProcedureHistoryDialog(ProcedureHistoryPresenter& p)
     connect(ui.refreshStatus, &QPushButton::clicked, [&] { presenter.refreshStatus(); });
     connect(ui.applyCurrentStatus, &QPushButton::clicked, [&]{ presenter.statusApplyClicked(); });
     connect(ui.tabWidget, &QTabWidget::currentChanged, [&](int idx) { presenter.tabFocused(idx); });
+    connect(ui.statusSlider, &QSlider::valueChanged, [&](int value) { presenter.sliderPositionChanged(value); });
+    connect(ui.nextButton, &QPushButton::clicked, [&] { ui.statusSlider->setValue(ui.statusSlider->value() + 1); });
+    connect(ui.prevButton, &QPushButton::clicked, [&] { ui.statusSlider->setValue(ui.statusSlider->value() - 1); });
     presenter.setView(this);
-}
-
-ProcedureHistoryDialog::~ProcedureHistoryDialog()
-{
+    
 }
 
 void ProcedureHistoryDialog::setPis(const std::vector<Procedure>& p)
@@ -70,19 +80,39 @@ void ProcedureHistoryDialog::setHis(const std::vector<Procedure>& h)
     ui.refreshHis->setText("Опресни");
 }
 
-void ProcedureHistoryDialog::setCurrentStatus(const ToothContainer& teeth)
+void ProcedureHistoryDialog::setSnapshot(const HisSnapshot& s)
 {
-    TeethViewScene* s = new TeethViewScene();
-    
-    ui.graphicsView->setScene(s);
-
     for (int i = 0; i < 32; i++)
     {
-        s->display(ToothPaintHint(teeth[i]));
+        teeth_scene->display(ToothPaintHint(s.teeth[i]));
+    }
+
+    teeth_scene->setProcedures(s.affected_teeth);
+
+    ui.nextButton->setDisabled(false);
+    ui.prevButton->setDisabled(false);
+    ui.statusSlider->setDisabled(false);
+
+    ui.dateLabel->setText(QString("<b>Дата:</b> ") + s.date.toBgStandard().c_str());
+    ui.procedureLabel->setText(QString("<b>Манипулация:</b> ") + s.procedure_name.c_str());
+    ui.diagnosisLabel->setText(QString("<b>Диагноза:</b> ") + s.procedure_diagnosis.c_str());
+    
+    switch (s.financing)
+    {
+        case FinancingSource::NHIF: ui.financingLabel->setText("<b>Финансиране:</b> НЗОК"); break;
+        case FinancingSource::Patient: ui.financingLabel->setText("<b>Финансиране:</b> Пациент"); break;
+        case FinancingSource::PHIF: ui.financingLabel->setText("<b>Финансиране:</b> ДЗОФ"); break;
+        default: ui.financingLabel->clear();
+    }
+
+    if (s.procedure_note.size()) {
+        ui.notesLabel->setText(QString("<b>Бележки:</b> ") + s.procedure_note.c_str());
+    }
+    else {
+        ui.notesLabel->clear();
     }
 
     ui.refreshStatus->setText("Опресни");
-
 }
 
 void ProcedureHistoryDialog::focusTab(int idx)
@@ -94,4 +124,18 @@ void ProcedureHistoryDialog::focusTab(int idx)
 void ProcedureHistoryDialog::closeDialog()
 {
     close();
+}
+
+void ProcedureHistoryDialog::setSliderIndex(int index)
+{
+    ui.statusSlider->setValue(index);
+}
+
+void ProcedureHistoryDialog::setSliderCount(int count)
+{
+    ui.statusSlider->setRange(0, count);
+}
+
+ProcedureHistoryDialog::~ProcedureHistoryDialog()
+{
 }

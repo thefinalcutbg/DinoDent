@@ -536,6 +536,7 @@
     <ClInclude Include="src\Model\Country.h" />
     <ClInclude Include="src\Model\Dental\DentalNum.h" />
     <ClInclude Include="src\Model\Dental\DentalStatistics.h" />
+    <ClInclude Include="src\Model\Dental\HisSnapshot.h" />
     <ClInclude Include="src\Model\Dental\ProcedureCode.h" />
     <ClInclude Include="src\Model\Dental\ProcedureListElement.h" />
     <ClInclude Include="src\Model\Dental\SupernumeralPrint.h" />

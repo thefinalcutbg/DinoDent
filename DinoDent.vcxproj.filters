@@ -1706,6 +1706,9 @@
     <ClInclude Include="src\Presenter\MedicalStatusPresenter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Model\Dental\HisSnapshot.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\SubWidgets\ContextMenu.h">

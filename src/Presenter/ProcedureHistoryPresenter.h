@@ -7,16 +7,20 @@
 
 class ProcedureHistoryPresenter
 {
+
 	DentalActivitiesService pis_service;
 	EDental::GetProcedures his_service;
 	EDental::GetStatus status_service;
+	EDental::GetDentalHistory dental_history_service;
 
 	std::optional<std::vector<Procedure>> pis_history;
 	std::optional<std::vector<Procedure>> his_history;
-	std::optional<ToothContainer> current_status;
+
+	std::vector<HisSnapshot> status_snapshots;
 
 	bool m_applyPis{ false };
 	bool m_applyStatus{ false };
+	int current_snapshot = -1;
 
 	//query to HIS or PIS is sent only when the tab is focused for first time
 	bool tabIdxFirstFocus[3] = { true, true, true };
@@ -30,11 +34,10 @@ class ProcedureHistoryPresenter
 public:
 
 	struct Result {
-		std::optional<std::vector<Procedure>>& pis_history;
-		std::optional<std::vector<Procedure>>& his_history;
-		std::optional<ToothContainer>& current_status;
+		std::optional<std::vector<Procedure>> pis_history;
+		std::optional<std::vector<Procedure>> his_history;
+		std::optional<ToothContainer> statusToBeApplied;
 		bool applyPis{ false };
-		bool applyCurrentStatus{ false };
 	};
 
 	ProcedureHistoryPresenter(const Patient& p);
@@ -47,6 +50,8 @@ public:
 	void pisApplyClicked();
 	void statusApplyClicked();
 	void tabFocused(int idx);
+	void sliderPositionChanged(int position);
+	
 
 	ProcedureHistoryPresenter::Result result();
 };

@@ -66,6 +66,8 @@ BrowserDialog::BrowserDialog()
 				presenter.deleteCurrentSelection();
 		});
 
+	ui.nameSearchEdit->setFocus();
+
 	presenter.setView(this);
 
 	//ui.dataTypeCombo->setCurrentIndex(2);

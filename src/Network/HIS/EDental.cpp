@@ -465,7 +465,7 @@ bool EDental::GetStatusAndProcedures::sendRequest(const Patient& patient,bool sh
 }
 
 
-bool EDental::GetDentalHistory::sendRequest(const Patient& patient, bool showDialogs, decltype(m_callback) callback)
+bool EDental::GetDentalHistory::sendRequest(const Patient& patient, decltype(m_callback) callback)
 {
 	m_callback = callback;
 
@@ -499,21 +499,7 @@ void EDental::GetDentalHistory::parseReply(const std::string& reply)
 
 	doc.Parse(reply.data(), 0, TIXML_ENCODING_UTF8);
 
-	TiXmlHandle docHandle(&doc);
+	m_callback(HISHistoryAlgorithms::getDentalHistory(doc));
 
-	std::vector<std::tuple<Date, ToothContainer>> snapshots;
-
-	auto dentalProcedure = docHandle.FirstChild("nhis:message").FirstChild("nhis:contents").FirstChild("nhis:dentalProcedure").ToElement();
-
-	while (dentalProcedure)
-	{
-		if (dentalProcedure->FirstChildElement("nhis:status")->FirstAttribute()->IntValue() == 7) continue;
-
-		Date date = dentalProcedure->FirstChildElement("nhis:datePerformed")->FirstAttribute()->ValueStr();
-
-
-
-
-		dentalProcedure = dentalProcedure->NextSiblingElement("nhis:dentalProcedure");
-	}
+	m_callback = nullptr;
 }

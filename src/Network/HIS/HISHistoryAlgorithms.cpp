@@ -247,7 +247,7 @@ ToothContainer HISHistoryAlgorithms::getToothStatus(TiXmlDocument& doc)
 	return teeth;
 }
 
-std::vector<std::pair<Date, ToothContainer>> HISHistoryAlgorithms::getDentalHistory(TiXmlDocument& doc)
+std::vector<HisSnapshot> HISHistoryAlgorithms::getDentalHistory(TiXmlDocument& doc)
 {
 	TiXmlHandle docHandle(&doc);
 
@@ -256,6 +256,12 @@ std::vector<std::pair<Date, ToothContainer>> HISHistoryAlgorithms::getDentalHist
 	struct DataToParse
 	{
 		Date date;
+		std::string procedureName;
+		std::string diagnosis {"Няма"};
+		std::string note;
+		FinancingSource financing{ 4 };
+
+		std::vector<int> affectedTeeth;
 		Ranges ranges;
 		std::unordered_map<ToothIndex, std::vector<std::string>> statuses;
 	};
@@ -275,28 +281,62 @@ std::vector<std::pair<Date, ToothContainer>> HISHistoryAlgorithms::getDentalHist
 		if (dentalProcedure->FirstChildElement("nhis:status")->FirstAttribute()->IntValue() == 7) continue;
 
 		//continue if there are no teeth in the procedure
-		if (dentalProcedure->FirstChildElement("nhis:tooth")) continue;
+		if (!dentalProcedure->FirstChildElement("nhis:tooth")) continue;
 
 		//getting the date
 		Date date = dentalProcedure->FirstChildElement("nhis:datePerformed")->FirstAttribute()->ValueStr();
+
+		tempData.emplace_back();
+		tempData.back().affectedTeeth.reserve(32);
+
+		auto& data = tempData.back();
+
+		data.affectedTeeth.reserve(32);
+		data.statuses.reserve(32);
+
+		if (tempData.size() > 1)
+		{
+			auto& prev = tempData[tempData.size() - 2];
+
+			data.statuses = prev.statuses;
+			data.ranges = prev.ranges;
+		}
 		
-		if (tempData.empty()) //creating the first snapshot
+		data.date = date;
+		data.procedureName = dentalProcedure->FirstChildElement("nhis:code")->FirstAttribute()->ValueStr();
+		data.procedureName = ProcedureCode(data.procedureName).name();
+		data.financing = static_cast<FinancingSource>(dentalProcedure->FirstChildElement("nhis:financingSource")->FirstAttribute()->IntValue());
+
+		auto diagElement = dentalProcedure->FirstChildElement("nhis:diagnosis");
+
+		if (diagElement) {
+
+			Diagnosis d(diagElement->FirstChildElement("nhis:code")->FirstAttribute()->IntValue());
+			
+			auto noteElement = diagElement->FirstChildElement("nhis:note");
+
+			if (noteElement) {
+				d.description = noteElement->FirstAttribute()->ValueStr();
+			}
+
+			data.diagnosis = d.getFullDiagnosis();
+		}
+		else
 		{
-			tempData.emplace_back();
-			tempData[0].date = date;
+			data.diagnosis = "Неизвестна";
 		}
 
-		if (tempData.back().date != date) //creating new snapshot
-		{
-			tempData.push_back(tempData.back());
-			tempData.back().date = date;
-		}
+		auto noteElement = dentalProcedure->FirstChildElement("nhis:note");
 
+		if (noteElement) {
+			data.note = noteElement->FirstAttribute()->ValueStr();
+		}
+		
 		//iterating teeth
 		for (
 			auto toothXml = dentalProcedure->FirstChildElement("nhis:tooth");
 			toothXml != nullptr;
-			toothXml = toothXml->NextSiblingElement("nhis:tooth");
+			toothXml = toothXml->NextSiblingElement("nhis:tooth")
 		)
 		{
 			//getting the tooth index
@@ -304,6 +344,8 @@ std::vector<std::pair<Date, ToothContainer>> HISHistoryAlgorithms::getDentalHist
 				toothXml->FirstChildElement("nhis:toothIndex")->FirstAttribute()->ValueStr(),
 				toothXml->FirstChildElement("nhis:supernumeralIndex")
 			);
+
+			data.affectedTeeth.push_back(toothIndex.index);
 
 			//getting conditions
 			std::vector<std::string> conditions;
@@ -317,6 +359,23 @@ std::vector<std::pair<Date, ToothContainer>> HISHistoryAlgorithms::getDentalHist
 				conditions.push_back(condition->FirstChildElement("nhis:code")->FirstAttribute()->ValueStr());
 			}
 
+			//skipping supernumerals without "D" status
+			if (toothIndex.supernumeral) {
+
+				bool dsnStatusFound = false;
+
+				for (auto& condition : conditions) {
+					
+					if (condition == "D") {
+						dsnStatusFound = true;
+						break;
+					}
+					
+				}
+
+				if (!dsnStatusFound) continue;
+			}
+
 			tempData.back().statuses[toothIndex] = conditions;
 			
 			
@@ -325,13 +384,22 @@ std::vector<std::pair<Date, ToothContainer>> HISHistoryAlgorithms::getDentalHist
 	}
 
 	//DESERIALIZING:
-	std::vector<std::pair<Date, ToothContainer>> result;
+	std::vector<HisSnapshot> result;
 
 	for (auto& data : tempData)
 	{
-		result.push_back(std::make_pair(data.date, ToothContainer()));
+		result.emplace_back();
 
-		auto& teeth = result.back().second;
+		auto& snapshot = result.back();
+
+		snapshot.date = data.date;
+		snapshot.affected_teeth = data.affectedTeeth;
+		snapshot.procedure_name = data.procedureName;
+		snapshot.procedure_diagnosis = data.diagnosis;
+		snapshot.procedure_note = data.note;
+		snapshot.financing = data.financing;
+
+		auto& teeth = result.back().teeth;
 		auto& ranges = data.ranges;
 
 		for (auto const& [index, conditions] : data.statuses)
@@ -355,9 +423,6 @@ std::vector<std::pair<Date, ToothContainer>> HISHistoryAlgorithms::getDentalHist
 		for (auto idx : ranges.pontics) if (teeth[idx].canHaveACrown()) teeth[idx].setStatus(StatusCode::Extraction, true);
 
 	}
-
-	//ensuring there is at least one entity
-	if (result.empty()) result.push_back(std::make_pair(Date::currentDate(), ToothContainer()));
 
 	return result;
 }

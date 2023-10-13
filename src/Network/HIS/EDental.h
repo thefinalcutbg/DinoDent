@@ -3,6 +3,7 @@
 #include "HisService.h"
 #include <functional>
 #include "Model/Dental/AmbList.h"
+#include "Model/Dental/HisSnapshot.h"
 
 namespace EDental {
 
@@ -113,7 +114,7 @@ namespace EDental {
 
 	class GetDentalHistory : private HisService
 	{
-		std::function<void(const std::vector<std::pair<Date, ToothContainer>>& snapshots)> m_callback;
+		std::function<void(const std::vector<HisSnapshot>& snapshots)> m_callback;
 
 		void parseReply(const std::string& reply) override;
 
@@ -121,7 +122,7 @@ namespace EDental {
 		GetDentalHistory() :
 			HisService("D009", "/v1/edental/status/get") {}
 
-		bool sendRequest(const Patient& patient, bool showDialogs, decltype(m_callback) callback);
+		bool sendRequest(const Patient& patient, decltype(m_callback) callback);
 
 		bool awaitingReply() { return awaiting_reply; }
 	};

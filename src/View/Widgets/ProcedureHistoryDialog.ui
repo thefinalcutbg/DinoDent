@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>984</width>
-    <height>563</height>
+    <width>815</width>
+    <height>724</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -98,15 +98,18 @@
       <attribute name="title">
        <string>Актуален дентален статус</string>
       </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_4">
+      <layout class="QVBoxLayout" name="verticalLayout_5">
+       <property name="spacing">
+        <number>6</number>
+       </property>
        <property name="leftMargin">
-        <number>0</number>
+        <number>9</number>
        </property>
        <property name="topMargin">
-        <number>0</number>
+        <number>9</number>
        </property>
        <property name="rightMargin">
-        <number>0</number>
+        <number>9</number>
        </property>
        <property name="bottomMargin">
         <number>9</number>
@@ -114,31 +117,118 @@
        <item>
         <widget class="QFrame" name="frame">
          <property name="frameShape">
-          <enum>QFrame::StyledPanel</enum>
+          <enum>QFrame::Box</enum>
          </property>
          <property name="frameShadow">
           <enum>QFrame::Raised</enum>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout_5">
-          <property name="spacing">
-           <number>0</number>
-          </property>
-          <property name="leftMargin">
-           <number>0</number>
-          </property>
-          <property name="topMargin">
-           <number>0</number>
-          </property>
-          <property name="rightMargin">
-           <number>0</number>
-          </property>
-          <property name="bottomMargin">
-           <number>0</number>
-          </property>
+         <layout class="QVBoxLayout" name="verticalLayout_4">
           <item>
            <widget class="GraphicsView" name="graphicsView">
+            <property name="minimumSize">
+             <size>
+              <width>751</width>
+              <height>481</height>
+             </size>
+            </property>
             <property name="frameShape">
              <enum>QFrame::NoFrame</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="sliderLayout">
+            <item>
+             <widget class="QPushButton" name="prevButton">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>25</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>&lt;</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSlider" name="statusSlider">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="maximum">
+               <number>0</number>
+              </property>
+              <property name="pageStep">
+               <number>1</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="tickPosition">
+               <enum>QSlider::TicksBelow</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="nextButton">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>25</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>&gt;</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QLabel" name="dateLabel">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="procedureLabel">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="diagnosisLabel">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="financingLabel">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="notesLabel">
+            <property name="text">
+             <string/>
             </property>
            </widget>
           </item>

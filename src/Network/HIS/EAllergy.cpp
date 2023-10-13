@@ -99,8 +99,14 @@ void EAllergy::Edit::parseReply(const std::string& reply)
 
 	auto nrn = docHandle.FirstChild("nhis:message").FirstChild("nhis:contents").FirstChild("nhis:nrnAllergy");
 
-	m_callback(nrn.ToElement() != nullptr);
-
+	if (nrn.ToElement())
+	{
+		m_callback(nrn.ToElement()->FirstAttribute()->ValueStr());
+	}
+	else {
+		m_callback("");
+	}
+	
 	m_callback = nullptr;
 }
 

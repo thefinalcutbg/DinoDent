@@ -279,27 +279,21 @@ std::vector<HisSnapshot> HISHistoryAlgorithms::getDentalHistory(TiXmlDocument& d
 		dentalProcedure = dentalProcedure->NextSiblingElement("nhis:dentalProcedure")	
 	)
 	{
+
+
 		//continue, if it is entered in error
 		if (dentalProcedure->FirstChildElement("nhis:status")->FirstAttribute()->IntValue() == 7) continue;
 
 		//continue if there are no teeth in the procedure
 		if (!dentalProcedure->FirstChildElement("nhis:tooth")) continue;
 
+		DataToParse data;
+
 		//getting the date
 		Date date = dentalProcedure->FirstChildElement("nhis:datePerformed")->FirstAttribute()->ValueStr();
 
-		tempData.emplace_back();
-
-		auto& data = tempData.back();
-
 		data.statuses.reserve(32);
 		data.affectedTeeth.reserve(32);
-
-		if (tempData.size() > 1)
-		{
-			auto& prev = tempData[tempData.size() - 2];
-			data.statuses = prev.statuses;
-		}
 
 		data.date = date;
 		data.procedureName = dentalProcedure->FirstChildElement("nhis:code")->FirstAttribute()->ValueStr();
@@ -362,10 +356,27 @@ std::vector<HisSnapshot> HISHistoryAlgorithms::getDentalHistory(TiXmlDocument& d
 			
 			
 		}
+
+
+		//determening point of insertion and inserting
+		auto it = std::upper_bound(tempData.begin(), tempData.end(), data, 
+			[](const DataToParse& lhs, const DataToParse& rhs){ return lhs.date < rhs.date; });
+
+		tempData.insert(it, data);
 		
 	}
-	//nhis returns procedures by insert date
-	std::sort(tempData.begin(), tempData.end(), [](const DataToParse& a, const DataToParse& b) { return a.date < b.date; });
+	
+	//copying previous statuses
+	if (tempData.size() > 1) {
+
+		for (int i = 1; i < tempData.size(); i++)
+			for (auto& pair : tempData[i-1].statuses)
+			{
+				if (tempData[i].statuses.count(pair.first)) continue;
+
+				tempData[i].statuses[pair.first] = pair.second;
+			}
+	}
 
 	//DESERIALIZING:
 	std::vector<HisSnapshot> result;

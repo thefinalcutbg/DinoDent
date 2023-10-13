@@ -159,11 +159,17 @@ void MedicalStatusPresenter::sendAllergyToHis(int idx)
 	else
 	{
 		edit_service.sendRequest(patient.allergies[idx],
-			[=](bool success)
+			[=](const std::string& nrn)
 			{
-				if (!success) return;
+				for (auto& a : patient.allergies) {
+					
+					if (a.nrn == nrn) {
+						a.edited = false;
+					}
+				}
 
-				loadAllergiesFromHis();
+				DbPatient::updateAllergies(patient.rowid, patient.allergies);
+				view->setAllergies(patient.allergies);
 			}
 		);
 

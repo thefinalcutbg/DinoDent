@@ -23,7 +23,7 @@ namespace EAllergy
 
 	class Edit : private HisService
 	{
-		std::function<void(bool success)> m_callback;
+		std::function<void(const std::string& nrn)> m_callback;
 
 	protected:
 		void parseReply(const std::string& reply) override;

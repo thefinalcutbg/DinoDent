@@ -36,6 +36,7 @@ public:
 	void checkStateChanged(bool checked);
 	void stateChanged();
 	void statusSelected(int category, int code, bool on_supernumeral);
+	void tableOptionChanged(bool local, bool his, bool pis);
 	const std::string& getNote() const { return m_notes; }
 
 	void okPressed();

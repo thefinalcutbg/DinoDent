@@ -578,7 +578,7 @@ std::vector<Procedure> ListPresenter::getToothHistory(int toothIdx)
 
     std::sort(result.begin(), result.end(), [](const Procedure& a, const Procedure& b) -> bool
         {
-            return a.date > b.date;
+            return a.date < b.date;
         }
     );
 

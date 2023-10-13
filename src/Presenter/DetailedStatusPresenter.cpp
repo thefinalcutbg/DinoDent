@@ -53,6 +53,27 @@ void DetailedStatusPresenter::statusSelected(int category, int code, bool on_sup
 	m_category = static_cast<StatusType>(category);
 }
 
+void DetailedStatusPresenter::tableOptionChanged(bool local, bool his, bool pis)
+{
+	std::vector<Procedure> toDisplay;
+
+	toDisplay.reserve(m_procedures.size());
+
+	for (auto& p : m_procedures) {
+
+		switch (p.db_source)
+		{
+			case Procedure::DatabaseSource::Local: if (!local) continue; break;
+			case Procedure::DatabaseSource::HIS: if (!his) continue; break;
+			case Procedure::DatabaseSource::PIS: if (!pis) continue; break;
+		}
+
+		toDisplay.push_back(p);
+	}
+
+	view->setHistoryData(toDisplay);
+}
+
 void DetailedStatusPresenter::okPressed()
 {
 	stateChanged();

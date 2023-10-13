@@ -8,6 +8,7 @@
 #include "View/Graphics/ToothPainter.h"
 #include "Presenter/DetailedStatusPresenter.h"
 #include "Model/Dental/Enums.h"
+
 /*
 void DetailedStatus::paintEvent(QPaintEvent* event)
 {
@@ -27,6 +28,13 @@ DetailedStatus::DetailedStatus(DetailedStatusPresenter* presenter) : presenter(p
 	setWindowFlags(Qt::Window);
 	setWindowTitle("Детайли");
 
+	ui.localCheck->setIcon(QIcon(":/icons/icon_db.png"));
+	ui.pisCheck->setIcon(QIcon(":/icons/icon_nhif.png"));
+	ui.hisCheck->setIcon(QIcon(":/icons/icon_his.png"));
+
+	connect(ui.localCheck, &QCheckBox::stateChanged, [=]{ sendTableStatesToPresenter(); });
+	connect(ui.hisCheck, &QCheckBox::stateChanged, [=] { sendTableStatesToPresenter(); });
+	connect(ui.pisCheck, &QCheckBox::stateChanged, [=] { sendTableStatesToPresenter(); });
 
 	ui.toothLabel->setStyleSheet("border: 1px solid lightgray");
 	ui.dsnLabel->setStyleSheet("border: 1px solid lightgray");
@@ -163,7 +171,6 @@ DetailedStatus::DetailedStatus(DetailedStatusPresenter* presenter) : presenter(p
 
 		
 		});
-
 
 	connect(ui.okButton, &QPushButton::clicked, this, [=] {presenter->okPressed(); close(); });
 	connect(ui.cancelButton, &QPushButton::clicked, this, [=] { close(); });
@@ -303,7 +310,7 @@ void DetailedStatus::setHistoryData(const std::vector<Procedure>& history)
 
 	ui.tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
 	
-	ui.tableView->verticalHeader()->setDefaultSectionSize(50);
+	ui.tableView->verticalHeader()->setDefaultSectionSize(25);
 	ui.tableView->setSelectionMode(QAbstractItemView::SingleSelection);
 	ui.tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
 
@@ -320,6 +327,15 @@ void DetailedStatus::setHistoryData(const std::vector<Procedure>& history)
 	ui.tableView->horizontalHeader()->setSectionResizeMode(8, QHeaderView::Stretch);
 	ui.tableView->setShowGrid(false);
 	
+}
+
+void DetailedStatus::sendTableStatesToPresenter()
+{
+	presenter->tableOptionChanged(
+		ui.localCheck->isChecked(),
+		ui.hisCheck->isChecked(),
+		ui.pisCheck->isChecked()
+	);
 }
 
 DetailedStatus::~DetailedStatus()

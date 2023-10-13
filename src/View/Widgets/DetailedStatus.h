@@ -25,6 +25,8 @@ class DetailedStatus final: public QDialog, public IDetailedStatusView
 
 	ProcedureTableModel m_historyModel;
 
+	void sendTableStatesToPresenter();
+
 	//void paintEvent(QPaintEvent* event) override;
 
 public:

@@ -17,7 +17,9 @@ public:
 	Tooth(int index);
 	Tooth(const Tooth& other);
 	Tooth& operator=(const Tooth& t);
-	//call if the tooth can have supernumeral twin
+
+	//keeps the LPK metadata
+	void copyFromHIS(const Tooth& other);
 
 	std::array<bool, statusCount> getBoolStatus() const;
 	void addStatus(int statusCode);

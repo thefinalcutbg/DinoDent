@@ -79,7 +79,7 @@ std::vector<const Tooth*> ToothContainer::getSelectedDsnPtr(std::vector<int> sel
 	return selectedPtr;
 }
 
-void ToothContainer::copyFromOther(const ToothContainer& other)
+void ToothContainer::copyFromHis(const ToothContainer& other)
 {
 
 	std::optional<BridgePos> position;
@@ -96,7 +96,7 @@ void ToothContainer::copyFromOther(const ToothContainer& other)
 			position.reset();
 		}
 
-		teeth[i] = other[i];
+		teeth[i].copyFromHIS(other[i]);
 
 		if (position) {
 			teeth[i].bridge.position = position.value();

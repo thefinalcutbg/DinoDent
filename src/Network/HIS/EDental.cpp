@@ -347,7 +347,6 @@ bool EDental::GetStatus::sendRequest(const Patient& patient, std::function<void(
 	return HisService::sendRequestToHis(contents);
 }
 
-//using this implementation, until NHIS fix the bug in their API
 void EDental::GetStatus::parseReply(const std::string& reply)
 {
 	if (reply.empty()) {
@@ -367,7 +366,11 @@ void EDental::GetStatus::parseReply(const std::string& reply)
 
 	doc.Parse(reply.data(), 0, TIXML_ENCODING_UTF8);
 
-	m_callback(HISHistoryAlgorithms::getToothStatus(doc));
+	auto status_result = HISHistoryAlgorithms::getDentalHistory(doc);
+
+	if (status_result.empty()) status_result.emplace_back();
+
+	m_callback(status_result.back().teeth);
 
 	m_callback = nullptr;
 	
@@ -411,7 +414,7 @@ bool EDental::GetProcedures::sendRequest(const Patient& patient, bool showDialog
 	std::string contents =
 		bind("identifierType", patient.type) +
 		bind("identifier", patient.id) +
-		bind("fromDate", "2023-05-01") +
+		bind("fromDate", "2008-01-01") +
 		bind("toDate", Date::currentDate().to8601()) +
 		bind("practiceNumber", User::practice().rziCode)
 		;
@@ -442,7 +445,11 @@ void EDental::GetStatusAndProcedures::parseReply(const std::string& reply)
 
 	doc.Parse(reply.data(), 0, TIXML_ENCODING_UTF8);
 
-	m_callback(HISHistoryAlgorithms::getProcedures(doc), HISHistoryAlgorithms::getToothStatus(doc));
+	auto status_result = HISHistoryAlgorithms::getDentalHistory(doc);
+
+	if (status_result.empty()) status_result.emplace_back();
+
+	m_callback(HISHistoryAlgorithms::getProcedures(doc), status_result.back().teeth);
 
 	m_callback = nullptr;
 }
@@ -456,7 +463,7 @@ bool EDental::GetStatusAndProcedures::sendRequest(const Patient& patient,bool sh
 	std::string contents =
 		bind("identifierType", patient.type) +
 		bind("identifier", patient.id) +
-		bind("fromDate", "2023-05-01") +
+		bind("fromDate", "2008-01-01") +
 		bind("toDate", Date::currentDate().to8601()) +
 		bind("practiceNumber", User::practice().rziCode)
 		;

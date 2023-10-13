@@ -94,6 +94,8 @@ std::vector<Procedure> HISHistoryAlgorithms::getProcedures(TiXmlDocument& doc)
 		teethIndexes.clear();
 	}
 	
+	std::sort(procedures.begin(), procedures.end(), [](const Procedure& a, const Procedure& b) { return a.date > b.date; });
+
 	return procedures;
 }
 
@@ -287,21 +289,18 @@ std::vector<HisSnapshot> HISHistoryAlgorithms::getDentalHistory(TiXmlDocument& d
 		Date date = dentalProcedure->FirstChildElement("nhis:datePerformed")->FirstAttribute()->ValueStr();
 
 		tempData.emplace_back();
-		tempData.back().affectedTeeth.reserve(32);
 
 		auto& data = tempData.back();
 
-		data.affectedTeeth.reserve(32);
 		data.statuses.reserve(32);
+		data.affectedTeeth.reserve(32);
 
 		if (tempData.size() > 1)
 		{
 			auto& prev = tempData[tempData.size() - 2];
-
 			data.statuses = prev.statuses;
-			data.ranges = prev.ranges;
 		}
-		
+
 		data.date = date;
 		data.procedureName = dentalProcedure->FirstChildElement("nhis:code")->FirstAttribute()->ValueStr();
 		data.procedureName = ProcedureCode(data.procedureName).name();
@@ -359,29 +358,14 @@ std::vector<HisSnapshot> HISHistoryAlgorithms::getDentalHistory(TiXmlDocument& d
 				conditions.push_back(condition->FirstChildElement("nhis:code")->FirstAttribute()->ValueStr());
 			}
 
-			//skipping supernumerals without "D" status
-			if (toothIndex.supernumeral) {
-
-				bool dsnStatusFound = false;
-
-				for (auto& condition : conditions) {
-					
-					if (condition == "D") {
-						dsnStatusFound = true;
-						break;
-					}
-					
-				}
-
-				if (!dsnStatusFound) continue;
-			}
-
-			tempData.back().statuses[toothIndex] = conditions;
+			data.statuses[toothIndex] = conditions;
 			
 			
 		}
 		
 	}
+	//nhis returns procedures by insert date
+	std::sort(tempData.begin(), tempData.end(), [](const DataToParse& a, const DataToParse& b) { return a.date < b.date; });
 
 	//DESERIALIZING:
 	std::vector<HisSnapshot> result;
@@ -402,13 +386,13 @@ std::vector<HisSnapshot> HISHistoryAlgorithms::getDentalHistory(TiXmlDocument& d
 		auto& teeth = result.back().teeth;
 		auto& ranges = data.ranges;
 
-		for (auto const& [index, conditions] : data.statuses)
+		for (auto &[toothIdx, conditions] : data.statuses)
 		{
-			teeth[index.index].dsn.set(index.supernumeral);
+			teeth[toothIdx.index].dsn.set(toothIdx.supernumeral);
 
-			auto& tooth = index.supernumeral? teeth[index.index].dsn.tooth() : teeth[index.index];
+			auto& tooth = toothIdx.supernumeral? teeth[toothIdx.index].dsn.tooth() : teeth[toothIdx.index];
 
-			tooth.temporary.set(index.temp);
+			tooth.temporary.set(toothIdx.temp);
 
 			for (auto& code : conditions)
 			{

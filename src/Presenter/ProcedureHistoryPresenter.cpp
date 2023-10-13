@@ -50,7 +50,7 @@ bool ProcedureHistoryPresenter::refreshHIS()
 		}
 	);
 }
-
+#include <qdebug.h>
 bool ProcedureHistoryPresenter::refreshStatus()
 {
 	return dental_history_service.sendRequest(ref_patient,
@@ -64,8 +64,14 @@ bool ProcedureHistoryPresenter::refreshStatus()
 			}
 
 			status_snapshots = snapshots;
+
 			view->setSliderCount(snapshots.size()-1);
 			view->setSliderIndex(snapshots.size()-1);
+
+			//sliderPositionChanged signal from view is not emited
+			if (snapshots.size() == 1) {
+				view->setSnapshot(snapshots.back());
+			}
 		}
 	);
 }
@@ -80,7 +86,7 @@ void ProcedureHistoryPresenter::setView(IProcedureHistoryDialog* v)
 
 	if (his_history) view->setHis(his_history.value());
 
-	view->focusTab(User::hasNhifContract() ? 0 : 1);
+	view->focusTab(User::hasNhifContract() ? 0 : 2);
 	
 }
 

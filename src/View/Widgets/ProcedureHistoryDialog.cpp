@@ -7,6 +7,8 @@ ProcedureHistoryDialog::ProcedureHistoryDialog(ProcedureHistoryPresenter& p)
 {
     ui.setupUi(this);
 
+    ui.tabWidget->setCurrentIndex(1);
+
     setWindowTitle("Онлайн пациентско досие");
 
     ui.graphicsView->setDisabled(true);

@@ -109,7 +109,7 @@ src\DbUpdates\DbUpdates.cpp
 src\DbUpdates\DbUpdates.h
 src\DbUpdates\Update10.cpp
 src\DbUpdates\Update11.cpp
-src\DbUpdates\Update12_15.cpp
+src\DbUpdates\Update12_16.cpp
 src\DbUpdates\Update5.cpp
 src\DbUpdates\Update6.cpp
 src\DbUpdates\Update7.cpp
@@ -117,6 +117,8 @@ src\DbUpdates\Update8.cpp
 src\DbUpdates\Update9.cpp
 src\DbUpdates\Updater.cpp
 src\DbUpdates\Updater.h
+src\Model\Allergy.cpp
+src\Model\Allergy.h
 src\Model\Country.cpp
 src\Model\Country.h
 src\Model\Date.cpp
@@ -156,6 +158,7 @@ src\Model\Dental\DentalStatistics.h
 src\Model\Dental\Diagnosis.cpp
 src\Model\Dental\Diagnosis.h
 src\Model\Dental\Enums.h
+src\Model\Dental\HisSnapshot.h
 src\Model\Dental\KSMP.cpp
 src\Model\Dental\KSMP.h
 src\Model\Dental\MKB.cpp
@@ -274,6 +277,8 @@ src\Network\Telemetry.cpp
 src\Network\Telemetry.h
 src\Network\XmlSigner.cpp
 src\Network\XmlSigner.h
+src\Network\HIS\EAllergy.cpp
+src\Network\HIS\EAllergy.h
 src\Network\HIS\EDental.cpp
 src\Network\HIS\EDental.h
 src\Network\HIS\EMedicalNotice.cpp
@@ -339,6 +344,8 @@ src\Presenter\LoginPresenter.cpp
 src\Presenter\LoginPresenter.h
 src\Presenter\MainPresenter.cpp
 src\Presenter\MainPresenter.h
+src\Presenter\MedicalStatusPresenter.cpp
+src\Presenter\MedicalStatusPresenter.h
 src\Presenter\MedicationPresenter.cpp
 src\Presenter\MedicationPresenter.h
 src\Presenter\MonthNotifPresenter.cpp
@@ -624,6 +631,9 @@ src\View\uiComponents\UserButton.h
 src\View\Widgets\AboutDialog.cpp
 src\View\Widgets\AboutDialog.h
 src\View\Widgets\AboutDialog.ui
+src\View\Widgets\AllergyDialog.cpp
+src\View\Widgets\AllergyDialog.h
+src\View\Widgets\AllergyDialog.ui
 src\View\Widgets\BrowserDialog.cpp
 src\View\Widgets\BrowserDialog.h
 src\View\Widgets\BrowserDialog.ui

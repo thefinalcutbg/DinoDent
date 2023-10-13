@@ -86,6 +86,38 @@ Tooth& Tooth::operator=(const Tooth& other)
 	return *this;
 }
 
+void Tooth::copyFromHIS(const Tooth& other)
+{
+	healthy.set(other.healthy);
+	temporary.set(other.temporary);
+	pulpitis.set(other.pulpitis);
+	lesion.set(other.lesion);
+	endo.set(other.endo);
+	post.set(other.post);
+	root.set(other.root);
+	fracture.set(other.fracture);
+	extraction.set(other.extraction);
+	periodontitis.set(other.periodontitis);
+	mobility.set(other.mobility);
+	crown.set(other.crown);
+	bridge.set(other.bridge);
+	splint.set(other.splint);
+	implant.set(other.implant);
+	impacted.set(other.impacted);
+	denture.set(other.denture);
+	calculus.set(other.calculus);
+
+	for (int i = 0; i < surfaceCount; i++) {
+		obturation.set(other.obturation.exists(i), i);
+		caries.set(other.caries.exists(i), i);
+	}
+
+	if (!isSupernumeral()) {
+		dsn.set(other.dsn);
+		dsn.tooth().copyFromHIS(other.dsn.tooth());
+	}
+}
+
 std::array<bool, statusCount> Tooth::getBoolStatus() const
 {
 	return std::array<bool, statusCount>

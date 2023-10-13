@@ -546,7 +546,7 @@ void ListPresenter::historyRequested()
 
     if (result.statusToBeApplied) {
 
-        m_ambList.teeth.copyFromOther(*result.statusToBeApplied);
+        m_ambList.teeth.copyFromHis(*result.statusToBeApplied);
     }
 
     for (int i = 0; i < 32; i++) {

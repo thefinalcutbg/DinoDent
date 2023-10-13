@@ -168,6 +168,7 @@ Patient DbPatient::get(long long rowid)
 
     patient.teethNotes = getPresentNotes(patient.rowid);
     patient.medStats = getMedicalStatuses(rowid, db);
+    patient.allergies = getAllergies(patient.rowid, db);
 
     return patient;
 }

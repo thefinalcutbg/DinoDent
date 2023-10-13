@@ -102,8 +102,6 @@ std::shared_ptr<Patient> TabPresenter::getPatient_ptr(const Patient& patient)
 
     auto result = std::make_shared<Patient>(patient);
 
-    result->teethNotes = DbPatient::getPresentNotes(result->rowid);
-
     return result;
 }
 

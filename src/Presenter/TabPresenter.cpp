@@ -121,7 +121,7 @@ void TabPresenter::refreshPatientTabNames(long long patientRowId)
 
 void TabPresenter::openList(const Patient& patient)
 {
-    if (newListExists(patient)) return;
+    if (newListAlreadyOpened(patient)) return;
 
     createNewTab(new ListPresenter(view, getPatient_ptr(patient)));
     
@@ -142,7 +142,7 @@ void TabPresenter::openInvoice(const std::string& monthNotif)
     try {
         auto presenter = new FinancialPresenter(view, monthNotif);
 
-        if (monthNotiAlreadyOpened(presenter->m_invoice.nhifData->fin_document_month_no)) {
+        if (monthNotifAlreadyOpened(presenter->m_invoice.nhifData->fin_document_month_no)) {
             delete presenter;
             return;
         }
@@ -186,7 +186,7 @@ void TabPresenter::open(const RowInstance& row, bool setFocus)
     switch (row.type)
     {
         case TabType::AmbList:
-            if (newListExists(patient)) return;
+            if (!row.rowID && newListAlreadyOpened(patient)) return;
             newTab = new ListPresenter(view, getPatient_ptr(patient), row.rowID);
             break;
 
@@ -232,7 +232,7 @@ bool TabPresenter::tabAlreadyOpened(const RowInstance& row)
     return false;
 }
 
-bool TabPresenter::monthNotiAlreadyOpened(int monthNotifNum)
+bool TabPresenter::monthNotifAlreadyOpened(int monthNotifNum)
 {
     for (auto& [index, tabInstance] : m_tabs)
     {
@@ -251,7 +251,7 @@ bool TabPresenter::monthNotiAlreadyOpened(int monthNotifNum)
     return false;
 }
 
-bool TabPresenter::newListExists(const Patient& patient)
+bool TabPresenter::newListAlreadyOpened(const Patient& patient)
 {
 
     for (auto& [index, tabInstance] : m_tabs)

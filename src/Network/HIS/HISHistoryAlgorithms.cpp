@@ -119,6 +119,13 @@ struct Ranges {
 
 	}
 
+	void sortRanges() 
+	{
+		std::sort(splints.begin(), splints.end());
+		std::sort(bridges.begin(), bridges.end());
+		std::sort(pontics.begin(), pontics.end());
+	}
+
 };
 
 //string to lambda map placed into it's own fn because intellisense has trouble parsing it
@@ -262,9 +269,7 @@ std::vector<HisSnapshot> HISHistoryAlgorithms::getDentalHistory(TiXmlDocument& d
 		std::string diagnosis {"Няма"};
 		std::string note;
 		FinancingSource financing{ 4 };
-
 		std::vector<int> affectedTeeth;
-		Ranges ranges;
 		std::unordered_map<ToothIndex, std::vector<std::string>> statuses;
 	};
 
@@ -370,12 +375,15 @@ std::vector<HisSnapshot> HISHistoryAlgorithms::getDentalHistory(TiXmlDocument& d
 	if (tempData.size() > 1) {
 
 		for (int i = 1; i < tempData.size(); i++)
-			for (auto& pair : tempData[i-1].statuses)
+		{
+			for (auto& pair : tempData[i - 1].statuses)
 			{
+
 				if (tempData[i].statuses.count(pair.first)) continue;
 
 				tempData[i].statuses[pair.first] = pair.second;
 			}
+		}
 	}
 
 	//DESERIALIZING:
@@ -396,8 +404,9 @@ std::vector<HisSnapshot> HISHistoryAlgorithms::getDentalHistory(TiXmlDocument& d
 		snapshot.procedure_note = data.note;
 		snapshot.financing = data.financing;
 
-		auto& teeth = result.back().teeth;
-		auto& ranges = data.ranges;
+		auto& teeth = snapshot.teeth;
+		
+		Ranges ranges;
 
 		for (auto &[toothIdx, conditions] : data.statuses)
 		{
@@ -407,11 +416,17 @@ std::vector<HisSnapshot> HISHistoryAlgorithms::getDentalHistory(TiXmlDocument& d
 
 			tooth.temporary.set(toothIdx.temp);
 
+			QString str;
+
 			for (auto& code : conditions)
 			{
+				str += code.c_str();
+				str += " ";
 				deserializeStatusCode(tooth, ranges, code);
 			}
 		}
+
+		ranges.sortRanges();
 
 		teeth.setStatus(ranges.splints, StatusType::general, StatusCode::FiberSplint, true);
 		teeth.setStatus(ranges.bridges, StatusType::general, StatusCode::Bridge, true);

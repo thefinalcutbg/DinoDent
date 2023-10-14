@@ -416,12 +416,8 @@ std::vector<HisSnapshot> HISHistoryAlgorithms::getDentalHistory(TiXmlDocument& d
 
 			tooth.temporary.set(toothIdx.temp);
 
-			QString str;
-
 			for (auto& code : conditions)
 			{
-				str += code.c_str();
-				str += " ";
 				deserializeStatusCode(tooth, ranges, code);
 			}
 		}

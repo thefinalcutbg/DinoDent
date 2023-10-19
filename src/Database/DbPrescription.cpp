@@ -12,8 +12,8 @@ long long DbPrescription::insert(const Prescription& p)
 
         "INSERT INTO prescription ("
         "patient_rowid, lrn, nrn, date, dispensation, "
-        "repeats, supplements, lpk, rzi) "
-        "VALUES (?,?,?,?,?,?,?,?,?)"
+        "repeats, supplements, lpk, rzi, is_pregnant, is_breastfeeding) "
+        "VALUES (?,?,?,?,?,?,?,?,?,?,?)"
     );
 
     db.bind(1, p.patient_rowid);
@@ -25,6 +25,8 @@ long long DbPrescription::insert(const Prescription& p)
     db.bind(7, p.supplements);
     db.bind(8, User::doctor().LPK);
     db.bind(9, User::practice().rziCode);
+    db.bind(10, p.isPregnant);
+    db.bind(11, p.isBreastFeeding);
 
     bool success = db.execute();
 
@@ -86,6 +88,8 @@ Prescription DbPrescription::get(long long rowid)
         "prescription.dispensation,"
         "prescription.repeats,"
         "prescription.supplements,"
+        "prescription.is_pregnant,"
+        "prescription.is_breastfeeding,"
         "medication.numMed_rowid,"
         "medication.is_form,"
         "medication.quantity,"
@@ -118,26 +122,28 @@ Prescription DbPrescription::get(long long rowid)
              p.dispensation.type = static_cast<Dispensation::Type>(db.asInt(5));
              p.dispensation.repeats = db.asInt(6);
              p.supplements = db.asString(7);
+             p.isPregnant = db.asBool(8);
+             p.isBreastFeeding = db.asBool(9);
 
              prescriptionSet = true;
          }
          
-         p.medicationGroup.emplace_back(db.asInt(8));
+         p.medicationGroup.emplace_back(db.asInt(10));
 
          auto& m = p.medicationGroup.back();
-         m.byForm = db.asBool(9);
-         m.quantity = db.asInt(10);
-         m.priority = static_cast<Medication::Priority>(db.asInt(11));
-         m.substitution = db.asBool(12);
-         m.note = db.asString(13);
-         m.dosage = Parser::parseDosage(db.asString(14));
+         m.byForm = db.asBool(11);
+         m.quantity = db.asInt(12);
+         m.priority = static_cast<Medication::Priority>(db.asInt(13));
+         m.substitution = db.asBool(14);
+         m.note = db.asString(15);
+         m.dosage = Parser::parseDosage(db.asString(16));
          
-         std::string fromDate = db.asString(15);
+         std::string fromDate = db.asString(17);
          if (fromDate.size())
          {
              m.dosePeriod = DosePeriod{
                  .from = fromDate,
-                 .to = db.asString(16),
+                 .to = db.asString(18),
              };
          }
      }
@@ -147,19 +153,28 @@ Prescription DbPrescription::get(long long rowid)
 
 bool DbPrescription::update(const Prescription& p)
 {
-    Db db;
-
-    bool success = db.execute(
-
+    Db db(
         "UPDATE prescription SET "
-        "nrn='" + p.NRN + "',"
-        "date='" + p.date.to8601() + "',"
-        "dispensation=" + std::to_string(p.dispensation.type) + "," +
-        "repeats=" + std::to_string(p.dispensation.repeats) + ","
-        "supplements='" + p.supplements + "'"
-
-        "WHERE prescription.rowid=" + std::to_string(p.rowid)
+        "nrn=?,"
+        "date=?,"
+        "dispensation=?,"
+        "repeats=?,"
+        "supplements=?,"
+        "is_pregnant=?,"
+        "is_breastfeeding=? "
+        "WHERE prescription.rowid=?"
     );
+
+    db.bind(1, p.NRN);
+    db.bind(2, p.date.to8601());
+    db.bind(3, p.dispensation.type);
+    db.bind(4, p.dispensation.repeats);
+    db.bind(5, p.supplements);
+    db.bind(6, p.isPregnant);
+    db.bind(7, p.isBreastFeeding);
+    db.bind(8, p.rowid);
+
+    bool success = db.execute();
 
     if (!success) return false;
 

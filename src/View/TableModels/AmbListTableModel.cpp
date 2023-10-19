@@ -120,16 +120,16 @@ QVariant AmbListTableModel::data(const QModelIndex& index, int role) const
     case Qt::DisplayRole:
         switch (column)
         {
-        case 0: return index.row();
-        case 1: return rows[row].date;
-        case 2: return rows[row].ambNumber;
-        case 3: return rows[row].patientID;
-        case 4: return rows[row].patientName;
-        case 5: return rows[row].patientPhone;
-        default: return QVariant();
+            case 0: return index.row();
+            case 1: return rows[row].date;
+            case 2: return rows[row].ambNumber;
+            case 3: return rows[row].patientID;
+            case 4: return rows[row].patientName;
+            case 5: return rows[row].patientPhone;
+            default: return QVariant();
         }
     case Qt::TextAlignmentRole:
-        if (column == 4 || column == 5 || column == 2) return int(Qt::AlignLeft | Qt::AlignVCenter);
+        if (column == 4 || column == 5) return int(Qt::AlignLeft | Qt::AlignVCenter);
         else if (column == 1) return int(Qt::AlignRight);
         else return int(Qt::AlignVCenter | Qt::AlignHCenter);
     }

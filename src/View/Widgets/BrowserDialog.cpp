@@ -11,6 +11,20 @@ BrowserDialog::BrowserDialog()
 {
 	ui.setupUi(this);
 
+	ui.tabBar->addTab(QIcon(":/icons/icon_user.png"), "Пациенти");
+	ui.tabBar->addTab(QIcon(":/icons/icon_sheet.png"), "Амбулаторни листи");
+	ui.tabBar->addTab(QIcon(":/icons/icon_prescr.png"), "Рецепти");
+	ui.tabBar->addTab(QIcon(":/icons/icon_periosheet.png"), "Пародонтални измервания");
+	ui.tabBar->addTab(QIcon(":/icons/icon_invoice.png"), "Финансови документи");
+
+	ui.tabBar->setExpanding(false);
+	ui.tabBar->setElideMode(Qt::TextElideMode::ElideNone);
+
+	ui.frame->setStyleSheet("QFrame#frame{"
+		"background-color: rgb(249,249,249);"
+	"}");
+
+
 	setWindowFlags(Qt::Window);
 	setWindowTitle("Документи");
 	setWindowIcon(QIcon(":/icons/icon_open.png"));
@@ -30,7 +44,7 @@ BrowserDialog::BrowserDialog()
 		
 		});
 
-	connect(ui.dataTypeCombo, QtComboIndexChanged, 
+	connect(ui.tabBar, &QTabBar::currentChanged, 
 		[&](int idx) {presenter.setListType(static_cast<TabType>(idx)); });
 
 	connect(ui.idSearchEdit, &QLineEdit::textChanged, [=]
@@ -92,15 +106,15 @@ void BrowserDialog::setRows(const std::vector<AmbRow>& rows)
 {
 	amb_model.setRows(rows);
 
-	QSignalBlocker block(ui.dataTypeCombo);
-	ui.dataTypeCombo->setCurrentIndex(static_cast<int>(TabType::AmbList));
+	QSignalBlocker block(ui.tabBar);
+	ui.tabBar->setCurrentIndex(static_cast<int>(TabType::AmbList));
 
 	idFilter.setSourceModel(&amb_model);
-	idFilter.setFilterKeyColumn(4);
+	idFilter.setFilterKeyColumn(3);
 	nameFilter.setSourceModel(&idFilter);
-	nameFilter.setFilterKeyColumn(5);
+	nameFilter.setFilterKeyColumn(4);
 	phoneFilter.setSourceModel(&nameFilter);
-	phoneFilter.setFilterKeyColumn(6);
+	phoneFilter.setFilterKeyColumn(5);
 
 	ui.tableView->setModel(&phoneFilter);
 	
@@ -111,8 +125,7 @@ void BrowserDialog::setRows(const std::vector<AmbRow>& rows)
 	ui.tableView->setColumnWidth(4, 240);
 	ui.tableView->setColumnWidth(5, 120);
 
-	ui.fromDateEdit->setDisabled(false);
-	ui.toDateEdit->setDisabled(false);
+	hideRanges(false);
 
 	connect(ui.tableView->selectionModel(), &QItemSelectionModel::selectionChanged, this, [=] {
 
@@ -136,8 +149,8 @@ void BrowserDialog::setRows(const std::vector<PerioRow>& rows)
 {
 	perio_model.setRows(rows);
 
-	QSignalBlocker block(ui.dataTypeCombo);
-	ui.dataTypeCombo->setCurrentIndex(static_cast<int>(TabType::PerioStatus));
+	QSignalBlocker block(ui.tabBar);
+	ui.tabBar->setCurrentIndex(static_cast<int>(TabType::PerioStatus));
 	
 	idFilter.setSourceModel(&perio_model);
 	idFilter.setFilterKeyColumn(2);
@@ -156,9 +169,7 @@ void BrowserDialog::setRows(const std::vector<PerioRow>& rows)
 	ui.tableView->setColumnWidth(3, 250);
 	ui.tableView->setColumnWidth(4, 120);
 	
-	ui.fromDateEdit->setDisabled(false);
-	ui.toDateEdit->setDisabled(false);
-
+	hideRanges(false);
 
 	connect(ui.tableView->selectionModel(), &QItemSelectionModel::selectionChanged, this, [=] {
 
@@ -184,8 +195,8 @@ void BrowserDialog::setRows(const std::vector<PatientRow>& rows)
 {
 	patient_model.setRows(rows);
 
-	QSignalBlocker block(ui.dataTypeCombo);
-	ui.dataTypeCombo->setCurrentIndex(static_cast<int>(TabType::PatientSummary));
+	QSignalBlocker block(ui.tabBar);
+	ui.tabBar->setCurrentIndex(static_cast<int>(TabType::PatientSummary));
 
 	idFilter.setSourceModel(&patient_model);
 	idFilter.setFilterKeyColumn(1);
@@ -202,10 +213,7 @@ void BrowserDialog::setRows(const std::vector<PatientRow>& rows)
 	ui.tableView->setColumnWidth(2, 250);
 	ui.tableView->setColumnWidth(3, 120);
 	
-
-	ui.fromDateEdit->setDisabled(true);
-	ui.toDateEdit->setDisabled(true);
-
+	hideRanges(true);
 
 	connect(ui.tableView->selectionModel(), &QItemSelectionModel::selectionChanged, this, [=] {
 
@@ -229,8 +237,8 @@ void BrowserDialog::setRows(const std::vector<FinancialRow>& rows)
 {
 	financial_model.setRows(rows);
 
-	QSignalBlocker block(ui.dataTypeCombo);
-	ui.dataTypeCombo->setCurrentIndex(static_cast<int>(TabType::Financial));
+	QSignalBlocker block(ui.tabBar);
+	ui.tabBar->setCurrentIndex(static_cast<int>(TabType::Financial));
 
 	idFilter.setSourceModel(&financial_model);
 	idFilter.setFilterKeyColumn(3);
@@ -248,8 +256,7 @@ void BrowserDialog::setRows(const std::vector<FinancialRow>& rows)
 	ui.tableView->setColumnWidth(4, 250);
 	ui.tableView->setColumnWidth(5, 100);
 
-	ui.fromDateEdit->setDisabled(false);
-	ui.toDateEdit->setDisabled(false);
+	hideRanges(false);
 
 	connect(ui.tableView->selectionModel(), &QItemSelectionModel::selectionChanged, this, [=] {
 
@@ -272,8 +279,8 @@ void BrowserDialog::setRows(const std::vector<PrescriptionRow>& rows)
 {
 	prescription_model.setRows(rows);
 
-	QSignalBlocker block(ui.dataTypeCombo);
-	ui.dataTypeCombo->setCurrentIndex(static_cast<int>(TabType::Prescription));
+	QSignalBlocker block(ui.tabBar);
+	ui.tabBar->setCurrentIndex(static_cast<int>(TabType::Prescription));
 
 	idFilter.setSourceModel(&prescription_model);
 	idFilter.setFilterKeyColumn(3);
@@ -291,8 +298,7 @@ void BrowserDialog::setRows(const std::vector<PrescriptionRow>& rows)
 	ui.tableView->setColumnWidth(4, 250);
 	ui.tableView->setColumnWidth(5, 120);
 
-	ui.fromDateEdit->setDisabled(false);
-	ui.toDateEdit->setDisabled(false);
+	hideRanges(false);
 
 	connect(ui.tableView->selectionModel(), &QItemSelectionModel::selectionChanged, this, [=] {
 
@@ -330,7 +336,7 @@ void BrowserDialog::contextMenuRequested(const QPoint& p)
 	main_menu->addAction(action);
 
 
-	if (ui.dataTypeCombo->currentIndex() != 4) {
+	if (ui.tabBar->currentIndex() != 4) {
 		action = (new QAction("Нов амбулаторен лист", main_menu));
 		connect(action, &QAction::triggered, [=] { presenter.openNewDocument(TabType::AmbList); });
 		action->setIcon(QIcon(":/icons/icon_sheet.png"));
@@ -371,6 +377,14 @@ void BrowserDialog::contextMenuRequested(const QPoint& p)
 
 
 	main_menu->popup(ui.tableView->viewport()->mapToGlobal(p));
+}
+
+void BrowserDialog::hideRanges(bool hidden)
+{
+	ui.fromLabel->setHidden(hidden);
+	ui.toLabel->setHidden(hidden);
+	ui.fromDateEdit->setHidden(hidden);
+	ui.toDateEdit->setHidden(hidden);
 }
 
 void BrowserDialog::focus()

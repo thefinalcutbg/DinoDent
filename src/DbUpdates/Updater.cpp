@@ -28,5 +28,6 @@ void DbUpdater::updateDb()
 	DbUpdates::update14();
 	DbUpdates::update15();
 	DbUpdates::update16();
+	DbUpdates::update17();
 
 }

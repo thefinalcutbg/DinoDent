@@ -5,7 +5,7 @@
 #include "TinyXML/tinyxml.h"
 #include "EReferral.h"
 
-bool EPrescription::Issue::sendRequest(const Prescription& perscr, const Patient& patient, std::function<void(const std::string&)> nrnCallback)
+bool EPrescription::Issue::sendRequest(const Prescription& prescr, const Patient& patient, std::function<void(const std::string&)> nrnCallback)
 {
 	m_callback = nrnCallback;
 
@@ -15,21 +15,21 @@ bool EPrescription::Issue::sendRequest(const Prescription& perscr, const Patient
 
 	contents+=
 		"<nhis:prescription>"
-			+ bind("lrn", perscr.LRN)
-		    + bind("authoredOn", perscr.date.to8601())
-			+ bind("category", perscr.category)
+			+ bind("lrn", prescr.LRN)
+		    + bind("authoredOn", prescr.date.to8601())
+			+ bind("category", prescr.category)
 			+ bind("isProtocolBased", false)
 			+ bind("financingSource", "4")
-			+ bind("dispensationType", perscr.dispensation.getNhisDispensation())
-			+ bind("allowedRepeatsNumber", perscr.dispensation.getNhisRepeats())
-			+ bind("supplements", perscr.supplements, true)
+			+ bind("dispensationType", prescr.dispensation.getNhisDispensation())
+			+ bind("allowedRepeatsNumber", prescr.dispensation.getNhisRepeats())
+			+ bind("supplements", prescr.supplements, true)
 			+ "<nhis:group>"
 	;
 
 	//Medications:
-	for(int i = 0; i < perscr.medicationGroup.size(); i++)
+	for(int i = 0; i < prescr.medicationGroup.size(); i++)
 	{
-		auto& m = perscr.medicationGroup[i];
+		auto& m = prescr.medicationGroup[i];
 
 		contents+=
 				"<nhis:medication>"
@@ -91,7 +91,7 @@ bool EPrescription::Issue::sendRequest(const Prescription& perscr, const Patient
 					
 	contents += "</nhis:group>"
 				"</nhis:prescription>"
-				+ subject(patient)
+				+ subject(patient, prescr.isPregnant, prescr.isBreastFeeding)
 				+ requester();
 
 	return HisService::sendRequestToHis(contents);

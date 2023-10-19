@@ -873,7 +873,7 @@
     <ClCompile Include="src\View\TableModels\FiscalReceiptTableModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\DbUpdates\Update12_16.cpp">
+    <ClCompile Include="src\DbUpdates\Update12_17.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Network\HIS\HISHistoryAlgorithms.cpp">

@@ -112,10 +112,18 @@ const std::string HisService::buildMessage(const std::string& query)
 	
 }
 
-std::string HisService::subject(const Patient& p)
+std::string HisService::subject(const Patient& p, bool isPregnant, bool isBreastfeeding)
 {
 	std::string middleNameTag = p.MiddleName.size()?
 		"<nhis:middle value=\"" + p.MiddleName + "\"/>" : "";
+
+	std::string preg_breastfeed;
+
+	if (p.canBePregnant())
+	{
+		preg_breastfeed += bind("isPregnant", isPregnant);
+		preg_breastfeed += bind("isBreastFeeding", isBreastfeeding);
+	}
 
 	int patientType = p.type == Patient::EU ? 5 : p.type;
 
@@ -142,6 +150,7 @@ std::string HisService::subject(const Patient& p)
 		//<nhis:email value="[string]"/>
 		+"<nhis:various>"
 			+bind("age", p.getAge())
+			+preg_breastfeed
 		+ "</nhis:various>"
 	"</nhis:subject>"
 	;

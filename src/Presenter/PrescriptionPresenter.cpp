@@ -34,8 +34,7 @@ void PrescriptionPresenter::sendPrescriptionToHis()
 			save();
 			
 			if (!isCurrent()) return;
-			
-			view->setReadOnly(true);
+
 			view->setNrn(nrn);
 	});
 }
@@ -50,10 +49,11 @@ void PrescriptionPresenter::cancelPrescription()
 				m_prescription.NRN = "";
 				makeEdited();
 				save();
-				//if is current!
-				view->setReadOnly(false);
-				view->setNrn("");
+
 				ModalDialogBuilder::showMessage("Рецептата е анулирана успешно");
+				
+				if (isCurrent()) view->setNrn("");
+			
 			}
 		}
 	);
@@ -125,6 +125,16 @@ void PrescriptionPresenter::deletePressed(int idx)
 	makeEdited();
 }
 
+void PrescriptionPresenter::setFemaleProperties(bool pregnancy, bool breastfeeding)
+{
+	if (!patient->canBePregnant()) return;
+
+	m_prescription.isPregnant = pregnancy;
+	m_prescription.isBreastFeeding = breastfeeding;
+
+	makeEdited();
+}
+
 void PrescriptionPresenter::supplementsChanged(const std::string& s)
 {
 	m_prescription.supplements = s;
@@ -142,6 +152,13 @@ void PrescriptionPresenter::dateChanged(const Date& date)
 {
 	m_prescription.date = date;
 	patient_info.setDate(date);
+
+	view->setMisc(
+		patient->canBePregnant(m_prescription.date),
+		m_prescription.isPregnant,
+		m_prescription.isBreastFeeding
+	);
+
 	makeEdited();
 }
 
@@ -154,8 +171,13 @@ void PrescriptionPresenter::setDataToView()
 	view->setDispensation(m_prescription.dispensation);
 	view->setSupplements(m_prescription.supplements);
 	view->setMedicationList(m_prescription.getMedList());
-	view->setReadOnly(!m_prescription.NRN.empty());
+
 	view->setNrn(m_prescription.NRN);
+	view->setMisc(
+		patient->canBePregnant(m_prescription.date),
+		m_prescription.isPregnant,
+		m_prescription.isBreastFeeding
+	);
 
 
 }

@@ -32,6 +32,8 @@ public:
 	void editPressed(int idx);
 	void deletePressed(int idx);
 
+	void setFemaleProperties(bool pregnancy, bool breastfeeding);
+
 	void supplementsChanged(const std::string& s);
 	void dispensationChanged(const Dispensation& d);
 	void dateChanged(const Date& date);

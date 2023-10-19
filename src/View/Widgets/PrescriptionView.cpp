@@ -38,7 +38,6 @@ PrescriptionView::PrescriptionView(QWidget* parent)
 
 		});
 
-
 	connect(ui.medicationTable, &TableView::deletePressed, [=](int index) { if (presenter) presenter->deletePressed(index); });
 	connect(ui.medicationTable, &TableView::editPressed, [=](int index) { if (presenter) presenter->editPressed(index); });
 	connect(ui.dispensationCombo, QtComboIndexChanged, [&] { dispensationLogic(); });
@@ -47,6 +46,8 @@ PrescriptionView::PrescriptionView(QWidget* parent)
 	connect(ui.nrnButton, &QPushButton::clicked, [=] {if (presenter) presenter->nrnButtonClicked(); });
 	connect(ui.dateEdit, &QDateEdit::dateChanged, [=](QDate d) {if (presenter) presenter->dateChanged(Date{ d.day(),d.month(),d.year() });});
 	connect(ui.checkStatusButton, &QPushButton::clicked, [=]{ if (presenter) presenter->checkStatus(); });
+	connect(ui.pregnancyCheck, &QCheckBox::stateChanged, [=] { sendFemaleProperties(); });
+	connect(ui.breastfeedingCheck, &QCheckBox::stateChanged, [=] { sendFemaleProperties(); });
 }
 
 IPatientTileInfo* PrescriptionView::patientTile()
@@ -93,7 +94,7 @@ void PrescriptionView::dispensationLogic()
 	presenter->dispensationChanged(
 		Dispensation{ 
 			static_cast<Dispensation::Type>(dispensationIdx),
-			static_cast<unsigned int>(ui.repeats->value()) 
+			ui.repeats->value()
 		});
 
 }
@@ -103,6 +104,16 @@ void PrescriptionView::paintEvent(QPaintEvent* event)
 	QPainter painter(this);
 
 	painter.fillRect(rect(), Theme::background);
+}
+
+void PrescriptionView::sendFemaleProperties()
+{
+	if (!presenter) return;
+
+	presenter->setFemaleProperties(
+		ui.pregnancyCheck->isChecked(),
+		ui.breastfeedingCheck->isChecked()
+	);
 }
 
 void PrescriptionView::setDispensation(const Dispensation& d)
@@ -140,11 +151,15 @@ void PrescriptionView::setReadOnly(bool readOnly)
 	ui.repeats->setReadOnly(readOnly);
 	ui.supplementsEdit->setReadOnly(readOnly);
 	ui.medicationTable->enableContextMenu(!readOnly);
+	ui.pregnancyCheck->setDisabled(readOnly);
+	ui.breastfeedingCheck->setDisabled(readOnly);
 
 }
 
 void PrescriptionView::setNrn(const std::string& nrn)
 {
+	setReadOnly(nrn.size());
+
 	if (nrn.empty()) {
 
 		ui.checkStatusButton->hide();
@@ -159,6 +174,19 @@ void PrescriptionView::setNrn(const std::string& nrn)
 	ui.nrnButton->setText(nrn.c_str());
 	ui.nrnButton->setHoverText("Анулирай");
 
+
+}
+
+void PrescriptionView::setMisc(bool isFemale, bool isPregnant, bool isBreastFeeding)
+{
+	QSignalBlocker p(ui.pregnancyCheck);
+	QSignalBlocker b(ui.breastfeedingCheck);
+
+	ui.pregnancyCheck->setChecked(isPregnant);
+	ui.breastfeedingCheck->setChecked(isBreastFeeding);
+
+	ui.pregnancyCheck->setHidden(!isFemale);
+	ui.breastfeedingCheck->setHidden(!isFemale);
 }
 
 

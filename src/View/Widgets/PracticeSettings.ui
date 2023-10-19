@@ -144,6 +144,9 @@
         <property name="echoMode">
          <enum>QLineEdit::Normal</enum>
         </property>
+        <property name="placeholderText">
+         <string>Без парола</string>
+        </property>
        </widget>
        <widget class="QLabel" name="label_8">
         <property name="geometry">

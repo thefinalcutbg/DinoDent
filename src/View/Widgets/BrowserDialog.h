@@ -28,6 +28,7 @@ private:
 	FinancialTableModel financial_model;
 	PrescriptionTableModel prescription_model;
 
+	void hideRanges(bool hidden);
 
 public:
 	BrowserDialog();

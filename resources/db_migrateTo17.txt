@@ -1,0 +1,3 @@
+ALTER TABLE prescription ADD COLUMN is_pregnant INTEGER;
+ALTER TABLE prescription ADD COLUMN is_breastfeeding INTEGER;
+PRAGMA user_version = 17;

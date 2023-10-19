@@ -5,7 +5,7 @@ struct Dispensation {
 	enum Type { SingleUse, MultipleUse, Unlimited };
 
 	Type type{ SingleUse };
-	unsigned int repeats{ 2 };//in case of MultipleUse
+	int repeats{ 2 };//in case of MultipleUse
 
 	std::string getNhisDispensation() const{
 		return type == Type::SingleUse ? "1" : "2";

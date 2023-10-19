@@ -18,6 +18,10 @@ class PrescriptionView final : public QWidget, public IPrescriptionView
 
 	void paintEvent(QPaintEvent* event);
 
+	void sendFemaleProperties();
+
+	void setReadOnly(bool readOnly);
+
 public:
 	PrescriptionView(QWidget *parent = nullptr);
 	void setPresenter(PrescriptionPresenter* p) override { presenter = p;}
@@ -26,8 +30,8 @@ public:
 	void setDispensation(const Dispensation& d) override;
 	void setSupplements(const std::string& supplements) override;
 	void setDate(const Date& date) override;
-	void setReadOnly(bool readOnly) override;
 	void setNrn(const std::string& nrn) override;
+	void setMisc(bool isFemale, bool isPregnant, bool isBreastFeeding) override;
 
 	~PrescriptionView();
 

@@ -32,5 +32,8 @@ struct Prescription
 
 	std::vector<std::string> getMedList() const;
 
+	bool isPregnant { false };
+	bool isBreastFeeding { false };
+
 };
 

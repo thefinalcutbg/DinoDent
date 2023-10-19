@@ -270,6 +270,9 @@
            <property name="echoMode">
             <enum>QLineEdit::Normal</enum>
            </property>
+           <property name="placeholderText">
+            <string>Без парола</string>
+           </property>
           </widget>
          </item>
          <item>

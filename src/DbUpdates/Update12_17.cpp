@@ -104,3 +104,14 @@ void DbUpdates::update16()
 	db.execute();
 
 }
+
+void DbUpdates::update17()
+{
+	if (Db::version() != 16) return;
+	Db db;
+
+	for (auto& query : Resources::getMigrationScript(17))
+	{
+		db.execute(query);
+	}
+}

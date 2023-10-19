@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>876</width>
+    <width>1044</width>
     <height>478</height>
    </rect>
   </property>
@@ -165,12 +165,12 @@
          </property>
          <property name="dateTime">
           <datetime>
-           <hour>2</hour>
+           <hour>18</hour>
            <minute>0</minute>
            <second>0</second>
            <year>2000</year>
            <month>12</month>
-           <day>29</day>
+           <day>28</day>
           </datetime>
          </property>
          <property name="calendarPopup">
@@ -178,6 +178,20 @@
          </property>
          <property name="currentSectionIndex">
           <number>0</number>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="pregnancyCheck">
+         <property name="text">
+          <string>Бременна</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="breastfeedingCheck">
+         <property name="text">
+          <string>Кърмачка</string>
          </property>
         </widget>
        </item>
@@ -362,7 +376,7 @@
            </property>
            <property name="sizeHint" stdset="0">
             <size>
-             <width>100</width>
+             <width>590</width>
              <height>20</height>
             </size>
            </property>

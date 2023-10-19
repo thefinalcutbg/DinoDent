@@ -17,7 +17,7 @@ public:
 	virtual void setDispensation(const Dispensation& d) = 0;
 	virtual void setSupplements(const std::string& supplements) = 0;
 	virtual void setDate(const Date& date) = 0;
-	virtual void setReadOnly(bool readOnly) = 0;
 	virtual void setNrn(const std::string& nrn) = 0;
+	virtual void setMisc(bool isFemale, bool isPregnant, bool isBreastFeeding) = 0;
 
 };

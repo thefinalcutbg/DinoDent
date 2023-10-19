@@ -138,7 +138,7 @@
         <item>
          <widget class="QLabel" name="fromLabel">
           <property name="text">
-           <string>В периода от </string>
+           <string>в периода от </string>
           </property>
          </widget>
         </item>

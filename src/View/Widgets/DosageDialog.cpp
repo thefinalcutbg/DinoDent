@@ -227,7 +227,11 @@ bool DosageDialog::fieldsAreValid()
 
 void DosageDialog::setParsed(const std::string& parsed)
 {
-	ui.parseLabel->setText(parsed.c_str());
+	QString parsedText = "Текстов резултат: <b>";
+	parsedText.append(parsed.c_str());
+	parsedText.append("</b>");
+
+	ui.parseLabel->setText(parsedText);
 }
 
 

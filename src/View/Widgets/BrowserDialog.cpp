@@ -1,8 +1,9 @@
 ﻿#include "BrowserDialog.h"
 #include "Presenter/BrowserPresenter.h"
 #include <QMessageBox>
-#include  <QRegularExpression>
+#include <QRegularExpression>
 #include <QApplication>
+#include <QClipboard>
 #include "View/Theme.h"
 #include "QtVersion.h"
 
@@ -354,6 +355,16 @@ void BrowserDialog::contextMenuRequested(const QPoint& p)
 	action = (new QAction("Изтрий", main_menu));
 	connect(action, &QAction::triggered, [=] { presenter.deleteCurrentSelection(); });
 	action->setIcon(QIcon(":/icons/icon_remove.png"));
+	main_menu->addAction(action);
+
+	action = (new QAction("Копирай текста", main_menu));
+	connect(action, &QAction::triggered, [=] { 
+
+		QClipboard* clipboard = QApplication::clipboard();
+		QString text = ui.tableView->currentIndex().data().toString();
+		clipboard->setText(text);
+	});
+	//action->setIcon(QIcon(":/icons/icon_remove.png"));
 	main_menu->addAction(action);
 
 	main_menu->setStyleSheet(Theme::getPopupMenuStylesheet());

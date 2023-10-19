@@ -105,12 +105,11 @@ void BrowserDialog::setRows(const std::vector<AmbRow>& rows)
 	ui.tableView->setModel(&phoneFilter);
 	
 	ui.tableView->hideColumn(0);
-	ui.tableView->setColumnWidth(1, 50);
+	ui.tableView->setColumnWidth(1, 100);
 	ui.tableView->setColumnWidth(2, 120);
-	ui.tableView->setColumnWidth(3, 80);
-	ui.tableView->setColumnWidth(4, 150);
-	ui.tableView->setColumnWidth(5, 240);
-	ui.tableView->setColumnWidth(6, 120);
+	ui.tableView->setColumnWidth(3, 120);
+	ui.tableView->setColumnWidth(4, 240);
+	ui.tableView->setColumnWidth(5, 120);
 
 	ui.fromDateEdit->setDisabled(false);
 	ui.toDateEdit->setDisabled(false);
@@ -244,7 +243,7 @@ void BrowserDialog::setRows(const std::vector<FinancialRow>& rows)
 
 	ui.tableView->hideColumn(0);
 	ui.tableView->setColumnWidth(1, 100);
-	ui.tableView->setColumnWidth(2, 80);
+	ui.tableView->setColumnWidth(2, 100);
 	ui.tableView->setColumnWidth(3, 100);
 	ui.tableView->setColumnWidth(4, 250);
 	ui.tableView->setColumnWidth(5, 100);
@@ -287,9 +286,10 @@ void BrowserDialog::setRows(const std::vector<PrescriptionRow>& rows)
 
 	ui.tableView->hideColumn(0);
 	ui.tableView->setColumnWidth(1, 100);
-	ui.tableView->setColumnWidth(2, 150);
-	ui.tableView->setColumnWidth(3, 250);
-	ui.tableView->setColumnWidth(4, 120);
+	ui.tableView->setColumnWidth(2, 120);
+	ui.tableView->setColumnWidth(3, 100);
+	ui.tableView->setColumnWidth(4, 250);
+	ui.tableView->setColumnWidth(5, 120);
 
 	ui.fromDateEdit->setDisabled(false);
 	ui.toDateEdit->setDisabled(false);

@@ -57,8 +57,8 @@ QVariant FinancialTableModel::headerData(int section, Qt::Orientation orientatio
         switch (section)
         {
         case 0: return "ID";
-        case 1: return "Документ №";
-        case 2: return "Дата";
+        case 1: return "Дата";
+        case 2: return "Документ №";
         case 3: return "ЕГН/ЛНЧ/ЕИК";
         case 4: return "Име на получателя";
         case 5: return "Телефон";
@@ -116,8 +116,8 @@ QVariant FinancialTableModel::data(const QModelIndex& index, int role) const
         switch (column)
         {
         case 0: return index.row();
-        case 1: return rows[row].num;
-        case 2: return rows[row].date;
+        case 1: return rows[row].date;
+        case 2: return rows[row].num;
         case 3: return rows[row].recipientId;
         case 4: return rows[row].recipientName;
         case 5: return rows[row].recipientPhone;

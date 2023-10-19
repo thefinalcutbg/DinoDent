@@ -38,6 +38,7 @@
         <file>icon_nssi.png</file>
         <file>dinoSmall.png</file>
         <file>dinoChristmas.png</file>
+        <file>icon_copy.png</file>
     </qresource>
     <qresource prefix="/tooth">
         <file>tooth_approximal.png</file>

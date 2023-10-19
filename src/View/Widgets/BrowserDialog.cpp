@@ -65,15 +65,13 @@ BrowserDialog::BrowserDialog()
 			phoneFilter.setFilterRegularExpression(QRegularExpression(text, QRegularExpression::PatternOption::CaseInsensitiveOption));
 		});
 
+	ui.tableView->setContextMenuPolicy(Qt::CustomContextMenu);
 
+	connect(ui.tableView, &QTableView::customContextMenuRequested, this, [=](const QPoint& p) {contextMenuRequested(p); });
 
 	connect(ui.tableView, &QTableView::doubleClicked, this, [&] { presenter.openCurrentSelection(); });
 
 	connect(ui.tableView, &ListTable::deletePressed, this, [=] { ui.deleteButton->click(); });
-
-	ui.tableView->setContextMenuPolicy(Qt::CustomContextMenu);
-
-	connect(ui.tableView, &QTableView::customContextMenuRequested, this, [=](const QPoint& p) {contextMenuRequested(p);});
 
 	connect(ui.deleteButton, &QPushButton::clicked, 
 		[=] 
@@ -358,23 +356,22 @@ void BrowserDialog::contextMenuRequested(const QPoint& p)
 		main_menu->addAction(action);
 	}
 
-	action = (new QAction("Изтрий", main_menu));
-	connect(action, &QAction::triggered, [=] { presenter.deleteCurrentSelection(); });
-	action->setIcon(QIcon(":/icons/icon_remove.png"));
-	main_menu->addAction(action);
-
 	action = (new QAction("Копирай текста", main_menu));
+	action->setIcon(QIcon(":/icons/icon_copy.png"));
 	connect(action, &QAction::triggered, [=] { 
 
 		QClipboard* clipboard = QApplication::clipboard();
 		QString text = ui.tableView->currentIndex().data().toString();
 		clipboard->setText(text);
 	});
-	//action->setIcon(QIcon(":/icons/icon_remove.png"));
+	main_menu->addAction(action);
+
+	action = (new QAction("Изтрий", main_menu));
+	connect(action, &QAction::triggered, [=] { presenter.deleteCurrentSelection(); });
+	action->setIcon(QIcon(":/icons/icon_remove.png"));
 	main_menu->addAction(action);
 
 	main_menu->setStyleSheet(Theme::getPopupMenuStylesheet());
-
 
 	main_menu->popup(ui.tableView->viewport()->mapToGlobal(p));
 }

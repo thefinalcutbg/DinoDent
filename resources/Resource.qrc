@@ -39,6 +39,7 @@
         <file>dinoSmall.png</file>
         <file>dinoChristmas.png</file>
         <file>icon_copy.png</file>
+        <file>icon_erx.png</file>
     </qresource>
     <qresource prefix="/tooth">
         <file>tooth_approximal.png</file>

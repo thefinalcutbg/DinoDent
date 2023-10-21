@@ -21,6 +21,7 @@ public:
 
 	void additionalInstructionsChanged(const std::string& text) {
 		m_dosage.additionalInstructions = text;
+		view->setParsed(m_dosage.parse());
 	}
 
 	void setAsNeeded(bool asNeeded) {

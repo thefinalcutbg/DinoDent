@@ -94,8 +94,6 @@ DinoDent::DinoDent(QWidget* parent)
 
     connect(exitAction, &QAction::triggered, [&] { MainPresenter::get().logOut(); });
 
-   // ui.statisticButton->hide();
-
     ui.userButton->setMenu(userMenu);
     ui.userButton->setPopupMode(QToolButton::InstantPopup);
     ui.userButton->setIconSize(QSize(25, 25));

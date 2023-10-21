@@ -29,6 +29,7 @@ private:
 	PrescriptionTableModel prescription_model;
 
 	void hideRanges(bool hidden);
+	void setCountLabel();
 
 public:
 	BrowserDialog();

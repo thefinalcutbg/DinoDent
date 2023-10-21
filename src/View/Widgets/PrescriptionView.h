@@ -20,8 +20,6 @@ class PrescriptionView final : public QWidget, public IPrescriptionView
 
 	void sendFemaleProperties();
 
-	void setReadOnly(bool readOnly);
-
 public:
 	PrescriptionView(QWidget *parent = nullptr);
 	void setPresenter(PrescriptionPresenter* p) override { presenter = p;}

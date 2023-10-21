@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1044</width>
+    <width>1111</width>
     <height>478</height>
    </rect>
   </property>
@@ -96,6 +96,28 @@
         </widget>
        </item>
        <item>
+        <widget class="IconButton" name="eRxButton">
+         <property name="minimumSize">
+          <size>
+           <width>35</width>
+           <height>35</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>35</width>
+           <height>35</height>
+          </size>
+         </property>
+         <property name="toolTip">
+          <string>Зареди рецепта от мобилното приложение eRx</string>
+         </property>
+         <property name="text">
+          <string>eRx</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="HoverButton" name="checkStatusButton">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -165,7 +187,7 @@
          </property>
          <property name="dateTime">
           <datetime>
-           <hour>18</hour>
+           <hour>8</hour>
            <minute>0</minute>
            <second>0</second>
            <year>2000</year>
@@ -180,6 +202,22 @@
           <number>0</number>
          </property>
         </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_5">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
        </item>
        <item>
         <widget class="QCheckBox" name="pregnancyCheck">

@@ -37,6 +37,13 @@ const std::vector<std::string>& Route::getStringList()
 }
 
 
+Route::Route(int key) : m_key(key)
+{
+	if (key >= 0 && key < s_routeNum.size()) return;
+
+	key = 0;
+}
+
 bool Route::set(int key)
 {
 	if (key >= 0 && key < s_routeNum.size()) {

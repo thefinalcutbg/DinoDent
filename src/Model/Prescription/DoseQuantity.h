@@ -11,6 +11,10 @@ class DoseQuantity
 
 public:
 
+	DoseQuantity() {};
+	DoseQuantity(int unit);
+	DoseQuantity(const std::string& ucum);
+
 	static void initialize();
 
 	bool setUnitFromCL010(const std::string& formStr);

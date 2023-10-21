@@ -21,4 +21,27 @@ struct Dispensation {
 		}
 
 	}
+
+	void setTypeFromNhis(int nhisType) {
+
+		if (nhisType == 1) {
+			type = SingleUse;
+			repeats = 2;
+			return;
+		}
+
+		type = MultipleUse;
+
+	}
+
+	void setRepeatsFromNhis(int nhisRepeats) {
+
+		if (!nhisRepeats) {
+			type = Unlimited;
+			return;
+		}
+
+		repeats = nhisRepeats;
+		type = MultipleUse;
+	}
 };

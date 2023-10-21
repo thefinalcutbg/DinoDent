@@ -474,3 +474,42 @@ std::string HisService::getErrors(const std::string& reply)
 	return std::string{};
 
 }
+
+#include <TinyXML/tinystr.h>
+
+
+bool HisService::getBool(TiXmlElement* parent, const std::string& tag)
+{
+	auto element = parent->FirstChildElement(std::string{"nhis:"} + tag);
+
+	if(!element) return false;
+	
+	return element->FirstAttribute()->ValueStr() == "true";
+}
+
+std::string HisService::getString(TiXmlElement* parent, const std::string& tag)
+{
+	auto element = parent->FirstChildElement(std::string{"nhis:"} + tag);
+
+	if (!element) return "";
+
+	return element->FirstAttribute()->ValueStr();
+}
+
+int HisService::getInt(TiXmlElement* parent, const std::string& tag)
+{
+	auto element = parent->FirstChildElement(std::string{"nhis:"} + tag);
+
+	if (!element) return 0;
+
+	return element->FirstAttribute()->IntValue();
+}
+
+double HisService::getDouble(TiXmlElement* parent, const std::string& tag)
+{
+	auto element = parent->FirstChildElement(std::string{"nhis:"} + tag);
+
+	if (!element) return 0.0;
+
+	return element->FirstAttribute()->DoubleValue();
+}

@@ -46,7 +46,7 @@ namespace EPrescription {
 		bool sendRequest(const std::string& nrn, std::function<void(bool)> success);
 	};
 
-	class Fetch : private HisService
+	class FetchDispense : private HisService
 	{
 		std::function<void(EPrescription::Status s)> m_callback;
 
@@ -54,10 +54,30 @@ namespace EPrescription {
 		void parseReply(const std::string& reply) override;
 
 	public:
-		Fetch() :
+		FetchDispense() :
 			HisService("P013", "/v3/eprescription/pharmacy/fetchdispense") {}
 
 		bool sendRequest(const std::string& nrn, std::function<void(EPrescription::Status s)> success);
 	};
+
+	class eRxFetch : private HisService
+	{
+		std::function<void(const Prescription& prescr)> m_callback;
+
+	protected:
+		void parseReply(const std::string& reply) override;
+
+	public:
+		eRxFetch() :
+			HisService("P003", "/v3/eprescription/pharmacy/fetch") {}
+
+		bool sendRequest(
+			const std::string& nrn,
+			const std::string& lpk,
+			const Patient& p,
+			decltype(m_callback) callback
+		);
+	};
+
 
 }

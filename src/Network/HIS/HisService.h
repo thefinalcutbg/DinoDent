@@ -10,6 +10,8 @@ class Tooth;
 class Date;
 struct Procedure;
 
+class TiXmlElement;
+
 constexpr const char* hisUrl = "https://api.his.bg/";
 //constexpr const char* hisUrl = "https://ptest-api.his.bg/";
 
@@ -24,7 +26,13 @@ private:
 	const std::string messageType;
 	const std::string servicePath;
 
+
 protected:
+
+	bool getBool(TiXmlElement* parent, const std::string& tag);
+	std::string getString(TiXmlElement* parent, const std::string& tag);
+	int getInt(TiXmlElement* parent, const std::string& tag);
+	double getDouble(TiXmlElement* parent, const std::string& tag);
 
 	std::string subject(const Patient& p, bool isPregnant = false, bool isBreastfeeding = false);
 	std::string requester(bool includeNhifCode = false);

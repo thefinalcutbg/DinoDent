@@ -51,19 +51,23 @@ BrowserDialog::BrowserDialog()
 		{
 			QString text = ui.idSearchEdit->text();
 			idFilter.setFilterRegularExpression(QRegularExpression(text, QRegularExpression::PatternOption::CaseInsensitiveOption));
+			setCountLabel();
 		});
 
 	connect(ui.nameSearchEdit, &QLineEdit::textChanged, [=]
 		{
 			QString text = ui.nameSearchEdit->text();
 			nameFilter.setFilterRegularExpression(QRegularExpression(text, QRegularExpression::PatternOption::CaseInsensitiveOption));
+			setCountLabel();
 		});
 
 	connect(ui.phoneSearchEdit, &QLineEdit::textChanged, [=]
 		{
 			QString text = ui.phoneSearchEdit->text();
 			phoneFilter.setFilterRegularExpression(QRegularExpression(text, QRegularExpression::PatternOption::CaseInsensitiveOption));
+			setCountLabel();
 		});
+
 
 	ui.tableView->setContextMenuPolicy(Qt::CustomContextMenu);
 
@@ -124,6 +128,7 @@ void BrowserDialog::setRows(const std::vector<AmbRow>& rows)
 	ui.tableView->setColumnWidth(5, 120);
 
 	hideRanges(false);
+	setCountLabel();
 
 	connect(ui.tableView->selectionModel(), &QItemSelectionModel::selectionChanged, this, [=] {
 
@@ -135,7 +140,7 @@ void BrowserDialog::setRows(const std::vector<AmbRow>& rows)
 			selectedIndexes.insert(phoneFilter.index(idx.row(), 0).data().toInt());
 		}
 
-			presenter.selectionChanged(selectedIndexes);
+		presenter.selectionChanged(selectedIndexes);
 
 		}
 
@@ -168,6 +173,7 @@ void BrowserDialog::setRows(const std::vector<PerioRow>& rows)
 	ui.tableView->setColumnWidth(4, 120);
 	
 	hideRanges(false);
+	setCountLabel();
 
 	connect(ui.tableView->selectionModel(), &QItemSelectionModel::selectionChanged, this, [=] {
 
@@ -180,8 +186,6 @@ void BrowserDialog::setRows(const std::vector<PerioRow>& rows)
 		}
 
 		presenter.selectionChanged(selectedIndexes);
-
-		
 
 		}
 
@@ -212,6 +216,7 @@ void BrowserDialog::setRows(const std::vector<PatientRow>& rows)
 	ui.tableView->setColumnWidth(3, 120);
 	
 	hideRanges(true);
+	setCountLabel();
 
 	connect(ui.tableView->selectionModel(), &QItemSelectionModel::selectionChanged, this, [=] {
 
@@ -224,7 +229,6 @@ void BrowserDialog::setRows(const std::vector<PatientRow>& rows)
 		}
 
 		presenter.selectionChanged(selectedIndexes);
-
 
 		}
 
@@ -255,6 +259,7 @@ void BrowserDialog::setRows(const std::vector<FinancialRow>& rows)
 	ui.tableView->setColumnWidth(5, 100);
 
 	hideRanges(false);
+	setCountLabel();
 
 	connect(ui.tableView->selectionModel(), &QItemSelectionModel::selectionChanged, this, [=] {
 
@@ -266,7 +271,7 @@ void BrowserDialog::setRows(const std::vector<FinancialRow>& rows)
 			selectedIndexes.insert(phoneFilter.index(idx.row(), 0).data().toInt());
 		}
 
-			presenter.selectionChanged(selectedIndexes);
+		presenter.selectionChanged(selectedIndexes);
 
 		}
 
@@ -297,6 +302,7 @@ void BrowserDialog::setRows(const std::vector<PrescriptionRow>& rows)
 	ui.tableView->setColumnWidth(5, 120);
 
 	hideRanges(false);
+	setCountLabel();
 
 	connect(ui.tableView->selectionModel(), &QItemSelectionModel::selectionChanged, this, [=] {
 
@@ -308,7 +314,7 @@ void BrowserDialog::setRows(const std::vector<PrescriptionRow>& rows)
 			selectedIndexes.insert(phoneFilter.index(idx.row(), 0).data().toInt());
 		}
 
-			presenter.selectionChanged(selectedIndexes);
+		presenter.selectionChanged(selectedIndexes);
 
 		}
 
@@ -382,6 +388,13 @@ void BrowserDialog::hideRanges(bool hidden)
 	ui.toLabel->setHidden(hidden);
 	ui.fromDateEdit->setHidden(hidden);
 	ui.toDateEdit->setHidden(hidden);
+}
+
+void BrowserDialog::setCountLabel()
+{
+	QString text = "Брой резултати: ";
+	text += QString::number(phoneFilter.rowCount());
+	ui.countLabel->setText(text);
 }
 
 void BrowserDialog::focus()

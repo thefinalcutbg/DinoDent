@@ -14,7 +14,8 @@ class PrescriptionPresenter : public TabInstance
 
 	EPrescription::Issue issue_prescription;
 	EPrescription::Cancel cancel_prescription;
-	EPrescription::Fetch check_status_service;
+	EPrescription::FetchDispense check_status_service;
+	EPrescription::eRxFetch fetch_service;
 
 	void sendPrescriptionToHis();
 	void cancelPrescription();
@@ -31,6 +32,7 @@ public:
 	void addPressed();
 	void editPressed(int idx);
 	void deletePressed(int idx);
+	void eRxPressed();
 
 	void setFemaleProperties(bool pregnancy, bool breastfeeding);
 

@@ -52,6 +52,20 @@ void DoseQuantity::initialize()
 	}
 }
 
+
+DoseQuantity::DoseQuantity(int unit) : m_unit(unit)
+{
+	if (isValid()) return;
+
+	m_unit = 0;
+}
+
+DoseQuantity::DoseQuantity(const std::string& ucum)
+{
+	m_ucum = ucum;
+}
+
+
 std::string DoseQuantity::getParsedUnit() const
 {
 	if (is_ucum) return m_ucum + " по ";

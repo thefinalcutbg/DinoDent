@@ -156,6 +156,7 @@ bool DbPrescription::update(const Prescription& p)
     Db db(
         "UPDATE prescription SET "
         "nrn=?,"
+        "lrn=?,"
         "date=?,"
         "dispensation=?,"
         "repeats=?,"
@@ -166,13 +167,14 @@ bool DbPrescription::update(const Prescription& p)
     );
 
     db.bind(1, p.NRN);
-    db.bind(2, p.date.to8601());
-    db.bind(3, p.dispensation.type);
-    db.bind(4, p.dispensation.repeats);
-    db.bind(5, p.supplements);
-    db.bind(6, p.isPregnant);
-    db.bind(7, p.isBreastFeeding);
-    db.bind(8, p.rowid);
+    db.bind(2, p.LRN);
+    db.bind(3, p.date.to8601());
+    db.bind(4, p.dispensation.type);
+    db.bind(5, p.dispensation.repeats);
+    db.bind(6, p.supplements);
+    db.bind(7, p.isPregnant);
+    db.bind(8, p.isBreastFeeding);
+    db.bind(9, p.rowid);
 
     bool success = db.execute();
 

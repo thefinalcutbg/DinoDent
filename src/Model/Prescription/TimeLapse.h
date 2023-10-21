@@ -9,9 +9,9 @@ class TimeLapse {
 
 public:
 
-	TimeLapse();
+	TimeLapse(double value, const std::string& unit);
 
-	TimeLapse(int value) : value(value) {};
+	TimeLapse(double value) : value(value) {};
 
 	double value{ 1 };
 
@@ -22,7 +22,7 @@ public:
 	int getUnitIndex() const { return m_unit; }
 
 	std::string getNHISKey() const;
-
+	void setUnitByHisCode(const std::string& hisCode);
 	//returns true on success
 	bool setUnit(int unitKey);
 

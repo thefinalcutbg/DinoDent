@@ -125,6 +125,48 @@ void PrescriptionPresenter::deletePressed(int idx)
 	makeEdited();
 }
 
+void PrescriptionPresenter::eRxPressed()
+{
+	fetch_service.sendRequest("232940000020", User::doctor().LPK, *patient,
+		[&](const Prescription& prescr) {
+
+			auto rowid = m_prescription.rowid;
+			auto patient_rowid = m_prescription.patient_rowid;
+			edited = true;
+
+			m_prescription = prescr;
+			m_prescription.rowid = rowid;
+			m_prescription.patient_rowid = patient_rowid;
+
+			save();
+
+			refreshTabName();
+
+			if (isCurrent()) setDataToView();
+
+		});
+
+	return;
+
+	auto nrn = ModalDialogBuilder::inputDialog("НРН на рецептата:", "Зареждане на рецепта от eRx");
+
+	if (nrn.empty()) return;
+
+	fetch_service.sendRequest(nrn, User::doctor().LPK, *patient,
+		[&](const Prescription& prescr) {
+
+			auto rowid = m_prescription.rowid;
+			edited = true;
+
+			m_prescription = prescr;
+			m_prescription.rowid = rowid;
+
+			save();
+
+			if (isCurrent()) setDataToView();
+	});
+}
+
 void PrescriptionPresenter::setFemaleProperties(bool pregnancy, bool breastfeeding)
 {
 	if (!patient->canBePregnant()) return;

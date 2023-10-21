@@ -5,13 +5,13 @@
 #include "TabPresenter.h"
 #include "BrowserPresenter.h"
 #include "Network/HIS/UpdateMedications.h"
-
+#include "Network/HIS/EPrescription.h"
 class MainPresenter
 {
 	IMainView* view{nullptr};
 
 	UpdateMedications med_update_service;
-
+	EPrescription::eRxFetch eRx_service;
 	static MainPresenter s_singleton;
 
 	MainPresenter(){}

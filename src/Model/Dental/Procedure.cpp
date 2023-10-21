@@ -28,6 +28,11 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 					teeth.setStatus({ tooth_idx.index }, StatusType::general, StatusCode::Post, true, tooth_idx.supernumeral);
 					tooth.post.LPK = LPK;
 				}
+
+				//fracture
+				if (diagnosis.index() == 4) {
+					teeth.setStatus({ tooth_idx.index }, StatusType::general, StatusCode::Fracture, false, tooth_idx.supernumeral);
+				}
 			}
 			break;
 
@@ -55,7 +60,7 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 			case::ProcedureType::crown:
 			{
 				teeth.setStatus({ tooth_idx.index }, StatusType::general, StatusCode::Crown, true, tooth_idx.supernumeral);
-				
+				teeth.setStatus({ tooth_idx.index }, StatusType::general, StatusCode::Fracture, false, tooth_idx.supernumeral);
 				auto& tooth = tooth_idx.supernumeral ? teeth[tooth_idx.index].dsn.tooth() : teeth[tooth_idx.index];
 				tooth.crown.LPK = LPK;
 
@@ -84,7 +89,7 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 
 				//teeth.removeBridgeOrSplint(indexes);
 				teeth.setStatus(indexes, StatusType::general, StatusCode::Bridge, true);
-
+				teeth.setStatus(indexes, StatusType::general, StatusCode::Fracture, false);
 				for (int i : indexes) teeth[i].bridge.LPK = LPK;
 
 			}

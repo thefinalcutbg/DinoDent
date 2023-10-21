@@ -280,6 +280,15 @@ void EPrescription::eRxFetch::parseReply(const std::string& reply)
 		return;
 	}
 
+	if (getString(prescrXml, "category") != "T1") {
+		ModalDialogBuilder::showMessage(
+			"Не можете да зареждате рецепти различни от белите"
+		);
+
+		m_callback = nullptr;
+		return;
+	}
+
 	Prescription result;
 
 	result.NRN = getString(prescrXml, "nrnPrescription");

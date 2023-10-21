@@ -88,6 +88,10 @@ void MedicationDialog::setReadOnly()
 
 	foreach(QWidget *widget, widgets)
 	{
+		auto label = qobject_cast<QLabel*>(widget);
+
+		if (label) continue;
+
 		widget->setEnabled(false);
 	}
 

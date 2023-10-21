@@ -115,6 +115,7 @@ bool PKCS11::loadModuleWithToken()
 		PKCS11_release_all_slots(ctx, testSlots, testNSlots);
 
 		success = true;
+		qDebug() << "using module: " << module.c_str();
 		break;
 	}
 
@@ -271,6 +272,7 @@ void PKCS11::unloadModule()
 	if (ctx)
 	{
 		PKCS11_CTX_unload(ctx);
+		ctx = nullptr;
 	}
 }
 

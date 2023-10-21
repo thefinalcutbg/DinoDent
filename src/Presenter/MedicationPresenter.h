@@ -11,12 +11,14 @@ class MedicationPresenter
 
 	Medication m_medication;
 
+	bool m_readOnly{ false };
+
 	bool ok_pressed{ false };
 
 public:
 	
 	MedicationPresenter();
-	MedicationPresenter(const Medication& m) : m_medication{ m } {};
+	MedicationPresenter(const Medication& m, bool readOnly = false) : m_medication{ m }, m_readOnly(readOnly) {};
 	void commonDataChanged(int quantity, bool quantityByForm, bool allowSubstitution);
 	void medicationChanged(const std::string& medication);
 	void priorityChanged(int idx) { m_medication.priority = static_cast<Medication::Priority>(idx); }

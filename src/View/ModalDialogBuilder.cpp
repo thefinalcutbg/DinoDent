@@ -356,6 +356,14 @@ std::optional<Allergy> ModalDialogBuilder::openAllergyDialog(const Allergy& a)
 	return d.getResult();
 }
 
+#include "Resources.h"
+
+void ModalDialogBuilder::show_eIDAS_Warning()
+{
+	auto warning = Resources::fromPath(":/other/eIDAS.txt");
+	showMessage(warning);
+}
+
 #include <QProcess>
 void ModalDialogBuilder::openExplorer(const std::string& path)
 {

@@ -69,6 +69,8 @@ std::optional<Medication> MedicationPresenter::openDialog()
 
 	ModalDialogBuilder::openDialog(this);
 
+	if (m_readOnly) return {};
+
 	if (ok_pressed) return m_medication;
 
 	return std::optional<Medication>();
@@ -118,4 +120,8 @@ void MedicationPresenter::setView(IMedicationDialog* view)
 
 	view->setMedication(m_medication);
 	view->setDosageList(m_medication.dosageList());
+	
+	if (m_readOnly) {
+		view->setReadOnly();
+	}
 }

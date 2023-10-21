@@ -22,7 +22,7 @@ public:
 	void setQuantityListNames(const std::string& pack, const std::string& form) override;
 	void setFormLabel(const std::string& formName) override;
 	void setDosageList(const std::vector<std::string> dosageList) override;
-
+	void setReadOnly() override;
 	bool fieldsAreValid() override;
 	void closeUi() override { close(); }
 

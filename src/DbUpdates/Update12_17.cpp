@@ -4,6 +4,7 @@
 #include <qdebug.h>
 #include "Database/DbPatient.h"
 #include "Model/FreeFunctions.h"
+#include "GlobalSettings.h"
 
 void DbUpdates::update12()
 {
@@ -114,4 +115,6 @@ void DbUpdates::update17()
 	{
 		db.execute(query);
 	}
+
+	GlobalSettings::setPkcs11PathList(GlobalSettings::getDefaultPkcs11Paths());
 }

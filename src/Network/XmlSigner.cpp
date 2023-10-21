@@ -14,9 +14,32 @@
 #include <xmlsec/crypto.h>
 #include <xmlsec/openssl/evp.h>
 #include <xmlsec/transforms.h>
+#include <xmlsec/errors.h>
 #include <libxml/valid.h>
 
 #include "PKCS11.h"
+
+#include "View/ModalDialogBuilder.h"
+
+void errorReprort(const char* file,
+    int line,
+    const char* func,
+    const char* errorObject,
+    const char* errorSubject,
+    int reason,
+    const char* msg
+)
+{
+    //qDebug() << "ERROR";
+    //qDebug() << file;
+    //qDebug() << line;
+    //qDebug() << errorObject;
+    //qDebug() << errorSubject;
+    //qDebug() << reason;
+    //qDebug() << msg;
+    //qDebug() << "\n\n\n";
+
+}
 
 bool init{ false };
 
@@ -130,6 +153,7 @@ std::string XmlSigner::signPisQuery(const std::string& bodyContent, evp_pkey_st*
      /* sign the template */
     if (xmlSecDSigCtxSign(dsigCtx, signNode) < 0) {
         
+        ModalDialogBuilder::show_eIDAS_Warning();
         return { "Error: signature failed"};
 
     }
@@ -207,6 +231,8 @@ std::string XmlSigner::signHisMessage(const std::string& document, evp_pkey_st* 
     }
     init = true;
 
+    //xmlSecErrorsSetCallback(errorReprort);
+
     if (prvKey == nullptr) return{ "No private key" };
     if (pem_x509.empty()) return{ "No x509 certificate" };
 
@@ -239,6 +265,7 @@ std::string XmlSigner::signHisMessage(const std::string& document, evp_pkey_st* 
     dsigCtx->signKey = xmlSecKeyCreate();
 
     dsigCtx->signKey->value = xmlSecOpenSSLEvpKeyAdopt(prvKey);
+    dsigCtx->signKey->usage = xmlSecKeyUsageSign;
 
     if (
         xmlSecOpenSSLAppKeyCertLoadMemory(
@@ -254,6 +281,7 @@ std::string XmlSigner::signHisMessage(const std::string& document, evp_pkey_st* 
 
     /* sign the template */
     if (xmlSecDSigCtxSign(dsigCtx, signNode) < 0) {
+        ModalDialogBuilder::show_eIDAS_Warning();
         return { "Error: signature failed" };
 
     }

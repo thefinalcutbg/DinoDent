@@ -225,3 +225,18 @@ bool DbPrescription::update(const Prescription& p)
 
     return success;
 }
+
+bool DbPrescription::nrnExists(const std::string& nrn)
+{
+    if (nrn.empty()) return false;
+
+    Db db(
+        "SELECT COUNT(*) FROM prescription WHERE nrn=?"
+    );
+
+    db.bind(1, nrn);
+
+    while(db.hasRows()) return db.asBool(0);
+
+    return false;
+}

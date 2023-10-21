@@ -288,8 +288,7 @@ void EPrescription::eRxFetch::parseReply(const std::string& reply)
 	result.supplements = getString(prescrXml, "nhis:supplements");
 	result.dispensation.setTypeFromNhis(getInt(prescrXml,"dispensationType"));
 
-	//weird logic lol
-	if (prescrXml->FirstChildElement("nhis:allowedRepeatsNumber")) {
+	if (result.dispensation.type != Dispensation::SingleUse) {
 		result.dispensation.setRepeatsFromNhis(getInt(prescrXml, "allowedRepeatsNumber"));
 	}
 
@@ -301,7 +300,7 @@ void EPrescription::eRxFetch::parseReply(const std::string& reply)
 		)
 	{
 		auto& medication = result.medicationGroup.emplace_back(getInt(medXml, "medicationCode"));
-		medication.priority = static_cast<Medication::Priority>(getInt(medXml,"priority"));
+		medication.priority = static_cast<Medication::Priority>(getInt(medXml,"priority")-1);
 		medication.quantity = getInt(medXml, "quantityValue");
 		medication.byForm = getBool(medXml, "isQuantityByForm");
 		medication.note = getString(medXml, "note");
@@ -350,7 +349,7 @@ void EPrescription::eRxFetch::parseReply(const std::string& reply)
 			if (!dosage.frequency) dosage.frequency = 1; //default value
 
 			dosage.period = {
-				getDouble(dosageXml, "nhis:period"),
+				getDouble(dosageXml, "period"),
 				getString(dosageXml, "periodUnit")
 			};
 
@@ -374,6 +373,18 @@ void EPrescription::eRxFetch::parseReply(const std::string& reply)
 
 		}
 
+	}
+
+	auto various = docHandle.
+		FirstChild("nhis:message").
+		FirstChild("nhis:contents").
+		FirstChild("nhis:results").
+		FirstChild("nhis:subject").
+		FirstChild("nhis:various").ToElement();
+	
+	if (various) {
+		result.isPregnant = getBool(various, "isPregnant");
+		result.isBreastFeeding = getBool(various, "isBreastFeeding");
 	}
 
 	m_callback(result);

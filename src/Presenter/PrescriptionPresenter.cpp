@@ -71,9 +71,9 @@ void PrescriptionPresenter::checkStatus()
 {
 	if (m_prescription.NRN.empty()) return;
 
-	check_status_service.sendRequest(m_prescription.NRN, [&](EPrescription::Status s) {
+	check_status_service.sendRequest(m_prescription.NRN, [&](const std::string result) {
 
-			ModalDialogBuilder::showMessage("Статус на рецептата: " + EPrescription::getStatusText(s));
+			ModalDialogBuilder::showMessage(result);
 		}
 	);
 }

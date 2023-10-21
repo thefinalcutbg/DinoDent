@@ -129,9 +129,9 @@ void EPrescription::Issue::parseReply(const std::string& reply)
 	}
 }
 
-bool EPrescription::Cancel::sendRequest(const std::string& nrn, std::function<void(bool)> success)
+bool EPrescription::Cancel::sendRequest(const std::string& nrn, std::function<void(bool)> callback)
 {
-	m_callback = success;
+	m_callback = callback;
 
 	auto reason = ModalDialogBuilder::inputDialog(
 						"Основание за анулиране на рецептата:",
@@ -175,7 +175,7 @@ void EPrescription::Cancel::parseReply(const std::string& reply)
 
 }
 
-bool EPrescription::FetchDispense::sendRequest(const std::string& nrn, std::function<void(EPrescription::Status s)> callback)
+bool EPrescription::FetchDispense::sendRequest(const std::string& nrn, std::function<void(const std::string& response)> callback)
 {
 	m_callback = callback;
 
@@ -199,25 +199,21 @@ void EPrescription::FetchDispense::parseReply(const std::string& reply)
 
 	TiXmlHandle docHandle(&doc);
 
-	auto status = docHandle.
-		FirstChild().			//message
-		Child(1).				//contents
-		Child(1).				//results
-		FirstChild().			//prescription
-		Child(2).ToElement();	//status
+	auto statusXml = docHandle.
+		FirstChild("nhis:message").
+		FirstChild("nhis:contents").
+		FirstChild("nhis:results").
+		FirstChild("nhis:prescription").
+		FirstChild("nhis:status").ToElement();
 
-	if (status)
-	{
-		m_callback(static_cast<EPrescription::Status>(status->FirstAttribute()->IntValue())); 
+	int statusValue = 0;
+
+	if (statusXml) {
+		statusValue = statusXml->FirstAttribute()->IntValue();
 	}
 
-	m_callback = nullptr;
 
-}
-
-std::string EPrescription::getStatusText(EPrescription::Status s)
-{
-	static const std::string text[Status::Size] = {
+	static const char* statusNum[] = {
 		"Неизвестен",
 		"Активна",
 		"Частично изпълнена",
@@ -228,10 +224,31 @@ std::string EPrescription::getStatusText(EPrescription::Status s)
 		"Изтекла"
 	};
 
-	if (s < 0 || s >= Status::Size) return text[0];
+	std::string result = "Статус на рецептата: ";
+	result += statusNum[statusValue];
 
-	return text[s];
+	auto substitutionXml = docHandle.
+		FirstChild("nhis:message").
+		FirstChild("nhis:contents").
+		FirstChild("nhis:results").
+		FirstChild("nhis:dispense").
+		FirstChild("nhis:group").
+		FirstChild("nhis:medication").
+		FirstChild("nhis:substitution").ToElement();
+
+
+	if (substitutionXml && getBool(substitutionXml, "wasSubstituted")){
+		 result += "\nЗаместител: Да\nПричина за заместване: ";
+		 result += getString(substitutionXml, "reason");
+	}
+
+	m_callback(result);
+
+	m_callback = nullptr;
+
 }
+
+
 
 
 bool EPrescription::eRxFetch::sendRequest(
@@ -251,7 +268,7 @@ bool EPrescription::eRxFetch::sendRequest(
 
 	return HisService::sendRequestToHis(contents);
 }
-#include <qdebug.h>
+
 void EPrescription::eRxFetch::parseReply(const std::string& reply)
 {
 	auto errors = getErrors(reply);

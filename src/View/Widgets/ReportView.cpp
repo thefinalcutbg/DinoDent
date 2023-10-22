@@ -57,6 +57,10 @@ ReportView::ReportView(QWidget* parent)
 
 	connect(ui.pisButton, &QPushButton::clicked, [&] { presenter.sendToPis(); });
 	connect(ui.xmlButton, &QPushButton::clicked, [&] { presenter.saveToXML(); });
+	
+	ui.xmlButton->setIcon(QIcon(":/icons/icon_xml.png"));
+	ui.pisButton->setIcon(QIcon(":/icons/icon_nhif.png"));
+
 
 	connect(ui.textBrowser, &TextBrowser::linkPressed, [&](const QString& str) { presenter.linkClicked(str.toStdString()); });
 

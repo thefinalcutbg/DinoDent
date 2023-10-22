@@ -9,6 +9,8 @@ ReportFilesView::ReportFilesView(QWidget *parent)
 {
 	ui.setupUi(this);
 
+	ui.loadPISbutton->setIcon(QIcon(":/icons/icon_nhif.png"));
+
 	ui.tableView->setModel(&model);
 
 	ui.tableView->setSelectionBehavior(QAbstractItemView::SelectionBehavior::SelectRows);

@@ -2,11 +2,15 @@
 #include "QtVersion.h"
 #include "Model/Date.h"
 #include <QPainter>
-
+#include <qdebug.h>
 FiscalReportView::FiscalReportView(QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
+
+	ui.generateFiscalDescr->setIcon(QIcon(":/icons/icon_pdf.png"));
+	ui.deleteReceipt->setIcon(QIcon(":/icons/icon_remove.png"));
+
 
 	auto d = Date::currentDate();
 	
@@ -36,15 +40,11 @@ FiscalReportView::FiscalReportView(QWidget *parent)
 
 	connect(ui.deleteReceipt, &QPushButton::clicked, [&] { presenter.deleteReceipt(getCurrentIndex()); });
 	connect(ui.generateFiscalDescr, &QPushButton::clicked, [&] { presenter.generateDescription(); });
-	//connect(ui.generateInvoice, &QPushButton::clicked, [&] { presenter.generateInvoice(); });
 	connect(ui.tableView, &QTableView::doubleClicked, [&] { presenter.editReceipt(getCurrentIndex()); });
-
 
 	presenter.dateChanged(d.month, d.year);
 
 	presenter.setView(this);
-
-
 
 }
 
@@ -56,6 +56,7 @@ int FiscalReportView::getCurrentIndex()
 	void FiscalReportView::setFiscalData(const std::vector<FiscalReceipt>&data)
 {
 	data_model.setRows(data);
+	ui.deleteReceipt->setDisabled(data.empty());
 }
 
 

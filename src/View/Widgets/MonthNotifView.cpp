@@ -9,6 +9,9 @@ MonthNotifView::MonthNotifView(QWidget *parent)
 {
 	ui.setupUi(this);
 
+    ui.loadXMLbutton->setIcon(QIcon(":/icons/icon_xml.png"));
+    ui.loadPISbutton->setIcon(QIcon(":/icons/icon_nhif.png"));
+
     ui.tableView->setModel(&model);
 
     ui.tableView->setSelectionBehavior(QAbstractItemView::SelectionBehavior::SelectRows);

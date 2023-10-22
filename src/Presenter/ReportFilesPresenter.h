@@ -13,4 +13,8 @@ public:
 	void refreshFiles();
 	void showError(int idx);
 
+	static void clearCache() {
+		reportFiles.clear();
+	}
+
 };

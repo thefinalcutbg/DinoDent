@@ -28,6 +28,9 @@ public:
 	//handles the reply from replyhandler
 	void setNotifRows(const std::optional<std::vector<MonthNotifRow>>& notifRows);
 
+	static void clearCache() {
+		m_notifRows.clear();
+	}
 
 };
 

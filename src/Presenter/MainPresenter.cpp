@@ -1,22 +1,28 @@
 ﻿#include "MainPresenter.h"
-#include "Network/HIS/HisToken.h"
+
 #include "Model/Dental/NhifProcedures.h"
+#include "Model/User.h"
+#include "Model/xml.h"
+
+#include "Database/DbPractice.h"
+#include "Database/DbDoctor.h"
+#include "Database/DbUpdateStatus.h"
+
+#include "Network/HIS/HisToken.h"
+#include "Network/Telemetry.h"
+#include "Network/PKCS11.h"
+
 #include "Presenter/PatientDialogPresenter.h"
-#include "View/Printer.h"
+#include "Presenter/MonthNotifPresenter.h"
+#include "Presenter/PracticeDialogPresenter.h"
+#include "Presenter/ReportFilesPresenter.h"
+#include "Presenter/MonthNotifPresenter.h"
 #include "Presenter/LoginPresenter.h"
 #include "Presenter/DoctorDialogPresenter.h"
 #include "Presenter/StatisticDialogPresenter.h"
 #include "Presenter/RecipientPresenter.h"
-#include "Network/PKCS11.h"
-#include "Model/User.h"
-#include "Model/xml.h"
-#include "Presenter/PracticeDialogPresenter.h"
-#include "Database/DbPractice.h"
-#include "Database/DbDoctor.h"
-#include "Database/DbUpdateStatus.h"
+
 #include "View/Printer.h"
-#include "Presenter/MonthNotifPresenter.h"
-#include "Network/Telemetry.h"
 #include "View/Widgets/SplashScreen.h"
 
 MainPresenter MainPresenter::s_singleton;
@@ -184,6 +190,9 @@ void MainPresenter::logOut()
     PKCS11::unloadModule();
 
     HisToken::nullifyToken();
+
+    ReportFilesPresenter::clearCache();
+    MonthNotifPresenter::clearCache();
 
     DbDoctor::setAutoLogin(User::doctor().LPK, false);
 

@@ -274,7 +274,7 @@ void ListPresenter::print()
     if(save())
     Print::ambList(m_ambList, *patient);
 }
-
+#include <QDebug>
 void ListPresenter::setDataToView()
 {
     view->setPresenter(this);
@@ -335,11 +335,11 @@ void ListPresenter::setDataToView()
             auto callback = [&](const std::optional<std::vector<Procedure>>& result, const ToothContainer& teeth) {
 
                 if (!result) return;
-
+ 
                 auto& procedures = result.value();
 
                 patient->HISHistory = procedures;
-
+  
                 if (!m_ambList.isNew()) return;
 
                 m_ambList.teeth.copyOnlyOnUnknown(teeth);

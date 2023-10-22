@@ -12,6 +12,8 @@ ProcedureHistoryDialog::ProcedureHistoryDialog(ProcedureHistoryPresenter& p)
     setWindowTitle("Онлайн пациентско досие");
 
     ui.graphicsView->setDisabled(true);
+    ui.graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    ui.graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     auto initTable = [](QTableView* table, QAbstractTableModel* model) {
 

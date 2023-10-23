@@ -82,11 +82,6 @@ DosageDialog::DosageDialog(DosagePresenter* p, QWidget* parent) :
 	ui.whenCombo->setLineEdit(whenLine);
 
 
-
-	connect(ui.whenCombo->lineEdit(), &QLineEdit::returnPressed, [=] {
-			ui.addWhenButton->click();
-		});
-
 	connect(ui.whenCombo->lineEdit(), &QLineEdit::textChanged, [=] {
 		static_cast<LineEdit*>(ui.whenCombo->lineEdit())->validateInput() ?
 			ui.whenCombo->lineEdit()->setStyleSheet("")
@@ -99,6 +94,12 @@ DosageDialog::DosageDialog(DosagePresenter* p, QWidget* parent) :
 		presenter->whenTagAdded(ui.whenCombo->lineEdit()->text().toStdString());
 
 	});
+
+	connect(ui.whenCombo->lineEdit(), &QLineEdit::returnPressed, [=] {
+
+		presenter->whenTagAdded(ui.whenCombo->lineEdit()->text().toStdString());
+	});
+
 
 	connect(whenLine, &QLineEdit::textChanged, [=](const QString& text) {
 		ui.addWhenButton->setEnabled(whenLine->isValid() && text.size());
@@ -216,6 +217,8 @@ void DosageDialog::setWhenTags(const std::vector<std::string>& tags, bool offset
 
 	ui.offsetSpin->setHidden(!offsetAllowed);
 	ui.offsetCheck->setHidden(!offsetAllowed);
+
+	ui.whenCombo->setFocus();
 }
 
 bool DosageDialog::fieldsAreValid()

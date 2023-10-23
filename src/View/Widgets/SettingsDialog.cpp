@@ -128,13 +128,6 @@ bool SettingsDialog::showReplies()
 	return ui.repliesCheck->isChecked();
 }
 
-void SettingsDialog::paintEvent(QPaintEvent* event)
-{
-	QWidget::paintEvent(event); return;
-	QPainter painter(this);
-	painter.fillRect(rect(), Qt::white);
-}
-
 SettingsDialog::~SettingsDialog()
 {
 }

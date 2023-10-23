@@ -715,6 +715,15 @@ void ListPresenter::moveProcedure(int from, int to)
 
 void ListPresenter::addMedicalNotice()
 {
+
+    if (m_ambList.nrn.empty()) {
+        ModalDialogBuilder::showMessage(
+            "За да издадете медицинска бележка, "
+            "първо изпратете амбулаторния лист към НЗИС"
+        );
+        return;
+    }
+
     auto result = ModalDialogBuilder::openDialog(MedicalNotice());
 
     if (!result) return;
@@ -812,6 +821,14 @@ void ListPresenter::addReferral(ReferralType type)
             "\nна договора с НЗОК и кодът на специалността от насторйки"
         );
 
+        return;
+    }
+
+    if (m_ambList.nrn.empty() && Referral::isNrnType(type)) {
+        ModalDialogBuilder::showMessage(
+            "За да издадете това направление, "
+            "първо изпратете амбулаторния лист към НЗИС"
+        );
         return;
     }
 
@@ -1112,6 +1129,9 @@ void ListPresenter::hisButtonPressed()
 
                 for (auto& p : m_ambList.procedures) p.his_index = 0;
 
+                m_ambList.referrals.clear();
+                m_ambList.medical_notices.clear();
+
                 DbAmbList::update(m_ambList);
 
                 refreshTabName();
@@ -1120,8 +1140,7 @@ void ListPresenter::hisButtonPressed()
 
                 if (isCurrent())
                 {
-                    setHisButtonToView();
-                    view->setProcedures(m_ambList.procedures.list());
+                    setDataToView();
                 }
         });
 

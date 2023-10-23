@@ -68,6 +68,10 @@ public:
 		return type != ReferralType::MH119;
 	}
 
+	static bool isNrnType(ReferralType type) {
+		return type != ReferralType::MH119;
+	}
+
 	inline bool isSentToHIS() const {
 		return nrn.size();
 	}

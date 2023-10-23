@@ -14,6 +14,8 @@ DosageDialog::DosageDialog(DosagePresenter* p, QWidget* parent) :
 	ui.offsetCheck->hide();
 	ui.offsetSpin->hide();
 
+	ui.addWhenButton->setDisabled(true);
+
 	connect(ui.asNeededCheck, &QCheckBox::stateChanged, [=] {
 		presenter->setAsNeeded(ui.asNeededCheck->isChecked());
 		});
@@ -96,6 +98,10 @@ DosageDialog::DosageDialog(DosagePresenter* p, QWidget* parent) :
 
 		presenter->whenTagAdded(ui.whenCombo->lineEdit()->text().toStdString());
 
+	});
+
+	connect(whenLine, &QLineEdit::textChanged, [=] {
+		ui.addWhenButton->setEnabled(whenLine->isValid());
 	});
 
 	connect(ui.cancelButton, &QPushButton::clicked, [&] {close();});
@@ -184,7 +190,8 @@ void DosageDialog::setRouteString(const std::string& route)
 void DosageDialog::setWhenTags(const std::vector<std::string>& tags, bool offsetAllowed)
 {
 
-	ui.whenCombo->clearEditText();
+	ui.whenCombo->setEditText("");
+	ui.addWhenButton->setDisabled(true);
 
 	while (ui.tagLayout->count())
 	{
@@ -193,9 +200,15 @@ void DosageDialog::setWhenTags(const std::vector<std::string>& tags, bool offset
 
 	for (int i = 0; i < tags.size(); i++) {
 
-		QPushButton* tagButton = new QPushButton(tags[i].c_str(), this);
+		QString text = tags[i].c_str();
+		text.append(" ");
+
+		QPushButton* tagButton = new QPushButton(text, this);
 
 		tagButton->setToolTip("Премахни");
+
+		tagButton->setIcon(QIcon(":/icons/icon_remove.png"));
+		tagButton->setLayoutDirection(Qt::RightToLeft);
 
 		ui.tagLayout->addWidget(tagButton);
 

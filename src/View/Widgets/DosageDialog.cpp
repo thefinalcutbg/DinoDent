@@ -100,8 +100,8 @@ DosageDialog::DosageDialog(DosagePresenter* p, QWidget* parent) :
 
 	});
 
-	connect(whenLine, &QLineEdit::textChanged, [=] {
-		ui.addWhenButton->setEnabled(whenLine->isValid());
+	connect(whenLine, &QLineEdit::textChanged, [=](const QString& text) {
+		ui.addWhenButton->setEnabled(whenLine->isValid() && text.size());
 	});
 
 	connect(ui.cancelButton, &QPushButton::clicked, [&] {close();});
@@ -189,9 +189,7 @@ void DosageDialog::setRouteString(const std::string& route)
 
 void DosageDialog::setWhenTags(const std::vector<std::string>& tags, bool offsetAllowed)
 {
-
-	ui.whenCombo->setEditText("");
-	ui.addWhenButton->setDisabled(true);
+	ui.whenCombo->clearEditText();
 
 	while (ui.tagLayout->count())
 	{

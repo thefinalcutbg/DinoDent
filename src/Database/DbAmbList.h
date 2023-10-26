@@ -25,5 +25,7 @@ namespace DbAmbList
 
     void updateNrn(const std::string& nrn, long long ambRowId);
 
+    bool importedPisSheetExists(const AmbList& list, const Patient& patient);
+
 };
 

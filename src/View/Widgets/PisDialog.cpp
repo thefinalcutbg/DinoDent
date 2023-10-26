@@ -14,6 +14,7 @@ PisDialog::PisDialog(QWidget *parent)
 	ui.tabWidget->tabBar()->setTabIcon(1, QIcon(":/icons/icon_invoice.png"));
 	ui.tabWidget->tabBar()->setTabIcon(2, QIcon(":/icons/icon_apply.png"));
 	ui.tabWidget->tabBar()->setTabIcon(3, QIcon(":/icons/icon_nssi.png"));
+	ui.tabWidget->tabBar()->setTabIcon(4, QIcon(":/icons/icon_db.png"));
 
 	ui.tabWidget->setStyleSheet(
 		"QTabBar::tab:selected {background-color: white}"

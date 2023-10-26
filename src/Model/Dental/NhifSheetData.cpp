@@ -19,3 +19,25 @@ std::string NhifSheetData::getSpecString(NhifSpecialty specialty) const
     if (specification == NhifSpecification::Anesthesia) return "SPEC PS";
 
 }
+
+void NhifSheetData::setSpecFromNhif(const std::string& spec)
+{
+    static const char* nhifNum[6] =
+    {
+        "PRIMARY NORM",
+        "PRIMARY SPEC",
+        "PRIMARY PS",
+        "SPEC NORM",
+        "SPEC DOMOVE",
+        "SPEC PS"
+    };
+
+    for (int i = 0; i < 6; i++) {
+        
+        if (spec != nhifNum[i]) continue;
+
+        this->specification = static_cast<NhifSpecification>(i < 3 ? i : i - 3);
+        return;
+        
+    }
+}

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>679</width>
+    <width>746</width>
     <height>400</height>
    </rect>
   </property>
@@ -50,7 +50,12 @@
      </widget>
      <widget class="FiscalReportView" name="tab">
       <attribute name="title">
-       <string>Потребителскa таксa - пенсионери</string>
+       <string>Потребителски такси</string>
+      </attribute>
+     </widget>
+     <widget class="PisImportView" name="tab_2">
+      <attribute name="title">
+       <string>Импортиране на данни</string>
       </attribute>
      </widget>
     </widget>
@@ -81,6 +86,12 @@
    <class>FiscalReportView</class>
    <extends>QWidget</extends>
    <header>View/Widgets/FiscalReportView.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>PisImportView</class>
+   <extends>QWidget</extends>
+   <header>View/Widgets/PisImportView.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

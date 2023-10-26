@@ -388,3 +388,33 @@ void DbAmbList::updateNrn(const std::string& nrn, long long ambRowId)
 
     db.execute();
 }
+
+bool DbAmbList::importedPisSheetExists(const AmbList& list, const Patient& patient)
+{
+    Db db;
+
+    if (list.nrn.size()) {
+
+        db.newStatement(
+            "SELECT COUNT() FROM amblist WHERE nrn=?"
+        );
+        db.bind(1, list.nrn);
+    }
+    else{
+        db.newStatement(
+            "SELECT COUNT() FROM amblist WHERE "
+            "num=? AND rzi=? AND lpk=? AND patient_rowid=?"
+        );
+        
+        db.bind(1, list.number);
+        db.bind(2, User::practice().rziCode);
+        db.bind(3, list.LPK);
+        db.bind(4, patient.rowid);
+    }
+
+    while (db.hasRows()) {
+        return db.asBool(0);
+    }
+
+    return false;
+}

@@ -48,6 +48,7 @@ public:
     bool execute(const std::string& query);
 
     long long lastInsertedRowID();
+    std::string getPreparedStatement();
     void closeConnection();
 
 

@@ -9,5 +9,6 @@ struct NhifSheetData
 	NhifSpecification specification{ NhifSpecification::PartialCoverage };
 	std::string getSpecString(NhifSpecialty specialty) const;
 	bool isUnfavourable{ false };
+	void setSpecFromNhif(const std::string& spec);
 };
 

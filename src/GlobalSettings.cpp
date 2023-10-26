@@ -71,9 +71,9 @@ void GlobalSettings::createCfgIfNotExists()
 
     //creating the config file
     if (!cfg.exists()) {
-
+        
         std::string dbPath = dataFolder.filePath("database.db").toUtf8().toStdString();
-
+        
                 //getting db from the old cfg
                 QFile old_cfg(dataFolder.filePath("dinocfg.txt"));
 

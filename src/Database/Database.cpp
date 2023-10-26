@@ -109,6 +109,23 @@ long long Db::lastInsertedRowID()
     return sqlite3_last_insert_rowid(db_connection);
 }
 
+std::string Db::getPreparedStatement()
+{
+   char* ptr = sqlite3_expanded_sql(stmt);
+
+   int size;
+   
+   sqlite3_malloc(size);
+
+   if (!size) return "";
+
+   std::string result(ptr, size);
+
+   sqlite3_free(ptr);
+
+   return result;
+}
+
 void Db::closeConnection()
 {
     if (!db_connection) return;

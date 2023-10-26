@@ -258,6 +258,8 @@
     <ClCompile Include="src\Network\HIS\EReferral.cpp" />
     <ClCompile Include="src\Network\HIS\HISHistoryAlgorithms.cpp" />
     <ClCompile Include="src\Network\NRA\NssiPentionService.cpp" />
+    <ClCompile Include="src\Network\PIS\GetFileService.cpp" />
+    <ClCompile Include="src\Network\PIS\PisReportParser.cpp" />
     <ClCompile Include="src\Network\PIS\ReportFilesService.cpp" />
     <ClCompile Include="src\Network\Telemetry.cpp" />
     <ClCompile Include="src\Network\UpdateService\UpdateService.cpp" />
@@ -267,6 +269,7 @@
     <ClCompile Include="src\Presenter\FiscalReportPresenter.cpp" />
     <ClCompile Include="src\Presenter\MedicalStatusPresenter.cpp" />
     <ClCompile Include="src\Presenter\MedicationPresenter.cpp" />
+    <ClCompile Include="src\Presenter\PisImportPresenter.cpp" />
     <ClCompile Include="src\Presenter\ProcedureHistoryPresenter.cpp" />
     <ClCompile Include="src\Presenter\PatientInfoPresenter.cpp" />
     <ClCompile Include="src\Presenter\PracticeManagerPresenter.cpp" />
@@ -479,6 +482,7 @@
     <ClCompile Include="src\View\Widgets\FiscalReportView.cpp" />
     <ClCompile Include="src\View\Widgets\MedicalNoticeDialog.cpp" />
     <ClCompile Include="src\View\Widgets\MedicalStatusDialog.cpp" />
+    <ClCompile Include="src\View\Widgets\PisImportView.cpp" />
     <ClCompile Include="src\View\Widgets\PracticeDialog.cpp" />
     <ClCompile Include="src\View\Widgets\BrowserDialog.cpp" />
     <ClCompile Include="src\View\Widgets\BusinessOperationDialog.cpp" />
@@ -559,6 +563,8 @@
     <ClInclude Include="src\Network\HIS\EReferral.h" />
     <ClInclude Include="src\Network\HIS\HISHistoryAlgorithms.h" />
     <ClInclude Include="src\Network\NRA\NssiPentionService.h" />
+    <ClInclude Include="src\Network\PIS\GetFileService.h" />
+    <ClInclude Include="src\Network\PIS\PisReportParser.h" />
     <ClInclude Include="src\Network\Telemetry.h" />
     <ClInclude Include="src\Network\UpdateService\UpdateService.h" />
     <ClInclude Include="src\GlobalSettings.h" />
@@ -577,6 +583,7 @@
     <ClInclude Include="src\Presenter\FiscalReceiptPresenter.h" />
     <ClInclude Include="src\Presenter\MedicalStatusPresenter.h" />
     <ClInclude Include="src\Presenter\MedicationPresenter.h" />
+    <ClInclude Include="src\Presenter\PisImportPresenter.h" />
     <ClInclude Include="src\Presenter\ProcedureHistoryPresenter.h" />
     <ClInclude Include="src\Presenter\PatientInfoPresenter.h" />
     <ClInclude Include="src\Presenter\PracticeManagerPresenter.h" />
@@ -818,6 +825,7 @@
     <ClInclude Include="src\View\Widgets\GlobalWidgets.h" />
     <QtMoc Include="src\View\Widgets\PisDialog.h" />
     <QtMoc Include="src\View\Widgets\MedicalNoticeDialog.h" />
+    <QtMoc Include="src\View\Widgets\PisImportView.h" />
     <ClInclude Include="src\View\Widgets\ReportDialogResult.h" />
     <QtMoc Include="src\View\Widgets\ReportFilesView.h" />
     <QtMoc Include="src\View\Widgets\StatisticDialogView.h" />
@@ -914,6 +922,7 @@
     <QtUic Include="src\View\Widgets\FiscalReportView.ui" />
     <QtUic Include="src\View\Widgets\MedicalNoticeDialog.ui" />
     <QtUic Include="src\View\Widgets\MedicalStatusDialog.ui" />
+    <QtUic Include="src\View\Widgets\PisImportView.ui" />
     <QtUic Include="src\View\Widgets\PracticeDialog.ui" />
     <QtUic Include="src\View\Widgets\BrowserDialog.ui" />
     <QtUic Include="src\View\Widgets\BusinessOperationDialog.ui" />

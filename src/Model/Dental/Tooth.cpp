@@ -146,7 +146,7 @@ std::array<bool, statusCount> Tooth::getBoolStatus() const
 	};
 }
 
-std::vector<std::string> Tooth::getSimpleStatuses() const
+std::vector<std::string> Tooth::getNhifStatus() const
 {
 	auto boolStatus = getBoolStatus();
 
@@ -239,7 +239,7 @@ std::vector<std::string> Tooth::getHISStatus() const
 
 std::string Tooth::getPrintStatus() const
 {
-	auto vec = getSimpleStatuses();
+	auto vec = getNhifStatus();
 
 	std::string result;
 	result.reserve(vec.size() * 3);

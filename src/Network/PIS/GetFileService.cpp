@@ -37,7 +37,7 @@ void GetFileService::processPISReply(const std::string& reply)
 	}
 }
 
-void GetFileService::sendRequest(
+bool GetFileService::sendRequest(
     const std::string& fileHash, 
     const std::string& rziCode, 
     std::function<void(const std::string& file)> callback
@@ -63,7 +63,7 @@ void GetFileService::sendRequest(
     "</ns3:query>"
 	;
 
-    PisService::sendRequest(query, SOAPAction::View);
+    return PisService::sendRequest(query, SOAPAction::View);
 
 }
 
@@ -102,11 +102,14 @@ void GetAmbHashes::processPISReply(const std::string& reply)
 		months_to_hashes[key] = getTextNullCheck(row.Child(2).ToElement());
 	}
 
-
 	std::stack<std::string> result;
 
-	for (auto& pair : months_to_hashes) {
-		result.push(pair.second);
+	std::map<std::pair<int, int>, std::string>::reverse_iterator it;
+
+	// iterating map in reverse order
+	for (it = months_to_hashes.rbegin(); it != months_to_hashes.rend(); it++) {
+
+		result.push(it->second);
 	}
 
 	m_callback(result);
@@ -114,7 +117,7 @@ void GetAmbHashes::processPISReply(const std::string& reply)
 	m_callback = nullptr;
 }
 
-void GetAmbHashes::sendRequest(const std::string& rziCode, decltype(m_callback) callback)
+bool GetAmbHashes::sendRequest(const std::string& rziCode, decltype(m_callback) callback)
 {
 	m_callback = callback;
 
@@ -159,5 +162,5 @@ void GetAmbHashes::sendRequest(const std::string& rziCode, decltype(m_callback) 
 	"</ns3:query>"
 	;
 
-	PisService::sendRequest(query, SOAPAction::View);
+	return PisService::sendRequest(query, SOAPAction::View);
 }

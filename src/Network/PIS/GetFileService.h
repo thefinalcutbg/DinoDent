@@ -16,7 +16,7 @@ class GetAmbHashes final : private PisService
 	void processPISReply(const std::string& reply) override;
 public:
 
-	void sendRequest(
+	bool sendRequest(
 		const std::string& rzi,
 		decltype(m_callback) callback
 	);
@@ -30,7 +30,7 @@ class GetFileService final : private PisService
 	void processPISReply(const std::string& reply) override;
 public:
 
-	void sendRequest(
+	bool sendRequest(
 		const std::string& fileHash,
 		const std::string& rziCode,
 		std::function<void(const std::string& file)> callback

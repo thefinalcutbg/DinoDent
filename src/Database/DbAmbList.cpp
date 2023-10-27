@@ -403,7 +403,8 @@ bool DbAmbList::importedPisSheetExists(const AmbList& list, const Patient& patie
     else{
         db.newStatement(
             "SELECT COUNT() FROM amblist WHERE "
-            "num=? AND rzi=? AND lpk=? AND patient_rowid=?"
+            "num=? AND rzi=? AND lpk=? AND patient_rowid=? "
+            "AND strftime('%Y', amblist.date)='" + std::to_string(Date(list.date).year) + "' "
         );
         
         db.bind(1, list.number);

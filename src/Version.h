@@ -13,8 +13,8 @@ struct Version {
 
 		return {
 			.MAJOR = 1, 
-			.MINOR = 7, 
-			.REVISION = 1
+			.MINOR = 8, 
+			.REVISION = 0
 		};
 	}
 

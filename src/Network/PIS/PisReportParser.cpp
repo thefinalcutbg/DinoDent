@@ -165,9 +165,16 @@ PisReportsForImport PisReportParser::parse(const std::string& xmlReport)
 			list.procedures.addProcedure(p);
 		}
 
+		//cannot deduce the amblist date
 		if (list.procedures.empty()) continue;
 
 		list.date = list.procedures[0].date.to8601() + "T00:00:00";
+
+		//assuming the list has only nhif procedures
+		if (list.nrn.size()) {
+			for (int i = 0; i < list.procedures.size(); i++)
+				list.procedures[i].his_index = i + 1;
+		}
 
 		result.push_back(std::make_pair(patient, list));
 	}

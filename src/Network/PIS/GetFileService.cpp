@@ -4,7 +4,7 @@
 #include "Network/Base64Convert.h"
 #include <map>
 #include <utility>
-#include <qdebug.h>
+
 void GetFileService::processPISReply(const std::string& reply)
 {
 	if (reply.empty()) {
@@ -103,13 +103,10 @@ void GetAmbHashes::processPISReply(const std::string& reply)
 	}
 
 	std::stack<std::string> result;
+	// iterating lists in reverse order because of the HIRBNo-s
+	for (auto& pair : months_to_hashes) {
 
-	std::map<std::pair<int, int>, std::string>::reverse_iterator it;
-
-	// iterating map in reverse order
-	for (it = months_to_hashes.rbegin(); it != months_to_hashes.rend(); it++) {
-
-		result.push(it->second);
+		result.push(pair.second);
 	}
 
 	m_callback(result);

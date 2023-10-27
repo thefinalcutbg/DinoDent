@@ -150,42 +150,27 @@ std::vector<std::string> Tooth::getSimpleStatuses() const
 {
 	auto boolStatus = getBoolStatus();
 
-	std::array<std::string, statusCount> statusLegend //each letter corresponds to bool status
-	{
-		"", "T", "O", "C", "P", "G", "", "", "R", "F", "E",
-		"Pa", "I", "K", "K", "X", "Impl.", "Dsn", "", "X", ""
-	};			  //     ^                         ^
-				  //  bridge	                 splint
+	std::array<std::string, statusCount> statusLegend = { "" };
+	static constexpr std::array<const char*, mobilityCount> mobilityNum{ "I", "II", "III" };
+
+	statusLegend[StatusCode::Temporary] = "T";
+	statusLegend[StatusCode::Obturation] = "O";
+	statusLegend[StatusCode::Caries] = "";
+	statusLegend[StatusCode::Pulpitis] = "P";
+	statusLegend[StatusCode::ApicalLesion] = "G";
+	statusLegend[StatusCode::Root] = "R";
+	statusLegend[StatusCode::Extraction] = boolStatus[StatusCode::FiberSplint] || boolStatus[StatusCode::Bridge] ? "" : "E";
+	statusLegend[StatusCode::Crown] = "K";
+	statusLegend[StatusCode::Bridge] = isPontic() ? "X" : "K";
+	statusLegend[StatusCode::Denture] = "X";
+	statusLegend[StatusCode::Periodontitis] = "Pa";
+	statusLegend[StatusCode::Mobility] = mobility ? statusLegend[StatusCode::Mobility] = mobilityNum[static_cast<int>(mobility.degree)] : "";
+	statusLegend[StatusCode::Fracture] = "F";
+	statusLegend[StatusCode::Implant] = "Impl.";
+	statusLegend[StatusCode::Dsn] = "Dsn";
+	statusLegend[StatusCode::FiberSplint] = isPontic() ? "X" : "O";
 
 	boolStatus[StatusCode::Dsn] = isSupernumeral();
-
-	if (boolStatus[StatusCode::FiberSplint])
-	{
-		if (boolStatus[StatusCode::Extraction])
-		{
-			statusLegend[StatusCode::Extraction] = ""; //extraction won't be shown
-		}
-		else
-		{
-			boolStatus[StatusCode::Obturation] = true; //obturation WILL be shown
-			statusLegend[StatusCode::FiberSplint] = "O"; //fibersplint WON'T be shown
-		}
-	}
-
-	if (boolStatus[StatusCode::Bridge])
-	{
-		if(boolStatus[StatusCode::Extraction] || boolStatus[StatusCode::Impacted])
-		{
-			statusLegend[StatusCode::Extraction] = "";
-			statusLegend[StatusCode::Bridge] = "X";
-		}
-	}
-
-	if (boolStatus[StatusCode::Mobility])
-	{
-		const char* mobility[3]{ "I", "II", "III" };
-		statusLegend[StatusCode::Mobility] = mobility[static_cast<int>(this->mobility.degree)];
-	}
 
 	std::vector<std::string> simpleStatus;
 

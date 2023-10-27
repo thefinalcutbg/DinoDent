@@ -34,7 +34,7 @@ public:
 	//for printing (T status is omitted)
 	std::string getPrintStatus() const;
 	//for xml report generation
-	std::vector<std::string> getSimpleStatuses() const;
+	std::vector<std::string> getNhifStatus() const;
 	std::vector<std::string> getHISStatus() const;
 	std::string getToothInfo() const;
 	std::string toothName() const;

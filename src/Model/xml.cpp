@@ -148,7 +148,7 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
 
         for (auto& t : list.teeth)
         {
-            auto status = t.getSimpleStatuses();
+            auto status = t.getNhifStatus();
             if (status.empty()) continue;
 
             TiXmlElement* tooth = new TiXmlElement("tooth");
@@ -176,7 +176,7 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
             if (!t.dsn) continue;
             if (!t.dsn.toothNotNull()) continue;
 
-            auto status = t.dsn.tooth().getSimpleStatuses();
+            auto status = t.dsn.tooth().getNhifStatus();
             if (status.empty()) continue;
 
             TiXmlElement* tooth = new TiXmlElement("tooth");

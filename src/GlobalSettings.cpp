@@ -5,24 +5,19 @@
 #include <JsonCpp/json.h>
 #include <array>
 #include <fstream>
+#include <QTextStream>
 #include "Model/Date.h"
 #include "Model/FreeFunctions.h"
 #include "Model/Time.h"
+#include <QDebug>
 
-namespace PrvPath
-{
-    std::string configFilePath() {
-        return QDir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("config.json").toStdString();
-    }
-}
 
 void rewriteCfg(const Json::Value& settings)
 {
-    QFile cfg(PrvPath::configFilePath().c_str());
+    QFile cfg(QDir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("config.json"));
     cfg.open(QIODevice::ReadWrite);
     cfg.resize(0);
     cfg.write(Json::StyledWriter().write(settings).c_str());
-    cfg.close();
 }
 
 
@@ -30,11 +25,19 @@ Json::Value getSettingsAsJson()
 {
     Json::Value settings;
 
-    std::ifstream f(PrvPath::configFilePath());
+    QFile file(QDir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("config.json"));
 
-    QDir dir;
+    if (!file.open(QIODevice::ReadOnly)) {
+        return {};
+    };
 
-    Json::Reader().parse(f, settings);
+    QString text;
+
+    while (!file.atEnd()) {
+        text += file.readLine();
+    }
+
+    if (!Json::Reader().parse(text.toStdString(), settings)) return {};
 
     return settings;
 }
@@ -66,62 +69,33 @@ void GlobalSettings::createCfgIfNotExists()
     //creating the user data folder
     if (!dataFolder.exists()) dataFolder.mkpath(".");
 
-
-    QFile cfg(dataFolder.filePath("config.json"));
-
-    //creating the config file
-    if (!cfg.exists()) {
-        
-        std::string dbPath = dataFolder.filePath("database.db").toUtf8().toStdString();
-        
-                //getting db from the old cfg
-                QFile old_cfg(dataFolder.filePath("dinocfg.txt"));
-
-                if (old_cfg.exists()) {
-
-                    old_cfg.open(QIODevice::ReadOnly);
-
-                    while (!old_cfg.atEnd())
-                    {
-                        dbPath = old_cfg.readLine().toStdString();
-                    }
-
-                    old_cfg.close();
-                }
-
-        Json::Value settings;
-        
-        settings["db_path"] = dbPath;
-
-        settings["pkcs11_path"] = Json::arrayValue;
-
-        auto modules = getDefaultPkcs11Paths();
-
-        for (auto& m : modules)  settings["pkcs11_path"].append(m.data());
-
-        cfg.open(QIODevice::ReadWrite);
-        cfg.write(Json::StyledWriter().write(settings).c_str());
-        cfg.close();
-    }
-
-    //check integrity
-    
     auto settings = getSettingsAsJson();
 
     if (!settings.isMember("telemetry_id")) {
         settings["telemetry_id"] = FreeFn::getUuid();
     }
+
+    if (!settings.isMember("db_path"))
+    {
+        settings["db_path"] = dataFolder.filePath("database.db").toUtf8().toStdString();
+    }
+
+    if (!settings.isMember("pkcs11_path"))
+    {
+        auto modules = getDefaultPkcs11Paths();
+
+        for (auto& m : modules)  settings["pkcs11_path"].append(m.data());
+    }
     
     rewriteCfg(settings);
 }
 
-
-
 std::string GlobalSettings::getDbPath()
 {
-    return getSettingsAsJson()["db_path"].asString();
-}
+    QDir dir(QString::fromUtf8(getSettingsAsJson()["db_path"].asString().c_str()));
 
+    return dir.path().toStdString();
+}
 
 std::string GlobalSettings::setDbPath()
 {
@@ -139,7 +113,7 @@ std::string GlobalSettings::setDbPath()
 
     rewriteCfg(settings);
 
-    return str.toUtf8().toStdString();
+    return getDbPath();
 }
 
 std::vector<std::string> GlobalSettings::getDefaultPkcs11Paths()

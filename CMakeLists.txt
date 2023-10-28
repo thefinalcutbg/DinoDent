@@ -109,7 +109,7 @@ src\DbUpdates\DbUpdates.cpp
 src\DbUpdates\DbUpdates.h
 src\DbUpdates\Update10.cpp
 src\DbUpdates\Update11.cpp
-src\DbUpdates\Update12_16.cpp
+src\DbUpdates\Update12_17.cpp
 src\DbUpdates\Update5.cpp
 src\DbUpdates\Update6.cpp
 src\DbUpdates\Update7.cpp
@@ -305,12 +305,16 @@ src\Network\PIS\DentalActivitiesService.cpp
 src\Network\PIS\DentalActivitiesService.h
 src\Network\PIS\DiagnosisService.cpp
 src\Network\PIS\DiagnosisService.h
+src\Network\PIS\GetFileService.cpp
+src\Network\PIS\GetFileService.h
 src\Network\PIS\GetHirbnoService.cpp
 src\Network\PIS\GetHirbnoService.h
 src\Network\PIS\GetMonthNotifListService.cpp
 src\Network\PIS\GetMonthNotifListService.h
 src\Network\PIS\GetMonthNotifService.cpp
 src\Network\PIS\GetMonthNotifService.h
+src\Network\PIS\PisReportParser.cpp
+src\Network\PIS\PisReportParser.h
 src\Network\PIS\PisService.cpp
 src\Network\PIS\PisService.h
 src\Network\PIS\ReportFilesService.cpp
@@ -358,6 +362,8 @@ src\Presenter\PatientSummaryPresenter.cpp
 src\Presenter\PatientSummaryPresenter.h
 src\Presenter\PerioPresenter.cpp
 src\Presenter\PerioPresenter.h
+src\Presenter\PisImportPresenter.cpp
+src\Presenter\PisImportPresenter.h
 src\Presenter\PracticeDialogPresenter.cpp
 src\Presenter\PracticeDialogPresenter.h
 src\Presenter\PracticeManagerPresenter.cpp
@@ -710,6 +716,9 @@ src\View\Widgets\PinPromptDialog.ui
 src\View\Widgets\PisDialog.cpp
 src\View\Widgets\PisDialog.h
 src\View\Widgets\PisDialog.ui
+src\View\Widgets\PisImportView.cpp
+src\View\Widgets\PisImportView.h
+src\View\Widgets\PisImportView.ui
 src\View\Widgets\PracticeDialog.cpp
 src\View\Widgets\PracticeDialog.h
 src\View\Widgets\PracticeDialog.ui

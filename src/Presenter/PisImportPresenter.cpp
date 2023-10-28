@@ -62,6 +62,7 @@ void PisImportPresenter::processHash()
 		[&](const std::string& file) {
 
 			if (file.empty()) {
+				view->logToConsole("Импортирането бе прекъснато. Пробвайте отново.");
 				view->disableButton(false);
 				return;
 			}
@@ -73,6 +74,7 @@ void PisImportPresenter::processHash()
 	);
 
 	if (!querySent) {
+		view->logToConsole("Импортирането бе прекъснато. Пробвайте отново.");
 		view->disableButton(false);
 	}
 }

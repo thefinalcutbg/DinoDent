@@ -1,7 +1,7 @@
 #include "PisReportParser.h"
 #include <functional>
 #include <unordered_map>
-#include <TinyXML/tinyxml.h>"
+#include <TinyXML/tinyxml.h>
 #include "Model/FreeFunctions.h"
 
 void deserializeNhifStatus(Tooth& tooth, const std::string& code);

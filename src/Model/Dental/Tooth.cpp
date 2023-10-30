@@ -155,7 +155,7 @@ std::vector<std::string> Tooth::getNhifStatus() const
 
 	statusLegend[StatusCode::Temporary] = "T";
 	statusLegend[StatusCode::Obturation] = "O";
-	statusLegend[StatusCode::Caries] = "";
+	statusLegend[StatusCode::Caries] = "C";
 	statusLegend[StatusCode::Pulpitis] = "P";
 	statusLegend[StatusCode::ApicalLesion] = "G";
 	statusLegend[StatusCode::Root] = "R";

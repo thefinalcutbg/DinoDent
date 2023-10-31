@@ -26137,7 +26137,7 @@
   },
   {
     "ekatte": 69874,
-    "city": false,
+    "city": true,
     "string": "Пловдив, общ. Пловдив, обл. Пловдив",
     "hregion": 9,
     "rhif": 16,

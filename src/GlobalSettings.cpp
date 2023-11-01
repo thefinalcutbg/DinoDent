@@ -120,6 +120,7 @@ std::vector<std::string> GlobalSettings::getDefaultPkcs11Paths()
 {
     return std::vector<std::string>        
     {
+            "C:/Program Files/OpenSC Project/OpenSC/pkcs11/opensc-pkcs11.dll",
             "C:/Program Files/SafeNet/Authentication/SAC/x64/IDPrimePKCS1164.dll",
             "C:/Windows/System32/OcsPKCS11Wrapper.dll",
             "C:/Windows/System32/idprimepkcs11.dll",

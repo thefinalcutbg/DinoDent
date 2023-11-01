@@ -80,7 +80,9 @@ bool PKCS11::loadModuleWithToken()
 			continue;
 		}
 
-		PKCS11_SLOT* testSlot, * testSlots;
+		qDebug() << "using module: " << module.c_str();
+
+		PKCS11_SLOT* testSlots;
 		unsigned int testNSlots;
 
 		if (PKCS11_enumerate_slots(ctx, &testSlots, &testNSlots))
@@ -89,11 +91,11 @@ bool PKCS11::loadModuleWithToken()
 			continue;
 		}
 
-		testSlot = PKCS11_find_token(ctx, testSlots, testNSlots);
+		PKCS11_SLOT* testSlot = PKCS11_find_token(ctx, testSlots, testNSlots);
 
 		if (testSlot == NULL || testSlot->token == NULL) {
 
-			std::cout << "no valid token" << std::endl;
+			qDebug() << "no valid token";
 
 			PKCS11_release_all_slots(ctx, testSlots, testNSlots);
 			//causes seg fault if no drivers are installed
@@ -115,7 +117,7 @@ bool PKCS11::loadModuleWithToken()
 		PKCS11_release_all_slots(ctx, testSlots, testNSlots);
 
 		success = true;
-		qDebug() << "using module: " << module.c_str();
+		
 		break;
 	}
 

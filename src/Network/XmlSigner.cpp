@@ -152,10 +152,7 @@ std::string XmlSigner::signPisQuery(const std::string& bodyContent, evp_pkey_st*
 
      /* sign the template */
     if (xmlSecDSigCtxSign(dsigCtx, signNode) < 0) {
-        
-        ModalDialogBuilder::show_eIDAS_Warning();
         return { "Error: signature failed"};
-
     }
 
     /* print signed document to stdout */
@@ -281,9 +278,7 @@ std::string XmlSigner::signHisMessage(const std::string& document, evp_pkey_st* 
 
     /* sign the template */
     if (xmlSecDSigCtxSign(dsigCtx, signNode) < 0) {
-        ModalDialogBuilder::show_eIDAS_Warning();
         return { "Error: signature failed" };
-
     }
 
     /* print signed document to stdout */

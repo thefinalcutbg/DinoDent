@@ -88,6 +88,5 @@ namespace ModalDialogBuilder
 	std::optional<std::string> openFile();
 	std::optional<std::string> getFilePath(const std::string& filename);
 	std::optional<Allergy> openAllergyDialog(const Allergy& a = {});
-	void show_eIDAS_Warning();
 };
 

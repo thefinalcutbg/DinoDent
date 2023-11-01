@@ -873,7 +873,7 @@
     <ClCompile Include="src\View\TableModels\FiscalReceiptTableModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\DbUpdates\Update12_17.cpp">
+    <ClCompile Include="src\DbUpdates\Update12_18.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Network\HIS\HISHistoryAlgorithms.cpp">
@@ -928,6 +928,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Presenter\MedicalStatusPresenter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Network\PIS\GetFileService.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Network\PIS\PisReportParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Presenter\PisImportPresenter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\Widgets\PisImportView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1709,6 +1721,15 @@
     <ClInclude Include="src\Model\Dental\HisSnapshot.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Network\PIS\GetFileService.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Network\PIS\PisReportParser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Presenter\PisImportPresenter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\SubWidgets\ContextMenu.h">
@@ -2041,6 +2062,9 @@
     <QtMoc Include="src\View\Widgets\AllergyDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\View\Widgets\PisImportView.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\View\Widgets\PracticeDialog.ui">
@@ -2221,6 +2245,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\Widgets\AllergyDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\Widgets\PisImportView.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

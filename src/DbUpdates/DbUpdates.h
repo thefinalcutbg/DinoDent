@@ -18,4 +18,5 @@ namespace DbUpdates
 	void update15();
 	void update16();
 	void update17();
+	void update18();
 }

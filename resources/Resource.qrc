@@ -134,6 +134,5 @@
     </qresource>
     <qresource prefix="/other">
         <file>splash.png</file>
-        <file>eIDAS.txt</file>
     </qresource>
 </RCC>

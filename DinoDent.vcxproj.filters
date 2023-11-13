@@ -945,6 +945,9 @@
     <ClCompile Include="src\Network\HIS\EHospitalization.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\TableModels\HospitalizationTableModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Database\Database.h">
@@ -1736,6 +1739,9 @@
     <ClInclude Include="src\Network\HIS\EHospitalization.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Model\Hospitalization.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\SubWidgets\ContextMenu.h">
@@ -2069,6 +2075,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\Widgets\PisImportView.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\TableModels\HospitalizationTableModel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

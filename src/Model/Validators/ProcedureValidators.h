@@ -4,6 +4,7 @@
 class BridgeRangeValidator : public Validator
 {
 public:
+	bool allowSingleRange = false;
 	bool validateInput(int begin, int end) override;
 };
 

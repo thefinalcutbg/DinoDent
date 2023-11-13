@@ -270,6 +270,8 @@ void ProcedureCreator::setProcedureCode(const ProcedureCode& m, bool nhif)
 
 	view->setNhifLayout(nhif);
 
+	range_validator.allowSingleRange = m.type() == ProcedureType::denture;
+
 	switch (m.type())
 	{
 		case ProcedureType::obturation:

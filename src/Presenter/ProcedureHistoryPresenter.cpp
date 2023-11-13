@@ -50,7 +50,7 @@ bool ProcedureHistoryPresenter::refreshHIS()
 		}
 	);
 }
-#include <qdebug.h>
+
 bool ProcedureHistoryPresenter::refreshStatus()
 {
 	return dental_history_service.sendRequest(ref_patient,
@@ -75,6 +75,20 @@ bool ProcedureHistoryPresenter::refreshStatus()
 		}
 	);
 }
+
+bool ProcedureHistoryPresenter::refreshHospitalizations()
+{
+	return eHospitalizationFetch.sendRequest(ref_patient,
+		User::practice().rziCode,
+		[&](const std::vector<Hospitalization>& hList) {
+
+			hospitalizations = hList;
+			view->setHospitalizations(hList);
+
+		}
+	);
+}
+
 
 void ProcedureHistoryPresenter::setView(IProcedureHistoryDialog* v)
 {
@@ -148,6 +162,10 @@ void ProcedureHistoryPresenter::tabFocused(int idx)
 				hasHSM = refreshStatus();
 			}
 			break;
+		case 3:
+			if (hospitalizations.empty()) {
+				hasHSM = refreshHospitalizations();
+			}
 	}
 }
 

@@ -78,8 +78,6 @@ void BrowserPresenter::openNewDocument(TabType type)
 
 	for (int i = 0; i < m_selectedInstances.size(); i ++) {
 
-	
-
 		RowInstance row(type);
 		row.rowID = 0;
 		row.patientRowId = m_selectedInstances[i]->patientRowId;
@@ -94,6 +92,36 @@ void BrowserPresenter::openNewDocument(TabType type)
 void BrowserPresenter::openCurrentSelection()
 {
 	if (!m_selectedInstances.size()) return;
+
+	if (m_currentModelType == TabType::PatientSummary) {
+
+		auto result = ModalDialogBuilder::openButtonDialog(
+			{
+				"Нов амбулаторен лист",
+				"Нова рецепта",
+				"Нова фактура",
+				"Ново пародонтално измерване",
+				"История на пациента"
+			},
+			"Отвори"
+		);
+
+		if (result == -1) return;
+
+		static TabType arr[5]{
+			TabType::AmbList,
+			TabType::Prescription,
+			TabType::Financial,
+			TabType::PerioStatus,
+			TabType::PatientSummary
+		};
+
+		openNewDocument(arr[result]);
+
+		return;
+
+	}
+
 
 	int counter{ 0 };
 

@@ -21,8 +21,6 @@
 #include "Presenter/PatientInfoPresenter.h"
 
 typedef std::vector<int> SelectedTeethIdx;
-//typedef std::vector<Tooth*> SelectedTeeth;
-
 
 class ListPresenter : public TabInstance
 {

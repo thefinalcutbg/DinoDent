@@ -6,10 +6,9 @@ bool BridgeRangeValidator::validateInput(int begin, int end)
         return false;
     }
 
-    if (begin == end) {
-        return false;
-    }
-    return true;
+    if (allowSingleRange) return true;
+
+    return begin != end;
 }
 
 bool SurfaceValidator::validateInput(const std::array<bool, 6>& surfaces)

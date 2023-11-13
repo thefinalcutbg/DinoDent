@@ -5,6 +5,7 @@
 
 #include "View/Graphics/TeethViewScene.h"
 #include "View/TableModels/ProcedureTableModel.h"
+#include "View/TableModels/HospitalizationTableModel.h"
 #include "Model/Dental/Procedure.h"
 #include "View/Interfaces/IProcedureHistoryDialog.h"
 #include "Presenter/ProcedureHistoryPresenter.h"
@@ -14,6 +15,7 @@ class ProcedureHistoryDialog : public QDialog, public IProcedureHistoryDialog
 	Q_OBJECT
 
 	ProcedureTableModel pis_model, his_model;
+	HospitalizationTableModel hospi_model;
 	ProcedureHistoryPresenter& presenter;
 	TeethViewScene* teeth_scene;
 
@@ -28,6 +30,7 @@ private:
 	// Inherited via IProcedureHistoryDialog
 	void setPis(const std::vector<Procedure>& p) override;
 	void setHis(const std::vector<Procedure>& h) override;
+	void setHospitalizations(const std::vector<Hospitalization>& h);
 	void setSnapshot(const HisSnapshot& snapshot) override;
 	void focusTab(int idx) override;
 	void closeDialog() override;

@@ -3,6 +3,7 @@
 #include "Model/Dental/ToothContainer.h"
 #include "Network/PIS/DentalActivitiesService.h"
 #include "Network/HIS/EDental.h"
+#include "Network/HIS/EHospitalization.h"
 #include "View/Interfaces/IProcedureHistoryDialog.h"
 
 class ProcedureHistoryPresenter
@@ -12,11 +13,12 @@ class ProcedureHistoryPresenter
 	EDental::GetProcedures his_service;
 	EDental::GetStatus status_service;
 	EDental::GetDentalHistory dental_history_service;
+	EHospitalization::Fetch eHospitalizationFetch;
 
 	std::optional<std::vector<Procedure>> pis_history;
 	std::optional<std::vector<Procedure>> his_history;
-
 	std::vector<HisSnapshot> status_snapshots;
+	std::vector<Hospitalization> hospitalizations;
 
 	bool m_applyPis{ false };
 	bool m_applyStatus{ false };
@@ -45,6 +47,8 @@ public:
 	bool refreshPIS();
 	bool refreshHIS();
 	bool refreshStatus();
+	bool refreshHospitalizations();
+
 	void setView(IProcedureHistoryDialog* view);
 	void openDialog();
 	void pisApplyClicked();

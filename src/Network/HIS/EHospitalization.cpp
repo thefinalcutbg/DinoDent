@@ -1,12 +1,14 @@
 #include "EHospitalization.h"
 #include "View/ModalDialogBuilder.h"
-bool EHospitalization::Fetch::sendRequest(const Patient& patient, const std::string& rzi, const Date& from, const Date& to, decltype(m_callback) callback)
+#include <TinyXML/tinyxml.h>
+
+bool EHospitalization::Fetch::sendRequest(const Patient& patient, const std::string& rzi, decltype(m_callback) callback)
 {
 	m_callback = callback;
 
 	std::string contents;
-	contents += bind("fromDate", from.to8601());
-	contents += bind("toDate", to.to8601());
+	contents += bind("fromDate", "1900-01-01");
+	contents += bind("toDate", Date::currentDate().to8601());
 	contents += bind("identifierType", patient.type);
 	contents += bind("identifier", patient.id);
 	contents += bind("practiceNumber", rzi);
@@ -21,13 +23,35 @@ void EHospitalization::Fetch::parseReply(const std::string& reply)
 		return;
 	}
 
-	auto errors = getErrors(reply);
+	TiXmlDocument doc;
 
-	if (errors.size()) {
-		ModalDialogBuilder::showError(errors);
-		m_callback = nullptr;
-		return;
+	doc.Parse(reply.data(), 0, TIXML_ENCODING_UTF8);
+
+	TiXmlHandle docHandle(&doc);
+
+	std::vector<Hospitalization> result;
+
+	for (
+		auto hospitalization = docHandle
+		.FirstChild("nhis:message")
+		.FirstChild("nhis:contents")
+		.FirstChild("nhis:results")
+		.FirstChild("nhis:hospitalization").ToElement();
+		hospitalization != nullptr;
+		hospitalization = hospitalization->NextSiblingElement("nhis:hospitalization")
+		)
+	{
+		result.emplace_back();
+
+		result.back().authoredOn = hospitalization->FirstChildElement("nhis:authoredOn")->FirstAttribute()->ValueStr();
+		result.back().status = static_cast<Hospitalization::Status>(hospitalization->FirstChildElement("nhis:status")->FirstAttribute()->IntValue());
+
 	}
 
-	ModalDialogBuilder::showMultilineDialog(reply);
+	m_callback(result);
+
+	m_callback = nullptr;
+
+	return;
+
 }

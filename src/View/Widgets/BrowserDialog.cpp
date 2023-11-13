@@ -6,7 +6,7 @@
 #include <QClipboard>
 #include "View/Theme.h"
 #include "QtVersion.h"
-
+#include "View/ModalDialogBuilder.h"
 BrowserDialog::BrowserDialog()
 {
 	ui.setupUi(this);

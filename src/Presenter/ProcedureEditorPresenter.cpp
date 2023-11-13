@@ -50,6 +50,8 @@ void ProcedureEditorPresenter::setView(IProcedureEditDialog* view)
 		view->procedureInput()->diagnosisEdit()->setInputValidator(nullptr);
 	}
 
+	range_validator.allowSingleRange = result->code.type() == ProcedureType::denture;
+
 	switch (result->code.type())
 	{
 		case ProcedureType::general:

@@ -42,9 +42,20 @@ ProcedureHistoryDialog::ProcedureHistoryDialog(ProcedureHistoryPresenter& p)
     initTable(ui.pisTable, &pis_model);
     initTable(ui.hisTable, &his_model);
 
+
+    ui.hospiTable->setModel(&hospi_model);
+    ui.hospiTable->setColumnWidth(0, 120);
+    ui.hospiTable->setSelectionMode(QAbstractItemView::SelectionMode::NoSelection);
+    ui.hospiTable->verticalHeader()->setDefaultSectionSize(20);
+    ui.hospiTable->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    ui.hospiTable->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    ui.hospiTable->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
+   
+
     ui.tabWidget->setTabIcon(0, QIcon(":/icons/icon_nhif.png"));
     ui.tabWidget->setTabIcon(1, QIcon(":/icons/icon_his.png"));
     ui.tabWidget->setTabIcon(2, QIcon(":/icons/icon_his.png"));
+    ui.tabWidget->setTabIcon(3, QIcon(":/icons/icon_hospital.png"));
 
     ui.frame->setStyleSheet("QFrame{background-color:white;}");
 
@@ -63,6 +74,7 @@ ProcedureHistoryDialog::ProcedureHistoryDialog(ProcedureHistoryPresenter& p)
     connect(ui.refreshPis, &QPushButton::clicked, [&] { presenter.refreshPIS(); });
     connect(ui.refreshHis, &QPushButton::clicked, [&] { presenter.refreshHIS(); });
     connect(ui.refreshStatus, &QPushButton::clicked, [&] { presenter.refreshStatus(); });
+    connect(ui.refreshHospi, &QPushButton::clicked, [&] { presenter.refreshHospitalizations(); });
     connect(ui.applyCurrentStatus, &QPushButton::clicked, [&]{ presenter.statusApplyClicked(); });
     connect(ui.tabWidget, &QTabWidget::currentChanged, [&](int idx) { presenter.tabFocused(idx); });
     connect(ui.statusSlider, &QSlider::valueChanged, [&](int value) { presenter.sliderPositionChanged(value); });
@@ -82,6 +94,12 @@ void ProcedureHistoryDialog::setHis(const std::vector<Procedure>& h)
 {
     his_model.setProcedures(h);
     ui.refreshHis->setText("Опресни");
+}
+
+void ProcedureHistoryDialog::setHospitalizations(const std::vector<Hospitalization>& h)
+{
+    hospi_model.setData(h);
+    ui.refreshHospi->setText("Опресни");
 }
 
 void ProcedureHistoryDialog::setSnapshot(const HisSnapshot& s)

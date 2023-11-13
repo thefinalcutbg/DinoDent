@@ -417,6 +417,7 @@
     <ClCompile Include="src\View\TableModels\BusinessOperationModel.cpp" />
     <ClCompile Include="src\View\TableModels\FinancialTableModel.cpp" />
     <ClCompile Include="src\View\TableModels\FiscalReceiptTableModel.cpp" />
+    <ClCompile Include="src\View\TableModels\HospitalizationTableModel.cpp" />
     <ClCompile Include="src\View\TableModels\KSMPModel.cpp" />
     <ClCompile Include="src\View\TableModels\MedicationTableModel.cpp" />
     <ClCompile Include="src\View\TableModels\MKBModel.cpp" />
@@ -548,6 +549,7 @@
     <ClInclude Include="src\Model\Dental\ToothIndex.h" />
     <ClInclude Include="src\Model\Financial\FiscalReceipt.h" />
     <ClInclude Include="src\Model\Foreigner.h" />
+    <ClInclude Include="src\Model\Hospitalization.h" />
     <ClInclude Include="src\Model\MedicalNotice.h" />
     <ClInclude Include="src\Model\MedicalStatuses.h" />
     <ClInclude Include="src\Model\Patient.h" />
@@ -783,6 +785,7 @@
     <ClInclude Include="src\View\TableModels\BusinessOperationModel.h" />
     <ClInclude Include="src\View\Interfaces\IFiscalReportView.h" />
     <QtMoc Include="src\View\TableModels\FiscalReceiptTableModel.h" />
+    <QtMoc Include="src\View\TableModels\HospitalizationTableModel.h" />
     <ClInclude Include="src\View\TableModels\MedicationTableModel.h" />
     <QtMoc Include="src\View\Widgets\UpdatePromptDialog.h" />
     <QtMoc Include="src\View\Widgets\UpdateDownloader.h" />

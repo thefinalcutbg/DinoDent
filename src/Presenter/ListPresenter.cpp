@@ -520,7 +520,9 @@ void ListPresenter::setSelectedTeeth(const std::vector<int>& SelectedIndexes)
 void ListPresenter::historyRequested()
 {
     if (dentalActService.awaitingReply() ||
-        eDentalGetStatusAndProceduresService.awaitingReply())
+        eDentalGetStatusAndProceduresService.awaitingReply() ||
+        eHospitalizationFetch.awaitingReply()
+    )
     {
         ModalDialogBuilder::showMessage("Моля изчакайте, очаква се отговор от сървъра");
         return;
@@ -715,12 +717,28 @@ void ListPresenter::moveProcedure(int from, int to)
 
 void ListPresenter::checkHospitalization()
 {
+
     eHospitalizationFetch.sendRequest(
         *patient,
         User::practice().rziCode,
-        m_ambList.getDate(),
-        m_ambList.getDate(),
-        [](bool) {}
+        [](const std::vector<Hospitalization> list) {
+
+            bool active = false;
+
+            for (auto& h : list) {
+                if (h.status == Hospitalization::Active) {
+                    active = true;
+                    break;
+                }
+            }
+
+            ModalDialogBuilder::showMessage(
+                active ?
+                "В момента пациентът е с активна хоспитализация!"
+                :
+                "Не е открита активна хоспитализация"
+            );
+        }
     );
 }
 

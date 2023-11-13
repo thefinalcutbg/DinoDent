@@ -713,6 +713,17 @@ void ListPresenter::moveProcedure(int from, int to)
     view->setProcedures(m_ambList.procedures.list());
 }
 
+void ListPresenter::checkHospitalization()
+{
+    eHospitalizationFetch.sendRequest(
+        *patient,
+        User::practice().rziCode,
+        m_ambList.getDate(),
+        m_ambList.getDate(),
+        [](bool) {}
+    );
+}
+
 void ListPresenter::addMedicalNotice()
 {
 

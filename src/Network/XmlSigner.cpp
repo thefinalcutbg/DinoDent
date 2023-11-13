@@ -19,8 +19,6 @@
 
 #include "PKCS11.h"
 
-#include "View/ModalDialogBuilder.h"
-
 void errorReprort(const char* file,
     int line,
     const char* func,

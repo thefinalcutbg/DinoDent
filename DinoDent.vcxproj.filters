@@ -942,6 +942,9 @@
     <ClCompile Include="src\View\Widgets\PisImportView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Network\HIS\EHospitalization.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Database\Database.h">
@@ -1728,6 +1731,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Presenter\PisImportPresenter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Network\HIS\EHospitalization.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

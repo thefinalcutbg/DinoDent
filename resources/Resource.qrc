@@ -41,6 +41,7 @@
         <file>icon_copy.png</file>
         <file>icon_erx.png</file>
         <file>icon_pdf.png</file>
+        <file>icon_hospital.png</file>
     </qresource>
     <qresource prefix="/tooth">
         <file>tooth_approximal.png</file>

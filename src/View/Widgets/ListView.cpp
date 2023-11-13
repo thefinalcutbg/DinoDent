@@ -32,6 +32,7 @@ ListView::ListView(QWidget* parent)
 	ui.invoiceButton->setIcon(QIcon(":/icons/icon_invoice.png"));
 	ui.prescrButton->setIcon(QIcon(":/icons/icon_prescr.png"));
 	ui.addProcedure->setIcon(QIcon(":/icons/icon_add.png"));
+	ui.hospitalButton->setIcon(QIcon(":/icons/icon_hospital.png"));
 	ui.deleteProcedure->setIcon(QIcon(":/icons/icon_remove.png"));
 	ui.editProcedure->setIcon(QIcon(":/icons/icon_edit.png"));
 	ui.historyButton->setIcon(QIcon(":/icons/icon_history.png"));
@@ -45,6 +46,7 @@ ListView::ListView(QWidget* parent)
 	ui.editProcedure->setHoverColor(Theme::mainBackgroundColor);
 	ui.historyButton->setHoverColor(Theme::mainBackgroundColor);
 	ui.nssiButton->setHoverColor(Theme::mainBackgroundColor);
+	ui.hospitalButton->setHoverColor(Theme::mainBackgroundColor);
 
 	QMenu* menu = new QMenu(ui.addRefButton);
 
@@ -91,6 +93,7 @@ ListView::ListView(QWidget* parent)
 	connect(ui.unfavCheck, &QCheckBox::stateChanged, [=] { nhifChanged(); });
 	connect(ui.nssiButton, &QPushButton::clicked, [=] { if (presenter) presenter->checkPention(); });
 	connect(ui.editProcedure, &QPushButton::clicked, [=] { if (presenter) presenter->editProcedure(ui.procedureTable->selectedRow()); });
+	connect(ui.hospitalButton, &QPushButton::clicked, [=] { if (presenter) presenter->checkHospitalization(); });
 	connect(ui.invoiceButton, &QPushButton::clicked, [=] { if (presenter) presenter->createInvoice(); });
 	connect(ui.perioButton, &QPushButton::clicked, [=] { if (presenter) presenter->createPerioMeasurment(); });
 	connect(ui.prescrButton, &QPushButton::clicked, [=] { if (presenter) presenter->createPrescription(); });

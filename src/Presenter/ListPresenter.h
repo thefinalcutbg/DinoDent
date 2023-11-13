@@ -16,6 +16,7 @@
 #include "Network/HIS/EDental.h"
 #include "Network/HIS/EReferral.h"
 #include "Network/HIS/EMedicalNotice.h"
+#include "Network/HIS/EHospitalization.h"
 #include "Network/NRA/NssiPentionService.h"
 #include "Presenter/PatientInfoPresenter.h"
 
@@ -49,6 +50,7 @@ class ListPresenter : public TabInstance
     EReferral::Cancel eReferralCancelService;
     EMedicalNotice::Issue eMedicalNoticeIssue;
     EMedicalNotice::Cancel eMedicalNoticeCancel;
+    EHospitalization::Fetch eHospitalizationFetch;
 
     std::vector<Procedure> getToothHistory(int toothIdx);
 
@@ -101,6 +103,8 @@ public:
     void editProcedure(int index);
     void deleteProcedure(int index);
     void moveProcedure(int from, int to);
+
+    void checkHospitalization();
 
     void addMedicalNotice();
     void editMedicalNotice(int index);

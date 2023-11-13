@@ -70,6 +70,21 @@ struct AmbList
 
 	}
 
+	Date getLastDateVisit() const {
+
+		Date result = getDate();
+
+		for (auto& p : procedures) {
+			result = std::max(result, p.date);
+		}
+		
+		for (auto& r : referrals) {
+			result = std::max(result, r.date);
+		}
+		
+		return result;
+	}
+
 	bool isNew() { return rowid == 0; }
 
 	std::string getNumber() const {

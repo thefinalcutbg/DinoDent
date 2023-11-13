@@ -253,6 +253,7 @@
     <ClCompile Include="src\Model\Validators\RecipientIdValidator.cpp" />
     <ClCompile Include="src\Network\HIS\EAllergy.cpp" />
     <ClCompile Include="src\Network\HIS\EDental.cpp" />
+    <ClCompile Include="src\Network\HIS\EHospitalization.cpp" />
     <ClCompile Include="src\Network\HIS\EMedicalNotice.cpp" />
     <ClCompile Include="src\Network\HIS\EPrescription.cpp" />
     <ClCompile Include="src\Network\HIS\EReferral.cpp" />
@@ -559,6 +560,7 @@
     <ClInclude Include="src\Model\Validators\RecipientIdValidator.h" />
     <ClInclude Include="src\Network\HIS\EAllergy.h" />
     <ClInclude Include="src\Network\HIS\EDental.h" />
+    <ClInclude Include="src\Network\HIS\EHospitalization.h" />
     <ClInclude Include="src\Network\HIS\EMedicalNotice.h" />
     <ClInclude Include="src\Network\HIS\EReferral.h" />
     <ClInclude Include="src\Network\HIS\HISHistoryAlgorithms.h" />

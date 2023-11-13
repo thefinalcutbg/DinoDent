@@ -113,7 +113,7 @@ std::string Db::getPreparedStatement()
 {
    char* ptr = sqlite3_expanded_sql(stmt);
 
-   int size;
+   int size = 0;
    
    sqlite3_malloc(size);
 

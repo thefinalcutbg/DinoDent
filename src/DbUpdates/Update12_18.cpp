@@ -121,6 +121,8 @@ void DbUpdates::update17()
 
 void DbUpdates::update18()
 {
-	Db::crudQuery("PRAGMA user_version = 18");
+	if (Db::version() != 17) return;
+
+	Db::crudQuery("PRAGMA user_version=18");
 	GlobalSettings::setPkcs11PathList(GlobalSettings::getDefaultPkcs11Paths());
 }

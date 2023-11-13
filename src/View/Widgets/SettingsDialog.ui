@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>852</width>
-    <height>653</height>
+    <width>818</width>
+    <height>650</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -252,7 +252,7 @@
           </sizepolicy>
          </property>
          <property name="title">
-          <string>Драйвъри за КЕП</string>
+          <string>Път към драйвърите за КЕП</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_9">
           <item>
@@ -307,6 +307,22 @@
            </layout>
           </item>
          </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Инсталация на драйвъри:&lt;br/&gt;&lt;/span&gt;&lt;br/&gt;Драйвъри за &lt;span style=&quot; font-weight:700;&quot;&gt;B-Trust&lt;/span&gt; - &lt;a href=&quot;https://www.stampit.org/bg/page/795&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;изтегли от тук&lt;/span&gt;&lt;/a&gt;&lt;br/&gt;Драйвъри за &lt;span style=&quot; font-weight:700;&quot;&gt;StampIT&lt;/span&gt; - &lt;a href=&quot;https://www.b-trust.bg/client-center/signature-installation&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;изтегли от тук&lt;/span&gt;&lt;/a&gt;&lt;br/&gt;Драйвъри за &lt;span style=&quot; font-weight:700;&quot;&gt;InfoNotary&lt;/span&gt; - &lt;a href=&quot;https://www.infonotary.com/?p=technical-support&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;изтегли от тук&lt;/span&gt;&lt;/a&gt;&lt;br/&gt;&lt;br/&gt;За карти модел &lt;span style=&quot; font-weight:700;&quot;&gt;eIDAS 8.1&lt;/span&gt; - инсталирайте допълнително &lt;a href=&quot;https://installer.id.ee/media/win/installer/AWP-5.3.5-SR1.x64.en-US.msi&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;AWP Identity Manager&lt;/span&gt;&lt;/a&gt;&lt;br/&gt;За карти модел &lt;span style=&quot; font-weight:700;&quot;&gt;IDPrime940B&lt;/span&gt; - инсталирайте допълнително &lt;a href=&quot;https://github.com/OpenSC/OpenSC/releases/download/0.23.0/OpenSC-0.23.0_win64.msi&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;OpenSC&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="textFormat">
+          <enum>Qt::RichText</enum>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+         <property name="openExternalLinks">
+          <bool>true</bool>
+         </property>
         </widget>
        </item>
        <item>

@@ -307,25 +307,6 @@
          <property name="frameShadow">
           <enum>QFrame::Raised</enum>
          </property>
-         <widget class="QLabel" name="priceLabel">
-          <property name="geometry">
-           <rect>
-            <x>120</x>
-            <y>730</y>
-            <width>521</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-          </property>
-          <property name="wordWrap">
-           <bool>true</bool>
-          </property>
-         </widget>
          <widget class="ControlPanel" name="controlPanel" native="true">
           <property name="geometry">
            <rect>
@@ -368,10 +349,6 @@
            </rect>
           </property>
          </widget>
-         <zorder>controlPanel</zorder>
-         <zorder>teethView</zorder>
-         <zorder>surfacePanel</zorder>
-         <zorder>priceLabel</zorder>
         </widget>
        </item>
        <item>

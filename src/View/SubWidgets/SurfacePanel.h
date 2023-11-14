@@ -17,15 +17,18 @@ class SurfacePanel : public QWidget, public PolygonObserver, public ISurfacePane
 {
 	Q_OBJECT
 
-	QGraphicsScene* scene;
+	QGraphicsScene* occlusal_scene;
+	QGraphicsScene* buccal_scene;
 
 	SurfacePanelPresenter* presenter;
 
-	CPTooth* toothGraphic;
-	std::array<ControlPanelPolygon*, 5> polygon;
+	CPTooth* occlusal_toothGraphic;
+	CPTooth* buccal_toothGraphic;
 
-	std::array<QString, 6> labels;
-	std::array<QString, 6> statuses;
+	std::array<ControlPanelPolygon*, 5> occlusal_polygon;
+	std::array<ControlPanelPolygon*, 5> buccal_polygon;
+
+	std::array<QString, 10> labels;
 
 public:
 	SurfacePanel(QWidget *parent = Q_NULLPTR);
@@ -36,8 +39,7 @@ public:
 	void setPresenter(SurfacePanelPresenter* presenter) override;
 	void paintTooth(const ToothPaintHint& tooth) override;
 	void hidePanel(bool hidden) override;
-	void setLabels(std::array<std::string, 6> SurfaceNames);
-	void setStatuses(std::array<std::string, 6> StatusNames);
+	void setLabels(std::array<std::string, 10> SurfaceNames);
 	void setSideButtonsClicked(bool obturation, bool caries);
 	// Inherited via PolygonObserver
 	virtual void buttonHovered(ButtonPos position, Hover hoverState);

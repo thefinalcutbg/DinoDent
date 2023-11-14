@@ -22,6 +22,10 @@ SpritesheetCoords::SpritesheetCoords(SpriteRectType type)
 	surfPos[ling] = QPoint(0, 350);
 	surfPos[cerv] = QPoint(0, 210);
 
+	//new control panel
+	SurfaceOcclusalCrop.setCoords(25, 360, 165, 500);
+	SurfaceBuccalCrop.setCoords(-10, 210, 120, 355);
+
 	switch (type)
 	{
 		case SpriteRectType::molar:
@@ -40,6 +44,9 @@ SpritesheetCoords::SpritesheetCoords(SpriteRectType type)
 			tempmolar();
 			break;
 	}
+
+
+
 }
 
 void SpritesheetCoords::molar()
@@ -67,6 +74,9 @@ void SpritesheetCoords::molar()
 	BuccalOcclusalCrop.setCoords(0, 0, 180, 640);
 	lingualOcclusalCrop.setCoords(0, 490, 180, 1140);
 
+	SurfaceOcclusalCrop.setCoords(25, 360, 165, 500);
+	SurfaceBuccalCrop.setCoords(15, 210, 165, 350);
+
 }
 
 void SpritesheetCoords::premolar()
@@ -78,6 +88,9 @@ void SpritesheetCoords::premolar()
 	SurfacePanelCrop.setCoords(12, 360, 106, 476);
 	BuccalOcclusalCrop.setCoords(0, 0, 120, 640);
 	lingualOcclusalCrop.setCoords(0, 490, 120, 1140);
+
+	SurfaceOcclusalCrop.setCoords(12, 360, 106, 476);
+	SurfaceBuccalCrop.setCoords(0, 210, 120, 350);
 }
 
 void SpritesheetCoords::frontal()
@@ -88,6 +101,9 @@ void SpritesheetCoords::frontal()
 	SurfacePanelCrop.setCoords(-10, 210, 120, 355);
 	BuccalOcclusalCrop.setCoords(0, 0, 120, 640);
 	lingualOcclusalCrop.setCoords(0, 490, 120, 1140);
+
+	SurfaceOcclusalCrop.setCoords(0, 360, 120, 455);
+	SurfaceBuccalCrop.setCoords(-10, 215, 120, 355);
 }
 
 void SpritesheetCoords::tempfrontal()
@@ -95,6 +111,9 @@ void SpritesheetCoords::tempfrontal()
 	SurfacePanelCrop.setCoords(20, 205, 100, 290);
 	BuccalOcclusalCrop.setCoords(0, 0, 120, 640);
 	lingualOcclusalCrop.setCoords(0, 490, 120, 1140);
+
+	SurfaceOcclusalCrop.setCoords(0, 360, 120, 455);
+	SurfaceBuccalCrop.setCoords(20, 205, 100, 290);
 }
 
 void SpritesheetCoords::tempmolar()
@@ -103,6 +122,9 @@ void SpritesheetCoords::tempmolar()
 	SurfacePanelCrop.setCoords(5, 365, 120, 465);
 	BuccalOcclusalCrop.setCoords(0, 0, 120, 640);
 	lingualOcclusalCrop.setCoords(0, 490, 120, 1140);
+
+	SurfaceOcclusalCrop.setCoords(5, 365, 120, 465);
+	SurfaceBuccalCrop.setCoords(-10, 215, 120, 355);
 
 }
 

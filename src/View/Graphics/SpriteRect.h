@@ -23,6 +23,8 @@ struct SpritesheetCoords
     QRect BuccalOcclusalCrop; 
     QRect lingualOcclusalCrop;
 
+    QRect SurfaceOcclusalCrop; //occlusal surface panel 
+    QRect SurfaceBuccalCrop;   //buccal surface panel
 
     QRect implantLesionCrop;
     QRect implantPerioCrop;

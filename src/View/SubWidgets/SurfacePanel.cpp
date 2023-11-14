@@ -16,25 +16,34 @@ SurfacePanel::SurfacePanel(QWidget* parent)
 //	gl->setFormat(format);
 //	ui.surfaceView->setViewport(gl);
 
-	scene = new QGraphicsScene;
-	ui.surfaceView->setScene(scene);
-	scene->setBackgroundBrush(Qt::white);
-	ui.surfaceView->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
-	toothGraphic = new CPTooth;
+	occlusal_scene = new QGraphicsScene;
+	ui.occlusalView->setScene(occlusal_scene);
+	occlusal_scene->setBackgroundBrush(Qt::white);
+	ui.occlusalView->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
+	occlusal_toothGraphic = new CPTooth;
 
-	ui.sideBox->setStyleSheet("color: rgb(2, 127, 128); font-weight: bold;");
-
-	ui.sideCaries->pathology = true;
-	
-	scene->addItem(toothGraphic);
+	occlusal_scene->addItem(occlusal_toothGraphic);
 
 	for (int i = 0; i < 5; i++) {
-		polygon[i] = new ControlPanelPolygon(static_cast<ButtonPos>(i), this);
-		scene->addItem(polygon[i]);
+		occlusal_polygon[i] = new ControlPanelPolygon(static_cast<ButtonPos>(i), this);
+		occlusal_scene->addItem(occlusal_polygon[i]);
 	}
 
-	connect(ui.sideObturation, &QPushButton::clicked, [=] { presenter->sideObturationClicked();  });
-	connect(ui.sideCaries, &QPushButton::clicked, [=] { presenter->sideCariesClicked(); });
+
+	buccal_scene = new QGraphicsScene;
+	ui.buccalView->setScene(buccal_scene);
+	buccal_scene->setBackgroundBrush(Qt::white);
+	ui.buccalView->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
+	buccal_toothGraphic = new CPTooth;
+
+	buccal_scene->addItem(buccal_toothGraphic);
+
+	for (int i = 0; i < 5; i++) {
+		buccal_polygon[i] = new ControlPanelPolygon(static_cast<ButtonPos>(i+5), this);
+		buccal_scene->addItem(buccal_polygon[i]);
+	}
+
+
 }
 
 SurfacePanel::~SurfacePanel()
@@ -49,8 +58,8 @@ void SurfacePanel::setPresenter(SurfacePanelPresenter* presenter)
 
 void SurfacePanel::paintTooth(const ToothPaintHint& tooth)
 {
-	
-	toothGraphic->setPixmap(ToothPainter::getOcclusal(tooth));
+	occlusal_toothGraphic->setPixmap(ToothPainter::getSurfacePanel(tooth));
+	buccal_toothGraphic->setPixmap(ToothPainter::getSurfacePanel(tooth, false));
 }
 
 void SurfacePanel::hidePanel(bool hidden)
@@ -58,39 +67,30 @@ void SurfacePanel::hidePanel(bool hidden)
 	setHidden(hidden);
 }
 
-void SurfacePanel::setLabels(std::array<std::string, 6> surfaceNames)
+void SurfacePanel::setLabels(std::array<std::string, 10> surfaceNames)
 {
-	for (int i = 0; i < 6; i++) {
+	for (int i = 0; i < 10; i++) {
 		labels[i] = QString::fromStdString(surfaceNames[i]);
 	}
 
-	ui.sideBox->setText(labels[5]+":");
-}
-
-void SurfacePanel::setStatuses(std::array<std::string, 6> StatusNames)
-{
-	for (int i = 0; i < 6; i++) {
-		statuses[i] = QString::fromStdString(StatusNames[i]);
-	}
+	//ui.sideBox->setText(labels[5]+":");
 }
 
 void SurfacePanel::setSideButtonsClicked(bool obturation, bool caries)
 {
-	ui.sideObturation->setChecked(obturation);
-	ui.sideCaries->setChecked(caries);
+	//ui.sideObturation->setChecked(obturation);
+	//ui.sideCaries->setChecked(caries);
 }
 
 void SurfacePanel::buttonHovered(ButtonPos position, Hover hoverState)
 {
 	if (hoverState == Hover::out)
 	{
-		ui.surfaceInfoLabel->setText("");
-		ui.statusInfoLabel->setText("");
+		ui.statusLabel->setText("");
 	}
 	else
 	{
-		ui.surfaceInfoLabel->setText(labels[static_cast<int>(position)]);
-		ui.statusInfoLabel->setText(statuses[static_cast<int>(position)]);
+		ui.statusLabel->setText(labels[static_cast<int>(position)]);
 	}
 
 }
@@ -102,5 +102,5 @@ void SurfacePanel::buttonClicked(ButtonPos position, MouseClick click)
 	else if (click == MouseClick::leftClick)
 		presenter->buttonClicked(position, SurfaceClick::leftClick);
 
-	ui.statusInfoLabel->setText(statuses[static_cast<int>(position)]);
+	ui.statusLabel->setText(labels[static_cast<int>(position)]);
 }

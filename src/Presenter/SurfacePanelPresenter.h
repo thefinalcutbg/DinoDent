@@ -16,7 +16,7 @@ class SurfacePanelPresenter
 {
 	ISurfacePanel* view;
 	ListPresenter* statusControl;
-	std::array <std::tuple<int, SurfaceState>, 6> surfaceState;
+	std::array <std::tuple<int, SurfaceState>, 10> surfaceState;
 
 	int currentIndex;
 	ButtonSurfaceMatrix matrix;

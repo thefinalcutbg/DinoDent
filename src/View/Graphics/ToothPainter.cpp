@@ -658,7 +658,7 @@ QPixmap ToothPainter::getBuccalLingual(const ToothPaintHint& tooth)
 }
 
 
-QPixmap ToothPainter::getOcclusal(const ToothPaintHint& tooth)
+QPixmap ToothPainter::getSurfacePanel(const ToothPaintHint& tooth, bool occlusal)
 {
     auto& coords = SpriteSheets::container().getCoordinates(tooth.idx, tooth.temp);
     auto& currentTexture = SpriteSheets::container().getTexturePack(tooth.idx, tooth.temp);
@@ -700,7 +700,7 @@ QPixmap ToothPainter::getOcclusal(const ToothPaintHint& tooth)
 
     rotateByQuadrant(painter, 150, 150, ToothUtils::getQuadrant(tooth.idx));
 
-    painter.drawPixmap(QRect(0, 0, 150, 150), toothPx, coords.SurfacePanelCrop);
+    painter.drawPixmap(QRect(0, 0, 150, 150), toothPx, occlusal ? coords.SurfaceOcclusalCrop : coords.SurfaceBuccalCrop);
 
     return pixmap;
 }

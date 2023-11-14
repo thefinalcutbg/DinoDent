@@ -21,19 +21,24 @@ ControlPanelPolygon::ControlPanelPolygon(ButtonPos position, PolygonObserver* ob
 
     switch (position) //setting the coordinates for the drawing of the trapezium, depending on it's orientation
     {
-    case ButtonPos::left:
+    case ButtonPos::o_left:
+    case ButtonPos::b_left:
         poly << up_left_out << up_left_in << down_left_in << down_left_out;
         break;
-    case ButtonPos::up:
+    case ButtonPos::o_up:
+    case ButtonPos::b_up:
         poly << up_left_in << up_right_in << up_right_out << up_left_out;
         break;
-    case ButtonPos::right:
+    case ButtonPos::o_right:
+    case ButtonPos::b_right:
         poly << up_right_in << up_right_out << down_right_out << down_right_in;
         break;
-    case ButtonPos::down:
+    case ButtonPos::o_down:
+    case ButtonPos::b_down:
         poly << down_left_in << down_right_in << down_right_out << down_left_out;
         break;
-    case ButtonPos::center:                          //here we draw a square
+    case ButtonPos::o_center:                          //here we draw a square
+    case ButtonPos::b_center:
         poly << up_left_in << up_right_in << down_right_in << down_left_in;
     }
 }

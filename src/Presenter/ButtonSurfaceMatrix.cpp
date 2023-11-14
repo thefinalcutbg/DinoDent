@@ -1,4 +1,5 @@
 #include "ButtonSurfaceMatrix.h"
+#include "Model/Dental/ToothUtils.h"
 
 ButtonSurfaceMatrix::ButtonSurfaceMatrix()
 {
@@ -37,5 +38,14 @@ ButtonSurfaceMatrix::ButtonSurfaceMatrix()
 }
 
 int ButtonSurfaceMatrix::getSurface(int toothIndex, ButtonPos position){ 
-	return map[toothIndex][static_cast<int>(position)];
+	
+	auto quadrant = ToothUtils::getQuadrant(toothIndex);
+
+	switch (quadrant)
+	{
+		case Quadrant::First: return firstQuadrant[(int)position];
+		case Quadrant::Second: return secondQuadrant[(int)position];
+		case Quadrant::Third: return thirdQuadrant[(int)position];
+		case Quadrant::Fourth: return fourthQuadrant[(int)position];
+	}
 }

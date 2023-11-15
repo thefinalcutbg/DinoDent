@@ -196,7 +196,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QPlainTextEdit" name="notesEdit">
+    <widget class="TextEdit" name="notesEdit">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -287,6 +287,11 @@
    <class>ComboBox</class>
    <extends>QComboBox</extends>
    <header>View/uiComponents/combobox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>TextEdit</class>
+   <extends>QPlainTextEdit</extends>
+   <header>View/uiComponents/TextEdit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -1,12 +1,12 @@
 #pragma once
 
-#include <QTextEdit>
+#include <QPlainTextEdit>
 
 #include "View/Interfaces/AbstractLineEdit.h"
 
 class QLabel;
 
-class TextEdit : public QTextEdit, public AbstractLineEdit
+class TextEdit : public QPlainTextEdit, public AbstractLineEdit
 {
 	Q_OBJECT
 

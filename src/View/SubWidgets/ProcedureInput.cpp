@@ -88,7 +88,7 @@ AbstractDateEdit* ProcedureInput::dateEdit()
 
 std::string ProcedureInput::getNotes()
 {
-	return ui.notesEdit->text().toStdString();
+	return ui.notesEdit->toPlainText().toStdString();
 }
 
 QDateEdit* ProcedureInput::qDateEdit()
@@ -197,7 +197,7 @@ void ProcedureInput::setLayout(WidgetLayout layout)
 
 void ProcedureInput::setNotes(const std::string& notes)
 {
-	ui.notesEdit->setText(notes.c_str());
+	ui.notesEdit->setPlainText(notes.c_str());
 }
 
 void ProcedureInput::setNhifLayout(bool nhif)

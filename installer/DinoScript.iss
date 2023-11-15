@@ -53,8 +53,8 @@ Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
 Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
 
 [Run]
-Filename: "{app}\AWP-5.3.5-SR1.x64.en-US.msi"; Parameters: "/quiet"; Flags: shellexec
-Filename: "{app}\OpenSC-0.23.0_win64.msi"; Parameters: "/quiet"; Flags: shellexec
+;Filename: "{app}\AWP-5.3.5-SR1.x64.en-US.msi"; Parameters: "/quiet"; Flags: shellexec
+;Filename: "{app}\OpenSC-0.23.0_win64.msi"; Parameters: "/quiet"; Flags: shellexec
 Filename: "{app}\vcredist_x64.EXE"; Parameters: "/q /norestart"; StatusMsg: "Installing VC++ redistributable 2010";
 Filename: "{app}\VC_redist.x64.EXE"; Parameters: "/q /norestart"; StatusMsg: "Installing VC++ redistributable 2022";
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent

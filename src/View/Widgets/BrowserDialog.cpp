@@ -26,7 +26,7 @@ BrowserDialog::BrowserDialog()
 
 
 	setWindowFlags(Qt::Window);
-	setWindowTitle("Документи");
+	setWindowTitle("Документация");
 	setWindowIcon(QIcon(":/icons/icon_open.png"));
 
 	auto lambda = [](const QDate& date) { return Date{ date.day(), date.month(), date.year() };};

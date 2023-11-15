@@ -1,7 +1,7 @@
 {
 	"win64": {
-		"ver": "1.8.2",
-		"dl": "https://github.com/thefinalcutbg/DinoDent/releases/download/v1.8.2/DinoDentSetup.exe",
+		"ver": "1.8.1",
+		"dl": "https://github.com/thefinalcutbg/DinoDent/releases/download/v1.8.1/DinoDentSetup.exe",
 		"changeLog": [
 			"Проверка за наличие на активна хоспитализация (по предложение на д-р Георги Славчев и д-р Нели Петрова) и извличане на всички хоспитализации от НЗИС в раздел Онлайн пациентско досие",
 			"Добавена е възможност за отчитане на частична протеза съдържаща само един зъб (микропротеза)",

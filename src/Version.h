@@ -10,7 +10,7 @@ struct Version {
 	static constexpr Branch branch() { return Branch::Win64; };
 
 	static constexpr Version current() {
-
+		
 		return {
 			.MAJOR = 1, 
 			.MINOR = 8, 

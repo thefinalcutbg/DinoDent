@@ -5,9 +5,11 @@ PisImportView::PisImportView(QWidget *parent)
 {
 	ui.setupUi(this);
 
+	ui.yearSpin->setValue(Date::currentYear());
+
 	ui.importButton->setIcon(QIcon(":/icons/icon_nhif.png"));
 
-	connect(ui.importButton, &QPushButton::clicked, [&] { presenter.importDataPressed();});
+	connect(ui.importButton, &QPushButton::clicked, [&] { presenter.importData(ui.yearSpin->value());});
 
 	presenter.setView(this);
 
@@ -37,6 +39,8 @@ void PisImportView::logToConsole(const std::string& text)
 void PisImportView::disableButton(bool disabled)
 {
 	ui.importButton->setDisabled(disabled);
+	ui.label->setDisabled(disabled);
+	ui.yearSpin->setDisabled(disabled);
 }
 
 PisImportView::~PisImportView()

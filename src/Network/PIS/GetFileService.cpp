@@ -67,6 +67,74 @@ bool GetFileService::sendRequest(
 
 }
 
+bool GetAmbHashes::sendRequest(const std::string& rziCode, int year, decltype(m_callback) callback)
+{
+	m_callback = callback;
+
+	auto query =
+	"<ns3:query xmlns:ns1=\"http://pis.technologica.com/views/\" "
+	"xmlns:ns3=\"http://pis.technologica.com/ws/\">"
+
+		"<ns3:user><ns3:msp>" + rziCode + "</ns3:msp></ns3:user>"
+
+		"<ns3:select_clause>"
+				"<ns1:scolumn>FILE_PROCESS_REPORT</ns1:scolumn>" //errors
+				"<ns1:scolumn>REPORT_DATE_FROM</ns1:scolumn>"	 //date
+				"<ns1:scolumn>FILE_ID</ns1:scolumn>"			 //id hash
+			"</ns3:select_clause>"
+		
+		"<ns3:from_clause>REPORT_FILE2</ns3:from_clause>"
+
+			"<ns3:where_clause>"
+				"<ns1:and>"
+					"<ns1:filter>"
+						"<ns1:xfy oper=\"=\">"
+							"<ns1:fcolumn>TYPE_CODE</ns1:fcolumn>"
+							"<ns1:fvalue>AMB_DENT</ns1:fvalue>"
+						"</ns1:xfy>"
+					"</ns1:filter>"
+
+					"<ns1:filter>"
+						"<ns1:xfy oper=\"=\">"
+							"<ns1:fcolumn>PRACT_UIN</ns1:fcolumn>"
+							"<ns1:fvalue>"+User::doctor().LPK+"</ns1:fvalue>"
+						"</ns1:xfy>"
+					"</ns1:filter>"
+			 "<ns1:or>"
+		;
+
+	//12 ORs because of the dumb nhif api
+	for (int i = 1; i < 13; i++)
+	{
+		query += 
+			"<ns1:filter>"
+				"<ns1:xfy oper=\"=\">"
+					"<ns1:fcolumn>REPORT_DATE_FROM</ns1:fcolumn>"
+					"<ns1:fvalue>";
+
+		query += std::to_string(year);
+		query += "-";
+		query += FreeFn::leadZeroes(i, 2);
+		query +=
+					"-01 00:00:00</ns1:fvalue>"
+				"</ns1:xfy>"
+			"</ns1:filter>"
+			;
+	}
+		
+	query+=
+					"</ns1:or>"
+				"</ns1:and>"
+			"</ns3:where_clause>"
+		"<ns3:orderby_clause>"
+			"<ns1:ocolumn sort=\"ASC\">FILE_DATE</ns1:ocolumn>"
+		"</ns3:orderby_clause>"
+	"</ns3:query>"
+	;
+
+	return PisService::sendRequest(query, SOAPAction::View);
+}
+
 void GetAmbHashes::processPISReply(const std::string& reply)
 {
 	TiXmlDocument doc;
@@ -112,52 +180,4 @@ void GetAmbHashes::processPISReply(const std::string& reply)
 	m_callback(result);
 
 	m_callback = nullptr;
-}
-
-bool GetAmbHashes::sendRequest(const std::string& rziCode, decltype(m_callback) callback)
-{
-	m_callback = callback;
-
-	auto query =
-	"<ns3:query xmlns:ns1=\"http://pis.technologica.com/views/\" "
-	"xmlns:ns3=\"http://pis.technologica.com/ws/\">"
-
-		"<ns3:user><ns3:msp>" + rziCode + "</ns3:msp></ns3:user>"
-
-		"<ns3:select_clause>"
-				"<ns1:scolumn>FILE_PROCESS_REPORT</ns1:scolumn>" //errors
-				"<ns1:scolumn>REPORT_DATE_FROM</ns1:scolumn>"	 //date
-				"<ns1:scolumn>FILE_ID</ns1:scolumn>"			 //id hash
-			"</ns3:select_clause>"
-		
-		"<ns3:from_clause>REPORT_FILE2</ns3:from_clause>"
-
-			"<ns3:where_clause>"
-				"<ns1:and>"
-					"<ns1:filter>"
-						"<ns1:xfy oper=\"=\">"
-							"<ns1:fcolumn>TYPE_CODE</ns1:fcolumn>"
-							"<ns1:fvalue>AMB_DENT</ns1:fvalue>"
-						"</ns1:xfy>"
-					"</ns1:filter>"
-
-
-					"<ns1:filter>"
-						"<ns1:xfy oper=\"=\">"
-							"<ns1:fcolumn>PRACT_UIN</ns1:fcolumn>"
-							"<ns1:fvalue>"+User::doctor().LPK+"</ns1:fvalue>"
-						"</ns1:xfy>"
-					"</ns1:filter>"
-
-				"</ns1:and>"
-			"</ns3:where_clause>"
-		
-
-		"<ns3:orderby_clause>"
-			"<ns1:ocolumn sort=\"ASC\">FILE_DATE</ns1:ocolumn>"
-		"</ns3:orderby_clause>"
-	"</ns3:query>"
-	;
-
-	return PisService::sendRequest(query, SOAPAction::View);
 }

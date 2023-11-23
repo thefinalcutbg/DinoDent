@@ -18,6 +18,7 @@ public:
 
 	bool sendRequest(
 		const std::string& rzi,
+		int year,
 		decltype(m_callback) callback
 	);
 };
@@ -35,5 +36,4 @@ public:
 		const std::string& rziCode,
 		std::function<void(const std::string& file)> callback
 	);
-
 };

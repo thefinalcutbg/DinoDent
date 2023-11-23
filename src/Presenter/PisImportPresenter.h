@@ -23,6 +23,6 @@ public:
 
 	void setView(PisImportView* view);
 
-	void importDataPressed();
+	void importData(int year);
 
 };

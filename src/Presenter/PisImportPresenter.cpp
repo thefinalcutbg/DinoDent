@@ -11,7 +11,7 @@ void PisImportPresenter::setView(PisImportView* view)
 	this->view = view;
 }
 
-void PisImportPresenter::importDataPressed()
+void PisImportPresenter::importData(int year)
 {
 
 	if (m_hashes.size()) {
@@ -19,7 +19,7 @@ void PisImportPresenter::importDataPressed()
 		return;
 	}
 
-	bool begin = get_hash_serv.sendRequest(User::practice().rziCode,
+	bool begin = get_hash_serv.sendRequest(User::practice().rziCode, year,
 		[&](const std::stack<std::string>& hashes) {
 
 			if (hashes.empty()) {

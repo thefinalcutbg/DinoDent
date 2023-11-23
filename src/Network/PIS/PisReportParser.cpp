@@ -50,6 +50,11 @@ PisReportsForImport PisReportParser::parse(const std::string& xmlReport)
 			patient.birth = Date{listXml->Attribute("birthDate")};
 		}
 
+		patient.city = Ekatte(
+			std::stoi(listXml->Attribute("RHIFCode")),
+			std::stoi(listXml->Attribute("healthRegionCode"))
+		);
+
 		AmbList list;
 
 		list.lrn = FreeFn::getUuid();
@@ -91,6 +96,7 @@ PisReportsForImport PisReportParser::parse(const std::string& xmlReport)
 				list.teeth[idx.index];
 
 			if (idx.supernumeral) list.teeth[idx.index].setStatus(StatusCode::Dsn);
+			if (idx.temp) list.teeth[idx.index].setStatus(StatusCode::Temporary);
 
 			//DESERIALIZING STATUSES
 			for (

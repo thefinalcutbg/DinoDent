@@ -1,0 +1,1592 @@
+[
+ {
+  "RHIF": 01,
+  "HealthRegion": 01,
+  "String": "Благоевград - Банско",
+  "EKATTE": 2676
+ },
+ {
+  "RHIF": 01,
+  "HealthRegion": 02,
+  "String": "Благоевград - Белица",
+  "EKATTE": 3504
+ },
+ {
+  "RHIF": 01,
+  "HealthRegion": 03,
+  "String": "Благоевград - Благоевград",
+  "EKATTE": 4279
+ },
+ {
+  "RHIF": 01,
+  "HealthRegion": 04,
+  "String": "Благоевград - Гоце Делчев",
+  "EKATTE": 17395
+ },
+ {
+  "RHIF": 01,
+  "HealthRegion": 05,
+  "String": "Благоевград - Гърмен",
+  "EKATTE": 18366
+ },
+ {
+  "RHIF": 01,
+  "HealthRegion": 06,
+  "String": "Благоевград - Кресна",
+  "EKATTE": 14492
+ },
+ {
+  "RHIF": 01,
+  "HealthRegion": 07,
+  "String": "Благоевград - Петрич",
+  "EKATTE": 56126
+ },
+ {
+  "RHIF": 01,
+  "HealthRegion": 08,
+  "String": "Благоевград - Разлог",
+  "EKATTE": 61813
+ },
+ {
+  "RHIF": 01,
+  "HealthRegion": 09,
+  "String": "Благоевград -  Сандански",
+  "EKATTE": 65334
+ },
+ {
+  "RHIF": 01,
+  "HealthRegion": 10,
+  "String": "Благоевград - Сатовча",
+  "EKATTE": 65440
+ },
+ {
+  "RHIF": 01,
+  "HealthRegion": 11,
+  "String": "Благоевград - Симитли",
+  "EKATTE": 66460
+ },
+ {
+  "RHIF": 01,
+  "HealthRegion": 12,
+  "String": "Благоевград - Струмяни",
+  "EKATTE": 69969
+ },
+ {
+  "RHIF": 01,
+  "HealthRegion": 13,
+  "String": "Благоевград - Хаджидимово",
+  "EKATTE": 77058
+ },
+ {
+  "RHIF": 01,
+  "HealthRegion": 14,
+  "String": "Благоевград - Якоруда",
+  "EKATTE": 87338
+ },
+ {
+  "RHIF": 02,
+  "HealthRegion": 01,
+  "String": "Бургас - Айтос",
+  "EKATTE": 151
+ },
+ {
+  "RHIF": 02,
+  "HealthRegion": 02,
+  "String": "Бургас - Бургас",
+  "EKATTE": 7079
+ },
+ {
+  "RHIF": 02,
+  "HealthRegion": 03,
+  "String": "Бургас - Камено",
+  "EKATTE": 35883
+ },
+ {
+  "RHIF": 02,
+  "HealthRegion": 04,
+  "String": "Бургас - Карнобат",
+  "EKATTE": 36525
+ },
+ {
+  "RHIF": 02,
+  "HealthRegion": 05,
+  "String": "Бургас - Малко Търново",
+  "EKATTE": 46663
+ },
+ {
+  "RHIF": 02,
+  "HealthRegion": 06,
+  "String": "Бургас - Несебър",
+  "EKATTE": 51500
+ },
+ {
+  "RHIF": 02,
+  "HealthRegion": 07,
+  "String": "Бургас - Поморие",
+  "EKATTE": 7079
+ },
+ {
+  "RHIF": 02,
+  "HealthRegion": 08,
+  "String": "Бургас - Приморско",
+  "EKATTE": 58356
+ },
+ {
+  "RHIF": 02,
+  "HealthRegion": 09,
+  "String": "Бургас - Руен",
+  "EKATTE": 63224
+ },
+ {
+  "RHIF": 02,
+  "HealthRegion": 10,
+  "String": "Бургас - Созопол",
+  "EKATTE": 67800
+ },
+ {
+  "RHIF": 02,
+  "HealthRegion": 11,
+  "String": "Бургас - Средец",
+  "EKATTE": 17974
+ },
+ {
+  "RHIF": 02,
+  "HealthRegion": 12,
+  "String": "Бургас - Сунгурларе",
+  "EKATTE": 7079
+ },
+ {
+  "RHIF": 02,
+  "HealthRegion": 13,
+  "String": "Бургас - Царево",
+  "EKATTE": 48619
+ },
+ {
+  "RHIF": 03,
+  "HealthRegion": 01,
+  "String": "Варна - Аврен",
+  "EKATTE": 84
+ },
+ {
+  "RHIF": 03,
+  "HealthRegion": 02,
+  "String": "Варна - Аксаково",
+  "EKATTE": 182
+ },
+ {
+  "RHIF": 03,
+  "HealthRegion": 03,
+  "String": "Варна - Белослав",
+  "EKATTE": 3719
+ },
+ {
+  "RHIF": 03,
+  "HealthRegion": 04,
+  "String": "Варна - Бяла",
+  "EKATTE": 7598
+ },
+ {
+  "RHIF": 03,
+  "HealthRegion": 05,
+  "String": "Варна - Варна",
+  "EKATTE": 10135
+ },
+ {
+  "RHIF": 03,
+  "HealthRegion": 06,
+  "String": "Варна - Ветрино",
+  "EKATTE": 10865
+ },
+ {
+  "RHIF": 03,
+  "HealthRegion": 07,
+  "String": "Варна - Вълчи дол",
+  "EKATTE": 12574
+ },
+ {
+  "RHIF": 03,
+  "HealthRegion": 08,
+  "String": "Варна - Девня",
+  "EKATTE": 20482
+ },
+ {
+  "RHIF": 03,
+  "HealthRegion": 09,
+  "String": "Варна - Долни чифлик",
+  "EKATTE": 21912
+ },
+ {
+  "RHIF": 03,
+  "HealthRegion": 10,
+  "String": "Варна - Дългопол",
+  "EKATTE": 24565
+ },
+ {
+  "RHIF": 03,
+  "HealthRegion": 11,
+  "String": "Варна - Провадия",
+  "EKATTE": 58503
+ },
+ {
+  "RHIF": 03,
+  "HealthRegion": 12,
+  "String": "Варна - Суворово",
+  "EKATTE": 70175
+ },
+ {
+  "RHIF": 04,
+  "HealthRegion": 01,
+  "String": "Велико Търново - Велико Търново",
+  "EKATTE": 10447
+ },
+ {
+  "RHIF": 04,
+  "HealthRegion": 02,
+  "String": "Велико Търново - Горна Оряховица",
+  "EKATTE": 16359
+ },
+ {
+  "RHIF": 04,
+  "HealthRegion": 03,
+  "String": "Велико Търново - Елена",
+  "EKATTE": 27190
+ },
+ {
+  "RHIF": 04,
+  "HealthRegion": 04,
+  "String": "Велико Търново - Златарица",
+  "EKATTE": 30962
+ },
+ {
+  "RHIF": 04,
+  "HealthRegion": 05,
+  "String": "Велико Търново - Лясковец",
+  "EKATTE": 44793
+ },
+ {
+  "RHIF": 04,
+  "HealthRegion": 06,
+  "String": "Велико Търново - Павликени",
+  "EKATTE": 55052
+ },
+ {
+  "RHIF": 04,
+  "HealthRegion": 07,
+  "String": "Велико Търново - Полски Тръмбеш",
+  "EKATTE": 57354
+ },
+ {
+  "RHIF": 04,
+  "HealthRegion": 08,
+  "String": "Велико Търново - Свищов",
+  "EKATTE": 65766
+ },
+ {
+  "RHIF": 04,
+  "HealthRegion": 09,
+  "String": "Велико Търново - Стражица",
+  "EKATTE": 69633
+ },
+ {
+  "RHIF": 04,
+  "HealthRegion": 10,
+  "String": "Велико Търново - Сухиндол",
+  "EKATTE": 70295
+ },
+ {
+  "RHIF": 05,
+  "HealthRegion": 01,
+  "String": "Видин - Белоградчик",
+  "EKATTE": 3616
+ },
+ {
+  "RHIF": 05,
+  "HealthRegion": 02,
+  "String": "Видин - Бойница",
+  "EKATTE": 5195
+ },
+ {
+  "RHIF": 05,
+  "HealthRegion": 03,
+  "String": "Видин - Брегово",
+  "EKATTE": 6224
+ },
+ {
+  "RHIF": 05,
+  "HealthRegion": 04,
+  "String": "Видин - Видин",
+  "EKATTE": 10971
+ },
+ {
+  "RHIF": 05,
+  "HealthRegion": 05,
+  "String": "Видин - Грамада",
+  "EKATTE": 17645
+ },
+ {
+  "RHIF": 05,
+  "HealthRegion": 06,
+  "String": "Видин - Димово",
+  "EKATTE": 21097
+ },
+ {
+  "RHIF": 05,
+  "HealthRegion": 07,
+  "String": "Видин - Кула",
+  "EKATTE": 40525
+ },
+ {
+  "RHIF": 05,
+  "HealthRegion": 08,
+  "String": "Видин - Макреш",
+  "EKATTE": 46245
+ },
+ {
+  "RHIF": 05,
+  "HealthRegion": 09,
+  "String": "Видин - Ново село",
+  "EKATTE": 52180
+ },
+ {
+  "RHIF": 05,
+  "HealthRegion": 10,
+  "String": "Видин - Ружинци",
+  "EKATTE": 63255
+ },
+ {
+  "RHIF": 05,
+  "HealthRegion": 11,
+  "String": "Видин - Чупрене",
+  "EKATTE": 81757
+ },
+ {
+  "RHIF": 06,
+  "HealthRegion": 01,
+  "String": "Враца - Борован",
+  "EKATTE": 5548
+ },
+ {
+  "RHIF": 06,
+  "HealthRegion": 02,
+  "String": "Враца - Бяла Слатина",
+  "EKATTE": 7702
+ },
+ {
+  "RHIF": 06,
+  "HealthRegion": 03,
+  "String": "Враца - Враца",
+  "EKATTE": 12259
+ },
+ {
+  "RHIF": 06,
+  "HealthRegion": 05,
+  "String": "Враца - Козлодуй",
+  "EKATTE": 37798
+ },
+ {
+  "RHIF": 06,
+  "HealthRegion": 06,
+  "String": "Враца - Криводол",
+  "EKATTE": 39846
+ },
+ {
+  "RHIF": 06,
+  "HealthRegion": 07,
+  "String": "Враца - Мездра",
+  "EKATTE": 47714
+ },
+ {
+  "RHIF": 06,
+  "HealthRegion": 08,
+  "String": "Враца - Мизия",
+  "EKATTE": 48043
+ },
+ {
+  "RHIF": 06,
+  "HealthRegion": 09,
+  "String": "Враца - Оряхово",
+  "EKATTE": 54020
+ },
+ {
+  "RHIF": 06,
+  "HealthRegion": 10,
+  "String": "Враца - Роман",
+  "EKATTE": 62997
+ },
+ {
+  "RHIF": 06,
+  "HealthRegion": 11,
+  "String": "Враца - Хайредин",
+  "EKATTE": 77102
+ },
+ {
+  "RHIF": 07,
+  "HealthRegion": 01,
+  "String": "Габрово - Габрово",
+  "EKATTE": 14218
+ },
+ {
+  "RHIF": 07,
+  "HealthRegion": 02,
+  "String": "Габрово - Дряново",
+  "EKATTE": 23947
+ },
+ {
+  "RHIF": 07,
+  "HealthRegion": 03,
+  "String": "Габрово - Севлиево",
+  "EKATTE": 65927
+ },
+ {
+  "RHIF": 07,
+  "HealthRegion": 04,
+  "String": "Габрово - Трявна",
+  "EKATTE": 73403
+ },
+ {
+  "RHIF": 08,
+  "HealthRegion": 01,
+  "String": "Добрич - Балчик",
+  "EKATTE": 2508
+ },
+ {
+  "RHIF": 08,
+  "HealthRegion": 02,
+  "String": "Добрич - Генерал Тошево",
+  "EKATTE": 14711
+ },
+ {
+  "RHIF": 08,
+  "HealthRegion": 03,
+  "String": "Добрич - Добрич",
+  "EKATTE": 72624
+ },
+ {
+  "RHIF": 08,
+  "HealthRegion": 04,
+  "String": "Добрич - Добрич - селска",
+  "EKATTE": 3860
+ },
+ {
+  "RHIF": 08,
+  "HealthRegion": 05,
+  "String": "Добрич - Каварна",
+  "EKATTE": 35064
+ },
+ {
+  "RHIF": 08,
+  "HealthRegion": 06,
+  "String": "Добрич - Крушари",
+  "EKATTE": 40097
+ },
+ {
+  "RHIF": 08,
+  "HealthRegion": 07,
+  "String": "Добрич - Тервел",
+  "EKATTE": 72271
+ },
+ {
+  "RHIF": 08,
+  "HealthRegion": 08,
+  "String": "Добрич - Шабла",
+  "EKATTE": 83017
+ },
+ {
+  "RHIF": 09,
+  "HealthRegion": 01,
+  "String": "Кърджали - Ардино",
+  "EKATTE": 607
+ },
+ {
+  "RHIF": 09,
+  "HealthRegion": 02,
+  "String": "Кърджали - Джебел",
+  "EKATTE": 20746
+ },
+ {
+  "RHIF": 09,
+  "HealthRegion": 03,
+  "String": "Кърджали - Кирково",
+  "EKATTE": 36926
+ },
+ {
+  "RHIF": 09,
+  "HealthRegion": 04,
+  "String": "Кърджали - Крумовград",
+  "EKATTE": 39970
+ },
+ {
+  "RHIF": 09,
+  "HealthRegion": 05,
+  "String": "Кърджали - Кърджали",
+  "EKATTE": 40909
+ },
+ {
+  "RHIF": 09,
+  "HealthRegion": 06,
+  "String": "Кърджали - Момчилград",
+  "EKATTE": 48996
+ },
+ {
+  "RHIF": 09,
+  "HealthRegion": 07,
+  "String": "Кърджали -  Черноочене",
+  "EKATTE": 81236
+ },
+ {
+  "RHIF": 10,
+  "HealthRegion": 01,
+  "String": "Кюстендил - Бобов дол",
+  "EKATTE": 4501
+ },
+ {
+  "RHIF": 10,
+  "HealthRegion": 02,
+  "String": "Кюстендил - Бобошево",
+  "EKATTE": 4532
+ },
+ {
+  "RHIF": 10,
+  "HealthRegion": 03,
+  "String": "Кюстендил - Дупница",
+  "EKATTE": 68789
+ },
+ {
+  "RHIF": 10,
+  "HealthRegion": 04,
+  "String": "Кюстендил - Кочериново",
+  "EKATTE": 93116
+ },
+ {
+  "RHIF": 10,
+  "HealthRegion": 05,
+  "String": "Кюстендил - Кюстендил",
+  "EKATTE": 41112
+ },
+ {
+  "RHIF": 10,
+  "HealthRegion": 06,
+  "String": "Кюстендил - Невестино",
+  "EKATTE": 51216
+ },
+ {
+  "RHIF": 10,
+  "HealthRegion": 07,
+  "String": "Кюстендил - Рила",
+  "EKATTE": 62671
+ },
+ {
+  "RHIF": 10,
+  "HealthRegion": 08,
+  "String": "Кюстендил - Сапарева баня",
+  "EKATTE": 65365
+ },
+ {
+  "RHIF": 10,
+  "HealthRegion": 09,
+  "String": "Кюстендил - Трекляно",
+  "EKATTE": 73047
+ },
+ {
+  "RHIF": 11,
+  "HealthRegion": 01,
+  "String": "Ловеч - Априлци",
+  "EKATTE": 52218
+ },
+ {
+  "RHIF": 11,
+  "HealthRegion": 02,
+  "String": "Ловеч - Летница",
+  "EKATTE": 43476
+ },
+ {
+  "RHIF": 11,
+  "HealthRegion": 03,
+  "String": "Ловеч - Ловеч",
+  "EKATTE": 43952
+ },
+ {
+  "RHIF": 11,
+  "HealthRegion": 04,
+  "String": "Ловеч - Луковит",
+  "EKATTE": 44327
+ },
+ {
+  "RHIF": 11,
+  "HealthRegion": 05,
+  "String": "Ловеч - Тетевен",
+  "EKATTE": 72343
+ },
+ {
+  "RHIF": 11,
+  "HealthRegion": 06,
+  "String": "Ловеч - Троян",
+  "EKATTE": 73198
+ },
+ {
+  "RHIF": 11,
+  "HealthRegion": 07,
+  "String": "Ловеч - Угърчин",
+  "EKATTE": 75054
+ },
+ {
+  "RHIF": 11,
+  "HealthRegion": 08,
+  "String": "Ловеч - Ябланица",
+  "EKATTE": 87014
+ },
+ {
+  "RHIF": 12,
+  "HealthRegion": 01,
+  "String": "Монтана - Берковица",
+  "EKATTE": 3928
+ },
+ {
+  "RHIF": 12,
+  "HealthRegion": 02,
+  "String": "Монтана - Бойчиновци",
+  "EKATTE": 5236
+ },
+ {
+  "RHIF": 12,
+  "HealthRegion": 03,
+  "String": "Монтана - Брусарци",
+  "EKATTE": 6570
+ },
+ {
+  "RHIF": 12,
+  "HealthRegion": 04,
+  "String": "Монтана - Вълчедръм",
+  "EKATTE": 12543
+ },
+ {
+  "RHIF": 12,
+  "HealthRegion": 05,
+  "String": "Монтана - Вършец",
+  "EKATTE": 12961
+ },
+ {
+  "RHIF": 12,
+  "HealthRegion": 06,
+  "String": "Монтана - Георги Дамяново",
+  "EKATTE": 14773
+ },
+ {
+  "RHIF": 12,
+  "HealthRegion": 07,
+  "String": "Монтана - Лом",
+  "EKATTE": 44238
+ },
+ {
+  "RHIF": 12,
+  "HealthRegion": 08,
+  "String": "Монтана - Медковец",
+  "EKATTE": 47593
+ },
+ {
+  "RHIF": 12,
+  "HealthRegion": 09,
+  "String": "Монтана - Монтана",
+  "EKATTE": 48489
+ },
+ {
+  "RHIF": 12,
+  "HealthRegion": 10,
+  "String": "Монтана - Чипровци",
+  "EKATTE": 81390
+ },
+ {
+  "RHIF": 12,
+  "HealthRegion": 11,
+  "String": "Монтана - Якимово",
+  "EKATTE": 87299
+ },
+ {
+  "RHIF": 13,
+  "HealthRegion": 01,
+  "String": "Пазарджик - Батак",
+  "EKATTE": 2837
+ },
+ {
+  "RHIF": 13,
+  "HealthRegion": 02,
+  "String": "Пазарджик - Белово",
+  "EKATTE": 3592
+ },
+ {
+  "RHIF": 13,
+  "HealthRegion": 03,
+  "String": "Пазарджик - Брацигово",
+  "EKATTE": 6207
+ },
+ {
+  "RHIF": 13,
+  "HealthRegion": 04,
+  "String": "Пазарджик - Велинград",
+  "EKATTE": 10450
+ },
+ {
+  "RHIF": 13,
+  "HealthRegion": 05,
+  "String": "Пазарджик - Лесичово",
+  "EKATTE": 43369
+ },
+ {
+  "RHIF": 13,
+  "HealthRegion": 06,
+  "String": "Пазарджик - Пазарджик",
+  "EKATTE": 55155
+ },
+ {
+  "RHIF": 13,
+  "HealthRegion": 07,
+  "String": "Пазарджик - Панагюрище",
+  "EKATTE": 55302
+ },
+ {
+  "RHIF": 13,
+  "HealthRegion": 08,
+  "String": "Пазарджик - Пещера",
+  "EKATTE": 56277
+ },
+ {
+  "RHIF": 13,
+  "HealthRegion": 09,
+  "String": "Пазарджик - Ракитово",
+  "EKATTE": 62004
+ },
+ {
+  "RHIF": 13,
+  "HealthRegion": 10,
+  "String": "Пазарджик - Септември",
+  "EKATTE": 66264
+ },
+ {
+  "RHIF": 13,
+  "HealthRegion": 11,
+  "String": "Пазарджик - Стрелча",
+  "EKATTE": 69835
+ },
+ {
+  "RHIF": 13,
+  "HealthRegion": 12,
+  "String": "Пазарджик - Сърница",
+  "EKATTE": 70648
+ },
+ {
+  "RHIF": 14,
+  "HealthRegion": 01,
+  "String": "Перник - Брезник",
+  "EKATTE": 6286
+ },
+ {
+  "RHIF": 14,
+  "HealthRegion": 02,
+  "String": "Перник - Земен",
+  "EKATTE": 30778
+ },
+ {
+  "RHIF": 14,
+  "HealthRegion": 03,
+  "String": "Перник - Ковачевци",
+  "EKATTE": 37513
+ },
+ {
+  "RHIF": 14,
+  "HealthRegion": 04,
+  "String": "Перник - Перник",
+  "EKATTE": 55871
+ },
+ {
+  "RHIF": 14,
+  "HealthRegion": 05,
+  "String": "Перник - Радомир",
+  "EKATTE": 61577
+ },
+ {
+  "RHIF": 14,
+  "HealthRegion": 06,
+  "String": "Перник - Трън",
+  "EKATTE": 73273
+ },
+ {
+  "RHIF": 15,
+  "HealthRegion": 01,
+  "String": "Плевен - Белене",
+  "EKATTE": 3366
+ },
+ {
+  "RHIF": 15,
+  "HealthRegion": 02,
+  "String": "Плевен - Гулянци",
+  "EKATTE": 18099
+ },
+ {
+  "RHIF": 15,
+  "HealthRegion": 03,
+  "String": "Плевен - Долна Митрополия",
+  "EKATTE": 22215
+ },
+ {
+  "RHIF": 15,
+  "HealthRegion": 04,
+  "String": "Плевен - Долни Дъбник",
+  "EKATTE": 22407
+ },
+ {
+  "RHIF": 15,
+  "HealthRegion": 05,
+  "String": "Плевен - Искър",
+  "EKATTE": 55782
+ },
+ {
+  "RHIF": 15,
+  "HealthRegion": 06,
+  "String": "Плевен - Левски",
+  "EKATTE": 43236
+ },
+ {
+  "RHIF": 15,
+  "HealthRegion": 07,
+  "String": "Плевен - Никопол",
+  "EKATTE": 51723
+ },
+ {
+  "RHIF": 15,
+  "HealthRegion": 08,
+  "String": "Плевен - Плевен",
+  "EKATTE": 56722
+ },
+ {
+  "RHIF": 15,
+  "HealthRegion": 09,
+  "String": "Плевен - Пордим",
+  "EKATTE": 57772
+ },
+ {
+  "RHIF": 15,
+  "HealthRegion": 10,
+  "String": "Плевен - Червен бряг",
+  "EKATTE": 80501
+ },
+ {
+  "RHIF": 15,
+  "HealthRegion": 11,
+  "String": "Плевен - Кнежа",
+  "EKATTE": 37376
+ },
+ {
+  "RHIF": 16,
+  "HealthRegion": 01,
+  "String": "Пловдив - Асеновград",
+  "EKATTE": 702
+ },
+ {
+  "RHIF": 16,
+  "HealthRegion": 02,
+  "String": "Пловдив - Брезово",
+  "EKATTE": 56784
+ },
+ {
+  "RHIF": 16,
+  "HealthRegion": 03,
+  "String": "Пловдив - Калояново",
+  "EKATTE": 35523
+ },
+ {
+  "RHIF": 16,
+  "HealthRegion": 04,
+  "String": "Пловдив - Карлово",
+  "EKATTE": 36498
+ },
+ {
+  "RHIF": 16,
+  "HealthRegion": 05,
+  "String": "Пловдив - Кричим",
+  "EKATTE": 56784
+ },
+ {
+  "RHIF": 16,
+  "HealthRegion": 06,
+  "String": "Пловдив - Лъки",
+  "EKATTE": 44478
+ },
+ {
+  "RHIF": 16,
+  "HealthRegion": 07,
+  "String": "Пловдив - Марица",
+  "EKATTE": 56784
+ },
+ {
+  "RHIF": 16,
+  "HealthRegion": 08,
+  "String": "Пловдив - Перущица",
+  "EKATTE": 55909
+ },
+ {
+  "RHIF": 16,
+  "HealthRegion": 09,
+  "String": "Пловдив - Пловдив",
+  "EKATTE": 56784
+ },
+ {
+  "RHIF": 16,
+  "HealthRegion": 10,
+  "String": "Пловдив - Първомай",
+  "EKATTE": 59080
+ },
+ {
+  "RHIF": 16,
+  "HealthRegion": 11,
+  "String": "Пловдив - Раковски",
+  "EKATTE": 62075
+ },
+ {
+  "RHIF": 16,
+  "HealthRegion": 12,
+  "String": "Пловдив - Родопи",
+  "EKATTE": 78029
+ },
+ {
+  "RHIF": 16,
+  "HealthRegion": 13,
+  "String": "Пловдив - Садово",
+  "EKATTE": 65139
+ },
+ {
+  "RHIF": 16,
+  "HealthRegion": 14,
+  "String": "Пловдив - Стамболийски",
+  "EKATTE": 51980
+ },
+ {
+  "RHIF": 16,
+  "HealthRegion": 15,
+  "String": "Пловдив - Съединение",
+  "EKATTE": 70528
+ },
+ {
+  "RHIF": 16,
+  "HealthRegion": 16,
+  "String": "Пловдив - Хисаря",
+  "EKATTE": 77270
+ },
+ {
+  "RHIF": 16,
+  "HealthRegion": 17,
+  "String": "Пловдив - Куклен",
+  "EKATTE": 40467
+ },
+ {
+  "RHIF": 16,
+  "HealthRegion": 18,
+  "String": "Пловдив - Сопот",
+  "EKATTE": 68080
+ },
+ {
+  "RHIF": 17,
+  "HealthRegion": 01,
+  "String": "Разград - Завет",
+  "EKATTE": 30065
+ },
+ {
+  "RHIF": 17,
+  "HealthRegion": 02,
+  "String": "Разград - Исперих",
+  "EKATTE": 32874
+ },
+ {
+  "RHIF": 17,
+  "HealthRegion": 03,
+  "String": "Разград - Кубрат",
+  "EKATTE": 40422
+ },
+ {
+  "RHIF": 17,
+  "HealthRegion": 04,
+  "String": "Разград - Лозница",
+  "EKATTE": 44166
+ },
+ {
+  "RHIF": 17,
+  "HealthRegion": 05,
+  "String": "Разград - Разград",
+  "EKATTE": 61710
+ },
+ {
+  "RHIF": 17,
+  "HealthRegion": 06,
+  "String": "Разград - Самуил",
+  "EKATTE": 65276
+ },
+ {
+  "RHIF": 17,
+  "HealthRegion": 07,
+  "String": "Разград - Цар Калоян",
+  "EKATTE": 77308
+ },
+ {
+  "RHIF": 18,
+  "HealthRegion": 01,
+  "String": "Русе - Борово",
+  "EKATTE": 5611
+ },
+ {
+  "RHIF": 18,
+  "HealthRegion": 02,
+  "String": "Русе - Бяла",
+  "EKATTE": 7603
+ },
+ {
+  "RHIF": 18,
+  "HealthRegion": 03,
+  "String": "Русе - Вятово",
+  "EKATTE": 10803
+ },
+ {
+  "RHIF": 18,
+  "HealthRegion": 04,
+  "String": "Русе - Две могили",
+  "EKATTE": 20184
+ },
+ {
+  "RHIF": 18,
+  "HealthRegion": 05,
+  "String": "Русе - Иваново",
+  "EKATTE": 32095
+ },
+ {
+  "RHIF": 18,
+  "HealthRegion": 06,
+  "String": "Русе - Русе",
+  "EKATTE": 63427
+ },
+ {
+  "RHIF": 18,
+  "HealthRegion": 07,
+  "String": "Русе - Сливо поле",
+  "EKATTE": 67444
+ },
+ {
+  "RHIF": 18,
+  "HealthRegion": 08,
+  "String": "Русе - Ценово",
+  "EKATTE": 78361
+ },
+ {
+  "RHIF": 19,
+  "HealthRegion": 01,
+  "String": "Силистра - Алфатар",
+  "EKATTE": 415
+ },
+ {
+  "RHIF": 19,
+  "HealthRegion": 02,
+  "String": "Силистра - Главница",
+  "EKATTE": 15031
+ },
+ {
+  "RHIF": 19,
+  "HealthRegion": 03,
+  "String": "Силистра - Дулово",
+  "EKATTE": 24030
+ },
+ {
+  "RHIF": 19,
+  "HealthRegion": 04,
+  "String": "Силистра - Кайнарджа",
+  "EKATTE": 35242
+ },
+ {
+  "RHIF": 19,
+  "HealthRegion": 05,
+  "String": "Силистра - Силистра",
+  "EKATTE": 66425
+ },
+ {
+  "RHIF": 19,
+  "HealthRegion": 06,
+  "String": "Силистра - Ситово",
+  "EKATTE": 66665
+ },
+ {
+  "RHIF": 19,
+  "HealthRegion": 07,
+  "String": "Силистра - Тутракан",
+  "EKATTE": 73496
+ },
+ {
+  "RHIF": 20,
+  "HealthRegion": 01,
+  "String": "Сливен - Котел",
+  "EKATTE": 39030
+ },
+ {
+  "RHIF": 20,
+  "HealthRegion": 02,
+  "String": "Сливен - Нова Загора",
+  "EKATTE": 51809
+ },
+ {
+  "RHIF": 20,
+  "HealthRegion": 03,
+  "String": "Сливен - Сливен",
+  "EKATTE": 67338
+ },
+ {
+  "RHIF": 20,
+  "HealthRegion": 04,
+  "String": "Сливен - Твърдица",
+  "EKATTE": 72165
+ },
+ {
+  "RHIF": 21,
+  "HealthRegion": 01,
+  "String": "Смолян - Баните",
+  "EKATTE": 44402
+ },
+ {
+  "RHIF": 21,
+  "HealthRegion": 02,
+  "String": "Смолян - Борино",
+  "EKATTE": 5462
+ },
+ {
+  "RHIF": 21,
+  "HealthRegion": 03,
+  "String": "Смолян - Девин",
+  "EKATTE": 20645
+ },
+ {
+  "RHIF": 21,
+  "HealthRegion": 04,
+  "String": "Смолян - Доспат",
+  "EKATTE": 23025
+ },
+ {
+  "RHIF": 21,
+  "HealthRegion": 05,
+  "String": "Смолян - Златоград",
+  "EKATTE": 31111
+ },
+ {
+  "RHIF": 21,
+  "HealthRegion": 06,
+  "String": "Смолян - Мадан",
+  "EKATTE": 46045
+ },
+ {
+  "RHIF": 21,
+  "HealthRegion": 07,
+  "String": "Смолян - Неделино",
+  "EKATTE": 51319
+ },
+ {
+  "RHIF": 21,
+  "HealthRegion": 08,
+  "String": "Смолян - Рудозем",
+  "EKATTE": 63207
+ },
+ {
+  "RHIF": 21,
+  "HealthRegion": 09,
+  "String": "Смолян - Смолян",
+  "EKATTE": 67653
+ },
+ {
+  "RHIF": 21,
+  "HealthRegion": 10,
+  "String": "Смолян - Чепеларе",
+  "EKATTE": 80371
+ },
+ {
+  "RHIF": 22,
+  "HealthRegion": 01,
+  "String": "София - София",
+  "EKATTE": 68134
+ },
+ {
+  "RHIF": 23,
+  "HealthRegion": 01,
+  "String": "Софийска област - Антон",
+  "EKATTE": 504
+ },
+ {
+  "RHIF": 23,
+  "HealthRegion": 02,
+  "String": "Софийска област - Божурище",
+  "EKATTE": 5027
+ },
+ {
+  "RHIF": 23,
+  "HealthRegion": 03,
+  "String": "Софийска област - Ботевград",
+  "EKATTE": 5815
+ },
+ {
+  "RHIF": 23,
+  "HealthRegion": 04,
+  "String": "Софийска област - Годеч",
+  "EKATTE": 15309
+ },
+ {
+  "RHIF": 23,
+  "HealthRegion": 05,
+  "String": "Софийска област - Горна Малина",
+  "EKATTE": 16314
+ },
+ {
+  "RHIF": 23,
+  "HealthRegion": 06,
+  "String": "Софийска област - Долна баня",
+  "EKATTE": 22006
+ },
+ {
+  "RHIF": 23,
+  "HealthRegion": 07,
+  "String": "Софийска област - Драгоман",
+  "EKATTE": 23409
+ },
+ {
+  "RHIF": 23,
+  "HealthRegion": 08,
+  "String": "Софийска област - Елин Пелин",
+  "EKATTE": 27303
+ },
+ {
+  "RHIF": 23,
+  "HealthRegion": 09,
+  "String": "Софийска област - Етрополе",
+  "EKATTE": 27632
+ },
+ {
+  "RHIF": 23,
+  "HealthRegion": 10,
+  "String": "Софийска област - Златица",
+  "EKATTE": 31044
+ },
+ {
+  "RHIF": 23,
+  "HealthRegion": 11,
+  "String": "Софийска област - Ихтиман",
+  "EKATTE": 32901
+ },
+ {
+  "RHIF": 23,
+  "HealthRegion": 12,
+  "String": "Софийска област - Копривщица",
+  "EKATTE": 38558
+ },
+ {
+  "RHIF": 23,
+  "HealthRegion": 13,
+  "String": "Софийска област - Костенец",
+  "EKATTE": 38902
+ },
+ {
+  "RHIF": 23,
+  "HealthRegion": 14,
+  "String": "Софийска област - Костинброд",
+  "EKATTE": 38978
+ },
+ {
+  "RHIF": 23,
+  "HealthRegion": 15,
+  "String": "Софийска област - Мирково",
+  "EKATTE": 48324
+ },
+ {
+  "RHIF": 23,
+  "HealthRegion": 16,
+  "String": "Софийска област - Пирдоп",
+  "EKATTE": 56407
+ },
+ {
+  "RHIF": 23,
+  "HealthRegion": 17,
+  "String": "Софийска област - Правец",
+  "EKATTE": 58030
+ },
+ {
+  "RHIF": 23,
+  "HealthRegion": 18,
+  "String": "Софийска област - Самоков",
+  "EKATTE": 65231
+ },
+ {
+  "RHIF": 23,
+  "HealthRegion": 19,
+  "String": "Софийска област - Своге",
+  "EKATTE": 65869
+ },
+ {
+  "RHIF": 23,
+  "HealthRegion": 20,
+  "String": "Софийска област - Сливница",
+  "EKATTE": 67372
+ },
+ {
+  "RHIF": 23,
+  "HealthRegion": 21,
+  "String": "Софийска област - Чавдар",
+  "EKATTE": 80011
+ },
+ {
+  "RHIF": 23,
+  "HealthRegion": 22,
+  "String": "Софийска област - Челопеч",
+  "EKATTE": 80323
+ },
+ {
+  "RHIF": 24,
+  "HealthRegion": 01,
+  "String": "Стара Загора - Братя Даскалови",
+  "EKATTE": 6183
+ },
+ {
+  "RHIF": 24,
+  "HealthRegion": 02,
+  "String": "Стара Загора - Гурково",
+  "EKATTE": 18157
+ },
+ {
+  "RHIF": 24,
+  "HealthRegion": 03,
+  "String": "Стара Загора - Гълъбово",
+  "EKATTE": 18280
+ },
+ {
+  "RHIF": 24,
+  "HealthRegion": 04,
+  "String": "Стара Загора - Казанлък",
+  "EKATTE": 35167
+ },
+ {
+  "RHIF": 24,
+  "HealthRegion": 05,
+  "String": "Стара Загора - Мъглиж",
+  "EKATTE": 49494
+ },
+ {
+  "RHIF": 24,
+  "HealthRegion": 06,
+  "String": "Стара Загора - Николаево",
+  "EKATTE": 51648
+ },
+ {
+  "RHIF": 24,
+  "HealthRegion": 07,
+  "String": "Стара Загора - Опан",
+  "EKATTE": 53576
+ },
+ {
+  "RHIF": 24,
+  "HealthRegion": 08,
+  "String": "Стара Загора - Павел баня",
+  "EKATTE": 55021
+ },
+ {
+  "RHIF": 24,
+  "HealthRegion": 09,
+  "String": "Стара Загора - Раднево",
+  "EKATTE": 61460
+ },
+ {
+  "RHIF": 24,
+  "HealthRegion": 10,
+  "String": "Стара Загора - Стара Загора",
+  "EKATTE": 68850
+ },
+ {
+  "RHIF": 24,
+  "HealthRegion": 11,
+  "String": "Стара Загора - Чирпан",
+  "EKATTE": 81414
+ },
+ {
+  "RHIF": 25,
+  "HealthRegion": 01,
+  "String": "Търговище - Антоново",
+  "EKATTE": 518
+ },
+ {
+  "RHIF": 25,
+  "HealthRegion": 02,
+  "String": "Търговище - Омуртаг",
+  "EKATTE": 53535
+ },
+ {
+  "RHIF": 25,
+  "HealthRegion": 03,
+  "String": "Търговище - Опака",
+  "EKATTE": 53552
+ },
+ {
+  "RHIF": 25,
+  "HealthRegion": 04,
+  "String": "Търговище - Попово",
+  "EKATTE": 57649
+ },
+ {
+  "RHIF": 25,
+  "HealthRegion": 05,
+  "String": "Търговище -Търговище",
+  "EKATTE": 73626
+ },
+ {
+  "RHIF": 26,
+  "HealthRegion": 01,
+  "String": "Хасково - Димитровград",
+  "EKATTE": 21052
+ },
+ {
+  "RHIF": 26,
+  "HealthRegion": 02,
+  "String": "Хасково - Ивайловград",
+  "EKATTE": 32024
+ },
+ {
+  "RHIF": 26,
+  "HealthRegion": 03,
+  "String": "Хасково - Любимец",
+  "EKATTE": 44570
+ },
+ {
+  "RHIF": 26,
+  "HealthRegion": 04,
+  "String": "Хасково - Маджарово",
+  "EKATTE": 46084
+ },
+ {
+  "RHIF": 26,
+  "HealthRegion": 05,
+  "String": "Хасково - Минерални бани",
+  "EKATTE": 48279
+ },
+ {
+  "RHIF": 26,
+  "HealthRegion": 06,
+  "String": "Хасково - Свиленград",
+  "EKATTE": 65677
+ },
+ {
+  "RHIF": 26,
+  "HealthRegion": 07,
+  "String": "Хасково - Симеоновград",
+  "EKATTE": 47278
+ },
+ {
+  "RHIF": 26,
+  "HealthRegion": 08,
+  "String": "Хасково - Стамболово",
+  "EKATTE": 68727
+ },
+ {
+  "RHIF": 26,
+  "HealthRegion": 09,
+  "String": "Хасково - Тополовград",
+  "EKATTE": 72761
+ },
+ {
+  "RHIF": 26,
+  "HealthRegion": 10,
+  "String": "Хасково - Харманли",
+  "EKATTE": 77181
+ },
+ {
+  "RHIF": 26,
+  "HealthRegion": 11,
+  "String": "Хасково - Хасково",
+  "EKATTE": 77195
+ },
+ {
+  "RHIF": 27,
+  "HealthRegion": 01,
+  "String": "Шумен - Велики Преслав",
+  "EKATTE": 58222
+ },
+ {
+  "RHIF": 27,
+  "HealthRegion": 02,
+  "String": "Шумен - Венец",
+  "EKATTE": 10642
+ },
+ {
+  "RHIF": 27,
+  "HealthRegion": 03,
+  "String": "Шумен - Върбица",
+  "EKATTE": 12766
+ },
+ {
+  "RHIF": 27,
+  "HealthRegion": 04,
+  "String": "Шумен - Каолиново",
+  "EKATTE": 36079
+ },
+ {
+  "RHIF": 27,
+  "HealthRegion": 05,
+  "String": "Шумен - Каспичан",
+  "EKATTE": 36587
+ },
+ {
+  "RHIF": 27,
+  "HealthRegion": 06,
+  "String": "Шумен - Никола Козлево",
+  "EKATTE": 51651
+ },
+ {
+  "RHIF": 27,
+  "HealthRegion": 07,
+  "String": "Шумен - Нови пазар",
+  "EKATTE": 52009
+ },
+ {
+  "RHIF": 27,
+  "HealthRegion": 08,
+  "String": "Шумен - Смядово",
+  "EKATTE": 67708
+ },
+ {
+  "RHIF": 27,
+  "HealthRegion": 09,
+  "String": "Шумен - Хитрино",
+  "EKATTE": 14516
+ },
+ {
+  "RHIF": 27,
+  "HealthRegion": 10,
+  "String": "Шумен - Шумен",
+  "EKATTE": 83510
+ },
+ {
+  "RHIF": 28,
+  "HealthRegion": 01,
+  "String": "Ямбол - Болярово",
+  "EKATTE": 5284
+ },
+ {
+  "RHIF": 28,
+  "HealthRegion": 02,
+  "String": "Ямбол - Елхово",
+  "EKATTE": 27382
+ },
+ {
+  "RHIF": 28,
+  "HealthRegion": 03,
+  "String": "Ямбол - Стралджа",
+  "EKATTE": 69660
+ },
+ {
+  "RHIF": 28,
+  "HealthRegion": 04,
+  "String": "Ямбол - Тунджа",
+  "EKATTE": 10776
+ },
+ {
+  "RHIF": 28,
+  "HealthRegion": 05,
+  "String": "Ямбол - Ямбол",
+  "EKATTE": 87374
+ }
+]

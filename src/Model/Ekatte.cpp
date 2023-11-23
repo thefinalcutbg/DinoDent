@@ -42,6 +42,7 @@ const std::array<std::string, 29> regionCode{
 std::unordered_map<int, EkatteData> s_idxToData;
 std::unordered_map<std::string, int> s_stringToIdx;
 std::unordered_set<int> s_nhifUnfav;
+std::unordered_map<int, int> s_hr_to_ekatte;
 
 void Ekatte::initialize()
 {
@@ -77,6 +78,20 @@ void Ekatte::initialize()
         }
     }
 
+    cities.clear();
+
+    reader.parse(Resources::fromPath(":/json/json_hrToEkatte.json"), cities);
+
+    s_hr_to_ekatte.reserve(cities.size());
+
+    for (auto& j : cities)
+    {
+        int key = j["RHIF"].asInt() * 100 + j["HealthRegion"].asInt();
+        int value = j["EKATTE"].asInt();
+
+        s_hr_to_ekatte[key] = value;
+    }
+
 }
 
 Ekatte::Ekatte(int idx, const EkatteData& data) :
@@ -97,6 +112,16 @@ Ekatte::Ekatte(int idx) : Ekatte(idx, s_idxToData[idx])
 
 Ekatte::Ekatte(const std::string& cityString) : Ekatte(s_stringToIdx[cityString])
 {}
+
+Ekatte::Ekatte(int rhif, int healthRegion)
+{
+    int key = rhif * 100 + healthRegion;
+
+    if (!s_hr_to_ekatte.count(key)) return;
+
+    *this = Ekatte(s_hr_to_ekatte[key]);
+
+}
 
 #include "Model/FreeFunctions.h"
 
@@ -119,6 +144,11 @@ std::string Ekatte::getString(bool prefix) const
 std::string Ekatte::ekatte() const
 {
     return FreeFn::leadZeroes(ekatteIdx, 5);
+}
+
+bool Ekatte::isValid() const
+{
+    return ekatteIdx && s_idxToData.count(ekatteIdx);
 }
 
 bool Ekatte::isUnfav() const

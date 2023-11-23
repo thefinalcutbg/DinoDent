@@ -21,10 +21,12 @@ public:
 	Ekatte() {}
 	Ekatte(int idx);
 	Ekatte(const std::string& cityString);
+	Ekatte(int rhif, int healthRegion);
 	std::string getRhif() const;
 	std::string getHealthRegion() const;
 	std::string getString(bool prefix = true) const;
 	std::string ekatte() const;
+	bool isValid() const;
 	bool isUnfav() const;
 	int getIdxAsInt() const { return ekatteIdx; }
 	const std::string& getRegionCode() const;

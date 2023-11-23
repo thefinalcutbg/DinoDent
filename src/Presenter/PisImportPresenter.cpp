@@ -98,17 +98,41 @@ void PisImportPresenter::importToDb(const std::string& file)
 
 			view->logToConsole(logMsg);
 		}
+		else
+		{
+			bool needsUpdating = false;
+
+			if (patient.HIRBNo.empty()) {
+				patient.HIRBNo = pair.first.HIRBNo;
+				needsUpdating = true;
+			}
+
+			if (!patient.city.isValid()) {
+				patient.city = pair.first.city;
+				needsUpdating = true;
+			}
+
+			if (needsUpdating) {
+
+				DbPatient::update(patient);
+
+				std::string logMsg = "Актуализиране на пациент ";
+				logMsg += pair.first.fullName();
+
+				view->logToConsole(logMsg);
+			}
+		}
 
 		pair.second.patient_rowid = patient.rowid;
+
+		if (DbAmbList::importedPisSheetExists(pair.second, patient)) {
+		//	view->logToConsole("Листът вече съществува!");
+			continue;
+		}
 
 		std::string logMsg = "Импортиране на амбулаторен лист ";
 		logMsg += pair.second.getNumber();
 		view->logToConsole(logMsg);
-
-		if (DbAmbList::importedPisSheetExists(pair.second, patient)) {
-			view->logToConsole("Листът вече съществува!");
-			continue;
-		}
 
 		DbAmbList::insert(pair.second, pair.second.patient_rowid);
 	}

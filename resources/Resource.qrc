@@ -95,6 +95,7 @@
         <file>json_diagnosisText.json</file>
         <file>json_nhif.json</file>
         <file>json_country.json</file>
+        <file>json_hrToEkatte.json</file>
     </qresource>
     <qresource prefix="/style">
         <file>dateEditStyle.qss</file>

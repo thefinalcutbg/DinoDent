@@ -12,7 +12,7 @@ BrowserDialog::BrowserDialog()
 	ui.setupUi(this);
 
 	ui.tabBar->addTab(QIcon(":/icons/icon_user.png"), "Пациенти");
-	ui.tabBar->addTab(QIcon(":/icons/icon_sheet.png"), "Амбулаторни листи");
+	ui.tabBar->addTab(QIcon(":/icons/icon_sheet.png"), "Амбулаторни листове");
 	ui.tabBar->addTab(QIcon(":/icons/icon_prescr.png"), "Рецепти");
 	ui.tabBar->addTab(QIcon(":/icons/icon_periosheet.png"), "Пародонтални измервания");
 	ui.tabBar->addTab(QIcon(":/icons/icon_invoice.png"), "Финансови документи");

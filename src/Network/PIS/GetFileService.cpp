@@ -179,5 +179,4 @@ void GetAmbHashes::processPISReply(const std::string& reply)
 
 	m_callback(result);
 
-	m_callback = nullptr;
 }

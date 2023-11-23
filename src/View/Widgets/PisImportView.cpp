@@ -5,11 +5,18 @@ PisImportView::PisImportView(QWidget *parent)
 {
 	ui.setupUi(this);
 
-	ui.yearSpin->setValue(Date::currentYear());
+	int currentYear = Date::currentYear();
+
+	ui.toSpin->setValue(currentYear);
+
+	ui.fromSpin->setMaximum(currentYear);
+	ui.toSpin->setMaximum(currentYear);
 
 	ui.importButton->setIcon(QIcon(":/icons/icon_nhif.png"));
 
-	connect(ui.importButton, &QPushButton::clicked, [&] { presenter.importData(ui.yearSpin->value());});
+	connect(ui.toSpin, &QSpinBox::valueChanged, [&](int value) { ui.fromSpin->setMaximum(value); });
+
+	connect(ui.importButton, &QPushButton::clicked, [&] { presenter.importData(ui.fromSpin->value(), ui.toSpin->value());});
 
 	presenter.setView(this);
 
@@ -40,7 +47,9 @@ void PisImportView::disableButton(bool disabled)
 {
 	ui.importButton->setDisabled(disabled);
 	ui.label->setDisabled(disabled);
-	ui.yearSpin->setDisabled(disabled);
+	ui.fromSpin->setDisabled(disabled);
+	ui.label_2->setDisabled(disabled);
+	ui.toSpin->setDisabled(disabled);
 }
 
 PisImportView::~PisImportView()

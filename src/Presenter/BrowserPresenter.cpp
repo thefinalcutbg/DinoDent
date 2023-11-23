@@ -157,7 +157,7 @@ void BrowserPresenter::deleteCurrentSelection()
 	std::string warningMsg = "Сигурни ли сте, че искате да изтриете избраният/избраните ";
 
 	static const std::map<TabType, const char*> endString = {
-		{TabType::AmbList, "амбулаторни листи?"},
+		{TabType::AmbList, "амбулаторни листoве?"},
 		{TabType::PerioStatus, "пародонтални измервания?"},
 		{TabType::PatientSummary, "пацинети? Всичките свързани медицински докумнети ще бъдат изтрити!"},
 		{TabType::Financial, "финансови документи?"},

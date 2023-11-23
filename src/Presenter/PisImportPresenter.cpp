@@ -11,57 +11,84 @@ void PisImportPresenter::setView(PisImportView* view)
 	this->view = view;
 }
 
-void PisImportPresenter::importData(int year)
+void PisImportPresenter::importData(int fromYear, int toYear)
 {
+	m_years = std::stack<int>{};
+	m_hashes = std::stack<std::string>{};
 
-	if (m_hashes.size()) {
-		processHash();
-		return;
+	while (fromYear <= toYear) {
+		m_years.push(fromYear);
+		fromYear++;
 	}
 
-	bool begin = get_hash_serv.sendRequest(User::practice().rziCode, year,
-		[&](const std::stack<std::string>& hashes) {
+	view->disableButton(true);
+	view->clearConsole();
 
-			if (hashes.empty()) {
-				ModalDialogBuilder::showMessage(
-					"Не са открити отчети за импортиране в базата данни"
-				);
-
-				abort();
-
-				return;
-			}
-
-
-
-			m_hashes = hashes;
-
-			view->setProgresSize(hashes.size());
-
-			processHash();
-		}
-	);
-
-	if (begin) {
-		view->clearConsole();
-		view->disableButton(true);
-	}
+	getNextYearHashes();
 }
 
-void PisImportPresenter::processHash()
+void PisImportPresenter::getNextYearHashes()
 {
-	if (m_hashes.empty()) {
+	if (m_years.empty()) {
 		view->disableButton(false);
 		view->logToConsole("Импортирането приключи!");
 		return;
 	}
 
-	view->logToConsole("Изтегляне на амбулаторен отчет...");
+	bool querySent = get_hash_serv.sendRequest(User::practice().rziCode, m_years.top(),
+		[&](const std::stack<std::string>& hashes) { 
+
+			if (hashes.empty()) {
+
+				std::string msg = "Не са открити амбулаторни листове от ";
+				msg += std::to_string(m_years.top());
+				msg += " г.";
+
+				view->logToConsole(msg);
+				m_years.pop();
+
+				getNextYearHashes();
+
+				return;
+
+			}
+			
+			m_hashes = hashes;
+
+			m_years.pop();
+
+			view->setProgresSize(hashes.size());
+
+			std::string msg = "Изтегляне на амбулаторни листове от ";
+			msg += std::to_string(m_years.top());;
+			msg += " г.";
+
+			view->logToConsole(msg);
+
+			processHash();
+		}
+	);
+
+	if (!querySent) {
+		m_years = std::stack<int>();
+		view->logToConsole("Импортирането бе прекъснато. Пробвайте отново.");
+		view->disableButton(false);
+	}
+	
+}
+
+void PisImportPresenter::processHash()
+{
+	if (m_hashes.empty()) {
+		getNextYearHashes();
+		return;
+	}
 
 	bool querySent = get_file_serv.sendRequest(m_hashes.top(), User::practice().rziCode,
 		[&](const std::string& file) {
 
 			if (file.empty()) {
+				m_years = std::stack<int>();
 				view->logToConsole("Импортирането бе прекъснато. Пробвайте отново.");
 				view->disableButton(false);
 				return;
@@ -74,6 +101,7 @@ void PisImportPresenter::processHash()
 	);
 
 	if (!querySent) {
+		m_years = std::stack<int>();
 		view->logToConsole("Импортирането бе прекъснато. Пробвайте отново.");
 		view->disableButton(false);
 	}
@@ -126,7 +154,6 @@ void PisImportPresenter::importToDb(const std::string& file)
 		pair.second.patient_rowid = patient.rowid;
 
 		if (DbAmbList::importedPisSheetExists(pair.second, patient)) {
-		//	view->logToConsole("Листът вече съществува!");
 			continue;
 		}
 

@@ -38,6 +38,12 @@
    </item>
    <item>
     <widget class="QProgressBar" name="progressBar">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="maximum">
+      <number>12</number>
+     </property>
      <property name="value">
       <number>0</number>
      </property>
@@ -45,7 +51,10 @@
       <set>Qt::AlignCenter</set>
      </property>
      <property name="textVisible">
-      <bool>false</bool>
+      <bool>true</bool>
+     </property>
+     <property name="format">
+      <string> %v/%m</string>
      </property>
     </widget>
    </item>
@@ -84,10 +93,13 @@
         <string> г.</string>
        </property>
        <property name="minimum">
-        <number>2008</number>
+        <number>2000</number>
        </property>
        <property name="maximum">
         <number>2050</number>
+       </property>
+       <property name="value">
+        <number>2008</number>
        </property>
       </widget>
      </item>

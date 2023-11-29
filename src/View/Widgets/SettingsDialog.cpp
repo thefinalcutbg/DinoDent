@@ -28,7 +28,7 @@ SettingsDialog::SettingsDialog(QDialog*parent)
 
 		if (str.isEmpty()) return;
 
-		ui.pkcs11list->addItem(str.toUtf8());
+		ui.pkcs11list->insertItem(0, str.toUtf8());
 
 	});
 

@@ -6,7 +6,7 @@
 
 #include "Database/Database.h"
 #include "Resources.h"
-#include <qdebug.h>
+
 #include "View/Widgets/UpdateDialog.h"
 
 void DbUpdates::update19(UpdateDialog& progressDialog)

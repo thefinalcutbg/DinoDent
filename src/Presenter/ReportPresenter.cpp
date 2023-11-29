@@ -269,7 +269,7 @@ void ReportPresenter::generateReport(bool checkPis, bool checkNra)
 	}
 
 	if (lists.empty()) {
-		view->appendText("Не са открити амбулаторни листи за съответния месец");
+		view->appendText("Не са открити амбулаторни листове за съответния месец");
 		return;
 	}
 

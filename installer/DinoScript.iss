@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "DinoDent"
-#define MyAppVersion "1.8.2"
+#define MyAppVersion "1.8.3"
 #define MyAppPublisher "SalveoDent"
 #define MyAppURL "https://dinodent.bg"
 #define MyAppExeName "DinoDent.exe"

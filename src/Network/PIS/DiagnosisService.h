@@ -9,13 +9,16 @@
 
 class DiagnosisService final: private PisService
 {
-	std::function<void(const std::vector<std::string>&)> m_callback;
+	std::function<void(
+		const std::vector<std::string>& current, 
+		const std::vector<std::string>& past
+	)> m_callback;
 	void processPISReply(const std::string& reply) override;
 public:
 
 	bool sendRequest(
 		const Patient& p,
-		std::function<void(const std::vector<std::string>&)> callback
+		decltype(m_callback) callback
 	);
 
 	bool awaitingReply() { return awaiting_reply; }

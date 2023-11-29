@@ -58,18 +58,28 @@ void MedicalStatusPresenter::loadICDFromNHIS()
 {
 	nhis_diag_service.sendRequest(
 		patient,
-		[&](const std::vector<std::string>& diseases) {
+		[&](
+			const std::vector<std::string>& current,
+			const std::vector<std::string>& past
+			
+		) {
 
-			if (diseases.empty()) {
+			if (current.empty() && past.empty()) {
 				ModalDialogBuilder::showMessage("Няма данни в рецептурната книжка");
 				return;
 			}
 
 			auto list = view->getCurrentDiseases();
 
-			list.insert(list.end(), diseases.begin(), diseases.end());
+			list.insert(list.end(), current.begin(), current.end());
 
 			view->setCurrentDiseases(list);
+
+			list = view->getPastDiseases();
+
+			list.insert(list.end(), past.begin(), past.end());
+	
+			view->setPastDiseases(list);
 		}
 	);
 }

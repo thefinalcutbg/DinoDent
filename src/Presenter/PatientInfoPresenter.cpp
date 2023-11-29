@@ -42,16 +42,24 @@ void PatientInfoPresenter::diagnosisClicked()
         *patient,
 
 
-        [=](const std::vector<std::string>& currentDiseases) {
+        [=](
+            const std::vector<std::string>& currentDiseases,
+            const std::vector<std::string>& pastDiseases
+            
+        ) {
 
-            if (currentDiseases.empty()) {
+            if (currentDiseases.empty() && pastDiseases.empty()) {
                 ModalDialogBuilder::showMessage("Няма данни в рецептурната книжка");
                 return;
             }
             
-            auto& list = patient->medStats.condition;
+            auto& current = patient->medStats.condition;
 
-            list.insert(list.begin(), currentDiseases.begin(), currentDiseases.end());
+            current.insert(current.begin(), currentDiseases.begin(), currentDiseases.end());
+
+            auto& past = patient->medStats.history;
+
+            past.insert(past.begin(), pastDiseases.begin(), pastDiseases.end());
 
             DbPatient::updateMedStatus(patient->rowid, patient->medStats);
 

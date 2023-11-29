@@ -1,6 +1,7 @@
 ﻿#include "DiagnosisService.h"
 
 #include <TinyXML/tinyxml.h>
+#include <set>
 
 #include "Model/Dental/ToothUtils.h"
 #include "View/ModalDialogBuilder.h"
@@ -9,7 +10,7 @@
 #include "Model/Dental/MKB.h"
 #include "Model/Patient.h"
 
-bool DiagnosisService::sendRequest(const Patient& p, std::function<void(const std::vector<std::string>&)> callback)
+bool DiagnosisService::sendRequest(const Patient& p, decltype(m_callback) callback)
 {
 	if (!MKB::isInitialized()) {
 		ModalDialogBuilder::showMessage("Първо заредете МКБ номенклатурите от настройки");
@@ -23,7 +24,7 @@ bool DiagnosisService::sendRequest(const Patient& p, std::function<void(const st
 	auto query =
 		"<ns3:pdDiagnosisIn xmlns:ns3 = \"http://pis.technologica.com/ws/\">"
 			"<ns3:" + tag + ">" + p.id + "</ns3:" + tag + ">"
-			"<ns3:date>" + Date::currentDate().to8601()  +"</ns3:date>"
+		//	"<ns3:date>" + Date::currentDate().to8601()  +"</ns3:date>"
 		"</ns3:pdDiagnosisIn>"
 	;
 
@@ -44,28 +45,42 @@ void DiagnosisService::processPISReply(const std::string& reply)
 
 	TiXmlHandle docHandle(&doc);
 
-	auto table =
+	std::vector<std::string> current;
+	std::vector<std::string> past;
+
+	std::set<std::string> unique;
+
+	for (
+		auto diagnosis =
 		docHandle
 		.FirstChildElement()			  //envelope
 		.Child(1)						  //body
-		.FirstChildElement();			  //diagnosisOut
-
-
-	std::vector<std::string> result;
-
-	//i is 1, since 0 is the egn
-	for (int i = 1; ; i++)
+		.FirstChildElement()			  //diagnosisOut
+		.FirstChildElement("ns1:pbd")
+		.ToElement();
+		diagnosis != nullptr;
+		diagnosis = diagnosis->NextSiblingElement("ns1:pbd")
+		)
 	{
-		auto mkb = table.Child(i)	//pbd
-						.Child(1);	//icd10Code
+		auto mkb = diagnosis->FirstChildElement("ns1:icd10Code")->GetText();
 
-		if (!mkb.ToElement()) {
-			break;
-		}
+		if (unique.count(mkb)) continue;
 
-		result.push_back(MKB::getNameFromMKBCode(mkb.ToElement()->GetText()));
+		unique.insert(mkb);
+
+		//if dateTo is missing, then the disease is active
+		bool isPast = diagnosis->FirstChildElement("ns1:dateTo");
+
+		std::vector<std::string>* diseases = isPast ? &past : &current;
+		
+		auto diagnosisName = (MKB::getNameFromMKBCode(mkb));
+
+		if (diagnosisName.empty()) continue;
+
+		diseases->push_back(diagnosisName);
+
 	}
 
-	m_callback({result});
+	m_callback(current, past);
 
 }

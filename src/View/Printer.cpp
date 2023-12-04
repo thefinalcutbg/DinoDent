@@ -216,13 +216,13 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
         switch (std::get<MH119Data>(ref.data).specCode)
         {
             case MH119Data::Pediatric:
-                report.dataManager()->setReportVariable("mh119SpecCod1", 61);
+                report.dataManager()->setReportVariable("mh119SpecCode1", 61);
                 report.dataManager()->setReportVariable("mh119Date1", ref.date.toBgStandard().c_str());
                 break;
             case MH119Data::Surgery:
-                report.dataManager()->setReportVariable("mh119SpecCode", 62);
-                report.dataManager()->setReportVariable("mh119SpecCode", 68);
-                report.dataManager()->setReportVariable("mh119Dat2e", ref.date.toBgStandard().c_str());
+                report.dataManager()->setReportVariable("mh119SpecCode2", 62);
+                report.dataManager()->setReportVariable("mh119SpecCode3", 68);
+                report.dataManager()->setReportVariable("mh119Date2", ref.date.toBgStandard().c_str());
                 break;
         }
     }

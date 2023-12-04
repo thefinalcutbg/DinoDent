@@ -93,7 +93,7 @@ std::vector<Referral> DbReferral::getReferrals(long long ambListId, Db& db)
         if (ref.type == ReferralType::MH119) {
 
             ref.data = MH119Data{
-                .specCode = db.asInt(9),
+                .specCode = static_cast<MH119Data::MH119Spec>(db.asInt(9)),
                 .reason = db.asInt(10),
                 .description = db.asString(11)
             };
@@ -153,7 +153,7 @@ void DbReferral::saveReferrals(const std::vector<Referral>& ref, long long ambLi
             auto& data = std::get<MH119Data>(r.data);
             db.bind(13, data.reason.getIndex());
             db.bind(14, data.description);
-            db.bind(15, data.specCode.getIndex());
+            db.bind(15, data.specCode);
         }
 
         db.execute();

@@ -212,10 +212,19 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
     if (mh119)
     {
         auto& ref = *mh119;
-        auto& data = std::get<MH119Data>(ref.data);
 
-        report.dataManager()->setReportVariable("mh119SpecCode", data.getSpecCode());
-        report.dataManager()->setReportVariable("mh119Date", ref.date.toBgStandard().c_str());
+        switch (std::get<MH119Data>(ref.data).specCode)
+        {
+            case MH119Data::Pediatric:
+                report.dataManager()->setReportVariable("mh119SpecCod1", 61);
+                report.dataManager()->setReportVariable("mh119Date1", ref.date.toBgStandard().c_str());
+                break;
+            case MH119Data::Surgery:
+                report.dataManager()->setReportVariable("mh119SpecCode", 62);
+                report.dataManager()->setReportVariable("mh119SpecCode", 68);
+                report.dataManager()->setReportVariable("mh119Dat2e", ref.date.toBgStandard().c_str());
+                break;
+        }
     }
 
     if (form3)
@@ -538,7 +547,17 @@ void Print::referral(const Referral& ref, const Patient& patient, const std::str
         report.dataManager()->setReportVariable("doctorPhone", User::doctor().phone.c_str());
         report.dataManager()->setReportVariable("diagnosis", ref.diagnosis.getText().c_str());
         report.dataManager()->setReportVariable("comorbidity", ref.comorbidity.getText().c_str());
-        report.dataManager()->setReportVariable("specCode", data.getSpecCode());
+        
+        switch (data.specCode)
+        {
+            case MH119Data::Pediatric:
+                report.dataManager()->setReportVariable("specCode", "61");
+                break;
+            case MH119Data::Surgery:
+                report.dataManager()->setReportVariable("specCode", "62/68");
+                break;
+        }
+        
         report.dataManager()->setReportVariable("practiceName", User::practice().name.c_str());
         
         int typeYpos[4] = { 440, 480, 525, 570 };

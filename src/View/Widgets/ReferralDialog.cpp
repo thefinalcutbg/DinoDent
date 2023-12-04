@@ -28,10 +28,9 @@ ReferralDialog::ReferralDialog(ReferralPresenter* p, QWidget *parent)
 		ui.mh119combo->addItem(r);
 	}
 
-	for (auto& s : MH119Spec::getNames())
-	{
-		ui.mh119specCombo->addItem(s);
-	}
+
+	ui.mh119specCombo->addItem("61 - Детски лекар по дентална медицина");
+	ui.mh119specCombo->addItem("62 и 68 - Орална хирургия/ЛЧХ");
 
 
 	ui.toothCombo->setDisabled(true);
@@ -172,7 +171,7 @@ void ReferralDialog::setReferral(const Referral & r)
 	if (r.type == ReferralType::MH119)
 	{
 		auto& mh119 = std::get<MH119Data>(r.data);
-		ui.mh119specCombo->setCurrentIndex(mh119.specCode.getIndex());
+		ui.mh119specCombo->setCurrentIndex(mh119.specCode);
 		ui.mh119combo->setCurrentIndex(mh119.reason.getIndex());
 		ui.mh119text->setPlainText(mh119.description.c_str());
 	}
@@ -206,7 +205,7 @@ MDD4Data ReferralDialog::MDD4data()
 MH119Data ReferralDialog::MH119data()
 {
 	return MH119Data{
-		.specCode = ui.mh119specCombo->currentIndex(),
+		.specCode = static_cast<MH119Data::MH119Spec>(ui.mh119specCombo->currentIndex()),
 		.reason = ui.mh119combo->currentIndex(),
 		.description = ui.mh119text->toPlainText().toStdString()
 

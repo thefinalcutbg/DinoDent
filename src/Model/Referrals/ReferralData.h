@@ -42,12 +42,9 @@ struct R3AData
 
 struct MH119Data
 {
-	MH119Spec specCode{ 0 };
+	enum MH119Spec { Pediatric, Surgery };
+
+	MH119Spec specCode{ Surgery };
 	MH119Reason reason{ 0 };
 	std::string description;
-
-	int getSpecCode() const {
-		static constexpr int codes[4]{ 61, 62, 68 };
-		return codes[specCode.getIndex()];
-	}
 };

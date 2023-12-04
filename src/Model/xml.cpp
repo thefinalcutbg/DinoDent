@@ -285,8 +285,18 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
                 case(ReferralType::MH119):
                 {
                     auto prescrSpec = new TiXmlElement("prescSpecialist");
+                        
+                        switch (std::get<MH119Data>(r.data).specCode)
+                        {
+                            case MH119Data::Pediatric:
+                                prescrSpec->SetAttribute("SODPCode", 61); 
+                                break;
+                            case MH119Data::Surgery:
+                                prescrSpec->SetAttribute("SODPCode", 62);
+                                prescrSpec->SetAttribute("SODPCodeSecond", 68); 
+                                break;
+                        }
 
-                        prescrSpec->SetAttribute("SODPCode", std::get<MH119Data>(r.data).getSpecCode());
                         prescrSpec->SetAttribute("date", r.date.to8601());
 
                     prescSpecialists->LinkEndChild(prescrSpec);

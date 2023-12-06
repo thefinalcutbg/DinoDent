@@ -39,7 +39,7 @@ void GetFileService::processPISReply(const std::string& reply)
 
 bool GetFileService::sendRequest(
     const std::string& fileHash, 
-    const std::string& rziCode, 
+    const std::string& docLPK,
     std::function<void(const std::string& file)> callback
 )
 {
@@ -48,7 +48,7 @@ bool GetFileService::sendRequest(
 		auto query =
 	"<ns3:query xmlns:ns1=\"http://pis.technologica.com/views/\" "
             "xmlns:ns3=\"http://pis.technologica.com/ws/\">"
-            "<ns3:user><ns3:msp>" + rziCode + "</ns3:msp></ns3:user>"
+            "<ns3:user><ns3:uin>" + docLPK + "</ns3:uin></ns3:user>"
         "<ns3:from_clause>REPORT_FILE_BYTES</ns3:from_clause>"
     "<ns3:where_clause>"
         "<ns1:and>"
@@ -67,7 +67,7 @@ bool GetFileService::sendRequest(
 
 }
 
-bool GetAmbHashes::sendRequest(const std::string& rziCode, int year, decltype(m_callback) callback)
+bool GetAmbHashes::sendRequest(const std::string& docLPK, int year, decltype(m_callback) callback)
 {
 	m_callback = callback;
 
@@ -75,7 +75,7 @@ bool GetAmbHashes::sendRequest(const std::string& rziCode, int year, decltype(m_
 	"<ns3:query xmlns:ns1=\"http://pis.technologica.com/views/\" "
 	"xmlns:ns3=\"http://pis.technologica.com/ws/\">"
 
-		"<ns3:user><ns3:msp>" + rziCode + "</ns3:msp></ns3:user>"
+		"<ns3:user><ns3:uin>" + docLPK + "</ns3:uin></ns3:user>"
 
 		"<ns3:select_clause>"
 				"<ns1:scolumn>FILE_PROCESS_REPORT</ns1:scolumn>" //errors

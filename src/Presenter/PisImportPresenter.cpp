@@ -35,7 +35,7 @@ void PisImportPresenter::getNextYearHashes()
 		return;
 	}
 
-	bool querySent = get_hash_serv.sendRequest(User::practice().rziCode, m_years.top(),
+	bool querySent = get_hash_serv.sendRequest(User::doctor().LPK, m_years.top(),
 		[&](const std::stack<std::string>& hashes) { 
 
 			if (hashes.empty()) {
@@ -84,7 +84,7 @@ void PisImportPresenter::processHash()
 		return;
 	}
 
-	bool querySent = get_file_serv.sendRequest(m_hashes.top(), User::practice().rziCode,
+	bool querySent = get_file_serv.sendRequest(m_hashes.top(), User::doctor().LPK,
 		[&](const std::string& file) {
 
 			if (file.empty()) {

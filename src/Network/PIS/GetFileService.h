@@ -17,7 +17,7 @@ class GetAmbHashes final : private PisService
 public:
 
 	bool sendRequest(
-		const std::string& rzi,
+		const std::string& docLPK,
 		int year,
 		decltype(m_callback) callback
 	);
@@ -33,7 +33,7 @@ public:
 
 	bool sendRequest(
 		const std::string& fileHash,
-		const std::string& rziCode,
+		const std::string& docLPK,
 		std::function<void(const std::string& file)> callback
 	);
 };

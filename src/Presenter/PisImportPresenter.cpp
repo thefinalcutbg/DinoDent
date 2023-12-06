@@ -55,13 +55,13 @@ void PisImportPresenter::getNextYearHashes()
 			
 			m_hashes = hashes;
 
-			m_years.pop();
-
 			view->setProgresSize(hashes.size());
 
 			std::string msg = "Изтегляне на амбулаторни листове от ";
 			msg += std::to_string(m_years.top());;
 			msg += " г.";
+
+			m_years.pop();
 
 			view->logToConsole(msg);
 

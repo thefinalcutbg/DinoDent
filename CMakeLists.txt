@@ -109,7 +109,8 @@ src\DbUpdates\DbUpdates.cpp
 src\DbUpdates\DbUpdates.h
 src\DbUpdates\Update10.cpp
 src\DbUpdates\Update11.cpp
-src\DbUpdates\Update12_17.cpp
+src\DbUpdates\Update12_18.cpp
+src\DbUpdates\Update19.cpp
 src\DbUpdates\Update5.cpp
 src\DbUpdates\Update6.cpp
 src\DbUpdates\Update7.cpp
@@ -129,6 +130,7 @@ src\Model\Ekatte.h
 src\Model\Foreigner.h
 src\Model\FreeFunctions.cpp
 src\Model\FreeFunctions.h
+src\Model\Hospitalization.h
 src\Model\InsuranceStatus.cpp
 src\Model\InsuranceStatus.h
 src\Model\MedicalNotice.h
@@ -281,6 +283,8 @@ src\Network\HIS\EAllergy.cpp
 src\Network\HIS\EAllergy.h
 src\Network\HIS\EDental.cpp
 src\Network\HIS\EDental.h
+src\Network\HIS\EHospitalization.cpp
+src\Network\HIS\EHospitalization.h
 src\Network\HIS\EMedicalNotice.cpp
 src\Network\HIS\EMedicalNotice.h
 src\Network\HIS\EPrescription.cpp
@@ -539,6 +543,8 @@ src\View\TableModels\FinancialTableModel.cpp
 src\View\TableModels\FinancialTableModel.h
 src\View\TableModels\FiscalReceiptTableModel.cpp
 src\View\TableModels\FiscalReceiptTableModel.h
+src\View\TableModels\HospitalizationTableModel.cpp
+src\View\TableModels\HospitalizationTableModel.h
 src\View\TableModels\KSMPModel.cpp
 src\View\TableModels\KSMPModel.h
 src\View\TableModels\MedicationTableModel.cpp

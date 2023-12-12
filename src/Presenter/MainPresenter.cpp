@@ -187,7 +187,7 @@ void MainPresenter::logOut()
 
     view->setUserLabel("", "");
 
-    PKCS11::unloadModule();
+    PKCS11::cleanup();
 
     HisToken::nullifyToken();
 

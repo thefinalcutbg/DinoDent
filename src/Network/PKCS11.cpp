@@ -3,15 +3,15 @@
 #include <vector>
 #include "Base64Convert.h"
 #include <iostream>
-#include <array>
 #include <exception>
 #include <filesystem>
-#include "QtVersion.h"
-#include "GlobalSettings.h"
 #include <QSSlCertificate>
-#include <QDateTime>
+#include "GlobalSettings.h"
 
 PKCS11_CTX* ctx{ nullptr };
+unsigned int nslots{ 0 };
+PKCS11_slot_st* pslots{ nullptr };
+PKCS11_slot_st* current_slot{ nullptr };
 
 bool isValidCertificate(PKCS11_cert_st* cert)
 {
@@ -38,7 +38,7 @@ bool isValidCertificate(PKCS11_cert_st* cert)
 	QSslCertificate qCert(certResult.data());
 
 	const QDateTime currentTime = QDateTime::currentDateTime();
-	
+
 	return
 		!qCert.isNull() &&
 		currentTime <= qCert.expiryDate() &&
@@ -46,116 +46,34 @@ bool isValidCertificate(PKCS11_cert_st* cert)
 		;
 }
 
-std::vector<std::string> PKCS11::getModulesList()
-{
-	auto modules = GlobalSettings::pkcs11PathList();
-
-	std::vector<std::string> result;
-
-	for (int i = 0; i < modules.size(); i++)
-	{
-		if (!std::filesystem::exists(modules[i])) continue;
-
-		result.push_back(modules[i].data());
-	}
-
-	return result;
-}
-
-
-
-bool PKCS11::loadModuleWithToken()
+PKCS11::PKCS11()
 {
 	if (!ctx) {
 		ctx = PKCS11_CTX_new();
 	}
 
-	bool success = false;
-
-	for (auto& module : getModulesList())
+	for (auto& module : GlobalSettings::pkcs11PathList())
 	{
- 		if (PKCS11_CTX_load(ctx, module.data()))
-		{
-			PKCS11_CTX_unload(ctx);
-			continue;
-		}
+		if (!std::filesystem::exists(module)) continue;
 
-		qDebug() << "using module: " << module.c_str();
+		if (PKCS11_CTX_load(ctx, module.data()) == -1) continue;
 
-		PKCS11_SLOT* testSlots;
-		unsigned int testNSlots;
+		if (PKCS11_enumerate_slots(ctx, &pslots, &nslots) == -1)  continue;
 
-		if (PKCS11_enumerate_slots(ctx, &testSlots, &testNSlots))
-		{
-			PKCS11_CTX_unload(ctx);
-			continue;
-		}
+		current_slot = PKCS11_find_token(ctx, pslots, nslots);
 
-		PKCS11_SLOT* testSlot = PKCS11_find_token(ctx, testSlots, testNSlots);
+		if (current_slot == nullptr) continue;
 
-		if (testSlot == NULL || testSlot->token == NULL) {
+		PKCS11_cert_st* certs{ nullptr };
+		unsigned int ncerts{ 0 };
 
-			qDebug() << "no valid token";
+		PKCS11_enumerate_certs(current_slot->token, &certs, &ncerts);
 
-			PKCS11_release_all_slots(ctx, testSlots, testNSlots);
-			//causes seg fault if no drivers are installed
-			//PKCS11_CTX_unload(ctx);
+		//finding a valid certificate
+		if (ncerts == 0) continue;
 
-			continue;
-		}
+		if (ncerts == 1) m_certificate = &certs[0]; break;
 
-		PKCS11_CERT* testCert, * testCerts;
-		unsigned int testNCerts;
-
-		if (PKCS11_enumerate_certs(testSlot->token, &testCerts, &testNCerts) || testNCerts <= 0)
-		{
-			PKCS11_release_all_slots(ctx, testSlots, testNSlots);
-			PKCS11_CTX_unload(ctx);
-			continue;
-		}
-
-		PKCS11_release_all_slots(ctx, testSlots, testNSlots);
-
-		success = true;
-		
-		break;
-	}
-
-	if (!success)
-		ctx = nullptr;
-
-	return success;
-
-}
-
-
-PKCS11::PKCS11()
-{
-	if (PKCS11_enumerate_slots(ctx, &m_slots, &nslots) == -1) {
-
-		if (!loadModuleWithToken()) {
-			
-			return;
-		}
-
-		PKCS11_enumerate_slots(ctx, &m_slots, &nslots);
-
-	}
-
-	m_slot = PKCS11_find_token(ctx, m_slots, nslots);
-
-	if (m_slot == nullptr) return;
-
-	PKCS11_enumerate_certs(m_slot->token, &certs, &ncerts);
-
-	if (ncerts == 0) { return; }
-	else if (ncerts == 1)
-	{
-		m_certificate = &certs[0];
-	}
-	else
-	{
-		//if there are multiple certificates, iterrating to find a valid one
 		for (int i = 0; i < ncerts; i++)
 		{
 			if (isValidCertificate(&certs[i]))
@@ -183,50 +101,28 @@ PKCS11::PKCS11()
 		return;
 	}
 
-	m_509 = Base64Convert::encode(vec.data(), vec.size());
+	m_509 = "-----BEGIN CERTIFICATE-----\n" + Base64Convert::encode(vec.data(), vec.size()) + +"\n-----END CERTIFICATE-----";
 
-	PKCS11_is_logged_in(m_slot, 0, &isLoggedIn);
+	auto key = PKCS11_find_key(m_certificate);
 
-	if (!loginRequired())
-		m_prv_key = PKCS11_get_private_key(PKCS11_find_key(m_certificate));
-
-//getting the subject name
-	char* subj = X509_NAME_oneline(X509_get_subject_name(m_certificate->x509), NULL, 0);
-	m_subjectName = std::string(subj);
-	OPENSSL_free(subj);
-//getting the issuer
-	char* issuer = X509_NAME_oneline(X509_get_issuer_name(m_certificate->x509), NULL, 0);
-	m_issuer = std::string(issuer);
-	OPENSSL_free(issuer);
-
-	m_loaded = true;
+	if(key) m_prv_key = PKCS11_get_private_key(key);
 }
 
 bool PKCS11::hsmLoaded()
 {
-	return m_loaded;
-}
-
-const std::string& PKCS11::subjectName()
-{
-	return m_subjectName;
-}
-
-const std::string& PKCS11::issuer()
-{
-	return m_issuer;
+	return m_certificate != nullptr;
 }
 
 bool PKCS11::loginRequired()
 {
-	return !isLoggedIn;
+	return m_prv_key == nullptr;
 }
 
 bool PKCS11::login(const std::string& pass)
 {
 	if (!loginRequired()) return true;
 
-	bool success = PKCS11_login(m_slot, 0, pass.data()) == 0;
+	bool success = PKCS11_login(current_slot, 0, pass.data()) == 0;
 
 	if (success) {
 		m_prv_key = PKCS11_get_private_key(PKCS11_find_key(m_certificate));
@@ -235,16 +131,9 @@ bool PKCS11::login(const std::string& pass)
 	return success;
 }
 
-std::string PKCS11::x509certBase64() const
+const std::string& PKCS11::pem_x509cert() const
 {
 	return m_509;
-}
-
-
-
-std::string PKCS11::pem_x509cert() const
-{
-	return "-----BEGIN CERTIFICATE-----\n" + m_509 + "\n-----END CERTIFICATE-----";
 }
 
 evp_pkey_st* PKCS11::takePrivateKey()
@@ -252,90 +141,24 @@ evp_pkey_st* PKCS11::takePrivateKey()
 	return m_prv_key;
 }
 
-std::string PKCS11::sha1Digest(const std::string& data)
+void PKCS11::cleanup()
 {
-	auto canon = data.c_str();
-	auto canonLength = data.size();
+	if (nslots) {
+		PKCS11_release_all_slots(ctx, pslots, nslots);
+		nslots = 0;
+		pslots = 0;
+	}
 
-	unsigned char digest_value[EVP_MAX_MD_SIZE]; //the digest result value
-	unsigned int dv_length; //the digest result length
-	EVP_MD_CTX* mdctx = EVP_MD_CTX_new(); //create msg digest context
-	EVP_DigestInit_ex(mdctx, EVP_sha1(), NULL);  // Initialise the context (engine null value?)
-	EVP_DigestUpdate(mdctx, canon, canonLength); //digesting
-	EVP_DigestFinal_ex(mdctx, digest_value, &dv_length); //finalizing
-	EVP_MD_CTX_free(mdctx); //free the context
+	current_slot = nullptr;
 
-	return std::string(reinterpret_cast<const char*>(&digest_value), dv_length);
-}
-
-
-void PKCS11::unloadModule()
-{
 	if (ctx)
 	{
 		PKCS11_CTX_unload(ctx);
-		ctx = nullptr;
 	}
-}
-
-std::string PKCS11::sha1digest64(const std::string& canonized)
-{
-	return toBase64(sha1Digest(canonized));
-}
-
-std::string PKCS11::toBase64(const std::string& data)
-{
-	return Base64Convert::encode(data.data(), data.size());
-}
-
-std::string PKCS11::getSignedValue64(const std::string& digestValue)
-{
-	auto signedInfo =
-		"<SignedInfo xmlns=\"http://www.w3.org/2000/09/xmldsig#\">"
-		"<CanonicalizationMethod Algorithm=\"http://www.w3.org/2001/10/xml-exc-c14n#\"></CanonicalizationMethod>"
-		"<SignatureMethod Algorithm=\"http://www.w3.org/2000/09/xmldsig#rsa-sha1\">""</SignatureMethod>"
-		"<Reference URI=\"#signedContent\">"
-		"<DigestMethod Algorithm=\"http://www.w3.org/2000/09/xmldsig#sha1\"></DigestMethod>"
-		"<DigestValue>" + digestValue + "</DigestValue>"
-		"</Reference>"
-		"</SignedInfo>"
-		;
-
-	unsigned char* EncMsg{ nullptr };
-	size_t MsgLenEnc{ 0 };
-
-	auto pkey = takePrivateKey();
-
-	if (!pkey) {
-		return std::string();
-	}
-
-	RSA* rsa = EVP_PKEY_get1_RSA(pkey);
-
-	EVP_MD_CTX* m_RSASignCtx = EVP_MD_CTX_create();
-
-	EVP_PKEY_assign_RSA(pkey, rsa);
-	if (EVP_DigestSignInit(m_RSASignCtx, NULL, EVP_sha1(), NULL, pkey) <= 0) {
-		return std::string();
-	}
-	if (EVP_DigestSignUpdate(m_RSASignCtx, signedInfo.c_str(), signedInfo.size()) <= 0) {
-		return std::string();
-	}
-	if (EVP_DigestSignFinal(m_RSASignCtx, NULL, &MsgLenEnc) <= 0) {
-		return std::string();
-	}
-	EncMsg = (unsigned char*)malloc(MsgLenEnc);
-	if (EVP_DigestSignFinal(m_RSASignCtx, EncMsg, &MsgLenEnc) <= 0) {
-		return std::string();
-	}
-	EVP_MD_CTX_destroy(m_RSASignCtx);
-
-	return Base64Convert::encode(reinterpret_cast<const char*>(EncMsg), MsgLenEnc);
 }
 
 PKCS11::~PKCS11()
 {
-	
 	/*
 		both xmlsec and qt take ownership of the private key
 		so releasing the slots causes a crash

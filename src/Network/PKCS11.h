@@ -5,10 +5,6 @@ struct evp_pkey_st;
 struct PKCS11_slot_st;
 struct PKCS11_cert_st;
 
-struct evp_pkey_st;
-struct PKCS11_slot_st;
-struct PKCS11_cert_st;
-
 class PKCS11
 {
 	PKCS11_cert_st* m_certificate{ nullptr };

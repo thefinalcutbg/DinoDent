@@ -135,6 +135,7 @@ std::string XmlSigner::signPisQuery(const std::string& bodyContent, evp_pkey_st*
     dsigCtx->signKey = xmlSecKeyCreate();
 
     dsigCtx->signKey->value = xmlSecOpenSSLEvpKeyAdopt(prvKey);
+    dsigCtx->signKey->usage = xmlSecKeyUsageSign;
 
     if (
         xmlSecOpenSSLAppKeyCertLoadMemory(

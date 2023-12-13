@@ -1,6 +1,8 @@
-#include "DbBrowser.h"
+﻿#include "DbBrowser.h"
 #include "Model/User.h"
 #include "Database.h"
+#include "DbProcedure.h"
+#include "DbInvoice.h"
 
 std::vector<PatientRow> DbBrowser::getPatientRows()
 {
@@ -233,4 +235,24 @@ void DbBrowser::deleteRecord(TabType type, long long rowid)
     std::string tableName{ tableNames.at(type) };
 
     Db::crudQuery("DELETE FROM " + tableName + " WHERE rowid = " + std::to_string(rowid));
+}
+
+#include "DbProcedure.h"
+
+PlainTable DbBrowser::getPreview(TabType type, long long rowid)
+{
+    PlainTable result;
+
+    switch (type)
+    {
+        case TabType::AmbList: return PlainTable(DbProcedure::getProcedures(rowid));
+
+        case TabType::Financial: return PlainTable(DbInvoice::getInvoice(rowid).businessOperations);
+
+
+
+    }
+    
+    return result;
+
 }

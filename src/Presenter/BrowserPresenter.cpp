@@ -3,6 +3,9 @@
 #include "View/ModalDialogBuilder.h"
 #include "Database/DbPatient.h"
 #include "Presenter/TabPresenter.h"
+#include "Database/DbPrescription.h"
+#include "Database/DbInvoice.h"
+#include "Database/DbProcedure.h"
 #include <map>
 
 void BrowserPresenter::setView(IBrowserDialog* view)
@@ -42,6 +45,7 @@ void BrowserPresenter::refreshModel()
 
 void BrowserPresenter::setListType(TabType type)
 {
+	view->setPreview(PlainTable());
 	m_currentModelType = type;
 	m_selectedInstances.clear();
 
@@ -67,6 +71,20 @@ void BrowserPresenter::selectionChanged(std::set<int> selectedIndexes)
 		case::TabType::Financial: for (auto idx : selectedIndexes) m_selectedInstances.push_back(&m_financialRows[idx]); break;
 		case::TabType::Prescription: for (auto idx : selectedIndexes) m_selectedInstances.push_back(&m_prescriptionRows[idx]); break;
 	}
+
+	if (selectedIndexes.size() != 1) {
+		view->setPreview(PlainTable());
+		return;
+	}
+
+	int idx = *selectedIndexes.begin();
+
+	switch (m_currentModelType) {
+		case TabType::AmbList: view->setPreview(DbBrowser::getPreview(TabType::AmbList, m_ambRows[idx].rowID)); break;
+		case TabType::Financial: view->setPreview(DbBrowser::getPreview(TabType::Financial, m_financialRows[idx].rowID)); break;
+		case TabType::Prescription: view->setPreview(PlainTable(DbPrescription::get(m_prescriptionRows[idx].rowID).medicationGroup)); break;
+	}
+
 }
 
 

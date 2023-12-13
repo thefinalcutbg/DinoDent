@@ -102,6 +102,12 @@ std::vector<Procedure> DbProcedure::getProcedures(long long amblist_rowid, Db& d
 
 }
 
+std::vector<Procedure> DbProcedure::getProcedures(long long amblist_rowid, bool nhifOnly, bool removed)
+{
+	Db db;
+	return getProcedures(amblist_rowid, db, nhifOnly, removed);
+}
+
 void DbProcedure::saveProcedures(long long amblist_rowid, const std::vector<Procedure>& pList, const std::vector<Procedure> removedList, Db& db)
 {
 	std::string query = "DELETE FROM procedure WHERE amblist_rowid = " + std::to_string(amblist_rowid);

@@ -93,7 +93,7 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>C:\dev\DinoDependencies\x32\lib;$(Qt_LIBPATH_);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>limereportd.lib;libcrypto.lib;libssl.lib;libxml2.lib;libxmlsec.lib;libxmlsec-openssl.lib;pkcs11.lib;libp11.lib;$(Qt_LIBS_);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>limereportd.lib;libcrypto.lib;libssl.lib;libxml2.lib;libxmlsec.lib;libxmlsec-openssl.lib;libp11.lib;$(Qt_LIBS_);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -106,7 +106,7 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>C:\dev\DinoDependencies\x32\lib;$(Qt_LIBPATH_);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>limereport.lib;libcrypto.lib;libssl.lib;libxml2.lib;libxmlsec.lib;libxmlsec-openssl.lib;pkcs11.lib;libp11.lib;$(Qt_LIBS_);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>limereport.lib;libcrypto.lib;libssl.lib;libxml2.lib;libxmlsec.lib;libxmlsec-openssl.lib;libp11.lib;$(Qt_LIBS_);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -118,7 +118,7 @@
       <LanguageStandard_C>Default</LanguageStandard_C>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>limereport-qt6.lib;libcrypto.lib;libssl.lib;libxml2.lib;libxmlsec.lib;libxmlsec-openssl.lib;pkcs11.lib;libp11.lib;$(Qt_LIBS_);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>limereport-qt6.lib;libcrypto.lib;libssl.lib;libxml2.lib;libxmlsec.lib;libxmlsec-openssl.lib;libp11.lib;$(Qt_LIBS_);%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)\dependencies\lib\Debug;$(SolutionDir)\dependencies\lib;$(Qt_LIBPATH_);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -135,7 +135,7 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)\dependencies\lib\Release;$(SolutionDir)\dependencies\lib;$(Qt_LIBPATH_);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>limereport-qt6.lib;libcrypto.lib;libssl.lib;libxml2.lib;libxmlsec.lib;libxmlsec-openssl.lib;pkcs11.lib;libp11.lib;$(Qt_LIBS_);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>limereport-qt6.lib;libcrypto.lib;libssl.lib;libxml2.lib;libxmlsec.lib;libxmlsec-openssl.lib;libp11.lib;$(Qt_LIBS_);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
@@ -242,6 +242,7 @@
     <ClCompile Include="src\Model\Dental\ProcedureCode.cpp" />
     <ClCompile Include="src\Model\Dental\SupernumeralPrint.cpp" />
     <ClCompile Include="src\Model\Dental\ToothIndex.cpp" />
+    <ClCompile Include="src\Model\PlainTable.cpp" />
     <ClCompile Include="src\Model\Referrals\Referral.cpp" />
     <ClCompile Include="src\Model\FreeFunctions.cpp" />
     <ClCompile Include="src\Model\Prescription\Route.cpp" />
@@ -425,6 +426,7 @@
     <ClCompile Include="src\View\TableModels\MonthNotifTableModel.cpp" />
     <ClCompile Include="src\View\TableModels\PatientTableModel.cpp" />
     <ClCompile Include="src\View\TableModels\PerioTableModel.cpp" />
+    <ClCompile Include="src\View\TableModels\PlainTableModel.cpp" />
     <ClCompile Include="src\View\TableModels\PrescriptionTableModel.cpp" />
     <ClCompile Include="src\View\TableModels\ProcedureCodeModel.cpp" />
     <ClCompile Include="src\View\TableModels\ProcedureSelectModel.cpp" />
@@ -560,6 +562,7 @@
     <ClInclude Include="src\Model\Referrals\ReferralData.h" />
     <ClInclude Include="src\Model\Referrals\RefNum.h" />
     <ClInclude Include="src\Model\Specialty.h" />
+    <ClInclude Include="src\Model\PlainTable.h" />
     <ClInclude Include="src\Model\Validators\RecipientIdValidator.h" />
     <ClInclude Include="src\Network\HIS\EAllergy.h" />
     <ClInclude Include="src\Network\HIS\EDental.h" />
@@ -787,6 +790,7 @@
     <ClInclude Include="src\View\Interfaces\IFiscalReportView.h" />
     <QtMoc Include="src\View\TableModels\FiscalReceiptTableModel.h" />
     <QtMoc Include="src\View\TableModels\HospitalizationTableModel.h" />
+    <QtMoc Include="src\View\TableModels\PlainTableModel.h" />
     <ClInclude Include="src\View\TableModels\MedicationTableModel.h" />
     <QtMoc Include="src\View\Widgets\UpdatePromptDialog.h" />
     <QtMoc Include="src\View\Widgets\UpdateDownloader.h" />

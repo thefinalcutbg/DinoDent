@@ -11,6 +11,10 @@ BrowserDialog::BrowserDialog()
 {
 	ui.setupUi(this);
 
+	//ui.preView->hide();
+	ui.preView->horizontalHeader()->setStretchLastSection(true);
+	//ui.preView->verticalHeader()->setFixedHeight(20);
+
 	ui.tabBar->addTab(QIcon(":/icons/icon_user.png"), "Пациенти");
 	ui.tabBar->addTab(QIcon(":/icons/icon_sheet.png"), "Амбулаторни листове");
 	ui.tabBar->addTab(QIcon(":/icons/icon_prescr.png"), "Рецепти");
@@ -84,6 +88,8 @@ BrowserDialog::BrowserDialog()
 		});
 
 	ui.nameSearchEdit->setFocus();
+
+	ui.preView->setModel(&preview_model);
 
 	presenter.setView(this);
 
@@ -319,6 +325,16 @@ void BrowserDialog::setRows(const std::vector<PrescriptionRow>& rows)
 		}
 
 	);
+}
+
+void BrowserDialog::setPreview(const PlainTable& t)
+{
+	preview_model.setData(t);
+//	ui.preView->setHidden(!t.size());
+
+	for (int i = 0; i < t.size(); i++) {
+		ui.preView->setColumnWidth(i, t[i].width);
+	}
 }
 
 

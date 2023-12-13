@@ -8,6 +8,7 @@
 #include "View/TableModels/PerioTableModel.h"
 #include "View/TableModels/FinancialTableModel.h"
 #include "View/TableModels/PrescriptionTableModel.h"
+#include "View/TableModels/PlainTableModel.h"
 #include <QSortFilterProxyModel>
 #include "Presenter/BrowserPresenter.h"
 
@@ -28,6 +29,8 @@ private:
 	FinancialTableModel financial_model;
 	PrescriptionTableModel prescription_model;
 
+	PlainTableModel preview_model;
+
 	void hideRanges(bool hidden);
 	void setCountLabel();
 
@@ -41,6 +44,9 @@ public:
 	void setRows(const std::vector<PerioRow>& rows) override;
 	void setRows(const std::vector<FinancialRow>& rows) override;
 	void setRows(const std::vector<PrescriptionRow>& rows) override;
+
+	void setPreview(const PlainTable& t) override;
+
 	~BrowserDialog();
 
 private:

@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "Model/TableRows.h"
+#include "Model/PlainTable.h"
 
 class IBrowserDialog
 {
@@ -13,6 +14,7 @@ public:
 	virtual void setRows(const std::vector<PerioRow>& rows) = 0;
 	virtual void setRows(const std::vector<FinancialRow>& rows) = 0;
 	virtual void setRows(const std::vector<PrescriptionRow>& rows) = 0;
+	virtual void setPreview(const PlainTable& t) = 0;
 	virtual void focus() = 0;
 	virtual void close() = 0;
 };

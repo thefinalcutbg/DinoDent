@@ -12,6 +12,7 @@ namespace DbProcedure
 {
 
     std::vector<Procedure> getProcedures(long long amblist_rowid, Db& db, bool nhifOnly = false, bool removed = false);
+    std::vector<Procedure>  getProcedures(long long amblist_rowid, bool nhifOnly = false, bool removed = false);
     void saveProcedures(long long amblist_rowid, const std::vector<Procedure>& p, const std::vector<Procedure> deleted, Db& db);
     std::vector<ProcedureSummary> getNhifSummary(
         long long patientRowId,

@@ -3,11 +3,6 @@
 #include <QDialog>
 #include "ui_BrowserDialog.h"
 #include "View/Interfaces/IBrowserdialog.h"
-#include "View/TableModels/AmbListTableModel.h"
-#include "View/TableModels/PatientTableModel.h"
-#include "View/TableModels/PerioTableModel.h"
-#include "View/TableModels/FinancialTableModel.h"
-#include "View/TableModels/PrescriptionTableModel.h"
 #include "View/TableModels/PlainTableModel.h"
 #include <QSortFilterProxyModel>
 #include "Presenter/BrowserPresenter.h"
@@ -23,12 +18,8 @@ private:
 	QSortFilterProxyModel nameFilter;
 	QSortFilterProxyModel phoneFilter;
 	QMenu* main_menu{ nullptr };
-	AmbListTableModel amb_model;
-	PatientTableModel patient_model;
-	PerioTableModel perio_model;
-	FinancialTableModel financial_model;
-	PrescriptionTableModel prescription_model;
 
+	PlainTableModel table_model;
 	PlainTableModel preview_model;
 
 	void hideRanges(bool hidden);
@@ -39,12 +30,7 @@ public:
 
 	void setDates(const Date& from, const Date& to) override;
 
-	void setRows(const std::vector<AmbRow>& rows) override;
-	void setRows(const std::vector<PatientRow>& rows) override;
-	void setRows(const std::vector<PerioRow>& rows) override;
-	void setRows(const std::vector<FinancialRow>& rows) override;
-	void setRows(const std::vector<PrescriptionRow>& rows) override;
-
+	void setTable(const PlainTable& t, int idColumn, int nameColumn, int phoneColumn) override;
 	void setPreview(const PlainTable& t) override;
 
 	~BrowserDialog();

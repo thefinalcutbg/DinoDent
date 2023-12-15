@@ -1,5 +1,4 @@
 ﻿#include "FiscalReceiptTableModel.h"
-#include "AmbListTableModel.h"
 
 FiscalReceiptTableModel::FiscalReceiptTableModel(QObject* parent)
     : QAbstractTableModel(parent)

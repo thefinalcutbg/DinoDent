@@ -4,7 +4,7 @@
 
 struct PlainCell {
 
-	enum Icon { NoIcon, NHIF, HIS, PHIF };
+	enum Icon { NoIcon, NHIF, HIS, PHIF, BDAY };
 
 	std::string data;
 	Icon icon{ Icon::NoIcon };

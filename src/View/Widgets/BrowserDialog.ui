@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>809</width>
-    <height>533</height>
+    <height>559</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -198,12 +198,9 @@
       <item>
        <layout class="QHBoxLayout" name="horizontal_layout">
         <item>
-         <widget class="QPushButton" name="deleteButton">
+         <widget class="QCheckBox" name="detailsCheck">
           <property name="text">
-           <string>Изтрий</string>
-          </property>
-          <property name="autoDefault">
-           <bool>false</bool>
+           <string>Покажи детайли</string>
           </property>
          </widget>
         </item>
@@ -222,6 +219,16 @@
            </size>
           </property>
          </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="deleteButton">
+          <property name="text">
+           <string>Изтрий</string>
+          </property>
+          <property name="autoDefault">
+           <bool>false</bool>
+          </property>
+         </widget>
         </item>
         <item>
          <widget class="QPushButton" name="openButton">

@@ -11,6 +11,8 @@
 void BrowserPresenter::setView(IBrowserDialog* view)
 {
 	this->view = view;
+	
+	this->view->setDates(m_from, m_to);
 
 	if (!view) return;
 
@@ -28,63 +30,76 @@ void BrowserPresenter::setDates(const Date& from, const Date& to)
 
 void BrowserPresenter::refreshModel()
 {
+	PlainTable tableView;
 	
-	m_ambRows = DbBrowser::getAmbRows(m_from, m_to);
-	m_perioRows = DbBrowser::getPerioRows(m_from, m_to);
-	m_patientRows = DbBrowser::getPatientRows();
-	m_financialRows = DbBrowser::getFinancialRows(m_from, m_to);
-	m_prescriptionRows = DbBrowser::getPrescriptionRows(m_from, m_to);
-	
-	if (view != nullptr)
+	sentToHis.clear();
+
+	std::tie(rowidData, tableView) = DbBrowser::getData(m_currentModelType, m_from, m_to);
+
+	tableView.data.insert(tableView.data.begin(), PlainColumn{});
+
+	for (int i = 0; i < rowidData.size(); i++)
 	{
-		setListType(m_currentModelType);
-		view->setDates(m_from, m_to);
+		//inserting additional column containing the corresponding index in rowidData
+		tableView.addCell(0, { std::to_string(i) });
+
+		//tracking the rowids of the sheets sent to his
+		if(
+			m_currentModelType == TabType::AmbList &&
+			tableView.data[2].rows[i].icon == PlainCell::HIS
+		)
+		{
+			sentToHis.insert(rowidData[i].rowID);
+		}
 	}
+
+	m_selectedInstances.clear();
+
+	if (view == nullptr) return;
+
+	int id{ 0 }, name{ 0 }, phone{ 0 };
+
+	switch (m_currentModelType) {
+		case TabType::PatientSummary:
+			id = 1; name = 2; phone = 3; break;
+		case TabType::AmbList:
+		case TabType::Prescription:
+		case TabType::Financial:
+			id = 3; name = 4; phone = 5; break;
+		case TabType::PerioStatus:
+			id = 2; name = 3; phone = 4; break;
+	}
+
+
+	view->setTable(tableView, id, name, phone);
+	view->setDates(m_from, m_to);
+	
+	selectionChanged(std::set<int>());
+	
 
 }
 
 void BrowserPresenter::setListType(TabType type)
 {
-	view->setPreview(PlainTable());
 	m_currentModelType = type;
-	m_selectedInstances.clear();
 
-	switch (type)
-	{
-		case::TabType::AmbList: view->setRows(m_ambRows); break;
-		case::TabType::PerioStatus: view->setRows(m_perioRows); break;
-		case::TabType::PatientSummary: view->setRows(m_patientRows); break;
-		case::TabType::Financial : view->setRows(m_financialRows); break;
-		case::TabType::Prescription: view->setRows(m_prescriptionRows); break;
-	}
+	refreshModel();
 }
 
-void BrowserPresenter::selectionChanged(std::set<int> selectedIndexes)
+void BrowserPresenter::selectionChanged(const std::set<int>& selectedIndexes)
 { 
-
 	m_selectedInstances.clear();
 
-	switch (m_currentModelType) {
-		case::TabType::AmbList: for (auto idx : selectedIndexes) m_selectedInstances.push_back(&m_ambRows[idx]); break;
-		case::TabType::PerioStatus: for (auto idx : selectedIndexes) m_selectedInstances.push_back(&m_perioRows[idx]); break;
-		case::TabType::PatientSummary: for (auto idx : selectedIndexes) m_selectedInstances.push_back(&m_patientRows[idx]); break;
-		case::TabType::Financial: for (auto idx : selectedIndexes) m_selectedInstances.push_back(&m_financialRows[idx]); break;
-		case::TabType::Prescription: for (auto idx : selectedIndexes) m_selectedInstances.push_back(&m_prescriptionRows[idx]); break;
+	for (auto idx : selectedIndexes) {
+		m_selectedInstances.push_back(&rowidData[idx]);
 	}
-
-	if (selectedIndexes.size() != 1) {
-		view->setPreview(PlainTable());
-		return;
-	}
-
-	int idx = *selectedIndexes.begin();
-
-	switch (m_currentModelType) {
-		case TabType::AmbList: view->setPreview(DbBrowser::getPreview(TabType::AmbList, m_ambRows[idx].rowID)); break;
-		case TabType::Financial: view->setPreview(DbBrowser::getPreview(TabType::Financial, m_financialRows[idx].rowID)); break;
-		case TabType::Prescription: view->setPreview(PlainTable(DbPrescription::get(m_prescriptionRows[idx].rowID).medicationGroup)); break;
-	}
-
+	
+	long long rowid = selectedIndexes.size() == 1 ? 
+		m_selectedInstances[0]->rowID
+		: 
+		0;
+	
+	view->setPreview(DbBrowser::getPreview(m_currentModelType, rowid));
 }
 
 
@@ -160,18 +175,15 @@ void BrowserPresenter::deleteCurrentSelection()
 {
 	if (m_selectedInstances.empty()) return;
 
-	if (m_selectedInstances[0]->type == TabType::AmbList)
+	for (auto& ptr : m_selectedInstances)
 	{
-		for (auto& ptr : m_selectedInstances)
+		if (sentToHis.count(ptr->rowID))
 		{
-			if (static_cast<AmbRow*>(ptr)->his)
-			{
-				ModalDialogBuilder::showMessage("Не можете да изтриете амбулаторен лист, който е отворен в НЗИС. Първо го анулирайте.");
-				return;
-			}
+			ModalDialogBuilder::showMessage("Не можете да изтриете амбулаторен лист, който е отворен в НЗИС. Първо го анулирайте.");
+			return;
 		}
 	}
-
+	
 	std::string warningMsg = "Сигурни ли сте, че искате да изтриете избраният/избраните ";
 
 	static const std::map<TabType, const char*> endString = {

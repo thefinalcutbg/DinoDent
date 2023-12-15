@@ -50,6 +50,7 @@ QVariant PlainTableModel::data(const QModelIndex& index, int role) const
         case PlainCell::NHIF: return QIcon(":/icons/icon_nhif.png");
         case PlainCell::HIS: return QIcon(":/icons/icon_his.png");
         case PlainCell::PHIF: return QIcon(":/icons/icon_phif.png");
+        case PlainCell::BDAY: return QIcon(":/icons/icon_bday.png");
         default: return QVariant();
         }
 

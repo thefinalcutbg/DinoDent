@@ -3,40 +3,98 @@
 #include "Database.h"
 #include "DbProcedure.h"
 #include "DbInvoice.h"
+#include "DbProcedure.h"
+#include "DbPrescription.h"
 
-std::vector<PatientRow> DbBrowser::getPatientRows()
+std::pair<std::vector<RowInstance>, PlainTable> getPatientRows()
 {
-    std::vector<PatientRow> rows;
+    std::vector<RowInstance> rows;
+    PlainTable tableView;
+    
     rows.reserve(50);
+
+    tableView.addColumn({
+            .name = "ЕГН/ЛНЧ/ССН",
+            .width = 150,
+            .alignment = PlainColumn::Center
+    });
+
+    tableView.addColumn({
+        .name = "Име на пациента",
+        .width = 250,
+    });
+
+    tableView.addColumn({
+        .name = "Телефон",
+        .width = 120,
+    });
 
     std::string query =
         "SELECT rowid, id, fname, mname, lname , phone,  (strftime('%m-%d', patient.birth) = strftime('%m-%d',date('now', 'localtime'))) AS bday FROM patient ORDER BY bday DESC, id ASC";
 
     for (Db db(query);db.hasRows();)
     {
-       rows.emplace_back(PatientRow{});
+       rows.emplace_back(TabType::PatientSummary);
        
        rows.back().rowID = db.asRowId(0);
        rows.back().patientRowId = db.asRowId(0);
 
-       rows.back().patientId = db.asString(1);
+       tableView.addCell(0, { .data = db.asString(1) });
 
-       rows.back().name = db.asString(2) + " " +
-                          db.asString(3) + " " +
-                          db.asString(4);
+       tableView.addCell(1, { 
+           .data = db.asString(2) + " " +
+           db.asString(3) + " " +
+           db.asString(4),
+           .icon = db.asBool(6) ? 
+                PlainCell::BDAY 
+                :
+                PlainCell::NoIcon
+       });
 
-       rows.back().phone = db.asString(5);
+       tableView.addCell(2, { 
+           .data = db.asString(5) 
+       });
 
-       rows.back().bday = db.asBool(6);
     }
 
-    return rows;
+    return std::make_pair(rows, tableView);
 }
 
-std::vector<AmbRow> DbBrowser::getAmbRows(const Date& from, const Date& to)
+std::pair<std::vector<RowInstance>, PlainTable> getAmbRows(const Date& from, const Date& to)
 {
 
-    std::vector<AmbRow> rows;
+    std::vector<RowInstance> rows;
+    PlainTable tableView;
+
+    tableView.addColumn({
+        .name = "Дата",
+        .width = 100,
+        .alignment = PlainColumn::Right
+    });
+
+    tableView.addColumn({
+        .name = "Амб№/НРН",
+        .width = 120,
+        .alignment = PlainColumn::Center
+    });
+
+    tableView.addColumn({
+           .name = "ЕГН/ЛНЧ/ССН",
+           .width = 120,
+           .alignment = PlainColumn::Center
+    });
+
+    tableView.addColumn({
+        .name = "Име на пациента",
+        .width = 240,
+    });
+
+    tableView.addColumn({
+        .name = "Телефон",
+        .width = 120,
+    });
+
+
     rows.reserve(50);
 
     std::string query =
@@ -62,36 +120,74 @@ std::vector<AmbRow> DbBrowser::getAmbRows(const Date& from, const Date& to)
 
     while (db.hasRows())
     {
-        rows.emplace_back(AmbRow{});
+        rows.emplace_back(TabType::AmbList);
 
         auto& row = rows.back();
-        
         row.rowID = db.asRowId(0);
-        row.his = db.asBool(1);
-        row.nhif = db.asBool(2);
-        row.number = row.his ? db.asString(3) : FreeFn::leadZeroes(db.asInt(4), 6);
-        row.date = db.asString(5);
-        
         row.patientRowId = db.asRowId(6);
 
-        row.patientId = db.asString(7);
-        row.patientName = db.asString(8) + " " +
-                          db.asString(9) + " " +
-                          db.asString(10);
+        //Date
+        tableView.addCell(0, {
+            .data = Date(db.asString(5)).toBgStandard(),
+            .icon = db.asBool(2) ? PlainCell::NHIF : PlainCell::NoIcon
+        });
+        
+        bool his = db.asBool(1);
+        //Number
+        tableView.addCell(1, {
+            .data = his ? db.asString(3) : FreeFn::leadZeroes(db.asInt(4), 6),
+            .icon = his ? PlainCell::HIS : PlainCell::NoIcon
+        });
 
-        row.patientPhone = db.asString(11);
+        //ID
+        tableView.addCell(2, { .data = db.asString(7) });
 
-        row.bday = db.asBool(12);
+        //Name
+        tableView.addCell(3, {
+             .data = db.asString(8) + " " +
+                     db.asString(9) + " " +
+                     db.asString(10),
+             .icon = db.asBool(12) ?
+                    PlainCell::BDAY
+                    :
+                    PlainCell::NoIcon
+        });
+
+        //Phone
+        tableView.addCell(4, { .data = db.asString(11) });
     }
         
-
-    return rows;
+    return std::make_pair(rows, tableView);
 }
 
-std::vector<PerioRow> DbBrowser::getPerioRows(const Date& from, const Date& to)
+std::pair<std::vector<RowInstance>, PlainTable> getPerioRows(const Date& from, const Date& to)
 {
-    std::vector<PerioRow> rows;
+    std::vector<RowInstance> rows;
+    PlainTable tableView;
     rows.reserve(50);
+
+    tableView.addColumn({
+        .name = "Дата",
+        .width = 80,
+        .alignment = PlainColumn::Center
+    });
+
+    tableView.addColumn({
+           .name = "ЕГН/ЛНЧ/ССН",
+           .width = 150,
+           .alignment = PlainColumn::Center
+    });
+
+    tableView.addColumn({
+        .name = "Име на пациента",
+        .width = 250,
+    });
+
+    tableView.addColumn({
+        .name = "Телефон",
+        .width = 120,
+    });
+
 
     std::string query =
         "SELECT periostatus.rowid, periostatus.date, patient.rowid, patient.id, patient.fname, patient.mname, patient.lname, patient.phone, "
@@ -106,34 +202,73 @@ std::vector<PerioRow> DbBrowser::getPerioRows(const Date& from, const Date& to)
 
     for (Db db(query); db.hasRows();)
     {
-
-        rows.emplace_back(PerioRow{});
+        rows.emplace_back(TabType::PerioStatus);
 
         auto& row = rows.back();
 
         row.rowID = db.asRowId(0);
-        row.date = db.asString(1);
         row.patientRowId = db.asRowId(2);
-        row.patientId = db.asString(3);
-        row.patientName = db.asString(4)+ " " + db.asString(5) + " " + db.asString(6);
-        row.patientPhone = db.asString(7);
-        row.bday = db.asBool(8);
+
+        //Date
+        tableView.addCell(0, {.data = Date(db.asString(1)).toBgStandard()});
+
+        tableView.addCell(1, { .data = db.asString(3) });
+
+        tableView.addCell(2, {
+             .data = db.asString(4) + " " +
+                     db.asString(5) + " " +
+                     db.asString(6),
+             .icon = db.asBool(8) ?
+                    PlainCell::BDAY
+                    :
+                    PlainCell::NoIcon
+        });
+
+        tableView.addCell(2, { .data = db.asString(7) });
     }
 
-    return rows;
+    return std::make_pair(rows, tableView);
 }
 
 #include "Model/Financial/Recipient.h"
 
 
-std::vector<FinancialRow> DbBrowser::getFinancialRows(const Date& from, const Date& to)
+std::pair<std::vector<RowInstance>, PlainTable> getFinancialRows(const Date& from, const Date& to)
 {
-    std::vector<FinancialRow> rows;
+    std::vector<RowInstance> rows;
+    PlainTable tableView;
 
-    if (User::practice().rziCode == "") return rows;
+    if (User::practice().rziCode == "") return std::make_pair(rows, tableView);
 
     Recipient nzokRecipient(std::stoi(User::practice().RHIF()));
 
+    tableView.addColumn({
+       .name = "Дата",
+       .width = 100,
+       .alignment = PlainColumn::Right
+        });
+
+    tableView.addColumn({
+        .name = "Документ №",
+        .width = 100,
+        .alignment = PlainColumn::Center
+        });
+
+    tableView.addColumn({
+           .name = "ЕГН/ЛНЧ/ССН",
+           .width = 100,
+           .alignment = PlainColumn::Center
+        });
+
+    tableView.addColumn({
+        .name = "Име на пациента",
+        .width = 250
+        });
+
+    tableView.addColumn({
+        .name = "Телефон",
+        .width = 100
+        });
 
     std::string query =
         "SELECT rowid, num, month_notif > 0, "
@@ -147,38 +282,67 @@ std::vector<FinancialRow> DbBrowser::getFinancialRows(const Date& from, const Da
 
     for (Db db(query); db.hasRows();)
     {
-        rows.emplace_back(FinancialRow{});
+        rows.emplace_back(TabType::Financial);
 
         auto& row = rows.back();
 
         row.rowID = db.asRowId(0);
         
-        row.number = db.asInt(1);
-        row.nhif = db.asInt(2);
-        row.date = db.asString(3);
+        bool nhif = db.asBool(2);
 
-        if (row.nhif) {
-            row.recipientId = nzokRecipient.bulstat;
-            row.recipientName = nzokRecipient.name;
-            row.recipientPhone = nzokRecipient.phone;
+        //Date
+        tableView.addCell(0, {
+            .data = Date(db.asString(3)).toBgStandard(),
+            .icon = nhif ? PlainCell::NHIF : PlainCell::NoIcon
+            });
 
-            continue;
-        }
-
-        row.recipientId = db.asString(4);
-        row.recipientName = db.asString(5);
-        row.recipientPhone = db.asString(6);
-       
+        //Number
+        tableView.addCell(1, {.data = std::to_string(db.asInt(1))});
+        
+        tableView.addCell(2, { .data = nhif ? nzokRecipient.bulstat : db.asString(4) });
+        tableView.addCell(3, { .data = nhif ? nzokRecipient.name : db.asString(5) });
+        tableView.addCell(4, { .data = nhif ? nzokRecipient.phone : db.asString(6) });
+      
     }
 
-    return rows;
+    return std::make_pair(rows, tableView);
 
 }
 
-std::vector<PrescriptionRow> DbBrowser::getPrescriptionRows(const Date& from, const Date& to)
+std::pair<std::vector<RowInstance>, PlainTable> getPrescriptionRows(const Date& from, const Date& to)
 {
-    std::vector<PrescriptionRow> rows;
-    rows.reserve(50);
+
+    std::vector<RowInstance> rows;
+    PlainTable tableView;
+
+    tableView.addColumn({
+        .name = "Дата",
+        .width = 100,
+        .alignment = PlainColumn::Right
+    });
+
+    tableView.addColumn({
+        .name = "Амб№/НРН",
+        .width = 120,
+        .alignment = PlainColumn::Center
+    });
+
+    tableView.addColumn({
+           .name = "ЕГН/ЛНЧ/ССН",
+           .width = 100,
+           .alignment = PlainColumn::Center
+    });
+
+    tableView.addColumn({
+        .name = "Име на получателя",
+        .width = 250
+    });
+
+    tableView.addColumn({
+        .name = "Телефон",
+        .width = 120
+    });
+
 
     std::string query =
         "SELECT " 
@@ -203,23 +367,58 @@ std::vector<PrescriptionRow> DbBrowser::getPrescriptionRows(const Date& from, co
 
     while (db.hasRows())
     {
-        rows.emplace_back();
+        rows.emplace_back(TabType::Prescription);
 
         auto& p = rows.back();
 
-       p.rowID = db.asRowId(0);
-       p.date = db.asString(1);
-       p.nrn = db.asString(2);
-       p.patientRowId = db.asRowId(3);
-       p.patientId = db.asString(4);
-       p.patientName = db.asString(5) + " " + db.asString(6) + " " + db.asString(7);
-       p.patientPhone = db.asString(8);
-       p.bday = db.asBool(9);
+        p.rowID = db.asRowId(0);
+        p.patientRowId = db.asRowId(3);
+
+       //Date
+       tableView.addCell(0, {
+           .data = Date(db.asString(1)).toBgStandard()
+       });
+
+       std::string nrn = db.asString(2);
+       //NRN
+       tableView.addCell(1, {
+           .data = nrn,
+           .icon = nrn.size() ? PlainCell::HIS : PlainCell::NoIcon
+       });
+
+       //ID
+       tableView.addCell(2, { .data = db.asString(4) });
+
+       //NAME
+       tableView.addCell(3, {
+            .data = db.asString(5) + " " +
+                    db.asString(6) + " " +
+                    db.asString(7),
+            .icon = db.asBool(9) ?
+                   PlainCell::BDAY
+                   :
+                   PlainCell::NoIcon
+           });
+
+       //PHONE
+       tableView.addCell(4, { .data = db.asString(8) });
     }
 
-    return rows;
+    return std::make_pair(rows, tableView);
 }
 
+
+std::pair<std::vector<RowInstance>, PlainTable> DbBrowser::getData(TabType type, const Date& from, const Date& to)
+{
+    switch (type)
+    {
+        case TabType::AmbList: return getAmbRows(from, to);
+        case TabType::PerioStatus: return getPerioRows(from, to);
+        case TabType::PatientSummary: return getPatientRows();
+        case TabType::Financial: return getFinancialRows(from, to);
+        case TabType::Prescription: return getPrescriptionRows(from, to);
+    }
+}
 
 void DbBrowser::deleteRecord(TabType type, long long rowid)
 {
@@ -237,7 +436,6 @@ void DbBrowser::deleteRecord(TabType type, long long rowid)
     Db::crudQuery("DELETE FROM " + tableName + " WHERE rowid = " + std::to_string(rowid));
 }
 
-#include "DbProcedure.h"
 
 PlainTable DbBrowser::getPreview(TabType type, long long rowid)
 {
@@ -246,11 +444,8 @@ PlainTable DbBrowser::getPreview(TabType type, long long rowid)
     switch (type)
     {
         case TabType::AmbList: return PlainTable(DbProcedure::getProcedures(rowid));
-
         case TabType::Financial: return PlainTable(DbInvoice::getInvoice(rowid).businessOperations);
-
-
-
+        case TabType::Prescription: return PlainTable(DbPrescription::get(rowid).medicationGroup);
     }
     
     return result;

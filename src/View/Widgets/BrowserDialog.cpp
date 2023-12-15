@@ -7,6 +7,7 @@
 #include "View/Theme.h"
 #include "QtVersion.h"
 #include "View/ModalDialogBuilder.h"
+
 BrowserDialog::BrowserDialog()
 {
 	ui.setupUi(this);
@@ -14,6 +15,13 @@ BrowserDialog::BrowserDialog()
 	//ui.preView->hide();
 	ui.preView->horizontalHeader()->setStretchLastSection(true);
 	//ui.preView->verticalHeader()->setFixedHeight(20);
+
+	idFilter.setSourceModel(&table_model);
+	nameFilter.setSourceModel(&idFilter);
+	phoneFilter.setSourceModel(&nameFilter);
+	ui.tableView->setModel(&phoneFilter);
+	ui.preView->setModel(&preview_model);
+	ui.preView->setHidden(true);
 
 	ui.tabBar->addTab(QIcon(":/icons/icon_user.png"), "Пациенти");
 	ui.tabBar->addTab(QIcon(":/icons/icon_sheet.png"), "Амбулаторни листове");
@@ -26,14 +34,14 @@ BrowserDialog::BrowserDialog()
 
 	ui.frame->setStyleSheet("QFrame#frame{"
 		"background-color: rgb(249,249,249);"
-	"}");
+		"}");
 
 
 	setWindowFlags(Qt::Window);
 	setWindowTitle("Документация");
 	setWindowIcon(QIcon(":/icons/icon_open.png"));
 
-	auto lambda = [](const QDate& date) { return Date{ date.day(), date.month(), date.year() };};
+	auto lambda = [](const QDate& date) { return Date{ date.day(), date.month(), date.year() }; };
 
 	connect(ui.fromDateEdit, &QDateEdit::dateChanged,
 		[&]() {presenter.setDates(lambda(ui.fromDateEdit->date()), lambda(ui.toDateEdit->date())); });
@@ -41,15 +49,18 @@ BrowserDialog::BrowserDialog()
 		[=]() {presenter.setDates(lambda(ui.fromDateEdit->date()), lambda(ui.toDateEdit->date())); });
 
 	connect(ui.openButton, &QPushButton::clicked, [=] {
-		
+
 		QApplication::setOverrideCursor(QCursor(Qt::CursorShape::WaitCursor));
-		presenter.openCurrentSelection(); 
+		presenter.openCurrentSelection();
 		QApplication::restoreOverrideCursor();
-		
+
 		});
 
-	connect(ui.tabBar, &QTabBar::currentChanged, 
-		[&](int idx) {presenter.setListType(static_cast<TabType>(idx)); });
+	connect(ui.tabBar, &QTabBar::currentChanged,
+		[&](int idx) {
+			presenter.setListType(static_cast<TabType>(idx));
+			hideRanges(!idx);
+		});
 
 	connect(ui.idSearchEdit, &QLineEdit::textChanged, [=]
 		{
@@ -75,6 +86,8 @@ BrowserDialog::BrowserDialog()
 
 	ui.tableView->setContextMenuPolicy(Qt::CustomContextMenu);
 
+	connect(ui.detailsCheck, &QCheckBox::toggled, [&](bool checked) { ui.preView->setHidden(!checked); });
+
 	connect(ui.tableView, &QTableView::customContextMenuRequested, this, [=](const QPoint& p) {contextMenuRequested(p); });
 
 	connect(ui.tableView, &QTableView::doubleClicked, this, [&] { presenter.openCurrentSelection(); });
@@ -87,9 +100,25 @@ BrowserDialog::BrowserDialog()
 				presenter.deleteCurrentSelection();
 		});
 
-	ui.nameSearchEdit->setFocus();
 
-	ui.preView->setModel(&preview_model);
+	connect(ui.tableView->selectionModel(), &QItemSelectionModel::selectionChanged, this, [=](const QItemSelection& selected, const QItemSelection& deselected){
+
+		auto idxList = ui.tableView->selectionModel()->selectedRows();
+
+		std::set<int>selectedIndexes;
+
+		for (auto& idx : idxList) {
+			int index = phoneFilter.index(idx.row(), 0).data().toInt();
+			selectedIndexes.insert(index);
+		}
+
+		presenter.selectionChanged(selectedIndexes);
+
+		}
+
+	);
+
+	ui.nameSearchEdit->setFocus();
 
 	presenter.setView(this);
 
@@ -101,7 +130,6 @@ BrowserDialog::~BrowserDialog()
 {
 }
 
-
 void BrowserDialog::setDates(const Date& from, const Date& to)
 {
 	QSignalBlocker f(ui.fromDateEdit);
@@ -110,221 +138,20 @@ void BrowserDialog::setDates(const Date& from, const Date& to)
 	ui.toDateEdit->setDate(QDate(to.year, to.month, to.day));
 }
 
-void BrowserDialog::setRows(const std::vector<AmbRow>& rows)
+void BrowserDialog::setTable(const PlainTable& t, int idColumn, int nameColumn, int phoneColumn)
 {
-	amb_model.setRows(rows);
+	table_model.setData(t);
 
-	QSignalBlocker block(ui.tabBar);
-	ui.tabBar->setCurrentIndex(static_cast<int>(TabType::AmbList));
+	for (int i = 0; i < t.size(); i++) {
+		ui.tableView->setColumnWidth(i, t[i].width);
+	}
 
-	idFilter.setSourceModel(&amb_model);
-	idFilter.setFilterKeyColumn(3);
-	nameFilter.setSourceModel(&idFilter);
-	nameFilter.setFilterKeyColumn(4);
-	phoneFilter.setSourceModel(&nameFilter);
-	phoneFilter.setFilterKeyColumn(5);
-
-	ui.tableView->setModel(&phoneFilter);
-	
-	ui.tableView->hideColumn(0);
-	ui.tableView->setColumnWidth(1, 100);
-	ui.tableView->setColumnWidth(2, 120);
-	ui.tableView->setColumnWidth(3, 120);
-	ui.tableView->setColumnWidth(4, 240);
-	ui.tableView->setColumnWidth(5, 120);
-
-	hideRanges(false);
 	setCountLabel();
 
-	connect(ui.tableView->selectionModel(), &QItemSelectionModel::selectionChanged, this, [=] {
-
-		auto idxList = ui.tableView->selectionModel()->selectedRows();
-
-		std::set<int>selectedIndexes;
-
-		for (auto& idx : idxList){
-			selectedIndexes.insert(phoneFilter.index(idx.row(), 0).data().toInt());
-		}
-
-		presenter.selectionChanged(selectedIndexes);
-
-		}
-
-	);
-}
-
-
-void BrowserDialog::setRows(const std::vector<PerioRow>& rows)
-{
-	perio_model.setRows(rows);
-
-	QSignalBlocker block(ui.tabBar);
-	ui.tabBar->setCurrentIndex(static_cast<int>(TabType::PerioStatus));
-	
-	idFilter.setSourceModel(&perio_model);
-	idFilter.setFilterKeyColumn(2);
-	nameFilter.setSourceModel(&idFilter);
-	nameFilter.setFilterKeyColumn(3);
-	phoneFilter.setSourceModel(&nameFilter);
-	phoneFilter.setFilterKeyColumn(4);
-
-	ui.tableView->setModel(&phoneFilter);
-
-
+	idFilter.setFilterKeyColumn(idColumn);
+	nameFilter.setFilterKeyColumn(nameColumn);
+	phoneFilter.setFilterKeyColumn(phoneColumn);
 	ui.tableView->hideColumn(0);
-	
-	ui.tableView->setColumnWidth(1, 80);
-	ui.tableView->setColumnWidth(2, 150);
-	ui.tableView->setColumnWidth(3, 250);
-	ui.tableView->setColumnWidth(4, 120);
-	
-	hideRanges(false);
-	setCountLabel();
-
-	connect(ui.tableView->selectionModel(), &QItemSelectionModel::selectionChanged, this, [=] {
-
-		auto idxList = ui.tableView->selectionModel()->selectedRows();
-
-		std::set<int>selectedIndexes;
-
-		for (auto& idx : idxList) {
-			selectedIndexes.insert(phoneFilter.index(idx.row(), 0).data().toInt());
-		}
-
-		presenter.selectionChanged(selectedIndexes);
-
-		}
-
-	);
-}
-
-
-void BrowserDialog::setRows(const std::vector<PatientRow>& rows)
-{
-	patient_model.setRows(rows);
-
-	QSignalBlocker block(ui.tabBar);
-	ui.tabBar->setCurrentIndex(static_cast<int>(TabType::PatientSummary));
-
-	idFilter.setSourceModel(&patient_model);
-	idFilter.setFilterKeyColumn(1);
-	nameFilter.setSourceModel(&idFilter);
-	nameFilter.setFilterKeyColumn(2);
-	phoneFilter.setSourceModel(&nameFilter);
-	phoneFilter.setFilterKeyColumn(3);
-
-	ui.tableView->setModel(&phoneFilter);
-
-	ui.tableView->hideColumn(0);
-	
-	ui.tableView->setColumnWidth(1, 150);
-	ui.tableView->setColumnWidth(2, 250);
-	ui.tableView->setColumnWidth(3, 120);
-	
-	hideRanges(true);
-	setCountLabel();
-
-	connect(ui.tableView->selectionModel(), &QItemSelectionModel::selectionChanged, this, [=] {
-
-		auto idxList = ui.tableView->selectionModel()->selectedRows();
-
-		std::set<int>selectedIndexes;
-
-		for (auto& idx : idxList) {
-			selectedIndexes.insert(phoneFilter.index(idx.row(), 0).data().toInt());
-		}
-
-		presenter.selectionChanged(selectedIndexes);
-
-		}
-
-	);
-}
-
-void BrowserDialog::setRows(const std::vector<FinancialRow>& rows)
-{
-	financial_model.setRows(rows);
-
-	QSignalBlocker block(ui.tabBar);
-	ui.tabBar->setCurrentIndex(static_cast<int>(TabType::Financial));
-
-	idFilter.setSourceModel(&financial_model);
-	idFilter.setFilterKeyColumn(3);
-	nameFilter.setSourceModel(&idFilter);
-	nameFilter.setFilterKeyColumn(4);
-	phoneFilter.setSourceModel(&nameFilter);
-	phoneFilter.setFilterKeyColumn(5);
-
-	ui.tableView->setModel(&phoneFilter);
-
-	ui.tableView->hideColumn(0);
-	ui.tableView->setColumnWidth(1, 100);
-	ui.tableView->setColumnWidth(2, 100);
-	ui.tableView->setColumnWidth(3, 100);
-	ui.tableView->setColumnWidth(4, 250);
-	ui.tableView->setColumnWidth(5, 100);
-
-	hideRanges(false);
-	setCountLabel();
-
-	connect(ui.tableView->selectionModel(), &QItemSelectionModel::selectionChanged, this, [=] {
-
-		auto idxList = ui.tableView->selectionModel()->selectedRows();
-
-		std::set<int>selectedIndexes;
-
-		for (auto& idx : idxList) {
-			selectedIndexes.insert(phoneFilter.index(idx.row(), 0).data().toInt());
-		}
-
-		presenter.selectionChanged(selectedIndexes);
-
-		}
-
-	);
-}
-
-void BrowserDialog::setRows(const std::vector<PrescriptionRow>& rows)
-{
-	prescription_model.setRows(rows);
-
-	QSignalBlocker block(ui.tabBar);
-	ui.tabBar->setCurrentIndex(static_cast<int>(TabType::Prescription));
-
-	idFilter.setSourceModel(&prescription_model);
-	idFilter.setFilterKeyColumn(3);
-	nameFilter.setSourceModel(&idFilter);
-	nameFilter.setFilterKeyColumn(4);
-	phoneFilter.setSourceModel(&nameFilter);
-	phoneFilter.setFilterKeyColumn(5);
-
-	ui.tableView->setModel(&phoneFilter);
-
-	ui.tableView->hideColumn(0);
-	ui.tableView->setColumnWidth(1, 100);
-	ui.tableView->setColumnWidth(2, 120);
-	ui.tableView->setColumnWidth(3, 100);
-	ui.tableView->setColumnWidth(4, 250);
-	ui.tableView->setColumnWidth(5, 120);
-
-	hideRanges(false);
-	setCountLabel();
-
-	connect(ui.tableView->selectionModel(), &QItemSelectionModel::selectionChanged, this, [=] {
-
-		auto idxList = ui.tableView->selectionModel()->selectedRows();
-
-		std::set<int>selectedIndexes;
-
-		for (auto& idx : idxList) {
-			selectedIndexes.insert(phoneFilter.index(idx.row(), 0).data().toInt());
-		}
-
-		presenter.selectionChanged(selectedIndexes);
-
-		}
-
-	);
 }
 
 void BrowserDialog::setPreview(const PlainTable& t)

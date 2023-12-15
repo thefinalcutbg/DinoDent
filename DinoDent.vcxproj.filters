@@ -360,25 +360,13 @@
     <ClCompile Include="src\View\Interfaces\ITabView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\TableModels\AmbListTableModel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\View\TableModels\BusinessOperationModel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\View\TableModels\FinancialTableModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\TableModels\KSMPModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\TableModels\MonthNotifTableModel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\View\TableModels\PatientTableModel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\View\TableModels\PerioTableModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\TableModels\ProcedureSelectModel.cpp">
@@ -667,9 +655,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Database\DbPrescription.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\View\TableModels\PrescriptionTableModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Model\FreeFunctions.cpp">
@@ -1771,19 +1756,7 @@
     <QtMoc Include="src\View\Graphics\TeethViewScene.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\TableModels\AmbListTableModel.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="src\View\TableModels\FinancialTableModel.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="src\View\TableModels\MonthNotifTableModel.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="src\View\TableModels\PatientTableModel.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="src\View\TableModels\PerioTableModel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\TableModels\ProcedureSelectModel.h">
@@ -1973,9 +1946,6 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\Widgets\DosageDialog.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="src\View\TableModels\PrescriptionTableModel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\Widgets\InputDialog.h">

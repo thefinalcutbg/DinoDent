@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>809</width>
-    <height>535</height>
+    <height>567</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -293,14 +293,14 @@
          <number>0</number>
         </property>
         <item>
-         <spacer name="horizontalSpacer_3">
+         <spacer name="previewSpacer">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
             <width>40</width>
-            <height>20</height>
+            <height>24</height>
            </size>
           </property>
          </spacer>

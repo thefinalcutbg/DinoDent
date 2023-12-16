@@ -15,7 +15,6 @@ std::string FreeFn::formatDouble(const double& price)
     std::stringstream stream;
     stream << std::fixed << std::setprecision(2) << price;
 
-
     return stream.str();
 }
 

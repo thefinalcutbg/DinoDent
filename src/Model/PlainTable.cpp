@@ -1,6 +1,5 @@
 ﻿#include "PlainTable.h"
 #include "FreeFunctions.h"
-#include "View/GlobalFunctions.h"
 
 PlainTable::PlainTable(const std::vector<Procedure>& pList)
 {
@@ -49,8 +48,8 @@ PlainTable::PlainTable(const std::vector<BusinessOperation>& bList)
         addCell(0, { op.activity_code });
         addCell(1, { op.activity_name });
         addCell(2, { std::to_string(op.quantity) });
-        addCell(3, { priceToString(op.unit_price).toStdString() });
-        addCell(4, { priceToString(op.value_price).toStdString() });
+        addCell(3, { FreeFn::formatDouble(op.unit_price) });
+        addCell(4, { FreeFn::formatDouble(op.value_price) });
     }
 
 }

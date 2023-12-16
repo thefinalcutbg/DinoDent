@@ -54,7 +54,7 @@ void BrowserPresenter::refreshModel()
 
 	std::tie(rowidData, tableView) = DbBrowser::getData(ui_state.model_type, ui_state.from, ui_state.to);
 
-	tableView.data.insert(tableView.data.begin(), PlainColumn{});
+	tableView.data.insert(tableView.data.begin(), PlainColumn{.hidden = true});
 
 	for (int i = 0; i < rowidData.size(); i++)
 	{

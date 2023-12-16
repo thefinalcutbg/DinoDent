@@ -172,7 +172,14 @@ void BrowserDialog::setTable(const PlainTable& t, int idColumn, int nameColumn, 
 	table_model.setData(t);
 
 	for (int i = 0; i < t.size(); i++) {
+
+		t[i].hidden ?
+			ui.tableView->hideColumn(i)
+			:
+			ui.tableView->showColumn(i);
+
 		ui.tableView->setColumnWidth(i, t[i].width);
+		
 	}
 
 	setCountLabel();
@@ -180,7 +187,6 @@ void BrowserDialog::setTable(const PlainTable& t, int idColumn, int nameColumn, 
 	idFilter.setFilterKeyColumn(idColumn);
 	nameFilter.setFilterKeyColumn(nameColumn);
 	phoneFilter.setFilterKeyColumn(phoneColumn);
-	ui.tableView->hideColumn(0);
 }
 
 void BrowserDialog::setPreview(const PlainTable& t)
@@ -194,8 +200,7 @@ void BrowserDialog::setPreview(const PlainTable& t)
 			ui.preView->hideColumn(i)
 			:
 			ui.preView->showColumn(i);
-		
-		
+
 		ui.preView->setColumnWidth(i, t[i].width);
 	}
 }
@@ -271,15 +276,17 @@ void BrowserDialog::setCountLabel()
 void BrowserDialog::calculateUiState()
 {
 	bool patientSection = ui.tabBar->currentIndex() == 0;
+	bool hideDetailsCombo = !(ui.detailsCheck->isChecked() && patientSection);
+	bool hideOpenDocButton = !(ui.detailsCheck->isChecked() && patientSection && !ui.detailsCombo->currentIndex());
 
 	ui.preView->setHidden(!ui.detailsCheck->isChecked());
-	ui.detailsCombo->setHidden(!(ui.detailsCheck->isChecked() && patientSection));
-	ui.detailsCombo->setHidden(!(ui.detailsCheck->isChecked() && patientSection));
-	ui.openDocButton->setHidden(!(ui.detailsCheck->isChecked() && patientSection && !ui.detailsCombo->currentIndex()));
+	ui.detailsCombo->setHidden(hideDetailsCombo);
+	ui.openDocButton->setHidden(hideOpenDocButton);
 	ui.fromLabel->setHidden(patientSection);
 	ui.toLabel->setHidden(patientSection);
 	ui.fromDateEdit->setHidden(patientSection);
 	ui.toDateEdit->setHidden(patientSection);
+
 
 	
 }

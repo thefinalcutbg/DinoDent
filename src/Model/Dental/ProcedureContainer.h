@@ -32,5 +32,5 @@ public:
 	const std::vector<Procedure>& removedProcedures() const { return m_removed; }
 	void clearRemovedProcedures() { m_removed.clear(); }
 	void setRemovedProcedures(const std::vector<Procedure>& removed) { m_removed = removed; }
-	
+	std::vector<Date> getDatesOfNhifProcedures() const;
 };

@@ -280,7 +280,7 @@ std::vector<AmbList> DbAmbList::getMonthlyNhifSheets(int month, int year)
         "amblist.nhif_spec,"
         "amblist.nhif_unfav,"
         "amblist.status,"
-        "amblist.LPK, "
+        "amblist.lpk, "
         "amblist.his_updated, "
         "amblist.date "
         "FROM amblist "

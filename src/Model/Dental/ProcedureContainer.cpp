@@ -139,3 +139,19 @@ bool ProcedureContainer::hasPregnancy() const
 
     return false;
 }
+
+std::vector<Date> ProcedureContainer::getDatesOfNhifProcedures() const
+{
+    std::vector<Date> result;
+
+    for (auto& p : m_proc) {
+
+        if (p.financingSource != FinancingSource::NHIF) continue;
+
+        if (std::find(result.begin(), result.end(), p.date) != result.end()) continue;
+
+        result.push_back(p.date);
+    }
+
+    return result;
+}

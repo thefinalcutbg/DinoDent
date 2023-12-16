@@ -1,5 +1,6 @@
 ﻿#include <unordered_set>
 #include <algorithm>
+
 #include "AmbListValidator.h"
 #include "Database/DbProcedure.h"
 #include "Model/Dental/NhifProcedures.h"
@@ -78,9 +79,6 @@ bool AmbListValidator::ambListIsValid()
             return false;
     }
 
-
-
-
     for (auto& ref : ambList.referrals)
     {
         if (ref.date.isWeekend())
@@ -106,6 +104,18 @@ bool AmbListValidator::ambListIsValid()
 
     }
 
+    auto result = exceededDailyLimit();
+
+    if (result.has_value()) {
+
+        auto [date, minutes] = *result;
+
+        _error = "За дата " + date.toBgStandard()
+         + " дневният лимит по НЗОК е надвишен с "
+         + std::to_string(minutes) + " минути. ";
+
+        return false;
+    }
 
     _error = "";
     return true;
@@ -275,6 +285,39 @@ bool AmbListValidator::examIsFirst()
     }
 
     return true;
+}
+
+std::optional<std::pair<Date, int>> AmbListValidator::exceededDailyLimit()
+{
+    auto dates = ambList.procedures.getDatesOfNhifProcedures();
+
+    constexpr int maxLimit = 360;
+
+    constexpr int toCheck[] = { 101, 301, 332, 508, 509, 510, 520, 544 };
+
+    for (auto& date : dates)
+    {
+        auto dailyP = DbProcedure::getDailyNhifProcedures(date);
+
+        int minutesSum = 0;
+
+        for (auto p : dailyP)
+        {
+            int minutes = NhifProcedures::getDuration(p);
+
+            for (auto code : toCheck)
+            {
+                if (code == p) minutesSum += minutes;
+            }
+        }
+
+        if (minutesSum > maxLimit) {
+            return std::make_pair(date, minutesSum - maxLimit);
+        }
+
+    }
+
+    return {};
 }
 
 template<>

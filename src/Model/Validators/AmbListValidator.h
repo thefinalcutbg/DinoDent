@@ -20,6 +20,7 @@ class AmbListValidator
 	bool isValidAccordingToDb();
 	bool dateIsValid();
 	bool examIsFirst();
+	std::optional<std::pair<Date, int>> exceededDailyLimit();
 
 public:
 	AmbListValidator(const AmbList& list, const Patient& patient);

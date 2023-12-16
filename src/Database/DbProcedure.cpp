@@ -377,3 +377,30 @@ std::vector<Procedure> DbProcedure::getPatientProcedures(long long patientRowid)
 	return mList;
 
 }
+
+std::vector<int> DbProcedure::getDailyNhifProcedures(const Date& date)
+{
+	std::vector<int> result;
+
+	Db db;
+
+	db.newStatement(
+		"SELECT code FROM procedure "
+		"LEFT JOIN amblist ON procedure.amblist_rowid = amblist.rowid "
+		"WHERE amblist.lpk=? "
+		"AND amblist.rzi=? "
+		"AND procedure.date=? "
+		"AND financing_source=2" 
+	);
+
+	db.bind(1, User::doctor().LPK);
+	db.bind(2, User::practice().rziCode);
+	db.bind(3, date.to8601());
+
+	while (db.hasRows())
+	{
+		result.push_back(ProcedureCode(db.asString(0)).oldCode());
+	}
+
+	return result;
+}

@@ -140,6 +140,8 @@ src\Model\Parser.cpp
 src\Model\Parser.h
 src\Model\Patient.cpp
 src\Model\Patient.h
+src\Model\PlainTable.cpp
+src\Model\PlainTable.h
 src\Model\Settings.h
 src\Model\Specialty.cpp
 src\Model\Specialty.h
@@ -535,12 +537,8 @@ src\View\SubWidgets\TabTitle.ui
 src\View\SubWidgets\VitaWidget.cpp
 src\View\SubWidgets\VitaWidget.h
 src\View\SubWidgets\VitaWidget.ui
-src\View\TableModels\AmbListTableModel.cpp
-src\View\TableModels\AmbListTableModel.h
 src\View\TableModels\BusinessOperationModel.cpp
 src\View\TableModels\BusinessOperationModel.h
-src\View\TableModels\FinancialTableModel.cpp
-src\View\TableModels\FinancialTableModel.h
 src\View\TableModels\FiscalReceiptTableModel.cpp
 src\View\TableModels\FiscalReceiptTableModel.h
 src\View\TableModels\HospitalizationTableModel.cpp
@@ -553,12 +551,8 @@ src\View\TableModels\MKBModel.cpp
 src\View\TableModels\MKBModel.h
 src\View\TableModels\MonthNotifTableModel.cpp
 src\View\TableModels\MonthNotifTableModel.h
-src\View\TableModels\PatientTableModel.cpp
-src\View\TableModels\PatientTableModel.h
-src\View\TableModels\PerioTableModel.cpp
-src\View\TableModels\PerioTableModel.h
-src\View\TableModels\PrescriptionTableModel.cpp
-src\View\TableModels\PrescriptionTableModel.h
+src\View\TableModels\PlainTableModel.cpp
+src\View\TableModels\PlainTableModel.h
 src\View\TableModels\ProcedureCodeModel.cpp
 src\View\TableModels\ProcedureCodeModel.h
 src\View\TableModels\ProcedureSelectModel.cpp

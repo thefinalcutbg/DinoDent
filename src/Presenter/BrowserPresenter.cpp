@@ -267,6 +267,8 @@ void BrowserPresenter::deleteCurrentSelection()
 
 void BrowserPresenter::openPatientDocuments(const std::set<int>& selectedIndexes)
 {
+	if (selectedIndexes.empty()) return;
+
 	int counter = 0;
 
 	for (auto row : selectedIndexes) {

@@ -57,11 +57,7 @@ BrowserDialog::BrowserDialog()
 	connect(ui.tabBar, &QTabBar::currentChanged,
 		[&](int idx) {
 			presenter.setListType(static_cast<TabType>(idx));
-			ui.detailsCombo->setHidden(!(ui.detailsCheck->isChecked() && !idx));
-			ui.fromLabel->setHidden(!idx);
-			ui.toLabel->setHidden(!idx);
-			ui.fromDateEdit->setHidden(!idx);
-			ui.toDateEdit->setHidden(!idx);
+			calculateUiState();
 		});
 
 	connect(ui.idSearchEdit, &QLineEdit::textChanged, [=]
@@ -89,17 +85,18 @@ BrowserDialog::BrowserDialog()
 	ui.tableView->setContextMenuPolicy(Qt::CustomContextMenu);
 
 	connect(ui.detailsCheck, &QCheckBox::toggled, [&](bool checked) { 
-			ui.preView->setHidden(!checked); 
-			ui.detailsCombo->setHidden(!(checked && !ui.tabBar->currentIndex()));
 			presenter.showDetailsPane(checked); 
+			calculateUiState();
 	
 		});
 
-	connect(ui.detailsCombo, QtComboIndexChanged, [&](int idx) { presenter.showProcedureDetails(idx); });
+	connect(ui.detailsCombo, QtComboIndexChanged, [&](int idx) { presenter.showProcedureDetails(idx); calculateUiState(); });
 
 	connect(ui.tableView, &QTableView::customContextMenuRequested, this, [=](const QPoint& p) {contextMenuRequested(p); });
 
 	connect(ui.tableView, &QTableView::doubleClicked, this, [&] { presenter.openCurrentSelection(); });
+
+	connect(ui.preView, &QTableView::doubleClicked, this, [&]{ ui.openDocButton->clicked(); });
 
 	connect(ui.tableView, &ListTable::deletePressed, this, [=] { ui.deleteButton->click(); });
 
@@ -109,6 +106,19 @@ BrowserDialog::BrowserDialog()
 				presenter.deleteCurrentSelection();
 		});
 
+
+	connect(ui.openDocButton, &QPushButton::clicked, [&] {
+
+		auto idxList = ui.preView->selectionModel()->selectedRows();
+
+		std::set<int>selectedIndexes;
+
+		for (auto& idx : idxList) {
+			selectedIndexes.insert(idx.row());
+		}
+
+		presenter.openPatientDocuments(selectedIndexes);
+	});
 
 	connect(ui.tableView->selectionModel(), &QItemSelectionModel::selectionChanged, this, [=](const QItemSelection& selected, const QItemSelection& deselected){
 
@@ -153,8 +163,7 @@ void BrowserDialog::setUiState(const BrowserUiState& state)
 	ui.detailsCombo->setCurrentIndex(state.showProcedures);
 	ui.detailsCheck->setChecked(state.showDetails);
 	ui.tabBar->setCurrentIndex(static_cast<int>(state.model_type));
-	ui.preView->setHidden(!state.showDetails);
-	ui.detailsCombo->setHidden(!(state.showDetails && state.model_type == TabType::PatientSummary));
+	calculateUiState();
 	
 }
 
@@ -257,6 +266,22 @@ void BrowserDialog::setCountLabel()
 	QString text = "Брой резултати: ";
 	text += QString::number(phoneFilter.rowCount());
 	ui.countLabel->setText(text);
+}
+
+void BrowserDialog::calculateUiState()
+{
+	bool patientSection = ui.tabBar->currentIndex() == 0;
+
+	ui.preView->setHidden(!ui.detailsCheck->isChecked());
+	ui.detailsCombo->setHidden(!(ui.detailsCheck->isChecked() && patientSection));
+	ui.detailsCombo->setHidden(!(ui.detailsCheck->isChecked() && patientSection));
+	ui.openDocButton->setHidden(!(ui.detailsCheck->isChecked() && patientSection && !ui.detailsCombo->currentIndex()));
+	ui.fromLabel->setHidden(patientSection);
+	ui.toLabel->setHidden(patientSection);
+	ui.fromDateEdit->setHidden(patientSection);
+	ui.toDateEdit->setHidden(patientSection);
+
+	
 }
 
 void BrowserDialog::focus()

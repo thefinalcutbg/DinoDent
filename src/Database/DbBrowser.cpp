@@ -407,14 +407,15 @@ std::pair<std::vector<RowInstance>, PlainTable> getPrescriptionRows(const Date& 
     return std::make_pair(rows, tableView);
 }
 
-PlainTable DbBrowser::getPatientDocuments(long long patientRowid)
+std::pair<std::vector<RowInstance>, PlainTable> DbBrowser::getPatientDocuments(long long patientRowid)
 {
-    PlainTable result;
+    PlainTable table;
 
-    result.addColumn({.name = "rowid", .hidden = true});
-    result.addColumn({.name = "Дата", .alignment = PlainColumn::Center});
-    result.addColumn({.name = "Документ", .width = 150});
-    result.addColumn({.name = "Номер/НРН"});
+    std::vector<RowInstance> rowidData;
+
+    table.addColumn({.name = "Дата", .alignment = PlainColumn::Center});
+    table.addColumn({.name = "Документ", .width = 150});
+    table.addColumn({.name = "Номер/НРН"});
 
     Db db;
 
@@ -455,7 +456,7 @@ PlainTable DbBrowser::getPatientDocuments(long long patientRowid)
         }
 
         std::string docTypeString;
-        PlainCell::Icon icon;
+        PlainCell::Icon icon = PlainCell::NOICON;
 
         switch (type) {
             case 1: 
@@ -480,13 +481,18 @@ PlainTable DbBrowser::getPatientDocuments(long long patientRowid)
                 break;
         }
 
-        result.addCell(0, { std::to_string(rowid) });
-        result.addCell(1, { date });
-        result.addCell(2, { .data = docTypeString, .icon = icon });
-        result.addCell(3, { .data = number, .icon = sentToHis ? PlainCell::HIS : PlainCell::NOICON });
+
+        rowidData.push_back(static_cast<TabType>(type));
+        rowidData.back().rowID = rowid;
+        //financial
+        rowidData.back().patientRowId = type == 4 ? 0 : patientRowid;
+
+        table.addCell(0, { date });
+        table.addCell(1, { .data = docTypeString, .icon = icon });
+        table.addCell(2, { .data = number, .icon = sentToHis ? PlainCell::HIS : PlainCell::NOICON });
     }
 
-    return result;
+    return std::make_pair(rowidData, table);
 };
 
 std::pair<std::vector<RowInstance>, PlainTable> DbBrowser::getData(TabType type, const Date& from, const Date& to)

@@ -10,6 +10,7 @@
 class BrowserDialog : public QDialog, public IBrowserDialog
 {
 	Q_OBJECT
+
 private:
 
 	BrowserPresenter presenter;
@@ -23,6 +24,7 @@ private:
 	PlainTableModel preview_model;
 
 	void setCountLabel();
+	void calculateUiState();
 
 public:
 	BrowserDialog();

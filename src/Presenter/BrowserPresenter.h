@@ -21,6 +21,8 @@ class BrowserPresenter
 	static inline BrowserUiState ui_state;
 
 	std::vector<RowInstance> rowidData;
+	std::vector<RowInstance> patientDocRowid;
+
 	std::unordered_set<long long> sentToHis;
 	PlainTable tableData;
 
@@ -43,7 +45,7 @@ public:
 	void openNewDocument(TabType type);
 	void openCurrentSelection();
 	void deleteCurrentSelection();
-
+	void openPatientDocuments(const std::set<int>& selectedIndexes);
 
 };
 

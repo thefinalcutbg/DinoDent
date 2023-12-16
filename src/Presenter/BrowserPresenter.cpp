@@ -99,6 +99,8 @@ void BrowserPresenter::refreshModel()
 void BrowserPresenter::refreshPreview()
 {
 
+	patientDocRowid.clear();
+
 	long long rowid = m_selectedInstances.size() == 1 ?
 		m_selectedInstances[0]->rowID
 		:
@@ -111,10 +113,16 @@ void BrowserPresenter::refreshPreview()
 		case TabType::Prescription: view->setPreview(DbPrescription::get(rowid).medicationGroup); break;
 		case TabType::PerioStatus: view->setPreview(PlainTable{}); break;
 		case TabType::PatientSummary: 
-			ui_state.showProcedures ?
-			view->setPreview(DbProcedure::getPatientProcedures(rowid)) 
-			:
-			view->setPreview(DbBrowser::getPatientDocuments(rowid));
+			if (ui_state.showProcedures) {
+				view->setPreview(DbProcedure::getPatientProcedures(rowid));
+				return;
+			}
+
+			PlainTable temp;
+
+			std::tie(patientDocRowid, temp) = DbBrowser::getPatientDocuments(rowid);
+
+			view->setPreview(temp);
 
 			break;
 
@@ -255,4 +263,18 @@ void BrowserPresenter::deleteCurrentSelection()
 
 	refreshModel();
 	
+}
+
+void BrowserPresenter::openPatientDocuments(const std::set<int>& selectedIndexes)
+{
+	int counter = 0;
+
+	for (auto row : selectedIndexes) {
+
+		bool isLastTab = ++counter == m_selectedInstances.size();
+
+		TabPresenter::get().open(patientDocRowid[row], isLastTab);
+	}
+
+	if (view) view->close();
 }

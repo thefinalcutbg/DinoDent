@@ -48,7 +48,7 @@ std::pair<std::vector<RowInstance>, PlainTable> getPatientRows()
            .icon = db.asBool(6) ? 
                 PlainCell::BDAY 
                 :
-                PlainCell::NoIcon
+                PlainCell::NOICON
        });
 
        tableView.addCell(2, { 
@@ -129,14 +129,14 @@ std::pair<std::vector<RowInstance>, PlainTable> getAmbRows(const Date& from, con
         //Date
         tableView.addCell(0, {
             .data = Date(db.asString(5)).toBgStandard(),
-            .icon = db.asBool(2) ? PlainCell::NHIF : PlainCell::NoIcon
+            .icon = db.asBool(2) ? PlainCell::NHIF : PlainCell::NOICON
         });
         
         bool his = db.asBool(1);
         //Number
         tableView.addCell(1, {
             .data = his ? db.asString(3) : FreeFn::leadZeroes(db.asInt(4), 6),
-            .icon = his ? PlainCell::HIS : PlainCell::NoIcon
+            .icon = his ? PlainCell::HIS : PlainCell::NOICON
         });
 
         //ID
@@ -150,7 +150,7 @@ std::pair<std::vector<RowInstance>, PlainTable> getAmbRows(const Date& from, con
              .icon = db.asBool(12) ?
                     PlainCell::BDAY
                     :
-                    PlainCell::NoIcon
+                    PlainCell::NOICON
         });
 
         //Phone
@@ -221,7 +221,7 @@ std::pair<std::vector<RowInstance>, PlainTable> getPerioRows(const Date& from, c
              .icon = db.asBool(8) ?
                     PlainCell::BDAY
                     :
-                    PlainCell::NoIcon
+                    PlainCell::NOICON
         });
 
         tableView.addCell(2, { .data = db.asString(7) });
@@ -255,13 +255,13 @@ std::pair<std::vector<RowInstance>, PlainTable> getFinancialRows(const Date& fro
         });
 
     tableView.addColumn({
-           .name = "ЕГН/ЛНЧ/ССН",
+           .name = "ЕГН/ЛНЧ/ЕИК",
            .width = 100,
            .alignment = PlainColumn::Center
         });
 
     tableView.addColumn({
-        .name = "Име на пациента",
+        .name = "Име на получателя",
         .width = 250
         });
 
@@ -293,7 +293,7 @@ std::pair<std::vector<RowInstance>, PlainTable> getFinancialRows(const Date& fro
         //Date
         tableView.addCell(0, {
             .data = Date(db.asString(3)).toBgStandard(),
-            .icon = nhif ? PlainCell::NHIF : PlainCell::NoIcon
+            .icon = nhif ? PlainCell::NHIF : PlainCell::NOICON
             });
 
         //Number
@@ -334,7 +334,7 @@ std::pair<std::vector<RowInstance>, PlainTable> getPrescriptionRows(const Date& 
     });
 
     tableView.addColumn({
-        .name = "Име на получателя",
+        .name = "Име на пациента",
         .width = 250
     });
 
@@ -383,7 +383,7 @@ std::pair<std::vector<RowInstance>, PlainTable> getPrescriptionRows(const Date& 
        //NRN
        tableView.addCell(1, {
            .data = nrn,
-           .icon = nrn.size() ? PlainCell::HIS : PlainCell::NoIcon
+           .icon = nrn.size() ? PlainCell::HIS : PlainCell::NOICON
        });
 
        //ID
@@ -397,7 +397,7 @@ std::pair<std::vector<RowInstance>, PlainTable> getPrescriptionRows(const Date& 
             .icon = db.asBool(9) ?
                    PlainCell::BDAY
                    :
-                   PlainCell::NoIcon
+                   PlainCell::NOICON
            });
 
        //PHONE
@@ -407,6 +407,87 @@ std::pair<std::vector<RowInstance>, PlainTable> getPrescriptionRows(const Date& 
     return std::make_pair(rows, tableView);
 }
 
+PlainTable DbBrowser::getPatientDocuments(long long patientRowid)
+{
+    PlainTable result;
+
+    result.addColumn({.name = "rowid", .hidden = true});
+    result.addColumn({.name = "Дата", .alignment = PlainColumn::Center});
+    result.addColumn({.name = "Документ", .width = 150});
+    result.addColumn({.name = "Номер/НРН"});
+
+    Db db;
+
+    db.newStatement(
+        "SELECT rowid, 1 as type, date, num, nrn FROM amblist WHERE patient_rowid=? AND lpk=? AND rzi=?"
+        "UNION ALL SELECT rowid, 2 AS type, date, NULL AS num, nrn FROM prescription WHERE patient_rowid=? AND lpk=? AND rzi =?"
+        "UNION ALL SELECT rowid, 3 AS type, date, NULL AS num, NULL AS nrn FROM periostatus WHERE patient_rowid=? AND lpk=? AND rzi=?"
+        "UNION ALL SELECT financial.rowid, 4 AS type, date, num, NULL AS nrn FROM financial LEFT JOIN patient ON financial.recipient_id = patient.id WHERE patient.rowid=? AND practice_rzi=?"
+        "ORDER BY date DESC"
+    );
+
+    auto rzi = User::practice().rziCode;
+    auto lpk = User::doctor().LPK;
+
+    for (int i = 1; i < 10; i+=3) {
+        db.bind(i, patientRowid);
+        db.bind(i+1, lpk);
+        db.bind(i+2, rzi);
+    }
+
+    db.bind(10, patientRowid);
+    db.bind(11, rzi);
+
+    while (db.hasRows())
+    {
+        long long rowid = db.asRowId(0);
+        int type = db.asInt(1);
+        std::string date = Date(db.asString(2)).toBgStandard();
+
+        //getting nrn
+        std::string number = db.asString(4);
+
+        bool sentToHis = number.size();
+
+        if (number.empty())
+        {
+            number = std::to_string(db.asInt(3));
+        }
+
+        std::string docTypeString;
+        PlainCell::Icon icon;
+
+        switch (type) {
+            case 1: 
+                docTypeString = "Амбулаторен лист";
+                icon = PlainCell::AMBLIST;
+                if (!sentToHis) {
+                    number = FreeFn::leadZeroes(number, 6);
+                }
+                break;
+            case 2:
+                docTypeString = "Рецепта";
+                icon = PlainCell::PRESCR;
+                break;
+            case 3:
+                docTypeString = "Пародонтален статус";
+                icon = PlainCell::PERIO;
+                break;
+            case 4:
+                docTypeString = "Фактура";
+                icon = PlainCell::INVOICE;
+                number = FreeFn::leadZeroes(number, 10);
+                break;
+        }
+
+        result.addCell(0, { std::to_string(rowid) });
+        result.addCell(1, { date });
+        result.addCell(2, { .data = docTypeString, .icon = icon });
+        result.addCell(3, { .data = number, .icon = sentToHis ? PlainCell::HIS : PlainCell::NOICON });
+    }
+
+    return result;
+};
 
 std::pair<std::vector<RowInstance>, PlainTable> DbBrowser::getData(TabType type, const Date& from, const Date& to)
 {
@@ -434,20 +515,4 @@ void DbBrowser::deleteRecord(TabType type, long long rowid)
     std::string tableName{ tableNames.at(type) };
 
     Db::crudQuery("DELETE FROM " + tableName + " WHERE rowid = " + std::to_string(rowid));
-}
-
-
-PlainTable DbBrowser::getPreview(TabType type, long long rowid)
-{
-    PlainTable result;
-
-    switch (type)
-    {
-        case TabType::AmbList: return PlainTable(DbProcedure::getProcedures(rowid));
-        case TabType::Financial: return PlainTable(DbInvoice::getInvoice(rowid).businessOperations);
-        case TabType::Prescription: return PlainTable(DbPrescription::get(rowid).medicationGroup);
-    }
-    
-    return result;
-
 }

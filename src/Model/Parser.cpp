@@ -571,7 +571,7 @@ Settings Parser::parseSettings(const std::string& settingsString)
 		.getHisHistoryAuto = json["hisCheck"].asBool(),
 		.getPisHistoryAuto = json["pisCheck"].asBool(),
 		.getNraStatusAuto = json["nraCheck"].asBool(),
-		.timeout = json["timeout"].asInt()
+		.timeout = json["timeout"].asInt(),
 	};
 }
 

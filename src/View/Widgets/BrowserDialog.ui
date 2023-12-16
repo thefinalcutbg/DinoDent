@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>809</width>
-    <height>559</height>
+    <height>533</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -196,12 +196,57 @@
        </widget>
       </item>
       <item>
+       <widget class="ListTable" name="preView">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>150</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item>
        <layout class="QHBoxLayout" name="horizontal_layout">
         <item>
          <widget class="QCheckBox" name="detailsCheck">
           <property name="text">
            <string>Покажи детайли</string>
           </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="detailsCombo">
+          <property name="minimumSize">
+           <size>
+            <width>120</width>
+            <height>0</height>
+           </size>
+          </property>
+          <item>
+           <property name="text">
+            <string>Документи</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Манипулации</string>
+           </property>
+          </item>
          </widget>
         </item>
         <item>
@@ -241,28 +286,6 @@
          </widget>
         </item>
        </layout>
-      </item>
-      <item>
-       <widget class="ListTable" name="preView">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>150</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>16777215</height>
-         </size>
-        </property>
-       </widget>
       </item>
      </layout>
     </widget>

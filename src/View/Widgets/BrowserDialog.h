@@ -22,13 +22,12 @@ private:
 	PlainTableModel table_model;
 	PlainTableModel preview_model;
 
-	void hideRanges(bool hidden);
 	void setCountLabel();
 
 public:
 	BrowserDialog();
 
-	void setDates(const Date& from, const Date& to) override;
+	void setUiState(const BrowserUiState& state) override;
 
 	void setTable(const PlainTable& t, int idColumn, int nameColumn, int phoneColumn) override;
 	void setPreview(const PlainTable& t) override;

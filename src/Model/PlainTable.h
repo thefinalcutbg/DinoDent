@@ -4,10 +4,10 @@
 
 struct PlainCell {
 
-	enum Icon { NoIcon, NHIF, HIS, PHIF, BDAY };
+	enum Icon { NOICON, NHIF, HIS, PHIF, BDAY, AMBLIST, PRESCR, PERIO, INVOICE };
 
 	std::string data;
-	Icon icon{ Icon::NoIcon };
+	Icon icon{ Icon::NOICON };
 };
 
 struct PlainColumn {
@@ -17,7 +17,7 @@ struct PlainColumn {
 	std::string name;
 	int width = 100;
 	Alignment alignment{ Alignment::Left };
-
+	bool hidden = false;
 	std::vector<PlainCell> rows;
 	
 };

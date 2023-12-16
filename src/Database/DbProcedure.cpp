@@ -280,3 +280,100 @@ std::vector<Procedure> DbProcedure::getToothProcedures(long long patientRowId, i
 	return procedures;
 
 }
+
+std::vector<Procedure> DbProcedure::getPatientProcedures(long long patientRowid)
+{
+	std::vector<Procedure> mList;
+
+	std::string query = "SELECT procedure.date, "					//0
+		"procedure.financing_source, "		//1
+		"procedure.code, "					//2
+		"procedure.at_tooth_index, "		//3
+		"procedure.temporary, "				//4
+		"procedure.supernumeral, "			//5
+		"amblist.LPK, "						//6
+		"procedure.diagnosis, "				//7
+		"procedure.diagnosis_description, "	//8
+		"procedure.notes, "					//9
+		"procedure.his_index, "				//10
+		"procedure.surface_o, "				//11
+		"procedure.surface_m, "				//12
+		"procedure.surface_d, "				//13
+		"procedure.surface_b, "				//14
+		"procedure.surface_l, "				//15
+		"procedure.surface_c, "				//16
+		"procedure.post, "					//17
+		"procedure.from_tooth_index, "		//18
+		"procedure.to_tooth_index, "		//19
+		"procedure.minutes "				//20
+		"FROM procedure "
+		"LEFT JOIN amblist ON procedure.amblist_rowid = amblist.rowid "
+		"LEFT JOIN patient ON amblist.patient_rowid = patient.rowid "
+		"WHERE patient.rowid=? "
+		"AND procedure.removed=0 "
+		" ORDER BY procedure.date DESC";
+
+	Db db;
+
+	db.newStatement(query);
+
+	db.bind(1, patientRowid);
+
+	while (db.hasRows())
+	{
+		mList.emplace_back();
+		Procedure& p = mList.back();
+
+		p.date = db.asString(0);
+		p.financingSource = static_cast<FinancingSource>(db.asInt(1));
+		p.code = db.asString(2);
+
+		if (p.code.isToothSpecific()) {
+
+			p.tooth_idx = ToothIndex{
+				.index = db.asInt(3),
+				.temp = db.asBool(4),
+				.supernumeral = db.asBool(5)
+			};
+		}
+
+		p.LPK = db.asString(6);
+		p.diagnosis = db.asInt(7);
+		p.diagnosis.description = db.asString(8);
+		p.notes = db.asString(9);
+		p.his_index = db.asInt(10);
+
+		if (p.code.isRestoration())
+		{
+			p.result = RestorationData{
+				.surfaces = {
+					db.asBool(11),
+					db.asBool(12),
+					db.asBool(13),
+					db.asBool(14),
+					db.asBool(15),
+					db.asBool(16)
+				},
+				.post = db.asBool(17)
+
+			};
+		}
+
+		if (p.code.isRangeSpecific())
+		{
+			p.result = ConstructionRange{
+				db.asInt(18),
+				db.asInt(19)
+			};
+		}
+
+		if (p.code.isAnesthesia())
+		{
+			p.result = AnesthesiaMinutes{ db.asInt(20) };
+		}
+
+	}
+
+	return mList;
+
+}

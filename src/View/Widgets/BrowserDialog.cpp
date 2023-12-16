@@ -7,21 +7,19 @@
 #include "View/Theme.h"
 #include "QtVersion.h"
 #include "View/ModalDialogBuilder.h"
+#include "QtVersion.h"
 
 BrowserDialog::BrowserDialog()
 {
 	ui.setupUi(this);
 
-	//ui.preView->hide();
 	ui.preView->horizontalHeader()->setStretchLastSection(true);
-	//ui.preView->verticalHeader()->setFixedHeight(20);
 
 	idFilter.setSourceModel(&table_model);
 	nameFilter.setSourceModel(&idFilter);
 	phoneFilter.setSourceModel(&nameFilter);
 	ui.tableView->setModel(&phoneFilter);
 	ui.preView->setModel(&preview_model);
-	ui.preView->setHidden(true);
 
 	ui.tabBar->addTab(QIcon(":/icons/icon_user.png"), "Пациенти");
 	ui.tabBar->addTab(QIcon(":/icons/icon_sheet.png"), "Амбулаторни листове");
@@ -59,7 +57,11 @@ BrowserDialog::BrowserDialog()
 	connect(ui.tabBar, &QTabBar::currentChanged,
 		[&](int idx) {
 			presenter.setListType(static_cast<TabType>(idx));
-			hideRanges(!idx);
+			ui.detailsCombo->setHidden(!(ui.detailsCheck->isChecked() && !idx));
+			ui.fromLabel->setHidden(!idx);
+			ui.toLabel->setHidden(!idx);
+			ui.fromDateEdit->setHidden(!idx);
+			ui.toDateEdit->setHidden(!idx);
 		});
 
 	connect(ui.idSearchEdit, &QLineEdit::textChanged, [=]
@@ -86,7 +88,14 @@ BrowserDialog::BrowserDialog()
 
 	ui.tableView->setContextMenuPolicy(Qt::CustomContextMenu);
 
-	connect(ui.detailsCheck, &QCheckBox::toggled, [&](bool checked) { ui.preView->setHidden(!checked); });
+	connect(ui.detailsCheck, &QCheckBox::toggled, [&](bool checked) { 
+			ui.preView->setHidden(!checked); 
+			ui.detailsCombo->setHidden(!(checked && !ui.tabBar->currentIndex()));
+			presenter.showDetailsPane(checked); 
+	
+		});
+
+	connect(ui.detailsCombo, QtComboIndexChanged, [&](int idx) { presenter.showProcedureDetails(idx); });
 
 	connect(ui.tableView, &QTableView::customContextMenuRequested, this, [=](const QPoint& p) {contextMenuRequested(p); });
 
@@ -114,9 +123,7 @@ BrowserDialog::BrowserDialog()
 
 		presenter.selectionChanged(selectedIndexes);
 
-		}
-
-	);
+	});
 
 	ui.nameSearchEdit->setFocus();
 
@@ -130,12 +137,25 @@ BrowserDialog::~BrowserDialog()
 {
 }
 
-void BrowserDialog::setDates(const Date& from, const Date& to)
-{
-	QSignalBlocker f(ui.fromDateEdit);
-	QSignalBlocker t(ui.toDateEdit);
-	ui.fromDateEdit->setDate(QDate(from.year, from.month, from.day));
-	ui.toDateEdit->setDate(QDate(to.year, to.month, to.day));
+void BrowserDialog::setUiState(const BrowserUiState& state)
+{	
+	QSignalBlocker blockers[5] = {
+		QSignalBlocker(ui.fromDateEdit),
+		QSignalBlocker(ui.toDateEdit),
+		QSignalBlocker(ui.detailsCheck),
+		QSignalBlocker(ui.detailsCombo),
+		QSignalBlocker(ui.tabBar)
+	};
+
+
+	ui.fromDateEdit->setDate(QDate(state.from.year, state.from.month, state.from.day));
+	ui.toDateEdit->setDate(QDate(state.to.year, state.to.month, state.to.day));
+	ui.detailsCombo->setCurrentIndex(state.showProcedures);
+	ui.detailsCheck->setChecked(state.showDetails);
+	ui.tabBar->setCurrentIndex(static_cast<int>(state.model_type));
+	ui.preView->setHidden(!state.showDetails);
+	ui.detailsCombo->setHidden(!(state.showDetails && state.model_type == TabType::PatientSummary));
+	
 }
 
 void BrowserDialog::setTable(const PlainTable& t, int idColumn, int nameColumn, int phoneColumn)
@@ -160,6 +180,13 @@ void BrowserDialog::setPreview(const PlainTable& t)
 //	ui.preView->setHidden(!t.size());
 
 	for (int i = 0; i < t.size(); i++) {
+		
+		t[i].hidden ?
+			ui.preView->hideColumn(i)
+			:
+			ui.preView->showColumn(i);
+		
+		
 		ui.preView->setColumnWidth(i, t[i].width);
 	}
 }
@@ -223,14 +250,6 @@ void BrowserDialog::contextMenuRequested(const QPoint& p)
 	main_menu->setStyleSheet(Theme::getPopupMenuStylesheet());
 
 	main_menu->popup(ui.tableView->viewport()->mapToGlobal(p));
-}
-
-void BrowserDialog::hideRanges(bool hidden)
-{
-	ui.fromLabel->setHidden(hidden);
-	ui.toLabel->setHidden(hidden);
-	ui.fromDateEdit->setHidden(hidden);
-	ui.toDateEdit->setHidden(hidden);
 }
 
 void BrowserDialog::setCountLabel()

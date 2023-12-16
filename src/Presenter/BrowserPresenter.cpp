@@ -6,13 +6,17 @@
 #include "Database/DbPrescription.h"
 #include "Database/DbInvoice.h"
 #include "Database/DbProcedure.h"
+#include "Database/DbBrowser.h"
+#include "Model/User.h"
+
 #include <map>
+
 
 void BrowserPresenter::setView(IBrowserDialog* view)
 {
 	this->view = view;
 	
-	this->view->setDates(m_from, m_to);
+	this->view->setUiState(ui_state);
 
 	if (!view) return;
 
@@ -20,12 +24,26 @@ void BrowserPresenter::setView(IBrowserDialog* view)
 	
 }
 
+void BrowserPresenter::showDetailsPane(bool show)
+{
+	ui_state.showDetails = show;
+
+	refreshPreview();
+}
+
+void BrowserPresenter::showProcedureDetails(bool show)
+{
+	ui_state.showProcedures = show;
+
+	refreshPreview();
+
+}
+
 void BrowserPresenter::setDates(const Date& from, const Date& to)
 {
-	m_from = from;
-	m_to = to;
+	ui_state.from = from;
+	ui_state.to = to;
 	refreshModel();
-
 }
 
 void BrowserPresenter::refreshModel()
@@ -34,7 +52,7 @@ void BrowserPresenter::refreshModel()
 	
 	sentToHis.clear();
 
-	std::tie(rowidData, tableView) = DbBrowser::getData(m_currentModelType, m_from, m_to);
+	std::tie(rowidData, tableView) = DbBrowser::getData(ui_state.model_type, ui_state.from, ui_state.to);
 
 	tableView.data.insert(tableView.data.begin(), PlainColumn{});
 
@@ -45,7 +63,7 @@ void BrowserPresenter::refreshModel()
 
 		//tracking the rowids of the sheets sent to his
 		if(
-			m_currentModelType == TabType::AmbList &&
+			ui_state.model_type == TabType::AmbList &&
 			tableView.data[2].rows[i].icon == PlainCell::HIS
 		)
 		{
@@ -59,7 +77,7 @@ void BrowserPresenter::refreshModel()
 
 	int id{ 0 }, name{ 0 }, phone{ 0 };
 
-	switch (m_currentModelType) {
+	switch (ui_state.model_type) {
 		case TabType::PatientSummary:
 			id = 1; name = 2; phone = 3; break;
 		case TabType::AmbList:
@@ -72,16 +90,42 @@ void BrowserPresenter::refreshModel()
 
 
 	view->setTable(tableView, id, name, phone);
-	view->setDates(m_from, m_to);
 	
 	selectionChanged(std::set<int>());
 	
 
 }
 
+void BrowserPresenter::refreshPreview()
+{
+
+	long long rowid = m_selectedInstances.size() == 1 ?
+		m_selectedInstances[0]->rowID
+		:
+		0;
+
+	switch (ui_state.model_type)
+	{
+		case TabType::AmbList: view->setPreview(DbProcedure::getProcedures(rowid)); break;
+		case TabType::Financial: view->setPreview(DbInvoice::getInvoice(rowid).businessOperations); break;
+		case TabType::Prescription: view->setPreview(DbPrescription::get(rowid).medicationGroup); break;
+		case TabType::PerioStatus: view->setPreview(PlainTable{}); break;
+		case TabType::PatientSummary: 
+			ui_state.showProcedures ?
+			view->setPreview(DbProcedure::getPatientProcedures(rowid)) 
+			:
+			view->setPreview(DbBrowser::getPatientDocuments(rowid));
+
+			break;
+
+	}
+
+}
+
+
 void BrowserPresenter::setListType(TabType type)
 {
-	m_currentModelType = type;
+	ui_state.model_type = type;
 
 	refreshModel();
 }
@@ -94,12 +138,7 @@ void BrowserPresenter::selectionChanged(const std::set<int>& selectedIndexes)
 		m_selectedInstances.push_back(&rowidData[idx]);
 	}
 	
-	long long rowid = selectedIndexes.size() == 1 ? 
-		m_selectedInstances[0]->rowID
-		: 
-		0;
-	
-	view->setPreview(DbBrowser::getPreview(m_currentModelType, rowid));
+	refreshPreview();
 }
 
 
@@ -107,7 +146,7 @@ void BrowserPresenter::selectionChanged(const std::set<int>& selectedIndexes)
 
 void BrowserPresenter::openNewDocument(TabType type)
 {
-	if (m_currentModelType == TabType::Financial) return;
+	if (ui_state.model_type == TabType::Financial) return;
 
 	for (int i = 0; i < m_selectedInstances.size(); i ++) {
 
@@ -126,7 +165,7 @@ void BrowserPresenter::openCurrentSelection()
 {
 	if (!m_selectedInstances.size()) return;
 
-	if (m_currentModelType == TabType::PatientSummary) {
+	if (ui_state.model_type == TabType::PatientSummary) {
 
 		auto result = ModalDialogBuilder::openButtonDialog(
 			{
@@ -194,7 +233,7 @@ void BrowserPresenter::deleteCurrentSelection()
 		{TabType::Prescription, "рецепти?"}
 	};
 
-	warningMsg += endString.at(m_currentModelType);
+	warningMsg += endString.at(ui_state.model_type);
 
 	if (!ModalDialogBuilder::askDialog(warningMsg))
 		return;

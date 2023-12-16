@@ -516,7 +516,7 @@ void ListPresenter::setSelectedTeeth(const std::vector<int>& SelectedIndexes)
     view->hideControlPanel(m_selectedIndexes.empty());
 
 }
-
+#include <qdebug.h>
 void ListPresenter::historyRequested()
 {
     if (dentalActService.awaitingReply() ||
@@ -540,9 +540,12 @@ void ListPresenter::historyRequested()
     if (!result.applyPis && !result.statusToBeApplied) return;
 
     if (result.applyPis) {
-        for (auto& p : *result.pis_history)
+
+        auto& procedures = *result.pis_history;
+
+        for (int i = procedures.size()-1; i != -1; i--)
         {
-            p.applyPISProcedure(m_ambList.teeth);
+            procedures[i].applyPISProcedure(m_ambList.teeth);
         }
     }
 

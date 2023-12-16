@@ -14,7 +14,7 @@ PlainTable::PlainTable(const std::vector<Procedure>& pList)
 
         addCell(0, {
             .data = p.date.toBgStandard(),
-            .icon = p.isSentToHis() ? PlainCell::HIS : PlainCell::NoIcon
+            .icon = p.isSentToHis() ? PlainCell::HIS : PlainCell::NOICON
             });
 
         addCell(1, { p.diagnosis.getFullDiagnosis() });
@@ -26,7 +26,7 @@ PlainTable::PlainTable(const std::vector<Procedure>& pList)
         switch (p.financingSource) {
         case FinancingSource::NHIF: icon = PlainCell::NHIF; break;
         case FinancingSource::PHIF: icon = PlainCell::PHIF; break;
-        default: icon = PlainCell::NoIcon;
+        default: icon = PlainCell::NOICON;
         }
 
         addCell(4, PlainCell{

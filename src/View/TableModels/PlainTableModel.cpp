@@ -51,6 +51,10 @@ QVariant PlainTableModel::data(const QModelIndex& index, int role) const
         case PlainCell::HIS: return QIcon(":/icons/icon_his.png");
         case PlainCell::PHIF: return QIcon(":/icons/icon_phif.png");
         case PlainCell::BDAY: return QIcon(":/icons/icon_bday.png");
+        case PlainCell::AMBLIST: return QIcon(":/icons/icon_sheet.png");
+        case PlainCell::PRESCR: return QIcon(":/icons/icon_prescr.png");
+        case PlainCell::PERIO: return QIcon(":/icons/icon_periosheet.png");
+        case PlainCell::INVOICE: return QIcon(":/icons/icon_invoice.png");
         default: return QVariant();
         }
 

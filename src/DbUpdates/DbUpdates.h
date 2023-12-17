@@ -20,4 +20,5 @@ namespace DbUpdates
 	void update17();
 	void update18();
 	void update19(UpdateDialog& d);
+	void update20();
 }

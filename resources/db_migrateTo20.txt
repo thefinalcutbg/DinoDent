@@ -1,0 +1,2 @@
+UPDATE referral SET spec_119=1 WHERE spec_119=2
+PRAGMA user_version = 20;

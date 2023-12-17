@@ -133,6 +133,7 @@
         <file>db_migrateTo15.txt</file>
         <file>db_migrateTo16.txt</file>
         <file>db_migrateTo17.txt</file>
+        <file>db_migrateTo20.txt</file>
     </qresource>
     <qresource prefix="/other">
         <file>splash.png</file>

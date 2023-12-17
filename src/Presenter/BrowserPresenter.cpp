@@ -101,6 +101,11 @@ void BrowserPresenter::refreshPreview()
 
 	patientDocRowid.clear();
 
+	if (!ui_state.showDetails) {
+		view->setPreview(PlainTable());
+		return;
+	}
+
 	long long rowid = m_selectedInstances.size() == 1 ?
 		m_selectedInstances[0]->rowID
 		:

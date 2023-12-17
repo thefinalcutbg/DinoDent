@@ -67,6 +67,7 @@ void SettingsDialog::setSettings(const Settings& settings)
 	ui.autoNraCheck->setChecked(settings.getNraStatusAuto);
 	ui.autoPisCheck->setChecked(settings.getPisHistoryAuto);
 	ui.timeoutSpin->setValue(settings.timeout);
+	ui.dailyLimitCheck->setChecked(settings.nhifDailyLimitCheck);
 }
 
 Settings SettingsDialog::getSettings()
@@ -75,6 +76,7 @@ Settings SettingsDialog::getSettings()
 		.getHisHistoryAuto = ui.autoHisCheck->isChecked(),
 		.getPisHistoryAuto = ui.autoPisCheck->isChecked(),
 		.getNraStatusAuto = ui.autoNraCheck->isChecked(),
+		.nhifDailyLimitCheck = ui.dailyLimitCheck->isChecked(),
 		.timeout = ui.timeoutSpin->value()
 	};
 }

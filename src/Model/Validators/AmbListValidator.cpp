@@ -289,6 +289,8 @@ bool AmbListValidator::examIsFirst()
 
 std::optional<std::pair<Date, int>> AmbListValidator::exceededDailyLimit()
 {
+    if (!User::settings().nhifDailyLimitCheck) return {};
+
     auto dates = ambList.procedures.getDatesOfNhifProcedures();
 
     constexpr int maxLimit = 360;

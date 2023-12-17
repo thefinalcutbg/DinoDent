@@ -224,7 +224,7 @@ std::pair<std::vector<RowInstance>, PlainTable> getPerioRows(const Date& from, c
                     PlainCell::NOICON
         });
 
-        tableView.addCell(2, { .data = db.asString(7) });
+        tableView.addCell(3, { .data = db.asString(7) });
     }
 
     return std::make_pair(rows, tableView);
@@ -473,6 +473,7 @@ std::pair<std::vector<RowInstance>, PlainTable> DbBrowser::getPatientDocuments(l
             case 3:
                 docTypeString = "Пародонтален статус";
                 icon = PlainCell::PERIO;
+                number.clear();
                 break;
             case 4:
                 docTypeString = "Фактура";

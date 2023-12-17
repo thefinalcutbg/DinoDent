@@ -27,6 +27,9 @@ BrowserDialog::BrowserDialog()
 	ui.tabBar->addTab(QIcon(":/icons/icon_periosheet.png"), "Пародонтални измервания");
 	ui.tabBar->addTab(QIcon(":/icons/icon_invoice.png"), "Финансови документи");
 
+	ui.openButton->setIcon(QIcon(":/icons/icon_open.png"));
+	ui.deleteButton->setIcon(QIcon(":/icons/icon_remove.png"));
+
 	ui.tabBar->setExpanding(false);
 	ui.tabBar->setElideMode(Qt::TextElideMode::ElideNone);
 
@@ -135,6 +138,12 @@ BrowserDialog::BrowserDialog()
 
 	});
 
+	connect(ui.preView->selectionModel(), &QItemSelectionModel::selectionChanged, this, [=](const QItemSelection& selected, const QItemSelection& deselected){
+
+		ui.openDocButton->setEnabled(ui.preView->selectionModel()->hasSelection());
+
+	});
+
 	ui.nameSearchEdit->setFocus();
 
 	presenter.setView(this);
@@ -192,7 +201,9 @@ void BrowserDialog::setTable(const PlainTable& t, int idColumn, int nameColumn, 
 void BrowserDialog::setPreview(const PlainTable& t)
 {
 	preview_model.setData(t);
-//	ui.preView->setHidden(!t.size());
+
+	//because selection model resets
+	ui.openDocButton->setDisabled(true);
 
 	for (int i = 0; i < t.size(); i++) {
 		

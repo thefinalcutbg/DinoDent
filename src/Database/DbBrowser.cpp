@@ -413,17 +413,17 @@ std::pair<std::vector<RowInstance>, PlainTable> DbBrowser::getPatientDocuments(l
 
     std::vector<RowInstance> rowidData;
 
-    table.addColumn({.name = "Дата", .alignment = PlainColumn::Center});
+    table.addColumn({.name = "Дата", .alignment = PlainColumn::Right});
     table.addColumn({.name = "Документ", .width = 150});
     table.addColumn({.name = "Номер/НРН"});
 
     Db db;
 
     db.newStatement(
-        "SELECT rowid, 1 as type, date, num, nrn FROM amblist WHERE patient_rowid=? AND lpk=? AND rzi=?"
-        "UNION ALL SELECT rowid, 2 AS type, date, NULL AS num, nrn FROM prescription WHERE patient_rowid=? AND lpk=? AND rzi =?"
-        "UNION ALL SELECT rowid, 3 AS type, date, NULL AS num, NULL AS nrn FROM periostatus WHERE patient_rowid=? AND lpk=? AND rzi=?"
-        "UNION ALL SELECT financial.rowid, 4 AS type, date, num, NULL AS nrn FROM financial LEFT JOIN patient ON financial.recipient_id = patient.id WHERE patient.rowid=? AND practice_rzi=?"
+        "SELECT rowid, 1 as type, date, num, nrn, nhif_spec IS NOT NULL AS nhif FROM amblist WHERE patient_rowid=? AND lpk=? AND rzi=?"
+        "UNION ALL SELECT rowid, 2 AS type, date, NULL AS num, nrn, NULL as nhif FROM prescription WHERE patient_rowid=? AND lpk=? AND rzi =?"
+        "UNION ALL SELECT rowid, 3 AS type, date, NULL AS num, NULL AS nrn, NULL as nhif FROM periostatus WHERE patient_rowid=? AND lpk=? AND rzi=?"
+        "UNION ALL SELECT financial.rowid, 4 AS type, date, num, NULL AS nrn, NULL as nhif FROM financial LEFT JOIN patient ON financial.recipient_id = patient.id WHERE patient.rowid=? AND practice_rzi=?"
         "ORDER BY date DESC"
     );
 
@@ -448,6 +448,8 @@ std::pair<std::vector<RowInstance>, PlainTable> DbBrowser::getPatientDocuments(l
         //getting nrn
         std::string number = db.asString(4);
 
+        bool nhif = db.asBool(5);
+
         bool sentToHis = number.size();
 
         if (number.empty())
@@ -463,7 +465,7 @@ std::pair<std::vector<RowInstance>, PlainTable> DbBrowser::getPatientDocuments(l
                 docTypeString = "Амбулаторен лист";
                 icon = PlainCell::AMBLIST;
                 if (!sentToHis) {
-                    number = FreeFn::leadZeroes(number, 6);
+                    number = FreeFn::leadZeroes(number, 6); 
                 }
                 break;
             case 2:
@@ -488,7 +490,7 @@ std::pair<std::vector<RowInstance>, PlainTable> DbBrowser::getPatientDocuments(l
         //financial
         rowidData.back().patientRowId = type == 4 ? 0 : patientRowid;
 
-        table.addCell(0, { date });
+        table.addCell(0, { .data = date, .icon = nhif ? PlainCell::NHIF : PlainCell::NOICON });
         table.addCell(1, { .data = docTypeString, .icon = icon });
         table.addCell(2, { .data = number, .icon = sentToHis ? PlainCell::HIS : PlainCell::NOICON });
     }

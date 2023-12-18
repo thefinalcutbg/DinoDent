@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>760</width>
+    <width>823</width>
     <height>611</height>
    </rect>
   </property>
@@ -433,13 +433,6 @@
     </layout>
    </item>
   </layout>
-  <zorder>frame</zorder>
-  <zorder>cornerLabel</zorder>
-  <zorder>verticalSpacer</zorder>
-  <zorder>horizontalSpacer</zorder>
-  <zorder>horizontalSpacer_2</zorder>
-  <zorder>horizontalSpacer_3</zorder>
-  <zorder>verticalSpacer_3</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>

@@ -33,9 +33,9 @@ void PatientDialogPresenter::setView(IPatientDialog* view)
 	view->setTitle(dialogTitle);
 
 	birth_validator.setMaxDate(Date::currentDate());
-	birth_validator.setMaxErrorMsg("Невалидна рожденна дата");
+	birth_validator.setMaxErrorMsg("Невалидна рождена дата");
 	birth_validator.setMinDate(Date(2, 1, 1900));
-	birth_validator.setMinErrorMsg("Невалидна рожденна дата");
+	birth_validator.setMinErrorMsg("Невалидна рождена дата");
 
 	view->lineEdit(city)->setInputValidator(&city_validator);
 	view->lineEdit(hirbno)->setInputValidator(&hirb_validator);

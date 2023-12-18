@@ -378,7 +378,7 @@ std::vector<Procedure> DbProcedure::getPatientProcedures(long long patientRowid)
 
 }
 
-std::vector<int> DbProcedure::getDailyNhifProcedures(const Date& date)
+std::vector<int> DbProcedure::getDailyNhifProcedures(const Date& date, long long excludeAmblistRowid)
 {
 	std::vector<int> result;
 
@@ -390,12 +390,15 @@ std::vector<int> DbProcedure::getDailyNhifProcedures(const Date& date)
 		"WHERE amblist.lpk=? "
 		"AND amblist.rzi=? "
 		"AND procedure.date=? "
+		"AND amblist.rowid!=? "
+		"AND procedure.removed = 0 "
 		"AND financing_source=2" 
 	);
 
 	db.bind(1, User::doctor().LPK);
 	db.bind(2, User::practice().rziCode);
 	db.bind(3, date.to8601());
+	db.bind(4, excludeAmblistRowid);
 
 	while (db.hasRows())
 	{

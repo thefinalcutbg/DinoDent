@@ -240,12 +240,12 @@
          <rect>
           <x>10</x>
           <y>125</y>
-          <width>471</width>
+          <width>561</width>
           <height>21</height>
          </rect>
         </property>
         <property name="text">
-         <string>Проверка за надвишен дневен лимит по НЗОК (не се включват 832, 833 и 333)</string>
+         <string>Проверка за надвишен дневен лимит по НЗОК (не се включват кодове 333, 832 и 833)</string>
         </property>
        </widget>
       </widget>

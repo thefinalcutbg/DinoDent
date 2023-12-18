@@ -272,6 +272,14 @@ void BrowserPresenter::deleteCurrentSelection()
 
 void BrowserPresenter::openPatientDocuments(const std::set<int>& selectedIndexes)
 {
+	bool uiShowsPatientDocs =
+		ui_state.showDetails &&
+		ui_state.model_type == TabType::PatientSummary &&
+		ui_state.showProcedures == false
+	;
+
+	if (!uiShowsPatientDocs) return;
+
 	if (selectedIndexes.empty()) return;
 
 	int counter = 0;

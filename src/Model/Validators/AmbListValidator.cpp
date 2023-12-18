@@ -1,5 +1,7 @@
 ﻿#include <unordered_set>
+#include <set>
 #include <algorithm>
+#include <map>
 
 #include "AmbListValidator.h"
 #include "Database/DbProcedure.h"
@@ -291,26 +293,56 @@ std::optional<std::pair<Date, int>> AmbListValidator::exceededDailyLimit()
 {
     if (!User::settings().nhifDailyLimitCheck) return {};
 
-    auto dates = ambList.procedures.getDatesOfNhifProcedures();
 
     constexpr int maxLimit = 360;
 
-    constexpr int toCheck[] = { 101, 301, 332, 508, 509, 510, 520, 544 };
-
-    for (auto& date : dates)
+    auto dontSum = [](int code)->bool
     {
-        auto dailyP = DbProcedure::getDailyNhifProcedures(date);
+        constexpr int toPass[] = { 333, 832, 833 };
 
-        int minutesSum = 0;
+        for (auto val : toPass) {
+            if (code == val) return true;
+        }
 
-        for (auto p : dailyP)
+        return false;
+    };
+
+
+    std::map<Date, int> dates_minutes;
+
+    //getting the dates and the corresponding duration
+
+    for (auto& p : m_procedures) {
+
+        if (p.financingSource != FinancingSource::NHIF) continue;
+
+       if (dontSum(p.code.oldCode())) continue;
+
+        int minutesSum = NhifProcedures::getDuration(p.code.oldCode());
+
+        if (dates_minutes.count(p.date)) {
+            dates_minutes[p.date] += minutesSum;
+
+        }
+        else {
+            dates_minutes[p.date] = minutesSum;
+        }
+    }
+
+
+    //adding the additional duration from other nhif procedures in the dadabase
+
+    for (auto [date, minutesSum] : dates_minutes)
+    {
+        auto codes = DbProcedure::getDailyNhifProcedures(date, ambList.rowid);
+
+        for (auto code : codes)
         {
-            int minutes = NhifProcedures::getDuration(p);
+            if (dontSum(code)) continue;
 
-            for (auto code : toCheck)
-            {
-                if (code == p) minutesSum += minutes;
-            }
+            int minutes = NhifProcedures::getDuration(code);
+
+             minutesSum += minutes;
         }
 
         if (minutesSum > maxLimit) {

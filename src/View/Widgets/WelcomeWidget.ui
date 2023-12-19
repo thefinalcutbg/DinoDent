@@ -115,7 +115,7 @@
        <widget class="ShortcutTile" name="statisticButton">
         <property name="geometry">
          <rect>
-          <x>180</x>
+          <x>350</x>
           <y>180</y>
           <width>150</width>
           <height>150</height>
@@ -146,7 +146,7 @@
        <widget class="ShortcutTile" name="invoiceButton">
         <property name="geometry">
          <rect>
-          <x>350</x>
+          <x>10</x>
           <y>180</y>
           <width>150</width>
           <height>150</height>
@@ -270,7 +270,7 @@
        <widget class="ShortcutTile" name="browser">
         <property name="geometry">
          <rect>
-          <x>10</x>
+          <x>180</x>
           <y>180</y>
           <width>150</width>
           <height>150</height>

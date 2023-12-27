@@ -1,7 +1,7 @@
 {
 	"win64": {
-		"ver": "1.9.0",
-		"dl": "https://github.com/thefinalcutbg/DinoDent/releases/download/v1.9.0/DinoDentSetup.exe",
+		"ver": "1.8.4",
+		"dl": "https://github.com/thefinalcutbg/DinoDent/releases/download/v1.8.4/DinoDentSetup.exe",
 		"changeLog": [
 			"Добавен предварителен преглед на документите в раздел Документация (по предложение на д-р Владимир Стефанов)",
 			"Добавена проверка за надвишен дневен лимит по НЗОК (по предложение на д-р Ирена Христова). Функциoналността е опционална, активира се от Настройки и не включва кодове 333, 832 и 833",

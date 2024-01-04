@@ -35,35 +35,28 @@ void NraStatusService::parseReply(const std::string& reply)
 			return;
 		}
 
+		MissingPeriods periods;
+
+		for (auto period = patient.FirstChildElement("ns0:PeriodDetails").ToElement();
+			period != nullptr;
+			period = period->NextSiblingElement("ns0:PeriodDetails")
+			) {
+
+			int year{ 0 }, month{ 0 };
+			period->Attribute("Mnt", &month);
+			period->Attribute("Yr", &year);
+
+			periods[year].push_back(month);
+
+		}
+
 		int insuredCode = std::stoi(patient.Child(0).ToElement()->GetText());
 
 		switch(insuredCode)
 		{
-		case 1:  m_callback(InsuranceStatus{ Insured::Yes }); break;
-
-		case 2: 
-			{
-				InsuranceStatus result{ Insured::No };
-				
-				for (int i = 3; ; i++) {
-
-					auto period = patient.Child(i).ToElement();
-
-					if (!period) break;
-
-					int year{0}, month{0};
-					period->Attribute("Mnt", &month);
-					period->Attribute("Yr", &year);
-
-					if (!year || !month) break;
-
-					result.yearsMonths[year].push_back(month);
-				}
-
-				m_callback({result});
-				break;
-			}
-		default:  m_callback(InsuranceStatus{Insured::NoData}); break;
+			case 1: m_callback(InsuranceStatus{ Insured::Yes, periods }); break;
+			case 2: m_callback(InsuranceStatus{ Insured::No, periods }); break;
+			default: m_callback(InsuranceStatus{Insured::NoData}); break;
 		}
 
 }

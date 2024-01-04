@@ -4,33 +4,30 @@ std::string InsuranceStatus::getYearsText() const
 {
 	if (status == Insured::NoData) return "За този пациент не са открити данни в НАП";
 
-	std::string result;
-	
+	std::string result =
+		status == Insured::Yes ?
+		"Пациентът е здравно осигурен."
+		:
+		"Пациентът не е здравно осигурен!";
+
 	if (yearsMonths.size()) {
-		result += "Месеци без здравно осигуряване : \t\n\n";
+		result += "\n\nМесеци без здравно осигуряване: \t";
 	}
 	result.reserve(yearsMonths.size() * 20);
 
 	for (auto [year, months] : yearsMonths) 
 	{
+		result += "\n";
 		result += std::to_string(year) + ": ";
 
 		for (auto month : months) {
 			result += std::to_string(month) + ", ";
 		}
 
-		//turning the last comma into newline
+		//removing the last comma:
 		result.pop_back();
-		result.back() = '\n';
-
+		result.pop_back();
 	}
-
-	result +=
-		status == Insured::Yes ?
-		"Пациентът е здравно осигурен!"
-		:
-		"Пациентът не е здравно осигурен!";
-
 
 	return result;
 }

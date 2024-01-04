@@ -72,16 +72,17 @@ PKCS11::PKCS11()
 		//finding a valid certificate
 		if (ncerts == 0) continue;
 
-		if (ncerts == 1) m_certificate = &certs[0]; break;
-
 		for (int i = 0; i < ncerts; i++)
 		{
-			if (isValidCertificate(&certs[i]))
-			{
-				m_certificate = &certs[i];
-				break;
-			}
+			m_certificate = &certs[i];
+
+			if (isValidCertificate(m_certificate)) break;
 		}
+
+		if (m_certificate) {
+			break;
+		}
+	
 	}
 
 	if (m_certificate == nullptr) return;

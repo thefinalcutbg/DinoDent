@@ -30,7 +30,7 @@ struct PracticeDoctor
 
 struct Doctor
 {
-	int rowID;
+	int rowID{ 0 };
 	std::string LPK;
 	std::string fname;
 	std::string mname;

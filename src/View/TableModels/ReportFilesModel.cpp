@@ -65,7 +65,7 @@ QVariant ReportFilesModel::headerData(int section, Qt::Orientation orientation, 
             case 1: return "Документ";
             case 2: return "Статус";
             case 3: return "Период";
-            case 4: return "Доктор";
+            case 4: return "Лекар";
 
         }
 

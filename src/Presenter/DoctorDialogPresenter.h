@@ -17,6 +17,8 @@ class DoctorDialogPresenter
 
 	std::optional<Doctor> result;
 
+	NhifSpecialty nhif_specialty{ NhifSpecialty::None };
+
 	EgnValidator egn_validator;
 	NameValidator name_validator;
 	LpkValidator lpk_validator;

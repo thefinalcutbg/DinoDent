@@ -119,7 +119,7 @@ bool PracticeSettingsPresenter::isValid()
 		if (atLeastOneNhifDoctor == false) {
 
 			bool answer = ModalDialogBuilder::askDialog(
-				"Практиката има договор с НЗОК, но нито един доктор в нея\n"
+				"Практиката има договор с НЗОК, но нито един лекар в нея\n"
 				"няма код специалност по НЗОК. Да продължа ли въпреки това?");
 			if (!answer) return false;
 
@@ -183,7 +183,7 @@ void PracticeSettingsPresenter::addDoctor()
 	{
 		if (docPair.lpk == doctor.value().LPK)
 		{
-			ModalDialogBuilder::showError("Този доктор вече е прибавен към практиката");
+			ModalDialogBuilder::showError("Този лекар вече е прибавен към практиката");
 			return;
 		}
 	}

@@ -555,7 +555,7 @@
      <item>
       <widget class="QGroupBox" name="groupBox">
        <property name="title">
-        <string>Доктори</string>
+        <string>Лекари</string>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <property name="bottomMargin">
@@ -588,14 +588,14 @@
              </size>
             </property>
             <property name="text">
-             <string>Добави доктор</string>
+             <string>Добави лекар</string>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QPushButton" name="removeDoctor">
             <property name="text">
-             <string>Премахни доктор</string>
+             <string>Премахни лекар</string>
             </property>
            </widget>
           </item>

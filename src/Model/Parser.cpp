@@ -313,6 +313,7 @@ std::string Parser::write(const Settings& settings)
 	json["nraCheck"] = settings.getNraStatusAuto;
 	json["hisCheck"] = settings.getHisHistoryAuto;
 	json["dailyLimitCheck"] = settings.nhifDailyLimitCheck;
+	json["weekendCheck"] = settings.nhifWeekendCheck;
 	json["timeout"] = settings.timeout;
 
 	Json::FastWriter writer;
@@ -573,7 +574,8 @@ Settings Parser::parseSettings(const std::string& settingsString)
 		.getPisHistoryAuto = json["pisCheck"].asBool(),
 		.getNraStatusAuto = json["nraCheck"].asBool(),
 		.nhifDailyLimitCheck = json["dailyLimitCheck"].asBool(),
-		.timeout = json["timeout"].asInt(),
+		.nhifWeekendCheck = json["weekendCheck"].asBool(),
+		.timeout = json["timeout"].asInt()
 	};
 }
 

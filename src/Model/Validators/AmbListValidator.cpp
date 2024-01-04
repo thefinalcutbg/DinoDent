@@ -55,12 +55,6 @@ bool AmbListValidator::ambListIsValid()
             _error = "Съществува процедура на срвъхброен зъб, който не е добавен в статуса";
             return false;
         }
-
-        if (p.date.isWeekend())
-        {
-            _error = "Манипулация " + std::to_string(p.code.oldCode()) + " не може да бъде извършена в почивен ден";
-            return false;
-        }
     }
 
     if (!ambList.isNhifSheet()) return true;
@@ -83,12 +77,6 @@ bool AmbListValidator::ambListIsValid()
 
     for (auto& ref : ambList.referrals)
     {
-        if (ref.date.isWeekend())
-        {
-            _error = std::string(ref.getTypeAsString()) + " №" + std::to_string(ref.number) + " не може да бъде издадено в почивен ден";
-            return false;
-        }
-
         if (ref.type != ReferralType::MH119 && !ref.isSentToHIS()) {
             _error = "Амбулаторният лист съдържа направления, които не са изпратени към НЗИС";
             return false;
@@ -118,6 +106,8 @@ bool AmbListValidator::ambListIsValid()
 
         return false;
     }
+
+    if(isNhifInWeekend()) return false;
 
     _error = "";
     return true;
@@ -289,10 +279,34 @@ bool AmbListValidator::examIsFirst()
     return true;
 }
 
+bool AmbListValidator::isNhifInWeekend()
+{
+    if (!User::settings().nhifWeekendCheck) return false;
+
+    for (auto& p : m_procedures)
+    {
+        if (p.date.isWeekend())
+        {
+            _error = "Манипулация " + std::to_string(p.code.oldCode()) + " e извършена в почивен ден";
+            return true;
+        }
+    }
+
+    for (auto& ref : ambList.referrals)
+    {
+        if (ref.date.isWeekend())
+        {
+            _error = std::string(ref.getTypeAsString()) + " №" + std::to_string(ref.number) + " e издадено в почивен ден";
+            return true;
+        }
+    }
+
+    return false;
+}
+
 std::optional<std::pair<Date, int>> AmbListValidator::exceededDailyLimit()
 {
     if (!User::settings().nhifDailyLimitCheck) return {};
-
 
     constexpr int maxLimit = 360;
 

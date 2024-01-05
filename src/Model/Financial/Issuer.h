@@ -43,6 +43,5 @@ struct Issuer
 	std::optional<std::string> registration_by_VAT;
 	std::string grounds_for_not_charging_VAT;
 
-	std::string issuer_bulstat_no_vat;
 	std::string bulstat;
 };

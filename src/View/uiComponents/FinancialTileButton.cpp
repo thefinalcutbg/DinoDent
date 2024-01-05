@@ -76,7 +76,12 @@ void IssuerTileButton::setIssuer(const Issuer& r)
 	this->name = QString::fromStdString(r.company_name);
 	this->id = QString::fromStdString(r.bulstat);
 	this->address = QString::fromStdString(r.address_by_contract);
-	this->vat = QString::fromStdString(r.issuer_bulstat_no_vat);
+	this->vat = QString::fromStdString(
+		r.registration_by_VAT ? 
+		r.registration_by_VAT->c_str()
+		:
+		""
+	);
 	repaint();
 }
 

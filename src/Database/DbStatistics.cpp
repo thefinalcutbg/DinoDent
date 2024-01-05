@@ -106,6 +106,7 @@ int DbStat::count(const DentalStatistic& stat)
             "LEFT JOIN patient ON amblist.patient_rowid = patient.rowid "
             "WHERE amblist.lpk = '" + User::doctor().LPK + "' "
             "AND amblist.rzi = '" + User::practice().rziCode + "' "
+            "AND procedure.removed = 0 "
             "AND strftime('%Y', amblist.date)='" + std::to_string(stat.year) + "' " 
             ;
        
@@ -128,6 +129,7 @@ int DbStat::count(const DentalStatistic& stat)
             "FROM procedure LEFT JOIN amblist on procedure.amblist_rowid = amblist.rowid  "
             "LEFT JOIN patient on amblist.patient_rowid =  patient.rowid "
             "WHERE amblist.lpk = '" + User::doctor().LPK + "' "
+            "AND procedure.removed = 0 "
             "AND amblist.rzi = '" + User::practice().rziCode + "' "
             "AND strftime('%Y', amblist.date)='" + std::to_string(stat.year) + "' "
     ;     

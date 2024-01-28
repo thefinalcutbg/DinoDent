@@ -250,7 +250,7 @@ int DbInvoice::getNewInvoiceNumber()
     Db db(
         "SELECT num FROM financial WHERE "
         "practice_rzi = '" + User::practice().rziCode + "' "
-        "ORDER BY num DESC LIMIT 1"
+        "ORDER BY rowid DESC, num DESC LIMIT 1"
     );
 
     while (db.hasRows()) number = db.asInt(0);

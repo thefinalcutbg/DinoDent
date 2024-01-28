@@ -73,7 +73,7 @@ std::pair<std::vector<RowInstance>, PlainTable> getAmbRows(const Date& from, con
     });
 
     tableView.addColumn({
-        .name = "Амб№/НРН",
+        .name = "Амб №/НРН",
         .width = 120,
         .alignment = PlainColumn::Center
     });
@@ -322,20 +322,20 @@ std::pair<std::vector<RowInstance>, PlainTable> getPrescriptionRows(const Date& 
     });
 
     tableView.addColumn({
-        .name = "Амб№/НРН",
+        .name = "НРН",
         .width = 120,
         .alignment = PlainColumn::Center
     });
 
     tableView.addColumn({
            .name = "ЕГН/ЛНЧ/ССН",
-           .width = 100,
+           .width = 120,
            .alignment = PlainColumn::Center
     });
 
     tableView.addColumn({
         .name = "Име на пациента",
-        .width = 250
+        .width = 240
     });
 
     tableView.addColumn({

@@ -79,6 +79,7 @@
     </qresource>
     <qresource prefix="/fonts">
         <file>font_RobotoCondensedRegular.ttf</file>
+        <file>font_segoeui.ttf</file>
     </qresource>
     <qresource prefix="/json">
         <file>json_diagnosis.json</file>

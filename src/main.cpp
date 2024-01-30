@@ -1,7 +1,8 @@
 ﻿#include <QtWidgets/QApplication>
+#include <QFontDatabase>
 #include "View/Widgets/DinoDent.h"
 #include "Network/UpdateService/UpdateService.h"
-#include <QTextCodec>
+
 #include "Model/FreeFunctions.h"
 #include "View/Widgets/SplashScreen.h"
 
@@ -13,10 +14,12 @@ int main(int argc, char *argv[])
 {
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
-    QApplication::setFont(QFont ("Segoe UI", 8));    
     QCoreApplication::setApplicationName("DinoDent");
-
+    
     QApplication a(argc, argv);
+
+    QFontDatabase::addApplicationFont(":/fonts/font_segoeui.ttf");
+    QApplication::setFont(QFont("Segoe UI", 8));
     
     a.setWindowIcon(QIcon(":/icons/icon_torque.png"));
 

@@ -585,9 +585,6 @@
     <ClCompile Include="src\Resources.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="include\JsonCpp\jsoncpp.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="include\sqLite3\shell.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -943,6 +940,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\DbUpdates\Update20.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="include\json\jsoncpp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1445,12 +1445,6 @@
     <ClInclude Include="src\Resources.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\JsonCpp\json.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\JsonCpp\json-forwards.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\sqLite3\sqlite3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1740,6 +1734,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\PlainTable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\json\json.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\json\json-forwards.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

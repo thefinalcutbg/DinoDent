@@ -111,7 +111,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)\include;GeneratedFiles\$(ConfigurationName);GeneratedFiles;$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);$(SolutionDir)/src/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\include\libp11;$(SolutionDir)\include\libxml2;$(SolutionDir)\include\sqLite3;$(SolutionDir)\include;GeneratedFiles\$(ConfigurationName);GeneratedFiles;$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);$(SolutionDir)/src/</AdditionalIncludeDirectories>
       <AdditionalOptions>/utf-8  /std:c++20 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -124,7 +124,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)\include;GeneratedFiles\$(ConfigurationName);GeneratedFiles;$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);$(SolutionDir)/src/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\include\libp11;$(SolutionDir)\include\libxml2;$(SolutionDir)\include\sqLite3;$(SolutionDir)\include;GeneratedFiles\$(ConfigurationName);GeneratedFiles;$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);$(SolutionDir)/src/</AdditionalIncludeDirectories>
       <AdditionalOptions>/utf-8  /std:c++20 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -220,6 +220,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="include\json\jsoncpp.cpp" />
     <ClCompile Include="src\Database\DbFiscalReceipt.cpp" />
     <ClCompile Include="src\Database\DbMedicalNotice.cpp" />
     <ClCompile Include="src\Database\DbPrescription.cpp" />
@@ -280,7 +281,6 @@
     <ClCompile Include="src\Presenter\PrescriptionPresenter.cpp" />
     <ClCompile Include="src\Network\HIS\UpdateMedications.cpp" />
     <ClCompile Include="src\Model\Prescription\Dosage.cpp" />
-    <ClCompile Include="include\JsonCpp\jsoncpp.cpp" />
     <ClCompile Include="include\sqLite3\shell.c" />
     <ClCompile Include="include\sqLite3\sqlite3.c" />
     <ClCompile Include="include\TinyXML\tinystr.cpp" />
@@ -529,6 +529,8 @@
     <ClCompile Include="src\View\Widgets\WelcomeWidget.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\json\json-forwards.h" />
+    <ClInclude Include="include\json\json.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="src\Database\DbMedicalNotice.h" />
     <ClInclude Include="src\Database\DbPrescription.h" />
@@ -594,8 +596,6 @@
     <ClInclude Include="src\Presenter\PrescriptionPresenter.h" />
     <ClInclude Include="src\Network\HIS\UpdateMedications.h" />
     <ClInclude Include="src\Model\Prescription\Dosage.h" />
-    <ClInclude Include="include\JsonCpp\json-forwards.h" />
-    <ClInclude Include="include\JsonCpp\json.h" />
     <ClInclude Include="include\sqLite3\sqlite3.h" />
     <ClInclude Include="include\sqLite3\sqlite3ext.h" />
     <ClInclude Include="include\TinyXML\tinystr.h" />

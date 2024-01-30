@@ -1,6 +1,6 @@
 #include "Telemetry.h"
 
-#include <JsonCpp/json.h>
+#include <json/json.h>
 
 #include "Model/User.h"
 #include "Version.h"

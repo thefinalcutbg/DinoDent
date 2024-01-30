@@ -13,7 +13,7 @@
 std::string getText(const TiXmlElement* element)
 {
         if (element == nullptr){
-            throw std::exception("Неуспешно зареждане на месечното известие");
+            throw std::exception();
     }
 
     return element->GetText();
@@ -40,7 +40,7 @@ FinancialDocType getFinancialType(const std::string& inv_type_code)
 
 	if (inv_type_code == "CT_NOTIF") return FinancialDocType::Credit;
 
-	throw std::exception("Неразпознат inv_type_code");
+    throw std::exception();
 }
 
 

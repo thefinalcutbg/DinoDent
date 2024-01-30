@@ -202,7 +202,7 @@ bool PatientDialogPresenter::viewIsValid()
 		uiElement->validateInput();
 		if (!uiElement->isValid())
 		{
-			uiElement->setFocus();
+            uiElement->set_focus();
 			return false;
 		}
 		return true;

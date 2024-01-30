@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1111</width>
+    <width>1240</width>
     <height>478</height>
    </rect>
   </property>
@@ -187,7 +187,7 @@
          </property>
          <property name="dateTime">
           <datetime>
-           <hour>8</hour>
+           <hour>6</hour>
            <minute>0</minute>
            <second>0</second>
            <year>2000</year>
@@ -518,14 +518,9 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>TableView</class>
-   <extends>QTableView</extends>
-   <header>View/uiComponents/TableView.h</header>
-  </customwidget>
-  <customwidget>
    <class>IconButton</class>
    <extends>QPushButton</extends>
-   <header>View/uiComponents/iconbutton.h</header>
+   <header>View/uiComponents/IconButton.h</header>
   </customwidget>
   <customwidget>
    <class>CustomDateEdit</class>
@@ -533,15 +528,20 @@
    <header>View/uiComponents/customdateedit.h</header>
   </customwidget>
   <customwidget>
-   <class>HoverButton</class>
-   <extends>QPushButton</extends>
-   <header>View/uiComponents/hoverbutton.h</header>
-  </customwidget>
-  <customwidget>
    <class>PatientTileInfo</class>
    <extends>QWidget</extends>
    <header>View/SubWidgets/PatientTileInfo.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>TableView</class>
+   <extends>QTableView</extends>
+   <header>View/uiComponents/TableView.h</header>
+  </customwidget>
+  <customwidget>
+   <class>HoverButton</class>
+   <extends>QPushButton</extends>
+   <header>View/uiComponents/HoverButton.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

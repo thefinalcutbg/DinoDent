@@ -3,7 +3,7 @@
 #include "Resources.h"
 #include "Model/Dental/DentalNum.h"
 #include "Model/Dental/Procedure.h"
-#include "JsonCpp/json.h"
+#include <json/json.h>
 #include "Model/Dental/VitaColor.h"
 #include "View/Widgets/UpdateDialog.h"
 
@@ -22,7 +22,8 @@ std::string jsonToNotesConversionU7
 	{
 		if (json.isMember(keyName))
 		{
-			auto idx = json.removeMember(keyName).asInt();
+            auto idx = json[keyName].asInt();
+            json.removeMember(keyName);
 
 			if (idx)
 			{

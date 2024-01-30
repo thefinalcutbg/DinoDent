@@ -117,7 +117,7 @@ void ProcedureEditorPresenter::okPressed()
 		e->validateInput();
 		if (!e->isValid())
 		{
-			e->setFocus();
+            e->set_focus();
 			return;
 		}
 	}

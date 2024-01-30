@@ -3,7 +3,7 @@
 
 std::string NhifSheetData::getSpecString(NhifSpecialty specialty) const
 {
-    if (specialty == NhifSpecialty::None) throw std::exception("WRONG SPECIALTY");
+    if (specialty == NhifSpecialty::None) throw std::exception();
 
     //код специалнсот 64 и цената се покрива частично/изцяло от НЗОК:
     if (specialty == NhifSpecialty::General && specification == NhifSpecification::PartialCoverage) return "PRIMARY NORM";

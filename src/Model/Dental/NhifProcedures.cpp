@@ -1,5 +1,5 @@
 #include "NhifProcedures.h"
-#include <JsonCpp/json.h>
+#include <json/json.h>
 #include <tuple>
 #include "Resources.h"
 #include "Model/UserStructs.h"

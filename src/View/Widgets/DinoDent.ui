@@ -441,24 +441,22 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
+   <class>IconButton</class>
+   <extends>QPushButton</extends>
+   <header>View/uiComponents/IconButton.h</header>
+  </customwidget>
+  <customwidget>
    <class>TabView</class>
    <extends>QWidget</extends>
    <header>View/Widgets/TabView.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>IconButton</class>
-   <extends>QPushButton</extends>
-   <header>View/uiComponents/iconbutton.h</header>
-  </customwidget>
-  <customwidget>
    <class>UserButton</class>
    <extends>QToolButton</extends>
-   <header>View/uiComponents/userbutton.h</header>
+   <header>View/uiComponents/UserButton.h</header>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="../../../resources/Resource.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

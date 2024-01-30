@@ -323,7 +323,7 @@
   <customwidget>
    <class>PixmapLabel</class>
    <extends>QLabel</extends>
-   <header>View/uiComponents/pixmaplabel.h</header>
+   <header>View/uiComponents/PixmapLabel.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

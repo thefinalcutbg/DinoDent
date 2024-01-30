@@ -3,7 +3,7 @@
 #include <QCompleter>
 #include <QAbstractItemView>
 
-#include <JsonCpp/json.h>
+#include <json/json.h>
 
 #include "Presenter/ProcedureCreator.h"
 #include "QtVersion.h"

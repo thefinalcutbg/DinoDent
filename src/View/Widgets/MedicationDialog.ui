@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>598</width>
+    <width>721</width>
     <height>424</height>
    </rect>
   </property>
@@ -306,7 +306,7 @@
   <customwidget>
    <class>DateEdit</class>
    <extends>QDateEdit</extends>
-   <header>View/uiComponents/dateedit.h</header>
+   <header>View/uiComponents/DateEdit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

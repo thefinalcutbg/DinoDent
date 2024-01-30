@@ -16,7 +16,7 @@ void TextEdit::setErrorLabel(QLabel* errorLabel)
 	this->errorLabel = errorLabel;
 }
 
-void TextEdit::setFocus()
+void TextEdit::set_focus()
 {
 	QPlainTextEdit::setFocus();
 	selectAll();

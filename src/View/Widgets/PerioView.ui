@@ -274,7 +274,7 @@
   <customwidget>
    <class>PerioStatusView</class>
    <extends>QWidget</extends>
-   <header>View/Widgets/periostatusview.h</header>
+   <header>View/Widgets/PerioStatusView.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
@@ -285,13 +285,13 @@
   <customwidget>
    <class>PerioStatisticView</class>
    <extends>QWidget</extends>
-   <header>View/SubWidgets/periostatisticview.h</header>
+   <header>View/SubWidgets/PerioStatisticView.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>DateEdit</class>
    <extends>QDateEdit</extends>
-   <header>View/uiComponents/dateedit.h</header>
+   <header>View/uiComponents/DateEdit.h</header>
   </customwidget>
   <customwidget>
    <class>PatientTileInfo</class>

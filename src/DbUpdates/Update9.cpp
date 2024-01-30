@@ -1,6 +1,6 @@
 #include "DbUpdates.h"
 #include "Database/Database.h"
-#include <JsonCpp/json.h>
+#include <json/json.h>
 #include "Model/Dental/ToothContainer.h"
 #include "Model/Parser.h"
 #include "View/Widgets/UpdateDialog.h"

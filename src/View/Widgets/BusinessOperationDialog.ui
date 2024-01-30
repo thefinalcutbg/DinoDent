@@ -197,7 +197,7 @@
   <customwidget>
    <class>LineEdit</class>
    <extends>QLineEdit</extends>
-   <header>View/uiComponents/lineedit.h</header>
+   <header>View/uiComponents/LineEdit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

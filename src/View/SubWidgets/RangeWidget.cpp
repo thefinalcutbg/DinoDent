@@ -91,7 +91,7 @@ void RangeWidget::setValidAppearence(bool valid)
 	}
 }
 
-void RangeWidget::setFocus()
+void RangeWidget::set_focus()
 {
 	ui.endCombo->setFocus();
 	ui.endCombo->showPopup();

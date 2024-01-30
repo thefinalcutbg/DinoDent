@@ -1,6 +1,6 @@
 #pragma once
 
-#include "QPushButton.h"
+#include <QPushButton>
 #include <vector>
 
 class StatusMultiButton  : public QPushButton

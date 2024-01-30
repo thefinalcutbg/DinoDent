@@ -1,7 +1,7 @@
 ﻿#include "DoseQuantity.h"
 
 #include <map>
-#include <JsonCpp/json.h>
+#include <json/json.h>
 #include "Resources.h"
 
 #include <qstring.h>

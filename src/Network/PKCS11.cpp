@@ -1,11 +1,9 @@
 ﻿#include "PKCS11.h"
-#include <libp11/libp11.h>
+#include <libp11.h>
 #include <vector>
 #include "Base64Convert.h"
-#include <iostream>
-#include <exception>
 #include <filesystem>
-#include <QSSlCertificate>
+#include <QSslCertificate>
 #include "GlobalSettings.h"
 
 PKCS11_CTX* ctx{ nullptr };

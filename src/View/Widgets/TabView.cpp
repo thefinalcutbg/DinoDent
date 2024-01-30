@@ -1,5 +1,5 @@
 ﻿#include "TabView.h"
-#include <QABstractScrollArea>
+#include <QAbstractScrollArea>
 #include <QScrollBar>
 #include "View/Theme.h"
 #include "View/SubWidgets/TabTitle.h"

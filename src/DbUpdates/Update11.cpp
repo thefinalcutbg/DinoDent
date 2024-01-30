@@ -2,7 +2,7 @@
 #include "Database/Database.h"
 #include "Resources.h"
 #include "View/Widgets/UpdateDialog.h"
-#include <JsonCpp/json.h>
+#include <json/json.h>
 
 void DbUpdates::update11(UpdateDialog& d)
 {

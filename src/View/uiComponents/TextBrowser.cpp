@@ -1,4 +1,4 @@
-#include "textbrowser.h"
+#include "TextBrowser.h"
 #include <QMouseEvent>
 
 TextBrowser::TextBrowser(QWidget* parent)

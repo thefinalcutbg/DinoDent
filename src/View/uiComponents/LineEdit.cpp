@@ -18,7 +18,7 @@ void LineEdit::setErrorLabel(QLabel* errorLabel)
 	this->errorLabel = errorLabel;
 }
 
-void LineEdit::setFocus()
+void LineEdit::set_focus()
 {
 	QLineEdit::setFocus();
 	selectAll();

@@ -34,7 +34,7 @@ void DoctorDialogPresenter::okPressed()
 
         if (!line->isValid())
         {
-            line->setFocus();
+            line->set_focus();
             return;
         }
     }

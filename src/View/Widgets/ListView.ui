@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1559</width>
+    <width>1727</width>
     <height>1186</height>
    </rect>
   </property>
@@ -851,6 +851,11 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
+   <class>IconButton</class>
+   <extends>QPushButton</extends>
+   <header>View/uiComponents/IconButton.h</header>
+  </customwidget>
+  <customwidget>
    <class>PatientTileInfo</class>
    <extends>QWidget</extends>
    <header>View/SubWidgets/PatientTileInfo.h</header>
@@ -873,14 +878,9 @@
    <header>View/Graphics/GraphicsView.h</header>
   </customwidget>
   <customwidget>
-   <class>IconButton</class>
-   <extends>QPushButton</extends>
-   <header>View/uiComponents/iconbutton.h</header>
-  </customwidget>
-  <customwidget>
    <class>LeadingZeroSpinBox</class>
    <extends>QSpinBox</extends>
-   <header>View/uiComponents/leadingzerospinbox.h</header>
+   <header>View/uiComponents/LeadingZeroSpinBox.h</header>
   </customwidget>
   <customwidget>
    <class>ControlPanel</class>
@@ -891,22 +891,22 @@
   <customwidget>
    <class>UserButton</class>
    <extends>QToolButton</extends>
-   <header location="global">View/uiComponents/userbutton.h</header>
+   <header location="global">View/uiComponents/UserButton.h</header>
   </customwidget>
   <customwidget>
    <class>HoverButton</class>
    <extends>QPushButton</extends>
-   <header>View/uiComponents/hoverbutton.h</header>
+   <header>View/uiComponents/HoverButton.h</header>
   </customwidget>
   <customwidget>
    <class>CustomDateTimeEdit</class>
    <extends>QDateTimeEdit</extends>
-   <header>View/uiComponents/customdatetimeedit.h</header>
+   <header>View/uiComponents/CustomDateTimeEdit.h</header>
   </customwidget>
   <customwidget>
    <class>BigPushButton</class>
    <extends>QPushButton</extends>
-   <header>View/uiComponents/bigpushbutton.h</header>
+   <header>View/uiComponents/BigPushButton.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

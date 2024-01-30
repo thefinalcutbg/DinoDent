@@ -693,14 +693,14 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>RecipientTileButton</class>
+   <class>IconButton</class>
    <extends>QPushButton</extends>
-   <header>View/uiComponents/FinancialTileButton.h</header>
+   <header>View/uiComponents/IconButton.h</header>
   </customwidget>
   <customwidget>
-   <class>IssuerTileButton</class>
-   <extends>QPushButton</extends>
-   <header>View/uiComponents/FinancialTileButton.h</header>
+   <class>CustomDateEdit</class>
+   <extends>QDateEdit</extends>
+   <header>View/uiComponents/customdateedit.h</header>
   </customwidget>
   <customwidget>
    <class>TableView</class>
@@ -710,17 +710,17 @@
   <customwidget>
    <class>LeadingZeroSpinBox</class>
    <extends>QSpinBox</extends>
-   <header>View/uiComponents/leadingzerospinbox.h</header>
+   <header>View/uiComponents/LeadingZeroSpinBox.h</header>
   </customwidget>
   <customwidget>
-   <class>CustomDateEdit</class>
-   <extends>QDateEdit</extends>
-   <header>View/uiComponents/customdateedit.h</header>
-  </customwidget>
-  <customwidget>
-   <class>IconButton</class>
+   <class>RecipientTileButton</class>
    <extends>QPushButton</extends>
-   <header>View/uiComponents/iconbutton.h</header>
+   <header>View/uiComponents/FinancialTileButton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>IssuerTileButton</class>
+   <extends>QPushButton</extends>
+   <header>View/uiComponents/FinancialTileButton.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

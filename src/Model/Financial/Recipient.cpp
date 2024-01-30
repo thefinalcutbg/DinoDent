@@ -184,7 +184,7 @@ std::array<Recipient, nhifRecipientCount> nhifRecipients
 
 const Recipient& getRecipient(int practiceRhif) {
     if (practiceRhif < 1 || practiceRhif > nhifRecipientCount)
-        throw std::exception("Invalid RHIF");
+        throw std::exception();
 
     return nhifRecipients[practiceRhif - 1];
 }

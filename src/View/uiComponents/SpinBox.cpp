@@ -10,7 +10,7 @@ SpinBox::~SpinBox()
 {
 }
 
-void SpinBox::setFocus()
+void SpinBox::set_focus()
 {
 	selectAll();
 }

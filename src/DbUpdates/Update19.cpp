@@ -1,6 +1,6 @@
 #include "DbUpdates.h"
 
-#include <JsonCpp/json.h>
+#include <json/json.h>
 #include <unordered_map>
 #include <vector>
 

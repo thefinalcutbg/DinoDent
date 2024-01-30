@@ -1,5 +1,5 @@
 #include "Diagnosis.h"
-#include <JsonCpp/json.h>
+#include <json/json.h>
 #include <array>
 
 #include "Resources.h"

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>281</width>
-    <height>104</height>
+    <height>106</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -209,7 +209,7 @@
   <customwidget>
    <class>IconButton</class>
    <extends>QPushButton</extends>
-   <header>View/uiComponents/iconbutton.h</header>
+   <header>View/uiComponents/IconButton.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

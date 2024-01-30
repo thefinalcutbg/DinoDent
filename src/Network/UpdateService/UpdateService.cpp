@@ -4,7 +4,7 @@
 #include "View/ModalDialogBuilder.h"
 #include <QEventLoop>
 #include <QDebug>
-#include <JsonCpp/json.h>
+#include <json/json.h>
 #include "View/Widgets/UpdateDownloader.h"
 #include "Version.h"
 

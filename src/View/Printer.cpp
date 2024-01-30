@@ -1,16 +1,14 @@
 #include "Printer.h"
-#include <LimeReport/lrreportengine.h>
+#include <LimeReport/include/lrreportengine.h>
 #include <QString>
 #include <QApplication>
 #include "View/Widgets/ProcedurePrintSelectDialog.h"
-#include "View/TableModels/ProcedureTableModel.h"
 #include "Model/FreeFunctions.h"
 #include "Model/Patient.h"
 #include "Model/Dental/AmbList.h"
 #include "Model/Financial/Invoice.h"
 #include "View/TableModels/BusinessOperationModel.h"
 #include "View/GlobalFunctions.h"
-#include "qitemselectionmodel.h"
 #include "Model/User.h"
 #include "View/Widgets/InvoicePrintDialog.h"
 #include "Model/Referrals/Referral.h"
@@ -328,9 +326,9 @@ void Print::invoice(const Invoice& inv)
     report.dataManager()->setReportVariable("madeBy", QString::fromStdString(User::doctor().getFullName(false)));
     report.dataManager()->setReportVariable("groundsNoVAT", QString::fromStdString(inv.issuer.grounds_for_not_charging_VAT));
     report.dataManager()->setReportVariable("paymentType", QString::fromStdString(
-        inv.aggragated_amounts.paymentType == PaymentType::Bank ? 
-        "Банков път" 
-        : 
+        inv.aggragated_amounts.paymentType == PaymentType::Bank ?
+        "Банков път"
+        :
         "В брой"
     ));
     
@@ -434,7 +432,7 @@ void Print::printDentureDeclaration(const Patient& patient, DeclaratorType type)
 
     switch (type)
     {
-    case DeclaratorType::Insured:    
+    case DeclaratorType::Insured:
         report.loadFromFile(":/reports/report_dentureInsured.lrxml");
         break;
     case DeclaratorType::Custody:
@@ -568,13 +566,13 @@ void Print::referral(const Referral& ref, const Patient& patient, const std::str
 
     switch (ref.type)
     {
-        case ReferralType::MDD4: 
-            mdd4fill(); 
+        case ReferralType::MDD4:
+            mdd4fill();
             break;
         case ReferralType::MH119:
             mh119fill();
             break;
-        default: 
+        default:
             QApplication::restoreOverrideCursor();
             return;
     }
@@ -604,6 +602,51 @@ void Print::saveFsicalReportToPDF(const FiscalReport& r)
     report.setShowProgressDialog(true);
     QApplication::restoreOverrideCursor();
     report.printToPDF(r.filename.c_str());
-   
+
 
 }
+
+// void Print::ambList(const AmbList &amb, const Patient &patient)
+// {
+
+// }
+
+// void Print::invoice(const Invoice &inv)
+// {
+
+// }
+
+// void Print::consent(const Patient &patient)
+// {
+
+// }
+
+// void Print::gdpr(const Patient &patient)
+// {
+
+// }
+
+// void Print::ambList()
+// {
+
+// }
+
+// void Print::printDentureDeclaration(const Patient &patient, DeclaratorType type)
+// {
+
+// }
+
+// void Print::printHirbNoDeclaration(const Patient &patient, DeclaratorType type)
+// {
+
+// }
+
+// void Print::referral(const Referral &ref, const Patient &patient, const std::string &ambSheetNumber)
+// {
+
+// }
+
+// void Print::saveFsicalReportToPDF(const FiscalReport &report)
+// {
+
+// }

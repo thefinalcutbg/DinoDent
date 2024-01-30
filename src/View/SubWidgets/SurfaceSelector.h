@@ -19,7 +19,7 @@ public:
 	void setErrorLabel(QLabel* errorLabel);
 
 	// Inherited via AbstractSurfaceSelector
-	virtual void setFocus() override;
+    virtual void set_focus() override;
 	virtual void disable(bool disable) override;
 	virtual void setValidAppearence(bool valid) override;
 	virtual RestorationData getData();

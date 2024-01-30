@@ -21,7 +21,7 @@ public:
 
 	void setErrorLabel(QLabel* errorLabel);
 
-	void AbstractUIElement::setFocus() override;
+    void set_focus() override;
 	void setValidAppearence(bool valid) override;
 	void set_Text(const std::string& text) override;
 	std::string getText() override;

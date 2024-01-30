@@ -1,6 +1,6 @@
 ﻿#include "Database.h"
 #include "View/ModalDialogBuilder.h"
-#include <sqLite3/sqlite3.h>
+#include <sqlite3.h>
 #include "Resources.h"
 #include <filesystem>
 

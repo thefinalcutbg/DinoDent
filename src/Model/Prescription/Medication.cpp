@@ -1,7 +1,7 @@
 #include "Medication.h"
 
 #include <vector>
-#include <JsonCpp/json.h>
+#include <json/json.h>
 
 #include "Resources.h"
 #include "Database/Database.h"

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>318</width>
-    <height>653</height>
+    <width>377</width>
+    <height>727</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -448,17 +448,17 @@
   <customwidget>
    <class>LeadingZeroSpinBox</class>
    <extends>QSpinBox</extends>
-   <header>View/uiComponents/leadingzerospinbox.h</header>
+   <header>View/uiComponents/LeadingZeroSpinBox.h</header>
   </customwidget>
   <customwidget>
    <class>DateEdit</class>
    <extends>QDateEdit</extends>
-   <header>View/uiComponents/dateedit.h</header>
+   <header>View/uiComponents/DateEdit.h</header>
   </customwidget>
   <customwidget>
    <class>RightClickButton</class>
    <extends>QPushButton</extends>
-   <header>View/uiComponents/rightclickbutton.h</header>
+   <header>View/uiComponents/RightClickButton.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

@@ -380,7 +380,7 @@ bool ProcedureCreator::isValid()
 		e->validateInput();
 		if (!e->isValid())
 		{
-			e->setFocus();
+            e->set_focus();
 			return false;
 		}
 	}

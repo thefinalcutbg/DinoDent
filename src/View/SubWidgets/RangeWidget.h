@@ -17,11 +17,11 @@ public:
 	~RangeWidget();
 
 	void disable(bool disable) override;
-	void hide(bool hidden) { setHidden(hidden); };
+    void hide(bool hidden) override { setHidden(hidden); };
 	void setBridgeRange(int begin, int end) override;
 	std::tuple<int, int> getRange() override;
 	void setValidAppearence(bool valid) override;
-	void setFocus() override;
+    void set_focus() override;
 
 	void setErrorLabel(QLabel* errorLabel);
 

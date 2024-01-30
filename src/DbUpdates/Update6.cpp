@@ -1,6 +1,6 @@
 ﻿#include "DbUpdates.h"
 #include "Database/Database.h"
-#include "JsonCpp/json.h"
+#include "jsoncpp/json/json.h"
 #include "Model/Dental/NhifSheetData.h"
 #include <QFile>
 #include "View/Widgets/UpdateDialog.h"
@@ -97,10 +97,13 @@ void DbUpdates::update6(UpdateDialog& dialogProgress)
 
 		procedureUpdate.push_back(ProcedureUpdate{
 			.id = db.asRowId(0),
-			.diagnosis = data.removeMember("diagnosis").asString(),
-			.name = data.removeMember("name").asString(),
+            .diagnosis = data["diagnosis"].asString(),
+            .name = data["name"].asString(),
 			.data = Json::FastWriter().write(data)
 			});
+
+        data.removeMember("diagnosis");
+        data.removeMember("name");
 		/*
 		qDebug() << procedureUpdate.back().name.c_str()
 			<< procedureUpdate.back().diagnosis.c_str()

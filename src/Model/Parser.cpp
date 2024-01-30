@@ -1,5 +1,5 @@
 #include "Parser.h"
-#include <JsonCpp/json.h>
+#include <json/json.h>
 #include "Model/Dental/ToothUtils.h"
 #include "Model/Dental/ToothContainer.h"
 #include "Model/Dental/PerioStatus.h"
@@ -280,7 +280,7 @@ std::string Parser::write(const Invoice& inv)
 
 	auto mainDoc = inv.mainDocument();
 	if (mainDoc) {
-		json["mainDocumentNum"] = mainDoc->number;
+        json["mainDocumentNum"] = (Json::Int64)mainDoc->number;
 		json["mainDocumentDate"] = mainDoc->date.to8601();
 	}
 

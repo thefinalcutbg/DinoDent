@@ -13,7 +13,7 @@ protected:
 
 public:
 	DateEdit(QWidget* parent);
-	void setFocus() override;
+    void set_focus() override;
 	void setValidAppearence(bool valid) override;
 	void set_Date(const Date& date) override;
 	Date getDate() override;

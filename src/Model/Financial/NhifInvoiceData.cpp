@@ -54,7 +54,7 @@ constexpr const char* insuranceFunds[46]
 const char* getText1(const TiXmlElement* element)
 {
     if (element == nullptr) {
-        throw std::exception("wrong xml format");
+        throw std::exception();
     }
 
     return element->GetText();

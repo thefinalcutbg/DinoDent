@@ -2,7 +2,7 @@
 
 #include <QDialog>
 #include "ui_BrowserDialog.h"
-#include "View/Interfaces/IBrowserdialog.h"
+#include "View/Interfaces/IBrowserDialog.h"
 #include "View/TableModels/PlainTableModel.h"
 #include <QSortFilterProxyModel>
 #include "Presenter/BrowserPresenter.h"

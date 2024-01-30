@@ -2,7 +2,7 @@
 #include <QStandardPaths>
 #include <QDir>
 #include <QFileDialog>
-#include <JsonCpp/json.h>
+#include <json/json.h>
 #include <array>
 #include <fstream>
 #include <QTextStream>

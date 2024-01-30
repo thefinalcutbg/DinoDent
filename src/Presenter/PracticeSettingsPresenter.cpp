@@ -66,7 +66,7 @@ bool PracticeSettingsPresenter::isValid()
 		field->validateInput();
 
 		if(!field->isValid()) {
-			field->setFocus();
+            field->set_focus();
 			return false;
 		}
 		

@@ -1,11 +1,17 @@
 #include "XmlSigner.h"
 
+// std::string XmlSigner::signPisQuery(const std::string& query, evp_pkey_st* prvKey, const std::string& x509) { return std::string(); }
+// std::string XmlSigner::signHisMessage(const std::string& message, evp_pkey_st* prvKey, const std::string x509) { return std::string(); };
+// void XmlSigner::cleanup() {}
+
+#define XMLSEC_CRYPTO_OPENSSL
+
 #include <stdlib.h>
 #include <string.h>
-
-#include <libxml/tree.h>
-#include <libxml/xmlmemory.h>
-#include <libxml/parser.h>
+#
+#include <libxml2/libxml/tree.h>
+#include <libxml2/libxml/xmlmemory.h>
+#include <libxml2/libxml/parser.h>
 
 #include <xmlsec/xmlsec.h>
 #include <xmlsec/xmltree.h>
@@ -71,31 +77,31 @@ bool initialize()
 std::string XmlSigner::signPisQuery(const std::string& bodyContent, evp_pkey_st* prvKey, const std::string& pem_x509)
 {
 
-    auto result = 
-    	"<?xml version=\"1.0\" encoding=\"utf-8\"?>"
-		"<e:Envelope xmlns:e=\"http://schemas.xmlsoap.org/soap/envelope/\">"
-			"<e:Header>"
-				"<Signature xmlns=\"http://www.w3.org/2000/09/xmldsig#\">"
-					"<SignedInfo>"
-						"<CanonicalizationMethod Algorithm=\"http://www.w3.org/2001/10/xml-exc-c14n#\" />"
-						"<SignatureMethod Algorithm=\"http://www.w3.org/2000/09/xmldsig#rsa-sha1\" />"
-						"<Reference URI=\"#signedContent\">"
-							"<DigestMethod Algorithm=\"http://www.w3.org/2000/09/xmldsig#sha1\" />"
-							"<DigestValue>"/*digest goes here*/"</DigestValue>"
-						"</Reference>"
-					"</SignedInfo>"
-				"<SignatureValue>"/*signature value*/"</SignatureValue>"
-				"<KeyInfo>" 
-					"<X509Data>"
-						"<X509Certificate>"/*x509 certificate*/"</X509Certificate>"
-					"</X509Data>"
-				"</KeyInfo>"
-				"</Signature>"
-			"</e:Header>"
-			"<e:Body id=\"signedContent\">" //look at line 124
-				+ bodyContent + //the soap body
-			"</e:Body>"
-		"</e:Envelope>";
+    auto result =
+        "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+        "<e:Envelope xmlns:e=\"http://schemas.xmlsoap.org/soap/envelope/\">"
+            "<e:Header>"
+                "<Signature xmlns=\"http://www.w3.org/2000/09/xmldsig#\">"
+                    "<SignedInfo>"
+                        "<CanonicalizationMethod Algorithm=\"http://www.w3.org/2001/10/xml-exc-c14n#\" />"
+                        "<SignatureMethod Algorithm=\"http://www.w3.org/2000/09/xmldsig#rsa-sha1\" />"
+                        "<Reference URI=\"#signedContent\">"
+                            "<DigestMethod Algorithm=\"http://www.w3.org/2000/09/xmldsig#sha1\" />"
+                            "<DigestValue>"/*digest goes here*/"</DigestValue>"
+                        "</Reference>"
+                    "</SignedInfo>"
+                "<SignatureValue>"/*signature value*/"</SignatureValue>"
+                "<KeyInfo>"
+                    "<X509Data>"
+                        "<X509Certificate>"/*x509 certificate*/"</X509Certificate>"
+                    "</X509Data>"
+                "</KeyInfo>"
+                "</Signature>"
+            "</e:Header>"
+            "<e:Body id=\"signedContent\">" //look at line 124
+                + bodyContent + //the soap body
+            "</e:Body>"
+        "</e:Envelope>";
 
 
     if (!init && !initialize()) {
@@ -318,4 +324,3 @@ void XmlSigner::cleanup()
 
     init = false;
 }
-

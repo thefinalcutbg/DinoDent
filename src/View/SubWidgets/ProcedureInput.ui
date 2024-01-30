@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>369</width>
-    <height>435</height>
+    <height>456</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -269,7 +269,7 @@
   <customwidget>
    <class>SurfaceSelector</class>
    <extends>QWidget</extends>
-   <header>View/SubWIdgets/SurfaceSelector.h</header>
+   <header>View/SubWidgets/SurfaceSelector.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
@@ -286,7 +286,7 @@
   <customwidget>
    <class>ComboBox</class>
    <extends>QComboBox</extends>
-   <header>View/uiComponents/combobox.h</header>
+   <header>View/uiComponents/ComboBox.h</header>
   </customwidget>
   <customwidget>
    <class>TextEdit</class>

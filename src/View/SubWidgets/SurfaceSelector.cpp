@@ -6,12 +6,12 @@ SurfaceSelector::SurfaceSelector(QWidget *parent)
 {
 	ui.setupUi(this);
 
-	connect(ui.o_check, &QCheckBox::stateChanged, [=] {validateInput(); });
-	connect(ui.m_check, &QCheckBox::stateChanged, [=] {validateInput(); });
-	connect(ui.d_check, &QCheckBox::stateChanged, [=] {validateInput(); });
-	connect(ui.b_check, &QCheckBox::stateChanged, [=] {validateInput(); });
-	connect(ui.l_check, &QCheckBox::stateChanged, [=] {validateInput(); });
-	connect(ui.c_check, &QCheckBox::stateChanged, [=] {validateInput(); });
+    connect(ui.o_check, &QCheckBox::stateChanged, this, [&] {validateInput(); });
+    connect(ui.m_check, &QCheckBox::stateChanged, this, [&] {validateInput(); });
+    connect(ui.d_check, &QCheckBox::stateChanged, this, [&] {validateInput(); });
+    connect(ui.b_check, &QCheckBox::stateChanged, this, [&] {validateInput(); });
+    connect(ui.l_check, &QCheckBox::stateChanged, this, [&] {validateInput(); });
+    connect(ui.c_check, &QCheckBox::stateChanged, this, [&] {validateInput(); });
 
 }
 
@@ -24,7 +24,7 @@ void SurfaceSelector::setErrorLabel(QLabel* errorLabel)
 	this->errorLabel = errorLabel;
 }
 
-void SurfaceSelector::setFocus()
+void SurfaceSelector::set_focus()
 {
 	ui.o_check->setFocus();
 }
@@ -48,7 +48,7 @@ void SurfaceSelector::setValidAppearence(bool valid)
 RestorationData SurfaceSelector::getData()
 {
 	return
-	{
+    {
 			ui.o_check->isChecked(),
 			ui.m_check->isChecked(),
 			ui.d_check->isChecked(),

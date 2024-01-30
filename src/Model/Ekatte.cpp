@@ -1,7 +1,7 @@
 ﻿#include "Ekatte.h"
 #include <unordered_map>
 #include <unordered_set>
-#include <JsonCpp/json.h>
+#include <json/json.h>
 #include <array>
 #include "Resources.h"
 

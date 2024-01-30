@@ -2,7 +2,7 @@
 
 #include <set>
 #include <QDate>
-#include <JsonCpp/json.h>
+#include <json/json.h>
 #include "Resources.h"
 
 int Date::monthDays[12]{ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };

@@ -1,7 +1,7 @@
 ﻿#include "Specialty.h"
 
 #include "Resources.h"
-#include "JsonCpp/json.h"
+#include "jsoncpp/json/json.h"
 
 void Specialty::initialize()
 {

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>809</width>
-    <height>567</height>
+    <height>576</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -322,14 +322,14 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>ListTable</class>
-   <extends>QTableView</extends>
-   <header>View/uiComponents/listtable.h</header>
-  </customwidget>
-  <customwidget>
    <class>CustomDateEdit</class>
    <extends>QDateEdit</extends>
    <header>View/uiComponents/customdateedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>ListTable</class>
+   <extends>QTableView</extends>
+   <header>View/uiComponents/ListTable.h</header>
   </customwidget>
   <customwidget>
    <class>QTabBar</class>

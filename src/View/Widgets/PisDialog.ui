@@ -73,13 +73,13 @@
   <customwidget>
    <class>ReportView</class>
    <extends>QWidget</extends>
-   <header>View/Widgets/reportview.h</header>
+   <header>View/Widgets/ReportView.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>ReportFilesView</class>
    <extends>QWidget</extends>
-   <header>View/Widgets/reportfilesview.h</header>
+   <header>View/Widgets/ReportFilesView.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>

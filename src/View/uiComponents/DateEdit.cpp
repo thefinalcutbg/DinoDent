@@ -26,7 +26,7 @@ void DateEdit::setValidAppearence(bool valid)
 }
 
 
-void DateEdit::setFocus()
+void DateEdit::set_focus()
 {
 	QWidget::setFocus();
 }

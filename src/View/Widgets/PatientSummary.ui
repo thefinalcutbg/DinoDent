@@ -776,14 +776,25 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>GraphicsView</class>
-   <extends>QGraphicsView</extends>
-   <header>View/Graphics/GraphicsView.h</header>
+   <class>IconButton</class>
+   <extends>QPushButton</extends>
+   <header>View/uiComponents/IconButton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>PatientTileInfo</class>
+   <extends>QWidget</extends>
+   <header>View/SubWidgets/PatientTileInfo.h</header>
+   <container>1</container>
   </customwidget>
   <customwidget>
    <class>TableView</class>
    <extends>QTableView</extends>
    <header>View/uiComponents/TableView.h</header>
+  </customwidget>
+  <customwidget>
+   <class>GraphicsView</class>
+   <extends>QGraphicsView</extends>
+   <header>View/Graphics/GraphicsView.h</header>
   </customwidget>
   <customwidget>
    <class>HalfRoundedButton</class>
@@ -793,18 +804,7 @@
   <customwidget>
    <class>PerioStatisticView</class>
    <extends>QWidget</extends>
-   <header>View/SubWidgets/periostatisticview.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>IconButton</class>
-   <extends>QPushButton</extends>
-   <header>View/uiComponents/iconbutton.h</header>
-  </customwidget>
-  <customwidget>
-   <class>PatientTileInfo</class>
-   <extends>QWidget</extends>
-   <header>View/SubWidgets/PatientTileInfo.h</header>
+   <header>View/SubWidgets/PerioStatisticView.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

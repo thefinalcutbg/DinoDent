@@ -17,7 +17,7 @@ protected:
 	virtual bool validationOperation() = 0;
 public:
 	AbstractUIElement();
-	virtual void setFocus() = 0;
+    virtual void set_focus() = 0;
 	virtual void disable(bool disable) {};
 	virtual void hide(bool hidden) {};
 

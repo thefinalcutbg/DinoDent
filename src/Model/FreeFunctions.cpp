@@ -2,7 +2,7 @@
 #include <sstream>
 #include <iomanip>
 #include <fstream>
-
+#include <cmath>
 std::string FreeFn::formatDouble(const double& price)
 {
     bool isDecimal{ true };

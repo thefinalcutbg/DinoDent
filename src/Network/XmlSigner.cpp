@@ -1,10 +1,13 @@
 #include "XmlSigner.h"
 
-// std::string XmlSigner::signPisQuery(const std::string& query, evp_pkey_st* prvKey, const std::string& x509) { return std::string(); }
-// std::string XmlSigner::signHisMessage(const std::string& message, evp_pkey_st* prvKey, const std::string x509) { return std::string(); };
-// void XmlSigner::cleanup() {}
+#include <QTGlobal>
 
 #define XMLSEC_CRYPTO_OPENSSL
+
+#ifdef Q_OS_WIN
+#define XMLSEC_NO_SIZE_T
+#define XMLSEC_NO_XSLT
+#endif
 
 #include <stdlib.h>
 #include <string.h>

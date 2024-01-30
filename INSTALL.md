@@ -37,12 +37,8 @@ There is an optional dependency on LibXslt which again is preferable to be omitt
 ```
 cscript configure.js iconv=no xslt=no static=no include=C:\Dev\xmlTools\include lib=C:\Dev\xmlTools\lib 
 ```
-The script forces you to place BOTH the openssl and libxml2 include and lib folders in the directories configured above. Watch out for the folder names. Libxml include files by default are found in include/libxml2/libxml, but Xmlsec will search only for the libxml folder, so copy only that one to the include dir which you have specidied with the cscript. After you've configured the directories correctly, build the xmlsec using nmake. As for the include files, I've configured the header files with the following macros:
-```
-#define XMLSEC_NO_SIZE_T //in xmls.h
-#define XMLSEC_CRYPTO_OPENSSL //in crypto.h
-#define XMLSEC_NO_XSLT //in transforms.h
-```
+The script forces you to place BOTH the openssl and libxml2 include and lib folders in the directories configured above. Watch out for the folder names. Libxml include files by default are found in include/libxml2/libxml, but Xmlsec will search only for the libxml folder, so copy only that one to the include dir which you have specidied with the cscript. After you've configured the directories correctly, build the xmlsec using nmake.
+
 ### Libp11
 
 This library is responsible for the PKCS11 interface. Go to [https://github.com/OpenSC/libp11](https://github.com/OpenSC/libp11) and download the latest release. Build the library following the instructions, or directly use the provided binaries from earlier releases for your OS. After the build process is finished, there will be 2 binaries - libp11 and pkcs11

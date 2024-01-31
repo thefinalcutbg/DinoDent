@@ -1,27 +1,20 @@
 QT += core gui widgets network printsupport core5compat xml qml
 
-#TEMPLATE = app
-
 CONFIG += c++20
-#CONFIG -= qml_debug qtquickcompiler
 
-# You can make your code fail to compile if it uses deprecated APIs.
-# In order to do so, uncomment the following line.
-#DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
+DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000
 
-LIBS += -lsqlite3 -ljsoncpp -lxml2 -lp11 -lssl -lcrypto -lrt -lxmlsec1 -lxmlsec1-openssl
-
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../LimeReport/build/6.5.3/linux64/release/lib/ -llimereport
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../LimeReport/build/6.5.3/linux64/release/lib/ -llimereportd
-else:unix: LIBS += -L$$PWD/../LimeReport/build/6.5.3/linux64/release/lib/ -llimereport
+LIBS += -lsqlite3 -ljsoncpp -lxml2 -lssl -lcrypto -lrt -lxmlsec1 -lxmlsec1-openssl #-lp11
+LIBS += -L$$PWD/../LimeReport/build/6.5.3/linux64/release/lib/ -llimereport
+LIBS += -L$$PWD/../libp11-0.4.12/src/.libs/ -lp11 #if using Qt 6.5 or higher libp11-0.4.12 is the minimal version required for interfacing with OpenSSL3
 
 INCLUDEPATH += src
 INCLUDEPATH += include
 INCLUDEPATH += /usr/include/libxml2
 INCLUDEPATH += /usr/include/jsoncpp
 INCLUDEPATH += /usr/include/xmlsec1
-INCLUDEPATH += $$PWD/../LimeReport/build/6.5.3/linux64/release/lib/include
-DEPENDPATH += $$PWD/../LimeReport/build/6.5.3/linux64/release/lib/include
+INCLUDEPATH += ../libp11-0.4.12/src/
+INCLUDEPATH += ../LimeReport/build/6.5.3/linux64/release/lib/include
 
 #Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -769,9 +762,3 @@ SOURCES += \
 
 RESOURCES += \
     resources/Resource.qrc
-
-
-
-
-
-

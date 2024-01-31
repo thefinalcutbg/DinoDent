@@ -1,13 +1,12 @@
 #include "XmlSigner.h"
 
 #define XMLSEC_CRYPTO_OPENSSL
-//#define XMLSEC_CRYPTO_DYNAMIC_LOADING
 #define XMLSEC_NO_SIZE_T
 #define XMLSEC_NO_XSLT
 
 #include <stdlib.h>
 #include <string.h>
-#
+
 #include <libxml2/libxml/tree.h>
 #include <libxml2/libxml/xmlmemory.h>
 #include <libxml2/libxml/parser.h>
@@ -22,27 +21,27 @@
 #include <xmlsec/errors.h>
 #include <libxml/valid.h>
 
-#include <QDebug>
+// #include <QDebug>
 
-void errorReport(const char* file,
-    int line,
-    const char* func,
-    const char* errorObject,
-    const char* errorSubject,
-    int reason,
-    const char* msg
-)
-{
-    qDebug() << "ERROR";
-    qDebug() << file;
-    qDebug() << line;
-    qDebug() << errorObject;
-    qDebug() << errorSubject;
-    qDebug() << reason;
-    qDebug() << msg;
-    qDebug() << "\n\n\n";
+// void errorReport(const char* file,
+//     int line,
+//     const char* func,
+//     const char* errorObject,
+//     const char* errorSubject,
+//     int reason,
+//     const char* msg
+// )
+// {
+//     qDebug() << "ERROR";
+//     qDebug() << file;
+//     qDebug() << line;
+//     qDebug() << errorObject;
+//     qDebug() << errorSubject;
+//     qDebug() << reason;
+//     qDebug() << msg;
+//     qDebug() << "\n\n\n";
 
-}
+// }
 
 bool init{ false };
 
@@ -70,7 +69,7 @@ bool initialize()
         return false;
     }
 
-    xmlSecErrorsInit();
+    //xmlSecErrorsInit();
 
     //xmlSecErrorsSetCallback(errorReport);
 
@@ -144,8 +143,6 @@ std::string XmlSigner::signPisQuery(const std::string& bodyContent, evp_pkey_st*
     dsigCtx->signKey = xmlSecKeyCreate();
 
     xmlSecKeySetValue(dsigCtx->signKey, xmlSecOpenSSLEvpKeyAdopt(prvKey));
-
-    qDebug() << xmlSecKeyGetType(dsigCtx->signKey);
 
 
     if (
@@ -271,8 +268,6 @@ std::string XmlSigner::signHisMessage(const std::string& document, evp_pkey_st* 
       dsigCtx->signKey = xmlSecKeyCreate();
 
       xmlSecKeySetValue(dsigCtx->signKey, xmlSecOpenSSLEvpKeyAdopt(prvKey));
-
-      qDebug() << xmlSecKeyGetType(dsigCtx->signKey);
 
     if (
         xmlSecOpenSSLAppKeyCertLoadMemory(

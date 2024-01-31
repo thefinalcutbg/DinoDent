@@ -143,8 +143,10 @@ std::string XmlSigner::signPisQuery(const std::string& bodyContent, evp_pkey_st*
 
     dsigCtx->signKey = xmlSecKeyCreate();
 
-    dsigCtx->signKey->value = xmlSecOpenSSLEvpKeyAdopt(prvKey);
-    dsigCtx->signKey->usage = xmlSecKeyUsageSign;
+    xmlSecKeySetValue(dsigCtx->signKey, xmlSecOpenSSLEvpKeyAdopt(prvKey));
+
+    qDebug() << xmlSecKeyGetType(dsigCtx->signKey);
+
 
     if (
         xmlSecOpenSSLAppKeyCertLoadMemory(
@@ -266,12 +268,11 @@ std::string XmlSigner::signHisMessage(const std::string& document, evp_pkey_st* 
 
     //dsigCtx->enabledReferenceUris = xmlSecTransformUriTypeSameDocument;
 
-    dsigCtx->signKey = xmlSecKeyCreate();
-    dsigCtx->signKey->value = xmlSecOpenSSLEvpKeyAdopt(prvKey);
-    dsigCtx->signKey->usage = xmlSecKeyUsageSign;
+      dsigCtx->signKey = xmlSecKeyCreate();
 
-    //or maybe use this?
-    //xmlSecKeySetValue(dsigCtx->signKey, xmlSecOpenSSLEvpKeyAdopt(prvKey));
+      xmlSecKeySetValue(dsigCtx->signKey, xmlSecOpenSSLEvpKeyAdopt(prvKey));
+
+      qDebug() << xmlSecKeyGetType(dsigCtx->signKey);
 
     if (
         xmlSecOpenSSLAppKeyCertLoadMemory(

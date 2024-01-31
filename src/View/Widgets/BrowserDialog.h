@@ -27,7 +27,7 @@ private:
 	void calculateUiState();
 
 public:
-	BrowserDialog();
+    BrowserDialog();
 
 	void setUiState(const BrowserUiState& state) override;
 

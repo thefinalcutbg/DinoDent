@@ -1,13 +1,9 @@
 #include "XmlSigner.h"
 
-#include <QTGlobal>
-
 #define XMLSEC_CRYPTO_OPENSSL
-
-#ifdef Q_OS_WIN
+//#define XMLSEC_CRYPTO_DYNAMIC_LOADING
 #define XMLSEC_NO_SIZE_T
 #define XMLSEC_NO_XSLT
-#endif
 
 #include <stdlib.h>
 #include <string.h>
@@ -26,9 +22,9 @@
 #include <xmlsec/errors.h>
 #include <libxml/valid.h>
 
-#include "PKCS11.h"
+#include <QDebug>
 
-void errorReprort(const char* file,
+void errorReport(const char* file,
     int line,
     const char* func,
     const char* errorObject,
@@ -37,14 +33,14 @@ void errorReprort(const char* file,
     const char* msg
 )
 {
-    //qDebug() << "ERROR";
-    //qDebug() << file;
-    //qDebug() << line;
-    //qDebug() << errorObject;
-    //qDebug() << errorSubject;
-    //qDebug() << reason;
-    //qDebug() << msg;
-    //qDebug() << "\n\n\n";
+    qDebug() << "ERROR";
+    qDebug() << file;
+    qDebug() << line;
+    qDebug() << errorObject;
+    qDebug() << errorSubject;
+    qDebug() << reason;
+    qDebug() << msg;
+    qDebug() << "\n\n\n";
 
 }
 
@@ -73,6 +69,10 @@ bool initialize()
     {
         return false;
     }
+
+    xmlSecErrorsInit();
+
+    //xmlSecErrorsSetCallback(errorReport);
 
     return true;
 }
@@ -186,7 +186,6 @@ std::string XmlSigner::signPisQuery(const std::string& bodyContent, evp_pkey_st*
 std::string XmlSigner::signHisMessage(const std::string& document, evp_pkey_st* prvKey, const std::string pem_x509)
 {
 
-
     std::string_view signatureTemplate{
 
         "<Signature xmlns=\"http://www.w3.org/2000/09/xmldsig#\">"
@@ -268,9 +267,11 @@ std::string XmlSigner::signHisMessage(const std::string& document, evp_pkey_st* 
     //dsigCtx->enabledReferenceUris = xmlSecTransformUriTypeSameDocument;
 
     dsigCtx->signKey = xmlSecKeyCreate();
-
     dsigCtx->signKey->value = xmlSecOpenSSLEvpKeyAdopt(prvKey);
     dsigCtx->signKey->usage = xmlSecKeyUsageSign;
+
+    //or maybe use this?
+    //xmlSecKeySetValue(dsigCtx->signKey, xmlSecOpenSSLEvpKeyAdopt(prvKey));
 
     if (
         xmlSecOpenSSLAppKeyCertLoadMemory(
@@ -286,6 +287,7 @@ std::string XmlSigner::signHisMessage(const std::string& document, evp_pkey_st* 
 
     /* sign the template */
     if (xmlSecDSigCtxSign(dsigCtx, signNode) < 0) {
+
         return { "Error: signature failed" };
     }
 

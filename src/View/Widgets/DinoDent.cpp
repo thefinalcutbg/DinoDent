@@ -1,4 +1,5 @@
 #include "DinoDent.h"
+
 #include <QAction>
 #include <QMenu>
 #include <QDebug>
@@ -6,10 +7,13 @@
 #include <QFileDialog>
 #include <QFontDatabase>
 #include <QShortcut>
+#include <QStatusBar>
+
+#include "Presenter/MainPresenter.h"
+
+#include "GlobalWidgets.h"
 
 #include "View/Theme.h"
-#include "View/Widgets/SettingsDialog.h"
-#include <QStatusBar>
 #include "View/Widgets/GlobalWidgets.h"
 #include "View/Widgets/AboutDialog.h"
 #include "Version.h"
@@ -24,6 +28,8 @@ DinoDent::DinoDent(QWidget* parent)
 
     setWindowState(Qt::WindowMaximized);
 
+
+    GlobalWidgets::mainWindow = this;
     GlobalWidgets::statusBar = statusBar();
 
     statusBar()->setStyleSheet("font-weight: bold; color:" + Theme::colorToString(Theme::fontTurquoiseClicked));

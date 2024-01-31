@@ -3,13 +3,13 @@
 #include <QDir>
 #include <QFileDialog>
 #include <json/json.h>
-#include <array>
-#include <fstream>
+#include <QtGlobal>
 #include <QTextStream>
+
 #include "Model/Date.h"
 #include "Model/FreeFunctions.h"
 #include "Model/Time.h"
-#include <QDebug>
+
 
 
 void rewriteCfg(const Json::Value& settings)
@@ -118,6 +118,8 @@ std::string GlobalSettings::setDbPath()
 
 std::vector<std::string> GlobalSettings::getDefaultPkcs11Paths()
 {
+
+#ifdef Q_OS_WIN
     return std::vector<std::string>        
     {
         "C:/Program Files/OpenSC Project/OpenSC/pkcs11/opensc-pkcs11.dll",
@@ -130,6 +132,18 @@ std::vector<std::string> GlobalSettings::getDefaultPkcs11Paths()
         "C:/Windows/System32/siecap11.dll",
         "C:/Windows/System32/cmP1164.dll"
     };
+#endif
+
+#ifdef Q_OS_LINUX
+    return std::vector<std::string>
+        {
+            "/usr/lib/x86_64-linux-gnu/opensc-pkcs11.so",
+            "/usr/lib/pkcs11/libeTPkcs11.so",
+            "/usr/lib64/pkcs11/libeTPkcs11.so",
+            "/usr/lib/libIDPrimePKCS11.so",
+            "/usr/local/lib64/libcvP11.so"
+        };
+#endif
 }
 
 std::string GlobalSettings::telemetryId()

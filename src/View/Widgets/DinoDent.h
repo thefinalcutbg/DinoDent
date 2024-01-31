@@ -3,8 +3,6 @@
 #include <QtWidgets/QMainWindow>
 #include <QPainter>
 
-#include "Database/Database.h"
-#include "Presenter/MainPresenter.h"
 #include "ui_DinoDent.h"
 
 #include "View/Interfaces/IMainView.h"
@@ -14,8 +12,8 @@ class DinoDent : public QMainWindow, public IMainView
 {
     Q_OBJECT
 
-    void paintEvent(QPaintEvent* event);
-    void closeEvent(QCloseEvent* event);
+    void paintEvent(QPaintEvent* event) override;
+    void closeEvent(QCloseEvent* event) override;
 
 public:
     DinoDent(QWidget *parent = Q_NULLPTR);

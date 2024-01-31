@@ -2,6 +2,11 @@
 
 #include "View/Widgets/ProcedureDialog.h"
 
+#include <QScreen>
+#include <QWidget>
+#include <QGuiApplication>
+
+
 void ModalDialogBuilder::openDialog(ProcedureDialogPresenter* p)
 {
 	ProcedureDialog d(p);
@@ -28,7 +33,7 @@ void ModalDialogBuilder::openDialog(ProcedureEditorPresenter* p)
 
 void ModalDialogBuilder::openBrowserDialog()
 {
-	BrowserDialog d;
+    BrowserDialog d;
 	d.exec();
 }
 
@@ -204,7 +209,6 @@ std::optional<BusinessOperation> ModalDialogBuilder::addBusinessOperation()
 std::optional<MedicalNotice> ModalDialogBuilder::openDialog(const MedicalNotice& notice)
 {
 	MedicalNoticeDialog d(notice);
-	d.exec();
 	return d.getResult();
 }
 

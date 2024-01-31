@@ -8,7 +8,7 @@ struct DentistData;
 struct CrownData;
 struct Pathology;
 struct ObturationData;
-struct DetailedStatusPresenter;
+class DetailedStatusPresenter;
 
 
 #include "Model/Dental/Procedure.h"

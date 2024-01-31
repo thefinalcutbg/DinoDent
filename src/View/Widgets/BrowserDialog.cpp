@@ -166,7 +166,6 @@ void BrowserDialog::setUiState(const BrowserUiState& state)
 		QSignalBlocker(ui.tabBar)
 	};
 
-
 	ui.fromDateEdit->setDate(QDate(state.from.year, state.from.month, state.from.day));
 	ui.toDateEdit->setDate(QDate(state.to.year, state.to.month, state.to.day));
 	ui.detailsCombo->setCurrentIndex(state.showProcedures);

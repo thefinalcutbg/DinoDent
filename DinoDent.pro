@@ -9,20 +9,17 @@ CONFIG += c++20
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-LIBS += -lsqlite3 -ljsoncpp -lxmlsec1 -lxml2 -lp11 -lssl -lcrypto -lrt
+LIBS += -lsqlite3 -ljsoncpp -lxml2 -lp11 -lssl -lcrypto -lrt -lxmlsec1 -lxmlsec1-openssl
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../LimeReport/build/6.5.3/linux64/release/lib/ -llimereport
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../LimeReport/build/6.5.3/linux64/release/lib/ -llimereportd
 else:unix: LIBS += -L$$PWD/../LimeReport/build/6.5.3/linux64/release/lib/ -llimereport
 
-unix: LIBS += -L /usr/local/lib/ -lxmlsec1-openssl
-INCLUDEPATH += /usr/local/include/xmlsec1
-DEPENDPATH +=/usr/local/include/xmlsec1
-
 INCLUDEPATH += src
 INCLUDEPATH += include
 INCLUDEPATH += /usr/include/libxml2
 INCLUDEPATH += /usr/include/jsoncpp
+INCLUDEPATH += /usr/include/xmlsec1
 INCLUDEPATH += $$PWD/../LimeReport/build/6.5.3/linux64/release/lib/include
 DEPENDPATH += $$PWD/../LimeReport/build/6.5.3/linux64/release/lib/include
 

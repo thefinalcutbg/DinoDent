@@ -3,14 +3,18 @@
 #include "Presenter/LoginPresenter.h"
 #include "PracticeListDialog.h"
 #include "View/Theme.h"
+#include <QApplication>
+#include <QScreen>
 LoginView::LoginView(LoginPresenter* p, QWidget *parent)
-	: presenter(p), QDialog(parent)
+    : QDialog(parent), presenter(p)
 {
 	ui.setupUi(this);
 
 	setModal(true);
 	setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 	setWindowTitle("Вход");
+
+    move(QGuiApplication::screens().at(0)->geometry().center() - frameGeometry().center());
 
 	ui.practiceButton->setCursor(QCursor(Qt::PointingHandCursor));
 	ui.practiceButton->setStyleSheet("color:" + Theme::colorToString(Theme::fontTurquoiseClicked));
@@ -31,13 +35,7 @@ LoginView::LoginView(LoginPresenter* p, QWidget *parent)
 		}
 	);
 
-	//ui.userEdit->setText("220008771");
-	//ui.passEdit->setText("198312");
 	ui.userEdit->setFocus();
-
-
-	
-	
 }
 
 void LoginView::paintEvent(QPaintEvent* event)

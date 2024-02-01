@@ -60,15 +60,15 @@ class NumStatic {
 
 	inline const static std::array<const char*, static_obj.size()>& s_names = static_obj;
 	
-    size_t m_idx{ defaultIndex < 0 || defaultIndex>=size ? 0 : defaultIndex };
+    int m_idx{ defaultIndex < 0 || defaultIndex>=size ? 0 : defaultIndex };
 
 public:
 
 	NumStatic() {}
 
-    NumStatic(size_t idx) { setIndex(idx); };
+    NumStatic(int idx) { setIndex(idx); };
 
-    bool setIndex(size_t idx) {
+    bool setIndex(int idx) {
 
         if (idx >= s_names.size()) return false;
 

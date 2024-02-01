@@ -1,13 +1,15 @@
 #pragma once
 
 class PerioPresenter;
-class ToothPaintHint;
-struct PerioStatus;
+class IPatientTileInfo;
+
 class PerioToothData;
 class PerioStatistic;
 class Patient;
+
 struct Date;
-class IPatientTileInfo;
+struct PerioStatus;
+struct ToothPaintHint;
 
 enum class ShowTeeth {ShowUpperTeeth, ShowLowerTeeth};
 

@@ -303,7 +303,6 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Model\Date.cpp" />
     <ClCompile Include="src\Model\Dental\Diagnosis.cpp" />
-    <ClCompile Include="src\Model\Dental\KSMP.cpp" />
     <ClCompile Include="src\Model\Dental\MKB.cpp" />
     <ClCompile Include="src\Model\Dental\NhifProcedures.cpp" />
     <ClCompile Include="src\Model\Dental\NhifSheetData.cpp" />
@@ -419,7 +418,6 @@
     <ClCompile Include="src\View\TableModels\BusinessOperationModel.cpp" />
     <ClCompile Include="src\View\TableModels\FiscalReceiptTableModel.cpp" />
     <ClCompile Include="src\View\TableModels\HospitalizationTableModel.cpp" />
-    <ClCompile Include="src\View\TableModels\KSMPModel.cpp" />
     <ClCompile Include="src\View\TableModels\MedicationTableModel.cpp" />
     <ClCompile Include="src\View\TableModels\MKBModel.cpp" />
     <ClCompile Include="src\View\TableModels\MonthNotifTableModel.cpp" />
@@ -618,7 +616,6 @@
     <ClInclude Include="src\Model\Dental\BridgeAlgorithms.h" />
     <ClInclude Include="src\Model\Dental\Diagnosis.h" />
     <ClInclude Include="src\Model\Dental\Enums.h" />
-    <ClInclude Include="src\Model\Dental\KSMP.h" />
     <ClInclude Include="src\Model\Dental\MKB.h" />
     <ClInclude Include="src\Model\Dental\MonthNotifRow.h" />
     <ClInclude Include="src\Model\Dental\NhifMaps.h" />
@@ -897,7 +894,6 @@
     <QtMoc Include="src\View\TableModels\ProcedureTableModel.h" />
     <QtMoc Include="src\View\TableModels\ProcedureSelectModel.h" />
     <QtMoc Include="src\View\TableModels\MonthNotifTableModel.h" />
-    <ClInclude Include="src\View\TableModels\KSMPModel.h" />
     <QtMoc Include="src\View\Graphics\TeethViewScene.h" />
     <QtMoc Include="src\View\Graphics\TeethLingualScene.h" />
     <QtMoc Include="src\View\Graphics\TeethBuccalScene.h" />

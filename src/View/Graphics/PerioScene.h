@@ -2,7 +2,7 @@
 #include <QGraphicsScene>
 
 class ToothGraphicsItem;
-class ToothPaintHint;
+struct ToothPaintHint;
 
 class PerioScene : public QGraphicsScene
 {

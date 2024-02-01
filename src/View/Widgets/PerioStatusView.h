@@ -10,7 +10,7 @@
 
 class PerioScene;
 class PerioChartItem;
-class ToothPaintHint;
+struct ToothPaintHint;
 class PerioStatus;
 
 class PerioStatusView : public QWidget

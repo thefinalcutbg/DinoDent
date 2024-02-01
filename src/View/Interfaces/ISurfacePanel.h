@@ -2,7 +2,7 @@
 #include <array>
 #include <string>
 
-class ToothPaintHint;
+struct ToothPaintHint;
 class SurfacePanelPresenter;
 
 

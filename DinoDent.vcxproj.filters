@@ -60,9 +60,6 @@
     <ClCompile Include="src\Model\Dental\Diagnosis.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Model\Dental\KSMP.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Model\Dental\MKB.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -361,9 +358,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\TableModels\BusinessOperationModel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\View\TableModels\KSMPModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\TableModels\MonthNotifTableModel.cpp">
@@ -990,9 +984,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\Dental\Enums.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Model\Dental\KSMP.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\Dental\MKB.h">
@@ -1662,9 +1653,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\Interfaces\IFiscalReportView.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\View\TableModels\KSMPModel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Network\HIS\HISHistoryAlgorithms.h">

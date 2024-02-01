@@ -1,7 +1,7 @@
 #pragma once
 
 class CheckModel;
-class ToothPaintHint;
+struct ToothPaintHint;
 
 struct ImplantData;
 struct DentistData;

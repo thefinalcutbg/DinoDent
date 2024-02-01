@@ -7,7 +7,7 @@
 
 class CheckModel;
 class AmbList;
-class ToothPaintHint;
+struct ToothPaintHint;
 class ISurfacePanel;
 class ListPresenter;
 class AbstractComboBox;

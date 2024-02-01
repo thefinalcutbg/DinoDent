@@ -7,7 +7,7 @@ class PerioToothData;
 class PerioStatistic;
 class Patient;
 
-struct Date;
+class Date;
 struct PerioStatus;
 struct ToothPaintHint;
 

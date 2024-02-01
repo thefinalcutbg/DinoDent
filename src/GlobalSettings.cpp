@@ -138,10 +138,15 @@ std::vector<std::string> GlobalSettings::getDefaultPkcs11Paths()
     return std::vector<std::string>
         {
             "/usr/lib/x86_64-linux-gnu/opensc-pkcs11.so",
+            "/usr/lib64/opensc-pkcs11.so",
             "/usr/lib/pkcs11/libeTPkcs11.so",
             "/usr/lib64/pkcs11/libeTPkcs11.so",
             "/usr/lib/libIDPrimePKCS11.so",
-            "/usr/local/lib64/libcvP11.so"
+            "/usr/lib64/libIDPrimePKCS11.so ",
+            "/usr/local/lib64/libcvP11.so",
+            "/usr/lib/libbit4ipki.so",
+            "/usr/lib64/libbit4ipki.so",
+            "/usr/local/lib/libsiecap11.so"
         };
 #endif
 }

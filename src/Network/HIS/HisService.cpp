@@ -371,7 +371,7 @@ std::string HisService::bind(const std::string& name, double value)
 
 std::string HisService::bind(const std::string& name, const char* value, bool isUserInput)
 {
-    if (value.empty()) return "";
+    if (value == nullptr || std::string(value).empty()) return "";
 
     return bind(name, std::string{ value }, isUserInput);
 }

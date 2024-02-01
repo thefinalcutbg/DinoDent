@@ -6,14 +6,13 @@
 #include "Model/Parser.h"
 #include "View/ModalDialogBuilder.h"
 #include "Database/DbPerio.h"
-#include "Presenter/PatientDialogPresenter.h"
 
 PerioPresenter::PerioPresenter(ITabView* view, std::shared_ptr<Patient> patient) :
     TabInstance(view, TabType::PerioStatus, patient),
     view(view->perioView()),
-    m_toothStatus(DbPerio::getStatus(patient->rowid, Date::currentDate())),
+    patient_info(view->perioView()->patientTile(), patient),
     m_perioStatus(DbPerio::getPerioStatus(patient->rowid, Date::currentDate())),
-    patient_info(view->perioView()->patientTile(), patient)
+    m_toothStatus(DbPerio::getStatus(patient->rowid, Date::currentDate()))
 {
 
     if (m_perioStatus.date != Date::currentDate()) //if its not todays measurment
@@ -55,9 +54,9 @@ PerioPresenter::PerioPresenter(ITabView* view, std::shared_ptr<Patient> patient)
 PerioPresenter::PerioPresenter(ITabView* view, std::shared_ptr<Patient> patient, long long rowId) :
     TabInstance(view, TabType::PerioStatus, patient),
     view(view->perioView()),
+    patient_info(view->perioView()->patientTile(), patient),
     m_perioStatus(DbPerio::getPerioStatus(rowId)),
-    m_toothStatus(DbPerio::getStatus(patient->rowid, m_perioStatus.date)),
-    patient_info(view->perioView()->patientTile(), patient)
+    m_toothStatus(DbPerio::getStatus(patient->rowid, m_perioStatus.date))
 {
 
     for (auto& tooth : m_toothStatus)

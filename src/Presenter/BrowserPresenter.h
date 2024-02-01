@@ -1,8 +1,11 @@
 #pragma once
 
+#include <set>
+#include <unordered_set>
+
 #include "Model/TableRows.h"
 #include "Model/PlainTable.h"
-#include <set>
+
 
 class IBrowserDialog;
 
@@ -23,7 +26,7 @@ class BrowserPresenter
 	std::vector<RowInstance> rowidData;
 	std::vector<RowInstance> patientDocRowid;
 
-	std::unordered_set<long long> sentToHis;
+    std::unordered_set<long long> sentToHis;
 	PlainTable tableData;
 
 	std::vector<RowInstance*> m_selectedInstances;

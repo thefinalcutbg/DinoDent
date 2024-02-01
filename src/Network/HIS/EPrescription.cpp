@@ -1,9 +1,8 @@
 ﻿#include "EPrescription.h"
+#include "Model/Patient.h"
 #include "Model/Prescription/Prescription.h"
 #include "View/ModalDialogBuilder.h"
-#include "Model/FreeFunctions.h"
 #include "TinyXML/tinyxml.h"
-#include "EReferral.h"
 
 #include <algorithm>
 

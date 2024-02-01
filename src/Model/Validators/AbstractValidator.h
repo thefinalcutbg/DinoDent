@@ -11,10 +11,10 @@ protected:
 	inline static const std::string noError{""};
 	const std::string* _errorMsg{ nullptr };
 public:
-	virtual bool validateInput(const std::string& text) { return true; };
-	virtual bool validateInput(int begin, int end) { return true; };
-	virtual bool validateInput(const std::array<bool, 6>& surfaces) { return true; }
-	virtual bool validateInput(const Date& date) { return true; };
+    virtual bool validateInput(const std::string&) { return true; };
+    virtual bool validateInput(int, int) { return true; };
+    virtual bool validateInput(const std::array<bool, 6>&) { return true; }
+    virtual bool validateInput(const Date&) { return true; };
 	
 	const std::string& getErrorMessage() 
 	{ 

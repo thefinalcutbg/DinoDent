@@ -12,10 +12,11 @@ class MedicationDialog : public QDialog, public IMedicationDialog
 {
 	Q_OBJECT
 
-	MedicationPresenter* presenter;
+    MedicationPresenter& presenter;
 	MedicationNameValidator nameValidator;
 
 	void commonDataChanged();
+    void periodChanged();
 
 public:
 	MedicationDialog(MedicationPresenter* p, QWidget *parent = nullptr);

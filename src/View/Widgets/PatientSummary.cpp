@@ -24,11 +24,11 @@ PatientSummary::PatientSummary(QWidget *parent)
 
 	setStyleSheet("QLabel { color :" + Theme::colorToString(Theme::fontTurquoise) + ";}");
 
-	connect(ui.openButton, &QAbstractButton::clicked, [=] {if (presenter) presenter->openCurrentDocument();});
-	connect(ui.sheetButton, &QAbstractButton::clicked, [=] {if (presenter) presenter->newAmbSheet();});
-	connect(ui.perioButton, &QAbstractButton::clicked, [=] {if (presenter) presenter->newPerio();});
-	connect(ui.prescrButton, &QAbstractButton::clicked, [=] {if (presenter) presenter->newPrescription();});
-	connect(ui.invoiceButton, &QAbstractButton::clicked, [=] {if (presenter) presenter->newInvoice();});
+    connect(ui.openButton, &QAbstractButton::clicked, this, [=, this] {if (presenter) presenter->openCurrentDocument();});
+    connect(ui.sheetButton, &QAbstractButton::clicked, this, [=, this] {if (presenter) presenter->newAmbSheet();});
+    connect(ui.perioButton, &QAbstractButton::clicked, this, [=, this] {if (presenter) presenter->newPerio();});
+    connect(ui.prescrButton, &QAbstractButton::clicked, this, [=, this] {if (presenter) presenter->newPrescription();});
+    connect(ui.invoiceButton, &QAbstractButton::clicked, this, [=, this] {if (presenter) presenter->newInvoice();});
 	
 	QButtonGroup* group = new QButtonGroup(this);
 	group->addButton(ui.showBuccal);
@@ -62,41 +62,41 @@ PatientSummary::PatientSummary(QWidget *parent)
 		);
 	};
 
-	connect(ui.dateFrom, &QDateEdit::dateChanged, [=]() { getDateFromView();});
-	connect(ui.dateTo, &QDateEdit::dateChanged, [=]() { getDateFromView();});
+    connect(ui.dateFrom, &QDateEdit::dateChanged, this, [=, this]() { getDateFromView();});
+    connect(ui.dateTo, &QDateEdit::dateChanged, this, [=, this]() { getDateFromView();});
 */
 
-	connect(buccalScene, &QGraphicsScene::selectionChanged, [=] {
+    connect(buccalScene, &QGraphicsScene::selectionChanged, this, [=, this] {
 			auto idx = buccalScene->selectedTooth();
 			lingualScene->setSelectedTooth(idx);
 			if (presenter) presenter->toothSelected(idx);
 		});
 
-	connect(lingualScene, &QGraphicsScene::selectionChanged, [=] {
+    connect(lingualScene, &QGraphicsScene::selectionChanged, this, [=, this] {
 			auto idx = lingualScene->selectedTooth();
 			buccalScene->setSelectedTooth(idx);
 			if (presenter) presenter->toothSelected(idx);
 		});
 
 
-	connect(ui.dateSlider, &QSlider::valueChanged, this, [=] {presenter->setCurrentFrame(ui.dateSlider->value());});
+    connect(ui.dateSlider, &QSlider::valueChanged, this, [=, this] {presenter->setCurrentFrame(ui.dateSlider->value());});
 
 	connect(ui.showLingual, &QPushButton::clicked, this,
-		[=] {
+        [=, this] {
 				ui.teethView->setScene(lingualScene);
 				if (presenter) presenter->teethViewButtonClicked(false);
 		}
 	);
 
 	connect(ui.showBuccal, &QPushButton::clicked, this,
-		[=] {
+        [=, this] {
 			ui.teethView->setScene(buccalScene);
 			if(presenter) presenter->teethViewButtonClicked(true);
 		}
 	);
 
 	connect(ui.showPerio, &QCheckBox::stateChanged, this,
-		[=] {
+        [=, this] {
 				bool show = ui.showPerio->isChecked();
 				lingualScene->showPerio(show);
 				buccalScene->showPerio(show);
@@ -113,7 +113,7 @@ PatientSummary::~PatientSummary()
 
 }
 
-void PatientSummary::paintEvent(QPaintEvent* event)
+void PatientSummary::paintEvent(QPaintEvent*)
 {
 	QPainter painter;
 	painter.begin(this);

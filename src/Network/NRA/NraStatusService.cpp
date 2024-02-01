@@ -1,4 +1,5 @@
 ﻿#include "NraStatusService.h"
+#include "Model/User.h"
 #include "View/ModalDialogBuilder.h"
 #include "Network/NetworkManager.h"
 #include "Model/Patient.h"

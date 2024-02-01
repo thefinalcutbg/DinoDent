@@ -3,25 +3,22 @@
 
 
 
-ProcedureEditDialog::ProcedureEditDialog(ProcedureEditorPresenter* p, QWidget *parent)
+ProcedureEditDialog::ProcedureEditDialog(ProcedureEditorPresenter& p, QWidget *parent)
 	: QDialog(parent), presenter(p)
 {
 
 	ui.setupUi(this);
-	presenter->setView(this);
+    presenter.setView(this);
 
 	setModal(true);
 	setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 	setWindowTitle("Редактиране на манипулация");
 
-	connect(ui.okButton, &QPushButton::clicked, [=] {presenter->okPressed(); });
-	connect(ui.cancelButton, &QPushButton::clicked, [=] { close(); });
-
+    connect(ui.okButton, &QPushButton::clicked, [&] {presenter.okPressed(); });
+    connect(ui.cancelButton, &QPushButton::clicked, [&] { close(); });
 }
 
-ProcedureEditDialog::~ProcedureEditDialog()
-{
-}
+ProcedureEditDialog::~ProcedureEditDialog() {}
 
 
 
@@ -37,7 +34,7 @@ void ProcedureEditDialog::closeDialog()
 }
 
 #include <QPainter>
-void ProcedureEditDialog::paintEvent(QPaintEvent* event)
+void ProcedureEditDialog::paintEvent(QPaintEvent*)
 {
 	QPainter painter;
 	painter.begin(this);

@@ -38,7 +38,7 @@ void PracticeManagerPresenter::addClicked()
 
 	practices = DbPractice::getPracticeList();
 
-	ModalDialogBuilder::openDialog(this);
+    ModalDialogBuilder::openDialog(*this);
 	
 }
 
@@ -114,7 +114,7 @@ void PracticeManagerPresenter::editClicked(int idx)
 
 	practices = DbPractice::getPracticeList();
 
-	ModalDialogBuilder::openDialog(this);
+    ModalDialogBuilder::openDialog(*this);
 
 }
 

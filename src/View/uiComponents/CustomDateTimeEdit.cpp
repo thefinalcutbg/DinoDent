@@ -105,28 +105,28 @@ void CustomDateTimeEdit::initHeaderWidget() {
 
     changeType(type);
 
-    connect(prevYearButton, &QPushButton::clicked, [this]() {
+    connect(prevYearButton, &QPushButton::clicked, this, [this]() {
         selectedYear(-1);
         }); // 上一年按钮的信号槽
-    connect(nextYearButton, &QPushButton::clicked, [this]() {
+    connect(nextYearButton, &QPushButton::clicked, this, [this]() {
         selectedYear(1);
         }); // 下一年按钮的信号槽
-    connect(prevMonthButton, &QPushButton::clicked, [this]() {
+    connect(prevMonthButton, &QPushButton::clicked, this, [this]() {
         int year = calendarWidget()->selectedDate().year();
     int month = calendarWidget()->selectedDate().month();
     selectedMonth(year, month - 1);
         }); // 上一月按钮的信号槽
-    connect(nextMonthButton, &QPushButton::clicked, [this]() {
+    connect(nextMonthButton, &QPushButton::clicked, this, [this]() {
         int year = calendarWidget()->selectedDate().year();
     int month = calendarWidget()->selectedDate().month();
     selectedMonth(year, month + 1);
         }); // 下一月按钮的信号槽
-    connect(calendarWidget(), &QCalendarWidget::currentPageChanged, [this](int year, int month) {
+    connect(calendarWidget(), &QCalendarWidget::currentPageChanged, this, [this](int year, int month) {
         setDateLabelText(year, month);
     selectedMonth(year, month);
     menuChanged();
         }); // 当日期改变时设置日期标签的文本和作用到日期并更新日历菜单内容
-    connect(monthButton, &QPushButton::clicked, [this]() {
+    connect(monthButton, &QPushButton::clicked, this, [this]() {
         if (monthMenu->isHidden()) {
             monthMenuPopup();
         }
@@ -134,7 +134,7 @@ void CustomDateTimeEdit::initHeaderWidget() {
             changeMenu(type);
         }
         }); // 月份按钮的信号槽
-    connect(yearButton, &QPushButton::clicked, [this]() {
+    connect(yearButton, &QPushButton::clicked, this, [this]() {
         if (yearMenu->isHidden()) {
             yearMenuPopup();
         }
@@ -194,11 +194,11 @@ void CustomDateTimeEdit::monthMenuPopup() {
                 monthList[monthTableCount]->setObjectName("monthListDisabled");
             }
             monthGridLayout->addWidget(monthList[monthTableCount], monthTableRow, monthTableColumn);
-            connect(monthList[monthTableCount], &QPushButton::clicked, [=]() {
+            connect(monthList[monthTableCount], &QPushButton::clicked, this, [=, this]() {
                 int year = calendarWidget()->selectedDate().year();
             selectedMonth(year, monthCount);
             if (type == menuContent::MONTH) {
-                calendarWidget()->activated(calendarWidget()->selectedDate());
+                emit calendarWidget()->activated(calendarWidget()->selectedDate());
             }
             else {
                 changeMenu(menuContent::DAY);
@@ -231,7 +231,7 @@ void CustomDateTimeEdit::yearMenuPopup() {
                 yearList[yearTableCount]->setObjectName("yearListEnabled");
             }
             yearGridLayout->addWidget(yearList[yearTableCount], yearTableRow, yearTableColumn);
-            connect(yearList[yearTableCount], &QPushButton::clicked, [=]() {
+            connect(yearList[yearTableCount], &QPushButton::clicked, this, [=, this]() {
                 int currentYear = calendarWidget()->selectedDate().year();
             selectedYear(yearCount - currentYear);
             if (type == menuContent::YEAR) {

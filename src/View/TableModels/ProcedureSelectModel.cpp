@@ -27,18 +27,6 @@ ProcedureSelectModel::ProcedureSelectModel(const std::vector<Procedure>& procedu
     }
 }
 
-
-
-bool ProcedureSelectModel::insertRows(int position, int rows, const QModelIndex& index)
-{
-    return false;
-}
-
-bool ProcedureSelectModel::removeRows(int row, int count, const QModelIndex& parent)
-{
-    return false;
-}
-
 QVariant ProcedureSelectModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (role == Qt::DisplayRole)
@@ -64,12 +52,12 @@ QVariant ProcedureSelectModel::headerData(int section, Qt::Orientation orientati
     return QVariant();;
 }
 
-int ProcedureSelectModel::rowCount(const QModelIndex& parent) const
+int ProcedureSelectModel::rowCount(const QModelIndex&) const
 {
     return m_procedures.size();
 }
 
-int ProcedureSelectModel::columnCount(const QModelIndex& parent) const
+int ProcedureSelectModel::columnCount(const QModelIndex&) const
 {
     return 5;
 }

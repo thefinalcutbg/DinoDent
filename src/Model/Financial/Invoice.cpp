@@ -1,9 +1,6 @@
 #include "Invoice.h"
 
-#include <array>
-#include <fstream>
 #include "Model/User.h"
-#include <stdexcept>
 #include <TinyXML/tinyxml.h>
 #include "Model/FreeFunctions.h"
 #include "BusinessOperation.h"
@@ -46,24 +43,24 @@ FinancialDocType getFinancialType(const std::string& inv_type_code)
 
 Invoice::Invoice(const TiXmlDocument& monthNotif, const Practice& practice, const Doctor& doctor)
     :
+    type						{ getFinancialType(getText(monthNotif.RootElement()->FirstChildElement("inv_type_code")))},
     name                        {getDocumentName(monthNotif.RootElement())},
-	type						{ getFinancialType(getText(monthNotif.RootElement()->FirstChildElement("inv_type_code")))},
-	
-	
-    m_mainDocument{           
-        type == FinancialDocType::Invoice
-        ?
-		MainDocument{}
-        :
-        MainDocument{
-        std::stoll(getText(monthNotif.RootElement()->FirstChildElement("from_inv_num"))),
-        Date(getText(monthNotif.RootElement()->FirstChildElement("from_inv_date")))
-        }
-    },
 
-	nhifData{ NhifInvoiceData(monthNotif, practice)},
-	recipient						{std::stoi(practice.RHIF())},
-	issuer							{practice, doctor}
+
+    nhifData{ NhifInvoiceData(monthNotif, practice)},
+
+    recipient						{std::stoi(practice.RHIF())},
+    issuer							{practice, doctor},
+    m_mainDocument{
+        type == FinancialDocType::Invoice
+            ?
+            MainDocument{}
+            :
+            MainDocument{
+                std::stoll(getText(monthNotif.RootElement()->FirstChildElement("from_inv_num"))),
+                Date(getText(monthNotif.RootElement()->FirstChildElement("from_inv_date")))
+            }
+    }
 {
 
 	for (
@@ -93,8 +90,8 @@ Invoice::Invoice(const TiXmlDocument& monthNotif, const Practice& practice, cons
 }
 
 Invoice::Invoice(const Patient& p, const Practice& practice, const Doctor& doctor) :
-	name ("Фактура"),
-	type(FinancialDocType::Invoice),
+    type(FinancialDocType::Invoice),
+    name ("Фактура"),
 	recipient(p),
 	issuer{practice, doctor}
 {
@@ -102,8 +99,8 @@ Invoice::Invoice(const Patient& p, const Practice& practice, const Doctor& docto
 
 
 Invoice::Invoice(const Recipient& r, const Practice& p, const Doctor& d) :
-	name ("Фактура"),
-	type (FinancialDocType::Invoice),
+    type (FinancialDocType::Invoice),
+    name ("Фактура"),
 	recipient(r),
 	issuer{ p, d }
 {

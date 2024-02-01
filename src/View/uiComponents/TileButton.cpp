@@ -22,7 +22,7 @@ TileButton::TileButton(QWidget* parent) : QAbstractButton(parent)
 
 }
 
-void TileButton::paintEvent(QPaintEvent* e)
+void TileButton::paintEvent(QPaintEvent*)
 {
 
 
@@ -70,7 +70,7 @@ void TileButton::paintEvent(QPaintEvent* e)
 	painter.end();
 }
 
-bool TileButton::eventFilter(QObject* obj, QEvent* e)
+bool TileButton::eventFilter(QObject*, QEvent* e)
 {
 	if (e->type() == QEvent::HoverEnter) {
 		hover = true;
@@ -128,8 +128,8 @@ void PatientTile::paintInfo(QPainter* painter)
 {
 	QFontMetrics fm(info);
 
-	int phonePosX = width() - fm.horizontalAdvance(phone) - 10;
-	int addressPosX = width() - fm.horizontalAdvance(address) - 10;
+    //int phonePosX = width() - fm.horizontalAdvance(phone) - 10;
+    //int addressPosX = width() - fm.horizontalAdvance(address) - 10;
 
 	constexpr int rowYPos[3]{ 60,80,100 };
 

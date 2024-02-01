@@ -1,12 +1,12 @@
 #include "SelectionBox.h"
 
-SelectionBox::SelectionBox(int index) : hovered(false), index(index)
+SelectionBox::SelectionBox(int index) : index(index), hovered(false)
 {
 	setFlag(QGraphicsItem::ItemIsSelectable);
 	setAcceptHoverEvents(true);
 
 	bounds.setHeight(200);
-    if (index > 2 && index < 13 || index > 18 && index < 29) {
+    if ((index > 2 && index < 13) || (index > 18 && index < 29)) {
         bounds.setWidth(36);
     }
     else {
@@ -25,9 +25,8 @@ QRectF SelectionBox::boundingRect() const
 }
 
 
-void SelectionBox::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
+void SelectionBox::paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*)
 {
-
     if (this->isSelected())  //painting the selection box
     {
         QColor select(Qt::gray);
@@ -51,13 +50,13 @@ void SelectionBox::paint(QPainter* painter, const QStyleOptionGraphicsItem* opti
 }
 
 
-void SelectionBox::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
+void SelectionBox::hoverEnterEvent(QGraphicsSceneHoverEvent*)
 {
     hovered = 1;
     this->update();
 }
 
-void SelectionBox::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
+void SelectionBox::hoverLeaveEvent(QGraphicsSceneHoverEvent*)
 {
     hovered = 0;
     this->update();

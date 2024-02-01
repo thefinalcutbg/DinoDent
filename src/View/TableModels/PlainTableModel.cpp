@@ -1,19 +1,18 @@
 #include "PlainTableModel.h"
-#include <algorithm>
 
 #include <QIcon>
 
-int PlainTableModel::rowCount(const QModelIndex& parent) const
+int PlainTableModel::rowCount(const QModelIndex&) const
 {
     return m_data.rowCount();
 }
 
-int PlainTableModel::columnCount(const QModelIndex& parent) const
+int PlainTableModel::columnCount(const QModelIndex&) const
 {
     return m_data.columnCount();
 }
 
-void PlainTableModel::setData(const PlainTable& t)
+void PlainTableModel::setTableData(const PlainTable& t)
 {
     beginResetModel();
     m_data = t;
@@ -37,8 +36,8 @@ QVariant PlainTableModel::data(const QModelIndex& index, int role) const
 
     if (!index.isValid()) return QVariant();
 
-    int row = index.row();
-    int column = index.column();
+    size_t row = index.row();
+    size_t column = index.column();
 
     if (column == m_data.size() || row == m_data[0].rows.size()) return 0;
 

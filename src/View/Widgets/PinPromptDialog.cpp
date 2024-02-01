@@ -15,8 +15,8 @@ PinPromptDialog::PinPromptDialog(const std::string& pem, QWidget *parent)
 	ui.expieryLabel->setText(cert.expiryDate().toString("dd.MM.yyyy") + " г.");
 	ui.lineEdit->setEchoMode(QLineEdit::EchoMode::Password);
 
-	connect(ui.okButton, &QPushButton::clicked,
-		[=] {
+    connect(ui.okButton, &QPushButton::clicked, this,
+        [&] {
 			auto pass = ui.lineEdit->text();
 			if (pass.isEmpty()) {
 				ui.lineEdit->setFocus();
@@ -29,13 +29,13 @@ PinPromptDialog::PinPromptDialog(const std::string& pem, QWidget *parent)
 
 		});
 
-	connect(ui.cancelButton, &QPushButton::clicked, [=] {reject();});
+    connect(ui.cancelButton, &QPushButton::clicked, this, [&]{reject();});
 
 }
 
 #include <QPainter>
 
-void PinPromptDialog::paintEvent(QPaintEvent* event)
+void PinPromptDialog::paintEvent(QPaintEvent*)
 {
 	QPainter painter;
 	painter.begin(this);

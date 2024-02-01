@@ -10,17 +10,17 @@ class PlainTableModel : public QAbstractTableModel
 
 	PlainTable m_data;
 
-	bool insertRows(int position, int rows, const QModelIndex& index = QModelIndex()) { return false; }
-	bool removeRows(int row, int count, const QModelIndex& parent = QModelIndex()) { return false; }
+    bool insertRows(int, int, const QModelIndex& = QModelIndex()) override { return false; }
+    bool removeRows(int, int, const QModelIndex& = QModelIndex()) override { return false; }
 	QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
-	int rowCount(const QModelIndex& parent = QModelIndex()) const override;
-	int columnCount(const QModelIndex& parent = QModelIndex()) const override;
+    int rowCount(const QModelIndex& = QModelIndex()) const override;
+    int columnCount(const QModelIndex& = QModelIndex()) const override;
 	QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
 
 public:
-	PlainTableModel(QObject* parent = nullptr) {};
+    PlainTableModel(QObject* parent = nullptr) : QAbstractTableModel(parent) {};
 
-	void setData(const PlainTable& t);
+    void setTableData(const PlainTable& t);
 
 	~PlainTableModel() {};
 };

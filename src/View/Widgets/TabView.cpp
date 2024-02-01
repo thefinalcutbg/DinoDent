@@ -35,8 +35,8 @@ TabView::TabView(QWidget *parent)
 
 
 
-    connect(ui.tabBar, &QTabBar::currentChanged,
-        [=](int index)
+    connect(ui.tabBar, &QTabBar::currentChanged, this,
+        [=, this](int index)
         {
             if (index == -1)
             {
@@ -60,8 +60,6 @@ TabView::TabView(QWidget *parent)
     setStyleSheet("#ScrollArea{background-color:"+ Theme::colorToString(Theme::background) + "}");
 
     TabPresenter::get().setView(this);
-
-    showWelcomeScreen();
 }
 
 

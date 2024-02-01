@@ -1,7 +1,6 @@
 ﻿#include "Tooth.h"
 #include <vector>
 #include "ToothUtils.h"
-#include "View/Theme.h"
 
 
 bool Tooth::isHealthyCheck() const
@@ -34,27 +33,27 @@ Tooth::Tooth(int index) : index(index), type(ToothUtils::getToothType(index)){}
 Tooth::Tooth(const Tooth& other) : 
 	index(other.index), 
 	type(other.type),
-	healthy(other.healthy),
-	temporary(other.temporary),
-	obturation(other.obturation),
-	caries(other.caries),
-	pulpitis(other.pulpitis),
-	lesion(other.lesion),
-	endo(other.endo),
-	post(other.post),
-	root(other.root),
-	fracture(other.fracture),
-	extraction(other.extraction),
-	periodontitis(other.periodontitis),
-	mobility(other.mobility),
-	crown(other.crown),
-	bridge(other.bridge),
-	splint(other.splint),
-	implant(other.implant),
-	dsn(other.dsn),
-	impacted(other.impacted),
-	denture(other.denture),
-	calculus(other.calculus)
+    obturation(other.obturation),
+    caries(other.caries),
+    healthy(other.healthy),
+    temporary(other.temporary),
+    dsn(other.dsn),
+    periodontitis(other.periodontitis),
+    impacted(other.impacted),
+    calculus(other.calculus),
+    endo(other.endo),
+    extraction(other.extraction),
+    implant(other.implant),
+    crown(other.crown),
+    denture(other.denture),
+    bridge(other.bridge),
+    splint(other.splint),
+    pulpitis(other.pulpitis),
+    lesion(other.lesion),
+    fracture(other.fracture),
+    root(other.root),
+    post(other.post),
+    mobility(other.mobility)
 {
 
 }
@@ -244,7 +243,7 @@ std::string Tooth::getPrintStatus() const
 	std::string result;
 	result.reserve(vec.size() * 3);
 
-	for (auto s : vec)
+    for (auto& s : vec)
 	{
 		if (s == "T") continue;
 
@@ -512,6 +511,7 @@ void Tooth::removeStatus(StatusType type)
 		case StatusType::general: removeStatus(); break;
 		case StatusType::obturation: removeAllSurfaces(obturation);  break;
 		case StatusType::caries: removeAllSurfaces(caries); break;
+        case StatusType::mobility: mobility.set(false); break;
 	}
 
 	if (noData()) healthy.set(true);

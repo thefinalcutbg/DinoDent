@@ -1,9 +1,12 @@
 ﻿#include "FiscalReportPresenter.h"
 #include "Database/DbFiscalReceipt.h"
-#include "View/ModalDialogBuilder.h"
-#include "View/Printer.h"
+
 #include "Model/Financial/Invoice.h"
 #include "Model/User.h"
+#include "Model/FreeFunctions.h"
+
+#include "View/ModalDialogBuilder.h"
+#include "View/Printer.h"
 
 std::string FiscalReportPresenter::getFilename()
 {

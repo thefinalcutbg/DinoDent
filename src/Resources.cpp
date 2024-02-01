@@ -35,9 +35,9 @@ std::vector<std::string> Resources::dbSchema() {
 	{
 		QTextStream in(&inputFile);
 		while (!in.atEnd())
-		{ 
-			
-			result.emplace_back(std::move(in.readLine().toStdString()));
+        {
+
+            result.emplace_back(in.readLine().toStdString());
 		}
 		inputFile.close();
 	}
@@ -58,7 +58,7 @@ std::vector<std::string> Resources::getMigrationScript(int version)
 		QTextStream in(&inputFile);
 		while (!in.atEnd())
 		{
-			result.emplace_back(std::move(in.readLine().toStdString()));
+            result.emplace_back(in.readLine().toStdString());
 		}
 		inputFile.close();
 	}

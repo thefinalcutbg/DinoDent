@@ -118,7 +118,6 @@ HEADERS += \
     src/Model/Dental/Diagnosis.h \
     src/Model/Dental/Enums.h \
     src/Model/Dental/HisSnapshot.h \
-    src/Model/Dental/KSMP.h \
     src/Model/Dental/MKB.h \
     src/Model/Dental/MonthNotifRow.h \
     src/Model/Dental/NhifMaps.h \
@@ -352,7 +351,6 @@ HEADERS += \
     src/View/TableModels/BusinessOperationModel.h \
     src/View/TableModels/FiscalReceiptTableModel.h \
     src/View/TableModels/HospitalizationTableModel.h \
-    src/View/TableModels/KSMPModel.h \
     src/View/TableModels/MKBModel.h \
     src/View/TableModels/MedicationTableModel.h \
     src/View/TableModels/MonthNotifTableModel.h \
@@ -495,7 +493,6 @@ SOURCES += \
     src/Model/Date.cpp \
     src/Model/Dental/DentalNum.cpp \
     src/Model/Dental/Diagnosis.cpp \
-    src/Model/Dental/KSMP.cpp \
     src/Model/Dental/MKB.cpp \
     src/Model/Dental/NhifProcedures.cpp \
     src/Model/Dental/NhifSheetData.cpp \
@@ -661,7 +658,6 @@ SOURCES += \
     src/View/TableModels/BusinessOperationModel.cpp \
     src/View/TableModels/FiscalReceiptTableModel.cpp \
     src/View/TableModels/HospitalizationTableModel.cpp \
-    src/View/TableModels/KSMPModel.cpp \
     src/View/TableModels/MKBModel.cpp \
     src/View/TableModels/MedicationTableModel.cpp \
     src/View/TableModels/MonthNotifTableModel.cpp \

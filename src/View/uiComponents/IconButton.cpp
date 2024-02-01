@@ -16,7 +16,7 @@ IconButton::IconButton(QWidget *parent)
 	this->installEventFilter(this);
 }
 
-void IconButton::paintEvent(QPaintEvent* event)
+void IconButton::paintEvent(QPaintEvent*)
 {
 	QPainter painter(this);
 
@@ -41,7 +41,7 @@ void IconButton::paintEvent(QPaintEvent* event)
 	
 }
 
-bool IconButton::eventFilter(QObject* obj, QEvent* e)
+bool IconButton::eventFilter(QObject*, QEvent* e)
 {
 	if (e->type() == QEvent::HoverEnter) {
 		m_hover = true;

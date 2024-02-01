@@ -1,9 +1,8 @@
 ﻿#include "MonthNotifPresenter.h"
+#include "Model/User.h"
 #include "View/ModalDialogBuilder.h"
 #include "Presenter/TabPresenter.h"
 #include "View/Interfaces/IMonthNotifView.h"
-#include <fstream>
-#include <streambuf>
 
 MonthNotifPresenter::MonthNotifPresenter(){}
 
@@ -35,7 +34,7 @@ void MonthNotifPresenter::loadFromPis()
 {
 
     m_listHandler.sendRequest(User::practice().rziCode,
-        [=](auto result) {this->setNotifRows(result);}
+        [=, this](auto result) {this->setNotifRows(result);}
     );
 }
 
@@ -44,7 +43,7 @@ void MonthNotifPresenter::okPressed(int currentIdx)
     if (currentIdx == -1) return;
     
     m_notifHandler.sendRequest(User::practice().rziCode, m_notifRows[currentIdx].hash,
-            [=](const std::string& result) { 
+            [=, this](const std::string& result) {
             TabPresenter::get().openInvoice(result);
             view->closeParentDialog();
         });

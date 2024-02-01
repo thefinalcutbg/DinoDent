@@ -1,9 +1,13 @@
 #include "GetFileService.h"
-#include "View/ModalDialogBuilder.h"
-#include "TinyXML/tinyxml.h"
-#include "Network/Base64Convert.h"
+
 #include <map>
 #include <utility>
+
+#include <TinyXML/tinyxml.h>
+
+#include "Network/Base64Convert.h"
+#include "Model/FreeFunctions.h"
+#include "Model/User.h"
 
 void GetFileService::processPISReply(const std::string& reply)
 {

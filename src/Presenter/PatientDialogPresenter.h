@@ -2,20 +2,13 @@
 
 
 #include <optional>
-#include <array>
-
 
 #include "Model/Validators/DateValidator.h"
 #include "Model/Validators/NameValidator.h"
 #include "Model/Validators/PatientValidators.h"
 #include "Model/Patient.h"
-#include "Model/Date.h"
 
 #include "View/Interfaces/IPatientDialog.h"
-#include "View/Interfaces/AbstractLineEdit.h"
-#include "View/Interfaces/AbstractComboBox.h"
-#include "View/Interfaces/AbstractLabel.h"
-
 
 #include "Network/PIS/GetHirbnoService.h"
 

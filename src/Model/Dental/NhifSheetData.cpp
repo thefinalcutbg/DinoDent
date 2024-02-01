@@ -18,6 +18,7 @@ std::string NhifSheetData::getSpecString(NhifSpecialty specialty) const
     //од специалнсот 61, 62 или 68 обща анестезия
     if (specification == NhifSpecification::Anesthesia) return "SPEC PS";
 
+    return std::string();
 }
 
 void NhifSheetData::setSpecFromNhif(const std::string& spec)

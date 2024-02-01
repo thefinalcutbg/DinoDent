@@ -15,6 +15,6 @@ class ProcedureCodeModel : public QAbstractTableModel
 
 public:
 	ProcedureCodeModel();
-	int rowCount(const QModelIndex& parent = QModelIndex()) const override { return m_list.size(); }
-	int columnCount(const QModelIndex& parent = QModelIndex()) const override { return 2; }
+    int rowCount(const QModelIndex& = QModelIndex()) const override { return m_list.size(); }
+    int columnCount(const QModelIndex& = QModelIndex()) const override { return 2; }
 };

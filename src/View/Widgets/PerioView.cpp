@@ -1,28 +1,29 @@
 #include "PerioView.h"
-#include "Model/Dental/PerioStatus.h"
-#include "View/Graphics/PerioScene.h"
+
 #include <QButtonGroup>
 #include <QPainter>
+
 #include "View/Graphics/PaintHint.h"
 #include "Presenter/PerioPresenter.h"
 #include "Model/Dental/PerioToothData.h"
 #include "Model/Dental/PerioStatistic.h"
-#include <string_view>
-#include <QDebug>
+#include "Model/Dental/PerioStatistic.h"
+#include "View/Graphics/PerioScene.h"
+#include "Model/Date.h"
+
 #include "View/Theme.h"
-#include <Model/Date.h>
 #include "View/Graphics/PerioChartItem.h"
 #include "View/Graphics/PerioGraphicsButton.h"
 #include "View/Graphics/PerioScene.h"
 #include "View/uiComponents/ToothButton.h"
-#include "Model/Dental/PerioStatistic.h"
+
 
 PerioView::PerioView(QWidget* parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
 
-	connect(ui.dateEdit, &QDateEdit::dateChanged, [=](QDate d) {if (presenter)presenter->dateChanged(Date{ d.day(), d.month(), d.year() });});
+    connect(ui.dateEdit, &QDateEdit::dateChanged, this, [=, this](QDate d) {if (presenter)presenter->dateChanged(Date{ d.day(), d.month(), d.year() });});
 	QButtonGroup* group = new QButtonGroup(this);
 	group->addButton(ui.upperButton);
 	group->addButton(ui.lowerButton);
@@ -33,13 +34,13 @@ PerioView::PerioView(QWidget* parent)
 	setFixedHeight(1470);
 
 	ui.upperButton->setChecked(true);
-	connect(ui.upperButton, &QPushButton::clicked,
-		[&] {
+    connect(ui.upperButton, &QPushButton::clicked, this,
+        [=, this] {
 			ui.stackedWidget->setCurrentWidget(ui.maxilla);
 			presenter->teethViewChanged(ShowTeeth::ShowUpperTeeth); 
 		});
-	connect(ui.lowerButton, &QPushButton::clicked, 
-		[&] { 
+    connect(ui.lowerButton, &QPushButton::clicked, this,
+        [=, this] {
 			ui.stackedWidget->setCurrentWidget(ui.mandibula); 
 			presenter->teethViewChanged(ShowTeeth::ShowLowerTeeth);
 		});
@@ -52,48 +53,48 @@ PerioView::PerioView(QWidget* parent)
 	
 	for (int i = 0; i < 32; i++)
 	{
-		connect(m_tooth[i], &ToothButton::clicked, 
-			[=] { presenter->toothButtonClicked(i); });
+        connect(m_tooth[i], &ToothButton::clicked, this,
+            [=, this] { presenter->toothButtonClicked(i); });
 
-		connect(m_furcation[i], &FurcationWidget::valueChanged,
-			[=](FurcationMeasurment m)
+        connect(m_furcation[i], &FurcationWidget::valueChanged, this,
+            [=, this](FurcationMeasurment m)
 			{
 				presenter->furcationChanged(i, m.a, m.b, m.c);
 			});
 	}
 
 	for (int i = 0; i < 64; i++){
-		connect(m_Attach[i], QOverload<int>::of(&QSpinBox::valueChanged),
-			[=](int value) {presenter->attachChanged(i, value); });
+        connect(m_Attach[i], QOverload<int>::of(&QSpinBox::valueChanged), this,
+            [=, this](int value) {presenter->attachChanged(i, value); });
 	}
 
 	for (int i = 0; i < 192; i++)
 	{
-		connect(m_PD[i], QOverload<int>::of(&QSpinBox::valueChanged),
-			[=](int value) { presenter->pdChanged(i, value); });
+        connect(m_PD[i], QOverload<int>::of(&QSpinBox::valueChanged), this,
+            [=, this](int value) { presenter->pdChanged(i, value); });
 
-		connect(m_CAL[i], QOverload<int>::of(&QSpinBox::valueChanged),
-			[=](int value) { presenter->calChanged(i, value); });
+        connect(m_CAL[i], QOverload<int>::of(&QSpinBox::valueChanged), this,
+            [=, this](int value) { presenter->calChanged(i, value); });
 
-		connect(m_GM[i], QOverload<int>::of(&QSpinBox::valueChanged),
-			[=](int value) { presenter->gmChanged(i, value); });
+        connect(m_GM[i], QOverload<int>::of(&QSpinBox::valueChanged), this,
+            [=, this](int value) { presenter->gmChanged(i, value); });
 
-		connect(m_BOP[i], &QAbstractButton::clicked, [=] {presenter->bopChanged(i, m_BOP[i]->isChecked()); });
+        connect(m_BOP[i], &QAbstractButton::clicked, this, [=, this] {presenter->bopChanged(i, m_BOP[i]->isChecked()); });
 	}
 
 
 	for(int i = 0; i < 5; i++)
-		connect(m_smoke[i], &QRadioButton::clicked, [=]{if(presenter)presenter->smokeClicked(i); });
+        connect(m_smoke[i], &QRadioButton::clicked, this, [=, this]{if(presenter)presenter->smokeClicked(i); });
 
-	connect(ui.boneSpin, QOverload<int>::of(&QSpinBox::valueChanged),
-		[=](int value) { presenter->boneLossChanged(value); } );
+    connect(ui.boneSpin, QOverload<int>::of(&QSpinBox::valueChanged), this,
+        [=, this](int value) { presenter->boneLossChanged(value); } );
 
 
-	connect(ui.systemicCheck, &QCheckBox::clicked, 
-		[=] {presenter->systemicChanged(ui.systemicCheck->isChecked()); });
+    connect(ui.systemicCheck, &QCheckBox::clicked, this,
+        [=, this] {presenter->systemicChanged(ui.systemicCheck->isChecked()); });
 
-	connect(ui.restoreCheck, &QCheckBox::clicked,
-		[=] {presenter->restorationChanged(ui.restoreCheck->isChecked()); });
+    connect(ui.restoreCheck, &QCheckBox::clicked, this,
+        [=, this] {presenter->restorationChanged(ui.restoreCheck->isChecked()); });
 
 	setStyleSheet(Theme::getFancyStylesheet());
 
@@ -221,7 +222,7 @@ void PerioView::setDate(const Date& d)
 
 
 
-void PerioView::paintEvent(QPaintEvent* event)
+void PerioView::paintEvent(QPaintEvent*)
 {
     QPainter painter(this);
     painter.fillRect(0, 0, width(), height(), Theme::background);
@@ -270,25 +271,6 @@ void PerioView::refreshChartMeasurment(int idx)
 
 	perioChart[static_cast<int>(chartIdx.position)]->setMeasurment(chartIdx.index, GM, CAL);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 //initializations

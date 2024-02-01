@@ -33,7 +33,7 @@ StatisticTableModel::~StatisticTableModel()
 {
 }
 
-bool StatisticTableModel::insertRows(int position, int rows, const QModelIndex& index)
+bool StatisticTableModel::insertRows(int position, int, const QModelIndex&)
 {
     beginInsertRows(QModelIndex(), position, position);
     endInsertRows();
@@ -62,12 +62,12 @@ QVariant StatisticTableModel::headerData(int section, Qt::Orientation orientatio
 }
 
 
-int StatisticTableModel::rowCount(const QModelIndex& parent) const
+int StatisticTableModel::rowCount(const QModelIndex&) const
 {
     return rows.size();
 }
 
-int StatisticTableModel::columnCount(const QModelIndex& parent) const
+int StatisticTableModel::columnCount(const QModelIndex&) const
 {
     return 2;
 }

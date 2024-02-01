@@ -23,7 +23,7 @@ void StatusButton::setCheckState(const CheckState& checkState)
 	setChecked(0);
 }
 
-void StatusButton::paintEvent(QPaintEvent* e)
+void StatusButton::paintEvent(QPaintEvent*)
 {
 	QPainter painter(this);
 	
@@ -66,7 +66,7 @@ void StatusButton::paintEvent(QPaintEvent* e)
 
 }
 
-bool StatusButton::eventFilter(QObject* obj, QEvent* e)
+bool StatusButton::eventFilter(QObject*, QEvent* e)
 {
 	if (e->type() == QEvent::HoverEnter) {
 		m_hover = true;

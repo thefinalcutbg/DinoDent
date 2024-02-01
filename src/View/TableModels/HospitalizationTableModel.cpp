@@ -1,9 +1,8 @@
 ﻿#include "HospitalizationTableModel.h"
-#include "ProcedureTableModel.h"
 #include <QIcon>
 #include <QFont>
 
-void HospitalizationTableModel::setData(const std::vector<Hospitalization>& rows)
+void HospitalizationTableModel::setRows(const std::vector<Hospitalization>& rows)
 {
     beginResetModel();
 
@@ -64,7 +63,7 @@ QVariant HospitalizationTableModel::data(const QModelIndex& index, int role) con
                 case Hospitalization::Terminated: return "Прекратена";
                 case Hospitalization::Completed: return "Завършила";
                 case Hospitalization::Planned: return "Планирана";
-
+                default: break;
             }
         }
     case Qt::FontRole:
@@ -73,6 +72,7 @@ QVariant HospitalizationTableModel::data(const QModelIndex& index, int role) con
             font.setBold(true);
             return font;
         }
+        else break;
     case Qt::ForegroundRole:
     {
         if (column == 1) {
@@ -83,8 +83,10 @@ QVariant HospitalizationTableModel::data(const QModelIndex& index, int role) con
                 case Hospitalization::Terminated: return  QColor(Qt::darkGreen);
                 case Hospitalization::Completed: return QColor(Qt::darkGreen);
                 case Hospitalization::Planned: return QColor(Qt::darkYellow);
+                default: break;
             }
         }
+        else break;
 
     }
     case Qt::TextAlignmentRole:

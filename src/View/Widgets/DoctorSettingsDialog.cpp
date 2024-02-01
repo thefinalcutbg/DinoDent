@@ -1,10 +1,9 @@
 ﻿#include "DoctorSettingsDialog.h"
 #include "Presenter/DoctorDialogPresenter.h"
-#include <unordered_map>
 #include <QPainter>
 #include "TableViewDialog.h"
 
-void DoctorSettingsDialog::paintEvent(QPaintEvent* event)
+void DoctorSettingsDialog::paintEvent(QPaintEvent*)
 {
 	QPainter painter(this);
 	painter.fillRect(rect(), QColor(Qt::white));
@@ -35,15 +34,15 @@ DoctorSettingsDialog::DoctorSettingsDialog(DoctorDialogPresenter* presenter, QWi
 
 	connect(ui.okButton, &QPushButton::clicked, [=] {presenter->okPressed();});
 
-	connect(ui.lpkEdit, &QLineEdit::textEdited,
-		[=] {
+    connect(ui.lpkEdit, &QLineEdit::textEdited, this,
+        [&] {
 			if (ui.lpkEdit->isValid())
 				presenter->validLPK(ui.lpkEdit->getText());
 		});
 
 
-	connect(ui.specialtyButton, &QPushButton::clicked,
-		[=] {
+    connect(ui.specialtyButton, &QPushButton::clicked, this,
+        [&] {
 
 				TableViewDialog d(his_specialtyModel, 1, ui.specialtyButton->text().toStdString());
 				d.setWindowTitle("Избор на специалност дентална медицина");

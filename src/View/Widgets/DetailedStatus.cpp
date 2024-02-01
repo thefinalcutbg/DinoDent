@@ -32,9 +32,9 @@ DetailedStatus::DetailedStatus(DetailedStatusPresenter* presenter) : presenter(p
 	ui.pisCheck->setIcon(QIcon(":/icons/icon_nhif.png"));
 	ui.hisCheck->setIcon(QIcon(":/icons/icon_his.png"));
 
-	connect(ui.localCheck, &QCheckBox::stateChanged, [=]{ sendTableStatesToPresenter(); });
-	connect(ui.hisCheck, &QCheckBox::stateChanged, [=] { sendTableStatesToPresenter(); });
-	connect(ui.pisCheck, &QCheckBox::stateChanged, [=] { sendTableStatesToPresenter(); });
+    connect(ui.localCheck, &QCheckBox::stateChanged, this, [=, this]{ sendTableStatesToPresenter(); });
+    connect(ui.hisCheck, &QCheckBox::stateChanged, this, [=, this] { sendTableStatesToPresenter(); });
+    connect(ui.pisCheck, &QCheckBox::stateChanged, this, [=, this] { sendTableStatesToPresenter(); });
 
 	ui.toothLabel->setStyleSheet("border: 1px solid lightgray");
 	ui.dsnLabel->setStyleSheet("border: 1px solid lightgray");
@@ -125,7 +125,7 @@ DetailedStatus::DetailedStatus(DetailedStatusPresenter* presenter) : presenter(p
 	}
 
 	
-	connect(ui.treeWidget, &QTreeWidget::itemChanged, this, [=](QTreeWidgetItem* item, int column) 
+    connect(ui.treeWidget, &QTreeWidget::itemChanged, this, [=, this](QTreeWidgetItem* item, int)
 		{ 
 			auto list = ui.treeWidget->selectedItems();
 
@@ -148,9 +148,9 @@ DetailedStatus::DetailedStatus(DetailedStatusPresenter* presenter) : presenter(p
 			
 		});
 
-		connect(ui.treeWidget, &QTreeWidget::currentItemChanged, this, [=](QTreeWidgetItem* item) {
+        connect(ui.treeWidget, &QTreeWidget::currentItemChanged, this, [=, this](QTreeWidgetItem* item) {
 		
-		int parent = ui.treeWidget->selectionModel()->currentIndex().parent().row();
+        //int parent = ui.treeWidget->selectionModel()->currentIndex().parent().row();
 		int code = ui.treeWidget->selectionModel()->currentIndex().row();
 		
 		if (presenter)
@@ -172,8 +172,8 @@ DetailedStatus::DetailedStatus(DetailedStatusPresenter* presenter) : presenter(p
 		
 		});
 
-	connect(ui.okButton, &QPushButton::clicked, this, [=] {presenter->okPressed(); close(); });
-	connect(ui.cancelButton, &QPushButton::clicked, this, [=] { close(); });
+    connect(ui.okButton, &QPushButton::clicked, this, [=, this] {presenter->okPressed(); close(); });
+    connect(ui.cancelButton, &QPushButton::clicked, this, [=, this] { close(); });
 	
 	presenter->setView(this);
 
@@ -188,7 +188,7 @@ void DetailedStatus::setCheckModel(const CheckModel& tooth, const CheckModel& ds
 
 	//tooth
 
-	for (int i = 0; i < tooth.generalStatus.size(); i++)
+    for (size_t i = 0; i < tooth.generalStatus.size(); i++)
 	{
 		tooth.generalStatus[i] == CheckState::checked ?
 			ui.treeWidget->topLevelItem(i)->setCheckState(0, Qt::CheckState::Checked)
@@ -196,7 +196,7 @@ void DetailedStatus::setCheckModel(const CheckModel& tooth, const CheckModel& ds
 			ui.treeWidget->topLevelItem(i)->setCheckState(0, Qt::CheckState::Unchecked);
 	}
 
-	for (int i = 0; i < tooth.obturationStatus.size(); i++)
+    for (size_t i = 0; i < tooth.obturationStatus.size(); i++)
 	{
 		tooth.obturationStatus[i] == CheckState::checked ?
 			ui.treeWidget->topLevelItem(StatusCode::Obturation)->child(i)->setCheckState(0, Qt::CheckState::Checked)
@@ -204,7 +204,7 @@ void DetailedStatus::setCheckModel(const CheckModel& tooth, const CheckModel& ds
 			ui.treeWidget->topLevelItem(StatusCode::Obturation)->child(i)->setCheckState(0, Qt::CheckState::Unchecked);
 	}
 
-	for (int i = 0; i < tooth.cariesStatus.size(); i++)
+    for (size_t i = 0; i < tooth.cariesStatus.size(); i++)
 	{
 		tooth.cariesStatus[i] == CheckState::checked ?
 			ui.treeWidget->topLevelItem(StatusCode::Caries)->child(i)->setCheckState(0, Qt::CheckState::Checked)
@@ -212,7 +212,7 @@ void DetailedStatus::setCheckModel(const CheckModel& tooth, const CheckModel& ds
 			ui.treeWidget->topLevelItem(StatusCode::Caries)->child(i)->setCheckState(0, Qt::CheckState::Unchecked);
 	}
 
-	for (int i = 0; i < tooth.mobilityStatus.size(); i++)
+    for (size_t i = 0; i < tooth.mobilityStatus.size(); i++)
 	{
 		tooth.mobilityStatus[i] == CheckState::checked ?
 			ui.treeWidget->topLevelItem(StatusCode::Mobility)->child(i)->setCheckState(0, Qt::CheckState::Checked)
@@ -222,7 +222,7 @@ void DetailedStatus::setCheckModel(const CheckModel& tooth, const CheckModel& ds
 
 	//dsn:
 
-	for (int i = 0; i < dsn.generalStatus.size(); i++)
+    for (size_t i = 0; i < dsn.generalStatus.size(); i++)
 	{
 		dsn.generalStatus[i] == CheckState::checked ?
 			ui.treeWidget->topLevelItem(StatusCode::Dsn)->child(i)->setCheckState(0, Qt::CheckState::Checked)
@@ -230,7 +230,7 @@ void DetailedStatus::setCheckModel(const CheckModel& tooth, const CheckModel& ds
 			ui.treeWidget->topLevelItem(StatusCode::Dsn)->child(i)->setCheckState(0, Qt::CheckState::Unchecked);
 	}
 
-	for (int i = 0; i < dsn.obturationStatus.size(); i++)
+    for (size_t i = 0; i < dsn.obturationStatus.size(); i++)
 	{
 		dsn.obturationStatus[i] == CheckState::checked ?
 			ui.treeWidget->topLevelItem(StatusCode::Dsn)->child(StatusCode::Obturation)->child(i)->setCheckState(0, Qt::CheckState::Checked)
@@ -238,7 +238,7 @@ void DetailedStatus::setCheckModel(const CheckModel& tooth, const CheckModel& ds
 			ui.treeWidget->topLevelItem(StatusCode::Dsn)->child(StatusCode::Obturation)->child(i)->setCheckState(0, Qt::CheckState::Unchecked);
 	}
 
-	for (int i = 0; i < dsn.cariesStatus.size(); i++)
+    for (size_t i = 0; i < dsn.cariesStatus.size(); i++)
 	{
 		dsn.cariesStatus[i] == CheckState::checked ?
 			ui.treeWidget->topLevelItem(StatusCode::Dsn)->child(StatusCode::Caries)->child(i)->setCheckState(0, Qt::CheckState::Checked)
@@ -246,7 +246,7 @@ void DetailedStatus::setCheckModel(const CheckModel& tooth, const CheckModel& ds
 			ui.treeWidget->topLevelItem(StatusCode::Dsn)->child(StatusCode::Caries)->child(i)->setCheckState(0, Qt::CheckState::Unchecked);
 	}
 
-	for (int i = 0; i < dsn.mobilityStatus.size(); i++)
+    for (size_t i = 0; i < dsn.mobilityStatus.size(); i++)
 	{
 		dsn.mobilityStatus[i] == CheckState::checked ?
 			ui.treeWidget->topLevelItem(StatusCode::Dsn)->child(StatusCode::Mobility)->child(i)->setCheckState(0, Qt::CheckState::Checked)

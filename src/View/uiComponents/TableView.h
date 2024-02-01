@@ -29,8 +29,7 @@ class TableView : public QTableView
 	TableViewHeader header;
 
 
-	void focusOutEvent(QFocusEvent* event) override {
-
+    void focusOutEvent(QFocusEvent*) override {
 		//setCurrentIndex(QModelIndex());
 	}
 

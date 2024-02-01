@@ -8,7 +8,7 @@ constexpr std::string_view perioStage[5]{ "Здрав пародонт", "Нач
 constexpr std::string_view perioRisk[3]{ "Нисък", "Среден", "Висок" };
 
 
-void PerioStatisticView::paintEvent(QPaintEvent* event)
+void PerioStatisticView::paintEvent(QPaintEvent*)
 {
 	QPainter painter;
 	painter.begin(this);

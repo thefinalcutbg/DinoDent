@@ -4,8 +4,6 @@
 #include "View/Graphics/ToothPainter.h"
 #include "View/Graphics/PaintHint.h"
 
-#include "Model/Dental/ToothContainer.h"
-
 #include <QDebug>
 PerioScene::PerioScene()
 {
@@ -14,7 +12,7 @@ PerioScene::PerioScene()
     double posY = 0;
     double posX = 0;
 
-    double centerX = 32;
+    //double centerX = 32;
 
     for (int i = 0; i < 16; i++)
     {

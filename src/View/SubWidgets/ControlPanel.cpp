@@ -21,9 +21,9 @@ ControlPanel::ControlPanel(QWidget* parent)
 
 	auto lambdaConnect = [this](QPushButton* button, StatusCode::StatusCode code)
 	{
-		this->connect(button, &QPushButton::clicked, this, [=] {
+        this->connect(button, &QPushButton::clicked, this, [=, this] {
 
-			if (presenter == NULL) return;
+            if (presenter == nullptr) return;
 				presenter->setToothStatus(StatusType::general, code);
 			});
 	};
@@ -51,7 +51,7 @@ ControlPanel::ControlPanel(QWidget* parent)
 
 	ui.Mobility->setStateNames({ "Подвижност", "Подвижност I", "Подвижност II", "Подвижност III" });
 
-	connect(ui.Mobility, &StatusMultiButton::stateChanged, [this](int state)
+    connect(ui.Mobility, &StatusMultiButton::stateChanged, this, [this](int state)
 		{
 			if (!presenter) return;
 			
@@ -65,7 +65,7 @@ ControlPanel::ControlPanel(QWidget* parent)
 		}
 	);
 
-	connect(ui.unknown, &QPushButton::clicked, this, [=] {
+    connect(ui.unknown, &QPushButton::clicked, this, [=, this] {
 		if (presenter)
 			presenter->setOther(OtherInputs::removeAll);
 	});

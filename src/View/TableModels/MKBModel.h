@@ -14,8 +14,8 @@ class MKBModel : public QAbstractTableModel
 
 public:
 	MKBModel(const std::vector<MKB>& list) : mkbList(list) {}
-	int rowCount(const QModelIndex& parent = QModelIndex()) const override { return mkbList.size(); }
-	int columnCount(const QModelIndex& parent = QModelIndex()) const override { return 2; }
+    int rowCount(const QModelIndex& = QModelIndex()) const override { return mkbList.size(); }
+    int columnCount(const QModelIndex& = QModelIndex()) const override { return 2; }
 	int getRowFromCode(const std::string& code);
 };
 

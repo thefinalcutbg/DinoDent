@@ -3,8 +3,6 @@
 #include <QDialog>
 #include <QSortFilterProxyModel>
 #include "ui_TableViewDialog.h"
-#include "Model/Dental/KSMP.h"
-#include "Model/Dental/MKB.h"
 
 class TableViewDialog : public QDialog
 {

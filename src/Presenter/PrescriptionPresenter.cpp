@@ -2,6 +2,7 @@
 #include "MedicationPresenter.h"
 #include "Database/DbPrescription.h"
 #include "Model/FreeFunctions.h"
+#include "Model/User.h"
 
 PrescriptionPresenter::PrescriptionPresenter(ITabView* tabView, std::shared_ptr<Patient> patient, long long rowId) :
 	TabInstance(tabView, TabType::Prescription, patient), 

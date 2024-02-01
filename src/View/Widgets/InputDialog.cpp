@@ -50,12 +50,10 @@ std::string InputDialog::result()
 	return std::string{};
 }
 
-void InputDialog::paintEvent(QPaintEvent* e)
+void InputDialog::paintEvent(QPaintEvent* )
 {
-	QPainter painter;
-	painter.begin(this);
+    QPainter painter(this);
 	painter.fillRect(QRect(0, 0, width(), height()), Qt::white);
-	painter.end();
 }
 
 InputDialog::~InputDialog()

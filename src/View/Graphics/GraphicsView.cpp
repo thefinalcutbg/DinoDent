@@ -12,7 +12,7 @@ GraphicsView::GraphicsView(QWidget *parent)
 	setCacheMode(QGraphicsView::CacheBackground);
 	setDragMode(QGraphicsView::RubberBandDrag);
 
-	setStyleSheet("background: transparent");
+    setStyleSheet("QGraphicsView { background: transparent;}");
 	
 	setViewportUpdateMode(QGraphicsView::ViewportUpdateMode::FullViewportUpdate);
 	

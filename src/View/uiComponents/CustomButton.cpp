@@ -21,7 +21,7 @@ CustomButton::CustomButton(QWidget* parent)
 	
 }
 
-void CustomButton::paintEvent(QPaintEvent* event)
+void CustomButton::paintEvent(QPaintEvent*)
 {
 	QPainter painter(this);
 
@@ -55,7 +55,7 @@ void CustomButton::paintEvent(QPaintEvent* event)
 
 }
 
-bool CustomButton::eventFilter(QObject* obj, QEvent* e)
+bool CustomButton::eventFilter(QObject*, QEvent* e)
 {
 	if (e->type() == QEvent::HoverEnter) {
 		m_hover = true;

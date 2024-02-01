@@ -26,7 +26,7 @@ void SpinBox::hide(bool hidden)
 	setHidden(hidden);
 }
 
-void SpinBox::setValidAppearence(bool valid)
+void SpinBox::setValidAppearence(bool)
 {
 }
 

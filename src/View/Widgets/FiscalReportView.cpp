@@ -63,7 +63,7 @@ int FiscalReportView::getCurrentIndex()
 FiscalReportView::~FiscalReportView()
 {}
 
-void FiscalReportView::paintEvent(QPaintEvent * e)
+void FiscalReportView::paintEvent(QPaintEvent *)
 {
 	QPainter p(this);
 	p.fillRect(rect(), Qt::white);

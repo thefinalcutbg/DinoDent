@@ -2,7 +2,7 @@
 
 #include "Presenter/ProcedureDialogPresenter.h"
 
-ProcedureDialog::ProcedureDialog(ProcedureDialogPresenter* presenter, QWidget *parent)
+ProcedureDialog::ProcedureDialog(ProcedureDialogPresenter& presenter, QWidget *parent)
 	: QDialog(parent), presenter(presenter), proxyModel(this)
 {
 	ui.setupUi(this);
@@ -11,7 +11,7 @@ ProcedureDialog::ProcedureDialog(ProcedureDialogPresenter* presenter, QWidget *p
 	setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 	setWindowTitle("Добавяне на манипулация");
 
-	auto table = ui.tableView;
+    auto& table = ui.tableView;
 
 	//ui.procedureInput->setExternalDateEdit(ui.dateEdit);
 	//ui.dateEdit->setErrorLabel(ui.errorLabel);
@@ -30,24 +30,23 @@ ProcedureDialog::ProcedureDialog(ProcedureDialogPresenter* presenter, QWidget *p
 	table->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
 	table->horizontalHeader()->setSectionResizeMode(2, QHeaderView::ResizeMode::Stretch);
 
-	connect(table->selectionModel(), &QItemSelectionModel::currentRowChanged, this, [=] {
-	
-		s_idx = table->selectionModel()->currentIndex().row();
+    connect(table->selectionModel(), &QItemSelectionModel::currentRowChanged, this, [&] {
+            s_idx = table->selectionModel()->currentIndex().row();
 
-		if (s_idx == -1){
-			
-			presenter->indexChanged(s_idx);
-			return;
-		}
+            if (s_idx == -1){
 
-		int procedure = proxyModel.index(s_idx, 0).data().toInt();
-		presenter->indexChanged(procedure);
+                presenter.indexChanged(s_idx);
+                return;
+            }
+
+            int procedure = proxyModel.index(s_idx, 0).data().toInt();
+            presenter.indexChanged(procedure);
 		});
 
-	connect(ui.cancelButton, &QPushButton::clicked, [=] { close(); });
-	connect(ui.okButton, &QPushButton::clicked, [=] { presenter->formAccepted(); });
+    connect(ui.cancelButton, &QPushButton::clicked, this, [&] { close(); });
+    connect(ui.okButton, &QPushButton::clicked, this, [&] { presenter.formAccepted(); });
 
-	connect(ui.searchEdit, &QLineEdit::textChanged, [=]
+    connect(ui.searchEdit, &QLineEdit::textChanged, this, [=, this]
 		{
 			s_search = ui.searchEdit->text();
 			proxyModel.setFilterRegularExpression(QRegularExpression(s_search, QRegularExpression::CaseInsensitiveOption));
@@ -55,13 +54,13 @@ ProcedureDialog::ProcedureDialog(ProcedureDialogPresenter* presenter, QWidget *p
 		});
 
 
-	connect(ui.tableView, &QTableView::doubleClicked, [=] { presenter->formAccepted(); });
+    connect(ui.tableView, &QTableView::doubleClicked, this, [&] { presenter.formAccepted(); });
 
-	connect(ui.procedureInput->qDateEdit(), &QDateEdit::dateChanged, [=] {
+    connect(ui.procedureInput->qDateEdit(), &QDateEdit::dateChanged, this, [&] {
 
 		auto date = ui.procedureInput->qDateEdit()->date();
-		presenter->procedureDateChanged(Date{ date.day(), date.month(), date.year() });
-		presenter->indexChanged(-1);
+        presenter.procedureDateChanged(Date{ date.day(), date.month(), date.year() });
+        presenter.indexChanged(-1);
 		});
 
 	
@@ -72,7 +71,7 @@ ProcedureDialog::ProcedureDialog(ProcedureDialogPresenter* presenter, QWidget *p
 	ui.tableView->selectRow(s_idx);
 
 
-	presenter->setView(this);
+    presenter.setView(this);
 
 
 }
@@ -95,7 +94,7 @@ void ProcedureDialog::setSelectionLabel(const std::vector<int>& selectedTeethNum
 
 	selectedTeeth.append("Избрани зъби: ");
 
-	for (int i = 0; i < selectedTeethNum.size(); i++)
+    for (size_t i = 0; i < selectedTeethNum.size(); i++)
 	{
 		selectedTeeth.append(QString::number(selectedTeethNum[i]));
 		if (i < selectedTeethNum.size() - 1)

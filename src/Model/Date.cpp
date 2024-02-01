@@ -296,10 +296,7 @@ int Date::getWorkdaysOfMonth(int month, int year)
 {
     int workDays{0};
     
-    int dayFirst = 1;
-    int dayLast = getMaxDayOfMonth(month, year);
-
-    for (int i = 1; i <= dayLast; i++)
+    for (int i = 1; i <= getMaxDayOfMonth(month, year); i++)
     {
         if (!Date(i, month, year).isWeekend()) workDays++;
     }

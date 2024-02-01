@@ -5,7 +5,7 @@
 #include "View/Theme.h"
 
 TabTitle::TabTitle(TabView* tabView, int tabId)
-	: tabId(tabId), m_id(tabId)
+    : m_id(tabId), tabId(tabId)
 {
 	ui.setupUi(this);
 

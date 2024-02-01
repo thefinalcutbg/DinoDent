@@ -24,10 +24,8 @@ private:
 
 	// Inherited via IStatisticDialogView
 	void setProcedureFilter(const std::vector<ProcedureCode> namesFilter) override;
-	//void setDiagnosisFilterList(const std::vector<std::string> diagnosis) override;
-	void setStatistic(const DentalStatistic& s) override;
 	DentalStatistic getStatistic() override;
 	void closeDialog() override { close(); }
-	void hideToothFilter(bool hidden);
+    void hideToothFilter(bool hidden) override;
 	void setResult(int count) override;
 };

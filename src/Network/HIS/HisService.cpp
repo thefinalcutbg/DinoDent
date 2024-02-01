@@ -371,9 +371,9 @@ std::string HisService::bind(const std::string& name, double value)
 
 std::string HisService::bind(const std::string& name, const char* value, bool isUserInput)
 {
-	if (value == "") return "";
+    if (std::string(value) == "") return "";
 
-	return bind(name, std::string{ value }, isUserInput);
+    return bind(name, std::string{ value }, isUserInput);
 }
 
 std::string HisService::openTag(const std::string& tag)

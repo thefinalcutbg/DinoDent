@@ -5,15 +5,12 @@
 #include "View/Interfaces/IPatientSummaryView.h"
 #include "Model/Patient.h"
 #include "Database/DbPatientSummary.h"
-#include "Database/DbPerio.h"
-#include "Presenter/PatientDialogPresenter.h"
-#include "Model/Dental/PerioStatistic.h"
+
 #include "Presenter/TabPresenter.h"
+
 #include "Model/TableRows.h"
 #include "Model/User.h"
-#include "Model/FreeFunctions.h"
-#include "Model/Dental/NhifProcedures.h"
-#include "qdebug.h"
+#include "Model/Dental/PerioStatistic.h"
 
 TimeFrame* PatientSummaryPresenter::currentFrame()
 {
@@ -27,10 +24,11 @@ TimeFrame* PatientSummaryPresenter::currentFrame()
 }
 
 PatientSummaryPresenter::PatientSummaryPresenter(ITabView* view, std::shared_ptr<Patient> patient)
-    :   TabInstance(view, TabType::PatientSummary, patient), 
-        view(view->summaryView()),
-        statusTimeFrame(DbPatientSummary::getFrames(patient->rowid)),
-        patient_presenter(view->summaryView()->patientTile(), patient)
+    :
+    TabInstance(view, TabType::PatientSummary, patient),
+    view(view->summaryView()),
+    patient_presenter(view->summaryView()->patientTile(), patient),
+    statusTimeFrame(DbPatientSummary::getFrames(patient->rowid))
 {
 
     state.frameCount = statusTimeFrame.size();
@@ -116,7 +114,7 @@ void PatientSummaryPresenter::setCurrentFrame(int index)
         break;
     case::TimeFrameType::Perio:
         view->setProcedures({});
-        auto stat = PerioStatistic(frame->perioData, patient->getAge(frame->date));
+        PerioStatistic stat = PerioStatistic(frame->perioData, patient->getAge(frame->date));
         view->setPerioStatistic(stat);
         break;
       

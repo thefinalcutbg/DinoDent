@@ -240,7 +240,7 @@ bool DbAmbList::suchNumberExists(int year, int ambNum, long long ambRowid)
 
 }
 
-int DbAmbList::getNewNumber(Date ambDate, bool nhif)
+int DbAmbList::getNewNumber(Date ambDate)
 {
 
     std::string query = 

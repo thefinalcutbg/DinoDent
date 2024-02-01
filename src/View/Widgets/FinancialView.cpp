@@ -40,32 +40,32 @@ FinancialView::FinancialView(QWidget *parent)
 
 	ui.mainDocNumSpin->setTotalLength(10);
 
-	connect(ui.recipientButton, &QPushButton::clicked, [=] {presenter->editRecipient();});
+    connect(ui.recipientButton, &QPushButton::clicked, this, [=, this] {presenter->editRecipient();});
 
-	connect(ui.dateEdit, &QDateEdit::dateChanged, 
-		[=](QDate date){
+    connect(ui.dateEdit, &QDateEdit::dateChanged, this,
+        [=, this](QDate date){
 			if (presenter == nullptr) return;
 			presenter->dateChanged(Date(date.day(), date.month(), date.year()));
 		});
 
-	connect(ui.taxEventDateEdit, &QDateEdit::dateChanged,
-		[=](QDate date) {
+    connect(ui.taxEventDateEdit, &QDateEdit::dateChanged, this,
+        [=, this](QDate date) {
 			if (presenter == nullptr) return;
 			presenter->taxEventDateChanged(Date(date.day(), date.month(), date.year()));
 		});
 
-	connect(ui.paymentTypeCombo, QtComboIndexChanged,
-		[=](int index) {
+    connect(ui.paymentTypeCombo, QtComboIndexChanged, this,
+        [=, this](int index) {
 			presenter->paymentTypeChanged(static_cast<PaymentType>(index));
 		});
 
-	connect(ui.saveXMLButton, &QPushButton::clicked, [=] {presenter->saveAsXML(); });
-	connect(ui.sendPisButton, &QPushButton::clicked, [=] {presenter->sendToPis();});
+    connect(ui.saveXMLButton, &QPushButton::clicked, this, [=, this] {presenter->saveAsXML(); });
+    connect(ui.sendPisButton, &QPushButton::clicked, this, [=, this] {presenter->sendToPis();});
 
-	connect(ui.numberSpinBox, &LeadingZeroSpinBox::valueChanged, [=](long long num) {if (presenter)presenter->invoiceNumberChanged(num);});
+    connect(ui.numberSpinBox, &LeadingZeroSpinBox::valueChanged, this, [=, this](long long num) {if (presenter)presenter->invoiceNumberChanged(num);});
 
-	connect(ui.deleteButton, &QPushButton::clicked,
-		[=] {
+    connect(ui.deleteButton, &QPushButton::clicked, this,
+        [=, this] {
 
 			if (!presenter) return;
 
@@ -83,22 +83,22 @@ FinancialView::FinancialView(QWidget *parent)
 		});
 
 
-	connect(ui.editButton, &QPushButton::clicked, [=]{ if (presenter) presenter->editOperation(ui.operationsTable->selectedRow());});
+    connect(ui.editButton, &QPushButton::clicked, this, [=, this]{ if (presenter) presenter->editOperation(ui.operationsTable->selectedRow());});
 
-	connect(ui.addButton, &QAbstractButton::clicked, [=] { if (presenter) presenter->addOperation(); });
+    connect(ui.addButton, &QAbstractButton::clicked, this, [=, this] { if (presenter) presenter->addOperation(); });
 
-	connect(ui.docTypeCombo, QtComboIndexChanged, [=](int idx) { presenter->docTypeChanged(idx);});
+    connect(ui.docTypeCombo, QtComboIndexChanged, this, [=, this](int idx) { presenter->docTypeChanged(idx);});
 	
-	connect(ui.mainDocDateEdit, &QDateEdit::dateChanged, [=] (QDate d) {
+    connect(ui.mainDocDateEdit, &QDateEdit::dateChanged, this, [=, this] (QDate d) {
 		presenter->mainDocumentChanged(ui.mainDocNumSpin->value(), Date(d.day(), d.month(), d.year()));
 		});
-	connect(ui.mainDocNumSpin, &LeadingZeroSpinBox::valueChanged, [=](long long value) {
+    connect(ui.mainDocNumSpin, &LeadingZeroSpinBox::valueChanged, this, [=, this](long long value) {
 		auto d = ui.mainDocDateEdit->date();
 		presenter->mainDocumentChanged(value, Date(d.day(), d.month(), d.year()));
 		});
 
-	connect(ui.operationsTable, &TableView::deletePressed, [=](int index) { if (presenter) presenter->removeOperation(index); });
-	connect(ui.operationsTable, &TableView::editPressed, [=](int index) { if (presenter) presenter->editOperation(index); });
+    connect(ui.operationsTable, &TableView::deletePressed, this, [=, this](int index) { if (presenter) presenter->removeOperation(index); });
+    connect(ui.operationsTable, &TableView::editPressed, this, [=, this](int index) { if (presenter) presenter->editOperation(index); });
 
 }
 
@@ -201,7 +201,7 @@ void FinancialView::setNumberSpinBox(long long num)
 }
 
 
-void FinancialView::paintEvent(QPaintEvent* event)
+void FinancialView::paintEvent(QPaintEvent*)
 {
 	QPainter painter;
 	painter.begin(this);

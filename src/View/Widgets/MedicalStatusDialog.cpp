@@ -113,7 +113,7 @@ void MedicalStatusDialog::setAllergies(const std::vector<Allergy>& allergies)
 MedicalStatusDialog::~MedicalStatusDialog()
 {}
 
-void MedicalStatusDialog::paintEvent(QPaintEvent * event)
+void MedicalStatusDialog::paintEvent(QPaintEvent *)
 {
 	QPainter p(this);
 	p.fillRect(rect(), Qt::white);

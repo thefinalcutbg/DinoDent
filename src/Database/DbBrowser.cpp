@@ -1,8 +1,8 @@
 ﻿#include "DbBrowser.h"
+#include "Model/FreeFunctions.h"
 #include "Model/User.h"
 #include "Database.h"
 #include "DbProcedure.h"
-#include "DbInvoice.h"
 #include "DbProcedure.h"
 #include "DbPrescription.h"
 
@@ -507,6 +507,7 @@ std::pair<std::vector<RowInstance>, PlainTable> DbBrowser::getData(TabType type,
         case TabType::PatientSummary: return getPatientRows();
         case TabType::Financial: return getFinancialRows(from, to);
         case TabType::Prescription: return getPrescriptionRows(from, to);
+        default: return {};
     }
 }
 

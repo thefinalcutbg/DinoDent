@@ -12,13 +12,13 @@ class ProcedureEditDialog : public QDialog, public IProcedureEditDialog
 	Q_OBJECT
 
 private:
-	ProcedureEditorPresenter* presenter;
+    ProcedureEditorPresenter& presenter;
 
-	void paintEvent(QPaintEvent* event);
+    void paintEvent(QPaintEvent* event) override;
 
 public:
 
-	ProcedureEditDialog(ProcedureEditorPresenter* p, QWidget *parent = Q_NULLPTR);
+    ProcedureEditDialog(ProcedureEditorPresenter& p, QWidget *parent = Q_NULLPTR);
 	~ProcedureEditDialog();
 
 	IProcedureInput* procedureInput() override;

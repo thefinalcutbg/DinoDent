@@ -18,10 +18,10 @@ protected:
 public:
 	AbstractUIElement();
     virtual void set_focus() = 0;
-	virtual void disable(bool disable) {};
-	virtual void hide(bool hidden) {};
+    virtual void disable(bool) {};
+    virtual void hide(bool) {};
 
-	virtual void setValidAppearence(bool valid) {};
+    virtual void setValidAppearence(bool) {};
 
 	void setInputValidator(Validator* validator);
 	virtual bool validateInput();

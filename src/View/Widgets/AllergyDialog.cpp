@@ -4,7 +4,7 @@
 
 #include "View/ModalDialogBuilder.h"
 
-void AllergyDialog::paintEvent(QPaintEvent* event)
+void AllergyDialog::paintEvent(QPaintEvent*)
 {
 	QPainter p(this);
 	p.fillRect(rect(), Qt::white);

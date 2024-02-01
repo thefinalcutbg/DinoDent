@@ -8,11 +8,11 @@ DoctorDialogPresenter::DoctorDialogPresenter() : m_editMode(false), m_newDoctor(
 }
 
 DoctorDialogPresenter::DoctorDialogPresenter(const Doctor& doctor) :
-    result(doctor), 
-    current_LPK(doctor.LPK), 
-    view(nullptr), 
-    m_editMode(true), 
+    m_editMode(true),
     m_newDoctor(false),
+    view(nullptr),
+    current_LPK(doctor.LPK),
+    result(doctor),
     nhif_specialty{ doctor.specialty }
 {}
 

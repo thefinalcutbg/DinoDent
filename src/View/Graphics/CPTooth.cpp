@@ -14,10 +14,10 @@ QRectF CPTooth::boundingRect() const
     return QRectF(0, 0, 100, 100);
 }
 
-void CPTooth::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
+void CPTooth::paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*)
 {
 
-        painter->drawPixmap(0, 0, 100, 100, texture);
+    painter->drawPixmap(0, 0, 100, 100, texture);
     
 }
 

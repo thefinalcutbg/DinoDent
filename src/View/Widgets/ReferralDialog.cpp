@@ -1,9 +1,12 @@
 ﻿#include "ReferralDialog.h"
+
+#include <QPainter>
+
 #include "Presenter/ReferralPresenter.h"
 #include "Model/Referrals/Referral.h"
 #include "Model/Dental/ToothUtils.h"
-#include "TableViewDialog.h"
-#include <QPainter>
+#include "View/Widgets/TableViewDialog.h"
+
 
 ReferralDialog::ReferralDialog(ReferralPresenter* p, QWidget *parent)
 	: QDialog(parent), presenter(p)
@@ -35,7 +38,7 @@ ReferralDialog::ReferralDialog(ReferralPresenter* p, QWidget *parent)
 
 	ui.toothCombo->setDisabled(true);
 
-	connect(ui.toothRadio, &QRadioButton::toggled,
+    connect(ui.toothRadio, &QRadioButton::toggled, this,
 		[&](bool checked) {
 			ui.toothCombo->setDisabled(!checked);
 		}
@@ -52,16 +55,17 @@ ReferralDialog::ReferralDialog(ReferralPresenter* p, QWidget *parent)
 
 	for (auto& b : mkbButtons)
 	{
-		connect(b, &RightClickButton::rightClicked, [=]{ b->setText("Няма"); });
+        connect(b, &RightClickButton::rightClicked, this, [&]{ b->setText("Няма"); });
 	}
 
 
-	connect(ui.mkbMainButton, &QPushButton::clicked,
-	[=] 
+    connect(ui.mkbMainButton, &QPushButton::clicked, this,
+    [=, this]
 	{
 		TableViewDialog d(m_mkbDental,0, ui.mkbMainButton->text().toStdString());
 		d.setWindowTitle("Международна класификация на болестите");	
 		d.exec();
+
 		auto result = d.getResult();
 
 		if (result.size()) {
@@ -70,8 +74,8 @@ ReferralDialog::ReferralDialog(ReferralPresenter* p, QWidget *parent)
 		}
 	});
 
-	connect(ui.mkbAdditionalButton, &QPushButton::clicked,
-	[=] 
+    connect(ui.mkbAdditionalButton, &QPushButton::clicked, this,
+    [=, this]
 	{
 		TableViewDialog d(m_mkbDental, 0, ui.mkbAdditionalButton->text().toStdString());
 		d.setWindowTitle("Международна класификация на болестите");
@@ -83,8 +87,8 @@ ReferralDialog::ReferralDialog(ReferralPresenter* p, QWidget *parent)
 		}
 	});
 
-	connect(ui.comorbidityMainButton, &QPushButton::clicked,
-	[=] 
+    connect(ui.comorbidityMainButton, &QPushButton::clicked, this,
+    [=, this]
 	{
 		TableViewDialog d(m_mkbFull,0, ui.comorbidityMainButton->text().toStdString());
 		d.setWindowTitle("Международна класификация на болестите");
@@ -96,8 +100,8 @@ ReferralDialog::ReferralDialog(ReferralPresenter* p, QWidget *parent)
 		}
 	});
 
-	connect(ui.comorbidityAdditionalButton, &QPushButton::clicked,
-	[=] 
+    connect(ui.comorbidityAdditionalButton, &QPushButton::clicked, this,
+    [=, this]
 	{
 		TableViewDialog d(m_mkbFull,0, ui.comorbidityAdditionalButton->text().toStdString());
 		d.setWindowTitle("Международна класификация на болестите");
@@ -109,7 +113,7 @@ ReferralDialog::ReferralDialog(ReferralPresenter* p, QWidget *parent)
 		}
 	});
 
-	connect(ui.okButton, &QPushButton::clicked, [=] {
+    connect(ui.okButton, &QPushButton::clicked, this, [=, this] {
 			
 			ui.dateEdit->validateInput();
 			
@@ -180,9 +184,6 @@ void ReferralDialog::setReferral(const Referral & r)
 
 IReferralDialog::CommonData ReferralDialog::getCommon()
 {
-	auto d = ui.dateEdit->date();
-
-
 	return CommonData{
 		.date = ui.dateEdit->getDate(),
 		.number = static_cast<int>(ui.refNumSpin->value()),
@@ -228,7 +229,7 @@ void ReferralDialog::setTitle(const std::string & str)
 }
 
 
-void ReferralDialog::paintEvent(QPaintEvent* event)
+void ReferralDialog::paintEvent(QPaintEvent*)
 {
 	QPainter painter(this);
 	painter.fillRect(rect(), QColor(Qt::white));

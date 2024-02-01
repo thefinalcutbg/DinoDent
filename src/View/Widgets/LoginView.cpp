@@ -5,7 +5,7 @@
 #include "View/Theme.h"
 #include <QApplication>
 #include <QScreen>
-LoginView::LoginView(LoginPresenter* p, QWidget *parent)
+LoginView::LoginView(LoginPresenter& p, QWidget *parent)
     : QDialog(parent), presenter(p)
 {
 	ui.setupUi(this);
@@ -21,12 +21,12 @@ LoginView::LoginView(LoginPresenter* p, QWidget *parent)
 	//ui.rememberCheck->setStyleSheet("color:" + Theme::colorToString(Theme::fontTurquoise));
 	ui.passEdit->setEchoMode(QLineEdit::Password);
 
-	presenter->setView(this);
+    presenter.setView(this);
 
-	connect(ui.practiceButton, &QPushButton::clicked, [=] {presenter->practiceListPressed();});
-	connect(ui.okButton, &QPushButton::clicked, [=]{
+    connect(ui.practiceButton, &QPushButton::clicked, this, [&] {presenter.practiceListPressed();});
+    connect(ui.okButton, &QPushButton::clicked, this, [&]{
 
-				presenter->okPressed(
+                presenter.okPressed(
 						ui.userEdit->text().toStdString(),
 						ui.passEdit->text().toStdString(),
 						ui.rememberCheck->isChecked()
@@ -38,7 +38,7 @@ LoginView::LoginView(LoginPresenter* p, QWidget *parent)
 	ui.userEdit->setFocus();
 }
 
-void LoginView::paintEvent(QPaintEvent* event)
+void LoginView::paintEvent(QPaintEvent*)
 {
 	QPainter painter;
 	painter.begin(this);

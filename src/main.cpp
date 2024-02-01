@@ -1,10 +1,6 @@
 ﻿#include <QtWidgets/QApplication>
-#include <QFontDatabase>
 #include "View/Widgets/DinoDent.h"
 #include "Network/UpdateService/UpdateService.h"
-
-#include "Model/FreeFunctions.h"
-#include "View/Widgets/SplashScreen.h"
 
 bool initFunction();
 
@@ -12,16 +8,10 @@ void testFn();
 
 int main(int argc, char *argv[])
 {
-    //QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    //QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
-    QCoreApplication::setApplicationName("DinoDent");
-    
-    QApplication a(argc, argv);
 
-    QFontDatabase::addApplicationFont(":/fonts/font_segoeui.ttf");
-    QApplication::setFont(QFont("Segoe UI", 8));
-    
-    a.setWindowIcon(QIcon(":/icons/icon_torque.png"));
+    QApplication a(argc, argv);
+    QApplication::setApplicationName("DinoDent");
+    QApplication::setWindowIcon(QIcon(":/icons/icon_torque.png"));
 
     if (UpdateService::restartForUpdate()) { return 0; };
 
@@ -37,28 +27,39 @@ int main(int argc, char *argv[])
     w.show();
 
     return a.exec();
-
 }
 
+#include <QFontDatabase>
+
 #include "Database/Database.h"
+#include "DbUpdates/Updater.h"
+#include "GlobalSettings.h"
+
 #include "Model/User.h"
-#include "View/Graphics/SpriteSheets.h"
-#include "View/Graphics/Zodiac.h"
 #include "Model/Specialty.h"
 #include "Model/Dental/NhifProcedures.h"
 #include "Model/Dental/ProcedureCode.h"
 #include "Model/Dental/Diagnosis.h"
-#include "Model/Dental/KSMP.h"
 #include "Model/Prescription/Medication.h"
 #include "Model/Prescription/DoseQuantity.h"
 #include "Model/Prescription/WhenToTake.h"
 #include "Model/Dental/MKB.h"
 #include "Model/Ekatte.h"
 #include "Model/Country.h"
-#include "DbUpdates/Updater.h"
-#include "GlobalSettings.h"
+
+#include "View/Graphics/SpriteSheets.h"
+#include "View/Graphics/Zodiac.h"
+#include "View/Widgets/SplashScreen.h"
 
 bool initFunction() {
+
+    QFontDatabase::addApplicationFont(":/fonts/font_RobotoCondensedRegular.ttf");
+    QFontDatabase::addApplicationFont(":/fonts/font_segoeui.ttf");
+    QFontDatabase::addApplicationFont(":/fonts/font_segoeuib.ttf");
+    QApplication::setFont(QFont("Segoe UI", 8));
+
+    //QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    //QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
 
     SplashScreen::createAndShow();
 

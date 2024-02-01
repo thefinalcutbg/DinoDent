@@ -1,17 +1,11 @@
 ﻿#pragma once
-#include <unordered_set>
 #include <string>
 #include <vector>
 
 #include "Model/Dental/ProcedureCode.h"
-#include "Model/Dental/AmbList.h"
-#include "Model/Dental/KSMP.h"
 
 #include "Model/Financial/BusinessOperation.h"
-#include "Model/Financial/MonthNotifRow.h"
-#include "Model/Financial/Recipient.h"
 
-#include "Model/MedicalStatuses.h"
 #include "Model/MedicalNotice.h"
 #include "Model/Allergy.h"
 
@@ -43,16 +37,16 @@ enum class NotificationType {NoData, Xml, PisHash };
 
 namespace ModalDialogBuilder
 {
-	void openDialog(ProcedureDialogPresenter* p);
+    void openDialog(ProcedureDialogPresenter& p);
 	void openDialog(PatientDialogPresenter* p);
-	void openDialog(ProcedureEditorPresenter* p);
+    void openDialog(ProcedureEditorPresenter& p);
 	void openDialog(DetailedStatusPresenter* p);
-	void openDialog(LoginPresenter* p);
+    void openDialog(LoginPresenter& p);
 	void openDialog(PracticeDialogPresenter* p);
 	void openDialog(DoctorDialogPresenter* p);
 	void openDialog(MedicationPresenter* p);
 	void openDialog(DosagePresenter* p);
-	void openDialog(PracticeManagerPresenter* p);
+    void openDialog(PracticeManagerPresenter& p);
 	void openDialog(ReferralPresenter* p);
 	void openDialog(StatisticDialogPresenter& p);
 	void openDialog(ProcedureHistoryPresenter& p);

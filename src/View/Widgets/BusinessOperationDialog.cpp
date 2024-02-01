@@ -15,9 +15,9 @@ BuisnessOperationDialog::BuisnessOperationDialog(const BusinessOperation& op)
 
 	ui.nameEdit->setInputValidator(&notEmptyValidator);
 
-	connect(ui.cancelButton, &QPushButton::clicked, [=] { reject(); });
-	connect(ui.okButton, &QPushButton::clicked,
-		[=] {
+    connect(ui.cancelButton, &QPushButton::clicked, this, [&] { reject(); });
+    connect(ui.okButton, &QPushButton::clicked, this, [&]
+         {
 
 			ui.nameEdit->validateInput();
 
@@ -46,9 +46,9 @@ BuisnessOperationDialog::BuisnessOperationDialog() : QDialog(nullptr)
 
 	ui.nameEdit->setInputValidator(&notEmptyValidator);
 
-	connect(ui.cancelButton, &QPushButton::clicked, [=] { reject(); });
-	connect(ui.okButton, &QPushButton::clicked,
-		[=] {
+    connect(ui.cancelButton, &QPushButton::clicked, this, [&]{ reject(); });
+    connect(ui.okButton, &QPushButton::clicked, this, [&]
+        {
 
 			ui.nameEdit->validateInput();
 
@@ -70,12 +70,10 @@ BuisnessOperationDialog::BuisnessOperationDialog() : QDialog(nullptr)
 }
 
 
-void BuisnessOperationDialog::paintEvent(QPaintEvent* e)
+void BuisnessOperationDialog::paintEvent(QPaintEvent* )
 {
-	QPainter painter;
-	painter.begin(this);
+    QPainter painter(this);
 	painter.fillRect(QRect(0, 0, width(), height()), Qt::white);
-	painter.end();
 }
 
 

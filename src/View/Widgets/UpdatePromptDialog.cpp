@@ -1,8 +1,8 @@
 ﻿#include "UpdatePromptDialog.h"
 #include <qpainter.h>
 
-void UpdatePromptDialog::paintEvent(QPaintEvent* e)
-{
+void UpdatePromptDialog::paintEvent(QPaintEvent*)
+{   
 	QPainter p(this);
 	p.fillRect(rect(), Qt::white);
 }
@@ -16,8 +16,8 @@ UpdatePromptDialog::UpdatePromptDialog(const std::string& changeLog, QWidget *pa
 
 	ui.changeLogText->setPlainText(QString::fromStdString(changeLog));
 
-	connect(ui.yesButton, &QPushButton::clicked, [this] { accept();});
-	connect(ui.noButton, &QPushButton::clicked, [this] { reject(); });
+    connect(ui.yesButton, &QPushButton::clicked,  this, [&]{ accept();});
+    connect(ui.noButton, &QPushButton::clicked, this, [&]{ reject(); });
 
 }
 

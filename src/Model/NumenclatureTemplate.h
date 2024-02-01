@@ -20,15 +20,15 @@ class Numenclature
 {
 	constexpr static std::array names = { strings.data_ ... }; //ensures consistency
 
-	int m_idx{ 0 };
+    size_t m_idx{ 0 };
 public:
 
 	Numenclature() {}
-	Numenclature(int index) { setIndex(index); }
+    Numenclature(size_t index) { setIndex(index); }
 
-	bool setIndex(int idx) {
+    bool setIndex(size_t idx) {
 
-		if (idx < 0 || idx >= names.size()) return false;
+        if (idx >= names.size()) return false;
 
 		m_idx = idx;
 
@@ -60,17 +60,17 @@ class NumStatic {
 
 	inline const static std::array<const char*, static_obj.size()>& s_names = static_obj;
 	
-	int m_idx{ defaultIndex < 0 || defaultIndex>=size ? 0 : defaultIndex };
+    size_t m_idx{ defaultIndex < 0 || defaultIndex>=size ? 0 : defaultIndex };
 
 public:
 
 	NumStatic() {}
 
-	NumStatic(int idx) { setIndex(idx); };
+    NumStatic(size_t idx) { setIndex(idx); };
 
-	bool setIndex(int idx) {
+    bool setIndex(size_t idx) {
 
-		if (idx < 0 || idx >= s_names.size()) return false;
+        if (idx >= s_names.size()) return false;
 
 		m_idx = idx;
 

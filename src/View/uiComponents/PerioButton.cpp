@@ -3,7 +3,7 @@
 #include <QPainter>
 #include "View/Theme.h"
 
-bool PerioButton::eventFilter(QObject* obj, QEvent* e)
+bool PerioButton::eventFilter(QObject*, QEvent* e)
 {
 
 	if (e->type() == QEvent::HoverEnter) {
@@ -31,7 +31,7 @@ PerioButton::~PerioButton()
 }
 
 
-void PerioButton::paintEvent(QPaintEvent* event)
+void PerioButton::paintEvent(QPaintEvent*)
 {
 	QPainter painter(this);
 

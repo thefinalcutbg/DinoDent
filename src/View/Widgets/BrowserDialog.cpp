@@ -42,14 +42,10 @@ BrowserDialog::BrowserDialog()
 	setWindowTitle("Документация");
 	setWindowIcon(QIcon(":/icons/icon_open.png"));
 
-	auto lambda = [](const QDate& date) { return Date{ date.day(), date.month(), date.year() }; };
+    connect(ui.fromDateEdit, &QDateEdit::dateChanged, this, [&]{ datesChanged(); });
+    connect(ui.toDateEdit, &QDateEdit::dateChanged, this, [&]{ datesChanged(); });
 
-	connect(ui.fromDateEdit, &QDateEdit::dateChanged,
-		[&]() {presenter.setDates(lambda(ui.fromDateEdit->date()), lambda(ui.toDateEdit->date())); });
-	connect(ui.toDateEdit, &QDateEdit::dateChanged,
-		[=]() {presenter.setDates(lambda(ui.fromDateEdit->date()), lambda(ui.toDateEdit->date())); });
-
-	connect(ui.openButton, &QPushButton::clicked, [=] {
+    connect(ui.openButton, &QPushButton::clicked, this, [=, this] {
 
 		QApplication::setOverrideCursor(QCursor(Qt::CursorShape::WaitCursor));
 		presenter.openCurrentSelection();
@@ -63,21 +59,21 @@ BrowserDialog::BrowserDialog()
 			calculateUiState();
 		});
 
-	connect(ui.idSearchEdit, &QLineEdit::textChanged, [=]
+    connect(ui.idSearchEdit, &QLineEdit::textChanged, this, [=, this]
 		{
 			QString text = ui.idSearchEdit->text();
 			idFilter.setFilterRegularExpression(QRegularExpression(text, QRegularExpression::PatternOption::CaseInsensitiveOption));
 			setCountLabel();
 		});
 
-	connect(ui.nameSearchEdit, &QLineEdit::textChanged, [=]
+    connect(ui.nameSearchEdit, &QLineEdit::textChanged, this, [=, this]
 		{
 			QString text = ui.nameSearchEdit->text();
 			nameFilter.setFilterRegularExpression(QRegularExpression(text, QRegularExpression::PatternOption::CaseInsensitiveOption));
 			setCountLabel();
 		});
 
-	connect(ui.phoneSearchEdit, &QLineEdit::textChanged, [=]
+    connect(ui.phoneSearchEdit, &QLineEdit::textChanged, this, [=, this]
 		{
 			QString text = ui.phoneSearchEdit->text();
 			phoneFilter.setFilterRegularExpression(QRegularExpression(text, QRegularExpression::PatternOption::CaseInsensitiveOption));
@@ -87,30 +83,26 @@ BrowserDialog::BrowserDialog()
 
 	ui.tableView->setContextMenuPolicy(Qt::CustomContextMenu);
 
-	connect(ui.detailsCheck, &QCheckBox::toggled, [&](bool checked) { 
+    connect(ui.detailsCheck, &QCheckBox::toggled, this, [&](bool checked) {
 			presenter.showDetailsPane(checked); 
 			calculateUiState();
 	
 		});
 
-	connect(ui.detailsCombo, QtComboIndexChanged, [&](int idx) { presenter.showProcedureDetails(idx); calculateUiState(); });
+    connect(ui.detailsCombo, QtComboIndexChanged, this, [&](int idx) { presenter.showProcedureDetails(idx); calculateUiState(); });
 
-	connect(ui.tableView, &QTableView::customContextMenuRequested, this, [=](const QPoint& p) {contextMenuRequested(p); });
+    connect(ui.tableView, &QTableView::customContextMenuRequested, this, [&](const QPoint& p) { contextMenuRequested(p); });
 
 	connect(ui.tableView, &QTableView::doubleClicked, this, [&] { presenter.openCurrentSelection(); });
 
-	connect(ui.preView, &QTableView::doubleClicked, this, [&]{ ui.openDocButton->clicked(); });
+    connect(ui.preView, &QTableView::doubleClicked, this, [&]{ emit ui.openDocButton->clicked(); });
 
-	connect(ui.tableView, &ListTable::deletePressed, this, [=] { ui.deleteButton->click(); });
+    connect(ui.tableView, &ListTable::deletePressed, this, [&] { ui.deleteButton->click(); });
 
-	connect(ui.deleteButton, &QPushButton::clicked, 
-		[=] 
-		{
-				presenter.deleteCurrentSelection();
-		});
+    connect(ui.deleteButton, &QPushButton::clicked, this, [&]{ presenter.deleteCurrentSelection(); });
 
 
-	connect(ui.openDocButton, &QPushButton::clicked, [&] {
+    connect(ui.openDocButton, &QPushButton::clicked, this, [&] {
 
 		auto idxList = ui.preView->selectionModel()->selectedRows();
 
@@ -123,7 +115,7 @@ BrowserDialog::BrowserDialog()
 		presenter.openPatientDocuments(selectedIndexes);
 	});
 
-	connect(ui.tableView->selectionModel(), &QItemSelectionModel::selectionChanged, this, [=](const QItemSelection& selected, const QItemSelection& deselected){
+    connect(ui.tableView->selectionModel(), &QItemSelectionModel::selectionChanged, this, [&](const QItemSelection&, const QItemSelection&){
 
 		auto idxList = ui.tableView->selectionModel()->selectedRows();
 
@@ -138,7 +130,7 @@ BrowserDialog::BrowserDialog()
 
 	});
 
-	connect(ui.preView->selectionModel(), &QItemSelectionModel::selectionChanged, this, [=](const QItemSelection& selected, const QItemSelection& deselected){
+    connect(ui.preView->selectionModel(), &QItemSelectionModel::selectionChanged, this, [&](const QItemSelection&, const QItemSelection&){
 
 		ui.openDocButton->setEnabled(ui.preView->selectionModel()->hasSelection());
 
@@ -154,6 +146,13 @@ BrowserDialog::BrowserDialog()
 
 BrowserDialog::~BrowserDialog()
 {
+}
+
+void BrowserDialog::datesChanged()
+{
+    auto lambda = [](const QDate& date) { return Date{ date.day(), date.month(), date.year() }; };
+
+    presenter.setDates(lambda(ui.fromDateEdit->date()), lambda(ui.toDateEdit->date()));
 }
 
 void BrowserDialog::setUiState(const BrowserUiState& state)
@@ -177,7 +176,7 @@ void BrowserDialog::setUiState(const BrowserUiState& state)
 
 void BrowserDialog::setTable(const PlainTable& t, int idColumn, int nameColumn, int phoneColumn)
 {
-	table_model.setData(t);
+    table_model.setTableData(t);
 
 	for (int i = 0; i < t.size(); i++) {
 
@@ -199,7 +198,7 @@ void BrowserDialog::setTable(const PlainTable& t, int idColumn, int nameColumn, 
 
 void BrowserDialog::setPreview(const PlainTable& t)
 {
-	preview_model.setData(t);
+    preview_model.setTableData(t);
 
 	//because selection model resets
 	ui.openDocButton->setDisabled(true);
@@ -229,36 +228,36 @@ void BrowserDialog::contextMenuRequested(const QPoint& p)
 	QAction* action;
 
 	action = (new QAction("Отвори", main_menu));
-	connect(action, &QAction::triggered, [=] { presenter.openCurrentSelection(); });
+    connect(action, &QAction::triggered, this, [=, this] { presenter.openCurrentSelection(); });
 	action->setIcon(QIcon(":/icons/icon_open.png"));
 	main_menu->addAction(action);
 
 
 	if (ui.tabBar->currentIndex() != 4) {
 		action = (new QAction("Нов амбулаторен лист", main_menu));
-		connect(action, &QAction::triggered, [=] { presenter.openNewDocument(TabType::AmbList); });
+        connect(action, &QAction::triggered, this, [=, this] { presenter.openNewDocument(TabType::AmbList); });
 		action->setIcon(QIcon(":/icons/icon_sheet.png"));
 		main_menu->addAction(action);
 
 		action = (new QAction("Ново пародонтално измерване", main_menu));
-		connect(action, &QAction::triggered, [=] { presenter.openNewDocument(TabType::PerioStatus); });
+        connect(action, &QAction::triggered, this, [=, this] { presenter.openNewDocument(TabType::PerioStatus); });
 		action->setIcon(QIcon(":/icons/icon_periosheet.png"));
 		main_menu->addAction(action);
 
 		action = (new QAction("Нова рецепта", main_menu));
-		connect(action, &QAction::triggered, [=] { presenter.openNewDocument(TabType::Prescription); });
+        connect(action, &QAction::triggered, this, [=, this] { presenter.openNewDocument(TabType::Prescription); });
 		action->setIcon(QIcon(":/icons/icon_prescr.png"));
 		main_menu->addAction(action);
 
 		action = (new QAction("Нова фактура", main_menu));
-		connect(action, &QAction::triggered, [=] { presenter.openNewDocument(TabType::Financial); });
+        connect(action, &QAction::triggered, this, [=, this] { presenter.openNewDocument(TabType::Financial); });
 		action->setIcon(QIcon(":/icons/icon_invoice.png"));
 		main_menu->addAction(action);
 	}
 
 	action = (new QAction("Копирай текста", main_menu));
 	action->setIcon(QIcon(":/icons/icon_copy.png"));
-	connect(action, &QAction::triggered, [=] { 
+    connect(action, &QAction::triggered, this, [=, this] {
 
 		QClipboard* clipboard = QApplication::clipboard();
 		QString text = ui.tableView->currentIndex().data().toString();
@@ -267,7 +266,7 @@ void BrowserDialog::contextMenuRequested(const QPoint& p)
 	main_menu->addAction(action);
 
 	action = (new QAction("Изтрий", main_menu));
-	connect(action, &QAction::triggered, [=] { presenter.deleteCurrentSelection(); });
+    connect(action, &QAction::triggered, this, [=, this] { presenter.deleteCurrentSelection(); });
 	action->setIcon(QIcon(":/icons/icon_remove.png"));
 	main_menu->addAction(action);
 
@@ -296,8 +295,6 @@ void BrowserDialog::calculateUiState()
 	ui.toLabel->setHidden(patientSection);
 	ui.fromDateEdit->setHidden(patientSection);
 	ui.toDateEdit->setHidden(patientSection);
-
-
 	
 }
 

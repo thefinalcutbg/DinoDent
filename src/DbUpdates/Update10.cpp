@@ -3,7 +3,7 @@
 #include "Database/Database.h"
 #include <qstring.h>
 
-void DbUpdates::update10(UpdateDialog& dialog)
+void DbUpdates::update10(UpdateDialog&)
 {
 
 	if (Db::version() != 9) return;

@@ -18,7 +18,7 @@ ShortcutTile::ShortcutTile(QWidget* parent) : QPushButton(parent)
 }
 
 
-void ShortcutTile::paintEvent(QPaintEvent* e)
+void ShortcutTile::paintEvent(QPaintEvent*)
 {
 	QPainter painter(this);
 
@@ -65,7 +65,7 @@ void ShortcutTile::paintEvent(QPaintEvent* e)
 	painter.drawText(QRectF(10, 100, width() - 20, 50), text(), textOption);
 }
 
-bool ShortcutTile::eventFilter(QObject* obj, QEvent* e)
+bool ShortcutTile::eventFilter(QObject*, QEvent* e)
 {
 	if (e->type() == QEvent::HoverEnter) {
 		hover = true;

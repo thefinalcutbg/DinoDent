@@ -1,46 +1,21 @@
 ﻿#include "TeethViewScene.h"
+
+#include <QApplication>
+#include <QGuiApplication>
+#include <QtGlobal>
 #include <QGraphicsSceneContextMenuEvent>
 #include <QGraphicsSceneMouseEvent>
 #include <QKeyEvent>
+
+#include "Presenter/ListPresenter.h"
+#include "View/Graphics/ToothPainter.h"
 #include "View/SubWidgets/ContextMenu.h"
 #include "ToothGraphicsItem.h"
 #include "SelectionBox.h"
-#include "Presenter/ListPresenter.h"
-#include <QGuiApplication>
-#include "View/Graphics/ToothPainter.h"
-#include <View/Theme.h>
-#include <qapplication.h>
-#include <qdebug.h>
 
 TeethViewScene::TeethViewScene(QObject *parent)
-    : QGraphicsScene(parent), contextMenu(nullptr), presenter(nullptr)
+    : QGraphicsScene(parent), presenter(nullptr), contextMenu(nullptr)
 {
-  /*
-    //background color:
-    {
-       
-        QPixmap px(721, 501);
-        QPainter painter(&px);
-        painter.setRenderHint(QPainter::Antialiasing);
-        painter.fillRect(px.rect(), Theme::background);
-
-        auto path = Theme::getHalfCurvedPath(721, 501);
-
-        painter.fillPath(path, Theme::sectionBackground);
-
-        painter.setPen(QPen(Theme::border));
-
-        painter.drawPath(path);
-
-        painter.end();
-
-        QGraphicsPixmapItem* background = new QGraphicsPixmapItem(px);
-        addItem(background);
-      
-
-    }
-    
-    */
     int posY = 15;
     int posX = 15;
 
@@ -91,8 +66,7 @@ TeethViewScene::TeethViewScene(QObject *parent)
         else if (i == 28) posX -= 18;
     }
 
-    connect(this, &QGraphicsScene::selectionChanged,
-        [=]
+    connect(this, &QGraphicsScene::selectionChanged, [=, this]
         {
             std::vector<int> selectedIndexes;
             selectedIndexes.reserve(32);
@@ -196,6 +170,22 @@ void TeethViewScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* Event)
     }
 }
 
+
+int TeethViewScene::keyCodeMapper(QKeyEvent *e)
+{
+    #ifdef Q_OS_WIN
+        return e->nativeVirtualKey();
+    #else
+
+        auto result = e->key();
+
+        if(result >1000) result -= 975;
+
+        return static_cast<Qt::Key>(result);
+
+    #endif
+}
+
 void TeethViewScene::keyPressEvent(QKeyEvent* event)
 {
     int lastSelected = 0;
@@ -266,8 +256,8 @@ void TeethViewScene::keyPressEvent(QKeyEvent* event)
         case Qt::Key_Delete: presenter->setOther(OtherInputs::removeAll);; break;
     }
 
-      switch (event->nativeVirtualKey()) //shortcut keys for input diagnosis
-   {
+    switch (keyCodeMapper(event)) //shortcut keys for input diagnosis
+    {
       case Qt::Key_T :presenter->setToothStatus(StatusType::general, StatusCode::Temporary); break;
       case Qt::Key_O :presenter->setToothStatus(StatusType::general, StatusCode::Obturation); break;
       case Qt::Key_C :presenter->setToothStatus(StatusType::general, StatusCode::Caries); break;
@@ -296,6 +286,7 @@ void TeethViewScene::keyPressEvent(QKeyEvent* event)
           if (event->modifiers() & Qt::ControlModifier)
               for (int i = 0; i < 32; i++) selectionBox[i]->setSelected(1);
           break;
+      default: return;
    }
 }
 

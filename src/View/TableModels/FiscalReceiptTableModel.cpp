@@ -32,7 +32,7 @@ void FiscalReceiptTableModel::setRows(std::vector<FiscalReceipt> rows)
    
 }
 
-bool FiscalReceiptTableModel::insertRows(int position, int rows, const QModelIndex& index)
+bool FiscalReceiptTableModel::insertRows(int position, int, const QModelIndex&)
 {
     beginInsertRows(QModelIndex(), position, position);
     endInsertRows();
@@ -72,12 +72,12 @@ QVariant FiscalReceiptTableModel::headerData(int section, Qt::Orientation orient
 }
 
 
-int FiscalReceiptTableModel::rowCount(const QModelIndex& parent) const
+int FiscalReceiptTableModel::rowCount(const QModelIndex&) const
 {
     return rows.size();
 }
 
-int FiscalReceiptTableModel::columnCount(const QModelIndex& parent) const
+int FiscalReceiptTableModel::columnCount(const QModelIndex&) const
 {
     return 5;
 }

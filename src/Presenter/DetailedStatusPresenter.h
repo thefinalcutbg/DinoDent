@@ -3,10 +3,6 @@
 #include "Presenter/CheckModel.h"
 #include "Model/Dental/Tooth.h"
 #include <optional>
-#include <memory>
-
-#include "Database/DbNotes.h"
-
 
 class DetailedStatusPresenter
 {

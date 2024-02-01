@@ -143,7 +143,7 @@ void ReportPresenter::checkNext()
 		bool success =
 		activitiesService.sendRequest(
 			patient, true,
-			[=](auto& result) {if (this)this->setPISActivities(result);}
+            [=, this](auto& result) { this->setPISActivities(result);}
 		);
 
 		if (!success) { reset();}
@@ -156,7 +156,7 @@ void ReportPresenter::checkNext()
 		bool success = 
 			nraService.sendRequest(
 			patient,
-				[=](auto& result) { if (this)this->setInsuranceStatus(result);},
+                [=, this](auto& result) { this->setInsuranceStatus(result);},
 			true,
 			list.getDate()
 		);

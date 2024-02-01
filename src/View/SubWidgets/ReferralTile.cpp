@@ -5,7 +5,7 @@
 #include "Model/FreeFunctions.h"
 
 ReferralTile::ReferralTile(const Referral& ref, int index, QWidget* parent)
-	: m_index(index), QWidget(parent)
+    : QWidget(parent), m_index(index)
 {
 	ui.setupUi(this);
 
@@ -56,7 +56,7 @@ ReferralTile::ReferralTile(const Referral& ref, int index, QWidget* parent)
 }
 
 
-void ReferralTile::paintEvent(QPaintEvent* e)
+void ReferralTile::paintEvent(QPaintEvent*)
 {
 	QPainterPath path;
 	path.addRoundedRect(0, 0, width(), height(), Theme::radius, Theme::radius);
@@ -78,6 +78,8 @@ void ReferralTile::paintEvent(QPaintEvent* e)
 
 bool ReferralTile::eventFilter(QObject* obj, QEvent* e)
 {
+    Q_UNUSED(obj)
+
 	if (e->type() == QEvent::HoverEnter) {
 		m_hover = true;
 		QApplication::setOverrideCursor(QCursor(Qt::PointingHandCursor));

@@ -1,5 +1,7 @@
 ﻿#include "User.h"
+
 #include "Database/DbDoctor.h"
+#include <unordered_map>
 
 
 static Practice s_practice;
@@ -45,7 +47,7 @@ void User::resetUser()
 }
 
 
-const bool User::isCurrentUser(const std::string& LPK)
+bool User::isCurrentUser(const std::string& LPK)
 {
     return LPK == s_doctor.LPK;
 }

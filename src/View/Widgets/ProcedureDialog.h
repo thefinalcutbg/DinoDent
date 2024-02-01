@@ -17,13 +17,13 @@ class ProcedureDialog : public QDialog, public IProcedureDialog
 	inline static int s_idx{ -1 };
 	inline static QString s_search{""};
 
-	ProcedureDialogPresenter *presenter;
+    ProcedureDialogPresenter &presenter;
 
 	ProcedureTemplateModel model;
 	QSortFilterProxyModel proxyModel;
 
 public:
-	ProcedureDialog(ProcedureDialogPresenter* presenter, QWidget* parent = Q_NULLPTR);
+    ProcedureDialog(ProcedureDialogPresenter& presenter, QWidget* parent = Q_NULLPTR);
 	 ~ProcedureDialog();
 
 

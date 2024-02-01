@@ -10,7 +10,7 @@ constexpr const char* specialties[specIdxSize]{
 	"Няма", "64", "61", "62", "68"
 };
 
-void PracticeSettings::paintEvent(QPaintEvent* event)
+void PracticeSettings::paintEvent(QPaintEvent*)
 {
 	QPainter painter(this);
 	painter.fillRect(rect(), QColor(Qt::white));
@@ -44,7 +44,7 @@ PracticeSettings::PracticeSettings(QWidget *parent)
 
 	ui.contractDateEdit->setErrorLabel(ui.errorLabel);
 
-	connect(ui.nzokGroup, &QGroupBox::clicked, [=](bool checked) {
+    connect(ui.nzokGroup, &QGroupBox::clicked, this, [=, this](bool) {
 		presenter->nzokContractEnabled(ui.nzokGroup->isChecked());
 	});
 	
@@ -56,9 +56,9 @@ PracticeSettings::PracticeSettings(QWidget *parent)
 	ui.doctorList->setSelectionMode(QAbstractItemView::SingleSelection);
 	ui.doctorList->setSelectionBehavior(QAbstractItemView::SelectRows);
 
-	connect(ui.removeDoctor, &QPushButton::clicked, [=] { presenter->deleteDoctor(); });
-	connect(ui.addDoctor, &QPushButton::clicked, [=] {presenter->addDoctor();});
-	connect(ui.doctorList, &QListWidget::itemSelectionChanged, [=]() {
+    connect(ui.removeDoctor, &QPushButton::clicked, this, [=, this] { presenter->deleteDoctor(); });
+    connect(ui.addDoctor, &QPushButton::clicked, this, [=, this] {presenter->addDoctor();});
+    connect(ui.doctorList, &QListWidget::itemSelectionChanged, this, [=, this]() {
 			
 			int row = ui.doctorList->selectedItems().empty() ? -1 : ui.doctorList->selectionModel()->currentIndex().row();
 
@@ -72,13 +72,13 @@ PracticeSettings::PracticeSettings(QWidget *parent)
 			if(presenter)presenter->indexChanged(row);
 		
 		});
-	connect(ui.adminCheck, &QCheckBox::stateChanged, [=](int state) { presenter->setAdminPrivilege(state);});
-	connect(ui.specialtyCombo, QtComboIndexChanged, [=](int index) {
+    connect(ui.adminCheck, &QCheckBox::stateChanged, this, [=, this](int state) { presenter->setAdminPrivilege(state);});
+    connect(ui.specialtyCombo, QtComboIndexChanged, this, [=, this](int index) {
 		presenter->setDoctorNhifSpecialty(static_cast<NhifSpecialty>(index));
 		}
 	);
 
-	connect(ui.legalEntityCombo, QtComboIndexChanged, [=](int index) {
+    connect(ui.legalEntityCombo, QtComboIndexChanged, this, [=, this](int index) {
 
 			bool notSelfInsured = index;
 
@@ -193,7 +193,7 @@ void PracticeSettings::setDoctorList(const std::vector<PracticeDoctor>& doctors)
 {
 	ui.doctorList->clear();
 
-	for (auto doctor : doctors)
+    for (auto& doctor : doctors)
 	{
 		QString postfix = doctor.admin ? " (администратор)" : "";
 		ui.doctorList->addItem(QString::fromStdString(doctor.name) + postfix);

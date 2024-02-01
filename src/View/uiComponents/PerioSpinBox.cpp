@@ -1,7 +1,6 @@
 #include "PerioSpinBox.h"
 #include <QPainter>
 #include <QEvent>
-#include "Model/Dental/ToothUtils.h"
 #include "View/Theme.h"
 
 PerioSpinBox::PerioSpinBox(QWidget*parent)
@@ -14,8 +13,7 @@ PerioSpinBox::PerioSpinBox(QWidget*parent)
 	setSizePolicy(QSizePolicy::Policy::Ignored, QSizePolicy::Policy::Ignored);
 	setFrame(true);
 
-	connect(this, QOverload<int>::of(&QSpinBox::valueChanged),
-		[=](int value){ colorCodeChange(); });
+    connect(this, &QSpinBox::valueChanged, this, [&]{ colorCodeChange(); });
 
 	this->installEventFilter(this);
 	
@@ -53,7 +51,7 @@ void PerioSpinBox::setValueCustom(int value)
 
 }
 
-void PerioSpinBox::paintEvent(QPaintEvent* event)
+void PerioSpinBox::paintEvent(QPaintEvent*)
 {
 
 	//QSpinBox::paintEvent(event);
@@ -81,7 +79,7 @@ void PerioSpinBox::paintEvent(QPaintEvent* event)
 
 }
 
-bool PerioSpinBox::eventFilter(QObject* obj, QEvent* e)
+bool PerioSpinBox::eventFilter(QObject*, QEvent* e)
 {
 	if (e->type() == QEvent::HoverEnter) {
 		m_hover = true;

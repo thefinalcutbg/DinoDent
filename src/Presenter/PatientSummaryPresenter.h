@@ -3,7 +3,6 @@
 #include "Presenter/PatientInfoPresenter.h"
 #include "Model/Dental/TimeFrame.h"
 #include <memory>
-#include "View/Theme.h"
 #include "View/Interfaces/IPatientSummaryView.h"
 
 struct Patient;

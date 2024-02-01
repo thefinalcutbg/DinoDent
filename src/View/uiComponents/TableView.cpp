@@ -70,17 +70,17 @@ TableView::TableView(QWidget* parent)
     QAction* action;
 
     action = (new QAction("Редактирай", menu));
-    connect(action, &QAction::triggered, this, [=] { emit editPressed(selectedRow()); });
+    connect(action, &QAction::triggered, this, [&] { emit editPressed(selectedRow()); });
     action->setIcon(QIcon(":/icons/icon_edit.png"));
     menu->addAction(action);
     action = (new QAction("Изтрий", menu));
-    connect(action, &QAction::triggered, this, [=] { emit deletePressed(selectedRow()); });
+    connect(action, &QAction::triggered, this, [&] { emit deletePressed(selectedRow()); });
     action->setIcon(QIcon(":/icons/icon_remove.png"));
     menu->addAction(action);
 
-    connect(this, &QTableView::doubleClicked, [=] { emit editPressed(selectedRow()); });
+    connect(this, &QTableView::doubleClicked, this, [&] { emit editPressed(selectedRow()); });
 
-    connect(this, &QWidget::customContextMenuRequested, [=](const QPoint& p){
+    connect(this, &QWidget::customContextMenuRequested, this, [&](const QPoint& p){
         if (!isEnabled()) return;
         if (this->selectedRow() == -1) return;
         menu->popup(viewport()->mapToGlobal(p));
@@ -91,7 +91,7 @@ TableView::TableView(QWidget* parent)
 
 void TableView::setAmbListLayout()
 {
-    connect(model(), &QAbstractTableModel::dataChanged, [=] { fitToModel();});
+    connect(model(), &QAbstractTableModel::dataChanged, this, [&] { fitToModel();});
     hideColumn(0);
     setColumnWidth(1, 90);
     setColumnWidth(2, 260);
@@ -109,7 +109,7 @@ void TableView::setAmbListLayout()
 
 void TableView::setProcedureHistoryLayout()
 {
-    connect(model(), &QAbstractTableModel::dataChanged, [=] { fitToModel();});
+    connect(model(), &QAbstractTableModel::dataChanged, this, [&] { fitToModel();});
 
     hideColumn(0);
     setColumnWidth(1, 90);
@@ -146,7 +146,7 @@ void TableView::setProcedurePrintSelectLayout()
 
 void TableView::setBusinessOperationLayout()
 {
-    connect(model(), &QAbstractTableModel::dataChanged, [=] { fitToModel();});
+    connect(model(), &QAbstractTableModel::dataChanged, this, [&] { fitToModel();});
     setColumnWidth(0, 50);
     setColumnWidth(1, 100);
     setColumnWidth(2, 350);
@@ -159,7 +159,7 @@ void TableView::setBusinessOperationLayout()
 
 void TableView::setMedicationLayot()
 {
-    connect(model(), &QAbstractTableModel::dataChanged, [=] { fitToModel();});
+    connect(model(), &QAbstractTableModel::dataChanged,  this, [&] { fitToModel();});
 
     setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
@@ -170,7 +170,7 @@ void TableView::setMedicationLayot()
 
 void TableView::setStatisticLayout()
 {
-    connect(model(), &QAbstractTableModel::dataChanged, [=] { fitToModel();});
+    connect(model(), &QAbstractTableModel::dataChanged, this, [&] { fitToModel();});
 
     setColumnWidth(1, 70);
     horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
@@ -179,7 +179,7 @@ void TableView::setStatisticLayout()
 
 void TableView::setPISActivitiesLayout()
 {
-    connect(model(), &QAbstractTableModel::dataChanged, [=] { fitToModel();});
+    connect(model(), &QAbstractTableModel::dataChanged, this, [&] { fitToModel();});
 
     hideColumn(0);
     setColumnWidth(1, 69);
@@ -340,7 +340,7 @@ void TableView::dropEvent(QDropEvent* e)
     if (e->source() != this || e->dropAction() != Qt::MoveAction)
         return;
 
-    int dragRow = selectedRow();
+   // int dragRow = selectedRow();
 
     QTableView::dropEvent(e);  // m_dropRow is set by inserted row
 
@@ -360,7 +360,7 @@ TableView::~TableView()
 {
 }
 
-void TableViewHeader::paintEvent(QPaintEvent* e)
+void TableViewHeader::paintEvent(QPaintEvent*)
 {
     QPainter painter(this->viewport());
 

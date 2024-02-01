@@ -22,8 +22,6 @@ bool BulstatValidator::validateInput(const std::string& text)
         return false;
     }
 
-    int length = text.size();
-
     static int firstSum9[8]   = { 1, 2, 3, 4, 5, 6, 7, 8 };
     static int secondSum9[8]  = { 3, 4, 5, 6, 7, 8, 9, 10 };
     static int firstSum13[4]  = { 2, 7, 3, 5 };

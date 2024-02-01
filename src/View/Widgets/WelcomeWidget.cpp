@@ -28,15 +28,15 @@ WelcomeWidget::WelcomeWidget(QWidget *parent)
     ui.statisticButton->setIcon(QIcon(":/icons/icon_statistic.png"));
     ui.aboutButton->setIcon(QIcon(":/icons/icon_question.png"));
 
-    connect(ui.ambButton, &QPushButton::clicked, [&] { MainPresenter::get().newAmbPressed(); });
-    connect(ui.perioButton, &QPushButton::clicked, [&] { MainPresenter::get().newPerioPressed(); });
+    connect(ui.ambButton, &QPushButton::clicked, this, [&] { MainPresenter::get().newAmbPressed(); });
+    connect(ui.perioButton, &QPushButton::clicked, this, [&] { MainPresenter::get().newPerioPressed(); });
     connect(ui.prescrButton, &QPushButton::clicked, [&] { MainPresenter::get().newPrescriptionPressed(); });
-    connect(ui.invoiceButton, &QPushButton::clicked, [&] { MainPresenter::get().newInvoicePressed(); });
-    connect(ui.browser, &QPushButton::clicked, [&] { MainPresenter::get().showBrowser(); });
-    connect(ui.nhifButton, &QPushButton::clicked, [&] { MainPresenter::get().pisDialog(); });
-    connect(ui.settingsButton, &QPushButton::clicked, [&] { MainPresenter::get().settingsPressed(); });
-    connect(ui.statisticButton, &QPushButton::clicked, [&] { MainPresenter::get().statisticPressed(); });
-    connect(ui.aboutButton, &QPushButton::clicked, [&] { AboutDialog d; d.exec(); });
+    connect(ui.invoiceButton, &QPushButton::clicked, this, [&] { MainPresenter::get().newInvoicePressed(); });
+    connect(ui.browser, &QPushButton::clicked, this, [&] { MainPresenter::get().showBrowser(); });
+    connect(ui.nhifButton, &QPushButton::clicked, this, [&] { MainPresenter::get().pisDialog(); });
+    connect(ui.settingsButton, &QPushButton::clicked, this, [&] { MainPresenter::get().settingsPressed(); });
+    connect(ui.statisticButton, &QPushButton::clicked, this, [&] { MainPresenter::get().statisticPressed(); });
+    connect(ui.aboutButton, &QPushButton::clicked, this, [&] { AboutDialog d; d.exec(); });
     
 }
 

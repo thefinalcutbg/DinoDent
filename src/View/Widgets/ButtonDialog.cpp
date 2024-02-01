@@ -20,11 +20,9 @@ ButtonDialog::ButtonDialog(const std::vector<std::string>& buttonNames, const st
 
 
 
-void ButtonDialog::paintEvent(QPaintEvent* e)
+void ButtonDialog::paintEvent(QPaintEvent*)
 {
-	QPainter painter;
-
-	painter.begin(this);
+    QPainter painter(this);
 
 	painter.fillRect(0, 0, width(), height(), Qt::white);
 }

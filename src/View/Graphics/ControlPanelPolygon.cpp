@@ -2,8 +2,8 @@
 #include <QPainter>
 #include <QGraphicsSceneMouseEvent>
 
-ControlPanelPolygon::ControlPanelPolygon(ButtonPos position, PolygonObserver* observer) 
-    : hovered(false), position(position), observer(observer)
+ControlPanelPolygon::ControlPanelPolygon(ButtonPos position, PolygonObserver* observer)
+    : observer(observer), position(position), hovered(false)
 {
     this->setFlag(QGraphicsItem::ItemIsFocusable);
     this->setAcceptHoverEvents(true);
@@ -35,6 +35,8 @@ ControlPanelPolygon::ControlPanelPolygon(ButtonPos position, PolygonObserver* ob
         break;
     case ButtonPos::center:                          //here we draw a square
         poly << up_left_in << up_right_in << down_right_in << down_left_in;
+    case ButtonPos::side:
+        break;
     }
 }
 
@@ -50,7 +52,7 @@ QPainterPath ControlPanelPolygon::shape() const
     return area;
 }
 
-void ControlPanelPolygon::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
+void ControlPanelPolygon::paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*)
 {
     QPainterPath area;
     area.addPolygon(poly);
@@ -66,14 +68,14 @@ void ControlPanelPolygon::paint(QPainter* painter, const QStyleOptionGraphicsIte
 
 }
 
-void ControlPanelPolygon::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
+void ControlPanelPolygon::hoverEnterEvent(QGraphicsSceneHoverEvent*)
 {
     hovered = 1;
     this->update();
     observer->buttonHovered(position, Hover::in);
 }
 
-void ControlPanelPolygon::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
+void ControlPanelPolygon::hoverLeaveEvent(QGraphicsSceneHoverEvent*)
 {
     hovered = 0;
     this->update();

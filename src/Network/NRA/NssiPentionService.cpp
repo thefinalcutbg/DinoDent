@@ -28,7 +28,7 @@ void NssiPentionService::parseReply(const std::string& reply)
 		.FirstChildElement();			//Pensioner
 
 	auto responseString = report.ChildElement(2);
-	auto responseCode = report.ChildElement(3);
+    //auto responseCode = report.ChildElement(3);
 	
 	if (responseString.ToElement() == nullptr)
 	{

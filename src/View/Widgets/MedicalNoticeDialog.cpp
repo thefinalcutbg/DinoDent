@@ -82,7 +82,7 @@ MedicalNoticeDialog::MedicalNoticeDialog(const MedicalNotice& notice)
 }
 
  
-void MedicalNoticeDialog::paintEvent(QPaintEvent* event)
+void MedicalNoticeDialog::paintEvent(QPaintEvent*)
 {
 	QPainter p(this);
 	p.fillRect(rect(), Qt::white);

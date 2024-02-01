@@ -2,7 +2,7 @@
 #include "View/ModalDialogBuilder.h"
 #include <sqlite3.h>
 #include "Resources.h"
-#include <filesystem>
+
 
 constexpr const char* database_error_msg = 
     "Неуспешно записване в базата данни.\n"
@@ -16,7 +16,7 @@ Db::Db(Db* existingConnection)
     stmt{nullptr}
 {
     if(m_connectionOwned){
-        int i = sqlite3_open(dbLocation.c_str(), &db_connection);
+        sqlite3_open(dbLocation.c_str(), &db_connection);
     }
     else
     {

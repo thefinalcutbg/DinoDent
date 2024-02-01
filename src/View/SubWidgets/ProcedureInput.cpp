@@ -22,8 +22,7 @@ ProcedureInput::ProcedureInput(QWidget *parent)
 
 	ui.diagEdit->setInputValidator(&notEmpty_validator);
 
-	connect(ui.diagCombo, QtComboIndexChanged,
-		[=](int idx) { 
+    connect(ui.diagCombo, QtComboIndexChanged, this, [&](int idx) {
 
 			ui.diagEdit->setInputValidator(idx ? nullptr : &notEmpty_validator);
 
@@ -35,14 +34,14 @@ ProcedureInput::ProcedureInput(QWidget *parent)
 
 			});
 
-
+/*
 	connect(ui.rangeWidget, &RangeWidget::rangeChanged,
 		[=](int begin, int end) {
 			//if (presenter)
 			//presenter->rangeChanged(begin, end);
 		}
 	);
-
+*/
 
 	ui.dateEdit->setErrorLabel(ui.errorLabel);
 	ui.rangeWidget->setErrorLabel(ui.errorLabel);

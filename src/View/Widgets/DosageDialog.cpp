@@ -5,7 +5,7 @@
 #include "QtVersion.h"
 
 DosageDialog::DosageDialog(DosagePresenter* p, QWidget* parent) :
-	presenter(p), QDialog(parent)
+    QDialog(parent), presenter(p)
 {
 	ui.setupUi(this);
 
@@ -16,38 +16,38 @@ DosageDialog::DosageDialog(DosagePresenter* p, QWidget* parent) :
 
 	ui.addWhenButton->setDisabled(true);
 
-	connect(ui.asNeededCheck, &QCheckBox::stateChanged, [=] {
+    connect(ui.asNeededCheck, &QCheckBox::stateChanged, this, [=, this] {
 		presenter->setAsNeeded(ui.asNeededCheck->isChecked());
 		});
 
-	connect(ui.offsetCheck, &QCheckBox::stateChanged, [=] {
+    connect(ui.offsetCheck, &QCheckBox::stateChanged, this, [=, this] {
 			bool enabled = ui.offsetCheck->isChecked();
 			presenter->enableOffset(enabled);
 			ui.offsetSpin->setEnabled(enabled);
 		});
 
-	connect(ui.doseFormCombo->lineEdit(), &QLineEdit::textChanged, [=](const QString& text) {
+    connect(ui.doseFormCombo->lineEdit(), &QLineEdit::textChanged, this, [=, this](const QString& text) {
 		     presenter->formNameChanged(text.toStdString());
 		});
 
 
-	connect(ui.additionalEdit, &QLineEdit::textChanged, [=](const QString& text) {
+    connect(ui.additionalEdit, &QLineEdit::textChanged, this, [=, this](const QString& text) {
 			presenter->additionalInstructionsChanged(text.toStdString());
 		});
 
 
-	connect(ui.doseSpin, QtDoubleSpinValueChanged, [=](double value) {
+    connect(ui.doseSpin, QtDoubleSpinValueChanged, this, [=, this](double value) {
 			presenter->doseQuantityValueChanged(value);
 		});
 
-	connect(ui.offsetSpin, QtSpinValueChanged, [=](int value) {
+    connect(ui.offsetSpin, QtSpinValueChanged, this, [=, this](int value) {
 			presenter->offsetChanged(value);
 
 		});
 
-	connect(ui.periodSpin, QtDoubleSpinValueChanged, [=](double value) { presenter->periodValueChanged(value); });
-	connect(ui.boundsSpin, QtDoubleSpinValueChanged, [=](double value) { presenter->boundsValueChanged(value); });
-	connect(ui.frequencySpin, QtSpinValueChanged, [=](int value) {
+    connect(ui.periodSpin, QtDoubleSpinValueChanged, this, [=, this](double value) { presenter->periodValueChanged(value); });
+    connect(ui.boundsSpin, QtDoubleSpinValueChanged, this, [=, this](double value) { presenter->boundsValueChanged(value); });
+    connect(ui.frequencySpin, QtSpinValueChanged, this, [=, this](int value) {
 		presenter->frequencyChanged(value); 
 
 		/*
@@ -61,17 +61,17 @@ DosageDialog::DosageDialog(DosagePresenter* p, QWidget* parent) :
 		
 	});
 
-	connect(ui.periodCombo, QtComboIndexChanged, [=](int idx) { presenter->periodUnitChanged(idx);});
-	connect(ui.boundsCombo, QtComboIndexChanged, [=](int idx) { presenter->boundsUnitChanged(idx);});
+    connect(ui.periodCombo, QtComboIndexChanged, this, [=, this](int idx) { presenter->periodUnitChanged(idx);});
+    connect(ui.boundsCombo, QtComboIndexChanged, this, [=, this](int idx) { presenter->boundsUnitChanged(idx);});
 
-	connect(ui.okButton, &QPushButton::clicked, [=] { presenter->okPressed();});
+    connect(ui.okButton, &QPushButton::clicked, this, [=, this] { presenter->okPressed();});
 
 	LineEdit* routeLine = new LineEdit(ui.routeCombo);
 	routeLine->setErrorLabel(ui.errorLabel);
 	routeLine->setInputValidator(&route_validator);
 	ui.routeCombo->setLineEdit(routeLine);
 
-	connect(ui.routeCombo->lineEdit(), &QLineEdit::textChanged, [=](const QString& text) {
+    connect(ui.routeCombo->lineEdit(), &QLineEdit::textChanged, this, [=, this](const QString& text) {
 		if(static_cast<LineEdit*>(ui.routeCombo->lineEdit())->validateInput())
 		presenter->routeChanged(text.toStdString());
 	});
@@ -82,26 +82,26 @@ DosageDialog::DosageDialog(DosagePresenter* p, QWidget* parent) :
 	ui.whenCombo->setLineEdit(whenLine);
 
 
-	connect(ui.whenCombo->lineEdit(), &QLineEdit::textChanged, [=] {
+    connect(ui.whenCombo->lineEdit(), &QLineEdit::textChanged, this, [=, this] {
 		static_cast<LineEdit*>(ui.whenCombo->lineEdit())->validateInput() ?
 			ui.whenCombo->lineEdit()->setStyleSheet("")
 			:
 			ui.whenCombo->lineEdit()->setStyleSheet("border: 1px solid red");
 		});
 
-	connect(ui.addWhenButton, &QPushButton::clicked, [=]{
+    connect(ui.addWhenButton, &QPushButton::clicked, this, [=, this]{
 
 		presenter->whenTagAdded(ui.whenCombo->lineEdit()->text().toStdString());
 
 	});
 
-	connect(ui.whenCombo->lineEdit(), &QLineEdit::returnPressed, [=] {
+    connect(ui.whenCombo->lineEdit(), &QLineEdit::returnPressed, this, [=, this] {
 
 		presenter->whenTagAdded(ui.whenCombo->lineEdit()->text().toStdString());
 	});
 
 
-	connect(whenLine, &QLineEdit::textChanged, [=](const QString& text) {
+    connect(whenLine, &QLineEdit::textChanged, this, [=, this](const QString& text) {
 		ui.addWhenButton->setEnabled(whenLine->isValid() && text.size());
 	});
 
@@ -146,7 +146,7 @@ void DosageDialog::setDoseFormCompletionList(const std::vector<std::string>& lis
 {
 	if (ui.doseFormCombo->count()) {
 
-		for (int i = 0; i < list.size(); i++) {
+        for (size_t i = 0; i < list.size(); i++) {
 			ui.doseFormCombo->setItemText(i, list[i].c_str());
 		}
 
@@ -197,7 +197,7 @@ void DosageDialog::setWhenTags(const std::vector<std::string>& tags, bool offset
 		ui.tagLayout->takeAt(0)->widget()->deleteLater();
 	}
 
-	for (int i = 0; i < tags.size(); i++) {
+    for (size_t i = 0; i < tags.size(); i++) {
 
 		QString text = tags[i].c_str();
 		text.append(" ");
@@ -211,7 +211,7 @@ void DosageDialog::setWhenTags(const std::vector<std::string>& tags, bool offset
 
 		ui.tagLayout->addWidget(tagButton);
 
-		QObject::connect(tagButton, &QPushButton::clicked, [=] {presenter->removeTag(i);});
+        QObject::connect(tagButton, &QPushButton::clicked, this, [=, this] {presenter->removeTag(i);});
 
 	}
 

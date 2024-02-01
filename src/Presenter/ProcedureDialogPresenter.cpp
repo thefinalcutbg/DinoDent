@@ -16,15 +16,14 @@ ProcedureDialogPresenter::ProcedureDialogPresenter
 )
 	:
 
-	view(nullptr),
-
+    selectedTeeth(selectedTeeth),
 	ambList(ambSheet),
-	selectedTeeth(selectedTeeth),
-	patientTurns18(patientTurns18),
-	date_validator(patientTurns18),
-	pregnancyAllowed(pregnancyAllowed),
-	noProcedureSelected(true),
-	procedure_creator(selectedTeeth)
+    patientTurns18(patientTurns18),
+    pregnancyAllowed(pregnancyAllowed),
+    procedure_creator(selectedTeeth),
+    view(nullptr),
+    date_validator(patientTurns18),
+    noProcedureSelected(true)
 {}
 
 
@@ -126,6 +125,6 @@ void ProcedureDialogPresenter::formAccepted()
 
 std::vector<Procedure> ProcedureDialogPresenter::openDialog()
 {
-	ModalDialogBuilder::openDialog(this);
+    ModalDialogBuilder::openDialog(*this);
 	return procedures;
 }

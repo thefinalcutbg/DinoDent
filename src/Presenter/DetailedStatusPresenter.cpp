@@ -1,13 +1,17 @@
 #include "DetailedStatusPresenter.h"
-#include "Presenter/CheckModel.h"
-#include "View/ModalDialogBuilder.h"
 
-#include "Database/DbProcedure.h"
+#include "Presenter/CheckModel.h"
 #include "Database/DbNotes.h"
 #include "View/Graphics/PaintHint.h"
+#include "View/ModalDialogBuilder.h"
 
 DetailedStatusPresenter::DetailedStatusPresenter(const Tooth& tooth, long long patientRowId, const std::vector<Procedure>& toothProcedures)
-	: m_tooth(tooth), m_procedures(toothProcedures), m_checkModel(tooth), m_dsnCheckModel(tooth.dsn.tooth()), patientRowId(patientRowId), view(nullptr)
+    : view(nullptr),
+    m_procedures(toothProcedures),
+    m_checkModel(tooth),
+    m_dsnCheckModel(tooth.dsn.tooth()),
+    patientRowId(patientRowId),
+    m_tooth(tooth)
 {
 	m_notes = DbNotes::getNote(patientRowId, tooth.index);
 }

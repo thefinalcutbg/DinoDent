@@ -39,12 +39,11 @@ HexagonGraphicsItem::HexagonGraphicsItem()
 }
 
 
-void HexagonGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
+void HexagonGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*)
 {
 	painter->setRenderHint(QPainter::Antialiasing);
 
-
-	QPainterPath background;
+    QPainterPath background;
 	background.addPolygon(polygon[5]);
 	painter->fillPath(background, Qt::white);
 
@@ -82,7 +81,7 @@ void HexagonGraphicsItem::setRiskValue(const std::array<int, 6>& values, int ris
 	riskPoly.clear();
 	riskPoly.reserve(6);
 
-	for (int i = 0; i < values.size(); i++)
+    for (int i = 0; i < values.size(); i++)
 	{
 		riskPoly << polygon[values[i]][i];
 	}

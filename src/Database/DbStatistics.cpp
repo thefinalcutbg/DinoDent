@@ -1,7 +1,7 @@
 #include "DbStatistics.h"
 #include "Database.h"
 #include "Model/Dental/DentalStatistics.h"
-#include "Model/UserStructs.h"
+#include "Model/User.h"
 #include "Model/Dental/Procedure.h"
 
 namespace DbStatPrv {
@@ -90,9 +90,6 @@ namespace DbStatPrv {
     }
 
 }
-
-
-#include "View/ModalDialogBuilder.h"
 
 int DbStat::count(const DentalStatistic& stat)
 {

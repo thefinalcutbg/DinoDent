@@ -1,13 +1,11 @@
 ﻿#include "BrowserPresenter.h"
 #include "View/Interfaces/IBrowserDialog.h"
 #include "View/ModalDialogBuilder.h"
-#include "Database/DbPatient.h"
 #include "Presenter/TabPresenter.h"
 #include "Database/DbPrescription.h"
 #include "Database/DbInvoice.h"
 #include "Database/DbProcedure.h"
 #include "Database/DbBrowser.h"
-#include "Model/User.h"
 
 #include <map>
 
@@ -56,7 +54,7 @@ void BrowserPresenter::refreshModel()
 
 	tableView.data.insert(tableView.data.begin(), PlainColumn{.hidden = true});
 
-	for (int i = 0; i < rowidData.size(); i++)
+    for (size_t i = 0; i < rowidData.size(); i++)
 	{
 		//inserting additional column containing the corresponding index in rowidData
 		tableView.addCell(0, { std::to_string(i) });
@@ -161,7 +159,7 @@ void BrowserPresenter::openNewDocument(TabType type)
 {
 	if (ui_state.model_type == TabType::Financial) return;
 
-	for (int i = 0; i < m_selectedInstances.size(); i ++) {
+    for (size_t i = 0; i < m_selectedInstances.size(); i ++) {
 
 		RowInstance row(type);
 		row.rowID = 0;

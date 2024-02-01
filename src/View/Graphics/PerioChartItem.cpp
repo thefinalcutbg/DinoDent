@@ -90,6 +90,8 @@ void PerioChartItem::setBulkMeasurment(const int pd[48], const int cal[48])
 
 void PerioChartItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
+    Q_UNUSED(option)
+    Q_UNUSED(widget)
 
 	painter->setRenderHint(QPainter::Antialiasing);
 

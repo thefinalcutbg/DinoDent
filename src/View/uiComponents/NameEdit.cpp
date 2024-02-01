@@ -3,7 +3,7 @@
 
 NameEdit::NameEdit(QWidget* parent) : LineEdit(parent)
 {
-    connect(this, &QLineEdit::textEdited, [=] {makeFirstLetterCapital(); });
+    connect(this, &QLineEdit::textEdited, [&] {makeFirstLetterCapital(); });
 }
 
 QString NameEdit::reformat(QString text)

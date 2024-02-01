@@ -19,8 +19,6 @@
 #include "Version.h"
 #include "View/Widgets/SplashScreen.h"
 
-QColor blue(133, 207, 234);
-
 DinoDent::DinoDent(QWidget* parent)
     : QMainWindow(parent)
 {
@@ -96,7 +94,7 @@ DinoDent::DinoDent(QWidget* parent)
     connect(ui.pisButton, &QPushButton::clicked, [&] { MainPresenter::get().pisDialog();});
     connect(ui.settingsButton, &QPushButton::clicked, [&] { MainPresenter::get().settingsPressed();});
     connect(ui.invoiceButton, &QPushButton::clicked, [&] { MainPresenter::get().newInvoicePressed(); });
-    connect(ui.aboutButton, &QPushButton::clicked, [&] { AboutDialog d; d.exec(); });
+    connect(ui.aboutButton, &QPushButton::clicked, this, [&] { AboutDialog d; d.exec(); });
 
     connect(exitAction, &QAction::triggered, [&] { MainPresenter::get().logOut(); });
 
@@ -117,6 +115,8 @@ DinoDent::DinoDent(QWidget* parent)
     ui.practiceLabel->setFont(font);
 
     SplashScreen::hideAndDestroy();
+
+    ui.tabView->showWelcomeScreen();
 
     MainPresenter::get().setView(this);
 }
@@ -149,7 +149,7 @@ bool DinoDent::initialized()
     return m_loggedIn;
 }
 
-void DinoDent::paintEvent(QPaintEvent* event)
+void DinoDent::paintEvent(QPaintEvent*)
 {
     QPainter painter;
     painter.begin(this);

@@ -12,7 +12,7 @@ bool LoginPresenter::successful()
 {
     User::resetUser();
 
-    ModalDialogBuilder::openDialog(this); //for fast login comment this out 
+    ModalDialogBuilder::openDialog(*this); //for fast login comment this out
     
    // okPressed("220008771", "198312"); //and remove this as comment
 
@@ -23,8 +23,8 @@ void LoginPresenter::practiceListPressed()
 {
     view->closeLogin();
     PracticeManagerPresenter p;
-    ModalDialogBuilder::openDialog(&p);
-    ModalDialogBuilder::openDialog(this);
+    ModalDialogBuilder::openDialog(p);
+    ModalDialogBuilder::openDialog(*this);
 }
 
 

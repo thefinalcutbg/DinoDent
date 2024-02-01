@@ -2,19 +2,18 @@
 #include "View/ModalDialogBuilder.h"
 #include "Database/DbPatient.h"
 #include "View/Printer.h"
-#include "Database/DbNotes.h"
-#include "Model/User.h"
+
 PatientDialogPresenter::PatientDialogPresenter(std::string dialogTitle) :
 	view(nullptr), dialogTitle(dialogTitle)
 {}
 
 PatientDialogPresenter::PatientDialogPresenter(const Patient& patient) :
 	m_patient(patient),
-	rowid(patient.rowid),
-	view(nullptr),
-	insurance_status(patient.insuranceStatus),
-	PISHistory(patient.PISHistory),
-	HISHistory(patient.HISHistory),
+    view(nullptr),
+    insurance_status(patient.insuranceStatus),
+    PISHistory(patient.PISHistory),
+    HISHistory(patient.HISHistory),
+    rowid(patient.rowid),
 	medStats(patient.medStats),
 	allergies(patient.allergies),
 	dialogTitle("Редактиране на данни на пациента")
@@ -117,7 +116,7 @@ void PatientDialogPresenter::checkHirbno()
 	auto p = view->getPatient();
 	
 	hirbnoHandler.sendRequest(p, 
-		[=](auto hirbno) {if (this)this->setHirbno(hirbno);}
+        [=, this](auto hirbno) { this->setHirbno(hirbno);}
 	);
 
 }
@@ -130,8 +129,6 @@ void PatientDialogPresenter::accept()
 
 	m_patient = getPatientFromView();
 	
-	bool success{ false };
-
 	if (rowid == 0) {
 		rowid = m_patient->rowid;
 		m_patient->rowid = DbPatient::insert(m_patient.value());

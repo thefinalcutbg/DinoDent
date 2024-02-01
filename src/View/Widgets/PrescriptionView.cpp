@@ -25,9 +25,9 @@ PrescriptionView::PrescriptionView(QWidget* parent)
 
 	setStyleSheet(Theme::getFancyStylesheet());
 
-	connect(ui.addButton, &QPushButton::clicked, [=] {if (presenter)presenter->addPressed();});
-	connect(ui.editButton, &QPushButton::clicked, [=] {if (presenter)presenter->editPressed(ui.medicationTable->selectedRow());});
-	connect(ui.deleteButton, &QPushButton::clicked, [=] {
+    connect(ui.addButton, &QPushButton::clicked, this, [=, this] {if (presenter)presenter->addPressed();});
+    connect(ui.editButton, &QPushButton::clicked, this, [=, this] {if (presenter)presenter->editPressed(ui.medicationTable->selectedRow());});
+    connect(ui.deleteButton, &QPushButton::clicked, this, [=, this] {
 
 		if (!presenter) return;
 
@@ -44,17 +44,17 @@ PrescriptionView::PrescriptionView(QWidget* parent)
 
 		});
 
-	connect(ui.medicationTable, &TableView::deletePressed, [=](int index) { if (presenter) presenter->deletePressed(index); });
-	connect(ui.medicationTable, &TableView::editPressed, [=](int index) { if (presenter) presenter->editPressed(index); });
+    connect(ui.medicationTable, &TableView::deletePressed, this, [=, this](int index) { if (presenter) presenter->deletePressed(index); });
+    connect(ui.medicationTable, &TableView::editPressed, this, [=, this](int index) { if (presenter) presenter->editPressed(index); });
 	connect(ui.dispensationCombo, QtComboIndexChanged, [&] { dispensationLogic(); });
 	connect(ui.repeats, QtSpinValueChanged, [&] { if (ui.repeats->isHidden()) return; dispensationLogic(); });
-	connect(ui.supplementsEdit, &QLineEdit::textChanged, [=](const QString& text) {if (presenter) presenter->supplementsChanged(text.toStdString());});
-	connect(ui.nrnButton, &QPushButton::clicked, [=] {if (presenter) presenter->nrnButtonClicked(); });
-	connect(ui.dateEdit, &QDateEdit::dateChanged, [=](QDate d) {if (presenter) presenter->dateChanged(Date{ d.day(),d.month(),d.year() });});
-	connect(ui.checkStatusButton, &QPushButton::clicked, [=]{ if (presenter) presenter->checkStatus(); });
-	connect(ui.pregnancyCheck, &QCheckBox::stateChanged, [=] { sendFemaleProperties(); });
-	connect(ui.breastfeedingCheck, &QCheckBox::stateChanged, [=] { sendFemaleProperties(); });
-	connect(ui.eRxButton, &QPushButton::clicked, [=] { if (presenter) presenter->eRxPressed(); });
+    connect(ui.supplementsEdit, &QLineEdit::textChanged, this, [=, this](const QString& text) {if (presenter) presenter->supplementsChanged(text.toStdString());});
+    connect(ui.nrnButton, &QPushButton::clicked, this, [=, this] {if (presenter) presenter->nrnButtonClicked(); });
+    connect(ui.dateEdit, &QDateEdit::dateChanged, this, [=, this](QDate d) {if (presenter) presenter->dateChanged(Date{ d.day(),d.month(),d.year() });});
+    connect(ui.checkStatusButton, &QPushButton::clicked, this, [=, this]{ if (presenter) presenter->checkStatus(); });
+    connect(ui.pregnancyCheck, &QCheckBox::stateChanged, this, [=, this] { sendFemaleProperties(); });
+    connect(ui.breastfeedingCheck, &QCheckBox::stateChanged, this, [=, this] { sendFemaleProperties(); });
+    connect(ui.eRxButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->eRxPressed(); });
 }
 
 IPatientTileInfo* PrescriptionView::patientTile()
@@ -85,7 +85,6 @@ void PrescriptionView::dispensationLogic()
 		case 1:
 		{
 			ui.repeats->show();
-			int repeats = ui.repeats->value();
 			ui.repeatsLabel->show();
 			break;
 		}
@@ -106,7 +105,7 @@ void PrescriptionView::dispensationLogic()
 
 }
 
-void PrescriptionView::paintEvent(QPaintEvent* event)
+void PrescriptionView::paintEvent(QPaintEvent*)
 {
 	QPainter painter(this);
 

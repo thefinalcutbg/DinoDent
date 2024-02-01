@@ -35,7 +35,7 @@ QPixmap PixmapLabel::scaledPixmap() const
     return scaled;
 }
 
-void PixmapLabel::resizeEvent(QResizeEvent* e)
+void PixmapLabel::resizeEvent(QResizeEvent*)
 {
     if (!pix.isNull())
         QLabel::setPixmap(scaledPixmap());

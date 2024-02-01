@@ -21,12 +21,10 @@ InvoicePrintDialog::InvoicePrintDialog(QWidget *parent)
 	});
 }
 
-void InvoicePrintDialog::paintEvent(QPaintEvent* event)
+void InvoicePrintDialog::paintEvent(QPaintEvent*)
 {
-	QPainter painter;
-	painter.begin(this);
+    QPainter painter(this);
 	painter.fillRect(0, 0, width(), height(), Qt::white);
-	painter.end();
 }
 
 InvoicePrintDialog::~InvoicePrintDialog()

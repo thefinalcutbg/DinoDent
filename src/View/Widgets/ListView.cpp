@@ -57,7 +57,7 @@ ListView::ListView(QWidget* parent)
 		QAction* action = new QAction(Referral::refDescription[i], menu);
 		menu->addAction(action);
 
-		connect(action, &QAction::triggered, [=] { 
+        connect(action, &QAction::triggered, this, [=, this] {
 			presenter->addReferral(static_cast<ReferralType>(i));
 			}
 		);
@@ -71,7 +71,7 @@ ListView::ListView(QWidget* parent)
 	ui.medicalNoticeButton->setIcon(QIcon(":/icons/icon_add.png"));
 	ui.medicalNoticeButton->setHoverColor(Theme::mainBackgroundColor);
 
-	setStyleSheet(Theme::getFancyStylesheet());
+    setStyleSheet(Theme::getFancyStylesheet());
 
 	ui.procedureLabel->setStyleSheet(
 		"color : " + Theme::colorToString(Theme::fontTurquoise) + "; "
@@ -83,23 +83,23 @@ ListView::ListView(QWidget* parent)
 		"font-weight: bold; font-size: 12px;"
 	);
 
-	connect(ui.pentionTaxButton, &QPushButton::clicked, [=] { if (presenter) presenter->addFinancialReceipt(); });
-	connect(ui.nrnButton, &QPushButton::clicked, [=] { if (presenter) presenter->hisButtonPressed();});
-	connect(ui.ambNumSpin, &LeadingZeroSpinBox::valueChanged, [=](long long value) {if(presenter)presenter->ambNumChanged(value);});
-	connect(ui.dateTimeEdit, &QDateTimeEdit::dateTimeChanged, [=](const QDateTime& t) {if (presenter)presenter->setAmbDateTime(t.toString(Qt::ISODate).toStdString());});
-	connect(ui.historyButton, &QPushButton::clicked, [=] { if (presenter) presenter->historyRequested(); });
-	connect(ui.addProcedure, &QAbstractButton::clicked, [=] { if (presenter) presenter->addProcedure(); });
-	connect(ui.specCombo, QtComboIndexChanged, [=] {nhifChanged();});
-	connect(ui.unfavCheck, &QCheckBox::stateChanged, [=] { nhifChanged(); });
-	connect(ui.nssiButton, &QPushButton::clicked, [=] { if (presenter) presenter->checkPention(); });
-	connect(ui.editProcedure, &QPushButton::clicked, [=] { if (presenter) presenter->editProcedure(ui.procedureTable->selectedRow()); });
-	connect(ui.hospitalButton, &QPushButton::clicked, [=] { if (presenter) presenter->checkHospitalization(); });
-	connect(ui.invoiceButton, &QPushButton::clicked, [=] { if (presenter) presenter->createInvoice(); });
-	connect(ui.perioButton, &QPushButton::clicked, [=] { if (presenter) presenter->createPerioMeasurment(); });
-	connect(ui.prescrButton, &QPushButton::clicked, [=] { if (presenter) presenter->createPrescription(); });
-	connect(ui.medicalNoticeButton, &QPushButton::clicked, [=] { if (presenter) presenter->addMedicalNotice(); });
-	connect(ui.deleteProcedure, &QAbstractButton::clicked, 
-		[=] {
+    connect(ui.pentionTaxButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->addFinancialReceipt(); });
+    connect(ui.nrnButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->hisButtonPressed();});
+    connect(ui.ambNumSpin, &LeadingZeroSpinBox::valueChanged, this, [=, this] (long long value) {if(presenter)presenter->ambNumChanged(value);});
+    connect(ui.dateTimeEdit, &QDateTimeEdit::dateTimeChanged, this, [=, this] (const QDateTime& t) {if (presenter)presenter->setAmbDateTime(t.toString(Qt::ISODate).toStdString());});
+    connect(ui.historyButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->historyRequested(); });
+    connect(ui.addProcedure, &QAbstractButton::clicked, this, [=, this] { if (presenter) presenter->addProcedure(); });
+    connect(ui.specCombo, QtComboIndexChanged, this, [=, this]  {nhifChanged();});
+    connect(ui.unfavCheck, &QCheckBox::stateChanged, this, [=, this] { nhifChanged(); });
+    connect(ui.nssiButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->checkPention(); });
+    connect(ui.editProcedure, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->editProcedure(ui.procedureTable->selectedRow()); });
+    connect(ui.hospitalButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->checkHospitalization(); });
+    connect(ui.invoiceButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->createInvoice(); });
+    connect(ui.perioButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->createPerioMeasurment(); });
+    connect(ui.prescrButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->createPrescription(); });
+    connect(ui.medicalNoticeButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->addMedicalNotice(); });
+    connect(ui.deleteProcedure, &QAbstractButton::clicked, this, [=, this]
+        {
 
 			if (!presenter) return;
 
@@ -117,9 +117,9 @@ ListView::ListView(QWidget* parent)
 			else ui.procedureTable->selectRow(currentIdx);
 		});
 
-	connect(ui.procedureTable, &TableView::deletePressed, [=](int row) {  if (presenter) presenter->deleteProcedure(row); });
-	connect(ui.procedureTable, &TableView::editPressed, [=](int row) { if (presenter) presenter->editProcedure(row); });
-	connect(ui.procedureTable, &TableView::rowDragged, [=] { 
+    connect(ui.procedureTable, &TableView::deletePressed, this, [=, this](int row) {  if (presenter) presenter->deleteProcedure(row); });
+    connect(ui.procedureTable, &TableView::editPressed, this, [=, this](int row) { if (presenter) presenter->editProcedure(row); });
+    connect(ui.procedureTable, &TableView::rowDragged, this, [=, this] {
 
 		int from = ui.procedureTable->selectedRow();
 		int to = model.lastDroppedRowIndex();
@@ -143,7 +143,7 @@ void ListView::setPresenter(ListPresenter* presenter)
 	contextMenu->setPresenter(presenter);
 }
 
-void ListView::paintEvent(QPaintEvent* event)
+void ListView::paintEvent(QPaintEvent*)
 {
 	QPainter painter;
 	painter.begin(this);
@@ -276,7 +276,7 @@ void ListView::setNotes(const std::array<std::string, 32>& notes)
 	teethViewScene->setNotes(notes);
 }
 
-void ListView::setSelectedTeeth(std::vector<int> selectedIndexes)
+void ListView::setSelectedTeeth(const std::vector<int>& selectedIndexes)
 {
 	teethViewScene->setSelectedTeeth(selectedIndexes);
 
@@ -292,7 +292,7 @@ void ListView::setProcedures(const std::vector<Procedure>& m)
 	std::vector<int> proc_teeth;
 	proc_teeth.reserve(m.size());
 
-	for (auto t : m) proc_teeth.push_back(t.tooth_idx.index);
+    for (auto& t : m) proc_teeth.push_back(t.tooth_idx.index);
 
 	teethViewScene->setProcedures(proc_teeth);
 }
@@ -334,18 +334,18 @@ void ListView::setAdditionalDocuments(const std::vector<Referral>& referrals, co
 
 	for (int i = 0; i < referrals.size(); i++) {
 		ReferralTile* refWidget = new ReferralTile(referrals[i], i, this);
-		connect(refWidget, &ReferralTile::remove, [=](int index) {presenter->removeReferral(index); });
-		connect(refWidget, &ReferralTile::clicked, [=](int index) {presenter->editReferral(index); });
-		connect(refWidget, &ReferralTile::print, [=](int index) {presenter->printReferral(index); });
-		connect(refWidget, &ReferralTile::sendToHis, [=](int index) {presenter->sendReferralToHis(index); });
+        connect(refWidget, &ReferralTile::remove, this, [=, this](int index) {presenter->removeReferral(index); });
+        connect(refWidget, &ReferralTile::clicked, this, [=, this](int index) {presenter->editReferral(index); });
+        connect(refWidget, &ReferralTile::print,  this, [=, this](int index) {presenter->printReferral(index); });
+        connect(refWidget, &ReferralTile::sendToHis, this, [=, this](int index) {presenter->sendReferralToHis(index); });
 		ui.docsLayout->addWidget(refWidget);
 	}
 
 	for (int i = 0; i < notices.size(); i++) {
 		auto noticeWidget = new MedicalNoticeTile(notices[i], i, this);
-		connect(noticeWidget, &MedicalNoticeTile::remove, [=](int index) {presenter->removeMedicalNotice(index); });
-		connect(noticeWidget, &MedicalNoticeTile::clicked, [=](int index) {presenter->editMedicalNotice(index); });
-		connect(noticeWidget, &MedicalNoticeTile::sendToHis, [=](int index) {presenter->sendMedicalNoticeToHis(index); });
+        connect(noticeWidget, &MedicalNoticeTile::remove, this, [=, this](int index) {presenter->removeMedicalNotice(index); });
+        connect(noticeWidget, &MedicalNoticeTile::clicked, this, [=, this](int index) {presenter->editMedicalNotice(index); });
+        connect(noticeWidget, &MedicalNoticeTile::sendToHis, this, [=, this](int index) {presenter->sendMedicalNoticeToHis(index); });
 		ui.docsLayout->addWidget(noticeWidget);
 
 	}

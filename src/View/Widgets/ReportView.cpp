@@ -35,7 +35,7 @@ ReportView::ReportView(QWidget* parent)
 	ui.textBrowser->setReadOnly(true);
 	ui.textBrowser->setOpenLinks(false);
 
-	connect(ui.generateButton, &QPushButton::clicked, [&] {
+    connect(ui.generateButton, &QPushButton::clicked, this, [&] {
 
 		m_stop ?
 			presenter.reset()
@@ -47,22 +47,22 @@ ReportView::ReportView(QWidget* parent)
 
 		});
 
-	connect(ui.monthCombo, QtComboIndexChanged, [&](int idx) {
+    connect(ui.monthCombo, QtComboIndexChanged, this, [&](int) {
+        presenter.setDate(ui.monthCombo->currentIndex() + 1, ui.yearSpin->value());
+		});
+
+    connect(ui.yearSpin, QtSpinValueChanged, this, [&](int) {
 		presenter.setDate(ui.monthCombo->currentIndex() + 1, ui.yearSpin->value());
 		});
 
-	connect(ui.yearSpin, QtSpinValueChanged, [&](int value) {
-		presenter.setDate(ui.monthCombo->currentIndex() + 1, ui.yearSpin->value());
-		});
-
-	connect(ui.pisButton, &QPushButton::clicked, [&] { presenter.sendToPis(); });
-	connect(ui.xmlButton, &QPushButton::clicked, [&] { presenter.saveToXML(); });
+    connect(ui.pisButton, &QPushButton::clicked, this, [&] { presenter.sendToPis(); });
+    connect(ui.xmlButton, &QPushButton::clicked,  this,[&] { presenter.saveToXML(); });
 	
 	ui.xmlButton->setIcon(QIcon(":/icons/icon_xml.png"));
 	ui.pisButton->setIcon(QIcon(":/icons/icon_nhif.png"));
 
 
-	connect(ui.textBrowser, &TextBrowser::linkPressed, [&](const QString& str) { presenter.linkClicked(str.toStdString()); });
+    connect(ui.textBrowser, &TextBrowser::linkPressed, this, [&](const QString& str) { presenter.linkClicked(str.toStdString()); });
 
 	//CHANGE THIS LATER
 	presenter.setView(this);
@@ -75,7 +75,7 @@ ReportView::ReportView(QWidget* parent)
 }
 
 
-void ReportView::paintEvent(QPaintEvent* event)
+void ReportView::paintEvent(QPaintEvent*)
 {
 	QPainter painter(this);
 	painter.fillRect(rect(), QColor(Qt::white));

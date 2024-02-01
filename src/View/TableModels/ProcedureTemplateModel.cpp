@@ -42,7 +42,7 @@ ProcedureTemplateModel::~ProcedureTemplateModel()
 {
 }
 
-bool ProcedureTemplateModel::insertRows(int position, int rows, const QModelIndex& index)
+bool ProcedureTemplateModel::insertRows(int position, int, const QModelIndex&)
 {
     beginInsertRows(QModelIndex(), position, position);
     endInsertRows();
@@ -74,12 +74,12 @@ QVariant ProcedureTemplateModel::headerData(int section, Qt::Orientation orienta
     return QVariant();
 }
 
-int ProcedureTemplateModel::rowCount(const QModelIndex& parent) const
+int ProcedureTemplateModel::rowCount(const QModelIndex&) const
 {
     return procedures.size();
 }
 
-int ProcedureTemplateModel::columnCount(const QModelIndex& parent) const
+int ProcedureTemplateModel::columnCount(const QModelIndex&) const
 {
     return 3;
 }

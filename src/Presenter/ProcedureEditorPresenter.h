@@ -1,14 +1,11 @@
 #pragma once
-#include <array>
 #include <optional>
 #include "View/Interfaces/IProcedureEditDialog.h"
 #include "Model/Dental/Procedure.h"
 
 #include "Model/Validators/ProcedureDateValidator.h"
 #include "Model/Validators/ProcedureValidators.h"
-#include "Model/Validators/CommonValidators.h"
 
-#include "View/ModalDialogBuilder.h"
 
 class ProcedureEditorPresenter
 {

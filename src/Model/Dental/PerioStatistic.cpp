@@ -18,7 +18,7 @@ public:
 
 	PerioIterator(const T* array, int size, const bool* disabled)
 		:
-		m_array(array), size(size), disabled(disabled), step(size / teethCount), index{ 0 }
+        m_array(array), size(size), step(size / teethCount), disabled(disabled), index{ 0 }
 	{
 		for (int i = 0; i < teethCount; i++)
 		{
@@ -101,7 +101,7 @@ std::array<int, histoCount> getHistogram(
 
 	for (; data.valid(); data.increment())
 	{
-		for (int y = 0; y < lambdas.size(); y++)
+        for (size_t y = 0; y < lambdas.size(); y++)
 		{
 			if (lambdas[y](data.value())) {
 				result[y]++;
@@ -125,7 +125,7 @@ std::array<double, size> histogramToPercentage(const std::array<int, size>& hist
 
 	std::array<double, size> result{ 0 };
 
-	for (int i = 0; i < size; i++)
+    for (size_t i = 0; i < size; i++)
 		result[i] = getPercent(histogram[i], total);
 
 	return result;
@@ -184,7 +184,7 @@ Stage getStage(const PerioStatistic& stat, bool restorationNeeded)
 template<typename T, size_t size>
 int getValue(const std::array<T, size>& groupings, T parameter)
 {
-	for (int i = 0; i < size; i++)
+    for (size_t i = 0; i < size; i++)
 		if (parameter <= groupings[i])
 			return i;
 
@@ -223,48 +223,48 @@ PerioStatistic::PerioStatistic(const PerioStatus& status, int age) :
 	HI{ calculatePercent(PerioIterator{status.FMPS, 128, status.disabled}, false) },
 	BI{ calculatePercent(PerioIterator{status.FMBS, 128, status.disabled}) },
 	BOP{ calculatePercent(PerioIterator{status.bop, 192, status.disabled}) },
-	calAverage(calculateAvg(PerioIterator{status.cal, 192,status.disabled })),
-	calDistribution{ calculatePercent(PerioIterator{status.cal, 192, status.disabled}) },
-	pdAverage{ calculateAvg(PerioIterator{ status.pd, 192, status.disabled }) },
+    pdAverage{ calculateAvg(PerioIterator{ status.pd, 192, status.disabled }) },
+    calAverage(calculateAvg(PerioIterator{status.cal, 192,status.disabled })),
+    calDistribution{ calculatePercent(PerioIterator{status.cal, 192, status.disabled}) },
 
-	pdHistogramCount{ 
-		getHistogram(
-			PerioIterator{status.pd, 192, status.disabled},
-		
-			std::array<ConditionLambda, 4> {
-				[](int value) { return value <= 3; },
-				[](int value) { return value <= 5; },
-				[](int value) { return value <= 7; },
-				[](int value) { return value > 7; }
-			}
-		) 
-	},
+    boneIdx{static_cast<double>(status.boneLoss)/age},
 
-	calHistogramCount{ 
-		getHistogram(
-			PerioIterator{status.cal, 192, status.disabled},
+    calMax{calculateMax(PerioIterator{ status.cal, 192,status.disabled})},
 
-			std::array<ConditionLambda, 3> {
-				[](int value) { return value > 0 && value <= 2; },
-				[](int value) { return value > 2 && value <= 4; },
-				[](int value) { return value > 4; }
-			}
-		) 
-	},
+    pdMax{calculateMax(PerioIterator{ status.pd, 192,status.disabled}) },
+    furcMax{calculateMax(PerioIterator{status.furcation, 96, status.disabled})},
 
-	pdHistogramPercentage{ histogramToPercentage(pdHistogramCount) },
-	calHistogramPercentage{histogramToPercentage(calHistogramCount)},
+    missingTeeth(getMissingTeethCount(status.disabled)),
+    pdHistogramCount{
+        getHistogram(
+            PerioIterator{status.pd, 192, status.disabled},
 
-	calMax{calculateMax(PerioIterator{ status.cal, 192,status.disabled})},
-	pdMax{calculateMax(PerioIterator{ status.pd, 192,status.disabled}) },
-	furcMax{calculateMax(PerioIterator{status.furcation, 96, status.disabled})},
+            std::array<ConditionLambda, 4> {
+                [](int value) { return value <= 3; },
+                [](int value) { return value <= 5; },
+                [](int value) { return value <= 7; },
+                [](int value) { return value > 7; }
+            }
+            )
+    },
+    calHistogramCount{
+        getHistogram(
+            PerioIterator{status.cal, 192, status.disabled},
 
-	missingTeeth(getMissingTeethCount(status.disabled)),
+            std::array<ConditionLambda, 3> {
+                [](int value) { return value > 0 && value <= 2; },
+                [](int value) { return value > 2 && value <= 4; },
+                [](int value) { return value > 4; }
+            }
+            )
+    },
 
-	localized{calDistribution < 30},
-	stage{ getStage(*this, status.completeRestorationNeeded)},
+    pdHistogramPercentage{ histogramToPercentage(pdHistogramCount) },
 
-	boneIdx{static_cast<double>(status.boneLoss)/age},
+    calHistogramPercentage{histogramToPercentage(calHistogramCount)},
+    localized{calDistribution < 30},
+
+    stage{ getStage(*this, status.completeRestorationNeeded)},
 
 	riskHexagon{
 		

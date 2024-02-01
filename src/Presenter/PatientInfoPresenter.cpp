@@ -1,13 +1,16 @@
 ﻿#include "PatientInfoPresenter.h"
-#include "Presenter/PatientDialogPresenter.h"
-#include "Presenter/TabPresenter.h"
+
 #include "Database/DbPatient.h"
+#include "Model/User.h"
+#include "Presenter/PatientDialogPresenter.h"
+#include "Presenter/MedicalStatusPresenter.h"
+#include "Presenter/TabPresenter.h"
 #include "View/ModalDialogBuilder.h"
 #include "View/Printer.h"
-#include "Presenter/MedicalStatusPresenter.h"
+
 
 PatientInfoPresenter::PatientInfoPresenter(IPatientTileInfo* view, std::shared_ptr<Patient> p) :
-    view(view), patient(p), patientAge(patient->getAge(Date::currentDate()))
+    patient(p), view(view), patientAge(patient->getAge(Date::currentDate()))
 {}
 
 void PatientInfoPresenter::setDate(const Date& date)
@@ -31,7 +34,7 @@ void PatientInfoPresenter::nraClicked(bool showDialog)
     */
     nraStatusServ.sendRequest(
         *patient.get(),
-        [=](auto status) { this->setInsuranceStatus(status);},
+        [=, this](auto status) { this->setInsuranceStatus(status);},
         showDialog
     );
 }
@@ -42,7 +45,7 @@ void PatientInfoPresenter::diagnosisClicked()
         *patient,
 
 
-        [=](
+        [=, this](
             const std::vector<std::string>& currentDiseases,
             const std::vector<std::string>& pastDiseases
             

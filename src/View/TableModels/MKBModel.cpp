@@ -7,8 +7,8 @@ QVariant MKBModel::headerData(int section, Qt::Orientation orientation, int role
         if (orientation == Qt::Horizontal) {
             switch (section)
             {
-            case 0: return "Код";
-            case 1: return "Наименование";
+                case 0: return "Код";
+                case 1: return "Наименование";
             }
         }
     }
@@ -27,9 +27,9 @@ QVariant MKBModel::data(const QModelIndex& index, int role) const
     case Qt::DisplayRole:
         switch (column)
         {
-        case 0: return mkbList[row].code().c_str();
-        case 1: return mkbList[row].name().c_str();
-
+            case 0: return mkbList[row].code().c_str();
+            case 1: return mkbList[row].name().c_str();
+            default: break;
         }
     case Qt::TextAlignmentRole:
             return column == 1 ? 

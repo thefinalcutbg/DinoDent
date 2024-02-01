@@ -11,9 +11,9 @@ VitaWidget::VitaWidget(QWidget* parent)
 
     ui.radioClassic->setChecked(true);
 
-    connect(ui.radioClassic, &QRadioButton::toggled, [=] { set3DMaster(false); });
-    connect(ui.radioMaster, &QRadioButton::toggled, [=] {set3DMaster(true); });
-    connect(ui.index, QOverload<int>::of(&QComboBox::currentIndexChanged), [=](int index) {switchColor(index); });
+    connect(ui.radioClassic, &QRadioButton::toggled, this, [=, this] { set3DMaster(false); });
+    connect(ui.radioMaster, &QRadioButton::toggled, this, [=, this] { set3DMaster(true); });
+    connect(ui.index, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [=, this](int index) {switchColor(index); });
 
     set3DMaster(false);
 }

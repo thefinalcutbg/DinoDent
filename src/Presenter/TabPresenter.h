@@ -1,14 +1,12 @@
 #pragma once
 
-#include <unordered_map>
 #include "View/Interfaces/ITabView.h"
-#include "Database/DbAmbList.h"
-#include "ListPresenter.h"
+#include "TabInstance.h"
 
 class AmbList;
-class Patient;
+struct Patient;
 struct RowInstance;
-
+struct Recipient;
 
 class TabPresenter
 {

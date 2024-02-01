@@ -18,8 +18,8 @@ RangeWidget::RangeWidget(QWidget *parent)
 		ui.endCombo->addItem(toothIndexes[i]);
 	}
 
-	connect(ui.beginCombo, QOverload<int>::of(&QComboBox::currentIndexChanged),
-		[=](int index)
+    connect(ui.beginCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this,
+        [&](int)
 		{ 	
 			AbstractUIElement::validateInput();
 
@@ -30,8 +30,8 @@ RangeWidget::RangeWidget(QWidget *parent)
 			} 
 		});
 
-	connect(ui.endCombo, QOverload<int>::of(&QComboBox::currentIndexChanged),
-		[=](int index)
+    connect(ui.endCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this,
+        [&](int)
 		{
 			AbstractUIElement::validateInput();
 

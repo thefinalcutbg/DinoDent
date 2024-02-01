@@ -190,7 +190,7 @@ void CustomDateEdit::monthMenuPopup() {
                 monthList[monthTableCount]->setObjectName("monthListDisabled");
             }
             monthGridLayout->addWidget(monthList[monthTableCount], monthTableRow, monthTableColumn);
-            connect(monthList[monthTableCount], &QPushButton::clicked, [=]() {
+            connect(monthList[monthTableCount], &QPushButton::clicked, [=, this]() {
                 int year = calendarWidget()->selectedDate().year();
                 selectedMonth(year, monthCount);
                 if (type == menuContent::MONTH) {

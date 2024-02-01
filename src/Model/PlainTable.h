@@ -33,7 +33,7 @@ struct PlainTable {
 	PlainColumn& operator [] (int index) { return data[index]; };
 	const PlainColumn& operator []  (int index) const { return data[index]; };
 
-	int size() const { return data.size(); }
+    size_t size() const { return data.size(); }
 
 	int columnCount() const { return size(); }
 

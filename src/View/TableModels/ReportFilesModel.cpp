@@ -40,7 +40,7 @@ ReportFilesModel::~ReportFilesModel()
 {
 }
 
-bool ReportFilesModel::insertRows(int position, int rows, const QModelIndex& index)
+bool ReportFilesModel::insertRows(int position, int, const QModelIndex&)
 {
     beginInsertRows(QModelIndex(), position, position);
     endInsertRows();
@@ -74,12 +74,12 @@ QVariant ReportFilesModel::headerData(int section, Qt::Orientation orientation, 
 }
 
 
-int ReportFilesModel::rowCount(const QModelIndex& parent) const
+int ReportFilesModel::rowCount(const QModelIndex&) const
 {
     return rows.size();
 }
 
-int ReportFilesModel::columnCount(const QModelIndex& parent) const
+int ReportFilesModel::columnCount(const QModelIndex&) const
 {
     return 5;
 }
@@ -91,7 +91,7 @@ QVariant ReportFilesModel::data(const QModelIndex& index, int role) const
 
     if (!index.isValid()) return QVariant();
 
-    int row = index.row();
+    size_t row = index.row();
     int column = index.column();
 
     if (row == rows.size()) return 0;

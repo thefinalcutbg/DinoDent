@@ -40,7 +40,7 @@ private:
 	Ui::BrowserDialog ui;
 
 	//shows the additional buttons and changes selectionMode
-
+    void datesChanged();
 	void focus() override;
 	void close() override;
 	void contextMenuRequested(const QPoint& p);

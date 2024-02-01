@@ -9,7 +9,7 @@ void ProcedureContainer::addProcedures(const std::vector<Procedure>& p)
 
     m_proc.reserve(m_proc.size() + p.size());
 
-    for (int i = 0; i < m_proc.size(); i++)
+    for (size_t i = 0; i < m_proc.size(); i++)
     {
         if (p[0].date < m_proc[i].date)
         {
@@ -29,7 +29,7 @@ void ProcedureContainer::addProcedure(const Procedure& p)
 {
     m_proc.reserve(m_proc.size() + 1);
 
-    for (int i = 0; i < m_proc.size(); i++)
+    for (size_t i = 0; i < m_proc.size(); i++)
     {
         if (p.date < m_proc[i].date)
         {

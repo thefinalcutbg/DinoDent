@@ -129,7 +129,7 @@ struct Ranges {
 };
 
 //string to lambda map placed into it's own fn because intellisense has trouble parsing it
-void deserializeStatusCode(Tooth& tooth, Ranges& r, const std::string& code);
+void deserializeStatusCode(Tooth& tooth, Ranges&, const std::string& code);
 
 // this is old implementation, which was compensating the HIS most recent status bug
 ToothContainer HISHistoryAlgorithms::getToothStatus(TiXmlDocument& doc)
@@ -518,43 +518,43 @@ ToothContainer HISHistoryAlgorithms::getToothStatus(TiXmlDocument& doc)
 
 void deserializeStatusCode(Tooth& tooth, Ranges& r, const std::string& code)
 {
-	static std::map<std::string, std::function<void(Tooth& tooth, Ranges& r)>> lambdaMap
+    static std::map<std::string, std::function<void(Tooth& tooth, Ranges& r)>> lambdaMap
 	{
-		{ "E", [](Tooth& tooth, Ranges& r) mutable	{ tooth.extraction.set(true); }},
-		{ "T",	[](Tooth& tooth, Ranges& r) mutable { tooth.calculus.set(true); } },
-		{ "K",	[](Tooth& tooth, Ranges& r) mutable { tooth.crown.set(true); } },
-		{ "B",	[](Tooth& tooth, Ranges& r) mutable { r.bridges.push_back(tooth.index); r.pontics.push_back(tooth.index); } },
-		{ "Kb",	[](Tooth& tooth, Ranges& r) mutable { r.bridges.push_back(tooth.index); } },
-		{ "O",	[](Tooth& tooth, Ranges& r) mutable { tooth.obturation.set(true); } },
-		{ "C",	[](Tooth& tooth, Ranges& r) mutable { tooth.caries.set(true); } },
-		{ "Oo",	[](Tooth& tooth, Ranges& r) mutable { tooth.obturation.set(true, Surface::Occlusal); } },
-		{ "Om",	[](Tooth& tooth, Ranges& r) mutable { tooth.obturation.set(true, Surface::Medial);  } },
-		{ "Od",	[](Tooth& tooth, Ranges& r) mutable { tooth.obturation.set(true, Surface::Distal);  } },
-		{ "Ob",	[](Tooth& tooth, Ranges& r) mutable { tooth.obturation.set(true, Surface::Buccal); } },
-		{ "Ol",	[](Tooth& tooth, Ranges& r) mutable { tooth.obturation.set(true, Surface::Lingual);  } },
-		{ "Oc",	[](Tooth& tooth, Ranges& r) mutable { tooth.obturation.set(true, Surface::Cervical);  } },
-		{ "Co",	[](Tooth& tooth, Ranges& r) mutable { tooth.caries.set(true, Surface::Occlusal); } },
-		{ "Cm",	[](Tooth& tooth, Ranges& r) mutable { tooth.caries.set(true, Surface::Medial);  } },
-		{ "Cd",	[](Tooth& tooth, Ranges& r) mutable { tooth.caries.set(true, Surface::Distal);  } },
-		{ "Cb",	[](Tooth& tooth, Ranges& r) mutable { tooth.caries.set(true, Surface::Buccal); } },
-		{ "Cl",	[](Tooth& tooth, Ranges& r) mutable { tooth.caries.set(true, Surface::Lingual);  } },
-		{ "Cc",	[](Tooth& tooth, Ranges& r) mutable { tooth.caries.set(true, Surface::Cervical);  } },
-		{ "M1",	[](Tooth& tooth, Ranges& r) mutable { tooth.mobility.set(true); tooth.mobility.degree = Degree::First; } },
-		{ "M2",	[](Tooth& tooth, Ranges& r) mutable { tooth.mobility.set(true); tooth.mobility.degree = Degree::Second; } },
-		{ "M3",	[](Tooth& tooth, Ranges& r) mutable { tooth.mobility.set(true); tooth.mobility.degree = Degree::Third; } },
-		{ "X",	[](Tooth& tooth, Ranges& r) mutable { tooth.denture.set(true); } },
-		{ "R",	[](Tooth& tooth, Ranges& r) mutable { tooth.root.set(true); } },
-		{ "Rc",	[](Tooth& tooth, Ranges& r) mutable { tooth.endo.set(true); } },
-		{ "Rp",	[](Tooth& tooth, Ranges& r) mutable { tooth.post.set(true); } },
-		{ "H",	[](Tooth& tooth, Ranges& r) mutable { tooth.healthy.set(true); } },
-		{ "I",	[](Tooth& tooth, Ranges& r) mutable { tooth.implant.set(true); } },
-		{ "Re",	[](Tooth& tooth, Ranges& r) mutable { tooth.impacted.set(true); } },
-		{ "G",	[](Tooth& tooth, Ranges& r) mutable { tooth.lesion.set(true); } },
-		{ "P",	[](Tooth& tooth, Ranges& r) mutable { tooth.pulpitis.set(true); } },
-		{ "F",	[](Tooth& tooth, Ranges& r) mutable { tooth.fracture.set(true); } },
-		{ "Pa",	[](Tooth& tooth, Ranges& r) mutable { tooth.periodontitis.set(true); } },
-		{ "D",	[](Tooth& tooth, Ranges& r) mutable { if(tooth.dsn.toothNotNull()) tooth.dsn.set(true); } },
-		{ "S",	[](Tooth& tooth, Ranges& r) mutable { r.splints.push_back(tooth.index); } }
+        { "E", [](Tooth& tooth, Ranges&) mutable	{ tooth.extraction.set(true); }},
+        { "T",	[](Tooth& tooth, Ranges&) mutable { tooth.calculus.set(true); } },
+        { "K",	[](Tooth& tooth, Ranges&) mutable { tooth.crown.set(true); } },
+        { "B",	[](Tooth& tooth, Ranges& r) mutable { r.bridges.push_back(tooth.index); r.pontics.push_back(tooth.index); } },
+        { "Kb",	[](Tooth& tooth, Ranges& r) mutable { r.bridges.push_back(tooth.index); } },
+        { "O",	[](Tooth& tooth, Ranges&) mutable { tooth.obturation.set(true); } },
+        { "C",	[](Tooth& tooth, Ranges&) mutable { tooth.caries.set(true); } },
+        { "Oo",	[](Tooth& tooth, Ranges&) mutable { tooth.obturation.set(true, Surface::Occlusal); } },
+        { "Om",	[](Tooth& tooth, Ranges&) mutable { tooth.obturation.set(true, Surface::Medial);  } },
+        { "Od",	[](Tooth& tooth, Ranges&) mutable { tooth.obturation.set(true, Surface::Distal);  } },
+        { "Ob",	[](Tooth& tooth, Ranges&) mutable { tooth.obturation.set(true, Surface::Buccal); } },
+        { "Ol",	[](Tooth& tooth, Ranges&) mutable { tooth.obturation.set(true, Surface::Lingual);  } },
+        { "Oc",	[](Tooth& tooth, Ranges&) mutable { tooth.obturation.set(true, Surface::Cervical);  } },
+        { "Co",	[](Tooth& tooth, Ranges&) mutable { tooth.caries.set(true, Surface::Occlusal); } },
+        { "Cm",	[](Tooth& tooth, Ranges&) mutable { tooth.caries.set(true, Surface::Medial);  } },
+        { "Cd",	[](Tooth& tooth, Ranges&) mutable { tooth.caries.set(true, Surface::Distal);  } },
+        { "Cb",	[](Tooth& tooth, Ranges&) mutable { tooth.caries.set(true, Surface::Buccal); } },
+        { "Cl",	[](Tooth& tooth, Ranges&) mutable { tooth.caries.set(true, Surface::Lingual);  } },
+        { "Cc",	[](Tooth& tooth, Ranges&) mutable { tooth.caries.set(true, Surface::Cervical);  } },
+        { "M1",	[](Tooth& tooth, Ranges&) mutable { tooth.mobility.set(true); tooth.mobility.degree = Degree::First; } },
+        { "M2",	[](Tooth& tooth, Ranges&) mutable { tooth.mobility.set(true); tooth.mobility.degree = Degree::Second; } },
+        { "M3",	[](Tooth& tooth, Ranges&) mutable { tooth.mobility.set(true); tooth.mobility.degree = Degree::Third; } },
+        { "X",	[](Tooth& tooth, Ranges&) mutable { tooth.denture.set(true); } },
+        { "R",	[](Tooth& tooth, Ranges&) mutable { tooth.root.set(true); } },
+        { "Rc",	[](Tooth& tooth, Ranges&) mutable { tooth.endo.set(true); } },
+        { "Rp",	[](Tooth& tooth, Ranges&) mutable { tooth.post.set(true); } },
+        { "H",	[](Tooth& tooth, Ranges&) mutable { tooth.healthy.set(true); } },
+        { "I",	[](Tooth& tooth, Ranges&) mutable { tooth.implant.set(true); } },
+        { "Re",	[](Tooth& tooth, Ranges&) mutable { tooth.impacted.set(true); } },
+        { "G",	[](Tooth& tooth, Ranges&) mutable { tooth.lesion.set(true); } },
+        { "P",	[](Tooth& tooth, Ranges&) mutable { tooth.pulpitis.set(true); } },
+        { "F",	[](Tooth& tooth, Ranges&) mutable { tooth.fracture.set(true); } },
+        { "Pa",	[](Tooth& tooth, Ranges&) mutable { tooth.periodontitis.set(true); } },
+        { "D",	[](Tooth& tooth, Ranges&) mutable { if(tooth.dsn.toothNotNull()) tooth.dsn.set(true); } },
+        { "S",	[](Tooth& tooth, Ranges& r) mutable { r.splints.push_back(tooth.index); } }
 	};
 
 	if(lambdaMap.count(code)) lambdaMap[code](tooth, r);

@@ -4,14 +4,14 @@
 #include "Model/Dental/Diagnosis.h"
 #include <QPainter>
 
-void StatisticDialogView::paintEvent(QPaintEvent* e)
+void StatisticDialogView::paintEvent(QPaintEvent*)
 {
 	QPainter painter(this);
 	painter.fillRect(rect(), Qt::white);
 }
 
 StatisticDialogView::StatisticDialogView(StatisticDialogPresenter& p, QWidget *parent)
-	: presenter(p), QDialog(parent)
+    : QDialog(parent), presenter(p)
 {
 	ui.setupUi(this);
 
@@ -34,14 +34,14 @@ StatisticDialogView::StatisticDialogView(StatisticDialogPresenter& p, QWidget *p
 
 	ui.procedureCombo->setCurrentIndex(2);
 
-	connect(ui.yearSpinBox, &QSpinBox::valueChanged, [&] { presenter.parameterChanged(); });
-	connect(ui.ageCombo, QtComboIndexChanged, [&]{ presenter.parameterChanged(); });
-	connect(ui.toothCombo, QtComboIndexChanged, [&] { presenter.parameterChanged(); });
-	connect(ui.financingCombo, QtComboIndexChanged, [&] { presenter.parameterChanged(); });
-	connect(ui.diagnosisGroup, &QGroupBox::clicked, [&] { presenter.parameterChanged(); });
-	connect(ui.nameGroup,&QGroupBox::clicked, [&] { presenter.parameterChanged(); });
-	connect(ui.nameFilterList, &QListWidget::itemChanged, [&] { presenter.parameterChanged(); });
-	connect(ui.diagnosisFilterList, &QListWidget::itemChanged, [&] { presenter.parameterChanged(); });
+    connect(ui.yearSpinBox, &QSpinBox::valueChanged, this, [&] { presenter.parameterChanged(); });
+    connect(ui.ageCombo, QtComboIndexChanged, this, [&]{ presenter.parameterChanged(); });
+    connect(ui.toothCombo, QtComboIndexChanged, this, [&] { presenter.parameterChanged(); });
+    connect(ui.financingCombo, QtComboIndexChanged, this, [&] { presenter.parameterChanged(); });
+    connect(ui.diagnosisGroup, &QGroupBox::clicked, this, [&] { presenter.parameterChanged(); });
+    connect(ui.nameGroup,&QGroupBox::clicked, this, [&] { presenter.parameterChanged(); });
+    connect(ui.nameFilterList, &QListWidget::itemChanged, this, [&] { presenter.parameterChanged(); });
+    connect(ui.diagnosisFilterList, &QListWidget::itemChanged, this, [&] { presenter.parameterChanged(); });
 
 
 	presenter.parameterChanged();
@@ -71,10 +71,6 @@ void StatisticDialogView::setProcedureFilter(const std::vector<ProcedureCode> na
 	ui.nameGroup->setChecked(false);
 
 	presenter.parameterChanged();
-}
-
-void StatisticDialogView::setStatistic(const DentalStatistic& s)
-{
 }
 
 DentalStatistic StatisticDialogView::getStatistic()

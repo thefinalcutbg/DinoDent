@@ -32,8 +32,9 @@ QVariant ProcedureCodeModel::data(const QModelIndex& index, int role) const
     case Qt::DisplayRole:
         switch (column)
         {
-        case 0: return m_list[row].code().c_str();
-        case 1: return m_list[row].name().c_str();
+            case 0: return m_list[row].code().c_str();
+            case 1: return m_list[row].name().c_str();
+            default: break;
         }
     case Qt::TextAlignmentRole:
         if (column == 1)

@@ -10,9 +10,9 @@ void ReportFilesPresenter::setView(IReportFilesView* view)
 
 void ReportFilesPresenter::refreshFiles()
 {
-	service.sendRequest(User::practice().rziCode, 
-		
-		[=](const std::vector<ReportFile>& files)
+    service.sendRequest(User::practice().rziCode,
+
+        [=, this](const std::vector<ReportFile>& files)
 		{
 			if (files.empty()) return;
 

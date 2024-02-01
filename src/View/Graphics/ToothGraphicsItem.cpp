@@ -9,7 +9,7 @@ ToothGraphicsItem::ToothGraphicsItem(int index) : index(index), hasProcedure(fal
     bounds.setHeight(224);
     pxHeight = 224;
 
-    if (index > 2 && index < 13 || index > 18 && index < 29)
+    if ((index > 2 && index < 13) || (index > 18 && index < 29))
     {
         bounds.setWidth(36);
         pxWidth = 36;
@@ -40,9 +40,8 @@ QRectF ToothGraphicsItem::boundingRect() const
     return bounds;
 }
 
-void ToothGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
+void ToothGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*)
 {
-
     painter->setRenderHint(QPainter::SmoothPixmapTransform);
 
     if (hasProcedure)

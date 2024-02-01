@@ -24,7 +24,7 @@ void UserButton::setHoverColor(const QColor& color)
 	update();
 }
 
-void UserButton::paintEvent(QPaintEvent* event)
+void UserButton::paintEvent(QPaintEvent*)
 {
 	QPainter painter(this);
 
@@ -58,7 +58,7 @@ void UserButton::paintEvent(QPaintEvent* event)
 
 }
 
-bool UserButton::eventFilter(QObject* obj, QEvent* e)
+bool UserButton::eventFilter(QObject*, QEvent* e)
 {
 	if (e->type() == QEvent::HoverEnter) {
 		m_hover = true;

@@ -6,7 +6,7 @@
 #include "Model/MedicalNotice.h"
 
 MedicalNoticeTile::MedicalNoticeTile(const MedicalNotice& notice, int index, QWidget *parent)
-	: m_index(index), QWidget(parent)
+    : QWidget(parent), m_index(index)
 {
 	ui.setupUi(this);
 
@@ -39,11 +39,11 @@ MedicalNoticeTile::MedicalNoticeTile(const MedicalNotice& notice, int index, QWi
 		label->setStyleSheet("color:" + Theme::colorToString(Theme::fontTurquoise));
 	}
 
-	connect(ui.deleteButton, &QPushButton::clicked, [&] { remove(m_index); });
-	connect(ui.hisButton, &QPushButton::clicked, [&] { sendToHis(m_index); });
+    connect(ui.deleteButton, &QPushButton::clicked, this, [&]{ emit remove(m_index); });
+    connect(ui.hisButton, &QPushButton::clicked, this, [&]{ emit sendToHis(m_index); });
 }
 
-void MedicalNoticeTile::paintEvent(QPaintEvent* e)
+void MedicalNoticeTile::paintEvent(QPaintEvent*)
 {
 	QPainterPath path;
 	path.addRoundedRect(0, 0, width(), height(), Theme::radius, Theme::radius);
@@ -62,7 +62,7 @@ void MedicalNoticeTile::paintEvent(QPaintEvent* e)
 	painter.drawPath(path);
 }
 
-bool MedicalNoticeTile::eventFilter(QObject* obj, QEvent* e)
+bool MedicalNoticeTile::eventFilter(QObject*, QEvent* e)
 {
 	if (e->type() == QEvent::HoverEnter) {
 		m_hover = true;

@@ -33,24 +33,24 @@ PatientFormDialog::PatientFormDialog(PatientDialogPresenter* p, QWidget* parent)
 
     setType(Patient::EGN);
 
-    connect(ui.ehicRadio, &QRadioButton::toggled, [=] {
+    connect(ui.ehicRadio, &QRadioButton::toggled, this, [=, this] {
         ui.validDateLabel->setText("Валиден до:"); 
         ui.ehicLabel->setDisabled(false); 
         ui.ehic_edit->setDisabled(false); 
     });
 
-    connect(ui.otherRadio, &QRadioButton::toggled, [=] { 
+    connect(ui.otherRadio, &QRadioButton::toggled, this, [=, this] {
         ui.validDateLabel->setText("Валидност от:"); 
         ui.ehicLabel->setDisabled(true);
         ui.ehic_edit->setDisabled(true);
     });
 
-    connect(ui.typeComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
-        [=](int index) { presenter->changePatientType(index + 1); ui.idLineEdit->QLineEdit::setFocus(); });
+    connect(ui.typeComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this,
+        [=, this](int index) { presenter->changePatientType(index + 1); ui.idLineEdit->QLineEdit::setFocus(); });
 
-    connect(ui.okButton, &QPushButton::clicked, [=] { presenter->accept(); });
-    connect(ui.idLineEdit, &QLineEdit::textEdited, [=]{ if(ui.idLineEdit->isValid()) presenter->searchDbForPatient(ui.typeComboBox->currentIndex()+1); });
-    connect(ui.hirbnoButton, &QPushButton::clicked, [=] { presenter->checkHirbno();});
+    connect(ui.okButton, &QPushButton::clicked, this, [=, this] { presenter->accept(); });
+    connect(ui.idLineEdit, &QLineEdit::textEdited, this, [=, this]{ if(ui.idLineEdit->isValid()) presenter->searchDbForPatient(ui.typeComboBox->currentIndex()+1); });
+    connect(ui.hirbnoButton, &QPushButton::clicked, this, [=, this] { presenter->checkHirbno();});
 
     patientFields[id] = ui.idLineEdit;
     patientFields[fname] = ui.fNameEdit;
@@ -76,7 +76,7 @@ PatientFormDialog::PatientFormDialog(PatientDialogPresenter* p, QWidget* parent)
 
 }
 
-void PatientFormDialog::paintEvent(QPaintEvent* event)
+void PatientFormDialog::paintEvent(QPaintEvent*)
 {
     QPainter painter;
     painter.begin(this);

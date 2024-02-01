@@ -67,7 +67,7 @@ void SendFileService::processPISReply(const std::string& reply)
 	doc.Parse(reply.data(), 0, TIXML_ENCODING_UTF8);
 
 	if (!doc.RootElement()) {
-		"Неуспешно прочитане на отговора от ПИС";
+        return;
 	}
 
 	TiXmlHandle docHandle(&doc);

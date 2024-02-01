@@ -80,7 +80,7 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
     auto& doctor = User::doctor();
 	
 
-    if (patient.type < 5);
+    if (patient.type < 5)
     {
         report.dataManager()->setReportVariable("type", QString{ "x" });
         report.dataManager()->setReportVariable("typeX", typeCoords[patient.type].x);
@@ -100,7 +100,6 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
 
     report.dataManager()->setReportVariable("ambNum", QString::fromStdString(amb.nrn));
 
-    const char* defaultStatus{ "Не съобщава" };
 
     report.dataManager()->setReportVariable("allergies", patient.getAllergiesStr().c_str());
 
@@ -145,7 +144,7 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
     }
 
     //procedures
-    for (int i = 0; i < 6 && i < selectedProcedures.size(); i++)
+    for (size_t i = 0; i < 6 && i < selectedProcedures.size(); i++)
     {
         auto& p = selectedProcedures[i];
 
@@ -170,8 +169,6 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
                    *mdd4_1{ nullptr },
                    *mdd4_2{ nullptr },
                    *mh119{ nullptr };
-
-    int mdd4counter = 0;
 
     for (auto& ref : amb.referrals)
     {

@@ -4,13 +4,10 @@ class ToothContainer;
 struct PerioStatus;
 
 #include <array>
-#include <string_view>
 
 enum class Stage { Healthy, First, Second, Third, Fourth };
 
 enum class RiskGrade { Low, Moderate, High};
-
-
 
 class PerioStatistic
 {
@@ -45,9 +42,7 @@ public:
 
 	RiskGrade risk;
 
-	PerioStatistic(const PerioStatus& status, int age);
-
-
+    PerioStatistic(const PerioStatus& status, int age);
 
 };
 

@@ -2,14 +2,14 @@
 #include "Presenter/PracticeDialogPresenter.h"
 #include <QPainter>
 
-void PracticeDialog::paintEvent(QPaintEvent* event)
+void PracticeDialog::paintEvent(QPaintEvent*)
 {
 	QPainter painter(this);
 	painter.fillRect(rect(), QColor(Qt::white));
 }
 
 PracticeDialog::PracticeDialog(PracticeDialogPresenter* presenter, QWidget *parent)
-	: presenter(presenter), QDialog(parent)
+    : QDialog(parent), presenter(presenter)
 {
 	ui.setupUi(this);
 

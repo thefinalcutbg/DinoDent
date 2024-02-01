@@ -16,7 +16,7 @@ ToothButton::ToothButton(QWidget *parent)
 	setFont(f);
 }
 
-bool ToothButton::eventFilter(QObject* obj, QEvent* e)
+bool ToothButton::eventFilter(QObject*, QEvent* e)
 {
 	if (e->type() == QEvent::HoverEnter) {
 		QApplication::setOverrideCursor(QCursor(Qt::PointingHandCursor));
@@ -33,7 +33,7 @@ bool ToothButton::eventFilter(QObject* obj, QEvent* e)
 	return false;
 }
 
-void ToothButton::paintEvent(QPaintEvent* event)
+void ToothButton::paintEvent(QPaintEvent*)
 {
 	QPainter painter(this);
 

@@ -1,15 +1,12 @@
 #include "ListPresenter.h"
 
-#include "Database/DbPatient.h"
 #include "Database/DbReferral.h"
 #include "Database/DbAmbList.h"
 #include "Database/DbProcedure.h"
 #include "Database/DbMedicalNotice.h"
-#include "Model/Dental/NhifProcedures.h"
 #include "Model/User.h"
 #include "Model/Validators/AmbListValidator.h"
 
-#include "Presenter/PatientDialogPresenter.h"
 #include "Presenter/ProcedureDialogPresenter.h"
 #include "Presenter/ProcedureEditorPresenter.h"
 #include "Presenter/ReferralPresenter.h"
@@ -25,9 +22,9 @@
 ListPresenter::ListPresenter(ITabView* tabView, std::shared_ptr<Patient> patient, long long rowId)
     :
     TabInstance(tabView, TabType::AmbList, patient),
+    patient_info(tabView->listView()->tileInfo(), patient),
     view(tabView->listView()),
-    m_ambList(rowId ? DbAmbList::getListData(rowId) : DbAmbList::getNewAmbSheet(patient->rowid)),
-    patient_info(tabView->listView()->tileInfo(), patient)
+    m_ambList(rowId ? DbAmbList::getListData(rowId) : DbAmbList::getNewAmbSheet(patient->rowid))
 {
     surf_presenter.setStatusControl(this);
 
@@ -43,7 +40,7 @@ ListPresenter::ListPresenter(ITabView* tabView, std::shared_ptr<Patient> patient
         m_ambList.nhifData.isUnfavourable = true;
     }
 
-    m_ambList.number = DbAmbList::getNewNumber(m_ambList.getDate(), m_ambList.isNhifSheet());
+    m_ambList.number = DbAmbList::getNewNumber(m_ambList.getDate());
     m_ambList.lrn = FreeFn::getUuid();
 
 }
@@ -603,7 +600,7 @@ int ListPresenter::generateAmbListNumber()
     auto ambSheetDate = m_ambList.getDate();
 
     if (m_ambList.isNew()) {
-        newNumber = DbAmbList::getNewNumber(ambSheetDate, m_ambList.isNhifSheet());
+        newNumber = DbAmbList::getNewNumber(ambSheetDate);
     }
 
     return newNumber;
@@ -641,8 +638,6 @@ void ListPresenter::openDetails()
 void ListPresenter::refreshProcedureView()
 {
     if (view == nullptr) return;
-
-    auto& mList = m_ambList.procedures;
 
     m_ambList.procedures.refreshTeethTemporary(m_ambList.teeth);
 
@@ -807,7 +802,7 @@ void ListPresenter::sendMedicalNoticeToHis(int index)
     auto& notice = m_ambList.medical_notices[index];
 
     eMedicalNoticeIssue.sendRequest(notice, *patient, m_ambList.nrn,
-        [=](const std::string& nrn) {
+        [=, this](const std::string& nrn) {
             m_ambList.medical_notices[index].nrn = nrn;
             
             DbMedicalNotice::save(m_ambList.medical_notices, m_ambList.rowid);
@@ -835,7 +830,7 @@ void ListPresenter::removeMedicalNotice(int index)
         return;
     }
 
-    eMedicalNoticeCancel.sendRequest(nList[index].nrn, [=](bool success)
+    eMedicalNoticeCancel.sendRequest(nList[index].nrn, [=, this](bool success)
         {
             if (!success) return;
 
@@ -976,7 +971,7 @@ void ListPresenter::sendReferralToHis(int index)
             m_ambList.nrn,
             *patient.get(),
             m_ambList.referrals[index],
-            [=](const std::string& nrn) {
+            [=, this](const std::string& nrn) {
 
                 m_ambList.referrals[index].nrn = nrn;
 
@@ -1022,7 +1017,7 @@ void ListPresenter::removeReferral(int index)
     if (r.isSentToHIS()) {
 
         eReferralCancelService.sendRequest(r.nrn,
-            [=](bool success) {
+            [=, this](bool success) {
 
                 if (!success) return;
 
@@ -1089,7 +1084,7 @@ void ListPresenter::hisButtonPressed()
                 
                 m_ambList.nrn = nrn;
 
-                for (int i = 0; i < procedureIndex.size(); i++) {
+                for (size_t i = 0; i < procedureIndex.size(); i++) {
                     m_ambList.procedures[i].his_index = procedureIndex[i];
                 }
 

@@ -2,7 +2,6 @@
 
 #include <QWidget>
 
-
 #include "ui_ListView.h"
 #include "View/Interfaces/IListView.h"
 #include "Presenter/ListPresenter.h"
@@ -44,7 +43,7 @@ public:
     void repaintTooth(const ToothPaintHint& tooth) override;
     void setNotes(const std::array<std::string, 32>& notes) override;
     //IProcedureView
-    void setSelectedTeeth(std::vector<int> selectedTeeth) override;
+    void setSelectedTeeth(const std::vector<int>& selectedTeeth) override;
     void setProcedures(const std::vector<Procedure>& m) override;
     void hideNhifSheetData() override;
     void setNhifData(const NhifSheetData& data, bool showUnfav) override;

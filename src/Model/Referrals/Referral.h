@@ -1,14 +1,10 @@
 ﻿#pragma once
 
-#include <vector>
 #include <variant>
 #include <array>
-#include "Model/Date.h"
-#include "Model/Dental/MKB.h"
-#include "Model/Dental/KSMP.h"
-#include "ReferralData.h"
-#include "Model/FreeFunctions.h"
 
+#include "Model/Date.h"
+#include "ReferralData.h"
 
 class Referral
 {
@@ -26,6 +22,7 @@ private:
 			case::ReferralType::Form3: return R3Data();
 			case ReferralType::Form3A: return R3AData();
 			case ReferralType::MH119: return MH119Data();
+            default: throw;
 		}
 	}
 

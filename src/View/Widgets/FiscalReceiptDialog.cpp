@@ -4,36 +4,36 @@
 
 
 FiscalReceiptDialog::FiscalReceiptDialog(FiscalReceiptPresenter& p, QWidget *parent)
-	: presenter(p), QDialog(parent)
+    : QDialog(parent), presenter(p)
 {
-	ui.setupUi(this);
+    ui.setupUi(this);
 
-	setWindowTitle("Потребителска такса пенсионери");
+    setWindowTitle("Потребителска такса пенсионери");
 
-	connect(ui.okButton, &QPushButton::clicked, [&] { 
-	
-		if (!ui.fiscalNum->validateInput()) {
-			ui.fiscalNum->setFocus();
-			return;
-		}
+    connect(ui.okButton, &QPushButton::clicked, this, [&] {
 
-		if (!ui.deviceNum->validateInput()) {
-			ui.deviceNum->setFocus();
-			return;
-		}
+        if (!ui.fiscalNum->validateInput()) {
+            ui.fiscalNum->setFocus();
+            return;
+        }
 
-		presenter.okPressed(); 
-		
-	});
+        if (!ui.deviceNum->validateInput()) {
+            ui.deviceNum->setFocus();
+            return;
+        }
 
-	presenter.setView(this);
+        presenter.okPressed();
 
-	ui.deviceNum->setInputValidator(&notEmptyValidator);
-	ui.fiscalNum->setInputValidator(&notEmptyValidator);
+    });
+
+    presenter.setView(this);
+
+    ui.deviceNum->setInputValidator(&notEmptyValidator);
+    ui.fiscalNum->setInputValidator(&notEmptyValidator);
 
 }
 
-void FiscalReceiptDialog::paintEvent(QPaintEvent* e)
+void FiscalReceiptDialog::paintEvent(QPaintEvent*)
 {
 	QPainter p(this);
 	p.fillRect(rect(), Qt::white);

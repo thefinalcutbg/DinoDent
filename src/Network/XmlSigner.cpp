@@ -125,7 +125,7 @@ std::string XmlSigner::signPisQuery(const std::string& bodyContent, evp_pkey_st*
 
     xmlAttrPtr attr = xmlDocGetRootElement(doc)->children->next->properties;
 
-    xmlIDPtr ptr = xmlAddID(NULL, doc, (const xmlChar*)"signedContent", attr);
+    xmlAddID(NULL, doc, (const xmlChar*)"signedContent", attr);
 
     xmlNodePtr signNode = xmlSecFindNode(xmlDocGetRootElement(doc), xmlSecNodeSignature, xmlSecDSigNs);
     if (signNode == NULL) {
@@ -250,7 +250,7 @@ std::string XmlSigner::signHisMessage(const std::string& document, evp_pkey_st* 
 
     xmlAttrPtr attr = xmlDocGetRootElement(doc)->properties;
 
-    xmlIDPtr ptr = xmlAddID(NULL, doc, (const xmlChar*)"", attr);
+    xmlAddID(NULL, doc, (const xmlChar*)"", attr);
 
     xmlNodePtr signNode = xmlSecFindNode(xmlDocGetRootElement(doc), xmlSecNodeSignature, xmlSecDSigNs);
     if (signNode == NULL) {

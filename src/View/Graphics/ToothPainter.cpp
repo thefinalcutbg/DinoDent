@@ -27,7 +27,7 @@ inline QPixmap textureFormat(const QPixmap& px, double opacity)
 }
 
 
-inline QPixmap textureOutline(const QPixmap& src, QColor borderColor)
+inline QPixmap textureOutline(const QPixmap& src, QColor)
 {
     QPixmap outline_px(src);
 
@@ -48,7 +48,7 @@ inline QPixmap textureOutline(const QPixmap& src, QColor borderColor)
 
 QPixmap getBridgeTexture(const ToothPaintHint& tooth)
 {
-    auto& coords = SpriteSheets::container().getCoordinates(tooth.idx, tooth.temp);
+    //auto& coords = SpriteSheets::container().getCoordinates(tooth.idx, tooth.temp);
     auto& texturePack = SpriteSheets::container().getTexturePack(tooth.idx, tooth.temp);
 
    // auto& raw = texturePack.rawBridge;
@@ -88,7 +88,7 @@ QPixmap getSplintRect(const ToothPaintHint& tooth)
     if (tooth.prostho != ProsthoHint::splint &&
         tooth.prostho != ProsthoHint::splint_green) return QPixmap();
 
-    auto& coords = SpriteSheets::container().getCoordinates(tooth.idx, tooth.temp);
+    //auto& coords = SpriteSheets::container().getCoordinates(tooth.idx, tooth.temp);
     auto& texturePack = SpriteSheets::container().getTexturePack(tooth.idx, tooth.temp);
 
     constexpr int height = 150;
@@ -155,7 +155,7 @@ inline QPixmap getSurfaceTexture(const ToothPaintHint& tooth)
     outlinedSurface.fill(Qt::transparent);
     QPainter outlinePainter(&outlinedSurface);
 
-    for (int i = 0; i < tooth.surfaces.size(); i++) //drawing the surfaces;
+    for (size_t i = 0; i < tooth.surfaces.size(); i++) //drawing the surfaces;
     {
         if (!tooth.surfaces[i].outline)
         {
@@ -200,37 +200,10 @@ inline QPixmap getSurfaceTexture(const ToothPaintHint& tooth)
     return endResult;
 
 }
-/*
-inline QPixmap drawImpacted(const ToothPaintHint& tooth)
-{
-    auto& coords = SpriteSheets::container().getCoordinates(tooth.idx, tooth.temp);
-    auto& texturePack = SpriteSheets::container().getTexturePack(tooth.idx, tooth.temp);
-
-    QPixmap impacted(coords.toothRect.width(), coords.toothCanvasHeight);
-    impacted.fill(Qt::transparent);
-
-    QPainter painter(&impacted);
-
-    painter.drawPixmap(
-        QRect(0, 0, coords.toothRect.width(), 360),
-        *texturePack.tooth,
-        QRect(0, 0, coords.toothRect.width(), 360)
-        );
-
-    painter.drawPixmap(
-        QRect(0, 640, coords.toothRect.width(), 360),
-        *texturePack.tooth,
-        QRect(0, 500, coords.toothRect.width(), 360)
-    );
-
-    return impacted;
-
-}
-*/
 
 inline QPixmap getTooth(const ToothPaintHint& tooth) {
 
-    QPoint point(0, 0);
+    //QPoint point(0, 0);
 
     auto& coords = SpriteSheets::container().getCoordinates(tooth.idx, tooth.temp);
     auto& texturePack = SpriteSheets::container().getTexturePack(tooth.idx, tooth.temp);
@@ -273,8 +246,6 @@ inline QPixmap getTooth(const ToothPaintHint& tooth) {
     {
         painter.drawPixmap(coords.crownRect, *texturePack.calculus);
     }
-
-    auto& container = SpriteSheets::container();
 
     //drawing the tooth:
 
@@ -372,6 +343,7 @@ inline QPixmap getTooth(const ToothPaintHint& tooth) {
         painter.drawPixmap(coords.crownRect, *texturePack.crown);
         painter.drawPixmap(coords.crownRect, textureFormat(*texturePack.crown, Qt::green, 0.3));
         break;
+    default: break;
     }
 
     painter.setOpacity(1);
@@ -382,8 +354,6 @@ inline QPixmap getTooth(const ToothPaintHint& tooth) {
 
 inline QPixmap getToothPixmap(const ToothPaintHint& tooth)
 {
-    QPoint point(0, 0);
-
     auto& coords = SpriteSheets::container().getCoordinates(tooth.idx, tooth.temp);
     auto& texturePack = SpriteSheets::container().getTexturePack(tooth.idx, tooth.temp);
 
@@ -471,7 +441,7 @@ inline QPixmap getToothPixmap(const ToothPaintHint& tooth)
         painter.setOpacity(0.5);
         painter.drawPixmap(coords.toothRect, getDenture(tooth));        
         break;
-
+    default: break;
     }
 
     painter.setOpacity(1);
@@ -603,23 +573,17 @@ QPixmap ToothPainter::getBuccalOcclusal(const ToothPaintHint& tooth)
 	constexpr int pixmapHeight = 746;
 
 	auto& coords = SpriteSheets::container().getCoordinates(tooth.idx, tooth.temp);
-	auto& currentTexture = SpriteSheets::container().getTexturePack(tooth.idx, tooth.temp);
 
 	QPixmap pixmap(coords.toothRect.width(), pixmapHeight);
 	pixmap.fill(Qt::transparent);
 
-
-
 	drawMobilityLabel(tooth, pixmap);
 	drawFractureLabel(tooth, pixmap);
-
 
     drawToothNumberLabel(tooth, pixmap);
 
 
-	QPainter painter(&pixmap);
-
-    constexpr int toothYPosition = 123;
+    QPainter painter(&pixmap);
 
     rotateByQuadrant(painter, coords.toothRect.width(), pixmapHeight, ToothUtils::getQuadrant(tooth.idx));
 
@@ -639,14 +603,11 @@ QPixmap ToothPainter::getBuccalLingual(const ToothPaintHint& tooth)
     constexpr int pixmapHeight = 1106;
 
     auto& coords = SpriteSheets::container().getCoordinates(tooth.idx, tooth.temp);
-    auto& currentTexture = SpriteSheets::container().getTexturePack(tooth.idx, tooth.temp);
 
     QPixmap pixmap(coords.toothRect.width(), pixmapHeight);
     pixmap.fill(Qt::transparent);
 
     QPainter painter(&pixmap);
-
-    constexpr int toothYPosition = 123;
 
     rotateByQuadrant(painter, coords.toothRect.width(), pixmapHeight, ToothUtils::getQuadrant(tooth.idx));
 
@@ -664,8 +625,6 @@ QPixmap ToothPainter::getOcclusal(const ToothPaintHint& tooth)
     auto& currentTexture = SpriteSheets::container().getTexturePack(tooth.idx, tooth.temp);
 
     if (tooth.tooth != ToothTextureHint::normal) return QPixmap();
-
-    QPoint point(0, 0);
 
     QPixmap toothPx(coords.toothRect.width(), coords.toothRect.height());
     toothPx.fill(Qt::transparent);
@@ -710,7 +669,6 @@ QPixmap ToothPainter::getLingualOcclusal(const ToothPaintHint& tooth)
     constexpr int pixmapHeight = 746;
 
     auto& coords = SpriteSheets::container().getCoordinates(tooth.idx, tooth.temp);
-    auto& currentTexture = SpriteSheets::container().getTexturePack(tooth.idx, tooth.temp);
 
     QPixmap pixmap(coords.toothRect.width(), pixmapHeight);
     pixmap.fill(Qt::transparent);
@@ -721,8 +679,6 @@ QPixmap ToothPainter::getLingualOcclusal(const ToothPaintHint& tooth)
 
 
     drawToothNumberLabel(tooth, pixmap);
-
-
 
     QPainter painter(&pixmap);
 

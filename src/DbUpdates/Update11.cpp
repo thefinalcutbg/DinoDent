@@ -4,7 +4,7 @@
 #include "View/Widgets/UpdateDialog.h"
 #include <json/json.h>
 
-void DbUpdates::update11(UpdateDialog& d)
+void DbUpdates::update11(UpdateDialog&)
 {
 	if (Db::version() != 10) return;
 

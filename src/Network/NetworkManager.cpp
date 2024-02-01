@@ -47,7 +47,7 @@ void postRequest(const QNetworkRequest& request, AbstractReplyHandler* handler, 
     QApplication::setOverrideCursor(Qt::BusyCursor);
 
     QObject::connect(reply, &QNetworkReply::errorOccurred,
-        [=](QNetworkReply::NetworkError code)
+        [=](QNetworkReply::NetworkError)
         {
             QApplication::restoreOverrideCursor();
 

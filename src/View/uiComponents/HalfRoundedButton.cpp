@@ -5,7 +5,7 @@
 
 #include "View/Theme.h"
 
-bool HalfRoundedButton::eventFilter(QObject* obj, QEvent* e)
+bool HalfRoundedButton::eventFilter(QObject*, QEvent* e)
 {
 	if (e->type() == QEvent::HoverEnter) {
 		QApplication::setOverrideCursor(QCursor(Qt::PointingHandCursor));
@@ -33,7 +33,7 @@ HalfRoundedButton::HalfRoundedButton(QWidget *parent)
 	setFont(f);
 }
 
-void HalfRoundedButton::paintEvent(QPaintEvent* event)
+void HalfRoundedButton::paintEvent(QPaintEvent*)
 {
 	QPainter painter(this);
 

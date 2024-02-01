@@ -46,7 +46,7 @@ void StatusMultiButton::setCurrentState(int state)
 	
 }
 
-bool StatusMultiButton::eventFilter(QObject* obj, QEvent* e)
+bool StatusMultiButton::eventFilter(QObject*, QEvent* e)
 {
 
 	if (e->type() == QEvent::HoverEnter) {
@@ -64,7 +64,7 @@ bool StatusMultiButton::eventFilter(QObject* obj, QEvent* e)
 }
 
 
-void StatusMultiButton::paintEvent(QPaintEvent * e)
+void StatusMultiButton::paintEvent(QPaintEvent*)
 {
 	QPainter painter(this);
 

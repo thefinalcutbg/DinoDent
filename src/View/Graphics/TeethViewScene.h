@@ -1,8 +1,6 @@
 #pragma once
 
 #include <QGraphicsScene>
-
-#include "Model/TableStructs.h"
 #include "View/Graphics/PaintHint.h"
 
 class ContextMenu;
@@ -23,9 +21,10 @@ class TeethViewScene : public QGraphicsScene
 	ListPresenter* presenter;
 
 	ContextMenu* contextMenu;
+    //WORKS ONLY ON PHONETIC
+    static int keyCodeMapper(QKeyEvent* e);
 
-
-	void keyPressEvent(QKeyEvent* event);
+    void keyPressEvent(QKeyEvent* event) override;
 	void contextMenuEvent(QGraphicsSceneContextMenuEvent* event) override;
 	void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
 	void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* Event) override;
@@ -42,5 +41,5 @@ public:
 	void setProcedures(std::vector<int> teeth_procedures);
 	void setNotes(const std::array<std::string, 32>& notes);
 
-	~TeethViewScene();
+    ~TeethViewScene();
 };

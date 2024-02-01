@@ -22,12 +22,12 @@ void ProcedureTableModel::setProcedures(const std::vector<Procedure>& rows)
 }
 
 
-bool ProcedureTableModel::insertRows(int position, int rows, const QModelIndex& index)
+bool ProcedureTableModel::insertRows(int, int, const QModelIndex&)
 {
     return false;
 }
 
-bool ProcedureTableModel::removeRows(int row, int count, const QModelIndex& parent)
+bool ProcedureTableModel::removeRows(int, int, const QModelIndex&)
 {
     return false;
 }
@@ -55,12 +55,12 @@ QVariant ProcedureTableModel::headerData(int section, Qt::Orientation orientatio
     return QVariant();;
 }
 
-int ProcedureTableModel::rowCount(const QModelIndex& parent) const
+int ProcedureTableModel::rowCount(const QModelIndex&) const
 {
     return m_procedures.size();
 }
 
-int ProcedureTableModel::columnCount(const QModelIndex& parent) const
+int ProcedureTableModel::columnCount(const QModelIndex&) const
 {
     return poceduresColumnCount;
 }
@@ -132,6 +132,7 @@ QVariant ProcedureTableModel::data(const QModelIndex& index, int role) const
                case 6: return m_procedures[row].ksmp;
                case 7: return m_procedures[row].doctor;
                case 8: return m_procedures[row].notes;
+               default: break;
             }
         case Qt::TextAlignmentRole:
              if (column == 1 || column == 3 || column == 5 || column == 6 || column == 7)
@@ -146,9 +147,8 @@ ProcedureTableModel::~ProcedureTableModel()
 {
 }
 
-Qt::ItemFlags ProcedureTableModel::flags(const QModelIndex& index) const
+Qt::ItemFlags ProcedureTableModel::flags(const QModelIndex&) const
 {
-    Q_UNUSED(index);
     auto flags = Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled;
     return flags;
 }

@@ -6,8 +6,8 @@ LineEdit::LineEdit(QWidget* parent)
 	disabled(0),
 	errorLabel(nullptr)
 {
-	connect(this, &QLineEdit::textEdited, [=] { AbstractLineEdit::validateInput(); });
-	connect(this, &QLineEdit::textChanged, [=] { dynamicWidthChange(); });
+    connect(this, &QLineEdit::textEdited, [&] { AbstractLineEdit::validateInput(); });
+    connect(this, &QLineEdit::textChanged, [&] { dynamicWidthChange(); });
 	//connect(this, &QLineEdit::editingFinished, [=] { reformat(); });
 }
 

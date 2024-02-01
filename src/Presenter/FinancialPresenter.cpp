@@ -6,15 +6,13 @@
 #include "Model/User.h"
 #include "Presenter/RecipientPresenter.h"
 #include <TinyXML/tinyxml.h>
-#include <filesystem>>
-#include <stdexcept>
-#include <fstream>
+
 
 Invoice getInvoiceFromMonthNotif(const std::string& xmlstring)
 {
     TiXmlDocument doc;
 
-    const char* load = doc.Parse(xmlstring.data(), 0, TIXML_ENCODING_UTF8);
+    doc.Parse(xmlstring.data(), 0, TIXML_ENCODING_UTF8);
 
     Invoice i(doc, User::practice(), User::doctor());
     i.date = Date::currentDate();

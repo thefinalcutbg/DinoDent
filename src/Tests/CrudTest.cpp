@@ -217,7 +217,7 @@ std::string Test::crudTest()
 		return "Error getting monthly sheets that shouldn't be there";
 	}
 
-	if (DbAmbList::getNewNumber(Date(2, 1, 23), false) != 1) {
+    if (DbAmbList::getNewNumber(Date(2, 1, 23)) != 1) {
 		return "Error getting new ambsheet number";
 	}
 

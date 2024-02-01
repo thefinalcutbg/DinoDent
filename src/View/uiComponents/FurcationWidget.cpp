@@ -71,9 +71,9 @@ FurcationWidget::FurcationWidget(QWidget *parent)
     rightButton->setAvailableStates(&states);
     downButton->setAvailableStates(&states);
 
-    connect(leftButton, &QAbstractButton::clicked, [=] { emit valueChanged(getMeasurment());});
-    connect(rightButton, &QAbstractButton::clicked, [=] { emit valueChanged(getMeasurment());});
-    connect(downButton, &QAbstractButton::clicked, [=] { emit valueChanged(getMeasurment());});
+    connect(leftButton, &QAbstractButton::clicked, this, [=, this] { emit valueChanged(getMeasurment());});
+    connect(rightButton, &QAbstractButton::clicked, this, [=, this] { emit valueChanged(getMeasurment());});
+    connect(downButton, &QAbstractButton::clicked, this, [=, this] { emit valueChanged(getMeasurment());});
 }
 
 
@@ -81,7 +81,6 @@ FurcationWidget::FurcationWidget(QWidget *parent)
 void FurcationWidget::setIndex(int toothIndex)
 {
     auto type = ToothUtils::getToothType(toothIndex);
-    auto quadrant = ToothUtils::getQuadrant(toothIndex);
 
     if (type == ToothType::Molar && toothIndex < 16)
     {
@@ -126,8 +125,9 @@ void FurcationWidget::setMeasurment(int a, int b, int c)
     downButton->setState(c);
 }
 
-void FurcationWidget::paintEvent(QPaintEvent* event)
+void FurcationWidget::paintEvent(QPaintEvent*)
 {
+
     QPainter painter(this);
 
     QColor color;

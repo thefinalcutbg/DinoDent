@@ -6,7 +6,7 @@ MedicalStatusWidget::MedicalStatusWidget(QWidget *parent)
 {
 	ui.setupUi(this);
 	
-	connect(ui.addButton, &QPushButton::clicked, [this] {
+    connect(ui.addButton, &QPushButton::clicked, this, [&] {
 			
 			auto result = ModalDialogBuilder::inputDialog("", "Въвеждане на медицински статус");
 			
@@ -16,7 +16,7 @@ MedicalStatusWidget::MedicalStatusWidget(QWidget *parent)
 		}
 	);
 
-	connect(ui.removeButton, &QPushButton::clicked, [this] {
+    connect(ui.removeButton, &QPushButton::clicked, this, [&] {
 
 			auto index = ui.statusList->currentIndex();
 			
@@ -26,7 +26,7 @@ MedicalStatusWidget::MedicalStatusWidget(QWidget *parent)
 		}
 	);
 	
-	connect(ui.editButton, &QPushButton::clicked, [=] {
+    connect(ui.editButton, &QPushButton::clicked, this, [&] {
 
 		auto index = ui.statusList->selectionModel()->currentIndex().row();
 
@@ -40,9 +40,9 @@ MedicalStatusWidget::MedicalStatusWidget(QWidget *parent)
 		}
 	});
 
-	connect(ui.statusList, &QListWidget::doubleClicked, [=] { ui.editButton->click(); });
+    connect(ui.statusList, &QListWidget::doubleClicked, this, [&] { ui.editButton->click(); });
 
-	connect(ui.statusList, &QListWidget::itemSelectionChanged, [&] {
+    connect(ui.statusList, &QListWidget::itemSelectionChanged, this, [&] {
 			
 		bool noSelection = ui.statusList->selectedItems().empty();
 		ui.editButton->setDisabled(noSelection);
@@ -50,7 +50,7 @@ MedicalStatusWidget::MedicalStatusWidget(QWidget *parent)
 	});
 
 
-	ui.statusList->itemSelectionChanged();
+    ui.statusList->itemSelectionChanged();
 }
 
 void MedicalStatusWidget::setMedicalStatus(const std::vector<std::string>& s)

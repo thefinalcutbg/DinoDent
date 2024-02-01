@@ -1,6 +1,4 @@
 ﻿#include "ProcedureCreator.h"
-#include "Model/Dental/KSMP.h"
-#include "View/ModalDialogBuilder.h"
 #include <set>
 
 ProcedureCreator::ProcedureCreator(const std::vector<const Tooth*>& selectedTeeth)
@@ -13,7 +11,7 @@ ProcedureCreator::ProcedureCreator(const std::vector<const Tooth*>& selectedTeet
 
 int ProcedureCreator::restorationDiagnosis(const Tooth& tooth)
 {
-
+/*
 	bool secondaryCaries = false;
 
 	for (int i = 0; i < 6; i++)		//checking if somewhere obturation is present also, returning secondary caries
@@ -23,7 +21,7 @@ int ProcedureCreator::restorationDiagnosis(const Tooth& tooth)
 			secondaryCaries = true;
 		}
 	}
-
+*/
 	std::array<bool, 6> existing
 	{
 			tooth.fracture.exists(),

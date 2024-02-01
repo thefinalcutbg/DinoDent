@@ -3,6 +3,7 @@
 #include <algorithm>
 
 #include "Database/DbPatient.h"
+#include "Model/User.h"
 #include "View/ModalDialogBuilder.h"
 #include "Model/FreeFunctions.h"
 
@@ -24,7 +25,7 @@ void MedicalStatusPresenter::loadAllergiesFromHis()
 {
 	if (awaitingReply()) return;
 
-	fetch_service.sendRequest(patient, User::practice().rziCode,
+    fetch_service.sendRequest(patient, User::practice().rziCode,
 
 		[&](const std::vector<Allergy> allergies) {
 
@@ -158,9 +159,9 @@ void MedicalStatusPresenter::sendAllergyToHis(int idx)
 	if (!patient.allergies[idx].nrn.size())
 	{
 		report_service.sendRequest(patient, User::practice().rziCode, patient.allergies[idx],
-			[=](const std::string& nrn)
+            [=, this](const std::string& nrn)
 			{
-				patient.allergies[idx].nrn = nrn;
+                patient.allergies[idx].nrn = nrn;
 				DbPatient::updateAllergies(patient.rowid, patient.allergies);
 				view->setAllergies(patient.allergies);
 			}
@@ -169,7 +170,7 @@ void MedicalStatusPresenter::sendAllergyToHis(int idx)
 	else
 	{
 		edit_service.sendRequest(patient.allergies[idx],
-			[=](const std::string& nrn)
+            [=, this](const std::string& nrn)
 			{
 				for (auto& a : patient.allergies) {
 					

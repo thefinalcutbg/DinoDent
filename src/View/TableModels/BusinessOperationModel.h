@@ -19,8 +19,8 @@ public:
     BusinessOperationModel(const std::vector<BusinessOperation>& businessOp = std::vector<BusinessOperation>{});
 
     void setBusinessOperations(const BusinessOperations& businessOp);
-    int rowCount(const QModelIndex& parent) const  override { return m_operations.size(); }
-    int columnCount(const QModelIndex& parent) const  override { return 6; }
+    int rowCount(const QModelIndex&) const  override { return m_operations.size(); }
+    int columnCount(const QModelIndex&) const  override { return 6; }
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
 
 };

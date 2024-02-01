@@ -5,9 +5,9 @@
 #include <QScreen>
 #include <QWidget>
 #include <QGuiApplication>
+#include <QProcess>
 
-
-void ModalDialogBuilder::openDialog(ProcedureDialogPresenter* p)
+void ModalDialogBuilder::openDialog(ProcedureDialogPresenter& p)
 {
 	ProcedureDialog d(p);
 	d.exec();
@@ -23,7 +23,7 @@ void ModalDialogBuilder::openDialog(PatientDialogPresenter* p)
 
 #include "View/Widgets/ProcedureEditDialog.h"
 
-void ModalDialogBuilder::openDialog(ProcedureEditorPresenter* p)
+void ModalDialogBuilder::openDialog(ProcedureEditorPresenter& p)
 {
 	ProcedureEditDialog d(p);
 	d.exec();
@@ -48,7 +48,7 @@ void ModalDialogBuilder::openDialog(DetailedStatusPresenter* p)
 
 #include "View/Widgets/LoginView.h"
 
-void ModalDialogBuilder::openDialog(LoginPresenter* p)
+void ModalDialogBuilder::openDialog(LoginPresenter& p)
 {
 	LoginView d(p);
 	d.exec();
@@ -89,7 +89,7 @@ void ModalDialogBuilder::openDialog(DosagePresenter* p)
 
 #include "View/Widgets/PracticeSelectorView.h"
 
-void ModalDialogBuilder::openDialog(PracticeManagerPresenter* p)
+void ModalDialogBuilder::openDialog(PracticeManagerPresenter& p)
 {	
 	PracticeSelectorView d(p);
 	d.exec();
@@ -360,7 +360,6 @@ std::optional<Allergy> ModalDialogBuilder::openAllergyDialog(const Allergy& a)
 	return d.getResult();
 }
 
-#include <QProcess>
 void ModalDialogBuilder::openExplorer(const std::string& path)
 {
 	#ifdef _WIN32    //Code for Windows
@@ -368,8 +367,9 @@ void ModalDialogBuilder::openExplorer(const std::string& path)
 	#elif defined(__APPLE__)    //Code for Mac
 		QProcess::execute("/usr/bin/osascript", { "-e", "tell application \"Finder\" to reveal POSIX file \"" + path + "\"" });
 		QProcess::execute("/usr/bin/osascript", { "-e", "tell application \"Finder\" to activate" });
-	#endif
-
+    #endif
+        Q_UNUSED(path)
+        return;
 }
 
 #include <QInputDialog>

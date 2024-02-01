@@ -33,16 +33,16 @@ MonthNotifView::MonthNotifView(QWidget *parent)
     ui.tableView->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
 
 
-    connect(ui.okButton, &QPushButton::clicked, [=] {
+    connect(ui.okButton, &QPushButton::clicked, this, [=, this] {
 
         m_idx = ui.tableView->selectionModel()->currentIndex().row();
 
             presenter->okPressed(m_idx);
         });
 
-    connect(ui.loadPISbutton, &QPushButton::clicked, [=] {presenter->loadFromPis();});
-    connect(ui.loadXMLbutton, &QPushButton::clicked, [=] {presenter->loadFromXml();});
-    connect(ui.tableView, &QTableView::doubleClicked, [=] { ui.okButton->click();});
+    connect(ui.loadPISbutton, &QPushButton::clicked, this, [=, this] {presenter->loadFromPis();});
+    connect(ui.loadXMLbutton, &QPushButton::clicked, this, [=, this] {presenter->loadFromXml();});
+    connect(ui.tableView, &QTableView::doubleClicked, this, [=, this] { ui.okButton->click();});
 
 }
 
@@ -73,6 +73,8 @@ void MonthNotifView::closeParentDialog()
 
 void MonthNotifView::paintEvent(QPaintEvent* event)
 {
+    Q_UNUSED(event)
+
     QPainter painter(this);
     painter.fillRect(rect(), QColor(Qt::white));
 }

@@ -8,7 +8,6 @@
 #include "PatientSummaryPresenter.h"
 #include "PrescriptionPresenter.h"
 #include "FinancialPresenter.h"
-#include "StatisticDialogPresenter.h"
 #include <TinyXML/tinyxml.h>
 
 TabPresenter TabPresenter::s_singleton;
@@ -308,9 +307,7 @@ bool TabPresenter::documentTabOpened(TabType type, long long rowID) const
     return false;
 }
 
-bool TabPresenter::patientTabOpened(const long long patientRowid) const
+bool TabPresenter::patientTabOpened(long long) const
 {
-   
-
     return false;
 }

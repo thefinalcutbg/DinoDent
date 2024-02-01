@@ -2,13 +2,8 @@
 
 PackageCounter::PackageCounter(const std::vector<ProcedurePackage>& packages)
 	:
-	packages(packages)
-{
-	for (auto& p : packages)
-	{
-		procedure_count.push_back(0);
-	}
-}
+    packages(packages), procedure_count(packages.size(), 0)
+{}
 
 void PackageCounter::insertCode(int code)
 {

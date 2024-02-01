@@ -215,6 +215,7 @@ void Procedure::applyPISProcedure(ToothContainer& teeth) const
 			teeth.setStatus({ tooth_idx.index }, StatusType::general, StatusCode::Crown, true, tooth_idx.supernumeral); break;
 		case ProcedureType::implant:
 			teeth.setStatus({ tooth_idx.index }, StatusType::general, StatusCode::Implant, true, tooth_idx.supernumeral); break;
+        default: break;
 	}
 
 	

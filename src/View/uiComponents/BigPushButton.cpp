@@ -24,7 +24,7 @@ void BigPushButton::setHoverColor(const QColor& color)
 	update();
 }
 
-void BigPushButton::paintEvent(QPaintEvent* event)
+void BigPushButton::paintEvent(QPaintEvent*)
 {
 	QPainter painter(this);
 
@@ -58,7 +58,7 @@ void BigPushButton::paintEvent(QPaintEvent* event)
 
 }
 
-bool BigPushButton::eventFilter(QObject* obj, QEvent* e)
+bool BigPushButton::eventFilter(QObject*, QEvent* e)
 {
 	if (e->type() == QEvent::HoverEnter) {
 		m_hover = true;

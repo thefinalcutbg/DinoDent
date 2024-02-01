@@ -5,7 +5,7 @@ DateEdit::DateEdit(QWidget* parent) : CustomDateEdit(parent), errorLabel(nullptr
 {
 	set_Date(Date::currentDate());
 
-	connect(this, &QDateEdit::dateChanged, [=] { AbstractUIElement::validateInput(); });
+    connect(this, &QDateEdit::dateChanged, [&] { AbstractUIElement::validateInput(); });
 }
 
 
@@ -50,7 +50,7 @@ void DateEdit::reset()
 	setValidAppearence(true);
 }
 
-void DateEdit::disable(bool disable)
+void DateEdit::disable(bool)
 {
 }
 

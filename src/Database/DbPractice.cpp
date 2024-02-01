@@ -78,8 +78,6 @@ bool DbPractice::updatePracticeSettings(const Settings& s, const std::string& rz
     return db.execute();
 }
 
-#include "Resources.h"
-
 bool DbPractice::insertPractice(const Practice& practice)
 {
 
@@ -154,7 +152,7 @@ bool DbPractice::setDoctorsPracticeList(std::vector<PracticeDoctor> doctors, con
 
     db.execute(query);
 
-    int insertCount{ 0 };
+    size_t insertCount{ 0 };
 
     for (auto& doc : doctors)
     {
@@ -198,8 +196,6 @@ std::vector<PracticeDoctor> DbPractice::getDoctors(const std::string& practiceRZ
 
 bool DbPractice::practiceExists(const std::string& rzi)
 {
-
-    bool exists{ false };
 
     std::string query = "SELECT COUNT(*) "
         "FROM practice "

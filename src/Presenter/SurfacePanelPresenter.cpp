@@ -3,7 +3,7 @@
 #include "Presenter/ListPresenter.h"
 #include "View/Graphics/PaintHint.h"
 
-SurfacePanelPresenter::SurfacePanelPresenter() : statusControl(nullptr), view(nullptr), currentIndex(-1)
+SurfacePanelPresenter::SurfacePanelPresenter() : view(nullptr), statusControl(nullptr), currentIndex(-1)
 {
 }
 

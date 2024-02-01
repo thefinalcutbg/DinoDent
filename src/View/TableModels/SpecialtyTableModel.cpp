@@ -36,7 +36,7 @@ SpecialtyTableModel::~SpecialtyTableModel()
 {
 }
 
-bool SpecialtyTableModel::insertRows(int position, int rows, const QModelIndex& index)
+bool SpecialtyTableModel::insertRows(int position, int, const QModelIndex&)
 {
     beginInsertRows(QModelIndex(), position, position);
     endInsertRows();
@@ -76,12 +76,12 @@ QVariant SpecialtyTableModel::headerData(int section, Qt::Orientation orientatio
 }
 
 
-int SpecialtyTableModel::rowCount(const QModelIndex& parent) const
+int SpecialtyTableModel::rowCount(const QModelIndex&) const
 {
     return rows.size();
 }
 
-int SpecialtyTableModel::columnCount(const QModelIndex& parent) const
+int SpecialtyTableModel::columnCount(const QModelIndex&) const
 {
     return 2;
 }

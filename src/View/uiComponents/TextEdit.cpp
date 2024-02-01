@@ -4,7 +4,7 @@
 TextEdit::TextEdit(QWidget *parent)
 	: QPlainTextEdit(parent)
 {
-	connect(this, &QPlainTextEdit::textChanged, [=] { AbstractUIElement::validateInput(); });
+    connect(this, &QPlainTextEdit::textChanged, this, [&] { AbstractUIElement::validateInput(); });
 }
 
 TextEdit::~TextEdit()

@@ -1,8 +1,6 @@
 ﻿#include "ReportFilesView.h"
-
 #include <QPainter>
 
-#include "View/ModalDialogBuilder.h"
 
 ReportFilesView::ReportFilesView(QWidget *parent)
 	: QWidget(parent)
@@ -54,7 +52,7 @@ void ReportFilesView::setFiles(const std::vector<ReportFile>&fileRows)
 	}
 }
 
-void ReportFilesView::paintEvent(QPaintEvent* event)
+void ReportFilesView::paintEvent(QPaintEvent*)
 {
 	QPainter painter(this);
 	painter.fillRect(rect(), QColor(Qt::white));

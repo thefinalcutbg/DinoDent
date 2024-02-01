@@ -5,8 +5,8 @@
 #include "Model/FreeFunctions.h"
 
 ReferralPresenter::ReferralPresenter(const AmbList& sheet, ReferralType t) :
-	m_type(t),
-	lrn(FreeFn::getUuid()),
+    lrn(FreeFn::getUuid()),
+    m_type(t),
 	ambSheetDate(sheet.getDate())
 {
 	m_result.emplace(t);
@@ -62,7 +62,7 @@ void ReferralPresenter::setView(IReferralDialog* view)
 
 
 ReferralPresenter::ReferralPresenter(const AmbList& sheet, const Referral& r) :
-	m_type(r.type), m_result(r), ref_rowid{ r.rowid }, lrn(r.lrn), sentToHis(r.isSentToHIS()), ambSheetDate(sheet.getDate())
+    m_result(r), ref_rowid{ r.rowid }, lrn(r.lrn), m_type(r.type), sentToHis(r.isSentToHIS()), ambSheetDate(sheet.getDate())
 {
 	
 }

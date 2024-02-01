@@ -1,6 +1,7 @@
 #include "ProcedureEditorPresenter.h"
 #include "View/Interfaces/IProcedureInput.h"
-#include "Model/Dental/KSMP.h"
+#include "View/ModalDialogBuilder.h"
+
 ProcedureEditorPresenter::ProcedureEditorPresenter(const Procedure& p, const Date& patientTurns18)
 	:
 	view(nullptr),
@@ -29,7 +30,7 @@ ProcedureEditorPresenter::ProcedureEditorPresenter(const Procedure& p, const Dat
 
 std::optional<Procedure> ProcedureEditorPresenter::openDialog()
 {
-	ModalDialogBuilder::openDialog(this);
+    ModalDialogBuilder::openDialog(*this);
 
 	return result;
 }

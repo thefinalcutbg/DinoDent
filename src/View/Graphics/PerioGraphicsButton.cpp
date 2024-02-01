@@ -39,7 +39,7 @@ PerioGraphicsButton::PerioGraphicsButton(int index, PerioGraphicsType type, Peri
 
 
 
-void PerioGraphicsButton::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
+void PerioGraphicsButton::paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*)
 {
 
     painter->setRenderHint(QPainter::Antialiasing);
@@ -80,9 +80,9 @@ void PerioGraphicsButton::setDisabled(bool disabled) { m_disabled = disabled; up
 bool PerioGraphicsButton::isEnabled() { return !m_disabled; }
 bool PerioGraphicsButton::isChecked() { return m_checked;  }
 void PerioGraphicsButton::setChecked(bool checked) { m_checked = checked; update(); }
-void PerioGraphicsButton::hoverEnterEvent(QGraphicsSceneHoverEvent* event) { m_hovered = true; update();}
-void PerioGraphicsButton::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) { m_hovered = false; update();}
-void PerioGraphicsButton::mousePressEvent(QGraphicsSceneMouseEvent* event) 
+void PerioGraphicsButton::hoverEnterEvent(QGraphicsSceneHoverEvent*) { m_hovered = true; update();}
+void PerioGraphicsButton::hoverLeaveEvent(QGraphicsSceneHoverEvent*) { m_hovered = false; update();}
+void PerioGraphicsButton::mousePressEvent(QGraphicsSceneMouseEvent*)
 { 
     if (m_disabled) return;
     setChecked(m_checked = !m_checked);

@@ -2,6 +2,7 @@
 
 #include <TinyXML/tinyxml.h>
 
+#include "Model/Dental/ToothUtils.h"
 #include "Model/Patient.h"
 #include "View/ModalDialogBuilder.h"
 
@@ -67,6 +68,9 @@ bool EReferral::Issue::sendRequest(const std::string& examNrn, const Patient& pa
 				;
 		}
 			break;
+        case ReferralType::MH119:
+            m_callback = nullptr;
+            return false;
 	}
 
 	

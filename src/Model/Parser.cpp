@@ -494,7 +494,7 @@ void Parser::parse(const std::string& jsonString, Invoice& invoice)
 
 	if (json.isMember("mainDocumentNum")) {
 		invoice.setMainDocumentData(
-			json["mainDocumentNum"].asInt(),
+            json["mainDocumentNum"].asInt64(),
 			Date(json["mainDocumentDate"].asString())
 		);
 	}
@@ -543,7 +543,7 @@ std::optional<NhifContract> Parser::parseContract(const std::string& jsonString)
 	Json::Value json;
 	Json::Reader reader;
 
-	bool parsingSuccessful = reader.parse(jsonString, json);
+    reader.parse(jsonString, json);
 
 	NhifContract contract;
 	contract.name_short = json["name_short"].asString();

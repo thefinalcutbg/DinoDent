@@ -3,7 +3,6 @@
 #include "SurfStatus.h"
 #include <string>
 #include <array>
-#include "Model/FreeFunctions.h"
 
 enum class StatusType{general, obturation, caries, mobility};
 

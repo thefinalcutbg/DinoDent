@@ -3,7 +3,7 @@
 #include <QPainter>
 
 RecipientEditView::RecipientEditView(RecipientPresenter& presenter, QWidget *parent)
-	: presenter(presenter), QDialog(parent)
+    : QDialog(parent), presenter(presenter)
 {
 	ui.setupUi(this);
 
@@ -16,9 +16,9 @@ RecipientEditView::RecipientEditView(RecipientPresenter& presenter, QWidget *par
 
 	for (auto e : lineEdits) e->setErrorLabel(ui.errorLabel);
 
-	connect(ui.okButton, &QPushButton::clicked, [&] { presenter.okPressed();});
+    connect(ui.okButton, &QPushButton::clicked, this, [&] { presenter.okPressed();});
 
-	connect(ui.idEdit, &QLineEdit::textChanged, [&] { if (ui.idEdit->isValid()) presenter.idValidInput(); });
+    connect(ui.idEdit, &QLineEdit::textChanged, this, [&] { if (ui.idEdit->isValid()) presenter.idValidInput(); });
 
 	presenter.setRecipientEditView(this);
 }
@@ -46,12 +46,10 @@ Recipient RecipientEditView::getRecipient()
 	return r;
 }
 
-void RecipientEditView::paintEvent(QPaintEvent* event)
+void RecipientEditView::paintEvent(QPaintEvent*)
 {
-	QPainter painter;
-	painter.begin(this);
+    QPainter painter(this);
 	painter.fillRect(QRect(0, 0, width(), height()), Qt::white);
-	painter.end();
 }
 
 LineEdit* RecipientEditView::lineEdit(LineEditType type)

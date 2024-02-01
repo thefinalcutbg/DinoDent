@@ -1,13 +1,11 @@
 ﻿#include "UpdateDownloader.h"
 
-#include "qapplication.h"
 #include <QNetworkReply>
 #include <QFile>
 #include <QDir>
 #include <QProcess>
 #include <QStandardPaths>
 #include <QPainter>
-#include "GlobalSettings.h"
 #include "Network/NetworkManager.h"
 #include "View/ModalDialogBuilder.h"
 
@@ -16,34 +14,34 @@ UpdateDownloader::UpdateDownloader(const char* url, QWidget* parent)
 {
 	ui.setupUi(this);
 	setModal(true);
-	setWindowTitle("Изтегляне на актуализацията");
-	connect(this, &QDialog::rejected, [=] {
+    setWindowTitle("Изтегляне на актуализацията");
 
-		if (m_reply) { 
+    connect(this, &QDialog::rejected, this, [=, this] {
+
+        if (m_reply) {
 			m_reply->close(); 
 			m_reply->deleteLater();
 		}
 	});
 
-	connect(ui.pushButton_2, &QPushButton::clicked, [=] { reject(); });
+    connect(ui.pushButton_2, &QPushButton::clicked, this, [=, this] { reject(); });
 
 
-	m_reply = NetworkManager::simpleRequest(url);
+    m_reply = NetworkManager::simpleRequest(url);
 
-	connect(m_reply, &QNetworkReply::downloadProgress, [=](qint64 recieved, qint64 total)
+    connect(m_reply, &QNetworkReply::downloadProgress, this, [&](qint64 recieved, qint64 total)
 		{
 			ui.progressBar->setRange(0, total);
 			ui.progressBar->setValue(recieved);
 		}
 	);
 
-	connect(m_reply, &QNetworkReply::finished, [=]
+    connect(m_reply, &QNetworkReply::finished, this, [=, this]
 		{
 			if (m_reply->error()) {
 				accept();
-				return;
-			};
-
+                return;
+            };
 
 			auto dataFolder = QDir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation));
 
@@ -81,7 +79,7 @@ UpdateDownloader::UpdateDownloader(const char* url, QWidget* parent)
 	);
 }
 
-void UpdateDownloader::paintEvent(QPaintEvent* e)
+void UpdateDownloader::paintEvent(QPaintEvent*)
 {
 	QPainter painter;
 	painter.begin(this);

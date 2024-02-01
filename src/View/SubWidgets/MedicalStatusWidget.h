@@ -3,8 +3,6 @@
 #include <QWidget>
 #include "ui_MedicalStatusWidget.h"
 #include <vector>
-#include "Model/MedicalStatuses.h"
-
 
 class MedicalStatusWidget : public QWidget
 {

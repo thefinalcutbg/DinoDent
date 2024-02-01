@@ -12,7 +12,7 @@ HoverButton::HoverButton(QWidget *parent)
 }
 
 
-void HoverButton::paintEvent(QPaintEvent* event)
+void HoverButton::paintEvent(QPaintEvent*)
 {
 	QPainter painter(this);
 
@@ -42,7 +42,7 @@ void HoverButton::paintEvent(QPaintEvent* event)
 
 }
 
-bool HoverButton::eventFilter(QObject* obj, QEvent* e)
+bool HoverButton::eventFilter(QObject*, QEvent* e)
 {
 	if (e->type() == QEvent::HoverEnter) {
 		m_hover = true;

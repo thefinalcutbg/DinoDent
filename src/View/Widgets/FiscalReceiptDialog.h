@@ -19,7 +19,7 @@ class FiscalReceiptDialog : public QDialog, public IFiscalReceiptDialog
 	void paintEvent(QPaintEvent* e) override;
 
 public:
-	FiscalReceiptDialog(FiscalReceiptPresenter& p, QWidget *parent = nullptr);
+    FiscalReceiptDialog(FiscalReceiptPresenter& p, QWidget *parent = nullptr);
 	~FiscalReceiptDialog();
 
 private:

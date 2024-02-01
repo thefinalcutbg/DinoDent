@@ -47,7 +47,7 @@ std::vector<TimeFrame> DbPatientSummary::getFrames(long long patientRowId)
 
         auto procedures = DbProcedure::getProcedures(initFrame.rowid, db);
 
-        for (int i = 0; i < procedures.size(); i++)
+        for (size_t i = 0; i < procedures.size(); i++)
         {
             if (
                 i == 0 ||
@@ -82,7 +82,7 @@ std::vector<TimeFrame> DbPatientSummary::getFrames(long long patientRowId)
         Parser::parse(db.asString(3), perioFrame.perioData);
         
 
-        for (int i = 0; i < result.size(); i++)
+        for (size_t i = 0; i < result.size(); i++)
         {
 
             if (perioFrame.date < result[i].date || i == result.size() - 1)
@@ -101,7 +101,7 @@ std::vector<TimeFrame> DbPatientSummary::getFrames(long long patientRowId)
     //copying perio data to all other time frames
     TimeFrame* lastPerioFrame{ nullptr };
 
-    for (int i = 0; i < result.size(); i++)
+    for (size_t i = 0; i < result.size(); i++)
     {
         if (result[i].type == TimeFrameType::Perio) {
             lastPerioFrame = &result[i];

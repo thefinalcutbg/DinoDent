@@ -98,7 +98,7 @@ void ProcedureHistoryDialog::setHis(const std::vector<Procedure>& h)
 
 void ProcedureHistoryDialog::setHospitalizations(const std::vector<Hospitalization>& h)
 {
-    hospi_model.setData(h);
+    hospi_model.setRows(h);
     ui.refreshHospi->setText("Опресни");
 }
 

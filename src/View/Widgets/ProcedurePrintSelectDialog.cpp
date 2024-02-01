@@ -1,9 +1,7 @@
 ﻿#include "ProcedurePrintSelectDialog.h"
-#include <set>
-#include "Model/FreeFunctions.h"
 #include <QPainter>
 
-void ProcedurePrintSelectDialog::paintEvent(QPaintEvent* e)
+void ProcedurePrintSelectDialog::paintEvent(QPaintEvent*)
 {
 	QPainter painter(this);
 
@@ -41,7 +39,7 @@ ProcedurePrintSelectDialog::ProcedurePrintSelectDialog(const std::vector<Procedu
 		adjustSize();
 	}
 
-	connect(ui.okButton, &QPushButton::pressed, [=]
+    connect(ui.okButton, &QPushButton::pressed, this, [=, this]
 		{
 			auto select = ui.tableView->selectionModel()->selectedIndexes();
 
@@ -51,8 +49,8 @@ ProcedurePrintSelectDialog::ProcedurePrintSelectDialog(const std::vector<Procedu
 
 		});
 
-	connect(ui.paidButton, &QPushButton::clicked, [&] { selectNhifOnly(false); });
-	connect(ui.nzokButton, &QPushButton::clicked, [&] { selectNhifOnly(true); });
+    connect(ui.paidButton, &QPushButton::clicked, this, [&] { selectNhifOnly(false); });
+    connect(ui.nzokButton, &QPushButton::clicked, this, [&] { selectNhifOnly(true); });
 
 	if (referrals.empty()) ui.referralCheck->setHidden(true);
 

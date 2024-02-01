@@ -21,10 +21,11 @@ class ListView : public QWidget, public IListView
 
     ProcedureTableModel model;
 
-    void paintEvent(QPaintEvent* event);
+    void paintEvent(QPaintEvent* event) override;
+    bool eventFilter(QObject* obj, QEvent* event) override;
 
     bool m_teethViewFocused {false};
-    bool eventFilter(QObject* obj, QEvent* event);
+
     void nhifChanged();
 
 public:

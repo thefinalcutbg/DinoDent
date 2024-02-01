@@ -26,7 +26,7 @@ private:
 	Ui::FiscalReceiptDialogClass ui;
 
 	// Inherited via IFiscalReceiptDialog
-	void setReceipt(const FiscalReceipt& r) final;
+    void setReceipt(const std::string& timestamp, const std::string& fiscalMemory) final;
 	FiscalReceipt getReceipt() final;
 	void closeDialog() final { close(); }
 };

@@ -106,11 +106,11 @@ QVariant MonthNotifTableModel::data(const QModelIndex& index, int role) const
     case Qt::DisplayRole:
         switch (column)
         {
-        case 0: return rows[row].date;
-        case 1: return rows[row].getDocTypeString();
-        case 2: return rows[row].rzi;
-        case 3: return rows[row].uin;
-        default: return QVariant();
+            case 0: return rows[row].date;
+            case 1: return rows[row].getDocTypeString();
+            case 2: return rows[row].rzi;
+            case 3: return rows[row].uin;
+            default: return QVariant();
         }
     case Qt::TextAlignmentRole:
        

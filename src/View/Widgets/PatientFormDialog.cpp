@@ -1,7 +1,7 @@
 ﻿#include "PatientFormDialog.h"
 #include "Model/Country.h"
 
-PatientFormDialog::PatientFormDialog(PatientDialogPresenter* p, QWidget* parent)
+PatientFormDialog::PatientFormDialog(PatientDialogPresenter& p, QWidget* parent)
     : QDialog(parent),
     presenter(p)
 {
@@ -31,26 +31,24 @@ PatientFormDialog::PatientFormDialog(PatientDialogPresenter* p, QWidget* parent)
     }
     //ui.countryCombo->setCurrentIndex(21); //BG default
 
-    setType(Patient::EGN);
-
-    connect(ui.ehicRadio, &QRadioButton::toggled, this, [=, this] {
+    connect(ui.ehicRadio, &QRadioButton::toggled, this, [&] {
         ui.validDateLabel->setText("Валиден до:"); 
         ui.ehicLabel->setDisabled(false); 
         ui.ehic_edit->setDisabled(false); 
     });
 
-    connect(ui.otherRadio, &QRadioButton::toggled, this, [=, this] {
+    connect(ui.otherRadio, &QRadioButton::toggled, this, [&] {
         ui.validDateLabel->setText("Валидност от:"); 
         ui.ehicLabel->setDisabled(true);
         ui.ehic_edit->setDisabled(true);
     });
 
-    connect(ui.typeComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this,
-        [=, this](int index) { presenter->changePatientType(index + 1); ui.idLineEdit->QLineEdit::setFocus(); });
+    connect(ui.typeComboBox, &QComboBox::currentIndexChanged, this,
+        [&](int index) { presenter.changePatientType(index + 1); ui.idLineEdit->QLineEdit::setFocus(); });
 
-    connect(ui.okButton, &QPushButton::clicked, this, [=, this] { presenter->accept(); });
-    connect(ui.idLineEdit, &QLineEdit::textEdited, this, [=, this]{ if(ui.idLineEdit->isValid()) presenter->searchDbForPatient(ui.typeComboBox->currentIndex()+1); });
-    connect(ui.hirbnoButton, &QPushButton::clicked, this, [=, this] { presenter->checkHirbno();});
+    connect(ui.okButton, &QPushButton::clicked, this, [&] { presenter.accept(); });
+    connect(ui.idLineEdit, &QLineEdit::textEdited, this, [&]{ if(ui.idLineEdit->isValid()) presenter.searchDbForPatient(ui.typeComboBox->currentIndex()+1); });
+    connect(ui.hirbnoButton, &QPushButton::clicked, this, [&] { presenter.checkHirbno();});
 
     patientFields[id] = ui.idLineEdit;
     patientFields[fname] = ui.fNameEdit;
@@ -70,7 +68,7 @@ PatientFormDialog::PatientFormDialog(PatientDialogPresenter* p, QWidget* parent)
 
     ui.birthEdit->setErrorLabel(ui.errorLabel);
 
-    presenter->setView(this);
+    presenter.setView(this);
 
 
 

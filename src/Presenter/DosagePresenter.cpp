@@ -24,7 +24,7 @@ void DosagePresenter::okPressed()
 
 std::optional<Dosage> DosagePresenter::openDialog()
 {
-	ModalDialogBuilder::openDialog(this);
+    ModalDialogBuilder::openDialog(*this);
 
 	if (ok_pressed) return m_dosage;
 

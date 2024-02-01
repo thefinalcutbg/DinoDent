@@ -5,7 +5,7 @@
 class Diagnosis
 {
 	
-	int m_idx{ 0 };
+    int m_idx{ 0 };
 
 	inline static std::vector<std::string> s_names;
 
@@ -14,7 +14,7 @@ public:
 
 	Diagnosis() {};
 	Diagnosis(const std::string& name);
-	Diagnosis(int key, const std::string& description = {});
+    Diagnosis(int key, const std::string& description = {});
 
 	int index() const { return m_idx; }
 

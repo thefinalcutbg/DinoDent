@@ -2,11 +2,7 @@
 #include <string>
 #include <array>
 #include <variant>
-#include <optional>
-#include <unordered_map>
-#include <map>
 #include "Model/Date.h"
-#include "StatusData.h"
 #include "ProcedureCode.h"
 #include "Diagnosis.h"
 #include "ToothIndex.h"

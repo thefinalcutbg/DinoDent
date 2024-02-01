@@ -47,7 +47,7 @@ namespace DbStatPrv {
 
         std::string result = "AND (";
 
-        for (int i = 0; i < tableValue.size(); i++)
+        for (std::size_t i = 0; i < tableValue.size(); i++)
         {
             result += tableColumn;
             result += "='" + tableValue[i] + "' ";
@@ -64,7 +64,7 @@ namespace DbStatPrv {
 
         std::string result = "AND (";
 
-        for (int i = 0; i < tableValue.size(); i++)
+        for (std::size_t i = 0; i < tableValue.size(); i++)
         {
             result += tableColumn;
             result += "='" + std::to_string(tableValue[i]) + "' ";

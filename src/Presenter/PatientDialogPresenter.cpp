@@ -21,8 +21,8 @@ PatientDialogPresenter::PatientDialogPresenter(const Patient& patient) :
 
 std::optional<Patient> PatientDialogPresenter::open()
 {
-	ModalDialogBuilder::openDialog(this);
-	return m_patient;
+    ModalDialogBuilder::openDialog(*this);
+    return m_patient;
 }
 
 void PatientDialogPresenter::setView(IPatientDialog* view)

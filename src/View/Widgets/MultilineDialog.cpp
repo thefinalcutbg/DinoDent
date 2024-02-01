@@ -11,13 +11,13 @@ MultilineDialog::MultilineDialog(const std::string& text, QWidget *parent)
 	ui.textBox->setReadOnly(true);
 	ui.textBox->setPlainText(QString::fromStdString(text));
 
-	connect(ui.copyButton, &QPushButton::clicked, [=] {
+    connect(ui.copyButton, &QPushButton::clicked, this, [&] {
 		ui.textBox->selectAll();
 		QClipboard* clipboard = QApplication::clipboard();
 		clipboard->setText(ui.textBox->toPlainText());
 	});
 
-	connect(ui.okButton, &QPushButton::clicked, [=] {close();});
+    connect(ui.okButton, &QPushButton::clicked, this, [&] {close();});
 }
 
 MultilineDialog::~MultilineDialog()

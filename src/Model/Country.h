@@ -1,10 +1,9 @@
 #pragma once
 #include <string>
-#include <unordered_map>
 #include <vector>
 class Country {
 
-	int m_idx{ 0 };
+    std::size_t m_idx{ 0 };
 
 public:
 

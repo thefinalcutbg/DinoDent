@@ -72,7 +72,7 @@ QVariant HospitalizationTableModel::data(const QModelIndex& index, int role) con
             font.setBold(true);
             return font;
         }
-        else break;
+        else return QVariant();
     case Qt::ForegroundRole:
     {
         if (column == 1) {
@@ -83,10 +83,10 @@ QVariant HospitalizationTableModel::data(const QModelIndex& index, int role) con
                 case Hospitalization::Terminated: return  QColor(Qt::darkGreen);
                 case Hospitalization::Completed: return QColor(Qt::darkGreen);
                 case Hospitalization::Planned: return QColor(Qt::darkYellow);
-                default: break;
+                default: return QVariant();
             }
         }
-        else break;
+        else return QVariant();
 
     }
     case Qt::TextAlignmentRole:

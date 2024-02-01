@@ -12,7 +12,7 @@ std::vector<CountryData> s_data;
 
 Country::Country(const std::string& code)
 {
-	for (int i = 0; i < s_data.size(); i++)
+    for (std::size_t i = 0; i < s_data.size(); i++)
 	{
 		if (code == s_data[i].code) {
 			m_idx = i;
@@ -23,7 +23,7 @@ Country::Country(const std::string& code)
 
 Country::Country(int index) : m_idx(index)
 {
-	if (index < 0 || index >= s_data.size()) m_idx = 0;
+    if (index < 0 || static_cast<std::size_t>(index) >= s_data.size()) m_idx = 0;
 }
 
 const std::string& Country::getCode() const

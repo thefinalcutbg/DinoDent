@@ -25,7 +25,7 @@ class PatientFormDialog : public QDialog, public IPatientDialog
 
     void paintEvent(QPaintEvent* event) override;
 
-    PatientDialogPresenter* presenter;
+    PatientDialogPresenter& presenter;
 
     std::array<LineEdit*, PatientField::size> patientFields;
 
@@ -35,7 +35,7 @@ public:
 
 public:
 
-    PatientFormDialog(PatientDialogPresenter* p, QWidget* parent = 0);
+    PatientFormDialog(PatientDialogPresenter& p, QWidget* parent = 0);
     ~PatientFormDialog();
 
     void setEditMode(bool editMode) override;

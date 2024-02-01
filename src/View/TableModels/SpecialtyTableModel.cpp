@@ -91,14 +91,14 @@ QVariant SpecialtyTableModel::data(const QModelIndex& index, int role) const
 
     if (!index.isValid()) return QVariant();
 
-    int row = index.row();
+    size_t row = index.row();
     int column = index.column();
 
     if (row == rows.size()) return 0;
     if (rows.size() == 0) return 0;
 
-    static const char* doc{ "Медицина" };
-    static const char* dentist{ "Дентална медицина" };
+   // static const char* doc{ "Медицина" };
+   // static const char* dentist{ "Дентална медицина" };
 
     switch (role)
     {

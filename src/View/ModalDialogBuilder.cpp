@@ -15,7 +15,7 @@ void ModalDialogBuilder::openDialog(ProcedureDialogPresenter& p)
 
 #include "View/Widgets/PatientFormDialog.h"
 
-void ModalDialogBuilder::openDialog(PatientDialogPresenter* p)
+void ModalDialogBuilder::openDialog(PatientDialogPresenter& p)
 {
 	PatientFormDialog d(p);
 	d.exec();
@@ -39,7 +39,7 @@ void ModalDialogBuilder::openBrowserDialog()
 
 #include "View/Widgets/DetailedStatus.h"
 
-void ModalDialogBuilder::openDialog(DetailedStatusPresenter* p)
+void ModalDialogBuilder::openDialog(DetailedStatusPresenter& p)
 {
 	DetailedStatus d(p);
 	d.exec();
@@ -57,7 +57,7 @@ void ModalDialogBuilder::openDialog(LoginPresenter& p)
 
 #include "View/Widgets/PracticeDialog.h"
 
-void ModalDialogBuilder::openDialog(PracticeDialogPresenter* p)
+void ModalDialogBuilder::openDialog(PracticeDialogPresenter& p)
 {
 	PracticeDialog d(p);
 	d.exec();
@@ -65,25 +65,25 @@ void ModalDialogBuilder::openDialog(PracticeDialogPresenter* p)
 
 #include "View/Widgets/DoctorSettingsDialog.h"
 
-void ModalDialogBuilder::openDialog(DoctorDialogPresenter* p)
+void ModalDialogBuilder::openDialog(DoctorDialogPresenter& p)
 {
-	DoctorSettingsDialog d(p);
+    DoctorSettingsDialog d(p);
 	d.exec();
 }
 
 #include "View/Widgets/MedicationDialog.h"
 
-void ModalDialogBuilder::openDialog(MedicationPresenter* p)
+void ModalDialogBuilder::openDialog(MedicationPresenter& p)
 {
-	MedicationDialog d(p);
+    MedicationDialog d(p);
 	d.exec();
 }
 
 #include "View/Widgets/DosageDialog.h"
 
-void ModalDialogBuilder::openDialog(DosagePresenter* p)
+void ModalDialogBuilder::openDialog(DosagePresenter& p)
 {
-	DosageDialog d(p);
+    DosageDialog d(p);
 	d.exec();
 }
 
@@ -97,7 +97,7 @@ void ModalDialogBuilder::openDialog(PracticeManagerPresenter& p)
 
 #include "View/Widgets/ReferralDialog.h"
 
-void ModalDialogBuilder::openDialog(ReferralPresenter* p)
+void ModalDialogBuilder::openDialog(ReferralPresenter& p)
 {
 	ReferralDialog d(p);
 

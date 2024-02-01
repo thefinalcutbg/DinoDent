@@ -8,15 +8,15 @@ void PracticeDialog::paintEvent(QPaintEvent*)
 	painter.fillRect(rect(), QColor(Qt::white));
 }
 
-PracticeDialog::PracticeDialog(PracticeDialogPresenter* presenter, QWidget *parent)
+PracticeDialog::PracticeDialog(PracticeDialogPresenter& presenter, QWidget *parent)
     : QDialog(parent), presenter(presenter)
 {
 	ui.setupUi(this);
 
 	setWindowTitle("Настройки на практиката");
 
-	connect(ui.okButton, &QPushButton::clicked, [=] {presenter->okPressed();});
-	presenter->setView(this);
+    connect(ui.okButton, &QPushButton::clicked, this, [&] {presenter.okPressed();});
+    presenter.setView(this);
 }
 
 

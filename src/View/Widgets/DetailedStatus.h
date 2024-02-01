@@ -4,7 +4,6 @@
 #include  <QVBoxLayout>
 #include "View/Interfaces/IDetailedStatusView.h"
 #include "ui_DetailedStatus.h"
-#include "View/Graphics/ToothPainter.h"
 #include "Model/Dental/Enums.h"
 
 #include "View/TableModels/ProcedureTableModel.h"
@@ -16,7 +15,7 @@ class DetailedStatus final: public QDialog, public IDetailedStatusView
 {
 	Q_OBJECT
 
-	DetailedStatusPresenter* presenter;
+    DetailedStatusPresenter& presenter;
 
 	inline static QString surfName[surfaceCount]
 	{ "Оклузално", "Медиално", "Дистално",
@@ -30,7 +29,7 @@ class DetailedStatus final: public QDialog, public IDetailedStatusView
 	//void paintEvent(QPaintEvent* event) override;
 
 public:
-	DetailedStatus(DetailedStatusPresenter* presenter);
+    DetailedStatus(DetailedStatusPresenter& presenter);
 
 	void setCheckModel(const CheckModel& checkModel, const CheckModel& dsn) override;
 	void disableItem(int index, bool disabled) override;

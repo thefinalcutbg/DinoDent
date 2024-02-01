@@ -13,21 +13,9 @@ std::pair<std::vector<RowInstance>, PlainTable> getPatientRows()
     
     rows.reserve(50);
 
-    tableView.addColumn({
-            .name = "ЕГН/ЛНЧ/ССН",
-            .width = 150,
-            .alignment = PlainColumn::Center
-    });
-
-    tableView.addColumn({
-        .name = "Име на пациента",
-        .width = 250,
-    });
-
-    tableView.addColumn({
-        .name = "Телефон",
-        .width = 120,
-    });
+    tableView.addColumn({"ЕГН/ЛНЧ/ССН",150,PlainColumn::Center});
+    tableView.addColumn({"Име на пациента",250});
+    tableView.addColumn({"Телефон",120});
 
     std::string query =
         "SELECT rowid, id, fname, mname, lname , phone,  (strftime('%m-%d', patient.birth) = strftime('%m-%d',date('now', 'localtime'))) AS bday FROM patient ORDER BY bday DESC, id ASC";
@@ -66,33 +54,11 @@ std::pair<std::vector<RowInstance>, PlainTable> getAmbRows(const Date& from, con
     std::vector<RowInstance> rows;
     PlainTable tableView;
 
-    tableView.addColumn({
-        .name = "Дата",
-        .width = 100,
-        .alignment = PlainColumn::Right
-    });
-
-    tableView.addColumn({
-        .name = "Амб №/НРН",
-        .width = 120,
-        .alignment = PlainColumn::Center
-    });
-
-    tableView.addColumn({
-           .name = "ЕГН/ЛНЧ/ССН",
-           .width = 120,
-           .alignment = PlainColumn::Center
-    });
-
-    tableView.addColumn({
-        .name = "Име на пациента",
-        .width = 240,
-    });
-
-    tableView.addColumn({
-        .name = "Телефон",
-        .width = 120,
-    });
+    tableView.addColumn({"Дата",100,PlainColumn::Right});
+    tableView.addColumn({"Амб №/НРН",120,PlainColumn::Center});
+    tableView.addColumn({"ЕГН/ЛНЧ/ССН",120,PlainColumn::Center});
+    tableView.addColumn({"Име на пациента",240});
+    tableView.addColumn({"Телефон",120});
 
 
     rows.reserve(50);
@@ -166,28 +132,10 @@ std::pair<std::vector<RowInstance>, PlainTable> getPerioRows(const Date& from, c
     PlainTable tableView;
     rows.reserve(50);
 
-    tableView.addColumn({
-        .name = "Дата",
-        .width = 80,
-        .alignment = PlainColumn::Center
-    });
-
-    tableView.addColumn({
-           .name = "ЕГН/ЛНЧ/ССН",
-           .width = 150,
-           .alignment = PlainColumn::Center
-    });
-
-    tableView.addColumn({
-        .name = "Име на пациента",
-        .width = 250,
-    });
-
-    tableView.addColumn({
-        .name = "Телефон",
-        .width = 120,
-    });
-
+    tableView.addColumn({"Дата",80,PlainColumn::Center});
+    tableView.addColumn({"ЕГН/ЛНЧ/ССН",150,PlainColumn::Center});
+    tableView.addColumn({"Име на пациента",250,});
+    tableView.addColumn({"Телефон",120,});
 
     std::string query =
         "SELECT periostatus.rowid, periostatus.date, patient.rowid, patient.id, patient.fname, patient.mname, patient.lname, patient.phone, "
@@ -242,33 +190,11 @@ std::pair<std::vector<RowInstance>, PlainTable> getFinancialRows(const Date& fro
 
     Recipient nzokRecipient(std::stoi(User::practice().RHIF()));
 
-    tableView.addColumn({
-       .name = "Дата",
-       .width = 100,
-       .alignment = PlainColumn::Right
-        });
-
-    tableView.addColumn({
-        .name = "Документ №",
-        .width = 100,
-        .alignment = PlainColumn::Center
-        });
-
-    tableView.addColumn({
-           .name = "ЕГН/ЛНЧ/ЕИК",
-           .width = 100,
-           .alignment = PlainColumn::Center
-        });
-
-    tableView.addColumn({
-        .name = "Име на получателя",
-        .width = 250
-        });
-
-    tableView.addColumn({
-        .name = "Телефон",
-        .width = 100
-        });
+    tableView.addColumn({"Дата", 100, PlainColumn::Right});
+    tableView.addColumn({"Документ №", 100, PlainColumn::Center});
+    tableView.addColumn({"ЕГН/ЛНЧ/ЕИК", 100, PlainColumn::Center});
+    tableView.addColumn({"Име на получателя", 250 });
+    tableView.addColumn({"Телефон", 100 });
 
     std::string query =
         "SELECT rowid, num, month_notif > 0, "
@@ -315,33 +241,11 @@ std::pair<std::vector<RowInstance>, PlainTable> getPrescriptionRows(const Date& 
     std::vector<RowInstance> rows;
     PlainTable tableView;
 
-    tableView.addColumn({
-        .name = "Дата",
-        .width = 100,
-        .alignment = PlainColumn::Right
-    });
-
-    tableView.addColumn({
-        .name = "НРН",
-        .width = 120,
-        .alignment = PlainColumn::Center
-    });
-
-    tableView.addColumn({
-           .name = "ЕГН/ЛНЧ/ССН",
-           .width = 120,
-           .alignment = PlainColumn::Center
-    });
-
-    tableView.addColumn({
-        .name = "Име на пациента",
-        .width = 240
-    });
-
-    tableView.addColumn({
-        .name = "Телефон",
-        .width = 120
-    });
+    tableView.addColumn({"Дата", 100, PlainColumn::Right});
+    tableView.addColumn({"НРН", 120, PlainColumn::Center});
+    tableView.addColumn({"ЕГН/ЛНЧ/ССН", 120, PlainColumn::Center});
+    tableView.addColumn({"Име на пациента", 240});
+    tableView.addColumn({"Телефон", 120});
 
 
     std::string query =
@@ -413,9 +317,9 @@ std::pair<std::vector<RowInstance>, PlainTable> DbBrowser::getPatientDocuments(l
 
     std::vector<RowInstance> rowidData;
 
-    table.addColumn({.name = "Дата", .alignment = PlainColumn::Right});
-    table.addColumn({.name = "Документ", .width = 150});
-    table.addColumn({.name = "Номер/НРН"});
+    table.addColumn({"Дата",100,PlainColumn::Right});
+    table.addColumn({"Документ",150});
+    table.addColumn({"Номер/НРН"});
 
     Db db;
 

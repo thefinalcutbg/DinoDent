@@ -3,11 +3,11 @@
 
 PlainTable::PlainTable(const std::vector<Procedure>& pList)
 {
-    addColumn({ .name = "Дата",.width = 100,.alignment = PlainColumn::Right });
-    addColumn({ .name = "Диагноза", .width = 200 });
-    addColumn({ .name = "Зъб", .width = 70, .alignment = PlainColumn::Center });
-    addColumn({ .name = "Манипулация", .width = 300 });
-    addColumn({ .name = "Код", .width = 50, .alignment = PlainColumn::Center });
+    addColumn({"Дата",100,PlainColumn::Right });
+    addColumn({"Диагноза", 200 });
+    addColumn({"Зъб", 70, PlainColumn::Center });
+    addColumn({"Манипулация", 300 });
+    addColumn({"Код", 50, PlainColumn::Center });
 
     for (auto& p : pList) {
 
@@ -37,11 +37,11 @@ PlainTable::PlainTable(const std::vector<Procedure>& pList)
 
 PlainTable::PlainTable(const std::vector<BusinessOperation>& bList)
 {
-    addColumn({ .name = "Код",.width = 100,.alignment = PlainColumn::Center });
-    addColumn({ .name = "Наименование", .width = 400 });
-    addColumn({ .name = "Кол-во", .width = 70, .alignment = PlainColumn::Center });
-    addColumn({ .name = "Ед. цена", .width = 70, .alignment = PlainColumn::Center });
-    addColumn({ .name = "Сума", .width = 70, .alignment = PlainColumn::Center });
+    addColumn({"Код",100,PlainColumn::Center });
+    addColumn({"Наименование", 400 });
+    addColumn({"Кол-во", 70, PlainColumn::Center });
+    addColumn({"Ед. цена", 70, PlainColumn::Center });
+    addColumn({"Сума", 70, PlainColumn::Center });
 
     for (auto& op : bList)
     {
@@ -56,8 +56,8 @@ PlainTable::PlainTable(const std::vector<BusinessOperation>& bList)
 
 PlainTable::PlainTable(const std::vector<Medication>& mList)
 {
-    addColumn({ .name = "Медикамент", .width = 350 });
-    addColumn({ .name = "Дозировка" });
+    addColumn({"Медикамент", 350 });
+    addColumn({"Дозировка"});
 
     for (auto& m : mList)
     {

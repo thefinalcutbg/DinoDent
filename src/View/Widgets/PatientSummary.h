@@ -4,7 +4,6 @@
 #include "ui_PatientSummary.h"
 #include "View/Interfaces/IPatientSummaryView.h"
 #include "View/TableModels/ProcedureTableModel.h"
-#include "View/Graphics/TeethViewScene.h"
 #include "View/Graphics/TeethBuccalScene.h"
 #include "View/Graphics/TeethLingualScene.h"
 
@@ -17,7 +16,7 @@ private:
 
 	PatientSummaryPresenter* presenter;
 
-	void paintEvent(QPaintEvent* event);
+    void paintEvent(QPaintEvent* event) override;
 	ProcedureTableModel m_procedureModel;
 	
 	TeethBuccalScene* buccalScene;

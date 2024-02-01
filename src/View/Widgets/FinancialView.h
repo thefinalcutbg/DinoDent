@@ -14,9 +14,9 @@ class FinancialView : public QWidget, public IFinancialView
 
 	BusinessOperationModel m_model;
 
-	void paintEvent(QPaintEvent* event);
+    void paintEvent(QPaintEvent* event) override;
 
-	void showMainDocumentDetails(bool show);
+    void showMainDocumentDetails(bool show);
 
 public:
 	FinancialView(QWidget *parent = Q_NULLPTR);
@@ -24,7 +24,7 @@ public:
 	void setPresenter(FinancialPresenter* presenter) override;
 	void setInvoice(const Invoice& inv) override;
 	void setBusinessOperations(const BusinessOperations& businessOp, const AggregatedAmounts& amounts) override;
-	void setMainDocument(const std::optional<MainDocument>& mainDoc);
+    void setMainDocument(const std::optional<MainDocument>& mainDoc) override;
 	void setNumberSpinBox(long long num) override;
 
 	~FinancialView();

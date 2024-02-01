@@ -67,7 +67,7 @@ std::optional<Medication> MedicationPresenter::openDialog()
 		return std::optional<Medication>();
 	}
 
-	ModalDialogBuilder::openDialog(this);
+    ModalDialogBuilder::openDialog(*this);
 
 	if (m_readOnly) return {};
 

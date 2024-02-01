@@ -133,7 +133,7 @@ void DbProcedure::saveProcedures(long long amblist_rowid, const std::vector<Proc
 		toInsert.push_back(ProcedurePointer{ &removed, true });
 	}
 
-	for (int i = 0; i < toInsert.size(); i++)
+    for (std::size_t i = 0; i < toInsert.size(); i++)
 	{
 		auto& p = *toInsert[i].p;
 

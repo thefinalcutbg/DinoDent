@@ -1,8 +1,5 @@
 ﻿#include "PracticeDialogPresenter.h"
-#include "Database/Database.h"
 #include "View/ModalDialogBuilder.h"
-#include "Database/DbPractice.h"
-#include <fstream>
 #include <Model/Parser.h>
 
 
@@ -22,7 +19,7 @@ void PracticeDialogPresenter::setView(IAddPracticeDialog* view)
 
 std::optional<PracticeWithDoctors> PracticeDialogPresenter::open()
 {
-	ModalDialogBuilder::openDialog(this);
+    ModalDialogBuilder::openDialog(*this);
 
 	return m_result;
 }

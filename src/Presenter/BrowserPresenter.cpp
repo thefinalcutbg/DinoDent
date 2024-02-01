@@ -52,7 +52,7 @@ void BrowserPresenter::refreshModel()
 
 	std::tie(rowidData, tableView) = DbBrowser::getData(ui_state.model_type, ui_state.from, ui_state.to);
 
-	tableView.data.insert(tableView.data.begin(), PlainColumn{.hidden = true});
+    tableView.data.insert(tableView.data.begin(), PlainColumn());
 
     for (size_t i = 0; i < rowidData.size(); i++)
 	{
@@ -206,7 +206,7 @@ void BrowserPresenter::openCurrentSelection()
 	}
 
 
-	int counter{ 0 };
+    std::size_t counter{ 0 };
 
 	for (auto& row : m_selectedInstances) {
 

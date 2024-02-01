@@ -1,6 +1,5 @@
 #include "Diagnosis.h"
 #include <json/json.h>
-#include <array>
 
 #include "Resources.h"
 
@@ -32,7 +31,7 @@ void Diagnosis::initialize()
 
 Diagnosis::Diagnosis(const std::string& name)
 {
-	for (int i = 0; i < s_names.size(); i++)
+    for (std::size_t i = 0; i < s_names.size(); i++)
 	{
 		if (name == s_names[i]) {
 			m_idx = i;

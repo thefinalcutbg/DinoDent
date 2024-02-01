@@ -129,7 +129,7 @@ std::vector<ProcedureCode> NhifProcedures::getNhifProcedures(Date ambDate, NhifS
 {
 	int currentUpdateIdx = -1;
 
-	for (int i = 0; i < m_NRDlist.size(); i ++)
+    for (size_t i = 0; i < m_NRDlist.size(); i ++)
 	{
 		if (ambDate < m_NRDlist[i].date) continue;
 

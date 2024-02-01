@@ -14,7 +14,7 @@ class ReferralDialog : public QDialog, public IReferralDialog
 {
 	Q_OBJECT
 
-	ReferralPresenter* presenter;
+    ReferralPresenter& presenter;
 
 	MKBModel m_mkbFull{ MKB::getFullMKBList() };
 	MKBModel m_mkbDental{ MKB::getDentalMKBList() };
@@ -24,7 +24,7 @@ class ReferralDialog : public QDialog, public IReferralDialog
 	void setRefTypeView(ReferralType t);
 
 public:
-	ReferralDialog(ReferralPresenter *p, QWidget *parent = nullptr);
+    ReferralDialog(ReferralPresenter &p, QWidget *parent = nullptr);
 
 	// Inherited via IReferralDialog
 	void setTitle(const std::string& str) final;

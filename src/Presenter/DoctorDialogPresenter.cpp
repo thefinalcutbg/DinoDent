@@ -96,7 +96,7 @@ void DoctorDialogPresenter::setView(IDoctorSettingsDialog* view)
 
 std::optional<Doctor> DoctorDialogPresenter::open()
 {
-    ModalDialogBuilder::openDialog(this);
+    ModalDialogBuilder::openDialog(*this);
     
     return result;
 }

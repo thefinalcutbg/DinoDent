@@ -31,10 +31,5 @@ void FiscalReceiptPresenter::setView(IFiscalReceiptDialog* v)
 {
 	this->view = v;
 
-	view->setReceipt(
-		FiscalReceipt{
-			.timestamp = FreeFn::getTimeStampLocal(),
-			.fiscal_memory = DbFiscalReceipt::getFiscalMemory()
-		}
-	);
+    view->setReceipt(FreeFn::getTimeStampLocal(), DbFiscalReceipt::getFiscalMemory());
 }

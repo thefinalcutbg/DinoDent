@@ -91,7 +91,7 @@ void DetailedStatusPresenter::okPressed()
 
 std::optional<Tooth> DetailedStatusPresenter::open()
 {
-	ModalDialogBuilder::openDialog(this);
+    ModalDialogBuilder::openDialog(*this);
 
 	return _result;
 }

@@ -12,7 +12,7 @@ MedicalNoticeDialog::MedicalNoticeDialog(const MedicalNotice& notice)
 
 	setWindowTitle("Медицинска бележка");
 
-	connect(ui.mkbButton, &QPushButton::clicked, [=] {
+    connect(ui.mkbButton, &QPushButton::clicked, this, [&] {
 
 			TableViewDialog d(m_mkbDental, 0, ui.mkbButton->text().toStdString());
 			d.setWindowTitle("Международна класификация на болестите");
@@ -39,7 +39,7 @@ MedicalNoticeDialog::MedicalNoticeDialog(const MedicalNotice& notice)
 	ui.institutionEdit->setInputValidator(&not_emptyValidator);
 	ui.institutionEdit->setErrorLabel(ui.errorLabel);
 
-	connect(ui.okButton, &QPushButton::clicked, [=] {
+    connect(ui.okButton, &QPushButton::clicked, this, [&] {
 			
 			if (m_nrn.size()) {
 				ModalDialogBuilder::showMessage("Медицинската бележка е вече изпратена в НЗИС и не може да бъде коригирана");

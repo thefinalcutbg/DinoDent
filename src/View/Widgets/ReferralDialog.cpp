@@ -8,7 +8,7 @@
 #include "View/Widgets/TableViewDialog.h"
 
 
-ReferralDialog::ReferralDialog(ReferralPresenter* p, QWidget *parent)
+ReferralDialog::ReferralDialog(ReferralPresenter& p, QWidget *parent)
 	: QDialog(parent), presenter(p)
 {
 	ui.setupUi(this);
@@ -38,8 +38,7 @@ ReferralDialog::ReferralDialog(ReferralPresenter* p, QWidget *parent)
 
 	ui.toothCombo->setDisabled(true);
 
-    connect(ui.toothRadio, &QRadioButton::toggled, this,
-		[&](bool checked) {
+    connect(ui.toothRadio, &QRadioButton::toggled, this, [&](bool checked) {
 			ui.toothCombo->setDisabled(!checked);
 		}
 	);
@@ -59,8 +58,7 @@ ReferralDialog::ReferralDialog(ReferralPresenter* p, QWidget *parent)
 	}
 
 
-    connect(ui.mkbMainButton, &QPushButton::clicked, this,
-    [=, this]
+    connect(ui.mkbMainButton, &QPushButton::clicked, this,[&]
 	{
 		TableViewDialog d(m_mkbDental,0, ui.mkbMainButton->text().toStdString());
 		d.setWindowTitle("Международна класификация на болестите");	
@@ -75,7 +73,7 @@ ReferralDialog::ReferralDialog(ReferralPresenter* p, QWidget *parent)
 	});
 
     connect(ui.mkbAdditionalButton, &QPushButton::clicked, this,
-    [=, this]
+    [&]
 	{
 		TableViewDialog d(m_mkbDental, 0, ui.mkbAdditionalButton->text().toStdString());
 		d.setWindowTitle("Международна класификация на болестите");
@@ -87,8 +85,7 @@ ReferralDialog::ReferralDialog(ReferralPresenter* p, QWidget *parent)
 		}
 	});
 
-    connect(ui.comorbidityMainButton, &QPushButton::clicked, this,
-    [=, this]
+    connect(ui.comorbidityMainButton, &QPushButton::clicked, this, [&]
 	{
 		TableViewDialog d(m_mkbFull,0, ui.comorbidityMainButton->text().toStdString());
 		d.setWindowTitle("Международна класификация на болестите");
@@ -119,7 +116,7 @@ ReferralDialog::ReferralDialog(ReferralPresenter* p, QWidget *parent)
 			
 			if (!ui.dateEdit->isValid()) return;
 
-			presenter->okPressed();
+            presenter.okPressed();
 		}
 	);
 
@@ -127,7 +124,7 @@ ReferralDialog::ReferralDialog(ReferralPresenter* p, QWidget *parent)
 
 	ui.errorLabel->setStyleSheet("color:red");
 
-	p->setView(this);
+    p.setView(this);
 }
 
 ReferralDialog::~ReferralDialog()

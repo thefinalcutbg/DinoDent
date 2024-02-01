@@ -1,11 +1,10 @@
 #include "CheckModel.h"
-#include "Model/Dental/ToothContainer.h"
 
 template <size_t Size>
 inline void firstIteration(std::array<CheckState, Size>& checkArray, 
 					 const std::array<bool, Size>& boolArray)
 {
-	for (int i = 0; i < Size; i++)
+    for (size_t i = 0; i < Size; i++)
 		checkArray[i] = static_cast<CheckState>(boolArray[i]);
 }
 
@@ -14,7 +13,7 @@ inline void furtherIterations(std::array<CheckState, Size> &checkArray,
 						const std::array<bool, Size>& boolArray)
 {
 
-	for (int i = 0; i < Size; i++ )
+    for (size_t i = 0; i < Size; i++ )
 	{
 		if (checkArray[i] == CheckState::partially_checked) continue;
 
@@ -38,7 +37,7 @@ CheckModel::CheckModel(const std::vector<const Tooth*>& selectedTeeth)
 	firstIteration(obturationStatus, selectedTeeth[0]->obturation.getBoolStatus());
 	firstIteration(mobilityStatus, selectedTeeth[0]->mobility.getBoolStatus());
 
-	for (int i = 1; i < selectedTeeth.size(); i++)
+    for (size_t i = 1; i < selectedTeeth.size(); i++)
 	{
 		furtherIterations(generalStatus, selectedTeeth[i]->getBoolStatus());
 		furtherIterations(cariesStatus, selectedTeeth[i]->caries.getBoolStatus());
@@ -46,7 +45,7 @@ CheckModel::CheckModel(const std::vector<const Tooth*>& selectedTeeth)
 		furtherIterations(mobilityStatus, selectedTeeth[i]->mobility.getBoolStatus());
 	}
 
-	for (int i = 1; i < generalStatus.size(); i++) {
+    for (size_t i = 1; i < generalStatus.size(); i++) {
 		if (generalStatus[i] != CheckState::unchecked) {
 			break;
 		}

@@ -17,7 +17,7 @@ namespace EAllergy
 		Report() :
 			HisService("C023", "/v3/commons/doctor/allegies-report") {}
 
-		bool sendRequest(const Patient& patient, const std::string& rzi, const Allergy& allergy, decltype(m_callback) callback);
+        bool sendRequest(const Patient& patient, const Allergy& allergy, decltype(m_callback) callback);
 		bool awaitingReply() { return awaiting_reply; }
 	};
 

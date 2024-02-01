@@ -8,18 +8,21 @@
 #include "Model/Validators/PrescriptionValidators.h"
 
 class DosagePresenter;
+class LineEdit;
 
 class DosageDialog final: public QDialog, public IDosageDialog
 {
 	Q_OBJECT
 
-	DosagePresenter* presenter;
+    DosagePresenter& presenter;
 
 	RouteFormValidator route_validator;
 	WhenTextValidator when_validator;
 
+    LineEdit* whenLine;
+
 public:
-	DosageDialog(DosagePresenter* p, QWidget* parent = nullptr);
+    DosageDialog(DosagePresenter& p, QWidget* parent = nullptr);
 	~DosageDialog();
 
 private:

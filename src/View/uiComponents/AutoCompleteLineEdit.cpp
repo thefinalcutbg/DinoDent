@@ -1,12 +1,12 @@
 #include "AutoCompleteLineEdit.h"
-#include "Model/Ekatte.h"
+
 AutoCompleteLineEdit::AutoCompleteLineEdit(QWidget* parent) : LineEdit(parent), maxCharLength(70)
 {
-	connect(this, &QLineEdit::textChanged, [=] { 
+    connect(this, &QLineEdit::textChanged, this, [&] {
 
-		AbstractUIElement::validateInput(); 
+        AbstractUIElement::validateInput();
 
-		if(completer()) completer()->popup()->setMinimumWidth(width());
+        if(completer()) completer()->popup()->setMinimumWidth(width());
 
 	}); //because it's also changed programatically
 }

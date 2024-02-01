@@ -11,14 +11,14 @@ PerioStateButton::PerioStateButton(QWidget *parent)
 	f.setBold(true);
 	setFont(f);
 	
-	connect(this, &QAbstractButton::clicked, [=] { setState(m_state + 1); });
+    connect(this, &QAbstractButton::clicked,  this, [&] { setState(m_state + 1); });
 }
 
 void PerioStateButton::setState(int state)
 {
 	if (states == nullptr) return;
 
-	if (state < 1 || state > states->size())
+    if (state < 1 || (std::size_t)state > states->size())
 	{
 		setChecked(false);
 		m_state = 0;

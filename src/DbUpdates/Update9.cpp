@@ -20,8 +20,6 @@ namespace Update8fn {
 			return{};
 		}
 
-		Result result;
-
 		//parsing additional data, where present:
 		switch (code.type())
 		{
@@ -72,7 +70,7 @@ namespace Update8fn {
 
 		const Json::Value& healthy = json["Healthy"];
 
-		for (int i = 0; i < healthy.size(); i++)
+        for (int i = 0; i < healthy.size(); i++)
 		{
 			Tooth& tooth = status[healthy[i]["idx"].asInt()];
 			tooth.healthy.set(true);
@@ -81,7 +79,7 @@ namespace Update8fn {
 
 		const Json::Value& temporary = json["Temporary"];
 
-		for (int i = 0; i < temporary.size(); i++)
+        for (int i = 0; i < temporary.size(); i++)
 		{
 			Tooth& tooth = status[temporary[i]["idx"].asInt()];
 			tooth.temporary.set(true);
@@ -89,7 +87,7 @@ namespace Update8fn {
 
 		const Json::Value& hyperdontic = json["Hyperdontic"];
 
-		for (int i = 0; i < hyperdontic.size(); i++)
+        for (int i = 0; i < hyperdontic.size(); i++)
 		{
 			Tooth& tooth = status[hyperdontic[i]["idx"].asInt()];
 			tooth.dsn.set(true);
@@ -98,7 +96,7 @@ namespace Update8fn {
 
 		const Json::Value& impacted = json["Impacted"];
 
-		for (int i = 0; i < impacted.size(); i++)
+        for (int i = 0; i < impacted.size(); i++)
 		{
 			Tooth& tooth = status[impacted[i]["idx"].asInt()];
 			tooth.impacted.set(true);
@@ -106,7 +104,7 @@ namespace Update8fn {
 
 		const Json::Value& mobility = json["Mobility"];
 
-		for (int i = 0; i < mobility.size(); i++)
+        for (int i = 0; i < mobility.size(); i++)
 		{
 			Tooth& tooth = status[mobility[i]["idx"].asInt()];
 			tooth.mobility.set(true);
@@ -116,7 +114,7 @@ namespace Update8fn {
 
 		const Json::Value& periodontitis = json["Periodontitis"];
 
-		for (int i = 0; i < periodontitis.size(); i++)
+        for (int i = 0; i < periodontitis.size(); i++)
 		{
 			Tooth& tooth = status[periodontitis[i]["idx"].asInt()];
 			tooth.periodontitis.set(true);
@@ -124,7 +122,7 @@ namespace Update8fn {
 
 		const Json::Value& calculus = json["Calculus"];
 
-		for (int i = 0; i < calculus.size(); i++)
+        for (int i = 0; i < calculus.size(); i++)
 		{
 			Tooth& tooth = status[calculus[i]["idx"].asInt()];
 			tooth.calculus.set(true);
@@ -133,7 +131,7 @@ namespace Update8fn {
 
 		const Json::Value& obturation = json["Obturation"];
 
-		for (int i = 0; i < obturation.size(); i++)
+        for (int i = 0; i < obturation.size(); i++)
 		{
 			Tooth& tooth = status[obturation[i]["idx"].asInt()];
 			int surface = obturation[i]["Surface"].asInt();
@@ -144,7 +142,7 @@ namespace Update8fn {
 
 		const Json::Value& car = json["Caries"];
 
-		for (int i = 0; i < car.size(); i++)
+        for (int i = 0; i < car.size(); i++)
 		{
 			Tooth& tooth = status[car[i]["idx"].asInt()];
 			int surface = car[i]["Surface"].asInt();
@@ -153,7 +151,7 @@ namespace Update8fn {
 
 		const Json::Value& pulpitis = json["Pulpitis"];
 
-		for (int i = 0; i < pulpitis.size(); i++)
+        for (int i = 0; i < pulpitis.size(); i++)
 		{
 			Tooth& tooth = status[pulpitis[i]["idx"].asInt()];
 			tooth.pulpitis.set(true);
@@ -162,7 +160,7 @@ namespace Update8fn {
 
 		const Json::Value& lesion = json["Lesion"];
 
-		for (int i = 0; i < lesion.size(); i++)
+        for (int i = 0; i < lesion.size(); i++)
 		{
 			Tooth& tooth = status[lesion[i]["idx"].asInt()];
 			tooth.lesion.set(true);
@@ -170,7 +168,7 @@ namespace Update8fn {
 
 		const Json::Value& fracture = json["Fracture"];
 
-		for (int i = 0; i < fracture.size(); i++)
+        for (int i = 0; i < fracture.size(); i++)
 		{
 			Tooth& tooth = status[fracture[i]["idx"].asInt()];
 			tooth.fracture.set(true);
@@ -178,7 +176,7 @@ namespace Update8fn {
 
 		const Json::Value& endo = json["EndoTreatment"];
 
-		for (int i = 0; i < endo.size(); i++)
+        for (int i = 0; i < endo.size(); i++)
 		{
 			Tooth& tooth = status[endo[i]["idx"].asInt()];
 			tooth.endo.set(true);
@@ -187,7 +185,7 @@ namespace Update8fn {
 
 		const Json::Value& post = json["Post"];
 
-		for (int i = 0; i < post.size(); i++)
+        for (int i = 0; i < post.size(); i++)
 		{
 			Tooth& tooth = status[post[i]["idx"].asInt()];
 			tooth.post.set(true);
@@ -196,7 +194,7 @@ namespace Update8fn {
 
 		const Json::Value& extraction = json["Extraction"];
 
-		for (int i = 0; i < extraction.size(); i++)
+        for (int i = 0; i < extraction.size(); i++)
 		{
 			Tooth& tooth = status[extraction[i]["idx"].asInt()];
 			tooth.extraction.set(true);
@@ -205,7 +203,7 @@ namespace Update8fn {
 
 		const Json::Value& root = json["Root"];
 
-		for (int i = 0; i < root.size(); i++)
+        for (int i = 0; i < root.size(); i++)
 		{
 
 			Tooth& tooth = status[root[i]["idx"].asInt()];
@@ -214,7 +212,7 @@ namespace Update8fn {
 
 		const Json::Value& implant = json["Implant"];
 
-		for (int i = 0; i < implant.size(); i++)
+        for (int i = 0; i < implant.size(); i++)
 		{
 			Tooth& tooth = status[implant[i]["idx"].asInt()];
 			tooth.implant.set(true);
@@ -223,7 +221,7 @@ namespace Update8fn {
 
 		const Json::Value& crown = json["Crown"];
 
-		for (int i = 0; i < crown.size(); i++)
+        for (int i = 0; i < crown.size(); i++)
 		{
 			Tooth& tooth = status[crown[i]["idx"].asInt()];
 			tooth.crown.set(true);
@@ -232,7 +230,7 @@ namespace Update8fn {
 
 		const Json::Value& bridge = json["Bridge"];
 
-		for (int i = 0; i < bridge.size(); i++)
+        for (int i = 0; i < bridge.size(); i++)
 		{
 			Tooth& tooth = status[bridge[i]["idx"].asInt()];
 			tooth.bridge.set(true);
@@ -242,7 +240,7 @@ namespace Update8fn {
 
 		const Json::Value& splint = json["Splint"];
 
-		for (int i = 0; i < splint.size(); i++)
+        for (int i = 0; i < splint.size(); i++)
 		{
 			Tooth& tooth = status[splint[i]["idx"].asInt()];
 			tooth.splint.position = static_cast<BridgePos>(splint[i]["pos"].asInt());
@@ -252,7 +250,7 @@ namespace Update8fn {
 
 		const Json::Value& denture = json["Denture"];
 
-		for (int i = 0; i < denture.size(); i++)
+        for (int i = 0; i < denture.size(); i++)
 		{
 			Tooth& tooth = status[denture[i]["idx"].asInt()];
 			tooth.denture.LPK = denture[i]["LPK"].asString();
@@ -350,7 +348,7 @@ void DbUpdates::update9(UpdateDialog& progressDialog)
 		{
 			auto&[surfaces, post] = std::get<RestorationData>(pair.second);
 
-			for (int i = 0; i < 6; i++)
+            for (int i = 0; i < 6; i++)
 			{
 				db.bind(1 + i, surfaces[i]);
 			}

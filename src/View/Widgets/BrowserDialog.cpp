@@ -45,7 +45,7 @@ BrowserDialog::BrowserDialog()
     connect(ui.fromDateEdit, &QDateEdit::dateChanged, this, [&]{ datesChanged(); });
     connect(ui.toDateEdit, &QDateEdit::dateChanged, this, [&]{ datesChanged(); });
 
-    connect(ui.openButton, &QPushButton::clicked, this, [=, this] {
+    connect(ui.openButton, &QPushButton::clicked, this, [&] {
 
 		QApplication::setOverrideCursor(QCursor(Qt::CursorShape::WaitCursor));
 		presenter.openCurrentSelection();
@@ -59,21 +59,21 @@ BrowserDialog::BrowserDialog()
 			calculateUiState();
 		});
 
-    connect(ui.idSearchEdit, &QLineEdit::textChanged, this, [=, this]
+    connect(ui.idSearchEdit, &QLineEdit::textChanged, this, [&]
 		{
 			QString text = ui.idSearchEdit->text();
 			idFilter.setFilterRegularExpression(QRegularExpression(text, QRegularExpression::PatternOption::CaseInsensitiveOption));
 			setCountLabel();
 		});
 
-    connect(ui.nameSearchEdit, &QLineEdit::textChanged, this, [=, this]
+    connect(ui.nameSearchEdit, &QLineEdit::textChanged, this, [&]
 		{
 			QString text = ui.nameSearchEdit->text();
 			nameFilter.setFilterRegularExpression(QRegularExpression(text, QRegularExpression::PatternOption::CaseInsensitiveOption));
 			setCountLabel();
 		});
 
-    connect(ui.phoneSearchEdit, &QLineEdit::textChanged, this, [=, this]
+    connect(ui.phoneSearchEdit, &QLineEdit::textChanged, this, [&]
 		{
 			QString text = ui.phoneSearchEdit->text();
 			phoneFilter.setFilterRegularExpression(QRegularExpression(text, QRegularExpression::PatternOption::CaseInsensitiveOption));

@@ -5,7 +5,7 @@
 #include "View/ModalDialogBuilder.h"
 #include "Model/Patient.h"
 
-bool EAllergy::Report::sendRequest(const Patient& patient, const std::string& rzi, const Allergy& a, decltype(m_callback) callback)
+bool EAllergy::Report::sendRequest(const Patient& patient, const Allergy& a, decltype(m_callback) callback)
 {
 	m_callback = callback;
 

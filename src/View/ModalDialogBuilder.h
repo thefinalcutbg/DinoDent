@@ -38,16 +38,16 @@ enum class NotificationType {NoData, Xml, PisHash };
 namespace ModalDialogBuilder
 {
     void openDialog(ProcedureDialogPresenter& p);
-	void openDialog(PatientDialogPresenter* p);
+    void openDialog(PatientDialogPresenter& p);
     void openDialog(ProcedureEditorPresenter& p);
-	void openDialog(DetailedStatusPresenter* p);
+    void openDialog(DetailedStatusPresenter& p);
     void openDialog(LoginPresenter& p);
-	void openDialog(PracticeDialogPresenter* p);
-	void openDialog(DoctorDialogPresenter* p);
-	void openDialog(MedicationPresenter* p);
-	void openDialog(DosagePresenter* p);
+    void openDialog(PracticeDialogPresenter& p);
+    void openDialog(DoctorDialogPresenter& p);
+    void openDialog(MedicationPresenter& p);
+    void openDialog(DosagePresenter& p);
     void openDialog(PracticeManagerPresenter& p);
-	void openDialog(ReferralPresenter* p);
+    void openDialog(ReferralPresenter& p);
 	void openDialog(StatisticDialogPresenter& p);
 	void openDialog(ProcedureHistoryPresenter& p);
 	void openDialog(FiscalReceiptPresenter& p);

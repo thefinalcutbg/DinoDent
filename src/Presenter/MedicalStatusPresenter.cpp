@@ -158,7 +158,7 @@ void MedicalStatusPresenter::sendAllergyToHis(int idx)
 
 	if (!patient.allergies[idx].nrn.size())
 	{
-		report_service.sendRequest(patient, User::practice().rziCode, patient.allergies[idx],
+        report_service.sendRequest(patient, patient.allergies[idx],
             [=, this](const std::string& nrn)
 			{
                 patient.allergies[idx].nrn = nrn;

@@ -18,7 +18,7 @@ void DetailedStatus::paintEvent(QPaintEvent* event)
 	painter.end();
 }
 */
-DetailedStatus::DetailedStatus(DetailedStatusPresenter* presenter) : presenter(presenter)
+DetailedStatus::DetailedStatus(DetailedStatusPresenter& presenter) : presenter(presenter)
 {
 
 	enum TreeWidgetEnumType { general, obturation, caries, mobility, dsn_general, dsn_obturation, dsn_caries, dsn_mobility };
@@ -125,7 +125,7 @@ DetailedStatus::DetailedStatus(DetailedStatusPresenter* presenter) : presenter(p
 	}
 
 	
-    connect(ui.treeWidget, &QTreeWidget::itemChanged, this, [=, this](QTreeWidgetItem* item, int)
+    connect(ui.treeWidget, &QTreeWidget::itemChanged, this, [&](QTreeWidgetItem* item, int)
 		{ 
 			auto list = ui.treeWidget->selectedItems();
 
@@ -144,38 +144,36 @@ DetailedStatus::DetailedStatus(DetailedStatusPresenter* presenter) : presenter(p
 
 			bool checked = ui.treeWidget->currentItem()->checkState(0) == Qt::Checked ? true : false;
 
-			presenter->checkStateChanged(checked);
+            presenter.checkStateChanged(checked);
 			
 		});
 
-        connect(ui.treeWidget, &QTreeWidget::currentItemChanged, this, [=, this](QTreeWidgetItem* item) {
+        connect(ui.treeWidget, &QTreeWidget::currentItemChanged, this, [&](QTreeWidgetItem* item) {
 		
         //int parent = ui.treeWidget->selectionModel()->currentIndex().parent().row();
 		int code = ui.treeWidget->selectionModel()->currentIndex().row();
 		
-		if (presenter)
-		{
-			
+
 			switch (item->data(0, Qt::UserRole).toInt())
 			{
-				case general: presenter->statusSelected(0, code, false); break;
-				case obturation: presenter->statusSelected(1, code, false); break;
-				case caries: presenter->statusSelected(2, code, false); break;
-				case mobility: presenter->statusSelected(3, code, false); break;
-				case dsn_general: presenter->statusSelected(0, code, true); break;
-				case dsn_obturation: presenter->statusSelected(1, code, true); break;
-				case dsn_caries: presenter->statusSelected(2, code, true); break;
-				case dsn_mobility: presenter->statusSelected(3, code, true); break;
+                case general: presenter.statusSelected(0, code, false); break;
+                case obturation: presenter.statusSelected(1, code, false); break;
+                case caries: presenter.statusSelected(2, code, false); break;
+                case mobility: presenter.statusSelected(3, code, false); break;
+                case dsn_general: presenter.statusSelected(0, code, true); break;
+                case dsn_obturation: presenter.statusSelected(1, code, true); break;
+                case dsn_caries: presenter.statusSelected(2, code, true); break;
+                case dsn_mobility: presenter.statusSelected(3, code, true); break;
 			}
-		}
+
 
 		
 		});
 
-    connect(ui.okButton, &QPushButton::clicked, this, [=, this] {presenter->okPressed(); close(); });
+    connect(ui.okButton, &QPushButton::clicked, this, [&] {presenter.okPressed(); close(); });
     connect(ui.cancelButton, &QPushButton::clicked, this, [=, this] { close(); });
 	
-	presenter->setView(this);
+    presenter.setView(this);
 
 	ui.notesEdit->setFocus();
 
@@ -331,7 +329,7 @@ void DetailedStatus::setHistoryData(const std::vector<Procedure>& history)
 
 void DetailedStatus::sendTableStatesToPresenter()
 {
-	presenter->tableOptionChanged(
+    presenter.tableOptionChanged(
 		ui.localCheck->isChecked(),
 		ui.hisCheck->isChecked(),
 		ui.pisCheck->isChecked()

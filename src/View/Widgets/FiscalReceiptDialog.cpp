@@ -39,20 +39,20 @@ void FiscalReceiptDialog::paintEvent(QPaintEvent*)
 	p.fillRect(rect(), Qt::white);
 }
 
-void FiscalReceiptDialog::setReceipt(const FiscalReceipt & r)
+void FiscalReceiptDialog::setReceipt(const std::string& timestamp, const std::string& fiscalMemory)
 {
-	ui.dateTimeEdit->setDateTime(QDateTime::fromString(r.timestamp.c_str(), Qt::ISODate));
-	ui.deviceNum->setText(r.fiscal_memory.c_str());
-	ui.fiscalNum->setText(r.receipt_num.c_str());
+    ui.dateTimeEdit->setDateTime(QDateTime::fromString(timestamp.c_str(), Qt::ISODate));
+    ui.deviceNum->setText(fiscalMemory.c_str());
 }
 
 FiscalReceipt FiscalReceiptDialog::getReceipt()
 {
-	return FiscalReceipt{
-		.timestamp = ui.dateTimeEdit->dateTime().toString(Qt::ISODate).toStdString(),
-		.fiscal_memory = ui.deviceNum->text().toStdString(),
-		.receipt_num = ui.fiscalNum->text().toStdString()
-	};
+    FiscalReceipt result;
+    result.timestamp = ui.dateTimeEdit->dateTime().toString(Qt::ISODate).toStdString();
+    result.fiscal_memory = ui.deviceNum->text().toStdString();
+    result.receipt_num = ui.fiscalNum->text().toStdString();
+
+    return result;
 }
 
 FiscalReceiptDialog::~FiscalReceiptDialog()

@@ -19,7 +19,7 @@ class MedicationDialog : public QDialog, public IMedicationDialog
     void periodChanged();
 
 public:
-	MedicationDialog(MedicationPresenter* p, QWidget *parent = nullptr);
+    MedicationDialog(MedicationPresenter& p, QWidget *parent = nullptr);
 	void setQuantityListNames(const std::string& pack, const std::string& form) override;
 	void setFormLabel(const std::string& formName) override;
 	void setDosageList(const std::vector<std::string> dosageList) override;

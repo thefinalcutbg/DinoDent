@@ -9,7 +9,7 @@ void DoctorSettingsDialog::paintEvent(QPaintEvent*)
 	painter.fillRect(rect(), QColor(Qt::white));
 }
 
-DoctorSettingsDialog::DoctorSettingsDialog(DoctorDialogPresenter* presenter, QWidget *parent)
+DoctorSettingsDialog::DoctorSettingsDialog(DoctorDialogPresenter& presenter, QWidget *parent)
 	: QDialog(parent), presenter(presenter)
 {
 	ui.setupUi(this);
@@ -32,12 +32,12 @@ DoctorSettingsDialog::DoctorSettingsDialog(DoctorDialogPresenter* presenter, QWi
 		lineEdit->setErrorLabel(ui.errorLabel);
 	}
 
-	connect(ui.okButton, &QPushButton::clicked, [=] {presenter->okPressed();});
+    connect(ui.okButton, &QPushButton::clicked, [&] {presenter.okPressed();});
 
     connect(ui.lpkEdit, &QLineEdit::textEdited, this,
         [&] {
 			if (ui.lpkEdit->isValid())
-				presenter->validLPK(ui.lpkEdit->getText());
+                presenter.validLPK(ui.lpkEdit->getText());
 		});
 
 
@@ -57,7 +57,7 @@ DoctorSettingsDialog::DoctorSettingsDialog(DoctorDialogPresenter* presenter, QWi
 		}
 	);
 
-	presenter->setView(this);
+    presenter.setView(this);
 }
 
 void DoctorSettingsDialog::setDoctor(const Doctor& doctor)

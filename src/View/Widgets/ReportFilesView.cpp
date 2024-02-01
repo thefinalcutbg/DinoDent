@@ -29,12 +29,11 @@ ReportFilesView::ReportFilesView(QWidget *parent)
 	//ui.tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeMode::Fixed);
 	ui.tableView->horizontalHeader()->setSectionResizeMode(4, QHeaderView::Stretch);
 
-	connect(ui.loadPISbutton, &QPushButton::clicked, [&] {presenter.refreshFiles();});
-	connect(ui.tableView, &QTableView::doubleClicked, 
-		
-		[=] { 
-		
-			if (ui.tableView->selectionModel() == nullptr) return;
+    connect(ui.loadPISbutton, &QPushButton::clicked, this, [&] {presenter.refreshFiles();});
+
+    connect(ui.tableView, &QTableView::doubleClicked, this, [&] {
+
+            if (ui.tableView->selectionModel() == nullptr) return;
 
 			presenter.showError(ui.tableView->selectionModel()->currentIndex().row());
 		

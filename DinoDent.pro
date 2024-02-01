@@ -2,7 +2,7 @@ QT += core gui widgets network printsupport core5compat xml qml
 
 CONFIG += c++20
 
-DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000
+DEFINES -= QT_DISABLE_DEPRECATED_BEFORE=0x060000
 
 LIBS += -lsqlite3 -ljsoncpp -lxml2 -lssl -lcrypto -lrt -lxmlsec1 -lxmlsec1-openssl #-lp11
 LIBS += -L$$PWD/../LimeReport/build/6.5.3/linux64/release/lib/ -llimereport

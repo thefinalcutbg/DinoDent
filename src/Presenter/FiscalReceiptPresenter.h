@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Model/Financial/FiscalReceipt.h"
+
 #include "View/Interfaces/IFiscalReceiptDialog.h"
 
 class FiscalReceiptPresenter

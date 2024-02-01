@@ -12,12 +12,21 @@ struct PlainCell {
 
 struct PlainColumn {
 	
-	enum Alignment { Left, Center, Right };
-	
+    enum Alignment { Left, Center, Right };
+
+    PlainColumn(
+        const std::string& name,
+        int width = 100,
+        Alignment alignment = Alignment::Left,
+        bool hidden = false
+        ) : name(name), width(width), alignment(alignment), hidden(hidden) {};
+
+    PlainColumn() {};
+
 	std::string name;
 	int width = 100;
 	Alignment alignment{ Alignment::Left };
-	bool hidden = false;
+    bool hidden = true;
 	std::vector<PlainCell> rows;
 	
 };

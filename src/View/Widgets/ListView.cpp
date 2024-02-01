@@ -52,7 +52,7 @@ ListView::ListView(QWidget* parent)
 
 	menu->setStyleSheet(Theme::getPopupMenuStylesheet());
 
-	for (int i = 0; i < Referral::refDescription.size(); i++) {
+    for (std::size_t i = 0; i < Referral::refDescription.size(); i++) {
 		
 		QAction* action = new QAction(Referral::refDescription[i], menu);
 		menu->addAction(action);
@@ -332,7 +332,7 @@ void ListView::setAdditionalDocuments(const std::vector<Referral>& referrals, co
 	}
 
 
-	for (int i = 0; i < referrals.size(); i++) {
+    for (std::size_t i = 0; i < referrals.size(); i++) {
 		ReferralTile* refWidget = new ReferralTile(referrals[i], i, this);
         connect(refWidget, &ReferralTile::remove, this, [=, this](int index) {presenter->removeReferral(index); });
         connect(refWidget, &ReferralTile::clicked, this, [=, this](int index) {presenter->editReferral(index); });
@@ -341,7 +341,7 @@ void ListView::setAdditionalDocuments(const std::vector<Referral>& referrals, co
 		ui.docsLayout->addWidget(refWidget);
 	}
 
-	for (int i = 0; i < notices.size(); i++) {
+    for (std::size_t i = 0; i < notices.size(); i++) {
 		auto noticeWidget = new MedicalNoticeTile(notices[i], i, this);
         connect(noticeWidget, &MedicalNoticeTile::remove, this, [=, this](int index) {presenter->removeMedicalNotice(index); });
         connect(noticeWidget, &MedicalNoticeTile::clicked, this, [=, this](int index) {presenter->editMedicalNotice(index); });

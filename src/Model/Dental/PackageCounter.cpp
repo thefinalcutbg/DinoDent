@@ -7,7 +7,7 @@ PackageCounter::PackageCounter(const std::vector<ProcedurePackage>& packages)
 
 void PackageCounter::insertCode(int code)
 {
-	for (int i = 0; i < packages.size(); i++)
+    for (size_t i = 0; i < packages.size(); i++)
 		if (packages[i].codes.count(code))
 			procedure_count[i]++;
 }
@@ -15,7 +15,7 @@ void PackageCounter::insertCode(int code)
 bool PackageCounter::validate(bool adult)
 {
 
-	for (int i = 0; i < packages.size(); i++)
+    for (size_t i = 0; i < packages.size(); i++)
 	{
 		const auto& package = packages[i];
 

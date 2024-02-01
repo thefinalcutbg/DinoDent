@@ -2,8 +2,8 @@
 #include "Model/Prescription/Medication.h"
 #include "QtVersion.h"
 
-MedicationDialog::MedicationDialog(MedicationPresenter* p, QWidget* parent)
-    : QDialog(parent), presenter(*p)
+MedicationDialog::MedicationDialog(MedicationPresenter& p, QWidget* parent)
+    : QDialog(parent), presenter(p)
 {
 	ui.setupUi(this);
 
@@ -26,17 +26,17 @@ MedicationDialog::MedicationDialog(MedicationPresenter* p, QWidget* parent)
 		});
 
 
-    connect(ui.periodGroup, &QGroupBox::clicked, [&]{ periodChanged(); });
-    connect(ui.fromDate, &QDateEdit::dateChanged, [&] { periodChanged(); });
-    connect(ui.toDate, &QDateEdit::dateChanged, [&] { periodChanged(); });
+    connect(ui.periodGroup, &QGroupBox::clicked, this, [&]{ periodChanged(); });
+    connect(ui.fromDate, &QDateEdit::dateChanged, this, [&] { periodChanged(); });
+    connect(ui.toDate, &QDateEdit::dateChanged, this, [&] { periodChanged(); });
 
-    connect(ui.addButton, &QPushButton::clicked, [&] {presenter.addDosage();});
-    connect(ui.editButton, &QPushButton::clicked, [&] {presenter.editDosage(ui.dosageList->currentRow());});
-    connect(ui.dosageList, &QListWidget::doubleClicked, [&] {ui.editButton->click();});
-    connect(ui.deleteButton, &QPushButton::clicked, [&] { presenter.deleteDosage(ui.dosageList->currentRow());});
-    connect(ui.okButton, &QPushButton::clicked, [&] {presenter.okPressed();});
-	connect(ui.cancelButton, &QPushButton::clicked, [&] {close();});
-	connect(ui.dosageList, &QListWidget::itemSelectionChanged, [&] {
+    connect(ui.addButton, &QPushButton::clicked, this, [&] {presenter.addDosage();});
+    connect(ui.editButton, &QPushButton::clicked, this, [&] {presenter.editDosage(ui.dosageList->currentRow());});
+    connect(ui.dosageList, &QListWidget::doubleClicked, this, [&] {ui.editButton->click();});
+    connect(ui.deleteButton, &QPushButton::clicked, this, [&] { presenter.deleteDosage(ui.dosageList->currentRow());});
+    connect(ui.okButton, &QPushButton::clicked, this, [&] {presenter.okPressed();});
+    connect(ui.cancelButton, &QPushButton::clicked, this, [&] {close();});
+    connect(ui.dosageList, &QListWidget::itemSelectionChanged, this, [&] {
 
 		bool noSelection = ui.dosageList->selectedItems().empty();
 		ui.editButton->setDisabled(noSelection);
@@ -65,7 +65,7 @@ void MedicationDialog::setDosageList(const std::vector<std::string> dosageList)
 {
 	ui.dosageList->clear();
 
-	for (auto dosage : dosageList) {
+    for (auto& dosage : dosageList) {
 		ui.dosageList->addItem(dosage.c_str());
 	}
 

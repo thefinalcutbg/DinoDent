@@ -154,7 +154,7 @@ void ReferralPresenter::okPressed()
 
 std::optional<Referral> ReferralPresenter::openDialog()
 {
-	ModalDialogBuilder::openDialog(this);
+    ModalDialogBuilder::openDialog(*this);
 
 	return m_result;
 }

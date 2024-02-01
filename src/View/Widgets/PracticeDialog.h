@@ -10,12 +10,12 @@ class PracticeDialog : public QDialog, public IAddPracticeDialog
 {
 	Q_OBJECT
 
-	PracticeDialogPresenter* presenter;
+    PracticeDialogPresenter& presenter;
 
 	void paintEvent(QPaintEvent* event) override;
 
 public:
-	PracticeDialog(PracticeDialogPresenter* presenter, QWidget *parent = Q_NULLPTR);
+    PracticeDialog(PracticeDialogPresenter& presenter, QWidget *parent = Q_NULLPTR);
 
 	IPracticeSettings* practiceSettingsView() override;
 	void closeDialog() override;

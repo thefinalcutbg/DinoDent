@@ -13,7 +13,7 @@ int MedicalStatusDialog::getAllergyIndex()
 }
 
 MedicalStatusDialog::MedicalStatusDialog(MedicalStatusPresenter* p)
-	: presenter(p), QDialog(nullptr)
+    : QDialog(nullptr), presenter(p)
 {
 	ui.setupUi(this);
 
@@ -26,15 +26,15 @@ MedicalStatusDialog::MedicalStatusDialog(MedicalStatusPresenter* p)
 	ui.sendHisButton->setIcon(QIcon(":/icons/icon_his.png"));
 	ui.getHisButton->setIcon(QIcon(":/icons/icon_his.png"));
 
-	connect(ui.addAllergy, &QPushButton::clicked, [&] {presenter->addAllergy(); });
-	connect(ui.removeAllergy, &QPushButton::clicked, [&] {presenter->removeAllergy(getAllergyIndex()); });
-	connect(ui.editAllergy, &QPushButton::clicked, [&] {presenter->editAllergy(getAllergyIndex()); });
-	connect(ui.sendHisButton, &QPushButton::clicked, [&] {presenter->sendAllergyToHis(getAllergyIndex()); });
-	connect(ui.getHisButton, &QPushButton::clicked, [&] {presenter->loadAllergiesFromHis(); });
+    connect(ui.addAllergy, &QPushButton::clicked, this, [&] {presenter->addAllergy(); });
+    connect(ui.removeAllergy, &QPushButton::clicked, this, [&] {presenter->removeAllergy(getAllergyIndex()); });
+    connect(ui.editAllergy, &QPushButton::clicked, this, [&] {presenter->editAllergy(getAllergyIndex()); });
+    connect(ui.sendHisButton, &QPushButton::clicked, this, [&] {presenter->sendAllergyToHis(getAllergyIndex()); });
+    connect(ui.getHisButton, &QPushButton::clicked, this, [&] {presenter->loadAllergiesFromHis(); });
 
 	connect(ui.allergiesList, &QListWidget::doubleClicked, this, [&]{ presenter->editAllergy(getAllergyIndex()); });
 
-	connect(ui.allergiesList, &QListWidget::itemSelectionChanged, [&] {
+    connect(ui.allergiesList, &QListWidget::itemSelectionChanged, this, [&] {
 			
 		bool noSelection = !ui.allergiesList->selectedItems().size();
 		ui.editAllergy->setDisabled(noSelection);
@@ -53,12 +53,12 @@ MedicalStatusDialog::MedicalStatusDialog(MedicalStatusPresenter* p)
 */
 	});
 
-	ui.allergiesList->itemSelectionChanged();
+    emit ui.allergiesList->itemSelectionChanged();
 
 	QPushButton* b = new QPushButton("Диагнози в рецептурна книжка");
 	b->setIcon(QIcon(":/icons/icon_nhif.png"));
 
-	connect(b, &QPushButton::clicked, [&]{ presenter->loadICDFromNHIS(); });
+    connect(b, &QPushButton::clicked,  this,[&]{ presenter->loadICDFromNHIS(); });
 
 	ui.currentWidget->addSpecialButton(b);
 

@@ -1,4 +1,5 @@
 #include "PisImportView.h"
+#include "Model/Date.h"
 
 PisImportView::PisImportView(QWidget *parent)
 	: QWidget(parent)
@@ -14,9 +15,9 @@ PisImportView::PisImportView(QWidget *parent)
 
 	ui.importButton->setIcon(QIcon(":/icons/icon_nhif.png"));
 
-	connect(ui.toSpin, &QSpinBox::valueChanged, [&](int value) { ui.fromSpin->setMaximum(value); });
+    connect(ui.toSpin, &QSpinBox::valueChanged, this, [&](int value) { ui.fromSpin->setMaximum(value); });
 
-	connect(ui.importButton, &QPushButton::clicked, [&] { presenter.importData(ui.fromSpin->value(), ui.toSpin->value());});
+    connect(ui.importButton, &QPushButton::clicked, this, [&] { presenter.importData(ui.fromSpin->value(), ui.toSpin->value());});
 
 	presenter.setView(this);
 

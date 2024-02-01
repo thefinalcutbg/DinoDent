@@ -5,8 +5,6 @@
 #include "PisService.h"
 
 #include <functional>
-#include <optional>
-#include "Model/Dental/ReportFile.h"
 #include <stack>
 
 class GetAmbHashes final : private PisService

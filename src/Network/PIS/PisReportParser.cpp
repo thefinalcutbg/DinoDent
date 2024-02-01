@@ -63,7 +63,7 @@ PisReportsForImport PisReportParser::parse(const std::string& xmlReport)
 
 		list.nhifData.setSpecFromNhif(listXml->Attribute("specificationType"));
 
-        list.nhifData.isUnfavourable = std::string(listXml->Attribute("unfavourableCondition")) == "1";
+        list.nhifData.isUnfavourable = listXml->Attribute("unfavourableCondition") == "1";
 
 		std::string listNumber = listXml->Attribute("ambulatorySheetNo");
 

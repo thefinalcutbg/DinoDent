@@ -51,7 +51,7 @@ PKCS11::PKCS11()
 	}
 
 	for (auto& module : GlobalSettings::pkcs11PathList())
-	{
+	{   
 		if (!std::filesystem::exists(module)) continue;
 
 		if (PKCS11_CTX_load(ctx, module.data()) == -1) continue;
@@ -70,7 +70,7 @@ PKCS11::PKCS11()
 		//finding a valid certificate
 		if (ncerts == 0) continue;
 
-		for (int i = 0; i < ncerts; i++)
+        for (unsigned int i = 0; i < ncerts; i++)
 		{
 			m_certificate = &certs[i];
 

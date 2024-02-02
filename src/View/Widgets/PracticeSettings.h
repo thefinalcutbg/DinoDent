@@ -15,7 +15,7 @@ class PracticeSettings : public QWidget, public IPracticeSettings
 	static constexpr int lineEditCount = 11;
 	std::array<AbstractLineEdit*, lineEditCount> lineEdits;
 
-	EgnValidator id_validator;
+	EgnLnchValidator id_validator;
 
 	void paintEvent(QPaintEvent* event) override;
 

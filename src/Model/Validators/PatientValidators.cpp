@@ -149,3 +149,21 @@ bool CityValidator::validateInput(const std::string& text)
 {
     return Ekatte::isValidStr(text);
 }
+
+EgnLnchValidator::EgnLnchValidator()
+{
+    _errorMsg = &invalid;
+}
+
+bool EgnLnchValidator::validateInput(const std::string& text)
+{
+    if (egn_val.validateInput(text)) {
+        return true;
+    }
+
+    if (lnch_val.validateInput(text)) {
+        return true;
+    }
+
+    return false;
+}

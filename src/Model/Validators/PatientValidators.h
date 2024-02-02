@@ -56,3 +56,15 @@ public:
 	bool validateInput(const std::string& text);
 };
 
+class EgnLnchValidator : public Validator
+{
+
+	EgnValidator egn_val;
+	Ln4Validator lnch_val;
+
+	static inline const std::string invalid = "Невалиден ЕГН/ЛНЧ";
+public:
+	EgnLnchValidator();
+	bool validateInput(const std::string& text);
+
+};

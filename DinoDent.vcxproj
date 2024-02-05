@@ -309,7 +309,6 @@
     <ClCompile Include="src\Model\Dental\Tooth.cpp" />
     <ClCompile Include="src\Model\Dental\ToothContainer.cpp" />
     <ClCompile Include="src\Model\Dental\ToothUtils.cpp" />
-    <ClCompile Include="src\Model\Dental\VitaColor.cpp" />
     <ClCompile Include="src\Model\Ekatte.cpp" />
     <ClCompile Include="src\Model\Financial\BusinessOperation.cpp" />
     <ClCompile Include="src\Model\Financial\Invoice.cpp" />
@@ -618,12 +617,10 @@
     <ClInclude Include="src\Model\Dental\PerioToothData.h" />
     <ClInclude Include="src\Model\Dental\Procedure.h" />
     <ClInclude Include="src\Model\Dental\ProcedureContainer.h" />
-    <ClInclude Include="src\Model\Dental\SurfStatus.h" />
     <ClInclude Include="src\Model\Dental\TimeFrame.h" />
     <ClInclude Include="src\Model\Dental\Tooth.h" />
     <ClInclude Include="src\Model\Dental\ToothContainer.h" />
     <ClInclude Include="src\Model\Dental\ToothUtils.h" />
-    <ClInclude Include="src\Model\Dental\VitaColor.h" />
     <ClInclude Include="src\Model\Ekatte.h" />
     <ClInclude Include="src\Model\Financial\BusinessOperation.h" />
     <ClInclude Include="src\Model\Financial\FinancialEnums.h" />

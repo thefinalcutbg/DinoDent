@@ -96,9 +96,6 @@
     <ClCompile Include="src\Model\Dental\ToothUtils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Model\Dental\VitaColor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Model\Financial\BusinessOperation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -995,9 +992,6 @@
     <ClInclude Include="src\Model\Dental\ProcedureContainer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model\Dental\SurfStatus.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Model\Dental\TimeFrame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1008,9 +1002,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\Dental\ToothUtils.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Model\Dental\VitaColor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\Financial\BusinessOperation.h">

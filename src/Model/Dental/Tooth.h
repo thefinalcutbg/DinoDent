@@ -44,10 +44,11 @@ private:
 
 public:
 
+	//holds the position if it is a bridge or a splint
 	Dental::BridgePos position{ Dental::Middle };
+	//holds the mobility degree
 	Dental::MobilityDegree m_degree{ Dental::I };
 
-	//Do not provide the second argument. HasSupernumeral is allocated automatically 
 	Tooth(int arr_index);
 	Tooth(const Tooth& other);
 	Tooth& operator=(const Tooth& other);

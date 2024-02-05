@@ -4,8 +4,7 @@
 #include "View/ModalDialogBuilder.h"
 #include "Model/Dental/NhifProcedures.h"
 #include "Model/Dental/AmbList.h"
-
-//this implementation is a total mess and needs refactoring
+#include "Model/User.h"
 
 ProcedureDialogPresenter::ProcedureDialogPresenter
 (
@@ -46,7 +45,7 @@ void ProcedureDialogPresenter::setView(IProcedureDialog* view)
 	selectedTeethNum.reserve(32);
 
 	for (const Tooth* t : selectedTeeth)
-		selectedTeethNum.emplace_back(ToothUtils::getToothNumber(t->index, t->temporary.exists()));
+		selectedTeethNum.emplace_back(ToothUtils::getToothNumber(t->index(), t->hasStatus(Dental::Temporary)));
 
 	view->setSelectionLabel(selectedTeethNum);
 

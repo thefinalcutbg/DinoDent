@@ -1,5 +1,8 @@
 #include "Procedure.h"
-#include "Model/Dental/ToothContainer.h"
+#include "ToothContainer.h"
+#include "ToothUtils.h"
+
+using namespace Dental;
 
 void Procedure::applyProcedure(ToothContainer& teeth) const
 {
@@ -8,72 +11,59 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 			case::ProcedureType::obturation:
 			{
 				
-				auto& tooth = tooth_idx.supernumeral ? teeth[tooth_idx.index].dsn.tooth() : teeth[tooth_idx.index];
 				auto& result = std::get<RestorationData>(this->result);
 
 				for (int i = 0; i < result.surfaces.size(); i++)
 				{
 					if (!result.surfaces[i]) continue;
 
-					teeth.setStatus({ tooth_idx.index }, StatusType::obturation, i, true, tooth_idx.supernumeral);
-					teeth.setStatus({ tooth_idx.index }, StatusType::caries, i, false, tooth_idx.supernumeral);
+					teeth.setStatus({ tooth_idx.index }, StatusType::Restoration, i, true, tooth_idx.supernumeral);
+					teeth.setStatus({ tooth_idx.index }, StatusType::Caries, i, false, tooth_idx.supernumeral);
 					
-					//tooth.obturation[i].data = result.data;
-					tooth.obturation[i].LPK = LPK;
-					
-
+					teeth.at(tooth_idx).setLPK(i, LPK);
 				}
 
 				if (result.post) {
-					teeth.setStatus({ tooth_idx.index }, StatusType::general, StatusCode::Post, true, tooth_idx.supernumeral);
-					tooth.post.LPK = LPK;
+					teeth.setStatus({ tooth_idx.index }, StatusType::General, Post, true, tooth_idx.supernumeral);
+					teeth.at(tooth_idx).setLPK(Post, LPK);
 				}
 
 				//fracture
 				if (diagnosis.index() == 4) {
-					teeth.setStatus({ tooth_idx.index }, StatusType::general, StatusCode::Fracture, false, tooth_idx.supernumeral);
+					teeth.setStatus({ tooth_idx.index }, StatusType::General, Fracture, false, tooth_idx.supernumeral);
 				}
 			}
 			break;
 
 			case::ProcedureType::endo:
 			{
-				auto& tooth = tooth_idx.supernumeral ? teeth[tooth_idx.index].dsn.tooth() : teeth[tooth_idx.index];
-
-				tooth.setStatus(StatusCode::EndoTreatment);
-				teeth[tooth_idx.index].endo.LPK = LPK;
+				teeth.setStatus({ tooth_idx.index }, StatusType::General, RootCanal, tooth_idx.supernumeral);
+				teeth.at(tooth_idx).setLPK(RootCanal, LPK);
 
 			}
 			break;
 
 			case::ProcedureType::extraction:
 			{
-				teeth.setStatus({ tooth_idx.index }, StatusType::general, StatusCode::Extraction, true, tooth_idx.supernumeral);
-
-				auto& tooth = tooth_idx.supernumeral ? teeth[tooth_idx.index].dsn.tooth() : teeth[tooth_idx.index];
-				
-				tooth.extraction.LPK = LPK;
+				teeth.setStatus({ tooth_idx.index }, StatusType::General, Dental::Missing, true, tooth_idx.supernumeral);
+				teeth.at(tooth_idx).setLPK(Missing, LPK);
 
 			}
 			break;
 
 			case::ProcedureType::crown:
 			{
-				teeth.setStatus({ tooth_idx.index }, StatusType::general, StatusCode::Crown, true, tooth_idx.supernumeral);
-				teeth.setStatus({ tooth_idx.index }, StatusType::general, StatusCode::Fracture, false, tooth_idx.supernumeral);
-				auto& tooth = tooth_idx.supernumeral ? teeth[tooth_idx.index].dsn.tooth() : teeth[tooth_idx.index];
-				tooth.crown.LPK = LPK;
+				teeth.setStatus({ tooth_idx.index }, StatusType::General, Crown, true, tooth_idx.supernumeral);
+				teeth.setStatus({ tooth_idx.index }, StatusType::General, Fracture, false, tooth_idx.supernumeral);
+				teeth.at(tooth_idx).setLPK(Crown, LPK);
 
 			}
 			break;
 
 			case::ProcedureType::implant:
 			{
-				auto& tooth = tooth_idx.supernumeral ? teeth[tooth_idx.index].dsn.tooth() : teeth[tooth_idx.index];
-
-				tooth.setStatus(StatusCode::Implant);
-
-				tooth.implant.LPK = LPK;
+				teeth.setStatus({ tooth_idx.index }, StatusType::General, Implant, true, tooth_idx.supernumeral);
+				teeth.at(tooth_idx).setLPK(Implant, LPK);
 
 			}
 			break;
@@ -87,10 +77,9 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 
 				for (int i = result.tooth_begin; i <= result.tooth_end; i++)indexes.push_back(i);
 
-				//teeth.removeBridgeOrSplint(indexes);
-				teeth.setStatus(indexes, StatusType::general, StatusCode::Bridge, true);
-				teeth.setStatus(indexes, StatusType::general, StatusCode::Fracture, false);
-				for (int i : indexes) teeth[i].bridge.LPK = LPK;
+				teeth.setStatus(indexes, StatusType::General, Bridge, true);
+				teeth.setStatus(indexes, StatusType::General, Fracture, false);
+				for (int i : indexes) teeth.at(i).setLPK(Bridge, LPK);
 
 			}
 			break;
@@ -105,9 +94,9 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 				for (int i = result.tooth_begin; i <= result.tooth_end; i++) indexes.push_back(i);
 
 				//teeth.removeBridgeOrSplint(indexes);
-				teeth.setStatus(indexes, StatusType::general, StatusCode::FiberSplint, true);
+				teeth.setStatus(indexes, Dental::StatusType::General, Dental::Splint, true);
 
-				for (int i : indexes) teeth[i].splint.LPK = LPK;
+				for (int i : indexes) teeth.at(i).setLPK(Splint, LPK);
 
 			}
 			break;
@@ -121,12 +110,12 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 				for (int i = result.tooth_begin; i <= result.tooth_end; i++) {
 
 					if (
-						teeth[i].noData() ||
-						teeth[i].extraction ||
-						teeth[i].root ||
-						teeth[i].implant ||
-						teeth[i].impacted ||
-						teeth[i].denture
+						teeth[i].noData()	 ||
+						teeth[i][Missing]	 ||
+						teeth[i][Root]		 ||
+						teeth[i][Implant]	 ||
+						teeth[i][Impacted]	 ||
+						teeth[i][Denture]
 					) 
 					{
 						indexes.push_back(i);
@@ -134,23 +123,21 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 				}
 
 				//teeth.removeBridgeOrSplint(indexes);
-				teeth.setStatus(indexes, StatusType::general, StatusCode::Denture, true);
+				teeth.setStatus(indexes, Dental::StatusType::General, Dental::Denture, true);
 
-				for (int i : indexes) teeth[i].denture.LPK = LPK;
+				for (int i : indexes) teeth[i].setLPK(Denture, LPK);
 			}
 			break;
 
 			case ProcedureType::removeCrown:
 			{
-				auto& tooth = tooth_idx.supernumeral ? teeth[tooth_idx.index].dsn.tooth() : teeth[tooth_idx.index];
-				tooth.removeStatus(StatusCode::Crown);
+				teeth.setStatus({ tooth_idx.index }, StatusType::General, Crown, false, tooth_idx.supernumeral);
 			}
 			break;
 
 			case ProcedureType::removePost:
 			{
-				auto& tooth = tooth_idx.supernumeral ? teeth[tooth_idx.index].dsn.tooth() : teeth[tooth_idx.index];
-				tooth.removeStatus(StatusCode::Post);
+				teeth.setStatus({ tooth_idx.index }, StatusType::General, Post, false, tooth_idx.supernumeral);
 			}
 			break;
 
@@ -158,8 +145,8 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 			{
 				for (auto& t : teeth)
 				{
-					t.setStatus(StatusCode::Calculus, false);
-					if (t.dsn) t.dsn.tooth().setStatus(StatusCode::Calculus, false);
+					t.setStatus(Dental::Calculus, false);
+					if (t[HasSupernumeral]) t.getSupernumeral().setStatus(Dental::Calculus, false);
 				}
 			}
 
@@ -177,7 +164,7 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 		}
 	
 }
-#include <qdebug.h>
+
 void Procedure::applyPISProcedure(ToothContainer& teeth) const
 {
 	/*
@@ -193,28 +180,28 @@ void Procedure::applyPISProcedure(ToothContainer& teeth) const
 		return;
 	}
 
-	auto& tooth = tooth_idx.supernumeral ? teeth.at(idx).dsn.tooth() : teeth[idx];
+	auto& tooth = tooth_idx.supernumeral ? teeth.at(idx).getSupernumeral(): teeth[idx];
 
 	if (tooth_idx.temp) {
-		tooth.setStatus(StatusCode::Temporary);
+		tooth.setStatus(Dental::Temporary, true);
 	}
-	else if (tooth.temporary.exists())
+	else if (tooth[Temporary])
 	{
-		tooth.removeStatus();
+		tooth.clearStatuses();
 	}
 
 	switch (code.type())
 	{
 		case ProcedureType::obturation:
-			teeth.setStatus({ tooth_idx.index }, StatusType::general, StatusCode::Obturation, true, tooth_idx.supernumeral); break;
+			teeth.setStatus({ tooth_idx.index }, Dental::StatusType::General, Dental::Restoration, true, tooth_idx.supernumeral); break;
 		case ProcedureType::endo:
-			teeth.setStatus({ tooth_idx.index }, StatusType::general, StatusCode::EndoTreatment, true, tooth_idx.supernumeral); break;
+			teeth.setStatus({ tooth_idx.index }, Dental::StatusType::General, Dental::RootCanal, true, tooth_idx.supernumeral); break;
 		case ProcedureType::extraction:
-			teeth.setStatus({ tooth_idx.index }, StatusType::general, StatusCode::Extraction, true, tooth_idx.supernumeral); break;
+			teeth.setStatus({ tooth_idx.index }, Dental::StatusType::General, Dental::Missing, true, tooth_idx.supernumeral); break;
 		case ProcedureType::crown:
-			teeth.setStatus({ tooth_idx.index }, StatusType::general, StatusCode::Crown, true, tooth_idx.supernumeral); break;
+			teeth.setStatus({ tooth_idx.index }, Dental::StatusType::General, Dental::Crown, true, tooth_idx.supernumeral); break;
 		case ProcedureType::implant:
-			teeth.setStatus({ tooth_idx.index }, StatusType::general, StatusCode::Implant, true, tooth_idx.supernumeral); break;
+			teeth.setStatus({ tooth_idx.index }, Dental::StatusType::General, Dental::Implant, true, tooth_idx.supernumeral); break;
         default: break;
 	}
 

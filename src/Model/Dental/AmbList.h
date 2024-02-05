@@ -12,6 +12,7 @@
 #include "Model/Referrals/Referral.h"
 #include "Model/MedicalNotice.h"
 #include "Model/Dental/NhifSheetData.h"
+#include "Model/FreeFunctions.h"
 
 struct AmbList
 {

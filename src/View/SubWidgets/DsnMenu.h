@@ -6,7 +6,7 @@
 #include <type_traits>
 
 #include "Presenter/InputEnums.h"
-#include "Model/Dental/Enums.h"
+#include "Model/Dental/Dental.h"
 #include "Presenter/CheckModel.h"
 
 class ListPresenter;
@@ -18,10 +18,10 @@ class DsnMenu : public QMenu
 
     ListPresenter* presenter{ nullptr };
 
-    std::array<QAction*, statusCount> menuAction{ nullptr };
-    std::array<QAction*, surfaceCount>surfObt{ nullptr };
-    std::array<QAction*, surfaceCount> surfCar{ nullptr };
-    std::array<QAction*, mobilityCount> mobilityDegree{ nullptr };
+    std::array<QAction*, Dental::StatusCount> menuAction{ nullptr };
+    std::array<QAction*, Dental::SurfaceCount>surfObt{ nullptr };
+    std::array<QAction*, Dental::SurfaceCount> surfCar{ nullptr };
+    std::array<QAction*, Dental::MobilityCount> mobilityDegree{ nullptr };
 
 
     template <typename ModelArray, typename ActionArray, int CheckStateSize = std::tuple_size<ModelArray>::value>

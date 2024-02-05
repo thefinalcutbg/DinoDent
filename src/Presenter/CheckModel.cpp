@@ -33,16 +33,16 @@ CheckModel::CheckModel(const std::vector<const Tooth*>& selectedTeeth)
 	if (!selectedTeeth.size()) return;
 
 	firstIteration(generalStatus, selectedTeeth[0]->getBoolStatus());
-	firstIteration(cariesStatus, selectedTeeth[0]->caries.getBoolStatus());
-	firstIteration(obturationStatus, selectedTeeth[0]->obturation.getBoolStatus());
-	firstIteration(mobilityStatus, selectedTeeth[0]->mobility.getBoolStatus());
+	firstIteration(cariesStatus, selectedTeeth[0]->getCariesBoolStatus());
+	firstIteration(obturationStatus, selectedTeeth[0]->getRestorationBoolStatus());
+	firstIteration(mobilityStatus, selectedTeeth[0]->getMobilityBoolStatus());
 
     for (size_t i = 1; i < selectedTeeth.size(); i++)
 	{
 		furtherIterations(generalStatus, selectedTeeth[i]->getBoolStatus());
-		furtherIterations(cariesStatus, selectedTeeth[i]->caries.getBoolStatus());
-		furtherIterations(obturationStatus, selectedTeeth[i]->obturation.getBoolStatus());
-		furtherIterations(mobilityStatus, selectedTeeth[i]->mobility.getBoolStatus());
+		furtherIterations(cariesStatus, selectedTeeth[i]->getCariesBoolStatus());
+		furtherIterations(obturationStatus, selectedTeeth[i]->getRestorationBoolStatus());
+		furtherIterations(mobilityStatus, selectedTeeth[i]->getMobilityBoolStatus());
 	}
 
     for (size_t i = 1; i < generalStatus.size(); i++) {
@@ -51,11 +51,11 @@ CheckModel::CheckModel(const std::vector<const Tooth*>& selectedTeeth)
 		}
 	}
 
-	CheckState& bridge = generalStatus.at(static_cast<int>(StatusCode::Bridge));
+	CheckState& bridge = generalStatus.at(static_cast<int>(Dental::Bridge));
 
 	if (bridge == CheckState::checked && selectedTeeth.size() != 1 &&
-		(selectedTeeth[0]->bridge.position != BridgePos::Begin ||
-		 selectedTeeth.back()->bridge.position != BridgePos::End))
+		(selectedTeeth[0]->position != Dental::BridgePos::Begin ||
+		 selectedTeeth.back()->position != Dental::BridgePos::End))
 		bridge = CheckState::partially_checked;
 
 	for (auto& state : generalStatus)
@@ -68,9 +68,9 @@ CheckModel::CheckModel(const std::vector<const Tooth*>& selectedTeeth)
 CheckModel::CheckModel(const Tooth& tooth)
 {
 	firstIteration(generalStatus, tooth.getBoolStatus());
-	firstIteration(cariesStatus, tooth.caries.getBoolStatus());
-	firstIteration(obturationStatus, tooth.obturation.getBoolStatus());
-	firstIteration(mobilityStatus, tooth.mobility.getBoolStatus());
+	firstIteration(cariesStatus, tooth.getCariesBoolStatus());
+	firstIteration(obturationStatus, tooth.getRestorationBoolStatus());
+	firstIteration(mobilityStatus, tooth.getMobilityBoolStatus());
 
 	for (auto& state : generalStatus)
 	{

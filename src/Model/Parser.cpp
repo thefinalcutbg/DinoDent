@@ -54,6 +54,7 @@ std::string Parser::write(const PerioStatus& status)
 	return writer.write(json);
 }
 
+using namespace Dental;
 
 std::string Parser::write(const ToothContainer& status)
 {
@@ -63,70 +64,79 @@ std::string Parser::write(const ToothContainer& status)
 	{
 		Json::Value toothJson;
 
-		auto writeDentistMade = [](const DentistMade& dm) -> Json::Value
+		auto writeDentistMade = [](const std::string& lpk) -> Json::Value
 		{
 			Json::Value result;
-			result["LPK"] = dm.LPK;
+			if (lpk.size()) {
+				result["LPK"] = lpk;
+			}
 			return result;
 		};
 
-		auto writeConstruction = [](const Construction& c) -> Json::Value
+		auto writeConstruction = [](const std::string& lpk, BridgePos p) -> Json::Value
 		{
 			Json::Value result;
-			result["LPK"] = c.LPK;
-			result["Pos"] = static_cast<int>(c.position);
+			if (lpk.size()) {
+				result["LPK"] = lpk;
+			}
+			result["Pos"] = static_cast<int>(p);
 			return result;
 		};
 
 
-		toothJson["index"] = t.index;
-		toothJson["temp"] = t.temporary.exists();
+		toothJson["index"] = t.index();
+		toothJson["temp"] = t[Temporary];
 
-		if (t.healthy) toothJson["H"] = 1;
-		if (t.pulpitis) toothJson["P"] = 1;
-		if (t.lesion) toothJson["G"] = 1;
-		if (t.calculus) toothJson["T"] = 1;
-		if (t.fracture) toothJson["F"] = 1;
-		if (t.root) toothJson["R"] = 1;
-		if (t.impacted) toothJson["Re"] = 1;
-		if (t.periodontitis) toothJson["Pa"] = 1;
-		if (t.mobility) toothJson["M"] = static_cast<int>(t.mobility.degree);
-		if (t.caries)
+		if (t[Healthy]) toothJson["H"] = 1;
+		if (t[Pulpitis]) toothJson["P"] = 1;
+		if (t[ApicalLesion]) toothJson["G"] = 1;
+		if (t[Calculus]) toothJson["T"] = 1;
+		if (t[Fracture]) toothJson["F"] = 1;
+		if (t[Root]) toothJson["R"] = 1;
+		if (t[Impacted]) toothJson["Re"] = 1;
+		if (t[Periodontitis]) toothJson["Pa"] = 1;
+		if (t[Mobility]) toothJson["M"] = static_cast<int>(t.m_degree);
+		if (t[Caries])
 		{
 			toothJson["C"] = Json::arrayValue;
 
-			for (int i = 0; i < surfaceCount; i++)
+			auto arr = t.getCariesBoolStatus();
+
+			for (int i = 0; i < SurfaceCount; i++)
 			{
-				if (!t.caries[i]) continue;
+				if (!arr[i]) continue;
 				Json::Value cariesJson;
 				cariesJson["Surf"] = i;
 				toothJson["C"].append(cariesJson);
 			}
 		}
 
-		if (t.obturation)
+		if (t[Restoration])
 		{
 			toothJson["O"] = Json::arrayValue;
 
-			for (int i = 0; i < surfaceCount; i++)
+			auto arr = t.getRestorationBoolStatus();
+
+			for (int i = 0; i < SurfaceCount; i++)
 			{
-				if (!t.obturation[i]) continue;
+				if (!arr[i]) continue;
+
 				Json::Value obturationJson;
 				obturationJson["Surf"] = i;
-				obturationJson["LPK"] = t.obturation[i].LPK;
+				obturationJson["LPK"] = t.getLPK(i);
 				toothJson["O"].append(obturationJson);
 			}
 		}
 
-		if (t.denture) toothJson["X"] = writeDentistMade(t.denture);
-		if (t.endo) toothJson["Rc"] = writeDentistMade(t.endo);
-		if (t.extraction) toothJson["E"] = writeDentistMade(t.extraction);
-		if (t.implant) toothJson["I"] = writeDentistMade(t.implant);
-		if (t.crown) toothJson["K"] = writeDentistMade(t.crown);
-		if (t.post) toothJson["Rp"] = writeDentistMade(t.post);
+		if (t[Denture]) toothJson["X"] = writeDentistMade(t.getLPK(Denture));
+		if (t[RootCanal]) toothJson["Rc"] = writeDentistMade(t.getLPK(RootCanal));
+		if (t[Missing]) toothJson["E"] = writeDentistMade(t.getLPK(Missing));
+		if (t[Implant]) toothJson["I"] = writeDentistMade(t.getLPK(Implant));
+		if (t[Crown]) toothJson["K"] = writeDentistMade(t.getLPK(Crown));
+		if (t[Post]) toothJson["Rp"] = writeDentistMade(t.getLPK(Post));
 
-		if (t.bridge) toothJson["B"] = writeConstruction(t.bridge);
-		if (t.splint) toothJson["S"] = writeConstruction(t.splint);
+		if (t[Bridge]) toothJson["B"] = writeConstruction(t.getLPK(Bridge), t.position);
+		if (t[Splint]) toothJson["S"] = writeConstruction(t.getLPK(Splint), t.position);
 
 		return toothJson;
 	};
@@ -136,8 +146,8 @@ std::string Parser::write(const ToothContainer& status)
 		if (t.noData()) continue;
 
 		auto toothJson = writeToothStatus(t);
-		if (t.dsn) {
-			toothJson["D"] = writeToothStatus(t.dsn.tooth());
+		if (t[HasSupernumeral]) {
+			toothJson["D"] = writeToothStatus(t.getSupernumeral());
 		}
 
 		statusJson.append(toothJson);
@@ -155,72 +165,68 @@ void Parser::parse(const std::string& jsonString, ToothContainer& status)
 	Json::Value statusJson;
 	Json::Reader reader;
 
-	auto parseTooth = [](const Json::Value& t, Tooth& tooth) mutable
+	auto parseTooth = [](const Json::Value& jsonTooth, Tooth& tooth) mutable
 	{
-		tooth.temporary.set(t["temp"].asBool());
-		tooth.healthy.set(t.isMember("H"));
-		tooth.pulpitis.set(t.isMember("P"));
-		tooth.lesion.set(t.isMember("G"));
-		tooth.calculus.set(t.isMember("T"));
-		tooth.fracture.set(t.isMember("F"));
-		tooth.root.set(t.isMember("R"));
-		tooth.periodontitis.set(t.isMember("Pa"));
-		tooth.impacted.set(t.isMember("Re"));
+		tooth.setStatus(Temporary, jsonTooth["temp"].asBool());
+		tooth.setStatus(Healthy, jsonTooth.isMember("H"));
+		tooth.setStatus(Pulpitis, jsonTooth.isMember("P"));
+		tooth.setStatus(ApicalLesion, jsonTooth.isMember("G"));
+		tooth.setStatus(Calculus, jsonTooth.isMember("T"));
+		tooth.setStatus(Fracture, jsonTooth.isMember("F"));
+		tooth.setStatus(Root, jsonTooth.isMember("R"));
+		tooth.setStatus(Periodontitis, jsonTooth.isMember("Pa"));
+		tooth.setStatus(Impacted, jsonTooth.isMember("Re"));
 
-		tooth.mobility.set(t.isMember("M"));
+		tooth.setStatus(Mobility, jsonTooth.isMember("M"));
 
-		if (tooth.mobility) {
-			tooth.mobility.degree = static_cast<Degree>(t["M"].asInt());
+		if (tooth[Mobility]) {
+			tooth.m_degree = static_cast<MobilityDegree>(jsonTooth["M"].asInt());
 		}
 
-		if (t.isMember("C"))
+		if (jsonTooth.isMember("C"))
 		{
-			for (auto& c : t["C"])
+			for (auto& c : jsonTooth["C"])
 			{
-				tooth.caries.set(true, c["Surf"].asInt());
+				tooth.setSurface(Dental::Caries, c["Surf"].asInt(), true);
 			}
 		}
 
-		if (t.isMember("O"))
+		if (jsonTooth.isMember("O"))
 		{
-			for (auto& o : t["O"])
+			for (auto& o : jsonTooth["O"])
 			{
 				auto surface = o["Surf"].asInt();
-				tooth.obturation.set(true, surface);
-				tooth.obturation[surface].LPK = o["LPK"].asString();
+				tooth.setSurface(Dental::Restoration, surface);
+				tooth.setLPK(surface, o["LPK"].asString());
 			}
 		}
 
-		auto dentistMadeParser = [](const Json::Value& json, const char* numenclature)->DentistMade
+		auto dentistMadeParser = [](const Json::Value& json, Tooth& tooth, const char* numenclature, Dental::Status code)
 		{
-			if (!json.isMember(numenclature)) return {};
+			if (!json.isMember(numenclature)) return;
 
-			DentistMade result;
-			result.set(true);
-			result.LPK = json[numenclature]["LPK"].asString();
-			return result;
+			tooth.setStatus(code);
+			tooth.setLPK(code, json[numenclature]["LPK"].asString());
 		};
 
-		tooth.crown = dentistMadeParser(t, "K");
-		tooth.implant = dentistMadeParser(t, "I");
-		tooth.endo = dentistMadeParser(t, "Rc");
-		tooth.extraction = dentistMadeParser(t, "E");
-		tooth.post = dentistMadeParser(t, "Rp");
-		tooth.denture = dentistMadeParser(t, "X");
+		dentistMadeParser(jsonTooth, tooth, "K", Crown);
+		dentistMadeParser(jsonTooth, tooth, "I", Implant);
+		dentistMadeParser(jsonTooth, tooth, "Rc", RootCanal);
+		dentistMadeParser(jsonTooth, tooth, "E", Missing);
+		dentistMadeParser(jsonTooth, tooth, "Rp", Post);
+		dentistMadeParser(jsonTooth, tooth, "X", Denture);
 
-		auto constructionParser = [](const Json::Value& json, const char* numenclature)->Construction
+		auto constructionParser = [](const Json::Value& json, Tooth& tooth, const char* numenclature, Dental::Status code)
 		{
-			if (!json.isMember(numenclature)) return {};
+			if (!json.isMember(numenclature)) return;
 
-			Construction result;
-			result.set(true);
-			result.LPK = json[numenclature]["LPK"].asString();
-			result.position = static_cast<BridgePos>(json[numenclature]["Pos"].asInt());
-			return result;
+			tooth.setStatus(code);
+			tooth.position = static_cast<BridgePos>(json[numenclature]["Pos"].asInt());
+			tooth.setLPK(code, json[numenclature]["LPK"].asString());
 		};
 
-		tooth.bridge = constructionParser(t, "B");
-		tooth.splint = constructionParser(t, "S");
+		constructionParser(jsonTooth, tooth, "B", Bridge);
+		constructionParser(jsonTooth, tooth, "S", Splint);
 	};
 
 	if(!reader.parse(jsonString, statusJson)) return;
@@ -235,8 +241,8 @@ void Parser::parse(const std::string& jsonString, ToothContainer& status)
 
 		if (toothJson.isMember("D"))
 		{
-			tooth.dsn.set(true);
-			parseTooth(toothJson["D"], tooth.dsn.tooth());
+			tooth.setStatus(Dental::HasSupernumeral, true);
+			parseTooth(toothJson["D"], tooth.getSupernumeral());
 		}
 	}
 

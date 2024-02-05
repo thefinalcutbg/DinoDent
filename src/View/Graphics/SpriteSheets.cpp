@@ -14,15 +14,15 @@ SpriteSheets::SpriteSheets()
 	{
 		switch (ToothUtils::getToothType(i))
 		{
-		case ToothType::Molar:
+		case Dental::Type::Molar:
 			permanentCoords[i] = &molarRect;
 			tempoCoords[i] = nullptr;
 			break;
-		case ToothType::Premolar:
+		case Dental::Type::Premolar:
 			permanentCoords[i] = &premolarRect;
 			tempoCoords[i] = &tempMolarsRect;
 			break;
-		case ToothType::Frontal:
+		case Dental::Type::Frontal:
 			permanentCoords[i] = &frontalRect;
 			tempoCoords[i] = &tempFrontalRect;
 			break;
@@ -78,12 +78,12 @@ void initializePack(TexturePack& tx, const SpriteMaster master, int xPos, int wi
 	tx.bridgeSeparated = new QPixmap(master.bridgeSep.copy(crownRect));
 	tx.falseTooth = new QPixmap(master.falseTooth.copy(crownRect));
 
-	tx.surfaces[Surface::Occlusal] = new QPixmap(master.occlusal.copy(crownRect));
-	tx.surfaces[Surface::Medial] = new QPixmap(master.approximal.copy(xPos + width / 2, 0, width / 2, 440));
-	tx.surfaces[Surface::Distal] = new QPixmap(master.approximal.copy(xPos, 0, width/2, 440));
-	tx.surfaces[Surface::Buccal] = new QPixmap(master.buccal.copy(xPos, 0, width, 230));
-	tx.surfaces[Surface::Lingual] = new QPixmap(master.lingual.copy(xPos, 0, width, 300));
-	tx.surfaces[Surface::Cervical] = new QPixmap(master.cervical.copy(xPos, 0, width, 50));
+	tx.surfaces[Dental::Surface::Occlusal] = new QPixmap(master.occlusal.copy(crownRect));
+	tx.surfaces[Dental::Surface::Medial] = new QPixmap(master.approximal.copy(xPos + width / 2, 0, width / 2, 440));
+	tx.surfaces[Dental::Surface::Distal] = new QPixmap(master.approximal.copy(xPos, 0, width/2, 440));
+	tx.surfaces[Dental::Surface::Buccal] = new QPixmap(master.buccal.copy(xPos, 0, width, 230));
+	tx.surfaces[Dental::Surface::Lingual] = new QPixmap(master.lingual.copy(xPos, 0, width, 300));
+	tx.surfaces[Dental::Surface::Cervical] = new QPixmap(master.cervical.copy(xPos, 0, width, 50));
 }
 
 const std::unordered_set<int> molarTextureSet{ 0,1,2,8,9,10 };

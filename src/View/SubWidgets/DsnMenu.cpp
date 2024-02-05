@@ -1,68 +1,71 @@
 ﻿#include "DsnMenu.h"
 #include "Presenter/ListPresenter.h"
 #include "View/Theme.h"
+
+using namespace Dental;
+
 DsnMenu::DsnMenu()
 {
 
     setStyleSheet(Theme::getPopupMenuStylesheet());
 
-    for (int i = 0; i < statusCount; i++)
+    for (int i = 0; i < Dental::StatusCount; i++)
     {
         if (
-            i == static_cast<int>(StatusCode::Bridge) ||
-            i == static_cast<int>(StatusCode::FiberSplint) ||
-            i == static_cast<int>(StatusCode::Implant) ||
-            i == static_cast<int>(StatusCode::Denture) ||
-            i == static_cast<int>(StatusCode::Dsn)
+            i == static_cast<int>(Dental::Bridge) ||
+            i == static_cast<int>(Dental::Splint) ||
+            i == static_cast<int>(Dental::Implant) ||
+            i == static_cast<int>(Dental::Denture) ||
+            i == static_cast<int>(Dental::HasSupernumeral)
         )
         {
             continue;
         }
 
-        menuAction[i] = new QAction(statusNames[i].data());
+        menuAction[i] = new QAction(Dental::statusNames[i].data());
 
-        connect(menuAction[i], &QAction::triggered, [this, i]() { this->presenter->setDsnStatus(StatusType::general, i); });
+        connect(menuAction[i], &QAction::triggered, [this, i]() { this->presenter->setToothStatus(StatusType::General, i, true); });
     }
 
-    addAction(menuAction[StatusCode::Healthy]);
-    addAction(menuAction[StatusCode::Temporary]);
+    addAction(menuAction[Dental::Healthy]);
+    addAction(menuAction[Dental::Temporary]);
 
     QMenu* ObturMenu = addMenu("&Обтурация");
     QMenu* CariesMenu = addMenu("&Кариес");
     QMenu* MobilityMenu = addMenu("&Подвижност");
 
-    QString surfName[surfaceCount] = { "Оклузално", "Медиално", "Дистално", "Букално", "Лингвално", "Цервикално" };
+    QString surfName[SurfaceCount] = { "Оклузално", "Медиално", "Дистално", "Букално", "Лингвално", "Цервикално" };
 
-    for (int i = 0; i < surfaceCount; i++)
+    for (int i = 0; i < SurfaceCount; i++)
     {
         surfObt[i] = ObturMenu->addAction(surfName[i]);
-        connect(surfObt[i], &QAction::triggered, [this, i]() {this->presenter->setDsnStatus(StatusType::obturation, i); });
+        connect(surfObt[i], &QAction::triggered, [this, i]() {this->presenter->setToothStatus(StatusType::Restoration, i, true); });
 
         surfCar[i] = CariesMenu->addAction(surfName[i]);
-        connect(surfCar[i], &QAction::triggered, [this, i]() {this->presenter->setDsnStatus(StatusType::caries, i); });
+        connect(surfCar[i], &QAction::triggered, [this, i]() {this->presenter->setToothStatus(StatusType::Caries, i, true); });
     }
 
-    for (int i = 0; i < mobilityCount; i++)
+    for (int i = 0; i < MobilityCount; i++)
     {
         mobilityDegree[i] = MobilityMenu->addAction(mobilityNames[i].data());
         connect(mobilityDegree[i], &QAction::triggered, [this, i]() {
-            this->presenter->setDsnStatus(StatusType::mobility, i); });
+            this->presenter->setToothStatus(StatusType::Mobility, i); });
 
     }
 
     addSeparator();
    
-    addAction(menuAction[StatusCode::Pulpitis]);
-    addAction(menuAction[StatusCode::ApicalLesion]);
-    addAction(menuAction[StatusCode::EndoTreatment]);
-    addAction(menuAction[StatusCode::Post]);
-    addAction(menuAction[StatusCode::Extraction]);
-    addAction(menuAction[StatusCode::Root]);
-    addAction(menuAction[StatusCode::Fracture]);
-    addAction(menuAction[StatusCode::Impacted]);
-    addAction(menuAction[StatusCode::Periodontitis]);
-    addAction(menuAction[StatusCode::Calculus]);
-    addAction(menuAction[StatusCode::Crown]);
+    addAction(menuAction[Dental::Pulpitis]);
+    addAction(menuAction[Dental::ApicalLesion]);
+    addAction(menuAction[Dental::RootCanal]);
+    addAction(menuAction[Dental::Post]);
+    addAction(menuAction[Dental::Missing]);
+    addAction(menuAction[Dental::Root]);
+    addAction(menuAction[Dental::Fracture]);
+    addAction(menuAction[Dental::Impacted]);
+    addAction(menuAction[Dental::Periodontitis]);
+    addAction(menuAction[Dental::Calculus]);
+    addAction(menuAction[Dental::Crown]);
     
     auto removeDsn = addAction("Премахни");
     connect(removeDsn, &QAction::triggered, [this]() {this->presenter->setOther(OtherInputs::removeDsn); });

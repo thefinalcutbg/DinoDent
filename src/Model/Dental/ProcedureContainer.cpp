@@ -58,7 +58,7 @@ void ProcedureContainer::refreshTeethTemporary(const ToothContainer& teeth)
     for (auto& procedure : m_proc) {
         if (!procedure.tooth_idx.isValid()) continue;
 
-        procedure.tooth_idx.temp = teeth.at(procedure.tooth_idx.index).temporary.exists();
+        procedure.tooth_idx.temp = teeth.at(procedure.tooth_idx.index, procedure.tooth_idx.supernumeral)[Dental::Temporary];
     }
 }
 

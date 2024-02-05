@@ -152,7 +152,7 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
             if (status.empty()) continue;
 
             TiXmlElement* tooth = new TiXmlElement("tooth");
-            tooth->SetAttribute("toothCode", ToothUtils::getNhifNumber(t.index, t.temporary, false));
+            tooth->SetAttribute("toothCode", ToothUtils::getNhifNumber(t.toothIndex()));
 
             TiXmlElement* toothStatuses = new TiXmlElement("toothStatuses");
 
@@ -173,14 +173,13 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
 
         for (auto& t : list.teeth)
         {
-            if (!t.dsn) continue;
-            if (!t.dsn.toothNotNull()) continue;
+            if (!t[Dental::HasSupernumeral]) continue;
 
-            auto status = t.dsn.tooth().getNhifStatus();
+            auto status = t.getSupernumeral().getNhifStatus();
             if (status.empty()) continue;
 
             TiXmlElement* tooth = new TiXmlElement("tooth");
-            tooth->SetAttribute("toothCode", ToothUtils::getNhifNumber(t.index, t.temporary, true));
+            tooth->SetAttribute("toothCode", ToothUtils::getNhifNumber(t.toothIndex()));
 
             TiXmlElement* toothStatuses = new TiXmlElement("toothStatuses");
 

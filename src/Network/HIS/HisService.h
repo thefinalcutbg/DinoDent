@@ -37,7 +37,7 @@ protected:
 	std::string subject(const Patient& p, bool isPregnant = false, bool isBreastfeeding = false);
 	std::string requester(bool includeNhifCode = false);
 	std::string performer();
-	std::string getToothStatus(const Tooth& tooth, bool hyperdontic);
+	std::string getToothStatus(const Tooth& tooth);
 	std::string getMedicalStatus(const Patient& p);
 	std::string getProcedure(const Procedure& p, const ToothContainer& teeth, ToothContainer& teethChanged, int sequence);
 	std::string bind(const std::string& name, const std::string& value, bool isUserInput = false);

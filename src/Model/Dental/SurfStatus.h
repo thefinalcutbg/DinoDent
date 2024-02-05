@@ -55,7 +55,7 @@ public:
 
 		auto surfNames = ToothUtils::getSurfaceNames(toothIdx);
 
-		for (int i = 0; i < surfaceCount; i++) {
+		for (int i = 0; i < SurfaceCount; i++) {
 
 			if (!exists(i)) continue;
 

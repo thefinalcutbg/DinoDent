@@ -531,22 +531,22 @@ inline void drawToothNumberLabel(const ToothPaintHint& tooth, QPixmap& pixmap)
 }
 
 
-void rotateByQuadrant(QPainter& painter, int textureWidth, int textureHeight, Quadrant quadrant)
+void rotateByQuadrant(QPainter& painter, int textureWidth, int textureHeight, Dental::Quadrant quadrant)
 {
 
     switch (quadrant)
     {
-    case Quadrant::First:
+    case Dental::Quadrant::First:
         return;
-    case Quadrant::Second:
+    case Dental::Quadrant::Second:
         painter.setTransform(QTransform::fromScale(-1, 1));
         painter.translate(-textureWidth, 0);
         return;
-    case Quadrant::Third:
+    case Dental::Quadrant::Third:
         painter.rotate(180);
         painter.translate(-textureWidth, -textureHeight);
         break;
-    case Quadrant::Fourth:
+    case Dental::Quadrant::Fourth:
         painter.rotate(180);
         painter.setTransform(QTransform::fromScale(1, -1));
         painter.translate(0, -textureHeight);
@@ -555,14 +555,14 @@ void rotateByQuadrant(QPainter& painter, int textureWidth, int textureHeight, Qu
 
 }
 
-void rotateByQuadrantLingual(QPainter& painter, int textureWidth, int textureHeight, Quadrant q)
+void rotateByQuadrantLingual(QPainter& painter, int textureWidth, int textureHeight, Dental::Quadrant q)
 {
     switch (q)
     {
-    case Quadrant::First: q = Quadrant::Third; break;
-    case Quadrant::Second: q = Quadrant::Fourth; break;
-    case Quadrant::Third: q = Quadrant::First; break;
-    case Quadrant::Fourth: q = Quadrant::Second; break;
+    case Dental::Quadrant::First: q = Dental::Quadrant::Third; break;
+    case Dental::Quadrant::Second: q = Dental::Quadrant::Fourth; break;
+    case Dental::Quadrant::Third: q = Dental::Quadrant::First; break;
+    case Dental::Quadrant::Fourth: q = Dental::Quadrant::Second; break;
     }
 
     rotateByQuadrant(painter, textureWidth, textureHeight, q);

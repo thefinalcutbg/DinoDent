@@ -1,181 +1,451 @@
 ﻿#include "Tooth.h"
-#include <vector>
+#include <algorithm>
 #include "ToothUtils.h"
+#include <iostream>
 
+using namespace Dental;
 
-bool Tooth::isHealthyCheck() const
+Tooth::Tooth(int arr_index) : m_index(arr_index)
 {
-	auto status = getBoolStatus();
-	
-	for (int i = 0; i < status.size(); i++) {
+	if (arr_index < 0 || arr_index > 31) throw;
 
-		if (i == StatusCode::Dsn ||
-			i == StatusCode::Healthy ||
-			i == StatusCode::Temporary
-		) continue;
+	m_supernumeral = new Tooth(this);
+}
 
-		if(status[i]) return false;
+
+Tooth::Tooth(Tooth* parent) : m_index(parent->m_index), m_parent(parent)
+{}
+
+Tooth::Tooth(const Tooth& other) : m_index(other.m_index)
+{
+	m_data = other.m_data;
+	m_caries_surface = other.m_caries_surface;
+	m_resto_surface = other.m_resto_surface;
+	m_degree = other.m_degree;
+	position = other.position;
+	m_lpkMap = other.m_lpkMap;
+	m_parent = nullptr;
+
+	if (other.m_supernumeral) {
+
+		//recursive copy-constructor call for the supernumeral tooth
+		m_supernumeral = new Tooth(*other.m_supernumeral);
+		m_supernumeral->m_parent = this;
 	}
-
-	return true;
-
-}
-
-bool Tooth::isSupernumeral() const
-{
-	//if the supernumeral tooth is not null, then this is the parent tooth
-	//else it is the supernumeral child
-	return !dsn.toothNotNull();
-}
-
-Tooth::Tooth(int index) : index(index), type(ToothUtils::getToothType(index)){}
-
-Tooth::Tooth(const Tooth& other) : 
-	index(other.index), 
-	type(other.type),
-    obturation(other.obturation),
-    caries(other.caries),
-    healthy(other.healthy),
-    temporary(other.temporary),
-    dsn(other.dsn),
-    periodontitis(other.periodontitis),
-    impacted(other.impacted),
-    calculus(other.calculus),
-    endo(other.endo),
-    extraction(other.extraction),
-    implant(other.implant),
-    crown(other.crown),
-    denture(other.denture),
-    bridge(other.bridge),
-    splint(other.splint),
-    pulpitis(other.pulpitis),
-    lesion(other.lesion),
-    fracture(other.fracture),
-    root(other.root),
-    post(other.post),
-    mobility(other.mobility)
-{
 
 }
 
 Tooth& Tooth::operator=(const Tooth& other)
 {
-	healthy = other.healthy;
-	temporary = other.temporary;
-	obturation = other.obturation;
-	caries = other.caries;
-	pulpitis = other.pulpitis;
-	lesion = other.lesion;
-	endo = other.endo;
-	post = other.post;
-	root = other.root;
-	fracture = other.fracture;
-	extraction = other.extraction;
-	periodontitis = other.periodontitis;
-	mobility = other.mobility;
-	crown = other.crown;
-	bridge = other.bridge;
-	splint = other.splint;
-	implant = other.implant;
-	dsn = other.dsn;
-	impacted = other.impacted;
-	denture = other.denture;
-	calculus = other.calculus;
+	if (this == &other) return *this;
+
+	if (m_index != other.m_index) throw;
+
+	m_data = other.m_data;
+	m_caries_surface = other.m_caries_surface;
+	m_resto_surface = other.m_resto_surface;
+	m_degree = other.m_degree;
+	position = other.position;
+	m_lpkMap = other.m_lpkMap;
+
+	if (other.m_supernumeral) {
+		m_supernumeral = other.m_supernumeral;
+	}
 
 	return *this;
 }
 
+Tooth& Tooth::getSupernumeral()
+{
+	return m_supernumeral ? *m_supernumeral : *this;
+}
+
+const Tooth& Tooth::getSupernumeral() const
+{
+	return m_supernumeral ? *m_supernumeral : *this;;
+}
+
 void Tooth::copyFromHIS(const Tooth& other)
 {
-	healthy.set(other.healthy);
-	temporary.set(other.temporary);
-	pulpitis.set(other.pulpitis);
-	lesion.set(other.lesion);
-	endo.set(other.endo);
-	post.set(other.post);
-	root.set(other.root);
-	fracture.set(other.fracture);
-	extraction.set(other.extraction);
-	periodontitis.set(other.periodontitis);
-	mobility.set(other.mobility);
-	crown.set(other.crown);
-	bridge.set(other.bridge);
-	splint.set(other.splint);
-	implant.set(other.implant);
-	impacted.set(other.impacted);
-	denture.set(other.denture);
-	calculus.set(other.calculus);
+	m_data = other.m_data;
+	m_caries_surface = other.m_caries_surface;
+	m_resto_surface = other.m_resto_surface;
+	m_degree = other.m_degree;
+}
 
-	for (int i = 0; i < surfaceCount; i++) {
-		obturation.set(other.obturation.exists(i), i);
-		caries.set(other.caries.exists(i), i);
+
+bool Tooth::hasNoSurfacesSet(const decltype(m_resto_surface)& surface_arr)
+{
+	for (auto surface : surface_arr) {
+		if (surface) return false;
 	}
 
-	if (!isSupernumeral()) {
-		dsn.set(other.dsn);
-		dsn.tooth().copyFromHIS(other.dsn.tooth());
+	return true;
+}
+
+Surface Tooth::getDefaultSurface() const
+{
+	return type() == Frontal ? Buccal : Occlusal;
+}
+
+bool Tooth::isHealthy() const
+{
+	for (int i = 2; i < m_data.size(); i++) {
+
+		if (i == HasSupernumeral) continue;
+
+		if (m_data[i]) return false;
+	}
+
+	return true;
+}
+
+Type Tooth::type() const
+{
+	return ToothUtils::getToothType(m_index);
+}
+
+Quadrant Tooth::quadrant() const
+{
+	return ToothUtils::getQuadrant(m_index);
+}
+
+ToothIndex Tooth::toothIndex() const
+{
+	return ToothIndex{
+		.index = m_index,
+		.temp = m_data[Temporary],
+		.supernumeral = !m_supernumeral
+	};
+}
+
+
+bool Tooth::hasStatus(int code) const
+{
+	if (code < 0 || code > m_data.size()) return false;
+
+	return m_data[code];
+}
+
+bool Tooth::hasRestoration(int surface) const
+{
+	return m_data[Restoration] && m_resto_surface[surface];
+}
+
+bool Tooth::hasCaries(int surface) const
+{
+	return m_data[Caries] && m_caries_surface[surface];
+}
+
+bool Tooth::hasMobility(Dental::MobilityDegree degree) const
+{
+	return m_data[Mobility] && m_degree == degree;
+}
+
+bool Tooth::hasSecondaryCaries(int surface) const
+{
+	return hasRestoration(surface) && hasCaries(surface);
+}
+
+bool Tooth::isWisdom() const
+{
+
+	return
+		m_index == 0 ||
+		m_index == 15 ||
+		m_index == 16 ||
+		m_index == 31
+		;
+}
+
+
+bool Tooth::noData() const
+{
+	for (auto s : m_data) {
+		if (s) return false;
+	}
+
+	return true;
+}
+
+bool Tooth::isPontic() const
+{
+	return 	(m_data[Bridge] || m_data[Splint]) && (m_data[Missing] || m_data[Impacted]);
+}
+
+bool Tooth::canHaveACrown() const
+{
+	return  !m_data[Missing] &&
+		!m_data[Root] &&
+		!m_data[Impacted] &&
+		!m_data[Denture]
+		;
+}
+
+std::array<bool, Dental::SurfaceCount> Tooth::getRestorationBoolStatus() const
+{
+	return m_data[Restoration] ? m_resto_surface : std::array<bool, Dental::SurfaceCount>{0};
+}
+
+std::array<bool, Dental::SurfaceCount> Tooth::getCariesBoolStatus() const
+{
+	return m_data[Caries] ? m_caries_surface : std::array<bool, Dental::SurfaceCount>{0};
+
+}
+
+std::array<bool, Dental::MobilityCount> Tooth::getMobilityBoolStatus() const
+{
+	std::array<bool, Dental::MobilityCount> result {0};
+
+	if (m_data[Mobility]) result[m_degree] = true;
+
+	return result;
+}
+
+void Tooth::setLPK(int code, const std::string& lpk)
+{
+	if (lpk.empty()) return;
+
+	m_lpkMap[code] = lpk;
+}
+
+std::string Tooth::getLPK(int code) const
+{
+	if (m_lpkMap.count(code)) return m_lpkMap.at(code);
+	return std::string();
+}
+
+
+
+Tooth::IncompatibleCodes Tooth::incompatInit()
+{
+	IncompatibleCodes result = {};
+
+	//healthy has almost everything incompatible except temporary and supernumeral
+	for (int i = Restoration; i < StatusCount; i++)
+	{
+		if (i == HasSupernumeral) continue;
+
+		result[Healthy].push_back(static_cast<Status>(i));
+	}
+
+	result[Temporary] = { Post };
+	result[Restoration] = { Healthy, Root, Implant, Missing, Impacted, Denture };
+	result[Caries] = { Healthy, Root, Implant, Missing, Impacted, Denture };
+	result[Pulpitis] = { Healthy, ApicalLesion, Missing, Impacted, RootCanal, Post, Impacted };
+	result[ApicalLesion] = { Healthy, Pulpitis, Missing, Impacted, Implant };
+	result[RootCanal] = { Healthy, Pulpitis, Missing, Impacted, Implant };
+	result[Post] = { Healthy, Temporary, Missing, Implant, Pulpitis, Impacted, Denture };
+	result[Root] = { Healthy, Caries, Restoration, Crown, Missing, Implant, Calculus };
+	result[Implant] = { Healthy, Temporary, Missing, Restoration, Caries, Pulpitis, RootCanal, Fracture, Root, Post, Mobility, Impacted, Calculus };
+	result[Fracture] = { Healthy, Missing, Implant, Impacted };
+	result[Periodontitis] = { Healthy, Missing, Impacted, Denture };
+	result[Mobility] = { Healthy, Missing, Impacted };
+	result[Crown] = { Healthy, Bridge, Missing, Root, Splint, Impacted, Denture };
+	result[Bridge] = { Healthy, Crown, Splint, Denture };
+	result[Splint] = { Healthy, Crown, Bridge, Denture };
+	result[HasSupernumeral] = { };
+	result[Impacted] = { Healthy, Restoration, Caries, Missing, Periodontitis, ApicalLesion, Implant, Crown, Post, RootCanal, Mobility, Fracture, Calculus };
+	result[Denture] = { Healthy, Restoration, Caries, Missing, Crown, Bridge, Splint, Post, Calculus }; //if (!root)	set(false, endo, lesion, pulpitis, periodontitis);
+	result[Calculus] = { Healthy, Root, Missing, Implant, Impacted, Denture };
+
+	return result;
+
+}
+
+const Tooth::IncompatibleCodes Tooth::incompat_codes = incompatInit();
+
+void Tooth::setStatus(Status code, bool present) {
+
+	if (code == Temporary && type() == Molar) return;
+
+	//supernumeral cant have these statuses
+	if (isSupernumeral() &&
+		(
+			code == Bridge ||
+			code == Splint ||
+			code == HasSupernumeral
+			)
+		)
+	{
+		return;
+	}
+
+	m_data[code] = present;
+
+	//handling remove status
+	if (!present) {
+
+		if (code == RootCanal) { m_data[Post] = false; }
+
+		m_data[Healthy] = isHealthy();
+
+		if (m_parent) {
+			m_parent->m_data[HasSupernumeral] = true;
+		};
+
+		return;
+	}
+
+	//handling add status
+
+	for (auto c : incompat_codes[code]) {
+		m_data[c] = false;
+	}
+
+	//notifying parent if supernumeral
+	if (m_parent) {
+		m_parent->setStatus(HasSupernumeral, true);
+	}
+
+	//some special cases:
+	switch (code)
+	{
+	case Post:
+		setStatus(RootCanal, true); break;
+
+	case Restoration:
+		if (hasNoSurfacesSet(m_resto_surface)) m_resto_surface[getDefaultSurface()] = true;
+		break;
+
+	case Caries:
+		if (hasNoSurfacesSet(m_caries_surface)) m_caries_surface[getDefaultSurface()] = true;
+		break;
+
+	case Denture:
+		if (!m_data[Root]) {
+			m_data[RootCanal] = false;
+			m_data[ApicalLesion] = false;
+			m_data[Pulpitis] = false;
+			m_data[Periodontitis] = false;
+		}
+		break;
+
+	case HasSupernumeral:
+		if (m_supernumeral->noData()) m_supernumeral->setStatus(Healthy, true);
+		break;
+	}
+
+	m_data[Healthy] = isHealthy();
+
+	if (m_parent) {
+		m_parent->m_data[HasSupernumeral] = true;
+	};
+
+
+}
+
+void Tooth::setSurface(Dental::Status code, int surface, bool present)
+{
+	if (code != Restoration && code != Caries) return;
+
+	auto& arr = code == Restoration ? m_resto_surface : m_caries_surface;
+
+	if (present) {
+
+		//reseting the array
+		if (!m_data[code]) {
+			arr = { 0 };
+		}
+
+		arr[surface] = present;
+
+		setStatus(code, true);
+		return;
+	}
+
+	arr[surface] = present;
+
+	for (auto s : arr) {
+		if (s) return;
+	}
+
+	setStatus(code, false);
+}
+
+void Tooth::setMobility(MobilityDegree degree, bool present)
+{
+	setStatus(Mobility, present);
+
+	if (present) {
+		m_degree = degree;
+		return;
+	}
+
+	m_degree = MobilityDegree::I;
+}
+
+void Tooth::setStatus(Dental::StatusType type, int code, bool present)
+{
+	switch (type)
+	{
+	case StatusType::General:
+		setStatus((Status)code, present); break;
+	case StatusType::Restoration:
+		setSurface(Restoration, (Surface)code, present); break;
+	case StatusType::Caries:
+		setSurface(Caries, (Surface)code, present); break;
+	case StatusType::Mobility:
+		setMobility((MobilityDegree)code, present); break;
 	}
 }
 
-std::array<bool, statusCount> Tooth::getBoolStatus() const
+void Tooth::clearStatuses()
 {
-	return std::array<bool, statusCount>
-	{
-		healthy.exists(),
-		temporary.exists(),
-		obturation.exists(),
-		caries.exists(),
-		pulpitis.exists(),
-		lesion.exists(),
-		endo.exists(),
-		post.exists(),
-		root.exists(),
-		fracture.exists(),
-		extraction.exists(),
-		periodontitis.exists(),
-		mobility.exists(),
-		crown.exists(),
-		bridge.exists(),
-		splint.exists(),
-		implant.exists(),
-		dsn.exists(),
-		impacted.exists(),
-		denture.exists(),
-		calculus.exists()
+	for (auto& code : m_data) code = false;
+
+	if (m_parent) {
+		m_parent->m_data[HasSupernumeral] = false;
 	};
+
+}
+
+bool Tooth::operator[](Dental::Status s) const
+{
+	if (s < 0 || s > StatusCount) return false;
+
+	return m_data[s];
+}
+
+
+std::string Tooth::toothName() const
+{
+	return ToothUtils::getName(m_index, m_data[Temporary]);
 }
 
 std::vector<std::string> Tooth::getNhifStatus() const
 {
-	auto boolStatus = getBoolStatus();
+	std::array<std::string, StatusCount> statusLegend = { "" };
+	static constexpr std::array<const char*, 3> mobilityNum{ "I", "II", "III" };
 
-	std::array<std::string, statusCount> statusLegend = { "" };
-	static constexpr std::array<const char*, mobilityCount> mobilityNum{ "I", "II", "III" };
-
-	statusLegend[StatusCode::Temporary] = "T";
-	statusLegend[StatusCode::Obturation] = "O";
-	statusLegend[StatusCode::Caries] = "C";
-	statusLegend[StatusCode::Pulpitis] = "P";
-	statusLegend[StatusCode::ApicalLesion] = "G";
-	statusLegend[StatusCode::Root] = "R";
-	statusLegend[StatusCode::Extraction] = boolStatus[StatusCode::FiberSplint] || boolStatus[StatusCode::Bridge] ? "" : "E";
-	statusLegend[StatusCode::Crown] = "K";
-	statusLegend[StatusCode::Bridge] = isPontic() ? "X" : "K";
-	statusLegend[StatusCode::Denture] = "X";
-	statusLegend[StatusCode::Periodontitis] = "Pa";
-	statusLegend[StatusCode::Mobility] = mobility ? statusLegend[StatusCode::Mobility] = mobilityNum[static_cast<int>(mobility.degree)] : "";
-	statusLegend[StatusCode::Fracture] = "F";
-	statusLegend[StatusCode::Implant] = "Impl.";
-	statusLegend[StatusCode::Dsn] = "Dsn";
-	statusLegend[StatusCode::FiberSplint] = isPontic() ? "X" : "O";
-
-	boolStatus[StatusCode::Dsn] = isSupernumeral();
+	statusLegend[Temporary] = "T";
+	statusLegend[Restoration] = "O";
+	statusLegend[Caries] = "C";
+	statusLegend[Pulpitis] = "P";
+	statusLegend[ApicalLesion] = "G";
+	statusLegend[Root] = "R";
+	statusLegend[Missing] = m_data[Splint] || m_data[Bridge] ? "" : "E";
+	statusLegend[Crown] = "K";
+	statusLegend[Bridge] = isPontic() ? "X" : "K";
+	statusLegend[Denture] = "X";
+	statusLegend[Periodontitis] = "Pa";
+	statusLegend[Mobility] = m_data[Mobility] ? statusLegend[Mobility] = mobilityNum[static_cast<int>(m_degree)] : "";
+	statusLegend[Fracture] = "F";
+	statusLegend[Implant] = "Impl.";
+	statusLegend[HasSupernumeral] = isSupernumeral() ? "Dsn" : "";
+	statusLegend[Splint] = isPontic() ? "X" : "O";
 
 	std::vector<std::string> simpleStatus;
 
-	for (int i = 0; i < statusCount; i++)
+	for (int i = 0; i < StatusCount; i++)
 	{
-		if (boolStatus[i] && !statusLegend[i].empty())
+
+		if (i == HasSupernumeral && isSupernumeral()) {
+			simpleStatus.push_back("Dsn");
+			continue;
+		}
+
+		if (m_data[i] && !statusLegend[i].empty())
 			simpleStatus.push_back(statusLegend[i]);
 	}
 
@@ -186,50 +456,58 @@ std::vector<std::string> Tooth::getHISStatus() const
 {
 	std::vector<std::string> statuses;
 
-	static constexpr std::array<const char*, surfaceCount> cariesNum{ "Co", "Cm", "Cd", "Cb", "Cl" , "Cc" };
-	static constexpr std::array<const char*, surfaceCount> obturationNum{ "Oo", "Om", "Od", "Ob", "Ol", "Oc" };
-	static constexpr std::array<const char*, mobilityCount> mobilityNum{ "M1", "M2", "M3" };
-	std::array<const char*, statusCount> status;
+	static constexpr std::array<const char*, 6> cariesNum{ "Co", "Cm", "Cd", "Cb", "Cl", "Cc" };
+	static constexpr std::array<const char*, 6> obturationNum{ "Oo", "Om", "Od", "Ob", "Ol", "Oc" };
+	static constexpr std::array<const char*, 3> mobilityNum{ "M1", "M2", "M3" };
+	std::array<const char*, StatusCount> status;
 
-	status[StatusCode::Healthy] = "H";
-	status[StatusCode::Temporary] = "";
-	status[StatusCode::Obturation] = "";
-	status[StatusCode::Caries] = "";
-	status[StatusCode::Pulpitis] = "P";
-	status[StatusCode::ApicalLesion] = "G";
-	status[StatusCode::Root] = "R";
-	status[StatusCode::Extraction] = "E";
-	status[StatusCode::Crown] = "K";
-	status[StatusCode::Bridge] = isPontic() ? "B" : "Kb";
-	status[StatusCode::Denture] = "X";
-	status[StatusCode::Periodontitis] = "Pa";
-	status[StatusCode::Mobility] = "";
-	if (mobility) {
-		status[StatusCode::Mobility] = mobilityNum[static_cast<int>(mobility.degree)];
+	status[Healthy] = "H";
+	status[Temporary] = "";
+	status[Restoration] = "";
+	status[Caries] = "";
+	status[Pulpitis] = "P";
+	status[ApicalLesion] = "G";
+	status[Root] = "R";
+	status[Missing] = "E";
+	status[Crown] = "K";
+	status[Bridge] = isPontic() ? "B" : "Kb";
+	status[Denture] = "X";
+	status[Periodontitis] = "Pa";
+	status[Mobility] = "";
+	if (m_data[Mobility]) {
+		status[Mobility] = mobilityNum[static_cast<int>(m_degree)];
 	}
-	status[StatusCode::Fracture] = "F";
-	status[StatusCode::Implant] = "I";
-	status[StatusCode::Dsn] = "D";
-	status[StatusCode::Impacted] = "Re";
-	status[StatusCode::EndoTreatment] = "Rc";
-	status[StatusCode::Post] = "Rp";
-	status[StatusCode::FiberSplint] = "S";
-	status[StatusCode::Calculus] = "T";
+	status[Fracture] = "F";
+	status[Implant] = "I";
+	status[HasSupernumeral] = "D";
+	status[Impacted] = "Re";
+	status[RootCanal] = "Rc";
+	status[Post] = "Rp";
+	status[Splint] = "S";
+	status[Calculus] = "T";
 
 	auto boolStatus = getBoolStatus();
 
 	//since D and E are incompatible in CL107
-	boolStatus[StatusCode::Dsn] = isSupernumeral() && !boolStatus[StatusCode::Extraction];
+	boolStatus[HasSupernumeral] = isSupernumeral() && !boolStatus[Missing];
 
-	for (int i = 0; i < surfaceCount; i++) {
+	for (int i = 0; i < SurfaceCount; i++) {
 
-		if (caries.exists(i)) statuses.push_back(cariesNum[i]);
-		if (obturation.exists(i)) statuses.push_back(obturationNum[i]);
+		if (hasCaries((Surface)i)) statuses.push_back(cariesNum[i]);
+		if (hasRestoration((Surface)i)) statuses.push_back(obturationNum[i]);
 
 	}
 
-	for (int i = 0; i < statusCount; i++) {
-		if (i == StatusCode::Caries || i == StatusCode::Obturation || i == StatusCode::Temporary) continue;
+	for (int i = 0; i < StatusCount; i++) {
+		if (i == Caries || i == Restoration || i == Temporary) {
+			continue;
+		}
+
+		if (i == HasSupernumeral && isSupernumeral()) {
+			statuses.push_back(status[HasSupernumeral]);
+			continue;
+		}
+
 		if (boolStatus[i]) statuses.push_back(status[i]);
 	}
 
@@ -243,7 +521,7 @@ std::string Tooth::getPrintStatus() const
 	std::string result;
 	result.reserve(vec.size() * 3);
 
-    for (auto& s : vec)
+	for (auto& s : vec)
 	{
 		if (s == "T") continue;
 
@@ -260,280 +538,6 @@ std::string Tooth::getPrintStatus() const
 
 }
 
-bool Tooth::noData() const
-{
-	for (auto status : getBoolStatus()) {
-		if(status) return false;
-	}
-
-	return true;
-}
-
-//some free template functions to improve readability (hopefully)
-
-template<class... Status> inline void set(bool state, Status&... parameters) { 
-	(parameters.set(state), ...); 
-}
-
-template<typename T> void addSurface(SurfaceStatus<T>& status, int surface, Tooth& tooth){
-	if (!status.exists()) set(false, tooth.healthy, tooth.extraction, tooth.root, tooth.implant, tooth.denture);
-	status.set(true, surface);
-}
-
-template<typename T> void removeSurface(SurfaceStatus<T>& status, int surface) { 
-	status.set(false, surface); 
-}
-
-template<typename T> void removeAllSurfaces(SurfaceStatus<T>& status) { 
-	status.reset(); 
-}
-
-
-void Tooth::addStatus(int statusCode)
-{
-	switch (statusCode)
-	{
-		case StatusCode::Healthy:
-		{
-			healthy.set(true);
-			set(false, obturation, caries, pulpitis, lesion, endo, post, root, fracture, extraction, periodontitis, mobility, crown, bridge, splint, implant, impacted, denture, calculus);
-			break;
-		}
-		case StatusCode::Temporary: 
-			if (type == ToothType::Molar) break;
-			set(true, temporary);  
-			set(false, post); 
-			healthy.set(isHealthyCheck());
-			break;
-
-		case StatusCode::Extraction:
-//			if (temporary.exists()){ removeStatus(); temporary.set(false); break; }
-			set(true, extraction);
-			set(false, healthy, obturation, caries, implant, pulpitis, endo, fracture, root, lesion, periodontitis, crown, post, mobility, denture, calculus, impacted);
-			break;
-
-		case StatusCode::Obturation: 
-			set(true, obturation); 
-			set(false, healthy, root, implant, extraction, impacted, denture);
-			break;
-
-		case StatusCode::Caries: 
-			set(true, caries); 
-			set(false, healthy, root, implant, extraction, impacted, denture);
-			break;
-
-		case StatusCode::Pulpitis: 
-			set(true, pulpitis); 
-			set(false, healthy, lesion, extraction, implant, endo, post, impacted);
-			if (denture && !root) denture.set(false);
-			break;
-
-		case StatusCode::EndoTreatment: 
-			set(true, endo); 
-			set(false, extraction, implant, pulpitis, impacted, healthy);
-			if (denture && !root) denture.set(false); 
-			break;
-
-		case StatusCode::Post: 
-			set(true, post, endo); 
-			set(false, healthy, temporary, extraction, implant, pulpitis, impacted, denture);
-			break;
-
-		case StatusCode::Root: 
-			set(true, root); 
-			set(false, healthy, caries, obturation, crown, extraction, implant, calculus);
-			break;
-
-		case StatusCode::Implant: 
-			set(true, implant); 
-			set(false, temporary, healthy, extraction, obturation, caries, pulpitis, endo, fracture, root, post, mobility, impacted, calculus);
-			break;
-
-		case StatusCode::ApicalLesion: 
-			set(true, lesion); 
-			set(false, healthy, pulpitis, extraction, impacted);
-			if (denture && !root) denture.set(false);
-			break;
-
-		case StatusCode::Fracture: 
-			set(true, fracture); 
-			set(false, healthy, extraction, implant, impacted);
-			if (denture && !root) denture.set(false);
-			break;
-
-		case StatusCode::Periodontitis: 
-			set(true, periodontitis); 
-			set(false, healthy, extraction, impacted, denture);
-			if (denture && !root) denture.set(false);  
-			break;
-
-		case StatusCode::Mobility: 
-			set(true, mobility); 
-			set(false, healthy, extraction, impacted);
-			mobility.degree = Degree::First; break;
-			if (denture && !root) denture.set(false);  
-			break;
-
-		case StatusCode::Crown: 
-			set(true, crown); 
-			set(false, healthy, bridge, extraction, root, splint, impacted, denture);
-			break;
-
-		case StatusCode::Bridge: 
-			set(true, bridge); 
-			set(false, healthy, crown, splint, denture);
-			bridge.LPK.clear(); 
-			break;
-
-		case StatusCode::FiberSplint:
-			set(true, splint); 
-			set(false, healthy, crown, bridge, denture);
-			break;
-
-		case StatusCode::Dsn: 
-			if (noData()) { set(true, healthy); }
-			set(true, dsn);
-			if (dsn.toothNotNull() && dsn.tooth().noData()) dsn.tooth().healthy.set(true);
-			break;
-
-		case StatusCode::Impacted: 
-			set(true, impacted); 
-			set(false, healthy, obturation, caries, extraction, periodontitis, lesion, implant, crown, post, endo, mobility, fracture, calculus);
-			break;
-
-		case StatusCode::Denture: 
-			set(true, denture); 
-			set(false, healthy, obturation, caries, extraction, crown, bridge, splint, post, calculus);
-			if (!root) {
-				set(false, endo, lesion, pulpitis, periodontitis);
-			}
-			break;
-
-		case StatusCode::Calculus:
-			set(true, calculus);
-			set(false, healthy, root, extraction, implant, impacted, denture);
-			break;
-
-		default: break;
-	};
-	
-}
-
-void Tooth::removeStatus(int statusCode)
-{
-	switch (statusCode){
-		case StatusCode::Healthy: healthy.set(false); if (isHealthyCheck()) temporary.set(false); break;
-		case StatusCode::Temporary: temporary.set(false); extraction.set(false); healthy.set(isHealthyCheck()); break;
-		case StatusCode::Obturation: obturation.set(false); break;
-		case StatusCode::Caries: caries.set(false); break;
-		case StatusCode::Pulpitis: pulpitis.set(false); break;
-		case StatusCode::EndoTreatment: set(false, post, endo); break;
-		case StatusCode::Post: set(false, post); break;
-		case StatusCode::ApicalLesion: lesion.set(false); break;
-		case StatusCode::Extraction: extraction.set(false); break;
-		case StatusCode::Root: root.set(false); if (denture) denture.set(false); break;
-		case StatusCode::Mobility: mobility.set(false); break;
-		case StatusCode::Implant: implant.set(false); break;
-		case StatusCode::Fracture: fracture.set(false); break;
-		case StatusCode::Crown: crown.set(false); break;
-		case StatusCode::Bridge: bridge.set(false); break;
-		case StatusCode::FiberSplint: splint.set(false); break;
-		case StatusCode::Periodontitis: periodontitis.set(false); break;
-		case StatusCode::Dsn: dsn.set(false); if (dsn.toothNotNull()) { dsn.tooth().removeStatus(); } break;
-		case StatusCode::Impacted: impacted.set(false); if (denture || !root) denture.set(false); break;
-		case StatusCode::Denture: denture.set(false); break;
-		case StatusCode::Calculus: calculus.set(false); break;
-		default: return;
-	}
-
-	if (statusCode != StatusCode::Healthy && isHealthyCheck()) healthy.set(true);
-}
-
-void Tooth::removeStatus() {
-
-	for (int i = 0; i < statusCount; i++) {
-		removeStatus(i);
-	}
-
-	healthy.set(false);
-	
-}
-
-//public setters:
-
-void Tooth::setStatus(StatusType type, int code, bool state)
-{
-	switch (type) {
-		case StatusType::general: 
-			state ? 
-				addStatus(code) 
-				: 
-				removeStatus(code);  break;
-		case StatusType::obturation: 
-			state ? 
-				addSurface(obturation, code, *this) 
-				: 
-				removeSurface(obturation, code); 
-
-			break;
-		case StatusType::caries: 
-			state ? 
-				addSurface(caries, code, *this) 
-				: 
-				removeSurface(caries, code); 
-			break;
-		case StatusType::mobility:
-		{
-			if (state) {
-				addStatus(StatusCode::Mobility);
-				mobility.degree = static_cast<Degree>(code);
-			}
-			else
-			{
-				removeStatus(StatusCode::Mobility);
-			}
-			
-		}
-		break;
-	}
-
-	if (isHealthyCheck()) healthy.set(true);
-
-}
-
-void Tooth::setStatus(int code, bool state){
-	setStatus(StatusType::general, code, state);
-}
-
-void Tooth::removeStatus(StatusType type)
-{
-	switch (type){
-		case StatusType::general: removeStatus(); break;
-		case StatusType::obturation: removeAllSurfaces(obturation);  break;
-		case StatusType::caries: removeAllSurfaces(caries); break;
-        case StatusType::mobility: mobility.set(false); break;
-	}
-
-	if (noData()) healthy.set(true);
-}
-
-std::string Tooth::toothName() const
-{
-	return ToothUtils::getName(index, temporary.exists());
-}
-
-bool Tooth::isPontic() const
-{
-	if (!bridge) return false;
-
-	return extraction || impacted;
-}
-
-bool Tooth::canHaveACrown() const
-{
-	return !extraction && !root && !impacted && !denture;
-}
-
 std::string Tooth::getToothInfo() const
 {
 	auto status = getBoolStatus();
@@ -544,20 +548,20 @@ std::string Tooth::getToothInfo() const
 
 	for (int i = 0; i < status.size(); i++)
 	{
-		if (status[i] && i != StatusCode::Mobility) {
+		if (status[i] && i != Mobility) {
 
 			result.append("<br><b>");
 			result.append(statusNames[i]);
 			result.append("</b>");
 		}
 
-		if (i == StatusCode::Obturation && obturation) {
+		if (i == Restoration && (*this)[Restoration]) {
 
 			result.append(":");
 
-			auto surfaces = obturation.getBoolStatus();
+			auto surfaces = getRestorationBoolStatus();
 
-			for (int y = 0; y < surfaceCount; y++)
+			for (int y = 0; y < SurfaceCount; y++)
 			{
 				if (!surfaces[y]) continue;
 				result.append("<br>");
@@ -565,29 +569,29 @@ std::string Tooth::getToothInfo() const
 			}
 		}
 
-		if (i == StatusCode::Caries && caries) {
+		if (i == Caries && (*this)[Caries]) {
 
 			result.append(":");
 
-			auto surfaces = caries.getBoolStatus();
+			auto surfaces = getCariesBoolStatus();
 
-			for (int y = 0; y < surfaceCount; y++)
+			for (int y = 0; y < SurfaceCount; y++)
 			{
 				if (!surfaces[y]) continue;
 				result.append("<br>");
 				result.append(surfaceNames[y]);
-				
+
 			}
 		}
 
-		if (i == StatusCode::Mobility && mobility) {
+		if (i == Mobility && (*this)[Mobility]) {
 
 			result.append("<br><b>");
-			result.append(mobilityNames[static_cast<int>(mobility.degree)]);
+			result.append(mobilityNames[m_degree]);
 			result.append("</b>");
 
 		}
-		
+
 	}
 
 	auto numenclature = getHISStatus();
@@ -609,9 +613,11 @@ std::string Tooth::getToothInfo() const
 	result.pop_back();
 
 	return result;
-
 }
 
-
-
-
+Tooth::~Tooth()
+{
+	if (m_supernumeral) {
+		delete m_supernumeral;
+	}
+}

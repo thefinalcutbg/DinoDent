@@ -3,6 +3,7 @@
 #include "Model/Dental/Procedure.h"
 #include "Database.h"
 #include "DbProcedure.h"
+#include "Model/User.h"
 
 ToothContainer DbPerio::getStatus(long long patientRowId, const Date& date)
 {

@@ -14,6 +14,7 @@
 #include "Presenter/ProcedureHistoryPresenter.h"
 #include "Presenter/DetailedStatusPresenter.h"
 #include "Presenter/FiscalReceiptPresenter.h"
+#include "Model/FreeFunctions.h"
 
 #include "View/ModalDialogBuilder.h"
 #include "View/Printer.h"
@@ -154,7 +155,7 @@ bool ListPresenter::isValid()
 
     for (auto& p : m_ambList.procedures)
     {
-        if (p.tooth_idx.supernumeral && !m_ambList.teeth[p.tooth_idx.index].dsn)
+        if (p.tooth_idx.supernumeral && !m_ambList.teeth[p.tooth_idx.index][Dental::HasSupernumeral])
         {
             ModalDialogBuilder::showError(
             "За да запишете манипулация на свръхброен зъб, отбележете го като такъв в статуса!"
@@ -399,24 +400,24 @@ void ListPresenter::setOther(int code)
 {
     auto DO = [](Tooth& t) mutable
     {
-        t.removeStatus(StatusCode::Obturation);
-        t.setStatus(StatusType::obturation, Surface::Distal);
-        t.setStatus(StatusType::obturation, Surface::Occlusal);
+        t.setStatus(Dental::Restoration, false);
+        t.setSurface(Dental::Restoration, Dental::Distal, true);
+        t.setSurface(Dental::Restoration, Dental::Occlusal, true);
     };
 
     auto MO = [](Tooth& t) mutable
     {
-        t.removeStatus(StatusCode::Obturation);
-        t.setStatus(StatusType::obturation, Surface::Medial);
-        t.setStatus(StatusType::obturation, Surface::Occlusal);
+        t.setStatus(Dental::Restoration, false);
+        t.setSurface(Dental::Restoration, Dental::Medial, true);
+        t.setSurface(Dental::Restoration, Dental::Occlusal, true);
     };
 
     auto MOD = [](Tooth& t)
     {
-        t.removeStatus(StatusCode::Obturation);
-        t.setStatus(StatusType::obturation, Surface::Medial);
-        t.setStatus(StatusType::obturation, Surface::Distal);
-        t.setStatus(StatusType::obturation, Surface::Occlusal);
+        t.setStatus(Dental::Restoration, false);
+        t.setSurface(Dental::Restoration, Dental::Distal, true);
+        t.setSurface(Dental::Restoration, Dental::Occlusal, true);
+        t.setSurface(Dental::Restoration, Dental::Medial, true);
     };
 
     auto& teeth = m_ambList.teeth;
@@ -430,16 +431,16 @@ void ListPresenter::setOther(int code)
             case OtherInputs::DO: DO(tooth); break;
             case OtherInputs::MO: MO(tooth); break;
             case OtherInputs::MOD: MOD(tooth); break;
-            case OtherInputs::removeC: tooth.removeStatus(StatusType::caries); break;
-            case OtherInputs::removeO: tooth.removeStatus(StatusType::obturation); break;
+            case OtherInputs::removeC: tooth.setStatus(Dental::Caries, false); break;
+            case OtherInputs::removeO: tooth.setStatus(Dental::Restoration, false); break;
             case OtherInputs::removeBridge:
-                teeth.removeBridgeOrSplint(m_selectedIndexes);
+                teeth.removeBridgeOrSplint({ idx });
                 break;
             case OtherInputs::removeAll:
-                teeth.removeEveryStatus(m_selectedIndexes);
+                teeth.removeEveryStatus({ idx });
                 break;
             case OtherInputs::removeDsn:
-                teeth.setStatus(m_selectedIndexes, StatusType::general, StatusCode::Dsn, false, false);
+                tooth.setStatus(Dental::HasSupernumeral, false);
                 break;
         }
     }
@@ -452,23 +453,23 @@ void ListPresenter::setOther(int code)
     statusChanged();
 }
 
-void ListPresenter::setToothStatus(StatusType t, int code)
+void ListPresenter::setToothStatus(Dental::StatusType t, int code, bool supernumeral)
 {
     bool state{ false };
 
     switch (t)
     {
-        case StatusType::general: state = m_checkModel.generalStatus[code] != CheckState::checked; break;
-        case StatusType::obturation: state = m_checkModel.obturationStatus[code] != CheckState::checked; break;
-        case StatusType::caries: state = m_checkModel.cariesStatus[code] != CheckState::checked; break;
-        case StatusType::mobility: state = m_checkModel.mobilityStatus[code] != CheckState::checked; break;
+        case Dental::StatusType::General: state = m_checkModel.generalStatus[code] != CheckState::checked; break;
+        case Dental::StatusType::Restoration: state = m_checkModel.obturationStatus[code] != CheckState::checked; break;
+        case Dental::StatusType::Caries: state = m_checkModel.cariesStatus[code] != CheckState::checked; break;
+        case Dental::StatusType::Mobility: state = m_checkModel.mobilityStatus[code] != CheckState::checked; break;
     }
 
-    m_ambList.teeth.setStatus(m_selectedIndexes, t, static_cast<StatusCode::StatusCode>(code), state, false);
+    m_ambList.teeth.setStatus(m_selectedIndexes, t, code, state, supernumeral);
 
-    if (t == StatusType::general)
+    if (t == Dental::StatusType::General)
     {
-        if (code == StatusCode::Temporary) {
+        if (code == Dental::Temporary) {
             refreshProcedureView(); //updates the teeth num
         }
 
@@ -476,24 +477,6 @@ void ListPresenter::setToothStatus(StatusType t, int code)
             view->repaintTooth(ToothPaintHint(m_ambList.teeth[i], patient->teethNotes[i]));
         }
     }
-
-    statusChanged();
-}
-
-void ListPresenter::setDsnStatus(StatusType t, int code)
-{
-
-    bool state{ false };
-
-    switch (t)
-    {
-        case StatusType::general: state = m_dsnCheckModel.generalStatus[code] != CheckState::checked; break;
-        case StatusType::obturation: state = m_dsnCheckModel.obturationStatus[code] != CheckState::checked; break;
-        case StatusType::caries: state = m_dsnCheckModel.cariesStatus[code] != CheckState::checked; break;
-        case StatusType::mobility: state = m_dsnCheckModel.mobilityStatus[code] != CheckState::checked; break;
-    }
-
-    m_ambList.teeth.setStatus(m_selectedIndexes, t, static_cast<StatusCode::StatusCode>(code), state, true);
 
     statusChanged();
 }
@@ -608,24 +591,16 @@ int ListPresenter::generateAmbListNumber()
 
 void ListPresenter::openDetails(int toothIdx)
 {
-    DetailedStatusPresenter d(m_ambList.teeth[toothIdx], patient->rowid, getToothHistory(toothIdx));
+    DetailedStatusPresenter d(toothIdx, patient->rowid, getToothHistory(toothIdx));
 
-    auto result = d.open();
-
-    if (!result.has_value()) return;
-    
-    m_ambList.teeth.setToothDetails(result.value());
+    d.open();
 
     patient->teethNotes[toothIdx] = d.getNote();
 
     view->setNotes(patient->teethNotes);
-   
-    for (int i = 0; i < 32; i++)
-    {
-        view->repaintTooth(ToothPaintHint(m_ambList.teeth[i], patient->teethNotes[i]));
-    }
+  
+    view->repaintTooth(ToothPaintHint(m_ambList.teeth[toothIdx], patient->teethNotes[toothIdx]));
 
-    statusChanged();
 }
 
 void ListPresenter::openDetails()

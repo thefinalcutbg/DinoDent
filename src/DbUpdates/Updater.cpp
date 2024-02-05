@@ -16,11 +16,6 @@ void DbUpdater::updateDb()
 
 	d.show();
 
-	DbUpdates::update5();
-	DbUpdates::update6(d);
-	DbUpdates::update7(d);
-	DbUpdates::update8(d);
-	DbUpdates::update9(d);
 	DbUpdates::update10(d);
 	DbUpdates::update11(d);
 	DbUpdates::update12();

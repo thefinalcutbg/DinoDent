@@ -3,6 +3,7 @@
 #include <unordered_map>
 #include <TinyXML/tinyxml.h>
 #include "Model/FreeFunctions.h"
+#include "Model/Dental/ToothUtils.h"
 
 void deserializeNhifStatus(Tooth& tooth, const std::string& code);
 
@@ -90,13 +91,10 @@ PisReportsForImport PisReportParser::parse(const std::string& xmlReport)
 
 			ToothIndex idx = ToothUtils::getToothFromNhifNum(toothXml->FirstAttribute()->ValueStr());
 		
-			auto& tooth = idx.supernumeral ? 
-				list.teeth[idx.index].dsn.tooth() 
-				: 
-				list.teeth[idx.index];
+			auto& tooth = list.teeth.at(idx);
 
-			if (idx.supernumeral) list.teeth[idx.index].setStatus(StatusCode::Dsn);
-			if (idx.temp) list.teeth[idx.index].setStatus(StatusCode::Temporary);
+			if (idx.supernumeral) list.teeth[idx.index].setStatus(Dental::HasSupernumeral);
+			if (idx.temp) list.teeth[idx.index].setStatus(Dental::Temporary);
 
 			//DESERIALIZING STATUSES
 			for (
@@ -138,7 +136,7 @@ PisReportsForImport PisReportParser::parse(const std::string& xmlReport)
 
 					RestorationData restoration;
 
-					if (ToothUtils::getToothType(p.tooth_idx.index) == ToothType::Frontal) {
+					if (ToothUtils::getToothType(p.tooth_idx.index) == Dental::Frontal) {
 						restoration.surfaces[3] = true;
 					}
 					else {
@@ -192,21 +190,21 @@ void deserializeNhifStatus(Tooth& tooth, const std::string& code)
 {
 	static std::map<std::string, std::function<void(Tooth& tooth)>> lambdaMap
 	{
-		{ "E",	[](Tooth& tooth) mutable { tooth.setStatus(StatusCode::Extraction); }},
-		{ "T",	[](Tooth& tooth) mutable { tooth.setStatus(StatusCode::Temporary); } },
-		{ "K",	[](Tooth& tooth) mutable { tooth.setStatus(StatusCode::Crown); } },
-		{ "O",	[](Tooth& tooth) mutable { tooth.setStatus(StatusCode::Obturation); } },
-		{ "C",	[](Tooth& tooth) mutable { tooth.setStatus(StatusCode::Caries); } },
-		{ "I",	[](Tooth& tooth) mutable { tooth.setStatus(StatusCode::Mobility); tooth.mobility.degree = Degree::First; } },
-		{ "II",	[](Tooth& tooth) mutable { tooth.setStatus(StatusCode::Mobility); tooth.mobility.degree = Degree::Second; } },
-		{ "III",[](Tooth& tooth) mutable { tooth.setStatus(StatusCode::Mobility); tooth.mobility.degree = Degree::Third; } },
-		{ "X",	[](Tooth& tooth) mutable { tooth.setStatus(StatusCode::Denture); } },
-		{ "R",	[](Tooth& tooth) mutable { tooth.setStatus(StatusCode::Root); } },
-		{ "Impl.",[](Tooth& tooth) mutable { tooth.setStatus(StatusCode::Implant); } },
-		{ "G",	[](Tooth& tooth) mutable { tooth.setStatus(StatusCode::ApicalLesion); } },
-		{ "P",	[](Tooth& tooth) mutable { tooth.setStatus(StatusCode::Pulpitis); } },
-		{ "F",	[](Tooth& tooth) mutable { tooth.setStatus(StatusCode::Fracture); } },
-		{ "Pa",	[](Tooth& tooth) mutable { tooth.setStatus(StatusCode::Periodontitis); } },
+		{ "E",	[](Tooth& tooth) mutable { tooth.setStatus(Dental::Missing); }},
+		{ "T",	[](Tooth& tooth) mutable { tooth.setStatus(Dental::Temporary); } },
+		{ "K",	[](Tooth& tooth) mutable { tooth.setStatus(Dental::Crown); } },
+		{ "O",	[](Tooth& tooth) mutable { tooth.setStatus(Dental::Restoration); } },
+		{ "C",	[](Tooth& tooth) mutable { tooth.setStatus(Dental::Caries); } },
+		{ "I",	[](Tooth& tooth) mutable { tooth.setStatus(Dental::Mobility); tooth.m_degree = Dental::I; } },
+		{ "II",	[](Tooth& tooth) mutable { tooth.setStatus(Dental::Mobility); tooth.m_degree = Dental::II; } },
+		{ "III",[](Tooth& tooth) mutable { tooth.setStatus(Dental::Mobility); tooth.m_degree = Dental::III; } },
+		{ "X",	[](Tooth& tooth) mutable { tooth.setStatus(Dental::Denture); } },
+		{ "R",	[](Tooth& tooth) mutable { tooth.setStatus(Dental::Root); } },
+		{ "Impl.",[](Tooth& tooth) mutable { tooth.setStatus(Dental::Implant); } },
+		{ "G",	[](Tooth& tooth) mutable { tooth.setStatus(Dental::ApicalLesion); } },
+		{ "P",	[](Tooth& tooth) mutable { tooth.setStatus(Dental::Pulpitis); } },
+		{ "F",	[](Tooth& tooth) mutable { tooth.setStatus(Dental::Fracture); } },
+		{ "Pa",	[](Tooth& tooth) mutable { tooth.setStatus(Dental::Periodontitis); } },
 	};
 
 	if (lambdaMap.count(code)) lambdaMap[code](tooth);

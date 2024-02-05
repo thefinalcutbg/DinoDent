@@ -1,5 +1,8 @@
 ﻿#include "ProcedureCreator.h"
 #include <set>
+#include "Model/User.h"
+
+using namespace Dental;
 
 ProcedureCreator::ProcedureCreator(const std::vector<const Tooth*>& selectedTeeth)
 	: m_selectedTeeth(selectedTeeth)
@@ -24,12 +27,12 @@ int ProcedureCreator::restorationDiagnosis(const Tooth& tooth)
 */
 	std::array<bool, 6> existing
 	{
-			tooth.fracture.exists(),
-			tooth.caries.exists(),
-			tooth.endo.exists(),
-			tooth.pulpitis.exists(),
-			tooth.lesion.exists(),
-			tooth.root.exists(),
+			tooth[Fracture],
+			tooth[Caries],
+			tooth[RootCanal],
+			tooth[Pulpitis],
+			tooth[ApicalLesion],
+			tooth[Root]
 	};
 
 	std::array<int, 7> diagnosis
@@ -39,7 +42,7 @@ int ProcedureCreator::restorationDiagnosis(const Tooth& tooth)
 		8,
 		2,
 		3,
-		4, //should be root
+		4 //should be root
 	};
 
 	for (int i = 0; i < 6; i++)
@@ -56,13 +59,13 @@ int ProcedureCreator::extractionDiagnosis(const Tooth& tooth)
 {
 	std::array<bool, 7> existing
 	{
-		tooth.lesion.exists(),
-		tooth.temporary.exists(),
-		tooth.root.exists(),
-		tooth.periodontitis.exists(),
-		tooth.mobility.exists(),
-		tooth.fracture.exists(),
-		tooth.pulpitis.exists()
+		tooth[ApicalLesion],
+		tooth[Temporary],
+		tooth[Root],
+		tooth[Periodontitis],
+		tooth[Mobility],
+		tooth[Fracture],
+		tooth[Pulpitis]
 	};
 
 	std::array<int, 7> diagnosis
@@ -90,10 +93,10 @@ int ProcedureCreator::endodonticDiagnosis(const Tooth& tooth)
 {
 	std::array<bool, 4> existing
 	{
-		tooth.pulpitis.exists(),
-		tooth.lesion.exists(),
-		tooth.endo.exists(),
-		tooth.fracture.exists()
+		tooth[Pulpitis],
+		tooth[ApicalLesion],
+		tooth[RootCanal],
+		tooth[Fracture]
 	};
 
 	std::array<int, 4> diagnosis
@@ -118,10 +121,10 @@ int ProcedureCreator::crownDiagnosis(const Tooth& tooth)
 {
 	std::array<bool, 4> existing
 	{
-		tooth.endo.exists(),
-		tooth.fracture.exists(),
-		tooth.obturation.exists(),
-		tooth.implant.exists()
+		tooth[RootCanal],
+		tooth[Fracture],
+		tooth[Restoration],
+		tooth[Implant]
 	};
 
 	std::array<int, 4> diagnosis
@@ -144,7 +147,7 @@ int ProcedureCreator::crownDiagnosis(const Tooth& tooth)
 
 int ProcedureCreator::implantDiagnosis(const Tooth& tooth)
 {
-	if (tooth.extraction) return 5;
+	if (tooth[Missing]) return 5;
 
 		return 0;
 }
@@ -155,36 +158,36 @@ std::array<bool, 6> ProcedureCreator::autoSurfaces(const Tooth& tooth)
 
 	for (int i = 0; i < 6; i++)
 	{
-		surfaces[i] = tooth.caries.exists(i);
+		surfaces[i] = tooth.hasCaries(i);
 	}
 
-	if (tooth.root.exists())
+	if (tooth[Root])
 	{
 		surfaces = { 1, 1, 1, 1, 1, 1 };
 	}
 
-	if (tooth.endo.exists())
+	if (tooth[RootCanal])
 	{
-		if (ToothUtils::getToothType(tooth.index) == ToothType::Frontal)
+		if (tooth.type() == Frontal)
 		{
 			surfaces[Surface::Lingual] = true;
 		}
 		else surfaces[Surface::Occlusal] = true;
 	}
 
-	if (tooth.fracture.exists())
+	if (tooth[Fracture])
 	{
-		if (ToothUtils::getToothType(tooth.index) == ToothType::Frontal)
+		if (tooth.type() == Frontal)
 		{
 			surfaces[Surface::Occlusal] = true;
 		}
 		else surfaces[Surface::Lingual] = true;
 	}
-	else if (tooth.obturation.exists() && !tooth.caries.exists())
+	else if (tooth[Restoration] && !tooth[Caries])
 	{
 		for (int i = 0; i < 6; i++)
 		{
-			if (tooth.obturation.exists(i))
+			if (tooth.hasRestoration(i))
 				surfaces[i] = true;
 		}
 	}
@@ -198,11 +201,11 @@ ConstructionRange ProcedureCreator::getBridgeRange(const std::vector<const Tooth
 	
 	if (selectedTeeth.size() == 1)
 	{
-		return { selectedTeeth[0]->index, selectedTeeth[0]->index };
+		return { selectedTeeth[0]->index(), selectedTeeth[0]->index() };
 	}
 
-	int begin = selectedTeeth[0]->index; //if multiple teeth are selected, the range is calculated to be valid
-	int end = selectedTeeth.back()->index; //doesn't matter if the first and last teeth are on different jaws
+	int begin = selectedTeeth[0]->index(); //if multiple teeth are selected, the range is calculated to be valid
+	int end = selectedTeeth.back()->index(); //doesn't matter if the first and last teeth are on different jaws
 
 	if (begin < 16 && end > 15) { end = 15; }
 
@@ -213,9 +216,9 @@ std::string ProcedureCreator::bridgeOrFiberDiagnosis(const std::vector<const Too
 {
 	for (int i = range.tooth_begin; i <= range.tooth_end; i++)
 	{
-		auto& tooth = selectedTeeth.at(i);
+		auto& tooth = *selectedTeeth.at(i);
 
-		if (tooth->extraction) return "Andontia partialis";
+		if (tooth[Missing]) return "Andontia partialis";
 	}
 
 	return "Стабилизация с блок корони";
@@ -414,7 +417,7 @@ std::vector<Procedure> ProcedureCreator::getProcedures()
 		for (auto t : m_selectedTeeth)
 		{
 			result.push_back(procedure);
-			result.back().tooth_idx.index = t->index;
+			result.back().tooth_idx.index = t->index();
 		}
 		break;
 	case ProcedureType::bridge:
@@ -440,7 +443,7 @@ std::vector<Procedure> ProcedureCreator::getProcedures()
 		for (auto t : m_selectedTeeth)
 		{
 			result.push_back(procedure);
-			result.back().tooth_idx.index = t->index;
+			result.back().tooth_idx.index = t->index();
 		}
 	}
 		break;

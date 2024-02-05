@@ -2,11 +2,14 @@
 
 #include "Model/User.h"
 #include "Model/Dental/Tooth.h"
+#include "Model/Dental/ToothUtils.h"
+
+using namespace Dental;
 
 //I'm a puppet on a string
-bool R_U_Mine(const DentistMade& procedure)
+bool R_U_Mine(const Tooth& tooth, int code)
 {
-    return User::isCurrentUser(procedure.LPK);
+    return User::isCurrentUser(tooth.getLPK(code));
 }
 
 BridgeTerminal getBridgePosition(int toothIdx, BridgePos position)
@@ -25,9 +28,9 @@ BridgeTerminal getBridgePosition(int toothIdx, BridgePos position)
 
 ToothPaintHint::ToothPaintHint(const Tooth& tooth, const std::string& notes)
 {
-    idx = tooth.index;
-    temp = tooth.temporary.exists();
-    num = ToothUtils::getNhifNumber(tooth.index, temp, false);
+    idx = tooth.index();
+    temp = tooth[Temporary];
+    num = ToothUtils::getNhifNumber(tooth.toothIndex());
 
     //the tooth hint:
     if (tooth.noData()) {
@@ -36,37 +39,37 @@ ToothPaintHint::ToothPaintHint(const Tooth& tooth, const std::string& notes)
         return;
     }
 
-    calculus = tooth.calculus.exists();
-    frac = tooth.fracture.exists();
-    perio = tooth.periodontitis.exists();
-    lesion = tooth.lesion.exists();
-    impacted = tooth.impacted.exists();
+    calculus = tooth[Calculus];
+    frac = tooth[Fracture];
+    perio = tooth[Periodontitis];
+    lesion = tooth[ApicalLesion];
+    impacted = tooth[Impacted];
     mobility = 0;
 
-    if (tooth.mobility.exists())
-        mobility = static_cast<int>(tooth.mobility.degree) + 1;
+    if (tooth[Mobility])
+        mobility = static_cast<int>(tooth.m_degree) + 1;
 
     this->tooth = ToothTextureHint::normal;
 
-    if (tooth.extraction.exists())
+    if (tooth[Missing])
     {
-        if (tooth.bridge.exists() || tooth.splint.exists())
+        if (tooth[Bridge] || tooth[Splint])
             this->tooth = ToothTextureHint::none;
 
-        else if (R_U_Mine(tooth.extraction))
+        else if (R_U_Mine(tooth, Missing))
             this->tooth = ToothTextureHint::extr_m;
 
         else
             this->tooth = ToothTextureHint::extr;
     }
-    else if (tooth.implant.exists())
+    else if (tooth[Implant])
     {
-        if (R_U_Mine(tooth.implant))
+        if (R_U_Mine(tooth, Implant))
             this->tooth = ToothTextureHint::impl_m;
         else
             this->tooth = ToothTextureHint::impl;
     }
-    else if (tooth.root.exists())
+    else if (tooth[Root])
     {
         this->tooth = ToothTextureHint::root;
     }
@@ -78,19 +81,16 @@ ToothPaintHint::ToothPaintHint(const Tooth& tooth, const std::string& notes)
     {
         surfaces[i] = SurfaceHint{ SurfaceColor::none, false };
 
-        if (tooth.obturation.exists(i) && tooth.caries.exists(i))
-        {
-            surfaces[i].outline = true;
-        }
+        surfaces[i].outline = tooth.hasSecondaryCaries(i);
 
-        if (tooth.obturation.exists(i))
+        if (tooth.hasRestoration(i))
         {
-            if (R_U_Mine(tooth.obturation[i]))
+            if (R_U_Mine(tooth, i))
                 surfaces[i].color = SurfaceColor::green;
             else
                 surfaces[i].color = SurfaceColor::blue;
         }
-        else if (tooth.caries.exists(i))
+        else if (tooth.hasCaries(i))
             surfaces[i].color = SurfaceColor::red;
     }
 
@@ -98,50 +98,50 @@ ToothPaintHint::ToothPaintHint(const Tooth& tooth, const std::string& notes)
 
     endo = EndoHint::none;
 
-    if (tooth.endo.exists())
+    if (tooth[RootCanal])
     {
-        if (R_U_Mine(tooth.endo)) endo = EndoHint::green;
+        if (R_U_Mine(tooth, RootCanal)) endo = EndoHint::green;
         else endo = EndoHint::blue;
     }
-    else if (tooth.pulpitis.exists())
+    else if (tooth[Pulpitis])
         endo = EndoHint::red;
-    else if (tooth.lesion.exists() && !tooth.implant.exists())
+    else if (tooth[ApicalLesion] && !tooth[Implant])
         endo = EndoHint::darkred;
 
     //prosthodontic hint
 
     prostho = ProsthoHint::none;
 
-    if (tooth.crown.exists())
+    if (tooth[Crown])
     {
-        R_U_Mine(tooth.crown) ?
+        R_U_Mine(tooth, Crown) ?
             prostho = ProsthoHint::crown_green
             :
             prostho = ProsthoHint::crown;
     }
-    else if (tooth.bridge.exists())
+    else if (tooth[Bridge])
     {
-        R_U_Mine(tooth.bridge) ?
+        R_U_Mine(tooth, Bridge) ?
             prostho = ProsthoHint::bridge_green
             :
             prostho = ProsthoHint::bridge;
 
-        bridgePos = getBridgePosition(tooth.index, tooth.bridge.position);
+        bridgePos = getBridgePosition(tooth.index(), tooth.position);
     }
-    else if (tooth.splint.exists())
+    else if (tooth[Splint])
     {
-        R_U_Mine(tooth.splint) ?
+        R_U_Mine(tooth, Splint) ?
             prostho = ProsthoHint::splint_green
             :
             prostho = ProsthoHint::splint;
 
-        bridgePos = getBridgePosition(tooth.index, tooth.splint.position);
+        bridgePos = getBridgePosition(tooth.index(), tooth.position);
 
     }
 
-    else if (tooth.denture.exists())
+    else if (tooth[Denture])
     {
-        prostho = R_U_Mine(tooth.denture) ?
+        prostho = R_U_Mine(tooth, Denture) ?
             ProsthoHint::denture_green
             :
             ProsthoHint::denture;
@@ -156,19 +156,19 @@ ToothPaintHint::ToothPaintHint(const Tooth& tooth, const std::string& notes)
 
     post = PostHint::none;
 
-    if (tooth.post.exists())
+    if (tooth[Post])
     {
-        R_U_Mine(tooth.post) ?
+        R_U_Mine(tooth, Post) ?
             post = PostHint::green
             :
             post = PostHint::blue;
     }
 
-    if (tooth.dsn)
+    if (tooth[HasSupernumeral])
     {
-        dsn = std::make_unique<ToothPaintHint>(tooth.dsn.tooth());
+        dsn = std::make_unique<ToothPaintHint>(tooth.getSupernumeral());
         dsn->isHyperdontic = true;
-        dsn->num = ToothUtils::getNhifNumber(dsn->idx, dsn->temp, true);
+        dsn->num = ToothUtils::getNhifNumber(tooth.toothIndex());
     }
 getToolTip:
     toolTip = "<b>" + tooth.toothName() + "</b><br>";

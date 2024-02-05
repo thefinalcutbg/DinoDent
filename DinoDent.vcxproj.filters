@@ -84,12 +84,6 @@
     <ClCompile Include="src\Model\Dental\ProcedureContainer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Model\Dental\Status.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Model\Dental\StatusData.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Model\Dental\TimeFrame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -702,9 +696,6 @@
     <ClCompile Include="src\View\Widgets\UpdateDownloader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Model\Dental\DentalNum.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Model\Referrals\Referral.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -747,15 +738,6 @@
     <ClCompile Include="src\View\TableModels\StatisticTableModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\DbUpdates\Update5.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\DbUpdates\Update6.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\DbUpdates\Update7.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\View\uiComponents\StatusMultiButton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -789,16 +771,10 @@
     <ClCompile Include="src\View\SubWidgets\MedicalStatusWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\DbUpdates\Update8.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\View\SubWidgets\DsnMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\Graphics\PaintHint.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\DbUpdates\Update9.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Model\Dental\ToothIndex.cpp">
@@ -983,7 +959,7 @@
     <ClInclude Include="src\Model\Dental\Diagnosis.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model\Dental\Enums.h">
+    <ClInclude Include="src\Model\Dental\Dental.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\Dental\MKB.h">
@@ -1017,12 +993,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\Dental\ProcedureContainer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Model\Dental\Status.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Model\Dental\StatusData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\Dental\SurfStatus.h">
@@ -1548,9 +1518,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Network\UpdateService\UpdateService.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Model\Dental\DentalNum.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\NumenclatureTemplate.h">

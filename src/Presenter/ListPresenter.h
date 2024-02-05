@@ -86,8 +86,7 @@ public:
     void checkPention();
     void addFinancialReceipt();
 
-    void setToothStatus(StatusType t, int code);
-    void setDsnStatus(StatusType t, int code);
+    void setToothStatus(Dental::StatusType t, int code, bool supernumeral = false);
     void setOther(int code);
 
     void setSelectedTeeth(const std::vector<int>& SelectedIndexes);

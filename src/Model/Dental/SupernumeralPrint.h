@@ -1,13 +1,13 @@
 #pragma once
 #include <string>
 
-#include "Model/Dental/Enums.h"
+#include "Model/Dental/Dental.h"
 
 class ToothContainer;
 
 struct SupernumeralPrint
 {
-	SupernumeralPrint(Quadrant q, const ToothContainer& teeth);
+	SupernumeralPrint(Dental::Quadrant q, const ToothContainer& teeth);
 
 	//contains only position and not quadrant
 	int position{ 0 };

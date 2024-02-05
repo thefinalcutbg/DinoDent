@@ -8,6 +8,7 @@
 #include "Model/Dental/NhifProcedures.h"
 #include "View/ModalDialogBuilder.h"
 #include "Presenter/TabPresenter.h"
+#include "Model/User.h"
 
 void ReportPresenter::updateProgressBar()
 {

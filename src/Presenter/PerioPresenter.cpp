@@ -35,17 +35,17 @@ PerioPresenter::PerioPresenter(ITabView* view, std::shared_ptr<Patient> patient)
     {
 
         if (
-            tooth.extraction.exists() ||
-            tooth.denture.exists() ||
-            tooth.impacted.exists() ||
-            tooth.implant.exists()
-        )
-            m_perioStatus.disabled[tooth.index] = true;
+            tooth[Dental::Missing] ||
+            tooth[Dental::Denture] ||
+            tooth[Dental::Impacted] ||
+            tooth[Dental::Implant]
+            )
+            m_perioStatus.disabled[tooth.index()] = true;
 
 
-        if (tooth.mobility.exists())
-            m_perioStatus.mobility[tooth.index] = 
-                                 static_cast<int>(tooth.mobility.degree) + 1;
+        if (tooth[Dental::Mobility])
+            m_perioStatus.mobility[tooth.index()] = 
+                                 static_cast<int>(tooth.m_degree) + 1;
     }
 
 
@@ -63,16 +63,16 @@ PerioPresenter::PerioPresenter(ITabView* view, std::shared_ptr<Patient> patient,
     {
 
         if (
-            tooth.extraction.exists() ||
-            tooth.impacted.exists() ||
-            tooth.implant.exists()
+            tooth[Dental::Missing] ||
+            tooth[Dental::Impacted] ||
+            tooth[Dental::Implant]
             )
-            m_perioStatus.disabled[tooth.index] = true;
+            m_perioStatus.disabled[tooth.index()] = true;
 
 
-        if (tooth.mobility.exists())
-            m_perioStatus.mobility[tooth.index] =
-            static_cast<int>(tooth.mobility.degree) + 1;
+        if (tooth[Dental::Mobility])
+            m_perioStatus.mobility[tooth.index()] =
+            static_cast<int>(tooth.m_degree) + 1;
     }
 
 }

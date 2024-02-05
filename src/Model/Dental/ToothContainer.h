@@ -1,8 +1,7 @@
 #pragma once
 #include <vector>
 #include "Tooth.h"
-
-static constexpr int teethCount = 32;
+#include "Dental.h"
 
 class ToothContainer
 {
@@ -23,7 +22,7 @@ public:
 	auto begin() const { return teeth.begin(); }
 	auto end() const { return teeth.end(); };
 
-	constexpr size_t size() const { return teethCount; }
+	constexpr size_t size() const { return Dental::teethCount; }
 
 	std::vector<const Tooth*> getSelectedTeethPtr(std::vector<int> selectedIndexes) const;
 	std::vector<const Tooth*> getSelectedDsnPtr(std::vector<int> selectedIndexes) const;
@@ -35,16 +34,29 @@ public:
 	void setToothDetails(const Tooth& tooth);
 	void removeBridgeOrSplint(const std::vector<int>& selectedIndexes);
 	void removeBridgeOrSplint(int tooth_begin, int tooth_end);
-	//void setStatus(const std::vector<int>& selectedTeethIdx, StatusCode::StatusCode code, bool state);
-	void setStatus(const std::vector<int>& selectedIndexes, StatusType t, int code, bool state, bool dsn = false);
+	//void setStatus(const std::vector<int>& selectedTeethIdx, Dental::StatusCode code, bool state);
+	void setStatus(const std::vector<int>& selectedIndexes, Dental::StatusType t, int code, bool state, bool dsn = false);
 	void removeEveryStatus(const std::vector<int>& selectedTeethidx);
-	
-	Tooth& at(int index) { return (*this)[index]; }
-	const Tooth& at(int index) const { return(*this)[index]; }
+
+	Tooth& at(int index, bool supernumeral = false) {
+		return supernumeral ? (*this)[index].getSupernumeral() : (*this)[index];
+	}
+
+	const Tooth& at(int index, bool supernumeral = false) const { 
+		return supernumeral ? (*this)[index].getSupernumeral() : (*this)[index];
+	}
+
+	Tooth& at(const ToothIndex& idx) {
+		return idx.supernumeral ? (*this)[idx.index].getSupernumeral() : (*this)[idx.index];
+	}
+
+	const Tooth& at(const ToothIndex& idx) const {
+		return idx.supernumeral ? (*this)[idx.index].getSupernumeral() : (*this)[idx.index];
+	}
 
 	Tooth& operator [](int index);
 	const Tooth& operator [](int tooth) const;
-	
+
 	int getMissingTeethCount(bool countWisdom = false) const;
 };
 

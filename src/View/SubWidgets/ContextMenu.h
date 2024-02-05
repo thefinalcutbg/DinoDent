@@ -6,7 +6,7 @@
 #include <type_traits>
 
 #include "Presenter/InputEnums.h"
-#include "Model/Dental/Enums.h"
+#include "Model/Dental/Dental.h"
 #include "Presenter/CheckModel.h"
 
 class DsnMenu;
@@ -22,10 +22,10 @@ class ContextMenu : public QMenu
 
     QAction* addProcedure;
     QAction* details;
-    std::array<QAction*, surfaceCount>surfObt;
-    std::array<QAction*, surfaceCount> surfCar;
-    std::array<QAction*, statusCount> menuAction;
-    std::array<QAction*, mobilityCount> mobilityDegree;
+    std::array<QAction*, Dental::SurfaceCount> surfObt;
+    std::array<QAction*, Dental::SurfaceCount> surfCar;
+    std::array<QAction*, Dental::StatusCount> menuAction;
+    std::array<QAction*, Dental::MobilityCount> mobilityDegree;
     std::array<QAction*, otherInputsCount> otherActions;
 
 

@@ -11,7 +11,7 @@ ControlPanel::ControlPanel(QWidget* parent)
 
 	StatusButton* pathologies[]
 	{
-		ui.Caries, ui.Pulpitis, ui.Extraction, ui.ApicalLesion, ui.Fracture, ui.Periodontitis, ui.Dsn, ui.Impacted, ui.Root, ui.Calculus
+		ui.Caries, ui.Pulpitis, ui.Missing, ui.ApicalLesion, ui.Fracture, ui.Periodontitis, ui.Dsn, ui.Impacted, ui.Root, ui.Calculus
 	};
 
 	for (auto& p : pathologies) p->pathology = true;
@@ -19,35 +19,35 @@ ControlPanel::ControlPanel(QWidget* parent)
 	ui.Mobility->pathology = true;
 
 
-	auto lambdaConnect = [this](QPushButton* button, StatusCode::StatusCode code)
+	auto lambdaConnect = [this](QPushButton* button, Dental::Status code)
 	{
         this->connect(button, &QPushButton::clicked, this, [=, this] {
 
             if (presenter == nullptr) return;
-				presenter->setToothStatus(StatusType::general, code);
+				presenter->setToothStatus(Dental::StatusType::General, code);
 			});
 	};
 
-	lambdaConnect(ui.healthyTooth, StatusCode::Healthy);
-	lambdaConnect(ui.ApicalLesion, StatusCode::ApicalLesion);
-	lambdaConnect(ui.Bridge, StatusCode::Bridge);
-	lambdaConnect(ui.Caries, StatusCode::Caries);
-	lambdaConnect(ui.Crown, StatusCode::Crown);
-	lambdaConnect(ui.Dsn, StatusCode::Dsn);
-	lambdaConnect(ui.EndoTreatment, StatusCode::EndoTreatment);
-	lambdaConnect(ui.Extraction, StatusCode::Extraction);
-	lambdaConnect(ui.Fiber, StatusCode::FiberSplint);
-	lambdaConnect(ui.Fracture, StatusCode::Fracture);
-	lambdaConnect(ui.Implant, StatusCode::Implant);
-	lambdaConnect(ui.Calculus, StatusCode::Calculus);
-	lambdaConnect(ui.Impacted, StatusCode::Impacted);
-	lambdaConnect(ui.Obturation, StatusCode::Obturation);
-	lambdaConnect(ui.Periodontitis, StatusCode::Periodontitis);
-	lambdaConnect(ui.post, StatusCode::Post);
-	lambdaConnect(ui.Pulpitis, StatusCode::Pulpitis);
-	lambdaConnect(ui.Root, StatusCode::Root);
-	lambdaConnect(ui.Temporary, StatusCode::Temporary);
-	lambdaConnect(ui.falseTooth, StatusCode::Denture);
+	lambdaConnect(ui.healthyTooth, Dental::Healthy);
+	lambdaConnect(ui.ApicalLesion, Dental::ApicalLesion);
+	lambdaConnect(ui.Bridge, Dental::Bridge);
+	lambdaConnect(ui.Caries, Dental::Caries);
+	lambdaConnect(ui.Crown, Dental::Crown);
+	lambdaConnect(ui.Dsn, Dental::HasSupernumeral);
+	lambdaConnect(ui.RootCanal, Dental::RootCanal);
+	lambdaConnect(ui.Missing, Dental::Missing);
+	lambdaConnect(ui.Fiber, Dental::Splint);
+	lambdaConnect(ui.Fracture, Dental::Fracture);
+	lambdaConnect(ui.Implant, Dental::Implant);
+	lambdaConnect(ui.Calculus, Dental::Calculus);
+	lambdaConnect(ui.Impacted, Dental::Impacted);
+	lambdaConnect(ui.Restoration, Dental::Restoration);
+	lambdaConnect(ui.Periodontitis, Dental::Periodontitis);
+	lambdaConnect(ui.post, Dental::Post);
+	lambdaConnect(ui.Pulpitis, Dental::Pulpitis);
+	lambdaConnect(ui.Root, Dental::Root);
+	lambdaConnect(ui.Temporary, Dental::Temporary);
+	lambdaConnect(ui.falseTooth, Dental::Denture);
 
 	ui.Mobility->setStateNames({ "Подвижност", "Подвижност I", "Подвижност II", "Подвижност III" });
 
@@ -57,10 +57,10 @@ ControlPanel::ControlPanel(QWidget* parent)
 			
 			switch (state)
 			{
-				case 0:presenter->setToothStatus(StatusType::general, StatusCode::Mobility); break;
-				case 1:presenter->setToothStatus(StatusType::mobility, 0); break;
-				case 2:presenter->setToothStatus(StatusType::mobility, 1); break;
-				case 3:presenter->setToothStatus(StatusType::mobility, 2); break;
+				case 0:presenter->setToothStatus(Dental::StatusType::General, Dental::Mobility); break;
+				case 1:presenter->setToothStatus(Dental::StatusType::Mobility, 0); break;
+				case 2:presenter->setToothStatus(Dental::StatusType::Mobility, 1); break;
+				case 3:presenter->setToothStatus(Dental::StatusType::Mobility, 2); break;
 			}
 		}
 	);
@@ -88,37 +88,37 @@ void ControlPanel::setPresenter(ListPresenter* presenter)
 
 void ControlPanel::hideCommonButtons(bool hidden)
 {
-	ui.Obturation->setHidden(hidden);
+	ui.Restoration->setHidden(hidden);
 	ui.Caries->setHidden(hidden);
 }
 
 void ControlPanel::setModel(const CheckModel& checkModel, const CheckModel& dsn)
 {
 
-	auto setCheck = [&](StatusButton* b, StatusCode::StatusCode s) {
+	auto setCheck = [&](StatusButton* b, Dental::Status s) {
 		b->setCheckState(checkModel.generalStatus[s]);
 	};
 
-	setCheck(ui.healthyTooth, StatusCode::Healthy);
-	setCheck(ui.ApicalLesion, StatusCode::ApicalLesion);
-	setCheck(ui.Bridge, StatusCode::Bridge);
-	setCheck(ui.Caries, StatusCode::Caries);
-	setCheck(ui.Crown, StatusCode::Crown);
-	setCheck(ui.Dsn, StatusCode::Dsn);
-	setCheck(ui.EndoTreatment, StatusCode::EndoTreatment);
-	setCheck(ui.Extraction, StatusCode::Extraction);
-	setCheck(ui.Fiber, StatusCode::FiberSplint);
-	setCheck(ui.Fracture, StatusCode::Fracture);
-	setCheck(ui.Impacted, StatusCode::Impacted);
-	setCheck(ui.Implant, StatusCode::Implant);
-	setCheck(ui.Obturation, StatusCode::Obturation);
-	setCheck(ui.Periodontitis, StatusCode::Periodontitis);
-	setCheck(ui.post, StatusCode::Post);
-	setCheck(ui.Pulpitis, StatusCode::Pulpitis);
-	setCheck(ui.Root, StatusCode::Root);
-	setCheck(ui.Temporary, StatusCode::Temporary);
-	setCheck(ui.falseTooth, StatusCode::Denture);
-	setCheck(ui.Calculus, StatusCode::Calculus);
+	setCheck(ui.healthyTooth, Dental::Healthy);
+	setCheck(ui.ApicalLesion, Dental::ApicalLesion);
+	setCheck(ui.Bridge, Dental::Bridge);
+	setCheck(ui.Caries, Dental::Caries);
+	setCheck(ui.Crown, Dental::Crown);
+	setCheck(ui.Dsn, Dental::HasSupernumeral);
+	setCheck(ui.RootCanal, Dental::RootCanal);
+	setCheck(ui.Missing, Dental::Missing);
+	setCheck(ui.Fiber, Dental::Splint);
+	setCheck(ui.Fracture, Dental::Fracture);
+	setCheck(ui.Impacted, Dental::Impacted);
+	setCheck(ui.Implant, Dental::Implant);
+	setCheck(ui.Restoration, Dental::Restoration);
+	setCheck(ui.Periodontitis, Dental::Periodontitis);
+	setCheck(ui.post, Dental::Post);
+	setCheck(ui.Pulpitis, Dental::Pulpitis);
+	setCheck(ui.Root, Dental::Root);
+	setCheck(ui.Temporary, Dental::Temporary);
+	setCheck(ui.falseTooth, Dental::Denture);
+	setCheck(ui.Calculus, Dental::Calculus);
 
 	ui.unknown->setCheckState(checkModel.no_data ? CheckState::checked : CheckState::unchecked);
 

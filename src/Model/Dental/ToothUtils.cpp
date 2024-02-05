@@ -4,23 +4,23 @@
 
 constexpr std::array<int, 32> s_tooth_FDI
 {
-  18, 17, 16, 15, 14, 13, 12, 11,     21, 22, 23, 24, 25, 26, 27, 28,
-  38, 37, 36, 35, 34, 33, 32, 31,     41, 42, 43, 44, 45, 46, 47, 48
+    18, 17, 16, 15, 14, 13, 12, 11, 21, 22, 23, 24, 25, 26, 27, 28,
+        38, 37, 36, 35, 34, 33, 32, 31, 41, 42, 43, 44, 45, 46, 47, 48
 };
 
 constexpr  int nhifNoTooth = 99;
 
 
-ToothType ToothUtils::getToothType(int index)
+Dental::Type ToothUtils::getToothType(int index)
 {
 
     constexpr static std::array<int, 32> toothType
     {
-        0,0,0,1,1,2,2,2,    2,2,2,1,1,0,0,0,
-        0,0,0,1,1,2,2,2,    2,2,2,1,1,0,0,0
+        0, 0, 0, 1, 1, 2, 2, 2, 2, 2, 2, 1, 1, 0, 0, 0,
+            0, 0, 0, 1, 1, 2, 2, 2, 2, 2, 2, 1, 1, 0, 0, 0
     };
 
-    return static_cast<ToothType>(toothType[index]);
+    return static_cast<Dental::Type>(toothType[index]);
 }
 
 
@@ -30,47 +30,44 @@ int ToothUtils::getToothNumber(int index, bool temporary)
     if (index < 0 || index > 31) return nhifNoTooth;
 
     if (temporary) {
-        return s_tooth_FDI[index]+40;
+        return s_tooth_FDI[index] + 40;
     }
     return s_tooth_FDI[index];
 }
 
-std::string ToothUtils::getNomenclature(int tooth_idx, bool temporary) 
-{ 
+std::string ToothUtils::getNomenclature(int tooth_idx, bool temporary)
+{
     auto num = getToothNumber(tooth_idx, temporary);
     if (num == nhifNoTooth)
         return std::string();
 
     return std::to_string(num);
 }
-std::string ToothUtils::getNomenclature(const Tooth& t) { 
-    return getNomenclature(t.index, t.temporary);
-}
 
-std::string ToothUtils::getNhifNumber(int index, bool temporary, bool hyperdontic)
+std::string ToothUtils::getNhifNumber(const ToothIndex idx)
 {
-    int toothNumber = getToothNumber(index, temporary);
+    int toothNumber = getToothNumber(idx.index, idx.temp);
 
     if (toothNumber == nhifNoTooth) return "99";
 
-    if (!hyperdontic) return std::to_string(toothNumber);
+    if (!idx.supernumeral) return std::to_string(toothNumber);
 
-    std::string result = std::to_string(getToothNumber(index, false));
+    std::string result = std::to_string(getToothNumber(idx.index, false));
 
-    static constexpr std::array<char, 4> DsnQuadrant = {'A','B','C','D'};
+    static constexpr std::array<char, 4> DsnQuadrant = { 'A','B','C','D' };
 
-    result[0] = DsnQuadrant.at(static_cast<int>(getQuadrant(index)));
+    result[0] = DsnQuadrant.at(static_cast<int>(getQuadrant(idx.index)));
 
     return result;
 }
 
-Quadrant ToothUtils::getQuadrant(int index)
-{ 
-    if (index < 8) return Quadrant::First;
-    if (index < 16) return Quadrant::Second;
-    if (index < 24) return Quadrant::Third;
+Dental::Quadrant ToothUtils::getQuadrant(int index)
+{
+    if (index < 8) return Dental::Quadrant::First;
+    if (index < 16) return Dental::Quadrant::Second;
+    if (index < 24) return Dental::Quadrant::Third;
 
-    return Quadrant::Fourth;
+    return Dental::Quadrant::Fourth;
 
 }
 
@@ -83,14 +80,14 @@ std::array<std::string, 6> ToothUtils::getSurfaceNames(int index)
         if (index == 5 || index == 10 || index == 21 || index == 26) return "Куспидално";
 
         //incisor
-        if (getToothType(index) == ToothType::Frontal) return "Инцизално";
+        if (getToothType(index) == Dental::Type::Frontal) return "Инцизално";
 
         //molar and premolar
         return "Оклузално";
     };
 
     auto getBuccalName = [&] {
-        if (getToothType(index) == ToothType::Frontal) return "Лабиално";
+        if (getToothType(index) == Dental::Type::Frontal) return "Лабиално";
 
         return "Букално";
 
@@ -103,9 +100,9 @@ std::array<std::string, 6> ToothUtils::getSurfaceNames(int index)
         return "Лингвално";
     };
 
-    
+
     return std::array<std::string, 6>{
-            getOcclusalName(),
+        getOcclusalName(),
             "Медиално",
             "Дистално",
             getBuccalName(),
@@ -113,7 +110,7 @@ std::array<std::string, 6> ToothUtils::getSurfaceNames(int index)
             "Цервикално"
     };
 
-    
+
 }
 
 ToothIndex ToothUtils::getToothFromNhifNum(const std::string& toothNhif)
@@ -149,7 +146,7 @@ ToothIndex ToothUtils::getToothFromNhifNum(const std::string& toothNhif)
     }
 
     for (int i = 0; i < s_tooth_FDI.size(); i++) {
-        
+
         if (toothNum == s_tooth_FDI[i]) {
             return { i, temp, hyperdontic };
         }
@@ -239,14 +236,14 @@ std::string ToothUtils::getName(int idx, bool temp)
 
 }
 
-ToothIndex ToothUtils::getToothFromHisNum(const std::string& toothNum, bool hyperdontic)
+ToothIndex ToothUtils::getToothFromHisNum(const std::string& toothNum, bool isSupernumeral)
 {
     auto result = getToothFromNhifNum(toothNum);
 
-    result.supernumeral = hyperdontic;
+    result.supernumeral = isSupernumeral;
 
     return result;
-    
+
 }
 
 const std::array<int, 32>& ToothUtils::FDINumbers()

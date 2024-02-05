@@ -12,6 +12,7 @@
 #include "Model/Patient.h"
 #include "Model/Dental/AmbList.h"
 #include "Model/FreeFunctions.h"
+#include "Model/Dental/ToothUtils.h"
 
 bool HisService::sendRequestToHis(const std::string& query)
 {
@@ -218,7 +219,7 @@ std::string HisService::performer()
 	return performer;
 }
 
-std::string HisService::getToothStatus(const Tooth& tooth, bool hyperdontic)
+std::string HisService::getToothStatus(const Tooth& tooth)
 {
 	std::string result;
 
@@ -227,9 +228,9 @@ std::string HisService::getToothStatus(const Tooth& tooth, bool hyperdontic)
 	if (statuses.empty()) return result;
 
 	result += "<nhis:tooth>";
-	result += bind("toothIndex", ToothUtils::getToothNumber(tooth.index, tooth.temporary));
+	result += bind("toothIndex", ToothUtils::getToothNumber(tooth.index(), tooth[Dental::HasSupernumeral]));
 	
-	if (hyperdontic) {
+	if (tooth.isSupernumeral()) {
 		result += bind("supernumeralIndex", 1);
 	}
 
@@ -295,9 +296,7 @@ std::string HisService::getProcedure(const Procedure& p, const ToothContainer& t
 
 		p.applyProcedure(teethChanged);
 
-		auto& tooth = p.tooth_idx.supernumeral ? teethChanged[p.tooth_idx.index].dsn.tooth() : teethChanged[p.tooth_idx.index];
-
-		result += getToothStatus(tooth, p.tooth_idx.supernumeral);
+		result += getToothStatus(teethChanged.at(p.tooth_idx));
 	
 	}
 
@@ -310,11 +309,11 @@ std::string HisService::getProcedure(const Procedure& p, const ToothContainer& t
 		for (int i = begin; i <= end; i++)
 		{
 			if (p.code.type() == ProcedureType::denture && 
-				!teethChanged.at(i).denture){ 
+				!teethChanged.at(i)[Dental::Denture]){ 
 				continue; 
 			}
 
-			result += getToothStatus(teethChanged.at(i), false);
+			result += getToothStatus(teethChanged.at(i));
 		}
 	}
 
@@ -322,25 +321,25 @@ std::string HisService::getProcedure(const Procedure& p, const ToothContainer& t
 	{
 		p.applyProcedure(teethChanged);
 
-		for (int i = 0; i < teethCount; i++)
+		for (int i = 0; i < Dental::teethCount; i++)
 		{
-			if (teeth[i].calculus) 
-				result += getToothStatus(teethChanged[i], false);
+			if (teeth[i][Dental::Calculus]) 
+				result += getToothStatus(teethChanged[i]);
 
-			if (teeth[i].dsn.tooth().calculus)
-				result += getToothStatus(teethChanged[i].dsn.tooth(), true);
+			if (teeth[i].getSupernumeral()[Dental::Calculus])
+				result += getToothStatus(teethChanged[i].getSupernumeral());
 		}
 	}
 
 	if (p.code.type() == ProcedureType::full_exam)
 	{
 		
-
 		for (auto& tooth : teeth)
 		{
-			result += getToothStatus(tooth, false);
-			if (tooth.dsn) {
-				result += getToothStatus(tooth.dsn.tooth(), true);
+			result += getToothStatus(tooth);
+
+			if (tooth[Dental::HasSupernumeral]) {
+				result += getToothStatus(tooth.getSupernumeral());
 			}
 		}
 
@@ -406,9 +405,9 @@ std::string HisService::initialStatusAsProcedure(const ToothContainer& teeth, co
 
 	for (auto& tooth : teeth)
 	{
-		result += getToothStatus(tooth, false);
+		result += getToothStatus(tooth);
 
-		if (tooth.dsn) result += getToothStatus(tooth.dsn.tooth(), true);
+		if (tooth[Dental::HasSupernumeral]) result += getToothStatus(tooth.getSupernumeral());
 	}
 	result += bind("note", "ИЗХОДЯЩ СТАТУС (автоматично генерирана)");
 	result += "</nhis:dentalProcedure>";

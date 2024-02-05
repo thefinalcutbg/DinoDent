@@ -8,7 +8,7 @@
 #include "Model/Dental/NhifProcedures.h"
 #include "Model/Dental/ToothUtils.h"
 #include "Model/Dental/PackageCounter.h"
-
+#include "Model/User.h"
 
 AmbListValidator::AmbListValidator(const AmbList& list, const Patient& patient)
     :
@@ -50,7 +50,7 @@ bool AmbListValidator::ambListIsValid()
 
     for (auto& p : m_procedures)
     {
-        if (p.tooth_idx.supernumeral && !ambList.teeth[p.tooth_idx.index].dsn)
+        if (p.tooth_idx.supernumeral && !ambList.teeth[p.tooth_idx.index][Dental::HasSupernumeral])
         {
             _error = "Съществува процедура на срвъхброен зъб, който не е добавен в статуса";
             return false;
@@ -408,7 +408,7 @@ bool AmbListValidator::validateTypeToStatus(const Tooth& t, const Procedure& p)
 {
     if (p.tooth_idx.supernumeral) return true;
 
-    std::string toothNum = ToothUtils::getNomenclature(t);
+    std::string toothNum = ToothUtils::getNomenclature(t.index(), t[Dental::Temporary]);
     std::string code = std::to_string(p.code.oldCode());
 
     switch (p.code.type())
@@ -417,15 +417,15 @@ bool AmbListValidator::validateTypeToStatus(const Tooth& t, const Procedure& p)
         {
             bool statusMissing
             {
-                t.extraction.exists() ||
-                t.implant.exists() ||
+                t[Dental::Missing] ||
+                t[Dental::Implant] ||
                 (
-                !t.obturation.exists() &&
-                !t.caries.exists() &&
-                !t.pulpitis.exists() &&
-                !t.lesion.exists() &&
-                !t.root.exists() &&
-                !t.fracture.exists()
+                !t[Dental::Restoration] &&
+                !t[Dental::Caries] &&
+                !t[Dental::Pulpitis] &&
+                !t[Dental::ApicalLesion] &&
+                !t[Dental::Root] &&
+                !t[Dental::Fracture]
                 )
             };
 
@@ -443,12 +443,12 @@ bool AmbListValidator::validateTypeToStatus(const Tooth& t, const Procedure& p)
 
             bool statusMissing
             {
-                t.extraction.exists() ||
-                t.implant.exists() ||
+                t[Dental::Missing] ||
+                t[Dental::Implant] ||
                 (
-                !t.pulpitis.exists() &&
-                !t.lesion.exists() &&
-                !t.fracture.exists()
+                !t[Dental::Pulpitis] &&
+                !t[Dental::ApicalLesion] &&
+                !t[Dental::Fracture]
                 )
             };
 
@@ -467,17 +467,16 @@ bool AmbListValidator::validateTypeToStatus(const Tooth& t, const Procedure& p)
 
             bool statusMissing 
             {
-                t.extraction.exists() ||
+                t[Dental::Missing] ||
                 (
-                !t.pulpitis.exists() &&
-                !t.periodontitis.exists() &&
-                !t.fracture.exists() &&
-                !t.dsn.exists() &&
-                !t.implant.exists() &&
-                !t.temporary.exists() &&
-                !t.lesion.exists() &&
-                !t.root.exists() &&
-                !t.mobility.exists() 
+                !t[Dental::Pulpitis] &&
+                !t[Dental::Periodontitis] &&
+                !t[Dental::Fracture] &&
+                !t[Dental::HasSupernumeral] &&
+                !t[Dental::Implant] &&
+                !t[Dental::ApicalLesion] &&
+                !t[Dental::Root] &&
+                !t[Dental::Mobility] 
                  )
             };
 
@@ -501,7 +500,7 @@ bool AmbListValidator::validatePermaTemp(const Tooth& tooth, const Procedure& p)
 {
     if (p.tooth_idx.supernumeral) return true;
 
-    bool temp = tooth.temporary.exists();
+    bool temp = tooth[Dental::Temporary];
 
     if (NhifProcedures::isTempOnly(p.code.oldCode()) && !temp)
     {

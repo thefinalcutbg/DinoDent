@@ -82,7 +82,7 @@ void FurcationWidget::setIndex(int toothIndex)
 {
     auto type = ToothUtils::getToothType(toothIndex);
 
-    if (type == ToothType::Molar && toothIndex < 16)
+    if (type == Dental::Type::Molar && toothIndex < 16)
     {
         leftButton->show();
         rightButton->show();
@@ -90,7 +90,7 @@ void FurcationWidget::setIndex(int toothIndex)
         return;
     }
 
-    if (type == ToothType::Premolar && toothIndex < 16)
+    if (type == Dental::Type::Premolar && toothIndex < 16)
     {
         leftButton->show();
         rightButton->show();
@@ -98,7 +98,7 @@ void FurcationWidget::setIndex(int toothIndex)
     }
 
 
-    if (type == ToothType::Molar && toothIndex > 15)
+    if (type == Dental::Type::Molar && toothIndex > 15)
     {
         leftButton->show();
         downButton->show();

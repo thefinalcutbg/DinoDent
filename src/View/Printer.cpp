@@ -14,6 +14,7 @@
 #include "Model/Referrals/Referral.h"
 #include "View/TableModels/FiscalReceiptTableModel.h"
 #include "Model/Dental/SupernumeralPrint.h"
+#include "Model/Dental/ToothUtils.h"
 
 void fillCommonData(LimeReport::ReportEngine& report, const Patient& patient, const Doctor& doctor, const Practice& practice)
 {
@@ -121,7 +122,7 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
         QString tempVar = "temp" + QString::number(i);
         QString statusVar = "s" + QString::number(i);
 
-        temp[i] = amb.teeth[i].temporary.exists();
+        temp[i] = amb.teeth[i][Dental::Temporary];
         report.dataManager()->setReportVariable(tempVar, temp[i] ? QString{ tempSymbol } : QString{});
 
         QString status = QString::fromStdString(amb.teeth[i].getPrintStatus());
@@ -133,7 +134,7 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
     //assigning supernumeral status
     for (int i = 0; i < 4; i++)
     {
-        SupernumeralPrint dsn(static_cast<Quadrant>(i), amb.teeth);
+        SupernumeralPrint dsn(static_cast<Dental::Quadrant>(i), amb.teeth);
     
         if (!dsn.isValid()) continue;
 

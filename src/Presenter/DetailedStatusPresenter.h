@@ -9,10 +9,6 @@ class DetailedStatusPresenter
 
 	IDetailedStatusView* view{ nullptr };
 
-	StatusType m_category{ StatusType::general };
-	int m_code{ -1 };
-	bool m_supernumeral;
-
 	std::vector<Procedure> m_procedures;
 
 	CheckModel m_checkModel;
@@ -20,23 +16,20 @@ class DetailedStatusPresenter
 
 	long long patientRowId;
 
-	Tooth m_tooth;
+	int m_tooth_index;
 	std::string m_notes;
 
 	std::optional<Tooth> _result{};
 
 public:
-	DetailedStatusPresenter(const Tooth& tooth, long long patientRowId, const std::vector<Procedure>& toothProcedures);
+	DetailedStatusPresenter(int toothIdx, long long patientRowId, const std::vector<Procedure>& toothProcedures);
 
 	void setView(IDetailedStatusView* view);
-	void checkStateChanged(bool checked);
-	void stateChanged();
-	void statusSelected(int category, int code, bool on_supernumeral);
 	void tableOptionChanged(bool local, bool his, bool pis);
 	const std::string& getNote() const { return m_notes; }
 
 	void okPressed();
 
-	std::optional<Tooth> open();
+	void open();
 };
 

@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <functional>
 #include <set>
+#include "Model/Dental/ToothUtils.h"
 
 std::vector<Procedure> HISHistoryAlgorithms::getProcedures(TiXmlDocument& doc)
 {
@@ -224,7 +225,7 @@ ToothContainer HISHistoryAlgorithms::getToothStatus(TiXmlDocument& doc)
 	{
 		auto& tooth = teeth[index.index];
 
-		tooth.temporary.set(index.temp);
+		tooth.setStatus(Dental::Temporary, index.temp);
 
 		for (auto& code : conditions)
 		{
@@ -232,20 +233,20 @@ ToothContainer HISHistoryAlgorithms::getToothStatus(TiXmlDocument& doc)
 		}
 	}
 
-	teeth.setStatus(ranges.splints, StatusType::general, StatusCode::FiberSplint, true);
-	teeth.setStatus(ranges.bridges, StatusType::general, StatusCode::Bridge, true);
+	teeth.setStatus(ranges.splints, Dental::StatusType::General, Dental::Splint, true);
+	teeth.setStatus(ranges.bridges, Dental::StatusType::General, Dental::Bridge, true);
 
 	//in case extraction is not set on pontics:
-	for (auto idx : ranges.pontics) if (teeth[idx].canHaveACrown()) teeth[idx].setStatus(StatusCode::Extraction, true);
+	for (auto idx : ranges.pontics) if (teeth[idx].canHaveACrown()) teeth[idx].setStatus(Dental::Missing, true);
 	
 	//setting supernumeral only if the normal tooth has isDsn set to true
 	for (auto const& [toothIndex, conditions] : supernumeralStatuses)
 	{
-		teeth[toothIndex.index].dsn.set(true);
+		teeth[toothIndex.index].setStatus(Dental::Temporary, true);
 
-		auto& tooth = teeth[toothIndex.index].dsn.tooth();
+		auto& tooth = teeth[toothIndex.index].getSupernumeral();
 
-		tooth.temporary.set(toothIndex.temp);
+		tooth.setStatus(Dental::Temporary, toothIndex.temp);
 
 		for (auto& code : conditions)
 		{
@@ -410,11 +411,11 @@ std::vector<HisSnapshot> HISHistoryAlgorithms::getDentalHistory(TiXmlDocument& d
 
 		for (auto &[toothIdx, conditions] : data.statuses)
 		{
-			teeth[toothIdx.index].dsn.set(toothIdx.supernumeral);
+			teeth[toothIdx.index].setStatus(Dental::HasSupernumeral, toothIdx.supernumeral);
 
-			auto& tooth = toothIdx.supernumeral? teeth[toothIdx.index].dsn.tooth() : teeth[toothIdx.index];
+			auto& tooth = teeth.at(toothIdx);
 
-			tooth.temporary.set(toothIdx.temp);
+			tooth.setStatus(Dental::Temporary, toothIdx.temp);
 
 			for (auto& code : conditions)
 			{
@@ -424,11 +425,11 @@ std::vector<HisSnapshot> HISHistoryAlgorithms::getDentalHistory(TiXmlDocument& d
 
 		ranges.sortRanges();
 
-		teeth.setStatus(ranges.splints, StatusType::general, StatusCode::FiberSplint, true);
-		teeth.setStatus(ranges.bridges, StatusType::general, StatusCode::Bridge, true);
+		teeth.setStatus(ranges.splints, Dental::StatusType::General, Dental::Splint, true);
+		teeth.setStatus(ranges.bridges, Dental::StatusType::General, Dental::Bridge, true);
 
 		//in case extraction is not set on pontics:
-		for (auto idx : ranges.pontics) if (teeth[idx].canHaveACrown()) teeth[idx].setStatus(StatusCode::Extraction, true);
+		for (auto idx : ranges.pontics) if (teeth[idx].canHaveACrown()) teeth[idx].setStatus(Dental::Missing, true);
 
 	}
 
@@ -468,7 +469,7 @@ ToothContainer HISHistoryAlgorithms::getToothStatus(TiXmlDocument& doc)
 		if (status.Child(i).Child(1).ToElement()->ValueStr() == "nhis:supernumeralIndex")  //supernumeralIndex
 		{
 			isDsn = true;
-			teeth[index].dsn.set(true);	
+			teeth[index].setStatus(Dental::HasSupernumeral, true);	
 		}
 
 		auto &tooth = isDsn ? teeth[index].dsn.tooth() : teeth[index];
@@ -505,56 +506,58 @@ ToothContainer HISHistoryAlgorithms::getToothStatus(TiXmlDocument& doc)
 
 	}
 
-	teeth.setStatus(ranges.splints, StatusType::general, StatusCode::FiberSplint, true);
-	teeth.setStatus(ranges.bridges, StatusType::general, StatusCode::Bridge, true);
+	teeth.setStatus(ranges.splints, Dental::GeneralStatus, Dental::Splint, true);
+	teeth.setStatus(ranges.bridges, Dental::GeneralStatus, Dental::Bridge, true);
 
 	//in case extraction is not set on pontics:
-	for (auto idx : ranges.pontics) if (teeth[idx].canHaveACrown()) teeth[idx].extraction.set(false);
+	for (auto idx : ranges.pontics) if (teeth[idx].canHaveACrown()) teeth[idx].setStatus(Dental::Missing, false);
 
 	return teeth;
 
 }
 */
 
+using namespace Dental;
+
 void deserializeStatusCode(Tooth& tooth, Ranges& r, const std::string& code)
 {
     static std::map<std::string, std::function<void(Tooth& tooth, Ranges& r)>> lambdaMap
 	{
-        { "E", [](Tooth& tooth, Ranges&) mutable	{ tooth.extraction.set(true); }},
-        { "T",	[](Tooth& tooth, Ranges&) mutable { tooth.calculus.set(true); } },
-        { "K",	[](Tooth& tooth, Ranges&) mutable { tooth.crown.set(true); } },
-        { "B",	[](Tooth& tooth, Ranges& r) mutable { r.bridges.push_back(tooth.index); r.pontics.push_back(tooth.index); } },
-        { "Kb",	[](Tooth& tooth, Ranges& r) mutable { r.bridges.push_back(tooth.index); } },
-        { "O",	[](Tooth& tooth, Ranges&) mutable { tooth.obturation.set(true); } },
-        { "C",	[](Tooth& tooth, Ranges&) mutable { tooth.caries.set(true); } },
-        { "Oo",	[](Tooth& tooth, Ranges&) mutable { tooth.obturation.set(true, Surface::Occlusal); } },
-        { "Om",	[](Tooth& tooth, Ranges&) mutable { tooth.obturation.set(true, Surface::Medial);  } },
-        { "Od",	[](Tooth& tooth, Ranges&) mutable { tooth.obturation.set(true, Surface::Distal);  } },
-        { "Ob",	[](Tooth& tooth, Ranges&) mutable { tooth.obturation.set(true, Surface::Buccal); } },
-        { "Ol",	[](Tooth& tooth, Ranges&) mutable { tooth.obturation.set(true, Surface::Lingual);  } },
-        { "Oc",	[](Tooth& tooth, Ranges&) mutable { tooth.obturation.set(true, Surface::Cervical);  } },
-        { "Co",	[](Tooth& tooth, Ranges&) mutable { tooth.caries.set(true, Surface::Occlusal); } },
-        { "Cm",	[](Tooth& tooth, Ranges&) mutable { tooth.caries.set(true, Surface::Medial);  } },
-        { "Cd",	[](Tooth& tooth, Ranges&) mutable { tooth.caries.set(true, Surface::Distal);  } },
-        { "Cb",	[](Tooth& tooth, Ranges&) mutable { tooth.caries.set(true, Surface::Buccal); } },
-        { "Cl",	[](Tooth& tooth, Ranges&) mutable { tooth.caries.set(true, Surface::Lingual);  } },
-        { "Cc",	[](Tooth& tooth, Ranges&) mutable { tooth.caries.set(true, Surface::Cervical);  } },
-        { "M1",	[](Tooth& tooth, Ranges&) mutable { tooth.mobility.set(true); tooth.mobility.degree = Degree::First; } },
-        { "M2",	[](Tooth& tooth, Ranges&) mutable { tooth.mobility.set(true); tooth.mobility.degree = Degree::Second; } },
-        { "M3",	[](Tooth& tooth, Ranges&) mutable { tooth.mobility.set(true); tooth.mobility.degree = Degree::Third; } },
-        { "X",	[](Tooth& tooth, Ranges&) mutable { tooth.denture.set(true); } },
-        { "R",	[](Tooth& tooth, Ranges&) mutable { tooth.root.set(true); } },
-        { "Rc",	[](Tooth& tooth, Ranges&) mutable { tooth.endo.set(true); } },
-        { "Rp",	[](Tooth& tooth, Ranges&) mutable { tooth.post.set(true); } },
-        { "H",	[](Tooth& tooth, Ranges&) mutable { tooth.healthy.set(true); } },
-        { "I",	[](Tooth& tooth, Ranges&) mutable { tooth.implant.set(true); } },
-        { "Re",	[](Tooth& tooth, Ranges&) mutable { tooth.impacted.set(true); } },
-        { "G",	[](Tooth& tooth, Ranges&) mutable { tooth.lesion.set(true); } },
-        { "P",	[](Tooth& tooth, Ranges&) mutable { tooth.pulpitis.set(true); } },
-        { "F",	[](Tooth& tooth, Ranges&) mutable { tooth.fracture.set(true); } },
-        { "Pa",	[](Tooth& tooth, Ranges&) mutable { tooth.periodontitis.set(true); } },
-        { "D",	[](Tooth& tooth, Ranges&) mutable { if(tooth.dsn.toothNotNull()) tooth.dsn.set(true); } },
-        { "S",	[](Tooth& tooth, Ranges& r) mutable { r.splints.push_back(tooth.index); } }
+        { "E",	[](Tooth& tooth, Ranges&) mutable	{ tooth.setStatus(Dental::Missing, true); } },
+        { "T",	[](Tooth& tooth, Ranges&) mutable { tooth.setStatus(Dental::Calculus, true); } },
+        { "K",	[](Tooth& tooth, Ranges&) mutable { tooth.setStatus(Dental::Crown, true); } },
+        { "B",	[](Tooth& tooth, Ranges& r) mutable { r.bridges.push_back(tooth.index()); r.pontics.push_back(tooth.index()); } },
+        { "Kb",	[](Tooth& tooth, Ranges& r) mutable { r.bridges.push_back(tooth.index()); } },
+        { "O",	[](Tooth& tooth, Ranges&) mutable { tooth.setStatus(Dental::Restoration, true); } },
+        { "C",	[](Tooth& tooth, Ranges&) mutable { tooth.setStatus(Dental::Caries, true); } },
+        { "Oo",	[](Tooth& tooth, Ranges&) mutable { tooth.setSurface(Dental::Restoration,Surface::Occlusal); } },
+        { "Om",	[](Tooth& tooth, Ranges&) mutable { tooth.setSurface(Dental::Restoration, Surface::Medial);  } },
+        { "Od",	[](Tooth& tooth, Ranges&) mutable { tooth.setSurface(Dental::Restoration, Surface::Distal);  } },
+        { "Ob",	[](Tooth& tooth, Ranges&) mutable { tooth.setSurface(Dental::Restoration, Surface::Buccal); } },
+        { "Ol",	[](Tooth& tooth, Ranges&) mutable { tooth.setSurface(Dental::Restoration, Surface::Lingual);  } },
+        { "Oc",	[](Tooth& tooth, Ranges&) mutable { tooth.setSurface(Dental::Restoration, Surface::Cervical);  } },
+        { "Co",	[](Tooth& tooth, Ranges&) mutable { tooth.setSurface(Dental::Caries, Surface::Occlusal); } },
+        { "Cm",	[](Tooth& tooth, Ranges&) mutable { tooth.setSurface(Dental::Caries, Surface::Medial);  } },
+        { "Cd",	[](Tooth& tooth, Ranges&) mutable { tooth.setSurface(Dental::Caries, Surface::Distal);  } },
+        { "Cb",	[](Tooth& tooth, Ranges&) mutable { tooth.setSurface(Dental::Caries, Surface::Buccal); } },
+        { "Cl",	[](Tooth& tooth, Ranges&) mutable { tooth.setSurface(Dental::Caries, Surface::Lingual);  } },
+        { "Cc",	[](Tooth& tooth, Ranges&) mutable { tooth.setSurface(Dental::Caries, Surface::Cervical);  } },
+		{ "M1",	[](Tooth& tooth, Ranges&) mutable { tooth.setMobility(Dental::I, true); } },
+        { "M2",	[](Tooth& tooth, Ranges&) mutable { tooth.setMobility(Dental::II, true); } },
+        { "M3",	[](Tooth& tooth, Ranges&) mutable { tooth.setMobility(Dental::III, true); } },
+        { "X",	[](Tooth& tooth, Ranges&) mutable { tooth.setStatus(Dental::Denture, true); } },
+        { "R",	[](Tooth& tooth, Ranges&) mutable { tooth.setStatus(Dental::Root, true); } },
+        { "Rc",	[](Tooth& tooth, Ranges&) mutable { tooth.setStatus(Dental::RootCanal, true); } },
+        { "Rp",	[](Tooth& tooth, Ranges&) mutable { tooth.setStatus(Dental::Post, true); } },
+        { "H",	[](Tooth& tooth, Ranges&) mutable { tooth.setStatus(Dental::Healthy, true); } },
+        { "I",	[](Tooth& tooth, Ranges&) mutable { tooth.setStatus(Dental::Implant, true); } },
+        { "Re",	[](Tooth& tooth, Ranges&) mutable { tooth.setStatus(Dental::Impacted, true); } },
+        { "G",	[](Tooth& tooth, Ranges&) mutable { tooth.setStatus(Dental::ApicalLesion, true); } },
+        { "P",	[](Tooth& tooth, Ranges&) mutable { tooth.setStatus(Dental::Pulpitis, true); } },
+        { "F",	[](Tooth& tooth, Ranges&) mutable { tooth.setStatus(Dental::Fracture, true); } },
+        { "Pa",	[](Tooth& tooth, Ranges&) mutable { tooth.setStatus(Dental::Periodontitis, true); } },
+        { "D",	[](Tooth& tooth, Ranges&) mutable { tooth.setStatus(Dental::HasSupernumeral, true); } },
+        { "S",	[](Tooth& tooth, Ranges& r) mutable { r.splints.push_back(tooth.index()); } }
 	};
 
 	if(lambdaMap.count(code)) lambdaMap[code](tooth, r);

@@ -4,6 +4,8 @@
 #include <utility>
 #include "Tooth.h"
 
+using namespace Dental;
+
 std::vector<std::vector<int> > selectionCutter(const std::vector<int>& indexes)
 {
 	std::vector<std::vector<int>> selections;
@@ -23,63 +25,51 @@ std::vector<std::vector<int> > selectionCutter(const std::vector<int>& indexes)
 	return selections;
 }
 
-template <auto ptr>
-void formatSelection(const std::vector<int>& selection, std::vector<Tooth>& teeth)
+void formatSelection(const std::vector<int>& selection, std::vector<Tooth>& teeth, Status status)
 {
 
 	if (selection.size() == 1) //case in which only one tooth is selected
 	{
-		auto& singleTooth = teeth[selection[0]].*ptr;
-		singleTooth.set(false);
+		auto& singleTooth = teeth[selection[0]];
+		singleTooth.setStatus(status, false);
 
 	}
 
 	for (int i = 0; i < selection.size(); i++)
 	{
 		if (i == 0) {
-			(teeth[selection[i]].*ptr).position = BridgePos::Begin;
+			(teeth[selection[i]]).position = BridgePos::Begin;
 		}
 		else if (i == selection.size() - 1) {
-			(teeth[selection[i]].*ptr).position = BridgePos::End;
+			(teeth[selection[i]]).position = BridgePos::End;
 		}
 		else {
-			(teeth[selection[i]].*ptr).position = BridgePos::Middle;
+			(teeth[selection[i]]).position = BridgePos::Middle;
 		}
 	}
 
 	if (selection[0] != 0 && selection[0] != 16)
-	{;
-		bool noData = teeth[selection[0] - 1].noData();
-
-		auto& prev_tooth = teeth[selection[0] - 1].*ptr;
+	{
+		auto& prev_tooth = teeth[selection[0] - 1];
 
 		if (prev_tooth.position == BridgePos::Begin) {
 
-			prev_tooth.set(false);
+			prev_tooth.setStatus(status, false);
 
-			if (!noData && teeth[selection[0] - 1].noData()) {
-				teeth[selection[0] - 1].setStatus(StatusCode::Healthy);
-			}
 		}
 		else if (prev_tooth.position == BridgePos::Middle) {
 			prev_tooth.position = BridgePos::End;
 		}
-		
+
 	}
 
 	if (selection.back() != 15 && selection.back() != 31)
 	{
-		bool noData = teeth[selection.back() + 1].noData();
-
-		auto& next_tooth = teeth[selection.back() + 1].*ptr;
+		auto& next_tooth = teeth[selection.back() + 1];
 
 		if (next_tooth.position == BridgePos::End) {
 
-			next_tooth.set(false);
-
-			if (!noData && teeth[selection.back() + 1].noData()) {
-				teeth[selection.back() + 1].setStatus(StatusCode::Healthy);
-			}
+			next_tooth.setStatus(status, false);
 		}
 		else if (next_tooth.position == BridgePos::Middle) {
 			next_tooth.position = BridgePos::Begin;
@@ -89,27 +79,24 @@ void formatSelection(const std::vector<int>& selection, std::vector<Tooth>& teet
 
 }
 
-
-
-template<auto ptr>
-std::pair<int, int> getConstructionRange(const std::vector<Tooth>& teeth, int tooth_idx)
+std::pair<int, int> getConstructionRange(const std::vector<Tooth>& teeth, int tooth_idx, Status status)
 {
 	int begin{ tooth_idx }, end{ tooth_idx };
 
-	auto& current = teeth[tooth_idx].*ptr;
+	auto& current = teeth[tooth_idx];
 
-	if (!current.exists())
+	if (!current[status])
 		return std::make_pair(begin, end);
 
 	for (int i = tooth_idx; i < teethCount; i++) {
-		if ((teeth[i].*ptr).position == BridgePos::End) {
+		if (teeth[i].position == BridgePos::End) {
 			end = i;
 			break;
 		}
 	}
 
 	for (int i = tooth_idx; i >= 0; --i) {
-		if ((teeth[i].*ptr).position == BridgePos::Begin) {
+		if (teeth[i].position == BridgePos::Begin) {
 			begin = i;
 			break;
 		}

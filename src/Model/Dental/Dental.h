@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string_view>
-
+//Some important enums and string literals
 namespace Dental
 {
 	enum Type { Molar, Premolar, Frontal };

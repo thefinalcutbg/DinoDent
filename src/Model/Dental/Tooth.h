@@ -55,14 +55,15 @@ public:
 
 	int index() const { return m_index; }
 
-	//code is either Status code or Surface - be careful!
+	//code argument is either Status code or Surface - be careful!
 	void setStatus(Dental::StatusType type, int code, bool present);
 	void setStatus(Dental::Status code, bool present = true);
+	//use code Restoration or Code caries
 	void setSurface(Dental::Status code, int surface, bool present = true);
 	void setMobility(Dental::MobilityDegree degree, bool present = true);
 	void clearStatuses();
 	bool isSupernumeral() const { return m_supernumeral == nullptr; }
-
+	//if the tooth is supernumeral it returns itself
 	Tooth& getSupernumeral();
 
 	const Tooth& getSupernumeral() const;

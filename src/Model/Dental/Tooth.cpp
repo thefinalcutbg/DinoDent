@@ -259,6 +259,8 @@ void Tooth::setStatus(Status code, bool present) {
 
 	if (code == Temporary && type() == Molar) return;
 
+	if (present == m_data[code]) return;
+
 	//supernumeral cant have these statuses
 	if (isSupernumeral() &&
 		(
@@ -392,11 +394,14 @@ void Tooth::setStatus(Dental::StatusType type, int code, bool present)
 
 void Tooth::clearStatuses()
 {
-	for (auto& code : m_data) code = false;
+	m_data = { 0 };
 
 	if (m_parent) {
 		m_parent->m_data[HasSupernumeral] = false;
-	};
+	}
+	else {
+		m_supernumeral->m_data = { 0 };
+	}
 
 }
 

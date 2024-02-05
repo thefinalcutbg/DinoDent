@@ -421,6 +421,7 @@ void ListPresenter::setOther(int code)
     };
 
     auto& teeth = m_ambList.teeth;
+
     for (auto idx : m_selectedIndexes)
     {
 

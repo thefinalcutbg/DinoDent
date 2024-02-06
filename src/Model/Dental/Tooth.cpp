@@ -48,8 +48,9 @@ Tooth& Tooth::operator=(const Tooth& other)
 	position = other.position;
 	m_lpkMap = other.m_lpkMap;
 
+	//recursive assignment operator call
 	if (other.m_supernumeral) {
-		m_supernumeral = other.m_supernumeral;
+		*m_supernumeral = *other.m_supernumeral;
 	}
 
 	return *this;

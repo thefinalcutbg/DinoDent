@@ -7,21 +7,16 @@
 #include "ToothIndex.h"
 #include "Dental.h"
 
+typedef std::array<bool, Dental::SurfaceCount> SurfaceStatus;
 
 class Tooth
 {
 
-private:
-
 	//teeth indexes are from 0 do 31
 	const int m_index;
-
 	std::array<bool, Dental::StatusCount> m_data { false };
-
-	std::array<bool, Dental::SurfaceCount> m_resto_surface = { false };
-	std::array<bool, Dental::SurfaceCount> m_caries_surface = { false };
-
-
+	SurfaceStatus m_resto_surface = { false };
+	SurfaceStatus m_caries_surface = { false };
 
 	std::map<int, std::string> m_lpkMap;
 
@@ -54,50 +49,58 @@ public:
 	Tooth& operator=(const Tooth& other);
 
 	int index() const { return m_index; }
+	ToothIndex toothIndex() const;
+	Dental::Type type() const;
+	Dental::Quadrant quadrant() const;
+	bool isPontic() const;
+	bool canHaveACrown() const;
+	bool isWisdom() const;
+
 
 	//code argument is either Status code or Surface - be careful!
 	void setStatus(Dental::StatusType type, int code, bool present);
+
+	//sets general status
 	void setStatus(Dental::Status code, bool present = true);
+
 	//use code Restoration or Code caries
 	void setSurface(Dental::Status code, int surface, bool present = true);
-	void setMobility(Dental::MobilityDegree degree, bool present = true);
+
+	void setMobility(Dental::MobilityDegree degree, bool present);
+	
 	void clearStatuses();
+
 	bool isSupernumeral() const { return m_supernumeral == nullptr; }
+
 	//if the tooth is supernumeral it returns itself
 	Tooth& getSupernumeral();
-
 	const Tooth& getSupernumeral() const;
-	Dental::Type type() const;
-	Dental::Quadrant quadrant() const;
-	ToothIndex toothIndex() const;
 
 	bool operator[](Dental::Status s) const;
 
 	bool hasStatus(int code) const;
+	bool hasStatus(int code, int surface) const;
+	
 	bool hasRestoration(int surface) const;
 	bool hasCaries(int surface) const;
-	bool hasMobility(Dental::MobilityDegree degree) const;
 	bool hasSecondaryCaries(int surface) const;
-	bool isWisdom() const;
 	bool noData() const;
-	bool isPontic() const;
-	bool canHaveACrown() const;
 
 	const decltype(m_data)& getBoolStatus() const { return m_data; }
-	std::array<bool, Dental::SurfaceCount> getRestorationBoolStatus() const;
-	std::array<bool, Dental::SurfaceCount> getCariesBoolStatus() const;
+	SurfaceStatus getRestorationBoolStatus() const;
+	SurfaceStatus getCariesBoolStatus() const;
 	std::array<bool, Dental::MobilityCount> getMobilityBoolStatus() const;
 
+	//codes 0-5 for restoration surface; Others are same as the status codes.
 	void setLPK(int code, const std::string& lpk);
 	std::string getLPK(int code) const;
-
-	std::string toothName() const;
 
 	void copyFromHIS(const Tooth& other);
 	std::vector<std::string> getNhifStatus() const;
 	std::vector<std::string> getHISStatus() const;
 	std::string getPrintStatus() const;
 	std::string getToothInfo() const;
+	std::string toothName() const;
 
 	~Tooth();
 };

@@ -127,6 +127,16 @@ bool Tooth::hasStatus(int code) const
 	return m_data[code];
 }
 
+bool Tooth::hasStatus(int code, int surface) const
+{
+	if (code != Restoration || code != Caries) return false;
+
+	return code == Restoration ? 
+		hasRestoration(surface) 
+		: 
+		hasCaries(surface);
+}
+
 bool Tooth::hasRestoration(int surface) const
 {
 	return m_data[Restoration] && m_resto_surface[surface];
@@ -135,11 +145,6 @@ bool Tooth::hasRestoration(int surface) const
 bool Tooth::hasCaries(int surface) const
 {
 	return m_data[Caries] && m_caries_surface[surface];
-}
-
-bool Tooth::hasMobility(Dental::MobilityDegree degree) const
-{
-	return m_data[Mobility] && m_degree == degree;
 }
 
 bool Tooth::hasSecondaryCaries(int surface) const
@@ -182,12 +187,12 @@ bool Tooth::canHaveACrown() const
 		;
 }
 
-std::array<bool, Dental::SurfaceCount> Tooth::getRestorationBoolStatus() const
+SurfaceStatus Tooth::getRestorationBoolStatus() const
 {
 	return m_data[Restoration] ? m_resto_surface : std::array<bool, Dental::SurfaceCount>{0};
 }
 
-std::array<bool, Dental::SurfaceCount> Tooth::getCariesBoolStatus() const
+SurfaceStatus Tooth::getCariesBoolStatus() const
 {
 	return m_data[Caries] ? m_caries_surface : std::array<bool, Dental::SurfaceCount>{0};
 
@@ -234,6 +239,7 @@ Tooth::IncompatibleCodes Tooth::incompatInit()
 	result[Caries] = { Healthy, Root, Implant, Missing, Impacted, Denture };
 	result[Pulpitis] = { Healthy, ApicalLesion, Missing, Impacted, RootCanal, Post, Impacted };
 	result[ApicalLesion] = { Healthy, Pulpitis, Missing, Impacted, Implant };
+	result[Missing] = { Healthy, Restoration, Caries, Implant, Pulpitis, RootCanal, Fracture, Root, ApicalLesion, Periodontitis, Crown, Post, Mobility, Denture, Calculus, Impacted };
 	result[RootCanal] = { Healthy, Pulpitis, Missing, Impacted, Implant };
 	result[Post] = { Healthy, Temporary, Missing, Implant, Pulpitis, Impacted, Denture };
 	result[Root] = { Healthy, Caries, Restoration, Crown, Missing, Implant, Calculus };
@@ -248,8 +254,7 @@ Tooth::IncompatibleCodes Tooth::incompatInit()
 	result[Impacted] = { Healthy, Restoration, Caries, Missing, Periodontitis, ApicalLesion, Implant, Crown, Post, RootCanal, Mobility, Fracture, Calculus };
 	result[Denture] = { Healthy, Restoration, Caries, Missing, Crown, Bridge, Splint, Post, Calculus }; //if (!root)	set(false, endo, lesion, pulpitis, periodontitis);
 	result[Calculus] = { Healthy, Root, Missing, Implant, Impacted, Denture };
-
-	return result;
+		return result;
 
 }
 
@@ -280,11 +285,15 @@ void Tooth::setStatus(Status code, bool present) {
 
 		if (code == RootCanal) { m_data[Post] = false; }
 
+		if (code == HasSupernumeral && m_supernumeral) {
+			m_supernumeral->clearStatuses();
+		}
+
 		m_data[Healthy] = isHealthy();
 
 		if (m_parent) {
 			m_parent->m_data[HasSupernumeral] = true;
-		};
+		}
 
 		return;
 	}

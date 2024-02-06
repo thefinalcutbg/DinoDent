@@ -5,10 +5,10 @@
 constexpr std::array<int, 32> s_tooth_FDI
 {
     18, 17, 16, 15, 14, 13, 12, 11, 21, 22, 23, 24, 25, 26, 27, 28,
-        38, 37, 36, 35, 34, 33, 32, 31, 41, 42, 43, 44, 45, 46, 47, 48
+    38, 37, 36, 35, 34, 33, 32, 31, 41, 42, 43, 44, 45, 46, 47, 48
 };
 
-constexpr  int nhifNoTooth = 99;
+constexpr int nhifNoTooth = 99;
 
 
 Dental::Type ToothUtils::getToothType(int index)
@@ -17,7 +17,7 @@ Dental::Type ToothUtils::getToothType(int index)
     constexpr static std::array<int, 32> toothType
     {
         0, 0, 0, 1, 1, 2, 2, 2, 2, 2, 2, 1, 1, 0, 0, 0,
-            0, 0, 0, 1, 1, 2, 2, 2, 2, 2, 2, 1, 1, 0, 0, 0
+        0, 0, 0, 1, 1, 2, 2, 2, 2, 2, 2, 1, 1, 0, 0, 0
     };
 
     return static_cast<Dental::Type>(toothType[index]);

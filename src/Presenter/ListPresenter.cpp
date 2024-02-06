@@ -277,7 +277,7 @@ void ListPresenter::print()
     if(save())
     Print::ambList(m_ambList, *patient);
 }
-#include <QDebug>
+
 void ListPresenter::setDataToView()
 {
     view->setPresenter(this);
@@ -458,12 +458,14 @@ void ListPresenter::setToothStatus(Dental::StatusType t, int code, bool supernum
 {
     bool state{ false };
 
+    auto& checkModel = supernumeral ? m_dsnCheckModel : m_checkModel;
+
     switch (t)
     {
-        case Dental::StatusType::General: state = m_checkModel.generalStatus[code] != CheckState::checked; break;
-        case Dental::StatusType::Restoration: state = m_checkModel.obturationStatus[code] != CheckState::checked; break;
-        case Dental::StatusType::Caries: state = m_checkModel.cariesStatus[code] != CheckState::checked; break;
-        case Dental::StatusType::Mobility: state = m_checkModel.mobilityStatus[code] != CheckState::checked; break;
+        case Dental::StatusType::General: state = checkModel.generalStatus[code] != CheckState::checked; break;
+        case Dental::StatusType::Restoration: state = checkModel.obturationStatus[code] != CheckState::checked; break;
+        case Dental::StatusType::Caries: state = checkModel.cariesStatus[code] != CheckState::checked; break;
+        case Dental::StatusType::Mobility: state = checkModel.mobilityStatus[code] != CheckState::checked; break;
     }
 
     m_ambList.teeth.setStatus(m_selectedIndexes, t, code, state, supernumeral);
@@ -502,7 +504,7 @@ void ListPresenter::setSelectedTeeth(const std::vector<int>& SelectedIndexes)
     view->hideControlPanel(m_selectedIndexes.empty());
 
 }
-#include <qdebug.h>
+
 void ListPresenter::historyRequested()
 {
     if (dentalActService.awaitingReply() ||

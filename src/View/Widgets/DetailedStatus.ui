@@ -117,13 +117,13 @@
      <property name="font">
       <font>
        <family>Segoe UI</family>
-       <pointsize>10</pointsize>
-       <bold>true</bold>
+       <pointsize>8</pointsize>
+       <bold>false</bold>
        <kerning>false</kerning>
       </font>
      </property>
      <property name="text">
-      <string>Бележки (не се ипращат към НЗИС):</string>
+      <string>Бележки (не се изпращат към НЗИС):</string>
      </property>
      <property name="textFormat">
       <enum>Qt::PlainText</enum>

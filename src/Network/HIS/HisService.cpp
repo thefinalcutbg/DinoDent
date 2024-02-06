@@ -228,7 +228,7 @@ std::string HisService::getToothStatus(const Tooth& tooth)
 	if (statuses.empty()) return result;
 
 	result += "<nhis:tooth>";
-	result += bind("toothIndex", ToothUtils::getToothNumber(tooth.index(), tooth[Dental::HasSupernumeral]));
+	result += bind("toothIndex", ToothUtils::getToothNumber(tooth.index(), tooth[Dental::Temporary]));
 	
 	if (tooth.isSupernumeral()) {
 		result += bind("supernumeralIndex", 1);

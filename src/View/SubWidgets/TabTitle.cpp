@@ -93,14 +93,14 @@ void TabTitle::mouseReleaseEvent(QMouseEvent* event)
 	QWidget::mouseReleaseEvent(event);
 }
 
-void TabTitle::setNhifIcon(const QPixmap& px)
+void TabTitle::setFooterIcon(const QPixmap& px)
 {
 	ui.nhif->setHidden(px.isNull());
 	ui.nhif->setPixmap(px);
 	
 }
 
-void TabTitle::setHisIcon(const QPixmap& px)
+void TabTitle::setHeaderIcon(const QPixmap& px)
 {
 	ui.his->setHidden(px.isNull());
 	ui.his->setPixmap(px);

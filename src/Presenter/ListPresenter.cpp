@@ -103,12 +103,14 @@ void ListPresenter::setHisButtonToView()
 
 void ListPresenter::makeEdited()
 {
-    TabInstance::makeEdited();
-
     if (m_ambList.nrn.size()) {
         m_ambList.his_updated = false;
-        if(isCurrent()) setHisButtonToView();
+        if (isCurrent()) setHisButtonToView();
     }
+
+    TabInstance::makeEdited();
+
+
 }
 
 
@@ -206,7 +208,6 @@ TabName ListPresenter::getTabName()
 {
     TabName n;
 
-
     n.header += m_ambList.isNew() ? "Нов амб.лист " :
         "Амб.лист ";
     
@@ -220,8 +221,14 @@ TabName ListPresenter::getTabName()
     n.footer += " ";
     n.footer += patient->LastName;
 
-    n.nhif = m_ambList.isNhifSheet() || m_ambList.referrals.size();
-    n.his = m_ambList.nrn.size();
+    if (m_ambList.isNhifSheet()) {
+        n.footer_icon = CommonIcon::NHIF;
+    }
+    
+    if (m_ambList.nrn.size()) {
+        n.header_icon = m_ambList.his_updated ? CommonIcon::HIS : CommonIcon::HISGRAY;
+    }
+
     return n;
 }
 

@@ -42,6 +42,8 @@
         <file>icon_erx.png</file>
         <file>icon_pdf.png</file>
         <file>icon_hospital.png</file>
+        <file>icon_sync.png</file>
+        <file>icon_hisgray.png</file>
     </qresource>
     <qresource prefix="/tooth">
         <file>tooth_approximal.png</file>

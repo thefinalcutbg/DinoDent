@@ -4,14 +4,15 @@
 #include "View/ModalDialogBuilder.h"
 #include "Model/Patient.h"
 #include <memory>
+#include "View/CommonIcon.h"
 
 enum class TabType { PatientSummary, AmbList, Prescription, PerioStatus, Financial};
 
 struct TabName {
 	std::string header;
 	std::string footer;
-	bool nhif{ false };
-	bool his{ false };
+	CommonIcon::Type header_icon{ CommonIcon::NOICON };
+	CommonIcon::Type footer_icon{ CommonIcon::NOICON };
 	std::string toString() const { return header + " " + footer; };
 };
 

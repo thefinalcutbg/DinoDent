@@ -1,13 +1,12 @@
 #pragma once
 #include <string>
 #include <vector>
+#include "View/CommonIcon.h"
 
 struct PlainCell {
 
-	enum Icon { NOICON, NHIF, HIS, PHIF, BDAY, AMBLIST, PRESCR, PERIO, INVOICE };
-
 	std::string data;
-	Icon icon{ Icon::NOICON };
+	CommonIcon::Type icon{ CommonIcon::NOICON };
 };
 
 struct PlainColumn {

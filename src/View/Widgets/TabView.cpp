@@ -4,7 +4,7 @@
 #include "View/Theme.h"
 #include "View/SubWidgets/TabTitle.h"
 #include "Presenter/TabPresenter.h"
-
+#include "View/CommonIcon.h";
 TabView::TabView(QWidget *parent)
 	: QWidget(parent)
 {
@@ -129,8 +129,9 @@ void TabView::newTab(int tabId, const TabName& tabName)
 {
     TabTitle* tab = new TabTitle(this, tabId);
 
-    tab->setNhifIcon(tabName.nhif ? QPixmap(":/icons/icon_nhif.png") : QPixmap{});
-    tab->setHisIcon(tabName.his ? QPixmap(":/icons/icon_his.png") : QPixmap{});
+    tab->setHeaderIcon(CommonIcon::getPixmap(tabName.header_icon));
+    tab->setFooterIcon(CommonIcon::getPixmap(tabName.footer_icon));
+
     tab->setText(QString::fromStdString(tabName.header), QString::fromStdString(tabName.footer));
 
     {
@@ -176,15 +177,8 @@ void TabView::changeTabName(const TabName& tabName, int tabId)
     auto tab = static_cast<TabTitle*>
         (ui.tabBar->tabButton(tabIndex, QTabBar::ButtonPosition::RightSide));
 
-    (tabName.nhif) ?
-        tab->setNhifIcon(QPixmap(":/icons/icon_nhif.png"))
-        :
-        tab->setNhifIcon(QPixmap(""));
-
-    (tabName.his) ?
-        tab->setHisIcon(QPixmap(":/icons/icon_his.png"))
-        :
-        tab->setHisIcon(QPixmap(""));
+    tab->setHeaderIcon(CommonIcon::getPixmap(tabName.header_icon));
+    tab->setFooterIcon(CommonIcon::getPixmap(tabName.footer_icon));
 
     tab->setText(QString::fromStdString(tabName.header), QString::fromStdString(tabName.footer));
     

@@ -43,19 +43,8 @@ QVariant PlainTableModel::data(const QModelIndex& index, int role) const
 
     switch (role)
     {
-    case Qt::DecorationRole:
-        switch (m_data[column].rows[row].icon)
-        {
-        case PlainCell::NHIF: return QIcon(":/icons/icon_nhif.png");
-        case PlainCell::HIS: return QIcon(":/icons/icon_his.png");
-        case PlainCell::PHIF: return QIcon(":/icons/icon_phif.png");
-        case PlainCell::BDAY: return QIcon(":/icons/icon_bday.png");
-        case PlainCell::AMBLIST: return QIcon(":/icons/icon_sheet.png");
-        case PlainCell::PRESCR: return QIcon(":/icons/icon_prescr.png");
-        case PlainCell::PERIO: return QIcon(":/icons/icon_periosheet.png");
-        case PlainCell::INVOICE: return QIcon(":/icons/icon_invoice.png");
-        default: return QVariant();
-        }
+    case Qt::DecorationRole: 
+        return QIcon(CommonIcon::getPixmap(m_data[column].rows[row].icon));
 
     case Qt::DisplayRole:
         return m_data[column].rows[row].data.c_str();

@@ -62,7 +62,7 @@ void BrowserPresenter::refreshModel()
 		//tracking the rowids of the sheets sent to his
 		if(
 			ui_state.model_type == TabType::AmbList &&
-			tableView.data[2].rows[i].icon == PlainCell::HIS
+			tableView.data[2].rows[i].icon == CommonIcon::HIS
 		)
 		{
 			sentToHis.insert(rowidData[i].rowID);

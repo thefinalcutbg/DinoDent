@@ -260,9 +260,9 @@ TabName PrescriptionPresenter::getTabName()
 
 	result.footer = patient->firstLastName();
 
-	result.his = !m_prescription.NRN.empty();
-
-	result.nhif = false;
+	if (m_prescription.NRN.size()) {
+		result.header_icon = CommonIcon::HIS;
+	}
 
 	return result;
 }

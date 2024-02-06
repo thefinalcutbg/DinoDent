@@ -13,19 +13,19 @@ PlainTable::PlainTable(const std::vector<Procedure>& pList)
 
         addCell(0, {
             .data = p.date.toBgStandard(),
-            .icon = p.isSentToHis() ? PlainCell::HIS : PlainCell::NOICON
+            .icon = p.isSentToHis() ? CommonIcon::HIS : CommonIcon::NOICON
             });
 
         addCell(1, { p.diagnosis.getFullDiagnosis() });
         addCell(2, { p.getToothString() });
         addCell(3, { p.code.name() });
 
-        PlainCell::Icon icon;
+        CommonIcon::Type icon;
 
         switch (p.financingSource) {
-        case FinancingSource::NHIF: icon = PlainCell::NHIF; break;
-        case FinancingSource::PHIF: icon = PlainCell::PHIF; break;
-        default: icon = PlainCell::NOICON;
+        case FinancingSource::NHIF: icon = CommonIcon::NHIF; break;
+        case FinancingSource::PHIF: icon = CommonIcon::PHIF; break;
+        default: icon = CommonIcon::NOICON;
         }
 
         addCell(4, PlainCell{

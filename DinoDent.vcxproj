@@ -379,6 +379,7 @@
     <ClCompile Include="src\DbUpdates\DbUpdates.cpp" />
     <ClCompile Include="src\DbUpdates\Updater.cpp" />
     <ClCompile Include="src\Tests\CrudTest.cpp" />
+    <ClCompile Include="src\View\CommonIcon.cpp" />
     <ClCompile Include="src\View\GlobalFunctions.cpp" />
     <ClCompile Include="src\View\Graphics\PaintHint.cpp" />
     <ClCompile Include="src\View\SubWidgets\ContextMenu.cpp" />
@@ -809,6 +810,7 @@
     <ClInclude Include="src\Presenter\FiscalReportPresenter.h" />
     <QtMoc Include="src\View\Widgets\FiscalReportView.h" />
     <QtMoc Include="src\View\Widgets\AllergyDialog.h" />
+    <ClInclude Include="src\View\CommonIcon.h" />
     <ClInclude Include="src\View\Widgets\GlobalWidgets.h" />
     <QtMoc Include="src\View\Widgets\PisDialog.h" />
     <QtMoc Include="src\View\Widgets\MedicalNoticeDialog.h" />

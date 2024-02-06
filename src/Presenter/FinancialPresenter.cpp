@@ -327,11 +327,24 @@ TabName FinancialPresenter::getTabName()
 
         static const std::string newName[3]{ "Новa фактура", "Ново дебитно известие", "Ново кредитно известие" };
 
-        return { newName[nameIdx], "", m_invoice.nhifData.has_value()};
+        TabName tab;
+        tab.header = newName[nameIdx];
+        if (m_invoice.nhifData.has_value()) {
+            tab.header_icon = CommonIcon::NHIF;
+        }
+
+        return tab;
     }
 
     static const std::string docTypeName[3]{ "Фактура", "Дебитно известие", "Кредитно известие" };
 
-    return { docTypeName[nameIdx], "№" + m_invoice.getInvoiceNumber(), m_invoice.nhifData.has_value()};
+    TabName tab;
+    tab.header = docTypeName[nameIdx];
+    tab.footer = "№" + m_invoice.getInvoiceNumber();
+    if (m_invoice.nhifData.has_value()) {
+        tab.header_icon = CommonIcon::NHIF;
+    }
+
+    return tab;
    
 }

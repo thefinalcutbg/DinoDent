@@ -1,10 +1,11 @@
 #pragma once
 
 class QStatusBar;
-class QWidget;
+class DinoDent;
 
 namespace GlobalWidgets
 {
 	inline QStatusBar* statusBar;
-    inline QWidget* mainWindow;
+    inline DinoDent* mainWindow;
+	
 }

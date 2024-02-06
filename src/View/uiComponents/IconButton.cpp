@@ -26,7 +26,7 @@ void IconButton::paintEvent(QPaintEvent*)
 	QPainterPath path;
 	path.addEllipse(rect());
 
-	QColor color = (m_hover || isChecked()) ?
+	QColor color = isEnabled() && (m_hover || isChecked()) ?
 			hoverColor : backgroundColor ;
 
 	painter.fillPath(path, color);
@@ -35,18 +35,25 @@ void IconButton::paintEvent(QPaintEvent*)
 
 	QRect iconRect(rect().center(), QSize(rect().width()-padding, rect().height()-padding));
 	iconRect.moveCenter(rect().center());
+	
+	QIcon::Mode iconMode = isEnabled() ? QIcon::Mode::Normal : QIcon::Mode::Disabled;
 
 	if (!icon().isNull())
-		icon().paint(&painter, iconRect);
+		icon().paint(&painter, iconRect, Qt::AlignCenter, iconMode);
 	
 }
 
 bool IconButton::eventFilter(QObject*, QEvent* e)
 {
 	if (e->type() == QEvent::HoverEnter) {
+
 		m_hover = true;
 		GlobalWidgets::statusBar->showMessage(this->toolTip());
-		QApplication::setOverrideCursor(Qt::PointingHandCursor);
+
+		if (isEnabled()) {
+			QApplication::setOverrideCursor(Qt::PointingHandCursor);
+		}
+
 		update();
 	}
 

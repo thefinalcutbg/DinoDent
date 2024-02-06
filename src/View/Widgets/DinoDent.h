@@ -21,6 +21,7 @@ public:
     void setUserLabel(const std::string& doctorName, const std::string& practiceName) override;
     void exitProgram() override;
     bool initialized();
+    void disableButtons(bool printDisabled, bool saveDisabled);
 
 private:
     Ui::DinoDentClass ui;

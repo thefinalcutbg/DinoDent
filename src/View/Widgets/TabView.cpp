@@ -4,7 +4,10 @@
 #include "View/Theme.h"
 #include "View/SubWidgets/TabTitle.h"
 #include "Presenter/TabPresenter.h"
-#include "View/CommonIcon.h";
+#include "View/CommonIcon.h"
+#include "View/Widgets/DinoDent.h"
+#include "View/Widgets/GlobalWidgets.h"
+
 TabView::TabView(QWidget *parent)
 	: QWidget(parent)
 {
@@ -207,6 +210,7 @@ void TabView::setScrollPos(ScrollPos scrollPos)
 
 void TabView::showListView()
 {
+    GlobalWidgets::mainWindow->disableButtons(false, false);
     showTabWidget(&m_listView);
     m_perioView.setPresenter(nullptr);
     m_summaryView.setPresenter(nullptr);
@@ -216,6 +220,7 @@ void TabView::showListView()
 
 void TabView::showPerioView()
 {
+    GlobalWidgets::mainWindow->disableButtons(true, false);
     showTabWidget(&m_perioView);
     m_listView.setPresenter(nullptr);
     m_summaryView.setPresenter(nullptr);
@@ -226,6 +231,7 @@ void TabView::showPerioView()
 
 void TabView::showSummaryView()
 {
+    GlobalWidgets::mainWindow->disableButtons(true, true);
     showTabWidget(&m_summaryView);
     m_listView.setPresenter(nullptr);
     m_perioView.setPresenter(nullptr);
@@ -235,6 +241,7 @@ void TabView::showSummaryView()
 
 void TabView::showFinancialView()
 {
+    GlobalWidgets::mainWindow->disableButtons(false, false);
     showTabWidget(&m_financialView);
     m_listView.setPresenter(nullptr);
     m_perioView.setPresenter(nullptr);
@@ -244,15 +251,18 @@ void TabView::showFinancialView()
 
 void TabView::showPerscriptionView()
 {
+    
     showTabWidget(&m_prescriptionView);
     m_listView.setPresenter(nullptr);
     m_perioView.setPresenter(nullptr);
     m_summaryView.setPresenter(nullptr);
     m_financialView.setPresenter(nullptr);
+    GlobalWidgets::mainWindow->disableButtons(true, false);
 }
 
 void TabView::showWelcomeScreen()
 {
+    GlobalWidgets::mainWindow->disableButtons(true, true);
     showTabWidget(&welcomeScreen);
     m_listView.setPresenter(nullptr);
     m_perioView.setPresenter(nullptr);

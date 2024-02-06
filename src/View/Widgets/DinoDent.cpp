@@ -82,7 +82,7 @@ DinoDent::DinoDent(QWidget* parent)
     ui.statisticButton->setIcon(QIcon(":/icons/icon_statistic.png"));
     ui.invoiceButton->setIcon(QIcon(":/icons/icon_invoice.png"));
     ui.aboutButton->setIcon(QIcon(":/icons/icon_question.png"));
-
+    
     connect(ui.newButton, &QPushButton::clicked, [&] { MainPresenter::get().newAmbPressed(); });
     connect(ui.saveButton, &QPushButton::clicked, [&] { MainPresenter::get().save(); });
     connect(ui.browserButton, &QPushButton::clicked, [&] { MainPresenter::get().showBrowser(); });
@@ -147,6 +147,12 @@ void DinoDent::exitProgram()
 bool DinoDent::initialized()
 {
     return m_loggedIn;
+}
+
+void DinoDent::disableButtons(bool printDisabled, bool saveDisabled)
+{
+    ui.printButton->setDisabled(printDisabled);
+    ui.saveButton->setDisabled(saveDisabled);
 }
 
 void DinoDent::paintEvent(QPaintEvent*)

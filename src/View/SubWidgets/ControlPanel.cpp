@@ -3,7 +3,7 @@
 #include "Presenter/ListPresenter.h"
 #include <QMenu>
 #include "DsnMenu.h"
-
+#include <qdebug.h>
 ControlPanel::ControlPanel(QWidget* parent)
 	: QWidget(parent), presenter(nullptr)
 {
@@ -122,19 +122,17 @@ void ControlPanel::setModel(const CheckModel& checkModel, const CheckModel& dsn)
 
 	ui.unknown->setCheckState(checkModel.no_data ? CheckState::checked : CheckState::unchecked);
 
-	if (checkModel.mobilityStatus[0] == CheckState::checked) {
-		ui.Mobility->setCurrentState(1); return;
+	int mobilityState = 0;
+
+	for (int i = 0; i < Dental::MobilityCount; i++)
+	{
+		if (checkModel.mobilityStatus[i] == CheckState::checked) {
+			mobilityState = i + 1;
+			break;
+		}
 	}
 
-	if (checkModel.mobilityStatus[1] == CheckState::checked) {
-		ui.Mobility->setCurrentState(2); return;
-	}
-
-	if (checkModel.mobilityStatus[2] == CheckState::checked) {
-		ui.Mobility->setCurrentState(3); return;
-	}
-
-	ui.Mobility->setCurrentState(0);
+	ui.Mobility->setCurrentState(mobilityState);
 	
 	menu->setModel(dsn);
 }

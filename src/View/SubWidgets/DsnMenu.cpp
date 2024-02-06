@@ -49,7 +49,7 @@ DsnMenu::DsnMenu()
     {
         mobilityDegree[i] = MobilityMenu->addAction(mobilityNames[i].data());
         connect(mobilityDegree[i], &QAction::triggered, [this, i]() {
-            this->presenter->setToothStatus(StatusType::Mobility, i); });
+            this->presenter->setToothStatus(StatusType::Mobility, i, true); });
 
     }
 

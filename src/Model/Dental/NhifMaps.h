@@ -9,17 +9,26 @@
 typedef double nzokPrice;
 typedef double patientPrice;
 
+/*
+The presense and the price of each procedure depends on 4 variables:
+1. The specialty of the doctor
+2. Is the patient adult or not
+3. The type of specification (partially, fully funded or general anesthesia for mentally ill patients)
+4. The nhif code ot the procedure
+*/
 struct PriceKey
 {
 	int specialty;
 	bool adult;
-	int unfav;
+	int specification;
+	int procedure_code;
 
 	bool operator == (const PriceKey& p) const 
 	{
 		return (specialty == p.specialty && 
 				adult == p.adult &&
-				unfav == p.unfav);
+				specification == p.specification &&
+				procedure_code == p.procedure_code);
 	}
 };
 
@@ -30,19 +39,19 @@ struct std::hash<PriceKey>
 	{
 		std::size_t h1 = std::hash<int>()(node.specialty);
 		std::size_t h2 = std::hash<bool>()(node.adult);
-		std::size_t h3 = std::hash<int>()(node.unfav);
-
-		return h1 ^ h2 ^ h3;
+		std::size_t h3 = std::hash<int>()(node.specification);
+		std::size_t h4 = std::hash<int>()(node.procedure_code);
+		return h1 ^ h2 ^ h3 ^ h4;
 	}
 };
 
-struct PriceObj
+struct PriceValue
 {
-	int bigCode;
-	std::unordered_map<int, std::pair<patientPrice, nzokPrice> > priceMap;
+	int big_code;
+	double nhif_price;
+	double patient_price;
+
 };
-
-
 
 struct ProcedurePackage
 {
@@ -56,7 +65,7 @@ struct ProcedurePackage
 struct NRD
 {
 	Date date;
-	std::unordered_map<PriceKey, PriceObj> prices;
+	std::unordered_map<PriceKey, PriceValue> prices;
 	std::vector<ProcedurePackage> packages;
 };
 

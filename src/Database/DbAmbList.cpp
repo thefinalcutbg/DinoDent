@@ -110,7 +110,7 @@ AmbList DbAmbList::getNewAmbSheet(long long patientRowId)
         ambList.his_updated = db.asInt(3);
         ambList.basedOn = db.asString(4);
         ambList.number = db.asInt(5);
-        ambList.nhifData.specification = static_cast<NhifSpecification>(db.asInt(6));
+        ambList.nhifData.specification = static_cast<NhifSpecificationType>(db.asInt(6));
         status = db.asString(7);
         ambList.date = db.asString(8);
     }
@@ -179,7 +179,7 @@ AmbList DbAmbList::getListData(long long rowId)
         ambList.his_updated = db.asBool(3);
         ambList.basedOn = db.asString(4);
         ambList.number = db.asInt(5);
-        ambList.nhifData.specification = static_cast<NhifSpecification>(db.asInt(6));
+        ambList.nhifData.specification = static_cast<NhifSpecificationType>(db.asInt(6));
         ambList.nhifData.isUnfavourable = db.asBool(7);
         status = db.asString(8);
         ambList.LPK = User::doctor().LPK;
@@ -306,7 +306,7 @@ std::vector<AmbList> DbAmbList::getMonthlyNhifSheets(int month, int year)
         sheet.patient_rowid = db.asRowId(1);
         sheet.number = db.asInt(2);
         sheet.nrn = db.asString(3);
-        sheet.nhifData.specification = static_cast<NhifSpecification>(db.asInt(4));
+        sheet.nhifData.specification = static_cast<NhifSpecificationType>(db.asInt(4));
         sheet.nhifData.isUnfavourable = db.asInt(5);
         Parser::parse(db.asString(6), sheet.teeth);
         sheet.LPK = db.asString(7);

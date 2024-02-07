@@ -138,7 +138,7 @@ std::vector<ProcedureSummary> getSummaryFromPisHistory(const std::vector<Procedu
 
 bool AmbListValidator::isValidAccordingToDb()
 {
-    if (ambList.nhifData.specification == NhifSpecification::Anesthesia) return true;
+    if (ambList.nhifData.specification == NhifSpecificationType::Anesthesia) return true;
 
     std::vector<ProcedureSummary> summary;
 

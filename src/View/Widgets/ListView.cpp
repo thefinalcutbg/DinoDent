@@ -219,7 +219,7 @@ void ListView::nhifChanged()
 	NhifSheetData data;
 
 	//data.charge = static_cast<NhifCharge>(ui.taxCombo->currentIndex());
-	data.specification = static_cast<NhifSpecification>(ui.specCombo->currentIndex());
+	data.specification = static_cast<NhifSpecificationType>(ui.specCombo->currentIndex());
 	data.isUnfavourable = ui.unfavCheck->isChecked();
 
 	presenter->setNhifData(data);

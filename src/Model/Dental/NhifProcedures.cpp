@@ -56,23 +56,23 @@ void NhifProcedures::initialize()
 
 	for (auto& nrd : jsonNrd)
 	{
-		NRD c;		
+		NRD contract;		
 
-		//3.1 Getting the date of the update
+		//3.1 Getting the date of the effectiveNRD
 
-			c.date = Date{ nrd["date"].asString() };
+			contract.date = Date{ nrd["date"].asString() };
 
 		//3.2 Getting the maximum allowed packages
 
 			const Json::Value& packages = nrd["packages"]; 
 
-			c.packages.reserve(packages.size());
+			contract.packages.reserve(packages.size());
 
 			for (auto& package_json : packages)
 			{
 
-					c.packages.emplace_back();
-					auto& package = c.packages.back();
+					contract.packages.emplace_back();
+					auto& package = contract.packages.back();
 
 					const Json::Value& codes = package_json["codes"];
 					for (auto& code : codes) package.codes.insert(code.asInt());
@@ -89,43 +89,47 @@ void NhifProcedures::initialize()
 		for (auto& priceMap : pList)
 		{
 
-					const Json::Value& procedures = priceMap["procedures"];
-					const Json::Value& nzok_price = priceMap["nzok"];
-					const Json::Value& patient_price = priceMap["patient"];
+					const Json::Value& jsonPorcedureCodes = priceMap["procedures"];
+					const Json::Value& jsonNhifPrices = priceMap["nzok"];
+					const Json::Value& jsonPatientPrices = priceMap["patient"];
 
-					PriceObj price_value;
+					bool adult = priceMap["adult"].asBool();
+					int specification = priceMap["specification"].asInt();
+					int bigCode = priceMap["bigCode"].asInt();
 
-					price_value.bigCode = priceMap["bigCode"].asInt();
+					for (auto& spec : priceMap["specialty"]) {
 
-					for (int i = 0; i < procedures.size(); i++)
-					{
-						int m_code = procedures[i].asInt();
-						double nhif = nzok_price[i].asDouble();
-						double patient = patient_price[i].asDouble();
+						for (int i = 0; i < jsonPorcedureCodes.size(); i++)
+						{
+							int procedureCode = jsonPorcedureCodes[i].asInt();
+							double nhifPrice = jsonNhifPrices[i].asDouble();
+							double patientPrice = jsonPatientPrices[i].asDouble();
 
-						price_value.priceMap[m_code] = std::make_pair(patient, nhif);
+							auto key = PriceKey{
+								.specialty = spec.asInt(),
+								.adult = adult,
+								.specification = specification,
+								.procedure_code = procedureCode
+							};
+
+							auto value = PriceValue{
+								.big_code = bigCode,
+								.nhif_price = nhifPrice,
+								.patient_price = patientPrice
+							};
+
+							contract.prices[key] = value;
+						}
 					}
-
-					const Json::Value& specialty = priceMap["specialty"];
-					const Json::Value& adult = priceMap["adult"];
-					const Json::Value& unfav = priceMap["specification"];
-
-					for (auto& spec : specialty)
-					{
-
-						PriceKey key{ spec.asInt(), adult.asBool(), unfav.asInt() };
-						c.prices[key] = price_value;
-					}
-
 		}
 
-		m_NRDlist.push_back(c);
+		m_NRDlist.push_back(contract);
 
 	}
 
 }
 
-std::vector<ProcedureCode> NhifProcedures::getNhifProcedures(Date ambDate, NhifSpecialty specialty, bool adult, bool pregnancyAllowed, NhifSpecification specification)
+std::vector<ProcedureCode> NhifProcedures::getNhifProcedures(Date ambDate, NhifSpecialty specialty, bool adult, bool pregnancyAllowed, NhifSpecificationType specification)
 {
 	int currentUpdateIdx = -1;
 
@@ -138,21 +142,27 @@ std::vector<ProcedureCode> NhifProcedures::getNhifProcedures(Date ambDate, NhifS
 
 	if (currentUpdateIdx == -1) return {};
 
-	auto& update = m_NRDlist[currentUpdateIdx];
-
-	auto& m_map = update.prices[PriceKey{ static_cast<int>(specialty), adult, static_cast<int>(specification) }].priceMap;
-
+	auto& effectiveNRD = m_NRDlist[currentUpdateIdx];
 
 	std::vector<ProcedureCode> result;
 
-	result.reserve(m_map.size());
+	result.reserve(10);
 
-	for (auto& kv : ProcedureCode::procedureByNhifCode()) {
+	auto key = PriceKey{
+		.specialty = static_cast<int>(specialty),
+		.adult = adult,
+		.specification = static_cast<int>(specification),
+		.procedure_code = 0
+	};
 
-		if (!pregnancyAllowed && kv.first == 103) continue;
+	for (auto& [nhifCode, procedureCode] : ProcedureCode::procedureByNhifCode()) {
 
-		if (m_map.count(kv.first)) {
-			result.push_back(kv.second);
+		if (!pregnancyAllowed && nhifCode == 103) continue;
+
+		key.procedure_code = nhifCode;
+
+		if (effectiveNRD.prices.count(key)) {
+			result.push_back(procedureCode);
 		}
 	}
 
@@ -160,7 +170,7 @@ std::vector<ProcedureCode> NhifProcedures::getNhifProcedures(Date ambDate, NhifS
 }
 
 std::pair<patientPrice, nzokPrice> NhifProcedures::getPrices
-(int code, Date date, bool adult, NhifSpecialty doctorSpecialty, NhifSpecification specification)
+(int code, Date date, bool adult, NhifSpecialty doctorSpecialty, NhifSpecificationType specification)
 {
 	int currentUpdateIdx = -1;
 
@@ -174,8 +184,16 @@ std::pair<patientPrice, nzokPrice> NhifProcedures::getPrices
 	//or throw an exception maybe?!
 	if (currentUpdateIdx == -1) return std::make_pair(0,0);
 
-	return m_NRDlist[currentUpdateIdx].prices[PriceKey{ static_cast<int>(doctorSpecialty), adult, static_cast<int>(specification) }].
-		priceMap[code];
+	auto key = PriceKey{
+		.specialty = static_cast<int>(doctorSpecialty),
+		.adult = adult,
+		.specification = static_cast<int>(specification),
+		.procedure_code = code
+	};
+
+	auto& value = m_NRDlist[currentUpdateIdx].prices[key];
+
+	return std::make_pair(value.patient_price, value.nhif_price);
 }
 
 std::vector<ProcedurePackage> NhifProcedures::getPackages(Date ambDate)
@@ -187,10 +205,10 @@ std::vector<ProcedurePackage> NhifProcedures::getPackages(Date ambDate)
 	return std::vector<ProcedurePackage>();
 }
 
-double NhifProcedures::getPatientPrice(int code, Date date, NhifSpecialty specialty, bool adult, NhifSpecification specification)
+double NhifProcedures::getPatientPrice(int code, Date date, NhifSpecialty specialty, bool adult, NhifSpecificationType specification)
 { return std::get<0>(getPrices(code, date, adult, specialty, specification)); }
 
-double NhifProcedures::getNhifPrice(int code, Date date, NhifSpecialty specialty, bool adult, NhifSpecification specification)
+double NhifProcedures::getNhifPrice(int code, Date date, NhifSpecialty specialty, bool adult, NhifSpecificationType specification)
 { return std::get<1>(getPrices(code, date, adult, specialty, specification)); }
 
 int NhifProcedures::getDuration(int nzokCode) { return code_durations[nzokCode]; }

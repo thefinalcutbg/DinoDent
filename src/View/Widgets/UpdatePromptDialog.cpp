@@ -1,6 +1,6 @@
 ﻿#include "UpdatePromptDialog.h"
 #include <qpainter.h>
-
+#include <QScrollBar>
 void UpdatePromptDialog::paintEvent(QPaintEvent*)
 {   
 	QPainter p(this);
@@ -14,11 +14,11 @@ UpdatePromptDialog::UpdatePromptDialog(const std::string& changeLog, QWidget *pa
 
 	setWindowTitle("DinoDent");
 
-	ui.changeLogText->setPlainText(QString::fromStdString(changeLog));
+	ui.changeLogText->setText(QString::fromStdString(changeLog));
 
-    connect(ui.yesButton, &QPushButton::clicked,  this, [&]{ accept();});
-    connect(ui.noButton, &QPushButton::clicked, this, [&]{ reject(); });
-
+    connect(ui.yesButton, &QPushButton::clicked,  this, [&]{ done(QDialog::Accepted);});
+    connect(ui.noButton, &QPushButton::clicked, this, [&]{ done(QDialog::Rejected); });
+	connect(ui.link_label, &QLabel::linkActivated, this, [&] { done(2); });
 }
 
 UpdatePromptDialog::~UpdatePromptDialog()

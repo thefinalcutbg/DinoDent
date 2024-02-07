@@ -227,13 +227,6 @@ bool ModalDialogBuilder::askDialog(const std::string& questionText)
 	return msg.exec() == QMessageBox::Yes;
 }
 
-#include "View/Widgets/UpdatePromptDialog.h"
-
-bool ModalDialogBuilder::updatePrompt(const std::string& changeLog)
-{
-	return UpdatePromptDialog(changeLog).exec() == QDialog::Accepted;
-}
-
 void ModalDialogBuilder::showError(const std::string& error)
 {
 

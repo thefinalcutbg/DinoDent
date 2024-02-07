@@ -230,7 +230,7 @@ std::pair<std::vector<RowInstance>, PlainTable> getFinancialRows(const Date& fro
             });
 
         //Number
-        tableView.addCell(1, {.data = std::to_string(db.asInt(1))});
+        tableView.addCell(1, {.data = FreeFn::leadZeroes(db.asInt(1), 10)});
         
         tableView.addCell(2, { .data = nhif ? nzokRecipient.bulstat : db.asString(4) });
         tableView.addCell(3, { .data = nhif ? nzokRecipient.name : db.asString(5) });
@@ -331,10 +331,10 @@ std::pair<std::vector<RowInstance>, PlainTable> DbBrowser::getPatientDocuments(l
     Db db;
 
     db.newStatement(
-        "SELECT rowid, 1 as type, date, num, nrn, nhif_spec IS NOT NULL AS nhif FROM amblist WHERE patient_rowid=? AND lpk=? AND rzi=?"
-        "UNION ALL SELECT rowid, 2 AS type, date, NULL AS num, nrn, NULL as nhif FROM prescription WHERE patient_rowid=? AND lpk=? AND rzi =?"
-        "UNION ALL SELECT rowid, 3 AS type, date, NULL AS num, NULL AS nrn, NULL as nhif FROM periostatus WHERE patient_rowid=? AND lpk=? AND rzi=?"
-        "UNION ALL SELECT financial.rowid, 4 AS type, date, num, NULL AS nrn, NULL as nhif FROM financial LEFT JOIN patient ON financial.recipient_id = patient.id WHERE patient.rowid=? AND practice_rzi=?"
+        "SELECT rowid, 1 as type, date, num, nrn, nhif_spec IS NOT NULL AS nhif, his_updated FROM amblist WHERE patient_rowid=? AND lpk=? AND rzi=?"
+        "UNION ALL SELECT rowid, 2 AS type, date, NULL AS num, nrn, NULL as nhif, 1 AS his_updated FROM prescription WHERE patient_rowid=? AND lpk=? AND rzi =?"
+        "UNION ALL SELECT rowid, 3 AS type, date, NULL AS num, NULL AS nrn, NULL as nhif, 1 AS his_updated FROM periostatus WHERE patient_rowid=? AND lpk=? AND rzi=?"
+        "UNION ALL SELECT financial.rowid, 4 AS type, date, num, NULL AS nrn, NULL as nhif, 1 AS his_updated FROM financial LEFT JOIN patient ON financial.recipient_id = patient.id WHERE patient.rowid=? AND practice_rzi=?"
         "ORDER BY date DESC"
     );
 
@@ -363,34 +363,43 @@ std::pair<std::vector<RowInstance>, PlainTable> DbBrowser::getPatientDocuments(l
 
         bool sentToHis = number.size();
 
+        bool his_updated = db.asBool(6);;
+
         if (number.empty())
         {
             number = std::to_string(db.asInt(3));
         }
 
         std::string docTypeString;
-        CommonIcon::Type icon = CommonIcon::NOICON;
+        CommonIcon::Type docTypeIcon = CommonIcon::NOICON;
+
+        CommonIcon::Type his_icon = CommonIcon::NOICON;
+
+        if (sentToHis) {
+            his_icon = his_updated ? CommonIcon::HIS : CommonIcon::HISGRAY;
+        }
+
 
         switch (type) {
             case 1: 
                 docTypeString = "Амбулаторен лист";
-                icon = CommonIcon::AMBLIST;
+                docTypeIcon = CommonIcon::AMBLIST;
                 if (!sentToHis) {
                     number = FreeFn::leadZeroes(number, 6); 
                 }
                 break;
             case 2:
                 docTypeString = "Рецепта";
-                icon = CommonIcon::PRESCR;
+                docTypeIcon = CommonIcon::PRESCR;
                 break;
             case 3:
                 docTypeString = "Пародонтален статус";
-                icon = CommonIcon::PERIO;
+                docTypeIcon = CommonIcon::PERIO;
                 number.clear();
                 break;
             case 4:
                 docTypeString = "Фактура";
-                icon = CommonIcon::INVOICE;
+                docTypeIcon = CommonIcon::INVOICE;
                 number = FreeFn::leadZeroes(number, 10);
                 break;
         }
@@ -402,8 +411,8 @@ std::pair<std::vector<RowInstance>, PlainTable> DbBrowser::getPatientDocuments(l
         rowidData.back().patientRowId = type == 4 ? 0 : patientRowid;
 
         table.addCell(0, { .data = date, .icon = nhif ? CommonIcon::NHIF : CommonIcon::NOICON });
-        table.addCell(1, { .data = docTypeString, .icon = icon });
-        table.addCell(2, { .data = number, .icon = sentToHis ? CommonIcon::HIS : CommonIcon::NOICON });
+        table.addCell(1, { .data = docTypeString, .icon = docTypeIcon });
+        table.addCell(2, { .data = number, .icon = his_icon});
     }
 
     return std::make_pair(rowidData, table);

@@ -3,10 +3,12 @@
 #include <QIcon>
 #include <QEvent>
 #include <QPainterPath>
-#include "View/Theme.h"
-#include <QApplication>
-#include "View/Widgets/GlobalWidgets.h"
 #include <QStatusBar>
+#include <QApplication>
+
+#include "View/Theme.h"
+#include "View/Widgets/GlobalWidgets.h"
+
 IconButton::IconButton(QWidget *parent)
 	: 
 	QPushButton(parent), 

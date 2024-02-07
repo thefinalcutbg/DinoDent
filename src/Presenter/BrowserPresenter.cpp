@@ -159,7 +159,7 @@ void BrowserPresenter::openNewDocument(TabType type)
 {
 	if (ui_state.model_type == TabType::Financial) return;
 
-    for (size_t i = 0; i < m_selectedInstances.size(); i ++) {
+    for (size_t i = 0; i < std::min(m_selectedInstances.size(), size_t(10)); i++) {
 
 		RowInstance row(type);
 		row.rowID = 0;

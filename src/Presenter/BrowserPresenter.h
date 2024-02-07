@@ -13,7 +13,7 @@ struct BrowserUiState {
 	Date from{ 1, Date::currentMonth(), Date::currentYear() };
 	Date to{ Date::currentDate().getMaxDateOfMonth() };
 	TabType model_type{ TabType::PatientSummary };
-	bool showDetails{ false };
+	bool showDetails{ true };
 	bool showProcedures{ false };
 };
 

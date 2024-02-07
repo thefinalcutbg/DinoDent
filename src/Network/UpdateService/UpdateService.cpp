@@ -5,9 +5,10 @@
 #include <QEventLoop>
 #include <QDebug>
 #include <json/json.h>
+#include "View/Widgets/UpdatePromptDialog.h"
 #include "View/Widgets/UpdateDownloader.h"
 #include "Version.h"
-
+#include <QDesktopServices>
 bool UpdateService::restartForUpdate()
 {
 	auto m_reply = NetworkManager::simpleRequest(
@@ -45,25 +46,41 @@ bool UpdateService::restartForUpdate()
     
     auto latestVersion = Version::fromStr(updateInfo["ver"].asString());
 
-    if (Version::current().isLessThan(latestVersion))
-    {
-        std::string changeLog("Версия ");
-        changeLog.append(updateInfo["ver"].asString());
-
-        for (auto& change : updateInfo["changeLog"])
-        {
-            changeLog.append("\n - ");
-            changeLog.append(change.asString());
-        }
-
-        if (!ModalDialogBuilder::updatePrompt(changeLog)) return false;
-
-        UpdateDownloader d(updateInfo["dl"].asString().c_str());
-        d.exec();
-
-        return d.installerDownloaded();
+    if (!Version::current().isLessThan(latestVersion)) {
+        return false;
     }
 
-    return false;
+    auto linkAddress = updateInfo["dl"].asString();
+
+    std::string changeLog;
+
+    changeLog.append("Версия ");
+    changeLog.append(updateInfo["ver"].asString());
+
+    for (auto& change : updateInfo["changeLog"])
+    {
+        changeLog.append("<br> - ");
+        changeLog.append(change.asString());
+    }
+
+    switch (UpdatePromptDialog(changeLog).exec())
+    {
+        case QDialog::Rejected: return false;
+
+        case QDialog::Accepted:
+        {
+            UpdateDownloader d(linkAddress.c_str());
+            d.exec();
+
+            return d.installerDownloaded();
+        }
+
+        case 2: //link clicked
+            return QDesktopServices::openUrl(QUrl(linkAddress.c_str()));
+
+        default: 
+            return false;
+    }
+
     
 }

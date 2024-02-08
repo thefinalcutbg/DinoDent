@@ -5,7 +5,9 @@
 #include <vector>
 #include <unordered_map>
 #include "Model/Dental/AmbList.h"
+#include "Model/Dental/NhifSpecReport.h"
 #include "Model/Patient.h"
+
 #include "Network/PIS/DentalActivitiesService.h"
 #include "Network/NRA/NraStatusService.h"
 #include "Network/PIS/SendFileService.h"
@@ -27,6 +29,8 @@ class ReportPresenter
 
 	int year{ 0 };
 	int month{ 0 };
+
+	NhifSpecReport spec_report{ NhifSpecialty::None, Date() };
 
 	std::optional<std::string> m_report;
 
@@ -53,6 +57,7 @@ public:
 	void setInsuranceStatus(const std::optional<InsuranceStatus>& insuranceStatus);
 	void setDate(int month, int year);
 	void generateReport(bool checkPis, bool checkNra);
+	void generateSpecification();
 	void setView(IReportView* view);
 	void linkClicked(const std::string& sheetNumber);
 };

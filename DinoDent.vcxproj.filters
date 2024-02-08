@@ -912,7 +912,7 @@
     <ClCompile Include="src\View\CommonIcon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Model\Dental\NhifSpec.cpp">
+    <ClCompile Include="src\Model\Dental\NhifSpecReport.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1694,7 +1694,7 @@
     <ClInclude Include="src\View\CommonIcon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model\Dental\NhifSpec.h">
+    <ClInclude Include="src\Model\Dental\NhifSpecReport.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

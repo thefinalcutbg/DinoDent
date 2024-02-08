@@ -1,20 +1,25 @@
 #include "Printer.h"
+
 #include <LimeReport/include/lrreportengine.h>
-#include <QString>
 #include <QApplication>
+#include <QString>
+
 #include "View/Widgets/ProcedurePrintSelectDialog.h"
+#include "View/TableModels/BusinessOperationModel.h"
+#include "View/GlobalFunctions.h"
+#include "View/Widgets/InvoicePrintDialog.h"
+#include "View/TableModels/FiscalReceiptTableModel.h"
+#include "View/TableModels/PlainTableModel.h"
+
+#include "Model/User.h"
 #include "Model/FreeFunctions.h"
 #include "Model/Patient.h"
 #include "Model/Dental/AmbList.h"
 #include "Model/Financial/Invoice.h"
-#include "View/TableModels/BusinessOperationModel.h"
-#include "View/GlobalFunctions.h"
-#include "Model/User.h"
-#include "View/Widgets/InvoicePrintDialog.h"
 #include "Model/Referrals/Referral.h"
-#include "View/TableModels/FiscalReceiptTableModel.h"
 #include "Model/Dental/SupernumeralPrint.h"
 #include "Model/Dental/ToothUtils.h"
+#include "Model/Dental/NhifSpecReport.h"
 
 void fillCommonData(LimeReport::ReportEngine& report, const Patient& patient, const Doctor& doctor, const Practice& practice)
 {
@@ -602,6 +607,12 @@ void Print::saveFsicalReportToPDF(const FiscalReport& r)
     report.printToPDF(r.filename.c_str());
 
 
+}
+
+void Print::saveNhifSpecReport(const NhifSpecReport& report)
+{
+    PlainTableModel tableModel;
+    tableModel.setTableData(report.getSpecificationReport());
 }
 
 // void Print::ambList(const AmbList &amb, const Patient &patient)

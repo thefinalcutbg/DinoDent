@@ -239,7 +239,7 @@
     <ClCompile Include="src\Model\Dental\MKB.cpp" />
     <ClCompile Include="src\Model\Dental\NhifProcedures.cpp" />
     <ClCompile Include="src\Model\Dental\NhifSheetData.cpp" />
-    <ClCompile Include="src\Model\Dental\NhifSpec.cpp" />
+    <ClCompile Include="src\Model\Dental\NhifSpecReport.cpp" />
     <ClCompile Include="src\Model\Dental\PackageCounter.cpp" />
     <ClCompile Include="src\Model\Dental\PerioStatistic.cpp" />
     <ClCompile Include="src\Model\Dental\PerioToothData.cpp" />
@@ -542,7 +542,7 @@
     <ClInclude Include="src\Model\Dental\NhifMaps.h" />
     <ClInclude Include="src\Model\Dental\NhifProcedures.h" />
     <ClInclude Include="src\Model\Dental\NhifSheetData.h" />
-    <ClInclude Include="src\Model\Dental\NhifSpec.h" />
+    <ClInclude Include="src\Model\Dental\NhifSpecReport.h" />
     <ClInclude Include="src\Model\Dental\PackageCounter.h" />
     <ClInclude Include="src\Model\Dental\PerioStatistic.h" />
     <ClInclude Include="src\Model\Dental\PerioStatus.h" />

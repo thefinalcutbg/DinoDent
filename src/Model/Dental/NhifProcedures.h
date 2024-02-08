@@ -15,7 +15,7 @@ namespace NhifProcedures
 	std::pair<patientPrice, nzokPrice> getPrices(int code, Date date, bool adult, NhifSpecialty doctorSpecialty, NhifSpecificationType specification);
 	double getPatientPrice(int code, Date date, NhifSpecialty specialty, bool adult, NhifSpecificationType specification);
 	double getNhifPrice(int code, Date date, NhifSpecialty specialty, bool adult, NhifSpecificationType specification);
-
+	PriceValue getPriceValue(const PriceKey& key, const Date& date);
 	std::vector<ProcedurePackage> getPackages(Date ambDate);
 
 	bool isTempOnly(int code);

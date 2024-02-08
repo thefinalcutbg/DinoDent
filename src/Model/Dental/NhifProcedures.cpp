@@ -211,6 +211,22 @@ double NhifProcedures::getPatientPrice(int code, Date date, NhifSpecialty specia
 double NhifProcedures::getNhifPrice(int code, Date date, NhifSpecialty specialty, bool adult, NhifSpecificationType specification)
 { return std::get<1>(getPrices(code, date, adult, specialty, specification)); }
 
+PriceValue NhifProcedures::getPriceValue(const PriceKey & key, const Date& date)
+{
+	int currentUpdateIdx = -1;
+
+	for (int i = 0; i < m_NRDlist.size(); i++)
+	{
+		if (date < m_NRDlist[i].date) continue;
+
+		currentUpdateIdx = i; break;
+	}
+
+	if (currentUpdateIdx == -1) return PriceValue{ 0,0,0 };
+
+	return m_NRDlist[currentUpdateIdx].prices.at(key);
+}
+
 int NhifProcedures::getDuration(int nzokCode) { return code_durations[nzokCode]; }
 
 int NhifProcedures::getYearLimit(int nzokCode) { return _timeframes.count(nzokCode) ? _timeframes[nzokCode] : 0; }

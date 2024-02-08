@@ -6,6 +6,7 @@ struct AmbList;
 struct Invoice;
 class Referral;
 struct FiscalReport;
+class NhifSpecReport;
 
 namespace Print
 {
@@ -20,6 +21,7 @@ namespace Print
 	void printHirbNoDeclaration(const Patient& patient, DeclaratorType type);
 	void referral(const Referral& ref, const Patient& patient, const std::string& ambSheetNumber);
 	void saveFsicalReportToPDF(const FiscalReport& report);
+	void saveNhifSpecReport(const NhifSpecReport& report);
 	
 }
 

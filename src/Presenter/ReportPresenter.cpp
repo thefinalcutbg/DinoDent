@@ -9,6 +9,7 @@
 #include "View/ModalDialogBuilder.h"
 #include "Presenter/TabPresenter.h"
 #include "Model/User.h"
+#include "View/Printer.h"
 
 void ReportPresenter::updateProgressBar()
 {
@@ -89,6 +90,7 @@ void ReportPresenter::reset()
 	m_report.reset();
 	m_hasErrors = false;
 	m_currentIndex = -1;
+	spec_report = NhifSpecReport(User::doctor().specialty, Date(1, month, year));
 	errorSheets.clear();
 	view->setPercent(0);
 	view->enableReportButtons(false);
@@ -230,6 +232,7 @@ void ReportPresenter::setDate(int month, int year)
 {
 	this->month = month; 
 	this->year = year;
+
 	reset();
 }
 
@@ -286,28 +289,27 @@ void ReportPresenter::generateReport(bool checkPis, bool checkNra)
 
 }
 
+void ReportPresenter::generateSpecification()
+{
+	Print::saveNhifSpecReport(spec_report);
+}
+
 void ReportPresenter::finish()
 {
 
 	std::string errors;
 
+	spec_report = NhifSpecReport(User::doctor().specialty, Date(1, month, year));
+
 	//checking max minutes allowed from NHIF
 
-	double expectedPrice{ 0 };
 	int sumMinutes{ 0 };
 
 	for (auto& list : lists) {
 		for (auto& procedure : list.procedures)
 		{
 
-			expectedPrice += NhifProcedures::getNhifPrice
-			(
-				procedure.code.oldCode(),
-				procedure.date,
-				User::doctor().specialty,
-				patients[list.patient_rowid].isAdult(procedure.date),
-				list.nhifData.specification
-			);
+			spec_report.addProcedure(procedure, patients[list.patient_rowid].isAdult(procedure.date), list.nhifData.specification);
 
 			sumMinutes += NhifProcedures::getDuration(procedure.code.oldCode());
 		}
@@ -329,7 +331,7 @@ void ReportPresenter::finish()
 	view->appendText(
 		"Mинути дейност: " + std::to_string(sumMinutes) + "\n"
 		"Максимално позволени: " + std::to_string(maxMinutesAllowed) + "\n"
-		"Очаквана сума : " + FreeFn::formatDouble(expectedPrice) + " лв."
+		"Очаквана сума : " + FreeFn::formatDouble(spec_report.getTotalPrice()) + " лв."
 	);
 
 	m_hasErrors ?

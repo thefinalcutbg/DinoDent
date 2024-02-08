@@ -57,9 +57,11 @@ ReportView::ReportView(QWidget* parent)
 
     connect(ui.pisButton, &QPushButton::clicked, this, [&] { presenter.sendToPis(); });
     connect(ui.xmlButton, &QPushButton::clicked,  this,[&] { presenter.saveToXML(); });
-	
+	connect(ui.specButton, &QPushButton::clicked, this, [&] { presenter.generateSpecification(); });
+
 	ui.xmlButton->setIcon(QIcon(":/icons/icon_xml.png"));
 	ui.pisButton->setIcon(QIcon(":/icons/icon_nhif.png"));
+	ui.specButton->setIcon(QIcon(":/icons/icon_pdf.png"));
 
 
     connect(ui.textBrowser, &TextBrowser::linkPressed, this, [&](const QString& str) { presenter.linkClicked(str.toStdString()); });
@@ -117,7 +119,7 @@ void ReportView::enableReportButtons(bool enabled)
 {
 	ui.pisButton->setEnabled(enabled);
 	ui.xmlButton->setEnabled(enabled);
-
+	ui.specButton->setEnabled(enabled);
 }
 
 void ReportView::showStopButton(bool yes)

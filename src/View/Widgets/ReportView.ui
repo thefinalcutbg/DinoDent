@@ -161,6 +161,13 @@ hr { height: 1px; border-width: 0; }
       </spacer>
      </item>
      <item>
+      <widget class="QPushButton" name="specButton">
+       <property name="text">
+        <string>Генерирай спецификация</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="xmlButton">
        <property name="enabled">
         <bool>false</bool>

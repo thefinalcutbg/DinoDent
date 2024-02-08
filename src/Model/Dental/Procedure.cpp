@@ -37,7 +37,7 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 
 			case::ProcedureType::endo:
 			{
-				teeth.setStatus({ tooth_idx.index }, StatusType::General, RootCanal, tooth_idx.supernumeral);
+				teeth.setStatus({ tooth_idx.index }, StatusType::General, RootCanal, true, tooth_idx.supernumeral);
 				teeth.at(tooth_idx).setLPK(RootCanal, LPK);
 
 			}

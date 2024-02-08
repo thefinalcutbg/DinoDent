@@ -4,7 +4,7 @@
 IssuerType getIssuerType(int legalEntity, const Doctor& doctor)
 {
     const char* legalForms[5]{
-        "ET","ЕООД","ООД","ЕАД","АД"
+        "ЕТ","ЕООД","ООД","ЕАД","АД"
     };
 
     switch (legalEntity)

@@ -90,7 +90,6 @@ void ReportPresenter::reset()
 	m_report.reset();
 	m_hasErrors = false;
 	m_currentIndex = -1;
-	spec_report = NhifSpecReport(User::doctor().specialty, Date(1, month, year));
 	errorSheets.clear();
 	view->setPercent(0);
 	view->enableReportButtons(false);
@@ -291,6 +290,27 @@ void ReportPresenter::generateReport(bool checkPis, bool checkNra)
 
 void ReportPresenter::generateSpecification()
 {
+
+	static std::vector<std::string> specOptions{
+			"Изцяло или частично заплащана от НЗОК",
+			"Изцяло заплащана от НЗОК",
+			"За лица с психични заболявания под обща анестезия"
+	};
+
+	int spec = ModalDialogBuilder::openButtonDialog(specOptions, "Изберете спецификация");
+
+	if (spec == -1) return;
+
+	auto spec_report = NhifSpecReport(User::doctor(), Date(1, month, year), static_cast<NhifSpecificationType>(spec));
+
+	for (auto list : lists) for (auto procedure : list.procedures) {
+		spec_report.addProcedure(
+			procedure,
+			patients[list.patient_rowid].isAdult(procedure.date),
+			list.nhifData.specification
+		);
+	}
+
 	Print::saveNhifSpecReport(spec_report);
 }
 
@@ -299,21 +319,28 @@ void ReportPresenter::finish()
 
 	std::string errors;
 
-	spec_report = NhifSpecReport(User::doctor().specialty, Date(1, month, year));
 
 	//checking max minutes allowed from NHIF
 
 	int sumMinutes{ 0 };
+	double sumPrice{ 0 };
 
-	for (auto& list : lists) {
-		for (auto& procedure : list.procedures)
-		{
+	for (auto& list : lists) for (auto& procedure : list.procedures)
+	{
 
-			spec_report.addProcedure(procedure, patients[list.patient_rowid].isAdult(procedure.date), list.nhifData.specification);
+			
 
 			sumMinutes += NhifProcedures::getDuration(procedure.code.oldCode());
-		}
+
+			sumPrice += NhifProcedures::getNhifPrice(
+				procedure.code.oldCode(),
+				procedure.date,
+				User::doctor().specialty,
+				patients[list.patient_rowid].isAdult(procedure.date),
+				list.nhifData.specification
+			);
 	}
+	
 
 	int maxMinutesAllowed = Date::getWorkdaysOfMonth(month, year) * 360;
 
@@ -331,7 +358,7 @@ void ReportPresenter::finish()
 	view->appendText(
 		"Mинути дейност: " + std::to_string(sumMinutes) + "\n"
 		"Максимално позволени: " + std::to_string(maxMinutesAllowed) + "\n"
-		"Очаквана сума : " + FreeFn::formatDouble(spec_report.getTotalPrice()) + " лв."
+		"Очаквана сума : " + FreeFn::formatDouble(sumPrice) + " лв."
 	);
 
 	m_hasErrors ?

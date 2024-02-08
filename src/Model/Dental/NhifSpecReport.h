@@ -1,34 +1,35 @@
 #pragma once
 
-#include <unordered_map>
+#include <map>
 
 #include "Model/UserStructs.h"
 #include "Model/Dental/NhifMaps.h"
 #include "Model/Dental/NhifSheetData.h"
 #include "Model/PlainTable.h"
+#include "Model/Date.h"
 
 struct Procedure;
 
-
 class NhifSpecReport {
 
-	std::unordered_map<PriceKey, int> procedure_map;
+	std::map<int, int> procedures_minor;
+	std::map<int, int> procedures_adult;
 
 public:
 
-	NhifSpecialty m_specialty;
-	Date m_reportDate;
+	const std::string doctor_name;
+	const NhifSpecialty m_specialty;
+	const Date dateFrom;
+	const Date dateTo;
+	const NhifSpecificationType m_specificationType;
 
-	NhifSpecReport(NhifSpecialty specialty, Date reportDate) :
-		m_specialty(specialty),
-		m_reportDate(reportDate)
-	{
-		procedure_map.reserve(100);
-	}
+	NhifSpecReport(const Doctor& d, Date reportDate, NhifSpecificationType specType);
 
 	void addProcedure(const Procedure& p, bool adult, NhifSpecificationType spec);
 
+	std::string getSpecString() const;
+
 	PlainTable getSpecificationReport() const;
-	double getTotalPrice() const;
+
 
 };

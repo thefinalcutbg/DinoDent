@@ -5,6 +5,7 @@
 
 #include "NhifProcedures.h"
 #include "Model/FreeFunctions.h"
+#include "Model/UserStructs.h"
 
 const std::map<int, std::string> nhif_names
 {
@@ -24,24 +25,57 @@ const std::map<int, std::string> nhif_names
 	{ 903, { "24-часово активно наблюдение при необходимост след общата анестезия" } }
 };
 
+NhifSpecReport::NhifSpecReport(const Doctor& d, Date reportDate, NhifSpecificationType specType) :
+	doctor_name(d.getFullName(true)),
+	m_specialty(d.specialty),
+	dateFrom(reportDate),
+	dateTo(reportDate.getMaxDateOfMonth()),
+	m_specificationType(specType)
+
+{
+
+	for (auto code : NhifProcedures::getNhifProcedures(reportDate, m_specialty, false, true, specType))
+	{
+		procedures_minor[code.oldCode()] = 0;
+	}
+
+	for (auto code : NhifProcedures::getNhifProcedures(reportDate, m_specialty, true, true, specType))
+	{
+		procedures_adult[code.oldCode()] = 0;
+	}
+
+
+}
+
 void NhifSpecReport::addProcedure(const Procedure& p, bool adult, NhifSpecificationType spec)
 {
+	if (spec != m_specificationType) return;
+
 	if (!p.isNhif()) return;
 
-	auto key = PriceKey{
-		.specialty = static_cast<int>(m_specialty),
-		.adult = adult,
-		.specification = static_cast<int>(spec),
-		.procedure_code = p.code.oldCode()
+	auto& map = adult ? procedures_adult : procedures_minor;
 
+	map[p.code.oldCode()] += 1;
+
+}
+
+std::string NhifSpecReport::getSpecString() const
+{
+	std::string result = m_specialty == NhifSpecialty::General ?
+		"първична" : "специализирана"
+		;
+
+	result += " дентална помощ";
+
+	const char* specStr[3] = {
+		" изцяло или частично заплащана от НЗОК",
+		" изцяло заплащана от НЗОК",
+		" за лица с психични заболявания под обща анестезия"
 	};
 
-	if (procedure_map.count(key)) {
-		procedure_map[key] += 1;
-	}
-	else {
-		procedure_map[key] = 1;
-	}
+	result += specStr[static_cast<int>(m_specificationType)];
+
+	return result;
 }
 
 PlainTable NhifSpecReport::getSpecificationReport() const
@@ -49,84 +83,85 @@ PlainTable NhifSpecReport::getSpecificationReport() const
 	PlainTable result;
 
 	result.addColumn({ "Код",100,PlainColumn::Center });
-	result.addColumn({ "Манипулация",300,PlainColumn::Left });
-	result.addColumn({ "Ед. цена",120,PlainColumn::Center });
+	result.addColumn({ "Дейност",300,PlainColumn::Left });
 	result.addColumn({ "Брой",120,PlainColumn::Center });
-	result.addColumn({ "Крайна цена",120,PlainColumn::Center });
+	result.addColumn({ "Ед. цена",120,PlainColumn::Center });
+	result.addColumn({ "Обща сума",120,PlainColumn::Center });
 
-	struct SpecificationRow {
-		int code;
-		bool adult;
-		int spec;
-		std::string name;
-		double single_price;
-		int count;
-		double total_price;
+	auto key = PriceKey{
+		.specialty = (int)m_specialty,
+		.adult = false,
+		.specification = 0,
+		.procedure_code = 0
 	};
 
-	std::vector<SpecificationRow> rows;
+	//creating the table for minor procedures:
 
-	for (auto& [key, procedureCount] : procedure_map)
-	{
+	double sumMinor = 0;
 
-		auto value = NhifProcedures::getPriceValue(key, m_reportDate);
+	result.addEmptyRow();
+	result.data[1].rows.back().data = "Дентални дейности за лица под 18 години:";
 
-		//using vector, since it has to be sorted for the final result
+	for (auto& [code, count] : procedures_minor) {
 
-		std::string name = nhif_names.at(key.procedure_code);
-		name += key.adult ? " за лица над 18 години" : " за лица до 18 години";
+		key.adult = false;
+		key.procedure_code = code;
 
-		switch (key.specification) {
+		double price = NhifProcedures::getPriceValue(key, dateFrom).nhif_price;
+		double total = count * price;
 
-			case 1: //full coverage
-				name += " (изцяло заплащана от НЗОК)"; break;
-			case 2: //general anesthesia
-				name += " (обща анестезия)"; break;
-			default: break;
-		}
+		sumMinor += total;
 
-		rows.push_back(
-			SpecificationRow{
-				.code = key.procedure_code,
-				.adult = key.adult,
-				.spec = key.specification,
-				.name = name,
-				.single_price = value.nhif_price,
-				.count = procedureCount,
-				.total_price = value.nhif_price * procedureCount
-		});
+		result.addCell(0, { std::to_string(code) });
+		result.addCell(1, { nhif_names.at(code) });
+		result.addCell(2, { std::to_string(count) });
+		result.addCell(3, { FreeFn::formatDouble(price) });
+		result.addCell(4, { FreeFn::formatDouble(total) });
 
 	}
 
-	std::ranges::sort(rows, [](const SpecificationRow& a, const SpecificationRow& b)
-	{
-			if (a.adult < b.adult) return true;
-			if (a.adult == b.adult && a.spec < b.spec) return true;
-			if (a.adult == b.adult && a.spec == b.spec && a.code < b.code) return true;
+	result.addEmptyRow();
+	result.data[1].rows.back().data = "Общо за дейности за лица под 18 години::";
+	result.data[4].rows.back().data = FreeFn::formatDouble(sumMinor);
 
-			return false;
-	});
+	result.addEmptyRow();
+	result.data[0].rows.back().data = " ";
 
-	for (auto& row : rows)
-	{
-		result.addCell(0, { std::to_string(row.code) });
-		result.addCell(1, { row.name });
-		result.addCell(2, { FreeFn::formatDouble(row.single_price) });
-		result.addCell(3, { std::to_string(row.count) });
-		result.addCell(4, { FreeFn::formatDouble(row.total_price) });
+	//creating the table for the adult procedures:
+
+	double sumMajor = 0;
+
+	result.addEmptyRow();
+	result.data[1].rows.back().data = "Дентални дейности за лица над 18 години:";
+
+	for (auto& [code, count] : procedures_adult) {
+
+		key.adult = true;
+		key.procedure_code = code;
+
+		double price = NhifProcedures::getPriceValue(key, dateFrom).nhif_price;
+		double total = count * price;
+
+		sumMajor += total;
+
+		result.addCell(0, { std::to_string(code) });
+		result.addCell(1, { nhif_names.at(code) });
+		result.addCell(2, { std::to_string(count) });
+		result.addCell(3, { FreeFn::formatDouble(price) });
+		result.addCell(4, { FreeFn::formatDouble(total) });
+
 	}
 
+	result.addEmptyRow();
+	result.data[1].rows.back().data = "Общо за дейности за лица над 18 години:";
+	result.data[4].rows.back().data = FreeFn::formatDouble(sumMajor);
 
-	return result;
-}
+	result.addEmptyRow();
+	result.data[0].rows.back().data = " ";
 
-double NhifSpecReport::getTotalPrice() const
-{
-	double result = 0;
-
-	for (auto& [key, count] : procedure_map) {
-		result += NhifProcedures::getPriceValue(key, m_reportDate).nhif_price * count;
-	}
+	result.addEmptyRow();
+	result.data[1].rows.back().data = "Общо всички дейности: ";
+	result.data[4].rows.back().data = FreeFn::formatDouble(sumMinor + sumMajor);
 
 	return result;
 }

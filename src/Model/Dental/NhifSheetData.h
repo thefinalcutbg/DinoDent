@@ -7,7 +7,7 @@ enum class NhifSpecialty;
 struct NhifSheetData
 {
 	NhifSpecificationType specification{ NhifSpecificationType::PartialCoverage };
-	std::string getSpecString(NhifSpecialty specialty) const;
+	std::string getSpecNumenclature(NhifSpecialty specialty) const;
 	bool isUnfavourable{ false };
 	void setSpecFromNhif(const std::string& spec);
 };

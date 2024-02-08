@@ -30,8 +30,6 @@ class ReportPresenter
 	int year{ 0 };
 	int month{ 0 };
 
-	NhifSpecReport spec_report{ NhifSpecialty::None, Date() };
-
 	std::optional<std::string> m_report;
 
 	//stores the rowid and the patient

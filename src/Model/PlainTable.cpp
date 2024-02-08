@@ -1,6 +1,13 @@
 ﻿#include "PlainTable.h"
 #include "FreeFunctions.h"
 
+void PlainTable::addEmptyRow()
+{
+    for (auto& column : data) {
+        column.rows.push_back(PlainCell{""});
+    }
+}
+
 PlainTable::PlainTable(const std::vector<Procedure>& pList)
 {
     addColumn({"Дата",100,PlainColumn::Right });

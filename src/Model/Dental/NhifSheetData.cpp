@@ -1,7 +1,7 @@
 ﻿#include "NhifSheetData.h"
 #include "Model/UserStructs.h"
 
-std::string NhifSheetData::getSpecString(NhifSpecialty specialty) const
+std::string NhifSheetData::getSpecNumenclature(NhifSpecialty specialty) const
 {
     if (specialty == NhifSpecialty::None) throw std::exception();
 

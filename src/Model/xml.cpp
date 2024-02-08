@@ -93,7 +93,7 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
             
         }
 
-        dentalCareService->SetAttribute("specificationType", list.nhifData.getSpecString(doctor.specialty));
+        dentalCareService->SetAttribute("specificationType", list.nhifData.getSpecNumenclature(doctor.specialty));
         dentalCareService->SetAttribute("ambulatorySheetNo", 
             list.nrn.size() ? list.nrn :
             FreeFn::leadZeroes(list.number, 6)

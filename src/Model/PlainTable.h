@@ -54,6 +54,7 @@ struct PlainTable {
 
 	void addColumn(const PlainColumn& p) { data.push_back(p); }
 	void addCell(int column, const PlainCell& c) { data[column].rows.push_back(c); }
+	void addEmptyRow();
 
 	PlainTable() {};
 

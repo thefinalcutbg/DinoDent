@@ -35,9 +35,9 @@ struct AggregatedAmounts
 struct Invoice
 {
 	Invoice() {};
-	Invoice(const Recipient& r, const Practice& p, const Doctor& d);
+	Invoice(const Recipient& r);
 	Invoice(const TiXmlDocument& monthNotif, const Practice& practice, const Doctor& doctor);
-	Invoice(const Patient& p, const Practice& practice, const Doctor& doctor);
+	Invoice(const Patient& p);
 
 	std::optional<MainDocument> mainDocument() const;
 
@@ -50,7 +50,7 @@ struct Invoice
 	Date date; //input by user !!!!!!!!!!!!!!!
 	std::optional<NhifInvoiceData> nhifData; //from monthNotif
 	Recipient recipient;
-	Issuer issuer;
+	Issuer issuer() const;
 	BusinessOperations businessOperations;
 	AggregatedAmounts aggragated_amounts;
 

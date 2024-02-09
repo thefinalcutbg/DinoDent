@@ -66,9 +66,6 @@ struct NhifContract
 	bool unfavourable{ false };
 	std::string nra_pass;
 	std::string nssi_pass;
-	std::string bank;
-	std::string bic;
-	std::string iban;
 };
 
 constexpr const char* legalEntities[6]
@@ -86,13 +83,13 @@ struct Practice
 	int rowID;
 	std::string rziCode;
 	std::string name;
-	std::string bulstat;
-	std::string firm_address;
+	std::string bulstat; //issuer
+	std::string firm_address; //issuer
 	Ekatte practice_address;
-	std::string vat;
+	std::string vat; //issuer
 	std::string pass;
-	int legal_entity{ 0 };
-	std::string selfInsuredId;
+	int legal_entity{ 0 }; //issuer
+	std::string selfInsuredId; //issuer
 
 	Settings settings;
 

@@ -3,6 +3,8 @@
 #include <string>
 #include "UserStructs.h"
 
+struct Issuer;
+
 namespace User
 {
 	void initialize();
@@ -10,7 +12,6 @@ namespace User
 	const Practice& practice();
 	const Settings& settings();
 	const Doctor& doctor();
-
 	void setCurrentDoctor(const Doctor& doctor);
 	void setCurrentPractice(const Practice& practice);
 	void resetUser();

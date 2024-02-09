@@ -4,7 +4,7 @@
 #include <TinyXML/tinyxml.h>
 #include "Model/FreeFunctions.h"
 #include "BusinessOperation.h"
-
+#include "Model/User.h"
 
 
 std::string getText(const TiXmlElement* element)
@@ -50,7 +50,6 @@ Invoice::Invoice(const TiXmlDocument& monthNotif, const Practice& practice, cons
     nhifData{ NhifInvoiceData(monthNotif, practice)},
 
     recipient						{std::stoi(practice.RHIF())},
-    issuer							{practice, doctor},
     m_mainDocument{
         type == FinancialDocType::Invoice
             ?
@@ -89,20 +88,19 @@ Invoice::Invoice(const TiXmlDocument& monthNotif, const Practice& practice, cons
 
 }
 
-Invoice::Invoice(const Patient& p, const Practice& practice, const Doctor& doctor) :
+Invoice::Invoice(const Patient& p) :
     type(FinancialDocType::Invoice),
     name ("Фактура"),
-	recipient(p),
-	issuer{practice, doctor}
+	recipient(p)
+	
 {
 }
 
 
-Invoice::Invoice(const Recipient& r, const Practice& p, const Doctor& d) :
+Invoice::Invoice(const Recipient& r) :
     type (FinancialDocType::Invoice),
     name ("Фактура"),
-	recipient(r),
-	issuer{ p, d }
+	recipient(r)
 {
 }
 
@@ -117,6 +115,11 @@ void Invoice::setMainDocumentData(long long num, Date date)
 {
 	m_mainDocument.number = num;
 	m_mainDocument.date = date;
+}
+
+Issuer Invoice::issuer() const
+{
+	return Issuer();
 }
 
 std::string Invoice::getInvoiceNumber() const

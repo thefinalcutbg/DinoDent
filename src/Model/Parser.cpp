@@ -263,9 +263,6 @@ std::string Parser::write(const std::optional<NhifContract>& contract)
 	json["name_short"] = c.name_short;
 	json["contract_no"] = c.contract_no;
 	json["date"] = c.date.to8601();
-	json["bank"] = c.bank;
-	json["iban"] = c.iban;
-	json["bic"] = c.bic;
 	json["nra"] = c.nra_pass;
 	json["nssi"] = c.nssi_pass;
 	json["unfav"] = c.unfavourable;
@@ -555,9 +552,6 @@ std::optional<NhifContract> Parser::parseContract(const std::string& jsonString)
 	contract.name_short = json["name_short"].asString();
 	contract.date = Date{ json["date"].asString() };
 	contract.contract_no = json["contract_no"].asString();
-	contract.bank = json["bank"].asString();
-	contract.iban = json["iban"].asString();
-	contract.bic = json["bic"].asString();
 	contract.nra_pass = json["nra"].asString();
 	contract.nssi_pass = json["nssi"].asString();
 	contract.unfavourable = json["unfav"].asBool();

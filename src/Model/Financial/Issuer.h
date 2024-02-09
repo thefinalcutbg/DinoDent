@@ -33,7 +33,6 @@ struct Issuer
 {
 	//default construction with current user
 	Issuer(); 
-	Issuer(const Practice& user, const Doctor& doctor);
 
 	IssuerType type;
 	std::string company_name;
@@ -44,4 +43,8 @@ struct Issuer
 	std::string grounds_for_not_charging_VAT;
 
 	std::string bulstat;
+
+private:
+	Issuer(const Practice& user, const Doctor& doctor);
+
 };

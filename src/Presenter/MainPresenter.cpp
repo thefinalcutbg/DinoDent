@@ -171,6 +171,13 @@ void MainPresenter::settingsPressed()
         User::doctor().getFullName(),
         User::practice().name
     );
+
+    //refreshing the data to the view (e.g. issuer in invoices)
+    auto currentTab = TabPresenter::get().currentTab();
+    if (currentTab) {
+        currentTab->setCurrent();
+    }
+    
 }
 
 bool MainPresenter::save() 

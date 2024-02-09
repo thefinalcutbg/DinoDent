@@ -371,24 +371,26 @@ std::string XML::getInvoice(const Invoice& invoice)
     addElementWithText(recipient, "recipient_bulstat", invoice.recipient.bulstat);
     el_invoice->LinkEndChild(recipient);
 
-    TiXmlElement* issuer = new TiXmlElement("Invoice_Issuer");
+    auto issuer = invoice.issuer();
 
-    addElementWithText(issuer, "issuer_type", std::to_string(invoice.issuer.type.index()));
+    TiXmlElement* issuerXml = new TiXmlElement("Invoice_Issuer");
 
-    if (invoice.issuer.type.index() != 1)
+    addElementWithText(issuerXml, "issuer_type", std::to_string(issuer.type.index()));
+
+    if (issuer.type.index() != 1)
     {
-        auto& company = std::get<Company>(invoice.issuer.type);
-        addElementWithText(issuer, "legal_form", company.legal_form);
-        addElementWithText(issuer, "company_name", invoice.issuer.company_name);
+        auto& company = std::get<Company>(issuer.type);
+        addElementWithText(issuerXml, "legal_form", company.legal_form);
+        addElementWithText(issuerXml, "company_name", issuer.company_name);
     }
     else
     {
-        auto& selfInsured = std::get<SelfInsured>(invoice.issuer.type);
+        auto& selfInsured = std::get<SelfInsured>(issuer.type);
 
-        addElementWithText(issuer, "self_insured", "Y");
-        addElementWithText(issuer, "self_insured_declaration", selfInsured.self_insured_declaration);
+        addElementWithText(issuerXml, "self_insured", "Y");
+        addElementWithText(issuerXml, "self_insured_declaration", selfInsured.self_insured_declaration);
 
-        addElementWithText(issuer, "company_name", invoice.issuer.company_name);
+        addElementWithText(issuerXml, "company_name", issuer.company_name);
         TiXmlElement* person_info = new TiXmlElement("Person_Info");
 
         TiXmlElement* identifier = new TiXmlElement("Identifier");
@@ -399,27 +401,27 @@ std::string XML::getInvoice(const Invoice& invoice)
         addElementWithText(person_info, "second_name", selfInsured.person_info.second_name);
         addElementWithText(person_info, "last_name", selfInsured.person_info.last_name);
 
-        issuer->LinkEndChild(person_info);
+        issuerXml->LinkEndChild(person_info);
 
     }
 
-    addElementWithText(issuer, "address_by_contract", invoice.issuer.address_by_contract);
+    addElementWithText(issuerXml, "address_by_contract", issuer.address_by_contract);
 
     if (User::doctor().severalRHIF) {
-        addElementWithText(issuer, "address_by_activity", invoice.issuer.address_by_activity);
+        addElementWithText(issuerXml, "address_by_activity", issuer.address_by_activity);
     }
 
-    addElementWithText(issuer, "registration_by_VAT", std::to_string(invoice.issuer.registration_by_VAT.has_value()));
-    addElementWithText(issuer, "grounds_for_not_charging_VAT", invoice.issuer.grounds_for_not_charging_VAT);
-    addElementWithText(issuer, "issuer_bulstat", invoice.issuer.bulstat);
-    if (invoice.issuer.registration_by_VAT.has_value()) {
-        addElementWithText(issuer, "issuer_bulstat_no_vat", invoice.issuer.registration_by_VAT.value());
+    addElementWithText(issuerXml, "registration_by_VAT", std::to_string(issuer.registration_by_VAT.has_value()));
+    addElementWithText(issuerXml, "grounds_for_not_charging_VAT", issuer.grounds_for_not_charging_VAT);
+    addElementWithText(issuerXml, "issuer_bulstat", issuer.bulstat);
+    if (issuer.registration_by_VAT.has_value()) {
+        addElementWithText(issuerXml, "issuer_bulstat_no_vat", issuer.registration_by_VAT.value());
     }
-    addElementWithText(issuer, "contract_no", invoice.nhifData->contract_no);
-    addElementWithText(issuer, "contract_date", invoice.nhifData->contract_date.to8601());
-    addElementWithText(issuer, "rhi_nhif_no", invoice.nhifData->rhi_nhif_no);
+    addElementWithText(issuerXml, "contract_no", invoice.nhifData->contract_no);
+    addElementWithText(issuerXml, "contract_date", invoice.nhifData->contract_date.to8601());
+    addElementWithText(issuerXml, "rhi_nhif_no", invoice.nhifData->rhi_nhif_no);
 
-    el_invoice->LinkEndChild(issuer);
+    el_invoice->LinkEndChild(issuerXml);
 
 
     addElementWithText(el_invoice, "health_insurance_fund_type_code", invoice.nhifData->health_insurance_fund_type_code);

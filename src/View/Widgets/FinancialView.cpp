@@ -113,7 +113,7 @@ void FinancialView::setPresenter(FinancialPresenter* presenter)
 
 void FinancialView::setInvoice(const Invoice& inv)
 {
-	ui.issuerButton->setIssuer(inv.issuer);
+	ui.issuerButton->setIssuer(inv.issuer());
 	ui.recipientButton->setRecipient(inv.recipient);
 
 	QSignalBlocker blockers[4]{

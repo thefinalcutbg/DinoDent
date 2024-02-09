@@ -302,14 +302,16 @@ void Print::invoice(const Invoice& inv)
                 + "г."));
     }
 
+    auto issuer = inv.issuer();
+
     report.dataManager()->setReportVariable("recipient_name", QString::fromStdString(inv.recipient.name));
     report.dataManager()->setReportVariable("recipient_address", QString::fromStdString(inv.recipient.address));
     report.dataManager()->setReportVariable("recipient_bulstat", QString::fromStdString(inv.recipient.bulstat));
     report.dataManager()->setReportVariable("recipient_phone", QString::fromStdString(inv.recipient.phone));
 
-    report.dataManager()->setReportVariable("issuer_name", QString::fromStdString(inv.issuer.company_name));
-    report.dataManager()->setReportVariable("issuer_address", QString::fromStdString(inv.issuer.address_by_contract));
-    report.dataManager()->setReportVariable("issuer_bulstat", QString::fromStdString(inv.issuer.bulstat));
+    report.dataManager()->setReportVariable("issuer_name", QString::fromStdString(issuer.company_name));
+    report.dataManager()->setReportVariable("issuer_address", QString::fromStdString(issuer.address_by_contract));
+    report.dataManager()->setReportVariable("issuer_bulstat", QString::fromStdString(issuer.bulstat));
 
     report.dataManager()->setReportVariable("total", formatDoubleWithDecimal(inv.aggragated_amounts.total_amount));
 
@@ -327,7 +329,7 @@ void Print::invoice(const Invoice& inv)
 
     report.dataManager()->setReportVariable("taxEventDate", QString::fromStdString(inv.aggragated_amounts.taxEventDate.toBgStandard()));
     report.dataManager()->setReportVariable("madeBy", QString::fromStdString(User::doctor().getFullName(false)));
-    report.dataManager()->setReportVariable("groundsNoVAT", QString::fromStdString(inv.issuer.grounds_for_not_charging_VAT));
+    report.dataManager()->setReportVariable("groundsNoVAT", QString::fromStdString(issuer.grounds_for_not_charging_VAT));
     report.dataManager()->setReportVariable("paymentType", QString::fromStdString(
         inv.aggragated_amounts.paymentType == PaymentType::Bank ?
         "Банков път"

@@ -42,7 +42,7 @@ FinancialPresenter::FinancialPresenter(ITabView* tabView, const std::string& mon
 FinancialPresenter::FinancialPresenter(ITabView* tabView, std::shared_ptr<Patient> patient, const std::vector<Procedure>& procedures) :
     TabInstance(tabView, TabType::Financial, patient),
     view(tabView->financialView()),
-    m_invoice(*patient.get(), User::practice(), User::doctor())
+    m_invoice(*patient.get())
 {
     m_invoice.date = Date::currentDate();
 
@@ -84,7 +84,7 @@ FinancialPresenter::FinancialPresenter(ITabView* tabView, long long rowId) :
 FinancialPresenter::FinancialPresenter(ITabView* tabView, const Recipient& r) :
     TabInstance(tabView, TabType::Financial, nullptr),
     view(tabView->financialView()),
-    m_invoice(r, User::practice(), User::doctor())
+    m_invoice(r)
 {
     m_invoice.date = Date::currentDate();
     m_invoice.number = DbInvoice::getNewInvoiceNumber();
@@ -156,6 +156,11 @@ void FinancialPresenter::saveAsXML()
 {
     if (!save()) return;
 
+    if (!User::practice().nhif_contract) {
+        ModalDialogBuilder::showError("Попълнете данните на НЗОК договора от насторйки");
+        return;
+    }
+
     ModalDialogBuilder::saveFile(XML::getInvoice(m_invoice), m_invoice.getFileName());
  
 }
@@ -163,6 +168,11 @@ void FinancialPresenter::saveAsXML()
 void FinancialPresenter::sendToPis()
 {
     if (!save()) return;
+
+    if (!User::practice().nhif_contract) {
+        ModalDialogBuilder::showError("Попълнете данните на НЗОК договора от насторйки");
+        return;
+    }
 
     if (
         !ModalDialogBuilder::askDialog("Желаете ли да изпратите финансовият документ към ПИС?")

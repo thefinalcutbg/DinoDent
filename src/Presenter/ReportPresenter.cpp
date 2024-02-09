@@ -231,7 +231,7 @@ void ReportPresenter::setDate(int month, int year)
 {
 	this->month = month; 
 	this->year = year;
-
+	patients.clear();
 	reset();
 }
 
@@ -369,7 +369,7 @@ void ReportPresenter::finish()
 	m_currentIndex = -1;
 
 	m_report = XML::getReport(lists, patients);
-	patients.clear();
+	
 	view->showStopButton(false);
 	view->enableReportButtons(true);
 	

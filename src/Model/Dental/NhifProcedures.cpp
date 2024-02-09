@@ -224,6 +224,8 @@ PriceValue NhifProcedures::getPriceValue(const PriceKey & key, const Date& date)
 
 	if (currentUpdateIdx == -1) return PriceValue{ 0,0,0 };
 
+	if (!m_NRDlist[currentUpdateIdx].prices.count(key)) return PriceValue{ 0 ,0 ,0 };
+
 	return m_NRDlist[currentUpdateIdx].prices.at(key);
 }
 

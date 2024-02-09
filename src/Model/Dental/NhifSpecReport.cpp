@@ -100,7 +100,7 @@ PlainTable NhifSpecReport::getSpecificationReport() const
 	double sumMinor = 0;
 
 	result.addEmptyRow();
-	result.data[1].rows.back().data = "Дентални дейности за лица под 18 години:";
+	result.data[1].rows.back().data = "Дентални дейности за лица до 18 години:";
 
 	for (auto& [code, count] : procedures_minor) {
 
@@ -121,7 +121,7 @@ PlainTable NhifSpecReport::getSpecificationReport() const
 	}
 
 	result.addEmptyRow();
-	result.data[1].rows.back().data = "Общо за дейности за лица под 18 години::";
+	result.data[1].rows.back().data = "Общо за дейности за лица до 18 години:";
 	result.data[4].rows.back().data = FreeFn::formatDouble(sumMinor);
 
 	result.addEmptyRow();

@@ -259,6 +259,7 @@ void FinancialPresenter::editRecipient()
 void FinancialPresenter::editIssuer()
 {
     ModalDialogBuilder::openSettingsDialog(1);
+    view->setInvoice(m_invoice);
 }
 
 void FinancialPresenter::invoiceNumberChanged(long long number)

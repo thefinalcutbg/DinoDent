@@ -67,8 +67,15 @@ void MainPresenter::setView(IMainView* view)
         User::practice().name
     );
 
+
     //medications update
-    if (DbUpdateStatus::lastUpdated(DynamicNum::Medication).isFromPreviousMonths(Date::currentDate()))
+
+    auto lasMedUpdate = DbUpdateStatus::lastUpdated(DynamicNum::Medication);
+    auto currentDate = Date::currentDate();
+
+    if(lasMedUpdate.isFromPreviousMonths(currentDate) ||
+        lasMedUpdate.day < currentDate.day-5
+       )
     {
         med_update_service.update();
     }

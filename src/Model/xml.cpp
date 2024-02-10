@@ -179,7 +179,7 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
             if (status.empty()) continue;
 
             TiXmlElement* tooth = new TiXmlElement("tooth");
-            tooth->SetAttribute("toothCode", ToothUtils::getNhifNumber(t.toothIndex()));
+            tooth->SetAttribute("toothCode", ToothUtils::getNhifNumber(t.getSupernumeral().toothIndex()));
 
             TiXmlElement* toothStatuses = new TiXmlElement("toothStatuses");
 

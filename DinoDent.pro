@@ -21,6 +21,9 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
+RESOURCES += \
+    resources/Resource.qrc
+
 FORMS += \
     src/View/SubWidgets/ControlPanel.ui \
     src/View/SubWidgets/MedicalNoticeTile.ui \
@@ -33,7 +36,6 @@ FORMS += \
     src/View/SubWidgets/SurfacePanel.ui \
     src/View/SubWidgets/SurfaceSelector.ui \
     src/View/SubWidgets/TabTitle.ui \
-    src/View/SubWidgets/VitaWidget.ui \
     src/View/Widgets/AboutDialog.ui \
     src/View/Widgets/AllergyDialog.ui \
     src/View/Widgets/BrowserDialog.ui \
@@ -113,16 +115,16 @@ HEADERS += \
     src/Model/Date.h \
     src/Model/Dental/AmbList.h \
     src/Model/Dental/BridgeAlgorithms.h \
-    src/Model/Dental/DentalNum.h \
+    src/Model/Dental/Dental.h \
     src/Model/Dental/DentalStatistics.h \
     src/Model/Dental/Diagnosis.h \
-    src/Model/Dental/Enums.h \
     src/Model/Dental/HisSnapshot.h \
     src/Model/Dental/MKB.h \
     src/Model/Dental/MonthNotifRow.h \
     src/Model/Dental/NhifMaps.h \
     src/Model/Dental/NhifProcedures.h \
     src/Model/Dental/NhifSheetData.h \
+    src/Model/Dental/NhifSpecReport.h \
     src/Model/Dental/PackageCounter.h \
     src/Model/Dental/PerioStatistic.h \
     src/Model/Dental/PerioStatus.h \
@@ -132,16 +134,12 @@ HEADERS += \
     src/Model/Dental/ProcedureContainer.h \
     src/Model/Dental/ProcedureListElement.h \
     src/Model/Dental/ReportFile.h \
-    src/Model/Dental/Status.h \
-    src/Model/Dental/StatusData.h \
     src/Model/Dental/SupernumeralPrint.h \
-    src/Model/Dental/SurfStatus.h \
     src/Model/Dental/TimeFrame.h \
     src/Model/Dental/Tooth.h \
     src/Model/Dental/ToothContainer.h \
     src/Model/Dental/ToothIndex.h \
     src/Model/Dental/ToothUtils.h \
-    src/Model/Dental/VitaColor.h \
     src/Model/DynamicNum.h \
     src/Model/Ekatte.h \
     src/Model/Financial/BusinessOperation.h \
@@ -269,6 +267,7 @@ HEADERS += \
     src/Resources.h \
     src/Tests/CrudTest.h \
     src/Version.h \
+    src/View/CommonIcon.h \
     src/View/GlobalFunctions.h \
     src/View/Graphics/CPTooth.h \
     src/View/Graphics/ControlPanelPolygon.h \
@@ -347,7 +346,6 @@ HEADERS += \
     src/View/SubWidgets/SurfacePanel.h \
     src/View/SubWidgets/SurfaceSelector.h \
     src/View/SubWidgets/TabTitle.h \
-    src/View/SubWidgets/VitaWidget.h \
     src/View/TableModels/BusinessOperationModel.h \
     src/View/TableModels/FiscalReceiptTableModel.h \
     src/View/TableModels/HospitalizationTableModel.h \
@@ -481,36 +479,28 @@ SOURCES += \
     src/DbUpdates/Update12_18.cpp \
     src/DbUpdates/Update19.cpp \
     src/DbUpdates/Update20.cpp \
-    src/DbUpdates/Update5.cpp \
-    src/DbUpdates/Update6.cpp \
-    src/DbUpdates/Update7.cpp \
-    src/DbUpdates/Update8.cpp \
-    src/DbUpdates/Update9.cpp \
     src/DbUpdates/Updater.cpp \
     src/GlobalSettings.cpp \
     src/Model/Allergy.cpp \
     src/Model/Country.cpp \
     src/Model/Date.cpp \
-    src/Model/Dental/DentalNum.cpp \
     src/Model/Dental/Diagnosis.cpp \
     src/Model/Dental/MKB.cpp \
     src/Model/Dental/NhifProcedures.cpp \
     src/Model/Dental/NhifSheetData.cpp \
+    src/Model/Dental/NhifSpecReport.cpp \
     src/Model/Dental/PackageCounter.cpp \
     src/Model/Dental/PerioStatistic.cpp \
     src/Model/Dental/PerioToothData.cpp \
     src/Model/Dental/Procedure.cpp \
     src/Model/Dental/ProcedureCode.cpp \
     src/Model/Dental/ProcedureContainer.cpp \
-    src/Model/Dental/Status.cpp \
-    src/Model/Dental/StatusData.cpp \
     src/Model/Dental/SupernumeralPrint.cpp \
     src/Model/Dental/TimeFrame.cpp \
     src/Model/Dental/Tooth.cpp \
     src/Model/Dental/ToothContainer.cpp \
     src/Model/Dental/ToothIndex.cpp \
     src/Model/Dental/ToothUtils.cpp \
-    src/Model/Dental/VitaColor.cpp \
     src/Model/Ekatte.cpp \
     src/Model/Financial/BusinessOperation.cpp \
     src/Model/Financial/Invoice.cpp \
@@ -617,6 +607,7 @@ SOURCES += \
     src/Presenter/TabPresenter.cpp \
     src/Resources.cpp \
     src/Tests/CrudTest.cpp \
+    src/View/CommonIcon.cpp \
     src/View/GlobalFunctions.cpp \
     src/View/Graphics/CPTooth.cpp \
     src/View/Graphics/ControlPanelPolygon.cpp \
@@ -654,7 +645,6 @@ SOURCES += \
     src/View/SubWidgets/SurfacePanel.cpp \
     src/View/SubWidgets/SurfaceSelector.cpp \
     src/View/SubWidgets/TabTitle.cpp \
-    src/View/SubWidgets/VitaWidget.cpp \
     src/View/TableModels/BusinessOperationModel.cpp \
     src/View/TableModels/FiscalReceiptTableModel.cpp \
     src/View/TableModels/HospitalizationTableModel.cpp \
@@ -755,6 +745,3 @@ SOURCES += \
     src/View/uiComponents/UserButton.cpp \
     src/View/uiComponents/customdateedit.cpp \
     src/main.cpp
-
-RESOURCES += \
-    resources/Resource.qrc

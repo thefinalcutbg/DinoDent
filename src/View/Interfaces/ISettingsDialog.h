@@ -13,6 +13,7 @@ class ISettingsDialog
 public:
 
 	virtual void focusTab(SettingsTab tab) = 0;
+	virtual void disableTab(SettingsTab tab) = 0;
 	virtual void closeDialog() = 0;
 	virtual IPracticeSettings* practiceView() = 0;
 	virtual void setSettings(const Settings& settings) = 0;

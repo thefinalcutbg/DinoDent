@@ -23,6 +23,10 @@ void SettingsMainPresenter::setView(ISettingsDialog* view)
 	view->setPkcs11List(GlobalSettings::pkcs11PathList());
 	view->setDebug(GlobalSettings::showRequestsEnabled(), GlobalSettings::showRepliesEnabled());
 	setUpdateLabels();
+	
+	if (!User::isAdmin()) {
+		view->disableTab(SettingsTab::Practice);
+	}
 }
 
 void SettingsMainPresenter::okPressed()

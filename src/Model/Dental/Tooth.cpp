@@ -336,6 +336,9 @@ void Tooth::setStatus(Status code, bool present) {
 	case HasSupernumeral:
 		if (m_supernumeral->noData()) m_supernumeral->setStatus(Healthy, true);
 		break;
+
+	default:
+		break;
 	}
 
 	m_data[Healthy] = isHealthy();

@@ -41,6 +41,7 @@ FinancialView::FinancialView(QWidget *parent)
 	ui.mainDocNumSpin->setTotalLength(10);
 
     connect(ui.recipientButton, &QPushButton::clicked, this, [=, this] {presenter->editRecipient();});
+	connect(ui.issuerButton, &QPushButton::clicked, this, [=, this] {presenter->editIssuer(); });
 
     connect(ui.dateEdit, &QDateEdit::dateChanged, this,
         [=, this](QDate date){

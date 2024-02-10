@@ -35,6 +35,7 @@ public:
 	void docTypeChanged(int index);
 	void mainDocumentChanged(long long num, Date date);
 	void editRecipient();
+	void editIssuer();
 	void invoiceNumberChanged(long long number);
 
 	long long rowID() const override;

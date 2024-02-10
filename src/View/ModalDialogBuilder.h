@@ -65,7 +65,7 @@ namespace ModalDialogBuilder
 	void showError(const std::string& error);
 	void showMultilineDialog(const std::string& text, const std::string& title = "Debug");
 	void showMessage(const std::string& message);
-	void openSettingsDialog();
+	void openSettingsDialog(int tabFocus = 0);
 	int openButtonDialog(const std::vector<std::string>& buttonNames, const std::string& title);
 	//std::optional<std::string> getFileNamePath(const std::string& filename);
 	void openExplorer(const std::string& path);

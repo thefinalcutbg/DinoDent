@@ -60,6 +60,16 @@ SettingsDialog::SettingsDialog(QDialog*parent)
 	
 }
 
+void SettingsDialog::focusTab(SettingsTab tab)
+{
+	ui.tabWidget->setCurrentIndex(static_cast<int>(tab));
+}
+
+void SettingsDialog::disableTab(SettingsTab tab)
+{
+	ui.tabWidget->setTabEnabled(static_cast<int>(tab), false);
+}
+
 
 void SettingsDialog::setSettings(const Settings& settings)
 {

@@ -258,9 +258,10 @@ void ModalDialogBuilder::showMessage(const std::string& message)
 
 #include "View/Widgets/SettingsDialog.h"
 
-void ModalDialogBuilder::openSettingsDialog()
+void ModalDialogBuilder::openSettingsDialog(int tabFocus)
 {
 	SettingsDialog d;
+	d.focusTab(static_cast<SettingsTab>(tabFocus));
 	d.exec();
 }
 

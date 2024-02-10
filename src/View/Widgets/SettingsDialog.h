@@ -14,7 +14,8 @@ class SettingsDialog : public QDialog, public ISettingsDialog
 public:
 	SettingsDialog(QDialog *parent = Q_NULLPTR);
 
-	void focusTab(SettingsTab tab) { ui.tabWidget->setCurrentIndex(static_cast<int>(tab)); };
+	void focusTab(SettingsTab tab);
+	void disableTab(SettingsTab tab);
 	void closeDialog() final { this->close(); };
 	IPracticeSettings* practiceView() final { return ui.practiceSettings; };
 	void setSettings(const Settings& settings) final;

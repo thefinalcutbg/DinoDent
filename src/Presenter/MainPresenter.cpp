@@ -159,12 +159,6 @@ void MainPresenter::statisticPressed()
 
 void MainPresenter::settingsPressed()
 {
-    if (!User::isAdmin())
-    {
-        ModalDialogBuilder::showMessage("Нямате администраторски права, за да влезете в настройки");
-        return;
-    }
-
     ModalDialogBuilder::openSettingsDialog();
 
     view->setUserLabel(

@@ -24,17 +24,23 @@ void DbUpdates::update10(UpdateDialog&)
 	{
 		QString d = QString::fromStdString(description).toLower();
 
-		if (d.contains("caries")) return 1;
+		if (d.contains("car")) return 1;
 		if (d.contains("кариес")) return 1;
 		if (d.contains("pulp")) return 2;
-		if (d.contains("periodontitis")) return 3;
+		if (d.contains("пулп")) return 2;
+		if (d.contains("perio")) return 3;
+		if (d.contains("перио")) return 3;
+		if (d.contains("разкл")) return 3;
 		if (d.contains("per.")) return 3;
+		if (d.contains("фрак")) return 4;
 		if (d.contains("fractura")) return 4;
-		if (d.contains("causa")) return 9;
-		if (d.contains("devital")) return 8;
-		if (d.contains("totalis")) return 6;
 		if (d.contains("partialis")) return 5;
 		if (d.contains("adontia")) return 5;
+		if (d.contains("anodon")) return 5;
+		if (d.contains("обезз")) return 5;
+		if (d.contains("totalis")) return 6;
+		if (d.contains("devital")) return 8;
+		if (d.contains("causa")) return 9;
 
 		return 0;
 	};

@@ -1,11 +1,45 @@
-#include "PisReportParser.h"
+﻿#include "PisReportParser.h"
 #include <functional>
 #include <unordered_map>
 #include <TinyXML/tinyxml.h>
 #include "Model/FreeFunctions.h"
 #include "Model/Dental/ToothUtils.h"
+#include <QString>
 
 void deserializeNhifStatus(Tooth& tooth, const std::string& code);
+
+int getDiagnosisIndexByDescription(const char* description)
+{
+	static const std::pair<const char*, int> diagIdxPair[] =
+	{
+		{"car", 1},
+		{"кариес", 1},
+		{"pulp", 2},
+		{"пулп", 2},
+		{"perio", 3},
+		{"перио", 3},
+		{"разкл", 3},
+		{"per.", 3},
+		{"фрак", 4},
+		{"fractura", 4},
+		{"partialis", 5},
+		{"adontia", 5},
+		{"anodon", 5},
+		{"обезз", 5},
+		{"totalis", 6},
+		{"devital", 8},
+		{"causa", 9},
+	};
+
+	QString d = QString::fromStdString(description).toLower();
+
+	for (auto& [diag, idx] : diagIdxPair) {
+		if (d.contains(diag)) return idx;
+	}
+
+	return 0;
+
+}
 
 PisReportsForImport PisReportParser::parse(const std::string& xmlReport)
 {
@@ -124,7 +158,10 @@ PisReportsForImport PisReportParser::parse(const std::string& xmlReport)
 			p.financingSource = FinancingSource::NHIF;
 
 			p.code = std::stoi(serviceXml->Attribute("activityCode"));
-			p.diagnosis.description = serviceXml->Attribute("diagnosis");
+
+			auto description = serviceXml->Attribute("diagnosis");
+
+			p.diagnosis = Diagnosis(getDiagnosisIndexByDescription(description), description);
 
 			if (p.code.isToothSpecific())
 			{

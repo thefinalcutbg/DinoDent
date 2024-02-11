@@ -1,0 +1,2 @@
+CREATE TABLE favourite_code (code TEXT NOT NULL, lpk  TEXT NOT NULL);
+PRAGMA user_version = 21;

@@ -16,4 +16,5 @@ CREATE TABLE fiscal_receipt (timestamp TEXT, amblist_rowid INTEGER REFERENCES am
 CREATE TABLE medical_notice (amblist_rowid INTEGER REFERENCES amblist (rowid) ON DELETE CASCADE ON UPDATE CASCADE NOT NULL, lrn TEXT NOT NULL, nrn TEXT, issue_date TEXT NOT NULL, diagnosis TEXT NOT NULL, institution TEXT NOT NULL, from_date TEXT NOT NULL, to_date TEXT NOT NULL, note TEXT);
 CREATE TABLE allergy (patient_rowid INTEGER REFERENCES patient (rowid) ON DELETE CASCADE ON UPDATE CASCADE NOT NULL, lrn TEXT NOT NULL, nrn TEXT, description TEXT NOT NULL, type INTEGER NOT NULL, category INTEGER NOT NULL, criticality INTEGER NOT NULL, clinical_status INTEGER NOT NULL, verification_status INTEGER NOT NULL, last_occurrence TEXT, edited INTEGER);
 CREATE TABLE prescription (rowid INTEGER PRIMARY KEY NOT NULL, patient_rowid INTEGER REFERENCES patient (rowid) ON DELETE CASCADE ON UPDATE CASCADE, lrn VARCHAR (36) NOT NULL, nrn VARCHAR (12), date TEXT (10) NOT NULL, dispensation INT NOT NULL, repeats INT, supplements VARCHAR (2000), lpk VARCHAR REFERENCES doctor (lpk) ON UPDATE CASCADE NOT NULL, rzi VARCHAR REFERENCES practice (rzi) ON DELETE CASCADE ON UPDATE CASCADE NOT NULL, is_pregnant INTEGER, is_breastfeeding INTEGER);
-PRAGMA user_version = 19;
+CREATE TABLE favourite_code (code TEXT NOT NULL, lpk  TEXT NOT NULL);
+PRAGMA user_version = 21;

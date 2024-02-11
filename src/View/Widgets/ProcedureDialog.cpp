@@ -1,7 +1,6 @@
 ﻿#include "ProcedureDialog.h"
-
 #include "Presenter/ProcedureDialogPresenter.h"
-
+#include <QDebug>
 ProcedureDialog::ProcedureDialog(ProcedureDialogPresenter& presenter, QWidget *parent)
 	: QDialog(parent), presenter(presenter), proxyModel(this)
 {
@@ -11,31 +10,43 @@ ProcedureDialog::ProcedureDialog(ProcedureDialogPresenter& presenter, QWidget *p
 	setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 	setWindowTitle("Добавяне на манипулация");
 
-    auto& table = ui.tableView;
-
-	//ui.procedureInput->setExternalDateEdit(ui.dateEdit);
-	//ui.dateEdit->setErrorLabel(ui.errorLabel);
-
 	proxyModel.setSourceModel(&model);
 	proxyModel.setFilterKeyColumn(2);
-	table->setModel(&proxyModel);
 
-	table->hideColumn(0);
-	table->setColumnWidth(0, 20);
+	auto& table = ui.tableView;
+
+	table->setModel(&proxyModel);
+	table->setMouseTracking(true);
+	table->setColumnWidth(0, 30);
 	table->setColumnWidth(1, 70);
 	table->hideColumn(3);
 	//table->setColumnWidth(3, 70);
 	table->setSelectionBehavior(QAbstractItemView::SelectRows);
 	table->setSelectionMode(QAbstractItemView::SingleSelection);
-	table->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
 	table->horizontalHeader()->setSectionResizeMode(2, QHeaderView::ResizeMode::Stretch);
 
-    connect(table->selectionModel(), &QItemSelectionModel::currentRowChanged, this, [&] {
+	table->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+	table->verticalHeader()->hide();
+
+	auto favDelagete = new FavButtonDelegate();
+	table->setItemDelegateForColumn(0, favDelagete);
+
+	connect(favDelagete, &FavButtonDelegate::updateRequested, this, [&] {
+		ui.tableView->viewport()->update();
+	});
+
+	connect(favDelagete, &FavButtonDelegate::favouriteClicked, this, [&](int rowIdx) {
+		presenter.favouriteClicked(rowIdx);
+		
+	});
+
+    connect(table->selectionModel(), &QItemSelectionModel::selectionChanged, this, [&] {
+
             s_idx = table->selectionModel()->currentIndex().row();
 
             if (s_idx == -1){
-
                 presenter.indexChanged(s_idx);
+				ui.tableView->clearSelection(); //because of bug when reseting the model
                 return;
             }
 
@@ -61,15 +72,11 @@ ProcedureDialog::ProcedureDialog(ProcedureDialogPresenter& presenter, QWidget *p
 		auto date = ui.procedureInput->qDateEdit()->date();
         presenter.procedureDateChanged(Date{ date.day(), date.month(), date.year() });
         presenter.indexChanged(-1);
-		});
+	});
 
 	
-	
-
-
 	ui.searchEdit->setText(s_search);
 	ui.tableView->selectRow(s_idx);
-
 
     presenter.setView(this);
 
@@ -83,7 +90,9 @@ ProcedureDialog::~ProcedureDialog()
 
 void ProcedureDialog::setProcedureTemplates(std::vector<ProcedureListElement> procedureList)
 {
-	model.setProcedures(procedureList);
+	model.setProcedures(procedureList);	
+	presenter.indexChanged(-1);
+
 }
 
 void ProcedureDialog::setSelectionLabel(const std::vector<int>& selectedTeethNum)

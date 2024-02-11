@@ -5,6 +5,7 @@
 #include "Model/Dental/NhifProcedures.h"
 #include "Model/Dental/AmbList.h"
 #include "Model/User.h"
+#include "Database/DbDoctor.h"
 
 ProcedureDialogPresenter::ProcedureDialogPresenter
 (
@@ -76,10 +77,21 @@ void ProcedureDialogPresenter::procedureDateChanged(const Date& date)
 	//getting custom procedures:
 	auto customProcedures = ProcedureCode::getNonNhifProcedures();
 
+	auto favourites = DbDoctor::getFavouriteProcedures(User::doctor().LPK);
+
 	for (auto& p : customProcedures)
 	{
-		procedureList.push_back({ p, false });
+		procedureList.push_back(
+			ProcedureListElement{
+				.code = p,
+				.nhif = false,
+				.favourite = static_cast<bool>(favourites.count(p.code()))
+			}
+		);
+
 	}
+
+	sortProcedures();
 
 	view->setProcedureTemplates(procedureList);
 	
@@ -112,6 +124,28 @@ void ProcedureDialogPresenter::indexChanged(int index)
 
 }
 
+void ProcedureDialogPresenter::favouriteClicked(int index)
+{
+	auto& fav = procedureList[index].favourite;
+
+	fav = !fav;
+	sortProcedures();
+
+	//updating in DB
+	std::vector<std::string> favCodes;
+
+	for (auto& p : procedureList) {
+		if (p.favourite) {
+			favCodes.push_back(p.code.code());
+		}
+	}
+
+	DbDoctor::updateFavouriteProcedures(favCodes, User::doctor().LPK);
+
+
+	view->setProcedureTemplates(procedureList);
+}
+
 
 void ProcedureDialogPresenter::formAccepted()
 {
@@ -121,6 +155,28 @@ void ProcedureDialogPresenter::formAccepted()
 
 	view->close();
 }
+
+void ProcedureDialogPresenter::sortProcedures()
+{
+	std::sort(procedureList.begin(), procedureList.end(),
+	
+	[](const ProcedureListElement& a, const ProcedureListElement& b)
+	{
+		if (a.nhif > b.nhif) return true;
+
+		if (a.nhif == b.nhif && a.favourite > b.favourite) {
+			return true;
+		}
+
+		if (a.nhif == b.nhif && a.favourite == b.favourite) {
+			return a.code.oldCode() < b.code.oldCode();
+		}
+
+		return false;
+
+	});
+}
+
 
 std::vector<Procedure> ProcedureDialogPresenter::openDialog()
 {

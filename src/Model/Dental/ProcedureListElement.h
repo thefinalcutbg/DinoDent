@@ -5,4 +5,5 @@ struct ProcedureListElement
 {
 	ProcedureCode code;
 	bool nhif;
+	bool favourite = false;
 };

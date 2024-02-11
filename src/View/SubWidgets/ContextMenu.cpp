@@ -2,7 +2,7 @@
 #include "Presenter/ListPresenter.h"
 #include "DsnMenu.h"
 #include "View/Theme.h"
-#include <qdebug.h>
+
 using namespace Dental;
 
 ContextMenu::ContextMenu()
@@ -119,7 +119,7 @@ void ContextMenu::setModel(const CheckModel& checkModel, const CheckModel& dsnMo
     this->setModel(checkModel.obturationStatus, surfObt);
     this->setModel(checkModel.cariesStatus, surfCar);
     this->setModel(checkModel.mobilityStatus, mobilityDegree);
-    qDebug() << "setting checkmodel to dsn in context menu";
+
     dsn_menu->setModel(dsnModel);
 }
 

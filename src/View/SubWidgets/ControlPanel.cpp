@@ -3,7 +3,7 @@
 #include "Presenter/ListPresenter.h"
 #include <QMenu>
 #include "DsnMenu.h"
-#include <qdebug.h>
+
 ControlPanel::ControlPanel(QWidget* parent)
 	: QWidget(parent), presenter(nullptr)
 {

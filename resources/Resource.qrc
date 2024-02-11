@@ -44,6 +44,9 @@
         <file>icon_hospital.png</file>
         <file>icon_sync.png</file>
         <file>icon_hisgray.png</file>
+        <file>icon_fav.png</file>
+        <file>icon_favgray.png</file>
+        <file>icon_favhover.png</file>
     </qresource>
     <qresource prefix="/tooth">
         <file>tooth_approximal.png</file>
@@ -138,6 +141,7 @@
         <file>db_migrateTo16.txt</file>
         <file>db_migrateTo17.txt</file>
         <file>db_migrateTo20.txt</file>
+        <file>db_migrateTo21.txt</file>
     </qresource>
     <qresource prefix="/other">
         <file>splash.png</file>

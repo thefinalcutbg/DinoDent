@@ -855,7 +855,7 @@
     <ClCompile Include="src\Model\PlainTable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\DbUpdates\Update20.cpp">
+    <ClCompile Include="src\DbUpdates\Update20_21.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="include\json\jsoncpp.cpp">

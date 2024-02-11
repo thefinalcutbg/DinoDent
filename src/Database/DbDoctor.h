@@ -1,6 +1,7 @@
 #pragma once
 
 #include <unordered_map>
+#include <set>
 #include "Model/UserStructs.h"
 
 
@@ -15,5 +16,6 @@ namespace DbDoctor
 	bool insertDoctor(const Doctor& doctor);
 	std::tuple<bool, int> getAdminAndSpecialty(const std::string& lpk, const std::string& rzi);
 	std::unordered_map<std::string, std::string> getDoctorNames(); //returns LPK - name as key-value for all doctors in the db
-
+	bool updateFavouriteProcedures(const std::vector<std::string>& procedureCodes, const std::string& doctorLPK);
+	std::set<std::string> getFavouriteProcedures(const std::string& doctorLPK);
 }

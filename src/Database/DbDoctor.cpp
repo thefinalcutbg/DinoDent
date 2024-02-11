@@ -164,3 +164,40 @@ std::unordered_map<std::string, std::string> DbDoctor::getDoctorNames()
 
     return doctorNames;
 }
+
+bool DbDoctor::updateFavouriteProcedures(const std::vector<std::string>& procedureCodes, const std::string& doctorLPK)
+{
+    Db db;
+    db.newStatement("DELETE FROM favourite_code WHERE lpk=?");
+    db.bind(1, doctorLPK);
+    db.execute();
+
+    for (auto& code : procedureCodes) {
+        db.newStatement("INSERT INTO favourite_code (code, lpk) VALUES (?,?)");
+        db.bind(1, code);
+        db.bind(2, doctorLPK);
+
+        if (!db.execute()) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+std::set<std::string> DbDoctor::getFavouriteProcedures(const std::string& doctorLPK)
+{
+    Db db;
+
+    db.newStatement("SELECT code FROM favourite_code WHERE lpk=?");
+
+    db.bind(1, doctorLPK);
+
+    std::set<std::string> result;
+
+    while (db.hasRows()) {
+        result.insert(db.asString(0));
+    }
+
+    return result;
+}

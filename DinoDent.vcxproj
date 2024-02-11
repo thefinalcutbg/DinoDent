@@ -232,7 +232,7 @@
     <ClCompile Include="src\DbUpdates\Update11.cpp" />
     <ClCompile Include="src\DbUpdates\Update12_18.cpp" />
     <ClCompile Include="src\DbUpdates\Update19.cpp" />
-    <ClCompile Include="src\DbUpdates\Update20.cpp" />
+    <ClCompile Include="src\DbUpdates\Update20_21.cpp" />
     <ClCompile Include="src\Model\Allergy.cpp" />
     <ClCompile Include="src\Model\Country.cpp" />
     <ClCompile Include="src\Model\Dental\Diagnosis.cpp" />

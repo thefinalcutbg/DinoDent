@@ -131,17 +131,7 @@ void ProcedureDialogPresenter::favouriteClicked(int index)
 	fav = !fav;
 	sortProcedures();
 
-	//updating in DB
-	std::vector<std::string> favCodes;
-
-	for (auto& p : procedureList) {
-		if (p.favourite) {
-			favCodes.push_back(p.code.code());
-		}
-	}
-
-	DbDoctor::updateFavouriteProcedures(favCodes, User::doctor().LPK);
-
+	favourites_changed = true;
 
 	view->setProcedureTemplates(procedureList);
 }
@@ -182,4 +172,20 @@ std::vector<Procedure> ProcedureDialogPresenter::openDialog()
 {
     ModalDialogBuilder::openDialog(*this);
 	return procedures;
+}
+
+ProcedureDialogPresenter::~ProcedureDialogPresenter()
+{
+	if (!favourites_changed) return;
+
+	//updating in DB
+	std::vector<std::string> favCodes;
+
+	for (auto& p : procedureList) {
+		if (p.favourite) {
+			favCodes.push_back(p.code.code());
+		}
+	}
+
+	DbDoctor::updateFavouriteProcedures(favCodes, User::doctor().LPK);
 }

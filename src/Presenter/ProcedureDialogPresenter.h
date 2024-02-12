@@ -19,6 +19,8 @@ class ProcedureDialogPresenter
 	Date patientTurns18;
 	bool pregnancyAllowed{ false };
 
+	bool favourites_changed{ false };
+
 	ProcedureCreator procedure_creator;
 
 	IProcedureDialog* view;
@@ -50,6 +52,8 @@ public:
 	void formAccepted();
 
 	std::vector<Procedure> openDialog();
+
+	~ProcedureDialogPresenter();
 
 };
 

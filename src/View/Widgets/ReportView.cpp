@@ -61,7 +61,7 @@ ReportView::ReportView(QWidget* parent)
 
 	ui.xmlButton->setIcon(QIcon(":/icons/icon_xml.png"));
 	ui.pisButton->setIcon(QIcon(":/icons/icon_nhif.png"));
-	ui.specButton->setIcon(QIcon(":/icons/icon_pdf.png"));
+	ui.specButton->setIcon(QIcon(":/icons/icon_print.png"));
 
 
     connect(ui.textBrowser, &TextBrowser::linkPressed, this, [&](const QString& str) { presenter.linkClicked(str.toStdString()); });

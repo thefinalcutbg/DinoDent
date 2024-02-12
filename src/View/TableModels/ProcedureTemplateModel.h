@@ -44,10 +44,10 @@ class FavButtonDelegate : public QItemDelegate
 {
 	Q_OBJECT
 
-	QPixmap nhif_pixmap{ ":/icons/icon_nhif.png" };
-	QPixmap star_yellow{ ":/icons/icon_fav.png" };
-	QPixmap star_gray{ ":/icons/icon_favgray.png" };
-	QPixmap star_hover{ ":/icons/icon_favhover.png" };
+	QIcon nhif_pixmap{ ":/icons/icon_nhif.png" };
+	QIcon star_yellow{ ":/icons/icon_fav.png" };
+	QIcon star_gray{ ":/icons/icon_favgray.png" };
+	QIcon star_hover{ ":/icons/icon_favhover.png" };
 
 	int m_row_hover = -1;
 

@@ -163,7 +163,7 @@ hr { height: 1px; border-width: 0; }
      <item>
       <widget class="QPushButton" name="specButton">
        <property name="text">
-        <string>Генерирай спецификация</string>
+        <string>Принтирай спецификация</string>
        </property>
       </widget>
      </item>

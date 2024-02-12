@@ -163,7 +163,7 @@ void FavButtonDelegate::paint(QPainter* painter, const QStyleOptionViewItem& opt
     h = 20;//button height
     auto starRect = QRect(x, y, w, h);
 
-    const QPixmap* px = nullptr;
+    const QIcon* px = nullptr;
 
     if (role == ProcedureRow::None) {
         px = &nhif_pixmap;
@@ -177,12 +177,13 @@ void FavButtonDelegate::paint(QPainter* painter, const QStyleOptionViewItem& opt
 
     if (!px) return;
 
-    painter->drawPixmap(starRect, px->scaled(20, 20, Qt::AspectRatioMode::KeepAspectRatio, Qt::TransformationMode::SmoothTransformation));
+    px->paint(painter, starRect);
 
     if (m_row_hover == index.row() && m_row_hover != -1)
     {
-        painter->drawPixmap(starRect, star_hover.scaled(20, 20, Qt::AspectRatioMode::KeepAspectRatio, Qt::TransformationMode::SmoothTransformation));
+        star_hover.paint(painter, starRect);
     }
+    
 }
 
 

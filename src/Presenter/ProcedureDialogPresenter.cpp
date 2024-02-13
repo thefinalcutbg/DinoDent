@@ -22,8 +22,7 @@ ProcedureDialogPresenter::ProcedureDialogPresenter
     pregnancyAllowed(pregnancyAllowed),
     procedure_creator(selectedTeeth),
     view(nullptr),
-    date_validator(patientTurns18),
-    noProcedureSelected(true)
+    date_validator(patientTurns18)
 {}
 
 
@@ -101,8 +100,6 @@ void ProcedureDialogPresenter::procedureDateChanged(const Date& date)
 void ProcedureDialogPresenter::indexChanged(int index)
 {
 	currentIndex = index;
-	
-	noProcedureSelected = true;
 
 	if (currentIndex == -1)
 	{
@@ -111,8 +108,6 @@ void ProcedureDialogPresenter::indexChanged(int index)
 	}
 
 	auto& procedureCode = procedureList[currentIndex];
-
-	noProcedureSelected = false;
 
 	date_validator.setProcedure(procedureList[index].code.oldCode(), procedureList[index].nhif);
 	view->procedureInput()->dateEdit()->validateInput();
@@ -139,7 +134,7 @@ void ProcedureDialogPresenter::favouriteClicked(int index)
 
 void ProcedureDialogPresenter::formAccepted()
 {
-	if (noProcedureSelected || !procedure_creator.isValid()) return;
+	if (currentIndex == -1 || !procedure_creator.isValid()) return;
 
 	procedures = procedure_creator.getProcedures();
 

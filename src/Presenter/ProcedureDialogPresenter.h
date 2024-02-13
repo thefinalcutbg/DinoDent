@@ -31,8 +31,6 @@ class ProcedureDialogPresenter
 
 	ProcedureDateValidator date_validator;
 
-	bool noProcedureSelected;
-
 	void sortProcedures();
 
 public:

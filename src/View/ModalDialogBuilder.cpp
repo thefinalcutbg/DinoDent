@@ -209,6 +209,7 @@ std::optional<BusinessOperation> ModalDialogBuilder::addBusinessOperation()
 std::optional<MedicalNotice> ModalDialogBuilder::openDialog(const MedicalNotice& notice)
 {
 	MedicalNoticeDialog d(notice);
+	d.exec();
 	return d.getResult();
 }
 

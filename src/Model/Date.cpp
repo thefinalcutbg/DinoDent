@@ -217,6 +217,18 @@ bool Date::operator!=(const Date& other) const
 }
 
 Date Date::getMaxDateOfMonth() const { return Date{ getMaxDayOfMonth(), month, year }; }
+
+bool Date::isOrthodoxEasternWeek() const
+{
+    auto& y = year;
+    int d = (y%19*19+15)%30; 
+    d += (y%4*2+y%7*4-d+34)%7+128;
+    
+    return QDate(y, d/31, d%31+d/155).weekNumber() 
+           == 
+           QDate(year, month, day).weekNumber();
+}
+
 bool Date::isTheSameMonthAs(const Date& date) const { return this->year == date.year && this->month == date.month; }
 
 bool Date::isToday() const

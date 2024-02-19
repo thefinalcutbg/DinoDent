@@ -46,6 +46,7 @@
         <file>icon_fav.png</file>
         <file>icon_favgray.png</file>
         <file>icon_favhover.png</file>
+        <file>dinoEaster.png</file>
     </qresource>
     <qresource prefix="/tooth">
         <file>tooth_approximal.png</file>

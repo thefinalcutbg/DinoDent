@@ -43,6 +43,7 @@ public:
 
     Date getMaxDateOfMonth() const;
 
+    bool isOrthodoxEasternWeek() const;
     bool isTheSameMonthAs(const Date& date) const;
     bool isToday() const;
     bool isSameDayInTheYear(const Date& current = Date::currentDate()) const;

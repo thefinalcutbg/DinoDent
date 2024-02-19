@@ -9,12 +9,20 @@ WelcomeWidget::WelcomeWidget(QWidget *parent)
 {
 	ui.setupUi(this);
 
-    ui.cornerLabel->setPixmap(
-        QDate::currentDate().month() == 12 ?
-        QPixmap(":/icons/dinoChristmas.png")
-        :
-        QPixmap(":/icons/dinoSmall.png")
-    );
+    auto date = Date::currentDate();
+
+    if (date.month == 12)
+    {
+        ui.cornerLabel->setPixmap(QPixmap(":/icons/dinoChristmas.png"));
+    }
+    else if (date.isOrthodoxEasternWeek())
+    {
+        ui.cornerLabel->setPixmap(QPixmap(":/icons/dinoEaster.png"));
+    }
+    else
+    {
+        ui.cornerLabel->setPixmap(QPixmap(":/icons/dinoSmall.png"));
+    }
 
 	setStyleSheet("background-color:" + Theme::colorToString(Theme::background));
 

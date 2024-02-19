@@ -235,7 +235,7 @@ bool MainPresenter::firstTimeLogic()
    
     std::string descr = "Стартирате програмата за първи път. Изберете опция: ";
 
-    std::vector<std::string> options { "Добавяне на практика", "Просто искам да тествам програмата" };
+    std::vector<std::string> options { "Добавяне на практика", "Просто искам да разгледам програмата" };
 
     auto result = ModalDialogBuilder::openButtonDialog(options, "DinoDent", descr);
 
@@ -256,9 +256,9 @@ bool MainPresenter::firstTimeLogic()
         case 1:
         {
             Practice p;
-            p.name = "DinoDent - тестови режим";
+            p.name = "DinoDent";
             p.practice_address = 68134;
-            p.firm_address = " ";
+            p.firm_address = "гр. София";
             p.legal_entity = 2;
             p.rziCode = "2200000000";
             p.bulstat = "000000000";
@@ -269,7 +269,7 @@ bool MainPresenter::firstTimeLogic()
             d.lname = "Иванов";
             d.LPK = "000000000";
             d.hisSpecialty = 2081;
-            d.phone = "1234567890";
+            d.phone = "";
             
 
             PracticeDoctor pd;

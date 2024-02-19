@@ -6,11 +6,17 @@ std::optional<Doctor> DbDoctor::getDoctor(const std::string& lpk, const std::str
     std::optional<Doctor> result;
 
     std::string query =
-        "SELECT fname, mname, lname, phone, several_rhif, his_specialty FROM doctor "
-        "WHERE lpk = '" + lpk + "' "
-        "AND pass = '" + pass + "' ";
+        "SELECT fname, mname, lname, phone, several_rhif, his_specialty, pass FROM doctor "
+        "WHERE lpk = ? "
+        "AND (pass = ? OR pass = '')";
 
-    for (Db db(query); db.hasRows();)
+    Db db(query);
+
+    db.bind(1, lpk);
+    db.bind(2, pass);
+
+
+    while(db.hasRows())
     {
         Doctor doctor;
 
@@ -20,8 +26,8 @@ std::optional<Doctor> DbDoctor::getDoctor(const std::string& lpk, const std::str
         doctor.lname = db.asString(2);
         doctor.phone = db.asString(3);
         doctor.severalRHIF = db.asInt(4);
-        doctor.pass = pass;
         doctor.hisSpecialty = db.asInt(5);
+        doctor.pass = db.asString(6);
 
         result = doctor;
     }

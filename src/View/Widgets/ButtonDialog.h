@@ -15,7 +15,7 @@ class ButtonDialog : public QDialog
 	void paintEvent(QPaintEvent* e) override;
 
 public:
-	ButtonDialog(const std::vector<std::string>& buttonNames, const std::string& title);
+	ButtonDialog(const std::vector<std::string>& buttonNames, const std::string& title, const std::string& description);
 	int getResult() { return m_result; }
 	~ButtonDialog();
 

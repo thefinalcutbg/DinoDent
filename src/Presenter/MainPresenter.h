@@ -16,6 +16,8 @@ class MainPresenter
 
 	MainPresenter(){}
 
+	bool firstTimeLogic(); //returns false if there are no practices
+
 public:
 
 	static MainPresenter& get() { return s_singleton; }

@@ -268,9 +268,9 @@ void ModalDialogBuilder::openSettingsDialog(int tabFocus)
 
 #include "View/Widgets/ButtonDialog.h"
 
-int ModalDialogBuilder::openButtonDialog(const std::vector<std::string>& buttonNames, const std::string& title)
+int ModalDialogBuilder::openButtonDialog(const std::vector<std::string>& buttonNames, const std::string& title, const std::string& description)
 {
-	ButtonDialog d(buttonNames, title);
+	ButtonDialog d(buttonNames, title, description);
 
 	d.exec();
 

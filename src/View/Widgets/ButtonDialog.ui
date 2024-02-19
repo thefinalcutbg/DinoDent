@@ -33,6 +33,16 @@
       <number>0</number>
      </property>
      <item>
+      <widget class="QLabel" name="description">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="verticalSpacer">
        <property name="orientation">
         <enum>Qt::Vertical</enum>

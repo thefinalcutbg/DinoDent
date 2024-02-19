@@ -2,11 +2,13 @@
 #include <QPushButton>
 #include <QPainter>
 
-ButtonDialog::ButtonDialog(const std::vector<std::string>& buttonNames, const std::string& title)
+ButtonDialog::ButtonDialog(const std::vector<std::string>& buttonNames, const std::string& title, const std::string& description)
 {
 	ui.setupUi(this);
 
 	setWindowTitle(title.c_str());
+
+	ui.description->setText(description.c_str());
 
     for (std::size_t i = 0; i < buttonNames.size(); i++)
 	{

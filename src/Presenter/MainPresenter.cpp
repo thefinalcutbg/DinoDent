@@ -27,23 +27,13 @@
 
 MainPresenter MainPresenter::s_singleton;
 
+
+
 void MainPresenter::setView(IMainView* view)
 {
     this->view = view;
 
-    if (DbPractice::noPractices())
-    {
-        ModalDialogBuilder::showMessage("Стартирате програмата за първи път. Моля добавете практика.");
-
-        PracticeDialogPresenter p{};
-        auto result = p.open();
-
-        if (result.has_value())
-        {
-            DbPractice::insertPractice(result.value().practice);
-            DbPractice::setDoctorsPracticeList(result.value().doctorsList, result.value().practice.rziCode);
-        }
-    }
+    if (!firstTimeLogic()) { return; }
 
     LoginPresenter login;
 
@@ -239,3 +229,60 @@ bool MainPresenter::closeAllTabs()
     return TabPresenter::get().permissionToLogOut();
 }
 
+bool MainPresenter::firstTimeLogic()
+{
+    if(!DbPractice::noPractices()) return true;
+   
+    std::string descr = "Стартирате програмата за първи път. Изберете опция: ";
+
+    std::vector<std::string> options { "Добавяне на практика", "Просто искам да тествам програмата" };
+
+    auto result = ModalDialogBuilder::openButtonDialog(options, "DinoDent", descr);
+
+    switch (result)
+    {
+        case 0:
+        {
+            PracticeDialogPresenter p{};
+            auto result = p.open();
+
+            if (!result) { return false; }
+           
+            DbPractice::insertPractice(result.value().practice);
+            DbPractice::setDoctorsPracticeList(result.value().doctorsList, result.value().practice.rziCode);
+           
+            return true;
+        }
+        case 1:
+        {
+            Practice p;
+            p.name = "DinoDent - тестови режим";
+            p.practice_address = 68134;
+            p.firm_address = " ";
+            p.legal_entity = 2;
+            p.rziCode = "2200000000";
+            p.bulstat = "000000000";
+            
+            Doctor d;
+            d.fname = "Иван";
+            d.mname = "Иванов";
+            d.lname = "Иванов";
+            d.LPK = "000000000";
+            d.hisSpecialty = 2081;
+            d.phone = "1234567890";
+            
+
+            PracticeDoctor pd;
+            pd.lpk = d.LPK;
+            pd.admin = true;
+
+            DbDoctor::insertDoctor(d);
+            DbDoctor::setAutoLogin(d.LPK, true);
+            DbPractice::insertPractice(p);
+            DbPractice::setDoctorsPracticeList({ pd }, p.rziCode);
+
+            return true;
+        }
+        default: return false;
+    }
+}

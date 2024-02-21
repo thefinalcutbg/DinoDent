@@ -57,13 +57,13 @@ void CustomButton::paintEvent(QPaintEvent*)
 
 bool CustomButton::eventFilter(QObject*, QEvent* e)
 {
-	if (e->type() == QEvent::HoverEnter) {
+    if (e->type() == QEvent::Enter) {
 		m_hover = true;
 		QApplication::setOverrideCursor(Qt::PointingHandCursor);
 		update();
 	}
 
-	if (e->type() == QEvent::HoverLeave) {
+    if (e->type() == QEvent::Leave) {
 		QApplication::restoreOverrideCursor();
 		m_hover = false;
 		update();

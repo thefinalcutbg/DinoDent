@@ -49,12 +49,12 @@ void StatusMultiButton::setCurrentState(int state)
 bool StatusMultiButton::eventFilter(QObject*, QEvent* e)
 {
 
-	if (e->type() == QEvent::HoverEnter) {
+    if (e->type() == QEvent::Enter) {
 		m_hover = true;
 		update();
 	}
 
-	if (e->type() == QEvent::HoverLeave) {
+    if (e->type() == QEvent::Leave) {
 		m_hover = false;
 		update();
 	}
@@ -76,8 +76,8 @@ void StatusMultiButton::paintEvent(QPaintEvent*)
 
 	QPen pen;
 
-	QFont font("Segoe UI");
-	font.setPointSizeF(10);
+    QFont font;//("Segoe UI");
+    //font.setPointSizeF(10);
 
 	if (m_state)
 	{

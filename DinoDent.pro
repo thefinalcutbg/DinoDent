@@ -4,17 +4,50 @@ CONFIG += c++20
 
 DEFINES -= QT_DISABLE_DEPRECATED_BEFORE=0x060000
 
+INCLUDEPATH += src
+INCLUDEPATH += include
+
+unix:!macx {
 LIBS += -lsqlite3 -ljsoncpp -lxml2 -lssl -lcrypto -lrt -lxmlsec1 -lxmlsec1-openssl #-lp11
 LIBS += -L$$PWD/../LimeReport/build/6.5.3/linux64/release/lib/ -llimereport
 LIBS += -L$$PWD/../libp11-0.4.12/src/.libs/ -lp11 #if using Qt 6.5 or higher libp11-0.4.12 is the minimal version required for interfacing with OpenSSL3
-
-INCLUDEPATH += src
-INCLUDEPATH += include
 INCLUDEPATH += /usr/include/libxml2
 INCLUDEPATH += /usr/include/jsoncpp
 INCLUDEPATH += /usr/include/xmlsec1
 INCLUDEPATH += ../libp11-0.4.12/src/
 INCLUDEPATH += ../LimeReport/build/6.5.3/linux64/release/lib/include
+}
+
+#libp11
+macx: LIBS += -L/opt/homebrew/Cellar/libp11/0.4.12/lib/ -lp11.2
+macx: INCLUDEPATH += /opt/homebrew/Cellar/libp11/0.4.12/include
+macx: DEPENDPATH += /opt/homebrew/Cellar/libp11/0.4.12/include
+#libxmlsec
+macx: LIBS += -L/opt/homebrew/Cellar/libxmlsec1/1.3.3/lib/ -lxmlsec1.1
+macx: LIBS += -L/opt/homebrew/Cellar/libxmlsec1/1.3.3/lib/ -lxmlsec1-openssl.1
+macx: INCLUDEPATH += /opt/homebrew/Cellar/libxmlsec1/1.3.3/include/xmlsec1
+macx: DEPENDPATH += /opt/homebrew/Cellar/libxmlsec1/1.3.3/include/xmlsec1
+#jsoncpp
+#macx: LIBS += -L/opt/homebrew/Cellar/jsoncpp/1.9.5/lib/ -ljsoncpp
+#macx: INCLUDEPATH += /opt/homebrew/Cellar/jsoncpp/1.9.5/include
+#macx: DEPENDPATH += /opt/homebrew/Cellar/jsoncpp/1.9.5/include
+#openssl3
+macx: LIBS += -L/opt/homebrew/Cellar/openssl@3/3.2.1/lib/ -lcrypto.3
+macx: LIBS += -L/opt/homebrew/Cellar/openssl@3/3.2.1/lib/ -lssl.3
+macx: INCLUDEPATH += /opt/homebrew/Cellar/openssl@3/3.2.1/include
+macx: DEPENDPATH += /opt/homebrew/Cellar/openssl@3/3.2.1/include
+#sqlite3
+macx: LIBS += -L/opt/homebrew/Cellar/sqlite/3.45.1/lib/ -lsqlite3.0
+macx: INCLUDEPATH += /opt/homebrew/Cellar/sqlite/3.45.1/include
+macx: DEPENDPATH += /opt/homebrew/Cellar/sqlite/3.45.1/include
+#libxml2
+macx: LIBS += -L/opt/homebrew/Cellar/libxml2/2.12.5/lib/ -lxml2.2
+macx: INCLUDEPATH += /opt/homebrew/Cellar/libxml2/2.12.5/include
+macx: DEPENDPATH += /opt/homebrew/Cellar/libxml2/2.12.5/include
+#LimeReport
+macx: LIBS += -L$$PWD/../LimeReport/build/6.5.3/macx/release/lib/ -llimereport
+macx: INCLUDEPATH += $$PWD/../
+macx: DEPENDPATH += $$PWD/../
 
 #Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -89,6 +122,8 @@ FORMS += \
 HEADERS += \
     include/TinyXML/tinystr.h \
     include/TinyXML/tinyxml.h \
+    include/json/json-forwards.h \
+    include/json/json.h \
     src/Database/Database.h \
     src/Database/DbAmbList.h \
     src/Database/DbBrowser.h \
@@ -455,6 +490,7 @@ SOURCES += \
     include/TinyXML/tinyxml.cpp \
     include/TinyXML/tinyxmlerror.cpp \
     include/TinyXML/tinyxmlparser.cpp \
+    include/json/jsoncpp.cpp \
     src/Database/Database.cpp \
     src/Database/DbAmbList.cpp \
     src/Database/DbBrowser.cpp \
@@ -478,7 +514,7 @@ SOURCES += \
     src/DbUpdates/Update11.cpp \
     src/DbUpdates/Update12_18.cpp \
     src/DbUpdates/Update19.cpp \
-    src/DbUpdates/Update20.cpp \
+    src/DbUpdates/Update20_21.cpp \
     src/DbUpdates/Updater.cpp \
     src/GlobalSettings.cpp \
     src/Model/Allergy.cpp \

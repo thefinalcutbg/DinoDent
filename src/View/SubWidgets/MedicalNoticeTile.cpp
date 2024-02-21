@@ -64,7 +64,7 @@ void MedicalNoticeTile::paintEvent(QPaintEvent*)
 
 bool MedicalNoticeTile::eventFilter(QObject*, QEvent* e)
 {
-	if (e->type() == QEvent::HoverEnter) {
+    if (e->type() == QEvent::Enter) {
 		m_hover = true;
 		QApplication::setOverrideCursor(QCursor(Qt::PointingHandCursor));
 
@@ -76,7 +76,7 @@ bool MedicalNoticeTile::eventFilter(QObject*, QEvent* e)
 		update();
 	}
 
-	if (e->type() == QEvent::HoverLeave) {
+    if (e->type() == QEvent::Leave) {
 		QApplication::restoreOverrideCursor();
 
 		for (auto& label : findChildren<QLabel*>()) {

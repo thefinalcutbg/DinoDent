@@ -109,9 +109,10 @@ DinoDent::DinoDent(QWidget* parent)
     
     int id = QFontDatabase::addApplicationFont(":/fonts/font_RobotoCondensedRegular.ttf");
     QString family = QFontDatabase::applicationFontFamilies(id).at(0);
+
     QFont font(family);
+    font.setPointSizeF(font.pointSizeF()+8);
     font.setBold(true);
-    font.setPointSize(14);
     ui.practiceLabel->setFont(font);
 
     SplashScreen::hideAndDestroy();

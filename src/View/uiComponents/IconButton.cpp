@@ -47,7 +47,7 @@ void IconButton::paintEvent(QPaintEvent*)
 
 bool IconButton::eventFilter(QObject*, QEvent* e)
 {
-	if (e->type() == QEvent::HoverEnter) {
+    if (e->type() == QEvent::Enter) {
 
 		m_hover = true;
 		GlobalWidgets::statusBar->showMessage(this->toolTip());
@@ -59,7 +59,7 @@ bool IconButton::eventFilter(QObject*, QEvent* e)
 		update();
 	}
 
-	if (e->type() == QEvent::HoverLeave) {
+    if (e->type() == QEvent::Leave) {
 		m_hover = false;
 		GlobalWidgets::statusBar->clearMessage();
 		QApplication::restoreOverrideCursor();

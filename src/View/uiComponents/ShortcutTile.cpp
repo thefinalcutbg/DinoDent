@@ -10,11 +10,12 @@
 ShortcutTile::ShortcutTile(QWidget* parent) : QPushButton(parent)
 {
 
-	this->installEventFilter(this);
+    installEventFilter(this);
 
 	auto font = this->font();
 	font.setBold(true);
 	setFont(font);
+
 }
 
 
@@ -65,22 +66,26 @@ void ShortcutTile::paintEvent(QPaintEvent*)
 	painter.drawText(QRectF(10, 100, width() - 20, 50), text(), textOption);
 }
 
-bool ShortcutTile::eventFilter(QObject*, QEvent* e)
+bool ShortcutTile::eventFilter(QObject* o, QEvent* e)
 {
-	if (e->type() == QEvent::HoverEnter) {
+    if(o != this){
+        return false;
+    }
+
+    if (e->type() == QEvent::Enter) {
 		hover = true;
 		QApplication::setOverrideCursor(QCursor(Qt::PointingHandCursor));
-		update();
+        update();
 	}
 
-	if (e->type() == QEvent::HoverLeave) {
+    if (e->type() == QEvent::Leave) {
 		QApplication::restoreOverrideCursor();
 		hover = false;
-		update();
+        update();
 	}
 
 	if (e->type() == QEvent::MouseButtonPress)
-	{
+    {
 		clicked = true;
 	}
 

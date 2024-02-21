@@ -24,9 +24,6 @@ void HoverButton::paintEvent(QPaintEvent*)
 
 	QString paintText = m_hover && m_hoverText.size() ? m_hoverText : text();
 
-	QFont font("Segoe UI");
-	font.setPointSizeF(9);
-
 	QPen pen;
 	pen.setColor(Theme::buttonFrame);
 	pen.setCosmetic(true);
@@ -35,7 +32,7 @@ void HoverButton::paintEvent(QPaintEvent*)
 
 	pen.setColor(Theme::fontTurquoise);
 	painter.setPen(pen);
-	painter.setFont(font);
+    painter.setFont(QFont());
 	painter.drawText(rect(), Qt::AlignCenter, paintText);
 
 	painter.end();
@@ -44,13 +41,13 @@ void HoverButton::paintEvent(QPaintEvent*)
 
 bool HoverButton::eventFilter(QObject*, QEvent* e)
 {
-	if (e->type() == QEvent::HoverEnter) {
+    if (e->type() == QEvent::Enter) {
 		m_hover = true;
 		QApplication::setOverrideCursor(QCursor(Qt::PointingHandCursor));
 		update();
 	}
 
-	if (e->type() == QEvent::HoverLeave) {
+    if (e->type() == QEvent::Leave) {
 		QApplication::restoreOverrideCursor();
 		m_hover = false;
 		update();

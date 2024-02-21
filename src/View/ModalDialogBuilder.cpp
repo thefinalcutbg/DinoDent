@@ -360,7 +360,10 @@ void ModalDialogBuilder::openExplorer(const std::string& path)
 	#ifdef _WIN32    //Code for Windows
 		QProcess::startDetached("explorer.exe", { "/select,", QDir::toNativeSeparators(path.c_str()) });
 	#elif defined(__APPLE__)    //Code for Mac
-		QProcess::execute("/usr/bin/osascript", { "-e", "tell application \"Finder\" to reveal POSIX file \"" + path + "\"" });
+        QString pathstr = "tell application \"Finder\" to reveal POSIX file \"";
+        pathstr += path;
+        pathstr += "\"" ;
+        QProcess::execute("/usr/bin/osascript", { "-e", pathstr });
 		QProcess::execute("/usr/bin/osascript", { "-e", "tell application \"Finder\" to activate" });
     #endif
         Q_UNUSED(path)

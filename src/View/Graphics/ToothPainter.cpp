@@ -522,7 +522,8 @@ inline void drawToothNumberLabel(const ToothPaintHint& tooth, QPixmap& pixmap)
 
 	int yPos = tooth.idx > 15 ? pixmap.height() - 50 : 0;
 
-	QFont font{ "Arial", 28 };
+    QFont font;//{ "Arial", 28 };
+    font.setPointSizeF(30);
 	font.setBold(1);
 	painter.setPen(Qt::gray);
 	painter.setFont(font);

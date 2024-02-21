@@ -12,9 +12,9 @@ SettingsDialog::SettingsDialog(QDialog*parent)
 	setWindowIcon(QIcon(":/icons/icon_settings.png"));
 	ui.generalSettings->setStyleSheet("QWidget#generalSettings{background-color: white;}");
 	//ui.tabWidget->tabBar()->setStyleSheet("QTabBar::tab:selected{background-color: white;}");
-	ui.tabWidget->setStyleSheet(
-		"QTabBar::tab:selected {background-color: white}"
-	);
+    //ui.tabWidget->setStyleSheet(
+    //	"QTabBar::tab:selected {background-color: white}"
+    //);
 	connect(ui.cancelButton, &QPushButton::clicked, [&] {close();});
 	connect(ui.okButton, &QPushButton::clicked, [&] {presenter.okPressed();});
 	connect(ui.updateMedButton, &QPushButton::clicked, [&] {presenter.updateMedications();});

@@ -6,12 +6,12 @@
 bool PerioButton::eventFilter(QObject*, QEvent* e)
 {
 
-	if (e->type() == QEvent::HoverEnter) {
+    if (e->type() == QEvent::Enter) {
 		m_hover = true;
 		update();
 	}
 
-	if (e->type() == QEvent::HoverLeave) {
+    if (e->type() == QEvent::Leave) {
 		m_hover = false;
 		update();
 	}

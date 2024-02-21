@@ -17,6 +17,7 @@ PracticeDialog::PracticeDialog(PracticeDialogPresenter& presenter, QWidget *pare
 
     connect(ui.okButton, &QPushButton::clicked, this, [&] {presenter.okPressed();});
     presenter.setView(this);
+
 }
 
 

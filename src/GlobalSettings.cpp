@@ -9,7 +9,7 @@
 #include "Model/Date.h"
 #include "Model/FreeFunctions.h"
 #include "Model/Time.h"
-
+#include <QDebug>
 
 
 void rewriteCfg(const Json::Value& settings)
@@ -82,11 +82,14 @@ void GlobalSettings::createCfgIfNotExists()
 
     if (!settings.isMember("pkcs11_path"))
     {
+
         auto modules = getDefaultPkcs11Paths();
 
-        for (auto& m : modules)  settings["pkcs11_path"].append(m.data());
+        for (auto& m : modules) {
+            settings["pkcs11_path"].append(Json::Value(m));
+        }
     }
-    
+
     rewriteCfg(settings);
 }
 
@@ -147,6 +150,19 @@ std::vector<std::string> GlobalSettings::getDefaultPkcs11Paths()
             "/usr/lib/libbit4ipki.so",
             "/usr/lib64/libbit4ipki.so",
             "/usr/local/lib/libsiecap11.so"
+        };
+#endif
+#ifdef Q_OS_MAC
+    return std::vector<std::string>
+        {
+            "/Library/OpenSC/lib/opensc-pkcs11.so",
+            "/Library/AWP/lib/libOcsCryptoki.dylib",
+            "/Library/Frameworks/eToken.framework/Versions/A/libIDPrimePKCS11.dylib",
+            "/Library/Gemalto/libidprimepkcs11.dylib",
+            "/Library/CV Cryptovision/libcvp11.dylib",
+            "/Library/bit4id/pkcs11/libbit4ipki.dylib",
+            "/Applications/Charismathics/libcmP11.dylib"
+
         };
 #endif
 }

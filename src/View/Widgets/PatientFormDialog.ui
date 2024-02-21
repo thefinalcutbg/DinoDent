@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>701</width>
-    <height>301</height>
+    <height>305</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -19,13 +19,13 @@
   <property name="minimumSize">
    <size>
     <width>701</width>
-    <height>301</height>
+    <height>305</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>701</width>
-    <height>301</height>
+    <height>305</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -34,9 +34,9 @@
   <widget class="ComboBox" name="sexCombo">
    <property name="geometry">
     <rect>
-     <x>420</x>
+     <x>410</x>
      <y>20</y>
-     <width>41</width>
+     <width>71</width>
      <height>21</height>
     </rect>
    </property>
@@ -70,14 +70,14 @@
   <widget class="LineEdit" name="addressEdit">
    <property name="geometry">
     <rect>
-     <x>130</x>
+     <x>110</x>
      <y>170</y>
-     <width>161</width>
+     <width>261</width>
      <height>20</height>
     </rect>
    </property>
    <property name="sizePolicy">
-    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
      <horstretch>0</horstretch>
      <verstretch>0</verstretch>
     </sizepolicy>
@@ -92,7 +92,7 @@
   <widget class="LineEdit" name="phoneEdit">
    <property name="geometry">
     <rect>
-     <x>130</x>
+     <x>110</x>
      <y>230</y>
      <width>161</width>
      <height>20</height>
@@ -141,15 +141,15 @@
     </rect>
    </property>
    <property name="text">
-    <string>Адрес:</string>
+    <string>Ж.к./ул/бл.</string>
    </property>
   </widget>
   <widget class="AutoCompleteLineEdit" name="cityLineEdit">
    <property name="geometry">
     <rect>
-     <x>130</x>
+     <x>110</x>
      <y>140</y>
-     <width>231</width>
+     <width>261</width>
      <height>21</height>
     </rect>
    </property>
@@ -166,7 +166,7 @@
   <widget class="LineEdit" name="HIRBNoEdit">
    <property name="geometry">
     <rect>
-     <x>130</x>
+     <x>110</x>
      <y>200</y>
      <width>121</width>
      <height>20</height>
@@ -182,9 +182,9 @@
   <widget class="LineEdit" name="idLineEdit">
    <property name="geometry">
     <rect>
-     <x>130</x>
+     <x>110</x>
      <y>20</y>
-     <width>81</width>
+     <width>91</width>
      <height>20</height>
     </rect>
    </property>
@@ -204,9 +204,9 @@
   <widget class="ComboBox" name="typeComboBox">
    <property name="geometry">
     <rect>
-     <x>30</x>
+     <x>20</x>
      <y>20</y>
-     <width>59</width>
+     <width>81</width>
      <height>22</height>
     </rect>
    </property>
@@ -237,7 +237,7 @@
   <widget class="NameEdit" name="fNameEdit">
    <property name="geometry">
     <rect>
-     <x>130</x>
+     <x>110</x>
      <y>50</y>
      <width>161</width>
      <height>20</height>
@@ -258,12 +258,12 @@
     <rect>
      <x>30</x>
      <y>140</y>
-     <width>101</width>
+     <width>71</width>
      <height>21</height>
     </rect>
    </property>
    <property name="text">
-    <string>Населено място:</string>
+    <string>Адрес:</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_8">
@@ -284,7 +284,7 @@
     <rect>
      <x>580</x>
      <y>20</y>
-     <width>81</width>
+     <width>111</width>
      <height>22</height>
     </rect>
    </property>
@@ -296,7 +296,7 @@
    </property>
    <property name="maximumDateTime">
     <datetime>
-     <hour>5</hour>
+     <hour>1</hour>
      <minute>59</minute>
      <second>59</second>
      <year>9999</year>
@@ -319,23 +319,10 @@
     </date>
    </property>
   </widget>
-  <widget class="QPushButton" name="okButton">
-   <property name="geometry">
-    <rect>
-     <x>590</x>
-     <y>270</y>
-     <width>71</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>OK</string>
-   </property>
-  </widget>
   <widget class="QLabel" name="label_7">
    <property name="geometry">
     <rect>
-     <x>490</x>
+     <x>480</x>
      <y>20</y>
      <width>91</width>
      <height>21</height>
@@ -361,7 +348,7 @@
   <widget class="NameEdit" name="lNameEdit">
    <property name="geometry">
     <rect>
-     <x>130</x>
+     <x>110</x>
      <y>110</y>
      <width>161</width>
      <height>20</height>
@@ -393,7 +380,7 @@
   <widget class="NameEdit" name="mNameEdit">
    <property name="geometry">
     <rect>
-     <x>130</x>
+     <x>110</x>
      <y>80</y>
      <width>161</width>
      <height>20</height>
@@ -425,20 +412,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="hirbnoButton">
-   <property name="geometry">
-    <rect>
-     <x>270</x>
-     <y>200</y>
-     <width>21</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QGroupBox" name="foreignerGroup">
+  <widget class="QFrame" name="foreignerGroup">
    <property name="enabled">
     <bool>true</bool>
    </property>
@@ -446,12 +420,9 @@
     <rect>
      <x>380</x>
      <y>50</y>
-     <width>281</width>
+     <width>311</width>
      <height>211</height>
     </rect>
-   </property>
-   <property name="title">
-    <string>Чуждестранен гражданин</string>
    </property>
    <widget class="QLabel" name="label_10">
     <property name="geometry">
@@ -469,7 +440,7 @@
    <widget class="QComboBox" name="countryCombo">
     <property name="geometry">
      <rect>
-      <x>100</x>
+      <x>120</x>
       <y>30</y>
       <width>171</width>
       <height>22</height>
@@ -479,9 +450,9 @@
    <widget class="DateEdit" name="validDateEdit">
     <property name="geometry">
      <rect>
-      <x>100</x>
+      <x>120</x>
       <y>150</y>
-      <width>81</width>
+      <width>101</width>
       <height>22</height>
      </rect>
     </property>
@@ -493,12 +464,12 @@
     </property>
     <property name="maximumDateTime">
      <datetime>
-      <hour>3</hour>
+      <hour>23</hour>
       <minute>59</minute>
       <second>59</second>
       <year>9999</year>
       <month>12</month>
-      <day>28</day>
+      <day>27</day>
      </datetime>
     </property>
     <property name="minimumDate">
@@ -534,7 +505,7 @@
      <rect>
       <x>10</x>
       <y>120</y>
-      <width>91</width>
+      <width>101</width>
       <height>21</height>
      </rect>
     </property>
@@ -545,7 +516,7 @@
    <widget class="QRadioButton" name="ehicRadio">
     <property name="geometry">
      <rect>
-      <x>100</x>
+      <x>120</x>
       <y>120</y>
       <width>61</width>
       <height>20</height>
@@ -561,7 +532,7 @@
    <widget class="QRadioButton" name="otherRadio">
     <property name="geometry">
      <rect>
-      <x>180</x>
+      <x>200</x>
       <y>120</y>
       <width>61</width>
       <height>20</height>
@@ -577,7 +548,7 @@
    <widget class="LineEdit" name="institutionNumber">
     <property name="geometry">
      <rect>
-      <x>100</x>
+      <x>120</x>
       <y>90</y>
       <width>171</width>
       <height>21</height>
@@ -589,7 +560,7 @@
      <rect>
       <x>10</x>
       <y>90</y>
-      <width>91</width>
+      <width>101</width>
       <height>21</height>
      </rect>
     </property>
@@ -619,7 +590,7 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>100</x>
+      <x>120</x>
       <y>180</y>
       <width>171</width>
       <height>21</height>
@@ -629,7 +600,7 @@
    <widget class="LineEdit" name="foreignCityEdit">
     <property name="geometry">
      <rect>
-      <x>100</x>
+      <x>120</x>
       <y>60</y>
       <width>171</width>
       <height>20</height>
@@ -661,6 +632,38 @@
      <string>Град:</string>
     </property>
    </widget>
+  </widget>
+  <widget class="QPushButton" name="hirbnoButton">
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>194</y>
+     <width>31</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="autoDefault">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="okButton">
+   <property name="geometry">
+    <rect>
+     <x>590</x>
+     <y>270</y>
+     <width>100</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>OK</string>
+   </property>
+   <property name="default">
+    <bool>true</bool>
+   </property>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
@@ -700,10 +703,18 @@
   <tabstop>addressEdit</tabstop>
   <tabstop>HIRBNoEdit</tabstop>
   <tabstop>phoneEdit</tabstop>
-  <tabstop>birthEdit</tabstop>
   <tabstop>sexCombo</tabstop>
+  <tabstop>birthEdit</tabstop>
+  <tabstop>countryCombo</tabstop>
+  <tabstop>foreignCityEdit</tabstop>
+  <tabstop>institutionNumber</tabstop>
+  <tabstop>ehicRadio</tabstop>
+  <tabstop>otherRadio</tabstop>
+  <tabstop>validDateEdit</tabstop>
+  <tabstop>ehic_edit</tabstop>
   <tabstop>okButton</tabstop>
   <tabstop>typeComboBox</tabstop>
+  <tabstop>hirbnoButton</tabstop>
  </tabstops>
  <resources/>
  <connections/>

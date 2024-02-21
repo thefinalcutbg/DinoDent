@@ -80,7 +80,7 @@ bool ReferralTile::eventFilter(QObject* obj, QEvent* e)
 {
     Q_UNUSED(obj)
 
-	if (e->type() == QEvent::HoverEnter) {
+    if (e->type() == QEvent::Enter) {
 		m_hover = true;
 		QApplication::setOverrideCursor(QCursor(Qt::PointingHandCursor));
 
@@ -92,7 +92,7 @@ bool ReferralTile::eventFilter(QObject* obj, QEvent* e)
 		update();
 	}
 
-	if (e->type() == QEvent::HoverLeave) {
+    if (e->type() == QEvent::Leave) {
 		QApplication::restoreOverrideCursor();
 
 		for (auto& label : findChildren<QLabel*>()) {

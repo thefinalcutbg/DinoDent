@@ -11,9 +11,9 @@ UserButton::UserButton(QWidget* parent) : QToolButton(parent)
 {
 	this->installEventFilter(this);
 
-	m_font.setBold(1);
-	m_font.setPointSizeF(8);
-	m_font.setFamily("Segoe UI");
+    m_font.setBold(1);
+    //m_font.setPointSizeF(8);
+    //m_font.setFamily("Segoe UI");
 
 	hoverColor = Theme::background;
 }
@@ -60,13 +60,13 @@ void UserButton::paintEvent(QPaintEvent*)
 
 bool UserButton::eventFilter(QObject*, QEvent* e)
 {
-	if (e->type() == QEvent::HoverEnter) {
+    if (e->type() == QEvent::Enter) {
 		m_hover = true;
 		QApplication::setOverrideCursor(Qt::PointingHandCursor);
 		update();
 	}
 
-	if (e->type() == QEvent::HoverLeave) {
+    if (e->type() == QEvent::Leave) {
 		QApplication::restoreOverrideCursor();
 		m_hover = false;
 		update();

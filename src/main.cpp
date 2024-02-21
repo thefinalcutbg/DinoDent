@@ -56,7 +56,7 @@ bool initFunction() {
     QFontDatabase::addApplicationFont(":/fonts/font_RobotoCondensedRegular.ttf");
     QFontDatabase::addApplicationFont(":/fonts/font_segoeui.ttf");
     QFontDatabase::addApplicationFont(":/fonts/font_segoeuib.ttf");
-    QApplication::setFont(QFont("Segoe UI", 8));
+    //QApplication::setFont(QFont("Segoe UI", 8));
 
    // QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
    // QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);

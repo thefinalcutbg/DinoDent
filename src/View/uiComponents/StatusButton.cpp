@@ -30,13 +30,12 @@ void StatusButton::paintEvent(QPaintEvent*)
 	painter.setRenderHint(QPainter::RenderHint::Antialiasing);
 
 	QPainterPath outline;
-	outline.addRoundedRect(1, 1, rect().width() - 2, rect().height() - 2, 15, 15);
+    outline.addRoundedRect(1, 1, rect().width() - 2, rect().height() - 2, 15, 15);
 	painter.fillPath(outline, m_hover ? Theme::background : Theme::sectionBackground);
 
 	QPen pen;
 
-	QFont font("Segoe UI");
-	font.setPointSizeF(10);
+    QFont font;
 
 	if (isChecked())
 	{
@@ -68,12 +67,12 @@ void StatusButton::paintEvent(QPaintEvent*)
 
 bool StatusButton::eventFilter(QObject*, QEvent* e)
 {
-	if (e->type() == QEvent::HoverEnter) {
+    if (e->type() == QEvent::Enter) {
 		m_hover = true;
 		update();
 	}
 
-	if (e->type() == QEvent::HoverLeave) {
+    if (e->type() == QEvent::Leave) {
 		m_hover = false;
 		update();
 	}

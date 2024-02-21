@@ -176,8 +176,10 @@ void TeethViewScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* Event)
 
 int TeethViewScene::keyCodeMapper(QKeyEvent *e)
 {
-    #ifdef Q_OS_WIN
+    #if defined(Q_OS_WIN)
         return e->nativeVirtualKey();
+    #elif defined (Q_OS_MAC)
+        return e->key();
     #else
 
         auto result = e->key();

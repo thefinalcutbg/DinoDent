@@ -7,16 +7,17 @@
 
 TileButton::TileButton(QWidget* parent) : QAbstractButton(parent)
 {
-	header.setFamily("Segoe UI semibold");
-	header.setPointSizeF(14);
+    //header.setFamily("Segoe UI semibold");
+    //header.setPointSizeF(14);
 
 	header.setBold(1);
-	info.setPointSizeF(8);
-	info.setFamily("Segoe UI");
+    header.setPointSizeF(info.pointSizeF()+6);
+    //info.setPointSizeF(8);
+    //info.setFamily("Segoe UI");
 	
-	infoLabel.setFamily("Segoe UI");
+    //infoLabel.setFamily("Segoe UI");
 	infoLabel.setBold(true);
-	infoLabel.setPointSizeF(8);
+    //infoLabel.setPointSizeF(8);
 
 	this->installEventFilter(this);
 
@@ -72,13 +73,13 @@ void TileButton::paintEvent(QPaintEvent*)
 
 bool TileButton::eventFilter(QObject*, QEvent* e)
 {
-	if (e->type() == QEvent::HoverEnter) {
+    if (e->type() == QEvent::Enter) {
 		hover = true;
 		QApplication::setOverrideCursor(QCursor(Qt::PointingHandCursor));
 		update();
 	}
 
-	if (e->type() == QEvent::HoverLeave) {
+    if (e->type() == QEvent::Leave) {
 		QApplication::restoreOverrideCursor();
 		hover = false;
 		update();

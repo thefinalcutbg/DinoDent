@@ -74,10 +74,10 @@ void DentalActivitiesService::processPISReply(const std::string& reply)
 			break;
 		}
 
-		auto toothProp = 
+		auto toothProp =
 
-		procedures.emplace_back(Procedure(std::stoi(row.Child(2).ToElement()->GetText())));
-
+        procedures.emplace_back();
+        procedures.back().code = std::stoi(row.Child(2).ToElement()->GetText());
 		procedures.back().date = Date(row.Child(0).ToElement()->GetText());
 		procedures.back().diagnosis.description = row.Child(4).ToElement()->GetText(); //diagnosis
 		procedures.back().tooth_idx = ToothUtils::getToothFromNhifNum(row.Child(5).ToElement()->GetText());

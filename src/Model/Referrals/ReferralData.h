@@ -15,7 +15,7 @@ private:
 		segmentHis = "0C-00E";
 
 public:
-	
+    MDD4Data(int tooth_idx = -1) : tooth_idx(tooth_idx) {}
 	int tooth_idx{ -1 }; //-1 for OPG, any valid tooth idx for tooth xRay
 	inline bool isOPG() const { return tooth_idx == -1; }
 	inline const std::string& getCode() const { return isOPG() ? opgNhif : segmentNhif; };

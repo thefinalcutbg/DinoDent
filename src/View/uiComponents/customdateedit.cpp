@@ -140,6 +140,8 @@ void CustomDateEdit::initHeaderWidget() {
             changeMenu(type);
         }
     }); // 年份按钮的信号槽
+
+
 }
 /* 设置日期标签的文本 */
 void CustomDateEdit::setDateLabelText(int year, int month) {

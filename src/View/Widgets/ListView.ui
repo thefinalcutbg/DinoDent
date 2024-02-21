@@ -298,13 +298,13 @@
          <property name="minimumSize">
           <size>
            <width>1049</width>
-           <height>501</height>
+           <height>511</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
            <width>1049</width>
-           <height>501</height>
+           <height>511</height>
           </size>
          </property>
          <property name="frameShape">
@@ -319,17 +319,17 @@
             <x>760</x>
             <y>100</y>
             <width>291</width>
-            <height>391</height>
+            <height>401</height>
            </rect>
           </property>
          </widget>
          <widget class="GraphicsView" name="teethView">
           <property name="geometry">
            <rect>
-            <x>10</x>
-            <y>10</y>
-            <width>751</width>
-            <height>481</height>
+            <x>0</x>
+            <y>0</y>
+            <width>761</width>
+            <height>511</height>
            </rect>
           </property>
           <property name="autoFillBackground">
@@ -349,7 +349,7 @@
           <property name="geometry">
            <rect>
             <x>760</x>
-            <y>10</y>
+            <y>0</y>
             <width>291</width>
             <height>151</height>
            </rect>
@@ -741,11 +741,6 @@
            <width>220</width>
            <height>50</height>
           </size>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>13</pointsize>
-          </font>
          </property>
          <property name="text">
           <string>Добави направление</string>

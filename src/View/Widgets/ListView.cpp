@@ -156,8 +156,8 @@ void ListView::paintEvent(QPaintEvent*)
 		QRectF(
 			ui.frame->x() + ui.teethView->x(),
 			ui.frame->y() + ui.teethView->y(),
-			ui.teethView->width() + ui.controlPanel->width(),
-			ui.teethView->height()
+			ui.frame->width(),
+			ui.frame->height()
 		),
 		Theme::radius/2,
 		Theme::radius/2
@@ -169,10 +169,10 @@ void ListView::paintEvent(QPaintEvent*)
 	painter.drawPath(path);
 
 	painter.drawLine(
-		ui.frame->x() + ui.surfacePanel->x(),
-		ui.frame->y() + ui.surfacePanel->y(),
-		ui.frame->x() + ui.surfacePanel->x(),
-		ui.frame->y() + ui.surfacePanel->y() + ui.teethView->height()
+		ui.frame->x() + ui.surfacePanel->x(), //x1
+		ui.frame->y(),						  //y1
+		ui.frame->x() + ui.surfacePanel->x(), //x2
+		ui.frame->y() + ui.frame->height() //y2
 	);
 
 	if (!m_teethViewFocused) return;

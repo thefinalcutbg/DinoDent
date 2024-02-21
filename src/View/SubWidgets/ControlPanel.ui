@@ -20,7 +20,7 @@
    <property name="geometry">
     <rect>
      <x>150</x>
-     <y>30</y>
+     <y>20</y>
      <width>131</width>
      <height>27</height>
     </rect>
@@ -57,7 +57,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>30</y>
+     <y>20</y>
      <width>131</width>
      <height>27</height>
     </rect>
@@ -90,7 +90,7 @@
     <string>Обтурация</string>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>10</x>

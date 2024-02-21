@@ -34,7 +34,7 @@
   <widget class="ComboBox" name="sexCombo">
    <property name="geometry">
     <rect>
-     <x>410</x>
+     <x>400</x>
      <y>20</y>
      <width>71</width>
      <height>21</height>
@@ -141,7 +141,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Ж.к./ул/бл.</string>
+    <string>Ж.к./ул./бл.</string>
    </property>
   </widget>
   <widget class="AutoCompleteLineEdit" name="cityLineEdit">
@@ -269,7 +269,7 @@
   <widget class="QLabel" name="label_8">
    <property name="geometry">
     <rect>
-     <x>380</x>
+     <x>350</x>
      <y>20</y>
      <width>41</width>
      <height>21</height>
@@ -296,12 +296,12 @@
    </property>
    <property name="maximumDateTime">
     <datetime>
-     <hour>1</hour>
+     <hour>23</hour>
      <minute>59</minute>
      <second>59</second>
      <year>9999</year>
      <month>12</month>
-     <day>28</day>
+     <day>27</day>
     </datetime>
    </property>
    <property name="minimumDate">
@@ -464,7 +464,7 @@
     </property>
     <property name="maximumDateTime">
      <datetime>
-      <hour>23</hour>
+      <hour>21</hour>
       <minute>59</minute>
       <second>59</second>
       <year>9999</year>
@@ -652,17 +652,14 @@
   <widget class="QPushButton" name="okButton">
    <property name="geometry">
     <rect>
-     <x>590</x>
+     <x>620</x>
      <y>270</y>
-     <width>100</width>
-     <height>32</height>
+     <width>75</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="text">
     <string>OK</string>
-   </property>
-   <property name="default">
-    <bool>true</bool>
    </property>
   </widget>
  </widget>
@@ -712,7 +709,6 @@
   <tabstop>otherRadio</tabstop>
   <tabstop>validDateEdit</tabstop>
   <tabstop>ehic_edit</tabstop>
-  <tabstop>okButton</tabstop>
   <tabstop>typeComboBox</tabstop>
   <tabstop>hirbnoButton</tabstop>
  </tabstops>

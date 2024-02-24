@@ -4,31 +4,27 @@ CONFIG += c++20
 
 DEFINES -= QT_DISABLE_DEPRECATED_BEFORE=0x060000
 
-INCLUDEPATH += src
-INCLUDEPATH += include
-
-
-unix:!macx {
-LIBS += -lsqlite3 -ljsoncpp -lxml2 -lssl -lcrypto -lrt -lxmlsec1 -lxmlsec1-openssl -lp11
-LIBS += -L$$PWD/../LimeReport/build/6.5.3/linux64/release/lib/ -llimereport
-LIBS += -L$$PWD/../libp11-0.4.12/src/.libs/ -lp11 #if using Qt 6.5 or higher libp11-0.4.12 is the minimal version required for interfacing with OpenSSL3
-INCLUDEPATH += /usr/include/libxml2
-INCLUDEPATH += /usr/include/jsoncpp
-INCLUDEPATH += /usr/include/xmlsec1
-INCLUDEPATH += ../libp11-0.4.12/src/
-INCLUDEPATH += ../LimeReport/build/6.5.3/linux64/release/lib/include
+unix:!macx{
+  HOMEBREWDIR = /home/linuxbrew/.linuxbrew
+  LIBS += -L$$PWD/../LimeReport/build/6.5.3/linux64/release/lib/ -llimereport
 }
 
 macx:{
-#homebrew libs
-LIBS += -L/opt/homebrew/lib/ -lsqlite3 -lxml2 -lxmlsec1 -lxmlsec1-openssl -lssl -lcrypto -lp11 #-ljsoncpp
-INCLUDEPATH += /opt/homebrew/include
-
-#LimeReport
-LIBS += -L$$PWD/../LimeReport/build/6.5.3/macx/release/lib/ -llimereport
-INCLUDEPATH += $$PWD/../
-DEPENDPATH += $$PWD/../
+  HOMEBREWDIR = /opt/homebrew
+  LIBS += -L$$PWD/../LimeReport/build/6.5.3/macx/release/lib/ -llimereport
 }
+
+
+LIBS += += -LHOMEBREWDIR/lib/ -lsqlite3  -lcrypto -lp11 -lxml2 -lxmlsec1 -lxmlsec1-openssl -lp11
+
+INCLUDEPATH += ../ #this should be the lime report include dir
+INCLUDEPATH += src
+INCLUDEPATH += include #for jsoncpp and tinyxml
+INCLUDEPATH += HOMEBREWDIR/include
+INCLUDEPATH += HOMEBREWDIR/include/libxml2
+INCLUDEPATH += HOMEBREWDIR/include/xmlsec1
+
+
 #Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin

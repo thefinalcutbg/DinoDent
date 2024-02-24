@@ -76,8 +76,7 @@ void StatusMultiButton::paintEvent(QPaintEvent*)
 
 	QPen pen;
 
-    QFont font;//("Segoe UI");
-    //font.setPointSizeF(10);
+    QFont font;
 
 	if (m_state)
 	{

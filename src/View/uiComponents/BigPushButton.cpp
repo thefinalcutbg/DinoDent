@@ -12,8 +12,6 @@ BigPushButton::BigPushButton(QWidget* parent) : QPushButton(parent)
 	this->installEventFilter(this);
 
     m_font.setBold(1);
-   // m_font.setPointSizeF(8);
-   // m_font.setFamily("Segoe UI");
 
 	hoverColor = Theme::background;
 }

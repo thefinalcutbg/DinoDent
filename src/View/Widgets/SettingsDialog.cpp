@@ -15,15 +15,21 @@ SettingsDialog::SettingsDialog(QDialog*parent)
     //ui.tabWidget->setStyleSheet(
     //	"QTabBar::tab:selected {background-color: white}"
     //);
-	connect(ui.cancelButton, &QPushButton::clicked, [&] {close();});
-	connect(ui.okButton, &QPushButton::clicked, [&] {presenter.okPressed();});
-	connect(ui.updateMedButton, &QPushButton::clicked, [&] {presenter.updateMedications();});
-	connect(ui.addPkcs11, &QPushButton::clicked, [&] {
-		
+    connect(ui.cancelButton, &QPushButton::clicked, this, [&] {close();});
+    connect(ui.okButton, &QPushButton::clicked, this, [&] {presenter.okPressed();});
+    connect(ui.updateMedButton, &QPushButton::clicked, this, [&] {presenter.updateMedications();});
+    connect(ui.addPkcs11, &QPushButton::clicked, this, [&] {
+
+#ifdef Q_OS_WIN
+        QString format = " (*.dll)";
+#else
+        QString format = " (*so *dylib)";
+#endif
+
 		auto str = QFileDialog::getOpenFileName(
 			nullptr,
 			"Изберете PKCS11 драйвър",
-			"", " (*.dll)"
+            "", format
 		);
 
 		if (str.isEmpty()) return;
@@ -32,7 +38,7 @@ SettingsDialog::SettingsDialog(QDialog*parent)
 
 	});
 
-	connect(ui.removePkcs11, &QPushButton::clicked, [&] {
+    connect(ui.removePkcs11, &QPushButton::clicked, this, [&] {
 
 		QList<QListWidgetItem*> items = ui.pkcs11list->selectedItems();
 
@@ -43,7 +49,7 @@ SettingsDialog::SettingsDialog(QDialog*parent)
 
 	});
 
-	connect(ui.resetDefault, &QPushButton::clicked, [&]{
+    connect(ui.resetDefault, &QPushButton::clicked, this, [&]{
 
 		ui.pkcs11list->clear();
 

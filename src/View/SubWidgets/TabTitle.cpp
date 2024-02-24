@@ -22,7 +22,6 @@ TabTitle::TabTitle(TabView* tabView, int tabId)
 	font.setBold(true);
 	ui.header->setFont(font);
 
-	font.setFamily("Segoe UI Semibold");
 	ui.footer->setFont(font);
 
 	font.setPointSize(10);
@@ -95,14 +94,22 @@ void TabTitle::mouseReleaseEvent(QMouseEvent* event)
 
 void TabTitle::setFooterIcon(const QPixmap& px)
 {
-	ui.nhif->setHidden(px.isNull());
+    if(px.isNull()){
+        ui.nhif->setHidden(px.isNull());
+        return;
+    }
+
 	ui.nhif->setPixmap(px);
-	
+
 }
 
 void TabTitle::setHeaderIcon(const QPixmap& px)
 {
-	ui.his->setHidden(px.isNull());
+    if(px.isNull()){
+        ui.his->setHidden(px.isNull());
+        return;
+    }
+
 	ui.his->setPixmap(px);
 }
 

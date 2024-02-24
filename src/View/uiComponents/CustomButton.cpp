@@ -13,8 +13,6 @@ CustomButton::CustomButton(QWidget* parent)
 	backgroundColor(Theme::sectionBackground)
 {
 	m_font.setBold(1);
-	m_font.setPointSizeF(8);
-	m_font.setFamily("Segoe UI");
 
 	this->installEventFilter(this);
 

@@ -7,17 +7,11 @@
 
 TileButton::TileButton(QWidget* parent) : QAbstractButton(parent)
 {
-    //header.setFamily("Segoe UI semibold");
-    //header.setPointSizeF(14);
 
 	header.setBold(1);
     header.setPointSizeF(info.pointSizeF()+6);
-    //info.setPointSizeF(8);
-    //info.setFamily("Segoe UI");
-	
-    //infoLabel.setFamily("Segoe UI");
+
 	infoLabel.setBold(true);
-    //infoLabel.setPointSizeF(8);
 
 	this->installEventFilter(this);
 

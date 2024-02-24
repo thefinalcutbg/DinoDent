@@ -7,8 +7,9 @@ DEFINES -= QT_DISABLE_DEPRECATED_BEFORE=0x060000
 INCLUDEPATH += src
 INCLUDEPATH += include
 
+
 unix:!macx {
-LIBS += -lsqlite3 -ljsoncpp -lxml2 -lssl -lcrypto -lrt -lxmlsec1 -lxmlsec1-openssl #-lp11
+LIBS += -lsqlite3 -ljsoncpp -lxml2 -lssl -lcrypto -lrt -lxmlsec1 -lxmlsec1-openssl -lp11
 LIBS += -L$$PWD/../LimeReport/build/6.5.3/linux64/release/lib/ -llimereport
 LIBS += -L$$PWD/../libp11-0.4.12/src/.libs/ -lp11 #if using Qt 6.5 or higher libp11-0.4.12 is the minimal version required for interfacing with OpenSSL3
 INCLUDEPATH += /usr/include/libxml2
@@ -18,37 +19,16 @@ INCLUDEPATH += ../libp11-0.4.12/src/
 INCLUDEPATH += ../LimeReport/build/6.5.3/linux64/release/lib/include
 }
 
-#libp11
-macx: LIBS += -L/opt/homebrew/Cellar/libp11/0.4.12/lib/ -lp11.2
-macx: INCLUDEPATH += /opt/homebrew/Cellar/libp11/0.4.12/include
-macx: DEPENDPATH += /opt/homebrew/Cellar/libp11/0.4.12/include
-#libxmlsec
-macx: LIBS += -L/opt/homebrew/Cellar/libxmlsec1/1.3.3/lib/ -lxmlsec1.1
-macx: LIBS += -L/opt/homebrew/Cellar/libxmlsec1/1.3.3/lib/ -lxmlsec1-openssl.1
-macx: INCLUDEPATH += /opt/homebrew/Cellar/libxmlsec1/1.3.3/include/xmlsec1
-macx: DEPENDPATH += /opt/homebrew/Cellar/libxmlsec1/1.3.3/include/xmlsec1
-#jsoncpp
-#macx: LIBS += -L/opt/homebrew/Cellar/jsoncpp/1.9.5/lib/ -ljsoncpp
-#macx: INCLUDEPATH += /opt/homebrew/Cellar/jsoncpp/1.9.5/include
-#macx: DEPENDPATH += /opt/homebrew/Cellar/jsoncpp/1.9.5/include
-#openssl3
-macx: LIBS += -L/opt/homebrew/Cellar/openssl@3/3.2.1/lib/ -lcrypto.3
-macx: LIBS += -L/opt/homebrew/Cellar/openssl@3/3.2.1/lib/ -lssl.3
-macx: INCLUDEPATH += /opt/homebrew/Cellar/openssl@3/3.2.1/include
-macx: DEPENDPATH += /opt/homebrew/Cellar/openssl@3/3.2.1/include
-#sqlite3
-macx: LIBS += -L/opt/homebrew/Cellar/sqlite/3.45.1/lib/ -lsqlite3.0
-macx: INCLUDEPATH += /opt/homebrew/Cellar/sqlite/3.45.1/include
-macx: DEPENDPATH += /opt/homebrew/Cellar/sqlite/3.45.1/include
-#libxml2
-macx: LIBS += -L/opt/homebrew/Cellar/libxml2/2.12.5/lib/ -lxml2.2
-macx: INCLUDEPATH += /opt/homebrew/Cellar/libxml2/2.12.5/include
-macx: DEPENDPATH += /opt/homebrew/Cellar/libxml2/2.12.5/include
-#LimeReport
-macx: LIBS += -L$$PWD/../LimeReport/build/6.5.3/macx/release/lib/ -llimereport
-macx: INCLUDEPATH += $$PWD/../
-macx: DEPENDPATH += $$PWD/../
+macx:{
+#homebrew libs
+LIBS += -L/opt/homebrew/lib/ -lsqlite3 -lxml2 -lxmlsec1 -lxmlsec1-openssl -lssl -lcrypto -lp11 #-ljsoncpp
+INCLUDEPATH += /opt/homebrew/include
 
+#LimeReport
+LIBS += -L$$PWD/../LimeReport/build/6.5.3/macx/release/lib/ -llimereport
+INCLUDEPATH += $$PWD/../
+DEPENDPATH += $$PWD/../
+}
 #Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
@@ -781,3 +761,5 @@ SOURCES += \
     src/View/uiComponents/UserButton.cpp \
     src/View/uiComponents/customdateedit.cpp \
     src/main.cpp
+
+

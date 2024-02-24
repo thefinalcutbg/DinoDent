@@ -114,14 +114,6 @@
        <height>16777215</height>
       </size>
      </property>
-     <property name="font">
-      <font>
-       <family>Segoe UI</family>
-       <pointsize>8</pointsize>
-       <bold>false</bold>
-       <kerning>false</kerning>
-      </font>
-     </property>
      <property name="text">
       <string>Бележки (не се изпращат към НЗИС):</string>
      </property>

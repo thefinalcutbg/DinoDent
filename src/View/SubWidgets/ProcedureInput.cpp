@@ -64,7 +64,7 @@ ProcedureInput::ProcedureInput(QWidget *parent)
 	completer->setCompletionMode(QCompleter::PopupCompletion);
 
 
-	QFont f("Segoe UI");
+    QFont f;
 	f.setPixelSize(12);
 	completer->popup()->setFont(f);
 	completer->setMaxVisibleItems(10);

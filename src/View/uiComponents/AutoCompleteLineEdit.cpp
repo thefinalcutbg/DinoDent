@@ -73,8 +73,8 @@ void AutoCompleteLineEdit::newCompleter(const QStringList& list)
 	new_completer->setCompletionMode(QCompleter::PopupCompletion);
 
 
-	QFont f("Segoe UI");
-	f.setPixelSize(10);
+    QFont f;
+    //f.setPixelSize(10);
 	new_completer->popup()->setFont(f);
 	new_completer->setMaxVisibleItems(10);
 	new_completer->setModelSorting(QCompleter::UnsortedModel);

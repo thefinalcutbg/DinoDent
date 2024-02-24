@@ -390,7 +390,7 @@ void TableViewHeader::paintEvent(QPaintEvent*)
 
     painter.drawLine(0, height(), width() - 1, height());
 
-    QFont font;//("Segoe UI");
+    QFont font;
     font.setBold(true);
 
     painter.setFont(font);

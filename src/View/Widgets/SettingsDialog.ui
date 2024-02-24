@@ -7,13 +7,13 @@
     <x>0</x>
     <y>0</y>
     <width>900</width>
-    <height>666</height>
+    <height>669</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>900</width>
-    <height>666</height>
+    <height>669</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -58,7 +58,7 @@
         <rect>
          <x>9</x>
          <y>9</y>
-         <width>776</width>
+         <width>861</width>
          <height>211</height>
         </rect>
        </property>
@@ -80,198 +80,180 @@
        <property name="frameShadow">
         <enum>QFrame::Plain</enum>
        </property>
-       <widget class="QGroupBox" name="groupBox">
-        <property name="geometry">
-         <rect>
-          <x>0</x>
-          <y>10</y>
-          <width>321</width>
-          <height>111</height>
-         </rect>
+       <layout class="QVBoxLayout" name="verticalLayout_4">
+        <property name="leftMargin">
+         <number>0</number>
         </property>
-        <property name="title">
-         <string>При отваряне на амбулаторен лист</string>
+        <property name="topMargin">
+         <number>0</number>
         </property>
-        <layout class="QVBoxLayout" name="verticalLayout_2">
-         <item>
-          <widget class="QCheckBox" name="autoHisCheck">
-           <property name="text">
-            <string>Автоматично извличане на данни от НЗИС</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QCheckBox" name="autoPisCheck">
-           <property name="text">
-            <string>Автоматично извличане на данни от ПИС</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QCheckBox" name="autoNraCheck">
-           <property name="text">
-            <string>Автоматично извличане на данни от НАП</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-       <widget class="QGroupBox" name="groupBox_4">
-        <property name="geometry">
-         <rect>
-          <x>340</x>
-          <y>9</y>
-          <width>300</width>
-          <height>111</height>
-         </rect>
+        <property name="rightMargin">
+         <number>0</number>
         </property>
-        <property name="title">
-         <string>Системни настройки</string>
+        <property name="bottomMargin">
+         <number>0</number>
         </property>
-        <layout class="QVBoxLayout" name="verticalLayout_3">
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_2">
-           <item>
-            <widget class="QLabel" name="label_3">
-             <property name="text">
-              <string>Изчакване на отговор от сървърите:</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QSpinBox" name="timeoutSpin">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>70</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="suffix">
-              <string> сек.</string>
-             </property>
-             <property name="minimum">
-              <number>1</number>
-             </property>
-             <property name="maximum">
-              <number>60</number>
-             </property>
-             <property name="value">
-              <number>15</number>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <widget class="QCheckBox" name="requestsCheck">
-           <property name="text">
-            <string>Показвай заявките към сървърите</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QCheckBox" name="repliesCheck">
-           <property name="text">
-            <string>Показвай отговорите от сървърите</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-       <widget class="QWidget" name="layoutWidget">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>180</y>
-          <width>501</width>
-          <height>32</height>
-         </rect>
-        </property>
-        <layout class="QHBoxLayout" name="horizontalLayout_3">
-         <item>
-          <widget class="QLabel" name="label">
-           <property name="text">
-            <string>Номенклатура НСЦРЛП:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="updateMedButton">
-           <property name="text">
-            <string>Изтегли</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="label_2">
-           <property name="text">
-            <string>Последен ъпдейт:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="medUpdateLabel">
-           <property name="text">
-            <string>няма</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer name="horizontalSpacer_2">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-        </layout>
-        <zorder>updateMedButton</zorder>
-        <zorder>label_2</zorder>
-        <zorder>medUpdateLabel</zorder>
-        <zorder>label</zorder>
-       </widget>
-       <widget class="QCheckBox" name="dailyLimitCheck">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>125</y>
-          <width>561</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Проверка за надвишен дневен лимит по НЗОК (не се включват кодове 333, 832 и 833)</string>
-        </property>
-       </widget>
-       <widget class="QCheckBox" name="weekendCheck">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>150</y>
-          <width>561</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Проверка за извършени манипулации или издадени направления по НЗОК в почивен ден</string>
-        </property>
-       </widget>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_4">
+          <item>
+           <widget class="QGroupBox" name="groupBox">
+            <property name="title">
+             <string>При отваряне на амбулаторен лист</string>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_2">
+             <item>
+              <widget class="QCheckBox" name="autoHisCheck">
+               <property name="text">
+                <string>Автоматично извличане на данни от НЗИС</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="autoPisCheck">
+               <property name="text">
+                <string>Автоматично извличане на данни от ПИС</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="autoNraCheck">
+               <property name="text">
+                <string>Автоматично извличане на данни от НАП</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QGroupBox" name="groupBox_4">
+            <property name="title">
+             <string>Системни настройки</string>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_3">
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_2">
+               <item>
+                <widget class="QLabel" name="label_3">
+                 <property name="text">
+                  <string>Изчакване на отговор от сървърите:</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QSpinBox" name="timeoutSpin">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>70</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="suffix">
+                  <string> сек.</string>
+                 </property>
+                 <property name="minimum">
+                  <number>1</number>
+                 </property>
+                 <property name="maximum">
+                  <number>60</number>
+                 </property>
+                 <property name="value">
+                  <number>15</number>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="requestsCheck">
+               <property name="text">
+                <string>Показвай заявките към сървърите</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="repliesCheck">
+               <property name="text">
+                <string>Показвай отговорите от сървърите</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="dailyLimitCheck">
+          <property name="text">
+           <string>Проверка за надвишен дневен лимит по НЗОК (не се включват кодове 333, 832 и 833)</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="weekendCheck">
+          <property name="text">
+           <string>Проверка за извършени манипулации или издадени направления по НЗОК в почивен ден</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>Номенклатура НСЦРЛП:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="updateMedButton">
+            <property name="text">
+             <string>Изтегли</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_2">
+            <property name="text">
+             <string>Последен ъпдейт:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="medUpdateLabel">
+            <property name="text">
+             <string>няма</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+       </layout>
       </widget>
       <widget class="QGroupBox" name="groupBox_3">
        <property name="geometry">
         <rect>
-         <x>9</x>
+         <x>0</x>
          <y>220</y>
          <width>776</width>
          <height>251</height>

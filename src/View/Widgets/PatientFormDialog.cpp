@@ -11,6 +11,8 @@ PatientFormDialog::PatientFormDialog(PatientDialogPresenter& p, QWidget* parent)
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     setWindowTitle("Нов документ");
 
+    ui.okButton->setMinimumSize(ui.okButton->minimumSize());
+
     numValidator = new QRegularExpressionValidator(QRegularExpression("[0-9]+"), this);
 
     nameValidator = new QRegularExpressionValidator(QRegularExpression("[А-Я-а-я-a-z-A-Z ]+"), this);

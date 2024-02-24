@@ -107,11 +107,7 @@ DinoDent::DinoDent(QWidget* parent)
 
     ui.practiceLabel->setStyleSheet("color:" + Theme::colorToString(Theme::practiceLabel));
     
-    int id = QFontDatabase::addApplicationFont(":/fonts/font_RobotoCondensedRegular.ttf");
-    QString family = QFontDatabase::applicationFontFamilies(id).at(0);
-
-    QFont font(family);
-    font.setPointSizeF(font.pointSizeF()+8);
+    QFont font;
     font.setBold(true);
     ui.practiceLabel->setFont(font);
 

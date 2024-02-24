@@ -268,10 +268,7 @@ std::string XmlSigner::signHisMessage(const std::string& document, evp_pkey_st* 
       dsigCtx->signKey = xmlSecKeyCreate();
 
       xmlSecKeySetValue(dsigCtx->signKey, xmlSecOpenSSLEvpKeyAdopt(prvKey));
-      qDebug() << dsigCtx->signKey->usage;
-      qDebug() << dsigCtx->keyInfoReadCtx.keyReq.keyType;
-      qDebug() << dsigCtx->keyInfoReadCtx.keyReq.keyId;
-      qDebug() << dsigCtx->keyInfoReadCtx.keyReq.keyUsage;
+
     if (
         xmlSecOpenSSLAppKeyCertLoadMemory(
             dsigCtx->signKey,

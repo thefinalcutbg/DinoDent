@@ -5,25 +5,31 @@ CONFIG += c++20
 DEFINES -= QT_DISABLE_DEPRECATED_BEFORE=0x060000
 
 unix:!macx{
-  HOMEBREWDIR = /home/linuxbrew/.linuxbrew
-  LIBS += -L$$PWD/../LimeReport/build/6.5.3/linux64/release/lib/ -llimereport
+  HOMEBREW = /home/linuxbrew/.linuxbrew
+  LIMEREPORT = ../LimeReport/build/6.5.3/linux64/release/lib/
 }
 
 macx:{
-  HOMEBREWDIR = /opt/homebrew
-  LIBS += -L$$PWD/../LimeReport/build/6.5.3/macx/release/lib/ -llimereport
+  HOMEBREW = /opt/homebrew
+  LIMEREPORT = ../LimeReport/build/6.5.3/macx/release/lib/
 }
 
+LIBS += \
+    -L$$HOMEBREW/opt/sqlite3/lib/ -lsqlite3 \
+    -L$$HOMEBREW/opt/libxml2/lib/ -lxml2 \
+    -L$$HOMEBREW/opt/openssl@3/lib/ -lssl \
+    -L$$HOMEBREW/opt/openssl@3/lib/ -lcrypto \
+    -L$$HOMEBREW/opt/xmlsec1/lib/ -lxmlsec1 \
+    -L$$HOMEBREW/opt/libxml2/lib/ -lxmlsec1-openssl \
+    -L$$HOMEBREW/opt/libp11/lib/ -lp11 \
+    -L$$LIMEREPORT -llimereport
 
-LIBS += += -LHOMEBREWDIR/lib/ -lsqlite3  -lcrypto -lp11 -lxml2 -lxmlsec1 -lxmlsec1-openssl -lp11
-
-INCLUDEPATH += ../ #this should be the lime report include dir
 INCLUDEPATH += src
 INCLUDEPATH += include #for jsoncpp and tinyxml
-INCLUDEPATH += HOMEBREWDIR/include
-INCLUDEPATH += HOMEBREWDIR/include/libxml2
-INCLUDEPATH += HOMEBREWDIR/include/xmlsec1
-
+INCLUDEPATH += ../ #this should be the lime report include dir
+INCLUDEPATH += $$HOMEBREW/include
+INCLUDEPATH += $$HOMEBREW/include/libxml2
+INCLUDEPATH += $$HOMEBREW/include/xmlsec1
 
 #Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

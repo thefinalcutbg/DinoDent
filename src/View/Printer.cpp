@@ -1,6 +1,13 @@
 #include "Printer.h"
 
+#include <QtGlobal>
+
+#ifdef Q_OS_WIN //in MSVC build limereport is dynamic lib
 #include <LimeReport/include/lrreportengine.h>
+#else
+#include "lrreportengine.h"
+#endif
+
 #include <QApplication>
 #include <QString>
 
@@ -674,6 +681,11 @@ void Print::saveNhifSpecReport(const NhifSpecReport& spec_report)
 // }
 
 // void Print::saveFsicalReportToPDF(const FiscalReport &report)
+// {
+
+// }
+
+// void Print::saveNhifSpecReport(const NhifSpecReport &report)
 // {
 
 // }

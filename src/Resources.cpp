@@ -1,7 +1,7 @@
 #include "Resources.h"
 #include <QFile>
 #include <QTextStream>
-#include <QTextCodec>
+
 #include "QtVersion.h"
 
 std::string Resources::fromPath(const char* path)
@@ -9,10 +9,6 @@ std::string Resources::fromPath(const char* path)
 	QFile file(path);
 	file.open(QIODevice::ReadOnly | QIODevice::Text);
 	QTextStream in(&file);
-
-#ifndef QT6
-	in.setCodec("UTF-8");
-#endif
 
 	QString result = in.readAll();
 

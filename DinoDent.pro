@@ -1,35 +1,37 @@
-QT += core gui widgets network printsupport core5compat xml qml
+#THIS Qt Project file is configured only for building on Linux and MacOS
+
+QT += core gui widgets network printsupport xml qml uitools opengl openglwidgets
 
 CONFIG += c++20
 
 DEFINES -= QT_DISABLE_DEPRECATED_BEFORE=0x060000
 
+CONFIG += no_zint no_svg no_formdesigner no_embedded_designer #limereport options
+include(../LimeReport/limereport/limereport.pri) #pri file from LimeReport source code
+
 unix:!macx{
   HOMEBREW = /home/linuxbrew/.linuxbrew
-  LIMEREPORT = ../LimeReport/build/6.5.3/linux64/release/lib/
 }
 
 macx:{
   HOMEBREW = /opt/homebrew
-  LIMEREPORT = ../LimeReport/build/6.5.3/macx/release/lib/
 }
 
 LIBS += \
-    -L$$HOMEBREW/opt/sqlite3/lib/ -lsqlite3 \
     -L$$HOMEBREW/opt/libxml2/lib/ -lxml2 \
     -L$$HOMEBREW/opt/openssl@3/lib/ -lssl \
     -L$$HOMEBREW/opt/openssl@3/lib/ -lcrypto \
     -L$$HOMEBREW/opt/xmlsec1/lib/ -lxmlsec1 \
-    -L$$HOMEBREW/opt/libxml2/lib/ -lxmlsec1-openssl \
+    -L$$HOMEBREW/opt/xmlsec1/lib/ -lxmlsec1-openssl \
     -L$$HOMEBREW/opt/libp11/lib/ -lp11 \
-    -L$$LIMEREPORT -llimereport
 
-INCLUDEPATH += src
-INCLUDEPATH += include #for jsoncpp and tinyxml
-INCLUDEPATH += ../ #this should be the lime report include dir
+INCLUDEPATH += $$PWD/src
+INCLUDEPATH += $$PWD/include #for jsoncpp, sqlite3 and tinyxml
 INCLUDEPATH += $$HOMEBREW/include
 INCLUDEPATH += $$HOMEBREW/include/libxml2
 INCLUDEPATH += $$HOMEBREW/include/xmlsec1
+
+ICON = $$PWD/installer/DinoDent.icns
 
 #Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -106,6 +108,8 @@ HEADERS += \
     include/TinyXML/tinyxml.h \
     include/json/json-forwards.h \
     include/json/json.h \
+    include/sqLite3/sqlite3.h \
+    include/sqLite3/sqlite3ext.h \
     src/Database/Database.h \
     src/Database/DbAmbList.h \
     src/Database/DbBrowser.h \
@@ -473,6 +477,7 @@ SOURCES += \
     include/TinyXML/tinyxmlerror.cpp \
     include/TinyXML/tinyxmlparser.cpp \
     include/json/jsoncpp.cpp \
+    include/sqLite3/sqlite3.c \
     src/Database/Database.cpp \
     src/Database/DbAmbList.cpp \
     src/Database/DbBrowser.cpp \
@@ -763,5 +768,6 @@ SOURCES += \
     src/View/uiComponents/UserButton.cpp \
     src/View/uiComponents/customdateedit.cpp \
     src/main.cpp
+
 
 

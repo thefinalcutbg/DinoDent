@@ -1,6 +1,5 @@
 ﻿#include "PracticeSelectorView.h"
 #include <QPainter>
-#include <qtextcodec.h>
 #include "View/Theme.h"
 
 PracticeSelectorView::PracticeSelectorView(PracticeManagerPresenter& p, QWidget *parent)
@@ -13,12 +12,12 @@ PracticeSelectorView::PracticeSelectorView(PracticeManagerPresenter& p, QWidget 
 	ui.backButton->setCursor(QCursor(Qt::PointingHandCursor));
 	ui.backButton->setStyleSheet("color:" + Theme::colorToString(Theme::fontTurquoise));
 
-    connect(ui.dbButton, &QPushButton::clicked, [&] {presenter.dbChangePath(); });
-    connect(ui.addButton, &QPushButton::clicked, [&] {presenter.addClicked(); });
-    connect(ui.removeButton, &QPushButton::clicked, [&] {presenter.removeClicked(ui.listWidget->currentIndex().row());});
-    connect(ui.editButton, &QPushButton::clicked, [&] {presenter.editClicked(ui.listWidget->currentIndex().row());});
-    connect(ui.listWidget, &QListWidget::doubleClicked, [&] {presenter.editClicked(ui.listWidget->currentIndex().row());});
-	connect(ui.backButton, &QPushButton::clicked, [&] { close();});
+    connect(ui.dbButton, &QPushButton::clicked, this, [&] {presenter.dbChangePath(); });
+    connect(ui.addButton, &QPushButton::clicked, this, [&] {presenter.addClicked(); });
+    connect(ui.removeButton, &QPushButton::clicked, this, [&] {presenter.removeClicked(ui.listWidget->currentIndex().row());});
+    connect(ui.editButton, &QPushButton::clicked, this, [&] {presenter.editClicked(ui.listWidget->currentIndex().row());});
+    connect(ui.listWidget, &QListWidget::doubleClicked, this, [&] {presenter.editClicked(ui.listWidget->currentIndex().row());});
+    connect(ui.backButton, &QPushButton::clicked, this, [&] { close();});
     presenter.setView(this);
 
 }

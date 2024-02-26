@@ -33,7 +33,7 @@ void MainPresenter::setView(IMainView* view)
 {
     this->view = view;
 
-    if (!firstTimeLogic()) { return; }
+    firstTimeLogic();
 
     LoginPresenter login;
 
@@ -229,60 +229,38 @@ bool MainPresenter::closeAllTabs()
     return TabPresenter::get().permissionToLogOut();
 }
 
-bool MainPresenter::firstTimeLogic()
+void MainPresenter::firstTimeLogic()
 {
-    if(!DbPractice::noPractices()) return true;
-   
-    std::string descr = "Стартирате програмата за първи път. Изберете опция: ";
-
-    std::vector<std::string> options { "Добавяне на практика", "Просто искам да разгледам програмата" };
-
-    auto result = ModalDialogBuilder::openButtonDialog(options, "DinoDent", descr);
-
-    switch (result)
-    {
-        case 0:
-        {
-            PracticeDialogPresenter p{};
-            auto result = p.open();
-
-            if (!result) { return false; }
-           
-            DbPractice::insertPractice(result.value().practice);
-            DbPractice::setDoctorsPracticeList(result.value().doctorsList, result.value().practice.rziCode);
-           
-            return true;
-        }
-        case 1:
-        {
-            Practice p;
-            p.name = "DinoDent";
-            p.practice_address = 68134;
-            p.firm_address = "гр. София";
-            p.legal_entity = 2;
-            p.rziCode = "2200000000";
-            p.bulstat = "000000000";
+    if(!DbPractice::noPractices()) return;
+  
+    Practice p;
+    p.name = "DinoDent";
+    p.practice_address = 68134;
+    p.firm_address = "гр. София";
+    p.legal_entity = 2;
+    p.rziCode = "2200000000";
+    p.bulstat = "000000000";
             
-            Doctor d;
-            d.fname = "Иван";
-            d.mname = "Иванов";
-            d.lname = "Иванов";
-            d.LPK = "000000000";
-            d.hisSpecialty = 2081;
-            d.phone = "";
+    Doctor d;
+    d.fname = "Иван";
+    d.mname = "Иванов";
+    d.lname = "Иванов";
+    d.LPK = "000000000";
+    d.hisSpecialty = 2081;
+    d.phone = "";
             
+    PracticeDoctor pd;
+    pd.lpk = d.LPK;
+    pd.admin = true;
 
-            PracticeDoctor pd;
-            pd.lpk = d.LPK;
-            pd.admin = true;
+    DbDoctor::insertDoctor(d);
+    DbDoctor::setAutoLogin(d.LPK, true);
+    DbPractice::insertPractice(p);
+    DbPractice::setDoctorsPracticeList({ pd }, p.rziCode);
 
-            DbDoctor::insertDoctor(d);
-            DbDoctor::setAutoLogin(d.LPK, true);
-            DbPractice::insertPractice(p);
-            DbPractice::setDoctorsPracticeList({ pd }, p.rziCode);
-
-            return true;
-        }
-        default: return false;
-    }
+    ModalDialogBuilder::showMessage(
+        "Стартирате програмата за първи път. "
+        "Създаден е примерен профил. "
+        "Можете да редактирате данните от \"Настройки\" "
+    );
 }

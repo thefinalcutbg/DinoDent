@@ -4,7 +4,7 @@
 
 Practice DbPractice::getPractice(const std::string rziCode)
 {
-    std::string query = "SELECT rzi, name, bulstat, firm_address, practice_address, legal_entity, pass, vat, nhif_contract, settings, self_insured_id "
+    std::string query = "SELECT rzi, name, bulstat, firm_address, practice_address, legal_entity, pass, vat, nhif_contract, settings, self_insured_id, bank, iban, bic "
         "FROM practice WHERE rzi = '" + rziCode + "'";
 
     Practice practice;
@@ -22,6 +22,9 @@ Practice DbPractice::getPractice(const std::string rziCode)
         practice.nhif_contract = Parser::parseContract(db.asString(8));
         practice.settings = Parser::parseSettings(db.asString(9));
         practice.selfInsuredId = db.asString(10);
+        practice.bank = db.asString(11);
+        practice.iban = db.asString(12);
+        practice.bic = db.asString(13);
 
     }
 
@@ -34,7 +37,6 @@ bool DbPractice::updatePractice(const Practice& practice, const std::string& cur
 
     Db db(
         "UPDATE practice SET "
-        "rzi=?,"
         "name=?,"
         "bulstat=?,"
         "firm_address=?,"
@@ -43,23 +45,39 @@ bool DbPractice::updatePractice(const Practice& practice, const std::string& cur
         "vat=?,"
         "pass=?,"
         "nhif_contract=?,"
-        "self_insured_id=? "
+        "self_insured_id=?, "
+        "bank=?, "
+        "iban=?, "
+        "bic=? "
         "WHERE rzi=?"
     );
 
-    db.bind(1, practice.rziCode);
-    db.bind(2, practice.name);
-    db.bind(3, practice.bulstat);
-    db.bind(4, practice.firm_address);
-    db.bind(5, practice.practice_address.getIdxAsInt());
-    db.bind(6, practice.legal_entity);
-    db.bind(7, practice.vat);
-    db.bind(8, practice.pass);
-    db.bind(9, Parser::write(practice.nhif_contract));
-    db.bind(10, practice.selfInsuredId);
-    db.bind(11, currentRZI);
+    db.bind(1, practice.name);
+    db.bind(2, practice.bulstat);
+    db.bind(3, practice.firm_address);
+    db.bind(4, practice.practice_address.getIdxAsInt());
+    db.bind(5, practice.legal_entity);
+    db.bind(6, practice.vat);
+    db.bind(7, practice.pass);
+    db.bind(8, Parser::write(practice.nhif_contract));
+    db.bind(9, practice.selfInsuredId);
+    db.bind(10, practice.bank);
+    db.bind(11, practice.iban);
+    db.bind(12, practice.bic);
+    db.bind(13, currentRZI);
 
-    return db.execute();
+    if (!db.execute()) return false;
+
+    //optimization
+    if (practice.rziCode != currentRZI) {
+        db.newStatement("UPDATE practice SET rzi=? WHERE rzi=?");
+        db.bind(1, practice.rziCode);
+        db.bind(2, currentRZI);
+
+        if (!db.execute()) return false;
+    }
+
+    return true;
 
 }
 
@@ -83,8 +101,8 @@ bool DbPractice::insertPractice(const Practice& practice)
 
     Db db(
         "INSERT INTO practice "
-        "(rzi, name, bulstat, firm_address, practice_address, pass, legal_entity, vat, nhif_contract, settings, self_insured_id) "
-        "VALUES(?,?,?,?,?,?,?,?,?,?,?)"
+        "(rzi, name, bulstat, firm_address, practice_address, pass, legal_entity, vat, nhif_contract, settings, self_insured_id, bank, iban, bic) "
+        "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
     );
 
     db.bind(1, practice.rziCode);
@@ -98,6 +116,9 @@ bool DbPractice::insertPractice(const Practice& practice)
     db.bind(9, Parser::write(practice.nhif_contract));
     db.bind(10, Parser::write(practice.settings));
     db.bind(11, practice.selfInsuredId);
+    db.bind(12, practice.bank);
+    db.bind(13, practice.iban);
+    db.bind(14, practice.bic);
 
     return db.execute();
 

@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
 
     if (!initFunction()) {  return 0;  }
 
-    //testFn(); return 0;
+    //      testFn(); return 0;
 
     //splash screen is destroyed at the end of DinoDent constructor
     DinoDent w;

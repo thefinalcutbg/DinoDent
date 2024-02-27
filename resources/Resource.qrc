@@ -138,8 +138,10 @@
         <file>db_migrateTo17.txt</file>
         <file>db_migrateTo20.txt</file>
         <file>db_migrateTo21.txt</file>
+        <file>db_migrateTo22.txt</file>
     </qresource>
     <qresource prefix="/other">
         <file>splash.png</file>
     </qresource>
+    <qresource prefix="/"/>
 </RCC>

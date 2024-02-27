@@ -90,6 +90,9 @@ struct Practice
 	std::string pass;
 	int legal_entity{ 0 }; //issuer
 	std::string selfInsuredId; //issuer
+	std::string bank;
+	std::string iban;
+	std::string bic;
 
 	Settings settings;
 

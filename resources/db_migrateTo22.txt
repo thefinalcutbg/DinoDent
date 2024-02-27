@@ -1,0 +1,4 @@
+ALTER TABLE practice ADD COLUMN bank TEXT;
+ALTER TABLE practice ADD COLUMN iban TEXT;
+ALTER TABLE practice ADD COLUMN bic TEXT;
+PRAGMA user_version = 22;

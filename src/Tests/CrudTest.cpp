@@ -67,8 +67,12 @@ std::string Test::crudTest()
 				.pass = "test",
 				.legal_entity = 0,
 				.selfInsuredId = "",
+				.bank = "a",
+				.iban = "b",
+				.bic = "c",
 				.settings{},
 				.nhif_contract{}
+
 		}
 	);
 

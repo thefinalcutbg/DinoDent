@@ -44,6 +44,10 @@ struct Issuer
 
 	std::string bulstat;
 
+	std::string bank;
+	std::string iban;
+	std::string bic;
+
 private:
 	Issuer(const Practice& user, const Doctor& doctor);
 

@@ -31,9 +31,9 @@ Issuer::Issuer() : Issuer(User::practice(), User::doctor())
 
 Issuer::Issuer(const Practice& practice, const Doctor& doctor) :
     type{ getIssuerType(practice.legal_entity, doctor) },
-    company_name{ 
+    company_name{
         practice.nhif_contract.has_value() ?
-        practice.nhif_contract.value().name_short 
+        practice.nhif_contract.value().name_short
         :
         practice.name
 
@@ -51,13 +51,16 @@ Issuer::Issuer(const Practice& practice, const Doctor& doctor) :
     },
 
     grounds_for_not_charging_VAT{
-                                                
+
                     registration_by_VAT ?
-                                                
+
                     "Чл. 39 от ЗДДС"
                     :
                     "Чл.113,ал.9 от ЗДДС"
     },
 
-    bulstat{ practice.bulstat }
+    bulstat{ practice.bulstat },
+    bank(practice.bank),
+    iban(practice.iban),
+    bic(practice.bic)
 {}

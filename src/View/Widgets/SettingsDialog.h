@@ -2,8 +2,20 @@
 
 #include <QDialog>
 #include "ui_SettingsDialog.h"
+
 #include "Presenter/SettingsMainPresenter.h"
+
 #include "View/Interfaces/ISettingsDialog.h"
+#include "View/TableModels/SpecialtyTableModel.h"
+
+#include "Model/Validators/BulstatValidator.h"
+#include "Model/Validators/CommonValidators.h"
+#include "Model/Validators/LpkValidator.h"
+#include "Model/Validators/NameValidator.h"
+#include "Model/Validators/NzokContractValidator.h"
+#include "Model/Validators/RziValidaor.h"
+#include "Model/Validators/PatientValidators.h"
+
 
 class SettingsDialog : public QDialog, public ISettingsDialog
 {
@@ -11,13 +23,29 @@ class SettingsDialog : public QDialog, public ISettingsDialog
 
 	SettingsMainPresenter presenter;
 
+	NotEmptyValidator not_empty_validator;
+	BulstatValidator bulstat_validator;
+	LpkValidator lpk_validator;
+	NameValidator name_validator;
+	NzokContractValidator nhif_contract_validator;
+	RziValidator rzi_validator;
+	EgnLnchValidator grao_validator;
+	CityValidator city_validator;
+
+	SpecialtyTableModel his_specialtyModel;
+	
+	void disableNhifValidators(bool disabled);
+	void legalEntityChanged(bool selfInsured);
+
+	void paintEvent(QPaintEvent* event) override;
+
 public:
 	SettingsDialog(QDialog *parent = Q_NULLPTR);
 
 	void focusTab(SettingsTab tab);
 	void disableTab(SettingsTab tab);
 	void closeDialog() final { this->close(); };
-	IPracticeSettings* practiceView() final { return ui.practiceSettings; };
+
 	void setSettings(const Settings& settings) final;
 	Settings getSettings() final;
 	void setUpdateDate(DynamicNum num, const Date& date) final;
@@ -30,4 +58,16 @@ public:
 
 private:
 	Ui::SettingsDialog ui;
+
+	// Inherited via ISettingsDialog
+	virtual void setPractice(const Practice& practice) override;
+	virtual void setDoctor(const Doctor& doctor) override;
+	virtual void setDoctorList(const std::vector<PracticeDoctor>& doctors) override;
+	virtual void setDoctorProperties(bool admin, NhifSpecialty specialty) override;
+	virtual Practice getPractice() override;
+	virtual Doctor getDoctor() override;
+	virtual void replaceCurrentItem(const PracticeDoctor& item) override;
+
+	// Inherited via ISettingsDialog
+	virtual bool allFieldsAreValid() override;
 };

@@ -343,7 +343,11 @@ void Print::invoice(const Invoice& inv)
         :
         "В брой"
     ));
-    
+
+    report.dataManager()->setReportVariable("bank", issuer.bank.c_str());
+    report.dataManager()->setReportVariable("iban", issuer.iban.c_str());
+    report.dataManager()->setReportVariable("bic", issuer.bic.c_str());
+
     QApplication::restoreOverrideCursor();
 
    // report.setPreviewScaleType(LimeReport::ScaleType::FitWidth);

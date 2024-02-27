@@ -93,13 +93,13 @@ bool DbDoctor::setAutoLogin(const std::string& lpk, bool remember)
 
 }
 
-bool DbDoctor::updateDoctor(const Doctor& doctor, std::string& currentLPK)
+bool DbDoctor::updateDoctor(const Doctor& doctor, const std::string& currentLPK)
 {
    Db db;
 
    db.newStatement(
        "UPDATE doctor SET "
-       "lpk=?,"
+
        "fname=?,"
        "mname=?,"
        "lname=?,"
@@ -110,17 +110,27 @@ bool DbDoctor::updateDoctor(const Doctor& doctor, std::string& currentLPK)
        "WHERE lpk=?"
    );
 
-   db.bind(1, doctor.LPK);
-   db.bind(2, doctor.fname);
-   db.bind(3, doctor.mname);
-   db.bind(4, doctor.lname);
-   db.bind(5, doctor.pass);
-   db.bind(6, doctor.phone);
-   db.bind(7, doctor.severalRHIF);
-   db.bind(8, doctor.hisSpecialty.getIdx());
-   db.bind(9, currentLPK);
+   db.bind(1, doctor.fname);
+   db.bind(2, doctor.mname);
+   db.bind(3, doctor.lname);
+   db.bind(4, doctor.pass);
+   db.bind(5, doctor.phone);
+   db.bind(6, doctor.severalRHIF);
+   db.bind(7, doctor.hisSpecialty.getIdx());
+   db.bind(8, currentLPK);
 
-   return db.execute();
+   if(!db.execute()) return false;
+
+   //optimization
+   if (doctor.LPK != currentLPK) {
+       db.newStatement("UPDATE doctor SET lpk=? WHERE lpk=?");
+       db.bind(1, doctor.LPK);
+       db.bind(2, currentLPK);
+
+       if (!db.execute()) return false;
+   }
+
+   return true;
 }
 
 bool DbDoctor::insertDoctor(const Doctor& doctor)
@@ -141,6 +151,19 @@ bool DbDoctor::insertDoctor(const Doctor& doctor)
     db.bind(9, doctor.hisSpecialty.getIdx());
 
     return db.execute();
+}
+
+bool DbDoctor::suchDoctorExists(const std::string& LPK)
+{
+    Db db;
+    db.newStatement("SELECT COUNT(*) FROM doctor WHERE lpk=?");
+    db.bind(1, LPK);
+
+    while (db.hasRows()) {
+        return db.asBool(0);
+    }
+
+    return false;
 }
 
 std::tuple<bool, int> DbDoctor::getAdminAndSpecialty(const std::string& lpk, const std::string& rzi)

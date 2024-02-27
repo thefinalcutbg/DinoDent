@@ -239,7 +239,7 @@ void FinancialPresenter::editRecipient()
 {
     if (m_invoice.nhifData) {
 
-        ModalDialogBuilder::showMessage("Не можете да редактирате тези данни");
+        ModalDialogBuilder::showMessage("Тези данни са генерирани на базата на РЗИ номера на практиката и не могат да бъдат редактирани.");
         return;
     }
 
@@ -251,6 +251,10 @@ void FinancialPresenter::editRecipient()
 
     m_invoice.recipient = result.value();
 
+    if (m_invoice.nhifData) {
+        m_invoice.recipient = Recipient(std::stoi(User::practice().RHIF()));
+    }
+
     view->setInvoice(m_invoice);
 
     makeEdited();
@@ -258,7 +262,7 @@ void FinancialPresenter::editRecipient()
 
 void FinancialPresenter::editIssuer()
 {
-    ModalDialogBuilder::openSettingsDialog(1);
+    ModalDialogBuilder::openSettingsDialog(4);
     view->setInvoice(m_invoice);
 }
 
@@ -323,6 +327,10 @@ void FinancialPresenter::setDataToView()
 
     if (!m_invoice.nhifData && patient != nullptr) {
         m_invoice.recipient = Recipient{ *patient.get() }; //refreshing the patient incase it's changed
+    }
+
+    if (m_invoice.nhifData) {
+        m_invoice.recipient = Recipient(std::stoi(User::practice().RHIF()));
     }
 
 

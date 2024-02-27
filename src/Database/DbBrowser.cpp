@@ -54,7 +54,7 @@ std::pair<std::vector<RowInstance>, PlainTable> getAmbRows(const Date& from, con
     std::vector<RowInstance> rows;
     PlainTable tableView;
 
-    tableView.addColumn({"Дата",100,PlainColumn::Right});
+    tableView.addColumn({"Дата",120,PlainColumn::Right});
     tableView.addColumn({"Амб №/НРН",120,PlainColumn::Center});
     tableView.addColumn({"ЕГН/ЛНЧ/ССН",120,PlainColumn::Center});
     tableView.addColumn({"Име на пациента",240});
@@ -139,7 +139,7 @@ std::pair<std::vector<RowInstance>, PlainTable> getPerioRows(const Date& from, c
     PlainTable tableView;
     rows.reserve(50);
 
-    tableView.addColumn({"Дата",80,PlainColumn::Center});
+    tableView.addColumn({"Дата",120,PlainColumn::Center});
     tableView.addColumn({"ЕГН/ЛНЧ/ССН",150,PlainColumn::Center});
     tableView.addColumn({"Име на пациента",250,});
     tableView.addColumn({"Телефон",120,});
@@ -197,7 +197,7 @@ std::pair<std::vector<RowInstance>, PlainTable> getFinancialRows(const Date& fro
 
     Recipient nzokRecipient(std::stoi(User::practice().RHIF()));
 
-    tableView.addColumn({"Дата", 100, PlainColumn::Right});
+    tableView.addColumn({"Дата", 120, PlainColumn::Right});
     tableView.addColumn({"Документ №", 100, PlainColumn::Center});
     tableView.addColumn({"ЕГН/ЛНЧ/ЕИК", 100, PlainColumn::Center});
     tableView.addColumn({"Име на получателя", 250 });
@@ -248,7 +248,7 @@ std::pair<std::vector<RowInstance>, PlainTable> getPrescriptionRows(const Date& 
     std::vector<RowInstance> rows;
     PlainTable tableView;
 
-    tableView.addColumn({"Дата", 100, PlainColumn::Right});
+    tableView.addColumn({"Дата", 120, PlainColumn::Center});
     tableView.addColumn({"НРН", 120, PlainColumn::Center});
     tableView.addColumn({"ЕГН/ЛНЧ/ССН", 120, PlainColumn::Center});
     tableView.addColumn({"Име на пациента", 240});
@@ -324,7 +324,7 @@ std::pair<std::vector<RowInstance>, PlainTable> DbBrowser::getPatientDocuments(l
 
     std::vector<RowInstance> rowidData;
 
-    table.addColumn({"Дата",100,PlainColumn::Right});
+    table.addColumn({"Дата",120,PlainColumn::Right});
     table.addColumn({"Документ",150});
     table.addColumn({"Номер/НРН"});
 

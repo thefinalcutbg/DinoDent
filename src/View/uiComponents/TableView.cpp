@@ -93,16 +93,15 @@ void TableView::setAmbListLayout()
 {
     connect(model(), &QAbstractTableModel::dataChanged, this, [&] { fitToModel();});
     hideColumn(0);
-    setColumnWidth(1, 90);
-    setColumnWidth(2, 260);
-    setColumnWidth(3, 45);
-    setColumnWidth(4, 300);
-    setColumnWidth(5, 49);
-    setColumnWidth(6, 70);
-   // setColumnWidth(7, 69);
+    setColumnWidth(1, 100);
+    setColumnWidth(2, 150);
+    setColumnWidth(3, 65);
+    setColumnWidth(4, 250);
+    setColumnWidth(5, 80);
+    setColumnWidth(6, 80);
     hideColumn(7);
 
-    horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
+    horizontalHeader()->setSectionResizeMode(8, QHeaderView::Stretch);
 
     setShowGrid(false);
 }

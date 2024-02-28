@@ -4,14 +4,19 @@
 #include "GlobalSettings.h"
 #include "TableViewDialog.h"
 #include <QPainter>
+#include <QtGlobal>
+
 SettingsDialog::SettingsDialog(QDialog*parent)
 	: QDialog(parent)
 {
 	ui.setupUi(this);
 
+#ifndef Q_OS_WIN
+    ui.winPkcsLabel->hide();
+#endif
+
 	setWindowTitle("Настройки");
 	setWindowIcon(QIcon(":/icons/icon_settings.png"));
-	ui.tabWidget->setStyleSheet("QTabWidget{background-color: white;}");
 
 	constexpr int specIdxSize = 5;
 
@@ -91,7 +96,7 @@ SettingsDialog::SettingsDialog(QDialog*parent)
 	connect(ui.adminCheck, &QCheckBox::stateChanged, this, [&] { 
 			presenter.practiceDoctorChanged(ui.specialtyCombo->currentIndex(), ui.adminCheck->isChecked());
 	});
-	connect(ui.specialtyCombo, &QComboBox::currentIndexChanged, this, [&](int index) {
+    connect(ui.specialtyCombo, &QComboBox::currentIndexChanged, this, [&] {
 		presenter.practiceDoctorChanged(ui.specialtyCombo->currentIndex(), ui.adminCheck->isChecked());
 	});
 
@@ -123,10 +128,11 @@ SettingsDialog::SettingsDialog(QDialog*parent)
 #ifdef Q_OS_WIN
         QString extention = " (*.dll)";
 #else
+
         QString extention = " (*so *dylib)";
 #endif
 
-		auto str = QFileDialog::getOpenFileName(
+        auto str = QFileDialog::getOpenFileName(
 			nullptr,
 			"Изберете PKCS11 драйвър",
             "", extention

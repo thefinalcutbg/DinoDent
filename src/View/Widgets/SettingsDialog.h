@@ -42,8 +42,8 @@ class SettingsDialog : public QDialog, public ISettingsDialog
 public:
 	SettingsDialog(QDialog *parent = Q_NULLPTR);
 
-	void focusTab(SettingsTab tab);
-	void disableTab(SettingsTab tab);
+    void focusTab(SettingsTab tab) override;
+    void disableTab(SettingsTab tab) override;
 	void closeDialog() final { this->close(); };
 
 	void setSettings(const Settings& settings) final;

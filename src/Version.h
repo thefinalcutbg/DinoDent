@@ -7,14 +7,12 @@ struct Version {
 
 	static constexpr unsigned dbVersion() { return 22; }
 
-	static constexpr Branch branch() { return Branch::Win64; };
-
 	static constexpr Version current() {
 		
 		return {
-			.MAJOR = 1, 
-			.MINOR = 10, 
-			.REVISION = 1
+			.MAJOR = 1,
+            .MINOR = 10,
+            .REVISION = 2
 		};
 	}
 

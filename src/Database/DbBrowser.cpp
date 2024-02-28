@@ -55,7 +55,7 @@ std::pair<std::vector<RowInstance>, PlainTable> getAmbRows(const Date& from, con
     PlainTable tableView;
 
     tableView.addColumn({"Дата",120,PlainColumn::Right});
-    tableView.addColumn({"Амб №/НРН",120,PlainColumn::Center});
+    tableView.addColumn({"Амб №/НРН",135,PlainColumn::Center});
     tableView.addColumn({"ЕГН/ЛНЧ/ССН",120,PlainColumn::Center});
     tableView.addColumn({"Име на пациента",240});
     tableView.addColumn({"Телефон",120});
@@ -198,7 +198,7 @@ std::pair<std::vector<RowInstance>, PlainTable> getFinancialRows(const Date& fro
     Recipient nzokRecipient(std::stoi(User::practice().RHIF()));
 
     tableView.addColumn({"Дата", 120, PlainColumn::Right});
-    tableView.addColumn({"Документ №", 100, PlainColumn::Center});
+    tableView.addColumn({"Документ №", 110, PlainColumn::Center});
     tableView.addColumn({"ЕГН/ЛНЧ/ЕИК", 100, PlainColumn::Center});
     tableView.addColumn({"Име на получателя", 250 });
     tableView.addColumn({"Телефон", 100 });
@@ -249,7 +249,7 @@ std::pair<std::vector<RowInstance>, PlainTable> getPrescriptionRows(const Date& 
     PlainTable tableView;
 
     tableView.addColumn({"Дата", 120, PlainColumn::Center});
-    tableView.addColumn({"НРН", 120, PlainColumn::Center});
+    tableView.addColumn({"НРН", 135, PlainColumn::Center});
     tableView.addColumn({"ЕГН/ЛНЧ/ССН", 120, PlainColumn::Center});
     tableView.addColumn({"Име на пациента", 240});
     tableView.addColumn({"Телефон", 120});
@@ -325,7 +325,7 @@ std::pair<std::vector<RowInstance>, PlainTable> DbBrowser::getPatientDocuments(l
     std::vector<RowInstance> rowidData;
 
     table.addColumn({"Дата",120,PlainColumn::Right});
-    table.addColumn({"Документ",150});
+    table.addColumn({"Документ",180});
     table.addColumn({"Номер/НРН"});
 
     Db db;

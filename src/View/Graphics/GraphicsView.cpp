@@ -1,6 +1,5 @@
 #include "GraphicsView.h"
 #include <QApplication>
-#include <QDebug>
 #include <View/Theme.h>
 #include <QPainter>
 

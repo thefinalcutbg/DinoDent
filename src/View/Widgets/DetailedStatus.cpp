@@ -1,23 +1,13 @@
 ﻿#include "DetailedStatus.h"
 
-//#include <QDebug>
+
 #include <QIcon>
 #include <QPainter>
 
-#include "Presenter/CheckModel.h"
-#include "View/Graphics/ToothPainter.h"
+
 #include "Presenter/DetailedStatusPresenter.h"
 
 
-/*
-void DetailedStatus::paintEvent(QPaintEvent* event)
-{
-	QPainter painter;
-	painter.begin(this);
-	painter.fillRect(QRect(0, 0, width(), height()), Qt::white);
-	painter.end();
-}
-*/
 DetailedStatus::DetailedStatus(DetailedStatusPresenter& presenter) : presenter(presenter)
 {
 

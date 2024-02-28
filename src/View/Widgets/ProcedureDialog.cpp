@@ -1,6 +1,6 @@
 ﻿#include "ProcedureDialog.h"
 #include "Presenter/ProcedureDialogPresenter.h"
-#include <QDebug>
+
 ProcedureDialog::ProcedureDialog(ProcedureDialogPresenter& presenter, QWidget *parent)
 	: QDialog(parent), presenter(presenter), proxyModel(this)
 {

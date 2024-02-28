@@ -3,7 +3,6 @@
 #include <QDialog>
 #include <QLineEdit>
 #include <QComboBox>
-#include <QDebug>
 #include <QPainter>
 
 #include "Presenter/PatientDialogPresenter.h"

@@ -4,7 +4,6 @@
 #include "View/Graphics/ToothPainter.h"
 #include "View/Graphics/PaintHint.h"
 
-#include <QDebug>
 PerioScene::PerioScene()
 {
    

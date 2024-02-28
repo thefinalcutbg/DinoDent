@@ -6,7 +6,6 @@
 #include <QPainter>
 #include <QGridLayout>
 #include <QMouseEvent>
-#include <QDebug>
 
 #include "Model/Patient.h"
 

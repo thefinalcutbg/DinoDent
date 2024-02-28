@@ -3,7 +3,6 @@
 #include "DbUpdates.h"
 #include "View/Widgets/UpdateDialog.h"
 #include "Version.h"
-#include <QDebug>
 
 void DbUpdater::updateDb()
 {

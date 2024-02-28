@@ -47,8 +47,13 @@ UpdateDownloader::UpdateDownloader(const char* url, QWidget* parent)
 
 			if (!dataFolder.exists()) dataFolder.mkpath(".");
 
+#ifdef Q_OS_WIN
 			auto filePath = dataFolder.filePath("DinoSetup.exe");
+#endif
 
+#ifdef Q_OS_MAC
+            auto filePath = dataFolder.filePath("DinoSetup.dmg");
+#endif
 			QFile output(filePath);
 
 			if (output.exists()) output.remove();
@@ -69,8 +74,14 @@ UpdateDownloader::UpdateDownloader(const char* url, QWidget* parent)
 
 			QProcess process;
 
+#ifdef Q_OS_WIN
 			process.startDetached(filePath);
-			
+#endif
+
+#ifdef Q_OS_MAC
+            process.execute("open", {filePath});
+#endif
+
 			file_downloaded = true;
 
 			accept();
@@ -81,10 +92,8 @@ UpdateDownloader::UpdateDownloader(const char* url, QWidget* parent)
 
 void UpdateDownloader::paintEvent(QPaintEvent*)
 {
-	QPainter painter;
-	painter.begin(this);
-	painter.fillRect(QRect(0, 0, width(), height()), Qt::white);
-	painter.end();
+    QPainter painter(this);
+    painter.fillRect(rect(), Qt::white);
 }
 
 UpdateDownloader::~UpdateDownloader()

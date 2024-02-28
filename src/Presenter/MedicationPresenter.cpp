@@ -1,7 +1,7 @@
 ﻿#include "MedicationPresenter.h"
 #include "View/ModalDialogBuilder.h"
 #include "DosagePresenter.h"
-#include <QDebug>
+
 MedicationPresenter::MedicationPresenter()
 {
 }

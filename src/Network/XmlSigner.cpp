@@ -21,7 +21,7 @@
 #include <xmlsec/errors.h>
 #include <libxml/valid.h>
 
-#include <QDebug>
+//#include <QDebug>
 
 // void errorReport(const char* file,
 //     int line,

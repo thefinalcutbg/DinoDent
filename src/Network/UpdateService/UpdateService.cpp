@@ -3,7 +3,6 @@
 #include <QNetworkReply>
 #include "View/ModalDialogBuilder.h"
 #include <QEventLoop>
-#include <QDebug>
 #include <json/json.h>
 #include "View/Widgets/UpdatePromptDialog.h"
 #include "View/Widgets/UpdateDownloader.h"

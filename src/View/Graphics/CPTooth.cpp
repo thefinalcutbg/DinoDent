@@ -1,5 +1,4 @@
 #include "CPTooth.h"
-#include <QDebug>
 
 CPTooth::CPTooth() //: texture(nullptr)
 {}

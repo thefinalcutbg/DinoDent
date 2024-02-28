@@ -9,8 +9,6 @@
 #include "Model/Date.h"
 #include "Model/FreeFunctions.h"
 #include "Model/Time.h"
-#include <QDebug>
-
 
 void rewriteCfg(const Json::Value& settings)
 {

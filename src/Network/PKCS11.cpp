@@ -62,6 +62,8 @@ PKCS11::PKCS11()
 
 		if (current_slot == nullptr) continue;
 
+		driver = std::filesystem::path(module).filename().string();
+
 		PKCS11_cert_st* certs{ nullptr };
 		unsigned int ncerts{ 0 };
 

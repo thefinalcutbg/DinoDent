@@ -71,7 +71,7 @@ namespace ModalDialogBuilder
 	void openExplorer(const std::string& path);
 	std::optional<std::string> getStringInput(const std::string& dialogName, const std::string& fieldName);
 	//returns empty string if canceled
-	std::string pinPromptDialog(const std::string& pem);
+	std::string pinPromptDialog(const std::string& pem, const std::string& driver);
 	std::optional<ProcedureCode> procedureCodeDialog();
 	//returns empty string if canceled
 	//std::string ksmpDialog(KsmpList& list, const std::string& preSelectCode = {});

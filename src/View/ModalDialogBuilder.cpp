@@ -388,9 +388,9 @@ std::optional<std::string> ModalDialogBuilder::getStringInput(const std::string&
 
 #include "View/Widgets/PinPromptDialog.h"
 
-std::string ModalDialogBuilder::pinPromptDialog(const std::string& pem)
+std::string ModalDialogBuilder::pinPromptDialog(const std::string& pem, const std::string& driver)
 {
-	PinPromptDialog d(pem);
+	PinPromptDialog d(pem, driver);
 	d.exec();
 
 	return d.getResult().toStdString();

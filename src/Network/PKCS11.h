@@ -12,6 +12,9 @@ class PKCS11
 	evp_pkey_st* m_prv_key{ nullptr };
 
 public:
+
+	std::string driver;
+
 	PKCS11();
 	bool hsmLoaded();
 

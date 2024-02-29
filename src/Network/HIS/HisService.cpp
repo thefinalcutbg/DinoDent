@@ -58,7 +58,7 @@ const std::string HisService::signMessage(const std::string& message)
 	if (signer.loginRequired()) {
 
 		NetworkManager::clearAccessCache();
-		auto pin = ModalDialogBuilder::pinPromptDialog(signer.pem_x509cert());
+		auto pin = ModalDialogBuilder::pinPromptDialog(signer.pem_x509cert(), signer.driver);
 
 		if (pin.empty()) {
 			return {};

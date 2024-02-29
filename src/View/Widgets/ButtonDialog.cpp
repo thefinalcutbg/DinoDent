@@ -10,6 +10,10 @@ ButtonDialog::ButtonDialog(const std::vector<std::string>& buttonNames, const st
 
 	ui.description->setText(description.c_str());
 
+	if (description.empty()) {
+		ui.description->hide();
+	}
+
     for (std::size_t i = 0; i < buttonNames.size(); i++)
 	{
 		QPushButton* button = new QPushButton(buttonNames[i].c_str(), this);

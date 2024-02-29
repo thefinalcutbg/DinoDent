@@ -12,7 +12,7 @@ class PinPromptDialog : public QDialog
 	void paintEvent(QPaintEvent* event) override;
 
 public:
-	PinPromptDialog(const std::string& pem, QWidget *parent = Q_NULLPTR);
+	PinPromptDialog(const std::string& pem, const std::string& driver, QWidget *parent = Q_NULLPTR);
 	~PinPromptDialog();
 
 	const QString& getResult() const { return result; }

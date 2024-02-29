@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>194</width>
-    <height>165</height>
+    <height>192</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -68,6 +68,13 @@
         <widget class="QLabel" name="label">
          <property name="text">
           <string>ПИН:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>Драйвър:</string>
          </property>
         </widget>
        </item>
@@ -133,6 +140,19 @@
           </spacer>
          </item>
         </layout>
+       </item>
+       <item>
+        <widget class="QLabel" name="driverLabel">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>21</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>driverLabel</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>

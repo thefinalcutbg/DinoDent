@@ -18,6 +18,8 @@ SettingsDialog::SettingsDialog(QDialog*parent)
 	setWindowTitle("Настройки");
 	setWindowIcon(QIcon(":/icons/icon_settings.png"));
 
+	ui.tabWidget->setStyleSheet("QTabWidget QStackedWidget {background-color: white;}");
+
 	constexpr int specIdxSize = 5;
 
 	constexpr const char* specialties[specIdxSize]{

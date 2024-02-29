@@ -156,7 +156,7 @@ bool SettingsMainPresenter::applyChanges()
 		)
 		)
 	{
-		view->focusTab(SettingsTab::Practice);
+		view->focusTab(SettingsTab::NhifContract);
 		return false;
 	}
 

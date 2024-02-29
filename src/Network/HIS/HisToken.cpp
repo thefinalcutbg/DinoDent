@@ -45,7 +45,7 @@ void HisToken::setChallengeMessage(const std::string& challenge)
 	if (signer.loginRequired()) {
 
 		NetworkManager::clearAccessCache();
-		auto pin = ModalDialogBuilder::pinPromptDialog(signer.pem_x509cert());
+		auto pin = ModalDialogBuilder::pinPromptDialog(signer.pem_x509cert(), signer.driver);
 
 		if (pin.empty()) {
 			sToken::current_service = nullptr;

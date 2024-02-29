@@ -14,6 +14,7 @@ public:
 	void addProcedures(const std::vector<Procedure>& p);
 	void addProcedure(const Procedure& p);
 	bool hasNhifProcedure() const;
+	bool hasNhifDentureProcedure() const;
 	const std::vector<Procedure>& list() const { return m_proc; }
 	void refreshTeethTemporary(const ToothContainer& teeth);
 	void removeProcedure(int idx);

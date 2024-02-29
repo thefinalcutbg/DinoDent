@@ -281,7 +281,19 @@ bool ListPresenter::isNew()
 
 void ListPresenter::print()
 {
-    if(save())
+    if (!save()) return;
+
+    if (m_ambList.procedures.hasNhifDentureProcedure() &&
+        User::hasNhifContract() &&
+        User::practice().nhif_contract->iamn.empty() &&
+        !ModalDialogBuilder::askDialog(
+            "Не сте въвели ИАМН номер на зъботехническа лаборатория от Настройки. " 
+            "Желаете ли да принтирате листа въпреки това?")
+    )
+    {
+        return;
+    }
+
     Print::ambList(m_ambList, *patient);
 }
 

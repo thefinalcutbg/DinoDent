@@ -66,6 +66,7 @@ struct NhifContract
 	bool unfavourable{ false };
 	std::string nra_pass;
 	std::string nssi_pass;
+	std::string iamn;
 };
 
 constexpr const char* legalEntities[6]

@@ -177,6 +177,18 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
 
     }
 
+
+    //dental technician code
+
+    if (amb.procedures.hasNhifDentureProcedure() &&
+        User::hasNhifContract()
+    ) 
+    {
+        report.dataManager()->setReportVariable("iamn", User::practice().nhif_contract->iamn.c_str());
+    }
+
+    //referrals
+
     const Referral *form3{ nullptr },
                    *form3a{ nullptr },
                    *mdd4_1{ nullptr },

@@ -307,6 +307,7 @@ void SettingsDialog::setPractice(const Practice& practice)
 		ui.nraPass->setText(practice.nhif_contract->nra_pass.data());
 		ui.unfavCheck->setChecked(practice.nhif_contract->unfavourable);
 		ui.nssiPass->setText(practice.nhif_contract->nssi_pass.c_str());
+		ui.iamnEdit->setText(practice.nhif_contract->iamn.c_str());
 	}
 
 	ui.nhifGroup->setChecked(practice.nhif_contract.has_value());
@@ -396,6 +397,7 @@ Practice SettingsDialog::getPractice()
 		c.contract_no = ui.contractEdit->getText();
 		c.name_short = ui.practiceNameNhif->getText();
 		c.unfavourable = ui.unfavCheck->isChecked();
+		c.iamn = ui.iamnEdit->getText();
 		c.nra_pass = ui.nraPass->getText();
 		c.nssi_pass = ui.nssiPass->getText();
 		p.nhif_contract.emplace(c);

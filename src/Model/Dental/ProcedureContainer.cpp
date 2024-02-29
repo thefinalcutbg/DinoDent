@@ -53,6 +53,20 @@ bool ProcedureContainer::hasNhifProcedure() const
         return false;
 }
 
+bool ProcedureContainer::hasNhifDentureProcedure() const
+{
+    for (auto& p : m_proc) {
+        if (p.code.type() == ProcedureType::denture &&
+            p.financingSource == FinancingSource::NHIF
+        ) 
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 void ProcedureContainer::refreshTeethTemporary(const ToothContainer& teeth)
 {
     for (auto& procedure : m_proc) {

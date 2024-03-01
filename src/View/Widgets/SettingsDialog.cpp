@@ -20,8 +20,6 @@ SettingsDialog::SettingsDialog(QDialog*parent)
 	setWindowTitle("Настройки");
 	setWindowIcon(QIcon(":/icons/icon_settings.png"));
 
-
-
 	constexpr int specIdxSize = 5;
 
 	constexpr const char* specialties[specIdxSize]{
@@ -51,6 +49,9 @@ SettingsDialog::SettingsDialog(QDialog*parent)
 	//company validators
 	ui.firmAddressEdit->setInputValidator(&not_empty_validator);
 	ui.bulstatEdit->setInputValidator(&bulstat_validator);
+	ui.ibanEdit->setInputValidator(&iban_validator);
+	ui.bicEdit->setInputValidator(&bic_validator);
+
 	connect(ui.legalEntityCombo, &QComboBox::currentIndexChanged, this, [&](int index) {
 		legalEntityChanged(index == 0);
 	});
@@ -58,6 +59,8 @@ SettingsDialog::SettingsDialog(QDialog*parent)
 	ui.firmAddressEdit->setErrorLabel(ui.errorLabel);
 	ui.bulstatEdit->setErrorLabel(ui.errorLabel);
 	ui.selfInsuredId->setErrorLabel(ui.errorLabel);
+	ui.ibanEdit->setErrorLabel(ui.errorLabel);
+	ui.bicEdit->setErrorLabel(ui.errorLabel);
 
 	//nhif validators
 	connect(ui.nhifGroup, &QGroupBox::toggled, this, [&](bool clicked) { disableNhifValidators(!clicked); });
@@ -78,7 +81,17 @@ SettingsDialog::SettingsDialog(QDialog*parent)
 	ui.mNameEdit->setErrorLabel(ui.errorLabel);
 	ui.lNameEdit->setErrorLabel(ui.errorLabel);
 	ui.phoneEdit->setErrorLabel(ui.errorLabel);
+/*
+	connect(ui.ibanEdit, &QLineEdit::textChanged, this, [&](const QString& text) {
+			ui.ibanEdit->setText(text.toUpper());
+			ui.ibanEdit->validateInput();
+	});
 
+	connect(ui.bicEdit, &QLineEdit::textChanged, this, [&](const QString& text) {
+			ui.bicEdit->setText(text.toUpper());
+			ui.bicEdit->validateInput();
+	});
+	*/
 	connect(ui.specialtyButton, &QPushButton::clicked, this,
 		[&] {
 
@@ -430,7 +443,7 @@ void SettingsDialog::replaceCurrentItem(const PracticeDoctor& item)
 
 bool SettingsDialog::allFieldsAreValid()
 {
-	constexpr int fieldsSize = 13;
+	constexpr int fieldsSize = 15;
 
 	AbstractLineEdit* fields[fieldsSize] {
 		ui.practiceNameEdit,
@@ -439,6 +452,8 @@ bool SettingsDialog::allFieldsAreValid()
 		ui.selfInsuredId,
 		ui.firmAddressEdit,
 		ui.bulstatEdit,
+		ui.ibanEdit,
+		ui.bicEdit,
 		ui.lpkEdit,
 		ui.fNameEdit,
 		ui.mNameEdit,
@@ -457,8 +472,8 @@ bool SettingsDialog::allFieldsAreValid()
 		if(!field->validateInput()) {
 
 			if (i < 3) ui.tabWidget->setCurrentWidget(ui.practiceSettings);
-			else if (i < 6) ui.tabWidget->setCurrentWidget(ui.companySettings);
-			else if (i < 11) ui.tabWidget->setCurrentWidget(ui.doctorSettings);
+			else if (i < 8) ui.tabWidget->setCurrentWidget(ui.companySettings);
+			else if (i < 13) ui.tabWidget->setCurrentWidget(ui.doctorSettings);
 			else ui.tabWidget->setCurrentWidget(ui.nhifSettings);
 
 			field->set_focus();	

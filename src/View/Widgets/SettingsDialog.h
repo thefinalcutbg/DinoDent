@@ -25,6 +25,8 @@ class SettingsDialog : public QDialog, public ISettingsDialog
 
 	NotEmptyValidator not_empty_validator;
 	BulstatValidator bulstat_validator;
+	IbanValidator iban_validator;
+	BICValidator bic_validator;
 	LpkValidator lpk_validator;
 	NameValidator name_validator;
 	NzokContractValidator nhif_contract_validator;

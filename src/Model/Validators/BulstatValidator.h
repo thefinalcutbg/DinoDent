@@ -9,3 +9,15 @@ class BulstatValidator : public Validator
 public:
 	bool validateInput(const std::string& text) override;
 };
+
+class IbanValidator : public Validator
+{
+public:
+	bool validateInput(const std::string& text) override;
+};
+
+class BICValidator : public Validator
+{
+public:
+	bool validateInput(const std::string& text) override;
+};

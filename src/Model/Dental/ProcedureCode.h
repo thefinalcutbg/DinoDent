@@ -73,7 +73,8 @@ public:
             type != ProcedureType::bridge &&
             type != ProcedureType::fibersplint &&
             type != ProcedureType::denture &&
-            type != ProcedureType::depuratio
+            type != ProcedureType::depuratio &&
+            type != ProcedureType::anesthesia
             // && type != ProcedureType::removebridgeOrSplint
             ;
     }

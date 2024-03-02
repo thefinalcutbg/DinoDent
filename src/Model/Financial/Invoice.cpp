@@ -83,7 +83,7 @@ Invoice::Invoice(const Patient& p) :
 
 std::string Invoice::nhifDocumentTypeCode() const
 {
-	const char* fin_document_type_code[] = { "INVOICE, DT_NOTIF", "CT_NOTIF" };
+	const char* fin_document_type_code[] = { "INVOICE", "DT_NOTIF", "CT_NOTIF" };
 
 	return fin_document_type_code[static_cast<int>(type)];
 }
@@ -157,24 +157,6 @@ std::string Invoice::getFileName() const //only nhif data files can be exported 
 		+ ".xml";
 
 }
-/*
-Invoice& Invoice::operator=(const Invoice& other)
-{
-	rowId = other.rowId;
-	type = other.type;
-	number = other.number;
-	name = other.name;
-	date = other.date;
-	m_mainDocument = other.m_mainDocument;
-	nzokData.emplace(other.nzokData);
-	recipient = other.recipient;
-	issuer = other.issuer;
-	businessOperations = other.businessOperations;
-	aggragated_amounts = other.aggragated_amounts;
-	
-	return *this;
-}
-*/
 
 void AggregatedAmounts::calculate(const BusinessOperations& operations)
 {

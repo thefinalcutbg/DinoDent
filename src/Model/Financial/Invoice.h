@@ -18,7 +18,7 @@ struct MainDocument //only in case of debit or credit note
 };
 
 
-struct AggregatedAmounts
+struct AggregatedAmounts //this class shouldnt exist
 {
 
 	PaymentType paymentType{PaymentType::Cash};
@@ -26,7 +26,7 @@ struct AggregatedAmounts
 	double total_amount {0};
 	double payment_amount {0};
 	Date taxEventDate;
-
+	//total and payment amounts shouldn't have state - refactor!
 	void calculate(const BusinessOperations& operations);
 };
 

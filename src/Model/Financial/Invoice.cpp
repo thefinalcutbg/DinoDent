@@ -47,9 +47,9 @@ Invoice::Invoice(const TiXmlDocument& monthNotif, const Practice& practice, cons
     name                        {getDocumentName(monthNotif.RootElement())},
 
 
-    nhifData{ NhifInvoiceData(monthNotif, practice)},
+    nhifData{ NhifInvoiceData(monthNotif)},
 
-    recipient						{std::stoi(practice.RHIF())},
+    recipient{ practice },
     m_mainDocument{
         type == FinancialDocType::Invoice
             ?

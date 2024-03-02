@@ -69,16 +69,12 @@ std::string getMonthNotifData(const TiXmlDocument& monthNotif)
     return printer.Str();
 }
 
-NhifInvoiceData::NhifInvoiceData(const TiXmlDocument& monthNotif, const Practice& practice)
+NhifInvoiceData::NhifInvoiceData(const TiXmlDocument& monthNotif)
 	:
-    NzokRecipientCode(practice.RHIF()),
     fin_document_type_code(getText1(monthNotif.RootElement()->FirstChildElement("inv_type_code"))),
     fin_document_month_no(std::stoi(getText1(monthNotif.RootElement()->FirstChildElement("monthly_notification_num")))),
     activityTypeCode(std::stoi(getText1(monthNotif.RootElement()->FirstChildElement("nhif_type_code")))),
     health_insurance_fund_type_code (insuranceFunds[activityTypeCode-1]),
-    contract_no(practice.nhif_contract.value().contract_no),
-    contract_date(practice.nhif_contract.value().date),
-    rhi_nhif_no(practice.rziCode),
     date_from {(getText1(monthNotif.RootElement()->FirstChildElement("date_from")))},
     date_to{(getText1(monthNotif.RootElement()->FirstChildElement("date_to"))) },
     monthNotifData{ getMonthNotifData(monthNotif) }

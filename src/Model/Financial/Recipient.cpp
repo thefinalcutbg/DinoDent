@@ -1,12 +1,16 @@
 ﻿#include "Recipient.h"
+#include "Model/UserStructs.h"
 #include "Model/Patient.h"
 #include <array>
 
 
-constexpr int nhifRecipientCount = 28;
+constexpr int nhifRecipientCount = 29;
 
 std::array<Recipient, nhifRecipientCount> nhifRecipients
 { {
+    {
+        "", "", "", ""
+    },
     {
         "РЗОК Благоевград",
         "гр. Благоевград, пл. “Георги Измирлиев” 9",
@@ -182,14 +186,16 @@ std::array<Recipient, nhifRecipientCount> nhifRecipients
     }
 } };
 
-const Recipient& getRecipient(int practiceRhif) {
-    if (practiceRhif < 1 || practiceRhif > nhifRecipientCount)
-        throw std::exception();
+const Recipient& getRecipient(const Practice& p) {
 
-    return nhifRecipients[practiceRhif - 1];
+    if (!p.nhif_contract) return nhifRecipients[0];
+
+    int idx = std::stoi(p.nhif_contract->contract_no.substr(0, 2));
+
+    return nhifRecipients[idx];
 }
 
-Recipient::Recipient(int practiceRhif) : Recipient(getRecipient(practiceRhif))
+Recipient::Recipient(const Practice& p) : Recipient(getRecipient(p))
 {}
 
 Recipient::Recipient(const Patient& patient) :

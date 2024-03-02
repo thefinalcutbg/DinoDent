@@ -195,7 +195,7 @@ std::pair<std::vector<RowInstance>, PlainTable> getFinancialRows(const Date& fro
 
     if (User::practice().rziCode == "") return std::make_pair(rows, tableView);
 
-    Recipient nzokRecipient(std::stoi(User::practice().RHIF()));
+    Recipient nzokRecipient(User::practice());
 
     tableView.addColumn({"Дата", 120, PlainColumn::Right});
     tableView.addColumn({"Документ №", 110, PlainColumn::Center});

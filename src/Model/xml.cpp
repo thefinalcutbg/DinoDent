@@ -417,9 +417,14 @@ std::string XML::getInvoice(const Invoice& invoice)
     if (issuer.registration_by_VAT.has_value()) {
         addElementWithText(issuerXml, "issuer_bulstat_no_vat", issuer.registration_by_VAT.value());
     }
-    addElementWithText(issuerXml, "contract_no", invoice.nhifData->contract_no);
-    addElementWithText(issuerXml, "contract_date", invoice.nhifData->contract_date.to8601());
-    addElementWithText(issuerXml, "rhi_nhif_no", invoice.nhifData->rhi_nhif_no);
+
+    if (User::hasNhifContract()) {
+        auto& contract = *User::practice().nhif_contract;
+        addElementWithText(issuerXml, "contract_no", contract.contract_no);
+        addElementWithText(issuerXml, "contract_date", contract.date.to8601());
+    }
+
+    addElementWithText(issuerXml, "rhi_nhif_no", User::practice().rziCode);
 
     el_invoice->LinkEndChild(issuerXml);
 

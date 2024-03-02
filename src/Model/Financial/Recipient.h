@@ -2,6 +2,7 @@
 #include <string>
 
 struct Patient;
+struct Practice;
 
 struct Recipient
 {
@@ -15,7 +16,7 @@ struct Recipient
 	) : name(name), address(address), bulstat(bulstat), phone(phone) {}
 
 	//NZOK recipient
-	Recipient(int practiceRhif);
+	Recipient(const Practice& practice);
 
 	//Patient recipient
 	Recipient(const Patient& patient);

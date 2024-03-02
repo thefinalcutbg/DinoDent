@@ -239,7 +239,7 @@ void FinancialPresenter::editRecipient()
 {
     if (m_invoice.nhifData) {
 
-        ModalDialogBuilder::showMessage("Тези данни са генерирани на базата на РЗИ номера на практиката и не могат да бъдат редактирани.");
+        ModalDialogBuilder::showMessage("Тези данни са генерирани на базата на договора с НЗОК и не могат да бъдат редактирани.");
         return;
     }
 
@@ -252,7 +252,7 @@ void FinancialPresenter::editRecipient()
     m_invoice.recipient = result.value();
 
     if (m_invoice.nhifData) {
-        m_invoice.recipient = Recipient(std::stoi(User::practice().RHIF()));
+        m_invoice.recipient = Recipient(User::practice());
     }
 
     view->setInvoice(m_invoice);
@@ -330,7 +330,7 @@ void FinancialPresenter::setDataToView()
     }
 
     if (m_invoice.nhifData) {
-        m_invoice.recipient = Recipient(std::stoi(User::practice().RHIF()));
+        m_invoice.recipient = Recipient(User::practice());
     }
 
 

@@ -4,12 +4,15 @@
 #include <array>
 
 
-constexpr int nhifRecipientCount = 29;
+constexpr int nhifRecipientCount = 30;
 
 std::array<Recipient, nhifRecipientCount> nhifRecipients
 { {
     {
-        "", "", "", ""
+        "ЦУ на НЗОК", 
+        "гр. София, ул. “Кричим” 1", 
+        "121858220", 
+        "029659387"
     },
     {
         "РЗОК Благоевград",
@@ -183,12 +186,16 @@ std::array<Recipient, nhifRecipientCount> nhifRecipients
         "гр. Ямбол, ул. “Д-р П. Брънеков” 1",
         "1218582201660",
         "046685011"
+    },
+    {
+        "???","???","???","???"
     }
+
 } };
 
 const Recipient& getRecipient(const Practice& p) {
 
-    if (!p.nhif_contract) return nhifRecipients[0];
+    if (!p.nhif_contract) return nhifRecipients[29];
 
     int idx = std::stoi(p.nhif_contract->contract_no.substr(0, 2));
 

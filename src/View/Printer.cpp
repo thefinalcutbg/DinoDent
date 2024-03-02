@@ -332,7 +332,7 @@ void Print::invoice(const Invoice& inv)
     report.dataManager()->setReportVariable("issuer_address", QString::fromStdString(issuer.address_by_contract));
     report.dataManager()->setReportVariable("issuer_bulstat", QString::fromStdString(issuer.bulstat));
 
-    report.dataManager()->setReportVariable("total", formatDoubleWithDecimal(inv.aggragated_amounts.total_amount));
+    report.dataManager()->setReportVariable("total", formatDoubleWithDecimal(inv.amount()));
 
     report.dataManager()->setReportVariable("practice_rzi", QString::fromStdString(User::practice().rziCode));
 
@@ -349,11 +349,11 @@ void Print::invoice(const Invoice& inv)
     BusinessOperationModel model{ inv.businessOperations };
     report.dataManager()->addModel("operations", &model, false);
 
-    report.dataManager()->setReportVariable("taxEventDate", QString::fromStdString(inv.aggragated_amounts.taxEventDate.toBgStandard()));
+    report.dataManager()->setReportVariable("taxEventDate", QString::fromStdString(inv.taxEventDate.toBgStandard()));
     report.dataManager()->setReportVariable("madeBy", QString::fromStdString(User::doctor().getFullName(false)));
     report.dataManager()->setReportVariable("groundsNoVAT", QString::fromStdString(issuer.grounds_for_not_charging_VAT));
     report.dataManager()->setReportVariable("paymentType", QString::fromStdString(
-        inv.aggragated_amounts.paymentType == PaymentType::Bank ?
+        inv.paymentType == PaymentType::Bank ?
         "Банков път"
         :
         "В брой"

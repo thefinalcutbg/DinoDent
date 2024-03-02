@@ -451,10 +451,10 @@ std::string XML::getInvoice(const Invoice& invoice)
     TiXmlElement* aggregatedAmounts = new TiXmlElement("Aggregated_amounts");
 
     addElementWithText(aggregatedAmounts, "payment_type", "B");
-    addElementWithText(aggregatedAmounts, "total_amount", FreeFn::formatDouble(invoice.aggragated_amounts.total_amount));
-    addElementWithText(aggregatedAmounts, "payment_amount", FreeFn::formatDouble(invoice.aggragated_amounts.payment_amount));
+    addElementWithText(aggregatedAmounts, "total_amount", FreeFn::formatDouble(invoice.amount()));
+    addElementWithText(aggregatedAmounts, "payment_amount", FreeFn::formatDouble(invoice.amount()));
     addElementWithText(aggregatedAmounts, "original", "Y");
-    addElementWithText(aggregatedAmounts, "tax_event_date", invoice.aggragated_amounts.taxEventDate.to8601());
+    addElementWithText(aggregatedAmounts, "tax_event_date", invoice.taxEventDate.to8601());
 
     el_invoice->LinkEndChild(aggregatedAmounts);
 

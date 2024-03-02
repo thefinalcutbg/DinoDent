@@ -48,7 +48,7 @@ FinancialPresenter::FinancialPresenter(ITabView* tabView, std::shared_ptr<Patien
 
     for (auto& p : procedures) {
 
-        m_invoice.aggragated_amounts.taxEventDate = std::max(m_invoice.aggragated_amounts.taxEventDate, p.date);
+        m_invoice.taxEventDate = std::max(m_invoice.taxEventDate, p.date);
 
         BusinessOperation newOp(p);
         
@@ -67,9 +67,7 @@ FinancialPresenter::FinancialPresenter(ITabView* tabView, std::shared_ptr<Patien
         if(toBeInserted) m_invoice.businessOperations.push_back(newOp);
     }
 
-    m_invoice.aggragated_amounts.calculate(m_invoice.businessOperations);
-
-    if (!procedures.size()) m_invoice.aggragated_amounts.taxEventDate = Date::currentDate();
+    if (!procedures.size()) m_invoice.taxEventDate = Date::currentDate();
 
     m_invoice.number = DbInvoice::getNewInvoiceNumber();
 }
@@ -103,7 +101,7 @@ void FinancialPresenter::editOperation(int idx)
     if (!op.has_value()) return;
 
     m_invoice.editOperation(op.value(), idx);
-    view->setBusinessOperations(m_invoice.businessOperations, m_invoice.aggragated_amounts);
+    view->setBusinessOperations(m_invoice.businessOperations, m_invoice.amount());
     makeEdited();
 }
 
@@ -116,7 +114,7 @@ void FinancialPresenter::addOperation()
     if (newOp.has_value())
         m_invoice.addOperation(newOp.value());
 
-    view->setBusinessOperations(m_invoice.businessOperations, m_invoice.aggragated_amounts);
+    view->setBusinessOperations(m_invoice.businessOperations, m_invoice.amount());
 
     makeEdited();
 
@@ -129,7 +127,7 @@ void FinancialPresenter::removeOperation(int idx)
     if (idx < 0 || idx >= m_invoice.businessOperations.size()) return;
 
     m_invoice.removeOperation(idx);
-    view->setBusinessOperations(m_invoice.businessOperations, m_invoice.aggragated_amounts);
+    view->setBusinessOperations(m_invoice.businessOperations, m_invoice.amount());
     makeEdited();
 }
 
@@ -141,13 +139,13 @@ void FinancialPresenter::dateChanged(Date date)
 
 void FinancialPresenter::taxEventDateChanged(Date date)
 {
-    m_invoice.aggragated_amounts.taxEventDate = date;
+    m_invoice.taxEventDate = date;
     makeEdited();
 }
 
 void FinancialPresenter::paymentTypeChanged(PaymentType type)
 {
-    m_invoice.aggragated_amounts.paymentType = type;
+    m_invoice.paymentType = type;
     makeEdited();
 }
 

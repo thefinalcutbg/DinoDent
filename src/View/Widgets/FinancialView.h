@@ -23,7 +23,7 @@ public:
 
 	void setPresenter(FinancialPresenter* presenter) override;
 	void setInvoice(const Invoice& inv) override;
-	void setBusinessOperations(const BusinessOperations& businessOp, const AggregatedAmounts& amounts) override;
+	void setBusinessOperations(const BusinessOperations& businessOp, double amount) override;
     void setMainDocument(const std::optional<MainDocument>& mainDoc) override;
 	void setNumberSpinBox(long long num) override;
 

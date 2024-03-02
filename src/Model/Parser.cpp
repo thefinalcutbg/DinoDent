@@ -302,8 +302,8 @@ std::string Parser::write(const Invoice& inv)
 		json["operations"].append(operation);
 	}
 
-	json["taxEventDate"] = inv.aggragated_amounts.taxEventDate.to8601();
-	json["paymentType"] = static_cast<int>(inv.aggragated_amounts.paymentType);
+	json["taxEventDate"] = inv.taxEventDate.to8601();
+	json["paymentType"] = static_cast<int>(inv.paymentType);
 
 	Json::FastWriter writer;
 	return writer.write(json);
@@ -516,12 +516,8 @@ void Parser::parse(const std::string& jsonString, Invoice& invoice)
 		);
 	}
 
-	invoice.aggragated_amounts.calculate(invoice.businessOperations);
-	invoice.aggragated_amounts.paymentType = PaymentType::Cash;
-	invoice.aggragated_amounts.taxEventDate = Date(json["taxEventDate"].asString());
-	invoice.aggragated_amounts.paymentType = static_cast<PaymentType>(json["paymentType"].asInt());
-
-
+	invoice.taxEventDate = Date(json["taxEventDate"].asString());
+	invoice.paymentType = static_cast<PaymentType>(json["paymentType"].asInt());
 }
 
 

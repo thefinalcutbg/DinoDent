@@ -126,10 +126,10 @@ void FinancialView::setInvoice(const Invoice& inv)
 
 	ui.dateEdit->setDate(QDate{ inv.date.year, inv.date.month, inv.date.day });
 
-	auto& d = inv.aggragated_amounts.taxEventDate;
+	auto& d = inv.taxEventDate;
 	ui.taxEventDateEdit->setDate(QDate(d.year, d.month, d.day));
 
-	ui.paymentTypeCombo->setCurrentIndex(static_cast<int>(inv.aggragated_amounts.paymentType));
+	ui.paymentTypeCombo->setCurrentIndex(static_cast<int>(inv.paymentType));
 
 	bool nzokForm = inv.nhifData.has_value();
 
@@ -162,17 +162,17 @@ void FinancialView::setInvoice(const Invoice& inv)
 	ui.opLabelSpacer->changeSize(buttonsSumWidth, 0);
 	
 
-	setBusinessOperations(inv.businessOperations, inv.aggragated_amounts);
+	setBusinessOperations(inv.businessOperations, inv.amount());
 
 }
 
-void FinancialView::setBusinessOperations(const BusinessOperations& businessOp, const AggregatedAmounts& amounts)
+void FinancialView::setBusinessOperations(const BusinessOperations& businessOp, double amount)
 {
 	m_model.setBusinessOperations(businessOp);
 
-	ui.priceLabel->setText(formatDoubleWithDecimal(amounts.payment_amount) + " лв.");
+	ui.priceLabel->setText(formatDoubleWithDecimal(amount) + " лв.");
 	ui.vatLabel->setText("0%");
-	ui.sumLabel->setText(formatDoubleWithDecimal(amounts.total_amount) + " лв.");
+	ui.sumLabel->setText(formatDoubleWithDecimal(amount) + " лв.");
 	update();
 }
 

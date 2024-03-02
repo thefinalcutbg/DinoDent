@@ -31,7 +31,7 @@ FinancialDocType getFinancialType(const std::string& inv_type_code)
 
 Invoice::Invoice(const TiXmlDocument& monthNotif, const Practice& practice, const Doctor& doctor)
     :
-    type						{ getFinancialType(getText(monthNotif.RootElement()->FirstChildElement("inv_type_code")))},
+    type{ getFinancialType(getText(monthNotif.RootElement()->FirstChildElement("inv_type_code")))},
 
     nhifData{ NhifInvoiceData(monthNotif)},
 
@@ -67,9 +67,8 @@ Invoice::Invoice(const TiXmlDocument& monthNotif, const Practice& practice, cons
 	
 	}
 
-	aggragated_amounts.calculate(businessOperations);
-	aggragated_amounts.paymentType = PaymentType::Bank;
-    aggragated_amounts.taxEventDate = nhifData.value().date_to;
+	paymentType = PaymentType::Bank;
+    taxEventDate = nhifData.value().date_to;
 
 
 }
@@ -128,19 +127,28 @@ std::string Invoice::getInvoiceNumber() const
 void Invoice::removeOperation(int idx)
 {
 	businessOperations.erase(businessOperations.begin() + idx);
-	aggragated_amounts.calculate(businessOperations);
 }
 
 void Invoice::addOperation(const BusinessOperation& op)
 {
 	businessOperations.push_back(op);
-	aggragated_amounts.calculate(businessOperations);
 }
 
 void Invoice::editOperation(const BusinessOperation& op, int idx)
 {
 	businessOperations[idx] = op;
-	aggragated_amounts.calculate(businessOperations);
+}
+
+double Invoice::amount() const
+{
+	double result = 0;
+
+	for (auto& operation : businessOperations)
+	{
+		result += operation.value_price;
+	}
+
+	return result;
 }
 
 std::string Invoice::getFileName() const //only nhif data files can be exported as xml
@@ -152,20 +160,8 @@ std::string Invoice::getFileName() const //only nhif data files can be exported 
 		nhifDocumentTypeCode() + "_" +
 		User::practice().rziCode + "_" +
 		std::to_string(nhifData->activityTypeCode) + "_" +
-		aggragated_amounts.taxEventDate.toXMLInvoiceFileName() + "_" +
+		taxEventDate.toXMLInvoiceFileName() + "_" +
 		FreeFn::leadZeroes(nhifData->fin_document_month_no, 10)
 		+ ".xml";
 
-}
-
-void AggregatedAmounts::calculate(const BusinessOperations& operations)
-{
-	payment_amount = 0;
-
-	for (auto& operation : operations)
-	{
-		payment_amount += operation.value_price;
-	}
-	
-	total_amount = payment_amount;
 }

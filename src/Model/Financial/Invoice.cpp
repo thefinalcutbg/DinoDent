@@ -16,18 +16,6 @@ std::string getText(const TiXmlElement* element)
     return element->GetText();
 }
 
-
-std::string getDocumentName(const TiXmlElement* element)
-{
-   std::string s = getText(element->FirstChildElement("inv_type"));
-
-   s.erase(0, 40);
-   s += " за ";
-   s += getText(element->FirstChildElement("nhif_type"));
-
-   return s;
-}
-
 FinancialDocType getFinancialType(const std::string& inv_type_code)
 {
 
@@ -44,8 +32,6 @@ FinancialDocType getFinancialType(const std::string& inv_type_code)
 Invoice::Invoice(const TiXmlDocument& monthNotif, const Practice& practice, const Doctor& doctor)
     :
     type						{ getFinancialType(getText(monthNotif.RootElement()->FirstChildElement("inv_type_code")))},
-    name                        {getDocumentName(monthNotif.RootElement())},
-
 
     nhifData{ NhifInvoiceData(monthNotif)},
 
@@ -90,16 +76,21 @@ Invoice::Invoice(const TiXmlDocument& monthNotif, const Practice& practice, cons
 
 Invoice::Invoice(const Patient& p) :
     type(FinancialDocType::Invoice),
-    name ("Фактура"),
 	recipient(p)
 	
 {
 }
 
+std::string Invoice::nhifDocumentTypeCode() const
+{
+	const char* fin_document_type_code[] = { "INVOICE, DT_NOTIF", "CT_NOTIF" };
+
+	return fin_document_type_code[static_cast<int>(type)];
+}
+
 
 Invoice::Invoice(const Recipient& r) :
     type (FinancialDocType::Invoice),
-    name ("Фактура"),
 	recipient(r)
 {
 }
@@ -115,6 +106,13 @@ void Invoice::setMainDocumentData(long long num, Date date)
 {
 	m_mainDocument.number = num;
 	m_mainDocument.date = date;
+}
+
+std::string Invoice::title() const
+{
+	const char* titles[] = { "Фактура", "Дебитно известие", "Кредитно известие" };
+
+	return titles[static_cast<int>(type)];
 }
 
 Issuer Invoice::issuer() const
@@ -145,13 +143,13 @@ void Invoice::editOperation(const BusinessOperation& op, int idx)
 	aggragated_amounts.calculate(businessOperations);
 }
 
-std::string Invoice::getFileName() //only nhif data files can be exported as xml
+std::string Invoice::getFileName() const //only nhif data files can be exported as xml
 {
 	if (!nhifData.has_value()) return std::string{};
 
 	return
 		//"FILE_SUBM_FDOC_" +
-		nhifData->fin_document_type_code + "_" +
+		nhifDocumentTypeCode() + "_" +
 		User::practice().rziCode + "_" +
 		std::to_string(nhifData->activityTypeCode) + "_" +
 		aggragated_amounts.taxEventDate.toXMLInvoiceFileName() + "_" +

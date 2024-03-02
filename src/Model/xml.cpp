@@ -349,7 +349,7 @@ std::string XML::getInvoice(const Invoice& invoice)
         parent->LinkEndChild(element);
     };
 
-    addElementWithText(el_invoice, "fin_document_type_code", invoice.nhifData->fin_document_type_code);
+    addElementWithText(el_invoice, "fin_document_type_code", invoice.nhifDocumentTypeCode());
     addElementWithText(el_invoice, "fin_document_no", invoice.getInvoiceNumber());
     addElementWithText(el_invoice, "fin_document_month_no", FreeFn::leadZeroes(invoice.nhifData->fin_document_month_no, 10));
     addElementWithText(el_invoice, "fin_document_date", invoice.date.to8601());
@@ -429,7 +429,7 @@ std::string XML::getInvoice(const Invoice& invoice)
     el_invoice->LinkEndChild(issuerXml);
 
 
-    addElementWithText(el_invoice, "health_insurance_fund_type_code", invoice.nhifData->health_insurance_fund_type_code);
+    addElementWithText(el_invoice, "health_insurance_fund_type_code", invoice.nhifData->HIFTypeCode());
     addElementWithText(el_invoice, "activity_type_code", std::to_string(invoice.nhifData->activityTypeCode));
     addElementWithText(el_invoice, "date_from", invoice.nhifData->date_from.to8601());
     addElementWithText(el_invoice, "date_to", invoice.nhifData->date_to.to8601());

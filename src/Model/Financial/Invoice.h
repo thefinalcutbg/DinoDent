@@ -39,28 +39,33 @@ struct Invoice
 	Invoice(const TiXmlDocument& monthNotif, const Practice& practice, const Doctor& doctor);
 	Invoice(const Patient& p);
 
-	std::optional<MainDocument> mainDocument() const;
 
-	void setMainDocumentData(long long num, Date date);
+	std::optional<MainDocument> mainDocument() const;
 
 	long long number{ 0 };
 	long long rowId{0};
+
 	FinancialDocType type {FinancialDocType::Invoice};
-	std::string name{ "Фактура" }; //the title of the pdf invoice
+
 	Date date; //input by user !!!!!!!!!!!!!!!
 	std::optional<NhifInvoiceData> nhifData; //from monthNotif
+
 	Recipient recipient;
 	Issuer issuer() const;
 	BusinessOperations businessOperations;
 	AggregatedAmounts aggragated_amounts;
 
+	std::string title() const; //the title of the pdf invoice
+	std::string getFileName() const;
+	std::string nhifDocumentTypeCode() const;
 	std::string getInvoiceNumber() const;
 
 	void removeOperation(int idx);
 	void addOperation(const BusinessOperation& op);
 	void editOperation(const BusinessOperation& op, int idx);
-	std::string getFileName();
-	
+
+	void setMainDocumentData(long long num, Date date);
+
 	//Invoice& operator= (const Invoice& other);
 
 private:

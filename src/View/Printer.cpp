@@ -305,7 +305,7 @@ void Print::invoice(const Invoice& inv)
     auto report = LimeReport::ReportEngine();
     report.loadFromFile(":/reports/report_invoice.lrxml");
 
-    report.dataManager()->setReportVariable("title", QString::fromStdString(inv.name));
+    report.dataManager()->setReportVariable("title", QString::fromStdString(inv.title()));
     report.dataManager()->setReportVariable("number_date", QString::fromStdString(" № " + inv.getInvoiceNumber() + " от дата " + inv.date.toBgStandard(true)));
     report.dataManager()->setReportVariable("invoice_type", original ? "ОРИГИНАЛ" : "КОПИЕ");
 

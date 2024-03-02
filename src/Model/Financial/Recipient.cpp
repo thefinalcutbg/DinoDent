@@ -3,7 +3,6 @@
 #include "Model/Patient.h"
 #include <array>
 
-
 constexpr int nhifRecipientCount = 30;
 
 std::array<Recipient, nhifRecipientCount> nhifRecipients

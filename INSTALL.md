@@ -1,10 +1,13 @@
 # How to build:
 
-Generate the project file with your IDE of choice, by running the CMakeLists.txt. Be sure to modify the Qt directory at line 14 of the CMakeLists file, so it can point to your Qt library folder.
+# Building on Linux or MacOS
+Use the included Qt pro file. It is configured to use the Homebrew directories for dependencies. As for LimeReport - it is configured to link LM library statically (revisit the path to LimeReport source in the *.pro file)
+
+# Building on Windows
 
 ## Building dependencies:
 
-For convinience the source of Sqlite3, JsonCpp and TinyXml is already included and configured to be built and linked statically by CMake. You have to build the other dependencies yourself. However their header files are already included and configured in the include directory of the project, so you only have to provide the binaries.
+For convinience the source of Sqlite3, JsonCpp and TinyXml is already included and configured to be built and linked statically by CMake. You have to build the other dependencies yourself.
 
 ### LimeReport
 This library is required for generating and printing the ambulatory sheets and invoices. Go to [https://github.com/fralx/LimeReport](https://github.com/fralx/LimeReport) and download the source code. Build it as dynamic library with CMake (or use QtCreator with the provided *.pri file). The additional QZint dependency is not required, so if you are building with Cmake, be sure to turn the option off. If you want to run DinoDent in debug mode, be sure to build another binary of LimeReport in Debug configuration, since the Qt Print Module has different binaries for Debug and Release.
@@ -63,7 +66,6 @@ If you have followed everything  as described, you'll have all of the required b
 
 - pkcs11 (Libp11)
 
-
 ## Building DinoDent itself
 
-Open the generated CMake project with your IDE and configure the Linker Additional Directories, so they point to the libraries you've just built. The LimeReport debug/release binaries has to be linked according to the current build configuration of the project, so put them in different folders (e.g. Lib/Debug/LimeReport and Lib/Release/LimeReport). Build DinoDent and place the binaries in the folder of the executable.
+Generate the project file with your IDE of choice, by running the CMakeLists.txt (be sure to modify the Qt directory at line 14 of the CMakeLists file, so it can point to your Qt library folder) or use the included MS Visual Studio project. Configure the Linker Additional Directories, so that they point to the libraries you've just built. The LimeReport debug/release binaries has to be linked according to the current build configuration of the project, so put them in different folders (e.g. lib/debug/limereport and lib/release/limereport). Build DinoDent and place the binaries in the folder of the executable.

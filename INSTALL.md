@@ -1,7 +1,7 @@
 # How to build:
 
 # Building on Linux or MacOS
-Use the included Qt pro file. It is configured to use the Homebrew directories for dependencies. As for LimeReport - it is configured to link LM library statically (revisit the path to LimeReport source in the *.pro file)
+Use the included Qt pro file. It is configured to use the Homebrew directories for dependencies. As for LimeReport - it is configured to link the library statically (revisit the path to LimeReport source in the *.pro file)
 
 # Building on Windows
 

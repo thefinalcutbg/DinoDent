@@ -94,10 +94,9 @@ void TabTitle::mouseReleaseEvent(QMouseEvent* event)
 
 void TabTitle::setFooterIcon(const QPixmap& px)
 {
-    if(px.isNull()){
-        ui.nhif->setHidden(px.isNull());
-        return;
-    }
+	ui.nhif->setHidden(px.isNull());
+
+    if(px.isNull()){ return; }
 
 	ui.nhif->setPixmap(px);
 
@@ -105,11 +104,10 @@ void TabTitle::setFooterIcon(const QPixmap& px)
 
 void TabTitle::setHeaderIcon(const QPixmap& px)
 {
-    if(px.isNull()){
-        ui.his->setHidden(px.isNull());
-        return;
-    }
+	ui.his->setHidden(px.isNull());
 
+    if(px.isNull()){ return; }
+	
 	ui.his->setPixmap(px);
 }
 

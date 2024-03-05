@@ -380,3 +380,5 @@ dependencies/
 /test.db
 /AWP-5.3.5-SR1.x64.en-US.msi
 /OpenSC-0.23.0_win64.msi
+installer/.DS_Store
+.DS_Store

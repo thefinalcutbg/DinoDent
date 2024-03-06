@@ -3,3 +3,10 @@ DinoDent.pro.user
 installer/files/
 installer/compiled
 include/
+/.vs/DinoDent
+/bin
+/dependencies
+/database.db
+/test.db
+/DinoDent.vcxproj.user
+/Resource.aps

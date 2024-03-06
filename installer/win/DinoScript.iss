@@ -27,7 +27,7 @@ LicenseFile=DinoDent.rtf
 ;InfoAfterFile=InforFinish.txt
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
-OutputDir=compiled
+OutputDir=../compiled
 OutputBaseFilename=DinoDentSetup
 SetupIconFile=DinoDent.ico
 Compression=lzma

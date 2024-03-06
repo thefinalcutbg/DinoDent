@@ -1,1 +1,5 @@
 .DS_Store
+DinoDent.pro.user
+installer/files/
+installer/compiled
+include/

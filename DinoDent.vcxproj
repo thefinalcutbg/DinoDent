@@ -72,7 +72,7 @@
     <IntDir>$(SolutionDir)/bin/intermediates/$(Platform)/$(Configuration)/</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <OutDir>$(SolutionDir)/bin/$(Platform)/$(Configuration)/</OutDir>
+    <OutDir>$(SolutionDir)/installer/files/</OutDir>
     <IntDir>$(SolutionDir)/bin/intermediates/$(Platform)/$(Configuration)/</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|Win32'">

@@ -111,4 +111,6 @@ bool initFunction() {
 void testFn()
 {
     ModalDialogBuilder::showMessage(Test::crudTest());
+    QFile f("test.db");
+    f.remove();
 }

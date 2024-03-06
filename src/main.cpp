@@ -1,6 +1,7 @@
 ﻿#include <QtWidgets/QApplication>
 #include "View/Widgets/DinoDent.h"
 #include "Network/UpdateService/UpdateService.h"
+#include <QtGlobal>
 
 bool initFunction();
 
@@ -10,8 +11,6 @@ int main(int argc, char *argv[])
 {
 
     QApplication a(argc, argv);
-    QApplication::setApplicationName("DinoDent");
-    QApplication::setWindowIcon(QIcon(":/icons/icon_torque.png"));
 
     if (UpdateService::restartForUpdate()) { return 0; };
 
@@ -53,13 +52,8 @@ int main(int argc, char *argv[])
 
 bool initFunction() {
 
-    //QFontDatabase::addApplicationFont(":/fonts/font_RobotoCondensedRegular.ttf");
-    //QFontDatabase::addApplicationFont(":/fonts/font_segoeui.ttf");
-    //QFontDatabase::addApplicationFont(":/fonts/font_segoeuib.ttf");
-    //QApplication::setFont(QFont("Segoe UI", 8));
-
-   // QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-   // QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+    QApplication::setApplicationName("DinoDent");
+    QApplication::setWindowIcon(QIcon(":/icons/icon_app.png"));
 
     SplashScreen::createAndShow();
 

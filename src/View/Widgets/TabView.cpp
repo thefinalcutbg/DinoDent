@@ -15,7 +15,7 @@ TabView::TabView(QWidget *parent)
 
     ui.tabBar->setExpanding(false);
     ui.tabBar->setMovable(true);
-    ui.tabBar->setTabsClosable(true);
+    ui.tabBar->setTabsClosable(false);
     ui.tabBar->setElideMode(Qt::TextElideMode::ElideNone);
 
     ui.tabBar->setStyleSheet(

@@ -75,9 +75,9 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>930</x>
+     <x>910</x>
      <y>20</y>
-     <width>81</width>
+     <width>101</width>
      <height>21</height>
     </rect>
    </property>
@@ -88,7 +88,7 @@
   <widget class="QSpinBox" name="boneSpin">
    <property name="geometry">
     <rect>
-     <x>1020</x>
+     <x>1010</x>
      <y>20</y>
      <width>41</width>
      <height>21</height>
@@ -107,9 +107,9 @@
   <widget class="QCheckBox" name="systemicCheck">
    <property name="geometry">
     <rect>
-     <x>1080</x>
+     <x>1070</x>
      <y>20</y>
-     <width>131</width>
+     <width>161</width>
      <height>21</height>
     </rect>
    </property>
@@ -120,9 +120,9 @@
   <widget class="QCheckBox" name="restoreCheck">
    <property name="geometry">
     <rect>
-     <x>930</x>
+     <x>910</x>
      <y>140</y>
-     <width>281</width>
+     <width>331</width>
      <height>31</height>
     </rect>
    </property>
@@ -133,9 +133,9 @@
   <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
     <rect>
-     <x>930</x>
+     <x>910</x>
      <y>50</y>
-     <width>311</width>
+     <width>331</width>
      <height>91</height>
     </rect>
    </property>
@@ -275,15 +275,15 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>DateEdit</class>
-   <extends>QDateEdit</extends>
-   <header>View/uiComponents/DateEdit.h</header>
-  </customwidget>
-  <customwidget>
    <class>PatientTileInfo</class>
    <extends>QWidget</extends>
    <header>View/SubWidgets/PatientTileInfo.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>DateEdit</class>
+   <extends>QDateEdit</extends>
+   <header>View/uiComponents/DateEdit.h</header>
   </customwidget>
   <customwidget>
    <class>PerioStatusView</class>

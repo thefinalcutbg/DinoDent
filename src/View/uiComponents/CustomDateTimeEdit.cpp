@@ -148,7 +148,7 @@ void CustomDateTimeEdit::setDateLabelText(int year, int month) {
     yearButton->setText(QStringLiteral("%1").arg(year));
 
     QLocale l(QLocale::Bulgarian);
-    monthButton->setText(l.monthName(month, QLocale::LongFormat));
+    monthButton->setText(l.monthName(month, QLocale::ShortFormat));
 }
 /* 选择月份 */
 void CustomDateTimeEdit::selectedMonth(int year, int month) {

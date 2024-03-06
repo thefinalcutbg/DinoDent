@@ -199,7 +199,7 @@ void PatientTile::setData(const Patient& patient, int age)
 
 	this->age = QString::number(age) + " г.";
 
-	address = elide(QString::fromStdString(patient.getFullAddress()), 32);
+    address = elide(QString::fromStdString(patient.getFullAddress()), 28);
 
 	if (patient.phone != "")
 		phone = QString::fromStdString(patient.phone);

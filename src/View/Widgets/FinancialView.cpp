@@ -22,6 +22,12 @@ FinancialView::FinancialView(QWidget *parent)
 	ui.deleteButton->setIcon(QIcon(":/icons/icon_remove.png"));
 	ui.editButton->setIcon(QIcon(":/icons/icon_edit.png"));
 
+    ui.saveXMLButton->setHoverColor(Theme::mainBackgroundColor);
+    ui.sendPisButton->setHoverColor(Theme::mainBackgroundColor);
+    ui.addButton->setHoverColor(Theme::mainBackgroundColor);
+    ui.deleteButton->setHoverColor(Theme::mainBackgroundColor);
+    ui.editButton->setHoverColor(Theme::mainBackgroundColor);
+
 	ui.operationsTable->setModel(&m_model);
 	ui.operationsTable->setBusinessOperationLayout();
 	ui.operationsTable->setStyleSheet(

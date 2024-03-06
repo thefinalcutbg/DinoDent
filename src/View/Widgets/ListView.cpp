@@ -17,6 +17,8 @@ ListView::ListView(QWidget* parent)
 	contextMenu = new ContextMenu();
 	teethViewScene->setContextMenu(contextMenu);
 
+    ui.nrnButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+
 	ui.ambNumSpin->setTotalLength(6);
 	ui.ambNumSpin->installEventFilter(new MouseWheelGuard(ui.ambNumSpin));
 	ui.dateTimeEdit->installEventFilter(new MouseWheelGuard(ui.dateTimeEdit));

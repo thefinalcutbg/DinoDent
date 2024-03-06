@@ -16,7 +16,7 @@ create-dmg \
   --volicon "icon.icns" \
   --background "background.png" \
   --window-pos 200 110 \
-  --window-size 600 355 \
+  --window-size 605 360 \
   --icon-size 90 \
   --icon "DinoDent.app" 160 150 \
   --app-drop-link 435 150 \

@@ -282,7 +282,7 @@ bool ListPresenter::isNew()
 void ListPresenter::print()
 {
     if (!save()) return;
-
+/*
     if (m_ambList.procedures.hasNhifDentureProcedure() &&
         User::hasNhifContract() &&
         User::practice().nhif_contract->iamn.empty() &&
@@ -293,7 +293,7 @@ void ListPresenter::print()
     {
         return;
     }
-
+*/
     Print::ambList(m_ambList, *patient);
 }
 

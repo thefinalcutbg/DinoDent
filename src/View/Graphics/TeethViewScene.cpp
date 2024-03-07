@@ -179,7 +179,39 @@ int TeethViewScene::keyCodeMapper(QKeyEvent *e)
     #if defined(Q_OS_WIN)
         return e->nativeVirtualKey();
     #elif defined (Q_OS_MAC)
-        return e->key();
+
+    const static std::map<int, int> cyrillic_map{
+        {1058, Qt::Key_T},
+        {1054, Qt::Key_O},
+        {1062, Qt::Key_C},
+        {1056, Qt::Key_R},
+        {1045, Qt::Key_E},
+        {1071, Qt::Key_Q},
+        {1055, Qt::Key_P},
+        {1044, Qt::Key_D},
+        {1060, Qt::Key_F},
+        {1048, Qt::Key_I},
+        {1051, Qt::Key_L},
+        {1050, Qt::Key_K},
+        {1043, Qt::Key_G},
+        {1041, Qt::Key_B},
+        {1052, Qt::Key_M},
+        {1057, Qt::Key_S},
+        {1059, Qt::Key_U},
+        {1068, Qt::Key_X},
+        {1061, Qt::Key_H},
+        {1046, Qt::Key_V},
+        {1040, Qt::Key_A}
+    };
+
+    auto result = e->key();
+
+    if(result >1000 && cyrillic_map.count(result)){
+        result = cyrillic_map.at(result);
+    }
+
+    return result;
+
     #else
 
         auto result = e->key();

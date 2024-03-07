@@ -3,6 +3,7 @@
 #include "PaintHint.h"
 #include <QGraphicsPixmapItem>
 #include <QPainter>
+#include <QtGlobal>
 
 inline QPixmap textureFormat(const QPixmap& px, QColor color, double opacity)
 {
@@ -453,19 +454,25 @@ inline void drawMobilityLabel(const ToothPaintHint& tooth, QPixmap& pixmap)
 {
 	if (!tooth.mobility) return;
     
-	QString mobilityLabel = "🠘" + QString::number(tooth.mobility) + "🠚";
+    const char* mobilityLabels[] = {"", "I", "II", "III"};
 
 	QPainter painter(&pixmap);
 
-	QFont font{ "Arial", 28 };
+#ifdef Q_OS_WIN
+    int pointSize = 28;
+#else
+    int pointSize = 35;
+#endif
+
+    QFont font;
+    font.setPointSize(pointSize);
 	font.setBold(1);
 
-	
     int yPos = tooth.idx > 15 ? pixmap.height() - 123 : 50;
 
 	painter.setPen(QColor{ 255, 146, 148 });
 	painter.setFont(font);
-	painter.drawText(QRect{ 0, yPos, pixmap.width(), 50}, Qt::AlignCenter, mobilityLabel);
+    painter.drawText(QRect{ 0, yPos, pixmap.width(), 50}, Qt::AlignCenter, mobilityLabels[tooth.mobility]);
 
 }
 

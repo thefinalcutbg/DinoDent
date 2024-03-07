@@ -32,17 +32,9 @@ INCLUDEPATH += $$HOMEBREW/include/libxml2
 INCLUDEPATH += $$HOMEBREW/include/xmlsec1
 
 #Default rules for deployment.
-qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
-!isEmpty(target.path): INSTALLS += target
-
-release:{
-DESTDIR = $$PWD/installer/files/
-OBJECTS_DIR = $${DESTDIR}/.objects
-MOC_DIR = $${DESTDIR}/.moc
-RCC_DIR = $${DESTDIR}/.rcc
-UI_DIR = $${DESTDIR}/.ui
-}
+#qnx: target.path = /tmp/$${TARGET}/bin
+#else: unix:!android: target.path = /opt/$${TARGET}/bin
+#!isEmpty(target.path): INSTALLS += target
 
 macos: ICON = $$PWD/installer/macos/icon.icns
 

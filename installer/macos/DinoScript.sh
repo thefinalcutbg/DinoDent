@@ -2,11 +2,11 @@
 
 APP="$PWD/../files/DinoDent.app" #the compiled bundle
 
-defaults write $APP/Contents/Info.plist NSRequiresAquaSystemAppearance -bool yes #enforcing light theme
-
 QDEPLOY="$PWD/../../../Qt/6.5.3/macos/bin/macdeployqt" #macdeployqt location
 
 $QDEPLOY $APP #deploying the app
+
+defaults write $APP/Contents/Info.plist NSRequiresAquaSystemAppearance -bool yes #enforcing light theme
 
 codesign --force --deep --sign - $APP #signing
 
@@ -23,3 +23,5 @@ create-dmg \
   --hide-extension "DinoDent.app" \
   "$PWD/../compiled/dinodent-arm64.dmg" \
   "$PWD/../files/"
+
+rm -R $APP

@@ -210,7 +210,7 @@ void Procedure::applyPISProcedure(ToothContainer& teeth) const
 		case ProcedureType::denture:
 		{
 			int dentureBegin = code.oldCode() == 832 ? 1 : 17;
-			int dentureEnd = code.oldCode() == 832 ? 15 : 30;
+			int dentureEnd = code.oldCode() == 832 ? 14 : 30;
 
 			for (int i = dentureBegin; i <= dentureEnd; i++)
 			{

@@ -10,26 +10,40 @@ CONFIG += no_zint no_svg no_formdesigner no_embedded_designer #limereport option
 include(../LimeReport/limereport/limereport.pri) #pri file from LimeReport source code
 
 unix:!macx{
-  HOMEBREW = /home/linuxbrew/.linuxbrew
+
+#the unix version uses homebrew for dependencies management
+
+  DEPFOLDER = /home/linuxbrew/.linuxbrew
+
+LIBS += \
+    -L$$DEPFOLDER/opt/libxml2/lib -lxml2 \
+    -L$$DEPFOLDER/opt/openssl@3/lib/ -lssl \
+    -L$$DEPFOLDER/opt/openssl@3/lib/ -lcrypto \
+    -L$$DEPFOLDER/opt/xmlsec1/lib/ -lxmlsec1 \
+    -L$$DEPFOLDER/opt/xmlsec1/lib/ -lxmlsec1-openssl \
+    -L$$DEPFOLDER/opt/libp11/lib/ -lp11 \
 }
 
 macx:{
-  HOMEBREW = /opt/homebrew
-}
 
-LIBS += \
-    -L$$HOMEBREW/opt/libxml2/lib/ -lxml2 \
-    -L$$HOMEBREW/opt/openssl@3/lib/ -lssl \
-    -L$$HOMEBREW/opt/openssl@3/lib/ -lcrypto \
-    -L$$HOMEBREW/opt/xmlsec1/lib/ -lxmlsec1 \
-    -L$$HOMEBREW/opt/xmlsec1/lib/ -lxmlsec1-openssl \
-    -L$$HOMEBREW/opt/libp11/lib/ -lp11 \
+QMAKE_APPLE_DEVICE_ARCHS = x86_64 arm64
+
+#the mac version uses macports for dependencies, because we need universial versions
+#NOTE: couldn't install xmlsec from macports, so I've build it myself with from github source with:
+#./configure CFLAGS="-arch x86_64 -arch arm64" --disable-apps-crypto-dl --disable-crypto-dl --with-openssl="/opt/local"
+#then I moved it to the /opt/local folder
+
+  DEPFOLDER = /opt/local
+  OPENSSL_LIBS="-L$$DEPFOLDER/lib -lcrypto -lssl"\
+  LIBS += -L$$DEPFOLDER/lib -lxml2 -lxmlsec1 -lxmlsec1-openssl -lp11
+
+}
 
 INCLUDEPATH += $$PWD/src
 INCLUDEPATH += $$PWD/include #for jsoncpp, sqlite3 and tinyxml
-INCLUDEPATH += $$HOMEBREW/include
-INCLUDEPATH += $$HOMEBREW/include/libxml2
-INCLUDEPATH += $$HOMEBREW/include/xmlsec1
+INCLUDEPATH += $$DEPFOLDER/include
+INCLUDEPATH += $$DEPFOLDER/include/libxml2
+INCLUDEPATH += $$DEPFOLDER/include/xmlsec1
 
 #Default rules for deployment.
 #qnx: target.path = /tmp/$${TARGET}/bin

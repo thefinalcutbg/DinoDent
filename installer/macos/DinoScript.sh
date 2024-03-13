@@ -21,7 +21,7 @@ create-dmg \
   --icon "DinoDent.app" 160 150 \
   --app-drop-link 435 150 \
   --hide-extension "DinoDent.app" \
-  "$PWD/../compiled/dinodent-arm64.dmg" \
+  "$PWD/../compiled/dinodent-macos.dmg" \
   "$PWD/../files/"
 
 rm -R $APP

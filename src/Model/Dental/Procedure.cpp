@@ -110,12 +110,17 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 				for (int i = result.tooth_begin; i <= result.tooth_end; i++) {
 
 					if (
+						( //is missing
 						teeth[i].noData()	 ||
 						teeth[i][Missing]	 ||
 						teeth[i][Root]		 ||
-						teeth[i][Implant]	 ||
+						teeth[i][Implant] 	 ||
 						teeth[i][Impacted]	 ||
 						teeth[i][Denture]
+						) && // and it's not already restored by
+						!teeth[i][Crown]	 &&
+						!teeth[i][Bridge]	 &&
+						!teeth[i][Splint]
 					) 
 					{
 						indexes.push_back(i);
@@ -202,7 +207,18 @@ void Procedure::applyPISProcedure(ToothContainer& teeth) const
 			teeth.setStatus({ tooth_idx.index }, Dental::StatusType::General, Dental::Crown, true, tooth_idx.supernumeral); break;
 		case ProcedureType::implant:
 			teeth.setStatus({ tooth_idx.index }, Dental::StatusType::General, Dental::Implant, true, tooth_idx.supernumeral); break;
-        default: break;
+		case ProcedureType::denture:
+		{
+			int dentureBegin = code.oldCode() == 832 ? 1 : 17;
+			int dentureEnd = code.oldCode() == 832 ? 15 : 30;
+
+			for (int i = dentureBegin; i <= dentureEnd; i++)
+			{
+				teeth[i].setStatus(Dental::StatusType::General, Dental::Denture, true);
+			}
+			break;
+		}
+		default: break;
 	}
 
 	

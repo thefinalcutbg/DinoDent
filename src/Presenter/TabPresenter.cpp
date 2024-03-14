@@ -138,6 +138,7 @@ void TabPresenter::openPerscription(const Patient& patient)
 
 void TabPresenter::openInvoice(const std::string& monthNotif)
 {
+
     try {
         auto presenter = new FinancialPresenter(view, monthNotif);
 
@@ -148,8 +149,8 @@ void TabPresenter::openInvoice(const std::string& monthNotif)
 
         createNewTab(presenter);
     }
-    catch(const std::exception& e) {
-        ModalDialogBuilder::showError(e.what());
+    catch(std::exception) {
+        ModalDialogBuilder::showError("Неуспешно зареждане на месечното известие");
     }
 
     

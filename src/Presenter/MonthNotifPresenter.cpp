@@ -44,6 +44,10 @@ void MonthNotifPresenter::okPressed(int currentIdx)
     
     m_notifHandler.sendRequest(User::practice().rziCode, m_notifRows[currentIdx].hash,
             [=, this](const std::string& result) {
+
+            if(result.empty()) {
+                return;
+            }
             TabPresenter::get().openInvoice(result);
             view->closeParentDialog();
         });

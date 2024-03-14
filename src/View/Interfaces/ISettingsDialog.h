@@ -1,10 +1,8 @@
 #pragma once
 
-#include "View/Interfaces/IPacticeSettings.h"
 #include "Model/Settings.h"
 #include "Model/DynamicNum.h"
 #include "Model/UserStructs.h"
-#include "Model/Validators/AbstractValidator.h"
 
 class MainSettingsPresenter;
 

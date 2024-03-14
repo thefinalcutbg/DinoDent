@@ -54,15 +54,6 @@ void ModalDialogBuilder::openDialog(LoginPresenter& p)
 	d.exec();
 }
 
-
-#include "View/Widgets/PracticeDialog.h"
-
-void ModalDialogBuilder::openDialog(PracticeDialogPresenter& p)
-{
-	PracticeDialog d(p);
-	d.exec();
-}
-
 #include "View/Widgets/DoctorSettingsDialog.h"
 
 void ModalDialogBuilder::openDialog(DoctorDialogPresenter& p)

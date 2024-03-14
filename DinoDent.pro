@@ -96,7 +96,6 @@ FORMS += \
     src/View/Widgets/PracticeDialog.ui \
     src/View/Widgets/PracticeListDialog.ui \
     src/View/Widgets/PracticeSelectorView.ui \
-    src/View/Widgets/PracticeSettings.ui \
     src/View/Widgets/PrescriptionView.ui \
     src/View/Widgets/ProcedureDialog.ui \
     src/View/Widgets/ProcedureEditDialog.ui \
@@ -279,9 +278,7 @@ HEADERS += \
     src/Presenter/PatientSummaryPresenter.h \
     src/Presenter/PerioPresenter.h \
     src/Presenter/PisImportPresenter.h \
-    src/Presenter/PracticeDialogPresenter.h \
     src/Presenter/PracticeManagerPresenter.h \
-    src/Presenter/PracticeSettingsPresenter.h \
     src/Presenter/PrescriptionPresenter.h \
     src/Presenter/ProcedureCreator.h \
     src/Presenter/ProcedureDialogPresenter.h \
@@ -344,7 +341,6 @@ HEADERS += \
     src/View/Interfaces/IMedicationDialog.h \
     src/View/Interfaces/IMonthNotifView.h \
     src/View/Interfaces/IObturationView.h \
-    src/View/Interfaces/IPacticeSettings.h \
     src/View/Interfaces/IPatientDialog.h \
     src/View/Interfaces/IPatientSummaryView.h \
     src/View/Interfaces/IPatientTileInfo.h \
@@ -427,7 +423,6 @@ HEADERS += \
     src/View/Widgets/PracticeDialog.h \
     src/View/Widgets/PracticeListDialog.h \
     src/View/Widgets/PracticeSelectorView.h \
-    src/View/Widgets/PracticeSettings.h \
     src/View/Widgets/PrescriptionView.h \
     src/View/Widgets/ProcedureDialog.h \
     src/View/Widgets/ProcedureEditDialog.h \
@@ -623,9 +618,7 @@ SOURCES += \
     src/Presenter/PatientSummaryPresenter.cpp \
     src/Presenter/PerioPresenter.cpp \
     src/Presenter/PisImportPresenter.cpp \
-    src/Presenter/PracticeDialogPresenter.cpp \
     src/Presenter/PracticeManagerPresenter.cpp \
-    src/Presenter/PracticeSettingsPresenter.cpp \
     src/Presenter/PrescriptionPresenter.cpp \
     src/Presenter/ProcedureCreator.cpp \
     src/Presenter/ProcedureDialogPresenter.cpp \
@@ -727,7 +720,6 @@ SOURCES += \
     src/View/Widgets/PracticeDialog.cpp \
     src/View/Widgets/PracticeListDialog.cpp \
     src/View/Widgets/PracticeSelectorView.cpp \
-    src/View/Widgets/PracticeSettings.cpp \
     src/View/Widgets/PrescriptionView.cpp \
     src/View/Widgets/ProcedureDialog.cpp \
     src/View/Widgets/ProcedureEditDialog.cpp \

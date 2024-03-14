@@ -21,7 +21,7 @@ class DetailedStatusPresenter;
 class LoginPresenter;
 class DoctorDialogPresenter;
 class InvoicePresenter;
-class PracticeDialogPresenter;
+
 class MonthNotifPresenter;
 class MedicationPresenter;
 class DosagePresenter;
@@ -42,7 +42,6 @@ namespace ModalDialogBuilder
     void openDialog(ProcedureEditorPresenter& p);
     void openDialog(DetailedStatusPresenter& p);
     void openDialog(LoginPresenter& p);
-    void openDialog(PracticeDialogPresenter& p);
     void openDialog(DoctorDialogPresenter& p);
     void openDialog(MedicationPresenter& p);
     void openDialog(DosagePresenter& p);

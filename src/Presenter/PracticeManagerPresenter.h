@@ -13,6 +13,5 @@ public:
 	void setView(IPracticeSelectorView* view);
 	void addClicked();
 	void removeClicked(int idx);
-	void editClicked(int idx);
 	void dbChangePath();
 };

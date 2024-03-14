@@ -15,8 +15,6 @@ PracticeSelectorView::PracticeSelectorView(PracticeManagerPresenter& p, QWidget 
     connect(ui.dbButton, &QPushButton::clicked, this, [&] {presenter.dbChangePath(); });
     connect(ui.addButton, &QPushButton::clicked, this, [&] {presenter.addClicked(); });
     connect(ui.removeButton, &QPushButton::clicked, this, [&] {presenter.removeClicked(ui.listWidget->currentIndex().row());});
-    connect(ui.editButton, &QPushButton::clicked, this, [&] {presenter.editClicked(ui.listWidget->currentIndex().row());});
-    connect(ui.listWidget, &QListWidget::doubleClicked, this, [&] {presenter.editClicked(ui.listWidget->currentIndex().row());});
     connect(ui.backButton, &QPushButton::clicked, this, [&] { close();});
     presenter.setView(this);
 

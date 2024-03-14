@@ -4,21 +4,27 @@
 #include "ui_PracticeDialog.h"
 #include "View/Interfaces/IPracticeDialog.h"
 
-class PracticeDialogPresenter;
+#include "Model/Validators/LpkValidator.h"
+#include "Model/Validators/RziValidaor.h"
+#include "Model/Validators/PatientValidators.h"
 
 class PracticeDialog : public QDialog, public IAddPracticeDialog
 {
 	Q_OBJECT
 
-    PracticeDialogPresenter& presenter;
+    NotEmptyValidator not_empty_validator;
+    RziValidator rzi_validator;
+    CityValidator city_validator;
+    LpkValidator lpk_validator;
+
+    std::optional<Data> m_data;
 
 	void paintEvent(QPaintEvent* event) override;
 
 public:
-    PracticeDialog(PracticeDialogPresenter& presenter, QWidget *parent = Q_NULLPTR);
+    PracticeDialog(QWidget *parent = Q_NULLPTR);
 
-	IPracticeSettings* practiceSettingsView() override;
-	void closeDialog() override;
+    virtual std::optional<Data> getData() override {return m_data; }
 
 	~PracticeDialog();
 

@@ -1,11 +1,18 @@
 #pragma once
 
-#include "View/Interfaces/IPacticeSettings.h"
-#include "View/Interfaces/IPracticeDoctorSettings.h"
+#include <string>
+#include <optional>
 
 class IAddPracticeDialog
 {
 public:
-	virtual IPracticeSettings* practiceSettingsView() = 0;
-	virtual void closeDialog() = 0;
+
+    struct Data{
+        std::string name;
+        std::string rzi;
+        std::string address;
+        std::string lpk;
+    };
+
+    virtual std::optional<Data> getData() = 0;
 };

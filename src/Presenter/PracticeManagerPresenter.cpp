@@ -1,9 +1,10 @@
 ﻿#include "PracticeManagerPresenter.h"
 #include "Database/DbPractice.h"
 #include "View/ModalDialogBuilder.h"
-#include "Presenter/PracticeDialogPresenter.h"
+#include "View/Widgets/PracticeDialog.h"
 #include "GlobalSettings.h"
 #include "Database/Database.h"
+#include "Database/DbDoctor.h"
 #include "DbUpdates/Updater.h"
 
 PracticeManagerPresenter::PracticeManagerPresenter() :
@@ -25,21 +26,50 @@ void PracticeManagerPresenter::setView(IPracticeSelectorView* view)
 
 void PracticeManagerPresenter::addClicked()
 {
-	view->closeDialog();
 
-	PracticeDialogPresenter p;
+    PracticeDialog d;
+    d.exec();
 
-	auto result = p.open();
+    auto result = d.getData();
 
-	if (result.has_value()) {
-		DbPractice::insertPractice(result->practice);
-		DbPractice::setDoctorsPracticeList(result->doctorsList, result->practice.rziCode);
-	}
+    if(!result.has_value()) return;
+
+    if(DbPractice::practiceExists(result->rzi)){
+        ModalDialogBuilder::showMessage("Практика с такъв РЗИ номер вече съществува");
+        return;
+    }
+
+    Practice p;
+    p.name = result->name;
+    p.practice_address = result->address;
+    p.firm_address = result->address;
+    p.legal_entity = 2;
+    p.rziCode = result->rzi;
+    p.bulstat = "000000000";
+
+    DbPractice::insertPractice(p);
+
+    if(!DbDoctor::suchDoctorExists(result->lpk)){
+
+        Doctor d;
+        d.fname = "Иван";
+        d.mname = "Иванов";
+        d.lname = "Иванов";
+        d.LPK = result->lpk;
+        d.hisSpecialty = 2081;
+        d.phone = "";
+        DbDoctor::insertDoctor(d);
+    }
+
+    PracticeDoctor pd;
+    pd.lpk = result->lpk;
+    pd.admin = true;
+
+    DbPractice::setDoctorsPracticeList({ pd }, p.rziCode);
+
 
 	practices = DbPractice::getPracticeList();
-
-    ModalDialogBuilder::openDialog(*this);
-	
+    setView(view);
 }
 
 void PracticeManagerPresenter::removeClicked(int idx)
@@ -76,45 +106,6 @@ void PracticeManagerPresenter::removeClicked(int idx)
 
 	setView(view);
 
-
-}
-
-void PracticeManagerPresenter::editClicked(int idx)
-{
-	if (idx < 0 && idx >= practices.size()) return;
-
-	if (practices[idx].pass.size())
-	{
-		auto passGuess = ModalDialogBuilder::inputDialog(
-			"Въведете парола на практиката",
-			"Редактиране на практика",
-			"",
-			true
-		);
-
-		if (passGuess.empty()) return;
-
-		if (passGuess != practices[idx].pass)
-		{
-			ModalDialogBuilder::showError("Грешна парола!");
-			return;
-		}
-	}
-
-	view->closeDialog();
-
-	PracticeDialogPresenter p(practices[idx].rzi);
-
-	auto result = p.open();
-
-	if (result.has_value()) {
-		DbPractice::updatePractice(result->practice, practices[idx].rzi);
-		DbPractice::setDoctorsPracticeList(result->doctorsList, result->practice.rziCode);
-	}
-
-	practices = DbPractice::getPracticeList();
-
-    ModalDialogBuilder::openDialog(*this);
 
 }
 

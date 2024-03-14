@@ -14,11 +14,9 @@
 
 #include "Presenter/PatientDialogPresenter.h"
 #include "Presenter/MonthNotifPresenter.h"
-#include "Presenter/PracticeDialogPresenter.h"
 #include "Presenter/ReportFilesPresenter.h"
 #include "Presenter/MonthNotifPresenter.h"
 #include "Presenter/LoginPresenter.h"
-#include "Presenter/DoctorDialogPresenter.h"
 #include "Presenter/StatisticDialogPresenter.h"
 #include "Presenter/RecipientPresenter.h"
 
@@ -212,11 +210,7 @@ void MainPresenter::logOut()
 
 void MainPresenter::userSettingsPressed()
 {
-    DoctorDialogPresenter p(User::doctor());
-    auto doctor = p.open();
-
-    if (doctor.has_value())
-        User::setCurrentDoctor(doctor.value());
+    ModalDialogBuilder::openSettingsDialog(2);
 
     view->setUserLabel(
         User::doctor().getFullName(),

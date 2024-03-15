@@ -348,9 +348,6 @@
     <ClCompile Include="src\View\uiComponents\ComboBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\uiComponents\CustomDateEdit.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\View\uiComponents\DateEdit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -904,6 +901,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Model\Dental\NhifSpecReport.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\uiComponents\CalendarWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1679,6 +1679,9 @@
     <ClInclude Include="src\Model\Dental\NhifSpecReport.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\View\uiComponents\CalendarWidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\SubWidgets\ContextMenu.h">
@@ -1730,9 +1733,6 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\uiComponents\ComboBox.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="src\View\uiComponents\CustomDateEdit.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\uiComponents\DateEdit.h">

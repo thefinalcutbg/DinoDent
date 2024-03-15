@@ -74,13 +74,13 @@ CalendarWidget::CalendarWidget(QWidget* parent) : QCalendarWidget(parent) {
 
     setDateLabelText(QDate::currentDate().year(), QDate::currentDate().month());
 
-    hboxLayout->addWidget(prevYearButton);
+
     hboxLayout->addWidget(prevMonthButton);
-    hboxLayout->addStretch();
-    hboxLayout->addWidget(yearButton);
     hboxLayout->addWidget(monthButton);
-    hboxLayout->addStretch();
     hboxLayout->addWidget(nextMonthButton);
+    hboxLayout->addStretch();
+    hboxLayout->addWidget(prevYearButton);
+    hboxLayout->addWidget(yearButton);
     hboxLayout->addWidget(nextYearButton);
     topWidget->setLayout(hboxLayout);
 

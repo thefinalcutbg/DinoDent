@@ -17,7 +17,11 @@ PatientDialogPresenter::PatientDialogPresenter(const Patient& patient) :
 	medStats(patient.medStats),
 	allergies(patient.allergies),
 	dialogTitle("Редактиране на данни на пациента")
-{}
+{
+	if (patient.type == 1) {
+		m_patient->birth = Date::getBirthdateFromEgn(patient.id);
+	}
+}
 
 std::optional<Patient> PatientDialogPresenter::open()
 {
@@ -156,16 +160,16 @@ void PatientDialogPresenter::searchDbForPatient(int type)
 	medStats = patient.medStats;
 	allergies = patient.allergies;
 
+	if (patient.type == Patient::EGN)
+	{
+		patient.birth = Date::getBirthdateFromEgn(patient.id);
+		patient.sex = Patient::getSexFromEgn(patientId);
+	}
+
 	if (patient.rowid == 0)
 	{
 		patient.id = patientId;
 		patient.type = Patient::Type(type);
-
-		if (patient.type == Patient::EGN)
-		{
-			patient.birth = Date::getBirthdateFromEgn(patient.id);
-			patient.sex = Patient::getSexFromEgn(patientId);
-		}
 
 		if (patient.type == Patient::EU) {
 			patient.foreigner.emplace();

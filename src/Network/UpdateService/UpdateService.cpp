@@ -36,8 +36,8 @@ bool UpdateService::restartForUpdate()
     updateInfo = updateInfo["win64"];
 #endif
 
-#ifdef Q_OS_MACX
-    updateInfo = updateInfo["macx"];
+#ifdef Q_OS_MACOS
+    updateInfo = updateInfo["macos"];
 #endif
 
     auto latestVersion = Version::fromStr(updateInfo["ver"].asString());

@@ -10,9 +10,9 @@
 			"При първо стартиране на програмата се генерират автоматично практика и лекар с примерни данни"
 		]
 	},
-	"macx": {
-		"ver": "1.10.1",
-		"dl": "https://github.com/thefinalcutbg/DinoDent/releases/download/v1.10.1/test.dmg",
+	"macos": {
+		"ver": "1.11.1",
+		"dl": "https://github.com/thefinalcutbg/DinoDent/releases/download/v1.11.1/dinodent-macos.dmg",
 		"changeLog": [
 			"HOTFIX - Оправен е проблемът с невъзможността за издаване на медицинска бележка от версия 1.10.0",
 			"Възможност за генериране на спецификация за месечния отчет към НЗОК (по предложение на д-р Тезей Десов)",

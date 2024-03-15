@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>710</width>
-    <height>328</height>
+    <width>716</width>
+    <height>344</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -162,7 +162,7 @@
       </property>
       <property name="maximumDateTime">
        <datetime>
-        <hour>7</hour>
+        <hour>5</hour>
         <minute>59</minute>
         <second>59</second>
         <year>9999</year>
@@ -176,6 +176,9 @@
         <month>1</month>
         <day>1</day>
        </date>
+      </property>
+      <property name="calendarPopup">
+       <bool>true</bool>
       </property>
       <property name="date">
        <date>
@@ -391,7 +394,7 @@
        </property>
        <property name="maximumDateTime">
         <datetime>
-         <hour>5</hour>
+         <hour>3</hour>
          <minute>59</minute>
          <second>59</second>
          <year>9999</year>
@@ -688,6 +691,11 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
+   <class>DateEdit</class>
+   <extends>QDateEdit</extends>
+   <header>View/uiComponents/DateEdit.h</header>
+  </customwidget>
+  <customwidget>
    <class>LineEdit</class>
    <extends>QLineEdit</extends>
    <header>View/uiComponents/LineEdit.h</header>
@@ -696,11 +704,6 @@
    <class>AutoCompleteLineEdit</class>
    <extends>QLineEdit</extends>
    <header>View/uiComponents/AutoCompleteLineEdit.h</header>
-  </customwidget>
-  <customwidget>
-   <class>DateEdit</class>
-   <extends>QDateEdit</extends>
-   <header>View/uiComponents/DateEdit.h</header>
   </customwidget>
   <customwidget>
    <class>ComboBox</class>

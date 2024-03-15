@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>529</width>
-    <height>319</height>
+    <height>371</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -238,7 +238,7 @@
         </widget>
        </item>
        <item>
-        <widget class="CustomDateEdit" name="dateEdit">
+        <widget class="DateEdit" name="dateEdit">
          <property name="enabled">
           <bool>false</bool>
          </property>
@@ -290,6 +290,9 @@
        <property name="text">
         <string>OK</string>
        </property>
+       <property name="default">
+        <bool>true</bool>
+       </property>
       </widget>
      </item>
     </layout>
@@ -299,9 +302,9 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>CustomDateEdit</class>
+   <class>DateEdit</class>
    <extends>QDateEdit</extends>
-   <header>View/uiComponents/customdateedit.h</header>
+   <header>View/uiComponents/DateEdit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -1,10 +1,10 @@
 #pragma once
-#include "customdateedit.h"
+#include <QDateEdit>
 #include "View/Interfaces/AbstractDateEdit.h"
 
 class QLabel;
 
-class DateEdit : public CustomDateEdit, public AbstractDateEdit
+class DateEdit : public QDateEdit, public AbstractDateEdit
 {
 	Q_OBJECT
 	
@@ -17,8 +17,8 @@ public:
 	void setValidAppearence(bool valid) override;
 	void set_Date(const Date& date) override;
 	Date getDate() override;
-	void reset();
-	void disable(bool disable);
+    void reset() override;
+    void disable(bool disable) override;
 
 	void setErrorLabel(QLabel* errorLabel);
 };

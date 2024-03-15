@@ -4,6 +4,8 @@
 #include <QRegularExpression>
 #include <QApplication>
 #include <QClipboard>
+#include <QMenu>
+
 #include "View/Theme.h"
 #include "QtVersion.h"
 #include "View/ModalDialogBuilder.h"

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1240</width>
-    <height>478</height>
+    <width>1246</width>
+    <height>479</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -160,7 +160,7 @@
         </widget>
        </item>
        <item>
-        <widget class="CustomDateEdit" name="dateEdit">
+        <widget class="DateEdit" name="dateEdit">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -187,7 +187,7 @@
          </property>
          <property name="dateTime">
           <datetime>
-           <hour>6</hour>
+           <hour>4</hour>
            <minute>0</minute>
            <second>0</second>
            <year>2000</year>
@@ -523,11 +523,6 @@
    <header>View/uiComponents/IconButton.h</header>
   </customwidget>
   <customwidget>
-   <class>CustomDateEdit</class>
-   <extends>QDateEdit</extends>
-   <header>View/uiComponents/customdateedit.h</header>
-  </customwidget>
-  <customwidget>
    <class>PatientTileInfo</class>
    <extends>QWidget</extends>
    <header>View/SubWidgets/PatientTileInfo.h</header>
@@ -542,6 +537,11 @@
    <class>HoverButton</class>
    <extends>QPushButton</extends>
    <header>View/uiComponents/HoverButton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>DateEdit</class>
+   <extends>QDateEdit</extends>
+   <header>View/uiComponents/DateEdit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

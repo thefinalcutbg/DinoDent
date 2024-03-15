@@ -102,7 +102,6 @@
     </qresource>
     <qresource prefix="/style">
         <file>dateEditStyle.qss</file>
-        <file>json_medicationForms.json</file>
     </qresource>
     <qresource prefix="/updates">
         <file>update_dbEkatte.json</file>

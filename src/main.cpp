@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
 #include "View/Graphics/SpriteSheets.h"
 #include "View/Graphics/Zodiac.h"
 #include "View/Widgets/SplashScreen.h"
-
+#
 bool initFunction() {
 
     QApplication::setApplicationName("DinoDent");
@@ -107,7 +107,7 @@ bool initFunction() {
 }
 
 #include "Tests/CrudTest.h"
-
+#include <QFile>
 void testFn()
 {
     ModalDialogBuilder::showMessage(Test::crudTest());

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1007</width>
+    <width>1054</width>
     <height>702</height>
    </rect>
   </property>
@@ -137,7 +137,7 @@
         </widget>
        </item>
        <item>
-        <widget class="CustomDateEdit" name="dateEdit">
+        <widget class="DateEdit" name="dateEdit">
          <property name="displayFormat">
           <string notr="true">d.M.yyyy 'г.'</string>
          </property>
@@ -157,7 +157,7 @@
         <widget class="QComboBox" name="docTypeCombo">
          <property name="minimumSize">
           <size>
-           <width>135</width>
+           <width>0</width>
            <height>0</height>
           </size>
          </property>
@@ -227,7 +227,13 @@
         </widget>
        </item>
        <item>
-        <widget class="CustomDateEdit" name="mainDocDateEdit">
+        <widget class="DateEdit" name="mainDocDateEdit">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="displayFormat">
           <string notr="true">d.M.yyyy 'г.'</string>
          </property>
@@ -499,7 +505,7 @@
               </widget>
              </item>
              <item>
-              <widget class="CustomDateEdit" name="taxEventDateEdit">
+              <widget class="DateEdit" name="taxEventDateEdit">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
                  <horstretch>0</horstretch>
@@ -698,11 +704,6 @@
    <header>View/uiComponents/IconButton.h</header>
   </customwidget>
   <customwidget>
-   <class>CustomDateEdit</class>
-   <extends>QDateEdit</extends>
-   <header>View/uiComponents/customdateedit.h</header>
-  </customwidget>
-  <customwidget>
    <class>TableView</class>
    <extends>QTableView</extends>
    <header>View/uiComponents/TableView.h</header>
@@ -711,6 +712,11 @@
    <class>LeadingZeroSpinBox</class>
    <extends>QSpinBox</extends>
    <header>View/uiComponents/LeadingZeroSpinBox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>DateEdit</class>
+   <extends>QDateEdit</extends>
+   <header>View/uiComponents/DateEdit.h</header>
   </customwidget>
   <customwidget>
    <class>RecipientTileButton</class>

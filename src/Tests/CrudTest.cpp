@@ -9,8 +9,6 @@
 
 std::string Test::crudTest()
 {
-	QFile f("test.db");
-	f.remove();
 
 	bool success = true;
 
@@ -224,6 +222,9 @@ std::string Test::crudTest()
     if (DbAmbList::getNewNumber(Date(2, 1, 23)) != 1) {
 		return "Error getting new ambsheet number";
 	}
+
+    QFile f("test.db");
+    f.remove();
 
 	return "CRUD test successful";
 

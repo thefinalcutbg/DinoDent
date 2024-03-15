@@ -10,7 +10,7 @@ std::vector<std::string> Prescription::getMedList() const
         
         result.back() += "; Дозировка: ";
 
-        for (auto d : m.dosage) result.back() += d.parse() +  "; ";
+        for (auto& d : m.dosage) result.back() += d.parse() +  "; ";
     }
 
     return result;

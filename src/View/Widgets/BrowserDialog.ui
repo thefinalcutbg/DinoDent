@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>809</width>
-    <height>576</height>
+    <height>613</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -143,9 +143,12 @@
          </widget>
         </item>
         <item>
-         <widget class="CustomDateEdit" name="fromDateEdit">
+         <widget class="DateEdit" name="fromDateEdit">
           <property name="displayFormat">
            <string notr="true">d.M.yyyy 'г.'</string>
+          </property>
+          <property name="calendarPopup">
+           <bool>true</bool>
           </property>
          </widget>
         </item>
@@ -157,9 +160,12 @@
          </widget>
         </item>
         <item>
-         <widget class="CustomDateEdit" name="toDateEdit">
+         <widget class="DateEdit" name="toDateEdit">
           <property name="displayFormat">
            <string notr="true">d.M.yyyy 'г.'</string>
+          </property>
+          <property name="calendarPopup">
+           <bool>true</bool>
           </property>
          </widget>
         </item>
@@ -322,9 +328,9 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>CustomDateEdit</class>
+   <class>DateEdit</class>
    <extends>QDateEdit</extends>
-   <header>View/uiComponents/customdateedit.h</header>
+   <header>View/uiComponents/DateEdit.h</header>
   </customwidget>
   <customwidget>
    <class>ListTable</class>

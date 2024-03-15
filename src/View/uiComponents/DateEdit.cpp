@@ -1,11 +1,20 @@
 #include "DateEdit.h"
 #include <QLabel>
+#include <QLineEdit>
+#include "CalendarWidget.h"
 
-DateEdit::DateEdit(QWidget* parent) : CustomDateEdit(parent), errorLabel(nullptr)
+DateEdit::DateEdit(QWidget* parent) : QDateEdit(parent), errorLabel(nullptr)
 {
     setDate(QDate::currentDate());
 
     connect(this, &QDateEdit::dateChanged, [&] { AbstractUIElement::validateInput(); });
+
+    setCalendarPopup(true);
+    auto c = new CalendarWidget;
+    setCalendarWidget(c);
+    setDisplayFormat("dd.MM.yyyy");
+    setLocale(QLocale(QLocale::Bulgarian));
+    lineEdit()->setFrame(false);
 }
 
 

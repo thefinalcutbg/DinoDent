@@ -446,6 +446,7 @@ HEADERS += \
     src/View/Widgets/WelcomeWidget.h \
     src/View/uiComponents/AutoCompleteLineEdit.h \
     src/View/uiComponents/BigPushButton.h \
+    src/View/uiComponents/CalendarWidget.h \
     src/View/uiComponents/ComboBox.h \
     src/View/uiComponents/CustomButton.h \
     src/View/uiComponents/CustomDateTimeEdit.h \
@@ -475,8 +476,7 @@ HEADERS += \
     src/View/uiComponents/TextEdit.h \
     src/View/uiComponents/TileButton.h \
     src/View/uiComponents/ToothButton.h \
-    src/View/uiComponents/UserButton.h \
-    src/View/uiComponents/customdateedit.h
+    src/View/uiComponents/UserButton.h
 
 SOURCES += \
     include/TinyXML/tinystr.cpp \
@@ -741,6 +741,7 @@ SOURCES += \
     src/View/Widgets/WelcomeWidget.cpp \
     src/View/uiComponents/AutoCompleteLineEdit.cpp \
     src/View/uiComponents/BigPushButton.cpp \
+    src/View/uiComponents/CalendarWidget.cpp \
     src/View/uiComponents/ComboBox.cpp \
     src/View/uiComponents/CustomButton.cpp \
     src/View/uiComponents/CustomDateTimeEdit.cpp \
@@ -770,7 +771,6 @@ SOURCES += \
     src/View/uiComponents/TileButton.cpp \
     src/View/uiComponents/ToothButton.cpp \
     src/View/uiComponents/UserButton.cpp \
-    src/View/uiComponents/customdateedit.cpp \
     src/main.cpp
 
 

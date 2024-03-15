@@ -8,6 +8,7 @@
 #include "GlobalSettings.h"
 #include "Model/FreeFunctions.h"
 #include "Database/DbTelemetry.h"
+#include <QtGlobal>
 
 void Telemetry::sendData()
 {
@@ -28,6 +29,22 @@ void Telemetry::sendData()
 	telemetry["prescr_count"] = dbData.prescrCount;
 	telemetry["inv_count"] = dbData.invoiceCount;
 	telemetry["patient_count"] = dbData.patientCount;
+
+	int os = -1;
+
+#ifdef Q_OS_WIN
+	os = 0;
+#endif
+
+#ifdef Q_OS_MACOS
+	os = 1;
+#endif
+
+#ifdef Q_OS_LINUX
+	os = 2;
+#endif
+
+	telemetry["os"] = os;
 
 	NetworkManager::sendTelemetry(Json::FastWriter().write(telemetry));
 

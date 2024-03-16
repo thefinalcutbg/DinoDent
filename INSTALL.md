@@ -1,7 +1,7 @@
 # How to build:
 
-# Building on Linux or MacOS
-Use the included Qt pro file. It is configured to use the Homebrew directories for dependencies. As for LimeReport - it is configured to link the library statically (revisit the path to LimeReport source in the *.pro file). The build is tested under Qt 6.5 and OpenSSL 3.
+# Building on Linux or macOS
+Use the included Qt pro file. It is configured to use the Homebrew directories for dependencies under Linux and MacPorts under macOS (because of the universal libraries). You will also need the LimeReport source code from GitHub, which is linked statically (revisit the path to LimeReport source in the DinoDent.pro file). The build is tested under Qt 6.5 and OpenSSL 3.
 
 # Building on Windows
 

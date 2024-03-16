@@ -160,6 +160,9 @@ void PatientDialogPresenter::searchDbForPatient(int type)
 	medStats = patient.medStats;
 	allergies = patient.allergies;
 
+	patient.id = patientId;
+	patient.type = Patient::Type(type);
+
 	if (patient.type == Patient::EGN)
 	{
 		patient.birth = Date::getBirthdateFromEgn(patientId);
@@ -168,9 +171,6 @@ void PatientDialogPresenter::searchDbForPatient(int type)
 
 	if (patient.rowid == 0)
 	{
-		patient.id = patientId;
-		patient.type = Patient::Type(type);
-
 		if (patient.type == Patient::EU) {
 			patient.foreigner.emplace();
 		}

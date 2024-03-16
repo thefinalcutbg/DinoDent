@@ -162,7 +162,7 @@ void PatientDialogPresenter::searchDbForPatient(int type)
 
 	if (patient.type == Patient::EGN)
 	{
-		patient.birth = Date::getBirthdateFromEgn(patient.id);
+		patient.birth = Date::getBirthdateFromEgn(patientId);
 		patient.sex = Patient::getSexFromEgn(patientId);
 	}
 

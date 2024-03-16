@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
 
     if (!initFunction()) {  return 0;  }
 
-    //      testFn(); return 0;
+    //testFn(); return 0;
 
     //splash screen is destroyed at the end of DinoDent constructor
     DinoDent w;
@@ -107,10 +107,8 @@ bool initFunction() {
 }
 
 #include "Tests/CrudTest.h"
-#include <QFile>
+
 void testFn()
 {
     ModalDialogBuilder::showMessage(Test::crudTest());
-    QFile f("test.db");
-    f.remove();
 }

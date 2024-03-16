@@ -124,7 +124,7 @@ void TabView::removeAllTabs()
 
     ui.tabBar->blockSignals(false);
     
-    ui.tabBar->currentChanged(-1);
+    emit ui.tabBar->currentChanged(-1);
 
 }
 
@@ -149,7 +149,7 @@ void TabView::newTab(int tabId, const TabName& tabName)
     }
 
     //if the tab, which is added is the first one:
-    if (ui.tabBar->count() == 1) ui.tabBar->currentChanged(0);
+    if (ui.tabBar->count() == 1) emit ui.tabBar->currentChanged(0);
     
 
 

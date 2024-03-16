@@ -17,6 +17,10 @@ SettingsDialog::SettingsDialog(QDialog*parent)
     ui.tabWidget->setStyleSheet("QTabWidget QStackedWidget {background-color: white;}");
 #endif
 
+#ifdef Q_OS_MACOS
+    ui.label_11->setMinimumHeight(ui.legalEntityCombo->height()+2);
+#endif
+
 	setWindowTitle("Настройки");
 	setWindowIcon(QIcon(":/icons/icon_settings.png"));
 

@@ -112,9 +112,9 @@
      <widget class="ComboBox" name="sexCombo">
       <property name="geometry">
        <rect>
-        <x>390</x>
+        <x>380</x>
         <y>16</y>
-        <width>71</width>
+        <width>81</width>
         <height>21</height>
        </rect>
       </property>
@@ -123,12 +123,12 @@
       </property>
       <item>
        <property name="text">
-        <string>М</string>
+        <string>Мъж</string>
        </property>
       </item>
       <item>
        <property name="text">
-        <string>Ж</string>
+        <string>Жена</string>
        </property>
       </item>
      </widget>
@@ -162,7 +162,7 @@
       </property>
       <property name="maximumDateTime">
        <datetime>
-        <hour>5</hour>
+        <hour>3</hour>
         <minute>59</minute>
         <second>59</second>
         <year>9999</year>
@@ -394,7 +394,7 @@
        </property>
        <property name="maximumDateTime">
         <datetime>
-         <hour>3</hour>
+         <hour>1</hour>
          <minute>59</minute>
          <second>59</second>
          <year>9999</year>
@@ -691,11 +691,6 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>DateEdit</class>
-   <extends>QDateEdit</extends>
-   <header>View/uiComponents/DateEdit.h</header>
-  </customwidget>
-  <customwidget>
    <class>LineEdit</class>
    <extends>QLineEdit</extends>
    <header>View/uiComponents/LineEdit.h</header>
@@ -706,14 +701,19 @@
    <header>View/uiComponents/AutoCompleteLineEdit.h</header>
   </customwidget>
   <customwidget>
-   <class>ComboBox</class>
-   <extends>QComboBox</extends>
-   <header>View/uiComponents/ComboBox.h</header>
+   <class>DateEdit</class>
+   <extends>QDateEdit</extends>
+   <header>View/uiComponents/DateEdit.h</header>
   </customwidget>
   <customwidget>
    <class>NameEdit</class>
    <extends>QLineEdit</extends>
    <header>View/uiComponents/NameEdit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>ComboBox</class>
+   <extends>QComboBox</extends>
+   <header>View/uiComponents/ComboBox.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

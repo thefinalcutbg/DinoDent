@@ -152,7 +152,6 @@ void PatientDialogPresenter::accept()
 
 void PatientDialogPresenter::searchDbForPatient(int type)
 {
-	
 	std::string patientId = view->lineEdit(id)->getText();
 
 	Patient patient = DbPatient::get(patientId, type);
@@ -160,27 +159,10 @@ void PatientDialogPresenter::searchDbForPatient(int type)
 	medStats = patient.medStats;
 	allergies = patient.allergies;
 
-	patient.id = patientId;
-	patient.type = Patient::Type(type);
-
-	if (patient.type == Patient::EGN)
-	{
-		patient.birth = Date::getBirthdateFromEgn(patientId);
-		patient.sex = Patient::getSexFromEgn(patientId);
-	}
-
-	if (patient.rowid == 0)
-	{
-		if (patient.type == Patient::EU) {
-			patient.foreigner.emplace();
-		}
-	}
-	else
-	{
+	if (patient.rowid){
 		rowid = patient.rowid;
 	}
-	
-	
+		
 	setPatientToView(patient);
 	
 }

@@ -98,11 +98,17 @@ Patient DbPatient::get(std::string patientID, int type)
 
     Patient patient;
 
+    
+    patient.type = static_cast<Patient::Type>(type);
+    patient.id = patientID;
+
+    if (patient.type == Patient::Type::EU) {
+        patient.foreigner.emplace();
+    }
+
     while (db.hasRows())
     {
         patient.rowid = db.asRowId(0),
-        patient.type = Patient::Type(db.asInt(1));
-        patient.id = db.asString(2);
         patient.birth = Date(db.asString(3));
         patient.sex = Patient::Sex(db.asInt(4));
         patient.FirstName = db.asString(5);
@@ -123,6 +129,12 @@ Patient DbPatient::get(std::string patientID, int type)
                 .date_valid = db.asString(16)
             };
         }
+    }
+
+    //ensured birth and sex are valid
+    if (patient.type == Patient::EGN) {
+        patient.birth = Date::getBirthdateFromEgn(patient.id);
+        patient.sex = Patient::getSexFromEgn(patient.id);
     }
 
     patient.teethNotes = getPresentNotes(patient.rowid);

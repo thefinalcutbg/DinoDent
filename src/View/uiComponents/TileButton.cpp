@@ -19,12 +19,7 @@ TileButton::TileButton(QWidget* parent) : QAbstractButton(parent)
 
 void TileButton::paintEvent(QPaintEvent*)
 {
-
-
-	//if(hover) color.setRgb(242, 242, 242);
-
 	QPainter painter(this);
-	//painter.setRenderHint(QPainter::Antialiasing);
 	painter.setRenderHint(QPainter::SmoothPixmapTransform);
 
 	//getting the half-rounded button path:
@@ -121,7 +116,6 @@ PatientTile::PatientTile(QWidget* parent) : TileButton(parent)
 
 void PatientTile::paintInfo(QPainter* painter)
 {
-	QFontMetrics fm(info);
 
     //int phonePosX = width() - fm.horizontalAdvance(phone) - 10;
     //int addressPosX = width() - fm.horizontalAdvance(address) - 10;
@@ -162,7 +156,7 @@ void PatientTile::paintInfo(QPainter* painter)
 
 	static QPixmap bdayPx{ ":/icons/icon_bday.png" };
 
-	if (birthday) painter->drawPixmap(170, 86, 15, 15, bdayPx);
+    if (birthday) painter->drawPixmap(20 + horizontalAdvance("Рождена дата: 00.00.0000 г"), 86, 15, 15, bdayPx);
 	
 }
 
@@ -206,9 +200,7 @@ void PatientTile::setData(const Patient& patient, int age)
 	else phone = "";
 
 	if (patient.insuranceStatus)
-	{
-		QColor nraBackgroundColor;
-
+    {
 		switch (patient.insuranceStatus->status)
 		{
 		case Insured::Yes:

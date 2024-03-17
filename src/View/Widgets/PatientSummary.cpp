@@ -123,7 +123,7 @@ void PatientSummary::paintEvent(QPaintEvent*)
 	QPainterPath path;
 
 	const QRect r{
-			ui.teethView->x(),
+			ui.teethView->x()-5,
 			ui.teethView->y(),
 			ui.teethView->width() + ui.vStack->width(),
 			ui.teethView->height()
@@ -148,7 +148,7 @@ void PatientSummary::paintEvent(QPaintEvent*)
 	};
 
 	painter.drawLine(line);
-
+/*
 	if (!ui.teethView->hasFocus()) return;
 
 	painter.setPen(QPen(Theme::mainBackgroundColor));
@@ -159,8 +159,8 @@ void PatientSummary::paintEvent(QPaintEvent*)
 	);
 
 	painter.translate(ui.teethView->pos());
-	painter.drawPath(teethViewPath);
-
+	painter.drawPath(teethViewPath)
+*/
 	painter.end();
 }
 

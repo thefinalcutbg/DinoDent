@@ -19,6 +19,7 @@ PatientDialogPresenter::PatientDialogPresenter(const Patient& patient) :
 	dialogTitle("Редактиране на данни на пациента")
 {
 	if (patient.type == 1) {
+		m_patient->sex = Patient::getSexFromEgn(patient.id);
 		m_patient->birth = Date::getBirthdateFromEgn(patient.id);
 	}
 }

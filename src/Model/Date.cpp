@@ -101,6 +101,7 @@ bool Date::isDefault() const
 
 Date Date::getBirthdateFromEgn(const std::string& egn)
 {
+    if (egn.size() < 6) return Date();
 
     int year = stoi(egn.substr(0, 2));
     int month = stoi(egn.substr(2, 2));

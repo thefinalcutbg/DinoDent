@@ -11,10 +11,10 @@
 		]
 	},
 	"macos": {
-		"ver": "1.11.2",
-		"dl": "https://github.com/thefinalcutbg/DinoDent/releases/download/v1.11.2/dinodent-macos.dmg",
+		"ver": "1.11.3",
+		"dl": "https://github.com/thefinalcutbg/DinoDent/releases/download/v1.11.3/dinodent-macos.dmg",
 		"changeLog": [
-			"Оправен е крашът при въвеждане на нов пациент (докладван от д-р Веселин Георгиев)"
+			"Оправен е проблемът при който програмата няма правомощия да зареди външни драйвъри за КЕП"
 		]
 	}
 }

@@ -32,13 +32,12 @@ macx:{
 #NOTE: couldn't install xmlsec from macports, so I've build it myself with from github source with:
 #./configure CFLAGS="-arch x86_64 -arch arm64" --disable-apps-crypto-dl --disable-crypto-dl --with-openssl="/opt/local"
 #then I moved it to the /opt/local folder
-
-  DEPFOLDER = /opt/local
-
-  LIBS += -L$$DEPFOLDER/lib -lxml2 -lxmlsec1 -lxmlsec1-openssl -lp11 -lcrypto -lssl
-  OPENSSL_LIBS= -L$$DEPFOLDER/lib -lcrypto -lssl
-
   QMAKE_APPLE_DEVICE_ARCHS = x86_64 arm64
+  DEPFOLDER = /opt/local
+  OPENSSL_LIBS= -L$$DEPFOLDER/lib -lcrypto -lssl
+  LIBS += -L$$DEPFOLDER/lib -lxml2 -lxmlsec1 -lxmlsec1-openssl -lp11 -lcrypto -lssl
+
+
 
   ICON = $$PWD/installer/macos/icon.icns
 

@@ -1,15 +1,21 @@
 #!/bin/sh
 
+#defining file paths
 APP="$PWD/../files/DinoDent.app" #the compiled bundle
 INSTALLER="$PWD/../compiled/dinodent-macos.dmg"
 QDEPLOY="$PWD/../../../Qt/6.5.3/macos/bin/macdeployqt" #macdeployqt location
 
-defaults write $APP/Contents/Info.plist NSRequiresAquaSystemAppearance -bool yes #enforcing light theme
+#enforcing light theme:
+defaults write $APP/Contents/Info.plist NSRequiresAquaSystemAppearance -bool yes 
 
-$QDEPLOY $APP -sign-for-notarization="Developer ID Application: Hristo Konstantinov" #deploying the app
+#deploying the app
+$QDEPLOY $APP -sign-for-notarization="Developer ID Application: Hristo Konstantinov"
+
+#adding entitlements allowing DinoDent to load external PKCS11 modules
+codesign --options runtime -s "Developer ID Application: Hristo Konstantinov"  -f --timestamp --entitlements entitlements.plist $APP
 
 #deleting the old dmg installer
-Rm -R $INSTALLER
+-R $INSTALLER
 
 #creating dmg installer using create-dmg
 create-dmg \
@@ -25,12 +31,17 @@ create-dmg \
   $INSTALLER \
   "$PWD/../files/"
 
+#signing the dmg
 codesign --options runtime --timestamp -s "Developer ID Application: Hristo Konstantinov" $INSTALLER
 
+#submitting for notarization
 xcrun notarytool submit $INSTALLER --keychain-profile "DeployProfile" --wait
 
+#applying notarization
 xcrun stapler staple $INSTALLER
 
+#verifying notarization
 spctl --assess -vv --type install $INSTALLER
 
-rm -R $APP
+#deleting the original deployed file
+#rm -R $APP

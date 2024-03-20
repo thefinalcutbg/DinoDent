@@ -22,6 +22,7 @@ public:
     void exitProgram() override;
     bool initialized();
     void disableButtons(bool printDisabled, bool saveDisabled);
+    ~DinoDent();
 
 private:
     Ui::DinoDentClass ui;

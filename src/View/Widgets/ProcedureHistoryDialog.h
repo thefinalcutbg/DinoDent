@@ -30,7 +30,7 @@ private:
 	// Inherited via IProcedureHistoryDialog
 	void setPis(const std::vector<Procedure>& p) override;
 	void setHis(const std::vector<Procedure>& h) override;
-	void setHospitalizations(const std::vector<Hospitalization>& h);
+    void setHospitalizations(const std::vector<Hospitalization>& h) override;
 	void setSnapshot(const HisSnapshot& snapshot) override;
 	void focusTab(int idx) override;
 	void closeDialog() override;

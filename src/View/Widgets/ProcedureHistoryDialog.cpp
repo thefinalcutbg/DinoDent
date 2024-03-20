@@ -25,11 +25,11 @@ ProcedureHistoryDialog::ProcedureHistoryDialog(ProcedureHistoryPresenter& p)
         table->hideColumn(6);
         table->hideColumn(7);
 
-        table->setColumnWidth(1, 90);
+        table->setColumnWidth(1, 110);
         table->setColumnWidth(2, 200);
-        table->setColumnWidth(3, 25);
+        table->setColumnWidth(3, 65);
         table->setColumnWidth(4, 200);
-        table->setColumnWidth(5, 49);
+        table->setColumnWidth(5, 65);
         table->setColumnWidth(8, 200);
 
 
@@ -71,15 +71,15 @@ ProcedureHistoryDialog::ProcedureHistoryDialog(ProcedureHistoryPresenter& p)
     }
 
     connect(ui.applyButton, &QPushButton::clicked, this, [&] { presenter.pisApplyClicked(); });
-    connect(ui.refreshPis, &QPushButton::clicked, [&] { presenter.refreshPIS(); });
-    connect(ui.refreshHis, &QPushButton::clicked, [&] { presenter.refreshHIS(); });
-    connect(ui.refreshStatus, &QPushButton::clicked, [&] { presenter.refreshStatus(); });
-    connect(ui.refreshHospi, &QPushButton::clicked, [&] { presenter.refreshHospitalizations(); });
-    connect(ui.applyCurrentStatus, &QPushButton::clicked, [&]{ presenter.statusApplyClicked(); });
-    connect(ui.tabWidget, &QTabWidget::currentChanged, [&](int idx) { presenter.tabFocused(idx); });
-    connect(ui.statusSlider, &QSlider::valueChanged, [&](int value) { presenter.sliderPositionChanged(value); });
-    connect(ui.nextButton, &QPushButton::clicked, [&] { ui.statusSlider->setValue(ui.statusSlider->value() + 1); });
-    connect(ui.prevButton, &QPushButton::clicked, [&] { ui.statusSlider->setValue(ui.statusSlider->value() - 1); });
+    connect(ui.refreshPis, &QPushButton::clicked, this, [&] { presenter.refreshPIS(); });
+    connect(ui.refreshHis, &QPushButton::clicked, this, [&] { presenter.refreshHIS(); });
+    connect(ui.refreshStatus, &QPushButton::clicked, this, [&] { presenter.refreshStatus(); });
+    connect(ui.refreshHospi, &QPushButton::clicked, this, [&] { presenter.refreshHospitalizations(); });
+    connect(ui.applyCurrentStatus, &QPushButton::clicked, this, [&]{ presenter.statusApplyClicked(); });
+    connect(ui.tabWidget, &QTabWidget::currentChanged, this, [&](int idx) { presenter.tabFocused(idx); });
+    connect(ui.statusSlider, &QSlider::valueChanged, this, [&](int value) { presenter.sliderPositionChanged(value); });
+    connect(ui.nextButton, &QPushButton::clicked, this, [&] { ui.statusSlider->setValue(ui.statusSlider->value() + 1); });
+    connect(ui.prevButton, &QPushButton::clicked, this, [&] { ui.statusSlider->setValue(ui.statusSlider->value() - 1); });
     presenter.setView(this);
     
 }

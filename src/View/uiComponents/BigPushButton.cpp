@@ -14,6 +14,11 @@ BigPushButton::BigPushButton(QWidget* parent) : QPushButton(parent)
     m_font.setBold(1);
 
 	hoverColor = Theme::background;
+
+#ifdef Q_OS_MAC
+    setStyle(Theme::fusionStyle());
+#endif
+
 }
 
 void BigPushButton::setHoverColor(const QColor& color)

@@ -2,6 +2,9 @@
 #include <QString>
 #include <QColor>
 #include <QPainterPath>
+
+class QStyle;
+
 namespace Theme
 {
 	enum class Orientation {Left, Center, Right};
@@ -26,5 +29,6 @@ namespace Theme
 	QString colorToString(const QColor& color);
 	QString getFancyStylesheet();
 	QString getPopupMenuStylesheet();
-
+    QStyle* fusionStyle(); //for custom buttons on macos to slove the margin problem. Fix leak!
+    void cleanUpFusionStyle();
 };

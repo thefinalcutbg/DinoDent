@@ -172,3 +172,8 @@ void DinoDent::closeEvent(QCloseEvent* event)
         widget->close();
     }
 }
+
+DinoDent::~DinoDent()
+{
+    Theme::cleanUpFusionStyle();
+}

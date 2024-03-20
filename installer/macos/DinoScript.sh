@@ -15,7 +15,7 @@ $QDEPLOY $APP -sign-for-notarization="Developer ID Application: Hristo Konstanti
 codesign --options runtime -s "Developer ID Application: Hristo Konstantinov"  -f --timestamp --entitlements entitlements.plist $APP
 
 #deleting the old dmg installer
--R $INSTALLER
+rm -R $INSTALLER
 
 #creating dmg installer using create-dmg
 create-dmg \
@@ -44,4 +44,4 @@ xcrun stapler staple $INSTALLER
 spctl --assess -vv --type install $INSTALLER
 
 #deleting the original deployed file
-#rm -R $APP
+rm -R $APP

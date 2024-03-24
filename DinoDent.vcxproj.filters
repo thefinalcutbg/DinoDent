@@ -906,6 +906,12 @@
     <ClCompile Include="src\View\uiComponents\CalendarWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Network\IRC\IRC.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\Widgets\ChatDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Database\Database.h">
@@ -1999,6 +2005,12 @@
     <QtMoc Include="src\View\uiComponents\CalendarWidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\Network\IRC\IRC.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\Widgets\ChatDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\View\Widgets\PracticeDialog.ui">
@@ -2176,6 +2188,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\Widgets\PisImportView.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\Widgets\ChatDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

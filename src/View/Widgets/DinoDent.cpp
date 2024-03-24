@@ -12,12 +12,13 @@
 #include "Presenter/MainPresenter.h"
 
 #include "GlobalWidgets.h"
-
+#include "Model/User.h"
 #include "View/Theme.h"
 #include "View/Widgets/GlobalWidgets.h"
 #include "View/Widgets/AboutDialog.h"
 #include "Version.h"
 #include "View/Widgets/SplashScreen.h"
+#include "ChatDialog.h"
 
 DinoDent::DinoDent(QWidget* parent)
     : QMainWindow(parent)
@@ -26,6 +27,7 @@ DinoDent::DinoDent(QWidget* parent)
 
     setWindowState(Qt::WindowMaximized);
 
+    m_chatDialog = new ChatDialog(this);
 
     GlobalWidgets::mainWindow = this;
     GlobalWidgets::statusBar = statusBar();
@@ -82,6 +84,7 @@ DinoDent::DinoDent(QWidget* parent)
     ui.statisticButton->setIcon(QIcon(":/icons/icon_statistic.png"));
     ui.invoiceButton->setIcon(QIcon(":/icons/icon_invoice.png"));
     ui.aboutButton->setIcon(QIcon(":/icons/icon_question.png"));
+    ui.mircButton->setIcon(QIcon(":/icons/icon_mirc.png"));
     
     connect(ui.newButton, &QPushButton::clicked, [&] { MainPresenter::get().newAmbPressed(); });
     connect(ui.saveButton, &QPushButton::clicked, [&] { MainPresenter::get().save(); });
@@ -95,6 +98,20 @@ DinoDent::DinoDent(QWidget* parent)
     connect(ui.settingsButton, &QPushButton::clicked, [&] { MainPresenter::get().settingsPressed();});
     connect(ui.invoiceButton, &QPushButton::clicked, [&] { MainPresenter::get().newInvoicePressed(); });
     connect(ui.aboutButton, &QPushButton::clicked, this, [&] { AboutDialog d; d.exec(); });
+    connect(ui.mircButton, &QPushButton::clicked, this, [&] { 
+        
+        if (!m_chatDialog) return;
+
+        if (User::doctor().LPK == "000000000") {
+            ModalDialogBuilder::showMessage("За да използвате тази функция, въведете коректни данни от Настройки");
+            return;
+        }
+
+        m_chatDialog->checkConnection();
+        
+        m_chatDialog->exec();
+        
+    });
 
     connect(exitAction, &QAction::triggered, [&] { MainPresenter::get().logOut(); });
 
@@ -150,6 +167,21 @@ void DinoDent::disableButtons(bool printDisabled, bool saveDisabled)
 {
     ui.printButton->setDisabled(printDisabled);
     ui.saveButton->setDisabled(saveDisabled);
+}
+
+void DinoDent::disconnectChat()
+{
+    m_chatDialog->disconnect();
+}
+
+void DinoDent::connectChat(const std::string& fname, const std::string lname)
+{
+    m_chatDialog->connectToServer(fname, lname);
+}
+
+void DinoDent::changeUsrName(const std::string& fname, const std::string lname)
+{
+    m_chatDialog->changeNickname(fname, lname);
 }
 
 void DinoDent::paintEvent(QPaintEvent*)

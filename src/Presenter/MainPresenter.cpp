@@ -69,6 +69,7 @@ void MainPresenter::setView(IMainView* view)
     }
   
 
+    view->connectChat(User::doctor().fname, User::doctor().lname);
 }
 
 
@@ -161,6 +162,8 @@ void MainPresenter::settingsPressed()
         User::practice().name
     );
 
+    view->changeUsrName(User::doctor().fname, User::doctor().lname);
+
     //refreshing the data to the view (e.g. issuer in invoices)
     auto currentTab = TabPresenter::get().currentTab();
     if (currentTab) {
@@ -182,6 +185,7 @@ void MainPresenter::logOut()
     if (!closeAllTabs()) return;
 
     view->setUserLabel("", "");
+    view->disconnectChat();
 
     PKCS11::cleanup();
 
@@ -204,6 +208,8 @@ void MainPresenter::logOut()
         User::practice().name
         );
     
+    view->connectChat(User::doctor().fname, User::doctor().lname);
+
     Telemetry::sendData();
 
 }
@@ -216,6 +222,8 @@ void MainPresenter::userSettingsPressed()
         User::doctor().getFullName(),
         User::practice().name
     );
+
+    view->changeUsrName(User::doctor().fname, User::doctor().lname);
 }
 
 bool MainPresenter::closeAllTabs()

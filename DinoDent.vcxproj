@@ -270,6 +270,7 @@
     <ClCompile Include="src\Network\HIS\EPrescription.cpp" />
     <ClCompile Include="src\Network\HIS\EReferral.cpp" />
     <ClCompile Include="src\Network\HIS\HISHistoryAlgorithms.cpp" />
+    <ClCompile Include="src\Network\IRC\IRC.cpp" />
     <ClCompile Include="src\Network\NRA\NssiPentionService.cpp" />
     <ClCompile Include="src\Network\PIS\GetFileService.cpp" />
     <ClCompile Include="src\Network\PIS\PisReportParser.cpp" />
@@ -466,6 +467,7 @@
     <ClCompile Include="src\View\uiComponents\UserButton.cpp" />
     <ClCompile Include="src\View\Widgets\AboutDialog.cpp" />
     <ClCompile Include="src\View\Widgets\AllergyDialog.cpp" />
+    <ClCompile Include="src\View\Widgets\ChatDialog.cpp" />
     <ClCompile Include="src\View\Widgets\FiscalReceiptDialog.cpp" />
     <ClCompile Include="src\View\Widgets\ButtonDialog.cpp" />
     <ClCompile Include="src\View\Widgets\FiscalReportView.cpp" />
@@ -575,6 +577,7 @@
     <ClInclude Include="src\Network\HIS\EMedicalNotice.h" />
     <ClInclude Include="src\Network\HIS\EReferral.h" />
     <ClInclude Include="src\Network\HIS\HISHistoryAlgorithms.h" />
+    <QtMoc Include="src\Network\IRC\IRC.h" />
     <ClInclude Include="src\Network\NRA\NssiPentionService.h" />
     <ClInclude Include="src\Network\PIS\GetFileService.h" />
     <ClInclude Include="src\Network\PIS\PisReportParser.h" />
@@ -808,6 +811,7 @@
     <QtMoc Include="src\View\Widgets\FiscalReportView.h" />
     <QtMoc Include="src\View\Widgets\AllergyDialog.h" />
     <ClInclude Include="src\View\CommonIcon.h" />
+    <QtMoc Include="src\View\Widgets\ChatDialog.h" />
     <ClInclude Include="src\View\Widgets\GlobalWidgets.h" />
     <QtMoc Include="src\View\Widgets\PisDialog.h" />
     <QtMoc Include="src\View\Widgets\MedicalNoticeDialog.h" />
@@ -894,6 +898,7 @@
     <QtUic Include="src\View\SubWidgets\TabTitle.ui" />
     <QtUic Include="src\View\Widgets\AboutDialog.ui" />
     <QtUic Include="src\View\Widgets\AllergyDialog.ui" />
+    <QtUic Include="src\View\Widgets\ChatDialog.ui" />
     <QtUic Include="src\View\Widgets\FiscalReceiptDialog.ui" />
     <QtUic Include="src\View\Widgets\ButtonDialog.ui" />
     <QtUic Include="src\View\Widgets\FiscalReportView.ui" />

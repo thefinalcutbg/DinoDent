@@ -101,8 +101,8 @@ void ChatDialog::connectToServer(const std::string& fname, const std::string& ln
 
 void ChatDialog::disconnect()
 {
-	ui.textEdit->clear();
 	m_irc.disconnect();
+	ui.countLabel->setText("Няма връзка със сървъра");
 }
 
 void ChatDialog::checkConnection()

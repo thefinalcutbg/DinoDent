@@ -8,7 +8,6 @@
 IRC::IRC(QObject* parent) : QObject(parent)
 {
     connect(&m_socket, &QTcpSocket::connected, this, [&] {
-		m_connected = true;
 		
 		sendMsg(QString("USER na 0 0 na"));
 		

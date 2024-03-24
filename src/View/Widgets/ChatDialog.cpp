@@ -22,7 +22,7 @@ ChatDialog::ChatDialog(QWidget* parent) : QDialog(parent)
 	}
 
 	connect(&m_irc, &IRC::joined, this, [&]{
-		ui.textEdit->append("<center>Добре дошли в чат канала на DinoDent! Бъдете учтиви и пишете на кирилица :) </center>");
+        ui.textEdit->append("Добре дошли в чат канала на DinoDent! Бъдете учтиви и пишете на кирилица :)");
 	});
 
 	connect(&m_irc, &IRC::userCountChanged, this, [&](int count) {
@@ -33,7 +33,7 @@ ChatDialog::ChatDialog(QWidget* parent) : QDialog(parent)
 		ui.countLabel->setText(label);
 	});
 
-	connect(&m_irc, &IRC::msgRecieved, [&](const QString& usr, int hash, const QString& msg) {
+    connect(&m_irc, &IRC::msgRecieved, this, [&](const QString& usr, int hash, const QString& msg) {
 
 		if (usr.isEmpty()) return;
 

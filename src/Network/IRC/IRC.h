@@ -8,8 +8,6 @@ class IRC : public QObject {
 
     QTcpSocket m_socket;
     QString m_nickname;
-    bool m_connected{ false };
-    bool m_loggedIn{ false };
 
     QString fname;
     QString lname;

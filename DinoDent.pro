@@ -69,6 +69,7 @@ FORMS += \
     src/View/Widgets/BrowserDialog.ui \
     src/View/Widgets/BusinessOperationDialog.ui \
     src/View/Widgets/ButtonDialog.ui \
+    src/View/Widgets/ChatDialog.ui \
     src/View/Widgets/DetailedStatus.ui \
     src/View/Widgets/DinoDent.ui \
     src/View/Widgets/DoctorSettingsDialog.ui \
@@ -239,6 +240,7 @@ HEADERS += \
     src/Network/HIS/HisService.h \
     src/Network/HIS/HisToken.h \
     src/Network/HIS/UpdateMedications.h \
+    src/Network/IRC/IRC.h \
     src/Network/NRA/NraStatusService.h \
     src/Network/NRA/NssiPentionService.h \
     src/Network/NetworkManager.h \
@@ -395,6 +397,7 @@ HEADERS += \
     src/View/Widgets/BrowserDialog.h \
     src/View/Widgets/BusinessOperationDialog.h \
     src/View/Widgets/ButtonDialog.h \
+    src/View/Widgets/ChatDialog.h \
     src/View/Widgets/DetailedStatus.h \
     src/View/Widgets/DinoDent.h \
     src/View/Widgets/DoctorSettingsDialog.h \
@@ -580,6 +583,7 @@ SOURCES += \
     src/Network/HIS/HisService.cpp \
     src/Network/HIS/HisToken.cpp \
     src/Network/HIS/UpdateMedications.cpp \
+    src/Network/IRC/IRC.cpp \
     src/Network/NRA/NraStatusService.cpp \
     src/Network/NRA/NssiPentionService.cpp \
     src/Network/NetworkManager.cpp \
@@ -693,6 +697,7 @@ SOURCES += \
     src/View/Widgets/BrowserDialog.cpp \
     src/View/Widgets/BusinessOperationDialog.cpp \
     src/View/Widgets/ButtonDialog.cpp \
+    src/View/Widgets/ChatDialog.cpp \
     src/View/Widgets/DetailedStatus.cpp \
     src/View/Widgets/DinoDent.cpp \
     src/View/Widgets/DoctorSettingsDialog.cpp \

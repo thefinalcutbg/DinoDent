@@ -9,6 +9,11 @@ HoverButton::HoverButton(QWidget *parent)
 	: QPushButton(parent)
 {
 	installEventFilter(this);
+
+#ifdef Q_OS_MAC
+    setStyle(Theme::fusionStyle());
+#endif
+
 }
 
 

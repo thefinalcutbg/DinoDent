@@ -1,5 +1,8 @@
 #include "Theme.h"
 
+#include <QStyleFactory>
+#include <QStyle>
+
 QPainterPath Theme::getHalfCurvedPath(int width, int height)
 {
 	QPainterPath path;
@@ -149,5 +152,24 @@ QString Theme::getPopupMenuStylesheet()
 	return
 		"QMenu{background-color:white}"
 		"QMenu::item::selected{background-color:rgb(144,200,246); color:black}"
-		;
+        ;
+}
+
+QStyle* s_fusion = nullptr;
+
+QStyle* Theme::fusionStyle()
+{
+    if(!s_fusion){
+        s_fusion = QStyleFactory::create("Fusion");
+    }
+
+    return s_fusion;
+}
+
+void Theme::cleanUpFusionStyle()
+{
+    if(s_fusion) {
+        delete s_fusion;
+    }
+
 }

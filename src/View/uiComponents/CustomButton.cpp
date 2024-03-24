@@ -16,7 +16,10 @@ CustomButton::CustomButton(QWidget* parent)
 
 	this->installEventFilter(this);
 
-	
+#ifdef Q_OS_MAC
+    setStyle(Theme::fusionStyle());
+#endif
+
 }
 
 void CustomButton::paintEvent(QPaintEvent*)

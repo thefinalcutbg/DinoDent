@@ -5,7 +5,6 @@
 #include <QPainterPath>
 #include <QStatusBar>
 #include <QApplication>
-
 #include "View/Theme.h"
 #include "View/Widgets/GlobalWidgets.h"
 
@@ -16,6 +15,11 @@ IconButton::IconButton(QWidget *parent)
 	backgroundColor(Theme::sectionBackground)
 {
 	this->installEventFilter(this);
+
+#ifdef Q_OS_MAC
+    setStyle(Theme::fusionStyle());
+#endif
+
 }
 
 void IconButton::paintEvent(QPaintEvent*)

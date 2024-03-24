@@ -30,7 +30,7 @@ QVariant HospitalizationTableModel::headerData(int section, Qt::Orientation orie
     }
 
     if (role == Qt::TextAlignmentRole) {
-        return section == 0 ? int(Qt::AlignCenter) : int(Qt::AlignLeft);
+        return section == 0 ? int(Qt::AlignCenter) : int(Qt::AlignLeft | Qt::AlignVCenter);
     }
 
     return QVariant();;

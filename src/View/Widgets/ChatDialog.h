@@ -14,6 +14,8 @@ class ChatDialog : public QDialog
 	std::vector<QString> colorTable;
 	QString userColor;
 
+	void appendText(const QString& text);
+
 public:
 	ChatDialog(DinoDent *parent);
 	void changeNickname(const std::string& fname, const std::string& lname);

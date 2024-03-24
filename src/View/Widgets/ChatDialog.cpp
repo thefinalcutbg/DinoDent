@@ -2,11 +2,13 @@
 #include <QScrollBar>
 #include "DinoDent.h"
 
+
 ChatDialog::ChatDialog(DinoDent* parent) : QDialog(parent)
 {
 	ui.setupUi(this);
 	
-	setWindowTitle("Чат канал");
+	setWindowTitle("mIRC чат");
+	setWindowIcon(QIcon(":/icons/icon_mirc_glow.png"));
 
 	userColor = QColor(38, 124, 121).name();
 
@@ -22,23 +24,25 @@ ChatDialog::ChatDialog(DinoDent* parent) : QDialog(parent)
 		);
 	}
 
-	connect(&m_irc, &IRC::joined, this, [&]{
-        ui.textEdit->append(
-			"______________________________________________________________________________<br><br>"
-			"<u>Вие се свързахте към чат канала на <b>DinoDent</b></u><br><br> "
-			"Тук можете да задавате въпроси относно софтуера, да докладвате проблеми свързани с него "
-			"или да дискутирате всякакви други теми засягащи живота, вселената и всичко останало.<br><br>"
-			"Бъдете учтиви и пишете на кирилица! :)<br>"
-			"______________________________________________________________________________<br>"
-		);
+	connect(&m_irc, &IRC::joined, this, [&]{ });
+
+	connect(&m_irc, &IRC::topicRecieved, this, [&](const QString& topic) {
+
+		const QString separator = "<br>___________________________________________________________________________<br><br>";
+
+		appendText(separator + topic + separator);
 	});
 
 	connect(&m_irc, &IRC::userCountChanged, this, [&](int count) {
 
-		QString label = "Активни потребители: ";
+		QString label = "Потребители онлайн: ";
 		label += QString::number(count);
 
 		ui.countLabel->setText(label);
+	});
+
+	connect(&m_irc, &IRC::disconnected, this, [&] {
+		ui.countLabel->setText("Няма връзка със сървъра");
 	});
 
     connect(&m_irc, &IRC::msgRecieved, this, [&](const QString& usr, int hash, const QString& msg) {
@@ -56,16 +60,7 @@ ChatDialog::ChatDialog(DinoDent* parent) : QDialog(parent)
 		result += msg;
 		result += "</font>";
 
-		ui.textEdit->append(result);
-
-		if (ui.textEdit->verticalScrollBar()) {
-			ui.textEdit->verticalScrollBar()->setValue(
-				ui.textEdit->verticalScrollBar()->maximum());
-		}
-
-		if (!isVisible()) {
-			static_cast<DinoDent*>(this->parent())->setIrcIcon(true);
-		}
+		appendText(result);
 
 	});
 
@@ -76,6 +71,23 @@ ChatDialog::ChatDialog(DinoDent* parent) : QDialog(parent)
 
 	ui.lineEdit->setFocus();
 }
+
+void ChatDialog::appendText(const QString& text)
+{
+	ui.textEdit->append(text);
+
+	if (ui.textEdit->verticalScrollBar()) {
+		ui.textEdit->verticalScrollBar()->setValue(
+			ui.textEdit->verticalScrollBar()->maximum());
+	}
+
+
+	if (!isVisible()) {
+		static_cast<DinoDent*>(this->parent())->setIrcIcon(true);
+	}
+
+}
+
 
 void ChatDialog::changeNickname(const std::string& fname, const std::string& lname)
 {

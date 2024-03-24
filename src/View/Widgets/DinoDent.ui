@@ -314,28 +314,6 @@
        </widget>
       </item>
       <item>
-       <widget class="IconButton" name="mircButton">
-        <property name="minimumSize">
-         <size>
-          <width>35</width>
-          <height>35</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>35</width>
-          <height>35</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>Чат канал</string>
-        </property>
-        <property name="text">
-         <string>mirc</string>
-        </property>
-       </widget>
-      </item>
-      <item>
        <widget class="IconButton" name="aboutButton">
         <property name="minimumSize">
          <size>
@@ -394,6 +372,28 @@
          </size>
         </property>
        </spacer>
+      </item>
+      <item>
+       <widget class="IconButton" name="mircButton">
+        <property name="minimumSize">
+         <size>
+          <width>35</width>
+          <height>35</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>35</width>
+          <height>35</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>mIRC чат</string>
+        </property>
+        <property name="text">
+         <string>mirc</string>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="UserButton" name="userButton">

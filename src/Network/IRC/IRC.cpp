@@ -90,6 +90,23 @@ void IRC::handlePrivateMessage(const QString& msg)
 	emit msgRecieved(nickname, hashIdx, buffer);
 }
 
+void IRC::handleTopic(const QString& msg)
+{
+	static const QString delimiter = "#DinoDent :";
+
+	int msgBegin = msg.indexOf(delimiter, 0) + delimiter.size();
+
+	int msgEnd = msg.indexOf("\r\n", 0);
+
+	QString topic;
+
+	for (int i = msgBegin; i < msgEnd; i++) {
+		topic += msg[i];
+	}
+
+	emit topicRecieved(topic);
+}
+
 void IRC::sendMessage(const QString& msg)
 {
 	if (msg.isEmpty()) return;
@@ -194,7 +211,7 @@ void IRC::handleMsg(const QString& msg)
 	}
 	
 	if (!msg.startsWith(":")) return;
-
+	qDebug() << msg;
 	bool cmdBegin = false;
 
 	QString command;
@@ -265,6 +282,12 @@ void IRC::handleMsg(const QString& msg)
 	if (command == "PART" || command == "QUIT") {
 
 		emit userCountChanged(--currentUsers);
+		return;
+	}
+
+	if (command == "332" || command == "TOPIC") {
+
+		handleTopic(msg);
 		return;
 	}
 

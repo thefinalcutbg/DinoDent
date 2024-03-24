@@ -26,6 +26,7 @@ public:
 	void connectToServ(const std::string& fname, const std::string& lname);
 	void changeNick(const std::string& fname, const std::string& lname);
     void handlePrivateMessage(const QString& msg);
+    void handleTopic(const QString& msg);
     void sendMessage(const QString& msg);
     void disconnect();
     void ping();
@@ -33,6 +34,7 @@ public:
 signals:
     void userCountChanged(int count);
     void joined();
+    void topicRecieved(const QString& topic);
     void msgRecieved(const QString& usr, int hashIndex, const QString& msg);
     void disconnected();
 };

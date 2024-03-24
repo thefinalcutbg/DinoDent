@@ -168,7 +168,7 @@ void IRC::hashNickname()
 
 std::pair<QString, int> IRC::parseNickname(const QString& nick)
 {
-	QString nickname = "д-р ";
+	QString nickname;
 
 	QString hashIndex;
 
@@ -185,6 +185,10 @@ std::pair<QString, int> IRC::parseNickname(const QString& nick)
 		}
 	}
 
+	if (nickname != "Нов потребител") {
+		nickname.prepend("д-р ");
+	}
+
 	if (nick == m_nickname) {
 		return { nickname, -1 };
 	}
@@ -199,6 +203,7 @@ std::pair<QString, int> IRC::parseNickname(const QString& nick)
 	if (colorIndex < 0 || colorIndex > 999) {
 		colorIndex = 0;
 	}
+
 
 
 	return { nickname, colorIndex };

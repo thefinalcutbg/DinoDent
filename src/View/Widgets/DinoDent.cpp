@@ -102,11 +102,6 @@ DinoDent::DinoDent(QWidget* parent)
         
         if (!m_chatDialog) return;
 
-        if (User::doctor().LPK == "000000000") {
-            ModalDialogBuilder::showMessage("За да използвате тази функция, въведете коректни данни от Настройки");
-            return;
-        }
-
         setIrcIcon(false);
 
         m_chatDialog->checkConnection();

@@ -68,8 +68,13 @@ void MainPresenter::setView(IMainView* view)
         med_update_service.update();
     }
   
-
-    view->connectChat(User::doctor().fname, User::doctor().lname);
+    if (User::isValid()) {
+        view->connectChat(User::doctor().fname, User::doctor().lname);
+    }
+    else {
+        view->connectChat("Нов", "потребител");
+    }
+    
 }
 
 
@@ -208,7 +213,12 @@ void MainPresenter::logOut()
         User::practice().name
         );
     
-    view->connectChat(User::doctor().fname, User::doctor().lname);
+    if (User::isValid()) {
+        view->connectChat(User::doctor().fname, User::doctor().lname);
+    }
+    else {
+        view->connectChat("Нов", "потребител");
+    }
 
     Telemetry::sendData();
 
@@ -222,6 +232,8 @@ void MainPresenter::userSettingsPressed()
         User::doctor().getFullName(),
         User::practice().name
     );
+
+    if (!User::isValid()) return;
 
     view->changeUsrName(User::doctor().fname, User::doctor().lname);
 }

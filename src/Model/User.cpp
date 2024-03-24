@@ -2,7 +2,7 @@
 
 #include "Database/DbDoctor.h"
 #include <unordered_map>
-
+#include "Model/Validators/LpkValidator.h"
 
 static Practice s_practice;
 static Doctor s_doctor;
@@ -14,6 +14,12 @@ void User::initialize()
     s_names = DbDoctor::getDoctorNames();
 }
 
+
+bool User::isValid()
+{
+    LpkValidator v;
+    return v.validateInput(s_doctor.LPK);
+}
 
 const Practice& User::practice()
 {

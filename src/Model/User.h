@@ -9,6 +9,7 @@ namespace User
 {
 	void initialize();
 
+	bool isValid();
 	const Practice& practice();
 	const Settings& settings();
 	const Doctor& doctor();

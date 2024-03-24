@@ -25,7 +25,7 @@ public:
     void exitProgram() override;
     bool initialized();
     void disableButtons(bool printDisabled, bool saveDisabled);
-    void setIrcGlow();
+    void setIrcIcon(bool glow);
     ~DinoDent();
 
 private:

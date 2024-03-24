@@ -107,7 +107,7 @@ DinoDent::DinoDent(QWidget* parent)
             return;
         }
 
-        ui.mircButton->setIcon(QIcon(":/icons/icon_mirc.png"));
+        setIrcIcon(false);
 
         m_chatDialog->checkConnection();
         
@@ -171,9 +171,20 @@ void DinoDent::disableButtons(bool printDisabled, bool saveDisabled)
     ui.saveButton->setDisabled(saveDisabled);
 }
 
-void DinoDent::setIrcGlow()
+void DinoDent::setIrcIcon(bool glow)
 {
-    ui.mircButton->setIcon(QIcon(":/icons/icon_mirc_glow.png"));
+    static bool s_glow = false;
+
+    if (s_glow == glow) return;
+
+    s_glow = glow;
+
+    ui.mircButton->setIcon(
+        glow ?
+        QIcon(":/icons/icon_mirc_glow.png")
+        :
+        QIcon(":/icons/icon_mirc.png")
+    );
 }
 
 void DinoDent::disconnectChat()

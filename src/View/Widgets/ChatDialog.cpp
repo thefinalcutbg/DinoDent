@@ -23,7 +23,14 @@ ChatDialog::ChatDialog(DinoDent* parent) : QDialog(parent)
 	}
 
 	connect(&m_irc, &IRC::joined, this, [&]{
-        ui.textEdit->append("Добре дошли в чат канала на DinoDent! Бъдете учтиви и пишете на кирилица :)");
+        ui.textEdit->append(
+			"______________________________________________________________________________<br><br>"
+			"<u>Вие се свързахте към чат канала на <b>DinoDent</b></u><br><br> "
+			"Тук можете да задавате въпроси относно софтуера, да докладвате проблеми свързани с него "
+			"или да дискутирате всякакви други теми засягащи живота, вселената и всичко останало.<br><br>"
+			"Бъдете учтиви и пишете на кирилица! :)<br>"
+			"______________________________________________________________________________<br>"
+		);
 	});
 
 	connect(&m_irc, &IRC::userCountChanged, this, [&](int count) {
@@ -57,7 +64,7 @@ ChatDialog::ChatDialog(DinoDent* parent) : QDialog(parent)
 		}
 
 		if (!isVisible()) {
-			static_cast<DinoDent*>(this->parent())->setIrcGlow();
+			static_cast<DinoDent*>(this->parent())->setIrcIcon(true);
 		}
 
 	});

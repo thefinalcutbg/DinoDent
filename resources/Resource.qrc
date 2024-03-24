@@ -48,6 +48,7 @@
         <file>dinoEaster.png</file>
         <file>icon_app.png</file>
         <file>icon_mirc.png</file>
+        <file>icon_mirc_glow.png</file>
     </qresource>
     <qresource prefix="/tooth">
         <file>tooth_approximal.png</file>

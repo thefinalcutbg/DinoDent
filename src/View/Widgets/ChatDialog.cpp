@@ -1,7 +1,8 @@
 ﻿#include "ChatDialog.h"
 #include <QScrollBar>
+#include "DinoDent.h"
 
-ChatDialog::ChatDialog(QWidget* parent) : QDialog(parent)
+ChatDialog::ChatDialog(DinoDent* parent) : QDialog(parent)
 {
 	ui.setupUi(this);
 	
@@ -54,6 +55,11 @@ ChatDialog::ChatDialog(QWidget* parent) : QDialog(parent)
 			ui.textEdit->verticalScrollBar()->setValue(
 				ui.textEdit->verticalScrollBar()->maximum());
 		}
+
+		if (!isVisible()) {
+			static_cast<DinoDent*>(this->parent())->setIrcGlow();
+		}
+
 	});
 
 	connect(ui.sendButton, &QPushButton::clicked, [&] {
@@ -71,7 +77,7 @@ void ChatDialog::changeNickname(const std::string& fname, const std::string& lna
 
 void ChatDialog::connectToServer(const std::string& fname, const std::string& lname)
 {
-	m_irc.connectToServ("Христо", "Константинов");
+	m_irc.connectToServ(fname, lname);
 }
 
 void ChatDialog::disconnect()

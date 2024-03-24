@@ -327,6 +327,9 @@
           <height>35</height>
          </size>
         </property>
+        <property name="toolTip">
+         <string>Чат канал</string>
+        </property>
         <property name="text">
          <string>mirc</string>
         </property>

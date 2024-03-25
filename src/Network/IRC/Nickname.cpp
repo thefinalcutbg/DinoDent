@@ -70,11 +70,7 @@ QString Nickname::parsedName() const
 {
 	if (!isValid()) return QString();
 
-	if (name != "Нов потребител") {
-		return "д-р " + name;
-	}
-
-	return name;
+	return "д-р " + name;
 }
 
 void Nickname::generateNickname()

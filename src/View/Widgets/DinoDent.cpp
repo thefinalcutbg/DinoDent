@@ -21,6 +21,8 @@
 #include "View/Widgets/SplashScreen.h"
 #include "ChatDialog.h"
 
+#include "Model/User.h"
+
 DinoDent::DinoDent(QWidget* parent)
     : QMainWindow(parent)
 {
@@ -102,6 +104,14 @@ DinoDent::DinoDent(QWidget* parent)
     connect(ui.mircButton, &QPushButton::clicked, this, [&] { 
         
         if (!m_chatDialog) return;
+
+        if (!User::isValid()) {
+            ModalDialogBuilder::showMessage(
+                "За да използвате тази функция въведете коректни данни от Настройки!"
+            );
+
+            return;
+        }
 
         setIrcIcon(false);
 

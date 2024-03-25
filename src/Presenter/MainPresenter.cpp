@@ -25,8 +25,6 @@
 
 MainPresenter MainPresenter::s_singleton;
 
-
-
 void MainPresenter::setView(IMainView* view)
 {
     this->view = view;
@@ -63,18 +61,13 @@ void MainPresenter::setView(IMainView* view)
 
     if(lasMedUpdate.isFromPreviousMonths(currentDate) ||
         lasMedUpdate.day < currentDate.day-5
-       )
+    )
     {
         med_update_service.update();
     }
   
-    if (User::isValid()) {
-        view->connectChat(User::doctor().fname, User::doctor().lname);
-    }
-    else {
-        view->connectChat("Нов", "потребител");
-    }
-    
+    view->connectChat(User::doctor().fname, User::doctor().lname);
+
 }
 
 
@@ -212,13 +205,8 @@ void MainPresenter::logOut()
         User::doctor().getFullName(),
         User::practice().name
         );
-    
-    if (User::isValid()) {
-        view->connectChat(User::doctor().fname, User::doctor().lname);
-    }
-    else {
-        view->connectChat("Нов", "потребител");
-    }
+   
+    view->connectChat(User::doctor().fname, User::doctor().lname);
 
     Telemetry::sendData();
 

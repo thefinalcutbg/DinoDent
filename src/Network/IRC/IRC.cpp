@@ -3,7 +3,6 @@
 #include <QColor>
 #include <QHostInfo>
 #include <random>
-#include <qdebug.h>
 
 IRC::IRC(QObject* parent) : QObject(parent)
 {
@@ -216,7 +215,7 @@ void IRC::handleMsg(const QString& msg)
 	}
 	
 	if (!msg.startsWith(":")) return;
-	qDebug() << msg;
+
 	bool cmdBegin = false;
 
 	QString command;

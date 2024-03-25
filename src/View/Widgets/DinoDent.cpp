@@ -8,6 +8,7 @@
 #include <QFontDatabase>
 #include <QShortcut>
 #include <QStatusBar>
+#include <QTimer>
 
 #include "Presenter/MainPresenter.h"
 
@@ -104,8 +105,6 @@ DinoDent::DinoDent(QWidget* parent)
 
         setIrcIcon(false);
 
-        m_chatDialog->checkConnection();
-        
         m_chatDialog->exec();
         
     });
@@ -130,6 +129,12 @@ DinoDent::DinoDent(QWidget* parent)
     ui.tabView->showWelcomeScreen();
 
     MainPresenter::get().setView(this);
+
+    QTimer* timer = new QTimer(this);
+    connect(timer, &QTimer::timeout, this, [&] {
+        m_chatDialog->checkConnection();
+    });
+    timer->start(60000);
 }
 
 ITabView* DinoDent::tabView()

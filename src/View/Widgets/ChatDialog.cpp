@@ -7,7 +7,7 @@ ChatDialog::ChatDialog(DinoDent* parent) : QDialog(parent)
 {
 	ui.setupUi(this);
 	
-	setWindowTitle("mIRC чат");
+	setWindowTitle("IRC чат");
 	setWindowIcon(QIcon(":/icons/icon_mirc_glow.png"));
 
 	userColor = QColor(38, 124, 121).name();

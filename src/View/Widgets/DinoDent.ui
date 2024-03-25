@@ -388,7 +388,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>mIRC чат</string>
+         <string>IRC чат</string>
         </property>
         <property name="text">
          <string>mirc</string>

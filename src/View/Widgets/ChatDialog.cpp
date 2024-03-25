@@ -10,9 +10,10 @@ ChatDialog::ChatDialog(DinoDent* parent) : QDialog(parent)
 	setWindowTitle("IRC чат");
 	setWindowIcon(QIcon(":/icons/icon_mirc_glow.png"));
 
-	userColor = QColor(38, 124, 121).name();
+	//default user color
+	colorTable.push_back(QColor(2, 127, 128).name());
 
-	for (int i = 0; i < 1000; i++) {
+	for (int i = 1; i < 1000; i++) {
 
 		colorTable.push_back(
 
@@ -45,17 +46,14 @@ ChatDialog::ChatDialog(DinoDent* parent) : QDialog(parent)
 		ui.countLabel->setText("Няма връзка със сървъра");
 	});
 
-    connect(&m_irc, &IRC::msgRecieved, this, [&](const QString& usr, int hash, const QString& msg) {
+    connect(&m_irc, &IRC::msgRecieved, this, [&](const Nickname& nick, const QString& msg) {
 
-		if (usr.isEmpty()) return;
-
-		QString color =
-			(hash < 0 || hash > 999) ? userColor : colorTable[hash];
+		if (!nick.isValid()) return;
 
 		QString result = "<font color=\"";
-		result += color;
+		result += colorTable[nick.hash()];
 		result += "\"><b>";
-		result += usr;
+		result += nick.parsedName();
 		result += "</b>: ";
 		result += msg;
 		result += "</font>";

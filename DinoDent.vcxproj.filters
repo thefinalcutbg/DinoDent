@@ -912,6 +912,9 @@
     <ClCompile Include="src\View\Widgets\ChatDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Network\IRC\Nickname.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Database\Database.h">
@@ -1683,6 +1686,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\Dental\NhifSpecReport.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Network\IRC\Nickname.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

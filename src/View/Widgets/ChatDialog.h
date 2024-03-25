@@ -12,7 +12,6 @@ class ChatDialog : public QDialog
 
 	IRC m_irc;
 	std::vector<QString> colorTable;
-	QString userColor;
 
 	void appendText(const QString& text);
 

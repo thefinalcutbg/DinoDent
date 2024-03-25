@@ -1,27 +1,28 @@
 #pragma once
 #include <string>
 #include <QTcpSocket>
+#include "Nickname.h"
 
 class IRC : public QObject {
 
     Q_OBJECT
 
-    QTcpSocket m_socket;
-    QString m_nickname;
+    static inline const QString channel = "#DinoDent";
+    static inline const QString server = "irc.bgirc.com";
 
-    QString fname;
-    QString lname;
+    QTcpSocket m_socket;
+    
+    Nickname m_nick;
 
     int currentUsers = 0;
 
-    void hashNickname();
     void handleMsg(const QString& str);
     bool sendMsg(const QString& str);
 
-    //returns nick and hash index
-     std::pair<QString, int> parseNickname(const QString& nickname);
+    void connectToServ();
 
 public:
+
     IRC(QObject* parent = nullptr);
 	void connectToServ(const std::string& fname, const std::string& lname);
 	void changeNick(const std::string& fname, const std::string& lname);
@@ -35,6 +36,6 @@ signals:
     void userCountChanged(int count);
     void joined();
     void topicRecieved(const QString& topic);
-    void msgRecieved(const QString& usr, int hashIndex, const QString& msg);
+    void msgRecieved(const Nickname& usr, const QString& msg);
     void disconnected();
 };

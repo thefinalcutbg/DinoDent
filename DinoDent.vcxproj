@@ -271,6 +271,7 @@
     <ClCompile Include="src\Network\HIS\EReferral.cpp" />
     <ClCompile Include="src\Network\HIS\HISHistoryAlgorithms.cpp" />
     <ClCompile Include="src\Network\IRC\IRC.cpp" />
+    <ClCompile Include="src\Network\IRC\Nickname.cpp" />
     <ClCompile Include="src\Network\NRA\NssiPentionService.cpp" />
     <ClCompile Include="src\Network\PIS\GetFileService.cpp" />
     <ClCompile Include="src\Network\PIS\PisReportParser.cpp" />
@@ -578,6 +579,7 @@
     <ClInclude Include="src\Network\HIS\EReferral.h" />
     <ClInclude Include="src\Network\HIS\HISHistoryAlgorithms.h" />
     <QtMoc Include="src\Network\IRC\IRC.h" />
+    <ClInclude Include="src\Network\IRC\Nickname.h" />
     <ClInclude Include="src\Network\NRA\NssiPentionService.h" />
     <ClInclude Include="src\Network\PIS\GetFileService.h" />
     <ClInclude Include="src\Network\PIS\PisReportParser.h" />

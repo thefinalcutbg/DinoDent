@@ -10,7 +10,7 @@ IRC::IRC(QObject* parent) : QObject(parent)
 		
 		sendMsg(QString("USER na 0 0 na"));
 		
-		QString command = "NICK " + m_nickname;
+		QString command = "NICK " + m_nick.nickname();
 		
 		sendMsg(command);
     });
@@ -33,33 +33,23 @@ IRC::IRC(QObject* parent) : QObject(parent)
 
 void IRC::connectToServ(const std::string& fname, const std::string& lname)
 {
-	this->fname = fname.c_str();
-	this->lname = lname.c_str();
+	m_nick = Nickname(fname, lname);
 
-	hashNickname();
-
-    QHostInfo hostInfo = QHostInfo::fromName("irc.bgirc.com");
-	
-	if (hostInfo.addresses().empty()) return;
-
-	m_socket.connectToHost(hostInfo.addresses().at(0), 9000);
+	connectToServ();
 }
 
 void IRC::changeNick(const std::string& fname, const std::string& lname)
 {
-	this->fname = fname.c_str();
-	this->lname = lname.c_str();
+	m_nick = Nickname(fname, lname);
 
-	hashNickname();
-
-	sendMsg(QString("NICK ") + m_nickname);
+	sendMsg(QString("NICK ") + m_nick.nickname());
 }
 
 void IRC::handlePrivateMessage(const QString& msg)
 {
 	QString buffer;
 
-	if (!msg.contains("PRIVMSG #DinoDent :")) return;
+	if (!msg.contains("PRIVMSG " + channel + " :")) return;
 
 	//parsing the nickname and the color
 
@@ -70,13 +60,15 @@ void IRC::handlePrivateMessage(const QString& msg)
 		buffer += msg[i];
 	}
 
-	auto [nickname, hashIdx] = parseNickname(buffer);
+	Nickname nickname(buffer);
+
+	if (!nickname.isValid()) return;
 
 	buffer.clear();
 
 	//parsing the message:
 
-	static const QString delimiter = "#DinoDent :";
+	static const QString delimiter = channel + " :";
 
 	int msgBegin = msg.indexOf(delimiter, 0) + delimiter.size();
 
@@ -86,12 +78,12 @@ void IRC::handlePrivateMessage(const QString& msg)
 		buffer += msg[i];
 	}
 
-	emit msgRecieved(nickname, hashIdx, buffer);
+	emit msgRecieved(nickname, buffer);
 }
 
 void IRC::handleTopic(const QString& msg)
 {
-	static const QString delimiter = "#DinoDent :";
+	static const QString delimiter = channel + " :";
 
 	int msgBegin = msg.indexOf(delimiter, 0) + delimiter.size();
 
@@ -110,14 +102,13 @@ void IRC::sendMessage(const QString& msg)
 {
 	if (msg.isEmpty()) return;
 
-	if (!sendMsg(QString("PRIVMSG #DinoDent :" + msg))) {
+	if (!sendMsg(QString("PRIVMSG " + channel + " :" + msg))) {
 		return;
 	};
 
 	//emmiting signal to add the message to the textEdit
-	auto [nickname, hashIdx] = parseNickname(m_nickname);
 
-	emit msgRecieved(nickname, hashIdx, msg);
+	emit msgRecieved(m_nick, msg);
 }
 
 void IRC::disconnect()
@@ -130,88 +121,10 @@ void IRC::ping()
 	sendMsg("PING :irc.bgirc.com");
 }
 
-void IRC::hashNickname()
-{
-	m_nickname.clear();
-
-	m_nickname += fname;
-	m_nickname += '_';
-
-	m_nickname += lname;
-
-	constexpr const int max = 21;
-
-	if (m_nickname.length() > max) {
-
-		m_nickname = lname;
-
-		if (m_nickname.length() > max) {
-			m_nickname.truncate(max);
-		}
-	}
-
-	for (int i = 0; i < m_nickname.size(); i++) {
-		if (m_nickname[i] == ' ') {
-			m_nickname[i] = '_';
-		}
-	}
-
-	std::random_device rd; // obtain a random number from hardware
-	std::mt19937 gen(rd()); // seed the generator
-	std::uniform_int_distribution<> distr(0, 999); // define the range
-
-	m_nickname += QString::number(distr(gen));
-
-}
-
-
-std::pair<QString, int> IRC::parseNickname(const QString& nick)
-{
-	QString nickname;
-
-	QString hashIndex;
-
-	for (const QChar c : nick) {
-
-		if (c.isDigit()) {
-			hashIndex += c;
-		}
-		else if (c == '_') {
-			nickname += ' ';
-		}
-		else {
-			nickname += c;
-		}
-	}
-
-	if (nickname != "Нов потребител") {
-		nickname.prepend("д-р ");
-	}
-
-	if (nick == m_nickname) {
-		return { nickname, -1 };
-	}
-
-	//nickname does not confide with rules
-	if (hashIndex.isEmpty()) {
-		return { {}, -1 };
-	}
-
-	int colorIndex = hashIndex.toInt();
-
-	if (colorIndex < 0 || colorIndex > 999) {
-		colorIndex = 0;
-	}
-
-
-
-	return { nickname, colorIndex };
-}
-
 void IRC::handleMsg(const QString& msg)
 {
 	if (msg.startsWith("PING ")) {
-		sendMsg("PONG :irc.bgirc.com");
+		sendMsg("PONG :" + server);
 	}
 	
 	if (!msg.startsWith(":")) return;
@@ -251,14 +164,14 @@ void IRC::handleMsg(const QString& msg)
     //welcome message
     if (command == "001") {
 		currentUsers = 0;
-        sendMsg("JOIN #DinoDent");
+        sendMsg("JOIN " + channel);
         return;
     }
 
 	//nick collision
 	if (command == "433" || command == "436"){
-		hashNickname();
-		sendMsg(QString("NICK ") + m_nickname);
+		m_nick.generateNickname();
+		sendMsg(QString("NICK ") + m_nick.nickname());
 	}
 
     //handling user list
@@ -305,8 +218,19 @@ bool IRC::sendMsg(const QString& str)
 
 	emit disconnected();
 
-	connectToServ(fname.toStdString(), lname.toStdString());
+	connectToServ();
 
 	return false;
+}
+
+void IRC::connectToServ()
+{
+	if (!m_nick.isValid()) return;
+
+	QHostInfo hostInfo = QHostInfo::fromName(server);
+
+	if (hostInfo.addresses().empty()) return;
+
+	m_socket.connectToHost(hostInfo.addresses().at(0), 9000);
 }
 

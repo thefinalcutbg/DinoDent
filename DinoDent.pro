@@ -241,6 +241,7 @@ HEADERS += \
     src/Network/HIS/HisToken.h \
     src/Network/HIS/UpdateMedications.h \
     src/Network/IRC/IRC.h \
+    src/Network/IRC/Nickname.h \
     src/Network/NRA/NraStatusService.h \
     src/Network/NRA/NssiPentionService.h \
     src/Network/NetworkManager.h \
@@ -584,6 +585,7 @@ SOURCES += \
     src/Network/HIS/HisToken.cpp \
     src/Network/HIS/UpdateMedications.cpp \
     src/Network/IRC/IRC.cpp \
+    src/Network/IRC/Nickname.cpp \
     src/Network/NRA/NraStatusService.cpp \
     src/Network/NRA/NssiPentionService.cpp \
     src/Network/NetworkManager.cpp \

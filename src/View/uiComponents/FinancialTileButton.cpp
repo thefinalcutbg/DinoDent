@@ -26,7 +26,7 @@ void RecipientTileButton::paintInfo(QPainter* painter)
 
 	constexpr int rowYPos[4]{ 60,80,100,120 };
 
-	QString vat_phone_label = hasVat ? "ДДС: " : "Телефон: ";
+	QString vat_phone_label = hasVat ? "ДДС №: " : "Телефон: ";
 
 	painter->setFont(infoLabel);
 	painter->drawText(20, rowYPos[0], "Име: ");

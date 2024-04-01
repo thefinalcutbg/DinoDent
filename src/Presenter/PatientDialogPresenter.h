@@ -3,9 +3,8 @@
 
 #include <optional>
 
-#include "Model/Validators/DateValidator.h"
-#include "Model/Validators/NameValidator.h"
-#include "Model/Validators/PatientValidators.h"
+
+
 #include "Model/Patient.h"
 
 #include "View/Interfaces/IPatientDialog.h"
@@ -19,15 +18,6 @@ class PatientDialogPresenter
 
 	IPatientDialog* view;
 
-	EgnValidator egn_validator;
-	Ln4Validator ln4_validator;
-	SSNValidator ssn_validator;
-	NotEmptyValidator notEmpty_validator;
-	DateValidator birth_validator;
-	NameValidator name_validator;
-	HIRBNoValidator hirb_validator;
-	CityValidator city_validator;
-	CyrillicValidator cyrillic_validator;
 
 	GetHirbnoService hirbnoHandler;
 	//data not present in view:
@@ -42,18 +32,15 @@ class PatientDialogPresenter
 	std::string dialogTitle;
 
 	Patient getPatientFromView();
-	void setPatientToView(const Patient& patient);
-	bool viewIsValid();
 
 public:
 	PatientDialogPresenter(std::string dialogTitle);
 	PatientDialogPresenter(const Patient& patient);
 	std::optional<Patient> open();
 
-	void changePatientType(int index);
 	void setHirbno(const std::string& hirbno);
 	void checkHirbno();
-	void searchDbForPatient(int type);
+	void searchDbForPatient(int type, const std::string& id);
 	void accept();
 
 	void setView(IPatientDialog* view);

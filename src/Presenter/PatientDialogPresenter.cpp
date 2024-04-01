@@ -36,85 +36,14 @@ void PatientDialogPresenter::setView(IPatientDialog* view)
 
 	view->setTitle(dialogTitle);
 
-	birth_validator.setMaxDate(Date::currentDate());
-	birth_validator.setMaxErrorMsg("Невалидна рождена дата");
-	birth_validator.setMinDate(Date(2, 1, 1900));
-	birth_validator.setMinErrorMsg("Невалидна рождена дата");
-
-	view->lineEdit(city)->setInputValidator(&city_validator);
-	view->lineEdit(hirbno)->setInputValidator(&hirb_validator);
-	view->dateEdit()->setInputValidator(&birth_validator);
-
-	changePatientType(1);
-
 	if (m_patient.has_value())
 	{
-		setPatientToView(m_patient.value());
+		view->setPatient(*m_patient);
 		view->setEditMode(true);
 	}
 
 }
 
-void PatientDialogPresenter::changePatientType(int index)
-{
-	switch (index)
-	{
-	case 1:
-		view->setType(Patient::EGN);
-
-		view->lineEdit(id)->setInputValidator(&egn_validator);
-		view->lineEdit(fname)->setInputValidator(&name_validator);
-		view->lineEdit(mname)->setInputValidator(&cyrillic_validator);
-		view->lineEdit(lname)->setInputValidator(&name_validator);
-		view->lineEdit(address)->setInputValidator(nullptr);
-		view->lineEdit(foreign_city)->setInputValidator(nullptr);
-		view->lineEdit(id)->validateInput();
-
-		view->resetFields();
-		break;
-
-	case 2:
-		view->setType(Patient::LNCH);
-
-		view->lineEdit(id)->setInputValidator(&ln4_validator);
-		view->lineEdit(fname)->setInputValidator(&name_validator);
-		view->lineEdit(mname)->setInputValidator(&cyrillic_validator);
-		view->lineEdit(lname)->setInputValidator(&name_validator);
-		view->lineEdit(address)->setInputValidator(nullptr);
-		view->lineEdit(foreign_city)->setInputValidator(nullptr);
-		view->lineEdit(id)->validateInput();;
-		view->resetFields();
-		break;
-	case 3:
-		view->setType(Patient::SSN);
-
-		view->lineEdit(id)->setInputValidator(&ssn_validator);
-		view->lineEdit(fname)->setInputValidator(&name_validator);
-		view->lineEdit(mname)->setInputValidator(&cyrillic_validator);
-		view->lineEdit(lname)->setInputValidator(&name_validator);
-		view->lineEdit(address)->setInputValidator(nullptr);
-		view->lineEdit(foreign_city)->setInputValidator(nullptr);
-		view->lineEdit(id)->validateInput();
-		view->resetFields();
-		break;
-	case 4:
-		view->setType(Patient::EU);
-
-		view->lineEdit(id)->setInputValidator(&notEmpty_validator);
-		view->lineEdit(fname)->setInputValidator(&name_validator);
-		view->lineEdit(mname)->setInputValidator(&cyrillic_validator);
-		view->lineEdit(lname)->setInputValidator(&name_validator);
-		view->lineEdit(address)->setInputValidator(nullptr);
-		view->lineEdit(foreign_city)->setInputValidator(&notEmpty_validator);
-		view->lineEdit(id)->validateInput();
-		view->resetFields();
-
-		break;
-	default:
-		break;
-
-	}
-}
 
 void PatientDialogPresenter::checkHirbno()
 {
@@ -130,7 +59,7 @@ void PatientDialogPresenter::checkHirbno()
 void PatientDialogPresenter::accept()
 {
 
-	if (!viewIsValid()) return;
+	if (!view->inputFieldsAreValid()) return;
 
 	m_patient = getPatientFromView();
 	
@@ -151,11 +80,10 @@ void PatientDialogPresenter::accept()
 	view->close();
 }
 
-void PatientDialogPresenter::searchDbForPatient(int type)
+void PatientDialogPresenter::searchDbForPatient(int type, const std::string& id)
 {
-	std::string patientId = view->lineEdit(id)->getText();
 
-	Patient patient = DbPatient::get(patientId, type);
+	Patient patient = DbPatient::get(id, type);
 
 	medStats = patient.medStats;
 	allergies = patient.allergies;
@@ -164,42 +92,8 @@ void PatientDialogPresenter::searchDbForPatient(int type)
 		rowid = patient.rowid;
 	}
 		
-	setPatientToView(patient);
-	
-}
-
-
-void PatientDialogPresenter::setPatientToView(const Patient& patient)
-{
-	changePatientType(patient.type);
-
 	view->setPatient(patient);
 	
-	view->lineEdit(id)->validateInput();
-
-}
-
-bool PatientDialogPresenter::viewIsValid()
-{
-	auto inputIsValid = [](AbstractUIElement* uiElement)
-	{
-		uiElement->validateInput();
-		if (!uiElement->isValid())
-		{
-            uiElement->set_focus();
-			return false;
-		}
-		return true;
-	};
-
-	for (int i = 0; i < PatientField::size; i++)
-	{
-		if (!inputIsValid(view->lineEdit(static_cast<PatientField>(i)))) return false;
-	}
-
-	if (!inputIsValid(view->dateEdit())) return false;
-
-	return true;
 }
 
 void PatientDialogPresenter::setHirbno(const std::string& hirbno)

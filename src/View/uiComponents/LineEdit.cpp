@@ -6,9 +6,10 @@ LineEdit::LineEdit(QWidget* parent)
 	disabled(0),
 	errorLabel(nullptr)
 {
-    connect(this, &QLineEdit::textEdited, [&] { AbstractLineEdit::validateInput(); });
-    connect(this, &QLineEdit::textChanged, [&] { dynamicWidthChange(); });
-	//connect(this, &QLineEdit::editingFinished, [=] { reformat(); });
+    connect(this, &QLineEdit::textChanged, this, [&] { 
+		AbstractLineEdit::validateInput(); 
+		dynamicWidthChange();
+	});
 }
 
 LineEdit::~LineEdit(){}
@@ -48,7 +49,7 @@ void LineEdit::setValidAppearence(bool valid)
 
 void LineEdit::set_Text(const std::string& text)
 {
-	QSignalBlocker b(this);
+//	QSignalBlocker b(this);
     QLineEdit::setText(QString::fromStdString(text));
 }
 

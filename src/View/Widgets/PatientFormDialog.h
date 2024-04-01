@@ -9,8 +9,14 @@
 #include "ui_PatientFormDialog.h"
 #include "View/Interfaces/IPatientDialog.h"
 
+#include "Model/Validators/PatientValidators.h"
+#include "Model/Validators/DateValidator.h"
+#include "Model/Validators/NameValidator.h"
 
 #include "Model/Patient.h"
+
+enum PatientField { id, fname, mname, lname, city, address, hirbno, phone, foreign_city, birthdate, size };
+
 
 class PatientFormDialog : public QDialog, public IPatientDialog
 {
@@ -19,14 +25,25 @@ class PatientFormDialog : public QDialog, public IPatientDialog
     QRegularExpressionValidator* numValidator;
     QRegularExpressionValidator* nameValidator;
 
+    EgnValidator egn_validator;
+    Ln4Validator ln4_validator;
+    SSNValidator ssn_validator;
+    NotEmptyValidator notEmpty_validator;
+    DateValidator birth_validator;
+    NameValidator name_validator;
+    HIRBNoValidator hirb_validator;
+    CityValidator city_validator;
+    CyrillicValidator cyrillic_validator;
 
     Ui::PatientFormDialog ui;
 
     void paintEvent(QPaintEvent* event) override;
 
+    void patientTypeChanged(int index);
+
     PatientDialogPresenter& presenter;
 
-    std::array<LineEdit*, PatientField::size> patientFields;
+    std::array<AbstractUIElement*, PatientField::size> patientFields;
 
 public:
     Q_OBJECT
@@ -39,13 +56,11 @@ public:
 
     void setEditMode(bool editMode) override;
     void close() override;
-    void setType(Patient::Type type) override;
     void setTitle(const std::string& title) override;
-    void resetFields() override;
+    void resetFields();
 
     void setPatient(const Patient& patient) override;
     Patient getPatient() override;
     void setHirbno(const std::string& hirbno) override;
-    AbstractLineEdit* lineEdit(PatientField field) override;
-    AbstractDateEdit* dateEdit() override;
+    bool inputFieldsAreValid() override;
 };

@@ -21,6 +21,21 @@ PatientFormDialog::PatientFormDialog(PatientDialogPresenter& p, QWidget* parent)
     phoneValidator = new QRegularExpressionValidator(QRegularExpression("[0-9-+]+"), this);
     ui.phoneEdit->QLineEdit::setValidator(phoneValidator);
 
+
+    ui.fNameEdit->setInputValidator(&name_validator);
+    ui.mNameEdit->setInputValidator(&cyrillic_validator);
+    ui.lNameEdit->setInputValidator(&name_validator);
+
+
+    birth_validator.setMaxDate(Date::currentDate());
+    birth_validator.setMaxErrorMsg("Невалидна рождена дата");
+    birth_validator.setMinDate(Date(2, 1, 1900));
+    birth_validator.setMinErrorMsg("Невалидна рождена дата");
+
+    ui.cityLineEdit->setInputValidator(&city_validator);
+    ui.HIRBNoEdit->setInputValidator(&hirb_validator);
+    ui.birthEdit->setInputValidator(&birth_validator);
+
     ui.validDateEdit->set_Date(Date::currentDate());
 
     ui.cityLineEdit->setCompletions(Ekatte::cityNameToIdx());
@@ -44,10 +59,18 @@ PatientFormDialog::PatientFormDialog(PatientDialogPresenter& p, QWidget* parent)
     });
 
     connect(ui.typeComboBox, &QComboBox::currentIndexChanged, this,
-        [&](int index) { presenter.changePatientType(index + 1); ui.idLineEdit->QLineEdit::setFocus(); });
+        [&](int index) { patientTypeChanged(index + 1); ui.idLineEdit->QLineEdit::setFocus(); });
 
     connect(ui.okButton, &QPushButton::clicked, this, [&] { presenter.accept(); });
-    connect(ui.idLineEdit, &QLineEdit::textEdited, this, [&]{ if(ui.idLineEdit->isValid()) presenter.searchDbForPatient(ui.typeComboBox->currentIndex()+1); });
+    connect(ui.idLineEdit, &QLineEdit::textEdited, this, [&](const QString& text) {
+
+        ui.idLineEdit->validateInput();
+
+        if (ui.idLineEdit->isValid()) {
+            presenter.searchDbForPatient(
+                ui.typeComboBox->currentIndex() + 1, text.toStdString());
+        }
+    });
     connect(ui.hirbnoButton, &QPushButton::clicked, this, [&] { presenter.checkHirbno();});
 
     patientFields[id] = ui.idLineEdit;
@@ -59,14 +82,17 @@ PatientFormDialog::PatientFormDialog(PatientDialogPresenter& p, QWidget* parent)
     patientFields[hirbno] = ui.HIRBNoEdit;
     patientFields[phone] = ui.phoneEdit;
     patientFields[foreign_city] = ui.foreignCityEdit;
+    patientFields[birthdate] = ui.birthEdit;
 
 
-    for (auto& line : patientFields)
+    for (int i = 0; i < PatientField::birthdate; i++)
     {
-        line->setErrorLabel(ui.errorLabel);
+        static_cast<LineEdit*>(patientFields[i])->setErrorLabel(ui.errorLabel);
     }
 
     ui.birthEdit->setErrorLabel(ui.errorLabel);
+
+    patientTypeChanged(1);
 
     presenter.setView(this);
 
@@ -80,6 +106,61 @@ void PatientFormDialog::paintEvent(QPaintEvent*)
     painter.begin(this);
     painter.fillRect(QRect(0, 0, width(), height()), Qt::white);
     painter.end();
+}
+
+void PatientFormDialog::patientTypeChanged(int index)
+{
+
+    ui.sexCombo->setCurrentIndex(0);
+    ui.sexCombo->setDisabled(index == Patient::EGN);
+    ui.birthEdit->setDisabled(index == Patient::EGN);
+    ui.label_8->setDisabled(index == Patient::EGN);
+    ui.label_7->setDisabled(index == Patient::EGN);
+
+
+    ui.idLineEdit->setMaxLength(
+        index < Patient::SSN ?
+        10
+        :
+        20
+    );
+
+    ui.foreignerGroup->setHidden(index != Patient::EU);
+
+    switch (index)
+    {
+    case 1:
+        ui.idLineEdit->setInputValidator(&egn_validator);
+        ui.foreignCityEdit->setInputValidator(nullptr);
+        ui.idLineEdit->validateInput();
+        resetFields();
+        break;
+
+    case 2:
+        ui.idLineEdit->setInputValidator(&ln4_validator);
+        ui.foreignCityEdit->setInputValidator(nullptr);
+        ui.idLineEdit->validateInput();
+        resetFields();
+        break;
+
+    case 3:
+        ui.idLineEdit->setInputValidator(&ssn_validator);
+        ui.foreignCityEdit->setInputValidator(nullptr);
+        ui.idLineEdit->validateInput();
+        resetFields();
+        break;
+
+    case 4:
+        ui.idLineEdit->setInputValidator(&notEmpty_validator);
+        ui.foreignCityEdit->setInputValidator(&notEmpty_validator);
+        ui.idLineEdit->validateInput();
+        resetFields();
+        break;
+
+    default:
+        break;
+
+    }
 }
 
 PatientFormDialog::~PatientFormDialog()
@@ -100,26 +181,6 @@ void PatientFormDialog::close()
     reject();
 }
 
-void PatientFormDialog::setType(Patient::Type type)
-{
-
-    ui.sexCombo->setCurrentIndex(0);
-    ui.sexCombo->setDisabled(type == Patient::EGN);
-    ui.birthEdit->setDisabled(type == Patient::EGN);
-    ui.label_8->setDisabled(type == Patient::EGN);
-    ui.label_7->setDisabled(type == Patient::EGN);
-    
-
-    ui.idLineEdit->setMaxLength(
-        type < Patient::SSN ?
-        10
-        :
-        20
-    );
-
-    ui.foreignerGroup->setHidden(type != Patient::EU);
-
-}
 
 void PatientFormDialog::setTitle(const std::string& title)
 {
@@ -150,10 +211,6 @@ void PatientFormDialog::resetFields()
 
 void PatientFormDialog::setPatient(const Patient& patient)
 {
-    QSignalBlocker b1(ui.idLineEdit);
-    QSignalBlocker b2(ui.typeComboBox);
-    QSignalBlocker b3(ui.cityLineEdit);
-
     ui.typeComboBox->setCurrentIndex(patient.type - 1);
     ui.idLineEdit->QLineEdit::setText(QString::fromStdString(patient.id));
     ui.sexCombo->setCurrentIndex(patient.sex);
@@ -230,15 +287,19 @@ void PatientFormDialog::setHirbno(const std::string& hirbno)
     ui.HIRBNoEdit->selectAll();
 }
 
-
-AbstractLineEdit* PatientFormDialog::lineEdit(PatientField field)
+bool PatientFormDialog::inputFieldsAreValid()
 {
-    return patientFields[field];
+    for (auto& f : patientFields) {
+        f->validateInput();
+
+        if (!f->isValid()) {
+            f->set_focus();
+            return false;
+        }
+    }
+
+    return true;
 }
 
-AbstractDateEdit* PatientFormDialog::dateEdit()
-{
-    return ui.birthEdit;
-}
 
 

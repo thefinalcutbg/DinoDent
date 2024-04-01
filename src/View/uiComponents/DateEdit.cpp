@@ -42,7 +42,6 @@ void DateEdit::set_focus()
 
 void DateEdit::set_Date(const Date& date)
 {
-	QSignalBlocker blocker(this);
 	QDateEdit::setDate(QDate(date.year, date.month, date.day));
 
 }

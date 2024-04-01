@@ -125,7 +125,7 @@
           <item>
            <widget class="QCheckBox" name="devBranch">
             <property name="text">
-             <string>Съобщаване за нови тестови актуализации</string>
+             <string>Известия за нови тестови актуализации</string>
             </property>
            </widget>
           </item>

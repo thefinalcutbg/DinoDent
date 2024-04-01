@@ -21,17 +21,14 @@ PatientFormDialog::PatientFormDialog(PatientDialogPresenter& p, QWidget* parent)
     phoneValidator = new QRegularExpressionValidator(QRegularExpression("[0-9-+]+"), this);
     ui.phoneEdit->QLineEdit::setValidator(phoneValidator);
 
-
-    ui.fNameEdit->setInputValidator(&name_validator);
-    ui.mNameEdit->setInputValidator(&cyrillic_validator);
-    ui.lNameEdit->setInputValidator(&name_validator);
-
-
     birth_validator.setMaxDate(Date::currentDate());
     birth_validator.setMaxErrorMsg("Невалидна рождена дата");
     birth_validator.setMinDate(Date(2, 1, 1900));
     birth_validator.setMinErrorMsg("Невалидна рождена дата");
 
+    ui.fNameEdit->setInputValidator(&name_validator);
+    ui.mNameEdit->setInputValidator(&cyrillic_validator);
+    ui.lNameEdit->setInputValidator(&name_validator);
     ui.cityLineEdit->setInputValidator(&city_validator);
     ui.HIRBNoEdit->setInputValidator(&hirb_validator);
     ui.birthEdit->setInputValidator(&birth_validator);
@@ -92,7 +89,7 @@ PatientFormDialog::PatientFormDialog(PatientDialogPresenter& p, QWidget* parent)
 
     ui.birthEdit->setErrorLabel(ui.errorLabel);
 
-    patientTypeChanged(1);
+    patientTypeChanged(1); //sets the conditional validators
 
     presenter.setView(this);
 
@@ -108,26 +105,25 @@ void PatientFormDialog::paintEvent(QPaintEvent*)
     painter.end();
 }
 
-void PatientFormDialog::patientTypeChanged(int index)
+void PatientFormDialog::patientTypeChanged(int patientType)
 {
-
     ui.sexCombo->setCurrentIndex(0);
-    ui.sexCombo->setDisabled(index == Patient::EGN);
-    ui.birthEdit->setDisabled(index == Patient::EGN);
-    ui.label_8->setDisabled(index == Patient::EGN);
-    ui.label_7->setDisabled(index == Patient::EGN);
+    ui.sexCombo->setDisabled(patientType == Patient::EGN);
+    ui.birthEdit->setDisabled(patientType == Patient::EGN);
+    ui.label_8->setDisabled(patientType == Patient::EGN);
+    ui.label_7->setDisabled(patientType == Patient::EGN);
 
 
     ui.idLineEdit->setMaxLength(
-        index < Patient::SSN ?
+        patientType < Patient::SSN ?
         10
         :
         20
     );
 
-    ui.foreignerGroup->setHidden(index != Patient::EU);
+    ui.foreignerGroup->setHidden(patientType != Patient::EU);
 
-    switch (index)
+    switch (patientType)
     {
     case 1:
         ui.idLineEdit->setInputValidator(&egn_validator);

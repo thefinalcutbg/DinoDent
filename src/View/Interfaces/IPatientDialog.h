@@ -4,15 +4,12 @@ class Patient;
 class Validator;
 enum class Insured;
 
-#include "View/Interfaces/AbstractLineEdit.h"
-#include "View/Interfaces/AbstractDateEdit.h"
 class IPatientDialog
 {
 
 public:
 
 	virtual void setTitle(const std::string& title) = 0;
-
 	virtual void close() = 0;
 	virtual void setHirbno(const std::string& hirbno) = 0;
 	virtual void setEditMode(bool editMode) = 0;

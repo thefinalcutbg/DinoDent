@@ -15,8 +15,6 @@
 
 #include "Model/Patient.h"
 
-enum PatientField { id, fname, mname, lname, city, address, hirbno, phone, foreign_city, birthdate, size };
-
 
 class PatientFormDialog : public QDialog, public IPatientDialog
 {
@@ -39,9 +37,11 @@ class PatientFormDialog : public QDialog, public IPatientDialog
 
     void paintEvent(QPaintEvent* event) override;
 
-    void patientTypeChanged(int index);
+    void patientTypeChanged(int patientType);
 
     PatientDialogPresenter& presenter;
+
+    enum PatientField { id, fname, mname, lname, city, address, hirbno, phone, foreign_city, birthdate, size };
 
     std::array<AbstractUIElement*, PatientField::size> patientFields;
 

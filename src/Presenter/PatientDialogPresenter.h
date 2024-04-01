@@ -18,10 +18,11 @@ class PatientDialogPresenter
 
 	IPatientDialog* view;
 
+	std::string dialogTitle;
 
 	GetHirbnoService hirbnoHandler;
-	//data not present in view:
 
+	//data not present in view:
 	std::optional<InsuranceStatus> insurance_status;
 	std::optional<std::vector<Procedure>> PISHistory;
 	std::optional<std::vector<Procedure>> HISHistory;
@@ -29,7 +30,6 @@ class PatientDialogPresenter
 	MedicalStatuses medStats;
 	std::vector<Allergy> allergies;
 
-	std::string dialogTitle;
 
 	Patient getPatientFromView();
 

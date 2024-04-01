@@ -36,11 +36,11 @@ void PatientDialogPresenter::setView(IPatientDialog* view)
 
 	view->setTitle(dialogTitle);
 
-	if (m_patient.has_value())
-	{
-		view->setPatient(*m_patient);
-		view->setEditMode(true);
-	}
+	if (!m_patient.has_value()) return;
+
+	view->setPatient(*m_patient);
+	view->setEditMode(true);
+	m_patient.reset();
 
 }
 

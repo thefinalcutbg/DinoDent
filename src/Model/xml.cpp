@@ -368,7 +368,7 @@ std::string XML::getInvoice(const Invoice& invoice)
     addElementWithText(recipient, "recipient_code", User::practice().rziCode.substr(0, 2));
     addElementWithText(recipient, "recipient_name", invoice.recipient.name);
     addElementWithText(recipient, "recipient_address", invoice.recipient.address);
-    addElementWithText(recipient, "recipient_bulstat", invoice.recipient.bulstat);
+    addElementWithText(recipient, "recipient_bulstat", invoice.recipient.identifier);
     el_invoice->LinkEndChild(recipient);
 
     auto issuer = invoice.issuer();
@@ -411,11 +411,15 @@ std::string XML::getInvoice(const Invoice& invoice)
         addElementWithText(issuerXml, "address_by_activity", issuer.address_by_activity);
     }
 
-    addElementWithText(issuerXml, "registration_by_VAT", std::to_string(issuer.registration_by_VAT.has_value()));
+    auto vat = issuer.vat();
+
+    addElementWithText(issuerXml, "registration_by_VAT", std::to_string(vat.has_value()));
     addElementWithText(issuerXml, "grounds_for_not_charging_VAT", issuer.grounds_for_not_charging_VAT);
     addElementWithText(issuerXml, "issuer_bulstat", issuer.bulstat);
-    if (issuer.registration_by_VAT.has_value()) {
-        addElementWithText(issuerXml, "issuer_bulstat_no_vat", issuer.registration_by_VAT.value());
+
+
+    if (vat.has_value()) {
+        addElementWithText(issuerXml, "issuer_bulstat_no_vat", vat.value());
     }
 
     if (User::hasNhifContract()) {

@@ -172,6 +172,7 @@ void IRC::handleMsg(const QString& msg)
 	if (command == "433" || command == "436"){
 		m_nick.generateNickname();
 		sendMsg(QString("NICK ") + m_nick.nickname());
+		return;
 	}
 
     //handling user list

@@ -198,7 +198,7 @@ void FinancialPresenter::docTypeChanged(int index)
 
     if (m_invoice.type != FinancialDocType::Invoice) {
 
-        auto mainDocDb = DbInvoice::getMainDocument(m_invoice.recipient.bulstat, m_invoice.rowId);
+        auto mainDocDb = DbInvoice::getMainDocument(m_invoice.recipient.identifier, m_invoice.rowId);
 
         if (mainDocDb) {
             m_invoice.setMainDocumentData(mainDocDb->number, mainDocDb->date);
@@ -220,7 +220,7 @@ void FinancialPresenter::mainDocumentChanged(long long num, Date date)
         //it means that user has changed the number, so
         //we get the date from db if main document with that number already exist:
 
-        auto db_date = DbInvoice::getMainDocDate(num, m_invoice.recipient.bulstat);
+        auto db_date = DbInvoice::getMainDocDate(num, m_invoice.recipient.identifier);
 
         if (db_date)
             date = db_date.value();

@@ -232,7 +232,7 @@ std::pair<std::vector<RowInstance>, PlainTable> getFinancialRows(const Date& fro
         //Number
         tableView.addCell(1, {.data = FreeFn::leadZeroes(db.asInt(1), 10)});
         
-        tableView.addCell(2, { .data = nhif ? nzokRecipient.bulstat : db.asString(4) });
+        tableView.addCell(2, { .data = nhif ? nzokRecipient.identifier : db.asString(4) });
         tableView.addCell(3, { .data = nhif ? nzokRecipient.name : db.asString(5) });
         tableView.addCell(4, { .data = nhif ? nzokRecipient.phone : db.asString(6) });
       

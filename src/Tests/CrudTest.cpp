@@ -61,7 +61,7 @@ std::string Test::crudTest()
 				.bulstat = "test",
 				.firm_address = "test",
 				.practice_address = 68134,
-				.vat = "",
+				.hasVat = false,
 				.pass = "test",
 				.legal_entity = 0,
 				.selfInsuredId = "",

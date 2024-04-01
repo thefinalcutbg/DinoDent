@@ -321,16 +321,26 @@ void Print::invoice(const Invoice& inv)
                 + "г."));
     }
 
-    auto issuer = inv.issuer();
 
     report.dataManager()->setReportVariable("recipient_name", QString::fromStdString(inv.recipient.name));
     report.dataManager()->setReportVariable("recipient_address", QString::fromStdString(inv.recipient.address));
-    report.dataManager()->setReportVariable("recipient_bulstat", QString::fromStdString(inv.recipient.bulstat));
+    report.dataManager()->setReportVariable("recipient_bulstat", QString::fromStdString(inv.recipient.identifier));
     report.dataManager()->setReportVariable("recipient_phone", QString::fromStdString(inv.recipient.phone));
+
+    if (inv.recipient.hasVat) {
+        report.dataManager()->setReportVariable("recipient_vat", QString::fromStdString(inv.recipient.getVat()));
+    }
+
+    auto issuer = inv.issuer();
 
     report.dataManager()->setReportVariable("issuer_name", QString::fromStdString(issuer.company_name));
     report.dataManager()->setReportVariable("issuer_address", QString::fromStdString(issuer.address_by_contract));
     report.dataManager()->setReportVariable("issuer_bulstat", QString::fromStdString(issuer.bulstat));
+
+    auto vat = issuer.vat();
+    if (vat) {
+        report.dataManager()->setReportVariable("issuer_vat", QString::fromStdString(vat.value()));
+    }
 
     report.dataManager()->setReportVariable("total", formatDoubleWithDecimal(inv.amount()));
 

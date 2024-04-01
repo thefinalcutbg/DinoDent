@@ -31,6 +31,12 @@ typedef std::variant<Company, SelfInsured> IssuerType;
 
 struct Issuer
 {
+
+private:
+	bool m_vat{ false };
+	Issuer(const Practice& user, const Doctor& doctor);
+
+public:
 	//default construction with current user
 	Issuer(); 
 
@@ -39,7 +45,7 @@ struct Issuer
 	std::string address_by_contract;
 	std::string address_by_activity;
 
-	std::optional<std::string> registration_by_VAT;
+	std::optional<std::string> vat() const;
 	std::string grounds_for_not_charging_VAT;
 
 	std::string bulstat;
@@ -48,7 +54,6 @@ struct Issuer
 	std::string iban;
 	std::string bic;
 
-private:
-	Issuer(const Practice& user, const Doctor& doctor);
+
 
 };

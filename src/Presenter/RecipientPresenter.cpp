@@ -26,12 +26,14 @@ void RecipientPresenter::idValidInput()
 		return;
 	}
 
+	if (id.size() != 10) return; //not a patient id
+
 	//searching by personal id in patient:
 
 	//check for patient Type 1
 	auto p = DbPatient::get(id, 1);
 
-	if (!p.id.empty()) {
+	if (p.rowid) {
 
 		view->setRecipient(Recipient(p));
 		return;
@@ -40,7 +42,7 @@ void RecipientPresenter::idValidInput()
 	//check for patient Type 2
 	p = DbPatient::get(id, 2);
 
-	if (!p.id.empty()) {
+	if (p.rowid) {
 		view->setRecipient(Recipient(p));
 		return;
 	}
@@ -71,7 +73,7 @@ void RecipientPresenter::okPressed()
 	};
 
 	for (auto e : validatableElements)
-	{
+	{	
 		e->validateInput();
 		if (!e->isValid())
 		{
@@ -82,7 +84,7 @@ void RecipientPresenter::okPressed()
 
 	result = view->getRecipient();
 
-	if (Recipient::isNhifBulstat(result->bulstat)) {
+	if (Recipient::isNhifBulstat(result->identifier)) {
 		ModalDialogBuilder::showMessage("За да добавите фактура по НЗОК, заредете месечно известие от \"Месечни отчети и известия\"");
 		result.reset();
 		return;

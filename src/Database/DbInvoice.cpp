@@ -21,15 +21,15 @@ long long DbInvoice::insertInvoice(const Invoice& invoice)
         db.bind(3, static_cast<int>(invoice.type));
         db.bind(4, invoice.date.to8601());
         db.bind(5, invoice.nhifData->fin_document_month_no);
-        db.bind(6, invoice.recipient.bulstat);
+        db.bind(6, invoice.recipient.identifier);
         db.bind(7, invoice.nhifData->monthNotifData);
     }
     else
     {
         db.newStatement(
             "INSERT INTO financial (practice_rzi, num, type, date, month_notif, data,"
-            " recipient_id, recipient_name, recipient_address, recipient_phone) "
-            "VALUES (?,?,?,?,?,?,?,?,?,?)"
+            " recipient_id, recipient_name, recipient_address, recipient_phone, recipient_vat) "
+            "VALUES (?,?,?,?,?,?,?,?,?,?, ?)"
         );
 
         db.bind(1, User::practice().rziCode);
@@ -38,10 +38,11 @@ long long DbInvoice::insertInvoice(const Invoice& invoice)
         db.bind(4, invoice.date.to8601());
         db.bind(5, "0");
         db.bind(6, Parser::write(invoice));
-        db.bind(7, invoice.recipient.bulstat);
+        db.bind(7, invoice.recipient.identifier);
         db.bind(8, invoice.recipient.name);
         db.bind(9, invoice.recipient.address);
         db.bind(10, invoice.recipient.phone);
+        db.bind(11, invoice.recipient.hasVat);
     }
 
     db.execute();
@@ -62,7 +63,8 @@ void DbInvoice::updateInvoice(const Invoice& invoice)
             "recipient_id=?,"
             "recipient_name=?,"
             "recipient_phone=?,"
-            "recipient_address=? "
+            "recipient_address=?, "
+            "recipient_vat=? "
             "WHERE rowid=?"
     );
 
@@ -70,16 +72,17 @@ void DbInvoice::updateInvoice(const Invoice& invoice)
     db.bind(2, static_cast<int>(invoice.type));
     db.bind(3, invoice.date.to8601());
     db.bind(4, Parser::write(invoice));
-    db.bind(5, invoice.recipient.bulstat);
+    db.bind(5, invoice.recipient.identifier);
         
     if (!invoice.nhifData.has_value()) {
 
         db.bind(6, invoice.recipient.name);
         db.bind(7, invoice.recipient.phone);
         db.bind(8, invoice.recipient.address);
+        db.bind(9, invoice.recipient.hasVat);
     }
 
-    db.bind(9, invoice.rowId);
+    db.bind(10, invoice.rowId);
 
     db.execute();
 }
@@ -163,7 +166,7 @@ std::optional<MainDocument> DbInvoice::getMainDocument(const std::string& recipi
 std::optional<Recipient> DbInvoice::getRecipient(const std::string& bulstat)
 {
     Db db(
-        "SELECT recipient_id, recipient_name, recipient_address, recipient_phone "
+        "SELECT recipient_id, recipient_name, recipient_address, recipient_phone, recipient_vat "
         "FROM financial WHERE recipient_id = ? "
         "ORDER BY num DESC LIMIT 1"
     );
@@ -175,10 +178,11 @@ std::optional<Recipient> DbInvoice::getRecipient(const std::string& bulstat)
     while (db.hasRows())
     {
         result.emplace();
-        result->bulstat = db.asString(0);
+        result->identifier = db.asString(0);
         result->name = db.asString(1);
         result->address = db.asString(2);
         result->phone = db.asString(3);
+        result->hasVat = db.asBool(4);
     }
 
     return result;
@@ -189,7 +193,7 @@ std::optional<Recipient> DbInvoice::getRecipient(const std::string& bulstat)
 Invoice DbInvoice::getInvoice(long long rowId)
 {
     std::string query = "SELECT num, type, date, month_notif, data, "
-        "recipient_id, recipient_name, recipient_phone, recipient_address "
+        "recipient_id, recipient_name, recipient_phone, recipient_address, recipient_vat "
         "FROM financial "
         "WHERE rowid = " + std::to_string(rowId);
 
@@ -230,10 +234,11 @@ Invoice DbInvoice::getInvoice(long long rowId)
         inv.type = type;
 
         Parser::parse(db.asString(4), inv);
-        inv.recipient.bulstat = db.asString(5);
+        inv.recipient.identifier = db.asString(5);
         inv.recipient.name = db.asString(6);
         inv.recipient.phone = db.asString(7);
         inv.recipient.address = db.asString(8);
+        inv.recipient.hasVat = db.asBool(9);
 
   
 

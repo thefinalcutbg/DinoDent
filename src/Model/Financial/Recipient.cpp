@@ -207,13 +207,20 @@ Recipient::Recipient(const Practice& p) : Recipient(getRecipient(p))
 Recipient::Recipient(const Patient& patient) :
     name{ patient.fullName() } ,
     address{ patient.getFullAddress() },
-    bulstat{ patient.id },
+    identifier{ patient.id },
     phone {patient.phone}
 {}
 
+std::string Recipient::getVat() const
+{
+    if (!hasVat) { return std::string(); }
+    
+    return "BG" + identifier;
+}
+
 bool Recipient::isNhifBulstat(const std::string & bulstat)
 {
-    for (auto& r : nhifRecipients) { if (r.bulstat == bulstat) return true; }
+    for (auto& r : nhifRecipients) { if (r.identifier == bulstat) return true; }
 
     return false;
 }

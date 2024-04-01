@@ -37,3 +37,15 @@ void DbUpdates::update22()
 		db.execute(query);
 	}
 }
+void DbUpdates::update23() {
+
+	if (Db::version() != 22) return;
+
+	Db db;
+
+	for (auto& query : Resources::getMigrationScript(23))
+	{
+		db.execute(query);
+	}
+
+}

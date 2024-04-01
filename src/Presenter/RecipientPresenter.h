@@ -11,6 +11,8 @@ class RecipientPresenter
 
 	RecipientEditView* view{ nullptr };
 
+	BulstatValidator bulstat_validator;
+
 	std::optional<Recipient> result;
 
 	RecipientIdValidator id_validator;

@@ -305,7 +305,7 @@ void SettingsDialog::setPractice(const Practice& practice)
 	ui.legalEntityCombo->setCurrentIndex(practice.legal_entity);
 	ui.firmAddressEdit->setText(QString::fromStdString(practice.firm_address));
 	ui.activityAddressEdit->setText(practice.practice_address.getString(false).c_str());
-	ui.vatEdit->setText(QString::fromStdString(practice.vat));
+	ui.vatCheck->setChecked(practice.hasVat);
 	ui.practicePassEdit->setText(QString::fromStdString(practice.pass));
 	ui.selfInsuredId->setText(QString::fromStdString(practice.selfInsuredId));
 	ui.bankEdit->setText(practice.bank.c_str());
@@ -401,7 +401,7 @@ Practice SettingsDialog::getPractice()
 	p.legal_entity = ui.legalEntityCombo->currentIndex();
 	p.name = ui.practiceNameEdit->getText();
 	p.pass = ui.practicePassEdit->getText();
-	p.vat = ui.vatEdit->getText();
+	p.hasVat = ui.vatCheck->isChecked();
 	p.selfInsuredId = ui.selfInsuredId->getText();
 	p.bank = ui.bankEdit->getText();
 	p.iban = ui.ibanEdit->getText();

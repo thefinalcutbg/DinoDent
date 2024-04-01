@@ -29,7 +29,15 @@ Issuer::Issuer() : Issuer(User::practice(), User::doctor())
 {
 }
 
+std::optional<std::string> Issuer::vat() const
+{
+     if (!m_vat) return {};
+
+     return "BG" + bulstat;
+}
+
 Issuer::Issuer(const Practice& practice, const Doctor& doctor) :
+    m_vat(practice.hasVat),
     type{ getIssuerType(practice.legal_entity, doctor) },
     company_name{
         practice.nhif_contract.has_value() ?
@@ -41,18 +49,9 @@ Issuer::Issuer(const Practice& practice, const Doctor& doctor) :
     address_by_contract{ practice.firm_address },
     address_by_activity{ practice.practice_address.getString() },
 
-    registration_by_VAT{
-
-                practice.vat.empty() ?
-
-                std::optional<std::string>{}
-                :
-                practice.vat
-    },
-
     grounds_for_not_charging_VAT{
 
-                    registration_by_VAT ?
+                    m_vat ?
 
                     "Чл. 39 от ЗДДС"
                     :

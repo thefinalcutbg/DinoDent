@@ -35,7 +35,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>4</number>
      </property>
      <widget class="QWidget" name="generalSettings">
       <attribute name="title">
@@ -956,13 +956,6 @@
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="label_10">
-             <property name="text">
-              <string>ДДС номер:</string>
-             </property>
-            </widget>
-           </item>
-           <item>
             <widget class="QLabel" name="label_20">
              <property name="text">
               <string>Банка:</string>
@@ -1101,34 +1094,14 @@
               </widget>
              </item>
              <item>
-              <spacer name="horizontalSpacer_9">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_17">
-             <item>
-              <widget class="LineEdit" name="vatEdit">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
+              <widget class="QCheckBox" name="vatCheck">
+               <property name="text">
+                <string>Регистрация по ДДС</string>
                </property>
               </widget>
              </item>
              <item>
-              <spacer name="horizontalSpacer_10">
+              <spacer name="horizontalSpacer_9">
                <property name="orientation">
                 <enum>Qt::Horizontal</enum>
                </property>

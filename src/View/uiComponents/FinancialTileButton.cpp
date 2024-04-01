@@ -6,9 +6,16 @@
 void RecipientTileButton::setRecipient(const Recipient& r)
 {
 	this->name = QString::fromStdString(r.name);
-	this->id = QString::fromStdString(r.bulstat);
+	this->id = QString::fromStdString(r.identifier);
 	this->address = QString::fromStdString(r.address);
-	this->phone = QString::fromStdString(r.phone);
+
+	hasVat = r.hasVat;
+
+	this->vat_or_phone = hasVat ?
+		QString::fromStdString(r.getVat())
+		:
+		QString::fromStdString(r.phone);
+
 	repaint();
 }
 
@@ -19,11 +26,13 @@ void RecipientTileButton::paintInfo(QPainter* painter)
 
 	constexpr int rowYPos[4]{ 60,80,100,120 };
 
+	QString vat_phone_label = hasVat ? "ДДС: " : "Телефон: ";
+
 	painter->setFont(infoLabel);
 	painter->drawText(20, rowYPos[0], "Име: ");
 	painter->drawText(20, rowYPos[1], "Идент.№: ");
 	painter->drawText(20, rowYPos[2], "Адрес: ");
-	painter->drawText(20, rowYPos[3], "Телефон: ");
+	painter->drawText(20, rowYPos[3], vat_phone_label);
 
 	QFontMetrics metric(infoLabel);
 
@@ -35,7 +44,7 @@ void RecipientTileButton::paintInfo(QPainter* painter)
 	painter->drawText(20 + horizontalAdvance("Име: "), rowYPos[0], name);
 	painter->drawText(20 + horizontalAdvance("Идент.№: "), rowYPos[1], id);
 	painter->drawText(20 + horizontalAdvance("Адрес: "), rowYPos[2], address);
-	painter->drawText(20 + horizontalAdvance("Телефон: "), rowYPos[3], phone);
+	painter->drawText(20 + horizontalAdvance(vat_phone_label), rowYPos[3], vat_or_phone);
 
 	painter->setFont(header);
 	painter->setPen(hover && !clicked ? QPen(Theme::fontRedClicked) : QPen(QColor(Theme::fontRed)));
@@ -76,12 +85,16 @@ void IssuerTileButton::setIssuer(const Issuer& r)
 	this->name = QString::fromStdString(r.company_name);
 	this->id = QString::fromStdString(r.bulstat);
 	this->address = QString::fromStdString(r.address_by_contract);
-	this->vat = QString::fromStdString(
-		r.registration_by_VAT ? 
-		r.registration_by_VAT->c_str()
-		:
-		""
-	);
+
+	auto vat = r.vat();
+	
+	if (vat){
+		this->vat = QString::fromStdString(vat.value());
+	}
+	else {
+		this->vat.clear();
+	}
+
 	repaint();
 }
 

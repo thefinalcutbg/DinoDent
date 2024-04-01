@@ -5,14 +5,14 @@ struct Version {
 
 	enum Branch { Win64, Win64Dev };
 
-	static constexpr unsigned dbVersion() { return 22; }
+	static constexpr unsigned dbVersion() { return 23; }
 
 	static constexpr Version current() {
 		
 		return {
 			.MAJOR = 1,
             .MINOR = 11,
-            .REVISION = 4
+            .REVISION = 5
 		};
 	}
 

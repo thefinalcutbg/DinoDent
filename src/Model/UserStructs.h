@@ -87,7 +87,7 @@ struct Practice
 	std::string bulstat; //issuer
 	std::string firm_address; //issuer
 	Ekatte practice_address;
-	std::string vat; //issuer
+	bool hasVat{ false }; //issuer
 	std::string pass;
 	int legal_entity{ 0 }; //issuer
 	std::string selfInsuredId; //issuer

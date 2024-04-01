@@ -18,7 +18,7 @@ Practice DbPractice::getPractice(const std::string rziCode)
         practice.practice_address = db.asInt(4);
         practice.legal_entity = db.asInt(5);
         practice.pass = db.asString(6);
-        practice.vat = db.asString(7);
+        practice.hasVat = db.asBool(7);
         practice.nhif_contract = Parser::parseContract(db.asString(8));
         practice.settings = Parser::parseSettings(db.asString(9));
         practice.selfInsuredId = db.asString(10);
@@ -57,7 +57,7 @@ bool DbPractice::updatePractice(const Practice& practice, const std::string& cur
     db.bind(3, practice.firm_address);
     db.bind(4, practice.practice_address.getIdxAsInt());
     db.bind(5, practice.legal_entity);
-    db.bind(6, practice.vat);
+    db.bind(6, practice.hasVat);
     db.bind(7, practice.pass);
     db.bind(8, Parser::write(practice.nhif_contract));
     db.bind(9, practice.selfInsuredId);
@@ -112,7 +112,7 @@ bool DbPractice::insertPractice(const Practice& practice)
     db.bind(5, practice.practice_address.getIdxAsInt());
     db.bind(6, practice.pass);
     db.bind(7, std::to_string(practice.legal_entity));
-    db.bind(8, practice.vat);
+    db.bind(8, practice.hasVat);
     db.bind(9, Parser::write(practice.nhif_contract));
     db.bind(10, Parser::write(practice.settings));
     db.bind(11, practice.selfInsuredId);

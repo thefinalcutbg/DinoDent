@@ -2,6 +2,7 @@
 #include "View/Widgets/DinoDent.h"
 #include "Network/UpdateService/UpdateService.h"
 #include <QtGlobal>
+#include "GlobalSettings.h"
 
 bool initFunction();
 
@@ -11,6 +12,8 @@ int main(int argc, char *argv[])
 {
 
     QApplication a(argc, argv);
+
+    GlobalSettings::createCfgIfNotExists();
 
     if (UpdateService::restartForUpdate()) { return 0; };
 
@@ -32,7 +35,6 @@ int main(int argc, char *argv[])
 
 #include "Database/Database.h"
 #include "DbUpdates/Updater.h"
-#include "GlobalSettings.h"
 
 #include "Model/User.h"
 #include "Model/Specialty.h"
@@ -56,8 +58,6 @@ bool initFunction() {
     QApplication::setWindowIcon(QIcon(":/icons/icon_app.png"));
 
     SplashScreen::createAndShow();
-
-    GlobalSettings::createCfgIfNotExists();
 
     Db::setFilePath(GlobalSettings::getDbPath());
 

@@ -12,5 +12,19 @@
 		"changeLog": [
 			"Добавен IRC чат канал за поддръжка и докладване на проблеми"
 		]
+	},
+	"win64_dev": {
+		"ver": "1.11.4",
+		"dl": "https://github.com/thefinalcutbg/DinoDent/releases/download/v1.11.4/DinoDentSetup.exe",
+		"changeLog": [
+			"Добавен IRC чат канал за поддръжка и докладване на проблеми"
+		]
+	},
+	"macos_dev": {
+		"ver": "1.11.4",
+		"dl": "https://github.com/thefinalcutbg/DinoDent/releases/download/v1.11.4/dinodent-macos.dmg",
+		"changeLog": [
+			"Добавен IRC чат канал за поддръжка и докладване на проблеми"
+		]
 	}
 }

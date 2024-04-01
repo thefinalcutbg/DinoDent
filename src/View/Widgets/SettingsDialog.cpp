@@ -3,6 +3,7 @@
 #include <QFileDialog>
 #include "GlobalSettings.h"
 #include "TableViewDialog.h"
+#include "View/ModalDialogBuilder.h"
 #include <QPainter>
 #include <QtGlobal>
 
@@ -85,17 +86,7 @@ SettingsDialog::SettingsDialog(QDialog*parent)
 	ui.mNameEdit->setErrorLabel(ui.errorLabel);
 	ui.lNameEdit->setErrorLabel(ui.errorLabel);
 	ui.phoneEdit->setErrorLabel(ui.errorLabel);
-/*
-	connect(ui.ibanEdit, &QLineEdit::textChanged, this, [&](const QString& text) {
-			ui.ibanEdit->setText(text.toUpper());
-			ui.ibanEdit->validateInput();
-	});
 
-	connect(ui.bicEdit, &QLineEdit::textChanged, this, [&](const QString& text) {
-			ui.bicEdit->setText(text.toUpper());
-			ui.bicEdit->validateInput();
-	});
-	*/
 	connect(ui.specialtyButton, &QPushButton::clicked, this,
 		[&] {
 
@@ -186,6 +177,23 @@ SettingsDialog::SettingsDialog(QDialog*parent)
 
 	});
 
+	connect(ui.devBranch, &QCheckBox::clicked, this, [&](bool checked) {
+
+		if (checked) {
+
+			bool answer = ModalDialogBuilder::askDialog(
+				"Внимание! Тестовите актуализации са нестабилни и може да съдържат повече бъгове. "
+				"Същевременно чрез тестването и докладването на проблеми вие помагате за развитието на софтуера. "
+				"Сигурни ли сте, че искате да включите тази опция? "
+			);
+
+			if (!answer) {
+				ui.devBranch->setChecked(false);
+			}
+		}
+
+	});
+
 	presenter.setView(this);
 	
 }
@@ -209,6 +217,7 @@ void SettingsDialog::setSettings(const Settings& settings)
 	ui.timeoutSpin->setValue(settings.timeout);
 	ui.dailyLimitCheck->setChecked(settings.nhifDailyLimitCheck);
 	ui.weekendCheck->setChecked(settings.nhifWeekendCheck);
+	ui.devBranch->setChecked(settings.devBranch);
 }
 
 Settings SettingsDialog::getSettings()
@@ -219,7 +228,8 @@ Settings SettingsDialog::getSettings()
 		.getNraStatusAuto = ui.autoNraCheck->isChecked(),
 		.nhifDailyLimitCheck = ui.dailyLimitCheck->isChecked(),
 		.nhifWeekendCheck = ui.weekendCheck->isChecked(),
-		.timeout = ui.timeoutSpin->value()
+		.timeout = ui.timeoutSpin->value(),
+		.devBranch = ui.devBranch->isChecked()
 	};
 }
 

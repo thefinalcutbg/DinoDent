@@ -142,7 +142,11 @@ bool SettingsMainPresenter::applyChanges()
 	)
 	{
 		view->focusTab(SettingsTab::Doctor);
-		ModalDialogBuilder::showError("Доктор с такъв УИН вече съществува. За да го добавите, използвайте \"Добави лекар\" от раздел \"Практика\".");
+		ModalDialogBuilder::showError(
+			"Доктор с такъв УИН вече съществува. За да го добавите, " 
+			"използвайте \"Добави лекар\" от раздел \"Практика\". "
+			"След това излезте от текущия профил и влезте с УИН-а на другия лекар."
+		);
 		return false;
 
 	}

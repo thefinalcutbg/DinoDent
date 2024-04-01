@@ -8,6 +8,8 @@
 #include "View/Widgets/UpdateDownloader.h"
 #include "Version.h"
 #include <QDesktopServices>
+#include "GlobalSettings.h"
+
 bool UpdateService::restartForUpdate()
 {
 	auto m_reply = NetworkManager::simpleRequest(
@@ -32,13 +34,21 @@ bool UpdateService::restartForUpdate()
         return  false;
     }
 
+    std::string branch;
+
 #ifdef Q_OS_WIN
-    updateInfo = updateInfo["win64"];
+    branch = "win64";
 #endif
 
 #ifdef Q_OS_MACOS
-    updateInfo = updateInfo["macos"];
+    branch = "macos";
 #endif
+
+    if (GlobalSettings::devBranch()) {
+        branch.append("_dev");
+    }
+
+    updateInfo = updateInfo[branch];
 
     auto latestVersion = Version::fromStr(updateInfo["ver"].asString());
 

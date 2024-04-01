@@ -8,4 +8,5 @@ struct Settings
 	bool nhifDailyLimitCheck{ false };
 	bool nhifWeekendCheck{ false };
 	int timeout{ 15 }; //in seconds!
+	bool devBranch{ false };
 };

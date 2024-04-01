@@ -59,6 +59,11 @@ std::string GlobalSettings::getDbBackupFilepath()
         ;
 }
 
+bool GlobalSettings::devBranch()
+{
+    return getSettingsAsJson()["dev_branch"].asBool();
+}
+
 
 void GlobalSettings::createCfgIfNotExists()
 {
@@ -86,6 +91,10 @@ void GlobalSettings::createCfgIfNotExists()
         for (auto& m : modules) {
             settings["pkcs11_path"].append(Json::Value(m));
         }
+    }
+
+    if (!settings.isMember("dev_branch")) {
+        settings["dev_branch"] = false;
     }
 
     rewriteCfg(settings);

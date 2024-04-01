@@ -35,7 +35,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>4</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="generalSettings">
       <attribute name="title">
@@ -121,6 +121,13 @@
              </spacer>
             </item>
            </layout>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="devBranch">
+            <property name="text">
+             <string>Съобщаване за нови тестови актуализации</string>
+            </property>
+           </widget>
           </item>
           <item>
            <widget class="QCheckBox" name="requestsCheck">

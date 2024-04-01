@@ -7,7 +7,7 @@ namespace GlobalSettings
 	void createCfgIfNotExists();
 
 	std::string getDbBackupFilepath();
-
+	bool devBranch();
 	std::string getDbPath();
 	std::string setDbPath();
 

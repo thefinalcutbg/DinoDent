@@ -125,28 +125,28 @@ void PatientFormDialog::patientTypeChanged(int patientType)
 
     switch (patientType)
     {
-    case 1:
+    case Patient::Type::EGN:
         ui.idLineEdit->setInputValidator(&egn_validator);
         ui.foreignCityEdit->setInputValidator(nullptr);
         ui.idLineEdit->validateInput();
         resetFields();
         break;
 
-    case 2:
+    case Patient::Type::LNCH:
         ui.idLineEdit->setInputValidator(&ln4_validator);
         ui.foreignCityEdit->setInputValidator(nullptr);
         ui.idLineEdit->validateInput();
         resetFields();
         break;
 
-    case 3:
+    case Patient::Type::SSN:
         ui.idLineEdit->setInputValidator(&ssn_validator);
         ui.foreignCityEdit->setInputValidator(nullptr);
         ui.idLineEdit->validateInput();
         resetFields();
         break;
 
-    case 4:
+    case Patient::Type::EU:
         ui.idLineEdit->setInputValidator(&notEmpty_validator);
         ui.foreignCityEdit->setInputValidator(&notEmpty_validator);
         ui.idLineEdit->validateInput();
@@ -241,9 +241,6 @@ void PatientFormDialog::setPatient(const Patient& patient)
 
 Patient PatientFormDialog::getPatient()
 {
-    auto birthDate = ui.birthEdit->date();
-    
-    
 
     std::optional<Foreigner> f = ui.typeComboBox->currentIndex() == 3 ?
 
@@ -263,7 +260,7 @@ Patient PatientFormDialog::getPatient()
         .rowid = 0,
         .type = Patient::Type(ui.typeComboBox->currentIndex() + 1),
         .id = ui.idLineEdit->text().toStdString(),
-        .birth = Date(birthDate.day(), birthDate.month(), birthDate.year()),
+        .birth = ui.birthEdit->getDate(),
         .sex = Patient::Sex(ui.sexCombo->currentIndex()),
         .FirstName = ui.fNameEdit->text().toStdString(),
         .MiddleName = ui.mNameEdit->text().toStdString(),

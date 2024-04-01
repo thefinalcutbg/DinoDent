@@ -1,16 +1,8 @@
 #pragma once
 
-
-#include <optional>
-
-
-
 #include "Model/Patient.h"
-
 #include "View/Interfaces/IPatientDialog.h"
-
 #include "Network/PIS/GetHirbnoService.h"
-
 
 class PatientDialogPresenter
 {
@@ -30,8 +22,7 @@ class PatientDialogPresenter
 	MedicalStatuses medStats;
 	std::vector<Allergy> allergies;
 
-
-	Patient getPatientFromView();
+	Patient getPatientFromView(); //sets the data not present in view
 
 public:
 	PatientDialogPresenter(std::string dialogTitle);

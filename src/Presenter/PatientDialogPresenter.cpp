@@ -64,9 +64,7 @@ void PatientDialogPresenter::accept()
 	m_patient = getPatientFromView();
 	
 	if (rowid == 0) {
-		rowid = m_patient->rowid;
 		m_patient->rowid = DbPatient::insert(m_patient.value());
-
 		if (!m_patient->rowid) m_patient.reset();
 	}
 	else
@@ -82,14 +80,12 @@ void PatientDialogPresenter::accept()
 
 void PatientDialogPresenter::searchDbForPatient(int type, const std::string& id)
 {
-
 	Patient patient = DbPatient::get(id, type);
-
-	medStats = patient.medStats;
-	allergies = patient.allergies;
 
 	if (patient.rowid){
 		rowid = patient.rowid;
+		medStats = patient.medStats;
+		allergies = patient.allergies;
 	}
 		
 	view->setPatient(patient);

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
+    <width>681</width>
     <height>400</height>
    </rect>
   </property>
@@ -15,11 +15,30 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QTextEdit" name="textEdit">
-     <property name="readOnly">
-      <bool>true</bool>
-     </property>
-    </widget>
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <item>
+      <widget class="QTextEdit" name="textEdit">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QListWidget" name="usrList">
+       <property name="maximumSize">
+        <size>
+         <width>180</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <bold>true</bold>
+        </font>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">

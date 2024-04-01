@@ -15,12 +15,13 @@ class IRC : public QObject {
     Nickname m_nick;
 
     int currentUsers = 0;
-
+    std::vector<Nickname> m_userList;
     void handleMsg(const QString& str);
     bool sendMsg(const QString& str);
-
+    void handleUserList(const QString& msg);
+    void handleNickchange(const QString& msg);
     void connectToServ();
-
+    QString getUserName(const QString& msg);
 public:
 
     IRC(QObject* parent = nullptr);
@@ -33,7 +34,7 @@ public:
     void ping();
 
 signals:
-    void userCountChanged(int count);
+    void userListChanged(const std::vector<Nickname> usrList);
     void joined();
     void topicRecieved(const QString& topic);
     void msgRecieved(const Nickname& usr, const QString& msg);

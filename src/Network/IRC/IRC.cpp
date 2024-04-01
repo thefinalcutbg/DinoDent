@@ -164,6 +164,7 @@ void IRC::handleMsg(const QString& msg)
     //welcome message
     if (command == "001") {
 		currentUsers = 0;
+		m_userList.clear();
         sendMsg("JOIN " + channel);
         return;
     }
@@ -177,29 +178,41 @@ void IRC::handleMsg(const QString& msg)
 
     //handling user list
     if (command == "353") {
-
-        currentUsers += msg.count(" ")-5;
-
+		handleUserList(msg);
         return;
     }
 
     //end of user list. user is joined.
     if (command ==  "366") {
-
         emit joined();
-		emit userCountChanged(--currentUsers);
+		emit userListChanged(m_userList);
+
         return;
     }
 
 	if (command == "JOIN") {
 
-		emit userCountChanged(++currentUsers);
+		auto nick = getUserName(msg);
+
+		if (nick == m_nick.nickname()) return;
+		m_userList.push_back(getUserName(msg));
+		emit userListChanged(m_userList);
 		return;
 	}
 
 	if (command == "PART" || command == "QUIT") {
+		
+		auto userName = getUserName(msg);
 
-		emit userCountChanged(--currentUsers);
+		for (int i = 0; i < m_userList.size(); i++) {
+			if (userName == m_userList[i].nickname())
+			{
+				m_userList.erase(m_userList.begin() + i);
+				break;
+			}
+		}
+
+		emit userListChanged(m_userList);
 		return;
 	}
 
@@ -209,6 +222,10 @@ void IRC::handleMsg(const QString& msg)
 		return;
 	}
 
+	if (command == "NICK") {
+		handleNickchange(msg);
+		emit userListChanged(m_userList);
+	};
 }
 
 bool IRC::sendMsg(const QString& str)
@@ -217,11 +234,78 @@ bool IRC::sendMsg(const QString& str)
 
 	if (result != -1) return true;
 
+	m_userList.clear();
+
 	emit disconnected();
 
 	connectToServ();
 
 	return false;
+}
+
+void IRC::handleUserList(const QString& msg)
+{
+
+	static const QString delimiter = channel + " :";
+
+	int msgBegin = msg.indexOf(delimiter, 0) + delimiter.size();
+
+	int msgEnd = msg.indexOf("\r\n", 0);
+
+	QString buffer;
+
+	for (int i = msgBegin; i < msgEnd; i++) {
+		
+		if (msg[i].isSpace()) {
+
+			if (buffer == m_nick.nickname()) {
+				m_userList.push_back(m_nick);
+			}
+			else {
+				m_userList.push_back(buffer);
+			}
+
+			if (m_userList.back().parsedName().isEmpty()) {
+				m_userList.pop_back();
+			}
+
+			buffer.clear();
+			continue;
+		}
+		
+		buffer += msg[i];
+	}
+
+}
+
+void IRC::handleNickchange(const QString& msg)
+{
+	auto oldNick = getUserName(msg);
+
+	static const QString delimiter = " NICK ";
+
+	int msgBegin = msg.indexOf(delimiter, 0) + delimiter.size();
+
+	int msgEnd = msg.indexOf("\r\n", 0);
+
+	QString newNick;
+
+	for (int i = msgBegin; i < msgEnd; i++) {
+		newNick += msg[i];
+	}
+
+	for (auto& n : m_userList) {
+
+		if (n.nickname() == oldNick) {
+			n = newNick == m_nick.nickname() ?
+				m_nick : newNick;
+
+			return;
+		}
+	}
+
+	m_userList.push_back(newNick);
+	
 }
 
 void IRC::connectToServ()
@@ -233,5 +317,21 @@ void IRC::connectToServ()
 	if (hostInfo.addresses().empty()) return;
 
 	m_socket.connectToHost(hostInfo.addresses().at(0), 9000);
+}
+
+QString IRC::getUserName(const QString& msg)
+{
+	QString result;
+
+	for (auto c : msg)
+	{
+		if (c == ':') continue;
+
+		if (c == '!') break;
+
+		result += c;
+	}
+
+	return result;
 }
 

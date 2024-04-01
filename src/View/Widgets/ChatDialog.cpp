@@ -34,12 +34,25 @@ ChatDialog::ChatDialog(DinoDent* parent) : QDialog(parent)
 		appendText(separator + topic + separator);
 	});
 
-	connect(&m_irc, &IRC::userCountChanged, this, [&](int count) {
+	connect(&m_irc, &IRC::userListChanged, this, [&](const std::vector<Nickname>& usrList) {
 
 		QString label = "Потребители онлайн: ";
-		label += QString::number(count);
+		label += QString::number(usrList.size());
 
 		ui.countLabel->setText(label);
+
+		ui.usrList->clear();
+
+		for (auto& u : usrList) {
+
+			if (!u.isValid()) continue;
+
+			QListWidgetItem *i = new QListWidgetItem(u.parsedName());
+			i->setForeground(QColor(colorTable[u.hash()]));
+			ui.usrList->addItem(i);
+		
+		}
+
 	});
 
 	connect(&m_irc, &IRC::disconnected, this, [&] {
@@ -60,6 +73,10 @@ ChatDialog::ChatDialog(DinoDent* parent) : QDialog(parent)
 
 		appendText(result);
 
+		if (!isVisible()) {
+			static_cast<DinoDent*>(this->parent())->setIrcIcon(true);
+		}
+
 	});
 
 	connect(ui.sendButton, &QPushButton::clicked, [&] {
@@ -77,11 +94,6 @@ void ChatDialog::appendText(const QString& text)
 	if (ui.textEdit->verticalScrollBar()) {
 		ui.textEdit->verticalScrollBar()->setValue(
 			ui.textEdit->verticalScrollBar()->maximum());
-	}
-
-
-	if (!isVisible()) {
-		static_cast<DinoDent*>(this->parent())->setIrcIcon(true);
 	}
 
 }

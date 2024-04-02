@@ -217,7 +217,7 @@ void SettingsDialog::setSettings(const Settings& settings)
 	ui.timeoutSpin->setValue(settings.timeout);
 	ui.dailyLimitCheck->setChecked(settings.nhifDailyLimitCheck);
 	ui.weekendCheck->setChecked(settings.nhifWeekendCheck);
-	ui.devBranch->setChecked(settings.devBranch);
+
 }
 
 Settings SettingsDialog::getSettings()
@@ -228,8 +228,7 @@ Settings SettingsDialog::getSettings()
 		.getNraStatusAuto = ui.autoNraCheck->isChecked(),
 		.nhifDailyLimitCheck = ui.dailyLimitCheck->isChecked(),
 		.nhifWeekendCheck = ui.weekendCheck->isChecked(),
-		.timeout = ui.timeoutSpin->value(),
-		.devBranch = ui.devBranch->isChecked()
+		.timeout = ui.timeoutSpin->value()
 	};
 }
 
@@ -305,6 +304,16 @@ bool SettingsDialog::showRequests()
 bool SettingsDialog::showReplies()
 {
 	return ui.repliesCheck->isChecked();
+}
+
+void SettingsDialog::setDevBranch(bool dev)
+{
+	ui.devBranch->setChecked(dev);
+}
+
+bool SettingsDialog::devBranch()
+{
+	return ui.devBranch->isChecked();
 }
 
 void SettingsDialog::setPractice(const Practice& practice)

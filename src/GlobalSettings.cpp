@@ -59,9 +59,18 @@ std::string GlobalSettings::getDbBackupFilepath()
         ;
 }
 
-bool GlobalSettings::devBranch()
+bool GlobalSettings::getDevBranch()
 {
     return getSettingsAsJson()["dev_branch"].asBool();
+}
+
+void GlobalSettings::setDevBranch(bool dev)
+{
+    Json::Value settings = getSettingsAsJson();
+
+    settings["dev_branch"] = dev;
+
+    rewriteCfg(settings);
 }
 
 

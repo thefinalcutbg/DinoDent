@@ -44,7 +44,7 @@ bool UpdateService::restartForUpdate()
     branch = "macos";
 #endif
 
-    if (GlobalSettings::devBranch()) {
+    if (GlobalSettings::getDevBranch()) {
         branch.append("_dev");
     }
 

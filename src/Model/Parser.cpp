@@ -319,7 +319,6 @@ std::string Parser::write(const Settings& settings)
 	json["dailyLimitCheck"] = settings.nhifDailyLimitCheck;
 	json["weekendCheck"] = settings.nhifWeekendCheck;
 	json["timeout"] = settings.timeout;
-	json["dev_branch"] = settings.devBranch;
 
 	Json::FastWriter writer;
 	return writer.write(json);
@@ -574,8 +573,7 @@ Settings Parser::parseSettings(const std::string& settingsString)
 		.getNraStatusAuto = json["nraCheck"].asBool(),
 		.nhifDailyLimitCheck = json["dailyLimitCheck"].asBool(),
 		.nhifWeekendCheck = json["weekendCheck"].asBool(),
-		.timeout = json["timeout"].asInt(),
-		.devBranch = json["dev_branch"].asBool()
+		.timeout = json["timeout"].asInt()
 	};
 }
 

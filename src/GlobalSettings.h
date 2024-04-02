@@ -7,13 +7,14 @@ namespace GlobalSettings
 	void createCfgIfNotExists();
 
 	std::string getDbBackupFilepath();
-	bool devBranch();
+	std::vector<std::string> getDefaultPkcs11Paths();
+	std::string telemetryId();
+
+	bool getDevBranch();
+	void setDevBranch(bool dev);
+
 	std::string getDbPath();
 	std::string setDbPath();
-
-	std::vector<std::string> getDefaultPkcs11Paths();
-
-	std::string telemetryId();
 
 	const std::vector<std::string>& pkcs11PathList();
 	void setPkcs11PathList(const std::vector<std::string> list);

@@ -56,6 +56,8 @@ public:
 	void setDebug(bool showRequests, bool showReplies) final;
 	bool showRequests() final;
 	bool showReplies() final;
+	void setDevBranch(bool dev) final;
+	bool devBranch() final;
 	~SettingsDialog();
 
 private:

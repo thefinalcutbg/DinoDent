@@ -23,6 +23,7 @@ void SettingsMainPresenter::setView(ISettingsDialog* view)
 
 	view->setSettings(practice.settings);
 	view->setPkcs11List(GlobalSettings::pkcs11PathList());
+	view->setDevBranch(GlobalSettings::getDevBranch());
 	view->setDebug(GlobalSettings::showRequestsEnabled(), GlobalSettings::showRepliesEnabled());
 	view->setDoctor(doctor);
 	view->setPractice(practice);
@@ -223,6 +224,7 @@ bool SettingsMainPresenter::applyChanges()
 	NetworkManager::setTimeout(practice.settings.timeout);
 	GlobalSettings::setPkcs11PathList(view->getPkcs11List());
 	GlobalSettings::setDebug(view->showRequests(), view->showReplies());
+	GlobalSettings::setDevBranch(view->devBranch());
 
 	return true;
 }

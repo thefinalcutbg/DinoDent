@@ -10,6 +10,12 @@
     <height>400</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
   <property name="windowTitle">
    <string>ChatDialog</string>
   </property>
@@ -21,19 +27,22 @@
        <property name="readOnly">
         <bool>true</bool>
        </property>
+       <property name="textInteractionFlags">
+        <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
+       </property>
       </widget>
      </item>
      <item>
       <widget class="QListWidget" name="usrList">
        <property name="maximumSize">
         <size>
-         <width>180</width>
+         <width>200</width>
          <height>16777215</height>
         </size>
        </property>
        <property name="font">
         <font>
-         <bold>true</bold>
+         <bold>false</bold>
         </font>
        </property>
       </widget>

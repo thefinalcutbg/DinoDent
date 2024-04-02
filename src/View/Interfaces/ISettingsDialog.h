@@ -34,6 +34,9 @@ public:
 	virtual bool showRequests() = 0;
 	virtual bool showReplies() = 0;
 
+	virtual void setDevBranch(bool dev) = 0;
+	virtual bool devBranch() = 0;
+
 	virtual void replaceCurrentItem(const PracticeDoctor& item) = 0;
 
 

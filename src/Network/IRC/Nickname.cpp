@@ -15,9 +15,12 @@ int Nickname::getRandomHash()
 }
 
 
-Nickname::Nickname(const std::string& fname, const std::string& lname) :
+Nickname::Nickname(const std::string& fname, const std::string& lname, bool visible) :
 	m_hash(0)
 {
+
+	m_nickname.reserve(24);
+
 	name += fname.c_str();
 	name += " ";
 	name += lname.c_str();
@@ -33,7 +36,19 @@ Nickname::Nickname(const std::string& fname, const std::string& lname) :
 		}
 	}
 
-	generateNickname();
+	if (visible) {
+		m_nickname += ']';
+	}
+
+	m_nickname += name;
+
+	for (int i = 0; i < m_nickname.size(); i++) {
+		if (m_nickname[i] == ' ') {
+			m_nickname[i] = '_';
+		}
+	}
+
+	m_nickname += QString::number(getRandomHash());
 
 }
 
@@ -73,11 +88,19 @@ QString Nickname::parsedName() const
 	return "д-р " + name;
 }
 
-void Nickname::generateNickname()
+void Nickname::rehashNickname()
 {
 	if (!isCurrentUser()) return;
 
-	m_nickname = name;
+	bool visible = isVisible();
+
+	m_nickname.clear();
+
+	if (visible) {
+		m_nickname += ']';
+	}
+
+	m_nickname += name;
 
 	for (int i = 0; i < m_nickname.size(); i++) {
 		if (m_nickname[i] == ' ') {
@@ -86,4 +109,23 @@ void Nickname::generateNickname()
 	}
 
 	m_nickname += QString::number(getRandomHash());
+
+}
+
+void Nickname::setVisible(bool visible)
+{
+	if (visible == isVisible()) return;
+
+	if (visible) {
+		m_nickname.insert(0, ']');
+	}
+	else {
+		m_nickname.remove(0, 1);
+	}
+
+}
+
+bool Nickname::isVisible() const
+{
+	return m_nickname.size() && m_nickname[0] == ']';
 }

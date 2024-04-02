@@ -30,9 +30,4 @@ public:
 
 private:
     Ui::DinoDentClass ui;
-
-    // Inherited via IMainView
-    virtual void disconnectChat() override;
-    virtual void connectChat(const std::string& fname, const std::string lname) override;
-    virtual void changeUsrName(const std::string& fname, const std::string lname) override;
 };

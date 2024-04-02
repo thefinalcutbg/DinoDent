@@ -1,7 +1,9 @@
 ﻿#include "ChatDialog.h"
 #include <QScrollBar>
 #include "DinoDent.h"
-
+#include "Network/IRC/IRC.h"
+#include "Network/IRC/IRCInterface.h"
+#include "GlobalSettings.h"
 
 ChatDialog::ChatDialog(DinoDent* parent) : QDialog(parent)
 {
@@ -9,6 +11,10 @@ ChatDialog::ChatDialog(DinoDent* parent) : QDialog(parent)
 	
 	setWindowTitle("IRC чат");
 	setWindowIcon(QIcon(":/icons/icon_mirc_glow.png"));
+
+	setWindowFlag(Qt::WindowMaximizeButtonHint);
+
+	ui.visibleCheck->setChecked(GlobalSettings::isIrcVisible());
 
 	//default user color
 	colorTable.push_back(QColor(2, 127, 128).name());
@@ -25,16 +31,15 @@ ChatDialog::ChatDialog(DinoDent* parent) : QDialog(parent)
 		);
 	}
 
-	connect(&m_irc, &IRC::joined, this, [&]{ });
-
-	connect(&m_irc, &IRC::topicRecieved, this, [&](const QString& topic) {
+	connect(&IRCInterface::getClient(), &IRC::topicRecieved, this, [&](const QString& topic) {
 
 		const QString separator = "<br>___________________________________________________________________________<br><br>";
 
 		appendText(separator + topic + separator);
 	});
 
-	connect(&m_irc, &IRC::userListChanged, this, [&](const std::vector<Nickname>& usrList) {
+
+	connect(&IRCInterface::getClient(), &IRC::userListChanged, this, [&](const std::vector<Nickname>& usrList) {
 
 		QString label = "Потребители онлайн: ";
 		label += QString::number(usrList.size());
@@ -47,6 +52,8 @@ ChatDialog::ChatDialog(DinoDent* parent) : QDialog(parent)
 
 			if (!u.isValid()) continue;
 
+			if (!u.isVisible()) continue;
+
 			QListWidgetItem *i = new QListWidgetItem(u.parsedName());
 			i->setForeground(QColor(colorTable[u.hash()]));
 			ui.usrList->addItem(i);
@@ -55,11 +62,11 @@ ChatDialog::ChatDialog(DinoDent* parent) : QDialog(parent)
 
 	});
 
-	connect(&m_irc, &IRC::disconnected, this, [&] {
+	connect(&IRCInterface::getClient(), &IRC::disconnected, this, [&] {
 		ui.countLabel->setText("Няма връзка със сървъра");
 	});
 
-    connect(&m_irc, &IRC::msgRecieved, this, [&](const Nickname& nick, const QString& msg) {
+    connect(&IRCInterface::getClient(), &IRC::msgRecieved, this, [&](const Nickname& nick, const QString& msg) {
 
 		if (!nick.isValid()) return;
 
@@ -80,8 +87,12 @@ ChatDialog::ChatDialog(DinoDent* parent) : QDialog(parent)
 	});
 
 	connect(ui.sendButton, &QPushButton::clicked, [&] {
-		m_irc.sendMessage(ui.lineEdit->text());
+		IRCInterface::getClient().sendMessage(ui.lineEdit->text());
 		ui.lineEdit->clear();
+	});
+
+	connect(ui.visibleCheck, &QCheckBox::clicked, this, [&](bool checked) {
+		IRCInterface::getClient().setVisible(checked);
 	});
 
 	ui.lineEdit->setFocus();
@@ -96,28 +107,6 @@ void ChatDialog::appendText(const QString& text)
 			ui.textEdit->verticalScrollBar()->maximum());
 	}
 
-}
-
-
-void ChatDialog::changeNickname(const std::string& fname, const std::string& lname)
-{
-	m_irc.changeNick(fname, lname);
-}
-
-void ChatDialog::connectToServer(const std::string& fname, const std::string& lname)
-{
-	m_irc.connectToServ(fname, lname);
-}
-
-void ChatDialog::disconnect()
-{
-	m_irc.disconnect();
-	ui.countLabel->setText("Няма връзка със сървъра");
-}
-
-void ChatDialog::checkConnection()
-{
-	m_irc.ping();
 }
 
 ChatDialog::~ChatDialog()

@@ -14,6 +14,8 @@ class IRC : public QObject {
     
     Nickname m_nick;
 
+    bool dont_reconnect = true;
+
     int currentUsers = 0;
     std::vector<Nickname> m_userList;
     void handleMsg(const QString& str);
@@ -22,16 +24,17 @@ class IRC : public QObject {
     void handleNickchange(const QString& msg);
     void connectToServ();
     QString getUserName(const QString& msg);
+    void handlePrivateMessage(const QString& msg);
+    void handleTopic(const QString& msg);
 public:
 
     IRC(QObject* parent = nullptr);
-	void connectToServ(const std::string& fname, const std::string& lname);
-	void changeNick(const std::string& fname, const std::string& lname);
-    void handlePrivateMessage(const QString& msg);
-    void handleTopic(const QString& msg);
+
+	void setNames(const std::string& fname, const std::string& lname);
+    void setVisible(bool visible);
     void sendMessage(const QString& msg);
     void disconnect();
-    void ping();
+
 
 signals:
     void userListChanged(const std::vector<Nickname> usrList);

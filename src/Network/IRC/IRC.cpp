@@ -1,8 +1,10 @@
 ﻿#include "IRC.h"
-
+#include <QTimer>
 #include <QColor>
 #include <QHostInfo>
 #include <random>
+
+#include "GlobalSettings.h"
 
 IRC::IRC(QObject* parent) : QObject(parent)
 {
@@ -29,21 +31,54 @@ IRC::IRC(QObject* parent) : QObject(parent)
 		}
     });
 
+
+	QTimer* timer = new QTimer(this);
+	connect(timer, &QTimer::timeout, this, [&] { 
+		sendMsg("PING :" + server); 
+	});
+	timer->start(60000);
 }
 
-void IRC::connectToServ(const std::string& fname, const std::string& lname)
+void IRC::setNames(const std::string& fname, const std::string& lname)
 {
-	m_nick = Nickname(fname, lname);
+	m_nick = Nickname(fname, lname, GlobalSettings::isIrcVisible());
 
-	connectToServ();
-}
-
-void IRC::changeNick(const std::string& fname, const std::string& lname)
-{
-	m_nick = Nickname(fname, lname);
+	dont_reconnect = false;
 
 	sendMsg(QString("NICK ") + m_nick.nickname());
 }
+
+void IRC::setVisible(bool visible)
+{
+	GlobalSettings::setIrcVisible(visible);
+
+	m_nick.setVisible(visible);
+
+	sendMsg(QString("NICK ") + m_nick.nickname());
+}
+
+void IRC::disconnect()
+{
+	m_socket.close();
+
+	dont_reconnect = true;
+}
+
+void IRC::sendMessage(const QString& msg)
+{
+	if (msg.isEmpty()) return;
+
+	if (!sendMsg(QString("PRIVMSG " + channel + " :" + msg))) {
+		return;
+	};
+
+	//emmiting signal to add the message to the textEdit
+
+	emit msgRecieved(m_nick, msg);
+}
+
+
+
 
 void IRC::handlePrivateMessage(const QString& msg)
 {
@@ -98,29 +133,6 @@ void IRC::handleTopic(const QString& msg)
 	emit topicRecieved(topic);
 }
 
-void IRC::sendMessage(const QString& msg)
-{
-	if (msg.isEmpty()) return;
-
-	if (!sendMsg(QString("PRIVMSG " + channel + " :" + msg))) {
-		return;
-	};
-
-	//emmiting signal to add the message to the textEdit
-
-	emit msgRecieved(m_nick, msg);
-}
-
-void IRC::disconnect()
-{
-	m_socket.close();
-}
-
-void IRC::ping()
-{
-	sendMsg("PING :irc.bgirc.com");
-}
-
 void IRC::handleMsg(const QString& msg)
 {
 	if (msg.startsWith("PING ")) {
@@ -171,7 +183,7 @@ void IRC::handleMsg(const QString& msg)
 
 	//nick collision
 	if (command == "433" || command == "436"){
-		m_nick.generateNickname();
+		m_nick.rehashNickname();
 		sendMsg(QString("NICK ") + m_nick.nickname());
 		return;
 	}
@@ -245,7 +257,6 @@ bool IRC::sendMsg(const QString& str)
 
 void IRC::handleUserList(const QString& msg)
 {
-
 	static const QString delimiter = channel + " :";
 
 	int msgBegin = msg.indexOf(delimiter, 0) + delimiter.size();
@@ -311,6 +322,8 @@ void IRC::handleNickchange(const QString& msg)
 void IRC::connectToServ()
 {
 	if (!m_nick.isValid()) return;
+
+	if (dont_reconnect) return;
 
 	QHostInfo hostInfo = QHostInfo::fromName(server);
 

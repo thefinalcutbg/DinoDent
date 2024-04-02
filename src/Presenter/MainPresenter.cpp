@@ -11,6 +11,7 @@
 #include "Network/HIS/HisToken.h"
 #include "Network/Telemetry.h"
 #include "Network/PKCS11.h"
+#include "Network/IRC/IRCInterface.h"
 
 #include "Presenter/PatientDialogPresenter.h"
 #include "Presenter/MonthNotifPresenter.h"
@@ -66,7 +67,7 @@ void MainPresenter::setView(IMainView* view)
         med_update_service.update();
     }
   
-    view->connectChat(User::doctor().fname, User::doctor().lname);
+    IRCInterface::connectAs(User::doctor().fname, User::doctor().lname);
 
 }
 
@@ -160,7 +161,7 @@ void MainPresenter::settingsPressed()
         User::practice().name
     );
 
-    view->changeUsrName(User::doctor().fname, User::doctor().lname);
+    IRCInterface::connectAs(User::doctor().fname, User::doctor().lname);
 
     //refreshing the data to the view (e.g. issuer in invoices)
     auto currentTab = TabPresenter::get().currentTab();
@@ -183,7 +184,7 @@ void MainPresenter::logOut()
     if (!closeAllTabs()) return;
 
     view->setUserLabel("", "");
-    view->disconnectChat();
+    IRCInterface::disconnect();
 
     PKCS11::cleanup();
 
@@ -206,7 +207,7 @@ void MainPresenter::logOut()
         User::practice().name
         );
    
-    view->connectChat(User::doctor().fname, User::doctor().lname);
+    IRCInterface::connectAs(User::doctor().fname, User::doctor().lname);
 
     Telemetry::sendData();
 
@@ -223,7 +224,7 @@ void MainPresenter::userSettingsPressed()
 
     if (!User::isValid()) return;
 
-    view->changeUsrName(User::doctor().fname, User::doctor().lname);
+    IRCInterface::connectAs(User::doctor().fname, User::doctor().lname);
 }
 
 bool MainPresenter::closeAllTabs()

@@ -140,11 +140,6 @@ DinoDent::DinoDent(QWidget* parent)
 
     MainPresenter::get().setView(this);
 
-    QTimer* timer = new QTimer(this);
-    connect(timer, &QTimer::timeout, this, [&] {
-        m_chatDialog->checkConnection();
-    });
-    timer->start(60000);
 }
 
 ITabView* DinoDent::tabView()
@@ -195,21 +190,6 @@ void DinoDent::setIrcIcon(bool glow)
         :
         QIcon(":/icons/icon_mirc.png")
     );
-}
-
-void DinoDent::disconnectChat()
-{
-    m_chatDialog->disconnect();
-}
-
-void DinoDent::connectChat(const std::string& fname, const std::string lname)
-{
-    m_chatDialog->connectToServer(fname, lname);
-}
-
-void DinoDent::changeUsrName(const std::string& fname, const std::string lname)
-{
-    m_chatDialog->changeNickname(fname, lname);
 }
 
 void DinoDent::paintEvent(QPaintEvent*)

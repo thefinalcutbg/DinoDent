@@ -915,6 +915,9 @@
     <ClCompile Include="src\Network\IRC\Nickname.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Network\IRC\IRCInterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Database\Database.h">
@@ -1689,6 +1692,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Network\IRC\Nickname.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Network\IRC\IRCInterface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

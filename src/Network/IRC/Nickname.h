@@ -15,7 +15,7 @@ class Nickname
 
 public:
 	Nickname() {};
-	Nickname(const std::string& fname, const std::string &lname);
+	Nickname(const std::string& fname, const std::string &lname, bool visible);
 	Nickname(const QString& nickname);
 
 	//returns -1 if hash is invalid, 0 if is currentUser
@@ -24,5 +24,7 @@ public:
 	QString parsedName() const;
 	int isValid() const { return m_hash != -1; }
 	int isCurrentUser() const { return m_hash == 0; }
-	void generateNickname();
+	void rehashNickname();
+	void setVisible(bool visible);
+	bool isVisible() const;
 };

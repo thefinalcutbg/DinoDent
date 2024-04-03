@@ -60,7 +60,7 @@ Nickname::Nickname(const QString& nickname) : m_nickname(nickname)
 		else if (c == '_') {
 			name += ' ';
 		}
-		else if (c.isLetter()) {
+		else {
 			name += c;
 		}
 	}

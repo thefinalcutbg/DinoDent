@@ -13,9 +13,6 @@ namespace GlobalSettings
 	bool getDevBranch();
 	void setDevBranch(bool dev);
 
-	void setIrcVisible(bool visible);
-	bool isIrcVisible();
-
 	std::string getDbPath();
 	std::string setDbPath();
 

@@ -1,4 +1,5 @@
 ALTER TABLE practice DROP COLUMN vat;
 ALTER TABLE practice ADD COLUMN vat INTEGER;
 ALTER TABLE financial ADD COLUMN recipient_vat INTEGER;
+ALTER TABLE doctor ADD COLUMN incognito INTEGER;
 PRAGMA user_version = 23;

@@ -92,3 +92,13 @@ bool User::hasNhifContract()
 {
     return s_practice.nhif_contract && s_doctor.specialty != NhifSpecialty::None;
 }
+
+bool User::isIncognito()
+{
+    return DbDoctor::isIncognito(s_doctor.LPK);
+}
+
+void User::setIncognito(bool incognito)
+{
+    DbDoctor::setIncognito(incognito, s_doctor.LPK);
+}

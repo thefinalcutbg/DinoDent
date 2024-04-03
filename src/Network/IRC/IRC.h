@@ -18,20 +18,25 @@ class IRC : public QObject {
 
     int currentUsers = 0;
     std::vector<Nickname> m_userList;
-    void handleMsg(const QString& str);
+
+    void handleMsg(const QByteArray& line);
     bool sendMsg(const QString& str);
+
     void handleUserList(const QString& msg);
     void handleNickchange(const QString& msg);
-    void connectToServ();
+
     QString getUserName(const QString& msg);
     void handlePrivateMessage(const QString& msg);
     void handleTopic(const QString& msg);
+
+    void connectToServ();
+
 public:
 
     IRC(QObject* parent = nullptr);
 
 	void setNames(const std::string& fname, const std::string& lname);
-    void setVisible(bool visible);
+    void setInvisible(bool invisible);
     void sendMessage(const QString& msg);
     void disconnect();
 

@@ -22,5 +22,7 @@ namespace User
 	std::string getNameFromLPK(const std::string& LPK);
 //	double getPrice(int procedureCode);
 	bool hasNhifContract();
+	bool isIncognito();
+	void setIncognito(bool incognito);
 };
 

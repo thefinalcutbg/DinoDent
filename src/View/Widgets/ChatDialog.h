@@ -13,6 +13,8 @@ class ChatDialog : public QDialog
 
 	void appendText(const QString& text);
 
+	bool event(QEvent* e) override;
+
 public:
 	ChatDialog(DinoDent *parent);
 	

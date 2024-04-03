@@ -19,7 +19,7 @@ void IRCInterface::disconnect()
 	getClient().disconnect();
 }
 
-void IRCInterface::setVisible(bool visible)
+void IRCInterface::setInvisible(bool invisible)
 {
-	getClient().setVisible(visible);
+	getClient().setInvisible(invisible);
 }

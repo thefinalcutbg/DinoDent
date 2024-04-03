@@ -1,9 +1,11 @@
 ﻿#include "ChatDialog.h"
+
 #include <QScrollBar>
+
 #include "DinoDent.h"
 #include "Network/IRC/IRC.h"
 #include "Network/IRC/IRCInterface.h"
-#include "GlobalSettings.h"
+#include "Model/User.h"
 
 ChatDialog::ChatDialog(DinoDent* parent) : QDialog(parent)
 {
@@ -13,8 +15,6 @@ ChatDialog::ChatDialog(DinoDent* parent) : QDialog(parent)
 	setWindowIcon(QIcon(":/icons/icon_mirc_glow.png"));
 
 	setWindowFlag(Qt::WindowMaximizeButtonHint);
-
-	ui.visibleCheck->setChecked(GlobalSettings::isIrcVisible());
 
 	//default user color
 	colorTable.push_back(QColor(2, 127, 128).name());
@@ -52,11 +52,22 @@ ChatDialog::ChatDialog(DinoDent* parent) : QDialog(parent)
 
 			if (!u.isValid()) continue;
 
-			if (!u.isVisible()) continue;
+			if (u.isInvisible()) continue;
 
 			QListWidgetItem *i = new QListWidgetItem(u.parsedName());
 			i->setForeground(QColor(colorTable[u.hash()]));
-			ui.usrList->addItem(i);
+
+			//setting bold font to user
+			if (u.isCurrentUser()) {
+				auto font = i->font();
+				font.setBold(true);
+				i->setFont(font);
+			}
+
+			u.isCurrentUser() ? 
+					ui.usrList->insertItem(0, i)
+					:
+					ui.usrList->addItem(i);
 		
 		}
 
@@ -91,8 +102,8 @@ ChatDialog::ChatDialog(DinoDent* parent) : QDialog(parent)
 		ui.lineEdit->clear();
 	});
 
-	connect(ui.visibleCheck, &QCheckBox::clicked, this, [&](bool checked) {
-		IRCInterface::getClient().setVisible(checked);
+	connect(ui.invisibleCheck, &QCheckBox::clicked, this, [&](bool checked) {
+		IRCInterface::getClient().setInvisible(checked);
 	});
 
 	ui.lineEdit->setFocus();
@@ -107,6 +118,16 @@ void ChatDialog::appendText(const QString& text)
 			ui.textEdit->verticalScrollBar()->maximum());
 	}
 
+}
+
+bool ChatDialog::event(QEvent* e)
+{
+	if (e->type() == QEvent::Show) {
+		QSignalBlocker b(ui.invisibleCheck);
+		ui.invisibleCheck->setChecked(User::isIncognito());
+	}
+
+	return QDialog::event(e);
 }
 
 ChatDialog::~ChatDialog()

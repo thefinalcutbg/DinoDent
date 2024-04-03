@@ -21,6 +21,33 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_4">
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="invisibleCheck">
+       <property name="text">
+        <string>Инкогнито</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
     <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
       <widget class="QTextEdit" name="textEdit">
@@ -33,42 +60,25 @@
       </widget>
      </item>
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout_2">
-       <property name="rightMargin">
-        <number>0</number>
+      <widget class="QListWidget" name="usrList">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
-       <property name="bottomMargin">
-        <number>0</number>
+       <property name="maximumSize">
+        <size>
+         <width>181</width>
+         <height>16777215</height>
+        </size>
        </property>
-       <item>
-        <widget class="QListWidget" name="usrList">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>181</width>
-           <height>16777215</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <bold>false</bold>
-          </font>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="visibleCheck">
-         <property name="text">
-          <string>Показвай ме в списъка</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
+       <property name="font">
+        <font>
+         <bold>false</bold>
+        </font>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>

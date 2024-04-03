@@ -19,4 +19,6 @@ namespace DbDoctor
 	std::unordered_map<std::string, std::string> getDoctorNames(); //returns LPK - name as key-value for all doctors in the db
 	bool updateFavouriteProcedures(const std::vector<std::string>& procedureCodes, const std::string& doctorLPK);
 	std::set<std::string> getFavouriteProcedures(const std::string& doctorLPK);
+	bool isIncognito(const std::string& lpk);
+	bool setIncognito(bool incognito, const std::string& lpk);
 }

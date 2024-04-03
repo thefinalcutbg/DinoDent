@@ -4,7 +4,7 @@
 #include <QHostInfo>
 #include <random>
 
-#include "GlobalSettings.h"
+#include "Model/User.h"
 
 IRC::IRC(QObject* parent) : QObject(parent)
 {
@@ -41,18 +41,18 @@ IRC::IRC(QObject* parent) : QObject(parent)
 
 void IRC::setNames(const std::string& fname, const std::string& lname)
 {
-	m_nick = Nickname(fname, lname, GlobalSettings::isIrcVisible());
+	m_nick = Nickname(fname, lname, User::isIncognito());
 
 	dont_reconnect = false;
 
 	sendMsg(QString("NICK ") + m_nick.nickname());
 }
 
-void IRC::setVisible(bool visible)
+void IRC::setInvisible(bool invisible)
 {
-	GlobalSettings::setIrcVisible(visible);
+	User::setIncognito(invisible);
 
-	m_nick.setVisible(visible);
+	m_nick.setInvisible(invisible);
 
 	sendMsg(QString("NICK ") + m_nick.nickname());
 }
@@ -133,13 +133,31 @@ void IRC::handleTopic(const QString& msg)
 	emit topicRecieved(topic);
 }
 
-void IRC::handleMsg(const QString& msg)
+void IRC::handleMsg(const QByteArray& line)
 {
-	if (msg.startsWith("PING ")) {
-		sendMsg("PONG :" + server);
-	}
 	
-	if (!msg.startsWith(":")) return;
+	if (line.startsWith("PING ")) {
+		sendMsg("PONG :" + server);
+		return;
+	}
+
+	static QByteArray msg;
+	
+	//msg starts with : and ends with \n
+	if (line.startsWith(':') && line.endsWith('\n')) {
+		msg = line;
+	}
+	else if (line.startsWith(':')) {
+		msg = line;
+		return;
+	}
+	else if (line.endsWith('\n')) {
+		msg += line;
+	}
+	else {
+		msg += line;
+		return;
+	}
 
 	bool cmdBegin = false;
 
@@ -148,7 +166,7 @@ void IRC::handleMsg(const QString& msg)
 	//parsing command
 	for (int i = 0; i < msg.size(); i++) {
 
-		if (msg[i].isSpace()) {
+		if (msg[i] == ' ') {
 
 			if (!cmdBegin) {
 				cmdBegin = true;
@@ -196,7 +214,6 @@ void IRC::handleMsg(const QString& msg)
 
     //end of user list. user is joined.
     if (command ==  "366") {
-        emit joined();
 		emit userListChanged(m_userList);
 
         return;

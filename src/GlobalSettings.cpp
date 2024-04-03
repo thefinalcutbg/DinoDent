@@ -73,21 +73,6 @@ void GlobalSettings::setDevBranch(bool dev)
     rewriteCfg(settings);
 }
 
-void GlobalSettings::setIrcVisible(bool visible)
-{
-    Json::Value settings = getSettingsAsJson();
-
-    settings["irc_visible"] = visible;
-
-    rewriteCfg(settings);
-}
-
-bool GlobalSettings::isIrcVisible()
-{
-    return getSettingsAsJson()["irc_visible"].asBool();
-}
-
-
 void GlobalSettings::createCfgIfNotExists()
 {
     auto dataFolder = QDir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation));
@@ -118,10 +103,6 @@ void GlobalSettings::createCfgIfNotExists()
 
     if (!settings.isMember("dev_branch")) {
         settings["dev_branch"] = false;
-    }
-
-    if (!settings.isMember("irc_visible")) {
-        settings["irc_visible"] = false;
     }
 
     rewriteCfg(settings);

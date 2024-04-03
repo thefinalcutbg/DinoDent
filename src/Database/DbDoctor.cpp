@@ -230,3 +230,27 @@ std::set<std::string> DbDoctor::getFavouriteProcedures(const std::string& doctor
 
     return result;
 }
+
+bool DbDoctor::isIncognito(const std::string& lpk)
+{
+    Db db;
+
+    db.newStatement("SELECT incognito FROM doctor WHERE lpk=?");
+
+    db.bind(1, lpk);
+
+    while (db.hasRows()) {
+        return db.asBool(0);
+    }
+
+    return false;
+}
+
+bool DbDoctor::setIncognito(bool incognito, const std::string& lpk)
+{
+    Db db("UPDATE doctor SET incognito=? WHERE lpk=?");
+    db.bind(1, incognito);
+    db.bind(2, lpk);
+
+    return db.execute();
+}

@@ -18,6 +18,10 @@ TabView::TabView(QWidget *parent)
     ui.tabBar->setTabsClosable(false);
     ui.tabBar->setElideMode(Qt::TextElideMode::ElideNone);
 
+#ifdef Q_OS_MAC
+    ui.tabBar->setStyle(Theme::fusionStyle());
+#endif
+
     ui.tabBar->setStyleSheet(
         "QTabBar::tab{"
         "background-color:" + Theme::colorToString(Theme::inactiveTabBG) +

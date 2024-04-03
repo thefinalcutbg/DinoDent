@@ -115,7 +115,7 @@ std::string Test::crudTest()
 
 	success = DbPatient::insert(
 		Patient{
-			.id = "0",
+			.id = "8703262229",
 			.FirstName = "test",
 			.MiddleName = "test",
 			.LastName = "test"
@@ -124,7 +124,7 @@ std::string Test::crudTest()
 
 	if (!success) return "Error inserting patient";
 
-	auto patient = DbPatient::get("0", Patient::Type::EGN);
+	auto patient = DbPatient::get("8703262229", Patient::Type::EGN);
 
 	if (!patient.rowid) return "Error getting patient";
 

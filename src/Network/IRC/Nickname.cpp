@@ -43,12 +43,13 @@ Nickname::Nickname(const std::string& fname, const std::string& lname, bool invi
 	m_nickname += QString::number(getRandomHash());
 
 	if (invisible) {
-		m_nickname += '[';
+		m_nickname += '_';
 	}
 }
 
 Nickname::Nickname(const QString& nickname) : m_nickname(nickname)
 {
+
 	QString hashStr;
 
 	for (const QChar c : m_nickname) {
@@ -59,9 +60,13 @@ Nickname::Nickname(const QString& nickname) : m_nickname(nickname)
 		else if (c == '_') {
 			name += ' ';
 		}
-		else {
+		else if (c.isLetter()) {
 			name += c;
 		}
+	}
+
+	if (isInvisible()) {
+		name.truncate(name.size() - 1);
 	}
 
 	if (hashStr.isEmpty()) return;
@@ -73,7 +78,6 @@ Nickname::Nickname(const QString& nickname) : m_nickname(nickname)
 		m_nickname.clear();
 		name.clear();
 	}
-
 }
 
 QString Nickname::parsedName() const
@@ -96,7 +100,7 @@ void Nickname::rehashNickname()
 	m_nickname += QString::number(getRandomHash());
 
 	if (invisible) {
-		m_nickname += '[';
+		m_nickname += '_';
 	}
 
 }
@@ -106,15 +110,15 @@ void Nickname::setInvisible(bool invisible)
 	if (invisible == isInvisible()) return;
 
 	if (invisible) {
-		m_nickname.push_back('[');
+		m_nickname.push_back('_');
 	}
 	else {
-		m_nickname.remove('[');
+		m_nickname.truncate(m_nickname.size() - 1);
 	}
 
 }
 
 bool Nickname::isInvisible() const
 {
-	return m_nickname.size() && m_nickname.back() == '[';
+	return m_nickname.size() && m_nickname.back() == '_';
 }

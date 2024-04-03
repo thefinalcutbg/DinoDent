@@ -1,13 +1,23 @@
-#include "Updater.h"
+﻿#include "Updater.h"
 #include "Database/Database.h"
 #include "DbUpdates.h"
 #include "View/Widgets/UpdateDialog.h"
+#include "View/ModalDialogBuilder.h"
 #include "Version.h"
 
 void DbUpdater::updateDb()
 {
-
 	if (Db::version() == Version::dbVersion()) return;
+
+	if (Db::version() > Version::dbVersion()) {
+
+		ModalDialogBuilder::showMessage(
+			"Версията на базата данни е по-голяма от тази на програмата. "
+			"Задължително актуализирайте софтуера до най-последна версия, преди да го използвате!"
+		);
+
+		return;
+	}
 
 	DbUpdates::backupDatabase();
 	

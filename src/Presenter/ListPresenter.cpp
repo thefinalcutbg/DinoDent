@@ -765,6 +765,8 @@ void ListPresenter::addMedicalNotice()
         DbMedicalNotice::save(m_ambList.medical_notices, m_ambList.rowid);
     }
 
+    sendMedicalNoticeToHis(m_ambList.medical_notices.size() - 1);
+
 }
 
 void ListPresenter::editMedicalNotice(int index)
@@ -800,11 +802,16 @@ void ListPresenter::sendMedicalNoticeToHis(int index)
 
     eMedicalNoticeIssue.sendRequest(notice, *patient, m_ambList.nrn,
         [=, this](const std::string& nrn) {
+
+            if (nrn.empty()) return;
+
             m_ambList.medical_notices[index].nrn = nrn;
             
             DbMedicalNotice::save(m_ambList.medical_notices, m_ambList.rowid);
 
             if (isCurrent()) view->setAdditionalDocuments(m_ambList.referrals, m_ambList.medical_notices);
+
+            ModalDialogBuilder::showMessage("Медицинската бележка е изпратено успешно");
         }
     );
 }
@@ -917,10 +924,13 @@ void ListPresenter::addReferral(ReferralType type)
    
     refreshTabName();
 
-    if (!m_ambList.isNew()) {
-        DbReferral::saveReferrals(m_ambList.referrals, m_ambList.rowid);
-    }
+    if (m_ambList.isNew()) return;
+        
+    DbReferral::saveReferrals(m_ambList.referrals, m_ambList.rowid);
+    
+    if (!m_ambList.referrals.back().isNrnType()) return;
 
+    sendReferralToHis(m_ambList.referrals.size() - 1);
 }
 
 void ListPresenter::editReferral(int index)
@@ -946,7 +956,21 @@ void ListPresenter::printReferral(int index)
 {
     auto& ref = m_ambList.referrals[index];
 
-    if (ref.isNrnType() && ref.type != ReferralType::MDD4) return;
+    if (ref.isNrnType()) {
+        
+        if (ref.type != ReferralType::MDD4) return;
+
+        if (!ref.isSentToHIS() &&
+            !ModalDialogBuilder::askDialog(
+                "Направлението не е изпратено към НЗИС. "
+                "Сигурни ли сте, че искате да го принтирате?"
+            )
+        )
+        {
+            return;
+        }
+    }
+
 
     Print::referral(m_ambList.referrals[index], *patient.get(), m_ambList.getNumber());
 }
@@ -970,6 +994,8 @@ void ListPresenter::sendReferralToHis(int index)
             m_ambList.referrals[index],
             [=, this](const std::string& nrn) {
 
+                if (nrn.empty()) return;
+
                 m_ambList.referrals[index].nrn = nrn;
 
                 DbReferral::saveReferrals(m_ambList.referrals, m_ambList.rowid);
@@ -979,6 +1005,8 @@ void ListPresenter::sendReferralToHis(int index)
                 if (isCurrent()) {
                     view->setAdditionalDocuments(m_ambList.referrals, m_ambList.medical_notices);
                 }
+
+                ModalDialogBuilder::showMessage("Направлението е изпратено успешно");
 
             }
         );

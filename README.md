@@ -59,7 +59,7 @@ Always in progress.
 
 ## Acknowledgements
 - This project was inspired by the many bulgarian dental softwares - so clumsy to use, that have gotten me to the point of learning how to code and writing my own software for the needs of my dental practice.
-- Special thanks to [@LachezarKozhuharov](https://github.com/LachezarKozhuharov), [@kshegunov](https://github.com/kshegunov), [@hasan-hasanov](https://github.com/hasan-hasanov) and all other real programmers, who have always been there to answer my stupid questions.
+- Special thanks to [@Lachezar Kozhuharov](https://github.com/lk0z), [@Konstantin Shegunov](https://github.com/kshegunov), [@Hasan Hasanov](https://github.com/hasan-hasanov) and all other real programmers, who have always been there to answer my stupid questions.
 
 ## Contact
 Created by [@TheFinalCut](https://github.com/thefinalcutbg) - feel free to contact me!

@@ -809,9 +809,10 @@ void ListPresenter::sendMedicalNoticeToHis(int index)
             
             DbMedicalNotice::save(m_ambList.medical_notices, m_ambList.rowid);
 
+            ModalDialogBuilder::showMessage("Медицинската бележка е изпратено успешно");
+
             if (isCurrent()) view->setAdditionalDocuments(m_ambList.referrals, m_ambList.medical_notices);
 
-            ModalDialogBuilder::showMessage("Медицинската бележка е изпратено успешно");
         }
     );
 }
@@ -998,16 +999,13 @@ void ListPresenter::sendReferralToHis(int index)
 
                 m_ambList.referrals[index].nrn = nrn;
 
-                DbReferral::saveReferrals(m_ambList.referrals, m_ambList.rowid);
-
                 refreshTabName();
+
+                ModalDialogBuilder::showMessage("Направлението е изпратено успешно");
 
                 if (isCurrent()) {
                     view->setAdditionalDocuments(m_ambList.referrals, m_ambList.medical_notices);
                 }
-
-                ModalDialogBuilder::showMessage("Направлението е изпратено успешно");
-
             }
         );
 
@@ -1049,7 +1047,9 @@ void ListPresenter::removeReferral(int index)
                 m_ambList.referrals.erase(m_ambList.referrals.begin() + index);
 
                 ModalDialogBuilder::showMessage("Направлението е анулирано успешно");
-    
+                
+                DbReferral::saveReferrals(m_ambList.referrals, m_ambList.rowid);
+
                 dynamicNhifConversion();
 
                 if(isCurrent()) view->setAdditionalDocuments(m_ambList.referrals, m_ambList.medical_notices);

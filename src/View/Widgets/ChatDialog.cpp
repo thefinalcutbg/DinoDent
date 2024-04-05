@@ -100,6 +100,7 @@ ChatDialog::ChatDialog(DinoDent* parent) : QDialog(parent)
 	connect(ui.sendButton, &QPushButton::clicked, [&] {
 		IRCInterface::getClient().sendMessage(ui.lineEdit->text());
 		ui.lineEdit->clear();
+		ui.lineEdit->setFocus();
 	});
 
 	connect(ui.invisibleCheck, &QCheckBox::clicked, this, [&](bool checked) {

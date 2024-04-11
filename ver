@@ -24,7 +24,7 @@
 		]
 	},
 	"win64_dev": {
-		"ver": "1.12.0",
+		"ver": "1.12.1",
 		"dl": "https://github.com/thefinalcutbg/DinoDent/releases/download/v1.12.1/DinoDentSetup.exe",
 		"changeLog": [
 			"Възможност за принтиране на издадена електронна рецепта (по идея на д-р Божидар Сойтариев)",
@@ -33,7 +33,7 @@
 		]
 	},
 	"macos_dev": {
-		"ver": "1.12.0",
+		"ver": "1.12.1",
 		"dl": "https://github.com/thefinalcutbg/DinoDent/releases/download/v1.12.1/dinodent-macos.dmg",
 		"changeLog": [
 			"Възможност за принтиране на издадена електронна рецепта (по идея на д-р Божидар Сойтариев)",

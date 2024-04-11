@@ -6,11 +6,7 @@ std::vector<std::string> Prescription::getMedList() const
 
     for (auto& m : medicationGroup) {
        
-        result.push_back(m.name());
-        
-        result.back() += "; Дозировка: ";
-
-        for (auto& d : m.dosage) result.back() += d.parse() +  "; ";
+        result.push_back(m.name() + "; " + m.parseFullDosage());
     }
 
     return result;

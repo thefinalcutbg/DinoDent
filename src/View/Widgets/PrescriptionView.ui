@@ -187,7 +187,7 @@
          </property>
          <property name="dateTime">
           <datetime>
-           <hour>4</hour>
+           <hour>2</hour>
            <minute>0</minute>
            <second>0</second>
            <year>2000</year>
@@ -282,6 +282,9 @@
          </property>
          <property name="minimum">
           <number>2</number>
+         </property>
+         <property name="maximum">
+          <number>9</number>
          </property>
         </widget>
        </item>

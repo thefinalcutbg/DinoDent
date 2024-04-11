@@ -3,6 +3,7 @@
 #include "Database/DbPrescription.h"
 #include "Model/FreeFunctions.h"
 #include "Model/User.h"
+#include "View/Printer.h"
 
 PrescriptionPresenter::PrescriptionPresenter(ITabView* tabView, std::shared_ptr<Patient> patient, long long rowId) :
 	TabInstance(tabView, TabType::Prescription, patient), 
@@ -244,7 +245,10 @@ bool PrescriptionPresenter::save()
 	return true;
 }
 
-void PrescriptionPresenter::print() {}
+void PrescriptionPresenter::print() 
+{
+	Print::prescription(m_prescription, *patient);
+}
 
 bool PrescriptionPresenter::isNew()
 {

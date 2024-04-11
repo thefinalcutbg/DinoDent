@@ -261,7 +261,7 @@ void TabView::showPerscriptionView()
     m_perioView.setPresenter(nullptr);
     m_summaryView.setPresenter(nullptr);
     m_financialView.setPresenter(nullptr);
-    GlobalWidgets::mainWindow->disableButtons(true, false);
+    GlobalWidgets::mainWindow->disableButtons(false, false);
 }
 
 void TabView::showWelcomeScreen()

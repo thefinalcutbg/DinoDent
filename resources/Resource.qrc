@@ -84,6 +84,7 @@
         <file>report_mdd4tooth.lrxml</file>
         <file>report_fiscalDescr.lrxml</file>
         <file>report_nhifSpec.lrxml</file>
+        <file>report_prescr.lrxml</file>
     </qresource>
     <qresource prefix="/fonts"/>
     <qresource prefix="/json">

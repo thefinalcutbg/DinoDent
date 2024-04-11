@@ -64,20 +64,13 @@ PlainTable::PlainTable(const std::vector<BusinessOperation>& bList)
 PlainTable::PlainTable(const std::vector<Medication>& mList)
 {
     addColumn({"Медикамент", 350 });
-    addColumn({"Дозировка"});
+    addColumn({"Инструкции за прием"});
 
     for (auto& m : mList)
     {
         addCell(0, { m.name() });
 
-        std::string dosages;
-
-        for (auto& d : m.dosageList())
-        {
-            dosages.append(d);
-            dosages += "; ";
-        }
-        addCell(1, { dosages });
+        addCell(1, { m.parseFullDosage() });
 
     }
 }

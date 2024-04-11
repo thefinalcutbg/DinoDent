@@ -1003,6 +1003,8 @@ void ListPresenter::sendReferralToHis(int index)
 
                 ModalDialogBuilder::showMessage("Направлението е изпратено успешно");
 
+                DbReferral::saveReferrals(m_ambList.referrals, m_ambList.rowid);
+
                 if (isCurrent()) {
                     view->setAdditionalDocuments(m_ambList.referrals, m_ambList.medical_notices);
                 }

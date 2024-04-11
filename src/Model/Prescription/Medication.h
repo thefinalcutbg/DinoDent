@@ -50,6 +50,8 @@ public:
 
 	const std::string& name() const;
 	const std::string& formStr() const;
+	std::string parseFullDosage() const;
+	std::string quantityParsed() const;
 
 	int getFormKey() const { return form; };
 	int getNumenclatureKey() const { return key;}

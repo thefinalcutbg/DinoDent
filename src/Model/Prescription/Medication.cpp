@@ -1,4 +1,4 @@
-#include "Medication.h"
+﻿#include "Medication.h"
 
 #include <vector>
 #include <json/json.h>
@@ -95,6 +95,50 @@ const std::string& Medication::formStr() const
     if (!form) return s_dummyResult;
 
     return s_medForms[form];
+}
+
+std::string Medication::parseFullDosage() const
+{
+    std::string dosageStr;
+
+    for (int i = 0; i < dosage.size(); i++) {
+
+        if (i) {
+
+            dosageStr += " След това ";
+        }
+
+        if (dosage[i].frequency == 1) {
+            dosageStr += i ? "по " : "По ";
+        }
+
+        dosageStr += dosage[i].parse();
+
+        if (dosageStr.back() == ' ') {
+            dosageStr.pop_back();
+        }
+
+        dosageStr += ".";
+    }
+
+    return dosageStr;
+}
+
+std::string Medication::quantityParsed() const
+{
+    std::string result = std::to_string(quantity);
+
+    result += " ";
+
+    if (byForm) {
+
+        result += quantity > 1 ? "лекарствени форми" : "лекарствена форма";
+    }
+    else {
+        result += quantity > 1 ? "опаковки" : "опаковка";
+    }
+
+    return result;
 }
 
 bool Medication::isValidName(const std::string& name)

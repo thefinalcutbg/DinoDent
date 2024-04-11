@@ -7,6 +7,7 @@ struct Invoice;
 class Referral;
 struct FiscalReport;
 class NhifSpecReport;
+struct Prescription;
 
 namespace Print
 {
@@ -22,6 +23,7 @@ namespace Print
 	void referral(const Referral& ref, const Patient& patient, const std::string& ambSheetNumber);
 	void saveFsicalReportToPDF(const FiscalReport& report);
 	void saveNhifSpecReport(const NhifSpecReport& report);
+	void prescription(const Prescription& prescr, const Patient& patient);
 	
 }
 

@@ -700,7 +700,7 @@ void Print::prescription(const Prescription& prescr, const Patient& patient)
     PlainTable table;
     table.addColumn(PlainColumn("med"));
 
-    const char* separator = "__________________________________________________________________________________";
+    const char* separator = "________________________________________________________________________________";
     table.addCell(0, { separator });
 
     for (auto& m : prescr.medicationGroup)
@@ -740,8 +740,6 @@ void Print::prescription(const Prescription& prescr, const Patient& patient)
     if (prescr.isBreastFeeding) {
         report.dataManager()->setReportVariable("breastfeeding", "Кърмачка: ДА");
     }
-
-    report.previewReport();
 
     QApplication::restoreOverrideCursor();
     report.printReport();

@@ -7,7 +7,7 @@ class Nickname
 {
 	int m_hash{ -1 };
 	
-	QString name; //max length 21 guaranteed
+	QString name; //max length 20 guaranteed
 
 	QString m_nickname;
 

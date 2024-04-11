@@ -25,7 +25,7 @@ Nickname::Nickname(const std::string& fname, const std::string& lname, bool invi
 	name += " ";
 	name += lname.c_str();
 
-	constexpr const int max = 21;
+	constexpr const int max = 20;
 
 	if (name.length() > max) {
 

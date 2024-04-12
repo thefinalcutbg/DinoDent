@@ -475,6 +475,18 @@ void ListPresenter::setOther(int code)
 
 void ListPresenter::setToothStatus(Dental::StatusType t, int code, bool supernumeral)
 {
+    //show multiple teeth warning message
+    if (
+        m_selectedIndexes.size() == 1 &&
+        t == Dental::StatusType::General &&
+        (code == Dental::Bridge || code == Dental::Splint) &&
+        m_checkModel.generalStatus[code] == CheckState::unchecked
+        )
+    {
+        ModalDialogBuilder::showMessage("За да добавите този статус изберете няколко зъба едновременно");
+        return;
+    }
+
     bool state{ false };
 
     auto& checkModel = supernumeral ? m_dsnCheckModel : m_checkModel;

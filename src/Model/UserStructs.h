@@ -99,10 +99,6 @@ struct Practice
 
 	std::optional<NhifContract> nhif_contract;
 
-	std::string RHIF() const {
-		return rziCode.substr(0, 2);
-	}
-
 	bool hasNraAccess() const {
 		return 
 			nhif_contract.has_value() &&

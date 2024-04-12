@@ -174,9 +174,10 @@ std::string HisService::requester(bool nhif)
 
 	std::string rhifAreaNumber;
 	
-	//implement EKATTE for practice!
 	if (nhif) {
-		rhifAreaNumber = bind("rhifAreaNumber", User::practice().practice_address.getRhif() + User::practice().practice_address.getHealthRegion());
+		rhifAreaNumber = bind("rhifAreaNumber", 
+			User::practice().practice_address.getRhif() + 
+			User::practice().practice_address.getHealthRegion());
 	}
 
 
@@ -187,7 +188,7 @@ std::string HisService::requester(bool nhif)
 			"<nhis:role value=\"1\"/>"
 			"<nhis:practiceNumber value=\"" + User::practice().rziCode + "\"/>"
 			+ rhifAreaNumber + 
-			"<nhis:nhifNumber value=\"" + User::practice().RHIF() + "\"/>"
+			"<nhis:nhifNumber value=\"" + User::practice().practice_address.getRhif() + "\"/>"
 			"<nhis:phone value=\"" + User::doctor().phone + "\"/>"
 		"</nhis:requester>"
 		;
@@ -212,7 +213,7 @@ std::string HisService::performer()
 	performer += qualification;
 	performer += bind("role", 1);
 	performer += bind("practiceNumber", User::practice().rziCode);
-	performer += bind("nhifNumber", User::practice().RHIF());
+	performer += bind("nhifNumber", User::practice().practice_address.getRhif());
 	performer += bind("phone", User::doctor().phone);
 	performer += "</nhis:performer>";
 		

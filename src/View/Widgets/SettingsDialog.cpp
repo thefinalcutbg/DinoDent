@@ -15,7 +15,7 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 #ifndef Q_OS_WIN
 	ui.winPkcsLabel->hide();
 #else
-	ui.tabWidget->setStyleSheet("QTabWidget QStackedWidget {background-color: white;}");
+	//ui.tabWidget->setStyleSheet("QTabWidget QStackedWidget {background-color: white;}");
 #endif
 
 #ifdef Q_OS_MACOS
@@ -210,7 +210,7 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 		ui.sqlTable->setEnabled(checked);
 		ui.okButton->setDefault(!checked);
 		ui.sqlButton->setDefault(checked);
-		
+		ui.label_10->setHidden(checked);
 		if (checked) {
 			ui.sqlEdit->setFocus();
 		}
@@ -310,13 +310,13 @@ void SettingsDialog::legalEntityChanged(bool selfInsured)
 	ui.selfInsuredId->setHidden(!selfInsured);
 	ui.selfInsuredLabel->setHidden(!selfInsured);
 }
-
+/*
 void SettingsDialog::paintEvent(QPaintEvent*)
 {
 	QPainter p(this);
 	p.fillRect(rect(), Qt::white);
 }
-
+*/
 
 bool SettingsDialog::showRequests()
 {

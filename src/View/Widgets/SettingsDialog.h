@@ -42,7 +42,7 @@ class SettingsDialog : public QDialog, public ISettingsDialog
 	void disableNhifValidators(bool disabled);
 	void legalEntityChanged(bool selfInsured);
 
-	void paintEvent(QPaintEvent* event) override;
+//	void paintEvent(QPaintEvent* event) override;
 
 public:
 	SettingsDialog(QDialog *parent = Q_NULLPTR);

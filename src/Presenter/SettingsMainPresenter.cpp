@@ -251,7 +251,7 @@ void SettingsMainPresenter::sqlCommandExec(const std::string& sql)
 
 	while (db.hasRows()) {
 		for (int i = 0; i < columnCount; i++) {
-			table.addCell(i, PlainCell(db.asString(i)));
+            table.addCell(i, PlainCell{db.asString(i)});
 		}
 	}
 	

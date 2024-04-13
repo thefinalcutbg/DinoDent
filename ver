@@ -1,7 +1,7 @@
 {
 	"win64": {
 		"ver": "1.12.0",
-		"dl": "https://github.com/thefinalcutbg/DinoDent/releases/download/v1.13.0/DinoDentSetup.exe",
+		"dl": "https://github.com/thefinalcutbg/DinoDent/releases/download/v1.12.0/DinoDentSetup.exe",
 		"changeLog": [
 			"Автоматично изпращане на новодобавени медицински бележки и направления към НЗИС",
 			"Автоматично генериране на ДДС номер от ЕИК (по предложение на д-р Антон Тумбалов)",
@@ -13,7 +13,7 @@
 	},
 	"macos": {
 		"ver": "1.12.0",
-		"dl": "https://github.com/thefinalcutbg/DinoDent/releases/download/v1.13.0/dinodent-macos.dmg",
+		"dl": "https://github.com/thefinalcutbg/DinoDent/releases/download/v1.12.0/dinodent-macos.dmg",
 		"changeLog": [
 			"Автоматично изпращане на новодобавени медицински бележки и направления към НЗИС",
 			"Автоматично генериране на ДДС номер от ЕИК (по предложение на д-р Антон Тумбалов)",
@@ -24,7 +24,7 @@
 		]
 	},
 	"win64_dev": {
-		"ver": "1.12.1",
+		"ver": "1.13.0",
 		"dl": "https://github.com/thefinalcutbg/DinoDent/releases/download/v1.13.0/DinoDentSetup.exe",
 		"changeLog": [
 			"Възможност за принтиране на електронна рецепта (по идея на д-р Божидар Сойтариев)",
@@ -36,7 +36,7 @@
 	},
 	"macos_dev": {
 		"ver": "1.13.0",
-		"dl": "https://github.com/thefinalcutbg/DinoDent/releases/download/v1.12.1/dinodent-macos.dmg",
+		"dl": "https://github.com/thefinalcutbg/DinoDent/releases/download/v1.13.0/dinodent-macos.dmg",
 		"changeLog": [
 			"Възможност за принтиране на електронна рецепта (по идея на д-р Божидар Сойтариев)",
 			"Обновен е алгоритъмът за проверка на РЗИ номерът на практиката съгласно новата номерация от 02.2024 (благодарности на д-р Виктория Будаков)"

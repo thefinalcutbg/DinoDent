@@ -5,8 +5,9 @@
 #include "Model/UserStructs.h"
 
 class MainSettingsPresenter;
+struct PlainTable;
 
-enum class SettingsTab {General, PKCS, Doctor, Practice, Company, NhifContract};
+enum class SettingsTab {General, PKCS, Doctor, Practice, Company, NhifContract, SQL};
 
 class ISettingsDialog
 {
@@ -39,5 +40,5 @@ public:
 
 	virtual void replaceCurrentItem(const PracticeDoctor& item) = 0;
 
-
+	virtual void setSqlTable(const PlainTable& table) = 0;
 };

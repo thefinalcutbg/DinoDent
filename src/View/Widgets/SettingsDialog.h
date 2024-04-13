@@ -7,6 +7,7 @@
 
 #include "View/Interfaces/ISettingsDialog.h"
 #include "View/TableModels/SpecialtyTableModel.h"
+#include "View/TableModels/PlainTableModel.h"
 
 #include "Model/Validators/BulstatValidator.h"
 #include "Model/Validators/CommonValidators.h"
@@ -35,7 +36,9 @@ class SettingsDialog : public QDialog, public ISettingsDialog
 	CityValidator city_validator;
 
 	SpecialtyTableModel his_specialtyModel;
+	PlainTableModel sql_table_model;
 	
+
 	void disableNhifValidators(bool disabled);
 	void legalEntityChanged(bool selfInsured);
 
@@ -58,6 +61,9 @@ public:
 	bool showReplies() final;
 	void setDevBranch(bool dev) final;
 	bool devBranch() final;
+
+	void setSqlTable(const PlainTable& table) final;
+
 	~SettingsDialog();
 
 private:

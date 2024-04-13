@@ -1,12 +1,14 @@
 ﻿#include "SettingsMainPresenter.h"
 #include "Database/DbPractice.h"
 #include "Database/DbDoctor.h"
+#include "Database/Database.h"
 #include "Model/User.h"
 #include "View/ModalDialogBuilder.h"
 #include "Database/DbUpdateStatus.h"
 #include "Network/NetworkManager.h"
 #include "GlobalSettings.h"
 #include "Presenter/DoctorDialogPresenter.h"
+#include "Model/PlainTable.h"
 
 SettingsMainPresenter::SettingsMainPresenter() :
 	m_doctorsList(DbPractice::getDoctors(User::practice().rziCode))
@@ -35,6 +37,7 @@ void SettingsMainPresenter::setView(ISettingsDialog* view)
 		view->disableTab(SettingsTab::Practice);
 		view->disableTab(SettingsTab::Company);
 		view->disableTab(SettingsTab::NhifContract);
+		view->disableTab(SettingsTab::SQL);
 	}
 }
 
@@ -227,4 +230,30 @@ bool SettingsMainPresenter::applyChanges()
 	GlobalSettings::setDevBranch(view->devBranch());
 
 	return true;
+}
+#include <qdebug.h>
+void SettingsMainPresenter::sqlCommandExec(const std::string& sql)
+{
+
+	Db db(sql);
+
+	int columnCount = db.columnCount();
+
+	if (!db.columnCount()) {
+		if (!db.execute()) return;
+	}
+
+	PlainTable table;
+
+	for (int i = 0; i < columnCount; i++) {
+		table.addColumn(PlainColumn(db.columnName(i)));
+	}
+
+	while (db.hasRows()) {
+		for (int i = 0; i < columnCount; i++) {
+			table.addCell(i, PlainCell(db.asString(i)));
+		}
+	}
+	
+	view->setSqlTable(table);
 }

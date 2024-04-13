@@ -27,5 +27,6 @@ public:
 	void doctorIndexChanged(int index);
 	void okPressed();
 	bool applyChanges();
+	void sqlCommandExec(const std::string& sql);
 
 };

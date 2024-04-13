@@ -7,31 +7,36 @@
 #include <QPainter>
 #include <QtGlobal>
 
-SettingsDialog::SettingsDialog(QDialog*parent)
+SettingsDialog::SettingsDialog(QDialog* parent)
 	: QDialog(parent)
 {
 	ui.setupUi(this);
 
 #ifndef Q_OS_WIN
-    ui.winPkcsLabel->hide();
+	ui.winPkcsLabel->hide();
 #else
-    ui.tabWidget->setStyleSheet("QTabWidget QStackedWidget {background-color: white;}");
+	ui.tabWidget->setStyleSheet("QTabWidget QStackedWidget {background-color: white;}");
 #endif
 
 #ifdef Q_OS_MACOS
-    ui.label_11->setMinimumHeight(ui.legalEntityCombo->height()+2);
+	ui.label_11->setMinimumHeight(ui.legalEntityCombo->height() + 2);
 #endif
 
 	setWindowTitle("Настройки");
+	setWindowFlag(Qt::WindowMaximizeButtonHint);
 	setWindowIcon(QIcon(":/icons/icon_settings.png"));
+
+	ui.sqlTable->setModel(&sql_table_model);
+
+	ui.sqlTable->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 
 	constexpr int specIdxSize = 5;
 
 	constexpr const char* specialties[specIdxSize]{
-		"Няма договор с НЗОК", 
-		"64 - Общопрактикуващ лекар по дентална медицина", 
-		"61 - Детски лекар по дентална медицина", 
-		"62 - Орална хирургия", 
+		"Няма договор с НЗОК",
+		"64 - Общопрактикуващ лекар по дентална медицина",
+		"61 - Детски лекар по дентална медицина",
+		"62 - Орална хирургия",
 		"68 - Дентална, орална и лицево-челюстна хирургия"
 	};
 
@@ -45,7 +50,7 @@ SettingsDialog::SettingsDialog(QDialog*parent)
 	ui.rziEdit->setInputValidator(&rzi_validator);
 	ui.activityAddressEdit->setInputValidator(&city_validator);
 	ui.activityAddressEdit->setCompletions(Ekatte::cityNameToIdx());
-	
+
 
 	ui.practiceNameEdit->setErrorLabel(ui.errorLabel);
 	ui.rziEdit->setErrorLabel(ui.errorLabel);
@@ -59,7 +64,7 @@ SettingsDialog::SettingsDialog(QDialog*parent)
 
 	connect(ui.legalEntityCombo, &QComboBox::currentIndexChanged, this, [&](int index) {
 		legalEntityChanged(index == 0);
-	});
+		});
 
 	ui.firmAddressEdit->setErrorLabel(ui.errorLabel);
 	ui.bulstatEdit->setErrorLabel(ui.errorLabel);
@@ -105,12 +110,12 @@ SettingsDialog::SettingsDialog(QDialog*parent)
 
 	connect(ui.removeDoctor, &QPushButton::clicked, this, [&] { presenter.removeDoctor(); });
 	connect(ui.addDoctor, &QPushButton::clicked, this, [&] {presenter.addDoctor(); });
-	connect(ui.adminCheck, &QCheckBox::stateChanged, this, [&] { 
-			presenter.practiceDoctorChanged(ui.specialtyCombo->currentIndex(), ui.adminCheck->isChecked());
-	});
-    connect(ui.specialtyCombo, &QComboBox::currentIndexChanged, this, [&] {
+	connect(ui.adminCheck, &QCheckBox::stateChanged, this, [&] {
 		presenter.practiceDoctorChanged(ui.specialtyCombo->currentIndex(), ui.adminCheck->isChecked());
-	});
+		});
+	connect(ui.specialtyCombo, &QComboBox::currentIndexChanged, this, [&] {
+		presenter.practiceDoctorChanged(ui.specialtyCombo->currentIndex(), ui.adminCheck->isChecked());
+		});
 
 	connect(ui.doctorList, &QListWidget::itemSelectionChanged, this, [=, this]() {
 
@@ -125,49 +130,49 @@ SettingsDialog::SettingsDialog(QDialog*parent)
 
 		presenter.doctorIndexChanged(row);
 
-	});
+		});
 
-    connect(ui.cancelButton, &QPushButton::clicked, this, [&] {close();});
+	connect(ui.cancelButton, &QPushButton::clicked, this, [&] {close(); });
 	connect(ui.okButton, &QPushButton::clicked, this, [&] {
 		//since the validators are members of the view
 		//we assume it is view's responsibility to check them
-		if (!allFieldsAreValid()) return;  
-		presenter.okPressed(); 
-	});
-    connect(ui.updateMedButton, &QPushButton::clicked, this, [&] {presenter.updateMedications();});
-    connect(ui.addPkcs11, &QPushButton::clicked, this, [&] {
+		if (!allFieldsAreValid()) return;
+		presenter.okPressed();
+		});
+	connect(ui.updateMedButton, &QPushButton::clicked, this, [&] {presenter.updateMedications(); });
+	connect(ui.addPkcs11, &QPushButton::clicked, this, [&] {
 
 #ifdef Q_OS_WIN
-        QString extention = " (*.dll)";
+		QString extention = " (*.dll)";
 #else
 
-        QString extention = " (*so *dylib)";
+		QString extention = " (*so *dylib)";
 #endif
 
-        auto str = QFileDialog::getOpenFileName(
+		auto str = QFileDialog::getOpenFileName(
 			nullptr,
 			"Изберете PKCS11 драйвър",
-            "", extention
+			"", extention
 		);
 
 		if (str.isEmpty()) return;
 
 		ui.pkcs11list->insertItem(0, str.toUtf8());
 
-	});
+		});
 
-    connect(ui.removePkcs11, &QPushButton::clicked, this, [&] {
+	connect(ui.removePkcs11, &QPushButton::clicked, this, [&] {
 
 		QList<QListWidgetItem*> items = ui.pkcs11list->selectedItems();
 
-		for(QListWidgetItem* item : items)
+		for (QListWidgetItem* item : items)
 		{
 			delete ui.pkcs11list->takeItem(ui.pkcs11list->row(item));
 		}
 
-	});
+		});
 
-    connect(ui.resetDefault, &QPushButton::clicked, this, [&]{
+	connect(ui.resetDefault, &QPushButton::clicked, this, [&] {
 
 		ui.pkcs11list->clear();
 
@@ -175,7 +180,7 @@ SettingsDialog::SettingsDialog(QDialog*parent)
 
 		for (auto& p : paths) ui.pkcs11list->addItem(p.c_str());
 
-	});
+		});
 
 	connect(ui.devBranch, &QCheckBox::clicked, this, [&](bool checked) {
 
@@ -192,6 +197,23 @@ SettingsDialog::SettingsDialog(QDialog*parent)
 			}
 		}
 
+		});
+
+
+	connect(ui.sqlButton, &QPushButton::clicked, this, [&] {
+		presenter.sqlCommandExec(ui.sqlEdit->text().toStdString());
+	});
+
+	connect(ui.sqlCheck, &QCheckBox::clicked, this, [&](bool checked) {
+		ui.sqlButton->setEnabled(checked);
+		ui.sqlEdit->setEnabled(checked);
+		ui.sqlTable->setEnabled(checked);
+		ui.okButton->setDefault(!checked);
+		ui.sqlButton->setDefault(checked);
+		
+		if (checked) {
+			ui.sqlEdit->setFocus();
+		}
 	});
 
 	presenter.setView(this);
@@ -314,6 +336,13 @@ void SettingsDialog::setDevBranch(bool dev)
 bool SettingsDialog::devBranch()
 {
 	return ui.devBranch->isChecked();
+}
+
+void SettingsDialog::setSqlTable(const PlainTable& table)
+{
+	sql_table_model.setTableData(table);
+	ui.sqlEdit->clear();
+	ui.sqlEdit->setFocus();
 }
 
 void SettingsDialog::setPractice(const Practice& practice)

@@ -46,6 +46,8 @@ public:
     std::string asString(int column);
     void newStatement(const std::string& query);
     bool execute(const std::string& query);
+    int columnCount() const;
+    std::string columnName(int column) const;
 
     long long lastInsertedRowID();
     std::string getPreparedStatement();

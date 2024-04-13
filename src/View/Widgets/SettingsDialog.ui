@@ -35,7 +35,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>6</number>
      </property>
      <widget class="QWidget" name="generalSettings">
       <attribute name="title">
@@ -1534,6 +1534,67 @@
           </size>
          </property>
         </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab">
+      <attribute name="title">
+       <string>SQL</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_24">
+       <item>
+        <widget class="QLabel" name="label_10">
+         <property name="text">
+          <string>Внимание! Тази функционалност предоставя пълен контрол над базата данни. Някои команди могат да имат фатални последици.</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="sqlCheck">
+         <property name="text">
+          <string>Разбирам рисковете</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_17">
+         <item>
+          <widget class="QLineEdit" name="sqlEdit">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="placeholderText">
+            <string>Въведете команда</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="sqlButton">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>Изпълни</string>
+           </property>
+           <property name="autoDefault">
+            <bool>true</bool>
+           </property>
+           <property name="default">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QTableView" name="sqlTable">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>

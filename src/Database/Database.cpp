@@ -104,6 +104,20 @@ bool Db::execute(const std::string& query)
         
 }
 
+int Db::columnCount() const
+{
+    if (stmt == nullptr) return 0;
+
+    return sqlite3_column_count(stmt);
+}
+
+std::string Db::columnName(int column) const
+{
+    if (stmt == nullptr) return std::string();
+
+    return sqlite3_column_name(stmt, column);
+}
+
 long long Db::lastInsertedRowID()
 {
     return sqlite3_last_insert_rowid(db_connection);
@@ -191,16 +205,31 @@ void Db::bindNull(int index)
 
 bool Db::execute()
 {
-    if (stmt == nullptr) return false;
+    if (stmt == nullptr) {
+
+        if (s_showError) {
+            ModalDialogBuilder::showError("Невалидна заявка към базата данни");
+        }
+
+        return false;
+    }
 
     if (total_bindings != successful_bindings)
     {
+        if (s_showError) {
+            ModalDialogBuilder::showError("Невалидна заявка към базата данни");
+        }
+
         finalizeStatement();
         return false;
     }
 
     auto result = sqlite3_step(stmt);
     finalizeStatement();
+
+    if (result != SQLITE_DONE && s_showError) {
+        ModalDialogBuilder::showError("Неуспешен запис в базата данни");
+    }
 
     return result == SQLITE_DONE;
 }

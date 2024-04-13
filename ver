@@ -1,7 +1,7 @@
 {
 	"win64": {
 		"ver": "1.12.0",
-		"dl": "https://github.com/thefinalcutbg/DinoDent/releases/download/v1.12.0/DinoDentSetup.exe",
+		"dl": "https://github.com/thefinalcutbg/DinoDent/releases/download/v1.13.0/DinoDentSetup.exe",
 		"changeLog": [
 			"Автоматично изпращане на новодобавени медицински бележки и направления към НЗИС",
 			"Автоматично генериране на ДДС номер от ЕИК (по предложение на д-р Антон Тумбалов)",
@@ -13,7 +13,7 @@
 	},
 	"macos": {
 		"ver": "1.12.0",
-		"dl": "https://github.com/thefinalcutbg/DinoDent/releases/download/v1.12.0/dinodent-macos.dmg",
+		"dl": "https://github.com/thefinalcutbg/DinoDent/releases/download/v1.13.0/dinodent-macos.dmg",
 		"changeLog": [
 			"Автоматично изпращане на новодобавени медицински бележки и направления към НЗИС",
 			"Автоматично генериране на ДДС номер от ЕИК (по предложение на д-р Антон Тумбалов)",

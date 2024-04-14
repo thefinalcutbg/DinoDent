@@ -27,8 +27,11 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 	setWindowIcon(QIcon(":/icons/icon_settings.png"));
 
 	ui.sqlTable->setModel(&sql_table_model);
-
 	ui.sqlTable->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+
+	ui.sqlTable->hide();
+	ui.sqlButton->hide();
+	ui.sqlEdit->hide();
 
 	constexpr int specIdxSize = 5;
 
@@ -204,16 +207,24 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 		presenter.sqlCommandExec(ui.sqlEdit->text().toStdString());
 	});
 
-	connect(ui.sqlCheck, &QCheckBox::clicked, this, [&](bool checked) {
-		ui.sqlButton->setEnabled(checked);
-		ui.sqlEdit->setEnabled(checked);
-		ui.sqlTable->setEnabled(checked);
-		ui.okButton->setDefault(!checked);
-		ui.sqlButton->setDefault(checked);
-		ui.label_10->setHidden(checked);
-		if (checked) {
-			ui.sqlEdit->setFocus();
-		}
+	connect(ui.sqlAgree, &QPushButton::clicked, this, [&] {
+		ui.sqlButton->show();
+		ui.sqlEdit->show();
+		ui.sqlTable->show();
+		ui.okButton->setDefault(false);
+		ui.sqlButton->setDefault(true);
+		ui.sqlWarning->hide();
+		ui.sqlAgree->hide();
+		ui.sqlEdit->setFocus();
+		
+		ui.sql->layout()->removeItem(ui.sqlSpacer1);
+		ui.sql->layout()->removeItem(ui.sqlSpacer2);;
+		
+		delete ui.sqlSpacer1;
+		delete ui.sqlSpacer2;
+
+		presenter.sqlCommandExec("SELECT * FROM sqlite_master");
+
 	});
 
 	presenter.setView(this);

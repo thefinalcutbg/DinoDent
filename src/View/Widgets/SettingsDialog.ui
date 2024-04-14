@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>567</width>
-    <height>420</height>
+    <height>414</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -1537,15 +1537,37 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab">
+     <widget class="QWidget" name="sql">
       <attribute name="title">
        <string>SQL</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_24">
        <item>
-        <widget class="QLabel" name="label_10">
+        <spacer name="sqlSpacer1">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QLabel" name="sqlWarning">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="text">
           <string>Внимание! SQL модулът предоставя пълен контрол над базата данни. Определени команди могат да нанесат необратими щети върху информацията в нея или да нарушат нормалното функциониране на програмата.</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
          </property>
          <property name="wordWrap">
           <bool>true</bool>
@@ -1553,28 +1575,61 @@
         </widget>
        </item>
        <item>
-        <widget class="QCheckBox" name="sqlCheck">
-         <property name="text">
-          <string>Разбирам рисковете</string>
+        <layout class="QHBoxLayout" name="horizontalLayout_36">
+         <property name="bottomMargin">
+          <number>0</number>
          </property>
-        </widget>
+         <item>
+          <spacer name="horizontalSpacer_10">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="sqlAgree">
+           <property name="text">
+            <string>Продължи</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_28">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_17">
          <item>
           <widget class="QLineEdit" name="sqlEdit">
            <property name="enabled">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
            <property name="placeholderText">
-            <string>Въведете команда</string>
+            <string>Въведете заявка</string>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QPushButton" name="sqlButton">
            <property name="enabled">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
            <property name="text">
             <string>Изпълни</string>
@@ -1592,9 +1647,25 @@
        <item>
         <widget class="QTableView" name="sqlTable">
          <property name="enabled">
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
         </widget>
+       </item>
+       <item>
+        <spacer name="sqlSpacer2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Expanding</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>5</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </widget>

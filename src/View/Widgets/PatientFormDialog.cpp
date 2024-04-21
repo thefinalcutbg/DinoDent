@@ -208,11 +208,16 @@ void PatientFormDialog::resetFields()
 void PatientFormDialog::setPatient(const Patient& patient)
 {
     ui.typeComboBox->setCurrentIndex(patient.type - 1);
+
+    if (!patient.rowid && patient.type != Patient::EGN) return;
+
     ui.idLineEdit->QLineEdit::setText(QString::fromStdString(patient.id));
     ui.sexCombo->setCurrentIndex(patient.sex);
 
     auto& date = patient.birth;
     ui.birthEdit->setDate(QDate(date.year, date.month, date.day));
+
+    if (!patient.rowid) return;
 
     ui.fNameEdit->QLineEdit::setText(QString::fromStdString(patient.FirstName));
     ui.mNameEdit->QLineEdit::setText(QString::fromStdString(patient.MiddleName));

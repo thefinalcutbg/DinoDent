@@ -33,9 +33,21 @@ ChatDialog::ChatDialog(DinoDent* parent) : QDialog(parent)
 
 	connect(&IRCInterface::getClient(), &IRC::topicRecieved, this, [&](const QString& topic) {
 
+		if (topic == m_topic) return; //just reconnecting
+
+		if (m_topic.size()) //if it isn't the initial topic
+		{
+			if (!isVisible()) {
+				static_cast<DinoDent*>(this->parent())->setIrcIcon(true);
+			}
+		}
+
+		m_topic = topic;
+
 		const QString separator = "<br>___________________________________________________________________________<br><br>";
 
 		appendText(separator + topic + separator);
+
 	});
 
 

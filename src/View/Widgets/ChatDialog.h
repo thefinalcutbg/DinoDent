@@ -9,6 +9,8 @@ class ChatDialog : public QDialog
 {
 	Q_OBJECT
 
+	QString m_topic;
+
 	std::vector<QString> colorTable;
 
 	void appendText(const QString& text);

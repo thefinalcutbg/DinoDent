@@ -6,6 +6,8 @@
 #include "Network/IRC/IRC.h"
 #include "Network/IRC/IRCInterface.h"
 #include "Model/User.h"
+#include <QDir>
+#include <QStandardPaths>
 
 ChatDialog::ChatDialog(DinoDent* parent) : QDialog(parent)
 {
@@ -30,6 +32,22 @@ ChatDialog::ChatDialog(DinoDent* parent) : QDialog(parent)
 			).name()
 		);
 	}
+
+	//getting logs
+	QFile log(QDir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("irc_log.txt"));
+
+	log.open(QIODevice::OpenModeFlag::ReadWrite);
+	
+	//deleting large log
+	if (log.size() > 1000000) {
+		log.resize(0);
+	}
+
+	while (!log.atEnd()) {
+		ui.textEdit->append(log.readLine());
+	}
+
+	scrollToBottom();
 
 	connect(&IRCInterface::getClient(), &IRC::topicRecieved, this, [&](const QString& topic) {
 
@@ -103,6 +121,8 @@ ChatDialog::ChatDialog(DinoDent* parent) : QDialog(parent)
 
 		appendText(result);
 
+		session_log.append(result + "\n");
+
 		if (!isVisible()) {
 			static_cast<DinoDent*>(this->parent())->setIrcIcon(true);
 		}
@@ -126,11 +146,15 @@ void ChatDialog::appendText(const QString& text)
 {
 	ui.textEdit->append(text);
 
+	scrollToBottom();
+}
+
+void ChatDialog::scrollToBottom()
+{
 	if (ui.textEdit->verticalScrollBar()) {
 		ui.textEdit->verticalScrollBar()->setValue(
 			ui.textEdit->verticalScrollBar()->maximum());
 	}
-
 }
 
 bool ChatDialog::event(QEvent* e)
@@ -144,5 +168,16 @@ bool ChatDialog::event(QEvent* e)
 }
 
 ChatDialog::~ChatDialog()
-{}
+{
+	if (session_log.isEmpty()) return;
+
+	QFile log(QDir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("irc_log.txt"));
+	log.open(QIODevice::Append);
+	QString header = "<br><font color=\"#777777\"><i>• ";
+	header += QDate::currentDate().toString("dd.MM.yyyy");
+	header += " •</i></font><br>\n";
+
+	log.write(header.toUtf8());
+	log.write(session_log.toUtf8());
+}
 

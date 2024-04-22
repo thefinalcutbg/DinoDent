@@ -71,7 +71,7 @@
          <item>
           <widget class="QCheckBox" name="vatCheck">
            <property name="text">
-            <string>регистрация по ДДС</string>
+            <string>Регистрация по ДДС</string>
            </property>
           </widget>
          </item>

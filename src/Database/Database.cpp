@@ -118,6 +118,11 @@ std::string Db::columnName(int column) const
     return sqlite3_column_name(stmt, column);
 }
 
+int Db::rowsAffected() const
+{
+    return sqlite3_changes(db_connection);
+}
+
 long long Db::lastInsertedRowID()
 {
     return sqlite3_last_insert_rowid(db_connection);

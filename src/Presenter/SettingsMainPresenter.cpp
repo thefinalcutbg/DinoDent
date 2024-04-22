@@ -240,7 +240,16 @@ void SettingsMainPresenter::sqlCommandExec(const std::string& sql)
 	int columnCount = db.columnCount();
 
 	if (!db.columnCount()) {
+
 		if (!db.execute()) return;
+
+		ModalDialogBuilder::showMessage(
+			"Заявката е изпълнена успешно!\n"
+			"Брой засегнати редове: " +
+			std::to_string(db.rowsAffected())
+		);
+
+		return;
 	}
 
 	PlainTable table;

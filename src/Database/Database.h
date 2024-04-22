@@ -48,6 +48,7 @@ public:
     bool execute(const std::string& query);
     int columnCount() const;
     std::string columnName(int column) const;
+    int rowsAffected() const;
 
     long long lastInsertedRowID();
     std::string getPreparedStatement();

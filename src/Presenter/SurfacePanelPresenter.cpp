@@ -96,18 +96,18 @@ void SurfacePanelPresenter::setTooth(const Tooth& tooth)
 		if (tooth.hasRestoration(surface) && tooth.hasCaries(surface))
 		{
 			surfaceState[i] = std::make_tuple(surface, SurfaceState::secondary);
-			sateLabel[i] = "вторичен кариес";
+			sateLabel[i] = "Дефектно възстановяване";
 		}
 		else if (tooth.hasRestoration(surface))
 		{
 			surfaceState[i] = std::make_tuple(surface, SurfaceState::obturation);
-			sateLabel[i] = "обтурация";
+			sateLabel[i] = "Възстановяване";
 		}
 
 		else if (tooth.hasCaries(surface))
 		{
 			surfaceState[i] = std::make_tuple(surface, SurfaceState::caries);
-			sateLabel[i] = "кариес";
+			sateLabel[i] = "Патология на ТЗТ";
 		}
 		else
 			surfaceState[i] = std::make_tuple(surface, SurfaceState::none);

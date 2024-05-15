@@ -30,8 +30,8 @@ DsnMenu::DsnMenu()
     addAction(menuAction[Dental::Healthy]);
     addAction(menuAction[Dental::Temporary]);
 
-    QMenu* ObturMenu = addMenu("&Обтурация");
-    QMenu* CariesMenu = addMenu("&Кариес");
+    QMenu* ObturMenu = addMenu("&Възстановяване");
+    QMenu* CariesMenu = addMenu("&Патология на ТЗТ");
     QMenu* MobilityMenu = addMenu("&Подвижност");
 
     QString surfName[SurfaceCount] = { "Оклузално", "Медиално", "Дистално", "Букално", "Лингвално", "Цервикално" };

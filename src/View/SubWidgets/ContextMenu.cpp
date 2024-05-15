@@ -20,8 +20,8 @@ ContextMenu::ContextMenu()
 
     QString otherActionNames[otherInputsCount]
     {
-        "Обтурация МО", "Обтурация ДО", "Обтурация МОД",
-        "Премахни"/*обтурация*/, "Премахни"/*кариес*/, "Премахни статус", "Премахни конструкция/шина"
+        "Възстановяване МО", "Възстановяване ДО", "Възстановяване МОД",
+        "Премахни"/*Възстановяване*/, "Премахни"/*кариес*/, "Премахни статус", "Премахни конструкция/шина"
     };
 
 
@@ -43,8 +43,8 @@ ContextMenu::ContextMenu()
   //  addAction(menuAction[Dental::Dsn]);
 
     
-    QMenu* obturMenu = addMenu("&Обтурация");
-    QMenu* cariesMenu = addMenu("&Кариес");
+    QMenu* obturMenu = addMenu("&Възстановяване");
+    QMenu* cariesMenu = addMenu("&Патология на ТЗТ");
     QMenu* endoMenu = addMenu("&Ендодонтия");
     QMenu* surgeryMenu = addMenu("&Хирургия");
     QMenu* mobilityMenu = addMenu("&Подвижност");

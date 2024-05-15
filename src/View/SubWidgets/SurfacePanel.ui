@@ -16,10 +16,10 @@
   <widget class="QLabel" name="statusInfoLabel">
    <property name="geometry">
     <rect>
-     <x>10</x>
+     <x>0</x>
      <y>130</y>
-     <width>121</width>
-     <height>16</height>
+     <width>151</width>
+     <height>20</height>
     </rect>
    </property>
    <property name="text">
@@ -37,7 +37,7 @@
     <rect>
      <x>10</x>
      <y>113</y>
-     <width>121</width>
+     <width>131</width>
      <height>16</height>
     </rect>
    </property>
@@ -85,9 +85,9 @@
   <widget class="QFrame" name="group">
    <property name="geometry">
     <rect>
-     <x>160</x>
+     <x>140</x>
      <y>10</y>
-     <width>111</width>
+     <width>131</width>
      <height>102</height>
     </rect>
    </property>
@@ -120,7 +120,7 @@
      <rect>
       <x>10</x>
       <y>5</y>
-      <width>91</width>
+      <width>111</width>
       <height>16</height>
      </rect>
     </property>
@@ -154,7 +154,7 @@
      <rect>
       <x>10</x>
       <y>29</y>
-      <width>91</width>
+      <width>111</width>
       <height>27</height>
      </rect>
     </property>
@@ -168,7 +168,7 @@
      <string notr="true"/>
     </property>
     <property name="text">
-     <string>Обтурация</string>
+     <string>Възстановяване</string>
     </property>
     <property name="checkable">
      <bool>true</bool>
@@ -179,7 +179,7 @@
      <rect>
       <x>10</x>
       <y>60</y>
-      <width>91</width>
+      <width>111</width>
       <height>27</height>
      </rect>
     </property>
@@ -193,7 +193,7 @@
      <string notr="true"/>
     </property>
     <property name="text">
-     <string>Кариес</string>
+     <string>Патология на ТЗТ</string>
     </property>
     <property name="checkable">
      <bool>true</bool>

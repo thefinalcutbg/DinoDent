@@ -116,7 +116,7 @@ ToothIndex Tooth::toothIndex() const
 	return ToothIndex{
 		.index = m_index,
 		.temp = m_data[Temporary],
-		.supernumeral = !m_supernumeral
+		.supernumeral = isSupernumeral()
 	};
 }
 
@@ -506,8 +506,8 @@ std::vector<std::string> Tooth::getHISStatus() const
 
 	auto boolStatus = getBoolStatus();
 
-	//since D and E are incompatible in CL107
-	boolStatus[HasSupernumeral] = isSupernumeral() && !boolStatus[Missing];
+	//HIS requires supernumeral to be property of the supernumeral tooth
+	boolStatus[HasSupernumeral] = isSupernumeral();
 
 	for (int i = 0; i < SurfaceCount; i++) {
 

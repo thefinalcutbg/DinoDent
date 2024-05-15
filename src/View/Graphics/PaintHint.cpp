@@ -168,7 +168,6 @@ ToothPaintHint::ToothPaintHint(const Tooth& tooth, const std::string& notes)
     {
         dsn = std::make_unique<ToothPaintHint>(tooth.getSupernumeral());
         dsn->isHyperdontic = true;
-        dsn->num = ToothUtils::getNhifNumber(tooth.toothIndex());
     }
 getToolTip:
     toolTip = "<b>" + tooth.toothName() + "</b><br>";

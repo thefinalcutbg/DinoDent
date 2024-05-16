@@ -16,9 +16,9 @@
   <widget class="QLabel" name="statusInfoLabel">
    <property name="geometry">
     <rect>
-     <x>0</x>
-     <y>130</y>
-     <width>151</width>
+     <x>20</x>
+     <y>140</y>
+     <width>251</width>
      <height>20</height>
     </rect>
    </property>
@@ -26,7 +26,7 @@
     <string/>
    </property>
    <property name="alignment">
-    <set>Qt::AlignHCenter|Qt::AlignTop</set>
+    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
    </property>
    <property name="wordWrap">
     <bool>true</bool>
@@ -35,10 +35,10 @@
   <widget class="QLabel" name="surfaceInfoLabel">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>113</y>
-     <width>131</width>
-     <height>16</height>
+     <x>20</x>
+     <y>123</y>
+     <width>101</width>
+     <height>20</height>
     </rect>
    </property>
    <property name="text">
@@ -54,8 +54,8 @@
   <widget class="QGraphicsView" name="surfaceView">
    <property name="geometry">
     <rect>
-     <x>25</x>
-     <y>10</y>
+     <x>20</x>
+     <y>20</y>
      <width>102</width>
      <height>102</height>
     </rect>
@@ -85,9 +85,9 @@
   <widget class="QFrame" name="group">
    <property name="geometry">
     <rect>
-     <x>140</x>
-     <y>10</y>
-     <width>131</width>
+     <x>120</x>
+     <y>20</y>
+     <width>151</width>
      <height>102</height>
     </rect>
    </property>
@@ -120,7 +120,7 @@
      <rect>
       <x>10</x>
       <y>5</y>
-      <width>111</width>
+      <width>131</width>
       <height>16</height>
      </rect>
     </property>
@@ -154,7 +154,7 @@
      <rect>
       <x>10</x>
       <y>29</y>
-      <width>111</width>
+      <width>131</width>
       <height>27</height>
      </rect>
     </property>
@@ -179,7 +179,7 @@
      <rect>
       <x>10</x>
       <y>60</y>
-      <width>111</width>
+      <width>131</width>
       <height>27</height>
      </rect>
     </property>

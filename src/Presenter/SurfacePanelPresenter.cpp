@@ -107,7 +107,7 @@ void SurfacePanelPresenter::setTooth(const Tooth& tooth)
 		else if (tooth.hasCaries(surface))
 		{
 			surfaceState[i] = std::make_tuple(surface, SurfaceState::caries);
-			sateLabel[i] = "Патология на ТЗТ";
+			sateLabel[i] = "Патология на ТЗТ (кариес или др.)";
 		}
 		else
 			surfaceState[i] = std::make_tuple(surface, SurfaceState::none);

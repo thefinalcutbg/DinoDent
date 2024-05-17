@@ -3,7 +3,7 @@
 #include <QPainter>
 #include <QEvent>
 #include <QMouseEvent>
-#include <qdebug.h>
+
 
 ProcedureTemplateModel::ProcedureTemplateModel(QObject *parent)
     : QAbstractTableModel(parent)

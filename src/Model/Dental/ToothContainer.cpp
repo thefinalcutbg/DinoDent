@@ -165,13 +165,12 @@ void ToothContainer::setStatus(const std::vector<int>& selectedIndexes, Dental::
 		removeNonRetainedConstructions();
 	}
 }
-#include "qdebug.h"
+
 void ToothContainer::removeEveryStatus(const std::vector<int>& selectedTeethidx)
 {
 	for (auto idx : selectedTeethidx)
 	{
 		teeth[idx].clearStatuses();
-		qDebug() << teeth[idx].noData();
 	}
 	
 	formatBridges(selectedTeethidx);

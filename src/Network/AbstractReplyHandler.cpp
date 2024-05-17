@@ -1,6 +1,5 @@
 ﻿#include "AbstractReplyHandler.h"
 #include "TinyXML/tinyxml.h"
-#include "QDebug"
 #include "View/ModalDialogBuilder.h"
 #include "NetworkManager.h"
 

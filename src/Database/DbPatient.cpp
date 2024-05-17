@@ -1,6 +1,5 @@
 #include "DbPatient.h"
 #include "Database.h"
-#include "qdebug.h"
 
 long long DbPatient::insert(const Patient& patient)
 {

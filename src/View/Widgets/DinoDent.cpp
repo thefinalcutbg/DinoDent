@@ -2,7 +2,7 @@
 
 #include <QAction>
 #include <QMenu>
-#include <QDebug>
+
 #include <QPixmap>
 #include <QFileDialog>
 #include <QFontDatabase>

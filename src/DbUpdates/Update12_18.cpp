@@ -1,7 +1,6 @@
 ﻿#include "Database/Database.h"
 #include "DbUpdates.h"
 #include "Resources.h"
-#include <qdebug.h>
 #include "Database/DbPatient.h"
 #include "Model/FreeFunctions.h"
 #include "GlobalSettings.h"

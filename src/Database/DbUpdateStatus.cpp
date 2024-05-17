@@ -1,7 +1,6 @@
 #include "DbUpdateStatus.h"
 #include "Database.h"
 #include "Model/Date.h"
-#include <qdebug.h>
 
 std::string numRowNames[1]{"med"};
 

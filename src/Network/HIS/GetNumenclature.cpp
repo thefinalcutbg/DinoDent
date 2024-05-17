@@ -1,8 +1,7 @@
 #include "GetNumenclature.h"
 #include "View/ModalDialogBuilder.h"
 #include "Model/FreeFunctions.h"
-#include "Database/DbPatient.h"
-#include <qdebug.h>
+
 
 GetNumenclature::GetNumenclature() :
 	HisService("C001", "/v1/nomenclatures/all/get")

@@ -8,7 +8,6 @@
 #include <QStyledItemDelegate>
 #include <QMenu>
 
-#include "qdebug.h"
 
 class NoFocusDelegate : public QStyledItemDelegate
 {
@@ -349,8 +348,6 @@ void TableView::dropEvent(QDropEvent* e)
 int TableView::selectedRow()
 {
     if (selectionModel() == nullptr) return -1;
-
-   // qDebug() << "Source row:" << selectionModel()->currentIndex().row();
 
     return selectionModel()->currentIndex().row();
 }

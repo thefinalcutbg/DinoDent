@@ -131,7 +131,7 @@ bool SettingsMainPresenter::applyChanges()
 	//rzi primary key db check
 	if (practice.rziCode != User::practice().rziCode &&  //if the practice rzi has been changed
 		DbPractice::practiceExists(practice.rziCode) //but the new rzi already exists in the db
-	) 
+		)
 	{
 		view->focusTab(SettingsTab::Practice);
 		ModalDialogBuilder::showError("Практика с такъв РЗИ номер вече съществува");
@@ -143,11 +143,11 @@ bool SettingsMainPresenter::applyChanges()
 	//lpk primary key db check
 	if (doctor.LPK != User::doctor().LPK &&
 		DbDoctor::suchDoctorExists(doctor.LPK)
-	)
+		)
 	{
 		view->focusTab(SettingsTab::Doctor);
 		ModalDialogBuilder::showError(
-			"Доктор с такъв УИН вече съществува. За да го добавите, " 
+			"Доктор с такъв УИН вече съществува. За да го добавите, "
 			"използвайте \"Добави лекар\" от раздел \"Практика\". "
 			"След това излезте от текущия профил и влезте с УИН-а на другия лекар."
 		);
@@ -231,7 +231,7 @@ bool SettingsMainPresenter::applyChanges()
 
 	return true;
 }
-#include <qdebug.h>
+
 void SettingsMainPresenter::sqlCommandExec(const std::string& sql)
 {
 

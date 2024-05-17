@@ -2,7 +2,7 @@
 #include "QtVersion.h"
 #include "Model/Date.h"
 #include <QPainter>
-#include <qdebug.h>
+
 FiscalReportView::FiscalReportView(QWidget *parent)
 	: QWidget(parent)
 {

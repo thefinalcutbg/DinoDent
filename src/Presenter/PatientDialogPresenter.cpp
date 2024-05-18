@@ -2,6 +2,7 @@
 #include "View/ModalDialogBuilder.h"
 #include "Database/DbPatient.h"
 #include "View/Printer.h"
+#include "Model/User.h"
 
 PatientDialogPresenter::PatientDialogPresenter(std::string dialogTitle) :
 	view(nullptr), dialogTitle(dialogTitle)
@@ -86,6 +87,14 @@ void PatientDialogPresenter::searchDbForPatient(int type, const std::string& id)
 		rowid = patient.rowid;
 		medStats = patient.medStats;
 		allergies = patient.allergies;
+	}
+	else {
+		if (User::hasNhifContract() &&
+			User::settings().getHirbNoAuto
+			) 
+		{
+			checkHirbno();
+		}
 	}
 		
 	view->setPatient(patient);

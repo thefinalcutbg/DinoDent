@@ -17,16 +17,16 @@ ReportFilesView::ReportFilesView(QWidget *parent)
 
 	ui.tableView->verticalHeader()->hide();
 
-	ui.tableView->setColumnWidth(0, 150);
-	ui.tableView->setColumnWidth(1, 150);
-	ui.tableView->setColumnWidth(2, 150);
-	ui.tableView->setColumnWidth(3, 100);
+	ui.tableView->setColumnWidth(0, 100);
+	ui.tableView->setColumnWidth(1, 190);
+	ui.tableView->setColumnWidth(2, 200);
+	ui.tableView->setColumnWidth(3, 120);
 	ui.tableView->setColumnWidth(4, 100);
 
 	ui.tableView->verticalHeader()->setDefaultSectionSize(20);
 	ui.tableView->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 	ui.tableView->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-	//ui.tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeMode::Fixed);
+	ui.tableView->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeMode::ResizeToContents);
 	ui.tableView->horizontalHeader()->setSectionResizeMode(4, QHeaderView::Stretch);
 
     connect(ui.loadPISbutton, &QPushButton::clicked, this, [&] {presenter.refreshFiles();});

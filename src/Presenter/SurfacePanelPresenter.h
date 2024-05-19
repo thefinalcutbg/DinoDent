@@ -8,7 +8,7 @@
 class Tooth;
 
 enum class SurfaceClick {rightClick, leftClick};
-enum class SurfaceState { none, obturation, caries, secondary };
+enum class SurfaceState { none, restoration, caries, secondary };
 
 class ListPresenter;
 
@@ -29,7 +29,7 @@ public:
 		void setTooth(const Tooth& tooth);
 		void buttonClicked(ButtonPos position, SurfaceClick click);
 		void sideCariesClicked();
-		void sideObturationClicked();
+		void sideRestorationClicked();
 
 };
 

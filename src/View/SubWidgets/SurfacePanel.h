@@ -27,8 +27,13 @@ class SurfacePanel : public QWidget, public PolygonObserver, public ISurfacePane
 	std::array<QString, 6> labels;
 	std::array<QString, 6> statuses;
 
+	bool m_focused = false;
+
+	void paintEvent(QPaintEvent* e) override;
+
 public:
 	SurfacePanel(QWidget *parent = Q_NULLPTR);
+	void drawFocused(bool focused);
 	~SurfacePanel();
 
 
@@ -38,7 +43,7 @@ public:
 	void hidePanel(bool hidden) override;
 	void setLabels(std::array<std::string, 6> SurfaceNames);
 	void setStatuses(std::array<std::string, 6> StatusNames);
-	void setSideButtonsClicked(bool obturation, bool caries);
+	void setSideButtonsClicked(bool restoration, bool caries);
 	// Inherited via PolygonObserver
 	virtual void buttonHovered(ButtonPos position, Hover hoverState);
 	virtual void buttonClicked(ButtonPos position, MouseClick click);

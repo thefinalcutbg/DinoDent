@@ -59,7 +59,7 @@ void ProcedureEditorPresenter::setView(IProcedureEditDialog* view)
 		case ProcedureType::full_exam:
 			view->procedureInput()->setLayout(IProcedureInput::General);
 			break;
-		case ProcedureType::obturation:
+		case ProcedureType::restoration:
 			view->procedureInput()->setLayout(IProcedureInput::Restoration);
 			view->procedureInput()->surfaceSelector()->setData(std::get<RestorationData>(result->result));
 			view->procedureInput()->surfaceSelector()->setInputValidator(&surface_validator);
@@ -139,7 +139,7 @@ void ProcedureEditorPresenter::okPressed()
 
 	switch (result->code.type())
 	{
-		case ProcedureType::obturation:
+		case ProcedureType::restoration:
 			result->result = view->procedureInput()->surfaceSelector()->getData();
 			break;
 		case ProcedureType::anesthesia:

@@ -1,20 +1,15 @@
 ﻿#include "SurfacePanel.h"
 
+#include <QPainter>
+
 #include "Presenter/SurfacePanelPresenter.h"
 #include "View/Graphics/ToothPainter.h"
-
+#include "View/Theme.h"
 
 SurfacePanel::SurfacePanel(QWidget* parent)
 	: QWidget(parent), presenter(NULL)
 {
 	ui.setupUi(this);
-
-	//QOpenGLWidget* gl = new QOpenGLWidget();
-//	QSurfaceFormat format;
-
-//	format.setSamples(16);
-//	gl->setFormat(format);
-//	ui.surfaceView->setViewport(gl);
 
 	scene = new QGraphicsScene;
 	ui.surfaceView->setScene(scene);
@@ -22,7 +17,7 @@ SurfacePanel::SurfacePanel(QWidget* parent)
 	ui.surfaceView->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
 	toothGraphic = new CPTooth;
 
-	ui.sideBox->setStyleSheet("color: rgb(2, 127, 128); font-weight: bold;");
+	//ui.sideBox->setStyleSheet("color: rgb(2, 127, 128); font-weight: bold;");
 
 	ui.sideCaries->pathology = true;
 	
@@ -33,8 +28,14 @@ SurfacePanel::SurfacePanel(QWidget* parent)
 		scene->addItem(polygon[i]);
 	}
 
-    connect(ui.sideObturation, &QPushButton::clicked, this, [=, this] { presenter->sideObturationClicked();  });
+    connect(ui.sideObturation, &QPushButton::clicked, this, [=, this] { presenter->sideRestorationClicked();  });
     connect(ui.sideCaries, &QPushButton::clicked, this, [=, this] { presenter->sideCariesClicked(); });
+}
+
+void SurfacePanel::drawFocused(bool focused)
+{
+	m_focused = focused;
+	update();
 }
 
 SurfacePanel::~SurfacePanel()
@@ -74,9 +75,9 @@ void SurfacePanel::setStatuses(std::array<std::string, 6> StatusNames)
 	}
 }
 
-void SurfacePanel::setSideButtonsClicked(bool obturation, bool caries)
+void SurfacePanel::setSideButtonsClicked(bool restoration, bool caries)
 {
-	ui.sideObturation->setChecked(obturation);
+	ui.sideObturation->setChecked(restoration);
 	ui.sideCaries->setChecked(caries);
 }
 
@@ -89,7 +90,7 @@ void SurfacePanel::buttonHovered(ButtonPos position, Hover hoverState)
 	}
 	else
 	{
-		ui.surfaceInfoLabel->setText(labels[static_cast<int>(position)]);
+		ui.surfaceInfoLabel->setText(labels[static_cast<int>(position)] + ":");
 		ui.statusInfoLabel->setText(statuses[static_cast<int>(position)]);
 	}
 
@@ -103,4 +104,32 @@ void SurfacePanel::buttonClicked(ButtonPos position, MouseClick click)
 		presenter->buttonClicked(position, SurfaceClick::leftClick);
 
 	ui.statusInfoLabel->setText(statuses[static_cast<int>(position)]);
+}
+
+
+void SurfacePanel::paintEvent(QPaintEvent* e)
+{
+	QPainter painter(this);
+
+	painter.setRenderHint(QPainter::RenderHint::Antialiasing);
+
+	painter.setPen(QPen(m_focused ? Theme::mainBackgroundColor : Theme::border));
+
+	painter.drawRoundedRect(
+		ui.frame1->x(),
+		ui.frame1->y(),
+		ui.frame1->width(),
+		ui.frame1->height(),
+		Theme::radius / 2,
+		Theme::radius / 2
+	);
+
+	//painter.drawRoundedRect(
+	//	ui.frame2->x(),
+	//	ui.frame2->y(),
+	//	ui.frame2->width(),
+	//	ui.frame2->height(),
+	//	Theme::radius / 2,
+	//	Theme::radius / 2
+	//);
 }

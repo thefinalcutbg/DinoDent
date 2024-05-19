@@ -13,13 +13,13 @@ struct CheckModel
 
     CheckModel() :
         generalStatus{ CheckState::unchecked },
-        obturationStatus{ CheckState::unchecked },
+        restorationStatus{ CheckState::unchecked },
         cariesStatus{ CheckState::unchecked }
    //     mobilityStatus{ CheckState::unchecked },
     {}
 
     std::array<CheckState, Dental::StatusCount> generalStatus{ CheckState::unchecked };
-    std::array<CheckState, Dental::SurfaceCount> obturationStatus{ CheckState::unchecked };
+    std::array<CheckState, Dental::SurfaceCount> restorationStatus{ CheckState::unchecked };
     std::array<CheckState, Dental::SurfaceCount> cariesStatus{ CheckState::unchecked };
     std::array<CheckState, Dental::MobilityCount> mobilityStatus{ CheckState::unchecked };
     bool no_data{ true };

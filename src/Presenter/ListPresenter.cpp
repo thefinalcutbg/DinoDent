@@ -494,7 +494,7 @@ void ListPresenter::setToothStatus(Dental::StatusType t, int code, bool supernum
     switch (t)
     {
         case Dental::StatusType::General: state = checkModel.generalStatus[code] != CheckState::checked; break;
-        case Dental::StatusType::Restoration: state = checkModel.obturationStatus[code] != CheckState::checked; break;
+        case Dental::StatusType::Restoration: state = checkModel.restorationStatus[code] != CheckState::checked; break;
         case Dental::StatusType::Caries: state = checkModel.cariesStatus[code] != CheckState::checked; break;
         case Dental::StatusType::Mobility: state = checkModel.mobilityStatus[code] != CheckState::checked; break;
     }
@@ -1140,6 +1140,7 @@ void ListPresenter::hisButtonPressed()
                 }
 
                 if (error) {
+                    //replace with auto-fetch when implemented
                     ModalDialogBuilder::showError("Амбулаторният лист не е синхронизиран с НЗИС! Моля анулирайте и го изпратете отново.");
                 }
                 else {
@@ -1219,17 +1220,6 @@ void ListPresenter::hisButtonPressed()
     }
 
 
-}
-
-void ListPresenter::syncList()
-{
-    if (m_ambList.nrn.empty()) return;
-
-    eDentalFetchService.sendRequest(m_ambList.nrn,
-        [&](const AmbList& list, const Patient& patient) {
-            //implement sync here
-        }
-    );
 }
 
 

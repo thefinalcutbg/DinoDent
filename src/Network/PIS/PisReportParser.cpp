@@ -169,7 +169,7 @@ PisReportsForImport PisReportParser::parse(const std::string& xmlReport)
 
 				if (!p.tooth_idx.isValid()) continue;
 
-				if (p.code.type() == ProcedureType::obturation) {
+				if (p.code.type() == ProcedureType::restoration) {
 
 					RestorationData restoration;
 

@@ -413,7 +413,7 @@ bool AmbListValidator::validateTypeToStatus(const Tooth& t, const Procedure& p)
 
     switch (p.code.type())
     {
-        case ProcedureType::obturation:
+        case ProcedureType::restoration:
         {
             bool statusMissing
             {

@@ -8,7 +8,7 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 {
 		switch (code.type())
 		{
-			case::ProcedureType::obturation:
+			case::ProcedureType::restoration:
 			{
 				
 				auto& result = std::get<RestorationData>(this->result);
@@ -197,7 +197,7 @@ void Procedure::applyPISProcedure(ToothContainer& teeth) const
 
 	switch (code.type())
 	{
-		case ProcedureType::obturation:
+		case ProcedureType::restoration:
 			teeth.setStatus({ tooth_idx.index }, Dental::StatusType::General, Dental::Restoration, true, tooth_idx.supernumeral); break;
 		case ProcedureType::endo:
 			teeth.setStatus({ tooth_idx.index }, Dental::StatusType::General, Dental::RootCanal, true, tooth_idx.supernumeral); break;

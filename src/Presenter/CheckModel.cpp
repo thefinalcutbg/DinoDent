@@ -26,7 +26,7 @@ inline void furtherIterations(std::array<CheckState, Size> &checkArray,
 CheckModel::CheckModel(const std::vector<const Tooth*>& selectedTeeth)
 	:
 	generalStatus{ CheckState::unchecked },
-	obturationStatus{ CheckState::unchecked },
+	restorationStatus{ CheckState::unchecked },
 	cariesStatus{ CheckState::unchecked },
 	mobilityStatus{ CheckState::unchecked }
 {
@@ -34,14 +34,14 @@ CheckModel::CheckModel(const std::vector<const Tooth*>& selectedTeeth)
 
 	firstIteration(generalStatus, selectedTeeth[0]->getBoolStatus());
 	firstIteration(cariesStatus, selectedTeeth[0]->getCariesBoolStatus());
-	firstIteration(obturationStatus, selectedTeeth[0]->getRestorationBoolStatus());
+	firstIteration(restorationStatus, selectedTeeth[0]->getRestorationBoolStatus());
 	firstIteration(mobilityStatus, selectedTeeth[0]->getMobilityBoolStatus());
 
     for (size_t i = 1; i < selectedTeeth.size(); i++)
 	{
 		furtherIterations(generalStatus, selectedTeeth[i]->getBoolStatus());
 		furtherIterations(cariesStatus, selectedTeeth[i]->getCariesBoolStatus());
-		furtherIterations(obturationStatus, selectedTeeth[i]->getRestorationBoolStatus());
+		furtherIterations(restorationStatus, selectedTeeth[i]->getRestorationBoolStatus());
 		furtherIterations(mobilityStatus, selectedTeeth[i]->getMobilityBoolStatus());
 	}
 
@@ -69,7 +69,7 @@ CheckModel::CheckModel(const Tooth& tooth)
 {
 	firstIteration(generalStatus, tooth.getBoolStatus());
 	firstIteration(cariesStatus, tooth.getCariesBoolStatus());
-	firstIteration(obturationStatus, tooth.getRestorationBoolStatus());
+	firstIteration(restorationStatus, tooth.getRestorationBoolStatus());
 	firstIteration(mobilityStatus, tooth.getMobilityBoolStatus());
 
 	for (auto& state : generalStatus)

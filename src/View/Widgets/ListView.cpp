@@ -39,7 +39,6 @@ ListView::ListView(QWidget* parent)
 	ui.editProcedure->setIcon(QIcon(":/icons/icon_edit.png"));
 	ui.historyButton->setIcon(QIcon(":/icons/icon_history.png"));
 	ui.nssiButton->setIcon(QIcon(":/icons/icon_nssi.png"));
-	ui.syncButton->setIcon(QIcon(":/icons/icon_sync.png"));
 
 	ui.perioButton->setHoverColor(Theme::mainBackgroundColor);
 	ui.invoiceButton->setHoverColor(Theme::mainBackgroundColor);
@@ -50,7 +49,6 @@ ListView::ListView(QWidget* parent)
 	ui.historyButton->setHoverColor(Theme::mainBackgroundColor);
 	ui.nssiButton->setHoverColor(Theme::mainBackgroundColor);
 	ui.hospitalButton->setHoverColor(Theme::mainBackgroundColor);
-	ui.syncButton->setHoverColor(Theme::mainBackgroundColor);
 
 	QMenu* menu = new QMenu(ui.addRefButton);
 
@@ -92,7 +90,6 @@ ListView::ListView(QWidget* parent)
     connect(ui.ambNumSpin, &LeadingZeroSpinBox::valueChanged, this, [=, this] (long long value) {if(presenter)presenter->ambNumChanged(value);});
     connect(ui.dateTimeEdit, &QDateTimeEdit::dateTimeChanged, this, [=, this] (const QDateTime& t) {if (presenter)presenter->setAmbDateTime(t.toString(Qt::ISODate).toStdString());});
     connect(ui.historyButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->historyRequested(); });
-	connect(ui.syncButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->syncList(); });
 	connect(ui.addProcedure, &QAbstractButton::clicked, this, [=, this] { if (presenter) presenter->addProcedure(); });
     connect(ui.specCombo, QtComboIndexChanged, this, [=, this]  {nhifChanged();});
     connect(ui.unfavCheck, &QCheckBox::stateChanged, this, [=, this] { nhifChanged(); });
@@ -170,7 +167,7 @@ void ListView::paintEvent(QPaintEvent*)
 
 	painter.fillPath(path, Theme::sectionBackground);
 	
-	painter.setPen(QPen(Theme::border));
+	painter.setPen(QPen(m_teethViewFocused ? Theme::mainBackgroundColor : Theme::border));
 	painter.drawPath(path);
 
 	painter.drawLine(
@@ -179,21 +176,6 @@ void ListView::paintEvent(QPaintEvent*)
 		ui.frame->x() + ui.surfacePanel->x(), //x2
 		ui.frame->y() + ui.frame->height() //y2
 	);
-
-	if (!m_teethViewFocused) return;
-
-	painter.setPen(QPen(Theme::mainBackgroundColor));
-	/*
-	auto teethViewPath = Theme::getHalfCurvedPath(
-		ui.teethView->width(), 
-		ui.teethView->height()
-	);
-
-	painter.translate(ui.teethView->pos());
-	*/
-	painter.drawPath(path);
-
-
 
 }
 
@@ -204,12 +186,14 @@ bool ListView::eventFilter(QObject* obj, QEvent* event)
 	if (event->type() == QEvent::FocusOut)
 	{
 			m_teethViewFocused = false;
+			ui.surfacePanel->drawFocused(false);
 			repaint();
 
 	}
 	else if (event->type() == QEvent::FocusIn)
 	{
 		m_teethViewFocused = true;
+		ui.surfacePanel->drawFocused(true);
 		repaint();
 	}
 
@@ -360,7 +344,6 @@ void ListView::setAdditionalDocuments(const std::vector<Referral>& referrals, co
 void ListView::setHisButtonText(const HisButtonProperties& prop)
 {
 	ui.ambNumSpin->setHidden(prop.hideSpinBox);
-	ui.syncButton->setHidden(!prop.hideSpinBox);
 	ui.label->setText(prop.labelText.c_str());
 	ui.nrnButton->setText(prop.buttonText.c_str());
 	ui.nrnButton->setHoverText(prop.hoverText.c_str());

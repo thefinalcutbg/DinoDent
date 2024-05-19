@@ -2,12 +2,6 @@
 
 class CheckModel;
 struct ToothPaintHint;
-
-struct ImplantData;
-struct DentistData;
-struct CrownData;
-struct Pathology;
-struct ObturationData;
 class DetailedStatusPresenter;
 
 

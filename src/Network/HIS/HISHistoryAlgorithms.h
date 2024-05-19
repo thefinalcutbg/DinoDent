@@ -11,7 +11,8 @@ class TiXmlDocument;
 namespace HISHistoryAlgorithms
 {
 	std::vector<Procedure> getProcedures(TiXmlDocument& doc);
-	ToothContainer getToothStatus(TiXmlDocument& doc);
 	std::vector<HisSnapshot> getDentalHistory(TiXmlDocument& doc);
-	std::tuple<AmbList, Patient> parseList(TiXmlDocument& doc);
+
+	//expects element with array of nhis:tooth elements:
+	ToothContainer getToothStatus(const TiXmlElement& node);
 };

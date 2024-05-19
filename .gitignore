@@ -10,3 +10,4 @@ include/
 /test.db
 /DinoDent.vcxproj.user
 /Resource.aps
+/.vs

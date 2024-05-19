@@ -121,10 +121,10 @@ std::string Parser::write(const ToothContainer& status)
 			{
 				if (!arr[i]) continue;
 
-				Json::Value obturationJson;
-				obturationJson["Surf"] = i;
-				obturationJson["LPK"] = t.getLPK(i);
-				toothJson["O"].append(obturationJson);
+				Json::Value restorationJson;
+				restorationJson["Surf"] = i;
+				restorationJson["LPK"] = t.getLPK(i);
+				toothJson["O"].append(restorationJson);
 			}
 		}
 

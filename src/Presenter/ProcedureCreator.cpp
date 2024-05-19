@@ -17,9 +17,9 @@ int ProcedureCreator::restorationDiagnosis(const Tooth& tooth)
 /*
 	bool secondaryCaries = false;
 
-	for (int i = 0; i < 6; i++)		//checking if somewhere obturation is present also, returning secondary caries
+	for (int i = 0; i < 6; i++)		//checking if somewhere restoration is present also, returning secondary caries
 	{
-		if (tooth.caries.exists(i) && tooth.obturation.exists(i))
+		if (tooth.caries.exists(i) && tooth.restoration.exists(i))
 		{
 			secondaryCaries = true;
 		}
@@ -233,7 +233,7 @@ void ProcedureCreator::setView(IProcedureInput* view)
 		auto t = m_selectedTeeth[0];
 
 		view->surfaceSelector()->setData(RestorationData{ autoSurfaces(*t), false });
-		diag_map[ProcedureType::obturation] = restorationDiagnosis(*t);
+		diag_map[ProcedureType::restoration] = restorationDiagnosis(*t);
 		diag_map[ProcedureType::extraction] = extractionDiagnosis(*t);
 		diag_map[ProcedureType::endo] = endodonticDiagnosis(*t);
 		diag_map[ProcedureType::crown] = crownDiagnosis(*t);
@@ -275,7 +275,7 @@ void ProcedureCreator::setProcedureCode(const ProcedureCode& m, bool nhif)
 
 	switch (m.type())
 	{
-		case ProcedureType::obturation:
+		case ProcedureType::restoration:
 			if (m_selectedTeeth.empty()) {
 				view->setErrorMsg("Изберете поне един зъб!");
 				break;
@@ -412,7 +412,7 @@ std::vector<Procedure> ProcedureCreator::getProcedures()
 	case ProcedureType::full_exam:
 		result.push_back(procedure);
 		break;
-	case ProcedureType::obturation:
+	case ProcedureType::restoration:
 		procedure.result = view->surfaceSelector()->getData();
 		for (auto t : m_selectedTeeth)
 		{

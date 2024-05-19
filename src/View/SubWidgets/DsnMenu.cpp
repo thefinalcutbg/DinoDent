@@ -75,7 +75,7 @@ DsnMenu::DsnMenu()
 void DsnMenu::setModel(const CheckModel& checkModel)
 {
     this->setModel(checkModel.generalStatus, menuAction);
-    this->setModel(checkModel.obturationStatus, surfObt);
+    this->setModel(checkModel.restorationStatus, surfObt);
     this->setModel(checkModel.cariesStatus, surfCar);
     this->setModel(checkModel.mobilityStatus, mobilityDegree);
 }

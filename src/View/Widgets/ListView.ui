@@ -133,28 +133,6 @@
         </widget>
        </item>
        <item>
-        <widget class="IconButton" name="syncButton">
-         <property name="minimumSize">
-          <size>
-           <width>35</width>
-           <height>35</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>35</width>
-           <height>35</height>
-          </size>
-         </property>
-         <property name="toolTip">
-          <string>Изтегли от НЗИС</string>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item>
         <widget class="QLabel" name="label_4">
          <property name="text">
           <string>Дата:</string>

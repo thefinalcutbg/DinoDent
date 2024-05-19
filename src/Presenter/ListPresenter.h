@@ -122,7 +122,6 @@ public:
     void createPrescription();
     
     void hisButtonPressed();
-    void syncList();
 
     ~ListPresenter();
 };

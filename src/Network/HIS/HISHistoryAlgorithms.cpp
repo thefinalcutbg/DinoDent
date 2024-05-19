@@ -132,130 +132,75 @@ struct Ranges {
 //string to lambda map placed into it's own fn because intellisense has trouble parsing it
 void deserializeStatusCode(Tooth& tooth, Ranges&, const std::string& code);
 
-// this is old implementation, which was compensating the HIS most recent status bug
-ToothContainer HISHistoryAlgorithms::getToothStatus(TiXmlDocument& doc)
+ToothContainer HISHistoryAlgorithms::getToothStatus(const TiXmlElement& node)
 {
-	TiXmlHandle docHandle(&doc);
-
-	auto contents = docHandle.
-		FirstChild(). //message
-		Child(1);	  //contents
+	ToothContainer teeth;
 
 	struct ToothCondition {
 		ToothIndex idx;
 		std::vector<std::string> conditions;
 	};
 
-	struct Snapshot {
-		Date date;
-		std::vector<ToothCondition> teeth;
-	};
+	std::vector<ToothCondition> conditionList;
 
-	std::vector<Snapshot> history;
-
-	for (int i = 1; contents.Child(i).ToElement() != nullptr; i++)
+	//iterrating teeth
+	for (
+		auto toothXml = node.FirstChildElement("nhis:tooth");
+		toothXml != nullptr;
+		toothXml = toothXml->NextSiblingElement("nhis:tooth")
+		)
 	{
-		TiXmlHandle p = contents.Child(i);
 
-		//checks if entered in error:
-		if (std::string(p.Child(3).ToElement()->Attribute("value")) == "7") continue;
+		ToothCondition tooth;
 
-		//getting date
-		Date date = std::string(p.Child(5).ToElement()->Attribute("value"));
+		//getting tooth index
+		tooth.idx = ToothUtils::getToothFromHisNum(
+			toothXml->FirstChildElement()->FirstAttribute()->ValueStr(),
+			toothXml->FirstChildElement("nhis:supernumeralIndex") // exists only if tooth is dsn
+		);
 
-		//getting code and assigning date day to 0 (the exam shows always the initial status)
-		auto code = std::string(p.Child(2).ToElement()->Attribute("value"));
-
-		//evil exam date hack:
-		if (code == "D-01-001" || code == "D-01-003") {
-			date.day = 0;//because the exam always shows the initial date
-		}
-
-		Snapshot snapshot;
-		snapshot.date = date;
-
-		//iterrating teeth
-		for (int y = 0; p.Child(y).ToElement() != nullptr; y++)
+		//getting conditions
+		for (
+			auto conditionXml = toothXml->FirstChildElement("nhis:condition");
+			conditionXml != nullptr;
+			conditionXml = conditionXml->NextSiblingElement("nhis:condition")
+			)
 		{
-			if (p.Child(y).ToElement()->ValueStr() != "nhis:tooth") continue;
+			tooth.conditions.push_back(conditionXml->FirstChildElement()->FirstAttribute()->ValueStr());
 
-			//getting tooth index
-			auto index = ToothUtils::getToothFromNhifNum(p.Child(y).Child(0).ToElement()->Attribute("value"));
-
-			index.supernumeral = p.Child(y).Child(1).ToElement()->ValueStr() == "nhis:supernumeralIndex";
-
-			//iterrating conditions
-
-			std::vector<std::string> conditions;
-
-			int conditionIndex = index.supernumeral ? 2 : 1;
-
-			while (p.Child(y).Child(conditionIndex).ToElement() != nullptr)
-			{
-				conditions.push_back(p.Child(y).Child(conditionIndex).FirstChild().ToElement()->Attribute("value"));
-				conditionIndex++;
-			}
-
-			snapshot.teeth.push_back(ToothCondition{ index, conditions });
 		}
 
-		if (snapshot.teeth.size()) history.push_back(snapshot);
+		conditionList.push_back(tooth);
 	}
 
-	std::sort(history.begin(), history.end(), [](const Snapshot& a, const Snapshot& b) { return a.date < b.date; });
-
-	std::unordered_map<ToothIndex, std::vector<std::string>> statuses;
-	std::unordered_map<ToothIndex, std::vector<std::string>> supernumeralStatuses;
-
-	for (auto& snapshot : history) {
-
-		for (auto& tooth : snapshot.teeth) {
-			tooth.idx.supernumeral ?
-				supernumeralStatuses[tooth.idx] = tooth.conditions
-				:
-				statuses[tooth.idx] = tooth.conditions;
-		}
-	}
-
-	ToothContainer teeth;
-
+		
 	Ranges ranges;
 
-	for (auto const& [index, conditions] : statuses)
+	for (auto& [toothIdx, conditions] : conditionList)
 	{
-		auto& tooth = teeth[index.index];
+		teeth[toothIdx.index].setStatus(Dental::HasSupernumeral, toothIdx.supernumeral);
 
-		tooth.setStatus(Dental::Temporary, index.temp);
+		auto& tooth = teeth.at(toothIdx);
+
+		tooth.setStatus(Dental::Temporary, toothIdx.temp);
 
 		for (auto& code : conditions)
 		{
 			deserializeStatusCode(tooth, ranges, code);
 		}
 	}
+
+	ranges.sortRanges();
 
 	teeth.setStatus(ranges.splints, Dental::StatusType::General, Dental::Splint, true);
 	teeth.setStatus(ranges.bridges, Dental::StatusType::General, Dental::Bridge, true);
 
 	//in case extraction is not set on pontics:
 	for (auto idx : ranges.pontics) if (teeth[idx].canHaveACrown()) teeth[idx].setStatus(Dental::Missing, true);
-	
-	//setting supernumeral only if the normal tooth has isDsn set to true
-	for (auto const& [toothIndex, conditions] : supernumeralStatuses)
-	{
-		teeth[toothIndex.index].setStatus(Dental::Temporary, true);
-
-		auto& tooth = teeth[toothIndex.index].getSupernumeral();
-
-		tooth.setStatus(Dental::Temporary, toothIndex.temp);
-
-		for (auto& code : conditions)
-		{
-			deserializeStatusCode(tooth, ranges, code);
-		}
-	}
 
 	return teeth;
 }
+
 
 std::vector<HisSnapshot> HISHistoryAlgorithms::getDentalHistory(TiXmlDocument& doc)
 {
@@ -435,17 +380,6 @@ std::vector<HisSnapshot> HISHistoryAlgorithms::getDentalHistory(TiXmlDocument& d
 
 	return result;
 }
-
-std::tuple<AmbList, Patient> HISHistoryAlgorithms::parseList(TiXmlDocument& doc)
-{
-	AmbList list;
-	Patient patient;
-
-	//implement parsing here
-
-	return std::make_tuple(list, patient);
-}
-
 
 
 /*

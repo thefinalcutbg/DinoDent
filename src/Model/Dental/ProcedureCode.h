@@ -7,7 +7,7 @@ enum class ProcedureType
 {
     general = 0,
     full_exam = 1,
-    obturation = 2,
+    restoration = 2,
     endo = 3,
     extraction = 4,
     crown = 5,
@@ -79,7 +79,7 @@ public:
             ;
     }
     bool isRestoration() const {
-        return type() == ProcedureType::obturation;
+        return type() == ProcedureType::restoration;
     }
     bool isRangeSpecific() const {
 

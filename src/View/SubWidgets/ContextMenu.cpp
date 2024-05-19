@@ -116,7 +116,7 @@ void ContextMenu::setSelection(bool single) { details->setEnabled(single); }
 void ContextMenu::setModel(const CheckModel& checkModel, const CheckModel& dsnModel)
 {
     this->setModel(checkModel.generalStatus, menuAction);
-    this->setModel(checkModel.obturationStatus, surfObt);
+    this->setModel(checkModel.restorationStatus, surfObt);
     this->setModel(checkModel.cariesStatus, surfCar);
     this->setModel(checkModel.mobilityStatus, mobilityDegree);
 

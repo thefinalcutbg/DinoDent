@@ -8,6 +8,7 @@
 #include "Model/User.h"
 #include <TinyXML/tinyxml.h>
 #include "View/ModalDialogBuilder.h"
+#include "Model/Dental/ToothUtils.h"
 #include "Model/Dental/ToothContainer.h"
 #include "HISHistoryAlgorithms.h"
 #include "Model/FreeFunctions.h"
@@ -522,7 +523,6 @@ bool EDental::Fetch::sendRequest(const std::string& nrn, decltype(m_callback) ca
 	return HisService::sendRequestToHis(contents);
 }
 
-#include "View/ModalDialogBuilder.h"
 void EDental::Fetch::parseReply(const std::string& reply)
 {
 	if (reply.empty()) {
@@ -530,15 +530,189 @@ void EDental::Fetch::parseReply(const std::string& reply)
 		return;
 	}
 
-	ModalDialogBuilder::showMultilineDialog(reply);
-
 	TiXmlDocument doc;
 
 	doc.Parse(reply.data(), 0, TIXML_ENCODING_UTF8);
 
-	auto [amblist, patient] = HISHistoryAlgorithms::parseList(doc);
+	TiXmlHandle docHandle(&doc);
 
-	m_callback(amblist, patient);
+	auto ambXml = docHandle.
+		FirstChild().				//message
+		Child(1).					//contents
+		Child(1).					//results
+		FirstChild().ToElement();	//dentalTreatment
+
+	if (!ambXml) {
+		m_callback = nullptr;
+		return;
+	}
+
+	AmbList list;
+	Patient patient;
+
+	//basic properties
+	list.nrn = getString(ambXml, "nrnDental");
+	list.lrn = getString(ambXml, "lrn");
+	list.date = getString(ambXml, "treatmentStart");
+	list.nhifData.isUnfavourable = getBool(ambXml, "adverseConditions");
+	list.his_updated = true;
+
+	//parsing the procedures (brace yourselves)
+	for (
+		auto procXml = ambXml->FirstChildElement("nhis:dentalProcedure");
+		procXml != nullptr;
+		procXml = procXml->NextSiblingElement("nhis:dentalProcedure")
+		)
+	{
+
+		//entered in error
+		if (getInt(procXml, "status") == 7) continue;
+
+		Procedure p;
+
+		p.his_index = getInt(procXml, "index");
+		p.code = getString(procXml, "code");
+		p.date = getString(procXml, "datePerformed");
+		p.financingSource = static_cast<FinancingSource>(getInt(procXml, "financingSource"));
+		p.notes = getString(procXml, "note");
+
+		auto diagnosisXml = procXml->FirstChildElement("nhis:diagnosis");
+
+		if (diagnosisXml) {
+			p.diagnosis = diagnosisXml->FirstChildElement("nhis:code")->FirstAttribute()->IntValue();
+
+			auto note = procXml->FirstChildElement("nhis:diagnosis")->FirstChildElement("nhis:note");
+
+			if (note) {
+				p.diagnosis.description = note->FirstAttribute()->ValueStr();
+			}
+		}
+
+		//SOME REALLY TEDIOUS DATA PARSING COUPLED WITH THE PROGRAM LOGIC:
+
+		auto getToothIdx = [&](const TiXmlElement* procedure)->ToothIndex {
+
+			auto toothXml = procedure->FirstChildElement("nhis:tooth");
+
+			return ToothUtils::getToothFromHisNum(
+				toothXml->FirstChildElement()->FirstAttribute()->ValueStr(),
+				toothXml->FirstChildElement("nhis:supernumeralIndex") // the element exists only if tooth is dsn
+			);
+		};
+
+		switch (p.code.type()) {
+
+			case ProcedureType::full_exam:
+				if (p.code.type() == ProcedureType::full_exam) {
+
+					list.teeth = HISHistoryAlgorithms::getToothStatus(*procXml);
+				}
+				break;
+
+				case ProcedureType::anesthesia:
+				{
+					auto durationXml = procXml->FirstChildElement("nhis:duration");
+
+					if (durationXml) {
+						p.result = AnesthesiaMinutes(durationXml->FirstAttribute()->IntValue());
+					}
+				}
+				break;
+
+			case ProcedureType::endo:
+			case ProcedureType::crown:
+			case ProcedureType::extraction:
+			case ProcedureType::implant:
+			case ProcedureType::removeCrown:
+			case ProcedureType::removePost:
+				p.tooth_idx = getToothIdx(procXml);
+				break;
+
+			case ProcedureType::restoration:
+			{
+
+				auto toothXml = procXml->FirstChildElement("nhis:tooth");
+
+				p.tooth_idx = getToothIdx(procXml);
+
+				RestorationData data;
+
+				//getting conditions
+				for (
+					auto conditionXml = toothXml->FirstChildElement("nhis:condition");
+					conditionXml != nullptr;
+					conditionXml = conditionXml->NextSiblingElement("nhis:condition")
+					)
+				{
+					auto status = conditionXml->FirstChildElement()->FirstAttribute()->ValueStr();
+
+					static const std::map<std::string, int> surfaceMap{
+						{ "O" , 0 },
+						{ "Oo", 0 },
+						{ "Om", 1 },
+						{ "Od", 2 },
+						{ "Ob", 3 },
+						{ "Ol", 4 },
+						{ "Oc", 5 }
+					};
+
+					if (status == "Rp") {
+						data.post = true;
+					}
+					else if (surfaceMap.count(status)) {
+						data.surfaces[surfaceMap.at(status)] = true;
+					}
+
+				}
+
+				p.result = data;
+			}
+			break;
+
+			case ProcedureType::bridge:
+			case ProcedureType::denture:
+			case ProcedureType::fibersplint:
+			{
+				int begin = 31;
+				int end = 0;
+
+
+				for (
+					auto toothXml = procXml->FirstChildElement("nhis:tooth");
+					toothXml != nullptr;
+					toothXml = toothXml->NextSiblingElement("nhis:tooth")
+					)
+				{
+
+					//getting tooth index
+					auto idx = ToothUtils::getToothFromHisNum(
+						toothXml->FirstChildElement()->FirstAttribute()->ValueStr(),
+						toothXml->FirstChildElement("nhis:supernumeralIndex") // exists only if tooth is dsn
+					);
+
+					begin = std::min(begin, idx.index);
+					end = std::max(end, idx.index);
+
+					if (begin > end) std::swap(begin, end);
+
+					p.result = ConstructionRange(begin, end);
+				}
+
+				break;
+			}
+				
+		}
+
+		bool automaticallyGeneratedByDinoDent =
+			p.code.type() == ProcedureType::full_exam &&
+			p.notes != "ИЗХОДЯЩ СТАТУС(автоматично генерирана)";
+
+		if (!automaticallyGeneratedByDinoDent) {
+			list.procedures.addProcedure(p);
+		}
+	}
+
+	m_callback(list, patient);
 
 	m_callback = nullptr;
 

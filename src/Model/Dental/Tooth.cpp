@@ -475,7 +475,7 @@ std::vector<std::string> Tooth::getHISStatus() const
 	std::vector<std::string> statuses;
 
 	static constexpr std::array<const char*, 6> cariesNum{ "Co", "Cm", "Cd", "Cb", "Cl", "Cc" };
-	static constexpr std::array<const char*, 6> obturationNum{ "Oo", "Om", "Od", "Ob", "Ol", "Oc" };
+	static constexpr std::array<const char*, 6> restorationNum{ "Oo", "Om", "Od", "Ob", "Ol", "Oc" };
 	static constexpr std::array<const char*, 3> mobilityNum{ "M1", "M2", "M3" };
 	std::array<const char*, StatusCount> status;
 
@@ -512,7 +512,7 @@ std::vector<std::string> Tooth::getHISStatus() const
 	for (int i = 0; i < SurfaceCount; i++) {
 
 		if (hasCaries((Surface)i)) statuses.push_back(cariesNum[i]);
-		if (hasRestoration((Surface)i)) statuses.push_back(obturationNum[i]);
+		if (hasRestoration((Surface)i)) statuses.push_back(restorationNum[i]);
 
 	}
 

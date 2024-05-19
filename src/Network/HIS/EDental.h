@@ -126,4 +126,19 @@ namespace EDental {
 
 		bool awaitingReply() { return awaiting_reply; }
 	};
+
+	class Fetch : private HisService
+	{
+		std::function<void(const AmbList& list, const Patient& patient)> m_callback;
+
+		void parseReply(const std::string& reply) override;
+
+	public:
+		Fetch() :
+			HisService("D005", "/v1/edental/record/fetch") {}
+
+		bool sendRequest(const std::string& nrn, decltype(m_callback) callback);
+
+		bool awaitingReply() { return awaiting_reply; }
+	};
 }

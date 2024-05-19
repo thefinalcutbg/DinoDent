@@ -39,6 +39,7 @@ ListView::ListView(QWidget* parent)
 	ui.editProcedure->setIcon(QIcon(":/icons/icon_edit.png"));
 	ui.historyButton->setIcon(QIcon(":/icons/icon_history.png"));
 	ui.nssiButton->setIcon(QIcon(":/icons/icon_nssi.png"));
+	ui.syncButton->setIcon(QIcon(":/icons/icon_sync.png"));
 
 	ui.perioButton->setHoverColor(Theme::mainBackgroundColor);
 	ui.invoiceButton->setHoverColor(Theme::mainBackgroundColor);
@@ -49,6 +50,7 @@ ListView::ListView(QWidget* parent)
 	ui.historyButton->setHoverColor(Theme::mainBackgroundColor);
 	ui.nssiButton->setHoverColor(Theme::mainBackgroundColor);
 	ui.hospitalButton->setHoverColor(Theme::mainBackgroundColor);
+	ui.syncButton->setHoverColor(Theme::mainBackgroundColor);
 
 	QMenu* menu = new QMenu(ui.addRefButton);
 
@@ -90,7 +92,8 @@ ListView::ListView(QWidget* parent)
     connect(ui.ambNumSpin, &LeadingZeroSpinBox::valueChanged, this, [=, this] (long long value) {if(presenter)presenter->ambNumChanged(value);});
     connect(ui.dateTimeEdit, &QDateTimeEdit::dateTimeChanged, this, [=, this] (const QDateTime& t) {if (presenter)presenter->setAmbDateTime(t.toString(Qt::ISODate).toStdString());});
     connect(ui.historyButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->historyRequested(); });
-    connect(ui.addProcedure, &QAbstractButton::clicked, this, [=, this] { if (presenter) presenter->addProcedure(); });
+	connect(ui.syncButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->syncList(); });
+	connect(ui.addProcedure, &QAbstractButton::clicked, this, [=, this] { if (presenter) presenter->addProcedure(); });
     connect(ui.specCombo, QtComboIndexChanged, this, [=, this]  {nhifChanged();});
     connect(ui.unfavCheck, &QCheckBox::stateChanged, this, [=, this] { nhifChanged(); });
     connect(ui.nssiButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->checkPention(); });
@@ -357,6 +360,7 @@ void ListView::setAdditionalDocuments(const std::vector<Referral>& referrals, co
 void ListView::setHisButtonText(const HisButtonProperties& prop)
 {
 	ui.ambNumSpin->setHidden(prop.hideSpinBox);
+	ui.syncButton->setHidden(!prop.hideSpinBox);
 	ui.label->setText(prop.labelText.c_str());
 	ui.nrnButton->setText(prop.buttonText.c_str());
 	ui.nrnButton->setHoverText(prop.hoverText.c_str());

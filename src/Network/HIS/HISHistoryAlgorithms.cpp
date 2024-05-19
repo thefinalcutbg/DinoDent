@@ -436,6 +436,16 @@ std::vector<HisSnapshot> HISHistoryAlgorithms::getDentalHistory(TiXmlDocument& d
 	return result;
 }
 
+std::tuple<AmbList, Patient> HISHistoryAlgorithms::parseList(TiXmlDocument& doc)
+{
+	AmbList list;
+	Patient patient;
+
+	//implement parsing here
+
+	return std::make_tuple(list, patient);
+}
+
 
 
 /*

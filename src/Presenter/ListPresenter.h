@@ -44,6 +44,7 @@ class ListPresenter : public TabInstance
     EDental::Cancel eDentalCancelService;
     EDental::Augment eDentalAugmentService;
     EDental::GetStatusAndProcedures eDentalGetStatusAndProceduresService;
+    EDental::Fetch eDentalFetchService;
     EReferral::Issue eReferralIssueService;
     EReferral::Cancel eReferralCancelService;
     EMedicalNotice::Issue eMedicalNoticeIssue;
@@ -121,6 +122,7 @@ public:
     void createPrescription();
     
     void hisButtonPressed();
+    void syncList();
 
     ~ListPresenter();
 };

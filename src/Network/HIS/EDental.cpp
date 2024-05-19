@@ -510,3 +510,36 @@ void EDental::GetDentalHistory::parseReply(const std::string& reply)
 
 	m_callback = nullptr;
 }
+
+bool EDental::Fetch::sendRequest(const std::string& nrn, decltype(m_callback) callback)
+{
+	m_callback = callback;
+
+	std::string contents;
+
+	contents += bind("nrnDental", nrn);
+
+	return HisService::sendRequestToHis(contents);
+}
+
+#include "View/ModalDialogBuilder.h"
+void EDental::Fetch::parseReply(const std::string& reply)
+{
+	if (reply.empty()) {
+		m_callback = nullptr;
+		return;
+	}
+
+	ModalDialogBuilder::showMultilineDialog(reply);
+
+	TiXmlDocument doc;
+
+	doc.Parse(reply.data(), 0, TIXML_ENCODING_UTF8);
+
+	auto [amblist, patient] = HISHistoryAlgorithms::parseList(doc);
+
+	m_callback(amblist, patient);
+
+	m_callback = nullptr;
+
+}

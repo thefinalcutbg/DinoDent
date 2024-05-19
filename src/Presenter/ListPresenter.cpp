@@ -1221,6 +1221,17 @@ void ListPresenter::hisButtonPressed()
 
 }
 
+void ListPresenter::syncList()
+{
+    if (m_ambList.nrn.empty()) return;
+
+    eDentalFetchService.sendRequest(m_ambList.nrn,
+        [&](const AmbList& list, const Patient& patient) {
+            //implement sync here
+        }
+    );
+}
+
 
 ListPresenter::~ListPresenter()
 {

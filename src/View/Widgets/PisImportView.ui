@@ -94,13 +94,13 @@
         <string> г.</string>
        </property>
        <property name="minimum">
-        <number>2000</number>
+        <number>2016</number>
        </property>
        <property name="maximum">
         <number>2050</number>
        </property>
        <property name="value">
-        <number>2008</number>
+        <number>2016</number>
        </property>
       </widget>
      </item>
@@ -117,7 +117,7 @@
         <string> г.</string>
        </property>
        <property name="minimum">
-        <number>2000</number>
+        <number>2016</number>
        </property>
        <property name="maximum">
         <number>2050</number>

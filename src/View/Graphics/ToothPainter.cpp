@@ -632,7 +632,7 @@ QPixmap ToothPainter::getOcclusal(const ToothPaintHint& tooth)
     auto& coords = SpriteSheets::container().getCoordinates(tooth.idx, tooth.temp);
     auto& currentTexture = SpriteSheets::container().getTexturePack(tooth.idx, tooth.temp);
 
-    if (tooth.tooth != ToothTextureHint::normal) return QPixmap();
+    if (tooth.tooth != ToothTextureHint::normal && tooth.tooth != ToothTextureHint::unknown) return QPixmap();
 
     QPixmap toothPx(coords.toothRect.width(), coords.toothRect.height());
     toothPx.fill(Qt::transparent);

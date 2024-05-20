@@ -132,7 +132,7 @@
          <string notr="true"/>
         </property>
         <property name="text">
-         <string>Девитализирация</string>
+         <string>Девитализация</string>
         </property>
        </widget>
       </item>
@@ -163,7 +163,7 @@
          <string notr="true"/>
         </property>
         <property name="text">
-         <string>Рад. щифт</string>
+         <string>Радикуларен щифт</string>
         </property>
        </widget>
       </item>

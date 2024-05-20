@@ -712,6 +712,33 @@ void EDental::Fetch::parseReply(const std::string& reply)
 		}
 	}
 
+	//patient parsing:
+
+	auto patientXml = docHandle.
+		FirstChild().				//message
+		Child(1).					//contents
+		Child(1).					//results
+		FirstChildElement("subject").ToElement();	//subject
+
+	patient.type = static_cast<Patient::Type>(getInt(patientXml, "identifierType"));
+	patient.id = (getString(patientXml, "identifier"));
+
+	//no foriegner parsing
+	if (patient.type > Patient::LNCH) {
+		m_callback = nullptr;
+		return;
+	}
+
+	patient.HIRBNo = getString(patientXml, "nhifInsuranceNumber");
+	patient.birth = getString(patientXml, "birthDate");
+	patient.sex = static_cast<Patient::Sex>(getInt(patientXml, "gender") - 1);
+	patient.FirstName = getString(patientXml->FirstChildElement("nhis:name"), "given");
+	patient.MiddleName = getString(patientXml->FirstChildElement("nhis:name"), "middle");
+	patient.LastName = getString(patientXml->FirstChildElement("nhis:name"), "family");
+	patient.city = getInt(patientXml->FirstChildElement("nhis:address"), "ekatte");
+	patient.address = getString(patientXml->FirstChildElement("nhis:address"), "line");
+	patient.phone = getString(patientXml, "phone");
+
 	m_callback(list, patient);
 
 	m_callback = nullptr;

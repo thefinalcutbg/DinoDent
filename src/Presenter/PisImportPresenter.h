@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Network/PIS/GetFileService.h"
+#include "Network/HIS/EDental.h"
 #include <stack>
 #include <string>
 
@@ -10,6 +11,7 @@ class PisImportPresenter
 {
 	GetAmbHashes get_hash_serv;
 	GetFileService get_file_serv;
+	EDental::Fetch his_fetch_serv;
 
 	std::stack<int> m_years;
 	std::stack<std::string> m_hashes;

@@ -19,9 +19,9 @@
   <widget class="StatusButton" name="Caries">
    <property name="geometry">
     <rect>
-     <x>150</x>
+     <x>180</x>
      <y>20</y>
-     <width>131</width>
+     <width>161</width>
      <height>27</height>
     </rect>
    </property>
@@ -58,7 +58,7 @@
     <rect>
      <x>10</x>
      <y>20</y>
-     <width>131</width>
+     <width>161</width>
      <height>27</height>
     </rect>
    </property>
@@ -95,7 +95,7 @@
     <rect>
      <x>10</x>
      <y>50</y>
-     <width>271</width>
+     <width>331</width>
      <height>351</height>
     </rect>
    </property>

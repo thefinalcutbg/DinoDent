@@ -373,6 +373,14 @@ void TeethViewScene::setNotes(const std::array<std::string, 32>& notes)
     
 }
 
+void TeethViewScene::drawFocused(bool focused)
+{
+    for(auto selBox : selectionBox){
+        selBox->drawFocused(focused);
+    }
+
+}
+
 TeethViewScene::~TeethViewScene()
 {
     this->blockSignals(true); //have to fix setting selected teeth to non-existing entity! (ListInstance vector throws exception)

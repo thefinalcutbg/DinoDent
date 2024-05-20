@@ -187,6 +187,7 @@ bool ListView::eventFilter(QObject* obj, QEvent* event)
 	{
 			m_teethViewFocused = false;
 			ui.surfacePanel->drawFocused(false);
+            teethViewScene->drawFocused(false);
 			repaint();
 
 	}
@@ -194,6 +195,7 @@ bool ListView::eventFilter(QObject* obj, QEvent* event)
 	{
 		m_teethViewFocused = true;
 		ui.surfacePanel->drawFocused(true);
+        teethViewScene->drawFocused(true);
 		repaint();
 	}
 

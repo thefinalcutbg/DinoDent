@@ -8,6 +8,7 @@
 class SelectionBox : public QGraphicsItem
 {
 	int index;
+    bool m_focused = false;
 
 public:
 	SelectionBox(int index);
@@ -28,5 +29,6 @@ protected:
 
 public:
 	int getIndex();
+    void drawFocused(bool focused);
 
 };

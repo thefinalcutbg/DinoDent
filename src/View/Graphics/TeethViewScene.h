@@ -40,6 +40,6 @@ public:
 	void setSelectedTeeth(const std::vector<int> &selectedTeeth);
 	void setProcedures(std::vector<int> teeth_procedures);
 	void setNotes(const std::array<std::string, 32>& notes);
-
+    void drawFocused(bool focused);
     ~TeethViewScene();
 };

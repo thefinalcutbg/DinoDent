@@ -614,7 +614,7 @@ void EDental::Fetch::parseReply(const std::string& reply)
 					auto durationXml = procXml->FirstChildElement("nhis:duration");
 
 					if (durationXml) {
-						p.result = AnesthesiaMinutes(durationXml->FirstAttribute()->IntValue());
+                        p.result = AnesthesiaMinutes{durationXml->FirstAttribute()->IntValue()};
 					}
 				}
 				break;
@@ -695,7 +695,7 @@ void EDental::Fetch::parseReply(const std::string& reply)
 
 					if (begin > end) std::swap(begin, end);
 
-					p.result = ConstructionRange(begin, end);
+                    p.result = ConstructionRange{begin, end};
 				}
 
 				break;

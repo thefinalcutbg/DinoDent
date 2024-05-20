@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>286</width>
+    <width>366</width>
     <height>228</height>
    </rect>
   </property>
@@ -16,8 +16,8 @@
   <widget class="QGraphicsView" name="surfaceView">
    <property name="geometry">
     <rect>
-     <x>11</x>
-     <y>11</y>
+     <x>40</x>
+     <y>10</y>
      <width>102</width>
      <height>102</height>
     </rect>
@@ -50,9 +50,9 @@
   <widget class="QFrame" name="frame1">
    <property name="geometry">
     <rect>
-     <x>121</x>
-     <y>11</y>
-     <width>155</width>
+     <x>180</x>
+     <y>10</y>
+     <width>159</width>
      <height>102</height>
     </rect>
    </property>
@@ -64,13 +64,13 @@
    </property>
    <property name="minimumSize">
     <size>
-     <width>102</width>
+     <width>159</width>
      <height>102</height>
     </size>
    </property>
    <property name="maximumSize">
     <size>
-     <width>16777215</width>
+     <width>159</width>
      <height>102</height>
     </size>
    </property>
@@ -81,6 +81,18 @@
     <enum>QFrame::Plain</enum>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
+    <property name="leftMargin">
+     <number>9</number>
+    </property>
+    <property name="topMargin">
+     <number>9</number>
+    </property>
+    <property name="rightMargin">
+     <number>9</number>
+    </property>
+    <property name="bottomMargin">
+     <number>9</number>
+    </property>
     <item>
      <widget class="QLabel" name="sideBox">
       <property name="sizePolicy">
@@ -122,6 +134,12 @@
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>27</height>
+       </size>
+      </property>
       <property name="styleSheet">
        <string notr="true"/>
       </property>
@@ -141,6 +159,12 @@
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>27</height>
+       </size>
+      </property>
       <property name="styleSheet">
        <string notr="true"/>
       </property>
@@ -154,64 +178,48 @@
     </item>
    </layout>
   </widget>
-  <widget class="QFrame" name="frame2">
+  <widget class="QLabel" name="surfaceInfoLabel">
    <property name="geometry">
     <rect>
-     <x>11</x>
-     <y>115</y>
-     <width>261</width>
-     <height>40</height>
+     <x>0</x>
+     <y>110</y>
+     <width>181</width>
+     <height>20</height>
     </rect>
    </property>
-   <property name="frameShape">
-    <enum>QFrame::NoFrame</enum>
+   <property name="font">
+    <font>
+     <bold>true</bold>
+    </font>
    </property>
-   <property name="frameShadow">
-    <enum>QFrame::Plain</enum>
+   <property name="text">
+    <string/>
    </property>
-   <widget class="QLabel" name="statusInfoLabel">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>20</y>
-      <width>271</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignHCenter|Qt::AlignTop</set>
-    </property>
-    <property name="wordWrap">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QLabel" name="surfaceInfoLabel">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>271</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignHCenter|Qt::AlignTop</set>
-    </property>
-    <property name="wordWrap">
-     <bool>true</bool>
-    </property>
-   </widget>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+   <property name="wordWrap">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="statusInfoLabel">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>130</y>
+     <width>181</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignHCenter|Qt::AlignTop</set>
+   </property>
+   <property name="wordWrap">
+    <bool>true</bool>
+   </property>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

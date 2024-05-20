@@ -1,4 +1,5 @@
 #include "SelectionBox.h"
+#include "View/Theme.h"
 
 SelectionBox::SelectionBox(int index) : index(index), hovered(false)
 {
@@ -29,7 +30,7 @@ void SelectionBox::paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWi
 {
     if (this->isSelected())  //painting the selection box
     {
-        QColor select(Qt::gray);
+        QColor select = m_focused ? Theme::mainBackgroundColor : Theme::border;
         QPen linepen;
         linepen.setWidth(2);
         linepen.setColor(select);
@@ -66,4 +67,10 @@ void SelectionBox::hoverLeaveEvent(QGraphicsSceneHoverEvent*)
 int SelectionBox::getIndex()
 {
     return this->index;
+}
+
+void SelectionBox::drawFocused(bool focused)
+{
+    m_focused = focused;
+    update();
 }

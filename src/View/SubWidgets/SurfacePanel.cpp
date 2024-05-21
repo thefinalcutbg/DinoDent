@@ -16,7 +16,6 @@ SurfacePanel::SurfacePanel(QWidget* parent)
 	scene->setBackgroundBrush(Qt::white);
 	ui.surfaceView->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
 	toothGraphic = new CPTooth;
-
 	//ui.sideBox->setStyleSheet("color: rgb(2, 127, 128); font-weight: bold;");
 
 	ui.sideCaries->pathology = true;
@@ -28,12 +27,19 @@ SurfacePanel::SurfacePanel(QWidget* parent)
 		scene->addItem(polygon[i]);
 	}
 
+	polygon_border = new PolygonBorder();
+
+	scene->addItem(polygon_border);
+
+
     connect(ui.sideObturation, &QPushButton::clicked, this, [=, this] { presenter->sideRestorationClicked();  });
     connect(ui.sideCaries, &QPushButton::clicked, this, [=, this] { presenter->sideCariesClicked(); });
 }
 
 void SurfacePanel::drawFocused(bool focused)
 {
+	polygon_border->drawFocused(focused);
+
 	m_focused = focused;
 	update();
 }

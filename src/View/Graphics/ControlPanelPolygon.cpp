@@ -1,6 +1,8 @@
 ﻿#include "ControlPanelPolygon.h"
 #include <QPainter>
+#include <QPainterPathStroker>
 #include <QGraphicsSceneMouseEvent>
+#include "View/Theme.h"
 
 ControlPanelPolygon::ControlPanelPolygon(ButtonPos position, PolygonObserver* observer)
     : observer(observer), position(position), hovered(false)
@@ -92,3 +94,27 @@ void ControlPanelPolygon::mousePressEvent(QGraphicsSceneMouseEvent* event)
         observer->buttonClicked(this->position, MouseClick::rightClick);
 }
 
+QRectF PolygonBorder::boundingRect() const
+{
+    return QRectF(0, 0, 100, 100);
+}
+
+void PolygonBorder::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
+{
+
+    QPainterPath path;
+    path.addRoundedRect(-5,-5, 110, 110, 12, 12);
+
+    auto pen = painter->pen();
+    pen.setWidth(10);
+    pen.setColor(Qt::white);
+    painter->setPen(pen);
+    painter->drawPath(path);
+
+    path.clear();
+
+    path.addRoundedRect(boundingRect(), 8, 8);
+    painter->setPen(is_focused ? QPen(Theme::mainBackgroundColor) : QPen(Theme::border));
+    painter->drawPath(path);
+
+}

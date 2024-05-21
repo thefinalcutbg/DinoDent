@@ -22,6 +22,7 @@ class SurfacePanel : public QWidget, public PolygonObserver, public ISurfacePane
 	SurfacePanelPresenter* presenter;
 
 	CPTooth* toothGraphic;
+	PolygonBorder* polygon_border;
 	std::array<ControlPanelPolygon*, 5> polygon;
 
 	std::array<QString, 6> labels;

@@ -688,7 +688,7 @@
          <string/>
         </property>
         <property name="text">
-         <string>Ретениран</string>
+         <string>Ретениран зъб</string>
         </property>
        </widget>
       </item>
@@ -716,7 +716,7 @@
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Бърз клавиш: U&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="text">
-         <string>Свръхброен</string>
+         <string>Свръхброен зъб</string>
         </property>
         <property name="checkable">
          <bool>true</bool>

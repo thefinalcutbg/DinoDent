@@ -36,3 +36,19 @@ public:
     void hoverLeaveEvent(QGraphicsSceneHoverEvent* event) override;
     void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
 };
+
+class PolygonBorder : public QGraphicsItem
+{
+    bool is_focused = false;
+
+public:
+    void drawFocused(bool focused) {
+        is_focused = focused;
+        update();
+    }
+    
+    QRectF boundingRect() const override;
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override;
+
+
+};

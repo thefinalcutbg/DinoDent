@@ -227,6 +227,9 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 
 	});
 
+	connect(ui.printEmptyDocs, &QPushButton::clicked, this, [&] { presenter.printEmptyDocs(); });
+
+
 	presenter.setView(this);
 	
 }

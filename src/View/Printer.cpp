@@ -394,7 +394,7 @@ void Print::consent(const Patient& patient)
 
     report.loadFromFile(":/reports/report_consent.lrxml");
 
-    const char* idType[5] = { "","ЕГН","ЛНЧ","ССН","" };
+    const char* idType[5] = { "","ЕГН","ЛНЧ","ССН","ID" };
 
     report.dataManager()->setReportVariable("practice_name", QString::fromStdString(practice.name));
     report.dataManager()->setReportVariable("practice_address", QString::fromStdString(practice.practice_address.getString()));
@@ -406,6 +406,29 @@ void Print::consent(const Patient& patient)
 
     report.dataManager()->setReportVariable("phone", QString::fromStdString(patient.phone));
 
+
+    QApplication::restoreOverrideCursor();
+
+    report.printReport();
+}
+
+void Print::consent()
+{
+    QApplication::setOverrideCursor(Qt::BusyCursor);
+
+    auto report = LimeReport::ReportEngine();
+
+    auto& doctor = User::doctor();
+    auto& practice = User::practice();
+
+    report.loadFromFile(":/reports/report_consent.lrxml");
+
+    report.dataManager()->setReportVariable("placeholder", "........................................");
+    report.dataManager()->setReportVariable("practice_name", QString::fromStdString(practice.name));
+    report.dataManager()->setReportVariable("practice_address", QString::fromStdString(practice.practice_address.getString()));
+    report.dataManager()->setReportVariable("doctor", QString::fromStdString(doctor.getFullName()));
+    report.dataManager()->setReportVariable("declarator", "Долуподписаният/та:");
+    report.dataManager()->setReportVariable("type", "ЕГН/ID");
 
     QApplication::restoreOverrideCursor();
 
@@ -448,6 +471,7 @@ void Print::ambList()
     
     report.loadFromFile(":/reports/report_amb.lrxml");
 
+    report.dataManager()->setReportVariable("type", QString{ "" });
     report.dataManager()->setReportVariable("RZICode", QString::fromStdString(practice.rziCode));
     report.dataManager()->setReportVariable("specialty", doctor.specialtyAsInt());
     report.dataManager()->setReportVariable("LPK", QString::fromStdString(doctor.LPK));

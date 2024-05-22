@@ -9,6 +9,8 @@
 #include "GlobalSettings.h"
 #include "Presenter/DoctorDialogPresenter.h"
 #include "Model/PlainTable.h"
+#include "View/Printer.h"
+#include "Model/Patient.h"
 
 SettingsMainPresenter::SettingsMainPresenter() :
 	m_doctorsList(DbPractice::getDoctors(User::practice().rziCode))
@@ -265,4 +267,25 @@ void SettingsMainPresenter::sqlCommandExec(const std::string& sql)
 	}
 	
 	view->setSqlTable(table);
+}
+
+void SettingsMainPresenter::printEmptyDocs()
+{
+	static std::vector<std::string> printOptions{
+			"Амбулаторен лист",
+			"Декларация за тотални протези",
+			"Декларация за валидна здравна книжка",
+			"Информирано съгласие",
+	};
+
+	int result = ModalDialogBuilder::openButtonDialog(printOptions, "Печат на празни бланки");
+
+	switch (result)
+	{
+		case 0: Print::ambList(); break;
+		case 1: Print::printDentureDeclaration(Patient(), Print::DeclaratorType::Empty); break;
+		case 2: Print::printHirbNoDeclaration(Patient(), Print::DeclaratorType::Empty); break;
+		case 3: Print::consent(); break;
+	}
+
 }

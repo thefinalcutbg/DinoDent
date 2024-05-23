@@ -1,7 +1,7 @@
 {
 	"win64": {
-		"ver": "1.14.0",
-		"dl": "https://github.com/thefinalcutbg/DinoDent/releases/download/v1.14.0/DinoDentSetup.exe",
+		"ver": "1.13.1",
+		"dl": "https://github.com/thefinalcutbg/DinoDent/releases/download/v1.13.1/DinoDentSetup.exe",
 		"changeLog": [
 			"Обновена е номенклатурата на зъбния статус в съответствие с тази в НЗИС",
 			"Възможност за автоматично извличане на номер на ЗОК при въвеждане на нов пациент (функцията се активира от Настройки->Договор с НЗОК)",

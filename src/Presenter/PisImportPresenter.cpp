@@ -171,3 +171,25 @@ void PisImportPresenter::abort()
 	view->disableButton(false);
 }
 
+void PisImportPresenter::loadXml()
+{
+	auto filesData = ModalDialogBuilder::openFiles();
+
+	if (filesData.empty()) return;
+
+	view->disableButton(true);
+
+	view->setProgresSize(filesData.size());
+
+	for (auto& data : filesData)
+	{
+		importToDb(data);
+	}
+
+	view->logToConsole("Импортирането приключи!");
+
+	view->setProgresSize(12);
+
+	view->disableButton(false);
+}
+

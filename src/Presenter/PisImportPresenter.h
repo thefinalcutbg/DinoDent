@@ -23,10 +23,13 @@ class PisImportPresenter
 	void importToDb(const std::string& file);
 	void abort();
 
+
 public:
 
 	void setView(PisImportView* view);
 
 	void importData(int fromYear, int toYear);
+
+	void loadXml();
 
 };

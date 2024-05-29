@@ -24,9 +24,6 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
     TiXmlElement* report = new TiXmlElement("report");
     report->SetAttribute("xmlns", "http://nhif.bg/xsd/dental");
     report->SetAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");;
-
-
-
     report->SetAttribute("practiceName", practice.nhif_contract.value().name_short);
     report->SetAttribute("bulstat", practice.bulstat);
     report->SetAttribute("RCZCode", practice.rziCode);
@@ -363,7 +360,7 @@ std::string XML::getInvoice(const Invoice& invoice)
     }
 
     TiXmlElement* recipient = new TiXmlElement("Invoice_Recipient");
-    addElementWithText(recipient, "recipient_code", User::practice().rziCode.substr(0, 2));
+    addElementWithText(recipient, "recipient_code", User::practice().practice_address.getRhif());
     addElementWithText(recipient, "recipient_name", invoice.recipient.name);
     addElementWithText(recipient, "recipient_address", invoice.recipient.address);
     addElementWithText(recipient, "recipient_bulstat", invoice.recipient.identifier);

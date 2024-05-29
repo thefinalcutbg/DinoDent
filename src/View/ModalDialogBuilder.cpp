@@ -325,6 +325,33 @@ std::optional<std::string> ModalDialogBuilder::openFile()
 	return result.toStdString();
 }
 
+std::vector<std::string> ModalDialogBuilder::openFiles()
+{
+
+	QStringList pathList = QFileDialog::getOpenFileNames(nullptr,
+		"Изберете XML файлове", "", "XML files(*.xml)");
+
+	if (pathList.isEmpty())
+		return {};
+
+	std::vector<std::string> result;
+
+	for (auto& filePath : pathList)
+	{
+		QFile file(filePath);
+		//Open the file
+		if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) continue;
+
+		QString contents = file.readAll();
+
+		file.close();
+
+		result.push_back(contents.toStdString());
+	}
+
+	return result;
+}
+
 std::optional<std::string> ModalDialogBuilder::getFilePath(const std::string& filename)
 {
 	QString dirPath = QFileDialog::getSaveFileName(nullptr, "Запазване на фискалния опис",

@@ -34,8 +34,6 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
     report->SetAttribute("dentistName", doctor.getFullName(false));
     report->SetAttribute("dentistSpec", doctor.specialtyAsInt());
     report->SetAttribute("dentistPersonalCode", doctor.LPK);
-
-    //getting the first two characters of user.rziCode:
     report->SetAttribute("RHIF", practice.practice_address.getRhif());
 
     Date from{ 1, lists[0].getDate().month, lists[0].getDate().year };

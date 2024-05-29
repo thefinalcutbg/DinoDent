@@ -235,7 +235,7 @@ Tooth::IncompatibleCodes Tooth::incompatInit()
 		result[Healthy].push_back(static_cast<Status>(i));
 	}
 
-	result[Temporary] = { Post };
+	result[Temporary] = { Post, Implant };
 	result[Restoration] = { Healthy, Root, Implant, Missing, Impacted, Denture };
 	result[Caries] = { Healthy, Root, Implant, Missing, Impacted, Denture };
 	result[Pulpitis] = { Healthy, ApicalLesion, Missing, Impacted, RootCanal, Post, Impacted };

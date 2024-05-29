@@ -476,7 +476,8 @@ bool AmbListValidator::validateTypeToStatus(const Tooth& t, const Procedure& p)
                 !t[Dental::Implant] &&
                 !t[Dental::ApicalLesion] &&
                 !t[Dental::Root] &&
-                !t[Dental::Mobility] 
+                !t[Dental::Mobility]  &&
+                !t[Dental::Temporary]
                  )
             };
 

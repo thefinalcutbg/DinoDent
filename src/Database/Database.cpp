@@ -284,7 +284,7 @@ bool Db::crudQuery(const std::string& query)
     i = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
 
     if (err && s_showError) {
-        ModalDialogBuilder::showError(database_error_msg);
+        ModalDialogBuilder::showError("Неуспешен запис в базата данни. Код на грешката: " + std::to_string(i));
     }
 
     return i == SQLITE_OK;

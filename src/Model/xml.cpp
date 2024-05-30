@@ -360,7 +360,14 @@ std::string XML::getInvoice(const Invoice& invoice)
     }
 
     TiXmlElement* recipient = new TiXmlElement("Invoice_Recipient");
-    addElementWithText(recipient, "recipient_code", User::practice().practice_address.getRhif());
+
+    std::string recipientCode = "00";
+
+    if (User::practice().nhif_contract.has_value()) {
+        recipientCode = User::practice().nhif_contract->contract_no.substr(0, 2);
+    }
+
+    addElementWithText(recipient, "recipient_code", recipientCode);
     addElementWithText(recipient, "recipient_name", invoice.recipient.name);
     addElementWithText(recipient, "recipient_address", invoice.recipient.address);
     addElementWithText(recipient, "recipient_bulstat", invoice.recipient.identifier);

@@ -363,6 +363,14 @@ std::optional<std::string> ModalDialogBuilder::getFilePath(const std::string& fi
 	return dirPath.toStdString();
 }
 
+#include "View/Widgets/ErrorDetailedDialog.h"
+
+void ModalDialogBuilder::showDetailedError(const std::string& descr, const std::string& details)
+{
+	ErrorDetailedDialog d(descr, details);
+	d.exec();
+}
+
 #include "View/Widgets/AllergyDialog.h"
 
 std::optional<Allergy> ModalDialogBuilder::openAllergyDialog(const Allergy& a)

@@ -92,10 +92,12 @@ bool Db::execute(const std::string& query)
 {
     char* err;
     finalizeStatement();
+
     int i = sqlite3_exec(db_connection, query.c_str(), NULL, NULL, &err);
 
     if (err && s_showError) {
-        ModalDialogBuilder::showError(database_error_msg);
+        ModalDialogBuilder::showError("Неуспешен запис в базата данни. Код на грешката: " + std::to_string(i));
+
     }
 
     finalizeStatement();
@@ -227,7 +229,7 @@ bool Db::execute()
     finalizeStatement();
 
     if (result != SQLITE_DONE && s_showError) {
-        ModalDialogBuilder::showError("Неуспешен запис в базата данни");
+        ModalDialogBuilder::showError("Неуспешен запис в базата данни. Код на грешката: " + std::to_string(result));
     }
 
     return result == SQLITE_DONE;

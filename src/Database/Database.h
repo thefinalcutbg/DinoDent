@@ -49,9 +49,8 @@ public:
     int columnCount() const;
     std::string columnName(int column) const;
     int rowsAffected() const;
-
     long long lastInsertedRowID();
-    std::string getPreparedStatement();
+    std::string getPreparedStatement() const;
     void closeConnection();
 
 

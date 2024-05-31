@@ -296,7 +296,6 @@ HEADERS += \
     src/Presenter/SurfacePanelPresenter.h \
     src/Presenter/TabInstance.h \
     src/Presenter/TabPresenter.h \
-    src/QtVersion.h \
     src/Resources.h \
     src/Tests/CrudTest.h \
     src/Version.h \

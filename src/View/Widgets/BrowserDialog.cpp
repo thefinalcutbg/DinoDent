@@ -1,5 +1,5 @@
 ﻿#include "BrowserDialog.h"
-#include "Presenter/BrowserPresenter.h"
+
 #include <QMessageBox>
 #include <QRegularExpression>
 #include <QApplication>
@@ -7,9 +7,9 @@
 #include <QMenu>
 
 #include "View/Theme.h"
-#include "QtVersion.h"
 #include "View/ModalDialogBuilder.h"
-#include "QtVersion.h"
+
+#include "Presenter/BrowserPresenter.h"
 
 BrowserDialog::BrowserDialog()
 {
@@ -91,7 +91,7 @@ BrowserDialog::BrowserDialog()
 	
 		});
 
-    connect(ui.detailsCombo, QtComboIndexChanged, this, [&](int idx) { presenter.showProcedureDetails(idx); calculateUiState(); });
+    connect(ui.detailsCombo, &QComboBox::currentIndexChanged, this, [&](int idx) { presenter.showProcedureDetails(idx); calculateUiState(); });
 
     connect(ui.tableView, &QTableView::customContextMenuRequested, this, [&](const QPoint& p) { contextMenuRequested(p); });
 

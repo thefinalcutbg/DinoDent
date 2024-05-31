@@ -5,7 +5,7 @@
 #include "View/Theme.h"
 #include "View/GlobalFunctions.h"
 #include "View/uiComponents/MouseWheelGuard.h"
-#include "QtVersion.h"
+
 
 FinancialView::FinancialView(QWidget *parent)
 	: QWidget(parent)
@@ -61,7 +61,7 @@ FinancialView::FinancialView(QWidget *parent)
 			presenter->taxEventDateChanged(Date(date.day(), date.month(), date.year()));
 		});
 
-    connect(ui.paymentTypeCombo, QtComboIndexChanged, this,
+    connect(ui.paymentTypeCombo, &QComboBox::currentIndexChanged, this,
         [=, this](int index) {
 			presenter->paymentTypeChanged(static_cast<PaymentType>(index));
 		});
@@ -94,7 +94,7 @@ FinancialView::FinancialView(QWidget *parent)
 
     connect(ui.addButton, &QAbstractButton::clicked, this, [=, this] { if (presenter) presenter->addOperation(); });
 
-    connect(ui.docTypeCombo, QtComboIndexChanged, this, [=, this](int idx) { presenter->docTypeChanged(idx);});
+    connect(ui.docTypeCombo, &QComboBox::currentIndexChanged, this, [=, this](int idx) { presenter->docTypeChanged(idx);});
 	
     connect(ui.mainDocDateEdit, &QDateEdit::dateChanged, this, [=, this] (QDate d) {
 		presenter->mainDocumentChanged(ui.mainDocNumSpin->value(), Date(d.day(), d.month(), d.year()));

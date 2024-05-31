@@ -2,8 +2,6 @@
 #include <QFile>
 #include <QTextStream>
 
-#include "QtVersion.h"
-
 std::string Resources::fromPath(const char* path)
 {
 	QFile file(path);
@@ -27,7 +25,7 @@ std::vector<std::string> Resources::dbSchema() {
 	std::vector<std::string> result;
 
 	QFile inputFile(":/db/dbSchema.txt");
-	if (inputFile.open(QtIODevice::ReadOnly))
+	if (inputFile.open(QIODeviceBase::ReadOnly))
 	{
 		QTextStream in(&inputFile);
 		while (!in.atEnd())

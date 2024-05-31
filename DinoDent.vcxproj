@@ -702,7 +702,6 @@
     <ClInclude Include="src\Presenter\SurfacePanelPresenter.h" />
     <ClInclude Include="src\Presenter\TabInstance.h" />
     <ClInclude Include="src\Presenter\TabPresenter.h" />
-    <ClInclude Include="src\QtVersion.h" />
     <ClInclude Include="src\Resources.h" />
     <ClInclude Include="src\DbUpdates\DbUpdates.h" />
     <ClInclude Include="src\DbUpdates\Updater.h" />

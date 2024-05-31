@@ -1,6 +1,5 @@
 ﻿#include "MedicationDialog.h"
 #include "Model/Prescription/Medication.h"
-#include "QtVersion.h"
 
 MedicationDialog::MedicationDialog(MedicationPresenter& p, QWidget* parent)
     : QDialog(parent), presenter(p)
@@ -15,10 +14,10 @@ MedicationDialog::MedicationDialog(MedicationPresenter& p, QWidget* parent)
 	ui.deleteButton->setDisabled(true);
 	ui.editButton->setDisabled(true);
 
-    connect(ui.quantity, QtSpinValueChanged, this, [&] { commonDataChanged(); });
-    connect(ui.quantityValue, QtComboIndexChanged, this, [&] { commonDataChanged(); });
+    connect(ui.quantity, &QSpinBox::valueChanged, this, [&] { commonDataChanged(); });
+    connect(ui.quantityValue, &QComboBox::currentIndexChanged, this, [&] { commonDataChanged(); });
     connect(ui.substitutionCheck, &QCheckBox::stateChanged, [&]{ commonDataChanged(); });
-    connect(ui.priorityCombo, QtComboIndexChanged, this, [&](int index) { presenter.priorityChanged(index); });
+    connect(ui.priorityCombo, &QComboBox::currentIndexChanged, this, [&](int index) { presenter.priorityChanged(index); });
     connect(ui.notesEdit, &QLineEdit::textChanged, this, [&](const QString& text) { presenter.noteChanged(text.toStdString());});
 
     connect(ui.medicationEdit, &QLineEdit::textChanged, this, [&](const QString& text) {

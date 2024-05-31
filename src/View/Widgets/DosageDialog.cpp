@@ -2,7 +2,6 @@
 #include "Presenter/DosagePresenter.h"
 #include "View/uiComponents/LineEdit.h"
 #include "Model/Prescription/Dosage.h"
-#include "QtVersion.h"
 
 DosageDialog::DosageDialog(DosagePresenter& p, QWidget* parent) :
     QDialog(parent), presenter(p)
@@ -36,18 +35,18 @@ DosageDialog::DosageDialog(DosagePresenter& p, QWidget* parent) :
 		});
 
 
-    connect(ui.doseSpin, QtDoubleSpinValueChanged, this, [&](double value) {
+	connect(ui.doseSpin, &QDoubleSpinBox::valueChanged, this, [&](double value) {
             presenter.doseQuantityValueChanged(value);
 		});
 
-    connect(ui.offsetSpin, QtSpinValueChanged, this, [&](int value) {
+    connect(ui.offsetSpin, &QSpinBox::valueChanged, this, [&](int value) {
             presenter.offsetChanged(value);
 
 		});
 
-    connect(ui.periodSpin, QtDoubleSpinValueChanged, this, [&](double value) { presenter.periodValueChanged(value); });
-    connect(ui.boundsSpin, QtDoubleSpinValueChanged, this, [&](double value) { presenter.boundsValueChanged(value); });
-    connect(ui.frequencySpin, QtSpinValueChanged, this, [&](int value) {
+    connect(ui.periodSpin, &QDoubleSpinBox::valueChanged, this, [&](double value) { presenter.periodValueChanged(value); });
+    connect(ui.boundsSpin, &QDoubleSpinBox::valueChanged, this, [&](double value) { presenter.boundsValueChanged(value); });
+    connect(ui.frequencySpin,&QSpinBox::valueChanged, this, [&](int value) {
         presenter.frequencyChanged(value);
 
 		/*
@@ -61,8 +60,8 @@ DosageDialog::DosageDialog(DosagePresenter& p, QWidget* parent) :
 		
 	});
 
-    connect(ui.periodCombo, QtComboIndexChanged, this, [&](int idx) { presenter.periodUnitChanged(idx);});
-    connect(ui.boundsCombo, QtComboIndexChanged, this, [&](int idx) { presenter.boundsUnitChanged(idx);});
+    connect(ui.periodCombo, &QComboBox::currentIndexChanged, this, [&](int idx) { presenter.periodUnitChanged(idx);});
+    connect(ui.boundsCombo, &QComboBox::currentIndexChanged, this, [&](int idx) { presenter.boundsUnitChanged(idx);});
 
     connect(ui.okButton, &QPushButton::clicked, this, [&] { presenter.okPressed();});
 

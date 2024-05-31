@@ -1,6 +1,5 @@
 ﻿#include "StatisticDialogView.h"
 #include "Presenter/StatisticDialogPresenter.h"
-#include "QtVersion.h"
 #include "Model/Dental/Diagnosis.h"
 #include <QPainter>
 
@@ -18,7 +17,7 @@ StatisticDialogView::StatisticDialogView(StatisticDialogPresenter& p, QWidget *p
 	setWindowTitle("Статистики");
 	setWindowIcon(QIcon(":/icons/icon_statistic.png"));
 
-	connect(ui.procedureCombo, QtComboIndexChanged, [&](int idx) {presenter.setProcedureType(idx);});
+	connect(ui.procedureCombo, &QComboBox::currentIndexChanged, [&](int idx) {presenter.setProcedureType(idx);});
 
 	for (auto &name : Diagnosis::getNames())
 	{
@@ -35,9 +34,9 @@ StatisticDialogView::StatisticDialogView(StatisticDialogPresenter& p, QWidget *p
 	ui.procedureCombo->setCurrentIndex(2);
 
     connect(ui.yearSpinBox, &QSpinBox::valueChanged, this, [&] { presenter.parameterChanged(); });
-    connect(ui.ageCombo, QtComboIndexChanged, this, [&]{ presenter.parameterChanged(); });
-    connect(ui.toothCombo, QtComboIndexChanged, this, [&] { presenter.parameterChanged(); });
-    connect(ui.financingCombo, QtComboIndexChanged, this, [&] { presenter.parameterChanged(); });
+    connect(ui.ageCombo, &QComboBox::currentIndexChanged, this, [&]{ presenter.parameterChanged(); });
+    connect(ui.toothCombo, &QComboBox::currentIndexChanged, this, [&] { presenter.parameterChanged(); });
+    connect(ui.financingCombo, &QComboBox::currentIndexChanged, this, [&] { presenter.parameterChanged(); });
     connect(ui.diagnosisGroup, &QGroupBox::clicked, this, [&] { presenter.parameterChanged(); });
     connect(ui.nameGroup,&QGroupBox::clicked, this, [&] { presenter.parameterChanged(); });
     connect(ui.nameFilterList, &QListWidget::itemChanged, this, [&] { presenter.parameterChanged(); });

@@ -1,5 +1,5 @@
 #include "FiscalReportView.h"
-#include "QtVersion.h"
+
 #include "Model/Date.h"
 #include <QPainter>
 
@@ -35,8 +35,8 @@ FiscalReportView::FiscalReportView(QWidget *parent)
 	ui.tableView->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 	ui.tableView->horizontalHeader()->setSectionResizeMode(4, QHeaderView::Stretch);
 
-	connect(ui.monthCombo, QtComboIndexChanged, [&](int index) {presenter.dateChanged(index + 1, ui.yearSpin->value()); });
-	connect(ui.yearSpin, QtSpinValueChanged, [&](int value) { presenter.dateChanged(ui.monthCombo->currentIndex() + 1, value); });
+	connect(ui.monthCombo, &QComboBox::currentIndexChanged, [&](int index) {presenter.dateChanged(index + 1, ui.yearSpin->value()); });
+	connect(ui.yearSpin, &QSpinBox::valueChanged, [&](int value) { presenter.dateChanged(ui.monthCombo->currentIndex() + 1, value); });
 
 	connect(ui.deleteReceipt, &QPushButton::clicked, [&] { presenter.deleteReceipt(getCurrentIndex()); });
 	connect(ui.generateFiscalDescr, &QPushButton::clicked, [&] { presenter.generateDescription(); });

@@ -1,7 +1,6 @@
 ﻿#include "PrescriptionView.h"
 #include "Presenter/PrescriptionPresenter.h"
 #include "View/Theme.h"
-#include "QtVersion.h"
 #include <QPainter>
 
 PrescriptionView::PrescriptionView(QWidget* parent)
@@ -46,8 +45,8 @@ PrescriptionView::PrescriptionView(QWidget* parent)
 
     connect(ui.medicationTable, &TableView::deletePressed, this, [=, this](int index) { if (presenter) presenter->deletePressed(index); });
     connect(ui.medicationTable, &TableView::editPressed, this, [=, this](int index) { if (presenter) presenter->editPressed(index); });
-	connect(ui.dispensationCombo, QtComboIndexChanged, [&] { dispensationLogic(); });
-	connect(ui.repeats, QtSpinValueChanged, [&] { if (ui.repeats->isHidden()) return; dispensationLogic(); });
+	connect(ui.dispensationCombo, &QComboBox::currentIndexChanged, [&] { dispensationLogic(); });
+	connect(ui.repeats, &QSpinBox::valueChanged, [&] { if (ui.repeats->isHidden()) return; dispensationLogic(); });
     connect(ui.supplementsEdit, &QLineEdit::textChanged, this, [=, this](const QString& text) {if (presenter) presenter->supplementsChanged(text.toStdString());});
     connect(ui.nrnButton, &QPushButton::clicked, this, [=, this] {if (presenter) presenter->nrnButtonClicked(); });
     connect(ui.dateEdit, &QDateEdit::dateChanged, this, [=, this](QDate d) {if (presenter) presenter->dateChanged(Date{ d.day(),d.month(),d.year() });});

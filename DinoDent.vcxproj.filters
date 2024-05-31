@@ -1499,9 +1499,6 @@
     <ClInclude Include="src\Version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\QtVersion.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Model\MedicalStatuses.h">
       <Filter>Header Files</Filter>
     </ClInclude>

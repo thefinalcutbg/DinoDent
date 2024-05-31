@@ -65,7 +65,6 @@ set(SOURCES
 src\GlobalSettings.cpp
 src\GlobalSettings.h
 src\main.cpp
-src\QtVersion.h
 src\Resources.cpp
 src\Resources.h
 src\Version.h
@@ -290,6 +289,12 @@ src\Network\HIS\HisToken.cpp
 src\Network\HIS\HisToken.h
 src\Network\HIS\UpdateMedications.cpp
 src\Network\HIS\UpdateMedications.h
+src\Network\IRC\IRC.cpp
+src\Network\IRC\IRC.h
+src\Network\IRC\IRCInterface.cpp
+src\Network\IRC\IRCInterface.h
+src\Network\IRC\Nickname.cpp
+src\Network\IRC\Nickname.h
 src\Network\NRA\NraStatusService.cpp
 src\Network\NRA\NraStatusService.h
 src\Network\NRA\NssiPentionService.cpp
@@ -628,6 +633,9 @@ src\View\Widgets\BusinessOperationDialog.ui
 src\View\Widgets\ButtonDialog.cpp
 src\View\Widgets\ButtonDialog.h
 src\View\Widgets\ButtonDialog.ui
+src\View\Widgets\ChatDialog.cpp
+src\View\Widgets\ChatDialog.h
+src\View\Widgets\ChatDialog.ui
 src\View\Widgets\DetailedStatus.cpp
 src\View\Widgets\DetailedStatus.h
 src\View\Widgets\DetailedStatus.ui
@@ -640,6 +648,9 @@ src\View\Widgets\DoctorSettingsDialog.ui
 src\View\Widgets\DosageDialog.cpp
 src\View\Widgets\DosageDialog.h
 src\View\Widgets\DosageDialog.ui
+src\View\Widgets\ErrorDetailedDialog.cpp
+src\View\Widgets\ErrorDetailedDialog.h
+src\View\Widgets\ErrorDetailedDialog.ui
 src\View\Widgets\FinancialView.cpp
 src\View\Widgets\FinancialView.h
 src\View\Widgets\FinancialView.ui

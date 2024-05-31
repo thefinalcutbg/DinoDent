@@ -6,7 +6,7 @@
 #include <json/json.h>
 
 #include "Presenter/ProcedureCreator.h"
-#include "QtVersion.h"
+
 #include "Resources.h"
 
 
@@ -22,7 +22,7 @@ ProcedureInput::ProcedureInput(QWidget *parent)
 
 	ui.diagEdit->setInputValidator(&notEmpty_validator);
 
-    connect(ui.diagCombo, QtComboIndexChanged, this, [&](int idx) {
+    connect(ui.diagCombo, &QComboBox::currentIndexChanged, this, [&](int idx) {
 
 			ui.diagEdit->setInputValidator(idx ? nullptr : &notEmpty_validator);
 

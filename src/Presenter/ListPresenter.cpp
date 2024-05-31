@@ -1073,9 +1073,7 @@ void ListPresenter::removeReferral(int index)
                
             }
         );
-
     }
-
 }
 
 void ListPresenter::setNhifData(const NhifSheetData& data)
@@ -1086,6 +1084,11 @@ void ListPresenter::setNhifData(const NhifSheetData& data)
 
 void ListPresenter::createInvoice()
 {
+    if (m_ambList.procedures.empty()) {
+        TabPresenter::get().openInvoice(patient->rowid, {});
+        return;
+    }
+
     auto selectedProcedures = ModalDialogBuilder::selectProcedures(m_ambList.procedures.list(), SelectionPref::OnlyPaid);
 
     if (!selectedProcedures.has_value()) {

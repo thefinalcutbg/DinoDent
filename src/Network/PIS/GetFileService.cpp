@@ -1,4 +1,4 @@
-#include "GetFileService.h"
+﻿#include "GetFileService.h"
 
 #include <map>
 #include <utility>
@@ -82,7 +82,7 @@ bool GetAmbHashes::sendRequest(const std::string& docLPK, int year, decltype(m_c
 		"<ns3:user><ns3:uin>" + docLPK + "</ns3:uin></ns3:user>"
 
 		"<ns3:select_clause>"
-				"<ns1:scolumn>FILE_PROCESS_REPORT</ns1:scolumn>" //errors
+				"<ns1:scolumn>STATUS_DESCR_BG</ns1:scolumn>" //errors
 				"<ns1:scolumn>REPORT_DATE_FROM</ns1:scolumn>"	 //date
 				"<ns1:scolumn>FILE_ID</ns1:scolumn>"			 //id hash
 			"</ns3:select_clause>"
@@ -164,7 +164,7 @@ void GetAmbHashes::processPISReply(const std::string& reply)
 			break;
 		}
 
-		if (getTextNullCheck(row.Child(0).ToElement()).size()) continue;
+		if (getTextNullCheck(row.Child(0).ToElement()) != "успешно обработен") continue;
 
 
 		Date date = getTextNullCheck(row.Child(1).ToElement());

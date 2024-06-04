@@ -51,6 +51,7 @@ ProcedureHistoryDialog::ProcedureHistoryDialog(ProcedureHistoryPresenter& p)
     ui.hospiTable->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     ui.hospiTable->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
    
+    ui.hisTable->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeMode::ResizeToContents);
 
     ui.tabWidget->setTabIcon(0, QIcon(":/icons/icon_nhif.png"));
     ui.tabWidget->setTabIcon(1, QIcon(":/icons/icon_his.png"));

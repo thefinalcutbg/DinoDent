@@ -25,7 +25,7 @@ bool RziValidator::validateInput(const std::string& text)
 		return true;
 	}
 
-	if (rhif >= 30 && rhif <= 58) {
+	if (rhif >= 31 && rhif <= 58) {
 		return true;
 	}
 

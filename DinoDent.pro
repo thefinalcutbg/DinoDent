@@ -74,6 +74,7 @@ FORMS += \
     src/View/Widgets/DinoDent.ui \
     src/View/Widgets/DoctorSettingsDialog.ui \
     src/View/Widgets/DosageDialog.ui \
+    src/View/Widgets/ErrorDetailedDialog.ui \
     src/View/Widgets/FinancialView.ui \
     src/View/Widgets/FiscalReceiptDialog.ui \
     src/View/Widgets/FiscalReportView.ui \
@@ -403,6 +404,7 @@ HEADERS += \
     src/View/Widgets/DinoDent.h \
     src/View/Widgets/DoctorSettingsDialog.h \
     src/View/Widgets/DosageDialog.h \
+    src/View/Widgets/ErrorDetailedDialog.h \
     src/View/Widgets/FinancialView.h \
     src/View/Widgets/FiscalReceiptDialog.h \
     src/View/Widgets/FiscalReportView.h \
@@ -705,6 +707,7 @@ SOURCES += \
     src/View/Widgets/DinoDent.cpp \
     src/View/Widgets/DoctorSettingsDialog.cpp \
     src/View/Widgets/DosageDialog.cpp \
+    src/View/Widgets/ErrorDetailedDialog.cpp \
     src/View/Widgets/FinancialView.cpp \
     src/View/Widgets/FiscalReceiptDialog.cpp \
     src/View/Widgets/FiscalReportView.cpp \

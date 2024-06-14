@@ -5,17 +5,17 @@ std::string NhifSheetData::getSpecNumenclature(NhifSpecialty specialty) const
 {
     if (specialty == NhifSpecialty::None) throw std::exception();
 
-    //код специалнсот 64 и цената се покрива частично/изцяло от НЗОК:
+    //код специалност 64 и цената се покрива частично/изцяло от НЗОК:
     if (specialty == NhifSpecialty::General && specification == NhifSpecificationType::PartialCoverage) return "PRIMARY NORM";
-    //код специалнсот 64 и цената се покрива ИЗЦЯЛО от НЗОК:
+    //код специалност 64 и цената се покрива ИЗЦЯЛО от НЗОК (домове за сираци и лица задържани под стража):
     if (specialty == NhifSpecialty::General && specification == NhifSpecificationType::FullCoverage) return "PRIMARY SPEC";
     //код специалност 64 обща анестезия:
     if (specialty == NhifSpecialty::General && specification == NhifSpecificationType::Anesthesia) return "PRIMARY PS";
-    //код специалнсот 61, 62 или 68 и цената се покрива частично/изцяло от НЗОК:
+    //код специалност 61, 62 или 68 и цената се покрива частично/изцяло от НЗОК:
     if (specification == NhifSpecificationType::PartialCoverage) return "SPEC NORM";
-    //код специалнсот 61, 62 или 68 и цената се покрива ИЗЦЯЛО от НЗОК:
+    //код специалност 61, 62 или 68 и цената се покрива ИЗЦЯЛО от НЗОК (домове за сираци и лица задържани под стража):
     if (specification == NhifSpecificationType::FullCoverage) return "SPEC DOMOVE";
-    //од специалнсот 61, 62 или 68 обща анестезия
+    //код специалност 61, 62 или 68 обща анестезия
     if (specification == NhifSpecificationType::Anesthesia) return "SPEC PS";
 
     return std::string();

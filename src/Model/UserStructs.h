@@ -67,6 +67,13 @@ struct NhifContract
 	std::string nra_pass;
 	std::string nssi_pass;
 	std::string iamn;
+	std::string getRhif() const {
+		
+		if (contract_no.size() < 2) return std::string{};
+
+		return contract_no.substr(0, 2);
+
+	}
 };
 
 constexpr const char* legalEntities[6]

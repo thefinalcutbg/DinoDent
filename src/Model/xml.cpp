@@ -24,14 +24,14 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
     TiXmlElement* report = new TiXmlElement("report");
     report->SetAttribute("xmlns", "http://nhif.bg/xsd/dental");
     report->SetAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");;
-    report->SetAttribute("practiceName", practice.nhif_contract.value().name_short);
+    report->SetAttribute("practiceName", practice.nhif_contract->name_short);
     report->SetAttribute("bulstat", practice.bulstat);
     report->SetAttribute("RCZCode", practice.rziCode);
-    report->SetAttribute("contractNo", practice.nhif_contract.value().contract_no);
+    report->SetAttribute("contractNo", practice.nhif_contract->contract_no);
     report->SetAttribute("dentistName", doctor.getFullName(false));
     report->SetAttribute("dentistSpec", doctor.specialtyAsInt());
     report->SetAttribute("dentistPersonalCode", doctor.LPK);
-    report->SetAttribute("RHIF", practice.practice_address.getRhif());
+    report->SetAttribute("RHIF", practice.nhif_contract->getRhif());
 
     Date from{ 1, lists[0].getDate().month, lists[0].getDate().year };
     Date to = from.getMaxDateOfMonth();
@@ -364,7 +364,7 @@ std::string XML::getInvoice(const Invoice& invoice)
     std::string recipientCode = "00";
 
     if (User::practice().nhif_contract.has_value()) {
-        recipientCode = User::practice().nhif_contract->contract_no.substr(0, 2);
+        recipientCode = User::practice().nhif_contract->getRhif();
     }
 
     addElementWithText(recipient, "recipient_code", recipientCode);

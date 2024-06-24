@@ -157,7 +157,9 @@ bool EDental::Augment::sendRequest(const AmbList& ambSheet, const Patient& patie
 
 	for(auto& ref : ambSheet.referrals) resultingDocuments += bind("nrnReferral", ref.nrn);
 
-	//implement prescriptions and medical notices here
+	resultingDocuments += bind("issuedMedicalNotice", !ambSheet.medical_notices.empty());
+	
+	//implement prescriptions here
 
 	resultingDocuments += "</nhis:documents>";
 

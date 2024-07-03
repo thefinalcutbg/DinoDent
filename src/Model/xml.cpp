@@ -96,6 +96,10 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
         dentalCareService->SetAttribute("HIRBNo", patient.HIRBNo); //throw if HIRBNo empty?
         dentalCareService->SetAttribute("unfavorableCondition", practice.isUnfavourable() && list.nhifData.isUnfavourable);
         dentalCareService->SetAttribute("substitute", 0);
+
+        //if(has 834 or 835 procedure) <- implement condition!
+        dentalCareService->SetAttribute("DentalTechnicianCode", User::practice().nhif_contract->iamn);
+        
         dentalCareService->SetAttribute("Sign", 1);
 
         //allergies
@@ -210,6 +214,11 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
 
             service->SetAttribute("toothCode", toothCode);
             service->SetAttribute("activityCode", procedure.code.oldCode());
+            service->SetAttribute("ACHIcode", procedure.code.ksmp());
+
+            if (procedure.code.type() == ProcedureType::anesthesia) {
+                service->SetAttribute("serviceDuration", std::get<AnesthesiaMinutes>(procedure.result).minutes);
+            }
 
             services->LinkEndChild(service);
 
@@ -238,6 +247,7 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
                              auto codes = new TiXmlElement("codes");
                              auto code = new TiXmlElement("code");
                              code->SetAttribute("name", std::get<MDD4Data>(r.data).getCode());
+                             code->SetAttribute("ACHICode", std::get<MDD4Data>(r.data).getKSMP());
                              codes->LinkEndChild(code);
                         mdaRef->LinkEndChild(codes);
 
@@ -255,7 +265,6 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
                      medRef->SetAttribute("MRType", "1");
                      medRef->SetAttribute("specCode", R3Data::specialty);
                      medRef->SetAttribute("ICDCode", r.diagnosis.main.code());
-
                      medReferrals->LinkEndChild(medRef);
 
                      break;
@@ -271,7 +280,7 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
                     medRef->SetAttribute("specCode", R3AData::nhifSpecialty);
                     medRef->SetAttribute("HSACode", R3AData::highlySpecializedActivity);
                     medRef->SetAttribute("ICDCode", r.diagnosis.main.code());
-
+                    medRef->SetAttribute("ACHIcode", R3AData::ksmp);
                     medReferrals->LinkEndChild(medRef);
 
                     break;

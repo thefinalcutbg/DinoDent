@@ -66,7 +66,7 @@ struct NhifContract
 	bool unfavourable{ false };
 	std::string nra_pass;
 	std::string nssi_pass;
-	std::string iamn;
+	std::string iamn; //Dental Technician Code
 	std::string getRhif() const {
 		
 		if (contract_no.size() < 2) return std::string{};

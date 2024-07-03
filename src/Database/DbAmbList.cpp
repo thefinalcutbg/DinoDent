@@ -327,7 +327,8 @@ std::vector<AmbList> DbAmbList::getMonthlyNhifSheets(int month, int year)
         "procedure.diagnosis,"
         "procedure.diagnosis_description,"
         "procedure.supernumeral,"
-        "amblist.rowid "
+        "amblist.rowid, "
+        "procedure.minutes "
         "FROM procedure LEFT JOIN amblist ON procedure.amblist_rowid = amblist.rowid "
         "WHERE "
         "procedure.financing_source=" + std::to_string(static_cast<int>(FinancingSource::NHIF)) + " "
@@ -362,6 +363,10 @@ std::vector<AmbList> DbAmbList::getMonthlyNhifSheets(int month, int year)
         p.date = db.asString(2);
         p.diagnosis = db.asInt(4);
         p.diagnosis.description = db.asString(5);
+
+        if (p.code.type() == ProcedureType::anesthesia) {
+            p.result = AnesthesiaMinutes(db.asInt(8));
+        }
 
         sheet.procedures.addProcedure(p);
     }

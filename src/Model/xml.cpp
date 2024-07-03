@@ -247,7 +247,7 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
                              auto codes = new TiXmlElement("codes");
                              auto code = new TiXmlElement("code");
                              code->SetAttribute("name", std::get<MDD4Data>(r.data).getCode());
-                             code->SetAttribute("ACHICode", std::get<MDD4Data>(r.data).getKSMP());
+                             code->SetAttribute("ACHIcode", std::get<MDD4Data>(r.data).getKSMP());
                              codes->LinkEndChild(code);
                         mdaRef->LinkEndChild(codes);
 

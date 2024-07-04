@@ -130,7 +130,7 @@ bool Tooth::hasStatus(int code) const
 
 bool Tooth::hasStatus(int code, int surface) const
 {
-	if (code != Restoration || code != Caries) return false;
+	if (code != Restoration && code != Caries) return false;
 
 	return code == Restoration ? 
 		hasRestoration(surface) 

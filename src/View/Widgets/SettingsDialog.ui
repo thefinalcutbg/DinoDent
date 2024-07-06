@@ -35,7 +35,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>5</number>
      </property>
      <widget class="QWidget" name="generalSettings">
       <attribute name="title">
@@ -664,7 +664,7 @@
            <item>
             <widget class="QLabel" name="label_5">
              <property name="text">
-              <string>РЗИ №</string>
+              <string>ИАМН/РЗИ №</string>
              </property>
             </widget>
            </item>
@@ -1419,7 +1419,7 @@
             <item>
              <widget class="QLabel" name="label_29">
               <property name="text">
-               <string>ИАМН на зъботехническа лаборатория:</string>
+               <string>ИАМН/РЗИ № на изпълнителя изработващ тотални протези:</string>
               </property>
              </widget>
             </item>

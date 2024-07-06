@@ -185,7 +185,7 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
         User::hasNhifContract()
     ) 
     {
-        report.dataManager()->setReportVariable("iamn", User::practice().nhif_contract->iamn.c_str());
+        report.dataManager()->setReportVariable("iamn", User::practice().nhif_contract->dentalTechnicianCode.c_str());
     }
 
     //referrals

@@ -12,9 +12,7 @@ bool LoginPresenter::successful()
 {
     User::resetUser();
 
-    ModalDialogBuilder::openDialog(*this); //for fast login comment this out
-    
-   // okPressed("220008771", "198312"); //and remove this as comment
+    ModalDialogBuilder::openDialog(*this);
 
     return loginSuccessful;
 }

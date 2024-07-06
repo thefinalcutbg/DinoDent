@@ -18,13 +18,15 @@ AmbListValidator::AmbListValidator(const AmbList& list, const Patient& patient)
 
     for (auto &p : list.procedures)
     {
-        if (p.isNhif())
+        if (p.isNhif() && User::hasNhifContract())
             m_procedures.push_back(p);
     }
 }
 
 bool AmbListValidator::ambListIsValid()
 {
+    if (!ambList.isNhifSheet()) return true;
+
     if (!noDuplicates()) return false;
     
     if (!isValidAccordingToDb()) return false;
@@ -42,6 +44,13 @@ bool AmbListValidator::ambListIsValid()
             //checking if the tooth has appliable status
             if (!validateTypeToStatus(teeth[p.tooth_idx.index], p)) return false;
         }
+
+        if (
+            (p.code.oldCode() == 834 || p.code.oldCode() == 835) 
+            && User::practice().nhif_contract->dentalTechnicianCode.empty()) {
+            _error = "Не е въведен на ИАМН/РЗИ номер на изпълнителя, изработващ тотални протези";
+            return false;
+        }
     }
 
     if (!dateIsValid()) return false;
@@ -57,7 +66,6 @@ bool AmbListValidator::ambListIsValid()
         }
     }
 
-    if (!ambList.isNhifSheet()) return true;
 
     if (patient.HIRBNo.empty())
     {

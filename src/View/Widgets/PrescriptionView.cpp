@@ -64,6 +64,7 @@ IPatientTileInfo* PrescriptionView::patientTile()
 void PrescriptionView::setMedicationList(const std::vector<std::string> rows)
 {
 	medModel.setRows(rows);
+	ui.medicationTable->selectRow(rows.size() - 1);
 }
 
 void PrescriptionView::dispensationLogic()

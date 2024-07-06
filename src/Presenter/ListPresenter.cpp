@@ -285,7 +285,7 @@ void ListPresenter::print()
 /*
     if (m_ambList.procedures.hasNhifDentureProcedure() &&
         User::hasNhifContract() &&
-        User::practice().nhif_contract->iamn.empty() &&
+        User::practice().nhif_contract->dentalTechnicianCode.empty() &&
         !ModalDialogBuilder::askDialog(
             "Не сте въвели ИАМН номер на зъботехническа лаборатория от Настройки. " 
             "Желаете ли да принтирате листа въпреки това?")

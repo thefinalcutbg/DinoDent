@@ -98,7 +98,7 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
         dentalCareService->SetAttribute("substitute", 0);
 
         //if(has 834 or 835 procedure) <- implement condition!
-        dentalCareService->SetAttribute("DentalTechnicianCode", User::practice().nhif_contract->iamn);
+        dentalCareService->SetAttribute("DentalTechnicianCode", User::practice().nhif_contract->dentalTechnicianCode);
         
         dentalCareService->SetAttribute("Sign", 1);
 

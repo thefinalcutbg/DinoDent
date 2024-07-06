@@ -348,6 +348,13 @@ void ProcedureCreator::setProcedureCode(const ProcedureCode& m, bool nhif)
 
 	view->diagnosisCombo()->setIndex(diag_map[m.type()]);
 
+	//total denture nhif manifacturing
+	if (!diagIdx && (m_code.oldCode() == 834 || m_code.oldCode() == 835))
+	{
+		view->diagnosisCombo()->setIndex(6);
+		diagIdx = 6;
+	}
+
 	view->diagnosisEdit()->setInputValidator(diagIdx ? nullptr : &notEmpty_validator);
 
 	const std::set<int> exams = { 101, 102, 103 };

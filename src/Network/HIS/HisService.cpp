@@ -269,6 +269,8 @@ std::string HisService::getMedicalStatus(const Patient& p)
 
 std::string HisService::getProcedure(const Procedure& p, const ToothContainer& teeth, ToothContainer& teethChanged, int sequence)
 {
+	if (!p.isHisSupported()) return std::string();
+
 	std::string result;
 	result.reserve(200);
 

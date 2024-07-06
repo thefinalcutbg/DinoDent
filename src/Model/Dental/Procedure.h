@@ -67,6 +67,10 @@ struct Procedure
 
     bool isSentToHis() const { return his_index != 0; };
 
+    bool isHisSupported() const {
+        return code.hisType() != 0;
+    }
+
     std::string getToothString() const;
 };
 

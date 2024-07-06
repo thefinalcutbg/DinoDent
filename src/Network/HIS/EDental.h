@@ -9,7 +9,7 @@ namespace EDental {
 
 	class Open : private HisService
 	{
-		std::function<void(const std::string& nrn, const std::vector<int>& procedureIndex, bool error)> m_callback;
+		std::function<void(const std::string& nrn, const std::vector<std::pair<int, int>>& seqIdxPair, bool error)> m_callback;
 
 		std::string getProcedures(const ProcedureContainer& procedures, const ToothContainer& teeth, const Date& treatmentStartDate);
 
@@ -30,7 +30,7 @@ namespace EDental {
 
 	class Augment : private HisService
 	{
-		std::function<void(const std::map<int, int>& procedureIndexes)> m_callback;
+		std::function<void(const std::vector<std::pair<int, int>>& seqIdxPair)> m_callback;
 
 		std::string getProcedures(const ProcedureContainer& procedures, const ToothContainer& teeth, const Date& treatmentStartDate);
 
@@ -44,7 +44,7 @@ namespace EDental {
 		bool sendRequest(
 			const AmbList& ambSheet,
 			const Patient& patient,
-			std::function<void(const std::map<int, int>& procedureIndexes)> callback
+			decltype(m_callback) callback
 		);
 	};
 

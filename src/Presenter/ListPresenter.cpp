@@ -1118,7 +1118,7 @@ void ListPresenter::hisButtonPressed()
         eDentalOpenService.sendRequest(
             m_ambList,
             *patient,
-            [&](auto& nrn, auto& procedureIndex, bool error) {
+            [&](auto& nrn, auto& seqIdxPair, bool error) {
 
                 if (nrn.empty()) {
                     return;
@@ -1126,8 +1126,9 @@ void ListPresenter::hisButtonPressed()
                 
                 m_ambList.nrn = nrn;
 
-                for (size_t i = 0; i < procedureIndex.size(); i++) {
-                    m_ambList.procedures[i].his_index = procedureIndex[i];
+                for (auto& [sequence, hisIdx] : seqIdxPair) {
+                    
+                    m_ambList.procedures[sequence].his_index = hisIdx;
                 }
 
                 m_ambList.his_updated = true;

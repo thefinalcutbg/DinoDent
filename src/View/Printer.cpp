@@ -181,7 +181,7 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
 
     //dental technician code
 
-    if (amb.procedures.hasNhifDentureProcedure() &&
+    if (amb.procedures.hasDentureManifactureProcedure() &&
         User::hasNhifContract()
     ) 
     {

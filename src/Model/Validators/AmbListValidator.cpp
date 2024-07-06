@@ -46,9 +46,9 @@ bool AmbListValidator::ambListIsValid()
         }
 
         if (
-            (p.code.oldCode() == 834 || p.code.oldCode() == 835) 
+            ambList.procedures.hasDentureManifactureProcedure()
             && User::practice().nhif_contract->dentalTechnicianCode.empty()) {
-            _error = "Не е въведен на ИАМН/РЗИ номер на изпълнителя, изработващ тотални протези";
+            _error = "Не е въведен ИАМН/РЗИ номер на изпълнителя изработил тоталната протеза";
             return false;
         }
     }

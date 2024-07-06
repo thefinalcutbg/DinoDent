@@ -53,10 +53,12 @@ bool ProcedureContainer::hasNhifProcedure() const
         return false;
 }
 
-bool ProcedureContainer::hasNhifDentureProcedure() const
+bool ProcedureContainer::hasDentureManifactureProcedure() const
 {
     for (auto& p : m_proc) {
-        if (p.code.type() == ProcedureType::denture &&
+        if ((p.code.oldCode() == 834 ||
+            p.code.oldCode() == 835)
+            &&
             p.financingSource == FinancingSource::NHIF
         ) 
         {

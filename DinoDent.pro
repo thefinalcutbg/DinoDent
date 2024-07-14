@@ -19,8 +19,6 @@ LIBS += \
     -L$$DEPFOLDER/opt/libxml2/lib -lxml2 \
     -L$$DEPFOLDER/opt/openssl@3/lib/ -lssl \
     -L$$DEPFOLDER/opt/openssl@3/lib/ -lcrypto \
-    -L$$DEPFOLDER/opt/xmlsec1/lib/ -lxmlsec1 \
-    -L$$DEPFOLDER/opt/xmlsec1/lib/ -lxmlsec1-openssl \
     -L$$DEPFOLDER/opt/libp11/lib/ -lp11 \
 }
 
@@ -35,7 +33,7 @@ macx:{
   QMAKE_APPLE_DEVICE_ARCHS = x86_64 arm64
   DEPFOLDER = /opt/local
   OPENSSL_LIBS= -L$$DEPFOLDER/lib -lcrypto -lssl
-  LIBS += -L$$DEPFOLDER/lib -lxml2 -lxmlsec1 -lxmlsec1-openssl -lp11 -lcrypto -lssl
+  LIBS += -L$$DEPFOLDER/lib -lxml2 -lp11 -lcrypto -lssl
 
 
 
@@ -47,7 +45,6 @@ INCLUDEPATH += $$PWD/src
 INCLUDEPATH += $$PWD/include #for jsoncpp, sqlite3 and tinyxml
 INCLUDEPATH += $$DEPFOLDER/include
 INCLUDEPATH += $$DEPFOLDER/include/libxml2
-INCLUDEPATH += $$DEPFOLDER/include/xmlsec1
 
 RESOURCES += \
     resources/Resource.qrc

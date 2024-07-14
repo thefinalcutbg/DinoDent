@@ -4,6 +4,7 @@
 struct evp_pkey_st;
 struct PKCS11_slot_st;
 struct PKCS11_cert_st;
+struct x509_st;
 
 class PKCS11
 {
@@ -22,7 +23,7 @@ public:
 	bool login(const std::string& pass);
 	const std::string& pem_x509cert() const;
 	evp_pkey_st* takePrivateKey();
-
+	x509_st* x509ptr();
 	static void cleanup();
 
 	~PKCS11();

@@ -1,7 +1,7 @@
 ﻿#include <QElapsedTimer>
 #include "View/ModalDialogBuilder.h"
 #include "Network/PKCS11.h"
-#include "Network/XmlSigner.h"
+#include "Network/signer.h"
 #include "Network/NetworkManager.h"
 #include "HisToken.h"
 #include "HisService.h"
@@ -60,7 +60,7 @@ void HisToken::setChallengeMessage(const std::string& challenge)
 		};
 	}
 
-	auto signedChallenge = XmlSigner::signHisMessage(challenge, signer.takePrivateKey(), signer.pem_x509cert());
+	auto signedChallenge = Signer::signEnveloped(challenge, signer.takePrivateKey(), signer.x509ptr());
 
 	if (signedChallenge.empty()) {
 		abort("Неуспешна автентификация в НЗИС");

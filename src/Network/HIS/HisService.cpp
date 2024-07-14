@@ -2,7 +2,7 @@
 #include <QDateTime>
 
 #include "HisService.h"
-#include "Network/XmlSigner.h"
+#include "Network/signer.h"
 #include "Network/PKCS11.h"
 #include "Network/NetworkManager.h"
 #include "HisToken.h"
@@ -47,32 +47,32 @@ bool HisService::sendRequestToHisNoAuth(const std::string& query)
 
 const std::string HisService::signMessage(const std::string& message)
 {
-	PKCS11 signer;
+	PKCS11 hsm;
 
-	if (!signer.hsmLoaded())
+	if (!hsm.hsmLoaded())
 	{
 		ModalDialogBuilder::showMessage("Не е открит КЕП");
 		return {};
 	}
 
-	if (signer.loginRequired()) {
+	if (hsm.loginRequired()) {
 
 		NetworkManager::clearAccessCache();
-		auto pin = ModalDialogBuilder::pinPromptDialog(signer.pem_x509cert(), signer.driver);
+		auto pin = ModalDialogBuilder::pinPromptDialog(hsm.pem_x509cert(), hsm.driver);
 
 		if (pin.empty()) {
 			return {};
 		}
 
 
-		if (!signer.login(pin))
+		if (!hsm.login(pin))
 		{
 			ModalDialogBuilder::showError("Грешна парола или блокирана карта");
 			return {};
 		};
 	}
 
-	return XmlSigner::signHisMessage(message, signer.takePrivateKey(), signer.pem_x509cert());
+	return Signer::signEnveloped(message, hsm.takePrivateKey(), hsm.x509ptr());
 }
 
 const std::string HisService::buildMessage(const std::string& query)

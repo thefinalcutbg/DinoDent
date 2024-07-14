@@ -118,7 +118,7 @@
       <LanguageStandard_C>Default</LanguageStandard_C>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>limereport-qt6.lib;libcrypto.lib;libssl.lib;libxml2.lib;libxmlsec.lib;libxmlsec-openssl.lib;libp11.lib;$(Qt_LIBS_);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>limereport-qt6.lib;libcrypto.lib;libssl.lib;libxml2.lib;libp11.lib;$(Qt_LIBS_);%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)\dependencies\lib\Debug;$(SolutionDir)\dependencies\lib;$(Qt_LIBPATH_);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -135,7 +135,7 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)\dependencies\lib\Release;$(SolutionDir)\dependencies\lib;$(Qt_LIBPATH_);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>limereport-qt6.lib;libcrypto.lib;libssl.lib;libxml2.lib;libxmlsec.lib;libxmlsec-openssl.lib;libp11.lib;$(Qt_LIBS_);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>limereport-qt6.lib;libcrypto.lib;libssl.lib;libxml2.lib;libp11.lib;$(Qt_LIBS_);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
@@ -265,6 +265,7 @@
     <ClCompile Include="src\Model\Specialty.cpp" />
     <ClCompile Include="src\Model\Validators\PrescriptionValidators.cpp" />
     <ClCompile Include="src\Model\Validators\RecipientIdValidator.cpp" />
+    <ClCompile Include="src\Network\crypto.cpp" />
     <ClCompile Include="src\Network\HIS\EAllergy.cpp" />
     <ClCompile Include="src\Network\HIS\EDental.cpp" />
     <ClCompile Include="src\Network\HIS\EHospitalization.cpp" />
@@ -279,6 +280,7 @@
     <ClCompile Include="src\Network\PIS\GetFileService.cpp" />
     <ClCompile Include="src\Network\PIS\PisReportParser.cpp" />
     <ClCompile Include="src\Network\PIS\ReportFilesService.cpp" />
+    <ClCompile Include="src\Network\signer.cpp" />
     <ClCompile Include="src\Network\Telemetry.cpp" />
     <ClCompile Include="src\Network\UpdateService\UpdateService.cpp" />
     <ClCompile Include="src\GlobalSettings.cpp" />
@@ -576,6 +578,7 @@
     <ClInclude Include="src\Model\Specialty.h" />
     <ClInclude Include="src\Model\PlainTable.h" />
     <ClInclude Include="src\Model\Validators\RecipientIdValidator.h" />
+    <ClInclude Include="src\Network\crypto.h" />
     <ClInclude Include="src\Network\HIS\EAllergy.h" />
     <ClInclude Include="src\Network\HIS\EDental.h" />
     <ClInclude Include="src\Network\HIS\EHospitalization.h" />
@@ -588,6 +591,7 @@
     <ClInclude Include="src\Network\NRA\NssiPentionService.h" />
     <ClInclude Include="src\Network\PIS\GetFileService.h" />
     <ClInclude Include="src\Network\PIS\PisReportParser.h" />
+    <ClInclude Include="src\Network\signer.h" />
     <ClInclude Include="src\Network\Telemetry.h" />
     <ClInclude Include="src\Network\UpdateService\UpdateService.h" />
     <ClInclude Include="src\GlobalSettings.h" />

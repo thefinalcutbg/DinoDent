@@ -27,7 +27,6 @@ DinoDent is an opensource dental practice management software written in C++. Ma
 - [OpenSsl](https://github.com/openssl/openssl)
 - [Libp11](https://github.com/OpenSC/libp11)
 - [LibXml2](https://github.com/GNOME/libxml2)
-- [XmlSec](https://github.com/lsh123/xmlsec)
 
 
 

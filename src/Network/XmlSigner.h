@@ -1,5 +1,6 @@
 #pragma once
-
+//xmlsec dependency removed
+/*
 #include <string>
 
 struct evp_pkey_st;
@@ -11,4 +12,4 @@ namespace XmlSigner
     void cleanup();
 
 };
-
+*/

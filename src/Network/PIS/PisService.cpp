@@ -2,8 +2,9 @@
 #include "View/ModalDialogBuilder.h"
 #include "Network/PKCS11.h"
 #include "Network/NetworkManager.h"
-#include "Network/XmlSigner.h"
+#include "Network/signer.h"
 #include "Model/Patient.h"
+#include "Network/crypto.h"
 
 void PisService::parseReply(const std::string& reply)
 {
@@ -49,9 +50,9 @@ we have to create two PKCS11 instances - one for the signing and one for the SSL
 */
 	if (awaiting_reply) return true;
 
-	PKCS11 signer;
+	PKCS11 hsm;
 
-	if (!signer.hsmLoaded())
+	if (!hsm.hsmLoaded())
 	{
 		if (show_dialogs) {
 			ModalDialogBuilder::showMessage("Не е открит КЕП");
@@ -61,31 +62,41 @@ we have to create two PKCS11 instances - one for the signing and one for the SSL
 		return false;
 	}
 
-	if (signer.loginRequired()) {
+	if (hsm.loginRequired()) {
 
 		NetworkManager::clearAccessCache();
-		auto pin = ModalDialogBuilder::pinPromptDialog(signer.pem_x509cert(), signer.driver);
+		auto pin = ModalDialogBuilder::pinPromptDialog(hsm.pem_x509cert(), hsm.driver);
 
 		if (pin.empty()) {
 			return false;
 		}
 
 
-		if (!signer.login(pin))
+		if (!hsm.login(pin))
 		{
 			ModalDialogBuilder::showError("Грешна парола или блокирана карта");
 			return false;
 		};
 	}
 
-	//creating another instance for the SSL certificate
-	PKCS11 clientSsl;
+	std::string body = "<e:Body id=\"signedContent\">" + query + "</e:Body>" ;
 
-	auto signedRequest = XmlSigner::signPisQuery(
-		query,
-		signer.takePrivateKey(),
-		signer.pem_x509cert()
+	std::string signedSoap = R"(<?xml version="1.0" encoding="utf-8"?><e:Envelope xmlns:e="http://schemas.xmlsoap.org/soap/envelope/"><e:Header>)";
+
+	signedSoap += Signer::getSignature(
+		//setting envelope namespace
+		Crypto::addNamespacesToRoot(body, { {"e", "http://schemas.xmlsoap.org/soap/envelope/"} }),
+		hsm.takePrivateKey(),
+		hsm.x509ptr(),
+		"#signedContent",
+		true
 	);
+	
+	signedSoap += "</e:Header>";
+
+	signedSoap += body;
+
+	signedSoap += "</e:Envelope>";
 
 	std::string soapActionHeader;
 
@@ -107,8 +118,8 @@ we have to create two PKCS11 instances - one for the signing and one for the SSL
 	awaiting_reply = true;
 
 	NetworkManager::sendRequestToPis(
-		signedRequest,
-		clientSsl,
+		signedSoap,
+		hsm,
 		this,
 		soapActionHeader.c_str()
 	);

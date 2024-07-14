@@ -142,6 +142,11 @@ evp_pkey_st* PKCS11::takePrivateKey()
 	return m_prv_key;
 }
 
+x509_st* PKCS11::x509ptr()
+{
+	return m_certificate->x509;
+}
+
 void PKCS11::cleanup()
 {
 	if (nslots) {

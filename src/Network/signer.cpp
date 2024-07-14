@@ -18,12 +18,12 @@ std::string Signer::getSignature(const std::string& xml, evp_pkey_st* pkey, x509
 			"<xades:SigningCertificateV2>"
 			"<xades:Cert>"
 			"<xades:CertDigest>"
-			"<DigestMethod Algorithm=\"http://www.w3.org/2001/04/xmlenc#sha256\"/>"
-			"<DigestValue>"
+			"<ds:DigestMethod Algorithm=\"http://www.w3.org/2001/04/xmlenc#sha256\"/>"
+			"<ds:DigestValue>"
 			+
 			Crypto::getSHA256DigestBase64(cert)
 			+
-			"</DigestValue>"
+			"</ds:DigestValue>"
 			"</xades:CertDigest>"
 			"</xades:Cert>"
 			"</xades:SigningCertificateV2>"
@@ -54,16 +54,17 @@ std::string Signer::getSignature(const std::string& xml, evp_pkey_st* pkey, x509
 	const std::string signatureNs = "http://www.w3.org/2000/09/xmldsig#";
 
 	std::string signedInfo =
-		"<SignedInfo>"
-		"<CanonicalizationMethod Algorithm=\"http://www.w3.org/2001/10/xml-exc-c14n#\"/>"
-		"<SignatureMethod Algorithm=\"http://www.w3.org/2001/04/xmldsig-more#rsa-sha256\"/>"
-		"<Reference Id=\"r-id-1\" URI=\"" + URI +"\">"
-		"<Transforms>"
-		"<Transform Algorithm=\"http://www.w3.org/2000/09/xmldsig#enveloped-signature\"/>"
-		"<Transform Algorithm=\"http://www.w3.org/2001/10/xml-exc-c14n#\"/>"
-		"</Transforms>"
-		"<DigestMethod Algorithm=\"http://www.w3.org/2001/04/xmlenc#sha256\"/>"
-		"<DigestValue>"
+		"<ds:SignedInfo>"
+		"<ds:CanonicalizationMethod Algorithm=\"http://www.w3.org/2001/10/xml-exc-c14n#\"/>"
+		"<ds:SignatureMethod Algorithm=\"http://www.w3.org/2001/04/xmldsig-more#rsa-sha256\"/>"
+		"<ds:Reference Id=\"r-id-1\" URI=\"" + URI +"\">"
+		"<ds:Transforms>"
+		//"<ds:Transform Algorithm=\"http://www.w3.org/2000/09/xmldsig#enveloped-signature\"/>"
+		"<ds:Transform Algorithm=\"http://www.w3.org/TR/1999/REC-xpath-19991116\"><ds:XPath>not(ancestor-or-self::ds:Signature)</ds:XPath></ds:Transform>"
+		"<ds:Transform Algorithm=\"http://www.w3.org/2001/10/xml-exc-c14n#\"/>"
+		"</ds:Transforms>"
+		"<ds:DigestMethod Algorithm=\"http://www.w3.org/2001/04/xmlenc#sha256\"/>"
+		"<ds:DigestValue>"
 		//digest value of the document
 		+
 		Crypto::base64Encode(
@@ -72,8 +73,8 @@ std::string Signer::getSignature(const std::string& xml, evp_pkey_st* pkey, x509
 			)
 		)
 		+
-		"</DigestValue>"
-		"</Reference>"
+		"</ds:DigestValue>"
+		"</ds:Reference>"
 		;
 
 	//insert the XAdES ref
@@ -81,62 +82,62 @@ std::string Signer::getSignature(const std::string& xml, evp_pkey_st* pkey, x509
 
 		signedInfo +=
 
-			"<Reference Type=\"http://uri.etsi.org/01903#SignedProperties\" URI=\"#xadesNode\">"
-			"<Transforms>"
-			"<Transform Algorithm=\"http://www.w3.org/2001/10/xml-exc-c14n#\"/>"
-			"</Transforms>"
-			"<DigestMethod Algorithm=\"http://www.w3.org/2001/04/xmlenc#sha256\"/>"
-			"<DigestValue>"
+			"<ds:Reference Type=\"http://uri.etsi.org/01903#SignedProperties\" URI=\"#xadesNode\">"
+			"<ds:Transforms>"
+			"<ds:Transform Algorithm=\"http://www.w3.org/2001/10/xml-exc-c14n#\"/>"
+			"</ds:Transforms>"
+			"<ds:DigestMethod Algorithm=\"http://www.w3.org/2001/04/xmlenc#sha256\"/>"
+			"<ds:DigestValue>"
 			//digest value of the Signed properties
 			+
 			Crypto::base64Encode(
 				Crypto::calculateSHA256Digest(
 					Crypto::canonicalizeXML(
-						Crypto::addNamespacesToRoot(xadesNode, { {"xades", "http://uri.etsi.org/01903/v1.3.2#"}, {"", signatureNs } })
+						Crypto::addNamespacesToRoot(xadesNode, { {"xades", "http://uri.etsi.org/01903/v1.3.2#"}, {"ds", signatureNs } })
 					)
 				)
 			)
 			+
-			"</DigestValue>"
-			"</Reference>"
+			"</ds:DigestValue>"
+			"</ds:Reference>"
 			;
 	}
 
-	signedInfo += "</SignedInfo>";
+	signedInfo += "</ds:SignedInfo>";
 
 
 	std::string signature =
-		"<Signature xmlns=\"" + signatureNs + "\">" +
+		"<ds:Signature xmlns:ds=\"" + signatureNs + "\" Id=\"signatureNode\">" +
 		signedInfo +
-		"<SignatureValue>"
+		"<ds:SignatureValue Id=\"value-signatureNode\">"
 		+
 		Crypto::calculateSignature(
 			Crypto::canonicalizeXML(
 				Crypto::addNamespacesToRoot( //since we use exclusive C14, only the signatureNs is required
-					signedInfo, NSList{ { "", signatureNs} }
+					signedInfo, NSList{ { "ds", signatureNs} }
 				)
 			), pkey
 		)
 		+
-		"</SignatureValue>" +
-		"<KeyInfo><X509Data><X509Certificate>" +
+		"</ds:SignatureValue>" +
+		"<ds:KeyInfo><ds:X509Data><ds:X509Certificate>" +
 		Crypto::base64Encode(cert) +
-		"</X509Certificate></X509Data></KeyInfo>"
+		"</ds:X509Certificate></ds:X509Data></ds:KeyInfo>"
 		;
 
 	if (XAdES) {
 		//insert XAdES object
 		signature +=
 
-			"<Object>"
-			"<xades:QualifyingProperties xmlns:xades=\"http://uri.etsi.org/01903/v1.3.2#\">" +
+			"<ds:Object>"
+			"<xades:QualifyingProperties xmlns:xades=\"http://uri.etsi.org/01903/v1.3.2#\" Target=\"#signatureNode\">" +
 			xadesNode +
 			"</xades:QualifyingProperties>"
-			"</Object>"
+			"</ds:Object>"
 			;
 	}
 
-	signature += "</Signature>";
+	signature += "</ds:Signature>";
 
 	return signature;
 }

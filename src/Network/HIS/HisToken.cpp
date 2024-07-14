@@ -60,7 +60,7 @@ void HisToken::setChallengeMessage(const std::string& challenge)
 		};
 	}
 
-	auto signedChallenge = Signer::signEnveloped(challenge, signer.takePrivateKey(), signer.x509ptr());
+	auto signedChallenge = Signer::signEnveloped(challenge, signer.takePrivateKey(), signer.x509ptr(), true);
 
 	if (signedChallenge.empty()) {
 		abort("Неуспешна автентификация в НЗИС");

@@ -72,7 +72,7 @@ const std::string HisService::signMessage(const std::string& message)
 		};
 	}
 
-	return Signer::signEnveloped(message, hsm.takePrivateKey(), hsm.x509ptr());
+	return Signer::signEnveloped(message, hsm.takePrivateKey(), hsm.x509ptr(), true);
 }
 
 const std::string HisService::buildMessage(const std::string& query)

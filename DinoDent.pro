@@ -258,6 +258,8 @@ HEADERS += \
     src/Network/Telemetry.h \
     src/Network/UpdateService/UpdateService.h \
     src/Network/XmlSigner.h \
+    src/Network/crypto.h \
+    src/Network/signer.h \
     src/Presenter/BrowserPresenter.h \
     src/Presenter/ButtonSurfaceMatrix.h \
     src/Presenter/CheckModel.h \
@@ -603,6 +605,8 @@ SOURCES += \
     src/Network/Telemetry.cpp \
     src/Network/UpdateService/UpdateService.cpp \
     src/Network/XmlSigner.cpp \
+    src/Network/crypto.cpp \
+    src/Network/signer.cpp \
     src/Presenter/BrowserPresenter.cpp \
     src/Presenter/ButtonSurfaceMatrix.cpp \
     src/Presenter/CheckModel.cpp \

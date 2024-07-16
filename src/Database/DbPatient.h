@@ -3,6 +3,7 @@
 #include "Model/Patient.h"
 class Db;
 
+
 namespace DbPatient
 {
     long long insert(const Patient& patient);
@@ -19,6 +20,8 @@ namespace DbPatient
     std::vector<Allergy> getAllergies(long long patientRowid);
     std::vector<Allergy> getAllergies(long long patientRowid, Db& db);
     bool updateAllergies(long long patientRowid, const std::vector<Allergy>& allergies);
+
+    std::vector<std::pair<Date, Patient>> getPatientList(const Date& visitAfter, const std::string& rzi, const std::string lpk);
 
     TeethNotes getPresentNotes(long long patientRowId);
 };

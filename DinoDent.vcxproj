@@ -381,6 +381,7 @@
     <ClCompile Include="src\Presenter\SurfacePanelPresenter.cpp" />
     <ClCompile Include="src\Presenter\TabInstance.cpp" />
     <ClCompile Include="src\Presenter\TabPresenter.cpp" />
+    <ClCompile Include="src\Presenter\UnusedPackagePresenter.cpp" />
     <ClCompile Include="src\Resources.cpp" />
     <ClCompile Include="src\DbUpdates\DbUpdates.cpp" />
     <ClCompile Include="src\DbUpdates\Updater.cpp" />
@@ -519,6 +520,7 @@
     <ClCompile Include="src\View\Widgets\SettingsDialog.cpp" />
     <ClCompile Include="src\View\Widgets\TabView.cpp" />
     <ClCompile Include="src\View\Widgets\DinoDent.cpp" />
+    <ClCompile Include="src\View\Widgets\UnusedPackageView.cpp" />
     <ClCompile Include="src\View\Widgets\UpdateDialog.cpp" />
     <ClCompile Include="src\View\Widgets\UpdateDownloader.cpp" />
     <ClCompile Include="src\View\Widgets\UpdatePromptDialog.cpp" />
@@ -585,6 +587,7 @@
     <ClInclude Include="src\Network\HIS\EMedicalNotice.h" />
     <ClInclude Include="src\Network\HIS\EReferral.h" />
     <ClInclude Include="src\Network\HIS\HISHistoryAlgorithms.h" />
+    <QtMoc Include="src\View\Widgets\UnusedPackageView.h" />
     <QtMoc Include="src\Network\IRC\IRC.h" />
     <ClInclude Include="src\Network\IRC\IRCInterface.h" />
     <ClInclude Include="src\Network\IRC\Nickname.h" />
@@ -706,6 +709,7 @@
     <ClInclude Include="src\Presenter\SurfacePanelPresenter.h" />
     <ClInclude Include="src\Presenter\TabInstance.h" />
     <ClInclude Include="src\Presenter\TabPresenter.h" />
+    <ClInclude Include="src\Presenter\UnusedPackagePresenter.h" />
     <ClInclude Include="src\Resources.h" />
     <ClInclude Include="src\DbUpdates\DbUpdates.h" />
     <ClInclude Include="src\DbUpdates\Updater.h" />
@@ -953,6 +957,7 @@
     <QtUic Include="src\View\Widgets\SettingsDialog.ui" />
     <QtUic Include="src\View\Widgets\TabView.ui" />
     <QtUic Include="src\View\Widgets\DinoDent.ui" />
+    <QtUic Include="src\View\Widgets\UnusedPackageView.ui" />
     <QtUic Include="src\View\Widgets\UpdateDialog.ui" />
     <QtUic Include="src\View\Widgets\UpdateDownloader.ui" />
     <QtUic Include="src\View\Widgets\UpdatePromptDialog.ui" />

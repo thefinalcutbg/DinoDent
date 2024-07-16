@@ -338,6 +338,40 @@ bool DbPatient::updateAllergies(long long patientRowid, const std::vector<Allerg
     return true;
 }
 
+std::vector < std::pair<Date, Patient>> DbPatient::getPatientList(const Date& visitAfter, const std::string& rzi, const std::string lpk)
+{
+    std::string query =
+        "SELECT amblist.date, patient.rowid, patient.id, patient.type, patient.fname, patient.lname, patient.phone "
+        "FROM patient LEFT JOIN amblist ON patient.rowid = amblist.patient_rowid "
+        "WHERE date(amblist.date)>? "
+        "AND amblist.rzi = ? "
+        "AND amblist.lpk = ? "
+        "GROUP BY patient.id "
+        "ORDER BY patient.id ASC";
+
+    Db db(query);
+
+    db.bind(1, visitAfter.to8601());
+    db.bind(2, rzi);
+    db.bind(3, lpk);
+    
+    std::vector < std::pair<Date, Patient>> result;
+
+    while (db.hasRows()) {
+        Patient p;
+        p.rowid = db.asRowId(1);
+        p.id = db.asString(2);
+        p.type = static_cast<Patient::Type>(db.asInt(3));
+        p.FirstName = db.asString(4);
+        p.LastName = db.asString(5);
+        p.phone = db.asString(6);
+
+        result.push_back({ Date(db.asString(0)), p });
+    }
+
+    return result;
+}
+
 std::vector<Allergy> DbPatient::getAllergies(long long patientRowid, Db& db)
 {
     db.newStatement(

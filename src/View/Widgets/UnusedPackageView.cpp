@@ -22,5 +22,15 @@ void UnusedPackageView::appendText(const std::string& line)
 	ui.textEdit->appendPlainText(line.c_str());
 }
 
+void UnusedPackageView::setProgressCount(int count)
+{
+	ui.progressBar->setMaximum(count);
+}
+
+void UnusedPackageView::increment()
+{
+	ui.progressBar->setValue(ui.progressBar->value()+1);
+}
+
 UnusedPackageView::~UnusedPackageView()
 {}

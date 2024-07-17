@@ -15,54 +15,14 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QPlainTextEdit" name="textEdit">
-     <property name="enabled">
-      <bool>true</bool>
-     </property>
-     <property name="undoRedoEnabled">
-      <bool>false</bool>
-     </property>
-     <property name="readOnly">
-      <bool>true</bool>
-     </property>
-     <property name="plainText">
-      <string>Тази функционалност предоставя генериране на списък с пациенти, които имат неизползван пакет дейности по НЗОК за настоящата година. Алгоритъмът включва следната последователност:
-
-1. Извеждане от базата данни на всички пациенти посетили лекаря по дентална медицина след посочената дата
-2. Проверка в НАП за здравноосигурителен статус
-3. Изчисляване на пакета в съответствие с манипулациите в локалната база данни
-4. Изчисляване на пакта в съответствие с базата данни в ПИС</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QProgressBar" name="progressBar">
-     <property name="enabled">
-      <bool>true</bool>
-     </property>
-     <property name="maximum">
-      <number>12</number>
-     </property>
-     <property name="value">
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <property name="topMargin">
       <number>0</number>
      </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-     <property name="textVisible">
-      <bool>false</bool>
-     </property>
-     <property name="format">
-      <string> %v/%m</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>Включвай пациенти с последно посещение след</string>
+        <string>Не включвай пациенти с най-последно посещение преди</string>
        </property>
       </widget>
      </item>
@@ -82,7 +42,7 @@
        </property>
        <property name="maximumDateTime">
         <datetime>
-         <hour>21</hour>
+         <hour>15</hour>
          <minute>59</minute>
          <second>59</second>
          <year>9999</year>
@@ -109,6 +69,66 @@
        </property>
       </widget>
      </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QPlainTextEdit" name="textEdit">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="undoRedoEnabled">
+      <bool>false</bool>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+     <property name="plainText">
+      <string>Тази функционалност предоставя генериране на списък с пациенти, които имат неизползван пакет дейности по НЗОК за настоящата година. Алгоритъмът включва следната последователност:
+
+1. Извеждане от базата данни на всички пациенти посетили лекаря по дентална медицина след посочената дата
+2. Проверка в НАП за здравноосигурителен статус
+3. Изчисляване на пакета в съответствие с манипулациите в локалната база данни
+4. Изчисляване на пакта в съответствие с базата данни в ПИС</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QProgressBar" name="progressBar">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="maximum">
+      <number>1</number>
+     </property>
+     <property name="value">
+      <number>0</number>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="textVisible">
+      <bool>true</bool>
+     </property>
+     <property name="format">
+      <string> %v/%m</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <spacer name="horizontalSpacer_2">
        <property name="orientation">

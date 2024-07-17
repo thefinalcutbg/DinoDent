@@ -338,7 +338,7 @@ bool DbPatient::updateAllergies(long long patientRowid, const std::vector<Allerg
     return true;
 }
 
-std::vector < std::pair<Date, Patient>> DbPatient::getPatientList(const Date& visitAfter, const std::string& rzi, const std::string lpk)
+std::queue < std::pair<Date, Patient>> DbPatient::getPatientList(const Date& visitAfter, const std::string& rzi, const std::string lpk)
 {
     std::string query =
         "SELECT amblist.date, patient.rowid, patient.id, patient.type, patient.fname, patient.lname, patient.phone "
@@ -346,7 +346,8 @@ std::vector < std::pair<Date, Patient>> DbPatient::getPatientList(const Date& vi
         "WHERE date(amblist.date)>? "
         "AND amblist.rzi = ? "
         "AND amblist.lpk = ? "
-        "GROUP BY patient.id "
+        "AND patient.type < 3 "
+        "GROUP BY patient.rowid "
         "ORDER BY patient.id ASC";
 
     Db db(query);
@@ -355,7 +356,7 @@ std::vector < std::pair<Date, Patient>> DbPatient::getPatientList(const Date& vi
     db.bind(2, rzi);
     db.bind(3, lpk);
     
-    std::vector < std::pair<Date, Patient>> result;
+    std::queue<std::pair<Date, Patient>> result;
 
     while (db.hasRows()) {
         Patient p;
@@ -366,7 +367,7 @@ std::vector < std::pair<Date, Patient>> DbPatient::getPatientList(const Date& vi
         p.LastName = db.asString(5);
         p.phone = db.asString(6);
 
-        result.push_back({ Date(db.asString(0)), p });
+        result.push({ Date(db.asString(0)), p });
     }
 
     return result;

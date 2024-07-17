@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Model/Patient.h"
+#include <queue>
 class Db;
 
 
@@ -21,7 +22,7 @@ namespace DbPatient
     std::vector<Allergy> getAllergies(long long patientRowid, Db& db);
     bool updateAllergies(long long patientRowid, const std::vector<Allergy>& allergies);
 
-    std::vector<std::pair<Date, Patient>> getPatientList(const Date& visitAfter, const std::string& rzi, const std::string lpk);
+    std::queue<std::pair<Date, Patient>> getPatientList(const Date& visitAfter, const std::string& rzi, const std::string lpk);
 
     TeethNotes getPresentNotes(long long patientRowId);
 };

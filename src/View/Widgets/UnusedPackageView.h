@@ -13,6 +13,8 @@ class UnusedPackageView : public QWidget
 public:
 	UnusedPackageView(QWidget *parent = nullptr);
 	void appendText(const std::string& line);
+	void setProgressCount(int count);
+	void increment();
 	~UnusedPackageView();
 
 private:

@@ -348,7 +348,7 @@ std::queue <Patient> DbPatient::getPatientList(const Date& visitAfter, const std
         "AND amblist.lpk = ? "
         "AND patient.type < 3 "
         "GROUP BY patient.rowid "
-        "ORDER BY patient.birth ASC";
+        "ORDER BY patient.rowid ASC";
 
     Db db(query);
 
@@ -377,7 +377,7 @@ std::queue <Patient> DbPatient::getPatientList(const Date& visitAfter, const std
 Date DbPatient::getLastVisit(long long patientRowid, const std::string& rzi, const std::string lpk)
 {
     std::string query =
-        R"(SELECT procedure.date FROM procedure 
+R"(SELECT procedure.date FROM procedure 
 LEFT JOIN amblist ON amblist.rowid = procedure.amblist_rowid 
 LEFT JOIN patient ON amblist.patient_rowid = patient.rowid
 WHERE patient.rowid = ?

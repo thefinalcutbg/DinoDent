@@ -49,6 +49,7 @@
         <file>icon_app.png</file>
         <file>icon_mirc.png</file>
         <file>icon_mirc_glow.png</file>
+        <file>icon_csv.png</file>
     </qresource>
     <qresource prefix="/tooth">
         <file>tooth_approximal.png</file>

@@ -50,6 +50,14 @@ void UnusedPackagePresenter::buttonPressed(const Date& date)
 		return;
 	}
 
+	if (!User::hasNhifContract() ||
+		User::practice().nhif_contract->nra_pass.empty()
+	) 
+	{
+		ModalDialogBuilder::showMessage("Въведете парола за НАП");
+		return;
+	}
+
 	if (m_queue.empty()) {
 		m_queue = DbPatient::getPatientList(date, User::practice().rziCode, User::doctor().LPK);
 	}

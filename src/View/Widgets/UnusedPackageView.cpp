@@ -10,7 +10,9 @@ UnusedPackageView::UnusedPackageView(QWidget *parent)
 {
 	ui.setupUi(this);
 
-	ui.csvButton->hide();
+	ui.csvButton->setDisabled(true);
+
+	ui.csvButton->setIcon(QIcon(":/icons/icon_csv.png"));
 
 	if (s_date == Date()) {
 		s_date = Date::currentDate();
@@ -66,6 +68,8 @@ UnusedPackageView::UnusedPackageView(QWidget *parent)
 			ui.tableWidget->setItem(r, c, item);
 		}
 	}
+
+	ui.csvButton->setDisabled(false);
 }
 
 void UnusedPackageView::addRow(const RowView& row)
@@ -99,7 +103,7 @@ void UnusedPackageView::addRow(const RowView& row)
 
 	ui.tableWidget->setItem(rowIdx, 4, item);
 
-	QString package = QString::number(row.procedure_count) + "/";
+	QString package = QString::number(row.procedure_count) + " / ";
 	package += QString::number(row.procedure_max);
 
 	item = new QTableWidgetItem(package);
@@ -126,7 +130,7 @@ void UnusedPackageView::setProgressCount(int count)
 	ui.progressBar->setMaximum(count);
 	ui.progressBar->setTextVisible(true);
 	ui.button->setText("Спри");
-	ui.csvButton->hide();
+	ui.csvButton->setDisabled(true);
 	ui.dateEdit->setDisabled(true);
 }
 
@@ -139,8 +143,8 @@ void UnusedPackageView::increment()
 void UnusedPackageView::reset()
 {
 	ui.button->setText("Генерирай списък");
+	ui.csvButton->setDisabled(!ui.tableWidget->rowCount());
 	ui.dateEdit->setDisabled(false);
-	ui.csvButton->setHidden(!ui.tableWidget->rowCount());
 }
 
 void UnusedPackageView::exportToCSV()
@@ -148,7 +152,7 @@ void UnusedPackageView::exportToCSV()
 	if (!ui.tableWidget->rowCount()) return;
 
 	QString filename = QFileDialog::getSaveFileName(
-		this, "Запази като CSV", "patients.csv", "CSV files (.csv)"
+		this, "Запази като CSV", "patients.csv", "CSV files (*.csv)"
 	);
 
 	QFile data(filename);

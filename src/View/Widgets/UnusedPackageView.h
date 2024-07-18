@@ -3,15 +3,12 @@
 #include <QWidget>
 #include "ui_UnusedPackageView.h"
 #include "Presenter/UnusedPackagePresenter.h"
-#include "View/TableModels/PlainTableModel.h"
 
 class UnusedPackageView : public QWidget
 {
 	Q_OBJECT
 
 	UnusedPackagePresenter presenter{ this };
-
-	PlainTableModel model;
 
 	void exportToCSV();
 

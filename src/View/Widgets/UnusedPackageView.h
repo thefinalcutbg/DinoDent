@@ -13,6 +13,8 @@ class UnusedPackageView : public QWidget
 
 	PlainTableModel model;
 
+	void exportToCSV();
+
 public:
 
 	struct RowView {

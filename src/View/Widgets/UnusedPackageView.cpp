@@ -1,12 +1,16 @@
 ﻿#include "UnusedPackageView.h"
 
-std::vector<QString> s_cache;
-Date s_date;
+#include <QFileDialog>
+
+std::vector<QString> s_cache; //for caching the table
+Date s_date; //for caching the date
 
 UnusedPackageView::UnusedPackageView(QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
+
+	ui.csvButton->hide();
 
 	if (s_date == Date()) {
 		s_date = Date::currentDate();
@@ -35,6 +39,8 @@ UnusedPackageView::UnusedPackageView(QWidget *parent)
 		[&](const QModelIndex& index) {
 			presenter.newAmbList(ui.tableWidget->item(index.row(), 0)->data(0).toLongLong());
 	});
+
+	connect(ui.csvButton, &QPushButton::clicked, this, [&] { exportToCSV();});
 
 	ui.tableWidget->hideColumn(0);
 	ui.tableWidget->setColumnWidth(1, 180);
@@ -120,6 +126,7 @@ void UnusedPackageView::setProgressCount(int count)
 	ui.progressBar->setMaximum(count);
 	ui.progressBar->setTextVisible(true);
 	ui.button->setText("Спри");
+	ui.csvButton->hide();
 	ui.dateEdit->setDisabled(true);
 }
 
@@ -133,7 +140,40 @@ void UnusedPackageView::reset()
 {
 	ui.button->setText("Генерирай списък");
 	ui.dateEdit->setDisabled(false);
+	ui.csvButton->setHidden(!ui.tableWidget->rowCount());
+}
 
+void UnusedPackageView::exportToCSV()
+{
+	if (!ui.tableWidget->rowCount()) return;
+
+	QString filename = QFileDialog::getSaveFileName(
+		this, "Запази като CSV", "patients.csv", "CSV files (.csv)"
+	);
+
+	QFile data(filename);
+
+	if (data.open(QFile::WriteOnly | QFile::Truncate))
+	{
+		QTextStream output(&data);
+
+		auto cCount = ui.tableWidget->columnCount();
+		auto rCount = ui.tableWidget->rowCount();
+
+		for (int r = 0; r < rCount; r++) {
+
+			for (int c = 1; c < cCount; c++) {
+
+				output << ui.tableWidget->item(r, c)->data(0).toString();
+				
+				if (c == cCount - 1) break;
+				
+				output << ",";
+			}
+
+			output << "\n";
+		}
+	}
 }
 
 UnusedPackageView::~UnusedPackageView()

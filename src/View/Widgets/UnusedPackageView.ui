@@ -42,7 +42,7 @@
        </property>
        <property name="maximumDateTime">
         <datetime>
-         <hour>7</hour>
+         <hour>5</hour>
          <minute>59</minute>
          <second>59</second>
          <year>9999</year>
@@ -164,6 +164,13 @@
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QPushButton" name="csvButton">
+       <property name="text">
+        <string>Запази като CSV</string>
+       </property>
+      </widget>
+     </item>
      <item>
       <spacer name="horizontalSpacer_2">
        <property name="orientation">

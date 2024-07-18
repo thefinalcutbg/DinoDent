@@ -12,7 +12,7 @@ class UnusedPackagePresenter
 {
 	UnusedPackageView* view;
 
-	std::queue<Patient> m_queue;
+	static inline std::queue<Patient> m_queue;
 	bool m_in_progress{ false };
 
 	int m_year = Date::currentDate().year;

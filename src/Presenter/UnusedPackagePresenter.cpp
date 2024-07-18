@@ -193,6 +193,8 @@ void UnusedPackagePresenter::step3_pisCheck(const std::optional<std::vector<Proc
 			lowerDenture = std::max(upperDenture, p.date);
 		}
 
+		if (p.date.year != m_year) continue;
+
 		if (p.code == 101) {
 			exam = true;
 		}

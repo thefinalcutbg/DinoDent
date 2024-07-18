@@ -12,13 +12,14 @@ class UnusedPackagePresenter
 {
 	UnusedPackageView* view;
 
-	std::queue<std::pair<Date, Patient>> m_queue;
+	std::queue<Patient> m_queue;
+	bool m_in_progress{ false };
 
 	int m_year = Date::currentDate().year;
 
 	ProcedureSummary currentProcedures;
 
-	const std::set<int> code_set = { 301, 332, 508, 509 };
+	const std::set<int> code_set = { 301, 332, 333, 508, 509 };
 
 	NraStatusService nraService;
 	DentalActivitiesService pisService;
@@ -26,7 +27,10 @@ class UnusedPackagePresenter
 	void popQueue();
 public:
 	UnusedPackagePresenter(UnusedPackageView* view);
-	void generateReport(const Date& date);
+	void buttonPressed(const Date& date);
+	void stop(const std::string& reason = "");
+	void resetQueue();
+	void newAmbList(long long patientRowid);
 	void step1_localDbCheck();
 	void step2_insuranceCheck(const std::optional<InsuranceStatus>& status);
 	void step3_pisCheck(const std::optional<std::vector<Procedure>>& pisHistory);

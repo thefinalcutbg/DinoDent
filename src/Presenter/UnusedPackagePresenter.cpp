@@ -3,6 +3,33 @@
 #include "Database/DbProcedure.h"
 #include "View/Widgets/UnusedPackageView.h"
 #include "Model/User.h"
+#include "View/ModalDialogBuilder.h"
+#include "TabPresenter.h"
+#include "Model/TableRows.h"
+
+void UnusedPackagePresenter::stop(const std::string& reason)
+{
+	if (reason.size()) {
+		ModalDialogBuilder::showMessage(reason);
+	}
+
+	m_in_progress = false;
+
+	view->reset();
+}
+
+void UnusedPackagePresenter::resetQueue()
+{
+	m_queue = std::queue<Patient>{};
+}
+
+void UnusedPackagePresenter::newAmbList(long long patientRowid)
+{
+	RowInstance instance(TabType::AmbList);
+	instance.rowID = 0;
+	instance.patientRowId = patientRowid;
+	TabPresenter::get().open(instance, true);
+}
 
 void UnusedPackagePresenter::popQueue()
 {
@@ -16,9 +43,18 @@ UnusedPackagePresenter::UnusedPackagePresenter(UnusedPackageView* view) :
 	view(view)
 {}
 
-void UnusedPackagePresenter::generateReport(const Date& date)
+void UnusedPackagePresenter::buttonPressed(const Date& date)
 {
-	m_queue = DbPatient::getPatientList(date, User::practice().rziCode, User::doctor().LPK);
+	if (m_in_progress) {
+		stop();
+		return;
+	}
+
+	if (m_queue.empty()) {
+		m_queue = DbPatient::getPatientList(date, User::practice().rziCode, User::doctor().LPK);
+	}
+
+	m_in_progress = true;
 
 	view->setProgressCount(m_queue.size());
 
@@ -28,12 +64,12 @@ void UnusedPackagePresenter::generateReport(const Date& date)
 
 void UnusedPackagePresenter::step1_localDbCheck()
 {
-	while (m_queue.size()) {
+	while (m_queue.size() && m_in_progress) {
 
-		auto& patient = m_queue.front().second;
+		auto& patient = m_queue.front();
 
 		auto summary = DbProcedure::getNhifSummary(
-			m_queue.front().second.rowid,
+			patient.rowid,
 			0,
 			Date(1, 1, m_year),
 			Date(31, 12, m_year)
@@ -48,7 +84,7 @@ void UnusedPackagePresenter::step1_localDbCheck()
 			}
 		}
 
-		int max_procedures = m_queue.front().second.isAdult() ? 3 : 4;
+		int max_procedures = patient.isAdult() ? 3 : 4;
 
 		if (procedure_counter >= max_procedures) {
 			popQueue();
@@ -67,13 +103,15 @@ void UnusedPackagePresenter::step1_localDbCheck()
 		}
 		
 	}
+
+	stop();
 	
 }
 
 void UnusedPackagePresenter::step2_insuranceCheck(const std::optional<InsuranceStatus>& status)
 {
 	if (!status.has_value()) {
-		view->appendText("Възникна грешка при свързване с НАП. Опитайте отново");
+		stop("Възникна грешка при свързване с НАП. Опитайте отново");
 		return;
 	};
 
@@ -83,32 +121,44 @@ void UnusedPackagePresenter::step2_insuranceCheck(const std::optional<InsuranceS
 		return;
 	}
 
-	pisService.sendRequest(
-		m_queue.front().second,
+	bool requestSent = pisService.sendRequest(
+		m_queue.front(),
 		false,
 		[&](auto result) {
 			this->step3_pisCheck(result);
 		});
+
+	if (!requestSent) {
+		stop();
+	}
 }
 
 void UnusedPackagePresenter::step3_pisCheck(const std::optional<std::vector<Procedure>>& pisHistory)
 {
 	if (!pisHistory) {
-		view->appendText("Възникна грешка при свързване с ПИС. Опитайте отново");
+		stop("Възникна грешка при свързване с ПИС. Опитайте отново");
 		return;
 	}
 
-	auto& patient = m_queue.front().second;
+	auto& patient = m_queue.front();
 
 	std::vector<ProcedureSummary> procedures;
 
-	Date maxPisDate = Date(1, 1, m_year);
+	Date maxDate;
+	Date upperDenture;
+	Date lowerDenture;
 
 	for (auto& p : pisHistory.value()) {
 
-		if (p.date.year != m_year) continue;
+		if (p.code.oldCode() == 831) {
+			upperDenture = std::max(upperDenture, p.date);
+		}
 
-		maxPisDate = std::max(maxPisDate, p.date);
+		if (p.code.oldCode() == 832) {
+			lowerDenture = std::max(upperDenture, p.date);
+		}
+
+		if (p.date.year != m_year) continue;
 
 		procedures.push_back(ProcedureSummary{
 					.date = p.date,
@@ -116,24 +166,33 @@ void UnusedPackagePresenter::step3_pisCheck(const std::optional<std::vector<Proc
 					.tooth_idx = p.tooth_idx
 			});
 
-		maxPisDate = std::max(maxPisDate, p.date);
+		maxDate = std::max(maxDate, p.date);
 	}
 
 	auto dbProcedures = DbProcedure::getNhifSummary(
 		patient.rowid,
 		0,
-		maxPisDate,
+		maxDate,
 		Date(31, 12, m_year)
 	);
 
 	procedures.insert(procedures.end(), dbProcedures.begin(), dbProcedures.end());
 
-	int max_procedures = m_queue.front().second.isAdult() ? 3 : 4;
+	int max_procedures = patient.isAdult() ? 3 : 4;
 
 	int procedure_counter = 0;
 	bool exam = false;
 
 	for (auto& p : procedures) {
+
+		if (p.code == 832) {
+			upperDenture = std::max(upperDenture, p.date);
+		}
+
+		if (p.code == 833) {
+			lowerDenture = std::max(upperDenture, p.date);
+		}
+
 		if (p.code == 101) {
 			exam = true;
 		}
@@ -149,16 +208,23 @@ void UnusedPackagePresenter::step3_pisCheck(const std::optional<std::vector<Proc
 		return;
 	}
 
-	std::string data = patient.firstLastName();
-	data +="\t\t ";
-	data += "Преглед за годината: ";
-	data += exam ? "Да " : "Не ";
-	data += "\t\tЛимит на НЗОК процедури: ";
-	data += std::to_string(procedure_counter);
-	data += "/";
-	data += std::to_string(max_procedures);
+	auto lastVisit = DbPatient::getLastVisit(
+		patient.rowid,
+		User::practice().rziCode,
+		User::doctor().LPK
+	);
 
-	view->appendText(data);
+	view->addRow({
+		patient.rowid,
+		patient.firstLastName(),
+		patient.phone,
+		lastVisit == Date() ? "Няма" : lastVisit.to8601(),
+		exam,
+		procedure_counter,
+		max_procedures,
+		upperDenture == Date() ? "" : upperDenture.toBgStandard(),
+		lowerDenture == Date() ? "" : lowerDenture.toBgStandard()
+	});
 
 	popQueue();
 	step1_localDbCheck();

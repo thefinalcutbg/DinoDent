@@ -22,7 +22,8 @@ namespace DbPatient
     std::vector<Allergy> getAllergies(long long patientRowid, Db& db);
     bool updateAllergies(long long patientRowid, const std::vector<Allergy>& allergies);
 
-    std::queue<std::pair<Date, Patient>> getPatientList(const Date& visitAfter, const std::string& rzi, const std::string lpk);
+    std::queue<Patient> getPatientList(const Date& visitAfter, const std::string& rzi, const std::string lpk);
+    Date getLastVisit(long long patientRowid, const std::string& rzi, const std::string lpk);
 
     TeethNotes getPresentNotes(long long patientRowId);
 };

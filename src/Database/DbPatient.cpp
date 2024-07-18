@@ -338,17 +338,17 @@ bool DbPatient::updateAllergies(long long patientRowid, const std::vector<Allerg
     return true;
 }
 
-std::queue < std::pair<Date, Patient>> DbPatient::getPatientList(const Date& visitAfter, const std::string& rzi, const std::string lpk)
+std::queue <Patient> DbPatient::getPatientList(const Date& visitAfter, const std::string& rzi, const std::string lpk)
 {
     std::string query =
-        "SELECT amblist.date, patient.rowid, patient.id, patient.type, patient.fname, patient.lname, patient.phone "
+        "SELECT patient.rowid, patient.id, patient.type, patient.fname, patient.lname, patient.phone, patient.birth "
         "FROM patient LEFT JOIN amblist ON patient.rowid = amblist.patient_rowid "
-        "WHERE date(amblist.date)>? "
+        "WHERE date(amblist.date)>=? "
         "AND amblist.rzi = ? "
         "AND amblist.lpk = ? "
         "AND patient.type < 3 "
         "GROUP BY patient.rowid "
-        "ORDER BY patient.id ASC";
+        "ORDER BY patient.birth ASC";
 
     Db db(query);
 
@@ -356,21 +356,48 @@ std::queue < std::pair<Date, Patient>> DbPatient::getPatientList(const Date& vis
     db.bind(2, rzi);
     db.bind(3, lpk);
     
-    std::queue<std::pair<Date, Patient>> result;
+    std::queue<Patient> result;
 
     while (db.hasRows()) {
         Patient p;
-        p.rowid = db.asRowId(1);
-        p.id = db.asString(2);
-        p.type = static_cast<Patient::Type>(db.asInt(3));
-        p.FirstName = db.asString(4);
-        p.LastName = db.asString(5);
-        p.phone = db.asString(6);
+        p.rowid = db.asRowId(0);
+        p.id = db.asString(1);
+        p.type = static_cast<Patient::Type>(db.asInt(2));
+        p.FirstName = db.asString(3);
+        p.LastName = db.asString(4);
+        p.phone = db.asString(5);
+        p.birth = db.asString(6);
 
-        result.push({ Date(db.asString(0)), p });
+        result.push(p);
     }
 
     return result;
+}
+
+Date DbPatient::getLastVisit(long long patientRowid, const std::string& rzi, const std::string lpk)
+{
+    std::string query =
+        R"(SELECT procedure.date FROM procedure 
+LEFT JOIN amblist ON amblist.rowid = procedure.amblist_rowid 
+LEFT JOIN patient ON amblist.patient_rowid = patient.rowid
+WHERE patient.rowid = ?
+AND amblist.rzi = ?
+AND amblist.lpk = ?
+ORDER BY procedure.date DESC
+LIMIT 1)";
+
+    Db db(query);
+
+    db.bind(1, patientRowid);
+    db.bind(2, rzi);
+    db.bind(3, lpk);
+
+    while (db.hasRows()) {
+        return db.asString(0);
+    }
+
+    return Date();
+
 }
 
 std::vector<Allergy> DbPatient::getAllergies(long long patientRowid, Db& db)

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
+    <width>648</width>
     <height>400</height>
    </rect>
   </property>
@@ -42,12 +42,12 @@
        </property>
        <property name="maximumDateTime">
         <datetime>
-         <hour>15</hour>
+         <hour>7</hour>
          <minute>59</minute>
          <second>59</second>
          <year>9999</year>
          <month>12</month>
-         <day>26</day>
+         <day>25</day>
         </datetime>
        </property>
        <property name="minimumDate">
@@ -85,24 +85,59 @@
     </layout>
    </item>
    <item>
-    <widget class="QPlainTextEdit" name="textEdit">
-     <property name="enabled">
+    <widget class="QTableWidget" name="tableWidget">
+     <property name="editTriggers">
+      <set>QAbstractItemView::NoEditTriggers</set>
+     </property>
+     <property name="selectionMode">
+      <enum>QAbstractItemView::ExtendedSelection</enum>
+     </property>
+     <property name="selectionBehavior">
+      <enum>QAbstractItemView::SelectRows</enum>
+     </property>
+     <property name="sortingEnabled">
       <bool>true</bool>
      </property>
-     <property name="undoRedoEnabled">
-      <bool>false</bool>
-     </property>
-     <property name="readOnly">
-      <bool>true</bool>
-     </property>
-     <property name="plainText">
-      <string>Тази функционалност предоставя генериране на списък с пациенти, които имат неизползван пакет дейности по НЗОК за настоящата година. Алгоритъмът включва следната последователност:
-
-1. Извеждане от базата данни на всички пациенти посетили лекаря по дентална медицина след посочената дата
-2. Проверка в НАП за здравноосигурителен статус
-3. Изчисляване на пакета в съответствие с манипулациите в локалната база данни
-4. Изчисляване на пакта в съответствие с базата данни в ПИС</string>
-     </property>
+     <column>
+      <property name="text">
+       <string>rowid</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Име</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Телефон</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Последно посещение</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>101</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Пакет</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>832</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>833</string>
+      </property>
+     </column>
     </widget>
    </item>
    <item>
@@ -120,7 +155,7 @@
       <set>Qt::AlignCenter</set>
      </property>
      <property name="textVisible">
-      <bool>true</bool>
+      <bool>false</bool>
      </property>
      <property name="format">
       <string> %v/%m</string>
@@ -143,7 +178,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="generateButton">
+      <widget class="QPushButton" name="button">
        <property name="text">
         <string>Генерирай списък</string>
        </property>

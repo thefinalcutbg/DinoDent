@@ -3,6 +3,7 @@
 #include <QWidget>
 #include "ui_UnusedPackageView.h"
 #include "Presenter/UnusedPackagePresenter.h"
+#include "View/TableModels/PlainTableModel.h"
 
 class UnusedPackageView : public QWidget
 {
@@ -10,10 +11,27 @@ class UnusedPackageView : public QWidget
 
 	UnusedPackagePresenter presenter{ this };
 
+	PlainTableModel model;
+
 public:
+
+	struct RowView {
+		long long rowid;
+		std::string patientName;
+		std::string patientPhone;
+		std::string maxDate;
+		bool exam;
+		int procedure_count;
+		int procedure_max;
+		std::string lowerDenture;
+		std::string upperDenture;
+
+	};
+
 	UnusedPackageView(QWidget *parent = nullptr);
-	void appendText(const std::string& line);
+	void addRow(const RowView& row);
 	void setProgressCount(int count);
+	void reset();
 	void increment();
 	~UnusedPackageView();
 

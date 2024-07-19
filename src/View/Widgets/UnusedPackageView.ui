@@ -22,7 +22,7 @@
      <item>
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>Не включвай пациенти с най-последно посещение преди</string>
+        <string>Не се включват пациенти с последно посещение преди</string>
        </property>
       </widget>
      </item>
@@ -42,12 +42,12 @@
        </property>
        <property name="maximumDateTime">
         <datetime>
-         <hour>3</hour>
+         <hour>23</hour>
          <minute>59</minute>
          <second>59</second>
          <year>9999</year>
          <month>12</month>
-         <day>25</day>
+         <day>24</day>
         </datetime>
        </property>
        <property name="minimumDate">

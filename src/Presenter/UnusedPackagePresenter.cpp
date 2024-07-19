@@ -39,11 +39,15 @@ void UnusedPackagePresenter::popQueue()
 	}
 }
 
-UnusedPackagePresenter::UnusedPackagePresenter(UnusedPackageView* view) :
-	view(view)
-{}
+UnusedPackagePresenter::UnusedPackagePresenter(){}
 
-void UnusedPackagePresenter::buttonPressed(const Date& date)
+void UnusedPackagePresenter::setView(UnusedPackageView* view)
+{
+	this->view = view;
+	view->addTable(s_data);
+}
+
+void UnusedPackagePresenter::buttonPressed(const Date& excludeBefore)
 {
 	if (m_in_progress) {
 		stop();
@@ -59,7 +63,9 @@ void UnusedPackagePresenter::buttonPressed(const Date& date)
 	}
 
 	if (m_queue.empty()) {
-		m_queue = DbPatient::getPatientList(date, User::practice().rziCode, User::doctor().LPK);
+		s_data.clear();
+		view->addTable(s_data);
+		m_queue = DbPatient::getPatientList(excludeBefore, User::practice().rziCode, User::doctor().LPK);
 	}
 
 	m_in_progress = true;
@@ -164,7 +170,7 @@ void UnusedPackagePresenter::step3_pisCheck(const std::optional<std::vector<Proc
 		}
 
 		if (p.code.oldCode() == 832) {
-			lowerDenture = std::max(upperDenture, p.date);
+			lowerDenture = std::max(lowerDenture, p.date);
 		}
 
 		if (p.date.year != m_year) continue;
@@ -199,7 +205,7 @@ void UnusedPackagePresenter::step3_pisCheck(const std::optional<std::vector<Proc
 		}
 
 		if (p.code == 833) {
-			lowerDenture = std::max(upperDenture, p.date);
+			lowerDenture = std::max(lowerDenture, p.date);
 		}
 
 		if (p.date.year != m_year) continue;
@@ -225,7 +231,7 @@ void UnusedPackagePresenter::step3_pisCheck(const std::optional<std::vector<Proc
 		User::doctor().LPK
 	);
 
-	view->addRow({
+	auto row = PackageRowData{
 		patient.rowid,
 		patient.firstLastName(),
 		patient.getAge(),
@@ -236,7 +242,11 @@ void UnusedPackagePresenter::step3_pisCheck(const std::optional<std::vector<Proc
 		max_procedures,
 		upperDenture == Date() ? "" : upperDenture.toBgStandard(),
 		lowerDenture == Date() ? "" : lowerDenture.toBgStandard()
-	});
+	};
+
+	s_data.push_back(row);
+
+	view->addRow(row);
 
 	popQueue();
 	step1_localDbCheck();

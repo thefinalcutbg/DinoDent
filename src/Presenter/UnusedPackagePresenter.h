@@ -8,6 +8,21 @@
 
 class UnusedPackageView;
 
+struct PackageRowData {
+	long long rowid;
+	std::string patientName;
+	int age;
+	std::string patientPhone;
+	std::string lastVisit;
+	bool exam;
+	int procedure_count;
+	int procedure_max;
+	std::string lowerDenture;
+	std::string upperDenture;
+	static inline constexpr int columnCount = 9;
+
+};
+
 class UnusedPackagePresenter
 {
 	UnusedPackageView* view;
@@ -24,10 +39,13 @@ class UnusedPackagePresenter
 	NraStatusService nraService;
 	DentalActivitiesService pisService;
 
+	static inline std::vector<PackageRowData> s_data;
+
 	void popQueue();
 public:
-	UnusedPackagePresenter(UnusedPackageView* view);
-	void buttonPressed(const Date& date);
+	UnusedPackagePresenter();
+	void setView(UnusedPackageView* view);
+	void buttonPressed(const Date& excludeBefore);
 	void stop(const std::string& reason = "");
 	void resetQueue();
 	void newAmbList(long long patientRowid);

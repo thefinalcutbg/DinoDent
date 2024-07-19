@@ -8,29 +8,15 @@ class UnusedPackageView : public QWidget
 {
 	Q_OBJECT
 
-	UnusedPackagePresenter presenter{ this };
+	UnusedPackagePresenter presenter;
 
 	void exportToCSV();
 
 public:
 
-	struct RowView {
-		long long rowid;
-		std::string patientName;
-		int age;
-		std::string patientPhone;
-		std::string lastVisit;
-		bool exam;
-		int procedure_count;
-		int procedure_max;
-		std::string lowerDenture;
-		std::string upperDenture;
-		static inline constexpr int columnCount = 9;
-
-	};
-
 	UnusedPackageView(QWidget *parent = nullptr);
-	void addRow(const RowView& row);
+	void addRow(const PackageRowData& row);
+	void addTable(const std::vector<PackageRowData>& table);
 	void setProgressCount(int count);
 	void reset();
 	void increment();

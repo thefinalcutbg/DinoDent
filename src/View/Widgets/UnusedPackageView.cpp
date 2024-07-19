@@ -2,26 +2,19 @@
 
 #include <QFileDialog>
 
-std::vector<QString> s_cache; //for caching the table
-Date s_date; //for caching the date
-
 UnusedPackageView::UnusedPackageView(QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
 
-	ui.csvButton->setDisabled(true);
-
 	ui.csvButton->setIcon(QIcon(":/icons/icon_csv.png"));
+	
+	Date date = Date::currentDate();
+	date.year--;
+	date.day = 1;
+	date.month = 1;
 
-	if (s_date == Date()) {
-		s_date = Date::currentDate();
-		s_date.year--;
-		s_date.day = 1;
-		s_date.month = 1;
-	}
-
-	ui.dateEdit->set_Date(s_date);
+	ui.dateEdit->set_Date(date);
 
 	connect(ui.button, &QPushButton::clicked, this, [&] {
 		presenter.buttonPressed(ui.dateEdit->getDate());
@@ -33,7 +26,6 @@ UnusedPackageView::UnusedPackageView(QWidget *parent)
 		ui.progressBar->setMaximum(1);
 		ui.progressBar->setValue(0);
 		ui.progressBar->setTextVisible(false);
-		s_date = ui.dateEdit->getDate();
 	});
 
 
@@ -48,33 +40,17 @@ UnusedPackageView::UnusedPackageView(QWidget *parent)
 	ui.tableWidget->horizontalHeader()->setSectionResizeMode(1, QHeaderView::ResizeMode::Stretch);
 	ui.tableWidget->setColumnWidth(4, 150);
 	ui.tableWidget->setColumnWidth(5, 80);
+
+	presenter.setView(this);
+
+	ui.csvButton->setDisabled(!ui.tableWidget->rowCount());
 	
-
-	if (s_cache.empty()) return;
-
-	//fetch table data from the static cache
-	const int cCount = RowView::columnCount;
-	int rCount = s_cache.size() / 8;
-
-	for (int r = 0; r < rCount; r++) {
-
-		ui.tableWidget->insertRow(r);
-
-		for (int c = 0; c < cCount; c++)
-		{
-			auto item = new QTableWidgetItem(s_cache[r * cCount + c]);
-			
-			if (c > 1) item->setTextAlignment(Qt::AlignCenter);
-
-			ui.tableWidget->setItem(r, c, item);
-		}
-	}
-
-	ui.csvButton->setDisabled(false);
 }
 
-void UnusedPackageView::addRow(const RowView& row)
+void UnusedPackageView::addRow(const PackageRowData& row)
 {
+	ui.tableWidget->setSortingEnabled(false);
+
 	QTableWidgetItem* item;
 
 	int rowIdx = ui.tableWidget->rowCount();
@@ -89,7 +65,12 @@ void UnusedPackageView::addRow(const RowView& row)
 		new QTableWidgetItem(row.patientName.c_str())
 	);
 
-	item = new QTableWidgetItem(QString::number(row.age));
+	QString age = row.age < 10 ? 
+		" " + QString::number(row.age)
+		: 
+		QString::number(row.age);
+	
+	item = new QTableWidgetItem(age);
 	item->setTextAlignment(Qt::AlignCenter);
 	ui.tableWidget->setItem(rowIdx, 2, item);
 
@@ -105,7 +86,7 @@ void UnusedPackageView::addRow(const RowView& row)
 	item->setTextAlignment(Qt::AlignCenter);
 	ui.tableWidget->setItem(rowIdx, 5, item);
 
-	QString package = QString::number(row.procedure_count) + " / ";
+	QString package = QString::number(row.procedure_count) + "/";
 	package += QString::number(row.procedure_max);
 
 	item = new QTableWidgetItem(package);
@@ -121,6 +102,17 @@ void UnusedPackageView::addRow(const RowView& row)
 	ui.tableWidget->setItem(rowIdx, 8, item);
 
 	ui.tableWidget->scrollToBottom();
+
+	ui.tableWidget->setSortingEnabled(true);
+}
+
+void UnusedPackageView::addTable(const std::vector<PackageRowData>& table)
+{
+	ui.tableWidget->setRowCount(0);
+
+	for (auto& row : table) {
+		addRow(row);
+	}
 }
 
 
@@ -166,7 +158,7 @@ void UnusedPackageView::exportToCSV()
 
 		for (int r = 0; r < rCount; r++) {
 
-			for (int c = 1; c < RowView::columnCount; c++) {
+			for (int c = 1; c < PackageRowData::columnCount; c++) {
 
 				output << ui.tableWidget->item(r, c)->data(0).toString();
 				
@@ -181,18 +173,4 @@ void UnusedPackageView::exportToCSV()
 }
 
 UnusedPackageView::~UnusedPackageView()
-{
-	//caching the table data
-	if (ui.tableWidget->rowCount()) {
-
-		auto cCount = RowView::columnCount;
-		auto rCount = ui.tableWidget->rowCount();
-
-		s_cache.reserve(cCount * rCount);
-
-		for (int r = 0; r < rCount; r++)
-			for (int c = 0; c < cCount; c++)
-				s_cache.push_back(ui.tableWidget->item(r, c)->data(0).toString());
-	}
-
-}
+{}

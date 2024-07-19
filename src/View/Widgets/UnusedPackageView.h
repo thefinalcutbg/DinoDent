@@ -17,13 +17,15 @@ public:
 	struct RowView {
 		long long rowid;
 		std::string patientName;
+		int age;
 		std::string patientPhone;
-		std::string maxDate;
+		std::string lastVisit;
 		bool exam;
 		int procedure_count;
 		int procedure_max;
 		std::string lowerDenture;
 		std::string upperDenture;
+		static inline constexpr int columnCount = 9;
 
 	};
 

@@ -54,7 +54,7 @@ void UnusedPackagePresenter::buttonPressed(const Date& date)
 		User::practice().nhif_contract->nra_pass.empty()
 	) 
 	{
-		ModalDialogBuilder::showMessage("Въведете парола за НАП");
+		ModalDialogBuilder::showMessage("Не е въведена парола за НАП");
 		return;
 	}
 
@@ -137,6 +137,7 @@ void UnusedPackagePresenter::step2_insuranceCheck(const std::optional<InsuranceS
 		});
 
 	if (!requestSent) {
+		ModalDialogBuilder::showMessage("Не е открит КЕП");
 		stop();
 	}
 }
@@ -227,6 +228,7 @@ void UnusedPackagePresenter::step3_pisCheck(const std::optional<std::vector<Proc
 	view->addRow({
 		patient.rowid,
 		patient.firstLastName(),
+		patient.getAge(),
 		patient.phone,
 		lastVisit == Date() ? "Няма" : lastVisit.to8601(),
 		exam,

@@ -45,14 +45,15 @@ UnusedPackageView::UnusedPackageView(QWidget *parent)
 	connect(ui.csvButton, &QPushButton::clicked, this, [&] { exportToCSV();});
 
 	ui.tableWidget->hideColumn(0);
-	ui.tableWidget->setColumnWidth(1, 180);
-	ui.tableWidget->setColumnWidth(3, 150);
-	ui.tableWidget->setColumnWidth(4, 80);
+	ui.tableWidget->horizontalHeader()->setSectionResizeMode(1, QHeaderView::ResizeMode::Stretch);
+	ui.tableWidget->setColumnWidth(4, 150);
+	ui.tableWidget->setColumnWidth(5, 80);
+	
 
 	if (s_cache.empty()) return;
 
 	//fetch table data from the static cache
-	const int cCount = 8;
+	const int cCount = RowView::columnCount;
 	int rCount = s_cache.size() / 8;
 
 	for (int r = 0; r < rCount; r++) {
@@ -88,38 +89,36 @@ void UnusedPackageView::addRow(const RowView& row)
 		new QTableWidgetItem(row.patientName.c_str())
 	);
 
-	item = new QTableWidgetItem(row.patientPhone.c_str());
+	item = new QTableWidgetItem(QString::number(row.age));
 	item->setTextAlignment(Qt::AlignCenter);
-
 	ui.tableWidget->setItem(rowIdx, 2, item);
 
-	item = new QTableWidgetItem(row.maxDate.c_str());
+	item = new QTableWidgetItem(row.patientPhone.c_str());
 	item->setTextAlignment(Qt::AlignCenter);
-
 	ui.tableWidget->setItem(rowIdx, 3, item);
+
+	item = new QTableWidgetItem(row.lastVisit.c_str());
+	item->setTextAlignment(Qt::AlignCenter);
+	ui.tableWidget->setItem(rowIdx, 4, item);
 
 	item = new QTableWidgetItem(row.exam ? "Да" : "Не");
 	item->setTextAlignment(Qt::AlignCenter);
-
-	ui.tableWidget->setItem(rowIdx, 4, item);
+	ui.tableWidget->setItem(rowIdx, 5, item);
 
 	QString package = QString::number(row.procedure_count) + " / ";
 	package += QString::number(row.procedure_max);
 
 	item = new QTableWidgetItem(package);
 	item->setTextAlignment(Qt::AlignCenter);
-
-	ui.tableWidget->setItem(rowIdx, 5, item);
+	ui.tableWidget->setItem(rowIdx, 6, item);
 
 	item = new QTableWidgetItem(row.upperDenture.c_str());
 	item->setTextAlignment(Qt::AlignCenter);
-
-	ui.tableWidget->setItem(rowIdx, 6, item);
+	ui.tableWidget->setItem(rowIdx, 7, item);
 
 	item = new QTableWidgetItem(row.lowerDenture.c_str());
 	item->setTextAlignment(Qt::AlignCenter);
-
-	ui.tableWidget->setItem(rowIdx, 7, item);
+	ui.tableWidget->setItem(rowIdx, 8, item);
 
 	ui.tableWidget->scrollToBottom();
 }
@@ -127,6 +126,7 @@ void UnusedPackageView::addRow(const RowView& row)
 
 void UnusedPackageView::setProgressCount(int count)
 {
+	ui.progressBar->setValue(0);
 	ui.progressBar->setMaximum(count);
 	ui.progressBar->setTextVisible(true);
 	ui.button->setText("Спри");
@@ -166,7 +166,7 @@ void UnusedPackageView::exportToCSV()
 
 		for (int r = 0; r < rCount; r++) {
 
-			for (int c = 1; c < cCount; c++) {
+			for (int c = 1; c < RowView::columnCount; c++) {
 
 				output << ui.tableWidget->item(r, c)->data(0).toString();
 				
@@ -185,7 +185,7 @@ UnusedPackageView::~UnusedPackageView()
 	//caching the table data
 	if (ui.tableWidget->rowCount()) {
 
-		auto cCount = ui.tableWidget->columnCount();
+		auto cCount = RowView::columnCount;
 		auto rCount = ui.tableWidget->rowCount();
 
 		s_cache.reserve(cCount * rCount);

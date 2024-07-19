@@ -62,7 +62,7 @@ namespace ModalDialogBuilder
 	std::optional<MedicalNotice> openDialog(const MedicalNotice& notice);
 	bool askDialog(const std::string& questionText);
 	void showError(const std::string& error);
-	void showMultilineDialog(const std::string& text, const std::string& title = "Debug");
+	std::optional<std::string> showMultilineDialog(const std::string& text, const std::string& title = "Debug", bool enableEdit = false);
 	void showMessage(const std::string& message);
 	void openSettingsDialog(int tabFocus = 0);
 	int openButtonDialog(const std::vector<std::string>& buttonNames, const std::string& title, const std::string& description = std::string()); //returns -1 if canceled

@@ -33,6 +33,7 @@ public:
 	void patientTileClicked();
 	void medStatTileClicked();
 	void printDeclarations();
+	void notesRequested();
 	void setCurrent(bool current);
 
 

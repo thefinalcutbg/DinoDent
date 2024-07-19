@@ -1,6 +1,7 @@
 ﻿#include "MultilineDialog.h"
 #include <QClipboard>
 #include <QApplication>
+#include <QTextCursor>
 
 MultilineDialog::MultilineDialog(const std::string& text, QWidget *parent)
 	: QDialog(parent)
@@ -17,7 +18,25 @@ MultilineDialog::MultilineDialog(const std::string& text, QWidget *parent)
 		clipboard->setText(ui.textBox->toPlainText());
 	});
 
-    connect(ui.okButton, &QPushButton::clicked, this, [&] {close();});
+    connect(ui.okButton, &QPushButton::clicked, this, [&] {
+		m_result = ui.textBox->toPlainText().toStdString();
+		close();
+	});
+}
+
+std::optional<std::string> MultilineDialog::getResult()
+{
+	return m_result;
+}
+
+void MultilineDialog::enableEditing()
+{
+	ui.textBox->setReadOnly(false);
+	ui.copyButton->hide();
+
+	QTextCursor newCursor(ui.textBox->document());
+	newCursor.movePosition(QTextCursor::End);
+	ui.textBox->setTextCursor(newCursor);
 }
 
 MultilineDialog::~MultilineDialog()

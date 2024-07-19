@@ -97,19 +97,25 @@ QString TileButton::elide(const QString& text, int length)
 }
 
 
-
+#include <QDebug>
 PatientTile::PatientTile(QWidget* parent) : TileButton(parent)
 {
 	nraButton = new IconButton(this);
 	nraButton->setIcon(QIcon(":/icons/icon_nra.png"));
 	nraButton->move(5, 5);
-	nraButton->setFixedSize(nraSize, nraSize);
+	nraButton->setFixedSize(iconSize, iconSize);
 
 	printButton = new IconButton(this);
 	printButton->setIcon(QIcon(":/icons/icon_print.png"));
-	printButton->setFixedSize(nraSize, nraSize);
-	printButton->move(width() - (nraSize + 5), 5);
+	printButton->setFixedSize(iconSize, iconSize);
+	printButton->move(width() - (iconSize + 5), 5);
 	printButton->setToolTip("Принтиране на декларации");
+
+	notesButton = new IconButton(this);
+	notesButton->setIcon(QIcon(":/icons/icon_notes.png"));
+	notesButton->setFixedSize(iconSize, iconSize);
+	notesButton->move(printButton->width(), printButton->y() + 40);
+	notesButton->setToolTip("Бележки за пациента");
 
 }
 
@@ -148,7 +154,7 @@ void PatientTile::paintInfo(QPainter* painter)
 
 	painter->setFont(header);
 	painter->setPen(hover && !clicked ? QPen(Theme::fontRedClicked) : QPen(QColor(Theme::fontRed)));
-	painter->drawText(nraButton->x() + nraSize + 5, 27, name);
+	painter->drawText(nraButton->x() + iconSize + 5, 27, name);
 
 	painter->setRenderHint(QPainter::Antialiasing);
 
@@ -165,6 +171,7 @@ void PatientTile::resizeEvent(QResizeEvent* event)
 	QWidget::resizeEvent(event);
 
 	printButton->move(width() - 5 - printButton->width(), 5);
+	notesButton->move(printButton->x(), 40);
 	update();
 }
 

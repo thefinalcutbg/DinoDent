@@ -42,6 +42,7 @@ class PatientTile : public TileButton
 public:
     IconButton* nraButton;
     IconButton* printButton;
+    IconButton* notesButton;
     PatientTile(QWidget* parent = 0);
     void setData(const Patient& patient, int age);
 
@@ -59,7 +60,7 @@ private:
     QPixmap* zodiac{ nullptr };
     bool birthday{ false };
 
-    static constexpr int nraSize = 32;
+    static constexpr int iconSize = 32;
 
     void paintInfo(QPainter* painter);
 

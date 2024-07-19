@@ -1,6 +1,7 @@
 ﻿#include "PatientInfoPresenter.h"
 
 #include "Database/DbPatient.h"
+#include "Database/DbNotes.h"
 #include "Model/User.h"
 #include "Presenter/PatientDialogPresenter.h"
 #include "Presenter/MedicalStatusPresenter.h"
@@ -212,6 +213,19 @@ void PatientInfoPresenter::printDeclarations()
     }
 
 
+}
+
+void PatientInfoPresenter::notesRequested()
+{
+    auto result = ModalDialogBuilder::showMultilineDialog(
+        DbNotes::getNote(patient->rowid, -1),
+        "Бележки за пациента",
+        true
+    );
+
+    if (result) {
+        DbNotes::saveNote(result.value(), patient->rowid, -1);
+    }
 }
 
 void PatientInfoPresenter::setCurrent(bool isCurrent)

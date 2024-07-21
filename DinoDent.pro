@@ -24,12 +24,7 @@ LIBS += \
 
 macx:{
 
-
-
 #the mac version uses macports for dependencies, because we need universial binaries
-#NOTE: couldn't install xmlsec from macports, so I've build it myself with from github source with:
-#./configure CFLAGS="-arch x86_64 -arch arm64" --disable-apps-crypto-dl --disable-crypto-dl --with-openssl="/opt/local"
-#then I moved it to the /opt/local folder
   QMAKE_APPLE_DEVICE_ARCHS = x86_64 arm64
   DEPFOLDER = /opt/local
   OPENSSL_LIBS= -L$$DEPFOLDER/lib -lcrypto -lssl

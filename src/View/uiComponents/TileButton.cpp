@@ -114,7 +114,7 @@ PatientTile::PatientTile(QWidget* parent) : TileButton(parent)
 	notesButton = new IconButton(this);
 	notesButton->setIcon(QIcon(":/icons/icon_notes.png"));
 	notesButton->setFixedSize(iconSize, iconSize);
-	notesButton->move(printButton->width(), printButton->y() + 40);
+    notesButton->move(printButton->x()-40, printButton->y());
 	notesButton->setToolTip("Бележки за пациента");
 
 }
@@ -171,7 +171,7 @@ void PatientTile::resizeEvent(QResizeEvent* event)
 	QWidget::resizeEvent(event);
 
 	printButton->move(width() - 5 - printButton->width(), 5);
-	notesButton->move(printButton->x(), 40);
+    notesButton->move(printButton->x()-40, printButton->y());
 	update();
 }
 

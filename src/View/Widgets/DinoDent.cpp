@@ -88,6 +88,7 @@ DinoDent::DinoDent(QWidget* parent)
     ui.invoiceButton->setIcon(QIcon(":/icons/icon_invoice.png"));
     ui.aboutButton->setIcon(QIcon(":/icons/icon_question.png"));
     ui.mircButton->setIcon(QIcon(":/icons/icon_mirc.png"));
+    ui.mircButton->setMonochrome(true);
     
     connect(ui.newButton, &QPushButton::clicked, [&] { MainPresenter::get().newAmbPressed(); });
     connect(ui.saveButton, &QPushButton::clicked, [&] { MainPresenter::get().save(); });
@@ -178,18 +179,7 @@ void DinoDent::disableButtons(bool printDisabled, bool saveDisabled)
 
 void DinoDent::setIrcIcon(bool glow)
 {
-    static bool s_glow = false;
-
-    if (s_glow == glow) return;
-
-    s_glow = glow;
-
-    ui.mircButton->setIcon(
-        glow ?
-        QIcon(":/icons/icon_mirc_glow.png")
-        :
-        QIcon(":/icons/icon_mirc.png")
-    );
+    ui.mircButton->setMonochrome(!glow);
 }
 
 void DinoDent::paintEvent(QPaintEvent*)

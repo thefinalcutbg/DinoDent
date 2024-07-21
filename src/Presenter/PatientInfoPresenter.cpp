@@ -218,13 +218,15 @@ void PatientInfoPresenter::printDeclarations()
 void PatientInfoPresenter::notesRequested()
 {
     auto result = ModalDialogBuilder::showMultilineDialog(
-        DbNotes::getNote(patient->rowid, -1),
+        patient->patientNotes,
         "Бележки за пациента",
         true
     );
 
     if (result) {
         DbNotes::saveNote(result.value(), patient->rowid, -1);
+        patient->patientNotes = result.value();
+        view->setPatient(*patient, patientAge);
     }
 }
 
@@ -247,8 +249,6 @@ void PatientInfoPresenter::setCurrent(bool isCurrent)
     {
         nraClicked(false);
     }
-
-
 }
 
 void PatientInfoPresenter::setInsuranceStatus(const std::optional<InsuranceStatus>& status_result)

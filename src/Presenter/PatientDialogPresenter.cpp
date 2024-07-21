@@ -10,13 +10,15 @@ PatientDialogPresenter::PatientDialogPresenter(std::string dialogTitle) :
 
 PatientDialogPresenter::PatientDialogPresenter(const Patient& patient) :
 	m_patient(patient),
-    view(nullptr),
-    insurance_status(patient.insuranceStatus),
-    PISHistory(patient.PISHistory),
-    HISHistory(patient.HISHistory),
-    rowid(patient.rowid),
+	view(nullptr),
+	insurance_status(patient.insuranceStatus),
+	PISHistory(patient.PISHistory),
+	HISHistory(patient.HISHistory),
+	rowid(patient.rowid),
 	medStats(patient.medStats),
 	allergies(patient.allergies),
+	teeth_notes(patient.teethNotes),
+	patientNotes(patient.patientNotes),
 	dialogTitle("Редактиране на данни на пациента")
 {
 	if (patient.type == 1) {
@@ -87,8 +89,13 @@ void PatientDialogPresenter::searchDbForPatient(int type, const std::string& id)
 		rowid = patient.rowid;
 		medStats = patient.medStats;
 		allergies = patient.allergies;
+		teeth_notes = patient.teethNotes;
+		patientNotes = patient.patientNotes;
 	}
 	else {
+		//very important to set rowid to 0 (see getPatientFromView())
+		rowid = 0;
+
 		if (User::hasNhifContract() &&
 			User::settings().getHirbNoAuto
 			) 
@@ -116,11 +123,16 @@ Patient PatientDialogPresenter::getPatientFromView()
 {
 	Patient patient = view->getPatient();
 
-	patient.medStats = medStats;
-	patient.allergies = allergies;
-	patient.rowid = rowid;
-	patient.insuranceStatus = insurance_status;
-	patient.PISHistory = PISHistory;
-	patient.HISHistory = HISHistory;
+	//if the patient has rowid, set the cached data
+	if (rowid) { 
+		patient.medStats = medStats;
+		patient.allergies = allergies;
+		patient.rowid = rowid;
+		patient.insuranceStatus = insurance_status;
+		patient.PISHistory = PISHistory;
+		patient.HISHistory = HISHistory;
+		patient.teethNotes = teeth_notes;
+		patient.patientNotes = patientNotes;
+	}
 	return patient;
 }

@@ -43,6 +43,7 @@ struct Patient
 	std::vector<Allergy> allergies;
 
 	TeethNotes teethNotes;
+	std::string patientNotes;
 
 	std::optional<std::vector<Procedure>> PISHistory;
 	std::optional<std::vector<Procedure>> HISHistory;

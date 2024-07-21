@@ -1,5 +1,6 @@
 #include "DbPatient.h"
 #include "Database.h"
+#include "Database/DbNotes.h"
 
 long long DbPatient::insert(const Patient& patient)
 {
@@ -136,7 +137,8 @@ Patient DbPatient::get(std::string patientID, int type)
         patient.sex = Patient::getSexFromEgn(patient.id);
     }
 
-    patient.teethNotes = getPresentNotes(patient.rowid);
+    patient.teethNotes = getToothNotes(patient.rowid);
+    patient.patientNotes = DbNotes::getNote(patient.rowid, -1);
     patient.medStats = getMedicalStatuses(patient.rowid, db);
     patient.allergies = getAllergies(patient.rowid, db);
     return patient;
@@ -177,7 +179,8 @@ Patient DbPatient::get(long long rowid)
         }
     }
 
-    patient.teethNotes = getPresentNotes(patient.rowid);
+    patient.teethNotes = getToothNotes(patient.rowid);
+    patient.patientNotes = DbNotes::getNote(patient.rowid, -1);
     patient.medStats = getMedicalStatuses(rowid, db);
     patient.allergies = getAllergies(patient.rowid, db);
 
@@ -446,7 +449,7 @@ std::vector<Allergy> DbPatient::getAllergies(long long patientRowid)
 }
 
 
-TeethNotes DbPatient::getPresentNotes(long long patientRowId)
+TeethNotes DbPatient::getToothNotes(long long patientRowId)
 {
     Db db("SELECT tooth, text FROM note WHERE patient_rowid=?");
 
@@ -456,7 +459,11 @@ TeethNotes DbPatient::getPresentNotes(long long patientRowId)
 
     while (db.hasRows())
     {
-        notes[db.asInt(0)] = db.asString(1);
+        auto index = db.asInt(0);
+        //teeth notes range from 0 to 31
+        if (index < 0 || index >=notes.size()) continue;
+
+        notes[index] = db.asString(1);
     }
 
     return notes;

@@ -19,20 +19,18 @@ std::string DbNotes::getNote(long long patientRowId, int toothIdx)
     return result;
 }
 
-void DbNotes::saveNote(const std::string& note, long long patientRowId, int toothIdx)
+bool DbNotes::saveNote(const std::string& note, long long patientRowId, int toothIdx)
 {
 
     Db db;
 
     if (note.empty())
     {
-        db.execute(
+        return db.execute(
             "DELETE FROM note WHERE "
             "patient_rowid = " + std::to_string(patientRowId) + " "
             "AND tooth = " + std::to_string(toothIdx)
         );
-
-        return;
     }
 
     db.newStatement(
@@ -44,5 +42,5 @@ void DbNotes::saveNote(const std::string& note, long long patientRowId, int toot
     db.bind(2, toothIdx);
     db.bind(3, note);
 
-    db.execute();
+    return db.execute();
 }

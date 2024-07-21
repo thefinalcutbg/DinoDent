@@ -44,6 +44,10 @@ void IconButton::paintEvent(QPaintEvent*)
 	
 	QIcon::Mode iconMode = isEnabled() ? QIcon::Mode::Normal : QIcon::Mode::Disabled;
 
+	if (m_monochrome) {
+		iconMode = QIcon::Mode::Disabled;
+	}
+
 	if (!icon().isNull())
 		icon().paint(&painter, iconRect, Qt::AlignCenter, iconMode);
 	
@@ -93,6 +97,12 @@ void IconButton::setHoverColor(const QColor& color)
 void IconButton::setBackgroundColor(const QColor& color)
 {
 	backgroundColor = color;
+	update();
+}
+
+void IconButton::setMonochrome(bool monochrome)
+{
+	m_monochrome = monochrome;
 	update();
 }
 

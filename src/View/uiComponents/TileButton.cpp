@@ -235,6 +235,9 @@ void PatientTile::setData(const Patient& patient, int age)
 
 	}
 
+	notesButton->setMonochrome(patient.patientNotes.empty());
+
+
 	birthday = patient.birth.isSameDayInTheYear();
 
 	zodiac = Zodiac::getPixmap(patient.birth.day, patient.birth.month);

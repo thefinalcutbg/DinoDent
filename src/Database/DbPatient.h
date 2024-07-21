@@ -25,6 +25,7 @@ namespace DbPatient
     std::queue<Patient> getPatientList(const Date& visitAfter, const std::string& rzi, const std::string lpk);
     Date getLastVisit(long long patientRowid, const std::string& rzi, const std::string lpk);
 
-    TeethNotes getPresentNotes(long long patientRowId);
+    TeethNotes getToothNotes(long long patientRowId);
+
 };
 

@@ -21,6 +21,8 @@ class PatientDialogPresenter
 	long long rowid{ 0 };
 	MedicalStatuses medStats;
 	std::vector<Allergy> allergies;
+	TeethNotes teeth_notes;
+	std::string patientNotes;
 
 	Patient getPatientFromView(); //sets the data not present in view
 

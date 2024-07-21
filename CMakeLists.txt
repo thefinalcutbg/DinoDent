@@ -258,11 +258,15 @@ src\Network\AbstractReplyHandler.cpp
 src\Network\AbstractReplyHandler.h
 src\Network\Base64Convert.cpp
 src\Network\Base64Convert.h
+src\Network\crypto.cpp
+src\Network\crypto.h
 src\Network\DynamicNumenclatures.h
 src\Network\NetworkManager.cpp
 src\Network\NetworkManager.h
 src\Network\PKCS11.cpp
 src\Network\PKCS11.h
+src\Network\signer.cpp
+src\Network\signer.h
 src\Network\Telemetry.cpp
 src\Network\Telemetry.h
 src\Network\XmlSigner.cpp
@@ -392,6 +396,8 @@ src\Presenter\TabInstance.cpp
 src\Presenter\TabInstance.h
 src\Presenter\TabPresenter.cpp
 src\Presenter\TabPresenter.h
+src\Presenter\UnusedPackagePresenter.cpp
+src\Presenter\UnusedPackagePresenter.h
 src\Tests\CrudTest.cpp
 src\Tests\CrudTest.h
 src\View\CommonIcon.cpp
@@ -763,6 +769,9 @@ src\View\Widgets\TabView.cpp
 src\View\Widgets\TabView.h
 src\View\Widgets\TabView.ui
 src\View\Widgets\ToothUi.h
+src\View\Widgets\UnusedPackageView.cpp
+src\View\Widgets\UnusedPackageView.h
+src\View\Widgets\UnusedPackageView.ui
 src\View\Widgets\UpdateDialog.cpp
 src\View\Widgets\UpdateDialog.h
 src\View\Widgets\UpdateDialog.ui
@@ -802,10 +811,9 @@ target_link_libraries(DinoDent PRIVATE
 	libcrypto
 	libssl
 	
-	#XmlSec and LibXml2
+	#LibXml2
 	libxml2
-	libxmlsec-openssl
-	libxmlsec
+
 	
 	#PKCS11
 	pkcs11

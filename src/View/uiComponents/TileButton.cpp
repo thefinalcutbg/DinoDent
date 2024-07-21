@@ -158,7 +158,7 @@ void PatientTile::paintInfo(QPainter* painter)
 
 	painter->setRenderHint(QPainter::Antialiasing);
 
-	if(zodiac) painter->drawPixmap(width()-36, height()-36, 32, 32, *zodiac);
+	if(zodiac) painter->drawPixmap(width()-37, height()-36, 32, 32, *zodiac);
 
 	static QPixmap bdayPx{ ":/icons/icon_bday.png" };
 

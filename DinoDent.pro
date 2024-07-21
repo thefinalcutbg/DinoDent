@@ -107,6 +107,7 @@ FORMS += \
     src/View/Widgets/StatisticDialogView.ui \
     src/View/Widgets/TabView.ui \
     src/View/Widgets/TableViewDialog.ui \
+    src/View/Widgets/UnusedPackageView.ui \
     src/View/Widgets/UpdateDialog.ui \
     src/View/Widgets/UpdateDownloader.ui \
     src/View/Widgets/UpdatePromptDialog.ui \
@@ -296,6 +297,7 @@ HEADERS += \
     src/Presenter/SurfacePanelPresenter.h \
     src/Presenter/TabInstance.h \
     src/Presenter/TabPresenter.h \
+    src/Presenter/UnusedPackagePresenter.h \
     src/Resources.h \
     src/Tests/CrudTest.h \
     src/Version.h \
@@ -444,6 +446,7 @@ HEADERS += \
     src/View/Widgets/TabView.h \
     src/View/Widgets/TableViewDialog.h \
     src/View/Widgets/ToothUi.h \
+    src/View/Widgets/UnusedPackageView.h \
     src/View/Widgets/UpdateDialog.h \
     src/View/Widgets/UpdateDownloader.h \
     src/View/Widgets/UpdatePromptDialog.h \
@@ -642,6 +645,7 @@ SOURCES += \
     src/Presenter/SurfacePanelPresenter.cpp \
     src/Presenter/TabInstance.cpp \
     src/Presenter/TabPresenter.cpp \
+    src/Presenter/UnusedPackagePresenter.cpp \
     src/Resources.cpp \
     src/Tests/CrudTest.cpp \
     src/View/CommonIcon.cpp \
@@ -746,6 +750,7 @@ SOURCES += \
     src/View/Widgets/StatisticDialogView.cpp \
     src/View/Widgets/TabView.cpp \
     src/View/Widgets/TableViewDialog.cpp \
+    src/View/Widgets/UnusedPackageView.cpp \
     src/View/Widgets/UpdateDialog.cpp \
     src/View/Widgets/UpdateDownloader.cpp \
     src/View/Widgets/UpdatePromptDialog.cpp \

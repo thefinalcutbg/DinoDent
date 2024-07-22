@@ -14,7 +14,7 @@ ChatDialog::ChatDialog(DinoDent* parent) : QDialog(parent)
 	ui.setupUi(this);
 	
 	setWindowTitle("IRC чат");
-	setWindowIcon(QIcon(":/icons/icon_mirc_glow.png"));
+	setWindowIcon(QIcon(":/icons/icon_mirc.png"));
 
 	setWindowFlag(Qt::WindowMaximizeButtonHint);
 

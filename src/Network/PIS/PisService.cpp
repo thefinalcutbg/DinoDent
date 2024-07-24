@@ -34,7 +34,7 @@ std::string PisService::getPersonIdTag(const Patient& p)
 	};
 
 	int personType = p.type;
-
+	//HIS and NHIF id type nomenclatures don't match!!!
 	if (p.foreigner && p.foreigner->isEHIC()) {
 		personType++;
 	}
@@ -44,10 +44,6 @@ std::string PisService::getPersonIdTag(const Patient& p)
 
 bool PisService::sendRequest(const std::string& query, SOAPAction header)
 {
-	/*
-Since both xmlSec and qt network manager adopt the private key and release it on their own
-we have to create two PKCS11 instances - one for the signing and one for the SSL connection
-*/
 	if (awaiting_reply) return true;
 
 	PKCS11 hsm;
@@ -78,7 +74,7 @@ we have to create two PKCS11 instances - one for the signing and one for the SSL
 			return false;
 		};
 	}
-
+	//Building the SOAP
 	std::string body = "<e:Body id=\"signedContent\">" + query + "</e:Body>" ;
 
 	std::string signedSoap = R"(<?xml version="1.0" encoding="utf-8"?><e:Envelope xmlns:e="http://schemas.xmlsoap.org/soap/envelope/"><e:Header>)";

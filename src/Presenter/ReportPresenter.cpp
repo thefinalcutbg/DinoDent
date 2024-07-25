@@ -100,20 +100,17 @@ void ReportPresenter::reset()
 
 void ReportPresenter::sendToPis()
 {
-	if (m_hasErrors &&
-		!ModalDialogBuilder::askDialog(
-			"Открити са грешки в отчета. "
-			"Сигурни ли сте, че искате да го изпратите към ПИС?")
-		)
-	{
+	auto dialogText = m_hasErrors ?
+		"Открити са грешки в отчета. "
+		"Сигурни ли сте, че искате да го изпратите към ПИС?"
+		:
+		"Желаете ли да изпратите отчета към ПИС?";
+
+
+	if (!ModalDialogBuilder::askDialog(dialogText)) {
 		return;
 	}
-	else
-	{
-		if(!ModalDialogBuilder::askDialog(
-			"Желаете ли да изпратите отчета към ПИС?")
-		) return;
-	}
+
 
 	sendFileService.sendAmbReport(
 		m_report.value(),

@@ -705,7 +705,7 @@
               <itemLocation Value="1" Type="enumAndFlags"/>
               <stretchToMaxHeight Value="0" Type="bool"/>
               <itemAlign Value="4" Type="enumAndFlags"/>
-              <content Type="QString">Информиран съм, че цената на денталната услуга не включва материала за протезата и медико-техническата дейност за изработката ѝ</content>
+              <content Type="QString">Информиран съм, че към цената на денталната услуга се добавя и цена за изработката на протезата.</content>
               <margin Value="4" Type="int"/>
               <alignment Value="33" Type="enumAndFlags"/>
               <autoWidth Value="0" Type="enumAndFlags"/>

@@ -86,7 +86,7 @@ bool EReferral::Issue::sendRequest(const std::string& examNrn, const Patient& pa
 
 		if (!data.isOPG())
 		{
-			contents += bind("note", "Зъб " + ToothUtils::getToothNumber(data.tooth_idx, false));
+			contents += bind("note", "Номер на зъб: " + std::to_string(ToothUtils::getToothNumber(data.tooth_idx, false)));
 		}
 	}
 

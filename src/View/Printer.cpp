@@ -569,8 +569,7 @@ void Print::referral(const Referral& ref, const Patient& patient, const std::str
         auto& practice = User::practice();
         auto data = std::get<MDD4Data>(ref.data);
 
-        report.loadFromFile(data.isOPG() ? ":/reports/report_mdd4.lrxml"
-        : ":/reports/report_mdd4tooth.lrxml");
+        report.loadFromFile(":/reports/report_mdd4.lrxml");
 
         fillCommonData(report, patient, doctor, practice);
 

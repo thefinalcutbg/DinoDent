@@ -39,7 +39,6 @@ UnusedPackageView::UnusedPackageView(QWidget *parent)
 	ui.tableWidget->hideColumn(0);
 	ui.tableWidget->horizontalHeader()->setSectionResizeMode(1, QHeaderView::ResizeMode::Stretch);
 	ui.tableWidget->setColumnWidth(4, 150);
-	ui.tableWidget->setColumnWidth(5, 80);
 
 	presenter.setView(this);
 
@@ -82,7 +81,7 @@ void UnusedPackageView::addRow(const PackageRowData& row)
 	item->setTextAlignment(Qt::AlignCenter);
 	ui.tableWidget->setItem(rowIdx, 4, item);
 
-	item = new QTableWidgetItem(row.exam ? "Да" : "Не");
+	item = new QTableWidgetItem(row.exam.c_str());
 	item->setTextAlignment(Qt::AlignCenter);
 	ui.tableWidget->setItem(rowIdx, 5, item);
 

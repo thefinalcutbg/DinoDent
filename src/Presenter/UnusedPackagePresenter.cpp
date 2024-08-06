@@ -196,7 +196,7 @@ void UnusedPackagePresenter::step3_pisCheck(const std::optional<std::vector<Proc
 	int max_procedures = patient.isAdult() ? 3 : 4;
 
 	int procedure_counter = 0;
-	bool exam = false;
+	Date exam;
 
 	for (auto& p : procedures) {
 
@@ -211,7 +211,7 @@ void UnusedPackagePresenter::step3_pisCheck(const std::optional<std::vector<Proc
 		if (p.date.year != m_year) continue;
 
 		if (p.code == 101) {
-			exam = true;
+			exam = p.date;
 		}
 
 		if (code_set.count(p.code)) {
@@ -236,12 +236,12 @@ void UnusedPackagePresenter::step3_pisCheck(const std::optional<std::vector<Proc
 		patient.firstLastName(),
 		patient.getAge(),
 		patient.phone,
-		lastVisit == Date() ? "Няма" : lastVisit.to8601(),
-		exam,
+		lastVisit.isDefault() ? "" : lastVisit.to8601(),
+		exam.isDefault() ? "" : exam.to8601(),
 		procedure_counter,
 		max_procedures,
-		upperDenture == Date() ? "" : upperDenture.to8601(),
-		lowerDenture == Date() ? "" : lowerDenture.to8601()
+		upperDenture.isDefault() ? "" : upperDenture.to8601(),
+		lowerDenture.isDefault() ? "" : lowerDenture.to8601()
 	};
 
 	s_data.push_back(row);

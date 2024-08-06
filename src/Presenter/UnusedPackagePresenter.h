@@ -14,7 +14,7 @@ struct PackageRowData {
 	int age;
 	std::string patientPhone;
 	std::string lastVisit;
-	bool exam;
+	std::string exam;
 	int procedure_count;
 	int procedure_max;
 	std::string lowerDenture;

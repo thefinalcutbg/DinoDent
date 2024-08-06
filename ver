@@ -20,7 +20,7 @@
 		]
 	},
 	"win64_dev": {
-		"ver": "1.115.0",
+		"ver": "1.15.0",
 		"dl": "https://github.com/thefinalcutbg/DinoDent/releases/download/v1.15.0/DinoDentSetup.exe",
 		"changeLog": [
 			"Функционалност за генериране на списък с пациенти, които не са използвали пакета си по НЗОК за текущата година",

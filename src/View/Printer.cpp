@@ -94,7 +94,7 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
     auto& doctor = User::doctor();
 	
 
-    if (patient.type < 5 && patient.type > -1)
+    if (patient.type < 5 && patient.type > 0)
     {
         report.dataManager()->setReportVariable("type", QString{ "x" });
         report.dataManager()->setReportVariable("typeX", typeCoords[patient.type].x);

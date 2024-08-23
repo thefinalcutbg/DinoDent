@@ -290,6 +290,19 @@ void Tooth::setStatus(Status code, bool present) {
 			m_supernumeral->clearStatuses();
 		}
 
+		if (code == Temporary) {
+
+			bool bridge = m_data[Bridge];
+			bool splint = m_data[Splint];
+			
+			for (auto& s : m_data) {
+				s = false;
+			}
+
+			m_data[Bridge] = bridge;
+			m_data[Splint] = splint;
+		}
+
 		m_data[Healthy] = isHealthy();
 
 		if (m_parent) {
@@ -300,6 +313,16 @@ void Tooth::setStatus(Status code, bool present) {
 	}
 
 	//handling add status
+
+	//the edge case for placing bridge over denture
+	m_data[Missing] =
+		(code == Bridge || code == Splint) &&
+		m_data[Denture] &&
+		!m_data[Impacted] &&
+		!m_data[Implant] &&
+		!m_data[Root];
+
+
 
 	for (auto c : incompat_codes[code]) {
 		m_data[c] = false;
@@ -336,7 +359,6 @@ void Tooth::setStatus(Status code, bool present) {
 	case HasSupernumeral:
 		if (m_supernumeral->noData()) m_supernumeral->setStatus(Healthy, true);
 		break;
-
 	default:
 		break;
 	}

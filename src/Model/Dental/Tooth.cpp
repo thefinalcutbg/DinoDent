@@ -315,13 +315,15 @@ void Tooth::setStatus(Status code, bool present) {
 	//handling add status
 
 	//the edge case for placing bridge over denture
-	m_data[Missing] =
+	if (
 		(code == Bridge || code == Splint) &&
 		m_data[Denture] &&
 		!m_data[Impacted] &&
 		!m_data[Implant] &&
-		!m_data[Root];
-
+		!m_data[Root]
+	) {
+		m_data[Missing] = true;
+	}
 
 
 	for (auto c : incompat_codes[code]) {

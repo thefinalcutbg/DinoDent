@@ -31,7 +31,9 @@ struct ProcedureSummary
     Date date;
     int code;
     ToothIndex tooth_idx;
-    bool extr;
+    bool isExtraction() const {
+        return code == 509 || code == 508;
+    };
 
 };
 

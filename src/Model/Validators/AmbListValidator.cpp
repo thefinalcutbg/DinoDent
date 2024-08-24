@@ -184,7 +184,7 @@ bool AmbListValidator::isValidAccordingToDb()
             currentYear[p.code] ++;
 
         //getting the already extracted teeth
-        if (p.extr) extractedTeeth.insert(p.tooth_idx);
+        if (p.isExtraction()) extractedTeeth.insert(p.tooth_idx);
     }
 
     PackageCounter packageCounter(NhifProcedures::getPackages(ambListDate)); //creating a package counter

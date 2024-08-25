@@ -32,7 +32,7 @@ struct ProcedureSummary
     int code;
     ToothIndex tooth_idx;
     bool isExtraction() const {
-        return code == 509 || code == 508;
+        return code == 510 || code == 509 || code == 508;
     };
 
 };

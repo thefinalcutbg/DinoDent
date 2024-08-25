@@ -41,7 +41,12 @@ std::vector<Procedure> HISHistoryAlgorithms::getProcedures(TiXmlDocument& doc)
 			auto elementName = pXml.Child(y).ToElement()->ValueStr();
 
 			//parsing teeth indexes:
-			if (elementName == "nhis:tooth" && p.code.type() != ProcedureType::full_exam)
+			if (elementName == "nhis:tooth" && 
+				(
+					p.code.type() != ProcedureType::full_exam && 
+					p.code.type() != ProcedureType::depuratio
+					)
+				)
 			{
 				auto index = ToothUtils::getToothFromNhifNum(pXml.Child(y).Child(0).ToElement()->Attribute("value"));
 

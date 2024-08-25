@@ -212,18 +212,15 @@ std::vector<ProcedureSummary> DbProcedure::getNhifSummary(long long patientRowId
 
 	 for (Db db(query); db.hasRows();)
 	 {
-
-		 ProcedureCode code(db.asString(1));
-
 		 summary.push_back(
 			 {
-				Date{ db.asString(0) },
-				code.oldCode(),
-				ToothIndex{
-				db.asInt(2),
-				db.asBool(3),
-				db.asBool(4)
-				}
+				.date = Date{ db.asString(0) },
+				.code = ProcedureCode(db.asString(1)).oldCode(),
+				.tooth_idx = ToothIndex{
+							.index = db.asInt(2),
+							.temp = db.asBool(3),
+							.supernumeral = db.asBool(4)
+							}
 			 });
 	 }
 

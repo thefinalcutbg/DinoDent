@@ -35,7 +35,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>5</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="generalSettings">
       <attribute name="title">
@@ -326,7 +326,7 @@
        <item>
         <widget class="QLabel" name="winPkcsLabel">
          <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;За карти модел &lt;span style=&quot; font-weight:700;&quot;&gt;eIDAS 8.1&lt;/span&gt; - инсталирайте допълнително &lt;a href=&quot;https://installer.id.ee/media/win/installer/AWP-5.3.5-SR1.x64.en-US.msi&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;AWP Identity Manager&lt;/span&gt;&lt;/a&gt;&lt;br/&gt;За карти модел &lt;span style=&quot; font-weight:700;&quot;&gt;IDPrime940B&lt;/span&gt; - инсталирайте допълнително &lt;a href=&quot;https://github.com/OpenSC/OpenSC/releases/download/0.23.0/OpenSC-0.23.0_win64.msi&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;OpenSC&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Ако все още подписът не работи или програмата се загася сама:&lt;/span&gt;&lt;br/&gt;За карти модел &lt;span style=&quot; font-weight:700;&quot;&gt;IDPrime940B&lt;/span&gt; - инсталирайте допълнително &lt;a href=&quot;https://github.com/OpenSC/OpenSC/releases/download/0.23.0/OpenSC-0.23.0_win64.msi&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;OpenSC&lt;br/&gt;&lt;/span&gt;&lt;/a&gt;За карти модел &lt;span style=&quot; font-weight:700;&quot;&gt;eIDAS 8.1&lt;/span&gt; - инсталирайте допълнително &lt;a href=&quot;https://installer.id.ee/media/win/installer/AWP-5.3.5-SR1.x64.en-US.msi&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;AWP Identity Manager&lt;/span&gt;&lt;/a&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="textFormat">
           <enum>Qt::RichText</enum>

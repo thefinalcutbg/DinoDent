@@ -104,14 +104,30 @@ Ekatte::Ekatte(int idx, const EkatteData& data) :
 
 bool Ekatte::isValidStr(const std::string& cityName)
 {
+   if (cityName.empty()) {
+        return false;
+   }
+
     return s_stringToIdx.count(cityName);
 }
 
-Ekatte::Ekatte(int idx) : Ekatte(idx, s_idxToData[idx])
-{}
+Ekatte::Ekatte(int idx)
+{
+    if (!s_idxToData.count(idx)) {
+        return;
+    }
 
-Ekatte::Ekatte(const std::string& cityString) : Ekatte(s_stringToIdx[cityString])
-{}
+    *this = Ekatte(idx, s_idxToData[idx]);
+}
+
+Ekatte::Ekatte(const std::string& cityString)
+{
+    if (!s_stringToIdx.count(cityString)) {
+        return;
+    }
+
+    *this = Ekatte(s_stringToIdx[cityString]);
+}
 
 Ekatte::Ekatte(int rhif, int healthRegion)
 {

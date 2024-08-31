@@ -45,12 +45,12 @@ struct AmbList
 		return (referrals.size() || procedures.hasNhifProcedure());
 	}
 
-	Date getDate() const //works only if procedures are sorted by date!
+	Date getDate() const
 	{
 		return Date(date);
 	}
 
-	Date getAmbSheetDateMin() const //returns the first day of the ambSheet month
+	Date getAmbSheetDateMin() const
 	{ 
 		auto date = Date(this->date);
 		return Date(1, date.month, date.year);

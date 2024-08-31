@@ -142,9 +142,22 @@ void TabPresenter::openInvoice(const std::string& monthNotif)
     try {
         auto presenter = new FinancialPresenter(view, monthNotif);
 
-        if (monthNotifAlreadyOpened(presenter->m_invoice.nhifData->fin_document_month_no)) {
-            delete presenter;
-            return;
+        auto monthNotifNum = presenter->m_invoice.nhifData->fin_document_month_no;
+
+        //checking if the month notif is already opened
+        for (auto& [index, tabInstance] : m_tabs)
+        {
+            if (tabInstance->type != TabType::Financial) continue;
+
+            auto finPresenter = static_cast<FinancialPresenter*>(tabInstance);
+
+            if (finPresenter->m_invoice.nhifData.has_value() &&
+                finPresenter->m_invoice.nhifData->fin_document_month_no == monthNotifNum) {
+
+                view->focusTab(index);
+                delete presenter;
+                return;
+            }
         }
 
         createNewTab(presenter);
@@ -177,7 +190,19 @@ void TabPresenter::openInvoice(long long patientRowId, const std::vector<Procedu
 
 void TabPresenter::open(const RowInstance& row, bool setFocus)
 {
-    if (tabAlreadyOpened(row)) return;
+    //checking if tab is already opened
+    for (auto& [index, tab] : m_tabs)
+    {
+        if (tab->type == row.type &&
+            tab->rowID() == row.rowID &&
+            (tab->patient == nullptr || //financial tab edge case
+                tab->patient->rowid == row.patientRowId)
+            )
+        {
+            view->focusTab(index);
+            return;
+        }
+    }
 
     TabInstance* newTab{nullptr};
 
@@ -211,44 +236,6 @@ void TabPresenter::open(const RowInstance& row, bool setFocus)
     }
 
     createNewTab(newTab, setFocus);
-}
-
-bool TabPresenter::tabAlreadyOpened(const RowInstance& row)
-{
-
-    for (auto& [index, tab] : m_tabs)
-    {
-        if (tab->type == row.type && 
-            tab->rowID() == row.rowID &&
-            (tab->patient == nullptr || //financial tab edge case
-            tab->patient->rowid == row.patientRowId )
-        )
-        {
-            view->focusTab(index);
-            return true;
-        }
-    }
-
-    return false;
-}
-
-bool TabPresenter::monthNotifAlreadyOpened(int monthNotifNum)
-{
-    for (auto& [index, tabInstance] : m_tabs)
-    {
-        if (tabInstance->type != TabType::Financial) continue;
-
-        auto finPresenter = static_cast<FinancialPresenter*>(tabInstance);
-
-        if (finPresenter->m_invoice.nhifData.has_value() &&
-            finPresenter->m_invoice.nhifData->fin_document_month_no == monthNotifNum) {
-
-            view->focusTab(index);
-            return true;
-        }
-    }
-
-    return false;
 }
 
 bool TabPresenter::newListAlreadyOpened(const Patient& patient)

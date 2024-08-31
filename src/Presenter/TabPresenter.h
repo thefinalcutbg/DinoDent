@@ -20,9 +20,6 @@ class TabPresenter
 	ITabView* view{ nullptr };
 
 	bool newListAlreadyOpened(const Patient& patient);
-//	bool permissionToClose(int tabId);
-	bool tabAlreadyOpened(const RowInstance& tab);
-	bool monthNotifAlreadyOpened(int monthNotifNum);
 
 	void createNewTab(TabInstance* tabInstance, bool setFocus = true);
 

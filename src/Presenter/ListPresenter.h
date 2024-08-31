@@ -50,8 +50,6 @@ class ListPresenter : public TabInstance
     EMedicalNotice::Cancel eMedicalNoticeCancel;
     EHospitalization::Fetch eHospitalizationFetch;
 
-    std::vector<Procedure> getToothHistory(int toothIdx);
-
     void prepareDerivedForSwitch() override {
         patient_info.setCurrent(false);
     }

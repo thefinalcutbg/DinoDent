@@ -569,36 +569,6 @@ void ListPresenter::historyRequested()
     statusChanged();
 }
 
-
-std::vector<Procedure> ListPresenter::getToothHistory(int toothIdx)
-{
-    std::vector<Procedure> result = DbProcedure::getToothProcedures(patient->rowid, toothIdx);
-
-    if (patient->HISHistory) {
-        for (auto& p : patient->HISHistory.value())
-        {
-            if (p.tooth_idx.index == toothIdx) result.push_back(p);
-        }
-    }
-
-    if (patient->PISHistory)
-    {
-        for (auto& p : patient->PISHistory.value())
-        {
-            if (p.tooth_idx.index == toothIdx) result.push_back(p);
-        }
-    }
-
-    std::sort(result.begin(), result.end(), [](const Procedure& a, const Procedure& b) -> bool
-        {
-            return a.date < b.date;
-        }
-    );
-
-    return result;
-    
-}
-
 int ListPresenter::generateAmbListNumber()
 {
     int newNumber = m_ambList.number;
@@ -614,7 +584,32 @@ int ListPresenter::generateAmbListNumber()
 
 void ListPresenter::openDetails(int toothIdx)
 {
-    DetailedStatusPresenter d(toothIdx, patient->rowid, getToothHistory(toothIdx));
+    if (toothIdx < 0 || toothIdx > 31) return;
+
+    std::vector<Procedure> history = DbProcedure::getToothProcedures(patient->rowid, toothIdx);
+
+    if (patient->HISHistory) {
+        for (auto& p : patient->HISHistory.value())
+        {
+            if (p.tooth_idx.index == toothIdx) history.push_back(p);
+        }
+    }
+
+    if (patient->PISHistory)
+    {
+        for (auto& p : patient->PISHistory.value())
+        {
+            if (p.tooth_idx.index == toothIdx) history.push_back(p);
+        }
+    }
+
+    std::sort(history.begin(), history.end(), [](const Procedure& a, const Procedure& b) -> bool
+        {
+            return a.date < b.date;
+        }
+    );
+
+    DetailedStatusPresenter d(toothIdx, patient->rowid, history);
 
     d.open();
 
@@ -630,8 +625,6 @@ void ListPresenter::openDetails()
 {
     if (m_selectedIndexes.size() == 1) openDetails(m_selectedIndexes[0]);
 }
-
-
 
 void ListPresenter::refreshProcedureView()
 {

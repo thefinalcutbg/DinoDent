@@ -1,6 +1,4 @@
 ﻿#include "ReportFilesView.h"
-#include <QPainter>
-
 
 ReportFilesView::ReportFilesView(QWidget *parent)
 	: QWidget(parent)
@@ -49,12 +47,6 @@ void ReportFilesView::setFiles(const std::vector<ReportFile>&fileRows)
 	if (fileRows.size()) {
 		ui.loadPISbutton->setText("Опресни");
 	}
-}
-
-void ReportFilesView::paintEvent(QPaintEvent*)
-{
-	QPainter painter(this);
-	painter.fillRect(rect(), QColor(Qt::white));
 }
 
 ReportFilesView::~ReportFilesView()

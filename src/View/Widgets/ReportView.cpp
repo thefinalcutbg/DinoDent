@@ -1,6 +1,5 @@
 ﻿#include "ReportView.h"
 #include <QFileDialog>
-#include <QPainter>
 #include <QDialog>
 
 ReportView::ReportView(QWidget* parent)
@@ -75,14 +74,6 @@ ReportView::ReportView(QWidget* parent)
 	//ui.textEdit->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
 
 }
-
-
-void ReportView::paintEvent(QPaintEvent*)
-{
-	QPainter painter(this);
-	painter.fillRect(rect(), QColor(Qt::white));
-}
-
 
 ReportView::~ReportView()
 {

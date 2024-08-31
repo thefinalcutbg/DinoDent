@@ -15,8 +15,6 @@ class FiscalReportView : public QWidget, public IFiscalReportView
 
 	FiscalReceiptTableModel data_model;
 
-	void paintEvent(QPaintEvent* e) override;
-
 	int getCurrentIndex();
 
 public:

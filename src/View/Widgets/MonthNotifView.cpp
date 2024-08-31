@@ -69,12 +69,3 @@ void MonthNotifView::closeParentDialog()
 {
     if (parent_dialog) { parent_dialog->close();}
 }
-
-
-void MonthNotifView::paintEvent(QPaintEvent* event)
-{
-    Q_UNUSED(event)
-
-    QPainter painter(this);
-    painter.fillRect(rect(), QColor(Qt::white));
-}

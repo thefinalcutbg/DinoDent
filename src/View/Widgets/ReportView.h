@@ -14,8 +14,6 @@ class ReportView : public QWidget, public IReportView
 	//if true, generate button acts as abort button
 	bool m_stop{false};
 
-	void paintEvent(QPaintEvent* event) override;
-
 public:
 	ReportView(QWidget *parent = Q_NULLPTR);
 

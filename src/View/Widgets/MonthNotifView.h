@@ -18,8 +18,6 @@ class MonthNotifView final: public QWidget, public IMonthNotifView
 
 	int m_idx{ -1 };
 
-	void paintEvent(QPaintEvent* event) override;
-
 public:
 	MonthNotifView(QWidget *parent = nullptr);
 	void setPresenter(MonthNotifPresenter* presenter);

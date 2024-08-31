@@ -14,7 +14,7 @@ class ReportFilesView : public QWidget, public IReportFilesView
 	ReportFilesModel model;
 
 	ReportFilesPresenter presenter;
-	void paintEvent(QPaintEvent* event) override;
+
 public:
 	ReportFilesView(QWidget *parent = nullptr);
 	

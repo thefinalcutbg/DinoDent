@@ -1,7 +1,5 @@
 #include "FiscalReportView.h"
-
 #include "Model/Date.h"
-#include <QPainter>
 
 FiscalReportView::FiscalReportView(QWidget *parent)
 	: QWidget(parent)
@@ -59,12 +57,5 @@ int FiscalReportView::getCurrentIndex()
 	ui.deleteReceipt->setDisabled(data.empty());
 }
 
-
 FiscalReportView::~FiscalReportView()
 {}
-
-void FiscalReportView::paintEvent(QPaintEvent *)
-{
-	QPainter p(this);
-	p.fillRect(rect(), Qt::white);
-}

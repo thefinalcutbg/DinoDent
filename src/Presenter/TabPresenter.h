@@ -16,7 +16,6 @@ class TabPresenter
 	int m_indexCounter{ -1 };
 	int m_currentIndex{ -1 };
 
-
 	ITabView* view{ nullptr };
 
 	bool newListAlreadyOpened(const Patient& patient);

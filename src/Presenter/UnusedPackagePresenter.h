@@ -25,7 +25,7 @@ struct PackageRowData {
 
 class UnusedPackagePresenter
 {
-	UnusedPackageView* view;
+	UnusedPackageView* view = nullptr;
 
 	static inline std::queue<Patient> m_queue;
 	bool m_in_progress{ false };

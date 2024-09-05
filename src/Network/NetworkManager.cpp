@@ -1,6 +1,7 @@
 ﻿#include "NetworkManager.h"
 
 #include <set>
+#include <mutex>
 
 #include <QApplication>
 #include <QNetworkAccessManager>
@@ -16,6 +17,7 @@
 
 QNetworkAccessManager* s_manager{ nullptr };
 std::set<AbstractReplyHandler*> s_handlers;
+std::mutex s_handler_mutex;
 int s_timeout = 15000;
 
 QNetworkAccessManager* getManager() {
@@ -23,12 +25,6 @@ QNetworkAccessManager* getManager() {
     if (!s_manager) {
         s_manager = new QNetworkAccessManager();
         s_manager->setTransferTimeout(s_timeout);
-
-      /*
-            QObject::connect(s_manager, &QNetworkAccessManager::sslErrors, [=] {
-                qDebug() << "ERRORRRR";
-           });
-       */
     }
 
     return s_manager;
@@ -42,7 +38,11 @@ void postRequest(const QNetworkRequest& request, AbstractReplyHandler* handler, 
 
     auto reply = getManager()->post(request, query.data());
 
-    s_handlers.insert(handler);
+    {
+        std::lock_guard<std::mutex> lock(s_handler_mutex);
+       
+        s_handlers.insert(handler);
+    }
 
     QApplication::setOverrideCursor(Qt::BusyCursor);
 
@@ -50,8 +50,6 @@ void postRequest(const QNetworkRequest& request, AbstractReplyHandler* handler, 
         [=](QNetworkReply::NetworkError)
         {
             QApplication::restoreOverrideCursor();
-
-            //ModalDialogBuilder::showError("Възникна грешка");
         }
     );
 
@@ -66,7 +64,11 @@ void postRequest(const QNetworkRequest& request, AbstractReplyHandler* handler, 
                 ModalDialogBuilder::showMultilineDialog(replyStr, "Отговор");
             }
 
-            if (s_handlers.count(handler) == 0) return;
+            {
+                std::lock_guard<std::mutex> lock(s_handler_mutex);
+
+                if (s_handlers.count(handler) == 0) return;
+            }
 
             handler->getReply(replyStr);
 
@@ -249,6 +251,8 @@ void NetworkManager::clearAccessCache()
 
 void NetworkManager::unsubscribeHandler(AbstractReplyHandler* handler)
 {
+    std::lock_guard<std::mutex> lock(s_handler_mutex);
+
     if (s_handlers.count(handler)) {
         s_handlers.erase(handler);
     }

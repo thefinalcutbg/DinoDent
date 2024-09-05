@@ -4,7 +4,7 @@
 
 ProcedureHistoryPresenter::ProcedureHistoryPresenter(const Patient& p) :
 	pis_history(p.PISHistory), 
-	his_history(p.HISHistory),
+	//his_history(p.HISHistory),
 	ref_patient(p)
 {
 }

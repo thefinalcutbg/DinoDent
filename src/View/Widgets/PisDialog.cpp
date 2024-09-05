@@ -7,6 +7,7 @@ PisDialog::PisDialog(QWidget *parent)
 
 	setWindowTitle("Месечни отчети и известия");
 	setWindowIcon(QIcon(":/icons/icon_nhif.png"));
+	setWindowFlag(Qt::WindowMaximizeButtonHint);
 
 	ui.monthNotifView->setParentDialog(this);
 

@@ -468,6 +468,12 @@ std::string XML::getInvoice(const Invoice& invoice)
 
     addElementWithText(aggregatedAmounts, "payment_type", "B");
     addElementWithText(aggregatedAmounts, "total_amount", FreeFn::formatDouble(invoice.amount()));
+    
+    if (vat) {
+        addElementWithText(aggregatedAmounts, "vat_rate", std::to_string(0));
+        addElementWithText(aggregatedAmounts, "vat_value", std::to_string(0));
+    }
+    
     addElementWithText(aggregatedAmounts, "payment_amount", FreeFn::formatDouble(invoice.amount()));
     addElementWithText(aggregatedAmounts, "original", "Y");
     addElementWithText(aggregatedAmounts, "tax_event_date", invoice.taxEventDate.to8601());

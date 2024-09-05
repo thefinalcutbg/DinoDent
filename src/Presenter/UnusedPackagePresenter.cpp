@@ -28,7 +28,7 @@ void UnusedPackagePresenter::newAmbList(long long patientRowid)
 	RowInstance instance(TabType::AmbList);
 	instance.rowID = 0;
 	instance.patientRowId = patientRowid;
-	TabPresenter::get().open(instance, true);
+	TabPresenter::get().open(instance, false);
 }
 
 void UnusedPackagePresenter::popQueue()

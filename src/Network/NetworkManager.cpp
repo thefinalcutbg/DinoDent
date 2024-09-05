@@ -36,44 +36,39 @@ void postRequest(const QNetworkRequest& request, AbstractReplyHandler* handler, 
         ModalDialogBuilder::showMultilineDialog(query, "Заявка");
     }
 
+
+
     auto reply = getManager()->post(request, query.data());
 
     {
         std::lock_guard<std::mutex> lock(s_handler_mutex);
-       
+
         s_handlers.insert(handler);
     }
 
     QApplication::setOverrideCursor(Qt::BusyCursor);
 
-    QObject::connect(reply, &QNetworkReply::errorOccurred,
-        [=](QNetworkReply::NetworkError)
-        {
+
+    QObject::connect(reply, &QNetworkReply::errorOccurred, reply, [] (QNetworkReply::NetworkError) {
             QApplication::restoreOverrideCursor();
         }
     );
 
-    QObject::connect(reply, &QNetworkReply::finished,
-        [=] {
+    QObject::connect(reply, &QNetworkReply::finished, reply, [reply, weakHandler = handler->weak_from_this()] {
 
             QApplication::restoreOverrideCursor();
 
-            auto replyStr = reply->readAll().toStdString();
+            auto handler = weakHandler.lock();
+            if (!handler)
+                return;
 
+            auto replyStr = reply->readAll().toStdString();
             if (GlobalSettings::showRepliesEnabled()) {
                 ModalDialogBuilder::showMultilineDialog(replyStr, "Отговор");
             }
 
-            {
-                std::lock_guard<std::mutex> lock(s_handler_mutex);
-
-                if (s_handlers.count(handler) == 0) return;
-            }
-
             handler->getReply(replyStr);
-
             reply->deleteLater();
-
         });
 
     QObject::connect(reply, &QNetworkReply::sslErrors, [=] {
@@ -110,7 +105,7 @@ void NetworkManager::sendRequestToPis(
     request.setRawHeader("accept", "\"application/xml\"");
 
     postRequest(request, handler, soapRequest);
-        
+
 }
 
 void NetworkManager::sendRequestToHis(
@@ -160,7 +155,7 @@ void NetworkManager::sendRequestToNra(const std::string xmlRequest, AbstractRepl
     request.setSslConfiguration(QSslConfiguration::defaultConfiguration());
     request.setHeader(QNetworkRequest::KnownHeaders::ContentTypeHeader, "application/xml;charset=\"utf-8\"");
     request.setRawHeader("accept", "\"application/xml\"");
-    
+
     postRequest(request, handler, xmlRequest);
 
 
@@ -226,7 +221,7 @@ void NetworkManager::requestToken(const std::string& signedChallenge)
     request.setRawHeader("Connection", "Keep-Alive");
 
     QNetworkReply* reply = manager->post(request, signedChallenge.c_str());
-    
+
     QObject::connect(reply, &QNetworkReply::finished,
         [=] {
 
@@ -266,14 +261,14 @@ void NetworkManager::unsubscribeHandler(AbstractReplyHandler* handler)
 QNetworkReply* NetworkManager::simpleRequest(const char* url)
 {
     QNetworkRequest request(QUrl{url});
-    
+
     return getManager()->get(request);
 }
 
 void NetworkManager::setTimeout(int seconds)
 {
     s_timeout = seconds ? seconds * 1000 : 15000;
-    
+
     if (s_manager) {
         s_manager->setTransferTimeout(s_timeout);
     }

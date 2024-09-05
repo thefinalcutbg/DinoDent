@@ -18,7 +18,7 @@ std::string Crypto::canonicalizeXML(const std::string& xmlInput)
     if (doc == nullptr) {
         return "Error parsing XML";
     }
-   
+
     xmlChar* canonicalBuffer = nullptr;
     int bufferSize = 0;
 
@@ -243,7 +243,7 @@ bool Crypto::isValidX509(x509_st* cert)
     }
 
     return true; // Certificate is valid
-    
+
 }
 
 std::vector<std::pair<std::string, std::string>> getNamespacesFromRoot(xmlNodePtr root) {

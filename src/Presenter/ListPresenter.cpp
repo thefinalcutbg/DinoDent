@@ -32,10 +32,10 @@ ListPresenter::ListPresenter(ITabView* tabView, std::shared_ptr<Patient> patient
     if (m_ambList.rowid) return;
 
     //the list is NEW:
-    if (patient->city.isUnfav() && 
+    if (patient->city.isUnfav() &&
         User::practice().practice_address.isUnfav() &&
         User::practice().practice_address.getIdxAsInt()
-        == 
+        ==
         patient->city.getIdxAsInt()
     ) {
         m_ambList.nhifData.isUnfavourable = true;
@@ -69,7 +69,7 @@ void ListPresenter::statusChanged()
 void ListPresenter::setHisButtonToView()
 {
     if (m_ambList.nrn.empty()) {
-        
+
         view->setHisButtonText(
             IListView::HisButtonProperties
             {
@@ -195,10 +195,10 @@ bool ListPresenter::isValid()
 
     if (checker.ambListIsValid()) return true;
 
-    return 
+    return
         ModalDialogBuilder::askDialog(
-            checker.getErrorMsg() + 
-            "\nЖелаете ли да запазите листа въпреки това?" 
+            checker.getErrorMsg() +
+            "\nЖелаете ли да запазите листа въпреки това?"
     );
 
 }
@@ -210,13 +210,13 @@ TabName ListPresenter::getTabName()
 
     n.header += m_ambList.isNew() ? "Нов амб.лист " :
         "Амб.лист ";
-    
+
     n.header += m_ambList.nrn.size() ?
             m_ambList.nrn
-            : 
+            :
             "№" + std::to_string(m_ambList.number);
 
-   
+
     n.footer = patient->FirstName;
     n.footer += " ";
     n.footer += patient->LastName;
@@ -224,7 +224,7 @@ TabName ListPresenter::getTabName()
     if (m_ambList.isNhifSheet()) {
         n.footer_icon = CommonIcon::NHIF;
     }
-    
+
     if (m_ambList.nrn.size()) {
         n.header_icon = m_ambList.his_updated ? CommonIcon::HIS : CommonIcon::HISGRAY;
     }
@@ -246,7 +246,7 @@ bool ListPresenter::save()
     auto d = m_ambList.getDate();
 
     if (
-        m_ambList.nrn.empty() && 
+        m_ambList.nrn.empty() &&
         DbAmbList::suchNumberExists(d.year, m_ambList.number, m_ambList.rowid) &&
        !ModalDialogBuilder::askDialog(
             "Амбулаторен лист с такъв номер вече съществува. "
@@ -289,7 +289,7 @@ void ListPresenter::print()
 void ListPresenter::setDataToView()
 {
     view->setPresenter(this);
-    
+
     patient_info.setDate(m_ambList.getDate());
 
     patient_info.setCurrent(true);
@@ -310,7 +310,7 @@ void ListPresenter::setDataToView()
     }
 
     view->setNotes(patient->teethNotes);
-    
+
     view->setAdditionalDocuments(m_ambList.referrals, m_ambList.medical_notices);
 
     refreshProcedureView();
@@ -333,7 +333,7 @@ void ListPresenter::setDataToView()
                 patient->PISHistory = procedures;
             };
 
-            querySent = dentalActService.sendRequest(*patient, false, callback);
+            querySent = dentalActService->sendRequest(*patient, false, callback);
         }
 
         if (!querySent) {
@@ -342,15 +342,15 @@ void ListPresenter::setDataToView()
         }
 
         if (User::settings().getHisHistoryAuto) {
-            
+
             auto callback = [&](const std::optional<std::vector<Procedure>>& result, const ToothContainer& teeth) {
 
                 if (!result) return;
- 
+
                 auto& procedures = result.value();
 
                 patient->HISHistory = procedures;
-  
+
                 if (!m_ambList.isNew()) return;
 
                 m_ambList.teeth.copyOnlyOnUnknown(teeth);
@@ -360,10 +360,10 @@ void ListPresenter::setDataToView()
                     view->repaintTooth(ToothPaintHint{ m_ambList.teeth[i], patient->teethNotes[i] });
                 }
 
-                
+
             };
 
-            eDentalGetStatusAndProceduresService.sendRequest(*patient, false, callback);
+            eDentalGetStatusAndProceduresService->sendRequest(*patient, false, callback);
 
         }
 
@@ -394,7 +394,7 @@ void ListPresenter::addFinancialReceipt()
 {
     if (isNew()) {
         ModalDialogBuilder::showMessage(
-            "Запазете амбулаторния лист преди да пуснете опис на касов бон" 
+            "Запазете амбулаторния лист преди да пуснете опис на касов бон"
         );
         return;
     }
@@ -616,7 +616,7 @@ void ListPresenter::openDetails(int toothIdx)
     patient->teethNotes[toothIdx] = d.getNote();
 
     view->setNotes(patient->teethNotes);
-  
+
     view->repaintTooth(ToothPaintHint(m_ambList.teeth[toothIdx], patient->teethNotes[toothIdx]));
 
 }
@@ -786,7 +786,7 @@ void ListPresenter::editMedicalNotice(int index)
 
 void ListPresenter::sendMedicalNoticeToHis(int index)
 {
-    if (m_ambList.nrn.empty()) 
+    if (m_ambList.nrn.empty())
     {
         ModalDialogBuilder::showMessage("За да издадете медицинска бележка, първо изпратете амбулаторния лист в НЗИС");
         return;
@@ -800,7 +800,7 @@ void ListPresenter::sendMedicalNoticeToHis(int index)
             if (nrn.empty()) return;
 
             m_ambList.medical_notices[index].nrn = nrn;
-            
+
             DbMedicalNotice::save(m_ambList.medical_notices, m_ambList.rowid);
 
             ModalDialogBuilder::showMessage("Медицинската бележка е изпратено успешно");
@@ -848,7 +848,7 @@ void ListPresenter::addReferral(ReferralType type)
 
     if (!User::hasNhifContract()) {
         ModalDialogBuilder::showMessage(
-            "За да създадете направление, трябва да попълните данните" 
+            "За да създадете направление, трябва да попълните данните"
             "\nна договора с НЗОК и кодът на специалността от насторйки"
         );
 
@@ -916,13 +916,13 @@ void ListPresenter::addReferral(ReferralType type)
     view->setAdditionalDocuments(m_ambList.referrals, m_ambList.medical_notices);
 
     dynamicNhifConversion();
-   
+
     refreshTabName();
 
     if (m_ambList.isNew()) return;
-        
+
     DbReferral::saveReferrals(m_ambList.referrals, m_ambList.rowid);
-    
+
     if (!m_ambList.referrals.back().isNrnType()) return;
 
     sendReferralToHis(m_ambList.referrals.size() - 1);
@@ -952,7 +952,7 @@ void ListPresenter::printReferral(int index)
     auto& ref = m_ambList.referrals[index];
 
     if (ref.isNrnType()) {
-        
+
         if (ref.type != ReferralType::MDD4) return;
 
         if (!ref.isSentToHIS() &&
@@ -1043,7 +1043,7 @@ void ListPresenter::removeReferral(int index)
                 m_ambList.referrals.erase(m_ambList.referrals.begin() + index);
 
                 ModalDialogBuilder::showMessage("Направлението е анулирано успешно");
-                
+
                 DbReferral::saveReferrals(m_ambList.referrals, m_ambList.rowid);
 
                 dynamicNhifConversion();
@@ -1052,7 +1052,7 @@ void ListPresenter::removeReferral(int index)
 
                 refreshTabName();
 
-               
+
             }
         );
     }
@@ -1105,11 +1105,11 @@ void ListPresenter::hisButtonPressed()
                 if (nrn.empty()) {
                     return;
                 }
-                
+
                 m_ambList.nrn = nrn;
 
                 for (auto& [sequence, hisIdx] : seqIdxPair) {
-                    
+
                     m_ambList.procedures[sequence].his_index = hisIdx;
                 }
 

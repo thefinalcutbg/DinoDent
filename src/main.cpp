@@ -1,6 +1,5 @@
 ﻿#include <QtWidgets/QApplication>
 #include "View/Widgets/DinoDent.h"
-#include "Network/UpdateService/UpdateService.h"
 #include <QtGlobal>
 #include "GlobalSettings.h"
 
@@ -15,7 +14,9 @@ int main(int argc, char *argv[])
 
     GlobalSettings::createCfgIfNotExists();
 
+#ifndef Q_OS_LINUX
     if (UpdateService::restartForUpdate()) { return 0; };
+#endif
 
     if (!initFunction()) {  return 0;  }
 

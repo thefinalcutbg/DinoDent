@@ -7,7 +7,7 @@ CONFIG += c++20
 DEFINES -= QT_DISABLE_DEPRECATED_BEFORE=0x060000
 
 CONFIG += no_zint no_svg no_formdesigner no_embedded_designer #limereport options
-include(../LimeReport/limereport/limereport.pri) #pri file from LimeReport source code
+include(../LimeReport/limereport.pri) #pri file from LimeReport source code
 
 unix:!macx{
 
@@ -36,10 +36,11 @@ macx:{
 
 }
 
+message("$$QMAKE_INCDIR/libxml2")
 INCLUDEPATH += $$PWD/src
 INCLUDEPATH += $$PWD/include #for jsoncpp, sqlite3 and tinyxml
 INCLUDEPATH += $$DEPFOLDER/include
-INCLUDEPATH += $$DEPFOLDER/include/libxml2
+INCLUDEPATH += /usr/include/libxml2 # $$DEPFOLDER/include/
 
 RESOURCES += \
     resources/Resource.qrc

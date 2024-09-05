@@ -4,7 +4,6 @@
 #include <memory>
 #include "View/Interfaces/IListView.h"
 #include "Model/Referrals/RefNum.h"
-#include "Database/DbAmbList.h"
 
 #include "Presenter/TabInstance.h"
 #include "SurfacePanelPresenter.h"
@@ -36,26 +35,26 @@ class ListPresenter : public TabInstance
 
     bool firstFocus{ true };
 
-    DentalActivitiesService dentalActService;
-    NraStatusService nraStatusServ;
-    NssiPentionService nssiService;
-    DiagnosisService nhifDiagnosisServ;
-    EDental::Open eDentalOpenService;
-    EDental::Cancel eDentalCancelService;
-    EDental::Augment eDentalAugmentService;
-    EDental::GetStatusAndProcedures eDentalGetStatusAndProceduresService;
-    EReferral::Issue eReferralIssueService;
-    EReferral::Cancel eReferralCancelService;
-    EMedicalNotice::Issue eMedicalNoticeIssue;
-    EMedicalNotice::Cancel eMedicalNoticeCancel;
-    EHospitalization::Fetch eHospitalizationFetch;
+    std::shared_ptr<DentalActivitiesService> dentalActService;
+    std::shared_ptr<NraStatusService> nraStatusServ;
+    std::shared_ptr<NssiPentionService> nssiService;
+    std::shared_ptr<DiagnosisService> nhifDiagnosisServ;
+    std::shared_ptr<EDental::Open> eDentalOpenService;
+    std::shared_ptr<EDental::Cancel> eDentalCancelService;
+    std::shared_ptr<EDental::Augment> eDentalAugmentService;
+    std::shared_ptr<EDental::GetStatusAndProcedures> eDentalGetStatusAndProceduresService;
+    std::shared_ptr<EReferral::Issue> eReferralIssueService;
+    std::shared_ptr<EReferral::Cancel> eReferralCancelService;
+    std::shared_ptr<EMedicalNotice::Issue> eMedicalNoticeIssue;
+    std::shared_ptr<EMedicalNotice::Cancel> eMedicalNoticeCancel;
+    std::shared_ptr<EHospitalization::Fetch> eHospitalizationFetch;
 
     void prepareDerivedForSwitch() override {
         patient_info.setCurrent(false);
     }
 
     int generateAmbListNumber();
-    
+
     bool isValid();
     void refreshProcedureView();
     void statusChanged();
@@ -88,7 +87,7 @@ public:
     void setOther(int code);
 
     void setSelectedTeeth(const std::vector<int>& SelectedIndexes);
-    
+
     void historyRequested();
 
     void openDetails(int toothIdx);
@@ -113,11 +112,11 @@ public:
     void sendReferralToHis(int index);
 
     void setNhifData(const NhifSheetData& data);
-    
+
     void createInvoice();
     void createPerioMeasurment();
     void createPrescription();
-    
+
     void hisButtonPressed();
 
     ~ListPresenter();

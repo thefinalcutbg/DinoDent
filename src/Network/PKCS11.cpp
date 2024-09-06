@@ -85,7 +85,7 @@ PKCS11::PKCS11()
 	
 	}
 
-	if (m_certificate == nullptr) return;
+	if (m_certificate == nullptr) { return; }
 
 	int length = i2d_X509(m_certificate->x509, 0);
 
@@ -137,8 +137,12 @@ const std::string& PKCS11::pem_x509cert() const
 	return m_509;
 }
 
-evp_pkey_st* PKCS11::takePrivateKey()
+evp_pkey_st* PKCS11::takePrivateKey(bool takeOwnership)
 {
+	if (takeOwnership) {
+		prv_key_owned = false;
+	}
+
 	return m_prv_key;
 }
 
@@ -160,14 +164,17 @@ void PKCS11::cleanup()
 	if (ctx)
 	{
 		PKCS11_CTX_unload(ctx);
+		ctx = nullptr;
 	}
 }
 
 PKCS11::~PKCS11()
 {
-	/*
-		both xmlsec and qt take ownership of the private key
-		so releasing the slots causes a crash
-	*/
-	//PKCS11_release_all_slots(ctx, m_slots, nslots);
+	//qt takes ownership of the private key, so there's no way to clean up :(
+	if (!prv_key_owned) return;
+
+	PKCS11_release_all_slots(ctx, pslots, nslots);
+	nslots = 0;
+	pslots = 0;
+	current_slot = nullptr;
 }

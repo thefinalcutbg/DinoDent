@@ -101,7 +101,7 @@ void NetworkManager::sendRequestToPis(
     QSslConfiguration config = QSslConfiguration::defaultConfiguration();
     config.setProtocol(QSsl::SslProtocol::TlsV1_2);
     config.setLocalCertificate(QSslCertificate(token.pem_x509cert().data()));
-    config.setPrivateKey(QSslKey(Qt::HANDLE(token.takePrivateKey()), QSsl::KeyType::PrivateKey));
+    config.setPrivateKey(QSslKey(Qt::HANDLE(token.takePrivateKey(true)), QSsl::KeyType::PrivateKey));
 
     QNetworkRequest request(QUrl("https://pis.nhif.bg/ws/PISService"));
     request.setSslConfiguration(config);

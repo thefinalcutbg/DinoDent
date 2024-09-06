@@ -24,7 +24,7 @@ void SendFileService::sendInvoice(const Invoice& invoice, const std::string& rzi
 		"<ns1:user><ns1:msp>" + rziCode + "</ns1:msp></ns1:user>"
 
 		"<ns1:file>"
-		"<ns2:base64>" + Base64Convert::encode(invoiceStr.data(), invoiceStr.size()) + "</ns2:base64>"
+		"<ns2:base64>" + Base64Convert::encode(invoiceStr) + "</ns2:base64>"
 		"<ns2:type>xml</ns2:type>"
 		"<ns2:encoding>utf-8</ns2:encoding>"
 		"</ns1:file>"
@@ -45,7 +45,7 @@ void SendFileService::sendAmbReport(const std::string& data, const std::string& 
 			"<ns1:user><ns1:uin>" + doctorLPK + "</ns1:uin></ns1:user>"
 
 			"<ns1:file>"
-				"<ns2:base64>" + Base64Convert::encode(data.data(), data.size()) + "</ns2:base64>"
+				"<ns2:base64>" + Base64Convert::encode(data) + "</ns2:base64>"
 				"<ns2:type>xml</ns2:type>"
 				"<ns2:encoding>utf-8</ns2:encoding>"
 			"</ns1:file>"

@@ -1,7 +1,7 @@
 ﻿#include "PKCS11.h"
 #include <libp11.h>
 #include <vector>
-#include "Base64Convert.h"
+#include "crypto.h"
 #include <filesystem>
 #include <QSslCertificate>
 #include "GlobalSettings.h"
@@ -29,7 +29,7 @@ bool isValidCertificate(PKCS11_cert_st* cert)
 
 	std::string certResult = "-----BEGIN CERTIFICATE-----\n";
 
-	certResult.append(Base64Convert::encode(vec.data(), vec.size()));
+	certResult.append(Crypto::base64Encode(cert->x509));
 
 	certResult.append("\n-----END CERTIFICATE-----");
 
@@ -102,7 +102,7 @@ PKCS11::PKCS11()
 		return;
 	}
 
-	m_509 = "-----BEGIN CERTIFICATE-----\n" + Base64Convert::encode(vec.data(), vec.size()) + +"\n-----END CERTIFICATE-----";
+	m_509 = "-----BEGIN CERTIFICATE-----\n" + Crypto::base64Encode(m_certificate->x509) +"\n-----END CERTIFICATE-----";
 
 	auto key = PKCS11_find_key(m_certificate);
 

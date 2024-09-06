@@ -53,7 +53,7 @@ void postRequest(const QNetworkRequest& request, AbstractReplyHandler* handler, 
         }
     );
 
-    QObject::connect(reply, &QNetworkReply::finished,
+    QObject::connect(reply, &QNetworkReply::finished, reply, 
         [=] {
 
             QApplication::restoreOverrideCursor();
@@ -76,7 +76,7 @@ void postRequest(const QNetworkRequest& request, AbstractReplyHandler* handler, 
 
         });
 
-    QObject::connect(reply, &QNetworkReply::sslErrors, [=] {
+    QObject::connect(reply, &QNetworkReply::sslErrors, reply, [=] {
 
             QApplication::restoreOverrideCursor();
 

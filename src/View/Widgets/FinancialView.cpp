@@ -23,7 +23,6 @@ FinancialView::FinancialView(QWidget *parent)
 	ui.editButton->setIcon(QIcon(":/icons/icon_edit.png"));
 
     ui.saveXMLButton->setHoverColor(Theme::mainBackgroundColor);
-    ui.sendPisButton->setHoverColor(Theme::mainBackgroundColor);
     ui.addButton->setHoverColor(Theme::mainBackgroundColor);
     ui.deleteButton->setHoverColor(Theme::mainBackgroundColor);
     ui.editButton->setHoverColor(Theme::mainBackgroundColor);

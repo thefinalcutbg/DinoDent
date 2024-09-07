@@ -1,7 +1,6 @@
 ﻿#include "NetworkManager.h"
 
 #include <set>
-#include <mutex>
 
 #include <QApplication>
 #include <QNetworkAccessManager>
@@ -17,7 +16,6 @@
 
 QNetworkAccessManager* s_manager{ nullptr };
 std::set<AbstractReplyHandler*> s_handlers;
-std::mutex s_handler_mutex;
 int s_timeout = 15000;
 
 QNetworkAccessManager* getManager() {
@@ -38,11 +36,9 @@ void postRequest(const QNetworkRequest& request, AbstractReplyHandler* handler, 
 
     auto reply = getManager()->post(request, query.data());
 
-    {
-        std::lock_guard<std::mutex> lock(s_handler_mutex);
-       
-        s_handlers.insert(handler);
-    }
+
+    s_handlers.insert(handler);
+
 
     QApplication::setOverrideCursor(Qt::BusyCursor);
 
@@ -64,11 +60,7 @@ void postRequest(const QNetworkRequest& request, AbstractReplyHandler* handler, 
                 ModalDialogBuilder::showMultilineDialog(replyStr, "Отговор");
             }
 
-            {
-                std::lock_guard<std::mutex> lock(s_handler_mutex);
-
-                if (s_handlers.count(handler) == 0) return;
-            }
+            if (s_handlers.count(handler) == 0) return;
 
             handler->getReply(replyStr);
 
@@ -251,8 +243,6 @@ void NetworkManager::clearAccessCache()
 
 void NetworkManager::unsubscribeHandler(AbstractReplyHandler* handler)
 {
-    std::lock_guard<std::mutex> lock(s_handler_mutex);
-
     if (s_handlers.count(handler)) {
         s_handlers.erase(handler);
     }

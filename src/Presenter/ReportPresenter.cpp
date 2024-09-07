@@ -37,7 +37,7 @@ void ReportPresenter::checkAmbList(const AmbList& list, const Patient& patient)
 
 		m_hasErrors = true;
 
-		view->appendSheet(list.getNumber()," не е изпратен към НЗИС");
+		view->appendSheet(list.getNumber()," Не е изпратен към НЗИС");
 	}
 
 	if (list.nrn.size() && !list.his_updated) {

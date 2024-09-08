@@ -7,6 +7,14 @@
 #include <QSortFilterProxyModel>
 #include "Presenter/BrowserPresenter.h"
 
+class NameFilterProxyModel : public QSortFilterProxyModel
+{
+	QStringList m_names;
+public:
+	bool filterAcceptsRow(int sourceRow, const QModelIndex& sourceParent) const override;
+	void setName(const QString& name);
+};
+
 class BrowserDialog : public QDialog, public IBrowserDialog
 {
 	Q_OBJECT
@@ -16,7 +24,7 @@ private:
 	BrowserPresenter presenter;
 
 	QSortFilterProxyModel idFilter;
-	QSortFilterProxyModel nameFilter;
+	NameFilterProxyModel nameFilter;
 	QSortFilterProxyModel phoneFilter;
 	QMenu* main_menu{ nullptr };
 

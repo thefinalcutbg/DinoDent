@@ -71,7 +71,8 @@ BrowserDialog::BrowserDialog()
     connect(ui.nameSearchEdit, &QLineEdit::textChanged, this, [&]
 		{
 			QString text = ui.nameSearchEdit->text();
-			nameFilter.setFilterRegularExpression(QRegularExpression(text, QRegularExpression::PatternOption::CaseInsensitiveOption));
+			nameFilter.setName(text);
+		//	nameFilter.setFilterRegularExpression(QRegularExpression(text, QRegularExpression::PatternOption::CaseInsensitiveOption));
 			setCountLabel();
 		});
 
@@ -310,3 +311,24 @@ void BrowserDialog::close()
 	QDialog::accept();
 }
 
+bool NameFilterProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex& sourceParent) const
+{
+	auto str =  sourceModel()->index(sourceRow, filterKeyColumn()).data().toString().toLower();
+
+	for (auto& name : m_names) {
+		if (!str.contains(name)) return false;
+	}
+
+	return true;
+}
+
+void NameFilterProxyModel::setName(const QString& name)
+{
+	m_names = name.split(QRegularExpression("\\s+"), Qt::SkipEmptyParts);
+	
+	for (auto& name : m_names) {
+		name = name.toLower();
+	}
+
+	invalidateRowsFilter();
+}

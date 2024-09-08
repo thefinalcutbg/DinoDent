@@ -63,7 +63,7 @@ BrowserDialog::BrowserDialog()
 
     connect(ui.idSearchEdit, &QLineEdit::textChanged, this, [&]
 		{
-			QString text = ui.idSearchEdit->text();
+			QString text = ui.idSearchEdit->text().replace(" ","");
 			idFilter.setFilterRegularExpression(QRegularExpression(text, QRegularExpression::PatternOption::CaseInsensitiveOption));
 			setCountLabel();
 		});
@@ -72,13 +72,12 @@ BrowserDialog::BrowserDialog()
 		{
 			QString text = ui.nameSearchEdit->text();
 			nameFilter.setName(text);
-		//	nameFilter.setFilterRegularExpression(QRegularExpression(text, QRegularExpression::PatternOption::CaseInsensitiveOption));
 			setCountLabel();
 		});
 
     connect(ui.phoneSearchEdit, &QLineEdit::textChanged, this, [&]
 		{
-			QString text = ui.phoneSearchEdit->text();
+			QString text = ui.phoneSearchEdit->text().replace(" ", "");
 			phoneFilter.setFilterRegularExpression(QRegularExpression(text, QRegularExpression::PatternOption::CaseInsensitiveOption));
 			setCountLabel();
 		});

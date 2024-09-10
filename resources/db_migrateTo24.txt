@@ -1,0 +1,3 @@
+ALTER TABLE amblist ADD COLUMN auto_status INTEGER;
+UPDATE amblist SET auto_status = 1 WHERE nrn != '';
+PRAGMA user_version = 24;

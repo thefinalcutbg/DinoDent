@@ -20,4 +20,5 @@ namespace DbUpdates
 	void update21();
 	void update22();
 	void update23();
+	void update24();
 }

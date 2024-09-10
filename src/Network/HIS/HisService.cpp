@@ -387,7 +387,7 @@ std::string HisService::closeTag(const std::string tag)
 {
 	return "</nhis:" + tag + ">";
 }
-
+/*
 std::string HisService::initialStatusAsProcedure(const ToothContainer& teeth, const Date& lastProcedureDate, bool augmentation)
 {
 
@@ -417,7 +417,7 @@ std::string HisService::initialStatusAsProcedure(const ToothContainer& teeth, co
 
 	return result;
 }
-
+*/
 std::string HisService::bind(const std::string& name, const std::string& value, bool isUserInput)
 {
 	if (value.empty()) return "";

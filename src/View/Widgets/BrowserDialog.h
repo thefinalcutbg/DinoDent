@@ -10,8 +10,9 @@
 class NameFilterProxyModel : public QSortFilterProxyModel
 {
 	QStringList m_names;
-public:
 	bool filterAcceptsRow(int sourceRow, const QModelIndex& sourceParent) const override;
+
+public:
 	void setName(const QString& name);
 };
 

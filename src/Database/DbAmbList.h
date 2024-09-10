@@ -27,5 +27,8 @@ namespace DbAmbList
 
     bool importedPisSheetExists(const AmbList& list, const Patient& patient);
 
+    bool hasAutoStatus(const std::string& nrn);
+
+    bool setAutoStatus(const std::string& nrn, bool autoStatus);
 };
 

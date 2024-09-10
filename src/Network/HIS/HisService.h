@@ -48,7 +48,7 @@ protected:
 	std::string openTag(const std::string& tag);
 	std::string closeTag(const std::string tag);
 
-	std::string initialStatusAsProcedure(const ToothContainer& teeth, const Date& lastProcedureDate, bool augmentation = false);
+//	std::string initialStatusAsProcedure(const ToothContainer& teeth, const Date& lastProcedureDate, bool augmentation = false);
 
 	std::string getErrors(const std::string& reply);
 

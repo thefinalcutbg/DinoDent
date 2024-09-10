@@ -32,7 +32,7 @@ namespace EDental {
 	{
 		std::function<void(const std::vector<std::pair<int, int>>& seqIdxPair)> m_callback;
 
-		std::string getProcedures(const ProcedureContainer& procedures, const ToothContainer& teeth, const Date& treatmentStartDate);
+		std::string getProcedures(const ProcedureContainer& procedures, const ToothContainer& teeth, const Date& treatmentStartDate, bool autoStatusRemove);
 
 	protected:
 		void parseReply(const std::string& reply) override;
@@ -44,6 +44,7 @@ namespace EDental {
 		bool sendRequest(
 			const AmbList& ambSheet,
 			const Patient& patient,
+			bool autoStatus, //legacy stuff
 			decltype(m_callback) callback
 		);
 	};

@@ -37,6 +37,7 @@ void DbUpdates::update22()
 		db.execute(query);
 	}
 }
+
 void DbUpdates::update23() {
 
 	if (Db::version() != 22) return;
@@ -44,6 +45,19 @@ void DbUpdates::update23() {
 	Db db;
 
 	for (auto& query : Resources::getMigrationScript(23))
+	{
+		db.execute(query);
+	}
+
+}
+
+void DbUpdates::update24() {
+
+	if (Db::version() != 23) return;
+
+	Db db;
+
+	for (auto& query : Resources::getMigrationScript(24))
 	{
 		db.execute(query);
 	}

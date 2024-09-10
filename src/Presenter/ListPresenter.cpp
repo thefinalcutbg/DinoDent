@@ -1142,7 +1142,10 @@ void ListPresenter::hisButtonPressed()
     {
         if (!isValid()) return;
 
-        eDentalAugmentService.sendRequest(m_ambList, *patient,
+        eDentalAugmentService.sendRequest(
+            m_ambList, 
+            *patient, 
+            DbAmbList::hasAutoStatus(m_ambList.nrn), 
             [&](auto& procedureIdx)
             {
                 m_ambList.his_updated = true;
@@ -1166,9 +1169,8 @@ void ListPresenter::hisButtonPressed()
                     view->setProcedures(m_ambList.procedures.list());
                 }
 
+                DbAmbList::setAutoStatus(m_ambList.nrn, false);
                 ModalDialogBuilder::showMessage("Денталният преглед е коригиран успешно");
-
-
             }
         );
 

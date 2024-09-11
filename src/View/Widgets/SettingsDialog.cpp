@@ -250,6 +250,7 @@ void SettingsDialog::setSettings(const Settings& settings)
 	ui.autoHisCheck->setChecked(settings.getHisHistoryAuto);
 	ui.autoNraCheck->setChecked(settings.getNraStatusAuto);
 	ui.autoPisCheck->setChecked(settings.getPisHistoryAuto);
+	ui.autoStatus->setChecked(settings.autoStatus);
 	ui.timeoutSpin->setValue(settings.timeout);
 	ui.hirbnoCheck->setChecked(settings.getHirbNoAuto);
 	ui.dailyLimitCheck->setChecked(settings.nhifDailyLimitCheck);
@@ -266,6 +267,7 @@ Settings SettingsDialog::getSettings()
 		.getHirbNoAuto = ui.hirbnoCheck->isChecked(),
 		.nhifDailyLimitCheck = ui.dailyLimitCheck->isChecked(),
 		.nhifWeekendCheck = ui.weekendCheck->isChecked(),
+		.autoStatus = ui.autoStatus->isChecked(),
 		.timeout = ui.timeoutSpin->value()
 	};
 }

@@ -1092,7 +1092,30 @@ void ListPresenter::createPrescription()
 
 void ListPresenter::hisButtonPressed()
 {
+    //OPTIONAL INITIAL STATAUS PROCEDURE
+    if (
+       User::settings().autoStatus &&
+       m_ambList.nrn.empty() &&
+       m_ambList.procedures.size() &&
+      !m_ambList.procedures.hasDentalExam()
+    )
+    {
+        Procedure p;
+        p.code = ProcedureCode("D-01-001");
+        p.date = m_ambList.getDate();
+        p.notes = "ИЗХОДЕН ОРАЛЕН СТАТУС (автоматично генерирана дейност)";
+        m_ambList.procedures.addProcedure(p);
+        m_ambList.procedures.moveProcedure(
+            m_ambList.procedures.list().size()-1,
+            0
+        );
 
+        makeEdited();
+        view->setProcedures(m_ambList.procedures.list());
+        
+    }
+
+    //HIS Open
     if (m_ambList.nrn.empty()) {
 
         if (!save()) return;
@@ -1138,6 +1161,7 @@ void ListPresenter::hisButtonPressed()
         return;
     }
 
+    //HIS Update
     if (!m_ambList.his_updated)
     {
         if (!isValid()) return;
@@ -1177,6 +1201,7 @@ void ListPresenter::hisButtonPressed()
         return;
     }
 
+    //HIS Cancel
     if (m_ambList.nrn.size()) {
         eDentalCancelService.sendRequest(m_ambList.nrn,
             [&](bool success) {

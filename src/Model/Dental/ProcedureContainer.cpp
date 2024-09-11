@@ -69,6 +69,17 @@ bool ProcedureContainer::hasDentureManifactureProcedure() const
     return false;
 }
 
+bool ProcedureContainer::hasDentalExam() const
+{
+    for (auto& p : m_proc) {
+        if (p.code.type() == ProcedureType::full_exam) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 void ProcedureContainer::refreshTeethTemporary(const ToothContainer& teeth)
 {
     for (auto& procedure : m_proc) {

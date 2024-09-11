@@ -47,7 +47,7 @@
          <item>
           <widget class="QGroupBox" name="groupBox">
            <property name="title">
-            <string>При отваряне на амбулаторен лист</string>
+            <string>Амбулаторен лист</string>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_2">
             <item>
@@ -68,6 +68,13 @@
              <widget class="QCheckBox" name="autoNraCheck">
               <property name="text">
                <string>Автоматично извличане на данни от НАП</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="autoStatus">
+              <property name="text">
+               <string>Автоматично подаване на изходен статус към НЗИС като първа манипулация</string>
               </property>
              </widget>
             </item>

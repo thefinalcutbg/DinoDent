@@ -78,11 +78,7 @@ void MainPresenter::printPressed()
 
     if (tab != nullptr) {
         tab->print();
-     }
-    else {
-        Print::ambList();
     }
- 
 }
 
 void MainPresenter::newAmbPressed()

@@ -15,10 +15,10 @@ ProcedureDialogPresenter::ProcedureDialogPresenter
 	bool pregnancyAllowed
 )
 	:
-
     selectedTeeth(selectedTeeth),
 	ambList(ambSheet),
     patientTurns18(patientTurns18),
+	procedureDate(ambList.newProcedureDate()),
     pregnancyAllowed(pregnancyAllowed),
     procedure_creator(selectedTeeth),
     view(nullptr),
@@ -34,9 +34,9 @@ void ProcedureDialogPresenter::setView(IProcedureDialog* view)
 
 	view->procedureInput()->dateEdit()->setInputValidator(&date_validator);
 
-	view->procedureInput()->dateEdit()->set_Date(ambList.newProcedureDate());
+	view->procedureInput()->dateEdit()->set_Date(procedureDate);
 
-	this->procedureDateChanged(ambList.newProcedureDate());
+	refreshProcedureList();
 	
 	procedure_creator.setView(view->procedureInput());
 
@@ -54,45 +54,15 @@ void ProcedureDialogPresenter::setView(IProcedureDialog* view)
 
 void ProcedureDialogPresenter::procedureDateChanged(const Date& date)
 {
-	procedureList.clear();
-
-	if (User::hasNhifContract())
-	{
-		auto nhifProcedures = NhifProcedures::getNhifProcedures(
-			date,
-			User::doctor().specialty,
-			date >= patientTurns18,
-			pregnancyAllowed,
-			ambList.nhifData.specification
-		);
-		
-		for (auto& p : nhifProcedures)
-		{
-			procedureList.push_back({ p, true });
-		}
+	bool needsRefresh = 
+		date < patientTurns18 != procedureDate < patientTurns18 &&
+		User::hasNhifContract();
+	
+	procedureDate = date;
+	
+	if (needsRefresh) {
+		refreshProcedureList();
 	}
-
-
-	//getting custom procedures:
-	auto customProcedures = ProcedureCode::getNonNhifProcedures();
-
-	auto favourites = DbDoctor::getFavouriteProcedures(User::doctor().LPK);
-
-	for (auto& p : customProcedures)
-	{
-		procedureList.push_back(
-			ProcedureListElement{
-				.code = p,
-				.nhif = false,
-				.favourite = static_cast<bool>(favourites.count(p.code()))
-			}
-		);
-
-	}
-
-	sortProcedures();
-
-	view->setProcedureTemplates(procedureList);
 	
 }
 
@@ -160,6 +130,49 @@ void ProcedureDialogPresenter::sortProcedures()
 		return false;
 
 	});
+}
+
+void ProcedureDialogPresenter::refreshProcedureList()
+{
+	procedureList.clear();
+
+	if (User::hasNhifContract())
+	{
+		auto nhifProcedures = NhifProcedures::getNhifProcedures(
+			procedureDate,
+			User::doctor().specialty,
+			procedureDate >= patientTurns18,
+			pregnancyAllowed,
+			ambList.nhifData.specification
+		);
+
+		for (auto& p : nhifProcedures)
+		{
+			procedureList.push_back({ p, true });
+		}
+	}
+
+
+	//getting custom procedures:
+	auto customProcedures = ProcedureCode::getNonNhifProcedures();
+
+	auto favourites = DbDoctor::getFavouriteProcedures(User::doctor().LPK);
+
+	for (auto& p : customProcedures)
+	{
+		procedureList.push_back(
+			ProcedureListElement{
+				.code = p,
+				.nhif = false,
+				.favourite = static_cast<bool>(favourites.count(p.code()))
+			}
+		);
+
+	}
+
+	sortProcedures();
+
+	view->setProcedureTemplates(procedureList);
 }
 
 

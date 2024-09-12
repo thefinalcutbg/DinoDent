@@ -61,8 +61,10 @@ struct AmbList
 	{
 		auto sheetDate = getDate();
 
-		if (sheetDate.month == Date::currentMonth()
-			&& sheetDate.year == Date::currentYear()) {
+		if (sheetDate.month == Date::currentMonth() &&
+			sheetDate.year == Date::currentYear() &&
+			sheetDate <= Date::currentDate()
+			) {
 
 			return Date::currentDate();
 		}

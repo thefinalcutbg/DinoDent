@@ -17,8 +17,8 @@ class ProcedureDialogPresenter
 	const AmbList& ambList;
 
 	Date patientTurns18;
+	Date procedureDate;
 	bool pregnancyAllowed{ false };
-
 	bool favourites_changed{ false };
 
 	ProcedureCreator procedure_creator;
@@ -32,6 +32,7 @@ class ProcedureDialogPresenter
 	ProcedureDateValidator date_validator;
 
 	void sortProcedures();
+	void refreshProcedureList();
 
 public:
 

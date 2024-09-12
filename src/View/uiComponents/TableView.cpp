@@ -110,18 +110,18 @@ void TableView::setProcedureHistoryLayout()
     connect(model(), &QAbstractTableModel::dataChanged, this, [&] { fitToModel();});
 
     hideColumn(0);
-    setColumnWidth(1, 90);
+    setColumnWidth(1, 100);
     setColumnWidth(2, 200);
-    setColumnWidth(3, 25);
+    setColumnWidth(3, 65);
     setColumnWidth(4, 300);
-    setColumnWidth(5, 49);
-    setColumnWidth(6, 70);
-    setColumnWidth(7, 140);
+    setColumnWidth(5, 80);
+    setColumnWidth(6, 80);
+    setColumnWidth(7, 100);
     setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
     horizontalHeader()->setSectionResizeMode(4, QHeaderView::Stretch);
-    horizontalHeader()->setSectionResizeMode(7, QHeaderView::Stretch);
+    horizontalHeader()->setSectionResizeMode(8, QHeaderView::Stretch);
     setSelectionMode(QAbstractItemView::SelectionMode::NoSelection);
     setShowGrid(false);
 }

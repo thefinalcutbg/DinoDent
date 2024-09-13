@@ -42,7 +42,7 @@
        </property>
        <property name="maximumDateTime">
         <datetime>
-         <hour>23</hour>
+         <hour>19</hour>
          <minute>59</minute>
          <second>59</second>
          <year>9999</year>
@@ -81,6 +81,13 @@
         </size>
        </property>
       </spacer>
+     </item>
+     <item>
+      <widget class="QLabel" name="sumLabel">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>

@@ -20,6 +20,7 @@ public:
 	void setProgressCount(int count);
 	void reset();
 	void increment();
+	void setSumLabel(double price);
 	~UnusedPackageView();
 
 private:

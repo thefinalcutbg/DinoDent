@@ -28,8 +28,12 @@ class UnusedPackagePresenter
 	UnusedPackageView* view = nullptr;
 
 	static inline std::queue<Patient> m_queue;
-	bool m_in_progress{ false };
+	static inline std::vector<PackageRowData> s_data;
+	static inline double m_sum = 0;
 
+	static double calculatePackageSum(const PackageRowData& package);
+
+	bool m_in_progress{ false };
 	int m_year = Date::currentDate().year;
 
 	ProcedureSummary currentProcedures;
@@ -38,10 +42,9 @@ class UnusedPackagePresenter
 
 	NraStatusService nraService;
 	DentalActivitiesService pisService;
-
-	static inline std::vector<PackageRowData> s_data;
-
+	
 	void popQueue();
+
 public:
 	UnusedPackagePresenter();
 	void setView(UnusedPackageView* view);

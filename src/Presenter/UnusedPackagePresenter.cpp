@@ -6,6 +6,7 @@
 #include "View/ModalDialogBuilder.h"
 #include "TabPresenter.h"
 #include "Model/TableRows.h"
+#include "Model/Dental/NhifProcedures.h"
 
 void UnusedPackagePresenter::stop(const std::string& reason)
 {
@@ -21,6 +22,9 @@ void UnusedPackagePresenter::stop(const std::string& reason)
 void UnusedPackagePresenter::resetQueue()
 {
 	m_queue = std::queue<Patient>{};
+	m_sum = 0;
+
+	view->setSumLabel(0);
 }
 
 void UnusedPackagePresenter::newAmbList(long long patientRowid)
@@ -45,6 +49,7 @@ void UnusedPackagePresenter::setView(UnusedPackageView* view)
 {
 	this->view = view;
 	view->addTable(s_data);
+	view->setSumLabel(m_sum);
 }
 
 void UnusedPackagePresenter::buttonPressed(const Date& excludeBefore)
@@ -63,8 +68,13 @@ void UnusedPackagePresenter::buttonPressed(const Date& excludeBefore)
 	}
 
 	if (m_queue.empty()) {
+
+		m_sum = 0;
 		s_data.clear();
+
+		view->setSumLabel(0);
 		view->addTable(s_data);
+
 		m_queue = DbPatient::getPatientList(excludeBefore, User::practice().rziCode, User::doctor().LPK);
 	}
 
@@ -248,6 +258,36 @@ void UnusedPackagePresenter::step3_pisCheck(const std::optional<std::vector<Proc
 
 	view->addRow(row);
 
+	m_sum += calculatePackageSum(row);
+
+	view->setSumLabel(m_sum);
+
 	popQueue();
 	step1_localDbCheck();
+}
+
+
+double UnusedPackagePresenter::calculatePackageSum(const PackageRowData& package)
+{
+	double price = 0;
+
+	bool patientIsAdult = package.procedure_max == 3;
+
+	if (package.exam.empty())
+	{
+		price += NhifProcedures::getNhifPrice(
+			101, Date::currentDate(), User::doctor().specialty, patientIsAdult,
+			NhifSpecificationType::PartialCoverage
+		);
+	}
+
+	if (package.lowerDenture.empty() || package.upperDenture.empty()) {
+
+		price += (package.procedure_max - package.procedure_count) * NhifProcedures::getNhifPrice(
+			301, Date::currentDate(), User::doctor().specialty, patientIsAdult,
+			NhifSpecificationType::PartialCoverage
+		);
+	}
+
+	return price;
 }

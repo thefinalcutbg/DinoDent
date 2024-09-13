@@ -1,6 +1,7 @@
 ﻿#include "UnusedPackageView.h"
 
 #include <QFileDialog>
+#include "View/GlobalFunctions.h"
 
 UnusedPackageView::UnusedPackageView(QWidget *parent)
 	: QWidget(parent)
@@ -129,6 +130,16 @@ void UnusedPackageView::setProgressCount(int count)
 void UnusedPackageView::increment()
 {
 	ui.progressBar->setValue(ui.progressBar->value()+1);
+}
+
+void UnusedPackageView::setSumLabel(double price)
+{
+	if (!price) {
+		ui.sumLabel->clear();
+		return;
+	}
+
+	ui.sumLabel->setText("Неусвоена сума: " + formatDoubleWithDecimal(price) + " лв.");
 }
 
 void UnusedPackageView::reset()

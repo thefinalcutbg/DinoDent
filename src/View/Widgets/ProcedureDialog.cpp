@@ -71,7 +71,7 @@ ProcedureDialog::ProcedureDialog(ProcedureDialogPresenter& presenter, QWidget *p
 
 		auto date = ui.procedureInput->qDateEdit()->date();
         presenter.procedureDateChanged(Date{ date.day(), date.month(), date.year() });
-        presenter.indexChanged(-1);
+        
 	});
 
 	

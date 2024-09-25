@@ -164,7 +164,7 @@ void FinancialView::setInvoice(const Invoice& inv)
 			buttonsSumWidth += button->width();
 	}
 
-	ui.opLabelSpacer->changeSize(buttonsSumWidth, 0);
+	//ui.opLabelSpacer->changeSize(buttonsSumWidth, 0);
 	
 
 	setBusinessOperations(inv.businessOperations, inv.amount());

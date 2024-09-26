@@ -157,19 +157,6 @@ bool SettingsMainPresenter::applyChanges()
 
 	}
 
-	if (practice.nhif_contract &&
-		practice.nhif_contract->unfavourable &&
-		!practice.practice_address.isUnfav() &&
-		!ModalDialogBuilder::askDialog(
-			"Маркирали сте неблагоприятни условия, но адресът на дейността "
-			"не е в списъка с такива. Сигурни ли сте, че искате да продължите?"
-		)
-		)
-	{
-		view->focusTab(SettingsTab::NhifContract);
-		return false;
-	}
-
 	//lame, the state of the practice has to be kept in the presenter
 	if (m_doctorsList.size() &&
 		m_doctorsList[0].specialty == NhifSpecialty::None &&

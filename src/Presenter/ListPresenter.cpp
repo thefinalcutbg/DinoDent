@@ -33,10 +33,7 @@ ListPresenter::ListPresenter(ITabView* tabView, std::shared_ptr<Patient> patient
 
     //the list is NEW:
     if (patient->city.isUnfav() && 
-        User::practice().practice_address.isUnfav() &&
-        User::practice().practice_address.getIdxAsInt()
-        == 
-        patient->city.getIdxAsInt()
+        User::practice().isUnfavourable()
     ) {
         m_ambList.nhifData.isUnfavourable = true;
     }

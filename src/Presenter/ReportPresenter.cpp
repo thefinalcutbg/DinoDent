@@ -324,18 +324,21 @@ void ReportPresenter::finish()
 
 	for (auto& list : lists) for (auto& procedure : list.procedures)
 	{
+		sumMinutes += NhifProcedures::getDuration(procedure.code.oldCode());
 
-			
+		auto procedurePrice = NhifProcedures::getNhifPrice(
+			procedure.code.oldCode(),
+			procedure.date,
+			User::doctor().specialty,
+			patients[list.patient_rowid].isAdult(procedure.date),
+			list.nhifData.specification
+		);
 
-			sumMinutes += NhifProcedures::getDuration(procedure.code.oldCode());
+		if (list.nhifData.isUnfavourable) {
+			procedurePrice *= 1.3;
+		}
 
-			sumPrice += NhifProcedures::getNhifPrice(
-				procedure.code.oldCode(),
-				procedure.date,
-				User::doctor().specialty,
-				patients[list.patient_rowid].isAdult(procedure.date),
-				list.nhifData.specification
-			);
+		sumPrice += procedurePrice;
 	}
 	
 

@@ -79,6 +79,7 @@ FORMS += \
     src/View/Widgets/MedicationDialog.ui \
     src/View/Widgets/MonthNotifView.ui \
     src/View/Widgets/MultilineDialog.ui \
+    src/View/Widgets/NewDocDialog.ui \
     src/View/Widgets/PatientFormDialog.ui \
     src/View/Widgets/PatientSummary.ui \
     src/View/Widgets/PerioStatusView.ui \
@@ -272,6 +273,7 @@ HEADERS += \
     src/Presenter/MedicalStatusPresenter.h \
     src/Presenter/MedicationPresenter.h \
     src/Presenter/MonthNotifPresenter.h \
+    src/Presenter/NewDocPresenter.h \
     src/Presenter/PatientDialogPresenter.h \
     src/Presenter/PatientInfoPresenter.h \
     src/Presenter/PatientSummaryPresenter.h \
@@ -380,6 +382,7 @@ HEADERS += \
     src/View/TableModels/MKBModel.h \
     src/View/TableModels/MedicationTableModel.h \
     src/View/TableModels/MonthNotifTableModel.h \
+    src/View/TableModels/NameFilterProxyModel.h \
     src/View/TableModels/PlainTableModel.h \
     src/View/TableModels/ProcedureCodeModel.h \
     src/View/TableModels/ProcedureSelectModel.h \
@@ -414,6 +417,7 @@ HEADERS += \
     src/View/Widgets/MedicationDialog.h \
     src/View/Widgets/MonthNotifView.h \
     src/View/Widgets/MultilineDialog.h \
+    src/View/Widgets/NewDocDialog.h \
     src/View/Widgets/PatientFormDialog.h \
     src/View/Widgets/PatientSummary.h \
     src/View/Widgets/PerioStatusView.h \
@@ -620,6 +624,7 @@ SOURCES += \
     src/Presenter/MedicalStatusPresenter.cpp \
     src/Presenter/MedicationPresenter.cpp \
     src/Presenter/MonthNotifPresenter.cpp \
+    src/Presenter/NewDocPresenter.cpp \
     src/Presenter/PatientDialogPresenter.cpp \
     src/Presenter/PatientInfoPresenter.cpp \
     src/Presenter/PatientSummaryPresenter.cpp \
@@ -687,6 +692,7 @@ SOURCES += \
     src/View/TableModels/MKBModel.cpp \
     src/View/TableModels/MedicationTableModel.cpp \
     src/View/TableModels/MonthNotifTableModel.cpp \
+    src/View/TableModels/NameFilterProxyModel.cpp \
     src/View/TableModels/PlainTableModel.cpp \
     src/View/TableModels/ProcedureCodeModel.cpp \
     src/View/TableModels/ProcedureSelectModel.cpp \
@@ -720,6 +726,7 @@ SOURCES += \
     src/View/Widgets/MedicationDialog.cpp \
     src/View/Widgets/MonthNotifView.cpp \
     src/View/Widgets/MultilineDialog.cpp \
+    src/View/Widgets/NewDocDialog.cpp \
     src/View/Widgets/PatientFormDialog.cpp \
     src/View/Widgets/PatientSummary.cpp \
     src/View/Widgets/PerioStatusView.cpp \

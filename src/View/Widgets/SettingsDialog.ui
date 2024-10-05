@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>567</width>
-    <height>495</height>
+    <height>492</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -47,27 +47,13 @@
          <item>
           <widget class="QGroupBox" name="groupBox">
            <property name="title">
-            <string>Амбулаторен лист</string>
+            <string>Нов амбулаторен лист</string>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_2">
             <item>
              <widget class="QCheckBox" name="autoHisCheck">
               <property name="text">
                <string>Автоматично извличане на данни от НЗИС</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="autoPisCheck">
-              <property name="text">
-               <string>Автоматично извличане на данни от ПИС</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="autoNraCheck">
-              <property name="text">
-               <string>Автоматично извличане на данни от НАП</string>
               </property>
              </widget>
             </item>
@@ -1547,6 +1533,20 @@
            </layout>
           </item>
          </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="autoPisCheck">
+         <property name="text">
+          <string>Автоматична проверка на амбулаторния лист спрямо дейностите отчетени в ПИС</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="autoNraCheck">
+         <property name="text">
+          <string>Автоматично извличане на здравноосигурителен статус от НАП</string>
+         </property>
         </widget>
        </item>
        <item>

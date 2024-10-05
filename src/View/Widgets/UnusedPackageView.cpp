@@ -139,7 +139,7 @@ void UnusedPackageView::setSumLabel(double price)
 		return;
 	}
 
-	ui.sumLabel->setText("Неусвоена сума: " + formatDoubleWithDecimal(price) + " лв.");
+	ui.sumLabel->setText("Обща сума: " + formatDoubleWithDecimal(price) + " лв.");
 }
 
 void UnusedPackageView::reset()

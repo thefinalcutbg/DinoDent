@@ -1,7 +1,6 @@
 ﻿#include "signer.h"
 
 #include "crypto.h"
-#include "pkcs11.h"
 
 std::string Signer::getSignature(const std::string& xml, evp_pkey_st* pkey, x509_st* cert, const std::string& URI, bool XAdES)
 {

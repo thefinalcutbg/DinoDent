@@ -54,6 +54,10 @@ UpdateDownloader::UpdateDownloader(const char* url, QWidget* parent)
 #ifdef Q_OS_MAC
             auto filePath = dataFolder.filePath("DinoSetup.dmg");
 #endif
+
+#ifdef Q_OS_LINUX
+            auto filePath = "";
+#endif
 			QFile output(filePath);
 
 			if (output.exists()) output.remove();

@@ -44,6 +44,10 @@ bool UpdateService::restartForUpdate()
     branch = "macos";
 #endif
 
+#ifdef Q_OS_LINUX
+    return false;
+#endif
+
     if (GlobalSettings::getDevBranch()) {
         branch.append("_dev");
     }

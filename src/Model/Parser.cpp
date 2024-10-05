@@ -320,10 +320,33 @@ std::string Parser::write(const Settings& settings)
 	json["dailyLimitCheck"] = settings.nhifDailyLimitCheck;
 	json["weekendCheck"] = settings.nhifWeekendCheck;
 	json["autoStatus"] = settings.autoStatus;
+	json["patientList"] = settings.showPatientList;
 	json["timeout"] = settings.timeout;
 
 	Json::FastWriter writer;
 	return writer.write(json);
+}
+
+Settings Parser::parseSettings(const std::string& settingsString)
+{
+	Json::Reader reader;
+	Json::Value json;
+
+	if (!reader.parse(settingsString, json)) {
+		return {};
+	}
+
+	return Settings{
+		.getHisHistoryAuto = json["hisCheck"].asBool(),
+		.getPisHistoryAuto = json["pisCheck"].asBool(),
+		.getNraStatusAuto = json["nraCheck"].asBool(),
+		.getHirbNoAuto = json["hirbnoCheck"].asBool(),
+		.nhifDailyLimitCheck = json["dailyLimitCheck"].asBool(),
+		.nhifWeekendCheck = json["weekendCheck"].asBool(),
+		.autoStatus = json["autoStatus"].asBool(),
+		.showPatientList = json["patientList"].asBool(),
+		.timeout = json["timeout"].asInt()
+	};
 }
 
 std::string Parser::write(const std::vector<Dosage>& dosage)
@@ -558,26 +581,5 @@ std::optional<NhifContract> Parser::parseContract(const std::string& jsonString)
 
 	return contract;
 
-}
-
-Settings Parser::parseSettings(const std::string& settingsString)
-{
-	Json::Reader reader;
-	Json::Value json;
-
-	if (!reader.parse(settingsString, json)) {
-		return {};
-	}
-
-	return Settings{
-		.getHisHistoryAuto = json["hisCheck"].asBool(),
-		.getPisHistoryAuto = json["pisCheck"].asBool(),
-		.getNraStatusAuto = json["nraCheck"].asBool(),
-		.getHirbNoAuto = json["hirbnoCheck"].asBool(),
-		.nhifDailyLimitCheck = json["dailyLimitCheck"].asBool(),
-		.nhifWeekendCheck = json["weekendCheck"].asBool(),
-		.autoStatus = json["autoStatus"].asBool(),
-		.timeout = json["timeout"].asInt()
-	};
 }
 

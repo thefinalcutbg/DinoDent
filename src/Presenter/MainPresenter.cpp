@@ -20,6 +20,7 @@
 #include "Presenter/LoginPresenter.h"
 #include "Presenter/StatisticDialogPresenter.h"
 #include "Presenter/RecipientPresenter.h"
+#include "Presenter/NewDocPresenter.h"
 
 #include "View/Printer.h"
 #include "View/Widgets/SplashScreen.h"
@@ -83,7 +84,8 @@ void MainPresenter::printPressed()
 
 void MainPresenter::newAmbPressed()
 {
-    PatientDialogPresenter p("Нов амбулаторен лист");
+
+    NewDocPresenter p("Нов амбулаторен лист");
 
     auto patient = p.open();
 
@@ -93,7 +95,7 @@ void MainPresenter::newAmbPressed()
 
 void MainPresenter::newPerioPressed()
 {
-    PatientDialogPresenter p("Ново пародонтално измерване");
+    NewDocPresenter p("Ново пародонтално измерване");
 
     auto patient = p.open();
 
@@ -116,7 +118,7 @@ void MainPresenter::newInvoicePressed()
 
 void MainPresenter::newPrescriptionPressed()
 {
-    PatientDialogPresenter p("Нова рецепта");
+    NewDocPresenter p("Нова рецепта");
 
     auto patient = p.open();
 

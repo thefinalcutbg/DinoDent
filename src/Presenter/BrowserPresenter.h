@@ -5,13 +5,14 @@
 
 #include "Model/TableRows.h"
 #include "Model/PlainTable.h"
-
+#include "Model/User.h"
 
 class IBrowserDialog;
 
 struct BrowserUiState {
 	Date from{ 1, Date::currentMonth(), Date::currentYear() };
 	Date to{ Date::currentDate().getMaxDateOfMonth() };
+
 	TabType model_type{ TabType::PatientSummary };
 	bool showDetails{ true };
 	bool showProcedures{ false };

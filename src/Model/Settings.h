@@ -9,5 +9,6 @@ struct Settings //only practice-specific settings
 	bool nhifDailyLimitCheck{ false };
 	bool nhifWeekendCheck{ false };
 	bool autoStatus{ false };
+	bool showPatientList{ false };
 	int timeout{ 15 }; //in seconds!
 };

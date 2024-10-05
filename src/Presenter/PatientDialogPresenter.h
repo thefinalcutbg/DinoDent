@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "Model/Patient.h"
 #include "View/Interfaces/IPatientDialog.h"
@@ -27,7 +27,7 @@ class PatientDialogPresenter
 	Patient getPatientFromView(); //sets the data not present in view
 
 public:
-	PatientDialogPresenter(std::string dialogTitle);
+	PatientDialogPresenter(std::string dialogTitle = "Нов пациент");
 	PatientDialogPresenter(const Patient& patient);
 	std::optional<Patient> open();
 

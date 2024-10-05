@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>567</width>
-    <height>440</height>
+    <height>495</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -75,6 +75,13 @@
              <widget class="QCheckBox" name="autoStatus">
               <property name="text">
                <string>Автоматично подаване на изходен статус към НЗИС като първа манипулация</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="patientList">
+              <property name="text">
+               <string>Показвай списъка с пациенти при създаване на нов медицински документ</string>
               </property>
              </widget>
             </item>

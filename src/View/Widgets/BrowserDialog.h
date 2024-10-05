@@ -4,17 +4,8 @@
 #include "ui_BrowserDialog.h"
 #include "View/Interfaces/IBrowserDialog.h"
 #include "View/TableModels/PlainTableModel.h"
-#include <QSortFilterProxyModel>
+#include "View/TableModels/NameFilterProxyModel.h"
 #include "Presenter/BrowserPresenter.h"
-
-class NameFilterProxyModel : public QSortFilterProxyModel
-{
-	QStringList m_names;
-	bool filterAcceptsRow(int sourceRow, const QModelIndex& sourceParent) const override;
-
-public:
-	void setName(const QString& name);
-};
 
 class BrowserDialog : public QDialog, public IBrowserDialog
 {

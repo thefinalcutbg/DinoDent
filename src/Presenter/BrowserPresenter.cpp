@@ -14,6 +14,19 @@ void BrowserPresenter::setView(IBrowserDialog* view)
 {
 	this->view = view;
 	
+	static bool firstCall = true;
+
+	if (firstCall) {
+
+		firstCall = false;
+		//no need to show patient list if it is shown on every new document
+		ui_state.model_type =
+			User::practice().settings.showPatientList ?
+			TabType::AmbList
+			:
+			TabType::PatientSummary;
+	}
+
 	this->view->setUiState(ui_state);
 
 	if (!view) return;

@@ -11,3 +11,4 @@ include/
 /DinoDent.vcxproj.user
 /Resource.aps
 /.vs
+/src/Network/Calendar/Credentials.h

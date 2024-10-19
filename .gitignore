@@ -12,3 +12,4 @@ include/
 /Resource.aps
 /.vs
 /src/Network/Calendar/Credentials.h
+/src/Network/Calendar/Credentials.h

@@ -18,7 +18,7 @@ QNetworkAccessManager* s_manager{ nullptr };
 std::set<AbstractReplyHandler*> s_handlers;
 int s_timeout = 15000;
 
-QNetworkAccessManager* getManager() {
+QNetworkAccessManager* NetworkManager::getManager() {
 
     if (!s_manager) {
         s_manager = new QNetworkAccessManager();
@@ -34,7 +34,7 @@ void postRequest(const QNetworkRequest& request, AbstractReplyHandler* handler, 
         ModalDialogBuilder::showMultilineDialog(query, "Заявка");
     }
 
-    auto reply = getManager()->post(request, query.data());
+    auto reply = NetworkManager::getManager()->post(request, query.data());
 
 
     s_handlers.insert(handler);

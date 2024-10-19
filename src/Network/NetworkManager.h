@@ -4,6 +4,7 @@
 class AbstractReplyHandler;
 class PKCS11;
 class QNetworkReply;
+class QNetworkAccessManager;
 
 namespace NetworkManager
 {
@@ -47,6 +48,8 @@ namespace NetworkManager
 	void unsubscribeHandler(AbstractReplyHandler* handler);
 
 	QNetworkReply* simpleRequest(const char* url);
+
+	QNetworkAccessManager* getManager();
 
 	void setTimeout(int seconds);
 };

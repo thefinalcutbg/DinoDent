@@ -8,6 +8,7 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QDebug>
+#include "Network/NetworkManager.h"
 #include "Presenter/CalendarPresenter.h"
 #include "Credentials.h" //comment this out
 
@@ -32,6 +33,8 @@ QOAuth2AuthorizationCodeFlow* getAuth() {
     if (auth) return auth;
 
     auth = new QOAuth2AuthorizationCodeFlow();
+
+    auth->setNetworkAccessManager(NetworkManager::getManager());
 
     auth->setAuthorizationUrl(QUrl("https://accounts.google.com/o/oauth2/auth"));
     auth->setAccessTokenUrl(QUrl("https://oauth2.googleapis.com/token"));
@@ -93,9 +96,13 @@ void Google::query(const QString& urlStr, const QVariantMap& param, const QStrin
 
     QObject::connect(reply, &QNetworkReply::finished, reply, [=]() {
 
+        QString replyStr = reply->readAll();
+
+        qDebug() << replyStr;
+
          if (!getReciever()) return;
          
-         getReciever()->setReply(reply->readAll().toStdString(), callbackIdx);
+         getReciever()->setReply(replyStr.toStdString(), callbackIdx);
 
     });
 }

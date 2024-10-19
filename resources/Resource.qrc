@@ -50,6 +50,8 @@
         <file>icon_mirc.png</file>
         <file>icon_csv.png</file>
         <file>icon_notes.png</file>
+        <file>icon_calendar.png</file>
+        <file>icon_google.png</file>
     </qresource>
     <qresource prefix="/tooth">
         <file>tooth_approximal.png</file>
@@ -143,6 +145,7 @@
         <file>db_migrateTo22.txt</file>
         <file>db_migrateTo23.txt</file>
         <file>db_migrateTo24.txt</file>
+        <file>db_migrateTo25.txt</file>
     </qresource>
     <qresource prefix="/other">
         <file>splash.png</file>

@@ -1,0 +1,3 @@
+ALTER TABLE doctor ADD COLUMN refresh_token VARCHAR;
+ALTER TABLE doctor ADD COLUMN calendar_index INTEGER;
+PRAGMA user_version = 25;

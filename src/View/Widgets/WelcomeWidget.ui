@@ -124,8 +124,8 @@
        <widget class="ShortcutTile" name="statisticButton">
         <property name="geometry">
          <rect>
-          <x>350</x>
-          <y>180</y>
+          <x>180</x>
+          <y>350</y>
           <width>150</width>
           <height>150</height>
          </rect>
@@ -189,11 +189,11 @@
          <string>Нов финансов документ</string>
         </property>
        </widget>
-       <widget class="ShortcutTile" name="aboutButton">
+       <widget class="ShortcutTile" name="calendar">
         <property name="geometry">
          <rect>
           <x>350</x>
-          <y>350</y>
+          <y>180</y>
           <width>150</width>
           <height>150</height>
          </rect>
@@ -220,7 +220,7 @@
          <bool>true</bool>
         </property>
         <property name="text">
-         <string>За програмата</string>
+         <string>График на посещенията</string>
         </property>
        </widget>
        <widget class="ShortcutTile" name="perioButton">
@@ -328,7 +328,7 @@
        <widget class="ShortcutTile" name="settingsButton">
         <property name="geometry">
          <rect>
-          <x>180</x>
+          <x>350</x>
           <y>350</y>
           <width>150</width>
           <height>150</height>

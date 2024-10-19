@@ -9,8 +9,8 @@
 #include "View/Widgets/PrescriptionView.h"
 #include "View/uiComponents/PixmapLabel.h"
 #include "View/Widgets/WelcomeWidget.h"
-
 #include "View/Interfaces/ITabView.h"
+#include "View/Widgets/CalendarView.h"
 #include "ui_TabView.h"
 
 class TabTitle;
@@ -24,6 +24,7 @@ class TabView : public QWidget, public ITabView
 	PatientSummary m_summaryView;
 	FinancialView m_financialView;
 	PrescriptionView m_prescriptionView;
+	CalendarView m_calendarView;
 
 	WelcomeWidget welcomeScreen{ nullptr };
 
@@ -58,12 +59,14 @@ public:
 	void showFinancialView() override;
 	void showPerscriptionView() override;
 	void showWelcomeScreen() override;
+	void showCalendarView() override;
 
 	IListView* listView() override { return &m_listView; }
 	IPerioView* perioView() override { return &m_perioView; }
 	IPatientSummaryView* summaryView() override { return &m_summaryView; }
 	IFinancialView* financialView() override { return &m_financialView; }
 	IPrescriptionView* prescriptionView() override { return &m_prescriptionView; }
+	CalendarView* calendarView() override { return &m_calendarView; }
 
 signals:
 	void closeRequested(int mapIndex);

@@ -34,7 +34,7 @@ WelcomeWidget::WelcomeWidget(QWidget *parent)
     ui.nhifButton->setIcon(QIcon(":/icons/icon_nhif.png"));
     ui.settingsButton->setIcon(QIcon(":/icons/icon_settings.png"));
     ui.statisticButton->setIcon(QIcon(":/icons/icon_statistic.png"));
-    ui.aboutButton->setIcon(QIcon(":/icons/icon_question.png"));
+    ui.calendar->setIcon(QIcon(":/icons/icon_calendar.png"));
 
     connect(ui.ambButton, &QPushButton::clicked, this, [&] { MainPresenter::get().newAmbPressed(); });
     connect(ui.perioButton, &QPushButton::clicked, this, [&] { MainPresenter::get().newPerioPressed(); });
@@ -44,7 +44,7 @@ WelcomeWidget::WelcomeWidget(QWidget *parent)
     connect(ui.nhifButton, &QPushButton::clicked, this, [&] { MainPresenter::get().pisDialog(); });
     connect(ui.settingsButton, &QPushButton::clicked, this, [&] { MainPresenter::get().settingsPressed(); });
     connect(ui.statisticButton, &QPushButton::clicked, this, [&] { MainPresenter::get().statisticPressed(); });
-    connect(ui.aboutButton, &QPushButton::clicked, this, [&] { AboutDialog d; d.exec(); });
+    connect(ui.calendar, &QPushButton::clicked, this, [&] { MainPresenter::get().openCalendar(); });
     
 }
 

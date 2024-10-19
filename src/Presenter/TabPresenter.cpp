@@ -7,6 +7,7 @@
 #include "PerioPresenter.h"
 #include "PatientSummaryPresenter.h"
 #include "PrescriptionPresenter.h"
+#include "CalendarPresenter.h"
 #include "FinancialPresenter.h"
 #include <TinyXML/tinyxml.h>
 
@@ -187,6 +188,20 @@ void TabPresenter::openInvoice(long long patientRowId, const std::vector<Procedu
     );
 }
 
+void TabPresenter::openCalendar(const CalendarEvent& event)
+{
+    open(RowInstance(TabType::Calendar), true);
+
+    //set clipboard
+    //static_cast<CalendarPresenter*>(currentTab()).
+
+}
+
+void TabPresenter::openCalendar()
+{
+    open(RowInstance(TabType::Calendar), true);
+}
+
 
 void TabPresenter::open(const RowInstance& row, bool setFocus)
 {
@@ -195,7 +210,7 @@ void TabPresenter::open(const RowInstance& row, bool setFocus)
     {
         if (tab->type == row.type &&
             tab->rowID() == row.rowID &&
-            (tab->patient == nullptr || //financial tab edge case
+            (tab->patient == nullptr || //financial tab or calendar
                 tab->patient->rowid == row.patientRowId)
             )
         {
@@ -232,6 +247,10 @@ void TabPresenter::open(const RowInstance& row, bool setFocus)
 
         case TabType::Prescription:
             newTab = new PrescriptionPresenter(view, getPatient_ptr(patient), row.rowID);
+            break;
+
+        case TabType::Calendar:
+            newTab = new CalendarPresenter(view);
             break;
     }
 

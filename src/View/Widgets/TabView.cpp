@@ -264,6 +264,17 @@ void TabView::showPerscriptionView()
     GlobalWidgets::mainWindow->disableButtons(false, false);
 }
 
+void TabView::showCalendarView()
+{
+    GlobalWidgets::mainWindow->disableButtons(true, true);
+    showTabWidget(&m_calendarView);
+    m_listView.setPresenter(nullptr);
+    m_perioView.setPresenter(nullptr);
+    m_summaryView.setPresenter(nullptr);
+    m_financialView.setPresenter(nullptr);
+    m_prescriptionView.setPresenter(nullptr);
+}
+
 void TabView::showWelcomeScreen()
 {
     GlobalWidgets::mainWindow->disableButtons(true, true);

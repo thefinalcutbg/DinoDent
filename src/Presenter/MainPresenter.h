@@ -27,6 +27,7 @@ public:
 	void newAmbPressed();
 	void newPerioPressed();
 	void newPrescriptionPressed();
+	void openCalendar();
 	void showBrowser();
 	void pisDialog();
 	void statisticPressed();

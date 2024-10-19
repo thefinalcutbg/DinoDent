@@ -254,3 +254,51 @@ bool DbDoctor::setIncognito(bool incognito, const std::string& lpk)
 
     return db.execute();
 }
+
+bool DbDoctor::setCalendarRefreshToken(const std::string& token, const std::string& lpk)
+{
+    Db db("UPDATE doctor SET refresh_token=? WHERE lpk=?");
+    db.bind(1, token);
+    db.bind(2, lpk);
+
+    return db.execute();
+}
+
+std::string DbDoctor::calendarRefreshToken(const std::string& lpk)
+{
+    Db db;
+
+    db.newStatement("SELECT refresh_token FROM doctor WHERE lpk=?");
+
+    db.bind(1, lpk);
+
+    while (db.hasRows()) {
+        return db.asString(0);
+    }
+
+    return std::string();
+}
+
+bool DbDoctor::setCurrentCalendarIdx(int idx, const std::string& lpk)
+{
+    Db db("UPDATE doctor SET calendar_index=? WHERE lpk=?");
+    db.bind(1, idx);
+    db.bind(2, lpk);
+
+    return db.execute();
+}
+
+int DbDoctor::currentCalendarIdx(const std::string& lpk)
+{
+    Db db;
+
+    db.newStatement("SELECT calendar_index FROM doctor WHERE lpk=?");
+
+    db.bind(1, lpk);
+
+    while (db.hasRows()) {
+        return db.asInt(0);
+    }
+
+    return 0;
+}

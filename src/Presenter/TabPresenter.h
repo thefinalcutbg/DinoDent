@@ -2,6 +2,7 @@
 
 #include "View/Interfaces/ITabView.h"
 #include "TabInstance.h"
+#include "Model/CalendarStructs.h"
 
 class AmbList;
 struct Patient;
@@ -43,6 +44,8 @@ public:
 	void openInvoice(const std::string& monthNotif);
 	void openInvoice(const Recipient& recipient);
 	void openInvoice(long long patientRowId, const std::vector<Procedure>& procedures = {});
+	void openCalendar(const CalendarEvent& event);
+	void openCalendar();
 
 	bool documentTabOpened(TabType type, long long rowID) const;
 	bool patientTabOpened(long long patientRowid) const;

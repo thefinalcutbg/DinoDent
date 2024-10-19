@@ -85,6 +85,7 @@ DinoDent::DinoDent(QWidget* parent)
     ui.pisButton->setIcon(QIcon(":/icons/icon_nhif.png"));
     ui.settingsButton->setIcon(QIcon(":/icons/icon_settings.png"));
     ui.statisticButton->setIcon(QIcon(":/icons/icon_statistic.png"));
+    ui.calendarButton->setIcon(QIcon(":/icons/icon_calendar.png"));
     ui.invoiceButton->setIcon(QIcon(":/icons/icon_invoice.png"));
     ui.aboutButton->setIcon(QIcon(":/icons/icon_question.png"));
     ui.mircButton->setIcon(QIcon(":/icons/icon_mirc.png"));
@@ -96,6 +97,7 @@ DinoDent::DinoDent(QWidget* parent)
     connect(ui.perscrButton, &QPushButton::clicked, [&] { MainPresenter::get().newPrescriptionPressed(); });
     connect(ui.printButton, &QPushButton::clicked, [&] { MainPresenter::get().printPressed(); });
     connect(ui.perioButton, &QPushButton::clicked, [&] { MainPresenter::get().newPerioPressed(); });
+    connect(ui.calendarButton, &QPushButton::clicked, [&] { MainPresenter::get().openCalendar(); });
     connect(ui.statisticButton, &QPushButton::clicked, [&] { MainPresenter::get().statisticPressed(); });
     connect(settingsAction, &QAction::triggered, [&] { MainPresenter::get().userSettingsPressed();});
     connect(ui.pisButton, &QPushButton::clicked, [&] { MainPresenter::get().pisDialog();});

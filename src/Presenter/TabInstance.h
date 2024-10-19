@@ -6,7 +6,7 @@
 #include <memory>
 #include "View/CommonIcon.h"
 
-enum class TabType { PatientSummary, AmbList, Prescription, PerioStatus, Financial};
+enum class TabType { PatientSummary, AmbList, Prescription, PerioStatus, Financial, Calendar};
 
 struct TabName {
 	std::string header;

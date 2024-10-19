@@ -21,4 +21,8 @@ namespace DbDoctor
 	std::set<std::string> getFavouriteProcedures(const std::string& doctorLPK);
 	bool isIncognito(const std::string& lpk);
 	bool setIncognito(bool incognito, const std::string& lpk);
+	bool setCalendarRefreshToken(const std::string& token, const std::string& lpk);
+	std::string calendarRefreshToken(const std::string& lpk);
+	bool setCurrentCalendarIdx(int idx, const std::string& lpk);
+	int currentCalendarIdx(const std::string& lpk);
 }

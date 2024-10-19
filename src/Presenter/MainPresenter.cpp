@@ -21,6 +21,7 @@
 #include "Presenter/StatisticDialogPresenter.h"
 #include "Presenter/RecipientPresenter.h"
 #include "Presenter/NewDocPresenter.h"
+#include "Presenter/CalendarPresenter.h"
 
 #include "View/Printer.h"
 #include "View/Widgets/SplashScreen.h"
@@ -124,6 +125,11 @@ void MainPresenter::newPrescriptionPressed()
 
     if (patient.has_value())
         TabPresenter::get().openPerscription(patient.value());
+}
+
+void MainPresenter::openCalendar()
+{
+    TabPresenter::get().openCalendar();
 }
 
 void MainPresenter::showBrowser()

@@ -9,7 +9,7 @@
 #include <QNetworkReply>
 #include <QDebug>
 #include "Presenter/CalendarPresenter.h"
-#include "Credentials.h"
+#include "Credentials.h" //comment this out
 
 QString timeZoneOffset;
 CalendarPresenter* s_reciever;
@@ -35,8 +35,11 @@ QOAuth2AuthorizationCodeFlow* getAuth() {
 
     auth->setAuthorizationUrl(QUrl("https://accounts.google.com/o/oauth2/auth"));
     auth->setAccessTokenUrl(QUrl("https://oauth2.googleapis.com/token"));
+
+    //fill out these after you register in google developer console:
     auth->setClientIdentifier(Credentials::ClientIdentifier);
     auth->setClientIdentifierSharedKey(Credentials::ClientIdentifierSharedKey);
+
     const QUrl redirectUri("http://localhost");
     const auto port = static_cast<quint16>(redirectUri.port());
 

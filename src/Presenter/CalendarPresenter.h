@@ -46,7 +46,9 @@ public:
 	long long rowID() const override { return 0; }
 
 	//called by OAuth
-	void authorizationSuccessful(const std::string& refreshToken);
+	void disconnected();
+	void restoreCredentials();
+	void authorizationSuccessful(const std::string& refreshToken = std::string()); //if token is empty, then authentification has failed
 	void setReply(const std::string& reply, int callbackIdx);
 
 	//called from view:

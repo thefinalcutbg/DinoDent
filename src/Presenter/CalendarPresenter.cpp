@@ -7,25 +7,34 @@
 #include "Network/Calendar/CalendarJsonParser.h"
 #include "View/Widgets/CalendarEventDialog.h"
 
-CalendarPresenter::CalendarPresenter(ITabView* view) :
-    TabInstance(view, TabType::Calendar, nullptr),
-    view(view->calendarView()),
+CalendarPresenter::CalendarPresenter(ITabView* tabView) :
+    TabInstance(tabView, TabType::Calendar, nullptr),
+    view(tabView->calendarView()),
     currentCalendar(DbDoctor::currentCalendarIdx(User::doctor().LPK))
 {
+    view->showCalendar(false);
+
     Google::setReciever(this);
 
-    this->view->setCalendarPresenter(this);
+    view->setCalendarPresenter(this);
 
     auto refreshToken = DbDoctor::calendarRefreshToken(User::doctor().LPK);
 
     if (refreshToken.empty()) {
-        this->view->showCalendar(false);
         return;
     }
 
     Google::grantAccess(refreshToken);
 
     shownWeek = getTodaysWeek();
+    view->updateWeekView(shownWeek.first, shownWeek.second, getCurrentDayColumn());
+}
+
+void CalendarPresenter::grantAccessRequested()
+{
+    auto refreshToken = DbDoctor::calendarRefreshToken(User::doctor().LPK);
+
+    Google::grantAccess(refreshToken);
 }
 
 TabName CalendarPresenter::getTabName()
@@ -36,13 +45,23 @@ TabName CalendarPresenter::getTabName()
     };
 }
 
+void CalendarPresenter::disconnected()
+{
+    view->showCalendar(false);
+}
+
+void CalendarPresenter::restoreCredentials()
+{
+    DbDoctor::setCalendarRefreshToken("", User::doctor().LPK);
+    DbDoctor::setCurrentCalendarIdx(0, User::doctor().LPK);
+}
+
 void CalendarPresenter::authorizationSuccessful(const std::string& refreshToken)
 {
-    if (!refreshToken.size()) return;
+    view->showCalendar(true);
 
     DbDoctor::setCalendarRefreshToken(refreshToken, User::doctor().LPK);
     
-    this->view->showCalendar(true);
     view->updateWeekView(shownWeek.first, shownWeek.second, getCurrentDayColumn());
     
     Google::query(
@@ -126,11 +145,6 @@ void CalendarPresenter::setReply(const std::string& reply, int callbackIdx)
     }
         break;
     }
-}
-
-void CalendarPresenter::grantAccessRequested()
-{
-    Google::grantAccess();
 }
 
 void CalendarPresenter::calendarIndexChanged(int idx)

@@ -1,4 +1,4 @@
-#include "Google.h"
+﻿#include "Google.h"
 
 #include <QOAuth2AuthorizationCodeFlow>
 #include <QOAuthHttpServerReplyHandler>
@@ -15,7 +15,6 @@
 QString timeZoneOffset;
 CalendarPresenter* s_reciever;
 
-
 void Google::setReciever(CalendarPresenter* p)
 {
     s_reciever = p;
@@ -25,12 +24,20 @@ CalendarPresenter* getReciever() {
     return s_reciever;
 }
 
+QOAuth2AuthorizationCodeFlow* getAuth(bool reinitialize = false) {
 
-QOAuth2AuthorizationCodeFlow* getAuth() {
-	
-    static QOAuth2AuthorizationCodeFlow* auth =  nullptr;
+    static QOAuth2AuthorizationCodeFlow* auth = nullptr;
 
-    if (auth) return auth;
+    if (auth) {
+
+        if (reinitialize) {
+            delete auth;
+            auth = nullptr;
+            return getAuth();
+        }
+
+        return auth;
+    }
 
     auth = new QOAuth2AuthorizationCodeFlow();
 
@@ -44,33 +51,47 @@ QOAuth2AuthorizationCodeFlow* getAuth() {
     auth->setClientIdentifierSharedKey(Credentials::ClientIdentifierSharedKey);
 
     const QUrl redirectUri("http://localhost");
-    const auto port = static_cast<quint16>(redirectUri.port());
+    const auto port = 1234;
 
     auto replyHandler = new QOAuthHttpServerReplyHandler(port, auth);
+
     auth->setReplyHandler(replyHandler);
 
     auth->setScope("https://www.googleapis.com/auth/calendar");
-
+    
     QObject::connect(auth, &QOAuth2AuthorizationCodeFlow::authorizeWithBrowser, auth, [&](const QUrl& url) { QDesktopServices::openUrl(url); });
     QObject::connect(auth, &QOAuth2AuthorizationCodeFlow::granted, auth, [&]() {
         if (!getReciever()) return;
         getReciever()->authorizationSuccessful(auth->refreshToken().toStdString());
     });
+    
+    QObject::connect(auth, &QOAuth2AuthorizationCodeFlow::statusChanged, [=](QAbstractOAuth::Status status) {
+
+        if (status != QAbstractOAuth::Status::Granted) {
+            
+            auto reciever = getReciever();
+
+            if (reciever) {
+                reciever->restoreCredentials();
+            }
+
+        }
+    });
 
     return auth;
-
 }
-
 
 void Google::grantAccess(const std::string& refreshToken)
 {
+    auto auth = getAuth(true);
+
     if (refreshToken.empty()) {
-        getAuth()->grant();
+        auth->grant();
         return;
     }
-
-    getAuth()->setRefreshToken(refreshToken.c_str());
-    getAuth()->refreshAccessToken();
+    
+    auth->setRefreshToken(refreshToken.c_str());
+    auth->refreshAccessToken();
 }
 
 void Google::query(const QString& urlStr, const QVariantMap& param, const QString& verb, const QString& requestBody, int callbackIdx)
@@ -96,13 +117,19 @@ void Google::query(const QString& urlStr, const QVariantMap& param, const QStrin
 
     QObject::connect(reply, &QNetworkReply::finished, reply, [=]() {
 
+        reply->deleteLater();
+
+        if (!getReciever()) return;
+
+        if (reply->error()) {
+            
+            getReciever()->disconnected();
+            return;
+        }
+
         QString replyStr = reply->readAll();
-
-        qDebug() << replyStr;
-
-         if (!getReciever()) return;
-         
-         getReciever()->setReply(replyStr.toStdString(), callbackIdx);
+        
+        getReciever()->setReply(replyStr.toStdString(), callbackIdx);
 
     });
 }

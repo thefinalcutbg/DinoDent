@@ -18,6 +18,10 @@ CalendarPresenter::CalendarPresenter(ITabView* tabView) :
 
     view->setCalendarPresenter(this);
 
+    shownWeek = getTodaysWeek();
+
+    view->updateWeekView(shownWeek.first, shownWeek.second, getCurrentDayColumn());
+
     auto refreshToken = DbDoctor::calendarRefreshToken(User::doctor().LPK);
 
     if (refreshToken.empty()) {
@@ -25,9 +29,6 @@ CalendarPresenter::CalendarPresenter(ITabView* tabView) :
     }
 
     Google::grantAccess(refreshToken);
-
-    shownWeek = getTodaysWeek();
-    view->updateWeekView(shownWeek.first, shownWeek.second, getCurrentDayColumn());
 }
 
 void CalendarPresenter::grantAccessRequested()
@@ -54,6 +55,7 @@ void CalendarPresenter::restoreCredentials()
 {
     DbDoctor::setCalendarRefreshToken("", User::doctor().LPK);
     DbDoctor::setCurrentCalendarIdx(0, User::doctor().LPK);
+    view->showCalendar(false);
 }
 
 void CalendarPresenter::authorizationSuccessful(const std::string& refreshToken)
@@ -61,7 +63,7 @@ void CalendarPresenter::authorizationSuccessful(const std::string& refreshToken)
     view->showCalendar(true);
 
     DbDoctor::setCalendarRefreshToken(refreshToken, User::doctor().LPK);
-    
+
     view->updateWeekView(shownWeek.first, shownWeek.second, getCurrentDayColumn());
     
     Google::query(
@@ -76,21 +78,18 @@ void CalendarPresenter::setReply(const std::string& reply, int callbackIdx)
     {
     case QueryType::GetCalendars:
     {
-
         m_calendars = CalendarJsonParser::parseCalendarList(reply);
 
-        auto idx = DbDoctor::currentCalendarIdx(User::doctor().LPK);
+        view->setCalendarList(m_calendars, currentCalendar);
 
-        view->setCalendarList(m_calendars, idx);
-
-        requestEvents();;
+        requestEvents();
     }
         break;
 
     case QueryType::GetEvents:
 
         m_events = CalendarJsonParser::parseEventList(reply);
-
+        
         view->setEventList(m_events, clipboard_event);
 
         break;
@@ -253,9 +252,11 @@ void CalendarPresenter::clearClipboard()
 
 void CalendarPresenter::durationChange(int eventIdx, int duration)
 {
-    m_events[eventIdx].end = m_events[eventIdx].start.addSecs(duration * 60);
+    auto event = m_events[eventIdx];
 
-    sendEventQuery(m_events[eventIdx]);
+    event.end = m_events[eventIdx].start.addSecs(duration * 60);
+
+    sendEventQuery(event);
 }
 
 void CalendarPresenter::cancelMove()
@@ -283,7 +284,7 @@ void CalendarPresenter::requestEvents()
     param["calendarId"] = QString(calendar.id.c_str());
     param["timeMin"] = shownWeek.first.toString("yyyy-MM-dd") + "T00:00:00Z";
     param["timeMax"] = shownWeek.second.toString("yyyy-MM-dd") + "T23:59:59Z";
-
+    qDebug() << param;
     Google::query(
         "https://www.googleapis.com/calendar/v3/calendars/calendarId/events",
         param, "GET", {}, QueryType::GetEvents

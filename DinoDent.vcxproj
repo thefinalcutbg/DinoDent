@@ -118,7 +118,7 @@
       <LanguageStandard_C>Default</LanguageStandard_C>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>limereport-qt6.lib;libcrypto.lib;libssl.lib;libxml2.lib;libp11.lib;$(Qt_LIBS_);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>limereportd.lib;libcrypto.lib;libssl.lib;libxml2.lib;libp11.lib;$(Qt_LIBS_);%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)\dependencies\lib\Debug;$(SolutionDir)\dependencies\lib;$(Qt_LIBPATH_);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -135,18 +135,18 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)\dependencies\lib\Release;$(SolutionDir)\dependencies\lib;$(Qt_LIBPATH_);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>limereport-qt6.lib;libcrypto.lib;libssl.lib;libxml2.lib;libp11.lib;$(Qt_LIBS_);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>limereport.lib;libcrypto.lib;libssl.lib;libxml2.lib;libp11.lib;$(Qt_LIBS_);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
-    <QtInstall>6.3.1_msvc2019_64</QtInstall>
+    <QtInstall>6.7.2_msvc2019_64</QtInstall>
     <QtModules>core;gui;network;qml;widgets;core5compat;printsupport;networkauth</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
     <QtPlugin>true</QtPlugin>
     <QMakeExtraArgs>"CONFIG += c++2a"</QMakeExtraArgs>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
-    <QtInstall>6.3.1_msvc2019_64</QtInstall>
+    <QtInstall>6.7.2_msvc2019_64</QtInstall>
     <QtModules>core;gui;network;qml;widgets;core5compat;printsupport;svg;networkauth</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
     <QtPlugin>true</QtPlugin>

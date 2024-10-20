@@ -58,24 +58,28 @@ QOAuth2AuthorizationCodeFlow* getAuth(bool reinitialize = false) {
     auth->setReplyHandler(replyHandler);
 
     auth->setScope("https://www.googleapis.com/auth/calendar");
-    
-    QObject::connect(auth, &QOAuth2AuthorizationCodeFlow::authorizeWithBrowser, auth, [&](const QUrl& url) { QDesktopServices::openUrl(url); });
-    QObject::connect(auth, &QOAuth2AuthorizationCodeFlow::granted, auth, [&]() {
-        if (!getReciever()) return;
-        getReciever()->authorizationSuccessful(auth->refreshToken().toStdString());
-    });
-    
-    QObject::connect(auth, &QOAuth2AuthorizationCodeFlow::statusChanged, [=](QAbstractOAuth::Status status) {
-
-        if (status != QAbstractOAuth::Status::Granted) {
+    QObject::connect(replyHandler, &QOAuthHttpServerReplyHandler::tokenRequestErrorOccurred, replyHandler,
+        [&](QAbstractOAuth::Error error, const QString& errorString) {
             
             auto reciever = getReciever();
 
-            if (reciever) {
+            if (!reciever) return;
+
+            if (errorString.startsWith("Error transferring")) 
+            {
                 reciever->restoreCredentials();
+                
+                return;
             }
 
-        }
+            reciever->disconnected();
+            
+     });
+    QObject::connect(auth, &QOAuth2AuthorizationCodeFlow::authorizeWithBrowser, auth, [&](const QUrl& url) { QDesktopServices::openUrl(url); });
+    QObject::connect(auth, &QOAuth2AuthorizationCodeFlow::granted, auth, [&]() {
+
+        if (!getReciever()) return;
+        getReciever()->authorizationSuccessful(auth->refreshToken().toStdString());
     });
 
     return auth;
@@ -114,21 +118,21 @@ void Google::query(const QString& urlStr, const QVariantMap& param, const QStrin
 
     auto reply = auth->networkAccessManager()->sendCustomRequest(req, verb.toUtf8(), requestBody.toUtf8());
 
-
     QObject::connect(reply, &QNetworkReply::finished, reply, [=]() {
 
         reply->deleteLater();
 
         if (!getReciever()) return;
 
-        if (reply->error()) {
-            
+        if ((int)reply->error() == 99) //no internet connection
+        {
             getReciever()->disconnected();
+
             return;
         }
 
         QString replyStr = reply->readAll();
-        
+
         getReciever()->setReply(replyStr.toStdString(), callbackIdx);
 
     });

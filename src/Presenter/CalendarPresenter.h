@@ -15,7 +15,7 @@ class CalendarPresenter : public TabInstance
 	std::vector<Calendar> m_calendars;
 	std::vector<CalendarEvent> m_events;
 
-	int currentCalendar = -1;
+	int currentCalendar = 0;
 
 	std::string deleteId;
 

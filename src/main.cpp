@@ -57,6 +57,10 @@ bool initFunction() {
     QApplication::setApplicationName("DinoDent");
     QApplication::setWindowIcon(QIcon(":/icons/icon_app.png"));
 
+#ifdef Q_OS_WIN
+    QApplication::setStyle("windowsvista");     //"windows11", "windowsvista", "Windows", "Fusion"
+#endif
+
     SplashScreen::createAndShow();
 
     Db::setFilePath(GlobalSettings::getDbPath());

@@ -19,10 +19,10 @@ std::set<AbstractReplyHandler*> s_handlers;
 int s_timeout = 15000;
 
 QNetworkAccessManager* NetworkManager::getManager() {
-
+    
     if (!s_manager) {
         s_manager = new QNetworkAccessManager();
-        s_manager->setTransferTimeout(s_timeout);
+       // s_manager->setTransferTimeout(s_timeout);
     }
 
     return s_manager;
@@ -38,8 +38,7 @@ void postRequest(const QNetworkRequest& request, AbstractReplyHandler* handler, 
 
 
     s_handlers.insert(handler);
-
-
+    
     QApplication::setOverrideCursor(Qt::BusyCursor);
 
     QObject::connect(reply, &QNetworkReply::errorOccurred,
@@ -49,7 +48,7 @@ void postRequest(const QNetworkRequest& request, AbstractReplyHandler* handler, 
         }
     );
 
-    QObject::connect(reply, &QNetworkReply::finished, reply, 
+    QObject::connect(reply, &QNetworkReply::finished, 
         [=] {
 
             QApplication::restoreOverrideCursor();
@@ -64,11 +63,11 @@ void postRequest(const QNetworkRequest& request, AbstractReplyHandler* handler, 
 
             handler->getReply(replyStr);
 
-            reply->deleteLater();
+      //      reply->deleteLater();
 
         });
 
-    QObject::connect(reply, &QNetworkReply::sslErrors, reply, [=] {
+    QObject::connect(reply, &QNetworkReply::sslErrors, [=] {
 
             QApplication::restoreOverrideCursor();
 
@@ -77,8 +76,6 @@ void postRequest(const QNetworkRequest& request, AbstractReplyHandler* handler, 
             if (s_handlers.count(handler) == 0) return;
 
             handler->getReply("");
-
-            reply->deleteLater();
 
         });
 }
@@ -94,7 +91,7 @@ void NetworkManager::sendRequestToPis(
     config.setProtocol(QSsl::SslProtocol::TlsV1_2);
     config.setLocalCertificate(QSslCertificate(token.pem_x509cert().data()));
     config.setPrivateKey(QSslKey(Qt::HANDLE(token.takePrivateKey(true)), QSsl::KeyType::PrivateKey));
-
+    
     QNetworkRequest request(QUrl("https://pis.nhif.bg/ws/PISService"));
     request.setSslConfiguration(config);
     request.setHeader(QNetworkRequest::KnownHeaders::ContentTypeHeader, "text/xml;charset=\"utf-8\"");
@@ -263,8 +260,8 @@ QNetworkReply* NetworkManager::simpleRequest(const char* url)
 void NetworkManager::setTimeout(int seconds)
 {
     s_timeout = seconds ? seconds * 1000 : 15000;
-    
-    if (s_manager) {
-        s_manager->setTransferTimeout(s_timeout);
-    }
+
+ //   if (s_manager) {
+   //     s_manager->setTransferTimeout(s_timeout);
+    //}
 }

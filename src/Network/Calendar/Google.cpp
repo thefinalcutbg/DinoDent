@@ -11,9 +11,10 @@
 #include "Network/NetworkManager.h"
 #include "Presenter/CalendarPresenter.h"
 #include "Credentials.h" //comment this out
-
+#include <QTimer>
 QString timeZoneOffset;
 CalendarPresenter* s_reciever;
+QTimer timer;
 
 void Google::setReciever(CalendarPresenter* p)
 {
@@ -41,7 +42,7 @@ QOAuth2AuthorizationCodeFlow* getAuth(bool reinitialize = false) {
 
     auth = new QOAuth2AuthorizationCodeFlow();
 
-    auth->setNetworkAccessManager(NetworkManager::getManager());
+  //  auth->setNetworkAccessManager(NetworkManager::getManager());
 
     auth->setAuthorizationUrl(QUrl("https://accounts.google.com/o/oauth2/auth"));
     auth->setAccessTokenUrl(QUrl("https://oauth2.googleapis.com/token"));
@@ -54,9 +55,9 @@ QOAuth2AuthorizationCodeFlow* getAuth(bool reinitialize = false) {
     const auto port = 1234;
 
     auto replyHandler = new QOAuthHttpServerReplyHandler(port, auth);
-
+    
     auth->setReplyHandler(replyHandler);
-
+    
     auth->setScope("https://www.googleapis.com/auth/calendar");
     QObject::connect(replyHandler, &QOAuthHttpServerReplyHandler::tokenRequestErrorOccurred, replyHandler,
         [&](QAbstractOAuth::Error error, const QString& errorString) {
@@ -79,7 +80,12 @@ QOAuth2AuthorizationCodeFlow* getAuth(bool reinitialize = false) {
     QObject::connect(auth, &QOAuth2AuthorizationCodeFlow::granted, auth, [&]() {
 
         if (!getReciever()) return;
+        qDebug() << "EXPIRE after" << auth->expirationAt() - QDateTime::currentDateTime();
         getReciever()->authorizationSuccessful(auth->refreshToken().toStdString());
+    });
+
+    QObject::connect(auth, &QOAuth2AuthorizationCodeFlow::statusChanged, [&](QAbstractOAuth::Status status) {
+        qDebug() << "status changed" << (int)status;
     });
 
     return auth;
@@ -87,7 +93,7 @@ QOAuth2AuthorizationCodeFlow* getAuth(bool reinitialize = false) {
 
 void Google::grantAccess(const std::string& refreshToken)
 {
-    auto auth = getAuth(true);
+    auto auth = getAuth();
 
     if (refreshToken.empty()) {
         auth->grant();

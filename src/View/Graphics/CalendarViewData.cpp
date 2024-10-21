@@ -3,6 +3,7 @@
 #include <QPainterPath>
 #include <QDebug>
 #include "View/Theme.h"
+#include <QApplication>
 
 CalendarViewData::CalendarViewData()
 {}
@@ -92,7 +93,7 @@ int CalendarViewData::eventListIndex(int column, int row) const
 std::vector<std::pair<int, int>> CalendarViewData::setHovered(int column, int row)
 {
 	std::vector<std::pair<int, int>> result;
-
+	
 	auto newHoveredEntity = getEntity(column, row);
 
 	//hovered over empty cell
@@ -169,7 +170,7 @@ void CalendarViewData::EventEntity::paintPixmap()
 	int eventHeight = cell_height * span;
 
 	px = QPixmap(cell_width, eventHeight);
-
+	//px.setDevicePixelRatio(pixelRatio);
 	px.fill(Qt::transparent);
 
 	QPainter p(&px);
@@ -190,7 +191,7 @@ void CalendarViewData::EventEntity::paintPixmap()
 	//p.setPen(QColor(40, 73, 71));
 
 	QRect textRect(5, 5, cell_width-10, eventHeight-10);
-
+	
 	p.setRenderHint(QPainter::RenderHint::TextAntialiasing);
 
 	p.drawText(textRect, text);
@@ -205,7 +206,7 @@ QPixmap CalendarViewData::EventEntity::getPixmapPart(int row) const
 	QRect sourceRect(0, pointY, cell_width, cell_height);
 
 	QPixmap result(cell_width, cell_height);
-
+	
 	result.fill(Qt::transparent);
 
 	QPainter p(&result);

@@ -12,6 +12,8 @@ private:
 
 	struct EventEntity {
 
+		static inline qreal pixelRatio = 1;
+
 		QString text;
 
 		int column = -1;
@@ -56,6 +58,7 @@ private:
 	const EventEntity* const getEntity(int column, int row) const;
 	EventEntity* getEntity(int column, int row);
 
+	
 
 public:
 
@@ -65,6 +68,7 @@ public:
 
 	void setCellSize(int column, int cell_width, int cell_height);
 
+	void setPixelRatio(qreal ratio) { EventEntity::pixelRatio = ratio; }
 	const QString& clipboardEventText() const { return m_clipboardEventText; }
 
 	QPixmap requestPixmap(int column, int row) const;

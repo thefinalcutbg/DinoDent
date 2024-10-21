@@ -39,7 +39,7 @@
        <item>
         <spacer name="verticalSpacer_2">
          <property name="orientation">
-          <enum>Qt::Vertical</enum>
+          <enum>Qt::Orientation::Vertical</enum>
          </property>
          <property name="sizeHint" stdset="0">
           <size>
@@ -54,7 +54,7 @@
          <item>
           <spacer name="horizontalSpacer_3">
            <property name="orientation">
-            <enum>Qt::Horizontal</enum>
+            <enum>Qt::Orientation::Horizontal</enum>
            </property>
            <property name="sizeHint" stdset="0">
             <size>
@@ -95,7 +95,7 @@
          <item>
           <spacer name="horizontalSpacer_4">
            <property name="orientation">
-            <enum>Qt::Horizontal</enum>
+            <enum>Qt::Orientation::Horizontal</enum>
            </property>
            <property name="sizeHint" stdset="0">
             <size>
@@ -110,7 +110,7 @@
        <item>
         <spacer name="verticalSpacer_3">
          <property name="orientation">
-          <enum>Qt::Vertical</enum>
+          <enum>Qt::Orientation::Vertical</enum>
          </property>
          <property name="sizeHint" stdset="0">
           <size>
@@ -192,7 +192,7 @@
          <item>
           <spacer name="horizontalSpacer_2">
            <property name="orientation">
-            <enum>Qt::Horizontal</enum>
+            <enum>Qt::Orientation::Horizontal</enum>
            </property>
            <property name="sizeHint" stdset="0">
             <size>
@@ -232,15 +232,37 @@
            </property>
           </widget>
          </item>
+         <item>
+          <widget class="IconButton" name="exitButton">
+           <property name="minimumSize">
+            <size>
+             <width>35</width>
+             <height>35</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>35</width>
+             <height>35</height>
+            </size>
+           </property>
+           <property name="toolTip">
+            <string>Излез от профила</string>
+           </property>
+           <property name="text">
+            <string>Изход</string>
+           </property>
+          </widget>
+         </item>
         </layout>
        </item>
        <item>
         <widget class="QFrame" name="calendarFrame">
          <property name="frameShape">
-          <enum>QFrame::NoFrame</enum>
+          <enum>QFrame::Shape::NoFrame</enum>
          </property>
          <property name="frameShadow">
-          <enum>QFrame::Plain</enum>
+          <enum>QFrame::Shadow::Plain</enum>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_9">
           <property name="spacing">
@@ -266,10 +288,10 @@
             <item>
              <widget class="QFrame" name="weekFrame">
               <property name="frameShape">
-               <enum>QFrame::StyledPanel</enum>
+               <enum>QFrame::Shape::StyledPanel</enum>
               </property>
               <property name="frameShadow">
-               <enum>QFrame::Raised</enum>
+               <enum>QFrame::Shadow::Raised</enum>
               </property>
               <layout class="QHBoxLayout" name="horizontalLayout_3">
                <property name="spacing">
@@ -315,7 +337,7 @@
                   <string>TextLabel</string>
                  </property>
                  <property name="alignment">
-                  <set>Qt::AlignCenter</set>
+                  <set>Qt::AlignmentFlag::AlignCenter</set>
                  </property>
                  <property name="wordWrap">
                   <bool>true</bool>
@@ -337,7 +359,7 @@
                   <string>TextLabel</string>
                  </property>
                  <property name="alignment">
-                  <set>Qt::AlignCenter</set>
+                  <set>Qt::AlignmentFlag::AlignCenter</set>
                  </property>
                  <property name="wordWrap">
                   <bool>true</bool>
@@ -359,7 +381,7 @@
                   <string>TextLabel</string>
                  </property>
                  <property name="alignment">
-                  <set>Qt::AlignCenter</set>
+                  <set>Qt::AlignmentFlag::AlignCenter</set>
                  </property>
                  <property name="wordWrap">
                   <bool>true</bool>
@@ -381,7 +403,7 @@
                   <string>TextLabel</string>
                  </property>
                  <property name="alignment">
-                  <set>Qt::AlignCenter</set>
+                  <set>Qt::AlignmentFlag::AlignCenter</set>
                  </property>
                  <property name="wordWrap">
                   <bool>true</bool>
@@ -403,7 +425,7 @@
                   <string>TextLabel</string>
                  </property>
                  <property name="alignment">
-                  <set>Qt::AlignCenter</set>
+                  <set>Qt::AlignmentFlag::AlignCenter</set>
                  </property>
                  <property name="wordWrap">
                   <bool>true</bool>
@@ -425,7 +447,7 @@
                   <string>TextLabel</string>
                  </property>
                  <property name="alignment">
-                  <set>Qt::AlignCenter</set>
+                  <set>Qt::AlignmentFlag::AlignCenter</set>
                  </property>
                  <property name="wordWrap">
                   <bool>true</bool>
@@ -447,7 +469,7 @@
                   <string>TextLabel</string>
                  </property>
                  <property name="alignment">
-                  <set>Qt::AlignCenter</set>
+                  <set>Qt::AlignmentFlag::AlignCenter</set>
                  </property>
                  <property name="wordWrap">
                   <bool>true</bool>
@@ -460,10 +482,10 @@
             <item>
              <spacer name="weekSpacerEnd">
               <property name="orientation">
-               <enum>Qt::Horizontal</enum>
+               <enum>Qt::Orientation::Horizontal</enum>
               </property>
               <property name="sizeType">
-               <enum>QSizePolicy::Fixed</enum>
+               <enum>QSizePolicy::Policy::Fixed</enum>
               </property>
               <property name="sizeHint" stdset="0">
                <size>
@@ -478,17 +500,17 @@
           <item>
            <widget class="Line" name="line">
             <property name="frameShadow">
-             <enum>QFrame::Plain</enum>
+             <enum>QFrame::Shadow::Plain</enum>
             </property>
             <property name="orientation">
-             <enum>Qt::Horizontal</enum>
+             <enum>Qt::Orientation::Horizontal</enum>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QScrollArea" name="scrollArea">
             <property name="frameShape">
-             <enum>QFrame::NoFrame</enum>
+             <enum>QFrame::Shape::NoFrame</enum>
             </property>
             <property name="widgetResizable">
              <bool>true</bool>
@@ -498,7 +520,7 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>1170</width>
+               <width>1175</width>
                <height>3500</height>
               </rect>
              </property>
@@ -523,10 +545,10 @@
                 <item>
                  <spacer name="tableTopSpacer">
                   <property name="orientation">
-                   <enum>Qt::Vertical</enum>
+                   <enum>Qt::Orientation::Vertical</enum>
                   </property>
                   <property name="sizeType">
-                   <enum>QSizePolicy::Fixed</enum>
+                   <enum>QSizePolicy::Policy::Fixed</enum>
                   </property>
                   <property name="sizeHint" stdset="0">
                    <size>
@@ -550,16 +572,16 @@
                  <bool>true</bool>
                 </property>
                 <property name="frameShape">
-                 <enum>QFrame::NoFrame</enum>
+                 <enum>QFrame::Shape::NoFrame</enum>
                 </property>
                 <property name="frameShadow">
-                 <enum>QFrame::Plain</enum>
+                 <enum>QFrame::Shadow::Plain</enum>
                 </property>
                 <property name="verticalScrollBarPolicy">
-                 <enum>Qt::ScrollBarAlwaysOff</enum>
+                 <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
                 </property>
                 <property name="horizontalScrollBarPolicy">
-                 <enum>Qt::ScrollBarAlwaysOff</enum>
+                 <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
                 </property>
                 <property name="autoScroll">
                  <bool>false</bool>
@@ -568,7 +590,7 @@
                  <bool>true</bool>
                 </property>
                 <property name="dragDropMode">
-                 <enum>QAbstractItemView::DragDrop</enum>
+                 <enum>QAbstractItemView::DragDropMode::DragDrop</enum>
                 </property>
                 <property name="alternatingRowColors">
                  <bool>false</bool>
@@ -577,7 +599,7 @@
                  <bool>false</bool>
                 </property>
                 <property name="gridStyle">
-                 <enum>Qt::DashLine</enum>
+                 <enum>Qt::PenStyle::DashLine</enum>
                 </property>
                 <property name="cornerButtonEnabled">
                  <bool>false</bool>
@@ -598,10 +620,10 @@
    <item>
     <spacer name="verticalSpacer">
      <property name="orientation">
-      <enum>Qt::Vertical</enum>
+      <enum>Qt::Orientation::Vertical</enum>
      </property>
      <property name="sizeType">
-      <enum>QSizePolicy::Fixed</enum>
+      <enum>QSizePolicy::Policy::Fixed</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>

@@ -15,7 +15,7 @@ class CalendarPresenter : public TabInstance
 	std::vector<Calendar> m_calendars;
 	std::vector<CalendarEvent> m_events;
 
-	int currentCalendar = -1;
+	int currentCalendar = 0;
 
 	std::string deleteId;
 
@@ -46,7 +46,9 @@ public:
 	long long rowID() const override { return 0; }
 
 	//called by OAuth
-	void authorizationSuccessful(const std::string& refreshToken);
+	void disconnected();
+	void restoreCredentials();
+	void authorizationSuccessful(const std::string& refreshToken = std::string()); //if token is empty, then authentification has failed
 	void setReply(const std::string& reply, int callbackIdx);
 
 	//called from view:

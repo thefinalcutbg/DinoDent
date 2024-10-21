@@ -7,25 +7,35 @@
 #include "Network/Calendar/CalendarJsonParser.h"
 #include "View/Widgets/CalendarEventDialog.h"
 
-CalendarPresenter::CalendarPresenter(ITabView* view) :
-    TabInstance(view, TabType::Calendar, nullptr),
-    view(view->calendarView()),
+CalendarPresenter::CalendarPresenter(ITabView* tabView) :
+    TabInstance(tabView, TabType::Calendar, nullptr),
+    view(tabView->calendarView()),
     currentCalendar(DbDoctor::currentCalendarIdx(User::doctor().LPK))
 {
+    view->showCalendar(false);
+
     Google::setReciever(this);
 
-    this->view->setCalendarPresenter(this);
+    view->setCalendarPresenter(this);
+
+    shownWeek = getTodaysWeek();
+
+    view->updateWeekView(shownWeek.first, shownWeek.second, getCurrentDayColumn());
 
     auto refreshToken = DbDoctor::calendarRefreshToken(User::doctor().LPK);
 
     if (refreshToken.empty()) {
-        this->view->showCalendar(false);
         return;
     }
 
     Google::grantAccess(refreshToken);
+}
 
-    shownWeek = getTodaysWeek();
+void CalendarPresenter::grantAccessRequested()
+{
+    auto refreshToken = DbDoctor::calendarRefreshToken(User::doctor().LPK);
+
+    Google::grantAccess(refreshToken);
 }
 
 TabName CalendarPresenter::getTabName()
@@ -36,13 +46,24 @@ TabName CalendarPresenter::getTabName()
     };
 }
 
+void CalendarPresenter::disconnected()
+{
+    view->showCalendar(false);
+}
+
+void CalendarPresenter::restoreCredentials()
+{
+    DbDoctor::setCalendarRefreshToken("", User::doctor().LPK);
+    DbDoctor::setCurrentCalendarIdx(0, User::doctor().LPK);
+    view->showCalendar(false);
+}
+
 void CalendarPresenter::authorizationSuccessful(const std::string& refreshToken)
 {
-    if (!refreshToken.size()) return;
+    view->showCalendar(true);
 
     DbDoctor::setCalendarRefreshToken(refreshToken, User::doctor().LPK);
-    
-    this->view->showCalendar(true);
+
     view->updateWeekView(shownWeek.first, shownWeek.second, getCurrentDayColumn());
     
     Google::query(
@@ -57,21 +78,18 @@ void CalendarPresenter::setReply(const std::string& reply, int callbackIdx)
     {
     case QueryType::GetCalendars:
     {
-
         m_calendars = CalendarJsonParser::parseCalendarList(reply);
 
-        auto idx = DbDoctor::currentCalendarIdx(User::doctor().LPK);
+        view->setCalendarList(m_calendars, currentCalendar);
 
-        view->setCalendarList(m_calendars, idx);
-
-        requestEvents();;
+        requestEvents();
     }
         break;
 
     case QueryType::GetEvents:
 
         m_events = CalendarJsonParser::parseEventList(reply);
-
+        
         view->setEventList(m_events, clipboard_event);
 
         break;
@@ -126,11 +144,6 @@ void CalendarPresenter::setReply(const std::string& reply, int callbackIdx)
     }
         break;
     }
-}
-
-void CalendarPresenter::grantAccessRequested()
-{
-    Google::grantAccess();
 }
 
 void CalendarPresenter::calendarIndexChanged(int idx)
@@ -239,9 +252,11 @@ void CalendarPresenter::clearClipboard()
 
 void CalendarPresenter::durationChange(int eventIdx, int duration)
 {
-    m_events[eventIdx].end = m_events[eventIdx].start.addSecs(duration * 60);
+    auto event = m_events[eventIdx];
 
-    sendEventQuery(m_events[eventIdx]);
+    event.end = m_events[eventIdx].start.addSecs(duration * 60);
+
+    sendEventQuery(event);
 }
 
 void CalendarPresenter::cancelMove()
@@ -269,7 +284,7 @@ void CalendarPresenter::requestEvents()
     param["calendarId"] = QString(calendar.id.c_str());
     param["timeMin"] = shownWeek.first.toString("yyyy-MM-dd") + "T00:00:00Z";
     param["timeMax"] = shownWeek.second.toString("yyyy-MM-dd") + "T23:59:59Z";
-
+    qDebug() << param;
     Google::query(
         "https://www.googleapis.com/calendar/v3/calendars/calendarId/events",
         param, "GET", {}, QueryType::GetEvents

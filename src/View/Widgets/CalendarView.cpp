@@ -25,8 +25,10 @@ CalendarView::CalendarView(QWidget* parent)
 
     ui.prevWeekButton->setHoverColor(Theme::mainBackgroundColor);
     ui.nextWeekButton->setHoverColor(Theme::mainBackgroundColor);
+    ui.exitButton->setHoverColor(Theme::mainBackgroundColor);
 
     ui.authButton->setIcon(QIcon(":/icons/icon_google.png"));
+    ui.exitButton->setIcon(QIcon(":/icons/icon_remove.png"));
 
     auto font = ui.dateLabel->font();
     font.setPointSize(font.pointSize() * 2);
@@ -51,6 +53,7 @@ CalendarView::CalendarView(QWidget* parent)
     scrollBar->setValue((pixelsPerMin * minutes) - (15*pixelsPerMin));
 
     connect(ui.authButton, &QPushButton::clicked, this, [=] { presenter->grantAccessRequested(); });
+    connect(ui.exitButton, &QPushButton::clicked, this, [=] { presenter->restoreCredentials(); });
     connect(ui.nextWeekButton, &QPushButton::clicked, this, [=] { presenter->nextWeekRequested(); });
     connect(ui.prevWeekButton, &QPushButton::clicked, this, [=] { presenter->prevWeekRequested(); });
     connect(ui.currentWeekButton, &QPushButton::clicked, this, [&] { presenter->currentWeekRequested(); });

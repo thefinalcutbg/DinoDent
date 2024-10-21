@@ -14,7 +14,7 @@ This library is required for generating and printing the ambulatory sheets and i
 
 ### OpenSsl
 
-Provide OpenSsl for your system. OpenSsl is a dependency of libp11. The project has been tested with OpenSsl 1.1.1 distributed by the Qt Maintaince tool.
+Provide OpenSsl for your system. OpenSsl is a dependency of libp11. Use the one distributed by the Qt Maintaince tool.
 
 ### libXml2
 

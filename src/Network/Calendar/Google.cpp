@@ -1,4 +1,4 @@
-#include "Google.h"
+﻿#include "Google.h"
 
 #include <QOAuth2AuthorizationCodeFlow>
 #include <QOAuthHttpServerReplyHandler>
@@ -11,10 +11,10 @@
 #include "Network/NetworkManager.h"
 #include "Presenter/CalendarPresenter.h"
 #include "Credentials.h" //comment this out
-
+#include <QTimer>
 QString timeZoneOffset;
 CalendarPresenter* s_reciever;
-
+QTimer timer;
 
 void Google::setReciever(CalendarPresenter* p)
 {
@@ -25,16 +25,24 @@ CalendarPresenter* getReciever() {
     return s_reciever;
 }
 
+QOAuth2AuthorizationCodeFlow* getAuth(bool reinitialize = false) {
 
-QOAuth2AuthorizationCodeFlow* getAuth() {
-	
-    static QOAuth2AuthorizationCodeFlow* auth =  nullptr;
+    static QOAuth2AuthorizationCodeFlow* auth = nullptr;
 
-    if (auth) return auth;
+    if (auth) {
+
+        if (reinitialize) {
+            delete auth;
+            auth = nullptr;
+            return getAuth();
+        }
+
+        return auth;
+    }
 
     auth = new QOAuth2AuthorizationCodeFlow();
 
-    auth->setNetworkAccessManager(NetworkManager::getManager());
+  //  auth->setNetworkAccessManager(NetworkManager::getManager());
 
     auth->setAuthorizationUrl(QUrl("https://accounts.google.com/o/oauth2/auth"));
     auth->setAccessTokenUrl(QUrl("https://oauth2.googleapis.com/token"));
@@ -44,33 +52,56 @@ QOAuth2AuthorizationCodeFlow* getAuth() {
     auth->setClientIdentifierSharedKey(Credentials::ClientIdentifierSharedKey);
 
     const QUrl redirectUri("http://localhost");
-    const auto port = static_cast<quint16>(redirectUri.port());
+    const auto port = 1234;
 
     auto replyHandler = new QOAuthHttpServerReplyHandler(port, auth);
+    
     auth->setReplyHandler(replyHandler);
-
+    
     auth->setScope("https://www.googleapis.com/auth/calendar");
+    QObject::connect(replyHandler, &QOAuthHttpServerReplyHandler::tokenRequestErrorOccurred, replyHandler,
+        [&](QAbstractOAuth::Error error, const QString& errorString) {
+            
+            auto reciever = getReciever();
 
+            if (!reciever) return;
+
+            if (errorString.startsWith("Error transferring")) 
+            {
+                reciever->restoreCredentials();
+                
+                return;
+            }
+
+            reciever->disconnected();
+            
+     });
     QObject::connect(auth, &QOAuth2AuthorizationCodeFlow::authorizeWithBrowser, auth, [&](const QUrl& url) { QDesktopServices::openUrl(url); });
     QObject::connect(auth, &QOAuth2AuthorizationCodeFlow::granted, auth, [&]() {
+
         if (!getReciever()) return;
+        qDebug() << "EXPIRE after" << auth->expirationAt() - QDateTime::currentDateTime();
         getReciever()->authorizationSuccessful(auth->refreshToken().toStdString());
     });
 
+    QObject::connect(auth, &QOAuth2AuthorizationCodeFlow::statusChanged, [&](QAbstractOAuth::Status status) {
+        qDebug() << "status changed" << (int)status;
+    });
+
     return auth;
-
 }
-
 
 void Google::grantAccess(const std::string& refreshToken)
 {
+    auto auth = getAuth();
+
     if (refreshToken.empty()) {
-        getAuth()->grant();
+        auth->grant();
         return;
     }
-
-    getAuth()->setRefreshToken(refreshToken.c_str());
-    getAuth()->refreshAccessToken();
+    
+    auth->setRefreshToken(refreshToken.c_str());
+    auth->refreshAccessToken();
 }
 
 void Google::query(const QString& urlStr, const QVariantMap& param, const QString& verb, const QString& requestBody, int callbackIdx)
@@ -93,16 +124,22 @@ void Google::query(const QString& urlStr, const QVariantMap& param, const QStrin
 
     auto reply = auth->networkAccessManager()->sendCustomRequest(req, verb.toUtf8(), requestBody.toUtf8());
 
-
     QObject::connect(reply, &QNetworkReply::finished, reply, [=]() {
+
+        reply->deleteLater();
+
+        if (!getReciever()) return;
+
+        if ((int)reply->error() == 99) //no internet connection
+        {
+            getReciever()->disconnected();
+
+            return;
+        }
 
         QString replyStr = reply->readAll();
 
-        qDebug() << replyStr;
-
-         if (!getReciever()) return;
-         
-         getReciever()->setReply(replyStr.toStdString(), callbackIdx);
+        getReciever()->setReply(replyStr.toStdString(), callbackIdx);
 
     });
 }

@@ -136,12 +136,12 @@ bool EventDelegate::editorEvent(QEvent* event, QAbstractItemModel* model, const 
 CalendarTable::CalendarTable(QWidget* parent) : QTableView(parent)
 {
     setModel(&m_model);
-
+    
     delegate_ptr = new EventDelegate(this, m_data);
 
     connect(horizontalHeader(), &QHeaderView::sectionResized, this,
         [&](int logicalIndex, int oldSize, int newSize) {
-
+            m_data.setPixelRatio(devicePixelRatioF());
             m_data.setCellSize(logicalIndex, newSize, rowHeight(1));
         });
 }

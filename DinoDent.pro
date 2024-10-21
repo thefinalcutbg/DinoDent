@@ -1,6 +1,6 @@
 #THIS Qt Project file is configured only for building on Linux and MacOS
 
-QT += core gui widgets network printsupport xml qml uitools opengl openglwidgets
+QT += core gui widgets network printsupport xml qml uitools opengl openglwidgets networkauth
 
 CONFIG += c++20
 
@@ -61,6 +61,8 @@ FORMS += \
     src/View/Widgets/BrowserDialog.ui \
     src/View/Widgets/BusinessOperationDialog.ui \
     src/View/Widgets/ButtonDialog.ui \
+    src/View/Widgets/CalendarEventDialog.ui \
+    src/View/Widgets/CalendarView.ui \
     src/View/Widgets/ChatDialog.ui \
     src/View/Widgets/DetailedStatus.ui \
     src/View/Widgets/DinoDent.ui \
@@ -138,6 +140,7 @@ HEADERS += \
     src/DbUpdates/Updater.h \
     src/GlobalSettings.h \
     src/Model/Allergy.h \
+    src/Model/CalendarStructs.h \
     src/Model/Country.h \
     src/Model/Date.h \
     src/Model/Dental/AmbList.h \
@@ -223,6 +226,9 @@ HEADERS += \
     src/Model/xml.h \
     src/Network/AbstractReplyHandler.h \
     src/Network/Base64Convert.h \
+    src/Network/Calendar/CalendarJsonParser.h \
+    src/Network/Calendar/Credentials.h \
+    src/Network/Calendar/Google.h \
     src/Network/DynamicNumenclatures.h \
     src/Network/HIS/EAllergy.h \
     src/Network/HIS/EDental.h \
@@ -259,6 +265,7 @@ HEADERS += \
     src/Network/signer.h \
     src/Presenter/BrowserPresenter.h \
     src/Presenter/ButtonSurfaceMatrix.h \
+    src/Presenter/CalendarPresenter.h \
     src/Presenter/CheckModel.h \
     src/Presenter/DetailedStatusPresenter.h \
     src/Presenter/DoctorDialogPresenter.h \
@@ -301,6 +308,7 @@ HEADERS += \
     src/View/CommonIcon.h \
     src/View/GlobalFunctions.h \
     src/View/Graphics/CPTooth.h \
+    src/View/Graphics/CalendarViewData.h \
     src/View/Graphics/ControlPanelPolygon.h \
     src/View/Graphics/GraphicsView.h \
     src/View/Graphics/HexagonGraphicsItem.h \
@@ -398,6 +406,8 @@ HEADERS += \
     src/View/Widgets/BrowserDialog.h \
     src/View/Widgets/BusinessOperationDialog.h \
     src/View/Widgets/ButtonDialog.h \
+    src/View/Widgets/CalendarEventDialog.h \
+    src/View/Widgets/CalendarView.h \
     src/View/Widgets/ChatDialog.h \
     src/View/Widgets/DetailedStatus.h \
     src/View/Widgets/DinoDent.h \
@@ -452,6 +462,7 @@ HEADERS += \
     src/View/Widgets/WelcomeWidget.h \
     src/View/uiComponents/AutoCompleteLineEdit.h \
     src/View/uiComponents/BigPushButton.h \
+    src/View/uiComponents/CalendarTable.h \
     src/View/uiComponents/CalendarWidget.h \
     src/View/uiComponents/ComboBox.h \
     src/View/uiComponents/CustomButton.h \
@@ -576,6 +587,8 @@ SOURCES += \
     src/Model/xml.cpp \
     src/Network/AbstractReplyHandler.cpp \
     src/Network/Base64Convert.cpp \
+    src/Network/Calendar/CalendarJsonParser.cpp \
+    src/Network/Calendar/Google.cpp \
     src/Network/HIS/EAllergy.cpp \
     src/Network/HIS/EDental.cpp \
     src/Network/HIS/EHospitalization.cpp \
@@ -611,6 +624,7 @@ SOURCES += \
     src/Network/signer.cpp \
     src/Presenter/BrowserPresenter.cpp \
     src/Presenter/ButtonSurfaceMatrix.cpp \
+    src/Presenter/CalendarPresenter.cpp \
     src/Presenter/CheckModel.cpp \
     src/Presenter/DetailedStatusPresenter.cpp \
     src/Presenter/DoctorDialogPresenter.cpp \
@@ -651,6 +665,7 @@ SOURCES += \
     src/View/CommonIcon.cpp \
     src/View/GlobalFunctions.cpp \
     src/View/Graphics/CPTooth.cpp \
+    src/View/Graphics/CalendarViewData.cpp \
     src/View/Graphics/ControlPanelPolygon.cpp \
     src/View/Graphics/GraphicsView.cpp \
     src/View/Graphics/HexagonGraphicsItem.cpp \
@@ -708,6 +723,8 @@ SOURCES += \
     src/View/Widgets/BrowserDialog.cpp \
     src/View/Widgets/BusinessOperationDialog.cpp \
     src/View/Widgets/ButtonDialog.cpp \
+    src/View/Widgets/CalendarEventDialog.cpp \
+    src/View/Widgets/CalendarView.cpp \
     src/View/Widgets/ChatDialog.cpp \
     src/View/Widgets/DetailedStatus.cpp \
     src/View/Widgets/DinoDent.cpp \
@@ -759,6 +776,7 @@ SOURCES += \
     src/View/Widgets/WelcomeWidget.cpp \
     src/View/uiComponents/AutoCompleteLineEdit.cpp \
     src/View/uiComponents/BigPushButton.cpp \
+    src/View/uiComponents/CalendarTable.cpp \
     src/View/uiComponents/CalendarWidget.cpp \
     src/View/uiComponents/ComboBox.cpp \
     src/View/uiComponents/CustomButton.cpp \

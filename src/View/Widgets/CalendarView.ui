@@ -618,12 +618,12 @@
   <customwidget>
    <class>CalendarTable</class>
    <extends>QTableView</extends>
-   <header>View\uiComponents\CalendarTable.h</header>
+   <header>View/uiComponents/CalendarTable.h</header>
   </customwidget>
   <customwidget>
    <class>IconButton</class>
    <extends>QPushButton</extends>
-   <header>View\uiComponents\IconButton.h</header>
+   <header>View/uiComponents/IconButton.h</header>
   </customwidget>
   <customwidget>
    <class>ShortcutTile</class>

@@ -1,5 +1,5 @@
 #include "CalendarJsonParser.h"
-#include <include/json/json.h>
+#include <json/json.h>
 #include <QDateTime>
 
 std::vector<Calendar> CalendarJsonParser::parseCalendarList(const std::string& response)

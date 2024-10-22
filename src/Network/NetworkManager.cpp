@@ -22,7 +22,7 @@ QNetworkAccessManager* NetworkManager::getManager() {
     
     if (!s_manager) {
         s_manager = new QNetworkAccessManager();
-       // s_manager->setTransferTimeout(s_timeout);
+        s_manager->setTransferTimeout(s_timeout);
     }
 
     return s_manager;
@@ -261,7 +261,7 @@ void NetworkManager::setTimeout(int seconds)
 {
     s_timeout = seconds ? seconds * 1000 : 15000;
 
- //   if (s_manager) {
-   //     s_manager->setTransferTimeout(s_timeout);
-    //}
+    if (s_manager) {
+        s_manager->setTransferTimeout(s_timeout);
+    }
 }

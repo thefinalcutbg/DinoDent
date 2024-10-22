@@ -846,9 +846,6 @@
     <ClCompile Include="src\DbUpdates\Update20_21.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="include\json\jsoncpp.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Model\Dental\Diagnosis.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -961,6 +958,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Network\Calendar\Google.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="include\json\jsoncpp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1643,12 +1643,6 @@
     <ClInclude Include="src\Model\PlainTable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\json\json.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\json\json-forwards.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Model\Dental\AmbList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1770,6 +1764,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Network\Calendar\Credentials.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\json\json.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\json\json-forwards.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

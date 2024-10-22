@@ -14,7 +14,7 @@
 #include <QTimer>
 QString timeZoneOffset;
 CalendarPresenter* s_reciever;
-QTimer timer;
+QTimer* timer;
 
 void Google::setReciever(CalendarPresenter* p)
 {
@@ -34,6 +34,7 @@ QOAuth2AuthorizationCodeFlow* getAuth(bool reinitialize = false) {
         if (reinitialize) {
             delete auth;
             auth = nullptr;
+            timer = nullptr;
             return getAuth();
         }
 
@@ -41,6 +42,8 @@ QOAuth2AuthorizationCodeFlow* getAuth(bool reinitialize = false) {
     }
 
     auth = new QOAuth2AuthorizationCodeFlow();
+
+    timer = new QTimer(auth);
 
   //  auth->setNetworkAccessManager(NetworkManager::getManager());
 
@@ -79,13 +82,21 @@ QOAuth2AuthorizationCodeFlow* getAuth(bool reinitialize = false) {
     QObject::connect(auth, &QOAuth2AuthorizationCodeFlow::authorizeWithBrowser, auth, [&](const QUrl& url) { QDesktopServices::openUrl(url); });
     QObject::connect(auth, &QOAuth2AuthorizationCodeFlow::granted, auth, [&]() {
 
+        timer->start(auth->expirationAt() - QDateTime::currentDateTime());
+
         if (!getReciever()) return;
-        qDebug() << "EXPIRE after" << auth->expirationAt() - QDateTime::currentDateTime();
+
         getReciever()->authorizationSuccessful(auth->refreshToken().toStdString());
     });
 
-    QObject::connect(auth, &QOAuth2AuthorizationCodeFlow::statusChanged, [&](QAbstractOAuth::Status status) {
-        qDebug() << "status changed" << (int)status;
+    QObject::connect(timer, &QTimer::timeout, [&] {
+
+        auto r = getReciever();
+
+        if (!r) return;
+
+        r->grantAccessRequested();
+
     });
 
     return auth;
@@ -93,7 +104,9 @@ QOAuth2AuthorizationCodeFlow* getAuth(bool reinitialize = false) {
 
 void Google::grantAccess(const std::string& refreshToken)
 {
-    auto auth = getAuth();
+    qDebug() << "calling auth";
+
+    auto auth = getAuth(true);
 
     if (refreshToken.empty()) {
         auth->grant();

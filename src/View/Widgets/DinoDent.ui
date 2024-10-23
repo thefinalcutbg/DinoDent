@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>999</width>
-    <height>715</height>
+    <height>685</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -39,7 +39,7 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0">
       <property name="sizeConstraint">
-       <enum>QLayout::SetFixedSize</enum>
+       <enum>QLayout::SizeConstraint::SetFixedSize</enum>
       </property>
       <property name="topMargin">
        <number>7</number>
@@ -50,10 +50,10 @@
       <item>
        <spacer name="horizontalSpacer_2">
         <property name="orientation">
-         <enum>Qt::Horizontal</enum>
+         <enum>Qt::Orientation::Horizontal</enum>
         </property>
         <property name="sizeType">
-         <enum>QSizePolicy::Fixed</enum>
+         <enum>QSizePolicy::Policy::Fixed</enum>
         </property>
         <property name="sizeHint" stdset="0">
          <size>
@@ -372,7 +372,7 @@
          <bool>true</bool>
         </property>
         <property name="alignment">
-         <set>Qt::AlignCenter</set>
+         <set>Qt::AlignmentFlag::AlignCenter</set>
         </property>
         <property name="wordWrap">
          <bool>true</bool>
@@ -382,10 +382,10 @@
       <item>
        <spacer name="horizontalSpacer">
         <property name="orientation">
-         <enum>Qt::Horizontal</enum>
+         <enum>Qt::Orientation::Horizontal</enum>
         </property>
         <property name="sizeType">
-         <enum>QSizePolicy::Maximum</enum>
+         <enum>QSizePolicy::Policy::Maximum</enum>
         </property>
         <property name="sizeHint" stdset="0">
          <size>
@@ -435,23 +435,23 @@
          <string/>
         </property>
         <property name="popupMode">
-         <enum>QToolButton::InstantPopup</enum>
+         <enum>QToolButton::ToolButtonPopupMode::InstantPopup</enum>
         </property>
         <property name="toolButtonStyle">
-         <enum>Qt::ToolButtonTextBesideIcon</enum>
+         <enum>Qt::ToolButtonStyle::ToolButtonTextBesideIcon</enum>
         </property>
         <property name="arrowType">
-         <enum>Qt::NoArrow</enum>
+         <enum>Qt::ArrowType::NoArrow</enum>
         </property>
        </widget>
       </item>
       <item>
        <spacer name="horizontalSpacer_3">
         <property name="orientation">
-         <enum>Qt::Horizontal</enum>
+         <enum>Qt::Orientation::Horizontal</enum>
         </property>
         <property name="sizeType">
-         <enum>QSizePolicy::Fixed</enum>
+         <enum>QSizePolicy::Policy::Fixed</enum>
         </property>
         <property name="sizeHint" stdset="0">
          <size>
@@ -474,7 +474,7 @@
       <property name="minimumSize">
        <size>
         <width>0</width>
-        <height>320</height>
+        <height>600</height>
        </size>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">

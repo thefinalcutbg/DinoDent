@@ -169,15 +169,15 @@ void CalendarViewData::EventEntity::paintPixmap()
 {
 	int eventHeight = cell_height * span;
 
-	px = QPixmap(cell_width, eventHeight);
-	//px.setDevicePixelRatio(pixelRatio);
+	px = QPixmap(cell_width*pixelRatio, eventHeight*pixelRatio);
+	px.setDevicePixelRatio(pixelRatio);
 	px.fill(Qt::transparent);
 
 	QPainter p(&px);
 
 	p.setRenderHint(QPainter::Antialiasing);
 	QPainterPath path;
-	path.addRoundedRect(QRect(1,1,cell_width-2, eventHeight-2), 5, 5);
+	path.addRoundedRect(QRectF(1,1,cell_width-2, eventHeight-2), 5, 5);
 
 	p.setPen(Qt::white);
 	p.fillPath(path, m_hovered ? Theme::inactiveTabBGHover : Theme::inactiveTabBG);
@@ -203,16 +203,26 @@ QPixmap CalendarViewData::EventEntity::getPixmapPart(int row) const
 
 	int pointY = cell_height * section;
 
-	QRect sourceRect(0, pointY, cell_width, cell_height);
+	QRectF sourceRect(0, pixelRatio* pointY, pixelRatio * cell_width, pixelRatio * cell_height);
 
-	QPixmap result(cell_width, cell_height);
-	
+	QRectF target(0, 0, pixelRatio * cell_width, pixelRatio * cell_height);
+
+	QPixmap result(pixelRatio * cell_width, pixelRatio * cell_height);
+
 	result.fill(Qt::transparent);
-
+	
 	QPainter p(&result);
 
-	p.drawPixmap(QRect(0,0,cell_width,cell_height), this->px, sourceRect);
+	p.drawPixmap(target, this->px, sourceRect);
 
+/*	
+	static int counter = 0;
+	QFile file("yourFile" + QString::number(counter) + ".png");
+	file.open(QIODevice::WriteOnly);
+	result.save(&file, "PNG");
+
+	counter++;
+	*/
 	return result;
 }
 

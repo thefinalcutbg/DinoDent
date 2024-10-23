@@ -12,6 +12,7 @@
 #include "Presenter/CalendarPresenter.h"
 #include "Credentials.h" //comment this out
 #include <QTimer>
+
 QString timeZoneOffset;
 CalendarPresenter* s_reciever;
 QTimer* timer;
@@ -41,11 +42,9 @@ QOAuth2AuthorizationCodeFlow* getAuth(bool reinitialize = false) {
         return auth;
     }
 
-    auth = new QOAuth2AuthorizationCodeFlow();
+    auth = new QOAuth2AuthorizationCodeFlow(NetworkManager::getManager());
 
     timer = new QTimer(auth);
-
-  //  auth->setNetworkAccessManager(NetworkManager::getManager());
 
     auth->setAuthorizationUrl(QUrl("https://accounts.google.com/o/oauth2/auth"));
     auth->setAccessTokenUrl(QUrl("https://oauth2.googleapis.com/token"));
@@ -104,8 +103,6 @@ QOAuth2AuthorizationCodeFlow* getAuth(bool reinitialize = false) {
 
 void Google::grantAccess(const std::string& refreshToken)
 {
-    qDebug() << "calling auth";
-
     auto auth = getAuth(true);
 
     if (refreshToken.empty()) {

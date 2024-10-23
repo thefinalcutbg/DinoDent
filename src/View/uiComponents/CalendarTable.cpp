@@ -53,7 +53,7 @@ void EventDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option,
     }
 
     auto px = data.requestPixmap(column, row);
-
+    
   //  painter->setRenderHint(QPainter::Antialiasing);
 
     painter->setPen(QColor(245, 245, 245));
@@ -67,7 +67,7 @@ void EventDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option,
     }
 
     if (!px.isNull()) {
-        painter->drawPixmap(option.rect, px);
+        painter->drawPixmap(option.rect, px, px.rect());
         return;
     }
 

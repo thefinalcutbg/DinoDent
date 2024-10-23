@@ -7,13 +7,18 @@
 #include <QApplication>
 #include <QMenu>
 
-BigPushButton::BigPushButton(QWidget* parent) : QPushButton(parent)
+BigPushButton::BigPushButton(QWidget* parent) :
+	QPushButton(parent),
+	normalColor(Theme::sectionBackground),
+	hoverColor(Theme::background)
 {
 	this->installEventFilter(this);
 
-    m_font.setBold(1);
+	auto font = this->font();
 
-	hoverColor = Theme::background;
+	font.setBold(true);
+
+	setFont(font);
 
 #ifdef Q_OS_MAC
     setStyle(Theme::fusionStyle());
@@ -27,6 +32,12 @@ void BigPushButton::setHoverColor(const QColor& color)
 	update();
 }
 
+void BigPushButton::setNormalColor(const QColor& color)
+{
+	normalColor = color;
+	update();
+}
+
 void BigPushButton::paintEvent(QPaintEvent*)
 {
 	QPainter painter(this);
@@ -37,7 +48,7 @@ void BigPushButton::paintEvent(QPaintEvent*)
 	QPainterPath path;
 	path.addRoundedRect(QRectF(rect()), Theme::radius, Theme::radius);
 
-	QColor color{ m_hover || isChecked() ? hoverColor : Theme::sectionBackground };
+	QColor color{ m_hover || isChecked() ? hoverColor : normalColor };
 
 	painter.fillPath(path, color);
 
@@ -50,8 +61,10 @@ void BigPushButton::paintEvent(QPaintEvent*)
 	if (!icon().isNull())
 		icon().paint(&painter, iconRect);
 
-	painter.setFont(m_font);
-	painter.setPen(QPen(Theme::fontTurquoiseClicked));
+	bool differentFont = hoverColor == normalColor && m_hover;
+
+	painter.setFont(font());
+	painter.setPen(QPen(differentFont ? Theme::fontTurquoise : Theme::fontTurquoiseClicked));
 
 	QRect textRect;
 	textRect.setCoords(iconRect.width(), 0, width(), height());

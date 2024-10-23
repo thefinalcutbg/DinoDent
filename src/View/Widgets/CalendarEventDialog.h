@@ -10,6 +10,8 @@ class CalendarEventDialog : public QDialog
 
 	CalendarEvent m_result;
 
+	void paintEvent(QPaintEvent* e) override;
+
 public:
 	CalendarEventDialog(const CalendarEvent& event, QWidget *parent = nullptr);
 	CalendarEvent& result() { return m_result; }

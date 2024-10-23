@@ -47,6 +47,8 @@ void EventDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option,
 
     QRect r = option.rect;//getting the rect of the cell
 
+    painter->fillRect(r, Qt::white);
+
     //filling cells of today column
     if (column == view->todayColumn()) {
         painter->fillRect(r, QColor(250, 250, 250));
@@ -54,18 +56,14 @@ void EventDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option,
 
     auto px = data.requestPixmap(column, row);
     
-  //  painter->setRenderHint(QPainter::Antialiasing);
-
     painter->setPen(QColor(245, 245, 245));
     painter->drawRect(r);
-
-
 
     if (index.row() && index.row() % 4 == 0) {
         painter->setPen(QColor(224, 224, 224));
         painter->drawLine(r.topLeft(), r.topRight());
     }
-
+    
     if (!px.isNull()) {
         painter->drawPixmap(option.rect, px, px.rect());
         return;

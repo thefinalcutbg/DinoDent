@@ -154,43 +154,56 @@ void CalendarPresenter::calendarIndexChanged(int idx)
     requestEvents();
 }
 
-void CalendarPresenter::nextWeekRequested()
+
+void CalendarPresenter::changeWeek()
 {
     view->setEventList({}, clipboard_event);
-
-    shownWeek.first = shownWeek.first.addDays(7);
-    shownWeek.second = shownWeek.second.addDays(7);
 
     view->updateWeekView(shownWeek.first, shownWeek.second, getCurrentDayColumn());
 
     requestEvents();
+}
+
+
+void CalendarPresenter::nextWeekRequested()
+{
+    shownWeek.first = shownWeek.first.addDays(7);
+    shownWeek.second = shownWeek.second.addDays(7);
+
+    changeWeek();
 }
 
 void CalendarPresenter::prevWeekRequested()
 {
-    view->setEventList({}, clipboard_event);
-
     shownWeek.first = shownWeek.first.addDays(-7);
     shownWeek.second = shownWeek.second.addDays(-7);
 
-    view->updateWeekView(shownWeek.first, shownWeek.second, getCurrentDayColumn());
+    changeWeek();
+}
 
-    requestEvents();
+void CalendarPresenter::dateRequested(QDate date)
+{
+    if (date.year() == shownWeek.first.year() &&
+        date.weekNumber() == shownWeek.first.weekNumber()) {
+
+        return;
+    }
+
+    shownWeek.first = date.addDays(-date.dayOfWeek() + 1);
+    shownWeek.second = date.addDays(-(date.dayOfWeek() - 7));
+
+    changeWeek();
 }
 
 void CalendarPresenter::currentWeekRequested()
 {
-    view->setEventList({}, clipboard_event);
-
     auto todaysWeek = getTodaysWeek();
 
     if (todaysWeek == shownWeek) return;
 
-    shownWeek = getTodaysWeek();
+    shownWeek = todaysWeek;
 
-    view->updateWeekView(shownWeek.first, shownWeek.second, getCurrentDayColumn());
-
-    requestEvents();
+    changeWeek();
 }
 
 void CalendarPresenter::moveEvent(int index)
@@ -284,7 +297,8 @@ void CalendarPresenter::requestEvents()
     param["calendarId"] = QString(calendar.id.c_str());
     param["timeMin"] = shownWeek.first.toString("yyyy-MM-dd") + "T00:00:00Z";
     param["timeMax"] = shownWeek.second.toString("yyyy-MM-dd") + "T23:59:59Z";
-    qDebug() << param;
+    param["timeZone"] = "Europe/Sofia";
+
     Google::query(
         "https://www.googleapis.com/calendar/v3/calendars/calendarId/events",
         param, "GET", {}, QueryType::GetEvents

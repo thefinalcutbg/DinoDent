@@ -145,6 +145,19 @@
           <number>30</number>
          </property>
          <item>
+          <widget class="BigPushButton" name="currentWeekButton">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>35</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Днес</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="IconButton" name="prevWeekButton">
            <property name="minimumSize">
             <size>
@@ -157,6 +170,9 @@
              <width>35</width>
              <height>35</height>
             </size>
+           </property>
+           <property name="toolTip">
+            <string>Предишна седмица</string>
            </property>
            <property name="text">
             <string>&lt;</string>
@@ -177,15 +193,24 @@
              <height>35</height>
             </size>
            </property>
+           <property name="toolTip">
+            <string>Следваща седмица</string>
+           </property>
            <property name="text">
             <string>&gt;</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="dateLabel">
+          <widget class="BigPushButton" name="calendarButton">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>35</height>
+            </size>
+           </property>
            <property name="text">
-            <string>TextLabel</string>
+            <string/>
            </property>
           </widget>
          </item>
@@ -203,16 +228,9 @@
           </spacer>
          </item>
          <item>
-          <widget class="QPushButton" name="currentWeekButton">
-           <property name="text">
-            <string>Днес</string>
-           </property>
-          </widget>
-         </item>
-         <item>
           <widget class="QLabel" name="label">
            <property name="text">
-            <string>Каледнар</string>
+            <string>Каледнар:</string>
            </property>
           </widget>
          </item>
@@ -226,9 +244,12 @@
            </property>
            <property name="minimumSize">
             <size>
-             <width>250</width>
+             <width>0</width>
              <height>0</height>
             </size>
+           </property>
+           <property name="sizeAdjustPolicy">
+            <enum>QComboBox::SizeAdjustPolicy::AdjustToContents</enum>
            </property>
           </widget>
          </item>
@@ -651,6 +672,11 @@
    <class>ShortcutTile</class>
    <extends>QPushButton</extends>
    <header>View/uiComponents/ShortcutTile.h</header>
+  </customwidget>
+  <customwidget>
+   <class>BigPushButton</class>
+   <extends>QPushButton</extends>
+   <header>View/uiComponents/BigPushButton.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

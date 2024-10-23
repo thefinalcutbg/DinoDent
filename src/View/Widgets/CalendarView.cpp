@@ -10,12 +10,17 @@
 #include "View/Theme.h"
 #include <QPainter>
 #include "Presenter/CalendarPresenter.h"
+#include "View/uiComponents/CalendarWidget.h"
 
 CalendarView::CalendarView(QWidget* parent)
     : QWidget(parent)
 {
     ui.setupUi(this);
-    
+
+    calendarWidget = new CalendarWidget();
+    calendarWidget->setWindowFlag(Qt::WindowType::Popup);
+
+
     setStyleSheet(Theme::getFancyStylesheet());
 
     auto arrow = QPixmap(":/icons/icon_downArrow.png");
@@ -23,6 +28,7 @@ CalendarView::CalendarView(QWidget* parent)
     ui.prevWeekButton->setIcon(QIcon(QPixmap(arrow.transformed(QTransform().rotate(90)))));
     ui.nextWeekButton->setIcon(QIcon(QPixmap(arrow.transformed(QTransform().rotate(270)))));
 
+    ui.currentWeekButton->setHoverColor(Theme::mainBackgroundColor);
     ui.prevWeekButton->setHoverColor(Theme::mainBackgroundColor);
     ui.nextWeekButton->setHoverColor(Theme::mainBackgroundColor);
     ui.exitButton->setHoverColor(Theme::mainBackgroundColor);
@@ -30,10 +36,11 @@ CalendarView::CalendarView(QWidget* parent)
     ui.authButton->setIcon(QIcon(":/icons/icon_google.png"));
     ui.exitButton->setIcon(QIcon(":/icons/icon_remove.png"));
 
-    auto font = ui.dateLabel->font();
+    auto font = ui.calendarButton->font();
     font.setPointSize(font.pointSize() * 2);
     font.setBold(true);
-    ui.dateLabel->setFont(font);
+    ui.calendarButton->setFont(font);
+    ui.calendarButton->setNormalColor(Theme::background);
 
     initTable();
 
@@ -64,7 +71,8 @@ CalendarView::CalendarView(QWidget* parent)
     connect(ui.calendarTable, &CalendarTable::moveEventRequested, this, [&](int index) { presenter->moveEvent(index); });
     connect(ui.calendarTable, &CalendarTable::operationCanceled, this, [&] { presenter->clearClipboard(); });
     connect(ui.calendarTable, &CalendarTable::eventDurationChange, this, [&](int eventIdx, int duration) { presenter->durationChange(eventIdx, duration); });
-
+    connect(ui.calendarButton, &QPushButton::clicked, this, [&]{ showCalendarWidget(); });
+    connect(calendarWidget, &QCalendarWidget::clicked, this, [&](QDate date) { if (presenter)presenter->dateRequested(date); calendarWidget->close();  });
 }
 
 void CalendarView::showCalendar(bool show)
@@ -74,6 +82,11 @@ void CalendarView::showCalendar(bool show)
 
 void CalendarView::updateWeekView(QDate from, QDate to, int currentDayColumn)
 {
+    auto calendarWidgetDate = currentDayColumn == -1 ?
+        from : from.addDays(currentDayColumn);
+
+    calendarWidget->setSelectedDate(calendarWidgetDate);
+
     static QString months[] =
     {
         "Януари",
@@ -115,7 +128,7 @@ void CalendarView::updateWeekView(QDate from, QDate to, int currentDayColumn)
     label += " ";
     label += QString::number(to.year());
 
-    ui.dateLabel->setText(label);
+    ui.calendarButton->setText(label);
 
     QLabel* dateLabels[] = {
         ui.labelMon,
@@ -159,7 +172,6 @@ void CalendarView::updateWeekView(QDate from, QDate to, int currentDayColumn)
     }
 
     ui.calendarTable->setTodayColumn(currentDayColumn);
-
 }
 
 void CalendarView::initTable()
@@ -222,6 +234,16 @@ void CalendarView::paintEvent(QPaintEvent* event)
     painter.fillRect(rect(), Theme::background);
 }
 
+void CalendarView::showCalendarWidget()
+{
+
+    auto pos = QCursor::pos();
+
+    calendarWidget->move(pos);
+
+    calendarWidget->show();
+}
+
 void CalendarView::setCalendarPresenter(CalendarPresenter* p)
 {
     presenter = p;
@@ -248,4 +270,6 @@ void CalendarView::setEventList(const std::vector<CalendarEvent>& list, const Ca
 }
 
 CalendarView::~CalendarView()
-{}
+{
+    delete calendarWidget;
+}

@@ -10,7 +10,7 @@
 #include <QPushButton>
 #include <QWheelEvent>
 #include <QDateTimeEdit>
-
+#include <qdebug.h>
 CalendarWidget::CalendarWidget(QWidget* parent) : QCalendarWidget(parent) {
 
     setLocale(QLocale(QLocale::Bulgarian));
@@ -158,15 +158,29 @@ void CalendarWidget::setDateLabelText(int year, int month) {
 }
 
 void CalendarWidget::selectedMonth(int year, int month) {
+
     if (year >= minimumDate().year() && year <= maximumDate().year()) {
-        QDate seletedDate = selectedDate(); // 当前选中的月份
+        QDate seletedDate = selectedDate();
         QDate validDate = seletedDate.addMonths(month - seletedDate.month());
+
+        if (!parent()) {
+            setSelectedDate(validDate);
+            return;
+        }
+
         static_cast<QDateTimeEdit*>(parent()->parent())->setDate(validDate);
     }
 }
 
 void CalendarWidget::selectedYear(int yearCount) {
+
     QDate validDate = selectedDate().addYears(yearCount);
+
+    if (!parent()) {
+        setSelectedDate(validDate);
+        return;
+    }
+
     static_cast<QDateTimeEdit*>(parent()->parent())->setDate(validDate);
 }
 

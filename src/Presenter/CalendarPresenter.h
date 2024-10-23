@@ -33,6 +33,8 @@ class CalendarPresenter : public TabInstance
 
 	int getCurrentDayColumn();
 
+	void changeWeek();
+
 public:
 
 	CalendarPresenter(ITabView* view);
@@ -56,6 +58,7 @@ public:
 	void calendarIndexChanged(int idx);
 	void nextWeekRequested();
 	void prevWeekRequested();
+	void dateRequested(QDate date);
 	void currentWeekRequested();
 	void moveEvent(int index);
 	void addEvent(const QTime& t, int daysFromMonday, int duration);

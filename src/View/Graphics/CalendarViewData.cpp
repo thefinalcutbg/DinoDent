@@ -215,14 +215,6 @@ QPixmap CalendarViewData::EventEntity::getPixmapPart(int row) const
 
 	p.drawPixmap(target, this->px, sourceRect);
 
-/*	
-	static int counter = 0;
-	QFile file("yourFile" + QString::number(counter) + ".png");
-	file.open(QIODevice::WriteOnly);
-	result.save(&file, "PNG");
-
-	counter++;
-	*/
 	return result;
 }
 

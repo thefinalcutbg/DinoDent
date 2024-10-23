@@ -6,6 +6,7 @@
 #include <QDate>
 
 class CalendarPresenter;
+class CalendarWidget;
 
 class CalendarView : public QWidget
 {
@@ -13,9 +14,13 @@ class CalendarView : public QWidget
 
     CalendarPresenter* presenter{ nullptr };
 
+    CalendarWidget* calendarWidget{ nullptr };
+
     void initTable();
 
     void paintEvent(QPaintEvent* event) override;
+
+    void showCalendarWidget();
 
 public:
     CalendarView(QWidget *parent = nullptr);
@@ -24,6 +29,7 @@ public:
     void setCalendarList(const std::vector<Calendar>& list, int currentCalendar);
     void setEventList(const std::vector<CalendarEvent>& list, const CalendarEvent& clipboard);
     void updateWeekView(QDate from, QDate to, int currentDayColumn);
+
     ~CalendarView();
 
 private:

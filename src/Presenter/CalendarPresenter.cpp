@@ -74,6 +74,8 @@ void CalendarPresenter::authorizationSuccessful(const std::string& refreshToken)
 
 void CalendarPresenter::setReply(const std::string& reply, int callbackIdx)
 {
+    auto key = getCacheKey();
+
     switch (callbackIdx)
     {
     case QueryType::GetCalendars:
@@ -88,9 +90,9 @@ void CalendarPresenter::setReply(const std::string& reply, int callbackIdx)
 
     case QueryType::GetEvents:
 
-        m_events = CalendarJsonParser::parseEventList(reply);
+        m_cache[key] = CalendarJsonParser::parseEventList(reply);
         
-        view->setEventList(m_events, clipboard_event);
+        view->setEventList(m_cache[key], clipboard_event);
 
         break;
 
@@ -100,7 +102,7 @@ void CalendarPresenter::setReply(const std::string& reply, int callbackIdx)
 
         bool eventExists = false;
 
-        for (auto& e : m_events) {
+        for (auto& e : m_cache[key]) {
 
             if (e.id == event.id) {
                 e = event;
@@ -111,12 +113,12 @@ void CalendarPresenter::setReply(const std::string& reply, int callbackIdx)
 
         if (!eventExists && event.start.date().weekNumber() == shownWeek.first.weekNumber()) {
 
-            m_events.push_back(event);
+            m_cache[key].push_back(event);
         }
 
         clipboard_event = CalendarEvent();
 
-        view->setEventList(m_events, clipboard_event);
+        view->setEventList(m_cache[key], clipboard_event);
     }
 
     break;
@@ -128,6 +130,8 @@ void CalendarPresenter::setReply(const std::string& reply, int callbackIdx)
 
         if (reply.size()) return; //empty response means success. otherwise - failure
 
+        auto m_events = m_cache[key];
+
         for (int i = 0; i < m_events.size(); i++) {
 
             if (m_events[i].id == deleteIdTemp) {
@@ -135,8 +139,6 @@ void CalendarPresenter::setReply(const std::string& reply, int callbackIdx)
                 m_events.erase(m_events.begin() + i);
 
                 view->setEventList(m_events, clipboard_event);
-
-
 
                 return;
             }
@@ -154,23 +156,12 @@ void CalendarPresenter::calendarIndexChanged(int idx)
     requestEvents();
 }
 
-
-void CalendarPresenter::changeWeek()
-{
-    view->setEventList({}, clipboard_event);
-
-    view->updateWeekView(shownWeek.first, shownWeek.second, getCurrentDayColumn());
-
-    requestEvents();
-}
-
-
 void CalendarPresenter::nextWeekRequested()
 {
     shownWeek.first = shownWeek.first.addDays(7);
     shownWeek.second = shownWeek.second.addDays(7);
 
-    changeWeek();
+    requestEvents();
 }
 
 void CalendarPresenter::prevWeekRequested()
@@ -178,7 +169,7 @@ void CalendarPresenter::prevWeekRequested()
     shownWeek.first = shownWeek.first.addDays(-7);
     shownWeek.second = shownWeek.second.addDays(-7);
 
-    changeWeek();
+    requestEvents();
 }
 
 void CalendarPresenter::dateRequested(QDate date)
@@ -192,8 +183,15 @@ void CalendarPresenter::dateRequested(QDate date)
     shownWeek.first = date.addDays(-date.dayOfWeek() + 1);
     shownWeek.second = date.addDays(-(date.dayOfWeek() - 7));
 
-    changeWeek();
+    requestEvents();
 }
+
+
+void CalendarPresenter::refresh()
+{
+    requestEvents(false);
+}
+
 
 void CalendarPresenter::currentWeekRequested()
 {
@@ -203,14 +201,16 @@ void CalendarPresenter::currentWeekRequested()
 
     shownWeek = todaysWeek;
 
-    changeWeek();
+    requestEvents();
 }
 
 void CalendarPresenter::moveEvent(int index)
 {
-    if (index < 0 || index >= m_events.size()) return;
+    auto& events = getEvents();
 
-    setClipboard(m_events[index]);
+    if (index < 0 || index >= events.size()) return;
+
+    setClipboard(events[index]);
 }
 
 void CalendarPresenter::addEvent(const QTime& t, int daysFromMonday, int duration)
@@ -235,7 +235,7 @@ void CalendarPresenter::addEvent(const QTime& t, int daysFromMonday, int duratio
 
 void CalendarPresenter::editEvent(int index)
 {
-    CalendarEventDialog d(m_events[index]);
+    CalendarEventDialog d(getEvents().at(index));
 
     if (d.exec() != QDialog::Accepted) return;
 
@@ -244,11 +244,13 @@ void CalendarPresenter::editEvent(int index)
 
 void CalendarPresenter::deleteEvent(int index)
 {
-    deleteId = m_events[index].id;
+    auto events = getEvents();
+
+    deleteId = events[index].id;
 
     QVariantMap parameters;
     parameters["calendarId"] = m_calendars[currentCalendar].id.c_str();
-    parameters["eventId"] = m_events[index].id.c_str();
+    parameters["eventId"] = events[index].id.c_str();
 
     Google::query(
         "https://www.googleapis.com/calendar/v3/calendars/calendarId/events/eventId",
@@ -260,14 +262,14 @@ void CalendarPresenter::clearClipboard()
 {
     clipboard_event = CalendarEvent{};
 
-    view->setEventList(m_events, clipboard_event);
+    view->setEventList(getEvents(), clipboard_event);
 }
 
 void CalendarPresenter::durationChange(int eventIdx, int duration)
 {
-    auto event = m_events[eventIdx];
+    auto event = getEvents()[eventIdx];
 
-    event.end = m_events[eventIdx].start.addSecs(duration * 60);
+    event.end = event.start.addSecs(duration * 60);
 
     sendEventQuery(event);
 }
@@ -289,8 +291,20 @@ std::pair<QDate, QDate> CalendarPresenter::getTodaysWeek()
     return std::make_pair(currentDate.addDays(1 - dayOfWeek), currentDate.addDays(7 - dayOfWeek));
 }
 
-void CalendarPresenter::requestEvents()
+void CalendarPresenter::requestEvents(bool searchCache)
 {
+
+    view->updateWeekView(shownWeek.first, shownWeek.second, getCurrentDayColumn());
+
+    auto key = getCacheKey();
+
+    if (m_cache.count(key) && searchCache) {
+        view->setEventList(m_cache[key], clipboard_event);
+        return;
+    }
+
+    view->setEventList({}, clipboard_event);
+
     auto& calendar = m_calendars[currentCalendar];
 
     QVariantMap param;
@@ -309,14 +323,16 @@ void CalendarPresenter::setClipboard(const CalendarEvent& e)
 {
     clipboard_event = e;
 
-    std::sort(m_events.begin(), m_events.end(),
+    auto& events = m_cache[getCacheKey()];
+
+    std::sort(events.begin(), events.end(),
         [](const CalendarEvent& left, const CalendarEvent& right)
         {
             return left.start < right.start;
         }
     );
 
-    view->setEventList(m_events, clipboard_event);
+    view->setEventList(events, clipboard_event);
 }
 
 void CalendarPresenter::sendEventQuery(const CalendarEvent& event)
@@ -355,4 +371,26 @@ int CalendarPresenter::getCurrentDayColumn()
     }
 
     return -1;
+}
+
+CalendarCacheKey CalendarPresenter::getCacheKey() const
+{
+    return CalendarCacheKey{
+    .calendarIdx = currentCalendar,
+    .year = shownWeek.first.year(),
+    .weekNumber = shownWeek.first.weekNumber()
+    };
+}
+
+const std::vector<CalendarEvent>& CalendarPresenter::getEvents() const
+{
+    static const std::vector<CalendarEvent> dummy;
+
+    CalendarCacheKey key{
+        .calendarIdx = currentCalendar,
+        .year = shownWeek.first.year(),
+        .weekNumber = shownWeek.first.weekNumber()
+    };
+
+    return m_cache.count(key) ? m_cache.at(key) : dummy;
 }

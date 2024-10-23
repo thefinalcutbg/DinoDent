@@ -32,10 +32,12 @@ CalendarView::CalendarView(QWidget* parent)
     ui.prevWeekButton->setHoverColor(Theme::mainBackgroundColor);
     ui.nextWeekButton->setHoverColor(Theme::mainBackgroundColor);
     ui.exitButton->setHoverColor(Theme::mainBackgroundColor);
+    ui.refreshButton->setHoverColor(Theme::mainBackgroundColor);
 
     ui.authButton->setIcon(QIcon(":/icons/icon_google.png"));
     ui.exitButton->setIcon(QIcon(":/icons/icon_remove.png"));
-
+    ui.refreshButton->setIcon(QIcon(":/icons/icon_sync.png"));
+    
     auto font = ui.calendarButton->font();
     font.setPointSize(font.pointSize() * 2);
     font.setBold(true);
@@ -61,7 +63,8 @@ CalendarView::CalendarView(QWidget* parent)
 
     connect(ui.authButton, &QPushButton::clicked, this, [=] { presenter->grantAccessRequested(); });
     connect(ui.exitButton, &QPushButton::clicked, this, [=] { presenter->restoreCredentials(); });
-    connect(ui.nextWeekButton, &QPushButton::clicked, this, [=] { presenter->nextWeekRequested(); });
+    connect(ui.refreshButton, &QPushButton::clicked, this, [=] { presenter->refresh(); });
+    connect(ui.nextWeekButton, &QPushButton::clicked, this, [=] { if(presenter) presenter->nextWeekRequested(); });
     connect(ui.prevWeekButton, &QPushButton::clicked, this, [=] { presenter->prevWeekRequested(); });
     connect(ui.currentWeekButton, &QPushButton::clicked, this, [&] { presenter->currentWeekRequested(); });
     connect(ui.calendarCombo, &QComboBox::currentIndexChanged, this, [&](int index) { presenter->calendarIndexChanged(index);});

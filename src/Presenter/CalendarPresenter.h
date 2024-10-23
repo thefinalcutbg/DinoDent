@@ -13,7 +13,8 @@ class CalendarPresenter : public TabInstance
 	std::pair<QDate, QDate> shownWeek;
 
 	std::vector<Calendar> m_calendars;
-	std::vector<CalendarEvent> m_events;
+
+	std::unordered_map<CalendarCacheKey, std::vector<CalendarEvent>> m_cache;
 
 	int currentCalendar = 0;
 
@@ -25,7 +26,7 @@ class CalendarPresenter : public TabInstance
 
 	static std::pair<QDate, QDate> getTodaysWeek();
 
-	void requestEvents();
+	void requestEvents(bool searchCache = true);
 
 	void setClipboard(const CalendarEvent& e);
 
@@ -33,7 +34,9 @@ class CalendarPresenter : public TabInstance
 
 	int getCurrentDayColumn();
 
-	void changeWeek();
+	CalendarCacheKey getCacheKey() const;
+
+	const std::vector<CalendarEvent>& getEvents() const;
 
 public:
 
@@ -66,6 +69,7 @@ public:
 	void deleteEvent(int index);
 	void clearClipboard();
 	void durationChange(int eventIdx, int duration);
+	void refresh();
 	void cancelMove();
 
 	~CalendarPresenter();

@@ -25,6 +25,8 @@ QNetworkAccessManager* NetworkManager::getManager() {
         s_manager->setTransferTimeout(s_timeout);
     }
 
+
+
     return s_manager;
 }
 
@@ -42,14 +44,17 @@ void postRequest(const QNetworkRequest& request, AbstractReplyHandler* handler, 
     QApplication::setOverrideCursor(Qt::BusyCursor);
 
     QObject::connect(reply, &QNetworkReply::errorOccurred,
-        [=](QNetworkReply::NetworkError)
+        [=](QNetworkReply::NetworkError error)
         {
+            qDebug() << error;
             QApplication::restoreOverrideCursor();
         }
     );
 
     QObject::connect(reply, &QNetworkReply::finished, 
         [=] {
+
+            reply->deleteLater();
 
             QApplication::restoreOverrideCursor();
 
@@ -58,12 +63,10 @@ void postRequest(const QNetworkRequest& request, AbstractReplyHandler* handler, 
             if (GlobalSettings::showRepliesEnabled()) {
                 ModalDialogBuilder::showMultilineDialog(replyStr, "Отговор");
             }
-
+            
             if (s_handlers.count(handler) == 0) return;
 
             handler->getReply(replyStr);
-
-      //      reply->deleteLater();
 
         });
 

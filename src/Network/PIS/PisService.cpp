@@ -120,9 +120,5 @@ bool PisService::sendRequest(const std::string& query, SOAPAction header)
 		soapActionHeader.c_str()
 	);
 
-	//XmlSigner::cleanup();
-
-
-
 	return true;
 }

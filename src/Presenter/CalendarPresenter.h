@@ -6,6 +6,32 @@
 
 class CalendarView;
 
+
+struct CalendarCacheKey {
+	int calendarIdx;
+	int year;
+	int weekNumber;
+
+	bool operator==(const CalendarCacheKey& other) const
+	{
+		return (calendarIdx == other.calendarIdx
+			&& year == other.year
+			&& weekNumber == other.weekNumber);
+	}
+};
+
+template <>
+struct std::hash<CalendarCacheKey>
+{
+	std::size_t operator() (const CalendarCacheKey& node) const
+	{
+		std::size_t h1 = std::hash<int>()(node.calendarIdx);
+		std::size_t h2 = std::hash<int>()(node.year);
+		std::size_t h3 = std::hash<int>()(node.weekNumber);
+		return h1 ^ h2 ^ h3;
+	}
+};
+
 class CalendarPresenter : public TabInstance
 {
 	CalendarView* view;
@@ -16,13 +42,15 @@ class CalendarPresenter : public TabInstance
 
 	std::unordered_map<CalendarCacheKey, std::vector<CalendarEvent>> m_cache;
 
+	bool awaitingQuery = false;
+
 	int currentCalendar = 0;
 
 	std::string deleteId;
 
 	CalendarEvent clipboard_event;
 
-	enum QueryType { GetCalendars, GetEvents, UploadEvent, DeleteEvent };
+	enum QueryType { GetCalendars, GetEvents, UploadEvent, DeleteEvent, NoReply };
 
 	static std::pair<QDate, QDate> getTodaysWeek();
 

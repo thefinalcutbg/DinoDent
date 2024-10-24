@@ -142,10 +142,7 @@ void Google::query(const QString& urlStr, const QVariantMap& param, const QStrin
 
         if ((int)reply->error() == 99) //no internet connection
         {
-            if (!getReciever()) return;
-
-            getReciever()->disconnected();
-
+            getReciever()->setReply("", 99);
             return;
         }
 

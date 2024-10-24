@@ -193,7 +193,7 @@ void TabPresenter::openCalendar(const CalendarEvent& event)
     open(RowInstance(TabType::Calendar), true);
 
     //set clipboard
-    //static_cast<CalendarPresenter*>(currentTab()).
+    static_cast<CalendarPresenter*>(currentTab())->newAppointment(event.summary);
 
 }
 

@@ -6,13 +6,13 @@ CalendarEventDialog::CalendarEventDialog(const CalendarEvent& event, QWidget *pa
 	m_result(event),
 	QDialog(parent)
 {
-	setWindowTitle(event.id.size() ? 
-		"Редакциа на посещение"
+	ui.setupUi(this);
+
+	setWindowTitle(event.id.size() ?
+		"Редакция на посещение"
 		:
 		"Ново посещение"
 	);
-
-	ui.setupUi(this);
 
 	ui.summaryEdit->setText(event.summary.c_str());
 	ui.startDateTimeEdit->setDateTime(event.start);
@@ -34,7 +34,7 @@ CalendarEventDialog::CalendarEventDialog(const CalendarEvent& event, QWidget *pa
 
 void CalendarEventDialog::paintEvent(QPaintEvent* e)
 {
-	QPainter p;
+	QPainter p(this);
 	p.fillRect(rect(), Qt::white);
 }
 

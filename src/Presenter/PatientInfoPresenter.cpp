@@ -8,7 +8,7 @@
 #include "Presenter/TabPresenter.h"
 #include "View/ModalDialogBuilder.h"
 #include "View/Printer.h"
-
+#include "Model/TableRows.h"
 
 PatientInfoPresenter::PatientInfoPresenter(IPatientTileInfo* view, std::shared_ptr<Patient> p) :
     patient(p), view(view), patientAge(patient->getAge(Date::currentDate()))
@@ -213,6 +213,14 @@ void PatientInfoPresenter::printDeclarations()
     }
 
 
+}
+
+void PatientInfoPresenter::appointmentClicked()
+{
+    CalendarEvent e;
+    e.summary = patient->firstLastName() + " " + patient->phone;
+
+    TabPresenter::get().openCalendar(e);
 }
 
 void PatientInfoPresenter::notesRequested()

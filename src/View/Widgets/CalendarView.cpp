@@ -239,7 +239,6 @@ void CalendarView::paintEvent(QPaintEvent* event)
 
 void CalendarView::showCalendarWidget()
 {
-
     auto pos = QCursor::pos();
 
     calendarWidget->move(pos);

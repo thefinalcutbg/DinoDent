@@ -9,8 +9,7 @@
 
 CalendarPresenter::CalendarPresenter(ITabView* tabView) :
     TabInstance(tabView, TabType::Calendar, nullptr),
-    view(tabView->calendarView()),
-    currentCalendar(DbDoctor::currentCalendarIdx(User::doctor().LPK))
+    view(tabView->calendarView())
 {
     view->showCalendar(false);
 
@@ -29,6 +28,17 @@ CalendarPresenter::CalendarPresenter(ITabView* tabView) :
     }
 
     Google::grantAccess(refreshToken);
+}
+
+void CalendarPresenter::newAppointment(const std::string& eventName)
+{
+    clipboard_event = CalendarEvent();
+    clipboard_event.summary = eventName;
+
+    //the data is already downloaded
+    if (currentCalendar != -1) {
+        view->setEventList(getEvents(), clipboard_event);
+    }
 }
 
 void CalendarPresenter::grantAccessRequested()
@@ -63,6 +73,8 @@ void CalendarPresenter::authorizationSuccessful(const std::string& refreshToken)
     view->showCalendar(true);
 
     DbDoctor::setCalendarRefreshToken(refreshToken, User::doctor().LPK);
+
+    currentCalendar = DbDoctor::currentCalendarIdx(User::doctor().LPK);
 
     view->updateWeekView(shownWeek.first, shownWeek.second, getCurrentDayColumn());
     
@@ -118,7 +130,12 @@ void CalendarPresenter::setReply(const std::string& reply, int callbackIdx)
             m_cache[key].push_back(event);
         }
 
-        clipboard_event = CalendarEvent();
+        if (
+            clipboard_event.summary.size() &&
+            clipboard_event.summary == event.summary
+        ) {
+            clipboard_event = CalendarEvent();
+        }
 
         view->setEventList(m_cache[key], clipboard_event);
     }
@@ -132,7 +149,7 @@ void CalendarPresenter::setReply(const std::string& reply, int callbackIdx)
 
         if (reply.size()) return; //empty response means success. otherwise - failure
 
-        auto m_events = m_cache[key];
+        auto& m_events = m_cache[key];
 
         for (int i = 0; i < m_events.size(); i++) {
 
@@ -237,7 +254,7 @@ void CalendarPresenter::addEvent(const QTime& t, int daysFromMonday, int duratio
     clipboard_event.start = from;
     clipboard_event.end = to;
 
-    if (clipboard_event.id.size()) { //existing event
+    if (clipboard_event.id.size() || clipboard_event.summary.size()) { //existing event
         sendEventQuery(clipboard_event);
         return;
     }

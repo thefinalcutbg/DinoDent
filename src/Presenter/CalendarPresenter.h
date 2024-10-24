@@ -44,7 +44,7 @@ class CalendarPresenter : public TabInstance
 
 	bool awaitingQuery = false;
 
-	int currentCalendar = 0;
+	int currentCalendar = -1;
 
 	std::string deleteId;
 
@@ -56,19 +56,20 @@ class CalendarPresenter : public TabInstance
 
 	void requestEvents(bool searchCache = true);
 
-	void setClipboard(const CalendarEvent& e);
-
 	void sendEventQuery(const CalendarEvent& event);
 
 	int getCurrentDayColumn();
 
 	CalendarCacheKey getCacheKey() const;
 
+	void setClipboard(const CalendarEvent& e);
+
 	const std::vector<CalendarEvent>& getEvents() const;
 
 public:
 
 	CalendarPresenter(ITabView* view);
+	void newAppointment(const std::string& eventName);
 
 	// Inherited via TabInstance
 	void setDataToView() override {};

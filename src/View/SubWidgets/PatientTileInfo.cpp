@@ -33,6 +33,10 @@ PatientTileInfo::PatientTileInfo(QWidget *parent)
 	connect (ui.patientTile->notesButton, &QPushButton::clicked, this, [=, this] {
 		if (presenter) presenter->notesRequested();
 	});
+
+	connect (ui.patientTile->appointmentButton, &QPushButton::clicked, this, [=, this] {
+		if (presenter) presenter->appointmentClicked();
+	});
 }
 
 void PatientTileInfo::setPatient(const Patient& p, int age)

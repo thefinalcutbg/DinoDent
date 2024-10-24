@@ -111,12 +111,17 @@ PatientTile::PatientTile(QWidget* parent) : TileButton(parent)
 	printButton->move(width() - (iconSize + 5), 5);
 	printButton->setToolTip("Принтиране на декларации");
 
+	appointmentButton = new IconButton(this);
+	appointmentButton->setIcon(QIcon(":/icons/icon_calendar.png"));
+	appointmentButton->setFixedSize(iconSize, iconSize);
+	appointmentButton->move(printButton->x() - 40, printButton->y());
+	appointmentButton->setToolTip("Запази посещение");
+
 	notesButton = new IconButton(this);
 	notesButton->setIcon(QIcon(":/icons/icon_notes.png"));
 	notesButton->setFixedSize(iconSize, iconSize);
-    notesButton->move(printButton->x()-40, printButton->y());
+	notesButton->move(appointmentButton->x() - 40, appointmentButton->y());
 	notesButton->setToolTip("Бележки за пациента");
-
 }
 
 
@@ -171,11 +176,11 @@ void PatientTile::resizeEvent(QResizeEvent* event)
 	QWidget::resizeEvent(event);
 
 	printButton->move(width() - 5 - printButton->width(), 5);
-    notesButton->move(printButton->x()-40, printButton->y());
+	appointmentButton->move(printButton->x() - 40, printButton->y());
+    notesButton->move(appointmentButton->x()-40, appointmentButton->y());
+
 	update();
 }
-
-
 
 void PatientTile::setData(const Patient& patient, int age)
 {

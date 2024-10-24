@@ -12,11 +12,9 @@
 class TileButton : public QAbstractButton
 {
 
-
     void paintEvent(QPaintEvent* e) override;
     bool eventFilter(QObject* obj, QEvent* e) override;
     
-
 protected:
 
     bool hover{ false };
@@ -43,6 +41,7 @@ public:
     IconButton* nraButton;
     IconButton* printButton;
     IconButton* notesButton;
+    IconButton* appointmentButton;
     PatientTile(QWidget* parent = 0);
     void setData(const Patient& patient, int age);
 

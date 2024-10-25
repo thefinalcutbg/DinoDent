@@ -61,8 +61,6 @@ TabView::TabView(QWidget *parent)
 
     ui.scrollArea->setAlignment(Qt::AlignHCenter);
  
-   
-
     ui.scrollArea->setObjectName("ScrollArea");
     setStyleSheet("#ScrollArea{background-color:"+ Theme::colorToString(Theme::background) + "}");
 
@@ -220,6 +218,7 @@ void TabView::showListView()
     m_summaryView.setPresenter(nullptr);
     m_prescriptionView.setPresenter(nullptr);
     m_financialView.setPresenter(nullptr);
+    m_calendarView.setCalendarPresenter(nullptr);
 }
 
 void TabView::showPerioView()
@@ -230,6 +229,7 @@ void TabView::showPerioView()
     m_summaryView.setPresenter(nullptr);
     m_prescriptionView.setPresenter(nullptr);
     m_financialView.setPresenter(nullptr);
+    m_calendarView.setCalendarPresenter(nullptr);
 
 }
 
@@ -241,6 +241,7 @@ void TabView::showSummaryView()
     m_perioView.setPresenter(nullptr);
     m_financialView.setPresenter(nullptr);
     m_prescriptionView.setPresenter(nullptr);
+    m_calendarView.setCalendarPresenter(nullptr);
 }
 
 void TabView::showFinancialView()
@@ -251,6 +252,7 @@ void TabView::showFinancialView()
     m_perioView.setPresenter(nullptr);
     m_summaryView.setPresenter(nullptr);
     m_prescriptionView.setPresenter(nullptr);
+    m_calendarView.setCalendarPresenter(nullptr);
 }
 
 void TabView::showPerscriptionView()
@@ -261,6 +263,7 @@ void TabView::showPerscriptionView()
     m_perioView.setPresenter(nullptr);
     m_summaryView.setPresenter(nullptr);
     m_financialView.setPresenter(nullptr);
+    m_calendarView.setCalendarPresenter(nullptr);
     GlobalWidgets::mainWindow->disableButtons(false, false);
 }
 
@@ -272,7 +275,7 @@ void TabView::showCalendarView()
     m_perioView.setPresenter(nullptr);
     m_summaryView.setPresenter(nullptr);
     m_financialView.setPresenter(nullptr);
-    m_prescriptionView.setPresenter(nullptr);
+    m_prescriptionView.setPresenter(nullptr);    
 }
 
 void TabView::showWelcomeScreen()

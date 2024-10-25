@@ -20,7 +20,6 @@ CalendarView::CalendarView(QWidget* parent)
     calendarWidget = new CalendarWidget();
     calendarWidget->setWindowFlag(Qt::WindowType::Popup);
 
-
     setStyleSheet(Theme::getFancyStylesheet());
 
     auto arrow = QPixmap(":/icons/icon_downArrow.png");
@@ -221,7 +220,7 @@ void CalendarView::initTable()
         ui.hourLayout->addWidget(l);
     }
     
-    ui.cornerLabel->setMaximumWidth(hourLabelWidth);
+    ui.weekSpacerBegin->setMaximumWidth(hourLabelWidth);
     ui.weekSpacerEnd->changeSize(16, 10);
 
     auto tableBottomSpacer = new QSpacerItem(20, bottomOffset, QSizePolicy::Minimum, QSizePolicy::Fixed);

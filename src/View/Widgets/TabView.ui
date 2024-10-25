@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>439</width>
-    <height>300</height>
+    <width>486</width>
+    <height>261</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -44,17 +44,17 @@
       </size>
      </property>
      <property name="layoutDirection">
-      <enum>Qt::LeftToRight</enum>
+      <enum>Qt::LayoutDirection::LeftToRight</enum>
      </property>
     </widget>
    </item>
    <item>
     <widget class="QScrollArea" name="scrollArea">
      <property name="frameShape">
-      <enum>QFrame::NoFrame</enum>
+      <enum>QFrame::Shape::NoFrame</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Plain</enum>
+      <enum>QFrame::Shadow::Plain</enum>
      </property>
      <property name="lineWidth">
       <number>0</number>
@@ -63,15 +63,15 @@
       <bool>true</bool>
      </property>
      <property name="alignment">
-      <set>Qt::AlignCenter</set>
+      <set>Qt::AlignmentFlag::AlignCenter</set>
      </property>
      <widget class="QWidget" name="scrollAreaWidgetContents">
       <property name="geometry">
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>439</width>
-        <height>250</height>
+        <width>486</width>
+        <height>211</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">

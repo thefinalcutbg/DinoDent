@@ -218,7 +218,12 @@ void CalendarPresenter::dateRequested(QDate date)
 
 void CalendarPresenter::refresh()
 {
-    requestEvents(false);
+    disconnected();
+    view->setEventList({}, clipboard_event);
+    m_cache.clear();
+    m_calendars.clear();
+    currentCalendar = -1;
+    grantAccessRequested();
 }
 
 

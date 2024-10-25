@@ -87,10 +87,11 @@ void EventDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option,
         QTextOption textOption(Qt::Alignment(Qt::AlignVCenter | Qt::AlignHCenter));
 
         if (data.clipboardEventText().size()) {
-            textOption.setAlignment(Qt::AlignLeft);
+
+            text = "   " + text;
             text += " - " + data.clipboardEventText();
-            textOption.setWrapMode(QTextOption::WrapMode::WrapAtWordBoundaryOrAnywhere);
-            textOption.setAlignment(Qt::Alignment(Qt::AlignLeft | Qt::AlignHCenter));
+            textOption.setWrapMode(QTextOption::WrapMode::ManualWrap);
+            textOption.setAlignment(Qt::Alignment(Qt::AlignLeft | Qt::AlignVCenter));
         }
 
         painter->drawText(r, text, textOption);

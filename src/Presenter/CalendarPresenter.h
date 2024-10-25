@@ -64,7 +64,7 @@ class CalendarPresenter : public TabInstance
 
 	void setClipboard(const CalendarEvent& e);
 
-	const std::vector<CalendarEvent>& getEvents() const;
+	std::vector<CalendarEvent>* getEvents();
 
 public:
 

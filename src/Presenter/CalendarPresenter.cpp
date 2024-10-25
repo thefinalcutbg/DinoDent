@@ -37,7 +37,12 @@ void CalendarPresenter::newAppointment(const std::string& eventName)
 
     //the data is already downloaded
     if (currentCalendar != -1) {
-        view->setEventList(getEvents(), clipboard_event);
+
+        auto e = getEvents();
+
+        if (e) {
+            view->setEventList(*e, clipboard_event);
+        }
     }
 }
 
@@ -244,11 +249,13 @@ void CalendarPresenter::currentWeekRequested()
 
 void CalendarPresenter::moveEvent(int index)
 {
-    auto& events = getEvents();
+    auto events = getEvents();
 
-    if (index < 0 || index >= events.size()) return;
+    if (!events) return;
 
-    setClipboard(events[index]);
+    if (index < 0 || index >= events->size()) return;
+
+    setClipboard(events->at(index));
 }
 
 void CalendarPresenter::addEvent(const QTime& t, int daysFromMonday, int duration)
@@ -275,9 +282,13 @@ void CalendarPresenter::addEvent(const QTime& t, int daysFromMonday, int duratio
 
 void CalendarPresenter::editEvent(int index)
 {
-    if (awaitingQuery) return;
+    auto e = getEvents();
 
-    CalendarEventDialog d(getEvents().at(index));
+    if (awaitingQuery || !e) return;
+
+    if (index < 0 || index >= e->size()) return;
+
+    CalendarEventDialog d(e->at(index));
 
     if (d.exec() != QDialog::Accepted) return;
 
@@ -290,11 +301,15 @@ void CalendarPresenter::deleteEvent(int index)
 
     auto events = getEvents();
 
-    deleteId = events[index].id;
+    if (!events) return;
+
+    if (index < 0 || index >= events->size()) return;
+
+    deleteId = events->at(index).id;
 
     QVariantMap parameters;
     parameters["calendarId"] = m_calendars[currentCalendar].id.c_str();
-    parameters["eventId"] = events[index].id.c_str();
+    parameters["eventId"] = events->at(index).id.c_str();
 
     Google::query(
         "https://www.googleapis.com/calendar/v3/calendars/calendarId/events/eventId",
@@ -306,14 +321,20 @@ void CalendarPresenter::clearClipboard()
 {
     clipboard_event = CalendarEvent{};
 
-    view->setEventList(getEvents(), clipboard_event);
+    auto e = getEvents();
+
+    view->setEventList(*e, clipboard_event);
 }
 
 void CalendarPresenter::durationChange(int eventIdx, int duration)
 {
     if (awaitingQuery) return;
 
-    auto event = getEvents()[eventIdx];
+    auto e = getEvents();
+
+    if (!e) return;
+
+    auto event = e->at(eventIdx);
 
     event.end = event.start.addSecs(duration * 60);
 
@@ -431,9 +452,8 @@ CalendarCacheKey CalendarPresenter::getCacheKey() const
     };
 }
 
-const std::vector<CalendarEvent>& CalendarPresenter::getEvents() const
+std::vector<CalendarEvent>* CalendarPresenter::getEvents()
 {
-    static const std::vector<CalendarEvent> dummy;
 
     CalendarCacheKey key{
         .calendarIdx = currentCalendar,
@@ -441,5 +461,5 @@ const std::vector<CalendarEvent>& CalendarPresenter::getEvents() const
         .weekNumber = shownWeek.first.weekNumber()
     };
 
-    return m_cache.count(key) ? m_cache.at(key) : dummy;
+    return m_cache.count(key) ? &m_cache.at(key) : nullptr;
 }

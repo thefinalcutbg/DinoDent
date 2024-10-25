@@ -51,8 +51,10 @@ void CalendarPresenter::grantAccessRequested()
 TabName CalendarPresenter::getTabName()
 {
     return TabName{
-        .header = "График на посещенията",
+        .header = "График на",
+        .footer = "посещенията",
         .header_icon = CommonIcon::CALENDAR
+        
     };
 }
 

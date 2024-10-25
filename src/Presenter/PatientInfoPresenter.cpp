@@ -217,10 +217,7 @@ void PatientInfoPresenter::printDeclarations()
 
 void PatientInfoPresenter::appointmentClicked()
 {
-    CalendarEvent e;
-    e.summary = patient->firstLastName() + " " + patient->phone;
-
-    TabPresenter::get().openCalendar(e);
+    TabPresenter::get().openCalendar(CalendarEvent(*patient));
 }
 
 void PatientInfoPresenter::notesRequested()

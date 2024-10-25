@@ -2,6 +2,8 @@
 #include <string>
 #include <QDateTime>
 
+struct Patient;
+
 struct Calendar
 {
 	std::string summary;
@@ -11,7 +13,8 @@ struct Calendar
 
 struct CalendarEvent
 {
-	
+	CalendarEvent(const Patient& p);
+	CalendarEvent() {}
 	std::string id;
 	std::string summary;
 	QDateTime start;

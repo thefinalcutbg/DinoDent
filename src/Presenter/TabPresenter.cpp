@@ -215,6 +215,7 @@ void TabPresenter::open(const RowInstance& row, bool setFocus)
             )
         {
             view->focusTab(index);
+
             return;
         }
     }

@@ -53,6 +53,11 @@ void CalendarPresenter::grantAccessRequested()
     Google::grantAccess(refreshToken);
 }
 
+void CalendarPresenter::setDataToView()
+{
+    view->setCalendarPresenter(this);
+}
+
 TabName CalendarPresenter::getTabName()
 {
     return TabName{
@@ -309,7 +314,7 @@ void CalendarPresenter::deleteEvent(int index)
 
     QVariantMap parameters;
     parameters["calendarId"] = m_calendars[currentCalendar].id.c_str();
-    parameters["eventId"] = events->at(index).id.c_str();
+    parameters["eventId"] = deleteId.c_str();
 
     Google::query(
         "https://www.googleapis.com/calendar/v3/calendars/calendarId/events/eventId",

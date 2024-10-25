@@ -223,6 +223,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="include\json\jsoncpp.cpp" />
+    <ClCompile Include="src\Model\CalendarStructs.cpp" />
     <ClCompile Include="src\Network\Calendar\Google.cpp" />
     <ClCompile Include="src\View\Widgets\CalendarEventDialog.cpp" />
     <ClCompile Include="src\Network\Calendar\CalendarJsonParser.cpp" />

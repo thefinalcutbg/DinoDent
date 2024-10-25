@@ -72,7 +72,7 @@ public:
 	void newAppointment(const std::string& eventName);
 
 	// Inherited via TabInstance
-	void setDataToView() override {};
+	void setDataToView() override;
 	bool isNew() override { return false; }
 	TabName getTabName() override;
 	bool save() override { return true; }

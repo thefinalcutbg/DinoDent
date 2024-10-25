@@ -255,6 +255,11 @@ void BrowserDialog::contextMenuRequested(const QPoint& p)
         connect(action, &QAction::triggered, this, [=, this] { presenter.openNewDocument(TabType::Financial); });
 		action->setIcon(QIcon(":/icons/icon_invoice.png"));
 		main_menu->addAction(action);
+
+		action = (new QAction("Запази посещение", main_menu));
+		connect(action, &QAction::triggered, this, [=, this] { presenter.openNewDocument(TabType::Calendar); });
+		action->setIcon(QIcon(":/icons/icon_calendar.png"));
+		main_menu->addAction(action);
 	}
 
 	action = (new QAction("Копирай текста", main_menu));

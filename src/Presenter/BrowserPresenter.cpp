@@ -6,6 +6,7 @@
 #include "Database/DbInvoice.h"
 #include "Database/DbProcedure.h"
 #include "Database/DbBrowser.h"
+#include "Database/DbPatient.h"
 
 #include <map>
 
@@ -171,6 +172,17 @@ void BrowserPresenter::selectionChanged(const std::set<int>& selectedIndexes)
 void BrowserPresenter::openNewDocument(TabType type)
 {
 	if (ui_state.model_type == TabType::Financial) return;
+
+	if (type == TabType::Calendar) {
+
+		CalendarEvent ev(DbPatient::get(m_selectedInstances[0]->patientRowId));
+
+		TabPresenter::get().openCalendar(ev);
+
+		view->close();
+
+		return;
+	}
 
     for (size_t i = 0; i < std::min(m_selectedInstances.size(), size_t(10)); i++) {
 

@@ -5,7 +5,6 @@
 #include <qdebug.h>
 #include <qdatetime.h>
 #include <QHeaderView>
-#include "CalendarEventDialog.h"
 #include <QScrollBar>
 #include "View/Theme.h"
 #include <QPainter>
@@ -17,10 +16,14 @@ CalendarView::CalendarView(QWidget* parent)
 {
     ui.setupUi(this);
 
+    //IMPORTANT! Never edit the ui file. I barely made it not showing 83194 scrollbars
+
     calendarWidget = new CalendarWidget();
     calendarWidget->setWindowFlag(Qt::WindowType::Popup);
 
     setStyleSheet(Theme::getFancyStylesheet());
+
+    ui.weekFrame->setFrameShape(QFrame::NoFrame);
 
     auto arrow = QPixmap(":/icons/icon_downArrow.png");
 

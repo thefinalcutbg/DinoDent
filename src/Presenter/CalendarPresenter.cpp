@@ -114,6 +114,11 @@ void CalendarPresenter::setReply(const std::string& reply, int callbackIdx)
     {
         m_calendars = CalendarJsonParser::parseCalendarList(reply);
 
+        if (!m_calendars.size()) {
+            restoreCredentials();
+            return;
+        }
+
         view->setCalendarList(m_calendars, currentCalendar);
 
         requestEvents();

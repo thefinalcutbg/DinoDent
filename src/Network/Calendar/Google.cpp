@@ -60,7 +60,8 @@ QOAuth2AuthorizationCodeFlow* getAuth(bool reinitialize = false) {
     
     auth->setReplyHandler(replyHandler);
     
-    auth->setScope("https://www.googleapis.com/auth/calendar");
+    auth->setScope("https://www.googleapis.com/auth/calendar.readonly https://www.googleapis.com/auth/calendar.events");
+
     QObject::connect(replyHandler, &QOAuthHttpServerReplyHandler::tokenRequestErrorOccurred, replyHandler,
         [&](QAbstractOAuth::Error error, const QString& errorString) {
             

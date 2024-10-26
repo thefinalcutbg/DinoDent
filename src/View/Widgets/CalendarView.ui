@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1779</width>
-    <height>555</height>
+    <height>465</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -44,8 +44,11 @@
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
         <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Orientation::Vertical</enum>
+         </property>
          <property name="sizeType">
-          <enum>QSizePolicy::Fixed</enum>
+          <enum>QSizePolicy::Policy::Preferred</enum>
          </property>
          <property name="sizeHint" stdset="0">
           <size>
@@ -59,8 +62,11 @@
         <layout class="QHBoxLayout" name="horizontalLayout_4">
          <item>
           <spacer name="horizontalSpacer_3">
+           <property name="orientation">
+            <enum>Qt::Orientation::Horizontal</enum>
+           </property>
            <property name="sizeType">
-            <enum>QSizePolicy::Fixed</enum>
+            <enum>QSizePolicy::Policy::Preferred</enum>
            </property>
            <property name="sizeHint" stdset="0">
             <size>
@@ -100,8 +106,11 @@
          </item>
          <item>
           <spacer name="horizontalSpacer_4">
+           <property name="orientation">
+            <enum>Qt::Orientation::Horizontal</enum>
+           </property>
            <property name="sizeType">
-            <enum>QSizePolicy::Fixed</enum>
+            <enum>QSizePolicy::Policy::Preferred</enum>
            </property>
            <property name="sizeHint" stdset="0">
             <size>
@@ -115,8 +124,11 @@
        </item>
        <item>
         <spacer name="verticalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Orientation::Vertical</enum>
+         </property>
          <property name="sizeType">
-          <enum>QSizePolicy::Fixed</enum>
+          <enum>QSizePolicy::Policy::Preferred</enum>
          </property>
          <property name="sizeHint" stdset="0">
           <size>
@@ -232,6 +244,9 @@
           </item>
           <item>
            <spacer name="horizontalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Orientation::Horizontal</enum>
+            </property>
             <property name="sizeHint" stdset="0">
              <size>
               <width>40</width>
@@ -262,7 +277,7 @@
              </size>
             </property>
             <property name="sizeAdjustPolicy">
-             <enum>QComboBox::AdjustToContents</enum>
+             <enum>QComboBox::SizeAdjustPolicy::AdjustToContents</enum>
             </property>
            </widget>
           </item>
@@ -322,7 +337,10 @@
           </sizepolicy>
          </property>
          <property name="frameShape">
-          <enum>QFrame::NoFrame</enum>
+          <enum>QFrame::Shape::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Shadow::Raised</enum>
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_3">
           <property name="spacing">
@@ -367,6 +385,9 @@
             <property name="text">
              <string>TextLabel</string>
             </property>
+            <property name="alignment">
+             <set>Qt::AlignmentFlag::AlignCenter</set>
+            </property>
             <property name="wordWrap">
              <bool>true</bool>
             </property>
@@ -385,6 +406,9 @@
             </property>
             <property name="text">
              <string>TextLabel</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignmentFlag::AlignCenter</set>
             </property>
             <property name="wordWrap">
              <bool>true</bool>
@@ -405,6 +429,9 @@
             <property name="text">
              <string>TextLabel</string>
             </property>
+            <property name="alignment">
+             <set>Qt::AlignmentFlag::AlignCenter</set>
+            </property>
             <property name="wordWrap">
              <bool>true</bool>
             </property>
@@ -423,6 +450,9 @@
             </property>
             <property name="text">
              <string>TextLabel</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignmentFlag::AlignCenter</set>
             </property>
             <property name="wordWrap">
              <bool>true</bool>
@@ -443,6 +473,9 @@
             <property name="text">
              <string>TextLabel</string>
             </property>
+            <property name="alignment">
+             <set>Qt::AlignmentFlag::AlignCenter</set>
+            </property>
             <property name="wordWrap">
              <bool>true</bool>
             </property>
@@ -461,6 +494,9 @@
             </property>
             <property name="text">
              <string>TextLabel</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignmentFlag::AlignCenter</set>
             </property>
             <property name="wordWrap">
              <bool>true</bool>
@@ -481,6 +517,9 @@
             <property name="text">
              <string>TextLabel</string>
             </property>
+            <property name="alignment">
+             <set>Qt::AlignmentFlag::AlignCenter</set>
+            </property>
             <property name="wordWrap">
              <bool>true</bool>
             </property>
@@ -488,8 +527,11 @@
           </item>
           <item>
            <spacer name="weekSpacerEnd">
+            <property name="orientation">
+             <enum>Qt::Orientation::Horizontal</enum>
+            </property>
             <property name="sizeType">
-             <enum>QSizePolicy::Fixed</enum>
+             <enum>QSizePolicy::Policy::Fixed</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
@@ -504,8 +546,11 @@
        </item>
        <item>
         <widget class="Line" name="line">
+         <property name="frameShadow">
+          <enum>QFrame::Shadow::Plain</enum>
+         </property>
          <property name="orientation">
-          <enum>Qt::Horizontal</enum>
+          <enum>Qt::Orientation::Horizontal</enum>
          </property>
         </widget>
        </item>
@@ -518,7 +563,7 @@
           </sizepolicy>
          </property>
          <property name="frameShape">
-          <enum>QFrame::NoFrame</enum>
+          <enum>QFrame::Shape::NoFrame</enum>
          </property>
          <property name="widgetResizable">
           <bool>true</bool>
@@ -528,7 +573,7 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>1779</width>
+            <width>1767</width>
             <height>3500</height>
            </rect>
           </property>
@@ -558,8 +603,11 @@
             <layout class="QVBoxLayout" name="hourLayout">
              <item>
               <spacer name="tableTopSpacer">
+               <property name="orientation">
+                <enum>Qt::Orientation::Vertical</enum>
+               </property>
                <property name="sizeType">
-                <enum>QSizePolicy::Minimum</enum>
+                <enum>QSizePolicy::Policy::Fixed</enum>
                </property>
                <property name="sizeHint" stdset="0">
                 <size>
@@ -583,13 +631,16 @@
               <bool>true</bool>
              </property>
              <property name="frameShape">
-              <enum>QFrame::NoFrame</enum>
+              <enum>QFrame::Shape::NoFrame</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Shadow::Plain</enum>
              </property>
              <property name="verticalScrollBarPolicy">
-              <enum>Qt::ScrollBarAsNeeded</enum>
+              <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
              </property>
              <property name="horizontalScrollBarPolicy">
-              <enum>Qt::ScrollBarAsNeeded</enum>
+              <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
              </property>
              <property name="autoScroll">
               <bool>false</bool>
@@ -598,7 +649,7 @@
               <bool>true</bool>
              </property>
              <property name="dragDropMode">
-              <enum>QAbstractItemView::NoDragDrop</enum>
+              <enum>QAbstractItemView::DragDropMode::DragDrop</enum>
              </property>
              <property name="alternatingRowColors">
               <bool>false</bool>
@@ -607,7 +658,7 @@
               <bool>false</bool>
              </property>
              <property name="gridStyle">
-              <enum>Qt::NoPen</enum>
+              <enum>Qt::PenStyle::DashLine</enum>
              </property>
              <property name="cornerButtonEnabled">
               <bool>false</bool>

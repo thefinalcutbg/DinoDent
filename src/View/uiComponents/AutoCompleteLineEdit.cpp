@@ -49,8 +49,6 @@ void AutoCompleteLineEdit::setCompletions(const std::unordered_map<std::string, 
 
 	newCompleter(completions);
 
-	
-
 }
 
 void AutoCompleteLineEdit::reformat()

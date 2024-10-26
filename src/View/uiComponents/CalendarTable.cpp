@@ -296,7 +296,7 @@ void CalendarTable::menuRequested(int column, int row)
         });
         context_menu->addAction(action);
 
-        subMenu = new QMenu("Времетраене", context_menu);
+        subMenu = new QMenu("Продължителност", context_menu);
 
         context_menu->addMenu(subMenu);
 

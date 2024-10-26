@@ -37,6 +37,10 @@ void CalendarViewData::setEvents(const std::vector<CalendarEvent>& eventsList, c
 
 		entity->text += event.summary.c_str();
 
+		if (event.description.size()) {
+			entity->text += "\n";
+			entity->text += event.description.c_str();
+		}
 
 		if (entity->text.isEmpty()) {
 			entity->text = "???";

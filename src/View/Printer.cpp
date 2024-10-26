@@ -360,15 +360,12 @@ void Print::invoice(const Invoice& inv)
     BusinessOperationModel model{ inv.businessOperations };
     report.dataManager()->addModel("operations", &model, false);
 
+    const QString paymentArr[] = { "В брой", "Банков път", "POS терминал", "Комбинирано" };
+
     report.dataManager()->setReportVariable("taxEventDate", QString::fromStdString(inv.taxEventDate.toBgStandard()));
     report.dataManager()->setReportVariable("madeBy", QString::fromStdString(User::doctor().getFullName(false)));
     report.dataManager()->setReportVariable("groundsNoVAT", QString::fromStdString(issuer.grounds_for_not_charging_VAT));
-    report.dataManager()->setReportVariable("paymentType", QString::fromStdString(
-        inv.paymentType == PaymentType::Bank ?
-        "Банков път"
-        :
-        "В брой"
-    ));
+    report.dataManager()->setReportVariable("paymentType", paymentArr[static_cast<int>(inv.paymentType)]);
 
     report.dataManager()->setReportVariable("bank", issuer.bank.c_str());
     report.dataManager()->setReportVariable("iban", issuer.iban.c_str());

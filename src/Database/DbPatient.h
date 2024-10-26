@@ -7,6 +7,12 @@ class Db;
 
 namespace DbPatient
 {
+    struct PatientRecord {
+        std::string summary;
+        std::string fname;
+        std::string birth;
+    };
+
     long long insert(const Patient& patient);
     bool update(const Patient& patient);
     Patient get(std::string patientID, int type);
@@ -26,6 +32,8 @@ namespace DbPatient
     Date getLastVisit(long long patientRowid, const std::string& rzi, const std::string lpk);
 
     long long getPatientRowid(const std::string& firstName, const std::string& birth);
+
+    std::vector<PatientRecord> getPatientList();
 
     TeethNotes getToothNotes(long long patientRowId);
 };

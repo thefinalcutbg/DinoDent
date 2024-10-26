@@ -6,32 +6,94 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>331</width>
-    <height>132</height>
+    <width>402</width>
+    <height>167</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>CalendarEventDialog</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="verticalLayout_4">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>Описание:</string>
-       </property>
-      </widget>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Пациент:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>Описание:</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
      <item>
-      <widget class="QLineEdit" name="summaryEdit"/>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <widget class="QLineEdit" name="summaryEdit"/>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="descriptionEdit"/>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QLabel" name="iconLabel">
+         <property name="minimumSize">
+          <size>
+           <width>23</width>
+           <height>21</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>21</width>
+           <height>21</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Orientation::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Policy::Preferred</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
      </item>
     </layout>
    </item>
    <item>
     <widget class="QLabel" name="label_2">
      <property name="text">
-      <string>Времетраене:</string>
+      <string>Продължителност:</string>
      </property>
     </widget>
    </item>
@@ -47,10 +109,10 @@
      <item>
       <widget class="QDateTimeEdit" name="startDateTimeEdit">
        <property name="buttonSymbols">
-        <enum>QAbstractSpinBox::UpDownArrows</enum>
+        <enum>QAbstractSpinBox::ButtonSymbols::UpDownArrows</enum>
        </property>
        <property name="currentSection">
-        <enum>QDateTimeEdit::HourSection</enum>
+        <enum>QDateTimeEdit::Section::HourSection</enum>
        </property>
        <property name="displayFormat">
         <string>HH:mm</string>
@@ -67,7 +129,7 @@
      <item>
       <widget class="QDateTimeEdit" name="endDateTimeEdit">
        <property name="currentSection">
-        <enum>QDateTimeEdit::HourSection</enum>
+        <enum>QDateTimeEdit::Section::HourSection</enum>
        </property>
        <property name="displayFormat">
         <string>HH:mm</string>
@@ -77,7 +139,7 @@
      <item>
       <spacer name="horizontalSpacer_2">
        <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+        <enum>Qt::Orientation::Horizontal</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
@@ -92,7 +154,7 @@
    <item>
     <spacer name="verticalSpacer">
      <property name="orientation">
-      <enum>Qt::Vertical</enum>
+      <enum>Qt::Orientation::Vertical</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>
@@ -107,7 +169,7 @@
      <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+        <enum>Qt::Orientation::Horizontal</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>

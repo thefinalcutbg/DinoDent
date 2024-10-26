@@ -419,6 +419,33 @@ long long DbPatient::getPatientRowid(const std::string& firstName, const std::st
     return 0;
 }
 
+std::vector<DbPatient::PatientRecord> DbPatient::getPatientList()
+{
+    std::vector<PatientRecord> result;
+
+    Db db("SELECT fname, lname, phone, birth FROM patient");
+
+    while (db.hasRows())
+    {
+        PatientRecord r;
+        r.fname = db.asString(0);
+        r.summary = r.fname + " " + db.asString(1);
+        
+        auto phone = db.asString(2);
+
+        if (phone.size()) {
+            r.summary += " ";
+            r.summary += phone;
+        }
+
+        r.birth = db.asString(3);     
+
+        result.push_back(r);
+    }
+
+    return result;
+}
+
 std::vector<Allergy> DbPatient::getAllergies(long long patientRowid, Db& db)
 {
     db.newStatement(

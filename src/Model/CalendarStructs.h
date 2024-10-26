@@ -17,6 +17,7 @@ struct CalendarEvent
 	CalendarEvent() {}
 	std::string id;
 	std::string summary;
+	std::string description;
 	QDateTime start;
 	QDateTime end;
 

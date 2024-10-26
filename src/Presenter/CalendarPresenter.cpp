@@ -16,6 +16,8 @@ CalendarPresenter::CalendarPresenter(ITabView* tabView) :
 {
     view->showCalendar(false);
 
+    view->setDisabled(false);
+
     Google::setReciever(this);
 
     view->setCalendarPresenter(this);
@@ -92,6 +94,8 @@ void CalendarPresenter::authorizationSuccessful(const std::string& refreshToken)
 
     view->updateWeekView(shownWeek.first, shownWeek.second, getCurrentDayColumn());
     
+    view->setDisabled(true);
+
     Google::query(
         "https://www.googleapis.com/calendar/v3/users/me/calendarList",
         {}, "GET", {}, QueryType::GetCalendars
@@ -100,7 +104,7 @@ void CalendarPresenter::authorizationSuccessful(const std::string& refreshToken)
 
 void CalendarPresenter::setReply(const std::string& reply, int callbackIdx)
 {
-    awaitingQuery = false;
+    view->setDisabled(false);
 
     auto key = getCacheKey();
 
@@ -195,8 +199,6 @@ void CalendarPresenter::calendarIndexChanged(int idx)
 
 void CalendarPresenter::nextWeekRequested()
 {
-    if (awaitingQuery) return;
-
     shownWeek.first = shownWeek.first.addDays(7);
     shownWeek.second = shownWeek.second.addDays(7);
 
@@ -205,8 +207,6 @@ void CalendarPresenter::nextWeekRequested()
 
 void CalendarPresenter::prevWeekRequested()
 {
-    if (awaitingQuery) return;
-
     shownWeek.first = shownWeek.first.addDays(-7);
     shownWeek.second = shownWeek.second.addDays(-7);
 
@@ -215,8 +215,6 @@ void CalendarPresenter::prevWeekRequested()
 
 void CalendarPresenter::dateRequested(QDate date)
 {
-    if (awaitingQuery) return;
-
     if (date.year() == shownWeek.first.year() &&
         date.weekNumber() == shownWeek.first.weekNumber()) {
 
@@ -243,8 +241,6 @@ void CalendarPresenter::refresh()
 
 void CalendarPresenter::currentWeekRequested()
 {
-    if (awaitingQuery) return;
-
     auto todaysWeek = getTodaysWeek();
 
     if (todaysWeek == shownWeek) return;
@@ -296,8 +292,6 @@ void CalendarPresenter::newDocRequested(int index, TabType type)
 
 void CalendarPresenter::addEvent(const QTime& t, int daysFromMonday, int duration)
 {
-    if (awaitingQuery) return;
-
     QDateTime from(shownWeek.first.addDays(daysFromMonday), t);
     QDateTime to(from.addSecs(duration * 60));
 
@@ -320,7 +314,7 @@ void CalendarPresenter::editEvent(int index)
 {
     auto e = getEvent(index);
 
-    if (awaitingQuery || !e) return;
+    if (!e) return;
 
     CalendarEventDialog d(*e);
 
@@ -331,7 +325,7 @@ void CalendarPresenter::editEvent(int index)
 
 void CalendarPresenter::deleteEvent(int index)
 {
-    if (awaitingQuery) return;
+    view->setDisabled(true);
 
     auto event = getEvent(index);
 
@@ -360,8 +354,6 @@ void CalendarPresenter::clearClipboard()
 
 void CalendarPresenter::durationChange(int eventIdx, int duration)
 {
-    if (awaitingQuery) return;
-
     auto event = getEvent(eventIdx);
 
     if (!event) return;
@@ -399,7 +391,7 @@ void CalendarPresenter::requestEvents(bool searchCache)
         return;
     }
 
-    awaitingQuery = true;
+    view->setDisabled(true);
 
     view->setEventList({}, clipboard_event);
 
@@ -435,7 +427,7 @@ void CalendarPresenter::setClipboard(const CalendarEvent& e)
 
 void CalendarPresenter::sendEventQuery(const CalendarEvent& event)
 {
-    awaitingQuery = true;
+    view->setDisabled(true);
 
     //edit
     if (event.id.size()) {

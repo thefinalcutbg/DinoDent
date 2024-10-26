@@ -42,8 +42,6 @@ class CalendarPresenter : public TabInstance
 
 	std::unordered_map<CalendarCacheKey, std::vector<CalendarEvent>> m_cache;
 
-	bool awaitingQuery = false;
-
 	int currentCalendar = -1;
 
 	std::string deleteId;

@@ -204,6 +204,7 @@ HEADERS += \
     src/Model/Referrals/ReferralData.h \
     src/Model/Settings.h \
     src/Model/Specialty.h \
+    src/Model/TabType.h \
     src/Model/TableRows.h \
     src/Model/TableStructs.h \
     src/Model/Time.h \
@@ -529,6 +530,7 @@ SOURCES += \
     src/DbUpdates/Updater.cpp \
     src/GlobalSettings.cpp \
     src/Model/Allergy.cpp \
+    src/Model/CalendarStructs.cpp \
     src/Model/Country.cpp \
     src/Model/Date.cpp \
     src/Model/Dental/Diagnosis.cpp \

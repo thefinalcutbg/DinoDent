@@ -190,6 +190,14 @@ void CalendarView::initTable()
     int bottomOffset = 16;
     int hourLabelWidth = 60;
 
+#ifdef Q_OS_MAC
+    int hourLabelHeight = 94;
+    rowHeight = 25;
+    tableHeight = 2000;
+    topOffset = 90;
+    bottomOffset = 26;
+#endif
+
     ui.tableTopSpacer->changeSize(20, topOffset);
 
     for (int i = 0; i < 24*4; i++) {
@@ -216,7 +224,12 @@ void CalendarView::initTable()
         labelText += "</font></b>";
 
         l->setText(labelText);
+
         l->setMinimumWidth(hourLabelWidth);
+#ifdef Q_OS_MAC
+        l->setMinimumHeight(hourLabelHeight);
+        l->setMaximumHeight(hourLabelHeight);
+#endif
         l->setAlignment(Qt::AlignTop | Qt::AlignHCenter);
         ui.hourLayout->addWidget(l);
     }
@@ -225,13 +238,10 @@ void CalendarView::initTable()
     ui.weekSpacerEnd->changeSize(16, 10);
 
     auto tableBottomSpacer = new QSpacerItem(20, bottomOffset, QSizePolicy::Minimum, QSizePolicy::Fixed);
-
     ui.hourLayout->addItem(tableBottomSpacer);
-
-
 }
 
-void CalendarView::paintEvent(QPaintEvent* event)
+void CalendarView::paintEvent(QPaintEvent*)
 {
     QPainter painter(this);
     painter.fillRect(rect(), Theme::background);

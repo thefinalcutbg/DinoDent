@@ -19,6 +19,10 @@ struct CalendarEvent
 	std::string summary;
 	QDateTime start;
 	QDateTime end;
-	std::string json; //all other parameters not supported by the application
 
+	std::string json; //all other parameters not supported by the application
+	
+	//app specific properties:
+	std::string patientBirth;
+	std::string patientFname;
 };

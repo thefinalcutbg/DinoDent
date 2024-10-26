@@ -65,11 +65,12 @@ class CalendarPresenter : public TabInstance
 	void setClipboard(const CalendarEvent& e);
 
 	std::vector<CalendarEvent>* getEvents();
+	CalendarEvent* getEvent(int eventIndex);
 
 public:
 
 	CalendarPresenter(ITabView* view);
-	void newAppointment(const std::string& eventName);
+	void newAppointment(const CalendarEvent& event);
 
 	// Inherited via TabInstance
 	void setDataToView() override;
@@ -93,6 +94,7 @@ public:
 	void dateRequested(QDate date);
 	void currentWeekRequested();
 	void moveEvent(int index);
+	void newDocRequested(int index, TabType type);
 	void addEvent(const QTime& t, int daysFromMonday, int duration);
 	void editEvent(int index);
 	void deleteEvent(int index);

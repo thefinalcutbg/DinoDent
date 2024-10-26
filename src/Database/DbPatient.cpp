@@ -403,6 +403,22 @@ LIMIT 1)";
 
 }
 
+long long DbPatient::getPatientRowid(const std::string& firstName, const std::string& birth)
+{
+    Db db;
+
+    db.newStatement("SELECT rowid FROM patient WHERE fname=? AND birth=?");
+
+    db.bind(1, firstName);
+    db.bind(2, birth);
+
+    while(db.hasRows()){
+        return db.asRowId(0);
+    }
+
+    return 0;
+}
+
 std::vector<Allergy> DbPatient::getAllergies(long long patientRowid, Db& db)
 {
     db.newStatement(

@@ -247,6 +247,39 @@ void CalendarTable::menuRequested(int column, int row)
 
         QAction* action;
 
+        QMenu* subMenu;
+
+        bool isPatientSpecific = m_data.hasPatient(row, column);
+
+        //initializing patient specific menu
+        if (isPatientSpecific) {
+
+            subMenu = new QMenu("Отвори", context_menu);
+            subMenu->setIcon(QIcon(":/icons/icon_open.png"));
+
+            action = (new QAction("Нов амбулаторен лист", subMenu));
+            connect(action, &QAction::triggered, this, [=, this] { emit newDocRequested(eventIdx, TabType::AmbList); });
+            action->setIcon(QIcon(":/icons/icon_sheet.png"));
+            subMenu->addAction(action);
+
+            action = (new QAction("Ново пародонтално измерване", subMenu));
+            connect(action, &QAction::triggered, this, [=, this] { emit newDocRequested(eventIdx, TabType::PerioStatus); });
+            action->setIcon(QIcon(":/icons/icon_periosheet.png"));
+            subMenu->addAction(action);
+
+            action = (new QAction("Нова рецепта", subMenu));
+            connect(action, &QAction::triggered, this, [=, this] { emit newDocRequested(eventIdx, TabType::Prescription); });
+            action->setIcon(QIcon(":/icons/icon_prescr.png"));
+            subMenu->addAction(action);
+
+            action = (new QAction("Нова фактура", subMenu));
+            connect(action, &QAction::triggered, this, [=, this] { emit newDocRequested(eventIdx, TabType::Financial); });
+            action->setIcon(QIcon(":/icons/icon_invoice.png"));
+            subMenu->addAction(action);
+
+            context_menu->addMenu(subMenu);
+        }
+
         action = (new QAction("Редактирай", context_menu));
         action->setIcon(QIcon(":/icons/icon_edit.png"));
 
@@ -263,7 +296,7 @@ void CalendarTable::menuRequested(int column, int row)
         });
         context_menu->addAction(action);
 
-        QMenu* subMenu = new QMenu("Времетраене", context_menu);
+        subMenu = new QMenu("Времетраене", context_menu);
 
         context_menu->addMenu(subMenu);
 
@@ -277,7 +310,12 @@ void CalendarTable::menuRequested(int column, int row)
             subMenu->addAction(action);
 
         }
-        
+
+        action = (new QAction("Запази следващо посещение", context_menu));
+        connect(action, &QAction::triggered, this, [=, this] { emit newDocRequested(eventIdx, TabType::Calendar); });
+        action->setIcon(QIcon(":/icons/icon_calendar.png"));
+        context_menu->addAction(action);
+  
         action = (new QAction("Откажи", context_menu));
         action->setIcon(QIcon(":/icons/icon_remove.png"));
         connect(action, &QAction::triggered, context_menu, [=, this] {

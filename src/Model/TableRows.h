@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Presenter/TabInstance.h"
+#include "Model/TabType.h"
 
 struct RowInstance
 {

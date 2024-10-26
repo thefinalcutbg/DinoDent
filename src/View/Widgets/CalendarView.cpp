@@ -74,6 +74,7 @@ CalendarView::CalendarView(QWidget* parent)
     connect(ui.calendarTable, &CalendarTable::operationCanceled, this, [&] { presenter->clearClipboard(); });
     connect(ui.calendarTable, &CalendarTable::eventDurationChange, this, [&](int eventIdx, int duration) { presenter->durationChange(eventIdx, duration); });
     connect(ui.calendarButton, &QPushButton::clicked, this, [&]{ showCalendarWidget(); });
+    connect(ui.calendarTable, &CalendarTable::newDocRequested, this, [&](int index, TabType type) { presenter->newDocRequested(index, type); });
     connect(calendarWidget, &QCalendarWidget::clicked, this, [&](QDate date) { if (presenter)presenter->dateRequested(date); calendarWidget->close();  });
 }
 

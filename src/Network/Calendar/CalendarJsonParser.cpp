@@ -2,6 +2,23 @@
 #include <json/json.h>
 #include <QDateTime>
 
+void parseEventSpecificProperties(Json::Value& json, CalendarEvent& event)
+{
+
+	//parsing app specific
+	if (
+		json.isMember("extendedProperties") &&
+		json["extendedProperties"].isMember("shared") &&
+		json["extendedProperties"]["shared"].isMember("app") &&
+		json["extendedProperties"]["shared"]["app"].asString() == "DinoDent"
+		)
+	{
+		event.patientBirth = json["extendedProperties"]["shared"]["birth"].asString();
+		event.patientFname = json["extendedProperties"]["shared"]["fname"].asString();
+		json.removeMember("extendedProperties");
+	}
+}
+
 std::vector<Calendar> CalendarJsonParser::parseCalendarList(const std::string& response)
 {
 	std::vector<Calendar> result;
@@ -44,6 +61,8 @@ CalendarEvent CalendarJsonParser::parseEvent(const std::string& response)
 	json.removeMember("end");
 	json.removeMember("kind");
 
+	parseEventSpecificProperties(json, e);
+
 	e.json = Json::FastWriter().write(json);
 
 	return e;
@@ -76,12 +95,12 @@ std::vector<CalendarEvent> CalendarJsonParser::parseEventList(const std::string&
 		json.removeMember("start");
 		json.removeMember("end");
 
+		parseEventSpecificProperties(item, e);
+
 		e.json = Json::FastWriter().write(item);
 
 		result.push_back(e);
 	};
-		
-	
 
 	return result;
 }
@@ -111,6 +130,19 @@ std::string CalendarJsonParser::writeEventQuery(const CalendarEvent& event)
 	json["end"] = end;
 
 	json["summary"] = event.summary;
+
+	if (event.patientFname.size()) {
+		//writing the specific properties
+		Json::Value prop;
+		prop["app"] = "DinoDent";
+		prop["fname"] = event.patientFname;
+		prop["birth"] = event.patientBirth;
+
+		Json::Value appSpecific;
+		appSpecific["shared"] = prop;
+
+		json["extendedProperties"] = appSpecific;
+	}
 
 	return Json::FastWriter().write(json);
 }

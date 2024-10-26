@@ -1,11 +1,14 @@
 ﻿#include "CalendarPresenter.h"
 #include "View/Widgets/CalendarView.h"
 #include "Database/DbDoctor.h"
+#include "Database/DbPatient.h"
 #include "Model/User.h"
 #include "View/Widgets/CalendarView.h"
 #include "Network/Calendar/Google.h"
 #include "Network/Calendar/CalendarJsonParser.h"
 #include "View/Widgets/CalendarEventDialog.h"
+#include "Presenter/TabPresenter.h"
+#include "Model/TableRows.h"
 
 CalendarPresenter::CalendarPresenter(ITabView* tabView) :
     TabInstance(tabView, TabType::Calendar, nullptr),
@@ -30,10 +33,9 @@ CalendarPresenter::CalendarPresenter(ITabView* tabView) :
     Google::grantAccess(refreshToken);
 }
 
-void CalendarPresenter::newAppointment(const std::string& eventName)
+void CalendarPresenter::newAppointment(const CalendarEvent& event)
 {
-    clipboard_event = CalendarEvent();
-    clipboard_event.summary = eventName;
+    clipboard_event = event;
 
     //the data is already downloaded
     if (currentCalendar != -1) {
@@ -254,13 +256,42 @@ void CalendarPresenter::currentWeekRequested()
 
 void CalendarPresenter::moveEvent(int index)
 {
-    auto events = getEvents();
+    auto event = getEvent(index);
 
-    if (!events) return;
+    if (!event) return;
 
-    if (index < 0 || index >= events->size()) return;
+    setClipboard(*event);
+}
 
-    setClipboard(events->at(index));
+void CalendarPresenter::newDocRequested(int index, TabType type)
+{
+    auto event = getEvent(index);
+
+    if (!event) return;
+
+    if (type == TabType::Calendar) {
+
+        CalendarEvent newEvent;
+
+        newEvent.summary = event->summary;
+        newEvent.patientBirth = event->patientBirth;
+        newEvent.patientFname = event->patientFname;
+
+        setClipboard(newEvent);
+
+        return;
+    }
+
+    RowInstance tab(type);
+    tab.patientRowId = DbPatient::getPatientRowid(event->patientFname, event->patientBirth);
+
+    if (!tab.patientRowId) {
+        ModalDialogBuilder::showMessage("Не е открит такъв пациент в базата данни");
+        return;
+    }
+
+    TabPresenter::get().open(tab, true);
+
 }
 
 void CalendarPresenter::addEvent(const QTime& t, int daysFromMonday, int duration)
@@ -287,13 +318,11 @@ void CalendarPresenter::addEvent(const QTime& t, int daysFromMonday, int duratio
 
 void CalendarPresenter::editEvent(int index)
 {
-    auto e = getEvents();
+    auto e = getEvent(index);
 
     if (awaitingQuery || !e) return;
 
-    if (index < 0 || index >= e->size()) return;
-
-    CalendarEventDialog d(e->at(index));
+    CalendarEventDialog d(*e);
 
     if (d.exec() != QDialog::Accepted) return;
 
@@ -304,13 +333,11 @@ void CalendarPresenter::deleteEvent(int index)
 {
     if (awaitingQuery) return;
 
-    auto events = getEvents();
+    auto event = getEvent(index);
 
-    if (!events) return;
+    if (!event) return;
 
-    if (index < 0 || index >= events->size()) return;
-
-    deleteId = events->at(index).id;
+    deleteId = event->id;
 
     QVariantMap parameters;
     parameters["calendarId"] = m_calendars[currentCalendar].id.c_str();
@@ -335,15 +362,13 @@ void CalendarPresenter::durationChange(int eventIdx, int duration)
 {
     if (awaitingQuery) return;
 
-    auto e = getEvents();
+    auto event = getEvent(eventIdx);
 
-    if (!e) return;
+    if (!event) return;
 
-    auto event = e->at(eventIdx);
+    event->end = event->start.addSecs(duration * 60);
 
-    event.end = event.start.addSecs(duration * 60);
-
-    sendEventQuery(event);
+    sendEventQuery(*event);
 }
 
 void CalendarPresenter::cancelMove()
@@ -467,4 +492,15 @@ std::vector<CalendarEvent>* CalendarPresenter::getEvents()
     };
 
     return m_cache.count(key) ? &m_cache.at(key) : nullptr;
+}
+
+CalendarEvent* CalendarPresenter::getEvent(int eventIndex)
+{
+    auto events = getEvents();
+
+    if (!events) return nullptr;
+
+    if (eventIndex < 0 || eventIndex >= events->size()) return nullptr;
+
+    return &events->at(eventIndex);
 }

@@ -1,4 +1,4 @@
-#include "CalendarViewData.h"
+﻿#include "CalendarViewData.h"
 #include <QPainter>
 #include <QPainterPath>
 #include <QDebug>
@@ -28,7 +28,15 @@ void CalendarViewData::setEvents(const std::vector<CalendarEvent>& eventsList, c
 		
 		auto entity = std::make_shared<EventEntity>();
 
-		entity->text = event.summary.c_str();
+		entity->hasPatient = event.patientBirth.size();
+		
+		if (entity->hasPatient) {
+
+			entity->text += "⦿ ";
+		}
+
+		entity->text += event.summary.c_str();
+
 
 		if (entity->text.isEmpty()) {
 			entity->text = "???";
@@ -88,6 +96,17 @@ int CalendarViewData::eventListIndex(int column, int row) const
 	}
 
 	return -1;
+}
+
+bool CalendarViewData::hasPatient(int row, int column) const
+{
+	auto key = getEventKey(column, row);
+
+	if (coordinatesMap.count(key)) {
+		return coordinatesMap.at(key)->hasPatient;
+	}
+
+	return false;
 }
 
 std::vector<std::pair<int, int>> CalendarViewData::setHovered(int column, int row)

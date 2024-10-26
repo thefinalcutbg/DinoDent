@@ -8,4 +8,8 @@ CalendarEvent::CalendarEvent(const Patient& p)
 		summary += " ";
 		summary += p.phone;
 	}
+
+	patientBirth = p.birth.to8601();
+	patientFname = p.FirstName;
+
 }

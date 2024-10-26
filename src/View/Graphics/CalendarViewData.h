@@ -22,6 +22,8 @@ private:
 
 		int event_list_index = -1;
 
+		bool hasPatient = false;
+
 		QPixmap px = {};
 
 		void setCellSize(int cell_width, int cell_height);
@@ -75,6 +77,8 @@ public:
 
 	//returns -1 if no entity exists
 	int eventListIndex(int column, int row) const;
+
+	bool hasPatient(int row, int column) const;
 
 	//returns the columns and rows which has to be updated
 	std::vector<std::pair<int, int>> setHovered(int column, int row);

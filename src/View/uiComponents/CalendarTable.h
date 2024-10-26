@@ -5,6 +5,7 @@
 #include <QStyledItemDelegate>
 #include "View/Graphics/CalendarViewData.h"
 #include <utility>
+#include "Model/TabType.h"
 
 class CalendarTable;
 
@@ -81,6 +82,7 @@ public:
 
 signals:
 
+	void newDocRequested(int eventIndex, TabType type);
 	void eventEditRequested(int eventIndex);
 	void moveEventRequested(int eventIndex);
 	void deleteEventRequested(int eventIndex);

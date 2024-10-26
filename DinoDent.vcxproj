@@ -543,6 +543,7 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="src\Model\CalendarStructs.h" />
     <QtMoc Include="src\View\Widgets\CalendarEventDialog.h" />
+    <ClInclude Include="src\Model\TabType.h" />
     <ClInclude Include="src\Network\Calendar\CalendarJsonParser.h" />
     <QtMoc Include="src\View\uiComponents\CalendarTable.h" />
     <ClInclude Include="src\Network\Calendar\Credentials.h" />

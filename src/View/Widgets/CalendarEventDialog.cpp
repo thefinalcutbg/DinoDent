@@ -83,8 +83,11 @@ CalendarEventDialog::CalendarEventDialog(const CalendarEvent& event, QWidget *pa
 	ui.startDateTimeEdit->setDateTime(event.start);
 	ui.endDateTimeEdit->setDateTime(event.end);
 
-	ui.descriptionEdit->setFocus();
+	ui.summaryEdit->setFocus();
 
+	if (event.summary.size()) {
+		ui.descriptionEdit->setFocus();
+	}
 
 }
 

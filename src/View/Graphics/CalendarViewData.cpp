@@ -32,7 +32,7 @@ void CalendarViewData::setEvents(const std::vector<CalendarEvent>& eventsList, c
 		
 		if (entity->hasPatient) {
 
-			entity->text += "⦿ ";
+			entity->text += "• ";
 		}
 
 		entity->text += event.summary.c_str();

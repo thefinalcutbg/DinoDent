@@ -74,7 +74,7 @@ CalendarEvent CalendarJsonParser::parseEvent(const std::string& response)
 std::vector<CalendarEvent> CalendarJsonParser::parseEventList(const std::string& response)
 {
 	std::vector<CalendarEvent> result;
-
+	
 	Json::Reader r;
 	Json::Value json;
 	r.parse(response, json);
@@ -89,15 +89,15 @@ std::vector<CalendarEvent> CalendarJsonParser::parseEventList(const std::string&
 
 		e.id = item["id"].asString();
 		e.summary = item["summary"].asString();
-		e.description = json["description"].asString();
+		e.description = item["description"].asString();
 		e.start = QDateTime::fromString(item["start"]["dateTime"].asString().c_str(), Qt::DateFormat::ISODate).toLocalTime();
 		e.end = QDateTime::fromString(item["end"]["dateTime"].asString().c_str(), Qt::DateFormat::ISODate).toLocalTime();
-
-		json.removeMember("id");
-		json.removeMember("summary");
-		json.removeMember("start");
-		json.removeMember("end");
-		json.removeMember("description");
+		
+		item.removeMember("id");
+		item.removeMember("summary");
+		item.removeMember("start");
+		item.removeMember("end");
+		item.removeMember("description");
 
 		parseEventSpecificProperties(item, e);
 

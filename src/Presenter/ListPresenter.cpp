@@ -1235,5 +1235,7 @@ void ListPresenter::hisButtonPressed()
 
 ListPresenter::~ListPresenter()
 {
-    if (view) view->setPresenter(nullptr);
+    if (isCurrent()){
+        view->setPresenter(nullptr);
+    }
 }

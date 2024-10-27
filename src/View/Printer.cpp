@@ -360,7 +360,7 @@ void Print::invoice(const Invoice& inv)
     BusinessOperationModel model{ inv.businessOperations };
     report.dataManager()->addModel("operations", &model, false);
 
-    const QString paymentArr[] = { "В брой", "Банков път", "POS терминал", "Комбинирано" };
+    const QString paymentArr[] = { "В брой", "Банков път", "ПОС терминал", "Комбинирано" };
 
     report.dataManager()->setReportVariable("taxEventDate", QString::fromStdString(inv.taxEventDate.toBgStandard()));
     report.dataManager()->setReportVariable("madeBy", QString::fromStdString(User::doctor().getFullName(false)));

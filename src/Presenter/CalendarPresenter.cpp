@@ -81,6 +81,11 @@ void CalendarPresenter::restoreCredentials()
 {
     DbDoctor::setCalendarRefreshToken("", User::doctor().LPK);
     DbDoctor::setCurrentCalendarIdx(0, User::doctor().LPK);
+
+    m_cache.clear();
+    m_calendars.clear();
+    currentCalendar = -1;
+
     view->showCalendar(false);
 }
 

@@ -12,6 +12,7 @@ class PKCS11
 	std::string m_509;
 	evp_pkey_st* m_prv_key{ nullptr };
 	bool prv_key_owned{ true };
+	bool is_logged_in = false;
 public:
 
 	std::string driver;

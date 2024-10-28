@@ -44,6 +44,9 @@ bool isValidCertificate(PKCS11_cert_st* cert)
 		;
 }
 
+static std::string s_last_x509;
+static std::string s_last_pass;
+
 PKCS11::PKCS11()
 {
 	if (!ctx) {
@@ -104,9 +107,17 @@ PKCS11::PKCS11()
 
 	m_509 = "-----BEGIN CERTIFICATE-----\n" + Crypto::base64Encode(m_certificate->x509) +"\n-----END CERTIFICATE-----";
 
-	auto key = PKCS11_find_key(m_certificate);
+	if (m_509 != s_last_x509 || s_last_pass.empty()) {
+		s_last_x509.clear();
+		s_last_pass.clear();
+		return;
+	}
 
-	if(key) m_prv_key = PKCS11_get_private_key(key);
+	login(s_last_pass);
+
+//	auto key = PKCS11_find_key(m_certificate);
+
+//	if(key) m_prv_key = PKCS11_get_private_key(key);
 }
 
 bool PKCS11::hsmLoaded()
@@ -116,20 +127,24 @@ bool PKCS11::hsmLoaded()
 
 bool PKCS11::loginRequired()
 {
-	return m_prv_key == nullptr;
+	return !is_logged_in;
 }
 
 bool PKCS11::login(const std::string& pass)
 {
-	if (!loginRequired()) return true;
+	if(is_logged_in) return true;
 
-	bool success = PKCS11_login(current_slot, 0, pass.data()) == 0;
+	is_logged_in = PKCS11_login(current_slot, 0, pass.data()) == 0;
 
-	if (success) {
-		m_prv_key = PKCS11_get_private_key(PKCS11_find_key(m_certificate));
+	if (is_logged_in) {
+		s_last_pass = pass;
+		s_last_x509 = m_509;
+	}
+	else {
+		s_last_pass.clear();
 	}
 
-	return success;
+	return is_logged_in;
 }
 
 const std::string& PKCS11::pem_x509cert() const
@@ -143,7 +158,9 @@ evp_pkey_st* PKCS11::takePrivateKey(bool takeOwnership)
 		prv_key_owned = false;
 	}
 
-	return m_prv_key;
+	auto prvKey = PKCS11_get_private_key(PKCS11_find_key(m_certificate));
+
+	return prvKey;
 }
 
 x509_st* PKCS11::x509ptr()
@@ -153,6 +170,9 @@ x509_st* PKCS11::x509ptr()
 
 void PKCS11::cleanup()
 {
+	s_last_x509.clear();
+	s_last_pass.clear();
+
 	if (nslots) {
 		PKCS11_release_all_slots(ctx, pslots, nslots);
 		nslots = 0;

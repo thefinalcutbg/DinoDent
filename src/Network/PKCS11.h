@@ -19,7 +19,7 @@ public:
 
 	PKCS11();
 	bool hsmLoaded();
-
+	bool tryAutoLogin();
 	bool loginRequired();
 	bool login(const std::string& pass);
 	const std::string& pem_x509cert() const;

@@ -111,23 +111,23 @@ PKCS11::PKCS11()
 
 	if (key) {
 		m_prv_key = PKCS11_get_private_key(key);
-	}
-
-	/*
-	if (m_prv_key) return;
-
-	//try auto login
-	if (s_last_pass.size() &&
-		s_last_x509 == m_509) {
-
-		login(s_last_pass);
-	}
-	*/
+	}	
 }
 
 bool PKCS11::hsmLoaded()
 {
 	return m_certificate != nullptr;
+}
+
+bool PKCS11::tryAutoLogin()
+{
+	if (m_prv_key) return true;
+
+	if (s_last_pass.size() &&
+		s_last_x509 == m_509) {
+
+		return login(s_last_pass);
+	}
 }
 
 bool PKCS11::loginRequired()
@@ -140,14 +140,14 @@ bool PKCS11::login(const std::string& pass)
 	if (!loginRequired()) return true;
 
 	if (PKCS11_login(current_slot, 0, pass.data()) == 0) {
-//		s_last_pass = pass;
-//		s_last_x509 = m_509;
+		s_last_pass = pass;
+		s_last_x509 = m_509;
 		m_prv_key = PKCS11_get_private_key(PKCS11_find_key(m_certificate));
 		return m_prv_key;
 	}
 
-//	s_last_pass.clear();
-//	s_last_x509.clear();
+	s_last_pass.clear();
+	s_last_x509.clear();
 
 	return false;
 }
@@ -173,8 +173,8 @@ x509_st* PKCS11::x509ptr()
 
 void PKCS11::cleanup()
 {
-//	s_last_pass.clear();
-//	s_last_x509.clear();
+	s_last_pass.clear();
+	s_last_x509.clear();
 
 	if (nslots) {
 		PKCS11_release_all_slots(ctx, pslots, nslots);

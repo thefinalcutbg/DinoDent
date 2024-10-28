@@ -59,20 +59,24 @@ bool PisService::sendRequest(const std::string& query, SOAPAction header)
 	}
 
 	if (hsm.loginRequired()) {
-
+		
 		NetworkManager::clearAccessCache();
-		auto pin = ModalDialogBuilder::pinPromptDialog(hsm.pem_x509cert(), hsm.driver);
 
-		if (pin.empty()) {
-			return false;
+		if (!hsm.tryAutoLogin()) {
+
+			auto pin = ModalDialogBuilder::pinPromptDialog(hsm.pem_x509cert(), hsm.driver);
+
+			if (pin.empty()) {
+				return false;
+			}
+
+
+			if (!hsm.login(pin))
+			{
+				ModalDialogBuilder::showError("Грешна парола или блокирана карта");
+				return false;
+			};
 		}
-
-
-		if (!hsm.login(pin))
-		{
-			ModalDialogBuilder::showError("Грешна парола или блокирана карта");
-			return false;
-		};
 	}
 	//Building the SOAP
 	std::string body = "<e:Body id=\"signedContent\">" + query + "</e:Body>" ;

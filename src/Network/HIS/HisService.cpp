@@ -58,18 +58,22 @@ const std::string HisService::signMessage(const std::string& message)
 	if (hsm.loginRequired()) {
 
 		NetworkManager::clearAccessCache();
-		auto pin = ModalDialogBuilder::pinPromptDialog(hsm.pem_x509cert(), hsm.driver);
 
-		if (pin.empty()) {
-			return {};
+		if (!hsm.tryAutoLogin()) {
+
+			auto pin = ModalDialogBuilder::pinPromptDialog(hsm.pem_x509cert(), hsm.driver);
+
+			if (pin.empty()) {
+				return {};
+			}
+
+
+			if (!hsm.login(pin))
+			{
+				ModalDialogBuilder::showError("Грешна парола или блокирана карта");
+				return {};
+			};
 		}
-
-
-		if (!hsm.login(pin))
-		{
-			ModalDialogBuilder::showError("Грешна парола или блокирана карта");
-			return {};
-		};
 	}
 
 	return Signer::signEnveloped(message, hsm.takePrivateKey(), hsm.x509ptr(), true);

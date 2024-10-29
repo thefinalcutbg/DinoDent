@@ -128,6 +128,8 @@ bool PKCS11::tryAutoLogin()
 
 		return login(s_last_pass);
 	}
+
+	return false;
 }
 
 bool PKCS11::loginRequired()

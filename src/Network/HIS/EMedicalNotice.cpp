@@ -29,7 +29,7 @@ bool EMedicalNotice::Issue::sendRequest(const MedicalNotice& notice, const Patie
 	contents += "</nhis:medicalNotice>";
 
 	contents += subject(patient);
-	contents += performer();
+	contents += performer(false);
 
 	return HisService::sendRequestToHis(contents);
 }

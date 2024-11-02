@@ -20,12 +20,13 @@ class HisService : protected AbstractReplyHandler
 
 private:
 
-	const std::string buildMessage(const std::string& query);
-	const std::string signMessage(const std::string& message);
+	std::string buildMessage(const std::string& query);
+	std::string signMessage(const std::string& message);
 
 	const std::string messageType;
 	const std::string servicePath;
 
+	std::string getQualificationElement(bool includeNhif);
 
 protected:
 
@@ -36,7 +37,7 @@ protected:
 
 	std::string subject(const Patient& p, bool isPregnant = false, bool isBreastfeeding = false);
 	std::string requester(bool includeNhifCode = false);
-	std::string performer();
+	std::string performer(bool includeNhifQualification);
 	std::string getToothStatus(const Tooth& tooth);
 	std::string getMedicalStatus(const Patient& p);
 	std::string getProcedure(const Procedure& p, const ToothContainer& teeth, ToothContainer& teethChanged, int sequence);

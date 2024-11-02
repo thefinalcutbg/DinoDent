@@ -45,7 +45,7 @@ bool HisService::sendRequestToHisNoAuth(const std::string& query)
 	return true;
 }
 
-const std::string HisService::signMessage(const std::string& message)
+std::string HisService::signMessage(const std::string& message)
 {
 	PKCS11 hsm;
 
@@ -79,7 +79,7 @@ const std::string HisService::signMessage(const std::string& message)
 	return Signer::signEnveloped(message, hsm.takePrivateKey(), hsm.x509ptr(), true);
 }
 
-const std::string HisService::buildMessage(const std::string& query)
+std::string HisService::buildMessage(const std::string& query)
 {
 
 	constexpr const char* softwareName = "DinoDent";
@@ -164,17 +164,48 @@ std::string HisService::subject(const Patient& p, bool isPregnant, bool isBreast
 }
 
 
+std::string HisService::getQualificationElement(bool includeNhif)
+{
+	int nhifSpec = 0;
+
+	if (includeNhif && User::hasNhifContract()) {
+		nhifSpec = User::doctor().specialtyAsInt();
+	}
+
+	std::string result = "<nhis:qualification value=\"";
+
+	switch (nhifSpec) {
+		case 0:
+			result += std::to_string(User::doctor().hisSpecialty.getIdx());
+			break;
+		case 61:
+			result += "2079";
+			break;
+		case 62:
+			result += "2083";
+			break;
+		case 64:
+			result += "2081";
+			break;
+		case 68:
+			result += "3088";
+			break;
+	}
+
+	result += "\"";
+
+	if (nhifSpec) {
+		result += " nhifCode=\"" + std::to_string(nhifSpec) + "\"";
+	}
+
+	result += +"/>";
+
+	return result;
+
+}
+
 std::string HisService::requester(bool nhif)
 {
-
-	std::string nhifCode = User::practice().nhif_contract && nhif ?
-		" nhifCode=\"" + std::to_string(User::doctor().specialtyAsInt()) + "\""
-		:
-		"";
-
-	std::string qualification =
-		"<nhis:qualification value=\"" + std::to_string(User::doctor().hisSpecialty.getIdx()) + "\"" + nhifCode + "/>";
-
 
 	std::string rhifAreaNumber;
 	
@@ -184,11 +215,10 @@ std::string HisService::requester(bool nhif)
 			User::practice().practice_address.getHealthRegion());
 	}
 
-
 	std::string requester =
 		"<nhis:requester>"
 			"<nhis:pmi value=\"" + User::doctor().LPK + "\"/>"
-			+ qualification +
+			 + getQualificationElement(nhif) +
 			"<nhis:role value=\"1\"/>"
 			"<nhis:practiceNumber value=\"" + User::practice().rziCode + "\"/>"
 			+ rhifAreaNumber + 
@@ -200,21 +230,13 @@ std::string HisService::requester(bool nhif)
 
 }
 
-std::string HisService::performer()
+std::string HisService::performer(bool includeNhifQualification)
 {
-
-	std::string nhifCode = User::hasNhifContract() ?
-		" nhifCode=\"" + std::to_string(User::doctor().specialtyAsInt()) + "\""
-		:
-		"";
-
-	std::string qualification =
-		"<nhis:qualification value=\"" + std::to_string(User::doctor().hisSpecialty.getIdx()) + "\"" + nhifCode + "/>";
 
 	std::string performer;
 	performer += "<nhis:performer>";
 	performer += bind("pmi", User::doctor().LPK);
-	performer += qualification;
+	performer += getQualificationElement(includeNhifQualification);
 	performer += bind("role", 1);
 	performer += bind("practiceNumber", User::practice().rziCode);
 	performer += bind("nhifNumber", User::practice().practice_address.getRhif());

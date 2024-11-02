@@ -42,7 +42,7 @@ bool EDental::Open::sendRequest(
 			+ getProcedures(ambSheet.procedures, ambSheet.teeth, ambSheet.date)
 		+"</nhis:dentalTreatment>"
 		+ HisService::subject(patient)
-		+ HisService::performer()
+		+ HisService::performer(isNhif)
 	;		
 
 	return HisService::sendRequestToHis(contents);
@@ -165,7 +165,7 @@ bool EDental::Augment::sendRequest(const AmbList& ambSheet, const Patient& patie
 		+ getProcedures(ambSheet.procedures, ambSheet.teeth, ambSheet.date, removeAutoStatus)
 		+ "</nhis:dentalTreatment>"
 		+ HisService::subject(patient)
-		+ HisService::performer()
+		+ HisService::performer(isNhif)
 		;
 
 	return HisService::sendRequestToHis(contents);

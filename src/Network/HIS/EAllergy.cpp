@@ -23,7 +23,7 @@ bool EAllergy::Report::sendRequest(const Patient& patient, const Allergy& a, dec
 	contents += closeTag("allergy");
 
 	contents += HisService::subject(patient);
-	contents += HisService::performer();
+	contents += HisService::performer(false);
 
 	return sendRequestToHis(contents);
 }

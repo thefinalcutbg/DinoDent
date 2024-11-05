@@ -399,13 +399,11 @@ std::vector<Procedure> ProcedureCreator::getProcedures()
 	procedure.diagnosis = view->diagnosisCombo()->getIndex();
 	procedure.diagnosis.description = view->diagnosisEdit()->getText();
 	procedure.notes = view->getNotes();
-	procedure.tooth_idx.supernumeral = view->onHyperdontic();
-	procedure.result = std::monostate{};
 
 	if (procedure.code.isGeneral()) {
 
 		if (procedure.code.isAnesthesia()) {
-			procedure.result = AnesthesiaMinutes{ view->minutes() };
+			procedure.param = AnesthesiaMinutes{ view->minutes() };
 		}
 
 		result.push_back(procedure);
@@ -414,20 +412,22 @@ std::vector<Procedure> ProcedureCreator::getProcedures()
 
 		if (procedure.code.isRestoration()) {
 
-			procedure.result = view->surfaceSelector()->getData();
+			procedure.param = view->surfaceSelector()->getData();
 		}
 
 		for (auto t : m_selectedTeeth)
 		{
 			result.push_back(procedure);
-			result.back().tooth_idx.index = t->index();
+			auto index = t->toothIndex();
+			index.supernumeral = view->onHyperdontic();
+			result.back().affectedTeeth = index;
 		}
 
 	}
 	else if (procedure.code.isRangeSpecific()) {
 
 		auto [begin, end] = view->rangeWidget()->getRange();
-		procedure.result = ConstructionRange{ begin, end };
+		procedure.affectedTeeth = ConstructionRange{ begin, end };
 		result.push_back(procedure);
 
 	}

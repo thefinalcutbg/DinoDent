@@ -154,7 +154,9 @@ bool ListPresenter::isValid()
 
     for (auto& p : m_ambList.procedures)
     {
-        if (p.tooth_idx.supernumeral && !m_ambList.teeth[p.tooth_idx.index][Dental::HasSupernumeral])
+        auto idx = p.getToothIndex();
+
+        if (idx.supernumeral && !m_ambList.teeth[idx.index][Dental::HasSupernumeral])
         {
             ModalDialogBuilder::showError(
             "За да запишете манипулация на свръхброен зъб, отбележете го като такъв в статуса!"
@@ -588,7 +590,7 @@ void ListPresenter::openDetails(int toothIdx)
     if (patient->HISHistory) {
         for (auto& p : patient->HISHistory.value())
         {
-            if (p.tooth_idx.index == toothIdx) history.push_back(p);
+            if (p.getToothIndex().index == toothIdx) history.push_back(p);
         }
     }
 
@@ -596,7 +598,7 @@ void ListPresenter::openDetails(int toothIdx)
     {
         for (auto& p : patient->PISHistory.value())
         {
-            if (p.tooth_idx.index == toothIdx) history.push_back(p);
+            if (p.getToothIndex().index == toothIdx) history.push_back(p);
         }
     }
 

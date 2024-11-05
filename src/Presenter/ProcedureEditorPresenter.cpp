@@ -12,18 +12,18 @@ ProcedureEditorPresenter::ProcedureEditorPresenter(const Procedure& p, const Dat
 	
 	//parameters not set to view
 	m_code = p.code;
-	m_tooth_idx = p.tooth_idx;
+	m_tooth_index = p.getToothIndex();
 	m_hisIndex = p.his_index;
 
 	//parameters which are set to view
 	result->code = p.code;
 	result->date = p.date;
 	result->diagnosis = p.diagnosis;
-	result->result = p.result;
+	result->param = p.param;
 	result->financingSource = p.financingSource;
 	result->notes = p.notes;
 	result->diagnosis.description = p.diagnosis.description;
-	result->tooth_idx = p.tooth_idx;
+	result->affectedTeeth = p.affectedTeeth;
 
 	_dateValidator.setProcedure(result->code.oldCode(), result->financingSource == FinancingSource::NHIF);
 }
@@ -41,7 +41,7 @@ void ProcedureEditorPresenter::setView(IProcedureEditDialog* view)
 
 	view->procedureInput()->dateEdit()->set_Date(result->date);
 	view->procedureInput()->setFinancingSource(result->financingSource);
-	view->procedureInput()->setHyperdonticState(result->tooth_idx.supernumeral);
+	view->procedureInput()->setHyperdonticState(result->getToothIndex().supernumeral);
 	view->procedureInput()->dateEdit()->setInputValidator(&_dateValidator);
 	view->procedureInput()->setNotes(result->notes);
 	view->procedureInput()->diagnosisEdit()->set_Text(result->diagnosis.description);
@@ -130,9 +130,6 @@ void ProcedureEditorPresenter::okPressed()
 	}
 
 	//procedure creator:
-
-	m_tooth_idx.supernumeral = view->procedureInput()->onHyperdontic();
-
 	result.emplace(Procedure{});
 	result->code = m_code;
 	result->notes = view->procedureInput()->getNotes();
@@ -140,26 +137,32 @@ void ProcedureEditorPresenter::okPressed()
 	result->diagnosis = view->procedureInput()->diagnosisCombo()->getIndex();
 	result->diagnosis.description = view->procedureInput()->diagnosisEdit()->getText();
 	result->financingSource = view->procedureInput()->getFinancingSource();
-	result->tooth_idx = m_tooth_idx;
 	result->his_index = m_hisIndex;
 
 	if (result->code.isGeneral()) {
 
 		if (result->code.isAnesthesia()) {
-			result->result = AnesthesiaMinutes{ view->procedureInput()->minutes() };
+			result->param = AnesthesiaMinutes{ view->procedureInput()->minutes() };
 		}
+
+		result->affectedTeeth = std::monostate{};
 	}
 	else if (result->code.isToothSpecific()) {
 
 		if (result->code.isRestoration()) {
 
-			result->result = view->procedureInput()->surfaceSelector()->getData();
+			result->param = view->procedureInput()->surfaceSelector()->getData();
 		}
+
+		m_tooth_index.supernumeral = view->procedureInput()->onHyperdontic();
+
+		result->affectedTeeth = m_tooth_index;
 	}
 	else if (result->code.isRangeSpecific()) {
 
 		auto [begin, end] = view->procedureInput()->rangeWidget()->getRange();
-		result->result = ConstructionRange{ begin, end };
+
+		result->affectedTeeth = ConstructionRange{ begin, end };
 	}
 
 	view->closeDialog();

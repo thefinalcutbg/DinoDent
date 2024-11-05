@@ -93,7 +93,7 @@ std::vector<Procedure> HISHistoryAlgorithms::getProcedures(TiXmlDocument& doc)
 
 			auto& idx = teethIndexes[j];
 
-			procedures.back().tooth_idx = idx;
+			procedures.back().affectedTeeth = idx;
 
 		}
 

@@ -4,14 +4,27 @@
 
 using namespace Dental;
 
+const ToothIndex& Procedure::getToothIndex() const
+{
+	static ToothIndex dummy;
+
+	if (affectedTeeth.index() != 1) {
+		return dummy;
+	}
+
+	return std::get<ToothIndex>(affectedTeeth);
+}
+
 void Procedure::applyProcedure(ToothContainer& teeth) const
 {
+		auto& tooth_idx = getToothIndex();
+
 		switch (code.type())
 		{
 			case::ProcedureType::Restoration:
 			{
 				
-				auto& result = std::get<RestorationData>(this->result);
+				auto& result = std::get<RestorationData>(param);
 
 				for (int i = 0; i < result.surfaces.size(); i++)
 				{
@@ -70,7 +83,7 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 
 			case::ProcedureType::Bridge:
 			{
-				auto& result = std::get<ConstructionRange>(this->result);
+				auto& result = std::get<ConstructionRange>(affectedTeeth);
 
 				std::vector<int> indexes;
 				indexes.reserve(result.tooth_end - result.tooth_begin + 1);
@@ -86,7 +99,7 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 
 			case ProcedureType::Splint:
 			{
-				auto& result = std::get<ConstructionRange>(this->result);
+				auto& result = std::get<ConstructionRange>(affectedTeeth);
 
 				std::vector<int> indexes;
 				indexes.reserve(result.tooth_end - result.tooth_begin + 1);
@@ -102,7 +115,7 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 			break;
 			case ProcedureType::Denture:
 			{
-				auto& result = std::get<ConstructionRange>(this->result);
+				auto& result = std::get<ConstructionRange>(affectedTeeth);
 
 				std::vector<int> indexes;
 				indexes.reserve(result.tooth_end - result.tooth_begin + 1);
@@ -154,6 +167,7 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 					if (t[HasSupernumeral]) t.getSupernumeral().setStatus(Dental::Calculus, false);
 				}
 			}
+			break;
 
 /*
 			case ProcedureType::removebridgeOrSplint:
@@ -164,8 +178,6 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 			}
 			break;
 			*/
-		default:
-			break;
 		}
 	
 }
@@ -179,7 +191,9 @@ void Procedure::applyPISProcedure(ToothContainer& teeth) const
 	
 	*/
 
-	auto idx = tooth_idx.index;
+	auto& tooth_idx = getToothIndex();
+
+	auto idx = getToothIndex().index;
 
 	if (idx == -1){
 		return;
@@ -226,13 +240,17 @@ void Procedure::applyPISProcedure(ToothContainer& teeth) const
 
 std::string Procedure::getToothString() const
 {
-	if (tooth_idx.isValid()) 
-		return tooth_idx.getNhifNumenclature();
-
-	if (std::holds_alternative<ConstructionRange>(result)) {
-		auto& [from, to] = std::get<ConstructionRange>(result);
-		return ToothUtils::getNomenclature(from, false) + "-" + ToothUtils::getNomenclature(to, false);
+	switch (getAffectedTeethType())
+	{
+		case AffectedTeethType::None:
+			return std::string();
+		case AffectedTeethType::Tooth:
+			return getToothIndex().getNhifNumenclature();
+		case AffectedTeethType::Range:
+		{
+			auto& [from, to] = std::get<ConstructionRange>(affectedTeeth);
+			return ToothUtils::getNomenclature(from, false) + "-" + ToothUtils::getNomenclature(to, false);
+		}
 	}
 
-	return std::string{};
 }

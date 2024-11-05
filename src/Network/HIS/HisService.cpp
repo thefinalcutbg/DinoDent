@@ -313,7 +313,7 @@ std::string HisService::getProcedure(const Procedure& p, const ToothContainer& t
 
 	if (p.code.type() == ProcedureType::Anesthesia)
 	{
-		result += bind("duration", std::get<AnesthesiaMinutes>(p.result).minutes);
+		result += bind("duration", std::get<AnesthesiaMinutes>(p.param).minutes);
 	}
 
 	result += bind("datePerformed", p.date.to8601());
@@ -325,13 +325,13 @@ std::string HisService::getProcedure(const Procedure& p, const ToothContainer& t
 
 		p.applyProcedure(teethChanged);
 
-		result += getToothStatus(teethChanged.at(p.tooth_idx));
+		result += getToothStatus(teethChanged.at(p.getToothIndex()));
 	
 	}
 
 	if (p.code.isRangeSpecific())
 	{
-		auto [begin, end] = std::get<ConstructionRange>(p.result);
+		auto [begin, end] = std::get<ConstructionRange>(p.affectedTeeth);
 
 		p.applyProcedure(teethChanged);
 

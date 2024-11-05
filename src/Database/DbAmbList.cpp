@@ -354,7 +354,7 @@ std::vector<AmbList> DbAmbList::getMonthlyNhifSheets(int month, int year)
         p.code = db.asString(0);
 
         if (p.code.isToothSpecific()){
-            p.tooth_idx = {
+            p.affectedTeeth = ToothIndex{
                 .index = db.asInt(1),
                 .temp = db.asBool(3),
                 .supernumeral = db.asBool(6)
@@ -365,7 +365,7 @@ std::vector<AmbList> DbAmbList::getMonthlyNhifSheets(int month, int year)
         p.diagnosis.description = db.asString(5);
 
         if (p.code.type() == ProcedureType::Anesthesia) {
-            p.result = AnesthesiaMinutes{db.asInt(8)};
+            p.param = AnesthesiaMinutes{db.asInt(8)};
         }
 
         sheet.procedures.addProcedure(p);

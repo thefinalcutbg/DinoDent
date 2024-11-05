@@ -54,7 +54,7 @@ std::vector<Procedure> DbProcedure::getProcedures(long long amblist_rowid, Db& d
 
 		if (p.code.isToothSpecific()) {
 
-			p.tooth_idx = ToothIndex{
+			p.affectedTeeth = ToothIndex{
 				.index = db.asInt(3),
 				.temp = db.asBool(4),
 				.supernumeral = db.asBool(5)
@@ -69,7 +69,7 @@ std::vector<Procedure> DbProcedure::getProcedures(long long amblist_rowid, Db& d
 
 		if (p.code.isRestoration())
 		{
-			p.result = RestorationData{
+			p.param = RestorationData{
 				.surfaces = {
 					db.asBool(11),
 					db.asBool(12),
@@ -85,7 +85,7 @@ std::vector<Procedure> DbProcedure::getProcedures(long long amblist_rowid, Db& d
 
 		if (p.code.isRangeSpecific())
 		{
-			p.result = ConstructionRange{
+			p.affectedTeeth = ConstructionRange{
 				db.asInt(18),
 				db.asInt(19)
 			};
@@ -93,7 +93,7 @@ std::vector<Procedure> DbProcedure::getProcedures(long long amblist_rowid, Db& d
 
 		if (p.code.isAnesthesia())
 		{
-			p.result = AnesthesiaMinutes{ db.asInt(20) };
+			p.param = AnesthesiaMinutes{ db.asInt(20) };
 		}
 		
 	}
@@ -149,9 +149,11 @@ void DbProcedure::saveProcedures(long long amblist_rowid, const std::vector<Proc
 
 		if (p.code.isToothSpecific())
 		{
-			db.bind(4, p.tooth_idx.index);
-			db.bind(5, p.tooth_idx.temp);
-			db.bind(6, p.tooth_idx.supernumeral);
+			auto tooth = p.getToothIndex();
+
+			db.bind(4, tooth.index);
+			db.bind(5, tooth.temp);
+			db.bind(6, tooth.supernumeral);
 		}
 		else
 		{
@@ -167,7 +169,7 @@ void DbProcedure::saveProcedures(long long amblist_rowid, const std::vector<Proc
 
 		if (p.code.isRestoration())
 		{
-			auto& [surfaces, post] = std::get<RestorationData>(p.result);
+			auto& [surfaces, post] = std::get<RestorationData>(p.param);
 
 			for (int i = 0; i < 6; i++) {
 				db.bind(13 + i, surfaces[i]);
@@ -178,7 +180,7 @@ void DbProcedure::saveProcedures(long long amblist_rowid, const std::vector<Proc
 
 		if (p.code.isRangeSpecific())
 		{
-			auto& [from, to] = std::get<ConstructionRange>(p.result);
+			auto& [from, to] = std::get<ConstructionRange>(p.affectedTeeth);
 
 			db.bind(20, from);
 			db.bind(21, to);
@@ -186,7 +188,7 @@ void DbProcedure::saveProcedures(long long amblist_rowid, const std::vector<Proc
 
 		if (p.code.isAnesthesia())
 		{
-			db.bind(22, std::get<AnesthesiaMinutes>(p.result).minutes);
+			db.bind(22, std::get<AnesthesiaMinutes>(p.param).minutes);
 		}
 
 		db.execute();
@@ -262,7 +264,7 @@ std::vector<Procedure> DbProcedure::getToothProcedures(long long patientRowId, i
 		p.financingSource = static_cast<FinancingSource>(db.asInt(2));
 		p.LPK = db.asString(3);
 
-		p.tooth_idx = {
+		p.affectedTeeth = ToothIndex{
 			.index = tooth,
 			.temp = db.asBool(4),
 			.supernumeral = db.asBool(5)
@@ -326,24 +328,25 @@ std::vector<Procedure> DbProcedure::getPatientProcedures(long long patientRowid)
 		p.financingSource = static_cast<FinancingSource>(db.asInt(1));
 		p.code = db.asString(2);
 
-		if (p.code.isToothSpecific()) {
-
-			p.tooth_idx = ToothIndex{
-				.index = db.asInt(3),
-				.temp = db.asBool(4),
-				.supernumeral = db.asBool(5)
-			};
-		}
-
 		p.LPK = db.asString(6);
 		p.diagnosis = db.asInt(7);
 		p.diagnosis.description = db.asString(8);
 		p.notes = db.asString(9);
 		p.his_index = db.asInt(10);
 
+
+		if (p.code.isToothSpecific()) {
+
+			p.affectedTeeth = ToothIndex{
+				.index = db.asInt(3),
+				.temp = db.asBool(4),
+				.supernumeral = db.asBool(5)
+			};
+		}
+
 		if (p.code.isRestoration())
 		{
-			p.result = RestorationData{
+			p.param = RestorationData{
 				.surfaces = {
 					db.asBool(11),
 					db.asBool(12),
@@ -359,7 +362,7 @@ std::vector<Procedure> DbProcedure::getPatientProcedures(long long patientRowid)
 
 		if (p.code.isRangeSpecific())
 		{
-			p.result = ConstructionRange{
+			p.affectedTeeth = ConstructionRange{
 				db.asInt(18),
 				db.asInt(19)
 			};
@@ -367,7 +370,7 @@ std::vector<Procedure> DbProcedure::getPatientProcedures(long long patientRowid)
 
 		if (p.code.isAnesthesia())
 		{
-			p.result = AnesthesiaMinutes{ db.asInt(20) };
+			p.param = AnesthesiaMinutes{ db.asInt(20) };
 		}
 
 	}

@@ -83,9 +83,14 @@ bool ProcedureContainer::hasDentalExam() const
 void ProcedureContainer::refreshTeethTemporary(const ToothContainer& teeth)
 {
     for (auto& procedure : m_proc) {
-        if (!procedure.tooth_idx.isValid()) continue;
 
-        procedure.tooth_idx.temp = teeth.at(procedure.tooth_idx.index, procedure.tooth_idx.supernumeral)[Dental::Temporary];
+        auto index = procedure.getToothIndex();
+
+        if (!index.isValid()) continue;
+
+        index.temp = teeth.at(index.index, index.supernumeral)[Dental::Temporary];
+
+        procedure.affectedTeeth = index;
     }
 }
 

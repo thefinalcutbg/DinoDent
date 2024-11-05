@@ -188,7 +188,7 @@ void UnusedPackagePresenter::step3_pisCheck(const std::optional<std::vector<Proc
 		procedures.push_back(ProcedureSummary{
 					.date = p.date,
 					.code = p.code.oldCode(),
-					.tooth_idx = p.tooth_idx
+					.tooth_idx = p.getToothIndex()
 			});
 
 		maxDate = std::max(maxDate, p.date);

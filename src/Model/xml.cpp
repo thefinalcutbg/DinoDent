@@ -210,7 +210,7 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
             service->SetAttribute("date", procedure.date.to8601());
             service->SetAttribute("diagnosis", procedure.diagnosis.getFullDiagnosis());
 
-            auto toothCode = procedure.tooth_idx.getNhifNumenclature();
+            auto toothCode = procedure.getToothIndex().getNhifNumenclature();
             if (toothCode.empty()) toothCode = "99";
 
             service->SetAttribute("toothCode", toothCode);
@@ -218,7 +218,7 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
             service->SetAttribute("ACHIcode", procedure.code.ACHICode());
 
             if (procedure.code.type() == ProcedureType::Anesthesia) {
-                service->SetAttribute("serviceDuration", std::get<AnesthesiaMinutes>(procedure.result).minutes);
+                service->SetAttribute("serviceDuration", std::get<AnesthesiaMinutes>(procedure.param).minutes);
             }
 
             services->LinkEndChild(service);

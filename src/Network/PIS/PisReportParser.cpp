@@ -165,22 +165,22 @@ PisReportsForImport PisReportParser::parse(const std::string& xmlReport)
 
 			if (p.code.isToothSpecific())
 			{
-				p.tooth_idx = ToothUtils::getToothFromNhifNum(serviceXml->Attribute("toothCode"));
+				p.affectedTeeth = ToothUtils::getToothFromNhifNum(serviceXml->Attribute("toothCode"));
 
-				if (!p.tooth_idx.isValid()) continue;
+				if (!p.getToothIndex().isValid()) continue;
 
 				if (p.code.type() == ProcedureType::Restoration) {
 
 					RestorationData restoration;
 
-					if (ToothUtils::getToothType(p.tooth_idx.index) == Dental::Frontal) {
+					if (ToothUtils::getToothType(p.getToothIndex().index) == Dental::Frontal) {
 						restoration.surfaces[3] = true;
 					}
 					else {
 						restoration.surfaces[0] = true;
 					};
 
-					p.result = restoration;
+					p.param = restoration;
 				}
 			}
 
@@ -189,14 +189,14 @@ PisReportsForImport PisReportParser::parse(const std::string& xmlReport)
 				ConstructionRange range;
 				
 				if (p.code.oldCode() == 832) {
-					p.result = ConstructionRange{
+					p.affectedTeeth = ConstructionRange{
 						.tooth_begin = 1,
 						.tooth_end = 14
 					};
 				}
 				else
 				{
-					p.result = ConstructionRange{
+					p.affectedTeeth = ConstructionRange{
 						.tooth_begin = 17,
 						.tooth_end = 30
 					};

@@ -35,14 +35,15 @@ bool AmbListValidator::ambListIsValid()
 
     for (auto& p : m_procedures)
     {
+        auto& tooth = p.getToothIndex();
 
-        if (p.tooth_idx.isValid()) //out of range guard
+        if (tooth.isValid()) //out of range guard
         {
             //checking temporary/permanent tooth requirement of the procedure
-            if (!validatePermaTemp(teeth[p.tooth_idx.index], p)) return false;
+            if (!validatePermaTemp(teeth[tooth.index], p)) return false;
 
             //checking if the tooth has appliable status
-            if (!validateTypeToStatus(teeth[p.tooth_idx.index], p)) return false;
+            if (!validateTypeToStatus(teeth[tooth.index], p)) return false;
         }
 
         if (
@@ -59,7 +60,9 @@ bool AmbListValidator::ambListIsValid()
 
     for (auto& p : m_procedures)
     {
-        if (p.tooth_idx.supernumeral && !ambList.teeth[p.tooth_idx.index][Dental::HasSupernumeral])
+        auto& tooth = p.getToothIndex();
+
+        if (tooth.supernumeral && !ambList.teeth[tooth.index][Dental::HasSupernumeral])
         {
             _error = "Съществува процедура на срвъхброен зъб, който не е добавен в статуса";
             return false;
@@ -133,7 +136,7 @@ std::vector<ProcedureSummary> getSummaryFromPisHistory(const std::vector<Procedu
         result.push_back(ProcedureSummary{
                 .date = p.date,
                 .code = p.code.oldCode(),
-                .tooth_idx = p.tooth_idx
+                .tooth_idx = p.getToothIndex()
             });
 
     }
@@ -208,7 +211,7 @@ bool AmbListValidator::isValidAccordingToDb()
 
         for (auto& p : summary) //validating max allowed per time period and per tooth
         {
-            if (p.code != procedure.code.oldCode() || p.tooth_idx != procedure.tooth_idx) continue;
+            if (p.code != procedure.code.oldCode() || p.tooth_idx != procedure.getToothIndex()) continue;
 
             auto yearLimit = NhifProcedures::getYearLimit(procedure.code.oldCode());
 
@@ -222,11 +225,13 @@ bool AmbListValidator::isValidAccordingToDb()
             }
         }
 
-        if (procedure.tooth_idx.index != -1 && //extraction check
-            extractedTeeth.count(procedure.tooth_idx)
+        auto& tooth = procedure.getToothIndex();
+
+        if (tooth.index != -1 && //extraction check
+            extractedTeeth.count(tooth)
             )
         {
-            _error = "За зъб " + procedure.tooth_idx.getNhifNumenclature() +
+            _error = "За зъб " + tooth.getNhifNumenclature() +
                 + " вече съществуват данни за екстракция!";
             return false;
         }
@@ -393,12 +398,14 @@ bool AmbListValidator::noDuplicates()
     
     for (auto& p : m_procedures)
     {
-        auto pair = std::make_pair(std::hash<ToothIndex>()(p.tooth_idx), p.code.oldCode());
+        auto& tooth = p.getToothIndex();
+
+        auto pair = std::make_pair(std::hash<ToothIndex>()(tooth), p.code.oldCode());
 
         if (toothSet.count(pair))
         {
-            p.tooth_idx.index != -1 ?
-            _error = "За зъб " + p.tooth_idx.getNhifNumenclature() +
+            tooth.index != -1 ?
+            _error = "За зъб " + tooth.getNhifNumenclature() +
                 " манипулация с код " + std::to_string(p.code.oldCode()) + " е добавена повече от веднъж"
             :
             _error = "Направили сте 2 еднакви манипулации с код " + std::to_string(p.code.oldCode());
@@ -414,7 +421,7 @@ bool AmbListValidator::noDuplicates()
 
 bool AmbListValidator::validateTypeToStatus(const Tooth& t, const Procedure& p)
 {
-    if (p.tooth_idx.supernumeral) return true;
+    if (p.getToothIndex().supernumeral) return true;
 
     std::string toothNum = ToothUtils::getNomenclature(t.index(), t[Dental::Temporary]);
     std::string code = std::to_string(p.code.oldCode());
@@ -507,19 +514,21 @@ bool AmbListValidator::validateTypeToStatus(const Tooth& t, const Procedure& p)
 
 bool AmbListValidator::validatePermaTemp(const Tooth& tooth, const Procedure& p)
 {
-    if (p.tooth_idx.supernumeral) return true;
+    auto& toothIdx = p.getToothIndex();
+
+    if (toothIdx.supernumeral) return true;
 
     bool temp = tooth[Dental::Temporary];
 
     if (NhifProcedures::isTempOnly(p.code.oldCode()) && !temp)
     {
-        _error = "Манипулация "+ std::to_string(p.code.oldCode()) + " на зъб " + ToothUtils::getNomenclature(p.tooth_idx.index, temp) + " е позволена само при временни зъби";
+        _error = "Манипулация "+ std::to_string(p.code.oldCode()) + " на зъб " + ToothUtils::getNomenclature(toothIdx.index, temp) + " е позволена само при временни зъби";
         return false;
     }
     
     if (NhifProcedures::isPermaOnly(p.code.oldCode()) && temp)
     {
-        _error = "Манипулация " + std::to_string(p.code.oldCode()) + " на зъб " + ToothUtils::getNomenclature(p.tooth_idx.index, temp) + " е позволена само при постоянни зъби";
+        _error = "Манипулация " + std::to_string(p.code.oldCode()) + " на зъб " + ToothUtils::getNomenclature(toothIdx.index, temp) + " е позволена само при постоянни зъби";
         return false;
     }
 

@@ -27,10 +27,15 @@ struct AnesthesiaMinutes {
 
 typedef std::variant<
             std::monostate, 
-            RestorationData, 
-            ConstructionRange,
+            RestorationData,
             AnesthesiaMinutes
-        > Result;
+            > AdditionalParameters;
+
+typedef std::variant<
+    std::monostate,
+    ToothIndex,
+    ConstructionRange
+    > AffectedTeeth;
 
 enum class FinancingSource { NHIF = 2, PHIF = 3, Patient = 4 };
 
@@ -45,9 +50,17 @@ struct Procedure
 
     Diagnosis diagnosis;
 
-    ToothIndex tooth_idx;
+    AffectedTeeth affectedTeeth = std::monostate{};
 
-    Result result{ std::monostate{} };
+    AdditionalParameters param = std::monostate{};
+
+    const ToothIndex& getToothIndex() const;
+
+    enum class AffectedTeethType { None, Tooth, Range };
+
+    AffectedTeethType getAffectedTeethType() const {
+        return static_cast<AffectedTeethType>(affectedTeeth.index());
+    }
 
     std::string LPK;
     std::string notes;

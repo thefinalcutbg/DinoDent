@@ -602,7 +602,7 @@ void EDental::Fetch::parseReply(const std::string& reply)
 					auto durationXml = procXml->FirstChildElement("nhis:duration");
 
 					if (durationXml) {
-                        p.result = AnesthesiaMinutes{durationXml->FirstAttribute()->IntValue()};
+                        p.param = AnesthesiaMinutes{durationXml->FirstAttribute()->IntValue()};
 					}
 				}
 				break;
@@ -613,7 +613,7 @@ void EDental::Fetch::parseReply(const std::string& reply)
 			case ProcedureType::Implant:
 			case ProcedureType::RemoveCrownOrBridge:
 			case ProcedureType::RemovePost:
-				p.tooth_idx = getToothIdx(procXml);
+				p.affectedTeeth = getToothIdx(procXml);
 				break;
 
 			case ProcedureType::Restoration:
@@ -621,7 +621,7 @@ void EDental::Fetch::parseReply(const std::string& reply)
 
 				auto toothXml = procXml->FirstChildElement("nhis:tooth");
 
-				p.tooth_idx = getToothIdx(procXml);
+				p.affectedTeeth = getToothIdx(procXml);
 
 				RestorationData data;
 
@@ -653,7 +653,7 @@ void EDental::Fetch::parseReply(const std::string& reply)
 
 				}
 
-				p.result = data;
+				p.param = data;
 			}
 			break;
 
@@ -683,7 +683,7 @@ void EDental::Fetch::parseReply(const std::string& reply)
 
 					if (begin > end) std::swap(begin, end);
 
-                    p.result = ConstructionRange{begin, end};
+                    p.affectedTeeth = ConstructionRange{begin, end};
 				}
 
 				break;

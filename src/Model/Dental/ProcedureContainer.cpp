@@ -72,7 +72,7 @@ bool ProcedureContainer::hasDentureManifactureProcedure() const
 bool ProcedureContainer::hasDentalExam() const
 {
     for (auto& p : m_proc) {
-        if (p.code.type() == ProcedureType::full_exam) {
+        if (p.code.type() == ProcedureType::FullExam) {
             return true;
         }
     }
@@ -161,7 +161,7 @@ const Procedure& ProcedureContainer::at(int index) const
 bool ProcedureContainer::hasPregnancy() const
 {
     for (auto& p : m_proc) {
-        if (p.isNhif() && p.code.oldCode() == 103 && p.code.ksmp() == "97017-01") return true;
+        if (p.isNhif() && p.code.oldCode() == 103 && p.code.ACHICode() == "97017-01") return true;
     }
 
     return false;

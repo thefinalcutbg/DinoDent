@@ -39,7 +39,7 @@ class Tooth
 
 public:
 
-	//holds the position if it is a bridge or a splint
+	//holds the position if it is a Bridge or a splint
 	Dental::BridgePos position{ Dental::Middle };
 	//holds the mobility degree
 	Dental::MobilityDegree m_degree{ Dental::I };

@@ -258,7 +258,7 @@
           <item>
            <widget class="QLabel" name="label">
             <property name="text">
-             <string>Каледнар:</string>
+             <string>Календар:</string>
             </property>
            </widget>
           </item>

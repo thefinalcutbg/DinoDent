@@ -215,9 +215,9 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
 
             service->SetAttribute("toothCode", toothCode);
             service->SetAttribute("activityCode", procedure.code.oldCode());
-            service->SetAttribute("ACHIcode", procedure.code.ksmp());
+            service->SetAttribute("ACHIcode", procedure.code.ACHICode());
 
-            if (procedure.code.type() == ProcedureType::anesthesia) {
+            if (procedure.code.type() == ProcedureType::Anesthesia) {
                 service->SetAttribute("serviceDuration", std::get<AnesthesiaMinutes>(procedure.result).minutes);
             }
 

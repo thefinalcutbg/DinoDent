@@ -13,6 +13,8 @@ class IProcedureDialog
 
 public:
 
+    virtual void setProcedureSections(const std::vector<std::string>& sectionNames, int defaultIdx) = 0;
+
     virtual void setProcedureTemplates(std::vector<ProcedureListElement> procedureList) = 0;
 
     virtual void close() = 0;

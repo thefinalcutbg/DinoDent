@@ -364,7 +364,7 @@ std::vector<AmbList> DbAmbList::getMonthlyNhifSheets(int month, int year)
         p.diagnosis = db.asInt(4);
         p.diagnosis.description = db.asString(5);
 
-        if (p.code.type() == ProcedureType::anesthesia) {
+        if (p.code.type() == ProcedureType::Anesthesia) {
             p.result = AnesthesiaMinutes{db.asInt(8)};
         }
 

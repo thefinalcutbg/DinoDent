@@ -201,7 +201,7 @@ std::string EDental::Augment::getProcedures(const ProcedureContainer& procedures
 		result += bind("index", p.his_index);
 		result += bind("code", p.code.code());
 		result += bind("status", 7);
-		result += bind("type", p.code.hisType());
+		result += bind("type", p.code.achiBlock());
 		result += bind("datePerformed", p.date.to8601());
 		result += bind("financingSource", static_cast<int>(p.financingSource));
 		result += "</nhis:dentalProcedure>";
@@ -590,14 +590,14 @@ void EDental::Fetch::parseReply(const std::string& reply)
 
 		switch (p.code.type()) {
 
-			case ProcedureType::full_exam:
-				if (p.code.type() == ProcedureType::full_exam) {
+			case ProcedureType::FullExam:
+				if (p.code.type() == ProcedureType::FullExam) {
 
 					list.teeth = HISHistoryAlgorithms::getToothStatus(*procXml);
 				}
 				break;
 
-				case ProcedureType::anesthesia:
+				case ProcedureType::Anesthesia:
 				{
 					auto durationXml = procXml->FirstChildElement("nhis:duration");
 
@@ -607,16 +607,16 @@ void EDental::Fetch::parseReply(const std::string& reply)
 				}
 				break;
 
-			case ProcedureType::endo:
-			case ProcedureType::crown:
-			case ProcedureType::extraction:
-			case ProcedureType::implant:
-			case ProcedureType::removeCrown:
-			case ProcedureType::removePost:
+			case ProcedureType::Endodontic:
+			case ProcedureType::Crown:
+			case ProcedureType::Extraction:
+			case ProcedureType::Implant:
+			case ProcedureType::RemoveCrownOrBridge:
+			case ProcedureType::RemovePost:
 				p.tooth_idx = getToothIdx(procXml);
 				break;
 
-			case ProcedureType::restoration:
+			case ProcedureType::Restoration:
 			{
 
 				auto toothXml = procXml->FirstChildElement("nhis:tooth");
@@ -657,9 +657,9 @@ void EDental::Fetch::parseReply(const std::string& reply)
 			}
 			break;
 
-			case ProcedureType::bridge:
-			case ProcedureType::denture:
-			case ProcedureType::fibersplint:
+			case ProcedureType::Bridge:
+			case ProcedureType::Denture:
+			case ProcedureType::Splint:
 			{
 				int begin = 31;
 				int end = 0;

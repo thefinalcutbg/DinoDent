@@ -51,46 +51,52 @@ void ProcedureEditorPresenter::setView(IProcedureEditDialog* view)
 		view->procedureInput()->diagnosisEdit()->setInputValidator(nullptr);
 	}
 
-	range_validator.allowSingleRange = result->code.type() == ProcedureType::denture;
+	range_validator.allowSingleRange = result->code.type() == ProcedureType::Denture;
 
-	switch (result->code.type())
-	{
-		case ProcedureType::general:
-		case ProcedureType::full_exam:
+	//GENERAL
+	if (result->code.isGeneral()) {
+
+		view->procedureInput()->surfaceSelector()->setInputValidator(nullptr);
+		view->procedureInput()->rangeWidget()->setInputValidator(nullptr);
+
+		result->code.isAnesthesia() ?
+			view->procedureInput()->setLayout(IProcedureInput::Anesthesia)
+			:
 			view->procedureInput()->setLayout(IProcedureInput::General);
-			break;
-		case ProcedureType::restoration:
-			view->procedureInput()->setLayout(IProcedureInput::Restoration);
-			view->procedureInput()->surfaceSelector()->setData(std::get<RestorationData>(result->result));
-			view->procedureInput()->surfaceSelector()->setInputValidator(&surface_validator);
-			break;
-		case ProcedureType::anesthesia:
-			view->procedureInput()->setLayout(IProcedureInput::Anesthesia);
-			view->procedureInput()->setMinutes(std::get<AnesthesiaMinutes>(result->result).minutes);
-			break;
-		case ProcedureType::bridge:
-		case ProcedureType::fibersplint:
-		case ProcedureType::denture:
-		{
-			view->procedureInput()->rangeWidget()->setInputValidator(&range_validator);
-			view->procedureInput()->setLayout(IProcedureInput::Range);
-			auto [begin, end] = std::get<ConstructionRange>(result->result);
-			view->procedureInput()->rangeWidget()->setBridgeRange(begin, end);
-		}
-			break;
-			/*
-		case ProcedureType::removebridgeOrSplint:
-		{
-			view->procedureInput()->setLayout(IProcedureInput::Range);
-			auto [begin, end] = std::get<ConstructionRange>(result->result);
-			view->procedureInput()->rangeWidget()->setBridgeRange(begin, end);
-		}
-		*/
-			break;
-		default:
-			view->procedureInput()->setLayout(IProcedureInput::ToothSpecific);
-			break;
+
 	}
+
+	//TOOTH SPECIFIC
+	if (result->code.isToothSpecific()) {
+
+		view->procedureInput()->rangeWidget()->setInputValidator(nullptr);
+
+		if (result->code.isRestoration()) {
+
+			view->procedureInput()->setLayout(IProcedureInput::Restoration);
+			view->procedureInput()->surfaceSelector()->setInputValidator(&surface_validator);
+		}
+		else {
+			view->procedureInput()->setLayout(IProcedureInput::ToothSpecific);
+		}
+
+	}
+
+	//RANGE SPECIFIC
+	if (result->code.isRangeSpecific()) {
+
+		view->procedureInput()->setLayout(IProcedureInput::Range);
+		view->procedureInput()->surfaceSelector()->setInputValidator(nullptr);
+
+		view->procedureInput()->rangeWidget()->setInputValidator(
+
+			m_code.requiresRangeValidation() ?
+				&range_validator
+				:
+				nullptr
+		);
+	} 
+
 
 	view->procedureInput()->dateEdit()->validateInput();
 
@@ -137,25 +143,23 @@ void ProcedureEditorPresenter::okPressed()
 	result->tooth_idx = m_tooth_idx;
 	result->his_index = m_hisIndex;
 
-	switch (result->code.type())
-	{
-		case ProcedureType::restoration:
-			result->result = view->procedureInput()->surfaceSelector()->getData();
-			break;
-		case ProcedureType::anesthesia:
+	if (result->code.isGeneral()) {
+
+		if (result->code.isAnesthesia()) {
 			result->result = AnesthesiaMinutes{ view->procedureInput()->minutes() };
-			break;
-		case ProcedureType::bridge:
-		case ProcedureType::fibersplint:
-		//case ProcedureType::removebridgeOrSplint:
-		case ProcedureType::denture:
-		{
-			auto [begin, end] = view->procedureInput()->rangeWidget()->getRange();
-			result->result = ConstructionRange{ begin, end };
 		}
-			break;
-		default:
-			result->result = std::monostate{};
+	}
+	else if (result->code.isToothSpecific()) {
+
+		if (result->code.isRestoration()) {
+
+			result->result = view->procedureInput()->surfaceSelector()->getData();
+		}
+	}
+	else if (result->code.isRangeSpecific()) {
+
+		auto [begin, end] = view->procedureInput()->rangeWidget()->getRange();
+		result->result = ConstructionRange{ begin, end };
 	}
 
 	view->closeDialog();

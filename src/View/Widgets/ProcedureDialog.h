@@ -25,8 +25,8 @@ class ProcedureDialog : public QDialog, public IProcedureDialog
 public:
     ProcedureDialog(ProcedureDialogPresenter& presenter, QWidget* parent = Q_NULLPTR);
 	 ~ProcedureDialog();
-
-
+	
+	void setProcedureSections(const std::vector<std::string>& sectionNames, int defaultIdx) override;
 	void setProcedureTemplates(std::vector<ProcedureListElement> procedureList) override;
 	
 

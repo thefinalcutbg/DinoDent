@@ -110,7 +110,7 @@ QVariant ProcedureSelectModel::data(const QModelIndex& index, int role) const
                case 1: return m_procedures[row].diagnosis;
                case 2: return m_procedures[row].tooth;
                case 3: return m_procedures[row].procedureName;
-               case 4: return m_procedures[row].code;
+               case 4: return m_procedures[row].nhifCode;
     //           case 5: return m_procedures[row].price;
             }
         case Qt::TextAlignmentRole:

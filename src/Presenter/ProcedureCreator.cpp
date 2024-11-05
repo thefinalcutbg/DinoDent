@@ -233,17 +233,17 @@ void ProcedureCreator::setView(IProcedureInput* view)
 		auto t = m_selectedTeeth[0];
 
 		view->surfaceSelector()->setData(RestorationData{ autoSurfaces(*t), false });
-		diag_map[ProcedureType::restoration] = restorationDiagnosis(*t);
-		diag_map[ProcedureType::extraction] = extractionDiagnosis(*t);
-		diag_map[ProcedureType::endo] = endodonticDiagnosis(*t);
-		diag_map[ProcedureType::crown] = crownDiagnosis(*t);
-		diag_map[ProcedureType::implant] = implantDiagnosis(*t);
+		diag_map[ProcedureType::Restoration] = restorationDiagnosis(*t);
+		diag_map[ProcedureType::Extraction] = extractionDiagnosis(*t);
+		diag_map[ProcedureType::Endodontic] = endodonticDiagnosis(*t);
+		diag_map[ProcedureType::Crown] = crownDiagnosis(*t);
+		diag_map[ProcedureType::Implant] = implantDiagnosis(*t);
 	}
 
-	diag_map[ProcedureType::bridge] = 5;
-	diag_map[ProcedureType::fibersplint] = 7;
-	diag_map[ProcedureType::denture] = 6;
-	diag_map[ProcedureType::depuratio] = 10;
+	diag_map[ProcedureType::Bridge] = 5;
+	diag_map[ProcedureType::Splint] = 7;
+	diag_map[ProcedureType::Denture] = 6;
+	diag_map[ProcedureType::Depuratio] = 10;
 
 	auto [begin, end] = getBridgeRange(m_selectedTeeth);
 
@@ -253,8 +253,8 @@ void ProcedureCreator::setView(IProcedureInput* view)
 
 
 
-	//diag_map[ProcedureType::bridge] = bridgeOrFiberDiagnosis(m_selectedTeeth, ConstructionRange{ begin, end });
-	//diag_map[ProcedureType::fibersplint] = bridgeOrFiberDiagnosis(m_selectedTeeth, ConstructionRange{ begin, end });
+	//diag_map[ProcedureType::Bridge] = bridgeOrFiberDiagnosis(m_selectedTeeth, ConstructionRange{ begin, end });
+	//diag_map[ProcedureType::Splint] = bridgeOrFiberDiagnosis(m_selectedTeeth, ConstructionRange{ begin, end });
 
 }
 
@@ -271,83 +271,68 @@ void ProcedureCreator::setProcedureCode(const ProcedureCode& m, bool nhif)
 
 	view->setNhifLayout(nhif);
 
-	range_validator.allowSingleRange = m.type() == ProcedureType::denture;
+	range_validator.allowSingleRange = m.type() == ProcedureType::Denture;
 
-	switch (m.type())
-	{
-		case ProcedureType::restoration:
-			if (m_selectedTeeth.empty()) {
-				view->setErrorMsg("Изберете поне един зъб!");
-				break;
-			}
-			view->setLayout(IProcedureInput::Restoration); 
-			view->surfaceSelector()->setInputValidator(&surface_validator);
-			view->rangeWidget()->setInputValidator(nullptr);
-			break;
-		case ProcedureType::bridge:
-		case ProcedureType::fibersplint:
-			view->setLayout(IProcedureInput::Range);
-			view->surfaceSelector()->setInputValidator(nullptr);
-			view->rangeWidget()->setInputValidator(&range_validator);
-			break;
-		case ProcedureType::denture:
-		{
-			view->setLayout(IProcedureInput::Range);
-			view->surfaceSelector()->setInputValidator(nullptr);
-			view->rangeWidget()->setInputValidator(&range_validator);
-			diag_map[ProcedureType::denture] = 6;
+	//GENERAL
+	if (m.isGeneral()) {
 
-			if(m.oldCode() == 832)
-			{
-				view->rangeWidget()->setBridgeRange(1, 14);
-			}
-			else if (m.oldCode() == 833)
-			{
-				view->rangeWidget()->setBridgeRange(17, 30);
-			}
-			else
-			{
-				auto [begin, end] = getBridgeRange(m_selectedTeeth);
-				view->rangeWidget()->setBridgeRange(begin, end);
-				diag_map[ProcedureType::denture] = 5;
-			}
+		view->surfaceSelector()->setInputValidator(nullptr);
+		view->rangeWidget()->setInputValidator(nullptr);
 
-		}
-			break;
-			/*
-		case ProcedureType::removebridgeOrSplint:
-			view->setLayout(IProcedureInput::Range);
-			view->surfaceSelector()->setInputValidator(nullptr);
-			view->rangeWidget()->setInputValidator(nullptr);
-			break;
-			*/
-		case ProcedureType::depuratio:
-		case ProcedureType::general:
-		case ProcedureType::full_exam:
+		m.isAnesthesia() ? 
+			view->setLayout(IProcedureInput::Anesthesia)
+			:
 			view->setLayout(IProcedureInput::General);
-			view->surfaceSelector()->setInputValidator(nullptr);
-			view->rangeWidget()->setInputValidator(nullptr);
-			break;
-		case ProcedureType::anesthesia:
-			view->setLayout(IProcedureInput::Anesthesia);
-			view->surfaceSelector()->setInputValidator(nullptr);
-			view->rangeWidget()->setInputValidator(nullptr);
-			break;
-		default:
-			view->setLayout(IProcedureInput::ToothSpecific);
-			view->surfaceSelector()->setInputValidator(nullptr);
-			view->rangeWidget()->setInputValidator(nullptr);
-			if (m_selectedTeeth.empty()) {
-				view->setErrorMsg("Изберете поне един зъб!");
-				break;
-			}
-			break;
+
 	}
+
+	//TOOTH SPECIFIC
+	if (m.isToothSpecific()) {
+
+		if (m_selectedTeeth.empty()) {
+			view->setErrorMsg("Изберете поне един зъб!");
+			
+		}
+		else {
+			
+			view->rangeWidget()->setInputValidator(nullptr);
+
+			if (m.isRestoration()) {
+
+				view->setLayout(IProcedureInput::Restoration);
+				view->surfaceSelector()->setInputValidator(&surface_validator);
+			}
+			else {
+				view->setLayout(IProcedureInput::ToothSpecific);
+			}
+		}
+	}
+
+	//RANGE SPECIFIC
+	if (m.isRangeSpecific()) {
+
+		view->setLayout(IProcedureInput::Range);
+		view->surfaceSelector()->setInputValidator(nullptr);
+
+		view->rangeWidget()->setInputValidator(
+
+			m_code.requiresRangeValidation() ?
+				&range_validator
+				:
+				nullptr
+		);
+
+		auto [begin, end] = getBridgeRange(m_selectedTeeth);
+		view->rangeWidget()->setBridgeRange(begin, end);
+	} 
+
 
 	auto diagIdx = diag_map[m.type()];
 
 	view->diagnosisCombo()->setIndex(diag_map[m.type()]);
 
+	/*
+	//this logic should be...elsewhere
 	//total denture nhif manifacturing
 	if (!diagIdx && (m_code.oldCode() == 834 || m_code.oldCode() == 835))
 	{
@@ -366,7 +351,7 @@ void ProcedureCreator::setProcedureCode(const ProcedureCode& m, bool nhif)
 	{
 		view->diagnosisEdit()->set_Text("");
 	}
-
+	*/
 	view->diagnosisEdit()->validateInput();
 
 
@@ -403,58 +388,48 @@ std::vector<Procedure> ProcedureCreator::getProcedures()
 	std::vector<Procedure> result;
 
 	procedure.code = m_code;
-	procedure.financingSource = view->getFinancingSource();
+
+	procedure.financingSource = 
+		procedure.code.oldCode() ? FinancingSource::NHIF 
+		: 
+		view->getFinancingSource();
+
 	procedure.LPK = User::doctor().LPK;
 	procedure.date = view->dateEdit()->getDate();
 	procedure.diagnosis = view->diagnosisCombo()->getIndex();
 	procedure.diagnosis.description = view->diagnosisEdit()->getText();
 	procedure.notes = view->getNotes();
 	procedure.tooth_idx.supernumeral = view->onHyperdontic();
+	procedure.result = std::monostate{};
 
+	if (procedure.code.isGeneral()) {
 
-	switch (procedure.code.type())
-	{
-	case ProcedureType::depuratio:
-	case ProcedureType::general:
-	case ProcedureType::full_exam:
+		if (procedure.code.isAnesthesia()) {
+			procedure.result = AnesthesiaMinutes{ view->minutes() };
+		}
+
 		result.push_back(procedure);
-		break;
-	case ProcedureType::restoration:
-		procedure.result = view->surfaceSelector()->getData();
+	}
+	else if (procedure.code.isToothSpecific()) {
+
+		if (procedure.code.isRestoration()) {
+
+			procedure.result = view->surfaceSelector()->getData();
+		}
+
 		for (auto t : m_selectedTeeth)
 		{
 			result.push_back(procedure);
 			result.back().tooth_idx.index = t->index();
 		}
-		break;
-	case ProcedureType::bridge:
-	case ProcedureType::fibersplint:
-	case ProcedureType::denture:
-	//case ProcedureType::removebridgeOrSplint:
-	{
+
+	}
+	else if (procedure.code.isRangeSpecific()) {
+
 		auto [begin, end] = view->rangeWidget()->getRange();
 		procedure.result = ConstructionRange{ begin, end };
 		result.push_back(procedure);
-	}
-		break;
-	case ProcedureType::anesthesia:
-	{
-		procedure.result = AnesthesiaMinutes{ view->minutes() };
-		result.push_back(procedure);
-		break;
-	}
-	default:
-	{
-		procedure.result = std::monostate{};
 
-		for (auto t : m_selectedTeeth)
-		{
-			result.push_back(procedure);
-			result.back().tooth_idx.index = t->index();
-		}
-	}
-		break;
-		
 	}
 
 	return result;

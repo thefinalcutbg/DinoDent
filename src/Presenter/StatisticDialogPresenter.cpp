@@ -19,13 +19,13 @@ void StatisticDialogPresenter::setProcedureType(int type)
 	auto procedureType = static_cast<ProcedureType>(type);
 
 	bool hideToothFilter =
-		procedureType == ProcedureType::general ||
-		procedureType == ProcedureType::bridge ||
-		procedureType == ProcedureType::fibersplint ||
-		procedureType == ProcedureType::full_exam ||
-		procedureType == ProcedureType::denture ||
-		procedureType == ProcedureType::anesthesia ||
-		procedureType == ProcedureType::depuratio
+		procedureType == ProcedureType::General ||
+		procedureType == ProcedureType::Bridge ||
+		procedureType == ProcedureType::Splint ||
+		procedureType == ProcedureType::FullExam ||
+		procedureType == ProcedureType::Denture ||
+		procedureType == ProcedureType::Anesthesia ||
+		procedureType == ProcedureType::Depuratio
 		;
 
 	view->hideToothFilter(hideToothFilter);
@@ -37,7 +37,7 @@ void StatisticDialogPresenter::setView(IStatisticDialogView* view)
 {
 	this->view = view;
 
-	view->setProcedureFilter(ProcedureCode::getByType(ProcedureType::general));
+	view->setProcedureFilter(ProcedureCode::getByType(ProcedureType::General));
 	view->hideToothFilter(true);
 }
 

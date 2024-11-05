@@ -26,7 +26,7 @@ struct TexturePack
 
 	~TexturePack()
 	{
-		//don't delete implant textures, they are common!
+		//don't delete Implant textures, they are common!
 		delete tooth;
 		delete root;
 		delete post;

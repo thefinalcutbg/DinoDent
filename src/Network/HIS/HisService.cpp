@@ -309,9 +309,9 @@ std::string HisService::getProcedure(const Procedure& p, const ToothContainer& t
 	}
 
 	result += bind("code", p.code.code());
-	result += bind("type", p.code.hisType());
+	result += bind("type", p.code.achiBlock());
 
-	if (p.code.type() == ProcedureType::anesthesia)
+	if (p.code.type() == ProcedureType::Anesthesia)
 	{
 		result += bind("duration", std::get<AnesthesiaMinutes>(p.result).minutes);
 	}
@@ -337,7 +337,7 @@ std::string HisService::getProcedure(const Procedure& p, const ToothContainer& t
 
 		for (int i = begin; i <= end; i++)
 		{
-			if (p.code.type() == ProcedureType::denture && 
+			if (p.code.type() == ProcedureType::Denture && 
 				!teethChanged.at(i)[Dental::Denture]){ 
 				continue; 
 			}
@@ -346,7 +346,7 @@ std::string HisService::getProcedure(const Procedure& p, const ToothContainer& t
 		}
 	}
 
-	if (p.code.type() == ProcedureType::depuratio)
+	if (p.code.type() == ProcedureType::Depuratio)
 	{
 		p.applyProcedure(teethChanged);
 
@@ -360,7 +360,7 @@ std::string HisService::getProcedure(const Procedure& p, const ToothContainer& t
 		}
 	}
 
-	if (p.code.type() == ProcedureType::full_exam)
+	if (p.code.type() == ProcedureType::FullExam)
 	{
 		
 		for (auto& tooth : teeth)

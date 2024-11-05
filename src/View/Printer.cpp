@@ -169,9 +169,9 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
         report.dataManager()->setReportVariable("pTooth" + idx, p.tooth_idx.getNhifNumenclature().c_str());
         report.dataManager()->setReportVariable("pName" + idx, p.code.name().c_str());
         report.dataManager()->setReportVariable("pNhif" + idx, QString::number(p.code.oldCode()));
-        report.dataManager()->setReportVariable("pKsmp" + idx, p.financingSource == FinancingSource::NHIF ? p.code.ksmp().c_str() : "");
+        report.dataManager()->setReportVariable("pKsmp" + idx, p.financingSource == FinancingSource::NHIF ? p.code.ACHICode().c_str() : "");
 
-        if(p.code.type() == ProcedureType::anesthesia)
+        if(p.code.type() == ProcedureType::Anesthesia)
         {
             report.dataManager()->setReportVariable("pMin" + idx, std::get<AnesthesiaMinutes>(p.result).minutes);
         }

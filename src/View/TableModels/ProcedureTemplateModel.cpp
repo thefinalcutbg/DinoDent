@@ -3,16 +3,14 @@
 #include <QPainter>
 #include <QEvent>
 #include <QMouseEvent>
-
+#include "View/Theme.h"
 
 ProcedureTemplateModel::ProcedureTemplateModel(QObject *parent)
     : QAbstractTableModel(parent)
 {
 }
 
-
-
-void ProcedureTemplateModel::setProcedures(std::vector<ProcedureListElement> procedures)
+void ProcedureTemplateModel::setProcedures(std::vector<ProcedureListElement> procedures, bool addSections)
 {
     beginResetModel();
 
@@ -21,21 +19,49 @@ void ProcedureTemplateModel::setProcedures(std::vector<ProcedureListElement> pro
 
     this->procedures.reserve(procedures.size());
 
+    int block = -1;
+
     for (auto &m : procedures)
     {
-        this->procedures.emplace_back
-        (
-            ProcedureRow{ 
-            .code = QString::number(m.code.oldCode()),
-            .name = m.code.name().c_str(),
-            .nhif = m.nhif, 
-            .role = m.nhif ? ProcedureRow::None 
-                    :
-                    m.favourite ? ProcedureRow ::Fav
-                    :
-                    ProcedureRow::NonFav
-            }
-        );
+        int currentBlock = m.nhif ? 0 : m.code.achiBlock();
+
+        if (block != currentBlock && addSections) {
+
+            QString code = m.nhif ? "НЗОК" : m.code.achiBlockName().c_str();
+
+            code = code.toUpper();
+
+            block = currentBlock;
+
+            this->procedures.push_back(
+                ProcedureRow{
+                    .code = m.nhif ? "" : QString::number(m.code.achiBlock()),
+                    .name = code
+                }
+            );
+        }
+
+
+        ProcedureRow row{
+        .code = m.code.ACHICode().c_str(),
+        .name = m.code.name().c_str(),
+        };
+
+        if (row.code.isEmpty()) {
+            row.role = ProcedureRow::None;
+        }
+        else if (m.nhif) {
+            row.role = ProcedureRow::Nhif;
+        }
+        else {
+            row.role = m.favourite ?
+                ProcedureRow::Fav
+                :
+                ProcedureRow::NonFav;
+        }
+
+        this->procedures.push_back(row);
+
     }
 
     endResetModel();
@@ -90,6 +116,15 @@ QVariant ProcedureTemplateModel::data(const QModelIndex& index, int role) const
 
     switch (role)
     {
+    case  Qt::FontRole:
+        //HEADER
+        if (procedures[row].role == ProcedureRow::None) {
+            QFont font;
+            font.setBold(true);
+            return font;
+        }
+        return QVariant();
+
     case Qt::UserRole:
         return column == 0 ? procedures[row].role : QVariant();
 
@@ -105,7 +140,18 @@ QVariant ProcedureTemplateModel::data(const QModelIndex& index, int role) const
             return QVariant();
         }
 */
+/* 
+//HEADER
+    case Qt::BackgroundRole:
+    {
+     
+   if (procedures[row].role == ProcedureRow::None) {
+            return QVariant(QBrush(QColor(Theme::background)));
+        }
 
+        return QVariant();
+    }
+*/
     case Qt::DisplayRole:
         switch (column)
         {
@@ -131,10 +177,10 @@ bool FavButtonDelegate::mouseIsOnStar(QMouseEvent* e, const QStyleOptionViewItem
 
     QRect r = option.rect;//getting the rect of the cell
     int x, y, w, h;
-    x = r.left()+5;//the X coordinate
-    y = r.top()+5;//the Y coordinate
-    w = 20;//button width
-    h = 20;//button height
+    w = 20;
+    h = 20;
+    x = r.left() + (r.width() - w) / 2;
+    y = r.top() + (r.height() - h) / 2;
 
     if (clickX > x && clickX < x + w)
         if (clickY > y && clickY < y + h)
@@ -153,31 +199,43 @@ FavButtonDelegate::FavButtonDelegate(QObject* parent)
 
 void FavButtonDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
+
     auto role = index.data(Qt::UserRole).toInt();
 
     QRect r = option.rect;//getting the rect of the cell
     int x, y, w, h;
-    x = r.left()+5;//the X coordinate
-    y = r.top()+5;//the Y coordinate
-    w = 20;//button width
-    h = 20;//button height
+    w = 20;
+    h = 20;
+    x = r.left() + (r.width() - w) / 2;
+    y = r.top() + (r.height() - h) / 2;
+
     auto starRect = QRect(x, y, w, h);
 
     const QIcon* px = nullptr;
 
-    if (role == ProcedureRow::None) {
-        px = &nhif_pixmap;
-    }
-    else if (role == ProcedureRow::Fav) {
-        px = &star_yellow;
-    }
-    else {
-        px = &star_gray;
+    switch (role) {
+
+        case  ProcedureRow::Nhif:
+            px = &nhif_pixmap;
+            break;
+        case ProcedureRow::Fav:
+            px = &star_yellow;
+            break;
+        case ProcedureRow::NonFav:
+            px = &star_gray;
+            break;
+        case ProcedureRow::None:
+            if (!option.state.testFlag(QStyle::State_Selected)) {
+            //    painter->fillRect(r, Theme::background);
+            }
+            break;
     }
 
     if (!px) return;
 
     px->paint(painter, starRect);
+
+    if(role == ProcedureRow::Fav || role == ProcedureRow::NonFav)
 
     if (m_row_hover == index.row() && m_row_hover != -1)
     {

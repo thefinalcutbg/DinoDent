@@ -8,7 +8,7 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 {
 		switch (code.type())
 		{
-			case::ProcedureType::restoration:
+			case::ProcedureType::Restoration:
 			{
 				
 				auto& result = std::get<RestorationData>(this->result);
@@ -35,7 +35,7 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 			}
 			break;
 
-			case::ProcedureType::endo:
+			case::ProcedureType::Endodontic:
 			{
 				teeth.setStatus({ tooth_idx.index }, StatusType::General, RootCanal, true, tooth_idx.supernumeral);
 				teeth.at(tooth_idx).setLPK(RootCanal, LPK);
@@ -43,7 +43,7 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 			}
 			break;
 
-			case::ProcedureType::extraction:
+			case::ProcedureType::Extraction:
 			{
 				teeth.setStatus({ tooth_idx.index }, StatusType::General, Dental::Missing, true, tooth_idx.supernumeral);
 				teeth.at(tooth_idx).setLPK(Missing, LPK);
@@ -51,7 +51,7 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 			}
 			break;
 
-			case::ProcedureType::crown:
+			case::ProcedureType::Crown:
 			{
 				teeth.setStatus({ tooth_idx.index }, StatusType::General, Crown, true, tooth_idx.supernumeral);
 				teeth.setStatus({ tooth_idx.index }, StatusType::General, Fracture, false, tooth_idx.supernumeral);
@@ -60,7 +60,7 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 			}
 			break;
 
-			case::ProcedureType::implant:
+			case::ProcedureType::Implant:
 			{
 				teeth.setStatus({ tooth_idx.index }, StatusType::General, Implant, true, tooth_idx.supernumeral);
 				teeth.at(tooth_idx).setLPK(Implant, LPK);
@@ -68,7 +68,7 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 			}
 			break;
 
-			case::ProcedureType::bridge:
+			case::ProcedureType::Bridge:
 			{
 				auto& result = std::get<ConstructionRange>(this->result);
 
@@ -84,7 +84,7 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 			}
 			break;
 
-			case ProcedureType::fibersplint:
+			case ProcedureType::Splint:
 			{
 				auto& result = std::get<ConstructionRange>(this->result);
 
@@ -100,7 +100,7 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 
 			}
 			break;
-			case ProcedureType::denture:
+			case ProcedureType::Denture:
 			{
 				auto& result = std::get<ConstructionRange>(this->result);
 
@@ -134,19 +134,19 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 			}
 			break;
 
-			case ProcedureType::removeCrown:
+			case ProcedureType::RemoveCrownOrBridge:
 			{
 				teeth.setStatus({ tooth_idx.index }, StatusType::General, Crown, false, tooth_idx.supernumeral);
 			}
 			break;
 
-			case ProcedureType::removePost:
+			case ProcedureType::RemovePost:
 			{
 				teeth.setStatus({ tooth_idx.index }, StatusType::General, Post, false, tooth_idx.supernumeral);
 			}
 			break;
 
-			case ProcedureType::depuratio:
+			case ProcedureType::Depuratio:
 			{
 				for (auto& t : teeth)
 				{
@@ -197,17 +197,17 @@ void Procedure::applyPISProcedure(ToothContainer& teeth) const
 
 	switch (code.type())
 	{
-		case ProcedureType::restoration:
+		case ProcedureType::Restoration:
 			teeth.setStatus({ tooth_idx.index }, Dental::StatusType::General, Dental::Restoration, true, tooth_idx.supernumeral); break;
-		case ProcedureType::endo:
+		case ProcedureType::Endodontic:
 			teeth.setStatus({ tooth_idx.index }, Dental::StatusType::General, Dental::RootCanal, true, tooth_idx.supernumeral); break;
-		case ProcedureType::extraction:
+		case ProcedureType::Extraction:
 			teeth.setStatus({ tooth_idx.index }, Dental::StatusType::General, Dental::Missing, true, tooth_idx.supernumeral); break;
-		case ProcedureType::crown:
+		case ProcedureType::Crown:
 			teeth.setStatus({ tooth_idx.index }, Dental::StatusType::General, Dental::Crown, true, tooth_idx.supernumeral); break;
-		case ProcedureType::implant:
+		case ProcedureType::Implant:
 			teeth.setStatus({ tooth_idx.index }, Dental::StatusType::General, Dental::Implant, true, tooth_idx.supernumeral); break;
-		case ProcedureType::denture:
+		case ProcedureType::Denture:
 		{
 			int dentureBegin = code.oldCode() == 832 ? 1 : 17;
 			int dentureEnd = code.oldCode() == 832 ? 14 : 30;

@@ -33,14 +33,38 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
-          <widget class="QLabel" name="label">
-           <property name="text">
-            <string>Търсене:</string>
+          <layout class="QVBoxLayout" name="verticalLayout_4">
+           <property name="leftMargin">
+            <number>0</number>
            </property>
-          </widget>
+           <item>
+            <widget class="QLabel" name="label">
+             <property name="text">
+              <string>Търсене:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_2">
+             <property name="text">
+              <string>Блок:</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
          <item>
-          <widget class="QLineEdit" name="searchEdit"/>
+          <layout class="QVBoxLayout" name="verticalLayout_5">
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QLineEdit" name="searchEdit"/>
+           </item>
+           <item>
+            <widget class="QComboBox" name="sectionCombo"/>
+           </item>
+          </layout>
          </item>
         </layout>
        </item>
@@ -102,10 +126,10 @@
      <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+        <enum>Qt::Orientation::Horizontal</enum>
        </property>
        <property name="sizeType">
-        <enum>QSizePolicy::Expanding</enum>
+        <enum>QSizePolicy::Policy::Expanding</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>

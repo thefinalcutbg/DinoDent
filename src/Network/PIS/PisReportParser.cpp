@@ -169,7 +169,7 @@ PisReportsForImport PisReportParser::parse(const std::string& xmlReport)
 
 				if (!p.tooth_idx.isValid()) continue;
 
-				if (p.code.type() == ProcedureType::restoration) {
+				if (p.code.type() == ProcedureType::Restoration) {
 
 					RestorationData restoration;
 
@@ -184,7 +184,7 @@ PisReportsForImport PisReportParser::parse(const std::string& xmlReport)
 				}
 			}
 
-			if (p.code.type() == ProcedureType::denture)
+			if (p.code.type() == ProcedureType::Denture)
 			{
 				ConstructionRange range;
 				

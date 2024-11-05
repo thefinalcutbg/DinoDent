@@ -23,20 +23,24 @@ ProcedureDialogPresenter::ProcedureDialogPresenter
     procedure_creator(selectedTeeth),
     view(nullptr),
     date_validator(patientTurns18)
-{}
+{
+	if (sectionIndex == -1) {
+		sectionIndex = DbDoctor::getFavouriteProcedures(User::doctor().LPK).empty() ? 0 : 1;
+	}
+}
 
 
 void ProcedureDialogPresenter::setView(IProcedureDialog* view)
 {
 	this->view = view;
 
-	view->setProcedureTemplates(procedureList);
+	view->setProcedureSections(procedureList.getSectionList(), sectionIndex);
 
 	view->procedureInput()->dateEdit()->setInputValidator(&date_validator);
 
 	view->procedureInput()->dateEdit()->set_Date(procedureDate);
 
-	refreshProcedureList();
+	refreshNhifList();
 	
 	procedure_creator.setView(view->procedureInput());
 
@@ -49,7 +53,7 @@ void ProcedureDialogPresenter::setView(IProcedureDialog* view)
 
 	view->setSelectionLabel(selectedTeethNum);
 
-	indexChanged(-1);
+	setCode(ProcedureCode{}, false);
 }
 
 void ProcedureDialogPresenter::procedureDateChanged(const Date& date)
@@ -61,125 +65,87 @@ void ProcedureDialogPresenter::procedureDateChanged(const Date& date)
 	procedureDate = date;
 	
 	if (needsRefresh) {
-		refreshProcedureList();
+		refreshNhifList();
 	}
 	
 }
 
-
-void ProcedureDialogPresenter::indexChanged(int index)
+void ProcedureDialogPresenter::sectionChanged(int index)
 {
-	currentIndex = index;
+	sectionIndex = index;
+	view->setProcedureTemplates(procedureList.getList(index));
+}
 
-	if (currentIndex == -1)
-	{
+
+void ProcedureDialogPresenter::setCode(ProcedureCode code, bool nhif)
+{
+
+	if (!code.isValid()) {
+
 		view->procedureInput()->setErrorMsg("Изберете манипулация");
 		return;
 	}
 
-	auto& procedureCode = procedureList[currentIndex];
+	if (code.oldCode()) {
 
-	date_validator.setProcedure(procedureList[index].code.oldCode(), procedureList[index].nhif);
-	view->procedureInput()->dateEdit()->validateInput();
+		date_validator.setProcedure(code.oldCode(), nhif);
+		view->procedureInput()->dateEdit()->validateInput();
 
+	}
 
+	procedure_creator.setProcedureCode(code, nhif);
 	
-	procedure_creator.setProcedureCode(procedureCode.code, procedureCode.nhif);
-	
-
 }
 
-void ProcedureDialogPresenter::favouriteClicked(int index)
+void ProcedureDialogPresenter::favouriteClicked(const std::string& code)
 {
-	auto& fav = procedureList[index].favourite;
-
-	fav = !fav;
-	sortProcedures();
-
+	
 	favourites_changed = true;
 
-	view->setProcedureTemplates(procedureList);
+	procedureList.favClicked(sectionIndex, code);
+
+	view->setProcedureTemplates(procedureList.getList(sectionIndex));
+
 }
 
 
 void ProcedureDialogPresenter::formAccepted()
 {
-	if (currentIndex == -1 || !procedure_creator.isValid()) return;
 
-	procedures = procedure_creator.getProcedures();
+	//if (currentIndex == -1 || !procedure_creator.isValid()) return;
+
+	result = procedure_creator.getProcedures();
 
 	view->close();
 }
 
-void ProcedureDialogPresenter::sortProcedures()
+void ProcedureDialogPresenter::refreshNhifList()
 {
-	std::sort(procedureList.begin(), procedureList.end(),
-	
-	[](const ProcedureListElement& a, const ProcedureListElement& b)
-	{
-		if (a.nhif > b.nhif) return true;
 
-		if (a.nhif == b.nhif && a.favourite > b.favourite) {
-			return true;
-		}
+	if (!User::hasNhifContract()) return;
 
-		if (a.nhif == b.nhif && a.favourite == b.favourite) {
-			return a.code.oldCode() < b.code.oldCode();
-		}
+	auto nhifProcedures = NhifProcedures::getNhifProcedures(
+		procedureDate,
+		User::doctor().specialty,
+		procedureDate >= patientTurns18,
+		pregnancyAllowed,
+		ambList.nhifData.specification
+	);
 
-		return false;
+	procedureList.setNhifProcedures(nhifProcedures);
 
-	});
-}
-
-void ProcedureDialogPresenter::refreshProcedureList()
-{
-	procedureList.clear();
-
-	if (User::hasNhifContract())
-	{
-		auto nhifProcedures = NhifProcedures::getNhifProcedures(
-			procedureDate,
-			User::doctor().specialty,
-			procedureDate >= patientTurns18,
-			pregnancyAllowed,
-			ambList.nhifData.specification
-		);
-
-		for (auto& p : nhifProcedures)
-		{
-			procedureList.push_back({ p, true });
-		}
+	//not focused on block
+	if (sectionIndex < 2) {
+		view->setProcedureTemplates(procedureList.getList(sectionIndex));
 	}
 
-
-	//getting custom procedures:
-	auto customProcedures = ProcedureCode::getNonNhifProcedures();
-
-	auto favourites = DbDoctor::getFavouriteProcedures(User::doctor().LPK);
-
-	for (auto& p : customProcedures)
-	{
-		procedureList.push_back(
-			ProcedureListElement{
-				.code = p,
-				.nhif = false,
-				.favourite = static_cast<bool>(favourites.count(p.code()))
-			}
-		);
-
-	}
-
-	sortProcedures();
-
-	view->setProcedureTemplates(procedureList);
 }
 
 
 std::vector<Procedure> ProcedureDialogPresenter::openDialog()
 {
     ModalDialogBuilder::openDialog(*this);
-	return procedures;
+	return result;
 }
 
 ProcedureDialogPresenter::~ProcedureDialogPresenter()
@@ -188,12 +154,12 @@ ProcedureDialogPresenter::~ProcedureDialogPresenter()
 
 	//updating in DB
 	std::vector<std::string> favCodes;
-
+/*
 	for (auto& p : procedureList) {
 		if (p.favourite) {
 			favCodes.push_back(p.code.code());
 		}
 	}
-
+	*/
 	DbDoctor::updateFavouriteProcedures(favCodes, User::doctor().LPK);
 }

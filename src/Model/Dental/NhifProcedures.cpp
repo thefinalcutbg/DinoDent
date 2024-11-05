@@ -129,7 +129,7 @@ void NhifProcedures::initialize()
 
 }
 
-std::vector<ProcedureCode> NhifProcedures::getNhifProcedures(Date ambDate, NhifSpecialty specialty, bool adult, bool pregnancyAllowed, NhifSpecificationType specification)
+std::vector<ProcedureCode> NhifProcedures::getNhifProceduresLegacy(Date ambDate, NhifSpecialty specialty, bool adult, bool pregnancyAllowed, NhifSpecificationType specification)
 {
 	int currentUpdateIdx = -1;
 
@@ -155,7 +155,7 @@ std::vector<ProcedureCode> NhifProcedures::getNhifProcedures(Date ambDate, NhifS
 		.procedure_code = 0
 	};
 
-	for (auto& [nhifCode, procedureCode] : ProcedureCode::procedureByNhifCode()) {
+	for (auto& [nhifCode, procedureCode] : ProcedureCode::procedureByNhifCodeLegacy()) {
 
 		if (!pregnancyAllowed && nhifCode == 103) continue;
 
@@ -167,6 +167,118 @@ std::vector<ProcedureCode> NhifProcedures::getNhifProcedures(Date ambDate, NhifS
 	}
 
 	return result;
+}
+
+std::vector<ProcedureCode> NhifProcedures::getNhifProcedures(Date ambDate, NhifSpecialty specialty, bool adult, bool pregnancyAllowed, NhifSpecificationType specification)
+{
+	int currentUpdateIdx = -1;
+
+	for (size_t i = 0; i < m_NRDlist.size(); i++)
+	{
+		if (ambDate < m_NRDlist[i].date) continue;
+
+		currentUpdateIdx = i; break;
+	}
+
+	if (currentUpdateIdx == -1) return {};
+
+	auto& effectiveNRD = m_NRDlist[currentUpdateIdx];
+
+	std::vector<ProcedureCode> result;
+
+	result.reserve(10);
+
+	//FUCK NHIF AND THEIR NUMBERS
+	static const std::vector<std::pair<int, std::string>> specMap[3] = {
+		//NHIF PARTIAL
+		{
+			{101, "97017-00"},
+			{101, "97017-01"},
+			{301, "97546-00"}, //!!
+			{301, "97546-01"}, //!!
+			{332, "97423-00"}, //!!
+			{333, "97423-01"}, //!!
+			{508, "97311-09"},
+			{509, "97311-10"},
+
+			{102, "97016-00"},
+			{520, "97300-00"},
+			{510, "97301-00"},
+			{544, "97020-00"},
+			{832, "97710-00"},
+			{833, "97710-01"},
+			{834, "D-09-004"},
+			{835, "D-09-005"}
+		},
+
+		//NHIF FULL
+		{
+			{101, "97017-00"},
+			{101, "97017-01"},
+
+			{301, "97546-03"}, //!!
+			{301, "97546-02"}, //!!
+			{332, "97423-02"}, //!!
+			{333, "97423-03"}, //!!
+
+			{508, "97311-09"},
+			{509, "97311-10"},
+
+			{102, "97016-00"},
+			{520, "97300-00"},
+			{510, "97301-00"},
+			{544, "97020-00"},
+			{832, "97710-00"},
+			{833, "97710-01"},
+			{834, "D-09-004"},
+			{835, "D-09-005"}
+		},
+
+		//NHIF ANESTHESIA
+		{
+			{903, "93967-05"}, //!!
+			{101, "97017-00"},
+			{101, "97017-01"},
+			{301, "97546-00"}, //!!
+			{301, "97546-01"}, //!!
+			{508, "97311-11"}, //!!
+			{509, "97311-12"}, //!!
+			{332, "97423-00"}, //!!
+			{333, "97423-01"}, //!!
+			{102, "97016-00"},
+			{520, "97300-01"},
+			{510, "97301-01"},
+			{544, "97020-00"},
+			{901, "92514-99"}
+		},
+	};
+
+	auto key = PriceKey{
+		.specialty = static_cast<int>(specialty),
+		.adult = adult,
+		.specification = static_cast<int>(specification),
+		.procedure_code = 0
+	};
+	
+	for (auto& [nhifCode, procedureCode] : ProcedureCode::procedureByNhifCodeLegacy()) {
+
+		key.procedure_code = nhifCode;
+
+		if (effectiveNRD.prices.count(key)) {
+
+			for (auto& [code, achi] : specMap[key.specification])
+			{
+				if (achi == "97017-01" && pregnancyAllowed == false) {
+					continue;
+				}
+
+				if (nhifCode == code) result.emplace_back(achi);
+			}
+		}
+	}
+
+	return result;
+
 }
 
 std::pair<patientPrice, nzokPrice> NhifProcedures::getPrices

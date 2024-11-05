@@ -6,11 +6,10 @@
 
 struct ProcedureRow
 {
-	enum UserRole { None, Fav, NonFav };
+	enum UserRole { None, Nhif, Fav, NonFav };
 
 	QString code;
 	QString name;
-	bool nhif;
 	UserRole role{ UserRole::None };
 
 };
@@ -30,7 +29,7 @@ class ProcedureTemplateModel : public QAbstractTableModel
 public:
 	ProcedureTemplateModel(QObject *parent = nullptr);
 
-	void setProcedures(std::vector<ProcedureListElement> procedures);
+	void setProcedures(std::vector<ProcedureListElement> procedures, bool addSections);
 	const ProcedureRow& getProcedureRow(int index) const;
 	~ProcedureTemplateModel();
 

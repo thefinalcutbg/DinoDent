@@ -136,7 +136,7 @@ bool ListPresenter::isValid()
     for (auto& p : m_ambList.procedures)
     {
 
-        bool isFullExam = p.code.type() == ProcedureType::full_exam;
+        bool isFullExam = p.code.type() == ProcedureType::FullExam;
 
         if (!isFullExam) {
             nonExamProcedureFound = true;

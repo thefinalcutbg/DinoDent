@@ -314,7 +314,7 @@ void Tooth::setStatus(Status code, bool present) {
 
 	//handling add status
 
-	//the edge case for placing bridge over denture
+	//the edge case for placing Bridge over denture
 	if (
 		(code == Bridge || code == Splint) &&
 		m_data[Denture] &&

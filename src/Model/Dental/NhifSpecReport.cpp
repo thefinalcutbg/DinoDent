@@ -36,12 +36,12 @@ NhifSpecReport::NhifSpecReport(const Doctor& d, Date reportDate, NhifSpecificati
 
 {
 
-	for (auto code : NhifProcedures::getNhifProcedures(reportDate, m_specialty, false, true, specType))
+	for (auto code : NhifProcedures::getNhifProceduresLegacy(reportDate, m_specialty, false, true, specType))
 	{
 		procedures_minor[code.oldCode()] = 0;
 	}
 
-	for (auto code : NhifProcedures::getNhifProcedures(reportDate, m_specialty, true, true, specType))
+	for (auto code : NhifProcedures::getNhifProceduresLegacy(reportDate, m_specialty, true, true, specType))
 	{
 		procedures_adult[code.oldCode()] = 0;
 	}

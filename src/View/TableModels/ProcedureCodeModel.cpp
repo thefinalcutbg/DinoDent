@@ -2,7 +2,7 @@
 
 
 ProcedureCodeModel::ProcedureCodeModel() :
-    m_list(ProcedureCode::getNonNhifProcedures())
+    m_list(ProcedureCode::getProcedures())
 {}
 
 QVariant ProcedureCodeModel::headerData(int section, Qt::Orientation orientation, int role) const

@@ -10,7 +10,7 @@ struct AmbList;
 
 class ProcedureDialogPresenter
 {
-	int currentIndex{ -1 };
+	static inline int sectionIndex = -1;
 
 	std::vector<const Tooth*> selectedTeeth;
 
@@ -25,14 +25,13 @@ class ProcedureDialogPresenter
 
 	IProcedureDialog* view;
 
-	std::vector<Procedure> procedures;
+	std::vector<Procedure> result;
 
-	std::vector<ProcedureListElement> procedureList;
+	ProcedureList procedureList;
 
 	ProcedureDateValidator date_validator;
 
-	void sortProcedures();
-	void refreshProcedureList();
+	void refreshNhifList();
 
 public:
 
@@ -46,8 +45,9 @@ public:
 
 	void setView(IProcedureDialog* view);
 	void procedureDateChanged(const Date& date);
-	void indexChanged(int index);
-	void favouriteClicked(int index);
+	void sectionChanged(int index);
+	void setCode(ProcedureCode code, bool nhif);
+	void favouriteClicked(const std::string& code);
 	void formAccepted();
 
 	std::vector<Procedure> openDialog();

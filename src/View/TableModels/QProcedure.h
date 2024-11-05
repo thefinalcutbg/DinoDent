@@ -10,8 +10,8 @@ struct QProcedure
 	QString diagnosis;
 	QString tooth{};
 	QString procedureName;
-	int code{ -1 };
-	QString ksmp;
+	QString nhifCode;
+	QString ACHICode;
 	FinancingSource fsource{ FinancingSource::Patient };
 	//QString price;
 	QString doctor;

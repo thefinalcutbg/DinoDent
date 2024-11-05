@@ -25,7 +25,7 @@ ProcedureDialog::ProcedureDialog(ProcedureDialogPresenter& presenter, QWidget *p
 	table->setSelectionMode(QAbstractItemView::SingleSelection);
 	table->horizontalHeader()->setSectionResizeMode(2, QHeaderView::ResizeMode::Stretch);
 
-	table->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+	table->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeMode::ResizeToContents);
 	table->verticalHeader()->hide();
 
 	auto favDelagete = new FavButtonDelegate();
@@ -36,7 +36,10 @@ ProcedureDialog::ProcedureDialog(ProcedureDialogPresenter& presenter, QWidget *p
 	});
 
 	connect(favDelagete, &FavButtonDelegate::favouriteClicked, this, [&](int rowIdx) {
-		presenter.favouriteClicked(rowIdx);
+		
+		auto code = model.index(rowIdx, 1).data().toString().toStdString();
+
+		presenter.favouriteClicked(code);
 		
 	});
 
@@ -45,13 +48,15 @@ ProcedureDialog::ProcedureDialog(ProcedureDialogPresenter& presenter, QWidget *p
             s_idx = table->selectionModel()->currentIndex().row();
 
             if (s_idx == -1){
-                presenter.indexChanged(s_idx);
+				presenter.setCode(ProcedureCode{}, 0);
 				ui.tableView->clearSelection(); //because of bug when reseting the model
                 return;
             }
 
-            int procedure = proxyModel.index(s_idx, 0).data().toInt();
-            presenter.indexChanged(procedure);
+            presenter.setCode(
+				ProcedureCode(proxyModel.index(s_idx, 1).data().toString().toStdString()),
+				proxyModel.index(s_idx, 1).data(Qt::UserRole) == 1 //NHIF value from model
+			);
 		});
 
     connect(ui.cancelButton, &QPushButton::clicked, this, [&] { close(); });
@@ -74,7 +79,10 @@ ProcedureDialog::ProcedureDialog(ProcedureDialogPresenter& presenter, QWidget *p
         
 	});
 
-	
+	connect(ui.sectionCombo, &QComboBox::currentIndexChanged, this, [&](int index) {
+		presenter.sectionChanged(index);
+	});
+
 	ui.searchEdit->setText(s_search);
 	ui.tableView->selectRow(s_idx);
 
@@ -88,11 +96,29 @@ ProcedureDialog::~ProcedureDialog()
 }
 
 
+void ProcedureDialog::setProcedureSections(const std::vector<std::string>& sectionNames, int defaultIdx)
+{
+	ui.sectionCombo->clear();
+
+	ui.sectionCombo->blockSignals(true);
+
+	for (auto& name : sectionNames) {
+		ui.sectionCombo->addItem(name.c_str());
+	}
+
+	ui.sectionCombo->setItemIcon(1, QIcon(":/icons/icon_fav.png"));
+
+	ui.sectionCombo->setCurrentIndex(defaultIdx);
+
+	ui.sectionCombo->blockSignals(false);
+
+	emit ui.sectionCombo->currentIndexChanged(defaultIdx);
+}
+
 void ProcedureDialog::setProcedureTemplates(std::vector<ProcedureListElement> procedureList)
 {
-	model.setProcedures(procedureList);	
-	presenter.indexChanged(-1);
-
+	model.setProcedures(procedureList, ui.sectionCombo->currentIndex() < 2);	
+	presenter.setCode(ProcedureCode(), false);
 }
 
 void ProcedureDialog::setSelectionLabel(const std::vector<int>& selectedTeethNum)

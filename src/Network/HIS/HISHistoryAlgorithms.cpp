@@ -43,8 +43,8 @@ std::vector<Procedure> HISHistoryAlgorithms::getProcedures(TiXmlDocument& doc)
 			//parsing teeth indexes:
 			if (elementName == "nhis:tooth" && 
 				(
-					p.code.type() != ProcedureType::full_exam && 
-					p.code.type() != ProcedureType::depuratio
+					p.code.type() != ProcedureType::FullExam && 
+					p.code.type() != ProcedureType::Depuratio
 				)
 			)
 			{

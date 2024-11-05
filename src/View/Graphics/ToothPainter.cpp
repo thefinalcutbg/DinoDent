@@ -397,7 +397,7 @@ inline QPixmap getToothPixmap(const ToothPaintHint& tooth)
     }
 
 
-    //drawing bridge/splint from front:
+    //drawing Bridge/splint from front:
 
     painter.setOpacity(0.8);
 

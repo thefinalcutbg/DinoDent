@@ -5,7 +5,6 @@
 
 #include <unordered_map>
 
-
 ProcedureList::ProcedureList()
 {
 
@@ -14,7 +13,7 @@ ProcedureList::ProcedureList()
 
 		int blockNumber = -1;
 
-		auto allProcedures = ProcedureCode::getProcedures();
+		auto& allProcedures = ProcedureCode::getProcedures();
 
 		m_elements.reserve(allProcedures.size());
 
@@ -23,7 +22,8 @@ ProcedureList::ProcedureList()
 
 			auto& code = allProcedures[i];
 
-			if (code.oldCode()) continue;
+			//setting nhif procedures separately
+			if (code.nhifCode()) continue;
 
 			m_elements.push_back(
 				ProcedureListElement{
@@ -41,13 +41,13 @@ ProcedureList::ProcedureList()
 
 				auto newBlock = Block{
 					.name = code.achiBlockName(),
-					.from = i
+					.from = m_elements.size()-1
 				};
 
 				m_blocks.push_back(newBlock);
 			}
 
-			m_blocks.back().to = i + 1;
+			m_blocks.back().to = m_elements.size();
 
 		}
 

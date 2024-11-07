@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>353</width>
-    <height>485</height>
+    <width>371</width>
+    <height>752</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -56,7 +56,7 @@
         <bool>true</bool>
        </property>
        <property name="buttonSymbols">
-        <enum>QAbstractSpinBox::NoButtons</enum>
+        <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
        </property>
        <property name="minimumDate">
         <date>
@@ -73,7 +73,7 @@
      <item>
       <spacer name="horizontalSpacer_6">
        <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+        <enum>Qt::Orientation::Horizontal</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
@@ -110,6 +110,108 @@
      <property name="placeholderText">
       <string/>
      </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_6">
+     <item>
+      <widget class="QCheckBox" name="rangeCheck">
+       <property name="text">
+        <string>Блок корони</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="hyperdonticCheckBox">
+       <property name="text">
+        <string>На свръхброен зъб</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_3">
+       <property name="orientation">
+        <enum>Qt::Orientation::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>0</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="rangeGroup">
+     <property name="title">
+      <string>Дължина на конструкцията</string>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QLabel" name="label_4">
+        <property name="text">
+         <string>от</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="beginCombo">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>66</width>
+          <height>0</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>до</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="endCombo">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>66</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="editable">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Orientation::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>146</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
     </widget>
    </item>
    <item>
@@ -153,7 +255,7 @@
       <item>
        <spacer name="horizontalSpacer">
         <property name="orientation">
-         <enum>Qt::Horizontal</enum>
+         <enum>Qt::Orientation::Horizontal</enum>
         </property>
         <property name="sizeHint" stdset="0">
          <size>
@@ -167,17 +269,160 @@
     </widget>
    </item>
    <item>
-    <widget class="QCheckBox" name="hyperdonticCheckBox">
-     <property name="text">
-      <string>На свръхброен зъб</string>
+    <widget class="QGroupBox" name="surfaceGroup">
+     <property name="title">
+      <string>Повърхности</string>
      </property>
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <item>
+           <widget class="QCheckBox" name="o_check">
+            <property name="text">
+             <string>Оклузално/Инцизално</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="m_check">
+            <property name="text">
+             <string>Медиално</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="d_check">
+            <property name="text">
+             <string>Дистално</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_8">
+          <item>
+           <widget class="QCheckBox" name="b_check">
+            <property name="text">
+             <string>Букално/Лабиално</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="l_check">
+            <property name="text">
+             <string>Лингвално/Палатинално</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="c_check">
+            <property name="text">
+             <string>Цервикално</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_4">
+          <property name="orientation">
+           <enum>Qt::Orientation::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="postCheck">
+        <property name="text">
+         <string>Радикуларен щифт</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
    <item>
-    <widget class="RangeWidget" name="rangeWidget" native="true"/>
+    <widget class="QGroupBox" name="quadrantGroup">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="title">
+      <string>Квадрант</string>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_4">
+        <item>
+         <widget class="QRadioButton" name="quadrantFrist">
+          <property name="text">
+           <string>Първи квадрант</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="quadrantFourth">
+          <property name="text">
+           <string>Четвърти квадрант</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_5">
+        <item>
+         <widget class="QRadioButton" name="quadrantSecond">
+          <property name="text">
+           <string>Втори квадрант</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="quadrantThird">
+          <property name="text">
+           <string>Трети квадрант</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
    </item>
    <item>
-    <widget class="SurfaceSelector" name="surfaceWidget" native="true"/>
+    <widget class="QComboBox" name="jawCombo">
+     <item>
+      <property name="text">
+       <string>Горна челюст</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Долна челюст</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Горна и долна челюст</string>
+      </property>
+     </item>
+    </widget>
    </item>
    <item>
     <widget class="QLabel" name="notesLabel">
@@ -215,22 +460,33 @@
     </widget>
    </item>
    <item>
-    <widget class="QCheckBox" name="PHIFcheckbox">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
+    <layout class="QHBoxLayout" name="horizontalLayout_7">
+     <property name="bottomMargin">
+      <number>30</number>
      </property>
-     <property name="text">
-      <string>Фонд допълнително здравно осигуряване</string>
-     </property>
-    </widget>
+     <item>
+      <widget class="QLabel" name="label_5">
+       <property name="text">
+        <string>Източник на финансиране:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="financingCombo">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
     <spacer name="verticalSpacer">
      <property name="orientation">
-      <enum>Qt::Vertical</enum>
+      <enum>Qt::Orientation::Vertical</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>
@@ -249,20 +505,20 @@
       </sizepolicy>
      </property>
      <property name="styleSheet">
-      <string notr="true">color: red</string>
+      <string notr="true"/>
      </property>
      <property name="text">
       <string>ErrorLabel</string>
      </property>
      <property name="alignment">
-      <set>Qt::AlignCenter</set>
+      <set>Qt::AlignmentFlag::AlignCenter</set>
      </property>
     </widget>
    </item>
    <item>
     <spacer name="verticalSpacer_2">
      <property name="orientation">
-      <enum>Qt::Vertical</enum>
+      <enum>Qt::Orientation::Vertical</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>
@@ -280,18 +536,6 @@
    <class>DateEdit</class>
    <extends>QDateEdit</extends>
    <header>View/uiComponents/DateEdit.h</header>
-  </customwidget>
-  <customwidget>
-   <class>SurfaceSelector</class>
-   <extends>QWidget</extends>
-   <header>View/SubWidgets/SurfaceSelector.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>RangeWidget</class>
-   <extends>QWidget</extends>
-   <header>View/SubWidgets/RangeWidget.h</header>
-   <container>1</container>
   </customwidget>
   <customwidget>
    <class>LineEdit</class>

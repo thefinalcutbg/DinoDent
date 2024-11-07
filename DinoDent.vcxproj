@@ -347,7 +347,6 @@
     <ClCompile Include="src\Model\Validators\NzokContractValidator.cpp" />
     <ClCompile Include="src\Model\Validators\PatientValidators.cpp" />
     <ClCompile Include="src\Model\Validators\ProcedureDateValidator.cpp" />
-    <ClCompile Include="src\Model\Validators\ProcedureValidators.cpp" />
     <ClCompile Include="src\Model\Validators\RziValidator.cpp" />
     <ClCompile Include="src\Model\xml.cpp" />
     <ClCompile Include="src\Network\AbstractReplyHandler.cpp" />
@@ -432,7 +431,6 @@
     <ClCompile Include="src\View\TableModels\MonthNotifTableModel.cpp" />
     <ClCompile Include="src\View\TableModels\NameFilterProxyModel.cpp" />
     <ClCompile Include="src\View\TableModels\PlainTableModel.cpp" />
-    <ClCompile Include="src\View\TableModels\ProcedureCodeModel.cpp" />
     <ClCompile Include="src\View\TableModels\ProcedureSelectModel.cpp" />
     <ClCompile Include="src\View\TableModels\ProcedureTableModel.cpp" />
     <ClCompile Include="src\View\TableModels\ProcedureTemplateModel.cpp" />
@@ -445,10 +443,8 @@
     <ClCompile Include="src\View\SubWidgets\ControlPanel.cpp" />
     <ClCompile Include="src\View\SubWidgets\PatientTileInfo.cpp" />
     <ClCompile Include="src\View\SubWidgets\PerioStatisticView.cpp" />
-    <ClCompile Include="src\View\SubWidgets\RangeWidget.cpp" />
     <ClCompile Include="src\View\SubWidgets\ReferralTile.cpp" />
     <ClCompile Include="src\View\SubWidgets\SurfacePanel.cpp" />
-    <ClCompile Include="src\View\SubWidgets\SurfaceSelector.cpp" />
     <ClCompile Include="src\View\SubWidgets\TabTitle.cpp" />
     <ClCompile Include="src\View\Theme.cpp" />
     <ClCompile Include="src\View\uiComponents\AutoCompleteLineEdit.cpp" />
@@ -687,7 +683,6 @@
     <ClInclude Include="src\Model\Validators\NzokContractValidator.h" />
     <ClInclude Include="src\Model\Validators\PatientValidators.h" />
     <ClInclude Include="src\Model\Validators\ProcedureDateValidator.h" />
-    <ClInclude Include="src\Model\Validators\ProcedureValidators.h" />
     <ClInclude Include="src\Model\Validators\RziValidaor.h" />
     <ClInclude Include="src\Model\xml.h" />
     <ClInclude Include="src\Network\AbstractReplyHandler.h" />
@@ -810,7 +805,6 @@
     <QtMoc Include="src\View\Widgets\UpdatePromptDialog.h" />
     <QtMoc Include="src\View\Widgets\UpdateDownloader.h" />
     <QtMoc Include="src\View\TableModels\MKBModel.h" />
-    <QtMoc Include="src\View\TableModels\ProcedureCodeModel.h" />
     <ClInclude Include="src\View\TableModels\NameFilterProxyModel.h" />
     <ClInclude Include="src\View\TableModels\QProcedure.h" />
     <QtMoc Include="src\View\TableModels\ReportFilesModel.h" />
@@ -909,9 +903,7 @@
     <QtMoc Include="src\View\uiComponents\DateEdit.h" />
     <QtMoc Include="src\View\uiComponents\ComboBox.h" />
     <QtMoc Include="src\View\SubWidgets\TabTitle.h" />
-    <QtMoc Include="src\View\SubWidgets\SurfaceSelector.h" />
     <QtMoc Include="src\View\SubWidgets\SurfacePanel.h" />
-    <QtMoc Include="src\View\SubWidgets\RangeWidget.h" />
     <QtMoc Include="src\View\SubWidgets\PerioStatisticView.h" />
     <QtMoc Include="src\View\SubWidgets\ControlPanel.h" />
     <QtMoc Include="src\View\SubWidgets\ProcedureInput.h" />
@@ -933,10 +925,8 @@
     <QtUic Include="src\View\SubWidgets\ControlPanel.ui" />
     <QtUic Include="src\View\SubWidgets\PatientTileInfo.ui" />
     <QtUic Include="src\View\SubWidgets\PerioStatisticView.ui" />
-    <QtUic Include="src\View\SubWidgets\RangeWidget.ui" />
     <QtUic Include="src\View\SubWidgets\ReferralTile.ui" />
     <QtUic Include="src\View\SubWidgets\SurfacePanel.ui" />
-    <QtUic Include="src\View\SubWidgets\SurfaceSelector.ui" />
     <QtUic Include="src\View\SubWidgets\TabTitle.ui" />
     <QtUic Include="src\View\Widgets\AboutDialog.ui" />
     <QtUic Include="src\View\Widgets\AllergyDialog.ui" />

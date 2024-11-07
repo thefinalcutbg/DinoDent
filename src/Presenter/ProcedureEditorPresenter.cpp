@@ -25,7 +25,7 @@ ProcedureEditorPresenter::ProcedureEditorPresenter(const Procedure& p, const Dat
 	result->diagnosis.description = p.diagnosis.description;
 	result->affectedTeeth = p.affectedTeeth;
 
-	_dateValidator.setProcedure(result->code.oldCode(), result->financingSource == FinancingSource::NHIF);
+	_dateValidator.setProcedure(result->code.nhifCode(), result->financingSource == FinancingSource::NHIF);
 }
 
 std::optional<Procedure> ProcedureEditorPresenter::openDialog()
@@ -40,130 +40,69 @@ void ProcedureEditorPresenter::setView(IProcedureEditDialog* view)
 	this->view = view;
 
 	view->procedureInput()->dateEdit()->set_Date(result->date);
-	view->procedureInput()->setFinancingSource(result->financingSource);
-	view->procedureInput()->setHyperdonticState(result->getToothIndex().supernumeral);
 	view->procedureInput()->dateEdit()->setInputValidator(&_dateValidator);
-	view->procedureInput()->setNotes(result->notes);
-	view->procedureInput()->diagnosisEdit()->set_Text(result->diagnosis.description);
-	view->procedureInput()->diagnosisCombo()->setIndex(result->diagnosis.index());
 	
-	if (result->diagnosis.index()) {
-		view->procedureInput()->diagnosisEdit()->setInputValidator(nullptr);
+	IProcedureInput::Data data;
+
+	data.code = result->code;
+	data.diagnosis = result->diagnosis;
+	data.financingSource = result->financingSource;
+	data.hyperdontic = result->getToothIndex().supernumeral;
+	data.notes = result->notes;
+	data.param = result->param;
+
+	if (result->getScope() == ProcedureScope::Range) {
+		data.range = std::get<ConstructionRange>(result->affectedTeeth);
 	}
-
-	range_validator.allowSingleRange = result->code.type() == ProcedureType::Denture;
-
-	//GENERAL
-	if (result->code.isGeneral()) {
-
-		view->procedureInput()->surfaceSelector()->setInputValidator(nullptr);
-		view->procedureInput()->rangeWidget()->setInputValidator(nullptr);
-
-		result->code.isAnesthesia() ?
-			view->procedureInput()->setLayout(IProcedureInput::Anesthesia)
-			:
-			view->procedureInput()->setLayout(IProcedureInput::General);
-
-	}
-
-	//TOOTH SPECIFIC
-	if (result->code.isToothSpecific()) {
-
-		view->procedureInput()->rangeWidget()->setInputValidator(nullptr);
-
-		if (result->code.isRestoration()) {
-
-			view->procedureInput()->setLayout(IProcedureInput::Restoration);
-			view->procedureInput()->surfaceSelector()->setInputValidator(&surface_validator);
-		}
-		else {
-			view->procedureInput()->setLayout(IProcedureInput::ToothSpecific);
-		}
-
-	}
-
-	//RANGE SPECIFIC
-	if (result->code.isRangeSpecific()) {
-
-		view->procedureInput()->setLayout(IProcedureInput::Range);
-		view->procedureInput()->surfaceSelector()->setInputValidator(nullptr);
-
-		view->procedureInput()->rangeWidget()->setInputValidator(
-
-			m_code.requiresRangeValidation() ?
-				&range_validator
-				:
-				nullptr
-		);
-	} 
-
 
 	view->procedureInput()->dateEdit()->validateInput();
+
+	view->procedureInput()->setData(data);
+
+	view->procedureInput()->disablePost();
 
 	result.reset();
 }
 
 void ProcedureEditorPresenter::okPressed()
 {
-	//bool validIdx = view->procedureInput()->diagnosisCombo()->getIndex();
-	
-	//view->procedureInput()->diagnosisEdit()->setInputValidator(validIdx ? nullptr : &not_emptyValidator);
 
 
-	//validation:
-	std::vector<AbstractUIElement*> validatable{
-		view->procedureInput()->dateEdit(),
-		view->procedureInput()->surfaceSelector(),
-		view->procedureInput()->rangeWidget(),
-		view->procedureInput()->diagnosisEdit()
-	};
-
-
-	for (AbstractUIElement* e : validatable)
-	{
-		e->validateInput();
-		if (!e->isValid())
-		{
-            e->set_focus();
-			return;
-		}
+	if (!view->procedureInput()->dateEdit()->isValid()) {
+		return;
 	}
+
+	auto validationResult = view->procedureInput()->isValid();
+
+	if (validationResult.size()) {
+		ModalDialogBuilder::showMessage(validationResult);
+		return;
+	}
+
+	auto data = view->procedureInput()->getData();
 
 	//procedure creator:
 	result.emplace(Procedure{});
+
 	result->code = m_code;
-	result->notes = view->procedureInput()->getNotes();
 	result->date = view->procedureInput()->dateEdit()->getDate();
-	result->diagnosis = view->procedureInput()->diagnosisCombo()->getIndex();
-	result->diagnosis.description = view->procedureInput()->diagnosisEdit()->getText();
-	result->financingSource = view->procedureInput()->getFinancingSource();
 	result->his_index = m_hisIndex;
 
-	if (result->code.isGeneral()) {
+	if (m_code.getScope() != ProcedureScope::AllOrNone) {
 
-		if (result->code.isAnesthesia()) {
-			result->param = AnesthesiaMinutes{ view->procedureInput()->minutes() };
-		}
-
-		result->affectedTeeth = std::monostate{};
-	}
-	else if (result->code.isToothSpecific()) {
-
-		if (result->code.isRestoration()) {
-
-			result->param = view->procedureInput()->surfaceSelector()->getData();
-		}
-
-		m_tooth_index.supernumeral = view->procedureInput()->onHyperdontic();
-
+		m_tooth_index.supernumeral = data.hyperdontic;
 		result->affectedTeeth = m_tooth_index;
 	}
-	else if (result->code.isRangeSpecific()) {
 
-		auto [begin, end] = view->procedureInput()->rangeWidget()->getRange();
-
-		result->affectedTeeth = ConstructionRange{ begin, end };
+	result->notes = data.notes;
+	result->diagnosis = data.diagnosis;
+	result->financingSource = data.financingSource;
+	
+	if (data.range.has_value()) {
+		result->affectedTeeth = data.range.value();
 	}
+
+	result->param = data.param;
 
 	view->closeDialog();
 }

@@ -320,7 +320,7 @@ std::string HisService::getProcedure(const Procedure& p, const ToothContainer& t
 
 	result += bind("financingSource", static_cast<int>(p.financingSource));
 
-	if (p.code.isToothSpecific())
+	if (p.code.getScope() == ProcedureScope::SingleTooth)
 	{
 
 		p.applyProcedure(teethChanged);
@@ -329,7 +329,7 @@ std::string HisService::getProcedure(const Procedure& p, const ToothContainer& t
 	
 	}
 
-	if (p.code.isRangeSpecific())
+	if (p.code.getScope() == ProcedureScope::Range)
 	{
 		auto [begin, end] = std::get<ConstructionRange>(p.affectedTeeth);
 
@@ -345,6 +345,8 @@ std::string HisService::getProcedure(const Procedure& p, const ToothContainer& t
 			result += getToothStatus(teethChanged.at(i));
 		}
 	}
+
+#pragma message ( "YOIU HAVE TO PUT AMBI PARSING HERE!" )
 
 	if (p.code.type() == ProcedureType::Depuratio)
 	{

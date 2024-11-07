@@ -6,7 +6,6 @@
 #include <json/json.h>
 
 #include "Presenter/ProcedureCreator.h"
-
 #include "Resources.h"
 
 
@@ -20,33 +19,29 @@ ProcedureInput::ProcedureInput(QWidget *parent)
 		ui.diagCombo->addItem(name.c_str());
 	}
 
-	ui.diagEdit->setInputValidator(&notEmpty_validator);
-
     connect(ui.diagCombo, &QComboBox::currentIndexChanged, this, [&](int idx) {
-
-			ui.diagEdit->setInputValidator(idx ? nullptr : &notEmpty_validator);
-
-			ui.diagEdit->validateInput();
-
 			if (presenter) {
 				presenter->diagnosisChanged(idx);
 			}
+	});
 
-			});
+	connect(ui.rangeCheck, &QCheckBox::toggled, this, [&](bool checked) {
 
-/*
-	connect(ui.rangeWidget, &RangeWidget::rangeChanged,
-		[=](int begin, int end) {
-			//if (presenter)
-			//presenter->rangeChanged(begin, end);
-		}
-	);
-*/
+		ui.rangeGroup->setHidden(!checked);
+		ui.hyperdonticCheckBox->setHidden(checked);
 
-	ui.dateEdit->setErrorLabel(ui.errorLabel);
-	ui.rangeWidget->setErrorLabel(ui.errorLabel);
-	ui.surfaceWidget->setErrorLabel(ui.errorLabel);
-	ui.diagEdit->setErrorLabel(ui.errorLabel);
+	});
+
+	QString toothIndexes[32]{ "18", "17", "16", "15", "14", "13", "12", "11",
+						  "21", "22", "23", "24", "25", "26", "27", "28",
+						  "38", "37", "36", "35", "34", "33", "32", "31",
+						  "41", "42", "43", "44", "45", "46", "47", "48" };
+
+	for (int i = 0; i < 32; i++)
+	{
+		ui.beginCombo->addItem(toothIndexes[i]);
+		ui.endCombo->addItem(toothIndexes[i]);
+	}
 
 	//setting autocomplete diagnosis
 	Json::Value diagnosisList;
@@ -70,24 +65,6 @@ ProcedureInput::ProcedureInput(QWidget *parent)
 	completer->setMaxVisibleItems(10);
 	completer->setModelSorting(QCompleter::UnsortedModel);
 	ui.diagEdit->setCompleter(completer);
-
-	
-}
-
-AbstractLineEdit* ProcedureInput::diagnosisEdit()
-{
-	return ui.diagEdit;
-}
-
-AbstractDateEdit* ProcedureInput::dateEdit()
-{
-	return ui.dateEdit;
-}
-
-
-std::string ProcedureInput::getNotes()
-{
-	return ui.notesEdit->toPlainText().toStdString();
 }
 
 QDateEdit* ProcedureInput::qDateEdit()
@@ -95,145 +72,359 @@ QDateEdit* ProcedureInput::qDateEdit()
 	return ui.dateEdit;
 }
 
-AbstractRangeEdit* ProcedureInput::rangeWidget()
+AbstractDateEdit* ProcedureInput::dateEdit()
 {
-	return ui.rangeWidget;
+	return ui.dateEdit;
 }
 
-AbstractSurfaceSelector* ProcedureInput::surfaceSelector()
+void ProcedureInput::setData(const Data& data)
 {
-	return ui.surfaceWidget;
-}
+	m_code = data.code;
 
-AbstractComboBox* ProcedureInput::diagnosisCombo()
-{
-	return ui.diagCombo;
-}
+	auto codeIsValid = m_code.isValid();
 
-int ProcedureInput::minutes()
-{
-	return ui.anesthesiaSpin->value();
-}
+	for (auto child : children()) {
 
-void ProcedureInput::setMinutes(int min)
-{
-	ui.anesthesiaSpin->setValue(min);
-}
+		if (child->isWidgetType()) {
+			static_cast<QWidget*>(child)->setHidden(!codeIsValid);
+		}
+	}
 
-
-void ProcedureInput::setErrorMsg(const std::string& error)
-{
-	ui.addDiagLabel->setHidden(true);
-	ui.label_2->setHidden(true);
-	ui.diagEdit->setHidden(true);
-	ui.diagCombo->setHidden(true);
-	ui.rangeWidget->setHidden(true);
-	ui.surfaceWidget->setHidden(true);
-	ui.notesEdit->setHidden(true);
-	ui.PHIFcheckbox->setHidden(true);
-	ui.notesLabel->setHidden(true);
-	ui.hyperdonticCheckBox->setHidden(true);
-	ui.anesthesiaGroup->setHidden(true);
-	ui.errorLabel->setText(error.c_str());
-	ui.dateEdit->setErrorLabel(nullptr);
-	ui.rangeWidget->setErrorLabel(nullptr);
-	ui.surfaceWidget->setErrorLabel(nullptr);
-	ui.diagEdit->setErrorLabel(nullptr);
-
-}
-
-
-void ProcedureInput::setLayout(WidgetLayout layout)
-{
-	ui.addDiagLabel->setHidden(false);
-	ui.label_2->setHidden(false);
-	ui.diagEdit->setHidden(false);
-	ui.diagCombo->setHidden(false);
-	ui.notesEdit->setHidden(false);
-
-	ui.dateEdit->setErrorLabel(ui.errorLabel);
-	ui.rangeWidget->setErrorLabel(ui.errorLabel);
-	ui.surfaceWidget->setErrorLabel(ui.errorLabel);
-	ui.diagEdit->setErrorLabel(ui.errorLabel);
+	if (!codeIsValid) return;
 
 	ui.errorLabel->setText("");
-	ui.notesLabel->setHidden(false);
 
-	switch (layout)
+	ui.diagCombo->setCurrentIndex(data.diagnosis.index());
+	ui.diagEdit->setText(data.diagnosis.description.c_str());
+
+	ui.notesEdit->setPlainText(data.notes.c_str());
+
+	//financing logic
+	initFinancingCombo(data.code);
+	setFinancingSource(data.financingSource);
+
+	initView(data.code);
+
+	if (std::holds_alternative<RestorationData>(data.param) 
+		&& data.code.getScope() == ProcedureScope::SingleTooth
+		) 
 	{
-		case WidgetLayout::General:
-			ui.rangeWidget->setHidden(true);
-			ui.surfaceWidget->setHidden(true);
-			ui.hyperdonticCheckBox->setHidden(true);
-			ui.anesthesiaGroup->setHidden(true);
-			break;
-		case WidgetLayout::Range:
-			ui.rangeWidget->disable(false);
-			ui.rangeWidget->setHidden(false);
-			ui.surfaceWidget->setHidden(true);
-			ui.hyperdonticCheckBox->setHidden(true);
-			ui.anesthesiaGroup->setHidden(true);
-			break;
-		case WidgetLayout::Restoration:
-			ui.rangeWidget->setHidden(true);
-			ui.surfaceWidget->setHidden(false);
-			ui.hyperdonticCheckBox->setHidden(false);
-			ui.anesthesiaGroup->setHidden(true);
-			break;
-		case WidgetLayout::ToothSpecific:
-			ui.rangeWidget->setHidden(true);
-			ui.surfaceWidget->setHidden(true);
-			ui.hyperdonticCheckBox->setHidden(false);
-			ui.anesthesiaGroup->setHidden(true);
-			break;
-		case WidgetLayout::Anesthesia:
-			ui.rangeWidget->setHidden(true);
-			ui.surfaceWidget->setHidden(true);
-			ui.hyperdonticCheckBox->setHidden(true);
-			ui.anesthesiaGroup->setHidden(false);
+
+		auto& restoration = std::get<RestorationData>(data.param);
+
+		ui.o_check->setChecked(restoration.surfaces[0]);
+		ui.m_check->setChecked(restoration.surfaces[1]);
+		ui.d_check->setChecked(restoration.surfaces[2]);
+		ui.b_check->setChecked(restoration.surfaces[3]);
+		ui.l_check->setChecked(restoration.surfaces[4]);
+		ui.c_check->setChecked(restoration.surfaces[5]);
+		ui.postCheck->setChecked(restoration.post);
+	}
+
+	if (std::holds_alternative<AnesthesiaMinutes>(data.param)
+		&& data.code.getScope() == ProcedureScope::AllOrNone
+	) 
+	{
+
+		ui.anesthesiaSpin->setValue(std::get<AnesthesiaMinutes>(data.param).minutes);
+	}
+
+	ui.hyperdonticCheckBox->setChecked(data.hyperdontic);
+
+	//range logic
+
+	ui.rangeCheck->blockSignals(true);
+
+	ui.rangeCheck->setChecked(false);
+
+	if (data.range) {
+
+		ui.beginCombo->setCurrentIndex(data.range->tooth_begin);
+		ui.endCombo->setCurrentIndex(data.range->tooth_end);
+		
+		if (data.code.getScope() == ProcedureScope::Ambi && data.code.type() != ProcedureType::Crown) {
+			ui.rangeCheck->setChecked(true);
+		}
+	}
+
+	ui.rangeCheck->blockSignals(false);
+
+	if (m_postDisabled) disablePost();
+}
+
+void ProcedureInput::setErrorMsg(const std::string& errorMsg)
+{
+	for (auto child : children()) {
+
+		if (child->isWidgetType()) {
+			static_cast<QWidget*>(child)->setHidden(true);
+		}
+	}
+
+	ui.errorLabel->setHidden(false);
+	ui.errorLabel->setText(errorMsg.c_str());
+}
+
+void ProcedureInput::disablePost()
+{
+	m_postDisabled = true;
+	ui.postCheck->hide();
+}
+
+IProcedureInput::Data ProcedureInput::getData()
+{
+	Data result;
+
+	result.code = m_code;
+
+	result.diagnosis = Diagnosis{
+		ui.diagCombo->currentIndex(),
+		ui.diagEdit->getText()
+	};
+
+	result.financingSource = getFinancingSource();
+
+	result.notes = ui.notesEdit->getText();
+
+	//getting data based on widget that is visible
+
+	if (ui.hyperdonticCheckBox->isVisible()) {
+		result.hyperdontic = ui.hyperdonticCheckBox->isChecked();
+	}
+
+	if (ui.surfaceGroup->isVisible()) {
+		result.param = RestorationData{
+			{
+			ui.o_check->isChecked(),
+			ui.m_check->isChecked(),
+			ui.d_check->isChecked(),
+			ui.b_check->isChecked(),
+			ui.l_check->isChecked(),
+			ui.c_check->isChecked()
+			},
+			ui.postCheck->isChecked()
+		};
+	}
+
+	if (ui.anesthesiaGroup->isVisible()) {
+		result.param = AnesthesiaMinutes{ ui.anesthesiaSpin->value() };
+	}
+
+	if (ui.beginCombo->isVisible()) {
+		result.range = { ui.beginCombo->currentIndex(), ui.endCombo->currentIndex() };
+	}
+
+	if (ui.quadrantGroup->isVisible()) {
+
+		std::pair<QRadioButton*, ConstructionRange> quadrantRange[4] =
+		{
+			{ui.quadrantFrist, {0,7}},
+			{ui.quadrantSecond,{8,15}},
+			{ui.quadrantThird,{16,23}},
+			{ui.quadrantFourth,{24,31}}
+		};
+
+		for (auto& [radioQ, range] : quadrantRange) {
+			if (radioQ->isChecked()) {
+				result.range = range;
+			}
+		}
+	}
+
+	if (ui.jawCombo->isVisible()) {
+
+		ConstructionRange jawRange[3] = {
+			{0,15},
+			{16,31},
+			{0,31},
+		};
+
+		result.range = jawRange[ui.jawCombo->currentIndex()];
+	}
+
+	return result;
+}
+
+std::string ProcedureInput::isValid()
+{
+	if (ui.errorLabel->text().size()) {
+		return ui.errorLabel->text().toStdString();
+	}
+
+	if (ui.surfaceGroup->isVisible()) {
+
+		bool valid = false;
+
+		QCheckBox* surfaces[] = {
+			ui.o_check,
+			ui.m_check,
+			ui.d_check,
+			ui.b_check,
+			ui.l_check,
+			ui.c_check,
+		};
+
+		for (auto& s : surfaces)
+		{
+			if (s->isChecked()) {
+				valid = true;
+			}
+		}
+		
+		if (!valid) return "Изберете поне една повърхност!";
+	}
+
+	if (ui.rangeCheck->isVisible())
+	{
+		auto type = m_code.type();
+
+		auto from = ui.beginCombo->currentIndex();
+		auto to = ui.endCombo->currentIndex();
+
+		auto fromSameJaw = (from < 16) != (to < 16);
+
+		if (!fromSameJaw) {
+
+			ui.endCombo->setFocus();
+
+			return "Невалидна дължина на протетичната конструкция";
+		}
+		
+		if (type != ProcedureType::Denture && type != ProcedureType::RemoveCrownOrBridge && from == to) 
+		{
+			ui.endCombo->setFocus();
+
+			return "Началният и крайният зъб за които се отнася процедурата трябва да са различни";
+		}
+	}
+
+	return {};
+	
+}
+
+void ProcedureInput::initView(const ProcedureCode& code)
+{
+
+	ui.rangeCheck->setText(
+		code.type() == ProcedureType::Crown ?
+		"Блок корони"
+		:
+		"Многочленна конструкция"
+	);
+
+	switch (code.getScope()) 
+	{
+
+	case ProcedureScope::AllOrNone:
+
+		ui.anesthesiaGroup->setHidden(code.type() != ProcedureType::Anesthesia);
+
+		ui.hyperdonticCheckBox->hide();
+		ui.rangeCheck->hide();
+		ui.rangeGroup->hide();
+		ui.surfaceGroup->hide();
+		ui.quadrantGroup->hide();
+		ui.jawCombo->hide();
+
+		break;
+
+	case ProcedureScope::SingleTooth:
+		
+		ui.hyperdonticCheckBox->show();
+		ui.surfaceGroup->setHidden(code.type() != ProcedureType::Restoration);
+
+		ui.anesthesiaGroup->hide();
+		ui.rangeCheck->hide();
+		ui.rangeGroup->hide();
+		ui.quadrantGroup->hide();
+		ui.jawCombo->hide();
+
+		break;
+
+	case ProcedureScope::Range:
+
+		ui.surfaceGroup->hide();
+		ui.anesthesiaGroup->hide();
+		ui.hyperdonticCheckBox->hide();
+		ui.quadrantGroup->hide();
+		ui.rangeCheck->hide();
+		ui.rangeGroup->hide();
+		ui.surfaceGroup->hide();
+		ui.jawCombo->hide();
+
+		switch (code.type())
+		{
+			case ProcedureType::DepuratioQuadrant:
+
+				ui.quadrantGroup->show();
+
+				break;
+
+			case ProcedureType::MultipleExtraction:
+
+				ui.jawCombo->show();
+
+				break;
+
+			default:
+
+				ui.rangeGroup->show();
+		}
+		break;
+
+		//tuka si eba maikata
+		case ProcedureScope::Ambi:
+
+			ui.hyperdonticCheckBox->show();
+			ui.rangeCheck->show();
+			ui.rangeGroup->hide();
+
+			ui.surfaceGroup->hide();
+			ui.anesthesiaGroup->hide();
+			ui.quadrantGroup->hide();
+			ui.jawCombo->hide();
+
+			switch (code.type())
+			{
+			case ProcedureType::Crown:
+				ui.rangeCheck->setText("Блок корони");
+				break;
+			case ProcedureType::CrownOrBridge:
+				ui.rangeCheck->setText("Многочленна конструкция");
+				break;
+			}
+
+
+		break;
 	}
 }
 
-void ProcedureInput::setNotes(const std::string& notes)
+void ProcedureInput::initFinancingCombo(const ProcedureCode& code)
 {
-	ui.notesEdit->setPlainText(notes.c_str());
-}
+	ui.financingCombo->clear();
 
-void ProcedureInput::setNhifLayout(bool nhif)
-{
-	ui.PHIFcheckbox->setHidden(nhif);
-}
+	ui.financingCombo->addItem("Няма", static_cast<int>(FinancingSource::None));
+	ui.financingCombo->addItem(QIcon(":/icons/icon_user.png"), "Пациент", static_cast<int>(FinancingSource::Patient));
+	ui.financingCombo->addItem(QIcon(":/icons/icon_phif.png"), "ДЗОФ", static_cast<int>(FinancingSource::PHIF));
 
-
-void ProcedureInput::setFinancingSource(FinancingSource s)
-{
-	if (s == FinancingSource::NHIF)
-	{
-		setNhifLayout(true);
-		return;
+	if (code.nhifCode()) {
+		ui.financingCombo->addItem(QIcon(":/icons/icon_nhif.png"), "НЗОК", static_cast<int>(FinancingSource::NHIF));
 	}
-
-	ui.PHIFcheckbox->setChecked(s == FinancingSource::PHIF);
-
 }
 
-void ProcedureInput::setHyperdonticState(bool checked)
+void ProcedureInput::setFinancingSource(FinancingSource source)
 {
-	ui.hyperdonticCheckBox->setChecked(checked);
-}
-
-bool ProcedureInput::onHyperdontic()
-{
-	return !ui.hyperdonticCheckBox->isHidden() && ui.hyperdonticCheckBox->isChecked();
+	for (int i = 0; i < ui.financingCombo->count(); i++)
+	{
+		if (static_cast<FinancingSource>(ui.financingCombo->itemData(i).toInt()) == static_cast<FinancingSource>(source)) {
+			ui.financingCombo->setCurrentIndex(i);
+		}
+	}
 }
 
 FinancingSource ProcedureInput::getFinancingSource()
 {
-	if (ui.PHIFcheckbox->isHidden()) return FinancingSource::NHIF;
-
-	if (ui.PHIFcheckbox->isChecked()) return FinancingSource::PHIF;
-
-	return FinancingSource::Patient;
+	return static_cast<FinancingSource>(ui.financingCombo->itemData(ui.financingCombo->currentIndex()).toInt());
 }
 
 ProcedureInput::~ProcedureInput()

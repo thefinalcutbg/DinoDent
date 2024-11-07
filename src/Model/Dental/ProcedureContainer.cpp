@@ -56,8 +56,8 @@ bool ProcedureContainer::hasNhifProcedure() const
 bool ProcedureContainer::hasDentureManifactureProcedure() const
 {
     for (auto& p : m_proc) {
-        if ((p.code.oldCode() == 834 ||
-            p.code.oldCode() == 835)
+        if ((p.code.nhifCode() == 834 ||
+            p.code.nhifCode() == 835)
             &&
             p.financingSource == FinancingSource::NHIF
         ) 
@@ -166,7 +166,7 @@ const Procedure& ProcedureContainer::at(int index) const
 bool ProcedureContainer::hasPregnancy() const
 {
     for (auto& p : m_proc) {
-        if (p.isNhif() && p.code.oldCode() == 103 && p.code.ACHICode() == "97017-01") return true;
+        if (p.isNhif() && p.code.nhifCode() == 103 && p.code.ACHICode() == "97017-01") return true;
     }
 
     return false;

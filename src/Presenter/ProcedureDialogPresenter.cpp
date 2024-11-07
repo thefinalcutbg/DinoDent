@@ -34,6 +34,8 @@ void ProcedureDialogPresenter::setView(IProcedureDialog* view)
 {
 	this->view = view;
 
+	procedure_creator.setView(view->procedureInput());
+
 	view->setProcedureSections(procedureList.getSectionList(), sectionIndex);
 
 	view->procedureInput()->dateEdit()->setInputValidator(&date_validator);
@@ -42,7 +44,7 @@ void ProcedureDialogPresenter::setView(IProcedureDialog* view)
 
 	refreshNhifList();
 	
-	procedure_creator.setView(view->procedureInput());
+
 
 	//setting the label
 	std::vector<int> selectedTeethNum;
@@ -79,18 +81,9 @@ void ProcedureDialogPresenter::sectionChanged(int index)
 
 void ProcedureDialogPresenter::setCode(ProcedureCode code, bool nhif)
 {
-
-	if (!code.isValid()) {
-
-		view->procedureInput()->setErrorMsg("Изберете манипулация");
-		return;
-	}
-
-	if (code.oldCode()) {
-
-		date_validator.setProcedure(code.oldCode(), nhif);
+	if (code.nhifCode()) {
+		date_validator.setProcedure(code.nhifCode(), nhif);
 		view->procedureInput()->dateEdit()->validateInput();
-
 	}
 
 	procedure_creator.setProcedureCode(code, nhif);
@@ -112,9 +105,9 @@ void ProcedureDialogPresenter::favouriteClicked(const std::string& code)
 void ProcedureDialogPresenter::formAccepted()
 {
 
-	//if (currentIndex == -1 || !procedure_creator.isValid()) return;
-
 	result = procedure_creator.getProcedures();
+
+	if (result.empty()) return;
 
 	view->close();
 }

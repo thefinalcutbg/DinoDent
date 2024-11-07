@@ -37,7 +37,7 @@ QVariant ProcedureSelectModel::headerData(int section, Qt::Orientation orientati
                 case 0: return "Дата";
                 case 1: return "Диагноза";
                 case 2: return "Зъб";
-                case 3: return "Манипулация";
+                case 3: return "Процедура";
                 case 4: return "Код";
       //          case 5: return "Цена";
             }
@@ -94,10 +94,14 @@ QVariant ProcedureSelectModel::data(const QModelIndex& index, int role) const
             switch (column)
             {
             case 0:
-                if (m_procedures[row].fsource == FinancingSource::NHIF)
-                    return QIcon(":/icons/icon_nhif.png");
-                if (m_procedures[row].fsource == FinancingSource::PHIF)
-                    return QIcon(":/icons/icon_phif.png");
+                switch (m_procedures[row].fsource)
+                {
+                    case FinancingSource::NHIF: return QIcon(":/icons/icon_nhif.png");
+                    case FinancingSource::PHIF: return QIcon(":/icons/icon_phif.png");
+                    case FinancingSource::Patient: return QIcon(":/icons/icon_user.png");
+                    default: return QIcon();
+                }
+                    
                 return QVariant();
             default:
                 return QVariant();
@@ -110,7 +114,7 @@ QVariant ProcedureSelectModel::data(const QModelIndex& index, int role) const
                case 1: return m_procedures[row].diagnosis;
                case 2: return m_procedures[row].tooth;
                case 3: return m_procedures[row].procedureName;
-               case 4: return m_procedures[row].nhifCode;
+               case 4: return m_procedures[row].ACHICode;
     //           case 5: return m_procedures[row].price;
             }
         case Qt::TextAlignmentRole:

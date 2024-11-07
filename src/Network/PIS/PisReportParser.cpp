@@ -163,7 +163,7 @@ PisReportsForImport PisReportParser::parse(const std::string& xmlReport)
 
 			p.diagnosis = Diagnosis(getDiagnosisIndexByDescription(description), description);
 
-			if (p.code.isToothSpecific())
+			if (p.code.getScope() == ProcedureScope::SingleTooth)
 			{
 				p.affectedTeeth = ToothUtils::getToothFromNhifNum(serviceXml->Attribute("toothCode"));
 
@@ -188,7 +188,7 @@ PisReportsForImport PisReportParser::parse(const std::string& xmlReport)
 			{
 				ConstructionRange range;
 				
-				if (p.code.oldCode() == 832) {
+				if (p.code.nhifCode() == 832) {
 					p.affectedTeeth = ConstructionRange{
 						.tooth_begin = 1,
 						.tooth_end = 14

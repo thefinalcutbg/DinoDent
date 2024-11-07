@@ -294,6 +294,7 @@ void ListView::hideNhifSheetData()
 	ui.unfavCheck->hide();
 	ui.nssiButton->hide();
 	ui.pentionTaxButton->hide();
+	ui.procedureTable->hideColumn(5);
 
 }
 
@@ -303,7 +304,7 @@ void ListView::setNhifData(const NhifSheetData& data, bool showUnfav)
 	ui.specCombo->show();
 	ui.nssiButton->show();
 	ui.pentionTaxButton->show();
-
+	ui.procedureTable->showColumn(5);
 	QSignalBlocker b(ui.specCombo);
 	ui.specCombo->setCurrentIndex(static_cast<int>(data.specification));
 

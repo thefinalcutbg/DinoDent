@@ -353,7 +353,7 @@ std::vector<AmbList> DbAmbList::getMonthlyNhifSheets(int month, int year)
         p.LPK = sheet.LPK;
         p.code = db.asString(0);
 
-        if (p.code.isToothSpecific()){
+        if (p.code.getScope() == ProcedureScope::SingleTooth){
             p.affectedTeeth = ToothIndex{
                 .index = db.asInt(1),
                 .temp = db.asBool(3),

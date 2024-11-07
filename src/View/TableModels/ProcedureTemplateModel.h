@@ -9,6 +9,7 @@ struct ProcedureRow
 	enum UserRole { None, Nhif, Fav, NonFav };
 
 	QString code;
+	QString displayCode;
 	QString name;
 	UserRole role{ UserRole::None };
 

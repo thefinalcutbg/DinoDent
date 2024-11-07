@@ -37,7 +37,7 @@ typedef std::variant<
     ConstructionRange
     > AffectedTeeth;
 
-enum class FinancingSource { NHIF = 2, PHIF = 3, Patient = 4 };
+enum class FinancingSource { NHIF = 2, PHIF = 3, Patient = 4, None = 7};
 
 
 struct Procedure
@@ -56,11 +56,8 @@ struct Procedure
 
     const ToothIndex& getToothIndex() const;
 
-    enum class AffectedTeethType { None, Tooth, Range };
-
-    AffectedTeethType getAffectedTeethType() const {
-        return static_cast<AffectedTeethType>(affectedTeeth.index());
-    }
+    //Be sure AffectedTeeth variant matches the ProcedureScope
+    ProcedureScope getScope() const;
 
     std::string LPK;
     std::string notes;

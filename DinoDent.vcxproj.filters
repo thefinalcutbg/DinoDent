@@ -99,9 +99,6 @@
     <ClCompile Include="src\Model\Validators\ProcedureDateValidator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Model\Validators\ProcedureValidators.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Model\Validators\RziValidator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -330,13 +327,7 @@
     <ClCompile Include="src\View\SubWidgets\PerioStatisticView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\SubWidgets\RangeWidget.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\View\SubWidgets\SurfacePanel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\View\SubWidgets\SurfaceSelector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\SubWidgets\TabTitle.cpp">
@@ -696,9 +687,6 @@
     <ClCompile Include="src\View\uiComponents\CustomDateTimeEdit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\TableModels\ProcedureCodeModel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Network\HIS\EReferral.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -1053,9 +1041,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\Validators\ProcedureDateValidator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Model\Validators\ProcedureValidators.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\Validators\RziValidaor.h">
@@ -1819,13 +1804,7 @@
     <QtMoc Include="src\View\SubWidgets\PerioStatisticView.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\SubWidgets\RangeWidget.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="src\View\SubWidgets\SurfacePanel.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="src\View\SubWidgets\SurfaceSelector.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\SubWidgets\TabTitle.h">
@@ -2035,9 +2014,6 @@
     <QtMoc Include="src\View\uiComponents\CustomDateTimeEdit.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\TableModels\ProcedureCodeModel.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="src\View\Widgets\UpdatePromptDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
@@ -2220,13 +2196,7 @@
     <QtUic Include="src\View\SubWidgets\PerioStatisticView.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="src\View\SubWidgets\RangeWidget.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
     <QtUic Include="src\View\SubWidgets\SurfacePanel.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="src\View\SubWidgets\SurfaceSelector.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\SubWidgets\TabTitle.ui">

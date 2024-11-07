@@ -22,7 +22,7 @@ void ProcedureCode::initialize()
 			ProcedureCode::Numenclature{
 				.type = static_cast<ProcedureType>(j["type"].asInt()),
 				.name = j["name"].asString(),
-				.oldCode = j["oldCode"].asInt(),
+				.nhifCode = j["oldCode"].asInt(),
 				.hisType = j["hisType"].asInt(),
 				.isLegacy = j["isLegacy"].asBool(),
 		};
@@ -52,18 +52,25 @@ std::vector<ProcedureCode> ProcedureCode::getByType(ProcedureType t)
 	return result;
 }
 
+bool ProcedureCode::isValid() const
+{
+	if (m_code.empty()) return false;
+
+	return s_mapping.count(m_code);
+}
+
 ProcedureCode::ProcedureCode(const std::string& code) : m_code(code)
 {}
 
-ProcedureCode::ProcedureCode(int oldCode) : m_code(legacy_achi[oldCode])
+ProcedureCode::ProcedureCode(int nhifCode) : m_code(legacy_achi[nhifCode])
 {}
 
 const std::string& ProcedureCode::ACHICode() const
 {
 	if (!isValid()) return dummy;
 
-	if (isLegacy() && oldCode()) {
-		return legacy_achi.at(oldCode());
+	if ((isLegacy() || m_code[0] == 'D') && nhifCode()) {
+		return legacy_achi.at(nhifCode());
 	}
 
 	return m_code;
@@ -76,7 +83,7 @@ int ProcedureCode::achiBlock() const
 
 const std::string& ProcedureCode::achiBlockName() const
 {
-	static const std::unordered_map<int, std::string> s_achi_block{
+	static const std::vector<std::pair<int, std::string>> s_achi_block = {
 
 	{450,	"Дентални прегледи"},
 	{451,	"Дентални рентгенови изследвания и интерпретация"},
@@ -119,7 +126,13 @@ const std::string& ProcedureCode::achiBlockName() const
 
 	auto blockIdx = achiBlock();
 
-	return s_achi_block.count(blockIdx) ? s_achi_block.at(blockIdx) : dummy;
+	for (auto& [idx, name] : s_achi_block) {
+
+		if (blockIdx == idx) return name;
+
+	}
+
+	return dummy;
 }
 
 ProcedureType ProcedureCode::type() const
@@ -127,9 +140,52 @@ ProcedureType ProcedureCode::type() const
 	return isValid() ? s_mapping[m_code].type : ProcedureType::General;
 }
 
-int ProcedureCode::oldCode() const
+ProcedureScope ProcedureCode::getScope() const
 {
-	return isValid() ? s_mapping[m_code].oldCode : 0;
+	static const std::vector<std::pair<ProcedureType, ProcedureScope>> pairs = {
+
+	{ ProcedureType::General, ProcedureScope::AllOrNone},
+	{ ProcedureType::FullExam, ProcedureScope::AllOrNone},
+	{ ProcedureType::Depuratio, ProcedureScope::AllOrNone},
+	{ ProcedureType::DenturePair, ProcedureScope::AllOrNone},
+	{ ProcedureType::Anesthesia, ProcedureScope::AllOrNone},
+
+	{ ProcedureType::Restoration, ProcedureScope::SingleTooth},
+	{ ProcedureType::ToothSpecific, ProcedureScope::SingleTooth},
+	{ ProcedureType::DepuratioTooth, ProcedureScope::SingleTooth},
+	{ ProcedureType::Extraction, ProcedureScope::SingleTooth},
+	{ ProcedureType::Implant, ProcedureScope::SingleTooth},
+	{ ProcedureType::Endodontic, ProcedureScope::SingleTooth},
+	{ ProcedureType::Post, ProcedureScope::SingleTooth},
+	{ ProcedureType::RemovePost, ProcedureScope::SingleTooth},
+	{ ProcedureType::PostCore, ProcedureScope::SingleTooth},
+	{ ProcedureType::PostCrown, ProcedureScope::SingleTooth},
+
+	{ ProcedureType::Crown, ProcedureScope::Ambi},
+	{ ProcedureType::CrownOrBridge, ProcedureScope::Ambi},
+	{ ProcedureType::Bridge, ProcedureScope::Range},
+	{ ProcedureType::RemoveCrownOrBridge, ProcedureScope::Range},
+	{ ProcedureType::Denture, ProcedureScope::Range},
+	{ ProcedureType::Splint, ProcedureScope::Range},
+	{ ProcedureType::DepuratioQuadrant, ProcedureScope::Range},
+	{ ProcedureType::MultipleExtraction, ProcedureScope::Range}
+
+	};
+
+	auto pType = type();
+
+	for (auto& [type, effect] : pairs) {
+
+		if (pType == type) return effect;
+
+	}
+
+	return ProcedureScope::AllOrNone;
+}
+
+int ProcedureCode::nhifCode() const
+{
+	return isValid() ? s_mapping[m_code].nhifCode : 0;
 }
 
 const std::string& ProcedureCode::name() const

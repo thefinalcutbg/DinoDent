@@ -11,19 +11,21 @@ ProcedureDialog::ProcedureDialog(ProcedureDialogPresenter& presenter, QWidget *p
 	setWindowTitle("Добавяне на манипулация");
 
 	proxyModel.setSourceModel(&model);
-	proxyModel.setFilterKeyColumn(2);
+	proxyModel.setFilterKeyColumn(3);
 
 	auto& table = ui.tableView;
 
 	table->setModel(&proxyModel);
 	table->setMouseTracking(true);
+
 	table->setColumnWidth(0, 30);
-	table->setColumnWidth(1, 70);
-	table->hideColumn(3);
-	//table->setColumnWidth(3, 70);
+	table->hideColumn(1);
+	table->setColumnWidth(2, 70);
+	table->horizontalHeader()->setSectionResizeMode(3, QHeaderView::ResizeMode::Stretch);
+
 	table->setSelectionBehavior(QAbstractItemView::SelectRows);
 	table->setSelectionMode(QAbstractItemView::SingleSelection);
-	table->horizontalHeader()->setSectionResizeMode(2, QHeaderView::ResizeMode::Stretch);
+
 
 	table->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeMode::ResizeToContents);
 	table->verticalHeader()->hide();
@@ -55,7 +57,7 @@ ProcedureDialog::ProcedureDialog(ProcedureDialogPresenter& presenter, QWidget *p
 
             presenter.setCode(
 				ProcedureCode(proxyModel.index(s_idx, 1).data().toString().toStdString()),
-				proxyModel.index(s_idx, 1).data(Qt::UserRole) == 1 //NHIF value from model
+				proxyModel.index(s_idx, 0).data(Qt::UserRole) == 1 //NHIF value from model
 			);
 		});
 

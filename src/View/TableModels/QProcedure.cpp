@@ -8,7 +8,7 @@ QProcedure::QProcedure(const Procedure& p) :
 	diagnosis(QString::fromStdString(p.diagnosis.getFullDiagnosis())),
 	tooth(p.getToothString().c_str()),
 	procedureName(QString::fromStdString(p.code.name())),
-	nhifCode(p.code.oldCode() ? QString::number(p.code.oldCode()) : "" ),
+	nhifCode(p.code.nhifCode() ? QString::number(p.code.nhifCode()) : "" ),
     ACHICode(QString::fromStdString(p.code.ACHICode())),
     fsource(p.financingSource),
 	doctor(QString::fromStdString(User::getNameFromLPK(p.LPK))),

@@ -4,14 +4,12 @@
 #include "Model/Dental/Procedure.h"
 
 #include "Model/Validators/ProcedureDateValidator.h"
-#include "Model/Validators/ProcedureValidators.h"
+
 
 
 class ProcedureEditorPresenter
 {
 
-	SurfaceValidator surface_validator;
-	BridgeRangeValidator range_validator;
 	//NotEmptyValidator not_emptyValidator;
 	IProcedureEditDialog* view;
 	std::optional<Procedure> result;

@@ -324,10 +324,10 @@ void ReportPresenter::finish()
 
 	for (auto& list : lists) for (auto& procedure : list.procedures)
 	{
-		sumMinutes += NhifProcedures::getDuration(procedure.code.oldCode());
+		sumMinutes += NhifProcedures::getDuration(procedure.code.nhifCode());
 
 		auto procedurePrice = NhifProcedures::getNhifPrice(
-			procedure.code.oldCode(),
+			procedure.code.nhifCode(),
 			procedure.date,
 			User::doctor().specialty,
 			patients[list.patient_rowid].isAdult(procedure.date),

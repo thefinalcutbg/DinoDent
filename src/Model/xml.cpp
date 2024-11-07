@@ -214,7 +214,7 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
             if (toothCode.empty()) toothCode = "99";
 
             service->SetAttribute("toothCode", toothCode);
-            service->SetAttribute("activityCode", procedure.code.oldCode());
+            service->SetAttribute("activityCode", procedure.code.nhifCode());
             service->SetAttribute("ACHIcode", procedure.code.ACHICode());
 
             if (procedure.code.type() == ProcedureType::Anesthesia) {

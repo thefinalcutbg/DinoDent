@@ -175,11 +175,11 @@ void UnusedPackagePresenter::step3_pisCheck(const std::optional<std::vector<Proc
 
 	for (auto& p : pisHistory.value()) {
 
-		if (p.code.oldCode() == 832) {
+		if (p.code.nhifCode() == 832) {
 			upperDenture = std::max(upperDenture, p.date);
 		}
 
-		if (p.code.oldCode() == 833) {
+		if (p.code.nhifCode() == 833) {
 			lowerDenture = std::max(lowerDenture, p.date);
 		}
 
@@ -187,7 +187,7 @@ void UnusedPackagePresenter::step3_pisCheck(const std::optional<std::vector<Proc
 
 		procedures.push_back(ProcedureSummary{
 					.date = p.date,
-					.code = p.code.oldCode(),
+					.code = p.code.nhifCode(),
 					.tooth_idx = p.getToothIndex()
 			});
 

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <QWidget>
 #include "ui_ProcedureInput.h"
@@ -12,35 +12,37 @@ class ProcedureInput : public QWidget, public IProcedureInput
 {
 	Q_OBJECT
 
-	NotEmptyValidator notEmpty_validator;
+	void initView(const ProcedureCode& code);
+
+	ProcedureCode m_code;
+
+	bool m_postDisabled = false;
+
+	//financing combo logic
+	void initFinancingCombo(const ProcedureCode& code);
+	void setFinancingSource(FinancingSource source);
+	FinancingSource getFinancingSource();
 
 public:
 	ProcedureInput(QWidget *parent = Q_NULLPTR);
-	//void setExternalDateEdit(DateEdit* externalDateEdit); //does not take ownership over the DateEdit!
-	~ProcedureInput();
 
-	// Inherited via IProcedureInput
-	AbstractLineEdit* diagnosisEdit() override;
-	AbstractDateEdit* dateEdit() override;
-	std::string getNotes() override;
+	~ProcedureInput();
 
 	QDateEdit* qDateEdit();
 
+	virtual AbstractDateEdit* dateEdit();
+
 	Ui::ProcedureInput ui;
 
+
 	// Inherited via IProcedureInput
-	AbstractRangeEdit* rangeWidget() override;
-	AbstractSurfaceSelector* surfaceSelector() override;
-	AbstractComboBox* diagnosisCombo() override;
-	int minutes() override;
-	void setMinutes(int min) override;
-	void setErrorMsg(const std::string& error) override;
-	void setLayout(WidgetLayout layout) override;
-	void setNotes(const std::string& notes) override;
-	void setNhifLayout(bool nhif) override;
-	FinancingSource getFinancingSource() override;
-	void setFinancingSource(FinancingSource s) override;
-	void setHyperdonticState(bool checked) override;
-	bool onHyperdontic() override;
-	
+	void setData(const Data& data) override;
+
+	void setErrorMsg(const std::string& errorMsg);
+	void disablePost() override;
+
+	Data getData() override;
+
+	std::string isValid() override;
+
 };

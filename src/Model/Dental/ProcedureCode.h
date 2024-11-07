@@ -19,9 +19,9 @@ enum class ProcedureType
     Endodontic,
     Post,
     RemovePost,
-    Crown,
     PostCore,
     PostCrown,
+    Crown,
     CrownOrBridge,
     Bridge,
     RemoveCrownOrBridge,
@@ -33,12 +33,20 @@ enum class ProcedureType
 };
 
 
+enum class ProcedureScope {
+    AllOrNone,
+    SingleTooth,
+    Range,
+    Ambi //Single tooth OR range of teeth
+};
+
+
 class ProcedureCode
 {
     struct Numenclature {
         ProcedureType type;
         std::string name;
-        int oldCode;
+        int nhifCode;
         int hisType;
         bool isLegacy;
     };
@@ -55,7 +63,7 @@ public:
 
     ProcedureCode() {}
     ProcedureCode(const std::string& code);
-    ProcedureCode(int oldCode);
+    ProcedureCode(int nhifCode);
 
     static void initialize();
     static const std::map<int, std::string>& procedureByNhifCodeLegacy() {
@@ -66,12 +74,10 @@ public:
 
     static std::vector<ProcedureCode> getByType(ProcedureType t);
 
-    bool isValid() const {
-        return s_mapping.count(m_code);
-    }
+    bool isValid() const;
 
     //returns NHIF code if there is a NHIF mapping otherwise returns 0
-    int oldCode() const;
+    int nhifCode() const;
 
     const std::string& name() const;
 
@@ -85,46 +91,13 @@ public:
 
     ProcedureType type() const;
 
-    //Doesnt need teeth to apply its behaviour
-    bool isGeneral() const {
-
-        return type() < ProcedureType::Restoration;
-    }
-
-    //Affects single tooth
-    bool isToothSpecific()const {
-
-        auto type = this->type();
-
-        return type >= ProcedureType::Restoration && type <= ProcedureType::PostCrown;
-    }
-
-    //Affects range of teeth (from - to)
-    bool isRangeSpecific() const {
-
-        return type() >= ProcedureType::CrownOrBridge;
-    }
+    ProcedureScope getScope() const;
 
     bool isLegacy() const {
         
         if (m_code.empty()) return true;
 
         return s_mapping[m_code].isLegacy;
-    }
-
-    bool isRestoration() const {
-        return type() == ProcedureType::Restoration;
-    }
-
-    bool isAnesthesia() const {
-        return type() == ProcedureType::Anesthesia;
-    }
-
-    bool requiresRangeValidation() const {
-
-        auto codeType = type();
-
-        return codeType >= ProcedureType::Bridge && codeType < ProcedureType::DepuratioQuadrant;
     }
 
     static decltype(s_mapping) getMap() { return s_mapping; }

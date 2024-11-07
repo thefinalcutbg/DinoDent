@@ -429,35 +429,6 @@ std::string ModalDialogBuilder::pinPromptDialog(const std::string& pem, const st
 	return d.getResult().toStdString();
 }
 
-
-#include "View/Widgets/TableViewDialog.h"
-#include "View/TableModels/ProcedureCodeModel.h"
-
-std::optional<ProcedureCode> ModalDialogBuilder::procedureCodeDialog()
-{
-	ProcedureCodeModel model;
-	TableViewDialog d(model, 0);
-	d.setWindowTitle("Класификация на Денталните Процедури");
-	d.exec();
-
-	auto result = d.getResult();
-
-	return result.empty() ? std::optional<ProcedureCode>{} : result;
-}
-
-/*
-#include "View/TableModels/KSMPModel.h"
-std::string ModalDialogBuilder::ksmpDialog(KsmpList& list, const std::string& preSelectCode)
-{
-	KSMPModel model{ list };
-	TableViewDialog d(model, 0, preSelectCode);
-	d.setWindowTitle("Класификация на Медицинските Процедури");
-	d.exec();
-
-
-	return d.getResult();
-}
-*/
 #include "View/Widgets/PisDialog.h"
 
 void ModalDialogBuilder::pisDialog(MonthNotifPresenter* presenter)

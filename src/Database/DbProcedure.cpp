@@ -52,7 +52,9 @@ std::vector<Procedure> DbProcedure::getProcedures(long long amblist_rowid, Db& d
 		p.financingSource = static_cast<FinancingSource>(db.asInt(1));
 		p.code = db.asString(2);
 
-		if (p.code.isToothSpecific()) {
+		auto scope = p.code.getScope();
+
+		if (scope == ProcedureScope::SingleTooth || scope == ProcedureScope::Ambi) {
 
 			p.affectedTeeth = ToothIndex{
 				.index = db.asInt(3),
@@ -61,13 +63,24 @@ std::vector<Procedure> DbProcedure::getProcedures(long long amblist_rowid, Db& d
 			};
 		}
 
+		if (scope == ProcedureScope::Range || scope == ProcedureScope::Ambi)
+		{
+			if (!p.getToothIndex().isValid()) {
+
+				p.affectedTeeth = ConstructionRange{
+					db.asInt(18),
+					db.asInt(19)
+				};
+			}
+		}
+
 		p.LPK = db.asString(6);
 		p.diagnosis = db.asInt(7);
 		p.diagnosis.description = db.asString(8);
 		p.notes = db.asString(9);
 		p.his_index = db.asInt(10);
 
-		if (p.code.isRestoration())
+		if (p.code.type() == ProcedureType::Restoration)
 		{
 			p.param = RestorationData{
 				.surfaces = {
@@ -83,15 +96,7 @@ std::vector<Procedure> DbProcedure::getProcedures(long long amblist_rowid, Db& d
 			};
 		}
 
-		if (p.code.isRangeSpecific())
-		{
-			p.affectedTeeth = ConstructionRange{
-				db.asInt(18),
-				db.asInt(19)
-			};
-		}
-
-		if (p.code.isAnesthesia())
+		if (p.code.type() == ProcedureType::Anesthesia)
 		{
 			p.param = AnesthesiaMinutes{ db.asInt(20) };
 		}
@@ -147,18 +152,53 @@ void DbProcedure::saveProcedures(long long amblist_rowid, const std::vector<Proc
 		db.bind(2, p.code.code());
 		db.bind(3, static_cast<int>(p.financingSource));
 
-		if (p.code.isToothSpecific())
-		{
-			auto tooth = p.getToothIndex();
+		//setting the index no matter if it is valid or not
+		auto& tooth = p.getToothIndex();
 
-			db.bind(4, tooth.index);
-			db.bind(5, tooth.temp);
-			db.bind(6, tooth.supernumeral);
-		}
-		else
+		db.bind(4, tooth.index);
+		db.bind(5, tooth.temp);
+		db.bind(6, tooth.supernumeral);
+
+		switch (p.getScope())
 		{
-			db.bind(4, -1);
+			case ProcedureScope::SingleTooth:
+			{
+				if (p.code.type() == ProcedureType::Restoration) {
+
+					auto& [surfaces, post] = std::get<RestorationData>(p.param);
+
+					for (int i = 0; i < 6; i++) {
+						db.bind(13 + i, surfaces[i]);
+					}
+
+					db.bind(19, post);
+
+				}
+
+			}
+				break;
+
+			case ProcedureScope::Range:
+			{
+				auto& [from, to] = std::get<ConstructionRange>(p.affectedTeeth);
+
+				db.bind(4, -1);
+				db.bind(20, from);
+				db.bind(21, to);
+
+				break;
+			}
+			case ProcedureScope::AllOrNone:
+
+				db.bind(4, -1);
+
+				if (p.code.type() == ProcedureType::Anesthesia) {
+					db.bind(22, std::get<AnesthesiaMinutes>(p.param).minutes);
+				}
+
+				break;
 		}
+
 
 		db.bind(7, amblist_rowid);
 		db.bind(8, p.diagnosis.index());
@@ -166,30 +206,6 @@ void DbProcedure::saveProcedures(long long amblist_rowid, const std::vector<Proc
 		db.bind(10, p.notes);
 		db.bind(11, p.his_index);
 		db.bind(12, toInsert[i].removed);
-
-		if (p.code.isRestoration())
-		{
-			auto& [surfaces, post] = std::get<RestorationData>(p.param);
-
-			for (int i = 0; i < 6; i++) {
-				db.bind(13 + i, surfaces[i]);
-			}
-
-			db.bind(19, post);
-		}
-
-		if (p.code.isRangeSpecific())
-		{
-			auto& [from, to] = std::get<ConstructionRange>(p.affectedTeeth);
-
-			db.bind(20, from);
-			db.bind(21, to);
-		}
-
-		if (p.code.isAnesthesia())
-		{
-			db.bind(22, std::get<AnesthesiaMinutes>(p.param).minutes);
-		}
 
 		db.execute();
 		
@@ -217,7 +233,7 @@ std::vector<ProcedureSummary> DbProcedure::getNhifSummary(long long patientRowId
 		 summary.push_back(
 			 {
 				.date = Date{ db.asString(0) },
-				.code = ProcedureCode(db.asString(1)).oldCode(),
+				.code = ProcedureCode(db.asString(1)).nhifCode(),
 				.tooth_idx = ToothIndex{
 							.index = db.asInt(2),
 							.temp = db.asBool(3),
@@ -334,8 +350,9 @@ std::vector<Procedure> DbProcedure::getPatientProcedures(long long patientRowid)
 		p.notes = db.asString(9);
 		p.his_index = db.asInt(10);
 
+		auto scope = p.code.getScope();
 
-		if (p.code.isToothSpecific()) {
+		if (scope == ProcedureScope::SingleTooth || scope == ProcedureScope::Ambi) {
 
 			p.affectedTeeth = ToothIndex{
 				.index = db.asInt(3),
@@ -344,7 +361,24 @@ std::vector<Procedure> DbProcedure::getPatientProcedures(long long patientRowid)
 			};
 		}
 
-		if (p.code.isRestoration())
+		if (scope == ProcedureScope::Range || scope == ProcedureScope::Ambi)
+		{
+			if (!p.getToothIndex().isValid()) {
+
+				p.affectedTeeth = ConstructionRange{
+					db.asInt(18),
+					db.asInt(19)
+				};
+			}
+		}
+
+		p.LPK = db.asString(6);
+		p.diagnosis = db.asInt(7);
+		p.diagnosis.description = db.asString(8);
+		p.notes = db.asString(9);
+		p.his_index = db.asInt(10);
+
+		if (p.code.type() == ProcedureType::Restoration)
 		{
 			p.param = RestorationData{
 				.surfaces = {
@@ -360,15 +394,7 @@ std::vector<Procedure> DbProcedure::getPatientProcedures(long long patientRowid)
 			};
 		}
 
-		if (p.code.isRangeSpecific())
-		{
-			p.affectedTeeth = ConstructionRange{
-				db.asInt(18),
-				db.asInt(19)
-			};
-		}
-
-		if (p.code.isAnesthesia())
+		if (p.code.type() == ProcedureType::Anesthesia)
 		{
 			p.param = AnesthesiaMinutes{ db.asInt(20) };
 		}
@@ -403,7 +429,7 @@ std::vector<int> DbProcedure::getDailyNhifProcedures(const Date& date, long long
 
 	while (db.hasRows())
 	{
-		result.push_back(ProcedureCode(db.asString(0)).oldCode());
+		result.push_back(ProcedureCode(db.asString(0)).nhifCode());
 	}
 
 	return result;

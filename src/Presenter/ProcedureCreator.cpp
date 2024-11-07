@@ -1,30 +1,167 @@
 ﻿#include "ProcedureCreator.h"
 #include <set>
 #include "Model/User.h"
+#include "View/ModalDialogBuilder.h"
 
 using namespace Dental;
 
 ProcedureCreator::ProcedureCreator(const std::vector<const Tooth*>& selectedTeeth)
 	: m_selectedTeeth(selectedTeeth)
+{}
+
+void ProcedureCreator::setProcedureCode(const ProcedureCode& m, bool nhif)
 {
+	view->setCurrentPresenter(this);
+
+	m_code = m;
+
+	if (!m_code.isValid()) {
+		view->setErrorMsg("Изберете процедура");
+		return;
+	}
+
+	auto scope = m.getScope();
+
+	if ((scope == ProcedureScope::SingleTooth || scope == ProcedureScope::Ambi) 
+		&& m_selectedTeeth.empty()) 
+	{
+		view->setErrorMsg("За да добавите тази процедура изберете поне един зъб");
+		return;
+	}
+
+
+
+	IProcedureInput::Data data;
+
+	data.code = m;
+	data.diagnosis = diag_map[m.type()];
+	data.financingSource = nhif ? FinancingSource::NHIF : FinancingSource::None;
+	data.hyperdontic = false;
+
+	if (m.type() == ProcedureType::Restoration) {
+
+		if (m_selectedTeeth.size()) {
+			data.param = autoSurfaces(*m_selectedTeeth[0]);
+		}
+	}
+
+	if (m.type() == ProcedureType::Anesthesia) {
+
+		data.param = AnesthesiaMinutes{ 180 };
+	}
+
+	if (scope == ProcedureScope::Range || scope == ProcedureScope::Ambi)
+	{
+		data.range = getBridgeRange(m_selectedTeeth, m_code);
+	}
+
+	view->setData(data);
 
 
 }
 
+std::vector<Procedure> ProcedureCreator::getProcedures()
+{
+	auto err = view->isValid();
+
+	if (err.size()) {
+		ModalDialogBuilder::showMessage(err);
+		return {};
+	}
+
+
+	std::vector<Procedure> result;
+
+	Procedure procedure;
+
+	procedure.code = m_code;
+	procedure.date = view->dateEdit()->getDate();
+
+	auto data = view->getData();
+
+	procedure.financingSource = data.financingSource;
+	procedure.LPK = User::doctor().LPK;
+	procedure.diagnosis = data.diagnosis;
+	procedure.notes = data.notes;
+	procedure.param = data.param;
+
+	if(data.range.has_value()) {
+		procedure.affectedTeeth = data.range.value();
+	}
+
+	switch (procedure.code.getScope()) 
+	{
+		case ProcedureScope::AllOrNone: 
+			return { procedure };
+
+		case ProcedureScope::Range:
+			return { procedure };
+
+		case ProcedureScope::Ambi:
+			if (procedure.getScope() == ProcedureScope::Range) {
+				return { procedure };
+			}
+			break;
+		default:
+			break;
+	}
+
+	//return separate procedures
+
+	for (auto t : m_selectedTeeth)
+	{
+		auto index = t->toothIndex();
+		index.supernumeral = data.hyperdontic;
+		procedure.affectedTeeth = index;
+
+		//checks if the procedure is restoration and post is enabled
+		bool addPostProcedure =
+			std::holds_alternative<RestorationData>(procedure.param)
+			&& std::get<RestorationData>(procedure.param).post;
+
+		//adding post as separate procedure
+		if (addPostProcedure) {
+
+			Procedure postProcedure = procedure;
+
+			//changing the financing source
+			if (postProcedure.financingSource == FinancingSource::NHIF) {
+				postProcedure.financingSource = FinancingSource::None;
+			}
+
+			postProcedure.code = ProcedureCode("97594-01");
+			postProcedure.param = std::monostate{};
+
+			result.push_back(postProcedure);
+		}
+
+		result.push_back(procedure);
+
+		//removing the post flag
+		if (addPostProcedure) {
+			std::get<RestorationData>(result.back().param).post = false;
+		}
+	}
+
+	return result;
+}
+
+
+
 
 int ProcedureCreator::restorationDiagnosis(const Tooth& tooth)
 {
-/*
-	bool secondaryCaries = false;
+	/*
+		bool secondaryCaries = false;
 
-	for (int i = 0; i < 6; i++)		//checking if somewhere restoration is present also, returning secondary caries
-	{
-		if (tooth.caries.exists(i) && tooth.restoration.exists(i))
+		for (int i = 0; i < 6; i++)		//checking if somewhere restoration is present also, returning secondary caries
 		{
-			secondaryCaries = true;
+			if (tooth.caries.exists(i) && tooth.restoration.exists(i))
+			{
+				secondaryCaries = true;
+			}
 		}
-	}
-*/
+	*/
 	std::array<bool, 6> existing
 	{
 			tooth[Fracture],
@@ -149,12 +286,14 @@ int ProcedureCreator::implantDiagnosis(const Tooth& tooth)
 {
 	if (tooth[Missing]) return 5;
 
-		return 0;
+	return 0;
 }
 
-std::array<bool, 6> ProcedureCreator::autoSurfaces(const Tooth& tooth)
+RestorationData ProcedureCreator::autoSurfaces(const Tooth& tooth)
 {
-	std::array<bool, 6> surfaces{ 0,0,0,0,0,0 };
+	RestorationData result;
+
+	auto& surfaces = result.surfaces;
 
 	for (int i = 0; i < 6; i++)
 	{
@@ -164,6 +303,10 @@ std::array<bool, 6> ProcedureCreator::autoSurfaces(const Tooth& tooth)
 	if (tooth[Root])
 	{
 		surfaces = { 1, 1, 1, 1, 1, 1 };
+
+		if (!tooth[Post]) {
+			result.post = true;
+		}
 	}
 
 	if (tooth[RootCanal])
@@ -192,13 +335,47 @@ std::array<bool, 6> ProcedureCreator::autoSurfaces(const Tooth& tooth)
 		}
 	}
 
-	return surfaces;
+	return result;
 }
 
-ConstructionRange ProcedureCreator::getBridgeRange(const std::vector<const Tooth*> selectedTeeth)
+ConstructionRange ProcedureCreator::getBridgeRange(const std::vector<const Tooth*> selectedTeeth, ProcedureCode code)
 {
-	if (!selectedTeeth.size()) return { 0, 0 };
-	
+
+	if (code.type() == ProcedureType::Denture) {
+
+		static const std::set<std::string> upperDenture{
+			"97710-00",
+			"97711-01",
+			"97711-11",
+			"97711-02",
+			"97711-12",
+			"97721-01",
+			"97721-02",
+			"97729-00"
+		};
+
+		if (upperDenture.count(code.code())) {
+			return ConstructionRange{ 1, 14 };
+		}
+
+		static const std::set<std::string> lowerDenture{
+			"97710-01",
+			"97712-01",
+			"97712-11",
+			"97712-02",
+			"97712-12",
+			"97728-01",
+			"97728-02",
+			"97729-01"
+		};
+
+		if (lowerDenture.count(code.code())) {
+			return ConstructionRange{ 17, 30 };
+		}
+	}
+
+	if (!selectedTeeth.size()) return { 0, 1 };
+
 	if (selectedTeeth.size() == 1)
 	{
 		return { selectedTeeth[0]->index(), selectedTeeth[0]->index() };
@@ -212,17 +389,6 @@ ConstructionRange ProcedureCreator::getBridgeRange(const std::vector<const Tooth
 	return { begin, end };
 }
 
-std::string ProcedureCreator::bridgeOrFiberDiagnosis(const std::vector<const Tooth*> selectedTeeth, const ConstructionRange& range)
-{
-	for (int i = range.tooth_begin; i <= range.tooth_end; i++)
-	{
-		auto& tooth = *selectedTeeth.at(i);
-
-		if (tooth[Missing]) return "Andontia partialis";
-	}
-
-	return "Стабилизация с блок корони";
-}
 
 void ProcedureCreator::setView(IProcedureInput* view)
 {
@@ -232,7 +398,6 @@ void ProcedureCreator::setView(IProcedureInput* view)
 
 		auto t = m_selectedTeeth[0];
 
-		view->surfaceSelector()->setData(RestorationData{ autoSurfaces(*t), false });
 		diag_map[ProcedureType::Restoration] = restorationDiagnosis(*t);
 		diag_map[ProcedureType::Extraction] = extractionDiagnosis(*t);
 		diag_map[ProcedureType::Endodontic] = endodonticDiagnosis(*t);
@@ -245,16 +410,8 @@ void ProcedureCreator::setView(IProcedureInput* view)
 	diag_map[ProcedureType::Denture] = 6;
 	diag_map[ProcedureType::Depuratio] = 10;
 
-	auto [begin, end] = getBridgeRange(m_selectedTeeth);
-
-	view->rangeWidget()->setBridgeRange(begin, end);
 
 	view->setCurrentPresenter(this);
-
-
-
-	//diag_map[ProcedureType::Bridge] = bridgeOrFiberDiagnosis(m_selectedTeeth, ConstructionRange{ begin, end });
-	//diag_map[ProcedureType::Splint] = bridgeOrFiberDiagnosis(m_selectedTeeth, ConstructionRange{ begin, end });
 
 }
 
@@ -262,178 +419,3 @@ void ProcedureCreator::diagnosisChanged(int idx)
 {
 	diag_map[m_code.type()] = idx;
 }
-
-void ProcedureCreator::setProcedureCode(const ProcedureCode& m, bool nhif)
-{
-	view->setCurrentPresenter(this);
-
-	m_code = m;
-
-	view->setNhifLayout(nhif);
-
-	range_validator.allowSingleRange = m.type() == ProcedureType::Denture;
-
-	//GENERAL
-	if (m.isGeneral()) {
-
-		view->surfaceSelector()->setInputValidator(nullptr);
-		view->rangeWidget()->setInputValidator(nullptr);
-
-		m.isAnesthesia() ? 
-			view->setLayout(IProcedureInput::Anesthesia)
-			:
-			view->setLayout(IProcedureInput::General);
-
-	}
-
-	//TOOTH SPECIFIC
-	if (m.isToothSpecific()) {
-
-		if (m_selectedTeeth.empty()) {
-			view->setErrorMsg("Изберете поне един зъб!");
-			
-		}
-		else {
-			
-			view->rangeWidget()->setInputValidator(nullptr);
-
-			if (m.isRestoration()) {
-
-				view->setLayout(IProcedureInput::Restoration);
-				view->surfaceSelector()->setInputValidator(&surface_validator);
-			}
-			else {
-				view->setLayout(IProcedureInput::ToothSpecific);
-			}
-		}
-	}
-
-	//RANGE SPECIFIC
-	if (m.isRangeSpecific()) {
-
-		view->setLayout(IProcedureInput::Range);
-		view->surfaceSelector()->setInputValidator(nullptr);
-
-		view->rangeWidget()->setInputValidator(
-
-			m_code.requiresRangeValidation() ?
-				&range_validator
-				:
-				nullptr
-		);
-
-		auto [begin, end] = getBridgeRange(m_selectedTeeth);
-		view->rangeWidget()->setBridgeRange(begin, end);
-	} 
-
-
-	auto diagIdx = diag_map[m.type()];
-
-	view->diagnosisCombo()->setIndex(diag_map[m.type()]);
-
-	/*
-	//this logic should be...elsewhere
-	//total denture nhif manifacturing
-	if (!diagIdx && (m_code.oldCode() == 834 || m_code.oldCode() == 835))
-	{
-		view->diagnosisCombo()->setIndex(6);
-		diagIdx = 6;
-	}
-
-	view->diagnosisEdit()->setInputValidator(diagIdx ? nullptr : &notEmpty_validator);
-
-	const std::set<int> exams = { 101, 102, 103 };
-
-	if (!diagIdx && exams.count(m.oldCode())) {
-		view->diagnosisEdit()->set_Text("Преглед");
-	}
-	else
-	{
-		view->diagnosisEdit()->set_Text("");
-	}
-	*/
-	view->diagnosisEdit()->validateInput();
-
-
-}
-
-bool ProcedureCreator::isValid()
-{
-
-	std::vector<AbstractUIElement*> validatable{
-		view->dateEdit(),
-		view->surfaceSelector(),
-		view->rangeWidget(),
-		view->diagnosisEdit()
-	};
-
-
-	for (AbstractUIElement* e : validatable)
-	{
-		e->validateInput();
-		if (!e->isValid())
-		{
-            e->set_focus();
-			return false;
-		}
-	}
-
-	return true;
-}
-
-std::vector<Procedure> ProcedureCreator::getProcedures()
-{
-	Procedure procedure;
-
-	std::vector<Procedure> result;
-
-	procedure.code = m_code;
-
-	procedure.financingSource = 
-		procedure.code.oldCode() ? FinancingSource::NHIF 
-		: 
-		view->getFinancingSource();
-
-	procedure.LPK = User::doctor().LPK;
-	procedure.date = view->dateEdit()->getDate();
-	procedure.diagnosis = view->diagnosisCombo()->getIndex();
-	procedure.diagnosis.description = view->diagnosisEdit()->getText();
-	procedure.notes = view->getNotes();
-
-	if (procedure.code.isGeneral()) {
-
-		if (procedure.code.isAnesthesia()) {
-			procedure.param = AnesthesiaMinutes{ view->minutes() };
-		}
-
-		result.push_back(procedure);
-	}
-	else if (procedure.code.isToothSpecific()) {
-
-		if (procedure.code.isRestoration()) {
-
-			procedure.param = view->surfaceSelector()->getData();
-		}
-
-		for (auto t : m_selectedTeeth)
-		{
-			result.push_back(procedure);
-			auto index = t->toothIndex();
-			index.supernumeral = view->onHyperdontic();
-			result.back().affectedTeeth = index;
-		}
-
-	}
-	else if (procedure.code.isRangeSpecific()) {
-
-		auto [begin, end] = view->rangeWidget()->getRange();
-		procedure.affectedTeeth = ConstructionRange{ begin, end };
-		result.push_back(procedure);
-
-	}
-
-	return result;
-}
-
-
-

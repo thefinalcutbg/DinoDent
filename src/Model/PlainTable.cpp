@@ -36,7 +36,7 @@ PlainTable::PlainTable(const std::vector<Procedure>& pList)
         }
 
         addCell(4, PlainCell{
-            .data = std::to_string(p.code.oldCode()),
+            .data = std::to_string(p.code.nhifCode()),
             .icon = icon
             });
     }

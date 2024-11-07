@@ -43,7 +43,8 @@ void ProcedureTemplateModel::setProcedures(std::vector<ProcedureListElement> pro
 
 
         ProcedureRow row{
-        .code = m.code.ACHICode().c_str(),
+        .code = m.code.code().c_str(),
+        .displayCode = m.code.ACHICode().c_str(),
         .name = m.code.name().c_str(),
         };
 
@@ -51,6 +52,7 @@ void ProcedureTemplateModel::setProcedures(std::vector<ProcedureListElement> pro
             row.role = ProcedureRow::None;
         }
         else if (m.nhif) {
+            row.displayCode = QString::number(m.code.nhifCode());
             row.role = ProcedureRow::Nhif;
         }
         else {
@@ -84,8 +86,9 @@ QVariant ProcedureTemplateModel::headerData(int section, Qt::Orientation orienta
             switch (section)
             {
                 case 0: return "";
-                case 1: return "Код";
-                case 2: return "Манипулация";
+                case 1: return "НЗИС код";
+                case 2: return "Код";
+                case 3: return "Процедура";
             }
         }
     }
@@ -100,7 +103,7 @@ int ProcedureTemplateModel::rowCount(const QModelIndex&) const
 
 int ProcedureTemplateModel::columnCount(const QModelIndex&) const
 {
-    return 3;
+    return 4;
 }
 
 
@@ -157,11 +160,12 @@ QVariant ProcedureTemplateModel::data(const QModelIndex& index, int role) const
         {
             case 0: return index.row();
             case 1: return procedures[row].code;
-            case 2: return procedures[row].name;
+            case 2: return procedures[row].displayCode;
+            case 3: return procedures[row].name;
             default: return QVariant();
         }
     case Qt::TextAlignmentRole:
-        if (column == 1 ||column == 3)
+        if (column == 2 ||column == 4)
             return int(Qt::AlignCenter);
     }
 

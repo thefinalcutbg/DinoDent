@@ -43,8 +43,8 @@ QVariant ProcedureTableModel::headerData(int section, Qt::Orientation orientatio
                 case 1: return "Дата";
                 case 2: return "Диагноза";
                 case 3: return "Зъб";
-                case 4: return "Манипулация";
-                case 5: return "Код";
+                case 4: return "Процедура";
+                case 5: return "НЗОК";
                 case 6: return "КСМП";
                 case 7: return "Извършил";
                 case 8: return "Бележки";
@@ -102,11 +102,14 @@ QVariant ProcedureTableModel::data(const QModelIndex& index, int role) const
         case Qt::DecorationRole:
             switch (column)
             {
-            case 5:
-                if (m_procedures[row].fsource == FinancingSource::NHIF)
-                    return QIcon(":/icons/icon_nhif.png");
-                if (m_procedures[row].fsource == FinancingSource::PHIF)
-                    return QIcon(":/icons/icon_phif.png");
+            case 6:
+                switch (m_procedures[row].fsource)
+                {
+                    case FinancingSource::NHIF: return QIcon(":/icons/icon_nhif.png");
+                    case FinancingSource::PHIF: return QIcon(":/icons/icon_phif.png");
+                    case FinancingSource::Patient: return QIcon(":/icons/icon_user.png");
+                    default: return QIcon();
+                }
                 break;
             case 1:
                 switch (m_procedures[row].db_source)

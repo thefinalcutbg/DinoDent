@@ -15,8 +15,24 @@ const ToothIndex& Procedure::getToothIndex() const
 	return std::get<ToothIndex>(affectedTeeth);
 }
 
-void Procedure::applyProcedure(ToothContainer& teeth) const
+ProcedureScope Procedure::getScope() const
 {
+	auto scope = static_cast<ProcedureScope>(affectedTeeth.index());
+
+	//affectedTeeth might contain unknown bug
+	if (scope == ProcedureScope::SingleTooth && !getToothIndex().isValid()) {
+		return ProcedureScope::AllOrNone;
+	}
+
+	return scope;
+}
+
+void Procedure::applyProcedure(ToothContainer& teeth) const
+{	
+
+	//NOT IMPLEMENTED YET!
+		return;
+
 		auto& tooth_idx = getToothIndex();
 
 		switch (code.type())
@@ -223,8 +239,8 @@ void Procedure::applyPISProcedure(ToothContainer& teeth) const
 			teeth.setStatus({ tooth_idx.index }, Dental::StatusType::General, Dental::Implant, true, tooth_idx.supernumeral); break;
 		case ProcedureType::Denture:
 		{
-			int dentureBegin = code.oldCode() == 832 ? 1 : 17;
-			int dentureEnd = code.oldCode() == 832 ? 14 : 30;
+			int dentureBegin = code.nhifCode() == 832 ? 1 : 17;
+			int dentureEnd = code.nhifCode() == 832 ? 14 : 30;
 
 			for (int i = dentureBegin; i <= dentureEnd; i++)
 			{
@@ -240,13 +256,13 @@ void Procedure::applyPISProcedure(ToothContainer& teeth) const
 
 std::string Procedure::getToothString() const
 {
-	switch (getAffectedTeethType())
+	switch (static_cast<ProcedureScope>(affectedTeeth.index()))
 	{
-		case AffectedTeethType::None:
+		case ProcedureScope::AllOrNone:
 			return std::string();
-		case AffectedTeethType::Tooth:
+		case ProcedureScope::SingleTooth:
 			return getToothIndex().getNhifNumenclature();
-		case AffectedTeethType::Range:
+		case ProcedureScope::Range:
 		{
 			auto& [from, to] = std::get<ConstructionRange>(affectedTeeth);
 			return ToothUtils::getNomenclature(from, false) + "-" + ToothUtils::getNomenclature(to, false);

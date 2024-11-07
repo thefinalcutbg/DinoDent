@@ -6,6 +6,7 @@
 #include "View/Interfaces/AbstractSurfaceSelector.h"
 #include "View/Interfaces/AbstractRangeEdit.h"
 #include "View/Interfaces/AbstractComboBox.h"
+#include <optional>
 
 class ProcedureCreator;
 
@@ -15,25 +16,25 @@ protected:
 	ProcedureCreator* presenter{nullptr};
 public:
 
-	enum BridgeCheckState { Checked, Unchecked, Hidden };
+	struct Data {
 
-	enum WidgetLayout { General, ToothSpecific, Restoration, Range, Anesthesia };
+		ProcedureCode code;
+		Diagnosis diagnosis;
+		std::optional<ConstructionRange> range;
+		bool hyperdontic{ false };
+		AdditionalParameters param;
+		FinancingSource financingSource{ FinancingSource::None };
+		std::string notes;
+	};
 
-	virtual AbstractLineEdit* diagnosisEdit() = 0;
 	virtual AbstractDateEdit* dateEdit() = 0;
-	virtual int minutes() = 0;
-	virtual void setMinutes(int min) = 0;
-	virtual std::string getNotes() = 0;
+	virtual void setData(const Data& data) = 0;
+	virtual Data getData() = 0;
+	//returns string if an error is found
+	virtual std::string isValid() = 0;
+	virtual void setErrorMsg(const std::string& errorMsg) = 0;
+	//in case of editing already created procedure, the post should be disabled since its already a separate procedure
+	virtual void disablePost() = 0;
 	virtual void setCurrentPresenter(ProcedureCreator* presenter) { this->presenter = presenter; }
-	virtual AbstractRangeEdit* rangeWidget() = 0;
-	virtual AbstractSurfaceSelector* surfaceSelector() = 0;
-	virtual void setLayout(WidgetLayout layout) = 0;
-	virtual void setErrorMsg(const std::string& error) = 0;
-	virtual void setNotes(const std::string& notes) = 0;
-	virtual void setNhifLayout(bool nhif) = 0;
-	virtual void setFinancingSource(FinancingSource s) = 0;
-	virtual FinancingSource getFinancingSource() = 0;
-	virtual void setHyperdonticState(bool checked) = 0;
-	virtual bool onHyperdontic() = 0;
-	virtual AbstractComboBox* diagnosisCombo() = 0;
+
 };

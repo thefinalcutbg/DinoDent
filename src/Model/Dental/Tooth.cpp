@@ -164,6 +164,24 @@ bool Tooth::isWisdom() const
 		;
 }
 
+bool Tooth::canHaveADenture() const
+{
+	return
+		( //is missing
+			noData() ||
+			m_data[Missing] ||
+			m_data[Root] ||
+			m_data[Implant] ||
+			m_data[Impacted] ||
+			m_data[Denture]
+			) && // and it's not already restored by
+		m_data[Crown] &&
+		m_data[Bridge] &&
+		m_data[Splint]
+		;
+
+}
+
 
 bool Tooth::noData() const
 {

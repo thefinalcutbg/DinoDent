@@ -55,7 +55,7 @@ public:
 	bool isPontic() const;
 	bool canHaveACrown() const;
 	bool isWisdom() const;
-
+	bool canHaveADenture() const;
 
 	//code argument is either Status code or Surface - be careful!
 	void setStatus(Dental::StatusType type, int code, bool present);

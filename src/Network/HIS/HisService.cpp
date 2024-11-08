@@ -320,16 +320,14 @@ std::string HisService::getProcedure(const Procedure& p, const ToothContainer& t
 
 	result += bind("financingSource", static_cast<int>(p.financingSource));
 
-	if (p.code.getScope() == ProcedureScope::SingleTooth)
+	if (p.getScope() == ProcedureScope::SingleTooth)
 	{
-
 		p.applyProcedure(teethChanged);
 
 		result += getToothStatus(teethChanged.at(p.getToothIndex()));
-	
 	}
 
-	if (p.code.getScope() == ProcedureScope::Range)
+	if (p.getScope() == ProcedureScope::Range)
 	{
 		auto [begin, end] = std::get<ConstructionRange>(p.affectedTeeth);
 
@@ -345,8 +343,6 @@ std::string HisService::getProcedure(const Procedure& p, const ToothContainer& t
 			result += getToothStatus(teethChanged.at(i));
 		}
 	}
-
-#pragma message ( "YOIU HAVE TO PUT AMBI PARSING HERE!" )
 
 	if (p.code.type() == ProcedureType::Depuratio)
 	{
@@ -375,8 +371,6 @@ std::string HisService::getProcedure(const Procedure& p, const ToothContainer& t
 		}
 
 	}
-
-
 
 	result += bind("note", p.notes, true);
 
@@ -415,37 +409,7 @@ std::string HisService::closeTag(const std::string tag)
 {
 	return "</nhis:" + tag + ">";
 }
-/*
-std::string HisService::initialStatusAsProcedure(const ToothContainer& teeth, const Date& lastProcedureDate, bool augmentation)
-{
 
-	std::string result;
-
-	result += "<nhis:dentalProcedure>";
-
-	result += bind("sequence", 1);
-
-	if (augmentation) {
-		result += bind("index", 1);
-	}
-
-	result += bind("code", "D-01-001");
-	result += bind("type", 1);
-	result += bind("datePerformed",lastProcedureDate.to8601());
-	result += bind("financingSource", 4);
-
-	for (auto& tooth : teeth)
-	{
-		result += getToothStatus(tooth);
-
-		if (tooth[Dental::HasSupernumeral]) result += getToothStatus(tooth.getSupernumeral());
-	}
-	result += bind("note", "ИЗХОДЯЩ СТАТУС (автоматично генерирана)");
-	result += "</nhis:dentalProcedure>";
-
-	return result;
-}
-*/
 std::string HisService::bind(const std::string& name, const std::string& value, bool isUserInput)
 {
 	if (value.empty()) return "";

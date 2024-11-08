@@ -212,6 +212,10 @@ IProcedureInput::Data ProcedureInput::getData()
 
 	if (ui.beginCombo->isVisible()) {
 		result.range = { ui.beginCombo->currentIndex(), ui.endCombo->currentIndex() };
+		
+		if (result.range->tooth_begin > result.range->tooth_end) {
+			std::swap(result.range->tooth_begin, result.range->tooth_end);
+		}
 	}
 
 	if (ui.quadrantGroup->isVisible()) {

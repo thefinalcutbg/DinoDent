@@ -4,6 +4,7 @@
 #include "ui_ProcedureInput.h"
 #include "Model/Validators/CommonValidators.h"
 #include "View/Interfaces/IProcedureInput.h"
+#include "View/TableModels/MKBModel.h"
 
 class DateEdit;
 
@@ -17,6 +18,8 @@ class ProcedureInput : public QWidget, public IProcedureInput
 	ProcedureCode m_code;
 
 	bool m_postDisabled = false;
+
+	static inline MKBModel full_icd = MKBModel(ICD10::getFullMKBList());
 
 	//financing combo logic
 	void initFinancingCombo(const ProcedureCode& code);

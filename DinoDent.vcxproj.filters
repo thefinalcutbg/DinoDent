@@ -837,7 +837,7 @@
     <ClCompile Include="src\Model\Dental\Diagnosis.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Model\Dental\MKB.cpp">
+    <ClCompile Include="src\Model\ICD10.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Model\Dental\NhifProcedures.cpp">
@@ -1652,7 +1652,7 @@
     <ClInclude Include="src\Model\Dental\HisSnapshot.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model\Dental\MKB.h">
+    <ClInclude Include="src\Model\ICD10.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\Dental\MonthNotifRow.h">

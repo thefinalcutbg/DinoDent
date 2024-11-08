@@ -17,8 +17,7 @@ std::string Resources::citiesJson() { return fromPath(":/json/json_ekatte.json")
 std::string Resources::nhifDataJson() { return fromPath(":/json/json_nhif.json"); }
 std::string Resources::defaultPriceListJson() { return fromPath(":/json/json_defaultPriceList.json"); }
 std::string Resources::defaultDiagnosisListJson() { return fromPath(":/json/json_diagnosis.json"); }
-std::string Resources::ksmpJson() { return fromPath(":/json/json_ksmp.json"); }
-std::string Resources::mkbJson() { return fromPath(":/json/json_mkb.json"); }
+std::string Resources::icdJson() { return fromPath(":/json/json_icd10.json"); }
 
 std::vector<std::string> Resources::dbSchema() {
 

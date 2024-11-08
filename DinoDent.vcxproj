@@ -246,7 +246,7 @@
     <ClCompile Include="src\Model\Allergy.cpp" />
     <ClCompile Include="src\Model\Country.cpp" />
     <ClCompile Include="src\Model\Dental\Diagnosis.cpp" />
-    <ClCompile Include="src\Model\Dental\MKB.cpp" />
+    <ClCompile Include="src\Model\ICD10.cpp" />
     <ClCompile Include="src\Model\Dental\NhifProcedures.cpp" />
     <ClCompile Include="src\Model\Dental\NhifSheetData.cpp" />
     <ClCompile Include="src\Model\Dental\NhifSpecReport.cpp" />
@@ -562,7 +562,7 @@
     <ClInclude Include="src\Model\Dental\DentalStatistics.h" />
     <ClInclude Include="src\Model\Dental\Diagnosis.h" />
     <ClInclude Include="src\Model\Dental\HisSnapshot.h" />
-    <ClInclude Include="src\Model\Dental\MKB.h" />
+    <ClInclude Include="src\Model\ICD10.h" />
     <ClInclude Include="src\Model\Dental\MonthNotifRow.h" />
     <ClInclude Include="src\Model\Dental\NhifMaps.h" />
     <ClInclude Include="src\Model\Dental\NhifProcedures.h" />

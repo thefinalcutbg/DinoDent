@@ -4,32 +4,36 @@
 #include <QAbstractItemView>
 
 #include <json/json.h>
-
+#include "View/Widgets/TableViewDialog.h"
 #include "Presenter/ProcedureCreator.h"
 #include "Resources.h"
-
+#include "Model/ICD10.h"
 
 ProcedureInput::ProcedureInput(QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
 
-	for (auto& name : Diagnosis::getNames())
-	{
-		ui.diagCombo->addItem(name.c_str());
-	}
-
-    connect(ui.diagCombo, &QComboBox::currentIndexChanged, this, [&](int idx) {
-			if (presenter) {
-				presenter->diagnosisChanged(idx);
-			}
-	});
+	setWindowFlag(Qt::WindowMaximizeButtonHint);
 
 	connect(ui.rangeCheck, &QCheckBox::toggled, this, [&](bool checked) {
 
 		ui.rangeGroup->setHidden(!checked);
 		ui.hyperdonticCheckBox->setHidden(checked);
 
+	});
+
+	connect(ui.icdButton, &QPushButton::clicked, this, [&] {
+
+		TableViewDialog d(full_icd, 0, ICD10::getCodeFromName(ui.icdEdit->text().toStdString()));
+		d.setWindowTitle("Международна класификация на болестите");
+		d.exec(); 
+
+		auto code = d.getResult();
+
+		if (code.size()) {
+			ui.icdEdit->setText(QString::fromStdString(ICD10::getDescriptionFromICDCode(code)));
+		}
 	});
 
 	QString toothIndexes[32]{ "18", "17", "16", "15", "14", "13", "12", "11",
@@ -53,18 +57,18 @@ ProcedureInput::ProcedureInput(QWidget *parent)
 
 	for (auto& d : diagnosisList) completionList.append(d.asCString());
 
-	QCompleter* completer = new QCompleter(completionList);
+	ui.diagDescrEdit->setCompletions(completionList);
 
-	completer->setCaseSensitivity(Qt::CaseInsensitive);
-	completer->setCompletionMode(QCompleter::PopupCompletion);
+	completionList.clear();
 
+	completionList.reserve(ICD10::getDentalICDCodes().size());
 
-    QFont f;
-	f.setPixelSize(12);
-	completer->popup()->setFont(f);
-	completer->setMaxVisibleItems(10);
-	completer->setModelSorting(QCompleter::UnsortedModel);
-	ui.diagEdit->setCompleter(completer);
+	for (auto& d : ICD10::getDentalICDCodes()) {
+		completionList.push_back(d.name().c_str());
+	}
+
+	ui.icdEdit->setCompletions(completionList);
+	ui.icdEdit->completer()->setFilterMode(Qt::MatchContains);
 }
 
 QDateEdit* ProcedureInput::qDateEdit()
@@ -94,8 +98,8 @@ void ProcedureInput::setData(const Data& data)
 
 	ui.errorLabel->setText("");
 
-	ui.diagCombo->setCurrentIndex(data.diagnosis.index());
-	ui.diagEdit->setText(data.diagnosis.description.c_str());
+	//ui.diagCombo->setCurrentIndex(data.diagnosis.index());
+	ui.diagDescrEdit->setText(data.diagnosis.description.c_str());
 
 	ui.notesEdit->setPlainText(data.notes.c_str());
 
@@ -178,8 +182,8 @@ IProcedureInput::Data ProcedureInput::getData()
 	result.code = m_code;
 
 	result.diagnosis = Diagnosis{
-		ui.diagCombo->currentIndex(),
-		ui.diagEdit->getText()
+		0,
+		ui.diagDescrEdit->getText()
 	};
 
 	result.financingSource = getFinancingSource();
@@ -235,7 +239,7 @@ IProcedureInput::Data ProcedureInput::getData()
 		}
 	}
 
-	if (ui.jawCombo->isVisible()) {
+	if (ui.jawGroup->isVisible()) {
 
 		ConstructionRange jawRange[3] = {
 			{0,15},
@@ -243,7 +247,7 @@ IProcedureInput::Data ProcedureInput::getData()
 			{0,31},
 		};
 
-		result.range = jawRange[ui.jawCombo->currentIndex()];
+		result.range = jawRange[ui.jawComboBox->currentIndex()];
 	}
 
 	return result;
@@ -278,26 +282,22 @@ std::string ProcedureInput::isValid()
 		if (!valid) return "Изберете поне една повърхност!";
 	}
 
-	if (ui.rangeCheck->isVisible())
+	if (ui.rangeGroup->isVisible())
 	{
 		auto type = m_code.type();
 
 		auto from = ui.beginCombo->currentIndex();
 		auto to = ui.endCombo->currentIndex();
 
-		auto fromSameJaw = (from < 16) != (to < 16);
+		auto fromSameJaw = (from < 16) == (to < 16);
 
-		if (!fromSameJaw) {
-
-			ui.endCombo->setFocus();
+		if (!fromSameJaw) {;
 
 			return "Невалидна дължина на протетичната конструкция";
 		}
 		
-		if (type != ProcedureType::Denture && type != ProcedureType::RemoveCrownOrBridge && from == to) 
+		if (type != ProcedureType::RemoveCrownOrBridge && from == to) 
 		{
-			ui.endCombo->setFocus();
-
 			return "Началният и крайният зъб за които се отнася процедурата трябва да са различни";
 		}
 	}
@@ -328,7 +328,7 @@ void ProcedureInput::initView(const ProcedureCode& code)
 		ui.rangeGroup->hide();
 		ui.surfaceGroup->hide();
 		ui.quadrantGroup->hide();
-		ui.jawCombo->hide();
+		ui.jawGroup->hide();
 
 		break;
 
@@ -341,7 +341,7 @@ void ProcedureInput::initView(const ProcedureCode& code)
 		ui.rangeCheck->hide();
 		ui.rangeGroup->hide();
 		ui.quadrantGroup->hide();
-		ui.jawCombo->hide();
+		ui.jawGroup->hide();
 
 		break;
 
@@ -354,7 +354,7 @@ void ProcedureInput::initView(const ProcedureCode& code)
 		ui.rangeCheck->hide();
 		ui.rangeGroup->hide();
 		ui.surfaceGroup->hide();
-		ui.jawCombo->hide();
+		ui.jawGroup->hide();
 
 		switch (code.type())
 		{
@@ -366,7 +366,7 @@ void ProcedureInput::initView(const ProcedureCode& code)
 
 			case ProcedureType::MultipleExtraction:
 
-				ui.jawCombo->show();
+				ui.jawGroup->show();
 
 				break;
 
@@ -376,7 +376,6 @@ void ProcedureInput::initView(const ProcedureCode& code)
 		}
 		break;
 
-		//tuka si eba maikata
 		case ProcedureScope::Ambi:
 
 			ui.hyperdonticCheckBox->show();
@@ -386,7 +385,7 @@ void ProcedureInput::initView(const ProcedureCode& code)
 			ui.surfaceGroup->hide();
 			ui.anesthesiaGroup->hide();
 			ui.quadrantGroup->hide();
-			ui.jawCombo->hide();
+			ui.jawGroup->hide();
 
 			switch (code.type())
 			{

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>371</width>
-    <height>752</height>
+    <height>784</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -86,30 +86,59 @@
     </layout>
    </item>
    <item>
-    <widget class="QLabel" name="label_2">
-     <property name="text">
-      <string>Диагноза:</string>
+    <widget class="QGroupBox" name="groupBox">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
      </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="ComboBox" name="diagCombo"/>
-   </item>
-   <item>
-    <widget class="QLabel" name="addDiagLabel">
-     <property name="text">
-      <string>Допълнителни уточнения към диагнозата:</string>
+     <property name="title">
+      <string>Диагноза</string>
      </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="LineEdit" name="diagEdit">
-     <property name="maxLength">
-      <number>1000</number>
-     </property>
-     <property name="placeholderText">
-      <string/>
-     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_6">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_8">
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="AutoCompleteLineEdit" name="icdEdit">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="placeholderText">
+           <string>Без диагноза</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="icdButton">
+          <property name="text">
+           <string>МКБ 10</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QLabel" name="addDiagLabel">
+        <property name="text">
+         <string>Допълнителни уточнения към диагнозата:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="AutoCompleteLineEdit" name="diagDescrEdit">
+        <property name="maxLength">
+         <number>1000</number>
+        </property>
+        <property name="placeholderText">
+         <string>Няма</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
    <item>
@@ -270,6 +299,12 @@
    </item>
    <item>
     <widget class="QGroupBox" name="surfaceGroup">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="title">
       <string>Повърхности</string>
      </property>
@@ -406,22 +441,31 @@
     </widget>
    </item>
    <item>
-    <widget class="QComboBox" name="jawCombo">
-     <item>
-      <property name="text">
-       <string>Горна челюст</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Долна челюст</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Горна и долна челюст</string>
-      </property>
-     </item>
+    <widget class="QGroupBox" name="jawGroup">
+     <property name="title">
+      <string>Множествена екстракция на</string>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_9">
+      <item>
+       <widget class="QComboBox" name="jawComboBox">
+        <item>
+         <property name="text">
+          <string>Горна челюст</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Долна челюст</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Горна и долна челюст</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
    <item>
@@ -538,19 +582,14 @@
    <header>View/uiComponents/DateEdit.h</header>
   </customwidget>
   <customwidget>
-   <class>LineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>View/uiComponents/LineEdit.h</header>
-  </customwidget>
-  <customwidget>
-   <class>ComboBox</class>
-   <extends>QComboBox</extends>
-   <header>View/uiComponents/ComboBox.h</header>
-  </customwidget>
-  <customwidget>
    <class>TextEdit</class>
    <extends>QPlainTextEdit</extends>
    <header>View/uiComponents/TextEdit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>AutoCompleteLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>View/uiComponents/AutoCompleteLineEdit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -79,15 +79,15 @@ void ReferralPresenter::okPressed()
 
 	auto common = view->getCommon();
 
-	if (MKB::getNameFromMKBCode(common.mkbMain).empty()) {
+	if (ICD10::getDescriptionFromICDCode(common.mkbMain).empty()) {
 
 		view->setErrorLabel("Моля, изберете основен код на диагнозата!");
 		m_result.reset();
 		return;
 	}
 
-	if (MKB::getNameFromMKBCode(common.mkbComorbMain).empty() && 
-		MKB::getNameFromMKBCode(common.mkbComorbAdd).size())
+	if (ICD10::getDescriptionFromICDCode(common.mkbComorbMain).empty() && 
+		ICD10::getDescriptionFromICDCode(common.mkbComorbAdd).size())
 	{
 		view->setErrorLabel("Моля, изберете основен код на придружаващото заболяване!");
 		m_result.reset();

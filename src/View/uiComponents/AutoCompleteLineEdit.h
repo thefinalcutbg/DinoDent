@@ -13,14 +13,14 @@ class AutoCompleteLineEdit : public LineEdit
 
 	void reformat() override;
 
-	void newCompleter(const QStringList& list);
+	
 
 public:
 
 	AutoCompleteLineEdit(QWidget* parent = 0);
 	void setCompletions(const std::unordered_map<std::string, int>& map);
 	void setCompletions(const std::vector<std::string>& vec);
-
+	void setCompletions(const QStringList& list);
 };
 
 

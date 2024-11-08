@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include "Model/Date.h"
-#include "Model/Dental/MKB.h"
+#include "Model/ICD10.h"
 
 struct MedicalNotice
 {
@@ -13,7 +13,7 @@ struct MedicalNotice
 
 	Date issue_date{ Date::currentDate() };
 
-	MKB mkb;
+	ICD10 mkb;
 
 	std::string institution;
 

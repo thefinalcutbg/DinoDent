@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
 #include "Model/Prescription/Medication.h"
 #include "Model/Prescription/DoseQuantity.h"
 #include "Model/Prescription/WhenToTake.h"
-#include "Model/Dental/MKB.h"
+#include "Model/ICD10.h"
 #include "Model/Ekatte.h"
 #include "Model/Country.h"
 
@@ -62,8 +62,8 @@ bool initFunction() {
 #endif
 
     SplashScreen::createAndShow();
-
-    Db::setFilePath(GlobalSettings::getDbPath());
+#pragma warning "DATABASE PATH HAS BEEN DISABLED!!!!"
+   // Db::setFilePath(GlobalSettings::getDbPath());
 
     if (!Db::createIfNotExist()) {
 
@@ -92,7 +92,7 @@ bool initFunction() {
     Ekatte::initialize();
     Country::initialize();
     SplashScreen::showMessage("Зареждане на МКБ номенклатурите");
-    MKB::initialize();
+    ICD10::initialize();
     DoseQuantity::initialize();
     Route::initialize();
     WhenToTake::initialize();

@@ -139,7 +139,7 @@ void ReferralDialog::setReferral(const Referral & r)
 
 	ui.dateEdit->setDate(QDate(r.date.year, r.date.month, r.date.day));
 
-	auto mkbButtonSet = [](QPushButton* mkbButton, const MKB& mkb) {
+	auto mkbButtonSet = [](QPushButton* mkbButton, const ICD10& mkb) {
 
 		mkbButton->setText(
 			mkb.isValid() ? mkb.code().c_str()

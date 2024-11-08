@@ -7,12 +7,12 @@
 #include "View/ModalDialogBuilder.h"
 #include "Model/Dental/NhifProcedures.h"
 #include "Model/Date.h"
-#include "Model/Dental/MKB.h"
+#include "Model/ICD10.h"
 #include "Model/Patient.h"
 
 bool DiagnosisService::sendRequest(const Patient& p, decltype(m_callback) callback)
 {
-	if (!MKB::isInitialized()) {
+	if (!ICD10::isInitialized()) {
 		ModalDialogBuilder::showMessage("Първо заредете МКБ номенклатурите от настройки");
 		return false;
 	}
@@ -73,7 +73,7 @@ void DiagnosisService::processPISReply(const std::string& reply)
 
 		std::vector<std::string>* diseases = isPast ? &past : &current;
 		
-		auto diagnosisName = (MKB::getNameFromMKBCode(mkb));
+		auto diagnosisName = (ICD10::getDescriptionFromICDCode(mkb));
 
 		if (diagnosisName.empty()) continue;
 

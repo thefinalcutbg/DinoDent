@@ -11,8 +11,7 @@ namespace Resources
 	std::string nhifDataJson();
 	std::string defaultPriceListJson();
 	std::string defaultDiagnosisListJson();
-	std::string ksmpJson();
-	std::string mkbJson();
+	std::string icdJson();
 	std::vector<std::string> dbSchema();
 	std::vector<std::string> getMigrationScript(int version);
 };

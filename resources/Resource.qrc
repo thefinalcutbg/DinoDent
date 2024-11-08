@@ -96,7 +96,6 @@
         <file>json_dose.json</file>
         <file>json_route.json</file>
         <file>json_when.json</file>
-        <file>json_mkb.json</file>
         <file>json_holidays.json</file>
         <file>json_specialty.json</file>
         <file>json_procedures.json</file>
@@ -104,6 +103,7 @@
         <file>json_nhif.json</file>
         <file>json_country.json</file>
         <file>json_hrToEkatte.json</file>
+        <file>json_icd10.json</file>
     </qresource>
     <qresource prefix="/style">
         <file>dateEditStyle.qss</file>

@@ -14,7 +14,7 @@ class MedicalNoticeDialog : public QDialog
 {
 	Q_OBJECT
 
-	MKBModel m_mkbDental{ MKB::getDentalMKBList() };
+	MKBModel m_mkbDental{ ICD10::getDentalICDCodes() };
 	NotEmptyValidator not_emptyValidator;
 
 	std::optional<MedicalNotice> m_result;

@@ -54,7 +54,7 @@ MedicalNoticeDialog::MedicalNoticeDialog(const MedicalNotice& notice)
 				return;
 			}
 
-			MKB diagnosis = ui.mkbButton->text().toStdString();
+			ICD10 diagnosis = ui.mkbButton->text().toStdString();
 
 			if (!diagnosis.isValid()){
 				ModalDialogBuilder::showMessage("Моля, изберете диагноза!");

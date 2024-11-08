@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Model/NumenclatureTemplate.h"
-#include "Model/Dental/MKB.h"
+#include "Model/ICD10.h"
 
 namespace RefNumPrv {
 
@@ -13,8 +13,8 @@ typedef NumStatic<2, RefNumPrv::reason> Reason;
 typedef NumStatic<4, RefNumPrv::MH119_reason> MH119Reason;
 
 struct RefDiagnosis {
-	MKB main;
-	MKB additional;
+	ICD10 main;
+	ICD10 additional;
 
 	std::string getText() const {
 		return main.name() + " " + additional.name();

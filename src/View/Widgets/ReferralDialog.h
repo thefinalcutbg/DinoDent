@@ -16,8 +16,8 @@ class ReferralDialog : public QDialog, public IReferralDialog
 
     ReferralPresenter& presenter;
 
-	MKBModel m_mkbFull{ MKB::getFullMKBList() };
-	MKBModel m_mkbDental{ MKB::getDentalMKBList() };
+	MKBModel m_mkbFull{ ICD10::getFullMKBList() };
+	MKBModel m_mkbDental{ ICD10::getDentalICDCodes() };
 
 	void paintEvent(QPaintEvent* event) final;
 

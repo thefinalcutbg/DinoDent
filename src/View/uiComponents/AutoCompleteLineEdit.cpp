@@ -26,7 +26,7 @@ void AutoCompleteLineEdit::setCompletions(const std::vector<std::string>& vec)
 
 	setMaxLength(maxCharLength);
 
-	newCompleter(completions);
+	setCompletions(completions);
 }
 
 
@@ -47,7 +47,7 @@ void AutoCompleteLineEdit::setCompletions(const std::unordered_map<std::string, 
 	
 	completions.sort();
 
-	newCompleter(completions);
+	setCompletions(completions);
 
 }
 
@@ -64,7 +64,7 @@ void AutoCompleteLineEdit::reformat()
 	validateInput();
 }
 
-void AutoCompleteLineEdit::newCompleter(const QStringList& list)
+void AutoCompleteLineEdit::setCompletions(const QStringList& list)
 {
 	auto new_completer = new QCompleter(list, this);
 	new_completer->setCaseSensitivity(Qt::CaseInsensitive);

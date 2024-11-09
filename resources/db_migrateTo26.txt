@@ -1,6 +1,6 @@
 ALTER TABLE procedure ADD COLUMN icd VARCHAR;
 UPDATE procedure SET diagnosis_description = '' WHERE diagnosis = 0;
-UPDATE procedure SET icd = 'K02.1' WHERE diagnosis = 1;
+UPDATE procedure SET icd = 'K02' WHERE diagnosis = 1;
 UPDATE procedure SET icd = 'K04.0' WHERE diagnosis = 2;
 UPDATE procedure SET icd = 'K04.5' WHERE diagnosis = 3;
 UPDATE procedure SET icd = 'S02.5' WHERE diagnosis = 4;

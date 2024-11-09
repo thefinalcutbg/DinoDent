@@ -46,9 +46,9 @@ class ProcedureCode
     struct Numenclature {
         ProcedureType type;
         std::string name;
-        int nhifCode;
-        int hisType;
-        bool isLegacy;
+        int nhifCode{ false };
+        int hisType{ 0 };
+        bool isLegacy{ false };
     };
 
     inline static const std::string dummy;
@@ -93,12 +93,7 @@ public:
 
     ProcedureScope getScope() const;
 
-    bool isLegacy() const {
-        
-        if (m_code.empty()) return true;
-
-        return s_mapping[m_code].isLegacy;
-    }
+    bool isLegacy() const;
 
     static decltype(s_mapping) getMap() { return s_mapping; }
 

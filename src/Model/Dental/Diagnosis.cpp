@@ -1,5 +1,5 @@
 ﻿#include "Diagnosis.h"
-#include <QDebug>
+
 Diagnosis::Diagnosis(int legacyHisIdx, bool refactorGuard)
 {
 

@@ -114,7 +114,8 @@ std::vector<Procedure> ProcedureCreator::getProcedures()
 
 		//checks if the procedure is restoration and post is enabled
 		bool addPostProcedure =
-			std::holds_alternative<RestorationData>(procedure.param)
+			!m_code.isLegacy()
+			&& std::holds_alternative<RestorationData>(procedure.param)
 			&& std::get<RestorationData>(procedure.param).post;
 
 		//adding post as separate procedure

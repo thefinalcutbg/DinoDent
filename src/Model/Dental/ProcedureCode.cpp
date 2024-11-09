@@ -24,7 +24,7 @@ void ProcedureCode::initialize()
 				.name = j["name"].asString(),
 				.nhifCode = j["oldCode"].asInt(),
 				.hisType = j["hisType"].asInt(),
-				.isLegacy = j["isLegacy"].asBool(),
+				.isLegacy = j["legacy"].asBool(),
 		};
 
 		if (j.isMember("ksmp")) {
@@ -181,6 +181,17 @@ ProcedureScope ProcedureCode::getScope() const
 	}
 
 	return ProcedureScope::AllOrNone;
+}
+
+bool ProcedureCode::isLegacy() const
+{
+	if (s_mapping.count(m_code)) {
+
+		return s_mapping.at(m_code).isLegacy;
+	}
+
+	return false;
+	
 }
 
 int ProcedureCode::nhifCode() const

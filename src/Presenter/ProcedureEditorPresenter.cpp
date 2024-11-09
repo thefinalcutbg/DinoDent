@@ -33,7 +33,7 @@ std::optional<Procedure> ProcedureEditorPresenter::openDialog()
 
 	return result;
 }
-
+#include <QDebug>
 void ProcedureEditorPresenter::setView(IProcedureEditDialog* view)
 {
 	this->view = view;
@@ -56,16 +56,17 @@ void ProcedureEditorPresenter::setView(IProcedureEditDialog* view)
 
 	view->procedureInput()->dateEdit()->validateInput();
 
-	view->procedureInput()->setData(data);
+	if (!m_code.isLegacy()) {
+		view->procedureInput()->disablePost();
+	}
 
-	view->procedureInput()->disablePost();
+	view->procedureInput()->setData(data);
 
 	result.reset();
 }
 
 void ProcedureEditorPresenter::okPressed()
 {
-
 
 	if (!view->procedureInput()->dateEdit()->isValid()) {
 		return;

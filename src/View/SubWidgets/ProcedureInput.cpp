@@ -282,17 +282,19 @@ IProcedureInput::Data ProcedureInput::getData()
 
 std::string ProcedureInput::isValid()
 {
+	std::string result;
+
 	ui.dateEdit->validateInput();
 
 	if (!ui.dateEdit->isValid()) {
 
-		ui.errorLabel->setText(ui.dateEdit->getValidator()->getErrorMessage().c_str());
+		result = ui.dateEdit->getValidator()->getErrorMessage();
 	}
 
 	if (ui.icdEdit->text().size() 
 		&& !ICD10(ui.icdButton->text().toStdString()).isValid())
 	{
-		ui.errorLabel->setText("Невалидна диагноза по МКБ");
+		result = "Невалидна диагноза по МКБ";
 	}
 
 	if (ui.surfaceGroup->isVisible()) {
@@ -315,7 +317,7 @@ std::string ProcedureInput::isValid()
 			}
 		}
 
-		if (!valid){ ui.errorLabel->setText("Изберете поне една повърхност!"); }
+		if (!valid){ result = "Изберете поне една повърхност!"; }
 	}
 
 	if (ui.rangeGroup->isVisible())
@@ -329,17 +331,20 @@ std::string ProcedureInput::isValid()
 
 		if (!fromSameJaw) {;
 
-			ui.errorLabel->setText("Невалидна дължина на протетичната конструкция");
+			result = "Невалидна дължина на протетичната конструкция";
 		}
 		
 		if (type != ProcedureType::RemoveCrownOrBridge && from == to) 
 		{
-			ui.errorLabel->setText("Началният и крайният зъб за които се отнася процедурата трябва да са различни");
+			result = "Началният и крайният зъб за които се отнася процедурата трябва да са различни";
 		}
 	}
 
-	return ui.errorLabel->text().toStdString();
-	
+	if (result.size()) {
+		ui.errorLabel->setText(result.c_str());
+	}
+
+	return result;
 }
 
 void ProcedureInput::initView(const ProcedureCode& code)

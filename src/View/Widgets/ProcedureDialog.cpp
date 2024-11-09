@@ -7,7 +7,11 @@ ProcedureDialog::ProcedureDialog(ProcedureDialogPresenter& presenter, QWidget *p
 	ui.setupUi(this);
 
 	setModal(true);
-	setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
+	
+	setWindowFlags(windowFlags() | Qt::CustomizeWindowHint |
+								   Qt::WindowMaximizeButtonHint |
+								   Qt::WindowCloseButtonHint);
+
 	setWindowTitle("Добавяне на манипулация");
 
 	proxyModel.setSourceModel(&model);

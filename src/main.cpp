@@ -83,7 +83,6 @@ bool initFunction() {
     SpriteSheets::container().initialize(); //loading textures, otherwise program will crash;
     Zodiac::initialize();
     ProcedureCode::initialize();
-    Diagnosis::initialize();
     NhifProcedures::initialize(); //parsing json of nhif data
     SplashScreen::showMessage("Зареждане на медикаментите");
     Medication::initialize();

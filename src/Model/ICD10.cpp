@@ -15,9 +15,14 @@ namespace ICDPrv {
 
 using namespace ICDPrv;
 
+ICD10::ICD10(const std::string& code) :
+	m_code(icdToName.count(code) ? code : std::string())
+{}
 
 const std::string& ICD10::name() const
 {
+	if (m_code.empty()) return dummy;
+
 	if (icdToName.count(m_code)) return icdToName.at(m_code);
 
 	return dummy;

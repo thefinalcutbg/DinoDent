@@ -567,12 +567,25 @@ void EDental::Fetch::parseReply(const std::string& reply)
 		auto diagnosisXml = procXml->FirstChildElement("nhis:diagnosis");
 
 		if (diagnosisXml) {
-			p.diagnosis = diagnosisXml->FirstChildElement("nhis:code")->FirstAttribute()->IntValue();
+
+			auto diagStr = diagnosisXml->FirstChildElement("nhis:code")->FirstAttribute()->ValueStr();
+
+			//ICD start with letter
+			if (std::isdigit(diagStr[0])) {
+
+				p.diagnosis = Diagnosis(std::stoi(diagStr), 999);
+
+			}
+			else {
+				p.diagnosis.icd = diagStr;
+			}
+
+			
 
 			auto note = procXml->FirstChildElement("nhis:diagnosis")->FirstChildElement("nhis:note");
 
 			if (note) {
-				p.diagnosis.description = note->FirstAttribute()->ValueStr();
+				p.diagnosis.additional_descr = note->FirstAttribute()->ValueStr();
 			}
 		}
 

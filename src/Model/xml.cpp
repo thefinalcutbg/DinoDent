@@ -208,7 +208,7 @@ std::string XML::getReport(const std::vector<AmbList>& lists, const std::unorder
             TiXmlElement* service = new TiXmlElement("service");
 
             service->SetAttribute("date", procedure.date.to8601());
-            service->SetAttribute("diagnosis", procedure.diagnosis.getFullDiagnosis());
+            service->SetAttribute("diagnosis", procedure.diagnosis.getDiagnosisText());
 
             auto toothCode = procedure.getToothIndex().getNhifNumenclature();
             if (toothCode.empty()) toothCode = "99";

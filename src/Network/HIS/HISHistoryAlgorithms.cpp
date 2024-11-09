@@ -61,21 +61,28 @@ std::vector<Procedure> HISHistoryAlgorithms::getProcedures(TiXmlDocument& doc)
 			{
 				p.notes = pXml.Child(y).ToElement()->Attribute("value");
 			}
-
-
-
+#pragma warning ("Line 64 - HISHistoryAlgorithms.cpp - assuming polymorphic diagnosis")
 			//parsing diagnosis
 			if (elementName == "nhis:diagnosis")
 			{
-				auto diagHandle = pXml.Child(y);
-				p.diagnosis = std::stoi(diagHandle.Child(0).ToElement()->Attribute("value"));
+				auto diagElement = pXml.Child(y).ToElement();
+				
+				std::string diagStr = diagElement->FirstChildElement("nhis:code")->FirstAttribute()->ValueStr();
+	
+				auto& d = p.diagnosis;
 
-				if (diagHandle.Child(1).ToElement() != nullptr)
-				{
-					p.diagnosis.description = diagHandle.Child(1).ToElement()->Attribute("value");
+				if (std::isdigit(diagStr[0])) {
+					d = Diagnosis(std::atoi(diagStr.data()), true);
+				}
+				else {
+					d.icd = ICD10{ diagStr };
 				}
 
+				auto noteElement = diagElement->FirstChildElement("nhis:note");
 
+				if (noteElement) {
+					d.additional_descr = noteElement->FirstAttribute()->ValueStr();
+				}
 			}
 
 			y++;
@@ -260,19 +267,31 @@ std::vector<HisSnapshot> HISHistoryAlgorithms::getDentalHistory(TiXmlDocument& d
 
 		if (diagElement) {
 
-			Diagnosis d(diagElement->FirstChildElement("nhis:code")->FirstAttribute()->IntValue());
+#pragma warning ("Line 278 - HISHistoryAlgorithms.cpp - assuming polymorphic diagnosis")
+			
+			//diagnosis polymorphism
+			std::string diagStr = diagElement->FirstChildElement("nhis:code")->FirstAttribute()->ValueStr();
+
+			Diagnosis d;
+
+			if (std::isdigit(diagStr[0])) {
+				d = Diagnosis(std::atoi(diagStr.data()), true);
+			}
+			else {
+				d.icd = ICD10{diagStr};
+			}
 			
 			auto noteElement = diagElement->FirstChildElement("nhis:note");
 
 			if (noteElement) {
-				d.description = noteElement->FirstAttribute()->ValueStr();
+				d.additional_descr = noteElement->FirstAttribute()->ValueStr();
 			}
 
-			data.diagnosis = d.getFullDiagnosis();
+			data.diagnosis = d.getDiagnosisText();
 		}
 		else
 		{
-			data.diagnosis = "Неизвестна";
+			data.diagnosis = "Без диагноза";
 		}
 
 		auto noteElement = dentalProcedure->FirstChildElement("nhis:note");

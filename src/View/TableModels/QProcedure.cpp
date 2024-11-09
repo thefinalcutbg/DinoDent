@@ -5,7 +5,7 @@
 
 QProcedure::QProcedure(const Procedure& p) :
 	date(QString::fromStdString(p.date.toBgStandard())),
-	diagnosis(QString::fromStdString(p.diagnosis.getFullDiagnosis())),
+	diagnosis(QString::fromStdString(p.diagnosis.getDiagnosisText())),
 	tooth(p.getToothString().c_str()),
 	procedureName(QString::fromStdString(p.code.name())),
 	nhifCode(p.code.nhifCode() ? QString::number(p.code.nhifCode()) : "" ),

@@ -18,7 +18,7 @@ std::vector<Procedure> DbProcedure::getProcedures(long long amblist_rowid, Db& d
 								"procedure.temporary, "				//4
 								"procedure.supernumeral, "			//5
 								"amblist.LPK, "						//6
-								"procedure.diagnosis, "				//7
+								"procedure.icd, "					//7
 								"procedure.diagnosis_description, "	//8
 								"procedure.notes, "					//9
 								"procedure.his_index, "				//10
@@ -75,8 +75,8 @@ std::vector<Procedure> DbProcedure::getProcedures(long long amblist_rowid, Db& d
 		}
 
 		p.LPK = db.asString(6);
-		p.diagnosis = db.asInt(7);
-		p.diagnosis.description = db.asString(8);
+		p.diagnosis.icd = db.asString(7);
+		p.diagnosis.additional_descr = db.asString(8);
 		p.notes = db.asString(9);
 		p.his_index = db.asInt(10);
 
@@ -144,7 +144,7 @@ void DbProcedure::saveProcedures(long long amblist_rowid, const std::vector<Proc
 
 		db.newStatement(
 			"INSERT INTO procedure "
-			"(date, code, financing_source, at_tooth_index, temporary, supernumeral, amblist_rowid, diagnosis, diagnosis_description, notes, his_index, removed, "
+			"(date, code, financing_source, at_tooth_index, temporary, supernumeral, amblist_rowid, icd, diagnosis_description, notes, his_index, removed, "
 			"surface_o, surface_m, surface_d, surface_b, surface_l, surface_c, post, from_tooth_index, to_tooth_index, minutes) "
 			"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
@@ -201,8 +201,8 @@ void DbProcedure::saveProcedures(long long amblist_rowid, const std::vector<Proc
 
 
 		db.bind(7, amblist_rowid);
-		db.bind(8, p.diagnosis.index());
-		db.bind(9, p.diagnosis.description);
+		db.bind(8, p.diagnosis.icd.code());
+		db.bind(9, p.diagnosis.additional_descr);
 		db.bind(10, p.notes);
 		db.bind(11, p.his_index);
 		db.bind(12, toInsert[i].removed);
@@ -256,7 +256,7 @@ std::vector<Procedure> DbProcedure::getToothProcedures(long long patientRowId, i
 			"amblist.lpk, "
 			"procedure.temporary, "
 			"procedure.supernumeral, "
-			"procedure.diagnosis, "
+			"procedure.icd, "
 			"procedure.diagnosis_description, "
 			"procedure.notes "
 			"FROM "
@@ -286,8 +286,8 @@ std::vector<Procedure> DbProcedure::getToothProcedures(long long patientRowId, i
 			.supernumeral = db.asBool(5)
 		};
 
-		p.diagnosis = db.asInt(6);
-		p.diagnosis.description = db.asString(7);
+		p.diagnosis.icd = db.asString(6);
+		p.diagnosis.additional_descr = db.asString(7);
 		p.notes = db.asString(8);
 
 	}
@@ -308,7 +308,7 @@ std::vector<Procedure> DbProcedure::getPatientProcedures(long long patientRowid)
 		"procedure.temporary, "				//4
 		"procedure.supernumeral, "			//5
 		"amblist.LPK, "						//6
-		"procedure.diagnosis, "				//7
+		"procedure.icd, "					//7
 		"procedure.diagnosis_description, "	//8
 		"procedure.notes, "					//9
 		"procedure.his_index, "				//10
@@ -345,8 +345,8 @@ std::vector<Procedure> DbProcedure::getPatientProcedures(long long patientRowid)
 		p.code = db.asString(2);
 
 		p.LPK = db.asString(6);
-		p.diagnosis = db.asInt(7);
-		p.diagnosis.description = db.asString(8);
+		p.diagnosis.icd = db.asString(7);
+		p.diagnosis.additional_descr = db.asString(8);
 		p.notes = db.asString(9);
 		p.his_index = db.asInt(10);
 
@@ -373,8 +373,8 @@ std::vector<Procedure> DbProcedure::getPatientProcedures(long long patientRowid)
 		}
 
 		p.LPK = db.asString(6);
-		p.diagnosis = db.asInt(7);
-		p.diagnosis.description = db.asString(8);
+		p.diagnosis.icd = db.asString(7);
+		p.diagnosis.additional_descr = db.asString(8);
 		p.notes = db.asString(9);
 		p.his_index = db.asInt(10);
 

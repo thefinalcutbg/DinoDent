@@ -161,7 +161,8 @@ PisReportsForImport PisReportParser::parse(const std::string& xmlReport)
 
 			auto description = serviceXml->Attribute("diagnosis");
 
-			p.diagnosis = Diagnosis(getDiagnosisIndexByDescription(description), description);
+			p.diagnosis = Diagnosis(getDiagnosisIndexByDescription(description), true);
+			p.diagnosis.additional_descr = description;
 
 			if (p.code.getScope() == ProcedureScope::SingleTooth)
 			{

@@ -324,7 +324,7 @@ std::vector<AmbList> DbAmbList::getMonthlyNhifSheets(int month, int year)
         "procedure.at_tooth_index,"
         "procedure.date,"
         "procedure.temporary,"
-        "procedure.diagnosis,"
+        "procedure.icd,"
         "procedure.diagnosis_description,"
         "procedure.supernumeral,"
         "amblist.rowid, "
@@ -361,8 +361,8 @@ std::vector<AmbList> DbAmbList::getMonthlyNhifSheets(int month, int year)
             };
         }
         p.date = db.asString(2);
-        p.diagnosis = db.asInt(4);
-        p.diagnosis.description = db.asString(5);
+        p.diagnosis.icd = db.asString(4);
+        p.diagnosis.additional_descr = db.asString(5);
 
         if (p.code.type() == ProcedureType::Anesthesia) {
             p.param = AnesthesiaMinutes{db.asInt(8)};

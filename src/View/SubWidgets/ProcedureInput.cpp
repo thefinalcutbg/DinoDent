@@ -36,6 +36,30 @@ ProcedureInput::ProcedureInput(QWidget *parent)
 		}
 	});
 
+	connect(ui.icdEdit, &QLineEdit::textChanged, this, [&](const QString& text) {
+
+		//no diagnosis
+		if (text.isEmpty()) {
+			ui.icdButton->setText("МКБ 10");
+			ui.errorLabel->clear();
+			return;
+		}
+		
+		auto& icdCode = ICD10::getCodeFromName(text.toStdString());
+
+		//valid code
+		if (icdCode.size()) {
+			ui.errorLabel->clear();
+			ui.icdButton->setText(icdCode.c_str());
+			return;
+		}
+
+		//invalid code
+		ui.errorLabel->setText("Невалидна МКБ диагноза");
+		ui.icdButton->setText("МКБ 10");
+
+	});
+
 	QString toothIndexes[32]{ "18", "17", "16", "15", "14", "13", "12", "11",
 						  "21", "22", "23", "24", "25", "26", "27", "28",
 						  "38", "37", "36", "35", "34", "33", "32", "31",
@@ -98,8 +122,8 @@ void ProcedureInput::setData(const Data& data)
 
 	ui.errorLabel->setText("");
 
-	//ui.diagCombo->setCurrentIndex(data.diagnosis.index());
-	ui.diagDescrEdit->setText(data.diagnosis.description.c_str());
+	ui.icdEdit->setText(data.diagnosis.icd.name().c_str());
+	ui.diagDescrEdit->setText(data.diagnosis.additional_descr.c_str());
 
 	ui.notesEdit->setPlainText(data.notes.c_str());
 
@@ -181,10 +205,13 @@ IProcedureInput::Data ProcedureInput::getData()
 
 	result.code = m_code;
 
-	result.diagnosis = Diagnosis{
-		0,
-		ui.diagDescrEdit->getText()
-	};
+	auto diagCode = ui.icdButton->text();
+
+	result.diagnosis.icd = ICD10{ ui.icdButton->text().toStdString() };
+
+	if (result.diagnosis.icd.isValid()) {
+		result.diagnosis.additional_descr = ui.diagDescrEdit->getText();
+	}
 
 	result.financingSource = getFinancingSource();
 
@@ -255,8 +282,17 @@ IProcedureInput::Data ProcedureInput::getData()
 
 std::string ProcedureInput::isValid()
 {
-	if (ui.errorLabel->text().size()) {
-		return ui.errorLabel->text().toStdString();
+	ui.dateEdit->validateInput();
+
+	if (!ui.dateEdit->isValid()) {
+
+		ui.errorLabel->setText(ui.dateEdit->getValidator()->getErrorMessage().c_str());
+	}
+
+	if (ui.icdEdit->text().size() 
+		&& !ICD10(ui.icdButton->text().toStdString()).isValid())
+	{
+		ui.errorLabel->setText("Невалидна диагноза по МКБ");
 	}
 
 	if (ui.surfaceGroup->isVisible()) {
@@ -278,8 +314,8 @@ std::string ProcedureInput::isValid()
 				valid = true;
 			}
 		}
-		
-		if (!valid) return "Изберете поне една повърхност!";
+
+		if (!valid){ ui.errorLabel->setText("Изберете поне една повърхност!"); }
 	}
 
 	if (ui.rangeGroup->isVisible())
@@ -293,16 +329,16 @@ std::string ProcedureInput::isValid()
 
 		if (!fromSameJaw) {;
 
-			return "Невалидна дължина на протетичната конструкция";
+			ui.errorLabel->setText("Невалидна дължина на протетичната конструкция");
 		}
 		
 		if (type != ProcedureType::RemoveCrownOrBridge && from == to) 
 		{
-			return "Началният и крайният зъб за които се отнася процедурата трябва да са различни";
+			ui.errorLabel->setText("Началният и крайният зъб за които се отнася процедурата трябва да са различни");
 		}
 	}
 
-	return {};
+	return ui.errorLabel->text().toStdString();
 	
 }
 
@@ -396,7 +432,6 @@ void ProcedureInput::initView(const ProcedureCode& code)
 				ui.rangeCheck->setText("Многочленна конструкция");
 				break;
 			}
-
 
 		break;
 	}

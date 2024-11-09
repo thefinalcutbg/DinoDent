@@ -374,11 +374,11 @@ std::string HisService::getProcedure(const Procedure& p, const ToothContainer& t
 
 	result += bind("note", p.notes, true);
 
-	if (p.diagnosis.index() != 0) {
+	if (p.diagnosis.icd.isValid() != 0) {
 
 		result += "<nhis:diagnosis>";
-		result += bind("code", p.diagnosis.index());
-		result += bind("note", p.diagnosis.description, true);
+		result += bind("code", p.diagnosis.icd.code());
+		result += bind("note", p.diagnosis.additional_descr, true);
 		result += "</nhis:diagnosis>";
 
 	}

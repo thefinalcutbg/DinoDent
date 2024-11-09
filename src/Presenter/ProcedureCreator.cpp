@@ -29,12 +29,10 @@ void ProcedureCreator::setProcedureCode(const ProcedureCode& m, bool nhif)
 		return;
 	}
 
-
-
 	IProcedureInput::Data data;
 
 	data.code = m;
-	data.diagnosis = diag_map[m.type()];
+	data.diagnosis = Diagnosis(diag_map[m.type()], true);
 	data.financingSource = nhif ? FinancingSource::NHIF : FinancingSource::None;
 	data.hyperdontic = false;
 

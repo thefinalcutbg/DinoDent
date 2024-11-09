@@ -19,9 +19,9 @@ StatisticDialogView::StatisticDialogView(StatisticDialogPresenter& p, QWidget *p
 
 	connect(ui.procedureCombo, &QComboBox::currentIndexChanged, [&](int idx) {presenter.setProcedureType(idx);});
 
-	for (auto &name : Diagnosis::getNames())
+	for (auto &icd : ICD10::getDentalICDCodes())
 	{
-		QListWidgetItem* item = new QListWidgetItem(name.c_str(), ui.diagnosisFilterList);
+		QListWidgetItem* item = new QListWidgetItem(icd.name().c_str(), ui.diagnosisFilterList);
 		item->setFlags(item->flags() & (~Qt::ItemIsSelectable));
 		item->setCheckState(Qt::Unchecked);
 		ui.diagnosisFilterList->addItem(item);
@@ -41,7 +41,6 @@ StatisticDialogView::StatisticDialogView(StatisticDialogPresenter& p, QWidget *p
     connect(ui.nameGroup,&QGroupBox::clicked, this, [&] { presenter.parameterChanged(); });
     connect(ui.nameFilterList, &QListWidget::itemChanged, this, [&] { presenter.parameterChanged(); });
     connect(ui.diagnosisFilterList, &QListWidget::itemChanged, this, [&] { presenter.parameterChanged(); });
-
 
 	presenter.parameterChanged();
 }

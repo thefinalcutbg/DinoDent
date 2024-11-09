@@ -23,7 +23,7 @@ PlainTable::PlainTable(const std::vector<Procedure>& pList)
             .icon = p.isSentToHis() ? CommonIcon::HIS : CommonIcon::NOICON
             });
 
-        addCell(1, { p.diagnosis.getFullDiagnosis() });
+        addCell(1, { p.diagnosis.getDiagnosisText() });
         addCell(2, { p.getToothString() });
         addCell(3, { p.code.name() });
 

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>371</width>
-    <height>784</height>
+    <width>406</width>
+    <height>786</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -122,19 +122,15 @@
        </layout>
       </item>
       <item>
-       <widget class="QLabel" name="addDiagLabel">
-        <property name="text">
-         <string>Допълнителни уточнения към диагнозата:</string>
-        </property>
-       </widget>
-      </item>
-      <item>
        <widget class="AutoCompleteLineEdit" name="diagDescrEdit">
+        <property name="text">
+         <string/>
+        </property>
         <property name="maxLength">
          <number>1000</number>
         </property>
         <property name="placeholderText">
-         <string>Няма</string>
+         <string>Допълнителни уточнения</string>
         </property>
        </widget>
       </item>

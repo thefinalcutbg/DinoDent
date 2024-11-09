@@ -76,3 +76,16 @@ void DbUpdates::update25() {
 	}
 
 }
+
+void DbUpdates::update26() {
+
+	if (Db::version() != 25) return;
+
+	Db db;
+
+	for (auto& query : Resources::getMigrationScript(26))
+	{
+		db.execute(query);
+	}
+
+}

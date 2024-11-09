@@ -834,9 +834,6 @@
     <ClCompile Include="src\DbUpdates\Update20_21.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Model\Dental\Diagnosis.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Model\ICD10.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -955,6 +952,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Model\Dental\ProcedureListElement.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Model\Dental\Diagnosis.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

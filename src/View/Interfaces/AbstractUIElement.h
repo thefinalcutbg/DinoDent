@@ -22,7 +22,7 @@ public:
     virtual void hide(bool) {};
 
     virtual void setValidAppearence(bool) {};
-
+	Validator* getValidator() { return validator; };
 	void setInputValidator(Validator* validator);
 	virtual bool validateInput();
 	bool isValid();

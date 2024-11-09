@@ -1,31 +1,15 @@
-#pragma once
-#include <vector>
-#include <string>
+﻿#pragma once
+#include "Model/ICD10.h"
 
-class Diagnosis
+struct Diagnosis
 {
-	
-    int m_idx{ 0 };
+	ICD10 icd;
 
-	inline static std::vector<std::string> s_names;
-
-public:
-	static void initialize();
+	std::string additional_descr;
 
 	Diagnosis() {};
-	Diagnosis(const std::string& name);
-    Diagnosis(int key, const std::string& description = {});
 
-	int index() const { return m_idx; }
+	Diagnosis(int legacyHisIdx, bool refactorGuard);
 
-	bool isValid() const;
-
-	const std::string& name() const { return s_names[m_idx]; }
-
-	const std::string& getFullDiagnosis() const;
-
-	std::string description;
-
-	static const std::vector<std::string>& getNames() { return s_names; }
+	const std::string& getDiagnosisText() const;
 };
-

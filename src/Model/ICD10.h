@@ -11,7 +11,7 @@ private:
 public:
 
 	ICD10() {};
-	ICD10(const std::string& code) { setCode(code); }
+	ICD10(const std::string& code);
 
 	bool isValid() const {
 		return m_code.size();

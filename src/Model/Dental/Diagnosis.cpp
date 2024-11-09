@@ -1,66 +1,43 @@
-#include "Diagnosis.h"
-#include <json/json.h>
-
-#include "Resources.h"
-
-inline void diagListParse(std::vector<std::string>& list, const Json::Value& jsonValue)
+﻿#include "Diagnosis.h"
+#include <QDebug>
+Diagnosis::Diagnosis(int legacyHisIdx, bool refactorGuard)
 {
-	list.reserve(jsonValue.size());
 
-	for (auto& jV : jsonValue)
-		list.emplace_back(jV.asString());
-}
-
-void Diagnosis::initialize()
-{
-	s_names.clear();
-
-	Json::Reader reader;
-	Json::Value jDiagList;
-
-	reader.parse(Resources::defaultDiagnosisListJson(), jDiagList);
-	
-	s_names = std::vector<std::string>(jDiagList.size());
-
-	for (auto& json : jDiagList) {
-		
-		s_names[json["key"].asInt()] = json["name"].asString();
-
-	}
-}
-
-Diagnosis::Diagnosis(const std::string& name)
-{
-    for (std::size_t i = 0; i < s_names.size(); i++)
+	static const std::pair<std::string, std::string> legacyMap[11] =
 	{
-		if (name == s_names[i]) {
-			m_idx = i;
-			return;
-		}
+		{"", ""},
+		{"K02", ""},
+		{"K04.0", ""},
+		{"K04.5", ""},
+		{"S02.5", ""},
+		{"K00.0", "Anodontia partialis"},
+		{"K00.0", "Anodontia totalis"},
+		{"K05", ""},
+		{"K04.9", "Status post devitalisationem"},
+		{"K04.9", "Devitalisatio pro causa prothetica" },
+		{"K03.6", "" }
+	};	
+
+	if (legacyHisIdx > 10) {
+		return;
 	}
 
-	description = name;
-	
+	icd = ICD10(legacyMap[legacyHisIdx].first);
+	additional_descr = legacyMap[legacyHisIdx].second;
 }
 
-Diagnosis::Diagnosis(int key, const std::string& description) : m_idx{ key }, description(description)
+const std::string& Diagnosis::getDiagnosisText() const
 {
-	if (!isValid()) m_idx = 0;
-}
+	if (additional_descr.size()) return additional_descr;
 
-bool Diagnosis::isValid() const
-{
-	if (!m_idx) {
-		return description.size() ? true : false;
+	static const std::string dummy = "Без диагноза";
+
+	auto& result = icd.name();
+
+	if (result.empty()) {
+
+		return dummy;
 	}
 
-	return m_idx < s_names.size();
-}
-
-const std::string& Diagnosis::getFullDiagnosis() const
-{
-	if (description.size()) return description;
-
-	return s_names[m_idx];
-
+	return result;
 }

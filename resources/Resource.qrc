@@ -146,6 +146,7 @@
         <file>db_migrateTo23.txt</file>
         <file>db_migrateTo24.txt</file>
         <file>db_migrateTo25.txt</file>
+        <file>db_migrateTo26.txt</file>
     </qresource>
     <qresource prefix="/other">
         <file>splash.png</file>

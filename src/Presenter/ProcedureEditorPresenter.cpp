@@ -22,7 +22,6 @@ ProcedureEditorPresenter::ProcedureEditorPresenter(const Procedure& p, const Dat
 	result->param = p.param;
 	result->financingSource = p.financingSource;
 	result->notes = p.notes;
-	result->diagnosis.description = p.diagnosis.description;
 	result->affectedTeeth = p.affectedTeeth;
 
 	_dateValidator.setProcedure(result->code.nhifCode(), result->financingSource == FinancingSource::NHIF);

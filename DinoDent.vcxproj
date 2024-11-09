@@ -224,6 +224,7 @@
   <ItemGroup>
     <ClCompile Include="include\json\jsoncpp.cpp" />
     <ClCompile Include="src\Model\CalendarStructs.cpp" />
+    <ClCompile Include="src\Model\Dental\Diagnosis.cpp" />
     <ClCompile Include="src\Model\Dental\ProcedureListElement.cpp" />
     <ClCompile Include="src\Network\Calendar\Google.cpp" />
     <ClCompile Include="src\View\Widgets\CalendarEventDialog.cpp" />
@@ -245,7 +246,6 @@
     <ClCompile Include="src\DbUpdates\Update20_21.cpp" />
     <ClCompile Include="src\Model\Allergy.cpp" />
     <ClCompile Include="src\Model\Country.cpp" />
-    <ClCompile Include="src\Model\Dental\Diagnosis.cpp" />
     <ClCompile Include="src\Model\ICD10.cpp" />
     <ClCompile Include="src\Model\Dental\NhifProcedures.cpp" />
     <ClCompile Include="src\Model\Dental\NhifSheetData.cpp" />

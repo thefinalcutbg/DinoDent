@@ -160,8 +160,8 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 
 			//block crowns
 			if (indexes.size()) {
-				teeth.setStatus({ tooth_idx.index }, StatusType::General, Bridge, true, tooth_idx.supernumeral);
-				teeth.setStatus({ tooth_idx.index }, StatusType::General, Fracture, false, tooth_idx.supernumeral);
+				teeth.setStatus(indexes, StatusType::General, Bridge, true, tooth_idx.supernumeral);
+				teeth.setStatus(indexes, StatusType::General, Fracture, false, tooth_idx.supernumeral);
 				for (int i : indexes) { teeth[i].setLPK(Bridge, LPK); }
 
 				break;
@@ -181,8 +181,8 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 
 			//block crowns
 			if (indexes.size()) {
-				teeth.setStatus({ tooth_idx.index }, StatusType::General, Bridge, true, tooth_idx.supernumeral);
-				teeth.setStatus({ tooth_idx.index }, StatusType::General, Fracture, false, tooth_idx.supernumeral);
+				teeth.setStatus(indexes, StatusType::General, Bridge, true, tooth_idx.supernumeral);
+				teeth.setStatus(indexes, StatusType::General, Fracture, false, tooth_idx.supernumeral);
 				for (int i : indexes) { teeth[i].setLPK(Bridge, LPK); }
 
 				break;
@@ -242,9 +242,8 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 			auto& result = std::get<ConstructionRange>(affectedTeeth);
 
 			std::vector<int> indexes;
-			indexes.reserve(result.toothTo - result.toothFrom + 1);
 
-			for (int i = result.toothFrom; i <= result.toothTo; i++) {
+			for (int i = result.toothFrom; i < result.toothTo + 1; i++) {
 
 				if(teeth[i].canHaveADenture())
 				{

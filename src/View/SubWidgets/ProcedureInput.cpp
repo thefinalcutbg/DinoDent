@@ -131,7 +131,7 @@ void ProcedureInput::setData(const Data& data)
 {
 	m_code = data.code;
 
-	priceMultiplier = 1;
+	valueMultiplier = 1;
 
 	auto codeIsValid = m_code.isValid();
 
@@ -187,27 +187,21 @@ void ProcedureInput::setData(const Data& data)
 
 	//range logic
 
-	ui.rangeCheck->blockSignals(true);
-	ui.beginCombo->blockSignals(true);
-	ui.endCombo->blockSignals(true);
+	if (m_code.getScope() == ProcedureScope::Range || m_code.getScope() == ProcedureScope::Ambi) {
 
-	ui.rangeCheck->setChecked(false);
+		ui.rangeCheck->setChecked(data.range.has_value());
+		emit ui.rangeCheck->toggled(data.range.has_value());
 
-	if (data.range) {
+		if (data.range) {
 
-		ui.beginCombo->setCurrentIndex(data.range->toothFrom);
-		ui.endCombo->setCurrentIndex(data.range->toothTo);
-		
-		priceMultiplier = data.range->getTeethCount();
+			//if you implement the price value, be sure to block the signals
+			ui.beginCombo->setCurrentIndex(data.range->toothFrom);
+			ui.endCombo->setCurrentIndex(data.range->toothTo);
 
-		if (data.code.getScope() == ProcedureScope::Ambi && data.code.type() != ProcedureType::Crown) {
-			ui.rangeCheck->setChecked(true);
+			valueMultiplier = data.range->getTeethCount();
+
 		}
 	}
-
-	ui.beginCombo->blockSignals(false);
-	ui.endCombo->blockSignals(false);
-	ui.rangeCheck->blockSignals(false);
 
 	if (m_postDisabled) disablePost();
 }
@@ -229,6 +223,11 @@ void ProcedureInput::disablePost()
 {
 	m_postDisabled = true;
 	ui.postCheck->hide();
+}
+
+void ProcedureInput::disableRangeCheck()
+{
+	ui.rangeCheck->setDisabled(true);
 }
 
 IProcedureInput::Data ProcedureInput::getData()
@@ -281,35 +280,7 @@ IProcedureInput::Data ProcedureInput::getData()
 		}
 	}
 
-	if (ui.quadrantGroup->isVisible()) {
-
-		std::pair<QRadioButton*, ConstructionRange> quadrantRange[4] =
-		{
-			{ui.quadrantFrist, {0,7}},
-			{ui.quadrantSecond,{8,15}},
-			{ui.quadrantThird,{16,23}},
-			{ui.quadrantFourth,{24,31}}
-		};
-
-		for (auto& [radioQ, range] : quadrantRange) {
-			if (radioQ->isChecked()) {
-				result.range = range;
-			}
-		}
-	}
-
-	if (ui.jawGroup->isVisible()) {
-
-		ConstructionRange jawRange[3] = {
-			{0,15},
-			{16,31},
-			{0,31},
-		};
-
-		result.range = jawRange[ui.jawComboBox->currentIndex()];
-	}
-
-//	result.price = ui.priceSpin->value();
+//	result.value = ui.priceSpin->value();
 
 	return result;
 }
@@ -361,16 +332,19 @@ std::string ProcedureInput::isValid()
 		auto from = ui.beginCombo->currentIndex();
 		auto to = ui.endCombo->currentIndex();
 
-		auto fromSameJaw = (from < 16) == (to < 16);
-
-		if (!fromSameJaw) {;
-
-			return "Невалидна дължина на протетичната конструкция";
-		}
-		
-		if (type != ProcedureType::RemoveCrownOrBridge && from == to) 
+		if (type != ProcedureType::RemoveCrownOrBridge 
+			&& type != ProcedureType::Denture
+			&& from == to) 
 		{
 			return "Началният и крайният зъб за които се отнася процедурата трябва да са различни";
+		}
+
+		auto fromSameJaw = (from < 16) == (to < 16);
+
+		if (!fromSameJaw 
+			&& type != ProcedureType::MultipleExtraction) {
+
+			return "Началният и крайният зъб за които се отнася процедурата трябва да са от една и съща челюст";
 		}
 	}
 
@@ -402,8 +376,6 @@ void ProcedureInput::initView(const ProcedureCode& code)
 		ui.rangeCheck->hide();
 		ui.rangeGroup->hide();
 		ui.surfaceGroup->hide();
-		ui.quadrantGroup->hide();
-		ui.jawGroup->hide();
 
 		break;
 
@@ -415,8 +387,6 @@ void ProcedureInput::initView(const ProcedureCode& code)
 		ui.anesthesiaGroup->hide();
 		ui.rangeCheck->hide();
 		ui.rangeGroup->hide();
-		ui.quadrantGroup->hide();
-		ui.jawGroup->hide();
 
 		break;
 
@@ -425,52 +395,31 @@ void ProcedureInput::initView(const ProcedureCode& code)
 		ui.surfaceGroup->hide();
 		ui.anesthesiaGroup->hide();
 		ui.hyperdonticCheckBox->hide();
-		ui.quadrantGroup->hide();
-		ui.rangeCheck->hide();
-		ui.rangeGroup->hide();
 		ui.surfaceGroup->hide();
-		ui.jawGroup->hide();
+		ui.rangeCheck->hide();
+
+		ui.rangeGroup->show();
+			
+		break;
+
+	case ProcedureScope::Ambi:
+
+		ui.hyperdonticCheckBox->show();
+		ui.rangeCheck->show();
+		ui.rangeGroup->hide();
+
+		ui.surfaceGroup->hide();
+		ui.anesthesiaGroup->hide();
 
 		switch (code.type())
 		{
-			case ProcedureType::DepuratioQuadrant:
-
-				ui.quadrantGroup->show();
-
-				break;
-
-			case ProcedureType::MultipleExtraction:
-
-				ui.jawGroup->show();
-
-				break;
-
-			default:
-
-				ui.rangeGroup->show();
+		case ProcedureType::Crown:
+			ui.rangeCheck->setText("Блок корони");
+			break;
+		case ProcedureType::CrownOrBridge:
+			ui.rangeCheck->setText("Многочленна конструкция");
+			break;
 		}
-		break;
-
-		case ProcedureScope::Ambi:
-
-			ui.hyperdonticCheckBox->show();
-			ui.rangeCheck->show();
-			ui.rangeGroup->hide();
-
-			ui.surfaceGroup->hide();
-			ui.anesthesiaGroup->hide();
-			ui.quadrantGroup->hide();
-			ui.jawGroup->hide();
-
-			switch (code.type())
-			{
-			case ProcedureType::Crown:
-				ui.rangeCheck->setText("Блок корони");
-				break;
-			case ProcedureType::CrownOrBridge:
-				ui.rangeCheck->setText("Многочленна конструкция");
-				break;
-			}
 
 		break;
 	}
@@ -523,10 +472,10 @@ void ProcedureInput::recalculatePrice()
 		1
 	;
 
-	double newPrice = currentPrice / priceMultiplier * newRange;
+	double newPrice = currentPrice / valueMultiplier * newRange;
 
 	ui.priceSpin->setValue(newPrice);
-	priceMultiplier = newRange;
+	valueMultiplier = newRange;
 */
 }
 

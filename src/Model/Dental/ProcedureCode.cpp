@@ -163,6 +163,7 @@ ProcedureScope ProcedureCode::getScope() const
 
 	{ ProcedureType::Crown, ProcedureScope::Ambi},
 	{ ProcedureType::CrownOrBridge, ProcedureScope::Ambi},
+
 	{ ProcedureType::Bridge, ProcedureScope::Range},
 	{ ProcedureType::RemoveCrownOrBridge, ProcedureScope::Range},
 	{ ProcedureType::Denture, ProcedureScope::Range},

@@ -36,6 +36,8 @@ public:
 	virtual void setErrorMsg(const std::string& errorMsg) = 0;
 	//in case of editing already created procedure, the post should be disabled since its already a separate procedure
 	virtual void disablePost() = 0;
+	//in case of editing there is no way to get the index back
+	virtual void disableRangeCheck() = 0;
 	virtual void setCurrentPresenter(ProcedureCreator* presenter) { this->presenter = presenter; }
 
 };

@@ -175,9 +175,9 @@ bool Tooth::canHaveADenture() const
 			m_data[Impacted] ||
 			m_data[Denture]
 			) && // and it's not already restored by
-		m_data[Crown] &&
-		m_data[Bridge] &&
-		m_data[Splint]
+		!m_data[Crown] &&
+		!m_data[Bridge] &&
+		!m_data[Splint]
 		;
 
 }

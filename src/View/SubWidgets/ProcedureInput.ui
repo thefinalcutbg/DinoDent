@@ -169,15 +169,15 @@
     </layout>
    </item>
    <item>
-    <widget class="QGroupBox" name="rangeGroup">
-     <property name="title">
-      <string>Дължина на конструкцията</string>
-     </property>
+    <widget class="QFrame" name="rangeGroup">
      <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
       <item>
        <widget class="QLabel" name="label_4">
         <property name="text">
-         <string>от</string>
+         <string>От зъб</string>
         </property>
        </widget>
       </item>
@@ -200,7 +200,7 @@
       <item>
        <widget class="QLabel" name="label_3">
         <property name="text">
-         <string>до</string>
+         <string>до зъб</string>
         </property>
        </widget>
       </item>
@@ -377,88 +377,6 @@
         <property name="text">
          <string>Радикуларен щифт</string>
         </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
-    <widget class="QGroupBox" name="quadrantGroup">
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="title">
-      <string>Квадрант</string>
-     </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_3">
-      <item>
-       <layout class="QVBoxLayout" name="verticalLayout_4">
-        <item>
-         <widget class="QRadioButton" name="quadrantFrist">
-          <property name="text">
-           <string>Първи квадрант</string>
-          </property>
-          <property name="checked">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QRadioButton" name="quadrantFourth">
-          <property name="text">
-           <string>Четвърти квадрант</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QVBoxLayout" name="verticalLayout_5">
-        <item>
-         <widget class="QRadioButton" name="quadrantSecond">
-          <property name="text">
-           <string>Втори квадрант</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QRadioButton" name="quadrantThird">
-          <property name="text">
-           <string>Трети квадрант</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
-    <widget class="QGroupBox" name="jawGroup">
-     <property name="title">
-      <string>Множествена екстракция на</string>
-     </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_9">
-      <item>
-       <widget class="QComboBox" name="jawComboBox">
-        <item>
-         <property name="text">
-          <string>Горна челюст</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Долна челюст</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Горна и долна челюст</string>
-         </property>
-        </item>
        </widget>
       </item>
      </layout>

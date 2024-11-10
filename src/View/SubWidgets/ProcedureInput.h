@@ -20,7 +20,7 @@ class ProcedureInput : public QWidget, public IProcedureInput
 	bool m_postDisabled = false;
 
 	//required for price calculation
-	int priceMultiplier = 1;
+	int valueMultiplier = 1;
 
 	static inline MKBModel full_icd = MKBModel(ICD10::getFullMKBList());
 
@@ -48,7 +48,7 @@ public:
 
 	void setErrorMsg(const std::string& errorMsg);
 	void disablePost() override;
-
+	void disableRangeCheck() override;
 	Data getData() override;
 
 	std::string isValid() override;

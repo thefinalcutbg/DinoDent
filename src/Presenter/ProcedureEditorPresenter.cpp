@@ -64,6 +64,8 @@ void ProcedureEditorPresenter::setView(IProcedureEditDialog* view)
 
 	view->procedureInput()->setData(data);
 
+	view->procedureInput()->disableRangeCheck();
+
 	result.reset();
 }
 

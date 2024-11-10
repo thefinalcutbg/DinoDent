@@ -49,13 +49,23 @@ void ProcedureCreator::setProcedureCode(const ProcedureCode& m, bool nhif, doubl
 		data.param = AnesthesiaMinutes{ 180 };
 	}
 
-	if (scope == ProcedureScope::Range || scope == ProcedureScope::Ambi)
+	if (scope == ProcedureScope::Range)
 	{
 		data.range = getBridgeRange(m_selectedTeeth, m_code);
 
 		if (scope == ProcedureScope::Range && m_code.type() != ProcedureType::Denture) {
 			data.value = data.value * data.range->getTeethCount();
 		}
+	}
+
+	if (scope == ProcedureScope::Ambi) {
+
+		if (m.type() != ProcedureType::Crown && m_selectedTeeth.size() > 1) {
+			data.range = getBridgeRange(m_selectedTeeth, m_code);
+			data.value = data.value * data.range->getTeethCount();
+		}
+
+		
 	}
 
 	view->setData(data);

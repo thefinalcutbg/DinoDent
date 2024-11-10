@@ -4,6 +4,7 @@
 #include <QEvent>
 #include <QMouseEvent>
 #include "View/Theme.h"
+#include "View/GlobalFunctions.h"
 
 ProcedureTemplateModel::ProcedureTemplateModel(QObject *parent)
     : QAbstractTableModel(parent)
@@ -36,16 +37,18 @@ void ProcedureTemplateModel::setProcedures(std::vector<ProcedureListElement> pro
             this->procedures.push_back(
                 ProcedureRow{
                     .code = m.nhif ? "" : QString::number(m.code.achiBlock()),
-                    .name = code
+                    .name = code,
                 }
             );
         }
 
 
         ProcedureRow row{
-        .code = m.code.code().c_str(),
-        .displayCode = m.code.ACHICode().c_str(),
-        .name = m.code.name().c_str(),
+            .code = m.code.code().c_str(),
+            .displayCode = m.code.ACHICode().c_str(),
+            .name = m.code.name().c_str(),
+            .price = m.price,
+            .displayPrice = m.price || m.nhif ? formatDoubleWithDecimal(m.price) : ""
         };
 
         if (row.code.isEmpty()) {
@@ -89,6 +92,7 @@ QVariant ProcedureTemplateModel::headerData(int section, Qt::Orientation orienta
                 case 1: return "НЗИС код";
                 case 2: return "Код";
                 case 3: return "Процедура";
+                case 4: return "Цена";
             }
         }
     }
@@ -103,7 +107,7 @@ int ProcedureTemplateModel::rowCount(const QModelIndex&) const
 
 int ProcedureTemplateModel::columnCount(const QModelIndex&) const
 {
-    return 4;
+    return 5;
 }
 
 
@@ -129,7 +133,13 @@ QVariant ProcedureTemplateModel::data(const QModelIndex& index, int role) const
         return QVariant();
 
     case Qt::UserRole:
-        return column == 0 ? procedures[row].role : QVariant();
+        switch (column) 
+        {
+            case 0: return procedures[row].role;
+            case 3: return procedures[row].price;
+            default: return QVariant();
+
+        }
 
 /*
     case Qt::DecorationRole:
@@ -162,6 +172,7 @@ QVariant ProcedureTemplateModel::data(const QModelIndex& index, int role) const
             case 1: return procedures[row].code;
             case 2: return procedures[row].displayCode;
             case 3: return procedures[row].name;
+            case 4: return procedures[row].displayPrice;
             default: return QVariant();
         }
     case Qt::TextAlignmentRole:

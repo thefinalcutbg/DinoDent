@@ -37,7 +37,6 @@ class SettingsDialog : public QDialog, public ISettingsDialog
 
 	SpecialtyTableModel his_specialtyModel;
 	PlainTableModel sql_table_model;
-	
 
 	void disableNhifValidators(bool disabled);
 	void legalEntityChanged(bool selfInsured);
@@ -61,7 +60,7 @@ public:
 	bool showReplies() final;
 	void setDevBranch(bool dev) final;
 	bool devBranch() final;
-
+	ProcedureListView* getPriceListView();
 	void setSqlTable(const PlainTable& table) final;
 
 	~SettingsDialog();

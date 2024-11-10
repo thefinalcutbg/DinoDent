@@ -2,6 +2,7 @@
 
 #include "View/Interfaces/ISettingsDialog.h"
 #include "Network/HIS/UpdateMedications.h"
+#include "Presenter/ProcedureListPresenter.h"
 
 class SettingsMainPresenter
 {
@@ -12,6 +13,8 @@ class SettingsMainPresenter
 	UpdateMedications med_update;
 
 	ISettingsDialog* view{nullptr};
+
+	ProcedureListPresenter procedure_list;
 
 	void setUpdateLabels();
 
@@ -29,5 +32,6 @@ public:
 	bool applyChanges();
 	void sqlCommandExec(const std::string& sql);
 	void printEmptyDocs();
+	void priceUpdated(const std::string& code, double price);
 
 };

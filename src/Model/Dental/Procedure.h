@@ -11,8 +11,17 @@ class ToothContainer;
 
 struct ConstructionRange {
 
-    int tooth_begin{ -1 };
-    int tooth_end{ -1 };
+    int toothFrom{ -1 };
+    int toothTo{ -1 };
+
+    int getTeethCount() const {
+        return toothTo - toothFrom  + 1;
+    }
+
+    ConstructionRange(int from, int to) : toothFrom{ from }, toothTo{ to }{
+
+        if (toothTo < toothFrom) std::swap(toothTo, toothFrom);
+    }
 };
 
 struct RestorationData
@@ -42,6 +51,8 @@ enum class FinancingSource { NHIF = 2, PHIF = 3, Patient = 4, None = 7};
 
 struct Procedure
 {
+    enum DatabaseSource { Local, PIS, HIS };
+
     ProcedureCode code;
 
     Date date;
@@ -54,23 +65,21 @@ struct Procedure
 
     AdditionalParameters param = std::monostate{};
 
-    const ToothIndex& getToothIndex() const;
-
-    //Be sure AffectedTeeth variant matches the ProcedureScope
-    ProcedureScope getScope() const;
-
     std::string LPK;
     std::string notes;
-
     int his_index{ 0 };
 
-    enum DatabaseSource { Local, PIS, HIS };
     DatabaseSource db_source{ Local };
+    
+    double price;
 
     void applyProcedure(ToothContainer& teeth) const;
     //applies the procedures, not taking data into account
     void applyPISProcedure(ToothContainer& teeth) const;
-
+    //be sure AffectedTeeth variant matches the ProcedureScope
+    ProcedureScope getScope() const;
+    //Can return invalid index with -1 value
+    const ToothIndex& getToothIndex() const;
     bool isNhif() const {
         return financingSource == FinancingSource::NHIF;
     }
@@ -83,11 +92,4 @@ struct Procedure
 
     std::string getToothString() const;
 };
-
-struct ProcedureTemplate {
-    ProcedureCode code;
-    bool nhif;
-};
-
-
 

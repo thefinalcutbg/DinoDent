@@ -3,7 +3,7 @@
 #include <vector>
 
 #include "Model/Dental/ProcedureCode.h"
-
+#include "Model/Dental/Procedure.h"
 #include "Model/Financial/BusinessOperation.h"
 
 #include "Model/MedicalNotice.h"
@@ -54,7 +54,7 @@ namespace ModalDialogBuilder
 	void openBrowserDialog();
 
 	DialogAnswer openSaveDialog(const std::string& text);
-	std::optional<std::vector<Procedure>> selectProcedures(const std::vector<Procedure>& procedures, SelectionPref s = SelectionPref::All);
+	std::optional<std::vector<Procedure>> selectProcedures(const std::vector<Procedure>& procedures, FinancingSource source);
 	//returns true if user wants to apply the procedures to the status
 	std::optional<BusinessOperation> editBusinessOperation(const BusinessOperation& op);
 	std::optional<BusinessOperation> addBusinessOperation();

@@ -8,6 +8,7 @@
 #include "Model/Referrals/Referral.h"
 #include "View/TableModels/ProcedureSelectModel.h"
 #include <QRadioButton>
+
 class ProcedurePrintSelectDialog : public QDialog
 {
 	Q_OBJECT
@@ -26,7 +27,7 @@ public:
 	
 	const std::vector<int> selectedProcedures() const;
 	bool printReferrals() const;
-	void selectNhifOnly(bool nhif);
+	void selectFinancingSource(FinancingSource source);
 
 	~ProcedurePrintSelectDialog();
 

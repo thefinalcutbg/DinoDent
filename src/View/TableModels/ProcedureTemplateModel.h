@@ -12,7 +12,8 @@ struct ProcedureRow
 	QString displayCode;
 	QString name;
 	UserRole role{ UserRole::None };
-
+	double price;
+	QString displayPrice;
 };
 
 class ProcedureTemplateModel : public QAbstractTableModel

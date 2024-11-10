@@ -3,14 +3,14 @@
  <class>ProcedurePrintSelectDialog</class>
  <widget class="QDialog" name="ProcedurePrintSelectDialog">
   <property name="windowModality">
-   <enum>Qt::ApplicationModal</enum>
+   <enum>Qt::WindowModality::ApplicationModal</enum>
   </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>618</width>
-    <height>298</height>
+    <width>601</width>
+    <height>306</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -44,15 +44,15 @@
      <item>
       <widget class="QGroupBox" name="groupBox">
        <property name="title">
-        <string>Маркирай само:</string>
+        <string>Маркирай по източник на финансиране</string>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout">
           <item>
-           <widget class="QPushButton" name="paidButton">
+           <widget class="QPushButton" name="nhifButton">
             <property name="text">
-             <string>Платени</string>
+             <string>НЗОК</string>
             </property>
             <property name="autoDefault">
              <bool>false</bool>
@@ -60,9 +60,16 @@
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="nzokButton">
+           <widget class="QPushButton" name="phifButton">
             <property name="text">
-             <string>НЗОК</string>
+             <string>ДЗОФ</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="patientButton">
+            <property name="text">
+             <string>Пациент</string>
             </property>
             <property name="autoDefault">
              <bool>false</bool>
@@ -77,7 +84,7 @@
      <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+        <enum>Qt::Orientation::Horizontal</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
@@ -92,10 +99,10 @@
        <item>
         <spacer name="verticalSpacer">
          <property name="orientation">
-          <enum>Qt::Vertical</enum>
+          <enum>Qt::Orientation::Vertical</enum>
          </property>
          <property name="sizeType">
-          <enum>QSizePolicy::Preferred</enum>
+          <enum>QSizePolicy::Policy::Preferred</enum>
          </property>
          <property name="sizeHint" stdset="0">
           <size>

@@ -31,7 +31,8 @@ std::vector<Procedure> DbProcedure::getProcedures(long long amblist_rowid, Db& d
 								"procedure.post, "					//17
 								"procedure.from_tooth_index, "		//18
 								"procedure.to_tooth_index, "		//19
-								"procedure.minutes "				//20
+								"procedure.minutes, "				//20
+								"procedure.price "					//21
 						"FROM procedure LEFT JOIN amblist ON procedure.amblist_rowid = amblist.rowid "
 						"WHERE amblist.rowid=? "
 						"AND procedure.removed=? "
@@ -100,6 +101,8 @@ std::vector<Procedure> DbProcedure::getProcedures(long long amblist_rowid, Db& d
 		{
 			p.param = AnesthesiaMinutes{ db.asInt(20) };
 		}
+
+		p.price = db.asDouble(21);
 		
 	}
 
@@ -145,8 +148,8 @@ void DbProcedure::saveProcedures(long long amblist_rowid, const std::vector<Proc
 		db.newStatement(
 			"INSERT INTO procedure "
 			"(date, code, financing_source, at_tooth_index, temporary, supernumeral, amblist_rowid, icd, diagnosis_description, notes, his_index, removed, "
-			"surface_o, surface_m, surface_d, surface_b, surface_l, surface_c, post, from_tooth_index, to_tooth_index, minutes) "
-			"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+			"surface_o, surface_m, surface_d, surface_b, surface_l, surface_c, post, from_tooth_index, to_tooth_index, minutes, price) "
+			"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
 		db.bind(1, p.date.to8601());
 		db.bind(2, p.code.code());
@@ -207,6 +210,8 @@ void DbProcedure::saveProcedures(long long amblist_rowid, const std::vector<Proc
 		db.bind(11, p.his_index);
 		db.bind(12, toInsert[i].removed);
 
+		db.bind(23, p.price);
+
 		db.execute();
 		
 	}
@@ -258,7 +263,8 @@ std::vector<Procedure> DbProcedure::getToothProcedures(long long patientRowId, i
 			"procedure.supernumeral, "
 			"procedure.icd, "
 			"procedure.diagnosis_description, "
-			"procedure.notes "
+			"procedure.notes, "
+			"procedure.price "
 			"FROM "
 		"procedure LEFT JOIN amblist ON procedure.amblist_rowid = amblist.rowid "
 		"WHERE at_tooth_index = " + std::to_string(tooth) + " "
@@ -289,6 +295,7 @@ std::vector<Procedure> DbProcedure::getToothProcedures(long long patientRowId, i
 		p.diagnosis.icd = db.asString(6);
 		p.diagnosis.additional_descr = db.asString(7);
 		p.notes = db.asString(8);
+		p.price = db.asDouble(9);
 
 	}
 	
@@ -321,8 +328,9 @@ std::vector<Procedure> DbProcedure::getPatientProcedures(long long patientRowid)
 		"procedure.post, "					//17
 		"procedure.from_tooth_index, "		//18
 		"procedure.to_tooth_index, "		//19
-		"procedure.minutes "				//20
-		"FROM procedure "
+		"procedure.minutes, "				//20
+		"procedure.price "					//21
+		"FROM procedure "				
 		"LEFT JOIN amblist ON procedure.amblist_rowid = amblist.rowid "
 		"LEFT JOIN patient ON amblist.patient_rowid = patient.rowid "
 		"WHERE patient.rowid=? "
@@ -399,6 +407,7 @@ std::vector<Procedure> DbProcedure::getPatientProcedures(long long patientRowid)
 			p.param = AnesthesiaMinutes{ db.asInt(20) };
 		}
 
+		p.price = db.asDouble(21);
 	}
 
 	return mList;
@@ -433,4 +442,44 @@ std::vector<int> DbProcedure::getDailyNhifProcedures(const Date& date, long long
 	}
 
 	return result;
+}
+
+std::unordered_map<std::string, double> DbProcedure::getCodePrices()
+{
+	std::unordered_map<std::string, double> result;
+
+	Db db;
+
+	db.newStatement("SELECT code, price FROM price_list WHERE rzi=?");
+
+	db.bind(1, User::practice().rziCode);
+
+	while (db.hasRows()) {
+		result[db.asString(0)] = db.asDouble(1);
+	}
+
+	return result;
+}
+
+bool DbProcedure::setPrice(const std::string& code, double price)
+{
+	Db db;
+
+	if (!price) {
+		db.newStatement("DELETE FROM price_list WHERE code=? AND rzi=?");
+		db.bind(1, code);
+		db.bind(2, User::practice().rziCode);
+		return db.execute();
+	}
+
+	db.newStatement(
+		"INSERT INTO price_list(rzi, code, price) VALUES(?,?,?) "
+		"ON CONFLICT(rzi, code) DO UPDATE SET price = excluded.price"
+	);
+
+	db.bind(1, User::practice().rziCode);
+	db.bind(2, code);
+	db.bind(3, price);
+
+	return db.execute();
 }

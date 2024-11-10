@@ -49,8 +49,9 @@ ProcedurePrintSelectDialog::ProcedurePrintSelectDialog(const std::vector<Procedu
 
 		});
 
-    connect(ui.paidButton, &QPushButton::clicked, this, [&] { selectNhifOnly(false); });
-    connect(ui.nzokButton, &QPushButton::clicked, this, [&] { selectNhifOnly(true); });
+    connect(ui.patientButton, &QPushButton::clicked, this, [&] { selectFinancingSource(FinancingSource::Patient); });
+    connect(ui.nhifButton, &QPushButton::clicked, this, [&] { selectFinancingSource(FinancingSource::NHIF); });
+	connect(ui.phifButton, &QPushButton::clicked, this, [&] { selectFinancingSource(FinancingSource::PHIF); });
 
 	if (referrals.empty()) ui.referralCheck->setHidden(true);
 
@@ -66,11 +67,12 @@ bool ProcedurePrintSelectDialog::printReferrals() const
 	return !ui.referralCheck->isHidden() && ui.referralCheck->isChecked();
 }
 
-void ProcedurePrintSelectDialog::selectNhifOnly(bool nhif)
+void ProcedurePrintSelectDialog::selectFinancingSource(FinancingSource source)
 {
-	model.selectOnlyRowsWhereNzokIs(nhif);
-	ui.referralCheck->setChecked(nhif);
+	model.selectFinancingSource(source);
+	ui.referralCheck->setChecked(source == FinancingSource::NHIF);
 }
+
 
 ProcedurePrintSelectDialog::~ProcedurePrintSelectDialog()
 {

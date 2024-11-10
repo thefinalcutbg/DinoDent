@@ -10,6 +10,7 @@
 #include "Presenter/DoctorDialogPresenter.h"
 #include "Model/PlainTable.h"
 #include "View/Printer.h"
+#include "View/SubWidgets/ProcedureListView.h"
 #include "Model/Patient.h"
 
 SettingsMainPresenter::SettingsMainPresenter() :
@@ -23,7 +24,7 @@ void SettingsMainPresenter::setView(ISettingsDialog* view)
 	this->view = view;
 
 	auto practice = DbPractice::getPractice(User::practice().rziCode);
-	auto doctor = *DbDoctor::getDoctor(User::doctor().LPK);
+	auto doctor = DbDoctor::getDoctor(User::doctor().LPK).value(); //quite unsafe lol
 
 	view->setSettings(practice.settings);
 	view->setPkcs11List(GlobalSettings::pkcs11PathList());
@@ -39,8 +40,11 @@ void SettingsMainPresenter::setView(ISettingsDialog* view)
 		view->disableTab(SettingsTab::Practice);
 		view->disableTab(SettingsTab::Company);
 		view->disableTab(SettingsTab::NhifContract);
+		view->disableTab(SettingsTab::PriceList);
 		view->disableTab(SettingsTab::SQL);
 	}
+
+	view->getPriceListView()->setPresenter(&procedure_list);
 }
 
 void SettingsMainPresenter::okPressed()
@@ -274,5 +278,15 @@ void SettingsMainPresenter::printEmptyDocs()
 		case 2: Print::printHirbNoDeclaration(Patient(), Print::DeclaratorType::Empty); break;
 		case 3: Print::consent(); break;
 	}
+
+}
+
+void SettingsMainPresenter::priceUpdated(const std::string& code, double price)
+{
+	if (!ProcedureCode(code).isValid()) return;
+
+	procedure_list.setCodePrice(code, price);
+
+	view->getPriceListView()->refresh();
 
 }

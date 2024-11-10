@@ -9,7 +9,7 @@
 #include "Resources.h"
 #include "Model/ICD10.h"
 
-ProcedureInput::ProcedureInput(QWidget *parent)
+ProcedureInput::ProcedureInput(QWidget* parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
@@ -20,21 +20,22 @@ ProcedureInput::ProcedureInput(QWidget *parent)
 
 		ui.rangeGroup->setHidden(!checked);
 		ui.hyperdonticCheckBox->setHidden(checked);
-
+		recalculatePrice();
+		
 	});
 
 	connect(ui.icdButton, &QPushButton::clicked, this, [&] {
 
 		TableViewDialog d(full_icd, 0, ICD10::getCodeFromName(ui.icdEdit->text().toStdString()));
 		d.setWindowTitle("Международна класификация на болестите");
-		d.exec(); 
+		d.exec();
 
 		auto code = d.getResult();
 
 		if (code.size()) {
 			ui.icdEdit->setText(QString::fromStdString(ICD10::getDescriptionFromICDCode(code)));
 		}
-	});
+		});
 
 	connect(ui.icdEdit, &QLineEdit::textChanged, this, [&](const QString& text) {
 
@@ -44,7 +45,7 @@ ProcedureInput::ProcedureInput(QWidget *parent)
 			ui.errorLabel->clear();
 			return;
 		}
-		
+
 		auto& icdCode = ICD10::getCodeFromName(text.toStdString());
 
 		//valid code
@@ -57,6 +58,25 @@ ProcedureInput::ProcedureInput(QWidget *parent)
 		//invalid code
 		ui.errorLabel->setText("Невалидна МКБ диагноза");
 		ui.icdButton->setText("МКБ 10");
+
+		});
+
+	connect(ui.beginCombo, &QComboBox::currentIndexChanged, this, [&] { recalculatePrice(); });
+	connect(ui.endCombo, &QComboBox::currentIndexChanged, this, [&] { recalculatePrice(); });
+
+	connect(ui.priceSpin, &QDoubleSpinBox::valueChanged, this, [&](double value) {
+
+		auto financingSource = getFinancingSource();
+
+		if (financingSource == FinancingSource::NHIF) { return; }
+
+		if (value == 0) {
+			setFinancingSource(FinancingSource::None);
+		}
+		
+		if (value && financingSource == FinancingSource::None) {
+			setFinancingSource(FinancingSource::Patient);
+		}
 
 	});
 
@@ -109,6 +129,8 @@ void ProcedureInput::setData(const Data& data)
 {
 	m_code = data.code;
 
+	priceMultiplier = 1;
+
 	auto codeIsValid = m_code.isValid();
 
 	for (auto child : children()) {
@@ -130,6 +152,8 @@ void ProcedureInput::setData(const Data& data)
 	//financing logic
 	initFinancingCombo(data.code);
 	setFinancingSource(data.financingSource);
+	
+	ui.priceSpin->setValue(data.price);
 
 	initView(data.code);
 
@@ -162,19 +186,25 @@ void ProcedureInput::setData(const Data& data)
 	//range logic
 
 	ui.rangeCheck->blockSignals(true);
+	ui.beginCombo->blockSignals(true);
+	ui.endCombo->blockSignals(true);
 
 	ui.rangeCheck->setChecked(false);
 
 	if (data.range) {
 
-		ui.beginCombo->setCurrentIndex(data.range->tooth_begin);
-		ui.endCombo->setCurrentIndex(data.range->tooth_end);
+		ui.beginCombo->setCurrentIndex(data.range->toothFrom);
+		ui.endCombo->setCurrentIndex(data.range->toothTo);
 		
+		priceMultiplier = data.range->getTeethCount();
+
 		if (data.code.getScope() == ProcedureScope::Ambi && data.code.type() != ProcedureType::Crown) {
 			ui.rangeCheck->setChecked(true);
 		}
 	}
 
+	ui.beginCombo->blockSignals(false);
+	ui.endCombo->blockSignals(false);
 	ui.rangeCheck->blockSignals(false);
 
 	if (m_postDisabled) disablePost();
@@ -244,8 +274,8 @@ IProcedureInput::Data ProcedureInput::getData()
 	if (ui.beginCombo->isVisible()) {
 		result.range = { ui.beginCombo->currentIndex(), ui.endCombo->currentIndex() };
 		
-		if (result.range->tooth_begin > result.range->tooth_end) {
-			std::swap(result.range->tooth_begin, result.range->tooth_end);
+		if (result.range->toothFrom > result.range->toothTo) {
+			std::swap(result.range->toothFrom, result.range->toothTo);
 		}
 	}
 
@@ -277,6 +307,8 @@ IProcedureInput::Data ProcedureInput::getData()
 		result.range = jawRange[ui.jawComboBox->currentIndex()];
 	}
 
+	result.price = ui.priceSpin->value();
+
 	return result;
 }
 
@@ -288,13 +320,13 @@ std::string ProcedureInput::isValid()
 
 	if (!ui.dateEdit->isValid()) {
 
-		result = ui.dateEdit->getValidator()->getErrorMessage();
+		return ui.dateEdit->getValidator()->getErrorMessage();
 	}
 
 	if (ui.icdEdit->text().size() 
 		&& !ICD10(ui.icdButton->text().toStdString()).isValid())
 	{
-		result = "Невалидна диагноза по МКБ";
+		return "Невалидна диагноза по МКБ";
 	}
 
 	if (ui.surfaceGroup->isVisible()) {
@@ -317,7 +349,7 @@ std::string ProcedureInput::isValid()
 			}
 		}
 
-		if (!valid){ result = "Изберете поне една повърхност!"; }
+		if (!valid){ return "Изберете поне една повърхност!"; }
 	}
 
 	if (ui.rangeGroup->isVisible())
@@ -331,12 +363,12 @@ std::string ProcedureInput::isValid()
 
 		if (!fromSameJaw) {;
 
-			result = "Невалидна дължина на протетичната конструкция";
+			return "Невалидна дължина на протетичната конструкция";
 		}
 		
 		if (type != ProcedureType::RemoveCrownOrBridge && from == to) 
 		{
-			result = "Началният и крайният зъб за които се отнася процедурата трябва да са различни";
+			return "Началният и крайният зъб за които се отнася процедурата трябва да са различни";
 		}
 	}
 
@@ -468,6 +500,30 @@ void ProcedureInput::setFinancingSource(FinancingSource source)
 FinancingSource ProcedureInput::getFinancingSource()
 {
 	return static_cast<FinancingSource>(ui.financingCombo->itemData(ui.financingCombo->currentIndex()).toInt());
+}
+
+void ProcedureInput::recalculatePrice()
+{
+	double currentPrice = ui.priceSpin->value();
+
+	if (currentPrice == 0) return;
+
+	//not recalculating for dentures
+	if (m_code.type() == ProcedureType::Denture) return;
+
+	int newRange = ui.rangeGroup->isVisible() ?
+		ConstructionRange(
+			ui.beginCombo->currentIndex(),
+			ui.endCombo->currentIndex()
+		).getTeethCount()
+		:
+		1
+	;
+
+	double newPrice = currentPrice / priceMultiplier * newRange;
+
+	ui.priceSpin->setValue(newPrice);
+	priceMultiplier = newRange;
 }
 
 ProcedureInput::~ProcedureInput()

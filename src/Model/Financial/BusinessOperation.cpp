@@ -12,9 +12,9 @@ BusinessOperation::BusinessOperation(const std::string& code, const std::string&
 }
 
 BusinessOperation::BusinessOperation(const Procedure& p) :
-	activity_code(std::to_string(p.code.nhifCode())),
+	activity_code(p.code.ACHICode()),
 	activity_name(p.code.name()),
-	unit_price(0),//(User::getPrice(p.code)),
+	unit_price(p.price),
 	quantity(1),
 	value_price(unit_price)
 {

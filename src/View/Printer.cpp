@@ -68,7 +68,7 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
 
         for (auto& p : amb.procedures) {
             if (p.isNhif()) {
-                dialog.selectNhifOnly(true);
+                dialog.selectFinancingSource(FinancingSource::NHIF);
                 break;
             }
         }

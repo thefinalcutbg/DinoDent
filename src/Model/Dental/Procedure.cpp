@@ -242,9 +242,9 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 			auto& result = std::get<ConstructionRange>(affectedTeeth);
 
 			std::vector<int> indexes;
-			indexes.reserve(result.tooth_end - result.tooth_begin + 1);
+			indexes.reserve(result.toothTo - result.toothFrom + 1);
 
-			for (int i = result.tooth_begin; i <= result.tooth_end; i++) {
+			for (int i = result.toothFrom; i <= result.toothTo; i++) {
 
 				if(teeth[i].canHaveADenture())
 				{

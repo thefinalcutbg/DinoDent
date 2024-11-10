@@ -225,8 +225,9 @@
     <ClCompile Include="include\json\jsoncpp.cpp" />
     <ClCompile Include="src\Model\CalendarStructs.cpp" />
     <ClCompile Include="src\Model\Dental\Diagnosis.cpp" />
-    <ClCompile Include="src\Model\Dental\ProcedureListElement.cpp" />
+    <ClCompile Include="src\Presenter\ProcedureListPresenter.cpp" />
     <ClCompile Include="src\Network\Calendar\Google.cpp" />
+    <ClCompile Include="src\View\SubWidgets\ProcedureListView.cpp" />
     <ClCompile Include="src\View\Widgets\CalendarEventDialog.cpp" />
     <ClCompile Include="src\Network\Calendar\CalendarJsonParser.cpp" />
     <ClCompile Include="src\View\uiComponents\CalendarTable.cpp" />
@@ -540,6 +541,7 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="src\Model\CalendarStructs.h" />
     <QtMoc Include="src\View\Widgets\CalendarEventDialog.h" />
+    <ClInclude Include="src\Model\Dental\ProcedureListElement.h" />
     <ClInclude Include="src\Model\TabType.h" />
     <ClInclude Include="src\Network\Calendar\CalendarJsonParser.h" />
     <QtMoc Include="src\View\uiComponents\CalendarTable.h" />
@@ -575,7 +577,7 @@
     <ClInclude Include="src\Model\Dental\Procedure.h" />
     <ClInclude Include="src\Model\Dental\ProcedureCode.h" />
     <ClInclude Include="src\Model\Dental\ProcedureContainer.h" />
-    <ClInclude Include="src\Model\Dental\ProcedureListElement.h" />
+    <ClInclude Include="src\Presenter\ProcedureListPresenter.h" />
     <ClInclude Include="src\Model\Dental\ReportFile.h" />
     <ClInclude Include="src\Model\Dental\SupernumeralPrint.h" />
     <ClInclude Include="src\Model\Dental\TimeFrame.h" />
@@ -783,7 +785,6 @@
     <ClInclude Include="src\View\Interfaces\IPracticeSelectorView.h" />
     <ClInclude Include="src\View\Interfaces\IPrescriptionView.h" />
     <ClInclude Include="src\View\Interfaces\IPracticeDoctorSettings.h" />
-    <ClInclude Include="src\View\Interfaces\IProcedureDialog.h" />
     <ClInclude Include="src\View\Interfaces\IProcedureEditDialog.h" />
     <ClInclude Include="src\View\Interfaces\IReferralDialog.h" />
     <ClInclude Include="src\View\Interfaces\IReportFilesView.h" />
@@ -796,6 +797,7 @@
     <QtMoc Include="src\View\SubWidgets\MedicalStatusWidget.h" />
     <QtMoc Include="src\View\SubWidgets\DsnMenu.h" />
     <QtMoc Include="src\View\SubWidgets\MedicalNoticeTile.h" />
+    <QtMoc Include="src\View\SubWidgets\ProcedureListView.h" />
     <ClInclude Include="src\View\TableModels\BusinessOperationModel.h" />
     <ClInclude Include="src\View\Interfaces\IFiscalReportView.h" />
     <QtMoc Include="src\View\TableModels\FiscalReceiptTableModel.h" />
@@ -917,6 +919,7 @@
     <QtMoc Include="src\View\Graphics\GraphicsView.h" />
   </ItemGroup>
   <ItemGroup>
+    <QtUic Include="src\View\SubWidgets\ProcedureListView.ui" />
     <QtUic Include="src\View\Widgets\CalendarEventDialog.ui" />
     <QtUic Include="src\View\Widgets\CalendarView.ui" />
     <QtUic Include="src\View\SubWidgets\MedicalNoticeTile.ui" />

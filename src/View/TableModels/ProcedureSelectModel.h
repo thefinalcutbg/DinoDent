@@ -22,7 +22,7 @@ class ProcedureSelectModel : public QAbstractTableModel
 public:
 
 
-	void selectOnlyRowsWhereNzokIs(bool nhif);
+	void selectFinancingSource(FinancingSource source);
 	
 	ProcedureSelectModel(const std::vector<Procedure>& p, QObject* parent = nullptr);
 	int rowCount(const QModelIndex& parent = QModelIndex()) const override;

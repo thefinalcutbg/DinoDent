@@ -137,6 +137,29 @@ DialogAnswer ModalDialogBuilder::openSaveDialog(const std::string& title)
 	}
 }
 
+#include "View/Widgets/ProcedurePrintSelectDialog.h"
+
+std::optional<std::vector<Procedure>> ModalDialogBuilder::selectProcedures(const std::vector<Procedure>& procedures, FinancingSource source)
+{
+	std::vector<Procedure> result;
+
+	ProcedurePrintSelectDialog dialog(procedures);
+
+	dialog.selectFinancingSource(source);
+
+	if (dialog.exec() == QDialog::Rejected) {
+		return {};
+	}
+
+	auto selectedIndexes = dialog.selectedProcedures();
+
+	for (auto idx : selectedIndexes) {
+		result.push_back(procedures[idx]);
+	}
+
+	return result;
+}
+
 #include <QFileDialog>
 /*
 std::optional<std::string> ModalDialogBuilder::getMonthNotifFromFile()
@@ -149,35 +172,6 @@ std::optional<std::string> ModalDialogBuilder::getMonthNotifFromFile()
 	return filePath.toStdString();
 }
 */
-#include "View/Widgets/ProcedurePrintSelectDialog.h"
-
-std::optional<std::vector<Procedure>> ModalDialogBuilder::selectProcedures(const std::vector<Procedure>& procedures, SelectionPref s)
-{
-	std::vector<Procedure> result;
-
-	{
-		ProcedurePrintSelectDialog dialog(procedures);
-
-		switch (s) {
-			case SelectionPref::All: break; //everything in the dialog is selected by default;
-			case SelectionPref::OnlyNZOK: dialog.selectNhifOnly(true); break;
-			case SelectionPref::OnlyPaid: dialog.selectNhifOnly(false); break;
-		}
-
-		if (dialog.exec() == QDialog::Rejected) {
-			return {};
-		}
-
-		auto selectedIndexes = dialog.selectedProcedures();
-
-		for (auto idx : selectedIndexes) {
-			result.push_back(procedures[idx]);
-		}
-
-	}
-
-	return result;
-}
 
 #include "View/Widgets/BusinessOperationDialog.h"
 

@@ -11,6 +11,7 @@ UPDATE procedure SET icd = 'K04.9', diagnosis_description = 'Status post devital
 UPDATE procedure SET icd = 'K04.9', diagnosis_description = 'Devitalisatio pro causa prothetica' WHERE diagnosis = 9;
 UPDATE procedure SET icd = 'K03.6' WHERE diagnosis = 10;
 ALTER TABLE procedure DROP COLUMN diagnosis;
-CREATE TABLE price_list (rowid INTEGER NOT NULL PRIMARY KEY, rzi VARCHAR (10) REFERENCES practice (rzi) ON UPDATE CASCADE NOT NULL, code VARCHAR NOT NULL, price INTEGER NOT NULL);
-ALTER TABLE procedure ADD COLUMN price;
+CREATE TABLE price_list (rzi TEXT NOT NULL, code TEXT NOT NULL, price REAL NOT NULL, PRIMARY KEY (rzi, code), FOREIGN KEY (rzi) REFERENCES practice (rzi) ON DELETE CASCADE ON UPDATE CASCADE);
+ALTER TABLE procedure ADD COLUMN price REAL;
 PRAGMA user_version = 26;
+

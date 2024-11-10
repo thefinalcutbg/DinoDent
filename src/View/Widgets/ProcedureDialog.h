@@ -5,12 +5,11 @@
 #include <QSortFilterProxyModel>
 #include "ui_ProcedureDialog.h"
 
-#include "View/Interfaces/IProcedureDialog.h"
 #include "View/TableModels/ProcedureTemplateModel.h"
 
 class ProcedureDialogPresenter;
 
-class ProcedureDialog : public QDialog, public IProcedureDialog
+class ProcedureDialog : public QDialog
 {
 	Q_OBJECT
 
@@ -25,16 +24,11 @@ class ProcedureDialog : public QDialog, public IProcedureDialog
 public:
     ProcedureDialog(ProcedureDialogPresenter& presenter, QWidget* parent = Q_NULLPTR);
 	 ~ProcedureDialog();
-	
-	void setProcedureSections(const std::vector<std::string>& sectionNames, int defaultIdx) override;
-	void setProcedureTemplates(std::vector<ProcedureListElement> procedureList) override;
-	
 
-    void close() override;
-	void setSelectionLabel(const std::vector<int>& selectedTeethNum) override;
+	void setSelectionLabel(const std::vector<int>& selectedTeethNum);
 
-	IProcedureInput* procedureInput() override;
-
+	IProcedureInput* procedureInput();
+	ProcedureListView* procedureList();
 
 private:
 	Ui::ProcedureDialog ui;

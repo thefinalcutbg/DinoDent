@@ -4,10 +4,10 @@
 #include "Model/DynamicNum.h"
 #include "Model/UserStructs.h"
 
-class MainSettingsPresenter;
 struct PlainTable;
+class ProcedureListView;
 
-enum class SettingsTab {General, PKCS, Doctor, Practice, Company, NhifContract, SQL};
+enum class SettingsTab {General, PKCS, Doctor, Practice, Company, NhifContract, PriceList, SQL};
 
 class ISettingsDialog
 {
@@ -39,6 +39,8 @@ public:
 	virtual bool devBranch() = 0;
 
 	virtual void replaceCurrentItem(const PracticeDoctor& item) = 0;
+
+	virtual ProcedureListView* getPriceListView() = 0;
 
 	virtual void setSqlTable(const PlainTable& table) = 0;
 };

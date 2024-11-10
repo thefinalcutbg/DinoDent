@@ -82,16 +82,16 @@ bool initFunction() {
     SplashScreen::showMessage("Зареждане на текстурите");
     SpriteSheets::container().initialize(); //loading textures, otherwise program will crash;
     Zodiac::initialize();
+    SplashScreen::showMessage("Зареждане на МКБ номенклатурите");
+    ICD10::initialize();
+    SplashScreen::showMessage("Зареждане на КСМП номенклатурите");
     ProcedureCode::initialize();
     NhifProcedures::initialize(); //parsing json of nhif data
     SplashScreen::showMessage("Зареждане на медикаментите");
     Medication::initialize();
-    //KSMP::initialize();
     SplashScreen::showMessage("Зареждане на населените места");
     Ekatte::initialize();
     Country::initialize();
-    SplashScreen::showMessage("Зареждане на МКБ номенклатурите");
-    ICD10::initialize();
     DoseQuantity::initialize();
     Route::initialize();
     WhenToTake::initialize();

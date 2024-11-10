@@ -1,11 +1,12 @@
-﻿#include "ProcedureListElement.h"
-#include "ProcedureCode.h"
+﻿#include "ProcedureListPresenter.h"
+#include "Model/Dental/ProcedureCode.h"
 #include "Database/DbDoctor.h"
+#include "Database/DbProcedure.h"
 #include "Model/User.h"
-
+#include "Model/Dental/NhifProcedures.h" 
 #include <unordered_map>
 
-ProcedureList::ProcedureList()
+ProcedureListPresenter::ProcedureListPresenter()
 {
 
 	//lazy init
@@ -56,18 +57,26 @@ ProcedureList::ProcedureList()
 	
 	auto favourites = DbDoctor::getFavouriteProcedures(User::doctor().LPK);
 
+	auto prices = DbProcedure::getCodePrices();
+
 	if (favourites.empty()) return;
+
+	has_favourites = true;
 
 	for (auto& e : m_elements) {
 
 		if (favourites.count(e.code.code())) {
 			e.favourite = true;
 		}
+
+		if (prices.count(e.code.code())) {
+			e.price = prices.at(e.code.code());
+		}
 	}
 
 }
 
-std::vector<std::string> ProcedureList::getSectionList() const
+std::vector<std::string> ProcedureListPresenter::getSectionList() const
 {
 	std::vector<std::string> result{
 		"Всички",
@@ -81,7 +90,7 @@ std::vector<std::string> ProcedureList::getSectionList() const
 	return result;
 }
 
-std::vector<ProcedureListElement> ProcedureList::getList(int index) const
+std::vector<ProcedureListElement> ProcedureListPresenter::getList(int index) const
 {
 	std::vector<ProcedureListElement> result;
 
@@ -125,7 +134,7 @@ std::vector<ProcedureListElement> ProcedureList::getList(int index) const
 
 }
 
-void ProcedureList::favClicked(int section, const std::string& code)
+void ProcedureListPresenter::favClicked(int section, const std::string& code)
 {
 	fav_update_required = true;
 
@@ -142,25 +151,45 @@ void ProcedureList::favClicked(int section, const std::string& code)
 	}	
 }
 
-void ProcedureList::setNhifProcedures(const std::vector<ProcedureCode>& nhifProcedures)
+void ProcedureListPresenter::setNhifProcedures(const std::vector<std::pair<ProcedureCode, double>>& nhifProcedures)
 {
 	m_nhif_list.clear();
 
-	for (auto& nhifCode : nhifProcedures) {
+	for (auto& [nhifCode, price] : nhifProcedures) {
 
 		m_nhif_list.push_back(
 
 			ProcedureListElement{
 				.code = nhifCode,
 				.nhif = true,
-				.favourite = false
+				.favourite = false,
+				.price = price
 			}
 		);
 
 	}
 }
 
-ProcedureList::~ProcedureList()
+bool ProcedureListPresenter::hasFavourites() const
+{
+	return has_favourites;
+}
+
+void ProcedureListPresenter::setCodePrice(const std::string& code, double price)
+{
+	for (auto& e : m_elements) {
+		if (e.code.code() == code) {
+			
+			e.price = price;
+			
+			DbProcedure::setPrice(code, price);
+
+			return;
+		}
+	}
+}
+
+ProcedureListPresenter::~ProcedureListPresenter()
 {
 	if (!fav_update_required) return;
 

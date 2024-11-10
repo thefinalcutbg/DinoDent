@@ -187,20 +187,13 @@ PisReportsForImport PisReportParser::parse(const std::string& xmlReport)
 
 			if (p.code.type() == ProcedureType::Denture)
 			{
-				ConstructionRange range;
 				
 				if (p.code.nhifCode() == 832) {
-					p.affectedTeeth = ConstructionRange{
-						.tooth_begin = 1,
-						.tooth_end = 14
-					};
+					p.affectedTeeth = ConstructionRange{1, 14};
 				}
 				else
 				{
-					p.affectedTeeth = ConstructionRange{
-						.tooth_begin = 17,
-						.tooth_end = 30
-					};
+					p.affectedTeeth = ConstructionRange{17, 30};
 				}
 			}
 

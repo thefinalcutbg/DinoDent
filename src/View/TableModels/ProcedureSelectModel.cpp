@@ -2,13 +2,13 @@
 #include <QIcon>
 
 
-void ProcedureSelectModel::selectOnlyRowsWhereNzokIs(bool nhif)
+void ProcedureSelectModel::selectFinancingSource(FinancingSource source)
 {
     beginResetModel();
 
     for (int i = 0; i < m_procedures.size(); i++) {
 
-        m_selectedRows[i] = (m_procedures[i].fsource == FinancingSource::NHIF) == nhif;
+        m_selectedRows[i] = (m_procedures[i].fsource == source);
     }
 
     endResetModel();

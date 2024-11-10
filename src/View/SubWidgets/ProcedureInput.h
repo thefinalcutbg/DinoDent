@@ -19,12 +19,17 @@ class ProcedureInput : public QWidget, public IProcedureInput
 
 	bool m_postDisabled = false;
 
+	//required for price calculation
+	int priceMultiplier = 1;
+
 	static inline MKBModel full_icd = MKBModel(ICD10::getFullMKBList());
 
 	//financing combo logic
 	void initFinancingCombo(const ProcedureCode& code);
 	void setFinancingSource(FinancingSource source);
 	FinancingSource getFinancingSource();
+
+	void recalculatePrice();
 
 public:
 	ProcedureInput(QWidget *parent = Q_NULLPTR);

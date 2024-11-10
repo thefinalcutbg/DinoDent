@@ -1070,7 +1070,7 @@ void ListPresenter::createInvoice()
         return;
     }
 
-    auto selectedProcedures = ModalDialogBuilder::selectProcedures(m_ambList.procedures.list(), SelectionPref::OnlyPaid);
+    auto selectedProcedures = ModalDialogBuilder::selectProcedures(m_ambList.procedures.list(), FinancingSource::PHIF);
 
     if (!selectedProcedures.has_value()) {
         return;

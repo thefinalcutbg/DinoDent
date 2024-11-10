@@ -9,7 +9,7 @@ ProcedureCreator::ProcedureCreator(const std::vector<const Tooth*>& selectedTeet
 	: m_selectedTeeth(selectedTeeth)
 {}
 
-void ProcedureCreator::setProcedureCode(const ProcedureCode& m, bool nhif)
+void ProcedureCreator::setProcedureCode(const ProcedureCode& m, bool nhif, double price)
 {
 	view->setCurrentPresenter(this);
 
@@ -35,6 +35,7 @@ void ProcedureCreator::setProcedureCode(const ProcedureCode& m, bool nhif)
 	data.diagnosis = Diagnosis(diag_map[m.type()], true);
 	data.financingSource = nhif ? FinancingSource::NHIF : FinancingSource::None;
 	data.hyperdontic = false;
+	data.price = price;
 
 	if (m.type() == ProcedureType::Restoration) {
 
@@ -51,6 +52,10 @@ void ProcedureCreator::setProcedureCode(const ProcedureCode& m, bool nhif)
 	if (scope == ProcedureScope::Range || scope == ProcedureScope::Ambi)
 	{
 		data.range = getBridgeRange(m_selectedTeeth, m_code);
+
+		if (scope == ProcedureScope::Range && m_code.type() != ProcedureType::Denture) {
+			data.price = data.price * data.range->getTeethCount();
+		}
 	}
 
 	view->setData(data);
@@ -60,15 +65,16 @@ void ProcedureCreator::setProcedureCode(const ProcedureCode& m, bool nhif)
 
 std::vector<Procedure> ProcedureCreator::getProcedures()
 {
+	std::vector<Procedure> result;
+
+	if (!m_code.isValid()) return result;
+
 	auto err = view->isValid();
 
 	if (err.size()) {
 		ModalDialogBuilder::showMessage(err);
 		return {};
 	}
-
-
-	std::vector<Procedure> result;
 
 	Procedure procedure;
 
@@ -82,6 +88,7 @@ std::vector<Procedure> ProcedureCreator::getProcedures()
 	procedure.diagnosis = data.diagnosis;
 	procedure.notes = data.notes;
 	procedure.param = data.param;
+	procedure.price = data.price;
 
 	if(data.range.has_value()) {
 		procedure.affectedTeeth = data.range.value();
@@ -130,7 +137,7 @@ std::vector<Procedure> ProcedureCreator::getProcedures()
 
 			postProcedure.code = ProcedureCode("97594-01");
 			postProcedure.param = std::monostate{};
-
+			
 			result.push_back(postProcedure);
 		}
 

@@ -6,6 +6,7 @@
 #include "View/ModalDialogBuilder.h"
 #include <QPainter>
 #include <QtGlobal>
+#include <QInputDialog>
 
 SettingsDialog::SettingsDialog(QDialog* parent)
 	: QDialog(parent)
@@ -229,6 +230,18 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 
 	connect(ui.printEmptyDocs, &QPushButton::clicked, this, [&] { presenter.printEmptyDocs(); });
 
+	connect(ui.priceListView, &ProcedureListView::codeDoubleClicked, this, [&](const std::string& code, bool nhif, double price) {
+
+		if (code.length() < 5) return; //not ACHI, but just a bloack
+
+		bool ok;
+		double newPrice = QInputDialog::getDouble(this, "Въведете цена", "Цена", price, 0, 10000, 2, &ok);
+
+		if (ok) {
+			presenter.priceUpdated(code, newPrice);
+		}
+
+	});
 
 	presenter.setView(this);
 	
@@ -356,6 +369,11 @@ void SettingsDialog::setDevBranch(bool dev)
 bool SettingsDialog::devBranch()
 {
 	return ui.devBranch->isChecked();
+}
+
+ProcedureListView* SettingsDialog::getPriceListView()
+{
+	return ui.priceListView;
 }
 
 void SettingsDialog::setSqlTable(const PlainTable& table)
@@ -534,7 +552,6 @@ bool SettingsDialog::allFieldsAreValid()
 		ui.contractEdit,
 		ui.practiceNameNhif
 	};
-
 
 
 	for (int i = 0; i < fieldsSize; i ++) {

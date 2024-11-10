@@ -33,7 +33,7 @@ public:
 	//takes in consideration
 	void setToothDetails(const Tooth& tooth);
 	void removeBridgeOrSplint(const std::vector<int>& selectedIndexes);
-	void removeBridgeOrSplint(int tooth_begin, int tooth_end);
+	void removeBridgeOrSplint(int toothFrom, int toothTo);
 	//void setStatus(const std::vector<int>& selectedTeethIdx, Dental::StatusCode code, bool state);
 	void setStatus(const std::vector<int>& selectedIndexes, Dental::StatusType t, int code, bool state, bool dsn = false);
 	void removeEveryStatus(const std::vector<int>& selectedTeethidx);

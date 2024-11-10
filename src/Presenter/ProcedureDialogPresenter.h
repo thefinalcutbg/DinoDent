@@ -3,15 +3,14 @@
 #include "Model/Dental/ToothUtils.h"
 #include "Model/Validators/ProcedureDateValidator.h"
 #include "ProcedureCreator.h"
-#include "View/Interfaces/IProcedureDialog.h"
-#include "Model/Dental/ProcedureListElement.h"
+
+#include "Presenter/ProcedureListPresenter.h"
 
 struct AmbList;
+class ProcedureDialog;
 
 class ProcedureDialogPresenter
 {
-	static inline int sectionIndex = -1;
-
 	std::vector<const Tooth*> selectedTeeth;
 
 	const AmbList& ambList;
@@ -19,15 +18,12 @@ class ProcedureDialogPresenter
 	Date patientTurns18;
 	Date procedureDate;
 	bool pregnancyAllowed{ false };
-	bool favourites_changed{ false };
 
 	ProcedureCreator procedure_creator;
-
-	IProcedureDialog* view;
+	ProcedureListPresenter list_presenter;
+	ProcedureDialog* view;
 
 	std::vector<Procedure> result;
-
-	ProcedureList procedureList;
 
 	ProcedureDateValidator date_validator;
 
@@ -43,11 +39,9 @@ public:
 		bool pregnancyAllowed
 	);
 
-	void setView(IProcedureDialog* view);
+	void setView(ProcedureDialog* view);
 	void procedureDateChanged(const Date& date);
-	void sectionChanged(int index);
-	void setCode(ProcedureCode code, bool nhif);
-	void favouriteClicked(const std::string& code);
+	void setCode(ProcedureCode code, bool nhif, double price);
 	void formAccepted();
 
 	std::vector<Procedure> openDialog();

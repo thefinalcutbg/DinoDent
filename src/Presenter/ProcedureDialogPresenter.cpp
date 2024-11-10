@@ -1,11 +1,12 @@
 ﻿#include "ProcedureDialogPresenter.h"
-#include "Model/Date.h"
-#include "View/Interfaces/IProcedureDialog.h"
+
 #include "View/ModalDialogBuilder.h"
+
+#include "View/Widgets/ProcedureDialog.h"
+#include "Model/Date.h"
 #include "Model/Dental/NhifProcedures.h"
 #include "Model/Dental/AmbList.h"
 #include "Model/User.h"
-#include "Database/DbDoctor.h"
 
 ProcedureDialogPresenter::ProcedureDialogPresenter
 (
@@ -24,19 +25,17 @@ ProcedureDialogPresenter::ProcedureDialogPresenter
     view(nullptr),
     date_validator(patientTurns18)
 {
-	if (sectionIndex == -1) {
-		sectionIndex = DbDoctor::getFavouriteProcedures(User::doctor().LPK).empty() ? 0 : 1;
-	}
+
 }
 
 
-void ProcedureDialogPresenter::setView(IProcedureDialog* view)
+void ProcedureDialogPresenter::setView(ProcedureDialog* view)
 {
 	this->view = view;
 
 	procedure_creator.setView(view->procedureInput());
 
-	view->setProcedureSections(procedureList.getSectionList(), sectionIndex);
+	view->procedureList()->setPresenter(&list_presenter);
 
 	view->procedureInput()->dateEdit()->setInputValidator(&date_validator);
 
@@ -44,8 +43,6 @@ void ProcedureDialogPresenter::setView(IProcedureDialog* view)
 
 	refreshNhifList();
 	
-
-
 	//setting the label
 	std::vector<int> selectedTeethNum;
 	selectedTeethNum.reserve(32);
@@ -55,7 +52,7 @@ void ProcedureDialogPresenter::setView(IProcedureDialog* view)
 
 	view->setSelectionLabel(selectedTeethNum);
 
-	setCode(ProcedureCode{}, false);
+	setCode(ProcedureCode{}, false, 0);
 }
 
 void ProcedureDialogPresenter::procedureDateChanged(const Date& date)
@@ -72,35 +69,15 @@ void ProcedureDialogPresenter::procedureDateChanged(const Date& date)
 	
 }
 
-void ProcedureDialogPresenter::sectionChanged(int index)
-{
-	sectionIndex = index;
-	view->setProcedureTemplates(procedureList.getList(index));
-}
-
-
-void ProcedureDialogPresenter::setCode(ProcedureCode code, bool nhif)
+void ProcedureDialogPresenter::setCode(ProcedureCode code, bool nhif, double price)
 {
 	if (code.nhifCode()) {
 		date_validator.setProcedure(code.nhifCode(), nhif);
 		view->procedureInput()->dateEdit()->validateInput();
 	}
 
-	procedure_creator.setProcedureCode(code, nhif);
-	
+	procedure_creator.setProcedureCode(code, nhif, price);
 }
-
-void ProcedureDialogPresenter::favouriteClicked(const std::string& code)
-{
-	
-	favourites_changed = true;
-
-	procedureList.favClicked(sectionIndex, code);
-
-	view->setProcedureTemplates(procedureList.getList(sectionIndex));
-
-}
-
 
 void ProcedureDialogPresenter::formAccepted()
 {
@@ -125,12 +102,25 @@ void ProcedureDialogPresenter::refreshNhifList()
 		ambList.nhifData.specification
 	);
 
-	procedureList.setNhifProcedures(nhifProcedures);
+	std::vector<std::pair<ProcedureCode, double>> codePricePair;
+	codePricePair.reserve(nhifProcedures.size());
 
-	//not focused on block
-	if (sectionIndex < 2) {
-		view->setProcedureTemplates(procedureList.getList(sectionIndex));
+	for (auto& code : nhifProcedures) {
+		
+		auto patientPrice = NhifProcedures::getPrices(
+			code.nhifCode(),
+			procedureDate,
+			procedureDate >= patientTurns18,
+			User::doctor().specialty,
+			ambList.nhifData.specification
+		).first;
+
+		codePricePair.push_back(std::make_pair(code, patientPrice));
 	}
+
+	list_presenter.setNhifProcedures(codePricePair);
+
+	view->procedureList()->refresh();
 
 }
 
@@ -143,16 +133,4 @@ std::vector<Procedure> ProcedureDialogPresenter::openDialog()
 
 ProcedureDialogPresenter::~ProcedureDialogPresenter()
 {
-	if (!favourites_changed) return;
-
-	//updating in DB
-	std::vector<std::string> favCodes;
-/*
-	for (auto& p : procedureList) {
-		if (p.favourite) {
-			favCodes.push_back(p.code.code());
-		}
-	}
-	*/
-	DbDoctor::updateFavouriteProcedures(favCodes, User::doctor().LPK);
 }

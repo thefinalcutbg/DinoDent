@@ -6,7 +6,6 @@
 #include "Model/Dental/Procedure.h"
 #include "Model/Dental/Tooth.h"
 #include "Model/Validators/CommonValidators.h"
-#include "View/Interfaces/IProcedureDialog.h"
 #include "View/Interfaces/IProcedureInput.h"
 
 class ProcedureCreator
@@ -37,7 +36,7 @@ public:
 
 	void diagnosisChanged(int idx);
 
-	void setProcedureCode(const ProcedureCode& m, bool nhif);
+	void setProcedureCode(const ProcedureCode& m, bool nhif, double price);
 
 	std::vector<Procedure> getProcedures();
 	

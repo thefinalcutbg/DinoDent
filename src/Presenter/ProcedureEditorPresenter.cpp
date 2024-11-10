@@ -23,7 +23,7 @@ ProcedureEditorPresenter::ProcedureEditorPresenter(const Procedure& p, const Dat
 	result->financingSource = p.financingSource;
 	result->notes = p.notes;
 	result->affectedTeeth = p.affectedTeeth;
-	result->price = p.price;
+	result->value = p.value;
 
 	_dateValidator.setProcedure(result->code.nhifCode(), result->financingSource == FinancingSource::NHIF);
 }
@@ -50,7 +50,7 @@ void ProcedureEditorPresenter::setView(IProcedureEditDialog* view)
 	data.hyperdontic = result->getToothIndex().supernumeral;
 	data.notes = result->notes;
 	data.param = result->param;
-	data.price = result->price;
+	data.value = result->value;
 
 	if (result->getScope() == ProcedureScope::Range) {
 		data.range = std::get<ConstructionRange>(result->affectedTeeth);
@@ -96,7 +96,7 @@ void ProcedureEditorPresenter::okPressed()
 		result->affectedTeeth = m_tooth_index;
 	}
 
-	result->price = data.price;
+	result->value = data.value;
 	result->notes = data.notes;
 	result->diagnosis = data.diagnosis;
 	result->financingSource = data.financingSource;

@@ -36,7 +36,7 @@ public:
 
 	void diagnosisChanged(int idx);
 
-	void setProcedureCode(const ProcedureCode& m, bool nhif, double price);
+	void setProcedureCode(const ProcedureCode& m, bool nhif, double value);
 
 	std::vector<Procedure> getProcedures();
 	

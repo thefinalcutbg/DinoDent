@@ -231,7 +231,7 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 	connect(ui.printEmptyDocs, &QPushButton::clicked, this, [&] { presenter.printEmptyDocs(); });
 
 	connect(ui.priceListView, &ProcedureListView::codeDoubleClicked, this, [&](const std::string& code, bool nhif, double price) {
-
+		/*
 		if (code.length() < 5) return; //not ACHI, but just a bloack
 
 		bool ok;
@@ -240,7 +240,7 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 		if (ok) {
 			presenter.priceUpdated(code, newPrice);
 		}
-
+		*/
 	});
 
 	presenter.setView(this);

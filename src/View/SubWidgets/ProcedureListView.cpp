@@ -119,14 +119,14 @@ void ProcedureListView::refresh()
 	auto list = presenter->getList(current_section);
 
 	auto hidePriceColumn = true;
-
+/*
 	for (auto& p : list) {
 		if (p.price && !p.nhif) {
 			hidePriceColumn = false;
 			break;
 		}
 	}
-
+*/
 	ui.tableView->setColumnHidden(4, hidePriceColumn);
 
 	model.setProcedures(presenter->getList(current_section), current_section < 2);

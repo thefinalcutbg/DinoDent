@@ -40,7 +40,7 @@ void SettingsMainPresenter::setView(ISettingsDialog* view)
 		view->disableTab(SettingsTab::Practice);
 		view->disableTab(SettingsTab::Company);
 		view->disableTab(SettingsTab::NhifContract);
-		view->disableTab(SettingsTab::PriceList);
+		view->disableTab(SettingsTab::CodeList);
 		view->disableTab(SettingsTab::SQL);
 	}
 

@@ -9,7 +9,11 @@ Practice DbPractice::getPractice(const std::string rziCode)
 
     Practice practice;
 
-    for (Db db(query); db.hasRows();)
+    Db db;
+
+    db.newStatement(query);
+
+    while (db.hasRows())
     {
         practice.rziCode = db.asString(0);
         practice.name = db.asString(1);
@@ -27,7 +31,6 @@ Practice DbPractice::getPractice(const std::string rziCode)
         practice.bic = db.asString(13);
 
     }
-
 
     return practice;
 }

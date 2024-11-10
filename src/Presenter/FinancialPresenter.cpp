@@ -56,7 +56,8 @@ FinancialPresenter::FinancialPresenter(ITabView* tabView, std::shared_ptr<Patien
 
         for (auto& existingOp : m_invoice.businessOperations) {
 
-            if (existingOp == newOp && existingOp.unit_price == p.price) {
+            if (existingOp == newOp) //&& existingOp.unit_price == p.value)
+            {
                 existingOp.addQuantity(1);
                 toBeInserted = false;
                 break;

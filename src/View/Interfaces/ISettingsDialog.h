@@ -7,7 +7,7 @@
 struct PlainTable;
 class ProcedureListView;
 
-enum class SettingsTab {General, PKCS, Doctor, Practice, Company, NhifContract, PriceList, SQL};
+enum class SettingsTab {General, PKCS, Doctor, Practice, Company, NhifContract, CodeList, SQL};
 
 class ISettingsDialog
 {

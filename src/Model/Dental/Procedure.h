@@ -71,7 +71,7 @@ struct Procedure
 
     DatabaseSource db_source{ Local };
     
-    double price;
+    double value;
 
     void applyProcedure(ToothContainer& teeth) const;
     //applies the procedures, not taking data into account

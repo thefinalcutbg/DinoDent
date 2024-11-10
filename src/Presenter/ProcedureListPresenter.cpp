@@ -57,7 +57,7 @@ ProcedureListPresenter::ProcedureListPresenter()
 	
 	auto favourites = DbDoctor::getFavouriteProcedures(User::doctor().LPK);
 
-	auto prices = DbProcedure::getCodePrices();
+	auto prices = DbProcedure::getCodeValues();
 
 	if (favourites.empty()) return;
 

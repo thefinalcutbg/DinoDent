@@ -14,7 +14,7 @@ BusinessOperation::BusinessOperation(const std::string& code, const std::string&
 BusinessOperation::BusinessOperation(const Procedure& p) :
 	activity_code(p.code.ACHICode()),
 	activity_name(p.code.name()),
-	unit_price(p.price),
+	unit_price(0),
 	quantity(1),
 	value_price(unit_price)
 {

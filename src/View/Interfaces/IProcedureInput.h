@@ -25,7 +25,7 @@ public:
 		AdditionalParameters param;
 		FinancingSource financingSource{ FinancingSource::None };
 		std::string notes;
-		double price;
+		double value;
 	};
 
 	virtual AbstractDateEdit* dateEdit() = 0;

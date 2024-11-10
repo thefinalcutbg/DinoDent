@@ -9,6 +9,8 @@
 #include "Resources.h"
 #include "Model/ICD10.h"
 
+//to enable prices add QDoubleSpinBox named priceSpin to ui and uncomment the code
+
 ProcedureInput::ProcedureInput(QWidget* parent)
 	: QWidget(parent)
 {
@@ -63,7 +65,7 @@ ProcedureInput::ProcedureInput(QWidget* parent)
 
 	connect(ui.beginCombo, &QComboBox::currentIndexChanged, this, [&] { recalculatePrice(); });
 	connect(ui.endCombo, &QComboBox::currentIndexChanged, this, [&] { recalculatePrice(); });
-
+/*
 	connect(ui.priceSpin, &QDoubleSpinBox::valueChanged, this, [&](double value) {
 
 		auto financingSource = getFinancingSource();
@@ -79,7 +81,7 @@ ProcedureInput::ProcedureInput(QWidget* parent)
 		}
 
 	});
-
+*/
 	QString toothIndexes[32]{ "18", "17", "16", "15", "14", "13", "12", "11",
 						  "21", "22", "23", "24", "25", "26", "27", "28",
 						  "38", "37", "36", "35", "34", "33", "32", "31",
@@ -153,7 +155,7 @@ void ProcedureInput::setData(const Data& data)
 	initFinancingCombo(data.code);
 	setFinancingSource(data.financingSource);
 	
-	ui.priceSpin->setValue(data.price);
+//	ui.priceSpin->setValue(data.price);
 
 	initView(data.code);
 
@@ -307,7 +309,7 @@ IProcedureInput::Data ProcedureInput::getData()
 		result.range = jawRange[ui.jawComboBox->currentIndex()];
 	}
 
-	result.price = ui.priceSpin->value();
+//	result.price = ui.priceSpin->value();
 
 	return result;
 }
@@ -478,7 +480,7 @@ void ProcedureInput::initFinancingCombo(const ProcedureCode& code)
 {
 	ui.financingCombo->clear();
 
-	ui.financingCombo->addItem("Няма", static_cast<int>(FinancingSource::None));
+	ui.financingCombo->addItem("Без финансиране", static_cast<int>(FinancingSource::None));
 	ui.financingCombo->addItem(QIcon(":/icons/icon_user.png"), "Пациент", static_cast<int>(FinancingSource::Patient));
 	ui.financingCombo->addItem(QIcon(":/icons/icon_phif.png"), "ДЗОФ", static_cast<int>(FinancingSource::PHIF));
 
@@ -504,6 +506,7 @@ FinancingSource ProcedureInput::getFinancingSource()
 
 void ProcedureInput::recalculatePrice()
 {
+/*
 	double currentPrice = ui.priceSpin->value();
 
 	if (currentPrice == 0) return;
@@ -524,6 +527,7 @@ void ProcedureInput::recalculatePrice()
 
 	ui.priceSpin->setValue(newPrice);
 	priceMultiplier = newRange;
+*/
 }
 
 ProcedureInput::~ProcedureInput()

@@ -9,7 +9,7 @@ ProcedureCreator::ProcedureCreator(const std::vector<const Tooth*>& selectedTeet
 	: m_selectedTeeth(selectedTeeth)
 {}
 
-void ProcedureCreator::setProcedureCode(const ProcedureCode& m, bool nhif, double price)
+void ProcedureCreator::setProcedureCode(const ProcedureCode& m, bool nhif, double value)
 {
 	view->setCurrentPresenter(this);
 
@@ -35,7 +35,7 @@ void ProcedureCreator::setProcedureCode(const ProcedureCode& m, bool nhif, doubl
 	data.diagnosis = Diagnosis(diag_map[m.type()], true);
 	data.financingSource = nhif ? FinancingSource::NHIF : FinancingSource::None;
 	data.hyperdontic = false;
-	data.price = price;
+	data.value = value;
 
 	if (m.type() == ProcedureType::Restoration) {
 
@@ -54,7 +54,7 @@ void ProcedureCreator::setProcedureCode(const ProcedureCode& m, bool nhif, doubl
 		data.range = getBridgeRange(m_selectedTeeth, m_code);
 
 		if (scope == ProcedureScope::Range && m_code.type() != ProcedureType::Denture) {
-			data.price = data.price * data.range->getTeethCount();
+			data.value = data.value * data.range->getTeethCount();
 		}
 	}
 
@@ -88,7 +88,7 @@ std::vector<Procedure> ProcedureCreator::getProcedures()
 	procedure.diagnosis = data.diagnosis;
 	procedure.notes = data.notes;
 	procedure.param = data.param;
-	procedure.price = data.price;
+	procedure.value = data.value;
 
 	if(data.range.has_value()) {
 		procedure.affectedTeeth = data.range.value();

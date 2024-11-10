@@ -1260,7 +1260,7 @@
      </widget>
      <widget class="QWidget" name="priceTab">
       <attribute name="title">
-       <string>Ценоразпис</string>
+       <string>Процедури</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_25">
        <item>

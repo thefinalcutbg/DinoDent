@@ -35,7 +35,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>5</number>
      </property>
      <widget class="QWidget" name="generalSettings">
       <attribute name="title">
@@ -1258,7 +1258,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="priceTab">
+     <widget class="QWidget" name="codeTab">
       <attribute name="title">
        <string>Процедури</string>
       </attribute>
@@ -1276,7 +1276,7 @@
        <item>
         <widget class="QLabel" name="label_10">
          <property name="text">
-          <string>Добавете или променете цена с двоен клик върху съответната процедура</string>
+          <string/>
          </property>
         </widget>
        </item>

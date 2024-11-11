@@ -36,7 +36,7 @@ void ProcedureTemplateModel::setProcedures(std::vector<ProcedureListElement> pro
 
             this->procedures.push_back(
                 ProcedureRow{
-                    .code = m.nhif ? "" : QString::number(m.code.achiBlock()),
+                    .displayCode = m.nhif ? "" : QString::number(currentBlock),
                     .name = code,
                 }
             );

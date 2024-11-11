@@ -15,6 +15,7 @@ const QPixmap& CommonIcon::getPixmap(CommonIcon::Type t)
         s_pixmaps[CommonIcon::HIS] = QPixmap(":/icons/icon_his.png");
         s_pixmaps[CommonIcon::HISGRAY] = QPixmap(":/icons/icon_hisgray.png");
         s_pixmaps[CommonIcon::PHIF] = QPixmap(":/icons/icon_phif.png");
+        s_pixmaps[CommonIcon::PATIENT] = QPixmap(":/icons/icon_user.png");
         s_pixmaps[CommonIcon::BDAY] = QPixmap(":/icons/icon_bday.png");
         s_pixmaps[CommonIcon::AMBLIST] = QPixmap(":/icons/icon_sheet.png");
         s_pixmaps[CommonIcon::PRESCR] = QPixmap(":/icons/icon_prescr.png");

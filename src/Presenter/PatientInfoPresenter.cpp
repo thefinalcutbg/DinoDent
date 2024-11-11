@@ -224,7 +224,7 @@ void PatientInfoPresenter::notesRequested()
 {
     auto result = ModalDialogBuilder::showMultilineDialog(
         patient->patientNotes,
-        "Бележки за пациента",
+        "Бележки за пациента (не се изпращат към НЗИС)",
         true
     );
 

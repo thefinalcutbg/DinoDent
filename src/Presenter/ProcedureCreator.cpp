@@ -9,18 +9,18 @@ ProcedureCreator::ProcedureCreator(const std::vector<const Tooth*>& selectedTeet
 	: m_selectedTeeth(selectedTeeth)
 {}
 
-void ProcedureCreator::setProcedureCode(const ProcedureCode& m, bool nhif, double value)
+void ProcedureCreator::setProcedureCode(const ProcedureCode& code, bool nhif, double value)
 {
 	view->setCurrentPresenter(this);
 
-	m_code = m;
+	m_code = code;
 
 	if (!m_code.isValid()) {
 		view->setErrorMsg("Изберете процедура");
 		return;
 	}
 
-	auto scope = m.getScope();
+	auto scope = code.getScope();
 
 	if ((scope == ProcedureScope::SingleTooth || scope == ProcedureScope::Ambi) 
 		&& m_selectedTeeth.empty()) 
@@ -31,20 +31,29 @@ void ProcedureCreator::setProcedureCode(const ProcedureCode& m, bool nhif, doubl
 
 	IProcedureInput::Data data;
 
-	data.code = m;
-	data.diagnosis = Diagnosis(diag_map[m.type()], true);
+	data.code = code;
+
+	auto& defaultICDCode = code.defaultICD10();
+
+	if (defaultICDCode.size()) {
+		data.diagnosis.icd = defaultICDCode;
+	}
+	else {
+		data.diagnosis = Diagnosis(diag_map[code.type()], true);
+	}
+
 	data.financingSource = nhif ? FinancingSource::NHIF : FinancingSource::None;
 	data.hyperdontic = false;
 	data.value = value;
 
-	if (m.type() == ProcedureType::Restoration) {
+	if (code.type() == ProcedureType::Restoration) {
 
 		if (m_selectedTeeth.size()) {
 			data.param = autoSurfaces(*m_selectedTeeth[0]);
 		}
 	}
 
-	if (m.type() == ProcedureType::Anesthesia) {
+	if (code.type() == ProcedureType::Anesthesia) {
 
 		data.param = AnesthesiaMinutes{ 180 };
 	}
@@ -60,7 +69,7 @@ void ProcedureCreator::setProcedureCode(const ProcedureCode& m, bool nhif, doubl
 
 	if (scope == ProcedureScope::Ambi) {
 
-		if (m.type() != ProcedureType::Crown && m_selectedTeeth.size() > 1) {
+		if (code.type() != ProcedureType::Crown && m_selectedTeeth.size() > 1) {
 			data.range = getBridgeRange(m_selectedTeeth, m_code);
 			data.value = data.value * data.range->getTeethCount();
 		}

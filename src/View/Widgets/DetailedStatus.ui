@@ -23,7 +23,7 @@
    <item>
     <widget class="QLabel" name="label">
      <property name="text">
-      <string>История на манипулациите:</string>
+      <string>Извършени процедури:</string>
      </property>
     </widget>
    </item>
@@ -45,7 +45,7 @@
      <item>
       <widget class="QLabel" name="label_3">
        <property name="text">
-        <string>Покажи манипулациите от:</string>
+        <string>Покажи процедурите от:</string>
        </property>
       </widget>
      </item>
@@ -82,7 +82,7 @@
      <item>
       <spacer name="horizontalSpacer_3">
        <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+        <enum>Qt::Orientation::Horizontal</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
@@ -118,13 +118,13 @@
       <string>Бележки (не се изпращат към НЗИС):</string>
      </property>
      <property name="textFormat">
-      <enum>Qt::PlainText</enum>
+      <enum>Qt::TextFormat::PlainText</enum>
      </property>
      <property name="scaledContents">
       <bool>false</bool>
      </property>
      <property name="alignment">
-      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+      <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
      </property>
      <property name="margin">
       <number>0</number>
@@ -156,7 +156,7 @@
      <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+        <enum>Qt::Orientation::Horizontal</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>

@@ -49,6 +49,7 @@ class ProcedureCode
         int nhifCode{ false };
         int hisType{ 0 };
         bool isLegacy{ false };
+        std::string icd;
     };
 
     inline static const std::string dummy;
@@ -84,6 +85,8 @@ public:
     const std::string& code() const { return m_code; }
 
     const std::string& ACHICode() const;
+
+    const std::string& defaultICD10() const;
 
     int achiBlock() const;
 

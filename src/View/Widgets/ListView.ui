@@ -389,7 +389,7 @@
           </sizepolicy>
          </property>
          <property name="text">
-          <string>ИЗВЪРШЕНИ ДЕНТАЛНИ ПРОЦЕДУРИ</string>
+          <string>ИЗВЪРШЕНИ ПРОЦЕДУРИ:</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -682,7 +682,7 @@
       </size>
      </property>
      <property name="text">
-      <string>ДРУГИ ДОКУМЕНТИ</string>
+      <string>ДРУГИ ДОКУМЕНТИ:</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignmentFlag::AlignBottom|Qt::AlignmentFlag::AlignHCenter</set>

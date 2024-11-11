@@ -117,7 +117,7 @@ void ProcedureHistoryDialog::setSnapshot(const HisSnapshot& s)
     ui.statusSlider->setDisabled(false);
 
     ui.dateLabel->setText(QString("<b>Дата:</b> ") + s.date.toBgStandard().c_str());
-    ui.procedureLabel->setText(QString("<b>Манипулация:</b> ") + s.procedure_name.c_str());
+    ui.procedureLabel->setText(QString("<b>Процедура:</b> ") + s.procedure_name.c_str());
     ui.diagnosisLabel->setText(QString("<b>Диагноза:</b> ") + s.procedure_diagnosis.c_str());
     
     switch (s.financing)
@@ -125,6 +125,7 @@ void ProcedureHistoryDialog::setSnapshot(const HisSnapshot& s)
         case FinancingSource::NHIF: ui.financingLabel->setText("<b>Финансиране:</b> НЗОК"); break;
         case FinancingSource::Patient: ui.financingLabel->setText("<b>Финансиране:</b> Пациент"); break;
         case FinancingSource::PHIF: ui.financingLabel->setText("<b>Финансиране:</b> ДЗОФ"); break;
+        case FinancingSource::None: ui.financingLabel->setText("<b>Финансиране:</b> Без финансиране"); break;
         default: ui.financingLabel->clear();
     }
 

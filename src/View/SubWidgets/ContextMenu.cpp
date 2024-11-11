@@ -8,7 +8,7 @@ using namespace Dental;
 ContextMenu::ContextMenu()
 {
     setStyleSheet(Theme::getPopupMenuStylesheet());
-    addProcedure = new QAction("Добави манипулация");
+    addProcedure = new QAction("Добави процедура");
     addAction(addProcedure);
     connect(addProcedure, &QAction::triggered, [&] {if(presenter)presenter->addProcedure(); });
 

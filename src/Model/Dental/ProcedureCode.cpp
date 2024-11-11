@@ -3,7 +3,7 @@
 #include <json/json.h>
 #include <algorithm>
 #include <type_traits>
-
+#include <QDebug>
 void ProcedureCode::initialize()
 {
 	Json::Reader reader;
@@ -25,12 +25,14 @@ void ProcedureCode::initialize()
 				.nhifCode = j["oldCode"].asInt(),
 				.hisType = j["hisType"].asInt(),
 				.isLegacy = j["legacy"].asBool(),
+				.icd = j["icd"].asString()
 		};
+
 
 		if (j.isMember("ksmp")) {
 			legacy_achi[j["oldCode"].asInt()] = j["ksmp"].asString();
 		}
-		
+
 		if(code[0] != 'D'){
 			s_sorted_codes.emplace_back(code);
 		}
@@ -74,6 +76,13 @@ const std::string& ProcedureCode::ACHICode() const
 	}
 
 	return m_code;
+}
+
+const std::string& ProcedureCode::defaultICD10() const
+{
+	if (!isValid()) return dummy;
+
+	return s_mapping.at(m_code).icd;
 }
 
 int ProcedureCode::achiBlock() const

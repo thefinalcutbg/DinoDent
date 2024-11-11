@@ -11,5 +11,5 @@ struct Diagnosis
 
 	Diagnosis(int legacyHisIdx, bool refactorGuard);
 
-	const std::string& getDiagnosisText() const;
+	std::string getDiagnosisText() const;
 };

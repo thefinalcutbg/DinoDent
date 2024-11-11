@@ -8,7 +8,7 @@ ICD10Dialog::ICD10Dialog(const ICD10& icd, QWidget *parent)
 {
 	ui.setupUi(this);
 
-	setWindowTitle("Международна класификация на болестите 10");
+	setWindowTitle("Международна Класификация на Болестите 10");
 	setWindowFlag(Qt::WindowMaximizeButtonHint);
 
 	ui.tableView->setModel(&m_proxyModel);
@@ -28,7 +28,8 @@ ICD10Dialog::ICD10Dialog(const ICD10& icd, QWidget *parent)
 				accept();
 			}
 
-		});
+	});
+
 	connect(ui.tableView, &QTableView::doubleClicked, this, [=, this] { ui.okButton->click(); });
 
 	connect(ui.checkBox, &QCheckBox::clicked, this, [&](bool clicked) {
@@ -73,7 +74,6 @@ void ICD10Dialog::initTable()
 	ui.tableView->setSelectionMode(QAbstractItemView::SingleSelection);
 	ui.tableView->horizontalHeader()->setHighlightSections(false);
 	ui.tableView->verticalHeader()->setVisible(false);
-	//ui.tableView->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeMode::ResizeToContents);
 	ui.tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
 	ui.tableView->verticalHeader()->setDefaultSectionSize(20);
 	ui.tableView->setWordWrap(true);

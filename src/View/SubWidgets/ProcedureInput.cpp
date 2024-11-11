@@ -32,6 +32,7 @@ ProcedureInput::ProcedureInput(QWidget* parent)
 
 			if (result.isValid()) {
 				ui.icdEdit->setText(result.name().c_str());
+				ui.icdEdit->setCursorPosition(0);
 				ui.icdButton->setText(result.code().c_str());
 			}
 	});
@@ -129,7 +130,7 @@ void ProcedureInput::setData(const Data& data)
 	m_code = data.code;
 
 	valueMultiplier = 1;
-
+	
 	auto codeIsValid = m_code.isValid();
 
 	for (auto child : children()) {
@@ -144,6 +145,7 @@ void ProcedureInput::setData(const Data& data)
 	ui.errorLabel->setText("");
 
 	ui.icdEdit->setText(data.diagnosis.icd.name().c_str());
+	ui.icdEdit->setCursorPosition(0);
 	ui.diagDescrEdit->setText(data.diagnosis.additional_descr.c_str());
 
 	ui.notesEdit->setPlainText(data.notes.c_str());
@@ -362,15 +364,15 @@ void ProcedureInput::initView(const ProcedureCode& code)
 		"Многочленна конструкция"
 	);
 
+	ui.paramFrame->show();
+
 	switch (code.getScope()) 
 	{
 
 	case ProcedureScope::AllOrNone:
 
 		ui.anesthesiaGroup->setHidden(code.type() != ProcedureType::Anesthesia);
-
-		ui.hyperdonticCheckBox->hide();
-		ui.rangeCheck->hide();
+		ui.toothFrame->hide();
 		ui.rangeGroup->hide();
 		ui.surfaceGroup->hide();
 
@@ -389,6 +391,7 @@ void ProcedureInput::initView(const ProcedureCode& code)
 
 	case ProcedureScope::Range:
 
+		ui.toothFrame->hide();
 		ui.surfaceGroup->hide();
 		ui.anesthesiaGroup->hide();
 		ui.hyperdonticCheckBox->hide();
@@ -401,6 +404,7 @@ void ProcedureInput::initView(const ProcedureCode& code)
 
 	case ProcedureScope::Ambi:
 
+		ui.toothFrame->show();
 		ui.hyperdonticCheckBox->show();
 		ui.rangeCheck->show();
 		ui.rangeGroup->hide();

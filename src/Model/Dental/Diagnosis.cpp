@@ -26,17 +26,31 @@ Diagnosis::Diagnosis(int legacyHisIdx, bool refactorGuard)
 	additional_descr = legacyMap[legacyHisIdx].second;
 }
 
-const std::string& Diagnosis::getDiagnosisText() const
+std::string Diagnosis::getDiagnosisText() const
 {
-	if (additional_descr.size()) return additional_descr;
+	auto& icdDescr = icd.name();
 
-	static const std::string dummy = "Без диагноза";
+	if (icdDescr.empty()) {
 
-	auto& result = icd.name();
+		if (additional_descr.empty()) {
 
-	if (result.empty()) {
+			return "Без диагноза";
+		}
 
-		return dummy;
+		return additional_descr;
+	}
+
+	std::string result;
+	result.reserve(50);
+		
+	result += icd.code();
+	result += " - ";
+	result += icd.name();
+
+	if (additional_descr.size()) {
+		result += " (";
+		result += additional_descr;
+		result += ")";
 	}
 
 	return result;

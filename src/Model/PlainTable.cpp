@@ -13,7 +13,7 @@ PlainTable::PlainTable(const std::vector<Procedure>& pList)
     addColumn({"Дата",100,PlainColumn::Right });
     addColumn({"Диагноза", 200 });
     addColumn({"Зъб", 70, PlainColumn::Center });
-    addColumn({"Манипулация", 300 });
+    addColumn({"Процедура", 300 });
     addColumn({"Код", 50, PlainColumn::Center });
 
     for (auto& p : pList) {
@@ -32,6 +32,7 @@ PlainTable::PlainTable(const std::vector<Procedure>& pList)
         switch (p.financingSource) {
         case FinancingSource::NHIF: icon = CommonIcon::NHIF; break;
         case FinancingSource::PHIF: icon = CommonIcon::PHIF; break;
+        case FinancingSource::Patient: icon = CommonIcon::PATIENT; break;
         default: icon = CommonIcon::NOICON;
         }
 

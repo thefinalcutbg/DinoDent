@@ -7,8 +7,8 @@
 #include "View/Widgets/TableViewDialog.h"
 #include "Presenter/ProcedureCreator.h"
 #include "Resources.h"
-#include "Model/ICD10.h"
-
+#include "View/ModalDialogBuilder.h"
+#include "View/Widgets/ICD10Dialog.h"
 //to enable prices add QDoubleSpinBox named priceSpin to ui and uncomment the code
 
 ProcedureInput::ProcedureInput(QWidget* parent)
@@ -28,16 +28,13 @@ ProcedureInput::ProcedureInput(QWidget* parent)
 
 	connect(ui.icdButton, &QPushButton::clicked, this, [&] {
 
-		TableViewDialog d(full_icd, 0, ICD10::getCodeFromName(ui.icdEdit->text().toStdString()));
-		d.setWindowTitle("Международна класификация на болестите");
-		d.exec();
+			auto result = ModalDialogBuilder::icdDialog(ui.icdButton->text().toStdString());
 
-		auto code = d.getResult();
-
-		if (code.size()) {
-			ui.icdEdit->setText(QString::fromStdString(ICD10::getDescriptionFromICDCode(code)));
-		}
-		});
+			if (result.isValid()) {
+				ui.icdEdit->setText(result.name().c_str());
+				ui.icdButton->setText(result.code().c_str());
+			}
+	});
 
 	connect(ui.icdEdit, &QLineEdit::textChanged, this, [&](const QString& text) {
 

@@ -11,7 +11,7 @@ ProcedureTemplateModel::ProcedureTemplateModel(QObject *parent)
 {
 }
 
-void ProcedureTemplateModel::setProcedures(std::vector<ProcedureListElement> procedures, bool addSections)
+void ProcedureTemplateModel::setProcedures(std::vector<ProcedureListElement> procedures)
 {
     beginResetModel();
 
@@ -26,7 +26,7 @@ void ProcedureTemplateModel::setProcedures(std::vector<ProcedureListElement> pro
     {
         int currentBlock = m.nhif ? 0 : m.code.achiBlock();
 
-        if (block != currentBlock && addSections) {
+        if (block != currentBlock) {
 
             QString code = m.nhif ? "НЗОК" : m.code.achiBlockName().c_str();
 

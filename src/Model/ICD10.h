@@ -19,7 +19,10 @@ public:
 
 	const std::string& code() const { return m_code; };
 	const std::string& name() const;
+	bool isDental() const;
 	bool setCode(const std::string& code);
+	bool operator == (const ICD10& other) const;
+	bool operator != (const ICD10& other) const;
 
 	static void initialize();
 	static const std::string& getDescriptionFromICDCode(const std::string& mkbCode);

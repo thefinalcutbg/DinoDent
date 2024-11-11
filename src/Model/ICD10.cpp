@@ -28,6 +28,13 @@ const std::string& ICD10::name() const
 	return dummy;
 }
 
+bool ICD10::isDental() const
+{
+	if (!isValid()) return false;
+
+	return std::find(dentalMKB.begin(), dentalMKB.end(), m_code) != dentalMKB.end();
+}
+
 bool ICD10::setCode(const std::string& code)
 {
 	if (icdToName.count(code)) {
@@ -36,6 +43,16 @@ bool ICD10::setCode(const std::string& code)
 	}
 
 	return false;
+}
+
+bool ICD10::operator==(const ICD10& other) const
+{
+	return m_code == other.m_code;
+}
+
+bool ICD10::operator!=(const ICD10& other) const
+{
+	return m_code != other.m_code;
 }
 
 void ICD10::initialize() {

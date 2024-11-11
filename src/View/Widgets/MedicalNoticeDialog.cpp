@@ -14,15 +14,12 @@ MedicalNoticeDialog::MedicalNoticeDialog(const MedicalNotice& notice)
 
     connect(ui.mkbButton, &QPushButton::clicked, this, [&] {
 
-			TableViewDialog d(m_mkbDental, 0, ui.mkbButton->text().toStdString());
-			d.setWindowTitle("Международна класификация на болестите");
-			d.exec();
+			auto result = ModalDialogBuilder::icdDialog(ui.mkbButton->text().toStdString());
 
-			auto result = d.getResult();
+			if (result.isValid()) {
 
-			if (result.size()) {
-				ui.mkbButton->setText(result.c_str());
-			}
+				ui.mkbButton->setText(result.code().c_str());
+			}		
 		}
 	);
 

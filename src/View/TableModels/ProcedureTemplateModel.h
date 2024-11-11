@@ -31,7 +31,7 @@ class ProcedureTemplateModel : public QAbstractTableModel
 public:
 	ProcedureTemplateModel(QObject *parent = nullptr);
 
-	void setProcedures(std::vector<ProcedureListElement> procedures, bool addSections);
+	void setProcedures(std::vector<ProcedureListElement> procedures);
 	const ProcedureRow& getProcedureRow(int index) const;
 	~ProcedureTemplateModel();
 

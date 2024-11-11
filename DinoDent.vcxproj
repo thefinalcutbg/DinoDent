@@ -487,6 +487,7 @@
     <ClCompile Include="src\View\Widgets\FiscalReceiptDialog.cpp" />
     <ClCompile Include="src\View\Widgets\ButtonDialog.cpp" />
     <ClCompile Include="src\View\Widgets\FiscalReportView.cpp" />
+    <ClCompile Include="src\View\Widgets\ICD10Dialog.cpp" />
     <ClCompile Include="src\View\Widgets\MedicalNoticeDialog.cpp" />
     <ClCompile Include="src\View\Widgets\MedicalStatusDialog.cpp" />
     <ClCompile Include="src\View\Widgets\NewDocDialog.cpp" />
@@ -852,6 +853,7 @@
     <QtMoc Include="src\View\Widgets\MedicalNoticeDialog.h" />
     <QtMoc Include="src\View\Widgets\PisImportView.h" />
     <QtMoc Include="src\View\Widgets\NewDocDialog.h" />
+    <QtMoc Include="src\View\Widgets\ICD10Dialog.h" />
     <ClInclude Include="src\View\Widgets\ReportDialogResult.h" />
     <QtMoc Include="src\View\Widgets\ReportFilesView.h" />
     <QtMoc Include="src\View\Widgets\StatisticDialogView.h" />
@@ -938,6 +940,7 @@
     <QtUic Include="src\View\Widgets\FiscalReceiptDialog.ui" />
     <QtUic Include="src\View\Widgets\ButtonDialog.ui" />
     <QtUic Include="src\View\Widgets\FiscalReportView.ui" />
+    <QtUic Include="src\View\Widgets\ICD10Dialog.ui" />
     <QtUic Include="src\View\Widgets\MedicalNoticeDialog.ui" />
     <QtUic Include="src\View\Widgets\MedicalStatusDialog.ui" />
     <QtUic Include="src\View\Widgets\NewDocDialog.ui" />

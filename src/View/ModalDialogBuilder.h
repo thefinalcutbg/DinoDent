@@ -79,5 +79,6 @@ namespace ModalDialogBuilder
 	std::optional<std::string> getFilePath(const std::string& filename);
 	void showDetailedError(const std::string& descr, const std::string& details);
 	std::optional<Allergy> openAllergyDialog(const Allergy& a = {});
+	ICD10 icdDialog(const ICD10& icd = {});
 };
 

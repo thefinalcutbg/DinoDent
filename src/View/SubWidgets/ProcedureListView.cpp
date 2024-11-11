@@ -19,7 +19,9 @@ ProcedureListView::ProcedureListView(QWidget *parent)
 	table->hideColumn(1);
 	table->setColumnWidth(2, 70);
 	table->horizontalHeader()->setSectionResizeMode(3, QHeaderView::ResizeMode::Stretch);
-
+	table->horizontalHeader()->setHighlightSections(false);
+	table->verticalHeader()->setVisible(false);
+	table->setEditTriggers(QAbstractItemView::NoEditTriggers);
 	table->setSelectionBehavior(QAbstractItemView::SelectRows);
 	table->setSelectionMode(QAbstractItemView::SingleSelection);
 
@@ -129,7 +131,7 @@ void ProcedureListView::refresh()
 */
 	ui.tableView->setColumnHidden(4, hidePriceColumn);
 
-	model.setProcedures(presenter->getList(current_section), current_section < 2);
+	model.setProcedures(presenter->getList(current_section));
 
 	emit codeSelected(std::string{}, false, 0);
 }

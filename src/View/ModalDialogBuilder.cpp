@@ -382,6 +382,15 @@ std::optional<Allergy> ModalDialogBuilder::openAllergyDialog(const Allergy& a)
 	return d.getResult();
 }
 
+#include "View/Widgets/ICD10Dialog.h"
+
+ICD10 ModalDialogBuilder::icdDialog(const ICD10& icd)
+{
+	ICD10Dialog d(icd);
+	d.exec();
+	return d.getResult();
+}
+
 void ModalDialogBuilder::openExplorer(const std::string& path)
 {
 	#ifdef _WIN32    //Code for Windows

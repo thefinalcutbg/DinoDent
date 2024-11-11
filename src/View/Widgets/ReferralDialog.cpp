@@ -6,7 +6,7 @@
 #include "Model/Referrals/Referral.h"
 #include "Model/Dental/ToothUtils.h"
 #include "View/Widgets/TableViewDialog.h"
-
+#include "View/ModalDialogBuilder.h"
 
 ReferralDialog::ReferralDialog(ReferralPresenter& p, QWidget *parent)
 	: QDialog(parent), presenter(p)
@@ -54,61 +54,18 @@ ReferralDialog::ReferralDialog(ReferralPresenter& p, QWidget *parent)
 
 	for (auto& b : mkbButtons)
 	{
-        connect(b, &RightClickButton::rightClicked, this, [&]{ b->setText("Няма"); });
+        connect(b, &RightClickButton::rightClicked, this, [=]{ b->setText("Няма"); });
+	
+		connect(b, &QPushButton::clicked, this, [=] {
+			auto result = ModalDialogBuilder::icdDialog(b->text().toStdString());
+
+			if (result.isValid()) {
+
+				b->setText(result.code().c_str());
+			}
+
+			});
 	}
-
-
-    connect(ui.mkbMainButton, &QPushButton::clicked, this,[&]
-	{
-		TableViewDialog d(m_mkbDental,0, ui.mkbMainButton->text().toStdString());
-		d.setWindowTitle("Международна класификация на болестите");	
-		d.exec();
-
-		auto result = d.getResult();
-
-		if (result.size()) {
-			ui.mkbMainButton->setText(result.c_str());
-			ui.errorLabel->setText("");
-		}
-	});
-
-    connect(ui.mkbAdditionalButton, &QPushButton::clicked, this,
-    [&]
-	{
-		TableViewDialog d(m_mkbDental, 0, ui.mkbAdditionalButton->text().toStdString());
-		d.setWindowTitle("Международна класификация на болестите");
-		d.exec();
-		auto result = d.getResult();
-
-		if (result.size()) {
-			ui.mkbAdditionalButton->setText(result.c_str());
-		}
-	});
-
-    connect(ui.comorbidityMainButton, &QPushButton::clicked, this, [&]
-	{
-		TableViewDialog d(m_mkbFull,0, ui.comorbidityMainButton->text().toStdString());
-		d.setWindowTitle("Международна класификация на болестите");
-		d.exec();
-		auto result = d.getResult();
-
-		if (result.size()) {
-			ui.comorbidityMainButton->setText(result.c_str());
-		}
-	});
-
-    connect(ui.comorbidityAdditionalButton, &QPushButton::clicked, this,
-    [=, this]
-	{
-		TableViewDialog d(m_mkbFull,0, ui.comorbidityAdditionalButton->text().toStdString());
-		d.setWindowTitle("Международна класификация на болестите");
-		d.exec();
-		auto result = d.getResult();
-
-		if (result.size()) {
-			ui.comorbidityAdditionalButton->setText(result.c_str());
-		}
-	});
 
     connect(ui.okButton, &QPushButton::clicked, this, [=, this] {
 			

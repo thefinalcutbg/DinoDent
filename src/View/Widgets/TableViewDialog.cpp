@@ -37,9 +37,9 @@ TableViewDialog::TableViewDialog(QAbstractTableModel& model, int column, const s
     connect(ui.okButton, &QPushButton::clicked, this, [=, this] {
 
 		m_selectedRow = ui.tableView->selectionModel()->currentIndex().row();
-	if (m_selectedRow > -1) accept();
+		if (m_selectedRow > -1) accept();
 
-		});
+	});
     connect(ui.tableView, &QTableView::doubleClicked, this, [=, this] { ui.okButton->click(); });
 
     for (int i = 0; i < m_model.rowCount(); i++)

@@ -573,7 +573,7 @@ void EDental::Fetch::parseReply(const std::string& reply)
 			//ICD start with letter
 			if (std::isdigit(diagStr[0])) {
 
-				p.diagnosis = Diagnosis(std::stoi(diagStr), 999);
+				p.diagnosis = Diagnosis(std::stoi(diagStr), true);
 
 			}
 			else {

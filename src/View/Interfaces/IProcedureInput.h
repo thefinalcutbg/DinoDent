@@ -37,7 +37,7 @@ public:
 
 	virtual AbstractDateEdit* dateEdit() = 0;
 
-	virtual void setCommonData(const CommonData& data) = 0;
+	virtual void setCommonData(const CommonData& data, bool hasNhifCode) = 0;
 
 	virtual void setParameterData() = 0; //general procedures
 	virtual void setParameterData(AnesthesiaMinutes minutes) = 0; //anesthesia

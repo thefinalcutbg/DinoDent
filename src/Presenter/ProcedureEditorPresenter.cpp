@@ -51,7 +51,7 @@ void ProcedureEditorPresenter::setView(IProcedureEditDialog* view)
 
 	auto inputView = view->procedureInput();
 
-	inputView->setCommonData(data);
+	inputView->setCommonData(data, result->code.nhifCode());
 	
 	switch (result->getScope()) {
 

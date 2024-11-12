@@ -52,6 +52,11 @@ std::vector<Procedure> DbProcedure::getProcedures(long long amblist_rowid, Db& d
 		p.date = db.asString(0);
 		p.financingSource = static_cast<FinancingSource>(db.asInt(1));
 		p.code = db.asString(2);
+		p.LPK = db.asString(6);
+		p.diagnosis.icd = db.asString(7);
+		p.diagnosis.additional_descr = db.asString(8);
+		p.notes = db.asString(9);
+		p.his_index = db.asInt(10);
 
 		auto scope = p.code.getScope();
 
@@ -75,15 +80,7 @@ std::vector<Procedure> DbProcedure::getProcedures(long long amblist_rowid, Db& d
 			}
 		}
 
-		p.LPK = db.asString(6);
-		p.diagnosis.icd = db.asString(7);
-		p.diagnosis.additional_descr = db.asString(8);
-		p.notes = db.asString(9);
-		p.his_index = db.asInt(10);
-
-		if (p.code.type() == ProcedureType::Restoration)
-		{
-			p.param = RestorationData{
+		RestorationData rData = RestorationData{
 				.surfaces = {
 					db.asBool(11),
 					db.asBool(12),
@@ -94,7 +91,17 @@ std::vector<Procedure> DbProcedure::getProcedures(long long amblist_rowid, Db& d
 				},
 				.post = db.asBool(17)
 
-			};
+		};
+
+		if (p.code.type() == ProcedureType::Restoration)
+		{
+			p.param = rData;
+		}
+
+		if (p.code.type() == ProcedureType::CrownOrBridgeOrVeneer && rData.isValid()) {
+
+			p.param = rData;
+
 		}
 
 		if (p.code.type() == ProcedureType::Anesthesia)
@@ -166,7 +173,7 @@ void DbProcedure::saveProcedures(long long amblist_rowid, const std::vector<Proc
 		{
 			case ProcedureScope::SingleTooth:
 			{
-				if (p.code.type() == ProcedureType::Restoration) {
+				if (std::holds_alternative<RestorationData>(p.param)) {
 
 					auto& [surfaces, post] = std::get<RestorationData>(p.param);
 
@@ -175,7 +182,6 @@ void DbProcedure::saveProcedures(long long amblist_rowid, const std::vector<Proc
 					}
 
 					db.bind(19, post);
-
 				}
 
 			}
@@ -200,6 +206,7 @@ void DbProcedure::saveProcedures(long long amblist_rowid, const std::vector<Proc
 				}
 
 				break;
+
 		}
 
 
@@ -357,7 +364,11 @@ std::vector<Procedure> DbProcedure::getPatientProcedures(long long patientRowid)
 		p.diagnosis.additional_descr = db.asString(8);
 		p.notes = db.asString(9);
 		p.his_index = db.asInt(10);
-
+		p.LPK = db.asString(6);
+		p.diagnosis.icd = db.asString(7);
+		p.diagnosis.additional_descr = db.asString(8);
+		p.notes = db.asString(9);
+		p.his_index = db.asInt(10);
 		auto scope = p.code.getScope();
 
 		if (scope == ProcedureScope::SingleTooth || scope == ProcedureScope::Ambi) {
@@ -380,15 +391,8 @@ std::vector<Procedure> DbProcedure::getPatientProcedures(long long patientRowid)
 			}
 		}
 
-		p.LPK = db.asString(6);
-		p.diagnosis.icd = db.asString(7);
-		p.diagnosis.additional_descr = db.asString(8);
-		p.notes = db.asString(9);
-		p.his_index = db.asInt(10);
 
-		if (p.code.type() == ProcedureType::Restoration)
-		{
-			p.param = RestorationData{
+		RestorationData rData = RestorationData{
 				.surfaces = {
 					db.asBool(11),
 					db.asBool(12),
@@ -399,7 +403,17 @@ std::vector<Procedure> DbProcedure::getPatientProcedures(long long patientRowid)
 				},
 				.post = db.asBool(17)
 
-			};
+		};
+
+		if (p.code.type() == ProcedureType::Restoration)
+		{
+			p.param = rData;
+		}
+
+		if (p.code.type() == ProcedureType::CrownOrBridgeOrVeneer && rData.isValid()) {
+
+			p.param = rData;
+
 		}
 
 		if (p.code.type() == ProcedureType::Anesthesia)

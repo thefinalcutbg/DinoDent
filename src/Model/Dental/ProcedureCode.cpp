@@ -178,7 +178,7 @@ ProcedureScope ProcedureCode::getScope() const
 		{ ProcedureType::MultipleExtraction, ProcedureScope::Range},
 
 		{ ProcedureType::Crown, ProcedureScope::Ambi},
-		{ ProcedureType::CrownOrBridge, ProcedureScope::Ambi}
+		{ ProcedureType::CrownOrBridgeOrVeneer, ProcedureScope::Ambi}
 	};
 
 	auto pType = type();

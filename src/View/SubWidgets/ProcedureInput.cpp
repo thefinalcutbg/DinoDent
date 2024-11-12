@@ -31,7 +31,7 @@ ProcedureInput::ProcedureInput(QWidget* parent)
 			case 2: setParameterData(ui.hyperdonticCheckBox->isChecked(), getRestorationData()); break; //restoration
 		}
 
-		ui.constructionTypeCombo->show();
+		ui.constructionTypeGroup->show();
 	});
 
 	connect(ui.icdButton, &QPushButton::clicked, this, [&] {
@@ -114,7 +114,7 @@ AbstractDateEdit* ProcedureInput::dateEdit()
 	return ui.dateEdit;
 }
 
-void ProcedureInput::setCommonData(const CommonData& data)
+void ProcedureInput::setCommonData(const CommonData& data, bool hasNhifCode)
 {
 	ui.diagnosisGroup->show();
 	ui.notesGroup->show();
@@ -123,11 +123,16 @@ void ProcedureInput::setCommonData(const CommonData& data)
 	ui.icdEdit->setText(data.diagnosis.icd.name().c_str());
 	ui.diagDescrEdit->setText(data.diagnosis.additional_descr.c_str());
 	ui.notesEdit->setPlainText(data.notes.c_str());
+	initFinancingCombo(hasNhifCode);
 	setFinancingSource(data.financingSource);
+	ui.errorLabel->clear();
+
 }
 
 void ProcedureInput::setParameterData()
 {
+	ui.paramFrame->show();
+
 	for (auto o : ui.paramFrame->children()) {
 		if (o->isWidgetType()) {
 			static_cast<QWidget*>(o)->hide();
@@ -147,8 +152,10 @@ void ProcedureInput::setParameterData(bool supernumeral)
 {
 	setParameterData();
 
-	ui.hyperdonticCheckBox->show();
+	ui.rangeCheck->hide();
+	ui.toothFrame->show();
 	ui.hyperdonticCheckBox->setChecked(supernumeral);
+	
 }
 
 void ProcedureInput::setParameterData(bool supernumeral, RestorationData restoration)
@@ -243,6 +250,8 @@ IProcedureInput::ResultData ProcedureInput::getResult()
 		result.parameters = getConstructionRange();
 	}
 
+	return result;
+
 }
 
 void ProcedureInput::setErrorMsg(const std::string& errorMsg)
@@ -294,7 +303,7 @@ std::string ProcedureInput::isValid()
 			return "Началният и крайният зъб за които се отнася процедурата трябва да са от една и съща челюст";
 		}
 
-		if (!m_allow_singleRange && constructionRange.isFromSameJaw())
+		if (!m_allow_singleRange && constructionRange.getTeethCount() == 1)
 		{
 			return "Началният и крайният зъб за които се отнася процедурата трябва да са различни";
 		}
@@ -304,7 +313,7 @@ std::string ProcedureInput::isValid()
 	return std::string();
 }
 
-void ProcedureInput::initFinancingCombo(const ProcedureCode& code)
+void ProcedureInput::initFinancingCombo(bool hasNhifCode)
 {
 	ui.financingCombo->clear();
 
@@ -312,7 +321,7 @@ void ProcedureInput::initFinancingCombo(const ProcedureCode& code)
 	ui.financingCombo->addItem(QIcon(":/icons/icon_user.png"), "Пациент", static_cast<int>(FinancingSource::Patient));
 	ui.financingCombo->addItem(QIcon(":/icons/icon_phif.png"), "ДЗОФ", static_cast<int>(FinancingSource::PHIF));
 
-	if (code.nhifCode()) {
+	if (hasNhifCode) {
 		ui.financingCombo->addItem(QIcon(":/icons/icon_nhif.png"), "НЗОК", static_cast<int>(FinancingSource::NHIF));
 	}
 }

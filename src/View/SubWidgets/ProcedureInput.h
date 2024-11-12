@@ -16,10 +16,10 @@ class ProcedureInput : public QWidget, public IProcedureInput
 
 	bool m_postDisabled = false;
 
-	bool m_allow_singleRange;
+	bool m_allow_singleRange = false;
 
 	//financing combo logic
-	void initFinancingCombo(const ProcedureCode& code);
+	void initFinancingCombo(bool hasNhifCode);
 	void setFinancingSource(FinancingSource source);
 	FinancingSource getFinancingSource();
 
@@ -40,7 +40,7 @@ public:
 
 
 	// Inherited via IProcedureInput
-	void setCommonData(const CommonData& data) override;
+	void setCommonData(const CommonData& data, bool hasNhifCode) override;
 
 	void setParameterData() override;
 	void setParameterData(AnesthesiaMinutes minutes) override;

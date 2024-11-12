@@ -44,7 +44,7 @@ void ProcedureCreator::setProcedureCode(const ProcedureCode& code, bool nhif, do
 	commonData.financingSource = nhif ? FinancingSource::NHIF : FinancingSource::None;
 	commonData.value = value;
 
-	view->setCommonData(commonData);
+	view->setCommonData(commonData, code.nhifCode());
 
 	//setting parameter data
 	if (code.type() == ProcedureType::Anesthesia) {
@@ -66,7 +66,12 @@ void ProcedureCreator::setProcedureCode(const ProcedureCode& code, bool nhif, do
 		view->setParameterData(false, getBridgeRange(m_selectedTeeth, m_code), false);
 	}
 	else if (code.getScope() == ProcedureScope::Ambi) {
-		view->setParameterData(false, getBridgeRange(m_selectedTeeth, m_code), RestorationData{ {0,0,0,1,0},0 }, 0);
+
+		auto range = getBridgeRange(m_selectedTeeth, m_code);
+
+		int preferredIdx = range.getTeethCount() > 1;
+
+		view->setParameterData(false, range, RestorationData{ {0,0,0,1,0},0 }, preferredIdx);
 	}
 
 }
@@ -107,6 +112,9 @@ std::vector<Procedure> ProcedureCreator::getProcedures()
 	//anesthesia
 	else if (std::holds_alternative<int>(data.parameters)) {
 		procedure.param = AnesthesiaMinutes(std::get<int>(data.parameters));
+		return { procedure };
+	}
+	else if (m_code.getScope() == ProcedureScope::AllOrNone) {
 		return { procedure };
 	}
 	//restoration

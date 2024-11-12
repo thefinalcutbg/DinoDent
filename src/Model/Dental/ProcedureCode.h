@@ -22,7 +22,7 @@ enum class ProcedureType
     PostCore,
     PostCrown,
     Crown,
-    CrownOrBridge,
+    CrownOrBridgeOrVeneer,
     Bridge,
     RemoveCrownOrBridge,
     Denture,

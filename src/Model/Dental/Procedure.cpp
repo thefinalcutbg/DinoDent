@@ -68,6 +68,9 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 					
 				teeth.at(tooth_idx).setLPK(i, LPK);
 			}
+
+			teeth.setStatus({ tooth_idx.index }, StatusType::General, Fracture, false, tooth_idx.supernumeral);
+
 			//for legacy codes only
 			if (result.post) {
 				teeth.setStatus({ tooth_idx.index }, StatusType::General, Post, true, tooth_idx.supernumeral);
@@ -175,11 +178,11 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 		}
 		break;
 
-		case ProcedureType::CrownOrBridge: //same implementation as crown
+		case ProcedureType::CrownOrBridgeOrVeneer: //same implementation as crown
 		{
 			auto indexes = getToothIdxRange();
 
-			//block crowns
+			//bridge
 			if (indexes.size()) {
 				teeth.setStatus(indexes, StatusType::General, Bridge, true, tooth_idx.supernumeral);
 				teeth.setStatus(indexes, StatusType::General, Fracture, false, tooth_idx.supernumeral);
@@ -188,6 +191,27 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 				break;
 
 			}
+
+			//veneer
+			if (std::holds_alternative<RestorationData>(param)) {
+
+				auto& result = std::get<RestorationData>(param);
+
+				for (int i = 0; i < result.surfaces.size(); i++)
+				{
+					if (!result.surfaces[i]) continue;
+
+					teeth.setStatus({ tooth_idx.index }, StatusType::Restoration, i, true, tooth_idx.supernumeral);
+					teeth.setStatus({ tooth_idx.index }, StatusType::Caries, i, false, tooth_idx.supernumeral);
+
+					teeth.at(tooth_idx).setLPK(i, LPK);
+				}
+
+				teeth.setStatus({ tooth_idx.index }, StatusType::General, Fracture, false, tooth_idx.supernumeral);
+
+				break;
+			}
+
 			//individual crown
 			teeth.setStatus({ tooth_idx.index }, StatusType::General, Crown, true, tooth_idx.supernumeral);
 			teeth.setStatus({ tooth_idx.index }, StatusType::General, Fracture, false, tooth_idx.supernumeral);

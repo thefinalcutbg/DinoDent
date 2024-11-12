@@ -9,7 +9,6 @@
 #include "Resources.h"
 #include "View/ModalDialogBuilder.h"
 #include "View/Widgets/ICD10Dialog.h"
-//to enable prices add QDoubleSpinBox named priceSpin to ui and uncomment the code
 
 ProcedureInput::ProcedureInput(QWidget* parent)
 	: QWidget(parent)
@@ -19,11 +18,20 @@ ProcedureInput::ProcedureInput(QWidget* parent)
 	setWindowFlag(Qt::WindowMaximizeButtonHint);
 
 	connect(ui.rangeCheck, &QCheckBox::toggled, this, [&](bool checked) {
-
 		ui.rangeGroup->setHidden(!checked);
 		ui.hyperdonticCheckBox->setHidden(checked);
-		recalculatePrice();
-		
+		});
+
+	connect(ui.constructionTypeCombo, &QComboBox::currentIndexChanged, this, [&](int index) {
+
+		switch (index)
+		{	
+			case 0: setParameterData(ui.hyperdonticCheckBox->isChecked()); break; //crown
+			case 1: setParameterData(getConstructionRange(), false); break; //bridge
+			case 2: setParameterData(ui.hyperdonticCheckBox->isChecked(), getRestorationData()); break; //restoration
+		}
+
+		ui.constructionTypeCombo->show();
 	});
 
 	connect(ui.icdButton, &QPushButton::clicked, this, [&] {
@@ -61,25 +69,6 @@ ProcedureInput::ProcedureInput(QWidget* parent)
 
 		});
 
-	connect(ui.beginCombo, &QComboBox::currentIndexChanged, this, [&] { recalculatePrice(); });
-	connect(ui.endCombo, &QComboBox::currentIndexChanged, this, [&] { recalculatePrice(); });
-/*
-	connect(ui.priceSpin, &QDoubleSpinBox::valueChanged, this, [&](double value) {
-
-		auto financingSource = getFinancingSource();
-
-		if (financingSource == FinancingSource::NHIF) { return; }
-
-		if (value == 0) {
-			setFinancingSource(FinancingSource::None);
-		}
-		
-		if (value && financingSource == FinancingSource::None) {
-			setFinancingSource(FinancingSource::Patient);
-		}
-
-	});
-*/
 	QString toothIndexes[32]{ "18", "17", "16", "15", "14", "13", "12", "11",
 						  "21", "22", "23", "24", "25", "26", "27", "28",
 						  "38", "37", "36", "35", "34", "33", "32", "31",
@@ -125,84 +114,135 @@ AbstractDateEdit* ProcedureInput::dateEdit()
 	return ui.dateEdit;
 }
 
-void ProcedureInput::setData(const Data& data)
+void ProcedureInput::setCommonData(const CommonData& data)
 {
-	m_code = data.code;
-
-	valueMultiplier = 1;
-	
-	auto codeIsValid = m_code.isValid();
-
-	for (auto child : children()) {
-
-		if (child->isWidgetType()) {
-			static_cast<QWidget*>(child)->setHidden(!codeIsValid);
-		}
-	}
-
-	if (!codeIsValid) return;
-
-	ui.errorLabel->setText("");
+	ui.diagnosisGroup->show();
+	ui.notesGroup->show();
+	ui.financingGroup->show();
 
 	ui.icdEdit->setText(data.diagnosis.icd.name().c_str());
-	ui.icdEdit->setCursorPosition(0);
 	ui.diagDescrEdit->setText(data.diagnosis.additional_descr.c_str());
-
 	ui.notesEdit->setPlainText(data.notes.c_str());
-
-	//financing logic
-	initFinancingCombo(data.code);
 	setFinancingSource(data.financingSource);
-	
-//	ui.priceSpin->setValue(data.price);
+}
 
-	initView(data.code);
-
-	if (std::holds_alternative<RestorationData>(data.param) 
-		&& data.code.getScope() == ProcedureScope::SingleTooth
-		) 
-	{
-
-		auto& restoration = std::get<RestorationData>(data.param);
-
-		ui.o_check->setChecked(restoration.surfaces[0]);
-		ui.m_check->setChecked(restoration.surfaces[1]);
-		ui.d_check->setChecked(restoration.surfaces[2]);
-		ui.b_check->setChecked(restoration.surfaces[3]);
-		ui.l_check->setChecked(restoration.surfaces[4]);
-		ui.c_check->setChecked(restoration.surfaces[5]);
-		ui.postCheck->setChecked(restoration.post);
-	}
-
-	if (std::holds_alternative<AnesthesiaMinutes>(data.param)
-		&& data.code.getScope() == ProcedureScope::AllOrNone
-	) 
-	{
-
-		ui.anesthesiaSpin->setValue(std::get<AnesthesiaMinutes>(data.param).minutes);
-	}
-
-	ui.hyperdonticCheckBox->setChecked(data.hyperdontic);
-
-	//range logic
-
-	if (m_code.getScope() == ProcedureScope::Range || m_code.getScope() == ProcedureScope::Ambi) {
-
-		ui.rangeCheck->setChecked(data.range.has_value());
-		emit ui.rangeCheck->toggled(data.range.has_value());
-
-		if (data.range) {
-
-			//if you implement the price value, be sure to block the signals
-			ui.beginCombo->setCurrentIndex(data.range->toothFrom);
-			ui.endCombo->setCurrentIndex(data.range->toothTo);
-
-			valueMultiplier = data.range->getTeethCount();
-
+void ProcedureInput::setParameterData()
+{
+	for (auto o : ui.paramFrame->children()) {
+		if (o->isWidgetType()) {
+			static_cast<QWidget*>(o)->hide();
 		}
 	}
+}
 
-	if (m_postDisabled) disablePost();
+void ProcedureInput::setParameterData(AnesthesiaMinutes minutes)
+{
+	setParameterData();
+
+	ui.anesthesiaGroup->show();
+	ui.anesthesiaSpin->setValue(minutes.minutes);
+}
+
+void ProcedureInput::setParameterData(bool supernumeral)
+{
+	setParameterData();
+
+	ui.hyperdonticCheckBox->show();
+	ui.hyperdonticCheckBox->setChecked(supernumeral);
+}
+
+void ProcedureInput::setParameterData(bool supernumeral, RestorationData restoration)
+{
+	setParameterData(supernumeral);
+
+	ui.surfaceGroup->show();
+
+	ui.o_check->setChecked(restoration.surfaces[0]);
+	ui.m_check->setChecked(restoration.surfaces[1]);
+	ui.d_check->setChecked(restoration.surfaces[2]);
+	ui.b_check->setChecked(restoration.surfaces[3]);
+	ui.l_check->setChecked(restoration.surfaces[4]);
+	ui.c_check->setChecked(restoration.surfaces[5]);
+	ui.postCheck->setChecked(restoration.post);
+
+	ui.postCheck->setDisabled(m_postDisabled);
+}
+
+void ProcedureInput::setParameterData(ConstructionRange range, bool allowSingle)
+{
+	setParameterData();
+
+	m_allow_singleRange = allowSingle;
+
+	ui.rangeGroup->show();
+
+	ui.beginCombo->setCurrentIndex(range.toothFrom);
+	ui.endCombo->setCurrentIndex(range.toothTo);
+}
+
+void ProcedureInput::setParameterData(bool supernumeral, ConstructionRange range, bool preferSingle)
+{
+	m_allow_singleRange = false;
+
+	setParameterData();
+
+	ui.hyperdonticCheckBox->setChecked(supernumeral);
+	ui.beginCombo->setCurrentIndex(range.toothFrom);
+	ui.endCombo->setCurrentIndex(range.toothTo);
+
+	ui.rangeCheck->show();
+
+	ui.rangeCheck->setChecked(!preferSingle);
+	emit ui.rangeCheck->toggled(!preferSingle); //in case it is already checked
+}
+
+void ProcedureInput::setParameterData(bool supernumeral, ConstructionRange range, RestorationData r, int preferedIndex)
+{
+	m_allow_singleRange = false;
+
+	setParameterData(supernumeral, r);
+	ui.beginCombo->setCurrentIndex(range.toothFrom);
+	ui.endCombo->setCurrentIndex(range.toothTo);
+
+	setParameterData(); //hiding everything...
+
+	ui.constructionTypeGroup->show();
+	ui.constructionTypeCombo->setCurrentIndex(preferedIndex);
+	emit ui.constructionTypeCombo->currentIndexChanged(preferedIndex);  //in case it is already checked
+}
+
+IProcedureInput::ResultData ProcedureInput::getResult()
+{
+	ResultData result;
+
+	auto diagCode = ui.icdButton->text();
+
+	result.diagnosis.icd = ICD10{ ui.icdButton->text().toStdString() };
+
+	if (result.diagnosis.icd.isValid()) {
+		result.diagnosis.additional_descr = ui.diagDescrEdit->getText();
+	}
+
+	result.financingSource = getFinancingSource();
+
+	result.notes = ui.notesEdit->getText();
+
+	if (ui.anesthesiaSpin->isVisible()) {
+		result.parameters = ui.anesthesiaSpin->value();
+	}
+
+	if (ui.hyperdonticCheckBox->isVisible()) {
+		result.parameters = ui.hyperdonticCheckBox->isChecked();
+	}
+
+	if (ui.surfaceGroup->isVisible()) {
+		result.parameters = std::make_pair(ui.hyperdonticCheckBox->isChecked(), getRestorationData());
+	}
+
+	if (ui.rangeGroup->isVisible()) {
+		result.parameters = getConstructionRange();
+	}
+
 }
 
 void ProcedureInput::setErrorMsg(const std::string& errorMsg)
@@ -224,70 +264,8 @@ void ProcedureInput::disablePost()
 	ui.postCheck->hide();
 }
 
-void ProcedureInput::disableRangeCheck()
-{
-	ui.rangeCheck->setDisabled(true);
-}
-
-IProcedureInput::Data ProcedureInput::getData()
-{
-	Data result;
-
-	result.code = m_code;
-
-	auto diagCode = ui.icdButton->text();
-
-	result.diagnosis.icd = ICD10{ ui.icdButton->text().toStdString() };
-
-	if (result.diagnosis.icd.isValid()) {
-		result.diagnosis.additional_descr = ui.diagDescrEdit->getText();
-	}
-
-	result.financingSource = getFinancingSource();
-
-	result.notes = ui.notesEdit->getText();
-
-	//getting data based on widget that is visible
-
-	if (ui.hyperdonticCheckBox->isVisible()) {
-		result.hyperdontic = ui.hyperdonticCheckBox->isChecked();
-	}
-
-	if (ui.surfaceGroup->isVisible()) {
-		result.param = RestorationData{
-			{
-			ui.o_check->isChecked(),
-			ui.m_check->isChecked(),
-			ui.d_check->isChecked(),
-			ui.b_check->isChecked(),
-			ui.l_check->isChecked(),
-			ui.c_check->isChecked()
-			},
-			ui.postCheck->isChecked()
-		};
-	}
-
-	if (ui.anesthesiaGroup->isVisible()) {
-		result.param = AnesthesiaMinutes{ ui.anesthesiaSpin->value() };
-	}
-
-	if (ui.beginCombo->isVisible()) {
-		result.range = { ui.beginCombo->currentIndex(), ui.endCombo->currentIndex() };
-		
-		if (result.range->toothFrom > result.range->toothTo) {
-			std::swap(result.range->toothFrom, result.range->toothTo);
-		}
-	}
-
-//	result.value = ui.priceSpin->value();
-
-	return result;
-}
-
 std::string ProcedureInput::isValid()
 {
-	std::string result;
-
 	ui.dateEdit->validateInput();
 
 	if (!ui.dateEdit->isValid()) {
@@ -303,127 +281,27 @@ std::string ProcedureInput::isValid()
 
 	if (ui.surfaceGroup->isVisible()) {
 
-		bool valid = false;
-
-		QCheckBox* surfaces[] = {
-			ui.o_check,
-			ui.m_check,
-			ui.d_check,
-			ui.b_check,
-			ui.l_check,
-			ui.c_check,
-		};
-
-		for (auto& s : surfaces)
-		{
-			if (s->isChecked()) {
-				valid = true;
-			}
-		}
-
-		if (!valid){ return "Изберете поне една повърхност!"; }
+		if (!getRestorationData().isValid()){ return "Изберете поне една повърхност!"; }
 	}
 
 	if (ui.rangeGroup->isVisible())
 	{
-		auto type = m_code.type();
 
-		auto from = ui.beginCombo->currentIndex();
-		auto to = ui.endCombo->currentIndex();
+		auto constructionRange = getConstructionRange();
 
-		if (type != ProcedureType::RemoveCrownOrBridge 
-			&& type != ProcedureType::Denture
-			&& from == to) 
+		if (!constructionRange.isFromSameJaw()) {
+
+			return "Началният и крайният зъб за които се отнася процедурата трябва да са от една и съща челюст";
+		}
+
+		if (!m_allow_singleRange && constructionRange.isFromSameJaw())
 		{
 			return "Началният и крайният зъб за които се отнася процедурата трябва да са различни";
 		}
 
-		auto fromSameJaw = (from < 16) == (to < 16);
-
-		if (!fromSameJaw 
-			&& type != ProcedureType::MultipleExtraction) {
-
-			return "Началният и крайният зъб за които се отнася процедурата трябва да са от една и съща челюст";
-		}
 	}
 
-	if (result.size()) {
-		ui.errorLabel->setText(result.c_str());
-	}
-
-	return result;
-}
-
-void ProcedureInput::initView(const ProcedureCode& code)
-{
-
-	ui.rangeCheck->setText(
-		code.type() == ProcedureType::Crown ?
-		"Блок корони"
-		:
-		"Многочленна конструкция"
-	);
-
-	ui.paramFrame->show();
-
-	switch (code.getScope()) 
-	{
-
-	case ProcedureScope::AllOrNone:
-
-		ui.anesthesiaGroup->setHidden(code.type() != ProcedureType::Anesthesia);
-		ui.toothFrame->hide();
-		ui.rangeGroup->hide();
-		ui.surfaceGroup->hide();
-
-		break;
-
-	case ProcedureScope::SingleTooth:
-		
-		ui.hyperdonticCheckBox->show();
-		ui.surfaceGroup->setHidden(code.type() != ProcedureType::Restoration);
-
-		ui.anesthesiaGroup->hide();
-		ui.rangeCheck->hide();
-		ui.rangeGroup->hide();
-
-		break;
-
-	case ProcedureScope::Range:
-
-		ui.toothFrame->hide();
-		ui.surfaceGroup->hide();
-		ui.anesthesiaGroup->hide();
-		ui.hyperdonticCheckBox->hide();
-		ui.surfaceGroup->hide();
-		ui.rangeCheck->hide();
-
-		ui.rangeGroup->show();
-			
-		break;
-
-	case ProcedureScope::Ambi:
-
-		ui.toothFrame->show();
-		ui.hyperdonticCheckBox->show();
-		ui.rangeCheck->show();
-		ui.rangeGroup->hide();
-
-		ui.surfaceGroup->hide();
-		ui.anesthesiaGroup->hide();
-
-		switch (code.type())
-		{
-		case ProcedureType::Crown:
-			ui.rangeCheck->setText("Блок корони");
-			break;
-		case ProcedureType::CrownOrBridge:
-			ui.rangeCheck->setText("Многочленна конструкция");
-			break;
-		}
-
-		break;
-	}
+	return std::string();
 }
 
 void ProcedureInput::initFinancingCombo(const ProcedureCode& code)
@@ -454,30 +332,28 @@ FinancingSource ProcedureInput::getFinancingSource()
 	return static_cast<FinancingSource>(ui.financingCombo->itemData(ui.financingCombo->currentIndex()).toInt());
 }
 
-void ProcedureInput::recalculatePrice()
+
+ConstructionRange ProcedureInput::getConstructionRange()
 {
-/*
-	double currentPrice = ui.priceSpin->value();
+	return ConstructionRange{
+				ui.beginCombo->currentIndex(),
+				ui.endCombo->currentIndex()
+	};
+}
 
-	if (currentPrice == 0) return;
-
-	//not recalculating for dentures
-	if (m_code.type() == ProcedureType::Denture) return;
-
-	int newRange = ui.rangeGroup->isVisible() ?
-		ConstructionRange(
-			ui.beginCombo->currentIndex(),
-			ui.endCombo->currentIndex()
-		).getTeethCount()
-		:
-		1
-	;
-
-	double newPrice = currentPrice / valueMultiplier * newRange;
-
-	ui.priceSpin->setValue(newPrice);
-	valueMultiplier = newRange;
-*/
+RestorationData ProcedureInput::getRestorationData()
+{
+	return RestorationData{
+		{
+			ui.o_check->isChecked(),
+			ui.m_check->isChecked(),
+			ui.d_check->isChecked(),
+			ui.b_check->isChecked(),
+			ui.l_check->isChecked(),
+			ui.c_check->isChecked()
+		},
+		ui.postCheck->isChecked()
+	};
 }
 
 ProcedureInput::~ProcedureInput()

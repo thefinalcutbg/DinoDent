@@ -13,23 +13,19 @@ class ProcedureInput : public QWidget, public IProcedureInput
 {
 	Q_OBJECT
 
-	void initView(const ProcedureCode& code);
-
-	ProcedureCode m_code;
 
 	bool m_postDisabled = false;
 
-	//required for price calculation
-	int valueMultiplier = 1;
-
-	static inline MKBModel full_icd = MKBModel(ICD10::getFullMKBList());
+	bool m_allow_singleRange;
 
 	//financing combo logic
 	void initFinancingCombo(const ProcedureCode& code);
 	void setFinancingSource(FinancingSource source);
 	FinancingSource getFinancingSource();
 
-	void recalculatePrice();
+	ConstructionRange getConstructionRange();
+	RestorationData getRestorationData();
+
 
 public:
 	ProcedureInput(QWidget *parent = Q_NULLPTR);
@@ -44,12 +40,21 @@ public:
 
 
 	// Inherited via IProcedureInput
-	void setData(const Data& data) override;
+	void setCommonData(const CommonData& data) override;
+
+	void setParameterData() override;
+	void setParameterData(AnesthesiaMinutes minutes) override;
+	void setParameterData(bool supernumeral) override;
+	void setParameterData(bool supernumeral, RestorationData r) override;
+	void setParameterData(ConstructionRange range, bool allowSingle) override;
+	void setParameterData(bool supernumeral, ConstructionRange range, bool preferSingle) override;
+	void setParameterData(bool supernumeral, ConstructionRange range, RestorationData r, int preferedIndex) override;
+
+	ResultData getResult();
 
 	void setErrorMsg(const std::string& errorMsg);
 	void disablePost() override;
-	void disableRangeCheck() override;
-	Data getData() override;
+
 
 	std::string isValid() override;
 

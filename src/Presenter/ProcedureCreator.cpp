@@ -29,56 +29,45 @@ void ProcedureCreator::setProcedureCode(const ProcedureCode& code, bool nhif, do
 		return;
 	}
 
-	IProcedureInput::Data data;
-
-	data.code = code;
+	//setting common data
+	IProcedureInput::CommonData commonData;
 
 	auto& defaultICDCode = code.defaultICD10();
 
 	if (defaultICDCode.size()) {
-		data.diagnosis.icd = defaultICDCode;
+		commonData.diagnosis.icd = defaultICDCode;
 	}
 	else {
-		data.diagnosis = Diagnosis(diag_map[code.type()], true);
+		commonData.diagnosis = Diagnosis(diag_map[code.type()], true);
 	}
 
-	data.financingSource = nhif ? FinancingSource::NHIF : FinancingSource::None;
-	data.hyperdontic = false;
-	data.value = value;
+	commonData.financingSource = nhif ? FinancingSource::NHIF : FinancingSource::None;
+	commonData.value = value;
 
-	if (code.type() == ProcedureType::Restoration) {
+	view->setCommonData(commonData);
 
-		if (m_selectedTeeth.size()) {
-			data.param = autoSurfaces(*m_selectedTeeth[0]);
-		}
-	}
-
+	//setting parameter data
 	if (code.type() == ProcedureType::Anesthesia) {
-
-		data.param = AnesthesiaMinutes{ 180 };
+		view->setParameterData(AnesthesiaMinutes(180));
 	}
-
-	if (scope == ProcedureScope::Range)
-	{
-		data.range = getBridgeRange(m_selectedTeeth, m_code);
-
-		if (scope == ProcedureScope::Range && m_code.type() != ProcedureType::Denture) {
-			data.value = data.value * data.range->getTeethCount();
-		}
+	else if (code.getScope() == ProcedureScope::AllOrNone) {
+		view->setParameterData();
 	}
-
-	if (scope == ProcedureScope::Ambi) {
-
-		if (code.type() != ProcedureType::Crown && m_selectedTeeth.size() > 1) {
-			data.range = getBridgeRange(m_selectedTeeth, m_code);
-			data.value = data.value * data.range->getTeethCount();
-		}
-
-		
+	else if (code.type() == ProcedureType::Restoration) {
+		view->setParameterData(false, autoSurfaces(*m_selectedTeeth[0]));
 	}
-
-	view->setData(data);
-
+	else if (code.getScope() == ProcedureScope::SingleTooth) {
+		view->setParameterData(false);
+	}
+	else if (code.getScope() == ProcedureScope::Range) {
+		view->setParameterData(getBridgeRange(m_selectedTeeth, m_code), code.type() == ProcedureType::RemoveCrownOrBridge);
+	}
+	else if (code.type() == ProcedureType::Crown) {
+		view->setParameterData(false, getBridgeRange(m_selectedTeeth, m_code), false);
+	}
+	else if (code.getScope() == ProcedureScope::Ambi) {
+		view->setParameterData(false, getBridgeRange(m_selectedTeeth, m_code), RestorationData{ {0,0,0,1,0},0 }, 0);
+	}
 
 }
 
@@ -100,42 +89,45 @@ std::vector<Procedure> ProcedureCreator::getProcedures()
 	procedure.code = m_code;
 	procedure.date = view->dateEdit()->getDate();
 
-	auto data = view->getData();
+	auto data = view->getResult();
 
 	procedure.financingSource = data.financingSource;
 	procedure.LPK = User::doctor().LPK;
 	procedure.diagnosis = data.diagnosis;
 	procedure.notes = data.notes;
-	procedure.param = data.param;
 	procedure.value = data.value;
 
-	if(data.range.has_value()) {
-		procedure.affectedTeeth = data.range.value();
+	bool supernumeral = false;
+
+	//range
+	if (std::holds_alternative<ConstructionRange>(data.parameters)) {
+		procedure.affectedTeeth = std::get<ConstructionRange>(data.parameters);
+		return { procedure };
+	}
+	//anesthesia
+	else if (std::holds_alternative<int>(data.parameters)) {
+		procedure.param = AnesthesiaMinutes(std::get<int>(data.parameters));
+		return { procedure };
+	}
+	//restoration
+	else if (std::holds_alternative<std::pair<bool, RestorationData>>(data.parameters)) {
+		
+		auto pair = std::get<std::pair<bool, RestorationData >>(data.parameters);
+		supernumeral = pair.first;
+		procedure.param = pair.second;
+	}
+	//tooth specific
+	else if (std::holds_alternative<bool>(data.parameters)) {
+		supernumeral = std::get<bool>(data.parameters);
 	}
 
-	switch (procedure.code.getScope()) 
-	{
-		case ProcedureScope::AllOrNone: 
-			return { procedure };
-
-		case ProcedureScope::Range:
-			return { procedure };
-
-		case ProcedureScope::Ambi:
-			if (procedure.getScope() == ProcedureScope::Range) {
-				return { procedure };
-			}
-			break;
-		default:
-			break;
-	}
 
 	//return separate procedures
 
 	for (auto t : m_selectedTeeth)
 	{
 		auto index = t->toothIndex();
-		index.supernumeral = data.hyperdontic;
+		index.supernumeral = supernumeral;
 		procedure.affectedTeeth = index;
 
 		//checks if the procedure is restoration and post is enabled

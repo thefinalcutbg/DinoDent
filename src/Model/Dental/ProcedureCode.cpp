@@ -153,33 +153,32 @@ ProcedureScope ProcedureCode::getScope() const
 {
 	static const std::vector<std::pair<ProcedureType, ProcedureScope>> pairs = {
 
-	{ ProcedureType::General, ProcedureScope::AllOrNone},
-	{ ProcedureType::FullExam, ProcedureScope::AllOrNone},
-	{ ProcedureType::Depuratio, ProcedureScope::AllOrNone},
-	{ ProcedureType::DenturePair, ProcedureScope::AllOrNone},
-	{ ProcedureType::Anesthesia, ProcedureScope::AllOrNone},
+		{ ProcedureType::General, ProcedureScope::AllOrNone},
+		{ ProcedureType::FullExam, ProcedureScope::AllOrNone},
+		{ ProcedureType::Depuratio, ProcedureScope::AllOrNone},
+		{ ProcedureType::DenturePair, ProcedureScope::AllOrNone},
+		{ ProcedureType::Anesthesia, ProcedureScope::AllOrNone},
 
-	{ ProcedureType::Restoration, ProcedureScope::SingleTooth},
-	{ ProcedureType::ToothSpecific, ProcedureScope::SingleTooth},
-	{ ProcedureType::DepuratioTooth, ProcedureScope::SingleTooth},
-	{ ProcedureType::Extraction, ProcedureScope::SingleTooth},
-	{ ProcedureType::Implant, ProcedureScope::SingleTooth},
-	{ ProcedureType::Endodontic, ProcedureScope::SingleTooth},
-	{ ProcedureType::Post, ProcedureScope::SingleTooth},
-	{ ProcedureType::RemovePost, ProcedureScope::SingleTooth},
-	{ ProcedureType::PostCore, ProcedureScope::SingleTooth},
-	{ ProcedureType::PostCrown, ProcedureScope::SingleTooth},
+		{ ProcedureType::Restoration, ProcedureScope::SingleTooth},
+		{ ProcedureType::ToothSpecific, ProcedureScope::SingleTooth},
+		{ ProcedureType::DepuratioTooth, ProcedureScope::SingleTooth},
+		{ ProcedureType::Extraction, ProcedureScope::SingleTooth},
+		{ ProcedureType::Implant, ProcedureScope::SingleTooth},
+		{ ProcedureType::Endodontic, ProcedureScope::SingleTooth},
+		{ ProcedureType::Post, ProcedureScope::SingleTooth},
+		{ ProcedureType::RemovePost, ProcedureScope::SingleTooth},
+		{ ProcedureType::PostCore, ProcedureScope::SingleTooth},
+		{ ProcedureType::PostCrown, ProcedureScope::SingleTooth},
 
-	{ ProcedureType::Crown, ProcedureScope::Ambi},
-	{ ProcedureType::CrownOrBridge, ProcedureScope::Ambi},
+		{ ProcedureType::Bridge, ProcedureScope::Range},
+		{ ProcedureType::RemoveCrownOrBridge, ProcedureScope::Range},
+		{ ProcedureType::Denture, ProcedureScope::Range},
+		{ ProcedureType::Splint, ProcedureScope::Range},
+		{ ProcedureType::DepuratioQuadrant, ProcedureScope::Range},
+		{ ProcedureType::MultipleExtraction, ProcedureScope::Range},
 
-	{ ProcedureType::Bridge, ProcedureScope::Range},
-	{ ProcedureType::RemoveCrownOrBridge, ProcedureScope::Range},
-	{ ProcedureType::Denture, ProcedureScope::Range},
-	{ ProcedureType::Splint, ProcedureScope::Range},
-	{ ProcedureType::DepuratioQuadrant, ProcedureScope::Range},
-	{ ProcedureType::MultipleExtraction, ProcedureScope::Range}
-
+		{ ProcedureType::Crown, ProcedureScope::Ambi},
+		{ ProcedureType::CrownOrBridge, ProcedureScope::Ambi}
 	};
 
 	auto pType = type();

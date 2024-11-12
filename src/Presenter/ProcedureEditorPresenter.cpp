@@ -42,18 +42,49 @@ void ProcedureEditorPresenter::setView(IProcedureEditDialog* view)
 	view->procedureInput()->dateEdit()->set_Date(result->date);
 	view->procedureInput()->dateEdit()->setInputValidator(&_dateValidator);
 	
-	IProcedureInput::Data data;
+	IProcedureInput::CommonData data;
 
-	data.code = result->code;
 	data.diagnosis = result->diagnosis;
 	data.financingSource = result->financingSource;
-	data.hyperdontic = result->getToothIndex().supernumeral;
 	data.notes = result->notes;
-	data.param = result->param;
 	data.value = result->value;
 
-	if (result->getScope() == ProcedureScope::Range) {
-		data.range = std::get<ConstructionRange>(result->affectedTeeth);
+	auto inputView = view->procedureInput();
+
+	inputView->setCommonData(data);
+	
+	switch (result->getScope()) {
+
+		case ProcedureScope::AllOrNone:
+		{
+			std::holds_alternative<AnesthesiaMinutes>(result->param) ?
+				inputView->setParameterData(std::get<AnesthesiaMinutes>(result->param).minutes)
+				:
+				inputView->setParameterData();
+		}
+		break;
+
+		case ProcedureScope::SingleTooth:
+		{
+			std::holds_alternative<RestorationData>(result->param) ?
+				inputView->setParameterData(
+					result->getToothIndex().supernumeral,
+					std::get<RestorationData>(result->param)
+				)
+				:
+				inputView->setParameterData(result->getToothIndex().supernumeral);
+		}
+		break;
+
+		case ProcedureScope::Range:
+		{
+			inputView->setParameterData(
+				std::get<ConstructionRange>(result->affectedTeeth),
+				result->code.type() == ProcedureType::RemoveCrownOrBridge
+			);
+		}
+
+
 	}
 
 	view->procedureInput()->dateEdit()->validateInput();
@@ -62,16 +93,11 @@ void ProcedureEditorPresenter::setView(IProcedureEditDialog* view)
 		view->procedureInput()->disablePost();
 	}
 
-	view->procedureInput()->setData(data);
-
-	view->procedureInput()->disableRangeCheck();
-
 	result.reset();
 }
 
 void ProcedureEditorPresenter::okPressed()
 {
-
 	if (!view->procedureInput()->dateEdit()->isValid()) {
 		return;
 	}
@@ -83,7 +109,7 @@ void ProcedureEditorPresenter::okPressed()
 		return;
 	}
 
-	auto data = view->procedureInput()->getData();
+	auto data = view->procedureInput()->getResult();
 
 	//procedure creator:
 	result.emplace(Procedure{});
@@ -91,23 +117,33 @@ void ProcedureEditorPresenter::okPressed()
 	result->code = m_code;
 	result->date = view->procedureInput()->dateEdit()->getDate();
 	result->his_index = m_hisIndex;
-	
-	if (m_code.getScope() != ProcedureScope::AllOrNone) {
-
-		m_tooth_index.supernumeral = data.hyperdontic;
-		result->affectedTeeth = m_tooth_index;
-	}
-
 	result->value = data.value;
 	result->notes = data.notes;
 	result->diagnosis = data.diagnosis;
 	result->financingSource = data.financingSource;
-	
-	if (data.range.has_value()) {
-		result->affectedTeeth = data.range.value();
-	}
 
-	result->param = data.param;
+
+	//range
+	if (std::holds_alternative<ConstructionRange>(data.parameters)) {
+		result->affectedTeeth = std::get<ConstructionRange>(data.parameters);
+	}
+	//anesthesia
+	else if (std::holds_alternative<int>(data.parameters)) {
+		result->param = AnesthesiaMinutes(std::get<int>(data.parameters));
+	}
+	//restoration
+	else if (std::holds_alternative<std::pair<bool, RestorationData>>(data.parameters)) {
+
+		auto pair = std::get<std::pair<bool, RestorationData >>(data.parameters);
+		result->param = pair.second;
+		m_tooth_index.supernumeral = pair.first;
+		result->affectedTeeth = m_tooth_index;
+	}
+	//tooth specific
+	else if (std::holds_alternative<bool>(data.parameters)) {
+		m_tooth_index.supernumeral = std::get<bool>(data.parameters);
+		result->affectedTeeth = m_tooth_index;
+	}
 
 	view->closeDialog();
 }

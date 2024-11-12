@@ -3,7 +3,6 @@
 
 #include "View/Interfaces/IImplantView.h"
 #include "View/Interfaces/AbstractSurfaceSelector.h"
-#include "View/Interfaces/ICrownView.h"
 #include "View/Interfaces/IProcedureInput.h"
 #include "View/Interfaces/AbstractRangeEdit.h"
 

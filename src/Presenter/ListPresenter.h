@@ -16,7 +16,6 @@
 #include "Network/HIS/EDental.h"
 #include "Network/HIS/EReferral.h"
 #include "Network/HIS/EMedicalNotice.h"
-#include "Network/HIS/EHospitalization.h"
 #include "Network/NRA/NssiPentionService.h"
 #include "Presenter/PatientInfoPresenter.h"
 
@@ -48,7 +47,7 @@ class ListPresenter : public TabInstance
     EReferral::Cancel eReferralCancelService;
     EMedicalNotice::Issue eMedicalNoticeIssue;
     EMedicalNotice::Cancel eMedicalNoticeCancel;
-    EHospitalization::Fetch eHospitalizationFetch;
+    
 
     void prepareDerivedForSwitch() override {
         patient_info.setCurrent(false);
@@ -99,7 +98,7 @@ public:
     void deleteProcedure(int index);
     void moveProcedure(int from, int to);
 
-    void checkHospitalization();
+    void showAppliedStatus();
 
     void addMedicalNotice();
     void editMedicalNotice(int index);

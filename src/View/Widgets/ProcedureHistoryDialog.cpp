@@ -11,10 +11,6 @@ ProcedureHistoryDialog::ProcedureHistoryDialog(ProcedureHistoryPresenter& p)
 
     setWindowTitle("Онлайн пациентско досие");
 
-    ui.graphicsView->setDisabled(true);
-    ui.graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    ui.graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-
     auto initTable = [](QTableView* table, QAbstractTableModel* model) {
 
         table->setModel(model);
@@ -32,7 +28,7 @@ ProcedureHistoryDialog::ProcedureHistoryDialog(ProcedureHistoryPresenter& p)
         table->setColumnWidth(5, 65);
         table->setColumnWidth(8, 200);
 
-
+        table->verticalHeader()->setHidden(true);
         table->verticalHeader()->setDefaultSectionSize(20);
         table->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
         table->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
@@ -58,18 +54,7 @@ ProcedureHistoryDialog::ProcedureHistoryDialog(ProcedureHistoryPresenter& p)
     ui.tabWidget->setTabIcon(2, QIcon(":/icons/icon_his.png"));
     ui.tabWidget->setTabIcon(3, QIcon(":/icons/icon_hospital.png"));
 
-    ui.frame->setStyleSheet("QFrame{background-color:white;}");
-
-    teeth_scene = new TeethViewScene();
-
-    ui.graphicsView->setScene(teeth_scene);
-
-    ToothContainer empty_container;
-
-    for (int i = 0; i < 32; i++)
-    {
-        teeth_scene->display(ToothPaintHint(empty_container[i]));
-    }
+  //  ui.frame->setStyleSheet("QFrame{background-color:white;}");
 
     connect(ui.applyButton, &QPushButton::clicked, this, [&] { presenter.pisApplyClicked(); });
     connect(ui.refreshPis, &QPushButton::clicked, this, [&] { presenter.refreshPIS(); });
@@ -78,9 +63,6 @@ ProcedureHistoryDialog::ProcedureHistoryDialog(ProcedureHistoryPresenter& p)
     connect(ui.refreshHospi, &QPushButton::clicked, this, [&] { presenter.refreshHospitalizations(); });
     connect(ui.applyCurrentStatus, &QPushButton::clicked, this, [&]{ presenter.statusApplyClicked(); });
     connect(ui.tabWidget, &QTabWidget::currentChanged, this, [&](int idx) { presenter.tabFocused(idx); });
-    connect(ui.statusSlider, &QSlider::valueChanged, this, [&](int value) { presenter.sliderPositionChanged(value); });
-    connect(ui.nextButton, &QPushButton::clicked, this, [&] { ui.statusSlider->setValue(ui.statusSlider->value() + 1); });
-    connect(ui.prevButton, &QPushButton::clicked, this, [&] { ui.statusSlider->setValue(ui.statusSlider->value() - 1); });
     presenter.setView(this);
     
 }
@@ -103,41 +85,18 @@ void ProcedureHistoryDialog::setHospitalizations(const std::vector<Hospitalizati
     ui.refreshHospi->setText("Опресни");
 }
 
-void ProcedureHistoryDialog::setSnapshot(const HisSnapshot& s)
+void ProcedureHistoryDialog::setSnapshots(const std::vector<HisSnapshot>& snapshots)
 {
-    for (int i = 0; i < 32; i++)
-    {
-        teeth_scene->display(ToothPaintHint(s.teeth[i]));
-    }
-
-    teeth_scene->setProcedures(s.affected_teeth);
-
-    ui.nextButton->setDisabled(false);
-    ui.prevButton->setDisabled(false);
-    ui.statusSlider->setDisabled(false);
-
-    ui.dateLabel->setText(QString("<b>Дата:</b> ") + s.date.toBgStandard().c_str());
-    ui.procedureLabel->setText(QString("<b>Процедура:</b> ") + s.procedure_name.c_str());
-    ui.diagnosisLabel->setText(QString("<b>Диагноза:</b> ") + s.procedure_diagnosis.c_str());
-    
-    switch (s.financing)
-    {
-        case FinancingSource::NHIF: ui.financingLabel->setText("<b>Финансиране:</b> НЗОК"); break;
-        case FinancingSource::Patient: ui.financingLabel->setText("<b>Финансиране:</b> Пациент"); break;
-        case FinancingSource::PHIF: ui.financingLabel->setText("<b>Финансиране:</b> ДЗОФ"); break;
-        case FinancingSource::None: ui.financingLabel->setText("<b>Финансиране:</b> Без финансиране"); break;
-        default: ui.financingLabel->clear();
-    }
-
-    if (s.procedure_note.size()) {
-        ui.notesLabel->setText(QString("<b>Бележки:</b> ") + s.procedure_note.c_str());
-    }
-    else {
-        ui.notesLabel->clear();
-    }
+    ui.snapshotViewer->setSnapshots(snapshots);
 
     ui.refreshStatus->setText("Опресни");
 }
+
+SnapshotViewer* ProcedureHistoryDialog::getSnapshotViewer()
+{
+    return ui.snapshotViewer;
+}
+
 
 void ProcedureHistoryDialog::focusTab(int idx)
 {
@@ -148,16 +107,6 @@ void ProcedureHistoryDialog::focusTab(int idx)
 void ProcedureHistoryDialog::closeDialog()
 {
     close();
-}
-
-void ProcedureHistoryDialog::setSliderIndex(int index)
-{
-    ui.statusSlider->setValue(index);
-}
-
-void ProcedureHistoryDialog::setSliderCount(int count)
-{
-    ui.statusSlider->setRange(0, count);
 }
 
 ProcedureHistoryDialog::~ProcedureHistoryDialog()

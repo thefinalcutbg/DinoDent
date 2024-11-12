@@ -963,6 +963,9 @@
     <ClCompile Include="src\View\Widgets\ICD10Dialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\SubWidgets\SnapshotViewer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Database\Database.h">
@@ -1280,9 +1283,6 @@
     <ClInclude Include="src\View\Interfaces\IProcedureInput.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\View\Interfaces\ICrownView.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\View\Interfaces\IDetailedStatusView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1542,9 +1542,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Presenter\ProcedureHistoryPresenter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\View\Interfaces\IProcedureHistoryDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Network\NRA\NssiPentionService.h">
@@ -2113,6 +2110,9 @@
     <QtMoc Include="src\View\Widgets\ICD10Dialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\View\SubWidgets\SnapshotViewer.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\View\Widgets\PracticeDialog.ui">
@@ -2308,6 +2308,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\Widgets\ICD10Dialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\SubWidgets\SnapshotViewer.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

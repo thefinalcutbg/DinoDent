@@ -87,6 +87,9 @@ struct Procedure
     bool isSentToHis() const { return his_index != 0; };
     bool isHisSupported() const { return code.achiBlock() != 0; }
 
+    //first - indexes, second - supernumeral
+    std::vector<ToothIndex> getAffectedTeethIndexes(const ToothContainer& teeth) const;
+
     std::string getToothString() const;
 };
 

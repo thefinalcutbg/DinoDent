@@ -27,6 +27,66 @@ ProcedureScope Procedure::getScope() const
 	return scope;
 }
 
+std::vector<ToothIndex> Procedure::getAffectedTeethIndexes(const ToothContainer& teeth) const
+{
+	std::vector<ToothIndex> result;
+
+	switch (getScope()) 
+	{
+		case ProcedureScope::AllOrNone:
+
+			if (code.type() == ProcedureType::Depuratio) {
+
+				for (auto& t : teeth)
+				{
+					if (t.hasStatus(Dental::Calculus)) {
+						result.push_back(t.toothIndex());
+					}
+
+					if (t.getSupernumeral().hasStatus(Dental::Calculus))
+					{
+						result.push_back(t.getSupernumeral().toothIndex());
+					}
+				}
+
+				break;
+			}
+
+			if (code.type() == ProcedureType::DenturePair) {
+
+				std::vector<int> range = { 1,2,3,4,5,6,7,8,9,10,11,12,13,14,
+										   17,18,19,20,21,22,23,24,25,26,27,28,29,30 };
+
+				for (auto idx : range) {
+					if (teeth[idx].canHaveADenture()) {
+						result.push_back(teeth[idx].toothIndex());
+					}
+				}
+
+				break;
+			}
+			break;
+
+		case ProcedureScope::SingleTooth:
+		{
+			result.push_back(getToothIndex());
+		}
+		break;
+
+		case ProcedureScope::Range:
+		{
+			auto& range = std::get<ConstructionRange>(affectedTeeth);
+
+			for (int i = range.toothFrom; i < range.toothTo + 1; i++) {
+				result.push_back(teeth[i].toothIndex());
+			}
+		}
+	}
+
+	return result;
+}
+
+
 void Procedure::applyProcedure(ToothContainer& teeth) const
 {	
 
@@ -387,6 +447,7 @@ void Procedure::applyPISProcedure(ToothContainer& teeth) const
 
 	
 }
+
 
 std::string Procedure::getToothString() const
 {

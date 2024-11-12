@@ -210,12 +210,12 @@
            </property>
            <item>
             <property name="text">
-             <string>Корона</string>
+             <string>Единична корона</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>Мост</string>
+             <string>Многочленна конструкция</string>
             </property>
            </item>
            <item>

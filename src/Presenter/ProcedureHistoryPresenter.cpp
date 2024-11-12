@@ -1,6 +1,7 @@
 ﻿#include "ProcedureHistoryPresenter.h"
 #include "View/ModalDialogBuilder.h"
 #include "Model/User.h"
+#include "View/Widgets/ProcedureHistoryDialog.h"
 
 ProcedureHistoryPresenter::ProcedureHistoryPresenter(const Patient& p) :
 	pis_history(p.PISHistory), 
@@ -63,15 +64,8 @@ bool ProcedureHistoryPresenter::refreshStatus()
 				return;
 			}
 
-			status_snapshots = snapshots;
-
-			view->setSliderCount(snapshots.size()-1);
-			view->setSliderIndex(snapshots.size()-1);
-
-			//sliderPositionChanged signal from view is not emited
-			if (snapshots.size() == 1) {
-				view->setSnapshot(snapshots.back());
-			}
+			view->setSnapshots(snapshots);
+		
 		}
 	);
 }
@@ -90,7 +84,7 @@ bool ProcedureHistoryPresenter::refreshHospitalizations()
 }
 
 
-void ProcedureHistoryPresenter::setView(IProcedureHistoryDialog* v)
+void ProcedureHistoryPresenter::setView(ProcedureHistoryDialog* v)
 {
 	if (v == nullptr) return;
 
@@ -113,16 +107,18 @@ void ProcedureHistoryPresenter::pisApplyClicked()
 {
 	if (!pis_history) return;
 
-	m_applyPis = true;
+	m_result.applyPis = true;
 
 	view->closeDialog();
 }
 
 void ProcedureHistoryPresenter::statusApplyClicked()
 {
-	if (status_snapshots.empty()) return;
+	if (view->getSnapshotViewer()->getCurrentSnapshot() == nullptr) {
+		return;
+	}
 
-	if (current_snapshot != status_snapshots.size() - 1) {
+	if (!view->getSnapshotViewer()->isMostRecent()) {
 
 		bool answer = ModalDialogBuilder::askDialog(
 			"Статусът който сте избрали не е най-актуалния."
@@ -132,7 +128,7 @@ void ProcedureHistoryPresenter::statusApplyClicked()
 		if (!answer) return;
 	}
 
-	m_applyStatus = true;
+	m_result.statusToBeApplied = view->getSnapshotViewer()->getCurrentSnapshot()->teeth;
 
 	view->closeDialog();
 }
@@ -158,7 +154,7 @@ void ProcedureHistoryPresenter::tabFocused(int idx)
 			}
 			break;
 		case 2:
-			if (status_snapshots.empty()) {
+			if (view->getSnapshotViewer()->getCurrentSnapshot() == nullptr) {
 				hasHSM = refreshStatus();
 			}
 			break;
@@ -169,31 +165,11 @@ void ProcedureHistoryPresenter::tabFocused(int idx)
 	}
 }
 
-void ProcedureHistoryPresenter::sliderPositionChanged(int position)
-{
-	if (position < 0 || position > status_snapshots.size()) return;
-
-	current_snapshot = position;
-
-	view->setSnapshot(status_snapshots[position]);
-}
-
-
 ProcedureHistoryPresenter::Result ProcedureHistoryPresenter::result()
 {
-	Result result;
 
-	result.pis_history = pis_history;
-	result.his_history = his_history;
+	m_result.pis_history = pis_history;
+	m_result.his_history = his_history;
 
-	if (m_applyStatus) {
-		result.statusToBeApplied = status_snapshots.size() ?
-			status_snapshots[current_snapshot].teeth
-			:
-			ToothContainer();
-	}
-
-	result.applyPis = m_applyPis;
-
-	return result;
+	return m_result;
 }

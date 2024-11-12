@@ -527,8 +527,7 @@ void ListPresenter::setSelectedTeeth(const std::vector<int>& SelectedIndexes)
 void ListPresenter::historyRequested()
 {
     if (dentalActService.awaitingReply() ||
-        eDentalGetStatusAndProceduresService.awaitingReply() ||
-        eHospitalizationFetch.awaitingReply()
+        eDentalGetStatusAndProceduresService.awaitingReply()
     )
     {
         ModalDialogBuilder::showMessage("Моля изчакайте, очаква се отговор от сървъра");
@@ -708,32 +707,53 @@ void ListPresenter::moveProcedure(int from, int to)
     view->setProcedures(m_ambList.procedures.list());
 }
 
-void ListPresenter::checkHospitalization()
+void ListPresenter::showAppliedStatus()
 {
+    auto& procedures = m_ambList.procedures.list();
 
-    eHospitalizationFetch.sendRequest(
-        *patient,
-        User::practice().rziCode,
-        [](const std::vector<Hospitalization> list) {
+    if (procedures.empty()) {
+        ModalDialogBuilder::showMessage(
+            "Не са добавени процедури. Ще бъде показан само началния статус."
+        );
+    }
 
-            bool active = false;
+    std::vector<HisSnapshot> result;
 
-            for (auto& h : list) {
-                if (h.status == Hospitalization::Active) {
-                    active = true;
-                    break;
-                }
-            }
+    result.reserve(procedures.size()+1);
 
-            ModalDialogBuilder::showMessage(
-                active ?
-                "В момента пациентът е с активна хоспитализация!"
-                :
-                "Не е открита активна хоспитализация"
-            );
+    result.emplace_back();
+
+    result.back().teeth = m_ambList.teeth;
+    result.back().date = m_ambList.getDate();
+    result.back().procedure_name = "Начален орален статус";
+
+    for (auto& p : procedures)
+    {
+        result.emplace_back();
+
+        auto& snapshot = result.back();
+
+        snapshot.date = p.date;
+
+        auto affectedIndexes = p.getAffectedTeethIndexes(result.back().teeth);
+
+        for (auto i : affectedIndexes) {
+            snapshot.affected_teeth.push_back(i.index);
         }
-    );
+
+        snapshot.procedure_name = p.code.name();
+        snapshot.procedure_diagnosis = p.diagnosis.icd.name();
+        snapshot.procedure_note = p.notes;
+        snapshot.financing = p.financingSource;
+        snapshot.teeth = result[result.size()-2].teeth;
+
+        p.applyProcedure(snapshot.teeth);
+    }
+
+    ModalDialogBuilder::showSnapshots(result);
+
 }
+
 
 void ListPresenter::addMedicalNotice()
 {

@@ -511,7 +511,7 @@
           </widget>
          </item>
          <item>
-          <widget class="IconButton" name="hospitalButton">
+          <widget class="IconButton" name="statusResultButton">
            <property name="minimumSize">
             <size>
              <width>35</width>
@@ -525,10 +525,10 @@
             </size>
            </property>
            <property name="toolTip">
-            <string>Проверка за активна хоспитализация</string>
+            <string>Покажи резултата от лечението</string>
            </property>
            <property name="text">
-            <string>Хоспитализации</string>
+            <string>Резулат</string>
            </property>
           </widget>
          </item>

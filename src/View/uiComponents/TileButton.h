@@ -65,9 +65,6 @@ private:
 
     void resizeEvent(QResizeEvent* event);
 
-
-
-
 };
 
 class MedStatusTile : public TileButton
@@ -89,6 +86,7 @@ class MedStatusTile : public TileButton
 public:
     IconButton* nhifButton;
     IconButton* hisButton;
+    IconButton* hospitalizedButton;
     MedStatusTile(QWidget* parent = 0);
     void setData(const Patient& patient);
 

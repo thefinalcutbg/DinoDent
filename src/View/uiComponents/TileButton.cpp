@@ -263,13 +263,17 @@ MedStatusTile::MedStatusTile(QWidget* parent) :
 	hisButton->move(width() - 5 - buttonSize, 5);
 	hisButton->setToolTip("Извличане на алергии от НЗИС");
 
+	hospitalizedButton = new IconButton(this);
+	hospitalizedButton->setIcon(QIcon(":/icons/icon_hospital.png"));
+	hospitalizedButton->setFixedSize(buttonSize, buttonSize);
+	hospitalizedButton->move(width() - 5 - buttonSize, 40);
+	hospitalizedButton->setToolTip("Проверка за активна хоспитализация");
+
 	nhifButton = new IconButton(this);
 	nhifButton->setIcon(QIcon(":/icons/icon_nhif.png"));
 	nhifButton->setFixedSize(buttonSize, buttonSize);
-	nhifButton->move(width() - 5 - buttonSize, 30);
+	nhifButton->move(width() - 5 - buttonSize, 80);
 	nhifButton->setToolTip("Извличане на диагнози от рецептурната книжка");
-
-
 }
 
 
@@ -301,7 +305,9 @@ void MedStatusTile::resizeEvent(QResizeEvent* event)
 	QWidget::resizeEvent(event);
 
 	hisButton->move(width() - 5 - buttonSize, 5);
-	nhifButton->move(width() - 5 - buttonSize, 35);
+	hospitalizedButton->move(width() - 5 - buttonSize, 40);
+	nhifButton->move(width() - 5 - buttonSize, 80);
+	
 
 	update();
 }

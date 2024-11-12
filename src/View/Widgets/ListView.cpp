@@ -33,7 +33,7 @@ ListView::ListView(QWidget* parent)
 	ui.invoiceButton->setIcon(QIcon(":/icons/icon_invoice.png"));
 	ui.prescrButton->setIcon(QIcon(":/icons/icon_prescr.png"));
 	ui.addProcedure->setIcon(QIcon(":/icons/icon_add.png"));
-	ui.hospitalButton->setIcon(QIcon(":/icons/icon_hospital.png"));
+	ui.statusResultButton->setIcon(QIcon(":/icons/icon_apply.png"));
 	ui.deleteProcedure->setIcon(QIcon(":/icons/icon_remove.png"));
 	ui.editProcedure->setIcon(QIcon(":/icons/icon_edit.png"));
 	ui.historyButton->setIcon(QIcon(":/icons/icon_history.png"));
@@ -47,7 +47,7 @@ ListView::ListView(QWidget* parent)
 	ui.editProcedure->setHoverColor(Theme::mainBackgroundColor);
 	ui.historyButton->setHoverColor(Theme::mainBackgroundColor);
 	ui.nssiButton->setHoverColor(Theme::mainBackgroundColor);
-	ui.hospitalButton->setHoverColor(Theme::mainBackgroundColor);
+	ui.statusResultButton->setHoverColor(Theme::mainBackgroundColor);
 
 	QMenu* menu = new QMenu(ui.addRefButton);
 
@@ -84,6 +84,8 @@ ListView::ListView(QWidget* parent)
 		"font-weight: bold; font-size: 12px;"
 	);
 
+	ui.procedureTable->setMinimumWidth(ui.teethView->width() + ui.controlPanel->width());
+
     connect(ui.pentionTaxButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->addFinancialReceipt(); });
     connect(ui.nrnButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->hisButtonPressed();});
     connect(ui.ambNumSpin, &LeadingZeroSpinBox::valueChanged, this, [=, this] (long long value) {if(presenter)presenter->ambNumChanged(value);});
@@ -94,7 +96,7 @@ ListView::ListView(QWidget* parent)
     connect(ui.unfavCheck, &QCheckBox::stateChanged, this, [=, this] { nhifChanged(); });
     connect(ui.nssiButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->checkPention(); });
     connect(ui.editProcedure, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->editProcedure(ui.procedureTable->selectedRow()); });
-    connect(ui.hospitalButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->checkHospitalization(); });
+	connect(ui.statusResultButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->showAppliedStatus(); });
     connect(ui.invoiceButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->createInvoice(); });
     connect(ui.perioButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->createPerioMeasurment(); });
     connect(ui.prescrButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->createPrescription(); });

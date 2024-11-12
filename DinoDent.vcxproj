@@ -228,6 +228,7 @@
     <ClCompile Include="src\Presenter\ProcedureListPresenter.cpp" />
     <ClCompile Include="src\Network\Calendar\Google.cpp" />
     <ClCompile Include="src\View\SubWidgets\ProcedureListView.cpp" />
+    <ClCompile Include="src\View\SubWidgets\SnapshotViewer.cpp" />
     <ClCompile Include="src\View\Widgets\CalendarEventDialog.cpp" />
     <ClCompile Include="src\Network\Calendar\CalendarJsonParser.cpp" />
     <ClCompile Include="src\View\uiComponents\CalendarTable.cpp" />
@@ -764,9 +765,7 @@
     <ClInclude Include="src\View\Interfaces\IFiscalReceiptDialog.h" />
     <ClInclude Include="src\View\Interfaces\IPracticeDialog.h" />
     <ClInclude Include="src\View\Interfaces\IAllergiesDialog.h" />
-    <ClInclude Include="src\View\Interfaces\IProcedureHistoryDialog.h" />
     <ClInclude Include="src\View\Interfaces\IProcedureInput.h" />
-    <ClInclude Include="src\View\Interfaces\ICrownView.h" />
     <ClInclude Include="src\View\Interfaces\IDetailedStatusView.h" />
     <ClInclude Include="src\View\Interfaces\IDoctorSettingsDialog.h" />
     <ClInclude Include="src\View\Interfaces\IDosageDialog.h" />
@@ -799,6 +798,7 @@
     <QtMoc Include="src\View\SubWidgets\DsnMenu.h" />
     <QtMoc Include="src\View\SubWidgets\MedicalNoticeTile.h" />
     <QtMoc Include="src\View\SubWidgets\ProcedureListView.h" />
+    <QtMoc Include="src\View\SubWidgets\SnapshotViewer.h" />
     <ClInclude Include="src\View\TableModels\BusinessOperationModel.h" />
     <ClInclude Include="src\View\Interfaces\IFiscalReportView.h" />
     <QtMoc Include="src\View\TableModels\FiscalReceiptTableModel.h" />
@@ -922,6 +922,7 @@
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\View\SubWidgets\ProcedureListView.ui" />
+    <QtUic Include="src\View\SubWidgets\SnapshotViewer.ui" />
     <QtUic Include="src\View\Widgets\CalendarEventDialog.ui" />
     <QtUic Include="src\View\Widgets\CalendarView.ui" />
     <QtUic Include="src\View\SubWidgets\MedicalNoticeTile.ui" />

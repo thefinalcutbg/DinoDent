@@ -69,9 +69,21 @@ void ProcedureCreator::setProcedureCode(const ProcedureCode& code, bool nhif, do
 
 		auto range = getBridgeRange(m_selectedTeeth, m_code);
 
-		int preferredIdx = range.getTeethCount() > 1;
+		//single crown
+		int preferredIdx = 0;
 
-		view->setParameterData(false, range, RestorationData{ {0,0,0,1,0},0 }, preferredIdx);
+		//range
+		if (range.getTeethCount() > 1) {
+			preferredIdx = 1;
+		}
+		//veneer
+		else if (m_selectedTeeth[0]->type() == Dental::Type::Frontal
+			&& !m_selectedTeeth[0]->hasStatus(Dental::Status::RootCanal)) 
+		{
+			preferredIdx = 2;
+		}
+
+		view->setParameterData(false, range, RestorationData{ {1,0,0,1,0},0 }, preferredIdx);
 	}
 
 }

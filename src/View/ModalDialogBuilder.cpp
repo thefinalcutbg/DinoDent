@@ -198,6 +198,20 @@ std::optional<MedicalNotice> ModalDialogBuilder::openDialog(const MedicalNotice&
 	return d.getResult();
 }
 
+#include "View/SubWidgets/SnapshotViewer.h"
+void ModalDialogBuilder::showSnapshots(const std::vector<HisSnapshot>& snapshots)
+{
+	QDialog d;
+	d.setWindowTitle("Резултат от лечение");
+	QVBoxLayout* mainLayout = new QVBoxLayout(&d);
+	mainLayout->setContentsMargins(0, 0, 0, 0);
+	d.setLayout(mainLayout);
+	SnapshotViewer* v = new SnapshotViewer(&d);
+	mainLayout->addWidget(v);
+	v->setSnapshots(snapshots);
+	d.exec();
+}
+
 bool ModalDialogBuilder::askDialog(const std::string& questionText)
 {
 	QMessageBox msg;

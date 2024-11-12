@@ -4,6 +4,7 @@
 
 #include "Model/Date.h"
 #include "Model/Dental/ToothContainer.h"
+#include "Model/Dental/Procedure.h"
 
 struct HisSnapshot {
 	Date date;

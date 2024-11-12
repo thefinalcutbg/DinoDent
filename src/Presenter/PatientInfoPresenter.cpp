@@ -235,6 +235,32 @@ void PatientInfoPresenter::notesRequested()
     }
 }
 
+void PatientInfoPresenter::checkHospitalization()
+{
+    eHospitalizationFetch.sendRequest(
+        *patient,
+        User::practice().rziCode,
+        [](const std::vector<Hospitalization> list) {
+
+            bool active = false;
+
+            for (auto& h : list) {
+                if (h.status == Hospitalization::Active) {
+                    active = true;
+                    break;
+                }
+            }
+
+            ModalDialogBuilder::showMessage(
+                active ?
+                "В момента пациентът е с активна хоспитализация!"
+                :
+                "Не е открита активна хоспитализация"
+            );
+        }
+    );
+}
+
 void PatientInfoPresenter::setCurrent(bool isCurrent)
 {
     m_isCurrent = isCurrent;

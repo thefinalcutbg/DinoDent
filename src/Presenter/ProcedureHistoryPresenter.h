@@ -4,11 +4,21 @@
 #include "Network/PIS/DentalActivitiesService.h"
 #include "Network/HIS/EDental.h"
 #include "Network/HIS/EHospitalization.h"
-#include "View/Interfaces/IProcedureHistoryDialog.h"
+
+class ProcedureHistoryDialog;
 
 class ProcedureHistoryPresenter
 {
 
+public:
+	struct Result {
+		std::optional<std::vector<Procedure>> pis_history;
+		std::optional<std::vector<Procedure>> his_history;
+		std::optional<ToothContainer> statusToBeApplied;
+		bool applyPis{ false };
+	};
+
+private:
 	DentalActivitiesService pis_service;
 	EDental::GetProcedures his_service;
 	EDental::GetStatus status_service;
@@ -17,30 +27,21 @@ class ProcedureHistoryPresenter
 
 	std::optional<std::vector<Procedure>> pis_history;
 	std::optional<std::vector<Procedure>> his_history;
-	std::vector<HisSnapshot> status_snapshots;
-	std::vector<Hospitalization> hospitalizations;
 
-	bool m_applyPis{ false };
-	bool m_applyStatus{ false };
-	int current_snapshot = -1;
+	std::vector<Hospitalization> hospitalizations;
 
 	//query to HIS or PIS is sent only when the tab is focused for first time
 	bool tabIdxFirstFocus[3] = { true, true, true };
 
 	bool hasHSM = true;
 
-	IProcedureHistoryDialog* view{ nullptr };
+	ProcedureHistoryDialog* view{ nullptr };
+
+	Result m_result;
 
 	const Patient& ref_patient;
 
 public:
-
-	struct Result {
-		std::optional<std::vector<Procedure>> pis_history;
-		std::optional<std::vector<Procedure>> his_history;
-		std::optional<ToothContainer> statusToBeApplied;
-		bool applyPis{ false };
-	};
 
 	ProcedureHistoryPresenter(const Patient& p);
 
@@ -49,13 +50,11 @@ public:
 	bool refreshStatus();
 	bool refreshHospitalizations();
 
-	void setView(IProcedureHistoryDialog* view);
+	void setView(ProcedureHistoryDialog* view);
 	void openDialog();
 	void pisApplyClicked();
 	void statusApplyClicked();
 	void tabFocused(int idx);
-	void sliderPositionChanged(int position);
 	
-
 	ProcedureHistoryPresenter::Result result();
 };

@@ -5,6 +5,7 @@
 #include "Network/NRA/NraStatusService.h"
 #include "Network/PIS/DiagnosisService.h"
 #include "Network/HIS/EAllergy.h"
+#include "Network/HIS/EHospitalization.h"
 #include "View/Interfaces/IPatientTileInfo.h"
 
 class PatientInfoPresenter
@@ -17,6 +18,7 @@ class PatientInfoPresenter
 	NraStatusService nraStatusServ;
 	DiagnosisService nhifDiagnosisServ;
 	EAllergy::Fetch allergyFetchServ;
+	EHospitalization::Fetch eHospitalizationFetch;
 
 	bool m_showInsuranceDialog{ false };
 
@@ -35,6 +37,7 @@ public:
 	void printDeclarations();
 	void appointmentClicked();
 	void notesRequested();
+	void checkHospitalization();
 	void setCurrent(bool current);
 
 

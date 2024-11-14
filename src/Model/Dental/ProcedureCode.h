@@ -28,7 +28,8 @@ enum class ProcedureType
     Denture,
     Splint,
     DepuratioQuadrant,
-    MultipleExtraction
+    MultipleExtraction,
+    MaxCount
 
 };
 
@@ -99,5 +100,5 @@ public:
     bool isLegacy() const;
 
     static decltype(s_mapping) getMap() { return s_mapping; }
-
+    static ProcedureScope getScope(ProcedureType t);
 };

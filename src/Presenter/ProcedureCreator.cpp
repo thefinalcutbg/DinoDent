@@ -7,7 +7,15 @@ using namespace Dental;
 
 ProcedureCreator::ProcedureCreator(const std::vector<const Tooth*>& selectedTeeth)
 	: m_selectedTeeth(selectedTeeth)
-{}
+{
+	auto tooth = m_selectedTeeth.size() ? m_selectedTeeth.at(0) : nullptr;
+
+	for (auto i = 0; i < static_cast<int>(ProcedureType::MaxCount); i++) {
+
+		diag_map[ProcedureType(i)] = getDiagnosis(tooth, ProcedureType(i));
+	}
+
+}
 
 void ProcedureCreator::setProcedureCode(const ProcedureCode& code, bool nhif, double value)
 {
@@ -38,13 +46,11 @@ void ProcedureCreator::setProcedureCode(const ProcedureCode& code, bool nhif, do
 		commonData.diagnosis.icd = defaultICDCode;
 	}
 	else {
-		commonData.diagnosis = Diagnosis(diag_map[code.type()], true);
+		commonData.diagnosis = diag_map[code.type()];
 	}
 
 	commonData.financingSource = nhif ? FinancingSource::NHIF : FinancingSource::None;
 	commonData.value = value;
-
-	view->setCommonData(commonData, code.nhifCode());
 
 	//setting parameter data
 	if (code.type() == ProcedureType::Anesthesia) {
@@ -60,32 +66,37 @@ void ProcedureCreator::setProcedureCode(const ProcedureCode& code, bool nhif, do
 		view->setParameterData(false);
 	}
 	else if (code.getScope() == ProcedureScope::Range) {
-		view->setParameterData(getBridgeRange(m_selectedTeeth, m_code), code.type() == ProcedureType::RemoveCrownOrBridge);
+		view->setParameterData(autoRange(m_selectedTeeth, m_code), code.type() == ProcedureType::RemoveCrownOrBridge);
 	}
 	else if (code.type() == ProcedureType::Crown) {
-		view->setParameterData(false, getBridgeRange(m_selectedTeeth, m_code), false);
+		view->setParameterData(false, autoRange(m_selectedTeeth, m_code), false);
 	}
 	else if (code.getScope() == ProcedureScope::Ambi) {
 
-		auto range = getBridgeRange(m_selectedTeeth, m_code);
+		auto range = autoRange(m_selectedTeeth, m_code);
 
 		//single crown
 		int preferredIdx = 0;
+		commonData.diagnosis = diag_map[ProcedureType::Crown];
 
 		//range
 		if (range.getTeethCount() > 1) {
+			commonData.diagnosis = diag_map[ProcedureType::Bridge];
 			preferredIdx = 1;
 		}
 		//veneer
 		else if (m_selectedTeeth[0]->type() == Dental::Type::Frontal
 			&& !m_selectedTeeth[0]->hasStatus(Dental::Status::RootCanal)) 
 		{
+			commonData.diagnosis = diag_map[ProcedureType::Restoration];
 			preferredIdx = 2;
 		}
 
 		view->setParameterData(false, range, RestorationData{ {1,0,0,1,0},0 }, preferredIdx);
 	}
 
+
+	view->setCommonData(commonData, code.nhifCode());
 }
 
 std::vector<Procedure> ProcedureCreator::getProcedures()
@@ -183,147 +194,116 @@ std::vector<Procedure> ProcedureCreator::getProcedures()
 	return result;
 }
 
-
-
-
-int ProcedureCreator::restorationDiagnosis(const Tooth& tooth)
+Diagnosis ProcedureCreator::getDiagnosis(const Tooth* tooth, ProcedureType type)
 {
-	/*
-		bool secondaryCaries = false;
 
-		for (int i = 0; i < 6; i++)		//checking if somewhere restoration is present also, returning secondary caries
-		{
-			if (tooth.caries.exists(i) && tooth.restoration.exists(i))
-			{
-				secondaryCaries = true;
+	std::array<std::string, Status::StatusCount> icdSimple{};
+
+	icdSimple[Caries] = "K02";
+	icdSimple[Pulpitis] = "K04.0";
+	icdSimple[ApicalLesion] = "K04.5";
+	icdSimple[Periodontitis] = "K05";
+	icdSimple[Fracture] = "S02.5";
+	icdSimple[Root] = "S02.5";
+	icdSimple[Mobility] = "S03.2";
+	icdSimple[Temporary] = "K08.0";
+	icdSimple[Impacted] = "K01";
+	icdSimple[Denture] = "Z97.2";
+	icdSimple[Missing] = "K00.0";
+	icdSimple[HasSupernumeral] = "K00.1";
+	icdSimple[Calculus] = "K03.6";
+	icdSimple[RootCanal] = "K04.9";
+	
+	std::vector<Status> statusSearch;
+
+	std::string icd;
+	std::string description;
+
+	switch (type)
+	{
+	case ProcedureType::General:
+	case ProcedureType::Post:
+	case ProcedureType::ToothSpecific:
+	case ProcedureType::Anesthesia:
+		break;
+
+	case ProcedureType::FullExam: icd = "Z01.2";
+		break;
+
+	case ProcedureType::Depuratio:
+	case ProcedureType::DepuratioQuadrant:
+	case ProcedureType::DepuratioTooth: icd = icdSimple[Calculus];
+		break;
+
+	case ProcedureType::DenturePair:
+	case ProcedureType::Denture:
+	case ProcedureType::Implant:
+	case ProcedureType::Bridge:	icd = icdSimple[Missing];
+		break;
+
+	case ProcedureType::Restoration:
+		icd = "K03.7";
+		statusSearch = { Fracture, Caries, Pulpitis, ApicalLesion, Root };
+		break;
+
+	case ProcedureType::Extraction:
+		icdSimple[Implant] = "T85.7";
+		icd = "K07.3"; //assume ortho reason
+		statusSearch = { Implant, Impacted, HasSupernumeral, ApicalLesion, Temporary, Root, Periodontitis, Mobility, Fracture, Pulpitis, Caries };
+		break;
+
+	case ProcedureType::Endodontic:
+		statusSearch = { Pulpitis, ApicalLesion, Root, Fracture, Periodontitis, RootCanal };
+		break;
+
+	case ProcedureType::RemovePost:
+		statusSearch = { ApicalLesion, Root, Fracture, RootCanal };
+		break;
+
+	case ProcedureType::PostCore:
+		statusSearch = { Root, Fracture };
+		break;
+
+	case ProcedureType::PostCrown:
+		statusSearch = { ApicalLesion, Root, Fracture, RootCanal };
+		break;
+
+	case ProcedureType::Crown:
+		icdSimple[Implant] = "Z96.5";
+		statusSearch = {Implant, Fracture, RootCanal};
+		break;
+	case ProcedureType::CrownOrBridgeOrVeneer:
+
+		break;
+	case ProcedureType::RemoveCrownOrBridge:
+		statusSearch = { Pulpitis, ApicalLesion, Root, Fracture, Periodontitis, RootCanal };
+		break;
+
+	case ProcedureType::MultipleExtraction:
+		break;
+	}
+
+	for (auto s : statusSearch) {
+
+		if (tooth == nullptr) break;
+
+		if (tooth->hasStatus(s)) {
+			
+			icd = icdSimple[s];
+/*
+			if (s == RootCanal) {
+				description = "K04.99 - Девитализиран зъб";
 			}
-		}
-	*/
-	std::array<bool, 6> existing
-	{
-			tooth[Fracture],
-			tooth[Caries],
-			tooth[RootCanal],
-			tooth[Pulpitis],
-			tooth[ApicalLesion],
-			tooth[Root]
-	};
-
-	std::array<int, 7> diagnosis
-	{
-		4,
-		1,
-		8,
-		2,
-		3,
-		4 //should be root
-	};
-
-	for (int i = 0; i < 6; i++)
-	{
-		if (existing[i]) {
-			return diagnosis[i];
+*/
+			break;
 		}
 	}
 
-	return 0;
-}
+	Diagnosis d;
+	d.icd = icd;
+	d.additional_descr = description;
 
-int ProcedureCreator::extractionDiagnosis(const Tooth& tooth)
-{
-	std::array<bool, 7> existing
-	{
-		tooth[ApicalLesion],
-		tooth[Temporary],
-		tooth[Root],
-		tooth[Periodontitis],
-		tooth[Mobility],
-		tooth[Fracture],
-		tooth[Pulpitis]
-	};
-
-	std::array<int, 7> diagnosis
-	{
-		3,
-		7,	//should be deciduous
-		4,	//should be root
-		7,
-		7,
-		4,
-		2
-	};
-
-	for (int i = 0; i < 7; i++)
-	{
-		if (existing[i]) {
-			return diagnosis[i];
-		}
-	}
-
-	return 0;
-}
-
-int ProcedureCreator::endodonticDiagnosis(const Tooth& tooth)
-{
-	std::array<bool, 4> existing
-	{
-		tooth[Pulpitis],
-		tooth[ApicalLesion],
-		tooth[RootCanal],
-		tooth[Fracture]
-	};
-
-	std::array<int, 4> diagnosis
-	{
-		2,
-		3,
-		8,
-		4
-	};
-
-	for (int i = 0; i < 4; i++)
-	{
-		if (existing[i]) {
-			return diagnosis[i];
-		}
-	}
-
-	return 9;
-}
-
-int ProcedureCreator::crownDiagnosis(const Tooth& tooth)
-{
-	std::array<bool, 4> existing
-	{
-		tooth[RootCanal],
-		tooth[Fracture],
-		tooth[Restoration],
-		tooth[Implant]
-	};
-
-	std::array<int, 4> diagnosis
-	{
-		8,
-		4,
-		1, //should be extensive restoration
-		5
-	};
-
-	for (int i = 0; i < 4; i++)
-	{
-		if (existing[i]) {
-			return diagnosis[i];
-		}
-	}
-
-	return 0;
-}
-
-int ProcedureCreator::implantDiagnosis(const Tooth& tooth)
-{
-	if (tooth[Missing]) return 5;
-
-	return 0;
+	return d;
 }
 
 RestorationData ProcedureCreator::autoSurfaces(const Tooth& tooth)
@@ -375,7 +355,7 @@ RestorationData ProcedureCreator::autoSurfaces(const Tooth& tooth)
 	return result;
 }
 
-ConstructionRange ProcedureCreator::getBridgeRange(const std::vector<const Tooth*> selectedTeeth, ProcedureCode code)
+ConstructionRange ProcedureCreator::autoRange(const std::vector<const Tooth*> selectedTeeth, ProcedureCode code)
 {
 
 	if (code.type() == ProcedureType::Denture) {
@@ -431,28 +411,10 @@ void ProcedureCreator::setView(IProcedureInput* view)
 {
 	this->view = view;
 
-	if (m_selectedTeeth.size()) {
-
-		auto t = m_selectedTeeth[0];
-
-		diag_map[ProcedureType::Restoration] = restorationDiagnosis(*t);
-		diag_map[ProcedureType::Extraction] = extractionDiagnosis(*t);
-		diag_map[ProcedureType::Endodontic] = endodonticDiagnosis(*t);
-		diag_map[ProcedureType::Crown] = crownDiagnosis(*t);
-		diag_map[ProcedureType::Implant] = implantDiagnosis(*t);
-	}
-
-	diag_map[ProcedureType::Bridge] = 5;
-	diag_map[ProcedureType::Splint] = 7;
-	diag_map[ProcedureType::Denture] = 6;
-	diag_map[ProcedureType::Depuratio] = 10;
-
-
 	view->setCurrentPresenter(this);
-
 }
 
 void ProcedureCreator::diagnosisChanged(int idx)
 {
-	diag_map[m_code.type()] = idx;
+	//diag_map[m_code.type()] = idx;
 }

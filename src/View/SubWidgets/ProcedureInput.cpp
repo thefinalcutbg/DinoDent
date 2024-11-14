@@ -121,6 +121,7 @@ void ProcedureInput::setCommonData(const CommonData& data, bool hasNhifCode)
 	ui.financingGroup->show();
 
 	ui.icdEdit->setText(data.diagnosis.icd.name().c_str());
+	ui.icdEdit->setCursorPosition(0);
 	ui.diagDescrEdit->setText(data.diagnosis.additional_descr.c_str());
 	ui.notesEdit->setPlainText(data.notes.c_str());
 	initFinancingCombo(hasNhifCode);

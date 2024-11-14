@@ -151,45 +151,7 @@ ProcedureType ProcedureCode::type() const
 
 ProcedureScope ProcedureCode::getScope() const
 {
-	static const std::vector<std::pair<ProcedureType, ProcedureScope>> pairs = {
-
-		{ ProcedureType::General, ProcedureScope::AllOrNone},
-		{ ProcedureType::FullExam, ProcedureScope::AllOrNone},
-		{ ProcedureType::Depuratio, ProcedureScope::AllOrNone},
-		{ ProcedureType::DenturePair, ProcedureScope::AllOrNone},
-		{ ProcedureType::Anesthesia, ProcedureScope::AllOrNone},
-
-		{ ProcedureType::Restoration, ProcedureScope::SingleTooth},
-		{ ProcedureType::ToothSpecific, ProcedureScope::SingleTooth},
-		{ ProcedureType::DepuratioTooth, ProcedureScope::SingleTooth},
-		{ ProcedureType::Extraction, ProcedureScope::SingleTooth},
-		{ ProcedureType::Implant, ProcedureScope::SingleTooth},
-		{ ProcedureType::Endodontic, ProcedureScope::SingleTooth},
-		{ ProcedureType::Post, ProcedureScope::SingleTooth},
-		{ ProcedureType::RemovePost, ProcedureScope::SingleTooth},
-		{ ProcedureType::PostCore, ProcedureScope::SingleTooth},
-		{ ProcedureType::PostCrown, ProcedureScope::SingleTooth},
-
-		{ ProcedureType::Bridge, ProcedureScope::Range},
-		{ ProcedureType::RemoveCrownOrBridge, ProcedureScope::Range},
-		{ ProcedureType::Denture, ProcedureScope::Range},
-		{ ProcedureType::Splint, ProcedureScope::Range},
-		{ ProcedureType::DepuratioQuadrant, ProcedureScope::Range},
-		{ ProcedureType::MultipleExtraction, ProcedureScope::Range},
-
-		{ ProcedureType::Crown, ProcedureScope::Ambi},
-		{ ProcedureType::CrownOrBridgeOrVeneer, ProcedureScope::Ambi}
-	};
-
-	auto pType = type();
-
-	for (auto& [type, effect] : pairs) {
-
-		if (pType == type) return effect;
-
-	}
-
-	return ProcedureScope::AllOrNone;
+	return getScope(type());
 }
 
 bool ProcedureCode::isLegacy() const
@@ -201,6 +163,47 @@ bool ProcedureCode::isLegacy() const
 
 	return false;
 	
+}
+
+ProcedureScope ProcedureCode::getScope(ProcedureType t)
+{
+	static const std::vector<std::pair<ProcedureType, ProcedureScope>> pairs = {
+
+	{ ProcedureType::General, ProcedureScope::AllOrNone},
+	{ ProcedureType::FullExam, ProcedureScope::AllOrNone},
+	{ ProcedureType::Depuratio, ProcedureScope::AllOrNone},
+	{ ProcedureType::DenturePair, ProcedureScope::AllOrNone},
+	{ ProcedureType::Anesthesia, ProcedureScope::AllOrNone},
+
+	{ ProcedureType::Restoration, ProcedureScope::SingleTooth},
+	{ ProcedureType::ToothSpecific, ProcedureScope::SingleTooth},
+	{ ProcedureType::DepuratioTooth, ProcedureScope::SingleTooth},
+	{ ProcedureType::Extraction, ProcedureScope::SingleTooth},
+	{ ProcedureType::Implant, ProcedureScope::SingleTooth},
+	{ ProcedureType::Endodontic, ProcedureScope::SingleTooth},
+	{ ProcedureType::Post, ProcedureScope::SingleTooth},
+	{ ProcedureType::RemovePost, ProcedureScope::SingleTooth},
+	{ ProcedureType::PostCore, ProcedureScope::SingleTooth},
+	{ ProcedureType::PostCrown, ProcedureScope::SingleTooth},
+
+	{ ProcedureType::Bridge, ProcedureScope::Range},
+	{ ProcedureType::RemoveCrownOrBridge, ProcedureScope::Range},
+	{ ProcedureType::Denture, ProcedureScope::Range},
+	{ ProcedureType::Splint, ProcedureScope::Range},
+	{ ProcedureType::DepuratioQuadrant, ProcedureScope::Range},
+	{ ProcedureType::MultipleExtraction, ProcedureScope::Range},
+
+	{ ProcedureType::Crown, ProcedureScope::Ambi},
+	{ ProcedureType::CrownOrBridgeOrVeneer, ProcedureScope::Ambi}
+	};
+
+	for (auto& [type, effect] : pairs) {
+
+		if (t == type) return effect;
+
+	}
+
+	return ProcedureScope::AllOrNone;
 }
 
 int ProcedureCode::nhifCode() const

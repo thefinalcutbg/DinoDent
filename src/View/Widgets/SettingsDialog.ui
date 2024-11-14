@@ -1276,7 +1276,13 @@
        <item>
         <widget class="QLabel" name="label_10">
          <property name="text">
-          <string/>
+          <string>&lt;a href=&quot;https://nra.bg/wps/portal/nra/fiskalni-ustroystva-supto-i-e-magazini/supto/page.Iziskvania-kum-softuera&quot;&gt;Какво пречи това да стане ценоразпис?&lt;/a&gt;</string>
+         </property>
+         <property name="openExternalLinks">
+          <bool>true</bool>
+         </property>
+         <property name="textInteractionFlags">
+          <set>Qt::TextInteractionFlag::TextBrowserInteraction</set>
          </property>
         </widget>
        </item>

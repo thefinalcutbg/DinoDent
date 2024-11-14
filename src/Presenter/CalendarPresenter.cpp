@@ -308,7 +308,7 @@ void CalendarPresenter::addEvent(const QTime& t, int daysFromMonday, int duratio
     clipboard_event.start = from;
     clipboard_event.end = to;
 
-    if (clipboard_event.id.size() || clipboard_event.summary.size()) { //existing event
+    if (clipboard_event.id.size()) { //existing event
         sendEventQuery(clipboard_event);
         return;
     }

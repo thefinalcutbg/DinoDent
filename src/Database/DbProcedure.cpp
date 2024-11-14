@@ -93,7 +93,7 @@ std::vector<Procedure> DbProcedure::getProcedures(long long amblist_rowid, Db& d
 
 		};
 
-		if (p.code.type() == ProcedureType::Restoration)
+		if (p.code.type() == ProcedureType::Restoration || p.code.type() == ProcedureType::RemoveRestoration)
 		{
 			p.param = rData;
 		}
@@ -405,7 +405,7 @@ std::vector<Procedure> DbProcedure::getPatientProcedures(long long patientRowid)
 
 		};
 
-		if (p.code.type() == ProcedureType::Restoration)
+		if (p.code.type() == ProcedureType::Restoration || p.code.type() == ProcedureType::RemoveRestoration)
 		{
 			p.param = rData;
 		}

@@ -145,22 +145,37 @@ bool ListPresenter::isValid()
         if (nonExamProcedureFound && isFullExam)
         {
             ModalDialogBuilder::showError(
-                "С оглед на правилната хронология на пациентското досие в НЗИС, обстойният преглед трябва да бъде винаги първа по ред манипулация. Преместете го (при необходимост - редактирайте датата му)."
+                "С оглед на правилната хронология на пациентското досие в НЗИС, обстойният преглед трябва да бъде винаги първа по ред процедура. Преместете го (при необходимост - редактирайте датата му)."
             );
 
             return false;
         }
     }
 
+
     for (auto& p : m_ambList.procedures)
     {
-        auto idx = p.getToothIndex();
+        auto& idx = p.getToothIndex();
 
         if (idx.supernumeral && !m_ambList.teeth[idx.index][Dental::HasSupernumeral])
         {
             ModalDialogBuilder::showError(
-            "За да запишете манипулация на свръхброен зъб, отбележете го като такъв в статуса!"
+            "За да запишете процерура на свръхброен зъб, отбележете го като такъв в статуса!"
             );
+            return false;
+        }
+
+        if (p.code.type() == ProcedureType::ToothNonSpecific
+            && m_ambList.teeth.at(p.getToothIndex()).noData())
+        {
+
+            std::string errMsg = "За процедура ";
+            errMsg += p.code.code();
+            errMsg += " въвеждането на статус на зъб ";
+            errMsg += idx.getNhifNumenclature();
+            errMsg += " е задължително";
+
+            ModalDialogBuilder::showError(errMsg);
             return false;
         }
     }
@@ -170,13 +185,13 @@ bool ListPresenter::isValid()
     for (auto& p : m_ambList.procedures)
     {
         if (p.date < date) {
-            ModalDialogBuilder::showError("Датата на манипулациите не трябва да е по-малка от тази на амбулаторния лист");
+            ModalDialogBuilder::showError("Датата на процедурите не трябва да е по-малка от тази на амбулаторния лист");
             return false;
         }
 
         if (p.date.month != date.month || p.date.year != date.year)
         {
-            ModalDialogBuilder::showError("Манипулациите и амбулаторният лист трябва да са от един и същи месец!");
+            ModalDialogBuilder::showError("Процедурите и амбулаторният лист трябва да са от един и същи месец!");
             return false;
         }
 

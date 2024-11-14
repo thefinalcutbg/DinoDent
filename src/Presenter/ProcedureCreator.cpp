@@ -62,6 +62,17 @@ void ProcedureCreator::setProcedureCode(const ProcedureCode& code, bool nhif, do
 	else if (code.type() == ProcedureType::Restoration) {
 		view->setParameterData(false, autoSurfaces(*m_selectedTeeth[0]));
 	}
+	else if (code.type() == ProcedureType::RemoveRestoration) {
+
+		auto rData = autoSurfaces(*m_selectedTeeth[0]);
+
+		if (m_selectedTeeth.at(0)->hasStatus(Post)) {
+			rData.post = true;
+		}
+
+		view->setParameterData(false, autoSurfaces(*m_selectedTeeth[0]));
+
+	}
 	else if (code.getScope() == ProcedureScope::SingleTooth) {
 		view->setParameterData(false);
 	}
@@ -69,7 +80,7 @@ void ProcedureCreator::setProcedureCode(const ProcedureCode& code, bool nhif, do
 		view->setParameterData(autoRange(m_selectedTeeth, m_code), code.type() == ProcedureType::RemoveCrownOrBridge);
 	}
 	else if (code.type() == ProcedureType::Crown) {
-		view->setParameterData(false, autoRange(m_selectedTeeth, m_code), false);
+		view->setParameterData(false, autoRange(m_selectedTeeth, m_code), true);
 	}
 	else if (code.getScope() == ProcedureScope::Ambi) {
 
@@ -143,7 +154,7 @@ std::vector<Procedure> ProcedureCreator::getProcedures()
 	//restoration
 	else if (std::holds_alternative<std::pair<bool, RestorationData>>(data.parameters)) {
 		
-		auto pair = std::get<std::pair<bool, RestorationData >>(data.parameters);
+		auto& pair = std::get<std::pair<bool, RestorationData >>(data.parameters);
 		supernumeral = pair.first;
 		procedure.param = pair.second;
 	}
@@ -162,13 +173,13 @@ std::vector<Procedure> ProcedureCreator::getProcedures()
 		procedure.affectedTeeth = index;
 
 		//checks if the procedure is restoration and post is enabled
-		bool addPostProcedure =
+		bool hasPostProcedure =
 			!m_code.isLegacy()
 			&& std::holds_alternative<RestorationData>(procedure.param)
 			&& std::get<RestorationData>(procedure.param).post;
 
 		//adding post as separate procedure
-		if (addPostProcedure) {
+		if (hasPostProcedure) {
 
 			Procedure postProcedure = procedure;
 
@@ -177,7 +188,12 @@ std::vector<Procedure> ProcedureCreator::getProcedures()
 				postProcedure.financingSource = FinancingSource::None;
 			}
 
-			postProcedure.code = ProcedureCode("97594-01");
+			if (m_code.type() == ProcedureType::RemoveRestoration) {
+				postProcedure.code = ProcedureCode("97452-00");
+			}
+			else {
+				postProcedure.code = ProcedureCode("97594-01");
+			}
 			postProcedure.param = std::monostate{};
 			
 			result.push_back(postProcedure);
@@ -185,9 +201,15 @@ std::vector<Procedure> ProcedureCreator::getProcedures()
 
 		result.push_back(procedure);
 
-		//removing the post flag
-		if (addPostProcedure) {
+		
+		if (hasPostProcedure) {
+			//removing the post flag
 			std::get<RestorationData>(result.back().param).post = false;
+
+			//first we remove the restoration and then we remove the post
+			if (m_code.type() == ProcedureType::RemoveRestoration) {
+				std::swap(result[result.size() - 1], result[result.size() - 2]);
+			}
 		}
 	}
 
@@ -223,7 +245,7 @@ Diagnosis ProcedureCreator::getDiagnosis(const Tooth* tooth, ProcedureType type)
 	{
 	case ProcedureType::General:
 	case ProcedureType::Post:
-	case ProcedureType::ToothSpecific:
+	case ProcedureType::ToothNonSpecific:
 	case ProcedureType::Anesthesia:
 		break;
 
@@ -245,7 +267,9 @@ Diagnosis ProcedureCreator::getDiagnosis(const Tooth* tooth, ProcedureType type)
 		icd = "K03.7";
 		statusSearch = { Fracture, Caries, Pulpitis, ApicalLesion, Root };
 		break;
-
+	case ProcedureType::RemoveRestoration:
+		statusSearch = { Pulpitis, ApicalLesion, Fracture, Caries, Periodontitis };
+		break;
 	case ProcedureType::Extraction:
 		icdSimple[Implant] = "T85.7";
 		icd = "K07.3"; //assume ortho reason

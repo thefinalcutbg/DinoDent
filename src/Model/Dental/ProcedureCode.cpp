@@ -176,7 +176,8 @@ ProcedureScope ProcedureCode::getScope(ProcedureType t)
 	{ ProcedureType::Anesthesia, ProcedureScope::AllOrNone},
 
 	{ ProcedureType::Restoration, ProcedureScope::SingleTooth},
-	{ ProcedureType::ToothSpecific, ProcedureScope::SingleTooth},
+	{ ProcedureType::RemoveRestoration, ProcedureScope::SingleTooth},
+	{ ProcedureType::ToothNonSpecific, ProcedureScope::SingleTooth},
 	{ ProcedureType::DepuratioTooth, ProcedureScope::SingleTooth},
 	{ ProcedureType::Extraction, ProcedureScope::SingleTooth},
 	{ ProcedureType::Implant, ProcedureScope::SingleTooth},

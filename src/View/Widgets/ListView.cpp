@@ -282,9 +282,13 @@ void ListView::setProcedures(const std::vector<Procedure>& m)
 	model.setProcedures(m);
 
 	std::vector<int> proc_teeth;
-	proc_teeth.reserve(m.size());
+	proc_teeth.reserve(32);
 
-    for (auto& t : m) proc_teeth.push_back(t.getToothIndex().index);
+	for (auto& t : m) {
+		for (auto i : t.getArrayIndexes()) {
+			proc_teeth.push_back(i);
+		}
+	}
 
 	teethViewScene->setProcedures(proc_teeth);
 }

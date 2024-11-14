@@ -86,6 +86,26 @@ std::vector<ToothIndex> Procedure::getAffectedTeethIndexes(const ToothContainer&
 	return result;
 }
 
+std::vector<int> Procedure::getArrayIndexes() const
+{
+	std::vector<int> result;
+
+	auto scope = getScope();
+
+	if (scope == ProcedureScope::AllOrNone) return result;
+
+	if (scope == ProcedureScope::SingleTooth) return { getToothIndex().index };
+
+	auto& range = std::get<ConstructionRange>(affectedTeeth);
+	result.reserve(range.getTeethCount());
+
+	for (int i = range.toothFrom; i < range.toothTo + 1; i++) {
+		result.push_back(i);
+	}
+
+	return result;
+}
+
 
 void Procedure::applyProcedure(ToothContainer& teeth) const
 {	
@@ -129,8 +149,6 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 				teeth.at(tooth_idx).setLPK(i, LPK);
 			}
 
-			teeth.setStatus({ tooth_idx.index }, StatusType::General, Fracture, false, tooth_idx.supernumeral);
-
 			//for legacy codes only
 			if (result.post) {
 				teeth.setStatus({ tooth_idx.index }, StatusType::General, Post, true, tooth_idx.supernumeral);
@@ -139,6 +157,22 @@ void Procedure::applyProcedure(ToothContainer& teeth) const
 
 			teeth.setStatus({ tooth_idx.index }, StatusType::General, Fracture, false, tooth_idx.supernumeral);
 
+		}
+		break;
+
+		case ProcedureType::RemoveRestoration:
+		{
+			auto& result = std::get<RestorationData>(param);
+
+			for (int i = 0; i < result.surfaces.size(); i++)
+			{
+				if (!result.surfaces[i]) continue;
+
+				teeth.setStatus({ tooth_idx.index }, StatusType::Restoration, i, false, tooth_idx.supernumeral);
+				teeth.setStatus({ tooth_idx.index }, StatusType::Caries, i, true, tooth_idx.supernumeral);
+
+				teeth.at(tooth_idx).setLPK(i, LPK);
+			}
 		}
 		break;
 

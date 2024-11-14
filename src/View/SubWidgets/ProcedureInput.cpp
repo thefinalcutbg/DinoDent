@@ -197,7 +197,7 @@ void ProcedureInput::setParameterData(bool supernumeral, ConstructionRange range
 	ui.hyperdonticCheckBox->setChecked(supernumeral);
 	ui.beginCombo->setCurrentIndex(range.toothFrom);
 	ui.endCombo->setCurrentIndex(range.toothTo);
-
+	ui.toothFrame->show();
 	ui.rangeCheck->show();
 
 	ui.rangeCheck->setChecked(!preferSingle);

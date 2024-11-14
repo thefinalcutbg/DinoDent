@@ -89,7 +89,7 @@ struct Procedure
 
     //first - indexes, second - supernumeral
     std::vector<ToothIndex> getAffectedTeethIndexes(const ToothContainer& teeth) const;
-
+    std::vector<int> getArrayIndexes() const;
     std::string getToothString() const;
 };
 

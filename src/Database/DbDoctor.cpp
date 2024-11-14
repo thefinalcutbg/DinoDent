@@ -1,4 +1,4 @@
-#include "DbDoctor.h"
+﻿#include "DbDoctor.h"
 #include "Database.h"
 
 std::optional<Doctor> DbDoctor::getDoctor(const std::string& lpk, const std::string& pass)
@@ -64,19 +64,15 @@ std::optional<Doctor> DbDoctor::getDoctor(const std::string& lpk)
 
 }
 
-std::pair<std::string, std::string> DbDoctor::getLpkAndPassAutoLogin()
+std::string DbDoctor::getDoctorAutoLoginLPK()
 {
-    std::string lpk;
-    std::string pass;
-
-    Db db("SELECT lpk, pass FROM doctor WHERE auto_login=1");
+    Db db("SELECT lpk FROM doctor WHERE auto_login=1");
 
     while (db.hasRows()) {
-        lpk = db.asString(0);
-        pass = db.asString(1);
+        return db.asString(0);
     }
 
-    return { lpk, pass };
+    return std::string();
 }
 
 bool DbDoctor::setAutoLogin(const std::string& lpk, bool remember)
@@ -226,6 +222,30 @@ std::set<std::string> DbDoctor::getFavouriteProcedures(const std::string& doctor
 
     while (db.hasRows()) {
         result.insert(db.asString(0));
+    }
+
+    return result;
+}
+
+std::vector<DbDoctor::UserCredentials> DbDoctor::getDoctorList()
+{
+    std::vector<UserCredentials> result;
+
+    std::string query = "SELECT lpk, fname, lname, pass FROM doctor";
+
+    for (Db db(query); db.hasRows();)
+    {
+        std::string name = "д-р ";
+        name += db.asString(1);
+        name += " ";
+        name += db.asString(2);
+
+        result.push_back(UserCredentials{
+            .lpk = db.asString(0),
+            .pass = db.asString(3),
+            .name = name,
+
+        });
     }
 
     return result;

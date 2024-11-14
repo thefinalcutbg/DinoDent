@@ -16,6 +16,8 @@ class LoginView : public QDialog, public ILoginView
 	
 public:
     LoginView(LoginPresenter& p, QWidget *parent = Q_NULLPTR);
+	void setDoctorList(const std::vector <std::string>& doctorList) override;
+	void disablePasswordField(bool disabled);
 	int practiceUserChoice(const std::vector<std::string>& practiceList) override; //-1 indicates user has closed the dialog
 	void closeLogin() override;
 	~LoginView();

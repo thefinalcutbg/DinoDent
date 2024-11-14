@@ -5,6 +5,7 @@
 #include "View/Theme.h"
 #include <QApplication>
 #include <QScreen>
+
 LoginView::LoginView(LoginPresenter& p, QWidget *parent)
     : QDialog(parent), presenter(p)
 {
@@ -21,13 +22,10 @@ LoginView::LoginView(LoginPresenter& p, QWidget *parent)
 	//ui.rememberCheck->setStyleSheet("color:" + Theme::colorToString(Theme::fontTurquoise));
 	ui.passEdit->setEchoMode(QLineEdit::Password);
 
-    presenter.setView(this);
-
     connect(ui.practiceButton, &QPushButton::clicked, this, [&] {presenter.practiceListPressed();});
     connect(ui.okButton, &QPushButton::clicked, this, [&]{
 
                 presenter.okPressed(
-						ui.userEdit->text().toStdString(),
 						ui.passEdit->text().toStdString(),
 						ui.rememberCheck->isChecked()
 				);
@@ -35,7 +33,34 @@ LoginView::LoginView(LoginPresenter& p, QWidget *parent)
 		}
 	);
 
-	ui.userEdit->setFocus();
+	connect(ui.doctorCombo, &QComboBox::currentIndexChanged, this, [&](int idx) { 
+		presenter.userIdxChanged(idx); 
+	});
+
+	presenter.setView(this);
+}
+
+void LoginView::setDoctorList(const std::vector<std::string>& doctorList)
+{
+	ui.doctorCombo->clear();
+
+	for (auto& d : doctorList) {
+		ui.doctorCombo->addItem(d.c_str());
+	}
+
+	ui.doctorCombo->setCurrentIndex(0);
+	emit ui.doctorCombo->currentIndexChanged(0);
+}
+
+void LoginView::disablePasswordField(bool disabled)
+{
+	ui.passEdit->clear();
+	ui.passEdit->setPlaceholderText(disabled ? "Без парола" : "");
+	ui.passEdit->setMaxLength(disabled ? 0 : 20);
+
+	if (!disabled) {
+		ui.passEdit->setFocus();
+	}
 }
 
 void LoginView::paintEvent(QPaintEvent*)

@@ -35,11 +35,11 @@ void MainPresenter::setView(IMainView* view)
     firstTimeLogic();
 
     LoginPresenter login;
-
-    auto auto_login = DbDoctor::getLpkAndPassAutoLogin();
-
-    if (auto_login.first.size()) {
-        login.okPressed(auto_login.first, auto_login.second, true);
+    
+    auto autologinLPK = DbDoctor::getDoctorAutoLoginLPK();
+    
+    if (autologinLPK.size()) {
+        login.login(autologinLPK);
         view->m_loggedIn = true;
     }
     else

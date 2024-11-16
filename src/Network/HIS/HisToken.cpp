@@ -1,9 +1,10 @@
-﻿#include <QElapsedTimer>
+﻿#include "HisToken.h"
+
+#include <QElapsedTimer>
 #include "View/ModalDialogBuilder.h"
-#include "Network/PKCS11.h"
+#include "Network/GetHSM.h"
 #include "Network/signer.h"
 #include "Network/NetworkManager.h"
-#include "HisToken.h"
 #include "HisService.h"
 
 namespace sToken {
@@ -34,33 +35,11 @@ void HisToken::setChallengeMessage(const std::string& challenge)
 		return;
 	}
 
-	PKCS11 signer;
+	auto hsm = GetHSM::get();
 
-	if (!signer.hsmLoaded())
-	{
-		abort("Не е открит КЕП");
-		return;
-	}
+	if (!hsm) return;
 
-	if (signer.loginRequired()) {
-
-		NetworkManager::clearAccessCache();
-		auto pin = ModalDialogBuilder::pinPromptDialog(signer.pem_x509cert(), signer.driver);
-
-		if (pin.empty()) {
-			sToken::current_service = nullptr;
-			return;
-		}
-
-
-		if (!signer.login(pin))
-		{
-			abort("Грешна парола или блокирана карта");
-			return;
-		};
-	}
-
-	auto signedChallenge = Signer::signEnveloped(challenge, signer.takePrivateKey(), signer.x509ptr(), true);
+	auto signedChallenge = Signer::signEnveloped(challenge, hsm->takePrivateKey(), hsm->x509ptr(), true);
 
 	if (signedChallenge.empty()) {
 		abort("Неуспешна автентификация в НЗИС");

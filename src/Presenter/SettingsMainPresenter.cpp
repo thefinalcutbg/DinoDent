@@ -12,6 +12,7 @@
 #include "View/Printer.h"
 #include "View/SubWidgets/ProcedureListView.h"
 #include "Model/Patient.h"
+#include "Network/GetHSM.h" 
 
 SettingsMainPresenter::SettingsMainPresenter() :
 	m_doctorsList(DbPractice::getDoctors(User::practice().rziCode))
@@ -27,9 +28,16 @@ void SettingsMainPresenter::setView(ISettingsDialog* view)
 	auto doctor = DbDoctor::getDoctor(User::doctor().LPK).value(); //quite unsafe lol
 
 	view->setSettings(practice.settings);
-	view->setPkcs11List(GlobalSettings::pkcs11PathList());
-	view->setDevBranch(GlobalSettings::getDevBranch());
-	view->setDebug(GlobalSettings::showRequestsEnabled(), GlobalSettings::showRepliesEnabled());
+
+	ISettingsDialog::GlobalSettingsData data{
+		.list = GlobalSettings::pkcs11PathList(),
+		.multi_pkcs11 = GlobalSettings::getMultiPkcs11(),
+		.dev_branch = GlobalSettings::getDevBranch(),
+		.show_requests = GlobalSettings::showRequestsEnabled(),
+		.show_replies = GlobalSettings::showRepliesEnabled()
+	};
+
+	view->setGlobalSettings(data);
 	view->setDoctor(doctor);
 	view->setPractice(practice);
 	view->setDoctorList(m_doctorsList);
@@ -218,9 +226,15 @@ bool SettingsMainPresenter::applyChanges()
 	User::setCurrentDoctor(DbDoctor::getDoctor(doctor.LPK).value());
 	User::refereshPracticeDoctor();
 	NetworkManager::setTimeout(practice.settings.timeout);
-	GlobalSettings::setPkcs11PathList(view->getPkcs11List());
-	GlobalSettings::setDebug(view->showRequests(), view->showReplies());
-	GlobalSettings::setDevBranch(view->devBranch());
+
+	auto globalData = view->getGlobalSettings();
+
+	GlobalSettings::setPkcs11PathList(globalData.list);
+	PKCS11::setDriverPaths(globalData.list);
+	GlobalSettings::setDebug(globalData.show_requests, globalData.show_replies);
+	GlobalSettings::setDevBranch(globalData.dev_branch);
+	GlobalSettings::setMultiPkcs11(globalData.multi_pkcs11);
+	GetHSM::setMultiPKCS11(globalData.multi_pkcs11);
 
 	return true;
 }

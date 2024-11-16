@@ -53,13 +53,10 @@ public:
 	void setSettings(const Settings& settings) final;
 	Settings getSettings() final;
 	void setUpdateDate(DynamicNum num, const Date& date) final;
-	virtual void setPkcs11List(const std::vector<std::string>& list) final;
-	std::vector<std::string> getPkcs11List() final;
-	void setDebug(bool showRequests, bool showReplies) final;
-	bool showRequests() final;
-	bool showReplies() final;
-	void setDevBranch(bool dev) final;
-	bool devBranch() final;
+
+    void setGlobalSettings(const GlobalSettingsData& data) final;
+	GlobalSettingsData getGlobalSettings() final;
+
 	ProcedureListView* getPriceListView();
 	void setSqlTable(const PlainTable& table) final;
 

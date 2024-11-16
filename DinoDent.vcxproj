@@ -225,6 +225,7 @@
     <ClCompile Include="include\json\jsoncpp.cpp" />
     <ClCompile Include="src\Model\CalendarStructs.cpp" />
     <ClCompile Include="src\Model\Dental\Diagnosis.cpp" />
+    <ClCompile Include="src\Network\GetHSM.cpp" />
     <ClCompile Include="src\Presenter\ProcedureListPresenter.cpp" />
     <ClCompile Include="src\Network\Calendar\Google.cpp" />
     <ClCompile Include="src\View\SubWidgets\ProcedureListView.cpp" />
@@ -549,6 +550,7 @@
     <QtMoc Include="src\View\uiComponents\CalendarTable.h" />
     <ClInclude Include="src\Network\Calendar\Credentials.h" />
     <ClInclude Include="src\Network\Calendar\Google.h" />
+    <ClInclude Include="src\Network\GetHSM.h" />
     <ClInclude Include="src\View\Graphics\CalendarViewData.h" />
     <QtMoc Include="src\View\Widgets\CalendarView.h" />
     <ClInclude Include="src\Database\DbMedicalNotice.h" />

@@ -3,6 +3,7 @@
 #include "Model/Dental/NhifProcedures.h"
 #include "Model/User.h"
 #include "Model/xml.h"
+#include "GlobalSettings.h"
 
 #include "Database/DbPractice.h"
 #include "Database/DbDoctor.h"
@@ -10,7 +11,7 @@
 
 #include "Network/HIS/HisToken.h"
 #include "Network/Telemetry.h"
-#include "Network/PKCS11.h"
+#include "Network/GetHSM.h"
 #include "Network/IRC/IRCInterface.h"
 
 #include "Presenter/PatientDialogPresenter.h"
@@ -31,6 +32,9 @@ MainPresenter MainPresenter::s_singleton;
 void MainPresenter::setView(IMainView* view)
 {
     this->view = view;
+
+    PKCS11::setDriverPaths(GlobalSettings::pkcs11PathList());
+    GetHSM::setMultiPKCS11(GlobalSettings::getMultiPkcs11());
 
     firstTimeLogic();
 

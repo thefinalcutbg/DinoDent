@@ -73,6 +73,20 @@ void GlobalSettings::setDevBranch(bool dev)
     rewriteCfg(settings);
 }
 
+bool GlobalSettings::getMultiPkcs11()
+{
+    return getSettingsAsJson()["multi_pkcs11"].asBool();
+}
+
+void GlobalSettings::setMultiPkcs11(bool multi)
+{
+    Json::Value settings = getSettingsAsJson();
+
+    settings["multi_pkcs11"] = multi;
+
+    rewriteCfg(settings);
+}
+
 void GlobalSettings::createCfgIfNotExists()
 {
     auto dataFolder = QDir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation));
@@ -103,6 +117,10 @@ void GlobalSettings::createCfgIfNotExists()
 
     if (!settings.isMember("dev_branch")) {
         settings["dev_branch"] = false;
+    }
+
+    if (!settings.isMember("multi_pkcs11")) {
+        settings["multi_pkcs11"] = false;
     }
 
     rewriteCfg(settings);

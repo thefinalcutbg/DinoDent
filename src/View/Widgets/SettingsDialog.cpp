@@ -180,11 +180,13 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 
 		ui.pkcs11list->clear();
 
+		ui.multiPkcsCheck->setChecked(false);
+
 		auto paths = GlobalSettings::getDefaultPkcs11Paths();
 
 		for (auto& p : paths) ui.pkcs11list->addItem(p.c_str());
 
-		});
+	});
 
 	connect(ui.devBranch, &QCheckBox::clicked, this, [&](bool checked) {
 
@@ -243,6 +245,18 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 		*/
 	});
 
+	connect(ui.multiPkcsCheck, &QCheckBox::toggled, this, [&](bool checked) {
+
+		if (checked) {
+			bool answer = ModalDialogBuilder::askDialog("Преди да активирате този режим, "
+				"тествайте всеки КЕП по отделно и премахнете от списъка драйверите, които не се използват от нито един КЕП. Желаете ли да продължите?"
+			);
+
+			if (!answer) ui.multiPkcsCheck->setChecked(false);
+		}
+
+	});
+
 	presenter.setView(this);
 	
 }
@@ -299,33 +313,40 @@ void SettingsDialog::setUpdateDate(DynamicNum num, const Date& date)
 	}
 }
 
-void SettingsDialog::setPkcs11List(const std::vector<std::string>& list)
+void SettingsDialog::setGlobalSettings(const GlobalSettingsData& data)
 {
 	ui.pkcs11list->clear();
 
-	for (auto& path : list) ui.pkcs11list->addItem(path.c_str());
-}
-
-std::vector<std::string> SettingsDialog::getPkcs11List()
-{
-	std::vector<std::string> result;
-
-	for (int i = 0; i < ui.pkcs11list->count(); i++)
-		result.push_back(ui.pkcs11list->item(i)->text().toUtf8().toStdString());
-
-	return result;
-}
-
-void SettingsDialog::setDebug(bool showRequests, bool showReplies)
-{
+	for (auto& path : data.list) {
+		ui.pkcs11list->addItem(path.c_str());
+	}
 
 	QSignalBlocker b1(ui.requestsCheck);
 	QSignalBlocker b2(ui.repliesCheck);
+	QSignalBlocker b3(ui.multiPkcsCheck);
+	QSignalBlocker b4(ui.devBranch);
 
-	ui.requestsCheck->setChecked(showRequests);
-	ui.repliesCheck->setChecked(showReplies);
+	ui.requestsCheck->setChecked(data.show_requests);
+	ui.repliesCheck->setChecked(data.show_replies);
+	ui.multiPkcsCheck->setChecked(data.multi_pkcs11);
+	ui.devBranch->setChecked(data.dev_branch);
 }
 
+ISettingsDialog::GlobalSettingsData SettingsDialog::getGlobalSettings() {
+
+	GlobalSettingsData data{
+		.list = {},
+		.multi_pkcs11 = ui.multiPkcsCheck->isChecked(),
+		.dev_branch = ui.devBranch->isChecked(),
+		.show_requests = ui.requestsCheck->isChecked(),
+		.show_replies = ui.repliesCheck->isChecked()
+	};
+
+	for (int i = 0; i < ui.pkcs11list->count(); i++)
+		data.list.push_back(ui.pkcs11list->item(i)->text().toUtf8().toStdString());
+
+	return data;
+}
 
 void SettingsDialog::disableNhifValidators(bool disabled)
 {
@@ -342,33 +363,6 @@ void SettingsDialog::legalEntityChanged(bool selfInsured)
 
 	ui.selfInsuredId->setHidden(!selfInsured);
 	ui.selfInsuredLabel->setHidden(!selfInsured);
-}
-/*
-void SettingsDialog::paintEvent(QPaintEvent*)
-{
-	QPainter p(this);
-	p.fillRect(rect(), Qt::white);
-}
-*/
-
-bool SettingsDialog::showRequests()
-{
-	return ui.requestsCheck->isChecked();
-}
-
-bool SettingsDialog::showReplies()
-{
-	return ui.repliesCheck->isChecked();
-}
-
-void SettingsDialog::setDevBranch(bool dev)
-{
-	ui.devBranch->setChecked(dev);
-}
-
-bool SettingsDialog::devBranch()
-{
-	return ui.devBranch->isChecked();
 }
 
 ProcedureListView* SettingsDialog::getPriceListView()

@@ -1,6 +1,7 @@
 ﻿#include "PisService.h"
+
 #include "View/ModalDialogBuilder.h"
-#include "Network/PKCS11.h"
+#include "Network/GetHSM.h"
 #include "Network/NetworkManager.h"
 #include "Network/signer.h"
 #include "Model/Patient.h"
@@ -46,38 +47,10 @@ bool PisService::sendRequest(const std::string& query, SOAPAction header)
 {
 	if (awaiting_reply) return true;
 
-	PKCS11 hsm;
+	auto hsm = GetHSM::get();
 
-	if (!hsm.hsmLoaded())
-	{
-		if (show_dialogs) {
-			ModalDialogBuilder::showMessage("Не е открит КЕП");
-		}
+	if (!hsm) { return false; }
 
-		show_dialogs = true;
-		return false;
-	}
-
-	if (hsm.loginRequired()) {
-		
-		NetworkManager::clearAccessCache();
-
-		if (!hsm.tryAutoLogin()) {
-
-			auto pin = ModalDialogBuilder::pinPromptDialog(hsm.pem_x509cert(), hsm.driver);
-
-			if (pin.empty()) {
-				return false;
-			}
-
-
-			if (!hsm.login(pin))
-			{
-				ModalDialogBuilder::showError("Грешна парола или блокирана карта");
-				return false;
-			};
-		}
-	}
 	//Building the SOAP
 	std::string body = "<e:Body id=\"signedContent\">" + query + "</e:Body>" ;
 
@@ -86,8 +59,8 @@ bool PisService::sendRequest(const std::string& query, SOAPAction header)
 	signedSoap += Signer::getSignature(
 		//setting envelope namespace
 		Crypto::addNamespacesToRoot(body, { {"e", "http://schemas.xmlsoap.org/soap/envelope/"} }),
-		hsm.takePrivateKey(),
-		hsm.x509ptr(),
+		hsm->takePrivateKey(),
+		hsm->x509ptr(),
 		"#signedContent",
 		true
 	);
@@ -119,7 +92,7 @@ bool PisService::sendRequest(const std::string& query, SOAPAction header)
 
 	NetworkManager::sendRequestToPis(
 		signedSoap,
-		hsm,
+		hsm.value(),
 		this,
 		soapActionHeader.c_str()
 	);

@@ -3,7 +3,7 @@
 
 #include "HisService.h"
 #include "Network/signer.h"
-#include "Network/PKCS11.h"
+#include "Network/GetHSM.h"
 #include "Network/NetworkManager.h"
 #include "HisToken.h"
 #include "View/ModalDialogBuilder.h"
@@ -47,36 +47,11 @@ bool HisService::sendRequestToHisNoAuth(const std::string& query)
 
 std::string HisService::signMessage(const std::string& message)
 {
-	PKCS11 hsm;
+	auto hsm = GetHSM::get();
 
-	if (!hsm.hsmLoaded())
-	{
-		ModalDialogBuilder::showMessage("Не е открит КЕП");
-		return {};
-	}
+	if (!hsm) { return std::string{}; }
 
-	if (hsm.loginRequired()) {
-
-		NetworkManager::clearAccessCache();
-
-		if (!hsm.tryAutoLogin()) {
-
-			auto pin = ModalDialogBuilder::pinPromptDialog(hsm.pem_x509cert(), hsm.driver);
-
-			if (pin.empty()) {
-				return {};
-			}
-
-
-			if (!hsm.login(pin))
-			{
-				ModalDialogBuilder::showError("Грешна парола или блокирана карта");
-				return {};
-			};
-		}
-	}
-
-	return Signer::signEnveloped(message, hsm.takePrivateKey(), hsm.x509ptr(), true);
+	return Signer::signEnveloped(message, hsm->takePrivateKey(), hsm->x509ptr(), true);
 }
 
 std::string HisService::buildMessage(const std::string& query)

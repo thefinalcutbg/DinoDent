@@ -1,3 +1,5 @@
+#pragma once
+
 #include <string>
 #include <vector>
 #include <functional>
@@ -12,6 +14,7 @@ struct X509Details
 	std::string x509_pem;
 	std::string name;
 	std::string organization;
+	std::string issuer;
 	std::string validFrom8601;
 	std::string validTo8601;
 	std::string driverPath;

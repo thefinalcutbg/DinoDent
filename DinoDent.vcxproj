@@ -484,6 +484,7 @@
     <ClCompile Include="src\View\uiComponents\UserButton.cpp" />
     <ClCompile Include="src\View\Widgets\AboutDialog.cpp" />
     <ClCompile Include="src\View\Widgets\AllergyDialog.cpp" />
+    <ClCompile Include="src\View\Widgets\CertificateListDialog.cpp" />
     <ClCompile Include="src\View\Widgets\ChatDialog.cpp" />
     <ClCompile Include="src\View\Widgets\ErrorDetailedDialog.cpp" />
     <ClCompile Include="src\View\Widgets\FiscalReceiptDialog.cpp" />
@@ -850,6 +851,7 @@
     <ClInclude Include="src\View\CommonIcon.h" />
     <QtMoc Include="src\View\Widgets\ChatDialog.h" />
     <QtMoc Include="src\View\Widgets\ErrorDetailedDialog.h" />
+    <QtMoc Include="src\View\Widgets\CertificateListDialog.h" />
     <ClInclude Include="src\View\Widgets\GlobalWidgets.h" />
     <QtMoc Include="src\View\Widgets\PisDialog.h" />
     <QtMoc Include="src\View\Widgets\MedicalNoticeDialog.h" />
@@ -938,6 +940,7 @@
     <QtUic Include="src\View\SubWidgets\TabTitle.ui" />
     <QtUic Include="src\View\Widgets\AboutDialog.ui" />
     <QtUic Include="src\View\Widgets\AllergyDialog.ui" />
+    <QtUic Include="src\View\Widgets\CertificateListDialog.ui" />
     <QtUic Include="src\View\Widgets\ChatDialog.ui" />
     <QtUic Include="src\View\Widgets\ErrorDetailedDialog.ui" />
     <QtUic Include="src\View\Widgets\FiscalReceiptDialog.ui" />

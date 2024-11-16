@@ -1,6 +1,7 @@
 ﻿#include "GetHSM.h"
 #include "View/ModalDialogBuilder.h"
 #include "Network/NetworkManager.h"
+#include "View/Widgets/CertificateListDialog.h"
 
 bool s_multi_pkcs11 = false;
 
@@ -14,19 +15,10 @@ std::optional<PKCS11> GetHSM::get()
 
 	auto certLambda = [](const std::vector<X509Details>& certList) {
 
-		std::vector<std::string> names;
+		CertificateListDialog d(certList);
+		d.exec();
 
-		for (auto& c : certList) {
-
-			names.push_back(c.name);
-
-			if (c.organization.size()) {
-				names.back() = c.organization;
-			}
-
-		}
-
-		return ModalDialogBuilder::openButtonDialog(names, "Изберете сертификат");
+		return d.getIndex();
 	};
 
 	PKCS11 hsm(pinLambda, s_multi_pkcs11 ? certLambda : nullptr);

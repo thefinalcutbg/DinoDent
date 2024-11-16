@@ -27,13 +27,13 @@ X509Details::X509Details(x509_st* cert, const std::string& driverPath) :
 	X509_NAME* subjectName = X509_get_subject_name(cert);
 
 	//lambda fn for extracting data from subject name
-	auto getData = [](X509_NAME* subjectName, int nid) {
+	auto getData = [](X509_NAME* name, int nid) {
 
-		int cnIndex = X509_NAME_get_index_by_NID(subjectName, nid, -1);
+		int cnIndex = X509_NAME_get_index_by_NID(name, nid, -1);
 
 		if (cnIndex == -1) return std::string();
 
-		X509_NAME_ENTRY* cnEntry = X509_NAME_get_entry(subjectName, cnIndex);
+		X509_NAME_ENTRY* cnEntry = X509_NAME_get_entry(name, cnIndex);
 
 		if (!cnEntry) return std::string();
 
@@ -50,6 +50,11 @@ X509Details::X509Details(x509_st* cert, const std::string& driverPath) :
 
 	name = getData(subjectName, NID_commonName);
 	organization = getData(subjectName, NID_organizationName);
+
+	X509_NAME* issuerName = X509_get_issuer_name(cert);
+
+	issuer = getData(issuerName, NID_commonName);
+
 
 	//lambda fn for extracting the 8601 dates
 	auto get8601 = [](const ASN1_TIME* notAfter)

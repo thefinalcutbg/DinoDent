@@ -6,6 +6,7 @@
 #include "View/uiComponents/MouseWheelGuard.h"
 #include "View/SubWidgets/ReferralTile.h"
 #include "View/SubWidgets/MedicalNoticeTile.h"
+#include "Model/User.h"
 
 ListView::ListView(QWidget* parent)
 	: QWidget(parent), presenter(nullptr)

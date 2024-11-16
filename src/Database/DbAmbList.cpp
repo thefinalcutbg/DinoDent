@@ -95,9 +95,13 @@ AmbList DbAmbList::getNewAmbSheet(long long patientRowId)
         "patient_rowid = " + std::to_string(patientRowId) + " AND "
         "lpk = '" + User::doctor().LPK + "' AND "
         "rzi = '" + User::practice().rziCode + "' AND "
-        "strftime('%Y',amblist.date) = strftime('%Y',date('now')) AND  strftime('%m',amblist.date) = strftime('%m',date('now'))"
-    
     );
+
+    query += User::hasNhifContract() ?
+        "strftime('%Y-%m',amblist.date) = strftime('%Y-%m',date('now'))"
+        :
+        "date(amblist.date) = date('now')"
+        ;
 
     db.newStatement(query);
 

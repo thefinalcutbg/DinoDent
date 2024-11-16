@@ -1,7 +1,6 @@
 ﻿#include "CalendarViewData.h"
 #include <QPainter>
 #include <QPainterPath>
-#include <QDebug>
 #include "View/Theme.h"
 #include <QApplication>
 

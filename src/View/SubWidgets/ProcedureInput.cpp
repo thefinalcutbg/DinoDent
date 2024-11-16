@@ -9,6 +9,7 @@
 #include "Resources.h"
 #include "View/ModalDialogBuilder.h"
 #include "View/Widgets/ICD10Dialog.h"
+#include "Model/User.h"
 
 ProcedureInput::ProcedureInput(QWidget* parent)
 	: QWidget(parent)
@@ -116,6 +117,7 @@ AbstractDateEdit* ProcedureInput::dateEdit()
 
 void ProcedureInput::setCommonData(const CommonData& data, bool hasNhifCode)
 {
+	ui.dateFrame->setHidden(!User::hasNhifContract());
 	ui.diagnosisGroup->show();
 	ui.notesGroup->show();
 	ui.financingGroup->show();

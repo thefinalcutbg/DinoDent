@@ -7,7 +7,6 @@
 #include <QNetworkRequest>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
-#include <QDebug>
 #include "Network/NetworkManager.h"
 #include "Presenter/CalendarPresenter.h"
 #include "Credentials.h" //comment this out

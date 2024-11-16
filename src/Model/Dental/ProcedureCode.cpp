@@ -3,7 +3,7 @@
 #include <json/json.h>
 #include <algorithm>
 #include <type_traits>
-#include <QDebug>
+
 void ProcedureCode::initialize()
 {
 	Json::Reader reader;

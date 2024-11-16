@@ -97,7 +97,6 @@ QString TileButton::elide(const QString& text, int length)
 }
 
 
-#include <QDebug>
 PatientTile::PatientTile(QWidget* parent) : TileButton(parent)
 {
 	nraButton = new IconButton(this);

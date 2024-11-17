@@ -47,11 +47,6 @@ ContextMenu::ContextMenu()
     
     QMenu* obturMenu = statusMenu->addMenu("&Възстановяване");
     QMenu* cariesMenu = statusMenu->addMenu("&Патология на ТЗТ");
-    QMenu* mobilityMenu = statusMenu->addMenu("&Подвижност");
-
-    dsn_menu = new DsnMenu();
-    auto dsnMenuAction = statusMenu->addMenu(dsn_menu);
-    dsnMenuAction->setText("Свръхброен зъб");
 
     QString surfName[SurfaceCount] = { "Оклузално", "Медиално", "Дистално", "Букално", "Лингвално", "Цервикално" };
 
@@ -62,14 +57,6 @@ ContextMenu::ContextMenu()
 
         surfCar[i] = cariesMenu->addAction(surfName[i]);
         connect(surfCar[i], &QAction::triggered, [this, i]() {this->presenter->setToothStatus(StatusType::Caries, i); });
-    }
-
-    for (int i = 0; i < MobilityCount; i++)
-    {
-        mobilityDegree[i] = mobilityMenu->addAction(mobilityNames[i].data());
-        connect(mobilityDegree[i], &QAction::triggered, [this, i]() {
-            this->presenter->setToothStatus(StatusType::Mobility, i);; });
-
     }
 
 
@@ -83,29 +70,45 @@ ContextMenu::ContextMenu()
     cariesMenu->addSeparator();
     cariesMenu->addAction(otherActions[OtherInputs::removeC]);
 
-    statusMenu->addSeparator();
-    statusMenu->addAction(menuAction[Dental::Pulpitis]);
-    statusMenu->addAction(menuAction[Dental::ApicalLesion]);
-    statusMenu->addAction(menuAction[Dental::RootCanal]);
-    statusMenu->addAction(menuAction[Dental::Post]);
-    statusMenu->addSeparator();
-    statusMenu->addAction(menuAction[Dental::Missing]);
-    statusMenu->addAction(menuAction[Dental::Root]);
-    statusMenu->addAction(menuAction[Dental::Implant]);
-    statusMenu->addAction(menuAction[Dental::Fracture]);
-    statusMenu->addAction(menuAction[Dental::Impacted]);
-    statusMenu->addAction(menuAction[Dental::HasSupernumeral]);
-    statusMenu->addSeparator();
-    statusMenu->addAction(menuAction[Dental::Periodontitis]);
-    statusMenu->addAction(menuAction[Dental::Calculus]);
-    statusMenu->addSeparator();
-    statusMenu->addAction(menuAction[Dental::Crown]);
-    statusMenu->addAction(menuAction[Dental::Bridge]);
-    statusMenu->addAction(menuAction[Dental::Denture]);
-    statusMenu->addAction(menuAction[Dental::Splint]);
-    statusMenu->addSeparator();
+    auto endoMenu = statusMenu->addMenu("Ендодонтия");
+
+    endoMenu->addAction(menuAction[Dental::Pulpitis]);
+    endoMenu->addAction(menuAction[Dental::ApicalLesion]);
+    endoMenu->addAction(menuAction[Dental::RootCanal]);
+    endoMenu->addAction(menuAction[Dental::Post]);
+
+    auto surgeryMenu = statusMenu->addMenu("Хирургия");
+
+    surgeryMenu->addAction(menuAction[Dental::Missing]);
+    surgeryMenu->addAction(menuAction[Dental::Root]);
+    surgeryMenu->addAction(menuAction[Dental::Implant]);
+    surgeryMenu->addAction(menuAction[Dental::Fracture]);
+    surgeryMenu->addAction(menuAction[Dental::Impacted]);
+
+    dsn_menu = new DsnMenu();
+    auto dsnMenuAction = statusMenu->addMenu(dsn_menu);
+    dsnMenuAction->setText("Свръхброен зъб");
+
+    auto perioMenu = statusMenu->addMenu("Пародонтология");
+    perioMenu->addAction(menuAction[Dental::Periodontitis]);
+    perioMenu->addAction(menuAction[Dental::Calculus]);
+    
+    for (int i = 0; i < MobilityCount; i++)
+    {
+        mobilityDegree[i] = perioMenu->addAction(mobilityNames[i].data());
+        connect(mobilityDegree[i], &QAction::triggered, [this, i]() {
+            this->presenter->setToothStatus(StatusType::Mobility, i);; });
+    }
+
+    auto prosthoMenu = statusMenu->addMenu("Протетика");
+
+    prosthoMenu->addAction(menuAction[Dental::Crown]);
+    prosthoMenu->addAction(menuAction[Dental::Bridge]);
+    prosthoMenu->addAction(menuAction[Dental::Denture]);
+    prosthoMenu->addAction(menuAction[Dental::Splint]);
+    prosthoMenu->addAction(otherActions[OtherInputs::removeBridge]);
+
     statusMenu->addAction(otherActions[OtherInputs::removeAll]);
-    statusMenu->addAction(otherActions[OtherInputs::removeBridge]);
 }
 
 void ContextMenu::setSelection(bool single) { details->setEnabled(single); }

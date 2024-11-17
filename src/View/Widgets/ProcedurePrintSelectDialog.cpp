@@ -13,7 +13,7 @@ ProcedurePrintSelectDialog::ProcedurePrintSelectDialog(const std::vector<Procedu
 {
 	ui.setupUi(this);
 	setModal(true);
-	setWindowTitle("Избор на манипулации");
+    setWindowTitle("Избор на процедури");
 
 	ui.tableView->setSelectionBehavior(QAbstractItemView::SelectionBehavior::SelectRows);
 	ui.tableView->setSelectionMode(QAbstractItemView::SelectionMode::NoSelection);
@@ -22,10 +22,10 @@ ProcedurePrintSelectDialog::ProcedurePrintSelectDialog(const std::vector<Procedu
 	ui.tableView->setFocusPolicy(Qt::NoFocus);
 	ui.tableView->setColumnWidth(0, 110);
 	ui.tableView->setColumnWidth(1, 200);
-	ui.tableView->setColumnWidth(2, 25);
+    ui.tableView->setColumnWidth(2, 65);
 	ui.tableView->setColumnWidth(3, 300);
-	ui.tableView->setColumnWidth(4, 49);
-	ui.tableView->setColumnWidth(5, 80);
+    ui.tableView->setColumnWidth(4, 100);
+    ui.tableView->setColumnWidth(5, 100);
 	ui.tableView->verticalHeader()->setDefaultSectionSize(20);
 	ui.tableView->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 	ui.tableView->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);

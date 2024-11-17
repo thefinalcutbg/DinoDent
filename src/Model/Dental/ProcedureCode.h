@@ -58,7 +58,7 @@ class ProcedureCode
 
     inline static std::unordered_map<std::string, ProcedureCode::Numenclature> s_mapping;
     inline static std::map<int, std::string> legacy_achi; //the old his procedures dont have achi
-    inline static std::vector<ProcedureCode> s_sorted_codes;
+    static std::vector<ProcedureCode> s_sorted_codes;
 
     std::string m_code;
 

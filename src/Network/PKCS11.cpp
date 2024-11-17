@@ -1,9 +1,11 @@
 ﻿#include "PKCS11.h"
-#include <libp11\libp11.h>
+#include <libp11.h>
 #include <vector>
 #include <openssl/x509.h>
 #include <openssl/pem.h>
 #include <filesystem>
+#include <Model/Date.h>
+#include <sstream>
 
 X509Details::X509Details(x509_st* cert, const std::string& driverPath) :
 	driverPath(driverPath)
@@ -84,9 +86,7 @@ bool X509Details::isValid() const
 {
 	if (x509_pem.empty()) { return false; }
 
-	auto now = std::chrono::system_clock::now();
-
-	std::string currentDateTime8601 = std::format("{:%FT%TZ}", now);
+    std::string currentDateTime8601 = Date::currentDate().to8601();
 
 	return currentDateTime8601 < validTo8601
 		&& currentDateTime8601 > validFrom8601

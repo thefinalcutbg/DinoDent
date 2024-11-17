@@ -17,7 +17,7 @@ ProcedureListView::ProcedureListView(QWidget *parent)
 
 	table->setColumnWidth(0, 30);
 	table->hideColumn(1);
-	table->setColumnWidth(2, 70);
+    table->setColumnWidth(2, 100);
 	table->horizontalHeader()->setSectionResizeMode(3, QHeaderView::ResizeMode::Stretch);
 	table->horizontalHeader()->setHighlightSections(false);
 	table->verticalHeader()->setVisible(false);

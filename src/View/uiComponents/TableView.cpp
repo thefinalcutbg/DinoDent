@@ -96,8 +96,8 @@ void TableView::setAmbListLayout()
     setColumnWidth(2, 250);
     setColumnWidth(3, 65);
     setColumnWidth(4, 250);
-    setColumnWidth(5, 80);
-    setColumnWidth(6, 80);
+    setColumnWidth(5, 100);
+    setColumnWidth(6, 100);
     hideColumn(7);
 
     horizontalHeader()->setSectionResizeMode(8, QHeaderView::Stretch);
@@ -114,8 +114,8 @@ void TableView::setProcedureHistoryLayout()
     setColumnWidth(2, 200);
     setColumnWidth(3, 65);
     setColumnWidth(4, 300);
-    setColumnWidth(5, 80);
-    setColumnWidth(6, 80);
+    setColumnWidth(5, 100);
+    setColumnWidth(6, 100);
     setColumnWidth(7, 100);
     setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
@@ -131,10 +131,10 @@ void TableView::setProcedurePrintSelectLayout()
     setFocusPolicy(Qt::NoFocus);
     setColumnWidth(0, 110);
     setColumnWidth(1, 200);
-    setColumnWidth(2, 25);
+    setColumnWidth(2, 65);
     setColumnWidth(3, 300);
-    setColumnWidth(4, 49);
-    setColumnWidth(5, 80);
+    setColumnWidth(4, 100);
+    setColumnWidth(5, 100);
     verticalHeader()->setDefaultSectionSize(20);
     setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
@@ -148,9 +148,9 @@ void TableView::setBusinessOperationLayout()
     setColumnWidth(0, 50);
     setColumnWidth(1, 100);
     setColumnWidth(2, 350);
-    setColumnWidth(3, 50);
-    setColumnWidth(4, 75);
-    setColumnWidth(5, 75);
+    setColumnWidth(3, 65);
+    setColumnWidth(4, 100);
+    setColumnWidth(5, 100);
     horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
     setShowGrid(false);
 }
@@ -184,7 +184,7 @@ void TableView::setPISActivitiesLayout()
     setColumnWidth(2, 200);
     setColumnWidth(3, 25);
     setColumnWidth(4, 300);
-    setColumnWidth(5, 49);
+    setColumnWidth(5, 100);
     hideColumn(6);
    // hideColumn(7);
     hideColumn(7);

@@ -1,8 +1,8 @@
 ﻿#include "ProcedureCode.h"
 #include "Resources.h"
 #include <json/json.h>
-#include <algorithm>
-#include <type_traits>
+
+std::vector<ProcedureCode> ProcedureCode::s_sorted_codes;
 
 void ProcedureCode::initialize()
 {

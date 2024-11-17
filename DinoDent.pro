@@ -31,7 +31,6 @@ macx:{
   LIBS += -L$$DEPFOLDER/lib -lxml2 -lp11 -lcrypto -lssl
 
 
-
   ICON = $$PWD/installer/macos/icon.icns
 
 }
@@ -44,72 +43,6 @@ INCLUDEPATH += $$DEPFOLDER/include/libxml2
 RESOURCES += \
     resources/Resource.qrc
 
-FORMS += \
-    src/View/SubWidgets/ControlPanel.ui \
-    src/View/SubWidgets/MedicalNoticeTile.ui \
-    src/View/SubWidgets/MedicalStatusWidget.ui \
-    src/View/SubWidgets/PatientTileInfo.ui \
-    src/View/SubWidgets/PerioStatisticView.ui \
-    src/View/SubWidgets/ProcedureInput.ui \
-    src/View/SubWidgets/RangeWidget.ui \
-    src/View/SubWidgets/ReferralTile.ui \
-    src/View/SubWidgets/SurfacePanel.ui \
-    src/View/SubWidgets/SurfaceSelector.ui \
-    src/View/SubWidgets/TabTitle.ui \
-    src/View/Widgets/AboutDialog.ui \
-    src/View/Widgets/AllergyDialog.ui \
-    src/View/Widgets/BrowserDialog.ui \
-    src/View/Widgets/BusinessOperationDialog.ui \
-    src/View/Widgets/ButtonDialog.ui \
-    src/View/Widgets/CalendarEventDialog.ui \
-    src/View/Widgets/CalendarView.ui \
-    src/View/Widgets/ChatDialog.ui \
-    src/View/Widgets/DetailedStatus.ui \
-    src/View/Widgets/DinoDent.ui \
-    src/View/Widgets/DoctorSettingsDialog.ui \
-    src/View/Widgets/DosageDialog.ui \
-    src/View/Widgets/ErrorDetailedDialog.ui \
-    src/View/Widgets/FinancialView.ui \
-    src/View/Widgets/FiscalReceiptDialog.ui \
-    src/View/Widgets/FiscalReportView.ui \
-    src/View/Widgets/InputDialog.ui \
-    src/View/Widgets/InvoicePrintDialog.ui \
-    src/View/Widgets/ListView.ui \
-    src/View/Widgets/LoginView.ui \
-    src/View/Widgets/MedicalNoticeDialog.ui \
-    src/View/Widgets/MedicalStatusDialog.ui \
-    src/View/Widgets/MedicationDialog.ui \
-    src/View/Widgets/MonthNotifView.ui \
-    src/View/Widgets/MultilineDialog.ui \
-    src/View/Widgets/NewDocDialog.ui \
-    src/View/Widgets/PatientFormDialog.ui \
-    src/View/Widgets/PatientSummary.ui \
-    src/View/Widgets/PerioStatusView.ui \
-    src/View/Widgets/PerioView.ui \
-    src/View/Widgets/PinPromptDialog.ui \
-    src/View/Widgets/PisDialog.ui \
-    src/View/Widgets/PisImportView.ui \
-    src/View/Widgets/PracticeDialog.ui \
-    src/View/Widgets/PracticeListDialog.ui \
-    src/View/Widgets/PracticeSelectorView.ui \
-    src/View/Widgets/PrescriptionView.ui \
-    src/View/Widgets/ProcedureDialog.ui \
-    src/View/Widgets/ProcedureEditDialog.ui \
-    src/View/Widgets/ProcedureHistoryDialog.ui \
-    src/View/Widgets/ProcedurePrintSelectDialog.ui \
-    src/View/Widgets/RecipientEditView.ui \
-    src/View/Widgets/ReferralDialog.ui \
-    src/View/Widgets/ReportFilesView.ui \
-    src/View/Widgets/ReportView.ui \
-    src/View/Widgets/SettingsDialog.ui \
-    src/View/Widgets/StatisticDialogView.ui \
-    src/View/Widgets/TabView.ui \
-    src/View/Widgets/TableViewDialog.ui \
-    src/View/Widgets/UnusedPackageView.ui \
-    src/View/Widgets/UpdateDialog.ui \
-    src/View/Widgets/UpdateDownloader.ui \
-    src/View/Widgets/UpdatePromptDialog.ui \
-    src/View/Widgets/WelcomeWidget.ui
 
 HEADERS += \
     include/TinyXML/tinystr.h \
@@ -149,7 +82,6 @@ HEADERS += \
     src/Model/Dental/DentalStatistics.h \
     src/Model/Dental/Diagnosis.h \
     src/Model/Dental/HisSnapshot.h \
-    src/Model/Dental/MKB.h \
     src/Model/Dental/MonthNotifRow.h \
     src/Model/Dental/NhifMaps.h \
     src/Model/Dental/NhifProcedures.h \
@@ -183,6 +115,7 @@ HEADERS += \
     src/Model/Foreigner.h \
     src/Model/FreeFunctions.h \
     src/Model/Hospitalization.h \
+    src/Model/ICD10.h \
     src/Model/InsuranceStatus.h \
     src/Model/MedicalNotice.h \
     src/Model/MedicalStatuses.h \
@@ -221,7 +154,6 @@ HEADERS += \
     src/Model/Validators/PatientValidators.h \
     src/Model/Validators/PrescriptionValidators.h \
     src/Model/Validators/ProcedureDateValidator.h \
-    src/Model/Validators/ProcedureValidators.h \
     src/Model/Validators/RecipientIdValidator.h \
     src/Model/Validators/RziValidaor.h \
     src/Model/xml.h \
@@ -231,6 +163,7 @@ HEADERS += \
     src/Network/Calendar/Credentials.h \
     src/Network/Calendar/Google.h \
     src/Network/DynamicNumenclatures.h \
+    src/Network/GetHSM.h \
     src/Network/HIS/EAllergy.h \
     src/Network/HIS/EDental.h \
     src/Network/HIS/EHospitalization.h \
@@ -293,6 +226,7 @@ HEADERS += \
     src/Presenter/ProcedureDialogPresenter.h \
     src/Presenter/ProcedureEditorPresenter.h \
     src/Presenter/ProcedureHistoryPresenter.h \
+    src/Presenter/ProcedureListPresenter.h \
     src/Presenter/RecipientPresenter.h \
     src/Presenter/ReferralPresenter.h \
     src/Presenter/ReportFilesPresenter.h \
@@ -337,7 +271,6 @@ HEADERS += \
     src/View/Interfaces/AbstractUIElement.h \
     src/View/Interfaces/IAllergiesDialog.h \
     src/View/Interfaces/IBrowserDialog.h \
-    src/View/Interfaces/ICrownView.h \
     src/View/Interfaces/IDetailedStatusView.h \
     src/View/Interfaces/IDoctorSettingsDialog.h \
     src/View/Interfaces/IDosageDialog.h \
@@ -359,9 +292,7 @@ HEADERS += \
     src/View/Interfaces/IPracticeDoctorSettings.h \
     src/View/Interfaces/IPracticeSelectorView.h \
     src/View/Interfaces/IPrescriptionView.h \
-    src/View/Interfaces/IProcedureDialog.h \
     src/View/Interfaces/IProcedureEditDialog.h \
-    src/View/Interfaces/IProcedureHistoryDialog.h \
     src/View/Interfaces/IProcedureInput.h \
     src/View/Interfaces/IReferralDialog.h \
     src/View/Interfaces/IReportFilesView.h \
@@ -380,10 +311,10 @@ HEADERS += \
     src/View/SubWidgets/PatientTileInfo.h \
     src/View/SubWidgets/PerioStatisticView.h \
     src/View/SubWidgets/ProcedureInput.h \
-    src/View/SubWidgets/RangeWidget.h \
+    src/View/SubWidgets/ProcedureListView.h \
     src/View/SubWidgets/ReferralTile.h \
+    src/View/SubWidgets/SnapshotViewer.h \
     src/View/SubWidgets/SurfacePanel.h \
-    src/View/SubWidgets/SurfaceSelector.h \
     src/View/SubWidgets/TabTitle.h \
     src/View/TableModels/BusinessOperationModel.h \
     src/View/TableModels/FiscalReceiptTableModel.h \
@@ -393,7 +324,6 @@ HEADERS += \
     src/View/TableModels/MonthNotifTableModel.h \
     src/View/TableModels/NameFilterProxyModel.h \
     src/View/TableModels/PlainTableModel.h \
-    src/View/TableModels/ProcedureCodeModel.h \
     src/View/TableModels/ProcedureSelectModel.h \
     src/View/TableModels/ProcedureTableModel.h \
     src/View/TableModels/ProcedureTemplateModel.h \
@@ -409,6 +339,7 @@ HEADERS += \
     src/View/Widgets/ButtonDialog.h \
     src/View/Widgets/CalendarEventDialog.h \
     src/View/Widgets/CalendarView.h \
+    src/View/Widgets/CertificateListDialog.h \
     src/View/Widgets/ChatDialog.h \
     src/View/Widgets/DetailedStatus.h \
     src/View/Widgets/DinoDent.h \
@@ -419,6 +350,7 @@ HEADERS += \
     src/View/Widgets/FiscalReceiptDialog.h \
     src/View/Widgets/FiscalReportView.h \
     src/View/Widgets/GlobalWidgets.h \
+    src/View/Widgets/ICD10Dialog.h \
     src/View/Widgets/InputDialog.h \
     src/View/Widgets/InvoicePrintDialog.h \
     src/View/Widgets/ListView.h \
@@ -534,7 +466,6 @@ SOURCES += \
     src/Model/Country.cpp \
     src/Model/Date.cpp \
     src/Model/Dental/Diagnosis.cpp \
-    src/Model/Dental/MKB.cpp \
     src/Model/Dental/NhifProcedures.cpp \
     src/Model/Dental/NhifSheetData.cpp \
     src/Model/Dental/NhifSpecReport.cpp \
@@ -557,6 +488,7 @@ SOURCES += \
     src/Model/Financial/NhifInvoiceData.cpp \
     src/Model/Financial/Recipient.cpp \
     src/Model/FreeFunctions.cpp \
+    src/Model/ICD10.cpp \
     src/Model/InsuranceStatus.cpp \
     src/Model/Parser.cpp \
     src/Model/Patient.cpp \
@@ -583,7 +515,6 @@ SOURCES += \
     src/Model/Validators/PatientValidators.cpp \
     src/Model/Validators/PrescriptionValidators.cpp \
     src/Model/Validators/ProcedureDateValidator.cpp \
-    src/Model/Validators/ProcedureValidators.cpp \
     src/Model/Validators/RecipientIdValidator.cpp \
     src/Model/Validators/RziValidator.cpp \
     src/Model/xml.cpp \
@@ -591,6 +522,7 @@ SOURCES += \
     src/Network/Base64Convert.cpp \
     src/Network/Calendar/CalendarJsonParser.cpp \
     src/Network/Calendar/Google.cpp \
+    src/Network/GetHSM.cpp \
     src/Network/HIS/EAllergy.cpp \
     src/Network/HIS/EDental.cpp \
     src/Network/HIS/EHospitalization.cpp \
@@ -652,6 +584,7 @@ SOURCES += \
     src/Presenter/ProcedureDialogPresenter.cpp \
     src/Presenter/ProcedureEditorPresenter.cpp \
     src/Presenter/ProcedureHistoryPresenter.cpp \
+    src/Presenter/ProcedureListPresenter.cpp \
     src/Presenter/RecipientPresenter.cpp \
     src/Presenter/ReferralPresenter.cpp \
     src/Presenter/ReportFilesPresenter.cpp \
@@ -698,10 +631,10 @@ SOURCES += \
     src/View/SubWidgets/PatientTileInfo.cpp \
     src/View/SubWidgets/PerioStatisticView.cpp \
     src/View/SubWidgets/ProcedureInput.cpp \
-    src/View/SubWidgets/RangeWidget.cpp \
+    src/View/SubWidgets/ProcedureListView.cpp \
     src/View/SubWidgets/ReferralTile.cpp \
+    src/View/SubWidgets/SnapshotViewer.cpp \
     src/View/SubWidgets/SurfacePanel.cpp \
-    src/View/SubWidgets/SurfaceSelector.cpp \
     src/View/SubWidgets/TabTitle.cpp \
     src/View/TableModels/BusinessOperationModel.cpp \
     src/View/TableModels/FiscalReceiptTableModel.cpp \
@@ -711,7 +644,6 @@ SOURCES += \
     src/View/TableModels/MonthNotifTableModel.cpp \
     src/View/TableModels/NameFilterProxyModel.cpp \
     src/View/TableModels/PlainTableModel.cpp \
-    src/View/TableModels/ProcedureCodeModel.cpp \
     src/View/TableModels/ProcedureSelectModel.cpp \
     src/View/TableModels/ProcedureTableModel.cpp \
     src/View/TableModels/ProcedureTemplateModel.cpp \
@@ -727,6 +659,7 @@ SOURCES += \
     src/View/Widgets/ButtonDialog.cpp \
     src/View/Widgets/CalendarEventDialog.cpp \
     src/View/Widgets/CalendarView.cpp \
+    src/View/Widgets/CertificateListDialog.cpp \
     src/View/Widgets/ChatDialog.cpp \
     src/View/Widgets/DetailedStatus.cpp \
     src/View/Widgets/DinoDent.cpp \
@@ -736,6 +669,7 @@ SOURCES += \
     src/View/Widgets/FinancialView.cpp \
     src/View/Widgets/FiscalReceiptDialog.cpp \
     src/View/Widgets/FiscalReportView.cpp \
+    src/View/Widgets/ICD10Dialog.cpp \
     src/View/Widgets/InputDialog.cpp \
     src/View/Widgets/InvoicePrintDialog.cpp \
     src/View/Widgets/ListView.cpp \
@@ -810,6 +744,75 @@ SOURCES += \
     src/View/uiComponents/ToothButton.cpp \
     src/View/uiComponents/UserButton.cpp \
     src/main.cpp
+
+FORMS += \
+    src/View/SubWidgets/ControlPanel.ui \
+    src/View/SubWidgets/MedicalNoticeTile.ui \
+    src/View/SubWidgets/MedicalStatusWidget.ui \
+    src/View/SubWidgets/PatientTileInfo.ui \
+    src/View/SubWidgets/PerioStatisticView.ui \
+    src/View/SubWidgets/ProcedureInput.ui \
+    src/View/SubWidgets/ProcedureListView.ui \
+    src/View/SubWidgets/ReferralTile.ui \
+    src/View/SubWidgets/SnapshotViewer.ui \
+    src/View/SubWidgets/SurfacePanel.ui \
+    src/View/SubWidgets/TabTitle.ui \
+    src/View/Widgets/AboutDialog.ui \
+    src/View/Widgets/AllergyDialog.ui \
+    src/View/Widgets/BrowserDialog.ui \
+    src/View/Widgets/BusinessOperationDialog.ui \
+    src/View/Widgets/ButtonDialog.ui \
+    src/View/Widgets/CalendarEventDialog.ui \
+    src/View/Widgets/CalendarView.ui \
+    src/View/Widgets/CertificateListDialog.ui \
+    src/View/Widgets/ChatDialog.ui \
+    src/View/Widgets/DetailedStatus.ui \
+    src/View/Widgets/DinoDent.ui \
+    src/View/Widgets/DoctorSettingsDialog.ui \
+    src/View/Widgets/DosageDialog.ui \
+    src/View/Widgets/ErrorDetailedDialog.ui \
+    src/View/Widgets/FinancialView.ui \
+    src/View/Widgets/FiscalReceiptDialog.ui \
+    src/View/Widgets/FiscalReportView.ui \
+    src/View/Widgets/ICD10Dialog.ui \
+    src/View/Widgets/InputDialog.ui \
+    src/View/Widgets/InvoicePrintDialog.ui \
+    src/View/Widgets/ListView.ui \
+    src/View/Widgets/LoginView.ui \
+    src/View/Widgets/MedicalNoticeDialog.ui \
+    src/View/Widgets/MedicalStatusDialog.ui \
+    src/View/Widgets/MedicationDialog.ui \
+    src/View/Widgets/MonthNotifView.ui \
+    src/View/Widgets/MultilineDialog.ui \
+    src/View/Widgets/NewDocDialog.ui \
+    src/View/Widgets/PatientFormDialog.ui \
+    src/View/Widgets/PatientSummary.ui \
+    src/View/Widgets/PerioStatusView.ui \
+    src/View/Widgets/PerioView.ui \
+    src/View/Widgets/PinPromptDialog.ui \
+    src/View/Widgets/PisDialog.ui \
+    src/View/Widgets/PisImportView.ui \
+    src/View/Widgets/PracticeDialog.ui \
+    src/View/Widgets/PracticeListDialog.ui \
+    src/View/Widgets/PracticeSelectorView.ui \
+    src/View/Widgets/PrescriptionView.ui \
+    src/View/Widgets/ProcedureDialog.ui \
+    src/View/Widgets/ProcedureEditDialog.ui \
+    src/View/Widgets/ProcedureHistoryDialog.ui \
+    src/View/Widgets/ProcedurePrintSelectDialog.ui \
+    src/View/Widgets/RecipientEditView.ui \
+    src/View/Widgets/ReferralDialog.ui \
+    src/View/Widgets/ReportFilesView.ui \
+    src/View/Widgets/ReportView.ui \
+    src/View/Widgets/SettingsDialog.ui \
+    src/View/Widgets/StatisticDialogView.ui \
+    src/View/Widgets/TabView.ui \
+    src/View/Widgets/TableViewDialog.ui \
+    src/View/Widgets/UnusedPackageView.ui \
+    src/View/Widgets/UpdateDialog.ui \
+    src/View/Widgets/UpdateDownloader.ui \
+    src/View/Widgets/UpdatePromptDialog.ui \
+    src/View/Widgets/WelcomeWidget.ui
 
 
 

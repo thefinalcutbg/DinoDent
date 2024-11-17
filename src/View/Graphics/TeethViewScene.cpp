@@ -169,7 +169,7 @@ void TeethViewScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* Event)
     if (item != NULL && item->flags().testFlag(QGraphicsItem::ItemIsSelectable))
     {
         auto* t = static_cast<SelectionBox*>(item);
-        presenter->openDetails(t->getIndex());
+        presenter->addProcedure();
     }
 }
 

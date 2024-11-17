@@ -2,7 +2,7 @@
 #include <QApplication>
 #include <View/Theme.h>
 #include <QPainter>
-
+#include <QGraphicsItem>
 GraphicsView::GraphicsView(QWidget *parent)
 	: QGraphicsView(parent)
 {
@@ -24,11 +24,26 @@ void GraphicsView::disableMultiSelection()
 
 void GraphicsView::mousePressEvent(QMouseEvent* event)
 {
-	QGraphicsView::mousePressEvent(event);
+	auto previouslySelectedList = scene()->selectedItems();
 
-	if(event->button() == Qt::LeftButton && 
-		!QGuiApplication::keyboardModifiers().testFlag(Qt::ControlModifier))
+	QGraphicsView::mousePressEvent(event);
+	
+	if (event->button() == Qt::LeftButton &&
+		!QGuiApplication::keyboardModifiers().testFlag(Qt::ControlModifier)) {
+
 		QGraphicsView::mousePressEvent(event);
+
+		auto newSelectedList = scene()->selectedItems();
+
+		if (newSelectedList.empty()) return;
+
+		if (previouslySelectedList.contains(newSelectedList[0])) {
+			for (auto i : previouslySelectedList) {
+				i->setSelected(true);
+			}
+		}
+	}
+	
 }
 
 GraphicsView::~GraphicsView()

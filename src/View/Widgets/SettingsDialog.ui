@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>690</width>
-    <height>494</height>
+    <height>495</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -35,7 +35,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>5</number>
      </property>
      <widget class="QWidget" name="generalSettings">
       <attribute name="title">
@@ -1283,7 +1283,7 @@
        <item>
         <widget class="QLabel" name="label_10">
          <property name="text">
-          <string>&lt;a href=&quot;https://nra.bg/wps/portal/nra/fiskalni-ustroystva-supto-i-e-magazini/supto/page.Iziskvania-kum-softuera&quot;&gt;Какво пречи това да стане ценоразпис?&lt;/a&gt;</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Относно законовите пречки за въвеждане на ценоразпис - прочетете &lt;a href=&quot;https://nra.bg/wps/portal/nra/fiskalni-ustroystva-supto-i-e-magazini/supto&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#003e92;&quot;&gt;тук&lt;/span&gt;&lt;/a&gt;, &lt;a href=&quot;https://nra.bg/wps/portal/nra/fiskalni-ustroystva-supto-i-e-magazini/supto/page.Informacia-za-potrebiteli-na-SUPTO&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#003e92;&quot;&gt;тук&lt;/span&gt;&lt;/a&gt; и &lt;a href=&quot;https://nra.bg/wps/portal/nra/fiskalni-ustroystva-supto-i-e-magazini/supto/page.Iziskvania-kum-softuera&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#003e92;&quot;&gt;тук&lt;/span&gt;.&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="openExternalLinks">
           <bool>true</bool>

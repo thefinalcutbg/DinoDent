@@ -12,7 +12,7 @@ ProcedureDialog::ProcedureDialog(ProcedureDialogPresenter& presenter, QWidget *p
 								   Qt::WindowMaximizeButtonHint |
 								   Qt::WindowCloseButtonHint);
 
-	setWindowTitle("Добавяне на манипулация");
+	setWindowTitle("Добавяне на процедура");
 
 
     connect(ui.procedureInput->qDateEdit(), &QDateEdit::dateChanged, this, [&] {

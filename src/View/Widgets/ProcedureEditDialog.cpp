@@ -12,7 +12,7 @@ ProcedureEditDialog::ProcedureEditDialog(ProcedureEditorPresenter& p, QWidget *p
 
 	setModal(true);
 	setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
-	setWindowTitle("Редактиране на манипулация");
+	setWindowTitle("Редактиране на процедура");
 
     connect(ui.okButton, &QPushButton::clicked, [&] {presenter.okPressed(); });
     connect(ui.cancelButton, &QPushButton::clicked, [&] { close(); });

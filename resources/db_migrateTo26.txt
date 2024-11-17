@@ -11,5 +11,6 @@ UPDATE procedure SET icd = 'K04.9', diagnosis_description = 'Status post devital
 UPDATE procedure SET icd = 'K04.9', diagnosis_description = 'Devitalisatio pro causa prothetica' WHERE diagnosis = 9;
 UPDATE procedure SET icd = 'K03.6' WHERE diagnosis = 10;
 ALTER TABLE procedure DROP COLUMN diagnosis;
+DELETE * FROM favourite_code
 PRAGMA user_version = 26;
 

@@ -76,6 +76,7 @@ void DbUpdates::update25() {
 	}
 
 }
+#include "GlobalSettings.h"
 
 void DbUpdates::update26() {
 
@@ -87,5 +88,7 @@ void DbUpdates::update26() {
 	{
 		db.execute(query);
 	}
+
+	GlobalSettings::setPkcs11PathList(GlobalSettings::getDefaultPkcs11Paths());
 
 }

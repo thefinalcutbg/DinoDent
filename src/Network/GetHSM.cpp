@@ -5,7 +5,7 @@
 
 bool s_multi_pkcs11 = false;
 
-std::optional<PKCS11> GetHSM::get()
+std::optional<PKCS11> GetHSM::get(bool showDialogs)
 {
 
 	auto pinLambda = [](const X509Details& cert) {
@@ -26,7 +26,9 @@ std::optional<PKCS11> GetHSM::get()
 	switch(hsm.getState()) {
 
 		case PKCS11::NoCertificate:
-			ModalDialogBuilder::showMessage("Не е открит КЕП");
+			if (showDialogs) {
+				ModalDialogBuilder::showMessage("Не е открит КЕП");
+			}
 			return {};
 		case PKCS11::NoCertificateChosen:
 			return {};

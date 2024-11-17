@@ -389,6 +389,18 @@ void ListPresenter::setDataToView()
 void ListPresenter::setAmbDateTime(const std::string& datetime)
 {
     m_ambList.date = datetime;
+
+    if (!User::hasNhifContract()) {
+
+        auto pDate = Date(datetime);
+
+        for (auto& p : m_ambList.procedures) {
+            p.date = pDate;
+        }
+
+        view->setProcedures(m_ambList.procedures.list());
+    }
+
     makeEdited();
 }
 

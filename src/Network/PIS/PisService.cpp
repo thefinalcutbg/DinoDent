@@ -47,7 +47,7 @@ bool PisService::sendRequest(const std::string& query, SOAPAction header)
 {
 	if (awaiting_reply) return true;
 
-	auto hsm = GetHSM::get();
+	auto hsm = GetHSM::get(show_dialogs);
 
 	if (!hsm) { return false; }
 

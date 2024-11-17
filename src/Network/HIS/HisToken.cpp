@@ -35,9 +35,12 @@ void HisToken::setChallengeMessage(const std::string& challenge)
 		return;
 	}
 
-	auto hsm = GetHSM::get();
+	auto hsm = GetHSM::get(!sToken::silent);
 
-	if (!hsm) return;
+	if (!hsm) {
+		sToken::current_service = nullptr;
+		return;
+	}
 
 	auto signedChallenge = Signer::signEnveloped(challenge, hsm->takePrivateKey(), hsm->x509ptr(), true);
 

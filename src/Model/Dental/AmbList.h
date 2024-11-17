@@ -57,22 +57,6 @@ struct AmbList
 
 	}
 
-	Date newProcedureDate() const
-	{
-		auto sheetDate = getDate();
-
-		if (sheetDate.month == Date::currentMonth() &&
-			sheetDate.year == Date::currentYear() &&
-			sheetDate <= Date::currentDate()
-			) {
-
-			return Date::currentDate();
-		}
-
-		return sheetDate;
-
-	}
-
 	Date getLastDateVisit() const {
 
 		Date result = getDate();

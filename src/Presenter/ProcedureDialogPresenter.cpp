@@ -19,15 +19,35 @@ ProcedureDialogPresenter::ProcedureDialogPresenter
     selectedTeeth(selectedTeeth),
 	ambList(ambSheet),
     patientTurns18(patientTurns18),
-	procedureDate(ambList.newProcedureDate()),
     pregnancyAllowed(pregnancyAllowed),
     procedure_creator(selectedTeeth),
     view(nullptr),
     date_validator(patientTurns18)
 {
+	procedureDate = ambList.getDate();
 
+	if (User::hasNhifContract() &&
+		procedureDate.month == Date::currentMonth() &&
+		procedureDate.year == Date::currentYear() &&
+		procedureDate <= Date::currentDate()
+	) {
+
+		procedureDate = Date::currentDate();
+	}
 }
 
+void ProcedureDialogPresenter::procedureDateChanged(const Date& date)
+{
+	bool needsRefresh =
+		date < patientTurns18 != procedureDate < patientTurns18 &&
+		User::hasNhifContract();
+
+	procedureDate = date;
+
+	if (needsRefresh) {
+		refreshNhifList();
+	}
+}
 
 void ProcedureDialogPresenter::setView(ProcedureDialog* view)
 {
@@ -53,20 +73,6 @@ void ProcedureDialogPresenter::setView(ProcedureDialog* view)
 	view->setSelectionLabel(selectedTeethNum);
 
 	setCode(ProcedureCode{}, false, 0);
-}
-
-void ProcedureDialogPresenter::procedureDateChanged(const Date& date)
-{
-	bool needsRefresh = 
-		date < patientTurns18 != procedureDate < patientTurns18 &&
-		User::hasNhifContract();
-	
-	procedureDate = date;
-	
-	if (needsRefresh) {
-		refreshNhifList();
-	}
-	
 }
 
 void ProcedureDialogPresenter::setCode(ProcedureCode code, bool nhif, double price)

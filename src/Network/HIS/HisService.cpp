@@ -47,7 +47,7 @@ bool HisService::sendRequestToHisNoAuth(const std::string& query)
 
 std::string HisService::signMessage(const std::string& message)
 {
-	auto hsm = GetHSM::get();
+	auto hsm = GetHSM::get(show_dialogs);
 
 	if (!hsm) { return std::string{}; }
 

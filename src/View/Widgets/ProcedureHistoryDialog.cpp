@@ -18,7 +18,6 @@ ProcedureHistoryDialog::ProcedureHistoryDialog(ProcedureHistoryPresenter& p)
         table->setSelectionMode(QAbstractItemView::SelectionMode::NoSelection);
 
         table->hideColumn(0);
-        table->hideColumn(6);
         table->hideColumn(7);
 
         table->setColumnWidth(1, 110);
@@ -26,6 +25,7 @@ ProcedureHistoryDialog::ProcedureHistoryDialog(ProcedureHistoryPresenter& p)
         table->setColumnWidth(3, 65);
         table->setColumnWidth(4, 200);
         table->setColumnWidth(5, 65);
+        table->setColumnWidth(6, 100);
         table->setColumnWidth(8, 200);
 
         table->verticalHeader()->setHidden(true);

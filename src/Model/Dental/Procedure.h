@@ -73,8 +73,6 @@ struct Procedure
     int his_index{ 0 };
 
     DatabaseSource db_source{ Local };
-    
-    double value;
 
     void applyProcedure(ToothContainer& teeth) const;
     //applies the procedures, not taking data into account

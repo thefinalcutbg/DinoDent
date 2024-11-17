@@ -134,7 +134,6 @@ std::vector<Procedure> ProcedureCreator::getProcedures()
 	procedure.LPK = User::doctor().LPK;
 	procedure.diagnosis = data.diagnosis;
 	procedure.notes = data.notes;
-	procedure.value = data.value;
 
 	bool supernumeral = false;
 

@@ -23,7 +23,6 @@ ProcedureEditorPresenter::ProcedureEditorPresenter(const Procedure& p, const Dat
 	result->financingSource = p.financingSource;
 	result->notes = p.notes;
 	result->affectedTeeth = p.affectedTeeth;
-	result->value = p.value;
 
 	_dateValidator.setProcedure(result->code.nhifCode(), result->financingSource == FinancingSource::NHIF);
 }
@@ -47,7 +46,6 @@ void ProcedureEditorPresenter::setView(IProcedureEditDialog* view)
 	data.diagnosis = result->diagnosis;
 	data.financingSource = result->financingSource;
 	data.notes = result->notes;
-	data.value = result->value;
 
 	auto inputView = view->procedureInput();
 
@@ -117,7 +115,6 @@ void ProcedureEditorPresenter::okPressed()
 	result->code = m_code;
 	result->date = view->procedureInput()->dateEdit()->getDate();
 	result->his_index = m_hisIndex;
-	result->value = data.value;
 	result->notes = data.notes;
 	result->diagnosis = data.diagnosis;
 	result->financingSource = data.financingSource;

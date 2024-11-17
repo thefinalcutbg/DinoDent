@@ -57,7 +57,7 @@ ProcedureListPresenter::ProcedureListPresenter()
 	
 	auto favourites = DbDoctor::getFavouriteProcedures(User::doctor().LPK);
 
-	auto prices = DbProcedure::getCodeValues();
+	//auto prices = DbProcedure::getCodeValues();
 
 	if (favourites.empty()) return;
 
@@ -68,10 +68,11 @@ ProcedureListPresenter::ProcedureListPresenter()
 		if (favourites.count(e.code.code())) {
 			e.favourite = true;
 		}
-
+		/*
 		if (prices.count(e.code.code())) {
 			e.price = prices.at(e.code.code());
 		}
+		*/
 	}
 
 }
@@ -177,6 +178,7 @@ bool ProcedureListPresenter::hasFavourites() const
 
 void ProcedureListPresenter::setCodePrice(const std::string& code, double price)
 {
+	/*
 	for (auto& e : m_elements) {
 		if (e.code.code() == code) {
 			
@@ -187,6 +189,7 @@ void ProcedureListPresenter::setCodePrice(const std::string& code, double price)
 			return;
 		}
 	}
+	*/
 }
 
 ProcedureListPresenter::~ProcedureListPresenter()

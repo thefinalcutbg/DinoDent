@@ -28,7 +28,7 @@
        <item>
         <widget class="QLabel" name="label_2">
          <property name="text">
-          <string>Вид манипулация:</string>
+          <string>Вид процедура:</string>
          </property>
         </widget>
        </item>
@@ -64,7 +64,7 @@
          <item>
           <spacer name="horizontalSpacer_6">
            <property name="orientation">
-            <enum>Qt::Horizontal</enum>
+            <enum>Qt::Orientation::Horizontal</enum>
            </property>
            <property name="sizeHint" stdset="0">
             <size>
@@ -92,12 +92,37 @@
            </item>
            <item>
             <property name="text">
-             <string>Обтурация</string>
+             <string>Почистване на зъбен камък</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>Ендодонтско лечение</string>
+             <string>Комплект снемаеми протези</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Обща анестезия</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Възстановяване</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Премахване на възстановяване</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Други процедури свързани с определен зъб</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Почистване на зъбен камък (на зъб)</string>
             </property>
            </item>
            <item>
@@ -107,17 +132,57 @@
            </item>
            <item>
             <property name="text">
-             <string>Корона</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
              <string>Имплант</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>Мост</string>
+             <string>Ендодонтско лечение</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Поставяне на радикуларен щифт</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Премахване на радикуларен щифт</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Щифтово изграждане</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Щифтова корона</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Корона</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Корона, мост или фасета</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Мостова конструкция</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Сваляне на корона или мост</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Снемаема протеза</string>
             </property>
            </item>
            <item>
@@ -127,27 +192,12 @@
            </item>
            <item>
             <property name="text">
-             <string>Протеза</string>
+             <string>Почистване на зъбен камък (на квадрант)</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>Премахване на щифт</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Премахване на корона</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Почистване на зъбен камък</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Обща анестезия</string>
+             <string>Множествена екстракция</string>
             </property>
            </item>
           </widget>
@@ -155,10 +205,10 @@
          <item>
           <spacer name="horizontalSpacer">
            <property name="orientation">
-            <enum>Qt::Horizontal</enum>
+            <enum>Qt::Orientation::Horizontal</enum>
            </property>
            <property name="sizeType">
-            <enum>QSizePolicy::Fixed</enum>
+            <enum>QSizePolicy::Policy::Fixed</enum>
            </property>
            <property name="sizeHint" stdset="0">
             <size>
@@ -197,7 +247,7 @@
          <item>
           <spacer name="horizontalSpacer_2">
            <property name="orientation">
-            <enum>Qt::Horizontal</enum>
+            <enum>Qt::Orientation::Horizontal</enum>
            </property>
            <property name="sizeHint" stdset="0">
             <size>
@@ -233,10 +283,10 @@
          <item>
           <spacer name="horizontalSpacer_3">
            <property name="orientation">
-            <enum>Qt::Horizontal</enum>
+            <enum>Qt::Orientation::Horizontal</enum>
            </property>
            <property name="sizeType">
-            <enum>QSizePolicy::Fixed</enum>
+            <enum>QSizePolicy::Policy::Fixed</enum>
            </property>
            <property name="sizeHint" stdset="0">
             <size>
@@ -249,10 +299,10 @@
          <item>
           <spacer name="horizontalSpacer_4">
            <property name="orientation">
-            <enum>Qt::Horizontal</enum>
+            <enum>Qt::Orientation::Horizontal</enum>
            </property>
            <property name="sizeType">
-            <enum>QSizePolicy::Fixed</enum>
+            <enum>QSizePolicy::Policy::Fixed</enum>
            </property>
            <property name="sizeHint" stdset="0">
             <size>
@@ -291,7 +341,7 @@
          <item>
           <spacer name="horizontalSpacer_7">
            <property name="orientation">
-            <enum>Qt::Horizontal</enum>
+            <enum>Qt::Orientation::Horizontal</enum>
            </property>
            <property name="sizeHint" stdset="0">
             <size>
@@ -312,7 +362,7 @@
      <item>
       <widget class="QGroupBox" name="nameGroup">
        <property name="title">
-        <string>Филтър по манипулация</string>
+        <string>Филтър по процедура</string>
        </property>
        <property name="checkable">
         <bool>true</bool>
@@ -361,7 +411,7 @@
         <string>Краен резултат:</string>
        </property>
        <property name="alignment">
-        <set>Qt::AlignCenter</set>
+        <set>Qt::AlignmentFlag::AlignCenter</set>
        </property>
       </widget>
      </item>

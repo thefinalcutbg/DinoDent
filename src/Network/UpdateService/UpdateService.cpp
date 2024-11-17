@@ -69,7 +69,7 @@ bool UpdateService::restartForUpdate()
 
     for (auto& change : updateInfo["changeLog"])
     {
-        changeLog.append("<br> - ");
+        changeLog.append("<br>");
         changeLog.append(change.asString());
     }
 

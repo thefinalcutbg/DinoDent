@@ -1,9 +1,8 @@
 ﻿#include "DetailedStatus.h"
 
-
 #include <QIcon>
 #include <QPainter>
-
+#include <QCursor>
 
 #include "Presenter/DetailedStatusPresenter.h"
 
@@ -38,6 +37,15 @@ DetailedStatus::DetailedStatus(DetailedStatusPresenter& presenter) : presenter(p
 void DetailedStatus::setNotes(const std::string& notes)
 {
 	ui.notesEdit->setText(notes.c_str());
+	ui.notesEdit->moveCursor(QTextCursor::MoveOperation::End);
+
+	if (notes.size()) {
+		ui.tabWidget->setCurrentIndex(1);
+	}
+	else
+	{
+		ui.tabWidget->setCurrentIndex(0);
+	}
 }
 
 

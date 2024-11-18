@@ -12,8 +12,8 @@ struct Procedure;
 
 class TiXmlElement;
 
-constexpr const char* hisUrl = "https://api.his.bg/";
-//constexpr const char* hisUrl = "https://ptest-api.his.bg/";
+//constexpr const char* hisUrl = "https://api.his.bg/";
+constexpr const char* hisUrl = "https://ptest-api.his.bg/";
 
 class HisService : protected AbstractReplyHandler
 {

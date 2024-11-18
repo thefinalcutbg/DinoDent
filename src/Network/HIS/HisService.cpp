@@ -347,6 +347,20 @@ std::string HisService::getProcedure(const Procedure& p, const ToothContainer& t
 
 	}
 
+	if (p.code.type() == ProcedureType::DenturePair) {
+		
+		p.applyProcedure(teethChanged);
+
+		for (auto& t : teethChanged) {
+
+			if (!t[Dental::Denture]) {
+				continue;
+			}
+
+			result += getToothStatus(t);
+		}
+	}
+
 	result += bind("note", p.notes, true);
 
 	if (p.diagnosis.icd.isValid() != 0) {

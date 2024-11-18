@@ -61,22 +61,15 @@ std::vector<Procedure> HISHistoryAlgorithms::getProcedures(TiXmlDocument& doc)
 			{
 				p.notes = pXml.Child(y).ToElement()->Attribute("value");
 			}
-#pragma warning ("Line 64 - HISHistoryAlgorithms.cpp - assuming polymorphic diagnosis")
+
 			//parsing diagnosis
 			if (elementName == "nhis:diagnosis")
 			{
 				auto diagElement = pXml.Child(y).ToElement();
-				
-				std::string diagStr = diagElement->FirstChildElement("nhis:code")->FirstAttribute()->ValueStr();
 	
 				auto& d = p.diagnosis;
-
-				if (std::isdigit(diagStr[0])) {
-					d = Diagnosis(std::atoi(diagStr.data()), true);
-				}
-				else {
-					d.icd = ICD10{ diagStr };
-				}
+				
+				d.icd = diagElement->FirstChildElement("nhis:code")->FirstAttribute()->ValueStr();
 
 				auto noteElement = diagElement->FirstChildElement("nhis:note");
 
@@ -265,21 +258,11 @@ std::vector<HisSnapshot> HISHistoryAlgorithms::getDentalHistory(TiXmlDocument& d
 
 		auto diagElement = dentalProcedure->FirstChildElement("nhis:diagnosis");
 
-		if (diagElement) {
-
-#pragma warning ("Line 278 - HISHistoryAlgorithms.cpp - assuming polymorphic diagnosis")
-			
-			//diagnosis polymorphism
-			std::string diagStr = diagElement->FirstChildElement("nhis:code")->FirstAttribute()->ValueStr();
+		if (diagElement) {	
 
 			Diagnosis d;
 
-			if (std::isdigit(diagStr[0])) {
-				d = Diagnosis(std::atoi(diagStr.data()), true);
-			}
-			else {
-				d.icd = ICD10{diagStr};
-			}
+			d.icd = diagElement->FirstChildElement("nhis:code")->FirstAttribute()->ValueStr();
 			
 			auto noteElement = diagElement->FirstChildElement("nhis:note");
 
@@ -288,10 +271,6 @@ std::vector<HisSnapshot> HISHistoryAlgorithms::getDentalHistory(TiXmlDocument& d
 			}
 
 			data.diagnosis = d.getDiagnosisText();
-		}
-		else
-		{
-			data.diagnosis = "Без диагноза";
 		}
 
 		auto noteElement = dentalProcedure->FirstChildElement("nhis:note");

@@ -1,17 +1,14 @@
 ﻿#include "ProcedureEditDialog.h"
 #include "Presenter/ProcedureEditorPresenter.h"
-
-
+#include <QPainter>
 
 ProcedureEditDialog::ProcedureEditDialog(ProcedureEditorPresenter& p, QWidget *parent)
 	: QDialog(parent), presenter(p)
 {
-
 	ui.setupUi(this);
     presenter.setView(this);
 
 	setModal(true);
-	setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 	setWindowTitle("Редактиране на процедура");
 
     connect(ui.okButton, &QPushButton::clicked, [&] {presenter.okPressed(); });
@@ -33,7 +30,7 @@ void ProcedureEditDialog::closeDialog()
 	close();
 }
 
-#include <QPainter>
+
 void ProcedureEditDialog::paintEvent(QPaintEvent*)
 {
 	QPainter painter;

@@ -38,10 +38,10 @@
    <item>
     <widget class="QFrame" name="frame">
      <property name="frameShape">
-      <enum>QFrame::NoFrame</enum>
+      <enum>QFrame::Shape::NoFrame</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Plain</enum>
+      <enum>QFrame::Shadow::Plain</enum>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
@@ -172,7 +172,7 @@
         <item>
          <spacer name="horizontalSpacer_2">
           <property name="orientation">
-           <enum>Qt::Horizontal</enum>
+           <enum>Qt::Orientation::Horizontal</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
@@ -228,7 +228,7 @@
           </item>
           <item>
            <property name="text">
-            <string>Манипулации</string>
+            <string>Процедури</string>
            </property>
           </item>
          </widget>
@@ -236,10 +236,10 @@
         <item>
          <spacer name="horizontalSpacer">
           <property name="orientation">
-           <enum>Qt::Horizontal</enum>
+           <enum>Qt::Orientation::Horizontal</enum>
           </property>
           <property name="sizeType">
-           <enum>QSizePolicy::Expanding</enum>
+           <enum>QSizePolicy::Policy::Expanding</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
@@ -301,7 +301,7 @@
         <item>
          <spacer name="previewSpacer">
           <property name="orientation">
-           <enum>Qt::Horizontal</enum>
+           <enum>Qt::Orientation::Horizontal</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>

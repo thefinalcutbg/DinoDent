@@ -12,7 +12,7 @@ ContextMenu::ContextMenu()
     addAction(addProcedure);
     connect(addProcedure, &QAction::triggered, [&] {if(presenter)presenter->addProcedure(); });
 
-    details = new QAction("Извършени процедури");
+    details = new QAction("Бележки и извършени процедури");
     addAction(details);
     connect(details, &QAction::triggered, [&] {if (presenter) presenter->openDetails(); });
     

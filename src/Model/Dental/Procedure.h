@@ -8,6 +8,7 @@
 #include "ToothIndex.h"
 
 class ToothContainer;
+class Tooth;
 
 struct ConstructionRange {
 
@@ -74,7 +75,8 @@ struct Procedure
 
     DatabaseSource db_source{ Local };
 
-    void applyProcedure(ToothContainer& teeth) const;
+
+    std::vector<const Tooth*> applyProcedure(ToothContainer& teeth) const;
     //applies the procedures, not taking data into account
     void applyPISProcedure(ToothContainer& teeth) const;
     //be sure AffectedTeeth variant matches the ProcedureScope
@@ -85,9 +87,9 @@ struct Procedure
     bool isSentToHis() const { return his_index != 0; };
     bool isHisSupported() const { return code.achiBlock() != 0; }
 
-    //first - indexes, second - supernumeral
-    std::vector<ToothIndex> getAffectedTeethIndexes(const ToothContainer& teeth) const;
     std::vector<int> getArrayIndexes() const;
     std::string getToothString() const;
+
+    void applyProcedureOLD(ToothContainer& teeth) const;
 };
 

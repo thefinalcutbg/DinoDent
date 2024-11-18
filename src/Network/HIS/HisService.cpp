@@ -295,70 +295,10 @@ std::string HisService::getProcedure(const Procedure& p, const ToothContainer& t
 
 	result += bind("financingSource", static_cast<int>(p.financingSource));
 
-	if (p.getScope() == ProcedureScope::SingleTooth)
-	{
-		p.applyProcedure(teethChanged);
+	auto teethPtrList = p.applyProcedure(teethChanged);
 
-		result += getToothStatus(teethChanged.at(p.getToothIndex()));
-	}
-
-	if (p.getScope() == ProcedureScope::Range)
-	{
-		auto [begin, end] = std::get<ConstructionRange>(p.affectedTeeth);
-
-		p.applyProcedure(teethChanged);
-
-		for (int i = begin; i <= end; i++)
-		{
-			if (p.code.type() == ProcedureType::Denture && 
-				!teethChanged.at(i)[Dental::Denture]){ 
-				continue; 
-			}
-
-			result += getToothStatus(teethChanged.at(i));
-		}
-	}
-
-	if (p.code.type() == ProcedureType::Depuratio)
-	{
-		p.applyProcedure(teethChanged);
-
-		for (int i = 0; i < Dental::teethCount; i++)
-		{
-			if (teeth[i][Dental::Calculus]) 
-				result += getToothStatus(teethChanged[i]);
-
-			if (teeth[i].getSupernumeral()[Dental::Calculus])
-				result += getToothStatus(teethChanged[i].getSupernumeral());
-		}
-	}
-
-	if (p.code.type() == ProcedureType::FullExam)
-	{
-		
-		for (auto& tooth : teeth)
-		{
-			result += getToothStatus(tooth);
-
-			if (tooth[Dental::HasSupernumeral]) {
-				result += getToothStatus(tooth.getSupernumeral());
-			}
-		}
-
-	}
-
-	if (p.code.type() == ProcedureType::DenturePair) {
-		
-		p.applyProcedure(teethChanged);
-
-		for (auto& t : teethChanged) {
-
-			if (!t[Dental::Denture]) {
-				continue;
-			}
-
-			result += getToothStatus(t);
-		}
+	for (auto t : teethPtrList) {
+		result += getToothStatus(*t);
 	}
 
 	result += bind("note", p.notes, true);

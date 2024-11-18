@@ -762,12 +762,7 @@ void ListPresenter::showAppliedStatus()
 
         snapshot.date = p.date;
 
-        auto affectedIndexes = p.getAffectedTeethIndexes(result.back().teeth);
-
-        for (auto i : affectedIndexes) {
-            snapshot.affected_teeth.push_back(i.index);
-        }
-
+        snapshot.affected_teeth = p.getArrayIndexes();
         snapshot.procedure_name = p.code.name();
         snapshot.procedure_diagnosis = p.diagnosis.icd.name();
         snapshot.procedure_note = p.notes;

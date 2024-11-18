@@ -121,7 +121,7 @@ ListView::ListView(QWidget* parent)
 			else ui.procedureTable->selectRow(currentIdx);
 		});
 
-    connect(ui.procedureTable, &TableView::deletePressed, this, [=, this](int row) {  if (presenter) presenter->deleteProcedure(row); });
+    connect(ui.procedureTable, &TableView::deletePressed, this, [=, this](int row) { ui.deleteProcedure->clicked(); });
     connect(ui.procedureTable, &TableView::editPressed, this, [=, this](int row) { if (presenter) presenter->editProcedure(row); });
     connect(ui.procedureTable, &TableView::rowDragged, this, [=, this] {
 

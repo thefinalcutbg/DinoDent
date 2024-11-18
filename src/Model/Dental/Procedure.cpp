@@ -148,7 +148,7 @@ std::vector<const Tooth*> Procedure::applyProcedure(ToothContainer& teeth) const
 				std::array range = { 1,2,3,4,5,6,7,8,9,10,11,12,13,14,
 								17,18,19,20,21,22,23,24,25,26,27,28,29,30 };
 
-				for (int i = 0; i < range.size(); i++) {
+				for (auto i : range) {
 					if (teeth[i].canHaveADenture()) {
 						teeth_indexes.push_back(i);
 					}

@@ -341,7 +341,7 @@ void Procedure::applyPISProcedure(ToothContainer& teeth) const
 	/*
 	
 		This function is a simple status applier, not taking into
-		consideration the result, since PIS doesn't store additional data
+		consideration the additional parameters, since PIS doesn't store additional data
 	
 	*/
 
@@ -578,7 +578,7 @@ void Procedure::applyProcedureOLD(ToothContainer& teeth) const
 	}
 	break;
 
-	case ProcedureType::CrownOrBridgeOrVeneer: //same implementation as crown
+	case ProcedureType::CrownOrBridgeOrVeneer: 
 	{
 		auto indexes = getToothIdxRange();
 
@@ -612,7 +612,7 @@ void Procedure::applyProcedureOLD(ToothContainer& teeth) const
 			break;
 		}
 
-		//individual crown
+		//individual crown - same implementation as crown
 		teeth.setStatus({ tooth_idx.index }, StatusType::General, Crown, true, tooth_idx.supernumeral);
 		teeth.setStatus({ tooth_idx.index }, StatusType::General, Fracture, false, tooth_idx.supernumeral);
 		teeth.at(tooth_idx).setLPK(Crown, LPK);

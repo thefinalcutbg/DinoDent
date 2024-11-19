@@ -9,6 +9,40 @@ void StatisticDialogView::paintEvent(QPaintEvent*)
 	painter.fillRect(rect(), Qt::white);
 }
 
+std::array<std::pair<QString, ProcedureType>, (int)ProcedureType::MaxCount-1>s_idxMapping = {
+
+	std::make_pair(QString("Възстановяване"), ProcedureType::Restoration),
+	std::make_pair(QString("Щифтово изграждане"), ProcedureType::PostCore),
+	std::make_pair(QString("Ендодонтска процедура"), ProcedureType::Endodontic),
+	std::make_pair(QString("Поставяне на радикуларен щифт"), ProcedureType::Post),
+
+	std::make_pair(QString("Екстракция"), ProcedureType::Extraction),
+	std::make_pair(QString("Множествена екстракция"), ProcedureType::MultipleExtraction),
+
+	std::make_pair(QString("Имплант"), ProcedureType::Implant),
+	
+	std::make_pair(QString("Корона/Блок корони"), ProcedureType::Crown),
+	std::make_pair(QString("Ендокорона"), ProcedureType::PostCrown),
+	std::make_pair(QString("Корона, Мостова конструкция или фасета"), ProcedureType::CrownOrBridgeOrVeneer),
+	std::make_pair(QString("Мостова конструкция"), ProcedureType::Bridge),
+	std::make_pair(QString("Шиниране/Адхезивен мост"), ProcedureType::Splint),
+
+	std::make_pair(QString("Протеза"), ProcedureType::Denture),
+	std::make_pair(QString("Комплект протези"), ProcedureType::DenturePair),
+
+	std::make_pair(QString("Премахване на възстановяване"), ProcedureType::RemoveRestoration),
+	std::make_pair(QString("Премахване на радикуларен щифт"), ProcedureType::RemovePost),
+	std::make_pair(QString("Премахване на фиксирана протетична конструкция"), ProcedureType::RemoveCrownOrBridge),
+
+	std::make_pair(QString("Почистване на зъбен камък"), ProcedureType::Depuratio),
+	std::make_pair(QString("Почистване на зъбен камък (на квадрант)"), ProcedureType::DepuratioQuadrant),
+	std::make_pair(QString("Почистване на зъбен камък (на зъб)"), ProcedureType::DepuratioTooth),
+
+	std::make_pair(QString("Други процедури"), ProcedureType::FullExam),
+	std::make_pair(QString("Други процедури засягащи зъб/зъби"), ProcedureType::ToothNonSpecific),
+	std::make_pair(QString("Обща анестезия"), ProcedureType::Anesthesia)
+};
+
 StatisticDialogView::StatisticDialogView(StatisticDialogPresenter& p, QWidget *parent)
     : QDialog(parent), presenter(p)
 {
@@ -16,8 +50,13 @@ StatisticDialogView::StatisticDialogView(StatisticDialogPresenter& p, QWidget *p
 
 	setWindowTitle("Статистики");
 	setWindowIcon(QIcon(":/icons/icon_statistic.png"));
+	setWindowFlag(Qt::WindowMaximizeButtonHint);
 
-	connect(ui.procedureCombo, &QComboBox::currentIndexChanged, [&](int idx) {presenter.setProcedureType(idx);});
+	for (auto& [descr, type] : s_idxMapping) {
+		ui.procedureCombo->addItem(descr);
+	}
+
+	connect(ui.procedureCombo, &QComboBox::currentIndexChanged, [&](int idx) {presenter.setProcedureType(static_cast<int>(s_idxMapping[idx].second));});
 
 	for (auto &icd : ICD10::getDentalICDCodes())
 	{
@@ -31,7 +70,7 @@ StatisticDialogView::StatisticDialogView(StatisticDialogPresenter& p, QWidget *p
 
 	presenter.setView(this);
 
-	ui.procedureCombo->setCurrentIndex(2);
+	ui.procedureCombo->setCurrentIndex(0);
 
     connect(ui.yearSpinBox, &QSpinBox::valueChanged, this, [&] { presenter.parameterChanged(); });
     connect(ui.ageCombo, &QComboBox::currentIndexChanged, this, [&]{ presenter.parameterChanged(); });
@@ -42,6 +81,7 @@ StatisticDialogView::StatisticDialogView(StatisticDialogPresenter& p, QWidget *p
     connect(ui.nameFilterList, &QListWidget::itemChanged, this, [&] { presenter.parameterChanged(); });
     connect(ui.diagnosisFilterList, &QListWidget::itemChanged, this, [&] { presenter.parameterChanged(); });
 
+	emit ui.procedureCombo->currentIndexChanged(0);
 	presenter.parameterChanged();
 }
 

@@ -302,10 +302,10 @@ void MedStatusTile::paintInfo(QPainter* painter)
 void MedStatusTile::resizeEvent(QResizeEvent* event)
 {
 	QWidget::resizeEvent(event);
-
-	hisButton->move(width() - 5 - buttonSize, 5);
-	hospitalizedButton->move(width() - 5 - buttonSize, 40);
-	nhifButton->move(width() - 5 - buttonSize, 80);
+	const int spacing = (height() - (buttonSize * 3)) / 4;
+	hisButton->move(width() - 5 - buttonSize, spacing);
+	hospitalizedButton->move(width() - 5 - buttonSize, spacing*2 + buttonSize);
+	nhifButton->move(width() - 5 - buttonSize, spacing*3 + buttonSize*2);
 	
 
 	update();

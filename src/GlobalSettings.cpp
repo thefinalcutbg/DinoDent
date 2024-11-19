@@ -44,8 +44,10 @@ Json::Value getSettingsAsJson()
 std::string GlobalSettings::getDbBackupFilepath()
 {
     auto dataFolder = QDir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation));
+ 
+    if (!dataFolder.cd("backup")) dataFolder.mkpath("backup");
 
-    if (!dataFolder.exists()) dataFolder.mkpath(".");
+    dataFolder.cd("backup");
 
     auto time = Time::currentTime();
 

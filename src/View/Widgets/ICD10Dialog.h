@@ -12,6 +12,8 @@ class ICD10Dialog : public QDialog
 
 	int m_selectedRow{ -1 };
 
+	static inline bool s_show_full_icd = false;
+
 	static inline QSortFilterProxyModel m_proxyModel;
 	MKBModel s_dental_model{ ICD10::getDentalICDCodes() };
 	MKBModel s_full_model{ ICD10::getFullMKBList() };

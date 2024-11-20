@@ -34,28 +34,25 @@ ICD10Dialog::ICD10Dialog(const ICD10& icd, QWidget *parent)
 
 	connect(ui.checkBox, &QCheckBox::clicked, this, [&](bool clicked) {
 		m_proxyModel.setSourceModel(clicked ? &s_full_model : &s_dental_model);
+		s_show_full_icd = clicked;
 	});
 
-	if (!icd.isValid()) {
-		m_proxyModel.setSourceModel(&s_dental_model);
-		initTable();
-		return;
-	}
-	
-	bool isDental = icd.isDental();
+	//determine which model to chose
 
 	QSignalBlocker b(ui.checkBox);
 
+	bool forceFull = icd.isValid() && !icd.isDental();
+
+	ui.checkBox->setChecked(forceFull || s_show_full_icd);
+
 	m_proxyModel.setSourceModel(
-		isDental ?
-		&s_dental_model
-		:
-		&s_full_model
+		ui.checkBox->isChecked() ?
+			&s_full_model
+			:
+			&s_dental_model
 	);
 
 	initTable();
-
-	ui.checkBox->setChecked(!isDental);
 
 	for (int i = 0; i < m_proxyModel.rowCount(); i++)
 	{

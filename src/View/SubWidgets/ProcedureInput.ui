@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>432</width>
-    <height>599</height>
+    <height>612</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -15,12 +15,6 @@
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
-  </property>
-  <property name="minimumSize">
-   <size>
-    <width>0</width>
-    <height>0</height>
-   </size>
   </property>
   <property name="windowTitle">
    <string>ProcedureInput</string>
@@ -159,7 +153,7 @@
      <property name="minimumSize">
       <size>
        <width>0</width>
-       <height>300</height>
+       <height>0</height>
       </size>
      </property>
      <property name="frameShape">
@@ -511,13 +505,6 @@
     <widget class="QFrame" name="notesGroup">
      <layout class="QVBoxLayout" name="verticalLayout_5">
       <item>
-       <widget class="QLabel" name="label_6">
-        <property name="text">
-         <string>Допълнителни бележки (напр. материал, цвят, работна дължина):</string>
-        </property>
-       </widget>
-      </item>
-      <item>
        <widget class="TextEdit" name="notesEdit">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
@@ -532,7 +519,7 @@
          </size>
         </property>
         <property name="placeholderText">
-         <string/>
+         <string>Допълнителни бележки (напр. материал, цвят, работна дължина)</string>
         </property>
        </widget>
       </item>

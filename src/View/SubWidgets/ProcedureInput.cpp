@@ -105,6 +105,11 @@ ProcedureInput::ProcedureInput(QWidget* parent)
 	ui.icdEdit->completer()->setFilterMode(Qt::MatchContains);
 }
 
+void ProcedureInput::setParamMinHeight(int height)
+{
+	ui.paramFrame->setMinimumHeight(height);
+}
+
 QDateEdit* ProcedureInput::qDateEdit()
 {
 	return ui.dateEdit;

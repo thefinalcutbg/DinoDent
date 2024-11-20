@@ -6,6 +6,8 @@ ProcedureDialog::ProcedureDialog(ProcedureDialogPresenter& presenter, QWidget *p
 {
 	ui.setupUi(this);
 
+	ui.procedureInput->setParamMinHeight(300);
+
 	setModal(true);
 	
 	setWindowFlags(windowFlags() | Qt::CustomizeWindowHint |

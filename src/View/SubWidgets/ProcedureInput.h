@@ -30,6 +30,8 @@ class ProcedureInput : public QWidget, public IProcedureInput
 public:
 	ProcedureInput(QWidget *parent = Q_NULLPTR);
 
+	void setParamMinHeight(int height);
+
 	~ProcedureInput();
 
 	QDateEdit* qDateEdit();

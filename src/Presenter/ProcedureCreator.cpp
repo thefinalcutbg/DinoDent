@@ -130,8 +130,7 @@ std::vector<Procedure> ProcedureCreator::getProcedures()
 
 	auto data = view->getResult();
 
-	if (data.financingSource == FinancingSource::Patient
-		|| data.financingSource == FinancingSource::None) {
+	if (data.financingSource != FinancingSource::NHIF) {
 		s_preferred_financing = data.financingSource;
 	}
 
@@ -289,7 +288,7 @@ Diagnosis ProcedureCreator::getDiagnosis(const Tooth* tooth, ProcedureType type)
 	case ProcedureType::Extraction:
 		icdSimple[Implant] = "T85.7";
 		icd = "K07.3"; //assume ortho reason
-		statusSearch = { Implant, Impacted, HasSupernumeral, ApicalLesion, Temporary, Root, Periodontitis, Mobility, Fracture, Pulpitis, Caries };
+		statusSearch = { Implant, Impacted, HasSupernumeral, ApicalLesion, Root, Periodontitis, Mobility, Fracture, Pulpitis, Temporary, Caries };
 		break;
 
 	case ProcedureType::Endodontic:

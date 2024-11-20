@@ -42,6 +42,8 @@ BuisnessOperationDialog::BuisnessOperationDialog(const std::optional<BusinessOpe
 
 	ui.nameEdit->setCompletions(s_completionList);
 
+	ui.nameEdit->completer()->setFilterMode(Qt::MatchContains);
+
 	connect(ui.nameEdit, &QLineEdit::textChanged, this, [&](const QString& text) {
 
 		auto pCode = ProcedureCode::fromName(text.toStdString());

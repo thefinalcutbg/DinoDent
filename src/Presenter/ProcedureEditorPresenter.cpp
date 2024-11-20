@@ -76,9 +76,13 @@ void ProcedureEditorPresenter::setView(IProcedureEditDialog* view)
 
 		case ProcedureScope::Range:
 		{
+			bool allowSingleRange =
+				m_code.type() == ProcedureType::RemoveCrownOrBridge
+				|| m_code.type() == ProcedureType::Denture;
+
 			inputView->setParameterData(
 				std::get<ConstructionRange>(result->affectedTeeth),
-				result->code.type() == ProcedureType::RemoveCrownOrBridge
+				m_code.type() == ProcedureType::RemoveCrownOrBridge
 			);
 		}
 

@@ -77,7 +77,12 @@ void ProcedureCreator::setProcedureCode(const ProcedureCode& code, bool nhif, do
 		view->setParameterData(false);
 	}
 	else if (code.getScope() == ProcedureScope::Range) {
-		view->setParameterData(autoRange(m_selectedTeeth, m_code), code.type() == ProcedureType::RemoveCrownOrBridge);
+
+		bool allowSingleRange =
+			code.type() == ProcedureType::RemoveCrownOrBridge
+			|| code.type() == ProcedureType::Denture;
+
+		view->setParameterData(autoRange(m_selectedTeeth, m_code), allowSingleRange);
 	}
 	else if (code.type() == ProcedureType::Crown) {
 		view->setParameterData(false, autoRange(m_selectedTeeth, m_code), true);

@@ -58,6 +58,7 @@ class ProcedureCode
 
     inline static std::unordered_map<std::string, ProcedureCode::Numenclature> s_mapping;
     inline static std::map<int, std::string> legacy_achi; //the old his procedures dont have achi
+    inline static std::unordered_map<std::string, std::string> s_nameToCode;
     static std::vector<ProcedureCode> s_sorted_codes;
 
     std::string m_code;
@@ -67,6 +68,8 @@ public:
     ProcedureCode() {}
     ProcedureCode(const std::string& code);
     ProcedureCode(int nhifCode);
+
+    static ProcedureCode fromName(const std::string& name);
 
     static void initialize();
     static const std::map<int, std::string>& procedureByNhifCodeLegacy() {
@@ -100,6 +103,6 @@ public:
 
     bool isLegacy() const;
 
-    static decltype(s_mapping) getMap() { return s_mapping; }
+    static decltype(s_mapping)& getMap() { return s_mapping; }
     static ProcedureScope getScope(ProcedureType t);
 };

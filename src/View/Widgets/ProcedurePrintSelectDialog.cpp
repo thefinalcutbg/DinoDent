@@ -1,5 +1,6 @@
 ﻿#include "ProcedurePrintSelectDialog.h"
 #include <QPainter>
+#include "View/CommonIcon.h"
 
 void ProcedurePrintSelectDialog::paintEvent(QPaintEvent*)
 {
@@ -32,6 +33,10 @@ ProcedurePrintSelectDialog::ProcedurePrintSelectDialog(const std::vector<Procedu
 	ui.tableView->horizontalHeader()->setSectionResizeMode(3, QHeaderView::Stretch);
 	ui.tableView->setShowGrid(false);
 	ui.tableView->verticalHeader()->hide();
+
+	ui.patientButton->setIcon(CommonIcon::getPixmap(CommonIcon::PATIENT));
+	ui.nhifButton->setIcon(CommonIcon::getPixmap(CommonIcon::NHIF));
+	ui.phifButton->setIcon(CommonIcon::getPixmap(CommonIcon::PHIF));
 
 	if (procedures.empty()) {
 		ui.tableView->hide();

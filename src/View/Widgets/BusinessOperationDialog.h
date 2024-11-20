@@ -17,8 +17,8 @@ class BuisnessOperationDialog : public QDialog
 	void paintEvent(QPaintEvent* e) override;
 
 public:
-	BuisnessOperationDialog(const BusinessOperation& op);
-	BuisnessOperationDialog();
+	BuisnessOperationDialog(const std::optional<BusinessOperation>& op = {});
+
 	std::optional<BusinessOperation> getResult() { return m_operation; };
 
 	~BuisnessOperationDialog();

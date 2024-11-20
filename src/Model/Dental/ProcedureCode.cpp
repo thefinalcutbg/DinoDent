@@ -13,6 +13,7 @@ void ProcedureCode::initialize()
 
 	s_mapping.reserve(pJson.size());
 	s_sorted_codes.reserve(pJson.size());
+	s_nameToCode.reserve(pJson.size());
 
 	for (auto& j : pJson)
 	{
@@ -28,6 +29,7 @@ void ProcedureCode::initialize()
 				.icd = j["icd"].asString()
 		};
 
+		s_nameToCode[j["name"].asString()] = code;
 
 		if (j.isMember("ksmp")) {
 			legacy_achi[j["oldCode"].asInt()] = j["ksmp"].asString();
@@ -66,6 +68,13 @@ ProcedureCode::ProcedureCode(const std::string& code) : m_code(code)
 
 ProcedureCode::ProcedureCode(int nhifCode) : m_code(legacy_achi[nhifCode])
 {}
+
+ProcedureCode ProcedureCode::fromName(const std::string & name)
+{
+	if (!s_nameToCode.count(name)) return ProcedureCode();
+
+	return ProcedureCode(s_nameToCode.at(name));
+}
 
 const std::string& ProcedureCode::ACHICode() const
 {

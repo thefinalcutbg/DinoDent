@@ -9,9 +9,6 @@
 #include "Model/MedicalNotice.h"
 #include "Model/Allergy.h"
 
-enum class SelectionPref {All, OnlyNZOK, OnlyPaid};
-enum class MonthNotifLoad {FromPIS, FromFile, Rejected};
-
 class ProcedureDialogPresenter;
 class PatientDialogPresenter;
 class ProcedureEditorPresenter;

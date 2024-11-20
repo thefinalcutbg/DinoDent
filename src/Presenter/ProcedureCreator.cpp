@@ -49,7 +49,7 @@ void ProcedureCreator::setProcedureCode(const ProcedureCode& code, bool nhif, do
 		commonData.diagnosis = diag_map[code.type()];
 	}
 
-	commonData.financingSource = nhif ? FinancingSource::NHIF : FinancingSource::None;
+	commonData.financingSource = nhif ? FinancingSource::NHIF : s_preferred_financing;
 	commonData.value = value;
 
 	//setting parameter data
@@ -129,6 +129,23 @@ std::vector<Procedure> ProcedureCreator::getProcedures()
 	procedure.date = view->dateEdit()->getDate();
 
 	auto data = view->getResult();
+
+	if (data.financingSource == FinancingSource::Patient
+		|| data.financingSource == FinancingSource::None) {
+		s_preferred_financing = data.financingSource;
+	}
+
+	if (m_code.nhifCode()
+		&& data.financingSource != FinancingSource::NHIF
+		&& !ModalDialogBuilder::askDialog(
+			"Посоченият източник на финансиране е различен от НЗОК "
+			"и процедурата няма да бъде включена в месечния отчет."
+			" Желаете ли да продължите?"
+		)
+	)
+	{
+		return {};
+	}
 
 	procedure.financingSource = data.financingSource;
 	procedure.LPK = User::doctor().LPK;

@@ -1,4 +1,4 @@
-#include "ProcedureEditorPresenter.h"
+﻿#include "ProcedureEditorPresenter.h"
 #include "View/Interfaces/IProcedureInput.h"
 #include "View/ModalDialogBuilder.h"
 
@@ -108,6 +108,18 @@ void ProcedureEditorPresenter::okPressed()
 	}
 
 	auto data = view->procedureInput()->getResult();
+
+	if (m_code.nhifCode()
+		&& data.financingSource != FinancingSource::NHIF
+		&& !ModalDialogBuilder::askDialog(
+			"Посоченият източник на финансиране е различен от НЗОК "
+			"и процедурата няма да бъде включена в месечния отчет."
+			" Желаете ли да продължите?"
+		)
+		)
+	{
+		return;
+	}
 
 	//procedure creator:
 	result.emplace(Procedure{});

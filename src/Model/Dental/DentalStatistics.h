@@ -18,7 +18,7 @@ struct DentalStatistic
 
 	bool nonTooth_specific{ false };
 
-	std::vector<int> diagnosisFilter;
+	std::vector<std::string> diagnosisFilter;
 	std::vector<std::string> procedureCodeFilter;
 
 	int count{ 0 };

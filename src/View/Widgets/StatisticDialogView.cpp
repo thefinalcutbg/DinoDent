@@ -9,7 +9,7 @@ void StatisticDialogView::paintEvent(QPaintEvent*)
 	painter.fillRect(rect(), Qt::white);
 }
 
-std::array<std::pair<QString, ProcedureType>, (int)ProcedureType::MaxCount-1>s_idxMapping = {
+std::array<std::pair<QString, ProcedureType>, (int)ProcedureType::MaxCount>s_idxMapping = {
 
 	std::make_pair(QString("Възстановяване"), ProcedureType::Restoration),
 	std::make_pair(QString("Щифтово изграждане"), ProcedureType::PostCore),
@@ -38,7 +38,9 @@ std::array<std::pair<QString, ProcedureType>, (int)ProcedureType::MaxCount-1>s_i
 	std::make_pair(QString("Почистване на зъбен камък (на квадрант)"), ProcedureType::DepuratioQuadrant),
 	std::make_pair(QString("Почистване на зъбен камък (на зъб)"), ProcedureType::DepuratioTooth),
 
-	std::make_pair(QString("Други процедури"), ProcedureType::FullExam),
+	std::make_pair(QString("Обстоен преглед и сваляне на зъбен статус"), ProcedureType::FullExam),
+
+	std::make_pair(QString("Други процедури"), ProcedureType::General),
 	std::make_pair(QString("Други процедури засягащи зъб/зъби"), ProcedureType::ToothNonSpecific),
 	std::make_pair(QString("Обща анестезия"), ProcedureType::Anesthesia)
 };
@@ -122,7 +124,8 @@ DentalStatistic StatisticDialogView::getStatistic()
 			
 			if (ui.diagnosisFilterList->item(i)->checkState() != Qt::Checked) continue;
 
-			diagnosisFilter.push_back(i);
+
+			diagnosisFilter.push_back(ICD10::getCodeFromName(ui.diagnosisFilterList->item(i)->text().toStdString()));
 		}
 	}
 

@@ -740,7 +740,7 @@ void ListPresenter::showAppliedStatus()
 
     if (procedures.empty()) {
         ModalDialogBuilder::showMessage(
-            "Не са добавени процедури. Ще бъде показан само началния статус."
+            "Не са добавени процедури. Ще бъде показан само началният статус."
         );
     }
 

@@ -134,7 +134,7 @@ int DbStat::count(const DentalStatistic& stat)
     query += DbStatPrv::ageToClause(stat.age);
     query += DbStatPrv::toothFilterToClause(stat.tooth);
     query += DbStatPrv::nhifToClause(stat.financing);
-    query += DbStatPrv::includeRowValues("procedure.diagnosis", stat.diagnosisFilter);
+    query += DbStatPrv::includeRowValues("procedure.icd", stat.diagnosisFilter);
     query += DbStatPrv::includeRowValues("procedure.code", stat.procedureCodeFilter);
 
     query += ")";

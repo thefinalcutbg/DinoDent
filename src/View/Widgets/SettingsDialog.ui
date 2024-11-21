@@ -35,7 +35,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="generalSettings">
       <attribute name="title">
@@ -247,7 +247,7 @@
           </sizepolicy>
          </property>
          <property name="title">
-          <string>Път към драйвърите за КЕП</string>
+          <string>Път към драйверите за КЕП</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_9">
           <item>
@@ -307,7 +307,7 @@
        <item>
         <widget class="QLabel" name="label_4">
          <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Драйвъри за &lt;span style=&quot; font-weight:700;&quot;&gt;B-Trust&lt;/span&gt; - &lt;a href=&quot;https://www.b-trust.bg/client-center/signature-installation&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;изтегли от тук&lt;/span&gt;&lt;/a&gt;&lt;br/&gt;Драйвъри за &lt;span style=&quot; font-weight:700;&quot;&gt;StampIT&lt;/span&gt; - &lt;a href=&quot;https://www.stampit.org/bg/page/795&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;изтегли от тук&lt;/span&gt;&lt;/a&gt;&lt;br/&gt;Драйвъри за &lt;span style=&quot; font-weight:700;&quot;&gt;InfoNotary&lt;/span&gt; - &lt;a href=&quot;https://www.infonotary.com/?p=technical-support&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;изтегли от тук&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Драйвери за &lt;span style=&quot; font-weight:700;&quot;&gt;B-Trust&lt;/span&gt; - &lt;a href=&quot;https://www.b-trust.bg/client-center/signature-installation&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;изтегли от тук&lt;/span&gt;&lt;/a&gt;&lt;br/&gt;Драйвери за &lt;span style=&quot; font-weight:700;&quot;&gt;StampIT&lt;/span&gt; - &lt;a href=&quot;https://www.stampit.org/bg/page/795&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;изтегли от тук&lt;/span&gt;&lt;/a&gt;&lt;br/&gt;Драйвери за &lt;span style=&quot; font-weight:700;&quot;&gt;InfoNotary&lt;/span&gt; - &lt;a href=&quot;https://www.infonotary.com/?p=technical-support&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;изтегли от тук&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="textFormat">
           <enum>Qt::TextFormat::RichText</enum>

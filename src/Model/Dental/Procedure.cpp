@@ -404,6 +404,11 @@ std::string Procedure::getToothString() const
 		case ProcedureScope::Range:
 		{
 			auto& [from, to] = std::get<ConstructionRange>(affectedTeeth);
+
+			if (from == to) {
+				return ToothUtils::getNomenclature(from, false);
+			}
+
 			return ToothUtils::getNomenclature(from, false) + "-" + ToothUtils::getNomenclature(to, false);
 		}
 	}

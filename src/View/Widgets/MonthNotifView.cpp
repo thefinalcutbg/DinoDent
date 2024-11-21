@@ -20,7 +20,7 @@ MonthNotifView::MonthNotifView(QWidget *parent)
 
     ui.tableView->verticalHeader()->hide();
 
-    ui.tableView->setColumnWidth(0, 80);
+    ui.tableView->setColumnWidth(0, 100);
     ui.tableView->setColumnWidth(1, 200);
     ui.tableView->setColumnWidth(2, 100);
     ui.tableView->setColumnWidth(3, 100);
@@ -29,7 +29,7 @@ MonthNotifView::MonthNotifView(QWidget *parent)
     ui.tableView->verticalHeader()->setDefaultSectionSize(20);
     ui.tableView->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     ui.tableView->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-    ui.tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeMode::Fixed);
+    ui.tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeMode::Interactive);
     ui.tableView->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
 
 

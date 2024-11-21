@@ -34,7 +34,6 @@ void MainPresenter::setView(IMainView* view)
     this->view = view;
 
     PKCS11::setDriverPaths(GlobalSettings::pkcs11PathList());
-    GetHSM::setMultiPKCS11(GlobalSettings::getMultiPkcs11());
 
     firstTimeLogic();
 

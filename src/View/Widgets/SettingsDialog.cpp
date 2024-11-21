@@ -180,8 +180,6 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 
 		ui.pkcs11list->clear();
 
-		ui.multiPkcsCheck->setChecked(false);
-
 		auto paths = GlobalSettings::getDefaultPkcs11Paths();
 
 		for (auto& p : paths) ui.pkcs11list->addItem(p.c_str());
@@ -243,18 +241,6 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 			presenter.priceUpdated(code, newPrice);
 		}
 		*/
-	});
-
-	connect(ui.multiPkcsCheck, &QCheckBox::toggled, this, [&](bool checked) {
-
-		if (checked) {
-			bool answer = ModalDialogBuilder::askDialog("Преди да активирате този режим, "
-				"тествайте всеки КЕП по отделно и премахнете от списъка драйверите, които не се използват от нито един КЕП. Желаете ли да продължите?"
-			);
-
-			if (!answer) ui.multiPkcsCheck->setChecked(false);
-		}
-
 	});
 
 	presenter.setView(this);
@@ -323,12 +309,10 @@ void SettingsDialog::setGlobalSettings(const GlobalSettingsData& data)
 
 	QSignalBlocker b1(ui.requestsCheck);
 	QSignalBlocker b2(ui.repliesCheck);
-	QSignalBlocker b3(ui.multiPkcsCheck);
 	QSignalBlocker b4(ui.devBranch);
 
 	ui.requestsCheck->setChecked(data.show_requests);
 	ui.repliesCheck->setChecked(data.show_replies);
-	ui.multiPkcsCheck->setChecked(data.multi_pkcs11);
 	ui.devBranch->setChecked(data.dev_branch);
 }
 
@@ -336,7 +320,6 @@ ISettingsDialog::GlobalSettingsData SettingsDialog::getGlobalSettings() {
 
 	GlobalSettingsData data{
 		.list = {},
-		.multi_pkcs11 = ui.multiPkcsCheck->isChecked(),
 		.dev_branch = ui.devBranch->isChecked(),
 		.show_requests = ui.requestsCheck->isChecked(),
 		.show_replies = ui.repliesCheck->isChecked()

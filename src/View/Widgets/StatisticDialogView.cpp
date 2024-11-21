@@ -175,5 +175,5 @@ void StatisticDialogView::hideToothFilter(bool hidden)
 
 void StatisticDialogView::setResult(int count)
 {
-	ui.resultLabel->setText("Oбщ брой: " + QString::number(count));
+	ui.resultLabel->setText("Общ брой записи: " + QString::number(count));
 }

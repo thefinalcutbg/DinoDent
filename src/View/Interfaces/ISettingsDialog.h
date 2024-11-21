@@ -15,7 +15,6 @@ public:
 
 	struct GlobalSettingsData {
 		std::vector<std::string> list;
-		bool multi_pkcs11;
 		bool dev_branch;
 		bool show_requests;
 		bool show_replies;

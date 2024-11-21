@@ -31,7 +31,6 @@ void SettingsMainPresenter::setView(ISettingsDialog* view)
 
 	ISettingsDialog::GlobalSettingsData data{
 		.list = GlobalSettings::pkcs11PathList(),
-		.multi_pkcs11 = GlobalSettings::getMultiPkcs11(),
 		.dev_branch = GlobalSettings::getDevBranch(),
 		.show_requests = GlobalSettings::showRequestsEnabled(),
 		.show_replies = GlobalSettings::showRepliesEnabled()
@@ -233,8 +232,6 @@ bool SettingsMainPresenter::applyChanges()
 	PKCS11::setDriverPaths(globalData.list);
 	GlobalSettings::setDebug(globalData.show_requests, globalData.show_replies);
 	GlobalSettings::setDevBranch(globalData.dev_branch);
-	GlobalSettings::setMultiPkcs11(globalData.multi_pkcs11);
-	GetHSM::setMultiPKCS11(globalData.multi_pkcs11);
 
 	return true;
 }

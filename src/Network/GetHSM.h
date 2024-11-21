@@ -8,5 +8,4 @@
 namespace GetHSM {
 
 	std::optional<PKCS11> get(bool showDialogs);
-	void setMultiPKCS11(bool multi);
 }

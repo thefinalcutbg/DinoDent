@@ -13,9 +13,6 @@ namespace GlobalSettings
 	bool getDevBranch();
 	void setDevBranch(bool dev);
 
-	bool getMultiPkcs11();
-	void setMultiPkcs11(bool multi);
-
 	std::string getDbPath();
 	std::string setDbPath();
 

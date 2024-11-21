@@ -35,7 +35,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>5</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="generalSettings">
       <attribute name="title">
@@ -302,13 +302,6 @@
            </layout>
           </item>
          </layout>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="multiPkcsCheck">
-         <property name="text">
-          <string>Показвай списък с всички включени КЕП устройства преди въвеждане на парола</string>
-         </property>
         </widget>
        </item>
        <item>

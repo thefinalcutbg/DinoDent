@@ -118,6 +118,7 @@ void PKCS11::cleanup()
 	if (ctx)
 	{
 		PKCS11_CTX_unload(ctx);
+		PKCS11_CTX_free(ctx);
 		ctx = nullptr;
 	}
 }
@@ -167,6 +168,8 @@ std::vector<X509Details> PKCS11::getCertList(bool returnFirst) {
 	//iterrating all dirver paths
 	for (auto& path : s_driverPaths)
 	{
+		if (certList.size()) break;
+
 		if (PKCS11_CTX_load(ctx, path.data()) == -1) continue;
 
 		unsigned int nslots_temp{ 0 };
@@ -184,9 +187,6 @@ std::vector<X509Details> PKCS11::getCertList(bool returnFirst) {
 
 			PKCS11_enumerate_certs(slot->token, &certs, &ncerts);
 
-			//finding a valid x509_pem
-			if (ncerts == 0) continue;
-
 			//iterrating certificates
 			for (unsigned int i = 0; i < ncerts; i++)
 			{
@@ -196,7 +196,7 @@ std::vector<X509Details> PKCS11::getCertList(bool returnFirst) {
 					return std::vector{ currentCert };
 				}
 
-				//if this is the certificate that is last used, chose this one
+				//if this is the certificate that is last used, choose this one
 				if (s_lastCred.first == currentCert)
 				{
 					certList.clear();
@@ -214,6 +214,8 @@ std::vector<X509Details> PKCS11::getCertList(bool returnFirst) {
 		}
 
 		PKCS11_release_all_slots(ctx, pslots_temp, nslots_temp);
+
+		PKCS11_CTX_unload(ctx);
 	}
 
 	//filter the list with valid certs only?

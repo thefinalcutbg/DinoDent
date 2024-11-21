@@ -3,7 +3,6 @@
 #include "Network/NetworkManager.h"
 #include "View/Widgets/CertificateListDialog.h"
 
-bool s_multi_pkcs11 = false;
 
 std::optional<PKCS11> GetHSM::get(bool showDialogs)
 {
@@ -21,7 +20,7 @@ std::optional<PKCS11> GetHSM::get(bool showDialogs)
 		return d.getIndex();
 	};
 
-	PKCS11 hsm(pinLambda, s_multi_pkcs11 ? certLambda : nullptr);
+	PKCS11 hsm(pinLambda,certLambda);
 
 	switch(hsm.getState()) {
 
@@ -50,7 +49,3 @@ std::optional<PKCS11> GetHSM::get(bool showDialogs)
 
 }
 
-void GetHSM::setMultiPKCS11(bool multi)
-{
-	s_multi_pkcs11 = multi;
-}

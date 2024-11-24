@@ -228,6 +228,7 @@
     <ClCompile Include="src\Network\GetHSM.cpp" />
     <ClCompile Include="src\Presenter\ProcedureListPresenter.cpp" />
     <ClCompile Include="src\Network\Calendar\Google.cpp" />
+    <ClCompile Include="src\View\Widgets\MedicationTemplateDialog.cpp" />
     <ClCompile Include="src\View\SubWidgets\ProcedureListView.cpp" />
     <ClCompile Include="src\View\SubWidgets\SnapshotViewer.cpp" />
     <ClCompile Include="src\View\Widgets\CalendarEventDialog.cpp" />
@@ -796,6 +797,7 @@
     <ClInclude Include="src\View\Interfaces\ISurfacePanel.h" />
     <ClInclude Include="src\View\Interfaces\ITabView.h" />
     <ClInclude Include="src\View\Interfaces\IStatisticDialogView.h" />
+    <QtMoc Include="src\View\Widgets\MedicationTemplateDialog.h" />
     <ClInclude Include="src\View\ModalDialogBuilder.h" />
     <QtMoc Include="src\View\SubWidgets\MedicalStatusWidget.h" />
     <QtMoc Include="src\View\SubWidgets\DsnMenu.h" />
@@ -925,6 +927,7 @@
     <QtMoc Include="src\View\Graphics\GraphicsView.h" />
   </ItemGroup>
   <ItemGroup>
+    <QtUic Include="src\View\Widgets\MedicationTemplateDialog.ui" />
     <QtUic Include="src\View\SubWidgets\ProcedureListView.ui" />
     <QtUic Include="src\View\SubWidgets\SnapshotViewer.ui" />
     <QtUic Include="src\View\Widgets\CalendarEventDialog.ui" />

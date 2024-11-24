@@ -4,6 +4,7 @@
 #include "Model/FreeFunctions.h"
 #include "Model/User.h"
 #include "View/Printer.h"
+#include "View/Widgets/MedicationTemplateDialog.h"
 
 PrescriptionPresenter::PrescriptionPresenter(ITabView* tabView, std::shared_ptr<Patient> patient, long long rowId) :
 	TabInstance(tabView, TabType::Prescription, patient), 
@@ -156,6 +157,22 @@ void PrescriptionPresenter::eRxPressed()
 
 			if (isCurrent()) setDataToView();
 	});
+}
+
+void PrescriptionPresenter::addTemplate()
+{
+	MedicationTemplateDialog d;
+	d.exec();
+
+	auto result = d.getResult();
+
+	if (!result) return;
+
+	m_prescription.medicationGroup.push_back(result.value());
+
+	view->setMedicationList(m_prescription.getMedList());
+
+	makeEdited();
 }
 
 void PrescriptionPresenter::setFemaleProperties(bool pregnancy, bool breastfeeding)

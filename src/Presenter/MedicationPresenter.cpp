@@ -1,6 +1,7 @@
 ﻿#include "MedicationPresenter.h"
 #include "View/ModalDialogBuilder.h"
 #include "DosagePresenter.h"
+#include "Database/DbPrescription.h"
 
 MedicationPresenter::MedicationPresenter()
 {
@@ -41,6 +42,23 @@ void MedicationPresenter::dosePeriodChanged(const std::optional<DosePeriod>& p)
 void MedicationPresenter::noteChanged(const std::string& note)
 {
 	m_medication.note = note;
+}
+
+void MedicationPresenter::addAsTemplate()
+{
+	if (m_medication.dosage.empty())
+	{
+		ModalDialogBuilder::showMessage("Добавете поне една дозировка!");
+		return;
+	}
+
+	if (!view->fieldsAreValid()) return;
+
+	bool success = DbPrescription::insertTemplate(m_medication);
+
+	if (success) {
+		ModalDialogBuilder::showMessage("Медикаментът е успешно добавен!");
+	}
 }
 
 void MedicationPresenter::addDosage()

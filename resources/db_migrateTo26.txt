@@ -13,5 +13,6 @@ UPDATE procedure SET icd = 'K03.6' WHERE diagnosis = 10;
 UPDATE procedure SET icd = 'Z01.2' WHERE code = 'D-01-001';
 ALTER TABLE procedure DROP COLUMN diagnosis;
 DELETE FROM favourite_code
+CREATE TABLE medication_template (rowid INTEGER PRIMARY KEY NOT NULL, numMed_rowid INTEGER NOT NULL, is_form BOOLEAN NOT NULL, quantity INT NOT NULL, priority INT, substitution BOOLEAN, notes VARCHAR (2000), dosage TEXT);
 PRAGMA user_version = 26;
 

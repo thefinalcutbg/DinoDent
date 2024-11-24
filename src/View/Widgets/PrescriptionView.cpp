@@ -12,11 +12,13 @@ PrescriptionView::PrescriptionView(QWidget* parent)
 	ui.deleteButton->setIcon(QIcon(":/icons/icon_remove.png"));
 	ui.editButton->setIcon(QIcon(":/icons/icon_edit.png"));
 	ui.eRxButton->setIcon(QIcon(":/icons/icon_erx.png"));
+	ui.templateButton->setIcon(QIcon(":/icons/icon_template.png"));
 
 	ui.addButton->setHoverColor(Theme::mainBackgroundColor);
 	ui.deleteButton->setHoverColor(Theme::mainBackgroundColor);
 	ui.editButton->setHoverColor(Theme::mainBackgroundColor);
 	ui.eRxButton->setHoverColor(Theme::mainBackgroundColor);
+	ui.templateButton->setHoverColor(Theme::mainBackgroundColor);
 
 	ui.medicationTable->setModel(&medModel);
 
@@ -54,6 +56,7 @@ PrescriptionView::PrescriptionView(QWidget* parent)
     connect(ui.pregnancyCheck, &QCheckBox::stateChanged, this, [=, this] { sendFemaleProperties(); });
     connect(ui.breastfeedingCheck, &QCheckBox::stateChanged, this, [=, this] { sendFemaleProperties(); });
     connect(ui.eRxButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->eRxPressed(); });
+	connect(ui.templateButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->addTemplate(); });
 }
 
 IPatientTileInfo* PrescriptionView::patientTile()
@@ -163,6 +166,7 @@ void PrescriptionView::setNrn(const std::string& nrn)
 	ui.pregnancyCheck->setDisabled(readOnly);
 	ui.breastfeedingCheck->setDisabled(readOnly);
 	ui.eRxButton->setHidden(readOnly);
+	ui.templateButton->setHidden(readOnly);
 
 	if (nrn.empty()) {
 

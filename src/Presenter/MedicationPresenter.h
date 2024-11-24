@@ -24,7 +24,7 @@ public:
 	void priorityChanged(int idx) { m_medication.priority = static_cast<Medication::Priority>(idx); }
 	void dosePeriodChanged(const std::optional<DosePeriod>& p);
 	void noteChanged(const std::string& note);
-
+	void addAsTemplate();
 
 	void addDosage();
 	void editDosage(int idx);

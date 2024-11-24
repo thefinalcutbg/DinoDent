@@ -28,7 +28,7 @@ MedicationDialog::MedicationDialog(MedicationPresenter& p, QWidget* parent)
     connect(ui.periodGroup, &QGroupBox::clicked, this, [&]{ periodChanged(); });
     connect(ui.fromDate, &QDateEdit::dateChanged, this, [&] { periodChanged(); });
     connect(ui.toDate, &QDateEdit::dateChanged, this, [&] { periodChanged(); });
-
+	connect(ui.templateButton, &QPushButton::clicked, this, [&] {presenter.addAsTemplate(); });
     connect(ui.addButton, &QPushButton::clicked, this, [&] {presenter.addDosage();});
     connect(ui.editButton, &QPushButton::clicked, this, [&] {presenter.editDosage(ui.dosageList->currentRow());});
     connect(ui.dosageList, &QListWidget::doubleClicked, this, [&] {ui.editButton->click();});
@@ -53,7 +53,7 @@ void MedicationDialog::setQuantityListNames(const std::string& pack, const std::
 void MedicationDialog::setFormLabel(const std::string& formName)
 {
 	if (formName.empty()) {
-		ui.formLabel->setText("");
+		ui.formLabel->setText("Невалиден медикамент");
 		return;
 	}
 
@@ -83,7 +83,7 @@ void MedicationDialog::setReadOnly()
 
 		widget->setEnabled(false);
 	}
-
+	ui.templateButton->setEnabled(true);
 	ui.cancelButton->setEnabled(true);
 	ui.okButton->setEnabled(true);
 }

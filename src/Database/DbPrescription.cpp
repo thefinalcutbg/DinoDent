@@ -240,3 +240,65 @@ bool DbPrescription::nrnExists(const std::string& nrn)
 
     return false;
 }
+
+std::vector<std::pair<long long, Medication>> DbPrescription::getTemplates()
+{
+    std::vector<std::pair<long long, Medication>> result;
+
+    Db db(
+        "SELECT "
+        "rowid, "
+        "numMed_rowid,"
+        "is_form,"
+        "quantity,"
+        "priority,"
+        "substitution,"
+        "notes,"
+        "dosage "
+        "FROM medication_template "
+    );
+
+    while (db.hasRows())
+    {
+        result.emplace_back(std::make_pair(db.asRowId(0), db.asInt(1)));
+
+        auto& m = result.back().second;
+        m.byForm = db.asBool(2);
+        m.quantity = db.asInt(3);
+        m.priority = static_cast<Medication::Priority>(db.asInt(4));
+        m.substitution = db.asBool(5);
+        m.note = db.asString(6);
+        m.dosage = Parser::parseDosage(db.asString(7));
+    }
+
+    return result;
+}
+
+bool DbPrescription::insertTemplate(const Medication& m)
+{
+    Db db(
+        "INSERT INTO medication_template ("
+        "numMed_rowid, is_form, quantity, "
+        "priority, substitution, notes, dosage) "
+        "VALUES (?,?,?,?,?,?,?)"
+    );
+
+    db.bind(1, m.getNumenclatureKey());
+    db.bind(2, m.byForm);
+    db.bind(3, static_cast<int>(m.quantity));
+    db.bind(4, m.priority);
+    db.bind(5, m.substitution);
+    db.bind(6, m.note);
+    db.bind(7, Parser::write(m.dosage));
+
+    return db.execute();
+}
+
+bool DbPrescription::deleteTemplate(long long rowid)
+{
+    Db db("DELETE FROM medication_template WHERE rowid=?");
+
+    db.bind(1, rowid);
+
+    return db.execute();
+}

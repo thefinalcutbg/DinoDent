@@ -82,7 +82,7 @@ void LoginPresenter::login(const std::string& lpk)
     switch (practiceList.size())
     {
     case 0:
-        ModalDialogBuilder::showError("Докторът не принадлежи към нито една практика");
+        ModalDialogBuilder::showError("Лекарят не принадлежи към нито една практика");
         return;
 
     case 1:

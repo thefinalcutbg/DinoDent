@@ -11,6 +11,9 @@ MedicationDialog::MedicationDialog(MedicationPresenter& p, QWidget* parent)
 	ui.medicationEdit->setCompletions(Medication::names());
 	ui.medicationEdit->setInputValidator(&nameValidator);
 
+	ui.formLabel->setText("*името на медикамента се изписва на латиница");
+
+	ui.templateButton->setIcon(QIcon(":/icons/icon_template.png"));
 	ui.deleteButton->setDisabled(true);
 	ui.editButton->setDisabled(true);
 

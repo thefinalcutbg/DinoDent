@@ -740,8 +740,9 @@ void ListPresenter::showAppliedStatus()
 
     if (procedures.empty()) {
         ModalDialogBuilder::showMessage(
-            "Не са добавени процедури. Ще бъде показан само началният статус."
+            "Добавете поне една процедура"
         );
+        return;
     }
 
     std::vector<HisSnapshot> result;

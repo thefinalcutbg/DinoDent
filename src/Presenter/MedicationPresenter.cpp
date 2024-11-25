@@ -57,7 +57,7 @@ void MedicationPresenter::addAsTemplate()
 	bool success = DbPrescription::insertTemplate(m_medication);
 
 	if (success) {
-		ModalDialogBuilder::showMessage("Медикаментът е успешно добавен!");
+		ModalDialogBuilder::showMessage("Медикаментът е успешно добавен като шаблон");
 	}
 }
 

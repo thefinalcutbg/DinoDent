@@ -34,7 +34,7 @@ DoctorSettingsDialog::DoctorSettingsDialog(DoctorDialogPresenter& presenter, QWi
 
     connect(ui.okButton, &QPushButton::clicked, [&] {presenter.okPressed();});
 
-    connect(ui.lpkEdit, &QLineEdit::textEdited, this,
+    connect(ui.lpkEdit, &QLineEdit::textChanged, this,
         [&] {
 			if (ui.lpkEdit->isValid())
                 presenter.validLPK(ui.lpkEdit->getText());

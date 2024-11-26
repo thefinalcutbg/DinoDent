@@ -53,7 +53,7 @@ void ToothGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem*
 
     if (hasNote)
     { 
-        QRect noteRect(2, procedureMarkerHeight, 15, 15);
+        QRect noteRect(2, procedureMarkerHeight, 10, 10);
         painter->drawPixmap(noteRect, {":/icons/icon_note.png" });
     }
 

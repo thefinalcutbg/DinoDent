@@ -975,6 +975,9 @@
     <ClCompile Include="src\View\Widgets\MedicationTemplateDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\uiComponents\NotesEdit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Database\Database.h">
@@ -1779,6 +1782,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Network\GetHSM.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\View\uiComponents\NotesEdit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

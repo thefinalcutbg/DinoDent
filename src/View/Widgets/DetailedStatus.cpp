@@ -9,8 +9,6 @@
 
 DetailedStatus::DetailedStatus(DetailedStatusPresenter& presenter) : presenter(presenter)
 {
-
-
 	ui.setupUi(this);
 	setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 	setWindowFlags(Qt::Window);
@@ -23,7 +21,7 @@ DetailedStatus::DetailedStatus(DetailedStatusPresenter& presenter) : presenter(p
     connect(ui.localCheck, &QCheckBox::stateChanged, this, [=, this]{ sendTableStatesToPresenter(); });
     connect(ui.hisCheck, &QCheckBox::stateChanged, this, [=, this] { sendTableStatesToPresenter(); });
     connect(ui.pisCheck, &QCheckBox::stateChanged, this, [=, this] { sendTableStatesToPresenter(); });
-
+	connect(ui.tabWidget, &QTabWidget::currentChanged, this, [&](int index) { if (index == 1) ui.notesEdit->setFocus();});
     connect(ui.okButton, &QPushButton::clicked, this, [&] {presenter.okPressed(); close(); });
     connect(ui.cancelButton, &QPushButton::clicked, this, [=, this] { close(); });
 	
@@ -37,8 +35,7 @@ DetailedStatus::DetailedStatus(DetailedStatusPresenter& presenter) : presenter(p
 void DetailedStatus::setNotes(const std::string& notes)
 {
 	ui.notesEdit->setText(notes.c_str());
-	ui.notesEdit->moveCursor(QTextCursor::MoveOperation::End);
-
+	
 	if (notes.size()) {
 		ui.tabWidget->setCurrentIndex(1);
 	}
@@ -49,7 +46,7 @@ void DetailedStatus::setNotes(const std::string& notes)
 }
 
 
-std::string DetailedStatus::getNotes(){ return ui.notesEdit->toPlainText().toStdString(); }
+std::string DetailedStatus::getNotes(){ return ui.notesEdit->getText(); }
 
 
 void DetailedStatus::setHistoryData(const std::vector<Procedure>& history)

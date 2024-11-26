@@ -19,7 +19,12 @@ MultilineDialog::MultilineDialog(const std::string& text, QWidget *parent)
 	});
 
     connect(ui.okButton, &QPushButton::clicked, this, [&] {
-		m_result = ui.textBox->toPlainText().toStdString();
+
+		m_result = ui.textBox->isReadOnly() ?
+			ui.textBox->toPlainText().toStdString()
+			:
+			ui.textBox->getText();
+		
 		close();
 	});
 }
@@ -34,9 +39,7 @@ void MultilineDialog::enableEditing()
 	ui.textBox->setReadOnly(false);
 	ui.copyButton->hide();
 
-	QTextCursor newCursor(ui.textBox->document());
-	newCursor.movePosition(QTextCursor::End);
-	ui.textBox->setTextCursor(newCursor);
+	ui.textBox->setText(ui.textBox->toPlainText().toStdString());
 }
 
 MultilineDialog::~MultilineDialog()

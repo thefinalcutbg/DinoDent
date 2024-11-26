@@ -44,7 +44,7 @@ void NotesEdit::setText(const std::string& text)
     if (!qstr.contains(currentDate)) {
 
         if (text.size()) {
-            qstr += '\n';
+            qstr += "\n\n";
         }
 
         qstr += getCurrentDateStr();
@@ -60,20 +60,9 @@ std::string NotesEdit::getText()
 {
     auto text = toPlainText();
 
-    int counter = 0;
-
-    //normalizing
-    for (int i = text.size()-1; i > -1; i--) {
-
-        if (text[i] == '\n' || text[i] == ' ') {
-            counter++;
-        }
-        else {
-            break;
-        }
+    while (text.endsWith('\n') || text.endsWith(' ')) {
+        text.removeLast();
     }
-
-    text = text.left(text.size()-counter);
 
     auto dateStr = getCurrentDateStr() + " -";
 
@@ -81,7 +70,7 @@ std::string NotesEdit::getText()
         text = text.left(text.size() - dateStr.size());
     }
 
-    if (text.endsWith('\n')) {
+    while (text.endsWith('\n') || text.endsWith(' ')) {
         text.removeLast();
     }
 

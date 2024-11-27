@@ -314,6 +314,7 @@ Diagnosis ProcedureCreator::getDiagnosis(const Tooth* tooth, ProcedureType type)
 		break;
 
 	case ProcedureType::Crown:
+		icd = "K03.7";
 		icdSimple[Implant] = "Z96.5";
 		statusSearch = {Implant, Fracture, RootCanal};
 		break;

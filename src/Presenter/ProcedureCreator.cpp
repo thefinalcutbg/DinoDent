@@ -244,7 +244,7 @@ Diagnosis ProcedureCreator::getDiagnosis(const Tooth* tooth, ProcedureType type)
 	icdSimple[Caries] = "K02";
 	icdSimple[Pulpitis] = "K04.0";
 	icdSimple[ApicalLesion] = "K04.5";
-	icdSimple[Periodontitis] = "K05";
+	icdSimple[Periodontitis] = "K05.4";
 	icdSimple[Fracture] = "S02.5";
 	icdSimple[Root] = "S02.5";
 	icdSimple[Mobility] = "S03.2";
@@ -274,7 +274,9 @@ Diagnosis ProcedureCreator::getDiagnosis(const Tooth* tooth, ProcedureType type)
 
 	case ProcedureType::Depuratio:
 	case ProcedureType::DepuratioQuadrant:
-	case ProcedureType::DepuratioTooth: icd = icdSimple[Calculus];
+	case ProcedureType::DepuratioTooth: 
+		icd = icdSimple[Calculus];
+		statusSearch = {Periodontitis, Calculus, Mobility };
 		break;
 
 	case ProcedureType::DenturePair:
@@ -292,7 +294,6 @@ Diagnosis ProcedureCreator::getDiagnosis(const Tooth* tooth, ProcedureType type)
 		break;
 	case ProcedureType::Extraction:
 		icdSimple[Implant] = "T85.7";
-		icdSimple[Periodontitis] = "K05.4";
 		icd = "K07.3"; //assume ortho reason
 		statusSearch = { Implant, Impacted, HasSupernumeral, ApicalLesion, Root, Periodontitis, Mobility, Fracture, Pulpitis, Temporary, Caries };
 		break;

@@ -165,7 +165,7 @@ bool ListPresenter::isValid()
             return false;
         }
 
-        if (p.code.type() == ProcedureType::ToothNonSpecific
+        if (p.code.getScope() == ProcedureScope::SingleTooth
             && m_ambList.teeth.at(p.getToothIndex()).noData())
         {
 

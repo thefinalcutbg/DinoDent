@@ -292,6 +292,7 @@ Diagnosis ProcedureCreator::getDiagnosis(const Tooth* tooth, ProcedureType type)
 		break;
 	case ProcedureType::Extraction:
 		icdSimple[Implant] = "T85.7";
+		icdSimple[Periodontitis] = "K05.4";
 		icd = "K07.3"; //assume ortho reason
 		statusSearch = { Implant, Impacted, HasSupernumeral, ApicalLesion, Root, Periodontitis, Mobility, Fracture, Pulpitis, Temporary, Caries };
 		break;

@@ -62,8 +62,8 @@ bool initFunction() {
 #endif
 
     SplashScreen::createAndShow();
-#pragma warning "DATABASE PATH HAS BEEN DISABLED!!!!"
-   // Db::setFilePath(GlobalSettings::getDbPath());
+
+    Db::setFilePath(GlobalSettings::getDbPath());
 
     if (!Db::createIfNotExist()) {
 

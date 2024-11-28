@@ -255,7 +255,7 @@ Diagnosis ProcedureCreator::getDiagnosis(const Tooth* tooth, ProcedureType type)
 	icdSimple[HasSupernumeral] = "K00.1";
 	icdSimple[Calculus] = "K03.6";
 	icdSimple[RootCanal] = "K04.9";
-	
+
 	std::vector<Status> statusSearch;
 
 	std::string icd;
@@ -293,7 +293,14 @@ Diagnosis ProcedureCreator::getDiagnosis(const Tooth* tooth, ProcedureType type)
 		statusSearch = { Pulpitis, ApicalLesion, Fracture, Caries, Periodontitis };
 		break;
 	case ProcedureType::Extraction:
+
 		icdSimple[Implant] = "T85.7";
+
+		if (tooth && tooth->hasStatus(Root) && tooth->hasStatus(Impacted)) {
+			icdSimple[Root] = "K08.3";
+			icdSimple[Impacted] = "K08.3";
+		}
+
 		icd = "K07.3"; //assume ortho reason
 		statusSearch = { Implant, Impacted, HasSupernumeral, ApicalLesion, Root, Periodontitis, Mobility, Fracture, Pulpitis, Temporary, Caries };
 		break;

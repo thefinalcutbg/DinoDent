@@ -16,6 +16,8 @@ class SettingsMainPresenter
 
 	ProcedureListPresenter procedure_list;
 
+	bool nhif_contract_temp = false;
+
 	void setUpdateLabels();
 
 public:

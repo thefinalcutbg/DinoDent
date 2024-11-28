@@ -15,7 +15,8 @@
 #include "Network/GetHSM.h" 
 
 SettingsMainPresenter::SettingsMainPresenter() :
-	m_doctorsList(DbPractice::getDoctors(User::practice().rziCode))
+	m_doctorsList(DbPractice::getDoctors(User::practice().rziCode)),
+	nhif_contract_temp(User::hasNhifContract())
 {
 
 }
@@ -232,6 +233,18 @@ bool SettingsMainPresenter::applyChanges()
 	PKCS11::setDriverPaths(globalData.list);
 	GlobalSettings::setDebug(globalData.show_requests, globalData.show_replies);
 	GlobalSettings::setDevBranch(globalData.dev_branch);
+
+	if (User::hasNhifContract() != nhif_contract_temp) {
+
+		std::string message = User::hasNhifContract() ?
+			"За текущия лекар е наличен договор с НЗОК. Амбулаторните листове ще бъдат генерирани на месечна основа."
+			:
+			"Текущият лекар няма договор с НЗОК. Амбулаторните листове ще бъдат генерирани на дневна основа."
+			;
+
+		ModalDialogBuilder::showMessage(message);
+
+	}
 
 	return true;
 }

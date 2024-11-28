@@ -251,7 +251,7 @@ Diagnosis ProcedureCreator::getDiagnosis(const Tooth* tooth, ProcedureType type)
 	icdSimple[Temporary] = "K08.0";
 	icdSimple[Impacted] = "K01";
 	icdSimple[Denture] = "Z97.2";
-	icdSimple[Missing] = "K00.0";
+	icdSimple[Missing] = "K08.1";
 	icdSimple[HasSupernumeral] = "K00.1";
 	icdSimple[Calculus] = "K03.6";
 	icdSimple[RootCanal] = "K04.9";

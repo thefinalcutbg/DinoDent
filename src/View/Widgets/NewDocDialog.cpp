@@ -9,7 +9,9 @@ NewDocDialog::NewDocDialog(NewDocPresenter& presenter)
 {
 	ui->setupUi(this);
 
-	installEventFilter(this);
+    ui->idSearchEdit->installEventFilter(this);
+    ui->nameSearchEdit->installEventFilter(this);
+    ui->phoneSearchEdit->installEventFilter(this);
 
 	idFilter.setSourceModel(&table_model);
 	nameFilter.setSourceModel(&idFilter);
@@ -19,7 +21,7 @@ NewDocDialog::NewDocDialog(NewDocPresenter& presenter)
 	ui->newPatient->setIcon(QIcon(":/icons/icon_add.png"));
 	ui->nameSearchEdit->setFocus();
 
-	connect(ui->idSearchEdit, &QLineEdit::textChanged, this, [=]
+    connect(ui->idSearchEdit, &QLineEdit::textChanged, this, [&]
 		{
 			QString text = ui->idSearchEdit->text().replace(" ", "");
 			idFilter.setFilterRegularExpression(QRegularExpression(text, QRegularExpression::PatternOption::CaseInsensitiveOption));
@@ -99,9 +101,10 @@ void NewDocDialog::setTable(const PlainTable& t)
 
 bool NewDocDialog::eventFilter(QObject* obj, QEvent* e)
 {
+
 	if (
 		e->type() == QEvent::KeyPress && 
-		(static_cast<QKeyEvent*>(e)->key() == Qt::Key_Down ||
+        (static_cast<QKeyEvent*>(e)->key() == Qt::Key_Down ||
 		static_cast<QKeyEvent*>(e)->key() == Qt::Key_Up
 		)
 	)
@@ -113,6 +116,8 @@ bool NewDocDialog::eventFilter(QObject* obj, QEvent* e)
 			-1 : 1;
 
 		ui->tableView->selectRow(currentRow);
+
+        return true;
 
 	}
 

@@ -358,6 +358,7 @@ HEADERS += \
     src/View/Widgets/MedicalNoticeDialog.h \
     src/View/Widgets/MedicalStatusDialog.h \
     src/View/Widgets/MedicationDialog.h \
+    src/View/Widgets/MedicationTemplateDialog.h \
     src/View/Widgets/MonthNotifView.h \
     src/View/Widgets/MultilineDialog.h \
     src/View/Widgets/NewDocDialog.h \
@@ -411,6 +412,7 @@ HEADERS += \
     src/View/uiComponents/ListTable.h \
     src/View/uiComponents/MouseWheelGuard.h \
     src/View/uiComponents/NameEdit.h \
+    src/View/uiComponents/NotesEdit.h \
     src/View/uiComponents/PerioButton.h \
     src/View/uiComponents/PerioSpinBox.h \
     src/View/uiComponents/PerioStateButton.h \
@@ -677,6 +679,7 @@ SOURCES += \
     src/View/Widgets/MedicalNoticeDialog.cpp \
     src/View/Widgets/MedicalStatusDialog.cpp \
     src/View/Widgets/MedicationDialog.cpp \
+    src/View/Widgets/MedicationTemplateDialog.cpp \
     src/View/Widgets/MonthNotifView.cpp \
     src/View/Widgets/MultilineDialog.cpp \
     src/View/Widgets/NewDocDialog.cpp \
@@ -727,6 +730,7 @@ SOURCES += \
     src/View/uiComponents/LineEdit.cpp \
     src/View/uiComponents/ListTable.cpp \
     src/View/uiComponents/NameEdit.cpp \
+    src/View/uiComponents/NotesEdit.cpp \
     src/View/uiComponents/PerioButton.cpp \
     src/View/uiComponents/PerioSpinBox.cpp \
     src/View/uiComponents/PerioStateButton.cpp \
@@ -782,6 +786,7 @@ FORMS += \
     src/View/Widgets/MedicalNoticeDialog.ui \
     src/View/Widgets/MedicalStatusDialog.ui \
     src/View/Widgets/MedicationDialog.ui \
+    src/View/Widgets/MedicationTemplateDialog.ui \
     src/View/Widgets/MonthNotifView.ui \
     src/View/Widgets/MultilineDialog.ui \
     src/View/Widgets/NewDocDialog.ui \

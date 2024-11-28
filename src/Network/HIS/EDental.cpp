@@ -292,7 +292,13 @@ void EDental::Cancel::parseReply(const std::string& reply)
 	auto errors = getErrors(reply);
 
 	if (errors.size()) {
+
 		ModalDialogBuilder::showError(errors);
+
+		if (errors == "Прегледът вече е анулиран") {
+			m_callback(true);
+		}
+
 		m_callback = nullptr;
 		return;
 	}
@@ -313,11 +319,13 @@ void EDental::Cancel::parseReply(const std::string& reply)
 		status->FirstAttribute()->IntValue() == 3
 		)
 	{
-		m_callback(true); return;
+		m_callback(true); 
+		m_callback = nullptr;
+		return;
 	}
 
 	m_callback(false);
-
+	m_callback = nullptr;
 }
 
 

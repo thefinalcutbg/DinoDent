@@ -61,7 +61,7 @@ struct Procedure
 
     Date date;
 
-    FinancingSource financingSource{ FinancingSource::Patient };
+    FinancingSource financingSource{ FinancingSource::None };
 
     Diagnosis diagnosis;
 

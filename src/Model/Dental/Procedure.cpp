@@ -413,6 +413,7 @@ std::string Procedure::getToothString() const
 		}
 	}
 
+	return std::string();
 }
 
 

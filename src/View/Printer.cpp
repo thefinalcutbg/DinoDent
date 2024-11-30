@@ -164,12 +164,15 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
 
         QString idx = QString::number(i);
 
+        QString nhifCode = p.financingSource == FinancingSource::NHIF ?
+            QString::number(p.code.nhifCode()) : "";
+
         report.dataManager()->setReportVariable("pDate" + idx , p.date.toBgStandard().c_str());
         report.dataManager()->setReportVariable("pDiag" + idx, p.diagnosis.getDiagnosisText().c_str());
         report.dataManager()->setReportVariable("pTooth" + idx, p.getToothIndex().getNhifNumenclature().c_str());
         report.dataManager()->setReportVariable("pName" + idx, p.code.name().c_str());
-        report.dataManager()->setReportVariable("pNhif" + idx, QString::number(p.code.nhifCode()));
-        report.dataManager()->setReportVariable("pKsmp" + idx, p.financingSource == FinancingSource::NHIF ? p.code.ACHICode().c_str() : "");
+        report.dataManager()->setReportVariable("pNhif" + idx, nhifCode);
+        report.dataManager()->setReportVariable("pKsmp" + idx, p.code.ACHICode().c_str());
 
         if(p.code.type() == ProcedureType::Anesthesia)
         {

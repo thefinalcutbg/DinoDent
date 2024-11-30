@@ -1143,7 +1143,7 @@ void ListPresenter::hisButtonPressed()
     )
     {
         Procedure p;
-        p.code = ProcedureCode("D-01-001");
+        p.code = ProcedureCode("97011-00");
         p.date = m_ambList.getDate();
         p.notes = "ИЗХОДЕН ОРАЛЕН СТАТУС (автоматично генерирана дейност)";
         m_ambList.procedures.addProcedure(p);

@@ -708,7 +708,10 @@ void ListPresenter::editProcedure(int index)
 
     m_ambList.procedures.replaceProcedure(m, index);
 
+    dynamicNhifConversion();
+
     refreshProcedureView();
+
     makeEdited();
 
 }

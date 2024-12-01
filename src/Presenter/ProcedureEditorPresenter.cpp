@@ -1,6 +1,7 @@
 ﻿#include "ProcedureEditorPresenter.h"
 #include "View/Interfaces/IProcedureInput.h"
 #include "View/ModalDialogBuilder.h"
+#include "Model/User.h"
 
 ProcedureEditorPresenter::ProcedureEditorPresenter(const Procedure& p, const Date& patientTurns18)
 	:
@@ -134,7 +135,7 @@ void ProcedureEditorPresenter::okPressed()
 	result->notes = data.notes;
 	result->diagnosis = data.diagnosis;
 	result->financingSource = data.financingSource;
-
+	result->LPK = User::doctor().LPK;
 
 	//range
 	if (std::holds_alternative<ConstructionRange>(data.parameters)) {

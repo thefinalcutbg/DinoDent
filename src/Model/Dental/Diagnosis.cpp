@@ -34,7 +34,7 @@ std::string Diagnosis::getDiagnosisText() const
 
 		if (additional_descr.empty()) {
 
-			return "Без диагноза";
+			return " ";
 		}
 
 		return additional_descr;

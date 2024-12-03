@@ -37,7 +37,7 @@ ProcedureHistoryDialog::ProcedureHistoryDialog(ProcedureHistoryPresenter& p)
 
     initTable(ui.pisTable, &pis_model);
     initTable(ui.hisTable, &his_model);
-
+    ui.pisTable->hideColumn(6); //hiding ACHI
 
     ui.hospiTable->setModel(&hospi_model);
     ui.hospiTable->setColumnWidth(0, 120);

@@ -258,16 +258,17 @@ void MainPresenter::firstTimeLogic()
     d.LPK = "000000000";
     d.hisSpecialty = 2081;
     d.phone = "";
-            
+    
     PracticeDoctor pd;
     pd.lpk = d.LPK;
     pd.admin = true;
+    pd.specialty = NhifSpecialty::None;
 
     DbDoctor::insertDoctor(d);
     DbDoctor::setAutoLogin(d.LPK, true);
     DbPractice::insertPractice(p);
     DbPractice::setDoctorsPracticeList({ pd }, p.rziCode);
-
+   
     ModalDialogBuilder::showMessage(
         "Стартирате програмата за първи път. "
         "Създаден е примерен профил. "

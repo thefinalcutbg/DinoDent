@@ -27,6 +27,7 @@ void LoginPresenter::practiceListPressed()
     view->closeLogin();
     PracticeManagerPresenter p;
     ModalDialogBuilder::openDialog(p);
+    m_users = DbDoctor::getDoctorList();
     ModalDialogBuilder::openDialog(*this);
 }
 

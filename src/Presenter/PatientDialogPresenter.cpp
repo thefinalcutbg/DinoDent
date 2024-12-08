@@ -97,7 +97,8 @@ void PatientDialogPresenter::searchDbForPatient(int type, const std::string& id)
 		rowid = 0;
 
 		if (User::hasNhifContract() &&
-			User::settings().getHirbNoAuto
+			User::settings().getHirbNoAuto &&
+			patient.type < 3
 			) 
 		{
 			checkHirbno();

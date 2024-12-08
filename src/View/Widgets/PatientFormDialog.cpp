@@ -207,10 +207,6 @@ void PatientFormDialog::resetFields()
 
 void PatientFormDialog::setPatient(const Patient& patient)
 {
-    if (!patient.rowid) {
-        ui.fNameEdit->setFocus();
-    }
-
     ui.typeComboBox->setCurrentIndex(patient.type - 1);
 
     if (!patient.rowid && patient.type != Patient::EGN) return;

@@ -29,7 +29,6 @@ namespace Parser
 	void parse(const std::string& jsonString, PerioStatus& status);
 	void parse(const std::string& jsonString, ToothContainer& status);
 	void parse(const std::string& jsonString, Invoice& invoice);
-	void parse(const std::string& jsonString, ToothContainer& status);
 
 	std::string parseDiagnosis(const std::string& jsonProcedureString);
 	std::optional<NhifContract> parseContract(const std::string& jsonString);

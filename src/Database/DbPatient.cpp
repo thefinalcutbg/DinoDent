@@ -199,7 +199,7 @@ bool DbPatient::updateMedStatus(long long patientRowId, const MedicalStatuses& s
 
     db.execute();
 
-    auto lambda = [&](const std::vector<std::string>& list, MedStatusType t) {
+    auto lambda = [&](const std::vector<ICD10>& list, MedStatusType t) {
 
         for (auto& status : list)
         {
@@ -207,7 +207,7 @@ bool DbPatient::updateMedStatus(long long patientRowId, const MedicalStatuses& s
             db.newStatement("INSERT INTO medical_status (patient_rowid, data, type) VALUES (?,?,?)");
 
             db.bind(1, patientRowId);
-            db.bind(2, status);
+            db.bind(2, status.code());
             db.bind(3, t);
 
             db.execute();
@@ -231,7 +231,7 @@ bool DbPatient::updateMedStatus(long long patientRowId, const MedicalStatuses& s
 
     db.execute();
 
-    auto lambda = [&](const std::vector<std::string>& list, MedStatusType t) {
+    auto lambda = [&](const std::vector<ICD10>& list, MedStatusType t) {
 
         for (auto& status : list)
         {
@@ -239,7 +239,7 @@ bool DbPatient::updateMedStatus(long long patientRowId, const MedicalStatuses& s
             db.newStatement("INSERT INTO medical_status (patient_rowid, data, type) VALUES (?,?,?)");
 
             db.bind(1, patientRowId);
-            db.bind(2, status);
+            db.bind(2, status.code());
             db.bind(3, t);
 
             db.execute();
@@ -262,7 +262,7 @@ MedicalStatuses DbPatient::getMedicalStatuses(long long patientRowId)
 
     while (db.hasRows())
     {
-        std::vector<std::string>* stat;
+        std::vector<ICD10>* stat;
 
         switch (db.asInt(0))
         {
@@ -272,7 +272,7 @@ MedicalStatuses DbPatient::getMedicalStatuses(long long patientRowId)
             default: continue;
         }
 
-        stat->push_back(db.asString(1));
+        stat->emplace_back(db.asString(1));
     }
 
     return result;
@@ -288,7 +288,7 @@ MedicalStatuses DbPatient::getMedicalStatuses(long long patientRowId, Db& db)
 
     while (db.hasRows())
     {
-        std::vector<std::string>* stat;
+        std::vector<ICD10>* stat;
 
         switch (db.asInt(0))
         {
@@ -298,7 +298,7 @@ MedicalStatuses DbPatient::getMedicalStatuses(long long patientRowId, Db& db)
             default: continue;
         }
 
-        stat->push_back(db.asString(1));
+        stat->emplace_back(db.asString(1));
     }
 
     return result;

@@ -275,12 +275,32 @@ MedStatusTile::MedStatusTile(QWidget* parent) :
 	nhifButton->setToolTip("Извличане на диагнози от рецептурната книжка");
 }
 
-
 void MedStatusTile::setData(const Patient& patient)
 {
+
+	auto listToString = [](const std::vector<ICD10>& list, const std::string& emptyList)
+	{
+			std::string result;
+
+			for (auto& str : list) {
+				result += str.name();
+				result += ", ";
+			}
+
+			if (result.size()) {
+				result.pop_back();
+				result.pop_back();
+			}
+			else {
+				result = emptyList;
+			};
+
+			return result;
+		};
+
 	allergies = elide(patient.getAllergiesStr().c_str(), 40);
-	currentDiseases = elide(FreeFn::listToString(patient.medStats.condition, "Не съобщава").c_str(), 40);
-	pastDiseases = elide(FreeFn::listToString(patient.medStats.history, "Не съобщава").c_str(), 40);
+	currentDiseases = elide(listToString(patient.medStats.condition, "Не съобщава").c_str(), 40);
+	pastDiseases = elide(listToString(patient.medStats.history, "Не съобщава").c_str(), 40);
 
 	update();
 }

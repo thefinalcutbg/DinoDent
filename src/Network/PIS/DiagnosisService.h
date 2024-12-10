@@ -10,8 +10,8 @@
 class DiagnosisService final: private PisService
 {
 	std::function<void(
-		const std::vector<std::string>& current, 
-		const std::vector<std::string>& past
+		const std::vector<ICD10>& current, 
+		const std::vector<ICD10>& past
 	)> m_callback;
 	void processPISReply(const std::string& reply) override;
 public:

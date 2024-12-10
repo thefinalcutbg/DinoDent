@@ -60,8 +60,8 @@ void MedicalStatusPresenter::loadICDFromNHIS()
 	nhis_diag_service.sendRequest(
 		patient,
 		[&](
-			const std::vector<std::string>& current,
-			const std::vector<std::string>& past
+			const std::vector<ICD10>& current,
+			const std::vector<ICD10>& past
 			
 		) {
 

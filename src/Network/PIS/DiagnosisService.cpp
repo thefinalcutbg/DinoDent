@@ -45,8 +45,8 @@ void DiagnosisService::processPISReply(const std::string& reply)
 
 	TiXmlHandle docHandle(&doc);
 
-	std::vector<std::string> current;
-	std::vector<std::string> past;
+	std::vector<ICD10> current;
+	std::vector<ICD10> past;
 
 	std::set<std::string> unique;
 
@@ -71,13 +71,13 @@ void DiagnosisService::processPISReply(const std::string& reply)
 		//if dateTo is missing, then the disease is active
 		bool isPast = diagnosis->FirstChildElement("ns1:dateTo");
 
-		std::vector<std::string>* diseases = isPast ? &past : &current;
+		std::vector<ICD10>* diseases = isPast ? &past : &current;
 		
-		auto diagnosisName = (ICD10::getDescriptionFromICDCode(mkb));
+		auto diag = ICD10(mkb);
 
-		if (diagnosisName.empty()) continue;
+		if (!diag.isValid()) continue;
 
-		diseases->push_back(diagnosisName);
+		diseases->push_back(diag);
 
 	}
 

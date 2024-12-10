@@ -8,37 +8,41 @@ MedicalStatusWidget::MedicalStatusWidget(QWidget *parent)
 	
     connect(ui.addButton, &QPushButton::clicked, this, [&] {
 			
-			auto result = ModalDialogBuilder::inputDialog("", "Въвеждане на медицински статус");
+			auto result = ModalDialogBuilder::icdDialog(ICD10("A00"));
 			
-			if (result.empty()) return;
+			if (!result.isValid()) return;
 
-			ui.statusList->addItem(result.c_str());
+			m_icd_list.push_back(result);
 		}
 	);
 
-    connect(ui.removeButton, &QPushButton::clicked, this, [&] {
-
-			auto index = ui.statusList->currentIndex();
-			
-			if (index.row() == -1) return;
-
-			delete ui.statusList->takeItem(index.row());
-		}
-	);
-	
-    connect(ui.editButton, &QPushButton::clicked, this, [&] {
+	connect(ui.editButton, &QPushButton::clicked, this, [&] {
 
 		auto index = ui.statusList->selectionModel()->currentIndex().row();
 
 		if (index == -1) return;
 
-		auto result = ModalDialogBuilder::inputDialog("", "Редакция", ui.statusList->item(index)->text().toStdString());
+		auto result = ModalDialogBuilder::icdDialog(m_icd_list[index]);
 
-		if (result.size()) {
-			ui.statusList->item(index)->setText(result.c_str());
+		if (!result.isValid())  return;
 		
-		}
+		m_icd_list[index] = result;
+
+		ui.statusList->item(index)->setText(result.name().c_str());
 	});
+
+    connect(ui.removeButton, &QPushButton::clicked, this, [&] {
+
+			auto index = ui.statusList->currentIndex().row();
+			
+			if (index == -1) return;
+
+			m_icd_list.erase(m_icd_list.begin() + index);
+
+			setMedicalStatus(m_icd_list);
+		}
+	);
+	
 
     connect(ui.statusList, &QListWidget::doubleClicked, this, [&] { ui.editButton->click(); });
 
@@ -53,31 +57,21 @@ MedicalStatusWidget::MedicalStatusWidget(QWidget *parent)
     ui.statusList->itemSelectionChanged();
 }
 
-void MedicalStatusWidget::setMedicalStatus(const std::vector<std::string>& s)
+void MedicalStatusWidget::setMedicalStatus(const std::vector<ICD10>& s)
 {
 	ui.statusList->clear();
 
+	m_icd_list = s;
+
 	for (auto& status : s)
 	{
-		ui.statusList->addItem(status.c_str());
-
-		//auto item = ui.statusList->item(ui.statusList->count() - 1);
-
-		//item->setFlags(item->flags() | Qt::ItemIsEditable);
+		ui.statusList->addItem(status.name().c_str());
 	}
 }
 
-std::vector<std::string> MedicalStatusWidget::getMedicalStatus()
+std::vector<ICD10> MedicalStatusWidget::getMedicalStatus()
 {
-	std::vector<std::string> result;
-
-	for (int i = 0; i < ui.statusList->count(); i++)
-	{
-
-		result.push_back(ui.statusList->item(i)->text().toStdString());
-	}
-
-	return result;
+	return m_icd_list;
 }
 
 void MedicalStatusWidget::setName(const QString& name)

@@ -47,8 +47,8 @@ void PatientInfoPresenter::diagnosisClicked()
 
 
         [=, this](
-            const std::vector<std::string>& currentDiseases,
-            const std::vector<std::string>& pastDiseases
+            const std::vector<ICD10>& currentDiseases,
+            const std::vector<ICD10>& pastDiseases
             
         ) {
 

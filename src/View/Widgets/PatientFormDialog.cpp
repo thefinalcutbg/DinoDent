@@ -209,6 +209,10 @@ void PatientFormDialog::setPatient(const Patient& patient)
 {
     ui.typeComboBox->setCurrentIndex(patient.type - 1);
 
+    if (patient.type < Patient::SSN) {
+        ui.fNameEdit->setFocus();
+    }
+
     if (!patient.rowid && patient.type != Patient::EGN) return;
 
     ui.idLineEdit->QLineEdit::setText(QString::fromStdString(patient.id));

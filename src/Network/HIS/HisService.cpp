@@ -142,6 +142,7 @@ std::string HisService::subject(const Patient& p, bool isPregnant, bool isBreast
 std::string HisService::getQualificationElement(bool includeNhif)
 {
 	int nhifSpec = 0;
+	int hisSpec = User::doctor().hisSpecialty.getIdx();
 
 	if (includeNhif && User::hasNhifContract()) {
 		nhifSpec = User::doctor().specialtyAsInt();
@@ -151,7 +152,10 @@ std::string HisService::getQualificationElement(bool includeNhif)
 
 	switch (nhifSpec) {
 		case 0:
-			result += std::to_string(User::doctor().hisSpecialty.getIdx());
+			result += hisSpec ?
+				std::to_string(User::doctor().hisSpecialty.getIdx())
+				:
+				"0000";
 			break;
 		case 61:
 			result += "2079";

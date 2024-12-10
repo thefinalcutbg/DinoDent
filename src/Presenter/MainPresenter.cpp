@@ -256,7 +256,7 @@ void MainPresenter::firstTimeLogic()
     d.mname = "Иванов";
     d.lname = "Иванов";
     d.LPK = "000000000";
-    d.hisSpecialty = 2081;
+    d.hisSpecialty = 0;
     d.phone = "";
     
     PracticeDoctor pd;

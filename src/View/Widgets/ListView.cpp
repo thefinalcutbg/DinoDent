@@ -19,8 +19,6 @@ ListView::ListView(QWidget* parent)
 
     ui.nrnButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
-	ui.ambNumSpin->setTotalLength(6);
-	ui.ambNumSpin->installEventFilter(new MouseWheelGuard(ui.ambNumSpin));
 	ui.dateTimeEdit->installEventFilter(new MouseWheelGuard(ui.dateTimeEdit));
 	ui.specCombo->installEventFilter(new MouseWheelGuard(ui.specCombo));
 
@@ -30,15 +28,20 @@ ListView::ListView(QWidget* parent)
 	ui.procedureTable->setModel(&model);
 	ui.procedureTable->setAmbListLayout();
 
-	ui.perioButton->setIcon(QIcon(":/icons/icon_periosheet.png"));
-	ui.invoiceButton->setIcon(QIcon(":/icons/icon_invoice.png"));
-	ui.prescrButton->setIcon(QIcon(":/icons/icon_prescr.png"));
+
+	
 	ui.addProcedure->setIcon(QIcon(":/icons/icon_add.png"));
 	ui.statusResultButton->setIcon(QIcon(":/icons/icon_apply.png"));
 	ui.deleteProcedure->setIcon(QIcon(":/icons/icon_remove.png"));
 	ui.editProcedure->setIcon(QIcon(":/icons/icon_edit.png"));
 	ui.historyButton->setIcon(QIcon(":/icons/icon_history.png"));
 	ui.nssiButton->setIcon(QIcon(":/icons/icon_nssi.png"));
+
+	ui.perioButton->setIcon(QIcon(":/icons/icon_add.png"));
+	ui.invoiceButton->setIcon(QIcon(":/icons/icon_add.png"));
+	ui.prescrButton->setIcon(QIcon(":/icons/icon_add.png"));
+	ui.medicalNoticeButton->setIcon(QIcon(":/icons/icon_add.png"));
+	ui.addRefButton->setIcon(QIcon(":/icons/icon_add.png"));
 
 	ui.perioButton->setHoverColor(Theme::mainBackgroundColor);
 	ui.invoiceButton->setHoverColor(Theme::mainBackgroundColor);
@@ -49,6 +52,8 @@ ListView::ListView(QWidget* parent)
 	ui.historyButton->setHoverColor(Theme::mainBackgroundColor);
 	ui.nssiButton->setHoverColor(Theme::mainBackgroundColor);
 	ui.statusResultButton->setHoverColor(Theme::mainBackgroundColor);
+	ui.addRefButton->setHoverColor(Theme::mainBackgroundColor);
+	ui.medicalNoticeButton->setHoverColor(Theme::mainBackgroundColor);
 
 	QMenu* menu = new QMenu(ui.addRefButton);
 
@@ -66,13 +71,7 @@ ListView::ListView(QWidget* parent)
 	}
 
 	ui.addRefButton->setMenu(menu);
-
-	ui.addRefButton->setIcon(QIcon(":/icons/icon_add.png"));
-	ui.addRefButton->setHoverColor(Theme::mainBackgroundColor);
-
-	ui.medicalNoticeButton->setIcon(QIcon(":/icons/icon_add.png"));
-	ui.medicalNoticeButton->setHoverColor(Theme::mainBackgroundColor);
-
+	
     setStyleSheet(Theme::getFancyStylesheet());
 
 	ui.procedureLabel->setStyleSheet(
@@ -89,7 +88,6 @@ ListView::ListView(QWidget* parent)
 
     connect(ui.pentionTaxButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->addFinancialReceipt(); });
     connect(ui.nrnButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->hisButtonPressed();});
-    connect(ui.ambNumSpin, &LeadingZeroSpinBox::valueChanged, this, [=, this] (long long value) {if(presenter)presenter->ambNumChanged(value);});
     connect(ui.dateTimeEdit, &QDateTimeEdit::dateTimeChanged, this, [=, this] (const QDateTime& t) {if (presenter)presenter->setAmbDateTime(t.toString(Qt::ISODate).toStdString());});
     connect(ui.historyButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->historyRequested(); });
 	connect(ui.addProcedure, &QAbstractButton::clicked, this, [=, this] { if (presenter) presenter->addProcedure(); });
@@ -216,13 +214,6 @@ void ListView::nhifChanged()
 	data.isUnfavourable = ui.unfavCheck->isChecked();
 
 	presenter->setNhifData(data);
-}
-
-
-void ListView::setAmbListNum(int number)
-{
-	QSignalBlocker b(ui.ambNumSpin);
-	ui.ambNumSpin->setValue(number);
 }
 
 void ListView::setDateTime(const std::string& time8601)
@@ -352,7 +343,6 @@ void ListView::setAdditionalDocuments(const std::vector<Referral>& referrals, co
 
 void ListView::setHisButtonText(const HisButtonProperties& prop)
 {
-	ui.ambNumSpin->setHidden(prop.hideSpinBox);
 	ui.label->setText(prop.labelText.c_str());
 	ui.nrnButton->setText(prop.buttonText.c_str());
 	ui.nrnButton->setHoverText(prop.hoverText.c_str());

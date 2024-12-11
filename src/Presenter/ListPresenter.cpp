@@ -37,8 +37,6 @@ ListPresenter::ListPresenter(ITabView* tabView, std::shared_ptr<Patient> patient
     ) {
         m_ambList.nhifData.isUnfavourable = true;
     }
-
-    m_ambList.number = DbAmbList::getNewNumber(m_ambList.getDate());
     m_ambList.lrn = FreeFn::getUuid();
 
 }
@@ -71,7 +69,7 @@ void ListPresenter::setHisButtonToView()
             IListView::HisButtonProperties
             {
                 .hideSpinBox = false,
-                .labelText = "Амб лист № :",
+                .labelText = "",
                 .buttonText = "Изпрати към НЗИС",
                 .hoverText = "Изпрати към НЗИС"
             }
@@ -222,15 +220,21 @@ TabName ListPresenter::getTabName()
 {
     TabName n;
 
-    n.header += m_ambList.isNew() ? "Нов амб.лист " :
-        "Амб.лист ";
-    
-    n.header += m_ambList.nrn.size() ?
-            m_ambList.nrn
-            : 
-            "№" + std::to_string(m_ambList.number);
+    if (m_ambList.isNew()) {
+        n.header += "Нов амб. лист ";
+    }
+    else if (m_ambList.nrn.size()) {
+        n.header += "Амб. лист №";
+        n.header += m_ambList.nrn;
+    }
+    else if (m_ambList.number){
+        n.header += "Амб. лист №";
+        n.header += std::to_string(m_ambList.number);
+    }
+    else {
+        n.header += "Амбулаторен лист ";
+    }
 
-   
     n.footer = patient->FirstName;
     n.footer += " ";
     n.footer += patient->LastName;
@@ -258,18 +262,6 @@ bool ListPresenter::save()
     if (!isValid()) return false;
 
     auto d = m_ambList.getDate();
-
-    if (
-        m_ambList.nrn.empty() && 
-        DbAmbList::suchNumberExists(d.year, m_ambList.number, m_ambList.rowid) &&
-       !ModalDialogBuilder::askDialog(
-            "Амбулаторен лист с такъв номер вече съществува. "
-            "Сигурни ли сте че искате да дублирате номерацията?"
-        )
-    )
-    {
-        return false;
-    }
 
     if (m_ambList.isNew())
     {
@@ -307,8 +299,6 @@ void ListPresenter::setDataToView()
     patient_info.setDate(m_ambList.getDate());
 
     patient_info.setCurrent(true);
-
-    view->setAmbListNum(m_ambList.number);
 
     setHisButtonToView();
 
@@ -401,13 +391,6 @@ void ListPresenter::setAmbDateTime(const std::string& datetime)
         view->setProcedures(m_ambList.procedures.list());
     }
 
-    makeEdited();
-}
-
-void ListPresenter::ambNumChanged(long long value)
-{
-    m_ambList.number = value;
-    edited = false;
     makeEdited();
 }
 
@@ -592,19 +575,6 @@ void ListPresenter::historyRequested()
     }
 
     statusChanged();
-}
-
-int ListPresenter::generateAmbListNumber()
-{
-    int newNumber = m_ambList.number;
-
-    auto ambSheetDate = m_ambList.getDate();
-
-    if (m_ambList.isNew()) {
-        newNumber = DbAmbList::getNewNumber(ambSheetDate);
-    }
-
-    return newNumber;
 }
 
 void ListPresenter::openDetails(int toothIdx)

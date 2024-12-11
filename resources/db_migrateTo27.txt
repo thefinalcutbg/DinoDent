@@ -7,5 +7,6 @@ DROP TABLE favourite_code;
 CREATE TABLE favourite_code (code TEXT NOT NULL, lpk  TEXT NOT NULL REFERENCES doctor (lpk) ON DELETE CASCADE ON UPDATE CASCADE);
 INSERT INTO favourite_code (code, lpk) SELECT code, lpk FROM sqlitestudio_temp_table;
 DROP TABLE sqlitestudio_temp_table;
+UPDATE amblist SET num=0 WHERE nrn!=''
 PRAGMA foreign_keys = 1;
 PRAGMA user_version = 27;

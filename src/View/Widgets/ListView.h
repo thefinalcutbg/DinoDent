@@ -33,7 +33,6 @@ public:
 
     void setPresenter(ListPresenter* presenter) override;
 
-    void setAmbListNum(int number) override;
     void setDateTime(const std::string& time8601) override;
     //IStatusView
     void setCheckModel(const CheckModel& checkModel, const CheckModel& dsnCheckModel) override;

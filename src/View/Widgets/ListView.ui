@@ -57,35 +57,7 @@
      <item>
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>Номер на амб. лист:</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="LeadingZeroSpinBox" name="ambNumSpin">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>100</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
-       </property>
-       <property name="buttonSymbols">
-        <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
-       </property>
-       <property name="minimum">
-        <number>1</number>
-       </property>
-       <property name="maximum">
-        <number>999999</number>
+        <string>НРН:</string>
        </property>
       </widget>
      </item>
@@ -548,90 +520,6 @@
            </property>
           </spacer>
          </item>
-         <item>
-          <widget class="IconButton" name="prescrButton">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>35</width>
-             <height>35</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>35</width>
-             <height>35</height>
-            </size>
-           </property>
-           <property name="toolTip">
-            <string>Изпиши рецепта</string>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="IconButton" name="invoiceButton">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>35</width>
-             <height>35</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>35</width>
-             <height>35</height>
-            </size>
-           </property>
-           <property name="toolTip">
-            <string>Издай фактура</string>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="IconButton" name="perioButton">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>35</width>
-             <height>35</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>35</width>
-             <height>35</height>
-            </size>
-           </property>
-           <property name="toolTip">
-            <string>Нов пародонтален статус</string>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
         </layout>
        </item>
        <item>
@@ -720,18 +608,43 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>220</width>
-         <height>50</height>
+         <width>180</width>
+         <height>45</height>
         </size>
        </property>
        <property name="text">
-        <string>Добави направление</string>
+        <string>Направление</string>
        </property>
        <property name="popupMode">
         <enum>QToolButton::ToolButtonPopupMode::InstantPopup</enum>
        </property>
        <property name="toolButtonStyle">
         <enum>Qt::ToolButtonStyle::ToolButtonTextOnly</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="BigPushButton" name="prescrButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>120</width>
+         <height>45</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Рецепта</string>
        </property>
       </widget>
      </item>
@@ -745,12 +658,62 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>250</width>
-         <height>50</height>
+         <width>180</width>
+         <height>45</height>
         </size>
        </property>
        <property name="text">
-        <string>Добави медицинска бележка</string>
+        <string>Медицинска бележка</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="BigPushButton" name="invoiceButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>120</width>
+         <height>45</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Фактура</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="BigPushButton" name="perioButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>180</width>
+         <height>45</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Пародонтален статус</string>
        </property>
       </widget>
      </item>
@@ -852,11 +815,6 @@
    <class>GraphicsView</class>
    <extends>QGraphicsView</extends>
    <header>View/Graphics/GraphicsView.h</header>
-  </customwidget>
-  <customwidget>
-   <class>LeadingZeroSpinBox</class>
-   <extends>QSpinBox</extends>
-   <header>View/uiComponents/LeadingZeroSpinBox.h</header>
   </customwidget>
   <customwidget>
    <class>ControlPanel</class>

@@ -53,8 +53,6 @@ class ListPresenter : public TabInstance
         patient_info.setCurrent(false);
     }
 
-    int generateAmbListNumber();
-    
     bool isValid();
     void refreshProcedureView();
     void statusChanged();
@@ -78,7 +76,6 @@ public:
     void setDataToView() override;
 
     void setAmbDateTime(const std::string& datetime);
-    void ambNumChanged(long long value);
 
     void checkPention();
     void addFinancialReceipt();

@@ -55,7 +55,7 @@ std::pair<std::vector<RowInstance>, PlainTable> getAmbRows(const Date& from, con
     PlainTable tableView;
 
     tableView.addColumn({"Дата",120,PlainColumn::Right});
-    tableView.addColumn({"Амб №/НРН",135,PlainColumn::Center});
+    tableView.addColumn({"НРН",135,PlainColumn::Center});
     tableView.addColumn({"ЕГН/ЛНЧ/ССН",120,PlainColumn::Center});
     tableView.addColumn({"Име на пациента",240});
     tableView.addColumn({"Телефон",120});
@@ -81,7 +81,7 @@ std::pair<std::vector<RowInstance>, PlainTable> getAmbRows(const Date& from, con
         "AND amblist.lpk = '" + User::doctor().LPK + "' "
         "AND amblist.rzi = '" + User::practice().rziCode + "' "
         "GROUP BY amblist.rowid "
-        "ORDER BY strftime('%Y %m %d', amblist.date) ASC, amblist.num ASC ";
+        "ORDER BY strftime('%Y %m %d', amblist.date) ASC, amblist.rowid ASC ";
 
     Db db(query);
 
@@ -107,8 +107,17 @@ std::pair<std::vector<RowInstance>, PlainTable> getAmbRows(const Date& from, con
             his_icon = his_updated ? CommonIcon::HIS : CommonIcon::HISGRAY;
         }
         //Number
+
+        int legacyNumber = db.asInt(4);
+
         tableView.addCell(1, {
-            .data = his ? db.asString(3) : FreeFn::leadZeroes(db.asInt(4), 6),
+            .data = his ? 
+                db.asString(3) 
+                : 
+                legacyNumber ? 
+                    FreeFn::leadZeroes(legacyNumber, 6) 
+                    : 
+                    "",
             .icon = his_icon
         });
 
@@ -357,17 +366,17 @@ std::pair<std::vector<RowInstance>, PlainTable> DbBrowser::getPatientDocuments(l
         std::string date = Date(db.asString(2)).toBgStandard();
 
         //getting nrn
-        std::string number = db.asString(4);
+        std::string nrn = db.asString(4);
 
         bool nhif = db.asBool(5);
 
-        bool sentToHis = number.size();
+        bool sentToHis = nrn.size();
 
         bool his_updated = db.asBool(6);;
 
-        if (number.empty())
+        if (nrn.empty() && db.asInt(3))
         {
-            number = std::to_string(db.asInt(3));
+            nrn = std::to_string(db.asInt(3));
         }
 
         std::string docTypeString;
@@ -384,9 +393,6 @@ std::pair<std::vector<RowInstance>, PlainTable> DbBrowser::getPatientDocuments(l
             case 1: 
                 docTypeString = "Амбулаторен лист";
                 docTypeIcon = CommonIcon::AMBLIST;
-                if (!sentToHis) {
-                    number = FreeFn::leadZeroes(number, 6); 
-                }
                 break;
             case 2:
                 docTypeString = "Рецепта";
@@ -395,12 +401,12 @@ std::pair<std::vector<RowInstance>, PlainTable> DbBrowser::getPatientDocuments(l
             case 3:
                 docTypeString = "Пародонтален статус";
                 docTypeIcon = CommonIcon::PERIO;
-                number.clear();
+                nrn.clear();
                 break;
             case 4:
                 docTypeString = "Фактура";
                 docTypeIcon = CommonIcon::INVOICE;
-                number = FreeFn::leadZeroes(number, 10);
+                nrn = FreeFn::leadZeroes(db.asInt(3), 10);
                 break;
         }
 
@@ -412,7 +418,7 @@ std::pair<std::vector<RowInstance>, PlainTable> DbBrowser::getPatientDocuments(l
 
         table.addCell(0, { .data = date, .icon = nhif ? CommonIcon::NHIF : CommonIcon::NOICON });
         table.addCell(1, { .data = docTypeString, .icon = docTypeIcon });
-        table.addCell(2, { .data = number, .icon = his_icon});
+        table.addCell(2, { .data = nrn, .icon = his_icon});
     }
 
     return std::make_pair(rowidData, table);

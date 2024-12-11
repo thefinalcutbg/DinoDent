@@ -28,7 +28,6 @@ public:
 	};
 
 	virtual void setPresenter(ListPresenter* presenter) = 0;
-	virtual void setAmbListNum(int number) = 0;
 	virtual void setCheckModel(const CheckModel& checkModel, const CheckModel& dsnCheckModel) = 0;
     virtual void setSelectedTeeth(const std::vector<int>& selectedTeeth) = 0;
 	virtual void setDateTime(const std::string& time8601) = 0;

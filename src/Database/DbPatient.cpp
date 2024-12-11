@@ -187,41 +187,14 @@ Patient DbPatient::get(long long rowid)
     return patient;
 }
 
-
 enum MedStatusType { CurrentDiseases=1, PastDiseases=2 };
 
 bool DbPatient::updateMedStatus(long long patientRowId, const MedicalStatuses& s)
 {
+    Db db;
 
-    Db db("DELETE FROM medical_status WHERE patient_rowid=?");
-
-    db.bind(1, patientRowId);
-
-    db.execute();
-
-    auto lambda = [&](const std::vector<ICD10>& list, MedStatusType t) {
-
-        for (auto& status : list)
-        {
-
-            db.newStatement("INSERT INTO medical_status (patient_rowid, data, type) VALUES (?,?,?)");
-
-            db.bind(1, patientRowId);
-            db.bind(2, status.code());
-            db.bind(3, t);
-
-            db.execute();
-        }
-    };
-
-   // lambda(s.allergies, Allergy);
-    lambda(s.condition, CurrentDiseases);
-    lambda(s.history, PastDiseases);
-
-    return true;
-
+    return updateMedStatus(patientRowId, s, db);
 }
-
 
 bool DbPatient::updateMedStatus(long long patientRowId, const MedicalStatuses& s, Db& db)
 {
@@ -236,7 +209,7 @@ bool DbPatient::updateMedStatus(long long patientRowId, const MedicalStatuses& s
         for (auto& status : list)
         {
 
-            db.newStatement("INSERT INTO medical_status (patient_rowid, data, type) VALUES (?,?,?)");
+            db.newStatement("INSERT INTO medical_status (patient_rowid, icd, type) VALUES (?,?,?)");
 
             db.bind(1, patientRowId);
             db.bind(2, status.code());
@@ -244,9 +217,9 @@ bool DbPatient::updateMedStatus(long long patientRowId, const MedicalStatuses& s
 
             db.execute();
         }
-    };
+        };
 
-   // lambda(s.allergies, Allergy);
+    // lambda(s.allergies, Allergy);
     lambda(s.condition, CurrentDiseases);
     lambda(s.history, PastDiseases);
 
@@ -255,35 +228,16 @@ bool DbPatient::updateMedStatus(long long patientRowId, const MedicalStatuses& s
 
 MedicalStatuses DbPatient::getMedicalStatuses(long long patientRowId)
 {
-    MedicalStatuses result;
+    Db db;
 
-    Db db("SELECT type, data FROM medical_status WHERE patient_rowid=?");
-    db.bind(1, patientRowId);
-
-    while (db.hasRows())
-    {
-        std::vector<ICD10>* stat;
-
-        switch (db.asInt(0))
-        {
-            //case Allergy: stat = &result.allergies; break;
-            case CurrentDiseases: stat = &result.condition; break;
-            case PastDiseases: stat = &result.history; break;
-            default: continue;
-        }
-
-        stat->emplace_back(db.asString(1));
-    }
-
-    return result;
-
+    return getMedicalStatuses(patientRowId, db);
 }
 
 MedicalStatuses DbPatient::getMedicalStatuses(long long patientRowId, Db& db)
 {
     MedicalStatuses result;
 
-    db.newStatement("SELECT type, data FROM medical_status WHERE patient_rowid=?");
+    db.newStatement("SELECT type, icd FROM medical_status WHERE patient_rowid=?");
     db.bind(1, patientRowId);
 
     while (db.hasRows())
@@ -293,12 +247,12 @@ MedicalStatuses DbPatient::getMedicalStatuses(long long patientRowId, Db& db)
         switch (db.asInt(0))
         {
             //case Allergy: stat = &result.allergies; break;
-            case CurrentDiseases: stat = &result.condition; break;
-            case PastDiseases: stat = &result.history; break;
-            default: continue;
+        case CurrentDiseases: stat = &result.condition; break;
+        case PastDiseases: stat = &result.history; break;
+        default: continue;
         }
 
-        stat->emplace_back(db.asString(1));
+        stat->push_back(ICD10(db.asString(1)));
     }
 
     return result;

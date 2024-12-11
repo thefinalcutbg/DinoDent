@@ -4,6 +4,20 @@
 #include "View/Widgets/UpdateDialog.h"
 #include "View/ModalDialogBuilder.h"
 #include "Version.h"
+#include "Resources.h"
+
+void commonUpdate(int toVersion) {
+
+	if (Db::version() != toVersion-1) return;
+
+	Db db;
+
+	for (auto& query : Resources::getMigrationScript(toVersion))
+	{
+		db.execute(query);
+	}
+
+}
 
 void DbUpdater::updateDb()
 {
@@ -27,19 +41,20 @@ void DbUpdater::updateDb()
 
 	DbUpdates::update10(d);
 	DbUpdates::update11(d);
-	DbUpdates::update12();
-	DbUpdates::update13();
-	DbUpdates::update14();
-	DbUpdates::update15();
+	commonUpdate(12);
+	commonUpdate(13);
+	commonUpdate(14);
+	commonUpdate(15);
 	DbUpdates::update16();
 	DbUpdates::update17();
 	DbUpdates::update18();
 	DbUpdates::update19(d);
-	DbUpdates::update20();
-	DbUpdates::update21();
-	DbUpdates::update22();
-	DbUpdates::update23();
-	DbUpdates::update24();
-	DbUpdates::update25();
+	commonUpdate(20);
+	commonUpdate(21);
+	commonUpdate(22);
+	commonUpdate(23);
+	commonUpdate(24);
+	commonUpdate(25);
 	DbUpdates::update26(d);
+	commonUpdate(27);
 }

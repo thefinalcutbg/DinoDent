@@ -69,7 +69,6 @@ void ListPresenter::setHisButtonToView()
             IListView::HisButtonProperties
             {
                 .hideSpinBox = false,
-                .labelText = "",
                 .buttonText = "Изпрати към НЗИС",
                 .hoverText = "Изпрати към НЗИС"
             }
@@ -83,8 +82,7 @@ void ListPresenter::setHisButtonToView()
         IListView::HisButtonProperties prop
         {
             .hideSpinBox = true,
-            .labelText = "НРН :",
-            .buttonText = m_ambList.his_updated ? m_ambList.nrn : "Изпрати за корекция",
+            .buttonText = m_ambList.his_updated ? "НРН: " + m_ambList.nrn : "Изпрати за корекция",
             .hoverText = m_ambList.his_updated ? "Анулирай" : "Изпрати за корекция"
         };
 
@@ -224,7 +222,7 @@ TabName ListPresenter::getTabName()
         n.header += "Нов амб. лист ";
     }
     else if (m_ambList.nrn.size()) {
-        n.header += "Амб. лист №";
+        n.header += "Амб. лист ";
         n.header += m_ambList.nrn;
     }
     else if (m_ambList.number){
@@ -1086,7 +1084,7 @@ void ListPresenter::createInvoice()
         return;
     }
 
-    auto selectedProcedures = ModalDialogBuilder::selectProcedures(m_ambList.procedures.list(), FinancingSource::PHIF);
+    auto selectedProcedures = ModalDialogBuilder::selectProcedures(m_ambList.procedures.list(), FinancingSource::Patient);
 
     if (!selectedProcedures.has_value()) {
         return;

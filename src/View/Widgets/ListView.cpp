@@ -343,7 +343,6 @@ void ListView::setAdditionalDocuments(const std::vector<Referral>& referrals, co
 
 void ListView::setHisButtonText(const HisButtonProperties& prop)
 {
-	ui.label->setText(prop.labelText.c_str());
 	ui.nrnButton->setText(prop.buttonText.c_str());
 	ui.nrnButton->setHoverText(prop.hoverText.c_str());
 }

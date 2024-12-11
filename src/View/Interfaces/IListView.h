@@ -22,7 +22,6 @@ public:
 
 	struct HisButtonProperties {
 		bool hideSpinBox{ false };
-		const std::string labelText;
 		const std::string buttonText;
 		const std::string hoverText;
 	};

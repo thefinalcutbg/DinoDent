@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1442</width>
-    <height>1233</height>
+    <width>1345</width>
+    <height>1244</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -26,6 +26,9 @@
    <string>ListView</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>0</number>
+   </property>
    <item>
     <widget class="PatientTileInfo" name="patientInfoTile" native="true">
      <property name="minimumSize">
@@ -44,22 +47,15 @@
         <enum>Qt::Orientation::Horizontal</enum>
        </property>
        <property name="sizeType">
-        <enum>QSizePolicy::Policy::Fixed</enum>
+        <enum>QSizePolicy::Policy::Expanding</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
-         <width>100</width>
+         <width>40</width>
          <height>20</height>
         </size>
        </property>
       </spacer>
-     </item>
-     <item>
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>НРН:</string>
-       </property>
-      </widget>
      </item>
      <item>
       <widget class="HoverButton" name="nrnButton">
@@ -71,7 +67,7 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>140</width>
+         <width>160</width>
          <height>27</height>
         </size>
        </property>
@@ -87,9 +83,25 @@
       </widget>
      </item>
      <item>
+      <spacer name="topSpacer">
+       <property name="orientation">
+        <enum>Qt::Orientation::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Policy::Fixed</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>120</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
       <widget class="QLabel" name="label_4">
        <property name="text">
-        <string>Дата:</string>
+        <string>Дата и час:</string>
        </property>
       </widget>
      </item>
@@ -116,7 +128,7 @@
       </widget>
      </item>
      <item>
-      <spacer name="horizontalSpacer_7">
+      <spacer name="horizontalSpacer">
        <property name="orientation">
         <enum>Qt::Orientation::Horizontal</enum>
        </property>
@@ -125,88 +137,11 @@
        </property>
        <property name="sizeHint" stdset="0">
         <size>
-         <width>40</width>
+         <width>340</width>
          <height>20</height>
         </size>
        </property>
       </spacer>
-     </item>
-     <item>
-      <widget class="QLabel" name="spec_label">
-       <property name="text">
-        <string>Спецификация:</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QComboBox" name="specCombo">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <item>
-        <property name="text">
-         <string>Изцяло или частично заплащана от НЗОК</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Изцяло заплащана от НЗОК</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Обща анестезия при психични заболявания</string>
-        </property>
-       </item>
-      </widget>
-     </item>
-     <item>
-      <widget class="QCheckBox" name="unfavCheck">
-       <property name="text">
-        <string>Неблагоприятни условия</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="HoverButton" name="pentionTaxButton">
-       <property name="minimumSize">
-        <size>
-         <width>130</width>
-         <height>26</height>
-        </size>
-       </property>
-       <property name="toolTip">
-        <string>Само за потребителска такса - пенсионери!</string>
-       </property>
-       <property name="text">
-        <string>Опис на касов бон</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="IconButton" name="nssiButton">
-       <property name="minimumSize">
-        <size>
-         <width>35</width>
-         <height>35</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>35</width>
-         <height>35</height>
-        </size>
-       </property>
-       <property name="toolTip">
-        <string>Проверка за упражнено право на пенсия</string>
-       </property>
-       <property name="text">
-        <string>Пенсия</string>
-       </property>
-      </widget>
      </item>
      <item>
       <spacer name="horizontalSpacer_8">
@@ -215,7 +150,7 @@
        </property>
        <property name="sizeHint" stdset="0">
         <size>
-         <width>0</width>
+         <width>40</width>
          <height>20</height>
         </size>
        </property>
@@ -341,7 +276,7 @@
        </property>
        <property name="sizeHint" stdset="0">
         <size>
-         <width>0</width>
+         <width>40</width>
          <height>20</height>
         </size>
        </property>
@@ -461,28 +396,6 @@
           </widget>
          </item>
          <item>
-          <widget class="IconButton" name="historyButton">
-           <property name="minimumSize">
-            <size>
-             <width>35</width>
-             <height>35</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>35</width>
-             <height>35</height>
-            </size>
-           </property>
-           <property name="toolTip">
-            <string>Онлайн пациентско досие</string>
-           </property>
-           <property name="text">
-            <string>Онлайн пациентско досие</string>
-           </property>
-          </widget>
-         </item>
-         <item>
           <widget class="IconButton" name="statusResultButton">
            <property name="minimumSize">
             <size>
@@ -520,6 +433,25 @@
            </property>
           </spacer>
          </item>
+         <item>
+          <widget class="BigPushButton" name="historyButton">
+           <property name="minimumSize">
+            <size>
+             <width>200</width>
+             <height>50</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Онлайн пациентско досие</string>
+           </property>
+          </widget>
+         </item>
         </layout>
        </item>
        <item>
@@ -532,7 +464,7 @@
          </property>
          <property name="minimumSize">
           <size>
-           <width>950</width>
+           <width>1100</width>
            <height>0</height>
           </size>
          </property>
@@ -540,6 +472,103 @@
           <string notr="true"/>
          </property>
         </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="spec_label">
+           <property name="text">
+            <string>Спецификация:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="specCombo">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <item>
+            <property name="text">
+             <string>Изцяло или частично заплащана от НЗОК</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Изцяло заплащана от НЗОК</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Обща анестезия при психични заболявания</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_4">
+           <property name="orientation">
+            <enum>Qt::Orientation::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="unfavCheck">
+           <property name="text">
+            <string>Неблагоприятни условия</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="HoverButton" name="pentionTaxButton">
+           <property name="minimumSize">
+            <size>
+             <width>130</width>
+             <height>26</height>
+            </size>
+           </property>
+           <property name="toolTip">
+            <string>Само за потребителска такса - пенсионери!</string>
+           </property>
+           <property name="text">
+            <string>Опис на касов бон</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="IconButton" name="nssiButton">
+           <property name="minimumSize">
+            <size>
+             <width>35</width>
+             <height>35</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>35</width>
+             <height>35</height>
+            </size>
+           </property>
+           <property name="toolTip">
+            <string>Проверка за упражнено право на пенсия</string>
+           </property>
+           <property name="text">
+            <string>Пенсия</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
       </layout>
      </item>
@@ -553,7 +582,7 @@
        </property>
        <property name="sizeHint" stdset="0">
         <size>
-         <width>0</width>
+         <width>40</width>
          <height>20</height>
         </size>
        </property>

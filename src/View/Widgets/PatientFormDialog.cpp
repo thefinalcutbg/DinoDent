@@ -209,7 +209,7 @@ void PatientFormDialog::setPatient(const Patient& patient)
 {
     ui.typeComboBox->setCurrentIndex(patient.type - 1);
 
-    if (patient.type < Patient::SSN) {
+    if (!patient.rowid && patient.type < Patient::SSN) {
         ui.fNameEdit->setFocus();
     }
 

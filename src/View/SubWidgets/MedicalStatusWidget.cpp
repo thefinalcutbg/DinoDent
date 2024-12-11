@@ -13,6 +13,8 @@ MedicalStatusWidget::MedicalStatusWidget(QWidget *parent)
 			if (!result.isValid()) return;
 
 			m_icd_list.push_back(result);
+
+			ui.statusList->addItem(result.name().c_str());
 		}
 	);
 

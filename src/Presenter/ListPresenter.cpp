@@ -82,7 +82,7 @@ void ListPresenter::setHisButtonToView()
         IListView::HisButtonProperties prop
         {
             .hideSpinBox = true,
-            .buttonText = m_ambList.his_updated ? "НРН: " + m_ambList.nrn : "Изпрати за корекция",
+            .buttonText = m_ambList.his_updated ? m_ambList.nrn : "Изпрати за корекция",
             .hoverText = m_ambList.his_updated ? "Анулирай" : "Изпрати за корекция"
         };
 

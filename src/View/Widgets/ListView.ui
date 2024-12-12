@@ -58,6 +58,13 @@
       </spacer>
      </item>
      <item>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>НРН:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="HoverButton" name="nrnButton">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -67,7 +74,7 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>160</width>
+         <width>140</width>
          <height>27</height>
         </size>
        </property>
@@ -83,16 +90,16 @@
       </widget>
      </item>
      <item>
-      <spacer name="topSpacer">
+      <spacer name="horizontalSpacer">
        <property name="orientation">
         <enum>Qt::Orientation::Horizontal</enum>
        </property>
        <property name="sizeType">
-        <enum>QSizePolicy::Policy::Fixed</enum>
+        <enum>QSizePolicy::Policy::Expanding</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
-         <width>120</width>
+         <width>40</width>
          <height>20</height>
         </size>
        </property>
@@ -101,7 +108,7 @@
      <item>
       <widget class="QLabel" name="label_4">
        <property name="text">
-        <string>Дата и час:</string>
+        <string>Дата и час на започване на лечението:</string>
        </property>
       </widget>
      </item>
@@ -126,22 +133,6 @@
         <bool>true</bool>
        </property>
       </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Orientation::Horizontal</enum>
-       </property>
-       <property name="sizeType">
-        <enum>QSizePolicy::Policy::Fixed</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>340</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
      </item>
      <item>
       <spacer name="horizontalSpacer_8">
@@ -284,8 +275,8 @@
      </item>
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_3">
-       <property name="leftMargin">
-        <number>0</number>
+       <property name="topMargin">
+        <number>10</number>
        </property>
        <item>
         <widget class="QLabel" name="procedureLabel">

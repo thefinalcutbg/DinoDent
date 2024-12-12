@@ -36,7 +36,7 @@ ListView::ListView(QWidget* parent)
 	ui.editProcedure->setIcon(QIcon(":/icons/icon_edit.png"));
 	ui.historyButton->setIcon(QIcon(":/icons/icon_history.png"));
 	ui.nssiButton->setIcon(QIcon(":/icons/icon_nssi.png"));
-
+	
 	ui.perioButton->setIcon(QIcon(":/icons/icon_add.png"));
 	ui.invoiceButton->setIcon(QIcon(":/icons/icon_add.png"));
 	ui.prescrButton->setIcon(QIcon(":/icons/icon_add.png"));

@@ -34,6 +34,7 @@ void ProcedureCreator::setProcedureCode(const ProcedureCode& code, bool nhif, do
 		&& m_selectedTeeth.empty()) 
 	{
 		view->setErrorMsg("За да добавите тази процедура изберете поне един зъб");
+		m_code = ProcedureCode();
 		return;
 	}
 

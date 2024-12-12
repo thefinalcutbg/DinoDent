@@ -472,7 +472,7 @@
          <item>
           <widget class="QLabel" name="spec_label">
            <property name="text">
-            <string>Спецификация:</string>
+            <string>НЗОК спецификация:</string>
            </property>
           </widget>
          </item>

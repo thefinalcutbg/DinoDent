@@ -49,27 +49,27 @@ ProcedureListView::ProcedureListView(QWidget *parent)
 	connect(ui.tableView, &QTableView::doubleClicked, this, [&](const QModelIndex& index) {
 			
 		emit codeDoubleClicked(
-			proxyModel.index(s_idx, 1).data().toString().toStdString(),
-			proxyModel.index(s_idx, 0).data(Qt::UserRole).toInt() == 1,
-			proxyModel.index(s_idx, 3).data(Qt::UserRole).toDouble()
+			proxyModel.index(current_index, 1).data().toString().toStdString(),
+			proxyModel.index(current_index, 0).data(Qt::UserRole).toInt() == 1,
+			proxyModel.index(current_index, 3).data(Qt::UserRole).toDouble()
 		);
 
 	});
 
 	connect(table->selectionModel(), &QItemSelectionModel::selectionChanged, this, [&] {
 
-		s_idx = table->selectionModel()->currentIndex().row();
+		current_index = table->selectionModel()->currentIndex().row();
 
-		if (s_idx == -1) {
+		if (current_index == -1) {
 			emit codeSelected(std::string{}, 0, 0);
 			ui.tableView->clearSelection(); //because of bug when reseting the model
 			return;
 		}
 
 		emit codeSelected(
-			proxyModel.index(s_idx, 1).data().toString().toStdString(),
-			proxyModel.index(s_idx, 0).data(Qt::UserRole).toInt() == 1, //NHIF value from model
-			proxyModel.index(s_idx, 3).data(Qt::UserRole).toDouble()
+			proxyModel.index(current_index, 1).data().toString().toStdString(),
+			proxyModel.index(current_index, 0).data(Qt::UserRole).toInt() == 1, //NHIF value from model
+			proxyModel.index(current_index, 3).data(Qt::UserRole).toDouble()
 		);
 		});
 
@@ -78,7 +78,7 @@ ProcedureListView::ProcedureListView(QWidget *parent)
 	{
 			s_search = text;
 			proxyModel.setFilterRegularExpression(QRegularExpression(s_search, QRegularExpression::CaseInsensitiveOption));
-			ui.tableView->selectRow(s_idx);
+			ui.tableView->selectRow(current_index);
 	});
 
 	
@@ -111,7 +111,7 @@ void ProcedureListView::setPresenter(ProcedureListPresenter* p)
 	refresh();
 
 	ui.searchEdit->setText(s_search);
-	ui.tableView->selectRow(s_idx);
+	ui.tableView->selectRow(current_index);
 }
 
 void ProcedureListView::refresh()

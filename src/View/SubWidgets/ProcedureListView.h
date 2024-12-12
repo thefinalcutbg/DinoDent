@@ -11,8 +11,7 @@ class ProcedureListPresenter;
 class ProcedureListView : public QWidget
 {
 	Q_OBJECT
-
-	inline static int s_idx{ -1 };
+	int current_index{ -1 };
 	inline static QString s_search{ "" };
 	inline static int current_section{ -1 };
 

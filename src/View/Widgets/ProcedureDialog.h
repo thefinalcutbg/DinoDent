@@ -13,9 +13,6 @@ class ProcedureDialog : public QDialog
 {
 	Q_OBJECT
 
-	inline static int s_idx{ -1 };
-	inline static QString s_search{""};
-
     ProcedureDialogPresenter &presenter;
 
 	ProcedureTemplateModel model;

@@ -10,12 +10,6 @@
     <height>499</height>
    </rect>
   </property>
-  <property name="windowTitle">
-   <string>ControlPanel</string>
-  </property>
-  <property name="toolTip">
-   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Бърз клавиш: Del&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-  </property>
   <widget class="StatusButton" name="Caries">
    <property name="geometry">
     <rect>

@@ -16,9 +16,7 @@ ContextMenu::ContextMenu()
     addAction(details);
     connect(details, &QAction::triggered, [&] {if (presenter) presenter->openDetails(); });
     
-    QMenu* statusMenu = addMenu("Зъбен статус");
-
-    addSeparator();
+    QMenu* statusMenu = addMenu("Добави статус");
 
     QString otherActionNames[otherInputsCount]
     {
@@ -108,7 +106,7 @@ ContextMenu::ContextMenu()
     prosthoMenu->addAction(menuAction[Dental::Splint]);
     prosthoMenu->addAction(otherActions[OtherInputs::removeBridge]);
 
-    statusMenu->addAction(otherActions[OtherInputs::removeAll]);
+    addAction(otherActions[OtherInputs::removeAll]);
 }
 
 void ContextMenu::setSelection(bool single) { details->setEnabled(single); }

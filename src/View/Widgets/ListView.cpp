@@ -28,8 +28,6 @@ ListView::ListView(QWidget* parent)
 	ui.procedureTable->setModel(&model);
 	ui.procedureTable->setAmbListLayout();
 
-
-	
 	ui.addProcedure->setIcon(QIcon(":/icons/icon_add.png"));
 	ui.statusResultButton->setIcon(QIcon(":/icons/icon_apply.png"));
 	ui.deleteProcedure->setIcon(QIcon(":/icons/icon_remove.png"));

@@ -23,7 +23,7 @@ private:
 	Ui::ReportViewClass ui;
 
 	// Inherited via IReportDialog
-	void appendSheet(const std::string& numberLink, const std::string& description);
+	void appendSheet(long long sheetRowid, const std::string& sheetNumber, const std::string& description);
 	void appendText(const std::string& text) override;
 	void clearText() override;
 	void setPercent(int percent) override;

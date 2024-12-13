@@ -5,7 +5,7 @@
 class IReportView
 {
 public:
-	virtual void appendSheet(const std::string& numberLink, const std::string& description) = 0;
+	virtual void appendSheet(long long sheetRowid, const std::string& sheetNumber, const std::string& description) = 0;
 	virtual void appendText(const std::string& text) = 0;
 	virtual void clearText() = 0;
 	virtual void setPercent(int percent) = 0;

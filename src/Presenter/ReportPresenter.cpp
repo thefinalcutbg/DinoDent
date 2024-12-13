@@ -28,7 +28,7 @@ void ReportPresenter::checkAmbList(const AmbList& list, const Patient& patient)
 
 		m_hasErrors = true;
 
-		view->appendSheet(list.getNumber(), v.getErrorMsg());
+		view->appendSheet(list.rowid, list.getNumber(), v.getErrorMsg());
 	}
 
 	if (list.nrn.empty()) {
@@ -37,7 +37,7 @@ void ReportPresenter::checkAmbList(const AmbList& list, const Patient& patient)
 
 		m_hasErrors = true;
 
-		view->appendSheet(list.getNumber()," Не е изпратен към НЗИС");
+		view->appendSheet(list.rowid, " на " + patient.firstLastName(), " не е изпратен към НЗИС");
 	}
 
 	if (list.nrn.size() && !list.his_updated) {
@@ -46,7 +46,7 @@ void ReportPresenter::checkAmbList(const AmbList& list, const Patient& patient)
 
 		m_hasErrors = true;
 
-		view->appendSheet(list.getNumber(), " Корекциите не са отразени в НЗИС");
+		view->appendSheet(list.rowid, list.getNumber(), " Корекциите не са отразени в НЗИС");
 	}
 
 	if (nraCheck && patient.insuranceStatus.has_value() && !patient.foreigner) {
@@ -77,7 +77,7 @@ void ReportPresenter::checkAmbList(const AmbList& list, const Patient& patient)
 		instance.patientRowId = patient.rowid;
 		instance.rowID = list.rowid;
 
-		errorSheets.insert(std::make_pair(list.getNumber(), instance));
+		errorSheets.insert(std::make_pair(list.rowid, instance));
 	}
 
 }
@@ -380,11 +380,11 @@ void ReportPresenter::setView(IReportView* view)
 	this->view = view;
 }
 
-void ReportPresenter::linkClicked(const std::string& sheetNumber)
+void ReportPresenter::linkClicked(long long sheetRowid)
 {
-	if (!errorSheets.count(sheetNumber)) return;
+	if (!errorSheets.count(sheetRowid)) return;
 
-	auto& ambRow = errorSheets.at(sheetNumber);
+	auto& ambRow = errorSheets.at(sheetRowid);
 
 	TabPresenter::get().open(ambRow, true);
 }

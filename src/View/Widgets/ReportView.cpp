@@ -62,29 +62,24 @@ ReportView::ReportView(QWidget* parent)
 	ui.pisButton->setIcon(QIcon(":/icons/icon_nhif.png"));
 	ui.specButton->setIcon(QIcon(":/icons/icon_print.png"));
 
+    connect(ui.textBrowser, &TextBrowser::linkPressed, this, [&](const QString& str) { presenter.linkClicked(str.toLongLong()); });
 
-    connect(ui.textBrowser, &TextBrowser::linkPressed, this, [&](const QString& str) { presenter.linkClicked(str.toStdString()); });
-
-	//CHANGE THIS LATER
 	presenter.setView(this);
 
 	ui.monthCombo->setCurrentIndex(Date::currentMonth() - 1); // index 0 == january;
 	ui.yearSpin->setValue(Date::currentYear());
-
-	//ui.textEdit->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
-
 }
 
 ReportView::~ReportView()
 {
 }
 
-void ReportView::appendSheet(const std::string& numberLink, const std::string& description)
+void ReportView::appendSheet(long long sheetRowid, const std::string& sheetNumber, const std::string& description)
 {
-	QString line = "Амбулаторен лист № <a href=\"";
-	line += numberLink.c_str();
+	QString line = "Амбулаторен лист <a href=\"";
+	line += QString::number(sheetRowid);
 	line += "\">";
-	line += numberLink.c_str();
+	line += sheetNumber.c_str();
 	line += "</a>: ";
 	line += description.c_str();
 

@@ -20,7 +20,7 @@ class ReportPresenter
 
 	//stores the amblists
 	std::vector<AmbList> lists;
-	std::map<std::string, RowInstance> errorSheets;
+	std::map<long long, RowInstance> errorSheets;
 
 	int m_currentIndex{ -1 };
 	bool m_hasErrors{ false };
@@ -57,6 +57,6 @@ public:
 	void generateReport(bool checkPis, bool checkNra);
 	void generateSpecification();
 	void setView(IReportView* view);
-	void linkClicked(const std::string& sheetNumber);
+	void linkClicked(long long sheetRowid);
 };
 

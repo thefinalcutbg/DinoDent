@@ -1,4 +1,4 @@
-#include "GraphicsView.h"
+﻿#include "GraphicsView.h"
 #include <QApplication>
 #include <View/Theme.h>
 #include <QPainter>
@@ -37,11 +37,13 @@ void GraphicsView::mousePressEvent(QMouseEvent* event)
 
 		if (newSelectedList.empty()) return;
 
+		//Аllows double click on multiple selected teeth:
 		if (previouslySelectedList.contains(newSelectedList[0])) {
 			for (auto i : previouslySelectedList) {
 				i->setSelected(true);
 			}
 		}
+		
 	}
 	
 }

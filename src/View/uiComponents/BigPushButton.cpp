@@ -46,17 +46,15 @@ void BigPushButton::paintEvent(QPaintEvent*)
 	painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
 
 	QPainterPath path;
-	path.addRoundedRect(QRectF(rect()), Theme::radius, Theme::radius);
+	path.addRoundedRect(QRectF(rect()), Theme::radius-3, Theme::radius-3);
 
 	QColor color{ m_hover || isChecked() ? hoverColor : normalColor };
 
 	painter.fillPath(path, color);
 
-	int padding = 15;
+	int iconSize = 18;
 
-	int refSize = std::min(height(), width());
-
-	QRect iconRect(10, padding, refSize - (padding * 2), refSize - (padding * 2));
+	QRect iconRect(10, (height()-iconSize)/2, iconSize, iconSize);
 
 	if (!icon().isNull())
 		icon().paint(&painter, iconRect);

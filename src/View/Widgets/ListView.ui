@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1345</width>
-    <height>1244</height>
+    <height>1251</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -387,6 +387,25 @@
           </widget>
          </item>
          <item>
+          <widget class="BigPushButton" name="historyButton">
+           <property name="minimumSize">
+            <size>
+             <width>200</width>
+             <height>35</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Онлайн пациентско досие</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="IconButton" name="statusResultButton">
            <property name="minimumSize">
             <size>
@@ -423,25 +442,6 @@
             </size>
            </property>
           </spacer>
-         </item>
-         <item>
-          <widget class="BigPushButton" name="historyButton">
-           <property name="minimumSize">
-            <size>
-             <width>200</width>
-             <height>50</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>16777215</width>
-             <height>16777215</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>Онлайн пациентско досие</string>
-           </property>
-          </widget>
          </item>
         </layout>
        </item>

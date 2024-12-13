@@ -68,6 +68,8 @@ QString Theme::getFancyStylesheet()
 			"padding: 3px 0px 3px 10px;"
 			"}"
 
+			"QGroupBox:title{ color:" + Theme::colorToString(Theme::fontTurquoise) + "; }"
+
 			"QAbstractSpinBox{"
 			"color: " + Theme::colorToString(Theme::fontTurquoise) + "; "
 			"background-color:" + Theme::colorToString(Theme::sectionBackground) + "; "

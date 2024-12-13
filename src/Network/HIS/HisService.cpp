@@ -306,7 +306,7 @@ std::string HisService::getProcedure(const Procedure& p, const ToothContainer& t
 	}
 
 	result += bind("note", p.notes, true);
-	/*
+	
 	if (p.diagnosis.icd.isValid() != 0) {
 
 		result += "<nhis:diagnosis>";
@@ -315,8 +315,7 @@ std::string HisService::getProcedure(const Procedure& p, const ToothContainer& t
 		result += "</nhis:diagnosis>";
 
 	}
-	*/
-
+	
 	result += "</nhis:dentalProcedure>";
 
 	return result;

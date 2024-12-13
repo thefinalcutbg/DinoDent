@@ -109,7 +109,7 @@ void ListPresenter::makeEdited()
 
 void ListPresenter::dynamicNhifConversion()
 {
-    if (m_ambList.isNhifSheet()) {
+    if (User::hasNhifContract()) {
 
         bool practiceIsUnfav =
             User::practice().nhif_contract &&

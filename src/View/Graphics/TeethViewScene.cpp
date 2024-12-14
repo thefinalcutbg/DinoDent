@@ -244,6 +244,7 @@ void TeethViewScene::keyPressEvent(QKeyEvent* event)
 
     switch (event->key())
     {
+        case Qt::Key_Return: presenter->addProcedure(); break;
         case Qt::Key_Right:
             if (event->modifiers() & Qt::ShiftModifier)
             {

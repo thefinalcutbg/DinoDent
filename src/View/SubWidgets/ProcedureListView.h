@@ -18,6 +18,8 @@ class ProcedureListView : public QWidget
 	ProcedureTemplateModel model;
 	QSortFilterProxyModel proxyModel;
 
+	bool eventFilter(QObject* obj, QEvent* event);
+
 	ProcedureListPresenter* presenter{ nullptr };
 
 public:

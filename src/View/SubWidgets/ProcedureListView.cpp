@@ -1,11 +1,14 @@
 #include "ProcedureListView.h"
 
 #include "Model/Dental/ProcedureCode.h"
+#include <QKeyEvent>
 
 ProcedureListView::ProcedureListView(QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
+
+	ui.searchEdit->installEventFilter(this);
 
 	proxyModel.setSourceModel(&model);
 	proxyModel.setFilterKeyColumn(3);
@@ -136,3 +139,28 @@ void ProcedureListView::refresh()
 	emit codeSelected(std::string{}, false, 0);
 }
 
+
+bool ProcedureListView::eventFilter(QObject* obj, QEvent* e)
+{
+
+	if (
+		e->type() == QEvent::KeyPress &&
+		(static_cast<QKeyEvent*>(e)->key() == Qt::Key_Down ||
+			static_cast<QKeyEvent*>(e)->key() == Qt::Key_Up
+			)
+		)
+	{
+		int currentRow = ui.tableView->currentIndex().row();
+
+		currentRow +=
+			static_cast<QKeyEvent*>(e)->key() == Qt::Key_Up ?
+			-1 : 1;
+
+		ui.tableView->selectRow(currentRow);
+
+		return true;
+
+	}
+
+	return QObject::eventFilter(obj, e);
+}

@@ -79,7 +79,11 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_3">
          <item>
-          <widget class="QComboBox" name="procedureCombo"/>
+          <widget class="QComboBox" name="procedureCombo">
+           <property name="sizeAdjustPolicy">
+            <enum>QComboBox::SizeAdjustPolicy::AdjustToContents</enum>
+           </property>
+          </widget>
          </item>
          <item>
           <spacer name="horizontalSpacer">
@@ -106,6 +110,9 @@
          </item>
          <item>
           <widget class="QComboBox" name="toothCombo">
+           <property name="sizeAdjustPolicy">
+            <enum>QComboBox::SizeAdjustPolicy::AdjustToContents</enum>
+           </property>
            <item>
             <property name="text">
              <string>Всички</string>
@@ -142,6 +149,9 @@
         <layout class="QHBoxLayout" name="horizontalLayout_4">
          <item>
           <widget class="QComboBox" name="ageCombo">
+           <property name="sizeAdjustPolicy">
+            <enum>QComboBox::SizeAdjustPolicy::AdjustToContents</enum>
+           </property>
            <item>
             <property name="text">
              <string>Всички</string>
@@ -200,6 +210,9 @@
          </item>
          <item>
           <widget class="QComboBox" name="financingCombo">
+           <property name="sizeAdjustPolicy">
+            <enum>QComboBox::SizeAdjustPolicy::AdjustToContents</enum>
+           </property>
            <item>
             <property name="text">
              <string>Всички</string>

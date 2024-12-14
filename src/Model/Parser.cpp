@@ -321,6 +321,7 @@ std::string Parser::write(const Settings& settings)
 	json["weekendCheck"] = settings.nhifWeekendCheck;
 	json["autoStatus"] = settings.autoStatus;
 	json["patientList"] = settings.showPatientList;
+	json["autoDiagnosis"] = settings.autoDiagnosis;
 	json["timeout"] = settings.timeout;
 
 	Json::FastWriter writer;
@@ -344,6 +345,10 @@ Settings Parser::parseSettings(const std::string& settingsString)
 		.nhifDailyLimitCheck = json["dailyLimitCheck"].asBool(),
 		.nhifWeekendCheck = json["weekendCheck"].asBool(),
 		.autoStatus = json["autoStatus"].asBool(),
+		.autoDiagnosis = json.isMember("autoDiagnosis") ? 
+			json["autoDiagnosis"].asBool() 
+			: 
+			true,
 		.showPatientList = json["patientList"].asBool(),
 		.timeout = json["timeout"].asInt()
 	};

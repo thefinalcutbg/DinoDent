@@ -3,8 +3,6 @@
 #include "Model/User.h"
 #include "View/ModalDialogBuilder.h"
 
-using namespace Dental;
-
 ProcedureCreator::ProcedureCreator(const std::vector<const Tooth*>& selectedTeeth)
 	: m_selectedTeeth(selectedTeeth)
 {
@@ -41,13 +39,15 @@ void ProcedureCreator::setProcedureCode(const ProcedureCode& code, bool nhif, do
 	//setting common data
 	IProcedureInput::CommonData commonData;
 
-	auto& defaultICDCode = code.defaultICD10();
+	if (User::settings().autoDiagnosis){
+		auto & defaultICDCode = code.defaultICD10();
 
-	if (defaultICDCode.size()) {
-		commonData.diagnosis.icd = defaultICDCode;
-	}
-	else {
-		commonData.diagnosis = diag_map[code.type()];
+		if (defaultICDCode.size()) {
+			commonData.diagnosis.icd = defaultICDCode;
+		}
+		else {
+			commonData.diagnosis = diag_map[code.type()];
+		}
 	}
 
 	commonData.financingSource = nhif ? FinancingSource::NHIF : s_preferred_financing;
@@ -67,7 +67,7 @@ void ProcedureCreator::setProcedureCode(const ProcedureCode& code, bool nhif, do
 
 		auto rData = autoSurfaces(*m_selectedTeeth[0]);
 
-		if (m_selectedTeeth.at(0)->hasStatus(Post)) {
+		if (m_selectedTeeth.at(0)->hasStatus(Dental::Post)) {
 			rData.post = true;
 		}
 
@@ -239,7 +239,7 @@ std::vector<Procedure> ProcedureCreator::getProcedures()
 
 Diagnosis ProcedureCreator::getDiagnosis(const Tooth* tooth, ProcedureType type)
 {
-
+	using namespace Dental;
 	std::array<std::string, Status::StatusCount> icdSimple{};
 
 	icdSimple[Caries] = "K02.1";
@@ -321,7 +321,7 @@ Diagnosis ProcedureCreator::getDiagnosis(const Tooth* tooth, ProcedureType type)
 	case ProcedureType::PostCrown:
 		statusSearch = { ApicalLesion, Root, Fracture, RootCanal };
 		break;
-
+		
 	case ProcedureType::Crown:
 		icd = "K03.7";
 		icdSimple[Implant] = "Z96.5";
@@ -363,6 +363,8 @@ Diagnosis ProcedureCreator::getDiagnosis(const Tooth* tooth, ProcedureType type)
 
 RestorationData ProcedureCreator::autoSurfaces(const Tooth& tooth)
 {
+	using namespace Dental;
+
 	RestorationData result;
 
 	auto& surfaces = result.surfaces;

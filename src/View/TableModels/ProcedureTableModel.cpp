@@ -108,6 +108,7 @@ QVariant ProcedureTableModel::data(const QModelIndex& index, int role) const
                     case FinancingSource::NHIF: return QIcon(":/icons/icon_nhif.png");
                     case FinancingSource::PHIF: return QIcon(":/icons/icon_phif.png");
                     case FinancingSource::Patient: return QIcon(":/icons/icon_user.png");
+                    case FinancingSource::University: return QIcon(":/icons/icon_uni.png");
                     default: return QIcon();
                 }
                 break;

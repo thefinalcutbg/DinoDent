@@ -50,7 +50,7 @@ typedef std::variant<
     ConstructionRange
     > AffectedTeeth;
 
-enum class FinancingSource { NHIF = 2, PHIF = 3, Patient = 4, None = 7};
+enum class FinancingSource { NHIF = 2, PHIF = 3, Patient = 4, None = 7, University = 9};
 
 
 struct Procedure

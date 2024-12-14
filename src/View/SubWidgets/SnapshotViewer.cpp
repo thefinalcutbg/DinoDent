@@ -89,6 +89,7 @@ void SnapshotViewer::displaySnapshotToView(const HisSnapshot& s)
         case FinancingSource::NHIF: ui.financingLabel->setText("<b>Финансиране:</b> НЗОК"); break;
         case FinancingSource::Patient: ui.financingLabel->setText("<b>Финансиране:</b> Пациент"); break;
         case FinancingSource::PHIF: ui.financingLabel->setText("<b>Финансиране:</b> ДЗОФ"); break;
+        case FinancingSource::University: ui.financingLabel->setText("<b>Финансиране:</b> МОН"); break;
         case FinancingSource::None: ui.financingLabel->setText("<b>Финансиране:</b> Без финансиране"); break;
         default: ui.financingLabel->clear();
     }

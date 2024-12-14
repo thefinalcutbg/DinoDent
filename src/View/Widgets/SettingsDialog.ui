@@ -47,13 +47,20 @@
          <item>
           <widget class="QGroupBox" name="groupBox">
            <property name="title">
-            <string>Нов амбулаторен лист</string>
+            <string>Общи настройки</string>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_2">
             <item>
              <widget class="QCheckBox" name="autoHisCheck">
               <property name="text">
-               <string>Автоматично извличане на данни от НЗИС</string>
+               <string>Автоматично извличане на данни от НЗИС при отваряне на амбулаторен лист</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="autoDiagnosis">
+              <property name="text">
+               <string>Автоматично попълване на диагноза при добавяне на нова процедура</string>
               </property>
              </widget>
             </item>

@@ -269,7 +269,7 @@ void SettingsDialog::setSettings(const Settings& settings)
 	ui.dailyLimitCheck->setChecked(settings.nhifDailyLimitCheck);
 	ui.weekendCheck->setChecked(settings.nhifWeekendCheck);
 	ui.patientList->setChecked(settings.showPatientList);
-
+	ui.autoDiagnosis->setChecked(settings.autoDiagnosis);
 }
 
 Settings SettingsDialog::getSettings()
@@ -282,6 +282,7 @@ Settings SettingsDialog::getSettings()
 		.nhifDailyLimitCheck = ui.dailyLimitCheck->isChecked(),
 		.nhifWeekendCheck = ui.weekendCheck->isChecked(),
 		.autoStatus = ui.autoStatus->isChecked(),
+		.autoDiagnosis = ui.autoDiagnosis->isChecked(),
 		.showPatientList = ui.patientList->isChecked(),
 		.timeout = ui.timeoutSpin->value()
 	};

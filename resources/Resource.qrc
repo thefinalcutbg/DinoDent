@@ -53,6 +53,7 @@
         <file>icon_calendar.png</file>
         <file>icon_google.png</file>
         <file>icon_template.png</file>
+        <file>icon_uni.png</file>
     </qresource>
     <qresource prefix="/tooth">
         <file>tooth_approximal.png</file>

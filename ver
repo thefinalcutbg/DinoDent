@@ -16,7 +16,7 @@
 	},
 	"macos": {
 		"ver": "2.1.0",
-		"dl": "https://github.com/thefinalcutbg/DinoDent/releases/download/v2.0.0/dinodent-macos.dmg",
+		"dl": "https://github.com/thefinalcutbg/DinoDent/releases/download/v2.1.0/dinodent-macos.dmg",
 		"changeLog": [
 			"АКТУАЛИЗАЦИЯТА Е ЗАДЪЛЖИТЕЛНА ЗА ВСИЧКИ, КОИТО ПОЛЗВАТ ВЕРСИЯ ПО-МАЛКА ОТ 2.0.0",
 			"Възобновено е изпращането на диагнозите към НЗИС",
@@ -31,7 +31,7 @@
 	},
 	"win64_dev": {
 		"ver": "2.1.0",
-		"dl": "https://github.com/thefinalcutbg/DinoDent/releases/download/v2.0.0/DinoDentSetup.exe",
+		"dl": "https://github.com/thefinalcutbg/DinoDent/releases/download/v2.1.0/DinoDentSetup.exe",
 		"changeLog": [
 			"АКТУАЛИЗАЦИЯТА Е ЗАДЪЛЖИТЕЛНА ЗА ВСИЧКИ, КОИТО ПОЛЗВАТ ВЕРСИЯ ПО-МАЛКА ОТ 2.0.0",
 			"Възобновено е изпращането на диагнозите към НЗИС",
@@ -46,7 +46,7 @@
 	},
 	"macos_dev": {
 		"ver": "2.1.0",
-		"dl": "https://github.com/thefinalcutbg/DinoDent/releases/download/v2.0.0/dinodent-macos.dmg",
+		"dl": "https://github.com/thefinalcutbg/DinoDent/releases/download/v2.1.0/dinodent-macos.dmg",
 		"changeLog": [
 			"АКТУАЛИЗАЦИЯТА Е ЗАДЪЛЖИТЕЛНА ЗА ВСИЧКИ, КОИТО ПОЛЗВАТ ВЕРСИЯ ПО-МАЛКА ОТ 2.0.0",
 			"Възобновено е изпращането на диагнозите към НЗИС",

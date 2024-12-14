@@ -56,6 +56,7 @@ struct Patient
 	std::string firstLastName() const;
 	std::string getFullAddress() const;
 	std::string getAllergiesStr() const;
+	std::string getMedStatusStr() const;
 	bool canBePregnant(const Date& = Date::currentDate()) const;
 	~Patient();
 };

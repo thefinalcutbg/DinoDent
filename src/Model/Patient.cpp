@@ -91,6 +91,42 @@ std::string Patient::getAllergiesStr() const
 	return result;
 }
 
+std::string Patient::getMedStatusStr() const
+{
+	std::string result;
+
+	if (medStats.condition.size()) {
+		result += "Настоящи заболявания: ";
+
+		for (auto& s : medStats.condition) {
+			result += s.code();
+			result += ", ";
+		}
+
+		result.pop_back();
+		result.pop_back();
+	}
+
+	if (medStats.history.size()) {
+
+		if (result.size()) {
+			result += ' ';
+		}
+
+		result += "Минали заболявания: ";
+
+		for (auto& s : medStats.history) {
+			result += s.code();
+			result += ", ";
+		}
+
+		result.pop_back();
+		result.pop_back();
+	}
+
+	return result;
+}
+
 bool Patient::canBePregnant(const Date& date) const
 {
 	if (sex == Male) return false;

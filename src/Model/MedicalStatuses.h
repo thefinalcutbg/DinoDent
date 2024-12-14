@@ -12,7 +12,7 @@ struct MedicalStatuses
 
 		std::string result;
 
-		for (auto status : list) {
+		for (auto& status : list) {
 			result += status.name();
 			result += ", ";
 		}

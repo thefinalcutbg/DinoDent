@@ -219,7 +219,7 @@ bool AmbListValidator::isValidAccordingToDb()
          
             if (procedure.date < minimumDate)
             {
-                _error = "В базата данни съществува вече манипулация с код " + std::to_string(p.code) +
+                _error = "В базата данни съществува вече процедура с код " + std::to_string(p.code) +
                     " от преди по-малко от " + std::to_string(yearLimit) + " г.";
                 return false;
             }
@@ -249,13 +249,13 @@ bool AmbListValidator::dateIsValid()
    {
         if (p.date.month != ambListDate.month || p.date.year != ambListDate.year)
         {
-            _error = "Манипулациите трябва да са от един и същи месец!";
+            _error = "Процедурите трябва да са от един и същи месец!";
             return false;
         }
 
         if (p.isNhif() && NhifProcedures::isMinorOnly(p.code.nhifCode()) && patient.isAdult(p.date))
         {
-            _error = "Манипулация " + std::to_string(p.code.nhifCode()) + " е позволена само при лица под 18 годишна възраст!";
+            _error = "Процедура " + std::to_string(p.code.nhifCode()) + " е позволена само при лица под 18 годишна възраст!";
             return false;
         }
    }
@@ -284,7 +284,7 @@ bool AmbListValidator::examIsFirst()
     {
         if (p.isNhif() && p.code.nhifCode() != examCode && p.date < examDate)
         {
-            _error = "Датата на манипулация " + std::to_string(p.code.nhifCode()) + " е по-малка от датата на прегледа!";
+            _error = "Датата на процедура " + std::to_string(p.code.nhifCode()) + " е по-малка от датата на прегледа!";
             return false;
         }
     }
@@ -300,7 +300,7 @@ bool AmbListValidator::isNhifInWeekend()
     {
         if (p.date.isWeekend())
         {
-            _error = "Манипулация " + std::to_string(p.code.nhifCode()) + " e извършена в почивен ден";
+            _error = "Процедура " + std::to_string(p.code.nhifCode()) + " e извършена в почивен ден";
             return true;
         }
     }
@@ -406,9 +406,9 @@ bool AmbListValidator::noDuplicates()
         {
             tooth.index != -1 ?
             _error = "За зъб " + tooth.getNhifNumenclature() +
-                " манипулация с код " + std::to_string(p.code.nhifCode()) + " е добавена повече от веднъж"
+                " процедура с код " + std::to_string(p.code.nhifCode()) + " е добавена повече от веднъж"
             :
-            _error = "Направили сте 2 еднакви манипулации с код " + std::to_string(p.code.nhifCode());
+            _error = "Направили сте 2 еднакви процедури с код " + std::to_string(p.code.nhifCode());
 
             return false;
         }
@@ -446,7 +446,7 @@ bool AmbListValidator::validateTypeToStatus(const Tooth& t, const Procedure& p)
 
             if (statusMissing)
             {
-                _error = "За манипулация " + code + " на зъб " + toothNum + " не е въведен валиден статус. "
+                _error = "За процедура " + code + " на зъб " + toothNum + " не е въведен валиден статус. "
                     "Валидните статуси включват кариес, обтурация, пулпит, периодонтит, корен или фрактура.";
                 return false;
             }
@@ -470,7 +470,7 @@ bool AmbListValidator::validateTypeToStatus(const Tooth& t, const Procedure& p)
 
             if (statusMissing)
             {
-                _error = "За манипулация " + code + " на зъб " + toothNum + " не е въведен валиден статус. " +
+                _error = "За процедура " + code + " на зъб " + toothNum + " не е въведен валиден статус. " +
                     "Валидните статуси включват пулпит, периодонтит или фрактура.";
                 return false;
             }
@@ -498,7 +498,7 @@ bool AmbListValidator::validateTypeToStatus(const Tooth& t, const Procedure& p)
 
         if (statusMissing)
         {
-            _error = "За манипулация " + code + " на зъб " + toothNum + " не е въведен валиден статус. "
+            _error = "За процедура " + code + " на зъб " + toothNum + " не е въведен валиден статус. "
                 "Валидните статуси включват периодонтит, корен, фрактура, пулпит, пародонтит, подвижност, имплант, свръхброен или временен зъб.";
             return false;
         }
@@ -522,13 +522,13 @@ bool AmbListValidator::validatePermaTemp(const Tooth& tooth, const Procedure& p)
 
     if (NhifProcedures::isTempOnly(p.code.nhifCode()) && !temp)
     {
-        _error = "Манипулация "+ std::to_string(p.code.nhifCode()) + " на зъб " + ToothUtils::getNomenclature(toothIdx.index, temp) + " е позволена само при временни зъби";
+        _error = "Процедура "+ std::to_string(p.code.nhifCode()) + " на зъб " + ToothUtils::getNomenclature(toothIdx.index, temp) + " е позволена само при временни зъби";
         return false;
     }
     
     if (NhifProcedures::isPermaOnly(p.code.nhifCode()) && temp)
     {
-        _error = "Манипулация " + std::to_string(p.code.nhifCode()) + " на зъб " + ToothUtils::getNomenclature(toothIdx.index, temp) + " е позволена само при постоянни зъби";
+        _error = "Процедура " + std::to_string(p.code.nhifCode()) + " на зъб " + ToothUtils::getNomenclature(toothIdx.index, temp) + " е позволена само при постоянни зъби";
         return false;
     }
 

@@ -5,7 +5,7 @@
 #include "Model/User.h"
 #include "Model/Dental/NhifProcedures.h" 
 #include <unordered_map>
-
+#include <QDebug>
 ProcedureListPresenter::ProcedureListPresenter()
 {
 
@@ -54,25 +54,13 @@ ProcedureListPresenter::ProcedureListPresenter()
 
 		m_blocks.back().to = m_elements.size();
 	}
-	
+
 	auto favourites = DbDoctor::getFavouriteProcedures(User::doctor().LPK);
 
-	//auto prices = DbProcedure::getCodeValues();
-
-	if (favourites.empty()) return;
-
-	has_favourites = true;
+	has_favourites = favourites.size();
 
 	for (auto& e : m_elements) {
-
-		if (favourites.count(e.code.code())) {
-			e.favourite = true;
-		}
-		/*
-		if (prices.count(e.code.code())) {
-			e.price = prices.at(e.code.code());
-		}
-		*/
+		e.favourite = favourites.count(e.code.code());
 	}
 
 }

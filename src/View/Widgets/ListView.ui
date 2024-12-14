@@ -624,7 +624,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="UserButton" name="addRefButton">
+      <widget class="BigPushButton" name="addRefButton">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -639,12 +639,6 @@
        </property>
        <property name="text">
         <string>Направление</string>
-       </property>
-       <property name="popupMode">
-        <enum>QToolButton::ToolButtonPopupMode::InstantPopup</enum>
-       </property>
-       <property name="toolButtonStyle">
-        <enum>Qt::ToolButtonStyle::ToolButtonTextOnly</enum>
        </property>
       </widget>
      </item>
@@ -846,11 +840,6 @@
    <extends>QWidget</extends>
    <header>View/SubWidgets/ControlPanel.h</header>
    <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>UserButton</class>
-   <extends>QToolButton</extends>
-   <header location="global">View/uiComponents/UserButton.h</header>
   </customwidget>
   <customwidget>
    <class>HoverButton</class>

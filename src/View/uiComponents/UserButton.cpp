@@ -12,7 +12,7 @@ UserButton::UserButton(QWidget* parent) : QToolButton(parent)
 	this->installEventFilter(this);
 
     m_font.setBold(1);
-
+	
 	setIconSize(QSize(18, 18));
 
 	hoverColor = Theme::background;
@@ -88,7 +88,7 @@ QSize UserButton::minimumSizeHint() const
 
 	auto size = QToolButton::minimumSizeHint();
 
-	size.setWidth(size.width() + 28);
+	size.setWidth(size.width() + 8);
 
 	return size;
 }

@@ -56,17 +56,19 @@ void EventDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option,
 
     auto px = data.requestPixmap(column, row);
     
-    painter->setPen(QColor(245, 245, 245));
-    painter->drawRect(r);
-
-    if (index.row() && index.row() % 4 == 0) {
-        painter->setPen(QColor(224, 224, 224));
-        painter->drawLine(r.topLeft(), r.topRight());
-    }
-    
     if (!px.isNull()) {
-        painter->drawPixmap(option.rect, px, px.rect());
+        painter->drawPixmap(r, px, px.rect());
+
         return;
+    }
+    else {
+        painter->setPen(QColor(245, 245, 245));
+        painter->drawRect(r);
+
+        if (index.row() && index.row() % 4 == 0) {
+            painter->setPen(QColor(224, 224, 224));
+            painter->drawLine(r.topLeft(), r.topRight());
+        }
     }
 
     //hovering empty cell

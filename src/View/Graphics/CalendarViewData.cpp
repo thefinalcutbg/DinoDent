@@ -198,6 +198,17 @@ void CalendarViewData::EventEntity::paintPixmap()
 	QPainter p(&px);
 
 	p.setRenderHint(QPainter::Antialiasing);
+	
+	auto cellRect = QRect(0, 0, cell_width, eventHeight);
+
+	p.setPen(QColor(245, 245, 245));
+	p.drawRect(cellRect);
+	
+	if (row % 4 == 0) {
+		p.setPen(QColor(224, 224, 224));
+		p.drawLine(cellRect.topLeft(), cellRect.topRight());
+	}
+
 	QPainterPath path;
 	path.addRoundedRect(QRectF(2,2,cell_width-4, eventHeight-4), 7, 7);
 
@@ -211,9 +222,8 @@ void CalendarViewData::EventEntity::paintPixmap()
 	p.setFont(font);
 
 	p.setPen(Theme::fontTurquoise);
-	//p.setPen(QColor(40, 73, 71));
 
-	QRect textRect(5, 4, cell_width-10, eventHeight-8);
+	QRect textRect(5, 4, cell_width-10, eventHeight-6);
 	
 	p.setRenderHint(QPainter::RenderHint::TextAntialiasing);
 

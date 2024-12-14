@@ -13,6 +13,8 @@ UserButton::UserButton(QWidget* parent) : QToolButton(parent)
 
     m_font.setBold(1);
 
+	setIconSize(QSize(18, 18));
+
 	hoverColor = Theme::background;
 }
 
@@ -46,10 +48,11 @@ void UserButton::paintEvent(QPaintEvent*)
 	painter.setFont(m_font);
 	painter.setPen(QPen(Theme::fontTurquoiseClicked));
 
-	QRect textRect;
-	textRect.setCoords(iconRect.width(), 0, width(), height());
+	int xPos = 10;
+	xPos =+ icon().isNull() ? 0 : 28;
 
-	painter.drawText(textRect, Qt::AlignCenter, text());
+	QRect textRect(xPos, 0, width()-xPos, height());
+	painter.drawText(textRect, Qt::AlignLeft | Qt::AlignVCenter, text());
 
 
 }
@@ -77,6 +80,17 @@ bool UserButton::eventFilter(QObject*, QEvent* e)
 
 
 	return false;
+}
+
+QSize UserButton::minimumSizeHint() const
+{
+	if (icon().isNull()) return QToolButton::minimumSizeHint();
+
+	auto size = QToolButton::minimumSizeHint();
+
+	size.setWidth(size.width() + 28);
+
+	return size;
 }
 
 

@@ -440,9 +440,6 @@
         <property name="toolButtonStyle">
          <enum>Qt::ToolButtonStyle::ToolButtonTextBesideIcon</enum>
         </property>
-        <property name="arrowType">
-         <enum>Qt::ArrowType::NoArrow</enum>
-        </property>
        </widget>
       </item>
       <item>

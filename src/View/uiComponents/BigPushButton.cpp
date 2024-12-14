@@ -64,11 +64,12 @@ void BigPushButton::paintEvent(QPaintEvent*)
 	painter.setFont(font());
 	painter.setPen(QPen(differentFont ? Theme::fontTurquoise : Theme::fontTurquoiseClicked));
 
+	int xPos =icon().isNull() ? 0 : 18;
+
 	QRect textRect;
-	textRect.setCoords(iconRect.width(), 0, width(), height());
+	textRect.setRect(xPos, 0, width()-xPos, height());
 
 	painter.drawText(textRect, Qt::AlignCenter, text());
-
 
 }
 
@@ -95,6 +96,17 @@ bool BigPushButton::eventFilter(QObject*, QEvent* e)
 
 
 	return false;
+}
+
+QSize BigPushButton::minimumSizeHint() const
+{
+	if (icon().isNull()) return QPushButton::minimumSizeHint();
+
+	auto size = QPushButton::minimumSizeHint();
+
+	size.setWidth(size.width() + 18);
+
+	return size;
 }
 
 

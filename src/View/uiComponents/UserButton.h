@@ -12,7 +12,7 @@ class UserButton  : public QToolButton
 	void paintEvent(QPaintEvent* event) override;
 	bool eventFilter(QObject* obj, QEvent* e) override;
 	QFont m_font;
-
+	QSize minimumSizeHint() const override;
 
 
 public:

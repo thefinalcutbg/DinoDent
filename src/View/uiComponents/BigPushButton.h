@@ -12,7 +12,7 @@ class BigPushButton : public QPushButton
 	QColor normalColor;
 	void paintEvent(QPaintEvent* event) override;
 	bool eventFilter(QObject* obj, QEvent* e) override;
-
+	QSize minimumSizeHint() const override;
 
 public:
 	BigPushButton(QWidget* parent);

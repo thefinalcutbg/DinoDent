@@ -1,12 +1,13 @@
 DELETE FROM medical_status;
 ALTER TABLE medical_status RENAME COLUMN data TO icd;
 PRAGMA foreign_keys = 0;
-DELETE FROM favourite_code WHERE lpk NOT IN (SELECT doctor.lpk FROM doctor)
+DELETE FROM favourite_code WHERE lpk NOT IN (SELECT doctor.lpk FROM doctor);
 CREATE TABLE sqlitestudio_temp_table AS SELECT * FROM favourite_code;
 DROP TABLE favourite_code;
 CREATE TABLE favourite_code (code TEXT NOT NULL, lpk  TEXT NOT NULL REFERENCES doctor (lpk) ON DELETE CASCADE ON UPDATE CASCADE);
 INSERT INTO favourite_code (code, lpk) SELECT code, lpk FROM sqlitestudio_temp_table;
 DROP TABLE sqlitestudio_temp_table;
-UPDATE amblist SET num=0 WHERE nrn!=''
+UPDATE amblist SET num=0 WHERE nrn!='';
+UPDATE doctor SET his_specialty=0 WHERE his_specialty=2081;
 PRAGMA foreign_keys = 1;
 PRAGMA user_version = 27;

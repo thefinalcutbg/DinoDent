@@ -390,7 +390,7 @@
           <widget class="BigPushButton" name="historyButton">
            <property name="minimumSize">
             <size>
-             <width>200</width>
+             <width>220</width>
              <height>35</height>
             </size>
            </property>
@@ -633,7 +633,7 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>180</width>
+         <width>200</width>
          <height>45</height>
         </size>
        </property>
@@ -658,7 +658,7 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>120</width>
+         <width>140</width>
          <height>45</height>
         </size>
        </property>
@@ -683,7 +683,7 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>180</width>
+         <width>200</width>
          <height>45</height>
         </size>
        </property>
@@ -702,7 +702,7 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>120</width>
+         <width>140</width>
          <height>45</height>
         </size>
        </property>
@@ -727,7 +727,7 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>180</width>
+         <width>200</width>
          <height>45</height>
         </size>
        </property>

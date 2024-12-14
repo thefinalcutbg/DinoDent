@@ -214,6 +214,11 @@ void ListView::nhifChanged()
 	presenter->setNhifData(data);
 }
 
+void ListView::focusTeethView()
+{
+	ui.teethView->setFocus();
+}
+
 void ListView::setDateTime(const std::string& time8601)
 {
 	QSignalBlocker b(ui.dateTimeEdit);

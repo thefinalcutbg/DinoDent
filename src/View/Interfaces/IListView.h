@@ -41,5 +41,5 @@ public:
 	virtual void setAdditionalDocuments(const std::vector<Referral>& referrals, const std::vector<MedicalNotice>& notices) = 0;
 	virtual void setProcedures(const std::vector<Procedure>& m) = 0;
 	virtual void setHisButtonText(const HisButtonProperties& prop) = 0;
-
+	virtual void focusTeethView() = 0;
 };

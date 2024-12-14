@@ -371,6 +371,8 @@ void ListPresenter::setDataToView()
 
         firstFocus = false;
     }
+
+    view->focusTeethView();
 }
 
 

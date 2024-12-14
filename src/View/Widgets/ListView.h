@@ -28,6 +28,8 @@ class ListView : public QWidget, public IListView
 
     void nhifChanged();
 
+    void focusTeethView() override;
+
 public:
     ListView(QWidget* parent = Q_NULLPTR);
 

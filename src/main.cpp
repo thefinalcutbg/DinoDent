@@ -61,6 +61,10 @@ bool initFunction() {
     QApplication::setStyle("windowsvista");     //"windows11", "windowsvista", "Windows", "Fusion"
 #endif
 
+#ifdef Q_OS_OSX
+    QApplication::setAttribute(Qt::AA_DontShowIconsInMenus, false);
+#endif
+
     SplashScreen::createAndShow();
 
     Db::setFilePath(GlobalSettings::getDbPath());

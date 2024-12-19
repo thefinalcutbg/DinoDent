@@ -32,18 +32,19 @@ void EHospitalization::Fetch::parseReply(const std::string& reply)
 	std::vector<Hospitalization> result;
 
 	for (
-		auto hospitalization = docHandle
+		auto resultXml = docHandle
 		.FirstChild("nhis:message")
 		.FirstChild("nhis:contents")
-		.FirstChild("nhis:results")
-		.FirstChild("nhis:hospitalization").ToElement();
-		hospitalization != nullptr;
-		hospitalization = hospitalization->NextSiblingElement("nhis:hospitalization")
+		.FirstChild("nhis:results").ToElement();
+		resultXml != nullptr;
+		resultXml = resultXml->NextSiblingElement("nhis:results")
 		)
 	{
 		result.emplace_back();
 
-		result.back().authoredOn = hospitalization->FirstChildElement("nhis:authoredOn")->FirstAttribute()->ValueStr();
+		auto hospitalization = resultXml->FirstChildElement("nhis:hospitalization");
+
+		result.back().authoredOn =hospitalization->FirstChildElement("nhis:authoredOn")->FirstAttribute()->ValueStr();
 		result.back().status = static_cast<Hospitalization::Status>(hospitalization->FirstChildElement("nhis:status")->FirstAttribute()->IntValue());
 
 	}

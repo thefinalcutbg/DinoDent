@@ -35,11 +35,12 @@ ListView::ListView(QWidget* parent)
 	ui.historyButton->setIcon(QIcon(":/icons/icon_history.png"));
 	ui.nssiButton->setIcon(QIcon(":/icons/icon_nssi.png"));
 	
-	ui.perioButton->setIcon(QIcon(":/icons/icon_add.png"));
-	ui.invoiceButton->setIcon(QIcon(":/icons/icon_add.png"));
-	ui.prescrButton->setIcon(QIcon(":/icons/icon_add.png"));
+    ui.perioButton->setIcon(QIcon(":/icons/icon_periosheet.png"));
+    ui.invoiceButton->setIcon(QIcon(":/icons/icon_invoice.png"));
+    ui.prescrButton->setIcon(QIcon(":/icons/icon_prescr.png"));
 	ui.medicalNoticeButton->setIcon(QIcon(":/icons/icon_add.png"));
 	ui.addRefButton->setIcon(QIcon(":/icons/icon_add.png"));
+    ui.declarationButton->setIcon(QIcon(":/icons/icon_print.png"));
 
 	ui.perioButton->setHoverColor(Theme::mainBackgroundColor);
 	ui.invoiceButton->setHoverColor(Theme::mainBackgroundColor);
@@ -51,6 +52,7 @@ ListView::ListView(QWidget* parent)
 	ui.nssiButton->setHoverColor(Theme::mainBackgroundColor);
 	ui.statusResultButton->setHoverColor(Theme::mainBackgroundColor);
 	ui.addRefButton->setHoverColor(Theme::mainBackgroundColor);
+    ui.declarationButton->setHoverColor(Theme::mainBackgroundColor);
 	ui.medicalNoticeButton->setHoverColor(Theme::mainBackgroundColor);
 
 	QMenu* menu = new QMenu(ui.addRefButton);
@@ -98,6 +100,7 @@ ListView::ListView(QWidget* parent)
     connect(ui.perioButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->createPerioMeasurment(); });
     connect(ui.prescrButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->createPrescription(); });
     connect(ui.medicalNoticeButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->addMedicalNotice(); });
+    connect(ui.declarationButton, &QPushButton::clicked, this, [=, this] { if (presenter) presenter->printDeclarations(); });
     connect(ui.deleteProcedure, &QAbstractButton::clicked, this, [=, this]
         {
 

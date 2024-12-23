@@ -26,10 +26,6 @@ PatientTileInfo::PatientTileInfo(QWidget *parent)
 		if (presenter) presenter->allergiesClicked();
 	});
 
-    connect (ui.patientTile->printButton, &QPushButton::clicked, this, [=, this] {
-		if (presenter) presenter->printDeclarations();
-	});
-
 	connect (ui.patientTile->notesButton, &QPushButton::clicked, this, [=, this] {
 		if (presenter) presenter->notesRequested();
 	});
@@ -41,6 +37,10 @@ PatientTileInfo::PatientTileInfo(QWidget *parent)
 	connect (ui.medStatTile->hospitalizedButton, &QPushButton::clicked, this, [=, this] {
 		if (presenter) presenter->checkHospitalization();
 		});
+
+    connect (ui.patientTile->notificationButton, &QPushButton::clicked, this, [=, this]{
+        if (presenter) presenter->notificationClicked();
+    });
 }
 
 void PatientTileInfo::setPatient(const Patient& p, int age)

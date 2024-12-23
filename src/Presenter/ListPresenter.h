@@ -114,6 +114,8 @@ public:
     void createPerioMeasurment();
     void createPrescription();
     
+    void printDeclarations();
+
     void hisButtonPressed();
 
     ~ListPresenter();

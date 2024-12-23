@@ -20,8 +20,10 @@
 #include "Version.h"
 #include "View/Widgets/SplashScreen.h"
 #include "ChatDialog.h"
-
+#include "View/Widgets/notificationlistdialog.h"
 #include "Model/User.h"
+
+#include "Database/DbNotification.h"
 
 DinoDent::DinoDent(QWidget* parent)
     : QMainWindow(parent)
@@ -89,6 +91,7 @@ DinoDent::DinoDent(QWidget* parent)
     ui.invoiceButton->setIcon(QIcon(":/icons/icon_invoice.png"));
     ui.aboutButton->setIcon(QIcon(":/icons/icon_question.png"));
     ui.mircButton->setIcon(QIcon(":/icons/icon_mirc.png"));
+    ui.notifButton->setIcon(QIcon(":/icons/icon_bell_notify.png"));
     ui.mircButton->setMonochrome(true);
     
     connect(ui.newButton, &QPushButton::clicked, [&] { MainPresenter::get().newAmbPressed(); });
@@ -123,6 +126,13 @@ DinoDent::DinoDent(QWidget* parent)
     });
 
     connect(exitAction, &QAction::triggered, [&] { MainPresenter::get().logOut(); });
+
+    connect(ui.notifButton, &QPushButton::clicked, this, [&]{
+
+        NotificationListDialog d;
+        d.exec();
+
+    });
 
     ui.userButton->setMenu(userMenu);
     ui.userButton->setPopupMode(QToolButton::InstantPopup);
@@ -161,6 +171,15 @@ void DinoDent::setUserLabel(const std::string& doctorName, const std::string& pr
     title += practiceName.c_str();
 
     setWindowTitle(title);
+
+
+    auto todayNotif = DbNotification::get(Date::currentDate(), User::doctor().LPK);
+
+    if(todayNotif.empty()){
+
+        ui.notifButton->hide();
+        return;
+    }
 }
 
 void DinoDent::exitProgram()

@@ -15,7 +15,7 @@ namespace EAllergy
 
 	public:
 		Report() :
-			HisService("C023", "/v3/commons/doctor/allegies-report") {}
+            HisService("L023", "/v1/longterm-care/doctor/allegies-report") {}
 
         bool sendRequest(const Patient& patient, const Allergy& allergy, decltype(m_callback) callback);
 		bool awaitingReply() { return awaiting_reply; }
@@ -30,7 +30,7 @@ namespace EAllergy
 
 	public:
 		Edit() :
-			HisService("C025", "/v3/commons/doctor/allegies-edit") {}
+            HisService("L025", "/v1/longterm-care/doctor/allegies-edit") {}
 
 		bool sendRequest(const Allergy& allergy, decltype(m_callback) callback);
 		bool awaitingReply() { return awaiting_reply; }
@@ -45,7 +45,7 @@ namespace EAllergy
 
 	public:
 		Fetch() :
-			HisService("C027", "/v3/commons/doctor/allegies-fetch") {}
+            HisService("L027", "/v1/longterm-care/doctor/allegies-fetch") {}
 		//does not return "Entered in Error"
 		bool sendRequest(const Patient& patient, const std::string& rzi, decltype(m_callback) callback);
 		bool awaitingReply() { return awaiting_reply; }

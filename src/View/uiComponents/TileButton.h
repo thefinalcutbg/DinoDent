@@ -39,9 +39,9 @@ class PatientTile : public TileButton
 
 public:
     IconButton* nraButton;
-    IconButton* printButton;
     IconButton* notesButton;
     IconButton* appointmentButton;
+    IconButton* notificationButton;
     PatientTile(QWidget* parent = 0);
     void setData(const Patient& patient, int age);
 

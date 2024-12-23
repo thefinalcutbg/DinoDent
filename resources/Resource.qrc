@@ -54,6 +54,8 @@
         <file>icon_google.png</file>
         <file>icon_template.png</file>
         <file>icon_uni.png</file>
+        <file>icon_bell.png</file>
+        <file>icon_bell_notify.png</file>
     </qresource>
     <qresource prefix="/tooth">
         <file>tooth_approximal.png</file>

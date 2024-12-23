@@ -2,6 +2,7 @@
 
 #include "Database/DbPatient.h"
 #include "Database/DbNotes.h"
+#include "Database/DbNotification.h"
 #include "Model/User.h"
 #include "Presenter/PatientDialogPresenter.h"
 #include "Presenter/MedicalStatusPresenter.h"
@@ -9,6 +10,7 @@
 #include "View/ModalDialogBuilder.h"
 #include "View/Printer.h"
 #include "Model/TableRows.h"
+#include "View/Widgets/notificationdialog.h"
 
 PatientInfoPresenter::PatientInfoPresenter(IPatientTileInfo* view, std::shared_ptr<Patient> p) :
     patient(p), view(view), patientAge(patient->getAge(Date::currentDate()))
@@ -280,6 +282,20 @@ void PatientInfoPresenter::setCurrent(bool isCurrent)
     {
         nraClicked(false);
     }
+}
+
+void PatientInfoPresenter::notificationClicked()
+{
+    NotificationDialog d;
+    d.exec();
+
+    auto result = d.getResult();
+
+    if(!result) return;
+
+    result->patientRowid = patient->rowid;
+
+    DbNotification::insert(result.value());
 }
 
 void PatientInfoPresenter::setInsuranceStatus(const std::optional<InsuranceStatus>& status_result)

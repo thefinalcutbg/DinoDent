@@ -39,6 +39,7 @@ public:
 	void notesRequested();
 	void checkHospitalization();
 	void setCurrent(bool current);
+    void notificationClicked();
 
 
 };

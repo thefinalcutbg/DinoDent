@@ -59,6 +59,7 @@ HEADERS += \
     src/Database/DbInvoice.h \
     src/Database/DbMedicalNotice.h \
     src/Database/DbNotes.h \
+    src/Database/DbNotification.h \
     src/Database/DbPatient.h \
     src/Database/DbPatientSummary.h \
     src/Database/DbPerio.h \
@@ -87,6 +88,7 @@ HEADERS += \
     src/Model/Dental/NhifProcedures.h \
     src/Model/Dental/NhifSheetData.h \
     src/Model/Dental/NhifSpecReport.h \
+    src/Model/Dental/Notification.h \
     src/Model/Dental/PackageCounter.h \
     src/Model/Dental/PerioStatistic.h \
     src/Model/Dental/PerioStatus.h \
@@ -394,6 +396,8 @@ HEADERS += \
     src/View/Widgets/UpdateDownloader.h \
     src/View/Widgets/UpdatePromptDialog.h \
     src/View/Widgets/WelcomeWidget.h \
+    src/View/Widgets/notificationdialog.h \
+    src/View/Widgets/notificationlistdialog.h \
     src/View/uiComponents/AutoCompleteLineEdit.h \
     src/View/uiComponents/BigPushButton.h \
     src/View/uiComponents/CalendarTable.h \
@@ -445,6 +449,7 @@ SOURCES += \
     src/Database/DbInvoice.cpp \
     src/Database/DbMedicalNotice.cpp \
     src/Database/DbNotes.cpp \
+    src/Database/DbNotification.cpp \
     src/Database/DbPatient.cpp \
     src/Database/DbPatientSummary.cpp \
     src/Database/DbPerio.cpp \
@@ -713,6 +718,8 @@ SOURCES += \
     src/View/Widgets/UpdateDownloader.cpp \
     src/View/Widgets/UpdatePromptDialog.cpp \
     src/View/Widgets/WelcomeWidget.cpp \
+    src/View/Widgets/notificationdialog.cpp \
+    src/View/Widgets/notificationlistdialog.cpp \
     src/View/uiComponents/AutoCompleteLineEdit.cpp \
     src/View/uiComponents/BigPushButton.cpp \
     src/View/uiComponents/CalendarTable.cpp \
@@ -817,7 +824,9 @@ FORMS += \
     src/View/Widgets/UpdateDialog.ui \
     src/View/Widgets/UpdateDownloader.ui \
     src/View/Widgets/UpdatePromptDialog.ui \
-    src/View/Widgets/WelcomeWidget.ui
+    src/View/Widgets/WelcomeWidget.ui \
+    src/View/Widgets/notificationdialog.ui \
+    src/View/Widgets/notificationlistdialog.ui
 
 
 

@@ -1105,6 +1105,71 @@ void ListPresenter::createPrescription()
     TabPresenter::get().openPerscription(*this->patient.get());
 }
 
+void ListPresenter::printDeclarations()
+{
+    static std::vector<std::string> printOptions{
+        "Декларация за тотални протези",
+        "Декларация за валидна здравна книжка",
+        "Информирано съгласие",
+        "Декларация за GDPR"
+    };
+
+    static std::vector<std::string> declaratorType{
+        "За осигурено лице",
+        "За родител/настойник",
+        "Празна бланка"
+    };
+
+    int result = ModalDialogBuilder::openButtonDialog(printOptions, "Изберете декларация");
+
+    switch (result)
+    {
+    case 0:
+    {
+
+        int decl_result =
+            ModalDialogBuilder::openButtonDialog(
+                declaratorType,
+                printOptions[0]
+                );
+
+        if(decl_result == -1) return;
+
+        Print::DeclaratorType type = static_cast<Print::DeclaratorType>(decl_result);
+
+        Print::printDentureDeclaration(*patient, type);
+
+        return;
+    }
+
+    case 1:
+    {
+        {
+
+            int decl_result = ModalDialogBuilder::openButtonDialog(
+                declaratorType,
+                printOptions[1]
+                );
+
+            if (decl_result == -1) return;
+
+            Print::DeclaratorType type = static_cast<Print::DeclaratorType>(decl_result);
+
+            Print::printHirbNoDeclaration(*patient, type);
+
+            return;
+        }
+    }
+
+    case 2: Print::consent(*patient); return;
+
+    case 3: Print::gdpr(*patient); return;
+    default: return;
+    }
+
+
+}
+
 void ListPresenter::hisButtonPressed()
 {
     //OPTIONAL INITIAL STATAUS PROCEDURE

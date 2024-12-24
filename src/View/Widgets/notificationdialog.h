@@ -2,7 +2,7 @@
 #define NOTIFICATIONDIALOG_H
 
 #include <QDialog>
-
+#include <QDate>
 #include "Model/Dental/Notification.h"
 #include <optional>
 
@@ -15,6 +15,11 @@ class NotificationDialog : public QDialog
     Q_OBJECT
 
     std::optional<Notification> m_result;
+    QDate m_currentDate = QDate::currentDate();
+
+    QDate recalculateDate();
+
+    void paintEvent(QPaintEvent* event) override;
 
 public:
     explicit NotificationDialog(QWidget *parent = nullptr);

@@ -10,7 +10,7 @@
 #include "View/ModalDialogBuilder.h"
 #include "View/Printer.h"
 #include "Model/TableRows.h"
-#include "View/Widgets/notificationdialog.h"
+#include "View/Widgets/NotificationDialog.h"
 
 PatientInfoPresenter::PatientInfoPresenter(IPatientTileInfo* view, std::shared_ptr<Patient> p) :
     patient(p), view(view), patientAge(patient->getAge(Date::currentDate()))

@@ -30,6 +30,9 @@ MedicalNoticeDialog::MedicalNoticeDialog(const MedicalNotice& notice)
 	ui.fromDateEdit->set_Date(notice.from_date);
 	ui.toDateEdit->set_Date(notice.to_date);
 	ui.institutionEdit->setText(notice.institution.c_str());
+    if(notice.institution.empty()){
+        ui.institutionEdit->setText("Училищните власти");
+    }
 	ui.notes->setPlainText(notice.note.c_str());
 	ui.mkbButton->setText(notice.mkb.isValid() ? notice.mkb.code().c_str() : "Изберете");
 

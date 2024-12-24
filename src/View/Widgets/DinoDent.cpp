@@ -20,7 +20,7 @@
 #include "Version.h"
 #include "View/Widgets/SplashScreen.h"
 #include "ChatDialog.h"
-#include "View/Widgets/notificationlistdialog.h"
+#include "View/Widgets/NotificationListDialog.h"
 #include "Model/User.h"
 
 #include "Database/DbNotification.h"

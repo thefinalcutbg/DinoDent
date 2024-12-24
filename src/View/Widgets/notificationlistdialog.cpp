@@ -1,4 +1,4 @@
-#include "notificationlistdialog.h"
+#include "NotificationListDialog.h"
 #include "ui_notificationlistdialog.h"
 #include "Model/User.h"
 #include "Database/DbNotification.h"

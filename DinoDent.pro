@@ -364,6 +364,8 @@ HEADERS += \
     src/View/Widgets/MonthNotifView.h \
     src/View/Widgets/MultilineDialog.h \
     src/View/Widgets/NewDocDialog.h \
+    src/View/Widgets/NotificationDialog.h \
+    src/View/Widgets/NotificationListDialog.h \
     src/View/Widgets/PatientFormDialog.h \
     src/View/Widgets/PatientSummary.h \
     src/View/Widgets/PerioStatusView.h \
@@ -396,8 +398,6 @@ HEADERS += \
     src/View/Widgets/UpdateDownloader.h \
     src/View/Widgets/UpdatePromptDialog.h \
     src/View/Widgets/WelcomeWidget.h \
-    src/View/Widgets/notificationdialog.h \
-    src/View/Widgets/notificationlistdialog.h \
     src/View/uiComponents/AutoCompleteLineEdit.h \
     src/View/uiComponents/BigPushButton.h \
     src/View/uiComponents/CalendarTable.h \
@@ -688,6 +688,8 @@ SOURCES += \
     src/View/Widgets/MonthNotifView.cpp \
     src/View/Widgets/MultilineDialog.cpp \
     src/View/Widgets/NewDocDialog.cpp \
+    src/View/Widgets/NotificationDialog.cpp \
+    src/View/Widgets/NotificationListDialog.cpp \
     src/View/Widgets/PatientFormDialog.cpp \
     src/View/Widgets/PatientSummary.cpp \
     src/View/Widgets/PerioStatusView.cpp \
@@ -718,8 +720,6 @@ SOURCES += \
     src/View/Widgets/UpdateDownloader.cpp \
     src/View/Widgets/UpdatePromptDialog.cpp \
     src/View/Widgets/WelcomeWidget.cpp \
-    src/View/Widgets/notificationdialog.cpp \
-    src/View/Widgets/notificationlistdialog.cpp \
     src/View/uiComponents/AutoCompleteLineEdit.cpp \
     src/View/uiComponents/BigPushButton.cpp \
     src/View/uiComponents/CalendarTable.cpp \
@@ -797,6 +797,8 @@ FORMS += \
     src/View/Widgets/MonthNotifView.ui \
     src/View/Widgets/MultilineDialog.ui \
     src/View/Widgets/NewDocDialog.ui \
+    src/View/Widgets/NotificationDialog.ui \
+    src/View/Widgets/NotificationListDialog.ui \
     src/View/Widgets/PatientFormDialog.ui \
     src/View/Widgets/PatientSummary.ui \
     src/View/Widgets/PerioStatusView.ui \
@@ -824,9 +826,7 @@ FORMS += \
     src/View/Widgets/UpdateDialog.ui \
     src/View/Widgets/UpdateDownloader.ui \
     src/View/Widgets/UpdatePromptDialog.ui \
-    src/View/Widgets/WelcomeWidget.ui \
-    src/View/Widgets/notificationdialog.ui \
-    src/View/Widgets/notificationlistdialog.ui
+    src/View/Widgets/WelcomeWidget.ui
 
 
 

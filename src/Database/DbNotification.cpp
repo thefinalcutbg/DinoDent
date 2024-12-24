@@ -1,7 +1,7 @@
 #include "Database/DbNotification.h"
 #include "Database.h"
 #include "Model/User.h"
-#include "View/ModalDialogBuilder.h"
+
 bool DbNotification::insert(const Notification& n){
 
     Db db;
@@ -17,12 +17,13 @@ bool DbNotification::insert(const Notification& n){
 
     return db.execute();
 }
+
 std::vector<Notification> DbNotification::get(const Date& currentDate, const std::string& lpk)
 {
     Db db;
 
     db.newStatement(
-        "SELECT notification.date, notification.rowid, notification.patient_rowid, notification.description, notification.dismissed, "
+        "SELECT notification.date, notification.rowid, notification.patient_rowid, notification.description, "
         "patient.fname, patient.lname, patient.phone "
         "FROM notification JOIN patient on notification.patient_rowid = patient.rowid "
         "WHERE date <= ? "
@@ -44,11 +45,39 @@ std::vector<Notification> DbNotification::get(const Date& currentDate, const std
         n.rowid = db.asLongLong(1);
         n.patientRowid = db.asLongLong(2);
         n.description = db.asString(3);
-        n.dismissed = db.asBool(4);
-        n.patientName = db.asString(5) + " " + db.asString(6);
-        n.phone = db.asString(7);
+        n.patientName = db.asString(4) + " " + db.asString(5);
+        n.phone = db.asString(6);
     }
 
     return result;
 }
 
+
+bool DbNotification::remove(long long notifRowid)
+{
+    Db db("DELETE FROM notification WHERE rowid=?");
+    db.bind(1, notifRowid);
+    return db.execute();
+}
+
+int DbNotification::hasNotifications(const Date &date)
+{
+    Db db;
+
+    db.newStatement(
+        "SELECT COUNT(*) FROM notification WHERE "
+        "WHERE date <= ? "
+        "AND lpk = ? "
+        );
+
+    db.bind(1, date.to8601());
+    db.bind(2, User::doctor().LPK);
+
+    while(db.hasRows()){
+
+        return db.asInt(0);
+    }
+
+    return 0;
+
+}

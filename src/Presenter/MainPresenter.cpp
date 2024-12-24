@@ -8,6 +8,7 @@
 #include "Database/DbPractice.h"
 #include "Database/DbDoctor.h"
 #include "Database/DbUpdateStatus.h"
+#include "Database/DbNotification.h"
 
 #include "Network/HIS/HisToken.h"
 #include "Network/Telemetry.h"
@@ -26,6 +27,7 @@
 
 #include "View/Printer.h"
 #include "View/Widgets/SplashScreen.h"
+#include "View/Widgets/NotificationListDialog.h"
 
 MainPresenter MainPresenter::s_singleton;
 
@@ -52,6 +54,8 @@ void MainPresenter::setView(IMainView* view)
 
     if (!view->m_loggedIn) return;
     
+    view->setNotificationIcon(DbNotification::hasNotifications());
+
     Telemetry::sendData();
 
     view->setUserLabel(
@@ -118,6 +122,14 @@ void MainPresenter::newInvoicePressed()
     }
 
     TabPresenter::get().openInvoice(result.value());
+}
+
+void MainPresenter::notificationPressed()
+{
+    NotificationListDialog d;
+    d.exec();
+
+    view->setNotificationIcon(DbNotification::hasNotifications());
 }
 
 void MainPresenter::newPrescriptionPressed()
@@ -202,6 +214,8 @@ void MainPresenter::logOut()
 
     DbDoctor::setAutoLogin(User::doctor().LPK, false);
 
+    view->setNotificationIcon(0);
+
     LoginPresenter login;
 
     if (login.successful() == false)
@@ -213,7 +227,9 @@ void MainPresenter::logOut()
         User::doctor().getFullName(),
         User::practice().name
         );
-   
+
+    view->setNotificationIcon(DbNotification::hasNotifications());
+
     IRCInterface::connectAs(User::doctor().fname, User::doctor().lname);
 
     Telemetry::sendData();

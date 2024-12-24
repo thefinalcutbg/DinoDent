@@ -33,6 +33,7 @@ public:
 	void statisticPressed();
 	void settingsPressed();
 	void newInvoicePressed();
+    void notificationPressed();
 	bool save();
 	void logOut();
 	void userSettingsPressed();

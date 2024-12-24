@@ -110,17 +110,17 @@ PatientTile::PatientTile(QWidget* parent) : TileButton(parent)
     appointmentButton->move(width() - (iconSize + 5), 5);
 	appointmentButton->setToolTip("Запази посещение");
 
-	notesButton = new IconButton(this);
-	notesButton->setIcon(QIcon(":/icons/icon_notes.png"));
-	notesButton->setFixedSize(iconSize, iconSize);
-	notesButton->move(appointmentButton->x() - 40, appointmentButton->y());
-	notesButton->setToolTip("Бележки за пациента");
-
     notificationButton = new IconButton(this);
     notificationButton->setIcon(QIcon(":/icons/icon_bell.png"));
     notificationButton->setFixedSize(iconSize, iconSize);
-    notificationButton->move(notesButton->x()-40, notesButton->y());
+    notificationButton->move(appointmentButton->x()-40, appointmentButton->y());
     notificationButton->setToolTip("Добавяне на напомняне");
+
+    notesButton = new IconButton(this);
+    notesButton->setIcon(QIcon(":/icons/icon_notes.png"));
+    notesButton->setFixedSize(iconSize, iconSize);
+    notesButton->move(notificationButton->x() - 40, notificationButton->y());
+    notesButton->setToolTip("Бележки за пациента");
 }
 
 
@@ -175,8 +175,8 @@ void PatientTile::resizeEvent(QResizeEvent* event)
 	QWidget::resizeEvent(event);
 
     appointmentButton->move(width() - 5 - appointmentButton->width(), 5);
-    notesButton->move(appointmentButton->x()-40, appointmentButton->y());
-    notificationButton->move(notesButton->x()-40, notesButton->y());
+    notificationButton->move(appointmentButton->x()-40, appointmentButton->y());
+    notesButton->move(notificationButton->x()-40, notificationButton->y());
 
 	update();
 }

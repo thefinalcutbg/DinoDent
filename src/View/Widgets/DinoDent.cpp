@@ -91,7 +91,8 @@ DinoDent::DinoDent(QWidget* parent)
     ui.invoiceButton->setIcon(QIcon(":/icons/icon_invoice.png"));
     ui.aboutButton->setIcon(QIcon(":/icons/icon_question.png"));
     ui.mircButton->setIcon(QIcon(":/icons/icon_mirc.png"));
-    ui.notifButton->setIcon(QIcon(":/icons/icon_bell_notify.png"));
+    ui.notifButton->setIcon(QIcon(":/icons/icon_bell.png"));
+    ui.notifButton->setMonochrome(true);
     ui.mircButton->setMonochrome(true);
     
     connect(ui.newButton, &QPushButton::clicked, [&] { MainPresenter::get().newAmbPressed(); });
@@ -127,12 +128,7 @@ DinoDent::DinoDent(QWidget* parent)
 
     connect(exitAction, &QAction::triggered, [&] { MainPresenter::get().logOut(); });
 
-    connect(ui.notifButton, &QPushButton::clicked, this, [&]{
-
-        NotificationListDialog d;
-        d.exec();
-
-    });
+    connect(ui.notifButton, &QPushButton::clicked, this, [&]{ MainPresenter::get().notificationPressed();});
 
     ui.userButton->setMenu(userMenu);
     ui.userButton->setPopupMode(QToolButton::InstantPopup);
@@ -171,15 +167,6 @@ void DinoDent::setUserLabel(const std::string& doctorName, const std::string& pr
     title += practiceName.c_str();
 
     setWindowTitle(title);
-
-
-    auto todayNotif = DbNotification::get(Date::currentDate(), User::doctor().LPK);
-
-    if(todayNotif.empty()){
-
-        ui.notifButton->hide();
-        return;
-    }
 }
 
 void DinoDent::exitProgram()
@@ -221,6 +208,18 @@ void DinoDent::closeEvent(QCloseEvent* event)
     {
         if (widget == this) continue;
         widget->close();
+    }
+}
+
+void DinoDent::setNotificationIcon(int activeNotifCount)
+{
+    ui.notifButton->setMonochrome(!activeNotifCount);
+    ui.notifButton->setIcon(activeNotifCount ? QIcon(":/icons/icon_bell_notify.png") : QIcon(":/icons/icon_bell.png"));
+
+    switch(activeNotifCount){
+        case 0: ui.notifButton->setToolTip("Няма активни напомняния"); break;
+        case 1: ui.notifButton->setToolTip("1 активно напомняне"); break;
+        default: ui.notifButton->setToolTip(QString::number(activeNotifCount) + " активни напомняния");
     }
 }
 

@@ -217,6 +217,7 @@ HEADERS += \
     src/Presenter/MedicationPresenter.h \
     src/Presenter/MonthNotifPresenter.h \
     src/Presenter/NewDocPresenter.h \
+    src/Presenter/NotificationListPresenter.h \
     src/Presenter/PatientDialogPresenter.h \
     src/Presenter/PatientInfoPresenter.h \
     src/Presenter/PatientSummaryPresenter.h \
@@ -325,6 +326,7 @@ HEADERS += \
     src/View/TableModels/MedicationTableModel.h \
     src/View/TableModels/MonthNotifTableModel.h \
     src/View/TableModels/NameFilterProxyModel.h \
+    src/View/TableModels/NotificationTableModel.h \
     src/View/TableModels/PlainTableModel.h \
     src/View/TableModels/ProcedureSelectModel.h \
     src/View/TableModels/ProcedureTableModel.h \
@@ -650,6 +652,7 @@ SOURCES += \
     src/View/TableModels/MedicationTableModel.cpp \
     src/View/TableModels/MonthNotifTableModel.cpp \
     src/View/TableModels/NameFilterProxyModel.cpp \
+    src/View/TableModels/NotificationTableModel.cpp \
     src/View/TableModels/PlainTableModel.cpp \
     src/View/TableModels/ProcedureSelectModel.cpp \
     src/View/TableModels/ProcedureTableModel.cpp \

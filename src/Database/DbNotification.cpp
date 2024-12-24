@@ -18,7 +18,7 @@ bool DbNotification::insert(const Notification& n){
     return db.execute();
 }
 
-std::vector<Notification> DbNotification::get(const Date& currentDate, const std::string& lpk)
+std::vector<Notification> DbNotification::get(const std::string& lpk)
 {
     Db db;
 
@@ -26,12 +26,10 @@ std::vector<Notification> DbNotification::get(const Date& currentDate, const std
         "SELECT notification.date, notification.rowid, notification.patient_rowid, notification.description, "
         "patient.fname, patient.lname, patient.phone "
         "FROM notification JOIN patient on notification.patient_rowid = patient.rowid "
-        "WHERE date <= ? "
-        "AND lpk = ? "
+        "WHERE lpk=? ORDER BY notification.date DESC"
     );
 
-    db.bind(1, currentDate.to8601());
-    db.bind(2, lpk);
+    db.bind(1, lpk);
 
     std::vector<Notification> result;
 
@@ -66,7 +64,7 @@ int DbNotification::hasNotifications(const Date &date)
 
     db.newStatement(
         "SELECT COUNT(*) FROM notification WHERE "
-        "WHERE date <= ? "
+        "date <= ? "
         "AND lpk = ? "
         );
 

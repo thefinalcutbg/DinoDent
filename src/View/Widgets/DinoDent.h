@@ -26,6 +26,8 @@ public:
     bool initialized();
     void disableButtons(bool printDisabled, bool saveDisabled);
     void setIrcIcon(bool glow);
+    void setNotificationIcon(int activeNotifCount) override;
+
     ~DinoDent();
 
 private:

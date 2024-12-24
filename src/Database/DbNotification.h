@@ -5,7 +5,7 @@ namespace DbNotification
 {
     bool insert(const Notification& n);
     bool remove(long long notifRowid);
-    std::vector<Notification> get(const Date& currentDate, const std::string& lpk);
+    std::vector<Notification> get(const std::string& lpk);
     int hasNotifications(const Date& date = Date::currentDate());
 
 }

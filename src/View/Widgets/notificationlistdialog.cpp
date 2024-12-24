@@ -63,8 +63,8 @@ NotificationListDialog::NotificationListDialog(QWidget *parent)
 
             long long patientRowid = table->model()->index(index.row(), 0).data().toLongLong();
             long long notifRowid = table->model()->index(index.row(), 5).data().toLongLong();
-
-            appointmentLogic(patientRowid, notifRowid);
+            std::string descr = table->model()->index(index.row(), 4).data().toString().toStdString();
+            appointmentLogic(patientRowid, notifRowid, descr);
         });
     };
 
@@ -85,6 +85,7 @@ NotificationListDialog::NotificationListDialog(QWidget *parent)
         appointmentLogic(
             table->selectionModel()->selectedRows(0)[0].data().toLongLong(),
             table->selectionModel()->selectedRows(5)[0].data().toLongLong(),
+            table->selectionModel()->selectedRows(4)[0].data().toString().toStdString(),
             true
         );
     });
@@ -92,7 +93,7 @@ NotificationListDialog::NotificationListDialog(QWidget *parent)
 
 }
 
-void NotificationListDialog::appointmentLogic(long long patientRowid, long long notifRowid, bool forceAppointment)
+void NotificationListDialog::appointmentLogic(long long patientRowid, long long notifRowid, const std::string& descr, bool forceAppointment)
 {
     int result(0);
 
@@ -125,7 +126,7 @@ void NotificationListDialog::appointmentLogic(long long patientRowid, long long 
     if(arr[result] == TabType::Calendar){
 
         CalendarEvent ev(DbPatient::get(patientRowid));
-
+        ev.description = descr;
         TabPresenter::get().openCalendar(ev);
     }
     else {
@@ -136,9 +137,7 @@ void NotificationListDialog::appointmentLogic(long long patientRowid, long long 
 
     close();
 
-    if(ui->tabWidget->currentIndex() //opening from future notifications
-      || !ModalDialogBuilder::askDialog("Желаете ли да изтриете напомнянето?")
-    ){
+    if(!ModalDialogBuilder::askDialog("Желаете ли да изтриете напомнянето?")){
         return;
     }
 

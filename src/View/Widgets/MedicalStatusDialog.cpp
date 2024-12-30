@@ -1,6 +1,7 @@
 ﻿#include "MedicalStatusDialog.h"
 #include "Presenter/MedicalStatusPresenter.h"
-
+#include "View/CommonIcon.h"
+#include "Model/User.h"
 
 #include <QPainter>
 
@@ -55,12 +56,13 @@ MedicalStatusDialog::MedicalStatusDialog(MedicalStatusPresenter* p)
 
     emit ui.allergiesList->itemSelectionChanged();
 
-	QPushButton* b = new QPushButton("Диагнози в рецептурна книжка");
-	b->setIcon(QIcon(":/icons/icon_nhif.png"));
+    ui.pisConditionButton->setIcon(QIcon(CommonIcon::getPixmap(CommonIcon::NHIF)));
+    ui.hisConditionButton->setIcon(QIcon(CommonIcon::getPixmap(CommonIcon::HIS)));
 
-    connect(b, &QPushButton::clicked,  this,[&]{ presenter->loadICDFromNHIS(); });
+    connect(ui.pisConditionButton, &QPushButton::clicked,  this,[&]{ presenter->loadICDFromNHIS(); });
+    connect(ui.hisConditionButton, &QPushButton::clicked,  this,[&]{ presenter->loadICDFromHIS(); });
 
-	ui.currentWidget->addSpecialButton(b);
+    ui.pisConditionButton->setHidden(!User::hasNhifContract());
 
 }
 

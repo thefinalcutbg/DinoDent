@@ -218,7 +218,14 @@ ProcedureScope ProcedureCode::getScope(ProcedureType t)
 
 int ProcedureCode::nhifCode() const
 {
-	return isValid() ? s_mapping[m_code].nhifCode : 0;
+    return isValid() ? s_mapping[m_code].nhifCode : 0;
+}
+
+bool ProcedureCode::isNhifOnly() const
+{
+    auto nhif_code = nhifCode();
+
+    return nhif_code && nhif_code != 834 && nhif_code != 835;
 }
 
 const std::string& ProcedureCode::name() const

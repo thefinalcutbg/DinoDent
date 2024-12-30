@@ -207,8 +207,11 @@ std::vector<ProcedureCode> NhifProcedures::getNhifProcedures(Date ambDate, NhifS
 			{544, "97020-00"},
 			{832, "97710-00"},
 			{833, "97710-01"},
-			{834, "D-09-004"},
-			{835, "D-09-005"}
+            {834, "97711-01"},
+            {834, "97711-11"},
+            {835, "97712-01"},
+            {835, "97712-11"}
+
 		},
 
 		//NHIF FULL
@@ -230,8 +233,10 @@ std::vector<ProcedureCode> NhifProcedures::getNhifProcedures(Date ambDate, NhifS
 			{544, "97020-00"},
 			{832, "97710-00"},
 			{833, "97710-01"},
-			{834, "D-09-004"},
-			{835, "D-09-005"}
+            {834, "97711-01"},
+            {834, "97711-11"},
+            {835, "97712-01"},
+            {835, "97712-11"}
 		},
 
 		//NHIF ANESTHESIA

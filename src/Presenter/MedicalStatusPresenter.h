@@ -4,6 +4,7 @@
 #include "View/Widgets/MedicalStatusDialog.h"
 #include "Network/HIS/EAllergy.h"
 #include "Network/PIS/DiagnosisService.h"
+#include "Network/HIS/EClinicalCondition.h"
 
 class MedicalStatusPresenter {
 
@@ -15,6 +16,7 @@ class MedicalStatusPresenter {
 	EAllergy::Edit edit_service;
 	EAllergy::Fetch fetch_service;
 
+    EClinicalCondition::Fetch fetch_condition_service;
 	DiagnosisService nhis_diag_service;
 
 	bool awaitingReply();
@@ -24,6 +26,7 @@ public:
 
 	void loadAllergiesFromHis();
 	void loadICDFromNHIS();
+    void loadICDFromHIS();
 
 	void addAllergy();
 	void removeAllergy(int idx);

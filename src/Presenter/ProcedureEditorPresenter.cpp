@@ -114,7 +114,7 @@ void ProcedureEditorPresenter::okPressed()
 
 	auto data = view->procedureInput()->getResult();
 
-	if (m_code.nhifCode()
+    if (m_code.isNhifOnly()
 		&& data.financingSource != FinancingSource::NHIF
 		&& !ModalDialogBuilder::askDialog(
 			"Посоченият източник на финансиране е различен от НЗОК "

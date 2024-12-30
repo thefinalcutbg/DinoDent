@@ -14,7 +14,6 @@ struct BrowserUiState {
 	Date to{ Date::currentDate().getMaxDateOfMonth() };
 
 	TabType model_type{ TabType::PatientSummary };
-	bool showDetails{ true };
 	bool showProcedures{ false };
 };
 
@@ -41,7 +40,6 @@ public:
 
 	void setDates(const Date& from, const Date& to);
 
-	void showDetailsPane(bool show);
 	void showProcedureDetails(bool show);
 
 	void setListType(TabType type);

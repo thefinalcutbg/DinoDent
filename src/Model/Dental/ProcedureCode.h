@@ -85,6 +85,8 @@ public:
     //returns NHIF code if there is a NHIF mapping otherwise returns 0
     int nhifCode() const;
 
+    bool isNhifOnly() const;
+
     const std::string& name() const;
 
     const std::string& code() const { return m_code; }

@@ -5,6 +5,7 @@
 #include <QApplication>
 #include <QClipboard>
 #include <QMenu>
+#include <QKeyEvent>
 
 #include "View/Theme.h"
 #include "View/ModalDialogBuilder.h"
@@ -23,6 +24,10 @@ BrowserDialog::BrowserDialog()
 	ui.tableView->setModel(&phoneFilter);
 	ui.preView->setModel(&preview_model);
 
+    ui.idSearchEdit->installEventFilter(this);
+    ui.nameSearchEdit->installEventFilter(this);
+    ui.phoneSearchEdit->installEventFilter(this);
+
 	ui.tabBar->addTab(QIcon(":/icons/icon_user.png"), "Пациенти");
 	ui.tabBar->addTab(QIcon(":/icons/icon_sheet.png"), "Амбулаторни листове");
 	ui.tabBar->addTab(QIcon(":/icons/icon_prescr.png"), "Рецепти");
@@ -34,7 +39,8 @@ BrowserDialog::BrowserDialog()
 
 	ui.tabBar->setExpanding(false);
 	ui.tabBar->setElideMode(Qt::TextElideMode::ElideNone);
-
+    ui.splitter->setStretchFactor(0, 2);
+    ui.splitter->setStretchFactor(1, 1);
 	ui.frame->setStyleSheet("QFrame#frame{"
 		"background-color: rgb(249,249,249);"
 		"}");
@@ -84,12 +90,6 @@ BrowserDialog::BrowserDialog()
 
 
 	ui.tableView->setContextMenuPolicy(Qt::CustomContextMenu);
-
-    connect(ui.detailsCheck, &QCheckBox::toggled, this, [&](bool checked) {
-			presenter.showDetailsPane(checked); 
-			calculateUiState();
-	
-		});
 
     connect(ui.detailsCombo, &QComboBox::currentIndexChanged, this, [&](int idx) { presenter.showProcedureDetails(idx); calculateUiState(); });
 
@@ -159,10 +159,9 @@ void BrowserDialog::datesChanged()
 
 void BrowserDialog::setUiState(const BrowserUiState& state)
 {	
-	QSignalBlocker blockers[5] = {
+    QSignalBlocker blockers[4] = {
 		QSignalBlocker(ui.fromDateEdit),
 		QSignalBlocker(ui.toDateEdit),
-		QSignalBlocker(ui.detailsCheck),
 		QSignalBlocker(ui.detailsCombo),
 		QSignalBlocker(ui.tabBar)
 	};
@@ -170,7 +169,6 @@ void BrowserDialog::setUiState(const BrowserUiState& state)
 	ui.fromDateEdit->setDate(QDate(state.from.year, state.from.month, state.from.day));
 	ui.toDateEdit->setDate(QDate(state.to.year, state.to.month, state.to.day));
 	ui.detailsCombo->setCurrentIndex(state.showProcedures);
-	ui.detailsCheck->setChecked(state.showDetails);
 	ui.tabBar->setCurrentIndex(static_cast<int>(state.model_type));
 	calculateUiState();
 	
@@ -292,17 +290,37 @@ void BrowserDialog::setCountLabel()
 void BrowserDialog::calculateUiState()
 {
 	bool patientSection = ui.tabBar->currentIndex() == 0;
-	bool hideDetailsCombo = !(ui.detailsCheck->isChecked() && patientSection);
-	bool hideOpenDocButton = !(ui.detailsCheck->isChecked() && patientSection && !ui.detailsCombo->currentIndex());
 
-	ui.preView->setHidden(!ui.detailsCheck->isChecked());
-	ui.detailsCombo->setHidden(hideDetailsCombo);
-	ui.openDocButton->setHidden(hideOpenDocButton);
+    ui.openDocButton->setHidden(!patientSection);
 	ui.fromLabel->setHidden(patientSection);
 	ui.toLabel->setHidden(patientSection);
 	ui.fromDateEdit->setHidden(patientSection);
 	ui.toDateEdit->setHidden(patientSection);
-	
+
+}
+
+bool BrowserDialog::eventFilter(QObject *obj, QEvent *e)
+{
+    if (
+        e->type() == QEvent::KeyPress &&
+        (static_cast<QKeyEvent*>(e)->key() == Qt::Key_Down ||
+         static_cast<QKeyEvent*>(e)->key() == Qt::Key_Up
+         )
+        )
+    {
+        int currentRow = ui.tableView->currentIndex().row();
+
+        currentRow +=
+            static_cast<QKeyEvent*>(e)->key() == Qt::Key_Up ?
+                -1 : 1;
+
+        ui.tableView->selectRow(currentRow);
+
+        return true;
+
+    }
+
+    return QObject::eventFilter(obj, e);
 }
 
 void BrowserDialog::focus()

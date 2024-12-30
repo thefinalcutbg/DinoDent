@@ -36,13 +36,6 @@ void BrowserPresenter::setView(IBrowserDialog* view)
 	
 }
 
-void BrowserPresenter::showDetailsPane(bool show)
-{
-	ui_state.showDetails = show;
-
-	refreshPreview();
-}
-
 void BrowserPresenter::showProcedureDetails(bool show)
 {
 	ui_state.showProcedures = show;
@@ -112,11 +105,6 @@ void BrowserPresenter::refreshPreview()
 {
 
 	patientDocRowid.clear();
-
-	if (!ui_state.showDetails) {
-		view->setPreview(PlainTable());
-		return;
-	}
 
 	long long rowid = m_selectedInstances.size() == 1 ?
 		m_selectedInstances[0]->rowID
@@ -296,7 +284,6 @@ void BrowserPresenter::deleteCurrentSelection()
 void BrowserPresenter::openPatientDocuments(const std::set<int>& selectedIndexes)
 {
 	bool uiShowsPatientDocs =
-		ui_state.showDetails &&
 		ui_state.model_type == TabType::PatientSummary &&
 		ui_state.showProcedures == false
 	;

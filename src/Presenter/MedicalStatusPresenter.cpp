@@ -72,17 +72,48 @@ void MedicalStatusPresenter::loadICDFromNHIS()
 
 			auto list = view->getCurrentDiseases();
 
-			list.insert(list.end(), current.begin(), current.end());
+            MedicalStatuses::insertUnique(current, list);
 
 			view->setCurrentDiseases(list);
 
 			list = view->getPastDiseases();
 
-			list.insert(list.end(), past.begin(), past.end());
+            MedicalStatuses::insertUnique(past, list);
 	
 			view->setPastDiseases(list);
 		}
-	);
+        );
+}
+
+void MedicalStatusPresenter::loadICDFromHIS()
+{
+    fetch_condition_service.sendRequest(
+        patient,
+        User::practice().rziCode,
+        [&](
+            const std::vector<ICD10>& current,
+            const std::vector<ICD10>& past
+
+            ) {
+
+            if (current.empty() && past.empty()) {
+                ModalDialogBuilder::showMessage("Не са открити резултати в НЗИС");
+                return;
+            }
+
+            auto list = view->getCurrentDiseases();
+
+            MedicalStatuses::insertUnique(current, list);
+
+            view->setCurrentDiseases(list);
+
+            list = view->getPastDiseases();
+
+            MedicalStatuses::insertUnique(past, list);
+
+            view->setPastDiseases(list);
+        }
+        );
 }
 
 void MedicalStatusPresenter::addAllergy()

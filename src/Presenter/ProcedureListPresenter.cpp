@@ -1,11 +1,8 @@
 ﻿#include "ProcedureListPresenter.h"
 #include "Model/Dental/ProcedureCode.h"
 #include "Database/DbDoctor.h"
-#include "Database/DbProcedure.h"
 #include "Model/User.h"
-#include "Model/Dental/NhifProcedures.h" 
-#include <unordered_map>
-#include <QDebug>
+
 ProcedureListPresenter::ProcedureListPresenter()
 {
 
@@ -20,11 +17,9 @@ ProcedureListPresenter::ProcedureListPresenter()
 
 		for (size_t i = 0; i < allProcedures.size(); i++)
 		{
-
 			auto& code = allProcedures[i];
 
-			//setting nhif procedures separately
-			if (code.nhifCode()) continue;
+            if(code.isNhifOnly()) continue;
 
 			m_elements.push_back(
 				ProcedureListElement{

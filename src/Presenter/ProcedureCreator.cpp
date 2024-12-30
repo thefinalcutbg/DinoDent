@@ -140,7 +140,7 @@ std::vector<Procedure> ProcedureCreator::getProcedures()
 		s_preferred_financing = data.financingSource;
 	}
 
-	if (m_code.nhifCode()
+    if (m_code.isNhifOnly()
 		&& data.financingSource != FinancingSource::NHIF
 		&& !ModalDialogBuilder::askDialog(
 			"Посоченият източник на финансиране е различен от НЗОК "

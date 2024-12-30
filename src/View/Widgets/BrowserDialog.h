@@ -26,6 +26,8 @@ private:
 	void setCountLabel();
 	void calculateUiState();
 
+    bool eventFilter(QObject *obj, QEvent *event);
+
 public:
     BrowserDialog();
 

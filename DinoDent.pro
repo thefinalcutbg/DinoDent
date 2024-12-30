@@ -167,6 +167,7 @@ HEADERS += \
     src/Network/DynamicNumenclatures.h \
     src/Network/GetHSM.h \
     src/Network/HIS/EAllergy.h \
+    src/Network/HIS/EClinicalCondition.h \
     src/Network/HIS/EDental.h \
     src/Network/HIS/EHospitalization.h \
     src/Network/HIS/EMedicalNotice.h \
@@ -533,6 +534,7 @@ SOURCES += \
     src/Network/Calendar/Google.cpp \
     src/Network/GetHSM.cpp \
     src/Network/HIS/EAllergy.cpp \
+    src/Network/HIS/EClinicalCondition.cpp \
     src/Network/HIS/EDental.cpp \
     src/Network/HIS/EHospitalization.cpp \
     src/Network/HIS/EMedicalNotice.cpp \

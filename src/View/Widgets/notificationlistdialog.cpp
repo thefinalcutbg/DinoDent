@@ -90,7 +90,7 @@ NotificationListDialog::NotificationListDialog(QWidget *parent)
         );
     });
 
-
+    ui->tabWidget->setCurrentIndex(0);
 }
 
 void NotificationListDialog::appointmentLogic(long long patientRowid, long long notifRowid, const std::string& descr, bool forceAppointment)

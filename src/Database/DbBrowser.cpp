@@ -14,7 +14,7 @@ std::pair<std::vector<RowInstance>, PlainTable> getPatientRows()
     rows.reserve(50);
 
     tableView.addColumn({"ЕГН/ЛНЧ/ССН",150,PlainColumn::Center});
-    tableView.addColumn({"Име на пациента",250});
+    tableView.addColumn({"Име на пациент",250});
     tableView.addColumn({"Телефон",120});
 
     std::string query =
@@ -57,7 +57,7 @@ std::pair<std::vector<RowInstance>, PlainTable> getAmbRows(const Date& from, con
     tableView.addColumn({"Дата",120,PlainColumn::Right});
     tableView.addColumn({"НРН",135,PlainColumn::Center});
     tableView.addColumn({"ЕГН/ЛНЧ/ССН",120,PlainColumn::Center});
-    tableView.addColumn({"Име на пациента",240});
+    tableView.addColumn({"Име на пациент",240});
     tableView.addColumn({"Телефон",120});
 
 
@@ -150,7 +150,7 @@ std::pair<std::vector<RowInstance>, PlainTable> getPerioRows(const Date& from, c
 
     tableView.addColumn({"Дата",120,PlainColumn::Center});
     tableView.addColumn({"ЕГН/ЛНЧ/ССН",150,PlainColumn::Center});
-    tableView.addColumn({"Име на пациента",250,});
+    tableView.addColumn({"Име на пациент",250,});
     tableView.addColumn({"Телефон",120,});
 
     std::string query =
@@ -209,7 +209,7 @@ std::pair<std::vector<RowInstance>, PlainTable> getFinancialRows(const Date& fro
     tableView.addColumn({"Дата", 120, PlainColumn::Right});
     tableView.addColumn({"Документ №", 110, PlainColumn::Center});
     tableView.addColumn({"ЕГН/ЛНЧ/ЕИК", 100, PlainColumn::Center});
-    tableView.addColumn({"Име на получателя", 250 });
+    tableView.addColumn({"Име на получател", 250 });
     tableView.addColumn({"Телефон", 100 });
 
     std::string query =
@@ -260,7 +260,7 @@ std::pair<std::vector<RowInstance>, PlainTable> getPrescriptionRows(const Date& 
     tableView.addColumn({"Дата", 120, PlainColumn::Center});
     tableView.addColumn({"НРН", 135, PlainColumn::Center});
     tableView.addColumn({"ЕГН/ЛНЧ/ССН", 120, PlainColumn::Center});
-    tableView.addColumn({"Име на пациента", 240});
+    tableView.addColumn({"Име на пациент", 240});
     tableView.addColumn({"Телефон", 120});
 
 

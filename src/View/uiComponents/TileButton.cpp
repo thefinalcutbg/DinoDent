@@ -298,9 +298,9 @@ void MedStatusTile::setData(const Patient& patient)
 			return result;
 		};
 
-	allergies = elide(patient.getAllergiesStr().c_str(), 40);
-	currentDiseases = elide(listToString(patient.medStats.condition, "Не съобщава").c_str(), 40);
-	pastDiseases = elide(listToString(patient.medStats.history, "Не съобщава").c_str(), 40);
+    allergies = elide(patient.getAllergiesStr().c_str(), 30);
+    currentDiseases = elide(listToString(patient.medStats.condition, "Не съобщава").c_str(), 30);
+    pastDiseases = elide(listToString(patient.medStats.history, "Не съобщава").c_str(), 30);
 
 	update();
 }

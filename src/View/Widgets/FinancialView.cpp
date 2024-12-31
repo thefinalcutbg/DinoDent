@@ -106,6 +106,9 @@ FinancialView::FinancialView(QWidget *parent)
     connect(ui.operationsTable, &TableView::deletePressed, this, [=, this](int index) { if (presenter) presenter->removeOperation(index); });
     connect(ui.operationsTable, &TableView::editPressed, this, [=, this](int index) { if (presenter) presenter->editOperation(index); });
 
+    connect(ui.vatCheckBox, &QCheckBox::checkStateChanged, this, [=, this](Qt::CheckState state) {
+        if(presenter) presenter->vatChanged(state == Qt::CheckState::Checked);
+    });
 }
 
 FinancialView::~FinancialView()
@@ -119,14 +122,17 @@ void FinancialView::setPresenter(FinancialPresenter* presenter)
 
 void FinancialView::setInvoice(const Invoice& inv)
 {
-	ui.issuerButton->setIssuer(inv.issuer());
+    auto issuer = inv.issuer();
+
+    ui.issuerButton->setIssuer(issuer);
 	ui.recipientButton->setRecipient(inv.recipient);
 
-	QSignalBlocker blockers[4]{
+    QSignalBlocker blockers[5]{
 		QSignalBlocker{ui.dateEdit},
 		QSignalBlocker{ui.taxEventDateEdit},
 		QSignalBlocker{ui.paymentTypeCombo},
-		QSignalBlocker{ui.docTypeCombo}
+        QSignalBlocker{ui.docTypeCombo},
+        QSignalBlocker{ui.vatCheckBox}
 	};
 
 	ui.dateEdit->setDate(QDate{ inv.date.year, inv.date.month, inv.date.day });
@@ -139,6 +145,8 @@ void FinancialView::setInvoice(const Invoice& inv)
 	bool nzokForm = inv.nhifData.has_value();
 
 	ui.docTypeCombo->setCurrentIndex(static_cast<int>(inv.type));
+
+    ui.vatCheckBox->setChecked(inv.isVAT);
 
 	setMainDocument(inv.mainDocument());
 
@@ -153,6 +161,8 @@ void FinancialView::setInvoice(const Invoice& inv)
 	ui.saveXMLButton->setHidden(!nzokForm);
 	ui.sendPisButton->setHidden(!nzokForm);
 	ui.operationsTable->enableContextMenu(!nzokForm);
+    ui.vatCheckBox->setDisabled(nzokForm || !issuer.vat());
+
 	//centering the label:
 
 	QPushButton* layoutButtons[4]{ ui.addButton, ui.deleteButton, ui.editButton, ui.saveXMLButton };
@@ -165,18 +175,26 @@ void FinancialView::setInvoice(const Invoice& inv)
 	}
 
 	//ui.opLabelSpacer->changeSize(buttonsSumWidth, 0);
-	
 
-	setBusinessOperations(inv.businessOperations, inv.amount());
+
+    setBusinessOperations(inv.businessOperations, inv.amount(), inv.isVAT);
 
 }
 
-void FinancialView::setBusinessOperations(const BusinessOperations& businessOp, double amount)
+void FinancialView::setBusinessOperations(const BusinessOperations& businessOp, double amount, bool hasVAT)
 {
 	m_model.setBusinessOperations(businessOp);
 
 	ui.priceLabel->setText(formatDoubleWithDecimal(amount) + " лв.");
-	ui.vatLabel->setText("0%");
+
+    ui.vatCheckBox->setText( hasVAT ? "ДДС 20%:" : "ДДС 0%:" );
+
+    ui.vatLabel->setText(formatDoubleWithDecimal(hasVAT ? amount*0.2 : 0) + " лв.");
+
+    if(hasVAT){
+        amount = amount + (0.2*amount);
+    }
+
 	ui.sumLabel->setText(formatDoubleWithDecimal(amount) + " лв.");
 	update();
 }

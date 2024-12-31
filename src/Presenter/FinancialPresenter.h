@@ -37,6 +37,7 @@ public:
 	void editRecipient();
 	void editIssuer();
 	void invoiceNumberChanged(long long number);
+    void vatChanged(bool isVat);
 
 	long long rowID() const override;
 	bool save() override;

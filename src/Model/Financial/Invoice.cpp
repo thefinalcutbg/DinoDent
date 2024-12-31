@@ -148,7 +148,14 @@ double Invoice::amount() const
 		result += operation.value_price;
 	}
 
-	return result;
+    return result;
+}
+
+double Invoice::VATamount() const
+{
+    if(!isVAT) return 0;
+
+    return amount()*0.2;
 }
 
 std::string Invoice::getFileName() const //only nhif data files can be exported as xml

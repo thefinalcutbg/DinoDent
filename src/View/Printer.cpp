@@ -344,9 +344,16 @@ void Print::invoice(const Invoice& inv)
     auto vat = issuer.vat();
     if (vat) {
         report.dataManager()->setReportVariable("issuer_vat", QString::fromStdString(vat.value()));
+
     }
 
-    report.dataManager()->setReportVariable("total", formatDoubleWithDecimal(inv.amount()));
+    auto amount = inv.amount();
+
+    report.dataManager()->setReportVariable("amount", formatDoubleWithDecimal(amount));
+    report.dataManager()->setReportVariable("vatPercent", inv.isVAT ? 20 : 0);
+    double vatAmount = inv.isVAT ? amount * 0.2 : 0;
+    report.dataManager()->setReportVariable("vatAmount", formatDoubleWithDecimal(vatAmount));
+    report.dataManager()->setReportVariable("total", formatDoubleWithDecimal(amount + vatAmount));
 
     report.dataManager()->setReportVariable("practice_rzi", QString::fromStdString(User::practice().rziCode));
 
@@ -367,7 +374,11 @@ void Print::invoice(const Invoice& inv)
 
     report.dataManager()->setReportVariable("taxEventDate", QString::fromStdString(inv.taxEventDate.toBgStandard()));
     report.dataManager()->setReportVariable("madeBy", QString::fromStdString(User::doctor().getFullName(false)));
-    report.dataManager()->setReportVariable("groundsNoVAT", QString::fromStdString(issuer.grounds_for_not_charging_VAT));
+
+    if(!inv.isVAT){
+        report.dataManager()->setReportVariable("groundsNoVAT", QString::fromStdString(issuer.grounds_for_not_charging_VAT));
+        report.dataManager()->setReportVariable("groundsLabel", "Основание за неначисляване на ДДС:");
+    }
     report.dataManager()->setReportVariable("paymentType", paymentArr[static_cast<int>(inv.paymentType)]);
 
     report.dataManager()->setReportVariable("bank", issuer.bank.c_str());

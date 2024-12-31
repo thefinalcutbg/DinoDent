@@ -102,7 +102,7 @@ void FinancialPresenter::editOperation(int idx)
     if (!op.has_value()) return;
 
     m_invoice.editOperation(op.value(), idx);
-    view->setBusinessOperations(m_invoice.businessOperations, m_invoice.amount());
+    view->setBusinessOperations(m_invoice.businessOperations, m_invoice.amount(), m_invoice.isVAT);
     makeEdited();
 }
 
@@ -115,7 +115,7 @@ void FinancialPresenter::addOperation()
     if (newOp.has_value())
         m_invoice.addOperation(newOp.value());
 
-    view->setBusinessOperations(m_invoice.businessOperations, m_invoice.amount());
+    view->setBusinessOperations(m_invoice.businessOperations, m_invoice.amount(), m_invoice.isVAT);
 
     makeEdited();
 
@@ -128,7 +128,7 @@ void FinancialPresenter::removeOperation(int idx)
     if (idx < 0 || idx >= m_invoice.businessOperations.size()) return;
 
     m_invoice.removeOperation(idx);
-    view->setBusinessOperations(m_invoice.businessOperations, m_invoice.amount());
+    view->setBusinessOperations(m_invoice.businessOperations, m_invoice.amount(), m_invoice.isVAT);
     makeEdited();
 }
 
@@ -269,6 +269,15 @@ void FinancialPresenter::invoiceNumberChanged(long long number)
 {
     m_invoice.number = number;
     edited = false;
+    makeEdited();
+}
+
+void FinancialPresenter::vatChanged(bool isVat)
+{
+    m_invoice.isVAT = isVat;
+
+    view->setBusinessOperations(m_invoice.businessOperations, m_invoice.amount(), m_invoice.isVAT);
+
     makeEdited();
 }
 

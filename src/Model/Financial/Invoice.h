@@ -49,9 +49,9 @@ struct Invoice
 	void removeOperation(int idx);
 	void addOperation(const BusinessOperation& op);
 	void editOperation(const BusinessOperation& op, int idx);
-
+    bool isVAT {false};
 	double amount() const;
-
+    double VATamount() const;
 	void setMainDocumentData(long long num, Date date);
 
 private:

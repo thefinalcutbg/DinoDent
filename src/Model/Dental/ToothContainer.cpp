@@ -23,7 +23,16 @@ const Tooth& ToothContainer::operator[](int index) const
 
 	if (index >= teethCount || index < 0) throw std::invalid_argument("index out of range");
 
-	return teeth.at(index);
+    return teeth.at(index);
+}
+
+bool ToothContainer::noData() const
+{
+    for(auto& t : teeth){
+        if(!t.noData()) return false;
+    }
+
+    return true;
 }
 
 

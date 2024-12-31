@@ -442,11 +442,7 @@ void EDental::GetStatusAndProcedures::parseReply(const std::string& reply)
 
 	doc.Parse(reply.data(), 0, TIXML_ENCODING_UTF8);
 
-	auto status_result = HISHistoryAlgorithms::getDentalHistory(doc);
-
-	if (status_result.empty()) status_result.emplace_back();
-
-	m_callback(HISHistoryAlgorithms::getProcedures(doc), status_result.back().teeth);
+    m_callback(HISHistoryAlgorithms::getProcedures(doc), HISHistoryAlgorithms::getDentalHistory(doc));
 
 	m_callback = nullptr;
 }

@@ -489,3 +489,17 @@ bool DbProcedure::setPrice(const std::string& code, double price)
 	return db.execute();
 }
 */
+Date DbProcedure::getLastProcedureDate(long long patientRowid)
+{
+    Db db;
+
+    db.newStatement("SELECT procedure.date FROM procedure LEFT JOIN amblist ON procedure.amblist_rowid = amblist.rowid "
+                    "WHERE amblist.patient_rowid=? ORDER BY procedure.date DESC LIMIT 1");
+    db.bind(1, patientRowid);
+
+    while(db.hasRows()){
+        return Date(db.asString(0));
+    }
+
+    return Date();
+}

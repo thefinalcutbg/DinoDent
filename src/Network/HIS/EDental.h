@@ -100,7 +100,7 @@ namespace EDental {
 	class GetStatusAndProcedures : private HisService
 	{
 
-		std::function<void(const std::optional<std::vector<Procedure>>& procedures, const ToothContainer& teeth)> m_callback;
+        std::function<void(const std::optional<std::vector<Procedure>>& procedures, const std::vector<HisSnapshot>& snapshots)> m_callback;
 
 		void parseReply(const std::string& reply) override;
 

@@ -345,7 +345,7 @@ void ListPresenter::setDataToView()
 
         if (User::settings().getHisHistoryAuto) {
             
-            auto callback = [&](const std::optional<std::vector<Procedure>>& result, const ToothContainer& teeth) {
+            auto callback = [&](const std::optional<std::vector<Procedure>>& result, const std::vector<HisSnapshot>& snapshots) {
 
                 if (!result) return;
  
@@ -355,7 +355,23 @@ void ListPresenter::setDataToView()
   
                 if (!m_ambList.isNew()) return;
 
-                m_ambList.teeth.copyOnlyOnUnknown(teeth);
+                if(snapshots.empty()) return;
+
+//              m_ambList.teeth.copyOnlyOnUnknown(snapshots.back().teeth);
+
+                auto& lastHisSnapshotDate = snapshots.back().date;
+
+                auto lastDbProcedureDate = DbProcedure::getLastProcedureDate(patient->rowid);
+
+                if(m_ambList.teeth.noData() || (
+                   lastHisSnapshotDate > lastDbProcedureDate
+                   && ModalDialogBuilder::askDialog(
+                        "В НЗИС е открит по-актуален орален статус. Желаете ли да го заредите?"
+                    )
+                  )
+                ) {
+                    m_ambList.teeth.copyFromHis(snapshots.back().teeth);
+                }
 
                 for (int i = 0; i < 32; i++)
                 {

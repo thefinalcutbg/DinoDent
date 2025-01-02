@@ -29,5 +29,5 @@ void ReportFilesPresenter::showError(int idx)
 
 	if (reportFiles[idx].error.empty()) return;
 
-	ModalDialogBuilder::showMultilineDialog(reportFiles[idx].error);
+    ModalDialogBuilder::showMultilineDialog(reportFiles[idx].error, "Грешка от ПИС");
 }

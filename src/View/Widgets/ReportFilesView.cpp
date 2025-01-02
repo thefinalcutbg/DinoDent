@@ -29,7 +29,7 @@ ReportFilesView::ReportFilesView(QWidget *parent)
 
     connect(ui.loadPISbutton, &QPushButton::clicked, this, [&] {presenter.refreshFiles();});
 
-    connect(ui.tableView, &QTableView::doubleClicked, this, [&] {
+    connect(ui.tableView, &QTableView::clicked, this, [&] {
 
             if (ui.tableView->selectionModel() == nullptr) return;
 

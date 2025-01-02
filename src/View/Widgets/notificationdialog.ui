@@ -31,12 +31,16 @@
       </widget>
      </item>
      <item>
-      <widget class="QComboBox" name="durationTypeCombo"/>
+      <widget class="QComboBox" name="durationTypeCombo">
+       <property name="sizeAdjustPolicy">
+        <enum>QComboBox::SizeAdjustPolicy::AdjustToContents</enum>
+       </property>
+      </widget>
      </item>
      <item>
       <spacer name="horizontalSpacer_3">
        <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+        <enum>Qt::Orientation::Horizontal</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
@@ -68,7 +72,7 @@
    <item>
     <spacer name="verticalSpacer">
      <property name="orientation">
-      <enum>Qt::Vertical</enum>
+      <enum>Qt::Orientation::Vertical</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>

@@ -42,6 +42,7 @@ NotificationListDialog::NotificationListDialog(QWidget *parent)
 
         connect(removeDelegate, &NotificationRemoveDelegate::updateRequested, table, [=] {
             table->viewport()->update();
+            
         });
 
         connect(removeDelegate, &NotificationRemoveDelegate::removeClicked, this, [=, this](long long rowId) {
@@ -56,7 +57,7 @@ NotificationListDialog::NotificationListDialog(QWidget *parent)
 
             active_model.setNotifications(newList, false);
             future_model.setNotifications(newList, true);
-
+            emit ui->tabWidget->currentChanged(ui->tabWidget->currentIndex());
         });
 
         connect(table, &QTableView::doubleClicked, this, [=, this](const QModelIndex& index){
@@ -75,6 +76,13 @@ NotificationListDialog::NotificationListDialog(QWidget *parent)
     initTable(ui->futureTable);
 
     ui->appointmentButton->setIcon(CommonIcon::getPixmap(CommonIcon::CALENDAR));
+
+    connect(ui->tabWidget, &QTabWidget::currentChanged, this, [&](int index) {
+
+        auto table = index ? ui->futureTable : ui->activeTable;
+        ui->appointmentButton->setDisabled(!table->model()->rowCount());
+
+    });
 
     connect(ui->appointmentButton, &QPushButton::clicked, this, [&]{
 

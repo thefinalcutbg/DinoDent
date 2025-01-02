@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 #include "Model/Dental/Notification.h"
 
 namespace DbNotification

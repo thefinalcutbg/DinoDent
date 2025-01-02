@@ -139,7 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
-    <QtInstall>6.8.0_msvc2022_64</QtInstall>
+    <QtInstall>6.8.1_msvc2022_64</QtInstall>
     <QtModules>core;gui;network;qml;widgets;core5compat;printsupport;networkauth</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
     <QtPlugin>true</QtPlugin>
@@ -223,11 +223,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="include\json\jsoncpp.cpp" />
+    <ClCompile Include="src\Database\DbNotification.cpp" />
     <ClCompile Include="src\Model\CalendarStructs.cpp" />
     <ClCompile Include="src\Model\Dental\Diagnosis.cpp" />
     <ClCompile Include="src\Network\GetHSM.cpp" />
+    <ClCompile Include="src\Network\HIS\EClinicalCondition.cpp" />
     <ClCompile Include="src\Presenter\ProcedureListPresenter.cpp" />
     <ClCompile Include="src\Network\Calendar\Google.cpp" />
+    <ClCompile Include="src\View\TableModels\NotificationTableModel.cpp" />
     <ClCompile Include="src\View\uiComponents\NotesEdit.cpp" />
     <ClCompile Include="src\View\Widgets\MedicationTemplateDialog.cpp" />
     <ClCompile Include="src\View\SubWidgets\ProcedureListView.cpp" />
@@ -496,6 +499,8 @@
     <ClCompile Include="src\View\Widgets\MedicalNoticeDialog.cpp" />
     <ClCompile Include="src\View\Widgets\MedicalStatusDialog.cpp" />
     <ClCompile Include="src\View\Widgets\NewDocDialog.cpp" />
+    <ClCompile Include="src\View\Widgets\notificationdialog.cpp" />
+    <ClCompile Include="src\View\Widgets\notificationlistdialog.cpp" />
     <ClCompile Include="src\View\Widgets\PisImportView.cpp" />
     <ClCompile Include="src\View\Widgets\PracticeDialog.cpp" />
     <ClCompile Include="src\View\Widgets\BrowserDialog.cpp" />
@@ -545,6 +550,7 @@
     <ClInclude Include="include\json\json-forwards.h" />
     <ClInclude Include="include\json\json.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="src\Database\DbNotification.h" />
     <ClInclude Include="src\Model\CalendarStructs.h" />
     <QtMoc Include="src\View\Widgets\CalendarEventDialog.h" />
     <ClInclude Include="src\Model\Dental\ProcedureListElement.h" />
@@ -554,6 +560,8 @@
     <ClInclude Include="src\Network\Calendar\Credentials.h" />
     <ClInclude Include="src\Network\Calendar\Google.h" />
     <ClInclude Include="src\Network\GetHSM.h" />
+    <ClInclude Include="src\Network\HIS\EClinicalCondition.h" />
+    <ClInclude Include="src\Presenter\NotificationListPresenter.h" />
     <ClInclude Include="src\View\Graphics\CalendarViewData.h" />
     <QtMoc Include="src\View\Widgets\CalendarView.h" />
     <ClInclude Include="src\Database\DbMedicalNotice.h" />
@@ -815,6 +823,7 @@
     <QtMoc Include="src\View\Widgets\UpdateDownloader.h" />
     <QtMoc Include="src\View\TableModels\MKBModel.h" />
     <ClInclude Include="src\View\TableModels\NameFilterProxyModel.h" />
+    <QtMoc Include="src\View\TableModels\NotificationTableModel.h" />
     <ClInclude Include="src\View\TableModels\QProcedure.h" />
     <QtMoc Include="src\View\TableModels\ReportFilesModel.h" />
     <QtMoc Include="src\View\TableModels\StatisticTableModel.h" />
@@ -862,6 +871,8 @@
     <QtMoc Include="src\View\Widgets\PisImportView.h" />
     <QtMoc Include="src\View\Widgets\NewDocDialog.h" />
     <QtMoc Include="src\View\Widgets\ICD10Dialog.h" />
+    <QtMoc Include="src\View\Widgets\notificationdialog.h" />
+    <QtMoc Include="src\View\Widgets\notificationlistdialog.h" />
     <ClInclude Include="src\View\Widgets\ReportDialogResult.h" />
     <QtMoc Include="src\View\Widgets\ReportFilesView.h" />
     <QtMoc Include="src\View\Widgets\StatisticDialogView.h" />
@@ -955,6 +966,8 @@
     <QtUic Include="src\View\Widgets\MedicalNoticeDialog.ui" />
     <QtUic Include="src\View\Widgets\MedicalStatusDialog.ui" />
     <QtUic Include="src\View\Widgets\NewDocDialog.ui" />
+    <QtUic Include="src\View\Widgets\notificationdialog.ui" />
+    <QtUic Include="src\View\Widgets\notificationlistdialog.ui" />
     <QtUic Include="src\View\Widgets\PisImportView.ui" />
     <QtUic Include="src\View\Widgets\PracticeDialog.ui" />
     <QtUic Include="src\View\Widgets\BrowserDialog.ui" />

@@ -511,10 +511,13 @@
           </item>
           <item>
            <spacer name="horizontalSpacer_4">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
             <property name="sizeHint" stdset="0">
              <size>
-              <width>40</width>
-              <height>20</height>
+              <width>20</width>
+              <height>40</height>
              </size>
             </property>
            </spacer>
@@ -618,6 +621,19 @@
       </spacer>
      </item>
      <item>
+      <widget class="BigPushButton" name="declarationButton">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>46</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Декларации</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="BigPushButton" name="addRefButton">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -632,32 +648,7 @@
         </size>
        </property>
        <property name="text">
-        <string>Направление</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="BigPushButton" name="prescrButton">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>45</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>16777215</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>Рецепта</string>
+        <string>Направления</string>
        </property>
       </widget>
      </item>
@@ -706,6 +697,31 @@
       </widget>
      </item>
      <item>
+      <widget class="BigPushButton" name="prescrButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>45</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Рецепта</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="BigPushButton" name="perioButton">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -727,19 +743,6 @@
        </property>
        <property name="text">
         <string>Пародонтален статус</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="BigPushButton" name="declarationButton">
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>46</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>Декларации</string>
        </property>
       </widget>
      </item>
@@ -800,6 +803,9 @@
    </item>
    <item>
     <spacer name="verticalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
      <property name="sizeHint" stdset="0">
       <size>
        <width>20</width>

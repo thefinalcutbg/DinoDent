@@ -18,4 +18,5 @@ CREATE TABLE allergy (patient_rowid INTEGER REFERENCES patient (rowid) ON DELETE
 CREATE TABLE doctor (lpk VARCHAR (9) NOT NULL PRIMARY KEY, pass VARCHAR NOT NULL, fname VARCHAR (50) NOT NULL, mname VARCHAR NOT NULL, lname VARCHAR (50) NOT NULL, phone VARCHAR NOT NULL, several_rhif INTEGER, auto_login BOOLEAN NOT NULL DEFAULT (0), his_specialty INTEGER, incognito INTEGER, refresh_token VARCHAR, calendar_index INTEGER);
 CREATE TABLE medication_template (rowid INTEGER PRIMARY KEY NOT NULL, numMed_rowid INTEGER NOT NULL, is_form BOOLEAN NOT NULL, quantity INT NOT NULL, priority INT, substitution BOOLEAN, notes VARCHAR (2000), dosage TEXT);
 CREATE TABLE favourite_code (code TEXT NOT NULL, lpk  TEXT NOT NULL REFERENCES doctor (lpk) ON DELETE CASCADE ON UPDATE CASCADE);
-PRAGMA user_version = 27;
+CREATE TABLE notification (rowid INTEGER PRIMARY KEY, date TEXT, patient_rowid INTEGER REFERENCES patient (rowid) ON DELETE CASCADE ON UPDATE CASCADE, lpk TEXT REFERENCES doctor (lpk) ON DELETE CASCADE ON UPDATE CASCADE, description TEXT);
+PRAGMA user_version = 28;

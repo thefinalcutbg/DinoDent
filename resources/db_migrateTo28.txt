@@ -1,0 +1,2 @@
+CREATE TABLE notification (rowid INTEGER PRIMARY KEY, date TEXT, patient_rowid INTEGER REFERENCES patient (rowid) ON DELETE CASCADE ON UPDATE CASCADE, lpk TEXT REFERENCES doctor (lpk) ON DELETE CASCADE ON UPDATE CASCADE, description TEXT);
+PRAGMA user_version = 28;

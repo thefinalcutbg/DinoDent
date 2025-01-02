@@ -40,7 +40,7 @@ ListView::ListView(QWidget* parent)
     ui.prescrButton->setIcon(QIcon(":/icons/icon_add.png"));
 	ui.medicalNoticeButton->setIcon(QIcon(":/icons/icon_add.png"));
 	ui.addRefButton->setIcon(QIcon(":/icons/icon_add.png"));
-    ui.declarationButton->setIcon(QIcon(":/icons/icon_add.png"));
+    ui.declarationButton->setIcon(QIcon(":/icons/icon_print.png"));
 
 	ui.perioButton->setHoverColor(Theme::mainBackgroundColor);
 	ui.invoiceButton->setHoverColor(Theme::mainBackgroundColor);

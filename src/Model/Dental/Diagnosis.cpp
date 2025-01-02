@@ -28,13 +28,13 @@ Diagnosis::Diagnosis(int legacyHisIdx, bool refactorGuard)
 
 std::string Diagnosis::getDiagnosisText() const
 {
-	auto& icdDescr = icd.name();
+    auto& icdDescr = icd.name();
 
 	if (icdDescr.empty()) {
 
-		if (additional_descr.empty()) {
+        if (additional_descr.empty()) {
 
-			return " ";
+            return " ";
 		}
 
 		return additional_descr;
@@ -53,5 +53,12 @@ std::string Diagnosis::getDiagnosisText() const
 		result += ")";
 	}
 
-	return result;
+    return result;
+}
+
+std::string Diagnosis::getDiagnosisTextNhif() const
+{
+    if(icd.isValid()) return icd.code();
+
+    return "Без диагноза";
 }

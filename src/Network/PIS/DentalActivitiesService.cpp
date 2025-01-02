@@ -77,14 +77,12 @@ void DentalActivitiesService::processPISReply(const std::string& reply)
 		auto toothProp =
 
         procedures.emplace_back();
-        procedures.back().code = std::stoi(row.Child(2).ToElement()->GetText());
+        procedures.back().code = std::stoi(getTextNullCheck(row.Child(2).ToElement()));
 		procedures.back().date = Date(row.Child(0).ToElement()->GetText());
-        auto diagText = row.Child(4).ToElement()->GetText();
-        if(diagText){
-            procedures.back().diagnosis.additional_descr = diagText; //diagnosis
-        }
-		procedures.back().affectedTeeth = ToothUtils::getToothFromNhifNum(row.Child(5).ToElement()->GetText());
-		procedures.back().notes = row.Child(1).ToElement()->GetText();
+        procedures.back().diagnosis.additional_descr = getTextNullCheck(row.Child(4).ToElement());
+
+        procedures.back().affectedTeeth = ToothUtils::getToothFromNhifNum(getTextNullCheck(row.Child(5).ToElement()));
+        procedures.back().notes = getTextNullCheck(row.Child(1).ToElement());
 		procedures.back().financingSource = FinancingSource::NHIF;
 		procedures.back().db_source = Procedure::DatabaseSource::PIS;
 	}

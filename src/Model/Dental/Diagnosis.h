@@ -12,4 +12,5 @@ struct Diagnosis
 	Diagnosis(int legacyHisIdx, bool refactorGuard);
 
 	std::string getDiagnosisText() const;
+    std::string getDiagnosisTextNhif() const;
 };

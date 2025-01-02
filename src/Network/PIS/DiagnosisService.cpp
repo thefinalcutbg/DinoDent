@@ -61,8 +61,8 @@ void DiagnosisService::processPISReply(const std::string& reply)
 		diagnosis != nullptr;
 		diagnosis = diagnosis->NextSiblingElement("ns1:pbd")
 		)
-	{
-		auto mkb = diagnosis->FirstChildElement("ns1:icd10Code")->GetText();
+    {
+        auto mkb = getTextNullCheck(diagnosis->FirstChildElement("ns1:icd10Code"));
 
 		if (unique.count(mkb)) continue;
 

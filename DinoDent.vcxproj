@@ -553,6 +553,7 @@
     <ClInclude Include="src\Database\DbNotification.h" />
     <ClInclude Include="src\Model\CalendarStructs.h" />
     <QtMoc Include="src\View\Widgets\CalendarEventDialog.h" />
+    <ClInclude Include="src\Model\Dental\Notification.h" />
     <ClInclude Include="src\Model\Dental\ProcedureListElement.h" />
     <ClInclude Include="src\Model\TabType.h" />
     <ClInclude Include="src\Network\Calendar\CalendarJsonParser.h" />

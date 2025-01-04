@@ -268,8 +268,6 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
     
     if (form3a)
     {
-
-
         report.dataManager()->setReportVariable("ref3Ax", "X");
 
         auto& ref = *form3a;
@@ -390,7 +388,12 @@ void Print::invoice(const Invoice& inv)
    // report.setPreviewScaleType(LimeReport::ScaleType::FitWidth);
    // report.setPreviewPageBackgroundColor(QColor(Qt::white));
    // report.previewReport(LimeReport::PreviewHint::HidePreviewStatusBar);
+    QString filename = "Фактура №";
+    filename += FreeFn::leadZeroes(inv.number, 10).c_str();
+    filename += " - ";
+    filename += User::practice().name.c_str();
 
+    report.setReportFileName(filename);
     report.printReport();
 }
 

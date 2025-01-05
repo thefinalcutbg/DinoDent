@@ -81,7 +81,7 @@ std::pair<std::vector<RowInstance>, PlainTable> getAmbRows(const Date& from, con
         "AND amblist.lpk = '" + User::doctor().LPK + "' "
         "AND amblist.rzi = '" + User::practice().rziCode + "' "
         "GROUP BY amblist.rowid "
-        "ORDER BY strftime('%Y %m %d', amblist.date) ASC, amblist.rowid ASC ";
+        "ORDER BY amblist.date ASC, amblist.rowid ASC";
 
     Db db(query);
 

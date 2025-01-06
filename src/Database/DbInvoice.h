@@ -11,7 +11,7 @@ struct NzokFinancialDetails {
 
 namespace DbInvoice
 {
-	int getNewInvoiceNumber();
+    long long getNewInvoiceNumber();
 	std::unordered_set<int>getExistingNumbers();
 	long long insertInvoice(const Invoice& invoice);
 	void updateInvoice(const Invoice& invoice);

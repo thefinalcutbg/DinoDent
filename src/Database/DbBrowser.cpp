@@ -239,7 +239,7 @@ std::pair<std::vector<RowInstance>, PlainTable> getFinancialRows(const Date& fro
             });
 
         //Number
-        tableView.addCell(1, {.data = FreeFn::leadZeroes(db.asInt(1), 10)});
+        tableView.addCell(1, {.data = FreeFn::leadZeroes(db.asLongLong(1), 10)});
         
         tableView.addCell(2, { .data = nhif ? nzokRecipient.identifier : db.asString(4) });
         tableView.addCell(3, { .data = nhif ? nzokRecipient.name : db.asString(5) });
@@ -406,7 +406,7 @@ std::pair<std::vector<RowInstance>, PlainTable> DbBrowser::getPatientDocuments(l
             case 4:
                 docTypeString = "Фактура";
                 docTypeIcon = CommonIcon::INVOICE;
-                nrn = FreeFn::leadZeroes(db.asInt(3), 10);
+                nrn = FreeFn::leadZeroes(db.asLongLong(3), 10);
                 break;
         }
 

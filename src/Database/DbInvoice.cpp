@@ -248,9 +248,9 @@ Invoice DbInvoice::getInvoice(long long rowId)
     return Invoice();
 }
 
-int DbInvoice::getNewInvoiceNumber()
+long long DbInvoice::getNewInvoiceNumber()
 {
-    int number = 0;
+    long long number = 0;
 
     Db db(
         "SELECT num FROM financial WHERE "
@@ -258,7 +258,7 @@ int DbInvoice::getNewInvoiceNumber()
         "ORDER BY rowid DESC, num DESC LIMIT 1"
     );
 
-    while (db.hasRows()) number = db.asInt(0);
+    while (db.hasRows()) number = db.asLongLong(0);
 
     return number + 1;
 }

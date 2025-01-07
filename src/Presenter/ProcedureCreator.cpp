@@ -113,7 +113,7 @@ void ProcedureCreator::setProcedureCode(const ProcedureCode& code, bool nhif, do
 	}
 
 
-	view->setCommonData(commonData, code.nhifCode());
+    view->setCommonData(commonData, nhif);
 }
 
 std::vector<Procedure> ProcedureCreator::getProcedures()
@@ -297,13 +297,13 @@ Diagnosis ProcedureCreator::getDiagnosis(const Tooth* tooth, ProcedureType type)
 
 		icdSimple[Implant] = "T85.7";
 
-		if (tooth && tooth->hasStatus(Root) && tooth->hasStatus(Impacted)) {
+        if (tooth && tooth->hasStatus(Root) && tooth->hasStatus(Impacted)) {
 			icdSimple[Root] = "K08.3";
 			icdSimple[Impacted] = "K08.3";
 		}
 
 		icd = "K07.3"; //assume ortho reason
-		statusSearch = { Implant, Impacted, HasSupernumeral, ApicalLesion, Root, Periodontitis, Mobility, Fracture, Pulpitis, Temporary, Caries };
+        statusSearch = { Implant, Impacted, HasSupernumeral, ApicalLesion, Root, Periodontitis, Mobility, Fracture, Pulpitis, Temporary, Caries };
 		break;
 
 	case ProcedureType::Endodontic:

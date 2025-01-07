@@ -40,7 +40,7 @@ class SettingsDialog : public QDialog, public ISettingsDialog
 
 	void disableNhifValidators(bool disabled);
 	void legalEntityChanged(bool selfInsured);
-
+    QString getDoctorName(const PracticeDoctor& entity);
 //	void paintEvent(QPaintEvent* event) override;
 
 public:

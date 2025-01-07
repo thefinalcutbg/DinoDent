@@ -7,7 +7,8 @@
 #include <QPainter>
 #include <QtGlobal>
 #include <QInputDialog>
-
+#include "Model/User.h"
+#include <QDebug>
 SettingsDialog::SettingsDialog(QDialog* parent)
 	: QDialog(parent)
 {
@@ -186,6 +187,10 @@ SettingsDialog::SettingsDialog(QDialog* parent)
 
 	});
 
+    connect(ui.tabWidget, &QTabWidget::currentChanged, this, [&](int idx){
+        if(idx == 3) presenter.practiceTabFocused();
+    });
+
 	connect(ui.devBranch, &QCheckBox::clicked, this, [&](bool checked) {
 
 		if (checked) {
@@ -346,7 +351,18 @@ void SettingsDialog::legalEntityChanged(bool selfInsured)
 	ui.selfInsuredId->setInputValidator(selfInsured ? &grao_validator : nullptr);
 
 	ui.selfInsuredId->setHidden(!selfInsured);
-	ui.selfInsuredLabel->setHidden(!selfInsured);
+    ui.selfInsuredLabel->setHidden(!selfInsured);
+}
+
+QString SettingsDialog::getDoctorName(const PracticeDoctor &entity)
+{
+    QString suffix = entity.admin ? " (администратор)" : "";
+
+    if (entity.lpk != User::doctor().LPK) {
+        return QString::fromStdString(entity.name) + suffix;
+    }
+
+    return ui.fNameEdit->text() + " " + ui.lNameEdit->text() + suffix;
 }
 
 ProcedureListView* SettingsDialog::getPriceListView()
@@ -427,8 +443,7 @@ void SettingsDialog::setDoctorList(const std::vector<PracticeDoctor>& doctors)
 
 	for (auto& doctor : doctors)
 	{
-		QString postfix = doctor.admin ? " (администратор)" : "";
-		ui.doctorList->addItem(QString::fromStdString(doctor.name) + postfix);
+        ui.doctorList->addItem(getDoctorName(doctor));
 	}
 
 	auto count = ui.doctorList->count();
@@ -505,8 +520,7 @@ Doctor SettingsDialog::getDoctor()
 
 void SettingsDialog::replaceCurrentItem(const PracticeDoctor& item)
 {
-	QString postfix = item.admin ? " (администратор)" : "";
-	ui.doctorList->currentItem()->setText(QString::fromStdString(item.name) + postfix);
+    ui.doctorList->currentItem()->setText(getDoctorName(item));
 }
 
 bool SettingsDialog::allFieldsAreValid()

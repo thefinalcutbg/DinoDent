@@ -305,6 +305,11 @@ void SettingsMainPresenter::printEmptyDocs()
 
 }
 
+void SettingsMainPresenter::practiceTabFocused()
+{
+    view->setDoctorList(m_doctorsList);
+}
+
 void SettingsMainPresenter::priceUpdated(const std::string& code, double price)
 {
 	if (!ProcedureCode(code).isValid()) return;

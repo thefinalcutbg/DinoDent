@@ -50,7 +50,7 @@ void ProcedureEditorPresenter::setView(IProcedureEditDialog* view)
 
 	auto inputView = view->procedureInput();
 
-	inputView->setCommonData(data, result->code.nhifCode());
+    inputView->setCommonData(data, result->financingSource == FinancingSource::NHIF);
 	
 	switch (result->getScope()) {
 
@@ -83,7 +83,7 @@ void ProcedureEditorPresenter::setView(IProcedureEditDialog* view)
 
 			inputView->setParameterData(
 				std::get<ConstructionRange>(result->affectedTeeth),
-				m_code.type() == ProcedureType::RemoveCrownOrBridge
+                allowSingleRange
 			);
 		}
 

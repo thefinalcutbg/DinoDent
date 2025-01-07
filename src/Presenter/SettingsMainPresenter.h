@@ -34,6 +34,7 @@ public:
 	bool applyChanges();
 	void sqlCommandExec(const std::string& sql);
 	void printEmptyDocs();
+    void practiceTabFocused(); //need to refresh the doctor list
 	void priceUpdated(const std::string& code, double price);
 
 };

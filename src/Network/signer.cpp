@@ -56,10 +56,15 @@ std::string Signer::getSignature(const std::string& xml, evp_pkey_st* pkey, x509
 		"<ds:SignedInfo>"
 		"<ds:CanonicalizationMethod Algorithm=\"http://www.w3.org/2001/10/xml-exc-c14n#\"/>"
 		"<ds:SignatureMethod Algorithm=\"http://www.w3.org/2001/04/xmldsig-more#rsa-sha256\"/>"
-		"<ds:Reference Id=\"r-id-1\" URI=\"" + URI +"\">"
-		"<ds:Transforms>"
-		//"<ds:Transform Algorithm=\"http://www.w3.org/2000/09/xmldsig#enveloped-signature\"/>"
+		"<ds:Reference Id=\"r-id-1\" URI=\"" + URI + "\">"
+		"<ds:Transforms>";
+
+	signedInfo += XAdES ?
 		"<ds:Transform Algorithm=\"http://www.w3.org/TR/1999/REC-xpath-19991116\"><ds:XPath>not(ancestor-or-self::ds:Signature)</ds:XPath></ds:Transform>"
+		:
+		"<ds:Transform Algorithm=\"http://www.w3.org/2000/09/xmldsig#enveloped-signature\"/>";
+
+	signedInfo +=
 		"<ds:Transform Algorithm=\"http://www.w3.org/2001/10/xml-exc-c14n#\"/>"
 		"</ds:Transforms>"
 		"<ds:DigestMethod Algorithm=\"http://www.w3.org/2001/04/xmlenc#sha256\"/>"

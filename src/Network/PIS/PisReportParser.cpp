@@ -157,12 +157,27 @@ PisReportsForImport PisReportParser::parse(const std::string& xmlReport)
 			p.date = Date{ serviceXml->Attribute("date") };
 			p.financingSource = FinancingSource::NHIF;
 
-			p.code = std::stoi(serviceXml->Attribute("activityCode"));
+			if (!serviceXml->Attribute("ACHIcode")) {
+				p.code = std::stoi(serviceXml->Attribute("activityCode"));
+			}
+			else {
+				p.code = std::string(serviceXml->Attribute("ACHIcode"));
+			}
 
-			auto description = serviceXml->Attribute("diagnosis");
+			auto diag = serviceXml->Attribute("diagnosis");
 
-			p.diagnosis = Diagnosis(getDiagnosisIndexByDescription(description), true);
-			p.diagnosis.additional_descr = description;
+			if (diag) {
+				
+				p.diagnosis = Diagnosis(getDiagnosisIndexByDescription(diag), true);
+				
+				if (!p.diagnosis.icd.isValid()) {
+					p.diagnosis.icd = ICD10(diag);
+				}
+
+				if (!p.diagnosis.icd.isValid()) {
+					p.diagnosis.additional_descr = diag;
+				}
+			}
 
 			if (p.code.getScope() == ProcedureScope::SingleTooth)
 			{

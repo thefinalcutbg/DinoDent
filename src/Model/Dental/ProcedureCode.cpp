@@ -66,8 +66,36 @@ bool ProcedureCode::isValid() const
 ProcedureCode::ProcedureCode(const std::string& code) : m_code(code)
 {}
 
-ProcedureCode::ProcedureCode(int nhifCode) : m_code(legacy_achi[nhifCode])
-{}
+ProcedureCode::ProcedureCode(int nhifCode)
+{
+	static const std::unordered_map<int, std::string> nhifMapping =
+	{
+		{101, "D-01-001"},
+		{102, "D-01-002"},
+		{103, "D-01-003"},
+		{520, "D-01-004"},
+		{544, "D-01-006"},
+		{901, "D-01-007"},
+		{902, "D-01-008"},
+		{903, "D-01-009"},
+		{301, "D-02-001"},
+		{332, "D-03-001"},
+		{333, "D-03-002"},
+		{508, "D-04-001"},
+		{509, "D-04-002"},
+		{510, "D-04-003"},
+		{832, "D-09-002"},
+		{833, "D-09-003"},
+		{834, "D-09-004"},
+		{835, "D-09-005"}
+	};
+
+	if (!nhifMapping.count(nhifCode)) {
+		return;
+	}
+
+	m_code = nhifMapping.at(nhifCode);
+}
 
 ProcedureCode ProcedureCode::fromName(const std::string & name)
 {

@@ -53,7 +53,11 @@ struct Doctor
 
 		static constexpr int specialtyToInt[5]{ 0, 64, 61, 62, 68 };
 
-		return specialtyToInt[static_cast<int>(specialty)];
+		auto idx = static_cast<int>(specialty);
+
+		if (idx < 0 || idx > 4) idx = 0;
+
+		return specialtyToInt[idx];
 	}
 
 };

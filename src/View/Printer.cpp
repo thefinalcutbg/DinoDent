@@ -1,7 +1,7 @@
 #include "Printer.h"
 
 #include <QtGlobal>
-
+#include <QProcess>
 #ifdef Q_OS_WIN //in MSVC build limereport is dynamic lib
 #include <LimeReport/include/lrreportengine.h>
 #else
@@ -29,6 +29,21 @@
 #include "Model/Dental/NhifSpecReport.h"
 #include "Model/Prescription/Prescription.h"
 
+void printLogic(LimeReport::ReportEngine& report, const std::string& filename) 
+{
+    if (filename.empty()) {
+        report.printReport();
+        return;
+    }
+
+    auto qfilename = "C:\\Dev\\" + QString::fromStdString(filename);
+
+    report.printToPDF(qfilename);
+
+    QProcess p;
+    p.startDetached("C:\\Program Files\\Wacom sign pro PDF\\Sign Pro PDF.exe", QStringList{ qfilename });
+}
+
 void fillCommonData(LimeReport::ReportEngine& report, const Patient& patient, const Doctor& doctor, const Practice& practice)
 {
     report.dataManager()->setReportVariable(patient.type > Patient::LNCH ? "ssn" : "id", QString::fromStdString(patient.id));
@@ -52,7 +67,7 @@ void fillCommonData(LimeReport::ReportEngine& report, const Patient& patient, co
     report.dataManager()->setReportVariable("hirbNo", QString::fromStdString(patient.HIRBNo));
 }
 
-void Print::ambList(const AmbList& amb, const Patient& patient)
+void Print::ambList(const AmbList& amb, const Patient& patient, const std::string& pdfFilename)
 {
 
     //used as coordinates for the x-es in the checkboxes
@@ -282,18 +297,13 @@ void Print::ambList(const AmbList& amb, const Patient& patient)
         report.dataManager()->setReportVariable("refHSA", refData.highlySpecializedActivity);
     }
 
-
     QApplication::restoreOverrideCursor();
 
-   // report.setPreviewScaleType(LimeReport::ScaleType::FitWidth);
-   // report.setPreviewPageBackgroundColor(QColor(Qt::white));
-   // report.previewReport(LimeReport::PreviewHint::HidePreviewStatusBar);
-    report.printReport();
+    printLogic(report, pdfFilename);
 }
 
-void Print::invoice(const Invoice& inv)
+void Print::invoice(const Invoice& inv, const std::string& pdfFilename)
 {
-
     InvoicePrintDialog d;
     d.exec();
 
@@ -385,19 +395,16 @@ void Print::invoice(const Invoice& inv)
 
     QApplication::restoreOverrideCursor();
 
-   // report.setPreviewScaleType(LimeReport::ScaleType::FitWidth);
-   // report.setPreviewPageBackgroundColor(QColor(Qt::white));
-   // report.previewReport(LimeReport::PreviewHint::HidePreviewStatusBar);
     QString filename = "Фактура №";
     filename += FreeFn::leadZeroes(inv.number, 10).c_str();
     filename += " - ";
-    filename += User::practice().name.c_str();
+    filename += inv.recipient.name;
+    filename += ".pdf";
 
-    report.setReportFileName(filename);
-    report.printReport();
+    printLogic(report, pdfFilename);
 }
 
-void Print::consent(const Patient& patient)
+void Print::consent(const Patient& patient, const std::string& pdfFilename)
 {
     QApplication::setOverrideCursor(Qt::BusyCursor);
 
@@ -420,10 +427,9 @@ void Print::consent(const Patient& patient)
 
     report.dataManager()->setReportVariable("phone", QString::fromStdString(patient.phone));
 
-
     QApplication::restoreOverrideCursor();
 
-    report.printReport();
+    printLogic(report, pdfFilename);
 }
 
 void Print::consent()
@@ -449,7 +455,7 @@ void Print::consent()
     report.printReport();
 }
 
-void Print::gdpr(const Patient& patient)
+void Print::gdpr(const Patient& patient, const std::string& pdfFilename)
 {
     QApplication::setOverrideCursor(Qt::BusyCursor);
 
@@ -471,7 +477,7 @@ void Print::gdpr(const Patient& patient)
 
     QApplication::restoreOverrideCursor();
 
-    report.printReport();
+    printLogic(report, pdfFilename);
 }
 
 void Print::ambList()
@@ -504,7 +510,7 @@ void Print::ambList()
 
 }
 
-void Print::printDentureDeclaration(const Patient& patient, DeclaratorType type)
+void Print::printDentureDeclaration(const Patient& patient, DeclaratorType type, const std::string& pdfFilename)
 {
     QApplication::setOverrideCursor(Qt::BusyCursor);
 
@@ -528,11 +534,12 @@ void Print::printDentureDeclaration(const Patient& patient, DeclaratorType type)
     }
 
     QApplication::restoreOverrideCursor();
-    report.printReport();
+    
+    printLogic(report, pdfFilename);
 
 }
 
-void Print::printHirbNoDeclaration(const Patient& patient, DeclaratorType type)
+void Print::printHirbNoDeclaration(const Patient& patient, DeclaratorType type, const std::string& pdfFilename)
 {
     QApplication::setOverrideCursor(Qt::BusyCursor);
 
@@ -556,7 +563,8 @@ void Print::printHirbNoDeclaration(const Patient& patient, DeclaratorType type)
     }
 
     QApplication::restoreOverrideCursor();
-    report.printReport();
+    
+    printLogic(report, pdfFilename);
 
 }
 
@@ -782,53 +790,3 @@ void Print::prescription(const Prescription& prescr, const Patient& patient)
     report.printReport();
 
 }
-
-// void Print::ambList(const AmbList &amb, const Patient &patient)
-// {
-
-// }
-
-// void Print::invoice(const Invoice &inv)
-// {
-
-// }
-
-// void Print::consent(const Patient &patient)
-// {
-
-// }
-
-// void Print::gdpr(const Patient &patient)
-// {
-
-// }
-
-// void Print::ambList()
-// {
-
-// }
-
-// void Print::printDentureDeclaration(const Patient &patient, DeclaratorType type)
-// {
-
-// }
-
-// void Print::printHirbNoDeclaration(const Patient &patient, DeclaratorType type)
-// {
-
-// }
-
-// void Print::referral(const Referral &ref, const Patient &patient, const std::string &ambSheetNumber)
-// {
-
-// }
-
-// void Print::saveFsicalReportToPDF(const FiscalReport &report)
-// {
-
-// }
-
-// void Print::saveNhifSpecReport(const NhifSpecReport &report)
-// {
-
-// }

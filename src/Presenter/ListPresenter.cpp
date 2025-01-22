@@ -1177,8 +1177,13 @@ void ListPresenter::printDeclarations()
         }
     }
 
-    case 2: Print::consent(*patient); return;
-
+    case 2:
+    {
+        //auto filename = patient->firstLastName();
+        //filename += ".pdf";
+        Print::consent(*patient);
+        return;
+    }
     case 3: Print::gdpr(*patient); return;
     default: return;
     }

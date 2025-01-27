@@ -1,5 +1,6 @@
 ﻿#include "MedicalStatusWidget.h"
 #include "View/ModalDialogBuilder.h"
+#include "View/CommonIcon.h"
 
 MedicalStatusWidget::MedicalStatusWidget(QWidget *parent)
 	: QWidget(parent)
@@ -12,7 +13,7 @@ MedicalStatusWidget::MedicalStatusWidget(QWidget *parent)
 			
 			if (!result.isValid()) return;
 
-			m_icd_list.push_back(result);
+			m_status_list.push_back(MedicalStatus{.diagnosis = result});
 
 			ui.statusList->addItem(result.name().c_str());
 		}
@@ -24,11 +25,15 @@ MedicalStatusWidget::MedicalStatusWidget(QWidget *parent)
 
 		if (index == -1) return;
 
-		auto result = ModalDialogBuilder::icdDialog(m_icd_list[index]);
+		if (m_status_list[index].nrn.size()) {
+			return;
+		}
+
+		auto result = ModalDialogBuilder::icdDialog(m_status_list[index].diagnosis.code());
 
 		if (!result.isValid())  return;
 		
-		m_icd_list[index] = result;
+		m_status_list[index].diagnosis = result;
 
 		ui.statusList->item(index)->setText(result.name().c_str());
 	});
@@ -39,9 +44,9 @@ MedicalStatusWidget::MedicalStatusWidget(QWidget *parent)
 			
 			if (index == -1) return;
 
-			m_icd_list.erase(m_icd_list.begin() + index);
+			m_status_list.erase(m_status_list.begin() + index);
 
-			setMedicalStatus(m_icd_list);
+			setMedicalStatus(m_status_list);
 		}
 	);
 	
@@ -51,7 +56,7 @@ MedicalStatusWidget::MedicalStatusWidget(QWidget *parent)
     connect(ui.statusList, &QListWidget::itemSelectionChanged, this, [&] {
 			
 		bool noSelection = ui.statusList->selectedItems().empty();
-		ui.editButton->setDisabled(noSelection);
+		ui.editButton->setDisabled(noSelection || !ui.statusList->selectedItems()[0]->icon().isNull());
 		ui.removeButton->setDisabled(noSelection);
 	});
 
@@ -59,21 +64,27 @@ MedicalStatusWidget::MedicalStatusWidget(QWidget *parent)
     ui.statusList->itemSelectionChanged();
 }
 
-void MedicalStatusWidget::setMedicalStatus(const std::vector<ICD10>& s)
+void MedicalStatusWidget::setMedicalStatus(const std::vector<MedicalStatus>& s)
 {
 	ui.statusList->clear();
 
-	m_icd_list = s;
+	m_status_list = s;
 
 	for (auto& status : s)
 	{
-		ui.statusList->addItem(status.name().c_str());
+		auto item = new QListWidgetItem(status.diagnosis.name().c_str());
+
+		if (status.nrn.size()) {
+			item->setIcon(CommonIcon::getPixmap(CommonIcon::HIS));
+		}
+
+		ui.statusList->addItem(item);
 	}
 }
 
-std::vector<ICD10> MedicalStatusWidget::getMedicalStatus()
+std::vector<MedicalStatus> MedicalStatusWidget::getMedicalStatus()
 {
-	return m_icd_list;
+	return m_status_list;
 }
 
 void MedicalStatusWidget::setName(const QString& name)

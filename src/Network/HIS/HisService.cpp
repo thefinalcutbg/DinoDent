@@ -267,11 +267,20 @@ std::string HisService::getMedicalStatus(const Patient& p)
 		result += bind("nrnAllergy", allergy.nrn);
 	}
 
-	auto note = p.getMedStatusStr();
+	for (auto& condition : p.medStats.condition) {
 
-	if (note.size()) {
-		result += bind("note", note);
+		if (condition.nrn.empty()) continue; 
+
+		result += bind("nrnCondition", condition.nrn);
+
 	}
+
+	//auto note = p.getMedStatusStr(); <-refactor it
+
+//	if (note.size()) {
+//		result += bind("note", note);
+//	}
+
 	result += closeTag("medicalStatus");
 
 	return result;

@@ -2,7 +2,7 @@
 
 #include "HisService.h"
 #include <functional>
-#include "Model/ICD10.h"
+#include "Model/MedicalStatuses.h"
 #include "Model/Patient.h"
 
 namespace EClinicalCondition
@@ -10,7 +10,7 @@ namespace EClinicalCondition
 
 class Fetch : private HisService
 {
-    std::function<void(const std::vector<ICD10>& activeConditions, const std::vector<ICD10>& pastConditions)> m_callback;
+    std::function<void(const std::vector<MedicalStatus>& activeConditions, const std::vector<MedicalStatus>& pastConditions)> m_callback;
 
 protected:
     void parseReply(const std::string& reply) override;

@@ -70,15 +70,31 @@ void MedicalStatusPresenter::loadICDFromNHIS()
 				return;
 			}
 
+			//current
+
 			auto list = view->getCurrentDiseases();
 
-            MedicalStatuses::insertUnique(current, list);
+			std::vector<MedicalStatus> toInsert;
+
+			for (auto& icd : current) {
+				toInsert.push_back(MedicalStatus{ .diagnosis = icd });
+			}
+
+            MedicalStatuses::insertUnique(toInsert, list);
 
 			view->setCurrentDiseases(list);
 
+			//past (code duplication)
+
 			list = view->getPastDiseases();
 
-            MedicalStatuses::insertUnique(past, list);
+			toInsert.clear();
+
+			for (auto& icd : past) {
+				toInsert.push_back(MedicalStatus{ .diagnosis = icd });
+			}
+
+            MedicalStatuses::insertUnique(toInsert, list);
 	
 			view->setPastDiseases(list);
 		}
@@ -91,8 +107,8 @@ void MedicalStatusPresenter::loadICDFromHIS()
         patient,
         User::practice().rziCode,
         [&](
-            const std::vector<ICD10>& current,
-            const std::vector<ICD10>& past
+            const std::vector<MedicalStatus>& current,
+            const std::vector<MedicalStatus>& past
 
             ) {
 

@@ -278,12 +278,12 @@ MedStatusTile::MedStatusTile(QWidget* parent) :
 void MedStatusTile::setData(const Patient& patient)
 {
 
-	auto listToString = [](const std::vector<ICD10>& list, const std::string& emptyList)
+	auto listToString = [](const std::vector<MedicalStatus>& list, const std::string& emptyList)
 	{
 			std::string result;
 
 			for (auto& str : list) {
-				result += str.name();
+				result += str.diagnosis.name();
 				result += ", ";
 			}
 

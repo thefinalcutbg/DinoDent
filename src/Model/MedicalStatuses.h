@@ -1,19 +1,31 @@
 ﻿#pragma once
 #include "Model/ICD10.h"
 
+struct MedicalStatus {
+
+	ICD10 diagnosis;
+	std::string nrn;
+
+	bool operator ==(const MedicalStatus& other) {
+
+		return diagnosis.code() == other.diagnosis.code()
+			&& nrn == other.nrn;
+	}
+};
+
 struct MedicalStatuses	
 {
-    std::vector<ICD10> condition;
-    std::vector<ICD10> history;
+    std::vector<MedicalStatus> condition;
+    std::vector<MedicalStatus> history;
 
-	static std::string toString(const std::vector<ICD10>& list)
+	static std::string toString(const std::vector<MedicalStatus>& list)
 	{
 		if (list.empty()) return "Не съобщава";
 
 		std::string result;
 
 		for (auto& status : list) {
-			result += status.name();
+			result += status.diagnosis.name();
 			result += ", ";
 		}
 		result.pop_back();
@@ -22,12 +34,12 @@ struct MedicalStatuses
 		return result;
 	}
 
-    static void insertUnique(const std::vector<ICD10>& from, std::vector<ICD10>& to){
+    static void insertUnique(const std::vector<MedicalStatus>& from, std::vector<MedicalStatus>& to){
 
-        for(auto& icd : from){
+        for(auto& status : from){
 
-            if(std::find(to.begin(), to.end(), icd)==to.end()){
-                to.push_back(icd);
+            if(std::find(to.begin(), to.end(), status)==to.end()){
+                to.push_back(status);
             }
         }
 

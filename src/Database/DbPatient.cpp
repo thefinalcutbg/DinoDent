@@ -204,16 +204,17 @@ bool DbPatient::updateMedStatus(long long patientRowId, const MedicalStatuses& s
 
     db.execute();
 
-    auto lambda = [&](const std::vector<ICD10>& list, MedStatusType t) {
+    auto lambda = [&](const std::vector<MedicalStatus>& list, MedStatusType t) {
 
         for (auto& status : list)
         {
 
-            db.newStatement("INSERT INTO medical_status (patient_rowid, icd, type) VALUES (?,?,?)");
+            db.newStatement("INSERT INTO medical_status (patient_rowid, icd, type, nrn) VALUES (?,?,?,?)");
 
             db.bind(1, patientRowId);
-            db.bind(2, status.code());
+            db.bind(2, status.diagnosis.code());
             db.bind(3, t);
+            db.bind(4, status.nrn);
 
             db.execute();
         }
@@ -237,12 +238,12 @@ MedicalStatuses DbPatient::getMedicalStatuses(long long patientRowId, Db& db)
 {
     MedicalStatuses result;
 
-    db.newStatement("SELECT type, icd FROM medical_status WHERE patient_rowid=?");
+    db.newStatement("SELECT type, icd, nrn FROM medical_status WHERE patient_rowid=?");
     db.bind(1, patientRowId);
 
     while (db.hasRows())
     {
-        std::vector<ICD10>* stat;
+        std::vector<MedicalStatus>* stat;
 
         switch (db.asInt(0))
         {
@@ -252,7 +253,7 @@ MedicalStatuses DbPatient::getMedicalStatuses(long long patientRowId, Db& db)
         default: continue;
         }
 
-        stat->push_back(ICD10(db.asString(1)));
+        stat->push_back(MedicalStatus(db.asString(1), db.asString(2)));
     }
 
     return result;

@@ -47,25 +47,34 @@ void EClinicalCondition::Fetch::parseReply(const std::string &reply)
                             .FirstChild("nhis:results")
                             .ToElement();
 
-    std::vector<ICD10> activeConditions;
-    std::vector<ICD10> inactiveConditions;
+    std::vector<MedicalStatus> activeConditions;
+    std::vector<MedicalStatus> inactiveConditions;
 
     while (resultXml != nullptr)
     {
-        ICD10 icd = resultXml->
+        auto status = MedicalStatus();
+
+
+        status.diagnosis = resultXml->
                     FirstChild("nhis:clinicalCondition")->
                     FirstChild("nhis:diagnosis")->
                     FirstChildElement("nhis:code")->FirstAttribute()->ValueStr();
+
+        status.nrn = resultXml->
+            FirstChild("nhis:clinicalCondition")->
+            FirstChildElement("nhis:nrnCondition")->FirstAttribute()->ValueStr();
 
         bool isActive = resultXml->
                         FirstChild("nhis:clinicalCondition")->
                         FirstChild("nhis:diagnosis")->
                         FirstChildElement("nhis:clinicalStatus")->FirstAttribute()->IntValue() < 20;
 
+
+
         isActive ?
-            activeConditions.push_back(icd)
+            activeConditions.push_back(status)
             :
-            inactiveConditions.push_back(icd);
+            inactiveConditions.push_back(status);
 
 
         resultXml = resultXml->NextSiblingElement("nhis:results");

@@ -66,22 +66,22 @@ MedicalStatusDialog::MedicalStatusDialog(MedicalStatusPresenter* p)
 
 }
 
-void MedicalStatusDialog::setPastDiseases(const std::vector<ICD10>& pd)
+void MedicalStatusDialog::setPastDiseases(const std::vector<MedicalStatus>& pd)
 {
 	ui.pastWidget->setMedicalStatus(pd);
 }
 
-std::vector<ICD10> MedicalStatusDialog::getPastDiseases()
+std::vector<MedicalStatus> MedicalStatusDialog::getPastDiseases()
 {
 	return ui.pastWidget->getMedicalStatus();
 }
 
-void MedicalStatusDialog::setCurrentDiseases(const std::vector<ICD10>& cd)
+void MedicalStatusDialog::setCurrentDiseases(const std::vector<MedicalStatus>& cd)
 {
 	ui.currentWidget->setMedicalStatus(cd);
 }
 
-std::vector<ICD10> MedicalStatusDialog::getCurrentDiseases()
+std::vector<MedicalStatus> MedicalStatusDialog::getCurrentDiseases()
 {
 	return ui.currentWidget->getMedicalStatus();
 }

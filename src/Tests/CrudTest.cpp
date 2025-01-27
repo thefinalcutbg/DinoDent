@@ -140,13 +140,13 @@ std::string Test::crudTest()
 
 	if (patient.FirstName != "test1") return "Error updating patient";
 
-	patient.medStats.condition.push_back(ICD10("A00"));
+	patient.medStats.condition.push_back(MedicalStatus{ .diagnosis = ICD10("A00") });
 
 	DbPatient::updateMedStatus(patient.rowid, patient.medStats);
 
 	patient.medStats = DbPatient::getMedicalStatuses(patient.rowid);
 
-	if (patient.medStats.condition.empty() || patient.medStats.condition[0].code() != "A00") return "Medical statuses error";
+	if (patient.medStats.condition.empty() || patient.medStats.condition[0].diagnosis.code() != "A00") return "Medical statuses error";
 
 	//DbAmbList
 

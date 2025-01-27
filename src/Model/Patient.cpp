@@ -93,13 +93,16 @@ std::string Patient::getAllergiesStr() const
 
 std::string Patient::getMedStatusStr() const
 {
+	//refactor this for non-nhis entities only
+
 	std::string result;
 
 	if (medStats.condition.size()) {
+
 		result += "Настоящи заболявания: ";
 
 		for (auto& s : medStats.condition) {
-			result += s.code();
+			result += s.diagnosis.code();
 			result += ", ";
 		}
 
@@ -116,7 +119,7 @@ std::string Patient::getMedStatusStr() const
 		result += "Минали заболявания: ";
 
 		for (auto& s : medStats.history) {
-			result += s.code();
+			result += s.diagnosis.code();
 			result += ", ";
 		}
 

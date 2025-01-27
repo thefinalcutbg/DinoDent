@@ -1,12 +1,12 @@
 #include "ListPresenter.h"
 
+#include "GlobalSettings.h"
 #include "Database/DbReferral.h"
 #include "Database/DbAmbList.h"
 #include "Database/DbProcedure.h"
 #include "Database/DbMedicalNotice.h"
 #include "Model/User.h"
 #include "Model/Validators/AmbListValidator.h"
-
 #include "Presenter/ProcedureDialogPresenter.h"
 #include "Presenter/ProcedureEditorPresenter.h"
 #include "Presenter/ReferralPresenter.h"
@@ -287,7 +287,18 @@ void ListPresenter::print()
 {
     if (!save()) return;
 
-    Print::ambList(m_ambList, *patient);
+    auto filename = GlobalSettings::getDocDir(
+        User::practice().rziCode,
+        User::doctor().LPK,
+        m_ambList.date,
+        GlobalSettings::DocDir::AmbSheet
+    );
+
+    qDebug() << filename;
+
+    filename += m_ambList.nrn + " - " + patient->firstLastName() + ".pdf";
+
+    Print::ambList(m_ambList, *patient, filename);
 }
 
 void ListPresenter::setDataToView()

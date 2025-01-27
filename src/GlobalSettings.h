@@ -23,5 +23,7 @@ namespace GlobalSettings
 	bool showRequestsEnabled();
 	bool showRepliesEnabled();
 
+	enum DocDir { Root, AmbSheet, Consent, Denture, Hirbno, Invoice };
 
+	std::string getDocDir(const std::string& rzi, const std::string& lpk, const std::string& ISO8601, DocDir dir);
 }

@@ -8,6 +8,7 @@ struct Allergy
 	enum Type {allergy, intolerance};
 	enum Category {Food, Medication, Enviornment, Biologic };
 	enum Criticality {Low, High, UnableToAsses };
+
 	enum ClinicalStatus {
 		Active,
 		Recurrence, 
@@ -46,5 +47,6 @@ struct Allergy
 
 	int getHisNumenclatureIndex(NumenclatureType num_type) const;
 	void setHisNumenclature(NumenclatureType num_type, int index);
-	
+	std::string getNumText(NumenclatureType num_type) const;
+	std::string getDescription() const;
 };

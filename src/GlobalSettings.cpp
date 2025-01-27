@@ -239,3 +239,37 @@ bool GlobalSettings::showRepliesEnabled()
 {
     return s_showReplies;
 }
+
+std::string GlobalSettings::getDocDir(const std::string& rzi, const std::string& lpk, const std::string& ISO8601, DocDir dir)
+{
+    QDir result(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
+    qDebug() << 246;
+   // { Root, AmbSheet, Consent, Denture, Hirbno, Invoice }
+
+    QString slash = "/";
+
+    QString subdir = slash;
+    subdir += rzi.c_str();
+    subdir += slash;
+    subdir += lpk.c_str();
+    subdir += slash;
+    
+    const QString subdirType[] = { 
+        "", 
+        "Амбулаторни листове", 
+        "Информирани съгласия", 
+        "Декларации за тотални протези", 
+        "Декларации за валидна ЗК", 
+        "Фактури" 
+    };
+
+    subdir += subdirType[static_cast<int>(dir)];
+    subdir += slash;
+    subdir += ISO8601.substr(0, 7).c_str();
+    subdir += slash;
+    qDebug() << subdir;
+    
+    qDebug() << result.mkpath(subdir);
+    qDebug() << "DIR MADE";
+    return result.path().toStdString() + subdir.toStdString();
+}

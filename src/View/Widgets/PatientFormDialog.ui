@@ -47,10 +47,10 @@
       </size>
      </property>
      <property name="frameShape">
-      <enum>QFrame::NoFrame</enum>
+      <enum>QFrame::Shape::NoFrame</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
+      <enum>QFrame::Shadow::Raised</enum>
      </property>
      <widget class="QPushButton" name="hirbnoButton">
       <property name="geometry">
@@ -155,14 +155,14 @@
        </rect>
       </property>
       <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::NoButtons</enum>
+       <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
       </property>
       <property name="showGroupSeparator" stdset="0">
        <bool>false</bool>
       </property>
       <property name="maximumDateTime">
        <datetime>
-        <hour>3</hour>
+        <hour>1</hour>
         <minute>59</minute>
         <second>59</second>
         <year>9999</year>
@@ -387,19 +387,19 @@
         </rect>
        </property>
        <property name="buttonSymbols">
-        <enum>QAbstractSpinBox::NoButtons</enum>
+        <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
        </property>
        <property name="showGroupSeparator" stdset="0">
         <bool>false</bool>
        </property>
        <property name="maximumDateTime">
         <datetime>
-         <hour>1</hour>
+         <hour>23</hour>
          <minute>59</minute>
          <second>59</second>
          <year>9999</year>
          <month>12</month>
-         <day>27</day>
+         <day>26</day>
         </datetime>
        </property>
        <property name="minimumDate">
@@ -606,7 +606,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>Адрес:</string>
+       <string>Гр./с.</string>
       </property>
      </widget>
      <widget class="LineEdit" name="HIRBNoEdit">

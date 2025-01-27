@@ -96,8 +96,8 @@ void MedicalStatusDialog::setAllergies(const std::vector<Allergy>& allergies)
 	{
 
 		QListWidgetItem* item = new QListWidgetItem;
-		
-		QString description = a.description.c_str();
+
+		QString description = a.getDescription().c_str();
 
 		if (a.nrn.size())
 		{

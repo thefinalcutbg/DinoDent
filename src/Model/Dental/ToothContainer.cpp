@@ -99,6 +99,9 @@ void ToothContainer::copyFromHis(const ToothContainer& other)
 
 			position = teeth[i].position;
 		}
+		else if (other[i][Bridge]) {
+			position = other[i].position;
+		}
 		else {
 			position.reset();
 		}

@@ -134,6 +134,8 @@ void TabView::newTab(int tabId, const TabName& tabName)
 {
     TabTitle* tab = new TabTitle(this, tabId);
 
+    tab->setMinimumWidth(200);
+
     tab->setHeaderIcon(CommonIcon::getPixmap(tabName.header_icon));
     tab->setFooterIcon(CommonIcon::getPixmap(tabName.footer_icon));
 

@@ -30,7 +30,7 @@ void ProcedureEditDialog::closeDialog()
 	close();
 }
 
-/*
+
 void ProcedureEditDialog::paintEvent(QPaintEvent*)
 {
 	QPainter painter;
@@ -38,4 +38,3 @@ void ProcedureEditDialog::paintEvent(QPaintEvent*)
 	painter.fillRect(QRect(0, 0, width(), height()), Qt::white);
 	painter.end();
 }
-*/

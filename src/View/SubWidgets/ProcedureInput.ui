@@ -511,8 +511,8 @@
         </property>
         <item>
          <widget class="QPushButton" name="templateButton">
-          <property name="flat">
-           <bool>false</bool>
+          <property name="toolTip">
+           <string>Шаблони за допълнителни бележки</string>
           </property>
          </widget>
         </item>

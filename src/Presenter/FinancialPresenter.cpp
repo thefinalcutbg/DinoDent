@@ -361,9 +361,12 @@ TabName FinancialPresenter::getTabName()
 
         TabName tab;
         tab.header = newName[nameIdx];
-        if (m_invoice.nhifData.has_value()) {
-            tab.header_icon = CommonIcon::NHIF;
-        }
+
+        tab.header_icon = m_invoice.nhifData.has_value() ?
+            CommonIcon::NHIF
+            :
+            CommonIcon::INVOICE;
+
 
         return tab;
     }

@@ -503,3 +503,32 @@ Date DbProcedure::getLastProcedureDate(long long patientRowid)
 
     return Date();
 }
+
+std::vector<std::string> DbProcedure::getProcedureTemplateNotes()
+{
+	Db db;
+
+	db.newStatement("SELECT text FROM note_template");
+
+	std::vector<std::string> result;
+
+	while (db.hasRows()) {
+		result.push_back(db.asString(0));
+	}
+
+	return result;
+}
+
+void DbProcedure::setProcedureTemplateNotes(const std::vector<std::string>& notes)
+{
+	Db db;
+	db.newStatement("DELETE FROM note_template");
+
+	db.execute();
+
+	for (auto& note : notes) {
+		db.newStatement("INSERT INTO note_template (text) VALUES(?)");
+		db.bind(1, note);
+		db.execute();
+	}
+}

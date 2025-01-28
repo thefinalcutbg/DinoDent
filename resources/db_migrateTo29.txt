@@ -1,0 +1,3 @@
+CREATE TABLE note_template (rowid INTEGER PRIMARY KEY, text TEXT NOT NULL);
+ALTER TABLE medical_status ADD COLUMN nrn VARCHAR(12);
+PRAGMA user_version = 29;

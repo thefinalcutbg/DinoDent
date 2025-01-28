@@ -9,6 +9,7 @@
 #include "Resources.h"
 #include "View/ModalDialogBuilder.h"
 #include "View/Widgets/ICD10Dialog.h"
+#include "View/Widgets/NotesTemplateDialog.h"
 #include "Model/User.h"
 
 ProcedureInput::ProcedureInput(QWidget* parent)
@@ -68,7 +69,28 @@ ProcedureInput::ProcedureInput(QWidget* parent)
 		ui.errorLabel->setText("Невалидна МКБ диагноза");
 		ui.icdButton->setText("МКБ 10");
 
-		});
+	});
+
+	connect(ui.templateButton, &QPushButton::clicked, this, [&] {
+		
+		NotesTemplateDialog d;
+		
+		d.exec();
+
+		auto result = d.getResult();
+
+		if (result.isEmpty()) return;
+
+		ui.notesEdit->setPlainText(result);
+
+		ui.notesEdit->setFocus();
+
+		auto cursor = ui.notesEdit->textCursor();
+		cursor.setPosition(result.size());
+
+		ui.notesEdit->setTextCursor(cursor);
+
+	});
 
 	QString toothIndexes[32]{ "18", "17", "16", "15", "14", "13", "12", "11",
 						  "21", "22", "23", "24", "25", "26", "27", "28",
@@ -101,6 +123,7 @@ ProcedureInput::ProcedureInput(QWidget* parent)
 		completionList.push_back(d.name().c_str());
 	}
 
+	ui.templateButton->setIcon(QPixmap(":/icons/icon_template.png"));
 	ui.icdEdit->setCompletions(completionList);
 	ui.icdEdit->completer()->setFilterMode(Qt::MatchContains);
 }

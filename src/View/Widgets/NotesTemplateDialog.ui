@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MedicationTemplateDialogClass</class>
- <widget class="QDialog" name="MedicationTemplateDialogClass">
+ <class>NotesTemplateDialogClass</class>
+ <widget class="QDialog" name="NotesTemplateDialogClass">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>519</width>
-    <height>339</height>
+    <width>600</width>
+    <height>400</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MedicationTemplateDialog</string>
+   <string>NotesTemplateDialog</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QTableView" name="tableView">
+    <widget class="QTableWidget" name="tableWidget">
      <property name="editTriggers">
       <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
      </property>
@@ -34,22 +34,29 @@
      <property name="textElideMode">
       <enum>Qt::TextElideMode::ElideNone</enum>
      </property>
-     <attribute name="horizontalHeaderVisible">
+     <property name="rowCount">
+      <number>0</number>
+     </property>
+     <attribute name="horizontalHeaderMinimumSectionSize">
+      <number>1</number>
+     </attribute>
+     <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
       <bool>false</bool>
      </attribute>
-     <attribute name="horizontalHeaderStretchLastSection">
-      <bool>true</bool>
-     </attribute>
-     <attribute name="verticalHeaderVisible">
-      <bool>false</bool>
-     </attribute>
-     <attribute name="verticalHeaderStretchLastSection">
-      <bool>false</bool>
+     <attribute name="verticalHeaderMinimumSectionSize">
+      <number>0</number>
      </attribute>
     </widget>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QPushButton" name="addButton">
+       <property name="text">
+        <string>Добави</string>
+       </property>
+      </widget>
+     </item>
      <item>
       <widget class="QPushButton" name="deleteButton">
        <property name="text">

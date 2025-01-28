@@ -993,6 +993,9 @@
     <ClCompile Include="src\View\TableModels\NotificationTableModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\Widgets\NotesTemplateDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Database\Database.h">
@@ -2173,6 +2176,9 @@
     <QtMoc Include="src\View\TableModels\NotificationTableModel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\View\Widgets\NotesTemplateDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\View\Widgets\PracticeDialog.ui">
@@ -2383,6 +2389,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\Widgets\notificationdialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\Widgets\NotesTemplateDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

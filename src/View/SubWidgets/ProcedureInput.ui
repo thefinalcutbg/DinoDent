@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>432</width>
-    <height>612</height>
+    <height>663</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -505,6 +505,40 @@
     <widget class="QFrame" name="notesGroup">
      <layout class="QVBoxLayout" name="verticalLayout_5">
       <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_9">
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QPushButton" name="templateButton">
+          <property name="flat">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_6">
+          <property name="text">
+           <string>Допълнителни бележки (изпращат се към НЗИС):</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_8">
+          <property name="orientation">
+           <enum>Qt::Orientation::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item>
        <widget class="TextEdit" name="notesEdit">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
@@ -517,9 +551,6 @@
           <width>16777215</width>
           <height>121</height>
          </size>
-        </property>
-        <property name="placeholderText">
-         <string>Допълнителни бележки (напр. материал, цвят, работна дължина)</string>
         </property>
        </widget>
       </item>

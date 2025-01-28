@@ -26,5 +26,7 @@ namespace DbProcedure
     Date getLastProcedureDate(long long patientRowid);
 //    std::unordered_map<std::string, double> getCodeValues();
 //    bool setPrice(const std::string& code, double price);
+    std::vector<std::string> getProcedureTemplateNotes();
+    void setProcedureTemplateNotes(const std::vector<std::string>& notes);
 };
 

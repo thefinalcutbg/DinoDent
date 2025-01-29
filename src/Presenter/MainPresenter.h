@@ -34,6 +34,7 @@ public:
 	void settingsPressed();
 	void newInvoicePressed();
     void notificationPressed();
+	void pdfPressed();
 	bool save();
 	void logOut();
 	void userSettingsPressed();

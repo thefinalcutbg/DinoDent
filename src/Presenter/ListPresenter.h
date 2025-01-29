@@ -72,6 +72,7 @@ public:
     bool save() override;
     bool isNew() override;
     void print() override;
+    void pdfPrint() override;
     TabName getTabName() override;
     void setDataToView() override;
 

@@ -287,18 +287,25 @@ void ListPresenter::print()
 {
     if (!save()) return;
 
-    auto filename = GlobalSettings::getDocDir(
-        User::practice().rziCode,
-        User::doctor().LPK,
+    Print::ambList(m_ambList, *patient);
+}
+
+void ListPresenter::pdfPrint()
+{
+    if (m_ambList.nrn.empty()) {
+        ModalDialogBuilder::showMessage("Първо изпратете амбулаторния лист към НЗИС");
+        return;
+    }
+
+    auto filename = m_ambList.nrn + " - " + patient->firstLastName() + ".pdf";
+
+    auto filepath = GlobalSettings::getDocDir(
         m_ambList.date,
+        filename,
         GlobalSettings::DocDir::AmbSheet
     );
 
-    qDebug() << filename;
-
-    filename += m_ambList.nrn + " - " + patient->firstLastName() + ".pdf";
-
-    Print::ambList(m_ambList, *patient, filename);
+    Print::ambList(m_ambList, *patient, filepath);
 }
 
 void ListPresenter::setDataToView()

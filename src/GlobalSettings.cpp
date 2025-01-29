@@ -6,6 +6,7 @@
 #include <QtGlobal>
 #include <QTextStream>
 
+#include "Model/User.h"
 #include "Model/Date.h"
 #include "Model/FreeFunctions.h"
 #include "Model/Time.h"
@@ -240,36 +241,44 @@ bool GlobalSettings::showRepliesEnabled()
     return s_showReplies;
 }
 
-std::string GlobalSettings::getDocDir(const std::string& rzi, const std::string& lpk, const std::string& ISO8601, DocDir dir)
+std::string GlobalSettings::getDocDir(const std::string& ISO8601, const std::string& filename, DocDir dir)
 {
     QDir result(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
-    qDebug() << 246;
-   // { Root, AmbSheet, Consent, Denture, Hirbno, Invoice }
 
-    QString slash = "/";
+    if (dir == DocDir::Root) {
+        return result.absolutePath().toStdString();
+    }
 
-    QString subdir = slash;
-    subdir += rzi.c_str();
-    subdir += slash;
-    subdir += lpk.c_str();
-    subdir += slash;
-    
-    const QString subdirType[] = { 
-        "", 
-        "Амбулаторни листове", 
-        "Информирани съгласия", 
-        "Декларации за тотални протези", 
-        "Декларации за валидна ЗК", 
-        "Фактури" 
+    const std::string subdirType[] = {
+        "",
+        "Амбулаторни листове",
+        "Информирани съгласия",
+        "Декларации за тотални протези",
+        "Декларации за валидна ЗК",
+        "Фактури"
     };
 
-    subdir += subdirType[static_cast<int>(dir)];
-    subdir += slash;
-    subdir += ISO8601.substr(0, 7).c_str();
-    subdir += slash;
-    qDebug() << subdir;
+    auto subdir =
+        User::practice().rziCode + " - " +
+        User::practice().name + "/";
     
-    qDebug() << result.mkpath(subdir);
-    qDebug() << "DIR MADE";
-    return result.path().toStdString() + subdir.toStdString();
+    if (dir != DocDir::Invoice) {
+        subdir +=
+            User::doctor().LPK + " - " +
+            User::doctor().getFullName() + "/";
+    }
+
+    subdir += subdirType[static_cast<int>(dir)] + "/";
+    subdir += ISO8601.substr(0, 7).c_str();
+
+    bool pathExists = result.mkpath(subdir.c_str());
+
+    if (!pathExists) {
+        return "";
+    }
+
+    result.cd(subdir.c_str());
+
+    return result.absoluteFilePath(filename.c_str()).toStdString();
+    
 }

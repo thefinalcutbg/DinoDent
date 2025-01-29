@@ -132,6 +132,15 @@ void MainPresenter::notificationPressed()
     view->setNotificationIcon(DbNotification::hasNotifications());
 }
 
+void MainPresenter::pdfPressed()
+{
+    auto tab = TabPresenter::get().currentTab();
+
+    if (tab){
+        tab->pdfPrint();
+    }
+}
+
 void MainPresenter::newPrescriptionPressed()
 {
     NewDocPresenter p("Нова рецепта");

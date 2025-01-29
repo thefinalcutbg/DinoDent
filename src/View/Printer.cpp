@@ -29,19 +29,17 @@
 #include "Model/Dental/NhifSpecReport.h"
 #include "Model/Prescription/Prescription.h"
 
-void printLogic(LimeReport::ReportEngine& report, const std::string& filename) 
+void printLogic(LimeReport::ReportEngine& report, const std::string& filepath) 
 {
-    if (filename.empty()) {
+    if (filepath.empty()) {
         report.printReport();
         return;
     }
 
-    auto qfilename = "C:\\Dev\\" + QString::fromStdString(filename);
-
-    report.printToPDF(qfilename);
+    report.printToPDF(filepath.c_str());
 
     QProcess p;
-    p.startDetached("C:\\Program Files\\Wacom sign pro PDF\\Sign Pro PDF.exe", QStringList{ qfilename });
+    p.startDetached("C:/Program Files/Wacom sign pro PDF/Sign Pro PDF.exe", QStringList{ filepath.c_str() });
 }
 
 void fillCommonData(LimeReport::ReportEngine& report, const Patient& patient, const Doctor& doctor, const Practice& practice)
@@ -395,13 +393,7 @@ void Print::invoice(const Invoice& inv, const std::string& pdfFilename)
 
     QApplication::restoreOverrideCursor();
 
-    QString filename = "Фактура №";
-    filename += FreeFn::leadZeroes(inv.number, 10).c_str();
-    filename += " - ";
-    filename += inv.recipient.name;
-    filename += ".pdf";
-
-    printLogic(report, pdfFilename);
+    report.printToPDF(pdfFilename.c_str());
 }
 
 void Print::consent(const Patient& patient, const std::string& pdfFilename)

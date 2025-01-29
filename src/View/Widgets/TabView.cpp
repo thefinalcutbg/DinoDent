@@ -214,7 +214,7 @@ void TabView::setScrollPos(ScrollPos scrollPos)
 
 void TabView::showListView()
 {
-    GlobalWidgets::mainWindow->disableButtons(false, false);
+    GlobalWidgets::mainWindow->disableButtons(false, false, false);
     showTabWidget(&m_listView);
     m_perioView.setPresenter(nullptr);
     m_summaryView.setPresenter(nullptr);
@@ -225,7 +225,7 @@ void TabView::showListView()
 
 void TabView::showPerioView()
 {
-    GlobalWidgets::mainWindow->disableButtons(true, false);
+    GlobalWidgets::mainWindow->disableButtons(true, false, true);
     showTabWidget(&m_perioView);
     m_listView.setPresenter(nullptr);
     m_summaryView.setPresenter(nullptr);
@@ -237,7 +237,7 @@ void TabView::showPerioView()
 
 void TabView::showSummaryView()
 {
-    GlobalWidgets::mainWindow->disableButtons(true, true);
+    GlobalWidgets::mainWindow->disableButtons(true, true, true);
     showTabWidget(&m_summaryView);
     m_listView.setPresenter(nullptr);
     m_perioView.setPresenter(nullptr);
@@ -248,7 +248,7 @@ void TabView::showSummaryView()
 
 void TabView::showFinancialView()
 {
-    GlobalWidgets::mainWindow->disableButtons(false, false);
+    GlobalWidgets::mainWindow->disableButtons(false, false, false);
     showTabWidget(&m_financialView);
     m_listView.setPresenter(nullptr);
     m_perioView.setPresenter(nullptr);
@@ -266,12 +266,12 @@ void TabView::showPerscriptionView()
     m_summaryView.setPresenter(nullptr);
     m_financialView.setPresenter(nullptr);
     m_calendarView.setCalendarPresenter(nullptr);
-    GlobalWidgets::mainWindow->disableButtons(false, false);
+    GlobalWidgets::mainWindow->disableButtons(false, false, false);
 }
 
 void TabView::showCalendarView()
 {
-    GlobalWidgets::mainWindow->disableButtons(true, true);
+    GlobalWidgets::mainWindow->disableButtons(true, true, true);
     showTabWidget(&m_calendarView);
     m_listView.setPresenter(nullptr);
     m_perioView.setPresenter(nullptr);
@@ -282,7 +282,7 @@ void TabView::showCalendarView()
 
 void TabView::showWelcomeScreen()
 {
-    GlobalWidgets::mainWindow->disableButtons(true, true);
+    GlobalWidgets::mainWindow->disableButtons(true, true, true);
     showTabWidget(&welcomeScreen);
     m_listView.setPresenter(nullptr);
     m_perioView.setPresenter(nullptr);

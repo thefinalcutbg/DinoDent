@@ -92,6 +92,7 @@ DinoDent::DinoDent(QWidget* parent)
     ui.aboutButton->setIcon(QIcon(":/icons/icon_question.png"));
     ui.mircButton->setIcon(QIcon(":/icons/icon_mirc.png"));
     ui.notifButton->setIcon(QIcon(":/icons/icon_bell.png"));
+    ui.pdfButton->setIcon(QIcon(":/icons/icon_pdf.png"));
     ui.notifButton->setMonochrome(true);
     ui.mircButton->setMonochrome(true);
     
@@ -107,6 +108,7 @@ DinoDent::DinoDent(QWidget* parent)
     connect(ui.pisButton, &QPushButton::clicked, [&] { MainPresenter::get().pisDialog();});
     connect(ui.settingsButton, &QPushButton::clicked, [&] { MainPresenter::get().settingsPressed();});
     connect(ui.invoiceButton, &QPushButton::clicked, [&] { MainPresenter::get().newInvoicePressed(); });
+    connect(ui.pdfButton, &QPushButton::clicked, [&] { MainPresenter::get().pdfPressed(); });
     connect(ui.aboutButton, &QPushButton::clicked, this, [&] { AboutDialog d; d.exec(); });
     connect(ui.mircButton, &QPushButton::clicked, this, [&] { 
         
@@ -159,7 +161,7 @@ ITabView* DinoDent::tabView()
 void DinoDent::setUserLabel(const std::string& doctorName, const std::string& practiceName)
 {
     ui.userButton->setText(QString::fromStdString("  " + doctorName));
-    ui.practiceLabel->setText(QString::fromStdString(practiceName));
+    //ui.practiceLabel->setText(QString::fromStdString(practiceName));
 
     QString title = "DinoDent v";
     title += Version::current().toString().c_str();
@@ -179,10 +181,11 @@ bool DinoDent::initialized()
     return m_loggedIn;
 }
 
-void DinoDent::disableButtons(bool printDisabled, bool saveDisabled)
+void DinoDent::disableButtons(bool printDisabled, bool saveDisabled, bool pdfDisabled)
 {
     ui.printButton->setDisabled(printDisabled);
     ui.saveButton->setDisabled(saveDisabled);
+    ui.pdfButton->setDisabled(pdfDisabled);
 }
 
 void DinoDent::setIrcIcon(bool glow)

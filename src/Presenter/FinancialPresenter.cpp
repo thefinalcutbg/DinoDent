@@ -6,7 +6,7 @@
 #include "Model/User.h"
 #include "Presenter/RecipientPresenter.h"
 #include <TinyXML/tinyxml.h>
-
+#include "GlobalSettings.h"
 
 Invoice getInvoiceFromMonthNotif(const std::string& xmlstring)
 {
@@ -326,6 +326,26 @@ void FinancialPresenter::print()
 {
     if (save())
     Print::invoice(m_invoice);
+}
+
+void FinancialPresenter::pdfPrint()
+{
+
+    if (!save()) return;
+
+    std::string filename = "Фактура №";
+    filename += FreeFn::leadZeroes(m_invoice.number, 10).c_str();
+    filename += " - ";
+    filename += m_invoice.recipient.name;
+    filename += ".pdf";
+
+    auto filepath = GlobalSettings::getDocDir(
+        m_invoice.date.to8601(),
+        filename,
+        GlobalSettings::DocDir::Invoice
+    );
+
+    Print::invoice(m_invoice, filepath);
 }
 
 void FinancialPresenter::setDataToView()

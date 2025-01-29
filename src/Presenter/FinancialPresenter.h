@@ -42,6 +42,7 @@ public:
 	long long rowID() const override;
 	bool save() override;
 	void print() override;
+	void pdfPrint() override;
 	void setDataToView() override;
 	bool isNew() override;
 	TabName getTabName() override;
